@@ -1,61 +1,63 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1811F4252AC
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 08:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EF844BC87
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jul 2026 08:45:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782981911; cv=none; b=I2HYpgb4atmb80qCZIKuJSZJBiDLk7Hc9kGEh+NssjaFsUENuj61gE6S9ran+3gcA1DfG3zxF2iO/OFLkkDteYMFA7zy9402206mbEPBNc3JQA1zZkA8ctRxrck00EjMDYt5RheSzhtOvHS86pAvOPGEpv4WBVdTFfyWc+UWRvE=
+	t=1782981917; cv=none; b=dkJ351dVPVKlM4XAkD//f09+5NngU6tRw437+veveQlvATHorRLbliQ4Ug0e1eWfFQSnZqCjLVrjJJoDrUG4597wr7yvIdd1MSRCVBnH47jnjo2xgaex+qNrxNVJFAV1vUWHqa/2jwh6FoJRJ5LHAcUy9NmHnJcVSSvJb0aOyK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782981911; c=relaxed/simple;
-	bh=4wUOlaRIbhKBaxGXz7dOQvYCJ3ALv11ugMrbqSWl/Og=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lhGWt4nzWFrm17WnALKtBN1aTNPkN6q52r7O9gsAyVs6Hixprk5ZvWuVLJQsrP4cks9rbdxaRzCZmo7YsU/MimlEY2q7CA28ZR55H7L8VqRXJiIBsnY1YCxGI84qNmeD4P+3GVk4CITPRixI68rskX/qgpgSocnePtm9VsDxPgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sY4IFNcl; arc=none smtp.client-ip=209.85.216.43
+	s=arc-20240116; t=1782981917; c=relaxed/simple;
+	bh=S8Bw2UpqjmESQAg1b4cAic3zh6MyKya1KWb6+8hi1FU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KEAFB8H7y8u7vs8wMIMyS0lvoUkMaGpwUyqVxvW2+lv7N4icjqomHgkZ9MIitHuzNoRFUJNJ1IenztVI300D4gtXuPy+aMgjot5OoEgxx4F3D9yuAPfyYJHLMdvTlmCjnEkq0adDzxG3CZESs7Fn6FAdLWk6qgLooJLeEDnEcUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6DhZrBw; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sY4IFNcl"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-37fdee9276fso1626398a91.3
-        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 01:45:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6DhZrBw"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-381018b9375so44729a91.0
+        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 01:45:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782981909; x=1783586709; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fcRYwuw5PQQfqSUU5fD6q6zAC9xCDDszrpykhw3M5xc=;
-        b=sY4IFNcleA0l4kkm5WJ+L8uiRKeOeeGautuLzuNjhW+50inl49CMC0DQBoM9uJkwiE
-         7aqI1IHJvJ/RWYc29TY4fOVY03l2tWHPj3qlDnAdca0Z2qS9k6qS6d2o34mpdFG7Zxo6
-         HPgt+ZjgvTXV34XqbCqqOu0OixK8gwS/P7qGUUnuUJz+dkjaB2WtCg5oG5S3jtOp2FW6
-         6u7p002tArw9Ms0I4YXoldRYYFGflduaIFnBWmy6b64WOrdcQ0LSgXBm3MJ0K0mqbPr4
-         JPmUwzCIUmGc+yU80byv4wOct8KDbMNPBvpjBXjxZpAk8un5m59B9xt/sZFhJUN6oHMD
-         E5AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782981909; x=1783586709;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782981916; x=1783586716; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fcRYwuw5PQQfqSUU5fD6q6zAC9xCDDszrpykhw3M5xc=;
-        b=AVAqQuXRVdroB+Vjkq5JHFPMNRuYWzn+OhJAUhNmU3W8RwWvQztn2hszaS9jQtDumd
-         zUQRYhNbdTxaAExsHUF51q5aa6KytxmzBffLjlQVXOc/Ww2//dlZ234/V38llnFSZd+H
-         X35B/sOZoUOjSgW5RJcqJ86ZGD6lKjiHinl+mxYHvfUx3C66JwFP8OY7Ri41Grj35eBx
-         nE2k7MwCD7fg2y3Dnyjah0QPeaf7H2nzuJJdYqe5M1gVhxqQXcRc+brkhHxH/tGeAoFN
-         NPilaSUS8Sb1wKsOWfQTaAUafOmCsAOIVfqhOv0dhFOMCOFZcOpFiKMAOkZW/bODDeIk
-         xZQw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0jsTi0fEvsUFH0RhUwTvVsfiqaYwniSEYNBJEgiLi0ZI9fALC7QtP1K4FyKJSS+6MPKJ/UhfAA3IwPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxiz5G/gTevCKoUumuFVclIdka6qUNGRuH0dbNRlQjdPEDG2hsz
-	LNEpbRxrufvAB4igKBWDQELbJ2DPXvunCyvX53DgBvnx6iJa5CeygrIv
-X-Gm-Gg: AfdE7cllghUWtCEC4r24NNb2lWmIGgVCoO7LVMCl8jYrej3hf7OzyDGClWPNuSrGN+q
-	brgTgAOngPhxLjtnjhGqoNZu3nGUCUdDquuVkt+M1j6ot/5+fnlqlmzqpiARlXcW09XaIC1guMF
-	fr2McrABuSShpc0YjO6AylZ4RBsgwd4iUQAynlQaOt81Uqz63wieJ/JudlwNt2hcpzUQzr1vvgb
-	cXxfczJFQDKOgC/xoq2TaTo5eYuXInhYhGwE5B/fArh/+qm7r8GiLAULARC7bv9nK4iB+vhbK80
-	5TDcL/xy0+UhjP7N7vi0MJINDk1zftQWNbSUA6+6lDIUDtFIbIiLKsxlVzPyweU4YkKvJj9iUky
-	KsehRcLXF4jP5c7SfGkVEpj3QMmiFFgi1ZtrFVTOd+hUN8zeMDzel0b7pItoWf9BO1mPvqJqHuI
-	troA10mZ6uua2PfXxAXCyeXnlWaWEVfJZT61aJLQJ/C4q+36g=
-X-Received: by 2002:a17:90b:2d90:b0:380:9d0d:7af4 with SMTP id 98e67ed59e1d1-380ba86979fmr4587276a91.12.1782981909211;
-        Thu, 02 Jul 2026 01:45:09 -0700 (PDT)
+        bh=qBKe+awfJXYJGj77Gs3iq/FzziO6L0/JBuBw9UKg+bs=;
+        b=R6DhZrBw1v4k/91D28D9C0Jm2EYRyEpfpVlCNlIYP4rRGbvUtzI7tJHyq3wJx8QrIb
+         YZR54lV0I94ja5EtsJpmF6JKLBjUGunPs1BGkTFa5+guIs8oURM02SA42N9Ygj3ldVbK
+         QRB2Dv0RzjXckSxNMtr4J784jEK3XtH1m7vpccSyPkN4OixE58GJFU9cURX9wi2zBMgJ
+         z/diw4DUCVvueze/HU4ZTXNgMf0EqiOIVLDsO6V3e5omtVRvGHMu5FsShK3ENS7Zutka
+         CAsh+S57Rbi+gPRgq8XwaZwpJmtO9RqMUuU5TswGwxKTA23AWg1ChMUF7ULN4BiaF7dT
+         AK1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782981916; x=1783586716;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qBKe+awfJXYJGj77Gs3iq/FzziO6L0/JBuBw9UKg+bs=;
+        b=iNS1Fv8JtXrUmzmw+XVu9fEGI6G5/4Yn1JuZch2eK27Oma5ZDqcozipFO7/knGHowp
+         jhAIqIHcN8GY4FK5+xMeZcwG/X5iP9ukcOtJqUZr63s147r4lqtRFp5EZ36/a+MAOX29
+         5GZ5Bvp+qSHIZgeP95jDzVgpnGTGe8Hdwml23QtA/OoqGnT6oQBinXb5HjgY/wJD/fst
+         FEbTo+hrhzMYoxHRwC0DJK8uKuyi+VF3la37BZkJeFePWujMfYT276ZD+DBY3nwiYoiw
+         qqba3ne3vU831t7RDq1PmG/D6FNxILv2QSAr6YPO/KjvBEool/YIXD0rKV0eo5Tj3kSC
+         X2iw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr03yTUtSJxUnUnZ09OeQSWDCnhuRaUo2H+zEWScnY2HLz7V1vY3tEYyp4bTjx7uXF0EAq2wowQiMXRDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfZMuCiwPFyiBLhnUn8eDcl3rcno9F8IwPA7BfgJuaMXdgTQud
+	wg8fMdfrFfWXbEJ0a1f4zB6eBvK3OCyDSxsdThj4EpRESY7MQEZmz6HR
+X-Gm-Gg: AfdE7cnNxlFrpywspb9mxulVpox5Uc6Uy9gCRMNee5e9HyFIfo1GsRftJyr5l/d0hz3
+	rjfRskMatq+0SnW5PjstnrXkXixnbbwALKvIc+YBtXCliRsvcXGD/HLFkiT+PDrh+h+9bEN6z+2
+	s5H5r3THeXTeN/mD/keXK6bbfQZU/76HWvrdG3p4IKAdEl227D1tfle+qksI+0biJiIjMxasRzj
+	V8Gw0Sf3wGGT9VOG5G1xzvdNw0atUBjTc8ivLwXVZ747Mh0sQyL5xhx6IGmITvDa6PsVJv1t2Sn
+	8MBrMJiCv/LY23E2jkDJ3I1YRSb1f4kmfaX/fI9vaiIu8tcJ8alaesuNzAd8JUpSk0XUJEsXRga
+	59LLe2aeLCczXRBXWgytyXA75Uhh4EzM/1YFPgURRXWaC8NzEyEtkFhaG/nS9QBEdfXsx9JgCAA
+	/JwOLVpxvIsoWe4XWyPWW9qG/VvyGauv6VIDsVpDA7kct6FWpmUOSmD9HuXA==
+X-Received: by 2002:a17:90b:2e45:b0:37e:9e9:6ff0 with SMTP id 98e67ed59e1d1-380aa0bd330mr5314739a91.13.1782981915864;
+        Thu, 02 Jul 2026 01:45:15 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-380e18fbdb4sm693955a91.17.2026.07.02.01.45.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-380e18fbdb4sm693955a91.17.2026.07.02.01.45.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 01:45:08 -0700 (PDT)
+        Thu, 02 Jul 2026 01:45:15 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
@@ -77,10 +79,12 @@ Cc: cassiogabrielcontato@gmail.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 0/7] ALSA: Remove redundant open helper return checks
-Date: Thu,  2 Jul 2026 15:44:37 +0700
-Message-ID: <20260702084445.519669-1-phucduc.bui@gmail.com>
+Subject: [PATCH v2 1/7] ALSA: control: Drop redundant stream_open() return check
+Date: Thu,  2 Jul 2026 15:44:38 +0700
+Message-ID: <20260702084445.519669-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260702084445.519669-1-phucduc.bui@gmail.com>
+References: <20260702084445.519669-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -91,48 +95,30 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+The previous conversion from nonseekable_open() to stream_open() retained
+the existing error check.
+Since stream_open() always returns 0, remove the dead error handling path.
 
-This series removes redundant error checks after calls to
-nonseekable_open() and stream_open() in the ALSA core.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/core/control.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-nonseekable_open() always returns 0, so checking its return value is
-unnecessary.
-
-Several users were later converted from nonseekable_open() to
-stream_open(), but the original error checks were retained.
-Since stream_open() also always returns 0, those checks are likewise
-unnecessary.
-
-As a result, all patches simply remove dead error handling paths with no
-functional change.
-
-Change in v2 : 
- - Drop the unnecessary assignment of the return value from
-   nonseekable_open()/stream_open(), as suggested by Takashi.
- - Merge the individual patches into a single patch series.
-
-Best regards,
-Phuc
-
-bui duc phuc (7):
-  ALSA: control: Drop redundant stream_open() return check
-  ALSA: mixer: oss: Drop redundant nonseekable_open() return check
-  ALSA: pcm: oss: Drop redundant nonseekable_open() return check
-  ALSA: pcm: Drop redundant nonseekable_open() return check
-  ALSA: rawmidi: Drop redundant stream_open() return check
-  ALSA: seq: Drop redundant stream_open() return check
-  ALSA: timer: Drop redundant stream_open() return check
-
- sound/core/control.c           |  4 +---
- sound/core/oss/mixer_oss.c     |  4 +---
- sound/core/oss/pcm_oss.c       |  4 +---
- sound/core/pcm_native.c        | 14 ++++++++------
- sound/core/rawmidi.c           |  4 +---
- sound/core/seq/seq_clientmgr.c |  5 +----
- sound/core/timer.c             |  5 +----
- 7 files changed, 14 insertions(+), 26 deletions(-)
-
+diff --git a/sound/core/control.c b/sound/core/control.c
+index 7a8dc506221e..037e455bb11b 100644
+--- a/sound/core/control.c
++++ b/sound/core/control.c
+@@ -55,9 +55,7 @@ static int snd_ctl_open(struct inode *inode, struct file *file)
+ 	struct snd_ctl_file *ctl;
+ 	int i, err;
+ 
+-	err = stream_open(inode, file);
+-	if (err < 0)
+-		return err;
++	stream_open(inode, file);
+ 
+ 	card = snd_lookup_minor_data(iminor(inode), SNDRV_DEVICE_TYPE_CONTROL);
+ 	if (!card) {
 -- 
 2.43.0
 
