@@ -1,127 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D5136EA80;
-	Fri,  3 Jul 2026 07:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0D036E498
+	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 07:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783065480; cv=none; b=tDy1iwTkg/uFwvQ1OLmOjKhOWn6sNkTnOyCFYYA/tbU5DvbhmdNaLYM/VSwYHH+amPrseksXAIjdsMLgz/8VYuswM+PwJLovVlLRxdt1EMtey7EEKmBL4ROL8IilpkPkN+vO0h0zU5KpCBCDzWQvbQDCf0O/PsyJWhgnH/nP++c=
+	t=1783065545; cv=none; b=ZPSDKmuN0SIIC2avqsuCSH86kuGX9a6pWbOT7W+OReCTkUTUUwaHmF6Im7ksdQ8QO/LgZ1u7YFMU/71UP2IV0AXSuJ2Jd2DdhfZ9aYbWYfe/yfAqc/Xpv4iT5nEXL81MtyZ0gMF0hKUhaNsqMG4Oz37+vxHjsePrfbJHltxTVXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783065480; c=relaxed/simple;
-	bh=QqMAmmWsWGziZkiLDOIZG39Nl1QwRx8vulaAvWDhdyI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ELPmFaBa/KHaTvAgQGq1Hj/XvaHSZ0ogpxjT7/ew1h03l5ZHp/OU+VxkQUMW6nojTAUMmHx8bYWR319pTp78c1x2NauhvOk4DG5+qmZnhnPCYlWDvofUmcRvnzDcS65bhsspF5qYJrIpHrdIOfTDuuup34zR7l5213OcJSrf2BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WTcc/cBS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783065545; c=relaxed/simple;
+	bh=anyS8VtMUVw9saVmNUWxIEx6o2o9RH1ILwD3t8+boWQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=opK9MAybsH3koKWvR5IZZiiXkWFO8wms7+ydPcqJu5JPKaulv/iI1cJ4JqkstaHasnHACHMM7JSnSU1l/NuKJdHDCTIlUfrhWG8lAi0RHEjBCYlUgq62ugE/Wiq+VtmZ6JJDpkqbvVBUXKgeos860/irIv9NPnuyeT1EW8+gx2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=W+pGbZYD; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WTcc/cBS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20361F000E9;
-	Fri,  3 Jul 2026 07:57:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783065479;
-	bh=FeGCgCuJqvP+G8Eppj9siBOA1hHncBneFe2lVJW1ZJc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WTcc/cBSl825OC+ck/HfN4bHY4aJMIKnIi3MC4IV+m5cObqY+L2kTa5fyHuPYWgPC
-	 h4shs4D+ISVfkzrQuQM24HYQG/zW5jcixXKPY988RZv4O2ivFooZIxtDT5rArkWZuA
-	 LYol9Gk8FNAHHSydMAEDQbDsyZ9qg5JrcZxp7MRXvMqRu+EKQ+/sbjpJbXHBmeVmcF
-	 gRiX82MAHOfFwYlQV3qwOm0gX8BD1A2nNYzjR7RhG3U6FoHEi+9ghzwYWuQ/s4kanN
-	 HEMajuw3L95HWHHksHyahx16zX0PFPwxEs/Vu3XHqmO9Ou5u81iEx8vqrAtKGZ+OGU
-	 3pU3F2IpND/Ew==
-Message-ID: <0e1860c7-08cc-4bf5-b913-80d1239c8b5f@kernel.org>
-Date: Fri, 3 Jul 2026 08:57:56 +0100
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="W+pGbZYD"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-475417f010dso151887f8f.2
+        for <linux-sound@vger.kernel.org>; Fri, 03 Jul 2026 00:59:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1783065541; x=1783670341; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Zqjm78soCzOZsah5k4plTO+J9DTAjqlcZkOG5zlqAcQ=;
+        b=W+pGbZYDhpY0He+Ntw+VxXjBx1WkZXrHHKUHOeKBs77L2p4uwBj/xalHNQf01pYAo2
+         teKgI6DcYtEVNs3ulldN5KOM5AnlfD8FJLIsVpj2FNHrNTZLhM1VBxivlv0k4RsuJoxd
+         6kaeyQiKWHSVXY6a0+OYiVK7DcNpIMJC1OIEO2RqdG9q8Hhn/tUTSFoMbUMgI2F59Taa
+         PqwhWlCVpHPnDAR1i8rpS263QmQztpF/ol7nQHqay9wumsxkQcF1RrVWDVRUfl4bdOP5
+         UV5rhjMCgiNVn0FfUoFyflLHqjajcF7DsEFaPrNZyFVzL9My5LAfVnzSlZsy1CYNlblu
+         fZsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783065541; x=1783670341;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Zqjm78soCzOZsah5k4plTO+J9DTAjqlcZkOG5zlqAcQ=;
+        b=l6y9wcWgLc74+VcskXN8tJigzQRAGxil0ZJ3dkNB0QgIati5o/hxhwFy1SX8L1x5I8
+         aIZu9i9Abr+SZ5WUB8s9gAMc/ZC+zrslOXR80Nmd0AU4rronCfDRiOJ5tNTwR/S8ZpkN
+         jp+j3qGx19LztGYd5Ppfu7XHSsLDje5wV7sMkRhXaI85PN9eBPLPwRAsUQu3NGTbwJ+M
+         xsdca+KJszqfel9waNMU9Uno+2SZ28f8BMuZ0ndgHkul92xWpawWAkgiuWrbPiNfRkpI
+         o6iSmBr+jvxvgmRllmGi2P5uyQqQLTc6aRhNQN1Bvf/u7btBwytAdnmqK2y6Mxd5+9RL
+         HNzw==
+X-Forwarded-Encrypted: i=1; AHgh+RpSUd2o2J+GHEjL47p6z4+otAk33xRA6paHjaLZ50PTqHRR9S6qt9DmiKjS15/BaFiOnVvPz6CmckHThQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yytrae9jlMwSTkWcFcW7XmvMMKG76MTYsRBjZUKtQN1GjUfqYDd
+	Y4yaR1TEfHAHuVC8MYWMXRWHdsSYLzAngeNl2GjQwDGTTS9FgIFjIjABJGn13Qfrmco=
+X-Gm-Gg: AfdE7cl6qakzx+W8HzIFsFZWSzdGkdfUrXPwaExdt5CJRE3Gyi8fZ9Dr6Qnw1qNt/jG
+	CxBharKM9+XnAZyG8wUzmXX/qg9FI+vCQG1H0DsUexQIS3j0/lhtkn+c8jcW81FqnDdqbrTCDc9
+	Vw8seQ4xJuWihk4p0FGyjCrGOjNHdTCtGvGLqim76G0/MMoN0ni0FBpIgPGI09L5O+G0aRip/rN
+	INP6i00b4+Nlb8oOQsmJLiznnEfnfKcEmaOKqjjKDsx2rjFef+bqL+7ky0B4VAPTxPY0O+GjRLg
+	TG9ptEYcDDFWGJZuMhIXIvNr9xKU6dbFukQkZJUsTtAURntUZNnBSHHPfz7OlBhp+OVydWmQPqS
+	FTMZWDdv3b4gm/eASp/Pwuqn+QmtqTEIi+T8krjBCxtfXdsfwhCuQpNtZAhPHtuymWOBRztZB7n
+	jQc/c3wTnq8bVZNHK84HNklA==
+X-Received: by 2002:a05:6000:2310:b0:46f:e796:c3fc with SMTP id ffacd0b85a97d-47757c6d1e4mr14250190f8f.25.1783065541604;
+        Fri, 03 Jul 2026 00:59:01 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:fb6a:cb8b:b7f7:bb42])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-477dde19fd3sm16565369f8f.25.2026.07.03.00.59.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 00:59:00 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Valerio Setti <vsetti@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Jaroslav Kysela <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,  Neil
+ Armstrong <neil.armstrong@linaro.org>,  Kevin Hilman
+ <khilman@baylibre.com>,  Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,  linux-sound@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: meson: aiu-formatter: remove pipeline reset
+ from prepare
+In-Reply-To: <20260702-fix-24-bit-i2s-playback-v1-2-bcd3a43fe32a@baylibre.com>
+	(Valerio Setti's message of "Thu, 02 Jul 2026 12:56:41 +0200")
+References: <20260702-fix-24-bit-i2s-playback-v1-0-bcd3a43fe32a@baylibre.com>
+	<20260702-fix-24-bit-i2s-playback-v1-2-bcd3a43fe32a@baylibre.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Fri, 03 Jul 2026 09:58:59 +0200
+Message-ID: <1jfr20ijwc.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 0/3] ASoC: qcom: lpass: Switch VA/WSA macros to PM
- clock framework
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20260702-xo-sd-codec-v7-b4-v8-0-d39d0fdb7859@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20260702-xo-sd-codec-v7-b4-v8-0-d39d0fdb7859@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+On jeu. 02 juil. 2026 at 12:56, Valerio Setti <vsetti@baylibre.com> wrote:
 
+> 'aiu-formatter-i2s' already performs the very same reset in
+> 'aiu_fifo_i2s_trigger' for all relevant trigger scenarios. There is no
+> need to duplicate the operation in the formatter.
+>
+> Signed-off-by: Valerio Setti <vsetti@baylibre.com>
 
-On 7/1/26 7:44 PM, Ajay Kumar Nandam wrote:
-> Hi,
-> 
-> This series converts the LPASS WSA and VA macro codec drivers to the
-> PM clock framework for runtime PM clock handling.
-> 
-> The runtime clock enable/disable sequencing is moved to PM clock helpers
-> for clocks described in device tree, while regcache state handling remains
-> in the codec runtime PM callbacks. This keeps register cache synchronization
-> explicit in the driver and lets runtime PM drop codec clock votes when the
-> macros are idle.
-> 
-> The series also keeps WSA MCLK-output clock registration resource-managed
-> by switching it to devm_clk_hw_register(), which allows the empty WSA remove
-> callback to be dropped.
-> 
-> Changes since v7:
->   - Dropped va_macro_setup_pm_clocks() helper in the VA patch and inlined
->     devm_pm_clk_create() + of_pm_clk_add_clks() directly in probe, matching
->     the WSA pattern for consistency.
-> 
-> Changes since v6:
-> - Dropped the now-empty WSA macro remove callback.
-> - Sorted the VA macro pm_clock.h include.
-> - Re-sent as v7 with proper cover-letter threading after the broken v6
->   resend was accidentally sent as separate threads.
-> 
-> Changes since v5:
-> - Rebased to current linux-next/master and regenerated as a standalone
->   series that applies cleanly.
-> - Added depends on PM_CLK for SND_SOC_LPASS_WSA_MACRO and
->   SND_SOC_LPASS_VA_MACRO since PM clock APIs are used.
-> - Improved runtime-PM probe/resume unwind handling in WSA/VA error paths.
-> - Kept runtime autosuspend delay at 100 ms in both PM-clock conversion
->   patches.
-> 
-> Link: https://lore.kernel.org/r/20260604124823.3467457-1-ajay.nandam@oss.qualcomm.com
-> Link: https://lore.kernel.org/r/20260623071708.2822269-1-ajay.nandam@oss.qualcomm.com
-> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+
 > ---
-> Changes in v8:
-> - EDITME: describe what is new in this series revision.
-> - EDITME: use bulletpoints and terse descriptions.
-> - Link to v7: https://patch.msgid.link/20260629-xo-sd-codec-v7-b4-v7-0-fb37ce457c42@oss.qualcomm.com
-> 
-> ---
-> Ajay Kumar Nandam (3):
->       ASoC: codecs: lpass-wsa-macro: Switch to PM clock framework for runtime PM
->       ASoC: codecs: lpass-va-macro: Switch to PM clock framework for runtime PM
->       ASoC: codecs: lpass-wsa-macro: Use devm_clk_hw_register() for MCLK output
+>  sound/soc/meson/aiu-formatter-i2s.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/sound/soc/meson/aiu-formatter-i2s.c b/sound/soc/meson/aiu-formatter-i2s.c
+> index b4604734fe88..cb554c2e7ce4 100644
+> --- a/sound/soc/meson/aiu-formatter-i2s.c
+> +++ b/sound/soc/meson/aiu-formatter-i2s.c
+> @@ -13,7 +13,6 @@
+>  #define AIU_I2S_SOURCE_DESC_MODE_8CH	BIT(0)
+>  #define AIU_I2S_SOURCE_DESC_MODE_24BIT	BIT(5)
+>  #define AIU_I2S_SOURCE_DESC_MODE_32BIT	BIT(9)
+> -#define AIU_RST_SOFT_I2S_FAST		BIT(0)
+>  
+>  #define AIU_I2S_DAC_CFG_MSB_FIRST	BIT(2)
+>  
+> @@ -55,11 +54,11 @@ static int aiu_formatter_i2s_prepare(struct regmap *map,
+>  {
+>  	/* Always operate in split (classic interleaved) mode */
+>  	unsigned int desc = 0;
+> -	unsigned int tmp;
+>  
+> -	/* Reset required to update the pipeline */
+> -	regmap_write(map, AIU_RST_SOFT, AIU_RST_SOFT_I2S_FAST);
+> -	regmap_read(map, AIU_I2S_SYNC, &tmp);
+> +	/*
+> +	 * Pipeline reset is already implemented in aiu_fifo_i2s_trigger() at
+> +	 * trigger time.
+> +	 */
+>  
+>  	switch (ts->physical_width) {
+>  	case 16: /* Nothing to do */
 
-
-Thanks for the patches, We should the same to tx and rx macros too.
-For this series, I have tested it on my T14s
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Tested-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-
---srini
-> 
->  sound/soc/codecs/Kconfig           |   2 +
->  sound/soc/codecs/lpass-va-macro.c  | 129 ++++++++++++++++++-----------------
->  sound/soc/codecs/lpass-wsa-macro.c | 133 +++++++++++++++----------------------
->  3 files changed, 122 insertions(+), 142 deletions(-)
-> ---
-> base-commit: 4e5dfb7c84012007c3c7061126491bbc92d71bf1
-> change-id: 20260623-xo-sd-codec-v7-b4-8769da3a41ad
-> 
-> Best regards,
-> --  
-> Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-> 
-
+-- 
+Jerome
