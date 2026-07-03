@@ -1,63 +1,63 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75DE35DA47
-	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 05:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E4635E1A3
+	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 05:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783058120; cv=none; b=XbOx3vrAAKa460yo7EBPAxApLpQavd1XI331CrpoqunyQnH83aIVfiGJ49tukLwijoRJjJt7se6xGE9XEg7L9JXPC5auEydoButNpkIfr05fZqogXW0Tmm8J7EvbuC/B4NW6Vt2WtWRiB9cdfbES/aNiUUy3wHDsqhgwyEI/F0k=
+	t=1783058130; cv=none; b=j7k/XjMsRsTCclu8Pzxq6l2K/z7A/sv0yXRCkdvGgvXUR3++2nIaOdMbONwfPIjTDjatTYTK+xiTeUBF0izQAdMYZv+nQ6dYqrl/dVEUhfoLmZlKN9NraQoRdL6EQy9uap7MQKJv97ENaHIQvbLdq6dYb4tka6GzUOg6cTYmTjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783058120; c=relaxed/simple;
-	bh=gtrP2bW1SWH+Wdjb3rDwdmnkXnip6p0Q8/DaEBD+ccs=;
+	s=arc-20240116; t=1783058130; c=relaxed/simple;
+	bh=OqNQ0wtsuuL6+CNsnbsafgnka32swlgaGxVNsspVsn0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c5xLcR09/mUEE3gwqkcrDCW+nlmrJ3uyZ7GYR3rVjHvhhGE48vOqhqvLoKOT4E0OzZwuWoyAPRLfcPQ4vrJxGJdsZeRsnw9Xom35kMR/mnk/6dwe3MHN5ppTG9883A+pyqeLryn4KDNzA7iDmjz5dl1USiuvXjqHh+vGm/byc/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DouVHL9T; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=BDtxAtk3H81+mtbx5fQVBY3AiCxAfK15xvBcKYWpqyJx2YttjDMCQgxcVf1lB6yQ2oMkSnsMFIhIwzg44iartKme0BAdbbX9THSJA66fLbEaZ7q3gfJ/5quN9AztW4T7R49mdcO2uQLZQMzafJ78wGxebHiBM9rEj8FVq/4N9WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PA142nv+; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DouVHL9T"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8478cc93299so178809b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 22:55:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PA142nv+"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84532e3dbf7so192988b3a.1
+        for <linux-sound@vger.kernel.org>; Thu, 02 Jul 2026 22:55:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783058119; x=1783662919; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783058128; x=1783662928; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hf6j86af5V0CMOW8UUCIPOBYEcGs8kFKB+l8jBsOWGA=;
-        b=DouVHL9TNESySGCjZj7e65zYjDSqU4yth4bwbq/bOzc4UkX6UrUiwej2Gq70z4BpbO
-         LSULjB9jBzukN4G//NyGbPzVfrTk9nxXUH5Ktx5oNKapxvO9UyqpKTCxvOpBIf7UuftP
-         CoGCseS9c4YKhHEKJlfn6nhOus4A0WuxQXgQXy7h55LcaIGiVfQKSwyFmnblSU096l31
-         dQrf3LFsAvc8UpErDHvy6PESTNDJhLSqVbgBXt5P8OJNp5FXNPJAs9nEstkBUS1+GPFO
-         gYDpbxJkN+1Yvl0PzlA3g91CUCn842Ue8pzPCb7JEvBu7bXFyKUNm3jJIcmMmrsMJvAA
-         UvUg==
+        bh=ntmU0j7UTDsaoP65JVvadIw5ilAlCiOGjFq2v2/q4mw=;
+        b=PA142nv+m/6zq9HLTz2uyOvxD8lBl4aF7UjuMo2bHWhtDs/f4f6QbQBKuY6fDLToic
+         RA0KBiYifbV4tYRpoPGS8gCMz+6y74ETfJRbZ70suFQHRF/QGnXq8bF5QelYg7gqOc1M
+         1GqkB310jYDW6nDumaPUvt8WwXP1uUVvMTvow/Dgo1gnHp30UO6FAg065hmactfK4Ei6
+         ULfO4H1SabG9u+c/7P4W2dus0Yd88G56/CWnx+9la6JsejrC8qWzEby79Fe1+AjoyAL+
+         bBW4gEpEx1dY1tkUBGRtGK0ViTXc9IUtpbrO+P1rxoZd1btJcuSgfIno78LTBUcSeXCn
+         +aRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783058119; x=1783662919;
+        d=1e100.net; s=20251104; t=1783058128; x=1783662928;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Hf6j86af5V0CMOW8UUCIPOBYEcGs8kFKB+l8jBsOWGA=;
-        b=FXitT0SLtQT2yQsD8R8Hvik9+7HmBvi/jqery31Wsr921rNcWJVWJVq+mD09iDGEfD
-         dqat9AD20VmVuQ+fdwIH2bKGXKFEbT5FMa0HJXrMzIs/k8bh3EyRC5nEmu84YEjv9nsE
-         FQUksSd8vEa762ClU+oklPztvE3ErNwI/2440+PRmZOHj+/jT4n/EcWN6uq+kr6N2bpv
-         MPnIDVPi+aetVwLy/UQ1mTi15fnKThlrmzsK2rfIM3KpF3mnIqH3JbO3Hdr12W9z91u7
-         9NULh3AND68GKZ9/5xaAn3JTNz4HpkZ793dXNDi4M7GgfWKoxG2UcFsZOag8IsOYOXjP
-         l69g==
-X-Forwarded-Encrypted: i=1; AFNElJ/Upl2bLlv67UKa5EizHY0SmC4U9KMYL00sXkYfuIpy9/KVZ5Ha7GdzYOdWAXCKCCwHLAq52tz76TSDjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPqTzXdxN0fDroeHseVOda+KDL+Wtx1GPebRR6asU+hdSo3i0D
-	PtTVwGaWYXYZc/g/1F757kEbSZbLjcHY9OdSVxqlWjRJFX7yYK+M6noz
-X-Gm-Gg: AfdE7ckujqCarGFbZcFpGpU4EZc0J4lsFVmo65axdML6yP9V1DY4Bcl+ZtsTCOlPpjx
-	Ln8ZyumeP1m1V6HHdW/OLomBluxmC+WsMxqcZ8aQCDiGeoiBVE3+GsGIwOZoVB7Ho+EvKmt1Q9H
-	szQr2o2BZYN1iBuPC1QMuhlVLK6mocWEb1t7QJ3XKmHCUzclUsz+F2e4X++DzaKyDXppZnS33Zx
-	DoG0zRoPIq8/HNBgBc8jyuf+Dxds5nrfmxpH69Df5yJRkoF7Jb7r6iwrX9TUEcwatxKOCCDcx7A
-	Bpr4v+d6dw0C1U4wV68CnYe3oiX6bTnGcNvFeBu4RPrywGshhxJDrT2Jhth476efoGR5NYo8Fqm
-	m7Lw6HNWrvoAUnOYNfzFbYCIlrA2Eu80OedR+7cROCcBCicadbeQlEXP/EpZDocdGIRBFfHW18k
-	pHv79y5qHecJW2jv1EPgTxZHENy2Fk3xJQysaWIAqCsxe/H+w=
-X-Received: by 2002:a05:6a00:992:b0:835:405a:7e72 with SMTP id d2e1a72fcca58-847c0690f7dmr9121802b3a.11.1783058118814;
-        Thu, 02 Jul 2026 22:55:18 -0700 (PDT)
+        bh=ntmU0j7UTDsaoP65JVvadIw5ilAlCiOGjFq2v2/q4mw=;
+        b=cAes3eyYAOVtlxQRMKkzt9CjK3S6KD80fM9tlbzkbA3o1w0Z/OFu4NLrnlhf/NICWv
+         fPZKT62aCOsdv9NivrxAOgxWN51Pd2XBU29eu4ZxYEPwUGMzYC72Kcy6ghcEhB1aBjC2
+         vOK2VKDra0c9dOSnauKdjuiWQuhBHpbwwDUQFvg22uBsvADPRZq0mjiN9eLUJt6kOUwe
+         VyYlRknLFvhuHGojizG843A4yMNlP+SIiOy6XoN3VtOcNahNZ89exjfC9fpMEaBFJuF/
+         /fTeXvD1Cf2/HkjvdKMRMQkKddKgzAIcafBDaWYSwlmAwB4lS4+ncUXuRx7OzciEv/P0
+         WwnQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9XkpyLVnwoZyk7+4FEJKiOGYskhwU1EpfFhLxXSFKKShMAyV3693G+Bnk+nT18SGXyQFCAV6G9Wzr2Lg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRWKSaElLnqAwXQEm41fU+4y25ikeLE7sTOINLZwG7GVkowvOp
+	CHvoXr5I0mNwEl5VXYrdFpw4lBGmjQsdj2c7tjtQF2QZB/Zw5YPEAGFC
+X-Gm-Gg: AfdE7cnr3KbCB7AcyW9kf++US1Gf/XyWsN57Hub9r0ISupcPyivbuU5SghPPw194qI2
+	Y2tJ/aSNELRFTwW2r+V7484cZxxgl9sCBsuLFplLCClp5LWM6+zfi4JPRjeufRwdDkVixWlzkKr
+	r+U6l3CQaLmQzvhVqxgsYIhvv/6kdzhBhRly6LR8nEiao/w0dpgjApw1ND/reHtdjAMZvr+o930
+	WfoGzkdJb1yYDra2h6M8cOFJ08dAcQMNQ9oCxGD//+OtP/A88w+CunueFXWhCkBGnm+ZTdXtAJD
+	QDPsqTWGCfUF5rSEviwyvKoCHMkTlaxH9M8fgzdJxvaQXuA37rosnBvP7IMUpTRtcH2fUr6GjJu
+	EQ9s16LXj+Q9/g+Ts55LwW7jHF9bNY/ddMOqcDCEjjnVkSKuU8ywmCJOcaKJO4sijG6BzvIfrVn
+	XmfPzMBRZhM6OO+bPpS/NO4VWCQR5xhCcJpAcAAE3h7SYhmic=
+X-Received: by 2002:a05:6a00:340a:b0:847:b16b:46d9 with SMTP id d2e1a72fcca58-847c09889d9mr7899560b3a.34.1783058128176;
+        Thu, 02 Jul 2026 22:55:28 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb94b3e6sm2340028b3a.33.2026.07.02.22.55.11
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb94b3e6sm2340028b3a.33.2026.07.02.22.55.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 22:55:18 -0700 (PDT)
+        Thu, 02 Jul 2026 22:55:27 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -93,9 +93,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	chrome-platform@lists.linux.dev,
 	asahi@lists.linux.dev,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 07/24] ASoC: codecs: aw88166: Use guard() for mutex locks
-Date: Fri,  3 Jul 2026 12:53:38 +0700
-Message-ID: <20260703055355.244898-8-phucduc.bui@gmail.com>
+Subject: [PATCH v2 08/24] ASoC: codecs: aw88261: Use guard() for mutex locks
+Date: Fri,  3 Jul 2026 12:53:39 +0700
+Message-ID: <20260703055355.244898-9-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260703055355.244898-1-phucduc.bui@gmail.com>
 References: <20260703055355.244898-1-phucduc.bui@gmail.com>
@@ -114,89 +114,78 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/aw88166.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+ sound/soc/codecs/aw88261.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/sound/soc/codecs/aw88166.c b/sound/soc/codecs/aw88166.c
-index 3f15f4ac51f7..b72f87f677dd 100644
---- a/sound/soc/codecs/aw88166.c
-+++ b/sound/soc/codecs/aw88166.c
-@@ -7,6 +7,7 @@
+diff --git a/sound/soc/codecs/aw88261.c b/sound/soc/codecs/aw88261.c
+index 549783d3e75e..b931b8602566 100644
+--- a/sound/soc/codecs/aw88261.c
++++ b/sound/soc/codecs/aw88261.c
+@@ -8,6 +8,7 @@
  // Author: Weidong Wang <wangweidong.a@awinic.com>
  //
  
 +#include <linux/cleanup.h>
- #include <linux/crc32.h>
+ #include <linux/i2c.h>
  #include <linux/firmware.h>
- #include <linux/gpio/consumer.h>
-@@ -1173,9 +1174,8 @@ static void aw88166_startup_work(struct work_struct *work)
- 	struct aw88166 *aw88166 =
- 		container_of(work, struct aw88166, start_work.work);
- 
--	mutex_lock(&aw88166->lock);
-+	guard(mutex)(&aw88166->lock);
- 	aw88166_start_pa(aw88166);
--	mutex_unlock(&aw88166->lock);
- }
- 
- static void aw88166_start(struct aw88166 *aw88166, bool sync_start)
-@@ -1413,11 +1413,10 @@ static int aw88166_profile_set(struct snd_kcontrol *kcontrol,
- 	struct aw88166 *aw88166 = snd_soc_component_get_drvdata(codec);
+ #include <linux/bitops.h>
+@@ -960,11 +961,10 @@ static int aw88261_profile_set(struct snd_kcontrol *kcontrol,
  	int ret;
  
--	mutex_lock(&aw88166->lock);
-+	guard(mutex)(&aw88166->lock);
- 	ret = aw88166_dev_set_profile_index(aw88166->aw_pa, ucontrol->value.integer.value[0]);
+ 	/* pa stop or stopping just set profile */
+-	mutex_lock(&aw88261->lock);
++	guard(mutex)(&aw88261->lock);
+ 	ret = aw88261_dev_set_profile_index(aw88261->aw_pa, ucontrol->value.integer.value[0]);
  	if (ret) {
  		dev_dbg(codec->dev, "profile index does not change");
--		mutex_unlock(&aw88166->lock);
+-		mutex_unlock(&aw88261->lock);
  		return 0;
  	}
  
-@@ -1426,8 +1425,6 @@ static int aw88166_profile_set(struct snd_kcontrol *kcontrol,
- 		aw88166_start(aw88166, AW88166_SYNC_START);
+@@ -973,8 +973,6 @@ static int aw88261_profile_set(struct snd_kcontrol *kcontrol,
+ 		aw88261_start(aw88261);
  	}
  
--	mutex_unlock(&aw88166->lock);
+-	mutex_unlock(&aw88261->lock);
 -
  	return 1;
  }
  
-@@ -1607,12 +1604,12 @@ static int aw88166_request_firmware_file(struct aw88166 *aw88166)
- 		return ret;
- 	}
- 
--	mutex_lock(&aw88166->lock);
--	/* aw device init */
--	ret = aw88166_dev_init(aw88166, aw88166->aw_cfg);
--	if (ret)
--		dev_err(aw88166->aw_pa->dev, "dev init failed\n");
--	mutex_unlock(&aw88166->lock);
-+	scoped_guard(mutex, &aw88166->lock) {
-+		/* aw device init */
-+		ret = aw88166_dev_init(aw88166, aw88166->aw_cfg);
-+		if (ret)
-+			dev_err(aw88166->aw_pa->dev, "dev init failed\n");
-+	}
- 
- 	return ret;
- }
-@@ -1639,7 +1636,7 @@ static int aw88166_playback_event(struct snd_soc_dapm_widget *w,
+@@ -1038,7 +1036,7 @@ static int aw88261_playback_event(struct snd_soc_dapm_widget *w,
  	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
- 	struct aw88166 *aw88166 = snd_soc_component_get_drvdata(component);
+ 	struct aw88261 *aw88261 = snd_soc_component_get_drvdata(component);
  
--	mutex_lock(&aw88166->lock);
-+	guard(mutex)(&aw88166->lock);
+-	mutex_lock(&aw88261->lock);
++	guard(mutex)(&aw88261->lock);
  	switch (event) {
  	case SND_SOC_DAPM_PRE_PMU:
- 		aw88166_start(aw88166, AW88166_ASYNC_START);
-@@ -1650,7 +1647,6 @@ static int aw88166_playback_event(struct snd_soc_dapm_widget *w,
+ 		aw88261_start(aw88261);
+@@ -1049,7 +1047,6 @@ static int aw88261_playback_event(struct snd_soc_dapm_widget *w,
  	default:
  		break;
  	}
--	mutex_unlock(&aw88166->lock);
+-	mutex_unlock(&aw88261->lock);
  
  	return 0;
+ }
+@@ -1188,12 +1185,12 @@ static int aw88261_request_firmware_file(struct aw88261 *aw88261)
+ 		return ret;
+ 	}
+ 
+-	mutex_lock(&aw88261->lock);
+-	/* aw device init */
+-	ret = aw88261_dev_init(aw88261, aw88261->aw_cfg);
+-	if (ret)
+-		dev_err(aw88261->aw_pa->dev, "dev init failed");
+-	mutex_unlock(&aw88261->lock);
++	scoped_guard(mutex, &aw88261->lock) {
++		/* aw device init */
++		ret = aw88261_dev_init(aw88261, aw88261->aw_cfg);
++		if (ret)
++			dev_err(aw88261->aw_pa->dev, "dev init failed");
++	}
+ 
+ 	return ret;
  }
 -- 
 2.43.0
