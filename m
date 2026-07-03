@@ -1,115 +1,160 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709836FBF
-	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 09:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584913B42C1
+	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 09:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783071156; cv=none; b=QtCA4Y37zZJWMDcu2T3tOznUa9YnPFDygGTtN49DybovrJROcSS+GcdMjKSmZhoGZ7lpji8PzdAgknSobADWr9q2CseqlFvm7PqcD40w2hv9oUnX5bievesCvprl0FGGNsy1TX56FCi7Kxmo+f5sYWJcjoSMmRGb7TMG9+u2hEs=
+	t=1783071640; cv=none; b=uOJtNpV4n0fYRjgHSEwULsXoiGLRpeBNbSkh0Id+uPLu6QKloxw3W8Sd2djaTdrM7WVPHM4nO5AsjvmHcL/ApyceamH6EvG3cyy+1mdohIUzummqjbDA1K7AEAKYK4THfcwcrxGXyfs4gswWA6OM2tcwvmxV/4BnkJ3qiRKFDGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783071156; c=relaxed/simple;
-	bh=MFDUCkLfTDISshsl3AI7BNhvSE3MCK0KANIg3nbtjCA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tFaKtEE6+iwZrC8CMTxkF7tlzyKK3WXAsJbo+4tIXVg6Ck/PmAdHr+kn6QIXASFqOXLOmbTW/+AIlHKxB9xPOo1qexzVs1qnVW5sDi2hi9XZ3BEsO1tLkLJFu/2sTLQeHgRdCPfwG8FPFJY0kp0NnG87YP/Qn0Zwg5gLChiEjP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=O8BImNQt; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1783071640; c=relaxed/simple;
+	bh=Hspl+mbeRJE8hJkCAm/QgT5mMB+rSBNdrMJ0iv+GN7c=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=BhuObDPjOaHJVYG19DHj3RorNKXYKYacx8NceVrPuZAC1gSO4cR4/JrY4x5H9Nl3yfWyqqdKnqBW6qT3CJ/QD15xMOmx7XBuQPJaLpW2irsWtKHwoKzYKhYdaCSviG+dSX6oiHacfIp6EWTL3+7IVvXfqVfnL1Pcf0Pq2umiGi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=GQA4xqTn; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="O8BImNQt"
-Message-ID: <69f7ae58-c8ee-4f13-aa7a-139eacb92fcb@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783071149;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UnL2751hIWdStsXZs6WZ2Vg6ii28DjYgFq9G6dE0zBE=;
-	b=O8BImNQtHArSfYaWehTpn32fRq+Mazu+8VitSnqGB3y4zQQRNdwklYgdXuLlzdNS2NzuGj
-	d8BnezoTAaW07yRUPszgjBGLBq3u4GnsWCzu+rQLe4y7phd5y8dRVNtSUNIlqCiAIQqSAf
-	Fv/f0VyMDtlyWO8vKyxJPK1WuM0rQfU=
-Date: Fri, 3 Jul 2026 11:32:08 +0200
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="GQA4xqTn"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6976b0c5adbso682910a12.2
+        for <linux-sound@vger.kernel.org>; Fri, 03 Jul 2026 02:40:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1783071637; x=1783676437; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uNqqVjohsqY8yTYTK5W8wByaWx6IeZeY7y7Iq0rzlDE=;
+        b=GQA4xqTnFkpzDPCIRgb5oRLjafe008dwoncaTQsxIF+qyGj2znNJ901FOsvrBYh13+
+         j3Nch7FIIeIRSmxp1blPUr6thFcIf5UuxYUdoWN1Ktjye0R4uw9zcEaNvktd0pD88FEI
+         Edqaz6fCsVMdyWwWxqzspR49fh7xrZi9NEtir8ehGVMl7XN33l70gN2s3bB81+FMHlR9
+         BdUYvnfMgPOzbsd7jUm8+xZ+rT64N1C4mQYB3kMLHhgTe9NmRyhJJpztlDhlhtEAgZoa
+         2zSVxupAias1Z/jzMc3XbFaQpMkD0D3ME+/OUnRLICdhshyqmJhtl3eWlMZkhbycz5M2
+         u6mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783071637; x=1783676437;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uNqqVjohsqY8yTYTK5W8wByaWx6IeZeY7y7Iq0rzlDE=;
+        b=kMu/Sl+PrKEIUptx4tYADTi2VPJHwG3vO1Y9eHQwMwhPZhjkvQJtdie1P6RBrgs9RW
+         /tlLR8S3iEhrs9N+YanS+Mv/JiG2ekfhIzdQK8MTQyj+fXgJbyrzIOXq3urXL7+bbGOF
+         QXnhCIf35fzbJ8dpJ7ZGid90Dy++yxgLDCGcQoOLT6HiRZsfweKx+dud95V5WIPOgQ2M
+         fdvv+4/KBkbPC9fHc7D9BRga/8MRcvc+W/rdJc0cs+phQOKgNIWqR6VT8eIKHR36pxv6
+         DS0rl6tC11CWjldt+7L8FOhCO3P+VNyltNfXHEy73iAS0Q9EqQDnwjN8MNVcMxGMwrRw
+         zOxQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro13QSaNb6yjk4kMCJTQOWEVIkwsNIUangUo0r1nWWJ+LzQAP0BxmXgueStFngOvxPXP+d+8zIsSnDtOg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDWarRUD7AzJgFwA21qwG/42u3mV2T7YJJTQHJSckCEDBjkY2A
+	qOVn53oxf0zq0tqWBKuodqJQ6sAU4dFLq5KWq1MuMxyQmuBXEo2D39ayz8mHPX3tZME=
+X-Gm-Gg: AfdE7cn+R3dftYlUfwONByKUa5jEjLhIe9XW9uf9IFPLDGgSlnLDo7TTeJAlWmC/m6u
+	leM/JFg084WDALul5FwVKAVCghijFUkess7lGSDCXSAjzvcW6dmEzM6Zju3xBQh65XoeV2Jc85x
+	bCjzciMuhOFFYiXxj3RuENKy92sXjnkDm5f2ZolfjlknzjglV+7v6WMKgaMOVoCPhVvQjIeX0tz
+	i9wmqNoEdb8yNvvfMi6xpre18A6q3jd6Wd2oVn+iF07yN3e41tyJDDgw2dCNTTRSdlJ7tPIzXYY
+	GD3TUx9quMFj9rvqUG6iT+Ibr9TGP61VQuOhZsXVSiyyjhWieJACrxR4mOMLQf64NmpSvhLboVD
+	PSQW88HpbdXMM2Z+2lzqK0aphaKMZNSwfXhawjqSOKmBq2unMQ3ty0/vFFJkvQpMKxcoD7m0Smz
+	dBB2W3J2v2kwTuZLJ+fyMnt8OCijrvcdEbDEl9O7FVYrGSWW1OWhFZTm7uOw==
+X-Received: by 2002:a05:6402:444a:b0:698:3b7c:7e42 with SMTP id 4fb4d7f45d1cf-6989f3ad97amr4246456a12.34.1783071636657;
+        Fri, 03 Jul 2026 02:40:36 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-698ad100004sm2179433a12.18.2026.07.03.02.40.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jul 2026 02:40:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH] soundwire: dmi-quirks: add a global ghost list
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, linux-sound@vger.kernel.org,
- vkoul@kernel.org
-Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org,
- peter.ujfalusi@linux.intel.com, bard.liao@intel.com
-References: <20260703011656.2572959-1-yung-chuan.liao@linux.intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260703011656.2572959-1-yung-chuan.liao@linux.intel.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Date: Fri, 03 Jul 2026 11:40:35 +0200
+Message-Id: <DJOU552LDYD1.96KUPV8JI0B5@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Luca Weiss" <luca.weiss@fairphone.com>, "Srinivas Kandagatla"
+ <srini@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown"
+ <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai"
+ <tiwai@suse.com>, "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ <cros-qcom-dts-watchers@chromium.org>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH RFC 0/2] Correctly use TX macro v9.4 for SC7280 / Kodiak
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260526-sc7280-tx-macro-v1-0-1aad6900fec0@fairphone.com>
+In-Reply-To: <20260526-sc7280-tx-macro-v1-0-1aad6900fec0@fairphone.com>
 
-On 7/3/26 03:16, Bard Liao wrote:
-> Not like other ghost devices, the 0x000000D010010500 ADR doesn't belong
-> to any codec. We should disable it in all devices.
+Hi all,
 
-for the record the address is remapped to a zero value which is ignored by the existing core logic.
+On Tue May 26, 2026 at 5:29 PM CEST, Luca Weiss wrote:
+> With the v9 data, that sc7280 is mistakenly using, the controls will
+> have completely wrong names and using wrong code paths that do not apply
+> to TX macro v9.4.
+>
+> This is an RFC to get some feedback how to continue.
+>
+> 1. We update the "qcom,sc7280-lpass-tx-macro" compatible to 9.4, break
+>    unchanged dtbs (the sources are updated in this series) and break UCM
+>    until it's updated.
+>
+> 2. We add a new compatible "qcom,sc7280-lpass-tx-macro-fixed" - name is
+>    just a suggestion ;) - and make sure existing boards with audio keep
+>    using the old "broken" compatible. This should be completely
+>    backwards compatible, since we keep the existing compatible working
+>    as-is.
+>
+> 3. We add some dt flag "qcom,use-correct-tx-macro-version;" and handle
+>    the rest similar to option 2, by opting in boards to the updated
+>    behavior.
+>
+> 4. We keep everything the same. We know it's wrong, both the
+>    audio-routing in dtb and the controls in UCM have incorrect names,
+>    but it's working apparently.
+>
+> Please let me know your thoughts.
 
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Any feedback on this series? I'd appreciate it!
 
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Regards
+Luca
 
+>
+> As a bit of a note where I'm coming from, I'm working on microphone
+> bringup for qcm6490-fairphone-fp5 where so far we've been using
+> qcom,sm8450-lpass-tx-macro to get the correct control names. I've tried
+> reverting to sc7280-lpass-tx-macro, updating audio-routing in dts and
+> UCM to the v9.0 names and it does seem that microphone (AMIC1) is
+> working with that, but I'm not particularly happy about leaving the
+> wrong control names everywhere, so I'm happy to try and untangle this
+> situation.
+>
+> I'm also not sure where this v9.x actually comes from, maybe I'm lacking
+> some documentation, downstream kernel only refers to Bolero v1.x and
+> v2.x so these seems to be a completely different versioning system.
+>
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 > ---
->  drivers/soundwire/dmi-quirks.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
-> index 2a98fc8c104d..62cee6e2179d 100644
-> --- a/drivers/soundwire/dmi-quirks.c
-> +++ b/drivers/soundwire/dmi-quirks.c
-> @@ -15,6 +15,14 @@ struct adr_remap {
->  	u64 remapped_adr;
->  };
->  
-> +static const struct adr_remap global_ghost_adr[] = {
-> +	{
-> +		0x000000D010010500ull,
-> +		0x0000000000000000ull
-> +	},
-> +	{}
-> +};
-> +
->  /*
->   * Some TigerLake devices based on an initial Intel BIOS do not expose
->   * the correct _ADR in the DSDT.
-> @@ -212,6 +220,7 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
->  u64 sdw_dmi_override_adr(struct sdw_bus *bus, u64 addr)
->  {
->  	const struct dmi_system_id *dmi_id;
-> +	int i;
->  
->  	/* check if any address remap quirk applies */
->  	dmi_id = dmi_first_match(adr_remap_quirk_table);
-> @@ -223,10 +232,20 @@ u64 sdw_dmi_override_adr(struct sdw_bus *bus, u64 addr)
->  				dev_dbg(bus->dev, "remapped _ADR 0x%llx as 0x%llx\n",
->  					addr, map->remapped_adr);
->  				addr = map->remapped_adr;
-> -				break;
-> +				goto out;
->  			}
->  		}
->  	}
->  
-> +	/* remap the ghost ADRs */
-> +	for (i = 0; i < ARRAY_SIZE(global_ghost_adr); i++) {
-> +		if (global_ghost_adr[i].adr == addr) {
-> +			dev_dbg(bus->dev, "remapped _ADR 0x%llx as 0x%llx\n",
-> +				addr, global_ghost_adr[i].remapped_adr);
-> +			addr = global_ghost_adr[i].remapped_adr;
-> +			break;
-> +		}
-> +	}
-> +out:
->  	return addr;
->  }
+> Luca Weiss (2):
+>       ASoC: codecs: lpass-tx-macro: Use correct config for sc7280
+>       arm64: dts: qcom: kodiak: Fix up LPASS TX macro v9.4 control names
+>
+>  arch/arm64/boot/dts/qcom/qcm6490-idp.dts           |  2 +-
+>  .../boot/dts/qcom/qcs6490-radxa-dragon-q6a.dts     |  2 +-
+>  arch/arm64/boot/dts/qcom/sc7280-crd-r3.dts         | 22 +++++++++++-----=
+------
+>  .../dts/qcom/sc7280-herobrine-audio-wcd9385.dtsi   | 22 +++++++++++-----=
+------
+>  .../dts/qcom/sc7280-herobrine-villager-r1.dtsi     | 22 +++++++++++-----=
+------
+>  arch/arm64/boot/dts/qcom/sc7280-idp.dtsi           | 22 +++++++++++-----=
+------
+>  sound/soc/codecs/lpass-tx-macro.c                  |  9 ++-------
+>  7 files changed, 48 insertions(+), 53 deletions(-)
+> ---
+> base-commit: 550604d6c9b9efc8d068aff94dc301694a7afdee
+> change-id: 20260526-sc7280-tx-macro-1179d786af1f
+>
+> Best regards,
+> -- =20
+> Luca Weiss <luca.weiss@fairphone.com>
 
