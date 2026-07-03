@@ -1,65 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0DC352010;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D5136EA80;
+	Fri,  3 Jul 2026 07:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783064275; cv=none; b=YxJAf2Uoj2J2FzV71Au/s7OL5wa/l9PuWmrsEi3/SoED0Vn55IuDKGTjcIxG50l/WLThWdvj8ygKI9fsGAw1O/91Luq1I4aaQM8VdGgkSWHLo1jTqpQ/YBiIFcM1oDRoTZr7K0x5q78NY/M+sOktHteCtRVBrG8x40K15645iYw=
+	t=1783065480; cv=none; b=tDy1iwTkg/uFwvQ1OLmOjKhOWn6sNkTnOyCFYYA/tbU5DvbhmdNaLYM/VSwYHH+amPrseksXAIjdsMLgz/8VYuswM+PwJLovVlLRxdt1EMtey7EEKmBL4ROL8IilpkPkN+vO0h0zU5KpCBCDzWQvbQDCf0O/PsyJWhgnH/nP++c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783064275; c=relaxed/simple;
-	bh=/zEdjDHHDOZlLYDj/HrAahZZ9YvreIDGoxRLp/b3nmc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=GGt190/paI8ppa/vkzHoMhH7vj2FjlLiaXho3tJL5WVg+G9SXLyGzNhzqYKDWN612x/NqkfDqn6C2ZwYBAI8jS6tntZXySna6YiIwTVs5HetdDAF9U92csY1UroNZY6Uv2F/rjXxmyTey+B1E/TlUjzhDIX3grldEVFXVJsqP4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7fzZHQj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783065480; c=relaxed/simple;
+	bh=QqMAmmWsWGziZkiLDOIZG39Nl1QwRx8vulaAvWDhdyI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ELPmFaBa/KHaTvAgQGq1Hj/XvaHSZ0ogpxjT7/ew1h03l5ZHp/OU+VxkQUMW6nojTAUMmHx8bYWR319pTp78c1x2NauhvOk4DG5+qmZnhnPCYlWDvofUmcRvnzDcS65bhsspF5qYJrIpHrdIOfTDuuup34zR7l5213OcJSrf2BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WTcc/cBS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7fzZHQj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69951F00A3D;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WTcc/cBS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B20361F000E9;
+	Fri,  3 Jul 2026 07:57:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783064274;
-	bh=BNjc89ZTwEE6sAh5F09SyQEpJODWyJuS+YsA1L114gk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=E7fzZHQjHbuqRbfY5w8N/zq/LIGZMJY1SK41CeUUib7CZ4WxWm5MqtADiZytRVf8k
-	 B6AmxstGKgmn9k/gnWEMrYU/U8prhEH9/KBSrez2/6+NEuF1ehCnCime+EeHT7H/Vc
-	 3uPHNJ7e7l0I0rxnW+Hr072aIgsDpQNOHShnhFE32hDNXp6obtBsRggP9gjJ9qOPxF
-	 gm5mTrJ5kP99/8S/EVRiBrZq6SeYg8SxwOWKk+cApIcZjDHtKLqJQAQJJvgyCJU9Xh
-	 uvtmeyMNf/xe4qOOa2+jWsvz9DD00nDyID+u4LEyyFtC11nrDHmkAIGykMv8cZ9zSV
-	 H59njUBru/Yjw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56D2B39389CB;
-	Fri,  3 Jul 2026 07:37:38 +0000 (UTC)
-Subject: Re: [GIT PULL] Split <linux/mod_devicetable.h> in per subsystem headers
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <akdIS8mW2IubUWQh@monoceros>
-References: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-List-Id: <devicetree.vger.kernel.org>
-X-PR-Tracked-Message-Id: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
-X-PR-Tracked-Commit-Id: 995832b2cebe6969d1b42635db698803ee31294d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d2c9a99135da931377240942d44f3dea104cedb8
-Message-Id: <178306425679.2510133.17664517627067155845.pr-tracker-bot@kernel.org>
-Date: Fri, 03 Jul 2026 07:37:36 +0000
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Raag Jadav <raag.jadav@intel.com>, Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, linux-kernel@vger.kernel.org, Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Dani
- lo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Pei Xiao <xiaopei01@kylinos.cn>, Shashank Balaji <shashank.mahadasyam@sony.com>, Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org, linux-i2c@vger.kernel.org, Daniel Scally <dan.scally@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, kvm@vger.kernel.org, loongarch@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@ker
- nel.org>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+	s=k20260515; t=1783065479;
+	bh=FeGCgCuJqvP+G8Eppj9siBOA1hHncBneFe2lVJW1ZJc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WTcc/cBSl825OC+ck/HfN4bHY4aJMIKnIi3MC4IV+m5cObqY+L2kTa5fyHuPYWgPC
+	 h4shs4D+ISVfkzrQuQM24HYQG/zW5jcixXKPY988RZv4O2ivFooZIxtDT5rArkWZuA
+	 LYol9Gk8FNAHHSydMAEDQbDsyZ9qg5JrcZxp7MRXvMqRu+EKQ+/sbjpJbXHBmeVmcF
+	 gRiX82MAHOfFwYlQV3qwOm0gX8BD1A2nNYzjR7RhG3U6FoHEi+9ghzwYWuQ/s4kanN
+	 HEMajuw3L95HWHHksHyahx16zX0PFPwxEs/Vu3XHqmO9Ou5u81iEx8vqrAtKGZ+OGU
+	 3pU3F2IpND/Ew==
+Message-ID: <0e1860c7-08cc-4bf5-b913-80d1239c8b5f@kernel.org>
+Date: Fri, 3 Jul 2026 08:57:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 0/3] ASoC: qcom: lpass: Switch VA/WSA macros to PM
+ clock framework
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20260702-xo-sd-codec-v7-b4-v8-0-d39d0fdb7859@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20260702-xo-sd-codec-v7-b4-v8-0-d39d0fdb7859@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Fri, 3 Jul 2026 08:04:04 +0200:
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d2c9a99135da931377240942d44f3dea104cedb8
+On 7/1/26 7:44 PM, Ajay Kumar Nandam wrote:
+> Hi,
+> 
+> This series converts the LPASS WSA and VA macro codec drivers to the
+> PM clock framework for runtime PM clock handling.
+> 
+> The runtime clock enable/disable sequencing is moved to PM clock helpers
+> for clocks described in device tree, while regcache state handling remains
+> in the codec runtime PM callbacks. This keeps register cache synchronization
+> explicit in the driver and lets runtime PM drop codec clock votes when the
+> macros are idle.
+> 
+> The series also keeps WSA MCLK-output clock registration resource-managed
+> by switching it to devm_clk_hw_register(), which allows the empty WSA remove
+> callback to be dropped.
+> 
+> Changes since v7:
+>   - Dropped va_macro_setup_pm_clocks() helper in the VA patch and inlined
+>     devm_pm_clk_create() + of_pm_clk_add_clks() directly in probe, matching
+>     the WSA pattern for consistency.
+> 
+> Changes since v6:
+> - Dropped the now-empty WSA macro remove callback.
+> - Sorted the VA macro pm_clock.h include.
+> - Re-sent as v7 with proper cover-letter threading after the broken v6
+>   resend was accidentally sent as separate threads.
+> 
+> Changes since v5:
+> - Rebased to current linux-next/master and regenerated as a standalone
+>   series that applies cleanly.
+> - Added depends on PM_CLK for SND_SOC_LPASS_WSA_MACRO and
+>   SND_SOC_LPASS_VA_MACRO since PM clock APIs are used.
+> - Improved runtime-PM probe/resume unwind handling in WSA/VA error paths.
+> - Kept runtime autosuspend delay at 100 ms in both PM-clock conversion
+>   patches.
+> 
+> Link: https://lore.kernel.org/r/20260604124823.3467457-1-ajay.nandam@oss.qualcomm.com
+> Link: https://lore.kernel.org/r/20260623071708.2822269-1-ajay.nandam@oss.qualcomm.com
+> Signed-off-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+> ---
+> Changes in v8:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v7: https://patch.msgid.link/20260629-xo-sd-codec-v7-b4-v7-0-fb37ce457c42@oss.qualcomm.com
+> 
+> ---
+> Ajay Kumar Nandam (3):
+>       ASoC: codecs: lpass-wsa-macro: Switch to PM clock framework for runtime PM
+>       ASoC: codecs: lpass-va-macro: Switch to PM clock framework for runtime PM
+>       ASoC: codecs: lpass-wsa-macro: Use devm_clk_hw_register() for MCLK output
 
-Thank you!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Thanks for the patches, We should the same to tx and rx macros too.
+For this series, I have tested it on my T14s
+
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Tested-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+
+--srini
+> 
+>  sound/soc/codecs/Kconfig           |   2 +
+>  sound/soc/codecs/lpass-va-macro.c  | 129 ++++++++++++++++++-----------------
+>  sound/soc/codecs/lpass-wsa-macro.c | 133 +++++++++++++++----------------------
+>  3 files changed, 122 insertions(+), 142 deletions(-)
+> ---
+> base-commit: 4e5dfb7c84012007c3c7061126491bbc92d71bf1
+> change-id: 20260623-xo-sd-codec-v7-b4-8769da3a41ad
+> 
+> Best regards,
+> --  
+> Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+> 
+
