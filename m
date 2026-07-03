@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4063264EA;
-	Fri,  3 Jul 2026 19:19:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28D63242D9;
+	Fri,  3 Jul 2026 19:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783106353; cv=none; b=K8BNK4DNbg3ZsbDLtBzyIKslP6PPg1//dCd5EAsG0xAx0cR7fF3Y1UObDlif/lCCeym0PNeFRtr/sFuFu5RHOIpkJdKrzNBMprSE/GO3CHUMJG/kXRwa/xZwpEJ9sMoUbt/FeJZpWfZsyCE30wlN0M+cBLiqh0spVl8h6BZhqME=
+	t=1783106358; cv=none; b=PkmuZN/q1n8DK5hMOINWjnRd7GpKZDL2SAgzMhP+zi8F6QVIkPJqV8q7nsxHHpQqx1Z6RlaskW9pVWEwFaJifq1VtG9CMoP6N+FxByrmmlKKfdZe8ic/UlR5kLMDV+pE3R17ltWdPEahFJ5RpowmRI2Nb7jdaeQtf5Ze5LWDJyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783106353; c=relaxed/simple;
-	bh=5bnoL34Fc+g4Q3ymM94IRJxC/h39tYJqWKB0c4xGYfY=;
+	s=arc-20240116; t=1783106358; c=relaxed/simple;
+	bh=wizO2QcXqseX53RH9rKpue2gVjxakogoUiQZee0Y1iE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ckvVHC5qdGORk2FqlohubC2x7WTG0ixn9nIsdUh2cv0y5O7LBI/GpZJV1RN/lykzUhlykfk4QiAOX2raJ9RNtvqk6gdRwhnShITXlqi3JIOC36vVgUhzQPtTe0TK7P90M1XWb21H6jeCb4SEj4XkwlVucOXEerzlXSRJ80FWFBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jq/Wr5hh; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=S2hUe1UMXH1wqsFcEAi7nkWhb83auMCmhP7sbSAQSCRsXxme4bxX9zKr4pcigE1gQbXfAs/V1/t5msdFZUCHm//uJ+htuUhEx9cB2eeGfdHTpDZdJxjQYSFS7QCxunyyYb62SyDZvPjFhPIy0RFXJgmPjKFr65Lu5H4NyB5qoek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YShz6RtY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jq/Wr5hh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 032F41F000E9;
-	Fri,  3 Jul 2026 19:19:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YShz6RtY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D21E1F000E9;
+	Fri,  3 Jul 2026 19:19:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783106352;
-	bh=RzJyimwNUF1dVrJv+JdJbcLPCQubYPOuUrKjB+T3LK0=;
+	s=k20260515; t=1783106357;
+	bh=r5QBnr4gt+/kEF5udg+GMq3wIzNWGwoayA4JpZSkTCA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=jq/Wr5hhbiA3Zgsumy6vf8k7tBr3t62wth79bRvqldMuKedcnR6Ik7Aqna7hyGigT
-	 vLmf7muKXhNDF8Kvz0EgFz897ssMb7iEiLPJbhYqml4GKbD14Bn6JXAVeDcm93plGI
-	 Nm327Kl9WLIIcMZFJ3IAnk/1Ke7leqhnCcQ4m70uaIViupMse8ys3WwOzmUr5eo5vx
-	 aPp3MRClD3q+tOo+318w+qoi2NlmudS8gUQJ6zNZtq/nwdmPGYSsWxmgLFhsIGR/33
-	 orTzlq8NQ6oG1K2Ml9CQAi+dTu9Ku26OdFh1WE8TzBv4cJPSRxHS2k55P3xLBRXA9Z
-	 g6Sk1q+UeqRpA==
+	b=YShz6RtYZ1LD+pNpd12viN/vGa6+UOekwUUh50yZWdI5qtsEW1JYR0EedbKeOAjla
+	 n9A2gA4xPr76kPZnpFUQXQoKtrQ/K1Jkr8LX9M7ycSKvudXzd11nIkKhEJSaSv/62p
+	 N531Merb6uinkrvAew+YwxCfNSf74PFELBHIfkAhYYY+QQtMke0l3n8Ny0airwtKXV
+	 2RZl0WgcVMtmrlg/KQQq0v1YJ7oDgdSzg9q2Fyze1wbIEbKwpQBgMp1/vWhmIRh2GH
+	 UZZMBn6GrAjVnFePgZQmVkPgeddjf2cwkBFOwKsFalvPjohxDpjxFNi6LfsESq1YII
+	 nD1qPLqRc4s9w==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- perex@perex.cz, tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com, 
- mario.limonciello@amd.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, sound-open-firmware@alsa-project.org
-In-Reply-To: <20260701095759.1012929-1-Vijendar.Mukunda@amd.com>
-References: <20260701095759.1012929-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 00/16] ASoC: SOF: amd: add support for ACP7.B/7.F
- platforms
-Message-Id: <178309681808.182374.1529641210373313366.b4-ty@b4>
-Date: Fri, 03 Jul 2026 17:40:18 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Uwe Kleine-Koenig <u.kleine-koenig@baylibre.com>, 
+ Linus Walleij <linusw@kernel.org>, Chen Ni <nichen@iscas.ac.cn>, 
+ Thorsten Blum <thorsten.blum@linux.dev>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260702072918.85779-1-pengpeng@iscas.ac.cn>
+References: <20260702072918.85779-1-pengpeng@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: codecs: max98390: Propagate regcache_sync()
+ errors
+Message-Id: <178308783942.53103.1959643438017807931.b4-ty@b4>
+Date: Fri, 03 Jul 2026 15:10:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,27 +51,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3370; i=broonie@kernel.org;
- h=from:subject:message-id; bh=5bnoL34Fc+g4Q3ymM94IRJxC/h39tYJqWKB0c4xGYfY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqSAssZJdllMoR5fxZ5/TdvrSwiQzyGEBeEc9t0
- 3du6WZttniJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakgLLAAKCRAk1otyXVSH
- 0OuqB/9H72aDhwaI1Sf0jagwXDz9SsaKDUJdAmTslBgD7luIxNT5cigQSEl5zg66zjr3xUgELyF
- RmoeZs4P4GkDY7O9trzfLDRzbjuoTMm6LhIykSpnN1OXoF1myV/2Z1Px/LeSXXUgyF/StFjngeu
- O/bIw62m/HHyWf3bCwY8aX+7DuUvXGwOZH6vjBgK8H0y0QXsvsZwajBZcDfGxWEEsxZqJ27ZBRd
- JooE6AvakPpRjohBzr0aixB1mt4CTkm0AXrhwKQuJMvEHQc6nc1VlGHkwvmEVY97HF6Muv40I8M
- 4Pxucjtpq2RvjHIVIRPHGt9ds4+FwIk+OhYlzDCV/3CwUuGD
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=wizO2QcXqseX53RH9rKpue2gVjxakogoUiQZee0Y1iE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqSAsy6+JlaGQc5ltoxDPI7wvcZ0N/nKazv13Ql
+ 6Z6edp08BqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakgLMgAKCRAk1otyXVSH
+ 0A4rB/wJnhQGSICVWaV1Qp/sy870niDIDc060abONwCnfeUWnRIhg97ETaFeR0OtxVEmCVTfqBW
+ y2vvLq16q0oWnw8la7+ugJaqCsRiiogIacw60mjU9vIla0YsBt/eZw532Or0SmnYAHL9rj29m3p
+ NCmL2GeB/8QnJmGYWF7xm0vDg66fiKAof9gumDUfDYsxAXpZ69CE6wdnCUgHJpqdyoQA+oAStIA
+ LxK34k6JtIeqTAbmJDJ2i1mXH8rDkHPNzV4l51YkDNHb1U6MhQ4ZPCWqpt/kzUM1DMSoJzLGOdh
+ v4+IoX31zh5ew9bkLp/qRgrK1mKRxgzXJP+k7P3azlgMCJAW
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 01 Jul 2026 15:25:01 +0530, Vijendar Mukunda wrote:
-> ASoC: SOF: amd: add support for ACP7.B/7.F platforms
-> 
-> This patch series adds Sound Open Firmware (SOF) enablement for AMD
-> ACP7.B/ACP7.F platforms by introducing a dedicated ACP7x PCI driver/ops
-> layer built on the existing ACP SOF infrastructure, plus required IPC3
-> topology/token extensions for ACP7x I2S/TDM.
-> 
-> [...]
+On Thu, 02 Jul 2026 15:29:18 +0800, Pengpeng Hou wrote:
+> ASoC: codecs: max98390: Propagate regcache_sync() errors
 
 Applied to
 
@@ -77,38 +72,8 @@ Applied to
 
 Thanks!
 
-[01/16] ASoC: amd: acp: add ACPI machine table for ACP7.B/7.F SOF driver
-        https://git.kernel.org/broonie/sound/c/ec2332472f58
-[02/16] ASoC: SOF: amd: add base platform support for ACP7.B/7.F
-        https://git.kernel.org/broonie/sound/c/0ec5afad9d31
-[03/16] ASoC: SOF: amd: mask ACP7x PGFSM status poll
-        https://git.kernel.org/broonie/sound/c/237efba38c4f
-[04/16] ASoC: SOF: amd: refactor SW1 I2S error reason clear in acp_irq_handler
-        https://git.kernel.org/broonie/sound/c/571464f543f6
-[05/16] ASoC: SOF: amd: add ACP7x probe and remove
-        https://git.kernel.org/broonie/sound/c/78d99c2c5eee
-[06/16] ASoC: SOF: amd: add ACP7x IRQ handler for DSP IPC
-        https://git.kernel.org/broonie/sound/c/a3674345f902
-[07/16] ASoC: SOF: amd: extend signed firmware pre-run for ACP7x
-        https://git.kernel.org/broonie/sound/c/cbdafd2acdee
-[08/16] ASoC: SOF: amd: require full ACP header for ACP7 signed firmware
-        https://git.kernel.org/broonie/sound/c/d6869ae07d21
-[09/16] ASoC: SOF: amd: validate SizeFWSigned before signed FW length on ACP7x
-        https://git.kernel.org/broonie/sound/c/c04de2d88c0b
-[10/16] ASoC: SOF: amd: add post-firmware-run delay for ACP7x
-        https://git.kernel.org/broonie/sound/c/7a81f54a0483
-[11/16] ASoC: SOF: amd: extend configure_and_run_sha_dma for ACPI signed FW flag
-        https://git.kernel.org/broonie/sound/c/d0c32fdc1907
-[12/16] ASoC: SOF: amd: wire signed firmware load callback for ACP7x via ACPI
-        https://git.kernel.org/broonie/sound/c/7af6ac41cd47
-[13/16] ASoC: SOF: amd: load ACP7.B/7.F signed data firmware to SRAM
-        https://git.kernel.org/broonie/sound/c/deb631c3f387
-[14/16] ASoC: SOF: amd: add ACP I2S format field and topology token
-        https://git.kernel.org/broonie/sound/c/08c5e98b7b5f
-[15/16] ASoC: SOF: amd: add ACP7x I2S DAI type and topology support
-        https://git.kernel.org/broonie/sound/c/3805b8e6f932
-[16/16] ASoC: SOF: amd: add system and runtime PM ops for ACP7x
-        https://git.kernel.org/broonie/sound/c/1c9646f3180e
+[1/1] ASoC: codecs: max98390: Propagate regcache_sync() errors
+      https://git.kernel.org/broonie/sound/c/e08d63e63ac0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
