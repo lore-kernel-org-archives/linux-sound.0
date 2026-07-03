@@ -1,96 +1,303 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28D63242D9;
-	Fri,  3 Jul 2026 19:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89CA3314AC
+	for <linux-sound@vger.kernel.org>; Fri,  3 Jul 2026 19:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783106358; cv=none; b=PkmuZN/q1n8DK5hMOINWjnRd7GpKZDL2SAgzMhP+zi8F6QVIkPJqV8q7nsxHHpQqx1Z6RlaskW9pVWEwFaJifq1VtG9CMoP6N+FxByrmmlKKfdZe8ic/UlR5kLMDV+pE3R17ltWdPEahFJ5RpowmRI2Nb7jdaeQtf5Ze5LWDJyc=
+	t=1783107571; cv=none; b=lcCjZZLDTW6x0cT48/qIhV8xXVU5fyDKmArQcbrbJ3L15UwstSPAF3EGU3VkieyTWWcoTALxoy7mhjY4ORpzwBgHdjEyhnJvvhvGoEVdBCjXyMkxyXZx43d31UloZXh/Wmir5X674mEsWqYULkR2Jlg5JgLN98ptg84jO6//D0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783106358; c=relaxed/simple;
-	bh=wizO2QcXqseX53RH9rKpue2gVjxakogoUiQZee0Y1iE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=S2hUe1UMXH1wqsFcEAi7nkWhb83auMCmhP7sbSAQSCRsXxme4bxX9zKr4pcigE1gQbXfAs/V1/t5msdFZUCHm//uJ+htuUhEx9cB2eeGfdHTpDZdJxjQYSFS7QCxunyyYb62SyDZvPjFhPIy0RFXJgmPjKFr65Lu5H4NyB5qoek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YShz6RtY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783107571; c=relaxed/simple;
+	bh=gf0y849jqsWicWT8x2zXtY5gzlbXBv3ZHwVF2zzNRiU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V2TrmR84+Y5eXPFBRTK/y+A4pRhtWsun2J2HV/w67HTB/qWrSxLU87xaEg8oBHzrKkppS4wAaN/fbmM82W4fhmtmwQJQsekVZfdHAM1AZmaTUrVWGCoOY1Pn08dWDF2Xq9QRQ+KuMlXxZuXHVa0ltp0aA1/CURAdZZRziJnUy7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YEMeysY1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L4su3hCC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YShz6RtY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D21E1F000E9;
-	Fri,  3 Jul 2026 19:19:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783106357;
-	bh=r5QBnr4gt+/kEF5udg+GMq3wIzNWGwoayA4JpZSkTCA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=YShz6RtYZ1LD+pNpd12viN/vGa6+UOekwUUh50yZWdI5qtsEW1JYR0EedbKeOAjla
-	 n9A2gA4xPr76kPZnpFUQXQoKtrQ/K1Jkr8LX9M7ycSKvudXzd11nIkKhEJSaSv/62p
-	 N531Merb6uinkrvAew+YwxCfNSf74PFELBHIfkAhYYY+QQtMke0l3n8Ny0airwtKXV
-	 2RZl0WgcVMtmrlg/KQQq0v1YJ7oDgdSzg9q2Fyze1wbIEbKwpQBgMp1/vWhmIRh2GH
-	 UZZMBn6GrAjVnFePgZQmVkPgeddjf2cwkBFOwKsFalvPjohxDpjxFNi6LfsESq1YII
-	 nD1qPLqRc4s9w==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Uwe Kleine-Koenig <u.kleine-koenig@baylibre.com>, 
- Linus Walleij <linusw@kernel.org>, Chen Ni <nichen@iscas.ac.cn>, 
- Thorsten Blum <thorsten.blum@linux.dev>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260702072918.85779-1-pengpeng@iscas.ac.cn>
-References: <20260702072918.85779-1-pengpeng@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: codecs: max98390: Propagate regcache_sync()
- errors
-Message-Id: <178308783942.53103.1959643438017807931.b4-ty@b4>
-Date: Fri, 03 Jul 2026 15:10:39 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YEMeysY1";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="L4su3hCC"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 663HiViS631509
+	for <linux-sound@vger.kernel.org>; Fri, 3 Jul 2026 19:39:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=yuDgKoAlw/JRHunDNfGXYB
+	YzhSRLVnjx2xmNmMEK1vs=; b=YEMeysY1/myhDao0i74e7TNlV74ktXTCfMwdq9
+	CR3QbS5AITeviE8hf9EJ30WAllVldtcYL4AMMm0/LzjQKzr0t0eqDF0S43incuSV
+	MyApeWy7M1IbpM60LNShiFzTpmwg+/W0PKTj+Lp+cXYVgARiHsuxhXD426SvD7cT
+	GGZrPR1QcL7iICOr24d23aBH8a/MPY5danZVa1/zTiMmF2fSUTDZMyH3oHPCfVAv
+	4nbvlJJiytEOZCVzenusm2J4e5XUbEHMVWQY64oswPjfiGG059bwY0hXxdENEoJ/
+	sJbKqjoPigEwtHk2s+fe6Ba9Tfz1f/tpFlGt1x1q0Mz2ipmQ==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6b039xpn-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 03 Jul 2026 19:39:27 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c889d1eedcdso1374563a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 03 Jul 2026 12:39:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783107566; x=1783712366; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yuDgKoAlw/JRHunDNfGXYBYzhSRLVnjx2xmNmMEK1vs=;
+        b=L4su3hCCMdFYIuBJEM12NFaEaRw+ZWrpRoUoyVEDZh11YUI4DjvK9ddaNZ0BMExuOd
+         2hZlmHNXLfT5J8fol4KPgg59lbmOlBJHJLvtyeCImy1jF/kSMAwbrvs4EsymejeyhoUS
+         /D69VBuMEU9+bQrWlCo9Q4tGeOgT5oF8uflGGrEJlvxUMOhJacFTLRwWMaWR97u17Rpi
+         xXWAwefS+ZCjHSKA5lVMOmvVHyBlDrgnI830dGEmuQEet0ynOmFsg9X8jg2fsX8v2jSh
+         lnK1qZBLx5Yh+mty7iPWOejD9hF4OZEM8wC0ZwWLIYTv36W4CCsUu9hWMxrpqNm130fL
+         nHbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783107566; x=1783712366;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yuDgKoAlw/JRHunDNfGXYBYzhSRLVnjx2xmNmMEK1vs=;
+        b=DmyJLfoggNl6m3e8zMCnBhBVlx4jyccxwxDHqzZNaS2mBIbLQ8ySbwGKilqYNDO/7v
+         nYzMr+2FS10Q5L6mQypayLtGbt5tRaEPOstiNaRJULz5m5EEdNFqGgpresTfLafDgG++
+         ovXiKibBch/0qmAp+kUN+qlGdC1qQDZc2O6m+sqE2RZht287lUgNS17y+VjHs1px/NaK
+         3LzsLA8sFUI4RtRGN7I12GY2Wdz8dezkRftWPLUeXXjrzuCl/zVACmJDaLO4lt83/l/U
+         QT51v9xc5fi+TWSvxvdaetb5BDmwV+TkoomFEpbVloBCTAdTRzgIeNp2AH6YJKdsboza
+         QUDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9GY1jQ31jhkik3PRSTLBDCXy7CSux7cHmcUF7hWdwrT0+edh1NMB3EhWi5o1rT0UPK6F10CWavLM+Pgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJyW3Wq0cEH18OdtNvrUsTP2uRbehFbAurq1PITLVXl+iGHHvK
+	FyGuB7/lECUNBCsjRmkL1yf1SSR1AISBuagUJFOE0bfe8NL7x2Xlva4zZRvBILB2n1AoiCPj+FS
+	ZNIELpLeqLwKO6RPx8WpxtiUH7nQrwrK9VRXOPDBgD+kAXM+zMnEwXt1TY4bZlmMsiA==
+X-Gm-Gg: AfdE7cmJco8MjO7k4KFX6YvhufmoJmf/O8glllKzaOraLslshuJvLKJSbl15wTQcKrZ
+	8938fVPtEUu4nrT9hnmX9wB4AIDwJQfb9za4oW9RnSgULDsMhzWFaNBTkTwid/iLAqgW5uoGf3p
+	ex121tFrAM9fdzuEBUrySRjvuznMXHh02I+vvTApXAk5CDoPDVgiV9ez1R7udtPx0ZD2NUh2Klr
+	YolGah4fU/nEvSTuTjfG8MUMeLr0j05vQIdfmG6bIifiEsZWmjGZJvKzfgByCDPQyOUkLVccsSp
+	WxROFH3015DtfF9dx2kD5gpbKrIvmkLOJ1RJuHjNOAVAQmBTpg1IC6aarkxclGy7pSzDz0ad8Ta
+	67I/BfSzk6UwjpplnoKX3oSu/SIENlWzqkbKIoQ==
+X-Received: by 2002:a05:6a21:4c81:b0:3bf:e291:496c with SMTP id adf61e73a8af0-3c03e298475mr701964637.17.1783107565973;
+        Fri, 03 Jul 2026 12:39:25 -0700 (PDT)
+X-Received: by 2002:a05:6a21:4c81:b0:3bf:e291:496c with SMTP id adf61e73a8af0-3c03e298475mr701865637.17.1783107565344;
+        Fri, 03 Jul 2026 12:39:25 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f290b6bc2sm10065845eec.27.2026.07.03.12.39.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 12:39:24 -0700 (PDT)
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+        Paul Kocialkowski <paulk@sys-base.io>,
+        Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Alexey Brodkin <abrodkin@synopsys.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Michal Simek <michal.simek@amd.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Eddie James <eajames@linux.ibm.com>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+        Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ge Gordon <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
+        Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Shengjiu Wang <shengjiu.wang@gmail.com>,
+        Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Peter Chen <peter.chen@cixtech.com>,
+        Fugang Duan <fugang.duan@cixtech.com>
+Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+        BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+        Fabio Estevam <festevam@gmail.com>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+        kernel@collabora.com, linux-tegra@vger.kernel.org,
+        linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        imx@lists.linux.dev, sound-open-firmware@alsa-project.org,
+        Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Subject: [PATCH 00/42] of: reserved_mem: Introduce devres helpers and convert drivers
+Date: Sat,  4 Jul 2026 01:08:13 +0530
+Message-ID: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
- h=from:subject:message-id; bh=wizO2QcXqseX53RH9rKpue2gVjxakogoUiQZee0Y1iE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqSAsy6+JlaGQc5ltoxDPI7wvcZ0N/nKazv13Ql
- 6Z6edp08BqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakgLMgAKCRAk1otyXVSH
- 0A4rB/wJnhQGSICVWaV1Qp/sy870niDIDc060abONwCnfeUWnRIhg97ETaFeR0OtxVEmCVTfqBW
- y2vvLq16q0oWnw8la7+ugJaqCsRiiogIacw60mjU9vIla0YsBt/eZw532Or0SmnYAHL9rj29m3p
- NCmL2GeB/8QnJmGYWF7xm0vDg66fiKAof9gumDUfDYsxAXpZ69CE6wdnCUgHJpqdyoQA+oAStIA
- LxK34k6JtIeqTAbmJDJ2i1mXH8rDkHPNzV4l51YkDNHb1U6MhQ4ZPCWqpt/kzUM1DMSoJzLGOdh
- v4+IoX31zh5ew9bkLp/qRgrK1mKRxgzXJP+k7P3azlgMCJAW
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDE5OCBTYWx0ZWRfX5dpq8sTL0glj
+ H1V0ABE+x7BvEjTDBGm3PzTezjyeeSvMfR+oc/0Z9oE6IY7ei2S8H4QXIEoNp3iZicgHNDVVNdQ
+ gEYOT52qOmFsZUQ/WH3WsM13CZlCPMk=
+X-Proofpoint-GUID: QgwElXdAK2swZS_5phgNjWpKPwjJ3fFg
+X-Authority-Analysis: v=2.4 cv=FoY1OWrq c=1 sm=1 tr=0 ts=6a480fef cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=c_1ikP4J58vCyc_cPHMA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDE5OCBTYWx0ZWRfX8Zkqr37eIeT9
+ 6M2kzLABsnw48ozyxmBa9uEVRouNCuQlRKVXtyZ5MyYQGk6pK6dFanuD+qotu8fXMazUHy63Z/r
+ xZ8XbOK1UTfl/SkakS/upa3LBwtlAmp2jgpuzPR2RMbSw+ndWFvXWTojjp5dlKXk919PGdwshO4
+ iNiSb38+cgLvZUO7sYwo2pAiwiKbYV8tu9MlX/P6OmXeHO/nkQrD4ScuBcQ3p8pi7H9WEe174PW
+ npGk59Sk/VeUxuDh8u9dwDq4VfAqitk22ecm3MXV+KuWZp3VhAXd0GpJGYjW+bDLWZfDYswNGI/
+ 8N7m1dM2+J1+2XIoQzaXEnPgh7rZKvgnFbh4GwGeCQIHLwgaF6Ow9X8xjpWfkKxDLMyhwIP+Uox
+ 8jI+QgfjvSmePBS4S2KQXyEU2uxVWaeuqkPdyc2AwDIhMI8Y1Nd/yL+6sWT9TZEk74GC2zHLtFX
+ ZC3SP3AFkT4boTqLvSQ==
+X-Proofpoint-ORIG-GUID: QgwElXdAK2swZS_5phgNjWpKPwjJ3fFg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-03_03,2026-07-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1011 malwarescore=0 adultscore=0 suspectscore=0
+ spamscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030198
 
-On Thu, 02 Jul 2026 15:29:18 +0800, Pengpeng Hou wrote:
-> ASoC: codecs: max98390: Propagate regcache_sync() errors
+Drivers using of_reserved_mem_device_init() and its variants must
+manually call of_reserved_mem_device_release() in their remove and
+error-unwind paths. This is repetitive boilerplate that is easy to
+get wrong, and several drivers have open-coded the teardown
+inconsistently or skipped it entirely, leading to dangling reserved
+memory references.
 
-Applied to
+This series introduces devres-managed wrappers —
+devm_of_reserved_mem_device_init(), devm_of_reserved_mem_device_init_by_idx(),
+and devm_of_reserved_mem_device_init_by_name() — that tie the reserved
+memory region lifetime to the device, releasing it automatically on
+unbind. The remaining 40 patches convert drivers across the drm, media,
+ASoC, remoteproc, firmware, mmc, memory and misc subsystems to use these
+helpers, yielding a net reduction of ~90 lines of boilerplate.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+This series depends on  https://lore.kernel.org/lkml/20260703164457.4040457-1-mukesh.ojha@oss.qualcomm.com/
 
-Thanks!
+Konrad Dybcio (1):
+  of: reserved_mem: Introduce devres-managed initialization functions
 
-[1/1] ASoC: codecs: max98390: Propagate regcache_sync() errors
-      https://git.kernel.org/broonie/sound/c/e08d63e63ac0
+Mukesh Ojha (41):
+  of: reserved_mem: Add devm_of_reserved_mem_device_init_by_name()
+  firmware: qcom: scm: Use devm_of_reserved_mem_device_init()
+  remoteproc: da8xx: Use devm_of_reserved_mem_device_init()
+  remoteproc: keystone: Use devm_of_reserved_mem_device_init()
+  media: synopsys: hdmirx: Use devm_of_reserved_mem_device_init()
+  remoteproc: omap: Use devm_of_reserved_mem_device_init()
+  drm: logicvc: Use devm_of_reserved_mem_device_init()
+  drm: hdlcd: Use devm_of_reserved_mem_device_init()
+  drm: pl111: Use devm_of_reserved_mem_device_init()
+  remoteproc: mtk_scp: Use devm_of_reserved_mem_device_init()
+  media: aspeed: Use devm_of_reserved_mem_device_init()
+  media: nuvoton: npcm-video: Use devm_of_reserved_mem_device_init()
+  memory: tegra210-emc: Use devm_of_reserved_mem_device_init_by_name()
+  drm: komeda: Use devm_of_reserved_mem_device_init()
+  drm: malidp: Use devm_of_reserved_mem_device_init()
+  drm: ingenic: Use devm_of_reserved_mem_device_init()
+  drm: kmb: Use devm_of_reserved_mem_device_init()
+  drm: sun4i: Use devm_of_reserved_mem_device_init()
+  drm: xlnx: zynqmp_dpsub: Use devm_of_reserved_mem_device_init()
+  media: arm: mali-c55: Use devm_of_reserved_mem_device_init()
+  media: mediatek: vpu: Use devm_of_reserved_mem_device_init()
+  mmc: sdhci-of-bst: Use devm_of_reserved_mem_device_init_by_idx()
+  remoteproc: ti_k3: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8192: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8196: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8183: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8189: Use devm_of_reserved_mem_device_init()
+  ASoC: SOF: imx: Use devm_of_reserved_mem_device_init_by_name()
+  staging: media: cedrus: Use devm_of_reserved_mem_device_init()
+  ASoC: cix-ipbloq: Use devm_of_reserved_mem_device_init()
+  drm: aspeed: Use devm_of_reserved_mem_device_init()
+  drm: arcpgu: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8173: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8186: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8188: Use devm_of_reserved_mem_device_init()
+  ASoC: mediatek: mt8195: Use devm_of_reserved_mem_device_init()
+  ASoC: SOF: mediatek: mt8186: Use devm_of_reserved_mem_device_init()
+  ASoC: SOF: mediatek: mt8195: Use devm_of_reserved_mem_device_init()
+  misc: fastrpc: Use devm_of_reserved_mem_device_init()
+  ASoC: fsl: imx-rpmsg: Use devm_of_reserved_mem_device_init_by_idx()
+  ASoC: sprd: Use devm_of_reserved_mem_device_init()
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+ drivers/firmware/qcom/qcom_scm.c              | 22 +++------
+ .../gpu/drm/arm/display/komeda/komeda_dev.c   |  4 +-
+ drivers/gpu/drm/arm/hdlcd_drv.c               |  6 +--
+ drivers/gpu/drm/arm/malidp_drv.c              |  4 +-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     | 13 +-----
+ drivers/gpu/drm/kmb/kmb_drv.c                 | 12 +----
+ drivers/gpu/drm/logicvc/logicvc_drm.c         | 21 ++++-----
+ drivers/gpu/drm/pl111/pl111_drv.c             |  4 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |  4 +-
+ drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  4 +-
+ .../platform/arm/mali-c55/mali-c55-core.c     | 12 ++---
+ drivers/media/platform/aspeed/aspeed-video.c  | 12 ++---
+ drivers/media/platform/mediatek/vpu/mtk_vpu.c |  3 +-
+ drivers/media/platform/nuvoton/npcm-video.c   |  9 +---
+ .../platform/synopsys/hdmirx/snps_hdmirx.c    | 16 +------
+ drivers/memory/tegra/tegra210-emc-core.c      | 21 ++++-----
+ drivers/misc/fastrpc.c                        |  2 +-
+ drivers/mmc/host/sdhci-of-bst.c               |  7 +--
+ drivers/of/of_reserved_mem.c                  | 41 +++++++++++++++++
+ drivers/remoteproc/da8xx_remoteproc.c         | 10 +---
+ drivers/remoteproc/keystone_remoteproc.c      | 16 +------
+ drivers/remoteproc/mtk_scp.c                  |  3 +-
+ drivers/remoteproc/omap_remoteproc.c          | 13 +-----
+ drivers/remoteproc/ti_k3_common.c             | 13 +-----
+ drivers/remoteproc/ti_k3_common.h             |  1 -
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |  6 +--
+ include/linux/of_reserved_mem.h               | 46 +++++++++++++++++++
+ sound/hda/controllers/cix-ipbloq.c            |  2 +-
+ sound/soc/fsl/imx-rpmsg.c                     |  2 +-
+ sound/soc/mediatek/mt8173/mt8173-afe-pcm.c    |  2 +-
+ sound/soc/mediatek/mt8183/mt8183-afe-pcm.c    | 13 +-----
+ sound/soc/mediatek/mt8186/mt8186-afe-pcm.c    |  2 +-
+ sound/soc/mediatek/mt8188/mt8188-afe-pcm.c    |  2 +-
+ sound/soc/mediatek/mt8189/mt8189-afe-pcm.c    | 16 +------
+ sound/soc/mediatek/mt8192/mt8192-afe-pcm.c    | 11 +----
+ sound/soc/mediatek/mt8195/mt8195-afe-pcm.c    |  2 +-
+ sound/soc/mediatek/mt8196/mt8196-afe-pcm.c    | 14 +-----
+ sound/soc/sof/imx/imx-common.c                |  9 ++--
+ sound/soc/sof/mediatek/mt8186/mt8186.c        |  2 +-
+ sound/soc/sof/mediatek/mt8195/mt8195.c        |  2 +-
+ sound/soc/sprd/sprd-pcm-dma.c                 |  3 +-
+ 43 files changed, 162 insertions(+), 249 deletions(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.53.0
 
