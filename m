@@ -1,77 +1,93 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010043.outbound.protection.outlook.com [52.101.56.43])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF79A3C3437;
-	Fri,  3 Jul 2026 12:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EF4353A64;
+	Fri,  3 Jul 2026 13:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783082011; cv=fail; b=E7iRcH8BzWv7nalWZW/KjiCGXMcqysKEZFrK4rMc3H9d60raLvmqjGP5sZGl/tc//ohygCflxpLjP9sD4ximoW6lisU4YySIuHlHv4qk7A0Ok6y/vmXZPn77djqYUa2rTOtH1K6CPFcJQVh3DF3gv3FKe7IBMXcPaBCyu2o3o7U=
+	t=1783083776; cv=fail; b=ltHnbtnEY1WziaAN+c9QBR4Oiwmh58fV8cNZJkz0lKIBN3jF1GrsuC3IiTcF099H4ic5hZjNanH7i5iG2KOQuvW9Jm1qJB3aSuHWgI8iP51QK9FSj2OC62tmOHD0842j3A/9hVDAIti/q955gUroiQIxjush9ztyeP29uAYDUus=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783082011; c=relaxed/simple;
-	bh=S2Kpl9s3mFKp3lVIHtMDBPmg8t8k29mE3/mlGDx2qyw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WNYUycOxl66j+npPmaw33FuSkstotKj6NIjoKRihS4QGEwEszDRyzf5F93161T7tdLpQ8S6muNzv/0JFs6+BZyJNgRPU4/O8AMlcIVjiDPA71FTQkop11TmyEmHDOFv390LX4FXbmaOEvVbWDheDek53uvFfwoD7tZSLkANDscM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=22LGmLjh; arc=fail smtp.client-ip=52.101.56.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1783083776; c=relaxed/simple;
+	bh=LSYOXRxJhpI0g7t+NcHMbTGg3ImVuUS1nZt2pEv6rVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h277D8MbvILq5wVE8HhwgKptV/0B4OBPsTiTr3sxcJxcsyTa4+NtLez7GxhbukGoRazTF6hITD6KHpAYC1tpa7DbrX6sOcKDqNlmb/7y2tGF6q9NB6w91cjXoAZ5D/QsRYTbBRba03bw7vew57O9hJZp0Q9audHyLSPXRM2v/k8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Arh1mEgT; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=YSZIcsKa; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="22LGmLjh"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Arh1mEgT";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="YSZIcsKa"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6637PY7O2365422;
+	Fri, 3 Jul 2026 08:02:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=q9bwreUBKXY/abyI
+	Gg26qmxryyg+vUy4Hq1X9xS40zE=; b=Arh1mEgTRTTZr343ZpIcOPcSE10Auxfo
+	Snk7XI60freIcss+1MkLhrLACw0KGmf6+cEWNhWujo2IdmNhyba/vN+RKwRcWmHE
+	qy+CdPI+AFcMuVTpXbnIG+UqeemZ2Pbf4PTeHReeTnrXGmLFEBN/O41ZL1PlvhSX
+	eCL9m4FGmJzTPtYwc3bX7HyqhbU9O65ma+lnjAmHXgyUydPJJbRepHSQwjOHp/ET
+	4A4zPImeEuyBWMe59MPwn+IP+Wi6PRyGOtl4D9SnBw5l/EpdAWykNHbVbMvvLHBx
+	/2W4rR3lsEFeFv76ZOr75A35RKYwJouWOYEe1/so6mb0pODvn05H7A==
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11021103.outbound.protection.outlook.com [40.93.194.103])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4f68nd0dbj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 03 Jul 2026 08:02:25 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FmCldXxMzbVBzlrXULhqdnK2+LCUGYDcGI14gjYYxZdkYaccN6fESOyz3dB055elwTEtbJoLYuu6Ib/G+znHKpmNS895D8o1XHPwnp0GiOHYDVn2Om2BK6fPoGv4Sec2xIj48W8fcs101OI7fZPg+1X+I/aENh4IBo8BCYGRa3rTal51W6bojKhnZFcWr60IgGcVZF5pEn4XVPR0H8zMr7IaKmwJbWYKSfwzZ1h/15NT6HkdXKpar4OYrOPkb8HgFVjeofcRmAj0DIBMxZV6grn6VNgt4zP4m8P+WYTJGwky8Pxd7nhYzEgoGnbreuX09Bw8NakCVvsad5lxT/gbtQ==
+ b=riopYx97XV/wzL+qJbfhIdrYIFhEuY2gkgVlxfaBKRhafA4gb4O3NfDUT/9q6olWcPc1hk4+Pzl56eHOfRj04HnrQxwYKaHyy18CmYYhcfmhDHl7Qjiv08xP2bnGB4L9dQR34zlz+UwFCczB0fm6N7IAB1/EXHoknV9O8Kmo/fFNmgq0nf+H5AD8d81Pbk1TjnDPV2AAfcVPdaTiwas6mDUsibQm4mD3gpB59L0gb1QNyA58grUOZ6AeD7M9EWU1opNGbqVI4TrgvnEiECn9KdDe71/KPy7x04W5GPHkIvF/17omFt8F7UGWTxVOywwWr7bZ5uFrCDHxZwMns/T/lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cAoxoj0ySMLbg/oR3nzaWb1393JCd8aGIMrhyBHf4L4=;
- b=bmiOqnR8pNpAfIZzylJ7bQNJLMFE6kLh1iNJM6Em8EYZw+1uU480Lp7wUvsDuEOLfGu8BvsgYSuEp5+OBwSuzcv6tKISZ31Q7qT9Y9rJ3+/P0rPX5NcawskcXYvATQ6LZ/Q4O09IcfrBqT1R/fn/cJ4sDWgJOxyAt2FN435w1bGGguk3g6tsm2Eu5QacVpI2zZZW4+6GeSGLGIMWm7ciWjcX9QXpMC26b0Z7esvRM8iPpmFpRR2YNERMwGtF2QPCxKlrPhjYhMIDwleFl5hEVWDhvWbd2FkcLdIHqwCuVkYdsgXeehgrL6a3LtgM0cGLzUdVefJPIXP/o9oJJIP7ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=q9bwreUBKXY/abyIGg26qmxryyg+vUy4Hq1X9xS40zE=;
+ b=kf2SkXFBKI8A3EDal8OFIbeGgs4QOJMLGAh+n4ia56oSaRd7xKhGl57pb78lv3b84K13bub+KpxG0Q6sLSmN3hMeqtak7VjiGEvuaH40i/0E7iUWhgbgV98SmkpeQl1F72NuRFdUKUZNv+2LuhipzQzNp0qeMyw9JHmXGLZrz60CHxlXDkUViHL6tnlNkIc7QPuMo/YyBAWOkBUq9/brysIWhbxj8JUIuc0WUdrKYDWJmUQFI48FvmVN6YrVJ9SqmCogfjp+DXVevwCQA79SQWDP8UvR6BSdcuQYgeo5eEV/31N5Jl9+LxM8kAXxKlKytYanyTT92woxTfqSK2572A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cAoxoj0ySMLbg/oR3nzaWb1393JCd8aGIMrhyBHf4L4=;
- b=22LGmLjhginzwi0BIeOHm1rjCjHK+gItxVUlvcJU2GnZNiPoV8NscsszvmIVaYi6wH2EG+IjXzZWh2iL2jnTRZUqkJ1QjhzhyOgtn+crWcDmo32ijImnBFn56piKewlCwugo2EukNPCqMGyMG1pR1/P5o66UfckP+62CUnLxmIc=
-Received: from SJ0PR03CA0197.namprd03.prod.outlook.com (2603:10b6:a03:2ef::22)
- by PH7PR12MB6609.namprd12.prod.outlook.com (2603:10b6:510:213::20) with
+ bh=q9bwreUBKXY/abyIGg26qmxryyg+vUy4Hq1X9xS40zE=;
+ b=YSZIcsKaeyhGidte0dSKi1IpTo1NMo5YBbyO2rD2voVRIUg21ybAsZdgge1TGR+eRovemy3hvFYpJMagau3ah6r6NdOluiVyUE45GrKCyXlG5Ue5XW7rc6leR/3vx7uhglq1NO1i8hibmEP3yfWnsKVAcylmKCMAJhe7MU9gxgw=
+Received: from CH3P220CA0012.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:1e8::32)
+ by MW3PR19MB4345.namprd19.prod.outlook.com (2603:10b6:303:49::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Fri, 3 Jul
- 2026 12:33:20 +0000
-Received: from SJ1PEPF00002326.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef:cafe::8d) by SJ0PR03CA0197.outlook.office365.com
- (2603:10b6:a03:2ef::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Fri, 3
- Jul 2026 12:33:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ1PEPF00002326.mail.protection.outlook.com (10.167.242.89) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Fri, 3 Jul 2026 12:33:20 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 3 Jul
- 2026 07:33:19 -0500
-Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Fri, 3 Jul 2026 07:33:15 -0500
-From: Syed Saba Kareem <syed.sabakareem@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Sunil-kumar.Dommati@amd.com>, "Syed Saba
- Kareem" <Syed.SabaKareem@amd.com>, Arnd Bergmann <arnd@arndb.de>, "Venkata
- Prasad Potturu" <venkataprasad.potturu@amd.com>, Liam Girdwood
-	<lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, Randy Dunlap <rdunlap@infradead.org>, Simon Trimmer
-	<simont@opensource.cirrus.com>, "Mario Limonciello (AMD)"
-	<superm1@kernel.org>, Aleksander Pshenitsyn <brains.fatman@gmail.com>, "Hasun
- Park" <hasunpark@gmail.com>, "open list:AMD ASoC DRIVERS"
-	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] ASoC: amd: acp: Fix linker error with SDCA quirks
-Date: Fri, 3 Jul 2026 18:02:47 +0530
-Message-ID: <20260703123314.147977-1-syed.sabakareem@amd.com>
-X-Mailer: git-send-email 2.43.0
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Fri, 3 Jul
+ 2026 13:02:20 +0000
+Received: from CH1PEPF0000AD77.namprd04.prod.outlook.com
+ (2603:10b6:610:1e8:cafe::72) by CH3P220CA0012.outlook.office365.com
+ (2603:10b6:610:1e8::32) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.11 via Frontend Transport; Fri, 3
+ Jul 2026 13:02:20 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH1PEPF0000AD77.mail.protection.outlook.com (10.167.244.55) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
+ via Frontend Transport; Fri, 3 Jul 2026 13:02:19 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 8C50F406541;
+	Fri,  3 Jul 2026 13:02:18 +0000 (UTC)
+Received: from upx-mtl-008.ad.cirrus.com (upx-mtl-008.ad.cirrus.com [198.90.251.5])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 6C97B82025A;
+	Fri,  3 Jul 2026 13:02:18 +0000 (UTC)
+From: Maciej Strozek <mstrozek@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+        Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>
+Subject: [PATCH] ASoC: sof_sdw: Add a quirk for 0x17aa383c laptop using sidecar amps with cs42l43
+Date: Fri,  3 Jul 2026 14:02:10 +0100
+Message-ID: <20260703130210.21991-1-mstrozek@opensource.cirrus.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,131 +95,75 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002326:EE_|PH7PR12MB6609:EE_
-X-MS-Office365-Filtering-Correlation-Id: 901e0424-1505-40e1-409b-08ded8ff440d
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD77:EE_|MW3PR19MB4345:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: ba0cb5df-852a-49c2-a832-08ded90350da
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|23010399003|36860700016|82310400026|18002099003|11063799006|56012099006;
+	BCL:0;ARA:13230040|82310400026|376014|36860700016|61400799027|23010399003|18002099003|16102099003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	VsYtdPyyM43DtlyEkAMq30qif8qnHmeUjpDGCH3Em1m7Tt58MVPETuMoiR3N+esb+7T6L0JGcHZoNmwD7A+yHl5D2cpVzD1IS1p1BAMMSuQI6k366JhZgadtCHzsROPrJfavY7Ml89xOdTmlomUOAXShY1bPVXpOBvD/CjvR++AtDa3ZGT9lgFFxQDRcSYzFygRX0NvSY6dsCewDaOjzTs58el0yg1NVfq4hcZFbs8NZV8UfOW7MIyy1j4PLQxP7cI+R70nCQXAc9fbINpWOwMJhFNw/uPR3vKvhcrKMmnIVspLZ6bV0Co5bR5f3EkusdzY2DOgVVjztfmly+vge1ewv+yRpvz3rN4fxJeYqPKS51+8T+vsrM7J7rmqbqtLE0Xfg9SDTUQx94zcoLykhtFhVTMG8XZcv4nh6hrfeZptHHuX5hnfvr8+xv2BLqADxtlTBCwLhTCpz5Y8B6bgBNlwiXtx9aHwxN0lj07t5pgFDGyLR2TxniI/c4UUA02jT4MSnf2PIFcWTPXjpT+jv4Lzs2BWcZsdjRH89ajQVVNBd6LmfHDpFIQJnzh9v0kbrIcGeIPYFUvw/16SDRPAb5xQT4VvEGgE/qCcmp1HbesQua/JLmKE+3QvdcdtahFrkJ537Fg5HJxOUDaC2azK5tBHuBtAlxFqGrUZ0K/AE6/agvCy7oXh6Ve9yj8pxRKvEjMGEFLNVdhgWw7+XYLZ9uA==
+	rTvgTG4zBjbLFIdPwpUAYUQtIwEXioteZrRQAqn6sg413ql1s3sNDLrs3k4/YBfn5IG0/EapCPdX96/fJVTzUFTsZCmP1wNAhm0HmRWtRpfh/7bTb0nm3mCyCzklL/YWJLuvMgOwAgawpdvf0UqeX8Y8x8fODQrNcFF8I+Y04+SJsxOvnS+uKUEUlvjwYV/w9GTu6gDSkmSTGOEHDytWaEk80ooS+PcylvmlteDOlWtnM9YieIhspI0+hRkOMLs5gGLfpp6u9MoWmxjRkebzjPk32CICBFdrzh6jqyxtv/F9Nh2MHELWuc3y7W+yb3czXrd3MRhOSyl99M3oyuv6JNY3Ytd9ps0u1ygbcXHqeqw0KOh09zYEJybxOjrs3hXAeF6hH2WzOoWdqLmwUIBSft5KxR9euWx5h8x8tOpWgmQXHlnMHm+pies2QfrYFY28Z9WOAq3efSUwUUBFaB8NaXhrrtfMEuSV5kWgrnjJI6LeF3D+pefmhtwxbQ7OTXaIfd28OTttC3SRqUgB2mSaueK/eZTXy+BfoZBkqf4aW3oOPpoWPTu/TXuo1sinQ9xPclDU9E6Xg0VeKk3GJMzgKlbb2ei8o4KMHU5FtGAichE71GtyIWhy1yKdT9p5BHCSJdPXl3WQ8s+H46wpFqMQpN93cRh8sTv7cSE7YscODRdpX8yd5oEI5zrTR3KOQPlrXupsOrd/I1bgLkyhVPErJA==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(23010399003)(36860700016)(82310400026)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(61400799027)(23010399003)(18002099003)(16102099003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	SNSyeUx1upb3fRBAqFXgun1/NVlStWIzY9Kd9J4Wq9dC2E3S6LXWDfzvppg8Z1xG7rVLvihWEHE7dmFU237O/9dHwwE0ZD84SVgCo5svngbvOd+yf3v8DBCxCqYgEPEfnWml6NmaCrwFBv+AfbIp4iZXVBJZIOLrTpHdk1XMoCoKThe8oaB+7GTIKjH7/r7FdhCRbMbSOcVTB2ykaertuNQEIFNmiNo5xr3Vnoq07Er8WgKAO30Rwk5zRO3ydidgfFVUVlG4ysfgZugyn16TKvbgmhMiXsEiUTTg+3LybZQLHlZVVj/mztBM19aemK91NWaVZf27TJ9s1UqFSTN2p7odQMzFcJgHg9zPdoW0SBConzPUZt7O1pjW16t8Y9Gtdtprc1RGJjXTs1gQaGC5h8hONco2cr5ER+gy7VYnwBaqa0JzNczaIQRzVTnDa/0m
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 12:33:20.2160
+	2j9d5DnPKjlD2BC7i10KnIE9PcfYnFMhWyxZIRbuS0mzxx3gaqQ5+kpwvFsOoLHxWYnrzgbuSI2ZeRGZizXCGiv8X+Pg+GWGBLLQ8nFLSLMHnxveteHHEo7l3vu4L/oVhmFR/Csy7/vsuZp3i7tIT/VUmPNbigQIYyyFNumrnYPCNtE93tljn9/QZOMofgVL4jsj6kyEGFf4L9O2ZQvrUHDKbJbs6TTI9REb6YOvWHrdxMAPY7QmaCSuwhaPp/LMWd0uB3plNlqu+fd5HFjnjbZPz0vpyuxIp9+3K5Ry5Mkwe27CgL35AkbTxCuXpRsUzJrk1iXhVxKYTRUJlGj5SnMraa3Nf+qt9TMcxajUBkKw460fGp4WrNKTr9HnCqBad3WZbYermgiVGK3huCGbHrqv4cfUXU6DsyixuL2xHVzASK86v5rfTQzA4X3F7LZs
+X-Exchange-RoutingPolicyChecked:
+	Wml8fKVL3gWikzFI06uWVLA/BxH83HF8NJpz4s3l3IOIFHA86D7tki8vnoVhX7Nw55gOdWMtnlPsOcF7QDtEpGO0R4CpRhLT/jJ98yJpRW+PCe0cUeKy/umHNbtqsTy+trOFGyM2/n5GvKwuPWRXwyyLzxO2OQBiVEcOKN7qcB6w7c7CsTr5Duqfc06/jz5x3uu2B/tY1WlQT2Z5ZmbNCQceKfi1UrO2temVfT5sXq2uCjNtRR95H094eQ6H6epffC0ExPvtan21OrKS0HR+eJRlf3DKLeDfyiOJMY2Zja1wLMg0c8JxRmjtnZIziega/Ii4bFn3fsL0QwmCOBOnbg==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jul 2026 13:02:19.5525
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 901e0424-1505-40e1-409b-08ded8ff440d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002326.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba0cb5df-852a-49c2-a832-08ded90350da
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000AD77.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6609
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR19MB4345
+X-Proofpoint-ORIG-GUID: -VQyJgG4XRtl9zlgHHZKHuL3gaKrL-PS
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDEyOCBTYWx0ZWRfX4EYyqLKM8tWp
+ 1mFFBt1MXIUgKrEcGkuGVQri3wUPTRSUHVZLif8QlE6HUhkjERlSFiw7ma6bVdyfJfXue9iYsjH
+ R9D9nxp3nt2f4NnrZFYvkIOAg2wHgoI=
+X-Authority-Analysis: v=2.4 cv=VPjtWdPX c=1 sm=1 tr=0 ts=6a47b2e1 cx=c_pps
+ a=GZ5nxs7iJwyXCG4rR3qJ+A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=w1d2syhTAAAA:8 a=rbS19CVBA7uv6swtk4gA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDEyOCBTYWx0ZWRfX4ZLBF5WirSO6
+ gjTFRu3bBRHvTMD6KOF6v5ISXrFbFvmMxdF9RxNqRP/p1wbM5ZRSrVUesFNUHic0wz5Nvf21rQg
+ nMEg0wE9bCvvz+IDbh+drOxLRRl0MJxn42FSU1iaQhIUw4LcgTHhe6Fe57yY5mM30EpVbJQ/cn8
+ F38NH/53DZJ4DwuBLq/HdrsRLuz77esopIZnm7m4XdCMp2VEOL239S1hK5GPUgGFMch30aCDbc6
+ YJ5S66Y/UaF82+QwbeqhZeJ0E6Ug8VIrrG1PAhfWtZiHAJe677N9b6+xaar0c3uw9IWMTNq88cH
+ T2Ch101KpXz8p7Ic6WSQMSuQCu4VQCOQAjlwO7iZtj7WMvJ2UWpF0wRVPiiZmULFCElYUVmvd31
+ ldRKS64UDCtWWN8O77gGg3mM3IWvny4lcZ8BLD06WIj9aTbkE7zbFESEfj1EGHiQYlg+HnbAkoN
+ BiRj2rWeBbgiVLMA4/w==
+X-Proofpoint-GUID: -VQyJgG4XRtl9zlgHHZKHuL3gaKrL-PS
+X-Proofpoint-Spam-Reason: safe
 
-From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
+Add a quirk for a Lenovo laptop (SSID: 0x17aa383c) to allow using sidecar
+CS35L56 amps with CS42L43 codec.
 
-Fix undefined reference to `snd_soc_acpi_amd_sdca_is_device_rt712_vb`
-linker error when CONFIG_SND_SOC_ACPI_AMD_MATCH=y and
-CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS=m, which causes built-in code to
-reference a symbol only available in a module.
-
-Fix this by changing SND_SOC_ACPI_AMD_SDCA_QUIRKS from tristate to bool
-and compiling the quirks code directly into snd-soc-acpi-amd-match
-rather than as a separate module. This ensures the quirks symbols are
-always available at link time when the match tables reference them.
-
-Fixes: 10d366a846be ("ASoC: amd: acp: Fix Kconfig dependencies for SND_SOC_ACPI_AMD_SDCA_QUIRKS")
-Reported-by: Arnd Bergmann <arnd@arndb.de>
-Tested-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
 ---
- sound/soc/amd/acp/Kconfig                    | 10 +++++++---
- sound/soc/amd/acp/Makefile                   |  3 +--
- sound/soc/amd/acp/amd-acp70-acpi-match.c     |  2 +-
- sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c |  4 ----
- 4 files changed, 9 insertions(+), 10 deletions(-)
+ sound/soc/intel/boards/sof_sdw.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/amd/acp/Kconfig b/sound/soc/amd/acp/Kconfig
-index 977e4f2a7a70..a04c301df4d6 100644
---- a/sound/soc/amd/acp/Kconfig
-+++ b/sound/soc/amd/acp/Kconfig
-@@ -15,13 +15,17 @@ config SND_SOC_AMD_ACP_COMMON
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 24226a387cc2..acfa34aea242 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -855,6 +855,7 @@ static const struct snd_pci_quirk sof_sdw_ssid_quirk_table[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x2348, "Lenovo P16", SOC_SDW_CODEC_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x2349, "Lenovo P1", SOC_SDW_CODEC_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3821, "Lenovo 0x3821", SOC_SDW_SIDECAR_AMPS),
++	SND_PCI_QUIRK(0x17aa, 0x383c, "Lenovo 0x383c", SOC_SDW_SIDECAR_AMPS),
+ 	{}
+ };
  
- config SND_SOC_ACPI_AMD_MATCH
- 	tristate
--        select SND_SOC_ACPI_AMD_SDCA_QUIRKS if SND_SOC_SDCA
-         select SND_SOC_ACPI if ACPI
- 
- config SND_SOC_ACPI_AMD_SDCA_QUIRKS
--	tristate
--	depends on ACPI
-+	bool "AMD ACPI SDCA quirks"
-+	depends on SND_SOC_ACPI_AMD_MATCH
- 	depends on SND_SOC_SDCA
-+	depends on SND_SOC_ACPI_AMD_MATCH = m || SND_SOC_SDCA = y
-+	default y
-+	help
-+	  Enable SDCA quirk support for AMD ACPI match tables.
-+	  This is compiled into the snd-soc-acpi-amd-match module.
- 
- if SND_SOC_AMD_ACP_COMMON
- 
-diff --git a/sound/soc/amd/acp/Makefile b/sound/soc/amd/acp/Makefile
-index 81d23aded348..ab5f9dc871a6 100644
---- a/sound/soc/amd/acp/Makefile
-+++ b/sound/soc/amd/acp/Makefile
-@@ -24,10 +24,10 @@ snd-acp-mach-y     := acp-mach-common.o
- snd-acp-legacy-mach-y     := acp-legacy-mach.o acp3x-es83xx/acp3x-es83xx.o
- snd-acp-sof-mach-y     := acp-sof-mach.o
- snd-soc-acpi-amd-match-y := amd-acp63-acpi-match.o amd-acp70-acpi-match.o
-+snd-soc-acpi-amd-match-$(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS) += soc-acpi-amd-sdca-quirks.o
- snd-acp-sdw-mach-y     := acp-sdw-mach-common.o
- snd-acp-sdw-sof-mach-y += acp-sdw-sof-mach.o
- snd-acp-sdw-legacy-mach-y += acp-sdw-legacy-mach.o
--snd-soc-acpi-amd-sdca-quirks-y += soc-acpi-amd-sdca-quirks.o
- 
- obj-$(CONFIG_SND_SOC_AMD_ACP_PCM) += snd-acp-pcm.o
- obj-$(CONFIG_SND_SOC_AMD_ACP_I2S) += snd-acp-i2s.o
-@@ -41,7 +41,6 @@ obj-$(CONFIG_SND_AMD_ASOC_REMBRANDT) += snd-acp-rembrandt.o
- obj-$(CONFIG_SND_AMD_ASOC_ACP63) += snd-acp63.o
- obj-$(CONFIG_SND_AMD_ASOC_ACP70) += snd-acp70.o
- 
--obj-$(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS) += snd-soc-acpi-amd-sdca-quirks.o
- obj-$(CONFIG_SND_AMD_SOUNDWIRE_ACPI) += snd-amd-sdw-acpi.o
- obj-$(CONFIG_SND_SOC_AMD_MACH_COMMON) += snd-acp-mach.o
- obj-$(CONFIG_SND_SOC_AMD_LEGACY_MACH) += snd-acp-legacy-mach.o
-diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-index 18f2918d4ada..9e97a805d0df 100644
---- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-@@ -775,5 +775,5 @@ MODULE_DESCRIPTION("AMD ACP7.0 & ACP7.1 tables and support for ACPI enumeration"
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
- #if IS_ENABLED(CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS)
--MODULE_IMPORT_NS("SND_SOC_ACPI_AMD_SDCA_QUIRKS");
-+MODULE_IMPORT_NS("SND_SOC_SDCA");
- #endif
-diff --git a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
-index 63bf9e3c0ae1..9248b6d09e76 100644
---- a/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
-+++ b/sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c
-@@ -35,8 +35,4 @@ bool snd_soc_acpi_amd_sdca_is_device_rt712_vb(void *arg)
- 
- 	return false;
- }
--EXPORT_SYMBOL_NS(snd_soc_acpi_amd_sdca_is_device_rt712_vb, "SND_SOC_ACPI_AMD_SDCA_QUIRKS");
- 
--MODULE_DESCRIPTION("ASoC ACPI AMD SDCA quirks");
--MODULE_LICENSE("GPL");
--MODULE_IMPORT_NS("SND_SOC_SDCA");
 -- 
-2.43.0
+2.48.1
 
