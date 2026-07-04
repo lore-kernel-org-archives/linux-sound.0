@@ -1,111 +1,102 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from o129.p8.mailjet.com (o129.p8.mailjet.com [87.253.233.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D15E13A7F5F
-	for <linux-sound@vger.kernel.org>; Sat,  4 Jul 2026 10:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4968F389DF3
+	for <linux-sound@vger.kernel.org>; Sat,  4 Jul 2026 12:51:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.253.233.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783162675; cv=none; b=YgbePJyWm8nn40UvG3yWIRtbEgtUtnTSu1DtHIG3sS3Hxkvx132SNAUKQu+81H4fUOfPRy964U9TDlBxqjOhM81RpeAg3Y4s1FpCJrcPyV5W4rXb6CI4C0xLO9Fx+E/X+0T5UQbP7iXVYAGAKvc+WdQWDgbEvJtco1nAdw7eClg=
+	t=1783169514; cv=none; b=CQI86S2nwtfIgJqRODmr3lk8VERyNMJ6cnnXZfefVvd1Usq1ljAd7rl5g/JEZD30VgtUWoHp1q5JU2wtp+eeHBTOkuX+RXBX4+VJpN/wwLPoAJgOmTg+9+XZAM+1gHBhatUqJecq/VBqzgMwkzIGWxc2OJMiwsUSXp+6fVOq68U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783162675; c=relaxed/simple;
-	bh=LpNMONAFHratRfzTozrtWCPtx2mIhGjyICB1cGXRlQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bT90HjnUhUP2eSvce5pnbGVN5O+TXOZ8imhhvyGUVCAyrkmaA3GDEWf6NfpwP/Q0GooHpn4KkEBBf0GRAVgwXtTTzdY4UwTbpfcw6qClRamRuHv+mOpMZxy3/i9032ZxFRdugKOfqJOdI34YRezZobAhUNW+BclOfsUTB+TTKos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxSfLdah; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783169514; c=relaxed/simple;
+	bh=BSWgqMr/x7kwnfZQG/BmZ3AKk13D+4tUYC4TS8T8LbM=;
+	h=Message-Id:MIME-Version:From:To:Subject:Date:Cc; b=msmf01j2Ady86ju16TJQ6/2oD1aDu8uR8WGK4tn+Zw2Bgjcb90+vjJkNCGaDek6JcMZM8Lx0euVKCESUF8M53bviqoImNZkrx+VNGRuSCX+8CF//Fzlv5iMGJy4bT8vhb/iqpIjPDP9XpKzmZDC7wEcLa0Pf1aOQsi1AzZCwY4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de; spf=pass smtp.mailfrom=a3417383.bnc3.mailjet.com; dkim=pass (2048-bit key) header.d=marcogriep.de header.i=mail@marcogriep.de header.b=Qfnax9Wi; arc=none smtp.client-ip=87.253.233.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a3417383.bnc3.mailjet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxSfLdah"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so672528a12.3
-        for <linux-sound@vger.kernel.org>; Sat, 04 Jul 2026 03:57:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783162673; x=1783767473; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6fJsXDYm01gP/6NPsGPNca/1nthqrVfe5CcgN03ZolE=;
-        b=fxSfLdahgyUDsb0hQUOYnjCQ0G3Zka6kWDxRkfUC1HLTLN7R3072W8t+OPoBLvV6iU
-         8VPdTBkF9MxsHVknhsowwJQpvHGzAk1Pw1mQU0wxuMlz+m8kp0DLdKmJ1CAMBcJfjG29
-         cpxtF3mhOwpuKUyGFBjVxb5FtM4eNWpl2XAa+ZhvkUdCISBRL959io2uUrUhGCNyKXuZ
-         a7ac382nFKodEM/NFZoOM4kDkqteUa/LmGYeITqQYJkW6cUzEGCiFdH4StMyslx1tNjm
-         29L8g0RjFkUVAjsNli7W8RcI+lvTayQmZ+vWSOtq8RkIFYTR//i6G8TssEsbsCwOLxDy
-         59Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783162673; x=1783767473;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6fJsXDYm01gP/6NPsGPNca/1nthqrVfe5CcgN03ZolE=;
-        b=aETWSuRgcOXKXlUiUiUn9WidGfzrmOJxpCZcR1zM1qwP56J+uD6gVDnuUrjyoj+cUI
-         TFgdGDS4aNX2RPChEBGux/U48aB+iRU/culSwEo9/QpjoDK25XMxMo8AUJe4YT4mShzj
-         gYqiFnfztpIndb0Wzx3OYa9aBJIthgTyiVK1zye0rGexog04nSF0j1yPLdn0Yt9bKLmT
-         H5FY2i5/tvH71A86MtBXVwQAsBhwEOTJ0FZWaymj6Cna4LTE2mF6Wu6nD9xp+Exi37Gm
-         XEnod+8RwDt+XQPTs5vyEeE87FEanqS7lLKDvmTGA8rnTEcBP7aOf4xVt4OYoKsMz1tn
-         3mug==
-X-Forwarded-Encrypted: i=1; AFNElJ/5P5JAjstXDOw5GAVbugd5NHzKsL/wg/bSHTvTfYw6nIO/mBLPzm8YrPSLIQn0kBCVVQ0fpJYGAWFATA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdXDAMvHnLm6/DupjyAYX/mHGgSsXjwmJAuMvAP/E1EQTs6P5C
-	iOZT6vYXd1h7Nwayz9/M9tBiesAtjUteKRljvkB2FqxyLSdaU9N7+YfR
-X-Gm-Gg: AfdE7cmzDp4YkKpIIWV2hFZrW27AoXmBisgnhf8AA70CFCAnh2ES6rp1TcrDNjstuxB
-	x4pyp8PmGmVfuRhkuo7YU4d8myatQoktf6Od4qspEf0gmUhI5gJSXpUqRmkhNzpOQY0VMrgWT2Z
-	SE9+5SCeITch/cBeNrcW12y8zw6H1542DyD33jC04fmKTniegBtzLRNvk77k9rrkK1vFvg/Q2Xs
-	GkRBIv0+o8ATZ2TYanwcfU+6vvrS0pd91TV3gXoDDxIjlud1iDFGVDnkUJzIeEODSC51HxxbKPu
-	nlSBgymrDav1wP2/BBxzMIcfpebYcCtsmb+iHwWUQfFF8HUNC0f/srDVr+E+ui1cMC7K/AGmaW5
-	XcbFi9y3FGe+cALa9KilNtryRTte38W0aXuhuVDMbOTxzSs2S0yW/S4a7Z0f+lQsAwGjsqArmXB
-	JHfETgoEoRFMK5mXb5kxCe5lpgrEOySj20fFCayRd/7mUdvSi7I1P4S7tCfQ==
-X-Received: by 2002:a05:6a20:6f93:b0:3bf:82c5:ed0f with SMTP id adf61e73a8af0-3c03e512963mr3099508637.44.1783162673047;
-        Sat, 04 Jul 2026 03:57:53 -0700 (PDT)
-Received: from fedora.mrout-thinkpadp16vgen1.punetw6.csb ([103.133.229.222])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f290b6bc2sm17179812eec.27.2026.07.04.03.57.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 03:57:52 -0700 (PDT)
-From: Malaya Kumar Rout <malayarout91@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: mrout@redhat.com,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	Malaya Kumar Rout <malayarout91@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH] selftests/alsa: Fix memory leak in find_controls error path
-Date: Sat,  4 Jul 2026 16:27:36 +0530
-Message-ID: <20260704105736.94874-1-malayarout91@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=marcogriep.de header.i=mail@marcogriep.de header.b="Qfnax9Wi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; q=dns/txt;
+  d=marcogriep.de; i=mail@marcogriep.de; s=mailjet; t=1783169504; x=1783176704;
+  h=Message-Id: MIME-Version: From: To: Subject: Date:
+   List-Unsubscribe: List-Unsubscribe-Post: Cc: Feedback-Id:
+   X-CSA-Complaints: X-MJ-Mid: X-MJ-SMTPGUID:
+   X-REPORT-ABUSE-TO: Content-Transfer-Encoding: To: From:
+   Sender: Subject: Date;
+  bh=UYN5jsbmUUeSHehqAT+G2SJu/+i6vwtruT+zrtYLoTs=;
+  b=Qfnax9WirZE/+S1DGVnJD8wUpNvj3iJKczbbHda+QZwfGCsIvXuobke12
+ V2saczwUuJETHdCEeMP7yXTi8G37BcIPoAVMHY9NSvefXbxhcHut7bqVnfnA
+ UeUdMP/MJIuUPExk+sEiCOvV2YRqJUzKyCIeTz2supsp/Dj5U3jZDMHs/yof
+ j7y/oQdyV/efiORvjWBgHSngL6QlFLPUay/Pbm4O3GjggAzOttQiXjqIRUN5
+ 1BDfEI/eKL7U5LYARZ2dfjjVdjAaU8iD8A4CUjZ3OY4dmyXePwka4J5vFjLr
+ V+c+sJfn9VPvlXgylJf0DtiiIteggZpCwO0ilU4t39ypw==
+Message-Id: <30dd273a.AVwAAJ-gc7kAAAAAAAAABGg7al0AAYKJ_u4AAAAAADQlJwBqSQHg@mailjet.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Marco Griep <mail@marcogriep.de>
+To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
+Subject: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
+Date: Sat,  4 Jul 2026 14:51:19 +0200
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Kuninori Morimoto
+	<kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Marco Griep <mail@marcogriep.de>
+Feedback-Id: 42.3417383.3105730:MJ
+X-CSA-Complaints: csa-complaints@eco.de
+X-MJ-Mid:
+	AVwAAJ-gc7kAAAAAAAAABGg7al0AAYKJ_u4AAAAAADQlJwBqSQHgJxK4JETCQd6srW_fkmJi6wAvY8I
+X-MJ-SMTPGUID: 4971d933-2385-4421-91e6-0a3ab143734e
+X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
+	abuse@mailjet.com with a copy of the message
+Content-Transfer-Encoding: quoted-printable
 
-In find_controls(), card_data is allocated with malloc() but when
-snd_ctl_open_lconf() fails, the code jumps to next_card without
-freeing the allocated memory. This results in a memory leak for
-each card where snd_ctl_open_lconf() fails.
+The RT721 multifunction SDCA speaker helper adds the DAPM routes for
+its internal speaker path, but it does not add the corresponding
+spk:rt721 token to card->components.
 
-Add free(card_data) before goto next_card to ensure proper cleanup
-of the allocated memory in the error path.
+UCM uses that token to include the RT721 speaker device. Without it,
+systems with standalone RT721 expose the ALSA SmartAmp PCM but PipeWire
+only sees the headset devices.
 
-Fixes: 5aaf9efffc57 ("kselftest: alsa: Add simplistic test for ALSA mixer controls kselftest")
-Signed-off-by: Malaya Kumar Rout <malayarout91@gmail.com>
+Append the speaker codec token from the RT721 multifunction SDCA speaker
+runtime init path so UCM can create the internal speaker route.
+
+Tested on an ASUS Vivobook S16 M3607GA with ACP70 SoundWire RT721-SDCA.
+With the standalone RT721 ACP70 machine entry, this makes the HiFi
+profile expose Speaker, Headphones, internal Mic and Headset devices.
+
+Signed-off-by: Marco Griep <mail@marcogriep.de>
 ---
- tools/testing/selftests/alsa/mixer-test.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
-index d4f845c32804..c5ae2a026ce9 100644
---- a/tools/testing/selftests/alsa/mixer-test.c
-+++ b/tools/testing/selftests/alsa/mixer-test.c
-@@ -84,6 +84,7 @@ static void find_controls(void)
- 		if (err < 0) {
- 			ksft_print_msg("Failed to get hctl for card %d: %s\n",
- 				       card, snd_strerror(err));
-+			free(card_data);
- 			goto next_card;
- 		}
- 
--- 
-2.54.0
+diff --git a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c b/sound/soc/sdw_utils=
+/soc_sdw_rt_mf_sdca.c
+index 5bf3627a97a0..e895397eefd6 100644
+--- a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
++++ b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
+@@ -74,6 +74,12 @@ int asoc_sdw_rt_mf_sdca_spk_rtd_init(struct snd_soc_pcm_=
+runtime *rtd, struct snd
+ 		return -EINVAL;
+ 	}
+=20
++	card->components =3D devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s spk:%s",
++					  card->components, codec_name);
++	if (!card->components)
++		return -ENOMEM;
++
+ 	/* Add routes */
+ 	ret =3D snd_soc_dapm_add_routes(dapm, route_map->route_map, route_map->ro=
+ute_size);
+ 	if (ret)
 
+base-commit: 1e9cdc2ea15adf4a821eefedabf6c0c8cf0b6a55
+--=20
+2.55.0
+
+=
