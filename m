@@ -1,102 +1,105 @@
-Received: from o129.p8.mailjet.com (o129.p8.mailjet.com [87.253.233.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from h8.fbrelay.privateemail.com (h8.fbrelay.privateemail.com [162.0.218.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4968F389DF3
-	for <linux-sound@vger.kernel.org>; Sat,  4 Jul 2026 12:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.253.233.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5719288C30;
+	Sat,  4 Jul 2026 19:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.0.218.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783169514; cv=none; b=CQI86S2nwtfIgJqRODmr3lk8VERyNMJ6cnnXZfefVvd1Usq1ljAd7rl5g/JEZD30VgtUWoHp1q5JU2wtp+eeHBTOkuX+RXBX4+VJpN/wwLPoAJgOmTg+9+XZAM+1gHBhatUqJecq/VBqzgMwkzIGWxc2OJMiwsUSXp+6fVOq68U=
+	t=1783193348; cv=none; b=Q5a7o2cg+5rnHoHf/6HalPxiFl/gRT1SdIKU/NVPf+wNjlHglYY9qSmQeezqwywmx/GAb3EDKyCDlzdrB5uMm8ZPOfUQ5OrWLUbv+rW/TtztZsintHknftQY1QtMqmPabBqrs1HiJ/QgLtKyjSj3QyZqWBzEqZtK1+zpRWF6GuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783169514; c=relaxed/simple;
-	bh=BSWgqMr/x7kwnfZQG/BmZ3AKk13D+4tUYC4TS8T8LbM=;
-	h=Message-Id:MIME-Version:From:To:Subject:Date:Cc; b=msmf01j2Ady86ju16TJQ6/2oD1aDu8uR8WGK4tn+Zw2Bgjcb90+vjJkNCGaDek6JcMZM8Lx0euVKCESUF8M53bviqoImNZkrx+VNGRuSCX+8CF//Fzlv5iMGJy4bT8vhb/iqpIjPDP9XpKzmZDC7wEcLa0Pf1aOQsi1AzZCwY4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de; spf=pass smtp.mailfrom=a3417383.bnc3.mailjet.com; dkim=pass (2048-bit key) header.d=marcogriep.de header.i=mail@marcogriep.de header.b=Qfnax9Wi; arc=none smtp.client-ip=87.253.233.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a3417383.bnc3.mailjet.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcogriep.de header.i=mail@marcogriep.de header.b="Qfnax9Wi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; q=dns/txt;
-  d=marcogriep.de; i=mail@marcogriep.de; s=mailjet; t=1783169504; x=1783176704;
-  h=Message-Id: MIME-Version: From: To: Subject: Date:
-   List-Unsubscribe: List-Unsubscribe-Post: Cc: Feedback-Id:
-   X-CSA-Complaints: X-MJ-Mid: X-MJ-SMTPGUID:
-   X-REPORT-ABUSE-TO: Content-Transfer-Encoding: To: From:
-   Sender: Subject: Date;
-  bh=UYN5jsbmUUeSHehqAT+G2SJu/+i6vwtruT+zrtYLoTs=;
-  b=Qfnax9WirZE/+S1DGVnJD8wUpNvj3iJKczbbHda+QZwfGCsIvXuobke12
- V2saczwUuJETHdCEeMP7yXTi8G37BcIPoAVMHY9NSvefXbxhcHut7bqVnfnA
- UeUdMP/MJIuUPExk+sEiCOvV2YRqJUzKyCIeTz2supsp/Dj5U3jZDMHs/yof
- j7y/oQdyV/efiORvjWBgHSngL6QlFLPUay/Pbm4O3GjggAzOttQiXjqIRUN5
- 1BDfEI/eKL7U5LYARZ2dfjjVdjAaU8iD8A4CUjZ3OY4dmyXePwka4J5vFjLr
- V+c+sJfn9VPvlXgylJf0DtiiIteggZpCwO0ilU4t39ypw==
-Message-Id: <30dd273a.AVwAAJ-gc7kAAAAAAAAABGg7al0AAYKJ_u4AAAAAADQlJwBqSQHg@mailjet.com>
+	s=arc-20240116; t=1783193348; c=relaxed/simple;
+	bh=ughmAO3Q1SC/LcU01RDqMndLrphSt+noFXJ+WL1Sq2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sPM7MmTRJGbb8Q53zGPe7SscjiD3mEBYpTAmhLR8kKltldfMMxrBUpYzRblZvCr4XeyidyCtuyhiE4FjJ+raxqS3XftunxlwEhUtaAZbCdbJmGWJ0mjylZTmrF+ZqetKTk3cusG0dHftWCThiWzxYpbxBbrNNCx2QBOZfrIp86o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=162.0.218.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from MTA-07-3.privateemail.com (mta-07.privateemail.com [198.54.127.57])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by h7.fbrelay.privateemail.com (Postfix) with ESMTPSA id 4gt0zh5jWXz2xCX;
+	Sat,  4 Jul 2026 15:29:04 -0400 (EDT)
+Received: from mail.privateemail.com (unknown [87.215.145.39])
+	by mta-07.privateemail.com (Postfix) with ESMTPA id 4gt0zM18xCz3hhTK;
+	Sat,  4 Jul 2026 15:28:46 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+Subject: [PATCH] ASoC: qcom: sc8280xp: support Senary MI2S
+Date: Sat,  4 Jul 2026 21:28:30 +0200
+Message-ID: <20260704192830.88134-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Marco Griep <mail@marcogriep.de>
-To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
-Subject: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
-Date: Sat,  4 Jul 2026 14:51:19 +0200
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Kuninori Morimoto
-	<kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Marco Griep <mail@marcogriep.de>
-Feedback-Id: 42.3417383.3105730:MJ
-X-CSA-Complaints: csa-complaints@eco.de
-X-MJ-Mid:
-	AVwAAJ-gc7kAAAAAAAAABGg7al0AAYKJ_u4AAAAAADQlJwBqSQHgJxK4JETCQd6srW_fkmJi6wAvY8I
-X-MJ-SMTPGUID: 4971d933-2385-4421-91e6-0a3ab143734e
-X-REPORT-ABUSE-TO: Message sent by Mailjet please report to
-	abuse@mailjet.com with a copy of the message
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-The RT721 multifunction SDCA speaker helper adds the DAPM routes for
-its internal speaker path, but it does not add the corresponding
-spk:rt721 token to card->components.
+Extend the clock-provider DAI fmt setup to Senary MI2S; without it
+q6i2s_set_fmt() is never called, ws_src remains external and the DSP
+does not drive the I2S clocks.
 
-UCM uses that token to include the RT721 speaker device. Without it,
-systems with standalone RT721 expose the ALSA SmartAmp PCM but PipeWire
-only sees the headset devices.
+Force 32-bit slots on this interface in the BE fixup. The only Senary
+MI2S user so far is the Fairphone (Gen. 6), whose AW88261 speaker
+amplifiers derive their boost converter clock from BCLK and are
+configured by their firmware profile for 48 kHz x 32 bit x 2
+(3.072 MHz BCLK), matching the downstream configuration of this
+backend (bit_width 32). The board DTS enabling this interface is
+headed upstream separately via linux-arm-msm. Should a board with
+different requirements on this interface appear, the fixup can be
+keyed on the card compatible instead.
 
-Append the speaker codec token from the RT721 multifunction SDCA speaker
-runtime init path so UCM can create the internal speaker route.
+Note the snd_mask_none() before snd_mask_set_format(): the latter only
+ORs the format bit into the mask, and with the default S16 left in
+place DPCM refinement still resolves to S16.
 
-Tested on an ASUS Vivobook S16 M3607GA with ACP70 SoundWire RT721-SDCA.
-With the standalone RT721 ACP70 machine entry, this makes the HiFi
-profile expose Speaker, Headphones, internal Mic and Headset devices.
-
-Signed-off-by: Marco Griep <mail@marcogriep.de>
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
 ---
- sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ sound/soc/qcom/sc8280xp.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c b/sound/soc/sdw_utils=
-/soc_sdw_rt_mf_sdca.c
-index 5bf3627a97a0..e895397eefd6 100644
---- a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
-+++ b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
-@@ -74,6 +74,12 @@ int asoc_sdw_rt_mf_sdca_spk_rtd_init(struct snd_soc_pcm_=
-runtime *rtd, struct snd
- 		return -EINVAL;
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index 7925aa3f63ba..5a0b7f05c12b 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -34,6 +34,7 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ 	switch (cpu_dai->id) {
+ 	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
+ 	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
++	case SENARY_MI2S_RX...SENARY_MI2S_TX:
+ 		snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
+ 		break;
+ 	case WSA_CODEC_DMA_RX_0:
+@@ -88,6 +89,17 @@ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
+ 	case TX_CODEC_DMA_TX_3:
+ 		channels->min = 1;
+ 		break;
++	case SENARY_MI2S_RX...SENARY_MI2S_TX:
++		/*
++		 * Run the interface in 32-bit slots (3.072 MHz BCLK at
++		 * 48 kHz stereo), as the speaker amplifiers on this
++		 * interface require. The default S16 must be cleared
++		 * first: snd_mask_set_format() only ORs the bit in, and
++		 * DPCM refinement would still resolve to S16.
++		 */
++		snd_mask_none(fmt);
++		snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S32_LE);
++		break;
+ 	default:
+ 		break;
  	}
-=20
-+	card->components =3D devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s spk:%s",
-+					  card->components, codec_name);
-+	if (!card->components)
-+		return -ENOMEM;
-+
- 	/* Add routes */
- 	ret =3D snd_soc_dapm_add_routes(dapm, route_map->route_map, route_map->ro=
-ute_size);
- 	if (ret)
 
-base-commit: 1e9cdc2ea15adf4a821eefedabf6c0c8cf0b6a55
---=20
+base-commit: be44d21728b6646189779923b841ad3a46d694e5
+-- 
 2.55.0
 
-=
