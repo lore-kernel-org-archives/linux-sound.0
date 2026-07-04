@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241883812F0;
-	Sat,  4 Jul 2026 03:57:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33255381B0E;
+	Sat,  4 Jul 2026 03:58:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783137450; cv=none; b=tzbB7+ZhQyiJGrX8cv+5AjXITJ34Q+0ohtn0UewUrwPALM9/uQ0Q66XdqS7BW4J42wsgSYtXTxtHQRBtL/njPHaO9RfPHPNUWaiGilnXMSndc4RHqH/h4VlRsIbUHbIC1r0BVms7aTG91UMnFBKB+BNFsejl/JuAZ+vRfsg1nFM=
+	t=1783137500; cv=none; b=hrGq3Qzit+dzyDXt8EvNzqtqKcj+KIMbgJnIKhH+newVlc2Ye8E2Dqq2oKfliRfVICH5vnQ4s02O4SRQJr6Ml6DgQ8uh4vai6eEsKB0cT3aYBz/RdUUrbPUkeMhlK9Y38E+b2tYIihwNeWd/P99oiPuD1GfY+lhmvWUfiS5kOLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783137450; c=relaxed/simple;
-	bh=4/FdsrbigADLVfuX7yU5em0zotg3DAZ0945lxwvUqVE=;
+	s=arc-20240116; t=1783137500; c=relaxed/simple;
+	bh=Auf6qtyj6k/uHsygF/rawR7ADLZYzd3BWzMZzckW6/w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tpsKQUOoQZFoo2SE24ck0eiEfaMQPth3WtfIkUJgY5pdeSpBQLaCvuEv+ux0LSz1ZJ18uGC2nWcrhwiERqZlDU0lUU0qTsiKk+JLt1NShxG3JSwFkH15tDxNeLhgS1XcZyJDmWt36iZM70YWhntNrAQtQhrvM0CKPuLZs164EKM=
+	 MIME-Version; b=JzwbFYYxQvJgi76s5aOIgROw0Mwe4z3afWE349Qfs/PXVuiivaZjL8xWbBjEpDIOGJxdFq0O7u7WhE5KnBkNncodHaJQtDZSTnE/3Xd0/0M1lT4DCw8+05Ik8l43GUg1QoIKZv7yfM3MiLszMImL6xEtJiBHOhs+LBtwqJ0HZTU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowAC3RQmThEhqMiLJFg--.13229S2;
-	Sat, 04 Jul 2026 11:57:07 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowAAnoPO8hEhq0ibJFg--.61722S2;
+	Sat, 04 Jul 2026 11:57:48 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
@@ -40,9 +40,9 @@ Cc: Srinivas Kandagatla <srini@kernel.org>,
 	Shengjiu Wang <shengjiu.wang@nxp.com>,
 	Sharique Mohammad <sharq0406@gmail.com>,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH 08/19] ASoC: codecs: tas2552: Propagate regcache_sync() errors
-Date: Sat,  4 Jul 2026 11:57:05 +0800
-Message-ID: <20260704035705.77946-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH 09/19] ASoC: codecs: tas2783-sdw: Propagate regcache_sync() errors
+Date: Sat,  4 Jul 2026 11:57:46 +0800
+Message-ID: <20260704035746.82560-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260704034845.14291-1-pengpeng@iscas.ac.cn>
 References: <20260704034845.14291-1-pengpeng@iscas.ac.cn>
@@ -53,10 +53,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAC3RQmThEhqMiLJFg--.13229S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFy7JrWkZrWrGr13CrW8tFb_yoW8Jw4Dp3
-	95WFWkJrWfXw17Ar4UXry8XF1rKry0kF43CwnYgws5Cr4DGr1xKrW3Ar129F4UWryDKFs7
-	Zrsxtay7uFn5CaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:zQCowAAnoPO8hEhq0ibJFg--.61722S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFyxXFWkurWktFWkWry7GFg_yoW8AF1fp3
+	s3CFWrJ3yxWr1xArn3Ar1xJF4Sgr92ya1ak34Yyw4fCrn8Jw1jgry5Ar1UZrZ5XFW8KF47
+	ZayUtayDCF15WaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUU9q14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
@@ -73,44 +73,57 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7uFy7JrWkZrWrGr13CrW8tFb_yoW8Jw4Dp3
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
 regcache_sync() can fail while replaying cached register state after
-runtime resume. tas2552_runtime_resume() currently ignores that failure
-and returns success.
+SoundWire resume or attach handling. tas2783 currently ignores that
+failure.
 
-Propagate the error, restore cache-only/dirty state, and put the
-amplifier back into shutdown on sync failure.
+Propagate the error and restore cache-only/dirty state on failure.
 
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/tas2552.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ sound/soc/codecs/tas2783-sdw.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2552.c b/sound/soc/codecs/tas2552.c
-index 1a7650b9b2a7..22f93e29454f 100644
---- a/sound/soc/codecs/tas2552.c
-+++ b/sound/soc/codecs/tas2552.c
-@@ -495,13 +495,21 @@ static int tas2552_runtime_suspend(struct device *dev)
- static int tas2552_runtime_resume(struct device *dev)
+diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
+index 3d0b116544cc..db58c50e8a83 100644
+--- a/sound/soc/codecs/tas2783-sdw.c
++++ b/sound/soc/codecs/tas2783-sdw.c
+@@ -1099,7 +1099,13 @@ static s32 tas2783_sdca_dev_resume(struct device *dev)
+ 	}
+ 
+ 	regcache_cache_only(tas_dev->regmap, false);
+-	regcache_sync(tas_dev->regmap);
++	ret = regcache_sync(tas_dev->regmap);
++	if (ret) {
++		regcache_cache_only(tas_dev->regmap, true);
++		regcache_mark_dirty(tas_dev->regmap);
++		return ret;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -1210,6 +1216,7 @@ static s32 tas_update_status(struct sdw_slave *slave,
  {
- 	struct tas2552_data *tas2552 = dev_get_drvdata(dev);
+ 	struct tas2783_prv *tas_dev = dev_get_drvdata(&slave->dev);
+ 	struct device *dev = &slave->dev;
 +	int ret;
  
- 	gpiod_set_value_cansleep(tas2552->enable_gpio, 1);
+ 	dev_dbg(dev, "Peripheral status = %s",
+ 		status == SDW_SLAVE_UNATTACHED ? "unattached" :
+@@ -1227,7 +1234,12 @@ static s32 tas_update_status(struct sdw_slave *slave,
  
- 	tas2552_sw_shutdown(tas2552, 0);
- 
- 	regcache_cache_only(tas2552->regmap, false);
--	regcache_sync(tas2552->regmap);
-+	ret = regcache_sync(tas2552->regmap);
+ 	/* updated the cache data to device */
+ 	regcache_cache_only(tas_dev->regmap, false);
+-	regcache_sync(tas_dev->regmap);
++	ret = regcache_sync(tas_dev->regmap);
 +	if (ret) {
-+		regcache_cache_only(tas2552->regmap, true);
-+		regcache_mark_dirty(tas2552->regmap);
-+		tas2552_sw_shutdown(tas2552, 1);
-+		gpiod_set_value_cansleep(tas2552->enable_gpio, 0);
++		regcache_cache_only(tas_dev->regmap, true);
++		regcache_mark_dirty(tas_dev->regmap);
 +		return ret;
 +	}
  
- 	return 0;
- }
+ 	/* perform I/O transfers required for Slave initialization */
+ 	return tas_io_init(&slave->dev, slave);
 -- 
 2.43.0
 
