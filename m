@@ -1,34 +1,35 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608AD397323;
-	Sat,  4 Jul 2026 07:26:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC2B386C3B;
+	Sat,  4 Jul 2026 07:27:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783149991; cv=none; b=Dm05oieBZQNTUOZIev5ZdFt6lYGqG50JbUEoZv+ZDZ2BUQmjSaE/cNQSoTJd1lVw9AgITF1I9gkaluv9EV715dn4lBr9rzka7lbIdvJ0W8qERIsa11/fcZRBuu7byEp6XFcwuChF2GQGv7q5fiCQQkz7Er35IbfVgg9q+MNhug8=
+	t=1783150050; cv=none; b=Jlu2XRvk3scVdqbunBetYKl/vh2hzI9uZw+mbaWF+ZRe8nawC19TOWnE2xe+P1d+4Dstpen476OBuHuLk621hxaNFkhXLHvR0UVfb3cc+HwvGNOnr4trfShPf24a2UA1rGMRcVlkQ9oh6KGodTyXTbegjBqGEpEYMuKdlGg19/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783149991; c=relaxed/simple;
-	bh=JUHzxQBTH5wqFyGoyg3JPfsKe1e6cCLdpBidMw21it0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RuWYF6mzwystnCS5OQ/RFeZZ4Heg5iYfkfRuzqNBv+/aHKpAxA+TGtuYL97ns8uocIAthcfAkOqBy4wwoS82Vexlku+FrM5fov9JfVOOJ6NlqbiJuAbzO+ZRVIn4w0ZO7b+m7cInXPVwkiZZtPycId22BrLvjjljGV0npnqkuJc=
+	s=arc-20240116; t=1783150050; c=relaxed/simple;
+	bh=gX4+5nCcAT7hUKQj1yv94ZIkvOgYMjPgJDneh2RUzf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XTf1NVG0VEG0hOmeIfJf69djoxvG14Mab8ATOwtzKUm20IwkeVpWNQGnoeVbFmo3FTKK0kRBo/4J5y6G50vCPeQ6/cJGnAzuXm7awiGpyaKGEpQDMOWV+9NypBg7i8X9FOTDCf9oQ/fGNO/sigtFCrNtSINxqoZgIpRg1ci3iSk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowAAnxs6ZtUhqxdSgBA--.11584S2;
-	Sat, 04 Jul 2026 15:26:18 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowADHZc7StUhqZNigBA--.11656S2;
+	Sat, 04 Jul 2026 15:27:14 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Srinivas Kandagatla <srini@kernel.org>,
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH] ASoC: codecs: wsa884x: Propagate regcache_sync() errors
-Date: Sat,  4 Jul 2026 15:26:16 +0800
-Message-ID: <20260704072616.88634-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH] ASoC: codecs: cs42l42-sdw: Propagate regcache_sync() errors
+Date: Sat,  4 Jul 2026 15:27:12 +0800
+Message-ID: <20260704072712.91035-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,57 +38,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAnxs6ZtUhqxdSgBA--.11584S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtF1rZF1ftr1DKFy5tr1UZFb_yoWDWwcEga
-	48uw4kWF45KF4fG3s8JrWYyrZ7XFs7CFy7trn2qrs3Jw1jqr1fZry2yrnxua1fWry8C3W7
-	Gr1q9ryfAryqkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbxxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
-	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8
-	JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26F4UJVW0obIYCTnIWIevJa73UjIFyTuYvjfU5b
-	yZUUUUU
+X-CM-TRANSID:qwCowADHZc7StUhqZNigBA--.11656S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CryfGw17WF4fCw1UJr1rtFb_yoW8GFykpF
+	W3WFWkJrW8Xw4xCr90yw1UX3Wrt34Ika12y342y3WxAwn8Ja4aqF45JF17XF9rXFyjka9r
+	ur1Utay8Cr15Jw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9a14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxV
+	W0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+	628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4
+	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
+	MI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JV
+	W5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_
+	Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVWxJr0_Gc
+	JvcSsGvfC2KfnxnUUI43ZEXa7VUbUPEDUUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-wsa884x_runtime_resume() leaves cache-only mode and replays cached
-register state. It currently ignores regcache_sync() failures and
-returns success.
+cs42l42_sdw_runtime_resume() first syncs LATCH_TO_VP and then syncs the
+full regmap, but currently ignores both return values and can report
+success after a failed replay.
 
-Propagate the error and restore cache-only/dirty state on failure.
+Check both sync operations, return the first error, and restore cache-
+only/dirty state on failure.
 
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/wsa884x.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ sound/soc/codecs/cs42l42-sdw.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
-index 6c6b497657d0..567861dd42ad 100644
---- a/sound/soc/codecs/wsa884x.c
-+++ b/sound/soc/codecs/wsa884x.c
-@@ -2147,9 +2147,15 @@ static int wsa884x_runtime_suspend(struct device *dev)
- static int wsa884x_runtime_resume(struct device *dev)
- {
- 	struct regmap *regmap = dev_get_regmap(dev, NULL);
-+	int ret;
+diff --git a/sound/soc/codecs/cs42l42-sdw.c b/sound/soc/codecs/cs42l42-sdw.c
+index ad1256910a18..b61ca74dcf0b 100644
+--- a/sound/soc/codecs/cs42l42-sdw.c
++++ b/sound/soc/codecs/cs42l42-sdw.c
+@@ -481,10 +481,20 @@ static int cs42l42_sdw_runtime_resume(struct device *dev)
+ 	regcache_cache_only(cs42l42->regmap, false);
  
- 	regcache_cache_only(regmap, false);
--	regcache_sync(regmap);
-+	ret = regcache_sync(regmap);
-+	if (ret) {
-+		regcache_cache_only(regmap, true);
-+		regcache_mark_dirty(regmap);
-+		return ret;
-+	}
+ 	/* Sync LATCH_TO_VP first so the VP domain registers sync correctly */
+-	regcache_sync_region(cs42l42->regmap, CS42L42_MIC_DET_CTL1, CS42L42_MIC_DET_CTL1);
+-	regcache_sync(cs42l42->regmap);
++	ret = regcache_sync_region(cs42l42->regmap, CS42L42_MIC_DET_CTL1, CS42L42_MIC_DET_CTL1);
++	if (ret)
++		goto err_sync;
++
++	ret = regcache_sync(cs42l42->regmap);
++	if (ret)
++		goto err_sync;
  
  	return 0;
++
++err_sync:
++	regcache_cache_only(cs42l42->regmap, true);
++	regcache_mark_dirty(cs42l42->regmap);
++	return ret;
  }
+ 
+ static int cs42l42_sdw_resume(struct device *dev)
 -- 
 2.43.0
 
