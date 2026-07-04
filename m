@@ -1,21 +1,21 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5460F3563E8;
-	Sat,  4 Jul 2026 07:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AB3324B22;
+	Sat,  4 Jul 2026 07:23:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783149788; cv=none; b=oOabSQXzX3HJXeBg/9IY1VVYm/O52Xt96s8l4z6xquL/aQDMjUBoXLKmCuF1SbV2fMeNuduJW50nqts1NSBF8F+FQFud7mgA3P4xW/qxyuX6/RcUgtX264mmYcPvd6rq4GxJp60NjqwLCFHwskAzmMyYXAvqIsrk1nCokxXuMio=
+	t=1783149845; cv=none; b=mJYwoxgYXzdVE47QOng6W9BaGNsywTMpfIPspqPBlq0uSOdwOt7FdApSzOWEirDNL4nywpfJvg/bcgUILNIhVA3fshWDPQjlAcYwh11rlFt3Acm8c3IuujB9ZaZ1G6O9FraHatHrSeTwP5tBSksQWT8JLdMuJIyVv0AHTyRtjnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783149788; c=relaxed/simple;
-	bh=9Q4N29mqzb1xNyJ36R6CL/0hVFC9E/rcSEdHC6kV7sM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sMbd5/KWVVKFwWpBjtBN+7NfNvxkTyNlNDN+Pz2q06TtXDe4qbFtu6glFJ3JydJ3wGustLSweSQT2o2FY9X51s/iVvDgf48rCANaifj2raF/q1IR7S5rgs73A/APw8N9YlXyhDj/3jV4CdgjLDwOQY9jcNODFr5SA2cXhLJKGFs=
+	s=arc-20240116; t=1783149845; c=relaxed/simple;
+	bh=mAy3WAbFbrR/rzI/ucPkaLXGg5+CO1SFksRDofFIWpI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gdaJh3Pbt4xnBX8jiUhMQ6PnlHoulhCt7jrZNcV4GWSj/RZbAanote2+KmmYpMOH9daMeWuCFzyyoMvajz5bYAKnAgLDKcXqegZmiV2C+a7dQO5s+PMjM+M5gMcMhDeqLSkvp8b/QsIHUHK5H8FQbYqJ228GxD1/El/sAq/EeIY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowAC3VM2+tEhqM8agBA--.11580S2;
-	Sat, 04 Jul 2026 15:22:38 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowABH5c0FtUhqRsqgBA--.11770S2;
+	Sat, 04 Jul 2026 15:23:49 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -26,9 +26,9 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH] ASoC: codecs: wcd937x-sdw: Propagate regcache_sync() errors
-Date: Sat,  4 Jul 2026 15:22:36 +0800
-Message-ID: <20260704072236.70862-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH] ASoC: codecs: wcd939x-sdw: Propagate regcache_sync() errors
+Date: Sat,  4 Jul 2026 15:23:47 +0800
+Message-ID: <20260704072347.76000-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,26 +37,26 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAC3VM2+tEhqM8agBA--.11580S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jr1rCr47ury5Wry3Aw4ktFb_yoWkWFgEga
-	48uws2grsYqFs7G34Dtw1jvrZ7uFsrCFy7Kr1DtF42q348trnFyrW3tFnxAw15Xr18C3W3
-	uryq9w4xJry5KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4AFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+X-CM-TRANSID:qwCowABH5c0FtUhqRsqgBA--.11770S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtF1rZFy8Ww4DGF1xAryDAwb_yoWkWFgEga
+	48uF4vgFs5WFsrW3yDtr4jvrZ7uFsrCa4xtwnrtF47t348tr12yFW3trnxCw15Xr1kCF15
+	ur1j9w1xAryjkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbx8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVWxJr0_GcJvcSsGvfC2KfnxnUUI43ZEXa7VUbUPED
-	UUUUU==
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
+	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdYxBIdaVFxhVjvjDU0xZFpf9x0JUDOz
+	3UUUUU=
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-wcd937x_sdw_runtime_resume() leaves cache-only mode and replays cached
+wcd939x_sdw_runtime_resume() leaves cache-only mode and replays cached
 register state when a regmap is present. It currently ignores
 regcache_sync() failures and returns success.
 
@@ -64,17 +64,17 @@ Propagate the error and restore cache-only/dirty state on failure.
 
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/wcd937x-sdw.c | 8 +++++++-
+ sound/soc/codecs/wcd939x-sdw.c | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
-index 7a18bed7f347..1ad75c226060 100644
---- a/sound/soc/codecs/wcd937x-sdw.c
-+++ b/sound/soc/codecs/wcd937x-sdw.c
-@@ -1084,10 +1084,16 @@ static int wcd937x_sdw_runtime_suspend(struct device *dev)
- static int wcd937x_sdw_runtime_resume(struct device *dev)
+diff --git a/sound/soc/codecs/wcd939x-sdw.c b/sound/soc/codecs/wcd939x-sdw.c
+index 95f4be287e79..69b9b08118f0 100644
+--- a/sound/soc/codecs/wcd939x-sdw.c
++++ b/sound/soc/codecs/wcd939x-sdw.c
+@@ -1431,10 +1431,16 @@ static int wcd939x_sdw_runtime_suspend(struct device *dev)
+ static int wcd939x_sdw_runtime_resume(struct device *dev)
  {
- 	struct wcd937x_sdw_priv *wcd = dev_get_drvdata(dev);
+ 	struct wcd939x_sdw_priv *wcd = dev_get_drvdata(dev);
 +	int ret;
  
  	if (wcd->regmap) {
