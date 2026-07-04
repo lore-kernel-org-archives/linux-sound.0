@@ -1,34 +1,34 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01F5332614;
-	Sat,  4 Jul 2026 07:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F8F39AD49;
+	Sat,  4 Jul 2026 07:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783150761; cv=none; b=Z3MtllGWMtYRO97YUKEI4Jpnfwe6rJ9bUEjex/3oGl/71pH7i5SRWec/SY/CI0YLnBlnAiKgGpRtXgA+sw4xWGIFVgiY04HyHOpW5snu2uZWOkNhQ5OBi+MC/U3W2GG6Z8wnWS6GDJ6P+4CT5AFvm6uefQCYsYXKbZc/gNawpqA=
+	t=1783150824; cv=none; b=MmGil8P+/xsIYQ+EtUpghlXkC7MdwSkC8/wFZ5ivW9z4So1Vw9nhNPklW8lBK1kcC2Ts8h+tfU4Hf/C7sba7NTmn4dJmLq4Io2pokkjicivlWzS+U9pm5/Bo/5+BCvbRR/WhR9MRd7iP36BlTrmIds3mrc63shJzunS+R2qvPKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783150761; c=relaxed/simple;
-	bh=vDi7ZIv0LX30+38k104O0IV/0nwgYD5f6bk7Uoz6wSc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WjB8II9j0s/JYIcZwtDAi7S7AazwiGo1lIqppOnM/6/VH5yIU3O63ODi1CF/eYHvMzuOWxhJDJSQ0uVzyWXurFo6nimytDFSiis0c+pOHojQsRqXXj05IulOG8Q1Hy/2g3ulxmpjn/TXh8Rm9y9CKOavvmSUWQxIWP9Q4xM+Hgs=
+	s=arc-20240116; t=1783150824; c=relaxed/simple;
+	bh=PbQr1tybjOMD6N50SqBT2rHO90wzE17ow8Edd1ClZ1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RYvTmCPhJ2G9xeEuPBO8o2VAAumUMKN/qufHEp4sdNycCS0q22NZHCirfk6E/NmKGCN4yK0Hww8msXwbBVkzHbrSGBMnbX0ytnimFDV6XI2qteG33U6SQoFJpEmxGNNqve+mJ6iz6UdzIAx2/OBfD80QDiymqRJzhZ4iJ4ACWgc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowACHLdaXuEhqWRehBA--.10561S2;
-	Sat, 04 Jul 2026 15:39:03 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAAnwMjSuEhqkRyhBA--.11703S2;
+	Sat, 04 Jul 2026 15:40:02 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH] ASoC: codecs: lpass-va-macro: Propagate regcache_sync() errors
-Date: Sat,  4 Jul 2026 15:39:01 +0800
-Message-ID: <20260704073901.40058-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH] ASoC: codecs: max98363: Propagate regcache_sync() errors
+Date: Sat,  4 Jul 2026 15:40:00 +0800
+Message-ID: <20260704074000.42578-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,10 +37,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACHLdaXuEhqWRehBA--.10561S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GF1xGw13uF1ruF4ktryxKrg_yoWkXwc_ua
-	4kursruF4rWFnagayUtr4UA392grn7AFW5Kwnaqan7JryUtr43urW7Crnxuwn8Jw4Ik3W3
-	Wr4q9r48ArnIkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID:qwCowAAnwMjSuEhqkRyhBA--.11703S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw15Kr18CrWkGFy3trWxXrb_yoWDGFg_Wa
+	48uw1YgF45Grn7u3yUtryjy397ua4IyFy7KrnFg3y7C348JF1ayry8Cr1akw4UXr18CF13
+	Grn29r1fAa4qkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
 	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
 	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
@@ -56,34 +56,30 @@ X-Coremail-Antispam: 1UD129KBjvdXoW7GF1xGw13uF1ruF4ktryxKrg_yoWkXwc_ua
 	UUU
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-va_macro_runtime_resume() enables clocks, leaves cache-only mode, and
-replays cached register state. It currently ignores regcache_sync()
-failures and can report success.
+max98363_resume() waits for SoundWire initialization, leaves cache-only
+mode, and replays cached register state. It currently ignores
+regcache_sync() failures and returns success.
 
-Propagate sync failures, restore cache-only/dirty state, and unwind
-clocks enabled by the resume path.
+Propagate the error and restore cache-only/dirty state on failure.
 
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/lpass-va-macro.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ sound/soc/codecs/max98363.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index 528d5b167ecf..06793e880c84 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -1744,7 +1744,15 @@ static int va_macro_runtime_resume(struct device *dev)
- 	}
+diff --git a/sound/soc/codecs/max98363.c b/sound/soc/codecs/max98363.c
+index 099dc5bf6195..0e32b7a94cb0 100644
+--- a/sound/soc/codecs/max98363.c
++++ b/sound/soc/codecs/max98363.c
+@@ -100,7 +100,12 @@ static int max98363_resume(struct device *dev)
+ 		return ret;
  
- 	regcache_cache_only(va->regmap, false);
--	regcache_sync(va->regmap);
-+	ret = regcache_sync(va->regmap);
+ 	regcache_cache_only(max98363->regmap, false);
+-	regcache_sync(max98363->regmap);
++	ret = regcache_sync(max98363->regmap);
 +	if (ret) {
-+		regcache_cache_only(va->regmap, true);
-+		regcache_mark_dirty(va->regmap);
-+		if (va->has_npl_clk)
-+			clk_disable_unprepare(va->npl);
-+		clk_disable_unprepare(va->mclk);
++		regcache_cache_only(max98363->regmap, true);
++		regcache_mark_dirty(max98363->regmap);
 +		return ret;
 +	}
  
