@@ -1,21 +1,21 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E7F31F9A6;
-	Sat,  4 Jul 2026 07:25:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608AD397323;
+	Sat,  4 Jul 2026 07:26:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783149919; cv=none; b=eYaXsmroW23/PVZwO3M50nU8fdWDh8Ttd6WwWkcwIKo1M5W7/3xOUPLkHExd+JGGSRD3p8yKu7vDV9+mbo/Oovgtxp7iMK6xIjzfLMnAPu4WZeYABa7q3/dpyU1YhimWumaaEMzjqTWt6v01wEGEUc+fxp74rSyTCw8yPVokJQg=
+	t=1783149991; cv=none; b=Dm05oieBZQNTUOZIev5ZdFt6lYGqG50JbUEoZv+ZDZ2BUQmjSaE/cNQSoTJd1lVw9AgITF1I9gkaluv9EV715dn4lBr9rzka7lbIdvJ0W8qERIsa11/fcZRBuu7byEp6XFcwuChF2GQGv7q5fiCQQkz7Er35IbfVgg9q+MNhug8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783149919; c=relaxed/simple;
-	bh=ON6HWJnRkwyKNJzFxxU/Lq6xhxyDeQd1FLPvcq0eWOA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Loj4tJKEjBHa7DYhQ/dt/lHatKtS7hGfLXmWzuZjFjwLLXVQlWF7oh21joVpmHt30tbbO1qNXBV7yZBTNDMSlpEP28LC9MeXEpoiU+3lqbyg7pmWTdxhqh9CJHcUg9YpaJFc03gl/IKqY+eMWIh+TtexH/xgmI4yhRV157xgznI=
+	s=arc-20240116; t=1783149991; c=relaxed/simple;
+	bh=JUHzxQBTH5wqFyGoyg3JPfsKe1e6cCLdpBidMw21it0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RuWYF6mzwystnCS5OQ/RFeZZ4Heg5iYfkfRuzqNBv+/aHKpAxA+TGtuYL97ns8uocIAthcfAkOqBy4wwoS82Vexlku+FrM5fov9JfVOOJ6NlqbiJuAbzO+ZRVIn4w0ZO7b+m7cInXPVwkiZZtPycId22BrLvjjljGV0npnqkuJc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-01 (Coremail) with SMTP id qwCowAAHp89ItUhqSs6gBA--.11476S2;
-	Sat, 04 Jul 2026 15:24:57 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowAAnxs6ZtUhqxdSgBA--.11584S2;
+	Sat, 04 Jul 2026 15:26:18 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Srinivas Kandagatla <srini@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -26,9 +26,9 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH] ASoC: codecs: wsa883x: Propagate regcache_sync() errors
-Date: Sat,  4 Jul 2026 15:24:54 +0800
-Message-ID: <20260704072454.80981-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH] ASoC: codecs: wsa884x: Propagate regcache_sync() errors
+Date: Sat,  4 Jul 2026 15:26:16 +0800
+Message-ID: <20260704072616.88634-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -37,10 +37,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAAHp89ItUhqSs6gBA--.11476S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtF1rZF1ftr1DKr4rJFWxXrb_yoWDWwcEga
-	48uw4vgF45KF4xW34DXr4YyrWkXaykCFy7tr1vqr4fJw1jyr1kArWUArnxCwsxWry8C3W7
-	KF1q9r1fAryqkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID:qwCowAAnxs6ZtUhqxdSgBA--.11584S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtF1rZF1ftr1DKFy5tr1UZFb_yoWDWwcEga
+	48uw4kWF45KF4fG3s8JrWYyrZ7XFs7CFy7trn2qrs3Jw1jqr1fZry2yrnxua1fWry8C3W7
+	Gr1q9ryfAryqkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
 	9fnUUIcSsGvfJTRUUUbxxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
 	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
@@ -56,7 +56,7 @@ X-Coremail-Antispam: 1UD129KBjvdXoWrtF1rZF1ftr1DKr4rJFWxXrb_yoWDWwcEga
 	yZUUUUU
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-wsa883x_runtime_resume() leaves cache-only mode and replays cached
+wsa884x_runtime_resume() leaves cache-only mode and replays cached
 register state. It currently ignores regcache_sync() failures and
 returns success.
 
@@ -64,15 +64,15 @@ Propagate the error and restore cache-only/dirty state on failure.
 
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/wsa883x.c | 8 +++++++-
+ sound/soc/codecs/wsa884x.c | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wsa883x.c b/sound/soc/codecs/wsa883x.c
-index 468d2b38a22a..24a5904d8e6c 100644
---- a/sound/soc/codecs/wsa883x.c
-+++ b/sound/soc/codecs/wsa883x.c
-@@ -1696,9 +1696,15 @@ static int wsa883x_runtime_suspend(struct device *dev)
- static int wsa883x_runtime_resume(struct device *dev)
+diff --git a/sound/soc/codecs/wsa884x.c b/sound/soc/codecs/wsa884x.c
+index 6c6b497657d0..567861dd42ad 100644
+--- a/sound/soc/codecs/wsa884x.c
++++ b/sound/soc/codecs/wsa884x.c
+@@ -2147,9 +2147,15 @@ static int wsa884x_runtime_suspend(struct device *dev)
+ static int wsa884x_runtime_resume(struct device *dev)
  {
  	struct regmap *regmap = dev_get_regmap(dev, NULL);
 +	int ret;
