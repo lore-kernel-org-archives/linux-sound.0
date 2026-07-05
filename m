@@ -1,102 +1,170 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D164C328B5E;
-	Sun,  5 Jul 2026 12:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CB5328B5E;
+	Sun,  5 Jul 2026 12:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783254735; cv=none; b=dPrkL6tIvJe7B0vamBbefEluv6mQJ1bXvyswpAuQshCUzshcThBkLJI6E42gtXQ+tDGf99iHHDlBv5hS+jAXDhIQpjb4wqSjC8gGFcVt4NmgR+6bBX4Q5TBol6bTt/eY/rHKzdc6ZPpjWmsUTrOFyr0Kv1xVQpmpH4+/wI241Hg=
+	t=1783255088; cv=none; b=H8tAZXrdrePe77ZxYlKtVuVfwQXv7uFPWVk6f+8Y662+RlRRut6woi0kZcxaqiqkGTYFBZlcuiwZYcV5lnfULa2YNpwIbfIUgzMU6YxtBLlmF9dvf/YaKcMc0mPpMvo0FSdrJeg6r8SypseUBad2OwPXJtkZuE/prThS07PRQMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783254735; c=relaxed/simple;
-	bh=kCnFH0V5bkUOIV0fiHl29DKKYu4m94o1jAMzJXsZ7vM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jmFCLatZBMTmm5hl3KbnW+u9X/Db0U7KyUdJPLzu5Wy+RsUe3WHkXh75DLs4lXRFvolT/CHgD4g87bJGxPqXwnv5KFRHk9GZV029XgTYiyewdmyIsLUZh7rIH1dxAE1eUdbV2HnF+0RkV1H5YC/biay4HC9EPV/IyM0CF4R+fYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LnUhwDHo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783255088; c=relaxed/simple;
+	bh=Gl8MfTt8suXBO7Pu5/maEDsc0GlZdohSGzjmR3J0T+U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KQQL6WvnXw+CCDhDvn6005N5+JBdq7hlwBPl3JlGyKZ6gr/wusKJH7W7eLdaMHyUvqEWCsNi/M6F+erk8U5sAKnPpv6vrqlknm96IDc93NplJaLW2ckX6m8rT4xrW88lLlmaFKvg6PqstKXMqyAFYoVSzjTJ9uz70RT0lsl0p1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3ypc1ba; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LnUhwDHo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 478B71F000E9;
-	Sun,  5 Jul 2026 12:32:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3ypc1ba"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2471F000E9;
+	Sun,  5 Jul 2026 12:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783254734;
-	bh=CUmcoIH8UZfQOi92h9YHbdWwrZUGogZhLPJcSsnuaE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LnUhwDHoT1C2NwsP2qpQUJPINDRwCgLMsyP1P9fmVkRgM/PaVZk2xVU+LWoaa6DO2
-	 hcc2s3uYQYvhPOzdIp0hohZ70JPlsjRfVandee4VUaTE4AjVmcAoMUKr6hOiJVJIIF
-	 YfPk27/06kyXvTeLhEa572sGVgW8XW7fdJGszb3+aAwR3Vi7+nMU+cM08V4kkykZDl
-	 h6ZvRz5NUzxi4qR58Pp3YLrNUqsiSLp4gGYVX5G0TAPiVPXnoGHYmQu00kw5zQr0Bv
-	 Ji83tV8I2/Y0XuiIySRHLImrNwEfxagbCGDQuhUA7sr6FqKU2GIYWWNDaqCxL6CeRU
-	 rTJOKVZYTgR+A==
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id EF3E51AC5AC6; Sun, 05 Jul 2026 13:32:11 +0100 (BST)
-Date: Sun, 5 Jul 2026 13:32:11 +0100
-From: Mark Brown <broonie@kernel.org>
-To: YLCHANG2 <neo.chang70@gmail.com>
-Cc: Neo Chang <YLCHANG2@nuvoton.com>, lgirdwood@gmail.com, perex@perex.cz,
-	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v5 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
- amplifier
-Message-ID: <akpOy2HJsDCu7wVx@sirena.co.uk>
-References: <20260630021510.821919-1-YLCHANG2@nuvoton.com>
- <20260630021510.821919-3-YLCHANG2@nuvoton.com>
- <66ce56eb-95b9-4915-8658-a1e4d1eacd7f@sirena.org.uk>
- <3b32493b-b827-e4ed-3ad1-281dc19faf40@gmail.com>
+	s=k20260515; t=1783255087;
+	bh=rVncT2+p9KqQfIvl5pGhLMSnQrP7IONrb76DatfXrmU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=b3ypc1baMCcYHKP78bk38XYOF7stZ4HSVpDDcrLmr72LmG+/JXlrWkfL+/2DskJle
+	 NSV1L6u47otAthV4uhriDp9PDhmZ7H/mX3/A0xmfQb99kVxYTtCEJyqdsxVHVBW1Dv
+	 nLtJReYfY0sJLhQbCiwkaHDACS4HjAYHF6tN3XQdt/uMARPTPejO58C1hqEZRCKZ+P
+	 Ja3tgg6+AdxwVbLgHeYnTTfXQ5P8NZkVasSr0jN03qaB1loYDUqYIozwhTl8I+VTti
+	 XVB6D0KorrlmcfO/oUGrK9vwheVY1+uN8d0vtZX2TSU+SvdesPhy2fx08xCpB+nWSv
+	 ZLgNQHDn4S5BQ==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, David Woodhouse
+ <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, John Stultz
+ <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, Anna-Maria Behnsen
+ <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>,
+ Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti
+ <giometti@enneenne.com>, Vincent Donnefort <vdonnefort@google.com>, Marc
+ Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, Richard Cochran
+ <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai
+ <tiwai@suse.com>, Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+ Johannes Berg <johannes.berg@intel.com>, Jacob Keller
+ <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber
+ <peter.hilber@oss.qualcomm.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ virtualization@lists.linux.dev, linux-wireless@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: [PATCH] timekeeping: Document monotonic raw timestamps in snapshots
+ correctly
+In-Reply-To: <87bjctsptt.ffs@fw13>
+References: <20260526165826.392227559@kernel.org>
+ <20260526171223.374814973@kernel.org>
+ <20260626103359-66ab2b54-d36f-416b-94a4-3f3708dccced@linutronix.de>
+ <87echtk24a.ffs@fw13>
+ <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
+ <87fr29ib4v.ffs@fw13>
+ <20260629055344-b74c43de-2a2b-4608-ae4e-ed0ac8e12fd1@linutronix.de>
+ <87bjctsptt.ffs@fw13>
+Date: Sun, 05 Jul 2026 14:38:04 +0200
+Message-ID: <87wlv9k3wz.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9OleKUcYTZwvIODp"
-Content-Disposition: inline
-In-Reply-To: <3b32493b-b827-e4ed-3ad1-281dc19faf40@gmail.com>
-X-Cookie: Absence makes the heart grow frantic.
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+The comments related to raw monotonic timestamps for the various
+snapshot mechanisms in code and struct documentation are ambiguous. They
+reference them as CLOCK_MONOTONIC_RAW timestamps, but with the arrival
+of AUX clocks that's not longer correct.
 
---9OleKUcYTZwvIODp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The raw monotonic timestamps only represent CLOCK_MONOTONIC_RAW for the
+system time clock IDs, i.e. REALTIME, MONOTONIC, BOOTTIME, TAI.
 
-On Fri, Jul 03, 2026 at 11:26:12AM +0800, YLCHANG2 wrote:
-> On 7/2/26 23:15, Mark Brown wrote:
+For AUX clocks they refer to the monotonic raw clock which is related to
+the individual AUX clocks. These monotonic raw timestamps have the same
+conversion factor as CLOCK_MONOTONIC_RAW, but differ from that by an
+offset:
 
-> > I would expect TDM to be configured by set_tdm_slot() from the machine
-> > driver, not from userspace.  I see the driver does actually have a
-> > set_tdm_slot() operation...
+	MONORAW(AUX$N) =3D MONORAW(SYSTEM) + OFFSET(AUX$N)
 
-> Our DSP functions require specific Slot mapping (e.g., Slot 0 for AECL, Slot
-> 1 for AECR).
-> The standard set_tdm_slot() only defines active slots but doesn't handle the
-> functional mapping.
-> We originally intended to allow dynamic mapping via UCM/userspacea and then
-> apply these settings using set_tdm_slot().
-> How should we implement this mapping according to ASoC standards?
+The offset is established when a AUX clock is enabled and stays constant
+for the lifetime of the AUX clock.
 
-This would usually be doing using DAPM routing if it's expected to be
-runtime variable, define AIF widgets for the bus slots then route to
-them.
+Update the comments so they reflect reality.
 
-> Should we define the default mapping during the codec probe stage,
-> or is there a preferred way to handle this via the machine driver?
+Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+Reported-by: Thomas Wei=C3=9Fschuh <thomas.weissschuh@linutronix.de>
+---
+ include/linux/timekeeping.h |   10 +++++++++-
+ kernel/time/timekeeping.c   |   16 +++++++++++++++-
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
-Device properties, this is better if it's supposed to be fixed for the
-system.
-
---9OleKUcYTZwvIODp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpKTssACgkQJNaLcl1U
-h9A/mQf/c053HM+naqdF17/uVmgb6e04rPNnqH7Us+kvxpfWyPS0bp+3vo1P6Ur0
-POHx0sPld8RauUxTig2rXk+Kt87Asn3/wm4kTQrOvOBv8airOLBViFeIQHoIrajo
-JdH678NtqoVhc3zy5W8pt+/6zeTbQK4obbfOzjtWEe6EbsrXiy3B9BUnxbe2bt5k
-E3coE4U4a587PPepJe5ue7eJfyc3xFHTHlsLxtWXsO+P0oSZXwrt2CB74Cvjvzwc
-Yt1JExI6vhfLnLt/2YR1PtTiMH9srG/xVBQo7USnxq1SxDnV2y8nelMpyE9LjkAH
-KZ9YYwMy9ji8OzML5MUqNYGiVXihiA==
-=bhKF
------END PGP SIGNATURE-----
-
---9OleKUcYTZwvIODp--
+--- a/include/linux/timekeeping.h
++++ b/include/linux/timekeeping.h
+@@ -276,7 +276,7 @@ static inline bool ktime_get_aux_ts64(cl
+ #endif
+=20
+ /**
+- * struct system_time_snapshot - Simultaneous time capture of CLOCK_MONOTO=
+NIC_RAW,
++ * struct system_time_snapshot - Simultaneous time capture of monotonic ra=
+w time,
+  *				 a selected CLOCK_* and the clocksource counter value
+  * @cycles:		Clocksource counter value to produce the system times
+  * @hw_cycles:		For derived clocksources, the hardware counter value from
+@@ -289,6 +289,10 @@ static inline bool ktime_get_aux_ts64(cl
+  * @clock_was_set_seq:	The sequence number of clock-was-set events
+  * @cs_was_changed_seq:	The sequence number of clocksource change events
+  * @valid:		True if the snapshot is valid
++ *
++ * @monoraw is CLOCK_MONOTONIC_RAW for system time CLOCK ids. For CLOCK_AU=
+X$N
++ * clock ids it's the monotonic raw time related to the AUX clock, which is
++ * CLOCK_MONOTONIC_RAW plus a AUX clock specific offset.
+  */
+ struct system_time_snapshot {
+ 	u64			cycles;
+@@ -326,6 +330,10 @@ struct system_counterval_t {
+  * @sys_counter:	Clocksource counter value simultaneous with device time
+  * @sys_systime:	System time for @clock_id
+  * @sys_monoraw:	Monotonic raw simultaneous with device time
++ *
++ * @sys_monoraw is CLOCK_MONOTONIC_RAW for system time CLOCK ids. For
++ * CLOCK_AUX$N clock ids it's the monotonic raw time related to the AUX cl=
+ock,
++ * which is CLOCK_MONOTONIC_RAW plus a AUX clock specific offset.
+  */
+ struct system_device_crosststamp {
+ 	clockid_t			clock_id;
+--- a/kernel/time/timekeeping.c
++++ b/kernel/time/timekeeping.c
+@@ -1202,10 +1202,21 @@ static inline u64 tk_clock_read_snapshot
+=20
+ /**
+  * ktime_get_snapshot_id -  Simultaneously snapshot a given clock ID with
+- *			    CLOCK_MONOTONIC_RAW and the underlying
++ *			    the corresponding monotonic raw and the underlying
+  *			    clocksource counter value.
+  * @clock_id:		The clock ID to snapshot
+  * @systime_snapshot:	Pointer to struct receiving the system time snapshot
++ *
++ * For the system time keeping clocks (REALTIME, MONOTONIC and BOOTTIME) t=
+he
++ * monotonic raw clock is CLOCK_MONOTONIC_RAW. For AUX clocks this is the
++ * monotonic raw clock related to the AUX clock. These AUX clock related
++ * monotonic raw clocks have a strict linear offset to the system time
++ * CLOCK_MONOTONIC_RAW:
++ *
++ *	MONOTONIC_RAW(AUX$N) =3D CLOCK_MONOTONIC_RAW(system) + offset(AUX$N)
++ *
++ * The offset is established when a AUX clock is initialized, but it is
++ * currently not accessible.
+  */
+ void ktime_get_snapshot_id(clockid_t clock_id, struct system_time_snapshot=
+ *systime_snapshot)
+ {
+@@ -1512,6 +1523,9 @@ EXPORT_SYMBOL_GPL(ktime_real_to_base_clo
+  * @xtstamp:		Receives simultaneously captured system and device time
+  *
+  * Reads a timestamp from a device and correlates it to system time
++ *
++ * See documentation for ktime_get_snapshot_id() for information about the=
+ raw
++ * monotonic time stamp which is used here.
+  */
+ int get_device_system_crosststamp(int (*get_time_fn)
+ 				  (ktime_t *device_time,
