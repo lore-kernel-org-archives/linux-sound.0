@@ -1,110 +1,108 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from h8.fbrelay.privateemail.com (h8.fbrelay.privateemail.com [162.0.218.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3367D86341
-	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 02:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71461A5B90;
+	Sun,  5 Jul 2026 03:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.0.218.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783217142; cv=none; b=sWu54I9bUwUNVotsXt6eQCtfoPSVSb1aIRkyxjSm5lk2j7T682M1iUTZ5sIUN3NT/ByMQ2nL/nkAswVq3LAmetl2Hz8nbt9OAl7N/gWFXb1vvWubdqeOokd4Jf/BaKWdjnga1+9ZosXHs29ZY1ZujNV8MEhOUJKCfrCf4VzmzNc=
+	t=1783222643; cv=none; b=LMwPQO2k1GlqJR5Aw66WfNiXRXXnRGWAKMeLMD8It/nf5O4lOPzoonFScBOOzOBN4nbCn+s2vVD48xpG6V1ID6AbX3GwoYbPTBt+k08oXlBYjS0Qrap10xQoiqckiaTBPv+GgSzMqxG8pzoo3l5eCvx/ew0uU5E4RFv+KVZh+wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783217142; c=relaxed/simple;
-	bh=so+yhVCvvaIqqGt6b6i9YWmP4WE6FyTqPwNSmqlViWM=;
+	s=arc-20240116; t=1783222643; c=relaxed/simple;
+	bh=aUywZOI80I/Ikrw1BB6iCzSTMuKsmTcXXdQqsMcpg3Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=txkiBoZWweMIX+xbBBS2uJsveWn203Kt+gWaiU6aqYM7NoHAurAKmj4D0SG8pF1vL5p5iFadNGo/ZaYYJF98jJ9D8SmWZaYe7p7/zsIFhogZR28kebCEKaC/BCfA2XsoCeI8EuvNypV4lioqTvDxvxrz/Qq9tCKqTXJLSvD4+Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AKcHy2sw; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AKcHy2sw"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c9eefcf9175so1628617a12.3
-        for <linux-sound@vger.kernel.org>; Sat, 04 Jul 2026 19:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783217140; x=1783821940; darn=vger.kernel.org;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HKocKtEz1RsMH+lMlj2oc8msPllSiCeLmatH4dj48Vo=;
-        b=AKcHy2swoiARF6SHujuR2GIVY+7AXxaPUBSkMQTV0HnDzhDTphbn5P3SRivfmFY5ix
-         SIo78aL2e5peyqC1O6ps0SsGj7YHXMPYBlnAn4xhoY08Sjyl/82LC4de78wKqtLxrH9N
-         mCkU7HhU1xY4aYzO/k53u9JYPBsEafFyzisUvgzKJGS7yQeuX+g08Z0ohucoQ367J5TE
-         0ya0dVUfWGF9NSS7fX4Ezy77AmDg2JmvV8FGEzfB7RTvqBvWZpFYyjrryj3uWdc3BvXU
-         xqQIEqh7tAw3/SRFBHtxs2u/4n91YVW0yXTUiWQuODNjx1qQZFVQs2S9Z8vTCMfAq+wx
-         azTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783217140; x=1783821940;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HKocKtEz1RsMH+lMlj2oc8msPllSiCeLmatH4dj48Vo=;
-        b=cuNlxQGTudFAY37RViczvotWnmNZFTWCwOnNmEnWaxba4Da33m8QGnErhvGj2FFL7P
-         mBzPhzi8WP0DSyZGj+us00t2pTtFGW6GG1GW41weUTwRxbgxQHOdprgswJtlbQ154Ey2
-         N4YI6TS5FGm2Na2spl0d/2YYKffgwFNTr0xRWmiQRT2vnNKXJbZrXzqXAK3buABOWUoK
-         /zMzHQAQkCZTyFxKFcGyRH2pI8Vl5OPFAuG+jV3uUFurNV1lRP7XiHxBs64SG9IfblKM
-         9gVXZIDgwR6jUjuIPaXxrpwBbwb/BIJ0zhSYxdsSTCmhpkhlFs5t2wCG7n/TsBJL8c5Z
-         yqVg==
-X-Forwarded-Encrypted: i=1; AHgh+RqwnQCgK8wqcVvK8VItUVghn9m6TO7VL3UUdLTLlB0+JkLHVv4oLcFDsSB6XPm/F6F318rzz9XFR8ciRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUo613SfHhszRGef1GNu/gZa+nLHW4+/Ctw4p+JzmuYse2JMJ6
-	KYVcGzzZbm+Ua/dFTHRP0DDB6Os/U3VrrUCi6pvgFNyy+Nk4rxvj2yys
-X-Gm-Gg: AfdE7cmh3mE2bEDYeP3VC1Z5cZ9yvPlfbrbgoujVEJorT4iL5Z5inYCBKDIGmTkwtvU
-	XbmtEcBsE57rgrj6y8Hxj9icW2liX+ugYwp08DZasUox7QsN7Jj6j7kFce/ClxtLHipgea+EEBW
-	EX/2Pb0FCtV2j4/XZ4tJ0XXFAbTkzQD+Bh+NkwBACO1G/YjF4iz9AMrJsYVoBH/Ug5YMEbkDVKK
-	cENtLe3D/cgzabh+WUdSakvFAfOv9aET4LfHM/xyrPVWeE4W+x5Ll0PyRAcf6uOHJJKMFw/YiGw
-	ppITRpL5PgCWa4KonjuTW+j+xnzeTxDmCoDMt9ch6sgUk0rjGS+1MVEHX7y64zV9Glx9lK+3/sc
-	5FiDhu2VmcJAdeKX+IRUrbIzrrD0AsiO7ILgf+7HT3Y4IWSKWnVgWzgpz4cam1CqY9chh9ixCG4
-	SoZRCE5U7cE3iw8pS8sXpcWjUyP7VtaC21TXJenoTpEOtLUbDwrswZtZXu2e5ygdqA11Akias4E
-	iG436EXPyecSHMh1OfNpsIHrokCYPXAoSkJZwNs8XR4SpPCpcjNrNOUlMHwdbbgpt+vyoxovgn1
-	ONl0
-X-Received: by 2002:a17:90b:3808:b0:37f:9ce1:cda4 with SMTP id 98e67ed59e1d1-3829f2f3fafmr4872588a91.26.1783217140598;
-        Sat, 04 Jul 2026 19:05:40 -0700 (PDT)
-Received: from setsuna.localnet ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f3a9341e0sm27946996eec.12.2026.07.04.19.05.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 19:05:40 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Joshua Peisach <jpeisach@ubuntu.com>
-Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH v2 4/7] ASoC: apple: mca: Support FEs being clock consumers
-Date: Sun, 05 Jul 2026 12:05:33 +1000
-Message-ID: <sCELYiNQSvCxqjQFP0uhkQ@gmail.com>
-In-Reply-To: <DJLKAJ8IU0Z5.EU158RDQ31H0@ubuntu.com>
-References:
- <20260628-apple-audio-redux-v2-0-6328269c9652@gmail.com>
- <20260628-apple-audio-redux-v2-4-6328269c9652@gmail.com>
- <DJLKAJ8IU0Z5.EU158RDQ31H0@ubuntu.com>
+	 MIME-Version:Content-Type; b=mVNfwW20CDOYWVp/weKYRfSv3iW0eSf1vOO3oi30t9KQfou8Qsa0oC9lOOjCWxEwGmBY8I14F2cV/hECMRaGYITRQr7KYtpzAGxrY7CLoDq4ZgXU5TvEOujAbjyVwR3iewqjR8D1XCVFGobl1qTwSH+5jux+7/7oAFHdtL1OUe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=162.0.218.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from MTA-05-3.privateemail.com (mta-05.privateemail.com [198.54.127.60])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by h7.fbrelay.privateemail.com (Postfix) with ESMTPSA id 4gtCpx3rj3z2x9w;
+	Sat,  4 Jul 2026 23:37:13 -0400 (EDT)
+Received: from mail.privateemail.com (unknown [87.215.145.39])
+	by mta-05.privateemail.com (Postfix) with ESMTPA id 4gtCpX629Mz3hhTF;
+	Sat,  4 Jul 2026 23:36:52 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: Val Packett <val@packett.cool>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: qcom: sc8280xp: support Senary MI2S
+Date: Sun,  5 Jul 2026 05:36:46 +0200
+Message-ID: <20260705033646.305619-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <d2318ba8-43f9-478b-8f9e-2c09d44ae0b1@packett.cool>
+References: <20260704192830.88134-1-jorijnvdgraaf@catcrafts.net> <d2318ba8-43f9-478b-8f9e-2c09d44ae0b1@packett.cool>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Josh,
+On 7/5/26 2:40 AM, Val Packett wrote:
+> Since
+> https://lore.kernel.org/all/178104655633.212106.619790244001573816.b4-ty@b4/
+> you no longer need to care about what the profile specifies. The aw88261
+> driver properly participates in format negotiation now. The "firmware"
+> register list binaries are therefore nearly irrelevant. Please don't add
+> any more of this force-32-bit nonsense! We've just gotten rid of it on
+> the Fairphone 5 and other kodiak devices.
 
-On Monday, 29 June 2026 11:19:27=E2=80=AFpm Australian Eastern Standard Tim=
-e Joshua=20
-Peisach wrote:
-> On Sun Jun 28, 2026 at 7:42 AM EDT, James Calligeros wrote:
-> > +		writel_relaxed(port + 6 + 1,
-> > +			       cl->base + REG_SYNCGEN_MCLK_SEL);
->=20
-> Where does the "6 + 1" come from, and should it have its own #define?
+I apologize for not catching this, I was developing on the 7.1-based
+milos-mainline staging tree which doesn't include your series yet.
+There a 16-bit stream plays silence, since the amp keeps the profile's
+32-bit frame config, and I wrongly took that for a hardware
+requirement.
 
-This actually only ever gets set to 0b111 (port =3D 0), and trying to set
-it to anything else breaks the machines which consume VISENSE data from
-the connected codecs. I will just replace this with a static value for
-v3, which seems to work on all the machines we currently support downstream.
+To retest, I backported your series onto my 7.1 tree (together with
+my pending power-up check fix [1], without which the amplifiers fail
+an unrelated SYSST check on this board), and can confirm 1b92b0673d5e
+("ASoC: codecs: aw88261: support changing sample rate and bit width")
+works as advertised on the FP6: with the fixup dropped the backend runs S16
+end-to-end and the amps get reprogrammed to 16-bit frames at 32fs
+(I2SCTRL1 0x3408, SYSST 0x311 while playing) and sound is fine.
+I'll send a v2 with the fixup dropped.
 
-> -Josh
+However, I could only get there after locally reverting caea99ac809d
+("ASoC: codecs: aw88261: remove async start"): with the synchronous
+start the amps can never power up on this platform. The Fairphone
+(Gen. 6) uses the AudioReach/q6apm stack, where the BE port only
+starts the I2S clocks at trigger time (q6apm_lpass_dai_trigger() ->
+q6apm_graph_start(); prepare only prepares the graph). aw88261_start()
+now runs synchronously from the DAPM PRE_PMU handler, i.e. during
+prepare, before the trigger can ever run — so the power-up check
+always sees SYSST = 0x0020 (NOCLKS) and gives up:
 
-James
+  aw88261 6-0035: check pll lock fail,reg_val:0x0020
+  aw88261 6-0035: mode1 iis signal check error
+  ...
+  aw88261 6-0035: aw88261_dev_start failed, cnt:4, ret:-1
+  aw88261 6-0035: start failure (-1)
 
+A plain revert would bring back the missed-short-sounds problem you
+fixed, so I fixed it on the platform side instead: starting the graph
+at the end of q6apm_lpass_dai_prepare(), mirroring what
+q6afe_dai_prepare() does on the legacy stack, makes the clocks run
+before the DAPM power-up sequence. With that change and your series
+untouched, the amplifiers start synchronously on the FP6, including
+for the first short stream of the boot. I'll send that as an RFC
+("ASoC: qcom: q6apm-lpass-dais: start the graph at prepare") right
+after this mail. I may well be missing why AudioReach starts its
+ports at trigger rather than at prepare like q6afe, so input from
+you and Srinivas is very welcome there.
 
+[1] https://lore.kernel.org/linux-sound/20260704192857.88366-1-jorijnvdgraaf@catcrafts.net/
 
+Thank you for your review,
+Jorijn van der Graaf
