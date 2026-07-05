@@ -1,48 +1,51 @@
-Received: from b232-12.smtp-out.ap-southeast-2.amazonses.com (b232-12.smtp-out.ap-southeast-2.amazonses.com [69.169.232.12])
+Received: from b232-8.smtp-out.ap-southeast-2.amazonses.com (b232-8.smtp-out.ap-southeast-2.amazonses.com [69.169.232.8])
 	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD6C30DEB8;
-	Sun,  5 Jul 2026 14:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.169.232.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414C93815CA;
+	Sun,  5 Jul 2026 14:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.169.232.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783261670; cv=none; b=t/5I9A+5HUZgZ+ShbP3ssqoLBRyWBMgx+3EhgXJuo8XvDeyRyz+jQMLgGt2Vw0GfrelIFTVS462fOtoSKYrtsa4v91LnGwM0SaM4iWo8u+vSzudmwIqHPrY5F/MEFC3rypI4QkGDfZrDKXbiAPRHoRa6mfsMoWNCYo8ruC3LqHA=
+	t=1783261672; cv=none; b=Pe7CrgKfBoCFF4fR8STdMGrhGT1/GMSOnxUqopFhCbDETvnZwckJQ/OhimYCKlUh4NTqNbQvDXwgQny84f3ZonbRvr+V9APMNXfFYzDBI2+MnRultQJ7ImHpK184BEH9JHP2gFy1jXbw/PvguOpfWPyINyhFQ+m1CVLOrUDgx4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783261670; c=relaxed/simple;
-	bh=4kTtB+GZryMPis7oe9o+yNBoOYzzFrcH+3vetAQks3k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=al5JqvNIz+/TZfojCD6HrnX4CM2MOI5ikRb9+OjMhRJUwZwKWEWJyLs41kpI9Gb/ODq3EspuI7dqr2VEoxkLqStL4nQcuxLzr0oc0AqyOozBXP4xybqIhxl609MD4HyRWRsk8+LwG5GbHqbS1Nw+rUvVTVKX/bUrzsMRdejMLyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=callumwong.com; spf=pass smtp.mailfrom=bounce.callumwong.com; dkim=pass (2048-bit key) header.d=callumwong.com header.i=@callumwong.com header.b=aBetkYPv; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=dMKRMDC+; arc=none smtp.client-ip=69.169.232.12
+	s=arc-20240116; t=1783261672; c=relaxed/simple;
+	bh=/WqMBAa7Ytdpy/iYnElYCAeZTp9y9w7UfskxqkelEgE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lhpX0+Si+uYZZCr6ngQ3Y5mFW8RoTHH2mwjIGXLJaA3x+ft44KMaDHVZyGZKnfvFcdp4hz0MxXIYsxTlFOaCL1e8NXbPYULoLQUbrYWvLutuYawOWx/kflX6+RQOTITENb2cq6sEzkNv+QaRXgnK31zMsMF88nZ81TANdKKvedU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=callumwong.com; spf=pass smtp.mailfrom=bounce.callumwong.com; dkim=pass (2048-bit key) header.d=callumwong.com header.i=@callumwong.com header.b=IpkeFCRF; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=a7nS7U7x; arc=none smtp.client-ip=69.169.232.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=callumwong.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bounce.callumwong.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=callumwong.com header.i=@callumwong.com header.b="aBetkYPv";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="dMKRMDC+"
+	dkim=pass (2048-bit key) header.d=callumwong.com header.i=@callumwong.com header.b="IpkeFCRF";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="a7nS7U7x"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=tm32yydslvviquw2x2q4ycbntmmm3paz; d=callumwong.com; t=1783261667;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
-	bh=4kTtB+GZryMPis7oe9o+yNBoOYzzFrcH+3vetAQks3k=;
-	b=aBetkYPvwFMi/FVDlPTKU5pBlieCic/Uof8M6bzpoWnxZIOtJMmYOwwHkm/05wDg
-	i/h7mIIYvgxbNiqovvbzsCA0PcYToA1VHumiNUzEwF8ab22jaR2SqZndIndTwJQtqk3
-	exp9zMHCxy+if9vaw7bCjQe1+5k8eV9jN/nvbfzoUUG/6eLX/SH7HNGHAVHqLPiUJqz
-	cUN01q1gsXs76NE6tthORvDin3AYTMc/bQgNikKa1jozFsM9bw738kUeclc2GVrVctF
-	O4aRwXhkn+ufGvZMWxekyZli2RN7Z9pp2znAZI2wFZEW3NJG9uCPzPPKUjI8EChE6na
-	FTO1doG+YQ==
+	s=tm32yydslvviquw2x2q4ycbntmmm3paz; d=callumwong.com; t=1783261668;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=/WqMBAa7Ytdpy/iYnElYCAeZTp9y9w7UfskxqkelEgE=;
+	b=IpkeFCRFJ6QdYy0irnv9WO2Our0EUnN/IpJONXKDNkVORGWIDK1suVlAEk82mclZ
+	k7y6iTZqyD+fJpxb3SWLnYS4D8kfmhU8Bj2VN3ckT6BAopBftJndNRpnea0YI13Lyfs
+	La3DHS7ooouhIQGofwpcVsFVtEemkIYulTyaMnvBKjf0pINVT+NyMbJ1qMVkRhG6/oV
+	XUVcFr2/MoGrbuGhh62P6mweBt3BZ4w3teCoPVteVvtDBTqlXkl9VZJmkoDUD6EKjke
+	kXVm7Ms3p1KUleInl7mbQfWa+nPGa+WsYBCkSnuHtH0eYOBnzJ1RcFeCdhzF6OsHwzS
+	KGxGE+Hm9Q==
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=ulrbq2zjesb42hdt6rpnifgor3epinsy; d=amazonses.com; t=1783261667;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-	bh=4kTtB+GZryMPis7oe9o+yNBoOYzzFrcH+3vetAQks3k=;
-	b=dMKRMDC+Yxqar8sln1OB9+qBRyAyiRs18d+Spc5Z0RDPskdxc8tAEwhwFwHp2H9o
-	+mFcfnVCKDQTkDsLSsMJzXyW+5fRstQsN/gIknNR5+A+mW8KKXx0Cla4SLopN7eAI9O
-	q+ncWnvW+T4Jz3MqudsGgqTaWds7lhtLHjsd7IKs=
+	s=ulrbq2zjesb42hdt6rpnifgor3epinsy; d=amazonses.com; t=1783261668;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+	bh=/WqMBAa7Ytdpy/iYnElYCAeZTp9y9w7UfskxqkelEgE=;
+	b=a7nS7U7xLAKFglg9UjBFKc+X859c/ujG1GUP6zHPtSItYXNows8swbNhznmTH9wC
+	w8WOwzq8Ck7n+uwyawPbn4ruLmz7qttbnsHY6Kt3vz5erhHGP4rP8FkaaBE6CjYRs+N
+	bKFS4vzwekvK4ZFoPNMPOslf2ailZdrNXxPe3PRU=
 From: Callum Wong <mail@callumwong.com>
 To: tiwai@suse.com, perex@perex.cz
 Cc: linux-sound@vger.kernel.org, sbinding@opensource.cirrus.com, 
 	patches@opensource.cirrus.com, rf@opensource.cirrus.com, 
 	david.rhodes@cirrus.com, linux-kernel@vger.kernel.org, 
-	Callum Wong <mail@callumwong.com>
-Subject: [PATCH 0/2] ALSA: hda: fix HP OmniBook 7 Laptop 14-fr0xxx speaker volume and mute LEDs
-Date: Sun, 5 Jul 2026 14:27:46 +0000
-Message-ID: <0108019f32ad9dfb-ac2d3ace-aed9-401b-97d5-9d43f5b7e2db-000000@ap-southeast-2.amazonses.com>
+	Callum Wong <mail@callumwong.com>, stable@vger.kernel.org
+Subject: [PATCH 1/2] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 14-fr0xxx
+Date: Sun, 5 Jul 2026 14:27:48 +0000
+Message-ID: <0108019f32ada4d0-8ff2c576-8eb9-4ac4-803e-8ff4e1ce57d3-000000@ap-southeast-2.amazonses.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260705142535.186028-1-mail@callumwong.com>
+References: <20260705142535.186028-1-mail@callumwong.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,27 +54,48 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Feedback-ID: ::1.ap-southeast-2.Bo07if0thBjjxfhnG0PllidpkDb4AFgWjQ4XZlpgJDk=:AmazonSES
-X-SES-Outgoing: 2026.07.05-69.169.232.12
+X-SES-Outgoing: 2026.07.05-69.169.232.8
 
-The HP OmniBook 7 Laptop 14-fr0xxx (SSID 103c:8e3b) has a Realtek ALC245
-codec and two CS35L41 amplifiers. The speakers work, but the CS35L41
-amplifiers are not configured, so they play at a lower volume. The F6
-speaker-mute and F9 mic-mute keyboard LEDs also don't work.
+The HP OmniBook 7 Laptop 14-fr0xxx (SSID 103C8E3B) has two CS35L41
+amplifiers connected over I2C. The firmware provides a _DSD, but as with
+the other HP laptops already handled by this driver the properties are
+not exposed to the generic ACPI path, so the amplifiers fail to probe
+with "Platform not supported" and the speakers only play at a much lower
+volume. Provide the configuration through cs35l41_hda_property.c
+instead, so the amplifiers probe and drive the speakers at full volume.
 
-Patch 1 supplies the CS35L41 _DSD configuration so the amplifiers probe
-and drive the speakers at full volume. Patch 2 switches the existing
-8e3b quirk to a fixup that additionally enables the two mute LEDs.
+The values are taken from the machine's _DSD. There are two amplifiers
+using internal boost (1000 nH, 4500 mA, 24 uF) with the speakers wired
+right/left, the reset line at _CRS GPIO index 0 and the speaker-id line
+at index 1.
 
-Both patches were tested on the laptop.
-
-Callum Wong (2):
-  ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 14-fr0xxx
-  ALSA: hda/realtek: Enable mute LEDs on HP OmniBook 7 Laptop 14-fr0xxx
-
- sound/hda/codecs/realtek/alc269.c                   | 9 ++++++++-
+Fixes: 7150d57c370f ("ALSA: hda/realtek: Add support for HP Agusta using CS35L41 HDA")
+Cc: stable@vger.kernel.org
+Signed-off-by: Callum Wong <mail@callumwong.com>
+---
  sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ 1 file changed, 2 insertions(+)
 
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
+index 416d7bf3e289..1d2a83b47cde 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
+@@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
++	{ "103C8E3B", 2, INTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+ 	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+@@ -511,6 +512,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
+ 	{ "CSC3551", "103C8CDD", generic_dsd_config },
+ 	{ "CSC3551", "103C8CDE", generic_dsd_config },
++	{ "CSC3551", "103C8E3B", generic_dsd_config },
+ 	{ "CSC3551", "104312AF", generic_dsd_config },
+ 	{ "CSC3551", "10431433", generic_dsd_config },
+ 	{ "CSC3551", "10431463", generic_dsd_config },
 -- 
 2.54.0
 
