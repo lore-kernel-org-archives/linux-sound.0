@@ -1,97 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22C236165E
-	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 08:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560E237647E;
+	Sun,  5 Jul 2026 08:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783238867; cv=none; b=jNGPfYd9fNdwne+cpxXfIdOD9shQc1J86aubtWtyTKxGPHl69v9w3Qnz0R9E46iLrZn/TEPTeZJr47IiBJsfUuLCNYOOp7jVAdpc5wyZiXYF/2VtKXhyFSyB4WKOIsCOFS66PvsAe5dlia6ndyh1A5iaai+zO4OpvNckcuQcZSo=
+	t=1783241172; cv=none; b=Za9d4Rkx8WL9Fn1glVR4EW3LiTE3LUt9rH7/m+sF2UK2BiVx5d0hGBEEM38jXILQmU3mVyxfTUXeK1e3obbiUy/2p7/dYIeJeb8FIasfhuHKvzYSKkYiVJoLPdyB7Vh6zbro8G2DGw80jdU3TdLha4bd3dil7Gfe21/lDELt7E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783238867; c=relaxed/simple;
-	bh=qXUBpIZEMZH7CJJ7kfjiLT2vG3Z+ZXpD/mOOaKoVIA4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fyvi9sG2V9sanxBVNrD5+D6HwXcNTgiIkelZT2AqJdU6Eam+AsyceEvZ/6Cixs2lSenGXdr7ojMK0vOzNKw4opwY/7PF5YtB/ycpCnnZyusNOmEqRgOEouuNlF91s0UsNctSEEjHcG8ofELdgSpw1HVl5KUOTYnTNVwDJxILPCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F8UUKzXY; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F8UUKzXY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5650CC2BCC6;
-	Sun,  5 Jul 2026 08:07:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783238867;
-	bh=qXUBpIZEMZH7CJJ7kfjiLT2vG3Z+ZXpD/mOOaKoVIA4=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=F8UUKzXY+QwCXeBy0UB5F7DJ9OhW3Djc0kUPfos5DgxGeob/vjSYjAv1T0ilU7lHh
-	 QnveR/jnLJeOj3HZails4wt0zekWhs4xQTIooYX11LlYis75Pmg6gpUVGTamFQpaDn
-	 Y9m+5ChUOKv7LjfSY/hnUm/+BowyxRQhOFP7bmtMz7vqKBVA9BeNpEfnrP/dMZZEEP
-	 xiYVBG0NZRbUOV6FCl0HwVZaQTDR2K5c/c0Xn33Gmf0195Tcr14Tf6B7wx3KH91P+n
-	 uDYu++CFVBbTWhreg+DjNspZnsNrFVp4AnEErV82kfcgp3HI5/gF3J3RLVZR6ZQO47
-	 Jmt3zrlax+7yA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A60DC43602;
-	Sun,  5 Jul 2026 08:07:47 +0000 (UTC)
-From: Daniel Schaefer via B4 Relay <devnull+dhs.frame.work@kernel.org>
-Date: Sun, 05 Jul 2026 16:07:13 +0800
-Subject: [PATCH] ALSA: hda/realtek: add quirk for Framework F111:0010
+	s=arc-20240116; t=1783241172; c=relaxed/simple;
+	bh=zIbR9uD+ZDsdqJU1zKL6uMp0yJcbpkcyGS1jzJrJDDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t+HoeRTp7NKZ3boIxUh6OGOhU7aPTwy5mK+xIfS+VSU4A8SpIGLgncTtHMp5sowMKKen94sS7vKQbf2pnTzh+0gq1VHUXaTsLvsCQqpKWj7QLXVk8TnHLLbiJq/eoxu0n79+KdFh1Mh+yFDwC911X+eBuGWyjdEpI1252elnMKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-05 (Coremail) with SMTP id zQCowABHkcTLGUpqkbX8Fg--.7058S2;
+	Sun, 05 Jul 2026 16:46:03 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Daniel Mack <zonque@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [PATCH] ALSA: usb-audio: caiaq: validate EP1 reply lengths
+Date: Sun,  5 Jul 2026 16:46:01 +0800
+Message-ID: <20260705084601.56400-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260705-framework-audio-ssid-0x0010-v1-1-fffc8996ac18@frame.work>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MSwqDQAwA0KtI1g3EtH7oVUoXUyejodQpCVVBv
- HsHl2/zdnAxFYd7tYPJoq55LqgvFQxTmEdBjcXAxC111GCy8JE12xvDL2pGd41IG1FNOLyuPdO
- Ne04JyvA1Sbqd++N5HH8I67UKbQAAAA==
-X-Change-ID: 20260705-framework-audio-ssid-0x0010-cb38204282ff
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux@frame.work, 
- Daniel Schaefer <dhs@frame.work>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783238865; l=1317;
- i=dhs@frame.work; s=20260705; h=from:subject:message-id;
- bh=ZuKVyyBkhHa8+nRdHOgKdv02u2mQ8xtQLyrlEclnmFU=;
- b=N8uQZiYI539De94mhlvUExkl3biccVUH0yqr88v/hsZDHYesqbpn8NR+Z0gYmSKefmnLu/SQC
- ArWOkQ/6nihB5u5y+b2jRwBGafdxiHySGt8rIUIZhqN9KzJhu35MRMA
-X-Developer-Key: i=dhs@frame.work; a=ed25519;
- pk=O1zF7VDnmz6EZNc7sEiawR+KK650uRg1XteQ8jHwScw=
-X-Endpoint-Received: by B4 Relay for dhs@frame.work/20260705 with
- auth_id=852
-X-Original-From: Daniel Schaefer <dhs@frame.work>
-Reply-To: dhs@frame.work
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowABHkcTLGUpqkbX8Fg--.7058S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWr47ZF1UtrWrtF45tFW7XFb_yoWrGF1rpF
+	yrJa1agrs8XFnxtw12yF18ZrnxZrn7Wa9xJ398A345WFnxKrn5ur9rCFyFqrWrZr9Fkw4q
+	vr43t3yruF43JF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
+	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
+	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
+	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUxcT
+	PUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-From: Daniel Schaefer <dhs@frame.work>
+usb_ep1_command_reply_dispatch() uses buf[0] as a command byte and then
+reads command-specific fixed items from the same URB buffer. Several
+paths use buf + 1, buf[1], buf[2], or buf + 3 without first proving that
+urb->actual_length contains those bytes.
 
-Similar to commit 67c738152207 ("ALSA: hda/realtek: fix mic boost on
-Framework PTL") and previous quirks for Framework systems with
-Realtek codecs.
+Add per-command length checks, use a payload length derived from the
+bytes after the command byte for the control-state copy, and reject short
+analog input payloads before the input helper reads fixed offsets from
+the EP1 reply.
 
-0010 is another platform with an ALC285 which needs the same quirk.
-
-Signed-off-by: Daniel Schaefer <dhs@frame.work>
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 21ab891fcb47..54c2470c3846 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7942,6 +7942,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0xf111, 0x000c, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x000f, "Framework Laptop 13 Pro PTL", ALC295_FIXUP_FRAMEWORK_LAPTOP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0xf111, 0x010f, "Framework Laptop 13 PTL", ALC295_FIXUP_FRAMEWORK_LAPTOP_LIMIT_INT_MIC_BOOST),
-+	SND_PCI_QUIRK(0xf111, 0x0010, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_LIMIT_INT_MIC_BOOST),
+diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
+index b20aae0..a16e592 100644
+--- a/sound/usb/caiaq/device.c
++++ b/sound/usb/caiaq/device.c
+@@ -134,14 +134,22 @@ static void usb_ep1_command_reply_dispatch (struct urb* urb)
+ 	struct device *dev = &urb->dev->dev;
+ 	struct snd_usb_caiaqdev *cdev = urb->context;
+ 	unsigned char *buf = urb->transfer_buffer;
++	unsigned int payload_len;
++	unsigned int copy_len;
  
- #if 0
- 	/* Below is a quirk table taken from the old code.
-
----
-base-commit: c0933934d5d96fc641e8d0025f9099e554a7b47a
-change-id: 20260705-framework-audio-ssid-0x0010-cb38204282ff
-
-Best regards,
--- 
-Daniel Schaefer <dhs@frame.work>
-
+ 	if (urb->status || !cdev) {
+ 		dev_warn(dev, "received EP1 urb->status = %i\n", urb->status);
+ 		return;
+ 	}
++	if (urb->actual_length < 1)
++		return;
++
++	payload_len = urb->actual_length - 1;
+ 
+ 	switch(buf[0]) {
+ 	case EP1_CMD_GET_DEVICE_INFO:
++		if (payload_len < sizeof(struct caiaq_device_spec))
++			break;
+ 	 	memcpy(&cdev->spec, buf+1, sizeof(struct caiaq_device_spec));
+ 		cdev->spec.fw_version = le16_to_cpu(cdev->spec.fw_version);
+ 		dev_dbg(dev, "device spec (firmware %d): audio: %d in, %d out, "
+@@ -157,18 +165,21 @@ static void usb_ep1_command_reply_dispatch (struct urb* urb)
+ 		wake_up(&cdev->ep1_wait_queue);
+ 		break;
+ 	case EP1_CMD_AUDIO_PARAMS:
++		if (payload_len < 1)
++			break;
+ 		cdev->audio_parm_answer = buf[1];
+ 		wake_up(&cdev->ep1_wait_queue);
+ 		break;
+ 	case EP1_CMD_MIDI_READ:
++		if (urb->actual_length < 3 || urb->actual_length - 3 < buf[2])
++			break;
+ 		snd_usb_caiaq_midi_handle_input(cdev, buf[1], buf + 3, buf[2]);
+ 		break;
+ 	case EP1_CMD_READ_IO:
+ 		if (cdev->chip.usb_id ==
+ 			USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_AUDIO8DJ)) {
+-			if (urb->actual_length > sizeof(cdev->control_state))
+-				urb->actual_length = sizeof(cdev->control_state);
+-			memcpy(cdev->control_state, buf + 1, urb->actual_length);
++			copy_len = min_t(unsigned int, payload_len, sizeof(cdev->control_state));
++			memcpy(cdev->control_state, buf + 1, copy_len);
+ 			wake_up(&cdev->ep1_wait_queue);
+ 			break;
+ 		}
+diff --git a/sound/usb/caiaq/input.c b/sound/usb/caiaq/input.c
+index eabbf41..8d92433 100644
+--- a/sound/usb/caiaq/input.c
++++ b/sound/usb/caiaq/input.c
+@@ -203,6 +203,8 @@ static void snd_caiaq_input_read_analog(struct snd_usb_caiaqdev *cdev,
+ 
+ 	switch (cdev->chip.usb_id) {
+ 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_RIGKONTROL2):
++		if (len < 6)
++			return;
+ 		snd_caiaq_input_report_abs(cdev, ABS_X, buf, 2);
+ 		snd_caiaq_input_report_abs(cdev, ABS_Y, buf, 0);
+ 		snd_caiaq_input_report_abs(cdev, ABS_Z, buf, 1);
+@@ -210,11 +212,15 @@ static void snd_caiaq_input_read_analog(struct snd_usb_caiaqdev *cdev,
+ 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_RIGKONTROL3):
+ 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_KORECONTROLLER):
+ 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_KORECONTROLLER2):
++		if (len < 6)
++			return;
+ 		snd_caiaq_input_report_abs(cdev, ABS_X, buf, 0);
+ 		snd_caiaq_input_report_abs(cdev, ABS_Y, buf, 1);
+ 		snd_caiaq_input_report_abs(cdev, ABS_Z, buf, 2);
+ 		break;
+ 	case USB_ID(USB_VID_NATIVEINSTRUMENTS, USB_PID_TRAKTORKONTROLX1):
++		if (len < 16)
++			return;
+ 		snd_caiaq_input_report_abs(cdev, ABS_HAT0X, buf, 4);
+ 		snd_caiaq_input_report_abs(cdev, ABS_HAT0Y, buf, 2);
+ 		snd_caiaq_input_report_abs(cdev, ABS_HAT1X, buf, 6);
 
