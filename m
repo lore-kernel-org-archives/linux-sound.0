@@ -1,151 +1,123 @@
-Received: from www728.your-server.de (www728.your-server.de [167.235.121.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477442E06EF;
-	Sun,  5 Jul 2026 16:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.235.121.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A33C3033FF
+	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 17:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783270216; cv=none; b=YCWsVRFrX3fTa7W0LDuOrMs2tC4z/tsff9rzfNCBKan60EtqHwnIyqByfyU6tnOMV/kh0HfwvsGIPiSF8+KZwbc1K7lwPwzEQP7xi0OAs/80ZZuIYlV1YjqDsPwDx4NsW4FX8jlJqDNpRsorr+OnCwWaBIXC3KcEomuQe433sgA=
+	t=1783271463; cv=none; b=Rp4bE5iJ1fNXPdM4I5tSvZFDDri+SbG9KnKcEDUsY7WMxB8uOXMJmKQuddHWbKSQbi6wsYYG+GQh19m24e9IZdXB9T03JRWVAzIAKxIqek2sZNhWLUHGWUijsyWQqqobXoxnRKmWv+XH6j2r5aZAu8VcUTHBC7FZkKX9PmPNCoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783270216; c=relaxed/simple;
-	bh=eU8wCsm6YkkF+R5d7RUL+LhfTCVwekNNMje9KlCVQzg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IdiPE7h98QDH0N8eZjcqDmM2KV2qCJMmESVC9JA7KCfuSI9UNFf/uc9D3pVSq06YOXIXiVrtEtZWGeYHZz7PLzlXidD5k4ukxy27FVOtkKRbo3GxTjBt0ItpAORTCFD5cJwaw6i4z3VLImyzlJTMRjg/mPml2gRhXnkecKCeUCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de; spf=pass smtp.mailfrom=marcogriep.de; dkim=pass (2048-bit key) header.d=marcogriep.de header.i=@marcogriep.de header.b=F+SLv1NE; arc=none smtp.client-ip=167.235.121.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcogriep.de
+	s=arc-20240116; t=1783271463; c=relaxed/simple;
+	bh=dKbDeK5JMWOskgWhH2hh7caMG/c2GZ2IPAktPg/6cNs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UyIA4UZL154CEA5o1269fuxLn2jyzw1dHHvMUt/v0lwnj6Zl/HfKK/z5wfgPt4t8wfAPnFS69Ol8dGXYMfq4WXsxGQvyLeSm36+TW3XnX+sKkO12nNUCyo9g9/zeHWMSG8yxeKJLwmMWXA6XYgQ+hmzHZf1aNqIj66haMTiKXFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zm5llgA8; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcogriep.de header.i=@marcogriep.de header.b="F+SLv1NE"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=marcogriep.de; s=default2606; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=DHLCAI/z6H22okFXsfrCtpzy8QAU2oa4S9g+jdQAu6U=; b=F+SLv1NEPqIYqnvWM90wq852qu
-	veZQmJWrmRTcWspmVcG2uyhf7d0319VzRWtWgDGIzEj3lJQNAbElz05Ft+wamcUyoen5ycAN5fvhT
-	QPfbXtatoetXeAOwnSdbU/N43xsAF5WZR0bIOrlfUCjuQuOL90pz2nl+e/2idHt3R2NV+5Q/RwB+D
-	9UNY9uADgUZSQkH9YDWrqNec2StWdhriv3pQqbTOOXBTXoM8CRTkc6oEDd2oX9yMi5dArPBQsy03g
-	xvGxgURVFu4SKHVYd2zWoygn0d+U4so2TosfdjNbV7cE77beAYmzZa3RvnX4QltJNWRCeo8qj5oe6
-	JeSjYxQQ==;
-Received: from sslproxy08.your-server.de ([78.47.166.52])
-	by www728.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.4)
-	(envelope-from <mail@marcogriep.de>)
-	id 1wgQ2k-00000000OwI-2lO6;
-	Sun, 05 Jul 2026 18:50:10 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mail@marcogriep.de>)
-	id 1wgQ2k-000PYe-0g;
-	Sun, 05 Jul 2026 18:50:10 +0200
-Message-ID: <01e6e41e-21df-4e2e-b4aa-d173a2bb0848@marcogriep.de>
-Date: Sun, 5 Jul 2026 18:50:08 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zm5llgA8"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cad4170e8eso25648715ad.3
+        for <linux-sound@vger.kernel.org>; Sun, 05 Jul 2026 10:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783271461; x=1783876261; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F6oriXBGQKRVO8BFxyvH8HRrLjtHNA6kmEs+Bsjv0iU=;
+        b=Zm5llgA8bsFxiBJ5h0YpQRLxOJ5cis7Q1bf/n+UuEMMyKIS/1tvs1gz6XtG2K0U5Si
+         +woWuRbZXbEKtcJpAxDeRxxf4uyGhl3HlCTTq15+i5+dh5Ztl05TPYWYJT/IDLWV+TBj
+         U+nDxzddO2mFuuJ5qUSmL4nU+l9Ys9JNv9N0YW9usb4Bl+IP7pc+N+GaiBQ0hiTw8dP2
+         v9VlOIhnHaoPh/i5CnnGZoUggjkSy6VyZq5zB2McS2MYg/3LIyC3TH6sAZ24KdBcgcx2
+         WUydxm6TjdEOmR8oWzvUKV0y+yVWCxLtj9/9cfXSBCedf2AT4kF/i/ZiFfi6aXKTsbqp
+         jEbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783271461; x=1783876261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F6oriXBGQKRVO8BFxyvH8HRrLjtHNA6kmEs+Bsjv0iU=;
+        b=nz/Eqgh3GnqCRyMM/K3nvBWdLtn88K0ksh40X8sN5ai2fwDyKt/+nBd9pqmpLkwWDW
+         TJ/R0wPM/WC475JCp7FfUSap/niz0Qzj/SsRjyW+bR0Igyi+vgxsULPPbkBLKh0dexRn
+         05e5h4EvXQl+PcjXx0ffBqsBos2jKsoL7uGAAZeWv/3UwmtGxLnpXZuvHULotxphjeX5
+         i464MgOIeCOKPMacLhL9dEPVQl3K8d4aiQ7c6klSQiAP6/jVtGyEdtlILjQuQhVbRLJt
+         BbDWv1IARaU+Pe3DN01bMvUoKhB/CU/08EjOVK1Rb1BjKjAi3XkCcBraK36f4un3e9zC
+         9oxw==
+X-Gm-Message-State: AOJu0YwMitH8p1kj7MqwHCdhouzAnASWDr8dq812wPaStjrL1+18nPNQ
+	dXIiZZGTnrFIK1wareKCtlN+bNZKYpu3WF341Oft16cp8pfE6aOjItZcZKl0ttvDruc=
+X-Gm-Gg: AfdE7ckDlCFYNeVHD+donx/MS2+r7aLDb38R0RWLjiSPWR+pv/pjgYJSR6CirW2ZnvY
+	AATtfYsELowAaMo3N+vV3VeY7dW3rC3PmP0s8MaC1bx4FMxRJESUIos7gwguZVpkfBr7T6DHIQu
+	OzkHZtFd9qTcsKVSfvjUjIqSsfVCDKxeiCuU+gUMVNRXTKMylY4LOIHzsY38BKqyehV/WMoVQp9
+	s3SV+ToEkSfKQdcfy55ZIy7M+B8acscC26j4uYbidL+c9x/KzevnYskN/R3QpQB2UjGUa8TX1KU
+	c/ospFAamxOG6XSpanWUd29zShVYhXr/K9JZ7UL0CXXtDLYdmeXUisffOXf8T9iAbrAj8K/GJRO
+	9qzNG8BlDOPlC/jqX6iuIdN9ha2sERDG1LpHfI9vehmeIuLVU9VuRRjyo9egcwduMMwFyP5tO+K
+	mMO8cHbVF9smQltsTXjr/diWi2026xC25wZs8VLm2zMszRKNQww72VfgXwrg==
+X-Received: by 2002:a17:902:ce83:b0:2c9:97a7:71ae with SMTP id d9443c01a7336-2cbb9f2a80emr65200725ad.41.1783271458503;
+        Sun, 05 Jul 2026 10:10:58 -0700 (PDT)
+Received: from fedora.mrout-thinkpadp16vgen1.punetw6.csb ([103.133.229.222])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c876ea9sm39655434c88.13.2026.07.05.10.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 10:10:57 -0700 (PDT)
+From: Malaya Kumar Rout <malayarout91@gmail.com>
+To: linux-sound@vger.kernel.org,
+	tiwai@suse.de
+Cc: mrout@redhat.com,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	Malaya Kumar Rout <malayarout91@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] selftests/alsa: Fix format specifier and function mismatch in mixer-test
+Date: Sun,  5 Jul 2026 22:40:38 +0530
+Message-ID: <20260705171038.171966-1-malayarout91@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
-To: "Liao, Bard" <bard.liao@intel.com>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <30dd273a.AVwAAJ-gc7kAAAAAAAAABGg7al0AAYKJ_u4AAAAAADQlJwBqSQHg@mailjet.com>
- <SJ2PR11MB8424C0407CEC9D51F2C9EF5FFFF22@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: Marco Griep <mail@marcogriep.de>
-In-Reply-To: <SJ2PR11MB8424C0407CEC9D51F2C9EF5FFFF22@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28051/Sun Jul  5 08:24:23 2026)
+Content-Transfer-Encoding: 8bit
 
-Hi Mark,
+In the ctl_value_index_valid() function, when validating 64-bit integer
+controls (SND_CTL_ELEM_TYPE_INTEGER64), the error message for maximum
+value validation has two bugs:
 
-On my system it doesn't.
+1. Uses snd_ctl_elem_info_get_max() instead of the 64-bit variant
+   snd_ctl_elem_info_get_max64()
+2. Uses %ld format specifier instead of %lld for long long type
 
-With the standalone RT721 ACP70 machine entry, |card->components|does 
-not end up containing |spk:rt721|, so the RT721 speaker device is 
-missing from the UCM component list. As a result, UCM doesn't include 
-the speaker device and PipeWire only exposes the headset devices.
+This is inconsistent with the minimum value validation (line 335-339)
+which correctly uses get_min64() and %lld. The mismatch can cause:
+- Incorrect maximum values being reported on some architectures
+- Undefined behavior due to format specifier mismatch
+- Potential crashes when printing the error message
 
-Appending |spk:rt721|from |asoc_sdw_rt_mf_sdca_spk_rtd_init()|fixes that 
-on my ASUS Vivobook S16 M3607GA (ACP70 + RT721-SDCA). After the change, 
-UCM exposes the expected Speaker, Headphones, Internal Mic and Headset 
-devices.
+Fix by using snd_ctl_elem_info_get_max64() and %lld format specifier
+to match the data type and be consistent with the minimum value check.
 
-If the token is expected to be added by |asoc_sdw_rtd_init()|, I'd be 
-happy to investigate why that doesn't happen with this machine 
-configuration.
+Signed-off-by: Malaya Kumar Rout <malayarout91@gmail.com>
+---
+ tools/testing/selftests/alsa/mixer-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/tools/testing/selftests/alsa/mixer-test.c b/tools/testing/selftests/alsa/mixer-test.c
+index d4f845c32804..242a0b21e85e 100644
+--- a/tools/testing/selftests/alsa/mixer-test.c
++++ b/tools/testing/selftests/alsa/mixer-test.c
+@@ -339,9 +339,9 @@ static bool ctl_value_index_valid(struct ctl_data *ctl,
+ 		}
+ 
+ 		if (int64_val > snd_ctl_elem_info_get_max64(ctl->info)) {
+-			ksft_print_msg("%s.%d value %lld more than maximum %ld\n",
++			ksft_print_msg("%s.%d value %lld more than maximum %lld\n",
+ 				       ctl->name, index, int64_val,
+-				       snd_ctl_elem_info_get_max(ctl->info));
++				       snd_ctl_elem_info_get_max64(ctl->info));
+ 			return false;
+ 		}
+ 
+-- 
+2.54.0
 
-Best Regards
-
-Marco
-
-
-Am 05.07.26 um 14:49 schrieb Liao, Bard:
->
->> -----Original Message-----
->> From: Marco Griep <mail@marcogriep.de>
->> Sent: Saturday, July 4, 2026 8:51 PM
->> To: Mark Brown <broonie@kernel.org>; Liam Girdwood <lgirdwood@gmail.com>
->> Cc: Jaroslav Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Charles
->> Keepax <ckeepax@opensource.cirrus.com>; Kuninori Morimoto
->> <kuninori.morimoto.gx@renesas.com>; linux-sound@vger.kernel.org; linux-
->> kernel@vger.kernel.org; Marco Griep <mail@marcogriep.de>
->> Subject: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
->>
->> The RT721 multifunction SDCA speaker helper adds the DAPM routes for
->> its internal speaker path, but it does not add the corresponding
->> spk:rt721 token to card->components.
-> .component_name = "rt721", is set in the rt721 codec info in
-> codec_info_list[]. And the "spk" tag will be added in the
-> asoc_sdw_rtd_init() function. Doesn't it work on your device?
->
->> UCM uses that token to include the RT721 speaker device. Without it,
->> systems with standalone RT721 expose the ALSA SmartAmp PCM but PipeWire
->> only sees the headset devices.
->>
->> Append the speaker codec token from the RT721 multifunction SDCA speaker
->> runtime init path so UCM can create the internal speaker route.
->>
->> Tested on an ASUS Vivobook S16 M3607GA with ACP70 SoundWire RT721-SDCA.
->> With the standalone RT721 ACP70 machine entry, this makes the HiFi
->> profile expose Speaker, Headphones, internal Mic and Headset devices.
->>
->> Signed-off-by: Marco Griep <mail@marcogriep.de>
->> ---
->>   sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->> b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->> index 5bf3627a97a0..e895397eefd6 100644
->> --- a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->> +++ b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->> @@ -74,6 +74,12 @@ int asoc_sdw_rt_mf_sdca_spk_rtd_init(struct
->> snd_soc_pcm_runtime *rtd, struct snd
->>   		return -EINVAL;
->>   	}
->>
->> +	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
->> +					  "%s spk:%s",
->> +					  card->components, codec_name);
->> +	if (!card->components)
->> +		return -ENOMEM;
->> +
->>   	/* Add routes */
->>   	ret = snd_soc_dapm_add_routes(dapm, route_map->route_map,
->> route_map->route_size);
->>   	if (ret)
->>
->> base-commit: 1e9cdc2ea15adf4a821eefedabf6c0c8cf0b6a55
->> --
->> 2.55.0
->>
