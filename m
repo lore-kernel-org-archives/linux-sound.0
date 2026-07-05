@@ -1,142 +1,97 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF1B36E494
-	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 10:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EB337DABE
+	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 11:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783246494; cv=none; b=pK67wouNMgVBwWpq0j05TTIzmeOfQ6W5FdEZA3UIdvG+6TkIf+hQMixHicRU1AxwRlBw+seU4Y3I66IIe/0KtpGgzuz98QRFcozTTVpsJala0tRMcn7iRpIVXXpbXDZG90DgYY8dUMrmxGoLaZkEL8DKoGr2Irh0/53frEhTLk0=
+	t=1783252351; cv=none; b=GPpAM35EMq5qkxjm9LbLNS0Od/OHpFJ6vl6BhxZCf/arIjRsfp2rdcRV/Nl62U/yfOObNQT2Jybpz/hchdqDZ9rFSQMXQne0dkHDXI2GSlcl6dqJXwb0L5YNv9tv1n3IfI/zyUUzGW0H0v7sla51Bl9z5gSb2EENvRLo4cmbNcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783246494; c=relaxed/simple;
-	bh=iqYMm8VJRjEnud5aGi39pyHQ2IdCOzqKZkAgG5ccCEE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EudZ+Acv9lNPLDRpj/qLtJTJaOSqyHeAah85UAARFRhVzh5sYNlwY8KhHZ02mhyoXoI+dnV+dNIsH6HVW4VB9b+B+6n6/eKRWflZ5i+HvaC6d8AO0Kk6+PNutRJ9pAsWIPCfUKG8vv5K/PreUu+z3eGeCt+aNetUr7VVFEUOSRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mgg/ydmq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xDydX0qn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aFv4UMLK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EC7bFb6W; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1783252351; c=relaxed/simple;
+	bh=CLSuzdCc+04rTJajNgr/4YoXL0buOBV+ftEj0jyiyHE=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=lms+fA/yUs4ujN/zk2b87N4aXtAXYWU+0kJZsBkhGUA+LZufjp21abgG6BTQVtUxlRE7DGEP8CNrPX6Ge0Z4BW+VUTGP7xL0wzioDQCSgpFlBi7CPD8MYWCb2asGHvanUxXQuvyJZEeSIi/+DuVtDQNy09k08/8LlvLaxrXCrX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YE91ZbSN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mgg/ydmq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xDydX0qn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aFv4UMLK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EC7bFb6W"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CEB5975234;
-	Sun,  5 Jul 2026 10:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783246491; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6ty+JEkAD/PWxjKOf7VsyFUguTelZhZYWgCn9O6GHQ=;
-	b=mgg/ydmqnmbzO0P242QX9Ky13MjE2EmSN/rBYZJORp1s5J2XXzbDZA/FZtVtE+zRKAEwpE
-	5zxo+pWPFUQQvTbRuxIHn95ffHS78WLnuoxDGaBUyx8BpyMEp9ChmgQNI5RErZcSRgXY98
-	qsVMwrmcy8Hnn0qc4Uf8HsJ9eaDft04=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783246491;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6ty+JEkAD/PWxjKOf7VsyFUguTelZhZYWgCn9O6GHQ=;
-	b=xDydX0qn2f1XxixrjzopidGgPJwusQJd1G7bPmPWyXmdr/ggTD+Fsk+hLHJ6Q6scKbidMt
-	fnQqGlR2nl52AvBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aFv4UMLK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EC7bFb6W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783246490; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6ty+JEkAD/PWxjKOf7VsyFUguTelZhZYWgCn9O6GHQ=;
-	b=aFv4UMLKkHt1iELjIGfv+FYYlL5wA+NuAj27n9juIzREYhEj5VJmesEUmchuBCVx+SO+lz
-	k/PysxQANudjGP0nV9TWksDxbVmtFNvBhz8TxNbmMWfrwH7KcpoHw/StVRHWQoZCiMqAwq
-	kPxs0EcHLU/1nyQN82lTZgwarxX2XjQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783246490;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6ty+JEkAD/PWxjKOf7VsyFUguTelZhZYWgCn9O6GHQ=;
-	b=EC7bFb6WHxGeyotzbMGolI1S9G1VC9xdRp2RLvCDDbHePdK3ohOMSSU5CYNyo8GKtre7nR
-	cNKicwQZnj022qDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 972C4779AA;
-	Sun,  5 Jul 2026 10:14:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wBHvHZouSmpycwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 05 Jul 2026 10:14:50 +0000
-Date: Sun, 05 Jul 2026 12:14:49 +0200
-Message-ID: <87mrw568va.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Daniel Mack <zonque@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: caiaq: validate EP1 reply lengths
-In-Reply-To: <20260705084601.56400-1-pengpeng@iscas.ac.cn>
-References: <20260705084601.56400-1-pengpeng@iscas.ac.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YE91ZbSN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6661F000E9;
+	Sun,  5 Jul 2026 11:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783252348;
+	bh=dI9q2GiXTUCWlGPiMDSgFHntAYfnC4FC2hwVFyuyAJA=;
+	h=From:To:Cc:Subject:Date;
+	b=YE91ZbSNOI6MVXfhW9LCEV5FSP0/1DqGx201eZnCv4zFndlWiQht4XfiVZ1aEg528
+	 hoUdsH8f0VvCZdwYAzMaiBVMpQQbdcF0xC7q4bStC8iZ2MN9YCk1JSO1gYTPhvNeXj
+	 kueMPVV1ct945lLRanOSfi9lJ6XyIXGXR+7BaLePBN+9tXwVNofvySc2XULjHl9d2B
+	 m2kOp9aGXGDMEtexSVatLdPh2ZcrwNdHK0ppXUcyy3EYRxI0OsJ3rA9OwS16/9cg/p
+	 9ynYc7O1VKhthkfJIdDtmk3VE43xwYq8vGsR+DOoGP8wLj/1gvMcXe+Q580mCEmnYm
+	 YVUUsIUXwnKFQ==
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+	id 1C9801AC5AC6; Sun, 05 Jul 2026 12:52:20 +0100 (BST)
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
+Subject: [GIT PULL] ASoC fixes for v7.2-rc1
+Date: Sun, 05 Jul 2026 12:52:19 +0100
+Message-Id: <20260705115220.1C9801AC5AC6@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,vger.kernel.org];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: CEB5975234
-X-Spam-Score: -3.51
 
-On Sun, 05 Jul 2026 10:46:01 +0200,
-Pengpeng Hou wrote:
-> 
-> usb_ep1_command_reply_dispatch() uses buf[0] as a command byte and then
-> reads command-specific fixed items from the same URB buffer. Several
-> paths use buf + 1, buf[1], buf[2], or buf + 3 without first proving that
-> urb->actual_length contains those bytes.
-> 
-> Add per-command length checks, use a payload length derived from the
-> bytes after the command byte for the control-state copy, and reject short
-> analog input payloads before the input helper reads fixed offsets from
-> the EP1 reply.
-> 
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
-Applied now.  Thanks.
+  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
 
+are available in the Git repository at:
 
-Takashi
+  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc1
+
+for you to fetch changes up to 83245e7a436c04e511378af14dd81fd188b41541:
+
+  ASoC: rsnd: src: Add missing scu_supply clock to suspend/resume (2026-07-02 18:56:38 +0100)
+
+----------------------------------------------------------------
+ASoC: Fixes for v7.2
+
+A fairly standard set of driver specific fixes and quirks that have come
+in since the merge window, plus a MAINTAINERS update.  The tas675x
+READ_ONCE change is probably not actually fixing issues properly but we
+need a whole new approach to concurrency there and it came along with
+some good fixes.
+
+----------------------------------------------------------------
+Jetha Chan (1):
+      ASoC: amd: yc: Add Alienware m15 R7 AMD to DMIC quirk table
+
+John Madieu (2):
+      ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
+      ASoC: rsnd: src: Add missing scu_supply clock to suspend/resume
+
+Luca Weiss (1):
+      ASoC: codecs: lpass-va-macro: Fix LPASS Codec Version for SC7280
+
+Mark Brown (1):
+      ASoC: codecs: tas675x: misc bugfixes and minor changes
+
+Sen Wang (3):
+      ASoC: codecs: tas675x: use READ_ONCE for params to be used concurrently
+      ASoC: codecs: tas675x: Fix CHx temperature range register bit fields
+      Documentation: sound: tas675x: Fix temperature range and impedance documentation
+
+Vijendar Mukunda (1):
+      MAINTAINERS: ASoC: SOF: add AMD reviewer for Sound Open Firmware
+
+Yousef Alhouseen (1):
+      ASoC: SOF: validate probe info element counts
+
+ Documentation/sound/codecs/tas675x.rst | 11 ++++++-----
+ MAINTAINERS                            |  1 +
+ sound/soc/amd/yc/acp6x-mach.c          |  7 +++++++
+ sound/soc/codecs/lpass-va-macro.c      |  7 ++++++-
+ sound/soc/codecs/tas675x.c             | 14 +++++++-------
+ sound/soc/renesas/rcar/adg.c           | 29 ++++++++++++++++++++++++++++-
+ sound/soc/renesas/rcar/src.c           |  2 ++
+ sound/soc/sof/sof-client-probes-ipc3.c | 23 +++++++++++++++++++----
+ sound/soc/sof/sof-client-probes-ipc4.c | 11 ++++++++++-
+ 9 files changed, 86 insertions(+), 19 deletions(-)
