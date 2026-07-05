@@ -1,63 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from www728.your-server.de (www728.your-server.de [167.235.121.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF9338C2A9;
-	Sun,  5 Jul 2026 15:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477442E06EF;
+	Sun,  5 Jul 2026 16:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=167.235.121.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783266436; cv=none; b=bDKBw9VsimnA55psLDltjP0fYDwnBgBh/b/GRaPeWuJZAZOtc9pUQPOBaL22AL4kuwNuZMF2wvreVkHQTBHABCJzljfHE4hSjdjvKhxAbtgtnp5b+hlhyImrkeG01SPRiYmZoVfzFKsWNyqI+keTfNTHm9aX/Zza1QDd7cz/HjY=
+	t=1783270216; cv=none; b=YCWsVRFrX3fTa7W0LDuOrMs2tC4z/tsff9rzfNCBKan60EtqHwnIyqByfyU6tnOMV/kh0HfwvsGIPiSF8+KZwbc1K7lwPwzEQP7xi0OAs/80ZZuIYlV1YjqDsPwDx4NsW4FX8jlJqDNpRsorr+OnCwWaBIXC3KcEomuQe433sgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783266436; c=relaxed/simple;
-	bh=WhGomq/5MKj41mZq4yLcPlIFQJcZA6jbJTHYX/NLBno=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=EjXrtbiyz0/AJFxroYDJTUVMBHO3oFEzUtZsicTfwr0XEZbOpVHSf/ylVqrCL8ke+e1dgEKRahorM0JIvWrsd4PK+Ysck3QGEUB0s2gTq2voCSFJbbsOhdkgA7C4WJQnQ87cK3gOJ3IOANcmKBTUnkoO/NyjpeJFsnZCVPVggqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nYWcj15V; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783270216; c=relaxed/simple;
+	bh=eU8wCsm6YkkF+R5d7RUL+LhfTCVwekNNMje9KlCVQzg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IdiPE7h98QDH0N8eZjcqDmM2KV2qCJMmESVC9JA7KCfuSI9UNFf/uc9D3pVSq06YOXIXiVrtEtZWGeYHZz7PLzlXidD5k4ukxy27FVOtkKRbo3GxTjBt0ItpAORTCFD5cJwaw6i4z3VLImyzlJTMRjg/mPml2gRhXnkecKCeUCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de; spf=pass smtp.mailfrom=marcogriep.de; dkim=pass (2048-bit key) header.d=marcogriep.de header.i=@marcogriep.de header.b=F+SLv1NE; arc=none smtp.client-ip=167.235.121.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=marcogriep.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcogriep.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nYWcj15V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 415521F000E9;
-	Sun,  5 Jul 2026 15:47:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783266435;
-	bh=KfJAUYbY9G0PNvc0T2x7xZ/znyAzhkgSKTsK4vhV6HA=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=nYWcj15VyI1PgZeHMMDN+TlmcRz0JPW0spVG5lng5r/uHTCkAcJ+sVHU5MKSj56wG
-	 mOqUi9dhYFK/xUZKLLvU9PSK1+3TODKGDS2pCFsRqObTiWrgQVdtm7jIsqykcc4kIC
-	 7q6hWQH/bNq+jb/fy1jD52gi2NqD0Qo6q+lYLqYgom0uYKeqI6PAfiGtUhVsMJxg/7
-	 lT8gic1NaDeWNCl2rSgSJaprMGqWtu55II1gtIwygI/XVelF7uDQEE/KsweSfKssaL
-	 yLXV2QXsGZjD8uSSKEyhgX67VXh+o+tPjsf5oTzB+0ODmSdKAwb0n/zBSkkyqYsZD3
-	 uP553YCcvfgBA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93DD13A566C4;
-	Sun,  5 Jul 2026 15:46:57 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 7.2-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87wlv96fwq.wl-tiwai@suse.de>
-References: <87wlv96fwq.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87wlv96fwq.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.2-rc2
-X-PR-Tracked-Commit-Id: 5720deab6da70d0676cee8a580f6146ef85a3ab9
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 216a8b21797ff4ad8622a24a68f851918890e95d
-Message-Id: <178326641618.3871366.9858106687943325073.pr-tracker-bot@kernel.org>
-Date: Sun, 05 Jul 2026 15:46:56 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=marcogriep.de header.i=@marcogriep.de header.b="F+SLv1NE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=marcogriep.de; s=default2606; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=DHLCAI/z6H22okFXsfrCtpzy8QAU2oa4S9g+jdQAu6U=; b=F+SLv1NEPqIYqnvWM90wq852qu
+	veZQmJWrmRTcWspmVcG2uyhf7d0319VzRWtWgDGIzEj3lJQNAbElz05Ft+wamcUyoen5ycAN5fvhT
+	QPfbXtatoetXeAOwnSdbU/N43xsAF5WZR0bIOrlfUCjuQuOL90pz2nl+e/2idHt3R2NV+5Q/RwB+D
+	9UNY9uADgUZSQkH9YDWrqNec2StWdhriv3pQqbTOOXBTXoM8CRTkc6oEDd2oX9yMi5dArPBQsy03g
+	xvGxgURVFu4SKHVYd2zWoygn0d+U4so2TosfdjNbV7cE77beAYmzZa3RvnX4QltJNWRCeo8qj5oe6
+	JeSjYxQQ==;
+Received: from sslproxy08.your-server.de ([78.47.166.52])
+	by www728.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.99.4)
+	(envelope-from <mail@marcogriep.de>)
+	id 1wgQ2k-00000000OwI-2lO6;
+	Sun, 05 Jul 2026 18:50:10 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mail@marcogriep.de>)
+	id 1wgQ2k-000PYe-0g;
+	Sun, 05 Jul 2026 18:50:10 +0200
+Message-ID: <01e6e41e-21df-4e2e-b4aa-d173a2bb0848@marcogriep.de>
+Date: Sun, 5 Jul 2026 18:50:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
+To: "Liao, Bard" <bard.liao@intel.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <30dd273a.AVwAAJ-gc7kAAAAAAAAABGg7al0AAYKJ_u4AAAAAADQlJwBqSQHg@mailjet.com>
+ <SJ2PR11MB8424C0407CEC9D51F2C9EF5FFFF22@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Marco Griep <mail@marcogriep.de>
+In-Reply-To: <SJ2PR11MB8424C0407CEC9D51F2C9EF5FFFF22@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/28051/Sun Jul  5 08:24:23 2026)
 
-The pull request you sent on Sun, 05 Jul 2026 09:42:45 +0200:
+Hi Mark,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.2-rc2
+On my system it doesn't.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/216a8b21797ff4ad8622a24a68f851918890e95d
+With the standalone RT721 ACP70 machine entry, |card->components|does 
+not end up containing |spk:rt721|, so the RT721 speaker device is 
+missing from the UCM component list. As a result, UCM doesn't include 
+the speaker device and PipeWire only exposes the headset devices.
 
-Thank you!
+Appending |spk:rt721|from |asoc_sdw_rt_mf_sdca_spk_rtd_init()|fixes that 
+on my ASUS Vivobook S16 M3607GA (ACP70 + RT721-SDCA). After the change, 
+UCM exposes the expected Speaker, Headphones, Internal Mic and Headset 
+devices.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+If the token is expected to be added by |asoc_sdw_rtd_init()|, I'd be 
+happy to investigate why that doesn't happen with this machine 
+configuration.
+
+
+Best Regards
+
+Marco
+
+
+Am 05.07.26 um 14:49 schrieb Liao, Bard:
+>
+>> -----Original Message-----
+>> From: Marco Griep <mail@marcogriep.de>
+>> Sent: Saturday, July 4, 2026 8:51 PM
+>> To: Mark Brown <broonie@kernel.org>; Liam Girdwood <lgirdwood@gmail.com>
+>> Cc: Jaroslav Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Charles
+>> Keepax <ckeepax@opensource.cirrus.com>; Kuninori Morimoto
+>> <kuninori.morimoto.gx@renesas.com>; linux-sound@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; Marco Griep <mail@marcogriep.de>
+>> Subject: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
+>>
+>> The RT721 multifunction SDCA speaker helper adds the DAPM routes for
+>> its internal speaker path, but it does not add the corresponding
+>> spk:rt721 token to card->components.
+> .component_name = "rt721", is set in the rt721 codec info in
+> codec_info_list[]. And the "spk" tag will be added in the
+> asoc_sdw_rtd_init() function. Doesn't it work on your device?
+>
+>> UCM uses that token to include the RT721 speaker device. Without it,
+>> systems with standalone RT721 expose the ALSA SmartAmp PCM but PipeWire
+>> only sees the headset devices.
+>>
+>> Append the speaker codec token from the RT721 multifunction SDCA speaker
+>> runtime init path so UCM can create the internal speaker route.
+>>
+>> Tested on an ASUS Vivobook S16 M3607GA with ACP70 SoundWire RT721-SDCA.
+>> With the standalone RT721 ACP70 machine entry, this makes the HiFi
+>> profile expose Speaker, Headphones, internal Mic and Headset devices.
+>>
+>> Signed-off-by: Marco Griep <mail@marcogriep.de>
+>> ---
+>>   sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
+>> b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
+>> index 5bf3627a97a0..e895397eefd6 100644
+>> --- a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
+>> +++ b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
+>> @@ -74,6 +74,12 @@ int asoc_sdw_rt_mf_sdca_spk_rtd_init(struct
+>> snd_soc_pcm_runtime *rtd, struct snd
+>>   		return -EINVAL;
+>>   	}
+>>
+>> +	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+>> +					  "%s spk:%s",
+>> +					  card->components, codec_name);
+>> +	if (!card->components)
+>> +		return -ENOMEM;
+>> +
+>>   	/* Add routes */
+>>   	ret = snd_soc_dapm_add_routes(dapm, route_map->route_map,
+>> route_map->route_size);
+>>   	if (ret)
+>>
+>> base-commit: 1e9cdc2ea15adf4a821eefedabf6c0c8cf0b6a55
+>> --
+>> 2.55.0
+>>
