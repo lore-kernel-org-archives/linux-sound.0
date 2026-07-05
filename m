@@ -1,100 +1,125 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C65286891;
-	Sun,  5 Jul 2026 18:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783275592; cv=pass; b=l3q6Qgi+kX6awelB680Ydpfen52DWCoCdFBTwexsX7oPmgqtFdYAnDhiUi0TtKpF9ghWRokm+hLGesxyfbM2Ifc620+jz+YORj0fF3CJ4zk2F0BxOPRgEeXoXRmS3Cx93uHM42kKZB7q/u29MBohpl/3Ijy1B3Myb99JNenOi4g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783275592; c=relaxed/simple;
-	bh=AZ0P480KF/V0WveWTwp6v1RIcw2prGoCda+hSs6YK+8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=o4enCaFK8dg3Fg7n49yY7ANaqfx4za4GCSZNz7ZS14P/7pT/XDKmhy8xVslHr4FMq95Hu4C2ajF6dgJoRWwlTIWv92GNqWB0ZUKqb0BbOzaQg4KDpgrEStISgyT10lcteRRoqQnxDOmMK1kHLdBtFLhbF3wTze/T//qcvzUhfak=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=KEGXXoUX; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2E92F7F18
+	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 18:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783276969; cv=none; b=N6PzdA6uHJlZSmE9Nhf7v1ZhHa/3kgkpKicnZsA+OeWhqlTectBVh7UbuFvKLCdBhwF/rThtcdQvC9qYpi9QiD+TBzubPeywFqVz6tu8hRyNZllB40X4Qux7iDyTQH8HPsdgU48uZfM0x8K2N8NyFRhC24viWCtxyFRq8Zn+EAs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783276969; c=relaxed/simple;
+	bh=p9UeoAiX2RlCWV/14GWGCsXa5gaWPsbFepH8lXWUn94=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RzWq79AaxdLxuakiwtX+fmuguGrhISKPwIAdVHN9UFfimweeqhQXWs/kzDImsg4YiphaWfIIqiE+K+lqYmv90DRzLjQNwnqO5JvQh6UP4D1GNkzAB7IjSlVhHseRV7gmEraNNB/KS1YDI6ye6BICR4ZEoTB64FhMFDS/3AWp4Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bjopPVE9; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="KEGXXoUX"
-ARC-Seal: i=1; a=rsa-sha256; t=1783275585; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=IeNyDLqGAG6gGbkyjDkNnhPUEK/qFIL2W6IIJ9ZS76tE3FumZlYZNqDw5XZyL/BbKwAGxo97lGceNo8Q5N2dUki3LciDx2/kT6Q8XD+6TVtScbKbxCTucipY3M4kzth9uOCAdii5yEsEN9bDJN7Z8r90vmvBTPm5DFncGp/bW3k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783275585; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=gujNh9G+9M5lj/xIOBFbwcy0wHOT+eb8ih8LIp1MREk=; 
-	b=Q6iZ8O5IC/fitAePkhpLKc38l0fENQkiS2BnVdZQpncxZV2dtw2mC6qTEiPX8axypDx0VF71GSn1zjz5vn5ZPVarJK7FGp6dgMjizUkgX2b7VebkAI+SfbWJTqivBoc7LlIBUm/ka4A+RCQeXHL0DlTvIZcf17Z3cmqZB4I1JyY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783275585;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
-	bh=gujNh9G+9M5lj/xIOBFbwcy0wHOT+eb8ih8LIp1MREk=;
-	b=KEGXXoUX7g33UDp3VAedpywBmoUkP5APPh9CaOZwhwr0azNauKdShBkD8mAL96kB
-	082GAOVgWfsPGnhj3d1t7jvhky8lpHZXahSmyV5Ih6JXa6AuZAoaL8OYm2gwvLb3zKk
-	8grHDuaiBmmC7H6MvR1me5kac7wGfg1saCom77TPfVGYfTo4pbGwvU6MfQKOoqiPnM/
-	F9+ExtPPFOTwCaZwxagMOCSEHxuqOqR4jHvupLMFHccqVdd1nqNZqCOLOFIqAwT5l6i
-	BuEG5h5eMoCDD3bvlRrTPD/76txtnYyBobQDOkcXuwllvkktfP3O2iqxrRAzGSVX28d
-	awkPLGbj3A==
-Received: by mx.zohomail.com with SMTPS id 1783275581860184.3430519611062;
-	Sun, 5 Jul 2026 11:19:41 -0700 (PDT)
-From: Rong Zhang <i@rong.moe>
-Date: Mon, 06 Jul 2026 02:19:31 +0800
-Subject: [PATCH] ALSA: usb-audio: Fix imbalance per-channel volume of
- sticky mixers
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bjopPVE9"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cc84e77e78so4737825ad.2
+        for <linux-sound@vger.kernel.org>; Sun, 05 Jul 2026 11:42:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783276968; x=1783881768; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FHJZjBSfR8znWVn0hETgNilBhp5qzbTw+DVwC8l5bo8=;
+        b=bjopPVE90QIbp0lxTwGpDa0jVVSFUbCEW9aiOOb/qD8EVGBNu+7naHmukzN1L/3fZe
+         /VTG6/D495to9jjXScLCLWFa+PoWyq1ylsPX00ALUJYbSx7bKv2Qaddh8ycd10u5vjqG
+         fbKUn7Mmq8JA2GWGEkwBz/ekPhFYtBgZLYnUNI6HjebUVE9B7L9CULmPQliqK2rqCaXG
+         tSZ2Y3Gvh5Rbg5xG62JjqzEi7evu8SO8ulnFmcTVJpAluQFwkcqe9NU9/M/baSull2Bu
+         pYtWW1i7fDRG+MKlAe8EeDh/+pXRzLqnA9fp7MuVdHpO5jg4OWXIyJnbP7G7OpdbIcrd
+         CvRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783276968; x=1783881768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FHJZjBSfR8znWVn0hETgNilBhp5qzbTw+DVwC8l5bo8=;
+        b=qW/sjDx8TVieIQiPnqNFcumBCnYJilglbMO9Rn0TmQjIjfpS/TOwwePZBtv4GVbQ2V
+         PazBxDzFamk5uZdzfUJ0tcjrdVXrVMxPMJ4Qp43J6gdTAxHavJS0bPZHqaCJ43CpbWpL
+         Kme8QFzlMNHh6jilX6jjhZQTp5h0hpz7/ins1o0dwJQY4H8kq4+BgWLthkQTVHNGZP8S
+         1XqMjGpsblaWUEmayCITLrJXvrB2w85Kj97yFdlchaPHK9vjb83fl++Ap2gpOKJkSfZl
+         3sCyeqUsn0J6kfPKcXztV3ZTkrd/CeHUq+SlqfPR0wJkNRUJ0suSwVTlwPIr+wfxu8Lg
+         6TDA==
+X-Gm-Message-State: AOJu0YwiR7DpKWT0Rq+AWshde5GkC3McVnfEZ+P5SCg5HX4RVYf9H3Fj
+	Wc23pbh5RRt6+Z2aBPrWWz/wjPrtANq5x87nQ8GqwKnbX+aRgWSEUsdr
+X-Gm-Gg: AfdE7clZ8HB48M3fIrENFtfHw/ZCyyT4NVhXqSKTRLgOBWInRzQAn76NTG4X398g+T5
+	8P+VP5Qa3fArKpFkp6f+BP9Mtcj8dAEDXvWGCAjSCbQRslzqb5FA3Xkz+gJJjGb0hgaltzLTogB
+	kyJdFy9vD4b5qOVTkM40nK6Q9snfVrmYci3cSosVnY5aHOh7MkWkIBzAUEdhXFxBLtLd8is+ZiM
+	95lrxMIvtBEbH/CZ5fCD4Px1ChuSIvVGlet3f4Q7GtOGn8ld7q66yz7Tm7qm6QyYaCK5Vzjb/B5
+	vQ6ZAgzGQoLhpHGEYzAKLuJ6BUzmxpSzou8S53Qjvxl/a7hjOgniEy27/5HEQJ3RfGjzaJdfOuj
+	QAR8QycuzKhS0+1kFBGMM+x+nJnixWr3EXvo3Ar+aeU3ewkte2crummS5xsRtkyuAeEk23PLs3/
+	rXI8uW6jXOA2nzgWPvfCc/5bpnRhijnlBS6JxliaDLr3IKC6o=
+X-Received: by 2002:a17:902:cecb:b0:2c9:b396:1a55 with SMTP id d9443c01a7336-2cbb74feb9dmr68570515ad.12.1783276967665;
+        Sun, 05 Jul 2026 11:42:47 -0700 (PDT)
+Received: from localhost.localdomain ([2802:8010:610c:8c01:940:5638:6c2d:bc2c])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b446a766asm51146780c88.7.2026.07.05.11.42.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 11:42:47 -0700 (PDT)
+From: Agustin Luzardo <agustinluzardo09@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Agustin Luzardo <agustinluzardo09@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Add quirk for Redragon H510-PRO Wireless headset
+Date: Sun,  5 Jul 2026 15:42:27 -0300
+Message-ID: <20260705184227.113588-1-agustinluzardo09@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260706-uac-sticky-channels-fix-v1-1-92741c538283@rong.moe>
-X-B4-Tracking: v=1; b=H4sIADKgSmoC/yWMSw6CQBAFr0J6bS/GyEevYlxA80ZazWimgUAId
- 2fAZb28qoUMUWF0yxaKGNX0GxK4U0bS1eEJ1jYxCbwvK1fwUAtbr/KeeT8EfIy9TuzO3l1yaa4
- CoWT/ItJ8lO+PP9vQvCD9nqN13QAp+9/yewAAAA==
-X-Change-ID: ceff7816-uac-sticky-channels-fix-12f145cb9cec
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Rong Zhang <i@rong.moe>
-X-Mailer: b4 0.16-dev-d5d98
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-I accidentally made an off-by-a-line mistake when mimicking other code
-paths that set all channels. The mistake breaks sticky mixers with
-multiple channels.
+The device with USB ID 040b:0897 (Weltrend Semiconductor chipset,
+sold rebranded as the Redragon H510-PRO Wireless headset, reporting
+"XiiSound Technology Corporation" in its USB string descriptors)
+reports a constant value on GET_CUR for its PCM Playback Volume
+control while still supporting an actually tunable volume. This
+trips the sticky-value detection in check_sticky_volume_control(),
+which disables the mixer control entirely:
 
-I didn't realize this mistake at that time, as my device's mixer is
-single-channel.
+  usb 1-4: 5:0: sticky mixer values (0/100/1 => 80), disabling
 
-Fix it, so that per-channel volume of sticky mixers is balanced.
+As a result, the device boots with playback volume effectively muted
+and provides no way to raise it through the normal ALSA/PipeWire
+mixer path.
 
-Fixes: aa2f4addab44 ("ALSA: usb-audio: Set the value of potential sticky mixers to maximum")
-Signed-off-by: Rong Zhang <i@rong.moe>
+Apply QUIRK_FLAG_MIXER_GET_CUR_BROKEN so the sticky check marks the
+control as get_cur_broken and relies on the cached value instead of
+disabling the mixer control outright.
+
+Tested by backporting this quirk flag and the supporting
+get_cur_broken logic onto a Linux 7.1.2-zen kernel build that does
+not yet carry it, and confirming that after applying the flag the
+kernel log changes from:
+
+  usb 1-4: 5:0: sticky mixer values (0/100/1 => 80), disabling
+
+to:
+
+  usb 1-4: 5:0: broken mixer GET_CUR (0/100/1 => 80)
+
+with the control usable via the driver's cached value afterward.
+
+Signed-off-by: Agustin Luzardo <agustinluzardo09@gmail.com>
 ---
- sound/usb/mixer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index b4c855c25eef..703c118f9d4e 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1473,8 +1473,8 @@ static int get_min_max_with_quirks(struct usb_mixer_elem_info *cval,
- 	if (!cval->cmask) {
- 		snd_usb_set_cur_mix_value(cval, 0, 0, cval->max);
- 	} else {
-+		idx = 0;
- 		for (i = 0; i < MAX_CHANNELS; i++) {
--			idx = 0;
- 			if (cval->cmask & BIT(i)) {
- 				snd_usb_set_cur_mix_value(cval, i + 1, idx, cval->max);
- 				idx++;
-
----
-base-commit: 7404ce51637231382873d0b55edabc2f3b841a9d
-change-id: ceff7816-uac-sticky-channels-fix-12f145cb9cec
-
-Thanks,
-Rong
-
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 0000000..0000000 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2211,6 +2211,8 @@
+ 	DEVICE_FLG(0x03f0, 0x654a, /* HP 320 FHD Webcam */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
++	DEVICE_FLG(0x040b, 0x0897, /* Weltrend Semiconductor, sold as Redragon H510-PRO Wireless headset */
++		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
+ 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */
+-- 
+2.46.1
