@@ -1,97 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EB337DABE
-	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 11:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F24357D09
+	for <linux-sound@vger.kernel.org>; Sun,  5 Jul 2026 12:16:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783252351; cv=none; b=GPpAM35EMq5qkxjm9LbLNS0Od/OHpFJ6vl6BhxZCf/arIjRsfp2rdcRV/Nl62U/yfOObNQT2Jybpz/hchdqDZ9rFSQMXQne0dkHDXI2GSlcl6dqJXwb0L5YNv9tv1n3IfI/zyUUzGW0H0v7sla51Bl9z5gSb2EENvRLo4cmbNcE=
+	t=1783253805; cv=none; b=te+7T3npJmJWp5x4OLIQVEQt+Ee8IvsCW7VirByLByzcsTY+BYTmnX42amazLddzI9HP6Jeqg3oBAiy+wpxNEbTCFXue8Pix4bQBIDrbbwNKJReI4zC7Hljz/ZUz6y0zbJp8ovFGT+Xy2DJcKpUk0/aoX8zHqGsMXD0+/Ff32e8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783252351; c=relaxed/simple;
-	bh=CLSuzdCc+04rTJajNgr/4YoXL0buOBV+ftEj0jyiyHE=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=lms+fA/yUs4ujN/zk2b87N4aXtAXYWU+0kJZsBkhGUA+LZufjp21abgG6BTQVtUxlRE7DGEP8CNrPX6Ge0Z4BW+VUTGP7xL0wzioDQCSgpFlBi7CPD8MYWCb2asGHvanUxXQuvyJZEeSIi/+DuVtDQNy09k08/8LlvLaxrXCrX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YE91ZbSN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783253805; c=relaxed/simple;
+	bh=8vZcz6qAZD4uRcsZpPiAXNiCjuQZ+E/uDUWR8V0b/vM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sVssrBMdcJPXaP/zDN9I+50hbkLtdCusdfYNOOKYLP+33sXk9Qqh6nqohmyl+8Bhkt/piYR/P/LXzhM+Geu0f5kqsprjWwzDktAtTuZ2gjztZUClObbvemCyDBeFy44tA9p7XCzBXK0xHpZoracZscktYoDWlorFCWC6R5+22ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DNIsErs4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YE91ZbSN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F6661F000E9;
-	Sun,  5 Jul 2026 11:52:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DNIsErs4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8171F000E9;
+	Sun,  5 Jul 2026 12:16:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783252348;
-	bh=dI9q2GiXTUCWlGPiMDSgFHntAYfnC4FC2hwVFyuyAJA=;
-	h=From:To:Cc:Subject:Date;
-	b=YE91ZbSNOI6MVXfhW9LCEV5FSP0/1DqGx201eZnCv4zFndlWiQht4XfiVZ1aEg528
-	 hoUdsH8f0VvCZdwYAzMaiBVMpQQbdcF0xC7q4bStC8iZ2MN9YCk1JSO1gYTPhvNeXj
-	 kueMPVV1ct945lLRanOSfi9lJ6XyIXGXR+7BaLePBN+9tXwVNofvySc2XULjHl9d2B
-	 m2kOp9aGXGDMEtexSVatLdPh2ZcrwNdHK0ppXUcyy3EYRxI0OsJ3rA9OwS16/9cg/p
-	 9ynYc7O1VKhthkfJIdDtmk3VE43xwYq8vGsR+DOoGP8wLj/1gvMcXe+Q580mCEmnYm
-	 YVUUsIUXwnKFQ==
+	s=k20260515; t=1783253803;
+	bh=wCXuoEM+zXYvIbDqg+uC7kK8f8ZsiBmBh0QdsgSA2J0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DNIsErs4F0LN6jZPLj6sZNSWOdc333z7m5CeFrORtHp55ooIFCD0YHAhSd4B8MSlb
+	 BnayAuHJaoxcaazU10maaDj0o/gDLiE0hSwdjnDeUUY4oWnVuFZ5WtLIyMfPkc5fxk
+	 +Wgwfc28cWC6op2Exr2AYyEKqvZrE/p9zr144QU/3xP8J/eG7gyFd22t6dy1og5zQm
+	 Kmw2vgG5C4AqgfQ2OA1Z/dadEymbg/QLizKhHyIPAMsh1s7gKrSHyo9xvholzYTtNi
+	 AlDjMONZFslEyqF9huf4G/B2my4WDSyXrB+qwgA47Z78fMEb2vWn0ca5+Nriu1Qx+T
+	 BGVzKyyzVH9OA==
 Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-	id 1C9801AC5AC6; Sun, 05 Jul 2026 12:52:20 +0100 (BST)
+	id 0D9901AC5AC6; Sun, 05 Jul 2026 13:16:41 +0100 (BST)
+Date: Sun, 5 Jul 2026 13:16:41 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.2-rc1
-Date: Sun, 05 Jul 2026 12:52:19 +0100
-Message-Id: <20260705115220.1C9801AC5AC6@finisterre.sirena.org.uk>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v7.2-rc1
+Message-ID: <akpLKbPAdPnoGaww@sirena.co.uk>
+References: <20260705115220.1C9801AC5AC6@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="W+ubnJuzOtu+Kl9I"
+Content-Disposition: inline
+In-Reply-To: <20260705115220.1C9801AC5AC6@finisterre.sirena.org.uk>
+X-Cookie: Whatever became of eternal truth?
 
-The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
 
-  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
+--W+ubnJuzOtu+Kl9I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-are available in the Git repository at:
+On Sun, Jul 05, 2026 at 12:52:19PM +0100, Mark Brown wrote:
+> The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e524917774=
+82:
+>=20
+>   Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/=
+asoc-fix-v7.2-rc1
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc1
+Sorry, this is a duplicate due to me using a different machine to sned
+my SPI PR before the sound fixes landed with Linus.
 
-for you to fetch changes up to 83245e7a436c04e511378af14dd81fd188b41541:
+--W+ubnJuzOtu+Kl9I
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  ASoC: rsnd: src: Add missing scu_supply clock to suspend/resume (2026-07-02 18:56:38 +0100)
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-ASoC: Fixes for v7.2
+iQEyBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpKSygACgkQJNaLcl1U
+h9BMEQf4+7UFd8njlt/KUjSv5esd/KP3cYr1IvAJvXEIDU+2kglkv4ykI/nR656Y
+1NImQWWQywZGh+dWCb3P1/g/v6ff/CHwsWjyIUJxHnSFZ7MnHUMhazGWCkgf7qhW
+x+uaGt82AU5fJmV1pQL7i6wKEooPve2zydRTNXTQR0Xc147eO6ax0mIoM+DNSoFD
+6Bp1zZyBpZt+DhL6166zncXve1UL1UxiFHZGUD6epIv1P02+dGcPFMfQRQlAeTIx
+4KQvHJ9qKhFjh7ReCNU3otIE4gyztkaxAdZ242s8yHvWfgSwfbPq0qVcIpwsV9Pf
+ppasO8Sd9wrO7W7aeysTiZVacF/v
+=RHX/
+-----END PGP SIGNATURE-----
 
-A fairly standard set of driver specific fixes and quirks that have come
-in since the merge window, plus a MAINTAINERS update.  The tas675x
-READ_ONCE change is probably not actually fixing issues properly but we
-need a whole new approach to concurrency there and it came along with
-some good fixes.
-
-----------------------------------------------------------------
-Jetha Chan (1):
-      ASoC: amd: yc: Add Alienware m15 R7 AMD to DMIC quirk table
-
-John Madieu (2):
-      ASoC: rsnd: adg: make rsnd_adg_clk_control() idempotent
-      ASoC: rsnd: src: Add missing scu_supply clock to suspend/resume
-
-Luca Weiss (1):
-      ASoC: codecs: lpass-va-macro: Fix LPASS Codec Version for SC7280
-
-Mark Brown (1):
-      ASoC: codecs: tas675x: misc bugfixes and minor changes
-
-Sen Wang (3):
-      ASoC: codecs: tas675x: use READ_ONCE for params to be used concurrently
-      ASoC: codecs: tas675x: Fix CHx temperature range register bit fields
-      Documentation: sound: tas675x: Fix temperature range and impedance documentation
-
-Vijendar Mukunda (1):
-      MAINTAINERS: ASoC: SOF: add AMD reviewer for Sound Open Firmware
-
-Yousef Alhouseen (1):
-      ASoC: SOF: validate probe info element counts
-
- Documentation/sound/codecs/tas675x.rst | 11 ++++++-----
- MAINTAINERS                            |  1 +
- sound/soc/amd/yc/acp6x-mach.c          |  7 +++++++
- sound/soc/codecs/lpass-va-macro.c      |  7 ++++++-
- sound/soc/codecs/tas675x.c             | 14 +++++++-------
- sound/soc/renesas/rcar/adg.c           | 29 ++++++++++++++++++++++++++++-
- sound/soc/renesas/rcar/src.c           |  2 ++
- sound/soc/sof/sof-client-probes-ipc3.c | 23 +++++++++++++++++++----
- sound/soc/sof/sof-client-probes-ipc4.c | 11 ++++++++++-
- 9 files changed, 86 insertions(+), 19 deletions(-)
+--W+ubnJuzOtu+Kl9I--
