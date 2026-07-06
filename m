@@ -1,168 +1,201 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4783AFD11
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 04:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C7D381AF
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 04:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783313760; cv=none; b=OF+F2U0cpp2rkJ9o8cjxnqmIfxyTaU62zcs9/I3Uud8ujnty8oQEsNPzktCpUwn436C3voNH1SnKcwW/sS1Ge+TzdW18TNO/reVYFQEFHJVSuMo91m3NnwgEN3+mhjgFnHPLo06yjTOTg2Co6VW9s7LET5QjEhZJ695r+fBx43c=
+	t=1783313882; cv=none; b=advyyt+fkUklHT8A+RKf/87GdlfsB7fivPK24e/xF+L9fTjjAOBxvENkdY+QqUU6Kgl8v+iyhoNLImRrJA6MF+IFwkpAhPo0Y21vfnFplUe8bzhBHeKrYK0FRqfXF37O1fFlKbrsWsLk/rrT1JN3GFRAZ36b3QR0zkmZG0/nRK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783313760; c=relaxed/simple;
-	bh=YmgsfoXmP3wicea3p38VOglMuty4QAN7Ko28KEOX1Hc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AoEyRWl3rrL2Jt8ApxbIE71BtFW3i7NFNvOgErUJ21Rzh6eXqQwa1igojY/PfwfMc/Oc8rtBqoOMO8TgHlF+ZCXAtJFp/MaoHkie7R3gFDIYD+RtfR66CO/oaaUTLap+ya816GFDS0fhD5/Rv8RDjpChDyyLgMAXpIuIGhdpdvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BtuYZphI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Z3Jr5zap; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1783313882; c=relaxed/simple;
+	bh=dPxrydN54DmQuCWo+wwO6vQ1ZmOnnyIq8oAVMCQHBtk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LIeURB6VY+n0PJuzoxgU4KWASj2/8K2G9GjrgSFAXBioEXf8HZl2XfC7wyCq917356ExtZAAGbK2JGUkpRWWLY2X/e9OjnAmpzM/2riFrikOLB7TCRF9Lku1Ouncoilo6OKmOu0EWmZJxEGSah2JstTalvJaleTDeMjdkfMmJtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hJVQD6tz; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BtuYZphI";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Z3Jr5zap"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666428TH3615008
-	for <linux-sound@vger.kernel.org>; Mon, 6 Jul 2026 04:55:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JvLKKEyLLlv8tWw8qJtzyelBHieDthun419uycWn1Dc=; b=BtuYZphIK7UnAPPa
-	qYGHPuM+VD3C6WvezTLdqIjiYVGHLzNLv6RSapQqEJ2excDEyUkD/0AEcWQjp5ej
-	4HI3bMiV8UCRYHw/YXMP72BUtTB2CANb5/xl2wJKaV5lc87Ax6wEFDsEhbUsTXur
-	RNx2Hm91I1sPL4Fp17l4JFxQuB37ZPnouzzUHhLqbWpMJkm6xOuGNEQuSB8vkr4v
-	iHs+mInjL3lcrCXDe3aaUW3MnfspbyT4APEA3ecMXRsbeK03HAVvm7fbyNR3ckpu
-	4lDTqZIfECL8APV6bvyHqU87nPrqklBdw7zS2B0zT/os5ltI50S9QbhC5yDZwUWY
-	z7D7UA==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6srvmf0m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 04:55:57 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-380c178acfbso2125498a91.1
-        for <linux-sound@vger.kernel.org>; Sun, 05 Jul 2026 21:55:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJVQD6tz"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-847a5528b33so1257571b3a.3
+        for <linux-sound@vger.kernel.org>; Sun, 05 Jul 2026 21:58:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783313756; x=1783918556; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JvLKKEyLLlv8tWw8qJtzyelBHieDthun419uycWn1Dc=;
-        b=Z3Jr5zap9lUWE5NcKmoo9cq4VyYd8OfMJGVQ6b4AKiCEBOMaj87jG60tHh+PoJe8zn
-         Nx8ZhE9BKLjIcVtnjd3NzKx5w1mutKKi3zTqyOYyg8ICK2g1jmoefVbycgr3tmk9H52N
-         kXxEAYauB1ur/Gpn1QujPW4nmKf8HSlqLi2eYH0Gypm76IOueG94Oj57ecdMJqSBmwjO
-         qx3Kf+rydvZdq4PIXZqotXQc7paiAki1F1wUbnFuaUEYZS5b6RS5letdZKyVFgu5RA9Y
-         FV8jSmCzURwxVusAJCv4/HNWsKhhgQjNktQG3QrTiH0PV1JuPBsAg8/ZazyRiFkh9NoQ
-         dAYA==
+        d=gmail.com; s=20251104; t=1783313881; x=1783918681; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2mBMJxZTbTfITgIir23vIIgP+P8butuXuzKkdVsRlag=;
+        b=hJVQD6tzoRBDhEHcdvxz0hjW5KVi7RMVYr15uw1LCA0oMon9JwyxTKO6FOAK82r9rG
+         29Ddce1g2/YfmZpVsFu40brd6ZDMwQt4/rTqhfJrgKSzBXakEIUyY+qkk3wAVildTN/v
+         5JHzl4H7a8QPcjAMJhihBrpZa/AxYF1w82Tga/ovm9raK6qJE+IbG34p4gLzISTmJOXU
+         5yTHg5iAwqwzO8gB18maDodwcXULhXSfhZkyn4GMe2lGii5H6h+90cNLsPldDg7QlnUF
+         Er1/ebTJJUYdCkzJ8mvQx1px1oKS1s3oBlgkU9+0UmtKM5GIiWLDunJOyM0rS8w8qpKc
+         IwIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783313756; x=1783918556;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JvLKKEyLLlv8tWw8qJtzyelBHieDthun419uycWn1Dc=;
-        b=GC8wdUbjWkzDc31LE6E28q/xrjXZFcyiJUC9lSJ+s1z9/hKW0RixYbP+JdR+cWc9WY
-         tW2IXtczVOV2PQEIk9KsZI3JTfMjCIK1Hr/PItzzg/u1N+kledd6aWc2/9rAiKVUTvh0
-         yvGd/rrj806MTeJ8d+2Q+TngKYnIJmREg6aRY9ruSROTzqfHklaLp/wQLvWs5rx9lduq
-         LDS3grP1wxlzE+N8pKoiSDKUcBqDDcHR+teIW7XF9sVfJlVnlqs7vvOPNrs5cyoP0QkT
-         sFSuFVO+X4KpDdSHk+tkt58OkccrsonVVdMKmRKZplR/Xq2cXPhZAVWXtcnlEnucVzyz
-         Ii2A==
-X-Forwarded-Encrypted: i=1; AHgh+RpHnFp5j53wNmcpkhSWYN21yo13S1sogUoogG39ECozScpFx0YhnQfasL/9mqSGI8+44yxIzgyiW4ApTg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YysgQqFDL6bQAOA0IiXN8efKGgbVvmdLgUi4iDXXiVamTOQ3tYV
-	pS+q/QKnQfgpCwYwaofJsjwvdwtvljASx3W4L6iaJ4d0MXgJ9d/7BvOUbpprN19q+BujWugb/OQ
-	i9J0elDCodq6KOn/1wcAwfLUMai6QnXvBB/Ir9nOaGoHgmLJ4xPDBHXs0zPaOTqr7Ow==
-X-Gm-Gg: AfdE7cmEcpiXN895n7wdpArNgwRjZCXuyS8+ki9LPSnQExFQl2pnOspBVg/KlfR0Jqp
-	5JRI7eocfBmWhx1a8E2IuEHCbNa/886yYwwH3jkOrH4zhVvuUM+0UHVVGMdk52/9IPhORKSVJLC
-	EFiJs1qg1DpfcvmNg11HxVasv18juflexblymbTdp5grBbzyWB6gu/qB2VU3Vbr3noiRF9snSVJ
-	VyJEM1DejIVvu5TDVc65MYPYTJ1Vs4mI9HXzZSmtRDeKTbEhOuLVHRhE9J0GwqKNs6t7tszwKlr
-	yvT6MY32846n9dtQpMprPvRsyo0ImV/R5kCSAru1OTRoI6pcYlMz1yayN0yCVjf4sZJAlAkNzTo
-	Rbhi70S11sMAtVZKrBOTACgG0YkuddwHA5xISoYA8
-X-Received: by 2002:a17:90b:35cf:b0:381:9b7b:35e5 with SMTP id 98e67ed59e1d1-382800d1a6emr8328711a91.4.1783313756485;
-        Sun, 05 Jul 2026 21:55:56 -0700 (PDT)
-X-Received: by 2002:a17:90b:35cf:b0:381:9b7b:35e5 with SMTP id 98e67ed59e1d1-382800d1a6emr8328696a91.4.1783313755987;
-        Sun, 05 Jul 2026 21:55:55 -0700 (PDT)
-Received: from [10.204.78.130] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3114fe08b1bsm12946548eec.26.2026.07.05.21.55.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Jul 2026 21:55:55 -0700 (PDT)
-Message-ID: <95e8281c-91e9-4444-8b83-ea87243122c9@oss.qualcomm.com>
-Date: Mon, 6 Jul 2026 10:25:47 +0530
+        d=1e100.net; s=20251104; t=1783313881; x=1783918681;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2mBMJxZTbTfITgIir23vIIgP+P8butuXuzKkdVsRlag=;
+        b=c0yi7IoaQ5BXrt5rekwjC3GFlpTXputxaflfyHXlIhVlQjkCjXVWMD4iQMuwo3qFgG
+         AS7aYcD6LhkPuibL6J/yW9fkIe+z817dPnWnxl/SQwmhp49GhVGMBlR/nCOdgkMFzNmv
+         M+EPInx7opa/hkM5U1bLFMFVm9BTDzlwYSVeXtb3TA1ng9kg5+AdY8ubXiu7M+offEFH
+         fL0mzoXUOJLyTgx6OxHPOBhmM8LvyCm9upmG4CDdNFqWlBxCQT8bjpHlRYwRkQwpTSKC
+         Om7tBw86CWVjPNh7d4hzVTIVitMRhS9gKYdDCDhfX0JLcUOqYopb5KgN/FSgpdQDhtpq
+         ebSQ==
+X-Gm-Message-State: AOJu0YzuOu+yLtiPYCD6kbTzDHo8ApE0e328jcAd/mCBRft7asG/rnLJ
+	NeY68OjokgZYLzmxd9F+MF/tbfgeWESpsJv04iY6iPSrJHE/cZV9leLg
+X-Gm-Gg: AfdE7cnM1ApKHg/b90Gwfc31cIIUrCGIQ1vWfBuDYsl8E1vAjZDbg1LmVBnrQDt5Vud
+	khVTvhDaLztD5Co/vWzSrbNmEf7e7FraPnOOBNj0euvCHPqXrhztdOh4k2VI5o44R1L75eiI34n
+	QAn2AzZwV75y10pgHrMiuYWOa0wbOQdVb7zsk4dNSXMNgCFvUlKj7vH3Nz3Jb9JRMGi9M5Rs9zi
+	iWx5/3p/mUjgOVphFZN3eokNAh6YSHEAty5jN0g8e9+kpGskkIxGrddeFAxsn0AKG4W/c6JY0Wg
+	HZHFZi8YJF2is69HSnoFSbRpq0S7CsRORv8o1yFAu+vTMcpeT/G+xiKoSwlxkNJO624AylLprC7
+	1HocVJvm0xDqwWQjCvvaEYNYSoYwk8dlA7zP7CnGl9cwaX27nLcoOZ/stSi40mWKTVk4Vvl+5dk
+	mfds5dk3IasCMMp32sdo3ZJ4umykAb7QUi6LO47qUl1zrz8is=
+X-Received: by 2002:a05:6a00:428a:b0:82d:62ed:b01d with SMTP id d2e1a72fcca58-847f6f474c0mr7369653b3a.45.1783313880851;
+        Sun, 05 Jul 2026 21:58:00 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d7c2casm2977208b3a.43.2026.07.05.21.57.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 21:58:00 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Max Filippov <jcmvbkbc@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: xtensa: Use dev_err_probe() and drop redundant error handling
+Date: Mon,  6 Jul 2026 11:57:47 +0700
+Message-ID: <20260706045747.36811-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 40/42] misc: fastrpc: Use
- devm_of_reserved_mem_device_init()
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, openbmc@lists.ozlabs.org,
-        sound-open-firmware@alsa-project.org,
-        Srinivas Kandagatla <srini@kernel.org>
-Cc: Konrad Dybcio <konradybcio@kernel.org>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260705194019.2565498-8-mukesh.ojha@oss.qualcomm.com>
-Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <20260705194019.2565498-8-mukesh.ojha@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=TcamcxQh c=1 sm=1 tr=0 ts=6a4b355d cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=ee02QKOXNWxg8IJ2rEsA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-ORIG-GUID: QNq4r9_CoJfmfUfl8dGzQLEzNpVCeFoP
-X-Proofpoint-GUID: QNq4r9_CoJfmfUfl8dGzQLEzNpVCeFoP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA0NSBTYWx0ZWRfX+FBpKuvV3R/j
- VBZXzu2Rp4GyNUr9VYs1DVm+WoURyKGCUkByZaKpyJUpHuUJgSKf4GQ0IfN5syoMvSyLFnKpLYR
- m1bWMB485d+6ns0gK0mKMaRR3RSFUlAvUplq15oJcwhMFTEZz7B8xPb+CVuwX1weTWFAUNrf5eG
- pZo7dIk1rbO6SihxAQVJSjpxjbdOozu6FJ0qC8jlbaoQBLG4FlfpsPtsFRQ9A7a5iPbCdExLT/v
- RMfKbMSHmWv2hZEFgN2xgxjhVqiciMIPGdDPly0h7BOjp4w8hRe7BdQA2gSBC9UwE/LBhe4EQic
- npDMkD1yTKcqLfTxB/ImHml1vug7qBQko+31G99YnWMnMU/qjjvXqswf49BZP91XNyw0vzglYs6
- aCVmoV4IlpvDewU6f1LtGCN5BREVSnqipQadDelsB7ZH3IcF0jarE1Pc0cOzx6vfq1XVAuY2W76
- 9LyMbAwWEZ+ABwG3odQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA0NSBTYWx0ZWRfX/djaEFKn5REY
- lpufXOtOCQ0InDT7l5oziwo491nPJiTAUNRBeVk0wAIRmU2vjhP3JCE7/HZI+mwRZvu4FiVuWo0
- bbCwm2SlcnKOcsSOJgJMlsitq3+QDQQ=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-07-05_02,2026-07-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 suspectscore=0 bulkscore=0 phishscore=0
- impostorscore=0 adultscore=0 clxscore=1011 malwarescore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060045
+Content-Transfer-Encoding: 8bit
 
-On 06-07-2026 01:10, Mukesh Ojha wrote:
-> Use the devres-managed devm_of_reserved_mem_device_init() to ensure
-> the reserved memory region is released on device removal, fixing a
-> missing of_reserved_mem_device_release() in fastrpc_rpmsg_remove().
-nit: I see this change is also fixing fastrpc_rpmsg_probe() early
-failure leaks as well as -EPROBE_DEFER retry paths which could be added
-to the commit message.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Reviewed-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-> 
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> ---
->  drivers/misc/fastrpc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index d86e79134c68..c4e05b0db527 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -2396,7 +2396,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  		return -EINVAL;
->  	}
->  
-> -	if (of_reserved_mem_device_init_by_idx(rdev, rdev->of_node, 0))
-> +	if (devm_of_reserved_mem_device_init(rdev))
->  		dev_info(rdev, "no reserved DMA memory for FASTRPC\n");
->  
->  	vmcount = of_property_read_variable_u32_array(rdev->of_node,
+Convert error paths with messages to dev_err_probe(), which combines
+dev_err() and the return statement while also handling -EPROBE_DEFER
+for the clock path.
+Remove the redundant "err:" label and return errors directly. Paths such
+as platform_get_irq() already log failures in the callee, so they simply
+return the error code without printing an additional message. Inline the
+pm_runtime_disable() cleanup at its only call site.
+
+No functional change.
+
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/xtensa/xtfpga-i2s.c | 60 +++++++++++++----------------------
+ 1 file changed, 22 insertions(+), 38 deletions(-)
+
+diff --git a/sound/soc/xtensa/xtfpga-i2s.c b/sound/soc/xtensa/xtfpga-i2s.c
+index 9ad86c54e3ea..c70f9103604e 100644
+--- a/sound/soc/xtensa/xtfpga-i2s.c
++++ b/sound/soc/xtensa/xtfpga-i2s.c
+@@ -533,34 +533,25 @@ static int xtfpga_i2s_probe(struct platform_device *pdev)
+ 	int err, irq;
+ 
+ 	i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
+-	if (!i2s) {
+-		err = -ENOMEM;
+-		goto err;
+-	}
++	if (!i2s)
++		return -ENOMEM;
++
+ 	platform_set_drvdata(pdev, i2s);
+ 	i2s->dev = &pdev->dev;
+ 	dev_dbg(&pdev->dev, "dev: %p, i2s: %p\n", &pdev->dev, i2s);
+ 
+ 	i2s->regs = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(i2s->regs)) {
+-		err = PTR_ERR(i2s->regs);
+-		goto err;
+-	}
++	if (IS_ERR(i2s->regs))
++		return PTR_ERR(i2s->regs);
+ 
+ 	i2s->regmap = devm_regmap_init_mmio(&pdev->dev, i2s->regs,
+ 					    &xtfpga_i2s_regmap_config);
+-	if (IS_ERR(i2s->regmap)) {
+-		dev_err(&pdev->dev, "regmap init failed\n");
+-		err = PTR_ERR(i2s->regmap);
+-		goto err;
+-	}
++	if (IS_ERR(i2s->regmap))
++		dev_err_probe(&pdev->dev, PTR_ERR(i2s->regmap), "regmap init failed\n");
+ 
+ 	i2s->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(i2s->clk)) {
+-		dev_err(&pdev->dev, "couldn't get clock\n");
+-		err = PTR_ERR(i2s->clk);
+-		goto err;
+-	}
++	if (IS_ERR(i2s->clk))
++		dev_err_probe(&pdev->dev, PTR_ERR(i2s->clk), "couldn't get clock\n");
+ 
+ 	regmap_write(i2s->regmap, XTFPGA_I2S_CONFIG,
+ 		     (0x1 << XTFPGA_I2S_CONFIG_CHANNEL_BASE));
+@@ -568,41 +559,34 @@ static int xtfpga_i2s_probe(struct platform_device *pdev)
+ 	regmap_write(i2s->regmap, XTFPGA_I2S_INT_MASK, XTFPGA_I2S_INT_UNDERRUN);
+ 
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0) {
+-		err = irq;
+-		goto err;
+-	}
++	if (irq < 0)
++		return irq;
++
+ 	err = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+ 					xtfpga_i2s_threaded_irq_handler,
+ 					IRQF_SHARED | IRQF_ONESHOT,
+ 					pdev->name, i2s);
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "request_irq failed\n");
+-		goto err;
+-	}
++	if (err < 0)
++		return err;
+ 
+ 	err = devm_snd_soc_register_component(&pdev->dev,
+ 					      &xtfpga_i2s_component,
+ 					      xtfpga_i2s_dai,
+ 					      ARRAY_SIZE(xtfpga_i2s_dai));
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "couldn't register component\n");
+-		goto err;
+-	}
++	if (err < 0)
++		return err;
++
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 	if (!pm_runtime_enabled(&pdev->dev)) {
+ 		err = xtfpga_i2s_runtime_resume(&pdev->dev);
+-		if (err)
+-			goto err_pm_disable;
++		if (err) {
++			pm_runtime_disable(&pdev->dev);
++			return err;
++		}
+ 	}
+-	return 0;
+ 
+-err_pm_disable:
+-	pm_runtime_disable(&pdev->dev);
+-err:
+-	dev_err(&pdev->dev, "%s: err = %d\n", __func__, err);
+-	return err;
++	return 0;
+ }
+ 
+ static void xtfpga_i2s_remove(struct platform_device *pdev)
+-- 
+2.43.0
 
