@@ -1,196 +1,119 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465A13FE369;
-	Mon,  6 Jul 2026 14:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1272D41611A
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 14:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783348776; cv=none; b=noxbZI1nrFuG780WPjI43f+AOHxt2wabmGYDWis5JA6mWxvGtO8yX3OhJTV6bMR7k09CE9x7SFTIAt1lhWScjG/9WLKlstD6aQdYxD1sQqoU5cH1Z6I90H6XZs9tx4qiSztflSoys0sdxp31S7yLpLsIBnAKAb5vbOuybcZ80Ho=
+	t=1783348809; cv=none; b=g40wkiWY4nFa7ryF41fXTDSMhX+c/nNhOWbmfOv/c2P3ZIPuH4W8DJfKpaBqVxKgtQlLlLbwDsRSh4M/sqQgISvgfyZTmyBYFRCgxRPiVMHp0DtmMdSjY2wcunPbk6bGyK9oSTKrwj3LmPUw/SY6LcmjBex0HwsjOjLqXE1UxWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783348776; c=relaxed/simple;
-	bh=XtbXxotRn4eonCuXI7S2La3x2DD6roUS8w7lR6Aocns=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lMdJJ2Iu67n4dpWr9NIE68p82Jgj5lM61GKlchI1pRPAfNOLddcgdu6ZN+qnXc2JSMwfEaPfcMxDaHaYNtd+k5CQ8ld4AaHZgA3gQoi/5A6SRzK3EGVObmBEw3zHyYppObiewBwo9QwOiAdyE2Vo00MMvXAuihGfLhZ38iO3PaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=j5hgDtth; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1783348809; c=relaxed/simple;
+	bh=MeIuKH5v+1Fb5EfFqq/XZIaqvul1IlPgc8ki/E0i5qA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HH43SYxjscVQrget5XBYjlWMlKdtGRpol00Szs6vTYB28pY3kOYwDe5AJie758p4SfNYZZV71pTmt1tu3cQMn98XCnxSj2BBymJJkqB3eMlVf+FLFNJIt9yxZsP8U9TAWY1DWioMJ5qBOF1ojyvHbmV0rCsqU1XHrT0mXkocmpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=rM1QfgkB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OJQVfsnL; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="j5hgDtth"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gv6Sc3JlwzKrrB;
-	Mon, 06 Jul 2026 16:39:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783348768;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PTWGfLdwlWAV/LMkx8q6n+16+BLtwX+Uw6eFuSY1pwE=;
-	b=j5hgDtthz8XCNdelXgr2Njc2HaTruqIkCO//JWKxiT4W2gEybWyIlcK2aQ1bxIe+BwUJVp
-	sosZFgtgjTYiKegpajhDS7wAQRa5vbGhsdYsOBErEWcCcj6imJ3WhTyng3CLWaw/u/6S/u
-	Ia++ekOByRWNtL6C0p1KPkAMQ78opS9K6p4731SNIh3G/Gtr0smcjJ5LSbWseUhYMLmi5g
-	bSnkIEWLW+D0H8udCi/rtV6GiUxmmd3h/zBT1zxIEz9pUZOsZhePq4tVuE6vy2STKylPsN
-	pNYuSZntPPijS4W0+CuI8ZBjLVluSsSHTtbS9e6dlXfCM6eF2pFoZi1CDk9EnQ==
-Message-ID: <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
-Subject: Re: [PATCH v3 02/20] driver core: platform: provide
- platform_device_set_of_node()
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones	
- <lee@kernel.org>, Thierry Reding <thierry.reding@avionic-design.de>, 
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller"	 <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Srinivas Kandagatla	 <srini@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Vinod Koul	 <vkoul@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich	
- <dakr@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan	
- <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
- Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)"	 <chleroy@kernel.org>, Andi Shyti
- <andi.shyti@kernel.org>, Andy Shevchenko	
- <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will
- Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger
- <opendmb@gmail.com>,  Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list	
- <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team	 <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Matthew Brost	 <matthew.brost@intel.com>, Thomas
- =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>,  Paul
- Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, Philipp Zabel
- <p.zabel@pengutronix.de>,  Maximilian Luz <luzmaximilian@gmail.com>, Hans
- de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
- <ilpo.jarvinen@linux.intel.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
- Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
- iommu@lists.linux.dev, 	linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	mfd@lists.linux.dev
-Date: Mon, 06 Jul 2026 16:39:00 +0200
-In-Reply-To: <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
-References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
-	 <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="rM1QfgkB";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OJQVfsnL"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 285A61D000E9;
+	Mon,  6 Jul 2026 10:40:06 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Mon, 06 Jul 2026 10:40:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1783348806; x=
+	1783435206; bh=HTnzBV6+tmZ1H8ZO7GT01rl8xe3TfaibSd4/Ze0prGE=; b=r
+	M1QfgkBC0Fvi1g78830PVlz87l20n/UUo+9gKEyRqPKyn5Px+OtrlYcqG0VpRtAV
+	Gzz0j7PMrPQy496DnJKOT32JN+gsh300sAq98b+YVY6ZQzO4Q57oTwdKHLAxPVfS
+	tW9ZQhGG9FQsF9amCf3UnXXVFOebCfuRM3Ea5+N7EcukuPpOy/kVMT8C1tmuVStU
+	xdZ8PxKcytun367deV2RmQeYeDuDO26gBla6CsyfYGBEOl9vJguTnWxX74jfW9qb
+	q6QaM8fHahMIW66H6K3/ZjequWahquj9clKIj0NsgAb61ctUvWNsPQ0V79G9pkvG
+	weeIaHIm7ePWMPFtUioaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1783348806; x=1783435206; bh=HTnzBV6+tmZ1H8ZO7GT01rl8xe3TfaibSd4
+	/Ze0prGE=; b=OJQVfsnL4tjDQEP31n1hP0QSbyrB8MF/8l9NPHf3qD5/+IZwPaj
+	QHlinAE7Y+EoMMEhqqxG0jCGv8l7QwlqqxY6gMpeAh0jiOoeN1AMbWtaTAqxttyo
+	Adjbu/8Hlv6v7qxqMOuYXe5BM47mFwLfg5vzGyHwWlnSUCjVdDr4YwMguSCWdJvd
+	4dU5+vZZ/u+k2EGXXqsaIRztK8amqBeqil9KDFVvIi+Uyj632cKlzc4E6uL9G7xm
+	Dp8Yu4ivxPTxcSSOQJHl9+azoiuNq22yNsQPoKbTVMCt+0OK13exfx9SbTpo44S2
+	7SDkU4Xkv8rfrjT50yffAX6kZKAql3C4Igw==
+X-ME-Sender: <xms:Rb5Lanvwgb80e7JU-PASn3hwy99nwhPLZZhuqZocOkXyebSCzDu0XQ>
+    <xme:Rb5Lav7dl1W13X7z-ib_qCkCHT2q-ZZGNWDYg79uujKxGNAM3VjvqND9zHQyZW36c
+    DymMg70UUyDNOajYDDm902m-nBwhuXq_DnBm2n4lJtp_QLSDXMo-9Pl>
+X-ME-Received: <xmr:Rb5LaoLBwQHruO4gbF9phaYnWqvlEMCnZ20TbxZz3FZhNuQqRFxHcejEie_nDk5CaDDk2t_X5H1aeHe7j3RkIMlLwKinGw>
+X-ME-Proxy-Cause: dmFkZTFJWAfkPnJQFX8KRu5uYhcE7oNbrHSbldfuv/yq3yF+spj1G7ylkRLSbbzBwPCtZl
+    K4Tuhy0RHCbnF+HwfkcJw9EL6456P8H6/aBI/JinIGgreaoD4FGD/c0QlBOJ1Y13IVxbHn
+    lZoTWm0Q25BazSr1JlWPsj0zOdmzix/LQX7QR+rRYJdpB4BW+8drUw24k2Fo+HlCzQ2EIq
+    U1couTe3H96mnbog7lSlYpnK/rPQZLgE85RZIf3IQnG55XL3pOCBSBSz/yeIcIbNnRKEC9
+    EOjMqA43ICDOHk8ytKS6+r47ypcxZndS1n3LS0uShCODY841hKPVbhvIWPZyweLYH/ZAcA
+    giefHQG+40v7fLCmCwKJMuZFR5RN4bH7txUFePcgHCFJs6C3E9YIT+xq0/pOWf4MIfMgPr
+    pijsGwLA2EjMtus++7rZ3wYc/d8+GifvYcl6pAVpdHTEt6Us6yHokx0Fr1V211u5a+Fn5p
+    eQg93rq8uY1lFoPNpV8/qCTWYAW9JdnNm210QtPDwUKNVu7DXymMRjyy1/mW0+DhALZg2d
+    1JyoR3sLFt8lbGrEpEfBATrVFKY+AZYHRe9CQu02BwBPpdpsxVcc9YRgZTmqWLrqM+qjbG
+    63+PIH6zGkk+qB2z7fqq/QQCrpmBf0PGYEpt4QdlMbSSDrLNm6YdSbpKXApw
+X-ME-Proxy: <xmx:Rb5Lav6z_NtezujhWVz39UqcgaacF_z1Wduo0D7evMaq3PdL-hxZCA>
+    <xmx:Rb5LarxS2FCEBXQ22eDcE_uJWro1bt90jbDUUawZNI1Aw2HhvQ21-Q>
+    <xmx:Rb5LajajUR6H0mBiRTiDyWdD9S3X3Jahwm2Q36tJ-Us6NFAtynLEVg>
+    <xmx:Rb5LatQLAPkgxRWpIaD2e4n19qT-efVlbKIrgeahQ9DsMm9jZm6uug>
+    <xmx:Rr5Lap_rLnIYT2SeAX4StgoI-8cfHJn16ldA4uugU-mYZHXLLgHepQg7>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 6 Jul 2026 10:40:01 -0400 (EDT)
+Date: Mon, 6 Jul 2026 23:39:58 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Longlong Xia <xialonglong2025@163.com>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: firewire: Drop redundant mod_devicetable.h includes
+Message-ID: <20260706143958.GA168076@sakamocchi.jp>
+References: <20260706032639.273929-1-xialonglong2025@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: ca569d00ad7df478929
-X-MBO-RS-META: 1q71yutefcf1nyjzwoom4gu47fi8rss3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706032639.273929-1-xialonglong2025@163.com>
 
-Hi Bartosz,
+Hi,
 
-On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
-> Encapsulate the reference counting logic for OF nodes assigned to
-> platform devices created with platform_device_alloc() in a helper
-> function. Make the kerneldoc state that this is the proper interface for
-> assigning OF nodes to dynamically allocated platform devices. This will
-> allow us to switch to counting the references of the device's firmware
-> nodes, not only the OF nodes.
->=20
-> Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+On Mon, Jul 06, 2026 at 12:26:39PM +0900, Longlong Xia wrote:
+> The ALSA FireWire driver headers include <linux/firewire.h>, which
+> already provides struct ieee1394_device_id via
+> <linux/device-id/ieee1394.h>.
+> 
+> Drop the now-redundant direct <linux/mod_devicetable.h> includes
+> from the per-device headers.
+> 
+> Signed-off-by: Longlong Xia <xialonglong2025@163.com>
 > ---
-> =C2=A0drivers/base/platform.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 18 ++++++++++++++++++
-> =C2=A0include/linux/platform_device.h |=C2=A0 4 ++++
-> =C2=A02 files changed, 22 insertions(+)
->=20
-> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
-> index fb9120b0bcfe0e7dd9dfc0d29b91e0ad40a01440..3188d5aba5f90622f821c6950=
-49cacda030204fb
-> 100644
-> --- a/drivers/base/platform.c
-> +++ b/drivers/base/platform.c
-> @@ -693,6 +693,24 @@ int platform_device_add_data(struct platform_device =
-*pdev, const
-> void *data,
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(platform_device_add_data);
-> =C2=A0
-> +/**
-> + * platform_device_set_of_node - assign an OF node to device
-> + * @pdev: platform device to add the node for
-> + * @np: new device node
-> + *
-> + * Assign an OF node to this platform device. Internally keep track of t=
-he
-> + * reference count. Devices created with platform_device_alloc() must us=
-e this
-> + * function instead of assigning the node manually.
+>  sound/firewire/bebob/bebob.h         | 1 -
+>  sound/firewire/dice/dice.h           | 1 -
+>  sound/firewire/digi00x/digi00x.h     | 1 -
+>  sound/firewire/fireface/ff.h         | 1 -
+>  sound/firewire/fireworks/fireworks.h | 1 -
+>  sound/firewire/motu/motu.h           | 1 -
+>  sound/firewire/oxfw/oxfw.h           | 1 -
+>  sound/firewire/tascam/tascam.h       | 1 -
+>  8 files changed, 8 deletions(-)
 
-I did some more pondering about this patch and concluded the right place
-for a warning would be the lines been read right before or after assigning
-a node manually.=20
-I think this would be in platform_device_alloc() (as I suggested in v2).
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-BUT my knowledge in C isn't sound. So if it's good as is keep it. If it isn=
-'t
-add or move the remark.
-
-Either way Thanks and
- Reviewed-by Manuel Ebner.
-
----
-Note:
-I removed Mark Brown <broonie@opensource.wolfsonmicro.com> from recipients =
-because:
-=E2=80=9CRCPT TO <broonie@opensource.wolfsonmicro.com> failed:
-<broonie@opensource.wolfsonmicro.com>: Recipient address rejected: Domain n=
-ot found=E2=80=9D.
+Iwai-san, this patch should be applied to the tree which includes a
+commit ecca1d63c1ea "Replace <linux/mod_devicetable.h> by more specific
+<linux/device-id/*.h> (headers)" in v7.2-rc2. I would ask you to apply
+it to your for-linus branch and send it for -rc3.
 
 
-> + */
-> +void platform_device_set_of_node(struct platform_device *pdev,
-> +				 struct device_node *np)
-> +{
-> +	of_node_put(pdev->dev.of_node);
-> +	pdev->dev.of_node =3D of_node_get(np);
-> +	pdev->dev.fwnode =3D of_fwnode_handle(np);
-> +}
-> +EXPORT_SYMBOL_GPL(platform_device_set_of_node);
-> +
-> =C2=A0/**
-> =C2=A0 * platform_device_add - add a platform device to device hierarchy
-> =C2=A0 * @pdev: platform device we're adding
-> diff --git a/include/linux/platform_device.h b/include/linux/platform_dev=
-ice.h
-> index 8c566f09d04efe420d85ffa046f92c44c6d08526..e9f7baceeb4c8269dbc0143c4=
-d8fc9d73ba024ca
-> 100644
-> --- a/include/linux/platform_device.h
-> +++ b/include/linux/platform_device.h
-> @@ -19,6 +19,8 @@
-> =C2=A0struct irq_affinity;
-> =C2=A0struct mfd_cell;
-> =C2=A0struct property_entry;
-> +struct platform_device_id;
-> +struct device_node;
-> =C2=A0
-> =C2=A0struct platform_device {
-> =C2=A0	const char	*name;
-> @@ -262,6 +264,8 @@ extern int platform_device_add_resources(struct platf=
-orm_device
-> *pdev,
-> =C2=A0					 unsigned int num);
-> =C2=A0extern int platform_device_add_data(struct platform_device *pdev,
-> =C2=A0				=C2=A0=C2=A0=C2=A0 const void *data, size_t size);
-> +void platform_device_set_of_node(struct platform_device *pdev,
-> +				 struct device_node *np);
-> =C2=A0extern int platform_device_add(struct platform_device *pdev);
-> =C2=A0extern void platform_device_del(struct platform_device *pdev);
-> =C2=A0extern void platform_device_put(struct platform_device *pdev);
+Thanks
+
+Takashi Sakamoto
