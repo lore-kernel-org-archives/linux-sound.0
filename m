@@ -1,52 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521AE309EE2;
-	Mon,  6 Jul 2026 15:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905F03AA4E7;
+	Mon,  6 Jul 2026 17:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783353034; cv=none; b=SP564uf+QxMZssvFri+SoJ7uuDne+t/OmXVIwXiCZiqPO2WIpCu8WLeJBHWN6LEOQaN4Ao1Gs54oiS1/MlRwp4m4whSlouoYNK8J9bNV+ZYX5gA9xkr3cAM9psU+ChQfPeN1slmuTsVXZD6uDb27CAYLp4cWFp2cuz/+rJ4lyZA=
+	t=1783358805; cv=none; b=Lkfg0e9cfwdYTczR+onuEotRl/oeq2oKiR/bzAIU2C3uEJfs19tCBBUVvZwJ/z6xHmOY4Z9b8vCtq79Y9Fng84yda0pcwOzD1qfD917/bY3a8RF3oMfp4jGQ19ILY7Ud9RZ3RYz8wSpZfmeJHxY7C/JVh4MeRIa7wC8RbYIBABY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783353034; c=relaxed/simple;
-	bh=of6d9n1ZVp2VvNBWbeQxrIvJaxz8Dqo4F/lZHKvIDzs=;
+	s=arc-20240116; t=1783358805; c=relaxed/simple;
+	bh=7IM4zAo6wp30fIKOD7ytq7OyqjlyWEMupcdMTPpFk2c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mC9Q5JKFMLaaEQt/Tw7REXPIGQUdtkcX5Xi/qGfjLHVj+d0S1IkkUHqeKS/Kv/ISPCpJCLMRjfsED3LO+Uw3hJOu0znZy6xP8pkMUeV718NAPVCTAU1LqdgHO/hTJxZgDc0lJcjd4IeFYlwxJNugG3IdwNKrjK8Q+LVw2KI0jDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FVBVZkkO; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dgVPf43xcAN5wHmAYmQGcLYzttDmEYxOQwX55SFSZwIYNZaesgjZo8WJf/U4wKrPyQaFZeNRap/jzwDmAyy5UpSUhc1u9Cr9R5UYR6B7IwRklz2IOUhuW00j9swVhTlqSlL9daBjrlhJArvLxmC+0KMzoGLc0eJt1MTZNVB4RYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCLYqWUv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVBVZkkO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783353034; x=1814889034;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=of6d9n1ZVp2VvNBWbeQxrIvJaxz8Dqo4F/lZHKvIDzs=;
-  b=FVBVZkkO81v97qwqgXdQoZ5BtTEZSn8hptdpl5+zhp69DG8Wc7HTqCA0
-   Iua/lgzHUpOHNX2O5GBppmUYF1PiPf69sOaB8Ow4GlK1ag6lLh9zEg8pF
-   3VKtX/orEhXlCgZIM6AVkaFJHxZaFunveVf1rFI+fQqXnttQ54x0cVXY3
-   PlohclVweXpZXa4qC4hRMfljkSLzo1HoC+VphEFD4spHrYIS29LmWh30o
-   NBG1HLrivq2LD58UeKk3qVdcS1nUHVpnKz1s+8OtrxC2NoD4y3qJ8HZ/f
-   mX/u9zXsoPrcTEQjyYz7zOPXp9EpFEYt2ZjDbFgjEYiqZ9otPaMD0rKrP
-   Q==;
-X-CSE-ConnectionGUID: 8j/Cz05nRiy7iG5juUwfJg==
-X-CSE-MsgGUID: 6WJR7CnASM+iSX97cI0Y7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="101408853"
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="101408853"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 08:50:32 -0700
-X-CSE-ConnectionGUID: NvB5N+KWQv+u1kUJ01a6bg==
-X-CSE-MsgGUID: ST8IrUj4Qs29+PTwG4IXGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="283836189"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.48])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 08:50:18 -0700
-Date: Mon, 6 Jul 2026 18:49:55 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Manuel Ebner <manuelebner@mailbox.org>, Mark Brown <broonie@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCLYqWUv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160F11F000E9;
+	Mon,  6 Jul 2026 17:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783358804;
+	bh=6Q0tvr2GvB7IdKSisCRev74pEI09lUCKAJRHUpFa0u0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nCLYqWUvGJM2k6XDnnND9naY7BS0FeW4Fu5CyITqesk4/FYtYFs2v+CdsAT/O073Y
+	 GtZ8t7rZu7alxOIECS486DbL4kafAvJYppDKfefXQcxPJWSm50Z5xEB87XflCdnqI0
+	 dI9I5Vp+VbNytWapWIsBYtTNmQpIQ3PSkrb5u0vxywEuxj1U2BwNjyu/B89xGJdNtD
+	 G/Odw4daeVaAAUZb5GsfrnhN7yZ/7dsR9qtpRXxY65g9kYlYkQBfw49iWquOtCkMjk
+	 tJfNZXyAVgeg0oDBCZxb/20tfctRWrUO672g92oAd9zuNBOetu0kFzrqAf+966bE2y
+	 VRCYCAEaqRrlQ==
+Date: Mon, 6 Jul 2026 18:26:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
 	Lee Jones <lee@kernel.org>,
 	Thierry Reding <thierry.reding@avionic-design.de>,
 	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
@@ -96,35 +80,58 @@ Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
 	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev
 Subject: Re: [PATCH v3 02/20] driver core: platform: provide
  platform_device_set_of_node()
-Message-ID: <akvOo2EeERLYPh72@ashevche-desk.local>
+Message-ID: <e40d0bd0-0e3d-4c01-bffc-8e0075213c45@sirena.org.uk>
 References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
  <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
  <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
+ <akvOo2EeERLYPh72@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FWksib/oYWGW6VVm"
+Content-Disposition: inline
+In-Reply-To: <akvOo2EeERLYPh72@ashevche-desk.local>
+X-Cookie: Did I do an INCORRECT THING??
+
+
+--FWksib/oYWGW6VVm
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 06, 2026 at 04:39:00PM +0200, Manuel Ebner wrote:
-> On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
+On Mon, Jul 06, 2026 at 06:49:55PM +0300, Andy Shevchenko wrote:
+> On Mon, Jul 06, 2026 at 04:39:00PM +0200, Manuel Ebner wrote:
+> > On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
 
-> I removed Mark Brown <broonie@opensource.wolfsonmicro.com> from recipients because:
-> “RCPT TO <broonie@opensource.wolfsonmicro.com> failed:
-> <broonie@opensource.wolfsonmicro.com>: Recipient address rejected: Domain not found”.
+> > I removed Mark Brown <broonie@opensource.wolfsonmicro.com> from recipie=
+nts because:
+> > =E2=80=9CRCPT TO <broonie@opensource.wolfsonmicro.com> failed:
+> > <broonie@opensource.wolfsonmicro.com>: Recipient address rejected: Doma=
+in not found=E2=80=9D.
 
-Perhaps he needs to send a patch to update .mailmap?
-Cc'ed to Mark.
+> Perhaps he needs to send a patch to update .mailmap?
+> Cc'ed to Mark.
 
--- 
-With Best Regards,
-Andy Shevchenko
+If it's for something that old I can't imagine I actually care.  If it's
+important enough I'm sure someone can work out how to get hold of me.
 
+--FWksib/oYWGW6VVm
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpL5UUACgkQJNaLcl1U
+h9D67gf9GIugTh4PUXTgcv4IEO00hqfPt914zzGolWrW61nvCfBK/txok59PvoKw
+vaWiJIxtHNcqLXDHoH9/3oPWkqxrKq0RGWEX19nr124zN/T2SihiMa5RjzAr4UAG
+G9JAS2GOF29xF1Ml9KH8x5l5WduP6RUHVJqKK9vuJFpCloREcnnpMQVxJVgKEKpI
+TrKQpiKRZtTm5InBsTccxeXVDL2+bhnLHZaD4LbIziWok/tCyYnCw9VEJ/iUb7PJ
+bFLwu3JxUS7p7Kr/hStWapPyxi5fyw+V/ZQ8u+J5GE8g493f9A3rBarS4fJCZi8e
+cIRN6GhgNtdUL6L3p77EqAzlsDTheA==
+=WSwF
+-----END PGP SIGNATURE-----
+
+--FWksib/oYWGW6VVm--
