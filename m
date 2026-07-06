@@ -1,42 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7BA541D4E9;
-	Mon,  6 Jul 2026 17:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C32430CF9;
+	Mon,  6 Jul 2026 17:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783360500; cv=none; b=G9gOG0YcGvASQhdpNFijUro0y/QhcVkLrH5109IIYLbgBgUGV2f0qGEkgzJm2f5EXCXW5trCpMOwZmeBIPBQiFo+6bdMtd0uft95d9zgXLjahE0axPAyyC3umjS7hLpWqb+J9yfPlnS1K9EZYUDndRpmb8xxczSEdeh7iTk78yY=
+	t=1783360504; cv=none; b=aMkIycIUKFb+4wFSNOd3gJnO05R8g46XND84KP0tMK3FumlbEcA31/d9GOHTQCOtbCl0rni8M60yQKxpJOPd8yseGNOgJm4VxMGox3zinhWl9NWNZ3oXtDXxZPHNBqjZrSLC2mmFmZpxGZ7w4XcvwSljTFngVED0e+6lz+/47yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783360500; c=relaxed/simple;
-	bh=KL+caWsOgmLwGkku8IOsy48IVkYB7ygAvj6l/K1kHdg=;
+	s=arc-20240116; t=1783360504; c=relaxed/simple;
+	bh=8q/oYR08n1BOVOarUPf4HXj2LSgjHqqAt7qLZeIR2sY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XfGQ1WO5xN3XIoL/K5q97rznkyTL//BEiLtD2OEmA5yJY2fYU64kNj/q9owIBhMYT38P2jBS3ot7CMjqEHqn3OBDUK0q6GwmYRIF3b5xNq79uy5gZKeISDNmLOiAh08toUzMgGrz8XTbZCTFdZsbu1FcmXe4K5OXlIKDSNWRj0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooHCeitR; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=At5H7NzvF6Yf78crobV39J+0viFPIBmnyWGxnroNKSXTG+DHpTV9OdimLY23zrxaA7EPHGgAK3lnWma6L1Ia/9rWDp8u/U2qBFa7v3Qsatn3ye2zcxxe7MsHdvSTEtzwA/s4vXBs4u5uU/CD1sDgiJtJntpYnxdAsQJpHaIJWVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TuRJx6FH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ooHCeitR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A16071F00A3A;
-	Mon,  6 Jul 2026 17:54:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TuRJx6FH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB08C1F01573;
+	Mon,  6 Jul 2026 17:55:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783360498;
-	bh=NXIoTeuJFvQLWCY+jvg0qjnA8QMe8ihNLu4xi6Y+OzU=;
+	s=k20260515; t=1783360502;
+	bh=kSN5/GG4QaWWLcFjpBBGBDMrOVpOGRX50JCF6lzomoA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ooHCeitRzewK5NpHrnCqLLsF8tHxlil5Nhb+uaPFe9fCJFiNVivTKPQSXqxsIRBVq
-	 fCz/muc2I1s/8EKY8Q0PrltRypHiyPgR858FofBgUTGoR147MqAD0TNzDFIPYl+yRt
-	 ls6jPLDWJuvKxHqrFJU1xdm/FC8fyI30Bgf500MPk0rV0gU2uC9ZV/M9zqHMm4Gdsv
-	 2XAH9Z+hB5h9QeCW9N6mo/NhmVuuih+lNQgNMP2AkY0ELB7KDFLy40PtvHknxjEPgQ
-	 bbotUqz7u7fotY64ZQuSTwuJn1HthX5hnh2sMWGOX658P1d+cTFaFZgS9IGG4l5JNG
-	 zwaWZNnnqRweA==
+	b=TuRJx6FHrx0DLaBrx1QYAk7i8MLVOVhvbmdVoE6sh0HzC9NLyPb4di/SuzjZQx0Vc
+	 mSqXPyTPiuXpUeS5GIluDn6SEGAIaTzr05nMNGk662E/1ggQ4f8STJV4rCkOZ6h0x4
+	 SyPIrFU52Do4SldO9dkrzEca7cGoNT21bzSz5K/h/Qh0w3YzEqseLhfgtgcSs2Ff32
+	 xHuzEr+/0pqz3U5k0/vDwfdP82hk0cOMiB/UNS9+MK+bnF77V0R+tM3ZJTlbs/YuGM
+	 ERJZq9ZToh/5fvPCGtrR1Q2s3ABflbJKpB0cGNxWKO4KAn0/ByYgz+a0wP9AT0wfYh
+	 06jppRLxvhSqw==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Tianze Shao <shaotianze@outlook.com>
-Cc: Shuming Fan <shumingf@realtek.com>, Oder Chiou <oder_chiou@realtek.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org
-In-Reply-To: <TYCPR01MB872223CB999D2099A5E0F58DC4F62@TYCPR01MB8722.jpnprd01.prod.outlook.com>
-References: <TYCPR01MB872223CB999D2099A5E0F58DC4F62@TYCPR01MB8722.jpnprd01.prod.outlook.com>
-Subject: Re: [PATCH] ASoC: rt712-sdca: reset codec at io_init to fix silent
- headphone
-Message-Id: <178334526253.57168.48666916265647107.b4-ty@b4>
-Date: Mon, 06 Jul 2026 14:41:02 +0100
+To: linux-sound@vger.kernel.org, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+In-Reply-To: <20260703130210.21991-1-mstrozek@opensource.cirrus.com>
+References: <20260703130210.21991-1-mstrozek@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: sof_sdw: Add a quirk for 0x17aa383c laptop using
+ sidecar amps with cs42l43
+Message-Id: <178334436399.57168.14240159266704836872.b4-ty@b4>
+Date: Mon, 06 Jul 2026 14:26:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,20 +51,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1145; i=broonie@kernel.org;
- h=from:subject:message-id; bh=KL+caWsOgmLwGkku8IOsy48IVkYB7ygAvj6l/K1kHdg=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqS+vvh62Dm1OueVnETKfyj5D/021wZQdjpgL2/
- n6QVgdRWWWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakvr7wAKCRAk1otyXVSH
- 0ERGB/0Q1nr+4BxyDKYNDAoW8PCXjFnb+RvIdt4cw6T3/KpBt0YX4Qkbm6JppJfwrrznDymqzS/
- MhH8J2pOtBNys0UsKnJCREO/0gdrhYwhWcgpbvesoDoB9lRECAMrz/FNKhB7qlaX7bpFNS7AL4r
- PUVmr7ZBnuuoEcGpfhAVvyAuG0MNd7OAEupxyc5m1FgTFDvDBdpb/8s2uu4lldhVtA6JdmvJBff
- cwiz9aIrO+lYl3ZmLpVD3Vc1XjEJbW/rlsCANplYmhldmx7p6+M5l6tvvuvpkI5x0ZTobrdVBkP
- FE3Lgg0mGG1V36kcg1borz1vCZjHy4H/RjnWS5q70fu05JFW
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1180; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=8q/oYR08n1BOVOarUPf4HXj2LSgjHqqAt7qLZeIR2sY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqS+vz+lIv7m633Ow6kg7ZqCAgUKkQBd37u4PAw
+ U4fVmTwfX6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakvr8wAKCRAk1otyXVSH
+ 0ItRB/4nB4zMRixubsUC6OjQECuzzc7OHrwg6QzIdTKHUdvsp6wil1Zi2HcpvePGSyz1uGEn6c8
+ bU1M1l3MkdyyI5Rnqx/tQtJqGXDgCn6huJdtR43EOsKQEcBWuwdHqwXtZd6/HtNLeBUUe1ka3jr
+ NAknFxAoCWY5vdgyqcv3zzAywNCb9W8ZiSivZlrJa5YLz+DjvsGWk2MW2wEBahc+D36/chjZujF
+ Ea6qstKEC5stoDSpZP6noqIQS03Bn7R25/06hbzJ60w+i58k20/UdP/4fcyXNRSWaMsm3vpbs3S
+ chTuBF6VMdsofI3tl7kjC9+RiqurN0yOFGj7tYiEBeXa55/y
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 01 Jul 2026 16:56:06 +0200, Tianze Shao wrote:
-> ASoC: rt712-sdca: reset codec at io_init to fix silent headphone
+On Fri, 03 Jul 2026 14:02:10 +0100, Maciej Strozek wrote:
+> ASoC: sof_sdw: Add a quirk for 0x17aa383c laptop using sidecar amps with cs42l43
 
 Applied to
 
@@ -67,8 +72,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt712-sdca: reset codec at io_init to fix silent headphone
-      https://git.kernel.org/broonie/sound/c/4c9854ad3cdc
+[1/1] ASoC: sof_sdw: Add a quirk for 0x17aa383c laptop using sidecar amps with cs42l43
+      https://git.kernel.org/broonie/sound/c/04f15d8f3930
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
