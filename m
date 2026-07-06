@@ -1,95 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from MTA-15-3.privateemail.com (mta-15-3.privateemail.com [198.54.122.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985C9427A16;
-	Mon,  6 Jul 2026 18:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978473D668F;
+	Mon,  6 Jul 2026 19:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.122.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783361928; cv=none; b=KEUQXqhwMLYayfJjSkcWjJ/Ju5nTerIzMYXTgMyVYN1DwGsSiGIZexvNH+OcVedWn1KGeKO2r7PFmpM5ZSmQ0wXeumgFoXwGDp88Ms9XzEUN8Kg1bBFR0vjTocJzm4Hpsgjv3+2jLp86FmNfOI+ylpkAmBgdmiRbQQzBg4BXlck=
+	t=1783365736; cv=none; b=DDzJCLPf68hkIbEwK6cO8r5n1lfzmEj+o0b7n23xLRGD7ZKH8brVi6CGnlLsNIBxC6WUJNdtBpaaU5ht8wzV+YrXPwLp3dY7k6RcpxVUXSLwQ66/SqfD3qiwgwjasfriE0z/wmg6zcIxgF4Zw+g0n/jZApuNJi1jgur1qNLTb7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783361928; c=relaxed/simple;
-	bh=dF4T1DZtk23hJfYcghLKEMbEdbv99KvaJJl4MVYfB10=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s6FhmF5P5THA7TsSi3u0J70zKKCP0vjBB4CkbC+nkN9A5xS205/zyLD8lle3T8kmkz2hBjXnr+XWdlfkqagXyETnPedT/MtoyN25u5V9zRk5z31hmZHsZ3GPztoNVXl3i8EGs4etdiSUkP6QF+NG1ZRbl4qOnFFcJZkQSm0V32A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pue0EOWn; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pue0EOWn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB271F000E9;
-	Mon,  6 Jul 2026 18:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783361927;
-	bh=J8swCxXgWR9mRfXQrYqVPiKT0DZKe6CeVnD9NYX6wlc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Pue0EOWncc1lXfWcvDY2RfXTT0uL/PKCrONwf3eSIQbrkviHj4lc/Wtl9fhrxVG3/
-	 YMgHGKnZU7u2vonfoP4Emg3+VQ2udOZzVW3E5USkKNjK7yYvSAEh7WSS7F5KzTOc0i
-	 aKZRpLKT9OXz42CUFbf6iuRgSxKMq2a3/4+kIk3RboC62rrc6N7jmCXVx5EdkQpIti
-	 DrE83gWfHgxXgR1qfkRJFisjGmbUArraTZPiMXVWqUa+NpYytG1eFSdGDYYl6nPRAk
-	 aQkZfXwdc5WLg24lxCGbE7D2P9YzPM07M3vGYcm59A10T8A2q5ULMycaZPUsyB7e1X
-	 LRw7dyv0ZpLJw==
-Date: Mon, 6 Jul 2026 19:18:41 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 2/3] ASoC: qcom: q6apm-lpass-dais: Add MI2S clock
- control
-Message-ID: <36d2cb00-81e1-47d4-a234-47feea11a351@sirena.org.uk>
-References: <20260706132009.1496321-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260706132009.1496321-3-mohammad.rafi.shaik@oss.qualcomm.com>
+	s=arc-20240116; t=1783365736; c=relaxed/simple;
+	bh=5nSxqCzGm/GZZBges3YFGnTjObWf+SZ290QFkpnWBaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tmNibRvZnOsLW1oydzd50SqlHTRQ8F+/S8vJRgOtQBLkyPNHMk7fr7cuTnmurDhydPNQ4RvxeCpJopXuWMm4loehMSFFXtu4xuMfuC26h52SpATuIcoNA2gdTaEuGTtV1TzYjI2dzLJHEbPZySqzV/k9qO5xJvPf4tGNHPz2+74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.122.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from mail.privateemail.com (K8S-PROD-WORKER-01 [87.215.145.39])
+	by mta-15.privateemail.com (Postfix) with ESMTPA id 4gvDkY5k9Gz3hhT6;
+	Mon,  6 Jul 2026 15:21:57 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Srinivas Kandagatla <srini@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] soundwire: qcom: add SCP address paging support
+Date: Mon,  6 Jul 2026 21:21:50 +0200
+Message-ID: <20260706192150.143921-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fBBCP4x3mdusCmOT"
-Content-Disposition: inline
-In-Reply-To: <20260706132009.1496321-3-mohammad.rafi.shaik@oss.qualcomm.com>
-X-Cookie: Place stamp here.
+Content-Transfer-Encoding: 8bit
 
+The Qualcomm controller driver ignores the paging fields of struct
+sdw_msg. For a paged access (register address >= 0x8000 on a
+paging-capable peripheral, e.g. the SDCA control space at
+0x40000000+) the core sets BIT(15) in the wire address and splits the
+upper bits into addr_page1/addr_page2, but since the controller never
+programmed the SCP_AddrPage registers the peripheral resolved every
+such command against their reset value: reads and writes were
+silently redirected to addr[14:0] in page 0.
 
---fBBCP4x3mdusCmOT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Write the two SCP_AddrPage registers through the command FIFO before
+the transfer, as cadence_master.c (cdns_program_scp_addr) and
+amd_manager.c (amd_program_scp_addr) do. Like those controllers the
+pages are programmed on every paged message rather than cached per
+device; a cache can be a follow-up if the two extra FIFO commands
+ever matter.
 
-On Mon, Jul 06, 2026 at 06:50:08PM +0530, Mohammad Rafi Shaik wrote:
-> Add support for MI2S clock control within q6apm-lpass DAIs, including
-> handling of MCLK, BCLK, and ECLK via the DAI .set_sysclk callback.
+No peripheral on a Qualcomm bus sets prop.paging_support in mainline
+today; the first user is the WCD9378 codec, whose driver is being
+upstreamed separately - its entire register map, the
+wcd937x-compatible analog core included, lives in the SDCA address
+space.
 
-> +static int q6i2s_set_sysclk(struct snd_soc_dai *dai, int clk_id, unsigned int freq, int dir)
-> +{
+Verified on the Fairphone 6 (SM7635): WCD9378 SDCA registers read
+back their documented reset defaults and audio capture through the
+codec works end-to-end; without this change every paged access landed
+in page 0.
 
-> +		clk_set_rate(sysclk, freq);
-> +		ret = clk_prepare_enable(sysclk);
-> +		if (ret) {
-> +			dev_err(dai->dev, "Error, Unable to prepare (%d) sysclk\n", clk_id);
-> +			return ret;
-> +		}
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+---
+ drivers/soundwire/qcom.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-clk_set_rate() can fail too.
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index 603f228f46b5..3562802f4204 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -975,6 +975,20 @@ static enum sdw_command_response qcom_swrm_xfer_msg(struct sdw_bus *bus,
+ 	struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
+ 	int ret, i, len;
+ 
++	if (msg->page) {
++		ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page1,
++						msg->dev_num,
++						SDW_SCP_ADDRPAGE1);
++		if (ret)
++			return ret;
++
++		ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page2,
++						msg->dev_num,
++						SDW_SCP_ADDRPAGE2);
++		if (ret)
++			return ret;
++	}
++
+ 	if (msg->flags == SDW_MSG_FLAG_READ) {
+ 		for (i = 0; i < msg->len;) {
+ 			len = min(msg->len - i, QCOM_SWRM_MAX_RD_LEN);
+-- 
+2.55.0
 
---fBBCP4x3mdusCmOT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpL8YAACgkQJNaLcl1U
-h9AT5Qf/QoCyd5sI33K2C8yO8pme9tr8tTtKRqwsLdEdd/DAtd8x0muHGNpj3Dy3
-i7KuPD3D6SSfYeoYfGbtiohJcxJdd2ECqTrASlsKK7qBlhPykFRAke+LkozAjDIT
-7GXjrP5r2ZWRORiRuwlUPoGxEYabjWjz0/SmS/4QA9x53+VwnYFIKgMgej9G8R5v
-uGLUW5F0FOap/DjuhOXSe3RFbGBO67IXjOJAEFZnAGN6jDPqV+NPuKKQ4aulCGBh
-AYi+ebdFeEMKAjx/IDU0OkkVFevefEbyhgGk/Nh9YdWdetclfaSJ1yEShPkEShKE
-E30r0y7ihtPSJPd8VkwF9hKZMEv3qg==
-=VEzr
------END PGP SIGNATURE-----
-
---fBBCP4x3mdusCmOT--
