@@ -1,108 +1,121 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304A93FD159;
-	Mon,  6 Jul 2026 08:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7E03B443F
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 08:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783327358; cv=none; b=o3HYj2gNVbmZI/lajffEs3eitewEnRbFdrTKg42oN9uKp2I+SRULhYE3dF0Hctcg7Vd2mGfQ9+otOcc4jLBE7URAz5K5nw9GOPNsRb50Scdkm6vyE3v4Zs4xI9e5yAQ8WS7wrTWcR7O6BYSW3PRpk3fzZnyzc/PLnvubnjTcXE0=
+	t=1783327814; cv=none; b=TdTCJZiVdic708xmXch9mVcmqNaZXYMUoo235dmkYe2VME0k/5uWcI8VYIwxPnN21v+BKLtQjNvA49N+te0StPwfIzNQSsHR6/N6nxCsVR+0NSK6K/QVie9zuY2NwuejmGFY4ySUQ02oUzYajbyoqCQuFc4lCtvZzFtiI75XnjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783327358; c=relaxed/simple;
-	bh=O4q3m9twkSC1QC9V2DeWjMZQFNL1nKCZpNAoTTNPdOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISkT6wZ5EB6xybIOv75GWN+0aHCc4E8f9pBe4ZgltyQVg40W+BMUPB8+j3O8sycNtzlDbY0POQKjIa1kcmGhGG5weqfdX+FBk1Iqya1A0XrYhFc1PonoLtDbmukvqYQb7QE+KHGTDdSAOHvSCpM0vuBXBzmEy9jPulMwcsYzelg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xEzvHrmZ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WP2PNLca; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1783327814; c=relaxed/simple;
+	bh=kSvy4L0NPy9Fas7XEsJYehW19X5hA9Lnm18bg/9W0xU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CU9AQDwohf22sm/qssSbYGQCXkXZTJXs5bcW9BD+8HD7IG5f9kWbatIpNFZ5GDVHOGKPhKidWeT/019NcZHBOYGAKhq6ojiWfZ3SBe/OSlWrP2INf6tTVjShEKL0r5BtH8IjgbxLBe4CcfKK+zkrgK+pPM+iTVEaw3JrHYawEeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=APWjJmWX; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xEzvHrmZ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WP2PNLca"
-Date: Mon, 6 Jul 2026 10:42:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1783327343;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qx2JGNYXzBQVck8nCP9EIoLDc9txtLOxBCkElVT+408=;
-	b=xEzvHrmZJIRJyRrBqvbshSnu52HLO8ue8Vule+sdKx2uzfp/swOjBcFZij3UNweaE1G/20
-	iQ+YRVGQVQjwEJe1zh/TkaQwkUYmsRf1sVT0aK1MhpgsJoC+pR+9i0SAG/qKDpmtjOFjTW
-	3TdvXuzMlmQDZSKFytMF2yHJOF1NVAi0hyVA6/7ajcjgeCxpSS0AVaU+v7kpIWZkR8/kPu
-	wAS9EELIqgox5PuZUG2CiNi8DW2fu/1Qv2hV4lrwYX7p/yLERy6dI+vkLAfEWV9IxDRsyc
-	j1QgJKor7fn4iVERFkYHh+WT8XfJ5iXnmnlJJGAZxafJ8jFTc613xHO4Ye02Xw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1783327343;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qx2JGNYXzBQVck8nCP9EIoLDc9txtLOxBCkElVT+408=;
-	b=WP2PNLcaTAzB3qA0iJOv8D8ZDx9jJzYzqtcHxwOwZT1TRFIs2jwW5FFQ9ljELht+FYSHYO
-	GfjT2OyA72zsvuBA==
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Miroslav Lichvar <mlichvar@redhat.com>, 
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	Arthur Kiyanovski <akiyano@amazon.com>, Rodolfo Giometti <giometti@enneenne.com>, 
-	Vincent Donnefort <vdonnefort@google.com>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Oliver Upton <oupton@kernel.org>, 
-	Richard Cochran <richardcochran@gmail.com>, netdev@vger.kernel.org, Takashi Iwai <tiwai@suse.com>, 
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Johannes Berg <johannes.berg@intel.com>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Peter Hilber <peter.hilber@oss.qualcomm.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, virtualization@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] timekeeping: Document monotonic raw timestamps in
- snapshots correctly
-Message-ID: <20260706081734-32262bc9-5dcd-401c-bd47-18b91636bf73@linutronix.de>
-References: <20260526165826.392227559@kernel.org>
- <20260526171223.374814973@kernel.org>
- <20260626103359-66ab2b54-d36f-416b-94a4-3f3708dccced@linutronix.de>
- <87echtk24a.ffs@fw13>
- <20260626125819-d8b197fc-7671-4d12-a578-9025affc52d9@linutronix.de>
- <87fr29ib4v.ffs@fw13>
- <20260629055344-b74c43de-2a2b-4608-ae4e-ed0ac8e12fd1@linutronix.de>
- <87bjctsptt.ffs@fw13>
- <87wlv9k3wz.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="APWjJmWX"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-847a52edeb2so1963807b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 01:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783327805; x=1783932605; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GJk1Bu93eE9kkB6dcLeTb17AKfMCqH8aCZOQMaTuPiQ=;
+        b=APWjJmWXhoHgfqjqevaH9vD7exrCKeSopx4V4QcqP11yU7IRUwLfB8lQV1CJi+4Euf
+         zBf5Phkcr2VSE2nrUKyarrYiq/8A/rlU9GB12K6xv4MrEwmdIBFhn6u/ouSgLvh2yrWS
+         ez6sd7gz2STvspc8We8HHzeO1HyIPjMltgrK7rowoucUq9ddW7P7Yt6wQq7Wmu+TV17T
+         JEgQ4WAs/2ZCJiVORMTi0sdUwCf4BLBALwJFnc3M37s8LvSs5Bsoq7gBJwQJMbr+nCUu
+         lYN3CIRq1V2rTdEMAoj1QkqUFV6gpKAIVcngJzt2jSenmiFFR/7xWMsPiVZsLjd8N+cz
+         1mKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783327805; x=1783932605;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GJk1Bu93eE9kkB6dcLeTb17AKfMCqH8aCZOQMaTuPiQ=;
+        b=TD6G0j0Cmb9JPh1PVIx0QtLopJlLuOeOboK1r5RU7uqe0SjeUFliRyL3MtWQ/r6nq5
+         3sdxqt2hmJ9GgJf8FnnWI7CSmq3OjVNVIEpd3TJ6XE1IXTG0fMQ5fg581jOzv3zABonv
+         wpOX4PhjIJLvDzDSP1HXoujr8F+T2KtiZ/5jjVFbsCO8KR9sTtlIR852EskqdgzWqNRz
+         S9VaH0nyo2xlAhA/7r4bx6lkBh8frtRYTI/070xd/sj2KIejLlTGskk2VJva1pTxnDzE
+         DlE4cWddC141D6cYP2BJwBwBLot7/hQowm+J7NIPKxgorrXK/ZiUszRBBp7jmYUK+snF
+         GQrg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpfmi2knOd2WSGF7bEqbu8syBb7u8MUnlwk8VqCf2FUw0AlKWx6jK0UFP3eB9OCyuvquG5hEPP1Qnp4qQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYuk2Um8/XqrDp60ziv/20YFcigEaGeDhsfMaxN09q8dBnJ1hu
+	P/mZY4wv/rYHYdQ6SXP3IpTJSr7ghqiydjdQFkPndHS5j1XOnAS15Jb/
+X-Gm-Gg: AfdE7ck+Vq1o9ZdquEbYdx548eJtuzOqt5K6r1TIAcfSRGp8UjDJZsyk6jfV+iqYWfL
+	NeY9nclHGh54qm2Mc0n+EY5aWyP1lxTU5v1OA7ez/lyEsSFBpsv5uKWtW4l8xPB7dXRvHDFLC0X
+	4H8tJffXt6W4u9iSebF0ng/tJM2DHDv49fuKdRNHsM3EctSOVv9fQRny98jQlntDaD7EbW0SOYu
+	B846qgaAzY9sFtT33Q69JgE11MyzHTZNMhmyqWxhYR2mGa4WBtbeI3dMcd3djcvKFd6Og4SolfX
+	l1jgFCQEq1X2e5WGV5Wy50ol+3nqM5rnSV5LcAdinfMPw2GGsrCVGETmz5EYXHxnx+6Y6R3g5yF
+	0U9gYqweuvNn1cUT3/zg4TXHUHU8IJdaDr4cvWc+Za/h+JYLBFMCff/EVj7nW5L/4PXtGCxY8kW
+	GBTcw5vpiEOWa5wDbT/dE/hgyp2lgufF6L7g9SW6uBaCJfKW8=
+X-Received: by 2002:a05:6a00:9a7:b0:847:83bd:6671 with SMTP id d2e1a72fcca58-847f6dc6566mr8585888b3a.19.1783327805215;
+        Mon, 06 Jul 2026 01:50:05 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d7c142sm3422924b3a.45.2026.07.06.01.50.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 01:50:04 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	cassiogabrielcontato@gmail.com
+Cc: Kees Cook <kees@kernel.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	Len Bao <len.bao@gmx.us>,
+	Mehul Rao <mehulrao@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/6] Return -ENODEV instead of -EFAULT on module-get failure
+Date: Mon,  6 Jul 2026 15:49:44 +0700
+Message-ID: <20260706084950.49331-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87wlv9k3wz.ffs@fw13>
 
-On Sun, Jul 05, 2026 at 02:38:04PM +0200, Thomas Gleixner wrote:
-> The comments related to raw monotonic timestamps for the various
-> snapshot mechanisms in code and struct documentation are ambiguous. They
-> reference them as CLOCK_MONOTONIC_RAW timestamps, but with the arrival
-> of AUX clocks that's not longer correct.
-> 
-> The raw monotonic timestamps only represent CLOCK_MONOTONIC_RAW for the
-> system time clock IDs, i.e. REALTIME, MONOTONIC, BOOTTIME, TAI.
-> 
-> For AUX clocks they refer to the monotonic raw clock which is related to
-> the individual AUX clocks. These monotonic raw timestamps have the same
-> conversion factor as CLOCK_MONOTONIC_RAW, but differ from that by an
-> offset:
-> 
-> 	MONORAW(AUX$N) = MONORAW(SYSTEM) + OFFSET(AUX$N)
-> 
-> The offset is established when a AUX clock is enabled and stays constant
-> for the lifetime of the AUX clock.
-> 
-> Update the comments so they reflect reality.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@kernel.org>
-> Reported-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Thanks!
+Hi all,
 
-Reviewed-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+Several ALSA open/allocate paths call try_module_get() on the owning card
+module and return -EFAULT when it fails. However, try_module_get() fails 
+when the module is no longer live (i.e. it is going away), meaning the 
+device is no longer usable.
+This series updates only those paths, making the error code consistent
+with the existing "device unavailable" checks in the same functions.
+Other -EFAULT returns are left unchanged.
+No functional change is intended.
 
-(...)
+Best regards, 
+Phuc
+
+bui duc phuc (6):
+  ALSA: control: Return -ENODEV instead of -EFAULT in snd_ctl_open()
+  ALSA: hwdep: Return -ENODEV instead of -EFAULT in snd_hwdep_open()
+  ALSA: info: Return -ENODEV instead of -EFAULT in alloc_info_private()
+  ALSA: mixer: oss: Return -ENODEV instead of -EFAULT in
+    snd_mixer_oss_open()
+  ALSA: pcm: oss: Return -ENODEV instead of -EFAULT in
+    snd_pcm_oss_open()
+  ALSA: pcm: Return -ENODEV instead of -EFAULT in snd_pcm_open()
+
+ sound/core/control.c       | 3 +--
+ sound/core/hwdep.c         | 2 +-
+ sound/core/info.c          | 2 +-
+ sound/core/oss/mixer_oss.c | 2 +-
+ sound/core/oss/pcm_oss.c   | 2 +-
+ sound/core/pcm_native.c    | 2 +-
+ 6 files changed, 6 insertions(+), 7 deletions(-)
+
+-- 
+2.43.0
+
