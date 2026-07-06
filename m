@@ -1,103 +1,190 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011058.outbound.protection.outlook.com [52.101.125.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C4321D596
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 01:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783303090; cv=none; b=RpasuEdLZwE+XMAy1EfhhJd86LGnG+KAqEZTwinnC6Z5xlBKx+KiQSC0eJH1UJBbwBhF8znQBVRFcxCL7KvmlrJjH0zzFCLEXThlCJIQQjeYUHJjhlo6DES/B9g7yHlj4AwaFb7uHphRRDdfzo6ip7y6x+fErBZflJAPiBqidzU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783303090; c=relaxed/simple;
-	bh=h+Xwx+prE3UPS04P9zLX5fmnmCboznRqtGYmq029uFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ff7maTAi5tWaFhxGL7UNl6dSr1vzFCQvy4hFaa1OLcz8H7opUA0DmsU5hDXccVLcjVumXfu/pSKGXlK3M3d+mk3NosGADcrAK46bzPoZVF7pvFggfLMAG3HmidBaz5Em9Ewk00DHMjSxWQkB9hDOv0fgSkJA9FSd4xCyTODlG6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9VE7TOh; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF41F21C16A
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 02:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783303279; cv=fail; b=AxLGcB1wsp6r6cMv7TJt7zQhWXeSNAJGkmR6tXXq93MCNubPn9lz1lmS0ar56ks/TK600XCXZExWIkiiAB+q7S84OSjybbBWLRfJ8kMC1ixk/nLqg6d5t8W6wMMcgQmID77ml4F+/rXSJLPGUrVBdhoPWEPdy2fD26bWKMARwjg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783303279; c=relaxed/simple;
+	bh=wPaL+A5ZeJ71XmlFQ3K8bEESxPPHA7ckH4aoyoFc3oQ=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=WvHi9cxodfj3olhtN2wlXIbKwY576yVN7YdX3C3lkAM1YNICOqkOpLkSHtt6ZkjngJxxKe7AhxY70tIoWJRz1sAd4UyWRTR1byogvexH/B/6oCsISJmwzw2GNCtJNM83wNzNqBjtVgXmmZ20F2i3vzaCM4VEihzAMTwMpEYS9xU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=A+53KAXP; arc=fail smtp.client-ip=52.101.125.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9VE7TOh"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so1174643a12.3
-        for <linux-sound@vger.kernel.org>; Sun, 05 Jul 2026 18:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783303089; x=1783907889; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MIeEA8OwT9hxrfkxjt8TSlvwE7JntsI4tFnXWy5t+pI=;
-        b=F9VE7TOhofDT7pe9o11NdU64McvtBBSLQ1BstEby9f2Kx9WDZ4LDtLAIaG7FKxXNVl
-         Rzh0TNRHzUoWWkEiBbeRC/FEnkkSIfU4zuqgGtqg+R2amkY8VO+pq92d/XRSU3A9CrL2
-         crYyjnErtD/Y19x/a7r3n4OMm09ShIOwg3nILgeSm2WDa/lHQN5ZJvvfKmd4mvv9TJ+e
-         I4E3J1RzN1SdhfHkLdhVY0l1SoKAua8A0NjybdCXjnPBFz1FdjGJXrJlhovW+Tr+tgj6
-         X5Qqz1JLAc5lZMk6t8AFFbxde2S2cPf6rOFfMiSSPa5huT/OG31kGWwfLzVJ3SRPCw6P
-         exbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783303089; x=1783907889;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MIeEA8OwT9hxrfkxjt8TSlvwE7JntsI4tFnXWy5t+pI=;
-        b=LP6vdzvDdYibDRbvf8GcKu3s8LdS+rdv6VRdofsXcuzYg0bDrY1ehSw7LHxBYcsjQy
-         XMSn+MpSmCYFPdN9RdMlzGpIqDgyImvz65e6NoX4FwxB9vfFZpj+kBJ/EZqKaxNZ4zN5
-         yQ4OTZjPC5Vos87HCCQElsqtGcCHYsRQgilcNeYksONjl8TwflQyFSR3S23dMboeLWDH
-         1sP7GCiesdDMQJpHZfP592Iv3V1HQ1EL/9l7q/3tiTrYnmneR9cKF/APE6/J2b8ckrrq
-         H7o6Pp/15tlTi74tXtJoqq4otjY/+RqqJGsH7NbCEzQF20B10wuZCVsxeanAE/9wizhn
-         KTnA==
-X-Gm-Message-State: AOJu0YzQobkC/SJuRyRC0b0BG9iP3+gudxQtmtGuvQLLJh7cezc8F2Jx
-	+sb87mXgT5MSj8bd8f2Et3LqOCMSthr/iSLaNA8Qh+Dsy95VsgDZsin77s7rOc5k3P4=
-X-Gm-Gg: AfdE7cnfqtGhUpLdQHyLHZ7YfIpjn4qXh1SAxJYV2SsU38hvdAv/5NMq09Vv3oBuQI1
-	3ZjJxR7k6PDqcwE+n+IvD4T/a7eKq/Ddpz0KzcDzMHIVIzViCo0Hktp5VRBHrzdUCsAz302kphp
-	wlKNsOIDQ+FUacxY4m82cVDL3zS0BTjQYOhmeRo8yyp0DUD6OmX/T+Jk4v1yFTtPpA+cHJN8Etg
-	usRLJl1TJEk76G8VWZsb39e3DIEKgCQqjBrVtdzSDYNSpIivEqpPNRAOJCt7YHr9AviGJ6pveoT
-	GJauXLhB6Us+ldaI478+gxPxGCixIjVHVLDp23zKhtmtNqTHC8cQzob7NpB5JpQGgUgM6vAP+WH
-	Z4N2An4tZSpsX7P+ZkSM2g881HIbsBuRac4Llk/8bi9YbGCL6NpbGSUCtYEW77rM0G1rHyourN6
-	pqBJzkgn1J8G5e9wQs
-X-Received: by 2002:a05:6a21:490:b0:3b4:85db:1bdc with SMTP id adf61e73a8af0-3c03e4b0ef5mr8137961637.34.1783303088892;
-        Sun, 05 Jul 2026 18:58:08 -0700 (PDT)
-Received: from TheYautja77.. ([177.23.117.109])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f38ee1333sm31550941eec.24.2026.07.05.18.58.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 18:58:08 -0700 (PDT)
-From: Augusto Massotti <am.96138669@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: TheYautja <am.96138669@gmail.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ALSA: hda/realtek: Add ASUS E410MA to ALC256_FIXUP_ASUS_MIC_NO_PRESENCE
-Date: Sun,  5 Jul 2026 22:56:05 -0300
-Message-ID: <20260706015610.145528-1-am.96138669@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="A+53KAXP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=G0LRRxcCHxMdCbQOLByQbqx8QFPfIWUPdi2QnmD+nlvpR/AD48TQn0GxjZuFZm5lqqk/U+Eou2K1t8+KaAkub9lOK0ikxueVy9XjtkjEQ/FeGN8xkf3gz55D6Jj4RLCl6cuTxZIRVj0rWuW+YWzncMiMGiaInfBZBiHFQF98h7UIIhtN/hpr1BCaEe1jeTMZimcs6XNzLWMiFvf2a71Nv+nhgwWF3kEsYQWPCPjBZ/oT2Gi/rmQgZEP/FpiG7Z3kUlCSp+90WN/LHmZUlBYwnzhtDoYFj5lMhB0bf2706FRBqDUDmF6r0Rt7zEtkHQqbdNJsKWmodXnR1wh3F21kCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zB1ujnR472VPZj+K5Bss5KXD5AmnH4fsUrhMxnH+KqM=;
+ b=exh+C0Ju8kxTafjsQ34ZLYMK+3/DkUg5H6LQ/6YLbgsGlki5rsH9mUW/d73HorSK7EoyECCNZVNRkBKnAqZKgpNww2Ekrn8L+vMBqRN/MKsedf05YJAUtRRzPwY/ShWgJZWfq5aWlAarnVp40vdQiHH+r+NVfK+cYIsbvnBB3d35KAAEseREuTQMmdUPoi1koRVSxa9oUBn0UJJmodJX0FowjHAPacju+4J8eIahNGxN5zbidR2SJlUJooH1x0a5RDw2DwERmoFa4WudjSSEmakT4JhqneOtjlme3pgkgTd58dP+HcBFF0cQ3YEwphi/ytNPl++2MlkoqmF/9bgvLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zB1ujnR472VPZj+K5Bss5KXD5AmnH4fsUrhMxnH+KqM=;
+ b=A+53KAXP3K7skOvmoqXG3ITvd5WXXWoLFfLiZ63R2S6iT4ABhyndnjZYjWbizr/yspsTELA9D2hICTdR9gyUQF9dbPoU3Hea/yIHVj0gCQxLQ1OuayCaOdxpvuqsFXyUARII0gwjkEu/BmZl3b6uUFmrPGTd0p2mKDjb4yL/Fkw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OS9PR01MB12262.jpnprd01.prod.outlook.com (2603:1096:604:2e8::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Mon, 6 Jul
+ 2026 02:01:15 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0181.010; Mon, 6 Jul 2026
+ 02:01:15 +0000
+Message-ID: <87zf04c1w5.wl-kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
+ <amadeuszx.slawinski@linux.intel.com>, Bard Liao
+ <yung-chuan.liao@linux.intel.com>, bui duc phuc <phucduc.bui@gmail.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>, Fabio Estevam
+ <festevam@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>, Lars-Peter Clausen <lars@metafoo.de>, Liam
+ Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, Mark Brown
+ <broonie@kernel.org>, Nicolin Chen <nicoleotsuka@gmail.com>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, Xiubo Li <Xiubo.Lee@gmail.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v3 00/12] ASoC: add and use new snd_soc_register_component()
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 6 Jul 2026 02:01:14 +0000
+X-ClientProxiedBy: TY4P286CA0004.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:26d::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OS9PR01MB12262:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef4b75f7-ddda-4fe5-37a6-08dedb0275e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|7416014|52116014|366016|38350700014|921020|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	xUVlVrxBGewKwiyB1r7zD4hXMQXfEbMoi+Kb5jFQlZeCKX9MjfT8JMV3KfWewGAWtV1CvSbjjPxSWT84FY+bmOTYtDOG51Uup4tlldrfHOmYvx3VL0Lxswhi8xpVnrCF7UB1j+pCwdljDiGgCabzj80pbbFmQgelE0SHfDF+37m0KT56m+2+cx+3gb4sZNhCfzVwAx4FSvJoPHsziszASnPz/4xUII8RX3CDimKR8285IQdRfvNwGmEENtgVRSyr4/zw4CnxDTn/WVWxZu1naxGWJ5xj7hSYtx/iBEmmMlgo25Yb2lyWNiY1tf9UFMSW/t3dVzPrNE+/dqmG9d9pUWKsiK8CxcilukprtRw4f13Wxl5UFFZRiOImNsMS4LUC1kgVHfqGwuJr1fCPaOweZYv7bNsKFtg1kN+wjvk9CfhB73YpW1IYPz+/hi8dREdVlUkeTPmZkaNXqScY3HjdQuoQWIoRvYfM6A+q6/n3x0HkjSL3zkk3aP48wRZaoVJOF2+MXnZbHx5b1bBGCCnbzlvarhV6G0AVGZD5OI8GomwSV90qmA0/+uQ2GWy45qL1S0YqLAPfkd9H4AEQt7dy1cTT0GrX6fn1WSWyA8FLo+shnywP2Dl6OM1vVtatFxrjsiq3DgTXbhewE12110MQCProrQpXrx5pElvCBgSvzY47FgPaD1NTe/U3TLgkczzuw5n1MtZTzfdRDKpLSA4Me+l8lTKK/Zrc5yImFKr3jUc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(7416014)(52116014)(366016)(38350700014)(921020)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?+LK0kXNBqrra2GPPXwPybmX7yRf+1TpgodUM9rVD7tRXB/wrFYwgRacbeOk3?=
+ =?us-ascii?Q?WXJfnUx+Q7QJGJa/JOImlo8yuYesAupYVGH+HgPpuHTksKgSAiZyP+Gkae+3?=
+ =?us-ascii?Q?x4dBKxmbDEtbSy9SwOEI5w9VAEBNg57a5uPoK1x3G3HE/nmRZP1XiF3wdlA0?=
+ =?us-ascii?Q?V25d0lYI/vH1ncXhz6uK3121xdj6WLKKzsTSEwzwmUO3muEHvsRLR0H3rmVl?=
+ =?us-ascii?Q?jIPTs4jQUy6OBj5rfcsVuuHONhbi6NPrbT/s+KbCO+Rxlfxs5SKdxadD79GB?=
+ =?us-ascii?Q?07+3Pndda1Ng7mtxjiyBqEn+CrjEPgcTe6Ya9awH58k862E49xPunUPNskK8?=
+ =?us-ascii?Q?Mu1cVUA/TQy3qcEL5vHnvtKgQy2swMS26yLH+IF1Iy0KA6+5uVztiVOJpmnf?=
+ =?us-ascii?Q?to9SPRM0ljnsDM84+Ai995ael1L3QTQ/o3ub2KJ83+5uZt8lamgjXZ60K+44?=
+ =?us-ascii?Q?iJ4lvwg7hzxkG7Z5UPZqsUMu4BKujsdJJZMvC1aFtN8Jz8oITuF6UKKwkbem?=
+ =?us-ascii?Q?I6YVS5pTq/DnNtS/YU2BJD1sF84oc1nrS9ffpEj+CJ7r7xnBfn+TqQcsHfDH?=
+ =?us-ascii?Q?ezm7FUeTTunXXMzDFr8EDiiiLBIes4q+hiLaLr6ig2q4CszhZqsHBo9aJOm0?=
+ =?us-ascii?Q?HlGb758zbpIROp1pCmJhH9eH41aFE5yYbi8U8LP+1DYHyDw9Ri3+7wXWWTqg?=
+ =?us-ascii?Q?kYGN4oiavvDfLyOZelZ0qS7iq64gbjrUFsp8KT1eEHnjlnaNTdlLI61MkxVw?=
+ =?us-ascii?Q?Av3906t0VIrduEnfjeAElqt3PSgQn9GEdKvKdmq72jfpm3uyK025Oz+T0ZeM?=
+ =?us-ascii?Q?Y1kWeKeVK9qqvaqsYHvaEfWz/pfgPNYYKAoCkfVW6UseNKfhPKR9wRBpu/Vt?=
+ =?us-ascii?Q?rBdxT/sqC/Gr0imNxo/vgVvd6NFiH1YoIsDmbyc+elUh4rjHLr878OwGRbh6?=
+ =?us-ascii?Q?P81z+HRMYk8nKqPp/IbknjpBLN+qhL+HPqtWz/41WQ6jwWPxj/1AP3J30/TQ?=
+ =?us-ascii?Q?Q1p0N/8gxDXRnS2WS2HhG+qfXkOp+lzTa629qmD6aWIb1Fw/OmSqfQVcuMzx?=
+ =?us-ascii?Q?fdgJNnc8iU14utIX9hn1XX1y0qdGPtS0XtmeaFgE0+ZcXeMoyFVXYP0+HIkV?=
+ =?us-ascii?Q?QoxJrkkG7DH1LCUewb1J+ZqSSKnf+0UpOCtn6tXphDXsCUP9HLepsurzMwAW?=
+ =?us-ascii?Q?mjT5Q/N0TDxUvPRk3w/xe9lERZ8BRRqBSGkoT3x2bBu5cAR8y3CjGp32D6Vd?=
+ =?us-ascii?Q?r82mMmgWr78BROroZHlUqyPCkHRJqH/7jvBhDFEx2oB56M3LcjnD3C8v7MP3?=
+ =?us-ascii?Q?K/EtWS5MMTROs6o3EzziRZdQ460mWW0Gso3qQ4++S+5php8qRi0aR6e7KHHU?=
+ =?us-ascii?Q?9Nc76CPKy7vaMwTGRwpigtpRuY5KhmWj+8Cv62J85yI0cF05cH8s3ebeJpYZ?=
+ =?us-ascii?Q?PNbALVNYocbJ7fEcGEbNpt39D2FX4saYXUWaQYKiAuqRPcDRGmD83SQ08xcp?=
+ =?us-ascii?Q?vTI48x/KK4HmxyOk3MyyDsgS5mUpXGSo9smBCgf+DgL5pYtfa4kydSiIsw75?=
+ =?us-ascii?Q?THAEdeyxEyuiEspiAujYY2X1fJLSp8jguogmEu/eX03foM1mwbAtVDRVTkLA?=
+ =?us-ascii?Q?/4AbwLBl5f7F8nf4UP6XthZMez+/KkAnDBDf1v3/8zX8ABWDIqqTCRrb3mHZ?=
+ =?us-ascii?Q?mZIg0jxfA/7Ht3XnEiuBiTzrge5tUihtAml1vWDL69sjkXWgvV8/BoRg7qLB?=
+ =?us-ascii?Q?qPW7yto20IhrxOZARzNMyjPu5ePW3/w=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef4b75f7-ddda-4fe5-37a6-08dedb0275e7
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 02:01:14.9975
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RDRJFi8erErorfb7dLPP09tXGaKIL8vttXOPjjVS7hzJ7/KFXIFGKxZQIPK9cxrYHboNDu1yAcycdhgH//5p5h74hLqjtpvTgSS0+38Ispmf1jiDeotL+rq4UblXz33b
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB12262
 
-From: TheYautja <am.96138669@gmail.com>
+Hi
 
-The ASUS E410MA (SSID 1043:10e2) needs
-ALC256_FIXUP_ASUS_MIC_NO_PRESENCE for the internal microphone to
-function correctly.
+Current component has component->name. But snd_soc_register_component()
+user can't setup it, because component itself is alloced in that function.
 
-Without this quirk, the internal mic is not detected.
-Adding the subsystem ID to the existing fixup table enables the
-internal microphone
+So, to setup it, user need to use snd_soc_component_initialize() /
+snd_soc_add_component() directly instead of using
+snd_soc_register_component().
 
-Signed-off-by: TheYautja <am.96138669@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+In the same time, Component will be capsuled soon.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index f7700713dc62..b998847d69c0 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7355,6 +7355,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x10c0, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x10d0, "ASUS X540LA/X540LJ", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x10d3, "ASUS K6500ZC", ALC294_FIXUP_ASUS_SPK),
-+	SND_PCI_QUIRK(0x1043, 0x10e2, "ASUS E410MA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x1154, "ASUS TP3607SH", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x115d, "Asus 1015E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x1043, 0x1194, "ASUS UM3406KA", ALC287_FIXUP_CS35L41_I2C_2),
+Let's tidyup around here.
+All strange code can be gone if we have both below style.
+
+Normal case
+	snd_soc_register_component(dev, ...);
+
+Want to setup case
+	component = snd_soc_component_alloc(...);
+
+	snd_soc_component_set_xxx(component, ...);
+	snd_soc_component_set_xxx(component, ...);
+
+(A)	snd_soc_register_component(component, ...);
+
+This patch-set adds new snd_soc_register_component() which allows to use
+component (A).
+
+Originally, this patch-set was posted as
+	v1: ASoC: intel: use component_name for Component name
+	v2: ASoC: add [devm_]snd_soc_register_component_with_name()
+
+Link: https://lore.kernel.org/r/87fr29esth.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87v7ayxk3s.wl-kuninori.morimoto.gx@renesas.com
+
+Kuninori Morimoto (12):
+  ASoC: soc-component: move soc_component_field_shift()
+  ASoC: soc-component: add snd_soc_component_alloc()
+  ASoC: soc-component: add snd_soc_register_component_{c/d}()
+  ASoC: soc-component: add snd_soc_component_{set_}name()
+  ASoC: soc-component: add snd_soc_component_{set/to}_priv()
+  ASoC: intel: avs: use snd_soc_register_component()
+  ASoC: intel: avs: probes: use snd_soc_register_component()
+  ASoC: intel: catpt: pcm: use snd_soc_register_component()
+  ASoC: soc-generic-dmaengine-pcm: use snd_soc_register_component()
+  ASoC: soc-topology-test: use snd_soc_register_component()
+  ASoC: soc-core: makes snd_soc_component_initialize() / snd_soc_add_component() local
+  ASoC: soc-core: remove dev from soc_component_initialize()
+
+ include/sound/dmaengine_pcm.h         |   6 --
+ include/sound/soc-component.h         |  11 ++
+ include/sound/soc.h                   |  15 +--
+ sound/soc/fsl/fsl_asrc_dma.c          |   4 +-
+ sound/soc/intel/avs/avs.h             |   5 +-
+ sound/soc/intel/avs/ipc.c             |   2 +-
+ sound/soc/intel/avs/pcm.c             |  18 +++-
+ sound/soc/intel/avs/probes.c          |  16 +--
+ sound/soc/intel/catpt/pcm.c           |  14 +--
+ sound/soc/soc-component.c             |  53 ++++++++--
+ sound/soc/soc-core.c                  |  44 ++++----
+ sound/soc/soc-generic-dmaengine-pcm.c |  30 +++---
+ sound/soc/soc-topology-test.c         | 144 ++++++++++++++++----------
+ 13 files changed, 230 insertions(+), 132 deletions(-)
+
 -- 
-2.43.0
+2.53.0
 
