@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7D92D77E6
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 12:10:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647EF42465B;
+	Mon,  6 Jul 2026 12:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783339852; cv=none; b=cp11NjsYV9n+uvVpzKffvIbv7b3BEVyBi47QojHRNSWuoJ3fQ/AJfW+NBYsdXPaNKYIqOOIAK1KD7XriN2J6UGQ8/t0IEpzm30nsJAF0q0Uc0oIxONjuUP/WYHFaWpX0lJsChNBehN4cORxwyfwPaC38aovWFTejVdd+hTSmtKo=
+	t=1783339856; cv=none; b=XpdxoPqR85bGGHGfK7fUMsgRsNWp6nyGjXWbidiqnC772YWZffymF+mHZ3xOQY9aFo+3zCa56QlUGmlrVOBp0VQy3UuBToVJQfHxLGe2EVJnIRbQd4srwZD2mUmfRUn+HdUaAMbDumY5Wb4GaGNAx2OdUuaC/+2zXvf913Eg5nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783339852; c=relaxed/simple;
-	bh=l7gAYnuAzw0PSmHXXN9H7c4MMT00McDsmxMQ+khoXwk=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tUbh+spjbfJQsCLtyNW8bMbXGpQt2Y8du9J5LrdSX+oU2uo1XKx1NhLsToVI/O1+iYK4T8dlP6MHlmA+aEUv1KBPyvEPVNpCXSG+tjlNbTCyZypDWAg+QGj5gGja9kOB6VfgjeZVTwQMhvE/tbFPslS25dmpX2Oqhg+TWYLGYKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N05ZC323; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783339856; c=relaxed/simple;
+	bh=OoYt5/FLa8cfw+ebFTGdV7Ok9pvk/dN1eTsnx9v3r3I=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=KcQQM1IbadRzROyOf+eySwOpsw3f1CjWu/LEtTr9yY8SIBfmV1I1MrhpXMGBHXlLLP/hz7zc7KcDvCmxVdaAfkFRdiW/z1Y7d22udEEc2gHZXDu4Z9Ej3MKbwFvvm5JSLuqUV/Z7kLv4xVRTFazMaclmWwBEDw4QVuT41VHLA7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nXnWlBh7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N05ZC323"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E5A1F000E9;
-	Mon,  6 Jul 2026 12:10:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nXnWlBh7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8E81F000E9;
+	Mon,  6 Jul 2026 12:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783339850;
-	bh=mFb56cascQSVgIOW5OTQb+pMQffjyIopcN296kuGANQ=;
-	h=From:To:In-Reply-To:References:Subject:Date;
-	b=N05ZC323Kyk9zb/JXAvQ2joCmL6hIbs/UwOFc2Y8C2HYMIEHo7m4ulwWS4EdWyX/v
-	 UOeh/Vp0IMXJpYLdpraXdVsLWr+AmA8OlTck4NY595gn8Nuxk+2uRpgrXHwsCyahQk
-	 xyYzn8IEL2oogkldvf8s3dqNtPIKfhCpVn2C1IKSRzSstvBehOCtz7pr3ydwl81P7X
-	 fwOueMqICu3JIL9JtAs72Qi/X4KZCurNlgc6fj47p1NpeYUNeKWREXPvhZs1Y6adoq
-	 E+a2bRHzcvxk11pJKQV2AddQSHqs8g09RBZr6NrEaDu6ynB+WKPGfv3oq6JSP4aYtk
-	 XW3LTUvE4HTZw==
+	s=k20260515; t=1783339855;
+	bh=8snBFycLLNi9qU1IeT3KB6bAs3SJcvGC3OYCjgzvXfM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=nXnWlBh76NylCYK6AVFUt0/27OcxlxECYEJ1uynKMGp7CzpsLG7/N07jTSSZKh/br
+	 PvQ2nwgHUBxbZGflZFFPmn4tr9X8Y5oHAs+T8g9OW1YfqgIweBo9biELqxyY8PzYu5
+	 YFDBn6QDiEtoYZ6q4OvnvWeYEOYHditP+yRCI4xDG2KUxmCLAbM67FwZIsvDMhUVqR
+	 hGmiA9QJq8FpM7v+Do05xaVvGXcux7kDy5sK1IR+MBSAbGHlkzB2v62bBrpvpeFUDR
+	 in5yqdOTaGB48I7d9eo/4w08gmbDmTXXVqGjCdJRceuEn74F1BZwyLNYF97V+CetCQ
+	 CMbt4LYS0Vsiw==
 From: Mark Brown <broonie@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87ik6zcu7g.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ik6zcu7g.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 0/2] ASoC: sof: nocodec: tidyup
- sof_nocodec_xxx_setup()
-Message-Id: <178333980225.57168.15275910660869454883.b4-ty@b4>
-Date: Mon, 06 Jul 2026 13:10:02 +0100
+To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org
+In-Reply-To: <20260630013024.1500623-1-rosenp@gmail.com>
+References: <20260630013024.1500623-1-rosenp@gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt2701: add COMPILE_TEST
+Message-Id: <178333982019.57168.4166829438358170291.b4-ty@b4>
+Date: Mon, 06 Jul 2026 13:10:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,31 +47,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1532; i=broonie@kernel.org;
- h=from:subject:message-id; bh=l7gAYnuAzw0PSmHXXN9H7c4MMT00McDsmxMQ+khoXwk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqS5tH1e2pV7dyhPcE7+mPzjJmPx/f+7ZJSmUap
- Fln8J3bk/eJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakubRwAKCRAk1otyXVSH
- 0K+2B/9ZZgdHB+8TceCSR1H/zxAOOudLaeZ8OwK2UBidVDR6DB5uzWAizHbcpz7q4nzuNUboX1E
- pZtcoVdm22l/zrl3l+r8Rq8Ctx+6VwC+PJSBxTZxftwt/pvJfhfX4kBux8qMxQ+seGXR/7GUSUn
- 5HssIsXy6yAteFJNzXqmHmK8foFEQn6fFhXgXGxOHV35SMSHs//5hsoOdCao8A/8JHbik5/gPp7
- copGDHApLpIMADaNVBRFmpbvHjtuH3vsEqRCDZmi1e23af+hC3+0+ZP4y7yh2nq4eVXsVgiAAAG
- WWcTTe6gcdJZLaKhJxr891QVxaEN5Amlb3fZ6guzVWresgMK
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1097; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=OoYt5/FLa8cfw+ebFTGdV7Ok9pvk/dN1eTsnx9v3r3I=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqS5tM0nUKpujawiRpuMWmCY41b6wwmFjzwPU7y
+ nlAUlwf1h6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakubTAAKCRAk1otyXVSH
+ 0IWJB/0btqNM6vlHAJ/MYKW3PR2aATMobzbzCatcnsuflfVS9G7UGsBNQY3M1ms+TrttiVLPjK9
+ bwb8DUZmQK7+7lFnwtgwXddD8zkCxGCl47c3Xv9UuiglNxWIoiilMMRU7KKFWqp6nnwzHuS60MO
+ YzFbHRuLpFKqzEMkvESjQfd6CkMWLVQ5Z5VHqjyfoYK3pL3zaMV8PBhKiPo2haxuCYNme3YlXpw
+ YexPj3M4+lzy3oI2yyOejpf3h8u/aUCunUe0hJIHI43wt5S4AvtwC8YMsNF0QURsyMbAF3LLfV7
+ U2WfsZKJiat4a/Sf3GPEPZxaVqrVRQk9EmdVNrGiqJ4ROLVv
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 01 Jul 2026 02:36:04 +0000, Kuninori Morimoto wrote:
-> ASoC: sof: nocodec: tidyup sof_nocodec_xxx_setup()
-> 
-> Hi
-> 
-> This is v2 patch-set
-> 
-> I will post DAI/Component/Card capsuling patch, but
-> current code makes old style / new style conversion difficult.
-> To make future conversions easier to understand, this patch clean up the
-> code a little. but no functional change.
-> 
-> [...]
+On Mon, 29 Jun 2026 18:30:24 -0700, Rosen Penev wrote:
+> ASoC: mediatek: mt2701: add COMPILE_TEST
 
 Applied to
 
@@ -82,10 +68,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: sof: nocodec: tidyup sof_nocodec_bes_setup()
-      https://git.kernel.org/broonie/sound/c/380d6b549d5a
-[2/2] ASoC: sof: nocodec: tidyup sof_nocodec_setup()
-      https://git.kernel.org/broonie/sound/c/39222ca2ff2b
+[1/1] ASoC: mediatek: mt2701: add COMPILE_TEST
+      https://git.kernel.org/broonie/sound/c/ae2e2f1ff1e8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
