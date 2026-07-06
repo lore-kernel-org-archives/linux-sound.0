@@ -1,39 +1,83 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8A64DA53C;
-	Mon,  6 Jul 2026 09:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783329445; cv=none; b=JFHF0tSaGlqFpefWKQQEM/jurJyjMLVCOao6qDn2lXZttpoyGbEKpUQ6tnty/miEGil1xuPs0ogqOpV8FwrYN8+k0S8RKTMLisWRmE/JnhxhsVTCGEmwe7EK+kVHxXjLa0GRxTQHmknzjyeJyJEoEE+SeFwrEmSvw/KWKUbiQHY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783329445; c=relaxed/simple;
-	bh=klE1DYmlrZdBY9yEO5N860Zh66sMFtAvFr+2kINBUtQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303EA4D990E;
+	Mon,  6 Jul 2026 09:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783329594; cv=fail; b=Mg4hiXtSF/xmROcX2PPpLTDw/IxOYuWdYSibd84whYXHMDBM4va9pIkEG3m54qDYDVqVgcGQ7C4uH+b73zAwr0XP+vWMj5mrpmqogJ5oTRsFOSw2uKVYyNNLFTGxUpknQdDqFWI8EJYGOAzL46pMwfj0T3r37amDJrwckw4cjPk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783329594; c=relaxed/simple;
+	bh=LCCEZfCdNw5k0TdtxvAJPCaK3/t5FnxvS8SYPlXA/r0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D9ekJDUbWRdahfSPWOfX0mwDzAPKfJLY/2BuX6+BBLAf3ZUph7nkdvZB0jmVqXsQSju9zj5UORRk709dBDrvdhX8MVTuQgxIj23i7LqHV9OBA0isMwpW0vbC1gPPZAh2bH9n/22hvJs0v9jbQAw5G4kQcqDmopZg9GivoqvcVps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=xgiQEnEd; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	 In-Reply-To:Content-Type; b=Ons2g23WUPBxKiwLe5MLE56N8K5lZHZsen2hXA2kOQt4JIcqmRbQRPzrmwSK1zgywEThySX0Q6fzk/I2ENBcFe/avkTI873hh+DoHxniFjhdSw2cP5dMhi3cavu47DPF/sZgg9f1cL36wafYLGF6IUT4HFKZrDbWPctxQwTQUCo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gKyJOhUW; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=oIssY5g0; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="xgiQEnEd"
-Received: from [172.20.10.2] (78-80-16-106.customers.tmcz.cz [78.80.16.106])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 933345340536;
-	Mon, 06 Jul 2026 11:17:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1783329432;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Ic8uu5oVJNxFuEiRo5VWDpp86FEfjcvS2MRIg1QrZWY=;
-	b=xgiQEnEdOUnanAm7VUbMRU4SD+QbE7hTa+akFwo8jbwzqbCZunDgm947bxzhDPP5T0fUJR
-	6D7oWKK6wP2NAQY323tr4jNxlZf6iyVFVf/HK8wIRiNh1lFoF9VnA4e0lPZqTkCT0rtBPj
-	+DxuhgooMax4WsiUJtsq1XXKa/GIH7s=
-Message-ID: <323f9495-16f2-474a-9604-c67a3279571f@ixit.cz>
-Date: Mon, 6 Jul 2026 11:17:11 +0200
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gKyJOhUW";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="oIssY5g0"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6664tcMB949871;
+	Mon, 6 Jul 2026 04:19:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=d6y3QbxCjM/8F5W1xkW1H5X+IZzeg50G8hs6ShGvKTQ=; b=
+	gKyJOhUWP+uWVX4Gbqsiox/RDPBULDG3mqN4yh59EsufOKB0/137NgVRa0Ho8bTO
+	/abyogPFoSpnO+gbZnF2DJDFCiiUmvOV2oY+14W1KiOCo1j1BCG/0VDkHVMU5+Ni
+	3ZsdxMfVy6dEhDwokEskjLmAKqYvJEgCVitc+WgnyI4EM3imHgcMbqCUlpwpF9Hv
+	UlCMLEjta2c/G7BfsbMtDDj+mBAGJJ0K2pAwKAYkoKRwLcgXwYWAKWBZ4zEgHLKY
+	OrXvS+naP3lUfU/h/weEydRaC76yVqM6vb8G/4QDm7O0wZVbjSi5C3xA4QVdhA81
+	hTg8qfPI01yfYhLXiRW9Sw==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11021107.outbound.protection.outlook.com [52.101.52.107])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4f6xkjj3uq-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 06 Jul 2026 04:19:33 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gnb/PAhl/EceV4aGEZY/D36+rWgY772JBN5n+tKsmlZNnMsN0WtIeKO+9l81wVRhn/gWiWSxvfNnRHtDQcLHohWrrBL6iC0KsKbSUmF0P8EmeOQDi8iJfBt+lVmFyAUivI+PZ28J+I22MpBLm39eKhFYvzANqa4usAyxBBlQnmaMHutSRPL+Isb3n8XuNPcuCoi5m/4dv4b/pbMRDCeFTaISsKzamSeIwUNCVk444LOcdX/kUe4M7DaH1pcSh+RZsF+JnMGmL49tITV89MZRSgMHQbSqsQX6JLcEwwtLSpK76RfVP//zyXMumXhjuxMuXAt5Va5gsHscLD+LnWRGUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d6y3QbxCjM/8F5W1xkW1H5X+IZzeg50G8hs6ShGvKTQ=;
+ b=IhxNHKxChkFrIBEwBXN1nYWaXsXPQ53Yom3I0JCqRt6v56x7827JG6YwuFOqpVStNwuui9IRJrnKI/iQ4JXBbRXKprE/90wHCIdEhP825HhFl6FjsmN3DwJOOobJ0GubTvcVC7ZvOPE223p7xYgcBVwnlv46sD2r0lMfGXQx8fQqrabOXvC96K0Q1qN8YJO9NoAhcJIKYNuxod5/nKiDxEhydAB7gSQo7JM/0iZSJxWJmAqW4aik+0pyATl+SigBUVE/me3tdNiG+x0mGkCsop/o1tE2QwjKiJIpiJ3tA18sv5rPbchgdYUr9icxC4b/Z3sk65aDfkZeEsDUP4npvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=chromium.org
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d6y3QbxCjM/8F5W1xkW1H5X+IZzeg50G8hs6ShGvKTQ=;
+ b=oIssY5g0vi+fKMujpleECgCTje4P42Rm/TXKaxyfHAJn2ocw2pBiCOMx+3oJgB7XLpkkKMaEC0lZp8gO+KNFq0d5lDlyFEWMRvkHastS+OVfwih7eQjzAxfSlxbdEUnmW0Y2+uCMI+J1yd4CIAnsfd5mNzzIp9m36e1kZ9en2/o=
+Received: from PH0PR07CA0019.namprd07.prod.outlook.com (2603:10b6:510:5::24)
+ by DS7PR19MB8883.namprd19.prod.outlook.com (2603:10b6:8:253::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Mon, 6 Jul 2026
+ 09:19:29 +0000
+Received: from CY4PEPF0000EDD2.namprd03.prod.outlook.com
+ (2603:10b6:510:5:cafe::62) by PH0PR07CA0019.outlook.office365.com
+ (2603:10b6:510:5::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.13 via Frontend Transport; Mon, 6
+ Jul 2026 09:19:28 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY4PEPF0000EDD2.mail.protection.outlook.com (10.167.241.198) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
+ via Frontend Transport; Mon, 6 Jul 2026 09:19:28 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 5A609406541;
+	Mon,  6 Jul 2026 09:19:26 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 40208820244;
+	Mon,  6 Jul 2026 09:19:26 +0000 (UTC)
+Message-ID: <c6bb6d40-d539-4018-82e8-7aadc28b98f5@opensource.cirrus.com>
+Date: Mon, 6 Jul 2026 10:19:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,93 +85,150 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 6/6] arm64: dts: qcom: sdm845-google: Add basic audio
- support
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- David Rhodes <drhodes@opensource.cirrus.com>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20260705-pixel3-audio-v1-0-3b66f33859f1@ixit.cz>
- <20260705-pixel3-audio-v1-6-3b66f33859f1@ixit.cz>
- <373bbf80-a874-459c-b77e-a86dc5f75d51@oss.qualcomm.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <373bbf80-a874-459c-b77e-a86dc5f75d51@oss.qualcomm.com>
+Subject: Re: [PATCH 13/24] ASoC: codecs: cs35l56: Use guard() and PM runtime
+ scope helpers
+To: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>,
+        Takashi Iwai <tiwai@suse.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Cheng-Yi Chiang <cychiang@chromium.org>,
+        Guenter Roeck
+ <groeck@chromium.org>,
+        Benson Leung <bleung@chromium.org>, povik+lin@cutebit.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com, chrome-platform@lists.linux.dev,
+        asahi@lists.linux.dev
+References: <20260626061329.23264-1-phucduc.bui@gmail.com>
+ <20260626061329.23264-14-phucduc.bui@gmail.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260626061329.23264-14-phucduc.bui@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EDD2:EE_|DS7PR19MB8883:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f00e492-4258-4de4-5a2d-08dedb3fae14
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|82310400026|61400799027|36860700016|7416014|376014|11063799006|56012099006|4143699003|16102099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	87M0vkyY8ql1dN1GJW+L0iEFVrTKwYVHwHt83tK9Tpq/XjMg7bP7uBPZ5fchdvLUAGZjTnV4CQnDMkGImqU6c3IerKjC7D6x07MhQbFEmNC5lO/v5aEifkjuUvGlRDwa51EPYIh6gFRjnhhB3RSzCuR/gWxWQPqvU0VfeoO1coqLm8bVEYa62W9YtjvvjT+/c90+tbpOjLBSzAy/OmFzgp+NoYvfx3/zsz+pt0VmsW2gT0Xej70vBqGpRCmuj+E5t21oNuWVMI7z/gHX8kDhpoyL/uxT+/E9dXm07U1MHlTfz3JdVAbIojqFdfGmwqNourH0nN8Ivd20fqCqCnn443FRkKn4AzpIfWSPJZzVPEJvcYi1/7Dro4FlZZXfNZ3opGMKty6PlCkkNkXDkoc7GwvaCA3I0kHRhtDaJHsYHUgbMXghWakyRcXaXHqhZWe9DVgq5oTbN1SMtds2zm5v+AX1wQy2DhUkWB+sf6EWpS9sTpJs4EEo/YWtazTWOMSuS1wCYkG0BWZTdd9GoBfsCxUdk6RlXoEgPxdvIoV66TUKpoL/T803sx2uTrNa6+K9Aav4EkiExL/1pw+G8rUS+bZyYrGqbj8qruzm2USCyd7XwpidFq+DBqcyHwmi90vBWl3u2Y1R2N5OPBLTnNOd8NeWCBFOEfEpwGX7a/oOiXmpHeMDTV/Fc6Fwf4t7ovGyeO5EHYfG5KLbVzRSqXTbHA==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(61400799027)(36860700016)(7416014)(376014)(11063799006)(56012099006)(4143699003)(16102099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	DE3g01//YhHDRInaD/Kftb5Dmp0Mtz1MRnFP9E1Hq7pI/WUR0+BiB1aWrD9tBVMF6xB7AaLXVNds9mbET5JQ5GJa0Rt09r/VcjQSTaCdowai1AFEYcLxsjz5BX3Yl2ZOzGvTkkIuUF0UIPDg4J4CNP6YFcBOCtkxpStRXb++5EqAOyl5qcyacUg+AlcORp9S45eqa3h038ws1Nsotwqw6c8fnKg06EInUrNsYinhTNxI1UbZzJW6nW+xMjdn91deCazmOsFWl8siu9jsDBF0Y1oKNXUjo2QQjXQzdFDwTx346Kikmots8hkCRW4yW4XY/A/jBvCo9pSGhMPD7Dg4BrAtcddEoP4t02WxmkNNiNJwKBbqdVECsHYGegOC0/wD128wlW0eFSDtX+6jo9/UR8dFVSyEkEiie0w6DjamdeJHAkHaGDcLUpQCvYQ/InK8
+X-Exchange-RoutingPolicyChecked:
+	ZRX6g4bJreehAzBfLNjZfMyw/IWi2BfkeMJkMgDZUEeCfVp/bdU1IGGLZX1xeQBrlIBv9W/4HVv9Pa6X2jwUD8GWHycHG722AloYAngda41nRMs1hYlY9TofGlJEXAA7NcgVySgum4PKimuPmE5sIQTeTfdcfjDnV2dCv6oXcDItYO967yFXjswkrIF7YOrYhQKXpRCloXbMMKWGFHRWROyDk1Nx1TuUrzjy320vdcgNYJkff/vRZEu9ycqMwo1DmYR1VsfCQx3pQeNUUpalZh+hd+cV3d+PqPabsdtkZi/IXI5IURM9jdGL4DqpSCnl8llPjL1NHoTW7U42w9i9dw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 09:19:28.0231
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f00e492-4258-4de4-5a2d-08dedb3fae14
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY4PEPF0000EDD2.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR19MB8883
+X-Proofpoint-ORIG-GUID: AdusxngwxIU9GbDqIs6HyfF4mnhv-X6q
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA5NCBTYWx0ZWRfX2B+c5sGC3gYd
+ 5brIeSiCqiz8EbC1qyV9ws6dnfT83UXqLibhG+WqBVAFkrzQuI3qluYO0Pe7sNG1EPldVDqel5o
+ 8KZ9NcWdiYjrEH6tkE8UK3WTTE9uDac=
+X-Authority-Analysis: v=2.4 cv=YYiNIQRf c=1 sm=1 tr=0 ts=6a4b7325 cx=c_pps
+ a=xX5bFixAAzgdQQ8ihQiE1w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=pGLkceISAAAA:8 a=kPVLe_SoSq5B7UODA7IA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA5NCBTYWx0ZWRfXw1Ja1dEZrWx/
+ /7mi2oRD7Kz3/+feoxM7KfCQpCWl7JMX7SrEYbTh5+DwRxMxTjT4IIw1JVcWk7IQPAo7YTGNheC
+ UZ7O0S/7DE8L2or/mhLFYuUglmLNMblGMqezEl/8odFtpYtKS973OSlkwMz7lgxG2nxRWW4r0N1
+ RA1Hipe42zni2GiMBnuIDcfvfgbgzRyDDLyXHR0sLVSHax7LF8SLJIi6oAOViGeKOtvLU74gWuJ
+ BX5s3MZqQZje4Z9xBPnkKK6VjxlqmCWq7XXzsd9w7qeCxVqI4NZIXL5VQ5GFlz6PWLJ07n1Yjps
+ GFpGvBdNBkR8I5bNOLP3qy59PXIPkWEYZtH7OTcHdZHe8tgd3mB8IAJZ0vD0fGuwH5H1jPFsj8T
+ IilrgF3F7+9gBqIGl629AeJq0Kjrk4MKrSMoOgnDA97C1V4Juk1BmAlVPBdxDD9GTG7P4KQqs4R
+ lK8rpX20MDYGU8p2lQQ==
+X-Proofpoint-GUID: AdusxngwxIU9GbDqIs6HyfF4mnhv-X6q
+X-Proofpoint-Spam-Reason: safe
 
-On 06/07/2026 11:14, Konrad Dybcio wrote:
-> On 7/5/26 10:06 PM, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
->>
->> Introduce support for sound card and wire two CS35L36 audio codecs for
->> top and bottom speakers.
->>
->> Inspired by commit from Joel Selvaraj.
->>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
+On 26/06/2026 7:13 am, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> This looks good, but since the binding is not YAML, it introduces:
+> Convert the interrupt handler to use guard(mutex) for automatic mutex
+> unlocking and PM_RUNTIME_ACQUIRE_IF_ENABLED() to manage the runtime PM
+> reference through scope-based cleanup.
+> This removes the explicit cleanup paths while preserving the existing
+> behavior.
 > 
-> failed to match any schema with compatible: ['cirrus,cs35l36']
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>   sound/soc/codecs/cs35l56-shared.c | 19 +++++++------------
+>   1 file changed, 7 insertions(+), 12 deletions(-)
 > 
-> so please also fix that up
+> diff --git a/sound/soc/codecs/cs35l56-shared.c b/sound/soc/codecs/cs35l56-shared.c
+> index f14e2eaaa4ee..73fe1cba3f5b 100644
+> --- a/sound/soc/codecs/cs35l56-shared.c
+> +++ b/sound/soc/codecs/cs35l56-shared.c
+> @@ -645,18 +645,19 @@ irqreturn_t cs35l56_irq(int irq, void *data)
+>   	if (!cs35l56_base->init_done)
+>   		return IRQ_NONE;
+>   
+> -	mutex_lock(&cs35l56_base->irq_lock);
+> +	guard(mutex)(&cs35l56_base->irq_lock);
+>   
+> -	rv = pm_runtime_resume_and_get(cs35l56_base->dev);
+> +	PM_RUNTIME_ACQUIRE_IF_ENABLED(cs35l56_base->dev, pm);
+> +	rv = PM_RUNTIME_ACQUIRE_ERR(&pm);
+>   	if (rv < 0) {
+>   		dev_err(cs35l56_base->dev, "irq: failed to get pm_runtime: %d\n", rv);
+> -		goto err_unlock;
+> +		return ret;
 
-I did :) bff7fad1010eea6f183fb110b54171cf8700ef8e , at this moment in the -next.
+Should change all the error returns to directly return IRQ_NONE.
+It looks like a bug that it checks rv but returns ret.
 
-David
-> 
-> Konrad
+The reason for ret was so it could use common exit code to 
+pm_runtime_put() and mutex_unlock() for the error and success cases.
+But this isn't needed now.
+
+The local ret variable can be deleted.
+
+>   	}
+>   
+>   	regmap_read(cs35l56_base->regmap, CS35L56_IRQ1_STATUS, &val);
+>   	if ((val & CS35L56_IRQ1_STS_MASK) == 0) {
+>   		dev_dbg(cs35l56_base->dev, "Spurious IRQ: no pending interrupt\n");
+> -		goto err;
+> +		return ret;
+>   	}
+>   
+>   	/* Ack interrupts */
+> @@ -680,7 +681,7 @@ irqreturn_t cs35l56_irq(int irq, void *data)
+>   
+>   	/* Check to see if unmasked bits are active */
+>   	if (!status1 && !status8 && !status20)
+> -		goto err;
+> +		return ret;
+>   
+>   	if (status1 & CS35L56_AMP_SHORT_ERR_EINT1_MASK)
+>   		dev_crit(cs35l56_base->dev, "Amp short error\n");
+> @@ -688,14 +689,8 @@ irqreturn_t cs35l56_irq(int irq, void *data)
+>   	if (status8 & CS35L56_TEMP_ERR_EINT1_MASK)
+>   		dev_crit(cs35l56_base->dev, "Overtemp error\n");
+>   
+> -	ret = IRQ_HANDLED;
+> +	return IRQ_HANDLED;
+>   
+> -err:
+> -	pm_runtime_put(cs35l56_base->dev);
+> -err_unlock:
+> -	mutex_unlock(&cs35l56_base->irq_lock);
+> -
+> -	return ret;
+>   }
+>   EXPORT_SYMBOL_NS_GPL(cs35l56_irq, "SND_SOC_CS35L56_SHARED");
+>   
+
