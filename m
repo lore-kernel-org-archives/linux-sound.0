@@ -1,58 +1,58 @@
-Received: from out203-205-221-191.mail.qq.com (out203-205-221-191.mail.qq.com [203.205.221.191])
+Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48143B27F3;
-	Mon,  6 Jul 2026 05:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54BD3E00A7;
+	Mon,  6 Jul 2026 07:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783317117; cv=none; b=MJe25v02m/4k3IxwrxWJRhpe4rZ9UwlHIX58uY7d/igIH+jia5k1lhQxVGzRCtYg6mi9Sb9mXkyWEkKsf0is1KoygMDdNa+Emksn2eiKc38eiaKdHoO32Vx/SGuN2czICF9rLGJRwaq0rZYznOfrMH9CG7v+QUOyOo2PE6pr1EY=
+	t=1783323706; cv=none; b=ny2PXWXPaHYJGMsYiX500tcbcUkXIiutKDAuaj4VPoo0XimSSee7BWD5D6y2VOt8HsSu0ybFl6P8RRNf3Ye5xCiZ0Z4yQNS8UEu34cO+kA0f5yYpqlbaCQVRPTE0kL77kfj9LzD/t9Cp8jFcwFpgXBkGre7YG4OJen2WAp468fE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783317117; c=relaxed/simple;
-	bh=JmLhQxvQzcl2xGCtfQ+Ug8YP3dx6xqsDNdSnkapFis4=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=QlCxNcXczMdmrQipFlnq0NUXyAdvnN7AiSNtivUrJzeurNX9CpCQqOSGVsrXNRMlMiPcXntMr+xpjE/1egJ9FxpOCTzOoee2lWgfLnpALbH7gnTvwHimhF3VZ+ZB43RLTs8i3mcNIZoR3DjOlqwxvVDVU93pTG7K09f674pXQYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=ZLKLVNOA; arc=none smtp.client-ip=203.205.221.191
+	s=arc-20240116; t=1783323706; c=relaxed/simple;
+	bh=VQDEXPZ8aSUOoFxCwwjYPQvNDTOF+Pr2YnS0HCXrt44=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=ocxYpi0C4uD1dlE5GSjCFK0Kqd4eF2uPZxJr08dM5V27CGwDSt/Pv6NdJVZQALesWxlPw7/qwZCmEWBVesgmn6cRVjvchjIsYJzsVcnA5CxMbmBq57fa/+xiJny+0OF3Gqflb0fpjvt+yApLmuYcaoKSCMEbZBTqbgSmg2iMpH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=fGf/vjwl; arc=none smtp.client-ip=203.205.221.221
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="ZLKLVNOA"
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="fGf/vjwl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1783317110;
-	bh=XD4w242KhMmWwaLTNO4LPKfH3cAdkqR39phhyFhQreo=;
+	s=s201512; t=1783323689;
+	bh=c86BqVRvwrle/oC5n5E0N5/zSz4hbqHQhsnYxqeqFrw=;
 	h=From:To:Cc:Subject:Date;
-	b=ZLKLVNOAlYxDoYTchSofNU3t7lwR9ivhtTirU1C41T1Gr4XFLS0KcMFa6FOhjGJc7
-	 clxatfxsNltMooQ1Irl64jeMuvMczh0k2U0+Yj6GX5T84XHX0/XStrU6tMo8O4X1Go
-	 +42IAsScXABAY0oz9debXyVa8p8q8oJwgw/XQv2k=
+	b=fGf/vjwlEKZQtS9eKUvhJqllwaYYoaKq7E0XkXp+yB+sE1kPOaRqpsAEpVo3xRw9i
+	 L+R45RbDoiDYiuc/IOtbHYO0/mmYMKBP5HQT/nyl+0WFiKOkW8QFr9R7Pgq0xTHzRc
+	 abBCgl/XFegLegdZnpF1QqhgjgLNW1DG4HbG+a4c=
 Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
-	id CF03C62D; Mon, 06 Jul 2026 13:51:48 +0800
-X-QQ-mid: xmsmtpt1783317108t81eoqwz8
-Message-ID: <tencent_01DDC11413DFF88ADAB8476570B894B50F0A@qq.com>
-X-QQ-XMAILINFO: OV65e10zTgieaxtgJXLiO32uwZbucX/SPB4FZ/3ywOr6b3sx7mn1K0XV7iqDG/
-	 aq6qvTIPYfS+jCfNFlBV7Qrhyjb3/xnZLKdcPRwgmlhSxl+k5AZEgaqi934wR5Urkh1sht6v3muF
-	 yEOcw7PfC2hm/898/b9WNJ0n/WI3nR9yHyevl06b4fpWwvBNpbgjqOgveNf10SaGkaumU4o/hfZn
-	 AUmAWNBG7zSYl2E3jrjdNAdKwbhAiU9a2Yetdd7irrKClyqiLdsjJE42H983m32hyrX0iBkpozKk
-	 m3V4wB3q8ra78ItC3rHqvF6RBH8XVSD4pHh2JELKzJrbnkEllHPMs55unSKoSCp26a1vTXZOXqDu
-	 7RbYsDpSOUDh4fOCEK2tHc3XORC8AboGDhILMaYtQ2YKtZZwiPALRkEg53NhmB4FSwDV2cBtNjVS
-	 xejtnuG4ZuKQ9hBcBSx8sgvB23jGpelU9fFLrcTeGYQRlGcRp6Hn9I+6tc3braWrZAH9kYFp+bmW
-	 dTWEA0Szx9+nn+WpkP8AplKel5CPkPrjZpeWzuBZCA7W36f06j42M+E90nKkrCryKr4O65vDukrc
-	 gKLFgJcVNLAgB5b5TzwYvFbDuwPaaEZ6DiLkWT3Ha8NyRsvtac+54DJzPQLuZqUbugs1zu0WK4NK
-	 OCWhRfB2hMDvwNnmvdvM6uN9YvgE/fc4ySNJE3VwZmahiQsThqWhp74TQPyTN7WVdNpl4OWJKmlG
-	 NCtjLw9ILVGX0MioVuTkUUm1EZryMgyrPvXcMW/PncMpulzLyWtqKbo1sn1laSsf/urH+bxa91Oq
-	 7fN5Aq8rf+93tfvqM2gh+U8JLlCxTJOFnxVEOESWlcsuRDPYIliuDsEJWWJiVO7LxcX57562puAy
-	 fevQv+BBEnR6OtLX3XnSgAMed4fdMOX4AZHlY8fUxItCcWWk1wdAat1DByKRli9P3z0TUhe7/Y7p
-	 RRbvtCg4zn1mfRZQlxzUa0TyueR2+uD7ehKJF8fwLH46pdvOYtmqeHTFa9t5pPc2Xzo/IMLWLjzd
-	 h2QyewWSYLTkvDvyx92SDUHPvrass=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id A5B3F071; Mon, 06 Jul 2026 15:41:27 +0800
+X-QQ-mid: xmsmtpt1783323687tqg5n7oai
+Message-ID: <tencent_B59DA88C3B51869ACB72BBD81D6171C24D06@qq.com>
+X-QQ-XMAILINFO: NmRjDopJZVxOjG/hvjRxQe/+olP1peIeAEqYS13ChrrHxlgRhU2I8rlasbCyVE
+	 XwJ9HOvcgQFeK4DTz2p5jOeUwi/bXz1h+9Tx3crLDCoH8FbdnLoOVti8egVPZWa24b8fCrM6XN7l
+	 CJlYAFtgAe0L4hhV2NnnVU6PeN+6P3tCO0iOBVl8qcw2KAbZL2onCqHIMH3gLt+BC5bJZawuGUAn
+	 RfNQCEL5htfZRrbYvPsGtk/X+07kEC/OAdWIeaEIj9Zdb/1DcUsuPPXL9F/agg9ONeer90JeeQ/k
+	 oQ3ibphUB511Nnib+g1uzsX95p22VOLSLLqGF4FoLiol+JHO1wO/uVXkBLq+W5NnLhv0M7QGEI3G
+	 SHUoyU25VtBu6ZFcNJZHKvEDf7LH3m8p9hqMFIQQucFU48oRy7hkhjQQRtniETV2cn/mA6tqBIkL
+	 zsOC0tT0tqu709342vTCVmSsTG3PtkLgZXziied9KxAjavMHDjEhfFu2kFOtU7K679nJp4GMgKfD
+	 yHxufCrdOX6FWRedGirfeU3JzZcZr45wpKF9IeOwYkI+6be5OzSQHsPoqTzHuNz4xta21xOrmiKv
+	 wJLjBkiEdUXgVYl4uXoHgjkZVhhBmHDHXJ15AMSsHpKhjjO3RlVR2ebTejfVm2n2OxQRLfif5/rq
+	 wUZNxsjN+mzrvFbFPG1Fm/VOz5oFJtJsdcMdWa/7yKVzdAPG/SGAJYr6IRMElW96ZLEH1I/cSDBn
+	 sxsNosfWqIm+CKwTYaiep1xlg4N47IKTPptKXMDgJ2GT4zd0483NHM+eOyLJ3alLg1WbliJg0WIC
+	 58kC6Sy0fN4WQr8LZpFdxhcpsAiifSZtDm/K6gSRVo12EQCWK10gRQHruPl6tyel3tBd/j618TZ2
+	 WYG5hsU/LOXb4tlviecErB0u0h2+oRex6fGo6Xfw7+QsMcBGdetJfPq7aiBuUpIe0guH+0Xvbceq
+	 UkRT6UjzJz7vQz4T+tvmCB1MeBEGD8WcYuxPa9nRIWaPOINzh1ZWzkQGMMuS7Ym4grJcWUC3j728
+	 PUNPU1d55BiHqaoHpv+gtY07wIwm3iuAn39T/YBcm+qaC1GB37
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
 From: Zhao Dongdong <winter91@foxmail.com>
 To: perex@perex.cz,
 	tiwai@suse.com,
-	peter.ujfalusi@linux.intel.com
+	joakim.zhang@cixtech.com
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Zhao Dongdong <zhaodongdong@kylinos.cn>
-Subject: [PATCH] ALSA: hda/intel: fix memory leak in hda_init_streams()
-Date: Mon,  6 Jul 2026 13:51:31 +0800
-X-OQ-MSGID: <20260706055131.289810-1-winter91@foxmail.com>
+Subject: [PATCH] ALSA: hda/core: fix memory leak in snd_hdac_bus_alloc_stream_pages()
+Date: Mon,  6 Jul 2026 15:41:10 +0800
+X-OQ-MSGID: <20260706074110.382226-1-winter91@foxmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -64,36 +64,67 @@ Content-Transfer-Encoding: 8bit
 
 From: Zhao Dongdong <zhaodongdong@kylinos.cn>
 
-In hda_init_streams(), if kzalloc_obj() fails at iteration i, the
-previously allocated struct hda_intel_stream objects (0..i-1) are
-not freed because they were already added to the bus stream_list
-via azx_add_stream(). Returning -ENOMEM directly leaks them.
+In snd_hdac_bus_alloc_stream_pages(), there are three memory leak paths:
 
-Call azx_free_streams() directly on allocation failure to release
-all already-linked streams from the bus stream_list.
+  1. If snd_dma_alloc_pages() for the BDL fails at stream i, the
+     previously allocated BDL DMA buffers (0..i-1) are not freed.
 
-Fixes: e36a88b33cbe ("ALSA: hda: Move irq pending work into hda-intel stream")
+  2. If snd_dma_alloc_pages() for the position buffer fails, all
+     previously allocated BDL DMA buffers are leaked.
+
+  3. If snd_dma_alloc_pages() for the ring buffer fails, all
+     previously allocated BDL DMA buffers and the position buffer
+     are leaked.
+
+Add proper error cleanup: free buffers that have been allocated
+before each failure point.
+
+Fixes: b2660d1ebde1 ("ALSA: hda: Move HD-audio core stuff into sound/hda/core")
 Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 ---
- sound/hda/controllers/intel.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/hda/core/controller.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 4b03c64e72ab..cf5783acf440 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -1866,8 +1866,10 @@ static int hda_init_streams(struct azx *chip)
- 		struct hda_intel_stream *s = kzalloc_obj(*s);
- 		int tag, dir;
+diff --git a/sound/hda/core/controller.c b/sound/hda/core/controller.c
+index 69e11d62bbfa..5d8731447ef6 100644
+--- a/sound/hda/core/controller.c
++++ b/sound/hda/core/controller.c
+@@ -713,7 +713,7 @@ int snd_hdac_bus_alloc_stream_pages(struct hdac_bus *bus)
+ 					  BDL_SIZE, &s->bdl);
+ 		num_streams++;
+ 		if (err < 0)
+-			return -ENOMEM;
++			goto error_bdl;
+ 	}
  
--		if (!s)
-+		if (!s) {
-+			azx_free_streams(chip);
- 			return -ENOMEM;
-+		}
+ 	if (WARN_ON(!num_streams))
+@@ -722,12 +722,24 @@ int snd_hdac_bus_alloc_stream_pages(struct hdac_bus *bus)
+ 	err = snd_dma_alloc_pages(dma_type, bus->dev,
+ 				  num_streams * 8, &bus->posbuf);
+ 	if (err < 0)
+-		return -ENOMEM;
++		goto error_bdl;
+ 	list_for_each_entry(s, &bus->stream_list, list)
+ 		s->posbuf = (__le32 *)(bus->posbuf.area + s->index * 8);
  
- 		s->hda = container_of(chip, struct hda_intel, chip);
- 		INIT_WORK(&s->irq_pending_work, azx_irq_pending_work);
+ 	/* single page (at least 4096 bytes) must suffice for both ringbuffes */
+-	return snd_dma_alloc_pages(dma_type, bus->dev, PAGE_SIZE, &bus->rb);
++	err = snd_dma_alloc_pages(dma_type, bus->dev, PAGE_SIZE, &bus->rb);
++	if (err < 0)
++		goto error_posbuf;
++	return 0;
++
++error_posbuf:
++	snd_dma_free_pages(&bus->posbuf);
++error_bdl:
++	list_for_each_entry(s, &bus->stream_list, list) {
++		if (s->bdl.area)
++			snd_dma_free_pages(&s->bdl);
++	}
++	return -ENOMEM;
+ }
+ EXPORT_SYMBOL_GPL(snd_hdac_bus_alloc_stream_pages);
+ 
 -- 
 2.25.1
 
