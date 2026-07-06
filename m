@@ -1,166 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CCA381AF;
-	Mon,  6 Jul 2026 00:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C4321D596
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 01:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783299321; cv=none; b=C79IP9ZtbRQGKttqShAEgO2lNDWWJbIE/1SV7jp3CEYy/gLlx0c045e9rRWJ/KIb4a1jdnIG7ScUVqclJY81GQGS1hmw63W1DV0uqsq9RLnXMdymWl+adALrinmPBq6LS+qG7wSBNewfpLUp3iFyVRxO7vXDpcb2Rfg9mX2345Y=
+	t=1783303090; cv=none; b=RpasuEdLZwE+XMAy1EfhhJd86LGnG+KAqEZTwinnC6Z5xlBKx+KiQSC0eJH1UJBbwBhF8znQBVRFcxCL7KvmlrJjH0zzFCLEXThlCJIQQjeYUHJjhlo6DES/B9g7yHlj4AwaFb7uHphRRDdfzo6ip7y6x+fErBZflJAPiBqidzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783299321; c=relaxed/simple;
-	bh=4v9vAFV89Whx56wKAmsfobwrDO4ngmjvzGg/dxBD+tA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C1Rk9tm6PmidlNE8+2Tk5t3aeik2Lv0spq3WDqSbcR0irw73ULbHESZ+VujQ11+M9nYpx29mZJd5eBrkKX/H3fvPb27XDkDFPGckf7DLX2SYzkivmRBavgntGEnE1qHm3NNqwlIcRx4mRW0ZTFSUVdhfzD+XJ/Cs9RjPzMGxhaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DA4o7oTE; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1783303090; c=relaxed/simple;
+	bh=h+Xwx+prE3UPS04P9zLX5fmnmCboznRqtGYmq029uFU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ff7maTAi5tWaFhxGL7UNl6dSr1vzFCQvy4hFaa1OLcz8H7opUA0DmsU5hDXccVLcjVumXfu/pSKGXlK3M3d+mk3NosGADcrAK46bzPoZVF7pvFggfLMAG3HmidBaz5Em9Ewk00DHMjSxWQkB9hDOv0fgSkJA9FSd4xCyTODlG6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9VE7TOh; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DA4o7oTE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783299319; x=1814835319;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=4v9vAFV89Whx56wKAmsfobwrDO4ngmjvzGg/dxBD+tA=;
-  b=DA4o7oTERImQHJPKleJm8OUm7xbRKQeI1XSXZGGBk0UMIQeiQNVo9ald
-   Aq/ZmLbinKjpGU1I4QV4N9VN8swx/oS4IVsJaQo2egCAzpXUP2bBvZrhj
-   a20MvrRhN5bF5gpLbcHAiP6FNKly82JIut8TfrtmLwCTUCsx2CLDVmPtz
-   mcOjaeYb+o1ziVjgUrWn0/TjOK52kUrbgfRLktqlO/+CZRuEiYhxaUmqV
-   A5e/nbuVa3vp/EJ22rpS9Z7gvWOLlI4F7U/VkWzbxyTtizOtwnQeq13r8
-   yH6lVnFwj1X0Xliq0NfBRj+sKpH0oiNwWwg3n57jOIDUMTPmyt+XJ0GYY
-   w==;
-X-CSE-ConnectionGUID: VEM0DIkoRravNVpPwI9ZVQ==
-X-CSE-MsgGUID: xx7aWkVTTpeoyG/QgbrX7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="94531577"
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="94531577"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 17:55:18 -0700
-X-CSE-ConnectionGUID: fhBff7VjTkyQtOCIhYXm2w==
-X-CSE-MsgGUID: 7PfYJYkhSJCGTJvvkBOHlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="276789406"
-Received: from yungchua-mobl2.ccr.corp.intel.com (HELO [10.246.104.168]) ([10.246.104.168])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 17:55:15 -0700
-Message-ID: <f57534be-ee55-4132-b34e-632ee6dc2193@linux.intel.com>
-Date: Mon, 6 Jul 2026 08:55:02 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9VE7TOh"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c96bfabc8d4so1174643a12.3
+        for <linux-sound@vger.kernel.org>; Sun, 05 Jul 2026 18:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783303089; x=1783907889; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIeEA8OwT9hxrfkxjt8TSlvwE7JntsI4tFnXWy5t+pI=;
+        b=F9VE7TOhofDT7pe9o11NdU64McvtBBSLQ1BstEby9f2Kx9WDZ4LDtLAIaG7FKxXNVl
+         Rzh0TNRHzUoWWkEiBbeRC/FEnkkSIfU4zuqgGtqg+R2amkY8VO+pq92d/XRSU3A9CrL2
+         crYyjnErtD/Y19x/a7r3n4OMm09ShIOwg3nILgeSm2WDa/lHQN5ZJvvfKmd4mvv9TJ+e
+         I4E3J1RzN1SdhfHkLdhVY0l1SoKAua8A0NjybdCXjnPBFz1FdjGJXrJlhovW+Tr+tgj6
+         X5Qqz1JLAc5lZMk6t8AFFbxde2S2cPf6rOFfMiSSPa5huT/OG31kGWwfLzVJ3SRPCw6P
+         exbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783303089; x=1783907889;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MIeEA8OwT9hxrfkxjt8TSlvwE7JntsI4tFnXWy5t+pI=;
+        b=LP6vdzvDdYibDRbvf8GcKu3s8LdS+rdv6VRdofsXcuzYg0bDrY1ehSw7LHxBYcsjQy
+         XMSn+MpSmCYFPdN9RdMlzGpIqDgyImvz65e6NoX4FwxB9vfFZpj+kBJ/EZqKaxNZ4zN5
+         yQ4OTZjPC5Vos87HCCQElsqtGcCHYsRQgilcNeYksONjl8TwflQyFSR3S23dMboeLWDH
+         1sP7GCiesdDMQJpHZfP592Iv3V1HQ1EL/9l7q/3tiTrYnmneR9cKF/APE6/J2b8ckrrq
+         H7o6Pp/15tlTi74tXtJoqq4otjY/+RqqJGsH7NbCEzQF20B10wuZCVsxeanAE/9wizhn
+         KTnA==
+X-Gm-Message-State: AOJu0YzQobkC/SJuRyRC0b0BG9iP3+gudxQtmtGuvQLLJh7cezc8F2Jx
+	+sb87mXgT5MSj8bd8f2Et3LqOCMSthr/iSLaNA8Qh+Dsy95VsgDZsin77s7rOc5k3P4=
+X-Gm-Gg: AfdE7cnfqtGhUpLdQHyLHZ7YfIpjn4qXh1SAxJYV2SsU38hvdAv/5NMq09Vv3oBuQI1
+	3ZjJxR7k6PDqcwE+n+IvD4T/a7eKq/Ddpz0KzcDzMHIVIzViCo0Hktp5VRBHrzdUCsAz302kphp
+	wlKNsOIDQ+FUacxY4m82cVDL3zS0BTjQYOhmeRo8yyp0DUD6OmX/T+Jk4v1yFTtPpA+cHJN8Etg
+	usRLJl1TJEk76G8VWZsb39e3DIEKgCQqjBrVtdzSDYNSpIivEqpPNRAOJCt7YHr9AviGJ6pveoT
+	GJauXLhB6Us+ldaI478+gxPxGCixIjVHVLDp23zKhtmtNqTHC8cQzob7NpB5JpQGgUgM6vAP+WH
+	Z4N2An4tZSpsX7P+ZkSM2g881HIbsBuRac4Llk/8bi9YbGCL6NpbGSUCtYEW77rM0G1rHyourN6
+	pqBJzkgn1J8G5e9wQs
+X-Received: by 2002:a05:6a21:490:b0:3b4:85db:1bdc with SMTP id adf61e73a8af0-3c03e4b0ef5mr8137961637.34.1783303088892;
+        Sun, 05 Jul 2026 18:58:08 -0700 (PDT)
+Received: from TheYautja77.. ([177.23.117.109])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f38ee1333sm31550941eec.24.2026.07.05.18.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 18:58:08 -0700 (PDT)
+From: Augusto Massotti <am.96138669@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: TheYautja <am.96138669@gmail.com>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] ALSA: hda/realtek: Add ASUS E410MA to ALC256_FIXUP_ASUS_MIC_NO_PRESENCE
+Date: Sun,  5 Jul 2026 22:56:05 -0300
+Message-ID: <20260706015610.145528-1-am.96138669@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
-To: Marco Griep <mail@marcogriep.de>, "Liao, Bard" <bard.liao@intel.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <30dd273a.AVwAAJ-gc7kAAAAAAAAABGg7al0AAYKJ_u4AAAAAADQlJwBqSQHg@mailjet.com>
- <SJ2PR11MB8424C0407CEC9D51F2C9EF5FFFF22@SJ2PR11MB8424.namprd11.prod.outlook.com>
- <01e6e41e-21df-4e2e-b4aa-d173a2bb0848@marcogriep.de>
-Content-Language: en-US
-From: "Liao, Bard" <yung-chuan.liao@linux.intel.com>
-In-Reply-To: <01e6e41e-21df-4e2e-b4aa-d173a2bb0848@marcogriep.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+From: TheYautja <am.96138669@gmail.com>
 
+The ASUS E410MA (SSID 1043:10e2) needs
+ALC256_FIXUP_ASUS_MIC_NO_PRESENCE for the internal microphone to
+function correctly.
 
-On 7/6/2026 12:50 AM, Marco Griep wrote:
-> Hi Mark,
-> 
-> On my system it doesn't.
-> 
-> With the standalone RT721 ACP70 machine entry, |card->components|does
-> not end up containing |spk:rt721|, so the RT721 speaker device is
-> missing from the UCM component list. As a result, UCM doesn't include
-> the speaker device and PipeWire only exposes the headset devices.
+Without this quirk, the internal mic is not detected.
+Adding the subsystem ID to the existing fixup table enables the
+internal microphone
 
-Please file an issue on https://github.com/thesofproject/linux/issues
-with alsa-info output. I will take a look. We should fix the issue
-instead of adding the spk tag back to asoc_sdw_rt_mf_sdca_spk_rtd_init()
+Signed-off-by: TheYautja <am.96138669@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> 
-> Appending |spk:rt721|from |asoc_sdw_rt_mf_sdca_spk_rtd_init()|fixes that
-> on my ASUS Vivobook S16 M3607GA (ACP70 + RT721-SDCA). After the change,
-> UCM exposes the expected Speaker, Headphones, Internal Mic and Headset
-> devices.
-> 
-> If the token is expected to be added by |asoc_sdw_rtd_init()|, I'd be
-> happy to investigate why that doesn't happen with this machine
-> configuration.
-> 
-> 
-> Best Regards
-> 
-> Marco
-> 
-> 
-> Am 05.07.26 um 14:49 schrieb Liao, Bard:
->>
->>> -----Original Message-----
->>> From: Marco Griep <mail@marcogriep.de>
->>> Sent: Saturday, July 4, 2026 8:51 PM
->>> To: Mark Brown <broonie@kernel.org>; Liam Girdwood <lgirdwood@gmail.com>
->>> Cc: Jaroslav Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>;
->>> Charles
->>> Keepax <ckeepax@opensource.cirrus.com>; Kuninori Morimoto
->>> <kuninori.morimoto.gx@renesas.com>; linux-sound@vger.kernel.org; linux-
->>> kernel@vger.kernel.org; Marco Griep <mail@marcogriep.de>
->>> Subject: [PATCH] ASoC: sdw_utils: Add RT721 speaker component tag
->>>
->>> The RT721 multifunction SDCA speaker helper adds the DAPM routes for
->>> its internal speaker path, but it does not add the corresponding
->>> spk:rt721 token to card->components.
->> .component_name = "rt721", is set in the rt721 codec info in
->> codec_info_list[]. And the "spk" tag will be added in the
->> asoc_sdw_rtd_init() function. Doesn't it work on your device?
->>
->>> UCM uses that token to include the RT721 speaker device. Without it,
->>> systems with standalone RT721 expose the ALSA SmartAmp PCM but PipeWire
->>> only sees the headset devices.
->>>
->>> Append the speaker codec token from the RT721 multifunction SDCA speaker
->>> runtime init path so UCM can create the internal speaker route.
->>>
->>> Tested on an ASUS Vivobook S16 M3607GA with ACP70 SoundWire RT721-SDCA.
->>> With the standalone RT721 ACP70 machine entry, this makes the HiFi
->>> profile expose Speaker, Headphones, internal Mic and Headset devices.
->>>
->>> Signed-off-by: Marco Griep <mail@marcogriep.de>
->>> ---
->>>   sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c | 6 ++++++
->>>   1 file changed, 6 insertions(+)
->>>
->>> diff --git a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->>> b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->>> index 5bf3627a97a0..e895397eefd6 100644
->>> --- a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->>> +++ b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
->>> @@ -74,6 +74,12 @@ int asoc_sdw_rt_mf_sdca_spk_rtd_init(struct
->>> snd_soc_pcm_runtime *rtd, struct snd
->>>           return -EINVAL;
->>>       }
->>>
->>> +    card->components = devm_kasprintf(card->dev, GFP_KERNEL,
->>> +                      "%s spk:%s",
->>> +                      card->components, codec_name);
->>> +    if (!card->components)
->>> +        return -ENOMEM;
->>> +
->>>       /* Add routes */
->>>       ret = snd_soc_dapm_add_routes(dapm, route_map->route_map,
->>> route_map->route_size);
->>>       if (ret)
->>>
->>> base-commit: 1e9cdc2ea15adf4a821eefedabf6c0c8cf0b6a55
->>> -- 
->>> 2.55.0
->>>
-> 
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index f7700713dc62..b998847d69c0 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7355,6 +7355,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x10c0, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x10d0, "ASUS X540LA/X540LJ", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x10d3, "ASUS K6500ZC", ALC294_FIXUP_ASUS_SPK),
++	SND_PCI_QUIRK(0x1043, 0x10e2, "ASUS E410MA", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x1154, "ASUS TP3607SH", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x1043, 0x115d, "Asus 1015E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x1043, 0x1194, "ASUS UM3406KA", ALC287_FIXUP_CS35L41_I2C_2),
+-- 
+2.43.0
 
