@@ -1,119 +1,206 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1272D41611A
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 14:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D603B71C4;
+	Mon,  6 Jul 2026 14:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783348809; cv=none; b=g40wkiWY4nFa7ryF41fXTDSMhX+c/nNhOWbmfOv/c2P3ZIPuH4W8DJfKpaBqVxKgtQlLlLbwDsRSh4M/sqQgISvgfyZTmyBYFRCgxRPiVMHp0DtmMdSjY2wcunPbk6bGyK9oSTKrwj3LmPUw/SY6LcmjBex0HwsjOjLqXE1UxWg=
+	t=1783349154; cv=none; b=DEXGsiEQ+K6/OKZIsjVjRH9YoMXq8OaV6rTiMGYRbfnTfWAN/vFnWjPl5P9e5ybz8BmwX3ZTm+bEVIMT+qL8hLjhwhPO3GJI/x196Q3brade1UwiERxI6CNBnQ5qjvJD8HRWR6sKuvbO3FB11A/6ToV8yU7svZ76DkJ2sd2KFnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783348809; c=relaxed/simple;
-	bh=MeIuKH5v+1Fb5EfFqq/XZIaqvul1IlPgc8ki/E0i5qA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HH43SYxjscVQrget5XBYjlWMlKdtGRpol00Szs6vTYB28pY3kOYwDe5AJie758p4SfNYZZV71pTmt1tu3cQMn98XCnxSj2BBymJJkqB3eMlVf+FLFNJIt9yxZsP8U9TAWY1DWioMJ5qBOF1ojyvHbmV0rCsqU1XHrT0mXkocmpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=rM1QfgkB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OJQVfsnL; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="rM1QfgkB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OJQVfsnL"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 285A61D000E9;
-	Mon,  6 Jul 2026 10:40:06 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 06 Jul 2026 10:40:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1783348806; x=
-	1783435206; bh=HTnzBV6+tmZ1H8ZO7GT01rl8xe3TfaibSd4/Ze0prGE=; b=r
-	M1QfgkBC0Fvi1g78830PVlz87l20n/UUo+9gKEyRqPKyn5Px+OtrlYcqG0VpRtAV
-	Gzz0j7PMrPQy496DnJKOT32JN+gsh300sAq98b+YVY6ZQzO4Q57oTwdKHLAxPVfS
-	tW9ZQhGG9FQsF9amCf3UnXXVFOebCfuRM3Ea5+N7EcukuPpOy/kVMT8C1tmuVStU
-	xdZ8PxKcytun367deV2RmQeYeDuDO26gBla6CsyfYGBEOl9vJguTnWxX74jfW9qb
-	q6QaM8fHahMIW66H6K3/ZjequWahquj9clKIj0NsgAb61ctUvWNsPQ0V79G9pkvG
-	weeIaHIm7ePWMPFtUioaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1783348806; x=1783435206; bh=HTnzBV6+tmZ1H8ZO7GT01rl8xe3TfaibSd4
-	/Ze0prGE=; b=OJQVfsnL4tjDQEP31n1hP0QSbyrB8MF/8l9NPHf3qD5/+IZwPaj
-	QHlinAE7Y+EoMMEhqqxG0jCGv8l7QwlqqxY6gMpeAh0jiOoeN1AMbWtaTAqxttyo
-	Adjbu/8Hlv6v7qxqMOuYXe5BM47mFwLfg5vzGyHwWlnSUCjVdDr4YwMguSCWdJvd
-	4dU5+vZZ/u+k2EGXXqsaIRztK8amqBeqil9KDFVvIi+Uyj632cKlzc4E6uL9G7xm
-	Dp8Yu4ivxPTxcSSOQJHl9+azoiuNq22yNsQPoKbTVMCt+0OK13exfx9SbTpo44S2
-	7SDkU4Xkv8rfrjT50yffAX6kZKAql3C4Igw==
-X-ME-Sender: <xms:Rb5Lanvwgb80e7JU-PASn3hwy99nwhPLZZhuqZocOkXyebSCzDu0XQ>
-    <xme:Rb5Lav7dl1W13X7z-ib_qCkCHT2q-ZZGNWDYg79uujKxGNAM3VjvqND9zHQyZW36c
-    DymMg70UUyDNOajYDDm902m-nBwhuXq_DnBm2n4lJtp_QLSDXMo-9Pl>
-X-ME-Received: <xmr:Rb5LaoLBwQHruO4gbF9phaYnWqvlEMCnZ20TbxZz3FZhNuQqRFxHcejEie_nDk5CaDDk2t_X5H1aeHe7j3RkIMlLwKinGw>
-X-ME-Proxy-Cause: dmFkZTFJWAfkPnJQFX8KRu5uYhcE7oNbrHSbldfuv/yq3yF+spj1G7ylkRLSbbzBwPCtZl
-    K4Tuhy0RHCbnF+HwfkcJw9EL6456P8H6/aBI/JinIGgreaoD4FGD/c0QlBOJ1Y13IVxbHn
-    lZoTWm0Q25BazSr1JlWPsj0zOdmzix/LQX7QR+rRYJdpB4BW+8drUw24k2Fo+HlCzQ2EIq
-    U1couTe3H96mnbog7lSlYpnK/rPQZLgE85RZIf3IQnG55XL3pOCBSBSz/yeIcIbNnRKEC9
-    EOjMqA43ICDOHk8ytKS6+r47ypcxZndS1n3LS0uShCODY841hKPVbhvIWPZyweLYH/ZAcA
-    giefHQG+40v7fLCmCwKJMuZFR5RN4bH7txUFePcgHCFJs6C3E9YIT+xq0/pOWf4MIfMgPr
-    pijsGwLA2EjMtus++7rZ3wYc/d8+GifvYcl6pAVpdHTEt6Us6yHokx0Fr1V211u5a+Fn5p
-    eQg93rq8uY1lFoPNpV8/qCTWYAW9JdnNm210QtPDwUKNVu7DXymMRjyy1/mW0+DhALZg2d
-    1JyoR3sLFt8lbGrEpEfBATrVFKY+AZYHRe9CQu02BwBPpdpsxVcc9YRgZTmqWLrqM+qjbG
-    63+PIH6zGkk+qB2z7fqq/QQCrpmBf0PGYEpt4QdlMbSSDrLNm6YdSbpKXApw
-X-ME-Proxy: <xmx:Rb5Lav6z_NtezujhWVz39UqcgaacF_z1Wduo0D7evMaq3PdL-hxZCA>
-    <xmx:Rb5LarxS2FCEBXQ22eDcE_uJWro1bt90jbDUUawZNI1Aw2HhvQ21-Q>
-    <xmx:Rb5LajajUR6H0mBiRTiDyWdD9S3X3Jahwm2Q36tJ-Us6NFAtynLEVg>
-    <xmx:Rb5LatQLAPkgxRWpIaD2e4n19qT-efVlbKIrgeahQ9DsMm9jZm6uug>
-    <xmx:Rr5Lap_rLnIYT2SeAX4StgoI-8cfHJn16ldA4uugU-mYZHXLLgHepQg7>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jul 2026 10:40:01 -0400 (EDT)
-Date: Mon, 6 Jul 2026 23:39:58 +0900
-From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-To: Longlong Xia <xialonglong2025@163.com>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: firewire: Drop redundant mod_devicetable.h includes
-Message-ID: <20260706143958.GA168076@sakamocchi.jp>
-References: <20260706032639.273929-1-xialonglong2025@163.com>
+	s=arc-20240116; t=1783349154; c=relaxed/simple;
+	bh=RTZNJAmUv4BCvKQpOQtt1ZqWUQNadt489qZTzhtprjU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SV2fyaf17a2YDx9ynJ3YLPBUc+ORt7y1e0dGsOR117uVYFZ50L9l18U0CKpWa+B94Fp8rWyhAIC1h2vyAU35STIJLREv+ati0h4bTPllHZDs8VCb7qBs43aQcXuJl96iyrBh2bPmRuiTUAu7D9Y6Z24gL1bjj5UNsPkpZno/Sjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-05 (Coremail) with SMTP id zQCowAD3RMiav0tqo4A7Fw--.30751S2;
+	Mon, 06 Jul 2026 22:45:46 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Sen Wang <sen@ti.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: tas2781: bound firmware description string parsing
+Date: Mon,  6 Jul 2026 22:45:39 +0800
+Message-ID: <20260706144540.93929-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706032639.273929-1-xialonglong2025@163.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAD3RMiav0tqo4A7Fw--.30751S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGr48ZFWrtFy3Jr17uFWkCrg_yoWrCry3pa
+	1qqa45t39rtr13ZrsF9Fnrtr1fu3Z3GF15G3yxWr4rtryDtrykKaya9r1Yg3W8ArW0k3Z8
+	ZrWaqrWxWr4UJ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+	IxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIda
+	VFxhVjvjDU0xZFpf9x0JUyMKtUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-Hi,
+The TAS2781 firmware parser reads several variable-length description
+strings with strlen() before checking that the string terminator is
+present inside the firmware blob. A malformed firmware image without a
+NUL terminator can therefore make the parser walk past the end of the
+firmware buffer before the later size checks run.
 
-On Mon, Jul 06, 2026 at 12:26:39PM +0900, Longlong Xia wrote:
-> The ALSA FireWire driver headers include <linux/firewire.h>, which
-> already provides struct ieee1394_device_id via
-> <linux/device-id/ieee1394.h>.
-> 
-> Drop the now-redundant direct <linux/mod_devicetable.h> includes
-> from the per-device headers.
-> 
-> Signed-off-by: Longlong Xia <xialonglong2025@163.com>
-> ---
->  sound/firewire/bebob/bebob.h         | 1 -
->  sound/firewire/dice/dice.h           | 1 -
->  sound/firewire/digi00x/digi00x.h     | 1 -
->  sound/firewire/fireface/ff.h         | 1 -
->  sound/firewire/fireworks/fireworks.h | 1 -
->  sound/firewire/motu/motu.h           | 1 -
->  sound/firewire/oxfw/oxfw.h           | 1 -
->  sound/firewire/tascam/tascam.h       | 1 -
->  8 files changed, 8 deletions(-)
+Add a small bounded string-length helper and use it for all description
+fields that are parsed from the firmware buffer. Keep the existing size
+checks for the fixed bytes that follow each string.
 
-Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Fixes: 915f5eadebd2 ("ASoC: tas2781: firmware lib")
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+Changes since v1:
+- keep the bounded string-length result in signed variables, including
+  the calibration parser where Mark pointed out that `n` was unsigned
+- add a Fixes tag
 
-Iwai-san, this patch should be applied to the tree which includes a
-commit ecca1d63c1ea "Replace <linux/mod_devicetable.h> by more specific
-<linux/device-id/*.h> (headers)" in v7.2-rc2. I would ask you to apply
-it to your for-linus branch and send it for -rc3.
+ sound/soc/codecs/tas2781-fmwlib.c | 63 ++++++++++++++++++++++++++++---
+ 1 file changed, 57 insertions(+), 6 deletions(-)
 
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+index bd16d5326a23..dcbeb9618195 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -12,6 +12,7 @@
+ #include <linux/i2c.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
++#include <linux/limits.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_irq.h>
+@@ -1100,13 +1101,42 @@ static int tasdevice_load_block_kernel(
+ 	return 0;
+ }
+ 
++static int tasdevice_fw_strnlen(const struct firmware *fmw, int offset)
++{
++	const u8 *start;
++	const u8 *nul;
++	size_t remaining;
++	size_t len;
++
++	if (offset < 0 || offset >= fmw->size)
++		return -EINVAL;
++
++	start = fmw->data + offset;
++	remaining = fmw->size - offset;
++	nul = memchr(start, '\0', remaining);
++	if (!nul)
++		return -EINVAL;
++
++	len = nul - start;
++	if (len > INT_MAX)
++		return -EOVERFLOW;
++
++	return len;
++}
++
+ static int fw_parse_variable_hdr(struct tasdevice_priv
+ 	*tas_priv, struct tasdevice_dspfw_hdr *fw_hdr,
+ 	const struct firmware *fmw, int offset)
+ {
+ 	const unsigned char *buf = fmw->data;
+-	int len = strlen((char *)&buf[offset]);
++	int len;
+ 
++	len = tasdevice_fw_strnlen(fmw, offset);
++	if (len < 0) {
++		dev_err(tas_priv->dev, "%s: Description error\n", __func__);
++		offset = len;
++		goto out;
++	}
+ 	len++;
+ 
+ 	if (offset + len + 8 > fmw->size) {
+@@ -1238,7 +1268,12 @@ static int fw_parse_data(struct tasdevice_fw *tas_fmw,
+ 	memcpy(img_data->name, &data[offset], 64);
+ 	offset += 64;
+ 
+-	n = strlen((char *)&data[offset]);
++	n = tasdevice_fw_strnlen(fmw, offset);
++	if (n < 0) {
++		dev_err(tas_fmw->dev, "%s: Description error\n", __func__);
++		offset = n;
++		goto out;
++	}
+ 	n++;
+ 	if (offset + n + 2 > fmw->size) {
+ 		dev_err(tas_fmw->dev, "%s: Description error\n", __func__);
+@@ -1309,7 +1344,12 @@ static int fw_parse_program_data(struct tasdevice_priv *tas_priv,
+ 		}
+ 		offset += 64;
+ 
+-		n = strlen((char *)&buf[offset]);
++		n = tasdevice_fw_strnlen(fmw, offset);
++		if (n < 0) {
++			dev_err(tas_priv->dev, "Description err\n");
++			offset = n;
++			goto out;
++		}
+ 		/* skip '\0' and 5 unused bytes */
+ 		n += 6;
+ 		if (offset + n > fmw->size) {
+@@ -1372,7 +1412,12 @@ static int fw_parse_configuration_data(
+ 		memcpy(config->name, &data[offset], 64);
+ 		offset += 64;
+ 
+-		n = strlen((char *)&data[offset]);
++		n = tasdevice_fw_strnlen(fmw, offset);
++		if (n < 0) {
++			dev_err(tas_priv->dev, "Description err\n");
++			offset = n;
++			goto out;
++		}
+ 		n += 15;
+ 		if (offset + n > fmw->size) {
+ 			dev_err(tas_priv->dev, "Description err\n");
+@@ -2134,7 +2179,8 @@ static int fw_parse_calibration_data(struct tasdevice_priv *tas_priv,
+ {
+ 	struct tasdevice_calibration *calibration;
+ 	unsigned char *data = (unsigned char *)fmw->data;
+-	unsigned int i, n;
++	unsigned int i;
++	int n;
+ 
+ 	if (offset + 2 > fmw->size) {
+ 		dev_err(tas_priv->dev, "%s: Calibrations error\n", __func__);
+@@ -2166,7 +2212,12 @@ static int fw_parse_calibration_data(struct tasdevice_priv *tas_priv,
+ 		calibration = &(tas_fmw->calibrations[i]);
+ 		offset += 64;
+ 
+-		n = strlen((char *)&data[offset]);
++		n = tasdevice_fw_strnlen(fmw, offset);
++		if (n < 0) {
++			dev_err(tas_priv->dev, "Description err\n");
++			offset = n;
++			goto out;
++		}
+ 		/* skip '\0' and 2 unused bytes */
+ 		n += 3;
+ 		if (offset + n > fmw->size) {
+-- 
+2.43.0
 
-Thanks
-
-Takashi Sakamoto
