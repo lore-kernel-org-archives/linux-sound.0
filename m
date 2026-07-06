@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C41401A18;
-	Mon,  6 Jul 2026 20:57:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4756413E41A;
+	Mon,  6 Jul 2026 21:18:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783371469; cv=none; b=tPZljAXtQsyLo84joRAFW3GWz4d9C/H6W8TUIuWfAWwPCqQQEv5pdSEh9dnJO5JMV0GJyBCm5AoPxZnk6M33zDhmsch+eh7qlx0Kz4lhCZ1Xde5iz/rb66mDv92xSSjIRBLKO1aogrBIONJv3zHY4ME/0X7P13cpWuMLldBdf8I=
+	t=1783372681; cv=none; b=LDLqGjtIdqt4lOKwqf/ncuzdj3fCQ2442HL6G68/KXKV8vuDycBcLZ0GK5s1NKdokWoKyO62/3JpR2uORBmqL4TaaoC8YQMIX9Mj/3n64t2o5wCwVqkOFTIZgV5zSdKJsYW/D5MJWMbsmER+yKu118oqd11TOnebU3XsfhwP29I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783371469; c=relaxed/simple;
-	bh=1i9wRAcN+eaW5XM6qUJ52T7cS+iuX8AWhGR5Y144jqA=;
+	s=arc-20240116; t=1783372681; c=relaxed/simple;
+	bh=dUrVwf6sxM0WYLSAl8BD81UkcOLL+/VNdM2nC3LJC9U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r1wbN/r2Lx2Prsee7sd4YX9rCHV3/3HFKJEzP33CaTFtWR1KRNs8n+mIK5w4bkpNIeGUr8nFlpYjGeW3xwyq6Zh7JwrDgxxqYFjfha59R1HfkO8GS23Dg7ofUxWk94zYARlhbwwQz9p3iTUUK4EWgUs0l9H+3lnDVASa44gHAX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMkc2D08; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=EvEmYR87tbpkpQA2Xp+h2akwle9aA3tRdQ1c48LSIFwjPOmZFpv6+mcZLNSb9+ay3DM6CXRIjhCZm14jCLHoEmZqK4/OO1Vu/WOoZZHb//4qKoIMqR88pOl/QMzQSy/Fchow8AzxylhcyJSWL2Sbgyu4mIMySnv1ymg2JTqFoUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YAiLRBrJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMkc2D08"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 852A61F000E9;
-	Mon,  6 Jul 2026 20:57:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YAiLRBrJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB4C1F000E9;
+	Mon,  6 Jul 2026 21:17:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783371466;
-	bh=nOu51CftDKT/8lEhIUJEKEyqb/J+pvspo3kM/wMdm9I=;
+	s=k20260515; t=1783372679;
+	bh=IMgAEZjEAi6W+nH1kAbf0Mzc2XZ8oemMNCH3Pk07aT4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=EMkc2D085Nzt4v0Z9InTvf30p7moPohv5Zm5sFvEiYX0MD0JBi3Qd+adYnvCLea1G
-	 cFCY3ZLloc22aUN9QyiStCuvizsQ0BH35UyhGVdp+2CdDs/2urc1YmJRt9k3WaSwiJ
-	 sMSp85EwtbCRnSONIVTNRj688BHmpJvSU3yLmojcgvCIHCzfCYvM1U2RZp/h400UfY
-	 Vt5XCBPf56PoFXh1AfNriOz4TZiK6WTzOL13ZC2prITQz0BgBH1ZOq89CzljdTzAsP
-	 6Thy4AZhaFtGYi3IY4xTeDDxJv6KJIeCYT6pasV8+iavCwpHn5C4z78N0eDKI+dkDZ
-	 fWy7jZrNdyyjg==
-Message-ID: <6b081039-595b-4e3e-bf4c-bf5f689c80a7@kernel.org>
-Date: Mon, 6 Jul 2026 21:57:43 +0100
+	b=YAiLRBrJ5aOY7MV6h2chdS59GH46UEmARdzLooWz422XxYFjCGs7KT+Xuo3A2S5KS
+	 IoUlfLUJQbFG4jooagNXTQila+bHiv/bI0+nevrQs+ZQKDz2DEM1m4Fl3F/spjhuo8
+	 4WhdI5pwx8wem7ESTFFQq/MjpQK6lv+WU6kS9FhzVINCj+6AcU78NHJYYALm6UkhLI
+	 r/LhszC5rOEfVQtJBcVGWZIhZoVnghOfLdgJ/DADyYVKcOPOE8IGy+u6SqjPC/9X2Y
+	 K+wBws3bNwyuudEUDR/VcGwfvdn8a8yu7pptqX5fDSfRHbjqLSLHdGZGooeFtBVV7s
+	 zZab5yX2RoW0g==
+Message-ID: <958c9287-b606-497b-9de5-e73984b0f70b@kernel.org>
+Date: Mon, 6 Jul 2026 22:17:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,89 +35,274 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] soundwire: qcom: add SCP address paging support
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: add the Qualcomm WCD9378 audio
+ codec
 To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
- Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
- Srinivas Kandagatla <srini@kernel.org>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Luca Weiss <luca.weiss@fairphone.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, Conor Dooley <conor+dt@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
  Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260706192150.143921-1-jorijnvdgraaf@catcrafts.net>
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260706192229.144137-1-jorijnvdgraaf@catcrafts.net>
+ <20260706192229.144137-3-jorijnvdgraaf@catcrafts.net>
 Content-Language: en-US
 From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20260706192150.143921-1-jorijnvdgraaf@catcrafts.net>
+In-Reply-To: <20260706192229.144137-3-jorijnvdgraaf@catcrafts.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 7/6/26 8:21 PM, Jorijn van der Graaf wrote:
-> The Qualcomm controller driver ignores the paging fields of struct
-> sdw_msg. For a paged access (register address >= 0x8000 on a
-> paging-capable peripheral, e.g. the SDCA control space at
-> 0x40000000+) the core sets BIT(15) in the wire address and splits the
-> upper bits into addr_page1/addr_page2, but since the controller never
-> programmed the SCP_AddrPage registers the peripheral resolved every
-> such command against their reset value: reads and writes were
-> silently redirected to addr[14:0] in page 0.
+On 7/6/26 8:22 PM, Jorijn van der Graaf wrote:
+> The Qualcomm WCD9378 is a standalone audio codec IC found on SM7635
+> boards such as the Fairphone 6. Like the WCD937x/938x/939x codecs it
+> presents RX and TX SoundWire slave devices controlled by a common
+> parent node, so the parent binding references qcom,wcd93xx-common.yaml;
+> unlike those codecs it has three ADCs and three mic bias supplies
+> rather than four, hence qcom,micbias4-microvolt is rejected.
 > 
-> Write the two SCP_AddrPage registers through the command FIFO before
-> the transfer, as cadence_master.c (cdns_program_scp_addr) and
-> amd_manager.c (amd_program_scp_addr) do. Like those controllers the
-> pages are programmed on every paged message rather than cached per
-> device; a cache can be a follow-up if the two extra FIFO commands
-> ever matter.
+> The slave devices enumerate with manufacturer ID 0x0217 and part ID
+> 0x0110, hence the sdw20217011000 compatible. The TX slave carries five
+> device ports (ADC1, ADC2, ADC3, DMIC0/1 plus MBHC, DMIC2-5) and the RX
+> slave the usual five (HPH, CLSH, COMP, LO, DSD).
 > 
-> No peripheral on a Qualcomm bus sets prop.paging_support in mainline
-> today; the first user is the WCD9378 codec, whose driver is being
-> upstreamed separately - its entire register map, the
-> wcd937x-compatible analog core included, lives in the SDCA address
-> space.
-> 
-> Verified on the Fairphone 6 (SM7635): WCD9378 SDCA registers read
-> back their documented reset defaults and audio capture through the
-> codec works end-to-end; without this change every paged access landed
-> in page 0.
+> The -codec suffix in the parent compatible follows the existing
+> qcom,wcd93xx/pm4125 family compatibles and matches the compatible
+> shipped by production devicetrees for this chip.
 > 
 > Assisted-by: Claude:claude-fable-5
 > Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
 > ---
-Thanks Jorjin for the patch, I have pretty much identical patch that I
-was about to send.
-
-LGTM,
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-
---srini
->  drivers/soundwire/qcom.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  .../bindings/sound/qcom,wcd9378-codec.yaml    |  76 +++++++++++
+>  .../bindings/sound/qcom,wcd9378-sdw.yaml      | 122 ++++++++++++++++++
+>  2 files changed, 198 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-codec.yaml
+>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
 > 
-> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-> index 603f228f46b5..3562802f4204 100644
-> --- a/drivers/soundwire/qcom.c
-> +++ b/drivers/soundwire/qcom.c
-> @@ -975,6 +975,20 @@ static enum sdw_command_response qcom_swrm_xfer_msg(struct sdw_bus *bus,
->  	struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
->  	int ret, i, len;
->  
-> +	if (msg->page) {
-> +		ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page1,
-> +						msg->dev_num,
-> +						SDW_SCP_ADDRPAGE1);
-> +		if (ret)
-> +			return ret;
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd9378-codec.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd9378-codec.yaml
+> new file mode 100644
+> index 000000000000..32554541b279
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd9378-codec.yaml
+> @@ -0,0 +1,76 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/qcom,wcd9378-codec.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +		ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page2,
-> +						msg->dev_num,
-> +						SDW_SCP_ADDRPAGE2);
-> +		if (ret)
-> +			return ret;
-> +	}
+> +title: Qualcomm WCD9378 Audio Codec
 > +
->  	if (msg->flags == SDW_MSG_FLAG_READ) {
->  		for (i = 0; i < msg->len;) {
->  			len = min(msg->len - i, QCOM_SWRM_MAX_RD_LEN);
+> +maintainers:
+> +  - Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+> +
+> +description:
+> +  The Qualcomm WCD9378 is a standalone Hi-Fi audio codec IC with three
+> +  ADCs, three mic bias supplies, headphone/earpiece/line outputs and
+> +  MBHC. It has RX and TX SoundWire slave devices; the control registers
+> +  live in the SDCA control address space accessed through the TX slave.
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +  - $ref: qcom,wcd93xx-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,wcd9378-codec
+> +
+> +  qcom,micbias4-microvolt: false
+> +
+> +required:
+> +  - compatible
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    audio-codec {
+> +        compatible = "qcom,wcd9378-codec";
+> +        reset-gpios = <&tlmm 162 GPIO_ACTIVE_LOW>;
+> +        vdd-buck-supply = <&vreg_l8b>;
+> +        vdd-rxtx-supply = <&vreg_l7b>;
+> +        vdd-io-supply = <&vreg_l7b>;
+> +        vdd-mic-bias-supply = <&vreg_bob>;
+> +        qcom,micbias1-microvolt = <1800000>;
+> +        qcom,micbias2-microvolt = <1800000>;
+> +        qcom,micbias3-microvolt = <1800000>;
+> +        qcom,rx-device = <&wcd9378_rx>;
+> +        qcom,tx-device = <&wcd9378_tx>;
+> +        #sound-dai-cells = <1>;
+> +    };
+> +
+> +    /* ... */
+> +
+> +    soundwire@3210000 {
+> +        reg = <0x03210000 0x2000>;
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +
+> +        wcd9378_rx: audio-codec@0,4 {
+> +            compatible = "sdw20217011000";
+> +            reg = <0 4>;
+> +            qcom,rx-port-mapping = <1 2 3 4 5>;
+> +        };
+> +    };
+> +
+> +    soundwire@33b0000 {
+> +        reg = <0x033b0000 0x2000>;
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +
+> +        wcd9378_tx: audio-codec@0,3 {
+> +            compatible = "sdw20217011000";
+> +            reg = <0 3>;
+> +            qcom,tx-port-mapping = <1 1 1 2 3>;
+> +        };
+> +    };
+> +...
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+> new file mode 100644
+> index 000000000000..a46938338f90
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+> @@ -0,0 +1,122 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/qcom,wcd9378-sdw.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm SoundWire Slave devices on WCD9378
+> +
+> +maintainers:
+> +  - Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+> +
+> +description:
+> +  The Qualcomm WCD9378 codec has RX and TX SoundWire slave devices.
+> +  This binding is for the slave devices.
+> +
+> +properties:
+> +  compatible:
+> +    const: sdw20217011000
+
+Interestingly this same codec with same compatible is wiredup
+differently on compute devices like Glymur but only with one slave,
+rather than tx and rx. This is how the codec works in SDCA mode.
+
+So these binding would need some room to accommodate those changes.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  qcom,tx-port-mapping:
+> +    description: |
+> +      Specifies static port mapping between device and host tx ports.
+> +      In the order of the device port index, which is adc1_port,
+> +      adc2_port, adc3_port, dmic01_mbhc_port, dmic25_port.
+> +
+> +      WCD9378 TX Port 1 (ADC1)             <=> SWR master Port 1
+> +      WCD9378 TX Port 2 (ADC2)             <=> SWR master Port 1
+> +      WCD9378 TX Port 3 (ADC3)             <=> SWR master Port 1
+> +      WCD9378 TX Port 4 (DMIC0,1 & MBHC)   <=> SWR master Port 2
+> +      WCD9378 TX Port 5 (DMIC2,3,4,5)      <=> SWR master Port 3
+> +
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 5
+> +    maxItems: 5
+> +    items:
+> +      enum: [1, 2, 3, 4]
+> +
+> +  qcom,rx-port-mapping:
+> +    description: |
+> +      Specifies static port mapping between device and host rx ports.
+> +      In the order of the device port index, which is hph_port,
+> +      clsh_port, comp_port, lo_port, dsd_port.
+> +
+> +      WCD9378 RX Port 1 (HPH_L/R)   <=> SWR master Port 1
+> +      WCD9378 RX Port 2 (CLSH)      <=> SWR master Port 2
+> +      WCD9378 RX Port 3 (COMP_L/R)  <=> SWR master Port 3
+> +      WCD9378 RX Port 4 (LO)        <=> SWR master Port 4
+> +      WCD9378 RX Port 5 (DSD_L/R)   <=> SWR master Port 5
+> +
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 5
+> +    maxItems: 5
+> +    items:
+> +      enum: [1, 2, 3, 4, 5]
+> +
+> +  qcom,tx-channel-mapping:
+
+Do you need these channel mapping(both tx and rx), are they different to
+what slave ch-map is?
+
+
+> +    description: |
+> +      Specifies static channel mapping between slave and master tx port
+> +      channels.
+> +      In the order of slave port channels, which is adc1, adc2, adc3,
+> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmic4, dmic5.
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    minItems: 10
+> +    maxItems: 10
+> +    items:
+> +      enum:
+> +        - 1  # WCD9378_SWRM_CH1
+> +        - 2  # WCD9378_SWRM_CH2
+> +        - 3  # WCD9378_SWRM_CH3
+> +        - 4  # WCD9378_SWRM_CH4
+
+What is this enum imply? channel mask? or ch-index?
+> +
+> +  qcom,rx-channel-mapping:
+> +    description: |
+> +      Specifies static channel mapping between slave and master rx port
+> +      channels.
+> +      In the order of slave port channels, which is hph_l, hph_r, clsh,
+> +      comp_l, comp_r, lo, dsd_l, dsd_r.
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    minItems: 8
+> +    maxItems: 8
+> +    items:
+> +      enum:
+> +        - 1  # WCD9378_SWRM_CH1
+> +        - 2  # WCD9378_SWRM_CH2
+> +        - 3  # WCD9378_SWRM_CH3
+> +        - 4  # WCD9378_SWRM_CH4
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    soundwire@3210000 {
+> +        reg = <0x03210000 0x2000>;
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +
+> +        wcd9378_rx: audio-codec@0,4 {
+> +            compatible = "sdw20217011000";
+> +            reg = <0 4>;
+> +            qcom,rx-port-mapping = <1 2 3 4 5>;
+> +        };
+> +    };
+> +
+> +    soundwire@33b0000 {
+> +        reg = <0x033b0000 0x2000>;
+> +        #address-cells = <2>;
+> +        #size-cells = <0>;
+> +
+> +        wcd9378_tx: audio-codec@0,3 {
+> +            compatible = "sdw20217011000";
+> +            reg = <0 3>;
+> +            qcom,tx-port-mapping = <1 1 1 2 3>;
+> +        };
+> +    };
+> +...
 
