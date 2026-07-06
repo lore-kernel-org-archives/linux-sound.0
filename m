@@ -1,130 +1,153 @@
-Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54BD3E00A7;
-	Mon,  6 Jul 2026 07:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDAE3BED6A
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 08:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783323706; cv=none; b=ny2PXWXPaHYJGMsYiX500tcbcUkXIiutKDAuaj4VPoo0XimSSee7BWD5D6y2VOt8HsSu0ybFl6P8RRNf3Ye5xCiZ0Z4yQNS8UEu34cO+kA0f5yYpqlbaCQVRPTE0kL77kfj9LzD/t9Cp8jFcwFpgXBkGre7YG4OJen2WAp468fE=
+	t=1783325531; cv=none; b=KshrCwjJGacfPeMfyWONAEAduJh9bjv2KYyEVM938MfPWJMbVGdE2xCQAn4W3mHpA796DSsQ3fec0e5rZDX33Qn2JdSdt4uu49TqEFm/FWWws8JIx9xiMA2ERRwuqOi8bdzJIuIC7u1Iq+ePCpyj/1BukGLBwGWUOp31QVFkfj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783323706; c=relaxed/simple;
-	bh=VQDEXPZ8aSUOoFxCwwjYPQvNDTOF+Pr2YnS0HCXrt44=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=ocxYpi0C4uD1dlE5GSjCFK0Kqd4eF2uPZxJr08dM5V27CGwDSt/Pv6NdJVZQALesWxlPw7/qwZCmEWBVesgmn6cRVjvchjIsYJzsVcnA5CxMbmBq57fa/+xiJny+0OF3Gqflb0fpjvt+yApLmuYcaoKSCMEbZBTqbgSmg2iMpH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=fGf/vjwl; arc=none smtp.client-ip=203.205.221.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1783325531; c=relaxed/simple;
+	bh=YQ+rOY4DWphwHxNj4fO6xocSOJK8H/Rx4u+nIqVu6iA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pVImpeLYuFTXDMdbkOWcBpV9n9QiIVYjbw+aHHHKotQ7w4ZNRFuJDn0AN/XU1VcAcHO9E0qKVXM9cwJ/+olHTGS3zjNW0fUO0GIECp4+axrF/8rUOVdbUiJ//riCMlOfHu9bO3hcobnmXI78wD5RH051jnbetP/4u7zwbLiyEA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WHdOpImn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iyJ8SmYu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pGXUYvgK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FLtnf4Cg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="fGf/vjwl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1783323689;
-	bh=c86BqVRvwrle/oC5n5E0N5/zSz4hbqHQhsnYxqeqFrw=;
-	h=From:To:Cc:Subject:Date;
-	b=fGf/vjwlEKZQtS9eKUvhJqllwaYYoaKq7E0XkXp+yB+sE1kPOaRqpsAEpVo3xRw9i
-	 L+R45RbDoiDYiuc/IOtbHYO0/mmYMKBP5HQT/nyl+0WFiKOkW8QFr9R7Pgq0xTHzRc
-	 abBCgl/XFegLegdZnpF1QqhgjgLNW1DG4HbG+a4c=
-Received: from localhost.localdomain ([116.128.244.169])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id A5B3F071; Mon, 06 Jul 2026 15:41:27 +0800
-X-QQ-mid: xmsmtpt1783323687tqg5n7oai
-Message-ID: <tencent_B59DA88C3B51869ACB72BBD81D6171C24D06@qq.com>
-X-QQ-XMAILINFO: NmRjDopJZVxOjG/hvjRxQe/+olP1peIeAEqYS13ChrrHxlgRhU2I8rlasbCyVE
-	 XwJ9HOvcgQFeK4DTz2p5jOeUwi/bXz1h+9Tx3crLDCoH8FbdnLoOVti8egVPZWa24b8fCrM6XN7l
-	 CJlYAFtgAe0L4hhV2NnnVU6PeN+6P3tCO0iOBVl8qcw2KAbZL2onCqHIMH3gLt+BC5bJZawuGUAn
-	 RfNQCEL5htfZRrbYvPsGtk/X+07kEC/OAdWIeaEIj9Zdb/1DcUsuPPXL9F/agg9ONeer90JeeQ/k
-	 oQ3ibphUB511Nnib+g1uzsX95p22VOLSLLqGF4FoLiol+JHO1wO/uVXkBLq+W5NnLhv0M7QGEI3G
-	 SHUoyU25VtBu6ZFcNJZHKvEDf7LH3m8p9hqMFIQQucFU48oRy7hkhjQQRtniETV2cn/mA6tqBIkL
-	 zsOC0tT0tqu709342vTCVmSsTG3PtkLgZXziied9KxAjavMHDjEhfFu2kFOtU7K679nJp4GMgKfD
-	 yHxufCrdOX6FWRedGirfeU3JzZcZr45wpKF9IeOwYkI+6be5OzSQHsPoqTzHuNz4xta21xOrmiKv
-	 wJLjBkiEdUXgVYl4uXoHgjkZVhhBmHDHXJ15AMSsHpKhjjO3RlVR2ebTejfVm2n2OxQRLfif5/rq
-	 wUZNxsjN+mzrvFbFPG1Fm/VOz5oFJtJsdcMdWa/7yKVzdAPG/SGAJYr6IRMElW96ZLEH1I/cSDBn
-	 sxsNosfWqIm+CKwTYaiep1xlg4N47IKTPptKXMDgJ2GT4zd0483NHM+eOyLJ3alLg1WbliJg0WIC
-	 58kC6Sy0fN4WQr8LZpFdxhcpsAiifSZtDm/K6gSRVo12EQCWK10gRQHruPl6tyel3tBd/j618TZ2
-	 WYG5hsU/LOXb4tlviecErB0u0h2+oRex6fGo6Xfw7+QsMcBGdetJfPq7aiBuUpIe0guH+0Xvbceq
-	 UkRT6UjzJz7vQz4T+tvmCB1MeBEGD8WcYuxPa9nRIWaPOINzh1ZWzkQGMMuS7Ym4grJcWUC3j728
-	 PUNPU1d55BiHqaoHpv+gtY07wIwm3iuAn39T/YBcm+qaC1GB37
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-From: Zhao Dongdong <winter91@foxmail.com>
-To: perex@perex.cz,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WHdOpImn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iyJ8SmYu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pGXUYvgK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FLtnf4Cg"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1707775A86;
+	Mon,  6 Jul 2026 08:11:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783325518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zv89bnVTcxQlMEd58+vDBhJIUTnQRf6LaamYiSsdNe0=;
+	b=WHdOpImnZmi5P4zu+x6Yqaq+VO+LkI3M3xumdNnLat4ZXll+Snk5kHp5JqbgjtZfxrCg3K
+	4f9FA0u+xPyGKNqDYPZcP92K5/VXdnTNKyXydXRMQ/+CKEjTdvqbyIcwsJhsn1N/JcuTSf
+	n1csAFevz+3JK2HS8hc+e2oC56d57Mg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783325518;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zv89bnVTcxQlMEd58+vDBhJIUTnQRf6LaamYiSsdNe0=;
+	b=iyJ8SmYu+5cybQhb8cSLtxE1Z3eu0hwwgO/zzWJZ/1t21RnZpYVbJTpNLpAtOFtsaaPpYI
+	xc+2qL48BjkNZQCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783325517; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zv89bnVTcxQlMEd58+vDBhJIUTnQRf6LaamYiSsdNe0=;
+	b=pGXUYvgKxDJNdFjl8gEUn9z4J+i9oyQ79q7/oG7FP0xSmJJFWtyDdVni+ringcxxa2SkQv
+	HM8xgobyDBPSXL6aJ2smyXfOI60GovSurZbiSXrSDn9WMOHW7FWgEonUHmfZMmxV5DYWFg
+	SEviSIAC9CLhaVqd5YxDYXwb1lYuVO0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783325517;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Zv89bnVTcxQlMEd58+vDBhJIUTnQRf6LaamYiSsdNe0=;
+	b=FLtnf4Cg2XhZ9rTJXZo+DdI72hhi6Xzb1R4oWirJnVCpRXLkV10DeGFdcnJO7bubj7+A8A
+	031tUs/Sf/jw7HBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1A2D779AA;
+	Mon,  6 Jul 2026 08:11:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YZ61MUxjS2o8HQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 06 Jul 2026 08:11:56 +0000
+Date: Mon, 06 Jul 2026 10:11:56 +0200
+Message-ID: <878q7o5ygj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhao Dongdong <winter91@foxmail.com>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
-	joakim.zhang@cixtech.com
-Cc: linux-sound@vger.kernel.org,
+	joakim.zhang@cixtech.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Zhao Dongdong <zhaodongdong@kylinos.cn>
-Subject: [PATCH] ALSA: hda/core: fix memory leak in snd_hdac_bus_alloc_stream_pages()
-Date: Mon,  6 Jul 2026 15:41:10 +0800
-X-OQ-MSGID: <20260706074110.382226-1-winter91@foxmail.com>
-X-Mailer: git-send-email 2.25.1
+Subject: Re: [PATCH] ALSA: hda/core: fix memory leak in snd_hdac_bus_alloc_stream_pages()
+In-Reply-To: <tencent_B59DA88C3B51869ACB72BBD81D6171C24D06@qq.com>
+References: <tencent_B59DA88C3B51869ACB72BBD81D6171C24D06@qq.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.983];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[foxmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[foxmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
 
-From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+On Mon, 06 Jul 2026 09:41:10 +0200,
+Zhao Dongdong wrote:
+> 
+> From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+> 
+> In snd_hdac_bus_alloc_stream_pages(), there are three memory leak paths:
+> 
+>   1. If snd_dma_alloc_pages() for the BDL fails at stream i, the
+>      previously allocated BDL DMA buffers (0..i-1) are not freed.
+> 
+>   2. If snd_dma_alloc_pages() for the position buffer fails, all
+>      previously allocated BDL DMA buffers are leaked.
+> 
+>   3. If snd_dma_alloc_pages() for the ring buffer fails, all
+>      previously allocated BDL DMA buffers and the position buffer
+>      are leaked.
+> 
+> Add proper error cleanup: free buffers that have been allocated
+> before each failure point.
+> 
+> Fixes: b2660d1ebde1 ("ALSA: hda: Move HD-audio core stuff into sound/hda/core")
+> Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 
-In snd_hdac_bus_alloc_stream_pages(), there are three memory leak paths:
+They don't actually leak, as those are supposed to be released by
+callers (via snd_hdac_bus_free_stream_pages() call at destructor).
+That is, it's no bug, per se.
 
-  1. If snd_dma_alloc_pages() for the BDL fails at stream i, the
-     previously allocated BDL DMA buffers (0..i-1) are not freed.
+Of course, it won't be bad to clean up in the function itself, which
+is more self-contained and safer.  But please rephrase the patch
+subject and description, so that it won't be taken as a security issue
+incorrectly.
 
-  2. If snd_dma_alloc_pages() for the position buffer fails, all
-     previously allocated BDL DMA buffers are leaked.
 
-  3. If snd_dma_alloc_pages() for the ring buffer fails, all
-     previously allocated BDL DMA buffers and the position buffer
-     are leaked.
+thanks,
 
-Add proper error cleanup: free buffers that have been allocated
-before each failure point.
-
-Fixes: b2660d1ebde1 ("ALSA: hda: Move HD-audio core stuff into sound/hda/core")
-Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
----
- sound/hda/core/controller.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/sound/hda/core/controller.c b/sound/hda/core/controller.c
-index 69e11d62bbfa..5d8731447ef6 100644
---- a/sound/hda/core/controller.c
-+++ b/sound/hda/core/controller.c
-@@ -713,7 +713,7 @@ int snd_hdac_bus_alloc_stream_pages(struct hdac_bus *bus)
- 					  BDL_SIZE, &s->bdl);
- 		num_streams++;
- 		if (err < 0)
--			return -ENOMEM;
-+			goto error_bdl;
- 	}
- 
- 	if (WARN_ON(!num_streams))
-@@ -722,12 +722,24 @@ int snd_hdac_bus_alloc_stream_pages(struct hdac_bus *bus)
- 	err = snd_dma_alloc_pages(dma_type, bus->dev,
- 				  num_streams * 8, &bus->posbuf);
- 	if (err < 0)
--		return -ENOMEM;
-+		goto error_bdl;
- 	list_for_each_entry(s, &bus->stream_list, list)
- 		s->posbuf = (__le32 *)(bus->posbuf.area + s->index * 8);
- 
- 	/* single page (at least 4096 bytes) must suffice for both ringbuffes */
--	return snd_dma_alloc_pages(dma_type, bus->dev, PAGE_SIZE, &bus->rb);
-+	err = snd_dma_alloc_pages(dma_type, bus->dev, PAGE_SIZE, &bus->rb);
-+	if (err < 0)
-+		goto error_posbuf;
-+	return 0;
-+
-+error_posbuf:
-+	snd_dma_free_pages(&bus->posbuf);
-+error_bdl:
-+	list_for_each_entry(s, &bus->stream_list, list) {
-+		if (s->bdl.area)
-+			snd_dma_free_pages(&s->bdl);
-+	}
-+	return -ENOMEM;
- }
- EXPORT_SYMBOL_GPL(snd_hdac_bus_alloc_stream_pages);
- 
--- 
-2.25.1
-
+Takashi
