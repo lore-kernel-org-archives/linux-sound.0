@@ -1,206 +1,111 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D603B71C4;
-	Mon,  6 Jul 2026 14:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FD73DDDAA;
+	Mon,  6 Jul 2026 14:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783349154; cv=none; b=DEXGsiEQ+K6/OKZIsjVjRH9YoMXq8OaV6rTiMGYRbfnTfWAN/vFnWjPl5P9e5ybz8BmwX3ZTm+bEVIMT+qL8hLjhwhPO3GJI/x196Q3brade1UwiERxI6CNBnQ5qjvJD8HRWR6sKuvbO3FB11A/6ToV8yU7svZ76DkJ2sd2KFnA=
+	t=1783349363; cv=none; b=HKomYi4AlsNFdqv8k0uOTJPnsume83m4ZBysgBhcpE+R005RzqwqPIl+IQasV3HWZ+5dNHeajNjaDCd8qcJXQy9lASJesF7OTkJkkbIQv/4kGKlhOU5xeEsLJzSED13gpuvzM54wqh2VARyeC8kyEqztBrz50QjJAOKSVIa8BRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783349154; c=relaxed/simple;
-	bh=RTZNJAmUv4BCvKQpOQtt1ZqWUQNadt489qZTzhtprjU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SV2fyaf17a2YDx9ynJ3YLPBUc+ORt7y1e0dGsOR117uVYFZ50L9l18U0CKpWa+B94Fp8rWyhAIC1h2vyAU35STIJLREv+ati0h4bTPllHZDs8VCb7qBs43aQcXuJl96iyrBh2bPmRuiTUAu7D9Y6Z24gL1bjj5UNsPkpZno/Sjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowAD3RMiav0tqo4A7Fw--.30751S2;
-	Mon, 06 Jul 2026 22:45:46 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Sen Wang <sen@ti.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: tas2781: bound firmware description string parsing
-Date: Mon,  6 Jul 2026 22:45:39 +0800
-Message-ID: <20260706144540.93929-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1783349363; c=relaxed/simple;
+	bh=eulpyiUh0aznOlxmeBeXXDKWTgTsYGSGxJkchSqiGrM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cjCk2sXxzSIwpuf+/GRmY+L/kRCvw2c7pIW/bO5ZRnM9+INlJyp4Dg4FISwIY6ciBtJZMEDKAkTcIvWDRNhBLcrVKZU2MasARBTqPfzAURnl8NLwMVpUo5nV8pZvwV5jqzgIYnTHiIvz3pgbIAD0N0Dik/SncwcAhY0l3DUrtz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uADD0ghB; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uADD0ghB"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gv6gr5jBTz8tvS;
+	Mon, 06 Jul 2026 16:49:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783349352;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eulpyiUh0aznOlxmeBeXXDKWTgTsYGSGxJkchSqiGrM=;
+	b=uADD0ghBygQ7hl7LTqSuQzNrT4pfxd3Nkk3nWvmf6IB3D+bbZ8Po9+rlsavnkGLJ4uZdnA
+	E6oxE7wja5lrQWqtmpkzyprJHhQUbkUKADwiXdWDyRW509f88ZfjFbVdsc2ylpT40fOOU1
+	WzrrRp/KWvzTBBzYRWZJPYm3J3L0aVGbHLts233EFpwatX6mIqHFWSxS8OKrpUaHqJgDM6
+	8q8JwEt/ImdukYWwmuJxsFdKcpthuzyLtn4uBC7Nb6yxlqQ9FZ9gTB4t5yU9FTpas5wHRe
+	7YWXY3JENVL6v02qurgwVxEoXonNX6ionzTbrhMb+kZ8bmbK2CqpjuhuTskBOw==
+Message-ID: <88ee8e5f9b87c202a563accccc224280800a8a64.camel@mailbox.org>
+Subject: Re: [PATCH v3 02/20] driver core: platform: provide
+ platform_device_set_of_node()
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones	
+ <lee@kernel.org>, Thierry Reding <thierry.reding@avionic-design.de>, 
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller"	 <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Srinivas Kandagatla	 <srini@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Vinod Koul	 <vkoul@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich	
+ <dakr@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan	
+ <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)"	 <chleroy@kernel.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Andy Shevchenko	
+ <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will
+ Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger
+ <opendmb@gmail.com>,  Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list	
+ <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team	 <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Matthew Brost	 <matthew.brost@intel.com>, Thomas
+ =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>,  David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>,  Paul
+ Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>,  Maximilian Luz <luzmaximilian@gmail.com>, Hans
+ de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
+ <ilpo.jarvinen@linux.intel.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+ iommu@lists.linux.dev, 	linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	mfd@lists.linux.dev
+Date: Mon, 06 Jul 2026 16:48:48 +0200
+In-Reply-To: <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+		 <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
+	 <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAD3RMiav0tqo4A7Fw--.30751S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxGr48ZFWrtFy3Jr17uFWkCrg_yoWrCry3pa
-	1qqa45t39rtr13ZrsF9Fnrtr1fu3Z3GF15G3yxWr4rtryDtrykKaya9r1Yg3W8ArW0k3Z8
-	ZrWaqrWxWr4UJ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
-	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIda
-	VFxhVjvjDU0xZFpf9x0JUyMKtUUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-MBO-RS-ID: e7506a7c665f87bbeac
+X-MBO-RS-META: yfo5gat8zopp9bgmyshyyaocgtadhjyy
 
-The TAS2781 firmware parser reads several variable-length description
-strings with strlen() before checking that the string terminator is
-present inside the firmware blob. A malformed firmware image without a
-NUL terminator can therefore make the parser walk past the end of the
-firmware buffer before the later size checks run.
+On Mon, 2026-07-06 at 16:39 +0200, Manuel Ebner wrote:
+> Hi Bartosz,
+>=20
+> On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
+> >=20
+> > @@ -693,6 +693,24 @@ int platform_device_add_data(struct platform_devic=
+e *pdev, const
 
-Add a small bounded string-length helper and use it for all description
-fields that are parsed from the firmware buffer. Keep the existing size
-checks for the fixed bytes that follow each string.
+Nevermind, I got confused because of @@ int platform_device_add_data() and
 
-Fixes: 915f5eadebd2 ("ASoC: tas2781: firmware lib")
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
-Changes since v1:
-- keep the bounded string-length result in signed variables, including
-  the calibration parser where Mark pointed out that `n` was unsigned
-- add a Fixes tag
+> @@ -619,6 +619,13 @@ static void platform_device_release_full(struct devi=
+ce *dev)
+in [PATCH v3 05/20] driver core: update kerneldoc for platform_device_alloc=
+()
 
- sound/soc/codecs/tas2781-fmwlib.c | 63 ++++++++++++++++++++++++++++---
- 1 file changed, 57 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
-index bd16d5326a23..dcbeb9618195 100644
---- a/sound/soc/codecs/tas2781-fmwlib.c
-+++ b/sound/soc/codecs/tas2781-fmwlib.c
-@@ -12,6 +12,7 @@
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/interrupt.h>
-+#include <linux/limits.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_irq.h>
-@@ -1100,13 +1101,42 @@ static int tasdevice_load_block_kernel(
- 	return 0;
- }
- 
-+static int tasdevice_fw_strnlen(const struct firmware *fmw, int offset)
-+{
-+	const u8 *start;
-+	const u8 *nul;
-+	size_t remaining;
-+	size_t len;
-+
-+	if (offset < 0 || offset >= fmw->size)
-+		return -EINVAL;
-+
-+	start = fmw->data + offset;
-+	remaining = fmw->size - offset;
-+	nul = memchr(start, '\0', remaining);
-+	if (!nul)
-+		return -EINVAL;
-+
-+	len = nul - start;
-+	if (len > INT_MAX)
-+		return -EOVERFLOW;
-+
-+	return len;
-+}
-+
- static int fw_parse_variable_hdr(struct tasdevice_priv
- 	*tas_priv, struct tasdevice_dspfw_hdr *fw_hdr,
- 	const struct firmware *fmw, int offset)
- {
- 	const unsigned char *buf = fmw->data;
--	int len = strlen((char *)&buf[offset]);
-+	int len;
- 
-+	len = tasdevice_fw_strnlen(fmw, offset);
-+	if (len < 0) {
-+		dev_err(tas_priv->dev, "%s: Description error\n", __func__);
-+		offset = len;
-+		goto out;
-+	}
- 	len++;
- 
- 	if (offset + len + 8 > fmw->size) {
-@@ -1238,7 +1268,12 @@ static int fw_parse_data(struct tasdevice_fw *tas_fmw,
- 	memcpy(img_data->name, &data[offset], 64);
- 	offset += 64;
- 
--	n = strlen((char *)&data[offset]);
-+	n = tasdevice_fw_strnlen(fmw, offset);
-+	if (n < 0) {
-+		dev_err(tas_fmw->dev, "%s: Description error\n", __func__);
-+		offset = n;
-+		goto out;
-+	}
- 	n++;
- 	if (offset + n + 2 > fmw->size) {
- 		dev_err(tas_fmw->dev, "%s: Description error\n", __func__);
-@@ -1309,7 +1344,12 @@ static int fw_parse_program_data(struct tasdevice_priv *tas_priv,
- 		}
- 		offset += 64;
- 
--		n = strlen((char *)&buf[offset]);
-+		n = tasdevice_fw_strnlen(fmw, offset);
-+		if (n < 0) {
-+			dev_err(tas_priv->dev, "Description err\n");
-+			offset = n;
-+			goto out;
-+		}
- 		/* skip '\0' and 5 unused bytes */
- 		n += 6;
- 		if (offset + n > fmw->size) {
-@@ -1372,7 +1412,12 @@ static int fw_parse_configuration_data(
- 		memcpy(config->name, &data[offset], 64);
- 		offset += 64;
- 
--		n = strlen((char *)&data[offset]);
-+		n = tasdevice_fw_strnlen(fmw, offset);
-+		if (n < 0) {
-+			dev_err(tas_priv->dev, "Description err\n");
-+			offset = n;
-+			goto out;
-+		}
- 		n += 15;
- 		if (offset + n > fmw->size) {
- 			dev_err(tas_priv->dev, "Description err\n");
-@@ -2134,7 +2179,8 @@ static int fw_parse_calibration_data(struct tasdevice_priv *tas_priv,
- {
- 	struct tasdevice_calibration *calibration;
- 	unsigned char *data = (unsigned char *)fmw->data;
--	unsigned int i, n;
-+	unsigned int i;
-+	int n;
- 
- 	if (offset + 2 > fmw->size) {
- 		dev_err(tas_priv->dev, "%s: Calibrations error\n", __func__);
-@@ -2166,7 +2212,12 @@ static int fw_parse_calibration_data(struct tasdevice_priv *tas_priv,
- 		calibration = &(tas_fmw->calibrations[i]);
- 		offset += 64;
- 
--		n = strlen((char *)&data[offset]);
-+		n = tasdevice_fw_strnlen(fmw, offset);
-+		if (n < 0) {
-+			dev_err(tas_priv->dev, "Description err\n");
-+			offset = n;
-+			goto out;
-+		}
- 		/* skip '\0' and 2 unused bytes */
- 		n += 3;
- 		if (offset + n > fmw->size) {
--- 
-2.43.0
-
+Sorry for the noise
+ Manuel
