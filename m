@@ -1,137 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905F03AA4E7;
-	Mon,  6 Jul 2026 17:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1D1416128;
+	Mon,  6 Jul 2026 17:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783358805; cv=none; b=Lkfg0e9cfwdYTczR+onuEotRl/oeq2oKiR/bzAIU2C3uEJfs19tCBBUVvZwJ/z6xHmOY4Z9b8vCtq79Y9Fng84yda0pcwOzD1qfD917/bY3a8RF3oMfp4jGQ19ILY7Ud9RZ3RYz8wSpZfmeJHxY7C/JVh4MeRIa7wC8RbYIBABY=
+	t=1783360495; cv=none; b=E+8GOlavbiMViNTKuT9ebkzT3057+08XVsKcYnp9kHztMnKoeToCVPQZwOWQ2ewKr8Q9YDN9v5NGsZnynZ+C5nhO94vYtP44HJAaRkRVtKIcC6ggLyyL5yYcZNqP/S4J8gbkE4mdpHuF/3/exxwRQ9QEaIRKQsAEGGnbrvGnDOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783358805; c=relaxed/simple;
-	bh=7IM4zAo6wp30fIKOD7ytq7OyqjlyWEMupcdMTPpFk2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dgVPf43xcAN5wHmAYmQGcLYzttDmEYxOQwX55SFSZwIYNZaesgjZo8WJf/U4wKrPyQaFZeNRap/jzwDmAyy5UpSUhc1u9Cr9R5UYR6B7IwRklz2IOUhuW00j9swVhTlqSlL9daBjrlhJArvLxmC+0KMzoGLc0eJt1MTZNVB4RYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCLYqWUv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783360495; c=relaxed/simple;
+	bh=K5+0WEGWF0+0uS7cc0U0JgoPoRPEv1GYBpQ/zt9nEMU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=dNIz4+49BjELSR5d5k4mZB8rM1T/EoIyN6Scd6QWyxkNd0MP9sZtGUdItavSPKIuYuxXvbiK0U2jQuQl4e03D1U86YgTlbniWeycxa3UQuH9+V/oWfpj9F9WpqXYWBjY2kZPMbg5YLWPUCHsHthGX2U0R4WyuyqRT0SFOwBXD6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dyh04zyP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCLYqWUv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160F11F000E9;
-	Mon,  6 Jul 2026 17:26:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dyh04zyP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5A8D1F01559;
+	Mon,  6 Jul 2026 17:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783358804;
-	bh=6Q0tvr2GvB7IdKSisCRev74pEI09lUCKAJRHUpFa0u0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nCLYqWUvGJM2k6XDnnND9naY7BS0FeW4Fu5CyITqesk4/FYtYFs2v+CdsAT/O073Y
-	 GtZ8t7rZu7alxOIECS486DbL4kafAvJYppDKfefXQcxPJWSm50Z5xEB87XflCdnqI0
-	 dI9I5Vp+VbNytWapWIsBYtTNmQpIQ3PSkrb5u0vxywEuxj1U2BwNjyu/B89xGJdNtD
-	 G/Odw4daeVaAAUZb5GsfrnhN7yZ/7dsR9qtpRXxY65g9kYlYkQBfw49iWquOtCkMjk
-	 tJfNZXyAVgeg0oDBCZxb/20tfctRWrUO672g92oAd9zuNBOetu0kFzrqAf+966bE2y
-	 VRCYCAEaqRrlQ==
-Date: Mon, 6 Jul 2026 18:26:30 +0100
+	s=k20260515; t=1783360493;
+	bh=OopCnMowP/hrPERnT4GLgSY02Cz/9OrW6HhyWlc/Hyk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=dyh04zyPM0sswOdoonoydVPnQYJVKe1oGG7Ol2gUxs9IQ+TSei5sIL5Zk9TJBFF5e
+	 ElN5QxDMf0VGq/HnSaeAMVP2plz4MmlM+3c3gEaSL2pwht7zudEqZpzzf1SDXOXpR/
+	 sngHhZoo9cdoo5pHEUFaWvRrK2nFZy4ukkJpBu8xKpYjuQ7PLtwne0CM+fAt/u5iM9
+	 8os1qjStjYGMF+116tgpGjx8AwMqejkQBJzZdz2j64BNd+2wpMTevOZBfUTApsAAoy
+	 O2MbWuBhhAUHYPnNHRBU1sehxi4waQZM11SiIiWKCovJkeTqTV8xhfvN0rr/QhZjpm
+	 LRfdZRpVCfSMg==
 From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Manuel Ebner <manuelebner@mailbox.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Lee Jones <lee@kernel.org>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Peter Chen <peter.chen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev
-Subject: Re: [PATCH v3 02/20] driver core: platform: provide
- platform_device_set_of_node()
-Message-ID: <e40d0bd0-0e3d-4c01-bffc-8e0075213c45@sirena.org.uk>
-References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
- <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
- <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
- <akvOo2EeERLYPh72@ashevche-desk.local>
+To: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: david.rhodes@cirrus.com, rf@opensource.cirrus.com, lgirdwood@gmail.com, 
+ perex@perex.cz, tiwai@suse.com, Paul.Handrigan@cirrus.com, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn
+In-Reply-To: <20260611161553.3378721-1-runyu.xiao@seu.edu.cn>
+References: <20260611161553.3378721-1-runyu.xiao@seu.edu.cn>
+Subject: Re: [PATCH 0/2] ASoC: cs35l3x: drain threaded IRQs before runtime
+ suspend
+Message-Id: <178334519434.57168.11574312368504162221.b4-ty@b4>
+Date: Mon, 06 Jul 2026 14:39:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FWksib/oYWGW6VVm"
-Content-Disposition: inline
-In-Reply-To: <akvOo2EeERLYPh72@ashevche-desk.local>
-X-Cookie: Did I do an INCORRECT THING??
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1550; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=K5+0WEGWF0+0uS7cc0U0JgoPoRPEv1GYBpQ/zt9nEMU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqS+vqR/Ore+jUc3x/R2e920t5fK1ru6aWQj7C7
+ 2XKbkvRnYyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCakvr6gAKCRAk1otyXVSH
+ 0I7QB/sEgq0QELnsoSxOBsc72HnDVDIEYss3v6TvrGtTcJlO5IUHOtt5P/6NZCXWp/gl39u71KE
+ 93Iz7toXII0ozqziANttAyBifzK5qdA4K2c4CDIvK8GeHGPbKcdXUtsxUoNZ++oBYqsN1jmAVqY
+ 2gi9fzz53PcO6s2sCR7AioTAWwZbj3GK2NAxmihHJNtuDqhvB7plOjR71wI//k5PQSLhTQXkB4Y
+ cNawqDdiuSgiyL7+CMepRmYmQ+/VW+7s1QSd4jWYf5rv3Anr9/HkwotaLqlZsEDl4FggI6ZSwoW
+ 3sbTsmEtUMAT3K3ujxNJTv4oS+G8jc4n8bqTaW+6cA6oH/B6
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Fri, 12 Jun 2026 00:15:51 +0800, Runyu Xiao wrote:
+> ASoC: cs35l3x: drain threaded IRQs before runtime suspend
+> 
+> Both cs35l33 and cs35l34 can enter runtime suspend while their threaded
+> IRQ handlers are still reachable. The suspend path then switches the
+> driver into regcache cache-only mode and powers the codec down, while
+> the IRQ thread still expects live status-register access.
+> 
+> [...]
 
---FWksib/oYWGW6VVm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Mon, Jul 06, 2026 at 06:49:55PM +0300, Andy Shevchenko wrote:
-> On Mon, Jul 06, 2026 at 04:39:00PM +0200, Manuel Ebner wrote:
-> > On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-> > I removed Mark Brown <broonie@opensource.wolfsonmicro.com> from recipie=
-nts because:
-> > =E2=80=9CRCPT TO <broonie@opensource.wolfsonmicro.com> failed:
-> > <broonie@opensource.wolfsonmicro.com>: Recipient address rejected: Doma=
-in not found=E2=80=9D.
+Thanks!
 
-> Perhaps he needs to send a patch to update .mailmap?
-> Cc'ed to Mark.
+[1/2] ASoC: cs35l33: drain threaded IRQ before runtime suspend
+      https://git.kernel.org/broonie/sound/c/e074c12c428c
+[2/2] ASoC: cs35l34: drain threaded IRQ before runtime suspend
+      https://git.kernel.org/broonie/sound/c/4105a4c0678b
 
-If it's for something that old I can't imagine I actually care.  If it's
-important enough I'm sure someone can work out how to get hold of me.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---FWksib/oYWGW6VVm
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpL5UUACgkQJNaLcl1U
-h9D67gf9GIugTh4PUXTgcv4IEO00hqfPt914zzGolWrW61nvCfBK/txok59PvoKw
-vaWiJIxtHNcqLXDHoH9/3oPWkqxrKq0RGWEX19nr124zN/T2SihiMa5RjzAr4UAG
-G9JAS2GOF29xF1Ml9KH8x5l5WduP6RUHVJqKK9vuJFpCloREcnnpMQVxJVgKEKpI
-TrKQpiKRZtTm5InBsTccxeXVDL2+bhnLHZaD4LbIziWok/tCyYnCw9VEJ/iUb7PJ
-bFLwu3JxUS7p7Kr/hStWapPyxi5fyw+V/ZQ8u+J5GE8g493f9A3rBarS4fJCZi8e
-cIRN6GhgNtdUL6L3p77EqAzlsDTheA==
-=WSwF
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---FWksib/oYWGW6VVm--
+Thanks,
+Mark
+
