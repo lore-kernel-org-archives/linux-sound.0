@@ -1,174 +1,196 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B5137A826
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jul 2026 14:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783348164; cv=fail; b=S3XbSdis/zHNHv4FdKC5Pg3vK4CpR9FOfcprOGvEeRDjc395S8BeQUkC1HlmiipYRtZsycbckQWgAvO6CjpI/j8p23AEfoU4zF6fni+eeHKV69tu+8vGwcjUeNcyfJcCBl7Og17FdfO/g9UbTPIuSMbyk7TohN/+syM0YySU1Qg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783348164; c=relaxed/simple;
-	bh=bUfFj+AhxL6MAJI0gjdg1nUllMDvDUQVD5J5RtVLOrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W84M7vzgOkwq2DPVCeSdjptrFdQUc20MvG+vHB91lVWyeig5YS3G65m7tOqi2/0GEOkogE6z13L1P1un4iF9PtRl1DwefY09jR4tZhqcMCWRmJ35En0sPgvWCGskEqPgT/yrltOvvSaFhlKefktuUillXXhObdLEFgbb08sZlP8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=qNQmUsda; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=S++WGluP; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465A13FE369;
+	Mon,  6 Jul 2026 14:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783348776; cv=none; b=noxbZI1nrFuG780WPjI43f+AOHxt2wabmGYDWis5JA6mWxvGtO8yX3OhJTV6bMR7k09CE9x7SFTIAt1lhWScjG/9WLKlstD6aQdYxD1sQqoU5cH1Z6I90H6XZs9tx4qiSztflSoys0sdxp31S7yLpLsIBnAKAb5vbOuybcZ80Ho=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783348776; c=relaxed/simple;
+	bh=XtbXxotRn4eonCuXI7S2La3x2DD6roUS8w7lR6Aocns=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=lMdJJ2Iu67n4dpWr9NIE68p82Jgj5lM61GKlchI1pRPAfNOLddcgdu6ZN+qnXc2JSMwfEaPfcMxDaHaYNtd+k5CQ8ld4AaHZgA3gQoi/5A6SRzK3EGVObmBEw3zHyYppObiewBwo9QwOiAdyE2Vo00MMvXAuihGfLhZ38iO3PaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=j5hgDtth; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="qNQmUsda";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="S++WGluP"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6663dKTs039937;
-	Mon, 6 Jul 2026 09:29:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=bUfFj+AhxL6MAJI0gj
-	dg1nUllMDvDUQVD5J5RtVLOrA=; b=qNQmUsdaXlJ9H8xP6SWWEee216K4kTHx0b
-	V7DwviTm1HPrY+mPhJcGPAZeq8VvHoQGuXYliDlODK9Awu0pZwAELpLYSkd5XkHm
-	FGhojlWb0XxMJAW20SMZxMVl7z8fO0/jc9NWiWMVd0O9hakam+LVYaQCRkmuHGw2
-	hM6sv534v2xfcMgHqqYcVyVLd4oQtjQAX4W9da166uvNByydUPwtpyK4Hm7auvFa
-	OJH68iZVo29H/BPdcnA3tu32gNLXPLnHntWcBrdYJ9GCI2mP1/DYN4WyQUj+A98O
-	+grh/KpNGNQxQOt29vxKAH7ozDtc67blNi29stN/6+uuJtYUdp/Q==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021085.outbound.protection.outlook.com [52.101.57.85])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4f6yjxjg17-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 06 Jul 2026 09:29:18 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t5rjeqvLY0mnembGKbxN2i1j6Mo/cGibVMTc7pNFbVzeU7hELaa0aDq1rtm0mbE4dT+1DM3imTLvIrBp1xuPjH6TZWP82D1icyN3ph1eWcEFGssYarWavXxRZtQDEC4YjJC2ZLhZsWcsxJJ/Ekw3IWhe0s0IgJk6JqaC0y1uJYDSH7fJ0eG/wqcpaQXtRML+LkoHwJXcscYRwTKOopYn0f7WubMUFgngr/JgKEW6rdlQcD7S1joJuFqE4hmBes6rCt+B7kuGyndtHXlmlpKRI4Dfq4bHhFq7CFL2i6aAME2Zf3pF0PYkpRWnfgubjgYWBTeVBvdBMHllHOJBDZXTOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bUfFj+AhxL6MAJI0gjdg1nUllMDvDUQVD5J5RtVLOrA=;
- b=dR4a2ddprBhIK1vinGKH4SkWAqf4frxzd9YvNmKRbjRlK4jaA761Y8GKCxQBp/FrQkWA/egcg6cSy4E2cvRUvUoOET2Lfjt8Ifs0hwWRvacOmsUCRpD/+BO1KpgTxYlUHY03SlZI6Qde8B7dBP4PbB418FgNt8pMi0+7WgrfGAZfXhoMx9PwEwp4XKIxspRlCZUA1rRv0p4uuSiAWpiLIld8Y+6TSHHD/QYz1D1AROR4HeaqilBVlqcvcrwx42dsxtWzl3+jqkK06jfbHd+HsbwVWmVW4rHQZaSOJ+LEQJcDfXtMsNO/xx+R2831Wy41M9OgxqE34NyaKHvFSF7p0g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=alsa-project.org
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bUfFj+AhxL6MAJI0gjdg1nUllMDvDUQVD5J5RtVLOrA=;
- b=S++WGluPXCMvOOMlpMPjUQhZtOpRw9EJ4ojIABWv4zffg5X3mceOuTafmcXqIVSEQW9ByUR13Ld9bYI3m+Rr/MnHqIDsV5/D2iUo4iDWs/LZ+D6YJmgQBHF+KgOK/5/kO3d3qITX9uCbUACqEr69njpjRqJ7Iku7V7K8cbDnpnY=
-Received: from SJ0PR13CA0229.namprd13.prod.outlook.com (2603:10b6:a03:2c1::24)
- by PH0PR19MB5225.namprd19.prod.outlook.com (2603:10b6:510:92::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Mon, 6 Jul
- 2026 14:29:14 +0000
-Received: from SJ5PEPF000001F3.namprd05.prod.outlook.com
- (2603:10b6:a03:2c1:cafe::13) by SJ0PR13CA0229.outlook.office365.com
- (2603:10b6:a03:2c1::24) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.8 via Frontend Transport; Mon, 6
- Jul 2026 14:29:14 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SJ5PEPF000001F3.mail.protection.outlook.com (10.167.242.71) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
- via Frontend Transport; Mon, 6 Jul 2026 14:29:12 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id C7E3A406541;
-	Mon,  6 Jul 2026 14:29:10 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id B429F82025A;
-	Mon,  6 Jul 2026 14:29:10 +0000 (UTC)
-Date: Mon, 6 Jul 2026 15:29:09 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Christoph Doppelbauer <christoph_doppelbauer@web.de>
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: ThinkPad X1 Carbon Gen14 (Panther Lake): CS42L45 SoundWire jack
- detection not working, no machine driver found
-Message-ID: <aku7tbb6hQAIyEv4@opensource.cirrus.com>
-References: <trinity-70888fc7-d6f4-4ab5-b61e-54cd5c9f09fc-1783242175358@trinity-msg-rest-webde-webde-live-584767dd64-fqqnv>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="j5hgDtth"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gv6Sc3JlwzKrrB;
+	Mon, 06 Jul 2026 16:39:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783348768;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PTWGfLdwlWAV/LMkx8q6n+16+BLtwX+Uw6eFuSY1pwE=;
+	b=j5hgDtthz8XCNdelXgr2Njc2HaTruqIkCO//JWKxiT4W2gEybWyIlcK2aQ1bxIe+BwUJVp
+	sosZFgtgjTYiKegpajhDS7wAQRa5vbGhsdYsOBErEWcCcj6imJ3WhTyng3CLWaw/u/6S/u
+	Ia++ekOByRWNtL6C0p1KPkAMQ78opS9K6p4731SNIh3G/Gtr0smcjJ5LSbWseUhYMLmi5g
+	bSnkIEWLW+D0H8udCi/rtV6GiUxmmd3h/zBT1zxIEz9pUZOsZhePq4tVuE6vy2STKylPsN
+	pNYuSZntPPijS4W0+CuI8ZBjLVluSsSHTtbS9e6dlXfCM6eF2pFoZi1CDk9EnQ==
+Message-ID: <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
+Subject: Re: [PATCH v3 02/20] driver core: platform: provide
+ platform_device_set_of_node()
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones	
+ <lee@kernel.org>, Thierry Reding <thierry.reding@avionic-design.de>, 
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller"	 <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Srinivas Kandagatla	 <srini@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Vinod Koul	 <vkoul@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich	
+ <dakr@kernel.org>, Rob Herring <robh@kernel.org>, Saravana Kannan	
+ <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, Michael
+ Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)"	 <chleroy@kernel.org>, Andi Shyti
+ <andi.shyti@kernel.org>, Andy Shevchenko	
+ <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will
+ Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger
+ <opendmb@gmail.com>,  Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list	
+ <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team	 <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Matthew Brost	 <matthew.brost@intel.com>, Thomas
+ =?ISO-8859-1?Q?Hellstr=F6m?=	 <thomas.hellstrom@linux.intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>,  David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>,  Paul
+ Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>,  Maximilian Luz <luzmaximilian@gmail.com>, Hans
+ de Goede <hansg@kernel.org>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=	
+ <ilpo.jarvinen@linux.intel.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+ iommu@lists.linux.dev, 	linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	mfd@lists.linux.dev
+Date: Mon, 06 Jul 2026 16:39:00 +0200
+In-Reply-To: <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+	 <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <trinity-70888fc7-d6f4-4ab5-b61e-54cd5c9f09fc-1783242175358@trinity-msg-rest-webde-webde-live-584767dd64-fqqnv>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F3:EE_|PH0PR19MB5225:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60f18170-ac64-48e4-76f6-08dedb6af31e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|82310400026|36860700016|61400799027|13003099007|18002099003|16102099003|22082099003|11063799006|6133799003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	ssudVyNqPfbIB1dONTbcfoC2gx/Wh4l0fiS2zuFefmEbvZYxeLsOzEPPDkgs1mQj5YfBJap7S1h7AT8YeFEl6u7E9DeNNyb5TTGaZ6dbL2z+e2Zi7birWe8AN9/T4ECMVGkr8/1x9MMGQt/D0VtJlOFyzGYlRys+z38twyvcnwpa26DHcWEd+5J48s2Sp/3pdf9ExvhS/6701s66CPCev+lVw5BGB3i6m78x7Tuhlq7ePThJz7s4VwneOw+xRxrEUSlzTXj+hps0whTfaO7xz2Fa3d25zswqpHU0UpOLDVfDwUyPocDT5W+v0cr08CyElbkH/029EIEx9zIWxUdq9I3ZhM2I9iu9JXj7qjHWLLNVbGU/pK02U0U7P94BySGEN+BV5UfvnrhcTOMt2GaAr1XEb6X8DtWgG5vY5H/jG/FOVFONhtZBdR+hsGuRtvuVf6SJYCT7kDgRZ9YZUoEBwCwhsgeR+QuPqhmcozUWVlrwOTrz7S9qVW1cIypipId10MduIdMiTa76jqFBqm6S+8Et3m+S4Yj+zvBHFEYLQogKMT0Q4iGafeWyTeSKd6m5lqEsueRJOOiUQ04kUA3kVWG/RAW6ooZnjmyNwWa1YwHmxuTb6LgTtRTiXQsC/UX2HI3UoximBzlwAtnopUZtvQjyPSNSJxxC8zl4Bb0W9MWhFspIXWqW+t0ExdHu0mAYk/6ZAClvbOZXhYaOwUBErw==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(82310400026)(36860700016)(61400799027)(13003099007)(18002099003)(16102099003)(22082099003)(11063799006)(6133799003)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	5EQ8tin84zDWCWaWXUw7mfHJwscVzs0lGt7EEjcJgdU41YSZhHhCeL2YniwLW/MymoA/mVRdX6k7EOJOb6N9oCFEWEi2IRk4AgwDWrEa1+Gb5nuyJaWR/qlhvA0DpllRSXyCOKyFLG7TzrhvP4kCOWDQgXgRVNtkgZneY8aR7oCRkUx476Cw4L8/4tjPk65AwdgjGxm2yZiQiEBVfqfooxYaYwJQSC9al0sKVqHlOFUg0cEcSv/ypv8ApLmC77xLQn4aABMRT5KsUQLLmDMTFPaiv+MX3jzH02NNbDWx8JNDUSmAuyR6hFgWHfDBbDoRR9U79lMmNKtSyvQMHqRfOT7X0U4XgnXr/a8MAVNS6opjentDBEev0TIvdvd7PEEQj8kYEpBeLhuNnVOycEA33LTjF1DxAxHUMKH0gD4E0YlMf2dKcu3yeQ+PH1E99K7b
-X-Exchange-RoutingPolicyChecked:
-	TWqSR/VUR1A9MtyyMT9iFfHii/mi8zcIasVgMQxB//PA2mUHufNAcveNXfKoPiTYe2AJm7oEKSwNtBKB4LKy/Gh+M96SwuHETbCCtsXJ0K2U7gAM0Ei99jDxV6OARCpr/t39KhOR7OEy28kmG4EhrBffaJ9oWp46wyfpPGxOzCdmeleo1BXVciZ48P3gC6+y+AuSdlzvzZRXLNzDSDCJQndD9hWKwyqZy9u3pgMLqcCDTxzyMJkzMAVI4ptNDcrLZjvtKWJouhyJdqBjvLoaWxzlFZuYH6Vab9y2FTZ4Xm0jwlMsYBhqpQNnq+Kg1VQvLP7qZfgJYcLCqeg7lHkTaw==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 14:29:12.1750
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60f18170-ac64-48e4-76f6-08dedb6af31e
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ5PEPF000001F3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR19MB5225
-X-Authority-Analysis: v=2.4 cv=Fo81OWrq c=1 sm=1 tr=0 ts=6a4bbbbe cx=c_pps
- a=SDOlI5lSWczX7ANjW/fhbQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=NEAV23lmAAAA:8 a=XjVYAknsuNU1FQWFVowA:9 a=X9Ho9_PqhNXTlP-s:21
- a=lqcHg5cX4UMA:10 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDE0NyBTYWx0ZWRfX34Y7WEbCajtP
- 7wFusxXVvNog7NAsH6oxFyUgWWz7hgAYW2YONsKLlisLjDHrtXj+LhIhu/7fV9o8tZU2Q/oOnTx
- pUhpS0w9Ykb1IoaCWjnBjHgY57q7Pcc=
-X-Proofpoint-GUID: dK5g-AAO24pjXCAM2OapfOnXA6wFN0zw
-X-Proofpoint-ORIG-GUID: dK5g-AAO24pjXCAM2OapfOnXA6wFN0zw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDE0NyBTYWx0ZWRfXxqMNooBofusp
- +uDAQ6aGcNAHv9hUbiakuaGcEqNChVi9ytWFPAru4v9aZrrZDzPZybBwulnBe3FFX2NcKYZIqzY
- 4e6+tz9j3Amk3xFlXr6iE5mP/8w4elQT6QlP4ZXqP87Z1WryHuMDNNa7MiBCdDxpATNDlB+QIXj
- W1ZoYRJdsDGwp7f3SE5oSJJM4+o/1eBGd6RWT+ZVYsveGN6ev6qi+4h6cmHMPD66UwImlF2hcvl
- xei/76DRJo/LsTIw05weOJ0HlUM0u6YqZ/fhP/04dhrlvMhhOL3a2Brp7wKTtHSOFHDWU60d8lp
- lRTqh9ld2CA5xxhgxtETktDli8pczDiHY8rTvSEnIzyoVxl5uBmiZCk1s1nWyqWnErd2B3Nfvhz
- mEGdsBcj3o8Vd7fV7OZXZBkEpWwwPBil+jO3JH4Iftc8pwHshliPW7r7x/Ceo6sQyFBBC42uYBH
- 2+6gj9UxfiCoCNBdJ2w==
-X-Proofpoint-Spam-Reason: safe
+X-MBO-RS-ID: ca569d00ad7df478929
+X-MBO-RS-META: 1q71yutefcf1nyjzwoom4gu47fi8rss3
 
-On Sun, Jul 05, 2026 at 09:02:56AM +0000, Christoph Doppelbauer wrote:
-> <div>Hardware:<br>- Lenovo ThinkPad X1 Carbon Gen 14 (Aura Edition)<br>- Machine type: 21V70071GE<br>- BIOS: N4OET47W (1.10)<br>- Intel Panther Lake<br>- Kubuntu 26.04<br>- Kernel: 7.0.0-27-generic</div>
-> <div>Problem:</div>
-> <div>The internal speakers work.</div>
-> <div>However, the 3.5 mm headset jack is completely non-functional.</div>
-> <div>When a headset or headphones are plugged in:</div>
-> <div>- no jack detection event occurs<br>- speakers remain active<br>- headphones are not detected<br>- headset microphone is not detected<br>- no new dmesg messages appear when plugging or unplugging</div>
-> <div style="font-family: verdana; font-size: 12px; color: #000000;">&nbsp;</div>
-> <div>Relevant kernel messages:</div>
-> <div>sof-audio-pci-intel-ptl:<br>No SoundWire machine driver found for the ACPI-reported configuration<br>Use SoundWire default machine driver with function topologies</div>
-> <div>Later:</div>
-> <div>cs42l45 PDE 11 event failed: -110<br>snd_soc_sdca_class_function SmartMic:<br>power transition failed<br>soundwire_intel:<br>prepare clock stop failed -110</div>
-> <div>The loaded topologies include:</div>
-> <div>sof-sdca-jack-id0.tplg<br>sof-sdca-mic-id4.tplg</div>
-> <div>The kernel creates:</div>
-> <div>input: sof-soundwire Jack</div>
-> <div>but no jack events are generated when inserting or removing a headset.</div>
-> <div>The analog codec is also not exposed correctly via /proc/asound/card0/codec* (only HDMI codec is listed).</div>
-> <div>This appears to be related to the lack of a dedicated SoundWire machine driver for this Panther Lake platform, causing the driver to fall back to the default SoundWire machine driver.</div>
-> </div></body></html>
+Hi Bartosz,
 
-Please use plain text for upstream emails. This device needs a
-BIOS update to get things working:
+On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
+> Encapsulate the reference counting logic for OF nodes assigned to
+> platform devices created with platform_device_alloc() in a helper
+> function. Make the kerneldoc state that this is the proper interface for
+> assigning OF nodes to dynamically allocated platform devices. This will
+> allow us to switch to counting the references of the device's firmware
+> nodes, not only the OF nodes.
+>=20
+> Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+> =C2=A0drivers/base/platform.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 18 ++++++++++++++++++
+> =C2=A0include/linux/platform_device.h |=C2=A0 4 ++++
+> =C2=A02 files changed, 22 insertions(+)
+>=20
+> diff --git a/drivers/base/platform.c b/drivers/base/platform.c
+> index fb9120b0bcfe0e7dd9dfc0d29b91e0ad40a01440..3188d5aba5f90622f821c6950=
+49cacda030204fb
+> 100644
+> --- a/drivers/base/platform.c
+> +++ b/drivers/base/platform.c
+> @@ -693,6 +693,24 @@ int platform_device_add_data(struct platform_device =
+*pdev, const
+> void *data,
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(platform_device_add_data);
+> =C2=A0
+> +/**
+> + * platform_device_set_of_node - assign an OF node to device
+> + * @pdev: platform device to add the node for
+> + * @np: new device node
+> + *
+> + * Assign an OF node to this platform device. Internally keep track of t=
+he
+> + * reference count. Devices created with platform_device_alloc() must us=
+e this
+> + * function instead of assigning the node manually.
 
-https://github.com/thesofproject/linux/issues/5770
+I did some more pondering about this patch and concluded the right place
+for a warning would be the lines been read right before or after assigning
+a node manually.=20
+I think this would be in platform_device_alloc() (as I suggested in v2).
 
-That BIOS update should be available now, so you likely just need
-to install that.
+BUT my knowledge in C isn't sound. So if it's good as is keep it. If it isn=
+'t
+add or move the remark.
 
-Thanks,
-Charles
+Either way Thanks and
+ Reviewed-by Manuel Ebner.
+
+---
+Note:
+I removed Mark Brown <broonie@opensource.wolfsonmicro.com> from recipients =
+because:
+=E2=80=9CRCPT TO <broonie@opensource.wolfsonmicro.com> failed:
+<broonie@opensource.wolfsonmicro.com>: Recipient address rejected: Domain n=
+ot found=E2=80=9D.
+
+
+> + */
+> +void platform_device_set_of_node(struct platform_device *pdev,
+> +				 struct device_node *np)
+> +{
+> +	of_node_put(pdev->dev.of_node);
+> +	pdev->dev.of_node =3D of_node_get(np);
+> +	pdev->dev.fwnode =3D of_fwnode_handle(np);
+> +}
+> +EXPORT_SYMBOL_GPL(platform_device_set_of_node);
+> +
+> =C2=A0/**
+> =C2=A0 * platform_device_add - add a platform device to device hierarchy
+> =C2=A0 * @pdev: platform device we're adding
+> diff --git a/include/linux/platform_device.h b/include/linux/platform_dev=
+ice.h
+> index 8c566f09d04efe420d85ffa046f92c44c6d08526..e9f7baceeb4c8269dbc0143c4=
+d8fc9d73ba024ca
+> 100644
+> --- a/include/linux/platform_device.h
+> +++ b/include/linux/platform_device.h
+> @@ -19,6 +19,8 @@
+> =C2=A0struct irq_affinity;
+> =C2=A0struct mfd_cell;
+> =C2=A0struct property_entry;
+> +struct platform_device_id;
+> +struct device_node;
+> =C2=A0
+> =C2=A0struct platform_device {
+> =C2=A0	const char	*name;
+> @@ -262,6 +264,8 @@ extern int platform_device_add_resources(struct platf=
+orm_device
+> *pdev,
+> =C2=A0					 unsigned int num);
+> =C2=A0extern int platform_device_add_data(struct platform_device *pdev,
+> =C2=A0				=C2=A0=C2=A0=C2=A0 const void *data, size_t size);
+> +void platform_device_set_of_node(struct platform_device *pdev,
+> +				 struct device_node *np);
+> =C2=A0extern int platform_device_add(struct platform_device *pdev);
+> =C2=A0extern void platform_device_del(struct platform_device *pdev);
+> =C2=A0extern void platform_device_put(struct platform_device *pdev);
