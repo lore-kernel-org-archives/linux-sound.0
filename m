@@ -1,63 +1,63 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02CC37FF5E
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 05:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC20C379C37
+	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 05:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783401061; cv=none; b=lkOU50XFWmmttSOlyDyC2VE/A3VBD1I9Y1kDKWEcefQBN3tuuzxJNvufyfQ3+yDrwb1YV4hqaaSXLlDdcd3vkrXFwzlusdokjbBaXRH0lfavmvT+BCsCKJ7GsVZTvkpvFfGIcX/hLtbU4T9jBpMg/Z/4Oz3WJ9WGPXH9rp1PcBo=
+	t=1783401069; cv=none; b=IZU0O8vASpSROf3CNcyMlBjwLInq6WfVYu0QqwHijSDn+tPkpU+i+XWNY706Gc1lUi0MQ9PD3jjMch6ENtQQPh7tI/aE0cIMqJNQ20ILpb2nxNb1kgHZOlK0kPpGPiG6x1eXAhkOiXONTuGfEe7o8xraLouvcDim3sYSyYDflzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783401061; c=relaxed/simple;
-	bh=NLNJ9p8QjUYwBmyR9RSKdZ9PzqrvOLlKrVQIcV9VZ0w=;
+	s=arc-20240116; t=1783401069; c=relaxed/simple;
+	bh=6FLcpNOV0G/lngFmbaJv0KBbbNvewbSjUbmrmr4SBjY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f/7RbliQ7ta+my32yLMc1HtnMY6+nHGxqhBPP9d/obAXw1sQ3z7do4DTn1Wa07UCJJzS5nuhY5t+zgRaRmq3yAGl7yy0r/P75+7hUIC/a6d0IKdS4MfUWhnJ+c6DoLVg9EgVA9FiunIgF++NzgHzeKi39XpdWGWp0hX8ARtySPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GX6HjH+u; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=Mk+LzwUbYKlq7aottTMQdFGQ2oXRzmTn7nPliUPtiZrbRtgjft8cvVAIlXXL0d3z+bmzBC2t1TbXWYdoz3DEiZU3Zw/F0y6/Z2gunHv/BfwFZp6cDYLuMA4HxsQbYSxk+XCe0YdHcs/yl1ZQ9FXoDkue4ZjTDznBF5wT1wbsuOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V4rWt0b3; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GX6HjH+u"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-847968ca62fso3929069b3a.2
-        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 22:10:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V4rWt0b3"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8478fe07f0fso4297083b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 22:11:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783401059; x=1784005859; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783401067; x=1784005867; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bPhJ/orWytTpfq3BLT+Hf12jldViQ+Hp0ohV62p2F+A=;
-        b=GX6HjH+uDdvtwEpShRe+khiOslMbwolwVLmw/QOTlhy8c3aq1HjlHLv2Lm4eHh1ziX
-         AoSIN07J1vR0MbLQqxj59IbqtvMHXczBnY6czyd+0b1QIbcwB8P3XPy73Bmv6g1wEbmx
-         /C2R9cnF3NBCXRS6b3lIw2yaATPtn0fFntzy1ElK3EbqB/4Hvy1dyvQDWkhuFUOX8GCX
-         VEj5nAbn47u15UeL2hrrwJFiAt6mxmYeukRoseI51B+xBU+OHg4FandSzuYGP07WPMKA
-         Al8Kx2m+fVpA6CmT77LLQwIDSnDUfapnOWu/pPeR6WSScauwdaQHuugMIQ6qh07hKcY5
-         ZofA==
+        bh=QBAOGNDCN1PJ4euWIObvfkCj8NKOo6+NOGkAVEcmjRI=;
+        b=V4rWt0b3/ptdFlqBgVd9Oi7ynTo3F9bpex5oYans1CpdDgaOThykDsrvcj0jyrHqMU
+         Sk/LohdhCWnKJyhYLJrHQFTcbO8lAYISwKzW9N6/hMD5cGMDNUsxBhwfsoVlZ3h/4hSk
+         kirX1Uc7UvcB0us4IgfjvUumgYnZ0MNUGcelgC2O9JunZxjT3ZosR7H8ndqn6KKNo3aL
+         N+z5L2Dtae6IInuRV4SVXfbSM1AJeIgDwsnDlxjEJGC8wGem4nKOWv2L4c7ZlLIkqroE
+         XxHYzoBZqOOCydDwk8IQerLaZ3+8PyP97e6KVD20kK4yTE/nUA1fWXl0Vc5i+CKxmYq0
+         r7Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783401059; x=1784005859;
+        d=1e100.net; s=20251104; t=1783401067; x=1784005867;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bPhJ/orWytTpfq3BLT+Hf12jldViQ+Hp0ohV62p2F+A=;
-        b=lOb/ga/QVhdpR5WAQ6y8iYL7phcAwjzizo7Cg1fUU0fyiUtz+Yw0R6qT4TRrF1WaJR
-         IEwQwWKrlw6JCEQGLc0cWNzsEkPu4PAL74volOSY4q4YhzQyH0pIcssb0akqWZX9nybG
-         9Xx2wsTR6HyY00KILFJere71INkcqWa+odxNuz89uyWWoDZZ/InGzsbp1fPVdLlIWtyh
-         lbwOpXhWG1WhwoNSRRU1L/cx1NfpsYP3ZVdNsEIRPkU1naQxuvPoTMCVgjACCN5a5FCL
-         cEVdXNbofs3BqILIS+NSBUCS7BbjIyHcjJDXkQrA1W2VF+QKD8VAXLQFkKcFff7ZgJM8
-         JceA==
-X-Forwarded-Encrypted: i=1; AHgh+RrQGW3rxFcvbk4hWW4fprrc9xgStptcFm31M0tJPewOq6/RAhnIRMs4MMkOEp3sHTwY2D6vmWCVbAPkYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdODYOk90Kh3LfYe4nketuBrR7viWVnqc1GKsqNjKZzrnpyVGw
-	GaDqVO+ltcfdh2Tn1TP7c5ZkvHZx5fhlO1UndyM4igrQJTCp24tLz3XQ
-X-Gm-Gg: AfdE7cnhYM9M9AnH6jNrJYoNkeT6peQY2yQRrImYBHdfmHxsIHfgJY0lze0jaxpzaNt
-	4KyowD2zLRh/RrN8nBcV2gIR+ae46pCj+m3u2JbcNVQo0ZS9zqo6P8VvppwX0oG/lTLFiFsW6hd
-	Y32k8pLLNWEt/Ctd2VBXlxTzaOgspvjMm7Umn3/Kn4psP+s1gI36jHM53lzyd75dCjM9NzIi0Y7
-	lHk8vuHXNTAEvSazlOfm4bX4tXUE3pvbRF5Pu3BozfBAuq/DqMSjEMcxCpK02bRibW8WJJ5WTZS
-	IDK4+AVMlZWuuHMTdygrQG9N7Q+nUEaACCgq9ksiXwj7GsRV7CERQEVl1x5Iv2pE74s2uZJPzhT
-	WN98M0VOwpKyANhFS8AsZ7q4g2XCo3P+KdeXGYefjRJ7n2JTEonFLfpRbS53dFbgGyi36MoTpNM
-	AaikqUKgEHdv0KXp3MACTDPijqLu0rTRnOqowy98smo4uvMMKR7gfm4hpcmQ==
-X-Received: by 2002:a05:6a00:1c86:b0:845:db8d:f631 with SMTP id d2e1a72fcca58-84826b80eb5mr3561080b3a.7.1783401058953;
-        Mon, 06 Jul 2026 22:10:58 -0700 (PDT)
+        bh=QBAOGNDCN1PJ4euWIObvfkCj8NKOo6+NOGkAVEcmjRI=;
+        b=CvEB0Gauqzdh1FY4U69Tx1uvYwwUR6kh0zLw30R/PJ1csW9wvHhTj34jZfyKYxtnt1
+         vruJYk26XuK/euL/Gmk5Q5LyV8s46rHjBtytLM26GF1idzwKn5/palL+VIZytRVQaOMl
+         lSnAEYqpZvOMHV0KIr913W9R81Ce0vtEpSiKW9aK2glMLZMEdpAP13Gv7YSaMor557lK
+         mRTjk/MfLOlQM7WLkxV8veV9Ppyr2QH0sWscQpx5j56iFbr34eMP+fg/7r5wY+32WU8t
+         XkTr8D0WxfgIQl/7u3OyOJu1+OzEcaeRK6h6Uwd75lRKA+dlIXo+e+8rZxF0nzVN2JLN
+         2CeA==
+X-Forwarded-Encrypted: i=1; AHgh+RoGqMW6kzNEQ3ih9C9+xsSpnzbqTtp7QG0NqE7tSKrPz4IQL+B45JOQpf23TL5+MqSaT6Fpg5IzLSatHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6AZ663ijvTwzSbTWEsWJzdx+BRlzW+VpvoMxI/OMjb0GrnSow
+	4j0h/jkcmvAAvYt87IHR/0pzBGfppuTnVEgd4lMPplbpTVvpG9UHiTj8
+X-Gm-Gg: AfdE7cm46cNaWKLgtg+WOv5XCQ3cNjd/Z0JJLsCyQmvbTghUsSZn4AxDJwwKcWgAIJu
+	EnuKJ1PbHCvbrtctXb2OjWeXgYSzpZNGTfaQwIYGrHiUt4Pr56vMpyIA9JxMrC95DAFqqIvMlM0
+	U/o8N/x9sUn71Qt1uhB3lLec7WbyFS2N79hvXcpXulGSrceDIx6mGUBsjU9RhyhuJdVE6wCGfxV
+	qI3+OPsCNeA/f/vF6y4bGbhI0p9IosqV5Fv/bBr81GJk0o5Aoe7UhyQq/muaa4JHu/h6VlJgwUS
+	IBlrjJPASgqjZ1mvxaa9/qaHFzMxTmkvb/hz1t6tuohZuQ5qHLi0kk8uPCc+aPcuxigu2pgfu5J
+	o6JIBBDdfCgop4yJyvOhDv0Zgi1vCxfX6vWRM+iJn1zh8p2/MEWiJDeQrH5/ihCMCVg0ECF5Lm4
+	pi7MKZPxPAo0EBkEaj5rMs4zUi6vQHksmwGfMXo2m7yfWz2fU=
+X-Received: by 2002:a05:6a00:1c90:b0:845:c0db:3924 with SMTP id d2e1a72fcca58-84826bbfdf7mr3074399b3a.24.1783401067431;
+        Mon, 06 Jul 2026 22:11:07 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.10.51
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.11.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 22:10:58 -0700 (PDT)
+        Mon, 06 Jul 2026 22:11:07 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	asahi@lists.linux.dev,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 03/24] ASoC: codecs: arizona-jack: Use guard() cleanup helpers
-Date: Tue,  7 Jul 2026 12:09:45 +0700
-Message-ID: <20260707051006.20058-4-phucduc.bui@gmail.com>
+Subject: [PATCH v3 04/24] ASoC: codecs: arizona: Use guard() for mutex locks
+Date: Tue,  7 Jul 2026 12:09:46 +0700
+Message-ID: <20260707051006.20058-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260707051006.20058-1-phucduc.bui@gmail.com>
 References: <20260707051006.20058-1-phucduc.bui@gmail.com>
@@ -110,239 +110,102 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() helpers for mutex locking
-and PM runtime management.
-No functional change intended.
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
+ sound/soc/codecs/arizona.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-Changes in v2:
- Reworked the code to use an if/else structure, 
- avoiding code duplication after removing the goto label.
-Changes in v3: 
- Remove unnecessary blank lines.
-
- sound/soc/codecs/arizona-jack.c | 117 +++++++++++++++-----------------
- 1 file changed, 53 insertions(+), 64 deletions(-)
-
-diff --git a/sound/soc/codecs/arizona-jack.c b/sound/soc/codecs/arizona-jack.c
-index a9063bac2752..819d080b1188 100644
---- a/sound/soc/codecs/arizona-jack.c
-+++ b/sound/soc/codecs/arizona-jack.c
-@@ -5,6 +5,7 @@
-  *  Copyright (C) 2012-2014 Wolfson Microelectronics plc
+diff --git a/sound/soc/codecs/arizona.c b/sound/soc/codecs/arizona.c
+index 8c683b0bb74c..4411165c3734 100644
+--- a/sound/soc/codecs/arizona.c
++++ b/sound/soc/codecs/arizona.c
+@@ -7,6 +7,7 @@
+  * Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
   */
  
 +#include <linux/cleanup.h>
- #include <linux/kernel.h>
+ #include <linux/delay.h>
+ #include <linux/gcd.h>
  #include <linux/module.h>
- #include <linux/slab.h>
-@@ -707,15 +708,13 @@ static void arizona_micd_timeout_work(struct work_struct *work)
- 						struct arizona_priv,
- 						micd_timeout_work.work);
+@@ -1158,17 +1159,16 @@ int arizona_dvfs_up(struct snd_soc_component *component, unsigned int flags)
+ 	struct arizona_priv *priv = snd_soc_component_get_drvdata(component);
+ 	int ret = 0;
  
--	mutex_lock(&info->lock);
-+	guard(mutex)(&info->lock);
+-	mutex_lock(&priv->dvfs_lock);
++	guard(mutex)(&priv->dvfs_lock);
  
- 	dev_dbg(info->arizona->dev, "MICD timed out, reporting HP\n");
- 
- 	info->detecting = false;
- 
- 	arizona_identify_headphone(info);
--
--	mutex_unlock(&info->lock);
- }
- 
- static int arizona_micd_adc_read(struct arizona_priv *info)
-@@ -921,12 +920,11 @@ static void arizona_micd_detect(struct work_struct *work)
- 
- 	cancel_delayed_work_sync(&info->micd_timeout_work);
- 
--	mutex_lock(&info->lock);
-+	guard(mutex)(&info->lock);
- 
- 	/* If the cable was removed while measuring ignore the result */
- 	if (!(info->jack->status & SND_JACK_MECHANICAL)) {
- 		dev_dbg(arizona->dev, "Ignoring MICDET for removed cable\n");
--		mutex_unlock(&info->lock);
- 		return;
+ 	if (!priv->dvfs_cached && !priv->dvfs_reqs) {
+ 		ret = arizona_dvfs_enable(component);
+ 		if (ret)
+-			goto err;
++			return ret;
  	}
  
-@@ -936,7 +934,6 @@ static void arizona_micd_detect(struct work_struct *work)
- 		arizona_button_reading(info);
- 
- 	pm_runtime_mark_last_busy(arizona->dev);
--	mutex_unlock(&info->lock);
+ 	priv->dvfs_reqs |= flags;
+-err:
+-	mutex_unlock(&priv->dvfs_lock);
++
+ 	return ret;
  }
+ EXPORT_SYMBOL_GPL(arizona_dvfs_up);
+@@ -1179,7 +1179,7 @@ int arizona_dvfs_down(struct snd_soc_component *component, unsigned int flags)
+ 	unsigned int old_reqs;
+ 	int ret = 0;
  
- static irqreturn_t arizona_micdet(int irq, void *data)
-@@ -948,10 +945,10 @@ static irqreturn_t arizona_micdet(int irq, void *data)
- 	cancel_delayed_work_sync(&info->micd_detect_work);
- 	cancel_delayed_work_sync(&info->micd_timeout_work);
+-	mutex_lock(&priv->dvfs_lock);
++	guard(mutex)(&priv->dvfs_lock);
  
--	mutex_lock(&info->lock);
--	if (!info->detecting)
--		debounce = 0;
--	mutex_unlock(&info->lock);
-+	scoped_guard(mutex, &info->lock) {
-+		if (!info->detecting)
-+			debounce = 0;
+ 	old_reqs = priv->dvfs_reqs;
+ 	priv->dvfs_reqs &= ~flags;
+@@ -1187,7 +1187,6 @@ int arizona_dvfs_down(struct snd_soc_component *component, unsigned int flags)
+ 	if (!priv->dvfs_cached && old_reqs && !priv->dvfs_reqs)
+ 		ret = arizona_dvfs_disable(component);
+ 
+-	mutex_unlock(&priv->dvfs_lock);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(arizona_dvfs_down);
+@@ -1199,7 +1198,7 @@ int arizona_dvfs_sysclk_ev(struct snd_soc_dapm_widget *w,
+ 	struct arizona_priv *priv = snd_soc_component_get_drvdata(component);
+ 	int ret = 0;
+ 
+-	mutex_lock(&priv->dvfs_lock);
++	guard(mutex)(&priv->dvfs_lock);
+ 
+ 	switch (event) {
+ 	case SND_SOC_DAPM_POST_PMU:
+@@ -1222,7 +1221,6 @@ int arizona_dvfs_sysclk_ev(struct snd_soc_dapm_widget *w,
+ 		break;
+ 	}
+ 
+-	mutex_unlock(&priv->dvfs_lock);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(arizona_dvfs_sysclk_ev);
+@@ -1657,13 +1655,11 @@ static void arizona_wm5102_set_dac_comp(struct snd_soc_component *component,
+ 		{ 0x80, 0x0 },
+ 	};
+ 
+-	mutex_lock(&arizona->dac_comp_lock);
+-
+-	dac_comp[1].def = arizona->dac_comp_coeff;
+-	if (rate >= 176400)
+-		dac_comp[2].def = arizona->dac_comp_enabled;
+-
+-	mutex_unlock(&arizona->dac_comp_lock);
++	scoped_guard(mutex, &arizona->dac_comp_lock) {
++		dac_comp[1].def = arizona->dac_comp_coeff;
++		if (rate >= 176400)
++			dac_comp[2].def = arizona->dac_comp_enabled;
 +	}
  
- 	if (debounce)
- 		queue_delayed_work(system_power_efficient_wq,
-@@ -969,9 +966,8 @@ static void arizona_hpdet_work(struct work_struct *work)
- 						struct arizona_priv,
- 						hpdet_work.work);
- 
--	mutex_lock(&info->lock);
-+	guard(mutex)(&info->lock);
- 	arizona_start_hpdet_acc_id(info);
--	mutex_unlock(&info->lock);
- }
- 
- static int arizona_hpdet_wait(struct arizona_priv *info)
-@@ -1018,9 +1014,9 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
- 	cancelled_hp = cancel_delayed_work_sync(&info->hpdet_work);
- 	cancelled_mic = cancel_delayed_work_sync(&info->micd_timeout_work);
- 
--	pm_runtime_get_sync(arizona->dev);
-+	guard(pm_runtime_active_auto)(arizona->dev);
- 
--	mutex_lock(&info->lock);
-+	guard(mutex)(&info->lock);
- 
- 	if (info->micd_clamp) {
- 		mask = ARIZONA_MICD_CLAMP_STS;
-@@ -1036,8 +1032,6 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
- 	ret = regmap_read(arizona->regmap, ARIZONA_AOD_IRQ_RAW_STATUS, &val);
- 	if (ret) {
- 		dev_err(arizona->dev, "Failed to read jackdet status: %d\n", ret);
--		mutex_unlock(&info->lock);
--		pm_runtime_put_autosuspend(arizona->dev);
- 		return IRQ_NONE;
- 	}
- 
-@@ -1056,62 +1050,61 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
- 					   &info->micd_timeout_work,
- 					   msecs_to_jiffies(micd_timeout));
- 		}
-+	} else {
-+		info->last_jackdet = val;
- 
--		goto out;
--	}
--	info->last_jackdet = val;
-+		if (info->last_jackdet == present) {
-+			dev_dbg(arizona->dev, "Detected jack\n");
-+			snd_soc_jack_report(info->jack, SND_JACK_MECHANICAL, SND_JACK_MECHANICAL);
- 
--	if (info->last_jackdet == present) {
--		dev_dbg(arizona->dev, "Detected jack\n");
--		snd_soc_jack_report(info->jack, SND_JACK_MECHANICAL, SND_JACK_MECHANICAL);
-+			info->detecting = true;
-+			info->mic = false;
-+			info->jack_flips = 0;
- 
--		info->detecting = true;
--		info->mic = false;
--		info->jack_flips = 0;
-+			if (!arizona->pdata.hpdet_acc_id) {
-+				arizona_start_mic(info);
-+			} else {
-+				queue_delayed_work(system_power_efficient_wq,
-+						   &info->hpdet_work,
-+						   msecs_to_jiffies(HPDET_DEBOUNCE));
-+			}
- 
--		if (!arizona->pdata.hpdet_acc_id) {
--			arizona_start_mic(info);
-+			if (info->micd_clamp || !arizona->pdata.jd_invert)
-+				regmap_update_bits(arizona->regmap,
-+						   ARIZONA_JACK_DETECT_DEBOUNCE,
-+						   ARIZONA_MICD_CLAMP_DB |
-+						   ARIZONA_JD1_DB, 0);
- 		} else {
--			queue_delayed_work(system_power_efficient_wq,
--					   &info->hpdet_work,
--					   msecs_to_jiffies(HPDET_DEBOUNCE));
--		}
-+			dev_dbg(arizona->dev, "Detected jack removal\n");
- 
--		if (info->micd_clamp || !arizona->pdata.jd_invert)
--			regmap_update_bits(arizona->regmap,
--					   ARIZONA_JACK_DETECT_DEBOUNCE,
--					   ARIZONA_MICD_CLAMP_DB |
--					   ARIZONA_JD1_DB, 0);
--	} else {
--		dev_dbg(arizona->dev, "Detected jack removal\n");
--
--		arizona_stop_mic(info);
-+			arizona_stop_mic(info);
- 
--		info->num_hpdet_res = 0;
--		for (i = 0; i < ARRAY_SIZE(info->hpdet_res); i++)
--			info->hpdet_res[i] = 0;
--		info->mic = false;
--		info->hpdet_done = false;
--		info->hpdet_retried = false;
-+			info->num_hpdet_res = 0;
-+			for (i = 0; i < ARRAY_SIZE(info->hpdet_res); i++)
-+				info->hpdet_res[i] = 0;
-+			info->mic = false;
-+			info->hpdet_done = false;
-+			info->hpdet_retried = false;
- 
--		snd_soc_jack_report(info->jack, 0, ARIZONA_JACK_MASK | info->micd_button_mask);
-+			snd_soc_jack_report(info->jack, 0,
-+					    ARIZONA_JACK_MASK | info->micd_button_mask);
- 
--		/*
--		 * If the jack was removed during a headphone detection we
--		 * need to wait for the headphone detection to finish, as
--		 * it can not be aborted. We don't want to be able to start
--		 * a new headphone detection from a fresh insert until this
--		 * one is finished.
--		 */
--		arizona_hpdet_wait(info);
-+			/*
-+			 * If the jack was removed during a headphone detection we
-+			 * need to wait for the headphone detection to finish, as
-+			 * it can not be aborted. We don't want to be able to start
-+			 * a new headphone detection from a fresh insert until this
-+			 * one is finished.
-+			 */
-+			arizona_hpdet_wait(info);
- 
--		regmap_update_bits(arizona->regmap,
--				   ARIZONA_JACK_DETECT_DEBOUNCE,
--				   ARIZONA_MICD_CLAMP_DB | ARIZONA_JD1_DB,
--				   ARIZONA_MICD_CLAMP_DB | ARIZONA_JD1_DB);
-+			regmap_update_bits(arizona->regmap,
-+					   ARIZONA_JACK_DETECT_DEBOUNCE,
-+					   ARIZONA_MICD_CLAMP_DB | ARIZONA_JD1_DB,
-+					   ARIZONA_MICD_CLAMP_DB | ARIZONA_JD1_DB);
-+		}
- 	}
- 
--out:
- 	/* Clear trig_sts to make sure DCVDD is not forced up */
- 	regmap_write(arizona->regmap, ARIZONA_AOD_WKUP_AND_TRIG,
- 		     ARIZONA_MICD_CLAMP_FALL_TRIG_STS |
-@@ -1119,10 +1112,6 @@ static irqreturn_t arizona_jackdet(int irq, void *data)
- 		     ARIZONA_JD1_FALL_TRIG_STS |
- 		     ARIZONA_JD1_RISE_TRIG_STS);
- 
--	mutex_unlock(&info->lock);
--
--	pm_runtime_put_autosuspend(arizona->dev);
--
- 	return IRQ_HANDLED;
- }
- 
+ 	regmap_multi_reg_write(arizona->regmap,
+ 			       dac_comp,
 -- 
 2.43.0
 
