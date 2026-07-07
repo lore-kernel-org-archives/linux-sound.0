@@ -1,118 +1,165 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013041.outbound.protection.outlook.com [52.101.72.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3BF32E728
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 08:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783413958; cv=none; b=hcH1iW5Gth/pPhyBI3hZGJ5rc94RXT5xgC9mirN0UfA7vI73yniWukfkGF1BZaHL5FDQ+VnD3l8fye/+jW0cW4oJCAW3XmBdoco1hGh36UCFzFJOc6iXcBc+w03nArqfADVlCE2N1T3vcZtjuCEWBAJr0M0gujbIxw5X7a4aSZs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783413958; c=relaxed/simple;
-	bh=db5RJ2tmE6l/dT+o++KtVIbJ/fyYos1+O4TTVJb7K9I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bvcq8bkRWaDCfFZhXuIZ6gdGPQ2IJ2l4rnnwWOcRBAVu3oYIHsIUGGXlM6/WuzuY/QwXothvO5MEwPlPB7VPa5X0H5RlrXswq56ElByZuvQP5u68CI9tgS0agWt0dJegc4Fp9mHXt47Y+jSS7cYSDHOpRUVpeRhYwFzAfJL0+4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iGDo4eqk; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E219345CDC;
+	Tue,  7 Jul 2026 08:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783414022; cv=fail; b=bEpBFHH6VeENG7RuQW5K+y9DX/g91M2iqdWuOOSOATIKU+C/AjbJqti9GOqZ1rEHvrpJ3Gyu6HaLLmQGXJByXOm4PujC469RhwnnETsdT7rjjwWNii+ugtOCp6AlK9zT8BCQVCpm5dolYfonuYddijlw9QuO1DYOZnIMmIAIsj8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783414022; c=relaxed/simple;
+	bh=yoeXyvQ64LP89HZ5OaeWmvZJXfr7ZwH7YmUQtgHxuVU=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Zz0vfq3Yv7LRaD/nUv9i4SKLSiNyDuUwQFLy2st1uNQBhtCh184aotLsQ3zUnCGFpk284FwPDM+47UfPDeIqYN3BXydRfk6Xkhu2i2KF5QlY14ltuLHQDJR7FOCW+yqttio0/CniAytn2lSzNB9L9HpjYA0NH/FF9vdAMREHNtM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=F6tbqRWa; arc=fail smtp.client-ip=52.101.72.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iGDo4eqk"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-384c94c9414so2130492a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 01:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783413957; x=1784018757; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=b1G/oBUGupjbaXr0RnxijMav+BBz6qUuhO3vayI0gEo=;
-        b=iGDo4eqkAntrkFWriu5OPpGEqp6vMWTOuRqvsAof+naIHbgv+CxKn1MA6HKkgz6cEz
-         S5Xi1fHXwhsmXrtUvPwGbfFwkAqoKZoLSrnJaMMdlEXgH+Lb+gRNBWXubGZtxGhnAZ/M
-         iYq/+6iDY2x1twrwHjmp/wWipmt6WvYbSZUpRoOHpC7nyHdXAbPtQTjHla9tUF/hnMPo
-         /8tD18d3CCSso74gSnoh5dSuquo4vsrpZ045tugcZOmGDplg4x9iw40x72i4VUxLkkAM
-         jw1VEBXGJEHv4WFFpLxBPJlnNL3BeBj2pH8k5aMfpoKEiDZBxhTCDqcb/414g6w3gNoK
-         gEpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783413957; x=1784018757;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b1G/oBUGupjbaXr0RnxijMav+BBz6qUuhO3vayI0gEo=;
-        b=o057TbSli7Sao2yesY0foMES4qDKaWi/Sx1bQ+Z4FTFlBi2CjnCaA6jVi9jlGNr3og
-         5Hw3VgazwieS+sCkDcAUZLFVqtX3dKu95RetVZJB7S79k65eUgjpUmY+rRaCMr3bQniD
-         oAJ5HSCKYdzpPyOM/HRJuXgrMPe6jS3sg9zPleI6ZGPiKC/AUwIa3kQ1KYYnafg2Dynl
-         gkNF0IGqqzD/nmENEStIO8aPnVlDbN9ogzT/xZS8zjZA2RDTQbxc4HcM5C3Og9V6OSif
-         91ZnvansBMbQl/FJzNlW9M/D5fdalDil8VPx6GMsoqj/yUfGuEtZlAbRtEjGsFXTzVur
-         L/kw==
-X-Forwarded-Encrypted: i=1; AHgh+RpB8+SUR63JQ0MCub7kmgiCOCovol/K8v0il/ku/bX0XUl2NXMpuVgjSDGWwtouceUvPwQGTz3iF2KiBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxd9X4lARQgf9FNiFvBQNfTN9r0izq/jA5gVYZktegJDxAskc01
-	ugQApH4nxz0L6fpUuheWe9G3PIOoUWdv4AYQp6zPkOzt/vaNf7/Q+8Zp
-X-Gm-Gg: AfdE7cmNnZsRC9ILxiafDYXkqCuhDX/IbjCGG+iE962VhDBN1wd3ay9pczaL2TTDHkX
-	Heayf+g0N9+Ce2cpA3WtAz8EH1XZKwM40zQx4nl8gez9fIBdQi4sYXW5GIslSWCI7Xo92c1DAUK
-	zM8bhLMKWFwy49DaBj9SeKq3rdBFuntmuYTn3pl1xtxh+vfgKTgylyjdXgkoLjD8SSCcrHtz4wq
-	qJ3/udtwwQVno30QXMgPWLRu2MJ1WaImwVmH9od8iaBxp0nH6S/kdwakOJxbnQUwoui1rvcdlth
-	5QPNQJI1wx+6Yo1EaVlEm1E7Re2rvAd7fhkcxt+naGq2AAMVuhO0xvYNcamtrsaNFD8cTvlQZd1
-	3421LbESDIUSrbrUSWepgAd0wXPfO+9wZqQk18kJxmm45MTVH1+lrfUHdhyvc+bh/uTzQ5VMSIv
-	UxrkQL+/iRgzql6mNbjmThNt4vRXlnb5cHdr4OrF1j8yEvgMU=
-X-Received: by 2002:a17:90b:2712:b0:37e:2505:cde9 with SMTP id 98e67ed59e1d1-38755863957mr3950927a91.13.1783413956659;
-        Tue, 07 Jul 2026 01:45:56 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d13fd7bfsm717546a91.6.2026.07.07.01.45.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 01:45:56 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	cassiogabrielcontato@gmail.com
-Cc: Kees Cook <kees@kernel.org>,
-	Dan Carpenter <error27@gmail.com>,
-	Cen Zhang <zzzccc427@gmail.com>,
-	Len Bao <len.bao@gmx.us>,
-	Mehul Rao <mehulrao@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 6/6] ALSA: pcm: Return -ENODEV instead of -EFAULT in snd_pcm_open()
-Date: Tue,  7 Jul 2026 15:45:06 +0700
-Message-ID: <20260707084506.718583-7-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260707084506.718583-1-phucduc.bui@gmail.com>
-References: <20260707084506.718583-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="F6tbqRWa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gbHzPdMDh3/KyvRkpZ/a4sec2HS3e789M7QKoZ2WT2qRW6LI83fBpfWObXD6OYYZsmmkDvTaoViXVgRS7/6ibCpoBJAtpUsO9l7K4d8tbrjonF+IZupBNTGXbKgQSW9xJa3phKX4o0y4tbEZaXC5VElqwOx6tdotn5BtUrxWz2zjgsO2NJtqSCaeq+NxHcwf07Tv+7sFLFKjvRWVlNSJvzfOi3sIDDO4ndVUhB+VWQ2OjiCSV6ovNoeT+bD3QbdirsT8Po45m4YKcQW3NmICIdVD9zHc/EMBf7lRUnlnk5xAw4vBuz/2MKQFv6r05FO+z/KSwu/YbjaeRGyfcxwQHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3Las6btVDpUpGm1nSQdmf8dHgbehQicILpRuIQGnbOw=;
+ b=WoZAEDDnyCU0t+vKQDWwJiXH2y+tXSiJwrp1hsZnSZXVDGXgrRp84C5F+aQDrt1/YtWa2TVzs7um0+L4hDV3s4+PeCI6uz8X1bEXxPxc6EbhW3/S2vhhWXwTf3yWtguO1/wSfJ737jz/zAe5l+bjwW28hXiQ9wqMQBBK+pR4ODRgxLv1Eao1B+N0PycGuTwcAENukCqXF0Bk5zzT4bLPQp2cQTtFCtCXxbtRm5j42l9EYTnUp4VTCWWMF6iqfoxrysOZKso71e/LrzyVAxZq2W4LhdETdeLTHUVXaKpZDaXhb2NuYn7fr0xtGBZZMkKlhX3wnNBKqkSy9pjZSKWAmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3Las6btVDpUpGm1nSQdmf8dHgbehQicILpRuIQGnbOw=;
+ b=F6tbqRWafKO1czTYY/sSpoQQxacUj1aP6nfM6r3CDCLQ0vsUdtScgfAMo8pg3dmSiYVAzXJaNqSjFcdJKyB/XHzN+aLvcy9n7fzmWmgSJsDrJfPiI0c9aoXpk/nBvRW7bwuHqyyH/+4lg8yNDDkEbPY4smkOdkoQrrW15ddRrUyJhU51+DyD9410Dy36RNxwr76R85vCj0NFPC/OBkR4lm/66P466QHD01wBYDJyurvC3zwsIm57cZbssx/YYWuXM9nfarjIAO81fDvLFoxXWNfxPlpJ84NlL8bFrRiq24SKvpIkUNqFqqYX9qZz/DhXYLe76bGtDygYmNJ1sx2hDA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20) by AS8PR04MB8085.eurprd04.prod.outlook.com
+ (2603:10a6:20b:3f9::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13; Tue, 7 Jul
+ 2026 08:46:56 +0000
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994]) by GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994%5]) with mapi id 15.21.0181.009; Tue, 7 Jul 2026
+ 08:46:55 +0000
+From: Chancel Liu <chancel.liu@oss.nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_sai: Fix spurious BCLK on resume by clearing BYP
+Date: Tue,  7 Jul 2026 17:46:48 +0900
+Message-ID: <20260707084648.475743-1-chancel.liu@oss.nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0044.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:116::11) To GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB10021:EE_|AS8PR04MB8085:EE_
+X-MS-Office365-Filtering-Correlation-Id: a9932ba2-dc2a-422a-b201-08dedc044c60
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|376014|7416014|1800799024|23010399003|56012099006|18002099003|5023799004|11063799006|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	s86cK+iCcnwshqAjvmuMMY88UYIHd03BJXGNQS1EdQyxLvH7NMHzrx/s+aWHPfO9jxn6oW7xk96O2XSpN4ekSeVcKICeQqTRmcU4vEpKzfLTmDdaQLuEzoWpTN3YV+AVCQi3k7v9E+nMlMF4u8fHExoNzyy5oB/FC08Yu7LTBYWiWzpoLNoNiiHTC4cXMP0fzIp/2nUbue+NF8QAQjvScI83+YLcQnCguYOZTWEMo8BOg2nB5eiuHRIVdiZiexTEg26VOEK4iHcjS4PY8FGKYDwUTIMfo7VNwDAefctqll8gyBe0jnspqW2maC8AjVzdkIg3g7qECHuH/MJ0Y00RlfuufJLhyo0jEhqJKNxC83u7i4JTmGF0BLVbg9vVLMjpbPCKmaPPA3wYswS1DRYzRFwYtL+lZ+zsNAf7ySqgFleBGTvscHnN7Gln7esK9gHjfjEBB3bxvDfwjf+bLcPB7dB8WaYIagnEDi0uqaOMuseTvJkAqwJUxG5bc2ekqAbOuS7+p+D9HHjr8yghzDdphDlXKjuNnRnEQ0pQMwK5mqc9BNZgYAEsEG1c5k8oBo31R48MpkCmBIvd81Tx0QZBO/dJoyhtrZhnFHsb7LFi0McqpVjZXa+mK96QyrZd1pTeLHzXpezWZORebA4C5iR86p13gvZNPy9gSkspgBKknZE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB10021.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(7416014)(1800799024)(23010399003)(56012099006)(18002099003)(5023799004)(11063799006)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EBVJwOYOAgifdGs/966dBVJ2cCecllYagR8L+esOfQIS2bJzaJiXAs9UklN6?=
+ =?us-ascii?Q?LBw1ln53n279v1BKp+QvRI7UKeSl/StTZ6JbtUC1qz26a8VueuUtjjZ6q/Zm?=
+ =?us-ascii?Q?yHZ2d6VqcmUFrmbrFbjNdm/Vc1ZJEoxBBESLzTTa+M5YZbKs6m7et9jCJP6l?=
+ =?us-ascii?Q?h18m4dsn2CadBmBgCZrdz/Pugc4OBn/jmx/L9EcNwUnpPmIDQweSFMlsg4vr?=
+ =?us-ascii?Q?67tpdeLPnLHk7by4lqF0is/UhMiWcxpqxaJdodTouX8JWhUOa8iq4bRMFxs1?=
+ =?us-ascii?Q?CZIUTG2TNWUig3y783oyguMkNMdNJaOi4g81lv0z08ZyCT9yfNl4PRkVSoJp?=
+ =?us-ascii?Q?33hWWiaRLQsMVISwhzeccmkIWemLImZ+xo+YtPtk+QL4XCwH8FadNOtPWFKu?=
+ =?us-ascii?Q?MNTOjusxFWtXtn+UwBN3UqfB9SH6wAeWSwU5c5sRODyEKG1F3+l1utqHQ/pk?=
+ =?us-ascii?Q?Q66GHWtxPrsAI11dtTY4tQJ4QLQJxb14bpbtJUPPm+C4nF/gA+6xgh1EUD6c?=
+ =?us-ascii?Q?wIhWF99qhEHNI4YD9NvfqlHxYdBEuSioEuKxhvAHc/S+DBsT86vrTemx2Kt5?=
+ =?us-ascii?Q?EoZ0IH6w1RTW5n8FQmga47eTGI0SccYgD2CU/b4p5IK0hwQck3wrpk8daOrP?=
+ =?us-ascii?Q?8RbLdeopcIkiBGcPn8xcQP+MO+wkelNYS7QHYZ5S8m7SWFgc2ppedNk75ZV+?=
+ =?us-ascii?Q?kW0XEOHuq/lu0GlcT134DZp2UOdsGk48uyrpc9KR3F/bs04cHuaTehzP2hOa?=
+ =?us-ascii?Q?L7PHdrEjDleIEZWm8S33ktm+pOi/LNPgMsEaFippi5dMwxrL5OEuoCNazhyT?=
+ =?us-ascii?Q?PmY+o+KVw2y7ftSSwU3sq8YlBq2BZNOrCnrINawXf9uO4p/7tt1S0cOWvNL0?=
+ =?us-ascii?Q?+7zgwMZC1GtplKML2diSTcr4MygDKOF1c9IoFTGAA3VL0ugz3mzeOTmdJHnA?=
+ =?us-ascii?Q?cnUS628JwuOCLDkVjjrUBwyAOCng6zDcKfbJRaTz49beySHsDe2eVaD9gvMd?=
+ =?us-ascii?Q?KUOrNyhLB/2+5V+gSQ3E9Oqbs1bD4MOA0W3Bz3xKsv5As3ValQEWKgg5R6NX?=
+ =?us-ascii?Q?C9x3OjdVU/sOC2pWp1t6AACJ04tOphAnl/PEDcFpxYw0w3MN4I3IdZOh8LyZ?=
+ =?us-ascii?Q?LpnxnsLhQdCZPhZR4PZ+YO2UrjoVY6uDelgl+0DyMFcoW83QaCE8qrwFcI7t?=
+ =?us-ascii?Q?kJOgzVdCtw+AlgvFEl4Z9sW8EhiXXrxB75NPHteWE23cbAm8I98B+2WYkwYA?=
+ =?us-ascii?Q?7iNLRQwKqrSd4lPmpKdafN/AX6gs8Jt5+bizxULAjlcYeFfOqCyBc+Nxr5sx?=
+ =?us-ascii?Q?l++2Qw+zQQXfKSAiRyeOZWP39Hc5hAlLI6zP8KjzQDGtEYh8XsQQ13NmfvSx?=
+ =?us-ascii?Q?f5MDGyqfiebH0t+r4IREQAJSxD4Abg+AnUhIcCJcmW1602tt9BrW93LS/9nU?=
+ =?us-ascii?Q?O+eV/59Sylj7GWExv0wrvp7WpPgFRQQHRuXChzcXZC002BEguDF85zuSr658?=
+ =?us-ascii?Q?6SLgSwzB0tZ8vgN9CJaLuuJj9V85H+ct5wvgYUVt+/DPDl0/NMpKZ3YM54fi?=
+ =?us-ascii?Q?CkMrd8TUSuLJUeEnDVKqpuKDqS1DP7Fy+TBuSQaMx9iZ45ubFlIfXURrJnDU?=
+ =?us-ascii?Q?flQkz8VdZSoIC6ad3JBcqRaaY6hbYgwtcRlDuJSwZvbdHuutPVqehAcR4vfJ?=
+ =?us-ascii?Q?ZIaN9aFa2+AaebML9S5Ztrn9XVohp9dP5PdQVweAERaVompFm7a6fPz8xu0F?=
+ =?us-ascii?Q?4d5WK1h4nAVlLKxE5W4y2PpzZ+eGRHDua31pA6feFqNkG+e5oZ5T?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9932ba2-dc2a-422a-b201-08dedc044c60
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB10021.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 08:46:55.8230
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tDxWd+/qWNb6e9l55CD3TzIML6gF9wOTOL68Efj13gu6C0TDXFeQnglEyd9mhANBh5oz9sclaGYEj42Kn6/VGM6lpOeTjR1BzT4+r6sZ+QpFYF1AyGSJECHJg/3pg1Ih
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8085
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+From: Chancel Liu <chancel.liu@nxp.com>
 
-When try_module_get() fails in snd_pcm_open(), the owning module is going
-away and the device is no longer usable, so -EFAULT ("bad address") is the
-wrong error. Return -ENODEV, matching the other unavailable-device paths
-in this function(the NULL pcm check and the card->shutdown check).
-This changes the errno reported to userspace on this rare race.
-No other behaviour changes.
+When the BCLK divider ratio is 1:1, fsl_sai_set_bclk() enables bypass
+mode by setting BYP, but never clears the bit. The BYP=1 value remains
+in the regcache, and is restored by regcache_sync() on the next runtime
+resume.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Since BYP=1 combined with BCD=1 immediately outputs the ungated MCLK
+as BCLK without waiting for BCE/TE/RE to be enabled, the clock is
+driven prematurely before the stream is fully configured, causing
+noise on some codecs.
+
+Fix this by clearing BYP and BCI together in fsl_sai_config_disable().
+Also clear BCI, which is programmed together with the bypass case in
+synchronous mode, so the cached CR2 state is clean and regcache_sync()
+will not restore bypass mode prematurely on the next resume.
+
+Fixes: a50b7926d015 ("ASoC: fsl_sai: implement 1:1 bclk:mclk ratio support")
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 ---
- sound/core/pcm_native.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/fsl/fsl_sai.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 3462cd5275a2..4fe5fab8d096 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -2913,7 +2913,7 @@ static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
- 	if (err < 0)
- 		goto __error1;
- 	if (!try_module_get(pcm->card->module)) {
--		err = -EFAULT;
-+		err = -ENODEV;
- 		goto __error2;
- 	}
- 	init_waitqueue_entry(&wait, current);
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index 9661602b53c5..4c0626d572a5 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -847,6 +847,9 @@ static void fsl_sai_config_disable(struct fsl_sai *sai, int dir)
+ 	regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
+ 			   FSL_SAI_CSR_FR, FSL_SAI_CSR_FR);
+ 
++	regmap_update_bits(sai->regmap, FSL_SAI_xCR2(tx, ofs),
++			   FSL_SAI_CR2_BCI | FSL_SAI_CR2_BYP, 0);
++
+ 	/*
+ 	 * For sai master mode, after several open/close sai,
+ 	 * there will be no frame clock, and can't recover
 -- 
-2.43.0
+2.50.1
 
