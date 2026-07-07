@@ -1,105 +1,77 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012025.outbound.protection.outlook.com [52.101.43.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E285E382295
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 05:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783401281; cv=none; b=ElYX7x2lwbv/6kayxTn0Lj6WpwjG5ZLK0sSc1T0cFDREMpn3811iFFixOj6KEFS1ySNz7XV9R0cY5vRsy/VgOoyHtTGGar2s74YkMkdxKPEHw+XLWDTXbf50w67F+Z8BKGJQBlWceEPwM9kcGy0pLl4lYZuuyUl2KjIgTzLisQE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783401281; c=relaxed/simple;
-	bh=IDudHAnlR+Q9Pih9JQC9jPGTfVHcOirb50Q8pWm1ZCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GtsPYxUw7BC2cR2fs3RSzb+92TwO4a3DjoSGtxW+iTBjmtQIJNk1ZIF+C/z1kRNo+0DnRfjvNUHmfaSsxCpab5xmO9m638ZkU+niYSEgIgM6iVK5VvP8ahfWc/Y5Fu8/FcIOxiP8BxdrAe1eIFKlTV/8RorbR9neVOZ/IWFk3SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qSmaZkW9; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85311347BA9;
+	Tue,  7 Jul 2026 06:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783404133; cv=fail; b=uPVSJ0iaUB/xu5WyTtfPvj5inq1Em/enHzZjpEQ87ZA/DHlKS2wAGzXNTHesEUyV9EMDk3pMtlLuTgz7lFalMJFgM+u//BnCq7dq5JIBgGc/laucEY1T4JwA066fDzF4ti5tfJdI8J4BTpx90KmbC+G9HrlwaIGF7EL3QW7D/X8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783404133; c=relaxed/simple;
+	bh=rjWzh5stBcSRk5hPlKCaTVv7fUWCtq8ap0DXrvLAyAE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hgBcH/++hRchD3+Z2pEXJ2E6rV1eL2VIbs3xhEvzh2jU+8oKpylxHeiByxMhLOGGGRGR2x2kaHOvBw8OCkuu2ZUEkulg0TTf679yUP4w9t0fM6tvQrpZeEhTPdakc9C/T7pCUElYk9KvBzWJeRvsr0lEA0RVntWglEqQnnAfgSg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ip2mvr4H; arc=fail smtp.client-ip=52.101.43.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qSmaZkW9"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-845ea8924fdso4166116b3a.0
-        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 22:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783401279; x=1784006079; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jx4K3R7J14qevcRQlQ7H2imyxPOvHjyo+blKhtQwrsE=;
-        b=qSmaZkW9tuc7zD7rKixW2IzUGS8TclFIGKDKXXPKxSfag2eyFIBlpVjddr6kK81Aml
-         mzsdZmBVxUT7Uhv1pyXbYL/Z4H9EzlC57UCR+g9PYPCnLcFr3iKy0keEllQyh5SH3r8w
-         QOxIsPqM1UvIw3MClST4OoAWJ8BRpWn+lICT4m6YkIX766TT2fbFjMofmfKomX6NF3Wv
-         EVg/LkHSJMeZ6Y00f16nitCocB8KDD+EaOguDFMfPcIoGOfZFDosa3ikkKiexAy9MuN5
-         L5bEsXw7xy0yj2AXgCRl37REl1DGfKp+KuZUKIxB27lwFiz8CvowVncg4mrKspvR2bOR
-         dxOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783401279; x=1784006079;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Jx4K3R7J14qevcRQlQ7H2imyxPOvHjyo+blKhtQwrsE=;
-        b=hPcVYOxIPuJWHIdmiYvQPfCErmIrFjfwnQWvKVEG6cDERF7pRhO05O0zUL/JNTKKUt
-         SiWf1y9489HMTTQiGiEBERf43Hwr8rqWPLTQaHYOiovJkm7MB8tBfDgl3bh0XDnuihAj
-         qtPAseVdB4J2fufcjea25HPDW51CxRsDtfNqnjW3I5RbFe/wYDlxJJPIK3ZjfdZkQuQE
-         KAzbFcGoCdKVnmtHxHHwO4/mxbk9lHfM+f8ZuSWgsrQ/gg0U42JiwHxTBoffafAk+Qut
-         R0y0D1BYZCwAwzGVOYKZ6sABrQ1ecPtlM8aMBn9b9fiOMUac4Z8LRAl7km5YQBlLGb8c
-         X4HQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrhdxsirv3ZQgV6iTKtX55Za81f9q6WcyfXyhPXLBOHgyFrWXjkSrMjC5chXC6/QKWPyuSf8cIrf2bSrg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+Yz67R0ScDjnPFZcrD37rdS+Sip+30NYp9be5A+QpkHSTkg4F
-	zjkk96x7qtCtzRmwuT/iSiHsbh7eJ0j4wvocmGiYMQpo6yHM2jQE+rfD
-X-Gm-Gg: AfdE7cnTH+GzreZsv7hN/5Tk+aYEbWDuVmyTgO762aVvLcx+YhAjRQZvm1vnMqbE8kV
-	NhMVBAMur2zwmLzvIKmG8AOgFxSaIbS/2nxz1DcM1liRXubRyrdEj+HXPFQ6/yKLTaFMiAcC/yP
-	N5pIQxhW7irggGlnewEL9TZg347eF6uCm5cyNvZmfpGqzhZAYYRY31oTPLkbVyOVjlyPu1ORZnd
-	yGRUsbJ+f6Qm6MSG1aGoXuL2gJ/dBab22//7mS13A/iaGh+t732LXD6Tkf1n+Tf2/uYVMeaouey
-	cwJezJFhOat65gCm/yGxeccOdmRRNZcDNOzQ1v3ckF+IINZTOY/qUDQle8wmMdJBZ6sM1RpHtjq
-	9AuC4SwlpjIBybvB7HXI60ywHzKiZ2SvriOcD4Baje/BgNNbVRHMkF7GCIKUFuq6qR4zmpH4OSf
-	74UB2Ogo0csQtaZMKWuAzacs2YhTJHLvh6invfjvBNSRCQ8C0=
-X-Received: by 2002:a05:6a00:f94:b0:848:2f6e:e52d with SMTP id d2e1a72fcca58-8482f6f032bmr1452187b3a.65.1783401279348;
-        Mon, 06 Jul 2026 22:14:39 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.14.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 22:14:39 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	povik+lin@cutebit.org,
-	u.kleine-koenig@baylibre.com,
-	kuninori.morimoto.gx@renesas.com,
-	christian.ehrhardt@codasip.com,
-	Linus Walleij <linusw@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Rosen Penev <rosenp@gmail.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Teguh Sobirin <teguh@sobir.in>,
-	Val Packett <val@packett.cool>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	chrome-platform@lists.linux.dev,
-	asahi@lists.linux.dev,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 24/24] ASoC: codecs: cs2072x: Use guard() for mutex locks
-Date: Tue,  7 Jul 2026 12:10:06 +0700
-Message-ID: <20260707051006.20058-25-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260707051006.20058-1-phucduc.bui@gmail.com>
-References: <20260707051006.20058-1-phucduc.bui@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ip2mvr4H"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iDEcC8hG6FvIb2lRMJu7in+TNgqEb+pqPMK6VbW5Voh1ofghTH1LAlQCD80g9eQbvilMKawc4G7Lr2MAFIf4InwaqGNsCdLGb52rzZ7mZY5x18CbokDemDexfrZlzZ/43l0Crcp8EDRf+n1wEQrmaiEDUOXuuFNYUy7G82qKWt0hAz9wV5yS6MiLe1szZISoBtX4WPZ5ASRDILL/67/eH3gMQt2Jr9k8Z/HXPnUQKSUx5YPGz0tGIc2ViQyOioeW5uFniJ0J4QPYJdPyy9yxg04kouOzFfTKi5/ZOw6aPS7fbkeZgnMnObihKEMboKgdRyiUvPB6UNWFbV/6sPD4LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=smj0Vp+Ey3FgmcxwmWakbg1xoZfIBgcbh3zX3rgcQyU=;
+ b=OOYgJmBRXJ26R9Hol2sEKF9zBhkmK3MMT4jkZeRKsnhwOH5eZbi2kmsY6Wp0LXEksMZ8aZ+DdyZ8nRVqB1A+T2rYMf5QE0UAhkYqGlUn+dftjuog/hYXA9zMUEFTApDwbZy7NAqIBiudmWySr6HOHyYch5aMOYTeOmSNdvKpL7yHCsNrmTJcXVI7YyZBUSioBsmpXK/V35gO4bvjLHaUbEntmLbSxf3eefSi7CfCArrJbykaM5CI8eVSQHAi1+LnQOpUJdaqOGqJtk163uSJcM1+bjUoBOjXG+jDSKbeOIU0ySP6eXmR9A/5dKtzhJ3+/dvRZVp8WxKxb9kc25sZqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=smj0Vp+Ey3FgmcxwmWakbg1xoZfIBgcbh3zX3rgcQyU=;
+ b=Ip2mvr4H07hoJ5PYk0oqMSB4rOxzhnhdo1lURo8KlEVLmI1+BY/bT8J/AxGXQTYXJOxUwf/INLosLKdgUZQD9WHBg8IL1G8ctFBuhLDmywvKi4sBpJINC9x+i4h15bta9qmRz9794Vm14yBLGsFco/cpl/I0FRyJ793+jJJCjHQ=
+Received: from CH0PR03CA0253.namprd03.prod.outlook.com (2603:10b6:610:e5::18)
+ by SJ0PR12MB5612.namprd12.prod.outlook.com (2603:10b6:a03:427::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 06:02:09 +0000
+Received: from CH1PEPF0000AD80.namprd04.prod.outlook.com
+ (2603:10b6:610:e5:cafe::91) by CH0PR03CA0253.outlook.office365.com
+ (2603:10b6:610:e5::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.13 via Frontend
+ Transport; Tue, 7 Jul 2026 06:02:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ CH1PEPF0000AD80.mail.protection.outlook.com (10.167.244.90) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 06:02:09 +0000
+Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
+ 2026 01:02:08 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
+ (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 6 Jul
+ 2026 23:02:08 -0700
+Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
+ satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41
+ via Frontend Transport; Tue, 7 Jul 2026 01:02:05 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Sunil-kumar.Dommati@amd.com>,
+	<venkataprasad.potturu@amd.com>, <mario.limonciello@amd.com>,
+	<syed.sabakareem@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 0/3] ASoC: amd: ps: bug fixes for ACP PCI driver
+Date: Tue, 7 Jul 2026 11:29:35 +0530
+Message-ID: <20260707060130.2514138-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -107,48 +79,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD80:EE_|SJ0PR12MB5612:EE_
+X-MS-Office365-Filtering-Correlation-Id: abec2117-ba1d-49bf-1acf-08dedbed47c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024|23010399003|56012099006|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	+LQ3mj84baC0ApHiopwNqCb/od9hkeSu5s4VheXc/7B4D9qNl8CglpuvNcudMZZ62Bbr+ovyP4ssG8H2Kjz6meW3LvvSLGjUc484iUXZ/O4QGrmlDAJ2PZMxhOa3goxBSplpOCFT+ipgiAwFrc84UdLi9FqR4lzcoOtawBzETEEJdsaNkq6VbQzu76eGy6YJLl2jV0rT9LtmOqrmdN3TNdIs4Dp4uP5jzl73J9IDUI22jf8CB8wprA7/VQkGz58x9lCo92z/KV6nvlCuWuprNgF5MvYYJ8mzORGyqEYEMc6ULDR30ydtmx/CCwQe2aCj+4QF7k+0XvwaxC7hZ/HfE79+Jd+cb4AlBKOJewZZOi1a0emECACVDYsP8GxI3wJ9dJDEPskLRqgvexB6VVBcWXIQ0w8D3AQ1ZxGMtk/f4wvmjBms5nWarhOBg2QbgHX1xpHZQ3w24dtuwCwFvHCIOIeo5yM04ewPOK88+ZgIs9YHOdwQBoNABKMMSwLaWAvJtXlHkpJ1poCl05HQQAHQIxk2ocSscJi/UQaxhrFwRNWN0HZHlGscG246iFxYDObTbxZrVBNSk9drbI5L+OizmvLcYF4vi7RiDVz9OAG115oxb6h3x44iGrSKDBy32lPgfyKcm5ioOSNPCE9XKedf3P7eqlUSxcg2gL3u6I69AlT2gvO/fDSnCKqKetmXbNmElQ4QzRDITzxQPeHRbiSFoA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024)(23010399003)(56012099006)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	2BnOQ1vI0Vgd9gXu4w+iTbAq38/LI96xUR77ct4YwSGvSYsBA+/Oz+jTV7k1tXKKrvhLT8a/zQGsuI7UZkXiE5umUhohk6l2H+fG6Vc1vhP9btNKkjtW3FPD8nMUV3hyfoa55CeGOtQP9hddZMFR9eUqlA8m6iZY6oHdYwu1tCq0/HJIiMkTGPdCvGT3m/8A8pyD/8suLvUUMuR9iQVEei6cM+J09s7nt2dflmj4XQQlKlRPjUaYrwexntwBFdd2FOFLHcGHqvhg9qXmskwJD+ctKYivx3YglVaflbp3b1GNuI+qhgNG8DJBr8H1XFpr/lZb8TmBZEBAzJTg9LEIF/GTnw2gUZHNeF5JztMxujH9drPwkPuXAYwIW+WJBQrXj8wAP06ilHzjTCv2GXJR3dM3JK3oXrLx2roN79rfAF3Hyhs5QIkdApOib6l0zgeL
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 06:02:09.0367
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: abec2117-ba1d-49bf-1acf-08dedbed47c0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD80.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5612
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+This series contains three bug fixes for the AMD common ACP PCI driver
+(pci-ps.c) covering ACP6.3, ACP7.0, ACP7.1 and ACP7.2 platforms.
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+Vijendar Mukunda (3):
+  ASoC: amd: ps: disable MSI on resume in ACP PCI driver
+  ASoC: amd: ps: fix wrong ACP version string in pci_request_regions()
+  ASoC: amd: ps: replace bitwise OR with logical OR in IRQ return check
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/codecs/cx2072x.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ sound/soc/amd/ps/pci-ps.c | 33 +++++++++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/cx2072x.c b/sound/soc/codecs/cx2072x.c
-index 83c6cbd40804..908344ee5892 100644
---- a/sound/soc/codecs/cx2072x.c
-+++ b/sound/soc/codecs/cx2072x.c
-@@ -9,6 +9,7 @@
- //
- 
- #include <linux/acpi.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/gpio.h>
-@@ -1408,7 +1409,7 @@ static int cx2072x_jack_status_check(void *data)
- 	unsigned int type = 0;
- 	int state = 0;
- 
--	mutex_lock(&cx2072x->lock);
-+	guard(mutex)(&cx2072x->lock);
- 
- 	regmap_read(cx2072x->regmap, CX2072X_PORTA_PIN_SENSE, &jack);
- 	jack = jack >> 24;
-@@ -1434,8 +1435,6 @@ static int cx2072x_jack_status_check(void *data)
- 	/* clear interrupt */
- 	regmap_write(cx2072x->regmap, CX2072X_UM_INTERRUPT_CRTL_E, 0x12 << 24);
- 
--	mutex_unlock(&cx2072x->lock);
--
- 	dev_dbg(codec->dev, "CX2072X_HSDETECT type=0x%X,Jack state = %x\n",
- 		type, state);
- 	return state;
 -- 
-2.43.0
+2.48.1
 
