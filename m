@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63852F6560;
-	Tue,  7 Jul 2026 17:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C1633F8D9;
+	Tue,  7 Jul 2026 17:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783446543; cv=none; b=ddAe0RhxvVUg/wxAb39SAe9iYHfPCV613X1svoTKd4WxyTJPqlbi1TAUBh4lMJSiUvIXpSSlyyC8qcDUjZKYYr826qhoRdSXhsW/KjFGbvns8+mk28NP/C4qZD1reTAsjDsOiLPqUcVNTcORSl5NQOaI6UMXTUSRNifye05Fb8A=
+	t=1783446560; cv=none; b=dzykZaUxiu6QHL7aFMuLQOjYMorBKUSlAfK4e6j6RrS4Stk9AvCTRIG1hGXu/nO9sKx+edNhIF1FMRzYMI7qBC90v1P3S2APliBIz8PylDoYgnjx93Vr+OD8L2kuW/Tp1y3QunwcwPC9vvf77zGBYO0ViHbogIKNFSfEChZcRo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783446543; c=relaxed/simple;
-	bh=qWnQgyBnZDBHSwtoI0LfA2dP8RZtk8e+vVoTkj4+Jro=;
+	s=arc-20240116; t=1783446560; c=relaxed/simple;
+	bh=y1EbW524xeK96hTgUykTfbwl+Epc9aUPDMeJeNuPUb4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CVsGCc7w4UERwWgxcqMgGQXhO9Lp3OMgJLicxvSfRXprrHzeEO5ZcjRIwwT81e5K3iYHwyWFCNAe/T02rmCrgimq+DADgsxp3sZ3YB75uH+JZbRkNkgwH5VKWxZpeMzp3FDg4oAZdGyqD6F3pvbqR8tAOaBj3M9FLztgEzl975c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+vV0D1D; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=VuSYmLnACZHgr4863wl2J30cHbfj1mEkovIb5A9uNkopCPUh3H0r0pLW7l6A1NmbaPOaa3yYiQKZJEkCLDj41s6I/WBiwWJsRElOGc50DsTXUKF3cb3eQf320+hKm1gpq0M6EdI14Y4ZTESEaYn8u8BTfsTsgUpyw+7ND3XYHCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwMUeCoG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+vV0D1D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7171F000E9;
-	Tue,  7 Jul 2026 17:49:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwMUeCoG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 321571F00A3A;
+	Tue,  7 Jul 2026 17:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783446542;
-	bh=ZLYjcTt9DoOST5WxM8wszRJzNwSbozG9PunZC26e8Rw=;
+	s=k20260515; t=1783446559;
+	bh=h1FTRL+xnjk0AYFB/pvxSRsA2pAcCx47vH0N3sV3wus=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=U+vV0D1D6iWyROSyJ/81LeTr6as+BY5+OPNe/v1402JeIkYRTr/tOKiWlVaOMZRPo
-	 hxWFSqwOvMaSNydjeQcGNW5msqvYExwo+rsfwzGQizCwViYuRahjpEZodVm7Rvzsze
-	 6NXFumZ1Y/6M9PRb9cpGbEI9JVB2TPzzcizSqYBihs+bEKbtLs2ivlO26MBaejh4qq
-	 iHvT2Gr2GKIbO/hNl27Xjf9koVZtAbdwKNNoRy4BtY3TS77/AcXe2IkXrFoOzQd1hx
-	 7SrdegEPBhfaOvRzX/muS7lApCcof6qW1up3wCku8tQmpowZcPjfSs+YjdSi1abfLz
-	 XkqyXJ4zzqqvA==
-Message-ID: <22b0795c-64d0-4a39-8f21-c24ee5a5853e@kernel.org>
-Date: Tue, 7 Jul 2026 12:49:00 -0500
+	b=KwMUeCoGpqIwVV7wzTpHZmToO8iyWPJxkJWhzDqxzMVK3qdUULlm0O2lpxFbrPTxW
+	 +YZz43nueTqUphAIv0LG/MhnXc12S/seFObgXDdYLRevESUpRATZjA1qBgRS8eUYgH
+	 8e293lcc7V3NNsJ7Bo4V1fVcDQxIJdhL35ELnjrdbplOTqIojAhna35LqW7McNUGNr
+	 gKtU9zK5MPiLMa5Yvo/+evxmeMruQ9K5fkwCOj5trq/8y02eYwj85MWBFqHH/VZCS0
+	 FJ8OERXr8A8mlRgkDzaKtT+yKTEbUOYv+QC5A0LRAtG+tqpDXrhh4RppkIlyE7w945
+	 MA/fOXek6FpSw==
+Message-ID: <1ec22d6a-043b-4e10-956a-866d8d431011@kernel.org>
+Date: Tue, 7 Jul 2026 12:49:17 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] ASoC: amd: ps: replace bitwise OR with logical OR in
- IRQ return check
+Subject: Re: [PATCH 0/3] ASoC: amd: ps: bug fixes for ACP PCI driver
 Content-Language: en-US
 To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, broonie@kernel.org
 Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
@@ -44,36 +43,23 @@ Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
  syed.sabakareem@amd.com, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260707060130.2514138-1-Vijendar.Mukunda@amd.com>
- <20260707060130.2514138-4-Vijendar.Mukunda@amd.com>
 From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260707060130.2514138-4-Vijendar.Mukunda@amd.com>
+In-Reply-To: <20260707060130.2514138-1-Vijendar.Mukunda@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 7/7/26 00:59, Vijendar Mukunda wrote:
-> The condition 'irq_flag | wake_irq_flag' uses bitwise OR to combine two
-> integer flags that are used as booleans. Replace with logical OR '||' to
-> correctly express the intended boolean check.
+> This series contains three bug fixes for the AMD common ACP PCI driver
+> (pci-ps.c) covering ACP6.3, ACP7.0, ACP7.1 and ACP7.2 platforms.
 > 
-> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Fixes: 7f91f012c1df0 ("ASoC: amd: ps: fix for irq handler return status")
-> ---
->   sound/soc/amd/ps/pci-ps.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Vijendar Mukunda (3):
+>    ASoC: amd: ps: disable MSI on resume in ACP PCI driver
+>    ASoC: amd: ps: fix wrong ACP version string in pci_request_regions()
+>    ASoC: amd: ps: replace bitwise OR with logical OR in IRQ return check
 > 
-> diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
-> index 1162d13d8505..729f9aaba69e 100644
-> --- a/sound/soc/amd/ps/pci-ps.c
-> +++ b/sound/soc/amd/ps/pci-ps.c
-> @@ -248,7 +248,7 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
->   	if (sdw_dma_irq_flag)
->   		return IRQ_WAKE_THREAD;
->   
-> -	if (irq_flag | wake_irq_flag)
-> +	if (irq_flag || wake_irq_flag)
->   		return IRQ_HANDLED;
->   	else
->   		return IRQ_NONE;
-
+>   sound/soc/amd/ps/pci-ps.c | 33 +++++++++++++++++++++++++++++++--
+>   1 file changed, 31 insertions(+), 2 deletions(-)
+> 
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
