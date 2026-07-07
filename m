@@ -1,46 +1,46 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011045.outbound.protection.outlook.com [52.101.52.45])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010001.outbound.protection.outlook.com [52.101.61.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E62338757C;
-	Tue,  7 Jul 2026 06:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D433876DE;
+	Tue,  7 Jul 2026 06:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.1
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783404146; cv=fail; b=omMM/12UIDNAmgsrxazim3T9I/yTCa+GAKD9lTHXK2SU7vFh2j9/+kcvCOnxza82zc0qcwBtnVh/xlGlVNRKg+oiCynCEiG0fc8itCREBbFR8HPSVaaSsce1HWKmUGDbxVh0CpiXMJtJ9StYNYOpRjmqdug8HAuqcWba4gW+4vU=
+	t=1783404149; cv=fail; b=k4Ob0sUDnrLXkTRyghOea7/AAuJUXRA6Q648i3HsJ9kOLhesQDNdEoIOr9ljiopWfkBj8EkvzNV36TMLZER4mmNxLSVOUwJZ6AmhazYQbfABMfpZKZ4TivpevCCJEvMdaZ7ezJQtKTEg8txBtgSBzDQP/wrK1SOG/jWmjuJAkcQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783404146; c=relaxed/simple;
-	bh=IquHdrnzm+xC0DptCS1Qrr+GhCd2yz6OkXq5urqpsQs=;
+	s=arc-20240116; t=1783404149; c=relaxed/simple;
+	bh=W6JDhkwq9EuYs2VIGD3OuieMTvpD/mbAByoD+jcGLzs=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CSpPk66J2+pAiZNYSdWlBsdJeMe6Qi8Bq1T46hlDFGFcdDeD0ZimPI4IQz+afympzJSNWmSqMX6xLAoEkROr1bAB4KQOeUfxek7EXraz/qPA715SVYkjhaUwUVVPJD5FTSSwMnY/h24fCp8uJaVEd8UsqJtZUHGUKNQsbN8BB8Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rGcRTv1O; arc=fail smtp.client-ip=52.101.52.45
+	 MIME-Version:Content-Type; b=Cj0ICG3NSI/Gb4VwFwAygpQjTT877JNTdXXv+qFljYsvfi90L7Bg9zD8ZtECTgpKXvB3sVjnRn9PdysMKY39xLFtz5A/ThnHxTdnjDxl1B/vDegVCnWEt41Z2JsUf1GjPl8dGjZFlRR1779Y6wLa39BFSfW5ks7+w7j5VWytsGY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=VL7ywG72; arc=fail smtp.client-ip=52.101.61.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rGcRTv1O"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="VL7ywG72"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HvKLGUx5c+D0TeG5LM03L1gPKgAgHm4ZbYN2DnlGXpD50JCnK07IzLR7BSRNm/l1eD7R4W/XMs9c4bSKOjKlsM0Acq28KD8PIxkeRqv2A/ZnHB7wK4iplvoo3hzvTbpkdl+UUCV3g95zYxFS0bO1VTsclMtWvJdmjTCdvy/l01k7ExVwETNrJZymU6pVjlj2roR6CG8wkrKibz87bxtM22+Eo9xQt1y6ACPl1yCCU2upY4UW0Ny9U4OJFbnQcbsSpnsbEnq5JUVj7fZp/IUePY/pihoDN0aeGAHZGGmRQNTZU91BM82TgdA7FXX8BHCzFhMjOz2Lfr+SDXNvBX+B6w==
+ b=qof0epHpUNiauHvxDtE1lel6tCnPuOp2RejHpqIWa9XwBkw89vtHiJg+iLo7oW+p8xFi92jsZ+J2c0TrYLEcg780hyG5W2IFYW2NoPitQnvmjG83TDS2CwgxyeSfDgSSMIGotZk3LTudr54dOcF+kB4RTop/6g50C2UWusOsPYgkzjsUtZKb19VcsLqegt83PH35SJ/SHqQzShv6SKCGHzmOgP1INn817Ej5doscrumVGXHuli/qzI/BLzVh0ny47XFMlraTqc+1WmymlkY3IZqikSTrdbSoW5zbCtnKyoVRUgL6ZO7fmW7gxM3DxYeX7CquisA5sATzT2PvYBINLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ygG+CoZFDmt3UGToI19wEjt3MoWx+12+c2z+uXXYPmo=;
- b=uQQnTnrndzs+MePOwo6ZkLrNqPzIU5stwK880qLSLnvnrrYt6W2h8L5mStgbXOmNWJ3H/5dLlxXBNluRzq9KlQ8YOL2UGf4JZDz6kQhraGGimy7OYNZq4LVdsW/aqAsyTkU9kUYlsqF/8UNgjant72+eb12PArOXKQ2EtxDhwBREjo9U78jyC9RgEJCpFRwDW95h++WssFbpTl0jq6O8d2l31kU5HzTKHrEhFhInAxHqIAcsSJ9/uSIGjvTJOAZf9CB6rLptJT1Bfc7o648+76oAhkfhdhwAU/xdz/IgZjgkqa6928CMjNbzg+2BfSKzvPlPG1eVB95kO2N+qW2bBQ==
+ bh=a3oUsfBUYdEN5StXZ0uh/YXaBVtnXTBYipyDAYVMgGI=;
+ b=pNzEld11hWZF4cW/oeQO4SsuBUc91P2IxyD1066mjEoN1wI3oO1fdhVbzgpB5aLTcxF98u1qBjDFNf5GI61Fh8+HmMai0Cf6W1zK1TVrzXFaajGuisjT/GITH851UPBLSMZvTt4pxEbbI5kiFxKNwp7y7/NjHxg7Rwk1zLjjoo+A6Pg46LaZNrBNDf7n/NDe+MYNBHl+T3EcgvoG2i2bq3Fu4e1GCTP1FDd3uuT61kLTwRLYe+Aep4YRw2WAjKTSDvYh8kY326ZnWIUfxxZZIuBJKE9COWjn8vJzOJytwhVS2brXkTgbohO2LQBv2WnHaZ8SMoeYv8T0p+7IPqWKxQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ygG+CoZFDmt3UGToI19wEjt3MoWx+12+c2z+uXXYPmo=;
- b=rGcRTv1ObmPy1BSccCyrchsKvlEVCnjGhM2fBsz2YYkrftZDTz63F9mdi5oWO9Yy1A1FDsYcxY0ZT/otwubynmTfi0MZEsXlY7DQVn2QIoHAWYcj1D33ODLM4gMfIvKQuDLMUXIaO1JoqRnENEBxwgWAQ0Fv5T79BahlVRv+9ck=
-Received: from BLAPR05CA0029.namprd05.prod.outlook.com (2603:10b6:208:335::10)
- by MN0PR12MB6149.namprd12.prod.outlook.com (2603:10b6:208:3c7::22) with
+ bh=a3oUsfBUYdEN5StXZ0uh/YXaBVtnXTBYipyDAYVMgGI=;
+ b=VL7ywG723peHeeRF+nWyYPWmiW1et5IzeX1NwQ6l2N/eIbXQ/JLeJuTzFcD6icAXQBYBEbvBbYdqDL0hmp74E9lp0cceej5D3R+nn+rwRg4vBQr1SNxVzOOn+kdHho1XuQzkN8JTRPUJKEiWEY+Q5W2THrZXRUVZezSENcS4JsI=
+Received: from BL1PR13CA0167.namprd13.prod.outlook.com (2603:10b6:208:2bd::22)
+ by SA3PR12MB9160.namprd12.prod.outlook.com (2603:10b6:806:399::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 7 Jul
- 2026 06:02:20 +0000
-Received: from BL6PEPF0001AB55.namprd02.prod.outlook.com
- (2603:10b6:208:335:cafe::10) by BLAPR05CA0029.outlook.office365.com
- (2603:10b6:208:335::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.9; Tue, 7 Jul 2026
+ 06:02:21 +0000
+Received: from BL6PEPF0001AB58.namprd02.prod.outlook.com
+ (2603:10b6:208:2bd:cafe::36) by BL1PR13CA0167.outlook.office365.com
+ (2603:10b6:208:2bd::22) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.202.9 via Frontend Transport; Tue, 7
- Jul 2026 06:02:20 +0000
+ Jul 2026 06:02:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,16 +48,16 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB55.mail.protection.outlook.com (10.167.241.7) with Microsoft
+ BL6PEPF0001AB58.mail.protection.outlook.com (10.167.241.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 06:02:19 +0000
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 06:02:21 +0000
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
- 2026 01:02:15 -0500
+ 2026 01:02:18 -0500
 Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
  satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41
- via Frontend Transport; Tue, 7 Jul 2026 01:02:12 -0500
+ via Frontend Transport; Tue, 7 Jul 2026 01:02:15 -0500
 From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 To: <broonie@kernel.org>
 CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
@@ -65,9 +65,9 @@ CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
 	<venkataprasad.potturu@amd.com>, <mario.limonciello@amd.com>,
 	<syed.sabakareem@amd.com>, <linux-sound@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 2/3] ASoC: amd: ps: fix wrong ACP version string in pci_request_regions()
-Date: Tue, 7 Jul 2026 11:29:37 +0530
-Message-ID: <20260707060130.2514138-3-Vijendar.Mukunda@amd.com>
+Subject: [PATCH 3/3] ASoC: amd: ps: replace bitwise OR with logical OR in IRQ return check
+Date: Tue, 7 Jul 2026 11:29:38 +0530
+Message-ID: <20260707060130.2514138-4-Vijendar.Mukunda@amd.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260707060130.2514138-1-Vijendar.Mukunda@amd.com>
 References: <20260707060130.2514138-1-Vijendar.Mukunda@amd.com>
@@ -81,54 +81,53 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB55:EE_|MN0PR12MB6149:EE_
-X-MS-Office365-Filtering-Correlation-Id: aea254fc-bc8a-499d-2441-08dedbed4e47
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB58:EE_|SA3PR12MB9160:EE_
+X-MS-Office365-Filtering-Correlation-Id: 78b297c5-8cf6-45a6-6776-08dedbed4f4a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700016|23010399003|1800799024|18002099003|11063799006|56012099006|22082099003;
+	BCL:0;ARA:13230040|376014|82310400026|36860700016|1800799024|23010399003|11063799006|22082099003|56012099006|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	DGQ5P51P7NF22wn0Gu02ntBFaYYaEsLtllDmNu3yBPZJa0I/3LSbg3lFL4aYnohCMB9e8cgCGEfV5+VVb1Ip/QLT4DVlsrbTWpqQWVON7tt8R6Pw+kmeyN7trl6teiiUzw9bhIDQ5f/fpkSG0d2TZeyVwWN0CClS/F1/6l7Iy4P9+03fYNt0lAP6qpy0wj92W043MH03KFYOideLJ9LTjDTjRWBviu08OyU1lSCHzp9eke5uV7SBtCnwk5DiCvaZAByLp96CdA7AWycNd0BTjNDeyou4af66EW6tBmKLd5rhPJWYaZyVukpq95+QwYmyoRGvgSpzUbZXYu4RfZb21aCl+7ceFfBFSKxpO6nzNN5zTCGAqLh3WRKEMZzs5C/pD8rxRammzW/GUAnxfyn4BFpezfeM2I+S2o42FcMVQmrrQI1vESLyTJzxqLyXgPDga551lkMYHO639Nv3RJvfPbt2Q55biXvCwJkSz14bDRfS7Q3DLxXTFGLJ+t3cyroaMnqbIA4OsS1FYkRsQRe/aBjYqzEI2KVqRo0YKfEHODVv0ZePk5czoyGihT/WwllJ2+liBT+Zo1MqjUNc3TU1uMeIuF6zE4GIgsBrm6Hw2434D/ZyqJLM9FqFXcypu/zj7ocLFN1W64xN+DohbU/6HA+w8Yb6oFZIr4McA7c192KlxB+5CzZ7C2KKkGqfy4Y0X6lzizWu0nEw5olISI/skg==
+	Oj7fAesZtuZYVSZGM9tA7I7ueRnvm2CTn+OUckQuSTptk/0HYeKzhXsQQbbLRbsQt/PWER9KHivAMozrQxTT5NOA1OW1PqQzZewHuQyR/4oip1zcMdLrVGQQQ77WPv/1eQ183I1XBF9XkOYZahVZ3IpjlCKPeAcckTK6ezxkj6cZ+lqcrBz77ATg15twM3bQczi+0bW5dFS/JIaHfzZa7rDLa/Dad9CMukWUTNIbM1wFfAK+knLtMYzb77rFLLMJ27WM6EheIPCBlzOuAotvUoSOBzi4Fjj3henOcl6fdJB5Ysc+wks4hb9uvxrqvydJHPiSDDLKt8s7439yYIRiJWD0p8PHV3GhN8y2N6RiRb/Uce466pemXeaFvxBeFWUnGSBCdgHL6PD7mamsbsOiXnOYI0sDBh0Z4ZGxpPqoSNfJPqCbab2Q5ue19qXV68I1qvHN/kO2uwTqd3/2QqgdLBzmWjc8xSSgnJDrbKrDIweE7Zv0IE2NOiwpxhqF0cKpRK5TjiB9d91o0dSRtjPGkK22eQCdYJnJe4cuG6F6u8aOpALW2yANRTSUY9G0PLC/Ohuf00AVQpNziG4dQYuejgrSwNkwua/q14pchiP1BH5x4w/910aaiXXOVETA4HqpoBAoVvux1rmMdv4E+yCL5gp+3IVQiZ/DpV4kVMPRX4a1Ux6wvTB3hM989NaL12VIbZGndfoyEwVg+D9G80uCMg==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(23010399003)(1800799024)(18002099003)(11063799006)(56012099006)(22082099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(1800799024)(23010399003)(11063799006)(22082099003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	F/yehZrYeIN08B0GKFajOEigsHZBlHXRAog6ecvSu6wvJhr5YRXLhLHQGnUdJ2XmbLxL2pdn9JKTrl77mLooxkfAAGVEqgaHfMI6RF/S1om4UYNm3APVq7SWjMPNa3VyFZeNuc7ISFOO2LUICcXa1uyamZPZu2NHbI8OAoccTPcunJI1e9RC5D3yA2vMa79yMUp8B6yhvX28hXSun8zfbnTpjlIoB0YHlGPkgxHAuJ/mS9jP3MWPEFfChRN6Aorh5a3Wi+eu+uwG4tVnof+NAXymkRabQpEgWi9S6VIUs0gUat4i4V8IqdT/KSqlvYxjITQQolX4h7Z5PgkpadWWZED0ze9giT+HvgoVvF6K2K6THb4izgMjaM5AHbSBiFfqj9MGEUPJyDbmtY4sDHtps/ofPy+hMw9XsxeAsV9Mks0Uf0nOaO1Sb6bUM93T4MVy
+	ZybAqZVPMjme8sWG9wB+lqyUOOZKfbTK56hbzu06mobjz6q/9KnMMUJIOz0pnb288XPy0/NVBkQk0uhMkt4kjK9ijwJkTvV16EDJohb+RyCoCxOAWRj+U4fLbZrLP8ITSkwmGpfXjKb9QyqHWSQakwqw6Ww0r8gYOvIoCG2PJl40OTcHv4lefI0pwtLyDIEmJ3hQOOZpoT+TDte6mxyJuYpEwfTAqQXhq8iX7r4EhsT5Rwmf+kFaXFNg8kZ6Z8tuVU1b0YDUiBD7KrUgeIauiQX5AB2hU3au2Lsxvybl1OKkklZPYafzQpbY5mIFOwD+kkxb4Uv3yMvsLDpkg2tIPHh5+KhAOnBguNW9oE1VXr6RIgLLbbLshNPaAHuUA7bkBPRShsW9KLlnnHuDkEaAPe8cXUt0EI+bS+H8IdQlY+G2jUmS64hikm0u9czgxylA
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 06:02:19.9835
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 06:02:21.6750
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aea254fc-bc8a-499d-2441-08dedbed4e47
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78b297c5-8cf6-45a6-6776-08dedbed4f4a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB55.namprd02.prod.outlook.com
+	BL6PEPF0001AB58.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6149
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9160
 
-The driver handles ACP6.3/7.0/7.1/7.2 platforms but the region was
-claimed with the stale name "AMD ACP6.2 audio" left over from the
-original ACP6.2 driver. Correct it to "AMD ACP6.3 audio".
+The condition 'irq_flag | wake_irq_flag' uses bitwise OR to combine two
+integer flags that are used as booleans. Replace with logical OR '||' to
+correctly express the intended boolean check.
 
-Fixes: 95e43a170bb1 ("ASoC: amd: add Pink Sardine ACP PCI driver")
 Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 ---
  sound/soc/amd/ps/pci-ps.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
-index 635832da45f9..1162d13d8505 100644
+index 1162d13d8505..729f9aaba69e 100644
 --- a/sound/soc/amd/ps/pci-ps.c
 +++ b/sound/soc/amd/ps/pci-ps.c
-@@ -602,7 +602,7 @@ static int snd_acp63_probe(struct pci_dev *pci,
- 		return -ENODEV;
- 	}
+@@ -248,7 +248,7 @@ static irqreturn_t acp63_irq_handler(int irq, void *dev_id)
+ 	if (sdw_dma_irq_flag)
+ 		return IRQ_WAKE_THREAD;
  
--	ret = pci_request_regions(pci, "AMD ACP6.2 audio");
-+	ret = pci_request_regions(pci, "AMD ACP6.3 audio");
- 	if (ret < 0) {
- 		dev_err(&pci->dev, "pci_request_regions failed\n");
- 		goto disable_pci;
+-	if (irq_flag | wake_irq_flag)
++	if (irq_flag || wake_irq_flag)
+ 		return IRQ_HANDLED;
+ 	else
+ 		return IRQ_NONE;
 -- 
 2.48.1
 
