@@ -1,53 +1,53 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636E635E1B6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E4F360ED0;
 	Tue,  7 Jul 2026 19:01:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783450888; cv=none; b=I1M034LktDwQ0iLCZD+6esz64k0nuTWZYIaRNr4MpcOCVospx5vHiyNbf6ZGW87a2r1PfDA/n0X4GbUvTKK/bA+d1hdXV+6cTYt18H/VJ+mx57JisdqHNb/4+iGuTSr8M1C9ZXFo1xX088rmCv3yuAI6TgBf21Rt5TFyABVTzfg=
+	t=1783450888; cv=none; b=T5ivZiBSxj9EAB/jZ31I6tAayqpwP00/9FXLAKD2ypIwZqIKbJ7wnfAPOm92DzryKzqam8rQCkQVTb2QtTCjHGJMtBALsMZXVcz5UNfnR1YWpOLHaQkS21STLGtS9hmspdxOPDquirB6lV1pUhs2T2FuaBfMeESHpwWY7xSoynU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783450888; c=relaxed/simple;
-	bh=1aZGy/ON5urdDf3PvGJfiadOe9AdbOgQ45NOgkAYzWI=;
+	bh=wDoj0KCk8V3oqZAPdXnJXeUmLCLjKsD0FLHrS+2Pu+8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bCJhLLmPITci4mwdumtOmzt0Jwk2cfPa0B3dqGqZBNWqke9iScfwKI3CpfXs4XKCvlJowlmr0C1OE9BpoeOO7vv8yhXL68XaDHroJT2NhIhhX4ZktE90HqnNUz1ZRGOve9N3ipGort8Myg7ohobWX+wDTRueiQhdPp+yGqDeKu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pN/gkkKs; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=TQ3Bq0wEsqsc2lJgOayySbDlxN12fRRlJ8cBtPSRVFQSUThqb6+VM+sQDgg4380bId6o9HrxMWEl/+C+GZHnrxMLAYYYJXNA3b0Ya+kkSarVMK4rJysPvN0WnMtdWuMlH0VJeC8ByPcYnpmlsjGmbhDEjv3avirDtFjSK8Js8F4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Y4NXFs+Q; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pN/gkkKs"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667FT2YG4073513;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y4NXFs+Q"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667FSwbl045395;
 	Tue, 7 Jul 2026 19:01:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=St1Nsfm0mSu
-	1CcCTNvSLJT4eeUotIaN9NCqzzDA5trg=; b=pN/gkkKsHvU/Mpx20qCLL49oO1S
-	1rqF6temAQFZfn/kuPh6LGYUkUpgBhbV9ek8C08CJv2zxcGnDJbBL+32xw54Vn+R
-	gjxP4ohiimbcoTSrOrSRz1ti3HCeZezd144O2X4TxP4qyT00sBHmLhITF/539JVU
-	XRySvoxa5jphIBgVaC9AkJvwoWswfcXmvGBQCuXTkQz9u11zAeDcPERNN6cbLTpw
-	2HedXI0MDWm4rwa9vVgJClyaecA67T1IRHpAaNUQVfWPx5Wmzkui/2x4zd4echAV
-	p0XDRGIYAdngxi8gzJK/LV5z9KmYC5pY+ZhYklnBzh6ctzrDJ0VWMXJkKYQ==
+	:mime-version:references:subject:to; s=qcppdkim1; bh=E7dapoFWj0J
+	2irDCujrCQwnpKlmzwBdSkzXDgFBfen4=; b=Y4NXFs+Q3Rorer//okDaqydqsol
+	D19igkoZ2PZ36cX2EsQgm0GdTwrG+0aJGoK1Tgxcb7BB+w9B7H9LBiymTq1XZgpa
+	tKP6pvBNpy/yyvqWLnFj+jNVZ5z531OGZjDW4nvOFNe9dCoAiSIGlA+tpYsAy+R1
+	/HhNam/2ZHb6I3akIx9qnb8jJOgtcrdg9JDfl5lPT1pQ1PpOaxUInduF5DLQ8wFn
+	Sdrv8m++sqXLT8IuKF5fdq0Py2WdD/BwYngAF/sZs6mfsesAXIby3WgJ/eKJ0VyU
+	ZwGXHF4T4YFppu1In2G0qugQKZviE+VmwnFydWfx31pjBJIvN7lsUPQBNrQ==
 Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8vun3024-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8w11txva-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Tue, 07 Jul 2026 19:01:14 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 667J1AUw019106;
-	Tue, 7 Jul 2026 19:01:10 GMT
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 667J1ArA019108;
+	Tue, 7 Jul 2026 19:01:11 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8k6b44-1
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8k6b4x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:10 +0000 (GMT)
+	Tue, 07 Jul 2026 19:01:11 +0000 (GMT)
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 667J19Z5019083;
-	Tue, 7 Jul 2026 19:01:10 GMT
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 667J1BFj019146;
+	Tue, 7 Jul 2026 19:01:11 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 667J19P0019074
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 667J1BZL019139
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:09 +0000 (GMT)
+	Tue, 07 Jul 2026 19:01:11 +0000 (GMT)
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id B01BD63F; Wed,  8 Jul 2026 00:31:08 +0530 (+0530)
+	id B91B6641; Wed,  8 Jul 2026 00:31:08 +0530 (+0530)
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -58,9 +58,9 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: [PATCH v3 3/7] dt-bindings: sound: qcom,q6dsp-lpass-ports: add Audio IF clocks
-Date: Wed,  8 Jul 2026 00:31:02 +0530
-Message-Id: <20260707190106.2876465-4-prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v3 5/7] dt-bindings: sound: qcom,sm8250: allow TDM slot properties
+Date: Wed,  8 Jul 2026 00:31:04 +0530
+Message-Id: <20260707190106.2876465-6-prasad.kumpatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
 References: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
@@ -73,83 +73,97 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX16iLI7Qb9B6y
- oiP3qCzNHlgUfzvBfkiVCJ2DsjTEfxCgRFVPn9bhZrxfenI3522jwaEqfU+zgN90BKkxnpb6hUN
- +xvLjFI4JVsv+PyGbeaRI2EXuTJaX34=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX4WkvyMDUkvbO
- FVGc+zrcTFl81AD4G5KK5SjJ4QKsyjJLZ5MTnZP2AXzxOjM5r5/TeVMkuxsbQYRBaybIdWtUofh
- G+Do2cQ1aTARE/W6FSffncKpNxhrlsZhWdONwWRSt/wpfRzhu0cs6I/II6W/ZPqdbkG3qCGroaM
- UUky9RlebgTkBpaICWvllTmuPiJWHqpbTsAyYXzdYfukA92iFC22341+pSBPtQngbeJiQVQHXF0
- f9mUfv+CWpy42wdVAF3NXA5Sa88vMJ2I/SRI4eXD+4hJlWtgPe3Mb/9nrGVrEsu8v7ySI8/HbkR
- K4BJBsiUhNkOIQj5OGzOtJW2yMdEc62gSEqtcm6d9JuA2H0yMzT6wojEuOsuUExhme9j5sgpNDU
- KAZBZ5xy0vBdeCt156Ypc9ip7F8Fy9qn8TggaIb2lCah4iBz2gCTq3kE9elYzThrBOVH/79YTbX
- /KrD9+xOJOMg1gEDyPg==
-X-Proofpoint-GUID: p8RyhJO_cW3IiW4t_J1xZd1UxZOIt2KV
-X-Authority-Analysis: v=2.4 cv=N+IZ0W9B c=1 sm=1 tr=0 ts=6a4d4cfa cx=c_pps
+X-Authority-Analysis: v=2.4 cv=DMe/JSNb c=1 sm=1 tr=0 ts=6a4d4cfa cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8 a=HqMH4ZOH3FVCEH9kUM0A:9
-X-Proofpoint-ORIG-GUID: p8RyhJO_cW3IiW4t_J1xZd1UxZOIt2KV
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=xr6tc2DuHRNcHCIOwl4A:9
+X-Proofpoint-GUID: TDVL9XHlYZTU3h5KJS0sLvEQuPxtCAO3
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX0n8lfymcaSBu
+ jdaAbZVf2sWr1YgLABW/4fXwsrnBbJqAk2AgQp/LM1FJLZgGTRsrBirg1gJ7ubT6jGYaaV7MmLW
+ eJWgD9E99+/IdNrlMrLQOK6uNgc3gRU=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX9IiBjaj7+01A
+ /Zq8CoqYA/AHqv59Fs62bRTi9S062j+Y4fIF1TKINaTdHB92xGwY4/3olXeLmVWx0REDoTtoXzz
+ 6yoEGiwXmcllpVAs3KApMKhEp1/V9NOsAoblkxwPFUTGW52kBC+pwUXqaZ4aVupPQmj/Vn23mqN
+ eWl4oybrWO/7GKOyrU+GNiTb6FMsTwpejqLOfEw4gWFvaY2s4wEFGeHNd+zHEoTaeEkGrcCeDQa
+ VfPN8ogQaGrLlUIeiHzbGyM7I7Ti75sBplMr2exXh5JYxwcoJ/tJKvSM/GaoDR+VkIqvwGPbrCe
+ 0Wq4vbWRFPXyDY0xZOHgHbDbZV3OHZPU/WUN1aI1HwOjy82W34IiL/jU43vWqSDD+u6+aqo0yS4
+ XQxx9NQv3dyljpvinX4qfnzdXwnJRUlicw6uXhVgAxVD3HDBQ4W0bR6uXLrgc4ltMi38hL1ZPfl
+ CqGRJZkPhtQY/xKM+pw==
+X-Proofpoint-ORIG-GUID: TDVL9XHlYZTU3h5KJS0sLvEQuPxtCAO3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-07_04,2026-07-06_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 priorityscore=1501 clxscore=1015 adultscore=0
- bulkscore=0 suspectscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015
+ spamscore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070186
 
-Add the LPASS Audio IF clock IDs used by newer backend interfaces.
+Allow the standard TDM slot properties in CPU and codec endpoint
+nodes.
 
-Platforms using Audio IF module backends request the interface bit
-clocks through q6prm. Add the Audio IF IBIT and EBIT IDs to the binding
-header so these clocks can be referenced from device trees.
+Some audio backends operate in TDM mode and require the slot
+configuration to be described in Devicetree. The common TDM binding
+defines dai-tdm-slot-num, dai-tdm-slot-width,
+dai-tdm-slot-tx-mask and dai-tdm-slot-rx-mask for this purpose.
+
+Permit these standard properties in endpoint nodes so TDM-capable
+links can describe their slot configuration using the common binding.
 
 Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 ---
- .../sound/qcom,q6dsp-lpass-ports.h            | 29 +++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ .../devicetree/bindings/sound/qcom,sm8250.yaml | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-index 45850f2d4..a3aea029c 100644
---- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-+++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-@@ -233,6 +233,35 @@
- /* Clock ID for RX CORE MCLK2 2X  MCLK */
- #define LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK	70
- 
-+#define LPASS_CLK_ID_INTF0_IBIT		71
-+#define LPASS_CLK_ID_INTF0_EBIT		72
-+#define LPASS_CLK_ID_INTF1_IBIT		73
-+#define LPASS_CLK_ID_INTF1_EBIT		74
-+#define LPASS_CLK_ID_INTF2_IBIT		75
-+#define LPASS_CLK_ID_INTF2_EBIT		76
-+#define LPASS_CLK_ID_INTF3_IBIT		77
-+#define LPASS_CLK_ID_INTF3_EBIT		78
-+#define LPASS_CLK_ID_INTF4_IBIT		79
-+#define LPASS_CLK_ID_INTF4_EBIT		80
-+#define LPASS_CLK_ID_INTF5_IBIT		81
-+#define LPASS_CLK_ID_INTF5_EBIT		82
-+#define LPASS_CLK_ID_INTF6_IBIT		83
-+#define LPASS_CLK_ID_INTF6_EBIT		84
-+#define LPASS_CLK_ID_INTF7_IBIT		85
-+#define LPASS_CLK_ID_INTF7_EBIT		86
-+#define LPASS_CLK_ID_INTF8_IBIT		87
-+#define LPASS_CLK_ID_INTF8_EBIT		88
-+#define LPASS_CLK_ID_INTF9_IBIT		89
-+#define LPASS_CLK_ID_INTF9_EBIT		90
-+#define LPASS_CLK_ID_INTF10_IBIT	91
-+#define LPASS_CLK_ID_INTF10_EBIT	92
-+#define LPASS_CLK_ID_INTF11_IBIT	93
-+#define LPASS_CLK_ID_INTF11_EBIT	94
-+#define LPASS_CLK_ID_INTF12_IBIT	95
-+#define LPASS_CLK_ID_INTF12_EBIT	96
-+#define LPASS_CLK_ID_VA_INTF0_IBIT	97
-+#define LPASS_CLK_ID_VA_INTF0_EBIT	98
+diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+index 15f38622b..a45a1a00f 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+@@ -84,12 +84,21 @@ patternProperties:
+       cpu:
+         description: Holds subnode which indicates cpu dai.
+         type: object
++        allOf:
++          - $ref: "tdm-slot.yaml#"
 +
- #define LPASS_HW_AVTIMER_VOTE		101
- #define LPASS_HW_MACRO_VOTE		102
- #define LPASS_HW_DCODEC_VOTE		103
+         additionalProperties: false
+ 
+         properties:
+           sound-dai:
+             maxItems: 1
+ 
++          dai-tdm-slot-num: true
++          dai-tdm-slot-width: true
++
++        patternProperties:
++          '^dai-tdm-slot-[rt]x-mask$': true
++
+       platform:
+         description: Holds subnode which indicates platform dai.
+         type: object
+@@ -102,6 +111,9 @@ patternProperties:
+       codec:
+         description: Holds subnode which indicates codec dai.
+         type: object
++        allOf:
++          - $ref: "tdm-slot.yaml#"
++
+         additionalProperties: false
+ 
+         properties:
+@@ -109,6 +121,12 @@ patternProperties:
+             minItems: 1
+             maxItems: 8
+ 
++          dai-tdm-slot-num: true
++          dai-tdm-slot-width: true
++
++        patternProperties:
++          '^dai-tdm-slot-[rt]x-mask$': true
++
+     required:
+       - link-name
+       - cpu
 -- 
 2.34.1
 
