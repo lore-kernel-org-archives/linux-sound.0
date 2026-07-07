@@ -1,63 +1,63 @@
 Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1883822A2
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 05:12:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BC7382291
+	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 05:12:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783401139; cv=none; b=c/5YvwIWhFQkgAxz0ry0tATieeYM2S9BqTBQcZKV8FaExXNpRO5jCr6bjk/lI+NF6jQvcFXZjYt3cMeIPTgBuIXIX7ju5U4hVEAeFR524gN+CwWrflDpAXg9I9EeZfhE+5dRyMGHpHevLP2EAhvH0cjIJit/Vo+2vndj7uKBxTQ=
+	t=1783401146; cv=none; b=Tvhg1dbM0iyfS2G95Qv/K5TdueCZhv/8ie/wkYY23zGdu9JM2iHDnzhn21cs9Tz8QZs/3wplslgOmbyfyXcs1HOLokA8yTRnjYR5P8cYgTC1RZ1bBE2ZBOauI+Wa/ysZcY0v3iCOXi22F6og1DvvVAut/nGPKjV4/3FS9hG1hmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783401139; c=relaxed/simple;
-	bh=kaJbbn2upoMFK9y8GsZkCZ3lIho5Hx36ztCGacwYJFE=;
+	s=arc-20240116; t=1783401146; c=relaxed/simple;
+	bh=sCVUN8gY1h9/nIWRmRiilIKO/UTVoTdwN5d1OfxbJo4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Af79xVLageHLFx3+8jQyoSycMjACpV5KKE7M/oet9liAyik8op248u8iiBLaw1EVHI8bQ7VV+J9rt7w9mjxQEIUNYaTYhlQAmaAiXSpPSbN0m+8lmfuLF4vL28u3emZ+xPXzsuo89AHvPjusIz4OEP3sXAtoCUNK22pwxOvPj3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IrpG3CCd; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=EbJC9xPRIuHLr7SliHmL49kY2ARwObhr8whKoNg4PP1IpY5Gbg9PjN72wAE9XEDR3q4QfvNQ1XLOUYrA0VYUtf1T2s7V/bxGiVAY5phxwk6JbHurqUCqtRf3N8WBIHgz8klSq7TLZL3NvHmDYx2e2XLwkdjwiEhAhO9U/buUz2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pxGjjeX2; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IrpG3CCd"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-845c92bc464so2674115b3a.2
-        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 22:12:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pxGjjeX2"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-84347ad88edso5058640b3a.1
+        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 22:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783401136; x=1784005936; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783401144; x=1784005944; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=m5fcfthZ/NbXXJUvaBXv1+uV/zO5KEI/qMXqR8m5T6c=;
-        b=IrpG3CCdQrr46qxgPgv418ySVGNGC1APl8sPROtSnoCkn7i+l25YUHtWxYrLfHkJ3g
-         sxAlf5sN6eUgP4LTdpFrN9ezk9Qk4W9AGScCQZmjW+Z5U4Pj+Eyg1Uf3s8pcNNt1ObeK
-         rTay/V4EoZvqH6Li6lRCWixhX+k7ysHvoqMV3N50qvLm/XSlOddRH/Y+0Q1fuBhXJ9n4
-         M2TL8WDXYM9CR+DeQK4mZ8jqVXhX4ssSMKgYP8OcHdnW5NXIQE06Kb24z7VD3rnb3t2d
-         pHW9j2Xx4MU/Ex9heYBhr1s81OjfSgGmnTpz6YeCQ3VgjWMvyWgPM7yctgl4ViQdjXF0
-         Bs5g==
+        bh=TwVA092wtCUoFLf5EkOcxNA70xG1xrrJyEkWDUrUIog=;
+        b=pxGjjeX2nW7y+dlhZrbWmi022AXlLvU+q3cW0KZ8VEBg8C+fN4eTcFQj3Arv9ePS9f
+         Q9PF/mVc0m1SbYe/F3arv6HLvyf7S5Neen0oITkBNrnoUXq9rP+DGc5494+mTjc3pISp
+         hMU7NU3SR8o127KkIunmvrwoJRHau/eBpNLV30NLd+5qmowmD97hT2fuaGKZCrts+3gg
+         dWrN1ORvwLM27tfkKryVIEQxjv7PtRooEjJ8EBB3cNVvpnmembXfQkB3dJL04i6krxNq
+         ktrFuXbyLlTi06C0w+WghgC8AYrfkpBAPZJj1iVyxrPXkyy4kW4NIDXs//9nxXYgs5Co
+         +AFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783401136; x=1784005936;
+        d=1e100.net; s=20251104; t=1783401144; x=1784005944;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m5fcfthZ/NbXXJUvaBXv1+uV/zO5KEI/qMXqR8m5T6c=;
-        b=akC6PRtzIxYHsbQmnszmIAeUaYKh26M5OHiGIuP52/agHbNk0AGlEhohllV/nD/2XT
-         Hgioc9IBe5dz+WyguBc42xJZcQiAJ1GOyyc2QmWCPazsVtpwbhZgtoHX32NGM0cmGI+c
-         B6cdHoeaoERuOxTfIitBNg1p/gx9V2VrUtOYEnmOHJLQ2lAkPsklo5MtQD8UHxtF63px
-         XKKzfzI9iFFFiDI2GAqoCRSk9y8F6iLCUTGNv6LkvFPRmWnRdh66Dy5evjt0QIw79pho
-         +hdX4WE9iY9Vieqiih2Ofr8aTcXPVXq7rgqnxLossfgVXRKn3STASixGYTUf4pARubrA
-         uN+w==
-X-Forwarded-Encrypted: i=1; AHgh+RoQSSQ/ydKKRoRfGKjo+at4kYqToPyxo1++qJvwmCylR0RiYE2znnJPpOqxJknA59H4tZ6OR8DtrP8xYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzaoXC51Ly6immFh0yy5z/8lBqjAsvu31NesumJxHu0qg9UJrF
-	ZiFD2rTxlzMC0nWmpKw4KYCnTOkURzqfpp7nb6GfXvLZx58TLjO4Crgc
-X-Gm-Gg: AfdE7cnuEvb+bavb4d9TCedBpG9fu9K3waotJqE6tEW/xDMOSxIAQdsiaWvzR8AD/rK
-	IAOzEXDq7wHMtzaNmde3mHtK7ECkR+58Hv3GAoiRQ+e90u7CVk9Svc4X5y8ho7be+4bA5Q7Dt2U
-	hBRIRnoZpmLllqlbH17tGqQm/kzfnks29R6X/+W3u6MZ9Wqbtvn4+vu7IbtdiapufEo1W/qdBWu
-	1PxHBOXCtc+gHgaaXME1uDDAFS0s8dlh0l+S5zGy31ikeMbubQ5tPXmfGi32mi/2Qc1nK5xYjZQ
-	I+5I+qFGTuLXzwu57zckG3Yt8avb9KlsWNrYO4LY3K8YJk1XPtpYlKXnbEGhK9UtUMM/lX4wqPb
-	Puq1Bk8pAE0lcSMEuPuUFmfPTAPqrw1SKTi7JLRAkMj20gPNhjchMwARBaYStI4SZZaaEQXA15W
-	j+0hrX22+ln025fg42IUjW3s5WUa9XR9VDWAE31mrWXv0TTHY=
-X-Received: by 2002:aa7:8883:0:b0:829:8942:2c93 with SMTP id d2e1a72fcca58-84826c94d79mr3393470b3a.9.1783401136026;
-        Mon, 06 Jul 2026 22:12:16 -0700 (PDT)
+        bh=TwVA092wtCUoFLf5EkOcxNA70xG1xrrJyEkWDUrUIog=;
+        b=Ww01tqVpGjHRsZEPB/bdmiHRNVVwaJ20Jo16GExo+2DSRSUyNUyceq49KomT69wd/u
+         8Lk7Uv4l/S+1ByDbIdbHDRbvGJjSafKHdKdhjBclICSDc70j1Caq3coilLVKoSyhZRH/
+         L7vSNvoVx4wZhrekIJz+p4oMrqq/euhpQD+tzrWwMxtESLCn4wA6O4uXJMWPYG5LYDA8
+         70gssCz5pJibF3ZiOCB2NVWfuQW1X/PxY0Ds5RghqoEXQKRiVc7gOdO7tqIG/S2NKlFS
+         JXaPaL8nnpnU+uUSnDSy4v1LsHpXJUMhgrmgMRDKaue5OLUWnHQeMCQbDbbGEu2de+sP
+         NGFg==
+X-Forwarded-Encrypted: i=1; AHgh+RqFDhTNGxaj/Yi/qEJJ5oLep9SZ7Cb4Bs8EgtWZI1ydPH773ooW3wkIlCSlQ1SvpfOCLx9H5mKSXCDNNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyqa9QBQJEoqDXUZkqk+YQVR6X78uZylArMR7jFbwJbS6Z6+q+N
+	XvrUTEXg0vFgysq9RXwdQJY+4Saix51DPufqkCMBYFsE7Hfj4/l2EOqC
+X-Gm-Gg: AfdE7cns1rqCb5EHrrV4UF+YZa7LherDUO2YsJePLy9Oj/Hrd9XTVHGmOcYT88Zax6h
+	cV+HB3HSQmPfQ5AQmgoFOlBgoi3OhJWNIoRO4MVvs6mNWlTNAlpuC3HNd4Qy479pu/Bn9gIVAHd
+	lmJZTay9Wv3YPkri65qhL5W/3bieQaZyKYXbJjLZq96aHuH+CUP6K/2XoWJ6cBxdDNKnYRgmMR8
+	ymLJc5YaLRKBLhMDcn9/znQsNAXXJ+iFDMqr7RQgyxJ/nxsPpzn797oTEo7wtCpN17KaCzP535c
+	O491ETPvDZR3x2rk6Zs9YP05Yp4NamE1yZbhT0MHjj2JCJ8/yz4KLRAL3jZw9cH/Aj/2nCEFFCY
+	fQZYeRsnDxUXB2KV3BkGT9ikvURkc5lo23qKluzcRaoYN3rLxMiwDlaTYyXJraeaRDheITzKaN3
+	/n7GuZ+r8zr+Ibejpk15qBgmazk2qKrcOtFJZyyu4sU0SbQOo=
+X-Received: by 2002:a05:6a00:2e23:b0:845:d284:9e10 with SMTP id d2e1a72fcca58-84826e37c82mr3735337b3a.55.1783401144297;
+        Mon, 06 Jul 2026 22:12:24 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.12.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.12.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 22:12:15 -0700 (PDT)
+        Mon, 06 Jul 2026 22:12:24 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	asahi@lists.linux.dev,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 09/24] ASoC: codecs: aw88395: Use guard() for mutex locks
-Date: Tue,  7 Jul 2026 12:09:51 +0700
-Message-ID: <20260707051006.20058-10-phucduc.bui@gmail.com>
+Subject: [PATCH v3 10/24] ASoC: codecs: aw88399: Use guard() for mutex locks
+Date: Tue,  7 Jul 2026 12:09:52 +0700
+Message-ID: <20260707051006.20058-11-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260707051006.20058-1-phucduc.bui@gmail.com>
 References: <20260707051006.20058-1-phucduc.bui@gmail.com>
@@ -116,238 +116,85 @@ Merely code refactoring, and no behavior change.
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/aw88395/aw88395.c        | 24 ++++++--------
- sound/soc/codecs/aw88395/aw88395_device.c | 40 ++++++++---------------
- 2 files changed, 24 insertions(+), 40 deletions(-)
+ sound/soc/codecs/aw88399.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/codecs/aw88395/aw88395.c b/sound/soc/codecs/aw88395/aw88395.c
-index ee0e8bd8c54c..e9ff2c79ac15 100644
---- a/sound/soc/codecs/aw88395/aw88395.c
-+++ b/sound/soc/codecs/aw88395/aw88395.c
-@@ -8,6 +8,7 @@
+diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
+index b2ec3503f7e2..67ea073abdb7 100644
+--- a/sound/soc/codecs/aw88399.c
++++ b/sound/soc/codecs/aw88399.c
+@@ -7,6 +7,7 @@
  // Author: Weidong Wang <wangweidong.a@awinic.com>
  //
  
 +#include <linux/cleanup.h>
+ #include <linux/crc32.h>
  #include <linux/gpio/consumer.h>
  #include <linux/i2c.h>
- #include <linux/firmware.h>
-@@ -51,9 +52,8 @@ static void aw88395_startup_work(struct work_struct *work)
- 	struct aw88395 *aw88395 =
- 		container_of(work, struct aw88395, start_work.work);
+@@ -1140,9 +1141,8 @@ static void aw88399_startup_work(struct work_struct *work)
+ 	struct aw88399 *aw88399 =
+ 		container_of(work, struct aw88399, start_work.work);
  
--	mutex_lock(&aw88395->lock);
-+	guard(mutex)(&aw88395->lock);
- 	aw88395_start_pa(aw88395);
--	mutex_unlock(&aw88395->lock);
+-	mutex_lock(&aw88399->lock);
++	guard(mutex)(&aw88399->lock);
+ 	aw88399_start_pa(aw88399);
+-	mutex_unlock(&aw88399->lock);
  }
  
- static void aw88395_start(struct aw88395 *aw88395, bool sync_start)
-@@ -224,11 +224,10 @@ static int aw88395_profile_set(struct snd_kcontrol *kcontrol,
+ static void aw88399_start(struct aw88399 *aw88399, bool sync_start)
+@@ -1702,11 +1702,10 @@ static int aw88399_profile_set(struct snd_kcontrol *kcontrol,
+ 	struct aw88399 *aw88399 = snd_soc_component_get_drvdata(codec);
  	int ret;
  
- 	/* pa stop or stopping just set profile */
--	mutex_lock(&aw88395->lock);
-+	guard(mutex)(&aw88395->lock);
- 	ret = aw88395_dev_set_profile_index(aw88395->aw_pa, ucontrol->value.integer.value[0]);
- 	if (ret < 0) {
+-	mutex_lock(&aw88399->lock);
++	guard(mutex)(&aw88399->lock);
+ 	ret = aw88399_dev_set_profile_index(aw88399->aw_pa, ucontrol->value.integer.value[0]);
+ 	if (ret) {
  		dev_dbg(codec->dev, "profile index does not change");
--		mutex_unlock(&aw88395->lock);
+-		mutex_unlock(&aw88399->lock);
  		return 0;
  	}
  
-@@ -237,8 +236,6 @@ static int aw88395_profile_set(struct snd_kcontrol *kcontrol,
- 		aw88395_start(aw88395, AW88395_SYNC_START);
+@@ -1715,8 +1714,6 @@ static int aw88399_profile_set(struct snd_kcontrol *kcontrol,
+ 		aw88399_start(aw88399, AW88399_SYNC_START);
  	}
  
--	mutex_unlock(&aw88395->lock);
+-	mutex_unlock(&aw88399->lock);
 -
  	return 1;
  }
  
-@@ -366,7 +363,7 @@ static int aw88395_playback_event(struct snd_soc_dapm_widget *w,
- 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
- 	struct aw88395 *aw88395 = snd_soc_component_get_drvdata(component);
+@@ -1939,12 +1936,11 @@ static int aw88399_request_firmware_file(struct aw88399 *aw88399)
+ 		return ret;
+ 	}
  
--	mutex_lock(&aw88395->lock);
-+	guard(mutex)(&aw88395->lock);
+-	mutex_lock(&aw88399->lock);
++	guard(mutex)(&aw88399->lock);
+ 	/* aw device init */
+ 	ret = aw88399_dev_init(aw88399, aw88399->aw_cfg);
+ 	if (ret)
+ 		dev_err(aw88399->aw_pa->dev, "dev init failed");
+-	mutex_unlock(&aw88399->lock);
+ 
+ 	return ret;
+ }
+@@ -1975,7 +1971,7 @@ static int aw88399_playback_event(struct snd_soc_dapm_widget *w,
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+ 	struct aw88399 *aw88399 = snd_soc_component_get_drvdata(component);
+ 
+-	mutex_lock(&aw88399->lock);
++	guard(mutex)(&aw88399->lock);
  	switch (event) {
  	case SND_SOC_DAPM_PRE_PMU:
- 		aw88395_start(aw88395, AW88395_ASYNC_START);
-@@ -377,7 +374,6 @@ static int aw88395_playback_event(struct snd_soc_dapm_widget *w,
+ 		aw88399_start(aw88399, AW88399_ASYNC_START);
+@@ -1986,7 +1982,6 @@ static int aw88399_playback_event(struct snd_soc_dapm_widget *w,
  	default:
  		break;
  	}
--	mutex_unlock(&aw88395->lock);
+-	mutex_unlock(&aw88399->lock);
  
  	return 0;
  }
-@@ -495,12 +491,12 @@ static int aw88395_request_firmware_file(struct aw88395 *aw88395)
- 
- 	dev_dbg(aw88395->aw_pa->dev, "%s : bin load success\n", __func__);
- 
--	mutex_lock(&aw88395->lock);
--	/* aw device init */
--	ret = aw88395_dev_init(aw88395->aw_pa, aw88395->aw_cfg);
--	if (ret < 0)
--		dev_err(aw88395->aw_pa->dev, "dev init failed");
--	mutex_unlock(&aw88395->lock);
-+	scoped_guard(mutex, &aw88395->lock) {
-+		/* aw device init */
-+		ret = aw88395_dev_init(aw88395->aw_pa, aw88395->aw_cfg);
-+		if (ret < 0)
-+			dev_err(aw88395->aw_pa->dev, "dev init failed");
-+	}
- 
- 	return ret;
- }
-diff --git a/sound/soc/codecs/aw88395/aw88395_device.c b/sound/soc/codecs/aw88395/aw88395_device.c
-index 79c3135a4110..12d42d27560d 100644
---- a/sound/soc/codecs/aw88395/aw88395_device.c
-+++ b/sound/soc/codecs/aw88395/aw88395_device.c
-@@ -8,6 +8,7 @@
- // Author: Ben Yi <yijiangtao@awinic.com>
- //
- 
-+#include <linux/cleanup.h>
- #include <linux/crc32.h>
- #include <linux/i2c.h>
- #include <linux/minmax.h>
-@@ -70,7 +71,7 @@ int aw_dev_dsp_write(struct aw_device *aw_dev,
- 	u32 reg_value;
- 	int ret;
- 
--	mutex_lock(&aw_dev->dsp_lock);
-+	guard(mutex)(&aw_dev->dsp_lock);
- 	switch (data_type) {
- 	case AW_DSP_16_DATA:
- 		ret = aw_dev_dsp_write_16bit(aw_dev, dsp_addr, dsp_data);
-@@ -93,7 +94,6 @@ int aw_dev_dsp_write(struct aw_device *aw_dev,
- 	/* clear dsp chip select state*/
- 	if (regmap_read(aw_dev->regmap, AW88395_ID_REG, &reg_value))
- 		dev_err(aw_dev->dev, "%s fail to clear chip state. Err=%d\n", __func__, ret);
--	mutex_unlock(&aw_dev->dsp_lock);
- 
- 	return ret;
- }
-@@ -156,7 +156,7 @@ int aw_dev_dsp_read(struct aw_device *aw_dev,
- 	u32 reg_value;
- 	int ret;
- 
--	mutex_lock(&aw_dev->dsp_lock);
-+	guard(mutex)(&aw_dev->dsp_lock);
- 	switch (data_type) {
- 	case AW_DSP_16_DATA:
- 		ret = aw_dev_dsp_read_16bit(aw_dev, dsp_addr, dsp_data);
-@@ -179,7 +179,6 @@ int aw_dev_dsp_read(struct aw_device *aw_dev,
- 	/* clear dsp chip select state*/
- 	if (regmap_read(aw_dev->regmap, AW88395_ID_REG, &reg_value))
- 		dev_err(aw_dev->dev, "%s fail to clear chip state. Err=%d\n", __func__, ret);
--	mutex_unlock(&aw_dev->dsp_lock);
- 
- 	return ret;
- }
-@@ -1110,42 +1109,36 @@ static int aw_dev_dsp_update_container(struct aw_device *aw_dev,
- #ifdef AW88395_DSP_I2C_WRITES
- 	u32 tmp_len;
- 
--	mutex_lock(&aw_dev->dsp_lock);
-+	guard(mutex)(&aw_dev->dsp_lock);
- 	ret = regmap_write(aw_dev->regmap, AW88395_DSPMADD_REG, base);
- 	if (ret)
--		goto error_operation;
-+		return ret;
- 
- 	for (i = 0; i < len; i += AW88395_MAX_RAM_WRITE_BYTE_SIZE) {
- 		tmp_len = min(len - i, AW88395_MAX_RAM_WRITE_BYTE_SIZE);
- 		ret = regmap_raw_write(aw_dev->regmap, AW88395_DSPMDAT_REG,
- 					&data[i], tmp_len);
- 		if (ret)
--			goto error_operation;
-+			return ret;
- 	}
--	mutex_unlock(&aw_dev->dsp_lock);
- #else
- 	__be16 reg_val;
- 
--	mutex_lock(&aw_dev->dsp_lock);
-+	guard(mutex)(&aw_dev->dsp_lock);
- 	/* i2c write */
- 	ret = regmap_write(aw_dev->regmap, AW88395_DSPMADD_REG, base);
- 	if (ret)
--		goto error_operation;
-+		return ret;
- 	for (i = 0; i < len; i += 2) {
- 		reg_val = cpu_to_be16p((u16 *)(data + i));
- 		ret = regmap_write(aw_dev->regmap, AW88395_DSPMDAT_REG,
- 					(u16)reg_val);
- 		if (ret)
--			goto error_operation;
-+			return ret;
- 	}
--	mutex_unlock(&aw_dev->dsp_lock);
- #endif
- 
- 	return 0;
--
--error_operation:
--	mutex_unlock(&aw_dev->dsp_lock);
--	return ret;
- }
- 
- static int aw_dev_dsp_update_fw(struct aw_device *aw_dev,
-@@ -1231,14 +1224,14 @@ static int aw_dev_check_sram(struct aw_device *aw_dev)
- {
- 	unsigned int reg_val;
- 
--	mutex_lock(&aw_dev->dsp_lock);
-+	guard(mutex)(&aw_dev->dsp_lock);
- 	/* check the odd bits of reg 0x40 */
- 	regmap_write(aw_dev->regmap, AW88395_DSPMADD_REG, AW88395_DSP_ODD_NUM_BIT_TEST);
- 	regmap_read(aw_dev->regmap, AW88395_DSPMADD_REG, &reg_val);
- 	if (reg_val != AW88395_DSP_ODD_NUM_BIT_TEST) {
- 		dev_err(aw_dev->dev, "check reg 0x40 odd bit failed, read[0x%x] != write[0x%x]",
- 				reg_val, AW88395_DSP_ODD_NUM_BIT_TEST);
--		goto error;
-+		return -EPERM;
- 	}
- 
- 	/* check the even bits of reg 0x40 */
-@@ -1247,7 +1240,7 @@ static int aw_dev_check_sram(struct aw_device *aw_dev)
- 	if (reg_val != AW88395_DSP_EVEN_NUM_BIT_TEST) {
- 		dev_err(aw_dev->dev, "check reg 0x40 even bit failed, read[0x%x] != write[0x%x]",
- 				reg_val, AW88395_DSP_EVEN_NUM_BIT_TEST);
--		goto error;
-+		return -EPERM;
- 	}
- 
- 	/* check dsp_fw_base_addr */
-@@ -1256,7 +1249,7 @@ static int aw_dev_check_sram(struct aw_device *aw_dev)
- 	if (reg_val != AW88395_DSP_EVEN_NUM_BIT_TEST) {
- 		dev_err(aw_dev->dev, "check dsp fw addr failed, read[0x%x] != write[0x%x]",
- 						reg_val, AW88395_DSP_EVEN_NUM_BIT_TEST);
--		goto error;
-+		return -EPERM;
- 	}
- 
- 	/* check dsp_cfg_base_addr */
-@@ -1265,15 +1258,10 @@ static int aw_dev_check_sram(struct aw_device *aw_dev)
- 	if (reg_val != AW88395_DSP_ODD_NUM_BIT_TEST) {
- 		dev_err(aw_dev->dev, "check dsp cfg failed, read[0x%x] != write[0x%x]",
- 						reg_val, AW88395_DSP_ODD_NUM_BIT_TEST);
--		goto error;
-+		return -EPERM;
- 	}
--	mutex_unlock(&aw_dev->dsp_lock);
- 
- 	return 0;
--
--error:
--	mutex_unlock(&aw_dev->dsp_lock);
--	return -EPERM;
- }
- 
- int aw88395_dev_fw_update(struct aw_device *aw_dev, bool up_dsp_fw_en, bool force_up_en)
 -- 
 2.43.0
 
