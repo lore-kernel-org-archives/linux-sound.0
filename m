@@ -1,63 +1,63 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2FB2EEE61
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 05:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D466A381AEF
+	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 05:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783401154; cv=none; b=a0ZArbNVl/BD72nrsLL8iCNErk1vwJChdssTfq+qMqkey6cL81X+JZm70BjTa4QWaspeYkfG3CWdP8W0Eayr4hS2JPc1TYPIzHj/nVPH0J804YJGWEw0oAzGZETTusLQVm7tezjyHlNrZwmrsrh7EQa518DrrJn7AIcG1JrXN0A=
+	t=1783401163; cv=none; b=T9wVkvO31zhjwkOJblCTg3WnoWHTwx9KTok+QLX4yCOmetCHtHCUHKlaFh0jkchlGXUqmpjAlJr+CqRRajYFGc+az6V/V6OAXZG559ACwohvOzbDd7ZmzT/wILmRLE+08ZHZ5eXCDzvDcbOxW3mY6dSmnlLzUC5lboVMUYkbAgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783401154; c=relaxed/simple;
-	bh=l+jE/ICW3VwCjHs5/VwCJgnhBYlTFKeilmi/IdexrH0=;
+	s=arc-20240116; t=1783401163; c=relaxed/simple;
+	bh=/r6IWp2lq/IqX/xitXazGqvOEQK7A7aRycIG7RzU7kM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qTDsIWkJBs1OvuNv6nm0s5g+L7AMnQryUBwRQVFD29V8V962OwzORRDieb4Y286iALNWkGdl4egOz454zqa2XN5JihAxOXH34s/syVwqAxIWy3eM0K1zGPAZSi6Ja6Jr4lEUwt3VuiCZVCcyXFPbQIiaiw+q32JB/C/NuhMsn0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jE1lLtfR; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=h5zhOnZoY5q3u2efRte6B5JkPuBNM9sQ/KsvYtjS6F/cXohHyOozz086R60PHtgAy3YOTavUJ0Nmc/5pIdWZoZ3VOS+h89w0SAdTKMDezboTqAQ28dAJkmQMLemkC0EG7KpO5NN1VBpYnh347iHydWe7KVvu1NkejooqZqC70eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YLHbAW6s; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jE1lLtfR"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8475eca3a66so5462440b3a.2
-        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 22:12:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YLHbAW6s"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-84783bce476so2716015b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 06 Jul 2026 22:12:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783401153; x=1784005953; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783401161; x=1784005961; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nYGM4NqjESQUWIB0GyhH+Inqu4fPaZ6H5/Lwh6w+p3g=;
-        b=jE1lLtfRLM3RP/kJoKga/GyzUVtvZ9tmFudZQYjQFmGhkIaHw+94aNoTRI8u2CaQrG
-         /wR1dImQErn9j2quDw2NcBKnfQ3P5IJGitAXR32bszNwflFIMDoWMjIoDpszxaXafpkv
-         bK+uXLzxSQtv+Od36hZFR0kXchhtSoZgHTN5KkQDMgbScDIY4X+ywoMkEbUNdtXFezPX
-         YD2wnc61LlKC1CX1z2lagT8Om7IcWKaZfSo+bWqXAiKtO1aJ1XP9TlswckS/8jdZe77y
-         GNVX1zzsE2dxa05WSe4rx1jvXaOqurXSEqhJdVAWdwKWbTTKUAQlQkfBUfZvZjMWZss/
-         Uz0A==
+        bh=Mtl1X3tKc/n7QmmaBl4vTl93wYDxMzIpl5/tn8Gmn8k=;
+        b=YLHbAW6s7mmZO4tMk1hUcQaEeuPSFY4Zids9uXXda9j35Y6Wy9PTEH9/kH4Jb4uGDt
+         yQ6rfcmtxidOO4lzcgrCEC+lKa8HQLsrHuYpj208xt/Ra4iKp5+1w/oYuhu/+6tAqYul
+         hWTRsV95NIxJEG2kK11DhFqpOQVONGVvGWKNIpwN90wsuD93QZW4sh0E5mGFnMfv20CM
+         Wrk8y+Y19wleNdnoOm515hVgc69KmjoiHFzXhOrjMb9RVGpjqde3gEtomgMlJ0Q9Knkg
+         xvQyHSSTrHK1biFbjp3Kyf+QyW8QBjU2gw1LOGACc62pDrLRYEfiQf2aw6SzaauHZkNv
+         gNNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783401153; x=1784005953;
+        d=1e100.net; s=20251104; t=1783401161; x=1784005961;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nYGM4NqjESQUWIB0GyhH+Inqu4fPaZ6H5/Lwh6w+p3g=;
-        b=D+f7K+JE3EIgapgmNva024uA8GkctlNAlMX0YGTb0yxhPEDXGHrBMQKO0g+g/hm2eK
-         w0/El4BH/HSXjfVkT4WFDdl8eeDwIeC5TB9LF9LE8R+vVaFpjwRjLnGESLlnJTPiVAoG
-         CNmYd0S7HNhMVOvIHnhAcZiz4yRjBTPQI1nvlZfcR54MOeK0+UJoqC1tvnatAsfQGS6x
-         PS4J8AQq/4nx5j2Hdt9y43wY+Am1U8128WKFzu6s6dVz/Aagw4YvrNWeCMA0PxkQOTlu
-         z7CG4wZac5e867997puT1PlXEBXat8buksES3+aTT9Td1PzR9SyLgb5PHE7vCm3MKe4l
-         xYkg==
-X-Forwarded-Encrypted: i=1; AHgh+RqTAdR8WMutRZPP3NjAlzpzIQCcRkFB4McxFtpyvSDNKzan0m5EzAnEJ+Dq8iIwimXWYlFo00JxG+RDpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCAz5LhN4JdPh3IyaX1rRcSl3F7FMeYgvBW0W+7cIyuXjF+D4s
-	ufesXfybjp76ilNwonOe0N/fAlwJ8pycQgNQcEUl2ZdunKammpkdw3Yo
-X-Gm-Gg: AfdE7ckuDskJInh9T7Zv195EkvSMQHk018mkv+rHdwHtOdAxPFiHyb7PkokV9FjdOlI
-	0dx7KdHAEcGNdlAP2PA5EIXsT5iw0JnoVZ8gA5JBZ0MlYUeFoZN8qz9FyPgZkyOp4rX88Jt3Wos
-	o2AX+kmYTPQygR3XyZAkR0tWHoLDD0Bn24sLk7wf9uN9QqZcK7r9V5y+cecPsDbarDWQclBxGoJ
-	+3mfQ8ALSbANaM/y+BpPKJUi3WS+bCsOkxHAUHTbHXPgJU2IcxjRsFFxCS6ypLux/lUTaz+IsPs
-	GfKG/vObEtMkFQebbPaoC2gQxrINe9jQ/5ZAk7iL5nBq203bUGE/+nIYtYg14rL5NURCLgs7A1J
-	XkHj+eR1Cwf4GMzpRDY7fbh9Dxr6xo7HC345+WG/BgET6QQKqz8zU77DRlBeKnESyPn+uwGQgFq
-	+9z4EP6rx0iXopkR9eYLoauQSGZeEurQT/K56j/sFG+KQa7b0=
-X-Received: by 2002:a05:6a00:bd81:b0:847:8650:69cd with SMTP id d2e1a72fcca58-84826dad939mr3557020b3a.33.1783401152996;
-        Mon, 06 Jul 2026 22:12:32 -0700 (PDT)
+        bh=Mtl1X3tKc/n7QmmaBl4vTl93wYDxMzIpl5/tn8Gmn8k=;
+        b=fpuPXNPgyzeum36a80cXm9p/FlGvN0vj4IMm+mQ5Zv/ezYWS+Dbmppwjt9e7YFEnzU
+         MhX8oJ8BZVFcs58k34YCYUa8NdUiIroBuPPQLa1JaSSBFvmLWnsTdt0MVPA1ZHc2F1Xi
+         OeznLsO4pcLGoBTlcbx6cbSrf3FtgSKnqvR932U8yqWPqutyISEvgzL7xNUH68Wt9qWm
+         MjEYYL2G28CiP/9/dCP7RyFAadRoBV47eiTiL82tkYjNaMhDuOsAdBsREvKsv06rJFOv
+         A81ci4jxUDOfxT5qitEtLNnCHl+W6s8ZTNIsAWstbIq8wZ0d04w1SEsTuJQkp1TCV7Xj
+         srkg==
+X-Forwarded-Encrypted: i=1; AHgh+RqxM0FQDYXHcakgvOmFKSLN1Of7EXEJ3t56YG+WJgqsSZaYmQWija1JDBkk2dGI/JffhX1u4fXJjaqToA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsMbD0IY5fpG6gsLcxm0VgCsaxo/o8bOkfPDbTbqoCi5CCxQ1B
+	h0kU6bEzm0qhlwUsisjKx8ZO/YpNTysqgicUvfWvGmvgJ1rlBkXmPLLD
+X-Gm-Gg: AfdE7ckf81quJ4tlGVdsc6jBberUg7bjaHfvqPYSceok3tEXf+RHHeo619rVcvOQ0rK
+	3CuzzmwizQH5cymNFQYjFEVdCwCfG7LTssYxmmAou1FGphCBW6oDU1eFduUpGAbNlDKoC3nv2xw
+	SZZDem5FJ2Bgpw2g805S8fPci6s86g2Y4WYN1HlEytTbAhgR8kBnmrD3zFQwuINqwtvDw67P9pJ
+	tVUH47FvN8Mr9DVbNFSqynLqjCFutF89CE7T0B9R/i1NeSmnMoLHWe2gQJUEhCzGUbA+dZtqQVZ
+	DPVs8pvTiHDs4dStrUC44CNBcWDSNpwD2lLUEzdPSR/Bn0Sagh6fJlaOCupTAvwpyYkalir0Zbb
+	dT/Q1OhAJG66gBWGz5XbNQ53BRs/4jMvlWgoJAQnEDYZOkqdnUVBMwDnhacSiKcQxL2g67kh/yW
+	eogpw6QQ6RL9vpQhnPBbXO0KiqQzjYjY5zwsGmsdOhXVXrz9I=
+X-Received: by 2002:a05:6a00:8d8e:b0:845:c662:2be with SMTP id d2e1a72fcca58-84826ed02f3mr3771280b3a.42.1783401161134;
+        Mon, 06 Jul 2026 22:12:41 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.12.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d4dbdesm4728495b3a.31.2026.07.06.22.12.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 22:12:32 -0700 (PDT)
+        Mon, 06 Jul 2026 22:12:40 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	asahi@lists.linux.dev,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 11/24] ASoC: codecs: cros_ec_codec: Use guard() for mutex locks
-Date: Tue,  7 Jul 2026 12:09:53 +0700
-Message-ID: <20260707051006.20058-12-phucduc.bui@gmail.com>
+Subject: [PATCH v3 12/24] ASoC: codecs: cs-amp-lib: Use guard() for mutex locks
+Date: Tue,  7 Jul 2026 12:09:54 +0700
+Message-ID: <20260707051006.20058-13-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260707051006.20058-1-phucduc.bui@gmail.com>
 References: <20260707051006.20058-1-phucduc.bui@gmail.com>
@@ -114,75 +114,41 @@ Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/cros_ec_codec.c | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ sound/soc/codecs/cs-amp-lib.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/codecs/cros_ec_codec.c b/sound/soc/codecs/cros_ec_codec.c
-index 7dc5a7c3ca96..fd2d5d7f9276 100644
---- a/sound/soc/codecs/cros_ec_codec.c
-+++ b/sound/soc/codecs/cros_ec_codec.c
-@@ -12,6 +12,7 @@
- #include <linux/acpi.h>
- #include <linux/delay.h>
- #include <linux/device.h>
+diff --git a/sound/soc/codecs/cs-amp-lib.c b/sound/soc/codecs/cs-amp-lib.c
+index 371e99205b58..41a9a5b005c6 100644
+--- a/sound/soc/codecs/cs-amp-lib.c
++++ b/sound/soc/codecs/cs-amp-lib.c
+@@ -7,6 +7,7 @@
+ 
+ #include <asm/byteorder.h>
+ #include <kunit/static_stub.h>
 +#include <linux/cleanup.h>
- #include <linux/io.h>
- #include <linux/jiffies.h>
- #include <linux/kernel.h>
-@@ -608,10 +609,10 @@ static void wov_copy_work(struct work_struct *w)
- 		container_of(w, struct cros_ec_codec_priv, wov_copy_work.work);
- 	int ret;
+ #include <linux/debugfs.h>
+ #include <linux/dev_printk.h>
+ #include <linux/efi.h>
+@@ -83,10 +84,12 @@ static int cs_amp_write_cal_coeff(struct cs_dsp *dsp,
+ 	KUNIT_STATIC_STUB_REDIRECT(cs_amp_write_cal_coeff, dsp, controls, ctl_name, val);
  
--	mutex_lock(&priv->wov_dma_lock);
-+	guard(mutex)(&priv->wov_dma_lock);
- 	if (!priv->wov_substream) {
- 		dev_warn(priv->dev, "no pcm substream\n");
--		goto leave;
-+		return;
- 	}
+ 	if (IS_REACHABLE(CONFIG_FW_CS_DSP)) {
+-		mutex_lock(&dsp->pwr_lock);
+-		cs_ctl = cs_dsp_get_ctl(dsp, ctl_name, controls->mem_region, controls->alg_id);
+-		ret = cs_dsp_coeff_write_ctrl(cs_ctl, 0, &beval, sizeof(beval));
+-		mutex_unlock(&dsp->pwr_lock);
++		scoped_guard(mutex, &dsp->pwr_lock) {
++			cs_ctl = cs_dsp_get_ctl(dsp, ctl_name,
++						controls->mem_region,
++						controls->alg_id);
++			ret = cs_dsp_coeff_write_ctrl(cs_ctl, 0, &beval, sizeof(beval));
++		}
  
- 	if (ec_codec_capable(priv, EC_CODEC_CAP_WOV_AUDIO_SHM))
-@@ -624,8 +625,6 @@ static void wov_copy_work(struct work_struct *w)
- 				      msecs_to_jiffies(10));
- 	else if (ret)
- 		dev_err(priv->dev, "failed to read audio data\n");
--leave:
--	mutex_unlock(&priv->wov_dma_lock);
- }
- 
- static int wov_enable_get(struct snd_kcontrol *kcontrol,
-@@ -895,12 +894,11 @@ static int wov_pcm_hw_params(struct snd_soc_component *component,
- 	struct cros_ec_codec_priv *priv =
- 		snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&priv->wov_dma_lock);
-+	guard(mutex)(&priv->wov_dma_lock);
- 	priv->wov_substream = substream;
- 	priv->wov_rp = priv->wov_wp = 0;
- 	priv->wov_dma_offset = 0;
- 	priv->wov_burst_read = true;
--	mutex_unlock(&priv->wov_dma_lock);
- 
- 	return 0;
- }
-@@ -911,10 +909,10 @@ static int wov_pcm_hw_free(struct snd_soc_component *component,
- 	struct cros_ec_codec_priv *priv =
- 		snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&priv->wov_dma_lock);
--	wov_queue_dequeue(priv, wov_queue_size(priv));
--	priv->wov_substream = NULL;
--	mutex_unlock(&priv->wov_dma_lock);
-+	scoped_guard(mutex, &priv->wov_dma_lock) {
-+		wov_queue_dequeue(priv, wov_queue_size(priv));
-+		priv->wov_substream = NULL;
-+	}
- 
- 	cancel_delayed_work_sync(&priv->wov_copy_work);
- 
+ 		if (ret < 0) {
+ 			dev_err(dsp->dev, "Failed to write to '%s': %d\n", ctl_name, ret);
 -- 
 2.43.0
 
