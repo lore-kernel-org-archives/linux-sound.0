@@ -1,126 +1,132 @@
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C074189B8;
-	Tue,  7 Jul 2026 13:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E435B3D891D;
+	Tue,  7 Jul 2026 13:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783430697; cv=none; b=B+RrqltqPMVzJMUy8KTW52vizMWiu9749lVNnEaXmq8LDUFSSkYyXstZWdz529aUz5HIYDzDSaWwgCfHbnCyXWoqp0qtjwFATW4xTgV1s5fRLMg2V9lsi1Zh0GQCb60nC7UhRMdTIQkMHg52qozJ8TX06mQm4Fg+nF8r+aqdgsA=
+	t=1783431636; cv=none; b=nkAjynM93In8kAc5LcEQaeTO9ZJdOc+iWI1KfykfBSd3iBW6lmWUpqbvUPCbwYp1vTeNGoNnFczx/nJgVwb+m9JEnD7Ti8O8oRZDeV+3z8qXkT9ZxEQzJlirnC2Qm3tel6xZOFeMa9pd1MQY2efzbB/rpIEhN8HzGvrI+Abr4LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783430697; c=relaxed/simple;
-	bh=vtrZtH5TDoDuRwYUu+2qUXFi+UWqM85rbapuzzsKooE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aWsjOvko16H6rzO5CMF22gVF3hdtnMRdVSUQcwfsusS1T7kXa2zQAXD/yfqcA9UFm/DqN/TkqyDd3xziSBlkZ6ujkw36Jm4W5kDLGXuGH4KBWhBlOaHPoXOsRZOXZM/pnD5k5u2NpvqPJphX6jSXsc9LS/xV7mMij9lpr6l2ers=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Dk1t/251; arc=none smtp.client-ip=54.92.39.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1783431636; c=relaxed/simple;
+	bh=Mh/IAhVvG1/S+cjpvE9O4OaK5avVQsEhyj8N9PPG1U8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=b0x4PknUm1NOKm6dmufeLFtUcFirMwtD0FCutUiv51SuD9kOygmygEMUOKs/Ae9UMs3eJU5RfBOK9v3BAtoDtADW7dKsQC1dU9NsO3HwVMRJydpfEnFiVEFiIBSVWkSbqplM9BpxxRrQdTcq9QSV2vjUY+PRWAlhLnFJQMGzYgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMa1uRqq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Dk1t/251"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1783430667;
-	bh=m0aV9/Bzvgo91Wu7FQyhRfJtZRz32PhgnIpGOiDxBO0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Dk1t/251n0tSiOIUJavuTzYujTnzTRr+yWnv79BPG/d05muAuCdUcSkDMCYWYxWxH
-	 VnLU+pSiTPHHmKCn0IlpsnBBOwdRwwmpqNnsjDv6qR2zf5zn4vGAUsdU9h+3OZlO2o
-	 TQF3K1KDi2/y1MbD7pmRwtoR6rGsEqYKreMrkfNc=
-X-QQ-mid: zesmtpgz9t1783430662t310a248a
-X-QQ-Originating-IP: 2KdvJXoZsAUFuZXHtvFZbycg5b07oD6nW+2U2BzffGs=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 07 Jul 2026 21:24:20 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 7072674216128944020
-EX-QQ-RecipientCnt: 6
-From: raoxu <raoxu@uniontech.com>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
-	raoxu@uniontech.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Fix cached processing coefficient verbs
-Date: Tue,  7 Jul 2026 21:24:19 +0800
-Message-ID: <DB9023BF2920BA99+20260707132419.1731342-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMa1uRqq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94B81F00A3A;
+	Tue,  7 Jul 2026 13:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783431635;
+	bh=jpzDDg1Pc4zXsr4my1Cqy3vPvYx5ZtLuco2ubaAV5sY=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=PMa1uRqqohSttrW6Rt39/Z3gQ3pUpDr8F3y5Kr6VUjkcthvxdcehPPXUlwIX2x2Ct
+	 fSNUI8aCGnZ2Cp7jou4ElYol6KpvDm6NCZRJBlban1IbBk3i5zLTYr+pvXGfYcO09Z
+	 5HsZnvg8dgBhHxVAueZLE5ubyBFrFnIF3fmjeS8gPlGB16+u9bjsNRx6utyrzkFzfg
+	 Pwoubx60Jo0jweoWzxrvCjbOaBVc4YUpC/Wc92cOyCBavBKKfhGo9jxxwI1hoHoyZm
+	 QlFttL1SEIEvskfdhVyWmP362kzhYJ5Xe6SueMR6atTJWJ5PwC3wykxlxHkWnCav7e
+	 DhG89/Q6r3CLg==
+Message-ID: <9b45a805-79b4-4b9c-b5fc-d9b08a736a42@kernel.org>
+Date: Tue, 7 Jul 2026 15:40:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NgFno1SrO4sPwunoyO9iepoo+viWXnWaQRjx5nZ7kAh+Kds9G7K6iDGB
-	D3N1mx0EWE5XbtYqcq9X8XHB9yJtbtMLYrp1GGhA0MQ93l95/ns0AiZtuCA83rW9ZeeitzJ
-	nc9pG+C4PnTRTsOELlP/xxY8H4ScHfyELGCU2YTmEJ4eBWbUxCwbOXAi834TxEvg7dB9lMh
-	AkDt3ncPmBc971kiejx5dcyjgkdKU17e0O80V+rPbAqaJcPtWivZ4fZjrGTflAUVaHj6+u9
-	S8l3OCeIDvI5IIP/wArBRud64fZ7F/1sRAzPF1Sl9Ofg+IjRia716+0jYfljgMgiZ0zxABw
-	7SoJvRomY58y22lK7aFviRabSKYkTfLZGC3MzXZsHoY1f6zWoAWEd5st0hGx40WILv/lbD7
-	W+7AIG8Te1/JBoFxsZIUbvHU+rR7icOevNRmwZTNtRfo3EY1W+jypUSyaFLuukUsPK+19tJ
-	6iX1J5oUDdSMMB5UzcG1fV15MD4QCzBiv+fqOP/RisRyNw+Gd60lL5Z+UYHJ25apyPBeqPX
-	wwlJkByQQ9tfyEIPSuifMPirNsn6AOEECr3YBSZw13m5tRRjLHV/v3DFNKYa54KOIASIt0K
-	gu2KKl8FwUosvCvkdxT3UaZVJPLs97Fzlb+rEmXsf0fP+vYaJMXbTquicmvb95Bh+eHMTMY
-	1RD7i+EMyCH22mRo2dixm5wxJsm9UlqkavDkKJlDMEMmtOeRPJ1lipza4EMHOELMl0Ggnrp
-	O+rB3z3ApJW6LDm/mhVOdaQGQDy1THTWgfdmELWWArykHf+jj5L8VH5+GIiqd9vbebhQ1Vx
-	l2w3bHiIYq8iEtnoKb6rSE3NsXcynvz+quN8J+aB4eXLUvYRSnps7lNkcbxWp0njpjLBbFs
-	rbgecl4XzVSvZtqV4FtaRyplTARf8RVeCKs3K2PMIvV2jUXqok/Z53Dwhq2Wp8Mr2XH9oPH
-	uOf2ohodo5qnYLUCDNNYGGqw+nBdB2FUPlQT/24eUbzJ5XFPQFUMd8dbqLbzJXc6dJ+BUPR
-	gG7IiUgV9fstLvczj++KFDbQ23zPU5OSBXTkyoV95pXtfhJjxdlEillYtKq5RvqyDwz1oOO
-	Q==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: sound: add WSA8855 bindings
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+ Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260701135913.1641328-1-prasad.kumpatla@oss.qualcomm.com>
+ <20260701135913.1641328-2-prasad.kumpatla@oss.qualcomm.com>
+ <96e3edaa-3fac-4006-9941-5e620e61f3b4@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <96e3edaa-3fac-4006-9941-5e620e61f3b4@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Xu Rao <raoxu@uniontech.com>
+On 07/07/2026 15:13, Krzysztof Kozlowski wrote:
+> On 01/07/2026 15:59, Prasad Kumpatla wrote:
+>> +maintainers:
+>> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>> +
+>> +description:
+>> +  WSA885X is a Qualcomm Aqstic stereo smart speaker amplifier. It uses a PCM
+>> +  audio interface, an I2C control interface, and a Class-H amplifier path for
+>> +  high efficiency, low output noise, and low idle power consumption.
+>> +
+>> +allOf:
+>> +  - $ref: dai-common.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: qcom,wsa8855
+> 
+> This will need exception and I am in process of rewriting qcom-soc file.
+> I can include this one there.
 
-Intel HD Audio defines Coefficient Index and Processing Coefficient as
-separate audio widget controls in the Audio Widget Verb Definitions:
-Coefficient Index selects the coefficient slot, while Processing
-Coefficient accesses the value at the selected slot.
+Sent here:
+20260707-dt-bindings-qcom-soc-naming-v2-4-1b7d695be2e1@oss.qualcomm.com
 
-hda_reg_read_coef() selects the slot with AC_VERB_SET_COEF_INDEX, but
-then uses AC_VERB_GET_COEF_INDEX for the value read.  That reads back the
-selected index instead of the coefficient value.  hda_reg_write_coef()
-has the same issue and builds the value write from AC_VERB_GET_COEF_INDEX
-instead of AC_VERB_SET_PROC_COEF.
 
-This only affects the regmap coefficient cache path used by codecs that
-set codec->cache_coef.  Direct coefficient helpers already use the normal
-SET_COEF_INDEX followed by GET_PROC_COEF or SET_PROC_COEF sequence, which
-is likely why this has not been noticed widely.
+BTW, one more note:
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v7.1-rc7/source/Documentation/devicetree/bindings/submitting-patches.rst#L23
 
-Use AC_VERB_GET_PROC_COEF for cached coefficient reads and
-AC_VERB_SET_PROC_COEF for cached coefficient writes.
 
-Fixes: 40ba66a702b8 ("ALSA: hda - Add cache support for COEF read/write")
-Cc: stable@vger.kernel.org
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- sound/hda/core/regmap.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/hda/core/regmap.c b/sound/hda/core/regmap.c
-index e7b866fc52c1..d6eb17aa9e08 100644
---- a/sound/hda/core/regmap.c
-+++ b/sound/hda/core/regmap.c
-@@ -214,7 +214,7 @@ static int hda_reg_read_coef(struct hdac_device *codec, unsigned int reg,
- 	err = snd_hdac_exec_verb(codec, verb, 0, NULL);
- 	if (err < 0)
- 		return err;
--	verb = (reg & ~0xfffff) | (AC_VERB_GET_COEF_INDEX << 8);
-+	verb = (reg & ~0xfffff) | (AC_VERB_GET_PROC_COEF << 8);
- 	return snd_hdac_exec_verb(codec, verb, 0, val);
- }
-
-@@ -232,7 +232,7 @@ static int hda_reg_write_coef(struct hdac_device *codec, unsigned int reg,
- 	err = snd_hdac_exec_verb(codec, verb, 0, NULL);
- 	if (err < 0)
- 		return err;
--	verb = (reg & ~0xfffff) | (AC_VERB_GET_COEF_INDEX << 8) |
-+	verb = (reg & ~0xfffff) | (AC_VERB_SET_PROC_COEF << 8) |
- 		(val & 0xffff);
- 	return snd_hdac_exec_verb(codec, verb, 0, NULL);
- }
---
-2.50.1
-
+Best regards,
+Krzysztof
