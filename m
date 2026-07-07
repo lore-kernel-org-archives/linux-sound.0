@@ -1,169 +1,139 @@
-Received: from aposti.net (aposti.net [185.119.170.32])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6E143C7B2;
-	Tue,  7 Jul 2026 18:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0BB306D3F
+	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 18:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783448028; cv=none; b=VWJtBq39TMPs1U8FCOoH5RVO3FvzPaSn93P2ya5ej91RqJp5Y1giXsAO84QswwdjhC/R9aYvgjikRbGv+hv0Y7GxVHeIOA7JRRW9sXbpOJHkLBSzhJG7U4JCoI1pLbqKRbwPKg6+My1sNGgYrFhg2WZBo2uOkpLitpy5Yb3121o=
+	t=1783449130; cv=none; b=S9nb+j5hhMgoDZgJ1jeVVQYcqE9dSSbyFIgQZZO4KDBUhHyC8qPB99T+UqC7Gtm18YGRW1SmIdcTN5Ev3Lm8ms21kry/zjiC8WJAoLOUxBtbg7g/PY+L3aHCia62eTjUeMZuetUb3AZeTlOtjtmIBQbIjYw2eumB3wNPouuBBeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783448028; c=relaxed/simple;
-	bh=jSZnB0sLqjEJbBoqe7AZJRMFNCZugWpISC+yCdraaOk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=frXj8u/839yhSKbijrBsY45eh/YecaIYEcb3lt+rF7vjNiWuCgP2FadWmL19LbWh+OlmwcE8eUo4tzOTkynIrRukrigIlN8RVfiJLvAQxEugqzz6u71ei4HjlUyZV9dWvZZBsoXfoogdetJIXKIYDvULo79KwgE+/yZk9WIT714=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=taLqIYWA; arc=none smtp.client-ip=185.119.170.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1783449130; c=relaxed/simple;
+	bh=9XHQkl34PtiRvSb3ChZImcvJdGvQt19SQZmM5JYbS+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cJDg1OF9sryRR5n9vqWhILIhTyIqT1zElXQPk153eTcp9h2ymEhs19/t25WS7awEDFQgwJp1KoAQlZMsQlIxiiF1zZCgk4AqNQHBOrNq59t09f4kVIsNXd3iRTCmsOGZjlrX2/Yq+4d4IPXkYgX7CjjceeZNP4yP+TqcMegQogE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXgyIsVP; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="taLqIYWA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crapouillou.net;
-	s=mail; t=1783447618;
-	bh=jSZnB0sLqjEJbBoqe7AZJRMFNCZugWpISC+yCdraaOk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=taLqIYWARPanxMePLjn0T7clMcda7af2pvmrr0dQzpeuwc0nctWzpeP7MFrEdwHD3
-	 wFNI1Cev/uBH+lstwttbgnjYpRUlRSvuTptlXHNnBzTOSCT1/sAyy72NlnTqVPq0M/
-	 E7dkR8V01XIjaryuVKTvkbf8yDy1RmuISroVos5g=
-Message-ID: <f46dfcfe04c5f8270b2ea1a947ddc0a0eeda7dbc.camel@crapouillou.net>
-Subject: Re: [PATCH 17/42] drm: ingenic: Use
- devm_of_reserved_mem_device_init()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, Bjorn Andersson	
- <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Liviu Dudau
-	 <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Joel Stanley <joel@jms.id.au>, Andrew
- Jeffery <andrew@codeconstruct.com.au>,  Anitha Chrisanthus
- <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Linus Walleij	 <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej
- Skrabec	 <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Alexey Brodkin <abrodkin@synopsys.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Michal Simek <michal.simek@amd.com>,
- Daniel Scally	 <dan.scally@ideasonboard.com>, Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>,  Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Eddie James <eajames@linux.ibm.com>, Tiffany Lin	
- <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Yunfei Dong <yunfei.dong@mediatek.com>, Minghsiu Tsai
- <minghsiu.tsai@mediatek.com>, Houlong Wei	 <houlong.wei@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Joseph Liu <kwliu@nuvoton.com>,
- Marvin Lin <kflin@nuvoton.com>,  Dmitry Osipenko
- <dmitry.osipenko@collabora.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Thierry Reding	 <thierry.reding@kernel.org>, Jonathan Hunter
- <jonathanh@nvidia.com>,  Srinivas Kandagatla	 <srini@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Greg Kroah-Hartman	 <gregkh@linuxfoundation.org>,
- Ge Gordon <gordon.ge@bst.ai>, Adrian Hunter	 <adrian.hunter@intel.com>, Ulf
- Hansson <ulfh@kernel.org>, Rob Herring	 <robh@kernel.org>, Saravana Kannan
- <saravanak@kernel.org>, Mathieu Poirier	 <mathieu.poirier@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai	 <tiwai@suse.com>, Shengjiu
- Wang <shengjiu.wang@gmail.com>, Xiubo Li	 <Xiubo.Lee@gmail.com>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown	 <broonie@kernel.org>, Frank Li
- <Frank.Li@nxp.com>, Sascha Hauer	 <s.hauer@pengutronix.de>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,  Bard Liao
- <yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
- Orson Zhai	 <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Peter Chen	 <peter.chen@cixtech.com>,
- Fugang Duan <fugang.duan@cixtech.com>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, BST Linux Kernel Upstream
- Group <bst-upstream@bstai.top>, Fabio Estevam <festevam@gmail.com>, Nicolin
- Chen <nicoleotsuka@gmail.com>,  Pengutronix Kernel Team	
- <kernel@pengutronix.de>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Vijendar Mukunda
- <Vijendar.Mukunda@amd.com>, Chunyan Zhang	 <zhang.lyra@gmail.com>, CIX
- Linux Kernel Upstream Group	 <cix-kernel-upstream@cixtech.com>,
- linux-arm-msm@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 	linux-aspeed@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, 	linux-mips@vger.kernel.org,
- linux-sunxi@lists.linux.dev, 	linux-media@vger.kernel.org,
- openbmc@lists.ozlabs.org, 	linux-mediatek@lists.infradead.org,
- kernel@collabora.com, 	linux-tegra@vger.kernel.org,
- linux-mmc@vger.kernel.org, 	devicetree@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, 	linux-staging@lists.linux.dev,
- linux-sound@vger.kernel.org, 	linuxppc-dev@lists.ozlabs.org,
- imx@lists.linux.dev, 	sound-open-firmware@alsa-project.org
-Date: Tue, 07 Jul 2026 20:06:50 +0200
-In-Reply-To: <20260703193855.110619-18-mukesh.ojha@oss.qualcomm.com>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
-	 <20260703193855.110619-18-mukesh.ojha@oss.qualcomm.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRU=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXgyIsVP"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cca0c5799eso24362845ad.0
+        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 11:32:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783449129; x=1784053929; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Nl98BK4u9JPRN9mxwdYysSrsI/UxB+SXFXlHLi71pK0=;
+        b=FXgyIsVPPG+Bwg8WZh5cDugs9pUhrZhvWj5Ps/eOlF640ACgKLq45RolyOPsGCrBAL
+         qiJQJL7UmKQHTyxMaiK0feKd6G/THZoO+yMagMnRTKgenK4D+uGA6uams9+oXPtSSj8l
+         4xn7ypv4b95TCT1HpEALOAHQYcHxXDdCZ8sdNqul39NriSxXUe1kyzGCHmsn9xaLZtGE
+         62Vs/M4wdCs9cXTSnu9vYcIMDcMlk6z4cuYBGPCf5M0EkTY8pcz8Xplri5MIlgYnn60E
+         4NgTTq4acLDKR7IWj6Oz40Zw0c1876C+YsilOa4RrCnT0RqmOZyMi2nW4pD41epB7RsV
+         s8Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783449129; x=1784053929;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Nl98BK4u9JPRN9mxwdYysSrsI/UxB+SXFXlHLi71pK0=;
+        b=XnfjLoKIAYq6IVQOOcnhPOsR4nFgIcNffV0hBm7Q071b328IBx7JcdRpWIi7bY/ygf
+         3L9cS98qD2a0nqR6RwX/oW/jZ+/rGOo4dYEhiwtMTYxvR3RmgblvJdNyzjNEaf6TLJPQ
+         7S/5XK4befktAsYIJ4EQVwveijkwjsmDU++we3aLrhFNhng5hO6t+bH/fSSfw9ro9DLS
+         9jS0X/9lOBK1Jg0IPclTtydru5A6Rec1rNJsVREuDWbEKM0Igm8+gCw3STwrqVHYX3TL
+         AE8hhRO9PZVjrEE9zHz5DmT91dNhla7Itiftt69oblyc7Id4pD4XkSHzgJGE9NiJTcuA
+         qLVg==
+X-Gm-Message-State: AOJu0YzRXTReOlRVoKNkTCkDjF3s4fDHFWqerjS5+AqUiRn/sa0vTqJM
+	wcLJWPkgEm/CU8R6tl/CrTwGNRYtWKGU+s3djrF3MVryi5btrC+WBfdN
+X-Gm-Gg: AfdE7ckQkvRGR9JiJQbkYHi3Io2/XoOZX6+E//kXk6KRABzEY2mh7yJBBxmig7+galO
+	1T8gKEwO7zMn00ukLPpavNghXoeiL7sk9vnOsCt/SIjAag6HTuJxkAr8jvb5OAN22+IM23jTun1
+	pFmb69SywBvUr/lv+FlnyeudwwZu0/XSmzJKBlbTlH0pBAz7/JBddjiv22eBOK9SqhZrZ+n+JTX
+	V3sgm1SjJv394zQeBYohRoZWFxB4SMeCtfBOp1nb5yWt+Dn+/xs8qouXLArU3vOFerBhcz0pUnM
+	hfp+t7B0tJBT8rf0tjxYZ7BLhG+5M/IZL48TgRzIFm+rsP7ee2hf+Gg02I4ih82OLm7KzDhXywQ
+	5sQTn0MilMTpHI/bM3ga32HxqhljYKabPjLa8l+JZV5ICE68fWvZU0gjrudl8tZ2hGFp5FkChLh
+	f4mAoZXC9eDPfhuwR+WOjCdmIV/CV+mxT3RzEqRhIkL4hL5G4=
+X-Received: by 2002:a05:6a20:918e:b0:3bf:6011:550 with SMTP id adf61e73a8af0-3c08ed1f378mr7459544637.24.1783449128528;
+        Tue, 07 Jul 2026 11:32:08 -0700 (PDT)
+Received: from localhost.localdomain ([2802:8010:610c:8c01:940:5638:6c2d:bc2c])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ae6cd9sm11502366eec.31.2026.07.07.11.32.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 11:32:08 -0700 (PDT)
+From: Agustin Luzardo <agustinluzardo09@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Agustin Luzardo <agustinluzardo09@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Do not drop per-channel feature controls marked get_cur_broken
+Date: Tue,  7 Jul 2026 15:31:33 -0300
+Message-ID: <20260707183133.8113-1-agustinluzardo09@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260705184227.113588-1-agustinluzardo09@gmail.com>
+References: <20260705184227.113588-1-agustinluzardo09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi,
+When a per-channel Feature Unit control (e.g. a stereo PCM Playback
+Volume control) hits the sticky-mixer check during get_min_max_with_quirks(),
+and the device carries QUIRK_FLAG_MIXER_GET_CUR_BROKEN, the sticky
+check marks the control as cval->get_cur_broken and returns -ENXIO
+instead of disabling it outright.
 
-Le samedi 04 juillet 2026 =C3=A0 01:08 +0530, Mukesh Ojha a =C3=A9crit=C2=
-=A0:
-> Replace the hand-rolled devm wrapper (ingenic_drm_release_rmem +
-> devm_add_action_or_reset) with the standard
-> devm_of_reserved_mem_device_init(), letting the device resource
-> manager handle cleanup automatically.
->=20
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+However, __build_feature_ctl() does not know about this and treats
+any negative return other than -EAGAIN as fatal, discarding the
+kcontrol entirely:
 
-Reviewed-by: Paul Cercueil <paul@crapouillou.net>
+	if ((ret < 0 && ret != -EAGAIN) || cval->max <= cval->min) {
+		...
+		snd_ctl_free_one(kctl);
+		return;
+	}
 
-Cheers,
--Paul
+For a stereo device where only some channels trip the sticky check,
+this silently drops the per-channel (stereo) control while the
+master-only control (built separately, without going through the
+same channel-specific GET_CUR negotiation) survives. The result is
+that the user is left with a single mono/master volume control
+instead of the independent per-channel controls the device actually
+supports, with no visible error (usb_audio_dbg is typically compiled
+out).
 
-> ---
-> =C2=A0drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 13 +------------
-> =C2=A01 file changed, 1 insertion(+), 12 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 7e569af22391..990c3b4625fa 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -1060,11 +1060,6 @@ static void ingenic_drm_unbind_all(void *d)
-> =C2=A0	component_unbind_all(priv->dev, &priv->drm);
-> =C2=A0}
-> =C2=A0
-> -static void __maybe_unused ingenic_drm_release_rmem(void *d)
-> -{
-> -	of_reserved_mem_device_release(d);
-> -}
-> -
-> =C2=A0static void ingenic_drm_configure_hwdesc(struct ingenic_drm *priv,
-> =C2=A0					 unsigned int hwdesc,
-> =C2=A0					 unsigned int next_hwdesc,
-> u32 id)
-> @@ -1127,16 +1122,10 @@ static int ingenic_drm_bind(struct device
-> *dev, bool has_components)
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	if (IS_ENABLED(CONFIG_OF_RESERVED_MEM)) {
-> -		ret =3D of_reserved_mem_device_init(dev);
-> +		ret =3D devm_of_reserved_mem_device_init(dev);
-> =C2=A0
-> =C2=A0		if (ret && ret !=3D -ENODEV)
-> =C2=A0			dev_warn(dev, "Failed to get reserved
-> memory: %d\n", ret);
-> -
-> -		if (!ret) {
-> -			ret =3D devm_add_action_or_reset(dev,
-> ingenic_drm_release_rmem, dev);
-> -			if (ret)
-> -				return ret;
-> -		}
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	priv =3D devm_drm_dev_alloc(dev, &ingenic_drm_driver_data,
+This was observed on a Weltrend Semiconductor 040b:0897 device (sold
+as the Redragon H510-PRO Wireless headset), which reports a genuine
+stereo Feature Unit (bNrChannels = 2, bmaControls with Volume set for
+both channels) but ends up exposing only a single-channel "PCM
+Playback Volume" control once QUIRK_FLAG_MIXER_GET_CUR_BROKEN is
+applied for that device.
+
+Skip the discard when the control was already marked get_cur_broken,
+as long as a sane range was otherwise established.
+
+Signed-off-by: Agustin Luzardo <agustinluzardo09@gmail.com>
+---
+ sound/usb/mixer.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 0000000..0000000 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1970,8 +1970,10 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+ 	/* get min/max values */
+ 	ret = get_min_max_with_quirks(cval, 0, kctl);
+ 
+-	/* skip a bogus volume range */
+-	if ((ret < 0 && ret != -EAGAIN) || cval->max <= cval->min) {
++	/* skip a bogus volume range, unless the sticky check already
++	 * marked this control as usable via the driver's cached value
++	 * (QUIRK_FLAG_MIXER_GET_CUR_BROKEN) */
++	if ((ret < 0 && ret != -EAGAIN && !cval->get_cur_broken) ||
++	    cval->max <= cval->min) {
+ 		usb_audio_dbg(mixer->chip,
+ 			      "[%d] FU [%s] skipped due to invalid volume\n",
+ 			      cval->head.id, kctl->id.name);
+-- 
+2.46.1
