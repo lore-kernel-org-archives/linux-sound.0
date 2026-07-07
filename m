@@ -1,197 +1,96 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA67139FCD8;
-	Tue,  7 Jul 2026 19:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7490D405F7;
+	Tue,  7 Jul 2026 20:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783450892; cv=none; b=eYLSJRw/cLCI8lCVxvo0SlCc6Hh/JMVn8i8T4snhnESZeECLuUgV1JV2txjro6ZhyXuafNuL7QkexBTm1CUvX2f3Ejn7zICV3p+IwyHbJGDTOCXge1cZyxQoN38J6Dkiiw4eoT9fl0BxsjyVefHco2OAVU3D+j/8ThFJbOVjhkc=
+	t=1783456405; cv=none; b=tb2lGyhW3gWvgn1QSeiIWTfV6huw1xYpkpGb3wUUog4YN1FcweLNiIFrh2WWJYTXxQ26+Jls7DX5XACXfDpvPlx2pDV13tS8gJ7Y3TAPzBAYdHMEh8cVQPY8o4tTWHn41yxoMa8r7pMAh4fD5ohFB6bQJNR9b4R92Afe5kQ92ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783450892; c=relaxed/simple;
-	bh=QTO7/z1UTFgfd1kFQz7bvCz/p+Zqj5fGSY7vGrgvb3A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ls2ukTTtJ+27kJ2KZDykEvlANDdJVPWKEhqydhA5OsAQof0lfui2lq76vonHw9r2d3s4AachgcS5ddto3qEKDRQHR5TwmligUUCCVRgnTUd4cnsb7UL5/ETXWQmcEQIFfb3zVy0+uKIT2s0YceJZle4zgaBQZzSb+Wo9quEchzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BjXV7w1c; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1783456405; c=relaxed/simple;
+	bh=2zTAVaV8VN5KVWGoTqC/qjtXDOP1mMzZeiCBKEyglqY=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=mkFph5AIpvHckdC/Y6JVfPjfPXf2Tv35GQ1Tdzvp3XRnY8q/3bK5xlzsp7+V8NdfrLKIx7t0xisTllyCWnKJ7IAZVk3wKdcFeYxjDdaUvsCBB6apZ+NJFOZlw1J1VLZllgjiTheWXvRK1bCwxVbbaNIkl+16yQ8SP/6/cI43B9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hgd/wYoH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BjXV7w1c"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667FT7jh017879;
-	Tue, 7 Jul 2026 19:01:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=QSLWIvI2DtL
-	AJp+7tyUX2kU7dgM0KtY5shIBkJ98FgE=; b=BjXV7w1cTY9biSUVPCvq/psdryB
-	1YG6Ym5SlWkt+UVk3zKelWpQHdADKsfiSABe8o7mxQhs/Wt2wMdBfC1GysU2b+CN
-	T/nfXu6eOZZSQHJL6ukOMPs2DYQPsAHOYmiXUcCb7NrmqREXotFEBmurfhBUnmZE
-	hItrntdcWz1gIEq2bAGPqVpd6/ua6wFd3icsgjQlIocEOqJ1E1+4jmG6kz5jOgPq
-	TzN90f72N3POA5SIWCFj2ImGjFUOSSIR+ubpdq5XCCkAoYwWCfiCuOpGarOTeyRM
-	HMNpjYlyxYrWFHhkixH8E51QviDNHyMy0/PNqZm4hH7rdnFsJi0BzBsGELg==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8wep2vr5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:13 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 667J1AMo019107;
-	Tue, 7 Jul 2026 19:01:10 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8k6b45-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:10 +0000 (GMT)
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 667J192x019081;
-	Tue, 7 Jul 2026 19:01:10 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 667J19RC019077
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:09 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id B4AE5640; Wed,  8 Jul 2026 00:31:08 +0530 (+0530)
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: [PATCH v3 4/7] ASoC: qcom: q6prm: add Audio IF clock IDs
-Date: Wed,  8 Jul 2026 00:31:03 +0530
-Message-Id: <20260707190106.2876465-5-prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
-References: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hgd/wYoH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C217D1F00A3F;
+	Tue,  7 Jul 2026 20:33:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783456403;
+	bh=8mvPe1nt2cZ61D/veemOO/Wf8MrpsZ8gG2wS5WBYwu0=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=Hgd/wYoHOe5yhHYSr29XUoKjSh2h8/a4wZEau9WSEDQCLrxazcPY9OnJEHMqfzqQa
+	 ip4Efiq9O1Gp2lnpW38ytStCYaTAmjpsB7ASGeWA9Kfx4JqEScAZEGVEQdWpBqYmwL
+	 LJIeN48XEn1vVy5xTAN1dMORhNoNg7I5AT7cZ32fapmkEHxMqj0tO+VOpTjJVi+0S7
+	 8uqa0tsbL9hXrSgpyFuKGSGEzCvMKRNrZFi7KDCa2aTyV7o7KfcwYhfxyd8Qd7lbDT
+	 RpVBmcJmVuC96Js5QGeMsFJjQEC7jiOrjy+T98KS2gGaomlRzujxqBBvVjMK3pQkID
+	 zWKqEvklXLSaw==
+Date: Tue, 07 Jul 2026 15:33:23 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-GUID: lCMOG9ki3dFExpXQ7vor6QEDpUnzvzjA
-X-Proofpoint-ORIG-GUID: lCMOG9ki3dFExpXQ7vor6QEDpUnzvzjA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX92wY/Hh94wxC
- ZBRVvna4MEjy34XXpelD1UgjMoX1svAjrnYJdGz7ipaSImGbVXe0Fgqsz1EF7gewKs6dO43y/cB
- 8buqHhUOd0YXhytbMMohffuq6IpXI5eykONJDGVh/4Z/bvv2jOrD/fm6UVf56iqrATUWK/KixrX
- haZREHcMucsy/WdrJY0Lgo9j9EAe/dKfuwQnzAcYvc6UD/PgM9VqmJit0bw8KRXvUQtE/XEiEQo
- 7h34TrV49rtOt+FKcX9wn4082yIqF2I78nawLCUswXs5AGmX1tVtoFYyrDC3j6d7Svge3ohFap5
- juNvGb8SfUCEFVJjw/WsfDQyQZfJPFfd7HqUktKkVJZr/w4a3ZJZ8jmFecLNCC9LXKThPYMtfUD
- dLpivhhETxt7v7ZuDVlOqC4jl+7zB8mt4WlSJXEOv+0GNwMeydHKHLHyDp2hPAsEe6zXKqQRIvN
- FT/llwFWjoKAc0SPH2Q==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX4R8uXgzeEMlG
- jghfIPZL4iYbelAevzdIPX0jinB/kwtL9Dl9cn3JP+K1wiR5sNLWi3s2vGA1rcl+qna4pHzw5XW
- 7x1sEHEbtx+lBip48zRaedMJSmy8uHo=
-X-Authority-Analysis: v=2.4 cv=atSCzyZV c=1 sm=1 tr=0 ts=6a4d4cf9 cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8 a=CMnRxhekojnJuyglMZYA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-07_04,2026-07-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 clxscore=1015 priorityscore=1501 spamscore=0
- suspectscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070186
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, 
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>, 
+ Srinivas Kandagatla <srini@kernel.org>
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+In-Reply-To: <20260707190106.2876465-6-prasad.kumpatla@oss.qualcomm.com>
+References: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
+ <20260707190106.2876465-6-prasad.kumpatla@oss.qualcomm.com>
+Message-Id: <178345640307.4113079.1879467469002132914.robh@kernel.org>
+Subject: Re: [PATCH v3 5/7] dt-bindings: sound: qcom,sm8250: allow TDM slot
+ properties
 
-Add the q6prm clock table entries and internal DSP clock IDs for LPASS
-Audio IF backend clocks.
 
-The public binding IDs map to q6prm DSP clock IDs starting at 0x500 for
-Audio IF0 IBIT/EBIT. Add the internal definitions and register all Audio
-IF IBIT and EBIT clocks so machine drivers can request them through the
-APM clock controller.
+On Wed, 08 Jul 2026 00:31:04 +0530, Prasad Kumpatla wrote:
+> Allow the standard TDM slot properties in CPU and codec endpoint
+> nodes.
+> 
+> Some audio backends operate in TDM mode and require the slot
+> configuration to be described in Devicetree. The common TDM binding
+> defines dai-tdm-slot-num, dai-tdm-slot-width,
+> dai-tdm-slot-tx-mask and dai-tdm-slot-rx-mask for this purpose.
+> 
+> Permit these standard properties in endpoint nodes so TDM-capable
+> links can describe their slot configuration using the common binding.
+> 
+> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/sound/qcom,sm8250.yaml | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
 
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
----
- sound/soc/qcom/qdsp6/q6prm-clocks.c | 28 ++++++++++++++++++++++++++++
- sound/soc/qcom/qdsp6/q6prm.h        | 29 +++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
-index 51b131fa9..b04b66237 100644
---- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
-+++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
-@@ -64,6 +64,34 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
- 	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_MCLK),
- 	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_2X_MCLK),
- 	Q6PRM_CLK(LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF0_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF0_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF1_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF1_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF2_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF2_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF3_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF3_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF4_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF4_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF5_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF5_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF6_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF6_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF7_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF7_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF8_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF8_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF9_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF9_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF10_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF10_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF11_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF11_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF12_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_INTF12_EBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_VA_INTF0_IBIT),
-+	Q6PRM_CLK(LPASS_CLK_ID_VA_INTF0_EBIT),
- 	Q6DSP_VOTE_CLK(LPASS_HW_MACRO_VOTE, Q6PRM_HW_CORE_ID_LPASS,
- 		       "LPASS_HW_MACRO"),
- 	Q6DSP_VOTE_CLK(LPASS_HW_DCODEC_VOTE, Q6PRM_HW_CORE_ID_DCODEC,
-diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
-index 7b751486c..21f6fb913 100644
---- a/sound/soc/qcom/qdsp6/q6prm.h
-+++ b/sound/soc/qcom/qdsp6/q6prm.h
-@@ -98,6 +98,35 @@
- /* Clock ID for RX CORE MCLK2 2X  MCLK */
- #define Q6PRM_LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK 0x318
- 
-+#define Q6PRM_LPASS_CLK_ID_INTF0_IBIT		0x500
-+#define Q6PRM_LPASS_CLK_ID_INTF0_EBIT		0x501
-+#define Q6PRM_LPASS_CLK_ID_INTF1_IBIT		0x502
-+#define Q6PRM_LPASS_CLK_ID_INTF1_EBIT		0x503
-+#define Q6PRM_LPASS_CLK_ID_INTF2_IBIT		0x504
-+#define Q6PRM_LPASS_CLK_ID_INTF2_EBIT		0x505
-+#define Q6PRM_LPASS_CLK_ID_INTF3_IBIT		0x506
-+#define Q6PRM_LPASS_CLK_ID_INTF3_EBIT		0x507
-+#define Q6PRM_LPASS_CLK_ID_INTF4_IBIT		0x508
-+#define Q6PRM_LPASS_CLK_ID_INTF4_EBIT		0x509
-+#define Q6PRM_LPASS_CLK_ID_INTF5_IBIT		0x50A
-+#define Q6PRM_LPASS_CLK_ID_INTF5_EBIT		0x50B
-+#define Q6PRM_LPASS_CLK_ID_INTF6_IBIT		0x50C
-+#define Q6PRM_LPASS_CLK_ID_INTF6_EBIT		0x50D
-+#define Q6PRM_LPASS_CLK_ID_INTF7_IBIT		0x50E
-+#define Q6PRM_LPASS_CLK_ID_INTF7_EBIT		0x50F
-+#define Q6PRM_LPASS_CLK_ID_INTF8_IBIT		0x510
-+#define Q6PRM_LPASS_CLK_ID_INTF8_EBIT		0x511
-+#define Q6PRM_LPASS_CLK_ID_INTF9_IBIT		0x512
-+#define Q6PRM_LPASS_CLK_ID_INTF9_EBIT		0x513
-+#define Q6PRM_LPASS_CLK_ID_INTF10_IBIT		0x514
-+#define Q6PRM_LPASS_CLK_ID_INTF10_EBIT		0x515
-+#define Q6PRM_LPASS_CLK_ID_INTF11_IBIT		0x516
-+#define Q6PRM_LPASS_CLK_ID_INTF11_EBIT		0x517
-+#define Q6PRM_LPASS_CLK_ID_INTF12_IBIT		0x518
-+#define Q6PRM_LPASS_CLK_ID_INTF12_EBIT		0x519
-+#define Q6PRM_LPASS_CLK_ID_VA_INTF0_IBIT		0x550
-+#define Q6PRM_LPASS_CLK_ID_VA_INTF0_EBIT		0x551
-+
- #define Q6PRM_LPASS_CLK_SRC_INTERNAL	1
- #define Q6PRM_LPASS_CLK_ROOT_DEFAULT	0
- #define Q6PRM_HW_CORE_ID_LPASS		1
--- 
-2.34.1
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/sound/qcom,sm8250.yaml:88:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
+./Documentation/devicetree/bindings/sound/qcom,sm8250.yaml:115:19: [error] string value is redundantly quoted with any quotes (quoted-strings)
+
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260707190106.2876465-6-prasad.kumpatla@oss.qualcomm.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
