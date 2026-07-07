@@ -1,53 +1,53 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485FD3A453F;
-	Tue,  7 Jul 2026 19:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA67139FCD8;
+	Tue,  7 Jul 2026 19:01:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783450891; cv=none; b=QHAnj5JAVz6KxISUHY5u7qN7MTJuiJqKkcZmrOz82/yvs6qkSe0Uaq7iNlmQBekBfGeLFKpIGmz8K2kQDI89F6xUkWMAHRUwYU0Toe9Gb+InC8xU9nlHX5X3XP2w1lrWGUsZ3wTcBdSmWiufa1pwYfnZhxXEQ41j86SF9Pw2ZjM=
+	t=1783450892; cv=none; b=eYLSJRw/cLCI8lCVxvo0SlCc6Hh/JMVn8i8T4snhnESZeECLuUgV1JV2txjro6ZhyXuafNuL7QkexBTm1CUvX2f3Ejn7zICV3p+IwyHbJGDTOCXge1cZyxQoN38J6Dkiiw4eoT9fl0BxsjyVefHco2OAVU3D+j/8ThFJbOVjhkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783450891; c=relaxed/simple;
-	bh=+A9kndqttoYHGEqgZAw0wNBCAuiAWMiF0HYejYCyznw=;
+	s=arc-20240116; t=1783450892; c=relaxed/simple;
+	bh=QTO7/z1UTFgfd1kFQz7bvCz/p+Zqj5fGSY7vGrgvb3A=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tb09iPHQXFVdVqaw+Gc0wLROssi23BRCxrGECwaykc2Mvybn8HSmo8R5zWLV65sAyv6Rj3cuut2sZyhd6pZf0XA0F2at0v/sqxUdtzpaQJ/WDNosERd4EdOjamYJFJsHbqZVCO8IOQGYLhD3VO0QiAU7anPYAeiNPRf/ngpo8Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hlS8J6Xx; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=Ls2ukTTtJ+27kJ2KZDykEvlANDdJVPWKEhqydhA5OsAQof0lfui2lq76vonHw9r2d3s4AachgcS5ddto3qEKDRQHR5TwmligUUCCVRgnTUd4cnsb7UL5/ETXWQmcEQIFfb3zVy0+uKIT2s0YceJZle4zgaBQZzSb+Wo9quEchzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BjXV7w1c; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hlS8J6Xx"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667FTGmp4059305;
-	Tue, 7 Jul 2026 19:01:15 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BjXV7w1c"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667FT7jh017879;
+	Tue, 7 Jul 2026 19:01:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=eppLnrn5n4C
-	M2aKURuDbpv/VvLQNWXyxRiAS5zb65cU=; b=hlS8J6Xx8u3Xr3BW4Qp0mwna+WN
-	uW2oUYtV48A0yDN6A1a/ECZc0D5hvC7PVTcAywKzFJjtDkeejlpGjzGubKKGe+O4
-	NAvATc8ASxCCDj1/I3CfhZM31+mBJ2gGtpAGKJTUkUcrCfOjnbYoqEAc6BT/Qw7F
-	8nNXORiEk4jSH5knm1cpsCnaPu6hlrcFsw1qVP1talu8lxHj6sP5qm3s/mraesl3
-	31zaptg/b6Lc1do3T7SiNDkCo01CuKP0+mT4w1IY+d1Fr3eSY7t2di2zOJzf2FnU
-	7Py3lfx4ACxj0JyUnXchy5qDP7ARLD+9/1OMb9vwYN/LEvIZByC3N6eNKSw==
+	:mime-version:references:subject:to; s=qcppdkim1; bh=QSLWIvI2DtL
+	AJp+7tyUX2kU7dgM0KtY5shIBkJ98FgE=; b=BjXV7w1cTY9biSUVPCvq/psdryB
+	1YG6Ym5SlWkt+UVk3zKelWpQHdADKsfiSABe8o7mxQhs/Wt2wMdBfC1GysU2b+CN
+	T/nfXu6eOZZSQHJL6ukOMPs2DYQPsAHOYmiXUcCb7NrmqREXotFEBmurfhBUnmZE
+	hItrntdcWz1gIEq2bAGPqVpd6/ua6wFd3icsgjQlIocEOqJ1E1+4jmG6kz5jOgPq
+	TzN90f72N3POA5SIWCFj2ImGjFUOSSIR+ubpdq5XCCkAoYwWCfiCuOpGarOTeyRM
+	HMNpjYlyxYrWFHhkixH8E51QviDNHyMy0/PNqZm4hH7rdnFsJi0BzBsGELg==
 Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8sm8kq2t-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8wep2vr5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:14 +0000 (GMT)
+	Tue, 07 Jul 2026 19:01:13 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 667J1AXV019113;
-	Tue, 7 Jul 2026 19:01:11 GMT
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 667J1AMo019107;
+	Tue, 7 Jul 2026 19:01:10 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8k6b4w-1
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8k6b45-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:11 +0000 (GMT)
+	Tue, 07 Jul 2026 19:01:10 +0000 (GMT)
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 667J1992019082;
-	Tue, 7 Jul 2026 19:01:11 GMT
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 667J192x019081;
+	Tue, 7 Jul 2026 19:01:10 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 667J1BNA019140
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 667J19RC019077
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 07 Jul 2026 19:01:11 +0000 (GMT)
+	Tue, 07 Jul 2026 19:01:09 +0000 (GMT)
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id BDA44642; Wed,  8 Jul 2026 00:31:08 +0530 (+0530)
+	id B4AE5640; Wed,  8 Jul 2026 00:31:08 +0530 (+0530)
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -58,9 +58,9 @@ To: Srinivas Kandagatla <srini@kernel.org>,
 Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: [PATCH v3 6/7] ASoC: qcom: common: add DAI-node TDM slot helpers
-Date: Wed,  8 Jul 2026 00:31:05 +0530
-Message-Id: <20260707190106.2876465-7-prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v3 4/7] ASoC: qcom: q6prm: add Audio IF clock IDs
+Date: Wed,  8 Jul 2026 00:31:03 +0530
+Message-Id: <20260707190106.2876465-5-prasad.kumpatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
 References: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
@@ -73,255 +73,125 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfXwhK05aqGmh4k
- kWHnFJoQquXF5qbahL5YwTfHvtqFyowo6JbLwnaXfSKSoTHF6OrVkR4GxQroPV7jDRaH1g92DcB
- ov9x64DEq4XZ+pAgKbHTQo6ezUFQlzoCKBChmzbpn18+gl2ZB1ZoStbKpn4N9ll5Dbie9qTHUEi
- QARx9vis3UON1mJA071oT0tuXwcM2IVZjsvmw2t2wI3ZPSi0HsC2IQ9r3bu+Tv5FhoF9scShXRN
- I08hG0v4jLzOkWXmsChdjDbKq5yetdad79Dy5JaTNS8GphYo+cbyHWvD/kpGwA06kailvMCuYyV
- 9UxMiHt5SMksqO3uBL1+RS/1kztvGKoRzNSEcfy5ebhgd1FvU3gCU1X6OY/OyUb7jkYWvC5tkpb
- mIIEHSUPAOsCprL0w8dN2dabPpa9Oa5T8tSKi0ZTj3m2e/mZP8JiwIsjYgGHiMAtvaGbqJ/Gb0R
- jL+kMDGdUTQ8IUnEnTw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfXy0abw9zq1Fi7
- h9Z8+McKeySCcMMTCaxFmzlh6+wl2SfkXKmK6hZ3Wk3m4dgJr2RCRgMhHLMj4OmfUwM57z5/DUJ
- Tu7ydrqcS3j0BeD6CcuBLWesmYE+6wU=
-X-Proofpoint-GUID: GryzrQ89rwJM90-UeKmmYuATqy_ipEcP
-X-Authority-Analysis: v=2.4 cv=UvdT8ewB c=1 sm=1 tr=0 ts=6a4d4cfb cx=c_pps
+X-Proofpoint-GUID: lCMOG9ki3dFExpXQ7vor6QEDpUnzvzjA
+X-Proofpoint-ORIG-GUID: lCMOG9ki3dFExpXQ7vor6QEDpUnzvzjA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX92wY/Hh94wxC
+ ZBRVvna4MEjy34XXpelD1UgjMoX1svAjrnYJdGz7ipaSImGbVXe0Fgqsz1EF7gewKs6dO43y/cB
+ 8buqHhUOd0YXhytbMMohffuq6IpXI5eykONJDGVh/4Z/bvv2jOrD/fm6UVf56iqrATUWK/KixrX
+ haZREHcMucsy/WdrJY0Lgo9j9EAe/dKfuwQnzAcYvc6UD/PgM9VqmJit0bw8KRXvUQtE/XEiEQo
+ 7h34TrV49rtOt+FKcX9wn4082yIqF2I78nawLCUswXs5AGmX1tVtoFYyrDC3j6d7Svge3ohFap5
+ juNvGb8SfUCEFVJjw/WsfDQyQZfJPFfd7HqUktKkVJZr/w4a3ZJZ8jmFecLNCC9LXKThPYMtfUD
+ dLpivhhETxt7v7ZuDVlOqC4jl+7zB8mt4WlSJXEOv+0GNwMeydHKHLHyDp2hPAsEe6zXKqQRIvN
+ FT/llwFWjoKAc0SPH2Q==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX4R8uXgzeEMlG
+ jghfIPZL4iYbelAevzdIPX0jinB/kwtL9Dl9cn3JP+K1wiR5sNLWi3s2vGA1rcl+qna4pHzw5XW
+ 7x1sEHEbtx+lBip48zRaedMJSmy8uHo=
+X-Authority-Analysis: v=2.4 cv=atSCzyZV c=1 sm=1 tr=0 ts=6a4d4cf9 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=QQzHM_gvdhGi4T2-EgIA:9
-X-Proofpoint-ORIG-GUID: GryzrQ89rwJM90-UeKmmYuATqy_ipEcP
+ a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8 a=CMnRxhekojnJuyglMZYA:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-07_04,2026-07-06_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607070186
+ malwarescore=0 phishscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ suspectscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607070186
 
-Add common helpers to parse standard dai-tdm-slot-* properties from the
-CPU and codec child nodes of a backend DAI link and apply the result to
-the active DAIs.
+Add the q6prm clock table entries and internal DSP clock IDs for LPASS
+Audio IF backend clocks.
 
-QCOM machine drivers already use qcom_snd_parse_of() to build links from
-DT, but they lacked a shared helper to translate endpoint TDM properties
-into snd_soc_dai_set_tdm_slot() calls. Boards therefore had to carry ad
-hoc parsing or rely on non-standard DT properties.
-
-The helpers parse endpoint masks, validate the shared slot count and
-slot width, and program CPU and codec DAIs with the resulting slot
-configuration. A cfg-based apply helper is provided for callers that
-already parsed the DT data and want to avoid a second DT traversal.
+The public binding IDs map to q6prm DSP clock IDs starting at 0x500 for
+Audio IF0 IBIT/EBIT. Add the internal definitions and register all Audio
+IF IBIT and EBIT clocks so machine drivers can request them through the
+APM clock controller.
 
 Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 ---
- sound/soc/qcom/common.c | 165 ++++++++++++++++++++++++++++++++++++++++
- sound/soc/qcom/common.h |  14 ++++
- 2 files changed, 179 insertions(+)
+ sound/soc/qcom/qdsp6/q6prm-clocks.c | 28 ++++++++++++++++++++++++++++
+ sound/soc/qcom/qdsp6/q6prm.h        | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
 
-diff --git a/sound/soc/qcom/common.c b/sound/soc/qcom/common.c
-index edc461169..08949b2c4 100644
---- a/sound/soc/qcom/common.c
-+++ b/sound/soc/qcom/common.c
-@@ -23,6 +23,171 @@ static const struct snd_soc_dapm_widget qcom_jack_snd_widgets[] = {
- 	SND_SOC_DAPM_SPK("DP7 Jack", NULL),
- };
+diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+index 51b131fa9..b04b66237 100644
+--- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
++++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+@@ -64,6 +64,34 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
+ 	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_MCLK),
+ 	Q6PRM_CLK(LPASS_CLK_ID_WSA2_CORE_TX_2X_MCLK),
+ 	Q6PRM_CLK(LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF0_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF0_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF1_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF1_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF2_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF2_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF3_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF3_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF4_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF4_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF5_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF5_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF6_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF6_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF7_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF7_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF8_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF8_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF9_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF9_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF10_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF10_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF11_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF11_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF12_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_INTF12_EBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_VA_INTF0_IBIT),
++	Q6PRM_CLK(LPASS_CLK_ID_VA_INTF0_EBIT),
+ 	Q6DSP_VOTE_CLK(LPASS_HW_MACRO_VOTE, Q6PRM_HW_CORE_ID_LPASS,
+ 		       "LPASS_HW_MACRO"),
+ 	Q6DSP_VOTE_CLK(LPASS_HW_DCODEC_VOTE, Q6PRM_HW_CORE_ID_DCODEC,
+diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
+index 7b751486c..21f6fb913 100644
+--- a/sound/soc/qcom/qdsp6/q6prm.h
++++ b/sound/soc/qcom/qdsp6/q6prm.h
+@@ -98,6 +98,35 @@
+ /* Clock ID for RX CORE MCLK2 2X  MCLK */
+ #define Q6PRM_LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK 0x318
  
-+static struct device_node *qcom_snd_get_link_node(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_card *card = rtd->card;
-+	struct device_node *np;
-+	struct device_node *cpu_np;
-+	struct of_phandle_args args;
-+	int ret;
++#define Q6PRM_LPASS_CLK_ID_INTF0_IBIT		0x500
++#define Q6PRM_LPASS_CLK_ID_INTF0_EBIT		0x501
++#define Q6PRM_LPASS_CLK_ID_INTF1_IBIT		0x502
++#define Q6PRM_LPASS_CLK_ID_INTF1_EBIT		0x503
++#define Q6PRM_LPASS_CLK_ID_INTF2_IBIT		0x504
++#define Q6PRM_LPASS_CLK_ID_INTF2_EBIT		0x505
++#define Q6PRM_LPASS_CLK_ID_INTF3_IBIT		0x506
++#define Q6PRM_LPASS_CLK_ID_INTF3_EBIT		0x507
++#define Q6PRM_LPASS_CLK_ID_INTF4_IBIT		0x508
++#define Q6PRM_LPASS_CLK_ID_INTF4_EBIT		0x509
++#define Q6PRM_LPASS_CLK_ID_INTF5_IBIT		0x50A
++#define Q6PRM_LPASS_CLK_ID_INTF5_EBIT		0x50B
++#define Q6PRM_LPASS_CLK_ID_INTF6_IBIT		0x50C
++#define Q6PRM_LPASS_CLK_ID_INTF6_EBIT		0x50D
++#define Q6PRM_LPASS_CLK_ID_INTF7_IBIT		0x50E
++#define Q6PRM_LPASS_CLK_ID_INTF7_EBIT		0x50F
++#define Q6PRM_LPASS_CLK_ID_INTF8_IBIT		0x510
++#define Q6PRM_LPASS_CLK_ID_INTF8_EBIT		0x511
++#define Q6PRM_LPASS_CLK_ID_INTF9_IBIT		0x512
++#define Q6PRM_LPASS_CLK_ID_INTF9_EBIT		0x513
++#define Q6PRM_LPASS_CLK_ID_INTF10_IBIT		0x514
++#define Q6PRM_LPASS_CLK_ID_INTF10_EBIT		0x515
++#define Q6PRM_LPASS_CLK_ID_INTF11_IBIT		0x516
++#define Q6PRM_LPASS_CLK_ID_INTF11_EBIT		0x517
++#define Q6PRM_LPASS_CLK_ID_INTF12_IBIT		0x518
++#define Q6PRM_LPASS_CLK_ID_INTF12_EBIT		0x519
++#define Q6PRM_LPASS_CLK_ID_VA_INTF0_IBIT		0x550
++#define Q6PRM_LPASS_CLK_ID_VA_INTF0_EBIT		0x551
 +
-+	if (!card->dev || !card->dev->of_node)
-+		return NULL;
-+
-+	for_each_available_child_of_node(card->dev->of_node, np) {
-+		cpu_np = of_get_child_by_name(np, "cpu");
-+		if (!cpu_np)
-+			continue;
-+
-+		ret = of_parse_phandle_with_args(cpu_np, "sound-dai", "#sound-dai-cells", 0,
-+						 &args);
-+		of_node_put(cpu_np);
-+		if (ret)
-+			continue;
-+
-+		if (args.np == rtd->dai_link->cpus[0].of_node &&
-+		    args.args_count == 1 && args.args[0] == cpu_dai->id) {
-+			of_node_put(args.np);
-+			return np;
-+		}
-+
-+		of_node_put(args.np);
-+	}
-+
-+	return NULL;
-+}
-+
-+static int qcom_snd_parse_tdm_slot(struct device_node *np,
-+				   struct qcom_snd_tdm_slot_cfg *cfg)
-+{
-+	memset(cfg, 0, sizeof(*cfg));
-+
-+	return snd_soc_of_parse_tdm_slot(np, &cfg->tx_mask, &cfg->rx_mask,
-+					 &cfg->slots, &cfg->slot_width);
-+}
-+
-+static int qcom_snd_normalize_tdm_slots(struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+					struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	unsigned int slots;
-+	unsigned int slot_width;
-+
-+	if (cpu_cfg->slots && codec_cfg->slots && cpu_cfg->slots != codec_cfg->slots)
-+		return -EINVAL;
-+
-+	if (cpu_cfg->slot_width && codec_cfg->slot_width &&
-+	    cpu_cfg->slot_width != codec_cfg->slot_width)
-+		return -EINVAL;
-+
-+	slots = cpu_cfg->slots ?: codec_cfg->slots;
-+	if (!slots)
-+		return 0;
-+
-+	slot_width = cpu_cfg->slot_width ?: codec_cfg->slot_width;
-+	if (!slot_width)
-+		return -EINVAL;
-+
-+	cpu_cfg->slots = slots;
-+	codec_cfg->slots = slots;
-+	cpu_cfg->slot_width = slot_width;
-+	codec_cfg->slot_width = slot_width;
-+
-+	return 0;
-+}
-+
-+static int qcom_snd_parse_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd,
-+					struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+					struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	struct device_node *link_np;
-+	struct device_node *cpu_np = NULL;
-+	struct device_node *codec_np = NULL;
-+	int ret;
-+
-+	link_np = qcom_snd_get_link_node(rtd);
-+	if (!link_np)
-+		return -EINVAL;
-+
-+	cpu_np = of_get_child_by_name(link_np, "cpu");
-+	codec_np = of_get_child_by_name(link_np, "codec");
-+	if (!cpu_np || !codec_np) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	ret = qcom_snd_parse_tdm_slot(cpu_np, cpu_cfg);
-+	if (ret)
-+		goto out;
-+
-+	ret = qcom_snd_parse_tdm_slot(codec_np, codec_cfg);
-+out:
-+	of_node_put(codec_np);
-+	of_node_put(cpu_np);
-+	of_node_put(link_np);
-+
-+	return ret;
-+}
-+
-+int qcom_snd_get_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd,
-+			       struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+			       struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	int ret;
-+
-+	ret = qcom_snd_parse_dai_tdm_slots(rtd, cpu_cfg, codec_cfg);
-+	if (ret)
-+		return ret;
-+
-+	return qcom_snd_normalize_tdm_slots(cpu_cfg, codec_cfg);
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_get_dai_tdm_slots);
-+
-+int qcom_snd_apply_dai_tdm_slots_cfg(struct snd_soc_pcm_runtime *rtd,
-+				     const struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+				     const struct qcom_snd_tdm_slot_cfg *codec_cfg)
-+{
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct snd_soc_dai *codec_dai;
-+	int i;
-+	int ret;
-+
-+	if (!cpu_cfg->slots)
-+		return 0;
-+
-+	ret = snd_soc_dai_set_tdm_slot(cpu_dai, cpu_cfg->tx_mask, cpu_cfg->rx_mask,
-+				       cpu_cfg->slots, cpu_cfg->slot_width);
-+	if (ret)
-+		return ret;
-+
-+	for_each_rtd_codec_dais(rtd, i, codec_dai) {
-+		ret = snd_soc_dai_set_tdm_slot(codec_dai,
-+					       codec_cfg->tx_mask,
-+					       codec_cfg->rx_mask,
-+					       codec_cfg->slots,
-+					       codec_cfg->slot_width);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_apply_dai_tdm_slots_cfg);
-+
-+int qcom_snd_apply_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd)
-+{
-+	struct qcom_snd_tdm_slot_cfg cpu_cfg;
-+	struct qcom_snd_tdm_slot_cfg codec_cfg;
-+	int ret;
-+
-+	ret = qcom_snd_get_dai_tdm_slots(rtd, &cpu_cfg, &codec_cfg);
-+	if (ret)
-+		return ret == -EINVAL ? 0 : ret;
-+
-+	return qcom_snd_apply_dai_tdm_slots_cfg(rtd, &cpu_cfg, &codec_cfg);
-+}
-+EXPORT_SYMBOL_GPL(qcom_snd_apply_dai_tdm_slots);
-+
- int qcom_snd_parse_of(struct snd_soc_card *card)
- {
- 	struct device *dev = card->dev;
-diff --git a/sound/soc/qcom/common.h b/sound/soc/qcom/common.h
-index ee6662885..02b24caec 100644
---- a/sound/soc/qcom/common.h
-+++ b/sound/soc/qcom/common.h
-@@ -9,7 +9,21 @@
- 
- #define LPASS_MAX_PORT			(SENARY_MI2S_TX + 1)
- 
-+struct qcom_snd_tdm_slot_cfg {
-+	unsigned int tx_mask;
-+	unsigned int rx_mask;
-+	unsigned int slots;
-+	unsigned int slot_width;
-+};
-+
- int qcom_snd_parse_of(struct snd_soc_card *card);
-+int qcom_snd_get_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd,
-+			       struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+			       struct qcom_snd_tdm_slot_cfg *codec_cfg);
-+int qcom_snd_apply_dai_tdm_slots_cfg(struct snd_soc_pcm_runtime *rtd,
-+				     const struct qcom_snd_tdm_slot_cfg *cpu_cfg,
-+				     const struct qcom_snd_tdm_slot_cfg *codec_cfg);
-+int qcom_snd_apply_dai_tdm_slots(struct snd_soc_pcm_runtime *rtd);
- int qcom_snd_wcd_jack_setup(struct snd_soc_pcm_runtime *rtd,
- 			    struct snd_soc_jack *jack, bool *jack_setup);
- int qcom_snd_dp_jack_setup(struct snd_soc_pcm_runtime *rtd,
+ #define Q6PRM_LPASS_CLK_SRC_INTERNAL	1
+ #define Q6PRM_LPASS_CLK_ROOT_DEFAULT	0
+ #define Q6PRM_HW_CORE_ID_LPASS		1
 -- 
 2.34.1
 
