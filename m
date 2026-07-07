@@ -1,281 +1,151 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB5C383994;
-	Tue,  7 Jul 2026 14:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC4141F7CE
+	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 14:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783433513; cv=none; b=IYsnpzt0JxQ18fnfIbTsiB1NgtE3wQWL2XBYZL1E90Z7zpjw9MrFzqBrIAcgk4kJsC6vbu7g8G2NnNtMMVDAEEN5XkRLu0eciUzkkeiSPKK1Zzb97MEVAL5FLnWXcawXGalGJEV9qzIdS3t8Nmi35niZlOl30+/KR7dHTJt9NmY=
+	t=1783433799; cv=none; b=UzJDqyknx9rLdcTX+VKgao1y1k7Zk9KY0NgqJRzc5srR0NoeH917aAeIXkG6fMDdjuxwidng6HNhXWiqughALHqpMDSfVT4bOVxu92qNIZ0jGO6Dey9TrFTyNAUOeGn29aHo4rhkl4q9cqTLcvPW7zwMDmqv3J+CMug/5p85faI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783433513; c=relaxed/simple;
-	bh=Qw+DDNMPifPgLVRQbdGaymOOKrgVAVwhIDLS55Of8sY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ObJq7zldPWc2lcxRXmmrD093WaVcf/5H61qVCCf9QUIoXCXu7txPTb1ieyRJdibagxAaJjQZyzUQ/04/HQVGZQZad8qV1QseCAfCFEnS/FBrdv2IE+Bskh/vUhyJbURdXmZJI7uCFS8h1ZV7XtziV3uU5lrDOVtCl3+j/wTVOFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id D11A3370033C;
-	Tue,  7 Jul 2026 14:11:12 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id CF2B0AE5EC7; Tue,  7 Jul 2026 14:11:06 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 6816EAE5EBF;
-	Tue,  7 Jul 2026 14:10:55 +0000 (UTC)
-Date: Tue, 7 Jul 2026 16:10:52 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
-	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Eddie James <eajames@linux.ibm.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ge Gordon <gordon.ge@bst.ai>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Peter Chen <peter.chen@cixtech.com>,
-	Fugang Duan <fugang.duan@cixtech.com>,
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
-	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
-	kernel@collabora.com, linux-tegra@vger.kernel.org,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 08/42] drm: logicvc: Use
- devm_of_reserved_mem_device_init()
-Message-ID: <ak0I7AbfFITG1nyi@shepard>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260703193855.110619-9-mukesh.ojha@oss.qualcomm.com>
+	s=arc-20240116; t=1783433799; c=relaxed/simple;
+	bh=iNGcdZFIovI7BTlUrl3NRs0mtJ/fAS/8MzwoC5z6JeY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HXBgbL/EU8WKoK3kTBx23GZeO4A4oHH8rcgnbChvSHtgMcNgNhMCwRnv6ulW7aOYaVlDRDC8atvx5VHgzuDYC893T6j/nDjLaUTGQ+bo68pqC3K8hGtrXDbiOpp5Zd1prV8vTnG9FyByHjtJs0PaJ51a9teLSt6Qsjkt8SWysX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bnxI8D+A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LJAT3fIo; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bnxI8D+A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LJAT3fIo; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bnxI8D+A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LJAT3fIo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bnxI8D+A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LJAT3fIo"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4A40B75C0C;
+	Tue,  7 Jul 2026 14:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783433796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kopB5Vx6D/X5JhHVZBQMGzISKkGFHF1Y3hjKO9k3BQ=;
+	b=bnxI8D+Ayw8GCdlBEPm/nNDe0frn6HlhpH/MA5lnpzrlcDjEQ+d8uhqf59zzVlVBbL58ps
+	4FVA1KwU144cnD1huyDWXYZpVyCgVJDuXJMl/dFFXT78pWG/7rlVTsV0/jKxnRqcEfhHFf
+	ttAiqGA5PrgShHrW858BhqmREaP3yKM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783433796;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kopB5Vx6D/X5JhHVZBQMGzISKkGFHF1Y3hjKO9k3BQ=;
+	b=LJAT3fIoRWMAaQIx+syLOXhoGjqaV16hf0Gfv3jZRgTcTnaYBXUqikUBWnFJy6UukUOpoX
+	U4L/9e9Q7t8dlNDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bnxI8D+A;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LJAT3fIo
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783433796; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kopB5Vx6D/X5JhHVZBQMGzISKkGFHF1Y3hjKO9k3BQ=;
+	b=bnxI8D+Ayw8GCdlBEPm/nNDe0frn6HlhpH/MA5lnpzrlcDjEQ+d8uhqf59zzVlVBbL58ps
+	4FVA1KwU144cnD1huyDWXYZpVyCgVJDuXJMl/dFFXT78pWG/7rlVTsV0/jKxnRqcEfhHFf
+	ttAiqGA5PrgShHrW858BhqmREaP3yKM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783433796;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/kopB5Vx6D/X5JhHVZBQMGzISKkGFHF1Y3hjKO9k3BQ=;
+	b=LJAT3fIoRWMAaQIx+syLOXhoGjqaV16hf0Gfv3jZRgTcTnaYBXUqikUBWnFJy6UukUOpoX
+	U4L/9e9Q7t8dlNDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2828B779AE;
+	Tue,  7 Jul 2026 14:16:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yuigCEQKTWpLXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 07 Jul 2026 14:16:36 +0000
+Date: Tue, 07 Jul 2026 16:16:31 +0200
+Message-ID: <8733xu7um8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhao Dongdong <winter91@foxmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	joakim.zhang@cixtech.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhao Dongdong <zhaodongdong@kylinos.cn>
+Subject: Re: [PATCH v2] ALSA: hda/core: add cleanup in snd_hdac_bus_alloc_stream_pages()
+In-Reply-To: <tencent_8E5BBBD19D53B1EFCDB6E89F3B6246A70B06@qq.com>
+References: <tencent_8E5BBBD19D53B1EFCDB6E89F3B6246A70B06@qq.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ThTwSIZV2a2cCNSQ"
-Content-Disposition: inline
-In-Reply-To: <20260703193855.110619-9-mukesh.ojha@oss.qualcomm.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[foxmail.com];
+	FREEMAIL_ENVRCPT(0.00)[foxmail.com];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,kylinos.cn:email,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 4A40B75C0C
+X-Spam-Score: -3.51
 
---ThTwSIZV2a2cCNSQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Mukesh,
-
-On Sat 04 Jul 26, 01:08, Mukesh Ojha wrote:
-> Switch to devm_of_reserved_mem_device_init() so the reserved memory
-> region is released automatically on probe failure or device unbind.
-> Replace all error paths that jumped to error_reserved_mem: with
-> error_early: since the manual cleanup label is no longer needed, and
-> remove the explicit of_reserved_mem_device_release() call in the remove
-> function.
->=20
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-
-Looks good to me, thanks!
-
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-Acked-by: Paul Kocialkowski <paulk@sys-base.io>
-
-All the best,
-
-Paul
-
+On Tue, 07 Jul 2026 04:11:39 +0200,
+Zhao Dongdong wrote:
+> 
+> From: Zhao Dongdong <zhaodongdong@kylinos.cn>
+> 
+> The current error handling in snd_hdac_bus_alloc_stream_pages()
+> returns directly on failure without cleaning up already allocated
+> resources. While callers are supposed to release those via
+> snd_hdac_bus_free_stream_pages() at destructor, adding explicit
+> cleanup makes the function more self-contained and safer against
+> future misuse.
+> 
+> Add proper error cleanup path using goto labels to free previously
+> allocated BDL DMA buffers, position buffer, and ring buffer in
+> reverse allocation order.
+> 
+> Signed-off-by: Zhao Dongdong <zhaodongdong@kylinos.cn>
 > ---
->  drivers/gpu/drm/logicvc/logicvc_drm.c | 21 ++++++++-------------
->  1 file changed, 8 insertions(+), 13 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/logicvc/logicvc_drm.c b/drivers/gpu/drm/logi=
-cvc/logicvc_drm.c
-> index bbebf4fc7f51..d6dbe52ff0a9 100644
-> --- a/drivers/gpu/drm/logicvc/logicvc_drm.c
-> +++ b/drivers/gpu/drm/logicvc/logicvc_drm.c
-> @@ -306,7 +306,7 @@ static int logicvc_drm_probe(struct platform_device *=
-pdev)
->  	int irq;
->  	int ret;
-> =20
-> -	ret =3D of_reserved_mem_device_init(dev);
-> +	ret =3D devm_of_reserved_mem_device_init(dev);
->  	if (ret && ret !=3D -ENODEV) {
->  		dev_err(dev, "Failed to init memory region\n");
->  		goto error_early;
-> @@ -327,14 +327,14 @@ static int logicvc_drm_probe(struct platform_device=
- *pdev)
->  		ret =3D of_address_to_resource(of_node, 0, &res);
->  		if (ret) {
->  			dev_err(dev, "Failed to get resource from address\n");
-> -			goto error_reserved_mem;
-> +			goto error_early;
->  		}
-> =20
->  		base =3D devm_ioremap_resource(dev, &res);
->  		if (IS_ERR(base)) {
->  			dev_err(dev, "Failed to map I/O base\n");
->  			ret =3D PTR_ERR(base);
-> -			goto error_reserved_mem;
-> +			goto error_early;
->  		}
-> =20
->  		logicvc_drm_regmap_config.max_register =3D resource_size(&res) -
-> @@ -345,21 +345,21 @@ static int logicvc_drm_probe(struct platform_device=
- *pdev)
->  		if (IS_ERR(regmap)) {
->  			dev_err(dev, "Failed to create regmap for I/O\n");
->  			ret =3D PTR_ERR(regmap);
-> -			goto error_reserved_mem;
-> +			goto error_early;
->  		}
->  	}
-> =20
->  	irq =3D platform_get_irq(pdev, 0);
->  	if (irq < 0) {
->  		ret =3D -ENODEV;
-> -		goto error_reserved_mem;
-> +		goto error_early;
->  	}
-> =20
->  	logicvc =3D devm_drm_dev_alloc(dev, &logicvc_drm_driver,
->  				     struct logicvc_drm, drm_dev);
->  	if (IS_ERR(logicvc)) {
->  		ret =3D PTR_ERR(logicvc);
-> -		goto error_reserved_mem;
-> +		goto error_early;
->  	}
-> =20
->  	platform_set_drvdata(pdev, logicvc);
-> @@ -371,7 +371,7 @@ static int logicvc_drm_probe(struct platform_device *=
-pdev)
->  	caps =3D logicvc_drm_caps_match(logicvc);
->  	if (!caps) {
->  		ret =3D -EINVAL;
-> -		goto error_reserved_mem;
-> +		goto error_early;
->  	}
-> =20
->  	logicvc->caps =3D caps;
-> @@ -382,7 +382,7 @@ static int logicvc_drm_probe(struct platform_device *=
-pdev)
->  	ret =3D logicvc_clocks_prepare(logicvc);
->  	if (ret) {
->  		drm_err(drm_dev, "Failed to prepare clocks\n");
-> -		goto error_reserved_mem;
-> +		goto error_early;
->  	}
-> =20
->  	ret =3D devm_request_irq(dev, irq, logicvc_drm_irq_handler, 0,
-> @@ -450,9 +450,6 @@ static int logicvc_drm_probe(struct platform_device *=
-pdev)
->  error_clocks:
->  	logicvc_clocks_unprepare(logicvc);
-> =20
-> -error_reserved_mem:
-> -	of_reserved_mem_device_release(dev);
-> -
->  error_early:
->  	return ret;
->  }
-> @@ -469,8 +466,6 @@ static void logicvc_drm_remove(struct platform_device=
- *pdev)
->  	logicvc_mode_fini(logicvc);
-> =20
->  	logicvc_clocks_unprepare(logicvc);
-> -
-> -	of_reserved_mem_device_release(dev);
->  }
-> =20
->  static void logicvc_drm_shutdown(struct platform_device *pdev)
-> --=20
-> 2.53.0
->=20
+> v2: Update subject and description.
+> v1: https://lore.kernel.org/all/87pl108lp1.wl-tiwai@suse.de/
 
---=20
-Paul Kocialkowski,
+Applied now to for-next branch.  Thanks.
 
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
 
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---ThTwSIZV2a2cCNSQ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmpNCOwACgkQhP3B6o/u
-lQyaPQ//f4pAYoEPe2VkBx5ziaC0VkGALJ8pMaCBZzEG6pnd2z1UBPK8Y2xJLlQP
-5bkyAxCQjpN0fwzwtB+kdA0jp2iokJqDThaLYoql9R0Qvj2DyOy7x+SwRqbRzdyJ
-npZtxXLCuF9oXL4YlUHBVPkgL9WsGf2cMpqkXAI/iPd0K+9zBfxT48xlRnuslCQF
-gwlVwkghlca2EFVG0f4q4HVkGRcFkAM9pYpKZD4B4iS89SwzHmJo44SZWV0CsWfe
-ysY5SERP+XL8EbiVlQxCWyqo9Yb//Ikc/EuIWFPMzPW7hp4ZTzjzYaRtVdWEM3Or
-GQ8uFNoXZfWHzfBpHk1Ewfdr7JBtXM0vPIh650GS2SCdGaCS0Ud2UUv7QZdSluel
-uGrsM82ZQ6ts4V8ct1O/dWG7TwYnc8BaFADG90JdKck+zb3fRnQ07aTNrF/bRDU1
-gcnN0yfM/zPIZAc7GA+4Stzok5c+bj2Sb849b5S5g6LNETsScU+WPK5pvEjjWq9E
-zsLawR41dclgUWujmQqflY1sbvVA3YsAADIxWAAsT1WDULfQ/c70/2rMIvNATzBN
-VxbCWSZtk77xMlu6aje7HIbEQa9PGm52xeqNOqfwv/t5kGZxU1fqyAULXAfSYQ2R
-jkjMhoWPkeb15z5Be0yQY0auFkEuIORZboIqn49NxQW0LVu7byA=
-=tX4X
------END PGP SIGNATURE-----
-
---ThTwSIZV2a2cCNSQ--
+Takashi
