@@ -1,63 +1,63 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0750025CC57
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 08:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8C02609E3
+	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 08:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783413936; cv=none; b=YwoSIFOsWL1acfXc65AXsSrXIVKSqP8uocPjtcz8QvMZ+OQy+nHl1XjRDrAg2N2HP7aOsjiCnn5k43oqtVHMz34HXhwV8u+tIB+ROplbrmMsxBeHH+gxFr/3x0IIbXAEZzX58FI1MqYOE/iop165z3HZ7mYV//n1MFBNrB+7wmQ=
+	t=1783413943; cv=none; b=LorizCANnRtowC+JzdByEXof9tFUPfFWTFlXsqyTPtBtZ5c4fh9xDIE8UWoZoOeEB3FKhD5ZKD6yR2WpPd9uePIQ1Zf50t7KsiqWGTzVhUmyqLWntsCSlJc4HGqYQm/+ryTSlFRDF8hxfOZP9C1NLT1vtn7V9oYUjY0T6A+MVjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783413936; c=relaxed/simple;
-	bh=MdkBD6v8XcsqReN0xDUyxe8ofCB1NZqAjkKfMxYTS6o=;
+	s=arc-20240116; t=1783413943; c=relaxed/simple;
+	bh=w24kCOhd0coL7UOZzJIQAkRBP5LzvS4+x/myXHiLLnI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ql4GTNC8qq7kZrAyIvATQY3PkSUJoCyCs9Cgwz72DPxIKnxVa48kh7A3UD1nYI0Tjt5F+Bzi3g+zvOjjduGLjlHuAtQnU8zPcEh3Zdy9sdQF4uGoJiuVb65zbu7oRkizcklKF9Xok+mGuW92gXUCExMjDg2Cx8vQ5DpSC6ayjso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9Y1Mujw; arc=none smtp.client-ip=209.85.216.53
+	 MIME-Version; b=RtZpyxocyA60tUBjri6sh8npWTkFr25eAN/Q1lpsi9wxrlu7lKSX8Hs5kiKDIbc3JJFdfFgwY/OGbvag7+r1RbBfnK1nvkuBgYRO0V3nRh3bL4a6YPf+Dqu4REFnIAZPIAIHkRXCZyyEo4RICloI9ODAdgwcUHIEO8nMme5SyQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hO7Q16kP; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9Y1Mujw"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-384c94c9414so2130301a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 01:45:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hO7Q16kP"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso2018566a91.2
+        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 01:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783413934; x=1784018734; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783413940; x=1784018740; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8AT5Sm+6NZiPfBKJbxwFN5NPfcTc+eskfuOxKChI27A=;
-        b=B9Y1MujwPjWLEq7KMJEenq02fEcexPuzSHvcJMMyDu3bHVVVlzNIv9pKk4pQ8s5Mfb
-         752476UxYjz+ICSsZnQHWfR8RFjNR69gCVzTX6a1mvzgOHRQw68QHfG2uIzqAq8JiEdn
-         6Ck2ojvoKhJF5CAv+F/3twtT9SunARIQ0cKEeVUf7Aw566WVuUK2Hk5byrjnEJoppkuO
-         Kb2PUUGGJ91eD85Cu/IuikIBw+7BjqXRZO23IOZbNOYcmu0q+unxmXUW40vQ2exOFaVZ
-         nGO4VruJGeAfbDzmw/EsTtZxRnBMcoqmPue30t3+2wuuPGmk9rMgMN1qvTkPG2Cz4FGr
-         wJ9g==
+         :message-id:reply-to;
+        bh=Sg/TjGf717Hj/OrWbBMOEQ2vxvsdop73pQNz4dt05yY=;
+        b=hO7Q16kPZYXJMhp1Fi21gJ8kRujZhDgULCL9UI/35EXzQ6M0p7PdLEXKhPW4m/CRGG
+         +53qwlcsRr6zZYrbnVOZJmnenOFiTpRSOFyc5OwulHH3XS420Yq8jl+5T9jeoVe4ZCVL
+         1FJKtjRI0Hxy+snLNURh2J+DZ1o93YOYlC3aC5T47vUhWUAmtOY6Q3Y0WV09yPZMjvzc
+         KjIisLP26cpyRMknY9h1qKwd/sruaX82kdGJavXZWeso1dJFpsrOKgERH/3Yro7Ibwzh
+         GwcEHSBu1tGZ5poDUQwAFITRSBzV7fNc+dZ8GNh1L+2BBc/rU7KXk/qfa/3WsrrSq0TN
+         n36A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783413934; x=1784018734;
+        d=1e100.net; s=20251104; t=1783413940; x=1784018740;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8AT5Sm+6NZiPfBKJbxwFN5NPfcTc+eskfuOxKChI27A=;
-        b=bCZxWmYBDxi6EClznChaioPB5H5Jup7xuD4Wp8f2zdwKd21rZoAcaxkG4gAgTaufTL
-         aRTzU9ma2TqHexMS0mKpLeOlGjzuVamJgYaNN1+2DypHEibZzyBg0t//UJ0YEfMQopdL
-         A/FwuZIgmDqytcjsof5kPDK2wpN2JnDAfFs/MoBywKT6OyAolIwmWs1kV9t6aBZFgNwQ
-         u1C0b6TgwKu8b3ThPcCjx5E5j//XSpXFqo3vD62yOMjUB75Jk8EmfaBpHl05zvUAQmLu
-         zNYgxXtHtbDVWPR7xrRjEHc0T5EcFRV/qVTIv3v/75/zwFmFtOaEtcfgzH+LNefzW4AE
-         RWMQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqwn31Nim8q55FXQnBXIsnDxcJkY4vbeKEIevNlFffmSbGOdldBkK+X5fC8i1johuMAJMpSGh0/KbJJVg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrNHZKZ9bQGxleQoGLwVWRlUMdm+l64/bmmcqOYdPYfNsoCKgt
-	i43GYG7xq03q0kFQS91Y8FtAOKa2tXi7+c2K/jEC/5E5LSJfPp9R+TA2
-X-Gm-Gg: AfdE7cmMw9p3dk89MCwDxG6tf4kQoFeKoWj16biSAFMpOowmnChsFeVqvOHb4qM3CG8
-	G+rW+tcHEnJNZ+JWmfs7+W3gNHOxzpfE91KWWINpjDf4zT8K4yXQNTt+dGEiwLiCLsYb3Jecz9j
-	4bmyWEFZHweJbpX2l7fEufqe05M2CQwtOUQxxyIa6XvvL3tyYTm9Y42Pfud+2k2jbgD5N9BF8BV
-	P+L4iQxJq8aaH+sjM1VQIDkMZPW5+q+DUDHZj4ZswoR/OBdlbu/uh0oSlH1WwjZ7z+1C5HfqhPQ
-	SWJ+utPyT9fPPOhKPjZlMzrSvxV487aqCzqzJloyQkMPMoKOfAcq64zXjGGtrhKqBjRHkkp8JEl
-	+9d9+RYeEyv0Vs1LhHajTnQrHtrncY2BHqeYA1Z9PDpL3uW0FNQ4JXT9pMO47nvqQ4yoJP2wr3b
-	sErK6E+yb+gwqbm6a3XrY5rW/MAK58Whk24JNpmK6EoZAQrcs3hgzNdrDzlw==
-X-Received: by 2002:a17:90b:1e48:b0:387:e0db:bc27 with SMTP id 98e67ed59e1d1-387e0dbbe18mr1817042a91.39.1783413934398;
-        Tue, 07 Jul 2026 01:45:34 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Sg/TjGf717Hj/OrWbBMOEQ2vxvsdop73pQNz4dt05yY=;
+        b=N6hKSh2lIHWrSiqZdB2XzwVVtmBKk3PWCbC87ab/61k2JQwg8vnPdP8gVCaNqiYaUx
+         eg0MQCV3W0bPGeKxj/0+9E5To9t5mJyn+vqA5LV6JQJsOz/ArS2QHEkXv4Nm2/vDjb2N
+         XO63eQ+XvxkpN76oVuYU3gZWgQT+wvAYQ21l9NyUbHbGjWPHdHCdE0jCanSlnSfnwK7T
+         2yMFeBECpNLCSGMf1OXuT1CUseYPoWHVkaDaWFKetrXm3NDkT9gi5PlWJ8wfSDbtXS96
+         xQNTdtYPLXCP3Xr5lggSdpMndaG5vbYkjad0NJVs91Derjk2gO8iCYjGis6W35iLjW8f
+         PtZw==
+X-Forwarded-Encrypted: i=1; AHgh+RqHgFO7wb5Fjm/2xJjNCvY1fWy7bPF8wrRUp/6IBP5EEivynnsGhOpyUec0lw7EW9+aBfC789XVwzHE1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSt9v6BZfUXJUFb99o3e8q7Mv0P/zNY8C3PbQu/bARF3kSW7XU
+	EaoablThmLz4HO0JAZKv1CF2SSvccojtm9dV1EtNIM0LYVMJj38fXatoFORNVA==
+X-Gm-Gg: AfdE7clgPcMSrw98gVhfiRqA87QFRSmXUZwrbiJpw6om5A/VCVir/V92ADUV1O9A8Qb
+	CzKZXrS5MxynoRoOgHQz9427czsTVd8XqwpoDKOiZkCwu2bYqcNagmVnysObYPgLWyCmA7j79LV
+	NdAsTB5rUUJ1uukmfBuDQfBJVb6bfbZBI8+sbngx5JkHx7ab7tdcmG7ZbvrgS+KhfXlcOU+tXHv
+	I2ajCvbLsTknwgB44nOlCcXKFVMoVh3PhyIdNg4FuOKw2HDGEeeIuu6sht1RwVZWCW4VsT13GaB
+	WfbTm+YnIE/xkYfMtuV7KeC7A7jAp9IWaCHsuO5SGqY4D7dxDxlXB3z37Ro9wMeIF2tSYYDuzDF
+	/ocnzB74rE7btBpTwOfKBQTfhnXZW/u9pSFs0rT1q2qcs1+goZnc9bC+gA7yfADn+c3QFWlkMsY
+	FYyWrsKNk9TGabKQ1taF82c6SWQqkl+c83lhGdJsobN9c2pq4=
+X-Received: by 2002:a17:90b:184b:b0:387:e0cb:7f3 with SMTP id 98e67ed59e1d1-387e0cb0926mr1921441a91.39.1783413940160;
+        Tue, 07 Jul 2026 01:45:40 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d13fd7bfsm717546a91.6.2026.07.07.01.45.31
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d13fd7bfsm717546a91.6.2026.07.07.01.45.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 01:45:34 -0700 (PDT)
+        Tue, 07 Jul 2026 01:45:39 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Cezary Rojewski <cezary.rojewski@intel.com>,
 	Jaroslav Kysela <perex@perex.cz>,
@@ -72,9 +72,9 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 1/6] ALSA: control: Return -ENODEV instead of -EFAULT in snd_ctl_open()
-Date: Tue,  7 Jul 2026 15:45:01 +0700
-Message-ID: <20260707084506.718583-2-phucduc.bui@gmail.com>
+Subject: [PATCH v2 2/6] ALSA: hwdep: Return -ENODEV instead of -EFAULT in snd_hwdep_open()
+Date: Tue,  7 Jul 2026 15:45:02 +0700
+Message-ID: <20260707084506.718583-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260707084506.718583-1-phucduc.bui@gmail.com>
 References: <20260707084506.718583-1-phucduc.bui@gmail.com>
@@ -88,35 +88,31 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-When try_module_get() fails in snd_ctl_open(), the owning module is going
-away and the device is no longer usable, so -EFAULT ("bad address") is the
-wrong error. Return -ENODEV, matching the other unavailable-device paths
-in this function(the NULL card check and the snd_card_file_add() failure).
+When try_module_get() fails in snd_hwdep_open(), the owning module is
+going away and the device is no longer usable, so -EFAULT ("bad address")
+is the wrong error. Return -ENODEV, matching the other unavailable-device
+paths in this function(the NULL hw check and the card->shutdown check).
 This changes the errno reported to userspace on this rare race.
 No other behaviour changes.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
-
-Changes in v2: 
- - Drop the unrelated change from this series.
-
- sound/core/control.c | 2 +-
+ sound/core/hwdep.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/core/control.c b/sound/core/control.c
-index 037e455bb11b..0ca9fff56e51 100644
---- a/sound/core/control.c
-+++ b/sound/core/control.c
-@@ -68,7 +68,7 @@ static int snd_ctl_open(struct inode *inode, struct file *file)
- 		goto __error1;
+diff --git a/sound/core/hwdep.c b/sound/core/hwdep.c
+index 973d11732bfd..352047e0b33e 100644
+--- a/sound/core/hwdep.c
++++ b/sound/core/hwdep.c
+@@ -87,7 +87,7 @@ static int snd_hwdep_open(struct inode *inode, struct file * file)
+ 
+ 	if (!try_module_get(hw->card->module)) {
+ 		snd_card_unref(hw->card);
+-		return -EFAULT;
++		return -ENODEV;
  	}
- 	if (!try_module_get(card->module)) {
--		err = -EFAULT;
-+		err = -ENODEV;
- 		goto __error2;
- 	}
- 	ctl = kzalloc(sizeof(*ctl), GFP_KERNEL);
+ 
+ 	init_waitqueue_entry(&wait, current);
 -- 
 2.43.0
 
