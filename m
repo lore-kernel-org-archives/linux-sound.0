@@ -1,74 +1,69 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0BB306D3F
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 18:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122D235B645;
+	Tue,  7 Jul 2026 19:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783449130; cv=none; b=S9nb+j5hhMgoDZgJ1jeVVQYcqE9dSSbyFIgQZZO4KDBUhHyC8qPB99T+UqC7Gtm18YGRW1SmIdcTN5Ev3Lm8ms21kry/zjiC8WJAoLOUxBtbg7g/PY+L3aHCia62eTjUeMZuetUb3AZeTlOtjtmIBQbIjYw2eumB3wNPouuBBeI=
+	t=1783450888; cv=none; b=Mom4xixParU0PFtLxbe+z0pI4WX9DxG612uoZFeOfDjkaQQZ93GDiy+yO3TsVA6MDkXz+sg+W0EtPwux9qaVAEBisOplYijZ+W/n2JNCavytt0qzOLhcaEo9qozkHYx/hxjpxqGWpHz3Qw6ZxA6fYY+YEovYq0dSRX8UMwKozTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783449130; c=relaxed/simple;
-	bh=9XHQkl34PtiRvSb3ChZImcvJdGvQt19SQZmM5JYbS+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cJDg1OF9sryRR5n9vqWhILIhTyIqT1zElXQPk153eTcp9h2ymEhs19/t25WS7awEDFQgwJp1KoAQlZMsQlIxiiF1zZCgk4AqNQHBOrNq59t09f4kVIsNXd3iRTCmsOGZjlrX2/Yq+4d4IPXkYgX7CjjceeZNP4yP+TqcMegQogE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXgyIsVP; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783450888; c=relaxed/simple;
+	bh=RPN6hBmI7GfpxGDKjkafyVPzgB6vdNSXykdkgSjO1CA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=bTzmO1vmfXDC6nspX95uH4bYYiZdRcCac2swnh+/oxni6QWlnM2aKMK9TvKWHP3k0vXl3VFWjVAeRb+UbNb8iC0NeQd5SaSlvGPOeWrbpfUcNJjNzANrDluYJXZTxq3cJQuA6oj1jz41+5BCgM1RKfH814t344SNechQGVN8H7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=J7ZSWWjd; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXgyIsVP"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cca0c5799eso24362845ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 11:32:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783449129; x=1784053929; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Nl98BK4u9JPRN9mxwdYysSrsI/UxB+SXFXlHLi71pK0=;
-        b=FXgyIsVPPG+Bwg8WZh5cDugs9pUhrZhvWj5Ps/eOlF640ACgKLq45RolyOPsGCrBAL
-         qiJQJL7UmKQHTyxMaiK0feKd6G/THZoO+yMagMnRTKgenK4D+uGA6uams9+oXPtSSj8l
-         4xn7ypv4b95TCT1HpEALOAHQYcHxXDdCZ8sdNqul39NriSxXUe1kyzGCHmsn9xaLZtGE
-         62Vs/M4wdCs9cXTSnu9vYcIMDcMlk6z4cuYBGPCf5M0EkTY8pcz8Xplri5MIlgYnn60E
-         4NgTTq4acLDKR7IWj6Oz40Zw0c1876C+YsilOa4RrCnT0RqmOZyMi2nW4pD41epB7RsV
-         s8Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783449129; x=1784053929;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Nl98BK4u9JPRN9mxwdYysSrsI/UxB+SXFXlHLi71pK0=;
-        b=XnfjLoKIAYq6IVQOOcnhPOsR4nFgIcNffV0hBm7Q071b328IBx7JcdRpWIi7bY/ygf
-         3L9cS98qD2a0nqR6RwX/oW/jZ+/rGOo4dYEhiwtMTYxvR3RmgblvJdNyzjNEaf6TLJPQ
-         7S/5XK4befktAsYIJ4EQVwveijkwjsmDU++we3aLrhFNhng5hO6t+bH/fSSfw9ro9DLS
-         9jS0X/9lOBK1Jg0IPclTtydru5A6Rec1rNJsVREuDWbEKM0Igm8+gCw3STwrqVHYX3TL
-         AE8hhRO9PZVjrEE9zHz5DmT91dNhla7Itiftt69oblyc7Id4pD4XkSHzgJGE9NiJTcuA
-         qLVg==
-X-Gm-Message-State: AOJu0YzRXTReOlRVoKNkTCkDjF3s4fDHFWqerjS5+AqUiRn/sa0vTqJM
-	wcLJWPkgEm/CU8R6tl/CrTwGNRYtWKGU+s3djrF3MVryi5btrC+WBfdN
-X-Gm-Gg: AfdE7ckQkvRGR9JiJQbkYHi3Io2/XoOZX6+E//kXk6KRABzEY2mh7yJBBxmig7+galO
-	1T8gKEwO7zMn00ukLPpavNghXoeiL7sk9vnOsCt/SIjAag6HTuJxkAr8jvb5OAN22+IM23jTun1
-	pFmb69SywBvUr/lv+FlnyeudwwZu0/XSmzJKBlbTlH0pBAz7/JBddjiv22eBOK9SqhZrZ+n+JTX
-	V3sgm1SjJv394zQeBYohRoZWFxB4SMeCtfBOp1nb5yWt+Dn+/xs8qouXLArU3vOFerBhcz0pUnM
-	hfp+t7B0tJBT8rf0tjxYZ7BLhG+5M/IZL48TgRzIFm+rsP7ee2hf+Gg02I4ih82OLm7KzDhXywQ
-	5sQTn0MilMTpHI/bM3ga32HxqhljYKabPjLa8l+JZV5ICE68fWvZU0gjrudl8tZ2hGFp5FkChLh
-	f4mAoZXC9eDPfhuwR+WOjCdmIV/CV+mxT3RzEqRhIkL4hL5G4=
-X-Received: by 2002:a05:6a20:918e:b0:3bf:6011:550 with SMTP id adf61e73a8af0-3c08ed1f378mr7459544637.24.1783449128528;
-        Tue, 07 Jul 2026 11:32:08 -0700 (PDT)
-Received: from localhost.localdomain ([2802:8010:610c:8c01:940:5638:6c2d:bc2c])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ae6cd9sm11502366eec.31.2026.07.07.11.32.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 11:32:08 -0700 (PDT)
-From: Agustin Luzardo <agustinluzardo09@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Agustin Luzardo <agustinluzardo09@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: Do not drop per-channel feature controls marked get_cur_broken
-Date: Tue,  7 Jul 2026 15:31:33 -0300
-Message-ID: <20260707183133.8113-1-agustinluzardo09@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260705184227.113588-1-agustinluzardo09@gmail.com>
-References: <20260705184227.113588-1-agustinluzardo09@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="J7ZSWWjd"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 667FTGYq4059291;
+	Tue, 7 Jul 2026 19:01:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=afGkw2/+01w
+	rN17vRauQs5QoG6cWfpx3pjK3scVU2yY=; b=J7ZSWWjdENN/DdAEQcA11zLF3e3
+	VPvGtrDzaHDUY+zBUYWSoEP9u6kXxztokIJOeJsBI76E788ytZwshqJPXBSktBkL
+	wYkXuYg2O2VinL84JTlSxcHW3h/T1BWGMOeFaQyo8Rnyx7bM7hcUghTHEl/J3I+3
+	b07NgRwxSGXqDTAEbq2r1oKPMx80DS7XkGcyrQLo0H2tvyiLdVekyG1T2bx7oFGN
+	dZbo56+Gf43Tp8GC6W95JNPPQqPoFU0N4nv9vPfWygw0Ii9hS3GrpU57FnKrInff
+	jmwSdaQ8Io1jjeTQR34ztYpnvJvBn2tbTukT4Kn/acrrzUJryO95p+UfaRQ==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8sm8kq2u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Jul 2026 19:01:14 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 667J1As6019114;
+	Tue, 7 Jul 2026 19:01:11 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8k6b4y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Jul 2026 19:01:11 +0000 (GMT)
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 667J1Bfn019147;
+	Tue, 7 Jul 2026 19:01:11 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 667J1BsA019138
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Jul 2026 19:01:11 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id C1ED7643; Wed,  8 Jul 2026 00:31:08 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v3 7/7] ASoC: qcom: sc8280xp: add TDM hw_params support
+Date: Wed,  8 Jul 2026 00:31:06 +0530
+Message-Id: <20260707190106.2876465-8-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -76,64 +71,131 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX6xJFM/9WbuBh
+ 6NNnTwZ3QX1JkH/7q+o68rEYYgGvZLiGjdsu5nqQ+Ecb3IrYWSf6dPVmtSeMFKecNHc15JzyuWL
+ xG+IQOFWyKoCyXLp8yq75MVKtzY+2N3APcESEvid2o6NvIl+duhh0DiwKK8WYUy+K69NtfLTdrt
+ NcKiEE1FkrP3kehXtzLBiCzKrkaEhvNPbyBX0pxT7T+uCrOaqzUJZ6A7krMfI/BqSj1WPJqEJ0k
+ WPexAfOLqLIFAa/x035X6xcxfB8F0/KcqvfcPtONmvOPQyf+VoNNh4A+MAFDbMzY15LdsT93wRZ
+ aPxjsr4uCQSfiH+1A3nrqrAcEQGgPlSzK0NfYxLjfCaBXxgy3W2L3C/sDumklgqC//y8yFBZOIw
+ JaGq3JzIhO4GwH8YZji2suoRuiyEAuuT0288ke4B36JyfLe0VytZYdCV7EdGKOCawz+aRiORQmN
+ p8UnOo84yM/ad4LznyA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA3MDE4NiBTYWx0ZWRfX2vFQH4hrY5XK
+ lshbmvSqdI+Zn2IcndNIXNm7L/wCdfofWOIFKUa7TpRqc9ScWcQcazdFK05tbWBpFw9RyZcvqIS
+ sZ71goXejfEuhqAKzhQ9PRYbk9pCEaY=
+X-Proofpoint-GUID: P3T_gWiHEq4mkoADXrnna0eoM4e3XBrP
+X-Authority-Analysis: v=2.4 cv=UvdT8ewB c=1 sm=1 tr=0 ts=6a4d4cfa cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=QTpijNGdYiuWC2p250EA:9
+X-Proofpoint-ORIG-GUID: P3T_gWiHEq4mkoADXrnna0eoM4e3XBrP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-07_04,2026-07-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607070186
 
-When a per-channel Feature Unit control (e.g. a stereo PCM Playback
-Volume control) hits the sticky-mixer check during get_min_max_with_quirks(),
-and the device carries QUIRK_FLAG_MIXER_GET_CUR_BROKEN, the sticky
-check marks the control as cval->get_cur_broken and returns -ENXIO
-instead of disabling it outright.
+Add TDM backend handling to the sc8280xp machine driver.
 
-However, __build_feature_ctl() does not know about this and treats
-any negative return other than -EAGAIN as fatal, discarding the
-kcontrol entirely:
+Use the common QCOM DAI-node TDM helper to parse the standard
+DAI TDM slot properties from backend CPU and codec endpoints. Reuse the
+parsed configuration when programming DAIs so hw_params does not need a
+second DT traversal.
 
-	if ((ret < 0 && ret != -EAGAIN) || cval->max <= cval->min) {
-		...
-		snd_ctl_free_one(kctl);
-		return;
-	}
+Derive the LPASS backend bit clock from the runtime TDM parameters and
+request it through the backend child-clock path using LPAIF_MI2S_BCLK.
 
-For a stereo device where only some channels trip the sticky check,
-this silently drops the per-channel (stereo) control while the
-master-only control (built separately, without going through the
-same channel-specific GET_CUR negotiation) survives. The result is
-that the user is left with a single mono/master volume control
-instead of the independent per-channel controls the device actually
-supports, with no visible error (usb_audio_dbg is typically compiled
-out).
+Program codec sysclk in hw_params so codec PLL setup happens before the
+stream is triggered.
 
-This was observed on a Weltrend Semiconductor 040b:0897 device (sold
-as the Redragon H510-PRO Wireless headset), which reports a genuine
-stereo Feature Unit (bNrChannels = 2, bmaControls with Volume set for
-both channels) but ends up exposing only a single-channel "PCM
-Playback Volume" control once QUIRK_FLAG_MIXER_GET_CUR_BROKEN is
-applied for that device.
-
-Skip the discard when the control was already marked get_cur_broken,
-as long as a sane range was otherwise established.
-
-Signed-off-by: Agustin Luzardo <agustinluzardo09@gmail.com>
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 ---
- sound/usb/mixer.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ sound/soc/qcom/sc8280xp.c | 60 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 0000000..0000000 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1970,8 +1970,10 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
- 	/* get min/max values */
- 	ret = get_min_max_with_quirks(cval, 0, kctl);
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index b13f39dc5..46418806c 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -84,6 +84,64 @@ static inline int sc8280xp_get_bclk_freq(struct snd_pcm_hw_params *params)
+ 			    snd_pcm_format_width(params_format(params)));
+ }
  
--	/* skip a bogus volume range */
--	if ((ret < 0 && ret != -EAGAIN) || cval->max <= cval->min) {
-+	/* skip a bogus volume range, unless the sticky check already
-+	 * marked this control as usable via the driver's cached value
-+	 * (QUIRK_FLAG_MIXER_GET_CUR_BROKEN) */
-+	if ((ret < 0 && ret != -EAGAIN && !cval->get_cur_broken) ||
-+	    cval->max <= cval->min) {
- 		usb_audio_dbg(mixer->chip,
- 			      "[%d] FU [%s] skipped due to invalid volume\n",
- 			      cval->head.id, kctl->id.name);
++static int sc8280xp_tdm_hw_params(struct snd_pcm_substream *substream,
++				  struct snd_pcm_hw_params *params)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
++	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	struct snd_soc_dai *codec_dai;
++	struct qcom_snd_tdm_slot_cfg cpu_cfg;
++	struct qcom_snd_tdm_slot_cfg codec_cfg;
++	unsigned int bclk_freq;
++	int ret;
++	int i;
++
++	ret = qcom_snd_get_dai_tdm_slots(rtd, &cpu_cfg, &codec_cfg);
++	if (ret)
++		return ret == -EINVAL ? 0 : ret;
++
++	if (!cpu_cfg.slots)
++		return 0;
++
++	ret = snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
++	if (ret)
++		return ret;
++
++	ret = qcom_snd_apply_dai_tdm_slots_cfg(rtd, &cpu_cfg, &codec_cfg);
++	if (ret)
++		return ret;
++
++	bclk_freq = snd_soc_tdm_params_to_bclk(params, cpu_cfg.slot_width,
++					       cpu_cfg.slots, 1);
++	if (!bclk_freq)
++		return -EINVAL;
++
++	if (data->snd_soc_common_priv->mi2s_bclk_enable) {
++		ret = snd_soc_dai_set_sysclk(cpu_dai, LPAIF_MI2S_BCLK, bclk_freq,
++					     SND_SOC_CLOCK_IN);
++		if (ret) {
++			dev_err(rtd->dev, "%s: failed to set cpu sysclk: %d\n",
++				__func__, ret);
++			return ret;
++		}
++	}
++
++	if (data->snd_soc_common_priv->codec_sysclk_set) {
++		for_each_rtd_codec_dais(rtd, i, codec_dai) {
++			ret = snd_soc_dai_set_sysclk(codec_dai, 0, bclk_freq,
++						     SND_SOC_CLOCK_IN);
++			if (ret) {
++				dev_err(rtd->dev, "%s: failed to set codec sysclk on %s: %d\n",
++					__func__, codec_dai->name, ret);
++				return ret;
++			}
++		}
++	}
++
++	return 0;
++}
++
+ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
+ {
+ 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
+@@ -206,6 +264,8 @@ static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
+ 				return ret;
+ 		}
+ 		break;
++	case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
++		return sc8280xp_tdm_hw_params(substream, params);
+ 	default:
+ 		break;
+ 	}
 -- 
-2.46.1
+2.34.1
+
