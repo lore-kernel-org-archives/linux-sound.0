@@ -1,132 +1,151 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010042.outbound.protection.outlook.com [40.93.198.42])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011015.outbound.protection.outlook.com [52.101.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F27ED217F27;
-	Tue,  7 Jul 2026 06:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BB73DB623;
+	Tue,  7 Jul 2026 06:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783404603; cv=fail; b=b/sjd1A4jEEkxjr4Ynfdzyd0si652t6qagF0lph/awIgcOl1psYle81B3CjpuIhU5D1VJDoditPi3/O1iW5C6mdHIonlHkYPLad3DdJp91Ic5DoObguo5XJARXt5Ypa8VO3hStFXjhhY59HQAXsiv5btrSoNrabF7Wcek/raIZw=
+	t=1783407462; cv=fail; b=M61X72uu0GAefhT8S0LUwbq59Uz8z6yAOqon3D9MVUmsLtyv+Jc8NME6yRni0azOYzNdWFSxHVPs5WDEhmx6V/5LNDm84aOvoKTkEJjYvy4b00OaabUxGaEqHlSPdqJ+1wbiQGBG5elSSotQaUzSODWwEynnOHztUe9aMv+5fTQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783404603; c=relaxed/simple;
-	bh=r/O/eyo+CRpqQYdaglRNbRp3P5oQXL+CsZLzdM4dWog=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gR+ZSCiEIEdCTSl/14cD9KJSVBuSIpqcHJtOwIehUNToezlyGpwFdbwBsQkG3kwkcU5/IfxgF86F5vVXK2odDCSPgkPTuBU5L5Nd8WIJHHmLYC8iJNvxWnEmnNF8iGENymVnEXqTpabpPmz0Zr6fuGgwkGYv2gLnLfZGcT/CCQo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Vd/vCqED; arc=fail smtp.client-ip=40.93.198.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1783407462; c=relaxed/simple;
+	bh=4noslAK2KC0Q5SnJacnS1nqy5u9TjRcvOYakZwLKEJw=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=UNMpsQbX1LgBETV+vERjbvGR5gGZ+AIX5bpF6NtZSG/46X8DqtZvg6mnZ0JCpY0aOMLfijhzE46PQIzAra61GgRRgADsNBwuYFZ/kY5krWXcs2ZrRk7g0F2POQ9vKQErTAvFhl2MnvxYSsTBqzocQW7s8l2s/Hg8dLnMq4VkSNw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=O/kP6LHy; arc=fail smtp.client-ip=52.101.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Vd/vCqED"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="O/kP6LHy"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X6bxplnz/3IhZyJwPbheZMdxvE6pgTSh2fn3qJ33ydeEMjHAXc4R8FLy7OxaDMYVEylbxVh5ga/V7Z5tjrvV+i/ErSVgZzXYWctOeDDmmTtbqpum0TJNGuJ8ZTRA9arCexH0DuvFxQYa/tX6WbRfw+wPUeOmwaFsvSsLxemwy0esluVrBfToay23Sra6XAT7QAMmx1PA0NeNm6Ix6HJL7mfP8gIYMEMhx2a4H3RCFzz65ZICHHDqQCzAhvrq9o31pEe+eCnJNLUmW3L4KD4qy1QsmgR0mDHeGJe1xpPk+Mu3MlIvOF+td68KO2JiQy3dPKlNpTjM7m9xHerV2jP8cw==
+ b=ROW1niMxNtPpD3F2jJxbyQPs+Jk8AmfHPHH+2NWJ9LR8jThze8wYrwjhea1NKDlzXBJv//ui+Wie/VVjvU0h1yDnsZpW6lJH928/L5QeVJD1nD2ExcnF6ZMx7o1JX2c09Qz+PHW4jSmSl0SyIcgDS6zzmg+l/D6Z0FipQCs0V3k8ZTG33CqnzSgziFePbS/eIqWQL8N3Pk+7OSBlfk4gsKKwSSUeLyedGxA0mt5xSijjxwjtcjd/mIOLymY3HPWK1QJ5WJGanKeh8LUPqsc+QovzEA/lvoR/praVBUdO9SH5An6kS9mUoqpKKSoDQsc+I0i0yUzJ2jqZ6Bwj/ee12Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m61ZwO5kJBiphg+Xbi+xCRgaU85NSl20O90d1jlteEo=;
- b=p2tUN+VzDdq0B1KRt/v84ZofzoqcSJiQSq4hW0JRhH2N4Ejm3NJ8tRLzK770V2Lhh1KpGRhSy/C9jjEPpUnXFTrVGJp47bl1h5hkQeO9Cc4FFvqXB0ejX+1A7lynRuVCoMTcJ46U4mnJpHUGBVertSPw+nyU3X1HXaXCZfisqGu0ASGEpltjcjC10d7ddQztw4eBMdm1mTuAMgldu/wkiW4a0E/Q1DEcrKFrVXi8da5VVsItfiAyNVmqoEDTHSR63GjGrcWZyMRVlQxS/190aMzbHPjV7QfGLwQKfmUi6XMhk3nZdRcTIoTjsMCgkrdUgulLxl+zp8NM4gI/lMx0Iw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=2FtO6/auXQw6HdU9on7vE7e0AikChczY2s55ofOk02k=;
+ b=wjO2lZ7iz50cn1olF5lLut8kX9pSYbSuD7wPan541qnRQBSMuT+7AAKHIPUewnzgkQDW4zWgtQ3F2BduFeYGDbVJtmEZzkzBqJ2mrhCK+QzFn3R3Z/Q08az1iuRH/vCCIyFbZ1ofJhojRcv5KXtAhiPF7t8ppa8A0LQM9qjzqJPl8MTwuCDOtuDdBNStMCJ2Q7SL3anu4tx/eAhzG3Dq4AZ7+x48i61denG52XUZPr19yxqEOTItl57XLmNYkDmxuoGgg2VasGzH2WQ3HCQOGWnDSl6QvkB7WRczy9+G0szseE7bkiPqqjVbgSQgQdAZZIvz7DndIk5jQuC+RwiPiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m61ZwO5kJBiphg+Xbi+xCRgaU85NSl20O90d1jlteEo=;
- b=Vd/vCqED8I/w+OyoBzQ0jJCKpg0AuwunHrC4K9uVFIXFvfBWccGlj9C6A0XnVJNxEN5gS3OW8vr5NCzOGoGMXvsdkLNTaA8EqHsmjA1umRS+P3Uv6Ox8XqfjM0Utc1V1tJqvjGtrFt2s/48ytzoPW+68VY2/HY/wmCAsj43XmjU=
-Received: from BL1P221CA0024.NAMP221.PROD.OUTLOOK.COM (2603:10b6:208:2c5::31)
- by LV2PR12MB5824.namprd12.prod.outlook.com (2603:10b6:408:176::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
- 2026 06:09:58 +0000
-Received: from BN3PEPF0000B076.namprd04.prod.outlook.com
- (2603:10b6:208:2c5:cafe::59) by BL1P221CA0024.outlook.office365.com
- (2603:10b6:208:2c5::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Tue, 7
- Jul 2026 06:09:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN3PEPF0000B076.mail.protection.outlook.com (10.167.243.121) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 06:09:58 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 7 Jul
- 2026 01:09:57 -0500
-Received: from amd-System-Product-Name.amd.com (10.180.168.240) by
- satlexmb08.amd.com (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41
- via Frontend Transport; Tue, 7 Jul 2026 01:09:54 -0500
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>,
-	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-	<perex@perex.cz>, <tiwai@suse.com>, <Sunil-kumar.Dommati@amd.com>,
-	<venkataprasad.potturu@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<mario.limonciello@amd.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <julianbraha@gmail.com>,
-	<sound-open-firmware@alsa-project.org>, Vijendar Mukunda
-	<Vijendar.Mukunda@amd.com>
-Subject: [PATCH] ASoC: SOF: amd: add missing blank line between Kconfig entries
-Date: Tue, 7 Jul 2026 11:39:00 +0530
-Message-ID: <20260707060918.2535962-1-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.48.1
+ bh=2FtO6/auXQw6HdU9on7vE7e0AikChczY2s55ofOk02k=;
+ b=O/kP6LHyn7JUCWIhaxDfayCKj//o+AG/Dcm4ukoM8qba2RRRRZKXRxHk4gv2hn/eo9XgLKLvN5hV5LQA7B4+/3qn1FTcgtbLuN8NQ0FvQWnyySJIoj4vTJVvb/w2NnI7yjy5veEiAktGkLL2C6R4+KLdUsctJC/8Zm2skEfjqD/ZFhppQ/elkcDr1HhtmIWhXVic1aDILVm+Ibh6g49rT68svEcEPmwJ6OCp4McXKgv0LCodWwdJdsCuYPGtV3nlwNLTGUMg1n9OADVceW2C+ydJlLUERagCJaBiwvctjYnIfzBFz4tAqShcMunFVVW5ouyiRY8cz+c5AIV24iGfWg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20) by GVXPR04MB10945.eurprd04.prod.outlook.com
+ (2603:10a6:150:21e::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Tue, 7 Jul 2026
+ 06:57:33 +0000
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994]) by GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994%5]) with mapi id 15.21.0181.009; Tue, 7 Jul 2026
+ 06:57:31 +0000
+From: chancel.liu@oss.nxp.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	Frank.Li@nxp.com,
+	s.hauer@pengutronix.de
+Cc: kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 0/6] Add audio support on i.MX91 9x9 QSB
+Date: Tue,  7 Jul 2026 15:57:19 +0900
+Message-ID: <20260707065725.312450-1-chancel.liu@oss.nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0034.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:116::15) To GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B076:EE_|LV2PR12MB5824:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccf45bc6-53e8-4113-5e37-08dedbee5f79
+X-MS-TrafficTypeDiagnostic: GVXPR04MB10021:EE_|GVXPR04MB10945:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19534408-e4f6-4bca-681e-08dedbf50402
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|82310400026|1800799024|36860700016|56012099006|11063799006|18002099003;
+	BCL:0;ARA:13230040|366016|19092799006|7416014|376014|1800799024|23010399003|11063799006|56012099006|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	my16j1NSpwOg5bLeA1/bHvBu/r+QP8yVX9I1E0Qf12+q0Iu6RwosGB0HwtwRBAigW8J9AdHHBCYDp6vxUNGvX+735XR3sKFVn8bo56rs8R5pPl+VbewfBU+EynzVWs9VwfS6/vtUfEn1Cr8/hVn66gIH0OqIJ3d9+0AgdVvufYM9hzmHyZJZtlghPcDbXxac2B0mF8mosVPHVGrSasCosMmJndBc7De8hjzsOV4QZrblThx+YJIK+bxynDMWjRFN1CmS9Vaw/nZKEnMKAA9Ywd0daQA88/YWD7fKn6zw4YGmoN08EnY7kdecYhdw4HhAqqRiYufsDJXrp1LudqNEDVY4Cwb5/U1FkC3LUgxQs6wP+jcYK4u29aoAwJAondF5PxOXDK4jCKzGI21wS2s9PrJ1CFWB1ptyFrdRdkgbTA/xAg2diKCVnX4czBjjltBDPbrhJHB7miH/Dmct7aJhoixTxbx9/8cr+b3Dl1cATFqsUgogvN8mEpmZhkd/oEcFN2LwgzJPao1WCuifGLYMBZtx3sZG6kxDCBM+F/rRw50XdJMD+uvrl8ysvLiJ7AQn5AM9iIglanEGScqn/XVYf5oyirZYWgYFjV+WWpyr1kyjW8ufnz73fafHTR1VVzfpovb83f6JGVGyv1iOt5q2GANQaokBZc7BAwXfhohS2vxso+Eie4IXW15ezAE01Ng3B5btv8z9j2r3EtzIcaVoBw==
+	wP7bTGFN5R3VVXeyLVGbJGGLUHXfKVzbClFdQR6t+aL27sLhfoCu3cbPJ/S+NFpviS6H6pGNX3q+LnoxA/luzsdrhH3CH9hNhNN4l+qTUbyukQTCujQ017nlS60s9gqjJBlHmHVchCf5+vdweloYPYyNA4GwQKFkmwBxLSHDrhwhYzPxyJC4LkxqlZ9xP7/taWEwAMXt3pM7OstaxhYVydg5RiOUrj4XtkY5XGS2FzA3+JxYb2CHXV07eyrZMX9PYcg2h6axZnRKzYu6S9VyajG3LcsMFbSgonlV5ubcwfpPHZeVf2Lf+q7ow1mnRFR43jlScanSPyYN2aZ+gijSEhx3pOWrS2uD7IGE+pe4dy7A9AqxGSC3y2CzLldByfZOTNGGmSOoSRzv/LhZwLz5oLj5EfqDPQlyR0mq3+ehInHftOc7Zw1yQLSf5vWmiqTNJUpEIUYyMmWErR6DwUc1lFVcyF7ZFvxg6TFviWCNmHe7l2I/M0yCn2YFPJ0vfFXK/EN34MFgqtly2vWsQ80HmJsyOybkEDUAl1AbAL5bDwZ7cWhCBzNBsoG3Lj1e9nDGY54TQk2vueO5+OFo+LTWeMHDYVGl6s8bITtgJz+7s3HB6bDK+tjeQodai7jaxGVpego+HqlhL3Y3uhDIFRIsRnsN35zfHwPWLTm828g1Puk=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(82310400026)(1800799024)(36860700016)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB10021.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(7416014)(376014)(1800799024)(23010399003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	jSLnvlLLodCbxPYoCjJh4NGaZjn6SLJPtdJJl8mVOvfg/Yb9qP9m2W+Mj51S1o8Gd2Tv4kC9NYl9EJlEDLlIxlnCBMiAsGpCbyqHnhuJaUWo62ANwQOtQUZJ6TalmUlns/Ve3+yLYX9vUR7S8cIrLQ1KadZFCr+EenqdX5aOmUT8XdTcAD8NpHREoxlfQJUitkmz5U4RJ19YjG6+RVDVh7Rwz7ToHGoPFxC8laJ/wb9LUh+jcbS5+erhY2fQivjOo1N2BI9dDt2niiz2yCVBg5UwmN6VHD4uMixXYGE/z6jjegGGmg0ueuY1bNe4DD5zzfmX57JWZOkf6v83Wf5UOAgAIyNzbjXe1ZQW0TvL00VgIiOs4WSG/cckfms0rB8+vwZtN1LbgigFQoMrXEHbhwZ3MGBA2kMOZvMOVCNhp2GQmXQVh6rRdOX4jvjsgpyj
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 06:09:58.3264
+	=?us-ascii?Q?tceuszMsa5AsDoKezXKhqK2a2H66m2RA3DiNiAXPI9laznAPdqFw0ZPHCe1e?=
+ =?us-ascii?Q?yeD4Onz3u1RIagYwIv+LtguRvJlvq7hmGU+fA5OKFywSzUcOLjv76y8gFZXQ?=
+ =?us-ascii?Q?4osHOA5yClCufYhW2rgjiJfabTlZe9um5fOX62DXhCZJZRrc8k7G6ldu1mDT?=
+ =?us-ascii?Q?PNv2NrS/EzdAKc6Z/0yuKJB7y+mtNuwe++0gO/zSL3YWBDXA03awDipKCCDK?=
+ =?us-ascii?Q?9XN04cdzcTe1RiZPMfQIaNFA34wSF+nyykCSnmE59kMKbdWPXYTg2UgRYaNh?=
+ =?us-ascii?Q?nbqPBZTRQynqpTvyXJxDbIDfEnZSH87wSjvI+xsZmf2gkrZh/WppwHJa0LrZ?=
+ =?us-ascii?Q?H65kB7PDNPAUYGUgzWIssCjG08fqYjNvDpBrNNcD7sHl0qhgvBQNTIWl02wP?=
+ =?us-ascii?Q?LdB9vQ3FLc6hQKH+yJbJ5DOabJOdxv7OUjxOGPtM9lTNOJbdvFG0Du/wNNno?=
+ =?us-ascii?Q?we5V8GhGZikQtxHQuEH5kW7C0pDSnCMaUEE3AfwxlAzuCtdoFhvJwRuheF9+?=
+ =?us-ascii?Q?u1rSSEELIm4sJ1QAMt9fMd38s1I18/9ULlpu12oxi1WTJS2XyTxGRGSSsob0?=
+ =?us-ascii?Q?Gn2Kg5HKZrLq71JUPHb55b4RhlHzRjGBvZGLv9YJo6sizpelBdJNHggklUr3?=
+ =?us-ascii?Q?/ijU/TKEFVXEQdtA8VzsOKpYzBPDKCW3051o0Xy7nNYAeAPPQw9MIMAp+9V4?=
+ =?us-ascii?Q?VzQxUuPXpBlxMu5X7hf+7bMjHqeOSl9rfBvCUrnsXuLTdy2vSKscAeUxeEQS?=
+ =?us-ascii?Q?hsuCqagwhVSey6ommtkBN0FajaBzyncBL/NgWUuFuLikrw8jmzBrFqavOqkW?=
+ =?us-ascii?Q?w6D70iwS3vdW54WraIIeAvzs3EdLW+cdmbGhv/pVLzY4KwNtUk4l3ht8mrAq?=
+ =?us-ascii?Q?GnlIfdeIu8D7KZZgqQWYYyAZXzJJpzI1SgaJQ2A3pqH78F+adivvsSu1zBUY?=
+ =?us-ascii?Q?pKgQRRcqiJZ/qK1OHj+5zzeXecfEN6Yd1kegJXU2ES8wo25OQduL5F3CXCJt?=
+ =?us-ascii?Q?viuFHhQyKW8xfT+Cbo/u/g5oviJNZRcW+g6xpif29LrGPzvJUJDPdTJ3aRhE?=
+ =?us-ascii?Q?cb72OoWesbst5kfABQ8Moa24zQUv2xCoPII80Ht9V0SvoKX/v2R8ZGKG9Qd8?=
+ =?us-ascii?Q?2SHGXOSQ27c84uNzJ8ObwvJpmGYtK07pd7PMzAUvgBSJR+ufMNYLjc++ZpDq?=
+ =?us-ascii?Q?gZnHD4nVmrLeYpVIqbO4JEyjRfm9GVormKV1mRgxklh3F9psLGNV1IaxQqZg?=
+ =?us-ascii?Q?6E18pDp136h+i2NiA2F3RH+KBF90UQswuoBsqHwOa11+fnTX6hChu+SqcQyD?=
+ =?us-ascii?Q?fppzTWeLFYFVPpiN/LzsCybaEQ+sGGmqGOlVrCGpk4iQEXrAdZ/bZhD5d5iB?=
+ =?us-ascii?Q?RzdirkIa+QDqx95aW1hIVDLMxy++voWRAc/2O4mVgU+p5zNfBSyOxmC7LPPn?=
+ =?us-ascii?Q?JzkxA4H8IdRN883pNcpIoo8RDJOVIi0OO4vw+OK11quwNMj7J7Yg9JU9J6/1?=
+ =?us-ascii?Q?SMKaw6c6Ya9KHDmn3G4BMY4GdzFTLSd40XjIhZnCL9QD1JArVzZ8JSCPNbwd?=
+ =?us-ascii?Q?9dvoNz8TXLbXPEefr3de6jPXcbgc0poHl8eWaA/JaXxW5b1GEr7poMUvweNo?=
+ =?us-ascii?Q?B3TKh9sZqe5zZdO0Jpzf6e9Go8zSBPcROUUHn42f7mQI3oWuuHKXHbEZR5zB?=
+ =?us-ascii?Q?o5e502XenKiUhp8JCFtAVYnSCFkd2HJUXZzY4OeuYQEEG2BTRqC6GdPQ/QVm?=
+ =?us-ascii?Q?vgJRVyX5AFYr+sD94+tozngltJZCbCUh+sLmOW9tsKwj5HLgmFxL?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19534408-e4f6-4bca-681e-08dedbf50402
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB10021.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 06:57:31.7593
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccf45bc6-53e8-4113-5e37-08dedbee5f79
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B076.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5824
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PrETziO49VYgXohiFcohUWtPtyrM41hVLkhuPsaN1TRT4661a4uSbGh5zkT/QszNcHXcy6E33iUhqblAGkytSIW5Yc7XVQ1+KF5xaOgEmV8hDaZDHWdez/HPBLzmEhHV
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10945
 
-Add a missing blank line between SND_SOC_SOF_AMD_ACP70 and
-SND_SOC_SOF_AMD_ACP7X config entries to conform to Kconfig formatting
-convention.
+From: Chancel Liu <chancel.liu@nxp.com>
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/sof/amd/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+The board routes audio related signals through on-board muxes controlled
+by a GPIO expander. Add the mux states required by SAI1 playback and PDM
+capture. Add support for WM8524 and PDM microphone sound cards in DT.
 
-diff --git a/sound/soc/sof/amd/Kconfig b/sound/soc/sof/amd/Kconfig
-index 7413bfdb0943..903e7ec3b3ba 100644
---- a/sound/soc/sof/amd/Kconfig
-+++ b/sound/soc/sof/amd/Kconfig
-@@ -103,6 +103,7 @@ config SND_SOC_SOF_AMD_ACP70
- 	  Select this option for SOF support on
- 	  AMD ACP7.0/ACP7.1 version based platforms.
- 	  Say Y if you want to enable SOF on ACP7.0/ACP7.1 based platforms.
-+
- config SND_SOC_SOF_AMD_ACP7X
- 	tristate "SOF support for ACP7.B/7.F platforms"
- 	depends on SND_SOC_SOF_PCI
--- 
-2.48.1
+Chancel Liu (6):
+  ASoC: dt-bindings: wlf,wm8524: Add audio-graph port support
+  ASoC: dt-bindings: fsl,micfil: Add audio-graph port support
+  ASoC: dt-bindings: dmic-codec: Add audio-graph port support
+  arm64: dts: imx91-9x9-qsb: Add audio-related board muxes
+  arm64: dts: imx91-9x9-qsb: Add WM8524 sound card support
+  arm64: dts: imx91-9x9-qsb: Add PDM microphone sound card support
+
+ .../devicetree/bindings/sound/dmic-codec.yaml |   4 +
+ .../devicetree/bindings/sound/fsl,micfil.yaml |   4 +
+ .../devicetree/bindings/sound/wlf,wm8524.yaml |   4 +
+ .../boot/dts/freescale/imx91-9x9-qsb.dts      | 160 ++++++++++++++++++
+ 4 files changed, 172 insertions(+)
+
+--
+2.50.1
 
