@@ -1,105 +1,132 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36CF272E56
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 07:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783410375; cv=none; b=i/O18JfoQYnSpPk6HAVNCHv+aFav4DUzb6+Z8JlSORLkpz/LuHyMKmx9ORbWPq1kly4X+PzYC0ChggduBocmGULZAQJ1m5PCM9m2vHCDioySboCLSfIVFctNe1mM3M67/9e0l27i7O5a+/k7I4507iQJvTF0p1tjCjzn8HVVrm0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783410375; c=relaxed/simple;
-	bh=AoDc0nH5scDoQ6kwVha+UZsPaErfp5vVD/v8fu5aHIk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=asCOgzfy1ASVnBfAK7WVudZV3OQFrZXcVk8ixBkBfjwSrReB8CUvB8mkeac0v7OlsnVV57kwzoaY6dQSVOoRGv5IkYIUTrftv92NLQ0D/gU9mc3NkfPzOrXhkQ507I75l1sf7ju7eGlQUofyMoS0mWq924E3CXbRAmtynyL7/kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ms0/X9MI; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C56B227EB9
+	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 08:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783411576; cv=pass; b=IF4EYoX0Sbo/P8bLSfS+5xCjiUho0YonDMfJQekrm3q8XoZCei1bppd90r/ZiooQIPwWe+ivnhlNrjw0sqCn+8zoO/y2ZNrgtPmkk3I4CVU+Qk8+2ZSTFqZ9p1PAUFAIftoDfwOQOuESOtoqaP9oL9O/b5IRAQ8KM4anMQScv38=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783411576; c=relaxed/simple;
+	bh=7IwkNskJca1I9seQIX+TbY1H2q3x1M+GmzR91R5C+3c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NUQp/SA/2ensqB4Zmw3SqK1uykhojZhl7tdjtoaXs7ZRc3xIaLQTmFdrwDUC0w7H5/+7TZ93sFT8bkRVmaoGfCasYJ0F38KZbhzVFf5irzW257ZUt0t+F1KdeVLqgAwsRitvZzFc/RsR7kIW8rE+HGkEMU7QkL0sdAdQuvCVAA4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lgr2hzA2; arc=pass smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ms0/X9MI"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cacd69a9c0so33094185ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 00:46:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lgr2hzA2"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-383cb94f742so2266746a91.3
+        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 01:06:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783411575; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WWrsbZqW+mee+ACf9WsPUpOgQVlBP4Umc2HIx48cIoMlCyAXpNfvpXLI3PImgxOC5C
+         NOEB1aopt/+6joe7oXYCzIx2kK/8wJKmva8XNbc7qE8SBRTCa69DrgiWGsAkrq0npVgA
+         vqisBiwKpUG8fuK3RDX4sx/zsif9nGmpmwQQ+w1rgicGrGgwL7wqRyCkyhjKvlz8qvt5
+         AUI0lugQiPTiEk2FuMfhgQF/d16yHYGXrFo6alYzjRfjpURzNn3Ph/RmsEhXdsdCY1aF
+         xBpe0aV4RJEY3hfXazOSohc9YfDhesCGeMlZiCVvKb85cIk2TaixI3wSGcZF9v3el8Id
+         O90Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ejK2VuDU8oF2SdYlVeASEpmI9VMUuPAk8gB2enAK7Rk=;
+        fh=l6Bt2qqq2exJG97mbuYmj26pQxNHUjG3/FoRB9GAljE=;
+        b=sNLXBv456MGBxUI/bgcT+vdWi02+3wB2UWqxS56sqgdiIZgoKfG8GOQu0ZnaCmFl+Y
+         wMZQGPqDAKGZRXX3P80nHX0vVSitTy7ZIaGc423Hf08bmIFqH6LNEzdyO1pYsvHC/VUh
+         idnV+6md8rkASQ24kdQn3OojYHCCzLIOVY8Te98wO4cGKZnCPFpCv4W+f8bZgV/Ky3f6
+         plcZVn/YHKrCSJFBfSpXoL7GFOfM4o8AiTOh98jWj43BVqtlSt8MUWhxsXs6nTZ4P+ng
+         SzG2ekrZmypyzhWmND8c/wHzdNT2k89Uwv9YUgyQ6gV/mj6z8gANZtA7nYu8K52SvwRS
+         6LeQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783410373; x=1784015173; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ARAZMLdXfhQAbRIzdVGqWFQueaVAHzair8cSoUrSeFI=;
-        b=Ms0/X9MIGc4xUqaEEqGiQ8o9EuoIam50JqspsMTtIGeuKazpaS3M+OLHd3nvacCefk
-         F2R1MTsrf1Xg123keGIKNwrbMM4PWb6cJspxexPgB7dDFjhZUxtry1Z6jYNyn4GsWkw9
-         ozTa/nHQY3vBrSKxWVgjXqHWRigWYW4eSe0MpSYrW8mmUeuSWPrQGT+VGMKU874+yZUA
-         Fn7eVWQOiua17tkNFGJYh/eNNZVDJjTfAOXIlYKDXN0Ku6nY6suk8JQYALctZGTqzhoG
-         iaAXaLM4nzOXmE9ChC6/P1w5snaM74s/m3ig7lCmoyI3yY8QRtgGRLD/wGr504SZ/zRy
-         ibwg==
+        d=gmail.com; s=20251104; t=1783411575; x=1784016375; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ejK2VuDU8oF2SdYlVeASEpmI9VMUuPAk8gB2enAK7Rk=;
+        b=Lgr2hzA2J7uuhr3atMKHQwYxa/dvnU8m0jFkb2RpYI684ErCzdYEiHctF6QIqPvobj
+         kQ3c/IaJJbhn6V6frHx7qUceu6zUnZFX7Rhw2zbJaQEoChK9l39vAq9Bgfr4+K7x/V5u
+         5IKbcxPW2itIJCVEbpxbFiWbMC83ph5+wyR/XHg3U2U4qMpi/5LPyq7bQVg4ki1rDC6D
+         isHQ5nYjqiQmR0ukSa7yp13k/zSLK0xWAkXE5WtTrKXakw0N2QHWROaP+87MtV3SI5Bk
+         YBSUXbD2RFiRd9DA95BrNkC4jmq8rZorYIPREGS/BHm8Foa4S30dqVu5xUXUjVTFkh+F
+         fsVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783410373; x=1784015173;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ARAZMLdXfhQAbRIzdVGqWFQueaVAHzair8cSoUrSeFI=;
-        b=kdfb3xKphm+WxGrN9YMm4xXTlyrNnFgv7h+7azYNDHhH1YSFq/8MvPhlForEqwas+1
-         QXvd38MwClXZ1L3OgDLwLwR8MX2VBC5PM6VQKA1BPHn6qelIaEfa4A9aroigMYpk9xLC
-         XQ6q5KHAvyfe5BTntO1TVpkak6u3gJgHzoeYH58TuYx1HIb/KrRfWC3of/EtG9gRFBQa
-         0wL0D+LBJN539/3GMGIfUUhpplWIl7cdCRvXpHWHpE6LYM98Y89m2YAteBsSN+i+jXWC
-         bypjRzmvq9tcUSt1hYYxQXwmGkeXlbSP6oloW6kPJmLy64ZZoM2LGWbCO/3t5uNDbkSP
-         cXtQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrhT6QrnCis9KZoZaE5jBkWwJmDyfUlAx2ehqh9vZ55qAAR+VnZ2jGNj21FMGX6PH9KpisvzulD48Y6Dw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzegbmNrWJCquu/NMhRqBLebSrioz0k4LXseebbhHiHjxIuSSUf
-	LtcwbSxuBQzVkR+nvpmEOw1oSxhjw9I5tovlrMA470I4tfQmIvJ/yCfj
-X-Gm-Gg: AfdE7clP9FpdrK8HA7b8GHdg0YpXoDgHOf7hy6hDvvvb3I/Qm2ye97ceW6eumwrI+50
-	b+TU1h9j5J93hKaf7/j9zKqtCRszcDW2h+qmFJ5HJ1N3LyTUSTNdXFgweKn0P+UvEY8DUpDaTr6
-	caF+MEtGM/In7K+CbXvU+wwIK0/BxvWwcw+RCdmQ1qVI423wCczBigLd2CPHZUnqOzIoGp1G6yq
-	HEZbeT9UhCBdw172s4jOogC9CcAHrKxuS1PCL+JplW3bF5xyIiwLRX4AvyR2RYSphWKE2QCw0Tc
-	XFyO2ZjWUW0a4nIQqmR1bEDv1ZO1jbVbvq7W3Uy/zU7AD/Px7BHXa2RBE2rQDldXvvRKTk/8AwQ
-	QHmkJ18l1/xZXdcergQX8PfUrITJqXjwcU2UzrzqR107INISEaDrTdbFprYuJUIdgtngqGAc83E
-	ITgcgI6PyyyZGa+SV8D3XLRwgGileRBRakETqOvRIHzr5Ha1nJWz1EZTRCww==
-X-Received: by 2002:a17:903:37c3:b0:2c9:854c:a45c with SMTP id d9443c01a7336-2ccbf04371amr44667075ad.34.1783410373296;
-        Tue, 07 Jul 2026 00:46:13 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1eea1sm7016345ad.46.2026.07.07.00.46.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 00:46:12 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: cassiogabrielcontato@gmail.com,
-	Kees Cook <kees@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ALSA: core: use ARRAY_SIZE() in snd_minor_info_read()
-Date: Tue,  7 Jul 2026 14:45:56 +0700
-Message-ID: <20260707074556.569451-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1783411575; x=1784016375;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ejK2VuDU8oF2SdYlVeASEpmI9VMUuPAk8gB2enAK7Rk=;
+        b=hzkjdUl3vgsjklRGVWrZSChDC+hYN70c1rFhyuDDjGFRdS4kW6OajLeUwUdj8Fdiy3
+         Sy05o3TAAIR4iqA6ejgmZK5fJLF/YOanxpgpczAiZ2NsgsiXcKWY6i3w7hZH/baaSGDR
+         PJyMwgx/PmHLZos8ebzuVt44Ws84S0OGtlkPGkd7hDvyPiAPPrSBJmUoTZsCXgcoDO+R
+         cm2giDc4A+QE/sgF1eHoLAiAOG4J6QYm7lDocopnnc49LRpqiZewTTp/Dr2pZ0268wEL
+         JoXw2SzTxAzIBjkntLuGwfSnM3B8D7hFaJIu2AtB8McNDdTEW6xPzIkhUUuz2NeWp1+Y
+         mPJA==
+X-Forwarded-Encrypted: i=1; AHgh+RpgdfJ1l4LYU+KmnEN9ppcWUNOUtz7TF4yjiOg+qH83uTXwbZpucTlEDKyU0qmgxEJZNlrHCo2wgyXe0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXcQy73YXq2iX2kdwVh3ksWylV1vwluOZNuNOTegCOvfFkZGls
+	UkvZ290b0wOke25MjjT0UqffMjc1B/japPultrUoWJZ7ch6qehGh0rfxBHzNRyHd2CMPvzfLWVX
+	WaKTj4l9ueqxH8P4j+NCvP2LlzMIRVkM=
+X-Gm-Gg: AfdE7cm4Jtl2kJYsmIuilAwGRO1AHmh44HA8w6rcePYdVlivhe1jWaW882847hn7JHa
+	+UpZ35ifkfa0TeL9np6icsRgmDxW/yC6GyHPn8T/8uT477oxVjZe3tHRBcdKaeGPKqRt/oYdA+m
+	24f5RCktcp8bdiiKIWbkxDcg7tdx5Z+7t5qeW3sb2114pXDpeQ3B46h2Gm+6Wc8L6ON5lXRZeP2
+	f0C/PZz2Fvv1rlInqIirv0TWhar/eJatMgg1WcFjMP2ey1bZ9oAfgk32SnWktgKMQvWOmf1fyDX
+	9/IWOKtM8R44uW7ZKjxKAWHwR40=
+X-Received: by 2002:a17:90b:1d52:b0:37f:d9dc:557 with SMTP id
+ 98e67ed59e1d1-38756ce150bmr4813837a91.16.1783411574947; Tue, 07 Jul 2026
+ 01:06:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260706084950.49331-1-phucduc.bui@gmail.com> <703ea25d-6c74-495f-8d0b-e48e5868a96e@intel.com>
+ <CAABR9nH09_u3qNKaN3_epnYXk9rErQ_=Jy7dcn0_mWj+gfb0Kg@mail.gmail.com>
+ <83d2a230-71e8-4a24-9dce-363e1b230b54@intel.com> <87jyr88d12.wl-tiwai@suse.de>
+In-Reply-To: <87jyr88d12.wl-tiwai@suse.de>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 7 Jul 2026 15:06:03 +0700
+X-Gm-Features: AVVi8Ccqaxd6wAP35suN9fuLDcyE9970y3ycesxJqkcQDh0LS3li_rgUTQtOtSU
+Message-ID: <CAABR9nEB9-1h7n9WJzy-iAjsc3SVvyy6VWWUEdndoOpFB3S5dQ@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Return -ENODEV instead of -EFAULT on module-get failure
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, Kees Cook <kees@kernel.org>, 
+	Dan Carpenter <error27@gmail.com>, Cen Zhang <zzzccc427@gmail.com>, Len Bao <len.bao@gmx.us>, 
+	Mehul Rao <mehulrao@gmail.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, cassiogabrielcontato@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Hi Takashi-san, Cezary,
 
-Use ARRAY_SIZE(snd_minors) instead of SNDRV_OS_MINORS directly, for
-consistency with snd_find_free_minor() and snd_unregister_device() in
-the same file. No functional change.
+Thanks for checking.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/core/sound.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> A quick grep showed the statics like:
+>      85 ENODEV
+>      41 EINVAL
+>      17 EBUSY
+>      16 EFAULT
+>      14 ENOENT
+>      10 EPROBE
+>       8 EIO
+>       6 ENXIO
+>       3 EPROTONOSUPPORT
+>       3 EAGAIN
+>       3 EACCES
+>       2 EXPORT
+>       2 EPERM
+>       2 ENOLCK
+>       1 EPROTO
+>       1 EOPNOTSUPP
+>       1 ENOSYS
+>       1 ENOPROTOOPT
+>       1 EAFNOSUPPORT
+>
+> So -ENODEV looks fine.
+>
 
-diff --git a/sound/core/sound.c b/sound/core/sound.c
-index 3e1969a52b21..17c380d8d8be 100644
---- a/sound/core/sound.c
-+++ b/sound/core/sound.c
-@@ -358,7 +358,7 @@ static void snd_minor_info_read(struct snd_info_entry *entry, struct snd_info_bu
- 	struct snd_minor *mptr;
- 
- 	guard(mutex)(&sound_mutex);
--	for (minor = 0; minor < SNDRV_OS_MINORS; ++minor) {
-+	for (minor = 0; minor < ARRAY_SIZE(snd_minors); ++minor) {
- 		mptr = snd_minors[minor];
- 		if (!mptr)
- 			continue;
--- 
-2.43.0
+I'll keep the current -ENODEV return value.
+I'll update the commit message and send a v2.
 
+Best regards,
+Phuc
