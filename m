@@ -1,98 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A3241611C
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jul 2026 13:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C074189B8;
+	Tue,  7 Jul 2026 13:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783430398; cv=none; b=Q6zEFQuzIfdglszsMCveH+ZtisN6dlmDan8U5fSu3IJCYvSoeUCuNWLeOudiedyJIs5q1cDOj601ZvwnmOrW7eTX/DYLPMucDwIY5OfLkTxcO7KIMIyaziYzkIRKBo3j55+Ve5K1zG7iUAtshualvkPP+Agcp7gqHh+U1ph5NTo=
+	t=1783430697; cv=none; b=B+RrqltqPMVzJMUy8KTW52vizMWiu9749lVNnEaXmq8LDUFSSkYyXstZWdz529aUz5HIYDzDSaWwgCfHbnCyXWoqp0qtjwFATW4xTgV1s5fRLMg2V9lsi1Zh0GQCb60nC7UhRMdTIQkMHg52qozJ8TX06mQm4Fg+nF8r+aqdgsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783430398; c=relaxed/simple;
-	bh=RmY6O8LakE6Kn8mJFB1ZnR1h4ZP6H/A1TWBOAct3Eo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B8Ged0Xxa+o+uPmDOlcxb55X6yipwoXeKiloiepThu1dBPqp5EIOLLKtUGUBhtVLR+jlJ3c6O+HnOJ3iSkhQJH+vFW/sgRsja4WVKalJ5Bzyl4pGyjTdv9jDh6YjDlzry6QkDQB0rM7Ya23QDbRAO/cWrwLTABC/mTNNs/KQW5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XMwjf/4k; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1783430697; c=relaxed/simple;
+	bh=vtrZtH5TDoDuRwYUu+2qUXFi+UWqM85rbapuzzsKooE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aWsjOvko16H6rzO5CMF22gVF3hdtnMRdVSUQcwfsusS1T7kXa2zQAXD/yfqcA9UFm/DqN/TkqyDd3xziSBlkZ6ujkw36Jm4W5kDLGXuGH4KBWhBlOaHPoXOsRZOXZM/pnD5k5u2NpvqPJphX6jSXsc9LS/xV7mMij9lpr6l2ers=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Dk1t/251; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XMwjf/4k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783430397; x=1814966397;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=RmY6O8LakE6Kn8mJFB1ZnR1h4ZP6H/A1TWBOAct3Eo8=;
-  b=XMwjf/4kLQyWfQ8QeZfLNFJlKpW+zyHnUK4WJrjGDP4r7TPlmQreHeaP
-   AfTOIbWk6RmerCFNvu6IFw5vUCnmGA9XItVelZOsq4l3dOFpkWGSQZ6wk
-   lzA/mrujpvp4a/+uX+ekePvtCGNQmzvVblIg7VMuoyxgLGX2lKYC90vNN
-   M91h2CqvmCZfEmGpUQqLlV5Jh4maq04ynwYBSTvuQfMf2tVmDaV4+/iHJ
-   W3ActiVNqWClputTymnZ5olWQ44eArVrpI0RFLr0iTjLs/TPsZYbgAYdI
-   aKCkKUeAI4GmbXXBXIwl2684iy8ogANnJHjGY+xZe1vZ/h/UzxthCNrEC
-   A==;
-X-CSE-ConnectionGUID: 6jhm28GsRuazpK4TAd/SYA==
-X-CSE-MsgGUID: lUMdDIL3TtqtggSvwlxCwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="87992103"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="87992103"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 06:19:57 -0700
-X-CSE-ConnectionGUID: kBAZqLGrQgWiRleTqNH9RQ==
-X-CSE-MsgGUID: h2pw09A0TTiukMhfbq3o6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="277214610"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 06:19:56 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 2/2] ASoC: SOF: Intel: Disable SPIB in both direction
-Date: Tue,  7 Jul 2026 21:19:45 +0800
-Message-ID: <20260707131945.3641663-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260707131945.3641663-1-yung-chuan.liao@linux.intel.com>
-References: <20260707131945.3641663-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Dk1t/251"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1783430667;
+	bh=m0aV9/Bzvgo91Wu7FQyhRfJtZRz32PhgnIpGOiDxBO0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Dk1t/251n0tSiOIUJavuTzYujTnzTRr+yWnv79BPG/d05muAuCdUcSkDMCYWYxWxH
+	 VnLU+pSiTPHHmKCn0IlpsnBBOwdRwwmpqNnsjDv6qR2zf5zn4vGAUsdU9h+3OZlO2o
+	 TQF3K1KDi2/y1MbD7pmRwtoR6rGsEqYKreMrkfNc=
+X-QQ-mid: zesmtpgz9t1783430662t310a248a
+X-QQ-Originating-IP: 2KdvJXoZsAUFuZXHtvFZbycg5b07oD6nW+2U2BzffGs=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 07 Jul 2026 21:24:20 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 7072674216128944020
+EX-QQ-RecipientCnt: 6
+From: raoxu <raoxu@uniontech.com>
+To: perex@perex.cz
+Cc: tiwai@suse.com,
+	raoxu@uniontech.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Fix cached processing coefficient verbs
+Date: Tue,  7 Jul 2026 21:24:19 +0800
+Message-ID: <DB9023BF2920BA99+20260707132419.1731342-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NgFno1SrO4sPwunoyO9iepoo+viWXnWaQRjx5nZ7kAh+Kds9G7K6iDGB
+	D3N1mx0EWE5XbtYqcq9X8XHB9yJtbtMLYrp1GGhA0MQ93l95/ns0AiZtuCA83rW9ZeeitzJ
+	nc9pG+C4PnTRTsOELlP/xxY8H4ScHfyELGCU2YTmEJ4eBWbUxCwbOXAi834TxEvg7dB9lMh
+	AkDt3ncPmBc971kiejx5dcyjgkdKU17e0O80V+rPbAqaJcPtWivZ4fZjrGTflAUVaHj6+u9
+	S8l3OCeIDvI5IIP/wArBRud64fZ7F/1sRAzPF1Sl9Ofg+IjRia716+0jYfljgMgiZ0zxABw
+	7SoJvRomY58y22lK7aFviRabSKYkTfLZGC3MzXZsHoY1f6zWoAWEd5st0hGx40WILv/lbD7
+	W+7AIG8Te1/JBoFxsZIUbvHU+rR7icOevNRmwZTNtRfo3EY1W+jypUSyaFLuukUsPK+19tJ
+	6iX1J5oUDdSMMB5UzcG1fV15MD4QCzBiv+fqOP/RisRyNw+Gd60lL5Z+UYHJ25apyPBeqPX
+	wwlJkByQQ9tfyEIPSuifMPirNsn6AOEECr3YBSZw13m5tRRjLHV/v3DFNKYa54KOIASIt0K
+	gu2KKl8FwUosvCvkdxT3UaZVJPLs97Fzlb+rEmXsf0fP+vYaJMXbTquicmvb95Bh+eHMTMY
+	1RD7i+EMyCH22mRo2dixm5wxJsm9UlqkavDkKJlDMEMmtOeRPJ1lipza4EMHOELMl0Ggnrp
+	O+rB3z3ApJW6LDm/mhVOdaQGQDy1THTWgfdmELWWArykHf+jj5L8VH5+GIiqd9vbebhQ1Vx
+	l2w3bHiIYq8iEtnoKb6rSE3NsXcynvz+quN8J+aB4eXLUvYRSnps7lNkcbxWp0njpjLBbFs
+	rbgecl4XzVSvZtqV4FtaRyplTARf8RVeCKs3K2PMIvV2jUXqok/Z53Dwhq2Wp8Mr2XH9oPH
+	uOf2ohodo5qnYLUCDNNYGGqw+nBdB2FUPlQT/24eUbzJ5XFPQFUMd8dbqLbzJXc6dJ+BUPR
+	gG7IiUgV9fstLvczj++KFDbQ23zPU5OSBXTkyoV95pXtfhJjxdlEillYtKq5RvqyDwz1oOO
+	Q==
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-RECHKSPAM: 0
 
-SPIB was enabled in hda_data_stream_prepare() if is_iccmax = false.
-We should disable it in hda_data_stream_cleanup().
+From: Xu Rao <raoxu@uniontech.com>
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Intel HD Audio defines Coefficient Index and Processing Coefficient as
+separate audio widget controls in the Audio Widget Verb Definitions:
+Coefficient Index selects the coefficient slot, while Processing
+Coefficient accesses the value at the selected slot.
+
+hda_reg_read_coef() selects the slot with AC_VERB_SET_COEF_INDEX, but
+then uses AC_VERB_GET_COEF_INDEX for the value read.  That reads back the
+selected index instead of the coefficient value.  hda_reg_write_coef()
+has the same issue and builds the value write from AC_VERB_GET_COEF_INDEX
+instead of AC_VERB_SET_PROC_COEF.
+
+This only affects the regmap coefficient cache path used by codecs that
+set codec->cache_coef.  Direct coefficient helpers already use the normal
+SET_COEF_INDEX followed by GET_PROC_COEF or SET_PROC_COEF sequence, which
+is likely why this has not been noticed widely.
+
+Use AC_VERB_GET_PROC_COEF for cached coefficient reads and
+AC_VERB_SET_PROC_COEF for cached coefficient writes.
+
+Fixes: 40ba66a702b8 ("ALSA: hda - Add cache support for COEF read/write")
+Cc: stable@vger.kernel.org
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
- sound/soc/sof/intel/hda-stream.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/hda/core/regmap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index 4a46e35c3eac..6c4447f52c68 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -1333,11 +1333,11 @@ int hda_data_stream_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
- 	struct snd_sof_dev *sdev =  dev_get_drvdata(dev);
- 	struct hdac_stream *hstream = hdac_stream(hext_stream);
- 	int sd_offset = SOF_STREAM_SD_OFFSET(hstream);
--	int ret = 0;
-+	int ret;
- 
--	if (hstream->direction == SNDRV_PCM_STREAM_PLAYBACK)
--		ret = hda_dsp_stream_spib_config(sdev, hext_stream, HDA_DSP_SPIB_DISABLE, 0);
--	else
-+	ret = hda_dsp_stream_spib_config(sdev, hext_stream, HDA_DSP_SPIB_DISABLE, 0);
-+
-+	if (hstream->direction == SNDRV_PCM_STREAM_CAPTURE)
- 		snd_sof_dsp_update_bits(sdev, HDA_DSP_HDA_BAR, sd_offset,
- 					SOF_HDA_SD_CTL_DMA_START, 0);
- 
--- 
-2.43.0
+diff --git a/sound/hda/core/regmap.c b/sound/hda/core/regmap.c
+index e7b866fc52c1..d6eb17aa9e08 100644
+--- a/sound/hda/core/regmap.c
++++ b/sound/hda/core/regmap.c
+@@ -214,7 +214,7 @@ static int hda_reg_read_coef(struct hdac_device *codec, unsigned int reg,
+ 	err = snd_hdac_exec_verb(codec, verb, 0, NULL);
+ 	if (err < 0)
+ 		return err;
+-	verb = (reg & ~0xfffff) | (AC_VERB_GET_COEF_INDEX << 8);
++	verb = (reg & ~0xfffff) | (AC_VERB_GET_PROC_COEF << 8);
+ 	return snd_hdac_exec_verb(codec, verb, 0, val);
+ }
+
+@@ -232,7 +232,7 @@ static int hda_reg_write_coef(struct hdac_device *codec, unsigned int reg,
+ 	err = snd_hdac_exec_verb(codec, verb, 0, NULL);
+ 	if (err < 0)
+ 		return err;
+-	verb = (reg & ~0xfffff) | (AC_VERB_GET_COEF_INDEX << 8) |
++	verb = (reg & ~0xfffff) | (AC_VERB_SET_PROC_COEF << 8) |
+ 		(val & 0xffff);
+ 	return snd_hdac_exec_verb(codec, verb, 0, NULL);
+ }
+--
+2.50.1
 
