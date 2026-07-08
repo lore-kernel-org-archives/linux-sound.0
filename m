@@ -1,66 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA4C3F1ACC;
-	Wed,  8 Jul 2026 07:15:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756413E44E6
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 07:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783494925; cv=none; b=c+LYvdzpKSnWz08eAikLuDdCVgpBc3v+2naYHZaW0azixLbGrJ4CLc8wyX20P0KsDBYdGIQQxXlujVQD7eteWZ7ltU9hCwmBfdfhIUlc4OZyhzXX33qcnYxdDYALmh3otrCdVtAl1b31nrbSVC/T/KT9w3E9YSTAvJ9R/YWUfPU=
+	t=1783496595; cv=none; b=jmLoW3ysl8N9fT+5GNnGQq5WwzPdcyIhV7zNm95+4TKqfyl305idb8zX1AnPrcGV66diWOMhfYWYLJZuQ2VJs5sRIYDxEo1unz27x1jtoP+C4LSDdBuQpngxMa5Q6LTaiSAhoXOuPxWsmYeEGXw0fRbZXo4Fkm20A96V7TJ/+kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783494925; c=relaxed/simple;
-	bh=92LPYcJtL6s1IN9Of4SR/bXrT7oaeXLuqial9Ohbzv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tu4JysRpRXrisNQ98zGGLMG80DVPE/M1Usdjy3LiopCtUjLHMbM4oWmI4DkVWbHUmKpiCKCdqZ/forxU1S5DJ7AELoWh5D+Vi5xq4ypDbasuKvYD/mXcQLvpmQpEu/pQJK96s8CsUU57l3mTNLYFt44/T+LUBI2KpeyjxGTEows=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9tx2mIa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783496595; c=relaxed/simple;
+	bh=wqspe9peDUDf7Lj0Ckvg+Ou41duj870AZXBlowe/bLA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CCKd2JLFQHldwF0Y7JNQOvAjU9lLIsi/EafIS+485SieXt9KPr3gloHUoaOPaTNAms1PpvSo6zR/yJKvMhrS5XuViulfe3YmDXOsqQMu6WbIB4mYE55/lVLZZR7eVhvomX7o5M4HnnK4l7D4aJbA4U76wJWHKFFQKcHJCuOa3iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UdVixJQY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9tx2mIa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE6C1F000E9;
-	Wed,  8 Jul 2026 07:15:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UdVixJQY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58D2B1F00ADB
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 07:43:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783494906;
-	bh=1SdiBOoVm/OzlyqeV/kwd8oyweZKdg4Gu4ZU02hH1og=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N9tx2mIa8W8k2BP1rQkme7u0zKobY24Pd4XqT0Rg00Tsk/1JOtZiWDM5by6epkhub
-	 FDoQ7OdN7NPVaahRunnAaTk4mG7J3rq82CbeFHlf3wotNfEZ5HMDRKJy7Da6yYk3q6
-	 Y6E+uGgbLyjZ1k2cffzLNp4flSLeNLwO9KefAoIIE2RlW7eWF2GPu2hcn41ZShDTLG
-	 6dkU3Ni5NsdOAxvqnfO9OD52ljzAz0FbLxxcn+wxcSTiKXs0E5H+dGNyltB5UM1r2r
-	 qJJMUlzC/gMG6A1dwmjFFWjxAR4qE0CP2HUYb3ZALklh7XeqawpKXRZYWk46qJRjzO
-	 nFha/cYBA+ILA==
-Date: Wed, 8 Jul 2026 09:15:02 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mohammad.rafi.shaik@oss.qualcomm.com, ajay.nandam@oss.qualcomm.com
-Subject: Re: [PATCH v1 2/3] ASoC: dt-bindings: qcom,sm8250: Add Eliza sound
- card
-Message-ID: <20260708-strategic-butterfly-from-wonderland-7e2b38@quoll>
-References: <20260703073434.2589657-1-ravi.hothi@oss.qualcomm.com>
- <20260703073434.2589657-3-ravi.hothi@oss.qualcomm.com>
+	s=k20260515; t=1783496582;
+	bh=wqspe9peDUDf7Lj0Ckvg+Ou41duj870AZXBlowe/bLA=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=UdVixJQYfC8sGwm2LkLtOuhdj8rGXYZvhM/nEvj78/GfwKlgApbA2mM7v4TKCDBtM
+	 TkD+j6IdxnEthYn0jShnTGRcHvUl3uWT0ZDhmk6v26dbgga280PtMUZDwzHv6zk6w9
+	 Yi8sszDGyw24AvoZisXpI7QNHqYDfzKTPKFdZGUiCUBuP3uOnWP2zicuVvIaA40jxJ
+	 EVB46mt6atPqufA0m9s4aa5bEOsisUWJKTjqkHfv44JLBSqWrvCACa81iSvV/e8lQX
+	 OTmHzverjKM3OU5lQEPWgn0fZKvlavTlsO4QonPQHPIENoNkOtr3nIiF1feGEE3W9d
+	 dt2lpEp1ZXFPw==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aec201b582so435669e87.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 00:43:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Rrl4j97BdPaJFpIuN3Du+PvqbsmUMbPr/PFzNdS6go2SITFziM6Z+Bjhp9G3RbgyMrR5vBoaTJJBjAPhQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzv+WNHWU0UFLoVRgryYInORyLhE9y5nLIAYong1UM/Sk3m/OUQ
+	biYLU2Ryza1zHbP6GwRg6hZGBEBDIoogNzV1pupzNhu9UqhUW/DQjI0ptrQXs9Y6eJf00zJCQyI
+	TalL0ihMrfRZ7mnMKBiYMTP76U4+Oz96HY0w13vQQ/w==
+X-Received: by 2002:a05:6512:3a8:b0:5ae:a9eb:c5c3 with SMTP id
+ 2adb3069b0e04-5b011478162mr274920e87.61.1783496580641; Wed, 08 Jul 2026
+ 00:43:00 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 8 Jul 2026 00:42:58 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 8 Jul 2026 00:42:58 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <ak0jyUbNonSRiP_g@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260703073434.2589657-3-ravi.hothi@oss.qualcomm.com>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+ <20260706-pdev-fwnode-ref-v3-5-1ff028e33779@oss.qualcomm.com> <ak0jyUbNonSRiP_g@ashevche-desk.local>
+Date: Wed, 8 Jul 2026 00:42:58 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Md7-XMBKpdPuZ4=epfTn6F-PXKJBZNPGuz5xbVy58BHsg@mail.gmail.com>
+X-Gm-Features: AVVi8Cc97SNnhCE85729H_fOi3Wx8wY1APMX-PhjHPSFVtKB-jxewFEQvchpN2c
+Message-ID: <CAMRc=Md7-XMBKpdPuZ4=epfTn6F-PXKJBZNPGuz5xbVy58BHsg@mail.gmail.com>
+Subject: Re: [PATCH v3 05/20] driver core: update kerneldoc for platform_device_alloc()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
+	Thierry Reding <thierry.reding@avionic-design.de>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	mfd@lists.linux.dev, Manuel Ebner <manuelebner@mailbox.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 03, 2026 at 01:04:33PM +0530, Ravi Hothi wrote:
-> Add bindings for Eliza sound card, which is compatible with
-> the existing SM8450.
-> 
-> Signed-off-by: Ravi Hothi <ravi.hothi@oss.qualcomm.com>
-> ---
->  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
->  1 file changed, 1 insertion(+)
+On Tue, 7 Jul 2026 18:05:29 +0200, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> said:
+> On Mon, Jul 06, 2026 at 02:44:17PM +0200, Bartosz Golaszewski wrote:
+>> Users of platform_device_alloc() + platform_device_add() must not modify
+>> certain fields of the dynamically created platform device object. Update
+>> the kernel doc to say which fields are affected and which functions to
+>> use.
+>
+> Consider using __private checker attribute for them as well. It will make
+> sparse scream.
+>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Sure but let's leave it for another series.
 
-Best regards,
-Krzysztof
-
+Bart
