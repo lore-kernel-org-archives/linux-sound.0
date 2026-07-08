@@ -1,63 +1,63 @@
 Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5113C48A2D3
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:21:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC21477E53
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783520474; cv=none; b=ltEKAmjZLJkRAeCmGs/8GsMMn/QxNzvSPxvNsHJ/0yUXQHGvf0gVLa9DEJw5sr+UUdlQkuQuefUE4vO3bpyACaxGF78rQvZppy+15e4edHUp7fE16mZUNcui7OP3YkGojq54desROYQIJ6gwcJApVdlILTxljI9G0GDsFOfGS24=
+	t=1783520483; cv=none; b=T3zyrWeA2an/3WoTzjFuWYX49XNDPIOvo1OdUiDDpF3q+R4hhlvPmNFJW2sukOQ7NlHcZDWZduOupfZVr81PdkDC22s55/Oebbh5eHv1rUgDJU3oC01ahRoTMfMFbR2xrH/oKNI/KJJsW0ezOFDfnixTLB55/lmaOy5Gh24e93Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783520474; c=relaxed/simple;
-	bh=AI47RSj0Y1j+vIuhRVu3twL/jah5jy/cblTwRVB7e0Y=;
+	s=arc-20240116; t=1783520483; c=relaxed/simple;
+	bh=EIQsPIFGpWU19M+kDklYuiSZWizQeKdwr7QPFIQrZeg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rbOnYMwb1ZfACYcfiEOvSsqhDTwoaMwSDrUvvlWyQiOakrWwyA1leiGd2eAIpPiOWNZ2QYCKgD7PtKApsr61sLq8dj317TTSccQrmWfIRQNV0GA2vjKhfvQx7ZQFdjW+0lNKFTziTyVd24H79uV4fwcyG1vNcf35XmARcvv1w18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIhgxvM/; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=piOVkNqUHN/a5+bGBa/NefDB+66Qn98NYh3+CmxiBatwkMOQHoUEnyzqJ/C6+Dep9AFlHLHUgmM42/Pbgii2iKFUNIgsxZRAxw0gnTGROuaB6aIDzKNlW1xfijkaerPyOXyb5FCLVFB1Ruy7t1cK9VGd0JReV4n+QgQNAPxEpjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HYcyeakk; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIhgxvM/"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so7501355ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:21:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HYcyeakk"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2cce6a0c9c3so8635055ad.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:21:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783520473; x=1784125273; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783520482; x=1784125282; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2+Jtygu+85BYYl+nZawFG490qiPpGrZE3faHfj25h+8=;
-        b=NIhgxvM/QbS9X0MwELs/DEcKKZTwG2XP1cHJ0Cpq6kGramDsaoXALLC22G4ct8xscF
-         7Xav/OAqZ8k5ZLoKQfZw1fRnqeejEZr1nqDnzj168fmb1YP8Fgt80S41vMc0ntOfYRXV
-         /A+TKag1a3uZwlRh8SzvqZWug1WCTR8SBWhTsiG6mDR7zbFikyGzOdL2XmP0w9W+Ccut
-         4jm1ya09jrOJA/EfVhli9VNCeMMbPk6k41vRxgv6q8+6TKH2+1gObwIT+Ob14Zt1aTo5
-         yAuDnf51QV6FXOZBtJ8/VttwevJozgCNmRiwPjb3zegFg5Hd7zOGRvFwrD836c6Y82es
-         0ENQ==
+         :message-id:reply-to;
+        bh=ro7dNqCD2kLl5dqOgIDoE4tVtLHIEVBSdhnRDBcC1Vc=;
+        b=HYcyeakk9i05Ka1YwJj1NyWpdfRDD3hsbMfGA2IoJ6aZSJyPDM0q4N65EtRFZbidNa
+         Ag6Y+VoqTAzne6AuU3JaDtCpPwsZB0BO2d+dDpAAB5CeF9U2WPvabCr++Jr43JOkukAn
+         AABZWdVRZq1PZ+A/XngIhzpv1ipQ8RKvTSXdDg7AVMUifGDzOXosbwXEPIMxet7mjbpx
+         SH3PR+5a2pi5pl0f1yp2b97BVdegHQ0zY/p62H06qbGl2RQJakPspu2bncv8JyYM8W/M
+         lOyvPHkOnYTl+wSCzHqZ/XSXmd56O3Al/7Y1lXEQq4Kn3kfAXUmL1HjFwWbk7ikTLLiz
+         NtKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783520473; x=1784125273;
+        d=1e100.net; s=20251104; t=1783520482; x=1784125282;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2+Jtygu+85BYYl+nZawFG490qiPpGrZE3faHfj25h+8=;
-        b=Hpe3R9PiEeeOIC1yduIFAM1XIS/VHeiZZPkN2Ej95zcV/aynNKzmqafiGxN05qdSIC
-         shO6BJ4QxFUelQHSMYhMooUeFDoiD6TaGghUlVWYzTof+xk5hPzV2pihzMyPzAyd57gY
-         TJx9EWNtCEE4I2aPGXzK2Bx4reWVekBsPy1XM/qwG+rQP7xjKxuMtvXUGpiRRbb3Pdye
-         qZtL4KMJSmTdt1v80EtSgSdZUe+mpVMKE7Zs5vvZh5phubSc0v2rcnLS73nP+VmfOaPf
-         DccGDFufRXNeVxC5FvcyZVo7toN5LUwC+EeA41aBreGhutGdxUNukNShf+Rrw4VcQKc5
-         EQ/A==
-X-Forwarded-Encrypted: i=1; AHgh+RriG6K0bzrnuQdr+B+s4M7PA+lH4N9rv+Ob04sxnOv9jW36FCKzQzTRgZigXnN2KWSFtrVY1UqZrevNfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiDsU09O5STcCTx/JDSyCFcUNAhr+1/xlgHilGmlKotZjRUmAJ
-	R7SpxkKqqnQaAzXs9as4tHE/sjE0AymtlcxYgRWfleYyWB24kH0xjBUI
-X-Gm-Gg: AfdE7ckB5UQNVAFMEmezbRw6B6FjjZQ/1YLPJU373IFine+dmuj89ua8PXrlGkuWiyN
-	GfEbZqz7FpuZGbcKblLFJJn3AkaUDllxHJYIl9ZTDLkZxeXaUrdqbXbpSpUQaf4+yYXmMa4DOcf
-	F267nUwUscXE+0BNA0JHhRF1O2PwWBSrv977UkDM4D9v5SQn6R7GTP0Yoj8trDaw8VRwS2Kt/Us
-	C0tSk8SdkMM3NsGkROpuv422c583QH9xntZs453C8xlt3tqPNMRh6MNOy8M1GfRatTXb/rYF39S
-	wGcEtpEZI5inGU/+dVrtaSlSKCuHr8WjIiCDs1v0BpLCmgMqEZVOmf5NbHTp59jE2MwB09iXjsp
-	L9zIG3GL7UP06Jdd6QBUQNjhAsENU7uEzHJUIBcj56/y6YAZkUzuI4gHMzkR24xc9lE+vjyTgWF
-	fTKdWBJ46AyXNSpwxuv5f0jRp10vbqPgPC68HRbNVA0RnJKdWk9i2deJMKCA==
-X-Received: by 2002:a17:903:2307:b0:2ca:6d2a:871 with SMTP id d9443c01a7336-2ccea47c7a5mr27721945ad.37.1783520472703;
-        Wed, 08 Jul 2026 07:21:12 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ro7dNqCD2kLl5dqOgIDoE4tVtLHIEVBSdhnRDBcC1Vc=;
+        b=kADyVWn+bAyTZ/1SNh9DO+NMyWjv+v9eAXzE3B8HhQ6OHVjQwrHHRtKhuwBvt5vt64
+         vuHjLsfTGtHiGN+OhdfonQI6rbjqbA9jm57jWVnTG77xeLNQdirVdmwPwZnfHkrXmcHC
+         rXdzFwVU12VM/IMbItTG0ssov+Bh5xm6/wyWtn/UHW8upoXuBnyyTnk3M5p34+LrxyFG
+         5FT/5nJBE1sc+JrInBs3LZUOaWcMNjQCKeoGwuZZy+VScQkF4Lyoy6DpCssdr7CacFVe
+         UfrtYv4ZH2qPpac5gPikLhP3EVAeIEiwPo9a5+jyRgsCkF7IUxH2NQHCBgmEIeux1jOp
+         Uosw==
+X-Forwarded-Encrypted: i=1; AHgh+RrLdOeW5MQAR2kXd3gW8fN9aeHY/HYpnk3NfnE6MosO8eN2YzXMBWIqgeficwCtPvff0TVcU3Rh6bjR4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwaQ6jmJog7sBWeIfI+eI+jPzr+64/ohQnE+cFxsrtGJocpQ0x
+	Msd0uvH1tx5KnTBEl3ONxLNykjelJYpodqLBN8upN2iEWW8qTKvivcGd
+X-Gm-Gg: AfdE7cmi8zlP8JeU+yJhJAxRMSuQdivkiRwyICNnZlGukhM0IANM6RWloj5kwwpzxTs
+	D0Zigu4g3hCbNZFzaH8whxHwB/8RwkhnNxx++wou9B5SpLg+ebCzNbvgMGI9LfzFP3RGmVEdlVa
+	j2BxjnoqI95f9BopyQMZcny/zXHlsog85r2MU+dhxPZ4SjG76MlQpaPqNw6s8Qt+UfVy8OjJAEy
+	1gb77gHohAeLXBLtt6RFGSuTCLMk0YO3zJffF9RyOYbhKiwnkfV25wJDDO8L+ihSAuoguESeIYZ
+	frMRUB0RQXbeAVEbq5Qd7oDSGPVd1/Whz0kr364loBm5MEnKjuCsPHAGNV9VvK/RgZZmUOTaJpp
+	DNK7T/mJvbO+svsYuxf9hAeGY4LR9hbHS4FqMCp+FVvDPtZCIrgW6pOXVC6sKM0fQMyfGf87+Bz
+	H1Zkk+cEGREMB9FXWTddOV+DhyC6Q09AI2YgOwoKOCQWdGtj4=
+X-Received: by 2002:a17:903:4684:b0:2ca:9ab:e723 with SMTP id d9443c01a7336-2ccea481a57mr30746255ad.33.1783520482185;
+        Wed, 08 Jul 2026 07:21:22 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.21.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.21.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 07:21:12 -0700 (PDT)
+        Wed, 08 Jul 2026 07:21:21 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -92,9 +92,9 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 16/27] ASoC: codecs: peb2466: Use guard() for mutex locks
-Date: Wed,  8 Jul 2026 21:17:23 +0700
-Message-ID: <20260708141734.578926-17-phucduc.bui@gmail.com>
+Subject: [PATCH v2 17/27] ASoC: codecs: rt5514-spi: Use guard() for mutex locks
+Date: Wed,  8 Jul 2026 21:17:24 +0700
+Message-ID: <20260708141734.578926-18-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708141734.578926-1-phucduc.bui@gmail.com>
 References: <20260708141734.578926-1-phucduc.bui@gmail.com>
@@ -111,62 +111,93 @@ From: bui duc phuc <phucduc.bui@gmail.com>
 Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
+ sound/soc/codecs/rt5514-spi.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-Changes in v2: 
- - Add Reviewed-by tags from Herve.
-
- sound/soc/codecs/peb2466.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
-index 2d71d204d8fa..5a1ed02abb84 100644
---- a/sound/soc/codecs/peb2466.c
-+++ b/sound/soc/codecs/peb2466.c
+diff --git a/sound/soc/codecs/rt5514-spi.c b/sound/soc/codecs/rt5514-spi.c
+index 199507d12841..91290bfe8daa 100644
+--- a/sound/soc/codecs/rt5514-spi.c
++++ b/sound/soc/codecs/rt5514-spi.c
 @@ -6,6 +6,7 @@
- //
- // Author: Herve Codina <herve.codina@bootlin.com>
+  * Author: Oder Chiou <oder_chiou@realtek.com>
+  */
  
 +#include <linux/cleanup.h>
- #include <linux/unaligned.h>
- #include <linux/clk.h>
- #include <linux/firmware.h>
-@@ -1704,13 +1705,11 @@ static int peb2466_chip_gpio_update_bits(struct peb2466 *peb2466, unsigned int x
- 	 * So, a specific cache value is used.
- 	 */
+ #include <linux/module.h>
+ #include <linux/input.h>
+ #include <linux/spi/spi.h>
+@@ -79,17 +80,17 @@ static void rt5514_spi_copy_work(struct work_struct *work)
+ 	unsigned int cur_wp, remain_data;
+ 	u8 buf[8];
  
--	mutex_lock(&peb2466->gpio.lock);
-+	guard(mutex)(&peb2466->gpio.lock);
+-	mutex_lock(&rt5514_dsp->dma_lock);
++	guard(mutex)(&rt5514_dsp->dma_lock);
+ 	if (!rt5514_dsp->substream) {
+ 		dev_err(rt5514_dsp->dev, "No pcm substream\n");
+-		goto done;
++		return;
+ 	}
  
- 	cache = peb2466_chip_gpio_get_cache(peb2466, xr_reg);
--	if (!cache) {
--		ret = -EINVAL;
--		goto end;
--	}
-+	if (!cache)
-+		return -EINVAL;
+ 	runtime = rt5514_dsp->substream->runtime;
+ 	period_bytes = snd_pcm_lib_period_bytes(rt5514_dsp->substream);
+ 	if (!period_bytes) {
+ 		schedule_delayed_work(&rt5514_dsp->copy_work, 5);
+-		goto done;
++		return;
+ 	}
  
- 	tmp = *cache;
- 	tmp &= ~mask;
-@@ -1718,14 +1717,11 @@ static int peb2466_chip_gpio_update_bits(struct peb2466 *peb2466, unsigned int x
+ 	if (rt5514_dsp->buf_size % period_bytes)
+@@ -111,7 +112,7 @@ static void rt5514_spi_copy_work(struct work_struct *work)
  
- 	ret = regmap_write(peb2466->regmap, xr_reg, tmp);
- 	if (ret)
--		goto end;
-+		return ret;
+ 		if (remain_data < period_bytes) {
+ 			schedule_delayed_work(&rt5514_dsp->copy_work, 5);
+-			goto done;
++			return;
+ 		}
+ 	}
  
- 	*cache = tmp;
--	ret = 0;
+@@ -146,9 +147,6 @@ static void rt5514_spi_copy_work(struct work_struct *work)
+ 	snd_pcm_period_elapsed(rt5514_dsp->substream);
  
--end:
--	mutex_unlock(&peb2466->gpio.lock);
--	return ret;
-+	return 0;
+ 	schedule_delayed_work(&rt5514_dsp->copy_work, 5);
+-
+-done:
+-	mutex_unlock(&rt5514_dsp->dma_lock);
  }
  
- static int peb2466_chip_gpio_set(struct gpio_chip *c, unsigned int offset,
+ static void rt5514_schedule_copy(struct rt5514_dsp *rt5514_dsp)
+@@ -216,7 +214,7 @@ static int rt5514_spi_hw_params(struct snd_soc_component *component,
+ 		snd_soc_component_get_drvdata(component);
+ 	u8 buf[8];
+ 
+-	mutex_lock(&rt5514_dsp->dma_lock);
++	guard(mutex)(&rt5514_dsp->dma_lock);
+ 	rt5514_dsp->substream = substream;
+ 	rt5514_dsp->dma_offset = 0;
+ 
+@@ -225,8 +223,6 @@ static int rt5514_spi_hw_params(struct snd_soc_component *component,
+ 	if (buf[0] & RT5514_IRQ_STATUS_BIT)
+ 		rt5514_schedule_copy(rt5514_dsp);
+ 
+-	mutex_unlock(&rt5514_dsp->dma_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -236,9 +232,8 @@ static int rt5514_spi_hw_free(struct snd_soc_component *component,
+ 	struct rt5514_dsp *rt5514_dsp =
+ 		snd_soc_component_get_drvdata(component);
+ 
+-	mutex_lock(&rt5514_dsp->dma_lock);
+-	rt5514_dsp->substream = NULL;
+-	mutex_unlock(&rt5514_dsp->dma_lock);
++	scoped_guard(mutex, &rt5514_dsp->dma_lock)
++		rt5514_dsp->substream = NULL;
+ 
+ 	cancel_delayed_work_sync(&rt5514_dsp->copy_work);
+ 
 -- 
 2.43.0
 
