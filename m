@@ -1,63 +1,63 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E46478E36
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C339837DAB5
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783520516; cv=none; b=hzxvgVBMo0KhbMRGlhrpd8/h4C6xaGZX2vDZ9hJhm3Otu3tVrEbq9c0F7P3tnIIhUY+LiUCD/qbW5ov6xlg/V0yQTxXVSEG11tLwbGGGl9spBG7BuRqNeq3d6xZlpNhDugYNvyzYjAaASsACtbn17bxFeyh9Vb5sMZAGaBeEr8c=
+	t=1783520524; cv=none; b=iKAVRfcSFtapR6B5V+MMxEhpunScYfYP/jigtzhSvz9p/fE9/tOEW/VhTcEiPffS56UdJIPksY3P9L3OMqHO8RrqSQlQaNnNcb39Di+aBuknqfoTgcZiuCr2je3v5dnFKo8UEMDhel2njI+sz4O6rcSU61uGX7IvFbWdhbO/hFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783520516; c=relaxed/simple;
-	bh=joD8T2+I8by9WXK6BH3VaCTg+gT5UGSx2XCqcU186CM=;
+	s=arc-20240116; t=1783520524; c=relaxed/simple;
+	bh=3PzW41r3lCqq7WloY+qVpfi9ylriJQnkL1vsBK8sQMI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pEauo3rBwRkr72Bmbdiw75BVeAz83dSXjcqXn9RsJCxZcHRd7X1LatyFokZiJIbv5NyRZJnsuqkh5skzL408j2jQPSnGOGAcz1w3uNdgcJN8+cRYv49M1JueF44wDLLS0L+ietlkpS46dOoAunvSVFAHVDidlwQa5svMyv+9Kys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nnRW9CP6; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=T3PaBFf4fcrZack3NguFA1M2PJrTuLkfTvAS9sqjfq0bgzF8T5wMlN9RqQ4ZJ1RV+gcnV53m3g+lOWR8VT5BKcipetpiO3k6jgWq8G9GdQyXSwFhWUmSPT+QfefkReyDAiRle5Q/67yGr9VgPjKo/gdssv1Uj1IxjCoiSPU1cbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mm2OModD; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nnRW9CP6"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cc8e87f29bso6280355ad.2
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:21:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mm2OModD"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c7c61b5292so14192545ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783520514; x=1784125314; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783520522; x=1784125322; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MpYqOc/1ppyS8weIbvZYb4mK7YaSt/vT54O6KJru8t0=;
-        b=nnRW9CP6eYoHp/7/7YOrlK1NbdWzzX7PYdehea1Sgo+I+p7GMrpuAxxKDetzi0/ow/
-         2UqqZLzVvb7BWhVt5GQGHtErzzvSqrVhn7L9OgpBdYc1gwCwZgHwWs/yUCuHMZELmXbd
-         tN0VLt4p348F5n9mqS8zpAPEqPrhwPaCVwI3/0TaQWMoelpPWTryX6ZsK7P1FYGzudei
-         pdwspIn1PUoYaef0HKq0WuL8WbfPagsT1jNvQgTqaHJWgjdUv6Ioz5TWbPjFM4X16TEs
-         jwJNV4LWg2syHrku7dX1r0AcZ3pfg4BGNb3j2edMI7qcCWjeOZkMZW57mIXcT4Rus+eU
-         j2SQ==
+        bh=5I542Atg1yY1laQM/jnE851nD9DT4YIfrvz5OV73CCc=;
+        b=mm2OModDqPNkon4WLNUIwYLizO4ucqg9WwYkga5SZtWWdl9DtZk8dRPFCqf/hNLEk5
+         rnO35Y5wfoO+l1wntXuMNLMdLJtHuuzw/NTQ0YUYvu1BrSpTdLINZQHCddSzk1MjQzvb
+         a5jkye3ExoclfhYdtlup+vUgZM35uFDrskv6VfceZKgvSqWlygEdCPrDBANw13rR17Pu
+         ABPD6I4PiIaUUKTsmwxY/9Y7vL6yiWlG65np/JE/ikfzbu+cB8px3MvlcXj4S1AFmWPs
+         6TSSFd7RuP+dCJm3dxKyztkBpgyzHSWb8GiDUG0vVpJ8jMz+uhsY5AJ755U1+Su26lgu
+         OtDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783520514; x=1784125314;
+        d=1e100.net; s=20251104; t=1783520522; x=1784125322;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MpYqOc/1ppyS8weIbvZYb4mK7YaSt/vT54O6KJru8t0=;
-        b=gc5vDe7Ex9Kcdsg9/nY8Ilsys7oYv4rUpRrVKfB1L/wcVMYgeMbPT/xPKslDvLBER3
-         biq4QUzJ0LjoTLKx8KbPkCu6Dk4NDxpvHPx+v3CKx8unatvVkk2ozUmc0pltpHKjnt9j
-         Wn6GVGFMmhTAG0zvjlv6ublO1hFBueOyLsi7lBJdEl/z3UQeEFpeergVhZUmloDl37gi
-         dxYIetJn614mf1PRgKitV7HrKjSnYXhidgVw5ircx4ogGrItgcRyUyux1TNH7qfjHFsA
-         iEbSeT2/dBIEb+9I0c4IhWI/tOOpIuiCH5gNYevWMS1m4S+wtXA4VdfcqJuoWp1liQo+
-         i5Ig==
-X-Forwarded-Encrypted: i=1; AHgh+RoH6pwCYl7Etd2s86j/u5qyyLQPEX9yirEmLkeG1ndu3QCuNBZDvM3j+Xyjr+HMEcfkE7lcwCzLNrW0PQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQieTD36qwIOJiNQ/B5VevggsLqzIIdBG2IiSOBrXKFEjrOFdD
-	TSa9HZfX0i0fZ4EZcLzsCR/B4t8v3XeNCkWBUSfp8nWpKSGPi0CE4EAl
-X-Gm-Gg: AfdE7cm8EQTfY7b/dtQPH8+dlQiTwF9ixu3wGcLAzR04lHhTS7FMj3c+2jyAh5fnwCw
-	sHjS+mkb5lPQC+6ODpcl7SUs+me0EAKkr7XOQgo4ogp9r4VftVCQLPxId78ZmMP7ilJESr2dscq
-	YEndozcb3+juxQmkFcTnmvg20wRjZaiEZqY+m3ndZEaq4mz3frPM81s+C2rtb39F2qLZqlj/caE
-	dqGSYnC+JbMURRoAnHLhU7/WQjqiqnoGRaoWtFBkdu0bSr7dsXPjpWIgJXaAXOAKcjVxjYl/sQx
-	OKt88KsGinxkiVc8xrD4ghGXOBsHoyO2Qx0ozFKe4Ps9U/lHioeRrWAcSeDXr/SyRCVITzd/pMr
-	aF58VEhXNhi0KegP3yz+LK2co8tetObFI0S5evXDW7OO9qJL3sz0vIRavono9E3n5283/9e+JZ4
-	knWX5VXY7EdY0JV8EQRVMT0PQZe0Mm5DerD7GnLBhuDFR2Miih2KhUSeQgYg==
-X-Received: by 2002:a17:903:3850:b0:2ca:5671:b219 with SMTP id d9443c01a7336-2ccea37d3b2mr29320285ad.22.1783520514129;
-        Wed, 08 Jul 2026 07:21:54 -0700 (PDT)
+        bh=5I542Atg1yY1laQM/jnE851nD9DT4YIfrvz5OV73CCc=;
+        b=eZBfP0p/VABBkxScaoFTN9y7/3DkVcQwAu78Tdjj7DqTtVJbQ6iO/gqi9FfZ0me82e
+         bDPA+5NHsFbO8pFvt7ZpV7gQGKvHGpLI8GiuWyODlUDkuGGLzN7MCWhZeE96FPG1jVnb
+         nHWcDpk4DmSDti+0rni14tqkX1EGHrD0kNpCcINNORIkkTuIp8uZY64dObjADXYsbPTy
+         tiWGCyloMrP5MIIdWg26836OwtDy7wHmj1Xh6fmSbSwuiWDUl9fctbpEkyA5RrDZB3Rj
+         XAzSZF6QH6q3yfOibkJqhFk877QhNp1+uIP/MHIjVo77i3d1nhjSNTBhtJAcVx1TGAMX
+         zEUw==
+X-Forwarded-Encrypted: i=1; AHgh+RpaiSv2AS6TAZI/rEHQF42MEPn/lGy3UeYZ60HYaTiAHnQO7ViR4u7+LtJh5wzKcAoP3UoH0epfP69L2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwINlHThUq8QEE11M/EHcLVT4gkpdHFc8xdYoxges9ckzA4vE1j
+	dynYDTpIWPMkf7P0ILTY9d7QNdHz7Bzys0nrXjuSjUNoLZk0V6AXB5y6
+X-Gm-Gg: AfdE7ckbF/8btM99+JQxz4CYFASY8FFg1uHBzRcXM4fnrGaGYt5vOpn+PBX05PI+Gmu
+	93s2bKYM++aDaf7aPPJoh1C/KjFNQu5f/+dCDjDqNv+tsT5uG6VHqRAr2NSOFOIK4JoqTk1EPQV
+	QwoWs7ebHFRCEXigONKpWx1FOSeaK36Raq6leplkymT5bMK6x6HXCGHsKSrr4CNxYOiA95/VBLY
+	nDIP6zT/45EiZS9XxywbmlqzuuDrXcR/9JZvTBAUcyeRdQT3QeW3dZcE2/7U2MxjOJsCTKCeZnK
+	2LsJoSkC5XLd6VAPnhgAsngNTmlBGSJM+SersHslqN8efGPA+PDfGQpnPjX7OvTfEJmWKqQsO6F
+	o39bcknbuJw1E5hwSqMJIpHdVjMDFPWP8s9pgvV5hbAZNQtHWY1/QCrhciYg0XnISMr4VyWe86d
+	8TV4RL7rJjzGh9NkZGNeeaYog1WbYLklbSKbIQt7fiu5ykrKU=
+X-Received: by 2002:a17:903:2acb:b0:2cc:fa3c:3112 with SMTP id d9443c01a7336-2ccfa3c37femr3310995ad.38.1783520522330;
+        Wed, 08 Jul 2026 07:22:02 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.21.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.21.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 07:21:53 -0700 (PDT)
+        Wed, 08 Jul 2026 07:22:01 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -92,9 +92,9 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 21/27] ASoC: codecs: rt5677: Use guard() for mutex locks
-Date: Wed,  8 Jul 2026 21:17:28 +0700
-Message-ID: <20260708141734.578926-22-phucduc.bui@gmail.com>
+Subject: [PATCH v2 22/27] ASoC: codecs: rt5682: Use guard() for mutex locks
+Date: Wed,  8 Jul 2026 21:17:29 +0700
+Message-ID: <20260708141734.578926-23-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708141734.578926-1-phucduc.bui@gmail.com>
 References: <20260708141734.578926-1-phucduc.bui@gmail.com>
@@ -113,315 +113,186 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/rt5677-spi.c | 36 +++++++----------
- sound/soc/codecs/rt5677.c     | 75 ++++++++++++++++-------------------
- 2 files changed, 49 insertions(+), 62 deletions(-)
+ sound/soc/codecs/rt5682-sdw.c | 24 ++++++++++++------------
+ sound/soc/codecs/rt5682.c     |  5 ++---
+ sound/soc/codecs/rt5682s.c    | 17 +++++------------
+ 3 files changed, 19 insertions(+), 27 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5677-spi.c b/sound/soc/codecs/rt5677-spi.c
-index 1bcafd5f4468..ebc527115ea5 100644
---- a/sound/soc/codecs/rt5677-spi.c
-+++ b/sound/soc/codecs/rt5677-spi.c
+diff --git a/sound/soc/codecs/rt5682-sdw.c b/sound/soc/codecs/rt5682-sdw.c
+index dec8c2147d68..e7dc4f722fc1 100644
+--- a/sound/soc/codecs/rt5682-sdw.c
++++ b/sound/soc/codecs/rt5682-sdw.c
 @@ -6,6 +6,7 @@
-  * Author: Oder Chiou <oder_chiou@realtek.com>
-  */
+ // Author: Oder Chiou <oder_chiou@realtek.com>
+ //
  
 +#include <linux/cleanup.h>
  #include <linux/module.h>
- #include <linux/input.h>
- #include <linux/spi/spi.h>
-@@ -133,9 +134,8 @@ static int rt5677_spi_hw_params(
- 	struct rt5677_dsp *rt5677_dsp =
- 			snd_soc_component_get_drvdata(component);
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
+@@ -660,12 +661,11 @@ static int rt5682_interrupt_callback(struct sdw_slave *slave,
+ 	dev_dbg(&slave->dev,
+ 		"%s control_port_stat=%x", __func__, status->control_port);
  
--	mutex_lock(&rt5677_dsp->dma_lock);
-+	guard(mutex)(&rt5677_dsp->dma_lock);
- 	rt5677_dsp->substream = substream;
--	mutex_unlock(&rt5677_dsp->dma_lock);
+-	mutex_lock(&rt5682->disable_irq_lock);
++	guard(mutex)(&rt5682->disable_irq_lock);
+ 	if (status->control_port & 0x4 && !rt5682->disable_irq) {
+ 		mod_delayed_work(system_power_efficient_wq,
+ 			&rt5682->jack_detect_work, msecs_to_jiffies(rt5682->irq_work_delay_time));
+ 	}
+-	mutex_unlock(&rt5682->disable_irq_lock);
  
  	return 0;
  }
-@@ -147,9 +147,8 @@ static int rt5677_spi_hw_free(
- 	struct rt5677_dsp *rt5677_dsp =
- 			snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&rt5677_dsp->dma_lock);
-+	guard(mutex)(&rt5677_dsp->dma_lock);
- 	rt5677_dsp->substream = NULL;
--	mutex_unlock(&rt5677_dsp->dma_lock);
- 
- 	return 0;
- }
-@@ -311,17 +310,17 @@ static void rt5677_spi_copy_work(struct work_struct *work)
- 	int ret = 0;
- 
- 	/* Ensure runtime->dma_area buffer does not go away while copying. */
--	mutex_lock(&rt5677_dsp->dma_lock);
-+	guard(mutex)(&rt5677_dsp->dma_lock);
- 	if (!rt5677_dsp->substream) {
- 		dev_err(rt5677_dsp->dev, "No pcm substream\n");
--		goto done;
-+		return;
- 	}
- 
- 	runtime = rt5677_dsp->substream->runtime;
- 
- 	if (rt5677_spi_mic_write_offset(&mic_write_offset)) {
- 		dev_err(rt5677_dsp->dev, "No mic_write_offset\n");
--		goto done;
-+		return;
- 	}
- 
- 	/* If this is the first time that we've asked for streaming data after
-@@ -355,7 +354,7 @@ static void rt5677_spi_copy_work(struct work_struct *work)
- 		ret = rt5677_spi_copy(rt5677_dsp, copy_bytes);
- 		if (ret) {
- 			dev_err(rt5677_dsp->dev, "Copy failed %d\n", ret);
--			goto done;
-+			return;
- 		}
- 		rt5677_dsp->avail_bytes += copy_bytes;
- 		if (rt5677_dsp->avail_bytes >= period_bytes) {
-@@ -367,8 +366,6 @@ static void rt5677_spi_copy_work(struct work_struct *work)
- 
- 	delay = bytes_to_frames(runtime, period_bytes) / runtime->rate;
- 	schedule_delayed_work(&rt5677_dsp->copy_work, secs_to_jiffies(delay));
--done:
--	mutex_unlock(&rt5677_dsp->dma_lock);
- }
- 
- static int rt5677_spi_pcm_new(struct snd_soc_component *component,
-@@ -507,10 +504,8 @@ int rt5677_spi_read(u32 addr, void *rxbuf, size_t len)
- 		header[3] = ((addr + offset) & 0x0000ff00) >> 8;
- 		header[4] = ((addr + offset) & 0x000000ff) >> 0;
- 
--		mutex_lock(&spi_mutex);
--		status |= spi_sync(g_spi, &m);
--		mutex_unlock(&spi_mutex);
--
-+		scoped_guard(mutex, &spi_mutex)
-+			status |= spi_sync(g_spi, &m);
- 
- 		/* Copy data back to caller buffer */
- 		rt5677_spi_reverse(cb + offset, len - offset, body, t[1].len);
-@@ -564,9 +559,8 @@ int rt5677_spi_write(u32 addr, const void *txbuf, size_t len)
- 		offset += t.len;
- 		t.len += RT5677_SPI_HEADER + 1;
- 
--		mutex_lock(&spi_mutex);
--		status |= spi_sync(g_spi, &m);
--		mutex_unlock(&spi_mutex);
-+		scoped_guard(mutex, &spi_mutex)
-+			status |= spi_sync(g_spi, &m);
- 	}
- 	return status;
- }
-@@ -591,10 +585,10 @@ void rt5677_spi_hotword_detected(void)
- 		return;
- 	}
- 
--	mutex_lock(&rt5677_dsp->dma_lock);
--	dev_info(rt5677_dsp->dev, "Hotword detected\n");
--	rt5677_dsp->new_hotword = true;
--	mutex_unlock(&rt5677_dsp->dma_lock);
-+	scoped_guard(mutex, &rt5677_dsp->dma_lock) {
-+		dev_info(rt5677_dsp->dev, "Hotword detected\n");
-+		rt5677_dsp->new_hotword = true;
+@@ -736,11 +736,11 @@ static int rt5682_dev_system_suspend(struct device *dev)
+ 	 * deferred work completes and before the parent disables
+ 	 * interrupts on the link
+ 	 */
+-	mutex_lock(&rt5682->disable_irq_lock);
+-	rt5682->disable_irq = true;
+-	ret = sdw_update_no_pm(slave, SDW_SCP_INTMASK1,
+-			       SDW_SCP_INT1_IMPL_DEF, 0);
+-	mutex_unlock(&rt5682->disable_irq_lock);
++	scoped_guard(mutex, &rt5682->disable_irq_lock) {
++		rt5682->disable_irq = true;
++		ret = sdw_update_no_pm(slave, SDW_SCP_INTMASK1,
++				       SDW_SCP_INT1_IMPL_DEF, 0);
 +	}
  
- 	schedule_delayed_work(&rt5677_dsp->copy_work, 0);
- }
-diff --git a/sound/soc/codecs/rt5677.c b/sound/soc/codecs/rt5677.c
-index ac084ca008f3..4574b9e810f5 100644
---- a/sound/soc/codecs/rt5677.c
-+++ b/sound/soc/codecs/rt5677.c
+ 	if (ret < 0) {
+ 		/* log but don't prevent suspend from happening */
+@@ -760,12 +760,12 @@ static int rt5682_dev_resume(struct device *dev)
+ 		return 0;
+ 
+ 	if (!slave->unattach_request) {
+-		mutex_lock(&rt5682->disable_irq_lock);
+-		if (rt5682->disable_irq == true) {
+-			sdw_write_no_pm(slave, SDW_SCP_INTMASK1, SDW_SCP_INT1_IMPL_DEF);
+-			rt5682->disable_irq = false;
++		scoped_guard(mutex, &rt5682->disable_irq_lock) {
++			if (rt5682->disable_irq) {
++				sdw_write_no_pm(slave, SDW_SCP_INTMASK1, SDW_SCP_INT1_IMPL_DEF);
++				rt5682->disable_irq = false;
++			}
+ 		}
+-		mutex_unlock(&rt5682->disable_irq_lock);
+ 	}
+ 
+ 	ret = sdw_slave_wait_for_init(slave, RT5682_PROBE_TIMEOUT);
+diff --git a/sound/soc/codecs/rt5682.c b/sound/soc/codecs/rt5682.c
+index 4b82e07d3b2c..6f7e68c20d13 100644
+--- a/sound/soc/codecs/rt5682.c
++++ b/sound/soc/codecs/rt5682.c
 @@ -6,6 +6,7 @@
-  * Author: Oder Chiou <oder_chiou@realtek.com>
-  */
+ // Author: Bard Liao <bardliao@realtek.com>
+ //
  
 +#include <linux/cleanup.h>
- #include <linux/delay.h>
- #include <linux/firmware.h>
- #include <linux/fs.h>
-@@ -563,46 +564,43 @@ static int rt5677_dsp_mode_i2c_write_addr(struct rt5677_priv *rt5677,
- 	struct snd_soc_component *component = rt5677->component;
- 	int ret;
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
+@@ -3125,7 +3126,7 @@ void rt5682_calibrate(struct rt5682_priv *rt5682)
+ {
+ 	int value, count;
  
--	mutex_lock(&rt5677->dsp_cmd_lock);
-+	guard(mutex)(&rt5677->dsp_cmd_lock);
+-	mutex_lock(&rt5682->calibrate_mutex);
++	guard(mutex)(&rt5682->calibrate_mutex);
  
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_ADDR_MSB,
- 		addr >> 16);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set addr msb value: %d\n", ret);
--		goto err;
-+		return ret;
- 	}
- 
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_ADDR_LSB,
- 		addr & 0xffff);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set addr lsb value: %d\n", ret);
--		goto err;
-+		return ret;
- 	}
- 
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_DATA_MSB,
- 		value >> 16);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set data msb value: %d\n", ret);
--		goto err;
-+		return ret;
- 	}
- 
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_DATA_LSB,
- 		value & 0xffff);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set data lsb value: %d\n", ret);
--		goto err;
-+		return ret;
- 	}
- 
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_OP_CODE,
- 		opcode);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set op code value: %d\n", ret);
--		goto err;
-+		return ret;
- 	}
- 
--err:
--	mutex_unlock(&rt5677->dsp_cmd_lock);
+ 	rt5682_reset(rt5682);
+ 	regmap_write(rt5682->regmap, RT5682_I2C_CTRL, 0x000f);
+@@ -3175,8 +3176,6 @@ void rt5682_calibrate(struct rt5682_priv *rt5682)
+ 		regmap_write(rt5682->regmap, RT5682_CALIB_ADC_CTRL, 0x2005);
+ 	regmap_write(rt5682->regmap, RT5682_STO1_ADC_MIXER, 0xc0c4);
+ 	regmap_write(rt5682->regmap, RT5682_CAL_REC, 0x0c0c);
 -
- 	return ret;
+-	mutex_unlock(&rt5682->calibrate_mutex);
  }
+ EXPORT_SYMBOL_GPL(rt5682_calibrate);
  
-@@ -622,36 +620,33 @@ static int rt5677_dsp_mode_i2c_read_addr(
- 	int ret;
- 	unsigned int msb, lsb;
+diff --git a/sound/soc/codecs/rt5682s.c b/sound/soc/codecs/rt5682s.c
+index 3624067950c0..34997cfb465b 100644
+--- a/sound/soc/codecs/rt5682s.c
++++ b/sound/soc/codecs/rt5682s.c
+@@ -6,6 +6,7 @@
+ // Author: Derek Fang <derek.fang@realtek.com>
+ //
  
--	mutex_lock(&rt5677->dsp_cmd_lock);
-+	guard(mutex)(&rt5677->dsp_cmd_lock);
++#include <linux/cleanup.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
+@@ -648,7 +649,7 @@ static void rt5682s_sar_power_mode(struct snd_soc_component *component, int mode
+ {
+ 	struct rt5682s_priv *rt5682s = snd_soc_component_get_drvdata(component);
  
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_ADDR_MSB,
- 		addr >> 16);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set addr msb value: %d\n", ret);
--		goto err;
-+		return ret;
+-	mutex_lock(&rt5682s->sar_mutex);
++	guard(mutex)(&rt5682s->sar_mutex);
+ 
+ 	switch (mode) {
+ 	case SAR_PWR_SAVING:
+@@ -695,8 +696,6 @@ static void rt5682s_sar_power_mode(struct snd_soc_component *component, int mode
+ 		dev_err(component->dev, "Invalid SAR Power mode: %d\n", mode);
+ 		break;
  	}
- 
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_ADDR_LSB,
- 		addr & 0xffff);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set addr lsb value: %d\n", ret);
--		goto err;
-+		return ret;
- 	}
- 
- 	ret = regmap_write(rt5677->regmap_physical, RT5677_DSP_I2C_OP_CODE,
- 		0x0002);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set op code value: %d\n", ret);
--		goto err;
-+		return ret;
- 	}
- 
- 	regmap_read(rt5677->regmap_physical, RT5677_DSP_I2C_DATA_MSB, &msb);
- 	regmap_read(rt5677->regmap_physical, RT5677_DSP_I2C_DATA_LSB, &lsb);
- 	*value = (msb << 16) | lsb;
- 
--err:
--	mutex_unlock(&rt5677->dsp_cmd_lock);
 -
- 	return ret;
+-	mutex_unlock(&rt5682s->sar_mutex);
  }
  
-@@ -940,21 +935,20 @@ static void rt5677_dsp_work(struct work_struct *work)
- 		activity = false;
+ static void rt5682s_enable_push_button_irq(struct snd_soc_component *component)
+@@ -2534,7 +2533,7 @@ static int rt5682s_wclk_prepare(struct clk_hw *hw)
+ 	if (!rt5682s_clk_check(rt5682s))
+ 		return -EINVAL;
  
- 		/* Don't turn off the DSP while handling irqs */
--		mutex_lock(&rt5677->irq_lock);
--		/* Set DSP CPU to Stop */
--		regmap_update_bits(rt5677->regmap, RT5677_PWR_DSP1,
--			RT5677_PWR_DSP_CPU, RT5677_PWR_DSP_CPU);
-+		scoped_guard(mutex, &rt5677->irq_lock) {
-+			/* Set DSP CPU to Stop */
-+			regmap_update_bits(rt5677->regmap, RT5677_PWR_DSP1,
-+					   RT5677_PWR_DSP_CPU, RT5677_PWR_DSP_CPU);
+-	mutex_lock(&rt5682s->wclk_mutex);
++	guard(mutex)(&rt5682s->wclk_mutex);
  
--		rt5677_set_dsp_mode(rt5677, false);
-+			rt5677_set_dsp_mode(rt5677, false);
+ 	snd_soc_component_update_bits(component, RT5682S_PWR_ANLG_1,
+ 		RT5682S_PWR_VREF2 | RT5682S_PWR_FV2 | RT5682S_PWR_MB,
+@@ -2556,8 +2555,6 @@ static int rt5682s_wclk_prepare(struct clk_hw *hw)
  
--		/* Disable and clear VAD interrupt */
--		regmap_write(rt5677->regmap, RT5677_VAD_CTRL1, 0x2184);
-+			/* Disable and clear VAD interrupt */
-+			regmap_write(rt5677->regmap, RT5677_VAD_CTRL1, 0x2184);
+ 	rt5682s->wclk_enabled = 1;
  
--		/* Set GPIO1 pin back to be IRQ output for jack detect */
--		regmap_update_bits(rt5677->regmap, RT5677_GPIO_CTRL1,
--			RT5677_GPIO1_PIN_MASK, RT5677_GPIO1_PIN_IRQ);
+-	mutex_unlock(&rt5682s->wclk_mutex);
 -
--		mutex_unlock(&rt5677->irq_lock);
-+			/* Set GPIO1 pin back to be IRQ output for jack detect */
-+			regmap_update_bits(rt5677->regmap, RT5677_GPIO_CTRL1,
-+					   RT5677_GPIO1_PIN_MASK, RT5677_GPIO1_PIN_IRQ);
-+		}
- 	}
+ 	return 0;
  }
  
-@@ -4980,11 +4974,11 @@ static int rt5677_read(void *context, unsigned int reg, unsigned int *val)
+@@ -2570,7 +2567,7 @@ static void rt5682s_wclk_unprepare(struct clk_hw *hw)
+ 	if (!rt5682s_clk_check(rt5682s))
+ 		return;
  
- 	if (rt5677->is_dsp_mode) {
- 		if (reg > 0xff) {
--			mutex_lock(&rt5677->dsp_pri_lock);
--			rt5677_dsp_mode_i2c_write(rt5677, RT5677_PRIV_INDEX,
--				reg & 0xff);
--			rt5677_dsp_mode_i2c_read(rt5677, RT5677_PRIV_DATA, val);
--			mutex_unlock(&rt5677->dsp_pri_lock);
-+			scoped_guard(mutex, &rt5677->dsp_pri_lock) {
-+				rt5677_dsp_mode_i2c_write(rt5677, RT5677_PRIV_INDEX,
-+							  reg & 0xff);
-+				rt5677_dsp_mode_i2c_read(rt5677, RT5677_PRIV_DATA, val);
-+			}
- 		} else {
- 			rt5677_dsp_mode_i2c_read(rt5677, reg, val);
- 		}
-@@ -5002,12 +4996,12 @@ static int rt5677_write(void *context, unsigned int reg, unsigned int val)
+-	mutex_lock(&rt5682s->wclk_mutex);
++	guard(mutex)(&rt5682s->wclk_mutex);
  
- 	if (rt5677->is_dsp_mode) {
- 		if (reg > 0xff) {
--			mutex_lock(&rt5677->dsp_pri_lock);
--			rt5677_dsp_mode_i2c_write(rt5677, RT5677_PRIV_INDEX,
--				reg & 0xff);
--			rt5677_dsp_mode_i2c_write(rt5677, RT5677_PRIV_DATA,
--				val);
--			mutex_unlock(&rt5677->dsp_pri_lock);
-+			scoped_guard(mutex, &rt5677->dsp_pri_lock) {
-+				rt5677_dsp_mode_i2c_write(rt5677, RT5677_PRIV_INDEX,
-+							  reg & 0xff);
-+				rt5677_dsp_mode_i2c_write(rt5677, RT5677_PRIV_DATA,
-+							  val);
-+			}
- 		} else {
- 			rt5677_dsp_mode_i2c_write(rt5677, reg, val);
- 		}
-@@ -5399,7 +5393,7 @@ static void rt5677_resume_irq_check(struct work_struct *work)
- 	 * Without this explicit check, unplug the headset right after suspend
- 	 * starts, then after resume the headset is still shown as plugged in.
- 	 */
--	mutex_lock(&rt5677->irq_lock);
-+	guard(mutex)(&rt5677->irq_lock);
- 	for (i = 0; i < RT5677_IRQ_NUM; i++) {
- 		if (rt5677->irq_en & rt5677_irq_descs[i].enable_mask) {
- 			virq = irq_find_mapping(rt5677->domain, i);
-@@ -5407,7 +5401,6 @@ static void rt5677_resume_irq_check(struct work_struct *work)
- 				handle_nested_irq(virq);
- 		}
- 	}
--	mutex_unlock(&rt5677->irq_lock);
+ 	if (!rt5682s->jack_type)
+ 		snd_soc_component_update_bits(component, RT5682S_PWR_ANLG_1,
+@@ -2585,8 +2582,6 @@ static void rt5682s_wclk_unprepare(struct clk_hw *hw)
+ 	rt5682s_set_pllb_power(rt5682s, 0);
+ 
+ 	rt5682s->wclk_enabled = 0;
+-
+-	mutex_unlock(&rt5682s->wclk_mutex);
  }
  
- static void rt5677_irq_bus_lock(struct irq_data *data)
+ static unsigned long rt5682s_wclk_recalc_rate(struct clk_hw *hw,
+@@ -2997,7 +2992,7 @@ static void rt5682s_calibrate(struct rt5682s_priv *rt5682s)
+ {
+ 	unsigned int count, value;
+ 
+-	mutex_lock(&rt5682s->calibrate_mutex);
++	guard(mutex)(&rt5682s->calibrate_mutex);
+ 
+ 	regmap_write(rt5682s->regmap, RT5682S_PWR_ANLG_1, 0xaa80);
+ 	usleep_range(15000, 20000);
+@@ -3034,8 +3029,6 @@ static void rt5682s_calibrate(struct rt5682s_priv *rt5682s)
+ 	regmap_write(rt5682s->regmap, RT5682S_PWR_DIG_1, 0x00c0);
+ 	regmap_write(rt5682s->regmap, RT5682S_PWR_ANLG_1, 0x0800);
+ 	regmap_write(rt5682s->regmap, RT5682S_GLB_CLK, 0x0000);
+-
+-	mutex_unlock(&rt5682s->calibrate_mutex);
+ }
+ 
+ static const struct regmap_config rt5682s_regmap = {
 -- 
 2.43.0
 
