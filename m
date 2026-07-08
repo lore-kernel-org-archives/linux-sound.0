@@ -1,94 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097E9439345
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 18:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88BE24C6F0E
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 18:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783535671; cv=none; b=XXEvedy/pyHtt+dK2xtCamyIWLHvDU9Twv58PvKfmteS+/5P4NYRfGw4w+KuzUoKqDvdtdIyyUvXGPnm9Qxk1OsGx9TLuOtDaahHOtuhc7fDr3IzEPBa0KKzSP0IQHHc1z9cX5VyUdxrgfGgHrzb2s6CQyibXLVYUVtkqP4FngY=
+	t=1783535771; cv=none; b=DtWvoDEbVekKBkSOAx8myxV5B26cxDZuyrnHf7kfccWrDwRZjJK4es6v7T5GH76FYPYi7azoHlCkGVTjmFQgE/LIDFxXPH9zhM3tpjypRO6FxPDoFfvjQ2JqgHbUobUlTeV4PkfYeR81kftTkWpYEJVjQsjDUfiTpKrUSRJnZ6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783535671; c=relaxed/simple;
-	bh=b6jdtPw+VxpSgFvULqrP0SVRKXGKPjO4Y4wcBsjOyRw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FscxdyxZ2pq+b2jViFyr1KRsTdvFcXckQTEoGsnBxlUOl8Mn7kMjsMQciGcR0ck30vp4YxDCwrUqBbTBDxcitUoCrUNbixVm2GgescITw4/wRjXG1cVLNa3HJw6suM5HQxZ3Vd9aIGKNmYCJojFANZ6+KEJ/nS3mJ/LFqLwjMGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FSGiKblq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783535771; c=relaxed/simple;
+	bh=fQZTKK2hk7EE0WnaJutth7SIEdgHOpINHpM2CLofjkc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VdFVXm0grHJRIPnrOyb9zar1DA0WzJc/BFEXHTL1BmS2iuZBimykN5BjMh46m2G+6hak89UfntQJ5o7C3X22ewvEIwRAr/b9ESHJJcIrxXzgdxPch7RiCxsBpOpRaT239yJg5xoRMpXJ90ztNqMurNFwQQckUft9IPIBH/A3+wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jVs9kcf4; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSGiKblq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBF731F000E9
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 18:34:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783535669;
-	bh=9cdd1YNFo0BBLZoe+c+X6zyqzkgIO8DBHV2jMSUh/60=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=FSGiKblq9dC+28fSlbwXdYIDvwrJgAPOv1wFjq3dBgklv3uovRn4cR/WIkikGAY5d
-	 8ovGAfyyI/9Qr8xWGJDDHzv36aJAER0GDZloi69abl3SRSKPOBm4QtAPi89TFLHnYh
-	 iad5LILFZEFcIbPzDAVfPJSLjTYBSKfqdrTG41QmKButNojOJ/yONpDvVP7mEFx+WY
-	 Dt1wiDMlJhkHEmK6SOUOE29+6YzJVC/0BF5e/Chgh48jILSLpTsOLsvyDKZJtXIsOi
-	 +zphAdRSK4cF8bNFmzbocIigoPlXIqhVx+ApylRiPonPcJMzN1icwLCzJrjr0xNoQL
-	 1F8AvRcfmUqow==
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6983f20a8bfso104445a12.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 11:34:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpUl+cu73zFs7CSrF5QF29ou/7Il6fXCnIOxoony+tnvuc4n6J0Az9fskROmSq5h5j004porknUGoN7yA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWIM6hUTrKxiMohThKUMur8TXevuw7e5emtq8Dm1gQD0nGDec7
-	AOFui3WeauV2R9OaU6A5Vq58NQwW8qD95zBnKvj0Hu+FxotSm+a/mYB5GmgviVjuNr18I//hnWA
-	+AvB8i5XcK2gplaTnYVgp8ePbL70tkw==
-X-Received: by 2002:a17:906:268e:b0:c15:c108:dcd with SMTP id
- a640c23a62f3a-c15ce122ce6mr134397666b.49.1783535668618; Wed, 08 Jul 2026
- 11:34:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVs9kcf4"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-495b27007d0so651684b6e.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 11:36:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783535769; x=1784140569; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fQZTKK2hk7EE0WnaJutth7SIEdgHOpINHpM2CLofjkc=;
+        b=jVs9kcf4TZRrdbiHhq/HuPNOiSzGxdIMqSd1eorQh7kBANgqPBccJduxRpUTgg9gz6
+         Dthq86DXrMdDYmdSibXNgNiG28SJNLcCSlaMMT8Q5dZPJayP35LlbRymIWjGW/8RgjOr
+         ZfWDJ1lMl8ebDuLfmsvUOGKdMTFQzrH9S7AAJsFu0deznZ3ezKFnludPa6Ypsu8HyyT3
+         Hs5WaYnV3CjiUmYeRwDO48KQM4bpMmxqmlHIxzKcY/SEyrIWxosyeB6SKdi0+67N4GXt
+         LV3hHrwy0vcHLt4GB8/kwIYLjAiwvtAWWobl97DXRAeeLffcAz5308ehioPu+Ybp8TOx
+         lfZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783535769; x=1784140569;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fQZTKK2hk7EE0WnaJutth7SIEdgHOpINHpM2CLofjkc=;
+        b=NqRwDVKGvit8mOi5eTUmxHBMqL02oAE3Fr112/xjpDepfv777a6CrqThK1OJpwV4GC
+         6ccv3lm56QbefIsxgSqlpi+eLLHJ7ZiWlAHatWL6TK6MuQxvX0teHj/+fRBI6Ozv4szF
+         CIDsp1gzhEAG/GptxRY8RRMu9KlBfDP0aebGx/2LZOvXVzZkg26qgT+se6EfwiBXLBlm
+         74qsPFr+Qv3XvP1k0J3R0ccqukLT7UMQC9aGLXI6jKzV9dBLhJtYfT+ByLTLIr7C0LMh
+         aa6avy7JbPa+hIfyyfgUX99Bb139UL0Cx9vTU9P0XNP8WYUpaLk5bBTC0sKpqbkQED4K
+         mzAw==
+X-Gm-Message-State: AOJu0YwavyHE5gGTekD9mujIYVIbSCCcasfccwO9k+3Fn7F7X3zfdmn7
+	c0Lh7F451hVkMUz+n1cS8JiCiEqPMZ6gJNT1SEEjMT3QKsVd5Gkmig20Q1H1sl362tY=
+X-Gm-Gg: AfdE7ckHneyLgdpn87cok96T3Wg1agyjmUhTXAPDZa9/gFWZaAbLE8XSvJ3M2dfmpgg
+	3RauDMwzR3xQpCqFmhNJLCN1w6tla6fiRtnnG3eRe+LP1r+ncuY9Oo/EHIen0e+mYJrFuh1Pdrx
+	mjGeaPx1KaGEBNTaC9YS0Erai2ECRb/oTMZxXAkUPcjZmjErScmDN+B7l0fFjI4aGnmef0mzi9o
+	g/POap8gvuP9XEUhl0ZzWVjB9FZfs5yBXeJmiUXiQ29Nf7MLKpCyvrwAR41hahhVwXzXVN7Za5d
+	1hW09C8i/jJF6PRhjXqWDBoV3V+znf0x30VxF5yHbpyAlPVKfkKK6fFv3RAcOB8nr/XaySXlhZW
+	ba/z6LbYeLCN6bkWcULJARfby4UVuT2CvnErXdsq5RF1X3+nx11f1JGzdfYOxXPbPwRGMNTXFKF
+	W+yONywsnnLl29s+s6j0UbAnvzdexw979REj+2
+X-Received: by 2002:a05:6808:528f:b0:49b:9a35:f71d with SMTP id 5614622812f47-4a204ff90edmr2974915b6e.30.1783535769347;
+        Wed, 08 Jul 2026 11:36:09 -0700 (PDT)
+Received: from localhost.localdomain ([2802:8010:610c:8c01:940:5638:6c2d:bc2c])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1afde6cffsm2331017b6e.11.2026.07.08.11.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 11:36:08 -0700 (PDT)
+From: Agustin Luzardo <agustinluzardo09@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Do not drop per-channel feature controls marked get_cur_broken
+Date: Wed,  8 Jul 2026 15:35:39 -0300
+Message-ID: <20260708183539.6920-1-agustinluzardo09@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260707183133.8113-1-agustinluzardo09@gmail.com>
+References: <20260707183133.8113-1-agustinluzardo09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com> <20260707190106.2876465-6-prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <20260707190106.2876465-6-prasad.kumpatla@oss.qualcomm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 8 Jul 2026 13:34:17 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJmMpkhry7S7EMG7V8T5-rJb-314ymEoT-nAJEgYisSOQ@mail.gmail.com>
-X-Gm-Features: AVVi8Cf_odeuEAHH0gUHkPQjs-lsaY6n8LwjnSMkMCAA6H-6roX9xLgiTdq2FkY
-Message-ID: <CAL_JsqJmMpkhry7S7EMG7V8T5-rJb-314ymEoT-nAJEgYisSOQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] dt-bindings: sound: qcom,sm8250: allow TDM slot properties
-To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 7, 2026 at 2:01=E2=80=AFPM Prasad Kumpatla
-<prasad.kumpatla@oss.qualcomm.com> wrote:
->
-> Allow the standard TDM slot properties in CPU and codec endpoint
-> nodes.
->
-> Some audio backends operate in TDM mode and require the slot
-> configuration to be described in Devicetree. The common TDM binding
-> defines dai-tdm-slot-num, dai-tdm-slot-width,
-> dai-tdm-slot-tx-mask and dai-tdm-slot-rx-mask for this purpose.
->
-> Permit these standard properties in endpoint nodes so TDM-capable
-> links can describe their slot configuration using the common binding.
->
-> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/sound/qcom,sm8250.yaml | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/D=
-ocumentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> index 15f38622b..a45a1a00f 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-> @@ -84,12 +84,21 @@ patternProperties:
->        cpu:
->          description: Holds subnode which indicates cpu dai.
->          type: object
-> +        allOf:
-> +          - $ref: "tdm-slot.yaml#"
+Please disregard this patch - after further testing I found real
+regressions with it (non-independent channels, duplicated device
+chimes on boot and even on shutdown). No need to resubmit it.
 
-Only 1 entry, you don't need 'allOf'.
+The first patch (quirk_flags mixer_get_cur_broken for 040b:0897,
+already applied) is the one that should stay - please just ignore
+this second one.
 
-Rob
+Thanks,
+Agustin
