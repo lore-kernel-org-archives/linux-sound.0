@@ -1,167 +1,76 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27D63E5A01
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 10:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE97423A6D;
+	Wed,  8 Jul 2026 10:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783507237; cv=none; b=TWxEJ2+ERkFC/LZn+pOrNjcQ/M7+9tYNXUtu+6w8TjK5tr07TOtfmMtGIZw+2P0AUvZi5UtEI3gdZ7RCcFGeddiZ9lKux+ZkguLx9M70hEkubTX8IVnE5y8+ON02UvNMnE+5YgWUbDtQyEx3I/P19h1SFgE3NtB4FQpbxarTklA=
+	t=1783507408; cv=none; b=XwQUOWD8Vq/Fco0LIvC1l8tVy2RRiMnzpnnw4g/9T06mBYyzXbRWokLIunvV9aVwDmsThXDoSAx9Uy7Pautr2FK+NFiKD5uR/ZaA9dZwKPnNWn1uFdck9wu/aWR2wTr3lp+yGQTajW3UrR0xHV9pLfcmTeI1dp3qUw+vS/oXnkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783507237; c=relaxed/simple;
-	bh=8JRdR5qKnSVAGPiqVsWJo5dloSgeESVhcziurYyxKz8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E33Mw09YAT0ytYMpuzAXBQwo+0pp/79It3C8acEpRiAVZW9+T2Zb3CdYAaeTEzvJh9g7MC2vSmKVD07c/iV0CBFPpTfqtjsXV/kWeyLdUNFSLYhmYVmeYpyq0TygIAxDya4GBzeNllQejPPtJ1/DdKl32ZiTBOL93sKEm0fLiGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ddjgUeM8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XlBOIM2G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YGhTAHYc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OgpJ/Ju9; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1783507408; c=relaxed/simple;
+	bh=groLJiBtITBZaafYb4py+DXcwhfa0gaynPiaHzseltw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+2lhRI4uf3WpXEXBNMj0fO1xI+ye8WWzsvUGpu3Mv8Ge7oIpe51L/ew8tgb4SP4661O9tpXPhbitqENdXRvuY3IRhHEakKMvWB5cC/G6nHBuAGlwpnb5lEBGlLmKqfZT7Zl6OH0X5K4btnPiIyu6i5G3smx60y7HwVGXwusrIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdJXPi86; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ddjgUeM8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XlBOIM2G";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YGhTAHYc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OgpJ/Ju9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BF15575B5E;
-	Wed,  8 Jul 2026 10:40:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783507224; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d+rVI0PWohn426O/HTuQTYWJAhFgIia+6g+AbADCWS0=;
-	b=ddjgUeM8dEoGy8HZ2/oiN8vvjoBo/Zhy9hFMJ2G5exphDIGjtO+OPfAu4blbj8hQ4N8zPh
-	A+u13PWcwV0HagiQqxyAZgkT45io/0RYv0jURK0bdtt9eFzJXwMbzMIDnXOCv/pNGNm0TC
-	zcQGfUtq5d67ulhZEX9nXThH1IM5470=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783507224;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d+rVI0PWohn426O/HTuQTYWJAhFgIia+6g+AbADCWS0=;
-	b=XlBOIM2Gm6GddDjBlbdZ04rsl6Ny9Le/RPrkVvbFP6cyaRJvUXqULwHBzXb8Un2eq780an
-	Ld/SCEW6aDo4DeBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783507222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d+rVI0PWohn426O/HTuQTYWJAhFgIia+6g+AbADCWS0=;
-	b=YGhTAHYcxcKwJ0LeGTPYW1CvtHofzxWbBs4n9BlnSadfyW6NwrJ6D2//Q3ZaIvg5K6xA01
-	ovXB3VS9ekb3aeg3tsN9J/gouvxayZLI6pja432HQA2pb/RWRGhfrqTsmAdue+OkZQDjyJ
-	yQsQolaS6bli5+kAw7XTi53jySKa654=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783507222;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d+rVI0PWohn426O/HTuQTYWJAhFgIia+6g+AbADCWS0=;
-	b=OgpJ/Ju9zfg5M/i+cLd79SQiWqDQ3GOThmOYttmaG9KBvouTzYO2pGFvW5eiJ8VvktNF93
-	tPmtVT8PPkN/2ODw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90A87779AE;
-	Wed,  8 Jul 2026 10:40:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NrwAIhYpTmqpHQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 08 Jul 2026 10:40:22 +0000
-Date: Wed, 08 Jul 2026 12:40:22 +0200
-Message-ID: <874ii969yh.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Agustin Luzardo <agustinluzardo09@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Do not drop per-channel feature controls marked get_cur_broken
-In-Reply-To: <20260707183133.8113-1-agustinluzardo09@gmail.com>
-References: <20260705184227.113588-1-agustinluzardo09@gmail.com>
-	<20260707183133.8113-1-agustinluzardo09@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdJXPi86"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D4F1F00A3E;
+	Wed,  8 Jul 2026 10:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783507395;
+	bh=xgb9L3ybC7vZlTqAiwZqqpWmp0VP5DqNRODliRYFC7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kdJXPi861onpNxYXSyu/H82im8bgzEy/Tq1sP9Lqc+RqRUYgK/1J0qwa1BMi2v6AK
+	 9Fm0GqOMgkpiKA9wiiPsTH9E1cuppYXbVDGXjOdRBfDJG+rOW+QnTQmUD1eub805Af
+	 e/+XSu4L1Qwy58BFX/n1VaDP8RyVtAe3Q9VOspJyQY1KO3G3YvHZECiy2V6mYfJ1wF
+	 fTxccpAww2s22SxBgSKtpAg5BAikZY6dp+wDFEcnq9EU0rg8+DfvJ6i4E9uCMTmtuL
+	 k75cyJOKHKKGvrC66is34b0REAKTCsUYvGgfruiHA4XWWRZhGE8JBWFw3a2WYfc/tX
+	 EyexGgaV8pSdw==
+Date: Wed, 8 Jul 2026 12:43:11 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+Cc: Mark Brown <broonie@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Luca Weiss <luca.weiss@fairphone.com>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: qcom,wcd93xx-common: don't
+ require micbias4
+Message-ID: <20260708-gregarious-elite-dinosaur-537d56@quoll>
+References: <20260706192229.144137-1-jorijnvdgraaf@catcrafts.net>
+ <20260706192229.144137-2-jorijnvdgraaf@catcrafts.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260706192229.144137-2-jorijnvdgraaf@catcrafts.net>
 
-On Tue, 07 Jul 2026 20:31:33 +0200,
-Agustin Luzardo wrote:
+On Mon, Jul 06, 2026 at 09:22:27PM +0200, Jorijn van der Graaf wrote:
+> The WCD9370/9375, WCD9380/9385 and WCD9390/9395 codecs all have four
+> mic bias supplies, but the upcoming WCD9378 only has three, so it
+> cannot reference the common schema while qcom,micbias4-microvolt is
+> required there. Move that requirement out of the common schema into
+> each of the current users; no binding is relaxed by this.
 > 
-> When a per-channel Feature Unit control (e.g. a stereo PCM Playback
-> Volume control) hits the sticky-mixer check during get_min_max_with_quirks(),
-> and the device carries QUIRK_FLAG_MIXER_GET_CUR_BROKEN, the sticky
-> check marks the control as cval->get_cur_broken and returns -ENXIO
-> instead of disabling it outright.
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+> ---
+>  Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml        | 1 +
+>  Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml        | 1 +
+>  Documentation/devicetree/bindings/sound/qcom,wcd939x.yaml        | 1 +
+>  Documentation/devicetree/bindings/sound/qcom,wcd93xx-common.yaml | 1 -
+>  4 files changed, 3 insertions(+), 1 deletion(-)
 > 
-> However, __build_feature_ctl() does not know about this and treats
-> any negative return other than -EAGAIN as fatal, discarding the
-> kcontrol entirely:
-> 
-> 	if ((ret < 0 && ret != -EAGAIN) || cval->max <= cval->min) {
-> 		...
-> 		snd_ctl_free_one(kctl);
-> 		return;
-> 	}
-> 
-> For a stereo device where only some channels trip the sticky check,
-> this silently drops the per-channel (stereo) control while the
-> master-only control (built separately, without going through the
-> same channel-specific GET_CUR negotiation) survives. The result is
-> that the user is left with a single mono/master volume control
-> instead of the independent per-channel controls the device actually
-> supports, with no visible error (usb_audio_dbg is typically compiled
-> out).
-> 
-> This was observed on a Weltrend Semiconductor 040b:0897 device (sold
-> as the Redragon H510-PRO Wireless headset), which reports a genuine
-> stereo Feature Unit (bNrChannels = 2, bmaControls with Volume set for
-> both channels) but ends up exposing only a single-channel "PCM
-> Playback Volume" control once QUIRK_FLAG_MIXER_GET_CUR_BROKEN is
-> applied for that device.
-> 
-> Skip the discard when the control was already marked get_cur_broken,
-> as long as a sane range was otherwise established.
-> 
-> Signed-off-by: Agustin Luzardo <agustinluzardo09@gmail.com>
 
-Hm, by some reason, this patch couldn't be applied cleanly via git-am.
-It seems that your mailer screwed up.
+This should be rather squashed with the next one, as wcd9378 is the
+reason of doing this.
 
-Could you try to resubmit after correcting the setup?
-At best, try to submit to yourself and verify that you can do properly
-apply the patch from the mail beforehand.
+Best regards,
+Krzysztof
 
-
-thanks,
-
-Takashi
