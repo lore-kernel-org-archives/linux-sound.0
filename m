@@ -1,148 +1,149 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010042.outbound.protection.outlook.com [52.101.229.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F049E383313
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 06:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FA337B036
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 06:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783490993; cv=pass; b=Twlup3JNt7L3K7PYTn6jTAazZoPDoJINKsAxVJutWv+Cb+1R+St9BaZMWBcmPKcxFCeRaucAvL+UUS+JhgBKN/JNCyjPO0e7P0K8QQU22rB6ebodjGOj4DIiaWpXZhdrtng5u33MuIUosSzH1WQUP/XkNBawPxmK7oH9dee/stM=
+	t=1783493317; cv=fail; b=GJs9DISCIWdX2veYIxcedhNbwMIJLS3P00RtudWezVD3k8mM5/gYPEWzArhY1YXvJYJnTuwF8e+wscPdDK3+2vWgOVNBtifhqQ3wxmfHTuW/RNyeOEtngHE9L31eAZiei1K0w7X/PqCi4OQARtS84UK/ZZZfKLezKBstWlM0KXs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783490993; c=relaxed/simple;
-	bh=d5ewuD+/xNzD4Hw4w/AQNiEVZqcRDqcX+QLG5n/9KIE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L/cNTIug+UVEJwFQa/xneCCQn/52UCx9fyV+oQ1yO1MoJrDlurZy4ryzFFSlaDUseUOKb98MglwRH5F8tcn9fhU/5UU8JSRKJc/lYY94SsxO11sZfwaqnOzVE/A8oJugXsPcOc9kSFGaSKnTKTIwtzPJcoPsDzlNnoNVMEtY5JY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZapU0sFR; arc=pass smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783493317; c=relaxed/simple;
+	bh=VIn3MHfhjGUcVm04yMv4Lhv+MypU2ERdO2Q/3iD/ORU=;
+	h=Message-ID:From:To:Cc:Subject:Content-Type:Date:MIME-Version; b=VSndXN/qrQiFsug33pRKuGyTPKyRr59avCV3VlZg6dSlKgGwUAMilEDDtrhT4ypAIM5k3KiWkullEEyKwBbIgxgv33eDLUhZGw263zR9zJ7SXbFTS612E4vAoQmREWpn3DHkhiSssj+8+PzUe2ewtGL5fLvOAQpwvZPb7or/8qI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ASnHGPCA; arc=fail smtp.client-ip=52.101.229.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZapU0sFR"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-845ea8924fdso356527b3a.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 23:09:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783490991; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VHYMdbZaVzp34vFjK33Xm9JFeMcknp7UbfCh7/7v04wARa8aaVZLgnGxTlDXZDB5Sd
-         bZBhdlDOlNoC5NWHTw7gClbeE8aRnev9RsHWBNyguDnQIvVuTVq9IqradqL4j1R4r8gM
-         f862H/zRHuCmeQLVBUQhlKisMYGtUldrDiSwUJlHfolWi9SxXE4p8/N05UkycuQCkyUS
-         +lYoPZAkvUQzZOIhXPRTXNrslD0rs0lYNA1PVZs+RD+o3ts17XoVTFms0U0KwZvNADaV
-         Zbl4/4K7/4pHU9YsuGhr6s2+MEn4e9Tm6Yo5cyQdAXWyW6UEpRUjaSrJ9qCtYWDX7j7y
-         flXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=x6WiABXxQHApvBVwKO6vN53M1XsHwehs6tIssYxEtas=;
-        fh=7ntObOLelvVg05DkZMfY1QwfeZZRJzz4JyHEGDIgv7w=;
-        b=MHWJK7v/ekGVigqZGm9LgwBrT0S7uOjPbzb9D+ZP1687FJj33yJWRZeKF60xAtnwkp
-         JOT43JtA/xfZqjLtNsIdGcUGaHuKWhw1j3zQVz6vfjndFfNVpDH8CxKTxrpy2wLF2o7g
-         ftLGrqTZ9ymcMB/7/17VCdqCMN0Fz0PgDSVPR/d+2SbIlRnB5a3ZCfz4jStt5wWpObfp
-         s1ZSe+q2iQm6XHPOAHdqVZAgrS/PmRkeoAX9aQ/1gL8UkZ47bMxyOTHYUd+bnCk6ZQTp
-         Qw3xQC790BlLOZ56JPa9crkOxyN11PEebYPBQ6lDi+GqQ6pnD83M3NohhCoh3CCF18G/
-         EyaA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783490991; x=1784095791; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=x6WiABXxQHApvBVwKO6vN53M1XsHwehs6tIssYxEtas=;
-        b=ZapU0sFRpVCiLY0LxFbeesJI+4/B0A5bpJNBPvi/yFFfuX6YKy9FyUvE02xrhI00y2
-         5OxtqAFQXulWxLPkNJtSZRcsItUdneDpnRF0DHeFbW0sL1M8aBhTKfoBFkXJOOokeJp6
-         zAYjY5ZfnZIRUMgE0pyVdXk53NsRZqDEfJqBK59sa1rg4oP6Fws3pMDOsssueijSHvrb
-         HAa7B/LVkBSrU9xi+LKfhPOLxpKJJGC+UtJBBp2GH2wz3F6IWEHPwA3UDLxln+bs7pf6
-         2R+/Nv923Hz0XjmcH6KBT5oUsXbW9kc9MCUhT4rZ8ZJcgbRzZQQmc5445NR4rFrN7JFM
-         ZU6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783490991; x=1784095791;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=x6WiABXxQHApvBVwKO6vN53M1XsHwehs6tIssYxEtas=;
-        b=rDDKGe2JxHc9hRjrlHZGF4BLph0WgFFehGHegE2cHXGCoEB64XgSkzWen4v1jJgeo6
-         1Q7F97DHnRRAI/XhNcTEf2uB+8yfqNqDnniUlWhXqQHXKL7BgjsbbiTaKILupSn8tpyL
-         BrguVOmAyKIpHbEgqqTmfJd4KRLim8NfxCIp1oBDhy+uDmud4nsN25MgTp4PkoGyRc8L
-         n3+Ls4hu8zlsvq7EGG6dX+5iNy0sNkRArEv2c/DA1VMr/wGqCXmd94KjHbAp0o+Mop8R
-         AmoQ7ijWsJGMsdQ0AIZEeM/G/kpf0xQX9EJmFjOGX+zNWKJ49SJd73zDUA6Dqhr8iQe9
-         ud2Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpZIhSVQtsh31JlVisIJJVhXP7AzQruOyp20EYtIYHJk5UC6V9+WFsM1wTTQ7NkzHsAhQUONDhKwmaPfQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUwkwom86tppLH0R2VSQZaYoQWZ3b+S3EzODfANRXfgbZmuwjP
-	AwCV/g8eZmarH7940YTgxQp8jUr5A83Gub+7qyzcqULougpsQVb0fus+visounhk20fNLSMGfsV
-	EjfkLRu22PAbGAGGdt4bqBRlrHFnTn+M=
-X-Gm-Gg: AfdE7ckt8/qHFEX553JiYsbFIZc2CojvoWJg2hJakvuNsmRLFfZgQdQXlMVYTsrLwFM
-	k3CiOQK/N3iuV9gzirdgcguzku2uAAXr+F7r72OxY+y7lja7ce7tuZqAYeWFmLI27zLi35mhwvK
-	ulST9iH4ycSnlKIl89lLnVyfPwF+lL7pKJwtNGR+dby7wTJQSUuzei4Vq1waCn9A0sH8Rw9xpkl
-	5pCttuiEAyZCDfDwRYYdJQAo9iYaCgt7QvNCylGw86mVnQGxhVXIMWzGpoxgWzvP2FWBC3c
-X-Received: by 2002:a05:6a00:3d06:b0:82f:776f:a78d with SMTP id
- d2e1a72fcca58-84842ef95c5mr1196100b3a.19.1783490991269; Tue, 07 Jul 2026
- 23:09:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ASnHGPCA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lKDmcxgDUxXX6H2E2xaGbecSqM+CGrFi/5qeyycst1ToS3fvKcUWHIpu0MvATu93XXvvQOC0RUASO5p16HaVmYfojkklCTPbGOlP1oPdy+BIRrH9kK6NwK5bCzlTrK16KwsQZos2J3vuzq+NTRrufMws2nfSoJ1LESdkfOyxiRwCMnSXp2Hucn4r9sy117Y0LDmsHHMOi1/RuGwXc1K12GlP+hHiHSYgKEoR8TcuThf7v6ogiDR7lYDHGT2iQhwNkBQdK4uKQ18nDNA1T9/V5cUvTYmYc+QG9Kio2da1GJZKlCBL0cNb9ME+6OfwnvzTrDMQvz/PyHWnGlu/fJJ4yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GtElm+x09VYeFlsXIOCrGwbhdK2Jfz4iNoR/MQtHJvA=;
+ b=zU76GKAV6adIi3Agm0yYohi23qaist7njBRuXKtebDRXnnbIPe68e0wbaBZxNoStDg9pa7cBh0pi+hWWQAjXxRUaLC6DLaQmT2pW0UvhJivVYHdCt+GbSx/HwqJE0TcBgQly0T75Rgxdlg//tEuWMcaJs1dr9oMvZ5nTgi4TRNeRYSi1rRdvvdDGK3tk+ed7GI/imcBScvNX5w/HPTAU/ZOssDsLrWp8wHzLRDTR7u3QINAErWEUNmUFh0Z9wuWIHMmZsbiLXPIe0Or7Fkgo5hI72LMlYMAApExoSMKxEkDY8/kChLXReSs8iqWbKe7tzuF5utEeeRmwrKD/4qeiXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GtElm+x09VYeFlsXIOCrGwbhdK2Jfz4iNoR/MQtHJvA=;
+ b=ASnHGPCATDsvlAWH33wggXjLqX4ONfj+7Q08pSVEGLLysdQPjCz/COJJ9Fz0GcTfcpSRZ8e24AqaAqEcNv32v3s4yVFMImU9QGgdWCzWa0CDqyKDYTpJRoeVVye0tuwKnTEn9+1Ci/7NjA7ZLVGrc5NAqRe9XI0JjBCSPHVxa+w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OSRPR01MB11676.jpnprd01.prod.outlook.com (2603:1096:604:233::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.9; Wed, 8 Jul 2026
+ 06:48:27 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0181.010; Wed, 8 Jul 2026
+ 06:48:27 +0000
+Message-ID: <874iiageo4.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: amd: acp6x-mach: tidyup strange alignment
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 8 Jul 2026 06:48:27 +0000
+X-ClientProxiedBy: TY4P301CA0002.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:26f::15) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707084648.475743-1-chancel.liu@oss.nxp.com>
-In-Reply-To: <20260707084648.475743-1-chancel.liu@oss.nxp.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 8 Jul 2026 14:09:37 +0800
-X-Gm-Features: AVVi8CfkA1sm1EIEJzmk8wb4_nU-sP-VL7lj_LgjGmnoTrYF3OkVV26pmapXYaA
-Message-ID: <CAA+D8AOoO98Zi2+GP4He2zhSLaM=aKZC5F0PBu70QTFGJnp2Pw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_sai: Fix spurious BCLK on resume by clearing BYP
-To: Chancel Liu <chancel.liu@oss.nxp.com>
-Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSRPR01MB11676:EE_
+X-MS-Office365-Filtering-Correlation-Id: daf9e9bc-e911-4495-1613-08dedcbcea45
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|52116014|376014|366016|38350700014|11063799006|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	bVcvMsoN5nfFy3pVEHLTLXJs63Sdo3zjnx0+l4x1VfpjR/uhHd/BXMJjTVJGOWFw42n9QIqDo7UzdYzdYak1wL91bj3tevCKIJ4TXo4/kRE2WmM+AkGqkbKdidrbz0d4AAXy/c+bVLSaS0BhVwDg+CA+BuBfzItMZRD2CFjN7MJNoPEs1TLOuDtOld2S0Lwy0HMMU4UxerGNKd9t/9d2jfeo/Tx0G+J7w1v70KZJv5jPYZ6LGgDitXuPpOg6RUpqRAL1L22XZdEkPkJD02PWrLNL9LO64NaRrZZTWpTXqUXuJ2M06SWl83wv9ngk9a6seHzCNiHVqU+Apb0MjF/FrlWlwsPqv/Wr3CD/1rD4Ee9ol50O10mNqWivFpfgb98hqzRZZNFla7RPF2KJ1n2rRAqI3B+nrnAbsrV1qvfhzKTaqy5T1ODEmkn74zBh/AubMSFQxw8EjefHAq2L/GIKQBhyWtQAq/vv1xrtW++0DlL2uWq2Z2szOwMmh/aoHcHLUnK6+f4KoB7SII14RO0G4jqsljL0aC4IyfGUpfv2ET5OvbT9WeMe50cuUVcU+Rh4yqGpSt8p+SvPBpspL5hgGbv7APkS/tOBEuLgKj5S8/9FIZhbi2kofgSdoUR5NhpxacSOQZeN9gWj+Hj/7FTuDw8oE0NzDkheYBQ715VqRchtPvyBSvOh3OGpiACB1MsCO5ghtyNTzqp0y0Tn6LJAB/vJDzGzb9d+F974b5rVMk4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(52116014)(376014)(366016)(38350700014)(11063799006)(18002099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/Nldc4Em9b0M8Ki+SUFqciWaBgoocFNneNz053z+01bJUluxpcKMmgHTHmpj?=
+ =?us-ascii?Q?d+vBxYsx6kct/eNaaKXl2Knd3eZ3rwer9dXCWvocTIBomOzvNg+U142f1LHQ?=
+ =?us-ascii?Q?Cw5iY4g4ElM9kkHE0XoDJ/LYPq36cvOS4mgfjph+o5/sMXEwTqvn6VPA58lP?=
+ =?us-ascii?Q?xHPnCxGKaiIJFIY0YK63Jt4F+kdaZKfLBBgKYlF/LQo147ddt8QrxNhEEnzN?=
+ =?us-ascii?Q?wp7AELi9l4gI/BS6B+Lk7CzL6ILutVsN8zykrnSMA3mJwSUycXpisRdb4GBl?=
+ =?us-ascii?Q?4mVNQYe9IAkUG2cJmu02bhGzJEYX7pDoveuqajYA1fY5BKk3ba160eR74ZX9?=
+ =?us-ascii?Q?cZ3AwiIjPYev61y8nstwOgap+pHEvouYt6F++W5DsmgB0i44bE8L9Y7iDx42?=
+ =?us-ascii?Q?0//axYzVm4K/NgDgYHwIKf4Hb7j1t83wQalkBaFXkDH+H93QqHnUDj3//MW4?=
+ =?us-ascii?Q?RAtL5Nqkvd2lc+sMUh2jCE1GDgSTv1QFf+bTwVVTUyFO+FYPucsPaKs6Xnag?=
+ =?us-ascii?Q?sCgY0dJ2Sm6s2sk85yUxDlqlqtQFoMhmxiq6q479zC/6RxwGfrn+SSiKM9P/?=
+ =?us-ascii?Q?/q1MOhYFnI9lP8puSNxXYeDNgXzXOXsZhB1ienuDX9nb5HCTeGhLnX7hpS53?=
+ =?us-ascii?Q?uGx7ELZyCjKKy9TvEYEpVIGrnvm5IXJ2bw/WEXKbn3i16LS1pG3oqIHShjtr?=
+ =?us-ascii?Q?5Z5Ei3eETnvMSEsjWaCXYnfdr4c+IcriC/Jv+muqmbTXG7l4ra2PMCIbVGRo?=
+ =?us-ascii?Q?PFsm5WX7N1+WffgXw1OKmoLHgSH3CNY54D4b2sH+9/ikwd2+8LiLNMPMWcVs?=
+ =?us-ascii?Q?92Jsd0pUrEu/5l9+sDeVNXTNwLvkcBH87sJurRX83eCPzW4JL2EbYMo5g+Gb?=
+ =?us-ascii?Q?kYLiXqrXn6DFSoi0kxrXM0mhG/E7G7DiSjVyw3Hd3CgPkWvzK6CL4rbQo65r?=
+ =?us-ascii?Q?Yz+9wQvRdEA7UtdgpxruKKhNOqddxg9VlZdpC4GlRgCGzynJ4RU6XXeGE3SF?=
+ =?us-ascii?Q?UpoxscjjOqfVwITJMiyKb81BylcFSdYFV6mwK3IWva3wqVbZ8JipRO73gIMe?=
+ =?us-ascii?Q?TzdPZqEZfhqoFVusA5Z8ZcqWjKR/h8AbNvqqQtlklHkF42s57Ga3PjnyikbT?=
+ =?us-ascii?Q?EEtIOUhQXnnadmk6a2ly7P4RWQy9Nn9JkdlP9KCWzzX4TzRkVJk5MvlEO7XN?=
+ =?us-ascii?Q?gYeVpQL4vIFuYpMQE38hfsZrKPQZRV+Vr7Sg92MhaIk6BXtN5e2gCRz5hEEK?=
+ =?us-ascii?Q?9gCJHBUVI1Iu7+l08rOQDPXP7Jm0atGfcWoiFnf2sz1O3avcWVroBYnqpvpn?=
+ =?us-ascii?Q?p1Qkrc8cVi/mfKKpXiP0HHzPxb2SHH6jRnyfaGESO2u9jOsGN/1inmxIlTme?=
+ =?us-ascii?Q?m9UabD/jXuyiyO4aU0U85Q61SnIRQwBWiWmU2e0kEy+mkjc1qEfWQijf0xlR?=
+ =?us-ascii?Q?3A+R0Puc8R0k21QoGmB2MHCxS5uZBYmiV1vb/fmjVWz+tp7mgt+GMuGsUjlw?=
+ =?us-ascii?Q?lyrfhq8OycRNA/1P1vsxuHdnjSbKRIqkUdiUolzwPrKA+fnHbRboT1wb3dRD?=
+ =?us-ascii?Q?FvrwksIcFQ/WbhZN+IQRwXG0Nr0hfnQk013yt9t5JnF/2IpLdLEmP6RGTIp8?=
+ =?us-ascii?Q?TIWySLwVwkUz1dDQIyoL0OJEzXsLMEx+OBGpmDtvstAbgl9sLleJtIOqkBKh?=
+ =?us-ascii?Q?wlYxBrYt8MBPET7zJBW0i8F0LKfTSjMRoDbBIvftUm/eot9liCwYckBpUp/J?=
+ =?us-ascii?Q?4lCiNRAlIrTHlFGJei22IQnT3N9VnpY=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: daf9e9bc-e911-4495-1613-08dedcbcea45
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 06:48:27.7096
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sN92gYDstv1CeoHH/jKM4C//OBjz4TOwVjjmpcogzN1z5tyCzcvvSk+YQjfxcMBCf4mkVXmlTCZOPjciYY98L2MNFpHMd3on5nLcHumKQ8DRTgaIzj/owSfGCS8wj12z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11676
 
-On Tue, Jul 7, 2026 at 4:47=E2=80=AFPM Chancel Liu <chancel.liu@oss.nxp.com=
-> wrote:
->
-> From: Chancel Liu <chancel.liu@nxp.com>
->
-> When the BCLK divider ratio is 1:1, fsl_sai_set_bclk() enables bypass
-> mode by setting BYP, but never clears the bit. The BYP=3D1 value remains
-> in the regcache, and is restored by regcache_sync() on the next runtime
-> resume.
->
-> Since BYP=3D1 combined with BCD=3D1 immediately outputs the ungated MCLK
-> as BCLK without waiting for BCE/TE/RE to be enabled, the clock is
-> driven prematurely before the stream is fully configured, causing
-> noise on some codecs.
->
-> Fix this by clearing BYP and BCI together in fsl_sai_config_disable().
-> Also clear BCI, which is programmed together with the bypass case in
-> synchronous mode, so the cached CR2 state is clean and regcache_sync()
-> will not restore bypass mode prematurely on the next resume.
->
-> Fixes: a50b7926d015 ("ASoC: fsl_sai: implement 1:1 bclk:mclk ratio suppor=
-t")
-> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+yc_acp_quirk_table[] has strange alignment item.
+Tidyup it.
 
-Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Best regards
-Shengjiu Wang
-> ---
->  sound/soc/fsl/fsl_sai.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-> index 9661602b53c5..4c0626d572a5 100644
-> --- a/sound/soc/fsl/fsl_sai.c
-> +++ b/sound/soc/fsl/fsl_sai.c
-> @@ -847,6 +847,9 @@ static void fsl_sai_config_disable(struct fsl_sai *sa=
-i, int dir)
->         regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
->                            FSL_SAI_CSR_FR, FSL_SAI_CSR_FR);
->
-> +       regmap_update_bits(sai->regmap, FSL_SAI_xCR2(tx, ofs),
-> +                          FSL_SAI_CR2_BCI | FSL_SAI_CR2_BYP, 0);
-> +
->         /*
->          * For sai master mode, after several open/close sai,
->          * there will be no frame clock, and can't recover
-> --
-> 2.50.1
->
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index e8238788cab60..285ff3dce25e3 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -753,12 +753,12 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 		}
+ 	},
+ 	{
+-			.driver_data = &acp6x_card,
+-			.matches = {
+-				DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
+-				DMI_MATCH(DMI_PRODUCT_NAME, "Vivobook_ASUSLaptop M6501RR_M6501RR"),
+-			}
+-		},
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Vivobook_ASUSLaptop M6501RR_M6501RR"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.53.0
+
