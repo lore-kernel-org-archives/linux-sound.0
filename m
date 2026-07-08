@@ -1,63 +1,63 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F281944A730
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 12:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA3F44A730
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 12:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783515206; cv=none; b=Msb1lBltuO5SG/S1rk7mQyEjraVjyy9m48nfTS9VAqyCGhgJycenwh0Lf9C2bGKZcP1OAPk01HOAu0snhmiB9lPko0gkic+Hmj2SYSBdbexVcLtVMj/v4pN0D8FFD3aRPE8T7q2+cPHUcajE+Lwun725y15JDknYQtmcaHrK4I0=
+	t=1783515214; cv=none; b=sPZJSGVrUDZjiYbQPNL+RwNALGvpB0orTWPntFeMIlUjSf7O0pUipA1wujY/XvjyU7Vmfm4PC46+lkTpX2UIuQ9Im1FZgNLqLCLzO5+lDIC6rUHB5bDSQL7uzbWiOgG8kjcE7m1t6WFjsmVa1rlVwzrgsZL+fA1A36jkKwHFjFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783515206; c=relaxed/simple;
-	bh=7j86E9nXxZplFGdBXN+J5/NJOmhWhrCy33LKfn8VhNI=;
+	s=arc-20240116; t=1783515214; c=relaxed/simple;
+	bh=hGJisYIpxWO2FMmrkv7mmiemg24xqGVestMhlsmhqYs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U6tUjf1AREB5rPNdLd1W0i6ALMClrHZcce5DVJNo9l+ui9MEHKI/BejX8zmv7XmYhFvZf11hwTF6pIf7DY/Va/HQ5dlCfrU2Md77YZmnueJpGF1qFZIUh7SjbbgpftxI5Da4DuW+o+KVcwQORJ8rVjZI4UVqdUv3WvLDexzoZM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYA8hG9W; arc=none smtp.client-ip=209.85.216.46
+	 MIME-Version; b=ngVWFy8h4yr7kS2KWX9tWbnMOqx2/j88XhEJQdvjytGEaG76vLwNS+Vj8b6SU1oI7Q+BXG/DKjeG25yDbAhvjNfzZB1/ik4bkmU/8+aABtqpZszMcmAG4+dJETrk/NcLR26Ci0M0Y7FJf7jErGlTNo9cSKsZGD63Om/KadBZwnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3KV+QIh; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYA8hG9W"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-37fc02e660bso732234a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 05:53:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3KV+QIh"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3847e8b0f3aso531782a91.3
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 05:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783515204; x=1784120004; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783515213; x=1784120013; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cp/veyII4HIQI9OcBqFYAzKDNTS/IeWDlODSVw1jz+w=;
-        b=YYA8hG9WXuyoUCbw1x3GEYnMFMk+NQSiHfhrUj1OS5sFtLr3EklJy49A2isACarTIQ
-         caNB/81jKk9atEakxi7ZF5qJcUtr9ZV9P/vwxwd68v82DD6prAJruXwcmFqTfzEV8cGa
-         vQaMsuf9qk1B10P2wuqgyyAGDNqgvDSnu1X8PQP4F54NE8eyMX3yykFKbOLI0A0IzY95
-         nZ9xKgn7+fm2/zLZsp2D+5sxmsjjM44qZLZAGbVS9Ayauo+6ZmnzmhjHyX4kOFE9wVV6
-         wAsRe5m+q//VJcWAeSU8Plv611Cy2/Or+E7GMjmiGqzc8+3Rm+X/8EaiJ2jIVoOyd4HV
-         UzEw==
+         :message-id:reply-to:content-type;
+        bh=H3l5tTjQV1iS4ShC4Q6Dv1Lqn7dKOZsvCTX3q5ZLt6U=;
+        b=Z3KV+QIhlv8muf4WvVukx1oiHr1H8Sz5sg7qFJFZbbGpVfMbE3EOEYrE0h4rC8fdO9
+         yM2Bwg9+Eg5SAjtGKsH8kDHhisQQl/x8W2lfAjcgAReHP2zGyXQ+YItqj10fIqQbB5ye
+         YaTKq3L/gENrPXtWycvPQtqnkZ5xYLqBLaqNJ/VCDduA36F7uGgCnUyl7aCtN8N+zMHS
+         4qu8XoRsqdmejwoudbZeb/pG2awRLCzk6ZUG0UtOyyExlojxYrMO6RLrYOeL3Mvt9hdn
+         D+TobgKlMbXL5zN5+P0xAWEVPEUB7SreblcafxElili9bRb5A6i9KwPdW6yOCAUewdfu
+         bdRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783515204; x=1784120004;
+        d=1e100.net; s=20251104; t=1783515213; x=1784120013;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cp/veyII4HIQI9OcBqFYAzKDNTS/IeWDlODSVw1jz+w=;
-        b=FNs+h4s7mEh9G/Pwjh2wy2DH7v2L64niDLxroMJbM17jhUwiOaB7EC4+3SLCZcRsye
-         Dchnl0qS3hQMC5z493KeR0crEiYKfws65KsZ1/89IAj7PKAPqSMY8hbjt2pr1nlDWxzY
-         lFYwnuDF4k2npps21o39lp8xHng5MICNFZQPNT+TvE1yZnlgAWBG5LfBJFA/fbM83iiI
-         v2QzdAhYhVHBUvyXmEKsQutjiQdz88lgsE28CDorcyxw6L6ypjYAljtFd6eglqMhmaN6
-         bFEI/wJZNJdgAMN+O/0dverIIgDbB04x6xSEQ8OLSgnIxFRkMIdBgr8bdG2mUpChwwsx
-         tzOg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr/PVvQJwn7pWyZUYPHW2ZZ+GOZtcmEhaCXxFnz0N443wNbAia/JU9IpoR/mre1vWa8alwRdcTB4Hki/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNwSxJrEK1zFbWmNRGNUeHoamHomH9A+Go6AXt87LxAeX8GiK3
-	XnDNl88pJoB1jDCV9JWqv6Al0Bx3SF9/TlMid51OylhJI5XS8MlKhmCJ
-X-Gm-Gg: AfdE7ckX2kskJbBKxMhjV7vh1vrPZFlzI5MHi/xZECOb25dJe+gWSjef33Ibfj+4zGi
-	P9r0jwnIyGmgF3fN9rXJx1HKjUV0kIjs7/hXkeaMVbOKNTCGsRKKkmD9cSUvVq1KMiJ4kJ0isDw
-	brMPbvuL2wYA7UrWkg2kKphksjSCaaOUf8BCT+bKmL43Okn0YHDmlEKByG6s1XAPzi/+w49ZVh5
-	SKiGoskJvl/ZLvaq5tYbRcj4JoolbW+mqJrIZvkggcyonZK/Tds5uF0yWieN4AscdIb8Y0b2C2t
-	oMrS4rzZ+oUIfW/2TeeXJdUoUQTwayR8gPfb6e5EBpjK1j7DgrzXVXfqzkFeWZC1kGYvtRGXiEf
-	dEE6BPR+3jOV4m7tqxFuiY2u6VBW5kNI64xa8HLEx4DK0ij9k8KRzyFNkeix91IzoNcp+7Uiof3
-	W5r6p4MhaEsASw7KT+BoLK0NbaS/qvHPU6F16EdLB9joycKNI=
-X-Received: by 2002:a17:90b:3d4d:b0:381:fa5:521f with SMTP id 98e67ed59e1d1-3893f694c2bmr2441929a91.3.1783515204398;
-        Wed, 08 Jul 2026 05:53:24 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=H3l5tTjQV1iS4ShC4Q6Dv1Lqn7dKOZsvCTX3q5ZLt6U=;
+        b=GMSWDfCaTTHJsXPadB9/xH5kRL8gZXk43So6L6eBq16rw1042rcQEmOGsVCBRbCRq/
+         +aZRiKV+rcMEXPiY+SCKfnuOmrOh9Y5LzpBzdWQ8/zx06/in8Yg6DUnA5DbYCkQoXrur
+         tKJHlg96hKjZVJ+EM1E+xcE/itIVuVYTn9xLPt1e3md7BkgjgKg5gugtwZTrd+L+IdUT
+         kVBgHJOz0A1/I6nw1yIpXg5cyzRHzDxxyqtXZnAynll6DkkPj1zmZXlaKdBX3Y3C/DUT
+         dDGAhj0A34FQ0Wnwkld7LSB6MuvWxTzBRsw4YgZvEyHFwGQryGGL6tb4rHmgHXjnPTzw
+         rqug==
+X-Forwarded-Encrypted: i=1; AHgh+RrrvT/qybvqYaJjDQ3gHQyg7xfAcyBWa5mfQyLPwnfgzI6UH6yeAkkEAVJ2YPdjhO2AzEnrllR/dxqp8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy381Izi3yzrXTQF95SEqyrAzmos7rBdOoP94Ppo11Kx9CHoEsq
+	gHY1Y4QNDMNHtGMvOKE4fsy0errHj2gOi9UyPGH7TYZ3MVk7sRBcFiv2
+X-Gm-Gg: AfdE7cnyygkILqsPZjJ/xtQRMFcBF0FIw6cC2RMgsB5qoB8s1s6+mDcrSFexWLADTQK
+	t6NwyMI5S79LCJ4KNfM1jTveKMAryi7flBZJB1iou3pN7ha8FBwI3NZO46dN4rhUuJat3x2y65D
+	tLMxNg9nN1eEQZjL+p/1+eKf2czjgaVZ7MkLbmldLht/CxiKim/+p9eeUMk5o2DnYdfITuscRRc
+	l+wkK5qvQ3RhvBramHLyOtxnLzugQWBNgVoBMaZz+c0uMcTmfNtpOT8d+F0oqrreZ/y5MzLvN55
+	tAhDHbyysToL3NHtHvh4C7pYkVz2Uh3mm97omRE5Na9hK8JwYSJGLMTq5s2PE2wg23hoiwpJpxu
+	ukMDscZKzHAGZV8bqHfnvtip3i3QlS31OQ26OgvBBkEG3mabS4LkfxbP+0UOs5RnF31y4KaAmEV
+	f8RK2c9bBFil2148OGNwTTJ78KIcuMTPR6kI3mIGr4a5vxi0A=
+X-Received: by 2002:a17:90b:2e0f:b0:387:df8f:1402 with SMTP id 98e67ed59e1d1-38942b823d3mr2508534a91.35.1783515212595;
+        Wed, 08 Jul 2026 05:53:32 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d20a2f2fsm2784349a91.13.2026.07.08.05.53.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-387d20a2f2fsm2784349a91.13.2026.07.08.05.53.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 05:53:24 -0700 (PDT)
+        Wed, 08 Jul 2026 05:53:32 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	asahi@lists.linux.dev,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v4 23/24] ASoC: codecs: cs48l32: Use guard() for mutex locks
-Date: Wed,  8 Jul 2026 19:50:00 +0700
-Message-ID: <20260708125002.202515-24-phucduc.bui@gmail.com>
+Subject: [PATCH v4 24/24] ASoC: codecs: cx2072x: Use guard() for mutex locks
+Date: Wed,  8 Jul 2026 19:50:01 +0700
+Message-ID: <20260708125002.202515-25-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708125002.202515-1-phucduc.bui@gmail.com>
 References: <20260708125002.202515-1-phucduc.bui@gmail.com>
@@ -114,82 +114,45 @@ Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
 
-Changes in v2:
-  Removed the unnecessary else block so update_bits() 
-  is not called when no changes are needed. 
+Changes in v4:
+ - Correct the patch subject from cs2072x to cx2072x.
 
- sound/soc/codecs/cs48l32.c | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
+ sound/soc/codecs/cx2072x.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/cs48l32.c b/sound/soc/codecs/cs48l32.c
-index 086ed0f57a85..a9967771124e 100644
---- a/sound/soc/codecs/cs48l32.c
-+++ b/sound/soc/codecs/cs48l32.c
-@@ -8,6 +8,7 @@
- #include <dt-bindings/sound/cs48l32.h>
- #include <linux/array_size.h>
- #include <linux/build_bug.h>
+diff --git a/sound/soc/codecs/cx2072x.c b/sound/soc/codecs/cx2072x.c
+index 83c6cbd40804..908344ee5892 100644
+--- a/sound/soc/codecs/cx2072x.c
++++ b/sound/soc/codecs/cx2072x.c
+@@ -9,6 +9,7 @@
+ //
+ 
+ #include <linux/acpi.h>
 +#include <linux/cleanup.h>
  #include <linux/clk.h>
- #include <linux/container_of.h>
  #include <linux/delay.h>
-@@ -236,15 +237,13 @@ static int cs48l32_rate_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_v
- 	int ret;
+ #include <linux/gpio.h>
+@@ -1408,7 +1409,7 @@ static int cx2072x_jack_status_check(void *data)
+ 	unsigned int type = 0;
+ 	int state = 0;
  
- 	/* Prevent any mixer mux changes while we do this */
--	mutex_lock(&cs48l32_codec->rate_lock);
-+	guard(mutex)(&cs48l32_codec->rate_lock);
+-	mutex_lock(&cx2072x->lock);
++	guard(mutex)(&cx2072x->lock);
  
- 	/* The write must be guarded by a number of SYSCLK cycles */
- 	cs48l32_spin_sysclk(cs48l32_codec);
- 	ret = snd_soc_put_enum_double(kcontrol, ucontrol);
- 	cs48l32_spin_sysclk(cs48l32_codec);
+ 	regmap_read(cx2072x->regmap, CX2072X_PORTA_PIN_SENSE, &jack);
+ 	jack = jack >> 24;
+@@ -1434,8 +1435,6 @@ static int cx2072x_jack_status_check(void *data)
+ 	/* clear interrupt */
+ 	regmap_write(cx2072x->regmap, CX2072X_UM_INTERRUPT_CRTL_E, 0x12 << 24);
  
--	mutex_unlock(&cs48l32_codec->rate_lock);
+-	mutex_unlock(&cx2072x->lock);
 -
- 	return ret;
- }
- 
-@@ -2242,7 +2241,6 @@ static int cs48l32_dai_set_sysclk(struct snd_soc_dai *dai,
- 	struct cs48l32_dai_priv *dai_priv = &cs48l32_codec->dai[dai->id - 1];
- 	unsigned int base = dai->driver->base;
- 	unsigned int current_asp_rate, target_asp_rate;
--	bool change_rate_domain = false;
- 	int ret;
- 
- 	if (clk_id == dai_priv->clk)
-@@ -2284,19 +2282,15 @@ static int cs48l32_dai_set_sysclk(struct snd_soc_dai *dai,
- 
- 		if ((current_asp_rate & CS48L32_ASP_RATE_MASK) !=
- 		    (target_asp_rate & CS48L32_ASP_RATE_MASK)) {
--			change_rate_domain = true;
--
--			mutex_lock(&cs48l32_codec->rate_lock);
- 			/* Guard the rate change with SYSCLK cycles */
--			cs48l32_spin_sysclk(cs48l32_codec);
--		}
--
--		snd_soc_component_update_bits(component, base + CS48L32_ASP_CONTROL1,
--					      CS48L32_ASP_RATE_MASK, target_asp_rate);
--
--		if (change_rate_domain) {
--			cs48l32_spin_sysclk(cs48l32_codec);
--			mutex_unlock(&cs48l32_codec->rate_lock);
-+			scoped_guard(mutex, &cs48l32_codec->rate_lock) {
-+				cs48l32_spin_sysclk(cs48l32_codec);
-+				snd_soc_component_update_bits(component,
-+							      base + CS48L32_ASP_CONTROL1,
-+							      CS48L32_ASP_RATE_MASK,
-+							      target_asp_rate);
-+				cs48l32_spin_sysclk(cs48l32_codec);
-+			}
- 		}
- 	}
- 
+ 	dev_dbg(codec->dev, "CX2072X_HSDETECT type=0x%X,Jack state = %x\n",
+ 		type, state);
+ 	return state;
 -- 
 2.43.0
 
