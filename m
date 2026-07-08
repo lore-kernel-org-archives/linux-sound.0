@@ -1,312 +1,139 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011030.outbound.protection.outlook.com [40.107.74.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890A433689D
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 03:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783482971; cv=none; b=OexvJyOyuniBjcUOnkdzgUzQjgcmVokHjdsw/04utM0FFaRKVviyPuoDyjuX8QoZBG2HiaABczZUNK7Y31LZpa1UCgbe91Jb2LyLUcgn+0kHZWD2nZ6vkiHLWMTZHPPaYX7wr6qYMC7nrVgXN2kP/AahajAT0em8akYNAb3hzBY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783482971; c=relaxed/simple;
-	bh=K6vik4guiSTNKrrKW+A1H+E9jEMt1tzaTiFCNr9OWAk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GCYUFpJiCUzHUcggSddOBMcBhSAVTK8jGFxKl9qtMPvfV+KaqUothUB/+P1raUYNdwp1EDYyNxM/uzeqvgIr/D7yQrkSKd6Vuf1q4p5mxQCF7Y83T1x+YVXIzLI///vaLGs+yi7wmCLrqta7Uv+R4wqLvXxAqohsuGcya0YAiBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnWo7UWH; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA7A39989D
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 05:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783487461; cv=fail; b=d/jeDmsBcNyGFRxnLnUOgTmoEJM9txOsG42H7QTQyJlo/JtlvPpSn/XgpSgRs7Cud1u4/ZLQXtV7DoK9GmMIZCzjn3dfwPEAahJTWTuexBSrEnG887vs1ZI8gUo/CByX7CTrg5CzvrqVwcjOrGGKARQ8C7h2/G29xZbp4a5k1h4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783487461; c=relaxed/simple;
+	bh=N/C1u0DITn7mIO3illd9gbvRVfnPNtOnR2OTQk36mRE=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=ALZ8s3kk+YI5rVpKt+HP9i5MUka4wX3vWGoS3j32KStbPr1Gfn9NlBiwwSziBS6XxA9jIes3AT0LQhvnVgqDEQqNJIpYPxSznyNLDbOxgk6XO348RTbMDBDzp3lw3w8xp2L4Sc2o1hlux7ZE3ndpeqizLy7C+SlNc6rXWJhfeAw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=A1N5xwJ7; arc=fail smtp.client-ip=40.107.74.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnWo7UWH"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cc80b585bfso2167445ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 07 Jul 2026 20:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783482970; x=1784087770; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2calCiUAVla/FHXIpJXp3OjSIoYay+4HlHSrroHSZXU=;
-        b=fnWo7UWHgdBcjiIrXI2Bd3LhfHy3c8+Rg+gCFQVRfoj2kMD0Ncg0Qbhh5+9C5s6rcH
-         vIUV4av4yBntddGfWpQBQxvI1P/TvulM6y7eFE0Sf/gdmsGD2oNwWGOCTl9q+ti6vxoK
-         0pu6E8Ujy7fuaQ3SR1DOm2FxGeU9YQ6WC3MlT7Ao3PZQA20gjyvZF1Ft5gFAsiLnPFPJ
-         qw0nWfpUIZBk98HaHq0573ROmjhrLKb/xHEhk+kOgvGjy/mARunWmV9vgLpsDIogDfTc
-         fW60ikI8IVdK6ZOpiWXz6uC/n54D2x6ZAHQQfeuiioisr0U+QsXWejiFtQMxqBA+s111
-         xdjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783482970; x=1784087770;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2calCiUAVla/FHXIpJXp3OjSIoYay+4HlHSrroHSZXU=;
-        b=YwcQTRHuCL1iyp+PXcOPvHpCUOER2SqCynsufxubRHa9jrZCl/qDJeCFWzxJhfny9K
-         9J8vA/pH7SSPb62Pgs65yoT8vCuOH/7hU2rhBejFM5jEbhmR99DTI1irO8ph6zOBiBJG
-         Y86wjkfujkD6GoftAXZXw96GodcnCuq+rvX+a/9pEP/y7BbpkHGmhOYytVL6l2Ge4Frz
-         tdDBLJxcQGR6Cfdqd8LeItaUkFphbPmyHFl1/tguADpNaLl8RHvpW5tewl20/zTlxkdc
-         Zm0M1Bc3+6yfcyU0kWkWV4PbNRBbMK0NGD2KqHUae0X0p3rLyNWG18SSRwN6B/EGXotN
-         Pgmw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqek+cFCSrEv29Vf4JwSS0t/IRCjNKo17xU7/loyUI0/lLFjA04uG+Q6yH+jBCQdf6XnkSmuItI9fnugA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvuPWc/79CVDN26mJQ2cFwwqz+rrDv75NAaeMRwCmyVaJ2GsEK
-	a9du7vC37aVYlorMXLomnkgiMRtwDMcHFqsR3XIqcHWL4kcLSE7J0q6OOyaAdd+W
-X-Gm-Gg: AfdE7cl+x50q52zfofI6gYo6WN2oIMEdveZ17pIUmhNbhwkzX5p8ibg8yhBCIqXeHaz
-	xspvM0DJDuhZir8SAoSkerDB2yptt+M190wi6pkf49YWQe6kCtUchUDG9bPfXKQ0rpCEHeBErZc
-	8NzyDtSdIcqchGbeRhVFJNtWTBcM526K37x9nqQcbUE6ADDOuOds3nXwEUMmcbMa0/C6lnaQaLI
-	rZnhBBuDY3e3PSS8QWo/8ogKzg8kwYT5r4uGqRnhn4GpGFnXbx+dbe+WspjAXCPSZuuRqqphnmK
-	8tsbqxNeDAdCC3V7bFqn0ktQr9cVRrzLGcJGOlPL7mMkd/xc2Uqut78Qh4J8KmBXPsOSse0JOg4
-	QQ/iAZMOm953+8Mzea0LOGPzOxV76lR9W/Axq47HPrQos5dCw/ZIgYFkpxI7irdK9LytVmrmacm
-	j8879ppO2tLXKmWCx79PgfHljxIsUCS/jnychbPpnmZ6Rxcz6arVisPFy4tBM=
-X-Received: by 2002:a17:903:120d:b0:2cc:864b:539 with SMTP id d9443c01a7336-2ccea37df87mr8583805ad.6.1783482969706;
-        Tue, 07 Jul 2026 20:56:09 -0700 (PDT)
-Received: from smtp.gmail.com (220-128-132-142.hinet-ip.hinet.net. [220.128.132.142])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9c25fccsm20582945ad.35.2026.07.07.20.56.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 20:56:09 -0700 (PDT)
-From: Leo Tsai <antivirus621@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	rf@opensource.cirrus.com
-Cc: leo.tsai@cmedia.com.tw,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Leo Tsai <antivirus621@gmail.com>
-Subject: [PATCH] [PATCH v1] ALSA: hda/cm9825: Add IBP support for DFI
-Date: Wed,  8 Jul 2026 11:55:52 +0800
-Message-ID: <20260708035552.44429-1-antivirus621@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="A1N5xwJ7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ryPlE+B6xND0zCN68E4dXdFgASoZBzRaMAwv5g/TRUKqio2ylfzRjiNp9nREVL5uC7zwupX+70SKpamYWR449nFJ14YGM5wxiHciOXeLDhVJ5aLRFix3v2xIaFgWOcpZsrWUXREX1+v53+NcU59C0aS+8wMMvlw/fdiQXTvmvxz9S4r134vV1DZB3stQI2GDXLHibqeMWzlDd34qGi6/U7FhNmyUE4LHf4+RCv8bS+U29Qjw5rhBnS4g0TULusm1yZygfIJXH0pWE743th3RX8nUC8U0F0h+eBZO1bhlxJa3TYQ19o+LYvv6CkRyyYTZhxjBGuyaPorGC9zbS6qCBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kP4abGmelZJ21df/w4c3Xtgn9BhfsDYn2C1ct3pWmYM=;
+ b=l5ntjoFMakqnYJCtKxgxfO2imK0vygegsooexX5nm1GwwN12KMEybaqa2sXTE1hlrdCNEMtrtcehiZsienvYLqaq+n6xo1ip3Rztn0GnuPbSsCZWDi0Z2Z/CYdlaFFyMRFF67hI9bUiSMhYDopXfzZ9sBCDAebUO5/1pgFPPDPRnCIHZlfthpWEDICOIZPbOpUKuhRRv6+p65cV55L0vw88smLohrV2UqSZvaMjLB6kKQgRrBVomv6pvJC8JvWdgMLktWTGzvupmdaPskxug4Ikwn8iBCz3V4a4yGOsHQg6yWQo0BfOCg6nkKoY+hC4MnPrS2o2V3f6omlVv8G0Qbw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kP4abGmelZJ21df/w4c3Xtgn9BhfsDYn2C1ct3pWmYM=;
+ b=A1N5xwJ7TZlYVX00QUb62J6fosI2ViGOJU3LH2GHIz6agOFgeqN4GebVz0RatoTgoT10bOSOVc4TYo0P0ugAnauL3OxSV8Cacu06Va2iaJ6SgoDUIsZwhYMkq5JhVLEf7ao+Dm+Rc+zAxIhsXbeO529wTf2PdtV3JrUJmMeYITc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OSZPR01MB6696.jpnprd01.prod.outlook.com (2603:1096:604:112::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.14; Wed, 8 Jul
+ 2026 05:10:57 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%5]) with mapi id 15.21.0181.010; Wed, 8 Jul 2026
+ 05:10:57 +0000
+Message-ID: <875x2qgj6n.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 06/12] ASoC: simple-card: tidyup simple_util_parse_card_name()
+In-Reply-To: <87a4saxiz0.wl-kuninori.morimoto.gx@renesas.com>
+References: <87ik6yxj0t.wl-kuninori.morimoto.gx@renesas.com>
+	<87a4saxiz0.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 8 Jul 2026 05:10:56 +0000
+X-ClientProxiedBy: TYCP286CA0005.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:26c::9) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSZPR01MB6696:EE_
+X-MS-Office365-Filtering-Correlation-Id: 542740ca-b18c-4e5f-4615-08dedcaf4b11
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|52116014|23010399003|366016|18002099003|22082099003|38350700014|11063799006|4143699003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	6aox7iCdMjrxB7k/oyfyWemNSCjVVNkfSrtwUTB+ilf2WQw/0C89KMG7wnkkutYxhDY7/BGitGjtNJtBdPwxwH1NJGa6GolerqorR1EVHB67kwhPsfBMdzhfopRfOE3mOVRmYmyeRgF5wmw7947NJ5pccySm4QmPc0LNNFrBDlHnGzXynoJLzR6DB+T2iv7PeFQpN1zGiwUEy7E/TNvFeia/xioE221Wb+aVKb8Rl/hIXcHT8XSEnekUwExpSuezk62MTjgahLXQWXkDMfUpIlOmAlqpLZZ3/WogIo5FrS3Wr3oijAm+mKAkEPdX2/mQ0xpEAVDqTg4nsO0uHvPFhIdfQB6nXyIbFcwZ4iMeTDn0TaRQmODhJ4UShLM9UDuRf747jx6DyRFV+U0Y5AbPG/pEO4RpFqgVhvQx5/0T5EVdKVucamku8k2ClI+8rAC0iJGqIw202nNysCclZlQ3/pWTzMRlzIyb85a6VzPzq6EfnRZU66B0vmJrbvXpeW87A3DMjkVI7rIRG1+xP7aiOcIZtmp8ky2edro2q3Br5/WT0jPsxi5Gs/HvUJ/7bw4ybi0TayXx6HtUSBNQA3kllOGwAq9UQXAE6npv4Or8q216P2rJr/pUnSPfJLo3DjC7vP2oil6Yy6I3vnGGcFIB6S6pzV/MOQumTd4jRlBk4OIKkaViON9rKQQcxlA8mZxX/XO0En5VW1/1SL2PAM+dMSowD8edW35phRTos2WhiPE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(23010399003)(366016)(18002099003)(22082099003)(38350700014)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?i9evfQmdVXq8NlkqLYg0uPuxGixeV31+jOGIXKKAdeJnTNpnZ1o4nQIaUOgq?=
+ =?us-ascii?Q?ZOlbQZBPveIV2lPnteB1+tKMVAubHHyMEGuk70f35Mg8ndZzeMf9jBh343FO?=
+ =?us-ascii?Q?aGa6ePzHlo+FRqcIz+OZ4TSAi20C92Nw9fM1rbDtQbdrO6e10UHabGBd4yXr?=
+ =?us-ascii?Q?/W+4TiSlF5R5QuY2NyYPVO6ED8rbFLXgmK95tp+4WXDKSCKzyroq/LGNYF8X?=
+ =?us-ascii?Q?EqCQWpDcj3Qrnw5GZubzaLo1KUWVPFX54aW2BZTSc39vcO4W0wizENE5kJNw?=
+ =?us-ascii?Q?AKdB69S6HRi+NyVmjKUmseuEU1GPaExeMkuG8pz/Up/D9FfLo9vnQwJDjUPh?=
+ =?us-ascii?Q?xAfCbGw8caTUXsO3eXoEHs9a6m56qN14SYvpyUA+VX3HHZfTxTNi+IMw8Un0?=
+ =?us-ascii?Q?0UysDwTRGIzVEwhQZCjJ3XhOsOboOi/SMnk1hkefy4v+Z5sKuLNTUop7ayzQ?=
+ =?us-ascii?Q?LMArymWLZWtq8to44IsCNdA8gUt9xJKvYjrqNtSr31eP7RL5lmFW9/kfsUde?=
+ =?us-ascii?Q?0hwRBZRL18nz/2xaeNuejDBssq5iwzaznZNvLO3NsySEu9JORPfPvfMm7dXr?=
+ =?us-ascii?Q?dda70Yb5FHfvXZSrjiUbaGuWZqrD7de55ocavTKcJVRkW8Y5OalEtWbjAUSc?=
+ =?us-ascii?Q?bY1CRuWZvp3eoJxPXsveyobB2KN2TN1uQQ8MPmhU9Mz+V8WSDhU5palbbmPl?=
+ =?us-ascii?Q?kXJ9Ql9SgDOQvXGObyj1yunbEh+w5OnfFfRAx13dEo0MSrdHf64tgcAIWVyp?=
+ =?us-ascii?Q?TITz99BUfWdkLnug0nqfdUhoYHqHQs3H5zv2Ujm4D62TPqsa0ezXzuRpkHnc?=
+ =?us-ascii?Q?j0g9P2ynfKeXnutCNiSaKHkKiZYKlL5THoLeVEweyubQMNsYyThlNxkA89Ql?=
+ =?us-ascii?Q?cMRSnRJIbp8kf1bJAxeGh8S4KzNoRTWqCNUFceWvJepSb+I+papRaABeaOZN?=
+ =?us-ascii?Q?WzZSHp3gtq8IYsuygBm0uyPM1Gl/cjgjHGGI/Y8OZqigH1V9SwTZfu4cuKXn?=
+ =?us-ascii?Q?OPOBxDIOh+AbKZpbqFbXfu5NskeuN4CqEbnjM18bRE7hK6Kp6rjXlxFR/MJj?=
+ =?us-ascii?Q?OvIqVpFRMBPhDNcWTX4rMPOkvBFdFPlu0eCwd8UpqdbTmxGQGqAFO6X8IGNs?=
+ =?us-ascii?Q?vpX6KmdUljT3nzPhlp/y/H1Zezsk+ZLsHV923r10rXQ+GMWTW6pWOUX+1nZV?=
+ =?us-ascii?Q?DDz3mMqsdss3tMVvQmXXhOeSpazG4eEWR81zwDloXOv5fPk+5bDHmkAhizFO?=
+ =?us-ascii?Q?y3JYwZhw1RQsDdVfoSO7S+VKYMQaavjqOXZNAN3fUin2PKrnP+l5cMP7ruPD?=
+ =?us-ascii?Q?qcntE6GyxpNQEM8qIE4pAVI9tnMSQ6eQ5aXg241RIX5Z6HiFykZyU5PZdhDt?=
+ =?us-ascii?Q?c1OeeZcyA/nl70evrG665KcR9+T/Y3v8Rlr98QUaRZtbR9gZ8cQSCyA5Jl7J?=
+ =?us-ascii?Q?ig3GvpeTsFqKHbhEXxD1Sce+dGSAo8UQJOu/D6EvmpFO12qnkn3HOO7ZDi7e?=
+ =?us-ascii?Q?iqeC/SuSZhJ30HKIzxnGj5F1L6qbJdWn8U//I1ht6WkP/YiFbYrPfFNtpFbT?=
+ =?us-ascii?Q?35aBZ8vKGQg+HiBzE/qV38aL/oIZ453Pbd32FhOahY8dsIcEZxHo5hVH0Qle?=
+ =?us-ascii?Q?dLFJfKWojUi88tQ1EAGu4IZZ6AfI5SBTQmXtC3CDsJ2OayhguXmfb0BVUnCq?=
+ =?us-ascii?Q?1WG8VHkiOrSQcyWMp0tQ5lvrU6MwjsKPb9febE7T6m20BB7TvShPGSID6j29?=
+ =?us-ascii?Q?keWn88X9VuOtp34o+1hxLlNhZCBX0tw=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 542740ca-b18c-4e5f-4615-08dedcaf4b11
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 05:10:57.2757
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DX7FunnQLXi51fC4Q/HnC6Mp4zZiR7pMOKry8SFdMzSza4g1quEFVp3ylJjs+Lvmo9+NwkrggIJvsn3lRINEYBcJ1CSb4jMC5Yp43onWq0fhEf7Rm2P1dOMXGJDej8Wz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6696
 
-The IBP project is an DFI platform with a fixed audio
-configuration consisting of headset(headphone and mic-in).
-The audio routing and pin assignments are defined according to
-the board-level hardware design and are not intended to be
-dynamically changed.
 
-Signed-off-by: Leo Tsai <antivirus621@gmail.com>
+Hi Mark
+
+> We can re-use simple_util_parse_property() in
+> simple_util_parse_card_name(). Do it.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+
+Sorry to bother you, but colud you please ignore [06/12] from this
+patch-set ? It has been determined that this patch will become unnecessary
+in the future.
+
+Please let me know if you need v3 patch-set, instead.
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/hda/codecs/cm9825.c | 148 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 142 insertions(+), 6 deletions(-)
-
-diff --git a/sound/hda/codecs/cm9825.c b/sound/hda/codecs/cm9825.c
-index eeb9ca38d2d8..8a74862d8a81 100644
---- a/sound/hda/codecs/cm9825.c
-+++ b/sound/hda/codecs/cm9825.c
-@@ -15,7 +15,8 @@
- 
- enum {
- 	QUIRK_CM_STD = 0x0,
--	QUIRK_GENE_TWL7_SSID = 0x160dc000
-+	QUIRK_GENE_TWL7_SSID = 0x160dc000,
-+	QUIRK_IBP_SSID = 0x15bd3275
- };
- 
- /* CM9825 Offset Definitions */
-@@ -40,13 +41,19 @@ enum {
- #define CM9825_VERB_SET_GAD 0x7b4
- #define CM9825_VERB_SET_TMOD 0x7b5
- #define CM9825_VERB_SET_SNR 0x7b6
-+#define CM9825_VERB_SET_OMTP 0x7ef
-+#define CM9825_VERB_READ_OMTP 0xfec
- 
- struct cmi_spec {
- 	struct hda_gen_spec gen;
- 	const struct hda_verb *chip_d0_verbs;
- 	const struct hda_verb *chip_d3_verbs;
-+	const struct hda_verb *chip_playback_start_verbs;
-+	const struct hda_verb *chip_playback_stop_verbs;
- 	const struct hda_verb *chip_hp_present_verbs;
- 	const struct hda_verb *chip_hp_remove_verbs;
-+	const struct hda_verb *chip_lineout_present_verbs;
-+	const struct hda_verb *chip_lineout_remove_verbs;
- 	struct hda_codec *codec;
- 	struct delayed_work unsol_inputs_work;
- 	struct delayed_work unsol_lineout_work;
-@@ -193,6 +200,94 @@ static const struct hda_verb cm9825_gene_twl7_playback_stop_verbs[] = {
- 	{}
- };
- 
-+/*
-+ * To save power, AD/CLK is turned off.
-+ */
-+static const struct hda_verb cm9825_ibp_d3_verbs[] = {
-+	{0x43, CM9825_VERB_SET_D2S, 0x62},
-+	{0x43, CM9825_VERB_SET_PLL, 0x01},
-+	{0x43, CM9825_VERB_SET_NEG, 0xc2},
-+	{0x43, CM9825_VERB_SET_ADCL, 0x00},
-+	{0x43, CM9825_VERB_SET_DACL, 0x02},
-+	{0x43, CM9825_VERB_SET_VNEG, 0x50},
-+	{0x43, CM9825_VERB_SET_MBIAS, 0x00},
-+	{0x43, CM9825_VERB_SET_PDNEG, 0x04},
-+	{0x43, CM9825_VERB_SET_CDALR, 0xf6},
-+	{0x43, CM9825_VERB_SET_OTP, 0xcd},
-+	{}
-+};
-+
-+/*
-+ * D0 configuration: enable PLL/CLK/ADC/DAC and optimize performance
-+ */
-+static const struct hda_verb cm9825_ibp_d0_verbs[] = {
-+	{0x34, AC_VERB_SET_EAPD_BTLENABLE, 0x02},
-+	{0x43, CM9825_VERB_SET_SNR, 0x38},
-+	{0x43, CM9825_VERB_SET_PLL, 0x00},
-+	{0x43, CM9825_VERB_SET_ADCL, 0x00},
-+	{0x43, CM9825_VERB_SET_DACL, 0x02},
-+	{0x43, CM9825_VERB_SET_MBIAS, 0x00},
-+	{0x43, CM9825_VERB_SET_VNEG, 0x56},
-+	{0x43, CM9825_VERB_SET_D2S, 0x62},
-+	{0x43, CM9825_VERB_SET_DACTRL, 0x00},
-+	{0x43, CM9825_VERB_SET_PDNEG, 0x0c},
-+	{0x43, CM9825_VERB_SET_CDALR, 0xf4},
-+	{0x43, CM9825_VERB_SET_OTP, 0xcd},
-+	{0x43, CM9825_VERB_SET_MTCBA, 0x61},
-+	{0x43, CM9825_VERB_SET_OCP, 0x33},
-+	{0x43, CM9825_VERB_SET_GAD, 0x07},
-+	{0x43, CM9825_VERB_SET_TMOD, 0x26},
-+	{0x3c, AC_VERB_SET_AMP_GAIN_MUTE | 0xa0, 0x2d},
-+	{0x3c, AC_VERB_SET_AMP_GAIN_MUTE | 0x90, 0x2d},
-+	{0x43, CM9825_VERB_SET_HPF_1, 0x40},
-+	{0x43, CM9825_VERB_SET_HPF_2, 0x40},
-+	{}
-+};
-+
-+/*
-+ * Enable mbias, ADC.
-+ */
-+static const struct hda_verb cm9825_ibp_lineout_present_verbs[] = {
-+	{0x43, CM9825_VERB_SET_ADCL, 0x8c},
-+	{0x43, CM9825_VERB_SET_MBIAS, 0x10},
-+	{}
-+};
-+
-+/*
-+ * Disable mbias, ADC.
-+ */
-+static const struct hda_verb cm9825_ibp_lineout_remove_verbs[] = {
-+	{0x43, CM9825_VERB_SET_ADCL, 0x00},
-+	{0x43, CM9825_VERB_SET_MBIAS, 0x00},
-+	{}
-+};
-+
-+/*
-+ * Turn on the DAC (widget NID 0x43) in the playback path by writing
-+ * a sequence of vendor-specific verbs.
-+ */
-+static const struct hda_verb cm9825_ibp_playback_start_verbs[] = {
-+	{0x43, CM9825_VERB_SET_DACL, 0xaa},
-+	{0x43, CM9825_VERB_SET_D2S, 0xf2},
-+	{0x43, CM9825_VERB_SET_VDO, 0xc4},
-+	{0x43, CM9825_VERB_SET_SNR, 0x30},
-+	{}
-+};
-+
-+/*
-+ * Shut down the playback path. The order differs slightly from the
-+ * enable sequence, likely to avoid audible pop noise when powering
-+ * down the output stage.
-+ */
-+static const struct hda_verb cm9825_ibp_playback_stop_verbs[] = {
-+	{0x43, CM9825_VERB_SET_VDO, 0xc0},
-+	{0x43, CM9825_VERB_SET_DACL, 0x02},
-+	{0x43, CM9825_VERB_SET_D2S, 0x62},
-+	{0x43, CM9825_VERB_SET_VDO, 0x80},
-+	{0x43, CM9825_VERB_SET_SNR, 0x38},
-+	{}
-+};
-+
- static void cm9825_update_jk_plug_status(struct hda_codec *codec, hda_nid_t nid)
- {
- 	struct cmi_spec *spec = codec->spec;
-@@ -232,6 +327,23 @@ static void cm9825_unsol_lineout_delayed(struct work_struct *work)
- 	struct cmi_spec *spec =
- 	    container_of(to_delayed_work(work), struct cmi_spec,
- 			 unsol_lineout_work);
-+	hda_nid_t line_out_pin = spec->gen.autocfg.line_out_pins[0];
-+	bool line_out_jack_plugin = false;
-+
-+	line_out_jack_plugin = snd_hda_jack_detect(spec->codec, line_out_pin);
-+
-+	codec_dbg(spec->codec, "lineout_jack_plugin %d, lineout_pin 0x%X\n",
-+		  (int)line_out_jack_plugin, line_out_pin);
-+
-+	if (!line_out_jack_plugin) {
-+		/* Jack plugout */
-+		snd_hda_sequence_write(spec->codec,
-+				       spec->chip_lineout_remove_verbs);
-+	} else {
-+		/* Jack plugin */
-+		snd_hda_sequence_write(spec->codec,
-+				       spec->chip_lineout_present_verbs);
-+	}
- 
- 	cm9825_update_jk_plug_status(spec->codec,
- 				     spec->gen.autocfg.line_out_pins[0]);
-@@ -362,12 +474,10 @@ static void cm9825_playback_pcm_hook(struct hda_pcm_stream *hinfo,
- 
- 	switch (action) {
- 	case HDA_GEN_PCM_ACT_PREPARE:
--		snd_hda_sequence_write(spec->codec,
--				       cm9825_gene_twl7_playback_start_verbs);
-+		snd_hda_sequence_write(codec, spec->chip_playback_start_verbs);
- 		break;
- 	case HDA_GEN_PCM_ACT_CLEANUP:
--		snd_hda_sequence_write(spec->codec,
--				       cm9825_gene_twl7_playback_stop_verbs);
-+		snd_hda_sequence_write(codec, spec->chip_playback_stop_verbs);
- 		break;
- 	default:
- 		return;
-@@ -471,7 +581,8 @@ static int cm9825_resume(struct hda_codec *codec)
- 
- 	if (codec->core.subsystem_id == QUIRK_CM_STD)
- 		cm9825_cm_std_resume(codec);
--	else if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID) {
-+	else if (codec->core.subsystem_id == QUIRK_GENE_TWL7_SSID ||
-+		 codec->core.subsystem_id == QUIRK_IBP_SSID) {
- 		snd_hda_codec_init(codec);
- 		snd_hda_sequence_write(codec, spec->chip_d0_verbs);
- 	}
-@@ -487,6 +598,7 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
- 	struct cmi_spec *spec;
- 	struct auto_pin_cfg *cfg;
- 	int err = 0;
-+	unsigned int val;
- 
- 	spec = kzalloc_obj(*spec);
- 	if (spec == NULL)
-@@ -523,9 +635,33 @@ static int cm9825_probe(struct hda_codec *codec, const struct hda_device_id *id)
- 		spec->chip_d0_verbs = cm9825_gene_twl7_d0_verbs;
- 		spec->chip_d3_verbs = cm9825_gene_twl7_d3_verbs;
- 		spec->gen.pcm_playback_hook = cm9825_playback_pcm_hook;
-+		spec->chip_playback_start_verbs =
-+		    cm9825_gene_twl7_playback_start_verbs;
-+		spec->chip_playback_stop_verbs =
-+		    cm9825_gene_twl7_playback_stop_verbs;
- 		/* Internal fixed device, Rear, Mic-in, 3.5mm */
- 		snd_hda_codec_set_pincfg(codec, 0x37, 0x24A70100);
- 		break;
-+	case QUIRK_IBP_SSID:
-+		snd_hda_codec_set_name(codec, "CM9825 IBP");
-+		spec->chip_d0_verbs = cm9825_ibp_d0_verbs;
-+		spec->chip_d3_verbs = cm9825_ibp_d3_verbs;
-+		spec->gen.pcm_playback_hook = cm9825_playback_pcm_hook;
-+		spec->chip_lineout_present_verbs =
-+		    cm9825_ibp_lineout_present_verbs;
-+		spec->chip_lineout_remove_verbs =
-+		    cm9825_ibp_lineout_remove_verbs;
-+		spec->chip_playback_start_verbs =
-+		    cm9825_ibp_playback_start_verbs;
-+		spec->chip_playback_stop_verbs = cm9825_ibp_playback_stop_verbs;
-+
-+		/* OMTP */
-+		val =
-+		    snd_hda_codec_read(codec, 0x46, 0, CM9825_VERB_READ_OMTP,
-+				       0x0);
-+		snd_hda_codec_write(codec, 0x46, 0, CM9825_VERB_SET_OMTP,
-+				    (val >> 24) & 0x7f);
-+		break;
- 	default:
- 		err = -ENXIO;
- 		break;
--- 
-2.43.0
-
+Kuninori Morimoto
