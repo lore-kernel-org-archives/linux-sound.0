@@ -1,346 +1,124 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E7B408006
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 09:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783502000; cv=none; b=Ij+5InLHFwTC83BdPB/ZjBbOQtc6TuZ9ug2EgY+RK6piUFC0CAOzsY1yiR4u+mYQvKg8ivEZIGW8T27+w9jRgFTxXaicjiIVc4PAINmdoSjiNvjIDr99tLRbN38876qUOzVJcnIwdgaE0IDY4GYvFLW0X5VtsWJqp+ZZ5VYAxgw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783502000; c=relaxed/simple;
-	bh=SHGSfS2/H1YBWnkNLtdKaMi/zrnlzJnO61zM/C8RyOg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uqCAT+4t+Gmv7jdSehx52sJoQ0Y/kw5xNaNKu3vsSYIW0dS4/Wylx3UBLbLl1Ify3bgYXKvR6mN5ph2XqaPoBvC/Sunk43L14RayZyqSJ/ThbwetmbZ6uBuHREFsWeAASLA2sEptwKNxVakcHFY5CVHmUaNsNKoNbV/wOLEKa08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ML3Cf4aU; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540EB40913C
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 09:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783502293; cv=pass; b=LCwgdCIiTFMavJXXLLPpGFGRVwfXt1tV6zAlbWRHbLMT3oNwrM48jaibv+LmNrv5qTGQ6HlIig7luv0vaVs6ZW+JpR3xVVCL/S7PNlXHRZgDWWZKkmp/8+zkoDTvMupwFpTSuWTbk+oVXul2LCkqD5eKMFt8SG2MdY4UvsbPHyk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783502293; c=relaxed/simple;
+	bh=PuwDkPB4+DP3Frg5ZiBjH6BGS1KGyNIF8NXdWFT9eoo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MUuLsP19Ws7aaRodvp3tUIJTXqcp1tPLYakDm6H8SfEnYy3kiAuJs6tdogJZRLsRArbDbrH1bcvvWKw74QE69wW4MUoQzIt+idZS/SzIxMljR0Oahr2w/ykCP+hwABMxf7XSKX4oWL/EPlRAaFFfzgo0UYV4WWozyCVtK171gI4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rvDXMmGN; arc=pass smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ML3Cf4aU"
-Message-ID: <5717102b-f7ab-42b2-8065-064d94dd2bee@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783501985;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lk1A3Ic6rfNLvStv9OZxDE+43p0a6M1kCmZcBw19bYE=;
-	b=ML3Cf4aUm9F0pbbE+QSllyuIs85v5KwzIvQ6uiXwUWTi7vPKfqKNTLKlLrvMgMlSayr18A
-	hCYRyoY+9P8s91+wshquJ5BM3bm3dAb6+eYUJ/QRjko9QeXUAQAwsFv7UPbw0KE6uWxc23
-	QtQBdMMNDrLg7Az61QoiblrroJGmpaM=
-Date: Wed, 8 Jul 2026 11:11:34 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rvDXMmGN"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38759bcd877so410941a91.2
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 02:18:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783502291; cv=none;
+        d=google.com; s=arc-20260327;
+        b=HdQs3J0dyoizCKrSVFDcEHdGzdSdns3zbnZXS4QZQXsi07Uwq96YjQUBV4dSNqYSIA
+         2nEW6LPLlyijkjD7eAYWcerFmQdWqOo1Ks6app9FmmuFK4OG9q0OB3VfXHIV7NUSGkqd
+         iplGwofAD3zQSZRYD+C5w5ASUjjtkz5ApeOK736DhuAUfRtsVc9i+QLs8UiGlxF9zv5Y
+         13Jz9LVZCaJDM0DB0AFw8KEGVi4Uvs14VLvGiydiziDeiDsKPWO+Y/C4Aj8wh+HYUjDt
+         7EWeIJwv35EKka6icYNU/empmwwUe5KtIBVme+ma9Oz2cZg7ooDuwosP+uWaxVYFqfKz
+         cmRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=PuwDkPB4+DP3Frg5ZiBjH6BGS1KGyNIF8NXdWFT9eoo=;
+        fh=cWwDCU3wF2dI7NwDGrZv8tzS60iIn7WZjFz/UXobwLg=;
+        b=PNy/nrrI+mYhlBcCq5O9GgLde1wRYSv7M3op95htPEgclTJbpPNM7h5i0t90Ck0dLH
+         Wf22EP7uiVd8wZkhjk7uFyDFRvzksIth4riW0Q2lYRuLfwwvBSWbRRnXgtnzpxu4yeB4
+         tsat9ZRwhexPHG0oaUKsrliAiDkKheCtpXN4905L3iXoZx11+OA3IYrAt8En6uHpX7mE
+         6FXr1KIsf0/6trKrJPR2rOEB9y186lIiKWPCv5VkN5z5Xb9GUundbxCbZnRV4o+Sl16l
+         k2AoR8JQZnvA6hoUsZit5zczsX2nGJdTxAYWySWFnwo++YhPQpovF6hbhuRnxfioQCei
+         EKZQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783502291; x=1784107091; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PuwDkPB4+DP3Frg5ZiBjH6BGS1KGyNIF8NXdWFT9eoo=;
+        b=rvDXMmGNZY1e+58uOD5ERemBrxDQTTOSc0xkOi6uq2a+XsPj9Wae/62q+C+O82odF1
+         xY3MwrkE4wElpBSKrZ9i2Ite6Xk9NScHMpu3y08DoLgIgupY3qBcYDmrbaZA1Ytuh9Qc
+         Hynb2IceFJdcGtoCuuDw0Ztsxq4714wP2SlaRvDEshLPtACoSAPc7gYnm0V4YcEBohGu
+         hPpwJxJN9kj65ndB+jah29Btj3Sg6a2NEIJifmljlmNCiviDFxU/+LOQuKToxt7mqb0p
+         mMqRpVdjmf2jkWaNjfjI5TSLzBPKxcYAWBIjWVQtvm9nyQrlgN9Q8djvAm2a7BnSsz/F
+         WDFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783502291; x=1784107091;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PuwDkPB4+DP3Frg5ZiBjH6BGS1KGyNIF8NXdWFT9eoo=;
+        b=So+4w3GreVE4LwsJNsGeyQW9ECBWoeCs91UcRgkMZeKh9J0muf/azFs9V8mVqfr+Jb
+         1LKsSbw0SL5pnocRENZTLxl6PXBTFsYkWxQrXCo5zNOouBDaeFaPwasEfXzEh/CktQnn
+         Isej8x2SgBzSUTD5vLxCf+YphVhRnTLMqy08KkZVHS8T6SqsXV7fDdxg5PQfRUA8Nr5T
+         wqV3ZrTTOAOJAju2LxhTQX6Sacj3Ka91CYOFp2WIJTBDD2V/Q2zMjj/ZObqiE70M8cTF
+         qBefnkzOsAnBawHbFHz7lqmQHx20Jg2t4ejGiEEgPkvSIJnFapLSsOVP7P8whfC3exAH
+         Q3Ag==
+X-Forwarded-Encrypted: i=1; AHgh+Ro2NZ4899xIcjogQELfLDikfo/sIX80UfmEJx25MdQO/jxoBJ04ZKvnazvCauq2JRlHpEUoWVREZOtDCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzvQZnToBAkr4qof5F+tdmJFRApE5J03HtrlsQxr9lBPnOYZFp
+	qeIRtkcJW2rBuyzkgv5bQAuipTkd72aAapkor2ApNtVO6ehHY3p0lfXxNENYzchf2nCfKRQpSuE
+	0Hg35vDoShfv6DGkLzlWXeGUZpANV8Fc=
+X-Gm-Gg: AfdE7cl09JPV3yul1fAD2wnjw2HEOE4Am2lGVZUREL47Mg5bQo1JxCIfvuiCoYNrXnS
+	mX0YpuFxYf/gQm3kNQxvZqF2YtmrGSrDLvm23W5+kbkoTs9z5s45qQDcTkrmv6CraM3zFuwfYgu
+	vZEcFfC9DVUx0VP4KSOMasZCeozFPFp5M5banF4mSsq7lMlgq7KGbriLdu+6rI3qe2FmakhbHLL
+	Ou0z15Cc5x7Oe5C8yvvE68JR8CT6+mLUwGBaiWfFgnfBPP4ORwybn/53iGUTJtfkK9AixIBIWJj
+	zHqPhos8sYTMlNq2aJWuekL/iOAcWdNo5Jh3cg==
+X-Received: by 2002:a17:90b:35c4:b0:387:e0bb:5804 with SMTP id
+ 98e67ed59e1d1-3894278dc04mr1516861a91.43.1783502291528; Wed, 08 Jul 2026
+ 02:18:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] ASoC: codecs: wcd9378: add TX/capture codec driver
-To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-Cc: Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- Ravi Hothi <ravi.hothi@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>,
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260706192229.144137-1-jorijnvdgraaf@catcrafts.net>
- <20260706192229.144137-4-jorijnvdgraaf@catcrafts.net>
- <d643de20-50db-4f5c-a803-f1737da253fe@linux.dev>
- <20260707151329.67858-1-jorijnvdgraaf@catcrafts.net>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260707151329.67858-1-jorijnvdgraaf@catcrafts.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260707051006.20058-1-phucduc.bui@gmail.com> <20260707051006.20058-25-phucduc.bui@gmail.com>
+ <ak4PLbAQqYrTYk6r@opensource.cirrus.com>
+In-Reply-To: <ak4PLbAQqYrTYk6r@opensource.cirrus.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Wed, 8 Jul 2026 16:18:00 +0700
+X-Gm-Features: AVVi8CeZIxoV1cGqNdJwk9FtpcwwUCuvjDdVhAa2LOP5pB8VlRjSPupFY0VCbos
+Message-ID: <CAABR9nEz9Fa64u3zv+82YTNgToi38n8eQ0aT3NMRrpyBQMAqLw@mail.gmail.com>
+Subject: Re: [PATCH v3 24/24] ASoC: codecs: cs2072x: Use guard() for mutex locks
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, David Rhodes <david.rhodes@cirrus.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Cheng-Yi Chiang <cychiang@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Benson Leung <bleung@chromium.org>, Richard Fitzgerald <rf@opensource.cirrus.com>, povik+lin@cutebit.org, 
+	u.kleine-koenig@baylibre.com, kuninori.morimoto.gx@renesas.com, 
+	christian.ehrhardt@codasip.com, Linus Walleij <linusw@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Chris Morgan <macromorgan@hotmail.com>, 
+	Dan Carpenter <error27@gmail.com>, Marco Crivellari <marco.crivellari@suse.com>, 
+	Rosen Penev <rosenp@gmail.com>, Weidong Wang <wangweidong.a@awinic.com>, 
+	Teguh Sobirin <teguh@sobir.in>, Val Packett <val@packett.cool>, Luca Weiss <luca.weiss@fairphone.com>, 
+	wangdicheng <wangdicheng@kylinos.cn>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+	chrome-platform@lists.linux.dev, asahi@lists.linux.dev, 
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/7/26 17:13, Jorijn van der Graaf wrote:
-> [ +Cc Vinod and Bard for the drivers/soundwire items below ]
-> 
-> On Tue, 7 Jul 2026 13:42:26 +0200, Pierre-Louis Bossart wrote:
->>> +static int wcd9378_bus_config(struct sdw_slave *slave,
->>> +			      struct sdw_bus_params *params)
->>
->> Changes to SCP registers are generally done by the SoundWire core.
->> IIRC there is already support for setting the bus scaling registers.
->> Not sure why this function is needed?
-> 
-> You're right, and thanks for the pointer. sdw_slave_set_frequency()
-> computes exactly the values this codec needs (base 19.2 MHz, scale
-> index 2 for the 9.6 MHz bus here). It just never triggers on qcom
-> platforms today: the chip enumerates with class_id 0x00, qcom.c does
-> not set bus->prop.mclk_freq, and so sdw_slave_get_scale_index()
-> would return -EINVAL - which I suspect is why the downstream stack,
-> and this driver following it, hand-roll these writes.
-> 
-> Plan for v2: set prop.mclk_freq in the qcom controller (small
-> separate patch), set prop.clock_reg_supported here, and delete
-> wcd9378_bus_config() plus the hand-rolled base/scale writes. One gap
-> I noticed while checking this: sdw_program_params() gates the
-> bank-switch scale reprogramming on
-> is_clock_scaling_supported_by_slave(), which checks class_id only
-> and not prop.clock_reg_supported, so a class-0 device never gets
-> the next-bank scale written there. That is harmless here, since
-> sdw_slave_set_frequency() programs both banks at enumeration and
-> the qcom bus clock is fixed, but I can extend the helper to honour
-> clock_reg_supported as well - as part of the soundwire-side series
-> with the mclk_freq patch, or however Vinod prefers to route it.
-> Either way I want to re-validate on hardware before deleting: the
-> sequencer stalling on a missing clock indication was the hardest
-> bug of this bring-up, so I'd like to see the core-programmed values
-> keep it alive first. (This also supersedes the shared clock-scale
-> helper I promised in the bot-review triage; with both hand-rolled
-> paths deleted there is nothing left to share.)
+Hi Charles,
 
-IIRC we only enforced the clock scaling for SDCA compliant class devices.
-But these registers appeared in SoundWire 1.2 so could in theory exist even if the class field isn't set.
+Thanks for catching that.
 
-I think it's the first time we see this case, so better extend the helper as suggested above.
-> 
->>> +	/* Set suspended until aggregate device is bind */
->>> +	pm_runtime_set_suspended(dev);
->>
->> is this set_suspended() necessary? pm_runtime isn't even enabled in
->> this probe.
-> 
-> Inherited from wcd937x-sdw.c (runtime PM for the slaves is enabled
-> later, in wcd-common's component bind). It is most likely redundant
-> since devices default to the suspended state; I'll check and drop it
-> in v2 if so.
+>
+> Apologies for just spotting this but the subject line is wrong,
+> it says cs2072x not cx2072.
+>
 
-ok
+Since this is only a typo in the subject line,
+should I resend just this patch, or would you prefer that I resend the
+whole series?
 
-> 
->>> +	component_del(dev, &wcd_sdw_component_ops);
->>
->> pm_runtime_disable() ?
-> 
-> It is there, just not visible in this function: runtime PM is
-> enabled in wcd-common's component bind and disabled in the matching
-> component unbind, which the component_del() here triggers when the
-> aggregate tears down - and if the aggregate never bound, runtime PM
-> was never enabled either. Same structure as the other wcd93xx sdw
-> drivers. I'll add a comment pointing at wcd-common.
-
-ok, that'd be useful.
-
->>> +	SDW_SLAVE_ENTRY(0x0217, 0x0110, 0),
->>
->> if this was an SDCA device shouldn't you rely on the _EXT macro?
-> 
-> The device enumerates with class_id 0x00 (sdw:x:0:0217:0110:00:y on
-> the bus), so SDW_SLAVE_ENTRY, which is _EXT with version and class
-> zero, matches what the hardware reports: despite the SDCA-shaped
-> control model it does not announce an SDCA class. (That is also why
-> the class_id gate in sdw_slave_set_frequency() never fired here.)
-
-ok
-
-> 
->>> + * The WCD9378 pairs a WCD937x-compatible analog core with SDCA-style
->>
->> SDCA-style or SDCA-compliant?
-> 
-> Deliberately "style": the control model is SDCA-shaped (functions,
-> ITs/PDEs at SDCA-looking control addresses) but the chip reports no
-> SDCA class ID and the downstream driver programs it through a
-> proprietary sequencer layer rather than generic SDCA. Srinivas
-> mentioned elsewhere in this thread that he has been building an
-> SDCA-compliant driver for this codec for Glymur - if that pans out,
-> this wording (and much more) gets revisited. I'll tighten the
-> comment in v2.
-
-If you can some wording about what the sequencer is, that'd be useful.
-SDCA really only uses byte read/writes with special tricks for MBQ.
-
->>> +/* sys-usage capability bits (SYS_USAGE_CTRL profile contents) */
->>
->> what does sys-usage mean? it was never clear in the SDCA spec, not
->> sure what this refers to here.
-> 
-> It's not an SDCA concept: SYS_USAGE_CTRL is a vendor register in the
-> chip's sequencer block that selects one of 13 canned "active entity
-> set" profiles. The enum lists the capability bits those profiles
-> advertise, and yes, the hex table below maps profiles to those enum
-> bits (derived from the downstream driver, which also supplied the
-> names). v2 will say all of that in the comment.
-
-SDCA does define Usage registers in IT and OT. IIRC the goal was to provide hints on signal quality and dynamic range, but it quickly veered into a monster that no one really knows how to set...
-
->>> +	snd_soc_component_write(component, WCD9378_SMP_AMP_FUNC_STAT, 0xff);
->>
->> if this is really SDCA, this would be very odd to set all bits in the
->> function status register. The function status register includers
->> fields such as needs reset, function busy, etc.
-> 
-> The chip has no public documentation, but these behave as the SDCA
-> Function Status sticky flags, which are write-1-to-clear - so I
-> read the 0xff (taken from the downstream driver) as a clear-all
-> after activation rather than a configuration write. v2 will write
-> only the named sticky bits and leave the live FUNCTION_BUSY bit
-> alone, the way sound/soc/sdca clears this register.
-
-Yeah, some bits are really read-only and shouldn't be touched at all by the driver.
-
->> quite a lot of voodoo magic in this function, eh?
-> 
-> No argument. It's a transcription of the downstream activation
-> sequence, delays included, validated on this hardware; the chip has
-> no public documentation beyond that source. v2 will label the steps.
-
-ok
-
-> 
->>> +		sdw_write(tx, SDW_SCP_COMMIT, 0x02);
->>
->> is this SCP_COMMIT needed? This is only used for dual-ranked
->> registers, and there's currently no mechanism to handle them.
->> The bus scale registers are banked, this is a different concept.
-> 
-> Agreed, it looks misplaced. It was carried over from the downstream
-> driver during bring-up - from its headphone-sequencer path, as it
-> turns out; the downstream capture-start clock writes don't include
-> it - and survived because the sequencer's failure mode made me
-> conservative. With the clock programming moving to the core per
-> your first comment, this write goes away with the rest, verified on
-> hardware.
-
-ok
-
->>> +		snd_soc_component_update_bits(component, fn->req_reg, 0xff,
->>> +					      WCD9378_PDE_PS0_ON);
->>
->> if this is remotely inspired by SDCA, the normal sequence is to set
->> the REQUESTED_POWER then poll the ACTUAL_POWER register.
-> 
-> That is what happens: requested power is written here and the
-> ACTUAL_POWER poll is a few lines further down. The clock indication
-> is currently sandwiched between the two because the sequencer only
-> advances with the bus clock indicated; once the clock registers are
-> programmed at enumeration time by the core, this mostly collapses
-> to the classic request-then-poll (the vendor HOST_CLK_DIV2_CTL
-> writes still need a home).
-
-Humm, something doesn't add up for me.
-The clock scaling is really a peripheral property, the PS states are function level.
-If there are multiple functions, programming the clock scaling shouldn't be done while changing power levels but rather when resuming the peripheral.
- 
->> it's quite unclear to me why ports need to be exposed to user space?
->> This is really low-level stuff that isn't typically handled by
->> user-space.
-> Same model as wcd937x/938x/939x, and the qcom UCM configurations set
-> these switches today. I'd rather keep this driver consistent with
-> the family and its userspace than diverge on one chip; if the model
-> should change, that seems like a family-wide discussion.
-
-I have no objection to UCM, but in practice no one seems to upstream the UCM files so even when a driver is upstream there's no easy way to enable it...
-
->>> +	ret = sdw_slave_wait_for_init(wcd9378->tx_sdw_dev, 5000);
->>
->> That's rather unusual, the 'standard' way is to use the update_status
->> callback when the core logic completes the enumeration/initialization.
-> 
-> The update_status callback is still part of what completes the
-> initialization being waited on (wcd_update_status via wcd-common);
-> the wait itself is the pattern the recent enumeration-helper
-> conversion moved the family to - wcd937x/938x/939x and pm4125 all
-> call sdw_slave_wait_for_init() from their component probe now.
-> 
->> and presumably if you wait for the init above the device is already
->> functional?
-> 
-> The slave is; the pm_runtime_resume_and_get() just below is on the
-> codec's platform device (the reset/regulator provider), a different
-> device, so it isn't redundant with the slave init.
-> 
->> doing the io_init() after waiting for the init seems odd to me, the
->> flow isn't classic and deserves more comments IMHO.
-> 
-> Fair. The constraint is that io_init() programs the analog core and
-> runs the function activation, which must hit an enumerated codec
-> with the bus clock running; component probe after the init wait is
-> the earliest point where that all holds. v2 will spell that out.
-
-ok, a description of the flows between SoundWire probe, component probe, component bind would help indeed.
- 
->>> +	/* Give the SDW subdevices some more time to settle */
->>> +	usleep_range(5000, 5010);
->>
->> isn't there a better way to detect that the bus and devices are
->> operational?
-> 
-> Inherited verbatim from wcd937x_bind(); I don't have a better signal
-> to offer and didn't want to diverge from the family blindly. I can
-> experiment with dropping it as a follow-up.
-
-I guess there are two parts to my question, I am not sure what 'settles' means.
-a) make sure all devices are properly enumerated, which IIRC is done automagically on QCOM hardware.
-b) make sure all devices are properly initialized, which is orders of magnitude slower with the byte-based register access.
-
->> same comment as above, if the device is always on then presumably it
->> should never suspend, which begs the question why pm_runtime was
->> introduced?
-> 
-> The hold pins only the TX slave, and only while the codec is bound:
-> the RX slave and the codec's platform device still runtime-suspend
-> normally, and unbind drops the hold. Keeping the runtime PM plumbing
-> also leaves room for the reset-plus-reinit recovery path (needed for
-> system sleep anyway, as noted in the commit message), which would
-> allow narrowing the TX hold to active capture later.
-
-I don't have enough background to follow the explanation, I don't even know what those TX and RX peripherals do and how there's connected to a manager.
-
->>> +	pm_runtime_set_autosuspend_delay(dev, 1000);
->>
->> 1s for pm_runtime autosuspend is rather low, no? Usually values are
->> in the 3s range to avoid suspend-resume transitions while the user
->> is playing with the UI.
-> 
-> Copied from the family (wcd937x/938x/939x all use 1000 ms). Happy to
-> make it 3 s in v2.
-
-it's fine to keep it with a comment.
-> 
->>> +	pm_runtime_disable(dev);
->>> +	pm_runtime_set_suspended(dev);
->>> +	pm_runtime_dont_use_autosuspend(dev);
->>
->> the last two calls seem unnecessary if pm_runtime is disabled already?
-> 
-> Copied from wcd937x_remove(), but checking the mechanics you are
-> right about both: set_suspended() is redundant because the driver
-> core already resets a disabled-but-still-active device to suspended
-> after unbind (pm_runtime_reinit()), and dont_use_autosuspend() plus
-> disable() is exactly what the core's own devm teardown does
-> (pm_runtime_disable_action()). v2 will switch the probe to
-> pm_runtime_use_autosuspend() + devm_pm_runtime_set_active_enabled()
-> and delete this whole block from remove().
-
-ok
-
-> 
->>> +#define WCD9378_SWRS_SCP_BASE_CLK		0x4d
->>> [...]
->>
->> all of those seem like standard registers, do you really need/want
->> to use your own definitions?
-> 
-> 0x4d/0x62/0x72 are indeed SDW_SCP_BUS_CLOCK_BASE and
-> SDW_SCP_BUSCLOCK_SCALE_B0/B1 - those defines disappear together with
-> the hand-rolled writes per your first comment. The remaining ones
-> (HOST_CLK_DIV2_CTL at 0xe0/0xf0 and the INTRTYPE registers at
-> 0xf4-0xfc) have no equivalents in the standard register map -
-> wsa881x already carries the identical HOST_CLK_DIV2_CTL vendor
-> register - so those keep vendor-prefixed names, with a comment
-> saying exactly that.
-
-ok
-
-> Thanks for the detailed pass - the clock-register pointer alone
-> removes most of the SCP special-casing from this driver.
-
-Happy to help... Sometimes I wonder if I am the only one left from the initial SoundWire standardization group...
+Best regards,
+Phuc
