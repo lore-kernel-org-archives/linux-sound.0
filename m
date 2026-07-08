@@ -1,63 +1,63 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8029D466B47
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5113C48A2D3
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:21:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783520466; cv=none; b=bCiEV+se/F2cLanSAgNmMVaTE/RUOnhvfE3T7q5k8pkLO8jgyJILYO3B3/1tBkZWLq/PFaSJi3R3hZL9jK4kpzOUMBrT83/dE96c0qM/V3nlyFDDLoffl2ppjoUKpIZRtvPskftC1ccm0DgzKcX0FLD8iGFrmfakdoL1scYZDqU=
+	t=1783520474; cv=none; b=ltEKAmjZLJkRAeCmGs/8GsMMn/QxNzvSPxvNsHJ/0yUXQHGvf0gVLa9DEJw5sr+UUdlQkuQuefUE4vO3bpyACaxGF78rQvZppy+15e4edHUp7fE16mZUNcui7OP3YkGojq54desROYQIJ6gwcJApVdlILTxljI9G0GDsFOfGS24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783520466; c=relaxed/simple;
-	bh=FowDvka7morxmU61JfAbx98ngYcmtDC/p0DW+ZHI0sA=;
+	s=arc-20240116; t=1783520474; c=relaxed/simple;
+	bh=AI47RSj0Y1j+vIuhRVu3twL/jah5jy/cblTwRVB7e0Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CgPWtsz9Bv/LziX0bIms3HX+4Z/Lbb33irwjk4/sLP81x3Fi2AceWBYJIzyaMkk6t5uihf/BOgeZZPi7QAl8WX23hX3qC+02JcTvh3MzaFuCjFWIvphUkiU9AZbHX6KtDxLyW10nQghnrphV9/zaYdtItllFz2mMRpS1kTt6Pd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/bKbHpz; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=rbOnYMwb1ZfACYcfiEOvSsqhDTwoaMwSDrUvvlWyQiOakrWwyA1leiGd2eAIpPiOWNZ2QYCKgD7PtKApsr61sLq8dj317TTSccQrmWfIRQNV0GA2vjKhfvQx7ZQFdjW+0lNKFTziTyVd24H79uV4fwcyG1vNcf35XmARcvv1w18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIhgxvM/; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/bKbHpz"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cab973140bso9599285ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:21:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIhgxvM/"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so7501355ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783520465; x=1784125265; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783520473; x=1784125273; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HsskFA4Wkjx/t3Sa3T1ax8m+7J1jxFkrWrIh8Ok9CUA=;
-        b=H/bKbHpz1gGX666/ScOrYi3LpG8rtl3xMH2e5uHgyCsh8arbfBjX5AswFi8YWAcR48
-         4iwcQqT7Rr33Avsw0uPEAVtcQjT1ja7TfmORWG+ZyOX81/tHwvin2wzf7B8lQiZeSIpG
-         Ml/JSPPx/aKSCnt+iAvhiGVV/ONmVC3KD1BZ/7IrUXL5wEeNXf3ZJkJGZ46TGVuiL8Gq
-         45N3p+ulo2ib4IbNIZzlNynT74hHkYr+OYbCwCpruzWm8EDaAuwq8ZOb138AkjuOksCD
-         HR1DAh0rLqskgPLXh7zeNX4BUm3qCfK2sHrPMrEQIx8YXrhtYdCVC2dpipSrv5FDZMIR
-         hsZg==
+        bh=2+Jtygu+85BYYl+nZawFG490qiPpGrZE3faHfj25h+8=;
+        b=NIhgxvM/QbS9X0MwELs/DEcKKZTwG2XP1cHJ0Cpq6kGramDsaoXALLC22G4ct8xscF
+         7Xav/OAqZ8k5ZLoKQfZw1fRnqeejEZr1nqDnzj168fmb1YP8Fgt80S41vMc0ntOfYRXV
+         /A+TKag1a3uZwlRh8SzvqZWug1WCTR8SBWhTsiG6mDR7zbFikyGzOdL2XmP0w9W+Ccut
+         4jm1ya09jrOJA/EfVhli9VNCeMMbPk6k41vRxgv6q8+6TKH2+1gObwIT+Ob14Zt1aTo5
+         yAuDnf51QV6FXOZBtJ8/VttwevJozgCNmRiwPjb3zegFg5Hd7zOGRvFwrD836c6Y82es
+         0ENQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783520465; x=1784125265;
+        d=1e100.net; s=20251104; t=1783520473; x=1784125273;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HsskFA4Wkjx/t3Sa3T1ax8m+7J1jxFkrWrIh8Ok9CUA=;
-        b=cIwS0gtIFsNqq2xMuGjJCmeS42P7RTcGBcn8ACG9aSl8Uw2WpT6skm2h9vkjSs9Sza
-         yGzgYDztcrO2ANTOaGabWgVftAS/3B4DZGhta8UBqNCLbNS47u5YWCfBAIy87WhXUKLh
-         tvNKSA3/yh7xcFjP/IJ3s53LCzdpGj208qc4y2q9kBedvWzlGL9XGCw0cBJMRLBYfehi
-         yVY+HnIUh53VZe6U8DtG2kGEXJUvX6Wm6eGk97CN9Haq0qlarqPXWFL5Oe3YhUlQXnkJ
-         ZXQlb9sJ8bLJpw/VqMSLUKs8jABOS7LIA/4xNOaJJMFF+tHpLp9wha4kRyeEwMEVH3m8
-         Egjw==
-X-Forwarded-Encrypted: i=1; AHgh+RoWGLki4oukYkxBPIju3MfMI6VdMpLq0bnv7xDkzkA7TrGI3lZZ/kuxo06mAji7M6r1ltdGqp2SyC2dvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyxqh3OAOFSuXRnLcNuYgSl6jMsJmqITHQJhKIi7El92WNmDj5O
-	F/gS+NMIbyPYMrAHju/d70UBc8Iusqb1mqkZGcZr9ZN5wejm8eHv10zY
-X-Gm-Gg: AfdE7cmnBi8VP4wDg9zR5B3kB3yX8ds2/G8kmpsryC1iESGKZZ4cGVN375obD13MT3/
-	8CHbhO00p8OEqmoqNrHGaSwSUN8s6DO81IAi9/Vpf1RZrqT9fqbe/Yj/RROoyjN8uyw7MF9VXTl
-	xHTeLXphf5gdkHey0pY0txZYE1bt7j+L2GvPc/KqhT89iPYVZWLZSEg5+c9KGtopu6ZoI8vFZp+
-	pDMs5Oge62LPYobcF/4bDqgJbQGrENyGSTy/PchkMhbyuHw9QEVmgwGaOMqVg8Lyo3oOKqvAaDg
-	d0ss4qSqxX1AyPRVzGZ/gHe4hOT6FZIljTd3ThngmSK9nfdnd3r5Rfn08f0iyEhV+yPmvnYf8qg
-	KZf43Oxki/jDoMI/9pWhGhzNHFvWNYxAkfNnOxbi5ZjAV2DNczeHsatvSfU0AUMVmHzuA5WIf/a
-	5VFXI3crEnigopwjrsE6tfLVOWEjhKY3ap6aoENczPGjIapbI=
-X-Received: by 2002:a17:903:110f:b0:2cc:6018:f030 with SMTP id d9443c01a7336-2ccea388b1bmr30568515ad.14.1783520464839;
-        Wed, 08 Jul 2026 07:21:04 -0700 (PDT)
+        bh=2+Jtygu+85BYYl+nZawFG490qiPpGrZE3faHfj25h+8=;
+        b=Hpe3R9PiEeeOIC1yduIFAM1XIS/VHeiZZPkN2Ej95zcV/aynNKzmqafiGxN05qdSIC
+         shO6BJ4QxFUelQHSMYhMooUeFDoiD6TaGghUlVWYzTof+xk5hPzV2pihzMyPzAyd57gY
+         TJx9EWNtCEE4I2aPGXzK2Bx4reWVekBsPy1XM/qwG+rQP7xjKxuMtvXUGpiRRbb3Pdye
+         qZtL4KMJSmTdt1v80EtSgSdZUe+mpVMKE7Zs5vvZh5phubSc0v2rcnLS73nP+VmfOaPf
+         DccGDFufRXNeVxC5FvcyZVo7toN5LUwC+EeA41aBreGhutGdxUNukNShf+Rrw4VcQKc5
+         EQ/A==
+X-Forwarded-Encrypted: i=1; AHgh+RriG6K0bzrnuQdr+B+s4M7PA+lH4N9rv+Ob04sxnOv9jW36FCKzQzTRgZigXnN2KWSFtrVY1UqZrevNfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiDsU09O5STcCTx/JDSyCFcUNAhr+1/xlgHilGmlKotZjRUmAJ
+	R7SpxkKqqnQaAzXs9as4tHE/sjE0AymtlcxYgRWfleYyWB24kH0xjBUI
+X-Gm-Gg: AfdE7ckB5UQNVAFMEmezbRw6B6FjjZQ/1YLPJU373IFine+dmuj89ua8PXrlGkuWiyN
+	GfEbZqz7FpuZGbcKblLFJJn3AkaUDllxHJYIl9ZTDLkZxeXaUrdqbXbpSpUQaf4+yYXmMa4DOcf
+	F267nUwUscXE+0BNA0JHhRF1O2PwWBSrv977UkDM4D9v5SQn6R7GTP0Yoj8trDaw8VRwS2Kt/Us
+	C0tSk8SdkMM3NsGkROpuv422c583QH9xntZs453C8xlt3tqPNMRh6MNOy8M1GfRatTXb/rYF39S
+	wGcEtpEZI5inGU/+dVrtaSlSKCuHr8WjIiCDs1v0BpLCmgMqEZVOmf5NbHTp59jE2MwB09iXjsp
+	L9zIG3GL7UP06Jdd6QBUQNjhAsENU7uEzHJUIBcj56/y6YAZkUzuI4gHMzkR24xc9lE+vjyTgWF
+	fTKdWBJ46AyXNSpwxuv5f0jRp10vbqPgPC68HRbNVA0RnJKdWk9i2deJMKCA==
+X-Received: by 2002:a17:903:2307:b0:2ca:6d2a:871 with SMTP id d9443c01a7336-2ccea47c7a5mr27721945ad.37.1783520472703;
+        Wed, 08 Jul 2026 07:21:12 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.20.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.21.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 07:21:04 -0700 (PDT)
+        Wed, 08 Jul 2026 07:21:12 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -92,9 +92,9 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 15/27] ASoC: codecs: pcm6240: Use guard() for mutex locks
-Date: Wed,  8 Jul 2026 21:17:22 +0700
-Message-ID: <20260708141734.578926-16-phucduc.bui@gmail.com>
+Subject: [PATCH v2 16/27] ASoC: codecs: peb2466: Use guard() for mutex locks
+Date: Wed,  8 Jul 2026 21:17:23 +0700
+Message-ID: <20260708141734.578926-17-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708141734.578926-1-phucduc.bui@gmail.com>
 References: <20260708141734.578926-1-phucduc.bui@gmail.com>
@@ -111,113 +111,62 @@ From: bui duc phuc <phucduc.bui@gmail.com>
 Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
+Reviewed-by: Herve Codina <herve.codina@bootlin.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/pcm6240.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/codecs/pcm6240.c b/sound/soc/codecs/pcm6240.c
-index 4ac4448ac3c8..a2b66eae6ac4 100644
---- a/sound/soc/codecs/pcm6240.c
-+++ b/sound/soc/codecs/pcm6240.c
-@@ -12,6 +12,7 @@
- // Author: Shenghao Ding <shenghao-ding@ti.com>
+Changes in v2: 
+ - Add Reviewed-by tags from Herve.
+
+ sound/soc/codecs/peb2466.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+
+diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
+index 2d71d204d8fa..5a1ed02abb84 100644
+--- a/sound/soc/codecs/peb2466.c
++++ b/sound/soc/codecs/peb2466.c
+@@ -6,6 +6,7 @@
  //
+ // Author: Herve Codina <herve.codina@bootlin.com>
  
 +#include <linux/cleanup.h>
  #include <linux/unaligned.h>
+ #include <linux/clk.h>
  #include <linux/firmware.h>
- #include <linux/gpio/consumer.h>
-@@ -605,7 +606,7 @@ static int pcmdev_get_volsw(struct snd_kcontrol *kcontrol,
- 	unsigned int reg = mc->reg;
- 	unsigned int val;
+@@ -1704,13 +1705,11 @@ static int peb2466_chip_gpio_update_bits(struct peb2466 *peb2466, unsigned int x
+ 	 * So, a specific cache value is used.
+ 	 */
  
--	mutex_lock(&pcm_dev->codec_lock);
-+	guard(mutex)(&pcm_dev->codec_lock);
+-	mutex_lock(&peb2466->gpio.lock);
++	guard(mutex)(&peb2466->gpio.lock);
  
- 	if (pcm_dev->chip_id == PCM1690) {
- 		ret = pcmdev_dev_read(pcm_dev, dev_no, PCM1690_REG_MODE_CTRL,
-@@ -613,18 +614,18 @@ static int pcmdev_get_volsw(struct snd_kcontrol *kcontrol,
- 		if (ret) {
- 			dev_err(pcm_dev->dev, "%s: read mode err=%d\n",
- 				__func__, ret);
--			goto out;
-+			return ret;
- 		}
- 		val &= PCM1690_REG_MODE_CTRL_DAMS_MSK;
- 		/* Set to wide-range mode, before using vol ctrl. */
- 		if (!val && vol_ctrl_type == PCMDEV_PCM1690_VOL_CTRL) {
- 			ucontrol->value.integer.value[0] = -25500;
--			goto out;
-+			return ret;
- 		}
- 		/* Set to fine mode, before using fine vol ctrl. */
- 		if (val && vol_ctrl_type == PCMDEV_PCM1690_FINE_VOL_CTRL) {
- 			ucontrol->value.integer.value[0] = -12750;
--			goto out;
-+			return ret;
- 		}
- 	}
+ 	cache = peb2466_chip_gpio_get_cache(peb2466, xr_reg);
+-	if (!cache) {
+-		ret = -EINVAL;
+-		goto end;
+-	}
++	if (!cache)
++		return -EINVAL;
  
-@@ -632,15 +633,14 @@ static int pcmdev_get_volsw(struct snd_kcontrol *kcontrol,
- 	if (ret) {
- 		dev_err(pcm_dev->dev, "%s: read err=%d\n",
- 			__func__, ret);
--		goto out;
+ 	tmp = *cache;
+ 	tmp &= ~mask;
+@@ -1718,14 +1717,11 @@ static int peb2466_chip_gpio_update_bits(struct peb2466 *peb2466, unsigned int x
+ 
+ 	ret = regmap_write(peb2466->regmap, xr_reg, tmp);
+ 	if (ret)
+-		goto end;
 +		return ret;
- 	}
  
- 	val = (val >> shift) & mask;
- 	val = (val > max) ? max : val;
- 	val = mc->invert ? max - val : val;
- 	ucontrol->value.integer.value[0] = val;
--out:
--	mutex_unlock(&pcm_dev->codec_lock);
-+
- 	return ret;
+ 	*cache = tmp;
+-	ret = 0;
+ 
+-end:
+-	mutex_unlock(&peb2466->gpio.lock);
+-	return ret;
++	return 0;
  }
  
-@@ -678,7 +678,7 @@ static int pcmdev_put_volsw(struct snd_kcontrol *kcontrol,
- 	unsigned int val, val_mask;
- 	unsigned int reg = mc->reg;
- 
--	mutex_lock(&pcm_dev->codec_lock);
-+	guard(mutex)(&pcm_dev->codec_lock);
- 	val = ucontrol->value.integer.value[0] & mask;
- 	val = (val > max) ? max : val;
- 	val = mc->invert ? max - val : val;
-@@ -702,7 +702,7 @@ static int pcmdev_put_volsw(struct snd_kcontrol *kcontrol,
- 			__func__, rc);
- 	else
- 		rc = 1;
--	mutex_unlock(&pcm_dev->codec_lock);
-+
- 	return rc;
- }
- 
-@@ -1645,9 +1645,8 @@ static void pcmdevice_comp_remove(struct snd_soc_component *codec)
- 
- 	if (!pcm_dev)
- 		return;
--	mutex_lock(&pcm_dev->codec_lock);
-+	guard(mutex)(&pcm_dev->codec_lock);
- 	pcmdevice_config_info_remove(pcm_dev);
--	mutex_unlock(&pcm_dev->codec_lock);
- }
- 
- static const struct snd_soc_dapm_widget pcmdevice_dapm_widgets[] = {
-@@ -1890,9 +1889,9 @@ static int pcmdevice_mute(struct snd_soc_dai *dai, int mute, int stream)
- 	else
- 		block_type = PCMDEVICE_BIN_BLK_PRE_POWER_UP;
- 
--	mutex_lock(&pcm_dev->codec_lock);
-+	guard(mutex)(&pcm_dev->codec_lock);
- 	pcmdevice_select_cfg_blk(pcm_dev, pcm_dev->cur_conf, block_type);
--	mutex_unlock(&pcm_dev->codec_lock);
-+
- 	return 0;
- }
- 
+ static int peb2466_chip_gpio_set(struct gpio_chip *c, unsigned int offset,
 -- 
 2.43.0
 
