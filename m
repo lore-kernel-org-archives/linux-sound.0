@@ -1,163 +1,233 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3718142EEA2
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 11:38:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7CD36C59E;
+	Wed,  8 Jul 2026 11:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783510727; cv=none; b=X1vtElHbDS/lzVuQ6OvayuHy7jL1SNx06BNrqaCoqWvyKoydll0KIjrWKTUE+DY1RjXM6o4A+QBKpWb4ydHTUU61tNRnsO1+eUP3HPRDUj6qHBBs+/Bbo2QEY/k75Q0F11FuF3CLXXb37OGwzsi7kRiFRUx3G0Y65x6u0rb9otY=
+	t=1783511382; cv=none; b=apXsNXtQNZhVr4Qg9nXBGoHHxmCk2YyyOmL5Vu2eTUAtWFmE1PMlCod35yaMK1DjBEN2XI8cdocQ9YnCyVVc7Vuba9OluZNkxE21bun1opFgbWnStqk3sj68Dp1OnjX969JRzfO5sTUEL180rX6buugDHgyAp5Eu0AHlA238i8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783510727; c=relaxed/simple;
-	bh=RP90qGDqSky/CUkebrhEdDl8nT1yIbocQhu1kVNkt8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wxj3538lTmmvk9KRZb8ZE2dWIQeYDIPbW/BGuihea3CPRLXr/3Knm4ojlXxj+l2vy2bBlVCYFSi3kxxSyIL6ASkKzJKGg3sBJLqvyiKO77KJzMxy2YhjJycSzfIxeeO05KdxTvnn+/Zl6arClyw5WgnBD5yp4642CVbITOP8Zbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bXBE6Bvp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=W/dZDhbU; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1783511382; c=relaxed/simple;
+	bh=18Wx+0CcD3cUo/VmTXhnVVwfYFqLaBraRAgXqc4+S9o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=K03tCnMbwJmN1IcW2k8wEynnvtZloGFgB+XUaSm3/6CfQoeDUzlpDWZRNmDHbXuw6SkmzUYr6mWNWv57jOFNr3HNBOXej9/QRT9JyBY+/B5PL3RWvNYZNAIFu0cLgbBkRl4E9edkzymhvdWWJJR+0+m3ykHUS3Z4kZYKkCwc7aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=APr1W52l; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bXBE6Bvp";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="W/dZDhbU"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668BSo2i2459137
-	for <linux-sound@vger.kernel.org>; Wed, 8 Jul 2026 11:38:45 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="APr1W52l"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 668BT8F92531059;
+	Wed, 8 Jul 2026 11:49:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=l1NE81Ewdlfj5M5xJR2l+Mbp
-	tJKnZUesnJ2Vfrpi/UA=; b=bXBE6BvpQHfa6Skp7zjliaZMDl6YuAMezNKSzBAk
-	ZNh2g6WGUyVw9NI1pFtu7XVBuWLy03KvIVSHX6lAghLdZeORIuvbzfnGKs1Kbdzk
-	jx5asKac62QdtUKaScxjsixjZ0Tb13pyxjneVa48iooyHu8kaZC7eVRlfZDMBO8F
-	gmriLIT/Ai9UhlnZpusCM/Lk0jIh1IsBzgFOF35LvCVfiOoj4EwEUeVS9BhUI8WV
-	L7q3rGZbTa11N7nrR4PW2lsLDizs7DHi2iROFH3XXeevel5eaqKxUQsLJLpkQNPT
-	Y2MlBVUKKGOYD1MKZ7C8Fy458lzHWJEdy5gGHSYAdjARxA==
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f97u1378b-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 11:38:45 +0000 (GMT)
-Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-738105fa48fso662763137.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 04:38:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783510724; x=1784115524; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=l1NE81Ewdlfj5M5xJR2l+MbptJKnZUesnJ2Vfrpi/UA=;
-        b=W/dZDhbUZSw32gaJonEX6c2rJTwOpuLC8jmrnomY0v7OjbPGbn3Ge4h/tQnewf7X1e
-         M66+EMpFjkgbSaXoykL49pMuNGPXHO9RG4On1xDJfO2QoCLGoIoStR/LV9QDSgKSG+rj
-         XxJZqvpoJhqWdK3mYn9MucJnmUk7IP+nM34zOy2YzaxnvV8YNYR6oZxElHBokIUqEu/x
-         KkSGnT2hKTQ/2cITwfgSl3Y67cdlQeYaBm1d4ZGZ8opulK8uIaH2t8OQV3F0/y1cqcNu
-         mneeRlLTB7nEz279nvpjLYm2+4T83IFaok6K8jyRpbauOkHrY4Xf0e6lniX/EavBcxZK
-         2PVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783510724; x=1784115524;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=l1NE81Ewdlfj5M5xJR2l+MbptJKnZUesnJ2Vfrpi/UA=;
-        b=HIH6CjphvgXMMZWopwJOIta7aM3HCmCoarUcWYrqbqjzzVia967z1FsPXbdtQBAzG4
-         mi3kySyJZAZI9B56oBtWaixGWCppmjzEFnCTGnCbQ3gHgtgUmDQOoZIbcCnqI6+Nu7qb
-         m8ebdIn5eUCToc/HkalvHtRZXGKigWuCOELjXDJzzXUQWWXCuqI8eVLINFvCm+cNupcP
-         36yvDXGwmSIe+LqTQhiPJSl7/x47dZ7Cslg94kXqP9CSDsRMYQ0gWncmMn5MPtrHlBz4
-         o9VpcysC2Ci5nq/EhiGFAK+199x79EsrW1m3ga6thi34zAK5dTE1Bt46G6ZrTGDF2+BE
-         QNNg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro+oGaNVZAYZdan3ZxJ8o3KHQ5tS9rVRO0MzSesjDSpRCMTVfI9Jsu3QU5rd5n9qop3arBp53gWLt1vqg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJRWrTjCzh2PcjszOeRk3cn1oMwf+VzOJ85yFVLHuX5h2E7Jqu
-	Bz1ahaWCl7mA8CBfhwLnRVllESBWX5Ksg3aHZatzy2RcURlSNSIEzLeK8h550NgD386H7MkOl9T
-	ZSe+mDrLgedDmF+0vDH+4uEuloDuZx0eZGflgYYdtIwDaiUWNVxTpeRm3AAup3UcFsw==
-X-Gm-Gg: AfdE7cnR/O2cXxwG5l2RKJuqqc+E6Q9wGpMDnP/1qhhlTs7L1E5fOxzbcJemxag1nwg
-	ndP7SVYrR5nEdy36bsr0E3q9MVWb35li+TTN5G5tRLf3rvjCHjO890TNxzZ5FWJiTcmq18QCeLm
-	wELMzCbcknvGEeMhRuxkRzPfiL41nBEDHK223cnkXRQGA19jf+C9obU+xKjfbgzDWmszH9jGHZU
-	gOGf3rp2c9MB4vr4CsvQ2WtqdhrROvLVdpQl1AvZpV4iXfOVJ1pZEUNCqPf5ApfWQR+QQLlNwHM
-	WIwgcY1EkvymlSem2djkCNCVw1HJGyjnkEKq8usZdgQhjN7/P0fsBB6o3S7gkKJUow+wrZs86gd
-	x6KLLNR27VaiJGT3hEF88J/ZfBRpIFQHsrDT0fbV0YiJ2gYz5ezoMPKgiOBinafz5xvHVtc6sCL
-	HWzqG6ZYO4a1YhkdY8LLjcrwvf
-X-Received: by 2002:a05:6102:6045:b0:734:13c9:5ed3 with SMTP id ada2fe7eead31-744c214b646mr3977467137.3.1783510723968;
-        Wed, 08 Jul 2026 04:38:43 -0700 (PDT)
-X-Received: by 2002:a05:6102:6045:b0:734:13c9:5ed3 with SMTP id ada2fe7eead31-744c214b646mr3977449137.3.1783510723572;
-        Wed, 08 Jul 2026 04:38:43 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13839ccsm4426586e87.37.2026.07.08.04.38.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 04:38:42 -0700 (PDT)
-Date: Wed, 8 Jul 2026 14:38:40 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: tiwai@suse.com, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=gKeXK7OymGs
+	BBxEB0jiKx02xJnvkKMmhrWO0a/loYfc=; b=APr1W52lPNmnuiRsoEzqqzlevyU
+	CIZZAN7WQBtD+Xf1EfJg6n/uWbda08dCToeMD8NbsrRXW80okkLP3eknZDXSGnE3
+	raXDyFiJP1gvID9ClT/Gtc3WB4vwLtF6rKEtdakVCfFMV7XYSlSMefBHzCJhDSwK
+	gZImTnHdn50W7QZ0FErrMiYhEC3Us3lrJsnaH0T3SjNV1E0TrnY8P4HLNv7qdpqS
+	UzjV0T4RY+c1stgAkplztM52IeSg0Q3XoQymlAqDYILDGmJGitPw6n990PTvfjAv
+	jFpGeYF4ji2G49YLiNcSVOu4DZ5v41XPe6mG3tcU2pkNvZqK6J45wprH8Ew==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9be5afe2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 11:49:31 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 668BnR2X026285;
+	Wed, 8 Jul 2026 11:49:27 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4f6u8k3yj5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 11:49:27 +0000 (GMT)
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 668BnRBD026257;
+	Wed, 8 Jul 2026 11:49:27 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 668BnRJH026253
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jul 2026 11:49:27 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 4509C63C; Wed,  8 Jul 2026 17:19:26 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Bjorn Andersson <andersson@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] ASoC: pm4125: Switch to irq_domain_create_linear()
-Message-ID: <3dquznicr6jh2k7h75mwe3dm3y5ud6r4o3bay4bttuehltqqem@wojfvyzfwnrx>
-References: <20260708095840.385526-1-jirislaby@kernel.org>
+        Srinivas Kandagatla <srini@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+Subject: [PATCH v1 2/4] ASoC: qcom: q6prm: add support for LPASS LPR resource voting
+Date: Wed,  8 Jul 2026 17:19:22 +0530
+Message-Id: <20260708114924.1069239-3-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260708114924.1069239-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260708114924.1069239-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260708095840.385526-1-jirislaby@kernel.org>
-X-Proofpoint-ORIG-GUID: kdoJnbjmRYbdZwRNANPU_u4v_Gghsvg1
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDExMyBTYWx0ZWRfX4hu9P1soCDlV
- mCAviMOcORacuf2sUHTOBmnZjVxOY9b8t7qdUmBlvQleVfWuIxxdEPYFmUAL+wDJbMFOti81Vqo
- 3IP2C3tJXDSuDvMUamLCsdy0ppD4Ax8=
-X-Authority-Analysis: v=2.4 cv=F9JnsKhN c=1 sm=1 tr=0 ts=6a4e36c5 cx=c_pps
- a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=iox4zFpeAAAA:8 a=EUspDBNiAAAA:8 a=bAM_E-XXpzh7hRjyRewA:9
- a=CjuIK1q_8ugA:10 a=crWF4MFLhNY0qMRaF8an:22 a=WzC6qhA0u3u7Ye7llzcV:22
-X-Proofpoint-GUID: kdoJnbjmRYbdZwRNANPU_u4v_Gghsvg1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDExMyBTYWx0ZWRfX7wMpSvwqzTYm
- aj3ANzJwNUi1jwz++elh6ssuZpia5LCXQuMx7iOVY7/WTR1rFoqwy38pmwT1+UI1GLL6fBugiyU
- mUVyVVxtC9BW6SEUuSbDMECP69NVGR2FGQ8M+xSnXCEvqezg3kJ2pklMEeBLeWLzedgQVAVgVg8
- zfL9V1n8WjxVV76zdhaakVD8Q0A3xO6eJ8L7NTXjUCQuGvXczAI9EQVdugSEpKNP24TwYiHvigv
- 76MjXVhQ6GlT6XFgTSGGN4tSrRqONoeLPUMYFYwvi41hQJT+PNL/oTO4NH4B2H8Cy8Bhkl0KJ1C
- WD0gN4S1D1YLugWz1Am54ol+kM7Lq6pCxC3NujOvBPEK9W1RAHatnJTo0h7ShL7yxIn6nEz/73+
- JTKhSWs8mOSNluzvhtTlWeF+abBNCf+U4R+GVXR2XgLyJNHQfZE/6Xm5i+TAkEqT4pb6A4nrKVI
- 0ZyAt5tscGVP+YsEiXg==
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Authority-Analysis: v=2.4 cv=GJc41ONK c=1 sm=1 tr=0 ts=6a4e394b cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8 a=KXDUTxRkB_xfbm0XYe0A:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA4MDExNSBTYWx0ZWRfX1vlsD2FZUHUc
+ jGgk44Rc2Rnll23CuodFqDjRwvDZAxqGDT1cxwN4umGLVLMC0Sjr3wACqKQouVKt+JorAWvJ7hL
+ EaY2A+Ueeghk7DvgY6gxCZ/Mobn82HY=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA4MDExNSBTYWx0ZWRfX7b1fDtRQL29I
+ 2srbX3FYlRA+fC6+ud4t9I27ylxDcNjkwx0XsJu+ddHOGuNcuqGlOiILeI7uzXAjDoQCfzMBSMc
+ vk8bN/boCITXszeV7jTjq881nyUcXP68E3flgBJRCIlYAtXXxqKs4Kdj1okuugyrqsPe5p5ccgu
+ wj9/9915BXYuXDHndeQlYZF6/uA7XdRzFJmD5uQfmRtteln4dXra+H/JkZWo0LF7aErMj7Xwh9+
+ njyMS4u8WkycbEKxGZtY+Qj2qzPOkU5TnZ5cLiCwVpwOW8B/01cHFmM45YjWOusQSoP9ZY1Z7oB
+ sEfs5hbOfes371F++CKiOeD09LP9HxV3TFFuTcR6DpFxrw+vl1oQxiqfVo5ViLSBKHIJ2QgmAET
+ Bg6d7L2V4Ev9cdx785YXbrU6flutefF1SgyqZqaXcOTAuMAmsD8LiAHWdPiSkWxqSS1fSNg/NgI
+ SWyHEjknLo1u4xFC/hQ==
+X-Proofpoint-ORIG-GUID: tg10NDPd11DOtkx0a8MbDEq51PYVlnQE
+X-Proofpoint-GUID: tg10NDPd11DOtkx0a8MbDEq51PYVlnQE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-08_01,2026-07-08_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- phishscore=0 spamscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
+ phishscore=0 clxscore=1015 priorityscore=1501 malwarescore=0 impostorscore=0
+ adultscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080113
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607080115
 
-On Wed, Jul 08, 2026 at 11:58:40AM +0200, Jiri Slaby (SUSE) wrote:
-> irq_domain_add_linear() is going away as being obsolete now. Switch to
-> the preferred irq_domain_create_linear(). That differs in the first
-> parameter: It takes more generic struct fwnode_handle instead of struct
-> device_node. Therefore, of_fwnode_handle() is added around the
-> parameter.
-> 
-> Note some of the users can likely use dev->fwnode directly instead of
-> indirect of_fwnode_handle(dev->of_node). But dev->fwnode is not
-> guaranteed to be set for all, so this has to be investigated on case to
-> case basis (by people who can actually test with the HW).
-> 
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Cc: Thomas Gleixner <tglx@kernel.org>
-> Cc: Srinivas Kandagatla <srini@kernel.org>
-> ---
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: linux-sound@vger.kernel.org
-> Cc: linux-arm-msm@vger.kernel.org
-> ---
->  sound/soc/codecs/pm4125.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
+Add support for issuing LPASS low-power resource (LPR) votes through
+the PRM interface.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Some platforms (e.g. Hawi) require the LPASS to be kept active via LPR
+resource voting instead of the existing hardware core vote mechanism.
+Handle this by introducing support for PARAM_ID_RSC_CPU_LPR when the
+LPR vote clock ID is requested.
 
+For LPR requests, use the appropriate parameter ID and payload format
+to disable CPU subsystem sleep, ensuring that the LPASS register space
+remains accessible.
 
+Also add the corresponding clock mapping for LPASS_HW_LPR_VOTE and make
+the q6dsp clock ID range consistent with the dt-bindings by deriving
+it from Q6AFE_MAX_CLK_ID.
+
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+---
+ sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c |  2 +-
+ sound/soc/qcom/qdsp6/q6prm-clocks.c       |  2 ++
+ sound/soc/qcom/qdsp6/q6prm.c              | 18 ++++++++++++++----
+ sound/soc/qcom/qdsp6/q6prm.h              |  1 +
+ 4 files changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
+index 03838582a..79527a367 100644
+--- a/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
++++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
+@@ -12,7 +12,7 @@
+ #include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
+ #include "q6dsp-lpass-clocks.h"
+ 
+-#define Q6DSP_MAX_CLK_ID			104
++#define Q6DSP_MAX_CLK_ID			Q6AFE_MAX_CLK_ID
+ #define Q6DSP_LPASS_CLK_ROOT_DEFAULT		0
+ 
+ 
+diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+index 4c574b48a..2b2b3872e 100644
+--- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
++++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
+@@ -63,6 +63,8 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
+ 		       "LPASS_HW_MACRO"),
+ 	Q6DSP_VOTE_CLK(LPASS_HW_DCODEC_VOTE, Q6PRM_HW_CORE_ID_DCODEC,
+ 		       "LPASS_HW_DCODEC"),
++	Q6DSP_VOTE_CLK(LPASS_HW_LPR_VOTE, Q6PRM_HW_LPR_VOTE,
++		       "LPASS_HW_LPR_VOTE"),
+ };
+ 
+ static const struct q6dsp_clk_desc q6dsp_clk_q6prm __maybe_unused = {
+diff --git a/sound/soc/qcom/qdsp6/q6prm.c b/sound/soc/qcom/qdsp6/q6prm.c
+index 04892fb44..22ace8bcb 100644
+--- a/sound/soc/qcom/qdsp6/q6prm.c
++++ b/sound/soc/qcom/qdsp6/q6prm.c
+@@ -31,10 +31,16 @@ struct q6prm {
+ #define PARAM_ID_RSC_HW_CORE		0x08001032
+ #define PARAM_ID_RSC_LPASS_CORE		0x0800102B
+ #define PARAM_ID_RSC_AUDIO_HW_CLK	0x0800102C
++#define PARAM_ID_RSC_CPU_LPR		0x08001A6E
++
++#define LPR_CPU_SS_SLEEP_DISABLED	0x1
+ 
+ struct prm_cmd_request_hw_core {
+ 	struct apm_module_param_data param_data;
+-	uint32_t hw_clk_id;
++	union {
++		u32 hw_clk_id;
++		u32 lpr_state;
++	};
+ } __packed;
+ 
+ struct prm_cmd_request_rsc {
+@@ -62,6 +68,7 @@ static int q6prm_set_hw_core_req(struct device *dev, uint32_t hw_block_id, bool
+ 	struct prm_cmd_request_hw_core *req;
+ 	gpr_device_t *gdev = prm->gdev;
+ 	uint32_t opcode, rsp_opcode;
++	bool lpr_req = hw_block_id == Q6PRM_HW_LPR_VOTE;
+ 
+ 	if (enable) {
+ 		opcode = PRM_CMD_REQUEST_HW_RSC;
+@@ -82,10 +89,13 @@ static int q6prm_set_hw_core_req(struct device *dev, uint32_t hw_block_id, bool
+ 
+ 	param_data->module_instance_id = GPR_PRM_MODULE_IID;
+ 	param_data->error_code = 0;
+-	param_data->param_id = PARAM_ID_RSC_HW_CORE;
++	param_data->param_id = lpr_req ? PARAM_ID_RSC_CPU_LPR : PARAM_ID_RSC_HW_CORE;
+ 	param_data->param_size = sizeof(*req) - APM_MODULE_PARAM_DATA_SIZE;
+ 
+-	req->hw_clk_id = hw_block_id;
++	if (lpr_req)
++		req->lpr_state = LPR_CPU_SS_SLEEP_DISABLED;
++	else
++		req->hw_clk_id = hw_block_id;
+ 
+ 	return q6prm_send_cmd_sync(prm, pkt, rsp_opcode);
+ }
+@@ -94,7 +104,6 @@ int q6prm_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
+ 			     const char *client_name, uint32_t *client_handle)
+ {
+ 	return q6prm_set_hw_core_req(dev, hw_block_id, true);
+-
+ }
+ EXPORT_SYMBOL_GPL(q6prm_vote_lpass_core_hw);
+ 
+@@ -210,6 +219,7 @@ static int prm_probe(gpr_device_t *gdev)
+ 	cc->gdev = gdev;
+ 	mutex_init(&cc->lock);
+ 	init_waitqueue_head(&cc->wait);
++
+ 	dev_set_drvdata(dev, cc);
+ 
+ 	if (!q6apm_is_adsp_ready())
+diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
+index a988a3208..bd5ee0c40 100644
+--- a/sound/soc/qcom/qdsp6/q6prm.h
++++ b/sound/soc/qcom/qdsp6/q6prm.h
+@@ -87,6 +87,7 @@
+ #define Q6PRM_LPASS_CLK_ROOT_DEFAULT	0
+ #define Q6PRM_HW_CORE_ID_LPASS		1
+ #define Q6PRM_HW_CORE_ID_DCODEC		2
++#define Q6PRM_HW_LPR_VOTE		3
+ 
+ int q6prm_set_lpass_clock(struct device *dev, int clk_id, int clk_attr,
+ 			  int clk_root, unsigned int freq);
 -- 
-With best wishes
-Dmitry
+2.34.1
+
