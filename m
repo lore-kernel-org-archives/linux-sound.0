@@ -1,76 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE97423A6D;
-	Wed,  8 Jul 2026 10:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7445542E8FF
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 10:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783507408; cv=none; b=XwQUOWD8Vq/Fco0LIvC1l8tVy2RRiMnzpnnw4g/9T06mBYyzXbRWokLIunvV9aVwDmsThXDoSAx9Uy7Pautr2FK+NFiKD5uR/ZaA9dZwKPnNWn1uFdck9wu/aWR2wTr3lp+yGQTajW3UrR0xHV9pLfcmTeI1dp3qUw+vS/oXnkg=
+	t=1783507542; cv=none; b=cuhnMoMNO0Q3a4uBUvPvxPg3BktNbWGcYjmaDxAibHakV/iX71TiWT3XDH/zjJQftJU6IdH9WpJZUpACKo1VOHuIMpPhl29UFS9EQBVw12Tku1N6+jJv8hsxM1vdLezx2M1yCy67Ch2jbJwQ7i2kxb/1ALta76R5yjT2+9ftY1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783507408; c=relaxed/simple;
-	bh=groLJiBtITBZaafYb4py+DXcwhfa0gaynPiaHzseltw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+2lhRI4uf3WpXEXBNMj0fO1xI+ye8WWzsvUGpu3Mv8Ge7oIpe51L/ew8tgb4SP4661O9tpXPhbitqENdXRvuY3IRhHEakKMvWB5cC/G6nHBuAGlwpnb5lEBGlLmKqfZT7Zl6OH0X5K4btnPiIyu6i5G3smx60y7HwVGXwusrIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdJXPi86; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783507542; c=relaxed/simple;
+	bh=x5FNT8utLql8fYzJatDj/iArL+AKc5++bJlHiLk7mYQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WNrekPLe+6GVemtt4Pmf0Kg0LZCmac++sRseT5Kfov0xGkBAyNSAtB/UPFwTIWyjmqmOH9azEQbdCmCM9+NPosK0zywUWMJlrkq5abj4V6+/ZAI2oVZSRnm+Du8UyyUvld1rkNJ8eO1ZuMXH5AOFIcI1d//PO/Oxo+QLFe86aJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l5yKSVc7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Cf+elN1X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dq92uNt7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OpFnNZVn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdJXPi86"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D4F1F00A3E;
-	Wed,  8 Jul 2026 10:43:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783507395;
-	bh=xgb9L3ybC7vZlTqAiwZqqpWmp0VP5DqNRODliRYFC7Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kdJXPi861onpNxYXSyu/H82im8bgzEy/Tq1sP9Lqc+RqRUYgK/1J0qwa1BMi2v6AK
-	 9Fm0GqOMgkpiKA9wiiPsTH9E1cuppYXbVDGXjOdRBfDJG+rOW+QnTQmUD1eub805Af
-	 e/+XSu4L1Qwy58BFX/n1VaDP8RyVtAe3Q9VOspJyQY1KO3G3YvHZECiy2V6mYfJ1wF
-	 fTxccpAww2s22SxBgSKtpAg5BAikZY6dp+wDFEcnq9EU0rg8+DfvJ6i4E9uCMTmtuL
-	 k75cyJOKHKKGvrC66is34b0REAKTCsUYvGgfruiHA4XWWRZhGE8JBWFw3a2WYfc/tX
-	 EyexGgaV8pSdw==
-Date: Wed, 8 Jul 2026 12:43:11 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-Cc: Mark Brown <broonie@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Luca Weiss <luca.weiss@fairphone.com>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: qcom,wcd93xx-common: don't
- require micbias4
-Message-ID: <20260708-gregarious-elite-dinosaur-537d56@quoll>
-References: <20260706192229.144137-1-jorijnvdgraaf@catcrafts.net>
- <20260706192229.144137-2-jorijnvdgraaf@catcrafts.net>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l5yKSVc7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Cf+elN1X";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dq92uNt7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OpFnNZVn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DE5B675F8D;
+	Wed,  8 Jul 2026 10:45:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783507520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kK6O2X0vb1CGCmB4fIu8u2hgEzsWMo550aATkhk9eFk=;
+	b=l5yKSVc72mXp/CARGyF0wJsN9YLMyMpqgV7SB3M1V/uBoxWKEPf27Aeh1wc7miAx5A1MpP
+	AeBKUNF6bZ4nNJ1FCD0bu9f1+kjhPYtbqT7TtpD/v32HEKC/lvFxebu3r/CYViEn2gEPB1
+	BziSJd/xGaV0lvPTrX2lOd+kywyYYGg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783507520;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kK6O2X0vb1CGCmB4fIu8u2hgEzsWMo550aATkhk9eFk=;
+	b=Cf+elN1XjtEeWXI8F2kyU1Pflw0NWZRD/d1D/zo6y2DICo8zVVYNwbnLfumBkwfMvE/YKR
+	8jNEt83AV2J7tQAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dq92uNt7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OpFnNZVn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783507519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kK6O2X0vb1CGCmB4fIu8u2hgEzsWMo550aATkhk9eFk=;
+	b=dq92uNt7KPSQ4ZJ8mwApbM4o+uW9Ypv2CvibS/WG4Zp/t2idNh9dPCcIjICLb5/FQUBRem
+	YyVc2hsPtm8J3XJdbJ3wZ3Lr5KTBZ+UFGDF/2s846bPEIuwOjSUKMPPKA4obatGxuJDIBG
+	kQufZEKT9BMrQk4nB0/fxWpbNYXN1uU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783507519;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kK6O2X0vb1CGCmB4fIu8u2hgEzsWMo550aATkhk9eFk=;
+	b=OpFnNZVnxjCjg3A+lva4Sz8VtIgz3jv0V3eDJS5IF7gzH5XhMufHQdciB2O8EWz6NSb836
+	naTNBOpmo7ijwNDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D574779AE;
+	Wed,  8 Jul 2026 10:45:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WiYZHT8qTmpHIgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 08 Jul 2026 10:45:19 +0000
+Date: Wed, 08 Jul 2026 12:45:19 +0200
+Message-ID: <871pdd69q8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: phucduc.bui@gmail.com
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	cassiogabrielcontato@gmail.com,
+	Kees Cook <kees@kernel.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Cen Zhang <zzzccc427@gmail.com>,
+	Len Bao <len.bao@gmx.us>,
+	Mehul Rao <mehulrao@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] ALSA: Return -ENODEV instead of -EFAULT on module-get failure
+In-Reply-To: <20260707084506.718583-1-phucduc.bui@gmail.com>
+References: <20260707084506.718583-1-phucduc.bui@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260706192229.144137-2-jorijnvdgraaf@catcrafts.net>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: DE5B675F8D
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.us];
+	FREEMAIL_CC(0.00)[intel.com,perex.cz,suse.com,gmail.com,kernel.org,gmx.us,linutronix.de,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Mon, Jul 06, 2026 at 09:22:27PM +0200, Jorijn van der Graaf wrote:
-> The WCD9370/9375, WCD9380/9385 and WCD9390/9395 codecs all have four
-> mic bias supplies, but the upcoming WCD9378 only has three, so it
-> cannot reference the common schema while qcom,micbias4-microvolt is
-> required there. Move that requirement out of the common schema into
-> each of the current users; no binding is relaxed by this.
+On Tue, 07 Jul 2026 10:45:00 +0200,
+phucduc.bui@gmail.com wrote:
 > 
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-> ---
->  Documentation/devicetree/bindings/sound/qcom,wcd937x.yaml        | 1 +
->  Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml        | 1 +
->  Documentation/devicetree/bindings/sound/qcom,wcd939x.yaml        | 1 +
->  Documentation/devicetree/bindings/sound/qcom,wcd93xx-common.yaml | 1 -
->  4 files changed, 3 insertions(+), 1 deletion(-)
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
+> Hi all,
+> 
+> Several ALSA open/allocate paths call try_module_get() on the owning card
+> module and return -EFAULT when it fails. However, try_module_get() fails 
+> when the module is no longer live (i.e. it is going away), meaning the 
+> device is no longer usable.
+> This series updates only those paths, making the error code consistent
+> with the existing "device unavailable" checks in the same functions.
+> Other -EFAULT returns are left unchanged.
+> 
+> Link v1: 
+> https://lore.kernel.org/all/20260706084950.49331-1-phucduc.bui@gmail.com/
+> 
+> Changes in v2: 
+>  - Update the commit message.
+>  - Remove unrelated changes from the "ALSA: control: Return -ENODEV 
+>    instead of -EFAULT in snd_ctl_open()" patch. 
+> 
+> Best regards, 
+> Phuc
+> 
+> bui duc phuc (6):
+>   ALSA: control: Return -ENODEV instead of -EFAULT in snd_ctl_open()
+>   ALSA: hwdep: Return -ENODEV instead of -EFAULT in snd_hwdep_open()
+>   ALSA: info: Return -ENODEV instead of -EFAULT in alloc_info_private()
+>   ALSA: mixer: oss: Return -ENODEV instead of -EFAULT in
+>     snd_mixer_oss_open()
+>   ALSA: pcm: oss: Return -ENODEV instead of -EFAULT in
+>     snd_pcm_oss_open()
+>   ALSA: pcm: Return -ENODEV instead of -EFAULT in snd_pcm_open()
 
-This should be rather squashed with the next one, as wcd9378 is the
-reason of doing this.
+Applied to for-next branch now.  Thanks.
 
-Best regards,
-Krzysztof
 
+Takashi
