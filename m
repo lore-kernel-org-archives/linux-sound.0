@@ -1,174 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A1226E71E;
-	Wed,  8 Jul 2026 11:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E24F390C85
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 11:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783510496; cv=none; b=C5o7/PRwDmQdlxQLnlNWvzndf5/Tqy7Len+wSjPeHHD0kEmg4x4zchoD4Hv40TdU4cjkozHreuxNhL1SCFcqoZvGWZNDvZ1lS3Y8qne/1fd2RYlNQ+EJoXepBtU3wrIUmbDHpDVsIcblyGr5kLm+4cOM/0472cWmtl+mAWNivkU=
+	t=1783510602; cv=none; b=nPP5npaQGvQCKO4MOi7G16OJqD2xbGgUZMK1Gl6dE8r4pqOJzo56L1s+3srWaxVThsd4gkqxBg5TqZYtbqkTUolS90XGL0DSgaOvo5p7kuhoja/ZKnX4RqBLn7lNfCnYZ6qPIk5g5J8Z/ryeDsLwFqtVJJZzVLnFyF0rWOqXfxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783510496; c=relaxed/simple;
-	bh=AGYgMg5Ug10S/wSIeCwDKP9iDkCMyr/A63ihhHSiwRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VL9zDOoGQthax7KlYJdqDOse7zWr2yhRLArXsOF8T+ku6DlVMHUxtjORj672zcdy8hIMY/kepBqMD9JVIXyzoukfRVSjMubRDJs+hZ3cuNCDr3oSs6A47nifqLR8/dh0tEmmVwVzsl0Wfyfgs3LKJqfRT+pCLWXmS390nWUkLHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AURyBC6U; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1783510602; c=relaxed/simple;
+	bh=IbjpZOam2hI9dpzZIJY7qG5MjnJ8WSt8d2P/o3d7CJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z7QQHMPu+AISBTZEIxcJq5gBHd364SOQJiVJEur3/ApnHeyFn1EYLeJOlm2d1Sx6eJOYti3tkpItPhiRXh1+u/yBCuUdLvTl8YwDdcAGUlyXflYRcJ8vMWdjSFE31y7tC+umqR3YNy3A7q+1YG2XPHx+PWnkVuMUJd0CQOiuhHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRaOD5E+; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AURyBC6U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783510495; x=1815046495;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=AGYgMg5Ug10S/wSIeCwDKP9iDkCMyr/A63ihhHSiwRU=;
-  b=AURyBC6Uny989jMHmAA530jkFGpmhNbyxMe79G0Pj6pmEvQaaKIDQPNX
-   tbwg/5W8bgP0Qb73s3pW/Q3NThvCSwPETLoozpzHtJEfYp0XcKUqSIPPJ
-   fLTMzB52qUo6wl17yRQOqoxg36GU+HZqmml0+76/ZzwL69ljVy07nDcr6
-   nbxq3QpNWJwdk3Fjm4Vqt+jU/lyYOcrLuFzGrfV8M/0KKsgadxxUv0Bdr
-   SvK3wbThHXiiyi1PwxLxctJfwhRxbbwb7R3MUhGSjsWDv3tPluk8WBHRU
-   wMwPrhJKEsHgLAfns58gMhddplWPqGR2o3Xnc/t+w3EKKKBQ8o5jyoelK
-   Q==;
-X-CSE-ConnectionGUID: wyww3jhYRcyrZXv+cGgpOA==
-X-CSE-MsgGUID: gOqhT+1oTgKwj4/vMTU13A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11840"; a="109714171"
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="109714171"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 04:34:53 -0700
-X-CSE-ConnectionGUID: 9piD6cfVSWie6SfgMzvaFQ==
-X-CSE-MsgGUID: Nlf/R1UvSVO9P8OFz8tYnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
-   d="scan'208";a="278642571"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.100])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 04:34:35 -0700
-Date: Wed, 8 Jul 2026 14:34:33 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Lee Jones <lee@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	mfd@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	Qunqin Zhao <zhaoqunqin@loongson.cn>, linux-crypto@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Colin Foster <colin.foster@in-advantage.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRaOD5E+"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ccdb73f0e1so5524155ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 04:36:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783510601; x=1784115401; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WZvxbMgMRY8vlx4bL3xwkM6A6vN75hNfiS9LW8iggcI=;
+        b=iRaOD5E+dyQxc73OOD+r0RsHv5eDSOUjn+diwr9WzaFCHhsGcsg+DiCyEKDwEeBp31
+         GWru5FsNa6SdNegBS58jMTjGCbPXuf4ocF7TLF5fiKcpG/BqCnF/dyEJAOlpuQblvzBY
+         145eN5MSaCiEp3hdBMNSo9QMRLo0Hhn557ZpMsHyx1j602r1HhARerOiSevZpceyaCc6
+         1KngxWoN3yk5VNSdex4pQxgd/E8HnNBKY57W+y2pE4q32wh2oyiYd+r4MIJyJsOk9bca
+         APSAJkWB/DXbTvh1Ap7iCFKwPXxnshDY9HjOQ4Mg2IwdnVYoKaLQH5CZDN1r+VahzCAA
+         gChw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783510601; x=1784115401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WZvxbMgMRY8vlx4bL3xwkM6A6vN75hNfiS9LW8iggcI=;
+        b=ec6CP0i31bDhg7j5kwpAelULDoA8dJHQG0FEE8h8CYhOjM5AUIOSqTJMSx6ZQpp6r7
+         FceNH0rcDVVH32fdHeVymn6xNg83gHLk2vFsvUAbHnQseiQt/ZFBJPxz2O3YSUQofFZs
+         FOKY3Gf8MNY7AKIMNm5gEdKrlNtEwJavjyfb3HAcF6VHrjPZzSEy+w3vlKgeqlash75R
+         T9S+8VQTb3LfUX9vlRxMA1VobowTNwq2l0puCxU8nb3J/S/ubjPGoX48V11W7Tk5Pv+G
+         DiUUXb79xEKLNUIy5VacFYpTmT0SLYhfy6oPRMxKgMoeId5oiL4/Odwi6O15qkVx9ldU
+         GRPQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoXv5v9GleQeMpeL7FQRNBwBc0AcviUQSFmq+0neB9kRKRdQRNKknNkD59HvMjFtbIyYmqsy4UsfLQokQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDgT+bfSa7L5yfP/4+XPlMjW252OtIQfFQIWxMpGkYrBefa3ah
+	nuNgizW0JalIcioIlPSn4PlHSoiUFvFJlbvgL9nCDrzQFl4XwTERV08T6Z/TO0DunlBCFw==
+X-Gm-Gg: AfdE7cnjkWUI6xslEH9YScqNOa6yjd96YBH6S266nxGtHhvJbrFapQi/mg30peMyBUa
+	lMrMTjkVLo7XfbxZ9cClsO33FCpvL6RyJoXKxMkLwd8vi8SoNoIP1Ua4KSyAjwdo7li2SYlooS8
+	ns+sfT+l5N4xnmGW3k2o/PAAS1Jf9mHS6bSMmgft0gp2SGm2+xicwKjSkEmVngrIO1toYtq8xLr
+	O5CVdEAABO3Jp6jJ1wOkoqhIpTGcWgWJndBx71pzotkOLaRy1rVtJtzm/a1f/QRYYUOJmUQJBdb
+	bQ/8518g87Jd0efLAJxJIZq4+3LBCDcvebYdnih2xMF1pm+NiGzOcM8PTPCVFJMG421ZJhA4PJ/
+	wWWMrKLxa9IhbTjNU5I5YyBC+VE8aDp7PdBEuKyoIQ+8eqzX8osc99AgJscqt9C/pC29rHkpmhy
+	6Stk5R9JxP0pj/
+X-Received: by 2002:a17:902:e950:b0:2c9:c517:d070 with SMTP id d9443c01a7336-2ccea371d01mr20348835ad.3.1783510600782;
+        Wed, 08 Jul 2026 04:36:40 -0700 (PDT)
+Received: from lgs.. ([152.32.188.52])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bf7858sm26950825ad.23.2026.07.08.04.36.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 04:36:40 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: David Rhodes <david.rhodes@cirrus.com>,
 	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Zha Qipeng <qipeng.zha@intel.com>,
-	Thomas Richard <thomas.richard@bootlin.com>,
-	linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	James Ogletree <jogletre@opensource.cirrus.com>,
-	Fred Treven <fred.treven@cirrus.com>,
-	Ben Bright <ben.bright@cirrus.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
-	Andreas Werner <andreas.werner@men.de>,
-	Samuel Kayode <samkay014@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org,
-	imx@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	Linus Walleij <linusw@kernel.org>, linux@ew.tq-group.com,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
-	Neal Gompa <neal@gompa.dev>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Saravanan Sekar <sravanhome@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-samsung-soc@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Peter Tyser <ptyser@xes-inc.com>
-Subject: Re: [PATCH v2 00/23] mfd: Use named initializers for arrays of
- *_device_data
-Message-ID: <ak41yQp3x78s4Fmx@ashevche-desk.local>
-References: <cover.1783507945.git.u.kleine-koenig@baylibre.com>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH] ALSA: hda: cs35l41: validate and free ACPI mute object
+Date: Wed,  8 Jul 2026 19:36:25 +0800
+Message-ID: <20260708113625.752913-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1783507945.git.u.kleine-koenig@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Jul 08, 2026 at 01:15:07PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> Hello,
-> 
-> this series superseeds my previous patch "[PATCH v1] mfd: Use named
-> initializers for arrays of i2c_device_data"
-> (https://lore.kernel.org/lkml/20260515095839.4005460-2-u.kleine-koenig@baylibre.com)
-> that Lee asked me to rebase and also the series "[PATCH v1 0/3] mfd:
-> Initialize spi_device_id arrays using member names"
-> (https://lore.kernel.org/lkml/cover.1783003256.git.u.kleine-koenig@baylibre.com).
-> 
-> The objective for this series is to prepare mfd for changing
-> of_device_id etc to make driver_data a union, see
-> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
-> for the idea behind it.
-> 
-> This series is based on yesterday's next/master and it does the
-> restructuring not only for i2c and spi (as the two series mentioned
-> above), but for all *_device_id structures that I intend to modify with
-> a union that affect mfd. So (I hope) this is the only patch series
-> affecting mfd for this quest.
-> 
-> I don't care much about the last few patches unifying the coding style.
-> I think it's a good opportunity to do that, but if you don't like them,
-> just don't apply these.
+cs35l41_get_acpi_mute_state() evaluates a _DSM method to get the ACPI
+mute state and reads the first byte from the returned object.
 
-The patches bring inconsistency (or still leave it) with the terminator style
-in both I²C and ACPI ID tables. Can you revisit that?
+However, the returned ACPI object is owned by the caller and is never
+freed after use, so each successful query leaks the _DSM result object.
 
+The code also assumes that the returned object is a buffer with at least
+one byte. A malformed firmware response can return a different object
+type or an empty buffer, and the direct ret->buffer.pointer dereference
+can then access an invalid pointer.
+
+Use the typed _DSM helper, validate that the returned buffer contains at
+least one byte, and free the ACPI object after reading it.
+
+Fixes: 447106e92a0c ("ALSA: hda: cs35l41: Support mute notifications for CS35L41 HDA")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ sound/hda/codecs/side-codecs/cs35l41_hda.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+index 64a5bd895fd1..237059ef22f5 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+@@ -1434,10 +1434,19 @@ static int cs35l41_get_acpi_mute_state(struct cs35l41_hda *cs35l41, acpi_handle
+ 	guid_parse(CS35L41_UUID, &guid);
+ 
+ 	if (cs35l41_dsm_supported(handle, CS35L41_DSM_GET_MUTE)) {
+-		ret = acpi_evaluate_dsm(handle, &guid, 0, CS35L41_DSM_GET_MUTE, NULL);
++		ret = acpi_evaluate_dsm_typed(handle, &guid, 0,
++			      CS35L41_DSM_GET_MUTE, NULL,
++			      ACPI_TYPE_BUFFER);
++
+ 		if (!ret)
+ 			return -EINVAL;
++		if (!ret->buffer.length || !ret->buffer.pointer) {
++			ACPI_FREE(ret);
++			return -EINVAL;
++		}
++
+ 		mute = *ret->buffer.pointer;
++		ACPI_FREE(ret);
+ 		dev_dbg(cs35l41->dev, "CS35L41_DSM_GET_MUTE: %d\n", mute);
+ 	}
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
