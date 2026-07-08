@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04123BBFA3;
-	Thu,  9 Jul 2026 12:18:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB31B3BBFA3;
+	Thu,  9 Jul 2026 12:18:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783599528; cv=none; b=tF0dEbYGQjP7R+H8OA5sPilhzFhU456D+iSsxLoNETBOCarhz8e1qQSjnpurOSs2nzxBEPdAu54n/KTq8U9ZqBWPaMiPxACThqzlSV56ud1Aso/Vl0bJDSMM1JIMq/8e0cdi2SKA529O3Wbuz2aoeMHwtP0+v/2m1DXdAM0jA98=
+	t=1783599532; cv=none; b=QNVzdpCRpwGqVnxZiADERzW55A5ELevDILBU1UOTM8GL7bkaGF8T6m7n1kBmQ87R3pN4zZqrGVvw3XdBlIR0AFCWb1k5u7f3Wu+vPlyf6xj1VP5MDysZMYP/hd1FbbASqqpK+6NCbomCJE57xUhx8T9R5PW6+jq1moWWpz8k42w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783599528; c=relaxed/simple;
-	bh=TETYuwy/gPzHLTqaG5EGFXkkOhb4aBVuwMJz8UCxp6g=;
+	s=arc-20240116; t=1783599532; c=relaxed/simple;
+	bh=v9xDDv4mUO3k6z3QxWEnvkb+imyV7+JHMnpr2ceu2DM=;
 	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kLM6OghNy1d3m2F+FD4iKb1Y8PkYgzZ/emAzCRDvszX5X9gXhXOZTxk572ranuDEf1yCcf3GHyc5ORq2PwOy7S9JY04ZqFz3LzKbZGnFDCMakhpzVx9f376du7euGlEyDZPvB0p6UPYd5bA2eDDHxPWk1kFvMhsEkOZ5+d8U6gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hIveF2fJ; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=X4WXQmzblDD7fEClz2PcaATlVq6RxR8eX6AqPL+S6tbTYYjeUvwoX497aV+dJgmhdkeG0WA7M9ulhHwHwV2wRZSWk6sKlwL1ye4mSQf0l9MUIV9PKhSwpGnYOnflUf+YcyeptBIgoAkDlZ8yUdXFqVnUSj7f+6PDuabO6NbB+SY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JowovLTw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hIveF2fJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E91871F000E9;
-	Thu,  9 Jul 2026 12:18:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JowovLTw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B42BE1F000E9;
+	Thu,  9 Jul 2026 12:18:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783599526;
-	bh=D/E90WDy7bym/5YDFeqIZeY3nnPXPst2Z3zsS0jc9+g=;
+	s=k20260515; t=1783599531;
+	bh=ht4+iL4eYR/bV619+swqZwXe66WSoTGcvY5EdEKxt+Q=;
 	h=From:To:In-Reply-To:References:Subject:Date;
-	b=hIveF2fJUD4TjIylK81MFkyvSXGS+5nfTZnBx9gqGr9gVNonUmr7G2tPaYDvmc5hk
-	 DC7xWrYolN7aqZQKU6XZrj0lpsh3QrZLxaWyr+cnrLOT0KUiJ/s06sAME4JymltNNK
-	 paNRKksDIFz1lGjZJ97iXAdwu39g/m/Byy6Vx+cFc1y1TL6C8PxdUB/P4iDeabvA8R
-	 zc3eXXY0NxVzcOuV8/5POavjbzee1pJOrflHMNLALDG2uDvBc1+r6c4tNQMXcs9jLk
-	 4/0LBRXl8gZuvXknW0t3Z3QnW/yhixevULWSg4m+88kxr0uP6rDpytThTM9Idbm7ZP
-	 XEALMQs2QlYPg==
+	b=JowovLTwk3DK265bbjJ+C74XpW/uPOP7UGAP/No3tnPZg3Jy/z9z2BK741t1Wzx3j
+	 gn0/e7AYhYe/4VbM6LCSwY9VoT8Yo3CXsjCc8cex+IT5ddrNm8iClJxy8xv0vRY9lG
+	 hU9UhVWu75DC61n6VBsjzcAGpeJ+PQWXXVjGVbpy0wRcKuR15jer7L0orcRTn+9ffM
+	 cptZnFz3FpSxQM1JcjI4JlaqnhXS41Hz56XS3cBzuLfwIHpYZx50b5RvNYNK2NTDJx
+	 WokCb18vJvtOdULa5kmKkhIjv+Ta+Z0m92DKgE+y11CeUDhc0Acgp5+i5jnvomyO4p
+	 9A6zy7ON9fA7A==
 From: Mark Brown <broonie@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
  Takashi Iwai <tiwai@suse.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>, 
  Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Pengpeng Hou <pengpeng@iscas.ac.cn>
-In-Reply-To: <20260704074044.45520-1-pengpeng@iscas.ac.cn>
-References: <20260704074044.45520-1-pengpeng@iscas.ac.cn>
-Subject: Re: [PATCH] ASoC: codecs: max98373-sdw: Propagate regcache_sync()
+ Linus Walleij <linusw@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Pengpeng Hou <pengpeng@iscas.ac.cn>
+In-Reply-To: <20260704071848.47928-1-pengpeng@iscas.ac.cn>
+References: <20260704071848.47928-1-pengpeng@iscas.ac.cn>
+Subject: Re: [PATCH] ASoC: codecs: max98927: Propagate regcache_sync()
  errors
-Message-Id: <178353546674.26140.1427053297161439795.b4-ty@b4>
-Date: Wed, 08 Jul 2026 19:31:06 +0100
+Message-Id: <178353360952.26140.9413110060044883294.b4-ty@b4>
+Date: Wed, 08 Jul 2026 19:00:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +49,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1138; i=broonie@kernel.org;
- h=from:subject:message-id; bh=TETYuwy/gPzHLTqaG5EGFXkkOhb4aBVuwMJz8UCxp6g=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqT5Gj6UKHHgfmmEvX0DKpwkKIIE6GgSY5qrWvh
- 2uSM06RfTKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCak+RowAKCRAk1otyXVSH
- 0HAZB/9I4FEY9nRNshF/TcVC7B6zLiaqpRnYo32Vq6BHiBJm5oWwoDZ/Xml/beHrsi5xhf9XWtR
- Ej1JvhbPE3W3C1piHw35qAKbJqhG7gEB7rBYwACEL7s04NwwbzD2zdpYCcOMZfHgibaC1A7ZNTi
- q07cF+e0WER09crWXeHe73QsrFKgAPp0tHK4R9+5E6gmMYb4eN7+uL55MUO99KWkORU/+sYXudT
- PMSI2DWqrjUdqCD+9/2mu+qJUVr5k1A8D3ew41AFyCjQBRsP6l4JsydjGVzOkecervjxJTrnLuD
- tbEeUoPC+s8v6R9SHwQUd9HX7lemeTTIkJyp2guFZn8QuwQU
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=v9xDDv4mUO3k6z3QxWEnvkb+imyV7+JHMnpr2ceu2DM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqT5Gor9QICI86oYC81mIRORnQpXzIuw1cj9owE
+ zKxHmOmyAaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCak+RqAAKCRAk1otyXVSH
+ 0NOMB/43JLS3AwsXhgh3CWsSF8xPTzifz/SvhQzYUpT8ZAF/YnFTtfbFJMgyOCd/hhPkjAPaCkr
+ YwqnsLx9pPHld9m4uNsJD9jgk9z8oFts7WXSXr/nW45E2p/FgZtgT1p5ird+yNYa4d3UR8PbnJO
+ s6EyMCBG6iJ/IEK1lSMIn3LLwjHmiZmQel9jWI0mfTk9ARH1CxXqFUR+1r/Tq5O5y0uZ/RZb26q
+ 7TVeoA+I7WfmimwvhJATwilcAqPq44rHwRmcu4PWvsd3V0FVLB/SiySN909/JgQNt3+gz5VNz21
+ 34T3ms/K4kB3UvwQUlk0gE3qjiWYVNmCTAdk07oUOH1EpxSR
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sat, 04 Jul 2026 15:40:44 +0800, Pengpeng Hou wrote:
-> ASoC: codecs: max98373-sdw: Propagate regcache_sync() errors
+On Sat, 04 Jul 2026 15:18:48 +0800, Pengpeng Hou wrote:
+> ASoC: codecs: max98927: Propagate regcache_sync() errors
 
 Applied to
 
@@ -70,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: max98373-sdw: Propagate regcache_sync() errors
-      https://git.kernel.org/broonie/sound/c/b64317ec0074
+[1/1] ASoC: codecs: max98927: Propagate regcache_sync() errors
+      https://git.kernel.org/broonie/sound/c/ed1d19d37f5b
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
