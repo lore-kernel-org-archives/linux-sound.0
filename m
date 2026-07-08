@@ -1,94 +1,238 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013002.outbound.protection.outlook.com [52.101.72.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4F5396D1C
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 20:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783541080; cv=none; b=LY9ujXjJbPbgItKsQuVPxz26lpuvBoXkRhXnoe3XyUvCjMx9Esc0KLubqfiTkD4sMk6LvoKSXvIDMxkdsfOc7d5JmTh657UyU+e/lAFIrUiAK50p0rDy95zNtUrBXj63fqzZf4/mcjhB1tr1mxQUU5LwGkkN8G8KUtF4HXcyNW4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783541080; c=relaxed/simple;
-	bh=4tNo6Yc77QWmYsbTfGflRg5UZrmccNSnHNrFESVSPCE=;
-	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=nxeOSsAp3yM+vqdp+dpSd8w2er8y2gN7y8aYYJgXd0b0Tyx1Ne37qjDT/V/2XaL4r0mMEYLhf7TcKvKKr6/x7NH6Hga7aa9rp5jecrp+hwTerkO5fwf8442B7vY/EaQZPiHwx3gOqoyW9wWcnGqAXBv5YsTmeql0OX7KhSO3SnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=OrNBb97b; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07BEF3E5A09;
+	Wed,  8 Jul 2026 20:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.2
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783543073; cv=fail; b=qg1oSwqVWxXRVb6zk55VW/eQwBWdfggsocjp0Y1Ru+hVsDSr37/dhlWk/z48VhN2zB8hSER7njjSrI6GQ2xLIWD92+pq6A3jt91s2glRsGluOUO944vgZ3X/FnQq6DFdjngceW9t4I5jzLn66qSRa//xzu7Is6Az+d0S1lWCFAE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783543073; c=relaxed/simple;
+	bh=3rFU18j5hmZr0a3AnKMAzd5pnOiaYsPtOvtjuu2eyKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=a0M+Aa7cSldTjgbdMj4pl/2mGPJDopPful12mn0/Ex2C+mZSEXBgHGnxMFmYFpwUoZmjbgwY0iP+UaMqQGok3gubXwkAzHa/LmpSxLGKu7tMIQ41+cYpb27IXbR+ZkouN99lPaEm4IfBzwpIGnRnAdfSkLdji9W+4pETBHPrphE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=a3b/+HSD; arc=fail smtp.client-ip=52.101.72.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="OrNBb97b"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id 89A86240103
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 22:04:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1783541071;
-	bh=Y9MEOAxh5b63Adlfao2iDHFPLGatcwLiz4X9KR+ESHU=;
-	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=OrNBb97bHZ9XULCBNTyQ2N2mRusIca2zw70TywWCXIjjDlUeIVkFxE0GDoPfDQis6
-	 ZBX8BaiS2y4oSJSyIF0Z4cRybDq/wx9SslgGNC7W3QBxHopOzsKdmNeqNCR/vvhlrU
-	 OzZd00+HtTsxsZltJaMO5NSO/qh14AjNaNbCK84/E865EVligzq507lAOCrZntP+gc
-	 EwKhViS9VESc+0Nzpj6UUDuyXIcDIngpNmHWmwUAL0X4FLJsEr8upnfzihAssqRpyj
-	 PUxncuGdzydEZ5qxZATHGROp0j5aTFq7rPoUTgiQianJNZKdkgs2+jRdnnDxf/z4N6
-	 T/a1O2BVLbOdg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4gwTZk6cGgz9rxN;
-	Wed,  8 Jul 2026 22:04:30 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="a3b/+HSD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k8K+ioMU4VdFRUmHQkToCHKhsGchN0+HDk4KFatWaZpT0giLOIqeh8JmuYqgSHr9Yo6c0axLUo0bRXv6h5NKU5CisAMjhxthyovxsIg68UJ1mDzcUYXKi7PhgPYaOBcNMs9UJqWVvIh6+xzmfj3uVDVPnXAAqkNzjG9WhTfQxs3pR9QW8mejrvELwB7NJZwtNum2sVaHRhSElTiAVbf8T8JL2NTSxo2so/LZEbO4FGCvwCodukQX2mLWThnHMOq48qi/aO2f+mRXYIrFRNsYcqVkHLS94oUqbSP8D2oSEuYL3e8tinkPHoQMG2NQ4NAJ9kUsLsa1qcUxKEtolWMtZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kLIOwX59rHzsWSB5b+uNiac52cGHyBK2fTin2R68I0w=;
+ b=mqDryuo94ToEJBUXWpq5Cm8rM6bwUOngk8bLrXMDpzLbNP3C4ixxo8LuI6YaLv6tcYW2Csp7L0nNrL/Y/Utq6Nt3eP1xjWF1WF4WcEV2Yb7gsf5MJDXabbfz26LYkJdkzbK85iEE6L8nytxh3VDA599pHmQ5r3WOK4DIrrvzbK2KJqYqaHy7UhlYAbbr9I6n0l+Y9QjiypphV+8lNi3oian32GIdub0dOymcGn9CJo+Yaj8m4JFJXuKhIRWtYCCrrSUnGv016HSlsyicAMkLdXoZ3bkcqg3slE6H/gZFXAK1YJwM5rafWXen2JEWq3Unnir8+arUKk42TgIhsibtLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kLIOwX59rHzsWSB5b+uNiac52cGHyBK2fTin2R68I0w=;
+ b=a3b/+HSDvPPZmU55yBZ3zFakOgZiJs8C5SH7VTxu+Qc/VTU9HMjA9Av7mRVwL03aJ2Bc+cTBRf5hW2my7ezhj87T/vYD0awW5T3dyvA9yGOoTwx96v3TsB3k+eBSHc0wUS4Q4nmIA+QPqfbVUD8EExGQXthOhB9NJwmnneTJTJRZX//TMAJaROkQYgu8AZTdUWPwGW2pTRF8zAKt0d/rClxvQXvmtr4cvrs9ZGTYxeEG2fP3xIFCXEHfjRkdXy3iKckhZY9k4e3q7TQBdasMSD7AZHrYZrCfZz48zqoidiV3Xeyok8c2+REh//TFHpzDsdTesXIHfFRu5Y8oy5n6og==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by PAXPR01MB10416.eurprd04.prod.outlook.com (2603:10a6:102:23f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Wed, 8 Jul
+ 2026 20:37:48 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Wed, 8 Jul 2026
+ 20:37:48 +0000
+Date: Wed, 8 Jul 2026 15:37:36 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: chancel.liu@oss.nxp.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 5/6] arm64: dts: imx91-9x9-qsb: Add WM8524 sound card
+ support
+Message-ID: <ak61EPNcUKdDetbt@SMW015318>
+References: <20260707065725.312450-1-chancel.liu@oss.nxp.com>
+ <20260707065725.312450-6-chancel.liu@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260707065725.312450-6-chancel.liu@oss.nxp.com>
+X-ClientProxiedBy: PH7P220CA0099.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:32d::23) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 08 Jul 2026 20:04:31 +0000
-From: Michael Diesen <michael.diesen@posteo.de>
-To: alsa-devel@alsa-project.org
-Cc: tiwai@suse.de, linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for HP Elite Dragonfly Folio
- G3 speakers
-Message-ID: <6b2b71bb318263aeb4f3ff67754d9978@posteo.de>
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PAXPR01MB10416:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13f03baf-79fc-43f4-0dae-08dedd30c5b1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|7416014|376014|19092799006|1800799024|18002099003|22082099003|4143699003|56012099006|11063799006|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	T/w2l+kHel2vnJcWad0nbw3apX+meVSRTEYB48cFfFinEez7PLWyh2dcACAoU0uM4LX3yicWz1LK8Zt2qZfApiyLQfLI9bOBAUYF6rS+BsTltxvK1siebe6fPYrNAgIRJ+KTRbclJVTqY2O0qExbhLOgdbELLtKD+xJ+QKzjq7U0u7B6uluQ7vgpYykk3lW1s7Vuxwd3MwW2wy+2rKnXQK+Mratrwt32m19N2wEvDOxUhn99nK4fLFW+l1iloR3omeTyVzGTOI0aeGqV3HRWhaLmlfnxuHs5C/n4/9YjzFpLyGQcFFhZoM37M+ZrINP+7i8OKd61DcFrTt8HXnqLVbzfVuX9tuCe/5NGoFKRUP4fhWXvLVAeFYDO6iZjJJxDoRVbCdhBVQ4U85ulc6FFPiDzBFVaK6wQzHqFnYpTsVKYupEbIAXZJf4dc8Ksh3L0tQ64R29ZQoF0xBiB8p+F8Xmi12/nnOvgQ1HzXNLMLGpZMog4cOrXjChybGDFO5lO/AlPEUoqps4yI1QouBw3q6vPGg+BuOhtNe86BAlemnoF5IY0AZBJ9GmIVmiYJNbZ4S5ggzgu5W93icvckCzQ8n2pL5kp7+ZgaOB9pPL7fBlsnQ/jGt1ZykBU8yX/T/sEEmmzUNv0jfBH+a5RXY8AOByqXntghhyvopQUJFHhV0c=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(7416014)(376014)(19092799006)(1800799024)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?5tXjw5EEmKUjwk0LhVvRgsgwX0oy2EhSnx1RB/arvH6MBurNUFc0hSAmqi32?=
+ =?us-ascii?Q?RipWQs+WQSqLXM6GbecgPV+uiMBxTZKbtpbbU7HLDd6YAE/upmcAOPoFRHeM?=
+ =?us-ascii?Q?ggavWclA2xEKK97V9U1npTRkNfSKdUebkKTbJ6UWiUZnezlip4g9IXcOV0w7?=
+ =?us-ascii?Q?7oqiIlsI+VSrxoR2xwjKsnfcCFzo6Rd44atPAeWHJLA9z7pQ0ht2Gm9HYIw3?=
+ =?us-ascii?Q?2dGlG02wOP7u6+pwb28QMZwXth+CPAzRhxMglka57YzWRd7ZzPT+SgZpOZNL?=
+ =?us-ascii?Q?8A++hscD1fCWsEeWbvgLtLd5eb/mzLQbBBSF+oOq3/nrO1+ErbS+gurJ7fP1?=
+ =?us-ascii?Q?lck22K3JW0wVaIQQsAGIu66GG3I8Uu7jTblROSViAzV+0NVBOnvrnBq9W17z?=
+ =?us-ascii?Q?WvO9qD/RF8zANTERWkk9vvvEEDSibwZKfOto60CShQkfKhxpxceOdplDP4xA?=
+ =?us-ascii?Q?RwwZiZjE9tLG1O4lRn61sg8ntrqDUJJUUo1wFb0rtUKW5APCmHK488yDu9fJ?=
+ =?us-ascii?Q?Jt3ONU/t/PG+VybDzPo3J1jrAsueNDJQM4FSUnR1vlHKZiDicINXQ81LHWFe?=
+ =?us-ascii?Q?imlxEyZL+m28EiCXNpqCHGaxL0ODIoNDwG17L8X94QSr0MF5/Sifj9bORmtO?=
+ =?us-ascii?Q?yVQW5Z2HccmEBtgQRsKNJ9kartVmQTYQn/wcGqsbWJ5n2J3ohLZdJbX5Crbf?=
+ =?us-ascii?Q?bcbZLQcX5oUu0ZN5jaCw51x4WDsEf7hJb/fUqktNBkonivxzC8PW+TBaj4LE?=
+ =?us-ascii?Q?KkkmB/VqpzL1MXaVy9NOOMRcbiQfkIq4PqqeOqIyJjecLPR7w10omsAi75+W?=
+ =?us-ascii?Q?n+Ey69I/QyNKgx/HcBPPmcehJ0c6l/PBMQKuIpwwoM+RPcT5L0K8VStONscH?=
+ =?us-ascii?Q?1OM8SXYW14c0HvCAoKD7WI4h4X9qa8NsJSNPyHPMfxXIDG9+HmRknlE2JfoZ?=
+ =?us-ascii?Q?QdSfWu989nw5Tks7OoS6oYcxiNYh4ND0wRgo/nMQ2w+gZRTIL4yAKo7KNZcR?=
+ =?us-ascii?Q?ZfviDa1xmyOFqxWA1uXLlLYrHdSnX/V3dVw6aGAOhrqs5GTLiN1hlAgThM7y?=
+ =?us-ascii?Q?MDbHnN4RaJbaPb2fW1DcAKeleASTckpLL3nGgWfg6wzXl6jd0pGKMn3F1Kjj?=
+ =?us-ascii?Q?nn49PwHzC07K+14idsWu39x/I1i2H6DfFMHASQHOeca49mejsBJHIyCfbXKo?=
+ =?us-ascii?Q?KCKRXIC/z4my8O5KwHlBgf2RLfAH1BAFhqoPDE5lAAsVsOvC9+X2w8lOFqJA?=
+ =?us-ascii?Q?VtO32GVP5A6dQDuBdsCfC9iaEcuRIQAr2iz8U/7g8trVJxIfWeR/tPhoOWfo?=
+ =?us-ascii?Q?jIDOaj6JNDtIo3pmm62TxHMvBsbCOezeLzkbcNAhNHaSrL1ndgtsHjzOy49L?=
+ =?us-ascii?Q?6ysnAsKc9r9LPHpimETTdEJe8Z7WX2JzMrjZAqpFxfdH2Q7dD7LCBkTtFN4k?=
+ =?us-ascii?Q?qfP1Due9+3d+UrgG0mrQOpPl4w2MmBHAaqByPhp2gQNNPxl9+XeQ1IM6MTlq?=
+ =?us-ascii?Q?bntwjHwfPfb95a6vrP/ReFhdleNwOsjNKFj75UnrVq/PuuMZUnmlIspoepDU?=
+ =?us-ascii?Q?JKJglipLsMHTkp9l/eeieOU1mlfXKyozmf5TWleMHbjPSkT7j4wLDOll90NZ?=
+ =?us-ascii?Q?EhGGgWQKgLJG/cIDle97LiFvbRgrxeD8HZekHkzUjY4PO5cMCLTZD+XIgKCZ?=
+ =?us-ascii?Q?vCaKMpVA6csAOOfk6Y57UMmFi9EKaGD5n6e0b6aFLcVoSLpbHO5SfCR7RUrY?=
+ =?us-ascii?Q?3wZN8XWH6gdQohq7I/F9SFFaDYGkIRcanHwbBSq+pZBeI+wDIq2F?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13f03baf-79fc-43f4-0dae-08dedd30c5b1
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 20:37:48.3373
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ENTyrHcNUh5hNa2aGOSDfBP5FpYZ1mZJY/ygSQLhBHwsW8HhwQbaBil7BAT5qK+3zgJqNoyxFBfU/rqrbNV6oIHcN3/ghxiTSAxF8L/BeEYCmr+dz9iFi6VaYTKsyjeA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR01MB10416
 
-The HP Elite Dragonfly Folio G3 (PCI SSID 103c:8a05) has 4 CS35L41
-amplifiers on SPI, identical to the non-Folio Dragonfly G3 (103c:8981).
-Without this quirk the amps are never registered and speakers stay
-silent.
+On Tue, Jul 07, 2026 at 03:57:24PM +0900, chancel.liu@oss.nxp.com wrote:
+> From: Chancel Liu <chancel.liu@nxp.com>
+>
+> Add WM8524 sound card support which connects to SAI1.
+>
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+> ---
+>  .../boot/dts/freescale/imx91-9x9-qsb.dts      | 67 +++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dts b/arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dts
+> index 1f2d8082d255..c5b9dfee95eb 100644
+> --- a/arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx91-9x9-qsb.dts
+> @@ -110,6 +110,28 @@ linux,cma {
+>  			linux,cma-default;
+>  		};
+>  	};
+> +
+> +	sound-wm8524 {
+> +		compatible = "audio-graph-card2";
+> +		label = "wm8524-audio";
+> +		links = <&sai1_port1>;
+> +		widgets = "Line", "Line Out Jack";
+> +		routing =
+> +			"Line Out Jack", "LINEVOUTL",
+> +			"Line Out Jack", "LINEVOUTR";
+> +	};
+> +
+> +	wm8524: audio-codec {
+> +		#sound-dai-cells = <0>;
+> +		compatible = "wlf,wm8524";
 
-I've been carrying this as a local out-of-tree patch and would like
-to get it merged. Note there is a related, recently merged quirk for
-a neighboring SSID on what appears to be a sibling board variant:
+compatible should first property
 
-   0a10faad5ca5 ("ALSA: hda/realtek: add quirk for HP Dragonfly Folio
-   G3 2-in-1", 103c:8a06), which uses the SPI4 + GPIO LED fixup
-   variant rather than plain SPI4.
+> +		wlf,mute-gpios = <&pcal6524 2 GPIO_ACTIVE_LOW>;
+> +
+> +		port {
+> +			codec_ep: endpoint {
+> +				remote-endpoint = <&sai1_ep1>;
+> +			};
+> +		};
+> +	};
+>  };
+>
+>  &adc1 {
+> @@ -186,6 +208,15 @@ MX91_PAD_SD2_RESET_B__GPIO3_IO7                         0x31e
+>  		>;
+>  	};
+>
+> +	pinctrl_sai1: sai1grp {
+> +		fsl,pins = <
+> +			MX91_PAD_SAI1_TXC__SAI1_TX_BCLK				0x31e
+> +			MX91_PAD_SAI1_TXFS__SAI1_TX_SYNC			0x31e
+> +			MX91_PAD_SAI1_TXD0__SAI1_TX_DATA0			0x31e
+> +			MX91_PAD_SAI1_RXD0__SAI1_MCLK				0x31e
+> +		>;
+> +	};
+> +
+>  	pinctrl_uart1: uart1grp {
+>  		fsl,pins = <
+>  			MX91_PAD_UART1_RXD__LPUART1_RX                          0x31e
+> @@ -433,6 +464,42 @@ &lpuart1 {
+>  	status = "okay";
+>  };
+>
+> +&sai1 {
+> +	#sound-dai-cells = <0>;
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&pinctrl_sai1>, <&sai1_fun>, <&sai1_enable>;
+> +	assigned-clocks = <&clk IMX93_CLK_SAI1>;
+> +	assigned-clock-parents = <&clk IMX93_CLK_AUDIO_PLL>;
+> +	assigned-clock-rates = <24576000>;
+> +	fsl,sai-mclk-direction-output;
 
-My hardware (103c:8a05, "HP Elite Dragonfly Folio G3", non-2-in-1
-SKU) works correctly with the plain ALC245_FIXUP_CS35L41_SPI_4
-fixup and does not need the GPIO LED handling. Happy to re-test
-against SPI_4_HP_GPIO_LED if you think that's actually the more
-correct fixup for this board too =E2=80=94 let me know.
+vendor property should be last but before status
 
-Signed-off-by: Michael Diesen <michael.diesen@posteo.de>
----
-  sound/hda/codecs/realtek/alc269.c | 1 +
-  1 file changed, 1 insertion(+)
-
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6817,6 +6817,7 @@
-       SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)",=20
-ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-       SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100",=20
-ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
-       SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9",=20
-ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
-+     SND_PCI_QUIRK(0x103c, 0x8a05, "HP Elite Dragonfly Folio G3",=20
-ALC245_FIXUP_CS35L41_SPI_4),
-       SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx",=20
-ALC287_FIXUP_HP_GPIO_LED),
-       SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx",=20
-ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
-       SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx",=20
-ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
-
----
+Frank
+> +	clocks = <&clk IMX93_CLK_SAI1_IPG>, <&clk IMX93_CLK_DUMMY>,
+> +		 <&clk IMX93_CLK_SAI1_GATE>, <&clk IMX93_CLK_DUMMY>,
+> +		 <&clk IMX93_CLK_DUMMY>, <&clk IMX93_CLK_AUDIO_PLL>;
+> +	clock-names = "bus", "mclk0", "mclk1", "mclk2", "mclk3", "pll8k";
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		sai1_port1: port@1 {
+> +			reg = <1>;
+> +			playback-only;
+> +
+> +			sai1_ep1: endpoint {
+> +				dai-format = "i2s";
+> +				dai-tdm-slot-num = <2>;
+> +				dai-tdm-slot-width = <32>;
+> +				bitclock-master;
+> +				frame-master;
+> +				mclk-fs = <256>;
+> +				system-clock-direction-out;
+> +				remote-endpoint = <&codec_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &usbotg1 {
+>  	adp-disable;
+>  	disable-over-current;
+> --
+> 2.50.1
+>
+>
