@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FAD3BBFA3;
-	Thu,  9 Jul 2026 12:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5375E3F86FB;
+	Thu,  9 Jul 2026 12:19:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783599549; cv=none; b=OL2ueAvldxX6d0O/x6PN9kR0OH0b7qZvUiX4cq2B3jiEr0RLzkOluiyrDge8IV0t4U99RRqQg03f85FiF2LayKDbpngJkYl8tcBZTfIsrDwD7lEp8sL4hvyN0gb+UZWTF9c2Zcv8Ll9ATbMs8gcPW0oBdtLvTrF7NsftwLuEMYE=
+	t=1783599555; cv=none; b=IaZVsnLoThqUF0sRziC3vlhMlONfs4Fpu//S22cwEjTp2gkxtlhoMRqGQx/CGnFe12BrK4SHDr+f452i6SucITZ7GWltQ2QO9bvpLHey75peWTAM0E+Ym3ZHJBiYrVCaMWgcXfUlEDRCLZP8kPn40RC9LdDS6aQ4tiZdV0VhnxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783599549; c=relaxed/simple;
-	bh=1fWWwAbu0oWWVqWQjpZ19qk3XkoH5xz2ecsx3ZehMKI=;
+	s=arc-20240116; t=1783599555; c=relaxed/simple;
+	bh=MplgETsFM0VexgxoMrMIq6KgDR0KfukYSXZ79Q+Fz88=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iLEc1sol2OUrmaqbiFsSF4kuWI4LpEgnQgMRvGpliaJfD9EXf4AddDbO/fcqrJEYtFNgu33FDf3YFl5y70rSGZ+8fy34Bl7/+EnT/jlgSH9Gl0pqwn7A8zGX+Xx1Do+glZWbuMBE01NsBzOvQX3Nk1LJY0HJTOiz8mHx8JQLNmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AP4pbY/M; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=evFt/Sfa9vkxUdlASSlm7PlnVZp1DVGvR7+pySgabGCUr8TTvhiBex+PTbJRdWzuLOanuoNwVBaWVWAJeKG6cLE/lQpgcF07XLrEz5HiNhm/iJHlZhT1K8dQ0MIKpExwIuz1ugvvhXIRx8bwImx5zZSZn4OGRqgEl5mo3QJI1ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8CD5IG1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AP4pbY/M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6D461F00A3A;
-	Thu,  9 Jul 2026 12:19:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8CD5IG1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93BB61F000E9;
+	Thu,  9 Jul 2026 12:19:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783599548;
-	bh=+Pv5Qfd0LIcNbXwBJCqp1PLxZS7qwOWqqZdo+ZVk7tQ=;
+	s=k20260515; t=1783599554;
+	bh=CZCFvOFR+D0f5Pbt8AtYWBwNyj+1RPtceMZuCD+FMqU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=AP4pbY/MbHV6fgmqFiAtdiRN5sJdqjJIt1WfqrEenRE5NepdA61wI0QosoBZq3IeI
-	 vasMjLBwHTFndwlwc3QgTOcH3TyH+REjT65xglgHPpsiFGj6wJh1f9COSVosZ3kLBM
-	 HptdyoyfC3cGKn4l0LKImZIgJXH6zAlJqU1fW6AebEHMBGV/GZjmQxP9qLUwixmcNO
-	 VWEhZfBGK32TptiIx0Dvy9YfHuqqKkuh4oqvmzX1aroIHBYViE7qvqLqCM84bI4fWf
-	 7pZ+8KNa+QZ+PssQgzmd8nozkfPC1EFtBxC9QR97dvWajm0AuPTdOmd8FwaKZq1K3x
-	 dv2dm3NSpaP1Q==
+	b=P8CD5IG1QerO/rMxsjVGMH8VVGwWc7LbqHxR/JTqs2O8cmCHIh8pv4tmYsjza7UYF
+	 nijiUr90kSMEHTrf6pZnLquyRq1F4fLXnqosDwaWyF7Avhg66ACT5ZTYAJ6Qvdpk4C
+	 yS1Zk03/NS3OL39YRuRk/uec/u6e+qnF7j+/DEkyD2mOHi9FWku62UUs1d7cpa7h8Z
+	 S6lTuWa0Zv5OYjEBD44hkE8dGkobo3xnDSyNeM5rCPFuQ5l2TfiGmJ5j+rHIVzqBBR
+	 Jd+o04fNovG/MaAOZB29N74Xwz9CTSpPD7Iqr25zBpkdAAw15fsJ3dt6IBxgaVUOb0
+	 4RsG+rqCt7vMg==
 From: Mark Brown <broonie@kernel.org>
-To: Uday Khare <udaykhare77@gmail.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260706153109.10953-1-udaykhare77@gmail.com>
-References: <20260706153109.10953-1-udaykhare77@gmail.com>
-Subject: Re: [PATCH v2] ASoC: tas2562: fix deprecated 'shut-down' GPIO
- always cleared after lookup
-Message-Id: <178355364260.26140.12660356995727389020.b4-ty@b4>
-Date: Thu, 09 Jul 2026 00:34:02 +0100
+To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, Frank.Li@nxp.com, s.hauer@pengutronix.de, 
+ chancel.liu@oss.nxp.com
+Cc: kernel@pengutronix.de, festevam@gmail.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260707065725.312450-1-chancel.liu@oss.nxp.com>
+References: <20260707065725.312450-1-chancel.liu@oss.nxp.com>
+Subject: Re: (subset) [PATCH 0/6] Add audio support on i.MX91 9x9 QSB
+Message-Id: <178353053174.26140.5507506345849775715.b4-ty@b4>
+Date: Wed, 08 Jul 2026 18:08:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,29 +47,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1164; i=broonie@kernel.org;
- h=from:subject:message-id; bh=1fWWwAbu0oWWVqWQjpZ19qk3XkoH5xz2ecsx3ZehMKI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqT5G5AbdFxbdErlSJamCXComBokMtZGIHP+YAp
- ZXWQet31fOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCak+RuQAKCRAk1otyXVSH
- 0IMBB/41bQPkzCa3gh7Ry4l7rACTOoleNqGWfl+egiZPWUqwpSZwWouUxgAJkwiHpEj/UvnFOrd
- PQNOsFP4Gz1EHa+yffJXVumD+sBg3MUTsPEESCdwImLJpv7yqB7STWW+Tg9vM8mFEZjhANZ3JsZ
- eAxipkwtr+d6L15x8io4RnDoB2AxfTBTh23IU+gNXnCzOjymxosJPtNv5QqXYln7Dj4rAHobyQs
- 1Cvd5XFODzm9pAlCT0nWnuqKXY383RKr4/V13nRUX5umRxBSxlzaY/tIusAb0hG/a/O+fG+0RZY
- VYHA2lpdawfYw2K5nr87+cwwBz3oPsH86Lcxb1+HJ+HQ9Aax
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1664; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=MplgETsFM0VexgxoMrMIq6KgDR0KfukYSXZ79Q+Fz88=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqT5G+bOeWXFq6laYD7zprq60YsaMtJmfMGd1gB
+ n8CI8Eks86JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCak+RvgAKCRAk1otyXVSH
+ 0LrbB/9HQlTk58Ks5hTLUaXIH8HSzFf+mA6d/gBSskg+ClnJe2s5pNC4SrdFEP5Jf+aJvH8z5mP
+ Zy3JnXF/I8pX/zrA8A/hSci8qGld7sG8JVgvuYwO7CqIlj+L45XxiltorhsYwf1mSoTuUZ1YCox
+ mGtbtWyOr1BQQ7WHAfWCBHFZUko7QfTGAC8044YPGlNTc3FoPymNxNiGQKQuYoYq6dW4my4DVmZ
+ Q8brkK+WUyZhQBUIwd3un7aZrK3sg4zz8LFWprPBr3eMMEuU7/J3j1mNYWWDTSn9NrG40Dqg8tu
+ H5H2NWCNMnS4we0AI9lEpJdCVJHC8SqOuDYBYywzyP2locLf
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 06 Jul 2026 21:01:09 +0530, Uday Khare wrote:
-> ASoC: tas2562: fix deprecated 'shut-down' GPIO always cleared after lookup
+On Tue, 07 Jul 2026 15:57:19 +0900, chancel.liu@oss.nxp.com wrote:
+> Add audio support on i.MX91 9x9 QSB
+> 
+> From: Chancel Liu <chancel.liu@nxp.com>
+> 
+> The board routes audio related signals through on-board muxes controlled
+> by a GPIO expander. Add the mux states required by SAI1 playback and PDM
+> capture. Add support for WM8524 and PDM microphone sound cards in DT.
+> 
+> [...]
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
 Thanks!
 
-[1/1] ASoC: tas2562: fix deprecated 'shut-down' GPIO always cleared after lookup
-      https://git.kernel.org/broonie/sound/c/3238c634725a
+[1/6] ASoC: dt-bindings: wlf,wm8524: Add audio-graph port support
+      https://git.kernel.org/broonie/sound/c/7ccad5668957
+[2/6] ASoC: dt-bindings: fsl,micfil: Add audio-graph port support
+      https://git.kernel.org/broonie/sound/c/28017bf7f762
+[3/6] ASoC: dt-bindings: dmic-codec: Add audio-graph port support
+      https://git.kernel.org/broonie/sound/c/cf3bd20c43f7
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
