@@ -1,97 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDCD3D47AB;
-	Wed,  8 Jul 2026 19:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4F5396D1C
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 20:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783537922; cv=none; b=dqbauk1GjPmXpCriXDQkBfBQqccovHplaxYl6espiZq16TurWcO/+7uhRTOOOMlyVJz2JlFT6uVqnDrggZHUWXbKltieeTYSC093QOWtc/3wypPNClNIGg0YOQboZnxHN2YqqRzLjwsnLejIYOF16yjGbdoyQ/CwWnAVdmQ+uqo=
+	t=1783541080; cv=none; b=LY9ujXjJbPbgItKsQuVPxz26lpuvBoXkRhXnoe3XyUvCjMx9Esc0KLubqfiTkD4sMk6LvoKSXvIDMxkdsfOc7d5JmTh657UyU+e/lAFIrUiAK50p0rDy95zNtUrBXj63fqzZf4/mcjhB1tr1mxQUU5LwGkkN8G8KUtF4HXcyNW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783537922; c=relaxed/simple;
-	bh=AHJGdgLVcs9+b0U+hYJ2REpkRPctlOTm/9KrFAqcN68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PSqFeKU7cgmUOhrHOOe5yDGpLRET0eJvdMboeMyoGrfD7Zdwmpn2y4iuz7P8YygT7FPwB3wP9e3LMbi1CSZ2V1A70v5HcGi+tsc21x4oG5K7keU/fvfoEfLZobnj8zmeO5+B/29ad6nzZSXHCZspkkJuJQmq1tuejH01Gap1dI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WBwiNzL4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783541080; c=relaxed/simple;
+	bh=4tNo6Yc77QWmYsbTfGflRg5UZrmccNSnHNrFESVSPCE=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=nxeOSsAp3yM+vqdp+dpSd8w2er8y2gN7y8aYYJgXd0b0Tyx1Ne37qjDT/V/2XaL4r0mMEYLhf7TcKvKKr6/x7NH6Hga7aa9rp5jecrp+hwTerkO5fwf8442B7vY/EaQZPiHwx3gOqoyW9wWcnGqAXBv5YsTmeql0OX7KhSO3SnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=OrNBb97b; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WBwiNzL4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A93B1F000E9;
-	Wed,  8 Jul 2026 19:11:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783537919;
-	bh=7gW1UZYVyjQ2M2NqvU0zYgWO0SDITcTPS+KqhiirHDw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WBwiNzL4xrokL7T6ob4BOeOInvFa/3JXuUp/Xmg5auqvTnW+OTnSwRnomvag3+hZt
-	 pqUITBKMczmaxOkLdKrOzYftsH607vkqxh/DOCJ25dj1wj4PMpk8zYxMIugOLDPOW9
-	 WtzOdKYikSBiOALBdDnP6zXbI68jSQJ4lv4e+bUWUzDvzMM+zdiABhYB6POxLnsxvq
-	 Y68fYLjR0WV74q18eBlETPd7GIuh7MMb7arGVhIgKQtP9JUg0LC22HiMkOmLmvcrnD
-	 UlQ6387nPXsLF3rP8GJg+XwDEyfNSJdzDUfB/7wA/iMNhzFf6ixzFZpZ9v7w7hqd9j
-	 K+IufqGu3daPQ==
-Date: Wed, 8 Jul 2026 20:11:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
-	krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v6 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
- amplifier
-Message-ID: <a5139285-2017-4c94-92f2-f87fbef6fa6a@sirena.org.uk>
-References: <20260708093506.895481-1-YLCHANG2@nuvoton.com>
- <20260708093506.895481-3-YLCHANG2@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="OrNBb97b"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id 89A86240103
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 22:04:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1783541071;
+	bh=Y9MEOAxh5b63Adlfao2iDHFPLGatcwLiz4X9KR+ESHU=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=OrNBb97bHZ9XULCBNTyQ2N2mRusIca2zw70TywWCXIjjDlUeIVkFxE0GDoPfDQis6
+	 ZBX8BaiS2y4oSJSyIF0Z4cRybDq/wx9SslgGNC7W3QBxHopOzsKdmNeqNCR/vvhlrU
+	 OzZd00+HtTsxsZltJaMO5NSO/qh14AjNaNbCK84/E865EVligzq507lAOCrZntP+gc
+	 EwKhViS9VESc+0Nzpj6UUDuyXIcDIngpNmHWmwUAL0X4FLJsEr8upnfzihAssqRpyj
+	 PUxncuGdzydEZ5qxZATHGROp0j5aTFq7rPoUTgiQianJNZKdkgs2+jRdnnDxf/z4N6
+	 T/a1O2BVLbOdg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4gwTZk6cGgz9rxN;
+	Wed,  8 Jul 2026 22:04:30 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bPb+sFRLKRrMY7hN"
-Content-Disposition: inline
-In-Reply-To: <20260708093506.895481-3-YLCHANG2@nuvoton.com>
-X-Cookie: The other line moves faster.
+Date: Wed, 08 Jul 2026 20:04:31 +0000
+From: Michael Diesen <michael.diesen@posteo.de>
+To: alsa-devel@alsa-project.org
+Cc: tiwai@suse.de, linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for HP Elite Dragonfly Folio
+ G3 speakers
+Message-ID: <6b2b71bb318263aeb4f3ff67754d9978@posteo.de>
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: quoted-printable
 
+The HP Elite Dragonfly Folio G3 (PCI SSID 103c:8a05) has 4 CS35L41
+amplifiers on SPI, identical to the non-Folio Dragonfly G3 (103c:8981).
+Without this quirk the amps are never registered and speakers stay
+silent.
 
---bPb+sFRLKRrMY7hN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I've been carrying this as a local out-of-tree patch and would like
+to get it merged. Note there is a related, recently merged quirk for
+a neighboring SSID on what appears to be a sibling board variant:
 
-On Wed, Jul 08, 2026 at 05:35:06PM +0800, Neo Chang wrote:
-> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
-> stereo 30W+30W smart amplifier with an integrated low-latency
-> Advanced Audio DSP.
+   0a10faad5ca5 ("ALSA: hda/realtek: add quirk for HP Dragonfly Folio
+   G3 2-in-1", 103c:8a06), which uses the SPI4 + GPIO LED fixup
+   variant rather than plain SPI4.
 
-> +static int nau8360_dsp_chan_kcs_setup(struct snd_soc_component *cp,
-> +       const char *fw_name, int dsp_addr)
+My hardware (103c:8a05, "HP Elite Dragonfly Folio G3", non-2-in-1
+SKU) works correctly with the plain ALC245_FIXUP_CS35L41_SPI_4
+fixup and does not need the GPIO LED handling. Happy to re-test
+against SPI_4_HP_GPIO_LED if you think that's actually the more
+correct fixup for this board too =E2=80=94 let me know.
 
-> +       ret = request_firmware_nowait(THIS_MODULE, true,
-> +               fw_name, dev, GFP_KERNEL, ctx, nau8360_dsp_fw_cb);
+Signed-off-by: Michael Diesen <michael.diesen@posteo.de>
+---
+  sound/hda/codecs/realtek/alc269.c | 1 +
+  1 file changed, 1 insertion(+)
 
-This gets run every resume but there's no cleanup so if for some reason
-we get suspend/resumes running back to back and the firmware load
-doesn't complete, or the driver gets removed while the firmware loads
-are pending during normal probe, nothing cancels the firmware loads and
-they might end up completing.  Both suspend and remove should clean up
-anything that's pending.
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6817,6 +6817,7 @@
+       SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)",=20
+ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+       SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100",=20
+ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+       SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9",=20
+ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
++     SND_PCI_QUIRK(0x103c, 0x8a05, "HP Elite Dragonfly Folio G3",=20
+ALC245_FIXUP_CS35L41_SPI_4),
+       SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx",=20
+ALC287_FIXUP_HP_GPIO_LED),
+       SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx",=20
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+       SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx",=20
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
 
-There's a bunch of issues reported by Sashiko:
-
-   https://sashiko.dev/#/patchset/20260708093506.895481-1-YLCHANG2%40nuvoton.com
-
-some of which looked valid.
-
---bPb+sFRLKRrMY7hN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpOoPoACgkQJNaLcl1U
-h9ApFgf/XITbLpbuaEsOktfRrg4vKBaYvkVaUPW5mhT7anTKrSX69Ce+SEnRWo8V
-cmTotB0Z8zn8ziV3QYo+zt+q/ecmEkEHCSWVmdUPNDhdRwriNMB7u1JZ1R9Wo/ho
-BIIARxALZI4I06wE0gJii1sY9oh9kIFJOHzcIWDjEHdDQXXdZI6JLTivh4etD4Ac
-9sK4KQ3XKuphSCu07zP1Y/+lcGjss7+N5VyY2OpSKZ1oVKLzqXsLsJI7pYUw1L90
-+kZRHM5Ea1CzQ2cnY17SYQeDmKz2aNVLs3F+dzjBceIPshYqI2FW4fPlcZPFPU20
-mtZD0lC4x+xcMc/1ePCj0er3ucfZCA==
-=wcRd
------END PGP SIGNATURE-----
-
---bPb+sFRLKRrMY7hN--
+---
