@@ -1,63 +1,63 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C686448C3FB
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63F847886E
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jul 2026 14:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783520492; cv=none; b=ICIsnb+eQB5DrriF1M1J/JxNQ3BoU9Y7bu4bFx1rQUKfjPpSrgyVEyswWb6qG0vHh6d9jrR04r100TN3zbeEMysdGbZCVtHTIRY1iGMmFgpgRMNQBJ1rwncOod6Pw3bGPAzy54dWP8C/znkgrVVpRcJZBX2Uw+j8PFEdruZdetw=
+	t=1783520500; cv=none; b=n0CuG4pP5OxhnblDjj//f79c1s2NL6xAWL4QXSaUeiiLHYDgbwCgODYbChHkspH/RMjZD2Wna9EMIyn6WDlpFj9xEl0w65UmVaESkzhbIQrpPYdH8HYsba6RMGIOLuSqZMRGXz/UozYCv8KXVpGhYaWikdh318suY5M224Apyf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783520492; c=relaxed/simple;
-	bh=vGrtY8X/CBlchJHrZ0QsZ166oJ5xk86uURcTkF4hGPs=;
+	s=arc-20240116; t=1783520500; c=relaxed/simple;
+	bh=71e6v5A0pmTCpY/muFVgY0bKxBOo24zj6ulqSaCErLQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D6H+sFRRdcduqfJrXxLOo756pASMPo9kyHiylby8rSaAKL/V98wFAecQUXi/ubYkxmtu+EIE+NPZA9+P2LRGHPEGCPU7H/gGUkMNqCx+X1o2KOZXWppvYgBYRefDTLrV+aulKfnfYVvbsWPyAqGqdfwIs+LTduVrElXsOpEyjMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ty8tVTHD; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=F+S759bVMvz/fWGNbDwF2V92/rQP2Cjq8eerXx9i31mKx9Qk3oA8iAs24c2eTHUCvGGS9iPc86aAd3iPp6S6wD+c6UoNdnIi6Qax8g/vDW6sJdg0c6l4GRssfKEyd34D6MWY8J7dJ4ToZhI7IF2dzogVN9xWvcP6bsVGINpgi3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SHsvHxu8; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ty8tVTHD"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cca24023edso11194695ad.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:21:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SHsvHxu8"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cabc0a1ab6so10647735ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 07:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783520490; x=1784125290; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783520498; x=1784125298; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=78eN83RWVPj3usGOOjpXeDQAtr7LkbhNmieBoJ7adsI=;
-        b=Ty8tVTHDxZzRNP36AH+X3BA9J4TuYh6L0xTMaA2R9MxYUUxAHpYY/bkgwP2m4r6xFl
-         2O7NG89DaGeTLY/5f76uSMRGLE6bIhOE4R/2qf1XvOdIv88B/HXpWGVI6iU3guHOgle6
-         5iXqZ1DtalSah3h85+C3x6XQFN9C7aLf2hwk/on749ISGvWNfcdI6xn8fcQZeuSVcElP
-         pI/zXiPybcfWEUJKzPvVNcN8xZpwCF+u3PrMETaVdBLTWTFJ7zpvW9cSV8XdmpMRuQLG
-         Ras6lkogmb+0nYExo1OVENqsIT78jLaYSEvaqtJPInoKiIaNc37fKfU10+QnuuEnc4yZ
-         vzUw==
+         :message-id:reply-to;
+        bh=jE/vGes9bWof+nCBjw7kvawhZty+DCUG3JNg48uQoDI=;
+        b=SHsvHxu8703aB2yGEf6WaOaN+sy9+s06bbZK2fePm09Kso+44hRvlpqnRlVBE4+MUT
+         PuHFHVhQiu7w/1f/8loH/1kCeETWYHHPo6my4uh1BL0wg0qEbQ93Z3K9BhygQ6jBZCPr
+         17jNMF6Md8qSDjHoiz3Ddq0iC4+l0KLE6G9N+FZcSx9j6WG1Pnd7Be2wH48yGI6sFUPB
+         DMEwQJ2iLGIYkwp/efldhxLgdV/cDK9dBGYx901DnNz8bkqAJ/YqmHrekU9nZZ7wQ5fM
+         X4FA1VsJ4Zu/Uqq/xFKrMynFzR2ZhI/YPt+ybscmCggn87ZZjmezrBq/+OX52VCCIIM8
+         BlYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783520490; x=1784125290;
+        d=1e100.net; s=20251104; t=1783520498; x=1784125298;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=78eN83RWVPj3usGOOjpXeDQAtr7LkbhNmieBoJ7adsI=;
-        b=Vl0diCJz4f3V75E6JIJefyrepvFH2Yuq7eBQHIDnog4+gfaWo2c7Rjj6dNJINwYp7T
-         RbdR2j6fBAxgyLjQ0XY8T4XdWXmqkcJyY1ZcSPdt23I6Z0uuVGjL4c6Z6POUyPnR2qL5
-         LRqQNFLBAH+mEPxtBrGqqALc9B0CzPFel5CxyS9xI7RCupOOUcGhBIqH6Tb0oA4iQ7Rr
-         BDxMjt7xVVkuaRwdzZZF3PBW7tL00x4/iSG4dT7ZbTePZOneRVdgyc1v6MNWeVl15BIu
-         3x5MeZ3CIkF7nrdMxN6H74MAV9Reju2gyI4q7QleQgk0QEUipde8dfszwwBUlawC3GG6
-         suww==
-X-Forwarded-Encrypted: i=1; AHgh+RrzWGdFcq7cdIi3ii9bfgSOoLPILvkE4hUapYZSGZvFN9t7g6guLBtcVEEBgSJ4RaCmCxBBrJFNRJNM1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrYD0uxIr1sDKLjMgp6fAjdG8IuL2Q0dz3OfbuS4yqM7tEM91w
-	MkAIy9kitH38QtzZhvmT2u+uTetZiGcKtzY3/lcAuAqdNAkrBR6Vo04k
-X-Gm-Gg: AfdE7cnaanKG8ySkWFOKECsHoUq78Wu2kc/6glqXkhdUfkZgx8J4oF+K8dlTY8JmPsS
-	F/I1a71SHL3pFrl6FiY9lNMjt6NYq45HQDzbD8/h+laoNCubhHWnk6FvDz7JoCGkycV7KvnnFCD
-	ZooJ/DmVKjx7VXVcqLWnrN9a4j1BuAMZtk5XK9yCvRC0JyySls0CxxBC1UHySmH7DYIwUcYCPNS
-	cImUBXJnRxowk+XijhJdiDLk3HbBXbPy+1mrPEfVJ63RJr+2YMhRMYayXGa+3DKo8DnCjqzvZG9
-	6YVmWwoiLI8GAMsNENakhFA7y0Axv72ZsU4qaNtvhoOkcXJSam/zNhOVjOZ/GtKj+QzCZxEoN6d
-	zAZwN42DYHZSfyyDbD9P6SWIrtLTe/v0VHasflR9uJHHyVJhtSd7b3zObH0zNmiv5NkrjeEoln3
-	2x9sTewqGnU0Hu6svRaPQ4aDqGNytIdpexIEhlBOceDAjGx1Y=
-X-Received: by 2002:a17:903:120f:b0:2ca:53e9:1277 with SMTP id d9443c01a7336-2ccea37df7bmr30296625ad.1.1783520490133;
-        Wed, 08 Jul 2026 07:21:30 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jE/vGes9bWof+nCBjw7kvawhZty+DCUG3JNg48uQoDI=;
+        b=QCGIajlpQHyuKfjdP6XY5pfBurW8c+KgTD0B/2t6jGNo4pA6CMCR2sw5IHLjukstH0
+         3RfouLrFRnBshw1qET1RLnjNPchdZMf3s0EqZeVjLGjJLiWwNzKh7fQJppaoH1MuNXSU
+         NdXAEiMFoCDIe1RRaIPf1CTZaArUsYMwIFrMicjQzLdvMGNRmA79qPwce4FQ5CV0P0k+
+         KWTvAxmOJPKd6c3069OddZBpzVKA2T2jPu0XJgcabbBtH5/E37xSDyA1cBa1wBhV21be
+         NDm7zfJrTn/2tO1Mwj13hsXbwEoe7DBeUi8kW5TrXNK43+xh5YJBocJi58C8euoUnEas
+         1a0Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rr4M116FH7mGyA7jrcy7DUh761bbOTs0ZH5K8bOp810DSoGcAUdO8RVVwtA2jgVIEfv9ol1xiaeIbv2Ow==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCyZlEnmztsABjiHBu5hxVMkJSmmAuMcAixsJv4EaWMYpNMB2S
+	hgNKrxrGPLvHVXfYxEa02DAFpffRlx+yF+z8nKtGq7IWOqhBwmjIzGmD
+X-Gm-Gg: AfdE7ckxwTfDPIDueoUlOH0uYvqd7fQlo6G8ecYxmuRsqaHRLP6/VJddsVtD0fnpN94
+	eXBHIvyvJ2vGL5RSqjQ+RXJ3pOKhGyT8O39t08pczmb5zv6FBN/ZAj1ErbD0LU25h6ExzoZS24C
+	gpZfbYqSzDFvczku01AboDxnDQQFkTQbLJPcG+ZB0DG2NLBKGyUZdZArN0Uy79ejUSdnV46deJY
+	ZHG04VflFqP7tShleBQsAKkFvYnmTDG5uXfB42K7m9V+YDq29YGZGWolbjoEWGqDEFzRtQpeGuC
+	F/hXyrEW/rsGG2Xjuc3PP4SbX1dq0hAwim+62zFm9LMveqWoHVn7pgkTjBA7o7yS7frOZx6oNkt
+	H+en7MOiu3cwkhccR+rZTyZhRHw/IdFgEbXJX5qBbn02Dme0FTwdQReDsTsXi4ZRjF1/tZwHSp1
+	IzLmmKu4r3ZKr+Dob3JN6rMfQqPbkpspgfR3fIu9wcBCzbVI8=
+X-Received: by 2002:a17:902:ebd2:b0:2c6:a772:7e43 with SMTP id d9443c01a7336-2ccea39354fmr32045325ad.18.1783520498057;
+        Wed, 08 Jul 2026 07:21:38 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.21.23
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3bcc0sm28841575ad.67.2026.07.08.07.21.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 07:21:29 -0700 (PDT)
+        Wed, 08 Jul 2026 07:21:37 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -92,9 +92,9 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 18/27] ASoC: codecs: rt5645: Use guard() for mutex locks
-Date: Wed,  8 Jul 2026 21:17:25 +0700
-Message-ID: <20260708141734.578926-19-phucduc.bui@gmail.com>
+Subject: [PATCH v2 19/27] ASoC: codecs: rt5665: Use guard() for mutex locks
+Date: Wed,  8 Jul 2026 21:17:26 +0700
+Message-ID: <20260708141734.578926-20-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260708141734.578926-1-phucduc.bui@gmail.com>
 References: <20260708141734.578926-1-phucduc.bui@gmail.com>
@@ -113,13 +113,13 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/rt5645.c | 160 +++++++++++++++++++-------------------
- 1 file changed, 79 insertions(+), 81 deletions(-)
+ sound/soc/codecs/rt5665.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
-index e9819653b30d..7cdca9774545 100644
---- a/sound/soc/codecs/rt5645.c
-+++ b/sound/soc/codecs/rt5645.c
+diff --git a/sound/soc/codecs/rt5665.c b/sound/soc/codecs/rt5665.c
+index 48f57cd0920d..1d987472ba42 100644
+--- a/sound/soc/codecs/rt5665.c
++++ b/sound/soc/codecs/rt5665.c
 @@ -6,6 +6,7 @@
   * Author: Bard Liao <bardliao@realtek.com>
   */
@@ -128,178 +128,63 @@ index e9819653b30d..7cdca9774545 100644
  #include <linux/module.h>
  #include <linux/moduleparam.h>
  #include <linux/init.h>
-@@ -3323,93 +3324,90 @@ static void rt5645_jack_detect_work(struct work_struct *work)
- 	if (!rt5645->component)
- 		return;
- 
--	mutex_lock(&rt5645->jd_mutex);
--
--	switch (rt5645->pdata.jd_mode) {
--	case 0: /* Not using rt5645 JD */
--		if (rt5645->gpiod_hp_det) {
--			gpio_state = gpiod_get_value(rt5645->gpiod_hp_det);
--			if (rt5645->pdata.inv_hp_pol)
--				gpio_state ^= 1;
--			dev_dbg(rt5645->component->dev, "gpio_state = %d\n",
--				gpio_state);
--			report = rt5645_jack_detect(rt5645->component, gpio_state);
-+	scoped_guard(mutex, &rt5645->jd_mutex) {
-+		switch (rt5645->pdata.jd_mode) {
-+		case 0: /* Not using rt5645 JD */
-+			if (rt5645->gpiod_hp_det) {
-+				gpio_state = gpiod_get_value(rt5645->gpiod_hp_det);
-+				if (rt5645->pdata.inv_hp_pol)
-+					gpio_state ^= 1;
-+				dev_dbg(rt5645->component->dev, "gpio_state = %d\n",
-+					gpio_state);
-+				report = rt5645_jack_detect(rt5645->component, gpio_state);
-+			}
-+			snd_soc_jack_report(rt5645->hp_jack,
-+					    report, SND_JACK_HEADPHONE);
-+			snd_soc_jack_report(rt5645->mic_jack,
-+					    report, SND_JACK_MICROPHONE);
-+			return;
-+		case 4:
-+			val = snd_soc_component_read(rt5645->component, RT5645_A_JD_CTRL1) & 0x0020;
-+			break;
-+		default: /* read rt5645 jd1_1 status */
-+			val = snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x1000;
-+			break;
- 		}
--		snd_soc_jack_report(rt5645->hp_jack,
--				    report, SND_JACK_HEADPHONE);
--		snd_soc_jack_report(rt5645->mic_jack,
--				    report, SND_JACK_MICROPHONE);
--		mutex_unlock(&rt5645->jd_mutex);
--		return;
--	case 4:
--		val = snd_soc_component_read(rt5645->component, RT5645_A_JD_CTRL1) & 0x0020;
--		break;
--	default: /* read rt5645 jd1_1 status */
--		val = snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x1000;
--		break;
--
--	}
- 
--	if (!val && (rt5645->jack_type == 0)) { /* jack in */
--		report = rt5645_jack_detect(rt5645->component, 1);
--	} else if (!val && rt5645->jack_type == SND_JACK_HEADSET) {
--		/* for push button and jack out */
--		btn_type = 0;
--		if (snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x4) {
--			/* button pressed */
--			report = SND_JACK_HEADSET;
--			btn_type = rt5645_button_detect(rt5645->component);
--			/* rt5650 can report three kinds of button behavior,
--			   one click, double click and hold. However,
--			   currently we will report button pressed/released
--			   event. So all the three button behaviors are
--			   treated as button pressed. */
--			switch (btn_type) {
--			case 0x8000:
--			case 0x4000:
--			case 0x2000:
--				report |= SND_JACK_BTN_0;
--				break;
--			case 0x1000:
--			case 0x0800:
--			case 0x0400:
--				report |= SND_JACK_BTN_1;
--				break;
--			case 0x0200:
--			case 0x0100:
--			case 0x0080:
--				report |= SND_JACK_BTN_2;
--				break;
--			case 0x0040:
--			case 0x0020:
--			case 0x0010:
--				report |= SND_JACK_BTN_3;
--				break;
--			case 0x0000: /* unpressed */
--				break;
--			default:
--				dev_err(rt5645->component->dev,
--					"Unexpected button code 0x%04x\n",
--					btn_type);
--				break;
-+		if (!val && rt5645->jack_type == 0) { /* jack in */
-+			report = rt5645_jack_detect(rt5645->component, 1);
-+		} else if (!val && rt5645->jack_type == SND_JACK_HEADSET) {
-+			/* for push button and jack out */
-+			btn_type = 0;
-+			if (snd_soc_component_read(rt5645->component, RT5645_INT_IRQ_ST) & 0x4) {
-+				/* button pressed */
-+				report = SND_JACK_HEADSET;
-+				btn_type = rt5645_button_detect(rt5645->component);
-+				/*
-+				 * rt5650 can report three kinds of button behavior,
-+				 * one click, double click and hold. However,
-+				 * currently we will report button pressed/released
-+				 * event. So all the three button behaviors are
-+				 * treated as button pressed.
-+				 */
-+				switch (btn_type) {
-+				case 0x8000:
-+				case 0x4000:
-+				case 0x2000:
-+					report |= SND_JACK_BTN_0;
-+					break;
-+				case 0x1000:
-+				case 0x0800:
-+				case 0x0400:
-+					report |= SND_JACK_BTN_1;
-+					break;
-+				case 0x0200:
-+				case 0x0100:
-+				case 0x0080:
-+					report |= SND_JACK_BTN_2;
-+					break;
-+				case 0x0040:
-+				case 0x0020:
-+				case 0x0010:
-+					report |= SND_JACK_BTN_3;
-+					break;
-+				case 0x0000: /* unpressed */
-+					break;
-+				default:
-+					dev_err(rt5645->component->dev,
-+						"Unexpected button code 0x%04x\n",
-+						btn_type);
-+					break;
-+				}
- 			}
-+			if (btn_type == 0)/* button release */
-+				report =  rt5645->jack_type;
-+			else
-+				mod_timer(&rt5645->btn_check_timer,
-+					  msecs_to_jiffies(100));
-+		} else {
-+			/* jack out */
-+			report = 0;
-+			snd_soc_component_update_bits(rt5645->component,
-+						      RT5645_INT_IRQ_ST, 0x1, 0x0);
-+			rt5645_jack_detect(rt5645->component, 0);
- 		}
--		if (btn_type == 0)/* button release */
--			report =  rt5645->jack_type;
--		else {
--			mod_timer(&rt5645->btn_check_timer,
--				msecs_to_jiffies(100));
--		}
--	} else {
--		/* jack out */
--		report = 0;
--		snd_soc_component_update_bits(rt5645->component,
--				    RT5645_INT_IRQ_ST, 0x1, 0x0);
--		rt5645_jack_detect(rt5645->component, 0);
+@@ -1208,7 +1209,7 @@ static void rt5665_jack_detect_handler(struct work_struct *work)
+ 		usleep_range(10000, 15000);
  	}
  
--	mutex_unlock(&rt5645->jd_mutex);
+-	mutex_lock(&rt5665->calibrate_mutex);
++	guard(mutex)(&rt5665->calibrate_mutex);
+ 
+ 	val = snd_soc_component_read(rt5665->component, RT5665_AJD1_CTRL) & 0x0010;
+ 	if (!val) {
+@@ -1274,8 +1275,6 @@ static void rt5665_jack_detect_handler(struct work_struct *work)
+ 		schedule_delayed_work(&rt5665->jd_check_work, 0);
+ 	else
+ 		cancel_delayed_work_sync(&rt5665->jd_check_work);
 -
- 	snd_soc_jack_report(rt5645->hp_jack, report, SND_JACK_HEADPHONE);
- 	snd_soc_jack_report(rt5645->mic_jack, report, SND_JACK_MICROPHONE);
- 	if (rt5645->en_button_func)
+-	mutex_unlock(&rt5665->calibrate_mutex);
+ }
+ 
+ static const char * const rt5665_clk_sync[] = {
+@@ -4564,7 +4563,7 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
+ {
+ 	int value, count;
+ 
+-	mutex_lock(&rt5665->calibrate_mutex);
++	guard(mutex)(&rt5665->calibrate_mutex);
+ 
+ 	regcache_cache_bypass(rt5665->regmap, true);
+ 
+@@ -4601,7 +4600,8 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
+ 			pr_err("HP Calibration Failure\n");
+ 			regmap_write(rt5665->regmap, RT5665_RESET, 0);
+ 			regcache_cache_bypass(rt5665->regmap, false);
+-			goto out_unlock;
++			rt5665->calibration_done = true;
++			return;
+ 		}
+ 
+ 		count++;
+@@ -4620,7 +4620,8 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
+ 			pr_err("MONO Calibration Failure\n");
+ 			regmap_write(rt5665->regmap, RT5665_RESET, 0);
+ 			regcache_cache_bypass(rt5665->regmap, false);
+-			goto out_unlock;
++			rt5665->calibration_done = true;
++			return;
+ 		}
+ 
+ 		count++;
+@@ -4635,9 +4636,7 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
+ 	regmap_write(rt5665->regmap, RT5665_BIAS_CUR_CTRL_8, 0xa602);
+ 	regmap_write(rt5665->regmap, RT5665_ASRC_8, 0x0120);
+ 
+-out_unlock:
+ 	rt5665->calibration_done = true;
+-	mutex_unlock(&rt5665->calibrate_mutex);
+ }
+ 
+ static void rt5665_calibrate_handler(struct work_struct *work)
 -- 
 2.43.0
 
