@@ -1,143 +1,94 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED21404BDC
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 09:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9948338C40C
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 10:01:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783590984; cv=none; b=iRhrVVkKLHShmW5dTB9S1I8gfD01GRgw2IrCn1FHqw8f0OfDJ5ND4AIQqgfoKeW29o+LkdSiNI/jieX9fGD78Vo9gxOuGQnyGNDtlFLvSL14/5+C063hUvXTEioW9uSqWwioRuFwXkHEpj35vSyD4S1GDKfOyEscqC70O5y5v4c=
+	t=1783591266; cv=none; b=HykRlD4aGNnGeFtarVShVLMuVL92cnHpqgFvD34AMyCGMazm3Ni3SJVugGu5mca+so2UFkqWKy5csNLgxMgAafZBQhBaulC32F6yVwZK6DU4SHxxTK4U4+t233Csr83sZCApttlmGPPZDlIBjc4nSjzFpuf1l4H9MK1p4TJmZOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783590984; c=relaxed/simple;
-	bh=YLNgUevrFRdJD56mWbUbHC42xCoxEN5kuR7q1dzthpA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F8GFqAG6HwrM7f/qOnIvSjjqSA6Mlty9oR0r7LL1lg+L766i750fCqoFf9z5bcI2+XdSX8Rf3MVtGq/xKrS111kq+GYZYv1nnCnqNzxUg9JdpxTR17n+I62iZVOk862KeYqDcS5Y5plzQAhM8U4iKaWXdBgZrSYTgjQOdqN7Zh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YXsYCMx4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5xtJIRT9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YXsYCMx4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5xtJIRT9; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1783591266; c=relaxed/simple;
+	bh=ZjrBT03tpVAQN8hCs4F4FAVRcyDNR8qZcjH+dnga9tw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iSTNUZZV/5JBpv7MGChRHo6Ghbk8okha2LwLipnczBbxC/93NmFtvqLeiYhlKHJPvKGIUS7FH5UsezNWs1yVq6Du+PzVoeWbYAxobIfFT8iwatEl++yWF37QZ2jZdihLjOLOhZpxZKu+RAcAKPVf3SNM9Qak38V2/90Y/qpKzPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V2QgFSOL; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YXsYCMx4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5xtJIRT9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YXsYCMx4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5xtJIRT9"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 553ED760E2;
-	Thu,  9 Jul 2026 09:56:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783590981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Vyz/DcqGVKGttPNG/gMtf4+qYf9WYLeYVjQBHKx128Y=;
-	b=YXsYCMx4AD0G6cXtUXl0ZKzklGxglfAXc3ov7esEmbU8sxnfUu0wg8oPEtzPWIsmWKK2T/
-	ZztBgFVWK79D+Sb4cWerfMMcTZAqadsybqwnTmhrXrQKsP4BC1G6N72Eb2rCOz+/a5aQAU
-	Tzx4/+F34ta9T1ifD0jb1c3ZsLAM0cc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783590981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Vyz/DcqGVKGttPNG/gMtf4+qYf9WYLeYVjQBHKx128Y=;
-	b=5xtJIRT9B85zWo8fG9EmZYAtWqW6mwVpnIu9Uy8h7fIcsc5Lsq3n06EWMSeD+7CgunsV8b
-	AapZJ0LC23aPbHCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783590981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Vyz/DcqGVKGttPNG/gMtf4+qYf9WYLeYVjQBHKx128Y=;
-	b=YXsYCMx4AD0G6cXtUXl0ZKzklGxglfAXc3ov7esEmbU8sxnfUu0wg8oPEtzPWIsmWKK2T/
-	ZztBgFVWK79D+Sb4cWerfMMcTZAqadsybqwnTmhrXrQKsP4BC1G6N72Eb2rCOz+/a5aQAU
-	Tzx4/+F34ta9T1ifD0jb1c3ZsLAM0cc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783590981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Vyz/DcqGVKGttPNG/gMtf4+qYf9WYLeYVjQBHKx128Y=;
-	b=5xtJIRT9B85zWo8fG9EmZYAtWqW6mwVpnIu9Uy8h7fIcsc5Lsq3n06EWMSeD+7CgunsV8b
-	AapZJ0LC23aPbHCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C0F8779AA;
-	Thu,  9 Jul 2026 09:56:21 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gvuECUVwT2oNWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 Jul 2026 09:56:21 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Salvador Blaya <tiniebla6@gmail.com>,
-	Jussi Laako <jussi@sonarnerd.net>
-Subject: [PATCH] ALSA: usb-audio: Skip DSD quirk for Musical Fidelity M6s DAC
-Date: Thu,  9 Jul 2026 11:56:06 +0200
-Message-ID: <20260709095614.1418838-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V2QgFSOL"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7e9ecb1e13cso1990383a34.3
+        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 03:01:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783591264; x=1784196064; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=NspW+c29jFDspcugqDyFu5pQDqmBWkpRAcY27NdtlTA=;
+        b=V2QgFSOLxUPOhmaQh30oddjMcn/T4vGVtbBTcsdE+CpZn10y64n0vP5sLv9cUoK5Uj
+         NNblNVAEkeEYbhtjodeEWbnQHmJNjgK8bbK5ti6Iw/DwOSRMij8f/mcWRumBJPVK2D6Y
+         9eEkOcNBjwGsPGDwpdTUArbqerawJMcw/5X1mo3d/TA8xTSlTdwFbihHX6u/FNQ31N06
+         sLjhrIVkE6Pe3r67nwdYb36IAYu9Zat3w2KYfwSAb1g4xsqpmT44FtgBzCVrgkyso3FH
+         u1rRjURYiJBRui1S62FlcMbMLZPaJSu2T3xMd8j22gKGWc53OGEYmpp4RgewwFPrRXb1
+         BOEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783591264; x=1784196064;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NspW+c29jFDspcugqDyFu5pQDqmBWkpRAcY27NdtlTA=;
+        b=mhWAjIQ0dpyw1PV82gZtn2YvFfEOXUIjSHKeLe25BqhxGBCKXHTqf8zqZiaF2Ka4s+
+         NRdOk+nJ3trK+qeRaFyaJ1GbWRwaIQT8Ktb9V95vUizs5Ww5fJT0hovNJShdDmFvqi5v
+         J6+X+1Kjgn7UvgkwAufQUraB4ZkEssLf/biH7Em5uQv88GV4zmUWP2+B+y0ltvxU+A+w
+         9pFx1tO9quH1Y1tTCzkDlc6Sxo05H1NrIGjcWkQFKSS0v6y63s+uT/4GaJrOIAJ7AU7e
+         YU64LzEa2mwVOFFUYoF8eQOqCja+MLGonBjzFZoZ7wbJ2VDzT3B8311gRCfYNJY9e7ug
+         1Y3w==
+X-Forwarded-Encrypted: i=1; AFNElJ+IW4qq1mh0m01SA2K3qgqKjqoTpuDhs6Nz1tnYce9QyUPVOJ8cdt64qk+evnz/Es3nEIN8k1b3REP0MA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHiWIL4+syK6QCBFzfzICZ56RCpL6DO+dovAqWNE8CE3KzzSUe
+	5Ro4tGrXcUySIobvSE/oDKoqcG8kauz+3TtA5iKTJIQvU4E95UTN2VP/
+X-Gm-Gg: AfdE7cnNKUUGI8XBsBHMxcWE/E+HTbhA8n+M8GeiEfqtmfdrODzzzImcgfVRXa0zUQ8
+	T4HVW9EJl1oT4YDY/ZIB6Sui15F24urmgopMuHcqStD7KKfdUZishFMfCA2Lm0FGtJ3T4TLYCdU
+	rsDweruQjPy2dpjVF1YHxIZFyrSG929dd/+rWYd9ckfJuZB/zsRwMXBdPdlwCB3c0czmAE6axGi
+	igkm3hZO1bNdEvcks10Kwxrk/qECPE75nN33eqqkeoZGTAUQCwYVqAu/qmNr9IT12BdCMUF2ZqT
+	/TNBcqVXeWtr2ffGMeEoxJknh8+Qrhew4QchlXEt1ep32DULFs8knxYGlvt0iwpfUKogQtMOrFm
+	JbojYvbWxAs9/oqsIkpHd4vUcK8G1IikTuLTfPyaqoZjv/BrWL0sBwqbo/c4JQwlrOHEaaUcU9i
+	W5EaVh
+X-Received: by 2002:a05:6830:a8f:b0:7e7:aac:4cc9 with SMTP id 46e09a7af769-7ebcff35968mr5312610a34.3.1783591264385;
+        Thu, 09 Jul 2026 03:01:04 -0700 (PDT)
+Received: from localhost ([74.80.182.70])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcaf7b484sm3740265a34.10.2026.07.09.03.00.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 03:01:01 -0700 (PDT)
+Date: Thu, 9 Jul 2026 13:00:55 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: phucduc.bui@gmail.com
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	cassiogabrielcontato@gmail.com, Kees Cook <kees@kernel.org>,
+	Cen Zhang <zzzccc427@gmail.com>, Len Bao <len.bao@gmx.us>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: oss: Drop redundant nonseekable_open() return check
+Message-ID: <ak9xV8VdUT91gHZk@stanley.mountain>
+References: <20260702050236.30751-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,sonarnerd.net];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Level: 
-X-Spam-Score: -2.80
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702050236.30751-1-phucduc.bui@gmail.com>
 
-Salvador reported that the recent fix for applying the DSD quirk to
-Musical Fidelity devices broke for his M6s DAC model (2772:0502).
+On Thu, Jul 02, 2026 at 12:02:36PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> nonseekable_open() always returns 0, so the error check is unnecessary.
+> Remove the dead error handling path.
 
-Although this is basically a firmware bug, the model in question is
-fairly old, and no further firmware update can be expected, so it'd be
-better to address in the driver side.
+The idea is that it might return errors in the future.
 
-As an ad hoc workaround, skip the DSD quirk for this device by adding
-an empty quirk entry of 2772:0502; this essentially skips the later
-DSD quirk entry by the match with the vendor 2772.
+Also the patch is kind of sloppy...
 
-Fixes: da3a7efff64e ("ALSA: usb-audio: Update for native DSD support quirks")
-Reported-by: Salvador Blaya <tiniebla6@gmail.com>
-Closes: https://lore.kernel.org/CAOdyq+qFaqCh=tK_wNnA64hv5pQuA1Y09ANxQ=xK8yR-t4mf9Q@mail.gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 2949a0d2d961..d98825f9697c 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2463,6 +2463,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_DSD_RAW),
- 	DEVICE_FLG(0x2708, 0x0002, /* Audient iD14 */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
-+	DEVICE_FLG(0x2772, 0x0502, /* Musical Fidelity M6s DAC */
-+		   0), /* for avoiding QUIRK_FLAG_DSD_RAW with vendor match */
- 	DEVICE_FLG(0x2912, 0x30c8, /* Audioengine D1 */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x2a70, 0x1881, /* OnePlus Technology (Shenzhen) Co., Ltd. BE02T */
--- 
-2.54.0
+regards,
+dan carpenter
 
