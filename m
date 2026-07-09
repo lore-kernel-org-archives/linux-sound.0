@@ -1,61 +1,63 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D717A373C1E
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 04:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451F437B41B
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 04:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783573184; cv=none; b=Ed5EKeZOn/q7smtYZl2WKB8/PMWY9w6yQMvQag78Fa1HysginmUbX+ZfQCe6stoIInO+gE/5Xk2sS2WUJo1JWv0OiXaV0RKdlN2fkqsZEpnJtQ5tRwLPlWCqFNt2ZYUDwAWNGGk1BpIk2jbzWJ1ft1ZuqVxPOS6wcs4qcdYNLg0=
+	t=1783573192; cv=none; b=CbJcz18g0mgSww4ksO9NZOwoxtBBFSpny5SIipixpSOtEb0OTBAeth53M/838lG4h7iz93RvsWBYuiOb+AlHX85UVtNN5PoA5AoOYIsPmZcx7v1nauPGhq0XCIzBvWD3CFpQSs2uGLJoNMM4C2T5g4gRsJGFJeO9rQzLrbOTOvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783573184; c=relaxed/simple;
-	bh=bm4pLjR5uVYsBmyvPE4korFQr943J4oSyR7yMM28Cjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tm0CZVW9mcgLzmwl6NrIX/klCTDZgkr1YUb4sdK4UlnKrWzyVRhu9YTKKmT9Mrk0bIX1x22t2EV1rPfVNvbigZfm4dnpf6SJCT6pSy+JqF5FuHaQDAxSxc/vFJ5wmBqb1mvthfeeRoLOuxvGZyBxK4mFr+/SXY9iU454fyoisvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZDxCS5le; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1783573192; c=relaxed/simple;
+	bh=WOalQFBHar3NvkPew2YrsEq8h801FlbaMFuTGotQNTc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oSqKrbHX438kFhEECep0MTAR+swjNoUwxwBkSFbYBuAa4qWqai/lNMjfqQ2hbfgsSVkpnLhF6yfvk1BK/fpPeCvh5O6Bfb7CG9JCCkxEe+3X5y93NQ0Cb5RUoQT5K6DSzyLHUVzlFKkiAWyzP0Hl45db1RCZ2L790RYvlZXjuv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EK3O2pxa; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZDxCS5le"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3811074a8c5so1245962a91.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 21:59:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EK3O2pxa"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-388b404ea89so540920a91.0
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 21:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783573181; x=1784177981; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ad0P2VMz9bf8HA6F8SGWlOPHl2k6oftAxCYlJLG1Vz4=;
-        b=ZDxCS5le/OO1swa32wt6dDM9g/zMdm5hHwV7L0ij19N27DlkWYVgwk1phPWixxvZxN
-         CxVSIutAuJcmvhgi3a5Ih+rEJ8HVshZlVD3qCPrS7VS6bPt8/YxYJmstgXxDcUJ8rbwM
-         oEkMpVPh2KcpPcDjF9UHaadlT8DGP3EQvA2Hil1evMGqoAUYgm27TQ16g6EPhAGKfcXk
-         VqIx0HUDog0uWTHx4jiIkz08yip087mrXTu0FVB+VYMhsG3clYnMHJWYr2cUciXZU7V6
-         Qjfa47K3f5coQGaId4f7EYrgC11ynDjj3gvB+ijFdk/rI0laL7W/W3kzoMclmd0zoX8i
-         haBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783573181; x=1784177981;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783573191; x=1784177991; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ad0P2VMz9bf8HA6F8SGWlOPHl2k6oftAxCYlJLG1Vz4=;
-        b=DTlshQSUIBBUQVvd+bHX7f+uA2/5DySZnShQHaZitfXpq387aJ2T3jmM6E+zHu777B
-         pH85LtJ2Sdai/iawvy8mwglWNeAgTZhAc1v4Q89Y0zb1mJ+of+ksl/viLct9BVBZZpwS
-         NzvGlGpdu7G3Q+2lFZv+Pfiu3m6B9Ta8LUWRzobeqhNAKrJkJUu3g7f2zsROuV9oR+H7
-         TBVVb9lDiQdIi8Nvymx85E7YnST0tuVS85q7mxpIyQdWLXH6GINf6F06Ti6yXYT0n+c0
-         V4eB399KEcOWfRmo+dp+ycDiGRaP8Yw8ILlyg+WNB7NR5WbM8oXKqAloWSuIuZaxG+3U
-         E84Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrJVDHxNJt/l7u1uzN1Ll/shtwUHVUlHWsbTmRr9qEUyJ771AtALtmCIQg//VN9uRYaWwi/T90G2kz4kA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj2SlSgRLKC+cD10PS/nu7EriqRt5ZMnMKh4+iWY9ZjPySJ+Vn
-	GrbfYWKsq80wYwzONhO21w/vJOeKmRaLK9G7JdIi5jFfVPjRGv+MZjlA
-X-Gm-Gg: AfdE7cllPSkYatFPvqoxxZO6bEa4UtmuSjqYrGR7gJCD1djQPcjuXT/jZ3oryh+xaB/
-	/Uf5GXtttwb0udbXDWUpTlH4vELpum4VPzTzbkO6/rHM5OziFQjdFFuDcZlcIhqYxtXuVrU+enc
-	6TloMObkV40KgNneDWCqVZKhgtQtnwARwuTm7b7rJO9afEpzwoxHsn8IT287R8Cw/s5pTxb8xRs
-	Xj6XSjOiz6QksT75o9LsuMNHVWFVlm+cKearCyNI8FM/cnSnQlKTQUlRrkRw9gavYPIPzR/douj
-	+TdkE8URMpRdk/BGDFjOQj/oiIesKbEVpRPJ490EwrNg7kNoIZkOrHZW3ogy0yLUBWyz1FISGV+
-	RE3G4/ZzVhmzfDVFYWZUSbxAkvWDzknz012EN61rKmqZLnbR5gXGs4MCQeaqtK3QwXEBMGBUyMt
-	IdUbSYZRHWfnBLZNvDPEnjpJl64MeSe9o//k/0rnYlN3PjR0AWC6WryQcnYw==
-X-Received: by 2002:a17:90b:258f:b0:380:15fa:c5b2 with SMTP id 98e67ed59e1d1-3894043e537mr5070234a91.18.1783573180995;
-        Wed, 08 Jul 2026 21:59:40 -0700 (PDT)
+        bh=i+E/hLMGoCFm2Bo6D9s4vrTO1A3cUntDy1XLWjBr550=;
+        b=EK3O2pxaQpcJzg2dxGFTknKXK7v3foJVIHn3XNQc0SMKt9tx34orugL4SzM/VQnsZ4
+         tQEOMUoH20jHMD77N+6jPA7BkJldHa9S5wh5P6yuUj0tuSDSjF4CSi06XcFa666rmzjw
+         gn1t71glOUWtw9gt1KXtT/M4nuxMAXyr81vVkH1Q+bjuCNt+IwaTYxw38mAZLxtTHTNe
+         Iz/MEV1rSm1unPiksIMcLGDyYbt0Y9q7NfSRRxEok+FiPQO9Avr2gEUJTyJ6oBa6PgbR
+         6nqU9J2SNLkiNGbzoRNGij8/KV3ZRhBrDyTGrFEx0EADviqkgsyp0RhaMBJc14JT2cRl
+         u8QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783573191; x=1784177991;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=i+E/hLMGoCFm2Bo6D9s4vrTO1A3cUntDy1XLWjBr550=;
+        b=naMch/WCBSEHygW+VXVTStxXVJNQZ9P22tNWl0yKWoVWeWKc+wPqUFDQaWk88IypBp
+         ZmRoOA/6pzJMLGdd4j02bYoXNEu7pKmaFTJa/pnA7d3dnboMgUPCFu2cSxrXuBmgL+fA
+         ungQP6F3e0s7tiajrocVllMgk1dm7uKH7HchtZyZFzVcy+Ag6VhdmmWoJE0g5bSBZfwC
+         V9LyQ5dMbAWFNYNvs0NfiRYTEqROmFt+ZVDjHrBgCQNdqL+Hc9UVefao32+5ZNWZQwEk
+         FD0QGsmm8vqPeRfeXEiq6J7vfAjDECc0JLS9AOBWGc0kGJVGgQFaY2/ZMIukElIF5ua7
+         tOoQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqgRjSR5gcVb1nU7GvgMJaAHVu/bu5YH4+6eiR6VF+/MiG7fnHvmLSkF/kg1JG3u9Q8vFNQ2Cgx55fO5A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+OejvWGHdN2Z4LSxidjDu1TQa8oFMty+AqKGWBtwDs1GXwTva
+	xuK2WtKwosfnUgw47LjUwzspSVYFTPZfRPQAsraPyURNG4GuBABWTEfb
+X-Gm-Gg: AfdE7ckI8UxOTpRO0AnfA/dLj06yRPyCXumS2+xTZABExn+SYpCmmS33fB6ANeNkLAu
+	UUdKna8eB2kbOg8yAj8AJD4HU9uehz9DL/jaL9XCMae1gcHUSrPgHKPQlbe3kDlmIP2vzTaNuGv
+	HbsVhFgp2nR9h32Zi/ZXjxuECtwZOmoAEgtnEqmLDSej+CB4a1qMgBBbcIfel3/sR3B0HWlTPYe
+	/hIPUOAxG3QppnAg4bk2QRN6qWkt5Bxay9bWgw2hLxKldlZrOnMNlCpNkMzcRN28b/tSyQHPewb
+	NPDdDAj8pj2px7DBfssxC+biJHQHvSJe6KCJOSs8BmSTCfPocEWGsZif2plUGcvkU1amay4rlnu
+	R/TcoFIATlKgrtvV85M283s6naIFeMVTOuDnP+6En19UH1db6gun+FIclXFjvaa/qHSRbxUbSst
+	2zpW0C649KCbDIr620RgiwYX4l4Jiw7AuVIxKSK1/Y3qI8Wvs=
+X-Received: by 2002:a17:90b:274d:b0:385:39ac:fe4b with SMTP id 98e67ed59e1d1-38b75528c91mr1355508a91.17.1783573190664;
+        Wed, 08 Jul 2026 21:59:50 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5506b47esm490481a91.3.2026.07.08.21.59.33
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5506b47esm490481a91.3.2026.07.08.21.59.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 21:59:40 -0700 (PDT)
+        Wed, 08 Jul 2026 21:59:50 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -90,10 +92,12 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 00/27] ASoC: codecs: Use guard() for mutex & spin locks - part 2
-Date: Thu,  9 Jul 2026 11:58:35 +0700
-Message-ID: <20260709045902.498848-1-phucduc.bui@gmail.com>
+Subject: [PATCH v3 01/27] ASoC: codecs: da7213: Use guard() for mutex locks
+Date: Thu,  9 Jul 2026 11:58:36 +0700
+Message-ID: <20260709045902.498848-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260709045902.498848-1-phucduc.bui@gmail.com>
+References: <20260709045902.498848-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -104,104 +108,116 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
-This series converts mutex and spinlock handling in ASoC codec drivers
-to use the guard() and scoped_guard() helpers.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/codecs/da7213.c | 37 ++++++++++++-------------------------
+ 1 file changed, 12 insertions(+), 25 deletions(-)
 
-This is part 2 of a larger 78-patch conversion series. Part 1 (24
-patches) has already been posted, while this series contains the next
-27 patches to keep the review manageable.
-
-https://lore.kernel.org/all/20260617103235.449609-1-phucduc.bui@gmail.com/
-
-The changes are purely refactoring and have no functional impact.
-Compile-tested only.
-
-Changes in v3:
- - Rebased onto the latest broonie/for-next.
-
-Changes in v2: 
- - Add Reviewed-by tags from Charles and Herve.
- - Address Herve's review comments.
-
-Link v2: 
-https://lore.kernel.org/all/20260708141734.578926-1-phucduc.bui@gmail.com/
-Link v1 : 
-https://lore.kernel.org/all/20260630063449.503996-1-phucduc.bui@gmail.com/
-
-
-Best regards,
-Phuc
-
-
-bui duc phuc (27):
-  ASoC: codecs: da7213: Use guard() for mutex locks
-  ASoC: codecs: da7219: Use guard() for mutex locks
-  ASoC: codecs: es8316: Use guard() for mutex locks
-  ASoC: codecs: es8326: Use guard() for mutex locks
-  ASoC: codecs: es9356: Use guard() for mutex locks
-  ASoC: codecs: fs210x: Use guard() for mutex locks
-  ASoC: codecs: hdac_hdmi: Use guard() for mutex locks
-  ASoC: codecs: hdmi-codec: Use guard() for mutex locks
-  ASoC: codecs: idt821034: Use guard() for mutex locks
-  ASoC: codecs: lpass-macro: Use guard() for mutex locks
-  ASoC: codecs: madera: Use guard() for mutex locks
-  ASoC: codecs: max98095: Use guard() for mutex locks
-  ASoC: codecs: mt6359-accdet: Use guard() for mutex locks
-  ASoC: codecs: pcm512x: Use guard() for mutex locks
-  ASoC: codecs: pcm6240: Use guard() for mutex locks
-  ASoC: codecs: peb2466: Use guard() for mutex locks
-  ASoC: codecs: rt5514-spi: Use guard() for mutex locks
-  ASoC: codecs: rt5645: Use guard() for mutex locks
-  ASoC: codecs: rt5665: Use guard() for mutex locks
-  ASoC: codecs: rt5668: Use guard() for mutex locks
-  ASoC: codecs: rt5677: Use guard() for mutex locks
-  ASoC: codecs: rt5682: Use guard() for mutex locks
-  ASoC: codecs: rt700: Use guard() for mutex locks
-  ASoC: codecs: rt711: Use guard() for mutex locks
-  ASoC: codecs: rt712: Use guard() for mutex locks
-  ASoC: codecs: rt721: Use guard() for mutex locks
-  ASoC: codecs: rt722: Use guard() for mutex locks
-
- sound/soc/codecs/da7213.c             |  37 ++----
- sound/soc/codecs/da7219.c             |  62 +++-------
- sound/soc/codecs/es8316.c             |  31 +++--
- sound/soc/codecs/es8326.c             |  30 +++--
- sound/soc/codecs/es9356.c             |  29 ++---
- sound/soc/codecs/fs210x.c             |  89 +++++---------
- sound/soc/codecs/hdac_hdmi.c          | 117 +++++++++----------
- sound/soc/codecs/hdmi-codec.c         |  15 +--
- sound/soc/codecs/idt821034.c          | 144 +++++++++--------------
- sound/soc/codecs/lpass-macro-common.c |  12 +-
- sound/soc/codecs/madera.c             |  39 +++----
- sound/soc/codecs/max98095.c           |  35 +++---
- sound/soc/codecs/mt6359-accdet.c      |  13 +--
- sound/soc/codecs/pcm512x.c            |  19 +--
- sound/soc/codecs/pcm6240.c            |  25 ++--
- sound/soc/codecs/peb2466.c            |  16 +--
- sound/soc/codecs/rt5514-spi.c         |  21 ++--
- sound/soc/codecs/rt5645.c             | 160 +++++++++++++-------------
- sound/soc/codecs/rt5665.c             |  15 ++-
- sound/soc/codecs/rt5668.c             |  10 +-
- sound/soc/codecs/rt5677-spi.c         |  36 +++---
- sound/soc/codecs/rt5677.c             |  75 ++++++------
- sound/soc/codecs/rt5682-sdw.c         |  24 ++--
- sound/soc/codecs/rt5682.c             |   5 +-
- sound/soc/codecs/rt5682s.c            |  17 +--
- sound/soc/codecs/rt700-sdw.c          |  14 +--
- sound/soc/codecs/rt711-sdca-sdw.c     |  29 ++---
- sound/soc/codecs/rt711-sdca.c         |   5 +-
- sound/soc/codecs/rt711-sdw.c          |  24 ++--
- sound/soc/codecs/rt711.c              |  50 ++++----
- sound/soc/codecs/rt712-sdca-sdw.c     |  30 ++---
- sound/soc/codecs/rt712-sdca.c         |   5 +-
- sound/soc/codecs/rt721-sdca-sdw.c     |  29 ++---
- sound/soc/codecs/rt721-sdca.c         |   5 +-
- sound/soc/codecs/rt722-sdca-sdw.c     |  29 ++---
- sound/soc/codecs/rt722-sdca.c         |   4 +-
- 36 files changed, 569 insertions(+), 731 deletions(-)
-
+diff --git a/sound/soc/codecs/da7213.c b/sound/soc/codecs/da7213.c
+index 4bf91ab2553a..923b997efbc4 100644
+--- a/sound/soc/codecs/da7213.c
++++ b/sound/soc/codecs/da7213.c
+@@ -11,6 +11,7 @@
+ #include <linux/acpi.h>
+ #include <linux/of.h>
+ #include <linux/property.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/i2c.h>
+@@ -216,13 +217,10 @@ static int da7213_volsw_locked_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct da7213_priv *da7213 = snd_soc_component_get_drvdata(component);
+-	int ret;
+ 
+-	mutex_lock(&da7213->ctrl_lock);
+-	ret = snd_soc_get_volsw(kcontrol, ucontrol);
+-	mutex_unlock(&da7213->ctrl_lock);
++	guard(mutex)(&da7213->ctrl_lock);
+ 
+-	return ret;
++	return snd_soc_get_volsw(kcontrol, ucontrol);
+ }
+ 
+ static int da7213_volsw_locked_put(struct snd_kcontrol *kcontrol,
+@@ -230,13 +228,10 @@ static int da7213_volsw_locked_put(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct da7213_priv *da7213 = snd_soc_component_get_drvdata(component);
+-	int ret;
+ 
+-	mutex_lock(&da7213->ctrl_lock);
+-	ret = snd_soc_put_volsw(kcontrol, ucontrol);
+-	mutex_unlock(&da7213->ctrl_lock);
++	guard(mutex)(&da7213->ctrl_lock);
+ 
+-	return ret;
++	return snd_soc_put_volsw(kcontrol, ucontrol);
+ }
+ 
+ static int da7213_enum_locked_get(struct snd_kcontrol *kcontrol,
+@@ -244,13 +239,10 @@ static int da7213_enum_locked_get(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct da7213_priv *da7213 = snd_soc_component_get_drvdata(component);
+-	int ret;
+ 
+-	mutex_lock(&da7213->ctrl_lock);
+-	ret = snd_soc_get_enum_double(kcontrol, ucontrol);
+-	mutex_unlock(&da7213->ctrl_lock);
++	guard(mutex)(&da7213->ctrl_lock);
+ 
+-	return ret;
++	return snd_soc_get_enum_double(kcontrol, ucontrol);
+ }
+ 
+ static int da7213_enum_locked_put(struct snd_kcontrol *kcontrol,
+@@ -258,13 +250,10 @@ static int da7213_enum_locked_put(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct da7213_priv *da7213 = snd_soc_component_get_drvdata(component);
+-	int ret;
+ 
+-	mutex_lock(&da7213->ctrl_lock);
+-	ret = snd_soc_put_enum_double(kcontrol, ucontrol);
+-	mutex_unlock(&da7213->ctrl_lock);
++	guard(mutex)(&da7213->ctrl_lock);
+ 
+-	return ret;
++	return snd_soc_put_enum_double(kcontrol, ucontrol);
+ }
+ 
+ /* ALC */
+@@ -465,9 +454,8 @@ static int da7213_tonegen_freq_get(struct snd_kcontrol *kcontrol,
+ 	__le16 val;
+ 	int ret;
+ 
+-	mutex_lock(&da7213->ctrl_lock);
+-	ret = regmap_raw_read(da7213->regmap, reg, &val, sizeof(val));
+-	mutex_unlock(&da7213->ctrl_lock);
++	scoped_guard(mutex, &da7213->ctrl_lock)
++		ret = regmap_raw_read(da7213->regmap, reg, &val, sizeof(val));
+ 
+ 	if (ret)
+ 		return ret;
+@@ -499,12 +487,11 @@ static int da7213_tonegen_freq_put(struct snd_kcontrol *kcontrol,
+ 	 */
+ 	val_new = cpu_to_le16(ucontrol->value.integer.value[0]);
+ 
+-	mutex_lock(&da7213->ctrl_lock);
++	guard(mutex)(&da7213->ctrl_lock);
+ 	ret = regmap_raw_read(da7213->regmap, reg, &val_old, sizeof(val_old));
+ 	if (ret == 0 && (val_old != val_new))
+ 		ret = regmap_raw_write(da7213->regmap, reg,
+ 				&val_new, sizeof(val_new));
+-	mutex_unlock(&da7213->ctrl_lock);
+ 
+ 	if (ret < 0)
+ 		return ret;
 -- 
 2.43.0
 
