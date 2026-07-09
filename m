@@ -1,83 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A3D3FF1B1
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 09:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEAE407CD3
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 09:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783588687; cv=none; b=it0GVROTYZTmZOheQHYMcvZzUm7aIPKtEVrMVzT1M4g8Zb8Cg8c2Wo7Sf0owGsloLar9BSzVjfuSccPtx/GM5Q6oBu4D+I/hvzy1o5XUefict04Fmd8vOFfzrkKb0dafdQ3iuLaNcB38hLOkorxyLoFAPGM7CT1bZYKiZJe7EUM=
+	t=1783588738; cv=none; b=OVdSNXk/ld9lDWENcRLjBFumtAkJYAUCcUecT59q+nPseodM6fUnVTRE7ha84io/Tolr1huuNhL9nlujgYjsWw/2U8xjCvCHOqOvxZaabFhQGaNZkuIi7xI1M0d2/bnW1fNW8YxmQBd2LDjs3IDpFoC2fsVqgax9Ys8rWRDIKp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783588687; c=relaxed/simple;
-	bh=HltVVfvEBmpNzh1SQC7hT8BzRF/gi41e90koasFLYFM=;
+	s=arc-20240116; t=1783588738; c=relaxed/simple;
+	bh=gg23Y43TsNSaQVmXpatAjH3JZVkY9J6lBx7LCHPAdkw=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e4G3bJIjY66wlq+BhbAl46czFwBMmSQpuOaA8LTXQep/bECdgRR4kDYMukjbCVyreavRFBuJzpd5q9H0AzC9IFysxyeB5UrdQPvroz3pfJAzO1hYWRVlzzyuhv36QxmKYt/peQ7mveVf2X4rljWMiXtHZOOX3Rb1pNzC2YYMLgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ILCXRtgL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5PDaZniA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wP+bidRN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bBaPS1sW; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=jt03WT3aqPfJ4Tymb/pcOBt6LU8o2neWfngN6qEGHy2X3WZhQICRCNIvrX0tb0Ej9v8NytZlS19BK5goJcoKYwW/fm4YtUhErVIUQ/MiePoQdujR9CU7z2URnxPVWshs0Fgi/QYXkviy5Yv6KkkYYbHj54ADZo+4yZ6cY5puXr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LgL3p3Gk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6eO53qZu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IlZ/rgl5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gx6n2TWF; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ILCXRtgL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5PDaZniA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wP+bidRN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bBaPS1sW"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LgL3p3Gk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6eO53qZu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IlZ/rgl5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gx6n2TWF"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5279575812;
-	Thu,  9 Jul 2026 09:18:03 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F42107609F;
+	Thu,  9 Jul 2026 09:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783588684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1783588733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
-	b=ILCXRtgLlIZF18jmaQbUP0qCGU6LL3XcymOGfjhdSLjFWrmcU28ROturdzihuZpWiL7csB
-	16Ysl7ti8BowOYwVL2At48O30oBmqHOUphuCqkrB0NX3BpPWQ//uXpy4r9dc5zelyiPrCW
-	JucDXsk+Xfp09LIFzh4iwIy1EaKG9o8=
+	bh=wjpl5WEKrWy0zCDY8ol1pt9snAcHMAJZJFH9CtPFrfE=;
+	b=LgL3p3GktcuBZU4UQ2SSuh5BUAPm/20Q6t4fw5QLbsja9GF2I8jHoKNmwKmZumFSfIDk21
+	7uOrbCofyqsO/pqtaDfNQm2ICnwlmmgLp3Ehjg5+G5/sRwxs6cBTEsAlAZTN8zdgny5KeD
+	g63F6I9Y+s26GCj+M7M8vJvMbZqUuDs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783588684;
+	s=susede2_ed25519; t=1783588733;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
-	b=5PDaZniA1rjvP73m/9rMfSdimBGGPqXmUdKWwh9nsMmHmPiLWRODAAjO63mT2Z7KF1Ijw0
-	xU+MlSNKpMUpkSCw==
-Authentication-Results: smtp-out2.suse.de;
+	bh=wjpl5WEKrWy0zCDY8ol1pt9snAcHMAJZJFH9CtPFrfE=;
+	b=6eO53qZuLi2F/y207jGAr6xLYXy643BDouwLLbv02ey++GU+KMiXjFWJu855v4g35lYBrm
+	hjrAnck869UnetAw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783588683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1783588732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
-	b=wP+bidRNXw50pUJHX2qBiyI/9fhZdNk4D+24EaxkEU0EzYM9Bpiuk5w8V0GWt7lDDz0dpx
-	zo8uHQI57ES6tk3+JEn8PDbKGDX/MKBKu7los6XveUZ70W0bAznfw3fiou6I+ZGKVhi/By
-	2v2caeJtOr/iDeu5kC2HAkQRi2h9sZ0=
+	bh=wjpl5WEKrWy0zCDY8ol1pt9snAcHMAJZJFH9CtPFrfE=;
+	b=IlZ/rgl5EzCQkQl1o/g810/bQJJtMbK+8hEy5BYpQ4H+aw07auD+j8L+mxiRmo/9Hy/zT7
+	oBqcTBVWZp09LWmHoSC8TJVTn3DAkTSsT+NAwDOeaNOXaz0mjQrVxsYC/Dsw8zRUsbtVRt
+	OoHL3l1Lq7vFRAD3EINlIge1+8NPjKc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783588683;
+	s=susede2_ed25519; t=1783588732;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
-	b=bBaPS1sWKe13e9oPSwM5XY6J7Se2SabIfJPOrJ+U5XAsytjDdSpDaBzrod/4nLT6wf2OZy
-	vEPGQbZATP3xJbBw==
+	bh=wjpl5WEKrWy0zCDY8ol1pt9snAcHMAJZJFH9CtPFrfE=;
+	b=gx6n2TWFAP2cEVlurfK9ciGL8x7e3Q+A0DAcCZqD/GgJ6ZXvlb9dO72v8YoloeFXa0VmUR
+	XVhVjsilVVRuW7Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32100779AA;
-	Thu,  9 Jul 2026 09:18:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C0D74779AA;
+	Thu,  9 Jul 2026 09:18:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZxTUCktnT2psNQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 Jul 2026 09:18:03 +0000
-Date: Thu, 09 Jul 2026 11:18:02 +0200
-Message-ID: <874ii84j3p.wl-tiwai@suse.de>
+	id ZG3PLXtnT2qeNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Jul 2026 09:18:51 +0000
+Date: Thu, 09 Jul 2026 11:18:51 +0200
+Message-ID: <8733xs4j2c.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Michael Diesen <michael.diesen@posteo.de>
-Cc: alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Elite Dragonfly Folio G3 speakers
-In-Reply-To: <6b2b71bb318263aeb4f3ff67754d9978@posteo.de>
-References: <6b2b71bb318263aeb4f3ff67754d9978@posteo.de>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Eckhart Mohr <e.mohr@tuxedocomputers.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for TongFang X6xx45xU
+In-Reply-To: <20260708132135.102680-1-wse@tuxedocomputers.com>
+References: <20260708132135.102680-1-wse@tuxedocomputers.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -85,11 +88,11 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-2022-JP
+Content-Type: text/plain; charset=US-ASCII
 X-Spam-Flag: NO
 X-Spam-Score: -3.30
 X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-0.999];
@@ -103,65 +106,24 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo,tuxedocomputers.com:email]
 X-Spam-Level: 
 
-On Wed, 08 Jul 2026 22:04:31 +0200,
-Michael Diesen wrote:
+On Wed, 08 Jul 2026 15:21:06 +0200,
+Werner Sembach wrote:
 > 
-> The HP Elite Dragonfly Folio G3 (PCI SSID 103c:8a05) has 4 CS35L41
-> amplifiers on SPI, identical to the non-Folio Dragonfly G3 (103c:8981).
-> Without this quirk the amps are never registered and speakers stay
-> silent.
+> From: Eckhart Mohr <e.mohr@tuxedocomputers.com>
 > 
-> I've been carrying this as a local out-of-tree patch and would like
-> to get it merged. Note there is a related, recently merged quirk for
-> a neighboring SSID on what appears to be a sibling board variant:
+> Fix microphone detection on built in headphone jack for some devices.
 > 
->   0a10faad5ca5 ("ALSA: hda/realtek: add quirk for HP Dragonfly Folio
->   G3 2-in-1", 103c:8a06), which uses the SPI4 + GPIO LED fixup
->   variant rather than plain SPI4.
-> 
-> My hardware (103c:8a05, "HP Elite Dragonfly Folio G3", non-2-in-1
-> SKU) works correctly with the plain ALC245_FIXUP_CS35L41_SPI_4
-> fixup and does not need the GPIO LED handling. Happy to re-test
-> against SPI_4_HP_GPIO_LED if you think that's actually the more
-> correct fixup for this board too ― let me know.
-> 
-> Signed-off-by: Michael Diesen <michael.diesen@posteo.de>
-> ---
->  sound/hda/codecs/realtek/alc269.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -6817,6 +6817,7 @@
->       SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)",
-> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
->       SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100",
-> ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
->       SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9",
-> ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
-> +     SND_PCI_QUIRK(0x103c, 0x8a05, "HP Elite Dragonfly Folio G3",
-> ALC245_FIXUP_CS35L41_SPI_4),
->       SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx",
-> ALC287_FIXUP_HP_GPIO_LED),
->       SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx",
-> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
->       SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx",
-> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+> Signed-off-by: Eckhart Mohr <e.mohr@tuxedocomputers.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 
-The patch can't be applied cleanly via git-am, unfortunately, likely
-because your mailer broke the space and lines.
+Thanks, applied now.
 
-Please fix your mailer setup and resubmit.
-At best, try to send to yourself and test whether you can apply it via
-git-am before the resubmission.
-
-
-thanks,
 
 Takashi
