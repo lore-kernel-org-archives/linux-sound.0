@@ -1,100 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C883723EA8A;
-	Thu,  9 Jul 2026 17:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9464A138B;
+	Thu,  9 Jul 2026 17:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783617464; cv=none; b=FB+FWWtNQSOda5Evq2YUcr+F4Sbyxdw7p9/fD2NHp8Atl9ljgNEc+etHfRgoogNIUA1t1sO660kzI20SR1WA6F8TpvKE7J4Stw3Sv/TWeY9ad9z6Rt28vsg+UPbj5bX17Q6KzpCytbtdeL91vRFyfXpDHW4resKwoENv5o/07YA=
+	t=1783619979; cv=none; b=jafXKGDhVk2ygRv8WQuWRHu9w3Ypm7ZM39iN+86yEiAmM7pv1erpOHcrsNMxoTMNVrSvlAWWyzsedMyj5dLh/7mLugKZDkZVSRRgexXF2LOqFfRaVLYjhrMWElF0YwVbX3jkeetWI66BHtfvNsIC9d/5WYunpAhDvD9uwsUv3D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783617464; c=relaxed/simple;
-	bh=aeXoARSWbQHaBeo0zPuFlRQn9RNcBwMWekmXAT53GCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cxL0EkIzWGGNugd5awJx/UIB+/OhWJAwP5S1vxcQFdRVtnP97xg/UD+Sl4/1nCXKOm/RCWAPzUCnnLB72b4Ut1LCt5a8P23gAoIRQqmS7Al8EuMRxcu6vxkJTyWeyW+0DBW/qJxa7hIbZKTOzz3d1CQ4hHok8asK/dOocKcZsB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hrWVg5Nd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783619979; c=relaxed/simple;
+	bh=HhBXEND9TcyG4vCf4K6lxzTUOUgSJ+9Zbj1rSh0OxCk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=siJWd9oz9IFy/RzC8DSsyCGOn0fPSO616bCamDO9cZ3n2D/ypksrHK8u8lKdc9VpdDG/MGCnodkxsEB/g9vu/NmwCEfPF9cm35lE2u/4+JjiFdrR1AvTc2Ncv7Hucw3j8zIGZfz9Zs5TDg22CkozBIYJ1U5CqkLW3AzHaKDgVKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UlnnUMf7; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hrWVg5Nd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E220E1F000E9;
-	Thu,  9 Jul 2026 17:17:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783617463;
-	bh=hu7RJDXVjMt/MUj7Dde25d8+nHf2eRwwqw8qorwPda0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hrWVg5NdnRkfv23bl3dStmf6K1bZbQqAsdmgNROeNtC6upsn+egi3YbvnFMxKnQDm
-	 EFkTAuE/iRyWUBEKW1ukVsYOfLnX+BqFIj3gErTfolCNBgw2Dmf/ZC7qgiE5zHXbST
-	 Z9XcuXXBW9BiUexjO5oA+SFpupSCIbb/LJ5cNe86ys1GEJSUEMuSgdJRvBF0T0rovi
-	 1z/CReHMtCa2sijCoZaGkO1kxt36d9H90Dkf8uFQWITEHFDDT+4nbXxgVIexzRHv3X
-	 csaAfEMHXaIILJJ1gPuWgBkLbP+4592aFblDIGNdWGLG2dXCG10YsYgyxoOCn4/uUU
-	 gaicFrvskiLRQ==
-Date: Thu, 9 Jul 2026 18:17:34 +0100
-From: Mark Brown <broonie@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Takashi Iwai <tiwai@suse.com>, Nick Li <nick.li@foursemi.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	u.kleine-koenig@baylibre.com, Zhang Yi <zhangyi@everest-semi.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Kees Cook <kees@kernel.org>, HyeongJun An <sammiee5311@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Qianfeng Rong <rongqianfeng@vivo.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 00/27] ASoC: codecs: Use guard() for mutex & spin
- locks - part 2
-Message-ID: <c74c52c5-91b3-4764-a7a1-26fc940bf735@sirena.org.uk>
-References: <20260709045902.498848-1-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UlnnUMf7"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669HXHcI2296148;
+	Thu, 9 Jul 2026 17:59:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=GxVBimFKLA/
+	+dc6O86DyZX01do7mut7irghFvAnFxL8=; b=UlnnUMf7pXH42WIoc0E4UfcBJSF
+	BtMvBqYJFneI5sGrHcrG9L3X4PZU20XgvSkSUtg5/1Swy8RBLm06C+q0SuQGhRUe
+	QQ0YUi/akVkNGBBboi2Kd/k63TSE+h/QgCKePJCjVvtUfs5nScbMEp57zgRRuF+P
+	9xC2WvuZt7JttGKYI0paGnwb1tNPQi8CoP5dSG78yNRKzFJ1Y3OWes1mEoTysASQ
+	BCZ/eYp2KnbWR0phu1r9k+J8XX6a1zxM6YRi4LVgnPzFnAcB1bjDJa3QQcRxWyCJ
+	KYQJ3D3rjZna6UQZT07LupURTSyctOs5ePpxD8TJoRySzoQHckT6+zub0hA==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fa55vkhqn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Jul 2026 17:59:21 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 669HxIHk020152;
+	Thu, 9 Jul 2026 17:59:18 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4f6u8m4wru-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Jul 2026 17:59:18 +0000 (GMT)
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 669HxHCe020137;
+	Thu, 9 Jul 2026 17:59:17 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 669HxH9W020133
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 Jul 2026 17:59:17 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 84D64630; Thu,  9 Jul 2026 23:29:16 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] ASoC: dt-bindings: qcom,wsa8855: add Qualcomm WSA8855 speaker amplifier
+Date: Thu,  9 Jul 2026 23:29:14 +0530
+Message-Id: <20260709175915.3805851-2-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260709175915.3805851-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260709175915.3805851-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="61d5AFFcly1gk4TJ"
-Content-Disposition: inline
-In-Reply-To: <20260709045902.498848-1-phucduc.bui@gmail.com>
-X-Cookie: MS-DOS must die!
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDE3NyBTYWx0ZWRfX6ngr33ZFZJzP
+ qmahu8UeEKADnoRYvcpzgJ5t0Bgd6AVsKJwQuGNZ/m/TC8PQdkTQiTBKSIcl66gT9iFpZNiIbuJ
+ 9pRZEVqQCDy6xfok5MWWWLjrcT0RthXa9NiaGF+9vnM2LWEZF6R79pR2ANdFz8BUviMSNgoGD85
+ 1LmMy9cZmgMtsKbrI7b3/+EXaP4uDqeY7lHuT4wGfw8bwfgjG6sbzSFTU9xoEWFCgOz901q8I4l
+ ZZc2j4Ca7lwL4eG+uCeXuXCEcDATLIsrVX4U097JMC1oKxjeWkTgosWWpNGsV+zLRfUPZBrUPeJ
+ eD4KRt5zQ4W8UOJrRyVhu5EwJTOPZrshfgSNmJQQQhT2lsUok2SxgLx4CTZpOxy7Poj3vUhx+IV
+ KyGO7L/U36ixCyO+GLIddQu1wbhTddp5/1vtB8n/ARcVd+AtJ8TrgvybSjOFcVCG28TgIAjlhNl
+ O5XfN6MkHfZxtpSpdxA==
+X-Authority-Analysis: v=2.4 cv=KfDidwYD c=1 sm=1 tr=0 ts=6a4fe179 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=DJpcGTmdVt4CTyJn9g5Z:22 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8
+ a=PrSW79t9vC0gYNWULBgA:9 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDE3NyBTYWx0ZWRfXxMpPrDM7Cfg9
+ QgilTzjdQKAnDh47lEApXWNEegGeKs6g5uIFifoIqUF667IyKp1O7Jp2LHYJ3ipAECRZ261YmV9
+ xyv5ei7qe1DD7Jq9QjIZBz9hUoA9+wg=
+X-Proofpoint-ORIG-GUID: W3o5U4IgKShzOg6Yuew6RfqZYZbuy5vk
+X-Proofpoint-GUID: W3o5U4IgKShzOg6Yuew6RfqZYZbuy5vk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-09_04,2026-07-09_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
+ adultscore=0 clxscore=1011 priorityscore=1501 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090177
 
+Add bindings for the Qualcomm WSA8855 stereo smart speaker amplifier.
 
---61d5AFFcly1gk4TJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+---
+ .../bindings/sound/qcom,wsa8855.yaml          | 93 +++++++++++++++++++
+ 1 file changed, 93 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa8855.yaml
 
-On Thu, Jul 09, 2026 at 11:58:35AM +0700, phucduc.bui@gmail.com wrote:
+diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa8855.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa8855.yaml
+new file mode 100644
+index 000000000..00a6a05e9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/qcom,wsa8855.yaml
+@@ -0,0 +1,93 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/qcom,wsa8855.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm WSA8855 stereo smart speaker amplifier
++
++maintainers:
++  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
++  - Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
++
++description:
++  WSA885X is a Qualcomm Aqstic stereo smart speaker amplifier. It uses a PCM
++  audio interface, an I2C control interface, and a Class-H amplifier path for
++  high efficiency, low output noise, and low idle power consumption.
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,wsa8855
++
++  reg:
++    maxItems: 1
++
++  '#sound-dai-cells':
++    const: 0
++
++  powerdown-gpios:
++    description: GPIO controlling the SD_N powerdown pin.
++    maxItems: 1
++
++  reset-gpios:
++    description: GPIO controlling the SD_N powerdown pin.
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  vdd-1p8-supply: true
++
++  vdd-io-supply: true
++
++  qcom,battery-config:
++    description:
++      Battery topology connected to the speaker amplifier. 1S indicates one
++      battery cell in series, while 2S indicates two battery cells in series.
++    $ref: /schemas/types.yaml#/definitions/string
++    default: 1s
++    enum:
++      - 1s
++      - 2s
++
++required:
++  - compatible
++  - reg
++  - '#sound-dai-cells'
++  - interrupts
++  - vdd-1p8-supply
++  - vdd-io-supply
++
++oneOf:
++  - required:
++      - powerdown-gpios
++  - required:
++      - reset-gpios
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        speaker@c {
++            compatible = "qcom,wsa8855";
++            reg = <0x0c>;
++            #sound-dai-cells = <0>;
++            powerdown-gpios = <&tlmm 11 GPIO_ACTIVE_LOW>;
++            interrupt-parent = <&tlmm>;
++            interrupts = <77 IRQ_TYPE_EDGE_FALLING>;
++            vdd-1p8-supply = <&vreg_l2g_1p8>;
++            vdd-io-supply = <&vreg_l1g_1p2>;
++            qcom,battery-config = "1s";
++        };
++    };
++...
+-- 
+2.34.1
 
-> bui duc phuc (27):
->   ASoC: codecs: da7213: Use guard() for mutex locks
->   ASoC: codecs: da7219: Use guard() for mutex locks
-
-Only the first two of these seem to have come through which has rather
-confused things?
-
---61d5AFFcly1gk4TJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpP164ACgkQJNaLcl1U
-h9CXVwf9Hi+8k/grZJpWPryXkF9eQnmQKdVD9kTokae7G8oJR/aQEzZjTiF475Tk
-pc+ahjdUoUcnZYBQLiaqQTJTnWvQW62QrUAGVXOzPv8KWas47Wd3Jd0LmWpgDpYv
-MfzehjZyymLLmCVN8oImAvE97g7oUmbILYWnfkjfSMANhkSjbEHi/+VXT+tmxCzs
-ihiM5Chu+C65wTbVjLw2c6ql/7p2aE61fnYsr2RCrFaV/1Xwbf+rO9AQIAdomo9w
-nLP/cAg+fau0Wo6W44Pd1p8wWL0Bt6CR6QSgCRhv258l5YZWxS/uK5HNypSPnA9e
-gNdNfKpYEndx7XQWxZrIeV7iSdzNNg==
-=rheX
------END PGP SIGNATURE-----
-
---61d5AFFcly1gk4TJ--
