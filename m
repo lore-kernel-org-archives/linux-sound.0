@@ -1,72 +1,98 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59566394783
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 04:38:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D717A373C1E
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 04:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783571912; cv=none; b=d2XXG43BS+4fUH4ZlGDVRVeZFVcbSaQoyotzVTBFNpncG/ThcrHbwq4iwR+s0eLbYfYU8Qrdj+1dqy8Ba1ThhpOTHZ8yMdVpxtxLq96UInQ63m9XTLxaTdx08RpJrGZaVWptK8mD0ok8tXeDPyxE4SM6S1ufpV6aE8a1ZtrZ3Lw=
+	t=1783573184; cv=none; b=Ed5EKeZOn/q7smtYZl2WKB8/PMWY9w6yQMvQag78Fa1HysginmUbX+ZfQCe6stoIInO+gE/5Xk2sS2WUJo1JWv0OiXaV0RKdlN2fkqsZEpnJtQ5tRwLPlWCqFNt2ZYUDwAWNGGk1BpIk2jbzWJ1ft1ZuqVxPOS6wcs4qcdYNLg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783571912; c=relaxed/simple;
-	bh=R3OYSqMEnbeucxsybCNB089VCe8vIWs+6pC86MXQits=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ESOJOn+/2cIaC818Z6QE9GizlL/Gu5LZ53j1/cnqaiXKYHLQV/qkUEYjG44Mg5/CYtpYxT+VWytC8gPNrNxv9LUuQRPZOoEgm0m8jcWqv/msuuqZvhWjs57zTlKmMRC7+vJZ6AM0wz1a5xUy3Jv3x5Qll5jaeraE2W89MfJlDH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KW4Y5Q7Z; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1783573184; c=relaxed/simple;
+	bh=bm4pLjR5uVYsBmyvPE4korFQr943J4oSyR7yMM28Cjs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tm0CZVW9mcgLzmwl6NrIX/klCTDZgkr1YUb4sdK4UlnKrWzyVRhu9YTKKmT9Mrk0bIX1x22t2EV1rPfVNvbigZfm4dnpf6SJCT6pSy+JqF5FuHaQDAxSxc/vFJ5wmBqb1mvthfeeRoLOuxvGZyBxK4mFr+/SXY9iU454fyoisvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZDxCS5le; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KW4Y5Q7Z"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cc97653887so16136205ad.1
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 21:38:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZDxCS5le"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3811074a8c5so1245962a91.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 21:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783571911; x=1784176711; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783573181; x=1784177981; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qi0KD4VU/u6N1TW91fgVF43rWN+CrXef747lf/eDsU8=;
-        b=KW4Y5Q7ZP7ayUQobatHbHABYw0Q4akmxXLV6VMHijWyAfYbymetmP4zAcrnoek4gPw
-         DbVYQHp+AUa4qI36RK7Koblss9/9gLxz43ohs/PWo/rPyO/8r2EgVqhv7lUNgPna1oPz
-         eii90LeWQqY+ItAtlwbmKK9R5LoQKsUj5niW20dKVAEnTihbbChVe6VBMmZHREnRKqsg
-         gLdpoTqvRuKYvrK2TgU4apnyPG9Wo+V4w52MzYfVMPks5v3E7eH9YmqduUlX7VF8Df6z
-         2ulDicfhDWbSmzld/0m6ZbbBpk1waOvJgXSQzbVOAkr5AaVUiku0czE8ibvvIVHPLtGL
-         siIw==
+        bh=ad0P2VMz9bf8HA6F8SGWlOPHl2k6oftAxCYlJLG1Vz4=;
+        b=ZDxCS5le/OO1swa32wt6dDM9g/zMdm5hHwV7L0ij19N27DlkWYVgwk1phPWixxvZxN
+         CxVSIutAuJcmvhgi3a5Ih+rEJ8HVshZlVD3qCPrS7VS6bPt8/YxYJmstgXxDcUJ8rbwM
+         oEkMpVPh2KcpPcDjF9UHaadlT8DGP3EQvA2Hil1evMGqoAUYgm27TQ16g6EPhAGKfcXk
+         VqIx0HUDog0uWTHx4jiIkz08yip087mrXTu0FVB+VYMhsG3clYnMHJWYr2cUciXZU7V6
+         Qjfa47K3f5coQGaId4f7EYrgC11ynDjj3gvB+ijFdk/rI0laL7W/W3kzoMclmd0zoX8i
+         haBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783571911; x=1784176711;
+        d=1e100.net; s=20251104; t=1783573181; x=1784177981;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Qi0KD4VU/u6N1TW91fgVF43rWN+CrXef747lf/eDsU8=;
-        b=CIesNzEFIQYuFdFQVOcux2eFzAFqDqMuzAfMK5NN+VFoB3ugSZYFQGtWUfOXvBqXyD
-         uid4p+uZ/ZDSQSwpAjNCrS7J2CupfPQlx1LhW0QFIXAlD74isibx3UnPrSC0NADqeG0z
-         lHyQm95CFeXecHcYD84H5pmD+4Hw0mSavhfCwOkH8ObKbOlw+8f3RMXxhYv8wL0PIS+b
-         YzphNRm7xWempvbszGYFS5DCJiAteRd8OMtXf/zr+0MJeaGxhKBY8sFib27ew2DVjHPz
-         txQqlkaEJCyqJABXRnQp20iegpVUkIwc4lFYUT7BlTwA/EZpuqRosVrg1uo738DaQ/mT
-         cT+g==
-X-Gm-Message-State: AOJu0Yy18x8LKU52wP6tLfmBq5j8n3ssofYbfsfgUsWfu0IMq7Zbt86K
-	3M+uUtT9MeArX5lyTGp3oojkXhDaFQJeij8aAAY39kQzIL0elrBu2ogG
-X-Gm-Gg: AfdE7ckohvQP0uJS//spU0K/zt+AR4ImjeCCn1UzO4+5oQRRrSxw+otjR0YLuTe68pH
-	pbMYzv47Tqykwmuwg7mEw7MrdtTAixnG4a3l/JsbKxAkvM0PQEP0fDOazrx3hfv/lPGATEfGnoA
-	J16W44DwTGjJcDPQnNkRUy7b0a1wBsegKXmI//3l2JjMJ7jMFQBRNu8N7kU65bE4V68Ksf4F2Q9
-	aPRPtqgmWDJ50KgxjJScvu4GtWcNJocC6Yvadirm+6Rq47Ka2mOzft3ll3NoE54uW7LcdDYHLQM
-	WCS+SJ9YP1O5Lao16VSeFCg1amrmb2itlNNJYqMaOnKTgEWvN7j/On2HOWLSBfXVBCiAsEOvow+
-	j7kqjF/+Sobi1QStmusGIckcmoFQ9wVg8wdOrw64pRcSXtHIZ8ueDqv4LWmGCpqf0q4shInyGFD
-	bSJaZY4DBa2vVzOZ2UQx+gDDZhC0c3KO+rARYLWwIVl5FbI3w=
-X-Received: by 2002:a17:903:2447:b0:2c9:97a8:afe7 with SMTP id d9443c01a7336-2ccea3cb09amr60107985ad.42.1783571910714;
-        Wed, 08 Jul 2026 21:38:30 -0700 (PDT)
+        bh=ad0P2VMz9bf8HA6F8SGWlOPHl2k6oftAxCYlJLG1Vz4=;
+        b=DTlshQSUIBBUQVvd+bHX7f+uA2/5DySZnShQHaZitfXpq387aJ2T3jmM6E+zHu777B
+         pH85LtJ2Sdai/iawvy8mwglWNeAgTZhAc1v4Q89Y0zb1mJ+of+ksl/viLct9BVBZZpwS
+         NzvGlGpdu7G3Q+2lFZv+Pfiu3m6B9Ta8LUWRzobeqhNAKrJkJUu3g7f2zsROuV9oR+H7
+         TBVVb9lDiQdIi8Nvymx85E7YnST0tuVS85q7mxpIyQdWLXH6GINf6F06Ti6yXYT0n+c0
+         V4eB399KEcOWfRmo+dp+ycDiGRaP8Yw8ILlyg+WNB7NR5WbM8oXKqAloWSuIuZaxG+3U
+         E84Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrJVDHxNJt/l7u1uzN1Ll/shtwUHVUlHWsbTmRr9qEUyJ771AtALtmCIQg//VN9uRYaWwi/T90G2kz4kA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxj2SlSgRLKC+cD10PS/nu7EriqRt5ZMnMKh4+iWY9ZjPySJ+Vn
+	GrbfYWKsq80wYwzONhO21w/vJOeKmRaLK9G7JdIi5jFfVPjRGv+MZjlA
+X-Gm-Gg: AfdE7cllPSkYatFPvqoxxZO6bEa4UtmuSjqYrGR7gJCD1djQPcjuXT/jZ3oryh+xaB/
+	/Uf5GXtttwb0udbXDWUpTlH4vELpum4VPzTzbkO6/rHM5OziFQjdFFuDcZlcIhqYxtXuVrU+enc
+	6TloMObkV40KgNneDWCqVZKhgtQtnwARwuTm7b7rJO9afEpzwoxHsn8IT287R8Cw/s5pTxb8xRs
+	Xj6XSjOiz6QksT75o9LsuMNHVWFVlm+cKearCyNI8FM/cnSnQlKTQUlRrkRw9gavYPIPzR/douj
+	+TdkE8URMpRdk/BGDFjOQj/oiIesKbEVpRPJ490EwrNg7kNoIZkOrHZW3ogy0yLUBWyz1FISGV+
+	RE3G4/ZzVhmzfDVFYWZUSbxAkvWDzknz012EN61rKmqZLnbR5gXGs4MCQeaqtK3QwXEBMGBUyMt
+	IdUbSYZRHWfnBLZNvDPEnjpJl64MeSe9o//k/0rnYlN3PjR0AWC6WryQcnYw==
+X-Received: by 2002:a17:90b:258f:b0:380:15fa:c5b2 with SMTP id 98e67ed59e1d1-3894043e537mr5070234a91.18.1783573180995;
+        Wed, 08 Jul 2026 21:59:40 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3c99fsm37033815ad.68.2026.07.08.21.38.28
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5506b47esm490481a91.3.2026.07.08.21.59.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 21:38:30 -0700 (PDT)
+        Wed, 08 Jul 2026 21:59:40 -0700 (PDT)
 From: phucduc.bui@gmail.com
-To: Max Filippov <jcmvbkbc@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
+	Nick Li <nick.li@foursemi.com>,
+	Herve Codina <herve.codina@bootlin.com>
+Cc: Support Opensource <support.opensource@diasemi.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	u.kleine-koenig@baylibre.com,
+	Zhang Yi <zhangyi@everest-semi.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Kees Cook <kees@kernel.org>,
+	HyeongJun An <sammiee5311@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2] ASoC: xtensa: Use dev_err_probe() and drop redundant error handling
-Date: Thu,  9 Jul 2026 11:37:40 +0700
-Message-ID: <20260709043740.329504-1-phucduc.bui@gmail.com>
+Subject: [PATCH v3 00/27] ASoC: codecs: Use guard() for mutex & spin locks - part 2
+Date: Thu,  9 Jul 2026 11:58:35 +0700
+Message-ID: <20260709045902.498848-1-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,124 +104,104 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Convert error paths with messages to dev_err_probe(), which combines
-dev_err() and the return statement while also handling -EPROBE_DEFER
-for the clock path.
-Remove the redundant "err:" label and return errors directly. Paths such
-as platform_get_irq() already log failures in the callee, so they simply
-return the error code without printing an additional message. Inline the
-pm_runtime_disable() cleanup at its only call site.
+Hi all,
 
-No functional change.
+This series converts mutex and spinlock handling in ASoC codec drivers
+to use the guard() and scoped_guard() helpers.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/xtensa/xtfpga-i2s.c | 60 +++++++++++++----------------------
- 1 file changed, 22 insertions(+), 38 deletions(-)
+This is part 2 of a larger 78-patch conversion series. Part 1 (24
+patches) has already been posted, while this series contains the next
+27 patches to keep the review manageable.
 
-diff --git a/sound/soc/xtensa/xtfpga-i2s.c b/sound/soc/xtensa/xtfpga-i2s.c
-index 9ad86c54e3ea..fd0990201b40 100644
---- a/sound/soc/xtensa/xtfpga-i2s.c
-+++ b/sound/soc/xtensa/xtfpga-i2s.c
-@@ -533,34 +533,25 @@ static int xtfpga_i2s_probe(struct platform_device *pdev)
- 	int err, irq;
- 
- 	i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
--	if (!i2s) {
--		err = -ENOMEM;
--		goto err;
--	}
-+	if (!i2s)
-+		return -ENOMEM;
-+
- 	platform_set_drvdata(pdev, i2s);
- 	i2s->dev = &pdev->dev;
- 	dev_dbg(&pdev->dev, "dev: %p, i2s: %p\n", &pdev->dev, i2s);
- 
- 	i2s->regs = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(i2s->regs)) {
--		err = PTR_ERR(i2s->regs);
--		goto err;
--	}
-+	if (IS_ERR(i2s->regs))
-+		return PTR_ERR(i2s->regs);
- 
- 	i2s->regmap = devm_regmap_init_mmio(&pdev->dev, i2s->regs,
- 					    &xtfpga_i2s_regmap_config);
--	if (IS_ERR(i2s->regmap)) {
--		dev_err(&pdev->dev, "regmap init failed\n");
--		err = PTR_ERR(i2s->regmap);
--		goto err;
--	}
-+	if (IS_ERR(i2s->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->regmap), "regmap init failed\n");
- 
- 	i2s->clk = devm_clk_get(&pdev->dev, NULL);
--	if (IS_ERR(i2s->clk)) {
--		dev_err(&pdev->dev, "couldn't get clock\n");
--		err = PTR_ERR(i2s->clk);
--		goto err;
--	}
-+	if (IS_ERR(i2s->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->clk), "couldn't get clock\n");
- 
- 	regmap_write(i2s->regmap, XTFPGA_I2S_CONFIG,
- 		     (0x1 << XTFPGA_I2S_CONFIG_CHANNEL_BASE));
-@@ -568,41 +559,34 @@ static int xtfpga_i2s_probe(struct platform_device *pdev)
- 	regmap_write(i2s->regmap, XTFPGA_I2S_INT_MASK, XTFPGA_I2S_INT_UNDERRUN);
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		err = irq;
--		goto err;
--	}
-+	if (irq < 0)
-+		return irq;
-+
- 	err = devm_request_threaded_irq(&pdev->dev, irq, NULL,
- 					xtfpga_i2s_threaded_irq_handler,
- 					IRQF_SHARED | IRQF_ONESHOT,
- 					pdev->name, i2s);
--	if (err < 0) {
--		dev_err(&pdev->dev, "request_irq failed\n");
--		goto err;
--	}
-+	if (err < 0)
-+		return err;
- 
- 	err = devm_snd_soc_register_component(&pdev->dev,
- 					      &xtfpga_i2s_component,
- 					      xtfpga_i2s_dai,
- 					      ARRAY_SIZE(xtfpga_i2s_dai));
--	if (err < 0) {
--		dev_err(&pdev->dev, "couldn't register component\n");
--		goto err;
--	}
-+	if (err < 0)
-+		return err;
-+
- 
- 	pm_runtime_enable(&pdev->dev);
- 	if (!pm_runtime_enabled(&pdev->dev)) {
- 		err = xtfpga_i2s_runtime_resume(&pdev->dev);
--		if (err)
--			goto err_pm_disable;
-+		if (err) {
-+			pm_runtime_disable(&pdev->dev);
-+			return err;
-+		}
- 	}
--	return 0;
- 
--err_pm_disable:
--	pm_runtime_disable(&pdev->dev);
--err:
--	dev_err(&pdev->dev, "%s: err = %d\n", __func__, err);
--	return err;
-+	return 0;
- }
- 
- static void xtfpga_i2s_remove(struct platform_device *pdev)
+https://lore.kernel.org/all/20260617103235.449609-1-phucduc.bui@gmail.com/
+
+The changes are purely refactoring and have no functional impact.
+Compile-tested only.
+
+Changes in v3:
+ - Rebased onto the latest broonie/for-next.
+
+Changes in v2: 
+ - Add Reviewed-by tags from Charles and Herve.
+ - Address Herve's review comments.
+
+Link v2: 
+https://lore.kernel.org/all/20260708141734.578926-1-phucduc.bui@gmail.com/
+Link v1 : 
+https://lore.kernel.org/all/20260630063449.503996-1-phucduc.bui@gmail.com/
+
+
+Best regards,
+Phuc
+
+
+bui duc phuc (27):
+  ASoC: codecs: da7213: Use guard() for mutex locks
+  ASoC: codecs: da7219: Use guard() for mutex locks
+  ASoC: codecs: es8316: Use guard() for mutex locks
+  ASoC: codecs: es8326: Use guard() for mutex locks
+  ASoC: codecs: es9356: Use guard() for mutex locks
+  ASoC: codecs: fs210x: Use guard() for mutex locks
+  ASoC: codecs: hdac_hdmi: Use guard() for mutex locks
+  ASoC: codecs: hdmi-codec: Use guard() for mutex locks
+  ASoC: codecs: idt821034: Use guard() for mutex locks
+  ASoC: codecs: lpass-macro: Use guard() for mutex locks
+  ASoC: codecs: madera: Use guard() for mutex locks
+  ASoC: codecs: max98095: Use guard() for mutex locks
+  ASoC: codecs: mt6359-accdet: Use guard() for mutex locks
+  ASoC: codecs: pcm512x: Use guard() for mutex locks
+  ASoC: codecs: pcm6240: Use guard() for mutex locks
+  ASoC: codecs: peb2466: Use guard() for mutex locks
+  ASoC: codecs: rt5514-spi: Use guard() for mutex locks
+  ASoC: codecs: rt5645: Use guard() for mutex locks
+  ASoC: codecs: rt5665: Use guard() for mutex locks
+  ASoC: codecs: rt5668: Use guard() for mutex locks
+  ASoC: codecs: rt5677: Use guard() for mutex locks
+  ASoC: codecs: rt5682: Use guard() for mutex locks
+  ASoC: codecs: rt700: Use guard() for mutex locks
+  ASoC: codecs: rt711: Use guard() for mutex locks
+  ASoC: codecs: rt712: Use guard() for mutex locks
+  ASoC: codecs: rt721: Use guard() for mutex locks
+  ASoC: codecs: rt722: Use guard() for mutex locks
+
+ sound/soc/codecs/da7213.c             |  37 ++----
+ sound/soc/codecs/da7219.c             |  62 +++-------
+ sound/soc/codecs/es8316.c             |  31 +++--
+ sound/soc/codecs/es8326.c             |  30 +++--
+ sound/soc/codecs/es9356.c             |  29 ++---
+ sound/soc/codecs/fs210x.c             |  89 +++++---------
+ sound/soc/codecs/hdac_hdmi.c          | 117 +++++++++----------
+ sound/soc/codecs/hdmi-codec.c         |  15 +--
+ sound/soc/codecs/idt821034.c          | 144 +++++++++--------------
+ sound/soc/codecs/lpass-macro-common.c |  12 +-
+ sound/soc/codecs/madera.c             |  39 +++----
+ sound/soc/codecs/max98095.c           |  35 +++---
+ sound/soc/codecs/mt6359-accdet.c      |  13 +--
+ sound/soc/codecs/pcm512x.c            |  19 +--
+ sound/soc/codecs/pcm6240.c            |  25 ++--
+ sound/soc/codecs/peb2466.c            |  16 +--
+ sound/soc/codecs/rt5514-spi.c         |  21 ++--
+ sound/soc/codecs/rt5645.c             | 160 +++++++++++++-------------
+ sound/soc/codecs/rt5665.c             |  15 ++-
+ sound/soc/codecs/rt5668.c             |  10 +-
+ sound/soc/codecs/rt5677-spi.c         |  36 +++---
+ sound/soc/codecs/rt5677.c             |  75 ++++++------
+ sound/soc/codecs/rt5682-sdw.c         |  24 ++--
+ sound/soc/codecs/rt5682.c             |   5 +-
+ sound/soc/codecs/rt5682s.c            |  17 +--
+ sound/soc/codecs/rt700-sdw.c          |  14 +--
+ sound/soc/codecs/rt711-sdca-sdw.c     |  29 ++---
+ sound/soc/codecs/rt711-sdca.c         |   5 +-
+ sound/soc/codecs/rt711-sdw.c          |  24 ++--
+ sound/soc/codecs/rt711.c              |  50 ++++----
+ sound/soc/codecs/rt712-sdca-sdw.c     |  30 ++---
+ sound/soc/codecs/rt712-sdca.c         |   5 +-
+ sound/soc/codecs/rt721-sdca-sdw.c     |  29 ++---
+ sound/soc/codecs/rt721-sdca.c         |   5 +-
+ sound/soc/codecs/rt722-sdca-sdw.c     |  29 ++---
+ sound/soc/codecs/rt722-sdca.c         |   4 +-
+ 36 files changed, 569 insertions(+), 731 deletions(-)
+
 -- 
 2.43.0
 
