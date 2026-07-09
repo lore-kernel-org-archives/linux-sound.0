@@ -1,286 +1,125 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC933A3E6F
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 05:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF6D3DB318
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 07:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783573204; cv=none; b=NS6GwZXK5vQgs3pXuFL+vPh7IMVdsVw/lA3fcBLhuu/sXNHu46ZQtnElEdxtNTILCqWJKbnL8abxExrtB7hXiRpNqyjvwUFaAHfG/eXGpxqqjIXa9OCpKvEqnvqKLny9eOouZsVDdS1LXDKqkIrfV8pxnyxh7mJolUtuxK6jQR0=
+	t=1783580826; cv=none; b=SXIz6GZ16DtOrvEt+dmT1NczS1eR8t6lC+z0ij5YIBTtdoDHrGymPvhmmZYXBx0KPcSRN7L+9fKGEKiAVvI1B3ZQxil5xjl8D2RuU8HrPm7uqeoUX8Uqy7OsfB5PDlxsG/U4maN8b8Kw/nrKfcQCGlqNgDO9ka5/bFZALVHhHyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783573204; c=relaxed/simple;
-	bh=W+FH/hihk45TjXu/Dl+KwPA0SNPvmFDimRQIFSI/5qo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CasjCR+9x4BpJWtLKDWQTspQwrBSi6ISoG73XjPTaLEcmzm1qkzxIlc4AyePjTP6pU7ANys1YRQkpn4AFBIyIkxNV0XAIWAt2n8olKb4pcx1NIFKZ1z251hc+CbwCEpKcVQqX5P6rw7RRpYkhAT/6I2ItrIRExBZuH2JAqclAgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qx6yFfbu; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783580826; c=relaxed/simple;
+	bh=Bnd/Zp3niZIQob/FNfLgwtO3XTUE9bxrb51tY42Yjss=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=fJeP8lZrp5Hq9vq3Jgt9EPFJmCWGuBd8E9svOHv70CFLZ/8I9Gyxb9uJmgLmOnms/hf06DcJP6w/IcG9WRbJzvbUJgRXoPB+3OMAtJsIewHiSCXVH804ZMN+jvDMZi9bs2kNrOr+moAz/pl2LM4rFadDOqczRbnFPZCeT3h+loM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=gLsp7Dd1; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qx6yFfbu"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-381065a7a03so996858a91.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jul 2026 22:00:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="gLsp7Dd1"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6986287534eso2756985a12.3
+        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 00:07:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783573202; x=1784178002; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=E63rONCybeKNZ9BBxLw4/pUgmeGU/hnyC6bCIs5It3Y=;
-        b=Qx6yFfbufhlz2Eigoj7H4zRgQ9vyqeiIaMOrI6yZJlX7QckTMlXOAdtNC/GKTRPZXD
-         LJBf1XencXDQ8nQhlHhqaAsgrd3pUzT7aJXNSLyX4uSFUQm6RWTBRvTz0bY9fb658AP+
-         zW4czuscVRYxXr6RxCZLN6fQvBE6SuVdf55AomH4ZtUbRYuMe2XXyLl/TeoQpf6TxKkT
-         2qi04ptOdgF+Xf8tY+gpWDSAVw5f68e42WpASObDuBCpi8JZsoRWJW/HgvHTrVmw9Vi0
-         SBx4yAmHy/DW44/jAhyYOFTkzsSijpmKDqB0lMJKSAzgyFIGQEt92ytGuXfkRpliPVnl
-         oxrA==
+        d=fairphone.com; s=fair; t=1783580820; x=1784185620; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=39wxSflXcaAuLOW85LSK1MzZPDJ4dD+cTINLmzJuWNw=;
+        b=gLsp7Dd1WVvvxNVzg0TEshjZfYeaBtgcq8CTqXXbwUOJd7r8Qtb+oP9eCA/LzinkrT
+         /ueUwtkfdbEZT3eRvolfn182weA34O2dMkA/8QNSaiwQ4Oos0CsAqs/uaoDPXGSue2QE
+         sE5Iau+Am+lLQ2kJj54eDIkSdJew+WpHDO/bFtybnWU8S5C5Ll0s2trL+ntKRvcgEh8w
+         iZ3SzhmzPVaxidRhAA4aPtwzhpMwE9IN2w0nnyx/NvkFN2EJnQnoMpPmNN4iNn4O9vdp
+         hiQf0djgmMURAn5qc1tsFRlkv2rSEDq213wtVSbXULMU4+y2n+0u/CWfJ+4MEFiq2Pvd
+         Kdow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783573202; x=1784178002;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=E63rONCybeKNZ9BBxLw4/pUgmeGU/hnyC6bCIs5It3Y=;
-        b=bIKL0N9XiCcXD99JYG0znT2sE8hi0HzbTjiEYBefRohJuAn26yyk7yR0h43P5eVQut
-         sVyBiUi7o+ZqetXxY62dgVE0zrz1LxkuSKuTSIh25c8YAwj39zskJdp1V0WXPGsBFzEq
-         KR7C7WsS4umgyquWhJNitdda5mM/SHzXhKP60s/mvDDuVajoUp4ItbbbbMyoE32kvVvp
-         CxLKOdN+EF3/LHPlxD1yd64Twx+kSKJwvm3s5hnJ0TCXUHH1BOC+bPaNbb7Oogq2cGFd
-         cbM1bwc81nwmKTZRUNylZRKrqlPa8V23kG3xe4oMhmk4XLTasnF0h1djSDa/sFvz5Btr
-         IkpQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2/RZsu89VKPScmaNVJlOR/sSAXR+UusiV2WLkaTb4+6+ctGccME54ZlxrFWXq5f3XEF090DTBWxa+mQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzhl8lIfMG44vrAsoyn/zcHJ21M4YBOg4MVqSm4fku0VqdeWLbO
-	Qlxu+hZVLRPWPUb8xm4CEvXWFOPWaxL1uYhzPmOG8eP2T2qIOiS4uEn1
-X-Gm-Gg: AfdE7cmus5I0+cNLroQAWB1mV2OU49SBKEVbZ9rV9SZUXo+Oftonoo9cVOrnuXC9+pT
-	oKovn26ZTuBnbaQt1ErupO9qbscd6LY3s5kBpLuIgKJHvPybr7jzvlEPzEcFOSdcFlA5d/OXRlB
-	V2+80j0CL0MaziUiUwbN1uYoO+KAhjlJ6AZRNsRg5UH+gVzar2nHksZcSMfXVNXM6AHy4ha211t
-	GXBy98boA2VNyg++cQbGu16UvprTRUyD3rhMA7MDIvFi0hGQbSR9ir4YELQueYbADctGw8Vtjy+
-	2aIb+Hs1WJTLC76S6ClXi2ykbWNzKLwqWJfy0Z3UIlPzD5l4O5+PKZMCr3SZH/MnBkm3hGlBAgM
-	7IyaYyWm1wTEzzkXgYpHvQFu/hxOc4NK5A0FGqRx0y2S1cyxaiP7kQt0rgmeK5uBykVUisUOZ1A
-	7waLLE+AuwKMHh8FHQPnRp+rMwXD2gHC6hX8+FFJB4nOZHHdc=
-X-Received: by 2002:a17:90b:5384:b0:387:e0bb:57fe with SMTP id 98e67ed59e1d1-389421ae15amr5296615a91.37.1783573202444;
-        Wed, 08 Jul 2026 22:00:02 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5506b47esm490481a91.3.2026.07.08.21.59.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 22:00:02 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Nick Li <nick.li@foursemi.com>,
-	Herve Codina <herve.codina@bootlin.com>
-Cc: Support Opensource <support.opensource@diasemi.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	u.kleine-koenig@baylibre.com,
-	Zhang Yi <zhangyi@everest-semi.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Kees Cook <kees@kernel.org>,
-	HyeongJun An <sammiee5311@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Qianfeng Rong <rongqianfeng@vivo.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 02/27] ASoC: codecs: da7219: Use guard() for mutex locks
-Date: Thu,  9 Jul 2026 11:58:37 +0700
-Message-ID: <20260709045902.498848-3-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260709045902.498848-1-phucduc.bui@gmail.com>
-References: <20260709045902.498848-1-phucduc.bui@gmail.com>
+        d=1e100.net; s=20251104; t=1783580820; x=1784185620;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=39wxSflXcaAuLOW85LSK1MzZPDJ4dD+cTINLmzJuWNw=;
+        b=BCR8eUUBLFJgitVJc47sROZnzp0A9MOUrWqlITW+QV4C/FBVoxApHmePBnJ+3269P8
+         L2coLRX0yr6k9LlF0yyHUZg+O+iY7zK+zknFCJvHnOsfXiV0OnLs7dRcn93dtLhqwKv7
+         J7S7DlDe7x/TCKXFxRcsqZB7P4yA4ezSTthZTyljrdRxtuKB7rd78175pOcg8C37igt3
+         rmxPSt8pmTZwHh9GGPEnV+/eSmgD2sDSFiGKtfuMHtcUuoCdCfOsZHkFUgLTja54ox8T
+         L4dO1BNMu4dZesO0F4SgBumVNZB3qwiiJbOdpT3D0yakGvs6w8DI0tnE7Y2+yD+/2kal
+         ACSg==
+X-Forwarded-Encrypted: i=1; AHgh+RqhadnyHFpvHHwGNDmcu7ughcPeiR5ixu0I+LkaSy+qUwh3gxxkl5WnkCozoXdR7O5uGYF593RbgP1krw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJ/Wvq1ZHGRyD3p6wxornOwg6Q2PoRonHVDMunKOIbsN7h/sDi
+	jqBiLUXkdCbCNG9NukLxAm11kz2bBfqfWg68Yj/5A75j6G06ia6q5mXwXPBtx72KM0w=
+X-Gm-Gg: AfdE7ck/cVEWrgEYm/sloTynRH3guXEroHVyz3RD1IC3jItj/Ub5f3T8R93C/lDKPWF
+	iMe5rzJkkv1rdexji4bloE8q0b/C9VZjb35R9xbjNBUMRXhgUT54M+fcG48fKf3u4eG8GJIb9r0
+	p6pKwk+jiCe/E4gHJB7JfkED8YckYqEM4N5cKRkPMRCS5/kpQ4I3MeQ/rvXlATFj+2s4MfHFJRP
+	WTJroGPVtTVDP+CunekaD/mG34aHWqJ544yfDNmrXnZIl+JEqBIPtCj2Si/y51773ozZV3wDvox
+	T0Nkqi+Gnik9cCcCvr0c3LqOtqJFCzOvra2WNwA7uqJnJ2nQUx3JBw34qGSVe+VURmN5gkGdszR
+	SzuLY6NxX96xS03CEkF4O73GRNdgt9aPdGDaAUgLspGWOmcG7oy4MUknArMi5MuPQed7vXBRf7v
+	gUg7QaXVoi3KXRxzxsl9ViXvGgu0vVM8HsUD0lZph3SlKhMw8FUfR1DOD1FQ==
+X-Received: by 2002:a17:907:3f86:b0:c15:d0b6:495c with SMTP id a640c23a62f3a-c15d0b64ce5mr261020666b.29.1783580818201;
+        Thu, 09 Jul 2026 00:06:58 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ca1bd81asm240667266b.30.2026.07.09.00.06.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jul 2026 00:06:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 09 Jul 2026 09:06:56 +0200
+Message-Id: <DJTUMRRV8K1A.3AL1AMOF242DP@fairphone.com>
+Cc: "Srinivas Kandagatla" <srini@kernel.org>, "Liam Girdwood"
+ <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela"
+ <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Konrad Dybcio" <konradybcio@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ <cros-qcom-dts-watchers@chromium.org>,
+ <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH RFC 1/2] ASoC: codecs: lpass-tx-macro: Use correct
+ config for sc7280
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Luca Weiss"
+ <luca.weiss@fairphone.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260526-sc7280-tx-macro-v1-0-1aad6900fec0@fairphone.com>
+ <20260526-sc7280-tx-macro-v1-1-1aad6900fec0@fairphone.com>
+ <4rd4l5ioccdiggvlwl623qsdoy2udy5cr6sigyxrg5pbdll37g@sboebzvzlr6m>
+In-Reply-To: <4rd4l5ioccdiggvlwl623qsdoy2udy5cr6sigyxrg5pbdll37g@sboebzvzlr6m>
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Hi Dmitry,
 
-Clean up the code using guard() for mutex locks.
-Merely code refactoring, and no behavior change.
+On Sat Jul 4, 2026 at 1:55 AM CEST, Dmitry Baryshkov wrote:
+> On Tue, May 26, 2026 at 05:29:54PM +0200, Luca Weiss wrote:
+>> With the v9 data, the controls will have completely wrong names and
+>> using wrong code paths that do not apply to v9.4.
+>>=20
+>> Note, that this will change control names so it's a breaking change.
+>
+> Is it something that we want to keep as compatible for the old DTs? Or
+> is it completely broken and unusable?
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/codecs/da7219.c | 62 ++++++++++++---------------------------
- 1 file changed, 19 insertions(+), 43 deletions(-)
+It's definitely not completely broken since a good number of devices
+work (seemingly) correctly with it.
 
-diff --git a/sound/soc/codecs/da7219.c b/sound/soc/codecs/da7219.c
-index f0874d891e12..f6d371e93549 100644
---- a/sound/soc/codecs/da7219.c
-+++ b/sound/soc/codecs/da7219.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/clkdev.h>
- #include <linux/clk-provider.h>
-@@ -256,13 +257,10 @@ static int da7219_volsw_locked_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
--	int ret;
- 
--	mutex_lock(&da7219->ctrl_lock);
--	ret = snd_soc_get_volsw(kcontrol, ucontrol);
--	mutex_unlock(&da7219->ctrl_lock);
-+	guard(mutex)(&da7219->ctrl_lock);
- 
--	return ret;
-+	return snd_soc_get_volsw(kcontrol, ucontrol);
- }
- 
- static int da7219_volsw_locked_put(struct snd_kcontrol *kcontrol,
-@@ -270,13 +268,10 @@ static int da7219_volsw_locked_put(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
--	int ret;
- 
--	mutex_lock(&da7219->ctrl_lock);
--	ret = snd_soc_put_volsw(kcontrol, ucontrol);
--	mutex_unlock(&da7219->ctrl_lock);
-+	guard(mutex)(&da7219->ctrl_lock);
- 
--	return ret;
-+	return snd_soc_put_volsw(kcontrol, ucontrol);
- }
- 
- static int da7219_enum_locked_get(struct snd_kcontrol *kcontrol,
-@@ -284,13 +279,10 @@ static int da7219_enum_locked_get(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
--	int ret;
- 
--	mutex_lock(&da7219->ctrl_lock);
--	ret = snd_soc_get_enum_double(kcontrol, ucontrol);
--	mutex_unlock(&da7219->ctrl_lock);
-+	guard(mutex)(&da7219->ctrl_lock);
- 
--	return ret;
-+	return snd_soc_get_enum_double(kcontrol, ucontrol);
- }
- 
- static int da7219_enum_locked_put(struct snd_kcontrol *kcontrol,
-@@ -298,13 +290,10 @@ static int da7219_enum_locked_put(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
--	int ret;
- 
--	mutex_lock(&da7219->ctrl_lock);
--	ret = snd_soc_put_enum_double(kcontrol, ucontrol);
--	mutex_unlock(&da7219->ctrl_lock);
-+	guard(mutex)(&da7219->ctrl_lock);
- 
--	return ret;
-+	return snd_soc_put_enum_double(kcontrol, ucontrol);
- }
- 
- /* ALC */
-@@ -422,9 +411,8 @@ static int da7219_tonegen_freq_get(struct snd_kcontrol *kcontrol,
- 	__le16 val;
- 	int ret;
- 
--	mutex_lock(&da7219->ctrl_lock);
--	ret = regmap_raw_read(da7219->regmap, reg, &val, sizeof(val));
--	mutex_unlock(&da7219->ctrl_lock);
-+	scoped_guard(mutex, &da7219->ctrl_lock)
-+		ret = regmap_raw_read(da7219->regmap, reg, &val, sizeof(val));
- 
- 	if (ret)
- 		return ret;
-@@ -456,12 +444,11 @@ static int da7219_tonegen_freq_put(struct snd_kcontrol *kcontrol,
- 	 */
- 	val_new = cpu_to_le16(ucontrol->value.integer.value[0]);
- 
--	mutex_lock(&da7219->ctrl_lock);
-+	guard(mutex)(&da7219->ctrl_lock);
- 	ret = regmap_raw_read(da7219->regmap, reg, &val_old, sizeof(val_old));
- 	if (ret == 0 && (val_old != val_new))
- 		ret = regmap_raw_write(da7219->regmap, reg,
--				&val_new, sizeof(val_new));
--	mutex_unlock(&da7219->ctrl_lock);
-+				       &val_new, sizeof(val_new));
- 
- 	if (ret < 0)
- 		return ret;
-@@ -1167,15 +1154,12 @@ static int da7219_set_dai_sysclk(struct snd_soc_dai *codec_dai,
- 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
- 	int ret = 0;
- 
--	mutex_lock(&da7219->pll_lock);
-+	guard(mutex)(&da7219->pll_lock);
- 
--	if ((da7219->clk_src == clk_id) && (da7219->mclk_rate == freq)) {
--		mutex_unlock(&da7219->pll_lock);
-+	if (da7219->clk_src == clk_id && da7219->mclk_rate == freq)
- 		return 0;
--	}
- 
--	if ((freq < 2000000) || (freq > 54000000)) {
--		mutex_unlock(&da7219->pll_lock);
-+	if (freq < 2000000 || freq > 54000000) {
- 		dev_err(codec_dai->dev, "Unsupported MCLK value %d\n",
- 			freq);
- 		return -EINVAL;
-@@ -1193,7 +1177,6 @@ static int da7219_set_dai_sysclk(struct snd_soc_dai *codec_dai,
- 		break;
- 	default:
- 		dev_err(codec_dai->dev, "Unknown clock source %d\n", clk_id);
--		mutex_unlock(&da7219->pll_lock);
- 		return -EINVAL;
- 	}
- 
-@@ -1203,17 +1186,13 @@ static int da7219_set_dai_sysclk(struct snd_soc_dai *codec_dai,
- 		freq = clk_round_rate(da7219->mclk, freq);
- 		ret = clk_set_rate(da7219->mclk, freq);
- 		if (ret) {
--			dev_err(codec_dai->dev, "Failed to set clock rate %d\n",
--				freq);
--			mutex_unlock(&da7219->pll_lock);
-+			dev_err(codec_dai->dev, "Failed to set clock rate %d\n", freq);
- 			return ret;
- 		}
- 	}
- 
- 	da7219->mclk_rate = freq;
- 
--	mutex_unlock(&da7219->pll_lock);
--
- 	return 0;
- }
- 
-@@ -1296,13 +1275,10 @@ static int da7219_set_dai_pll(struct snd_soc_dai *codec_dai, int pll_id,
- {
- 	struct snd_soc_component *component = codec_dai->component;
- 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
--	int ret;
- 
--	mutex_lock(&da7219->pll_lock);
--	ret = da7219_set_pll(component, source, fout);
--	mutex_unlock(&da7219->pll_lock);
-+	guard(mutex)(&da7219->pll_lock);
- 
--	return ret;
-+	return da7219_set_pll(component, source, fout);
- }
- 
- static int da7219_set_dai_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt)
--- 
-2.43.0
+I also tried and I could make the microphone on Fairphone 5 (QCM6490,
+Elite audio) work even with the "wrong" v9.0 config, by updating the
+control names to the v9 names instead of the correct v9.4 names.
+
+In the cover letter I've expanded more on this and the possible options
+I see.
+
+Regards
+Luca
+
+>
+>>=20
+>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>> ---
+>>  sound/soc/codecs/lpass-tx-macro.c | 9 ++-------
+>>  1 file changed, 2 insertions(+), 7 deletions(-)
+>>=20
 
