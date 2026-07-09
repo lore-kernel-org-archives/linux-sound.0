@@ -1,84 +1,83 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A48E3FB07F
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 09:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A3D3FF1B1
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 09:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783588409; cv=none; b=eLeAO+NemlrnvcTNzCU7kkMNNYkp3VRD9ceHzOufhjcxDCUljAp23yu3OoMugUJz3rBTGEO0z7VljIZYPGGuuvH013zUl7wn6KaQlHl7dPGvHfvb9169U3xEoYLPmxxmvZa7BG9QoEi6VApB8p6gtgEb3U4A0FNlI5Wp9C9gTZ0=
+	t=1783588687; cv=none; b=it0GVROTYZTmZOheQHYMcvZzUm7aIPKtEVrMVzT1M4g8Zb8Cg8c2Wo7Sf0owGsloLar9BSzVjfuSccPtx/GM5Q6oBu4D+I/hvzy1o5XUefict04Fmd8vOFfzrkKb0dafdQ3iuLaNcB38hLOkorxyLoFAPGM7CT1bZYKiZJe7EUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783588409; c=relaxed/simple;
-	bh=YqK41BPiywUYJSPlCkEyrJekCOGhYn44tfraqEue+YQ=;
+	s=arc-20240116; t=1783588687; c=relaxed/simple;
+	bh=HltVVfvEBmpNzh1SQC7hT8BzRF/gi41e90koasFLYFM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ftmR0jkysLy7AeOcNb4hNqnALgMQvVJXpZSHS5NDWX3UmF4K8CeeDku9vgSvFiEZ+OeEatFpF+oBwbPWm802MLDoyP+ECu8KP4q8olx/gi86Dye4UOhoma7sgmCJDwT7ISpKzm4RblwEfr3yvNSEtqRdGarOls6PdKX9vXfufFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W6pQo8dD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4B1vhMdC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jWdxq0yw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EXBU00Ws; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=e4G3bJIjY66wlq+BhbAl46czFwBMmSQpuOaA8LTXQep/bECdgRR4kDYMukjbCVyreavRFBuJzpd5q9H0AzC9IFysxyeB5UrdQPvroz3pfJAzO1hYWRVlzzyuhv36QxmKYt/peQ7mveVf2X4rljWMiXtHZOOX3Rb1pNzC2YYMLgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ILCXRtgL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5PDaZniA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wP+bidRN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bBaPS1sW; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W6pQo8dD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4B1vhMdC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jWdxq0yw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EXBU00Ws"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ILCXRtgL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5PDaZniA";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wP+bidRN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bBaPS1sW"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D596675DCF;
-	Thu,  9 Jul 2026 09:13:24 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5279575812;
+	Thu,  9 Jul 2026 09:18:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783588405; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1783588684; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HeVkEuNtfOdMvXuU2uFnmzfMgZGiGcfLadUo5CM92F0=;
-	b=W6pQo8dD7cYTKP7pBzF6qZ93HIZkeTR8c7Sg/aUwkMY73N4KwPyTv0A/8gb6n5QhQ0JJW4
-	QI1vBGMgGd6MbxxEbVWyjn2g3NsMEHHdK2hWx8ZA0O++Ep/su3afS094mDm9G79WaxXebv
-	OqxEGamUytj46AuxPG+tW9dUPgzerZg=
+	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
+	b=ILCXRtgLlIZF18jmaQbUP0qCGU6LL3XcymOGfjhdSLjFWrmcU28ROturdzihuZpWiL7csB
+	16Ysl7ti8BowOYwVL2At48O30oBmqHOUphuCqkrB0NX3BpPWQ//uXpy4r9dc5zelyiPrCW
+	JucDXsk+Xfp09LIFzh4iwIy1EaKG9o8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783588405;
+	s=susede2_ed25519; t=1783588684;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HeVkEuNtfOdMvXuU2uFnmzfMgZGiGcfLadUo5CM92F0=;
-	b=4B1vhMdC0ZlWcqSyu4YQF1SrYILPQTtv3n5hPfPO5Kq74z5K4HTq0xZaY+ADuG0rjytOAX
-	VycnrTesW2m0fZAA==
+	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
+	b=5PDaZniA1rjvP73m/9rMfSdimBGGPqXmUdKWwh9nsMmHmPiLWRODAAjO63mT2Z7KF1Ijw0
+	xU+MlSNKpMUpkSCw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jWdxq0yw;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EXBU00Ws
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783588404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1783588683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HeVkEuNtfOdMvXuU2uFnmzfMgZGiGcfLadUo5CM92F0=;
-	b=jWdxq0ywkRyryUVlI4WpYb2p+llI0+top/B0XsqNiMP1vsUkIspsQPmuAJneP8Xj3w0N+/
-	ix0Ve6r3hlQn5KbQJYKAw6KlPTP5IP9vbK0pR5X26AhnTRwotwsMhMpk9KLwibCA2mDPPD
-	i1eQF7ttLKphf10rIAT4UqmvSwwDV/0=
+	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
+	b=wP+bidRNXw50pUJHX2qBiyI/9fhZdNk4D+24EaxkEU0EzYM9Bpiuk5w8V0GWt7lDDz0dpx
+	zo8uHQI57ES6tk3+JEn8PDbKGDX/MKBKu7los6XveUZ70W0bAznfw3fiou6I+ZGKVhi/By
+	2v2caeJtOr/iDeu5kC2HAkQRi2h9sZ0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783588404;
+	s=susede2_ed25519; t=1783588683;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HeVkEuNtfOdMvXuU2uFnmzfMgZGiGcfLadUo5CM92F0=;
-	b=EXBU00Ws7Dt8oSATj8V2bIgtHDh+DeyHA2Zkcv+NAikxdDv6/GQQ6MEbzf+cGAzgB1BmIG
-	FLZYXZ9XDUIAmrBw==
+	bh=uJYAvz27tahr5pgSq3w0/88+I1fLzs3UXnKVo7Sexpo=;
+	b=bBaPS1sWKe13e9oPSwM5XY6J7Se2SabIfJPOrJ+U5XAsytjDdSpDaBzrod/4nLT6wf2OZy
+	vEPGQbZATP3xJbBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A9322779AA;
-	Thu,  9 Jul 2026 09:13:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 32100779AA;
+	Thu,  9 Jul 2026 09:18:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id enpbJzRmT2r/MAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 09 Jul 2026 09:13:24 +0000
-Date: Thu, 09 Jul 2026 11:13:24 +0200
-Message-ID: <875x2o4jbf.wl-tiwai@suse.de>
+	id ZxTUCktnT2psNQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Jul 2026 09:18:03 +0000
+Date: Thu, 09 Jul 2026 11:18:02 +0200
+Message-ID: <874ii84j3p.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Kailang <kailang@realtek.com>
-Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: Fixed Headphone noise issue for Dell QCM1255
-In-Reply-To: <34b990cb56914148ba02fa8e9d176479@realtek.com>
-References: <34b990cb56914148ba02fa8e9d176479@realtek.com>
+To: Michael Diesen <michael.diesen@posteo.de>
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Elite Dragonfly Folio G3 speakers
+In-Reply-To: <6b2b71bb318263aeb4f3ff67754d9978@posteo.de>
+References: <6b2b71bb318263aeb4f3ff67754d9978@posteo.de>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -86,55 +85,83 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-2022-JP
 X-Spam-Flag: NO
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: D596675DCF
-X-Spam-Score: -3.51
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
 
-On Thu, 09 Jul 2026 09:27:14 +0200,
-Kailang wrote:
+On Wed, 08 Jul 2026 22:04:31 +0200,
+Michael Diesen wrote:
 > 
-> Hi Takashi,
+> The HP Elite Dragonfly Folio G3 (PCI SSID 103c:8a05) has 4 CS35L41
+> amplifiers on SPI, identical to the non-Folio Dragonfly G3 (103c:8981).
+> Without this quirk the amps are never registered and speakers stay
+> silent.
 > 
-> This platform booted with Ubuntu 24.04 with Pipewire audio server. So, it has pop
-> noise with headphone. But it's normal with Pulseaudio server.
-> This patch was the workaround. Connect the headphones to DAC 0x2.
-> The popping sound will disappear.
+> I've been carrying this as a local out-of-tree patch and would like
+> to get it merged. Note there is a related, recently merged quirk for
+> a neighboring SSID on what appears to be a sibling board variant:
 > 
-> This solution was approved by Dell.
+>   0a10faad5ca5 ("ALSA: hda/realtek: add quirk for HP Dragonfly Folio
+>   G3 2-in-1", 103c:8a06), which uses the SPI4 + GPIO LED fixup
+>   variant rather than plain SPI4.
 > 
-> Thanks.
-> Kailang
+> My hardware (103c:8a05, "HP Elite Dragonfly Folio G3", non-2-in-1
+> SKU) works correctly with the plain ALC245_FIXUP_CS35L41_SPI_4
+> fixup and does not need the GPIO LED handling. Happy to re-test
+> against SPI_4_HP_GPIO_LED if you think that's actually the more
+> correct fixup for this board too ― let me know.
+> 
+> Signed-off-by: Michael Diesen <michael.diesen@posteo.de>
+> ---
+>  sound/hda/codecs/realtek/alc269.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> --- a/sound/hda/codecs/realtek/alc269.c
+> +++ b/sound/hda/codecs/realtek/alc269.c
+> @@ -6817,6 +6817,7 @@
+>       SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)",
+> ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+>       SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100",
+> ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+>       SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9",
+> ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+> +     SND_PCI_QUIRK(0x103c, 0x8a05, "HP Elite Dragonfly Folio G3",
+> ALC245_FIXUP_CS35L41_SPI_4),
+>       SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx",
+> ALC287_FIXUP_HP_GPIO_LED),
+>       SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx",
+> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+>       SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx",
+> ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
 
-Applied now.  Thanks.
+The patch can't be applied cleanly via git-am, unfortunately, likely
+because your mailer broke the space and lines.
 
+Please fix your mailer setup and resubmit.
+At best, try to send to yourself and test whether you can apply it via
+git-am before the resubmission.
+
+
+thanks,
 
 Takashi
