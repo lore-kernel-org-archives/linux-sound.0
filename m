@@ -1,101 +1,121 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412F821E098
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 14:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [4.193.249.245])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 355E936BCC4;
+	Thu,  9 Jul 2026 15:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.193.249.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783608121; cv=none; b=ssF9HeNVypgQ7ak8KDuIzdd9Ztg0vGzf1MA8/Jz9IVEGaTiTD8aC7ccQtyg7MHLQof5wTxHVhNBOG27jy5MM5IS1hdB1oPYU17d6S31M5dSj7hfXej4Xt0Hr9t5rtyZ73mRqOmJw5gYvf+omOHQ59W4/bS5GccnqilbjLor1MNg=
+	t=1783609874; cv=none; b=RzRv0ppw74TmxbOCAf0ypowD5GK92J7wtj3vVEtHwBwgStl+CY/pmUgSAjHqAM5uUaw0tRSp1mMuK982FPC6lLMZdMNDEanVFsM7nxx2ozuBnH5zAvXapUsy7unOZazFgi/KdSfFipokKo2VROY27kEfdCk0wAQ5k1sQ3WlYu40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783608121; c=relaxed/simple;
-	bh=ya/Nc4NXGMyxIJGKwIkJ/SkYZ/jnDvAcJOZ9BBhVolk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=juTA8adP2f3dUkEIlhezUA+TZ3rUDDSxW41dKy3ZqPh1Efvx3zokEY6ybAmEGFa7NgzbMTBhHD/HciI+Vag3V22wlpp+XF8AKS2QD94sFfAb01nObrCWJlPMmfCdmL/A4Je+4ARlXJLH9K57LdZwXSvScNTukASDvCap1V0PavQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gEUr80Bx; arc=none smtp.client-ip=209.85.167.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gEUr80Bx"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-4a40bcc8d69so43217b6e.3
-        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 07:42:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783608119; x=1784212919; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GLaBo325G8i/2XbPeT3G07gnosccj1DXEjpr0zCugwc=;
-        b=gEUr80BxtR8g/yUEZP5tmcKn0eqGg1+AfDXkgOxGXj4ykeB8EgGuU3UA5UNin9ZNLE
-         XPx/mau46B6mrOlf1y19bMkKOPOqtk5/TU2z0GJVIDwcnBoils7OTD7nufeUq87Z/77N
-         7R4MCvkTNI+hx6MJSceytnEti1dj4/gmwlJSE/pWd0jxEfHLX1z2X9uhQyTEEMYNVFgs
-         yKpLtVmmeLbPwFc125TNdhbNrYYj3KrmaTziOqkZIeZCzWznVaFDtzSISl3ee7JzNwbV
-         LIIf4tKTOKVARskW2VlU0ixvDnt+89hIQ/4suIXfLp9JYcumOy18A4164qci5ufGB7w6
-         k04Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783608119; x=1784212919;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GLaBo325G8i/2XbPeT3G07gnosccj1DXEjpr0zCugwc=;
-        b=PTUSfY/KrcJIuTHtlU2W5SfL7WvjW3xLqvXVyhFFp+MSK6Xxq/VYD0F+YLtfDHx8Qv
-         O0EFU7tsMK+jOkd1IzybHr9hJV22bSCXMpp7BWsXcPIDOqoCrFTnqQR2heN16SQQxlOc
-         kpHeKPk6rsqFYL+C2rMb18hAFeBXhfWL4ookKC9+4L1uRfWCSTQZ/kjfuV53SXzCu6Ut
-         OLP5l23JFdoAACi2lQYZ46m5DilLk5pIhf76mPykFA0B3Wc69fthyphamBXVkBQeT11y
-         BIMVd3nrygA+0q7ChyArn7r3AQXXK8pYjWZiiFdX/REHAiYw7zDBMiJYGfLCbiEwTA59
-         d4Nw==
-X-Forwarded-Encrypted: i=1; AFNElJ8t+HpGis/YOzPIvJVrSsj4wYZ9o/XMNYhZDi0PeYP7zQ+kiocYARon522c+ILz9xrHBqm2wW8aHoTfyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfLZVLHidsICPWyHGdaac6MT5o4+LPnPgLSOKuDj/q8b3hYBmW
-	cQKZp9N1PQbtuDj/rb2M8yVlAQ2vFVkjFbonDYako17QHru7bbw/T0ZP
-X-Gm-Gg: AfdE7ckNb+YE+yd4PWWQresBphjiqI89v1U8JAmPEFVvKeRelDYSAPeJtJkdM1lpIJ2
-	6bvyliqk8XqwnSFbi2VbHZKNfgYtOEz2aTUWMl2GE6J3U94jCQCOg6obNwaijdSV+fseeCTT+Sq
-	vuKHHNjE0QIFow4vYag8q5Y9bdT6QadZHC3IaOViFqNjfIfH0H2YK/iYUPQV9BkMzQJ394tj/JI
-	biGIVShxaeFY+nemCYBf843FcZZKBvsAPIoNPMg2tVyLlLLF5ws3nxaXcDy5jJCQlRdZhR5ypig
-	ZmdIKCQXxdmuQ+V51e2LfhiU5SRpH+5L19pMJYyX5LVRj1TiL1ZMnq7GbPyd8yZriJDTL4UNt22
-	fjAGk6dbeqYjYwyAtuXugVI6hsrNXyB9m7oOQ9J4n+d3XnsGBPKOCWmRypmu+KsDi3ZtGJ+UTHC
-	9rx0vB
-X-Received: by 2002:a05:6808:308e:b0:494:e494:8c38 with SMTP id 5614622812f47-4a201ae2d75mr7781693b6e.7.1783608119199;
-        Thu, 09 Jul 2026 07:41:59 -0700 (PDT)
-Received: from localhost ([74.80.182.70])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a1acc82f3csm3884746b6e.3.2026.07.09.07.41.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 07:41:58 -0700 (PDT)
-Date: Thu, 9 Jul 2026 17:41:52 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: phucduc.bui@gmail.com
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	cassiogabrielcontato@gmail.com, Kees Cook <kees@kernel.org>,
-	Cen Zhang <zzzccc427@gmail.com>, Len Bao <len.bao@gmx.us>,
-	Mehul Rao <mehulrao@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/6] ALSA: control: Return -ENODEV instead of -EFAULT in
- snd_ctl_open()
-Message-ID: <ak-zMNq_gSa9g8nx@stanley.mountain>
-References: <20260706084950.49331-1-phucduc.bui@gmail.com>
- <20260706084950.49331-2-phucduc.bui@gmail.com>
+	s=arc-20240116; t=1783609874; c=relaxed/simple;
+	bh=+1Mqk6HFOX91dWo/g2o1OID8xOAt1QPrkSdFHEIktfQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V7KcZPXMlxazv80CKmF4JPL9Ly0bJSLUTtsVDel0kTneG0gIn8vQf1ucRWAS3c8L7rJk6kdnpIeHnUcQfeOM2mVHLjCBQj9MR1dmO70E3ctiAwLgZ0x7pwlALrfdzYf7bibf2x7i+K24sPScJv0FaRBhRr9ojyOhBJEYSd9TM3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=4.193.249.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wCnoCcGuk9q+r4rAA--.13424S3;
+	Thu, 09 Jul 2026 23:11:03 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app3 (Coremail) with SMTP id zS_KCgA3cXQFuk9qcukBAw--.41317S2;
+	Thu, 09 Jul 2026 23:11:01 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: gadget: f_midi: cancel pending IN work before freeing the midi object
+Date: Thu,  9 Jul 2026 15:07:17 +0000
+Message-Id: <20260709150717.399083-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706084950.49331-2-phucduc.bui@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zS_KCgA3cXQFuk9qcukBAw--.41317S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?AjXjigXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnZPoDCNGYdHSfuFmYJL54WNseJI10KMl+AYWHQh9KPBOOoRdUgq00KihadkEtnLD2cdR
+	VkhCMNMOCdsHvzZL4Eqp9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxWr4ruFW3CrWUKFy7KrykJFc_yoW5CrWDpF
+	4fGrWUJF4DZrs0vF4DXF4FqF1rZa13t34kKryUG3yIq3Waqry8tFy8KF4v93W7CF97Zr42
+	qF4DWry5urW8CrXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
 
-On Mon, Jul 06, 2026 at 03:49:45PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
+The f_midi driver embeds a work item (midi->work) whose handler,
+f_midi_in_work(), dereferences the enclosing struct f_midi through
+container_of().  This work is armed from two sites: f_midi_complete(),
+on a normal IN-endpoint completion, and f_midi_in_trigger(), on an ALSA
+rawmidi output-stream start.
 
-When you're sending email, then you always capitalize your name but
-when you're sending patches then you don't.  The Signed-off-by lines
-are supposed to be formal like signing a legal document.  So which
-ever way you sign off a legal document is fine...
+Neither f_midi_disable() nor f_midi_unbind() cancels midi->work.
+f_midi_disable() only disables the endpoints and drains the in_req_fifo;
+it does not synchronize the work item, and the sound card is released
+asynchronously to the final free of the midi object.
 
-I normally don't capitalize my name on email because I guess at some
-point I decided it would be fun to disobey the rules.  But I do for
-patches.
+The midi object is reference-counted (midi->free_ref) and is freed in
+f_midi_free() only once both the usb_function reference and the rawmidi
+private_data reference have been dropped.  In f_midi_unbind(),
+f_midi_disable() runs before the sound card is released, so while the
+USB endpoints are already disabled the rawmidi device is still usable by
+an open substream.  A concurrent userspace write on such a substream can
+reach f_midi_in_trigger() and queue midi->work again after
+f_midi_disable() has returned.  A work item armed this way may still be
+pending when the last reference drops and f_midi_free() proceeds to
+kfree(midi), letting f_midi_in_work() dereference the struct after it
+has been freed, a use-after-free.
 
-regards,
-dan carpenter
+For this reason cancelling midi->work in f_midi_disable() would not be
+sufficient: the ALSA trigger path can rearm the work after disable()
+returns.  Cancelling at the refcount-zero free site is the boundary
+after which neither arming source can survive, because by then both
+references that keep the midi object alive have been dropped: the USB
+endpoints are already disabled and the rawmidi device has been released.
+
+Fix this by calling cancel_work_sync(&midi->work) in the refcount-zero
+block of f_midi_free(), before the embedded work_struct is freed along
+with the rest of the structure.  opts->lock is a sleeping mutex, so
+calling cancel_work_sync() under it is permitted, and the handler takes
+midi->transmit_lock rather than opts->lock, so no self-deadlock can
+occur while it waits for a running instance of the work to finish.
+
+This issue was found by an in-house static analysis tool.
+
+Fixes: 8653d71ce3763 ("usb/gadget: f_midi: Replace tasklet with work")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+ drivers/usb/gadget/function/f_midi.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
+index 4d9e4bd70..fba8cf787 100644
+--- a/drivers/usb/gadget/function/f_midi.c
++++ b/drivers/usb/gadget/function/f_midi.c
+@@ -1309,6 +1309,7 @@ static void f_midi_free(struct usb_function *f)
+ 	opts = container_of(f->fi, struct f_midi_opts, func_inst);
+ 	mutex_lock(&opts->lock);
+ 	if (!--midi->free_ref) {
++		cancel_work_sync(&midi->work);
+ 		kfree(midi->id);
+ 		kfifo_free(&midi->in_req_fifo);
+ 		kfree(midi);
 
