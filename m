@@ -1,111 +1,93 @@
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB373C13EE
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jul 2026 19:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783625982; cv=pass; b=BhAI57dADHAM5htfVLD8cDFkVkEyb0+kJCqbnH4V2i7hm2H9OxdNGMNk7XM5Ru593s3R5etHGe5gT+71jpYN0UyxxQJnkyhKjYJqaGbi3d59kaPCVpeUVwbMsFhn6Rj8M6CROonJS2ctWNzJmUtPvVD0DmrYjoQ/FIoUyVMzd1Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783625982; c=relaxed/simple;
-	bh=aAXv2bwScwMDOYXSIZVHjyBXAJd7Bwdov7VBQCdTNHM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=JV3hLByQAsNevHiV9WR5eRbCcWL9TriQz7iwe04FZyoO8prpB/llZ+oefrwl15Qh/OMND3sBs7yLf+vvjBfXH6wfxQ93gHxlcA0cVapXWUnZdvrsHVGOzNAQjnD3Ok2SY5RoUqOkJ2JU979rUi2LTzKXaSQTtHAKAI0Qg/JuouE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BEa5z3h4; arc=pass smtp.client-ip=74.125.224.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9B53A2576;
+	Thu,  9 Jul 2026 21:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783633543; cv=none; b=tFameRCZ4dv20gV7j43jsiR+S+Fw4/5nAWSs2V9nyzys0uhNLDpdKOMv5l3NDZybB4+40i8Y7sK3EKPewhyMzuPC7sdab+frl/mYXN+9OSfAenGWZmBlKB/evuGa2F5fHUXOMjODax7prbYe+0NuqngDtdKV15TCDoN39xtK5ko=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783633543; c=relaxed/simple;
+	bh=BzfXC+KvE0vSQazNiIl9J3TEEr4ziRMqLTt+kh8gp6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TbjPy2L8jo1knEpXu2ahSsNqTXcVsS1z2a/I/Jvv7lE2UpBJcWP9bzSD1wFGqY3LU5im7fy8pPhtChNIevmIPYi6E0TQ0G7uRuwbGO2U15FowgFOB7MRY9mvLcOtPKJUHyylzYjBCo3WePb4P7FMWWz5IRMzr3/FS+9boZi/aHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=O3AlB/oB; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BEa5z3h4"
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-6676fc59e59so221167d50.2
-        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 12:39:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783625980; cv=none;
-        d=google.com; s=arc-20260327;
-        b=PoX3+n+GarzONms07OEaiuhaiyacoXzvi/ck79f1mhK1RKutxx4sV0TfbK+VZZy+ES
-         rw3RzOsGn5+0kdi7+BwPwrBR6wTCf/mcq5Qh63S9VwCIFnvByn1UMLjcfrsW7HgAZJTY
-         JcNHghCqybRDZrWMKT7NxjPoCAMzOF3LZS4Y0mcI1k2l9jp4b2M3fi85WNAFocfCK6aC
-         2wIBIB5G86xncr2Zwp+dxKgwADHO77wSOS/V1V0ECrdB2FqbNJ8U0ZBgszMUO1dFp5yC
-         PbxjOvuwc01egOFejKm4ImZUqAAFpuJU+L4t8mIMimJe3ob6ZVG4YssGu+2CadOE2Y1q
-         ZM+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=aAXv2bwScwMDOYXSIZVHjyBXAJd7Bwdov7VBQCdTNHM=;
-        fh=kpr3ikDI9t/iP00V5GxYhsBExhJhFddqJGY75LSRDmw=;
-        b=aoV0ihQglMKWC3ND+BSEFzEdQNzvluOS5CFSISdf65xBHKmi9b4EWasoc2byOH6LSy
-         3ShE/CCF76bB+CVCeCw5AN+kfc8pWtjlK1DKobgTuXr5JkBoyp5bKn2Ut6CshJ0HCP+I
-         25qzsrDdo6si98WLitDnON5FzXZyWos0Kq2gVbj6h7iMtcUtjbKDl+y48+rHan9Yhm2+
-         udSA3nZQmUCOS91Q1m+D7nShlZIiDWVVPVpy/a95+h5Gme3SZ1Kx8qUZjN+htAWKnBxB
-         mfDbu1DIa3BZ/gfjvkdoJvizMtJGH6ryVHpEVy6QQ7JydoWvGWaSZVj3aHYlA+N1jk7p
-         MUJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783625980; x=1784230780; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=aAXv2bwScwMDOYXSIZVHjyBXAJd7Bwdov7VBQCdTNHM=;
-        b=BEa5z3h4n+LAyiI+XD6D9dBvbV6g3/iFi4R5qq0uKvjxihYBEYTCC2VrLYv5bBVvYv
-         vZxWY5cgb3gKuuxXQ7Y70Dy93+MNFJVnF+MK1OeqbVFwS6B0oQs8ntuwMvXZD+bD2ZQ0
-         ypWlFKu8W45B+LZw5rJc03mpnahKCoFfx+vA5xQverVk5zTFh8/uFmk10v09jJwN6BoD
-         UWlDoqn94URf/oWRCZEG81Acr8fEKOxCqPhaVdSnQAy0zl1plIVfTpHnRDVAIZybtFsS
-         DBlSMmVzyVZr61wy1qRmlugwP07RWzQ7HN97IC72xYoK/BVGGU1s0L6bTAWUaIAqOiX2
-         mdGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783625980; x=1784230780;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aAXv2bwScwMDOYXSIZVHjyBXAJd7Bwdov7VBQCdTNHM=;
-        b=B4DRiQu8dlJdhRgVNflze3hogXkgz0xTXZsKchPY9zPdRoGvXWThL7AYnq+lEs6b5w
-         wvyBTBGIZMhD/jJEQuxVshJyPgNS04luxUwe2QQI106ibbfXWa8A4SCwFz9eRz1jxggb
-         NmNkNjs1WjoVPBrqetSkTvPl7/LF8J8Lrj66m3I4fh+xtU3JU7ip6u68Ejk4M5ZKQ/Gp
-         z/MArsr1Is5t6A6BCTfboIMnCCkqfjMUtCY52W+HXBBVevrENei7vSkXGdfhLiJP0I3w
-         8apY5lMfKJI4dXvn8X/QFTld4uVjkHZV69kEdAtfuOlwdRq3VzD8bZ4Qb9/gMrnARqZJ
-         A3pw==
-X-Gm-Message-State: AOJu0YwT4NRyAMeQKUnl7EKSVMpgXHLHMiUGid5Q+ful3pWvJEC6ifW1
-	hhWgmzCuuuYlue5NWPegcbkJGlzdL/BnXfL5PD+EXps8iiHNt1Z+TyHNK7157eq5AAyoDEWcexX
-	N4NvasMO6OxhdSylz5kWuw8uvZobza+qzbxLIJow=
-X-Gm-Gg: AfdE7cmMozHlaBHRw8JyWRoLTirjAPfY7KwbVlpeW67X+l57QW6TIexE6l1UCw2s8zb
-	2frqFS0VhflU9/ON9Dp2+R/IspSSVj7Sau9Abv6eLWZVPxsa/OPF7OWPFQjlCoI1G2ptDotV/8c
-	x2OcH1Bbhw12v1xz7BgVr7a3V4F6vpQcIFSmff3agXSpJAXjgKMgdU0duG60qyFxe0LTMZZ9dCd
-	tv8pv5gijpHlJN8a02SbOGcBa62QrYOQCFU79beNWYwjCsQtczIRPGvBamfyYTPtYMQ/2eUnWP0
-	UX6n06g=
-X-Received: by 2002:a05:690e:1699:b0:667:9010:2afd with SMTP id
- 956f58d0204a3-6679f09996dmr6253628d50.38.1783625980411; Thu, 09 Jul 2026
- 12:39:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="O3AlB/oB"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 1B71A8833F;
+	Thu, 09 Jul 2026 23:45:33 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id VbbIywkWF4-8; Thu,  9 Jul 2026 23:45:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1783633532; bh=BzfXC+KvE0vSQazNiIl9J3TEEr4ziRMqLTt+kh8gp6s=;
+	h=From:To:Cc:Subject:Date;
+	b=O3AlB/oBOSaBSewOmSkpm0RyP2ocbs+4qvlHIlGTu616x+KgRXpzYPkYR5tMoxlFt
+	 s96ySEdvW3oygbJU4BKMruDviDyceDFhL1mP4ilYjQCGlg4LRrh5WHVyWkfRKrVADI
+	 O0Ba9Q7wlV6K+MOvSWoM2LCk0gZJhePh2W2ggV66FjANVqv3n40B9p3Un4t58vxHAz
+	 g6FYCeCBU9EbmI1j8NYCsVYCpt9pK5dIHKxw8jKvHtvyveQmxfIOt6XNO6AoQYnqJ7
+	 4qST8Oanl9G1iV3ddWF6kqNBbpYQpVg03vVfv7b/Xuvz7K0a3nLTK8tz9X2Gp3IeQL
+	 qeK2xpz0V429A==
+From: Sven Jans <skbotnl@disroot.org>
+To: 
+Cc: Sven Jans <skbotnl@disroot.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 16-bh0xxx
+Date: Thu,  9 Jul 2026 23:43:53 +0200
+Message-ID: <20260709214414.8461-1-skbotnl@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Purgenta <ytbusinesspurgenta@gmail.com>
-Date: Thu, 9 Jul 2026 15:39:30 -0400
-X-Gm-Features: AVVi8CdLf2vP1hOSTNR8LpYJ2COhw4lTrWxRH_BR8GOidJZO4avRe5TduXC23Zw
-Message-ID: <CAMWq6C_2_0f-NzN0zN3eEF0XM68zmx8BL02-u_9Mw9DuvS0i-g@mail.gmail.com>
-Subject: Missing Amplification on Bang & Olufsen Speakers (HP ZBook 15 G6)
-To: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+The laptop has a malformed _DSD which causes the cirrus,dev-index
+property to fail to parse, so it needs to be supported using the
+configuration table.
 
-On the Linux kernel, the Bang & Olufsen speakers present on the HP
-ZBook 15 G6 sound flat due to the lack of necessary amplification.
-This may be due to the missing "HP Clear Sound Amp" module on it. This
-lack of amplification does not occur on the Windows kernel. I have
-tested this from the 6.x kernels all the way to the latest 7.x, and
-the issue remains the same. If it helps, here is a link to the ALSA
-report for this:
-https://github.com/user-attachments/files/29149672/alsa-report.txt
+Signed-off-by: Sven Jans <skbotnl@disroot.org>
+---
+Resubmission, discussion of the previous submission stalled.
+The values are equal to the values reported in the _DSD.
+You can find my ACPI dump to verify here:
+https://bugzilla.kernel.org/attachment.cgi?id=310050
+Link to v1:
+https://lore.kernel.org/linux-sound/20260506181807.22547-1-skbotnl@disroot.org/
 
-Additionally, I've provided some hardware details below:
+ sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Laptop Model: HP ZBook 15 G6
-CPU: Intel Xeon E-2286M
-GPU: NVIDIA Quadro T2000
-Audio Codec: Realtek ALC285
-Speaker Brand: Bang & Olufsen (B&O)
-Speaker Type: Dual Stereo
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
+index 416d7bf3e289..e14a87336478 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
+@@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
++	{ "103C8E60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+ 	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+@@ -511,6 +512,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
+ 	{ "CSC3551", "103C8CDD", generic_dsd_config },
+ 	{ "CSC3551", "103C8CDE", generic_dsd_config },
++	{ "CSC3551", "103C8E60", generic_dsd_config },
+ 	{ "CSC3551", "104312AF", generic_dsd_config },
+ 	{ "CSC3551", "10431433", generic_dsd_config },
+ 	{ "CSC3551", "10431463", generic_dsd_config },
+-- 
+2.55.0
 
-I hope this can be patched soon!
-
-From,
-Purgenta
