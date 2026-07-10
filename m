@@ -1,62 +1,62 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA54377EC2
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 05:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870BB3783C0
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 05:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783659768; cv=none; b=HdonuiL7vI9LoTVdFAnwq18W+h0DlTK/1/+V1ta34XRjMzIUicReR5xIVi1IzN0O9r439CK/KXzsuwebj0snw1avuSFarn00nYvUa53yikFQUi1b1Xkr57aJNuNTf4Uw3pLo/0VXVb++iq0F/sUKoy2qGLCjANtFm1wowzLlC0M=
+	t=1783659771; cv=none; b=aXz2/cDT1jPMBNS8otQ5HUoIjt8JMImsa5w8jxF65CX6HIVs7Fp0xqmTc9jm1xhVSWkI8zYg0Q7ayN/B6jWvCFhTsQ840qK9YEorKOJXRp6OpPx0ZWMwKl7sJrVj5mlyQdj5UxON9H8joOzFMEpvzRfL3XmjipndpL/bPrj7/fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783659768; c=relaxed/simple;
-	bh=Xa8yF/IuLRLtCtMkxppwZASR9ScQ7OKF5bveI9XEJgY=;
+	s=arc-20240116; t=1783659771; c=relaxed/simple;
+	bh=bBq3/syN7TJ3bwHiSJzar76LqfWy2MrbF09Mxs14XPQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QpSJ8dm9ekCeqfkh+x+DWSnW3YwaRk3+s/pDI7DwN+vzBVx90Iaca9ZcSdNxXkJwV9F2faACpsML5SckXr45uttc7GEdS5SJVCcveIlEXO/llqSKW0sPPnVT2p4pRcKpHS+bJHA3sg/AO4wUL5CaJzWYqgozG0i0S7DQSt83A1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n3kJAbxa; arc=none smtp.client-ip=209.85.216.45
+	 MIME-Version; b=TLZ1J63oMHmEu7QfNc5jN6f18UEwhcMlerE/BCmUH+r6lMYOc8fPDTZLYm2sjzVNiQ4njmldU9nOGm1J+VafgDKcUJXJu+3HPIbm29fp81keGeFNx4cKcws/a2kE5jitRx/x7jjxhEx6FUXQ0vjAeQpV+2H78zM1lg+G0afNIWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JlRGHtFa; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n3kJAbxa"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso708180a91.2
-        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 22:02:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JlRGHtFa"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-382a3fe0d28so633819a91.0
+        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 22:02:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783659766; x=1784264566; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783659770; x=1784264570; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FpEEKAJp3BqSZSJR3hfnA3eBxaF2LazIySDJM1KKJg8=;
-        b=n3kJAbxakCVF2Z8SjKvfn0tZ06s6Ve8WcedYlaDfIkfEAe3YPTVOhj95n0I6+LXlrP
-         K92Q/xSe8wGTLDN5QP+10eN04y+RqQLDk0bLM4Xn0209chV0TTZqXmaGLzjcrF4eiZzh
-         qBBqim1nfhnzO/78wWXrtinqHt/tRO7xIyu7iKVnHS5wvhqO+VWKt0ShJ9niSvPQ1DxI
-         OvvtAp6GEW/WJ6Ud2Rkcj65xCzg8LopZb71zy0RXvSVfk3N2K2fVgIaM2KPxJRIpCkrn
-         UCybQq6kpVl8wcMzNw1s+JbZPhE7RQP1Bu9w2DwB4///B0weeh20Td3jsaSSpeNs7NQg
-         mjtA==
+        bh=ycIvlxwe0x12FPCgy021uD9ce3/L5Ep6ZuVevp5ozGk=;
+        b=JlRGHtFaI+edGyWZA1PRSwXX4VVlpf9ztX1FkXIrb7MMDtIw9vwIyI7MFjMEO7FfpL
+         LD7UkDpgBFqElv/4nAU7AFmzz34DWc3TfX+jFP7iOVXWeq6UFYusTFOxyCq1LiLQIM3c
+         Q7ekbxVF7/2qVAEUFpC1Dy7AklNQIc518fLL4INDUCilKtnFxuimI4yBgCUf32jciR98
+         iIJSk9O2955MSbYB9C8j6MPWsBbBxamggYIHiIB0VdtUAbgNfc1B+gMrc+7DBM558hjd
+         WsF2BpQ8Vrjb/W8MJExjkSHgmhJFyEGDknRZfvXA/Exc3pb3sA0VQ2O/Ij/DLdi0uXDG
+         MXRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783659766; x=1784264566;
+        d=1e100.net; s=20251104; t=1783659770; x=1784264570;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FpEEKAJp3BqSZSJR3hfnA3eBxaF2LazIySDJM1KKJg8=;
-        b=BuHrcePzkPjAC83oVHX92zV0RWe9AlW2RtyA+uRQOV7B+zHYoYJURO0puvTJAnkMay
-         jzh+wk1Y8cBXj+4AeozpV1fXW+44t+uxZHgcULtFC7F4WvSdKyUd+409VYBFixDjwLmG
-         zhRqNLZul6Mq+yX1QUsQALxsrfLycdF5e5dXGsNHw1MAS1nA5pDL9HoMxpAu1ReJRUip
-         /6Or9SZpGzr2Npr7os09Ac/Ws2wqdNMClrzu6SUMZfhwkUpWdvDQnqt7+sv/wOp0pY31
-         1ZRuY9HSxmiYgGsM67J+2z2Kl9DWXqOTA43TkoUhjOQUXNwbm61u9iZgI+SbBimfOtNJ
-         kFMg==
-X-Gm-Message-State: AOJu0Yy82GoRz4su0kh68qhqu+gdUTm2ZMr2eLmO1lj3UQ+tlVmLChwp
-	4UEN1rO8oIJlJj4DeHUNGmz84d1GxD0HY04vEXAbgYo4QvI2yEDpn8nm
-X-Gm-Gg: AfdE7clZZFRCjbfSfY9zubx0DWxG9as7dRFkkGg0AFJ9dxmWUejYBzP6jLnUPHg8NMQ
-	MYX+DUmYUSXPdqTtMzrlGw4CkQ254D9k80aUgNzIT3ftCgDEOlC3a2WeZPlofshb/SID/clMjLD
-	KJZUQg8zy6Iv6kK0b7BHMZ7Oo3uduV/XdPt6QjeQ98WzzHXs3XYlSTyJXlbkdgVIwDPpvoXNCsR
-	tha+8gBJ+IY7aJvE78H4cKbhcwVs59RicN2FOSkyf3eHm23RE81VOqvZQGY7LsnISWttPfPcOx6
-	7bSfRtiRRHlsiHMIP6hgrnjosTfIndPfIU0ul8RVpBiq4Mwq+nl/kdQMB4RlYZF8nYLqv0lf5Vw
-	2YvapSuZqyGNwDZtcZu6a4Y6uR5KAf0Xngo1iAdCs9KE92iEgAEYVlY2OTHldHqKl7tjCdvJtSt
-	WRtW7cj/OvE2sTR9dNUIHcZxLvUYfpG5IZd7HYv2YMxzQY448=
-X-Received: by 2002:a17:90b:50:b0:36a:fcf5:64d2 with SMTP id 98e67ed59e1d1-389407321b5mr9590297a91.16.1783659765935;
-        Thu, 09 Jul 2026 22:02:45 -0700 (PDT)
+        bh=ycIvlxwe0x12FPCgy021uD9ce3/L5Ep6ZuVevp5ozGk=;
+        b=kKdelkGWSs7/8eaFU6ClB2sjFILX6NUFv5DG8e7kp2XOV8qUK+4m9vWH6+fW8Ou7lD
+         WrWgXKpT6cnEYoTFFJ8Qu84MYWe0/GMXPs1G8XU7cB0FjmZYa+wPV3D2GNBdjkyPrYoA
+         /wCJ0tqDxSnsOlCzbhfox07GHmhIJqM9/Bca40DuUdKgCGuTJtLBxhxkOq5G6oWtBSNw
+         wOyYOcOaDO/7ML5O1i0/tbz/3J5wc240XNUUL3D38NHjRBhvMRc6tAzc6asrII5v1AZp
+         IcWKlOzoy/czfSxBBiQz1BM7948phh1Y5Miz0iTb4F4j55FBDRq2xWkgRHmAW221Z7iH
+         7L4Q==
+X-Gm-Message-State: AOJu0YxTtM3hY1n6Tfzfm2qg98l+U9gjEPOhNHSYhky19C/lpC0TqqUY
+	+2Y5pCXGDamUMa7Di/lIDlBSyti7pVmkjm9dplELUFMWhSQqxucpBuDf
+X-Gm-Gg: AfdE7cmaKnT50RM+iQWI9lNj0md510OvoJfTT0jEAgfncbK/mpvMfgxMzyHL/EUhW4A
+	fFFBglp1JCeVm7Xi/IdycNBvvAZFm565R5X76F//icaBUbHEO0mEjuOQOoGyiUZRgsNw7kc5E0z
+	idqrfSyGo+PCY6GIRku9ij3TDRh6CdgOXTG87N8hgwCk+AeCPRrpNvs9WgMAf66kddWNSooKRXy
+	OxKrASY2xKt5/+4XijsVI28EmrvmimaCPcq2lmBZqfo4RF7DbwdOFUnuLyQGYZYGxpfgfFxuyWM
+	DEde74phcxEdSpYOzQ9yiBBqd1+na9FGEclpArL4IhOF5Ch0BfBpYnmWFpygSk8aaeLptjUOeMd
+	wiolY6m/iumuOXdCDhhX54YeOwiSh1O3wLP1IzmY9GIySGiga2BaJ6ZkZTOa+Q28oQwn+s5Uyik
+	s6BR0o1q9L/E8tqZJQLnxkKzB30A+HHiPexIbswCketY4VR08=
+X-Received: by 2002:a17:90b:3c4a:b0:381:21ea:912b with SMTP id 98e67ed59e1d1-3893f693923mr9181403a91.1.1783659769825;
+        Thu, 09 Jul 2026 22:02:49 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5516ad85sm2139647a91.2.2026.07.09.22.02.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5516ad85sm2139647a91.2.2026.07.09.22.02.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 22:02:45 -0700 (PDT)
+        Thu, 09 Jul 2026 22:02:49 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	Jaroslav Kysela <perex@perex.cz>,
@@ -68,9 +68,9 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 1/2] ASoC: xilinx: xlnx_i2s: Use dev_err_probe() and drop redundant error handling
-Date: Fri, 10 Jul 2026 12:02:22 +0700
-Message-ID: <20260710050223.14266-2-phucduc.bui@gmail.com>
+Subject: [PATCH 2/2] ASoC: xilinx: xlnx_spdif: Use dev_err_probe() and drop redundant error handling
+Date: Fri, 10 Jul 2026 12:02:23 +0700
+Message-ID: <20260710050223.14266-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260710050223.14266-1-phucduc.bui@gmail.com>
 References: <20260710050223.14266-1-phucduc.bui@gmail.com>
@@ -92,49 +92,75 @@ logging.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/xilinx/xlnx_i2s.c | 18 +++++++-----------
- 1 file changed, 7 insertions(+), 11 deletions(-)
+ sound/soc/xilinx/xlnx_spdif.c | 30 ++++++++++--------------------
+ 1 file changed, 10 insertions(+), 20 deletions(-)
 
-diff --git a/sound/soc/xilinx/xlnx_i2s.c b/sound/soc/xilinx/xlnx_i2s.c
-index ca915a001ad5..0676da122edd 100644
---- a/sound/soc/xilinx/xlnx_i2s.c
-+++ b/sound/soc/xilinx/xlnx_i2s.c
-@@ -185,17 +185,15 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
- 		return PTR_ERR(drv_data->base);
+diff --git a/sound/soc/xilinx/xlnx_spdif.c b/sound/soc/xilinx/xlnx_spdif.c
+index 017a64ab9f1e..8f4d238be890 100644
+--- a/sound/soc/xilinx/xlnx_spdif.c
++++ b/sound/soc/xilinx/xlnx_spdif.c
+@@ -249,21 +249,17 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
  
- 	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
+ 	ctx->axi_clk = devm_clk_get_enabled(dev, "s_axi_aclk");
+-	if (IS_ERR(ctx->axi_clk)) {
+-		ret = PTR_ERR(ctx->axi_clk);
+-		dev_err(dev, "failed to get s_axi_aclk(%d)\n", ret);
+-		return ret;
+-	}
++	if (IS_ERR(ctx->axi_clk))
++		return dev_err_probe(dev, PTR_ERR(ctx->axi_clk), "failed to get s_axi_aclk\n");
+ 
+ 	ctx->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(ctx->base))
+ 		return PTR_ERR(ctx->base);
+ 
+ 	ret = of_property_read_u32(node, "xlnx,spdif-mode", &ctx->mode);
 -	if (ret < 0) {
--		dev_err(dev, "cannot get supported channels\n");
+-		dev_err(dev, "cannot get SPDIF mode\n");
 -		return ret;
 -	}
 +	if (ret < 0)
-+		return dev_err_probe(dev, ret, "cannot get supported channels\n");
++		return dev_err_probe(dev, ret, "cannot get SPDIF mode\n");
 +
- 	drv_data->channels *= 2;
+ 	if (ctx->mode) {
+ 		dai_drv = &xlnx_spdif_tx_dai;
+ 	} else {
+@@ -274,29 +270,23 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
+ 		ret = devm_request_irq(dev, ret,
+ 				       xlnx_spdifrx_irq_handler,
+ 				       0, "XLNX_SPDIF_RX", ctx);
+-		if (ret) {
+-			dev_err(dev, "spdif rx irq request failed\n");
+-			return -ENODEV;
+-		}
++		if (ret)
++			return ret;
  
- 	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
+ 		init_waitqueue_head(&ctx->chsts_q);
+ 		dai_drv = &xlnx_spdif_rx_dai;
+ 	}
+ 
+ 	ret = of_property_read_u32(node, "xlnx,aud_clk_i", &ctx->aclk);
 -	if (ret < 0) {
--		dev_err(dev, "cannot get data width\n");
+-		dev_err(dev, "cannot get aud_clk_i value\n");
 -		return ret;
 -	}
 +	if (ret < 0)
-+		return dev_err_probe(dev, ret, "cannot get data width\n");
-+
- 	switch (drv_data->data_width) {
- 	case 16:
- 		format = SNDRV_PCM_FMTBIT_S16_LE;
-@@ -233,10 +231,8 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
++		return dev_err_probe(dev, ret, "cannot get aud_clk_i value\n");
  
- 	ret = devm_snd_soc_register_component(&pdev->dev, &xlnx_i2s_component,
- 					      &drv_data->dai_drv, 1);
+ 	dev_set_drvdata(dev, ctx);
+ 
+ 	ret = devm_snd_soc_register_component(dev, &xlnx_spdif_component,
+ 					      dai_drv, 1);
 -	if (ret) {
--		dev_err(&pdev->dev, "i2s component registration failed\n");
+-		dev_err(dev, "SPDIF component registration failed\n");
 +	if (ret)
  		return ret;
 -	}
  
- 	dev_info(&pdev->dev, "%s DAI registered\n", drv_data->dai_drv.name);
- 
+ 	writel(XSPDIF_SOFT_RESET_VALUE, ctx->base + XSPDIF_SOFT_RESET_REG);
+ 	dev_info(dev, "%s DAI registered\n", dai_drv->name);
 -- 
 2.43.0
 
