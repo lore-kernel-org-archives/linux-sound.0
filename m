@@ -1,113 +1,113 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48B5381AFF
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 10:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783678837; cv=pass; b=lj8bYasyFced3/zQ/6JOsisQ2KyNUA9KuMYX1zzTloNnJBVJKNeY2EpVlT/+XwQl5htWH+gnMMDqpiQdNak6G9swBXsx0l1wxTJW0qGu2tvnvewFDneBEfLmlDdyH0h9O5HPm/Zooz1S9iwG15nwzWIUgFjKoSnFJLbTH8+iR+M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783678837; c=relaxed/simple;
-	bh=+MWbCokPTStTF6K3o/n9mLY1swhOIwy1qGT/piGGytA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UAJg0gFA6JSCMR7mRdgrlPqiNTq2l/x3ZAY792RrVwiz+ZbYZOt1SBynC+uu87xuL7hEjK8qcaViiBCW3OFu9Gc9hWHATh5saJh+DRQayxQvnT3DvvO9jbdF79VZacM7F1p1GFB9RPfDZ5aljNRQpRDkkjfS6jxufOVKf/7HESA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUeJQh7n; arc=pass smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718954071CB
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 10:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783678918; cv=none; b=F90BpFa99doKwMSCsFIS/+IEtG4fgLerY5OZCvlOsuxuiISfL6fODm0UI2LbCwnShC4gNqIfG7VRz7AXxCmqpm/Psir4EbS8/WpGctM0n6W9stJpFOQA6oSLe8Ix/A+CjjAeYX/ps0Sc0Ryty/8ivDFaXS+ZISU5bgpstQfH7DU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783678918; c=relaxed/simple;
+	bh=DV+IjJm97lcQmwr63933Go28p3QIBLN1pP4lq0vJEgs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nhUU7WE7mLHqeCsKwOlgvgwN9IbnssfcqZwmb0s43s7nomkGhaOmIcozghRbDuOyXVB91OddO4vEnvyOYtG8N0PKFp8wakm0ZAyngNs0H0Zyq/KtJSD8SIDnxkP3tMZ53GJpadPyrclsDk6QouQWd/74OG9AlMCEmbkNGS7W07o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IOsH5ivl; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUeJQh7n"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cad4170e8eso8057795ad.3
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 03:20:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783678836; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WdsW0gXmXnzMGNfA3pHqV4qYbsfj7YKkP8pIdfqBrzYjxgKmODOj/Em9GI9LJBvhNE
-         2lQFQgdZ+82ZsAOaovSNcBKoMz/BfBrLkb25Il5IgBcAKgbRUtrVIGItqKdtYyNA2Ikl
-         3jHEXKivH/vGI2tcMU7gS+wYfuPRLKdTZjBiNwNJL0ksNuCZTyn5z16krEbtKsfq8Akn
-         swjeTCQ3KYexYjIVbgXayinv7o3Ojj3TLXir0wlzUk9xQM0OdWgEfgDvfG13ki1ehtgz
-         YzUvZYZ/hjqeyNmXhB3S1vGpeEe68NsVP+AqekfaOXNTPS2CrljHWIHI5w12jRFkZJn9
-         XRLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+MWbCokPTStTF6K3o/n9mLY1swhOIwy1qGT/piGGytA=;
-        fh=LXNxtNPWRrAZctgTovbljGKVLExsKlA5ck/KlvbULIg=;
-        b=i+oQHniF0foZ2xk5skbKhCNtpi+Br8kfXuybLfjTzll7euNk3XtNRMYYGiL33BT/gw
-         7Ed1Gm+4LxV3ye3VxHimte+mFmQYU95SvR88tNAtGP7xk62E779xViYQ8e/83Q6MSzma
-         74yBpLBq5IFtazMrYu4+mWtebyFW3cQZ2YisQ8lttTaKJ9C/cnpmbQKmMZUKkxfeDzWp
-         PIRdHCR3iI4wSd9r2wLYFGPqExcwgK5ozQfrD2ndwqliLRXuGoy9hEZQhwN7JyYG+69B
-         LHxlNCaQLaLylHK0u9z9EJK1+x3uiuaiT5SfJCzdi/qRwgoRn54YEFHB2RWtuXBkLM8m
-         GnkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IOsH5ivl"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so702318a91.2
+        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 03:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783678836; x=1784283636; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+MWbCokPTStTF6K3o/n9mLY1swhOIwy1qGT/piGGytA=;
-        b=AUeJQh7n8ue5YC9g1QFT/FV9SjZoJR7LLJutT+naC5igZjDdIgd+MOuxCTCVNXxWpJ
-         jkvduqMCj7B3PUyxwCjwwPAlfSTykGeKaS4OPhw67NGB9hFjLGE/rjCgeoF16bnfJJJR
-         7r2WjryHIELpV7zFbMZgMX8lGWP9JVEQaRaSX+0TZaIGBxQMq/iPqG35HZ38sDgJoB7n
-         vtjzaIHmZXcERoBknPrPEW//kvRj2DFsCyOSTi6PBdWEZ0XN3g9Dz/MoyhObVv7o7WhY
-         jlg9BkVxHBsvDMTfOoaQib7qL3c12NLlORzekmUXsKWMWVZlfDSKrlD7D6blXZKis9fk
-         jxFg==
+        d=gmail.com; s=20251104; t=1783678917; x=1784283717; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TTtR6zb7RY5US4QxCqQbjVg6WYnuwA1xwAvwueuuMcQ=;
+        b=IOsH5ivlOFzAs1TDfJMdwfuC/Kj2l6ZhuWEHhmfi1rahvudsgeJ9C8kuXPEM9skjYq
+         gHE3aBxb3BuwXLyB5cfQWO3aiMQVSPGXM+o2RDQ2T/YgThKQ9aepe7Ycojz3wRtRZ60D
+         hSZmcYYhcAm/GftAdrYPgQoipNFPyQATXUFt80MQlso1CgYSTLX6DuwJRldl4gATC4js
+         oqJbaGJziIAMAI6r/R50KVmgrpTRMS7xPmReTkrnQZBCzYA++tCzseBpb3S0yGrAS8c5
+         QMRAXC6KnofBRkBJS2O4bLKffJ0H7PMpyBrWH2QctQAUpXRrJZN1udMRSxImaRUtE6Ce
+         ErXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783678836; x=1784283636;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=+MWbCokPTStTF6K3o/n9mLY1swhOIwy1qGT/piGGytA=;
-        b=iQgxGSqf5PZWqZ2VQHiEC1LgayzbZFqwNKNes2UGLTIrsfAExpxMPTAv7bZYjwDQOQ
-         2qK/Wxw3iwbOa7e0CnMOY8xehoCpaAkiUYaA9cmrbQ04JjepKHDEDryrytjtO1PPPYIG
-         /QKF7mQEwG3tezaWl4VsvL357jtD1rly0tBhHc8YOOusG1VsqVWfvGWAnPlUzjsm5JB1
-         3/7c8eKRyParN5FG/CC9eus+ZpMcGcP+0pTH8OmMVj5JYYa8ffx/jOraPY1Hvc4FiCSb
-         5FTrEaCGo+yY5ek0QPXwG40Hab7/HvOJ+eeM6lXuDhHGnrWpehkJhgD35ln1a4JCA0Zu
-         95sw==
-X-Forwarded-Encrypted: i=1; AHgh+RrEswrwZ2sGmtMx6W0m2NR2t/QsdxVZotOz43ueqGRqzlEovkbJaOeVeSiDwiCBdaOI06BMqu8Jd49u+g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXKygc/C70iTaC45PzH4s3lIDWyu7RhEHtkvu149s27WBr3f28
-	7uMTQSwdz9RAFXdo3fq0/Mm0Qrt4ggmuOvgovPtF7NvKO1e6IDcsgfailG4EoO5tdCGRabXAMs/
-	qdsYY8U1vkKae6hcOilWpDtduMcw+AgU=
-X-Gm-Gg: AfdE7cmnNp9V9rx/+ob15bXFkyaxVXeaBbYb35Z9AnDhmPbEhAKmFxjNxtbLfv3wNJf
-	Sl1lCJj9J6h0LwmpkuKa+d5znKuaTSEsrUFD0cgoA/W2wTuj7pfeL9UvuGw8pMUOsb2JYpMabX5
-	SWsN2LbbDkaiaNaxGAfuYpeA9L8vb5/Hd9NXZJkWc+ExLB6iXrNmKzCGndp6w1JFnKeLI08zNqY
-	BFgaH+Ws5SfGDjxKlpqYduklqPwXMwui9QZ3yQNJAh9NH+Xj4+uOf4Hecttt/0jKcu69bJGVr9I
-	j1Wk8rh0l7SWW/v4+OpZFO8w13g=
-X-Received: by 2002:a17:902:d2c9:b0:2ca:bba:b35c with SMTP id
- d9443c01a7336-2ccea464ea7mr120043665ad.31.1783678836086; Fri, 10 Jul 2026
- 03:20:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783678917; x=1784283717;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TTtR6zb7RY5US4QxCqQbjVg6WYnuwA1xwAvwueuuMcQ=;
+        b=O8c8jmsyjuOMsxUiuurt6+Td0DXdhzP5IdTEmD7Sw8nBCpjnWPc48869eJVITnbYfC
+         hczrs+m8E7wlSxJ4TrTophOcyy66xQFMYY+vqFHzIaAyhziEVU0C7SbbKBzZA0mmaxDg
+         FokZSZciijauIjm/De8eZAbx/qqFD8rLQak9S2adR8Gr2evAOrw58nR+S3AdlQxpKm9x
+         baikzh8Q5ONQxobYlpNOMxhw1LGK+GY67+7wuLBUUC0butBSi6f6vxI1JhVb6T1xpog8
+         CvFcG0PcEWajC2WaOciVRy9pwYpnJITnS7kdOcwMNGW2n/NqYnZqFGixiHbdjK56BcB0
+         xRgA==
+X-Gm-Message-State: AOJu0YwbKWOSqbGmZLYVGQHbtrACXJZ7HZv+DdPpF2TSM4t4OXaXWv0A
+	RAvjICBCPuIvZP52u1uBlt5/xiIMzuUyzEEJWGKFRYIyY3i9E6cOZp2g
+X-Gm-Gg: AfdE7cmrLaTey0eIVS9UP0tIjr/5n4lWcKjwtPqjiQ8kAZC+Fw0lvpgyhmzw8Dy888f
+	xN8fd7Luzqpt/qc6aoUAPJYoOK6r1WEhQzkJ3QDNzyr33zolh/oLXZ0ax3aRWwUfphCf0Kn8RBb
+	UcaRJC9DluWaW4E7Zo/IdgnfNXJNIUA4T+oTRd+dDuYSd1QRmbBtHam4NYNsBWQ30W4mVr3QF0K
+	2COOPjexuzdj3TpC1h4N4Uoua8Is5iyliUU2XYGah1df8Ct0KfB9oQ7zk+ffuQeZW5KZPdX9rAY
+	qFvr1SQ+Td9WNRxbuZwJKAxBLnl7fjAudlDUK+Hu/dbR1emRnJ9tpZkF1gBJ0Byt/oVLruGtCv4
+	g2/XTPPtIC4V3emXT+nHeR4bhcLIw5UagfoLz5itDnxo7E4+sndGLStj1+9PPZLX42h9S6eoZAX
+	2rVVqNelqyC2yPOPE0ojYsGVO0mn9jlxGdCEBy6BcSkRX1Xo4=
+X-Received: by 2002:a17:90b:4d0c:b0:37f:9cdf:f038 with SMTP id 98e67ed59e1d1-389417e5081mr9744825a91.27.1783678916723;
+        Fri, 10 Jul 2026 03:21:56 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5516abffsm2490240a91.4.2026.07.10.03.21.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 03:21:56 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Michal Simek <michal.simek@amd.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/3] ASoC: xilinx: xlnx_i2s: Use dev_err_probe() and drop redundant error handling
+Date: Fri, 10 Jul 2026 17:21:35 +0700
+Message-ID: <20260710102138.29347-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260710050223.14266-1-phucduc.bui@gmail.com> <20260710050223.14266-3-phucduc.bui@gmail.com>
- <a84c3eb1-7ac5-44a8-95cb-e33175e78ee9@amd.com> <CAABR9nFFMMk6i_sjKGjt4t-_QZF_hu2gBPRNK8c-GfhyKdVP8A@mail.gmail.com>
- <da6e74cd-05d7-4ba8-aa75-e186ed8a49cf@amd.com>
-In-Reply-To: <da6e74cd-05d7-4ba8-aa75-e186ed8a49cf@amd.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 10 Jul 2026 17:20:24 +0700
-X-Gm-Features: AVVi8CdxCM56PJDr2W__GlgaLeg2BqVlA5pLfATLqiG_GVjxauf9_BTAOmIf3Us
-Message-ID: <CAABR9nFjjen2KaxnC7tt+Ud4O1_gm6WUSEj-=aQzS3KHPVaDyQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_spdif: Use dev_err_probe() and
- drop redundant error handling
-To: Michal Simek <michal.simek@amd.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Michal,
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Thanks for the clarification.
+Hi all,
 
->
-> I am not saying it is wrong. I am just saying that it should be likely handled
-> as separate change/patch to address this issue.
->
+This series cleans up error handling in the Xilinx ASoC drivers.
+It replaces dev_err() followed by return with dev_err_probe() where
+appropriate in probe paths, allowing deferred probe to be handled
+correctly while simplifying the code.
+It also removes redundant dev_err() calls after helper functions that
+already report failures, avoiding duplicate error messages.
 
-I'll split it into a separate patch and send a v2 shortly.
+Changes in v2:
+ - Split out a separate patch to preserve devm_request_irq() error codes.
+ - Adjust line wrapping.
+ - Add the Reviewed-by tag.
 
 Best regards,
 Phuc
+
+bui duc phuc (3):
+  ASoC: xilinx: xlnx_i2s: Use dev_err_probe() and drop redundant error
+    handling
+  ASoC: xilinx: xlnx_spdif: Preserve devm_request_irq() error codes
+  ASoC: xilinx: xlnx_spdif: Use dev_err_probe() and drop redundant error
+    handling
+
+ sound/soc/xilinx/xlnx_i2s.c   | 18 +++++++-----------
+ sound/soc/xilinx/xlnx_spdif.c | 31 +++++++++++--------------------
+ 2 files changed, 18 insertions(+), 31 deletions(-)
+
+-- 
+2.43.0
+
