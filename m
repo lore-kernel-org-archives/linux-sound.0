@@ -1,115 +1,89 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B84740757B
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 12:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCE24279FC;
+	Fri, 10 Jul 2026 12:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783686041; cv=none; b=G3HW7Fr3CRV5+OIwrJaaXpGGgbtp8sLYm8lgLB6TQ03Ond/bxghHaqQzDrYw1g0aVeIAoH7C7DYcXf+ANrrHpwg9wy/+BKlYYwBhFlqE9ze1fW81aJ26EkH87BBxnRJfTnhJpglXj57bs7zZW2McEDpfF8JsK3ImSh8+0qWffMw=
+	t=1783687544; cv=none; b=sHUf9MwuLYVvfwzjkGPMF4vtMCrFL0og7XQO+rLqztzeheO30LuomFQnsIeDtrUZK0OITlN6gx0rtqvCWJ4o7qDhmhf6EjRnQC9pFXWyORAdt1hxkyOEwGRMvC7aTxEzPJ8gVzKtR0MtYzfdMFzLDueGyhBvv4lLnqEUh+7oIFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783686041; c=relaxed/simple;
-	bh=uQtlFmlEDrsnmnfiKvO/WS+vVaEjJppi7RQvR+UUIdc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cFXJWhF03xdshRnUxVUL/SK7JdsZfcOsI0JSj4FprxP/FrsnH7PEYE68XJZ+GYsN1lnH4ATPFcD8JbVTxZy5p10weMONUXG5OdETBlfpT9ZduEAN+Dcs02r+zJE12lBLyY4MFZAxUXDBwFDTdmYMqXJuPPc5WaKIUJIba1LGcZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQiWD8e7; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783687544; c=relaxed/simple;
+	bh=s5/RZPzefCDywMToLX8XJjiAXr/kjdPnno8fN2l6GYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dUn7xuYMimuU8U0bwQBr3d3sECGawHscZd9cbb30hrlLePnPiKkv7UkDDies1IxVKVIGy1DOA5XCJU/gynRlJPTty+DdFGWlpA2kXCNKfYRHddKNDmKaZUzXhR83HfyTpUn3XFZhSNnop0hCgmjqvkQ7cPjm4C9B+T5tuAm/xOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ehMA7wNq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQiWD8e7"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493c52cde9eso7310885e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 05:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783686039; x=1784290839; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n3zreGUqgwkkgdfOKXxPfkgWWWCEAQ09f5w1+bh6RDY=;
-        b=YQiWD8e7bRBFjwAwYBI3n+zrgtlTDhnQXNSVe0D7toJbhg8muTHHx6Hdhmev7OO7KG
-         AeAfeYpcgjrID5OxcmdqXcIyE3TrdNmegxZK0ThCS5PKfOal2N0PB+w4Fu6f3/jiNBZg
-         baeUDMdsCFsGRS0tghpW9+sLSGirFPXdtkBrfNw6GjApqDNkE1wNpWxl4jKfjXCFpAQ+
-         peHewx+uuxU6tNK3+D9sY/eNgMpuciOlFfbVQpE8YPaMxD79mJixU0D9k6UF9Nc0+1ra
-         k0SgWKm1GqJbqbNp0IXVwVsk4sAThyGigQvFEMjKUXo9hHkmSPbCOOC9i/RcTPB+gICh
-         f3nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783686039; x=1784290839;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=n3zreGUqgwkkgdfOKXxPfkgWWWCEAQ09f5w1+bh6RDY=;
-        b=cOrHF6JzutkkV3H52nGYufz4T13UX7SwcHz+sqjK533Trm3n5cZxf6P2OOUTxJVwBp
-         iaJnY3l3CGbwPVXZoh/InirT28EX4PNF0uvG/NutKDRVkFKHcnOwbWlO+6T6xnWlT3Zc
-         gmZzdE2I4Ig9ceKYJGhgdbGvOKjwsJKvWfHKtw/BzCLphLw0lJ0kRzXF0j5vWuQqqXTp
-         bHd7yX76F1coVjdfVcVOjEK0gfmVTCqUa0PrkStHJiy3nCdU3jYnzmwfXpxwOjfu78jD
-         Uez8HxTUoNXnLLKvJSBpRwfkhT7E9smSHFo9yB9sUkblj5NHq79VHY5e3IGCCqXsjTvv
-         VNNA==
-X-Forwarded-Encrypted: i=1; AHgh+RpGJ81Cd+zZY86HpWxzJGujNcc+lXRqQNkylfRLV1QpcM2FxhmVMP6mAq3hMnauUQNEvaaQAxSJroM17w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS3Xr46DDjbst+PT1oOiIBoQPq28O3gpGVmVg+/LkXExfC4+Qp
-	kc9QHjV3HQdfS/yYUdpBx7gyeAT5u8To8wXjqyUUvfJx4F5QYV027N99
-X-Gm-Gg: AfdE7cmIhR9+LkKCdGubRTP5frsC9pwrSxov37GNoHG6QsKlywRHH/NQffVNRbsia2Q
-	YyhiMHOxujfiYGhOOa+tGpmqNdVhEWia/COrfjX9WfSFbPolph0yZWNbUvDcp00NDtaoSbMO6UH
-	3RRSQUk1HnGcZD+aBKd2bHnUjawsqeLXgkZh+WPvMoxtWVfOAnj/QzQOBfxx+nuRqkWWijdpSSY
-	aY9lc1HuaDyvivhfrZrdfhbJoy+QYB2/Rlm+H5cP1MyFjK4DSY6glqzkUCwny8zRLa5l2OW1oEq
-	DkA3rMiO9IbcL+5YkVC9oZOgCM5cU+PXI9oPwazWQOoTt2cEN8aPc5wsKHQ8rncAKsECtMX3mit
-	Z8AUgtgj0sToXeSl/irDFF0b48wun7Iyr9y6+9N0n8MRTFxMIJru2QXB7vHuyGfoIsWNEdYFKC3
-	HuykbzH5kazeAcjFmJBR1rWzwv+Cx2foNAwbf79128OB0iCcsRWg5Yl5wuiqXhPPDrRxZpZHYNC
-	UapsIeG
-X-Received: by 2002:a05:600c:34c1:b0:492:7083:e5a with SMTP id 5b1f17b1804b1-493ee0fe824mr67889685e9.31.1783686038394;
-        Fri, 10 Jul 2026 05:20:38 -0700 (PDT)
-Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6f3dcdsm131002995e9.3.2026.07.10.05.20.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 05:20:37 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <c74c20f7-b819-414b-b936-c85c165bb537@gmail.com>
-Date: Fri, 10 Jul 2026 13:20:36 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ehMA7wNq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC02D1F00A3A;
+	Fri, 10 Jul 2026 12:45:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783687543;
+	bh=4X8evUX2V9iqq6sU9qMMMiQ2PypjK7o3PEQzCy5lmT4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ehMA7wNqBQ6vI49vR8o8HCN/8TFbwIfoAJ1uss8U+wewxNERxmpY/B6X62fiADu4+
+	 hIsc4AKnwKj94LHCS2dUpzXHt+ItEXKzXT+M4CFQ0FYIfSx9hhV34FruhCnfeZXxYu
+	 XN1BlPP3xXd3Viv1JaqRZ+BzCmTQM/8pPVjx2JZU8epe6huFSaDbzHyrH00EHvzZld
+	 Rq3YYkS48JwMRzrNsTVQVAURsQWXyVjx0bkV8YZsvsQMNuUIs++oJmLdmloOzk26RX
+	 1bIRI9ke10fEdNlSMrL0D2cGUJg3Q3gnkHHlrivi+Tza1L06YBNDF1fIj7DYP91Oev
+	 U98sbLu5i5QzQ==
+Date: Fri, 10 Jul 2026 13:45:38 +0100
+From: Mark Brown <broonie@kernel.org>
+To: "Wang, Sen" <sen@ti.com>
+Cc: Gianluca Boiano <morf3089@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] ASoC: codecs: add TAS2557 mono smart amplifier
+ driver
+Message-ID: <2231177b-4cf0-4d07-840d-1c2d3bc4a4ef@sirena.org.uk>
+References: <20260709221331.989109-1-morf3089@gmail.com>
+ <20260709221331.989109-3-morf3089@gmail.com>
+ <e3ee8a6f-dcd7-4205-bd3d-da34a1b9aa14@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] ASoC: codecs: wcd9378: add TX/capture codec driver
-To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
- Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Conor Dooley <conor+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260706192229.144137-1-jorijnvdgraaf@catcrafts.net>
- <20260706192229.144137-4-jorijnvdgraaf@catcrafts.net>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260706192229.144137-4-jorijnvdgraaf@catcrafts.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fItWdVy7QcN0Zs0y"
+Content-Disposition: inline
+In-Reply-To: <e3ee8a6f-dcd7-4205-bd3d-da34a1b9aa14@ti.com>
+X-Cookie: Did I say I was a sardine?  Or a bus???
 
-Hi Jorijn,
 
-On 7/6/26 20:22, Jorijn van der Graaf wrote:
-> +config SND_SOC_WCD9378
-> +	depends on SND_SOC_WCD9378_SDW
-> +	tristate
-> +	depends on SOUNDWIRE || !SOUNDWIRE
-> +	select SND_SOC_WCD_COMMON
+--fItWdVy7QcN0Zs0y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The preferred style for this is 'depends on SOUNDWIRE if SOUNDWIRE'
-since 'depends on X if Y' was added recently. Also see the kconfig docs
-on "Optional dependencies".
+On Thu, Jul 09, 2026 at 11:40:49PM -0500, Wang, Sen wrote:
+> On 7/9/2026 5:13 PM, Gianluca Boiano wrote:
+> > The TAS2557 is a mono Class-D smart amplifier with an on-chip DSP for
+> > speaker protection. Audio is received over I2S/TDM (ASI) and processed
+> > by DSP firmware before reaching the Class-D output stage.
 
-> +config SND_SOC_WCD9378_SDW
-> +	tristate "WCD9378 Codec - SDW"
-> +	select SND_SOC_WCD9378
-> +	depends on SOUNDWIRE
-> +	select REGMAP_SOUNDWIRE
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
-Another kconfig style nitpick: could you organize the attributes?
-E.g. keep the selects together, and keep the dependencies together?
+--fItWdVy7QcN0Zs0y
+Content-Type: application/pgp-signature; name="signature.asc"
 
-- Julian Braha
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpQ6XEACgkQJNaLcl1U
+h9CDSwf/Ya2AUuu/dn1qEHNfo+BP7bGGJSw5wry2xjlFtCAV4+aHN4tesbqwRBsA
+AMn+aG9sSsKR6592dlXh+dVr77iy/ZojeQvEoZBwqKeNZJQtLzPrpokfYwjr7YlA
+hiPQ7kIDkSl4GuaHrKec1w1M0TmB/kdEbqpIoCiIvET0y97WlsuF+DBWXlFQ/kF+
+y1gJWot92yiZkNMNHCYxrW613kcuYwR9RQuRlwnBDcHw3jX6CkR2nNQjtibceq0p
+p9OiTBym1M/hFk7T/b1ApdsDe/fGaYr6DuQA8nbdFSiVLgH618LRGTUgIDK6TgKG
+2XyjEuIiRosZcbnxugAjmR0xDA1hLw==
+=DgbL
+-----END PGP SIGNATURE-----
+
+--fItWdVy7QcN0Zs0y--
