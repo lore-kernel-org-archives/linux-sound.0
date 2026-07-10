@@ -1,47 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE962396588;
-	Fri, 10 Jul 2026 08:57:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323043C8182;
+	Fri, 10 Jul 2026 09:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783673876; cv=none; b=tHZjqdNC+rs3bzPGcJEstwa/kkbHoofmn/9zc3qQMS1i7PiL13R4QYxjapa7BTW1qSPEH9eBQ6EU1i/CQAPojBnz8lfaZyxM18AxS825pujbcIW1wT2Kd4aXYKdmozk1z7PE35ANRfd0nQ7BMUMV5nxwOUNtMxwuM4VoCq5Rkik=
+	t=1783674230; cv=none; b=tu2eJz5xsHXFPUtnilc1bZqldFNnq1wAMsFZ9dFUB4npOPBOYwUkXDfYlvih6JCy49TBl35UoiZ5/yfjuttahFWuBII72QJWIrGhgDQON4WQJtWtQUlHgsWJR30Dab+Ui05G1Hqp19dPruuoQzZ1vaUTnXp/vdI3FfM4xj3kEko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783673876; c=relaxed/simple;
-	bh=ijsaDfq++OlIGjm7oo5RgW9/BcBQOW5HJYAzmHQYbOI=;
+	s=arc-20240116; t=1783674230; c=relaxed/simple;
+	bh=861y7Ua2JnJPiROvHNc4mZHtHTRWGxHBGdkyRJIqmLA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CuTLl1rqgLbRgha4UCDJ2JrZ860ARIrggM12QoCAEu5AkhB7TG+kA0t+QjD7ZdkaHA8SCtv63qGgNrTnDEfYeStwUC6Cllieaa2nkH3C3tdeJYc3/nYwkhXZelnXCjPWrn98bjnDkWF6z62NL0WR6jnR5ojbxoUCjT5hhEMCTZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8vTz4bu; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tvkwC26u1Cy4D7VwbGv/Lf5k3xvlqdWId7S9r4a88MaImihMyZulb6HiuNsOkt+mrZgVZwWSXQPAc/l/6UMd6RvzQy/jdvAXhXGWLLAxXKgsu86cAxeFYL5UZaNFcP/ltOSnK95ftfplOXmTQ68ZrzXxztKVLVPYIQJSQCclsx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOoIfvwX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8vTz4bu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E6A91F00A3A;
-	Fri, 10 Jul 2026 08:57:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOoIfvwX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 697CE1F000E9;
+	Fri, 10 Jul 2026 09:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783673874;
-	bh=jaJQkqpcn5HVbHw0AoSrqQiKOBbN9hWvVl0ijVMbfg0=;
+	s=k20260515; t=1783674228;
+	bh=qD3g2ZT2Tt+dTPEOvKUGP5g+R9lBVcYINAOqmFESI0U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=P8vTz4buj2PGx0sGCwzB9/gPbQIVVqNOHnG5BIAmLT2AfdQsNEgFwh4K4DeJlK64i
-	 VO4SmJQ5PtgopHqycdAl3/II3hb0xAbT5y32qFpFelrSzr9+SrQVCTS9OJJrnaYa5c
-	 euKRw2ylFtRa/SXxDO5ZGHSqPT+re7VVsgb/dcEw80+nI6fwQ+jKACzvNEBPE3re0f
-	 TD2OdlX1evDsH+fM7FymwIlFWYYA1DNahvZiAGjvAw+PAnnmgH14CjfzD7q2aYuwph
-	 MyDWC/1e6xJyaPMfLlOcGRWAy4eRGuzg+FSqV9XyOVbcsykAGqYiLX3tbt3lOIzqNj
-	 4GQ/IoKo3mTNQ==
-Date: Fri, 10 Jul 2026 10:57:50 +0200
+	b=lOoIfvwXj2/naOd3sHvrnkBS1MliiGCDwTD65J+ZRqg8T4fa4S8+9avM5ru9fwoLW
+	 VNuSbOMxI0oo8Jz6fug2uD2bh5xa74+1ZqEbwjlDMLwPFWU6pJ+vAqINUfiQogDfrv
+	 FKtgN4Due+mwBWqONcRVO/4TsMQyvDbYy8swblYIPyo/FHG98gaq52WlPhda1uV7YU
+	 ISIx+Q+9ikogGAWjRB0EudbzaUjpMWmBeAULM/leWNugqqC5fExKqsXw5bzp/QoLWT
+	 zwMuW5l5YIidgw4u4ZHAFrr2EUoE4o6c4dnYbyfcYpjhiPTjUDTURawo5KLKV9ixBa
+	 PJ/Hr9JOynU0g==
+Date: Fri, 10 Jul 2026 11:03:44 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-	Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, linux-arm-msm@vger.kernel.org, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: qcom,wsa8855: add Qualcomm
  WSA8855 speaker amplifier
-Message-ID: <20260710-curly-sympathetic-mongoose-cd25fe@quoll>
+Message-ID: <20260710-analytic-astonishing-skink-a83cea@quoll>
 References: <20260709175915.3805851-1-prasad.kumpatla@oss.qualcomm.com>
  <20260709175915.3805851-2-prasad.kumpatla@oss.qualcomm.com>
- <178362545943.1021343.12928472425962817382.robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,45 +49,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <178362545943.1021343.12928472425962817382.robh@kernel.org>
+In-Reply-To: <20260709175915.3805851-2-prasad.kumpatla@oss.qualcomm.com>
 
-On Thu, Jul 09, 2026 at 02:31:00PM -0500, Rob Herring (Arm) wrote:
-> 
-> On Thu, 09 Jul 2026 23:29:14 +0530, Prasad Kumpatla wrote:
-> > Add bindings for the Qualcomm WSA8855 stereo smart speaker amplifier.
-> > 
-> > Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-> > ---
-> >  .../bindings/sound/qcom,wsa8855.yaml          | 93 +++++++++++++++++++
-> >  1 file changed, 93 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa8855.yaml
-> > 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/qcom,wsa8855.example.dtb: speaker@c (qcom,wsa8855): compatible: 'oneOf' conditional failed, one must be fixed:
-> 	'qcom,wsa8855' does not match '^qcom,(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sc|sd[amx]|sm|x1[ep])[0-9]+(pro)?-.*$'
-> 	'qcom,wsa8855' does not match '^qcom,sar[0-9]+[a-z]?-.*$'
-> 	'qcom,wsa8855' does not match '^qcom,(sa|sc)8[0-9]+[a-z][a-z]?-.*$'
-> 	'qcom,wsa8855' does not match '^qcom,(glymur|milos)-.*$'
-> 	'qcom,wsa8855' does not match '^qcom,[ak]pss-wdt-(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sc|sd[amx]|sm)[0-9]+.*$'
-> 	'qcom,wsa8855' does not match '^qcom,gcc-(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sc|sd[amx]|sm)[0-9]+.*$'
-> 	'qcom,wsa8855' does not match '^qcom,mmcc-(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sc|sd[amx]|sm)[0-9]+.*$'
-> 	'qcom,wsa8855' does not match '^qcom,pcie-(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sc|sd[amx]|sm|x1[ep])[0-9]+.*$'
-> 	'qcom,wsa8855' does not match '^qcom,rpm-(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sc|sd[amx]|sm)[0-9]+.*$'
-> 	'qcom,wsa8855' does not match '^qcom,scm-(apq|ipq|mdm|msm|qcm|qcs|q[dr]u|sa|sc|sd[amx]|sm|x1[ep])[0-9]+.*$'
-> 	'qcom,wsa8855' is not one of ['qcom,dsi-ctrl-6g-qcm2290', 'qcom,gpucc-sdm630', 'qcom,gpucc-sdm660', 'qcom,lcc-apq8064', 'qcom,lcc-ipq8064', 'qcom,lcc-mdm9615', 'qcom,lcc-msm8960', 'qcom,lpass-cpu-apq8016', 'qcom,usb-ss-ipq4019-phy', 'qcom,usb-hs-ipq4019-phy', 'qcom,vqmmc-ipq4019-regulator']
-> 	'qcom,wsa8855' is not one of ['qcom,ipq806x-gmac', 'qcom,ipq806x-nand', 'qcom,ipq806x-sata-phy', 'qcom,ipq806x-usb-phy-ss', 'qcom,ipq806x-usb-phy-hs']
-> 	from schema $id: http://devicetree.org/schemas/arm/qcom-soc.yaml
+On Thu, Jul 09, 2026 at 11:29:14PM +0530, Prasad Kumpatla wrote:
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,wsa8855
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +  powerdown-gpios:
+> +    description: GPIO controlling the SD_N powerdown pin.
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: GPIO controlling the SD_N powerdown pin.
 
-This looks expected. Should be fixed by:
-https://lore.kernel.org/all/20260707-dt-bindings-qcom-soc-naming-v2-4-1b7d695be2e1@oss.qualcomm.com/
+I think it is easier to go with reset-gpios only. There is no benefit in
+allowing both in DTS. There is also almost no benefit in having driver
+support for both. With reset-gpios you support both cases - shared and
+single-line GPIO.
 
-However this patch should not be applied before above one, otherwise
-next will have errors.
+Well, in any case (I don't object):
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
