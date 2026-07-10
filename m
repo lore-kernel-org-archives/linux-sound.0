@@ -1,116 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011049.outbound.protection.outlook.com [52.101.52.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C687E40800B;
-	Fri, 10 Jul 2026 10:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783679310; cv=none; b=C+x0tj9gyI2VQN2D8yTgD65jQoZeT+RaD7ldIY71rNS2bZBT8lSJBc7f+XqQTyR1NqdETOkzP4PnKfUqUKjeJwXeyA3pry607nOOAr6Xu1hJeGKMh9/qRphb+cLylw3KMrmz/rklPBmhrk1SPVG00NX/CnAW23RUeDkic4o9slA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783679310; c=relaxed/simple;
-	bh=mOV2tzckd0rVyjljkX3ZrGReEaXi1MYOVMs9+Um5Bto=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TF1Z6vXutH15BS9341tQIlL2tbkfhzJRUDgVQevp8pfGW/DLerrN6e7iFfFobiKVeJ35UPCPIsouCpJNthIDxOFF2K5HChLtSQ34hYMmgNq+UcZJ5trzJVLxAzhuUrTCpdI62CO95/ICfwA6mykTfMkTkmHPwrbEOV0LVQZA1HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VleuwWBO; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D437407CFC;
+	Fri, 10 Jul 2026 10:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783679410; cv=fail; b=mdXquRmIo2u0wl77rr3JOPphYV6Mo3MAKOJ4FFDkAvk0VoZec9DNk/NHWwYAf/Oku4OmScNjuGvPuWtMz7bgDWfrgsNIwQxztxmfEcnaFBmd2lxaVN8MYy2Af5QVomWFevO98cLahA9nuDa8kQ15k+haiJZDo10RdUoH5H2d2nY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783679410; c=relaxed/simple;
+	bh=iAhf50fQQCKgM/5js1zWE6521TBRbW1sa4W7yk2Xxs8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J4tzv7BLeHKnFaD7599pno6BM78AwP8pB5P54muzKMlbt7AXoHrdTMLDWpqyvD1vAZcGpUXul5Twb/5f7i8lrT5lWvPQ7/CoQ8KM0Ehsy3tINRJgQWRq11oYeOFd6bDKh2qjG/A6qSzqMNiyxfoFXwgqwrRZGzVmRXuqeZcXyh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2r+rUY9s; arc=fail smtp.client-ip=52.101.52.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VleuwWBO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 45F93C2BCB8;
-	Fri, 10 Jul 2026 10:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783679310;
-	bh=mOV2tzckd0rVyjljkX3ZrGReEaXi1MYOVMs9+Um5Bto=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=VleuwWBOKNgsUaPP/cjeboj7xDRVNFaTyHUO0t/jSgvmGonDarnFo7nCEqlIqjRjA
-	 4D+JXvd4WxS2fQAKm/BGk5KrqPMS5BbmDtHcyxlsRwcXE2fGpQLJvVHPDS+CYPUTAx
-	 Qy245vTMs5FtHSnyWp41CMW/pWu/vdHG5kI9BpmGDuaKhFSxVQi8cn4v8ZC37O5RyF
-	 BxgmIn3v1Te8rfrWXsJcZhA/QAriI8fpaRi+tgU+ZhCGNZtvZ45acYIpp2F57gPteg
-	 NO3rkaHs53KrCbAwhg/hKovL6W086v5R49mORnvYR6jOViWOm8f+gFmzAYCivhw5QT
-	 i4nXwYZHekh9g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 242C0C43458;
-	Fri, 10 Jul 2026 10:28:30 +0000 (UTC)
-From: Federico Amedeo Izzo via B4 Relay <devnull+federico.izzo.pro@kernel.org>
-Date: Fri, 10 Jul 2026 12:28:29 +0200
-Subject: [PATCH v2] slimbus: qcom-ngd-ctrl: fix ngd register base address
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2r+rUY9s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LhdmC9608V6WYApTDrEx5AtCXOH+qlDWK1Ue8usaazM7kpx/OSlXQYmhZYT+o4LlYJjgS6hdi7berF5TQI6kzAk5OsTQpkBkgK+m8G05FmtNmw5E85g7jYLKlKwA//Ork6nHdYcm35Rx39rbKOoVeUFp4n207J3NMKLim77XKfSiJ4Xk6/XYam6F7Oj4lSFgZfCmKw0zz21cRbVzhkd9Sfluoa7t00Ww8HV5+81I+jgC4FsTz8mf4oxrPe3E4PNvY/zweeEnRvuZBNv3eX9HVxjsjELwAgDWUDdHMYpQg7hZNmmP9SDAkdcd6yjv3VnzNiVTmOTXcHXM+lutWUlTIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zQrBue9TXY2L7Ym33UjjeSc0b/6V9HZFDcyVSm4P1FY=;
+ b=y55vQBDV/w1QMzj6aQLMFtKEbRHv78WPaBe3XRLhVs7+Hq0sdJ4i7ErsI/8jw+p9nDwxPqvYj35rdBjqhyB5NkRR6Ktt/DzidUOsgu/ZTqgHjQFtLrppjgGwmxTv+Ah9nXxDgHEgkB2z7Fo2IC9t6D194ofRVXIVyDU7NM+tf3WoWZWAeKAlrM2/TA4ISPrKLkWItUgqYddaKLJcQwv6yj5XjqoUzaxGqCxIPmjwYJQnJd+Ugeydp1LqSBdJXoXbdWt4/+E3kQ23uxaRyasYLg/mfYp3nM1R5LbliD8LOfYfMjf29vRWFe+a2lYjzwH6meDPFKglsfGZjf6wRajwyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zQrBue9TXY2L7Ym33UjjeSc0b/6V9HZFDcyVSm4P1FY=;
+ b=2r+rUY9sUgSgbMjroq8KAXTKRKd/FhXjJTrpj0eI4XCYVFQhk/X7bDsG9FvO+GtZVgdLX5KCX287/f1aXoJijf0sGFfbyXWqmfK6Lj6X+NuEz5/eUCyo3xnqnjDcX1J0wX7JqFcBXEGqoWcHtu62FLYExBl4i6VInx9eClY43EA=
+Received: from MN0PR05CA0007.namprd05.prod.outlook.com (2603:10b6:208:52c::9)
+ by IA1PR12MB8519.namprd12.prod.outlook.com (2603:10b6:208:44c::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.18; Fri, 10 Jul
+ 2026 10:30:04 +0000
+Received: from BL6PEPF00020E66.namprd04.prod.outlook.com
+ (2603:10b6:208:52c:cafe::7) by MN0PR05CA0007.outlook.office365.com
+ (2603:10b6:208:52c::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.6 via Frontend Transport; Fri, 10
+ Jul 2026 10:30:04 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL6PEPF00020E66.mail.protection.outlook.com (10.167.249.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Fri, 10 Jul 2026 10:30:04 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 10 Jul
+ 2026 05:30:04 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Fri, 10 Jul
+ 2026 05:29:40 -0500
+Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Fri, 10 Jul 2026 05:29:32 -0500
+From: Syed Saba Kareem <syed.sabakareem@amd.com>
+To: Mark Brown <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Sunil-kumar Dommati
+	<Sunil-kumar.Dommati@amd.com>, Syed Saba Kareem <syed.sabakareem@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>, Syed Saba Kareem
+	<Syed.SabaKareem@amd.com>, Venkata Prasad Potturu
+	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "open
+ list:AMD ASoC DRIVERS" <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] ASoC: amd: acp: add ACP70 DMI override for new ASUS TUF platforms
+Date: Fri, 10 Jul 2026 15:59:19 +0530
+Message-ID: <20260710102926.1633385-1-syed.sabakareem@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-qcom-ngd-register-base-fix-v2-1-0bb247c954c9@izzo.pro>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7Zi2glBX3sOwaGGAmkhxikQh3
- N2CF3D5fn7eWyAQOwpwSRZgmlxwvo+gDglUnelbQldHBiXUWeRC47PyD+zbGplaF0ZitCYQNu6
- NJtO5PBlZpLaAKBiY4rzLb+WPw8veqRo34/boosHzZ69Pcvv9FZokSsya3Ni0aLQS+urm2R8H9
- lCu6/oFEg/iG9UAAAA=
-X-Change-ID: 20260709-qcom-ngd-register-base-fix-a59713a184b8
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
- ~postmarketos/upstreaming@lists.sr.ht, 
- Federico Amedeo Izzo <federico@izzo.pro>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783679309; l=1720;
- i=federico@izzo.pro; s=20251017; h=from:subject:message-id;
- bh=+vuRfWB5TZ02U83zLp1dfXk7Vc/G5WPRtcOB/wAoh3Q=;
- b=0N3znYgt/Ey7czV5f9j2HziGVCJSAu52iQ0fAv1CAhUsKaYwkodgsS9BeRdAEjMczYzt73ypn
- 8rflv6Ol1gSDn8HNrKVmenFd0qUwl6WPTfCiKV20KCavAOkpo0FgCzT
-X-Developer-Key: i=federico@izzo.pro; a=ed25519;
- pk=XfmNfpH48k8jLbId5NKrp0yoKoFb/uLjr97qIxBImBw=
-X-Endpoint-Received: by B4 Relay for federico@izzo.pro/20251017 with
- auth_id=544
-X-Original-From: Federico Amedeo Izzo <federico@izzo.pro>
-Reply-To: federico@izzo.pro
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00020E66:EE_|IA1PR12MB8519:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5227be7-469f-43a8-aaf9-08dede6e3483
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|82310400026|1800799024|23010399003|36860700016|18002099003|11063799006|3023799007|6133799003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	NpgJBZfHkVY7T+4N0pPmuWJcsrIE9DwZkhypQqyTZakFFbRt4z5mcdte92sysc+wwOt28axLGobcy73LcAsr3BsD6GOw2ms7ksgWRk+t6uoO4OdIJKq+huXJWGYewZ53zviXj14pYyDGzCdSoNktLBHYc85bsosl1R0cXkWseT9ug3Y8R1ltwh2Zj5uZOs6ZOPFFzw8JHMG/sFSXjJ1Lxn6i18kZO2pNJVMEGRc75znngTDTdhJ+eEKBqujY2OsEO1xpOdNB2mIwWtUMHt2v4CB6sMYDdikbTMjK9bBMsOyD3odGTI9F0YWy3vGw4RJreXdevCkOaVTKz4pov9rr3RkeIRIkxdbxICsljgIegQNVwB99UEnCf2fqDqoOFZGB6s1O2qedmQUYr/KNbQ994mHBvEcd8OFytvLYvLvG9FRiMRj7wlS+KNvfECy/yqiTlu8YHZR2rQqHQ6t0KGu0TNMlGB630pJLzHek0RGevYB3bxEqli33wsoJfkTnbZ6ZR+k2ItZJUTn6KhtEkE/E0NXC1frHSthaLSmIpbffL/Tv4iGb0MuAOaBA5n4pSU/f/vCczBDjjqil0XLYf6xMuibkDfiN/syAbjY6N1qMvN35iMe1lJ1njgXSzKjVK1KTq3Hze1EBIYbr/Vpm2M5YbX42E8hs4Bxv8F8ipqvDjbxJpiV8kr8LGmrZhsv1JTl4cN7pEGQu1WpefWlQ+tAFMQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(1800799024)(23010399003)(36860700016)(18002099003)(11063799006)(3023799007)(6133799003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	Uc7fQAqZLuOBbttbe5SU5kpQYQ1EuOaX5LnMg/X+dTki9meXif/ugeMYFyX/+LLzxJctZV9tyy3JMPmBfnqgBt063M2CSfyi/BmSQ8079ckffz+Qrawbc3x+eWJUQdAVGpIZuF8e5gMDbTLKCkI1CM+8DlL3jAqRTgv2UojuPMpvH/uRH2BF5F3dTeAIQ8Ntyd0qs9QHjRVtL1XoPUbT3z6T7hr7gChE2jGELuF77MLIRCe5/ELj4ZRjqJ+FEADri/NkMKu/XI8Gq7QaeSA/WakCl5Wy4qwxz1y4h+l/+e6EcxnsOSnFXCqzvZzg7B9AAqUzQ/R9R3WW96bIJrsepQEdBSvjotHa4K5+2RqLPRyI/ZzVj552xvJ3wHf4F/5ISc4yUbLhauZ3LzUx+kRbb7uavcjYYv3tUmUI6LUV+uq/ScI8KC1PF0WYTqJVF6er
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 10:30:04.1652
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5227be7-469f-43a8-aaf9-08dede6e3483
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF00020E66.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8519
 
-From: Federico Amedeo Izzo <federico@izzo.pro>
+From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
 
-The slimbus controller register base was calculated using the
-controller ID and the register size, producing wrong results for ID > 1.
+Some ASUS TUF ACP70-based systems expose ACP ACPI configuration flags
+that select a non-working fallback audio path, similar to previously
+affected ASUS platforms.
 
-The expression reduces to ngd->base = ctrl->base for controller with ID = 1;
-but for ID > 1 the other factors produce a wrong base address.
-This bug caused a crash while trying to bring-up the secondary
-slimbus controller (ID = 3) on oneplus-enchilada with sdm845.
+Add DMI-based overrides in snd_amd_acp_find_config() for the following
+systems to skip ACP ACPI flag-based selection:
 
-In practice, the correct base address for each slimbus controller can be
-obtained from the device-tree, so there is no need for further
-calculations.
+  - ASUS TUF Gaming Vivobook 18
+  - ASUS TUF Gaming A14 FA401EA
 
-This was validated by reading the version register from the WCN3990 slim
-interface on oneplus-enchilada.
+This ensures the intended SoundWire-based machine driver is selected on
+these platforms.
 
-Fixes: 917809e2280b ("slimbus: ngd: Add qcom SLIMBus NGD driver")
-Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
+Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
 ---
-Changes in v2:
-- add missing Fixes and S-o-b tags
-- Link to v1: https://patch.msgid.link/20260709-qcom-ngd-register-base-fix-v1-1-5f7ab48f9209@izzo.pro
----
- drivers/slimbus/qcom-ngd-ctrl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/amd/acp-config.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-index 80877e951849..91932f8d021b 100644
---- a/drivers/slimbus/qcom-ngd-ctrl.c
-+++ b/drivers/slimbus/qcom-ngd-ctrl.c
-@@ -1547,8 +1547,7 @@ static int of_qcom_slim_ngd_register(struct device *parent,
- 			kfree(ngd);
- 			return ret;
- 		}
--		ngd->base = ctrl->base + ngd->id * data->offset +
--					(ngd->id - 1) * data->size;
-+		ngd->base = ctrl->base + data->offset;
+diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+index 93a2182d4e86..f4c1bae878c1 100644
+--- a/sound/soc/amd/acp-config.c
++++ b/sound/soc/amd/acp-config.c
+@@ -44,6 +44,18 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "83W5"),
+ 		},
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "TUF Gaming A14 FA401EA"),
++		},
++	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Vivobook 18 M1807GA"),
++		},
++	},
+ 	{}
+ };
  
- 		return 0;
- 	}
-
----
-base-commit: b9810cd75b9fb56a3425d391cba3f608502bd474
-change-id: 20260709-qcom-ngd-register-base-fix-a59713a184b8
-
-Best regards,
---  
-Federico Amedeo Izzo <federico@izzo.pro>
-
+-- 
+2.43.0
 
