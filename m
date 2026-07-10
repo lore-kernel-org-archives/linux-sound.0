@@ -1,113 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECAC382370
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 19:36:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590DD38E8C5
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 19:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783712195; cv=none; b=AlImK7L3Rz9z3dPXwMPgoKMnuPU+lqIWzP5ba58GEjMGEu2ex6DW5LdY8hXVreViuZ7X533G6U+14t5ufk5qkN0j5JgNmdUh32GzQAzJwt5p3iJ0Tg+BFHrb1Y8IYxjd9Y5xbmTEhi8KiWa5i4J7Rzp1TdoZQLdjZ+m4KztT4ZM=
+	t=1783712769; cv=none; b=tJAIdwfc7v+QTheCDmnqeEo9RqFAMWkmYY2PLLeudXuFoLR+RQvldgq/cmz5ZPxdct0lDJ4ERhhqkgJIa4u+ORfFrIQdFLjJ4Wkv1sgZYtrYJCcdFLojZShvbw9yCCB18Z+YsrT5tq+KinPDT5QQ0paMGUu0XI8NWGqLeP+I0/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783712195; c=relaxed/simple;
-	bh=wO1MPId3Vtrx5eVsLf+EKmRRPNbeNbSYmTHEZLEDlDI=;
+	s=arc-20240116; t=1783712769; c=relaxed/simple;
+	bh=sZDwGaUkGBLrMyNSIpb3kLYEJV1iPNS+5Pn9t9xv6aE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d2qjh5FGxNxn3BVKX3LJtzbPyNR6vfzv+48K2NHqXbr1Vta49Sat48D2cmXbGLybvKlwWB3R8Jjyo6Lz0pFOVxivmpWnxtU0zPsbXuJwN3REAMYSeGHYnL/1J6zs7g25PyJymmlK0AmEGgCWfKiFAzsUe1hlZZOmoCeAMvC8NQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJQjFMO5; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=Tp78ka8lwOytf7e7aYDlcjjRFPt3Oza3SHwhdcbFQyn0qGYsrn6lOY0foO9mZnTHc7OA9ZYB6kUiPzjQMT1f5k37CWu7llzUZuBcRz+89WT5PX2VfLjWB63AgKzeEeWfI/sT1iuoHPQEiS7JuBVvgYNsoHaaMD8XTCTY8jE7WVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkSsEg0f; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJQjFMO5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B14F1F00AC4
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 19:36:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkSsEg0f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04EF91F00ADB
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 19:46:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783712192;
-	bh=WfoUlWEeuKtg5ji7K2r6ODJIVODJRvoxIKC//T1cf3I=;
+	s=k20260515; t=1783712766;
+	bh=sZDwGaUkGBLrMyNSIpb3kLYEJV1iPNS+5Pn9t9xv6aE=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=UJQjFMO5Ru2ypG3zOfZ4hEANXRTwjm/9ejCDdL+TooLEtRU0lvKPAW1D8BqKGZ5DN
-	 zEvvZ5IrQFu2HlBI3YhN2lLdHplytIRiFJEYVKL5uQ6zKJSNEZcCZ/PvddjkctsLek
-	 ih3/t2hRqRPK4J0+kCQXiVOKCSvhe5higOtJ7/3l2k1z+YjT0o1ItDEZFSxD6dtV4x
-	 2Vo6d2iq/8Gns/ljNTKgJujR8e16p/tPYYz+2Ta1p+GlwWvhRPl+3uc9dAhpowXSfc
-	 P/J9a1UZInP7coH4/Q7zbMykGiVkgBjPrY1eX9612k4wVRs+hGMHFD5WQf5IGIG3yC
-	 MEBCiE5QSDZKg==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-39c9cbf0719so7345591fa.0
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 12:36:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro7a8C6DoR6IrCTIqY3zMmvDVU4v0fadz1xRhjkkaLeEf4Ni0m0Sve/Sa6IfJTvzaETOW+bVU40tYcXWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCbLwPikR6f65++Hn1Sk0mr5tq5KlEDVh8lripyPDSa/6RLv0t
-	O27bIvZErKs9krtfFHFPQZTox8SS3/RYnyiRdgefDUTaVFs0uPSPMs5KiKbo0oUpzFEoTjwqmsf
-	3P7HPwj4Fo4IOrT7V/PSBED8zf8q9YRc=
-X-Received: by 2002:a05:6512:40c4:20b0:5ae:c454:3740 with SMTP id
- 2adb3069b0e04-5b0236ec2f0mr64636e87.60.1783712190489; Fri, 10 Jul 2026
- 12:36:30 -0700 (PDT)
+	b=HkSsEg0fbPswpwBbq7msyQoTQ/fzpUpBAWCJeyoo47JBrl1F4fLCAocKnijbpM/p6
+	 GDbOtWqNLNjYAx3W000zcCbmXpLxeTYg1+fMSzkuksy7ydBzM8bj7gC6WXw6wQdRD6
+	 vVdMHXz0K1GVFdtb/usTM0mXhAL+ZZsfcP7DWwsuADXRD4a5scfpg85ktfSdSrmGEW
+	 RX91BEivy4ThHjiAFPD10y6OZy6KCaoROgurcEirnNXtZytmK4+Y7XIXkAVzwQgQnS
+	 tWsz1C57JTWtsEG565sIfsiTVX1EO3rFjDmmROr8HMl9MVJMK0AKwMlgTnovI0C4jj
+	 cqjPm+xX37wIg==
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5aeae350e0aso1544545e87.1
+        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 12:46:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoIhLTb4wnGxcz7lXJTRt7VLtf0suctgziQbhzprkTdDZ9ANyuJmnum2OmYUcwk/+wnAcP4uIgSkneTRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbFRGzkSCDBKDJQL3/q30/Ioc9hEg9SQ398Hl/BGstHOtcZ4OA
+	wH/wSg8Aswx9TEj+XYHMguqP4S0lrb4eKveYL0rv1ZEHRsMS0RVpkCbrEBaebSwBjrWxTL4RAeP
+	VOdPB8eZNhSfkpvfcmo8WCwI8ezwaFTk=
+X-Received: by 2002:a05:6512:32cf:b0:5ae:b792:7f1e with SMTP id
+ 2adb3069b0e04-5b0236a3891mr89821e87.30.1783712764308; Fri, 10 Jul 2026
+ 12:46:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1783507945.git.u.kleine-koenig@baylibre.com> <ce43f6ec640a7835d64d3d696ff09229c3d31075.1783507945.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <ce43f6ec640a7835d64d3d696ff09229c3d31075.1783507945.git.u.kleine-koenig@baylibre.com>
+References: <cover.1783615311.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <cover.1783615311.git.u.kleine-koenig@baylibre.com>
 From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 10 Jul 2026 21:36:17 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkhkEVsLyoYobV9ZfD0o7YWXh74cNsy2rcFrajna4mRjg@mail.gmail.com>
-X-Gm-Features: AUfX_mxF7aXm1NUaeKv9tRmJ75XIeUyINM_M0uEJT4kZsHp0a8M3V6ZUZMQlacY
-Message-ID: <CAD++jLkhkEVsLyoYobV9ZfD0o7YWXh74cNsy2rcFrajna4mRjg@mail.gmail.com>
-Subject: Re: [PATCH v2 21/23] mfd: Unify style of of_device_id arrays
+Date: Fri, 10 Jul 2026 21:45:51 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkJthrzmVCDE=BopUDMECBpMtPOpCJ9S0CKWRg--Zfz3A@mail.gmail.com>
+X-Gm-Features: AUfX_mx_vh7ziiGHTkkaiMBQb1TjjZ8vahBxzqeJira0tID9YqDdR27A_6wUme0
+Message-ID: <CAD++jLkJthrzmVCDE=BopUDMECBpMtPOpCJ9S0CKWRg--Zfz3A@mail.gmail.com>
+Subject: Re: [PATCH v3 00/23] mfd: Use named initializers for arrays of *_device_data
 To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Lee Jones <lee@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Chen-Yu Tsai <wens@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	James Ogletree <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, 
-	Ben Bright <ben.bright@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+Cc: Lee Jones <lee@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, mfd@lists.linux.dev, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	linux-mediatek@lists.infradead.org, Qunqin Zhao <zhaoqunqin@loongson.cn>, 
+	linux-crypto@vger.kernel.org, Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, chrome-platform@lists.linux.dev, 
+	Colin Foster <colin.foster@in-advantage.com>, David Rhodes <david.rhodes@cirrus.com>, 
 	Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Tim Harvey <tharvey@gateworks.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Sven Peter <sven@kernel.org>, 
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
-	Saravanan Sekar <sravanhome@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Zha Qipeng <qipeng.zha@intel.com>, 
+	Thomas Richard <thomas.richard@bootlin.com>, linux-sound@vger.kernel.org, 
+	patches@opensource.cirrus.com, Xu Yilun <yilun.xu@intel.com>, 
+	Tom Rix <trix@redhat.com>, Michael Hennerich <michael.hennerich@analog.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	James Ogletree <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, 
+	Ben Bright <ben.bright@cirrus.com>, Support Opensource <support.opensource@diasemi.com>, 
+	Andy Shevchenko <andy@kernel.org>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	=?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
 	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
 	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Tony Lindgren <tony@atomide.com>, Samuel Kayode <samkay014@gmail.com>, 
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, mfd@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
-	linux-rpi-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-omap@vger.kernel.org, 
+	imx@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	linux@ew.tq-group.com, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Tim Harvey <tharvey@gateworks.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Saravanan Sekar <sravanhome@gmail.com>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Matti Vaittinen <mazziesaccount@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Sudeep Holla <sudeep.holla@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Heiko Stuebner <heiko@sntech.de>, linux-samsung-soc@vger.kernel.org, 
 	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+	linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, Peter Tyser <ptyser@xes-inc.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 8, 2026 at 1:17=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capable H=
+On Thu, Jul 9, 2026 at 6:59=E2=80=AFPM Uwe Kleine-K=C3=B6nig (The Capable H=
 ub)
 <u.kleine-koenig@baylibre.com> wrote:
 
-> These arrays already mostly match the most used and generally
-> recommended coding style. That is:
->
->  - no comma after the list terminator;
->  - a comma after an initializer if (and only if) the closing } is not
->    directly following;
->  - no explicit zeros in the list terminator;
->  - a space after an opening { and before a closing }, a single space in
->    the list terminator;
->
-> Adapt the offenders accordingly.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
+> The objective for this series is to prepare mfd for changing
+> of_device_id and the others to make driver_data a union, see
+> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre=
+.com/
+> for the idea behind it.
 
+The series:
 Reviewed-by: Linus Walleij <linusw@kernel.org>
 
 Yours,
