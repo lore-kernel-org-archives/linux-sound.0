@@ -1,40 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1DD42E013
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 22:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180053368A4;
+	Fri, 10 Jul 2026 22:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783722068; cv=none; b=kJuSupcDqGZRBc9S5LUriT/EVbU8Rzm0g7KqAVlbpOf3oDfy5RBa8t5kW8EkPLMVbXu1azafZKkn6nCPqwbo63bDFf0wMllvByzn+Er8AsWmZdugKOdrGu/ng8VJvOIwW30X5cvJh7x7sX/fKJPMJjTi3ru/NUBpxyv7EcTcVUE=
+	t=1783722073; cv=none; b=g3PQ0eE0fzpwQU7fi/WusTLWkkFnrm7WEK5slZBK0bzB2QGy11xpxhq4FxwtBwiSa4hefTKhPcnOsDGoESMqBWg9NEKLe8TZQfM767qiI18eztenjqjCRn4d1w7ppzjbBNYf/be+Zg9dyzRaBtsjbD+z+W8egfEHbG2tPurrd0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783722068; c=relaxed/simple;
-	bh=WIwOMoGwmq01dj5LCqqvRmeJL4YIm+Bp4r9G9OI7Jes=;
+	s=arc-20240116; t=1783722073; c=relaxed/simple;
+	bh=BvQ+8218l2tLEMuGKuaWratUA9xqpyB1WqDIFp13u7g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mgpQ9uvqQjqQ0lGkxVZygm3S7l/CPC+6u0Eh5FQ6OFuD4ACQYS41xO+UM7LyJwcoITg+d/NOuWHWRuCdvf8DCl3wg4V+nii4MS3N3Y8S+i5E5QgBo0ZLM36PnLPA/U+Rkuz/BqSDynksdkPU8T9uhXDI0sYPCUVg51Vf14zIXW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QEGMuMc6; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=d4uX0IWWSnRH/QKlNKe2RSENwcvFbTRVZUB0pEQ8sX6ZG9RKTZeos01XKN49+xQFKF3Sb95XJr5jsdalbHIFh54lYc9xqh/AuNuGIxW30zPAgaUCJGlTSTGPJw9o7itDIpw0ggAw3+6LKVGuOuswq6GbIqpaGj533nBCC9JVB/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H+aOYJLO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QEGMuMc6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D289A1F000E9;
-	Fri, 10 Jul 2026 22:21:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H+aOYJLO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 186D51F00A3A;
+	Fri, 10 Jul 2026 22:21:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783722067;
-	bh=pXSsqutKxIlltsEWMmHrst/OPUV0uHIpbj+QGI2gqtI=;
+	s=k20260515; t=1783722071;
+	bh=XYjtxUuAFRH1Xu5jxD+FVKEKZLEU9WGZeMcxDxCL6D0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=QEGMuMc6OulrCY9FE5CHAzyr2q6boMSzrB5hxvn0bJdhFRwvOiseVOKHzMa9iyD+n
-	 xubQJeFm2GGejpVAQCoDMC9SR0IKqenTnnxcjIUiRgpdYgKM0DcO9gT37EZqtUKJcS
-	 369Kz/oVDOLJvM8KsbHI3x4JGfF71XSwBHMU/LBJRYzDZ01if7rURsyHiltnMbNY9c
-	 joUD1v/0OCFLicnRGYJfdhvw/ERgmjVS+sA8wh46ZhVNNxLFqq1E2+IKebnFdzgahk
-	 UHuDMdNi1yWFAq/HJpC3TvdMq/i6H+GEiXyqXYpRH1R0q/zpOIRlST93/3FQCzpFn+
-	 gdnOP+ibm7keg==
+	b=H+aOYJLOUVxrG8MgP50FmBYqSZuw82BZ8BUyL8CD+ZYqdhK9/FO6c3RFZbNWJJz6B
+	 Yi3ukK0qCs5wv2PQpveRaoN0j/k1Eez15GDJjMcM5zBtqQdHKRUIsV1C4pdDK49UAt
+	 lcnUoULUNxH9Ezh5Su7Bd5F/05vslD68pC4h3pF1FA0y0xl8YWtzohdINXhKP/cGJK
+	 byd0nEdiuMj9AhOll9j9fweYHNqzbfoPVDfrDEK3scYvMZpidFDFJCsYN4Fx1gjPBr
+	 MEywbvhJ5AZ21PFoKJ/LuhyhCrIpS9sVHDXp7A6aixzJ3rnrD3RacNMrYmz+muggek
+	 corY/GoGDOeUg==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87ik6yxj0t.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ik6yxj0t.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: (subset) [PATCH v2 00/12] ASoC: cleanup
- simple-card/audio-graph-card1/2
-Message-Id: <178369970867.82617.3209701482093583575.b4-ty@b4>
-Date: Fri, 10 Jul 2026 17:08:28 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Srinivas Kandagatla <srini@kernel.org>, 
+ Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, Ravi Hothi <ravi.hothi@oss.qualcomm.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260707-xo-sd-codec-tx-rx-v2-0-f61b4622f97f@oss.qualcomm.com>
+References: <20260707-xo-sd-codec-tx-rx-v2-0-f61b4622f97f@oss.qualcomm.com>
+Subject: Re: [PATCH v2 0/3] ASoC: codecs: lpass-{tx,rx}-macro: switch to PM
+ clock framework
+Message-Id: <178370541923.82617.15858730110068150413.b4-ty@b4>
+Date: Fri, 10 Jul 2026 18:43:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,27 +48,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2675; i=broonie@kernel.org;
- h=from:subject:message-id; bh=WIwOMoGwmq01dj5LCqqvRmeJL4YIm+Bp4r9G9OI7Jes=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqUXBR52cdRw8T+xdvhWlDBI634ynPjF0KhAuYg
- yoOO+1D4aeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalFwUQAKCRAk1otyXVSH
- 0GnsB/9yMj/2/jE0zkhXex3rzkDB3TYQ11pv9zRwXnw53H6S1mJZxc+J8uRu4BSdk5cwsqQeP/3
- SZgjGwzLm4qjoNRqhdav3/Q3Qk1HYOpX6cadcn8PVoZLI8zHoHDuPe1DUu5pmX66c8/eh9IahOP
- 3hO+YlcNbgsYh17ncF/39jE0O9kGOPoM9mgCOyaxkqHX4Qmdq0UmztFXOvrtYk/dCdsfAu1sJgO
- 0Sa1CRpp7pDSzaWB1n2oLBetK4pDOnE8wPZRzs6NHFpAkap+4zOIX+FxzTJLsZyDo/cUUnHK9Hl
- Eou/meQ2V3pP64DVzbhNty1KBnwsVAWRIpMtCJG32bDUlZqH
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2464; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=BvQ+8218l2tLEMuGKuaWratUA9xqpyB1WqDIFp13u7g=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqUXBVpZiRNUe/mVn1Wf2c91yJe+YWHrGi3X3Ao
+ 92J3WNM6uSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalFwVQAKCRAk1otyXVSH
+ 0Nv3B/9QHDalUlbuaYzFO/z5D11KBDyyFTBxHGOSkwCv54LD6TCueBq8uAg6IDw40HC/xMhMHKY
+ tzVB9DyfN2bJvZvlhqV7OqdrBOFuM19ZXrmgtXWYkqDGKxZNKTr3y5M0aXfKLvG+pMrMvjtuRof
+ INmiNi9ws2NiSa5PrhXBbKhKMa/Yiifz4fNt9K+mtNwQY+8ExfCZiV2piZniVGUHWL6uIjmKfaP
+ VIkOZ3FCvhUtchW/lTqiA1Lv0Ym2ZRyHsteazrD6cGpTaiXvgWLdGXKm9yqFNyKI+w1ZbA+py7H
+ gJcBw6Z7Ou5cP8V/Wn8Exzq5+F+3eF6AowuUuVp95TSRsm6d
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 02 Jul 2026 01:44:18 +0000, Kuninori Morimoto wrote:
-> ASoC: cleanup simple-card/audio-graph-card1/2
+On Tue, 07 Jul 2026 15:13:10 +0530, Ajay Kumar Nandam wrote:
+> ASoC: codecs: lpass-{tx,rx}-macro: switch to PM clock framework
 > 
-> Hi Mark
+> Convert the LPASS TX and RX macro codec drivers to runtime PM clock
+> management using the PM clock framework, completing the LPASS macro PM
+> clock migration started with the WSA/VA macros [1].
 > 
-> This is v2 patch-set.
-> 
-> Simple Card has removed platform data support.
-> We can cleanup and more sync Simple-Card/Audio-Graph-Card/Audio-Graph-Card2.
+> The conversion follows the same pattern established in the WSA/VA series:
+> - PM clocks created and populated from DT via devm_pm_clk_create() +
+>   of_pm_clk_add_clks(), inlined in probe (no helper wrapper).
+> - Runtime PM enabled via devm_pm_runtime_enable() with 100 ms autosuspend.
+> - runtime_suspend: regcache_cache_only first, pm_clk_suspend, then
+>   regcache_mark_dirty only on success; rollback on failure.
+> - runtime_resume: pm_clk_resume with regcache unwind, regcache_sync with
+>   full unwind on failure.
+> - SWR clock gate prepare/unprepare routed through pm_runtime_resume_and_get
+>   / pm_runtime_put_autosuspend.
+> - Probe error paths tightened with dev_warn on PM put failures.
+> - Empty remove callbacks dropped (devm handles cleanup).
+> - PM_CLK Kconfig dependency added.
 > 
 > [...]
 
@@ -74,28 +89,12 @@ Applied to
 
 Thanks!
 
-[01/12] ASoC: simple-card: move simple_parse_of()
-        https://git.kernel.org/broonie/sound/c/dd79f1926436
-[02/12] ASoC: simple-card: merge extra method into simple_parse_of()
-        https://git.kernel.org/broonie/sound/c/7f20b9b05b3a
-[03/12] ASoC: audio-graph-card2: Tidyup audio_graph2_parse_of() around error
-        https://git.kernel.org/broonie/sound/c/aa7fe27fda32
-[04/12] ASoC: audio-graph-card: Tidyup audio_graph_parse_of() around error
-        https://git.kernel.org/broonie/sound/c/30bb98d530d0
-[05/12] ASoC: simple_card_utils: add simple_util_parse_property()
-        https://git.kernel.org/broonie/sound/c/7ad9d917e251
-[07/12] ASoC: simple_card_utils: add simple_util_parse_aux_devs()
-        https://git.kernel.org/broonie/sound/c/d0ab37b02826
-[08/12] ASoC: simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()
-        https://git.kernel.org/broonie/sound/c/27ecf4da5ad3
-[09/12] ASoC: audio-graph-card: tidyup simple_util_parse_xxx() in audio_graph_parse_of()
-        https://git.kernel.org/broonie/sound/c/b8081307f5c9
-[10/12] ASoC: audio-graph-card2: tidyup simple_util_parse_xxx() in audio_graph2_parse_of()
-        https://git.kernel.org/broonie/sound/c/fa6222d5e121
-[11/12] ASoC: simple-card-utils: tidyup simple_util_init_aux_jacks()
-        https://git.kernel.org/broonie/sound/c/279bfbb150ae
-[12/12] ASoC: simple-card-utils: tidyup simple_util_clean_reference()
-        https://git.kernel.org/broonie/sound/c/6f5c4f6ffa8b
+[1/3] ASoC: codecs: lpass-tx-macro: switch to PM clock framework for runtime PM
+      https://git.kernel.org/broonie/sound/c/b9b23e72abef
+[2/3] ASoC: codecs: lpass-rx-macro: switch to PM clock framework for runtime PM
+      https://git.kernel.org/broonie/sound/c/b05482e7ce1b
+[3/3] ASoC: codecs: lpass-{tx,rx}-macro: check clk_set_rate() return value
+      https://git.kernel.org/broonie/sound/c/b8ca90fafe6a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
