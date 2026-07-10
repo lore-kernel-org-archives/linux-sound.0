@@ -1,30 +1,29 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D453F0A88;
-	Fri, 10 Jul 2026 08:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26B83F1AB4;
+	Fri, 10 Jul 2026 08:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783672849; cv=none; b=PVu3VgkEvhwPUzA0MGYLAkzNZAjx5OCKphsUoNylXD0zAiOD+WNfAkS6/KUDNNgsylRB5qUYXTlZqO9Bhiwcy5NxXuOpJiSqfzuek7rj50cJc6UH0EeW9cvl2kRgMcMPn9tnOUD0bGpE03yWg85nc80z+iPY2NUdcm/edYPZFoc=
+	t=1783672850; cv=none; b=dSVZGaLOzDlDRjG63r0kM5Jh4qQZnUqyDMuH2AYUODME5dCnDUxm8F0sBiFamVv5gy+4zu75C/OzHk0J0L+XaKzrseALA9byZCh5NNIxMm2yCLHasM+Z0vWvxn0UcPQ/NUcqujyCtNLyNtScaKXZcLoiQi6v652HB9JCTlJpoQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783672849; c=relaxed/simple;
-	bh=qulgJOzogO+UC/G/OlNCEqkBZJY/Q9VNjzFQ9x/hxkM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nwFCWLhMNa+lJo3dQPsY2A17YPZJopJiveRuFtepfWjXqempxL4k3o3SSSgBP2kXDGSI7ijMoHJn3R0jshkb8HIklorlrpuDbc68e6H4Z19HiGdsn/7QyW0qwOYV39Z4d01lnRyOMG2K+82jxaaCbYr3mD5R5tRlLLHl440/Fo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HzEa0trw; arc=none smtp.client-ip=220.197.31.4
+	s=arc-20240116; t=1783672850; c=relaxed/simple;
+	bh=vxyBomfcHtWD/9gCs1gGdj2PTa7tHf3TctAYIwZW2J4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=je3UUYrT/Uqsk+kC5aDlhYkSpvYpNE8xafskUMjG1IatTN6y1RHx6pZUGANcvRGOjpi6wugr7P4CmVT6aXFDHyheTR85Asl3ggWSroZIcM/vwJRXFJnYQuqF0e/F9etIxUVvh+cQBSdFLDGq++nKHcszvw7zo9mYhTkujPmYzBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=BIseX7DK; arc=none smtp.client-ip=117.135.210.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HzEa0trw"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="BIseX7DK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=YK
-	c7xw1ZYgEOFIA8/efahX17jcyqGbPE1YxLM6TLLNs=; b=HzEa0trwQsR95XneCN
-	TIfVTeaXYtQd4M8BXzrKmSeU3FRJ+j12WZjdecZPvGW2WnGLOS94GkacfkgU6wVG
-	Y/Xl3g6YRvtRV7FuKYY4uGcDVIMfrURYhziKrNXmWVmQLy1jwEprINAuf8P+qJfr
-	5nx8R0PQM9CrkVTbWlPxhxaMw=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Mo
+	IKQERBODIf0dQu2WgNs3sEja007q9i9C0G5DKlSRQ=; b=BIseX7DKKNY/9zrfq9
+	3J83/yGScHGWcnhvmEtvk1XVZrj8hqu3DGDO845CKAmgdg42AiYJJQO8qLPLAMVP
+	73OEJxBDcC4gBd8crlCl9E+ZnYfr0uI6tvq3JRjlcUa6kufMKJsPg5s+dvvbx7Da
+	vqGs78lo9tA6a932EK1jc3ZZ4=
 Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wAn6Ozsr1BqBwqkHg--.166S4;
-	Fri, 10 Jul 2026 16:40:27 +0800 (CST)
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wAn6Ozsr1BqBwqkHg--.166S2;
+	Fri, 10 Jul 2026 16:40:16 +0800 (CST)
 From: wangdich9700@163.com
 To: tiwai@suse.com,
 	david.rhodes@cirrus.com,
@@ -32,12 +31,10 @@ To: tiwai@suse.com,
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	wangdicheng <wangdicheng@kylinos.cn>
-Subject: [PATCH v2 2/3] ALSA: hda/cs35l56: Use scoped_guard() for irq_lock in cs35l56_hda_fw_load()
-Date: Fri, 10 Jul 2026 16:40:08 +0800
-Message-Id: <20260710084009.665814-3-wangdich9700@163.com>
+Subject: [PATCH v2 0/3] ALSA: hda: Use scoped_guard() for remaining manual mutex handling
+Date: Fri, 10 Jul 2026 16:40:06 +0800
+Message-Id: <20260710084009.665814-1-wangdich9700@163.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260710084009.665814-1-wangdich9700@163.com>
-References: <20260710084009.665814-1-wangdich9700@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,157 +42,59 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAn6Ozsr1BqBwqkHg--.166S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxtFy8Jw45Kry5Gw4xXw18Krg_yoW7CFWfpF
-	WrJay7Gr43X3WfArZxZF4UXF1YvwsY9rZ5u340kr1rZrsxZryqvry0vFnrXFnYqrWkC3W7
-	ZFW7JryrJa1UKF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zE2QDUUUUUU=
-X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5xzZKWpQr-yqhQAA3N
+X-CM-TRANSID:_____wAn6Ozsr1BqBwqkHg--.166S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Zw1UKw48Ww4kZF17Ar4DCFg_yoW8ZFyUpr
+	WfKa93JrsrJF93XFnxKay8uwn5XFyxWw15CFZ0y340vF9Ikry2gr1rKa4fWFyqqr92kFyj
+	qw1jq3s3J3ZrJa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEmiinUUUUU=
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5xDWJmpQr-CpXQAA3W
 
 From: wangdicheng <wangdicheng@kylinos.cn>
 
-Replace the manual mutex_lock/mutex_unlock of irq_lock with
-scoped_guard(). This lets the compiler guarantee the lock is
-released on all exit paths, eliminating the err label that
-previously existed only to reach the unlock call.
+This is a cleanup that lets the compiler guarantee the mutex is
+released on all exit paths, reducing the risk of accidental lock
+leaks in future changes.  The same pattern is already used in
+these files: azx_pcm_close() uses scoped_guard() for open_mutex,
+and the rest of cs35l41 and cs35l56 drivers already use
+guard()/scoped_guard() for their respective mutexes.
 
-No functional changes.
+Most of the diff is indentation change from wrapping the code
+inside scoped_guard() {}; the logical changes are minimal and
+can be reviewed with git diff/show -w.
 
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
----
- sound/hda/codecs/side-codecs/cs35l56_hda.c | 104 ++++++++++-----------
- 1 file changed, 51 insertions(+), 53 deletions(-)
+Verified with clang-17 W=1 build, no warnings.
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-index a0ea08eb96a9..4f74397ea06f 100644
---- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
-+++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-@@ -625,74 +625,72 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
- 		goto err_fw_release;
- 	}
- 
--	mutex_lock(&cs35l56->base.irq_lock);
-+	scoped_guard(mutex, &cs35l56->base.irq_lock) {
-+		/*
-+		 * If the firmware hasn't been patched it must be shutdown before
-+		 * doing a full patch and reset afterwards. If it is already
-+		 * running a patched version the firmware files only contain
-+		 * tunings and we can use the lower cost reinit sequence instead.
-+		 */
-+		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-+			ret = cs35l56_firmware_shutdown(&cs35l56->base);
-+			if (ret)
-+				goto err_powered_up;
-+		}
- 
--	/*
--	 * If the firmware hasn't been patched it must be shutdown before
--	 * doing a full patch and reset afterwards. If it is already
--	 * running a patched version the firmware files only contain
--	 * tunings and we can use the lower cost reinit sequence instead.
--	 */
--	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
--		ret = cs35l56_firmware_shutdown(&cs35l56->base);
--		if (ret)
--			goto err;
--	}
-+		ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
-+				      coeff_firmware, coeff_filename, "misc");
-+		if (ret) {
-+			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
-+			goto err_powered_up;
-+		}
- 
--	ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
--			      coeff_firmware, coeff_filename, "misc");
--	if (ret) {
--		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
--		goto err;
--	}
-+		if (wmfw_filename)
-+			dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
-+
-+		if (coeff_filename)
-+			dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
- 
--	if (wmfw_filename)
--		dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
-+		/* If we downloaded firmware, reset the device and wait for it to boot */
-+		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-+			cs35l56_system_reset(&cs35l56->base, false);
-+			regcache_mark_dirty(cs35l56->base.regmap);
-+			ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
-+			if (ret)
-+				goto err_powered_up;
- 
--	if (coeff_filename)
--		dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
-+			regcache_cache_only(cs35l56->base.regmap, false);
-+		}
- 
--	/* If we downloaded firmware, reset the device and wait for it to boot */
--	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
--		cs35l56_system_reset(&cs35l56->base, false);
--		regcache_mark_dirty(cs35l56->base.regmap);
--		ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
-+		/* Disable auto-hibernate so that runtime_pm has control */
-+		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
- 		if (ret)
- 			goto err_powered_up;
- 
--		regcache_cache_only(cs35l56->base.regmap, false);
--	}
-+		regcache_sync(cs35l56->base.regmap);
- 
--	/* Disable auto-hibernate so that runtime_pm has control */
--	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
--	if (ret)
--		goto err_powered_up;
--
--	regcache_sync(cs35l56->base.regmap);
--
--	regmap_clear_bits(cs35l56->base.regmap,
--			  cs35l56->base.fw_reg->prot_sts,
--			  CS35L56_FIRMWARE_MISSING);
--	cs35l56->base.fw_patched = true;
-+		regmap_clear_bits(cs35l56->base.regmap,
-+				  cs35l56->base.fw_reg->prot_sts,
-+				  CS35L56_FIRMWARE_MISSING);
-+		cs35l56->base.fw_patched = true;
- 
--	ret = cs_dsp_run(&cs35l56->cs_dsp);
--	if (ret)
--		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
-+		ret = cs_dsp_run(&cs35l56->cs_dsp);
-+		if (ret)
-+			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
- 
--	/* Don't need to check return code, it's not fatal if this fails */
--	cs35l56_hda_apply_calibration(cs35l56);
-+		/* Don't need to check return code, it's not fatal if this fails */
-+		cs35l56_hda_apply_calibration(cs35l56);
- 
--	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
--	if (ret)
--		cs_dsp_stop(&cs35l56->cs_dsp);
-+		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
-+		if (ret)
-+			cs_dsp_stop(&cs35l56->cs_dsp);
- 
--	cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
-+		cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
- 
- err_powered_up:
--	if (!cs35l56->base.fw_patched)
--		cs_dsp_power_down(&cs35l56->cs_dsp);
--err:
--	mutex_unlock(&cs35l56->base.irq_lock);
-+		if (!cs35l56->base.fw_patched)
-+			cs_dsp_power_down(&cs35l56->cs_dsp);
-+	}
- err_fw_release:
- 	cs35l56_hda_release_firmware_files(wmfw_firmware, wmfw_filename,
- 					   coeff_firmware, coeff_filename);
+In v1, some goto statements jumped out of the
+scoped_guard() block, which is problematic because scoped_guard()
+is implemented as a for-loop and such gotos change the control
+flow in non-obvious ways.  This has caused real bugs before; see
+commit a5c627d90809 ("gpio: adnp: fix flow control regression caused by scoped_guard()").
+In v2, all goto targets are within the scoped_guard() block,
+or replaced with break where the original label only served
+to reach mutex_unlock.
+
+No functional changes in any patch.
+
+Changes in v2:
+  - Patch 2: replaced 'goto err' (jumped out of scoped_guard to
+    mutex_unlock) with 'goto err_powered_up' (stays within block),
+    removed the 'err' label.
+  - Patch 3: replaced 'goto unlock' (jumped out of scoped_guard)
+    with 'break' (exits the scoped_guard for-loop naturally), and
+    removed the now-unused 'unlock' label.
+
+wangdicheng (3):
+  ALSA: hda/cs35l41: Use scoped_guard() for fw_mutex in
+    cs35l41_hda_bind()
+  ALSA: hda/cs35l56: Use scoped_guard() for irq_lock in
+    cs35l56_hda_fw_load()
+  ALSA: hda: Use scoped_guard() for open_mutex in azx_pcm_open()
+
+ sound/hda/codecs/side-codecs/cs35l41_hda.c |  57 ++++----
+ sound/hda/codecs/side-codecs/cs35l56_hda.c | 104 +++++++-------
+ sound/hda/common/controller.c              | 158 +++++++++++----------
+ 3 files changed, 160 insertions(+), 159 deletions(-)
+
 -- 
 2.25.1
 
