@@ -1,135 +1,163 @@
-Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03154312803
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 13:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783690474; cv=none; b=YeOn+yPLm1EVL+8sYsA8bSCFWRJ7Ts4Y8vHRLgGdj/FkVAe+QE3AKqlPxF2je/3zspVZqMtvJqcpQhAMdA62sRi/n6jxI2cIfTuJmSyjKPRJpSvugIiTDalMy2EjnnorxuEk2iMjP/Apr+3iN7pQzZ0kJAmiTU5GktuPJvgTVas=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783690474; c=relaxed/simple;
-	bh=LvPjzFsedN434UCB4A5TrA78lY278R8K7SGr9bAhIwA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ny3kQZnuCOytligU9F1ozStyRvT5Uuo/WKgmlDRJj35cagbDhFGJN3k9Nvgey8iGYzgO70jhjlPQ8NU5q88+KeDJQeuLlb1NmCZekApXXlmy9oz8M4loAHJQiT9hj415hxetaKp8P0P7Cy/KpuOCYwAl36aD0f742nnViHsu34E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Msmzz+wW; arc=none smtp.client-ip=74.125.227.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2176A26C385
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 13:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783691320; cv=pass; b=L/2TPF4k1naA2270otkL+GpoHMbQxG5XfatNcdpdCTYys1CDvziPAyMMjnBtOVYzNc1IL+A/WYaHtS9HUHKKPrNbdV3GsI9r7LqptSgP+z9Gl/nvoSCcLgcpX78FfmuKL91Imc0Pl/ml0iTYyAhIkqAfDgh0+J3Oa6YNWdiaD3A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783691320; c=relaxed/simple;
+	bh=saiKR+cFTgG1O49JEFX6Oece+qr4H5EJOU71VDOAFXc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oYxsV1cs2UFFRKPA1JOLLWENFn3KS6cq+rQpigAMjk77nfKWAqTUhNxNx4EtsOmnDHY4IEluKdYU68sTujrdnTGUhsRebsIi13BOmdjccMLGNbxcBgXx1qq63byVZXQPDeIrY3PidRk/Dkbk+dHiKw8I5s3qLzEZPDfS+tArA3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FLfZ8R+5; arc=pass smtp.client-ip=209.85.161.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Msmzz+wW"
-Received: by mail-pj2-f1.google.com with SMTP id d9443c01a7336-2cb3f5bb19aso2963495ad.1
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 06:34:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FLfZ8R+5"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-6a3897109bfso340960eaf.3
+        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 06:48:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783691316; cv=none;
+        d=google.com; s=arc-20260327;
+        b=H8/pJqhbyq4oAXI47XZzmYZhvAUcpp4rUOvchl359ZjQkNx9YH7U9B/ASAwdBNPxfD
+         R2RYkyIBEn3dxQ1j7iH0ikGIC+t7eeNJS5gsx+xxpPk4YxS0s2ktp2ydQDJTcRWn3+Yu
+         fVPc94dNTeiIi1pxQaHpE7bol3eiIVBFMZ8VIL5dO31k8MupJiBdcXkZjlG95TnAnDj7
+         hgxM8O+rdplKXFwWFB3J48BuCB2pGtnXDyFXYSKb3ZOPpFnuQEtCFkfpwHWR52LXohfC
+         k982R8q9twzc7SEw1FddcGfj4+e0orH1Lr15aRb1XG+Yr/ijTzK66KVIB++n9jZgDjtA
+         GWTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YW+L/tpLoDLTAUOWC8JcO3kSyscZfeQamdsSDgDLNRs=;
+        fh=jH869Y1vfQPhU4A6fthsSyWXOMxqEtpWvFVn/mF/qNU=;
+        b=BdaXyk62cvUfUUnqxMBbGg9SFQlfrMTMf7gdxfLBoyeUPJTUall+eVE0JVwLEvKyeW
+         dnDWzVtYIeQWC1PjXpbjIlWdfCJIOLnFIu47D/1IR3eN1RxVAbyBPKglgOYNl8ZTJ3qb
+         fAYz7dbYomOT5JnLMnRcDRUXcD04/PVmOhgp0tVn1P4UGHFjwWEliTXABDvHYpZJSYm+
+         TtYXGkwIAS2hjb4wTFooKmB4DWVUbVy1rOYddYuq2DPv4FkNlVpqOJmq/l6PBllaM6FD
+         TnYOzl3uVFl4AMVLLOcq8St76xdvdbGcEC/bn6OluZkiyxef8Phctxr0LT7yXI21YgIE
+         hZdQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783690472; x=1784295272; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N6aF6JJy2BT8ugCrzwqVD8vsmLg8UrrwBH9MiDodmnM=;
-        b=Msmzz+wW0eb99IXh8d8u1DsJEbBeN4XgRrSzH76aSscJgGMDZJGPe1dPxnErfVnaDJ
-         0e3pGE+YyshcjleEfINTWk4LVWr2V3S9PH8spfR0CkzwUKn8IU4oMbhSmYj9rtVayJcF
-         hoIwg35erF4m7WAT4EVOH2LfipJFZJnLikfv28BSqJanruu7iudMazaHc/vOH7WbOANI
-         qxSOng+OiQXcEXNHDDRIFDmZxk3NRpfk5kHcnim0fHZY/4wK/IzhkwUtSKJywpW9oC2z
-         etkzQUraGVo9C07cLpoI00euBMEWXc4Yk+GRCbwYCzzRjeGKmmz+LkpANgLW8nYeORgy
-         Gilw==
+        d=gmail.com; s=20251104; t=1783691316; x=1784296116; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YW+L/tpLoDLTAUOWC8JcO3kSyscZfeQamdsSDgDLNRs=;
+        b=FLfZ8R+5VB9juuq2QzY79QbXc/WtxRd3kDwznaBf05yarL4d7Htx2Z2UEADaLeYJ+6
+         0/d0oJW3tm3oalsAthmY/Jl7XMgAj/mPu+OjWXevfcrGuzTyo1Zo73lOtxRJn4cy9nkR
+         nMS9AiJJE7pbnAblPOrvZs/cDmXTLWq7E1WjF7QMmVjomu4sOHqjua6U6WBxP2gDdihK
+         H4VqMohSO1Xz/BigLM5C8PL1qpypGtiMe/YTE6fhFJQjl4sRPlteywz4P82zgW9jmgcK
+         mjUKyGjbgSXDhYBDYzlcn/UbAl815pmJ7JQ2n9QPY3j89cbvuaYugv16gGwz6PTwdUYY
+         b6fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783690472; x=1784295272;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=N6aF6JJy2BT8ugCrzwqVD8vsmLg8UrrwBH9MiDodmnM=;
-        b=O0F53inZ+jC7cJv38okBvQK0dbQPx8i8aldgTAQOhpe9zJMCJvWK9WtwTvRLs5ozRG
-         yxrHBCfhHhQPQhx4wi2UNMRCQcUusDf9JcxF801mDPhpqKlIZJFrhESSFEPwbjK6HHbn
-         Ki7uiTfLoD0dg9FC0ToC7gK//ObRFNiYlbtjo4QKL5kBKcHT0fZMqEmrKg2A8Qvb2iq3
-         TnZxqfvF6FBc1T9IBcI1QpOmV+l/1yNWzjYC85cni8zgl5ZX7RfYviETjWcq7v9Gyyo1
-         loe9eKSmnBPVP77rq+VgvK/4kLWzI4mH2amiuBIukveMO9NwFChxN6isHz1fpAxh7O58
-         jTQg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqi0xBiFKxL/3nspJlPAvCyAEixquUnKsuZNc106dUoLtNnOxq51Dcr7lET+88mn+BVYzZd5dXTWOsqaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHyolJtOVa578w+BrsSnA2S5fuWL9/wBs/a2IR3S9uDJ+/f8l8
-	c4NK5BcIUT4PDqEV9YMMssy2wzPRmfBr2ODZcHaYcippxo/rEEldjxk=
-X-Gm-Gg: AfdE7ckfaN2EogWe5XcwfhCBBGrsU2jdbZGfryfyg7XALltBNTxX0SYqWlEiohN/pmi
-	4mFpR8/nSG9YKO2HWqQQW7exQ3pPj5hSgPsLPyiREO6lKsC5KjvHO9J1YGAf5kLoJ8k21qRiyue
-	KJ7oVoAhqwsV4SMawPyFt+AOTFcNq3FLdf+EikEE1Uje6M2W0vE6N5yyleBjGCZ3W0u+0bhj8B/
-	W2/mVQZXFyC7pDF8WXyElSzcbGozz6nkz5IVSmA+h6whe95ZLA19pu2FDpKuEqEazGXvSBPXgXL
-	XJV7vpJ9Xg1ZybVj1cf46fBJSezLFeDMXcUHj6Qkm2y7R2ZfZ6ZOtLAFz8AgP0TbuBhV2CzsCv/
-	OXHpyjAUM2zJ1sx1cut4MwjLDXAl5c8CwM5SLjpM2Pufsu2XAfOmuBEJnk/Y49utqU3uq1+HcX7
-	egjx9kb3KG5k8Eo75IfoZ/78ZteeXTzvbSekPN
-X-Received: by 2002:a17:902:f68d:b0:2c9:c517:d078 with SMTP id d9443c01a7336-2ccea42e1efmr113080885ad.36.1783690472236;
-        Fri, 10 Jul 2026 06:34:32 -0700 (PDT)
-Received: from laptop-arch.localdomain ([125.122.235.42])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9c1fdb5sm59762055ad.33.2026.07.10.06.34.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 06:34:31 -0700 (PDT)
-From: Chen Bowen <hicbowen@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Zhang Heng <zhangheng@kylinos.cn>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chen Bowen <hicbowen@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix speakers on MECHREVO WUJIE Series
-Date: Fri, 10 Jul 2026 21:34:09 +0800
-Message-ID: <20260710133409.16641-1-hicbowen@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1783691316; x=1784296116;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YW+L/tpLoDLTAUOWC8JcO3kSyscZfeQamdsSDgDLNRs=;
+        b=RU8hbjiCSVlsWmiK3HCP0+KbXJ/TRX0+T13N5cSs6EfI6VIIUB61amlv8i1jh1J7p5
+         Gb3kP4K9T4O3rcRaK712JiL/ew5Mf9FI76eZp2419TQXg5aeJM+IbB9QWZ6HuHm9Ruk4
+         zYe8JrTuOOeCTttzIb4AyTAx9oaFDb888687co1rL9t4tzjM2l5iyoirnc74mHKcOAha
+         06og3wakV2jGT5syqgXGdmtIXmViUOVq11VxNS5bfRZTrRc4VnMNdnsw1Y+ztmexR0D6
+         zYJDb+nPfBUcQbxqOxsZhxdjE/cz7Nengox4J4UkNigalK79iTJznYQU6M0gKN1Jk/14
+         iAlg==
+X-Gm-Message-State: AOJu0YwSNUeMouIuXd6r36nmdcYD+l/IjzbdLLI7fpERAyuAaZW59PIb
+	y7gNM8bLZ5S+Qk+ZEpTryUsgTdtX2YnNhMmkyvu4OUt7gO7mS2fg0qtvfMbewfkjnEytf79G3Nh
+	GiRFpY9jVfN5jM07xrJudjECC5UsBd1OfNYFRuVMI6A==
+X-Gm-Gg: AfdE7cm22/9SrO05D6oCqGv+Fi4KwWUfKNe6VKqOIWS2otCLcZaJhW1ZmpMept6b/cQ
+	QVaghAozLe1LCH5ZY2dQenCxnOBuaJyFUTFAkdWv/WaLNAvJ+ct5xAboPpqHuUpnWVxuMZF5Fid
+	37J11Wd5tmXLifATTHUB4ZTcyQqaBDdl1crlCcD1aO7ND61y83wTghG9X4AeBmUkNLPB3lqC91h
+	n3O4NLKda8nTislewpjWuoQmn0MYzt9whWd28xya+IxVY+pRISVbdtqKLBBpB4Wl0dO5K8=
+X-Received: by 2002:a05:6820:169f:b0:6a1:96d2:c477 with SMTP id
+ 006d021491bc7-6a36da3c0e6mr6618789eaf.52.1783691316055; Fri, 10 Jul 2026
+ 06:48:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260709095614.1418838-1-tiwai@suse.de>
+In-Reply-To: <20260709095614.1418838-1-tiwai@suse.de>
+From: Salvador Blaya <tiniebla6@gmail.com>
+Date: Fri, 10 Jul 2026 15:48:24 +0200
+X-Gm-Features: AVVi8CdPAjsrd9HD6g-lg3ZQMHu5AM_3yu_qHtSJhPgJIlNibTUFuNvLSJtavRI
+Message-ID: <CAOdyq+pRaGZKZY85Z8px5BQfzojRXruVLaXjvfzuSOr_XGxLMg@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Skip DSD quirk for Musical Fidelity M6s DAC
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jussi Laako <jussi@sonarnerd.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The internal speakers on the MECHREVO WUJIE Series are silent,
-while the headphone output works correctly.
+Hi Takashi,
 
-The BIOS reports NID 0x1b on the Realtek ALC233 codec as
-unconnected with pin configuration 0x411111f0. However, the pin
-is connected to an internal speaker.
+Tested on my M6s DAC with 7.0.13 plus this patch:
 
-Overriding NID 0x1b with 0x90170150 makes the HDA generic parser
-detect both 0x14 and 0x1b as speaker outputs and restores internal
-speaker playback.
+- Native DSD (DSD_U32_BE) is no longer offered for the device. With
+  MPD (dop "no", no format restrictions), playback falls back to
+  DSD-to-PCM conversion (S32_LE @ 352800), and both DSD64 and DSD128
+  test tracks now play at correct speed and pitch - same behaviour as
+  6.12.y. stream0 confirms altset 3 is now reported as SPECIAL (DSD
+raw: DOP=3D0) instead of DSD_U32_BE.
+- PCM playback is unaffected.
 
-Add a pin configuration fixup for the affected PCI SSID c011:1d05.
+For the record: DoP (explicitly enabled in MPD with dop "yes") still
+plays ~8.8% fast, but that is the device firmware defect itself,
+present on all kernel versions and outside the driver's control, and
+it requires explicit user configuration to trigger. The default
+behaviour is now correct again.
 
-Tested on a MECHREVO WUJIE Series laptop with board
-WUJIE Series-Lark4-LNL and firmware EM_LNL326_V1.0.23.
+Tested-by: Salvador Blaya <tiniebla6@gmail.com>
 
-Signed-off-by: Chen Bowen <hicbowen@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Thanks to you both for the quick resolution!
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index f7700713dc62..ef868c3d090a 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3942,6 +3942,7 @@ enum {
- 	ALC275_FIXUP_DELL_XPS,
- 	ALC293_FIXUP_LENOVO_SPK_NOISE,
- 	ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY,
-+	ALC233_FIXUP_WUJIE_SPEAKERS,
- 	ALC233_FIXUP_LENOVO_L2MH_LOW_ENLED,
- 	ALC255_FIXUP_DELL_SPK_NOISE,
- 	ALC225_FIXUP_DISABLE_MIC_VREF,
-@@ -4206,6 +4207,13 @@ static void alc287_fixup_lenovo_yoga_book_9i(struct hda_codec *codec,
- }
- 
- static const struct hda_fixup alc269_fixups[] = {
-+	[ALC233_FIXUP_WUJIE_SPEAKERS] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x1b, 0x90170150 }, /* internal speaker */
-+			{ }
-+		},
-+	},
- 	[ALC269_FIXUP_GPIO2] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc_fixup_gpio2,
-@@ -7915,6 +7923,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
- 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
- 	SND_PCI_QUIRK(0x8086, 0x3038, "Intel NUC 13", ALC295_FIXUP_CHROME_BOOK),
-+	SND_PCI_QUIRK(0xc011, 0x1d05, "MECHREVO WUJIE Series", ALC233_FIXUP_WUJIE_SPEAKERS),
- 	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0xf111, 0x0009, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
--- 
-2.55.0
+Salvador
 
+
+El jue, 9 jul 2026 a las 11:56, Takashi Iwai (<tiwai@suse.de>) escribi=C3=
+=B3:
+>
+> Salvador reported that the recent fix for applying the DSD quirk to
+> Musical Fidelity devices broke for his M6s DAC model (2772:0502).
+>
+> Although this is basically a firmware bug, the model in question is
+> fairly old, and no further firmware update can be expected, so it'd be
+> better to address in the driver side.
+>
+> As an ad hoc workaround, skip the DSD quirk for this device by adding
+> an empty quirk entry of 2772:0502; this essentially skips the later
+> DSD quirk entry by the match with the vendor 2772.
+>
+> Fixes: da3a7efff64e ("ALSA: usb-audio: Update for native DSD support quir=
+ks")
+> Reported-by: Salvador Blaya <tiniebla6@gmail.com>
+> Closes: https://lore.kernel.org/CAOdyq+qFaqCh=3DtK_wNnA64hv5pQuA1Y09ANxQ=
+=3DxK8yR-t4mf9Q@mail.gmail.com
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  sound/usb/quirks.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> index 2949a0d2d961..d98825f9697c 100644
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -2463,6 +2463,8 @@ static const struct usb_audio_quirk_flags_table qui=
+rk_flags_table[] =3D {
+>                    QUIRK_FLAG_DSD_RAW),
+>         DEVICE_FLG(0x2708, 0x0002, /* Audient iD14 */
+>                    QUIRK_FLAG_IGNORE_CTL_ERROR),
+> +       DEVICE_FLG(0x2772, 0x0502, /* Musical Fidelity M6s DAC */
+> +                  0), /* for avoiding QUIRK_FLAG_DSD_RAW with vendor mat=
+ch */
+>         DEVICE_FLG(0x2912, 0x30c8, /* Audioengine D1 */
+>                    QUIRK_FLAG_GET_SAMPLE_RATE),
+>         DEVICE_FLG(0x2a70, 0x1881, /* OnePlus Technology (Shenzhen) Co., =
+Ltd. BE02T */
+> --
+> 2.54.0
+>
