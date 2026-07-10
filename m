@@ -1,129 +1,131 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DAF4369A
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 02:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A786E35F170
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 02:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783649122; cv=pass; b=ZPG/v1/DGLGDtEimxkdQDyXv+OgtWOhFgClqEVCs7bRg+c4y5BEGySSn88SRiFNcGTbjF4kjdk0g0ytMqy1W20e1wt+Mpe/6gWFaRVBU133/tbG+iev6VaXgPNpymM0rAhmRhlO/kBteUyxvOgzw0f/f8qPFeukuK2gHJ0gGd6c=
+	t=1783651889; cv=pass; b=Ydj0XQfg6o58oO3U/TS26h5ZHoGWPLNfmVod0yvy5s9GKJY/YV2R5xL1j9T3t6lY/jGd1UWigv3EwU17lzbNjc0psvatLovbXsTz0D3XAz6x+yfPkBNvUoOPV7dBNfEeGgoxNtx6p+oOL1KL93i8Kl4zhw/OBZJRTQvS+FczPhs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783649122; c=relaxed/simple;
-	bh=LlRkPbgvZr6HWzD4h0H0tDqeBxXw/GegcXEjF5vDovQ=;
+	s=arc-20240116; t=1783651889; c=relaxed/simple;
+	bh=TYJCNG2fDtW2YXlWLWreTWMZILERR+1xxW9UOGT1R7E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sZBaxDaH4SDSUbPDLqjGy4cg+YP5lVFHVOwPRtP0JEIxV01IwvJGF103gJJcbToyWgznHMaNT8fPC1y5NS7W9iCmv583DeAf62wyoaQL5vM9Xm/mZHmuDpJj88xKnHjd8p0o9DXxZSaz+XRCdxXR1jbrkjdazMYc6XVAHUBdeww=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGAeF65g; arc=pass smtp.client-ip=209.85.210.175
+	 To:Cc:Content-Type; b=DoZaNqkUSD94Jd17HghG9UMzZbm+6CmEGhMHCzZye2mke6jAGn8PlMg4RF9abSKToL6EsuBbPOrChFdmOTEOEPYVbKl3btoAURDJeGovJ7RnXczekV0FVYVUY+8Qy+EZIEjuV9GRv+3S7KUIou+faJzulrSJ0l8aqud51/GeaN0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xd6coCSj; arc=pass smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGAeF65g"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8454160043aso354172b3a.3
-        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 19:05:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783649121; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xd6coCSj"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cc6ae3e7f1so2487625ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 19:51:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783651887; cv=none;
         d=google.com; s=arc-20260327;
-        b=HptsPYqsFmsiDdRe1f4nZeAFtupCTZTnhwgGb+PbFZ/nFKgl3wV1U/jytn/ZxNBl+/
-         q2yRnLTSS830ilymAbeBNlTBDfOgnundno08sAk/wDMgfXRNnxfq348L820iD3Fvt+Ko
-         0jqVAv1R2YG5XY8Q3MswEeOVEDg8EYYxvKYSiEfPQuobYwvgxv28D/gj5KV3JTEV6tpZ
-         9u12/4mgjQX/JlnuENplJuZHAmuUxO/hqkDeUaqYW+2h/+8gUVlrnteDuJb54FBWVMNy
-         nGIGcAbtiz0Hw7SQJEnm3Q9uEQs7aj8FJ59s1RHJahLuI833luomOs5XLNHb93J8ZTgJ
-         Gukg==
+        b=h6CAD8vWsghmEgJh70nWcMCCj/oove1MJcWyaF4F31kgo1MJqYTiADAmrAPuB22Pxr
+         Qi7Ol6U9/6UWSjjNlxrNH4q5SbI7gCFc3jYlK3wCrv6p4cOdpiO1neg3fHPOtMiAsvJK
+         rTQqfO+MUMft9d5p1erPOKGIOGjysWNiP1mY8WFMFAaILVuf33NEvUxTddriTQvsbEQQ
+         xyvhzr94ubqpRuOnCXjmJp3V9xXIiBq2YdSFPwLX2YmGPyEay+AZe4jUY4XZ6bWuQXjq
+         TnnFcxEPv6eMnaysvJoj/9P3yUQmqD55/EdfP47HmKXNGj8dfslPSdlZ/3DZxhxxDYYb
+         SM2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=yV/bSXYSLP9qBujU+T7ka+EuaphsnZ2kIz/iz5VjP4s=;
-        fh=zaORu63Bu6vDqhgranGK5kJH6gzYYXiUIX9/eOJfmO4=;
-        b=k4iLj6d4tGRGXco0Fz6BKT8/QEuEcmB3RvbNQiTUqFksIO2EJxIHFk61LfpA+lun9I
-         FkVM/S2TFTaMp/UK8nmTWDgdrfYLjsGl+EoOGKnZiaYRbtoO9PDptUm3r0G0C+L9zFGx
-         QLb2meKiT6/qH9sJCYtabaGGltAY3cCUdzPQrv3pX9jD3ou9g0ny9YY5JeL/xnn+CV4Y
-         OsppOsdJSLbqnsiLkovv80Hlt3NLxgQSDNpuAFDVKyLiATRR67Wap20RsWT9W5FVbehT
-         A+uREXaoUwQ19/qt2AuIMFwXmTA2JduotQzYriIE0MY6CzOH3BeuQ3ob7V2KfLIA8XWx
-         XcWg==;
+        bh=DXskAuXcmmsGe4Ohi8vT7q8qmXuhtnSBv8Z1pLImEOY=;
+        fh=fyc+zmYGBkw+4YRf1eP+tiHh2MnBnS06HElWRkUcY3k=;
+        b=gaVDf5G/rEmXRyTmug559zYSz/xR6xJBFm/XTGf3UPzhEPqm1Nw5Fk1f91HSO7BaSI
+         WQ8Df801Wh3DJEFbWPB1Fqrxy2E8hBbvw28PsoEhb2l5M8xTeNPk7LHo5txrOFtzzOT9
+         wnKothiG+l+9gaoZWLBe5SMDgWUy+a1rk4vEn/aVBtDdJU9KLq0hOMII6xuc/mRZ2Dil
+         nvmDK0BlgZYGdUZkz+X5Ht48qwegQPTM/PgPbuuVqByj75RXfpaTM7ZoQ7Jd07lMEelR
+         ErXO1wKs2Yp+7hTwlGlqcM2WIs4Rq1becd3goJlRbj6ktpQ2GQiwo++Ok3bqAPayZI0S
+         I+bA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783649121; x=1784253921; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783651887; x=1784256687; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yV/bSXYSLP9qBujU+T7ka+EuaphsnZ2kIz/iz5VjP4s=;
-        b=IGAeF65gmBUZWzMVXp/lM9DSZswHgweB3rUlKqU1jeJSSPqjD+lmlvSNuQ26t0TjQv
-         FHsbPnncNU4gkVz5rcYbNV5OGFlf4MTgx7gz+IAI+bHMdoofWADzZvUIlFoFQxXaDLfq
-         Yf/xs3tm27WXWv4B+EluOxMoT/UaFuKVrkZQbEl8XA4RitKahvYY3xIIh64+HZWCZ24j
-         Q1PKDVWvlrkLTZhvfuXYBYXSndoj0DESax9djV2NSKy6yecv5mzZg/TWPSpRdLbjgwrg
-         tCjb8aR2JylUBYtsEbGZn4E7ssy+vOQpedgNT4S0MwS9mkR/LHiF/euP/dELm9Q+Aein
-         Oohg==
+        bh=DXskAuXcmmsGe4Ohi8vT7q8qmXuhtnSBv8Z1pLImEOY=;
+        b=Xd6coCSjAoJhwsi90Fpbf+ZDTlf6VNSWFjMIo1RCiqQq04UlaodjsZFUjo6A77Q576
+         uCkbZwtoUyzq9Apvj3dNdOsfcuD+YhcKCiUS3YrVVshYgRVWp3sXvhzvRodmWPd6u7rF
+         HdnbBC+8FIpQL8VbUwsIWfHUnPKTb9YXkwegXepCVc2/ThFKHFClcH12mJIXkTmALxPm
+         UZA5hEfhBRyd0ZaxHWVs+nsvmKSSc851mRvHimyfnooRQNpWFhPMSbW0FrHLhTNlv6xk
+         oGT37nAwcZ43YSQdKJzfmAQTtlq3QKMxiq0SiV0RnSAsTXc0AX9f0TWm3g0nBhgjT0T2
+         dAXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783649121; x=1784253921;
+        d=1e100.net; s=20251104; t=1783651887; x=1784256687;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=yV/bSXYSLP9qBujU+T7ka+EuaphsnZ2kIz/iz5VjP4s=;
-        b=MtZLbS+/dPHHaQyGAVqFpwsUgCzvUS/g68pv6tDmGPyCugwMsndHrKsIfdJkG0GmEb
-         gcvJRmrzjHldBqz1H4dP/yAD7ho3D1TYC014Z0h2DPgNQQO73I0pzL3nIXRGuWzf6K51
-         ZNlNeN0GunMrmrfQRgC8sti/UD+vrgw4DPzIOYgh9c93ifYnU71exbdmJ4kD6JLYpq6Z
-         R7pE0WI+Cjgfl9DIndCNn4H8urs5Gqcwu09SH5Rea14LhcXcQA4UkcWcTLGc3kXFR8RW
-         rTSjxWtEUASxIA5bVKJXrliR52ygz0VJ84xa5goniA5/UlEJXQbqTiCCuU2Ov5S75/Rj
-         4VQw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr8uGOLi3GfrQnM0koYWUWVTQxzMkxEV8mXO9Pajzj7eMrSpkT9z3RfToX3HVD59FSY5K/iVGP9Sv2SOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1KY2NKDArVo2pOD0xZtZvhywwgmytBNmXSmD2s1o4ND7Zx98M
-	w8SE29OFJmJTXDsr0e4nfi4fJarTv8nC94lYmTh7+Xu+UiNcwdB8aLRduQXYcDjHLpm6rnlzKKv
-	KFpsTtZ/fIbOePsM9mwEhA2QCu2NyJuY=
-X-Gm-Gg: AfdE7cnCg6QY9JoUa2qx0o5upVvD9QjxeGE8aquy+Pdao/FXVt7l+pF/cLlnY8T95pX
-	kGDjxmbWt0M3LY6wRpoi4ovPzYbpCy+FV+QUxt4z47m6Nluw+oJ+oeJAgtRhxDCrAy42yR3AM43
-	hjEEojD3zgOqiHXFNeq+aSS3bQyilEDxRe7lNHg8eimHvFUFhjOYZNXBr4f1ThLLbS5akf/eWPF
-	8+4Bm4k/3D9vFGpRjYh+Zz7p6iscuooQBaVM24GdyNYwuQ/OPBh69aPOCZdraQwdy7Qiumu+Z1s
-	vGjFKRnJCGb6zEcw5AGBj7sDlqZmp8E9UWpMSA==
-X-Received: by 2002:a05:6a00:858d:b0:848:47d3:47ec with SMTP id
- d2e1a72fcca58-84847d34a8emr7759091b3a.31.1783649120744; Thu, 09 Jul 2026
- 19:05:20 -0700 (PDT)
+        bh=DXskAuXcmmsGe4Ohi8vT7q8qmXuhtnSBv8Z1pLImEOY=;
+        b=VAHFK3FCdtlk0/KP9YtgG2+iZFV/3xI4V1ib26L6c95tL8OtFdGjZMwrFqaue1qcZA
+         /YLk8t8cwQpn1er8jyWgKgKOSn5nxlhjO1mRlEMrMWciJbJ6G8Xwt7YQsiEYpsCmZTtz
+         TVMqtSICoACAUjGslDDu9QthkETt/n7M6aFkW6BJcNuARgEI6iKffFelLWjvuWNZmM5/
+         cJSkrrgwuK/3YxjGHwnV+JgFVOYAVRtScHFMUtl088EYRU0pqmayu879qOW5PFpkts1+
+         5PjyAsQZux0BHhrdaoepxVd3VN3XjzWGmzOh75FcamAOh6OYFqTGW35WduE1k22N53FC
+         AAmw==
+X-Forwarded-Encrypted: i=1; AHgh+RoB64LwMeMlU+aTWijO28xWuZ9oZ2e2GbXMMBo5D+QUddPE39bCsTEig4Q95VhETM7gfP4UMmJ3XrTSsA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTxP/IEXEsVYnz1pD+n3p8pa67YHaWGLljuDpNqrdXMYk0npDW
+	avoNqQfR2MRj3s6MkdQ3IPeMqp0SPdFlv6/niCXwDPFIWYUOSwG667kurRZZ3B7jK3PrRwioIS6
+	EPzpwPIAsLFLaMFuRBqXHVYA8ua0/Uto=
+X-Gm-Gg: AfdE7ckaEYppG0oXVsM4/ryG7fQ0P0OBIx7Ixx/amlUDrZE411OEkGZJu76rzP9wip/
+	k8JBoVHEi/QU3fSKvcH2IQiViKrnwZrWpe1AXOGDCUUnvS0DyRmrgf+UA68G2bp71t4HzBHFGwf
+	0L/nOhHfmPFH37OLLXzBQTx3YvB3bVGfDMPlhCZTPCwvzHiW3JYX37eQ3LDLGsBJL6Gd3H+GWfB
+	W5j6z04NwAv5GmhnPuntDsskWUKU/Nqhs/z9GBg+uY5K9qzJYc5xOSXSGAumjC/4zsWaUskOYTw
+	8ztLd2UKD/ETGFuBVY2dbPOZpf0=
+X-Received: by 2002:a17:903:15c7:b0:2c2:62ee:5a0d with SMTP id
+ d9443c01a7336-2ccea365fd6mr97336635ad.14.1783651886934; Thu, 09 Jul 2026
+ 19:51:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260709045902.498848-1-phucduc.bui@gmail.com> <c74c52c5-91b3-4764-a7a1-26fc940bf735@sirena.org.uk>
-In-Reply-To: <c74c52c5-91b3-4764-a7a1-26fc940bf735@sirena.org.uk>
+References: <20260706084950.49331-1-phucduc.bui@gmail.com> <20260706084950.49331-2-phucduc.bui@gmail.com>
+ <ak-zMNq_gSa9g8nx@stanley.mountain>
+In-Reply-To: <ak-zMNq_gSa9g8nx@stanley.mountain>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 10 Jul 2026 09:05:09 +0700
-X-Gm-Features: AVVi8CdIYYnh9UcwsbAJsmq3JOOUQJGgVvrgAYTobV4qxqGEgOj9QMvwPYMMhSU
-Message-ID: <CAABR9nFMAujx-Besf2s=+ok=sctBYfz3s94s8aE8Q_yCSd_sbQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/27] ASoC: codecs: Use guard() for mutex & spin locks
- - part 2
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>, Nick Li <nick.li@foursemi.com>, 
-	Herve Codina <herve.codina@bootlin.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Srinivas Kandagatla <srini@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, Linus Walleij <linusw@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, u.kleine-koenig@baylibre.com, 
-	Zhang Yi <zhangyi@everest-semi.com>, Marco Crivellari <marco.crivellari@suse.com>, 
-	Kees Cook <kees@kernel.org>, HyeongJun An <sammiee5311@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Qianfeng Rong <rongqianfeng@vivo.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
+Date: Fri, 10 Jul 2026 09:51:12 +0700
+X-Gm-Features: AVVi8CdUaMjzS6XZN0gd8MVZuQs5R8O9zg-_iaKayLykr9CX_yy1X0NvQSJmWYw
+Message-ID: <CAABR9nH5Kc0D6RLBSFcjt17b6mn5THJ_qS7JQz3Qwf1fu3oBOw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] ALSA: control: Return -ENODEV instead of -EFAULT in snd_ctl_open()
+To: Dan Carpenter <error27@gmail.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, cassiogabrielcontato@gmail.com, 
+	Kees Cook <kees@kernel.org>, Cen Zhang <zzzccc427@gmail.com>, Len Bao <len.bao@gmx.us>, 
+	Mehul Rao <mehulrao@gmail.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Mark,
+Hi Dan,
 
-Sorry for the confusion.
+Thanks for the feedback.
 
-> On Thu, Jul 09, 2026 at 11:58:35AM +0700, phucduc.bui@gmail.com wrote:
 >
-> > bui duc phuc (27):
-> >   ASoC: codecs: da7213: Use guard() for mutex locks
-> >   ASoC: codecs: da7219: Use guard() for mutex locks
+> When you're sending email, then you always capitalize your name but
+> when you're sending patches then you don't.  The Signed-off-by lines
+> are supposed to be formal like signing a legal document.  So which
+> ever way you sign off a legal document is fine...
 >
-> Only the first two of these seem to have come through which has rather
-> confused things?
+> I normally don't capitalize my name on email because I guess at some
+> point I decided it would be fun to disobey the rules.  But I do for
+> patches.
+>
 
-I've hit my email sending limit. I will send the remaining 25 parts
-after 24 hours
-to ensure they all go through.
+Previously, Cezary also brought up this naming convention, and I shared
+my perspective in this discussion:
+https://lore.kernel.org/all/CAABR9nH6b8kSQt5w8vPGFiXGH3h+QDQdjKgsF-C3pa2hUh1Wiw@mail.gmail.com/
+
+As far as I know, there is no strict kernel rule mandating capitalization in
+the Signed-off-by line. In fact, our real-world signatures on paper are
+often just undecipherable scribbles anyway.
+
+Since it still represents my real name and identity, I would prefer to keep
+it this way as long as it does not violate any official kernel rules.
+
+By the way, I noticed that while most people use an email address containing
+their actual name in the Signed-off-by line, yours is error27@gmail.com.
+Is there an interesting story behind that?
 
 Best regards,
 Phuc
