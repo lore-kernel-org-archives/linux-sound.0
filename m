@@ -1,86 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ahti.lucaweiss.eu (ahti.lucaweiss.eu [128.199.32.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323043C8182;
-	Fri, 10 Jul 2026 09:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774343BFE5B;
+	Fri, 10 Jul 2026 09:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=128.199.32.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783674230; cv=none; b=tu2eJz5xsHXFPUtnilc1bZqldFNnq1wAMsFZ9dFUB4npOPBOYwUkXDfYlvih6JCy49TBl35UoiZ5/yfjuttahFWuBII72QJWIrGhgDQON4WQJtWtQUlHgsWJR30Dab+Ui05G1Hqp19dPruuoQzZ1vaUTnXp/vdI3FfM4xj3kEko=
+	t=1783676750; cv=none; b=aVBTsstffRzFA5ylr9TD7xTD2VkU00GAt9S5UfL/Y+BEBGZ6/6BtMvm3X1od9w1/fmQ9E6H74Bfvju3tYQReSu3UsjQcooGoLDukjNgPE6g+IokPtCbjhGUwDRUUbrXPT7oFJujun3bzwWTrdKCFW3gVFiLtmD6K2TJ+pIrO2XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783674230; c=relaxed/simple;
-	bh=861y7Ua2JnJPiROvHNc4mZHtHTRWGxHBGdkyRJIqmLA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tvkwC26u1Cy4D7VwbGv/Lf5k3xvlqdWId7S9r4a88MaImihMyZulb6HiuNsOkt+mrZgVZwWSXQPAc/l/6UMd6RvzQy/jdvAXhXGWLLAxXKgsu86cAxeFYL5UZaNFcP/ltOSnK95ftfplOXmTQ68ZrzXxztKVLVPYIQJSQCclsx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOoIfvwX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783676750; c=relaxed/simple;
+	bh=NAm4LlfByIXXQH9ExlzovVqLorloy/qQmxpgOiHsEYc=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=XVG6xH5bXsc9L2S175SuEmowgp4EpJKctKGs4b4UU+Dsaam89fodaiJs8hoQ4Aq6myQwFzhoQtGwqCFBG2daOsF5MtWJPo0Jn2tehCk6BA0zP8XlYlb/B84DH0E+uPkLPPCEAwpec7zy5Gt2BJSPzAWmRezgGW/b75muGTtFVXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu; spf=pass smtp.mailfrom=lucaweiss.eu; dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b=YqN5FLKc; arc=none smtp.client-ip=128.199.32.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucaweiss.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucaweiss.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOoIfvwX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 697CE1F000E9;
-	Fri, 10 Jul 2026 09:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783674228;
-	bh=qD3g2ZT2Tt+dTPEOvKUGP5g+R9lBVcYINAOqmFESI0U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lOoIfvwXj2/naOd3sHvrnkBS1MliiGCDwTD65J+ZRqg8T4fa4S8+9avM5ru9fwoLW
-	 VNuSbOMxI0oo8Jz6fug2uD2bh5xa74+1ZqEbwjlDMLwPFWU6pJ+vAqINUfiQogDfrv
-	 FKtgN4Due+mwBWqONcRVO/4TsMQyvDbYy8swblYIPyo/FHG98gaq52WlPhda1uV7YU
-	 ISIx+Q+9ikogGAWjRB0EudbzaUjpMWmBeAULM/leWNugqqC5fExKqsXw5bzp/QoLWT
-	 zwMuW5l5YIidgw4u4ZHAFrr2EUoE4o6c4dnYbyfcYpjhiPTjUDTURawo5KLKV9ixBa
-	 PJ/Hr9JOynU0g==
-Date: Fri, 10 Jul 2026 11:03:44 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: qcom,wsa8855: add Qualcomm
- WSA8855 speaker amplifier
-Message-ID: <20260710-analytic-astonishing-skink-a83cea@quoll>
-References: <20260709175915.3805851-1-prasad.kumpatla@oss.qualcomm.com>
- <20260709175915.3805851-2-prasad.kumpatla@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=lucaweiss.eu header.i=@lucaweiss.eu header.b="YqN5FLKc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lucaweiss.eu; s=s1;
+	t=1783676433; bh=NAm4LlfByIXXQH9ExlzovVqLorloy/qQmxpgOiHsEYc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=YqN5FLKc+K8IONv9KFKhPQIq4rWrTMuNj0x0vDMmwlz/upKnh/OCBgs4f202APgc3
+	 EEaPaoQPxuZcIHTYLOOiM42L1mcSoA2ADZNLM0nMhBoNBkug5cZZWv/b+z0gNNNYSR
+	 OEfVzjAux9HeLZASyUCPGEsZEALxvbf2jKhMhSW0=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260709175915.3805851-2-prasad.kumpatla@oss.qualcomm.com>
+Date: Fri, 10 Jul 2026 11:40:33 +0200
+From: Luca Weiss <luca@lucaweiss.eu>
+To: federico@izzo.pro
+Cc: Srinivas Kandagatla <srini@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH] slimbus: qcom-ngd-ctrl: fix ngd register base address
+In-Reply-To: <20260709-qcom-ngd-register-base-fix-v1-1-5f7ab48f9209@izzo.pro>
+References: <20260709-qcom-ngd-register-base-fix-v1-1-5f7ab48f9209@izzo.pro>
+Message-ID: <35a7f6d4da307dbd1eb2fffc255e0206@lucaweiss.eu>
+X-Sender: luca@lucaweiss.eu
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 09, 2026 at 11:29:14PM +0530, Prasad Kumpatla wrote:
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,wsa8855
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-> +
-> +  powerdown-gpios:
-> +    description: GPIO controlling the SD_N powerdown pin.
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: GPIO controlling the SD_N powerdown pin.
+Hi Federico,
 
-I think it is easier to go with reset-gpios only. There is no benefit in
-allowing both in DTS. There is also almost no benefit in having driver
-support for both. With reset-gpios you support both cases - shared and
-single-line GPIO.
+On 2026-07-09 19:00, Federico Amedeo Izzo via B4 Relay wrote:
+> From: Federico Amedeo Izzo <federico@izzo.pro>
+> 
+> The slimbus controller register base was calculated using the
+> controller ID and the register size, producing wrong results for ID > 
+> 1.
+> 
+> The expression reduces to ngd->base = ctrl->base for controller with ID 
+> = 1;
+> but for ID > 1 the other factors produce a wrong base address.
+> This bug caused a crash while trying to bring-up the secondary
+> slimbus controller (ID = 3) on oneplus-enchilada with sdm845.
+> 
+> In practice, the correct base address for each slimbus controller can 
+> be
+> obtained from the device-tree, so there is no need for further
+> calculations.
+> 
+> This was validated by reading the version register from the WCN3990 
+> slim
+> interface on oneplus-enchilada.
+> 
+> ---
 
-Well, in any case (I don't object):
+Please remove the ---, otherwise your S-o-b will be dropped when 
+applying the patch.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Also Fixes: ?
 
-Best regards,
-Krzysztof
-
+> Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
+> ---
+>  drivers/slimbus/qcom-ngd-ctrl.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/slimbus/qcom-ngd-ctrl.c 
+> b/drivers/slimbus/qcom-ngd-ctrl.c
+> index 80877e951849..91932f8d021b 100644
+> --- a/drivers/slimbus/qcom-ngd-ctrl.c
+> +++ b/drivers/slimbus/qcom-ngd-ctrl.c
+> @@ -1547,8 +1547,7 @@ static int of_qcom_slim_ngd_register(struct 
+> device *parent,
+>  			kfree(ngd);
+>  			return ret;
+>  		}
+> -		ngd->base = ctrl->base + ngd->id * data->offset +
+> -					(ngd->id - 1) * data->size;
+> +		ngd->base = ctrl->base + data->offset;
+> 
+>  		return 0;
+>  	}
+> 
+> ---
+> base-commit: b9810cd75b9fb56a3425d391cba3f608502bd474
+> change-id: 20260709-qcom-ngd-register-base-fix-a59713a184b8
+> 
+> Best regards,
+> --
+> Federico Amedeo Izzo <federico@izzo.pro>
