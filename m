@@ -1,60 +1,62 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001C7374A0D
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 05:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA54377EC2
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 05:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783659763; cv=none; b=T49h00fHoIGU6iuupvD8FiuyxjH3LIr71m4f7W65qoDUb5vhzVdwxn/EwSD3LSPO7SfhKRC6kFtAGGlijNcrk81fmHYOB7z12yunjO80rQLnlmQBhhXT2dNMzOfcb2JMposnEGvj4/qHeaGlU2Ysbyl2o4T+Jhn0zvhn/g08/bM=
+	t=1783659768; cv=none; b=HdonuiL7vI9LoTVdFAnwq18W+h0DlTK/1/+V1ta34XRjMzIUicReR5xIVi1IzN0O9r439CK/KXzsuwebj0snw1avuSFarn00nYvUa53yikFQUi1b1Xkr57aJNuNTf4Uw3pLo/0VXVb++iq0F/sUKoy2qGLCjANtFm1wowzLlC0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783659763; c=relaxed/simple;
-	bh=coQYYFX96e3xa/9K8nsp8jxNiKX4lVCnimhAExT1xI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QYsxZzb41Wtjz5nwB0Cyad8ghBwCpH5TYKQuC83I4kbq3/TaQnrFq+dZrYWP1VHpkkh0o4NXIIg6H28cBpVaVCgf/vNZyYQ8ef2qtZRa4lyCbgLf4n7nPSuH5xlcJV2SRVXqAkiGoJUsx3lD96EygzC5P3gYyl11wzMYP0Q/YMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rGrlHQY7; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1783659768; c=relaxed/simple;
+	bh=Xa8yF/IuLRLtCtMkxppwZASR9ScQ7OKF5bveI9XEJgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QpSJ8dm9ekCeqfkh+x+DWSnW3YwaRk3+s/pDI7DwN+vzBVx90Iaca9ZcSdNxXkJwV9F2faACpsML5SckXr45uttc7GEdS5SJVCcveIlEXO/llqSKW0sPPnVT2p4pRcKpHS+bJHA3sg/AO4wUL5CaJzWYqgozG0i0S7DQSt83A1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n3kJAbxa; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rGrlHQY7"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-37df72c9984so863082a91.3
-        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 22:02:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n3kJAbxa"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso708180a91.2
+        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 22:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783659761; x=1784264561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ep8OkwxVAkZzrs1SxYAMiw1vCFAjJuusyYqhfb+2ko8=;
-        b=rGrlHQY7eH30oJnLOAfif75RZcDNUabEuEunO51bPW0DRZfADvwQDU/yvZZZZg1PFw
-         +8k7z+UCY1uFhFaZw2AxbYkI4gqWCLlLxxSeNhonEE5DBIOr2/Do0S/qt5vf6giCgz0h
-         pgucPJapIiov+8HE5OoFdzkXoSZvVvx/8YUEyrg4ifA8UqQcoaAiRwFVKF0w0yfhhmx4
-         3nqrXfVgJRbkiCyFlVJUJuH3ZcqSLejz9w8VShDMKR+gSac0+TcNSjJUWFKyoiD5VseF
-         dOpzMq+r3rGfqPhb4d9uzC74V6O5cNqQlA1VuCsHP8GCIlJ1K5t5Ohy5uxfuhnki1WBU
-         LBqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783659761; x=1784264561;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783659766; x=1784264566; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ep8OkwxVAkZzrs1SxYAMiw1vCFAjJuusyYqhfb+2ko8=;
-        b=Hulqi8i4eQrSgV7GggrrCFYvin3Hoe4UK5efJxT1UYjyyV3bKgOgbXyT5nU40Gvok1
-         JFT4XONbdgdJzniifcRYKOxPtmR/k9Ab6+rrzvFANerMxt1w9IXGpgVBhEaYE2eG8/bi
-         e9f2BWGC0KdMY1qs+gAqXJTYnXpodSmozsi15jcDEYLDOeEvRcmQMB/qolyfCbJOXcyO
-         Uqk03V2vIOdDfEwf3OMqy2XVbmuJ8fFq1XIEYnJgwyVSuX8ffDFDxYBFmqtvAP+/8T1u
-         zULTYe1Zmga4sAjZ10LfKYt7wsmK41fMxMZ6pC6Ow9Qdj9ZcB8xor+gAkDUYvYPVHJGI
-         0M+w==
-X-Gm-Message-State: AOJu0YyfIzP8wcwfhSArZjPEkOCBxjgZBsadUwOZzb4JIokJRUIsoIuT
-	VEQhfFEWDdVzdO4A3zXFMEwi0hBgEKn3rrxp4M44yyeVqoUIgawDPo6a
-X-Gm-Gg: AfdE7cnEjoctp3dHBKiK6nRn+egSsP6cCR4WrpnX61tLCsYUbnmppEDberoJHrPZlVF
-	JTniSVz8eXKBOdvp3LDPF8weMbNfpvkOdhgO8mCiD9APdxHqJ16gaMh1PIYBJiEl8AS0SPDGOIb
-	9aarvdibv9QXBL8Eq/3nqzpIbpi9SIvtGbVNmRtS0bA4KQr2ZHHtr2H5kQ9lIm/Gr41mS6lPovz
-	MVrs4+rTXPmZAxfosx5sbCAjkGpEFmbQbFCrjeqT3shFQeJBiFmck3RJ1z9ezyLSg/hRLPCpgaE
-	7rm3FMyvE6H8vXCSjhVJF4dUNiB2+sjH6kDYCVI3o6mdJS3kS8kZPXNj9abKj+wAPpkbIebdEV7
-	P33gsvBxZAW0L8mApwczqqlxquOq8whNiKqEPZ8nToXz72yo8pLGHX6xFgPGtqDBNEoSfcIs8gy
-	PWvGXtMjgbuUCcCdLuoLemt7f+fcOApWuQtMXOlrxPh4OTGmk=
-X-Received: by 2002:a17:90b:17c4:b0:381:5ab5:b667 with SMTP id 98e67ed59e1d1-38942493f10mr10078915a91.31.1783659761030;
-        Thu, 09 Jul 2026 22:02:41 -0700 (PDT)
+        bh=FpEEKAJp3BqSZSJR3hfnA3eBxaF2LazIySDJM1KKJg8=;
+        b=n3kJAbxakCVF2Z8SjKvfn0tZ06s6Ve8WcedYlaDfIkfEAe3YPTVOhj95n0I6+LXlrP
+         K92Q/xSe8wGTLDN5QP+10eN04y+RqQLDk0bLM4Xn0209chV0TTZqXmaGLzjcrF4eiZzh
+         qBBqim1nfhnzO/78wWXrtinqHt/tRO7xIyu7iKVnHS5wvhqO+VWKt0ShJ9niSvPQ1DxI
+         OvvtAp6GEW/WJ6Ud2Rkcj65xCzg8LopZb71zy0RXvSVfk3N2K2fVgIaM2KPxJRIpCkrn
+         UCybQq6kpVl8wcMzNw1s+JbZPhE7RQP1Bu9w2DwB4///B0weeh20Td3jsaSSpeNs7NQg
+         mjtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783659766; x=1784264566;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FpEEKAJp3BqSZSJR3hfnA3eBxaF2LazIySDJM1KKJg8=;
+        b=BuHrcePzkPjAC83oVHX92zV0RWe9AlW2RtyA+uRQOV7B+zHYoYJURO0puvTJAnkMay
+         jzh+wk1Y8cBXj+4AeozpV1fXW+44t+uxZHgcULtFC7F4WvSdKyUd+409VYBFixDjwLmG
+         zhRqNLZul6Mq+yX1QUsQALxsrfLycdF5e5dXGsNHw1MAS1nA5pDL9HoMxpAu1ReJRUip
+         /6Or9SZpGzr2Npr7os09Ac/Ws2wqdNMClrzu6SUMZfhwkUpWdvDQnqt7+sv/wOp0pY31
+         1ZRuY9HSxmiYgGsM67J+2z2Kl9DWXqOTA43TkoUhjOQUXNwbm61u9iZgI+SbBimfOtNJ
+         kFMg==
+X-Gm-Message-State: AOJu0Yy82GoRz4su0kh68qhqu+gdUTm2ZMr2eLmO1lj3UQ+tlVmLChwp
+	4UEN1rO8oIJlJj4DeHUNGmz84d1GxD0HY04vEXAbgYo4QvI2yEDpn8nm
+X-Gm-Gg: AfdE7clZZFRCjbfSfY9zubx0DWxG9as7dRFkkGg0AFJ9dxmWUejYBzP6jLnUPHg8NMQ
+	MYX+DUmYUSXPdqTtMzrlGw4CkQ254D9k80aUgNzIT3ftCgDEOlC3a2WeZPlofshb/SID/clMjLD
+	KJZUQg8zy6Iv6kK0b7BHMZ7Oo3uduV/XdPt6QjeQ98WzzHXs3XYlSTyJXlbkdgVIwDPpvoXNCsR
+	tha+8gBJ+IY7aJvE78H4cKbhcwVs59RicN2FOSkyf3eHm23RE81VOqvZQGY7LsnISWttPfPcOx6
+	7bSfRtiRRHlsiHMIP6hgrnjosTfIndPfIU0ul8RVpBiq4Mwq+nl/kdQMB4RlYZF8nYLqv0lf5Vw
+	2YvapSuZqyGNwDZtcZu6a4Y6uR5KAf0Xngo1iAdCs9KE92iEgAEYVlY2OTHldHqKl7tjCdvJtSt
+	WRtW7cj/OvE2sTR9dNUIHcZxLvUYfpG5IZd7HYv2YMxzQY448=
+X-Received: by 2002:a17:90b:50:b0:36a:fcf5:64d2 with SMTP id 98e67ed59e1d1-389407321b5mr9590297a91.16.1783659765935;
+        Thu, 09 Jul 2026 22:02:45 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5516ad85sm2139647a91.2.2026.07.09.22.02.38
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5516ad85sm2139647a91.2.2026.07.09.22.02.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 22:02:40 -0700 (PDT)
+        Thu, 09 Jul 2026 22:02:45 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	Jaroslav Kysela <perex@perex.cz>,
@@ -66,10 +68,12 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 0/2] ASoC: xilinx: Use dev_err_probe() and drop redundant error handling
-Date: Fri, 10 Jul 2026 12:02:21 +0700
-Message-ID: <20260710050223.14266-1-phucduc.bui@gmail.com>
+Subject: [PATCH 1/2] ASoC: xilinx: xlnx_i2s: Use dev_err_probe() and drop redundant error handling
+Date: Fri, 10 Jul 2026 12:02:22 +0700
+Message-ID: <20260710050223.14266-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260710050223.14266-1-phucduc.bui@gmail.com>
+References: <20260710050223.14266-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,28 +84,57 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Use dev_err_probe() for probe error handling where appropriate to
+simplify the code and properly handle deferred probe.
+Also remove redundant error messages when the called helper already
+reports failures, returning the error directly to avoid duplicate
+logging.
 
-This series cleans up error handling in the Xilinx ASoC drivers.
-It replaces dev_err() followed by return with dev_err_probe() where
-appropriate in probe paths, allowing deferred probe to be handled
-correctly while simplifying the code.
-It also removes redundant dev_err() calls after helper functions that
-already report failures, avoiding duplicate error messages.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/xilinx/xlnx_i2s.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-Best regards,
-Phuc
-
-bui duc phuc (2):
-  ASoC: xilinx: xlnx_i2s: Use dev_err_probe() and drop redundant error
-    handling
-  ASoC: xilinx: xlnx_spdif: Use dev_err_probe() and drop redundant error
-    handling
-
- sound/soc/xilinx/xlnx_i2s.c   | 18 +++++++-----------
- sound/soc/xilinx/xlnx_spdif.c | 30 ++++++++++--------------------
- 2 files changed, 17 insertions(+), 31 deletions(-)
-
+diff --git a/sound/soc/xilinx/xlnx_i2s.c b/sound/soc/xilinx/xlnx_i2s.c
+index ca915a001ad5..0676da122edd 100644
+--- a/sound/soc/xilinx/xlnx_i2s.c
++++ b/sound/soc/xilinx/xlnx_i2s.c
+@@ -185,17 +185,15 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
+ 		return PTR_ERR(drv_data->base);
+ 
+ 	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
+-	if (ret < 0) {
+-		dev_err(dev, "cannot get supported channels\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "cannot get supported channels\n");
++
+ 	drv_data->channels *= 2;
+ 
+ 	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
+-	if (ret < 0) {
+-		dev_err(dev, "cannot get data width\n");
+-		return ret;
+-	}
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "cannot get data width\n");
++
+ 	switch (drv_data->data_width) {
+ 	case 16:
+ 		format = SNDRV_PCM_FMTBIT_S16_LE;
+@@ -233,10 +231,8 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
+ 
+ 	ret = devm_snd_soc_register_component(&pdev->dev, &xlnx_i2s_component,
+ 					      &drv_data->dai_drv, 1);
+-	if (ret) {
+-		dev_err(&pdev->dev, "i2s component registration failed\n");
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	dev_info(&pdev->dev, "%s DAI registered\n", drv_data->dai_drv.name);
+ 
 -- 
 2.43.0
 
