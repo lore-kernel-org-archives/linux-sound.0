@@ -1,63 +1,63 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406573783AE
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 05:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFBE377EDD
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 05:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783660093; cv=none; b=bANXdz6RGx6e8la+tZbFiNplxNU+xzHRzimWOU60aTl4HlzWNgYHVsWqpdDesTkh9Ta2Pm/2HFjhsmaYFgSTvnkPxoUlIny6UavgDi7r9r9F7/5NHMvG3m8gj3VvxT6krcCnwfRv0UmqxooTtepqebvG7A0fO/PvowO12xgXk7c=
+	t=1783660101; cv=none; b=OavKVKEW2QA+vMj580CgeGr7tG16uSgfgClGevEH3lHkYo0Mv36IyX5TkX1LSF5rCMtccTasJZgqO/11motQHkuP12FYon19PK25dIN/+uS/qH1DlJ/eMrFCCc+FC2DsO/zz/GdIGQqhln+lpmkH4teoPkNxYZUOuXRdbouER3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783660093; c=relaxed/simple;
-	bh=3PzW41r3lCqq7WloY+qVpfi9ylriJQnkL1vsBK8sQMI=;
+	s=arc-20240116; t=1783660101; c=relaxed/simple;
+	bh=aakMWPqtzSC8d4xUEjViRQdNYsjBJ/WN5Zv10mvjTN0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XLvr23OU/XNUH6ckoA5u3w9azNZsIbyBS+IgiKkgyvO2QhfoG7ott4705V3q9vOs58Goq7ah66G2SB2bO3KYQ4vDXOfbBaGpv63eb6p1pJ78Kbi2V/1cSdyz8hGPMgda72SRTNRZSP26JcXXNjghpD42L1vj1HJNnlo3wboTYaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ki1oudxT; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=r+Nggeyg1av0MvHnkEpL5gdEft0L+p15xNrMQRNdhKT/EMntWHW1y6bF2IQ30OoadGc32CbPOX54dx90J2M5SzI0Ni6iMO8anUPbPhRsK3i4DWIA6CHvEn+w1oNVGvLzV/txNUY+kqS33KhCbUDWOERyiGbtZqoGzjkBYBDXLik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d1R05TBe; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ki1oudxT"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-84864b41100so380529b3a.3
-        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 22:08:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d1R05TBe"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8485fad302bso470197b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 09 Jul 2026 22:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783660092; x=1784264892; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783660099; x=1784264899; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5I542Atg1yY1laQM/jnE851nD9DT4YIfrvz5OV73CCc=;
-        b=Ki1oudxTQtwXao7gu/uqVwKEu2+nFsIp9P4ha8ShBbdJQpLnj6aSQOTsJB5FknXU35
-         2Or3u3dNBBL/GZQutxRrZaJuUfwGJB6NXMGSdmb6VzRvsKjFG8qtGlI8REpdjgtzba0b
-         G6vIxfMUD1xBN4BOa+kzaqciZkLZLRiNLObrJeRo8OMl4OKWMTmM8CRuoNWI42MNjGKU
-         jJhIjAyFTxkHSVzWaFZN8tu7HY8IKioAzGoLG/cbT9h+ZOAkF0elRQAjbTDtjspmrcnz
-         BgtKIUGt+QyDwGeJvfcfdkgvshVA63yFJBKTyijuxxSoDLdBr2lILLKsUSjRqfzu6G/t
-         N25w==
+        bh=Mg/gWaxirv5UsoAezn+cQqTNjJoliJnwtNunNsyjzH8=;
+        b=d1R05TBe7xq/kXEu+sIjTJeKZgB6NnUZKlIHiYfK6ip13OTbGSJAEJs2dfYOpEmH4c
+         BP7gwr1IE39WVNPrP6Imd35BZDftt4mQmF0JWrjqBFJtdm0VeZ883fxKZ6y8K9BAEsy1
+         3u6OLOlse+y3OtUPlUr2zrdUnh6pGA0l/tGr+jZrgjWEX4Ro4FjpltifYyVoRTESqUWh
+         SZA22OAvgsTJue5Fmbcu8oawB6tN+RQmbQil4cHlEfixmPS0KzhMgDYzHzHdF+MreloN
+         ucs8S6FhjePqT2CY++4HLPQmfZRWOGETlGRP9Xvovatd/RiAw4gW00uOhyK6ixmVoYYJ
+         IwIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783660092; x=1784264892;
+        d=1e100.net; s=20251104; t=1783660099; x=1784264899;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5I542Atg1yY1laQM/jnE851nD9DT4YIfrvz5OV73CCc=;
-        b=mAePm750DKSTxz3SMcefoCP7lQe7c34aElpjA2w6+wskfbxhIwsQ/HiB8JA6sGnzVY
-         Z794SVJdhm1QQGwi+9Rzz4s+HdrnA91Dk0CNv7vQkE1sLG8CQWDvWIuCgmBwzW8VrlRg
-         F5dEoh8vU7H6sVMKDRVqUW0IR5iXxk8ZQR38eU6OPimRpLQlPzVdM4UXtXCrhftHr6bG
-         35QyTBIljY6bapeWo7DwaixxxGIzWFUgQusNZC6vf7esXwXwcrMRJB8k/w1mqEg1RvDD
-         n98ikgMSTyIDjQjDFp8sUv/7LhvE+/v+JOjW8mhel0wqB2HicGhTIpfNJTK3k0oE/i41
-         0hvw==
-X-Forwarded-Encrypted: i=1; AHgh+RorUHIxg0PMFhBPDtYhC+4hjovl1r2CiiBS/CeCH8r6P4GVZ0H/ST265rLkVCgvV46Y5nWcB1dB77NvQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwH7y5Pon5r0t2H+8TA/IJKVwxLdOkRHAk79EIYB3MY59k9i1vk
-	EZWCicFmVRqcW5jRr6IthwCMxqILmL8xqww0IOMGypzWVd6ICAmhljUh
-X-Gm-Gg: AfdE7ckRKqG1K/8ZmX0idQ+GkzAPQULTiO4IrMF9ZO6z+7uI5oRwQ9R3YrUqcLk/+75
-	N/XejaKRxKmaFXrUtGYM4R7f0Ekb4W9H4/rVi4YPi0BF/19RMAeu1qxlAXi1nCd1bRPgfAHR+U5
-	USv3LfbysSvIeWM5sU7BQRyOESNmNUgBV1LYqS9rouCyTWajJ5i/3mtlziL7XCsvEBjt9N1LV6W
-	qvyQGxSHC7i1hD3V+dB4VeeZAhAbdihzD/IZhZO3SYQvZ11GXvniDp3ocT8i05ynjWy1p13B92z
-	y9Av7FjQXXcu6JtzclwVCXUKRbQDSD9RmNlXi0MSbU+hi3wJlGZfJXF9F9MGnbsH5JfoPGt1ACy
-	dtEL8rPVqmp9A9hUKzVHmajvCj5H/OQlQ3Osx7nDziEPTg7yiPEE7B9KuSm+6Gqv4m+EsUCCOJi
-	Y0SpMPlYKZHjsWF+3SrZGYyMbTodNbDkcr1mfdCYxgTNnVauU=
-X-Received: by 2002:a05:6a00:1826:b0:848:2f84:730 with SMTP id d2e1a72fcca58-8484303c9dbmr8603346b3a.67.1783660091516;
-        Thu, 09 Jul 2026 22:08:11 -0700 (PDT)
+        bh=Mg/gWaxirv5UsoAezn+cQqTNjJoliJnwtNunNsyjzH8=;
+        b=irgqjqUypZiyAii/Ddi+mgPDF1bBsc/LhqGb9ahuHxTyP+pJ7+1xQFxM0hdGZorejY
+         D5CyJkZyfvDfxfj0IQxx/muv9Y6vOGi680ZV7JyrdZeGkjyepM2yjdq2WpzQTvYW2Gb2
+         kD8QMpg7w2r7rXluFXY6wusMihYRgql68+Fr2+u704zQujFj5tDaXdxPtqvTmoddWBNs
+         bx0q0VrBE0QL0cMTreJqzkUt2CvWjw4k16ebwrCnJ3h7fGqCXZMGKbukAY6+dsk9vZtR
+         nC12yxsE/83qRXO/iDXcuzsQ0YMbZovcfMr7BRbXDqmtXoMRk42yR6PubUHL8iQOGz/g
+         JEvw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+iP0c3fryRDuLGvQy+AZuaCN8K37GAlbV2+zsT/P99IXOS8rbJ+3Shq+7oa0SBQCUqK/rMKagsm3dRQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvlRSTSaf9sceR4ByD5pc7jkK/qdAQdufNaeyAqcfB1F0MCoNp
+	hViSmFJaL1VoanYMX6dlTVIZqt4nFQns+/0wW+Uwk7VwynousABNSn6J
+X-Gm-Gg: AfdE7clXX2ZG9RbejWYZJ+GHTGaorAnDQbsxTFY04RhkaHxSwMY2DaFN9McGNYYZnbc
+	7YQdY4+6ZrbK4QUJP5b3Gf3tceEyKLa+HCZZ/UBiWXr7Toim1tYjkKgWCztSc051khjoxdD9Zto
+	tSkM9/Fp7aQ9fGS9P010IVdkRRGDSEHz9izy++ZCsZTjC/vmj1WWoX+9MCei4c03BcIYUPhSW9J
+	s4lq4nK6t/QV/V3lhaAx6jlOhpBL3dmrol1Q0O7mWonKjh4QytIMjvurZA9POheAbVJyV6P32N0
+	PKI0+yzh12lzmFK0Br5D3vz+ascPR8Hd3FhejVANx7xf24dyxvVre/v3aq52gzqhC+oZ7PRlXsg
+	U9hxjgQz1O2mhLOKfY4VShvBGdfX94KZuNPWBVMCb9k89gsXTEKaJ2Rfu77VAEtmth5vfMxJ/JY
+	I+ePeLJ7z5xy2WiubB/h22oPBgFwHS8rvrrI7oO4oUETQ1v1c=
+X-Received: by 2002:a05:6a00:1826:b0:848:2c2e:c7a3 with SMTP id d2e1a72fcca58-8484323444cmr9691356b3a.16.1783660099554;
+        Thu, 09 Jul 2026 22:08:19 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84847275fa0sm3400499b3a.22.2026.07.09.22.08.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84847275fa0sm3400499b3a.22.2026.07.09.22.08.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 22:08:11 -0700 (PDT)
+        Thu, 09 Jul 2026 22:08:19 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -92,9 +92,9 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 22/27] ASoC: codecs: rt5682: Use guard() for mutex locks
-Date: Fri, 10 Jul 2026 12:05:06 +0700
-Message-ID: <20260710050511.14439-20-phucduc.bui@gmail.com>
+Subject: [PATCH v3 23/27] ASoC: codecs: rt700: Use guard() for mutex locks
+Date: Fri, 10 Jul 2026 12:05:07 +0700
+Message-ID: <20260710050511.14439-21-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260710050511.14439-1-phucduc.bui@gmail.com>
 References: <20260709045902.498848-1-phucduc.bui@gmail.com>
@@ -114,186 +114,52 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/rt5682-sdw.c | 24 ++++++++++++------------
- sound/soc/codecs/rt5682.c     |  5 ++---
- sound/soc/codecs/rt5682s.c    | 17 +++++------------
- 3 files changed, 19 insertions(+), 27 deletions(-)
+ sound/soc/codecs/rt700-sdw.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5682-sdw.c b/sound/soc/codecs/rt5682-sdw.c
-index dec8c2147d68..e7dc4f722fc1 100644
---- a/sound/soc/codecs/rt5682-sdw.c
-+++ b/sound/soc/codecs/rt5682-sdw.c
+diff --git a/sound/soc/codecs/rt700-sdw.c b/sound/soc/codecs/rt700-sdw.c
+index bb449f08e30c..3ba0cc37acd9 100644
+--- a/sound/soc/codecs/rt700-sdw.c
++++ b/sound/soc/codecs/rt700-sdw.c
 @@ -6,6 +6,7 @@
- // Author: Oder Chiou <oder_chiou@realtek.com>
+ //
  //
  
 +#include <linux/cleanup.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/init.h>
-@@ -660,12 +661,11 @@ static int rt5682_interrupt_callback(struct sdw_slave *slave,
+ #include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/soundwire/sdw.h>
+@@ -415,12 +416,11 @@ static int rt700_interrupt_callback(struct sdw_slave *slave,
  	dev_dbg(&slave->dev,
  		"%s control_port_stat=%x", __func__, status->control_port);
  
--	mutex_lock(&rt5682->disable_irq_lock);
-+	guard(mutex)(&rt5682->disable_irq_lock);
- 	if (status->control_port & 0x4 && !rt5682->disable_irq) {
+-	mutex_lock(&rt700->disable_irq_lock);
++	guard(mutex)(&rt700->disable_irq_lock);
+ 	if (status->control_port & 0x4 && !rt700->disable_irq) {
  		mod_delayed_work(system_power_efficient_wq,
- 			&rt5682->jack_detect_work, msecs_to_jiffies(rt5682->irq_work_delay_time));
+ 			&rt700->jack_detect_work, msecs_to_jiffies(250));
  	}
--	mutex_unlock(&rt5682->disable_irq_lock);
+-	mutex_unlock(&rt700->disable_irq_lock);
  
  	return 0;
  }
-@@ -736,11 +736,11 @@ static int rt5682_dev_system_suspend(struct device *dev)
+@@ -499,11 +499,11 @@ static int rt700_dev_system_suspend(struct device *dev)
  	 * deferred work completes and before the parent disables
  	 * interrupts on the link
  	 */
--	mutex_lock(&rt5682->disable_irq_lock);
--	rt5682->disable_irq = true;
+-	mutex_lock(&rt700->disable_irq_lock);
+-	rt700->disable_irq = true;
 -	ret = sdw_update_no_pm(slave, SDW_SCP_INTMASK1,
 -			       SDW_SCP_INT1_IMPL_DEF, 0);
--	mutex_unlock(&rt5682->disable_irq_lock);
-+	scoped_guard(mutex, &rt5682->disable_irq_lock) {
-+		rt5682->disable_irq = true;
+-	mutex_unlock(&rt700->disable_irq_lock);
++	scoped_guard(mutex, &rt700->disable_irq_lock) {
++		rt700->disable_irq = true;
 +		ret = sdw_update_no_pm(slave, SDW_SCP_INTMASK1,
 +				       SDW_SCP_INT1_IMPL_DEF, 0);
 +	}
  
  	if (ret < 0) {
  		/* log but don't prevent suspend from happening */
-@@ -760,12 +760,12 @@ static int rt5682_dev_resume(struct device *dev)
- 		return 0;
- 
- 	if (!slave->unattach_request) {
--		mutex_lock(&rt5682->disable_irq_lock);
--		if (rt5682->disable_irq == true) {
--			sdw_write_no_pm(slave, SDW_SCP_INTMASK1, SDW_SCP_INT1_IMPL_DEF);
--			rt5682->disable_irq = false;
-+		scoped_guard(mutex, &rt5682->disable_irq_lock) {
-+			if (rt5682->disable_irq) {
-+				sdw_write_no_pm(slave, SDW_SCP_INTMASK1, SDW_SCP_INT1_IMPL_DEF);
-+				rt5682->disable_irq = false;
-+			}
- 		}
--		mutex_unlock(&rt5682->disable_irq_lock);
- 	}
- 
- 	ret = sdw_slave_wait_for_init(slave, RT5682_PROBE_TIMEOUT);
-diff --git a/sound/soc/codecs/rt5682.c b/sound/soc/codecs/rt5682.c
-index 4b82e07d3b2c..6f7e68c20d13 100644
---- a/sound/soc/codecs/rt5682.c
-+++ b/sound/soc/codecs/rt5682.c
-@@ -6,6 +6,7 @@
- // Author: Bard Liao <bardliao@realtek.com>
- //
- 
-+#include <linux/cleanup.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/init.h>
-@@ -3125,7 +3126,7 @@ void rt5682_calibrate(struct rt5682_priv *rt5682)
- {
- 	int value, count;
- 
--	mutex_lock(&rt5682->calibrate_mutex);
-+	guard(mutex)(&rt5682->calibrate_mutex);
- 
- 	rt5682_reset(rt5682);
- 	regmap_write(rt5682->regmap, RT5682_I2C_CTRL, 0x000f);
-@@ -3175,8 +3176,6 @@ void rt5682_calibrate(struct rt5682_priv *rt5682)
- 		regmap_write(rt5682->regmap, RT5682_CALIB_ADC_CTRL, 0x2005);
- 	regmap_write(rt5682->regmap, RT5682_STO1_ADC_MIXER, 0xc0c4);
- 	regmap_write(rt5682->regmap, RT5682_CAL_REC, 0x0c0c);
--
--	mutex_unlock(&rt5682->calibrate_mutex);
- }
- EXPORT_SYMBOL_GPL(rt5682_calibrate);
- 
-diff --git a/sound/soc/codecs/rt5682s.c b/sound/soc/codecs/rt5682s.c
-index 3624067950c0..34997cfb465b 100644
---- a/sound/soc/codecs/rt5682s.c
-+++ b/sound/soc/codecs/rt5682s.c
-@@ -6,6 +6,7 @@
- // Author: Derek Fang <derek.fang@realtek.com>
- //
- 
-+#include <linux/cleanup.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/init.h>
-@@ -648,7 +649,7 @@ static void rt5682s_sar_power_mode(struct snd_soc_component *component, int mode
- {
- 	struct rt5682s_priv *rt5682s = snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&rt5682s->sar_mutex);
-+	guard(mutex)(&rt5682s->sar_mutex);
- 
- 	switch (mode) {
- 	case SAR_PWR_SAVING:
-@@ -695,8 +696,6 @@ static void rt5682s_sar_power_mode(struct snd_soc_component *component, int mode
- 		dev_err(component->dev, "Invalid SAR Power mode: %d\n", mode);
- 		break;
- 	}
--
--	mutex_unlock(&rt5682s->sar_mutex);
- }
- 
- static void rt5682s_enable_push_button_irq(struct snd_soc_component *component)
-@@ -2534,7 +2533,7 @@ static int rt5682s_wclk_prepare(struct clk_hw *hw)
- 	if (!rt5682s_clk_check(rt5682s))
- 		return -EINVAL;
- 
--	mutex_lock(&rt5682s->wclk_mutex);
-+	guard(mutex)(&rt5682s->wclk_mutex);
- 
- 	snd_soc_component_update_bits(component, RT5682S_PWR_ANLG_1,
- 		RT5682S_PWR_VREF2 | RT5682S_PWR_FV2 | RT5682S_PWR_MB,
-@@ -2556,8 +2555,6 @@ static int rt5682s_wclk_prepare(struct clk_hw *hw)
- 
- 	rt5682s->wclk_enabled = 1;
- 
--	mutex_unlock(&rt5682s->wclk_mutex);
--
- 	return 0;
- }
- 
-@@ -2570,7 +2567,7 @@ static void rt5682s_wclk_unprepare(struct clk_hw *hw)
- 	if (!rt5682s_clk_check(rt5682s))
- 		return;
- 
--	mutex_lock(&rt5682s->wclk_mutex);
-+	guard(mutex)(&rt5682s->wclk_mutex);
- 
- 	if (!rt5682s->jack_type)
- 		snd_soc_component_update_bits(component, RT5682S_PWR_ANLG_1,
-@@ -2585,8 +2582,6 @@ static void rt5682s_wclk_unprepare(struct clk_hw *hw)
- 	rt5682s_set_pllb_power(rt5682s, 0);
- 
- 	rt5682s->wclk_enabled = 0;
--
--	mutex_unlock(&rt5682s->wclk_mutex);
- }
- 
- static unsigned long rt5682s_wclk_recalc_rate(struct clk_hw *hw,
-@@ -2997,7 +2992,7 @@ static void rt5682s_calibrate(struct rt5682s_priv *rt5682s)
- {
- 	unsigned int count, value;
- 
--	mutex_lock(&rt5682s->calibrate_mutex);
-+	guard(mutex)(&rt5682s->calibrate_mutex);
- 
- 	regmap_write(rt5682s->regmap, RT5682S_PWR_ANLG_1, 0xaa80);
- 	usleep_range(15000, 20000);
-@@ -3034,8 +3029,6 @@ static void rt5682s_calibrate(struct rt5682s_priv *rt5682s)
- 	regmap_write(rt5682s->regmap, RT5682S_PWR_DIG_1, 0x00c0);
- 	regmap_write(rt5682s->regmap, RT5682S_PWR_ANLG_1, 0x0800);
- 	regmap_write(rt5682s->regmap, RT5682S_GLB_CLK, 0x0000);
--
--	mutex_unlock(&rt5682s->calibrate_mutex);
- }
- 
- static const struct regmap_config rt5682s_regmap = {
 -- 
 2.43.0
 
