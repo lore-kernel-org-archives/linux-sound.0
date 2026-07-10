@@ -1,60 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011025.outbound.protection.outlook.com [52.101.70.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CF0376A14;
-	Fri, 10 Jul 2026 06:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783666158; cv=none; b=F9mSLGz9G10epRAHtQjhl/FjeqJWSM/JDxcmr/yfCzS/Dx/RMeP0pqQnEl+A8r/H+OCWNcf9CT4KgtFGcml2QhWDIdfOIWDKqgZTW/XYxtDMXXat1Hw0PXJ+U+2stBl6WJ2E5Ouhyxxz7kfeQ1EAVwTR1kOfm0DXrJNo+BWVACI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783666158; c=relaxed/simple;
-	bh=vVr1uJDfuyoA1SvRFXbwTzWpg2eJMBPIhqnqJ7g7dWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H4g5s0ZNbp/v8hxUOgl4wGWeYjE/V3i0IfKKgRlj/LqHBjS/lvyElGHSx/7JFKSQVEyarP1+/2GlbCdSdq3PHrWmOJXVHtA7MYyzBTZRLAzBQILZguMXtuDa0KJLQywC+1DiGkx1yThi3aaw+gEr3Gsc7AmKkqBN/LNsvYFUeQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JqOd6Avf; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793BF18CC13;
+	Fri, 10 Jul 2026 07:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783667328; cv=fail; b=Y2CRckevkfrwYQ3GpnkOX/zOfIf5FSpW0+PRhgeFlKdSLyxyxQh4AvT6tgMfezcVc5nHXOgHlrIV3R0hCofmNOp75bCZ2gCurKqu6GQOTEaAeCFa/2EKHtpNodCTsDF4rde55fgxtSENKTS6SOmtRJZx6V5MVYkrvC0ZIVxyDBY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783667328; c=relaxed/simple;
+	bh=64N9BOmltn7lLFoIsHe5cmLKIQelDtMX68345prNL8s=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=R1NYfE3OpUOtjzaUFa4TZaYyFr5Vlnm7uisCPPaoYJh7Vypvq6vMWIns2u1YcZ4JJ3Pl4h+iH/86ODXux9T5Grj8/WVinEYnkWt/eIEJa4H0ZGkQMVdHAMkkeGwOiQtoj5Xc7Q6O7/HYIT++eMkbZGDUHCZ3EuAGYexSITzPG5g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=DkxdcaSB; arc=fail smtp.client-ip=52.101.70.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JqOd6Avf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 108EE1F000E9;
-	Fri, 10 Jul 2026 06:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783666156;
-	bh=6oAdhzaAuRMYdEvKNDBaztOD5HPKtd1DAWVsV2R72yM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JqOd6AvfUNOVDcIHEFOKxGbHMhWK/M6gQLv2iqc7a/bGg9vKV1cGPMRAq5QHrPv7r
-	 DFBpA1XvlaygWTEru4XKSpOyibfYI9VkCkwTICTrMMXWivUjivOjbxszishWYzNi9h
-	 Ax35Lwk+al/KuwMMOc26/XpLO1A+Ccfga13iuxMcObFjyPyKspeKuilHSLOjtwLoHE
-	 gYm9cOxIHAV+qjN2dOqQs6XbNzTh+wM+nbjUXKQ/3Rp1T21uGQyXEkkYKCXaIgJrL7
-	 FIKnAIP7gs/OgXJP1Zz11qnWci32meZhtKlak3BwfkZ9Jze2ute70rRBaWg/Hbkv4t
-	 LCLGkoIJxGlsA==
-Date: Fri, 10 Jul 2026 08:49:13 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
-	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org, neo.chang70@gmail.com, 
-	kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v6 1/2] ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
-Message-ID: <20260710-fervent-squid-of-speed-b0d078@quoll>
-References: <20260708093506.895481-1-YLCHANG2@nuvoton.com>
- <20260708093506.895481-2-YLCHANG2@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="DkxdcaSB"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L4KzD+w5Gi7+zQkzAvjg+3t6XBqpcf3yG5IDQmUagfI6nhXTZuPzzHLTwSkHPqyDgkpTNQRz6m/d5IULC6JZqHUjk6UWa4sVtj0Vi2Zytqv1YfhRQmvvn5kyO18ddD3K3VESM+uzsf7l77MyeKq/zCm+lHkIQNzxkXvbr4pbdYn+DkdJ8CeMQ/gLDvwwF4Hkmv5OJNEdC1ymdOf9l9urrTLkpcFFZQynw+FmRh7vkpJ6xozLB1VAeSJWaZSR4K6293HQoJph+UFsAguG1J1zpDRdrAc4kEOqAsbB7XSuN9Fy7U0bJRfL0HLSwSKbJQFQiZCcHgANzAmvIcvfEdUWrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fXz2KLNXCGaTtaWQqa4S9A5s/g+I7F5MKHvGmyxCPFc=;
+ b=Ms4GYfOfzlC1nkstAleOCCSFyjQvfHFe0Z2hL/6eoFzss62qAs0KTMy+LRkvsyHJysc14pU+NdBVFNrnXwWWwXbNtIGcxXPJINsckcWAdZO/vNICsjAJ1moufa/kc495Krp7uT+g1gdvQZqrjdOfHhPkZivLBAW/50lICUcLYAoG88N0k4FMEX6qx1pLt4tafp9osMFSAIX6wIpoVTrau9thRBckbD9G3wAsQsvqUe+zUlkjqCm5g5v5jE5gRW5kPB7klBfPAjqOZr9+pkR8CmOR4Jx0Mgbwp+oLJuOyMNlTKKNYNp3ukhRFY9xMBWNn4waGAL1fPCvewRxMBYoFxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fXz2KLNXCGaTtaWQqa4S9A5s/g+I7F5MKHvGmyxCPFc=;
+ b=DkxdcaSBTfULdCEZeNPzH9uos/hqWE6bes9Zh5RoqLPNJlhtDgU/CYKcZi5dC3CfdhubYYWi6HV9u4t/ofJX0Ieoq9/1AKlE4zugdi+7N6+nf+wU5NeY9xJDWnpj88hVOLricfffzv2uM/prtWevPRPmcu85i6oC7IUv5jYE4KmcT9L8TNU+UUtGRiE16lXYB5BgvhJQdODDc1EFIvXCuRMyhjv/mnYGtqsNSkXUsxap/0smnvzCswXEKSMIqvCbY3J88JYGUZlj9PgFS6z51c0pU9vm+nyH4hDsieA01rEo3pwIl3lQIMvHNhT8uAe8eTJfunP/bCgQdVGTxBXxnQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20) by GV1PR04MB10199.eurprd04.prod.outlook.com
+ (2603:10a6:150:1a8::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.17; Fri, 10 Jul
+ 2026 07:08:42 +0000
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994]) by GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994%5]) with mapi id 15.21.0181.014; Fri, 10 Jul 2026
+ 07:08:42 +0000
+From: Chancel Liu <chancel.liu@oss.nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2] ASoC: fsl_sai: Fix spurious BCLK on resume by clearing BYP
+Date: Fri, 10 Jul 2026 16:08:35 +0900
+Message-ID: <20260710070835.3749817-1-chancel.liu@oss.nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SEWP216CA0040.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2b5::12) To GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260708093506.895481-2-YLCHANG2@nuvoton.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB10021:EE_|GV1PR04MB10199:EE_
+X-MS-Office365-Filtering-Correlation-Id: 46f5c565-7272-4680-3a36-08dede5212eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|23010399003|19092799006|366016|1800799024|921020|6133799003|5023799004|56012099006|11063799006|18002099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	IaUR+LhVIsQaOvRqBkXew9pkoOewUwZWTtTCoYPGgESGGrSyqWKwhSnnLeSCpaTVzv8vbwXedLNtbDKpgW91YDZQ5GXrJ7spYf09UOHIGDU2og9rP/3DHb1ZUAUUgqhDvngIJFWQ0VP17d40//bGMMQTWtCH8HTEYgwXV+SG3y+GZUiUXgoCPmP/UJyT0F7Hg1/Kz6alT/yH8JE4epBejsbCyPXcJbDwK6mFtyxc6dAx+xV1KmIK3q6STkyWBFltPHJwqhzbO7vcEteOCWl64KfCpbSFPVjfa7rXd+9BqcCIKgmHHzMHmefACBnUyk/fxYx+yp76IWbInkvrJFsVe75qpN2pa/eee9SmV/gmrYdiKFV1lmBxvlMAqRpC17e7zqTyLeIs0j5sgYS85LP6FunGazughrmkEG8VQeNqqslKd4zF4NtOdepqebujqW0mBm9EGTid4VekXD0jb7KFc0g5J0538Y4zFBmiFyKhALu8AKPK/+QVWMREtm3aB4wJSUS6l696oy5MC4FqPzswkFQK/vrrKqTBoakqtu0juRYlM3XLWD0b5iu6ouOBljP0whL1TlbzDqng6NcN3pPw1Ztu9Xk5F3e+CLdJQ6tlThY6Gwm8k3OlbRugrwFABIgwZAp+wFVSU1QBzectFwqdO08cXr1InI5G0+Ul8TPoa2ypz/5t3v6v7RHglVpWfKSm80RHHCEQNMocIfE6TOjcDA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB10021.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(19092799006)(366016)(1800799024)(921020)(6133799003)(5023799004)(56012099006)(11063799006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Y9+63qtdu2ZW+A4gCSM68z1eJBkaje5IkxPOPEjBOCbVfXdh8ziBQQIvId/I?=
+ =?us-ascii?Q?mXMEbFMlN/GU0XcCgb6S0ENOhXcDaK1LeWL8wDYM9ProaWloWBGZmqJjBpdI?=
+ =?us-ascii?Q?OdZbbUPA0VPHQG7KbJUwFnCs8qSrX7m2InveCwALsZl+K72JGDq9JCu7hfU/?=
+ =?us-ascii?Q?bWnisDlYUucA3Ts1cmlftVdtbmjp/97ftq+QK7PBWKCOe2D5rcb50/EARwNx?=
+ =?us-ascii?Q?GYFWqEmAf/erMbCSSbQ7AHsIr3SIh0O5D3IRLBtaX9sOpUjq5iQTP5Dsyn8M?=
+ =?us-ascii?Q?kbvR4id/lZ+UWoZSg33JUDtGeTjCpiqXeMUsJMDNaDBqauv/VA5bPd4R0h+e?=
+ =?us-ascii?Q?5hLf2SN8ubfe6DZVlrL4EjpmzeBLy7T/ew8dm/ZSnI+s43TiCi5HROh6aYzv?=
+ =?us-ascii?Q?uSVZlpzMBaZAlaVZdbr87NazO4wp9PeiSMil1EFemUFilL9d1xvZAWJkXdo+?=
+ =?us-ascii?Q?GezSSAwT8OQcnD4BgDEi3EGPL0F+TfHhIz4/847YjD6+xmyhly5MyiNou4xX?=
+ =?us-ascii?Q?l9MMZk3XuWXH9bmkPE7cYpkF9KbG+P6Fb97sb/NC6SjlK4Nm+QXpghQkgPNJ?=
+ =?us-ascii?Q?7JqT0bvuYg5FiWVcOWX5lVloTywpGlWwT1XI6gzu5xgptKgjuiHdOSfrvZWH?=
+ =?us-ascii?Q?yj4CVjexxvIvUaYXM2DpDHabvMimgvKmBVs+OKUt8VpLSf7AGbZ83SZbw4MM?=
+ =?us-ascii?Q?MTMbEF4uP5MtltUrRTTLJEYD3fB+YRE9tuaAZfzkLQb54uvCTg2Hm7FPRkv9?=
+ =?us-ascii?Q?sP+0rI2PSdd9pTFwJ8ZBQ9i6SZlp605kYeTvPlwj1ab23DVEfDr9QDoqQFBt?=
+ =?us-ascii?Q?s1IazgT6TNTc/X54IL4nMs6AvfzWo8vTySMwnoBnXz5GopyLerVlfzu9TGjC?=
+ =?us-ascii?Q?NkmylMUmFtuVoMeFxf1wqiPPPghVAI1T1C4CBmmU1eEXbmA0kh9Oc3nWwHrt?=
+ =?us-ascii?Q?aHSJD7aIZ5AuNfZ3HTNcQE38Jx+2X1XBoIvVDia1IG+iGF6unfILLQBlChTt?=
+ =?us-ascii?Q?OyAoI9vgAuIvGVXMrfODdENOA6hVI14NBMADanY6PPG9L4ucgoLFRRjDMzVl?=
+ =?us-ascii?Q?nIomUnIqpvT+nzLKxFw2H36SjT410DtDhICfI23ovHoK/xKMLkiA7ChNVWXx?=
+ =?us-ascii?Q?py22J8vvxQxlTyl/M2f5IVUCY2eb4+ishAMeJ/BxTHXxcyH4AphzxXFbDtKm?=
+ =?us-ascii?Q?wJKWLBYBrTM9dOJeTzOQqG02Fih+BSoJ77Dp1m9s+dxMNPKzyRuPimph2Ghx?=
+ =?us-ascii?Q?gTo+j+/rwGmBdRbXS5IJuLK0mD56zt6iNoQPajcdvby+IsSPlaOuCgKCJIf4?=
+ =?us-ascii?Q?UF19cvsNa8e2Ic5b205K3LrZ/zAGjD2HyLOGiJlXdQR9ygVaJUBiVkTeJC25?=
+ =?us-ascii?Q?PtZvO7RKt6vlV+bNXUKCOjIWuHcubC8Nst0GpgMhQ2QolgtN/Bga6MSGRaJ6?=
+ =?us-ascii?Q?JK0GrCUxp9wq9F05dkOzsNes8HWFyXNOpDw06z24qWMMdxGAgNpnXiP1++40?=
+ =?us-ascii?Q?LSUWSRXeYuZ/4T3Io/XJ+1yXznnAtvZJ5PoykG9y6lkEIVBgZ41KmWZYLC0l?=
+ =?us-ascii?Q?jN9HhZ9psyuH1qu2hQxoZoX8t0KzD49b6R1qRuQiH0geT/ykqE3seaTzTXMW?=
+ =?us-ascii?Q?ZOF0ju8KEluLXJt3boVH+6BtEsbm+J5gn+CH42kjdA5Z6rwx/AGYJUG25VN8?=
+ =?us-ascii?Q?ICooxILFXKj5rb3vreLU5odSz+UD+2Lcr542TpSSUsUfoD1fdypSY3YA+Jnq?=
+ =?us-ascii?Q?01J1IHZWWfo9ehIKfmMph60hKRNEh3CkGsZTqS2J7Augb0MA9YkC?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46f5c565-7272-4680-3a36-08dede5212eb
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB10021.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2026 07:08:42.1199
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2XxtiVTvb1/rk/qrWC/U5PQ973Wjb/Q7G9beV8J2PaEcTY0B3dx0wSZfD7eN7O6fKZaD5bh6qvvjBokJAHhZFCchx8k1F83encSwkBC9GI23QtZYQJTNiA3JHLJGtdqj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10199
 
-On Wed, Jul 08, 2026 at 05:35:05PM +0800, Neo Chang wrote:
-> Add device tree bindings documentation for the Nuvoton NAU83G60
-> audio amplifier.
-> 
-> Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
+From: Chancel Liu <chancel.liu@nxp.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+When the BCLK divider ratio is 1:1, fsl_sai_set_bclk() enables bypass
+mode by setting BYP, but never clears the bit. The BYP=1 value remains
+in the regcache, and is restored by regcache_sync() on the next runtime
+resume.
 
-Best regards,
-Krzysztof
+Since BYP=1 combined with BCD=1 immediately outputs the ungated MCLK
+as BCLK without waiting for BCE/TE/RE to be enabled, the clock is
+driven prematurely before the stream is fully configured, causing
+noise on some codecs.
+
+Fix this by clearing BYP and BCI in fsl_sai_hw_free() taking into
+account sync mode and the opposite stream's state, so that the regcache
+holds BYP=0 before runtime suspend and regcache_sync() on resume will
+not restore bypass mode prematurely.
+
+Fixes: a50b7926d015 ("ASoC: fsl_sai: implement 1:1 bclk:mclk ratio support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+---
+Changes in v2:
+- Move BYP/BCI clearing from fsl_sai_config_disable() (trigger path)
+  to fsl_sai_hw_free() to avoid breaking pause/suspend-resume cycles
+  where hw_params() is not called again on unpause/resume.
+
+ sound/soc/fsl/fsl_sai.c | 29 +++++++++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+index 9661602b53c5..d232c8f53061 100644
+--- a/sound/soc/fsl/fsl_sai.c
++++ b/sound/soc/fsl/fsl_sai.c
+@@ -808,6 +808,8 @@ static int fsl_sai_hw_free(struct snd_pcm_substream *substream,
+ 	struct fsl_sai *sai = snd_soc_dai_get_drvdata(cpu_dai);
+ 	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+ 	unsigned int ofs = sai->soc_data->reg_offset;
++	int adir = tx ? RX : TX;
++	int dir  = tx ? TX : RX;
+
+ 	/* Clear xMR to avoid channel swap with mclk_with_tere enabled case */
+ 	regmap_write(sai->regmap, FSL_SAI_xMR(tx), 0);
+@@ -815,10 +817,29 @@ static int fsl_sai_hw_free(struct snd_pcm_substream *substream,
+ 	regmap_update_bits(sai->regmap, FSL_SAI_xCR3(tx, ofs),
+ 			   FSL_SAI_CR3_TRCE_MASK, 0);
+
+-	if (!sai->is_consumer_mode[tx] &&
+-	    sai->mclk_streams & BIT(substream->stream)) {
+-		clk_disable_unprepare(sai->mclk_clk[sai->mclk_id[tx]]);
+-		sai->mclk_streams &= ~BIT(substream->stream);
++	if (!sai->is_consumer_mode[tx]) {
++		bool adir_active = !!(sai->mclk_streams & BIT(!substream->stream));
++		/*
++		 * If opposite stream provides clocks for synchronous mode and
++		 * it is inactive, Clear BYP and BCI
++		 */
++		if (fsl_sai_dir_is_synced(sai, adir) && !adir_active)
++			regmap_update_bits(sai->regmap, FSL_SAI_xCR2(!tx, ofs),
++					   FSL_SAI_CR2_BCI | FSL_SAI_CR2_BYP, 0);
++		/*
++		 * Clear BYP and BCI of current stream if either of:
++		 * 1. current stream doesn't provide clocks for synchronous mode
++		 * 2. current stream provides clocks for synchronous mode but no
++		 *    more stream is active.
++		 */
++		if (!fsl_sai_dir_is_synced(sai, dir) || !adir_active)
++			regmap_update_bits(sai->regmap, FSL_SAI_xCR2(tx, ofs),
++					   FSL_SAI_CR2_BCI | FSL_SAI_CR2_BYP, 0);
++
++		if (sai->mclk_streams & BIT(substream->stream)) {
++			clk_disable_unprepare(sai->mclk_clk[sai->mclk_id[tx]]);
++			sai->mclk_streams &= ~BIT(substream->stream);
++		}
+ 	}
+
+ 	return 0;
+--
+2.50.1
 
