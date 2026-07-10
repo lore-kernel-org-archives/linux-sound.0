@@ -1,200 +1,225 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B0F3B2D10
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 21:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3993B6354;
+	Fri, 10 Jul 2026 21:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783717798; cv=none; b=jMi0B+V4ZV6QHOphZcVsSXDFYU8nmoi961oPVjRhAvcD7suCrRme2K5GrOr1Zun1Vyk36jq9MtOF7hg8iK3J6ZMP8AWNhvE+HnNiKYsin8kRrHywWJbp0ha03r7r/7y0bfwZvPa7ePOetJS4P7zfH+j75H88lDKvNNJ0C6AUyOA=
+	t=1783718408; cv=none; b=d1sFQreR7USbCv/n8umQD3xuO0hnCE6TE+OeZ83uxREoOiwtCsjd/MbSO48FgGGFjgBDEuJxU276dIqc+9fJXuN+CwF6hEP20Jj8S+X+bTNZXrEEyptQ9fs03rWdbJxoneqOuFH1I5kx5E8qZxGluiIAioTj3o5HsYq4iGSIqs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783717798; c=relaxed/simple;
-	bh=KLOO+A+1/5XLck9wFIUskRNAYu38bZZV9QraigMfjJc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LaPPHRk0XSzK1Hee5Cdsxc/iAjtiz+QYrQ+qj9RrdwolAn6I5APS6f+fr5ux31crPh/LTUP1BMul/XpGq9yviBIu0jfPYF5iimNznVU/OXYhjk5cKnv4RVuo2jYM9ExQCR/5/uqkU9e0rZ6FKSuNnYQ8GCCqFcsBN4dB+1Em6Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=EDVQs9CJ; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1783718408; c=relaxed/simple;
+	bh=K7vDYpsWFtkBmyqXdPXV4EBKZsl5etuB65I+fJm4lQw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=TxMEKBOHvAb5Dph7a1/uKAfUU4yMDt1YL/zuWMjMnmh6SmZvg78sC6JOsPw1DR+9/TdIVGJjsS6AfOTDNwtfjVTit6H7taebiWSVHdkJy650RxNRF/z1XeKMKOz/nx/HVVA3/rSYHjf6FzcOatfKrPTkbc1jrDqp9zdImPvNPDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Je40zX7Q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="EDVQs9CJ"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-470174001a0so868096f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 14:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1783717795; x=1784322595; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nJ4cp+Dez60Lk/0/twpxfAxM2T1ZemRxFXgI3U5E6xA=;
-        b=EDVQs9CJl5S5T70WVvBOkAxOlh8gR8dX4JraJXazpLob09KEpHSB/I+aEGUnYD5alw
-         +QjNpSEbmmxSzbjvVIEPuTv8b6WwFHXCGAuvCwFdpVavF7/IhxtGjgzkQZjkp0eKvk34
-         FO4yGnVxoqaEFRk7ofqujNCr9yzQYD8x8/FnBKHryXvUjtBNB8Sa0vw0KzalZVnpAv5p
-         XW7D0DxZUqqK+bavwt9tun3a6fMLtq16i27zXmCflmAIEDHj3T99r8Jve0pjsNvIEmAU
-         Sozqs2avfXXxSfwXam5BC3vPT+0LfYydPKjHZf7ch+dnF0+58yvwYSD+3mwQOkiSZYpL
-         YnlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783717795; x=1784322595;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nJ4cp+Dez60Lk/0/twpxfAxM2T1ZemRxFXgI3U5E6xA=;
-        b=HVemHrg7thK3PLlvyy/soQ+Or5eQ7E1iBfJfxP7sHu7b6q6UAzWZm0AyzSR+pciM5F
-         UKqgPlhd/u4g9z1YEDz6UCXat1Qixrs9eksm11lQK8wyo8KIyyk6cBYrNUto7m/kF7hl
-         Ds11iqujH2bEfP8D7UVNantLdnefaVV/2/cx0MPYmVowUJjHWSi5ArhDsweaS77EQrvM
-         pP5UIf/JQDvCJj7r8f5+MzA95WsyqZGdDnYRwIsVzEHscNsvRehcYYaw6voNA130tKAC
-         ooIJPc1ftwmJb7TCQK1tZOO/oVcFPshe6o9zy1spi4lv7EV84JEsmbsZuOyOuY6kwPt+
-         YWtg==
-X-Gm-Message-State: AOJu0YzduoBARzHGjFW1/I616hOHmS+pEoaTUiSVo92PzGoIjlrQv698
-	6ATZr10quUFjJGIzM0Tuzp0IeXsleO3VY2XNQbUQEHh6yfVNVpwl7n1I6e9PbbNY0Ao=
-X-Gm-Gg: AfdE7cn+nYKx2mabWs3FAHYJaq5NI1ye9D6w/+lXEHPaOL1ByDU8qn/KrHhnHed5zoC
-	4LrhvFVpd+McsDcunYaz3gnCF3LJ2k8tZZiXbwEKdGBD/++mqXLJH7Lm3tkK0+uF1sahkKdQyBl
-	mNkend+tRCyVrvalV1yYht359rav2AsFFyBl6eZVSH9UyuqnC+V32DkVEubVLi0fZ2xsQYgYdrP
-	Gy9cLaR69XKgZh5xvNZCh99NWfEp2OayMrtFJ2BC4/frPIfBOjbOrRaDje4yPR62B2tCmotOgPv
-	z0qeEnCxMrGFO2GmLnTgnAMI5Sx1iPAru3n7VWwrd0PRaGnLiJiguuxxDI+uEgtW9D1ktdnMGvH
-	z0iWg+zljhopMrnzEOCDpK4jAeztQ/EMW8aTcoVbil+uxX/fmgIx32KJjdsBeICDbVc5KlWaHIa
-	TfB7+/ug9eRA==
-X-Received: by 2002:a05:6000:25fe:b0:475:5e4b:588e with SMTP id ffacd0b85a97d-47f2dc9bf45mr393022f8f.20.1783717795139;
-        Fri, 10 Jul 2026 14:09:55 -0700 (PDT)
-Received: from [127.0.1.1] ([151.41.178.17])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039b0cesm64274135f8f.22.2026.07.10.14.09.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 14:09:54 -0700 (PDT)
-From: Valerio Setti <vsetti@baylibre.com>
-Date: Fri, 10 Jul 2026 23:09:51 +0200
-Subject: [PATCH 3/3] ASoC: meson: aiu-encoder-i2s: use the core
- symmetric_rate handling
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Je40zX7Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CA51F000E9;
+	Fri, 10 Jul 2026 21:20:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783718407;
+	bh=agk6Lq9Q7fhqJWnKZOxx+JzowUA5NVdPlMIz6yfgy2s=;
+	h=From:To:Cc:Subject:Date;
+	b=Je40zX7QlpMeFEPJVqCFBAV+vhEbKCArebze1sibQKk68QkYbo5IXzDFLjZN4MDFs
+	 yPiia0yZyhPOfiFyDjEpkb9DOy1lnXc7C3Y+Rc4B/0ujUEO3jQx8zUiDfhbEAlKgSM
+	 uYw89aNGq3fhRC845RxWxZ/uTPkbCLr1iHKz/xc1EOMmOIYOXY3xQi1koaOIsdG8GE
+	 yXxHisf8/ajQb0ZmXIcvR5U+Qw/WM9SA0WVx/uCpxtJPqIkyvTroDqFv4hRnRBlw1d
+	 mTSqK1nbv+SmOuXHkNM3hNrlDoZAT6gwt4MXVj8hkjGmGZ726g/u8FFWX/yCrF8RlU
+	 +7z7k2VTdnYYQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-gpio@vger.kernel.org,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Greg Ungerer <gerg@linux-m68k.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Hauke Mehrtens <hauke@hauke-m.de>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-phy@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v2 00/10] treewide: replace linux/gpio.h
+Date: Fri, 10 Jul 2026 23:19:45 +0200
+Message-Id: <20260710211954.1373336-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-aiu-improve-quirk-check-v1-3-2fdd1b6f8896@baylibre.com>
-References: <20260710-aiu-improve-quirk-check-v1-0-2fdd1b6f8896@baylibre.com>
-In-Reply-To: <20260710-aiu-improve-quirk-check-v1-0-2fdd1b6f8896@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Jerome Brunet <jbrunet@baylibre.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Valerio Setti <vsetti@baylibre.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3679; i=vsetti@baylibre.com;
- h=from:subject:message-id; bh=KLOO+A+1/5XLck9wFIUskRNAYu38bZZV9QraigMfjJc=;
- b=owGbwMvMwCV2z3ty7kUrRgbG02pJDFmB8fMqPrE8nRhfP30LO/vfSM6k6H9Wd/a1p3H6RzIu9
- vv7+MuEjlIWBjEuBlkxRRaW6fd+F5SqPTROOFkAM4eVCWQIAxenAEyEX4fhn2KGWnPtrGvbgg+5
- /879806yOteupubvqj8RZ5dPXFH0bA0jw0MB3nTWTR/lv4i80mewK3trLxL4/eBbtb2HtG397W6
- +5QQA
-X-Developer-Key: i=vsetti@baylibre.com; a=openpgp;
- fpr=0497DEFB707526E13360C970DE4B936DD13A0100
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The driver manually implement the interface-wide rate symmetry enforcement
-in hw_params(), which suffers from the same problem addressed in the
-previous patch: the restriction is not visible in the hw parameter
-constraints, so a stream with a mismatching rate only finds out via
--EINVAL late in the stream setup.
+From: Arnd Bergmann <arnd@arndb.de>
 
-The ASoC core already provides this feature through the DAI's
-'symmetric_rate' flag: when another stream of the DAI is active,
-soc_pcm_apply_symmetry() constrains the rate at open time so the
-restriction shows up during parameter refinement, and
-soc_pcm_params_symmetry() still rejects a mismatch at hw_params()
-time as a backstop.
+The linux/gpio.h header used to be the global definition for the gpio
+interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+130 of those remain, so this series cleans out the rest.
 
-Set 'symmetric_rate' on the I2S encoder DAI and drop the open-coded
-check along with the now unused 'rate' member of struct gx_iface.
+In each subsystem, we can replace the header either with
+linux/gpio/consumer.h for users of the modern gpio descriptor interface,
+or linux/gpio/legacy.h for the few remaining users of the old number
+based interface.
 
-Signed-off-by: Valerio Setti <vsetti@baylibre.com>
----
- sound/soc/meson/aiu-encoder-i2s.c | 21 ++-------------------
- sound/soc/meson/aiu.c             |  1 +
- sound/soc/meson/gx-interface.h    |  3 ---
- 3 files changed, 3 insertions(+), 22 deletions(-)
+All patches in this series can get applied independently, so my
+preference would be for each subsystem maintainer to apply these
+directly, with the rest going into the gpio tree at some point.
 
-diff --git a/sound/soc/meson/aiu-encoder-i2s.c b/sound/soc/meson/aiu-encoder-i2s.c
-index 4c62ea41d7e8..58dce9f08c9d 100644
---- a/sound/soc/meson/aiu-encoder-i2s.c
-+++ b/sound/soc/meson/aiu-encoder-i2s.c
-@@ -179,28 +179,14 @@ static int aiu_encoder_i2s_hw_params(struct snd_pcm_substream *substream,
- 				     struct snd_soc_dai *dai)
- {
- 	struct gx_stream *ts = snd_soc_dai_get_dma_data(dai, substream);
--	struct gx_iface *iface = ts->iface;
- 	int ret;
- 
--	/*
--	 * Enforce interface wide rate symmetry only if there is more than
--	 * 1 stream active.
--	 */
--	if (snd_soc_dai_active(dai) > 1) {
--		if (iface->rate && iface->rate != params_rate(params)) {
--			dev_err(dai->dev, "can't set iface rate (%d != %d)\n",
--				iface->rate, params_rate(params));
--			return -EINVAL;
--		}
--	}
--
- 	ret = aiu_encoder_i2s_set_clocks(substream, params, dai);
- 	if (ret) {
- 		dev_err(dai->dev, "setting i2s clocks failed: %d\n", ret);
- 		return ret;
- 	}
- 
--	iface->rate = params_rate(params);
- 	ts->physical_width = params_physical_width(params);
- 	ts->width = params_width(params);
- 	ts->channels = params_channels(params);
-@@ -233,17 +219,14 @@ static int aiu_encoder_i2s_hw_free(struct snd_pcm_substream *substream,
- 				   struct snd_soc_dai *dai)
- {
- 	struct gx_stream *ts = snd_soc_dai_get_dma_data(dai, substream);
--	struct gx_iface *iface = ts->iface;
- 	struct snd_soc_component *component = dai->component;
- 
- 	/*
- 	 * If this is the last substream being closed then disable the i2s
--	 * clock divider and clear 'iface->rate'.
-+	 * clock divider.
- 	 */
--	if (snd_soc_dai_active(dai) <= 1) {
-+	if (snd_soc_dai_active(dai) <= 1)
- 		aiu_encoder_i2s_divider_enable(component, 0);
--		iface->rate = 0;
--	}
- 
- 	if (ts->clk_enabled) {
- 		clk_disable_unprepare(ts->iface->mclk);
-diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
-index 64ace4d25d92..2668646e3597 100644
---- a/sound/soc/meson/aiu.c
-+++ b/sound/soc/meson/aiu.c
-@@ -154,6 +154,7 @@ static struct snd_soc_dai_driver aiu_cpu_dai_drv[] = {
- 			.formats = AIU_FORMATS,
- 		},
- 		.ops = &aiu_encoder_i2s_dai_ops,
-+		.symmetric_rate = 1,
- 	},
- 	[CPU_SPDIF_ENCODER] = {
- 		.name = "SPDIF Encoder",
-diff --git a/sound/soc/meson/gx-interface.h b/sound/soc/meson/gx-interface.h
-index d9ab894589fa..2a6207e393e8 100644
---- a/sound/soc/meson/gx-interface.h
-+++ b/sound/soc/meson/gx-interface.h
-@@ -19,9 +19,6 @@ struct gx_iface {
- 
- 	/* format is common to all the DAIs of the iface */
- 	unsigned int fmt;
--
--	/* For component wide symmetry */
--	int rate;
- };
- 
- struct gx_stream {
+I've uploaded this to 
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/ config-gpio-legacy-for-7.3
+
+      Arnd
+
+
+v2: dropped two already applied patches,
+    removed duplicate includes,
+    dropped final patch to remove linux/gpio.h as it now depends
+    on patches in linux-next
+
+ arch/arm/mach-davinci/da850.c                       | 2 +-
+ arch/arm/mach-dove/mpp.c                            | 2 +-
+ arch/arm/mach-mv78xx0/buffalo-wxl-setup.c           | 2 +-
+ arch/arm/mach-mv78xx0/irq.c                         | 2 +-
+ arch/arm/mach-mv78xx0/mpp.c                         | 2 +-
+ arch/arm/mach-mvebu/pm.c                            | 2 +-
+ arch/arm/mach-mxs/mach-mxs.c                        | 2 +-
+ arch/arm/mach-orion5x/board-d2net.c                 | 2 +-
+ arch/arm/mach-orion5x/board-rd88f5182.c             | 2 +-
+ arch/arm/mach-orion5x/dns323-setup.c                | 2 +-
+ arch/arm/mach-orion5x/irq.c                         | 2 +-
+ arch/arm/mach-orion5x/kurobox_pro-setup.c           | 2 +-
+ arch/arm/mach-orion5x/mv2120-setup.c                | 2 +-
+ arch/arm/mach-orion5x/net2big-setup.c               | 2 +-
+ arch/arm/mach-orion5x/terastation_pro2-setup.c      | 2 +-
+ arch/arm/mach-orion5x/ts209-setup.c                 | 2 +-
+ arch/arm/mach-orion5x/ts409-setup.c                 | 2 +-
+ arch/arm/mach-pxa/am200epd.c                        | 2 +-
+ arch/arm/mach-pxa/am300epd.c                        | 2 +-
+ arch/arm/mach-pxa/generic.c                         | 2 +-
+ arch/arm/mach-pxa/gumstix.c                         | 2 +-
+ arch/arm/mach-pxa/mfp-pxa2xx.c                      | 2 +-
+ arch/arm/mach-pxa/pxa25x.c                          | 2 +-
+ arch/arm/mach-pxa/pxa27x.c                          | 2 +-
+ arch/arm/mach-pxa/reset.c                           | 2 +-
+ arch/arm/mach-pxa/sharpsl_pm.c                      | 2 +-
+ arch/arm/mach-pxa/spitz.c                           | 2 +-
+ arch/arm/mach-pxa/spitz_pm.c                        | 2 +-
+ arch/arm/mach-s3c/dev-audio-s3c64xx.c               | 2 +-
+ arch/arm/mach-s3c/devs.c                            | 2 +-
+ arch/arm/mach-s3c/mach-crag6410.c                   | 2 +-
+ arch/arm/mach-s3c/pm-gpio.c                         | 2 +-
+ arch/arm/mach-s3c/pm-s3c64xx.c                      | 2 +-
+ arch/arm/mach-s3c/setup-fb-24bpp-s3c64xx.c          | 2 +-
+ arch/arm/mach-s3c/setup-i2c0-s3c64xx.c              | 2 +-
+ arch/arm/mach-s3c/setup-i2c1-s3c64xx.c              | 2 +-
+ arch/arm/mach-s3c/setup-keypad-s3c64xx.c            | 2 +-
+ arch/arm/mach-s3c/setup-sdhci-gpio-s3c64xx.c        | 2 +-
+ arch/arm/mach-s3c/setup-spi-s3c64xx.c               | 2 +-
+ arch/arm/mach-sa1100/collie.c                       | 2 +-
+ arch/arm/mach-sa1100/generic.c                      | 2 +-
+ arch/arm/mach-sa1100/h3600.c                        | 2 +-
+ arch/arm/mach-sa1100/h3xxx.c                        | 2 +-
+ arch/arm/plat-orion/mpp.c                           | 2 +-
+ arch/m68k/coldfire/device.c                         | 2 +-
+ arch/m68k/include/asm/mcfgpio.h                     | 2 +-
+ arch/mips/alchemy/board-xxs1500.c                   | 2 +-
+ arch/mips/alchemy/devboards/db1000.c                | 2 +-
+ arch/mips/alchemy/devboards/db1200.c                | 2 +-
+ arch/mips/alchemy/devboards/db1550.c                | 2 +-
+ arch/mips/bcm47xx/workarounds.c                     | 2 +-
+ arch/mips/bcm63xx/boards/board_bcm963xx.c           | 1 +
+ arch/mips/include/asm/mach-bcm63xx/board_bcm963xx.h | 2 +-
+ arch/mips/txx9/rbtx4927/setup.c                     | 2 +-
+ arch/sh/boards/board-magicpanelr2.c                 | 2 +-
+ arch/sh/boards/board-sh7757lcr.c                    | 2 +-
+ arch/sh/boards/board-urquell.c                      | 2 +-
+ arch/sh/boards/mach-ap325rxa/setup.c                | 2 +-
+ arch/sh/boards/mach-ecovec24/setup.c                | 2 +-
+ arch/sh/boards/mach-highlander/pinmux-r7785rp.c     | 2 +-
+ arch/sh/boards/mach-kfr2r09/lcd_wqvga.c             | 2 +-
+ arch/sh/boards/mach-kfr2r09/setup.c                 | 2 +-
+ arch/sh/boards/mach-migor/lcd_qvga.c                | 2 +-
+ arch/sh/boards/mach-migor/setup.c                   | 2 +-
+ arch/sh/boards/mach-rsk/devices-rsk7203.c           | 2 +-
+ arch/sh/boards/mach-rsk/devices-rsk7269.c           | 1 -
+ arch/sh/boards/mach-se/7724/setup.c                 | 2 +-
+ arch/sh/include/mach-common/mach/magicpanelr2.h     | 2 --
+ arch/sh/kernel/cpu/sh4a/setup-shx3.c                | 2 +-
+ drivers/gpib/gpio/gpib_bitbang.c                    | 1 -
+ drivers/input/keyboard/matrix_keypad.c              | 1 -
+ drivers/mfd/aat2870-core.c                          | 2 +-
+ drivers/mfd/arizona-irq.c                           | 2 +-
+ drivers/mfd/lp3943.c                                | 2 +-
+ drivers/mfd/sm501.c                                 | 2 +-
+ drivers/mfd/tps6105x.c                              | 2 +-
+ drivers/mfd/tps65911-comparator.c                   | 2 +-
+ drivers/mfd/wm8994-irq.c                            | 2 +-
+ drivers/pcmcia/bcm63xx_pcmcia.c                     | 2 +-
+ drivers/pcmcia/db1xxx_ss.c                          | 2 +-
+ drivers/pcmcia/sa1100_h3600.c                       | 2 +-
+ drivers/pcmcia/soc_common.c                         | 2 +-
+ drivers/pcmcia/xxs1500_ss.c                         | 2 +-
+ drivers/phy/broadcom/phy-bcm-ns2-usbdrd.c           | 1 -
+ drivers/phy/rockchip/phy-rockchip-usbdp.c           | 2 +-
+ drivers/phy/ti/phy-j721e-wiz.c                      | 1 -
+ include/linux/mfd/lp3943.h                          | 2 +-
+ include/linux/mfd/ti-lmu.h                          | 1 -
+ include/linux/mfd/tps65910.h                        | 2 +-
+ include/linux/mfd/ucb1x00.h                         | 2 +-
+ sound/soc/codecs/cs42l84.c                          | 1 -
+ sound/soc/codecs/cx2072x.c                          | 2 +-
+ sound/soc/codecs/dmic.c                             | 1 -
+ 93 files changed, 84 insertions(+), 93 deletions(-)
 
 -- 
-2.47.3
+2.39.5
 
+Cc: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: Gregory Clement <gregory.clement@bootlin.com>
+Cc: Frank Li <Frank.Li@nxp.com>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Greg Ungerer <gerg@linux-m68k.org>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Hauke Mehrtens <hauke@hauke-m.de>
+Cc: "Rafał Miłecki" <zajec5@gmail.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Linus Walleij <linusw@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: patches@opensource.cirrus.com
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: linux-gpio@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-phy@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-sound@vger.kernel.org
