@@ -1,205 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514A8369D76;
-	Fri, 10 Jul 2026 13:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03154312803
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 13:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783689345; cv=none; b=XOLQq9kgD9k+EEoCDlyQdqCHZ75shc6XKSXdIPNm4Rd38bY5mPcbFIJ+WuLJLVGRYwu3NZMHrWQzIRy09/OqBQ9VqKP38GXsga1abl0WWFP4QWPSEAPFf1GdbJAjzZPPeLyripqmXzkKegpUdGQbQjrUeZ/euxkgo8dyraNrrcA=
+	t=1783690474; cv=none; b=YeOn+yPLm1EVL+8sYsA8bSCFWRJ7Ts4Y8vHRLgGdj/FkVAe+QE3AKqlPxF2je/3zspVZqMtvJqcpQhAMdA62sRi/n6jxI2cIfTuJmSyjKPRJpSvugIiTDalMy2EjnnorxuEk2iMjP/Apr+3iN7pQzZ0kJAmiTU5GktuPJvgTVas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783689345; c=relaxed/simple;
-	bh=n2tMHoLr+ubih1Q34XeJUjBwtoclo3APEbaBNfDKWBY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VfO+3qYn5hEexNuH1/1UGQLCTPpfmjI69JD+gCyUVXFER0vSK+D5Qgi17T9jTnsv0omVq8LP4Ax499RPbNrbg398iIy3FHcZyK5Bl9uxOuiH7vh71bU5Fc82CcBfvGeaURCD9s4hbmGGKGqDS6jv+I/ofXs++w+d/3E+IzuWSyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VPtbpUbV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783690474; c=relaxed/simple;
+	bh=LvPjzFsedN434UCB4A5TrA78lY278R8K7SGr9bAhIwA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ny3kQZnuCOytligU9F1ozStyRvT5Uuo/WKgmlDRJj35cagbDhFGJN3k9Nvgey8iGYzgO70jhjlPQ8NU5q88+KeDJQeuLlb1NmCZekApXXlmy9oz8M4loAHJQiT9hj415hxetaKp8P0P7Cy/KpuOCYwAl36aD0f742nnViHsu34E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Msmzz+wW; arc=none smtp.client-ip=74.125.227.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VPtbpUbV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A40E71F00A3A;
-	Fri, 10 Jul 2026 13:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783689344;
-	bh=rx/8gALKK6VAdXbfpPjC1MKZl9eeecWweGFPH/OHuEg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VPtbpUbVXMNlg61BFX59iMclPIF2ufhARVU4gF7cciYo7oFsSJjeZqGdCISGilehe
-	 WU/w+xWLMIuQYHeTQrJRwRa2eW1M3FoYdAuaiTdCA8pXmNLh8UjfAX2phL2fKDaCvu
-	 M5tu7Nccs/F5aGlwq/jeaa42Ulo6+GIvC0d5YVrVse66qQJ/kal1gFqISRRNGeX+3Y
-	 7sxsINL5JJXTYdB1In94vI1AyrEL578RL+LQPivCi619HeEO9DJHYMyCNCAjKSKxpx
-	 jo3JNXoAyk/LtVEfCWAwyPsJHVhxGang2+obiAHvYodGhinFLsT8m2unpqYdA+tb4z
-	 K6GFaBKZQEM7A==
-Message-ID: <315a0aec-99e8-4d03-a04b-613acfae1f52@kernel.org>
-Date: Fri, 10 Jul 2026 15:15:17 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Msmzz+wW"
+Received: by mail-pj2-f1.google.com with SMTP id d9443c01a7336-2cb3f5bb19aso2963495ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 06:34:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783690472; x=1784295272; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=N6aF6JJy2BT8ugCrzwqVD8vsmLg8UrrwBH9MiDodmnM=;
+        b=Msmzz+wW0eb99IXh8d8u1DsJEbBeN4XgRrSzH76aSscJgGMDZJGPe1dPxnErfVnaDJ
+         0e3pGE+YyshcjleEfINTWk4LVWr2V3S9PH8spfR0CkzwUKn8IU4oMbhSmYj9rtVayJcF
+         hoIwg35erF4m7WAT4EVOH2LfipJFZJnLikfv28BSqJanruu7iudMazaHc/vOH7WbOANI
+         qxSOng+OiQXcEXNHDDRIFDmZxk3NRpfk5kHcnim0fHZY/4wK/IzhkwUtSKJywpW9oC2z
+         etkzQUraGVo9C07cLpoI00euBMEWXc4Yk+GRCbwYCzzRjeGKmmz+LkpANgLW8nYeORgy
+         Gilw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783690472; x=1784295272;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=N6aF6JJy2BT8ugCrzwqVD8vsmLg8UrrwBH9MiDodmnM=;
+        b=O0F53inZ+jC7cJv38okBvQK0dbQPx8i8aldgTAQOhpe9zJMCJvWK9WtwTvRLs5ozRG
+         yxrHBCfhHhQPQhx4wi2UNMRCQcUusDf9JcxF801mDPhpqKlIZJFrhESSFEPwbjK6HHbn
+         Ki7uiTfLoD0dg9FC0ToC7gK//ObRFNiYlbtjo4QKL5kBKcHT0fZMqEmrKg2A8Qvb2iq3
+         TnZxqfvF6FBc1T9IBcI1QpOmV+l/1yNWzjYC85cni8zgl5ZX7RfYviETjWcq7v9Gyyo1
+         loe9eKSmnBPVP77rq+VgvK/4kLWzI4mH2amiuBIukveMO9NwFChxN6isHz1fpAxh7O58
+         jTQg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqi0xBiFKxL/3nspJlPAvCyAEixquUnKsuZNc106dUoLtNnOxq51Dcr7lET+88mn+BVYzZd5dXTWOsqaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHyolJtOVa578w+BrsSnA2S5fuWL9/wBs/a2IR3S9uDJ+/f8l8
+	c4NK5BcIUT4PDqEV9YMMssy2wzPRmfBr2ODZcHaYcippxo/rEEldjxk=
+X-Gm-Gg: AfdE7ckfaN2EogWe5XcwfhCBBGrsU2jdbZGfryfyg7XALltBNTxX0SYqWlEiohN/pmi
+	4mFpR8/nSG9YKO2HWqQQW7exQ3pPj5hSgPsLPyiREO6lKsC5KjvHO9J1YGAf5kLoJ8k21qRiyue
+	KJ7oVoAhqwsV4SMawPyFt+AOTFcNq3FLdf+EikEE1Uje6M2W0vE6N5yyleBjGCZ3W0u+0bhj8B/
+	W2/mVQZXFyC7pDF8WXyElSzcbGozz6nkz5IVSmA+h6whe95ZLA19pu2FDpKuEqEazGXvSBPXgXL
+	XJV7vpJ9Xg1ZybVj1cf46fBJSezLFeDMXcUHj6Qkm2y7R2ZfZ6ZOtLAFz8AgP0TbuBhV2CzsCv/
+	OXHpyjAUM2zJ1sx1cut4MwjLDXAl5c8CwM5SLjpM2Pufsu2XAfOmuBEJnk/Y49utqU3uq1+HcX7
+	egjx9kb3KG5k8Eo75IfoZ/78ZteeXTzvbSekPN
+X-Received: by 2002:a17:902:f68d:b0:2c9:c517:d078 with SMTP id d9443c01a7336-2ccea42e1efmr113080885ad.36.1783690472236;
+        Fri, 10 Jul 2026 06:34:32 -0700 (PDT)
+Received: from laptop-arch.localdomain ([125.122.235.42])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9c1fdb5sm59762055ad.33.2026.07.10.06.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 06:34:31 -0700 (PDT)
+From: Chen Bowen <hicbowen@gmail.com>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Zhang Heng <zhangheng@kylinos.cn>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen Bowen <hicbowen@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix speakers on MECHREVO WUJIE Series
+Date: Fri, 10 Jul 2026 21:34:09 +0800
+Message-ID: <20260710133409.16641-1-hicbowen@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 21/23] mfd: Unify style of of_device_id arrays
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
- <u.kleine-koenig@baylibre.com>, Lee Jones <lee@kernel.org>
-Cc: Linus Walleij <linusw@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Chen-Yu Tsai <wens@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- James Ogletree <jogletre@opensource.cirrus.com>,
- Fred Treven <fred.treven@cirrus.com>, Ben Bright <ben.bright@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Support Opensource <support.opensource@diasemi.com>,
- Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Tim Harvey <tharvey@gateworks.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Sven Peter
- <sven@kernel.org>, Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>,
- Chanwoo Choi <cw00.choi@samsung.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Saravanan Sekar <sravanhome@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade
- <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Matti Vaittinen <mazziesaccount@gmail.com>, Orson Zhai
- <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Sudeep Holla <sudeep.holla@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>,
- mfd@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com,
- linux-rpi-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rockchip@lists.infradead.org
-References: <cover.1783615311.git.u.kleine-koenig@baylibre.com>
- <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
- <DJUWS6ZZUDS0.2ILHWRFQ1XD1S@bootlin.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <DJUWS6ZZUDS0.2ILHWRFQ1XD1S@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 10/07/2026 15:00, Mathieu Dubois-Briand wrote:
-> On Thu Jul 9, 2026 at 6:58 PM CEST, Uwe Kleine-König (The Capable Hub) wrote:
->> These arrays already mostly match the most used and generally
->> recommended coding style. That is:
->>
->>  - no comma after the list terminator;
->>  - a comma after an initializer if (and only if) the closing } is not
->>    directly following;
->>  - no explicit zeros in the list terminator;
->>  - a space after an opening { and before a closing }, a single space in
->>    the list terminator;
->>
->> Adapt the offenders accordingly.
->>
->> Reviewed-by: André Draszik <andre.draszik@linaro.org> # for Maxim MAX77759
->> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+The internal speakers on the MECHREVO WUJIE Series are silent,
+while the headphone output works correctly.
 
-Here...
+The BIOS reports NID 0x1b on the Realtek ALC233 codec as
+unconnected with pin configuration 0x411111f0. However, the pin
+is connected to an internal speaker.
 
->> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
->> ---
-> 
-> ...
-> 
->>  
->> diff --git a/drivers/mfd/max7360.c b/drivers/mfd/max7360.c
->> index 52fffed0c0dd..dc744b40bb38 100644
->> --- a/drivers/mfd/max7360.c
->> +++ b/drivers/mfd/max7360.c
->> @@ -152,7 +152,7 @@ static int max7360_probe(struct i2c_client *client)
->>  
->>  static const struct of_device_id max7360_dt_match[] = {
->>  	{ .compatible = "maxim,max7360" },
->> -	{}
->> +	{ }
->>  };
->>  MODULE_DEVICE_TABLE(of, max7360_dt_match);
->>  
-> 
-> Reviewed-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com> # max7360
+Overriding NID 0x1b with 0x90170150 makes the HDA generic parser
+detect both 0x14 and 0x1b as speaker outputs and restores internal
+speaker playback.
 
-and here
+Add a pin configuration fixup for the affected PCI SSID c011:1d05.
 
-Thesr are all Acks, not reviews. Entire commit will now carry multiple
-review tags, implying it was reviewed by 3 or more people but none of
-these people actually reviewed the commit. None!
+Tested on a MECHREVO WUJIE Series laptop with board
+WUJIE Series-Lark4-LNL and firmware EM_LNL326_V1.0.23.
 
-They looked at one line out of 100.
+Signed-off-by: Chen Bowen <hicbowen@gmail.com>
+---
+ sound/hda/codecs/realtek/alc269.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-This is ridiculous.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index f7700713dc62..ef868c3d090a 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -3942,6 +3942,7 @@ enum {
+ 	ALC275_FIXUP_DELL_XPS,
+ 	ALC293_FIXUP_LENOVO_SPK_NOISE,
+ 	ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY,
++	ALC233_FIXUP_WUJIE_SPEAKERS,
+ 	ALC233_FIXUP_LENOVO_L2MH_LOW_ENLED,
+ 	ALC255_FIXUP_DELL_SPK_NOISE,
+ 	ALC225_FIXUP_DISABLE_MIC_VREF,
+@@ -4206,6 +4207,13 @@ static void alc287_fixup_lenovo_yoga_book_9i(struct hda_codec *codec,
+ }
+ 
+ static const struct hda_fixup alc269_fixups[] = {
++	[ALC233_FIXUP_WUJIE_SPEAKERS] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x1b, 0x90170150 }, /* internal speaker */
++			{ }
++		},
++	},
+ 	[ALC269_FIXUP_GPIO2] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc_fixup_gpio2,
+@@ -7915,6 +7923,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
+ 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
+ 	SND_PCI_QUIRK(0x8086, 0x3038, "Intel NUC 13", ALC295_FIXUP_CHROME_BOOK),
++	SND_PCI_QUIRK(0xc011, 0x1d05, "MECHREVO WUJIE Series", ALC233_FIXUP_WUJIE_SPEAKERS),
+ 	SND_PCI_QUIRK(0xf111, 0x0001, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x0006, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0xf111, 0x0009, "Framework Laptop", ALC295_FIXUP_FRAMEWORK_LAPTOP_MIC_NO_PRESENCE),
+-- 
+2.55.0
 
-Quoting:
-"Reviewed-by:, instead, indicates that the patch has been reviewed and
-found acceptable according to the Reviewer's Statement:"
-
-Not piece of a patch. THE PATCH.
-
-Best regards,
-Krzysztof
