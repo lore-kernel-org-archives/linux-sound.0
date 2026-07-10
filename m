@@ -1,110 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7594A40F8DF
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 10:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614793F6C2D
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 11:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783680318; cv=none; b=T71hqXLk6dxSBSxnHhwZHwq6amw9zZVJkV4d+aBPrxmM46J7wEiwWtzEqHDoxrvswR6Ic9k8kdF7ez7tSmLD5i6jY4FBLo+BwbjVqP3WaNFTjH7DErve6OnX9rFMA6OWdngqGlvGe9gslG8/9l6Rik7Zw0bCbfo5yFDvUAULBYI=
+	t=1783681567; cv=none; b=XECLOk+uTJ6JDJTxVBlHbu741nAPHblJqaCZwcKBS4nCAFHlhTFGWwSs8cNFR4csUF4LpU8HM8kG3BSiPNyABNg6YzPisi4ThqdqdJOOptMp2hzpb308Othuv4T4KFlEuRMX6u447wDRTjvqubAL9ct3ZYjQ1kJ8ZYTJvt3pB6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783680318; c=relaxed/simple;
-	bh=5rV2rI21VhZ4AqPpQN0h0i4VVnZtMGqIJQttR0mGQKM=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=frH+83OtQLplse93e+OGOxHwAjfDQjk4QdW6q8SqpNfiA+FZOGuFtKBdRcCOY+m2OCynfQGAk59xXZb+O2+mYSt3IG4MFzt6uniWuayIB0U3W9iUfDGvzsYejVZSO9q3yM/0mhXP0Tx1wM4W7VIIlgL7HaatKrxMV9U7nokhCdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ND4ie0Oc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783681567; c=relaxed/simple;
+	bh=P2l3uI8Ag9Hn8VEmZ1nCu3l91PW7O2Yc1kwvwy44Ew4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MwyKiByPZUgebx7rQ1wFtsJ6W+dOnnQan1JBK1yumwXA+ooAF+1fdq9Cd0o/y5yt3Hxkg+gEiJ3/mySxunTYu7JtGVr7GH8SVmPPEbqOH96qbn/WHLA1lqcpIkdUVK0/6yRnsH5EFwsb4EYa/8tvMwa8Ogg5EYEdE5xCG3xTWyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ISrTsNtu; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ND4ie0Oc"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 58F991F000E9;
-	Fri, 10 Jul 2026 10:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783680315;
-	bh=8QFS/UzOEfR7QT5s1IpcmXGVFQcaySqXOUnd6kbIuso=;
-	h=From:To:Cc:Subject:Date;
-	b=ND4ie0OcEYgYHAo6DaeDoEV/Z6xhdEZyW2/2ol+k0nAh3Q4BQbMrUZaUBpQbTnrUh
-	 ZPjHkGIf9ciR4afz4x1561MXG3zsO/hP791/ULnwhJ5tWHwZwApJrmpfh6TfHmrtHf
-	 ZFuheKTa1ItBH79nrkjVIZ2ludnYYNgnE8XWCdSwRMiQh9FDKWGkaOpJI/imIA3aLq
-	 5vma2I8cwnK3sKddQ5dYhBydVgmEpsGNWh1QXABLnRaVPwggFra9vmalzAzIg1G48S
-	 hD4Ep8arO+Ua0WZh0z6m+LigaBjjpHR55vKTAVly2MRXDbpKBruyaJH0IZHm7S6S8G
-	 3dfrLBKFj+11Q==
-Message-ID: <19b1f3ea7e0f08ad827d02c50075f69d@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.2-rc2
-Date: Fri, 10 Jul 2026 11:45:07 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ISrTsNtu"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-ca913a601fbso581793a12.3
+        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 04:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783681566; x=1784286366; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bxEC8S+4wPaf6YNA7I4YHpQhkjSKPcljYjeafE5m3P0=;
+        b=ISrTsNtuQyRF0mGDMi1Kbt7p40PEgz0L+hvwde5gF0vf4rWyTxhhNBmhOIJ6MX9clQ
+         wnj8ZRo5g14H7VU4Yv+eZ3u/hgKuzXPypAEi3OzhVVb7DXbHaYbzUXFnnMBVAmd/Ou8o
+         cpJMkQ0Cf/kSt8C85HzwTGgLKWNdtbXuoD6aOCvBlgZlokVEMFR0i6pox2kwhEgzz5Pv
+         fQ+Eb5FOhSM8Vf1UZJJZiCHr+3D7lMylfuwlkui6gHoz5KPDu8vJmvDR+m5JqG6mftrl
+         2DTkfNq7VoQawfmA1bNGDPLUsx4AR0Q7xMsyppiZDYesXhyWqQIljn6nXy/VZY3bpWmo
+         fhHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783681566; x=1784286366;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bxEC8S+4wPaf6YNA7I4YHpQhkjSKPcljYjeafE5m3P0=;
+        b=BrW6RsMppddhsYifVHg53J/XXHAomsA5kqYNpOg3n1e4c52vK3BuVkFjakwdJArB7j
+         oQXotY7vzvnuCVD8P2+UhtRE6iLf2uMcjCpiljZv3vQlJmCkfsdA/iJ3rF4FMcy+plku
+         Bf1kR2nYdc93Iuvb5qs7DkHuVVPNExJaFKgnEkQiXgixi3UwOqCTK2BawGLk3p/Z/n80
+         CfMLg5bSSH9tHQY9b/TZmEbDbV48qkLAZ6PVDMK16VCeuDC8naa9ctJUMdSaDStAb+ID
+         Jrb2N1xy274EKRSGPnrfFz0C8UX+JD02wk7vTUP4orbWHtXPakvvHk8B4jxZKexqCezS
+         eOFg==
+X-Forwarded-Encrypted: i=1; AHgh+RoDWnalHqw6zFXpW1aJOinNd3+KlyQ851Hh1z6G83vbbx51d+h3GXCEl0M18QtETsgF03LERrDaNp6Fgg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAhrKKah1DZSxv5AFtnprAOLrgkv9xgblXMDV2D4zwaYx4ddBz
+	gyjQMBGX1QUqJje5R6KZtPSISI26GhUkIfOpme4GDGaQTy10yuLnsPH0
+X-Gm-Gg: AfdE7cm69n597+ZZ3TYtHNYDrJWwpURteYZ+C06LczD5RB/uBT442yEMycy8W6PJdhk
+	oySC+XthKb6twqFmt48zfEdioZDworMoFfWq9hRGg0dNxBy6iX2mYinLuEb+Yhf6/ZQ1UlB1RaR
+	NroAzuaFaPwrX4KfOlGW3oXYJL4/XLe1+LHOKaSwrjJ4Ic0WZgFspZxFVen622d56kjZdQA9Zcl
+	G5bRQiCVSCFIrHZYW4Y7DqIAn1fL+ANzeiy45x+cH87nFS95ZJzHIqr8uLtYaXJ7g6AX3/0jQwy
+	9DBdIYhBeqcgw8oAgEzCDncxszmqc6XGAxbug9ZIUVPQ0C9ExsW7MVOlwGKsIfrwg/qRTaxY7Dy
+	hILqPNvUgmttBqlPKiEgOixUbWIDrc/BL9y9/41zUid5eZgIsdl1YJ+hzTYja8mPlvajPaCKVrD
+	utgpk5yAc9ZasqxIuPI8smyf3vMo+c/ExHSJehYFoNx40M48aFojcbgC+P2w==
+X-Received: by 2002:a05:6a20:d493:b0:3bf:7110:9949 with SMTP id adf61e73a8af0-3c0bcbe9106mr13761714637.6.1783681565625;
+        Fri, 10 Jul 2026 04:06:05 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ca5afeb060bsm4960310a12.14.2026.07.10.04.06.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 04:06:05 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: uniphier: Drop redundant error messages in probe
+Date: Fri, 10 Jul 2026 18:02:49 +0700
+Message-ID: <20260710110249.31830-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 8cdeaa50eae8dad34885515f62559ee83e7e8dda:
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-  Linux 7.2-rc2 (2026-07-05 14:44:06 -1000)
+Return the error directly when the helper already reports the failure,
+avoiding duplicate log messages.
 
-are available in the Git repository at:
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/uniphier/aio-cpu.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc2
+diff --git a/sound/soc/uniphier/aio-cpu.c b/sound/soc/uniphier/aio-cpu.c
+index d3dba21b2d04..78c82bf42a8f 100644
+--- a/sound/soc/uniphier/aio-cpu.c
++++ b/sound/soc/uniphier/aio-cpu.c
+@@ -795,16 +795,12 @@ int uniphier_aio_probe(struct platform_device *pdev)
+ 	ret = devm_snd_soc_register_component(dev, &uniphier_aio_component,
+ 					      chip->chip_spec->dais,
+ 					      chip->chip_spec->num_dais);
+-	if (ret) {
+-		dev_err(dev, "Register component failed.\n");
++	if (ret)
+ 		goto err_out_reset;
+-	}
+ 
+ 	ret = uniphier_aiodma_soc_register_platform(pdev);
+-	if (ret) {
+-		dev_err(dev, "Register platform failed.\n");
++	if (ret)
+ 		goto err_out_reset;
+-	}
+ 
+ 	return 0;
+ 
+-- 
+2.43.0
 
-for you to fetch changes up to 3238c634725afbb2a137fdda762208510828f71d:
-
-  ASoC: tas2562: fix deprecated 'shut-down' GPIO always cleared after lookup (2026-07-09 00:33:20 +0100)
-
-----------------------------------------------------------------
-ASoC: Fixes for v7.2
-
-A fairly standard set of device specific fixes and quriks for new
-devices, nothing too remarkable here.
-
-----------------------------------------------------------------
-Baojun Xu (1):
-      ASoC: amd: acp: amd-acp70-acpi-match: Add tas2783 support
-
-Charles Keepax (1):
-      ASoC: cs42l43: Correct report for forced microphone jack
-
-Christian Hewitt (1):
-      ASoC: meson: aiu: fifo-spdif: soft reset the S/PDIF datapath on start/stop
-
-Maciej Strozek (1):
-      ASoC: sof_sdw: Add a quirk for 0x17aa383c laptop using sidecar amps with cs42l43
-
-Mark Brown (2):
-      Vijendar Mukunda <Vijendar.Mukunda@amd.com> says:
-      ASoC: qcom: Add Eliza audio support
-
-Ravi Hothi (3):
-      ASoC: dt-bindings: qcom: Add Eliza LPASS macro codecs
-      ASoC: dt-bindings: qcom,sm8250: Add Eliza sound card
-      ASoC: qcom: sc8280xp: Add support for Eliza
-
-Syed Saba Kareem (1):
-      ASoC: amd: acp: Fix linker error with SDCA quirks
-
-Tianze Shao (1):
-      ASoC: rt712-sdca: reset codec at io_init to fix silent headphone
-
-Uday Khare (1):
-      ASoC: tas2562: fix deprecated 'shut-down' GPIO always cleared after lookup
-
-Vijendar Mukunda (3):
-      ASoC: amd: ps: disable MSI on resume in ACP PCI driver
-      ASoC: amd: ps: fix wrong ACP version string in pci_request_regions()
-      ASoC: amd: ps: replace bitwise OR with logical OR in IRQ return check
-
- .../bindings/sound/qcom,lpass-rx-macro.yaml        |  1 +
- .../bindings/sound/qcom,lpass-tx-macro.yaml        |  1 +
- .../bindings/sound/qcom,lpass-va-macro.yaml        |  1 +
- .../bindings/sound/qcom,lpass-wsa-macro.yaml       |  1 +
- .../devicetree/bindings/sound/qcom,sm8250.yaml     |  1 +
- sound/soc/amd/acp/Kconfig                          | 10 +++--
- sound/soc/amd/acp/Makefile                         |  3 +-
- sound/soc/amd/acp/amd-acp70-acpi-match.c           | 47 +++++++++++++++++++++-
- sound/soc/amd/acp/soc-acpi-amd-sdca-quirks.c       |  4 --
- sound/soc/amd/ps/pci-ps.c                          | 33 ++++++++++++++-
- sound/soc/codecs/cs42l43-jack.c                    |  3 +-
- sound/soc/codecs/rt712-sdca.c                      | 11 +++++
- sound/soc/codecs/tas2562.c                         |  5 ++-
- sound/soc/intel/boards/sof_sdw.c                   |  1 +
- sound/soc/meson/aiu-fifo-spdif.c                   |  5 +++
- sound/soc/qcom/sc8280xp.c                          |  1 +
- 16 files changed, 113 insertions(+), 15 deletions(-)
