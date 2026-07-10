@@ -1,171 +1,201 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F9A285CB4
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 08:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783671491; cv=pass; b=gFE4OJ2hCUFY/Ivc5dWstQQsKay7dQ5Vedt/qHRsT+y0eezoPorchJ6K9jo0Ninh41XkU94a1VQPFleWq+mgA5FWuuHVBltR/s1ZpmHl2riGd2/OFAMiErKxlK2+Y63X7C+Vq9Y7builZWsw0zVF9k1DpflSFvUVnCGlot04JfY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783671491; c=relaxed/simple;
-	bh=cCLlbrOBmq+DCpv1CXmRYPYwrJV00CnDkEFRsqhqz3k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VQiESEEznVG62mondw6XP9UqE7AYgG4LzHzxZkxGjroNnsw+/oM6OvBEeaRQYvi6wMtu+8Lxgw1wvvIWKKfenYB/ESKeTFcWxDpHsPsBNaK7fwln74yBVDaNsXuiaC105lvVqfD2+HzwvwnbVvDMNAd+JxoSjUWBLmPXSjFwD+c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P9cUVObD; arc=pass smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D453F0A88;
+	Fri, 10 Jul 2026 08:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783672849; cv=none; b=PVu3VgkEvhwPUzA0MGYLAkzNZAjx5OCKphsUoNylXD0zAiOD+WNfAkS6/KUDNNgsylRB5qUYXTlZqO9Bhiwcy5NxXuOpJiSqfzuek7rj50cJc6UH0EeW9cvl2kRgMcMPn9tnOUD0bGpE03yWg85nc80z+iPY2NUdcm/edYPZFoc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783672849; c=relaxed/simple;
+	bh=qulgJOzogO+UC/G/OlNCEqkBZJY/Q9VNjzFQ9x/hxkM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=nwFCWLhMNa+lJo3dQPsY2A17YPZJopJiveRuFtepfWjXqempxL4k3o3SSSgBP2kXDGSI7ijMoHJn3R0jshkb8HIklorlrpuDbc68e6H4Z19HiGdsn/7QyW0qwOYV39Z4d01lnRyOMG2K+82jxaaCbYr3mD5R5tRlLLHl440/Fo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HzEa0trw; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P9cUVObD"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-37ff8e0ad0fso893969a91.2
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 01:18:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783671489; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GtqZoCYUgIdI5S5BzGi+I6XB5mY9LvAmeGEPLcllyP5VR9mkJ2jpkESodzI101TtMl
-         s1jZjzKtTAa9iPP+zhlPVhiuUOOJkdvvwiFGSFTyBbcdg505n/GQkBtWjW+H024YP641
-         G9trYkZFZ+Gwf9bExdXZjYJWaCNXtjFX+EojPJ11UyZd2Duc2A7v8mNyhj0kXuS3h48b
-         sU2/xx9+N6HRhoo+2G+rMe4EcmT6vDU64Ydw1BKaluaBMuSyk+mJ3mbmqxzWfjfKWAd6
-         DGsFTFcQYwWkkAXoYJ3NvbT4FHCrpGRUU2V7AedOSPCWDnEnM2VOakcwoSk4mNSG6pTZ
-         Ofeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9Xm+71vhVvB2sUAuzgpV4v4ZXbW+TKZaCwA7h4T8wfQ=;
-        fh=i06ddkLKL0NjQN7NCLEsh9WfL/muh3nAl/i+hB359QI=;
-        b=KwxhKhkADfYZWZQwMqLpglk3vdlJGH+UfbaZU4l6E11sPATLFpTlAq56QdeHtz3II3
-         frjfSoWHn1ZVDEpon3Nj6VKvBK84DM9sX65/FlzeNjTkA98HZK6OYyirlwsSW4SwpSwT
-         BR7LGworc/mjflViWNbVLjfYzlLXAdIhuX/0F/SPLH4ufnHOWN+jSxkZH/76KqoKbFMZ
-         oSQxUKigFMAG63bxlM5pi7KaLQMvR769imtqfWSqjAoTaDHvZN8a793niYxl2KzkUTGr
-         F0g8h4qgyx7uInqaXzyYi/o5+1ynZzCyMcG4l4blTRt8Ou7ccPG/34E5Zy9fZPDNII/R
-         M4DQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783671489; x=1784276289; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9Xm+71vhVvB2sUAuzgpV4v4ZXbW+TKZaCwA7h4T8wfQ=;
-        b=P9cUVObDksONUptehgH2CL8Lk+6RMmOBawLIqyBQIavZH0Yvu0rEdf6FKnX8GRk68o
-         3RgNk9O4P/gNZOGB4BGAWI2DyJ2igQuWA1Ly2FGzEE5kpJKQsLpCj5yODxCJt9Wfz9/H
-         0vUDKtWiBUwEx9MSNAG/fFmgB/TRLtTZ6GeEHGMDN8mjlzeMMV3RgxkiqnsDy//lYAAt
-         Wm0UHqnOHT34sQnKwkiK1H4TdOHWXaEx2hDbGnskyintrpLXSJ0lh2jggK1UMJWoJMk6
-         2A7/114BdF7urDU7lDzwPZ8SVhe8mi8gDJjN/6oFyAzV+cjjgMNYfUjRmnx+cgcIoEMZ
-         1dPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783671489; x=1784276289;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9Xm+71vhVvB2sUAuzgpV4v4ZXbW+TKZaCwA7h4T8wfQ=;
-        b=Daw36IQjDIUPgcvB6DQSNMh2zZroGirmLg4tK1VwhSteKZDDH6jgEGI9wAKxZGpl0i
-         OHJG6iKgpS5ji9Bhf4uYSqG1OMy4qPiM4ONc1wnpeWNXffoti2KF5Qpeo2wQ4ff/Zz4/
-         xG3JXlUyRN2Q1rz6boCf2ROpZIa7b9D5HbBj4YXWvEBAwnym2SK610l1v0zOxadGGw75
-         KB/NIFneR+kzcy7Oo1cbdl/EENdaz2hBT4TUJlEpzHUUQxzwuM6yoBPTgh+Y8xoA5xT9
-         YSGIFk/9aJeUfiG2iKfKVKb92qtObEy1Xc6Q62obdOUaMphSzPZiMOM7j8VpAPRMeQQ/
-         p3Sw==
-X-Forwarded-Encrypted: i=1; AHgh+RqaEwqEq++Wk7W51M+TLrDiCuISBjmXIJngRHfl2kP+PoX35EEZ818Zs/P2rVbX64z/jS3h17zsKR8hbg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpalRSb4Yz5z6QTE4qk2gVlkr46gt2b4f5Ogihhm9J8uQkqcJS
-	VmLpy3dF7xtGRHbGsvxUksbUclcfKViYHOYf7ZCCdhEw3XG5IE6PP5a1/0AH/CL3E95V+nkIyRm
-	yI0SOX+S41LPCr25gqKzi+daOzwKdvD4=
-X-Gm-Gg: AfdE7clLYZnY9o+6Be1tCS/r06gogQAoCBi9xNJyZ4MMwbHCwdBFGWOf0M3N3lUYI+E
-	JRFZxnAhquuphqr2HdiZrKINt/Va8s993GhxPa+tFfMPmoXqz5EAK0/QgRnaHfPion8LqYdzHR6
-	DherqREjS9QvOlOTqIkn2daFcX5HJz1rbHLAUgon4fc1GWAhqDOk6uNWNm1wgwcucxJA3TytaS8
-	Zd5Oi7DNR2MPdFIpwPqwil3OoxQsN3QxZ7KPMF1zAAMB5IdOljv35UEmAUgeJMzKfnYx+BvhSih
-	D9I+HApG3WeMbqthxSWgc81id6w=
-X-Received: by 2002:a17:90b:2f06:b0:37f:bfa2:1887 with SMTP id
- 98e67ed59e1d1-38941101e2emr10680019a91.8.1783671489057; Fri, 10 Jul 2026
- 01:18:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HzEa0trw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=YK
+	c7xw1ZYgEOFIA8/efahX17jcyqGbPE1YxLM6TLLNs=; b=HzEa0trwQsR95XneCN
+	TIfVTeaXYtQd4M8BXzrKmSeU3FRJ+j12WZjdecZPvGW2WnGLOS94GkacfkgU6wVG
+	Y/Xl3g6YRvtRV7FuKYY4uGcDVIMfrURYhziKrNXmWVmQLy1jwEprINAuf8P+qJfr
+	5nx8R0PQM9CrkVTbWlPxhxaMw=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wAn6Ozsr1BqBwqkHg--.166S4;
+	Fri, 10 Jul 2026 16:40:27 +0800 (CST)
+From: wangdich9700@163.com
+To: tiwai@suse.com,
+	david.rhodes@cirrus.com,
+	wangdich9700@163.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	wangdicheng <wangdicheng@kylinos.cn>
+Subject: [PATCH v2 2/3] ALSA: hda/cs35l56: Use scoped_guard() for irq_lock in cs35l56_hda_fw_load()
+Date: Fri, 10 Jul 2026 16:40:08 +0800
+Message-Id: <20260710084009.665814-3-wangdich9700@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260710084009.665814-1-wangdich9700@163.com>
+References: <20260710084009.665814-1-wangdich9700@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260710050223.14266-1-phucduc.bui@gmail.com> <20260710050223.14266-3-phucduc.bui@gmail.com>
- <a84c3eb1-7ac5-44a8-95cb-e33175e78ee9@amd.com>
-In-Reply-To: <a84c3eb1-7ac5-44a8-95cb-e33175e78ee9@amd.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 10 Jul 2026 15:17:57 +0700
-X-Gm-Features: AVVi8Cexjb8IlpQOnKY8Iz8sH6znwFCqGvvu16EY1ysnfcqVV4Wi_i8aRfmJTkA
-Message-ID: <CAABR9nFFMMk6i_sjKGjt4t-_QZF_hu2gBPRNK8c-GfhyKdVP8A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ASoC: xilinx: xlnx_spdif: Use dev_err_probe() and
- drop redundant error handling
-To: Michal Simek <michal.simek@amd.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAn6Ozsr1BqBwqkHg--.166S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxtFy8Jw45Kry5Gw4xXw18Krg_yoW7CFWfpF
+	WrJay7Gr43X3WfArZxZF4UXF1YvwsY9rZ5u340kr1rZrsxZryqvry0vFnrXFnYqrWkC3W7
+	ZFW7JryrJa1UKF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zE2QDUUUUUU=
+X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5xzZKWpQr-yqhQAA3N
 
-Hi Michal,
+From: wangdicheng <wangdicheng@kylinos.cn>
 
-Thank you for your review !
+Replace the manual mutex_lock/mutex_unlock of irq_lock with
+scoped_guard(). This lets the compiler guarantee the lock is
+released on all exit paths, eliminating the err label that
+previously existed only to reach the unlock call.
 
-> > +     if (IS_ERR(ctx->axi_clk))
-> > +             return dev_err_probe(dev, PTR_ERR(ctx->axi_clk), "failed to get s_axi_aclk\n");
->
-> This is pretty long line. Message should go on the next line.
->
+No functional changes.
 
-The line is still within the 100-character limit.
-I'll split the message onto the next line in the next version.
+Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+---
+ sound/hda/codecs/side-codecs/cs35l56_hda.c | 104 ++++++++++-----------
+ 1 file changed, 51 insertions(+), 53 deletions(-)
 
-> > @@ -274,29 +270,23 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
-> >               ret = devm_request_irq(dev, ret,
-> >                                      xlnx_spdifrx_irq_handler,
-> >                                      0, "XLNX_SPDIF_RX", ctx);
-> > -             if (ret) {
-> > -                     dev_err(dev, "spdif rx irq request failed\n");
-> > -                     return -ENODEV;
-> > -             }
-> > +             if (ret)
-> > +                     return ret;
->
-> Here you are changing error value and commit message is not saying anything
-> about it.
->
+diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+index a0ea08eb96a9..4f74397ea06f 100644
+--- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
+@@ -625,74 +625,72 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
+ 		goto err_fw_release;
+ 	}
+ 
+-	mutex_lock(&cs35l56->base.irq_lock);
++	scoped_guard(mutex, &cs35l56->base.irq_lock) {
++		/*
++		 * If the firmware hasn't been patched it must be shutdown before
++		 * doing a full patch and reset afterwards. If it is already
++		 * running a patched version the firmware files only contain
++		 * tunings and we can use the lower cost reinit sequence instead.
++		 */
++		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
++			ret = cs35l56_firmware_shutdown(&cs35l56->base);
++			if (ret)
++				goto err_powered_up;
++		}
+ 
+-	/*
+-	 * If the firmware hasn't been patched it must be shutdown before
+-	 * doing a full patch and reset afterwards. If it is already
+-	 * running a patched version the firmware files only contain
+-	 * tunings and we can use the lower cost reinit sequence instead.
+-	 */
+-	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
+-		ret = cs35l56_firmware_shutdown(&cs35l56->base);
+-		if (ret)
+-			goto err;
+-	}
++		ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
++				      coeff_firmware, coeff_filename, "misc");
++		if (ret) {
++			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
++			goto err_powered_up;
++		}
+ 
+-	ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
+-			      coeff_firmware, coeff_filename, "misc");
+-	if (ret) {
+-		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
+-		goto err;
+-	}
++		if (wmfw_filename)
++			dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
++
++		if (coeff_filename)
++			dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
+ 
+-	if (wmfw_filename)
+-		dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
++		/* If we downloaded firmware, reset the device and wait for it to boot */
++		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
++			cs35l56_system_reset(&cs35l56->base, false);
++			regcache_mark_dirty(cs35l56->base.regmap);
++			ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
++			if (ret)
++				goto err_powered_up;
+ 
+-	if (coeff_filename)
+-		dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
++			regcache_cache_only(cs35l56->base.regmap, false);
++		}
+ 
+-	/* If we downloaded firmware, reset the device and wait for it to boot */
+-	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
+-		cs35l56_system_reset(&cs35l56->base, false);
+-		regcache_mark_dirty(cs35l56->base.regmap);
+-		ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
++		/* Disable auto-hibernate so that runtime_pm has control */
++		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
+ 		if (ret)
+ 			goto err_powered_up;
+ 
+-		regcache_cache_only(cs35l56->base.regmap, false);
+-	}
++		regcache_sync(cs35l56->base.regmap);
+ 
+-	/* Disable auto-hibernate so that runtime_pm has control */
+-	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
+-	if (ret)
+-		goto err_powered_up;
+-
+-	regcache_sync(cs35l56->base.regmap);
+-
+-	regmap_clear_bits(cs35l56->base.regmap,
+-			  cs35l56->base.fw_reg->prot_sts,
+-			  CS35L56_FIRMWARE_MISSING);
+-	cs35l56->base.fw_patched = true;
++		regmap_clear_bits(cs35l56->base.regmap,
++				  cs35l56->base.fw_reg->prot_sts,
++				  CS35L56_FIRMWARE_MISSING);
++		cs35l56->base.fw_patched = true;
+ 
+-	ret = cs_dsp_run(&cs35l56->cs_dsp);
+-	if (ret)
+-		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
++		ret = cs_dsp_run(&cs35l56->cs_dsp);
++		if (ret)
++			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
+ 
+-	/* Don't need to check return code, it's not fatal if this fails */
+-	cs35l56_hda_apply_calibration(cs35l56);
++		/* Don't need to check return code, it's not fatal if this fails */
++		cs35l56_hda_apply_calibration(cs35l56);
+ 
+-	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
+-	if (ret)
+-		cs_dsp_stop(&cs35l56->cs_dsp);
++		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
++		if (ret)
++			cs_dsp_stop(&cs35l56->cs_dsp);
+ 
+-	cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
++		cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
+ 
+ err_powered_up:
+-	if (!cs35l56->base.fw_patched)
+-		cs_dsp_power_down(&cs35l56->cs_dsp);
+-err:
+-	mutex_unlock(&cs35l56->base.irq_lock);
++		if (!cs35l56->base.fw_patched)
++			cs_dsp_power_down(&cs35l56->cs_dsp);
++	}
+ err_fw_release:
+ 	cs35l56_hda_release_firmware_files(wmfw_firmware, wmfw_filename,
+ 					   coeff_firmware, coeff_filename);
+-- 
+2.25.1
 
-Oh, sorry. I should have explained this in the commit message.
-devm_request_irq() can return various error codes, such as -EINVAL, -ENOTCONN,
--ENOMEM, -ENOSYS, and -EBUSY. The existing code overwrites all of them with
--ENODEV, which does not reflect the actual failure.
-I'll update the commit message to explain this change, and add a
-Fixes: tag if appropriate.
-
-> >       ret = devm_snd_soc_register_component(dev, &xlnx_spdif_component,
-> >                                             dai_drv, 1);
-> > -     if (ret) {
-> > -             dev_err(dev, "SPDIF component registration failed\n");
-> > +     if (ret)
-> >               return ret;
-> > -     }
->
-> And this is another case. Where origin code didn't return any error which was
-> wrong. That's also not described in commit message and likely this should have
-> Fixed tag.
->
-
-Sorry, I don't think I fully understand your point.
-The original code already returns the error from
-devm_snd_soc_register_component():
-
-ret = devm_snd_soc_register_component(dev, &xlnx_spdif_component,
-                                                                    dai_drv, 1);
-if (ret) {
-dev_err(dev, "SPDIF component registration failed\n");
-return ret;
-}
-
-writel(XSPDIF_SOFT_RESET_VALUE, ctx->base + XSPDIF_SOFT_RESET_REG);
-dev_info(dev, "%s DAI registered\n", dai_drv->name);
-
-return 0;
-
-As I understand it, this patch only removes the redundant dev_err()
-call and still returns
-the same error code.
-Could you please clarify what you mean by "the original code didn't
-return any error"?
-
-Best regards,
-Phuc
