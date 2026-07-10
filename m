@@ -1,147 +1,116 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0191A407CD6
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 10:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C687E40800B;
+	Fri, 10 Jul 2026 10:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783679210; cv=none; b=tuT0Xkx4RCBa1HLwECqke4/9CCwMfOqxoC8O4TEG4YSpuikRB3RIMSkDopWplVdKOFisPjR9ATcGPUAsjWUanQvDl8JbHumIjB3C5pTN8+p0RVaNzyEaO4+FZgTzLsRZ+btzxPn+vjPFIyJ6onuQ83Kfu9lz08542w/tGKVf5dI=
+	t=1783679310; cv=none; b=C+x0tj9gyI2VQN2D8yTgD65jQoZeT+RaD7ldIY71rNS2bZBT8lSJBc7f+XqQTyR1NqdETOkzP4PnKfUqUKjeJwXeyA3pry607nOOAr6Xu1hJeGKMh9/qRphb+cLylw3KMrmz/rklPBmhrk1SPVG00NX/CnAW23RUeDkic4o9slA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783679210; c=relaxed/simple;
-	bh=8Lu8OMpVPc16MxdZvSkmOEt9Lvt01fn1EVEQixIYHBA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o+5SlFt8x8IYvEtZi5kgdHzNqOH7vWUYG8ckr+f42Iu9wLddbnb55jtORFtB08GzZkZXSKCEV4mreEfC38j6tNinkm9Ztv5MVwhhpVizfaK2ehmAn8/sYRcIIRZ2WOQFBuWjjrwjiiEPrEPIX9AOAb4BPPehES+SB2GB/4F2yqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-664cdeab266so1155905d50.3
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 03:26:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783679208; x=1784284008;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HsVN2cPDw+/JUxMMLcOD68aRVLlq59TmevfTz9ChQ+g=;
-        b=gjOYmZSF+1UdOaemw+Tdb5Yhbl6To8uv3s7EcZmznUUK3DCIxIC9UCbaObDBhz/sRq
-         EeXsqVAB1XCTrg22QkZLGrvbRwWOZfxgDLCbiTc5T58XW/774Z2jb94GhBhIMtCJmiJ3
-         Xp+nd3ahhkbkX13CYjZoxmU/ZF+o5SvEtdVM71yvWHe7gJj3dGIkuGoxEYuO9gh6tuoY
-         zGIQcm7F8i2rX7xBto1dKYIvZTyLmgNHyuyrOs85mouBTAMbrtAVXtQGf6+mlPifXtLL
-         xvLKS9gjeqqJz4VZ38LFq7NfzN0lEAoWok2xJGieAdCLNgni2AwhpKG3slq2MW5MSe3R
-         PSmw==
-X-Forwarded-Encrypted: i=1; AHgh+Rppy76McBoUWKMJDMqYXnVTGSQn4LJc1Ne3dLV0g307Hf7DEz0Tw0qDhqylZ6R7Gnsiyjdx8+5qfK58Pw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwL+a7iznlmIq7fdqGKbBTCKgoJM1DF2dIcoe5zbA5NppQJuOeE
-	qKa9cBTeYFfReJGILTYb100oHEyU8EHyihm9OfcH3ibYcqz4TlnLo49cxlnjYlX4kcY=
-X-Gm-Gg: AfdE7cng5NLX1qsXWPraknKVp8DmnjU5uCkq8lkn00n+y5D0M3yF5EKnjfw89RCnNqB
-	i51q1Hf3YCAT/l9hmMpfhK59j2RuQHdSnlaCysr2XxPc32rAx/VL/Ocq/LSB4aVnSnDwRSNKsPB
-	P1FZC85LlJt8QSRuI37faE+I79XsxwLAncmb1+F33H6hzBY6V5gkgfCMSKzkUjV3IqfpS1Ym6Ro
-	8YuzaEmvZU1n07hxFRchVSolu2NtT9JljOqKLxMCTJsAB278HAeOuagZSSGfXZpxXNDFgR8aMVe
-	JxZgelPQJDgvl1WMxvPayZqSwYpvBbVTEFvHhv9hf3f8iXDfjaWjjrJ+qEsa2Yqhj6iyZ3HD0+s
-	19S0RwBVFxLXUCuXN+w4SNXBNly8L84A6JQ/KH5pEXxiHGWneywboVeBcDHEm6J/uKulId1UbXi
-	O277nNyq1P5PNp2QFU01a9heaDPIekJeApLfwxa4ySojffl9abEy2USoYgePGnsSOY
-X-Received: by 2002:a05:690c:6a84:b0:80d:964f:88fd with SMTP id 00721157ae682-81dbbe3be06mr82828227b3.5.1783679208014;
-        Fri, 10 Jul 2026 03:26:48 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c1a32e2sm41114257b3.30.2026.07.10.03.26.47
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 03:26:47 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-80d33d13a23so9649247b3.1
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 03:26:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrAbiyGTqf7dbDmqe3yQh5d+UxcHe1sv3gwrClDSSWTLyJeS49ygEGoR/ohKvMyVq/LWsQIvbXr+RkXuQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:3911:b0:726:e608:6658 with SMTP id
- ada2fe7eead31-744dff43a82mr6415934137.11.1783678885257; Fri, 10 Jul 2026
- 03:21:25 -0700 (PDT)
+	s=arc-20240116; t=1783679310; c=relaxed/simple;
+	bh=mOV2tzckd0rVyjljkX3ZrGReEaXi1MYOVMs9+Um5Bto=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TF1Z6vXutH15BS9341tQIlL2tbkfhzJRUDgVQevp8pfGW/DLerrN6e7iFfFobiKVeJ35UPCPIsouCpJNthIDxOFF2K5HChLtSQ34hYMmgNq+UcZJ5trzJVLxAzhuUrTCpdI62CO95/ICfwA6mykTfMkTkmHPwrbEOV0LVQZA1HE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VleuwWBO; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VleuwWBO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 45F93C2BCB8;
+	Fri, 10 Jul 2026 10:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783679310;
+	bh=mOV2tzckd0rVyjljkX3ZrGReEaXi1MYOVMs9+Um5Bto=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=VleuwWBOKNgsUaPP/cjeboj7xDRVNFaTyHUO0t/jSgvmGonDarnFo7nCEqlIqjRjA
+	 4D+JXvd4WxS2fQAKm/BGk5KrqPMS5BbmDtHcyxlsRwcXE2fGpQLJvVHPDS+CYPUTAx
+	 Qy245vTMs5FtHSnyWp41CMW/pWu/vdHG5kI9BpmGDuaKhFSxVQi8cn4v8ZC37O5RyF
+	 BxgmIn3v1Te8rfrWXsJcZhA/QAriI8fpaRi+tgU+ZhCGNZtvZ45acYIpp2F57gPteg
+	 NO3rkaHs53KrCbAwhg/hKovL6W086v5R49mORnvYR6jOViWOm8f+gFmzAYCivhw5QT
+	 i4nXwYZHekh9g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 242C0C43458;
+	Fri, 10 Jul 2026 10:28:30 +0000 (UTC)
+From: Federico Amedeo Izzo via B4 Relay <devnull+federico.izzo.pro@kernel.org>
+Date: Fri, 10 Jul 2026 12:28:29 +0200
+Subject: [PATCH v2] slimbus: qcom-ngd-ctrl: fix ngd register base address
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1783615311.git.u.kleine-koenig@baylibre.com> <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <e5cc82aa51da5f545f745b126923fdd6085a68a0.1783615311.git.u.kleine-koenig@baylibre.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 10 Jul 2026 12:21:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW4Thb0en6jeD23KhDp4pTe2F8o5GcBx4fnB+JAxPG-bQ@mail.gmail.com>
-X-Gm-Features: AUfX_mxlLApCIjqxIsg4l7Qhe6Rgf_3Xy6YCZC9GZlPPApUQFkmqIVPuBIh_jUI
-Message-ID: <CAMuHMdW4Thb0en6jeD23KhDp4pTe2F8o5GcBx4fnB+JAxPG-bQ@mail.gmail.com>
-Subject: Re: [PATCH v3 21/23] mfd: Unify style of of_device_id arrays
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Chen-Yu Tsai <wens@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	James Ogletree <jogletre@opensource.cirrus.com>, Fred Treven <fred.treven@cirrus.com>, 
-	Ben Bright <ben.bright@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Tim Harvey <tharvey@gateworks.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Sven Peter <sven@kernel.org>, 
-	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Chanwoo Choi <cw00.choi@samsung.com>, 
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
-	Saravanan Sekar <sravanhome@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Andreas Kemnade <andreas@kemnade.info>, 
-	Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-	Tony Lindgren <tony@atomide.com>, Matti Vaittinen <mazziesaccount@gmail.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, mfd@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, patches@opensource.cirrus.com, 
-	linux-rpi-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, asahi@lists.linux.dev, 
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260710-qcom-ngd-register-base-fix-v2-1-0bb247c954c9@izzo.pro>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0Jm7Zi2glBX3sOwaGGAmkhxikQh3
+ N2CF3D5fn7eWyAQOwpwSRZgmlxwvo+gDglUnelbQldHBiXUWeRC47PyD+zbGplaF0ZitCYQNu6
+ NJtO5PBlZpLaAKBiY4rzLb+WPw8veqRo34/boosHzZ69Pcvv9FZokSsya3Ni0aLQS+urm2R8H9
+ lCu6/oFEg/iG9UAAAA=
+X-Change-ID: 20260709-qcom-ngd-register-base-fix-a59713a184b8
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ Federico Amedeo Izzo <federico@izzo.pro>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783679309; l=1720;
+ i=federico@izzo.pro; s=20251017; h=from:subject:message-id;
+ bh=+vuRfWB5TZ02U83zLp1dfXk7Vc/G5WPRtcOB/wAoh3Q=;
+ b=0N3znYgt/Ey7czV5f9j2HziGVCJSAu52iQ0fAv1CAhUsKaYwkodgsS9BeRdAEjMczYzt73ypn
+ 8rflv6Ol1gSDn8HNrKVmenFd0qUwl6WPTfCiKV20KCavAOkpo0FgCzT
+X-Developer-Key: i=federico@izzo.pro; a=ed25519;
+ pk=XfmNfpH48k8jLbId5NKrp0yoKoFb/uLjr97qIxBImBw=
+X-Endpoint-Received: by B4 Relay for federico@izzo.pro/20251017 with
+ auth_id=544
+X-Original-From: Federico Amedeo Izzo <federico@izzo.pro>
+Reply-To: federico@izzo.pro
 
-On Thu, 9 Jul 2026 at 19:00, Uwe Kleine-K=C3=B6nig (The Capable Hub)
-<u.kleine-koenig@baylibre.com> wrote:
-> These arrays already mostly match the most used and generally
-> recommended coding style. That is:
->
->  - no comma after the list terminator;
->  - a comma after an initializer if (and only if) the closing } is not
->    directly following;
->  - no explicit zeros in the list terminator;
->  - a space after an opening { and before a closing }, a single space in
->    the list terminator;
->
-> Adapt the offenders accordingly.
->
-> Reviewed-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org> # for Maxim MA=
-X77759
-> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
+From: Federico Amedeo Izzo <federico@izzo.pro>
 
->  drivers/mfd/rz-mtu3.c          |  2 +-
+The slimbus controller register base was calculated using the
+controller ID and the register size, producing wrong results for ID > 1.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
+The expression reduces to ngd->base = ctrl->base for controller with ID = 1;
+but for ID > 1 the other factors produce a wrong base address.
+This bug caused a crash while trying to bring-up the secondary
+slimbus controller (ID = 3) on oneplus-enchilada with sdm845.
 
-Gr{oetje,eeting}s,
+In practice, the correct base address for each slimbus controller can be
+obtained from the device-tree, so there is no need for further
+calculations.
 
-                        Geert
+This was validated by reading the version register from the WCN3990 slim
+interface on oneplus-enchilada.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Fixes: 917809e2280b ("slimbus: ngd: Add qcom SLIMBus NGD driver")
+Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
+---
+Changes in v2:
+- add missing Fixes and S-o-b tags
+- Link to v1: https://patch.msgid.link/20260709-qcom-ngd-register-base-fix-v1-1-5f7ab48f9209@izzo.pro
+---
+ drivers/slimbus/qcom-ngd-ctrl.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
+index 80877e951849..91932f8d021b 100644
+--- a/drivers/slimbus/qcom-ngd-ctrl.c
++++ b/drivers/slimbus/qcom-ngd-ctrl.c
+@@ -1547,8 +1547,7 @@ static int of_qcom_slim_ngd_register(struct device *parent,
+ 			kfree(ngd);
+ 			return ret;
+ 		}
+-		ngd->base = ctrl->base + ngd->id * data->offset +
+-					(ngd->id - 1) * data->size;
++		ngd->base = ctrl->base + data->offset;
+ 
+ 		return 0;
+ 	}
+
+---
+base-commit: b9810cd75b9fb56a3425d391cba3f608502bd474
+change-id: 20260709-qcom-ngd-register-base-fix-a59713a184b8
+
+Best regards,
+--  
+Federico Amedeo Izzo <federico@izzo.pro>
+
+
