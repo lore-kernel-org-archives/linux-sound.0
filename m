@@ -1,483 +1,177 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC493C8731
-	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 12:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783774692; cv=none; b=Cbpiaww8xbktBOyycZgoFUjyfA332UnUgR3o17vM0cG9/KFrHbFW95GPYtKCtv59tiA1ToahAnDoBz4hGx0BbwqHGqWcbQ0UX6pzrJgenUQrfBP1qyf4d7kN30U6ELlWHyT0KkcNQ6fEh0CXKWcud9Ga4AOF5edmz0cT3YdX1i0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783774692; c=relaxed/simple;
-	bh=YbS6dQCFVX48uGxNA9CbmvMJDrMYJaCKhqPv794VWTg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=siKqSPtUo8VHcAD4kDECrUdOxdz3H2175zDu1TwqyUIeGBtokOWPrxhvEL7PfTGCboeleHWZpwALol7DNfidvdZRM7ALzuMToNztV1NJevXnyMbGq5k4gvc7RuWbvVQFgZGyi/6ZeKv/j/8l8V9htJZei/8MY246C2Sx4NE9PCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AEyxIa04; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KbVV9tyn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA833C09F7;
+	Sat, 11 Jul 2026 12:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783774723; cv=fail; b=cDr/F0VR5NtWyMA97IpafuyixBbJUnP4OQjVJ8XSpl9MiXxvTqfg3HX0tnC4YXpUeI8aazW362ZAMKPO9Imp1z11ka0pWu8OR7bltu4crhvrJtOCOD8ofJFNwO+CxTs2d5RaEws214nVgz1YT1w25t2RnY5EZad6mxYhMLSLKaU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783774723; c=relaxed/simple;
+	bh=rBnL4ctTz9tv0TTHEC5HVGxv2Wr38Pqqrezxc/x1a58=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iQJWuc9CzE/ybXCV4LrPwGvbSi4WV7aBf9ReLWpnPjvEphIY0blwFKpj3CZTqvebW46oeCUqwUTuKbOODLE1Sl2yHBnC14dUmqg9ZS+wlLHxmLR1TD9f3UWA+/5qnVeGOmhZGCuq/cc+LbF8YOLjIY1vW95UdpTGmF3gbO9Vdh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=KsS8Y6Ji; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=Th6q99x8; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AEyxIa04";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KbVV9tyn"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66BAn6iK3602609
-	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 12:58:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=x+8QOwpxkYA
-	qy6i5nf9O32yYwrANC/lDlcX9pi0hY3U=; b=AEyxIa042iNlZ3FjZ5+nxWkA8rP
-	Q4mVyNCC7bzVz7hJlEtNaiIfk888mg1cXasscwtrJJ8t0xNZ5tTfkNsmCKMEIwv1
-	40jLTXkO/yntkz1HgIAMqxa2omBPHCU7GQa8XiK+/Xy8cOgJHPhmH8g8V1kJ4Hek
-	G+bJJzYAnk+HAk0h0FEB4nuoOiEVv+E+C38Mt0Zxx0PUOxjemge+tVHjEwD5TlVN
-	gVqggaYCXhb2n+hXPL0Bv4MNt7AJF8KIoANmuB7ahV+N+kBXA9kKZkJGgTMdpVEl
-	x8v71jJRLJfAbKggm9dGr/QXhT+neVnx/xPhjpcqwsrbz5cu0WXWnDMs35g==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbeehgtrh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 12:58:09 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38c7e26ecabso1615851a91.1
-        for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 05:58:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="KsS8Y6Ji";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="Th6q99x8"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66BCn95Z122595;
+	Sat, 11 Jul 2026 07:57:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=eyq4HGKyVzkOAZNP09
+	6slr8mvKGFS76zs3XVChvtyHw=; b=KsS8Y6JihtSG+pjT3GKvmMP93GLC/L+2Bd
+	RGzfKgLUeQMdVwfjuWS2F4elqUG0H0xgHr7YOqxDIKKjpkVPjNJor4jqR77cYlQb
+	AVGiW5NWkcXmkcZ+HBPhY8wjW9+sa+Oh4LiDrhTSK8nUB08FPwnAPJdXR88onkc8
+	QYYdzthPMy/dSdKH7U4t1VlYrv9QFE3HL7/FZrLJWv2kn800/EboiWoxduyZk5ix
+	6F8dgLyl0GPmaNo6naAO76XhKKfFXwScEyzokh5N5/hiDYfWzeEpz+oWfi6s06Nu
+	1ywz8SrRp+5UT13evU3HmHeu2TeeT8bLCeJhffswdNn/2HQfEJDg==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022137.outbound.protection.outlook.com [40.107.200.137])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fbk7vr3ys-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Sat, 11 Jul 2026 07:57:47 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ynq9hmX6u3YTgbcEyDw7N+sNxp59v6dl3DNh0NZO8qWf2QlYeu8KobRbzPpwZ9+sFFwkLWUz6clCOauXgDE9ysrRq2sebY7Vi+IiLExXU8Uvsu2DzkRgDi/RXloQ58lYAdFaje0uOYwTOO8FO67lzBHISuUcXdhEbJXpLjTrkf2mnaRuR0FuaHEKpnVODhc3GsQUMyVinT4jhBvaWQPvRc0lnE2shtD8nG75M+3CJ3bnMwplrKAcVvZkZ4se0Z1cr7MMTyI0JQnJ8UNBDqRROw/RWvDY7XkKMj93uiq6Hnbr5hzqfK6UAeVvyyYYzksE+6/DaFLd+ljwDnR5n2etsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eyq4HGKyVzkOAZNP096slr8mvKGFS76zs3XVChvtyHw=;
+ b=txn8gD3e5bdWwyS+RLeR0NMLjSiRwyCLdXPP9P3wiYLdaJFC2T7sgfYJTvZjEGjdTtfPvQyM8XTjj9vzEywnb1rcD/kb92QeGwkAIjH48orrPmHHxxpZ51M6qfInBy/9lOtLKv6l+JwLHAdT/EGgsDVtTFTmTsmeHNXHbU7QmzJ475HLmw8DLkMcrCxiaUILndb2PQhbqjiW6TqbvqQ4JexCdx9Dy1+mdm2UpfV9vddtVqUmwbVAn6Dm89Ld+AyPxGnBVLJ0nSezReF8G4/QwptsOnmrLRPgtTQ+OnE7fecPbFaTgMPB0PR1yAa5zPCaYn6MScSG1Vg3TLmbqaZBtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=alpha.franken.de
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783774688; x=1784379488; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=x+8QOwpxkYAqy6i5nf9O32yYwrANC/lDlcX9pi0hY3U=;
-        b=KbVV9tyn5P6E4Xisu3E7PA7/GYFivY0duw/khGotf/QOz6qNyPUGvvRjl2WQYvHaGG
-         RLi1wnH3iyBaPt6yssRpPrpfF+5pf01UnAMJTwWdNLi5OkPXGCC0fAaikkeKiA4OY8Qp
-         +6NiFZkpqRx66gTXq7bhjLIcaCdqZnVRyUO3kY69kZB/Mua6W0kBLb0QISKNerL+88CI
-         HLE6XwIdwGh42e3rIu+NTVZsYq0YgORqPIC+CcoHsB8WIdScfKNgNuwf5sYWRZ90sdyx
-         M2Z+/JjHMgBGrI2HemuUq0sZJ1mYjmEYgejdv0F1UxgBuiH/YYKb3NsKAPgg+ev/5tyf
-         KcaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783774688; x=1784379488;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=x+8QOwpxkYAqy6i5nf9O32yYwrANC/lDlcX9pi0hY3U=;
-        b=mq8z8sZwqdYwT1tMDOPwu+tJu1rmGpvRrs/N9c2c7uVhNSzIeT/ZvgIWl2ketDnGD6
-         xVsrhP5YYWkpowMJHHuB6OsMBJOGFrT6OxuHcawHJ/4KwSs/Waw37Uvwg/msedrm2HFX
-         kR1hbkW9LPMue8YCbyFf7BZOvuQn+iIM4cKRjVvbTJJChHRUIybZMCogA5jqLGJVEZq7
-         7GfPchlRlYskJuFlcSTypMdV95CDWMte6cy0HlxYJJWrwnKFU3m9ashyefDC3yS2pZPp
-         vHrSKb8zKqF2K3DM9yIrI2+8wYxjiG5uVC5JrcKIsR1QMdr5E8NxBEZomulnpA7gl2Bc
-         t5bQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqhnWf4o9NRUr5OdmHSvSoHmWe4BOhy9bktViIvLe6OfVota7WALn16bFnRmmL4H8IJfDoyGeU0Q7X9rw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqDrnllmtQ/3zgcjUIwq0REk5d/rIUf1na6Jrz6rjaQ2gjYbMq
-	wEM9Cg17XaY1nZivWKsXTBCNgF8i5/A9UMAFh7cD04J/GM9Do/fPUkEapsUUR6T1dlOpgF9tRi/
-	v/FAsXXabx7kW9TTTqDEozP+2cCTP+KnN9v7lOpk5pK+0nrcf4CPMWhi1GcvGDV9SEg==
-X-Gm-Gg: AfdE7cmDZaZgrUeW3hnV634elW/iSsHCMe6iVu49ziSfgdA4NejauYHr6p+tTk1YkPD
-	7N6pFoN1t3qygdmuSP6x74VlmR0q1HlAMi/FZj0P6R8ejzvHhPJZ3AHOccsUXVwFvm6O7NsxYRb
-	dDcM2M1zhE2VatFDoG9qnR1iQaENlnd/xs/H7Cb5f2s5t6NXnYhkutjVgg/rh7M7bpbVkfJSazW
-	a/IfutLGmECduRUmz3Gr5uaVZgRqpG4Vj5dnB4Med4j3U2fohPwEazM0BxmCTKyW+e5Omu8hpXv
-	nT+g9E2DMN0UXQzy8lDa65tn8zdYSEej9m5d9ixmHDmJT4Sad4yLVX3tIddLc+kP481Z4FXRfqw
-	b9cQED4vyiwXhy3N+HkVLGWP5ueyfbnAJDVb0lFRQPHtyrm0=
-X-Received: by 2002:a17:90b:4fc9:b0:381:9b7b:35e5 with SMTP id 98e67ed59e1d1-38dc782c715mr2811786a91.4.1783774688362;
-        Sat, 11 Jul 2026 05:58:08 -0700 (PDT)
-X-Received: by 2002:a17:90b:4fc9:b0:381:9b7b:35e5 with SMTP id 98e67ed59e1d1-38dc782c715mr2811756a91.4.1783774687853;
-        Sat, 11 Jul 2026 05:58:07 -0700 (PDT)
-Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b9ca880fsm11185634eec.23.2026.07.11.05.58.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 05:58:07 -0700 (PDT)
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH v4 3/3] ASoC: qcom: sc8280xp: enhance machine driver for board-specific config
-Date: Sat, 11 Jul 2026 18:27:40 +0530
-Message-Id: <20260711125740.3083236-4-mohammad.rafi.shaik@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eyq4HGKyVzkOAZNP096slr8mvKGFS76zs3XVChvtyHw=;
+ b=Th6q99x8vjZzcQSCRs/7zBk8WwPdrdmBgoI9hzlbMBBq2P9Ya9unol21uGc0JEt36P+oLbKIeZnwkmre8+ULxSL4TN0+n23MsMmCSECN8xoZ1Gy0ZrbS67LgpuoqRL5/Rb/qr5uSM4Hy61F8PKQ1ULIv5jI0G/FkRKLQc4+LXCU=
+Received: from SJ0PR13CA0045.namprd13.prod.outlook.com (2603:10b6:a03:2c2::20)
+ by PH8PR19MB6761.namprd19.prod.outlook.com (2603:10b6:510:1c8::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Sat, 11 Jul
+ 2026 12:57:43 +0000
+Received: from MWH0EPF000A6735.namprd04.prod.outlook.com
+ (2603:10b6:a03:2c2:cafe::95) by SJ0PR13CA0045.outlook.office365.com
+ (2603:10b6:a03:2c2::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.8 via Frontend Transport; Sat, 11
+ Jul 2026 12:57:42 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ MWH0EPF000A6735.mail.protection.outlook.com (10.167.249.27) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.6
+ via Frontend Transport; Sat, 11 Jul 2026 12:57:41 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3CCDE406541;
+	Sat, 11 Jul 2026 12:57:40 +0000 (UTC)
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 2BD8482025A;
+	Sat, 11 Jul 2026 12:57:40 +0000 (UTC)
+Date: Sat, 11 Jul 2026 13:57:39 +0100
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Frank Li <Frank.Li@nxp.com>, Robert Jarzmik <robert.jarzmik@free.fr>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Ungerer <gerg@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Hauke Mehrtens <hauke@hauke-m.de>,
+        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v2 06/10] ASoC: replace linux/gpio.h inclusions
+Message-ID: <alI9w+eQD6USFOpx@opensource.cirrus.com>
+References: <20260710211954.1373336-1-arnd@kernel.org>
+ <20260710211954.1373336-7-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzExMDEyOCBTYWx0ZWRfX0K5OE97ca5W6
- 5E6qKZu2yTq4nLie8ajLMmbt35zS/nzdo2Sn80oxokmANwou/79VbWYOz5R8N4VK8NjOuYFE127
- 2iA+lRzENHMVsZSjULiWN2jncbo8WSE=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzExMDEyOCBTYWx0ZWRfX8jrt3OcdtxCF
- exPyol/M+6rIIaooT+CMk8eiHZLGXDCfmjI4oVJ6ujFmPchzzSxSCfa7HzcuOFdr5VyY/gOyXum
- ecvLEZAM4RArfgtISDvCRBrvhHElE13RJ5Z4+0uxKEOYtu3oaH4qncwKTxlw2Wua+jk6Cw4vjJo
- N1FLShm6yx3nnOz9B6NOq5RjJXlfzze7o0rOPJrG4XAVKXNp0mDQOINbngtVhhsYVnc1JgzRS8K
- kCoQmS3aJQekDCXlehvTImLqi3QrpwtaS1krMbC1D6taJhLiw8MChJ9JnL7/D448FLJ5Uq8Dxdh
- h9/ZajorQeg262hAN4T6KQSDGOWMLmvxG3g3vFf8Kqo1OqLrLqKCT0tGK4s4ZPdtEx+QgZ57ufz
- 92W2TAdMAk7oA+fVy2neTWR6gBX7N6HVFNlUcTJ7QC1CVYzVa6iSzWolapibgobKdtRYH54xy1V
- kGyVarfolTn0yDcTRZw==
-X-Proofpoint-GUID: 8KL7V8Gbh9PPRuPhWmyGJaW3qaSXYQIu
-X-Proofpoint-ORIG-GUID: 8KL7V8Gbh9PPRuPhWmyGJaW3qaSXYQIu
-X-Authority-Analysis: v=2.4 cv=aPvAb79m c=1 sm=1 tr=0 ts=6a523de1 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=T-rPskIIbrx-efRHNJwA:9 a=uKXjsCUrEbL0IQVhDsJ9:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-11_03,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 adultscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 spamscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607110128
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710211954.1373336-7-arnd@kernel.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6735:EE_|PH8PR19MB6761:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0dd1a1f0-2160-49ac-0ed3-08dedf4bfe8e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|61400799027|23010399003|376014|7416014|82310400026|56012099006|4143699003|11063799006|18002099003|16102099003|22082099003|41080700001;
+X-Microsoft-Antispam-Message-Info:
+	nRFfUHnV96GXfilQTbrIwGA7qjnZFkukWdUFlWn+nKZ4VwK64o0UHpVi61bMkvlTbvBiox8xhJpl9xflUkQG/jSCci1pk8I+JDaHGqatGOOHoUHI87BhVfCIxThVXgLt31yWThleE5QxQcCjOOf2uvcofFxrj+fqSJfnpjHXc/rEXSEi54xSRM4I63MUclqRYkttCSjcn7goNdv7DHx9cwMTP2AZMJvbkWffUglTOfDp7KvPDmF/OTVihzEpl9syvRUScd+ggDeUReo4k09ofhW+KCKhuZd5gyPXQGli650EzcbBRCuCyQZ2SOGTtZ+hwJfEUbW3BVCyQ1SdIZSGWf5vwMXkgVORHLZTOMen9MBYBj8V42Tl6L8ukgNg6GBGTtQKe3aFNOGgFGoHAQMs2o0mZyW729JNqqYm0XCL2Ju3OYZ3WJpwFcoGgzieOPdVj/8mTQSoaHJGNYJiXEZZd5Eveqgz3pCcPHpnqGc9mOZXX/pTxffAgDdvNhss0fWGvz7kI7cK+vLrke4mhardtqWMl4JFzJ44VWY7oWJnDzN/x1RbUJLCnxrF5r7H7/zJsLhZqfXrlosbJ8FDeX0LKl0MWwGq0a7giD1iPKcvA/rkvR1owC3WtbH14uUtKdW/uyfQYzEqZTgxfy8UC0mxjgWJpCVg33CwsJzgZYfRI35U+/SiE8HCrK4d9/2UjnFqQjiHOaV37fM9gRWOZxYuWj4UGvoCvDHX+UjlDfAKPZ9W0R6f07u4l285t2AB8cYdbcDnrS4zepznEvffYpxYyQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(23010399003)(376014)(7416014)(82310400026)(56012099006)(4143699003)(11063799006)(18002099003)(16102099003)(22082099003)(41080700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	w/MeyPfFrs+mkVWXOdwwZUFHnuShFa9MR4E3hF/R2oNWxJbVWYiwmLJvU+th2MI8LDTBzOlJLnAYFs1BSKC3PwkFefj7pScoeVwZemeklJU/hEhrJGA4yIngfHev/dMJbfmRrMLdmUWUjAjC0lHqYNLW3hLSJyt5Xhu/NHm0YFjJtXiAEMeqjF5Kg7Y+EIbWWx0e8MRngz40pIzFGXrLBF9LLy0B5NGzCYoZglaJC1JPl0zwOIlILZ4PwQhx/9oHhcHl3mNWXDzz2KHE5++Il+jV2MOYY86xyxDvN+OdziNdj+9sl15cS8JzJyOOaDvGGw7xTI9aFWVpCE7ZeeO6VV51AThGbYAyro0MiWirXoA7QISza6dEy5qnnB3EO+pFDRpKKM8N4CWhVBTfHNL2g8OoGiCGxuBKavh4i67e0UDRgTCUGCVjFzoiVifh3imw
+X-Exchange-RoutingPolicyChecked:
+	Vg4Mo/749gH4hKT4Y7U5NbaaZ6D5ZIHAoKebVYfcDr4R1zmmG33fow04XidKM89z7NPHTUBvGxgVZRsZZEPEsemD3xtypAMzLd4wAlkvH8zsmWjqE257/64CwJNnErRyLcF0cjsRDQY1HzmX75EcrJyC/ChOs+TocVdpT4p5ZyAijttucunBM9H6wvSQniPZG0QIY5qzkmrLr586uUX1Shg9rm9soYbx69yZiuC/kW+zymcQTIg/+dVJP0nG58v/w6VeMEuGBxZfZLozYfbpHy/vEt3j6FNnWCXKoyAg1Uu72M+REJeb46pN5+fANeLBFgRLfFQuMvKTiK8Id0RM9A==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2026 12:57:41.6506
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0dd1a1f0-2160-49ac-0ed3-08dedf4bfe8e
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MWH0EPF000A6735.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR19MB6761
+X-Authority-Analysis: v=2.4 cv=V71NF+ni c=1 sm=1 tr=0 ts=6a523dcb cx=c_pps
+ a=fuE/7uQEd4exF76fV1vK5g==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=EUspDBNiAAAA:8 a=w1d2syhTAAAA:8 a=-pYe6oGQtZftezQT2YQA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-ORIG-GUID: IYiFekW1LKm5gjJi7Bz5cwdpZARxJ5o5
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzExMDEyNyBTYWx0ZWRfX40ymPtFTRV5f
+ CF58Xl7w0pA880pmLNrkAoS+0w5oTNwAqmSFWDPo3zQVX8TAggr7ofpa0Mzp13dk5ihUUp943ay
+ zw6+3wz5S+ZRsnoGbq575CJ1r/sJ/gc=
+X-Proofpoint-GUID: IYiFekW1LKm5gjJi7Bz5cwdpZARxJ5o5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzExMDEyNyBTYWx0ZWRfX0FOmAs/oMJxi
+ mmcZyFWp32IzeZu4evq4RBgrvTAsOryid7pDrnyd5WqWy/KR7H+TBG0/cE+T9QcUpnVGwOiUZa/
+ EFQTLx8di8OtTDay6n8XtV5KeH4TXQkVVwi+/ktxtVF1ObdIKSz9xbPMMGH3+GNVlBj3hpp8JdM
+ u8PCOOgdDjnga1028F2gkk9PeS+6aNWhXFYvHSgBPyFQL99gVb2nz/V3GbeXLh2m+SEQImMkWL7
+ pLVJZL7XzhGQgMDtX4/ipQbSXIqEs1bUAOKkj1ngaozvL+RUOk4TQUohCI26HE+hPoTU5r5uk13
+ WKI9aMwxep3awd2spx4nqOh+mkBEei3cUMbRL7y9EEOwzNNMnNRsT6wkzMWgrHF7vshNlCbGeQB
+ 33TAMWRyjroPgg6M2GmEF34YvQEG7F4wVTAn0NvIWyJybjHmaCdDI1AeZuBsfGDQA9WBvZrnhR0
+ HSA2M7Bit+GXJArgxMw==
+X-Proofpoint-Spam-Reason: safe
 
-The sc8280xp machine driver is currently written with a largely
-SoC-centric view and assumes a uniform audio topology across all boards.
-In practice, multiple products based on the same SoC use different board
-designs and external audio components, which require board-specific
-configuration to function correctly.
+On Fri, Jul 10, 2026 at 11:19:51PM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> linux/gpio.h is going away,s o use linux/gpio/consumer.h instead.
+> 
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  sound/soc/codecs/cs42l84.c | 1 -
 
-Several Qualcomm platforms like talos integrate third-party audio codecs
-or use different external audio paths. These designs often require
-additional configuration such as explicit MI2S MCLK settings for audio
-to work.
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-This change enhances the sc8280xp machine driver to support board-specific
-configuration such as allowing each board variant to provide its own DAPM
-widgets and routes, reflecting the actual audio components and connectors
-present and enabling MI2S MCLK programming for boards that use external
-codecs requiring a stable master clock.
-
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
----
- sound/soc/qcom/sc8280xp.c | 252 +++++++++++++++++++++++++++++++++++---
- 1 file changed, 232 insertions(+), 20 deletions(-)
-
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 98b15a527e37..eea571de9d12 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -12,17 +12,78 @@
- #include <sound/jack.h>
- #include <linux/input-event-codes.h>
- #include "qdsp6/q6afe.h"
-+#include "qdsp6/q6apm.h"
-+#include "qdsp6/q6prm.h"
- #include "common.h"
- #include "sdw.h"
- 
-+#define I2S_MCLKFS 256
-+
-+#define I2S_MCLK_RATE(rate) \
-+	((rate) * (I2S_MCLKFS))
-+#define I2S_BIT_RATE(rate, channels, format) \
-+	((rate) * (channels) * (format))
-+
-+static struct snd_soc_dapm_widget sc8280xp_dapm_widgets[] = {
-+	SND_SOC_DAPM_HP("Headphone Jack", NULL),
-+	SND_SOC_DAPM_MIC("Mic Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP0 Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP1 Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP2 Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP3 Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP4 Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP5 Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP6 Jack", NULL),
-+	SND_SOC_DAPM_SPK("DP7 Jack", NULL),
-+};
-+
-+struct snd_soc_common {
-+	const char *driver_name;
-+	const struct snd_soc_dapm_widget *dapm_widgets;
-+	int num_dapm_widgets;
-+	const struct snd_soc_dapm_route *dapm_routes;
-+	int num_dapm_routes;
-+	const struct snd_kcontrol_new *controls;
-+	int num_controls;
-+	unsigned int codec_dai_fmt;
-+	bool codec_sysclk_set;
-+	bool mi2s_mclk_enable;
-+	bool mi2s_bclk_enable;
-+	bool wcd_jack;
-+};
-+
- struct sc8280xp_snd_data {
- 	bool stream_prepared[AFE_PORT_MAX];
- 	struct snd_soc_card *card;
- 	struct snd_soc_jack jack;
- 	struct snd_soc_jack dp_jack[8];
-+	const struct snd_soc_common *snd_soc_common_priv;
- 	bool jack_setup;
- };
- 
-+static inline int sc8280xp_get_mclk_freq(struct snd_pcm_hw_params *params)
-+{
-+	int rate = params_rate(params);
-+
-+	switch (rate) {
-+	case 11025:
-+	case 44100:
-+	case 88200:
-+		return I2S_MCLK_RATE(44100);
-+	default:
-+		break;
-+	}
-+
-+	return I2S_MCLK_RATE(rate);
-+}
-+
-+static inline int sc8280xp_get_bclk_freq(struct snd_pcm_hw_params *params)
-+{
-+	return I2S_BIT_RATE(params_rate(params),
-+			    params_channels(params),
-+			    snd_pcm_format_width(params_format(params)));
-+}
-+
- static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-@@ -32,10 +93,6 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- 	int dp_pcm_id = 0;
- 
- 	switch (cpu_dai->id) {
--	case PRIMARY_MI2S_RX...QUATERNARY_MI2S_TX:
--	case QUINARY_MI2S_RX...QUINARY_MI2S_TX:
--		snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
--		break;
- 	case WSA_CODEC_DMA_RX_0:
- 	case WSA_CODEC_DMA_RX_1:
- 		/*
-@@ -64,7 +121,10 @@ static int sc8280xp_snd_init(struct snd_soc_pcm_runtime *rtd)
- 	if (dp_jack)
- 		return qcom_snd_dp_jack_setup(rtd, dp_jack, dp_pcm_id);
- 
--	return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
-+	if (data->snd_soc_common_priv->wcd_jack)
-+		return qcom_snd_wcd_jack_setup(rtd, &data->jack, &data->jack_setup);
-+
-+	return 0;
- }
- 
- static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
-@@ -96,6 +156,63 @@ static int sc8280xp_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 	return 0;
- }
- 
-+static int sc8280xp_snd_hw_params(struct snd_pcm_substream *substream,
-+				  struct snd_pcm_hw_params *params)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(rtd, 0);
-+	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct sc8280xp_snd_data *data = snd_soc_card_get_drvdata(rtd->card);
-+	int mclk_freq = sc8280xp_get_mclk_freq(params);
-+	int bclk_freq = sc8280xp_get_bclk_freq(params);
-+	int ret;
-+
-+	switch (cpu_dai->id) {
-+	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
-+	case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
-+	case SENARY_MI2S_RX ... SENARY_MI2S_TX:
-+		ret = snd_soc_dai_set_fmt(cpu_dai, SND_SOC_DAIFMT_BP_FP);
-+		if (ret && ret != -EOPNOTSUPP)
-+			return ret;
-+
-+		if (data->snd_soc_common_priv->codec_dai_fmt) {
-+			ret = snd_soc_dai_set_fmt(codec_dai,
-+						  data->snd_soc_common_priv->codec_dai_fmt);
-+			if (ret && ret != -EOPNOTSUPP)
-+				return ret;
-+		}
-+
-+		if (data->snd_soc_common_priv->mi2s_mclk_enable) {
-+			ret = snd_soc_dai_set_sysclk(cpu_dai,
-+						     LPAIF_MI2S_MCLK, mclk_freq,
-+						     SND_SOC_CLOCK_OUT);
-+			if (ret)
-+				return ret;
-+		}
-+
-+		if (data->snd_soc_common_priv->mi2s_bclk_enable) {
-+			ret = snd_soc_dai_set_sysclk(cpu_dai,
-+						     LPAIF_MI2S_BCLK, bclk_freq,
-+						     SND_SOC_CLOCK_OUT);
-+			if (ret)
-+				return ret;
-+		}
-+
-+		if (data->snd_soc_common_priv->codec_sysclk_set) {
-+			ret = snd_soc_dai_set_sysclk(codec_dai,
-+						     0, mclk_freq,
-+						     SND_SOC_CLOCK_IN);
-+			if (ret)
-+				return ret;
-+		}
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- static int sc8280xp_snd_prepare(struct snd_pcm_substream *substream)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-@@ -117,6 +234,7 @@ static int sc8280xp_snd_hw_free(struct snd_pcm_substream *substream)
- static const struct snd_soc_ops sc8280xp_be_ops = {
- 	.startup = qcom_snd_sdw_startup,
- 	.shutdown = qcom_snd_sdw_shutdown,
-+	.hw_params = sc8280xp_snd_hw_params,
- 	.hw_free = sc8280xp_snd_hw_free,
- 	.prepare = sc8280xp_snd_prepare,
- };
-@@ -145,38 +263,132 @@ static int sc8280xp_platform_probe(struct platform_device *pdev)
- 	card = devm_kzalloc(dev, sizeof(*card), GFP_KERNEL);
- 	if (!card)
- 		return -ENOMEM;
--	card->owner = THIS_MODULE;
-+
- 	/* Allocate the private data */
- 	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
- 
-+	data->snd_soc_common_priv = of_device_get_match_data(dev);
-+	if (!data->snd_soc_common_priv)
-+		return -ENODEV;
-+
-+	card->owner = THIS_MODULE;
- 	card->dev = dev;
- 	dev_set_drvdata(dev, card);
- 	snd_soc_card_set_drvdata(card, data);
-+	card->dapm_widgets = data->snd_soc_common_priv->dapm_widgets;
-+	card->num_dapm_widgets = data->snd_soc_common_priv->num_dapm_widgets;
-+	card->dapm_routes = data->snd_soc_common_priv->dapm_routes;
-+	card->num_dapm_routes = data->snd_soc_common_priv->num_dapm_routes;
-+	card->controls = data->snd_soc_common_priv->controls;
-+	card->num_controls = data->snd_soc_common_priv->num_controls;
-+
- 	ret = qcom_snd_parse_of(card);
- 	if (ret)
- 		return ret;
- 
--	card->driver_name = of_device_get_match_data(dev);
-+	card->driver_name = data->snd_soc_common_priv->driver_name;
- 	sc8280xp_add_be_ops(card);
- 	return devm_snd_soc_register_card(dev, card);
- }
- 
-+static const struct snd_soc_common eliza_priv_data = {
-+	.driver_name = "eliza",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common kaanapali_priv_data = {
-+	.driver_name = "kaanapali",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common qcs9100_priv_data = {
-+	.driver_name = "sa8775p",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+};
-+
-+static const struct snd_soc_common qcs615_priv_data = {
-+	.driver_name = "qcs615",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.mi2s_mclk_enable = true,
-+};
-+
-+static const struct snd_soc_common qcm6490_priv_data = {
-+	.driver_name = "qcm6490",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common qcs6490_priv_data = {
-+	.driver_name = "qcs6490",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common qcs8275_priv_data = {
-+	.driver_name = "qcs8300",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+};
-+
-+static const struct snd_soc_common sc8280xp_priv_data = {
-+	.driver_name = "sc8280xp",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common sm8450_priv_data = {
-+	.driver_name = "sm8450",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common sm8550_priv_data = {
-+	.driver_name = "sm8550",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common sm8650_priv_data = {
-+	.driver_name = "sm8650",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
-+static const struct snd_soc_common sm8750_priv_data = {
-+	.driver_name = "sm8750",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	.wcd_jack = true,
-+};
-+
- static const struct of_device_id snd_sc8280xp_dt_match[] = {
--	{.compatible = "qcom,eliza-sndcard", "eliza"},
--	{.compatible = "qcom,kaanapali-sndcard", "kaanapali"},
--	{.compatible = "qcom,qcm6490-idp-sndcard", "qcm6490"},
--	{.compatible = "qcom,qcs615-sndcard", "qcs615"},
--	{.compatible = "qcom,qcs6490-rb3gen2-sndcard", "qcs6490"},
--	{.compatible = "qcom,qcs8275-sndcard", "qcs8300"},
--	{.compatible = "qcom,qcs9075-sndcard", "sa8775p"},
--	{.compatible = "qcom,qcs9100-sndcard", "sa8775p"},
--	{.compatible = "qcom,sc8280xp-sndcard", "sc8280xp"},
--	{.compatible = "qcom,sm8450-sndcard", "sm8450"},
--	{.compatible = "qcom,sm8550-sndcard", "sm8550"},
--	{.compatible = "qcom,sm8650-sndcard", "sm8650"},
--	{.compatible = "qcom,sm8750-sndcard", "sm8750"},
-+	{ .compatible = "qcom,eliza-sndcard", .data = &eliza_priv_data },
-+	{ .compatible = "qcom,kaanapali-sndcard", .data = &kaanapali_priv_data },
-+	{ .compatible = "qcom,qcm6490-idp-sndcard", .data = &qcm6490_priv_data },
-+	{ .compatible = "qcom,qcs615-sndcard", .data = &qcs615_priv_data },
-+	{ .compatible = "qcom,qcs6490-rb3gen2-sndcard", .data = &qcs6490_priv_data },
-+	{ .compatible = "qcom,qcs8275-sndcard", .data = &qcs8275_priv_data },
-+	{ .compatible = "qcom,qcs9075-sndcard", .data = &qcs9100_priv_data },
-+	{ .compatible = "qcom,qcs9100-sndcard", .data = &qcs9100_priv_data },
-+	{ .compatible = "qcom,sc8280xp-sndcard", .data = &sc8280xp_priv_data },
-+	{ .compatible = "qcom,sm8450-sndcard", .data = &sm8450_priv_data },
-+	{ .compatible = "qcom,sm8550-sndcard", .data = &sm8550_priv_data },
-+	{ .compatible = "qcom,sm8650-sndcard", .data = &sm8650_priv_data },
-+	{ .compatible = "qcom,sm8750-sndcard", .data = &sm8750_priv_data },
- 	{}
- };
- 
--- 
-2.34.1
-
+Thanks,
+Charles
