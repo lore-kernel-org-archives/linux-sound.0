@@ -1,67 +1,66 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83243A6F0B
-	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 11:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF9A35294E
+	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 11:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783769989; cv=none; b=UQ5fIvYcMiJqJL4mKuDY7QXdlDAGVX3O1umyAjE0PRAQHfe4Ujq49XLd+Ykycfr5Z/NAiSNw57ZxCCCz4ADZUJECHhnTmwzlZzibFxrqjYOSFvapmxDbALuBIILSFods+JofJs/xWezYitC/ha9UNHPNy+RwQZPmxx2mvN6FlAA=
+	t=1783770009; cv=none; b=Q67gHhY2S4Nhn4Ow93q82azuQl+c0Yd50BqNdk2C3aLShmlA9i36ERVqC0UigEIqwO9rO2V/eUOwbqeYvdvvfIQO0MU1wcQzQBoCTZNcwUAGofHfi65VDWhzHirlui9LwZW8HCCsG+dsPsPIx14hsXHD06UiYEGPLEro1YW4ChQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783769989; c=relaxed/simple;
-	bh=0h+eMXw/kfLWugCSiijk6RrUkOgLb8fXGrBDBYxoGwY=;
+	s=arc-20240116; t=1783770009; c=relaxed/simple;
+	bh=3+bmWam2Mg+1DChzKEqedzrXK0RkseN6c6pm2NsFuGM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c4FdPr8G5rkw5RBUTH92MkKne66jEchSvcTvyhVUpOnQ06bKS6mTPGurfnaao5hsTpCiMTwuF+0A2Wo9JaHPz+ITlj7HmNMQ9N7oP6lEgX37DEK9ZWpBStnBbyeCp+8xIIQ5fEBP0MYv2dTYlkND8ysKApj6969MS0PvMACcwT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0z3J/xs; arc=none smtp.client-ip=209.85.221.45
+	 MIME-Version; b=lsxw5wYx4Qk6a51R34goEGqhxC47Lw2rasnQH7XS3lBUtlKaRf1UUPVJNBzIajHHdzZyFKFLDeyqzBU4d3Kf9tTS9wb0JNptIM5bdfk4D808EFacMjDiDw1PK0gbDYlW0xvnhSmm047DO0vveIRlNNEzmGnBHPlJOexSI0IW0H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RXNd4KDH; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0z3J/xs"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47dec32798aso1799518f8f.1
-        for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 04:39:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RXNd4KDH"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493b966dd74so6563525e9.3
+        for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 04:40:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783769986; x=1784374786; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783770007; x=1784374807; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xjbNk6EtrHaZnnL2B59jNPMm165JgqnkuXclu5z98Bs=;
-        b=K0z3J/xsRPisTJH/q8a9JCJcH5dAb56dHb2jZU8nKfy184rVR2TmbYLFZsOtDTNQgv
-         qL8TU+2kY9AB0OYqkUM1qE6w6wBMMVYXLaVWW34X4tbMMTd4UZ42wK2WYMq0uKyDdULm
-         A97VLHQ31H+1JpaUC9Wl21usrI8cyFp6BdWjRsqQIuE9Ve8eoP64HTzuwL01ylxCiEBV
-         d5mZCJGLf1jzwY6RMxH9Owic9K6cK0V7MbnE8VLUxOTrB0vjRdTN6ujcxIjgRlg0RF4t
-         H6MurWvkD0merGFo9N9jbNFvuLWyqEzx/ExEXWyLgiwXSOjFQ1QF7sz8zmfm2lLnRhxs
-         AmUw==
+        bh=3+bmWam2Mg+1DChzKEqedzrXK0RkseN6c6pm2NsFuGM=;
+        b=RXNd4KDHyCCwlLIbPBKVoD3jDiP4+EDcnZb5Zb3o8d0D5+AVh0p8GMskSLeBucoXzx
+         yGiQrso+de7I9d069g2br2zsM1r7jqYPLcXbTsFFjgKUrl/pY/5lBWqHntIk/G6CW1MX
+         /7R0jqj4T9BRkPo6kcA1r5Atuc2FxXceWKVWR4V5DfgCI3rtYIV4E15uTjwExlgDtEt0
+         SmGMw4G2nCQrXKLUcsuRU/MZ6aD2KRi+ptN3Und/yjqmJbFFxg3xKdhVU5Q6ukQkRI2x
+         Hmko5nJjk7cziXP5MsUF1dQB2uCCLQmWmxa0/fOpZxHJpU/l2AzlOzA0nUgCpYziv4uV
+         VBeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783769986; x=1784374786;
+        d=1e100.net; s=20251104; t=1783770007; x=1784374807;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xjbNk6EtrHaZnnL2B59jNPMm165JgqnkuXclu5z98Bs=;
-        b=ajstQVbEw/muJUJ28Fg8r6DAUgJdzqC1zwJtpfQ8XtmHBkPZJbJYvvY233NnhQrcKS
-         1qQWBqXzxh6MNSmiwpnacPUOItF9TJTqUQRYFtgl50xd0FuNrd1K8OjqNFZUbJ/xaXbY
-         cuES07mYaxiE65E3HVN2WS0H02RyGpvdYYEF+uLQklP0py18y8Dhe93ytjolFsJ5+hBj
-         SE4+zpQEshniVbRcRlhKUiZsBwXAQuBkc2mVOusKkTl4qCd6HcRpleNkxWfC5H6TRWcm
-         JYTxas7SnZL2iIxkKKRx3hGLnH/XctM7us7F3PcHYFcPUK/wHNnPQjJcpO4WpLRnW8VH
-         D/1w==
-X-Forwarded-Encrypted: i=1; AHgh+RowRGliQD5Bkb2LR1YP5QEw6ScYOLgHcN6jVhmHFks3p9pEgAumj3Ni63NB5dBfreAaPkO3usxIni+Vfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLI7HiW2lLnHzwi/HicID8IVfWBjnx8ITnaAjqP/sDrqlYYfSS
-	s+G6/YsYX4US9hh+Q7IT/hRRAr24NVFIi4TCfGaq5qTnpoNwhsujBe4s
-X-Gm-Gg: AfdE7clUgANr6eFVQyJgfVXcL1pLQ/AlkVUpEsFbk5V+cVtsLrwa0bDbMI3fOzkdSF8
-	mEtgWeZKxVMLeuDFRz6Jp8oREhoyqkKW2jQtLXsy9UNmgzMwpw4Aju52eDNQGYjHDIhSujmDFW5
-	8QqYweJgrKI1kVhjwPJh/pYH6nS6ftI7WdV3PNzP17KjFwnTXfth7X+Uf4eel6vl8ZsJ1CkUci6
-	yjN/nAVdTrgicBG5M/rcrFxWZKV3k0vixqZy1qlCkeHGTTPDdj2ze7Nsnhoa6vl1NFqYXeBkfrQ
-	YXqk8YlnIad4JWDeGhGM17ssnizbskvJZO3PtuF88wuZcMoFJAMioATRoah6zinuMqKdiFZl9Bi
-	OaBP/bMa60igoumbqXXuxEAoz1uLfKvEjbn+ihsAY4sWueADMBa+cVgVe/K+W3Fvb54r9R5OCSw
-	MCTYMlYqMzaIDLhz2hjbXO+bfSaZG4
-X-Received: by 2002:a05:6000:2305:b0:47d:eee8:ec40 with SMTP id ffacd0b85a97d-47f2dcd717dmr2491274f8f.38.1783769986131;
-        Sat, 11 Jul 2026 04:39:46 -0700 (PDT)
+        bh=3+bmWam2Mg+1DChzKEqedzrXK0RkseN6c6pm2NsFuGM=;
+        b=b/m6HgBqHq0SQtSHCmQx7aG86v7tFTmtN7Z0DBgRGTl8sD0lpSJ9YbcMsm+6ZE87AZ
+         EsxV372wuoS2r6m6TyxmGp3+kNaZC5o65unx7+R3IbNctZm/vh0305e3kJEC3tHjhZoE
+         3WjcjnfR+tsPwyIVAkRc8nppKtdFY3vpHOk4Fw17vINJlNafpI/GkLmd8njNrmI5Ue2t
+         wUBJI6xO1DaslEgGLWHKXO4X19+mzKsSJfCAFIoKoNAOZfdhKH9aVteumQ2hxJ8coEly
+         ZUD2pSDyelissgQiS7KmyhMeOhbWj4BEu73gEPifouVn2SHGKGVItmcTbTT90dHu65Vy
+         uXqg==
+X-Forwarded-Encrypted: i=1; AHgh+RpxkEMhBz8fKNY91nt4IXLPMhmspEZRhEZsJhahUbvdmSd5iCiBOo6PPTSc70HMtAPP0YLTKWGITfakRA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPF/uf22yVFL7NgoJmHUjMRfWheqR3YlWKG/w44W1TelkLd0rc
+	aQfjSmDphSIkvosad/pkuoN3rRAr+KlxuQK0OswojPFI6FTEyFILZnKV
+X-Gm-Gg: AfdE7ckZdUN5ibst9U5JWJ4iPwddXqCSyk2TNb3LsYehj3+P7A/Ffta6EjbIT+grIAo
+	Hx9IkMOC7apD8Og8jmzwyBNoPI/UILd5iHczloMHOa5qBNc6oeMF/wmdSvfnENr50694VFWASKM
+	sJNzLlxSogajaNUMB/6vbME0VdQII1LoxmlBJcJTOzGtBF4clnwUOpwKy6CR87URd/idF9YOTf3
+	ZnZZUp9okpHk94NUXwGqT+0qoV/hDpnMnVzbve4FkSDJ2gI1J69/j3o/YzkntImXnTju5tXgoTD
+	fnvpgzGcNwjroiaBdX5OEqrKDXoUJ/0tl2D5D1mzoBNGvLbH4eEZkNuzVu+DMyK5LMFe9yaGWE8
+	kUsmxf3yiRxj0ri0VQqJ5vcOe0eV8fD70WCKWPnnnQI+lZbmdNLRWoNXt1BqyXGjK62Bd/W38r/
+	ex0jAJap1GW8h0ZAB4yXBjCzyxtKwp
+X-Received: by 2002:a05:600c:37cf:b0:493:c4e1:40a6 with SMTP id 5b1f17b1804b1-493f882e97fmr20363055e9.32.1783770006780;
+        Sat, 11 Jul 2026 04:40:06 -0700 (PDT)
 Received: from unknown.tail46804.ts.net ([2a02:b027:11:e106:f973:a70:bd1e:4000])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47aa0a55be4sm62817520f8f.31.2026.07.11.04.39.44
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-493f2e0eff1sm84510965e9.0.2026.07.11.04.40.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 04:39:45 -0700 (PDT)
+        Sat, 11 Jul 2026 04:40:04 -0700 (PDT)
 From: Gianluca Boiano <morf3089@gmail.com>
-To: "Wang, Sen" <sen@ti.com>
+To: Mark Brown <broonie@kernel.org>
 Cc: Gianluca Boiano <morf3089@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -74,12 +73,12 @@ Cc: Gianluca Boiano <morf3089@gmail.com>,
 	linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] ASoC: codecs: add TAS2557 mono smart amplifier driver
-Date: Sat, 11 Jul 2026 13:39:36 +0200
-Message-ID: <20260711113936.71958-1-morf3089@gmail.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: sound: add Texas Instruments TAS2557
+Date: Sat, 11 Jul 2026 13:39:53 +0200
+Message-ID: <20260711113956.72582-1-morf3089@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <e3ee8a6f-dcd7-4205-bd3d-da34a1b9aa14@ti.com>
-References: <e3ee8a6f-dcd7-4205-bd3d-da34a1b9aa14@ti.com>
+In-Reply-To: <a79fe709-6949-4f73-8f97-6d02e1ee9d78@sirena.org.uk>
+References: <a79fe709-6949-4f73-8f97-6d02e1ee9d78@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -88,32 +87,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> +	unsigned int asi_offset;
->
-> Why does asi_offset need to be computed in both hw_param and
-> set_tdm_slot? Shouldn't setting it in one of them suffice? AFAIK both
-> func ran once per stream request.
+> Please submit patches using subject lines reflecting the style for the
+> subsystem [...] There's no need to resubmit to fix this alone.
 
-hw_params() was computing a default unconditionally, clobbering
-whatever set_tdm_slot() had set. v2 adds a tdm_configured flag:
-hw_params() only computes the default when set_tdm_slot() hasn't run.
-
-> For the firmware parsing, could we possibly reuse/extend the defintion
-> headers from
-> https://elixir.bootlin.com/linux/v7.1.2/source/include/sound/tas2781-dsp.h#L43
-
-Checked tas2781-fmwlib.c. Same magic (0x35353532), same TI toolchain
-lineage, but the formats diverge past that: tas2557's header carries
-DDC-name and description fields tas2781's doesn't, tas2557 has a
-mandatory PLL block stage before power-up that none of tas2781's
-parser variants have, and tas2781's parser is built around its
-multi-amplifier device-index model that tas2557 doesn't need. Not
-sharing code between the two.
-
-> If write failed hw_params should return the corresponding error code
-> from ret no? Right now hw_params will return success regardless.
-
-Fixed in v2, both writes now return on failure instead of just
-warning.
-
-Gianluca
+Noted, will match it from v2 onward.
