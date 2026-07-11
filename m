@@ -1,162 +1,114 @@
-Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de [81.169.146.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14FD31BCAE;
-	Sat, 11 Jul 2026 06:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783750098; cv=pass; b=spaLiqcPCYTlhL6Y9wtcCuAYk2zI4WJZFZz5w+O9ESsqfcUY2SVCUDFEGHYxcSkGl7BM8DktDmjqR2kKgN3RrB4R+nAOGRpZ9tQ2NYq1xSZgeo5Za+3dbW8gXODpclCB3SpYKwa+oxoKj+SqU/VwsQyaKWC5es7YoWWoEmvavdg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783750098; c=relaxed/simple;
-	bh=dPmFEXPLHnRYfoZJD/I6aluZXKbNp8YLlXFCVB6SM3k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Q1YHUu27CP1uqV8EFT9bXPGZFaoWsL57R+Fzt/dhjMIDKVOR3PHe/3f076eL8UKBsdfjZovqhbIPkxqLT9m7312tcirJ7Vcem+XnAqytJ3cFFgWHwUPBcyimztOrMkszPAZXC4VCvEg/mLwsYb71Y3VRPKmaHnd+2F+NgaJVg2c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=W1Ae092n; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=DtMnNYBN; arc=pass smtp.client-ip=81.169.146.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F75533F597
+	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 07:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783755268; cv=none; b=lacWhmE4T56HmMiXlwjFiITA2BUliCJdqJNCCPNMMGLuWdm3rMcXTmGAN24LGRmHBCeTxavyb3PpI7Y75vV8WYSUHlt6N1xdDj8ViHnQcNxH9SBWLUOnIBfaqne0K937SjjlnfHQbvCNznpnJguoxpEVeskrGvaDRLY7qLIP+0Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783755268; c=relaxed/simple;
+	bh=gUnPJvqa+6hCH/9HCtTO8STc6X6BWHZ70c5H6AKWsOg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tYrLNKk/T4z785UMJLC/Idu5DHXo/5GlML9FO3vW7bbL0wjY3/k0M/ucM2Q/JhVkF15nIwcHvHQSbDzBOJbLgJChitjXILJ5X+JBJWNkB+rVTZz+AdRho7jLtwa12EUuUGMGqI4vDaYA22sXEyFWuQffgV9trJ0KzvsLenrSCtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AVUYdWB3; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="W1Ae092n";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="DtMnNYBN"
-ARC-Seal: i=1; a=rsa-sha256; t=1783749730; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=BbY7B4vaCGiOVfo8vBc77M70XHz9IGfhm8sXY5E1C90pMni4bdample4iB0RflMbOQ
-    6N5mxN+uU17fC264F9i5rUIcl4NxQitAhZ/nbGMGOUYYlO/f4KUkFmbMV6DhAT2ON+un
-    fEbYvnn7wb/KmNm/zRJR1y2Vk1l6a60K8KEkNEBnOhvlT+alLanspRTXX5zm5ttGoTa+
-    ndxjf15TA7kFt6+vqHryEI7QxrQDXpBf5JoKLylRuGQNXt6gq2xnVkv80MSJbAHgQZRL
-    8wHOOInfVjy6asmkfEkuUfbyXlOg5VTr9vi3486XNN7eTcVNkodnXHg2NVOgcCJqUHwR
-    mEeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1783749730;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=7tiROIViVkULix+8N5uu/OdfiKd0ir+RKoC0z/PkkN4=;
-    b=EE+olW3dQrCKi/Uys+SgAPhw5TFHHdY3n86Ih1NClrouAeHXujJoM+ovhWvEY0ANUD
-    /CoTuOsbxUMsDkUx3aIzBVzrdi80mpoSF+D+2/jRcUZU1lZRrZtYn0j1c51yve1AJ2iL
-    wWANvZPe9psDVGA+Yll2M7GffGMOrgBpHcDWjTFqhgR0sgzxSu8tB3mgfv2cMOgS4xSx
-    DKcNm4gRd17AyO7l8vrVnkdVoMoId0oPKPAtHIsqSGooL58dZHDABVKIT+rz2Cw5NCEX
-    lpV0EUuWcg+qPzqlOswT6PjKpb4ntSuU+/x0sdALNFbqF5IVsQm6dVr9lcgQ0tkBGFKy
-    0bAw==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo03
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1783749730;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=7tiROIViVkULix+8N5uu/OdfiKd0ir+RKoC0z/PkkN4=;
-    b=W1Ae092nFtKFWlOFhN43fYdetRQnkPVHcs8uVXzvbgFa7i4ZlwpBsCIV/jIKOrrJ6i
-    nlB6tApUSIka+/QVxypBmfIHoq6lYLULc+GUu8j0gvjkk+E/+kKlJIgJpelieLakNhod
-    AkXrjs25JulRxPa2UXyDrXc9BXxvmSKYm3FTQEAQQwaMNxcC2S5yRPQ+v8KBsV/19uyM
-    PiDsfzfzsLNVf5paWTSRMvv4anIzQNjRQlnd3ycJhD1bwCpu9t2MO/3bP4TOJH34pEeJ
-    jxIAmCckXWiy/1tAGq4gyWE/zy3TnlfBLYAwn/IQQ4bQp543URQqIZPANZkP6k20ju/O
-    2HFg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1783749730;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=7tiROIViVkULix+8N5uu/OdfiKd0ir+RKoC0z/PkkN4=;
-    b=DtMnNYBNF/gsV5P1J0NnLK++ooZfquiYReodGVFhPEKpWaCNfZt1prtneK/uVV25m5
-    wE/qOc48RXn1z4pziVDg==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrT35oLmciNszeF4HOToVDOd6S1gdjuILE2MKVd"
-Received: from iMac.fritz.box
-    by smtp.strato.de (RZmta 55.5.6 AUTH)
-    with ESMTPSA id Q4b76426B629Ghn
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Sat, 11 Jul 2026 08:02:09 +0200 (CEST)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Grond <grond66@riseup.net>,
-	Stefan Leichter <sle85276@gmx.de>,
-	"H . Nikolaus Schaller" <hns@goldelico.com>,
-	Grazvydas Ignotas <notasas@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sen Wang <sen@ti.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Niranjan H Y <niranjan.hy@ti.com>
-Cc: letux-kernel@openphoenux.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	kernel@pyra-handheld.com,
-	mfd@lists.linux.dev
-Subject: [PATCH 03/16] arm: dts: twl4030: add twl4030-regen child
-Date: Sat, 11 Jul 2026 08:01:50 +0200
-Message-ID: <ca467f11b708be8529de5e25b0863dce0d7edbb6.1783749722.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1783749722.git.hns@goldelico.com>
-References: <cover.1783749722.git.hns@goldelico.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AVUYdWB3"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5b0115b9e17so1487370e87.0
+        for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 00:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783755265; x=1784360065; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aBafLctpeA1AoyzErbEa9EGgxzwRbfKFWoPKc6c7bv4=;
+        b=AVUYdWB3WfvWD9/jCidP0U7zRkAI7QnX4kmNcHjB6Nosq4CWaZlW0hNhy2LM6kgpWe
+         TWeOEWd21tnxJAl6DPVycHqgm9166I3BafNhzXVO9hS6LEulcv+AlPncKAl7GvVrR03Q
+         iCvt2f7qMPGyswDv6RE6LdZAC8T7nBCACNeECjWvasy2/IQ6mcUH99GfG+odlxT5vxDc
+         faI4NAbgRuPvGxueHmF2X4sAqU7TBPz2sj2hy41Y3HsZaAYU2w0jJYHYvY8gACqUio0A
+         PKN2hjadzNTtEb4X+/A4fXYRXB4crD0SpHGqL5UMuZ2Is9WMaTouNVWbOrjTDz6nyty1
+         dqQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783755265; x=1784360065;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aBafLctpeA1AoyzErbEa9EGgxzwRbfKFWoPKc6c7bv4=;
+        b=b4XZrUNE53gvpcjYLNpBkmbmQ4DglpboWnclChVej/9NeHrHM7ZAZHA8TSUFVEYeCo
+         Rc9FobzalXu64TKeq6Taeb3I1aq9DpYrwMbWH1/5iD/RMz5edmLY0b4PF170cW3ir4vb
+         z92Wy8p14839Hd1SL2igS+ngMme8yqhaklSfapRYQK4ZOPiVTiJQD/n01JPV0frjpSAA
+         8S5VEBvNKMEX9RATDcUHwXbN1/VGGk6SyVMMzsR7eFKDPlPqjOvJSJsIoCQ3U3qkvv14
+         W5he+PdUPEJI3eTcIxDOFJVaLb79vScgfTuJ61/0jY19b2Mgc+kAiPVfEQX238+o1xBF
+         ldVA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqb9dBntkHgeVlmBpcjEfpbbGMDkpfg3zHI/iZL7muESW/BcMDgrwNR4qTiGX3ymjfF3L12EIlctlxC+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzokpB2a9B4pLeMzywbf9L4eTYrvE2c4bB4A+XGb0ppdsMEAQ9O
+	2FkAebs82pL14ZPKAZwB6q6Dqutrud6Io2i0Nshj+BN6Xw96aANf+f6F
+X-Gm-Gg: AfdE7clT0pDWIo5LuozH/jr8hQ/AAeYVhpE68vPjwumsUCL1vt/I4yTxuomFH0q11y9
+	0TJ7k4cMezjGDm1YHm3djFbBUVwBo2O4I8/5u1Vdiski2v3gEA939d5UWzHQJ4obYcMxbTJvdVn
+	B50hbXgCAeseNhBb3Diy9aY6hxtNTkzFySIIumKAp8Tyst5QwBjmJHiEe2XUjTNJfmIio8RJSfx
+	whuaqwn3N69LlIN1p7zYwf4YGHeBnR4ZTPUZSOx82hgiWw+AnjVgzFU+RTbQnOWrRqDuYQf+Iog
+	oz/MOuLAciJC3nZw+j94jMoAjvq6qx7GXHIYLyjV8UicKbqzNPCc/X0D7FQVF9XIwI4zh3Ijz3S
+	+M40uoJmiKSziZ+iJY3ok5qTwHL6yfNSrOz1VKstGa7FISQZpBWZaUi4sXwjn8HTm9iOxwG3Dba
+	h3vq2G/V35hl3qdy3WBYqsBfDhmC05cVu4pHzvKu8QV9HE65K7u7ZbY7aMUyEUeSkhkdHlkg==
+X-Received: by 2002:a05:6512:3f8:b0:5ae:bf45:e3be with SMTP id 2adb3069b0e04-5b0236689cdmr321070e87.21.1783755264967;
+        Sat, 11 Jul 2026 00:34:24 -0700 (PDT)
+Received: from ?IPV6:2a00:1fa0:4322:18e2:4e2b:60a6:4ce2:33fb? ([2a00:1fa0:4322:18e2:4e2b:60a6:4ce2:33fb])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01ca9dd41sm1117527e87.48.2026.07.11.00.34.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Jul 2026 00:34:23 -0700 (PDT)
+Message-ID: <de1d491e-159e-41c2-b145-4d09db091031@gmail.com>
+Date: Sat, 11 Jul 2026 10:34:19 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/10] ASoC: replace linux/gpio.h inclusions
+To: Arnd Bergmann <arnd@kernel.org>, linux-gpio@vger.kernel.org,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Greg Ungerer <gerg@linux-m68k.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <zajec5@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Dominik Brodowski <linux@dominikbrodowski.net>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <20260710211954.1373336-1-arnd@kernel.org>
+ <20260710211954.1373336-7-arnd@kernel.org>
+Content-Language: en-US
+From: Sergey Shtylyov <sergei.shtylyov@gmail.com>
+In-Reply-To: <20260710211954.1373336-7-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Grond <grond66@riseup.net>
+On 7/11/26 12:19 AM, Arnd Bergmann wrote:
 
-This is needed on some boards (for example, the Pandora), where REGEN is
-used to drive external regulators.
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> linux/gpio.h is going away,s o use linux/gpio/consumer.h instead.
 
-Signed-off-by: Grond <grond66@riseup.net>
----
- arch/arm/boot/dts/ti/omap/twl4030.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+   s/s o/ so/?
 
-diff --git a/arch/arm/boot/dts/ti/omap/twl4030.dtsi b/arch/arm/boot/dts/ti/omap/twl4030.dtsi
-index 07b9ca942e78d..e6f80b8f0a731 100644
---- a/arch/arm/boot/dts/ti/omap/twl4030.dtsi
-+++ b/arch/arm/boot/dts/ti/omap/twl4030.dtsi
-@@ -112,6 +112,20 @@ vsim: regulator-vsim {
- 		regulator-max-microvolt = <3000000>;
- 	};
- 
-+	regen: regulator-regen {
-+		compatible = "ti,twl4030-regen";
-+		/*
-+		 * Since REGEN is technically just a signal that actuates an
-+		 * external regulator, we do not know what voltage it will
-+		 * eventually have, or what it's on/off timing should be.
-+		 * Therefore, disable it here; boards that use it can override
-+		 * the status to "okay" once they have set the
-+		 * regulator-{min,max}-microvolt and startup-delay-us
-+		 * attributes.
-+		 */
-+		status = "disabled";
-+	};
-+
- 	twl_gpio: gpio {
- 		compatible = "ti,twl4030-gpio";
- 		gpio-controller;
--- 
-2.50.1 (Apple Git-155)
+> 
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>[...]
+
+MBR, Sergey
 
