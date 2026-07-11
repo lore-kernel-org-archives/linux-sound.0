@@ -1,157 +1,112 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551AEC2FD
-	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 00:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783728521; cv=pass; b=L4RC/tokAWTasxvfSBam1UcP42tEodxlf3//JnH3v1hQa0XVgUmsnPUbZaIqdiWUpwwrgeDiL6heyv8zla1DEz5sJUVIIGEk60LplfMthJebHta6UE3hX3W8L5wCVFSKWjsD0IfXNXlub+LHpaHtlWtCCq8GH8h6Dry4d6gEtnA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783728521; c=relaxed/simple;
-	bh=kT3WGq7xQUJl/l7l2sBFuylj1Ru6lkFqwsVBVS8paKU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RgxNDQGc7YHU7Mp4Vvo70PC0A/IE0KX4LoVYqK0XuBA5QTAlqUu6OQ+C9YOn8RX059EY7MJSjwRnK0Pm2omFWcH2ZRG0XGTwC1LHlDWpFzHPzxUFUQNfLMnRCs+mhldoMgdPLJ0L6r97RlzyYHW90KeGJY9m4ljRBVORLS2F1o0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKtq0O2o; arc=pass smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99B0EED8
+	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 01:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783732191; cv=none; b=rKjWlIq5DORIVY+eCyUZ50BMBYUPe+FOUyiRjcqHaT8MwoZy0xcWZbdNA2f378aiz6853rDU6ofI7ZfGM4tvbEWVCnntbWTEz0Y9nqBTqrOobuQU4xvwMK1AOB3NLVBfqDufdBU9S990JDRlgYJ+EDwt885VzWDFrf5ysXxJhtI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783732191; c=relaxed/simple;
+	bh=ug0y6mP0R212IqZ960j7rjGANnGythjIR2K0a6Zc8y0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ru0+eLCo9WBl812OP4e1LATbXwvKauWEveQ1w39T5zXyTpb7Z+BDN6IdeHKwAZwWkU00HqtGAfK1Uq1WxRrv6QwUfNkH26cVXmzI2CENG9qOQzA+KarZNPGZncaCBwC69d4RiRhyuxgn1nbxXQ1GYT7P2lXyKnud7vTnAfU9rD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmCvuePy; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKtq0O2o"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8485bd28dd0so1547572b3a.2
-        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 17:08:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783728520; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qUmwEkbwFMGBtPxpHZt7Z6uDmQdvBO6SVLSroLoWw+BSPmjA6JrDeDl5XlsEepmYla
-         OTNFsKMo3KBUwO/P1RukrKIYLHa1cxe4AufrgJKI/eFdGaNPfXTkwyw+Uzcc1HDDsHiX
-         aimPxtHa3zeoKbJlvExnpcQRJzVxbeQDSUlvak8o9t/oYbSFC7nUUyPLk8XB4yX1dAjS
-         NLioj4qeHIeVi99eQVjoEU6RWt0AGeQUt2BY1WA++q9+/LCDIsWQws0UUDU1zqAZbKc/
-         ihLo7rQMmmpMY/1uxNcTDnjKH3Udya8ZFM5xX1uI+OPrQwoZwTESriHk0KZyBM9lCDSl
-         B6Ig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=H5WuB63RbKuGXGsDIh2uCohEIF6sWSpalpafrYB0BRA=;
-        fh=7MCHi1mIF4Cw/165TN17IpJ1sMfI1nSZ8rNHPz9skdY=;
-        b=swCKE5Pt8xvhbuj3KZfz6+aeC0qyyhSYXKwBgVHvTBqcIG0CluTVI5bNPPsoH65NB8
-         MhUXPTCeMUZ5reL58Piz6E57Muo3OHTLPDLU4gIuzDX6CvSreVUQira1QTTTlcmaezNg
-         ozJWRosvyHAT5KrM+qM2Xsv3V01MdRp2SfYopyXslvcdjLcY+8c7hxWq2VhHIXOFRMI0
-         ff7oAs6lj3f/RmY96k0cjvwDUFXTOMXun7BFuqjynXz9te8q9FP8emqBLCnN2PbEEAOE
-         klpa/Hu6TNfobC+UNGfOxYvM2NypzBPDvEHvzzbNE989lpd13TaCY61NmmcIHLtLrfI4
-         mxiA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmCvuePy"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38175907a56so2076895a91.0
+        for <linux-sound@vger.kernel.org>; Fri, 10 Jul 2026 18:09:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783728520; x=1784333320; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=H5WuB63RbKuGXGsDIh2uCohEIF6sWSpalpafrYB0BRA=;
-        b=hKtq0O2o2RARziqt7tciLijHjVjBy4k3GjO4NLSkJLqLOp8BM1X/T9zgpewnzNpXIf
-         JZj9csawlnZvMDhlQdWKl32CKqY9BSkyFVPWrgr5Xw9fyaOcD3aT/b5LpITKbxn5AfMl
-         r6xIchUgP36JET5Ha8/DRz7MWW85sRIM/5iLY9uwqeDBMB6vsr6a1OiARLx2k573muzn
-         f0wqjpHhBkE9N/xnkjJIC3hzh/Z+9yPj12S3KCJoTsxX9iQPYz12cn0BeYw/rLJf7lqH
-         Eyr6vvwo9Q5dYpQSfVkWJ3+ZGwjZOnjoRCLWKe3mNPLh0gYU8sC+n4lMtmUReEwB4l5D
-         0Blg==
+        d=gmail.com; s=20251104; t=1783732190; x=1784336990; darn=vger.kernel.org;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SVwzljcoSLFxXAkpDsnmneyS1Y6KkO0TnKfWfmJr5FY=;
+        b=FmCvuePysZpdjnBYDNE7RllTCDspht+x/Jvxs7fHkmGCmq4thjGriIs1Hzj8Qg1DYe
+         kIDza0fZYrysxC6i9UAbqrzARD+2Etn4dX43NJQK02xbXSXuAZO14F6igQD+GrLNuYRD
+         a/B2ou/0D+s4RgGUvSy99veVhrbdlyw9dvEwmKcr/T9tFq8huwZwhazTsW72+IEPLnWt
+         fwa7NKfSqCBsvJmqSHv8VVDZQ+bS9XXcZaft2j1ldkLwjFpUht8Zyk64vvKsMLwjWV+6
+         8iMd3oEkUXU5p0LXSu4ZOAM9VgPc4jY5HRlSYUkc30S1vH0NEss8mXrqw2/QGtNezSJ3
+         GdVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783728520; x=1784333320;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=H5WuB63RbKuGXGsDIh2uCohEIF6sWSpalpafrYB0BRA=;
-        b=qx2WhdaGXRnZH4osUoEKale0+RR5SkXwBufEdQZWw+rgCkvsp13vNKkHYIdp6Muvg0
-         3klNiRBNgooKOMfVlVgn6F12Pdwi70eySlX/dlDcK+kwzVZYldKuGKXKVfhqJGeKYwL6
-         JCpoewO70x4aa8ulkKlxcQSNVgkhhNsW0iq90uTOsPLrsxEJR3PFWHnXrQBWVxZNzA9R
-         8afPDxLcoSTF42GcjVA1Q89XqCFxNpfisyk/+KpZ/zSKYbU8hzMhEp7Ui8pbY0bI9NIq
-         jK/KFxn5Mjnr7iL1as/lHTXzwtD17HrG8NBsoxSgL9VBb41r103BsPYgsYJ36MJvK9oh
-         McMw==
-X-Forwarded-Encrypted: i=1; AHgh+RrJ5jw4P1lBF+Z7bgPeiSl54qeWzt+FuSz6c5Bvck1sZ+5UIEzEW+nZKFESCvfwBE6T6NTe1c8+JGiJuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqK9Z9MsQnGf03cJyl1beWP/8YTE9B1mL+NuMrTE8traeZo1q4
-	TfPBwNCniMmddJsjnWPKsB7Hte00TGstZsCSDkzSP5TiXDoD2/t+Yft15o+BEhp6oqlIGlEbyTK
-	vcUhwdRPZNF7w+v4zFx3aXlcXVzvlPdk=
-X-Gm-Gg: AfdE7clIlakzgXci/w7R5OnhqLt1i1qQI4v0TyN6n93F53gOt8GrKEkxJE09OBJbe9T
-	c/njKDUbLiXHWU1HpqM2ElGB5etP8I0irNlcx9ontAyMVHIs3QsEXIElzqXg95wM65vjhKro+Og
-	3ItkDNsoJARlmLhHluzfDRZyfIsSgDPb2Kj8jdKl2kxaZSowhQIGyzJvU7RlHKgu3GspD3nkX5s
-	1LSxF/R5aGnrSsYyMaO03vECmXBFPrDdRMR0qg4JRqMZJtUu7c1a7sy14ED8CaJiQGtioiVERpf
-	cbXfjGLFDSW5ERNeOYFg953sFz0fhs4H6tDHpl+abFIDRFSqrguPsWO41yWusws13NMc3C2T
-X-Received: by 2002:a05:6a00:cc1:b0:847:9e62:24b with SMTP id
- d2e1a72fcca58-8488961c11emr1089390b3a.9.1783728519714; Fri, 10 Jul 2026
- 17:08:39 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783732190; x=1784336990;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SVwzljcoSLFxXAkpDsnmneyS1Y6KkO0TnKfWfmJr5FY=;
+        b=QKqqR/x7v3Y8HYzZ8lLGQogRN7KzXJPzUL9tmsQISDCKvHbMcrmd6l2SOvllpMm3AN
+         8M/t35VN3URbG3uR9zw8WyD8cdDjy1BURsgOxY3zStkxdxAef8Tw4wRP24ErNz16jnNw
+         FNj054N6m0l2SHg/YlsIPFBradoa2RqaUOBWep1ewQVE9kGDCWNW5MwuA9TituNWKg9z
+         Z3HpwqJvEykycNmlSXPSGd7KjW7GLK/OJhss21OhQj2tJUUvcCbUhUWlKaInnqPFzucN
+         jxuE4Al7mbQCeSi2sa19eouI3kvGJyGSSQYwtEumv6zcGyvQO1xFI/L69FDUk2PZFrXd
+         pXOQ==
+X-Forwarded-Encrypted: i=1; AHgh+Ro7HYcMiJdUHXnCIXOtOmglgskYZIBjDXDN5B+dBwxYsEA0qMj52eMID3Iv3KZFOwvh3ZSu1XgJrggSKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkkeU5jMJh2XZskoN/FJIzSUAgjkQtWOSqqCmyLiyzxfuQ5Q9S
+	Z10shximaNzC3u/NHBf8chKf5lwh1uruYT0JHgeoIiNPN0tV8mPTM2hW
+X-Gm-Gg: AfdE7clydJQx2sVoauVVbzcnUP03OUzlvGbvlBOLAV+3B82zywiQa1W3wDGvmjVh8Gr
+	KkmXb0bvlFkf95aMBUinATuOROPXu/GftNLDXbEamGLh5WFaHNvoBvDZVhHAq4AMlJgH+UeK9ai
+	kcoPsV9T4KC8oSUXuPVs7VNuVl7RMmtxT5NYEckXUzFo8Q3shqFgnaGR+oU1J7mwqK14cwzWcQT
+	M6XOQCR8srzN8CY4X4liBH60adP+v1Hfh1UT/XshGO9FN+NMa3S+f+sqt4pDcjA36iOk3avolgY
+	7LV/hFomyCWs62ylhLxijLhfKizU9q7Wn31SdQIewlKcptlbEHg1xKplpZfh3iWJAMEJExrURlH
+	r2lEMRsGhyHPHk+yBNPfR6lscRh386Irryqt9XigqWSN+k+q9uAJ9ziT8MDflDNuH4FNu3N7AxT
+	Gv6IBoMwjyUd6fc/ipJgpZYXuGCp+/RPWnKR1afJ1LoijBs3JzLhn/QoWOe71vC/ilAFIPsDFTd
+	kEo057i7/4dEbXVDUQJ4/ZQ89tM4jQS1Al1ZfLp4nvmP2mSpp4BIJLfHp9pO0RcO5s=
+X-Received: by 2002:a17:90b:57ec:b0:387:d9cc:7dc2 with SMTP id 98e67ed59e1d1-38d16085723mr7470659a91.20.1783732190004;
+        Fri, 10 Jul 2026 18:09:50 -0700 (PDT)
+Received: from minako.localnet ([119.17.57.186])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311950eb930sm27882042eec.8.2026.07.10.18.09.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 18:09:49 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject:
+ Re: [PATCH v3 0/7] ASoC: apple: mca: support simultaneous I2S capture on the
+ frontend
+Date: Sat, 11 Jul 2026 11:09:44 +1000
+Message-ID: <6zRExDMwSfK20K7px8nPtA@gmail.com>
+In-Reply-To: <c9bd227a-cc37-4fd7-be3d-b7502f52fbfc@sirena.org.uk>
+References:
+ <20260705-apple-audio-redux-v3-0-ff7a7afe2b6b@gmail.com>
+ <178370665528.82617.13561476084775898427.b4-ty@b4>
+ <c9bd227a-cc37-4fd7-be3d-b7502f52fbfc@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260709045902.498848-1-phucduc.bui@gmail.com>
- <20260710050511.14439-1-phucduc.bui@gmail.com> <20260710050511.14439-23-phucduc.bui@gmail.com>
- <95f5d6ec-ecc5-4090-ac04-27cdcdc21b8a@sirena.org.uk> <CAABR9nHUc3KvC4t=hJ9osyw93aXa+kEL07G1posnYJdLvjHEkA@mail.gmail.com>
-In-Reply-To: <CAABR9nHUc3KvC4t=hJ9osyw93aXa+kEL07G1posnYJdLvjHEkA@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Sat, 11 Jul 2026 07:08:28 +0700
-X-Gm-Features: AVVi8Cfyiwxnu7eGIzA6KyPzlQ6PObhKgfr4WFgILFEbEKhBTf8y3pJA57dwTdg
-Message-ID: <CAABR9nEQWYzvxDduP=+9qYEJNzXVbu587Aq9eGR7Tyo-K-u1GQ@mail.gmail.com>
-Subject: Re: [PATCH v3 25/27] ASoC: codecs: rt712: Use guard() for mutex locks
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>, Nick Li <nick.li@foursemi.com>, 
-	Herve Codina <herve.codina@bootlin.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Srinivas Kandagatla <srini@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, Linus Walleij <linusw@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, u.kleine-koenig@baylibre.com, 
-	Zhang Yi <zhangyi@everest-semi.com>, Marco Crivellari <marco.crivellari@suse.com>, 
-	Kees Cook <kees@kernel.org>, HyeongJun An <sammiee5311@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Qianfeng Rong <rongqianfeng@vivo.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Mark,
+On Saturday, 11 July 2026 8:24:11=E2=80=AFam Australian Eastern Standard Ti=
+me Mark=20
+Brown wrote:
+> On Fri, Jul 10, 2026 at 07:04:15PM +0100, Mark Brown wrote:
+> > Applied to
+> >=20
+> >    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
+> >    for-7.3
+> >=20
+> > Thanks!
+>=20
+> No, it's not, sorry - I backed it out due to the build failure and b4
+> can't tell it was only pushed to my ci repo :(
 
-One more note on this:
+Argh sorry, this function moved around the downstream driver a few
+times and the branch I used to test these patches at runtime still had
+all of that churn in it...
 
-> It seems this goto block was added recently, and I missed it after rebasing.
-> Sorry for the inconvenience.
-> However, looking at the goto path, it seems we might need to unwind the
-> states more completely. What do you think about rewriting it like this?
->
-> ------------------
-> regcache_cache_only(rt712->regmap, false);
->     ret = regcache_sync(rt712->regmap);
->     if (ret) {
->         regcache_cache_only(rt712->regmap, true);
->         regcache_mark_dirty(rt712->regmap);
->         return ret;
->     }
->
->     regcache_cache_only(rt712->mbq_regmap, false);
->     ret = regcache_sync(rt712->mbq_regmap);
->     if (ret) {
->         regcache_cache_only(rt712->regmap, true);
->         regcache_cache_only(rt712->mbq_regmap, true);
->         regcache_mark_dirty(rt712->mbq_regmap);
->         return ret;
->     }
->
->     return 0;
-> --------------------
->
+=46ixed for v4.
 
-Since regmap was already synced successfully, marking it dirty again
-would be redundant and could cause the next regcache_sync() to
-needlessly rewrite cached registers that are already known to be in sync.
+James
 
-Also, in my understanding, any register write that happens afterwards
-while cache_only=true should automatically set cache_dirty=true again
-(see _regmap_write(), _regmap_raw_write_impl(),
-regmap_noinc_readwrite(), and _regmap_multi_reg_write() in regmap.c),
-so there may be no need to defensively mark it dirty here in case of
-a later write. Reads aren't a concern here, since a read never
-changes any state - it's only writes that can make the cache diverge
-from the hardware while cache_only is set.
- Please correct me if I'm missing something here.
-Best regards,
-Phuc
+
+
+
