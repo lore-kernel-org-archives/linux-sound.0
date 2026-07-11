@@ -1,99 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5EA2EC0B0;
-	Sat, 11 Jul 2026 15:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2881739AD25
+	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 15:56:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783784262; cv=none; b=IPdJ6rM+94E1SP9fvbxITC6vzjvAAzAMaTljl3OnuzRKZBjJXQXPdxs/J+ncBjtzrsTrG/BTvHJiC6jBhfr6TUqMZmvvPUxp0ygHkO8iF+jb2G3D1CYies8dpNEuHoKphZ66TRZess9CqGDXO2rnsvB2VjhcIeiC3jrrnBJ8RH8=
+	t=1783785416; cv=none; b=WOZq3r+NxJV4YH1WVnMdZtr1wUSeiPdy3c4eCf6jDE4TpbjvP6uvcp8IUza7/ji0ygS5rDMU1gqxJ5hYJWt3wHocsAiFVLLb+SukVHMi/mEtUZvmLGqi/GcX0WoK2tTAD4nY3lBeYhfXXYnfuughbtJRGUhS96b3b8GxiurGzvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783784262; c=relaxed/simple;
-	bh=Gwk4MqOiZuno8RVKDGCnAiwzmgO4alI+1vadXh3OQ9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aRnOctQvvkdh+PT55Ct2mJTfZmmUpbw4fWx1mHoO03OzScpCq7V6xTK3S4xl1gkxCnYafhOK20oHkSgaHiCN1vpH03p1pPAMeBzHj/wIORsMldPW0z+6tzd/AzQW/db3tDi4O4EoRRxoLtYNhanUDsPXbTsOYqtS7jUBL4BVZwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klt0HVcv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783785416; c=relaxed/simple;
+	bh=SFRI5BFcprMUa3JpdsIZ3TCZEdjqCBcEU7UivobKvZw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OsbEH24tdIyVkPLjZ4AOJRRShcMihGlKoG0Q+1NrX5cLaUi+QEvBbPQ4Lm1BTradmN2I0HlB32Jm95nPT7SmyNqbHaCnIrUL8IpB3Dd6d9qIjLq1Y5qeBiXteabqqXCxgMHZB/3mZYLsJ9+PcTbEwFsSRGGYNVsLTqv6HU2C5Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJA2fa2X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klt0HVcv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D483B1F00A3A;
-	Sat, 11 Jul 2026 15:37:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJA2fa2X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4721F00ACA
+	for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 15:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783784261;
-	bh=GezeGbZCPMTOh06fDLpr9vil2pYkSBZnWAH/WAcU7HU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=klt0HVcvdBp7QMBY+ohSExuKjhTiBL52q9OJNLgOmkikXYbhPI7JlPwf97sb4S8Za
-	 1Y9S97cSYX3swhEf0GwmtHWbvdzuEIJtIv3H2zj4e0oy0Ee4Vkd93mHwd1h4r6kBkN
-	 oqk8BhwmK6NoV8wOHktOv18xNGOmgJuvQ+zxnUtWp2JBLcr9X+FvcYffjn7cfmBcGo
-	 IrvH+o/PUm2CNreHTU9RPQb0gpN9N0vmotQ4sr+I1bh+KMY+QXliZUIyx2PtO3VUW1
-	 8Ecs1qjnQBcKhwq4JDVzM+8pOZRsv5JRntHPZ9n/9cKRQ7gDU5I0sCQhT3+GysW5mf
-	 acZMqJZPna9ew==
-Date: Sat, 11 Jul 2026 17:37:38 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Charan Pedumuru <charan.pedumuru@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ASoC: dt-bindings: sound: nvidia,tegra30-ahub:
- Convert to DT schema
-Message-ID: <20260711-ecstatic-industrious-manticore-f35bb4@quoll>
-References: <20260705-nvidia-ahub-v3-1-bacb7e05bf68@gmail.com>
+	s=k20260515; t=1783785414;
+	bh=SFRI5BFcprMUa3JpdsIZ3TCZEdjqCBcEU7UivobKvZw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=AJA2fa2XIt434NnhQtOUHpW5u93mxDSYZjQS1GQiHI8vGTBqUv+tuNnlulzgqspvV
+	 uQ/dBmDpEYGgzQRtn+xUUShYbbtpfyOn/UMqEs20c7jD5D190bsM1VU+64eJ60ELjr
+	 ta2rogozIlyLO0lF0j1gTzapV1SvGxdlcOYwYG1NcArdwOlNqE/dJGcypy67/2P1K0
+	 iNYI21oRv9aaE+fkbrF1mA/ZMR/3Xe3Cb4lG0TM6t/C418VN7EOXbi8aPAL2KUs8TX
+	 +4qrBiUXTqK0oKMkXOlXmqQFCqMn5F9jeH3QMbS11TmWpnj7C+ZfOMifTUXwugSbHR
+	 WgSP0CA3G9P+w==
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5b015b2d792so2051951e87.3
+        for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 08:56:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RozahdAEy+IQxQLl5Qcs5RkIuDNXTez41cPd79xOth9fAoh19TeSj/dKXJcpp4fg+M/29sh3B1byjajXg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwapcA4TrobFqo/L8kua0hfkN3aNiyyqL/Y4c1EYa40MMWIqGL+
+	4I2RcPndOx65cFUI/smm0ARdhl5TxYUCDNLSUGXBTh4thnB5ImPCwpHQkNBEN3/ssG9agCliz8V
+	opj/fLzXTw7ZevdAzSarUffOdg+qdlUI=
+X-Received: by 2002:a05:6512:118d:b0:5ae:b36c:81c7 with SMTP id
+ 2adb3069b0e04-5b02369b29bmr708700e87.35.1783785413596; Sat, 11 Jul 2026
+ 08:56:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260705-nvidia-ahub-v3-1-bacb7e05bf68@gmail.com>
+References: <20260710211954.1373336-1-arnd@kernel.org>
+In-Reply-To: <20260710211954.1373336-1-arnd@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sat, 11 Jul 2026 17:56:40 +0200
+X-Gmail-Original-Message-ID: <CAD++jLk7MWRccwuzXBLtdUk+k=Ykt_fJp-C6Sj0_2EMMEr3xxA@mail.gmail.com>
+X-Gm-Features: AUfX_mwg6yb6TVVJdXhaZOS6qdtgZlShwnqqpOMB7tnZklRdo8JRbXGnpCKCf4s
+Message-ID: <CAD++jLk7MWRccwuzXBLtdUk+k=Ykt_fJp-C6Sj0_2EMMEr3xxA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/10] treewide: replace linux/gpio.h
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-gpio@vger.kernel.org, Bartosz Golaszewski <brgl@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Greg Ungerer <gerg@linux-m68k.org>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Dominik Brodowski <linux@dominikbrodowski.net>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-m68k@lists.linux-m68k.org, 
+	linux-mips@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-phy@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 05, 2026 at 06:32:32AM +0000, Charan Pedumuru wrote:
-> +  resets:
-> +    minItems: 11
-> +    maxItems: 21
-> +
-> +  reset-names:
-> +    minItems: 11
-> +    maxItems: 21
-> +
-> +  dmas:
-> +    minItems: 8
-> +    maxItems: 20
-> +
-> +  dma-names:
-> +    minItems: 8
-> +    items:
-> +      - const: rx0
-> +      - const: tx0
-> +      - const: rx1
-> +      - const: tx1
-> +      - const: rx2
-> +      - const: tx2
-> +      - const: rx3
-> +      - const: tx3
-> +      - const: rx4
-> +      - const: tx4
-> +      - const: rx5
-> +      - const: tx5
-> +      - const: rx6
-> +      - const: tx6
-> +      - const: rx7
-> +      - const: tx7
-> +      - const: rx8
-> +      - const: tx8
-> +      - const: rx9
-> +      - const: tx9
-> +
-> +  "#address-cells":
-> +    enum: [1, 2]
+On Fri, Jul 10, 2026 at 11:20=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wr=
+ote:
 
-That's a change - old binding was specific and set 1. You need to
-explain that in commit msg with reason why.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The linux/gpio.h header used to be the global definition for the gpio
+> interfaces, with 1100 users back in linux-3.17. In linux-7.2, only about
+> 130 of those remain, so this series cleans out the rest.
 
-Value of 2 suggests children need or want 64-bit addressing, which feels
-wrong. DTS might not be accurate here.
+The series:
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Best regards,
-Krzysztof
-
+Yours,
+Linus Walleij
