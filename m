@@ -1,69 +1,71 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44125233923
-	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 21:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C349B379EE0
+	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 21:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783892234; cv=none; b=DBfyaWvRlkJUdMIlNfEANCaS348c3pgnYLP4ZRWmCfKt6EmuW7sLjee+Emvr2+tdntY/LJMEyfiH68pzjxh+z8SdMjj4TUvSYaPXHpz/T4n4Q1YgtyKNJmqu1yZ3Ty3tHehPxJJk2z1tI5NlafVGhWuIHjvVk0rwhsb8dm8180g=
+	t=1783893561; cv=none; b=dp2pnWAuscXBsxAO6hRUaqI98gsdnAxs4esTnsyZWapUSsTkholn2DQMIsJYKsx4ac9MMEJhZ4FJluKPPDWLvPXLlmJ0nQQGBzE0RvOMio9yjgI4EEC2XeKGWxqNCWNOxCyXIhil+eEvaYCcsSpKUWavWuinVt1QTQe67jhTsR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783892234; c=relaxed/simple;
-	bh=K+QoN4lPFWbA6m/zHJmz1G3exSg3zUH5T40jJvEn8cw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uN1CojVyVN89QgsQblZ4RMXHjHttA0Qfs/8B5vB6XmI5n36YdZoZVa+OXBZE3EX6zC+HTSxBKxcIRghbeg7aTsTHRI+ZY/qHemwlHHSOaMfgaXYLqfmLey/QdaSoxFWPTE2POhYeoezf5LUwwogFUyBjaFZexMovUGDv176QXe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ha/Oc1BX; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1783893561; c=relaxed/simple;
+	bh=9oJzgel0+Ojjk7qgwRuqe0Flq4GagETVZYCq6zerQ04=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eXgxsTl6A2NihvesHHeNoiQ1Amm19SgFksvkjPe/vF/GlWXIxw9qjoSucahlESLDCA3lLwtibpiNgTmWoXXKtAVZirUbCWgSpdEUPT4bhXAdyMgrx7GTpQV5jGQxd0d3Sb2rBYKd/B+8Dzv69wLv3sIXWQny7jhGe9w1k0xkDco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hHRnW/Bb; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ha/Oc1BX"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so18567045e9.1
-        for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 14:37:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hHRnW/Bb"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-470174001a0so1456382f8f.0
+        for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 14:59:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783892230; x=1784497030; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783893558; x=1784498358; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ntYN848xuUV55EhSBTHU3dFEq74SwL7jLVtxgemmUs8=;
-        b=Ha/Oc1BXg00THPwBQu9cMVOKCEAin6r3/4/XhD1UWEpXNCAnMZDeXE3S3XPcSXgL/z
-         YcUdnCYISNivl0KhEM76l0bfO5WO6hACsEKh7aY8Ep1csXWBgg7Fls3xH/wnGRfrbQWl
-         xXgrkP3RcbYB+gAUDMfyxnGVI9WSs7LoKKpBrQ5dDVW271t9NRLiA078yFL3l84aocQl
-         C7kSlUFo+BTgbQrztcYuo1KiAx1H6Smgtw4RlXkjrZrqikH9nQAxk/5+isg7+vT1iDE5
-         +3S90xxsE6Ni6Kdu1KwApqRb9ll1D42O4Ghumij5ruzN5iV/Yb9L8tN3cbBdhho2JE4B
-         SRRw==
+        bh=toUVoGqBj/b+93u/i/7H79a/d+CKBlHR2qaLarTQYXM=;
+        b=hHRnW/BbtEvtpCmrrEBNVCmR5Kb/ObQWFOEyAkwvv0e3mP7ogrjkAFU1j5pD07Gssr
+         PkPIbHYE/O/FZH5vx7inrf2jR4paccHh4k8mvOIthjMZu6ea8taqeNmnBPQ2hm5hxbZj
+         Ab7rDBViROnivq+7AH8VD/k8zGfQ28Y51zyh6q1UnXAzo1oFxenypEfcHyyqSV+gSz8i
+         tOJz1Ree7OYEvQE/ZXQ0k2z3ucFNWV1mQEJ+IDf01zAnhfzbsF/XpCvyIXhq2dEkdd6r
+         b78N2yGxBW5sZVdoaDFAIwK3DFcPh0QM2XXOroz+x4DzM+3Y702yxSkXc/9KvPW1LlSp
+         cDrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783892230; x=1784497030;
+        d=1e100.net; s=20251104; t=1783893558; x=1784498358;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ntYN848xuUV55EhSBTHU3dFEq74SwL7jLVtxgemmUs8=;
-        b=FItQnmubg/JyKabAbH1s7VLevaWcECHPwZ5iLn0EHW4IOR6woddmKKhBfYgKlQSE10
-         YOJ/25gMLPu+6UlNUFWtB1tEVy1rHY03QU2wbASc07NlFbifh7pv69UPwsykIesLOC5y
-         Vfy+fdp8WGz6JblAfK7LNmHYSJgNaK0FSr55ofT9KmsYZ179X4/M2+TNKp/16ktezsFn
-         Y5sCfAc+/8nX5ERoZ/PoKe9PUz1lT0OWtHdXxNeMjT7GLumlsYO+3dbPhbgp0g6dY076
-         G8mZSD5xUaZs1cDjmtOxLbdQ1eB4zdFW5mtZ/hhl9yF23ZMF9Op6Bk1aUbCTGfaM/CIf
-         vllw==
-X-Gm-Message-State: AOJu0YwiJs6Jgzv6r5qmbe6gEaRHcY9Pm7zn/nj/yLqAWdMsjEPoDHnW
-	H+C+ETvhAmoKQiADqheyE1YkTK/JWWX8aWG7+wdNAkaztlY2+9bC2/Y4WZv0DxNq
-X-Gm-Gg: AfdE7cnV0pJlA4s2716RfXOq+IrGdssDbhqOTXfq0Un9jwvL+zp+33etWyzpXC4FPLz
-	Jz40yyTvTlQVJNgvf7+cczO0Q1YQzc3W9gR/O0CiJut0h4F+dp53yZcf2IgeuvDufdxMYGcHEi+
-	0H9yrCdT/fiNeOvpMlkCu3NEbcnpAbbSNAUcxWowoqDf0rzvHBeGOIMzhB/MsbgAJLliaplY+Ct
-	vrYXwsKKNGQ+ylirZJeNaoxWxcqktRPe+qR7TxPEuGXAXOmHrrDV6v0C+c6MnIjlobnRdsTAHLk
-	SV6MEyfXlg0nUy7CVEntB8nYXkzc5aSv/bOnh1P0ZlKfB9wwroK49/k0LlOBFdmq/r4eo4h6abj
-	DdfyWe9BQmHeFm6hpVW4DxL4VVp1McEpkRPmRURp9QYKMtpTpNe/oH7FvLf7kF9qa3GzFv2yxs3
-	r+OQvqeD4jpNNXRyrDxrdCAxgmoBmN38un/l/HjHhUXPk75DMblYp6DhYwsyT8uINmBqICbWI=
-X-Received: by 2002:a05:600c:1d0a:b0:493:c991:8e56 with SMTP id 5b1f17b1804b1-493f887bc07mr67653225e9.4.1783892230392;
-        Sun, 12 Jul 2026 14:37:10 -0700 (PDT)
+        bh=toUVoGqBj/b+93u/i/7H79a/d+CKBlHR2qaLarTQYXM=;
+        b=iJJEgeKr6loPYkn49vsRkWntCc6Q3J0SCTRL79G43mlEIkNzQo7cOjHJl4OwOdaprq
+         b5doT1IfUMPWXAITZf4G5twMw6bk3zL++0Oe0vihzWcvzjqJlMohkk7iqFqyWbpUrwf8
+         Z0AyxIp6yahKNXEEJtLsTsQRU3aXyT0WBMzLs4lIN5lCreqjsh4khNrutbxx6mVqT5J1
+         VO0WGOwdMuOxYVrpGh6GDXaFrLnSl3xnJ+TEQV71rTxCs62w1cty4x31BPARZXasoFmm
+         OUw4/9UBVvxZ0mt0bhUuS9Unk1Agovt6l9kRAap2wdLNjlWIZFlxu+1+boLdwWxabu3f
+         QNIQ==
+X-Gm-Message-State: AOJu0Yy3JQf3ppyah5XRsu37fkhgdeY+gL/pCQi8YHKbb+dehEfPq/j+
+	1E8pIzV7UlVT4YrTq0ZNbyf6GX6O/obxMWvAXccvW7xkVpkNuS4i2dRo
+X-Gm-Gg: AfdE7cnebR7uHwkiQ81Wq5A/RezcBHC/kNCPYeruk4o71/rsw2WK3OTjEQsVAUkDnem
+	+qBVBJTZH+iB9ArmLnFayNXfMwHrMxwi0IdFUBCT0gD0P9X2uDxuFT+vzPkNdE5z6u/KLBZAO/C
+	NRTbAwo+3qTdmm2LYqYTikci4QCZBuQqi5cGdu/q921FdfriCk7kO737PZZ9insRFPGYs6QlpjH
+	x1ic8Y3SyX1vLQMin2R9qvOyeVh8FxxkAhHqv7h+anUrcbzf+vZODPlEaVsD2c449YKx87j0EVH
+	qGE/d6M9SLpncoU6060OzNaPuapxriTk2lfe6ozbH5o4w2ZQr/o4AZp5U0j9RncnhvA3F9hsuB2
+	T7HZTGkkl9xNMlagGEr6GDRrzrJpEhYHr6HSa3p01la7yA16gyodmcfboCnSe3VUuucapINfN4F
+	z5URqFvrzYpugtDOITylgDaN0VXu+5xYZlp+CqNTxc6qKvI8McSEdDdJ5hs7fb
+X-Received: by 2002:a05:6000:310d:b0:477:6da:1b6f with SMTP id ffacd0b85a97d-47f2dc9c5b1mr7058074f8f.23.1783893557852;
+        Sun, 12 Jul 2026 14:59:17 -0700 (PDT)
 Received: from dam-Legion-Pro-7-16ARX8H.lan (85.130.83.79.rev.sfr.net. [79.83.130.85])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb74b3edsm364813975e9.15.2026.07.12.14.37.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039af67sm89533812f8f.17.2026.07.12.14.59.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 14:37:09 -0700 (PDT)
+        Sun, 12 Jul 2026 14:59:17 -0700 (PDT)
 From: Damien Laine <damien.laine@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
+To: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	sen@ti.com
 Cc: linux-sound@vger.kernel.org,
-	Damien Laine <damien.laine@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Fix speakers on Legion Pro 7 16ARX8H with codec SSID 17aa:38a7
-Date: Sun, 12 Jul 2026 23:37:08 +0200
-Message-ID: <20260712213708.1835469-1-damien.laine@gmail.com>
+	tiwai@suse.com,
+	Damien Laine <damien.laine@gmail.com>
+Subject: tas2781_hda: speakers stay silent after codec runtime resume on Lenovo Legion Pro 7 16ARX8H (recovery requires i2c driver re-probe)
+Date: Sun, 12 Jul 2026 23:59:16 +0200
+Message-ID: <20260712215916.1872367-1-damien.laine@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -73,39 +75,56 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some units of the Lenovo Legion Pro 7 16ARX8H (82WS) report codec
-subsystem ID 17aa:38a7 instead of 17aa:38a8. Since only 38a8 has a
-codec SSID quirk, these machines fall through to the PCI SSID match
-17aa:386f (Legion Pro 7i 16IAX7) and get ALC287_FIXUP_CS35L41_I2C_2,
-which probes the Cirrus amplifiers of the Intel variant. The TI
-TAS2781 amplifier (ACPI TIAS2781:00) present on this AMD variant is
-never bound and the internal speakers remain silent.
+Hi,
 
-Add a codec SSID quirk for 17aa:38a7 pointing to
-ALC287_FIXUP_TAS2781_I2C, mirroring the existing 38a8 entry.
+I would like to report a power-management bug in the TAS2781 HDA side-codec
+driver, observed on a Lenovo Legion Pro 7 16ARX8H (82WS, AMD, BIOS LPCN62WW),
+ALC287 codec + TAS2781 amplifier on I2C (ACPI TIAS2781:00).
 
-Tested on a Legion Pro 7 16ARX8H (82WS, BIOS LPCN62WW): with the codec
-SSID overridden to 17aa:38a8 via the HDA patch loader, the TAS2781
-amplifier binds and the internal speakers work.
+Note: this unit has codec SSID 17aa:38a7, for which I just submitted a quirk
+patch ("ALSA: hda/realtek: Fix speakers on Legion Pro 7 16ARX8H with codec
+SSID 17aa:38a7", Message-ID
+<20260712213708.1835469-1-damien.laine@gmail.com>). The issue below is
+independent of that quirk; it should equally affect the 17aa:38a8 units where
+ALC287_FIXUP_TAS2781_I2C applies out of the box.
 
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Damien Laine <damien.laine@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+Symptoms
+--------
+With the distro default power_save=1 (Ubuntu 25.10, kernel 7.0.0-27-generic):
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index b47177d73..6e4e1b585 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7799,6 +7799,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	HDA_CODEC_QUIRK(0x17aa, 0x386e, "Legion Y9000X 2022 IAH7", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x386e, "Yoga Pro 7 14ARP8", ALC285_FIXUP_SPEAKER2_TO_DAC1),
- 	HDA_CODEC_QUIRK(0x17aa, 0x38a8, "Legion Pro 7 16ARX8H", ALC287_FIXUP_TAS2781_I2C), /* this must match before PCI SSID 17aa:386f below */
-+	HDA_CODEC_QUIRK(0x17aa, 0x38a7, "Legion Pro 7 16ARX8H", ALC287_FIXUP_TAS2781_I2C), /* this must match before PCI SSID 17aa:386f below */
- 	SND_PCI_QUIRK(0x17aa, 0x386f, "Legion Pro 7i 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x3870, "Lenovo Yoga 7 14ARB7", ALC287_FIXUP_YOGA7_14ARB7_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3874, "Legion 7i 16IAX7", ALC287_FIXUP_CS35L41_I2C_2),
--- 
-2.53.0
+1. Speakers work fine after boot (or after a fresh bind of the amp).
+2. Leave the codec idle for a moment (e.g. switch the default output to a USB
+   interface), so that the HDA codec runtime-suspends.
+3. Switch back to the internal speakers: playback streams run without error,
+   but the speakers stay completely silent.
 
+Once in that state, recovery is surprisingly hard:
+- Toggling "Speaker Force Firmware Load" and restarting playback: no effect.
+- Reloading snd_hda_intel (which unbinds/rebinds the component, "bound
+  i2c-TIAS2781:00" appears again, mixer controls are recreated): still silent.
+- The ONLY reliable recovery is re-probing the I2C driver itself
+  (rmmod/modprobe snd_hda_scodec_tas2781_i2c, or unbind/bind on the i2c bus,
+  i.e. a full tasdevice reset + firmware reload), then reloading snd_hda_intel.
+
+Setting power_save=0 avoids the issue entirely, which points at the runtime
+PM path rather than the codec driver.
+
+Possibly relevant observation in the code
+-----------------------------------------
+In sound/hda/codecs/side-codecs/tas2781_hda_i2c.c, tas2781_system_resume()
+resets the bookkeeping (cur_book/cur_prog/cur_conf = -1), calls
+tasdevice_reset() and reloads the program before re-selecting the profile.
+tas2781_runtime_resume(), however, only calls tasdevice_prmg_load() with the
+stale bookkeeping and performs no reset. If the amp actually loses its state
+while the codec is runtime-suspended on this platform, that would match the
+symptoms, including the fact that a full re-probe is needed to recover.
+
+One more data point: this unit logs "tas2781_apply_calib: V1 CRC error" at
+every firmware load (apparently broken factory calibration in the EFI
+variable), in case that interacts with the resume path.
+
+I am happy to test patches on this machine, and can provide full dmesg,
+alsa-info, or i2c traces on request.
+
+Best regards,
+Damien Laine
