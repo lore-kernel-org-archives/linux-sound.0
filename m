@@ -1,103 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6ED30EF80;
-	Sun, 12 Jul 2026 12:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE0F846A;
+	Sun, 12 Jul 2026 13:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783859250; cv=none; b=AGWuvvYStXo2pW+9qaPLRvcjq4nkQE5iYv5JVe12Il7OKts5gcYtl/M+QfI7RwvqFRbMsIAIOIqoHfObvfN4IedyZRF9q4BPfxeEaG0Ly8J4PhlPbsWVZTHpQqcSLhrf6eUSBxiNhkC3BDqY5IyV6fgvZ0AaTN9upGewcggpVIo=
+	t=1783863698; cv=none; b=ovSybpEBqjF63Jz9blb5LCxqcXo4Xy/HBKOEZOZ8pyH9xtNu5uTGmKMGLQdww+RCMJjDNal+GKlzK2xWtzl5Iele0isZ2VQVbBqwDXMnxVxTtV/XOT2KeLXmaW9MDm/RUzTCg1E3Rh29aHIh/UT/mlhoElWw3Y9y7bdw3KBu1s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783859250; c=relaxed/simple;
-	bh=L/n4SezSWQATpwU6IRgOEvEHHHUBkOmPMdj879cIAIg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cUQMPxh0avTP81eeAkmrlBuBq5EAhX/pAR1Su3Xw1/C2rB2SvGKn9pUk6Y7x4ydWHbY3cHGfeLQ9xOtDIXXUEPgm2Bq3trfu7oebV6YCq5Kef9NuSQO+ChWLV41CIikbYXp2uPSZ30HcfDua6IA/pB17roL3ioJASf+b9VREZLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37F81F000E9;
-	Sun, 12 Jul 2026 12:27:21 +0000 (UTC)
-Message-ID: <ec9e62c8-3c1d-4493-a876-82432575b381@linux-m68k.org>
-Date: Sun, 12 Jul 2026 22:27:19 +1000
+	s=arc-20240116; t=1783863698; c=relaxed/simple;
+	bh=hh/6qxVidLE2Ge/SklSm9EoIUyIiocHxv9nUCIFdZM0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nOVH5zUpHvGEv0ubqpxZ2/2OjVB0fYO4npK9DY7DztF38FySdqCYtICd5Oy188SvxM52z+3leHhpY3+5YYxXQFAsXAP70sVXmsAKCMkhextQrFaMDQ6VmIzZmfeFgkyJREhQZKu457VdWOrfu7OjRJ5aNdrrQpyRztqVPOLwBgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gMiPKHhT; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gMiPKHhT"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66CDZLe22563048;
+	Sun, 12 Jul 2026 13:41:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=riHUCnFWRJvl5C6MsInMzBc7VZH3YiO6vPl
+	fuAUn1K8=; b=gMiPKHhT3EhEz+FNN3G9ozhneBHuWJh3M3vxfNF9pS0WhHT6YXq
+	jypczIf7ibOH7Nj3fs5zK2FiOoDgr3AJKq2y6VnRdXk/9W+44qYzeX6iXqlKugZU
+	xAGvqBpHBgwuiCE0oiMPv+J3V3UjJcxe26PRb2c8GM2nh64kbrwZuTl98DdHNub1
+	a/sqzUqpvdbM9blr1x8/7Jn+YfeykNBpDvQe0rkqwtp2QfIECSO+NFqGyuGccLGf
+	fgQenIwq3BTbord31QXNXIkbwkxL2sdP/SyzURS0U5TVQjYskGnRaXWxEsRRoN7Y
+	3C80jQi+TmvMcaxpv78LMo6U+zHNLNL4okw==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbf482qka-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 12 Jul 2026 13:41:17 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66CDfDwt026839;
+	Sun, 12 Jul 2026 13:41:13 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4fbewhmf79-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 12 Jul 2026 13:41:13 +0000 (GMT)
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66CDfDAC026811;
+	Sun, 12 Jul 2026 13:41:13 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 66CDfDJS026800
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 12 Jul 2026 13:41:13 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 42B35634; Sun, 12 Jul 2026 19:11:12 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v4 0/7] ASoC: qcom: add AudioReach TDM backend support
+Date: Sun, 12 Jul 2026 19:11:03 +0530
+Message-Id: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] m68k/coldfire: replace linux/gpio.h inclusions
-To: Arnd Bergmann <arnd@kernel.org>, linux-gpio@vger.kernel.org,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Gregory Clement <gregory.clement@bootlin.com>, Frank Li <Frank.Li@nxp.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <zajec5@gmail.com>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Dominik Brodowski <linux@dominikbrodowski.net>,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, patches@opensource.cirrus.com,
- linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-input@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
- Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-References: <20260710211954.1373336-1-arnd@kernel.org>
- <20260710211954.1373336-3-arnd@kernel.org>
-Content-Language: en-US
-From: Greg Ungerer <gerg@linux-m68k.org>
-In-Reply-To: <20260710211954.1373336-3-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEyMDE0MyBTYWx0ZWRfX7D6i4UPEpwOH
+ qG90wb9iWnMPlLldTrAuszWOaKtlVcJpn+ylf3tKe8bEV6m+cW6ZMB4LP5Zby3U9Q0oH535l7Hc
+ tD1NmBAgcW6UfrJCm7n2MJDMqe3lKVM=
+X-Authority-Analysis: v=2.4 cv=OsJ/DS/t c=1 sm=1 tr=0 ts=6a53997d cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=5LSzgCIJ2aLde3To2nUA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEyMDE0MyBTYWx0ZWRfX6sm+aNZX+C98
+ VjiK7dd7Rq3ed3Il0IgYNq+/Kcnd+gw8F81dwlJMWMujMvLgwN9WZ06/7hYTSPMFLJJAEtZ56TZ
+ /eyIbpVmlHBZaXcJQ1yui1nDu99VIUl9K51Q8CmMkI4MQOo9fqvnLAOQG+RNcN+MaDOLkAulUth
+ a4FycEyRtOK2LmWpy/rMTgJKrOgIBD6Q++fzCuhEwgHY+8WRW3ywQKyeunYJzf4ZZ8M+A0Coikt
+ gWhr8LMConx9lfdFvo7m2wTBSTnrb+iglwjTDRRbatHHjztZIHcn68gED5806/RbBqg94VwijAi
+ TpkWquIu0jWo2kmE3AOSVYEZM7eFDLPvK5uUodtRzXyWGIGvkboSHoXp2J/pMocFcHl3QFMB2vZ
+ HfLHXOMwZf0vwfmLxGAjFIkk1jeoloxBqB+Wgk8JNfX31jA9df8FD/t/zgXvoD3dUYKuW6Y1QQv
+ /Lr/kw3jeRRhXVyCPTw==
+X-Proofpoint-GUID: jwEyECC3GS4xaFxYUTpNYY8Unn_l5LX9
+X-Proofpoint-ORIG-GUID: jwEyECC3GS4xaFxYUTpNYY8Unn_l5LX9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-12_05,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607120143
 
-Hi Arnd,
+Add AudioReach support for LPASS Audio IF based TDM backends and wire it
+up for the sc8280xp machine driver.
 
-On 11/7/26 07:19, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> linux/gpio.h should no longer be used, convert these instead to
-> linux/gpio/legacy.h for coldfire.
-> 
-> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+The series first adds topology-driven Audio IF source/sink handling so
+the DSP interface parameters can be described by topology while runtime
+media format and slot configuration still come from the machine driver.
+It then adds TDM DAI operations for q6apm-lpass-dais, exposes the Audio
+IF clock IDs through the q6dsp-lpass-ports binding and q6prm clock
+tables, and introduces common QCOM helpers for parsing standard
+dai-tdm-slot-* properties from backend CPU and codec endpoints.
 
-I have applied this one to the for-next branch of the m68knommu git tree.
+Finally, sc8280xp uses the common helpers during hw_params to program
+CPU and codec TDM slots, derive the backend bit clock from the active
+PCM parameters, and request the CPU and codec clocks before the stream is
+started.
 
-Thanks
-Greg
+Changes in v4:
+	- Addressed comments related to bindings from Rob.
+	- Link to v3: https://lore.kernel.org/all/20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com/
+
+Changes in v3:
+	- Reusing of tdm-slot.yaml and update the bindings.
+	- Link to v2: https://lore.kernel.org/all/20260630091605.4043426-1-prasad.kumpatla@oss.qualcomm.com/
+
+Changes in v2:
+	- Update AR Module token definitions and validation prefixes.
+	- Reorder module addresses.
+	- Add kernel-doc for `struct param_id_audio_if_intf_cfg`.
+	- Remove unused code and stale comments.
+	- Clean up comments and naming in q6apm-lpass-ports.h.
+	- Add bindings for TDM slots.
+	- Link to v1: https://lore.kernel.org/all/20260610154517.134570-1-prasad.kumpatla@oss.qualcomm.com/
+
+This series depends on:
+	- https://lore.kernel.org/all/20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com/
+
+Prasad Kumpatla (7):
+  ASoC: qcom: qdsp6: add topology-driven Audio IF support
+  ASoC: qcom: q6apm-lpass-dais: add TDM DAI operations
+  ASoC: dt-bindings: qcom,q6dsp-lpass-ports: add Audio IF clocks
+  ASoC: qcom: qdsp6: q6prm: add Audio IF clock IDs
+  Asoc: dt-bindings: qcom,sm8250: Add TDM slot properties
+  ASoC: qcom: common: add DAI-node TDM slot helpers
+  ASoC: qcom: sc8280xp: add TDM hw_params support
+
+ .../bindings/sound/qcom,sm8250.yaml           |  16 ++
+ .../sound/qcom,q6dsp-lpass-ports.h            |  29 +++
+ include/uapi/sound/snd_ar_tokens.h            |  89 ++++++++++
+ sound/soc/qcom/common.c                       | 165 ++++++++++++++++++
+ sound/soc/qcom/common.h                       |  14 ++
+ sound/soc/qcom/qdsp6/audioreach.c             |  97 ++++++++++
+ sound/soc/qcom/qdsp6/audioreach.h             |  81 +++++++++
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c       |  57 ++++++
+ sound/soc/qcom/qdsp6/q6prm-clocks.c           |  28 +++
+ sound/soc/qcom/qdsp6/q6prm.h                  |  29 +++
+ sound/soc/qcom/qdsp6/topology.c               | 105 +++++++++++
+ sound/soc/qcom/sc8280xp.c                     |  60 +++++++
+ 12 files changed, 770 insertions(+)
 
 
-> ---
->   arch/m68k/coldfire/device.c     | 2 +-
->   arch/m68k/include/asm/mcfgpio.h | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/m68k/coldfire/device.c b/arch/m68k/coldfire/device.c
-> index 1420bae0964f..9a0258acd998 100644
-> --- a/arch/m68k/coldfire/device.c
-> +++ b/arch/m68k/coldfire/device.c
-> @@ -12,7 +12,7 @@
->   #include <linux/init.h>
->   #include <linux/io.h>
->   #include <linux/spi/spi.h>
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/legacy.h>
->   #include <linux/fec.h>
->   #include <linux/dmaengine.h>
->   #include <asm/traps.h>
-> diff --git a/arch/m68k/include/asm/mcfgpio.h b/arch/m68k/include/asm/mcfgpio.h
-> index 7103cfa4edb6..29726aa40eb6 100644
-> --- a/arch/m68k/include/asm/mcfgpio.h
-> +++ b/arch/m68k/include/asm/mcfgpio.h
-> @@ -16,7 +16,7 @@ int __mcfgpio_request(unsigned gpio);
->   void __mcfgpio_free(unsigned gpio);
->   
->   #ifdef CONFIG_GPIOLIB
-> -#include <linux/gpio.h>
-> +#include <linux/gpio/legacy.h>
->   #else
->   
->   /* our alternate 'gpiolib' functions */
+base-commit: bee763d5f341b99cf472afeb508d4988f62a6ca1
+prerequisite-patch-id: 28f571976819748d886ecdd32e1ea3976440374b
+prerequisite-patch-id: 1b00c4a50852a4058eb2e1e609769ba067fd8d4a
+prerequisite-patch-id: 6320a0e2ad587fa5c7fe999ae168689af724a4af
+-- 
+2.34.1
 
