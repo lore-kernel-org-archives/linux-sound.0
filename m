@@ -1,295 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AC630CDAE;
-	Sat, 11 Jul 2026 18:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DC035F5E0
+	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 06:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783795816; cv=none; b=UzyeQHh9IpO+0u+5nvjOYwq+r3aAXh8V239lXM/dxVVTUbgXE15NNigZ8xlQmdvXFSB7zfbjbCx69ay8+Np88EBbVulTuYMf4aZZhodK5DH52rIEYqW0DdWc709IqisbGkYRQnE4y8/29mIiusGG+gZWSDg1lefGylU0zrqdoKY=
+	t=1783838678; cv=none; b=JHWqGfOp7nojzZvKsB9yGnnxzlA816HmQm0vnpflCVBgfVoFmIhTda1i0zRvyw+0uFIhdN+P/6G21U4rmqEnEZhhEb4Y9oq0zCoXZvpU5hOejERj7a8DBypIPrj+loQc2BxJKO/lRdwX7d2Qv3UF2eUc5LWn9ocuIsVyBF5px24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783795816; c=relaxed/simple;
-	bh=PIqQBUvFAhhZLltfbuAmGUSiDj9zb0uqnBAJox/uNeE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=faMGCPEwVO9QMpfJFpumIbpgWZuKuEtTnsaj2TIqK4NClBjE6Ar8fBB7vjZyvIoQi+5elRStoUlSuoVuWmlTrLzoosIvuvi84ztkncqzHZskMYBfTD28gpDkbap3dfQGUNDB4FPOt9hgP6KbEmexqndSZlxFzgeEvBpEBOCr9Yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kGl604zO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783838678; c=relaxed/simple;
+	bh=K+KhjlKpEQaSBSeWKaWZOuXn7jb+3z6ScwiGkkbU8/E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TQKPpirfrFsnFw8VmHW9u1UGxlX3WdL1izee3+jYnwddAB238rRGZqJkLEtb8yejHEt1jprsCd1dLu9ahOpu7UayUkAF+xn5AfJaulDL46mupboZojd+HdKc/qYpoOk5FFGFFKvNuZLttgLvSrY9R3CEBSsVsTNeDhqO+pIP5P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kX6VRgrb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JMqfN979; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kGl604zO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2690E1F00A3A;
-	Sat, 11 Jul 2026 18:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783795814;
-	bh=VYkDI6h+waLNcPjkBya9DGnDggZvgWVLygEReXlfsZM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=kGl604zOY5i/9BHc7cLc4ryqHD+01SAUicrFqMKwslfHQhi80jDyaMm2MyxhO5qOt
-	 5Pq/TrS3o9h1Q+W/qwP8lSEVI5jCfMdWQHJGOSTzqQxcgi/ZcaaOXqvQkVb1FUVgE6
-	 9YbVEPYs9ZC7WBFyRZhHqrj+/ntYKTZVK3XRtCayQvKHxiWeP6HYUE54e0sI1syKFA
-	 s2zK3U9ax8wTAugutxfyxWaRWS5LrbXoh4d2i5NgoY8R2qopkb5XoFfc+IxgcXnP6J
-	 LumgNfEnvhlL0OZHtdfacxoMtfjedGIBKxF4rKadinDpk8PtJvmtheBqh+pFiShHQX
-	 BbDB2Fj9clkaw==
-From: Lorenzo Stoakes <ljs@kernel.org>
-Date: Sat, 11 Jul 2026 19:45:10 +0100
-Subject: [PATCH v2 13/13] mm/mremap: convert mremap code to use vma_flags_t
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kX6VRgrb";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JMqfN979"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66C3wOmr1398301
+	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 06:44:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8MFG9unhRrvg7GeuVPVdKkz/kvu28Nz5klqNArkBW8o=; b=kX6VRgrbnvyE/nP2
+	Ym2FoYZa5ksphGrGd8OnsONEmCUl8IQJACEwkBRDQbYYoye8OdSu86PcrQhy5mj2
+	MhWL6klBCMIUwrfFaqidVoP5yqba3SFa/XHY2S+P0K0+Zh2T6fasnvhJcnw+SFaJ
+	UkenkM9BQEcGj/4S95BIZ0xXdLNsMmGBhRJvxMIGRldKYZnfHCQZna7vmY7RjJ6X
+	01vKAuRQ3oDYDS6d+SkTPdBgmOIFT2BARqZfnYBJV9tX/IO0/5jUTP45XzvIN29n
+	mLho94y21EzhWRrX+Ek58w52dytAKjk+dRy2hFQOk3GDdMhbLaeZMb0x3ZKovEdE
+	gQbj1Q==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbf4826tu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 06:44:32 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38db4fa2e25so2459677a91.1
+        for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 23:44:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783838672; x=1784443472; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8MFG9unhRrvg7GeuVPVdKkz/kvu28Nz5klqNArkBW8o=;
+        b=JMqfN979jXoUnaNbQLTMs+YPPLY1+i8hUN43kv6sic2TFskyK2KqFW4+JCsurhzce7
+         53aX+iBXU/CZHRWaVFHY6Nx5t/AFrmxtO4y0VrOd5t1QqHcmFADjve33vVH+GMjVlc2J
+         1vo2QPdxpiio2r4zrmojvmJ7Vh/Gwu5jSkwmWobPVsCuPYDmmKlpL/hB6SDFKsJyH2fR
+         DZKkWXO5lEL895RyadcaePvRdwigxn0TH6WHr+4nmIjlpp1t6SfQj+8fgorqQFK1Wphg
+         Nxu1qWC+3CVf0lU9HC0dDem40CMCjAvD3tzBBtqKbJclpfhSzJ1VwmW3JvtJlwMZnvYG
+         bu2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783838672; x=1784443472;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8MFG9unhRrvg7GeuVPVdKkz/kvu28Nz5klqNArkBW8o=;
+        b=Zs35dPXgYwshoXXoXwoDuZD5hc6bQ7S3XmdRUUGSzYYQNIuFyzM8OLr1k3Hb1/3Noi
+         quR24JLpf9UKMAUqA8iofcZep6CJ+dDfCjvHrd9YiiQnaSlRNWgqJjXCEoLlM1d/XvYo
+         otTBLZTJTBUeAZl8Dp4iTYOLCi2DpNoxOcFNCHwcs6mXUactbtgHf3eogue+/kK8b67T
+         IjT/mwM2iX5ZCIveXydsm5njkhkSoW+S874XiE4EK3T04d22W2EqsRb/ohl+StIAaIDo
+         Uv9qa5KnqyZi0iJW9Ugogd71rNXfjCnEpaAyxGWX4sLA0QYTEp+TmLVob3MfGsFG1kRe
+         V+gQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoWLtVIZ175JM5ocn3RxwCJXU83fLtwcBxKUsTj8fMUKb9bGQPw3/NMh3fQ0B/MEbOdjlBOl38aAKVbnA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7Dgt8HagHpxsU4itObZ2wtv75Tmi8dswfnVmL3/Of2QjZe3Co
+	PCTkd+CpaJYR28Lq1blbm6/s1GMvOQM+hzq4L40FirOdEBmA41meWe+H6kUSLlRaB9kxxoxsBi5
+	eXmfI2EreWqajNp8XEGRHlvGVqVomFMMsNXFgDQcXerkPIeeL4uWQKcVBr7GG/paBjg==
+X-Gm-Gg: AfdE7clQrtOenM4DPUiyZq5Dk5TtTCiGqbMwt0ppc9VgKlpDJGGcPHQAVQ1Wp7umnbX
+	kWrwFjmuFH2XfLga3Vrx5Fu9+9nDgrrUp9+bmk3WvA4aOzyTFvd9GlJjota5eupwsd9DeVck5JD
+	8+70XMX0vm4zcga2DutPbaFaLQYnE0ADCPOFVVaZVd0TLBI1Vu371K31UdHy7biPA2NL3NPSJuC
+	0PCfMAYhMAjotW8qbkJVZsj3ywaCO6AHk4yc7MRDz7yMpyOp7zqFDxFZ6k4lGHCozUa06f8b1GT
+	otPY7dCPGDDEt61furXqoOiokC1zVv28viLdxjxGeBKlK5E94X1+lXqkeIfcv9nGxJpMslUaH2R
+	0Ev0V9eZz1qrK3gGg1ghUri/HMo0I2h/YTgxJob7E5Oiy+OmvdA==
+X-Received: by 2002:a17:90b:53c6:b0:381:fa5:521f with SMTP id 98e67ed59e1d1-38dc74b9530mr4799489a91.3.1783838672271;
+        Sat, 11 Jul 2026 23:44:32 -0700 (PDT)
+X-Received: by 2002:a17:90b:53c6:b0:381:fa5:521f with SMTP id 98e67ed59e1d1-38dc74b9530mr4799475a91.3.1783838671780;
+        Sat, 11 Jul 2026 23:44:31 -0700 (PDT)
+Received: from [192.168.1.5] ([122.164.92.133])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311a6115e61sm38644234eec.22.2026.07.11.23.44.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Jul 2026 23:44:30 -0700 (PDT)
+Message-ID: <6438237f-ccb4-4143-9ac7-43f5dcca955b@oss.qualcomm.com>
+Date: Sun, 12 Jul 2026 12:14:23 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document
+ DAI subnode
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+References: <20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260711125740.3083236-2-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260711-mauve-skunk-of-contentment-f51be0@quoll>
+Content-Language: en-US
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <20260711-mauve-skunk-of-contentment-f51be0@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260711-b4-vma-flags-mm-v2-13-0fa2357d5431@kernel.org>
-References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
-In-Reply-To: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>, 
- Pedro Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>, 
- Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>, 
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, 
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- Gurchetan Singh <gurchetansingh@chromium.org>, 
- Chia-I Wu <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Matthew Brost <matthew.brost@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, 
- Helge Deller <deller@gmx.de>, Kees Cook <kees@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
- linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org, 
- linux-tegra@vger.kernel.org, virtualization@lists.linux.dev, 
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org, 
- linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6381; i=ljs@kernel.org;
- h=from:subject:message-id; bh=PIqQBUvFAhhZLltfbuAmGUSiDj9zb0uqnBAJox/uNeE=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLKC+q2WCm/T1ymxZjMq/yxer2XvM7/x212H55Myy179n
- RqvN8Gno5SFQYyLQVZMkeX5F/H9QSJh8zov+LvBzGFlAhnCwMUpABPpOszIsGhLcPGPAz1FjgKb
- Jc53v4/W6X/HznOmXdW58Edb+l2lCQz/DLaa7emYsZ9lb/CKY38l3gjvWSW8537dgQvfdvIpbK9
- 8xgIA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEyMDA2NyBTYWx0ZWRfX0syoZYl7XCoT
+ 3g0OtYDsXJ6kWD4a40J60uTLl4JwWBOqo1bAkUMtZXX/4X3LEtFLIRbKjphqBGXA4cjxjdy6bwi
+ F1013jeRbLaejFvQcx2XRikcVABOZXk=
+X-Authority-Analysis: v=2.4 cv=OsJ/DS/t c=1 sm=1 tr=0 ts=6a5337d1 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=tlK9sNgGSfv7srgBb5RqhA==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=LJDSKmyOq5XDa4FDNxEA:9 a=QEXdDO2ut3YA:10
+ a=rl5im9kqc5Lf4LNbBjHf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEyMDA2NyBTYWx0ZWRfXzCyTloHmlcTr
+ z4RAlq7RoGNiukgXpnoWfAjc2B2e7xDIiralcOVHqQiR48V3tmYUC1zO0nnwJZKPA4Mu9zNksEb
+ UcrWGWS+zCS7FH+6ygIPxUYN7QSAQCfI0Lk2oSY4VnqOSvH2PBOhhE4XZO/CxBQnapFjbscEg6E
+ i0997qRjEMqO1TI/4/WyYUnOR+2aYjcYBU+sc9NnvEzVDUUnN2J2F6hyCIewpIilBFetsEugf52
+ jhMUFpKJqgoj2tdouGoIdpfHdq1dZ6mZUS9taXpY2yxp+zltzRCJehuyGIv4ljwniJkaOELlZFq
+ PT7LdRkuALHAu58M9jliMI/jvFNiePk2L2zVyO6LqqM+AXlTsUp5zJ1/Fm/WXV+BKbh8vAwu32I
+ jQhO0pUK5hyb4puzvM8ly6VNAj4XFSygHLFKs24onh7toSeQb/mJk5JK0dH6B1bC3ikYyAIp4jD
+ Hk0PbLpmGfOB1WBtjJQ==
+X-Proofpoint-GUID: -XckBvJ3G8h9A0Kt9qyqRHZa-gj-RYjY
+X-Proofpoint-ORIG-GUID: -XckBvJ3G8h9A0Kt9qyqRHZa-gj-RYjY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-12_02,2026-07-10_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607120067
 
-Replace use of the legacy vm_flags_t flags with vma_flags_t values
-throughout the mremap logic.
 
-Note that, in replacing vm_flags_clear() (which takes the VMA write lock)
-with vma_clear_flags() and vma_clear_flags_mask() (which do not)
-respectively in unmap_source_vma() and dontunmap_complete(), we do not add
-a VMA write lock to account for htis.
 
-This is because, in both cases, move_vma() is their calling function and
-this has already acquired the VMA write lock on vrm->vma whose VMA flags
-are being cleared.
+On 7/11/2026 8:41 PM, Krzysztof Kozlowski wrote:
+> On Sat, Jul 11, 2026 at 06:27:38PM +0530, Mohammad Rafi Shaik wrote:
+>> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
+>> describe Digital Audio Interface (DAI) child nodes.
+>>
+>> Add #address-cells and #size-cells to allow representation of multiple
+>> DAI instances as child nodes, and define a dai@<id> pattern to document
+>> per-DAI properties such as the interface ID and associated clocks.
+>>
+>> On platforms such as Monaco and Lemans, third-party codecs are hardware
+>> wired to the SoC and do not always have an in-tree codec driver to manage
+>> their clocks. For these designs, clock line enablement must be driven
+>> from the platform side, and this series provides the necessary support
+>> for that.
+>>
+>> On QAIF-based platforms such as Shikra and Hawi, responsibility for voting
+>> I2S MCLK and BCLK has moved from the DSP to the kernel. This series
+>> introduces the required device tree binding support to represent and
+>> vote for these clocks from the kernel.
+>>
+>> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Drop my tag, you made a important change to ABI.
+> 
 
-In the case of vma_set_flags() in unmap_source_vma() we do need to do this
-- as prev and next were not necessarily write locked at this point.
+Ack
 
-Additionally update comments to reflect the changes to be consistent.
+>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
+> 
+> Drop, you cannot test a binding (in the meaning of Tested-by tag).
 
-No functional change intended.
+Ack, will drop Tested-by tag.
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
----
- mm/mremap.c | 38 ++++++++++++++++++++------------------
- 1 file changed, 20 insertions(+), 18 deletions(-)
+> 
+>> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>> ---
+>>   .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 58 +++++++++++++++++++
+>>   1 file changed, 58 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>> index 2fb95544db8b..f3a8b12d7fc8 100644
+>> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>> @@ -21,6 +21,49 @@ properties:
+>>     '#sound-dai-cells':
+>>       const: 1
+>>   
+>> +  '#address-cells':
+>> +    const: 1
+>> +
+>> +  '#size-cells':
+>> +    const: 0
+>> +
+>> +# Digital Audio Interfaces
+>> +patternProperties:
+>> +  '^dai@[0-9a-f]+$':
+>> +    type: object
+>> +    description:
+>> +      Q6DSP Digital Audio Interfaces.
+>> +
+>> +    properties:
+>> +      reg:
+>> +        maxItems: 1
+>> +        description:
+>> +          Digital Audio Interface ID
+>> +
+>> +      clocks:
+>> +        minItems: 1
+>> +        items:
+>> +          - description: MI2S master clock
+>> +          - description: MI2S bit clock
+>> +          - description: MI2S external bit clock
+>> +
+>> +      clock-names:
+>> +        minItems: 1
+>> +        maxItems: 3
+>> +        items:
+>> +          enum:
+> 
+> That wasn't here and that's also not correct, usually. Especially that
+> it does not fit your clocks property.
+> 
 
-diff --git a/mm/mremap.c b/mm/mremap.c
-index 384ef4cc2195..b64aa1f6e07e 100644
---- a/mm/mremap.c
-+++ b/mm/mremap.c
-@@ -68,7 +68,7 @@ struct vma_remap_struct {
- 	bool populate_expand;		/* mlock()'d expanded, must populate. */
- 	enum mremap_type remap_type;	/* expand, shrink, etc. */
- 	bool mmap_locked;		/* Is mm currently write-locked? */
--	unsigned long charged;		/* If VM_ACCOUNT, # pages to account. */
-+	unsigned long charged;		/* If VMA_ACCOUNT_BIT, # pgs to account */
- 	bool vmi_needs_invalidate;	/* Is the VMA iterator invalidated? */
- };
- 
-@@ -963,7 +963,7 @@ static unsigned long vrm_set_new_addr(struct vma_remap_struct *vrm)
- 
- 	if (vrm->flags & MREMAP_FIXED)
- 		map_flags |= MAP_FIXED;
--	if (vma->vm_flags & VM_MAYSHARE)
-+	if (vma_test(vma, VMA_MAYSHARE_BIT))
- 		map_flags |= MAP_SHARED;
- 
- 	res = get_unmapped_area(vma->vm_file, new_addr, vrm->new_len, pgoff,
-@@ -985,7 +985,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
- {
- 	unsigned long charged;
- 
--	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
-+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
- 		return true;
- 
- 	/*
-@@ -1012,7 +1012,7 @@ static bool vrm_calc_charge(struct vma_remap_struct *vrm)
-  */
- static void vrm_uncharge(struct vma_remap_struct *vrm)
- {
--	if (!(vrm->vma->vm_flags & VM_ACCOUNT))
-+	if (!vma_test(vrm->vma, VMA_ACCOUNT_BIT))
- 		return;
- 
- 	vm_unacct_memory(vrm->charged);
-@@ -1032,7 +1032,7 @@ static void vrm_stat_account(struct vma_remap_struct *vrm,
- 	struct vm_area_struct *vma = vrm->vma;
- 
- 	vm_stat_account(mm, vma->vm_flags, pages);
--	if (vma->vm_flags & VM_LOCKED)
-+	if (vma_test(vma, VMA_LOCKED_BIT))
- 		mm->locked_vm += pages;
- }
- 
-@@ -1176,7 +1176,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 	 * arose, in which case we _do_ wish to unmap the _new_ VMA, which means
- 	 * we actually _do_ want it be unaccounted.
- 	 */
--	bool accountable_move = (vma->vm_flags & VM_ACCOUNT) &&
-+	bool accountable_move = vma_test(vma, VMA_ACCOUNT_BIT) &&
- 		!(vrm->flags & MREMAP_DONTUNMAP);
- 
- 	/*
-@@ -1195,7 +1195,7 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 	 * portions of the original VMA that remain.
- 	 */
- 	if (accountable_move) {
--		vm_flags_clear(vma, VM_ACCOUNT);
-+		vma_clear_flags(vma, VMA_ACCOUNT_BIT);
- 		/* We are about to split vma, so store the start/end. */
- 		vm_start = vma->vm_start;
- 		vm_end = vma->vm_end;
-@@ -1220,8 +1220,8 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 	 * |             |
- 	 * |-------------|
- 	 *
--	 * Having cleared VM_ACCOUNT from the whole VMA, after we unmap above
--	 * we'll end up with:
-+	 * Having cleared VMA_ACCOUNT_BIT from the whole VMA, after we unmap
-+	 * above we'll end up with:
- 	 *
- 	 *    addr  end
- 	 *     |     |
-@@ -1241,13 +1241,15 @@ static void unmap_source_vma(struct vma_remap_struct *vrm)
- 		if (vm_start < addr) {
- 			struct vm_area_struct *prev = vma_prev(&vmi);
- 
--			vm_flags_set(prev, VM_ACCOUNT); /* Acquires VMA lock. */
-+			vma_start_write(prev);
-+			vma_set_flags(prev, VMA_ACCOUNT_BIT);
- 		}
- 
- 		if (vm_end > end) {
- 			struct vm_area_struct *next = vma_next(&vmi);
- 
--			vm_flags_set(next, VM_ACCOUNT); /* Acquires VMA lock. */
-+			vma_start_write(next);
-+			vma_set_flags(next, VMA_ACCOUNT_BIT);
- 		}
- 	}
- }
-@@ -1330,8 +1332,8 @@ static void dontunmap_complete(struct vma_remap_struct *vrm,
- 	unsigned long old_start = vrm->vma->vm_start;
- 	unsigned long old_end = vrm->vma->vm_end;
- 
--	/* We always clear VM_LOCKED[ONFAULT] on the old VMA. */
--	vm_flags_clear(vrm->vma, VM_LOCKED_MASK);
-+	/* We always clear VMA_LOCKED[ONFAULT]_BIT on the old VMA. */
-+	vma_clear_flags_mask(vrm->vma, VMA_LOCKED_MASK);
- 
- 	/*
- 	 * anon_vma links of the old vma is no longer needed after its page
-@@ -1767,14 +1769,14 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
- 	 * based on the original.  There are no known use cases for this
- 	 * behavior.  As a result, fail such attempts.
- 	 */
--	if (!old_len && !(vma->vm_flags & (VM_SHARED | VM_MAYSHARE))) {
-+	if (!old_len && !vma_test_any(vma, VMA_SHARED_BIT, VMA_MAYSHARE_BIT)) {
- 		pr_warn_once("%s (%d): attempted to duplicate a private mapping with mremap.  This is not supported.\n",
- 			     current->comm, current->pid);
- 		return -EINVAL;
- 	}
- 
- 	if ((vrm->flags & MREMAP_DONTUNMAP) &&
--			(vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP)))
-+	    vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
- 		return -EINVAL;
- 
- 	/*
-@@ -1804,7 +1806,7 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
- 		return 0;
- 
- 	/* We are expanding and the VMA is mlock()'d so we need to populate. */
--	if (vma->vm_flags & VM_LOCKED)
-+	if (vma_test(vma, VMA_LOCKED_BIT))
- 		vrm->populate_expand = true;
- 
- 	/* Need to be careful about a growing mapping */
-@@ -1812,10 +1814,10 @@ static int check_prep_vma(struct vma_remap_struct *vrm)
- 	if (pgoff + (new_len >> PAGE_SHIFT) < pgoff)
- 		return -EINVAL;
- 
--	if (vma->vm_flags & (VM_DONTEXPAND | VM_PFNMAP))
-+	if (vma_test_any(vma, VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT))
- 		return -EFAULT;
- 
--	if (!mlock_future_ok(mm, vma->vm_flags & VM_LOCKED, vrm->delta))
-+	if (!mlock_future_ok(mm, vma_test(vma, VMA_LOCKED_BIT), vrm->delta))
- 		return -EAGAIN;
- 
- 	if (!may_expand_vm(mm, &vma->flags, vrm->delta >> PAGE_SHIFT))
+The reason for changing this to enum was that some hardware may expose 
+only a single clock, which can be bclk or eclk instead of mclk. With the 
+previous positional const definition, such configurations fail schema 
+validation because the first entry is always expected to be mclk.
 
--- 
-2.55.0
+I agree that using enum makes the validation less strict and does not 
+ensure the correct clocks and clock-names mapping.
+
+I'll check this and look for a better solution.
+
+Thanks & Regards,
+Rafi.
+
+> Best regards,
+> Krzysztof
+> 
 
