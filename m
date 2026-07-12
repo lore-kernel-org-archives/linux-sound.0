@@ -1,52 +1,53 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE0F846A;
-	Sun, 12 Jul 2026 13:41:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDB63A4F5B;
+	Sun, 12 Jul 2026 13:41:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783863698; cv=none; b=ovSybpEBqjF63Jz9blb5LCxqcXo4Xy/HBKOEZOZ8pyH9xtNu5uTGmKMGLQdww+RCMJjDNal+GKlzK2xWtzl5Iele0isZ2VQVbBqwDXMnxVxTtV/XOT2KeLXmaW9MDm/RUzTCg1E3Rh29aHIh/UT/mlhoElWw3Y9y7bdw3KBu1s0=
+	t=1783863699; cv=none; b=UZpmoCtwh7eLczI2EJrRtKM/bGHcaOV1CLSAMRnbcEtRn/w4Mbi7kn2amwKlaW+Emdg/znb1mP1xrfoJCIafYb4vIzeDiBUa68rHWY9eok7stjamODlLf9FgCBGax8lz62Cu4HclRkUCNNMkA+BI17Q4lwZFe2HelE5BBkdCvR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783863698; c=relaxed/simple;
-	bh=hh/6qxVidLE2Ge/SklSm9EoIUyIiocHxv9nUCIFdZM0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nOVH5zUpHvGEv0ubqpxZ2/2OjVB0fYO4npK9DY7DztF38FySdqCYtICd5Oy188SvxM52z+3leHhpY3+5YYxXQFAsXAP70sVXmsAKCMkhextQrFaMDQ6VmIzZmfeFgkyJREhQZKu457VdWOrfu7OjRJ5aNdrrQpyRztqVPOLwBgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gMiPKHhT; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1783863699; c=relaxed/simple;
+	bh=i/aLhILHarIsWdtVRO/80QlFRlvp3gJQWU4vgOb9Phk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=CRRhwpK2wPeUTEyULHO4GmBO1RVaShdBIiqONNpGWhzMh+XVIHYBPhpU1WskYVognVCb/7ML3fdAEoKitgUv5SruHbio1IWkKOTSl5yr+gf15Fx6xK+JZzGLby5E2l62Gv02OTVzS6gOGkrFuP88iwoXsRKepIC3JpBFGNQoDvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KdwuGz4e; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gMiPKHhT"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66CDZLe22563048;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KdwuGz4e"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66CDZihe2489946;
 	Sun, 12 Jul 2026 13:41:18 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=riHUCnFWRJvl5C6MsInMzBc7VZH3YiO6vPl
-	fuAUn1K8=; b=gMiPKHhT3EhEz+FNN3G9ozhneBHuWJh3M3vxfNF9pS0WhHT6YXq
-	jypczIf7ibOH7Nj3fs5zK2FiOoDgr3AJKq2y6VnRdXk/9W+44qYzeX6iXqlKugZU
-	xAGvqBpHBgwuiCE0oiMPv+J3V3UjJcxe26PRb2c8GM2nh64kbrwZuTl98DdHNub1
-	a/sqzUqpvdbM9blr1x8/7Jn+YfeykNBpDvQe0rkqwtp2QfIECSO+NFqGyuGccLGf
-	fgQenIwq3BTbord31QXNXIkbwkxL2sdP/SyzURS0U5TVQjYskGnRaXWxEsRRoN7Y
-	3C80jQi+TmvMcaxpv78LMo6U+zHNLNL4okw==
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=3AgzqjWjU1l
+	hyu0Oxj8ZA9LZrgwgCHD/SL9XbhePANo=; b=KdwuGz4eiwULqSruvOu2qCafBaS
+	TkmF6MjBzqbPavrEXawvHNtP888TfTylO5VcWvGeKH35j68YNGy2HwfgucRtUrmy
+	q/Pk0wEigX81hSSqYfYtmsl4yKPV9eYIqokvfAyYxqkGV5Ufmxq6bLJe4mm/g5Pk
+	2HdWqDRpIaC5sBfd/3rV2ICb2IFYzCSifQR3mjQ2vN0GIAyesQC1V4w2N2wq4L+i
+	Mq63HVxDrHXcRbCkQtLjxHvrJyW27a971Y+iAdFPlgLbDjrnPbARqOp1kBBdJHXa
+	h8J5rf2rc6adTVRPTmwIoNSFJOcuMYfmHVlfsTJadpBamjJh9Qx42IaSZjw==
 Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbf482qka-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbf0gjs6a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Sun, 12 Jul 2026 13:41:17 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66CDfDwt026839;
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66CDfDn0026838;
 	Sun, 12 Jul 2026 13:41:13 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4fbewhmf79-1
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4fbewhmf78-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Sun, 12 Jul 2026 13:41:13 +0000 (GMT)
 Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66CDfDAC026811;
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66CDfDcH026808;
 	Sun, 12 Jul 2026 13:41:13 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 66CDfDJS026800
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 66CDfDZ4026803
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Sun, 12 Jul 2026 13:41:13 +0000 (GMT)
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id 42B35634; Sun, 12 Jul 2026 19:11:12 +0530 (+0530)
+	id 4D7A263F; Sun, 12 Jul 2026 19:11:12 +0530 (+0530)
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 To: Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -56,11 +57,14 @@ To: Srinivas Kandagatla <srini@kernel.org>,
         Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: [PATCH v4 0/7] ASoC: qcom: add AudioReach TDM backend support
-Date: Sun, 12 Jul 2026 19:11:03 +0530
-Message-Id: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v4 3/7] ASoC: dt-bindings: qcom,q6dsp-lpass-ports: add Audio IF clocks
+Date: Sun, 12 Jul 2026 19:11:06 +0530
+Message-Id: <20260712134110.3306763-4-prasad.kumpatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -70,97 +74,85 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEyMDE0MyBTYWx0ZWRfX7D6i4UPEpwOH
- qG90wb9iWnMPlLldTrAuszWOaKtlVcJpn+ylf3tKe8bEV6m+cW6ZMB4LP5Zby3U9Q0oH535l7Hc
- tD1NmBAgcW6UfrJCm7n2MJDMqe3lKVM=
-X-Authority-Analysis: v=2.4 cv=OsJ/DS/t c=1 sm=1 tr=0 ts=6a53997d cx=c_pps
+X-Authority-Analysis: v=2.4 cv=Nq3htcdJ c=1 sm=1 tr=0 ts=6a53997d cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=5LSzgCIJ2aLde3To2nUA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEyMDE0MyBTYWx0ZWRfX6sm+aNZX+C98
- VjiK7dd7Rq3ed3Il0IgYNq+/Kcnd+gw8F81dwlJMWMujMvLgwN9WZ06/7hYTSPMFLJJAEtZ56TZ
- /eyIbpVmlHBZaXcJQ1yui1nDu99VIUl9K51Q8CmMkI4MQOo9fqvnLAOQG+RNcN+MaDOLkAulUth
- a4FycEyRtOK2LmWpy/rMTgJKrOgIBD6Q++fzCuhEwgHY+8WRW3ywQKyeunYJzf4ZZ8M+A0Coikt
- gWhr8LMConx9lfdFvo7m2wTBSTnrb+iglwjTDRRbatHHjztZIHcn68gED5806/RbBqg94VwijAi
- TpkWquIu0jWo2kmE3AOSVYEZM7eFDLPvK5uUodtRzXyWGIGvkboSHoXp2J/pMocFcHl3QFMB2vZ
- HfLHXOMwZf0vwfmLxGAjFIkk1jeoloxBqB+Wgk8JNfX31jA9df8FD/t/zgXvoD3dUYKuW6Y1QQv
- /Lr/kw3jeRRhXVyCPTw==
-X-Proofpoint-GUID: jwEyECC3GS4xaFxYUTpNYY8Unn_l5LX9
-X-Proofpoint-ORIG-GUID: jwEyECC3GS4xaFxYUTpNYY8Unn_l5LX9
+ a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=Z2x2jAe23Y4aVj-ete4A:9
+X-Proofpoint-ORIG-GUID: KbHgAF_oPqnucf38HvvFKRFj2iZxwMkc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEyMDE0MyBTYWx0ZWRfX21C53wVrYE0x
+ 7Vj8U1wIqkiR1OI6e0Vtlxm9GtnEutBCsiQG233UZCFu7Y4oxsaY5g/d2SQnxd7c+vsjv32dTCz
+ X9/T4EB8DiXrF1SnHJtmclNjSd/36Uw2nRKMaJugIAcICh/v2V9LDGhqV9fQeFOhj30XcWtfZJP
+ 1NWTdo8YiVgI1xH4/x6IrLV9RXCna5DDxcqEZq6nBUrsurBUvwDQLAkyRp3qMp4D6fIdzkfIk6b
+ J9Tapsc2lGL0FKmOaAuQuK7YfCkE0mUjJ5zSmS4XoLTqnr6ZIs5j80j3jil9ZemkJwHSG9H7gzd
+ gBzpir5TBNKX7tfZ83IgYdonJOsfB4uMXLATyoUjS8V0Lmq8D2a4Q3q8Er28qwrfnLQCK+LyJhE
+ XCfpTF70eTi1CgASF8diZhgeQwHC6SF/wFp+1PnwyvAJwuCvyoyTkQT/YMDuGfJX5JNEH0cS4jh
+ 82ufYqxddDidnceVk2A==
+X-Proofpoint-GUID: KbHgAF_oPqnucf38HvvFKRFj2iZxwMkc
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEyMDE0MyBTYWx0ZWRfX/NjIvBzasSOZ
+ LlbnouBGBLAvCLSBYbAerLiulfRiB5+lNdSKjAk2l2pVoAwTMkm3Svx5Ia3gBUDLeQHbKXCdoYZ
+ +xGEkbIQ1tfxrfP1YZej2J1r039OR9Y=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-12_05,2026-07-10_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 clxscore=1015 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607120143
+ clxscore=1015 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ phishscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607120143
 
-Add AudioReach support for LPASS Audio IF based TDM backends and wire it
-up for the sc8280xp machine driver.
+Add the LPASS Audio IF clock IDs used by newer backend interfaces.
 
-The series first adds topology-driven Audio IF source/sink handling so
-the DSP interface parameters can be described by topology while runtime
-media format and slot configuration still come from the machine driver.
-It then adds TDM DAI operations for q6apm-lpass-dais, exposes the Audio
-IF clock IDs through the q6dsp-lpass-ports binding and q6prm clock
-tables, and introduces common QCOM helpers for parsing standard
-dai-tdm-slot-* properties from backend CPU and codec endpoints.
+Platforms using Audio IF module backends request the interface bit
+clocks through q6prm. Add the Audio IF IBIT and EBIT IDs to the binding
+header so these clocks can be referenced from device trees.
 
-Finally, sc8280xp uses the common helpers during hw_params to program
-CPU and codec TDM slots, derive the backend bit clock from the active
-PCM parameters, and request the CPU and codec clocks before the stream is
-started.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+---
+ .../sound/qcom,q6dsp-lpass-ports.h            | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-Changes in v4:
-	- Addressed comments related to bindings from Rob.
-	- Link to v3: https://lore.kernel.org/all/20260707190106.2876465-1-prasad.kumpatla@oss.qualcomm.com/
-
-Changes in v3:
-	- Reusing of tdm-slot.yaml and update the bindings.
-	- Link to v2: https://lore.kernel.org/all/20260630091605.4043426-1-prasad.kumpatla@oss.qualcomm.com/
-
-Changes in v2:
-	- Update AR Module token definitions and validation prefixes.
-	- Reorder module addresses.
-	- Add kernel-doc for `struct param_id_audio_if_intf_cfg`.
-	- Remove unused code and stale comments.
-	- Clean up comments and naming in q6apm-lpass-ports.h.
-	- Add bindings for TDM slots.
-	- Link to v1: https://lore.kernel.org/all/20260610154517.134570-1-prasad.kumpatla@oss.qualcomm.com/
-
-This series depends on:
-	- https://lore.kernel.org/all/20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com/
-
-Prasad Kumpatla (7):
-  ASoC: qcom: qdsp6: add topology-driven Audio IF support
-  ASoC: qcom: q6apm-lpass-dais: add TDM DAI operations
-  ASoC: dt-bindings: qcom,q6dsp-lpass-ports: add Audio IF clocks
-  ASoC: qcom: qdsp6: q6prm: add Audio IF clock IDs
-  Asoc: dt-bindings: qcom,sm8250: Add TDM slot properties
-  ASoC: qcom: common: add DAI-node TDM slot helpers
-  ASoC: qcom: sc8280xp: add TDM hw_params support
-
- .../bindings/sound/qcom,sm8250.yaml           |  16 ++
- .../sound/qcom,q6dsp-lpass-ports.h            |  29 +++
- include/uapi/sound/snd_ar_tokens.h            |  89 ++++++++++
- sound/soc/qcom/common.c                       | 165 ++++++++++++++++++
- sound/soc/qcom/common.h                       |  14 ++
- sound/soc/qcom/qdsp6/audioreach.c             |  97 ++++++++++
- sound/soc/qcom/qdsp6/audioreach.h             |  81 +++++++++
- sound/soc/qcom/qdsp6/q6apm-lpass-dais.c       |  57 ++++++
- sound/soc/qcom/qdsp6/q6prm-clocks.c           |  28 +++
- sound/soc/qcom/qdsp6/q6prm.h                  |  29 +++
- sound/soc/qcom/qdsp6/topology.c               | 105 +++++++++++
- sound/soc/qcom/sc8280xp.c                     |  60 +++++++
- 12 files changed, 770 insertions(+)
-
-
-base-commit: bee763d5f341b99cf472afeb508d4988f62a6ca1
-prerequisite-patch-id: 28f571976819748d886ecdd32e1ea3976440374b
-prerequisite-patch-id: 1b00c4a50852a4058eb2e1e609769ba067fd8d4a
-prerequisite-patch-id: 6320a0e2ad587fa5c7fe999ae168689af724a4af
+diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+index 45850f2d4..a3aea029c 100644
+--- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
++++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+@@ -233,6 +233,35 @@
+ /* Clock ID for RX CORE MCLK2 2X  MCLK */
+ #define LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK	70
+ 
++#define LPASS_CLK_ID_INTF0_IBIT		71
++#define LPASS_CLK_ID_INTF0_EBIT		72
++#define LPASS_CLK_ID_INTF1_IBIT		73
++#define LPASS_CLK_ID_INTF1_EBIT		74
++#define LPASS_CLK_ID_INTF2_IBIT		75
++#define LPASS_CLK_ID_INTF2_EBIT		76
++#define LPASS_CLK_ID_INTF3_IBIT		77
++#define LPASS_CLK_ID_INTF3_EBIT		78
++#define LPASS_CLK_ID_INTF4_IBIT		79
++#define LPASS_CLK_ID_INTF4_EBIT		80
++#define LPASS_CLK_ID_INTF5_IBIT		81
++#define LPASS_CLK_ID_INTF5_EBIT		82
++#define LPASS_CLK_ID_INTF6_IBIT		83
++#define LPASS_CLK_ID_INTF6_EBIT		84
++#define LPASS_CLK_ID_INTF7_IBIT		85
++#define LPASS_CLK_ID_INTF7_EBIT		86
++#define LPASS_CLK_ID_INTF8_IBIT		87
++#define LPASS_CLK_ID_INTF8_EBIT		88
++#define LPASS_CLK_ID_INTF9_IBIT		89
++#define LPASS_CLK_ID_INTF9_EBIT		90
++#define LPASS_CLK_ID_INTF10_IBIT	91
++#define LPASS_CLK_ID_INTF10_EBIT	92
++#define LPASS_CLK_ID_INTF11_IBIT	93
++#define LPASS_CLK_ID_INTF11_EBIT	94
++#define LPASS_CLK_ID_INTF12_IBIT	95
++#define LPASS_CLK_ID_INTF12_EBIT	96
++#define LPASS_CLK_ID_VA_INTF0_IBIT	97
++#define LPASS_CLK_ID_VA_INTF0_EBIT	98
++
+ #define LPASS_HW_AVTIMER_VOTE		101
+ #define LPASS_HW_MACRO_VOTE		102
+ #define LPASS_HW_DCODEC_VOTE		103
 -- 
 2.34.1
 
