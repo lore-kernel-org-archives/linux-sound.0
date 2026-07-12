@@ -1,87 +1,33 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DC035F5E0
-	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 06:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DE2370AFF;
+	Sun, 12 Jul 2026 08:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783838678; cv=none; b=JHWqGfOp7nojzZvKsB9yGnnxzlA816HmQm0vnpflCVBgfVoFmIhTda1i0zRvyw+0uFIhdN+P/6G21U4rmqEnEZhhEb4Y9oq0zCoXZvpU5hOejERj7a8DBypIPrj+loQc2BxJKO/lRdwX7d2Qv3UF2eUc5LWn9ocuIsVyBF5px24=
+	t=1783843884; cv=none; b=Cq4LWf5GLSZ4Jst+3Dc5wCdVniPSXki4W885+/aKZ600dGREw1ByOkrgzsXf+2QrLEZsIUhkPJTky7zz520l8KQm9TLS2Tz5MDRXBTwDuDTBevlE2TM7aA0P/qTUpuCeqNNWBVb8yXN0fxcnpwfMtGqY86uyLA/f3Pi2JgCBuvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783838678; c=relaxed/simple;
-	bh=K+KhjlKpEQaSBSeWKaWZOuXn7jb+3z6ScwiGkkbU8/E=;
+	s=arc-20240116; t=1783843884; c=relaxed/simple;
+	bh=zY+AbxT5fzbK7LEJHunWHXa0lakDuUZSGGHQKQ3g+nE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TQKPpirfrFsnFw8VmHW9u1UGxlX3WdL1izee3+jYnwddAB238rRGZqJkLEtb8yejHEt1jprsCd1dLu9ahOpu7UayUkAF+xn5AfJaulDL46mupboZojd+HdKc/qYpoOk5FFGFFKvNuZLttgLvSrY9R3CEBSsVsTNeDhqO+pIP5P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kX6VRgrb; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JMqfN979; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=HIRXWbIe49ZmuoO89aluxnOGo/hLRZ2GB03YzuoqOL2OifB+1C/8mAginTRgVfVWtmMFh7lkJ1Mq9Z4LT4xwu28nZeZZQU+cMrTDv9Hq7JtqAYpHV/N9WbgTh2A7+SMf9cjml/QzgF2Kv3XzoBzvX9Pm9lMKmt8+IrJ11WzDyL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdZx1B4i; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kX6VRgrb";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JMqfN979"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66C3wOmr1398301
-	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 06:44:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8MFG9unhRrvg7GeuVPVdKkz/kvu28Nz5klqNArkBW8o=; b=kX6VRgrbnvyE/nP2
-	Ym2FoYZa5ksphGrGd8OnsONEmCUl8IQJACEwkBRDQbYYoye8OdSu86PcrQhy5mj2
-	MhWL6klBCMIUwrfFaqidVoP5yqba3SFa/XHY2S+P0K0+Zh2T6fasnvhJcnw+SFaJ
-	UkenkM9BQEcGj/4S95BIZ0xXdLNsMmGBhRJvxMIGRldKYZnfHCQZna7vmY7RjJ6X
-	01vKAuRQ3oDYDS6d+SkTPdBgmOIFT2BARqZfnYBJV9tX/IO0/5jUTP45XzvIN29n
-	mLho94y21EzhWRrX+Ek58w52dytAKjk+dRy2hFQOk3GDdMhbLaeZMb0x3ZKovEdE
-	gQbj1Q==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbf4826tu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 06:44:32 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-38db4fa2e25so2459677a91.1
-        for <linux-sound@vger.kernel.org>; Sat, 11 Jul 2026 23:44:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783838672; x=1784443472; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8MFG9unhRrvg7GeuVPVdKkz/kvu28Nz5klqNArkBW8o=;
-        b=JMqfN979jXoUnaNbQLTMs+YPPLY1+i8hUN43kv6sic2TFskyK2KqFW4+JCsurhzce7
-         53aX+iBXU/CZHRWaVFHY6Nx5t/AFrmxtO4y0VrOd5t1QqHcmFADjve33vVH+GMjVlc2J
-         1vo2QPdxpiio2r4zrmojvmJ7Vh/Gwu5jSkwmWobPVsCuPYDmmKlpL/hB6SDFKsJyH2fR
-         DZKkWXO5lEL895RyadcaePvRdwigxn0TH6WHr+4nmIjlpp1t6SfQj+8fgorqQFK1Wphg
-         Nxu1qWC+3CVf0lU9HC0dDem40CMCjAvD3tzBBtqKbJclpfhSzJ1VwmW3JvtJlwMZnvYG
-         bu2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783838672; x=1784443472;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8MFG9unhRrvg7GeuVPVdKkz/kvu28Nz5klqNArkBW8o=;
-        b=Zs35dPXgYwshoXXoXwoDuZD5hc6bQ7S3XmdRUUGSzYYQNIuFyzM8OLr1k3Hb1/3Noi
-         quR24JLpf9UKMAUqA8iofcZep6CJ+dDfCjvHrd9YiiQnaSlRNWgqJjXCEoLlM1d/XvYo
-         otTBLZTJTBUeAZl8Dp4iTYOLCi2DpNoxOcFNCHwcs6mXUactbtgHf3eogue+/kK8b67T
-         IjT/mwM2iX5ZCIveXydsm5njkhkSoW+S874XiE4EK3T04d22W2EqsRb/ohl+StIAaIDo
-         Uv9qa5KnqyZi0iJW9Ugogd71rNXfjCnEpaAyxGWX4sLA0QYTEp+TmLVob3MfGsFG1kRe
-         V+gQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoWLtVIZ175JM5ocn3RxwCJXU83fLtwcBxKUsTj8fMUKb9bGQPw3/NMh3fQ0B/MEbOdjlBOl38aAKVbnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7Dgt8HagHpxsU4itObZ2wtv75Tmi8dswfnVmL3/Of2QjZe3Co
-	PCTkd+CpaJYR28Lq1blbm6/s1GMvOQM+hzq4L40FirOdEBmA41meWe+H6kUSLlRaB9kxxoxsBi5
-	eXmfI2EreWqajNp8XEGRHlvGVqVomFMMsNXFgDQcXerkPIeeL4uWQKcVBr7GG/paBjg==
-X-Gm-Gg: AfdE7clQrtOenM4DPUiyZq5Dk5TtTCiGqbMwt0ppc9VgKlpDJGGcPHQAVQ1Wp7umnbX
-	kWrwFjmuFH2XfLga3Vrx5Fu9+9nDgrrUp9+bmk3WvA4aOzyTFvd9GlJjota5eupwsd9DeVck5JD
-	8+70XMX0vm4zcga2DutPbaFaLQYnE0ADCPOFVVaZVd0TLBI1Vu371K31UdHy7biPA2NL3NPSJuC
-	0PCfMAYhMAjotW8qbkJVZsj3ywaCO6AHk4yc7MRDz7yMpyOp7zqFDxFZ6k4lGHCozUa06f8b1GT
-	otPY7dCPGDDEt61furXqoOiokC1zVv28viLdxjxGeBKlK5E94X1+lXqkeIfcv9nGxJpMslUaH2R
-	0Ev0V9eZz1qrK3gGg1ghUri/HMo0I2h/YTgxJob7E5Oiy+OmvdA==
-X-Received: by 2002:a17:90b:53c6:b0:381:fa5:521f with SMTP id 98e67ed59e1d1-38dc74b9530mr4799489a91.3.1783838672271;
-        Sat, 11 Jul 2026 23:44:32 -0700 (PDT)
-X-Received: by 2002:a17:90b:53c6:b0:381:fa5:521f with SMTP id 98e67ed59e1d1-38dc74b9530mr4799475a91.3.1783838671780;
-        Sat, 11 Jul 2026 23:44:31 -0700 (PDT)
-Received: from [192.168.1.5] ([122.164.92.133])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311a6115e61sm38644234eec.22.2026.07.11.23.44.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Jul 2026 23:44:30 -0700 (PDT)
-Message-ID: <6438237f-ccb4-4143-9ac7-43f5dcca955b@oss.qualcomm.com>
-Date: Sun, 12 Jul 2026 12:14:23 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdZx1B4i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 977631F000E9;
+	Sun, 12 Jul 2026 08:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783843882;
+	bh=rrRI3lqFLmoI5ctmdrO17ZOE8gpJZQKJcT34DVAGaxQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HdZx1B4i3EtU05GJJZsLGZ4V8f+tES1mtyhXIKblXLNqUt2k5gO4OZ4doNSuvyTlm
+	 bseaDQbwXRTTiWuyjhD9d5VkiHArDRfp/dd0oK1JV0NYgKfkyCLfKqPRz9APVfGpTl
+	 vFR9y2QDgNIBda9+gN7Z45LSs4+vf+/uFLG9ULY8C3M1wldxMq/r/s99yidWQYum4P
+	 8FBqgLAj7dkHT0TGtPBgSYsEPVkndYaGjdVUJlURR9S6CxI2ktR2t/basgRcp9xSlH
+	 ZIiMcF06YOKOazRCIBy51P/JNk04JFayifDAXJCa4hOpfcqGWT24hkXORoBeil2L7e
+	 zIQLq8jJ1B+Sw==
+Message-ID: <2b4448d0-81f8-410f-b849-0d957a2d2a17@kernel.org>
+Date: Sun, 12 Jul 2026 10:11:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -91,155 +37,171 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 1/3] ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document
  DAI subnode
-To: Krzysztof Kozlowski <krzk@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
 References: <20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com>
  <20260711125740.3083236-2-mohammad.rafi.shaik@oss.qualcomm.com>
  <20260711-mauve-skunk-of-contentment-f51be0@quoll>
+ <6438237f-ccb4-4143-9ac7-43f5dcca955b@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-In-Reply-To: <20260711-mauve-skunk-of-contentment-f51be0@quoll>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <6438237f-ccb4-4143-9ac7-43f5dcca955b@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEyMDA2NyBTYWx0ZWRfX0syoZYl7XCoT
- 3g0OtYDsXJ6kWD4a40J60uTLl4JwWBOqo1bAkUMtZXX/4X3LEtFLIRbKjphqBGXA4cjxjdy6bwi
- F1013jeRbLaejFvQcx2XRikcVABOZXk=
-X-Authority-Analysis: v=2.4 cv=OsJ/DS/t c=1 sm=1 tr=0 ts=6a5337d1 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=tlK9sNgGSfv7srgBb5RqhA==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8 a=LJDSKmyOq5XDa4FDNxEA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEyMDA2NyBTYWx0ZWRfXzCyTloHmlcTr
- z4RAlq7RoGNiukgXpnoWfAjc2B2e7xDIiralcOVHqQiR48V3tmYUC1zO0nnwJZKPA4Mu9zNksEb
- UcrWGWS+zCS7FH+6ygIPxUYN7QSAQCfI0Lk2oSY4VnqOSvH2PBOhhE4XZO/CxBQnapFjbscEg6E
- i0997qRjEMqO1TI/4/WyYUnOR+2aYjcYBU+sc9NnvEzVDUUnN2J2F6hyCIewpIilBFetsEugf52
- jhMUFpKJqgoj2tdouGoIdpfHdq1dZ6mZUS9taXpY2yxp+zltzRCJehuyGIv4ljwniJkaOELlZFq
- PT7LdRkuALHAu58M9jliMI/jvFNiePk2L2zVyO6LqqM+AXlTsUp5zJ1/Fm/WXV+BKbh8vAwu32I
- jQhO0pUK5hyb4puzvM8ly6VNAj4XFSygHLFKs24onh7toSeQb/mJk5JK0dH6B1bC3ikYyAIp4jD
- Hk0PbLpmGfOB1WBtjJQ==
-X-Proofpoint-GUID: -XckBvJ3G8h9A0Kt9qyqRHZa-gj-RYjY
-X-Proofpoint-ORIG-GUID: -XckBvJ3G8h9A0Kt9qyqRHZa-gj-RYjY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-12_02,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 spamscore=0 clxscore=1015 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607120067
 
-
-
-On 7/11/2026 8:41 PM, Krzysztof Kozlowski wrote:
-> On Sat, Jul 11, 2026 at 06:27:38PM +0530, Mohammad Rafi Shaik wrote:
->> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
->> describe Digital Audio Interface (DAI) child nodes.
+On 12/07/2026 08:44, Mohammad Rafi Shaik wrote:
+> 
+> 
+> On 7/11/2026 8:41 PM, Krzysztof Kozlowski wrote:
+>> On Sat, Jul 11, 2026 at 06:27:38PM +0530, Mohammad Rafi Shaik wrote:
+>>> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
+>>> describe Digital Audio Interface (DAI) child nodes.
+>>>
+>>> Add #address-cells and #size-cells to allow representation of multiple
+>>> DAI instances as child nodes, and define a dai@<id> pattern to document
+>>> per-DAI properties such as the interface ID and associated clocks.
+>>>
+>>> On platforms such as Monaco and Lemans, third-party codecs are hardware
+>>> wired to the SoC and do not always have an in-tree codec driver to manage
+>>> their clocks. For these designs, clock line enablement must be driven
+>>> from the platform side, and this series provides the necessary support
+>>> for that.
+>>>
+>>> On QAIF-based platforms such as Shikra and Hawi, responsibility for voting
+>>> I2S MCLK and BCLK has moved from the DSP to the kernel. This series
+>>> introduces the required device tree binding support to represent and
+>>> vote for these clocks from the kernel.
+>>>
+>>> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 >>
->> Add #address-cells and #size-cells to allow representation of multiple
->> DAI instances as child nodes, and define a dai@<id> pattern to document
->> per-DAI properties such as the interface ID and associated clocks.
+>> Drop my tag, you made a important change to ABI.
 >>
->> On platforms such as Monaco and Lemans, third-party codecs are hardware
->> wired to the SoC and do not always have an in-tree codec driver to manage
->> their clocks. For these designs, clock line enablement must be driven
->> from the platform side, and this series provides the necessary support
->> for that.
+> 
+> Ack
+> 
+>>> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
 >>
->> On QAIF-based platforms such as Shikra and Hawi, responsibility for voting
->> I2S MCLK and BCLK has moved from the DSP to the kernel. This series
->> introduces the required device tree binding support to represent and
->> vote for these clocks from the kernel.
+>> Drop, you cannot test a binding (in the meaning of Tested-by tag).
+> 
+> Ack, will drop Tested-by tag.
+> 
 >>
->> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> Drop my tag, you made a important change to ABI.
-> 
-
-Ack
-
->> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> 
-> Drop, you cannot test a binding (in the meaning of Tested-by tag).
-
-Ack, will drop Tested-by tag.
-
-> 
->> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
->> ---
->>   .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 58 +++++++++++++++++++
->>   1 file changed, 58 insertions(+)
+>>> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>>> ---
+>>>   .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 58 +++++++++++++++++++
+>>>   1 file changed, 58 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> index 2fb95544db8b..f3a8b12d7fc8 100644
+>>> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> @@ -21,6 +21,49 @@ properties:
+>>>     '#sound-dai-cells':
+>>>       const: 1
+>>>   
+>>> +  '#address-cells':
+>>> +    const: 1
+>>> +
+>>> +  '#size-cells':
+>>> +    const: 0
+>>> +
+>>> +# Digital Audio Interfaces
+>>> +patternProperties:
+>>> +  '^dai@[0-9a-f]+$':
+>>> +    type: object
+>>> +    description:
+>>> +      Q6DSP Digital Audio Interfaces.
+>>> +
+>>> +    properties:
+>>> +      reg:
+>>> +        maxItems: 1
+>>> +        description:
+>>> +          Digital Audio Interface ID
+>>> +
+>>> +      clocks:
+>>> +        minItems: 1
+>>> +        items:
+>>> +          - description: MI2S master clock
+>>> +          - description: MI2S bit clock
+>>> +          - description: MI2S external bit clock
+>>> +
+>>> +      clock-names:
+>>> +        minItems: 1
+>>> +        maxItems: 3
+>>> +        items:
+>>> +          enum:
 >>
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
->> index 2fb95544db8b..f3a8b12d7fc8 100644
->> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
->> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
->> @@ -21,6 +21,49 @@ properties:
->>     '#sound-dai-cells':
->>       const: 1
->>   
->> +  '#address-cells':
->> +    const: 1
->> +
->> +  '#size-cells':
->> +    const: 0
->> +
->> +# Digital Audio Interfaces
->> +patternProperties:
->> +  '^dai@[0-9a-f]+$':
->> +    type: object
->> +    description:
->> +      Q6DSP Digital Audio Interfaces.
->> +
->> +    properties:
->> +      reg:
->> +        maxItems: 1
->> +        description:
->> +          Digital Audio Interface ID
->> +
->> +      clocks:
->> +        minItems: 1
->> +        items:
->> +          - description: MI2S master clock
->> +          - description: MI2S bit clock
->> +          - description: MI2S external bit clock
->> +
->> +      clock-names:
->> +        minItems: 1
->> +        maxItems: 3
->> +        items:
->> +          enum:
+>> That wasn't here and that's also not correct, usually. Especially that
+>> it does not fit your clocks property.
+>>
 > 
-> That wasn't here and that's also not correct, usually. Especially that
-> it does not fit your clocks property.
+> The reason for changing this to enum was that some hardware may expose 
+> only a single clock, which can be bclk or eclk instead of mclk. With the 
+> previous positional const definition, such configurations fail schema 
+> validation because the first entry is always expected to be mclk.
 > 
 
-The reason for changing this to enum was that some hardware may expose 
-only a single clock, which can be bclk or eclk instead of mclk. With the 
-previous positional const definition, such configurations fail schema 
-validation because the first entry is always expected to be mclk.
+master clock feels like something should be present there always, but if
+that is the case, then you need:
+minItems: 1
+items:
+ - enum: [ bclk, eclk ]
+ - const: eclk
+ - const: mclk
 
-I agree that using enum makes the validation less strict and does not 
-ensure the correct clocks and clock-names mapping.
-
-I'll check this and look for a better solution.
-
-Thanks & Regards,
-Rafi.
-
-> Best regards,
-> Krzysztof
-> 
-
+Best regards,
+Krzysztof
