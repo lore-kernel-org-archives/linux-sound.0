@@ -1,69 +1,75 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17316344D9D;
-	Mon, 13 Jul 2026 18:09:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5DD30C16D;
+	Mon, 13 Jul 2026 18:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783966166; cv=none; b=FqVxiyGK3Sg7gjKNi7h8sAvkZK5hZlSqbqI0gcI4N1T4K4mR1em25Inlv/fDd5KJYoU0ymHqU9PZM08oT8/CTWEA8GHkUvFzFHjAozJucuBfB+PIkstoLTaUSLVOWocEL6m/YBFHUzZoSfEkK7UsGcg//CZyMZ9KNVukSTIzP3g=
+	t=1783968368; cv=none; b=Is9YQ8wVcL/pelP8dCfsOO/uKxVY5ozNDmsEeC5VOwsQj2LBbcOwHCyV6Uh0WdsQfS/IxYjF3kd62Cdc57YMSxB36qA+KRbdIaSt7IEQ9zENyGLJujHNbEQ5ToOupSiOxQxNfCWb6kkGuItJgwKiRlWi7OhAYNSXJSkhjvEP1Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783966166; c=relaxed/simple;
-	bh=6WweQGhUWhGKMcXxQTJf2DfYkxMP4imE5jIop3ay/0g=;
+	s=arc-20240116; t=1783968368; c=relaxed/simple;
+	bh=4EMHzYSCxZSPRkS2zbA0KVyjlfZv1nEmaS5dbSTXs1Y=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G5687e9+R3brpxg5W6Ms0nkECNQXmKg3/LwoHubtfkgldvDGon8vv7mh1zybnMV4fBZY3vGRLsO28nAUFPph+GM393R9xOwjgwOowENKKuVVJTh5wZg/6dWmrkTLTJPbB6PXklZlDQ5A6ViHEiy1EJtJIe20R3F+v+Bjt0Aznw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JIkXVhKz; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=j3/nhe1qqxcWHcC6KcEsPxINjseHYuKks/80bhnRirdE2dMG8j1kcVPsG0BoGZJxYyppCk8E4Dgd82WtIPSxRKP/hQ9sHgGSRT9CocchYteVPMWmWucc7QOhmOWY3plunQIyp1huauQR2FA0siMhUPsCuS7NpTbefAr7j8eNzM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QV3JL1g2; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JIkXVhKz"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66DH6NUp2191573;
-	Mon, 13 Jul 2026 18:09:15 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QV3JL1g2"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66DF8keA1908342;
+	Mon, 13 Jul 2026 18:45:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=sptPSOgMPIH
-	H/wGcMHcQCSoTru2yRrB6UPfGLL6YUmM=; b=JIkXVhKzndfp3NWRti144tqHC8M
-	H23ymU1kSWz/Vs6FAD3ss5UOtlm0e29C8sMIFCQI+9cLZ9nUBuc+SWuUYwQUH+kV
-	tKfWH2iIFxU9CEe8J+D9rO5Y6K+mj6yNH1sQsNCnPwgRlhbIx4Wk4WeONLmd1rzW
-	mUq2NiH4OCiifc12VaDOvz2uewmI7FukJh763YXqqnfGOuMmc+KNJlQXm40yxiz5
-	wgk+cP2H94qF05al6a4RsaCd8wTIGlDhss8I3EKOzDuvAvOVn2DPDqqtgH2rRDjj
-	2UrVjY9ViutdvhAMjFQPoNisfwuY+LGVMGCVCjctP+Q/vukInYzoKfUU3Zg==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fd44jr7wn-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=BJjbT+HllRR
+	SikEjpGpR0/YdbERpF60OieGqG7x7vsI=; b=QV3JL1g2XRM2x35vPSz/RrN3MMB
+	zBokLtK57vgMi8bVDN8o695r1317TRRHLp1LvH5Eu7jR32am2kHFP/2Bs0llYkMg
+	DkHoYTCUZPSg0PajomO0/ztIjEwmFlfzkSdsVKWJIxVP8P8CFGNCMYztUbAdFd22
+	pk6bNVHflkACOxiriVYuwVc0h8EHIFX50NPTTi1jvFmZXxtcFTvIdmfS5EE5OsQn
+	FwnmJxrl9wQF+dRoIIUJB6ly/19iRdewSmRqXaKGn0u5GaxdLtnf8tmXtMkQ01sc
+	1bCLVPVFbAUf1Os1BrM3GslJBCmBoG3Erp9Me6mgUoLR1q2MxGguH8Cdbzw==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fcwda272n-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Jul 2026 18:09:14 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66DI9AMf007198;
-	Mon, 13 Jul 2026 18:09:10 GMT
+	Mon, 13 Jul 2026 18:45:58 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66DIjsbi010054;
+	Mon, 13 Jul 2026 18:45:54 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4fbewj8p3m-1
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4fbewjb42c-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Jul 2026 18:09:10 +0000 (GMT)
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66DI9A3i007183;
-	Mon, 13 Jul 2026 18:09:10 GMT
+	Mon, 13 Jul 2026 18:45:54 +0000 (GMT)
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66DIjrX2010025;
+	Mon, 13 Jul 2026 18:45:54 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 66DI9Adm007181
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 66DIjrxl010021
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 13 Jul 2026 18:09:10 +0000 (GMT)
+	Mon, 13 Jul 2026 18:45:53 +0000 (GMT)
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id 7566661D; Mon, 13 Jul 2026 23:39:09 +0530 (+0530)
+	id D82D663E; Tue, 14 Jul 2026 00:15:51 +0530 (+0530)
 From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
+To: Bjorn Andersson <andersson@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Conor Dooley <conor+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
         Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Subject: [PATCH v1 1/2] ASoC: dt-bindings: qcom,sm8250: Add Hawi sound card
-Date: Mon, 13 Jul 2026 23:39:06 +0530
-Message-Id: <20260713180907.874954-2-prasad.kumpatla@oss.qualcomm.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2 2/5] ASoC: dt-bindings: qcom: add LPASS LPR vote clock ID
+Date: Tue, 14 Jul 2026 00:15:46 +0530
+Message-Id: <20260713184549.929569-3-prasad.kumpatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260713180907.874954-1-prasad.kumpatla@oss.qualcomm.com>
-References: <20260713180907.874954-1-prasad.kumpatla@oss.qualcomm.com>
+In-Reply-To: <20260713184549.929569-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260713184549.929569-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -73,53 +79,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
 X-QCInternal: smtphost
-X-Proofpoint-GUID: qLaY963TakP-XwjYtjY-Dm3c0ab4Asiz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDE4NyBTYWx0ZWRfX0RzD61lFvj5t
- UUqTFqzqIfZdHcIy7sM8zEZfBMDfeK4lzgTkGBAiPJEqB6X6GgN6QVmhieahF/32ov2JpKWzn1x
- vjXr2GDv8q8CRFezc9q7gVuJBGJ2b3jZpAi7xZOYquGwcTdIlythowLAoev/eWl0yl9dLEgkKES
- 2EPUUY4vnPqWf7ueO91jxaNVDE6ieaq1IgTsr2QQYq+Lr7aZcr7bL3ymZNuh5pEUUNfi66DknnT
- UNavqtUNN5Nh/G8iASPy48nlMRyQ8PuglVhI+78Ln5+EAOELAm++SHFQ5YvMc6yyQHbjACL6ve0
- 3Wn4Hix6auyV5Q/qLWJqJQm6ocQq505T7Om8gh5qo0OuTdhHcjdWE2nA90sNApi/PpKJlw6WCcq
- Jawq+fkW7tF63bGAle+kTG4iOiWqX0VbpO5PtHEzoQ30cidluPViRc5mXdVMezq4svXcFeS4FP9
- tJN9tZtW6bUXvFnyYlQ==
-X-Authority-Analysis: v=2.4 cv=XonK/1F9 c=1 sm=1 tr=0 ts=6a5529ca cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDE5NCBTYWx0ZWRfX16VmtjpnqU2N
+ QjI37F/8oosx0PvV1WSVxMpQNTa76gPHR3caGu1rl9TcQuOstvutQc5j/zQOr7qhPy6+ewkfLM/
+ oyxlJIwlrZVzJVsEyIUfuthm4YLJdak=
+X-Authority-Analysis: v=2.4 cv=cNbQdFeN c=1 sm=1 tr=0 ts=6a553266 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8 a=-aGvUFeC1W0Hxpz-LhEA:9
- a=zgiPjhLxNE0A:10
-X-Proofpoint-ORIG-GUID: qLaY963TakP-XwjYtjY-Dm3c0ab4Asiz
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEzMDE4NyBTYWx0ZWRfX0O9OWt/HP76u
- 19O2PBgyE3914hoCMNVPCWJaDtLZzWxQUIW7R/PU3mGseXg5frMf/Qfq7EN0lqz5UcajMOAN1yw
- VOhr7355erKWxMkg7aDGOV5Fifzb/M8=
+ a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8 a=LqfxHgX1jWeFuUILl3YA:9
+X-Proofpoint-GUID: RrfBYdPXxftF5R6gGG5m06aY4ev9wXvU
+X-Proofpoint-ORIG-GUID: RrfBYdPXxftF5R6gGG5m06aY4ev9wXvU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEzMDE5NCBTYWx0ZWRfX7r5HvKsPmuhZ
+ +T+QDsSNWt4At5Ubawqxx8eT2MRxsk8bR13WLWozT0D5JNpZpe8cULBCBeH0oNAOhmVwFC7i8Xb
+ NxSxxRsdhmCw7qh4RNf3rfIpSvdVwh3w8HLfedNXsWXA3jMaNA3M5WrhikukeHr0bk1tl9NE6vg
+ NGOEjZrmmhbvch755vwCvuBCnUUKuKLI7ovecRXM15XG8EFh65dRQTRy1NKonx6QDQwnd7DoQcl
+ obadeLKu299k1uH4zlokCsCUNlMhfRfy6ilYJJ8XkmtQqsCIs7RXWodWN2hj2KaxSkpK7WPunT5
+ kfRe7JlrgTaKy00iyZji7fm9XX5aE+YepanNAsOmJgAI9z+zYR6DWPmigGwGwA2N2F8SSercVle
+ VbqiO5txcnJ4FZyBGRPlubDIvrx9H12jT/Ofo2HlBGSm+7IDOk2vUGAjOesrI/cUclXixrUmLjY
+ jkNfzKTrFUZCn/kEPvQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-13_04,2026-07-10_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 impostorscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 adultscore=0 malwarescore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130187
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607130194
 
-Add bindings for Hawi sound card, which is compatible with
-the existing SM8450.
+Add a new clock ID, LPASS_HW_LPR_VOTE, to represent the LPASS low-power
+resource (LPR) vote through the PRM interface.
 
+The LPASS PRM supports a resource voting mechanism to control low-power
+states via PARAM_ID_RSC_CPU_LPR. Exposing this as a q6prm clock ID allows
+clients to request the LPR vote using the existing qcom,q6prm clock
+provider interface.
+
+This functionality is required on newer platforms (e.g. Hawi) where LPASS
+clients need to explicitly manage LPR resource voting via PRM.
+
+Also update Q6AFE_MAX_CLK_ID to account for the newly added clock ID.
+
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-index 28cf9289a..817ef5bf7 100644
---- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
-@@ -24,6 +24,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,eliza-sndcard
-+              - qcom,hawi-sndcard
-               - qcom,kaanapali-sndcard
-               - qcom,sm8550-sndcard
-               - qcom,sm8650-sndcard
+diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+index 45850f2d4..06ca2c287 100644
+--- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
++++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+@@ -236,8 +236,9 @@
+ #define LPASS_HW_AVTIMER_VOTE		101
+ #define LPASS_HW_MACRO_VOTE		102
+ #define LPASS_HW_DCODEC_VOTE		103
++#define LPASS_HW_LPR_VOTE		104
+ 
+-#define Q6AFE_MAX_CLK_ID			104
++#define Q6AFE_MAX_CLK_ID			105
+ 
+ #define LPASS_CLK_ATTRIBUTE_INVALID		0x0
+ #define LPASS_CLK_ATTRIBUTE_COUPLE_NO		0x1
 -- 
 2.34.1
 
