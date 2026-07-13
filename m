@@ -1,138 +1,101 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C203B31C56D
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 15:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13D732B981;
+	Mon, 13 Jul 2026 16:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783955203; cv=none; b=IWNt85A6O0/0e7JXYLCMJ4VWZyg1JvSnKMXfyxBqwtrV8ig0JpNGkoHmo7XQGHhVnMFPuhLEQz6GbcAnQpYrYHDXZAafJswRyyTfsJrcnCmPl+FRfckzVW4+90jVLmahX1lW4C6pNAouC8Fkp1zco46dj9rG0wkahOpKIo6uPBU=
+	t=1783958783; cv=none; b=W15EcwX+vzWDdiR6WIfRSjNSQO9SfIv2GN0d0pOfxnCeX/tNr4TCB95LHmmQ0DdjkB14itdMHUyyFHMfx2JFxLgBXxCZI2Egr6WLBv0v2LczkGWb521LyI6e6ndAyBlvxqj3u7G/OUfjqMcnZDPBRnh8uHJv0PyrY5rOiCoQE74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783955203; c=relaxed/simple;
-	bh=9h73d6OWHX5cNHMA+NifURT16N2a2qnqFyK5QdJxx9k=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y3xyqrMdykjvKYecmdROzP+Avk9Qj6CR8v7+vQHlirNi4kvEJw5uaxwt63IcTL1euNNvgxv1AiBwdRG7daAPofmQ9wsV2T32BAnqtTJ4M5qB8Cxmrs6HV/q9MWmh/8Qu0gHYw99VF/qiEesImzoHSRZhYoCCXmVQ570XmyQ3uAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ue4q023Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8Du7ozxZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Sh3PrIU8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vOWMbMFK; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1783958783; c=relaxed/simple;
+	bh=VyCf2KO3b6BZYv6zXvqnRCAJZI1xlPZ+/BE0FaM/Vpo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gp1/LbU1odYcjabt3xwrgurc7nka7s3CJJ4dEfeYlWmsUl9UiZjIseRCMsLIUJtJ7/rm5QYucCamS06kMGFhuBXWjh6xpEt+3+64SVRfBw8jlar4aiUfZssiRYQbe9bncNNwCOjJOTs5OoRujN3HwxjefLQdm1Xmgy8qEbco+aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kgOVBnsJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ue4q023Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8Du7ozxZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sh3PrIU8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vOWMbMFK"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D80127750E;
-	Mon, 13 Jul 2026 15:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783955200; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JLWeeK9TFxZGuve9uVHeaf2VfoJa9XfT4svdcD2eQCk=;
-	b=ue4q023YEckLc0b+tg9kUFebVcAA2heOfkdm+i8ufAoGqbSJM5f99wLyxYjGjfkAWXLHg5
-	2INv0RGLBJPtRs23hi040RJaVOjIZnohQwNJ6bQafoF+VotAqw7oiM0ehRl31W4MurF7Vl
-	UVa023rCgJbFSysmfwd+isvfFbbbfYE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783955200;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JLWeeK9TFxZGuve9uVHeaf2VfoJa9XfT4svdcD2eQCk=;
-	b=8Du7ozxZ3a0gQLchGx57yoLVE3eV10TtRiRCZfduMUN0jFka5RXV5+qNV/RrxA9kDAJ0jz
-	si7iff5ARiNV7sAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1783955199; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JLWeeK9TFxZGuve9uVHeaf2VfoJa9XfT4svdcD2eQCk=;
-	b=Sh3PrIU8neRXmaII7ueS+l7ncTmQ95//jaWJ7K8oX9yDZhaKxWpK/yFhF5tsND3jcOEmlB
-	Fenqf8mwLU9hgkBgJId10eL01hH1bQks8bnKzygcnt3Orld+UBKa6s/Dyda+5ZF3BCXe/M
-	Zog7exO98Rp9pHPhVG1sOYav2A2eeHg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1783955199;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JLWeeK9TFxZGuve9uVHeaf2VfoJa9XfT4svdcD2eQCk=;
-	b=vOWMbMFKuCL+BVeQNisPidE9ICEJV+75qoX5sjlQ873A/IY1EBMsnvAwLuM9XUQao8uuc0
-	XJiAbnjgL2QxnMDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7651779AE;
-	Mon, 13 Jul 2026 15:06:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oKinJ//+VGoQVAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 13 Jul 2026 15:06:39 +0000
-Date: Mon, 13 Jul 2026 17:06:39 +0200
-Message-ID: <87y0ffx728.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-Cc: "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: Add delay quirk for iBasso DC-Elite
-In-Reply-To: <TYUPR06MB6217D8FF419F24378196FCEFD2FA2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: <TYUPR06MB6217D8FF419F24378196FCEFD2FA2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kgOVBnsJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 918FF1F000E9;
+	Mon, 13 Jul 2026 16:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783958779;
+	bh=8sREOdH2a2htYhcoNY3FO6500dVHGW+aOExsdSBP7gE=;
+	h=From:Date:Subject:To:Cc;
+	b=kgOVBnsJV/dzCfiLkop7Aq9syK9dQdA70XrI4DJC1Uqb6pK9jFZStKHzBo4Gz7/lT
+	 Byaxq+Ql6E8kvCJYEw/bj9U0e/NDu3Trewz7NUOI3IopWrhE/fGXAo4R0mXjwPdEmP
+	 RPuO7LIrcab2csfcciRBQI4AngQeraN/a3vIhTeQb7iVqyhhWC0EqqMAaCr2Zxjks1
+	 W0AmZJPpvjzSYw4uLewLCTJc62WK9PLa2bM+mukey1mHDuD0utWA8YIXqtRprQs6TA
+	 9Ag//sSrR67/UKEyGUQI6c9qLGCm/7E4OYmPONqSe9YrsDPWfPN7niluRKSZXq11zZ
+	 hKJpDrIiut+Fg==
+From: Mark Brown <broonie@kernel.org>
+Date: Mon, 13 Jul 2026 17:04:04 +0100
+Subject: [PATCH] ASoC: simple-card: Fix clang build
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,vivo.com:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260713-asoc-fix-simple-card-build-v1-1-671ad44ad1a0@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAHMMVWoC/yXMywqDQAxA0V+RrBvwOaK/UrqIM1EjvphUEcR/d
+ 1qXBy73BGUvrFBHJ3jeRWWZA5JXBLanuWMUFwxpnJq4TDIkXSy2cqDKtI6MlrzDZpPRocmLlrO
+ KTOEIwmD1HML//P15rFszsP3+jnBdN6VqZr5+AAAA
+X-Change-ID: 20260713-asoc-fix-simple-card-build-645fe39a65da
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ llvm@lists.linux.dev, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1357; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=VyCf2KO3b6BZYv6zXvqnRCAJZI1xlPZ+/BE0FaM/Vpo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVQz4/MVwdaq8f9O/hjxaWf64/Xrhg2RFyzK2a
+ ujeJsxik7uJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalUM+AAKCRAk1otyXVSH
+ 0K+DB/4vxj9i7xC0UXsBU76vso9/590QJ3b1SdNmWUK9yPYjI9L5wJaAjmaI3gdSIrLQQOlqKPQ
+ IB5SsWxfW79LSOLXABuC2ZqkRb/sjHz647yh3o9Q+A5QUG+Ut5ubv2wOV56olS1BJSso9lgc1nY
+ IAVfMEAIGxRMXv6yP4lfPmQpqzrpkN/7qTqhuC4r9PMnMfMq+A63T49Tb0PmIculP2NNhNIAzHB
+ kIiwkLkEv6onwq8E+B3JrrYN+lNeZQZuXTi6jDV81+IH6waWLj1SUnqYcHw7doX6wVkG8HcsoBo
+ uoHG+7rTxzQfJKV+S1mehJtxd6wBEqRFqqmO58UKjU+zkBwZ
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 13 Jul 2026 14:35:50 +0200,
-ºúÁ¬ÇÚ wrote:
-> 
-> Audio control requests that sets sampling frequency sometimes fail on
-> this card. Adding delay between control messages eliminates that problem.
-> 
-> usb 1-1: New USB device found, idVendor=2fc6, idProduct=f0b5
-> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> usb 1-1: Product: iBasso DC-Elite
-> usb 1-1: Manufacturer: iBasso
-> usb 1-1: SerialNumber: CTUA171130B
-> 
-> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
+Jumping over the allocation of the link_info for a missing dev breaks
+the build:
 
-Applied now.  Thanks.
+/tmp/next/build/sound/soc/generic/simple-card.c:676:3: error: cannot jump from this goto statement to its label
+  676 |                 goto end;
+      |                 ^
+/tmp/next/build/sound/soc/generic/simple-card.c:679:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
+  679 |         struct link_info *li __free(kfree) = kzalloc_obj(*li);
+      |                           ^
 
+Fixes: 7f20b9b05b3a ("ASoC: simple-card: merge extra method into simple_parse_of()")
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/generic/simple-card.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Takashi
+diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
+index abfbc9fd7c6d..6e98e973e525 100644
+--- a/sound/soc/generic/simple-card.c
++++ b/sound/soc/generic/simple-card.c
+@@ -673,7 +673,7 @@ static int simple_parse_of(struct simple_util_priv *priv)
+ 	int ret = -EINVAL;
+ 
+ 	if (!dev)
+-		goto end;
++		return simple_ret(priv, ret);
+ 
+ 	ret = -ENOMEM;
+ 	struct link_info *li __free(kfree) = kzalloc_obj(*li);
+
+---
+base-commit: a5ee3180a2a7bbbd84af70ef98283b3f3e6a821e
+change-id: 20260713-asoc-fix-simple-card-build-645fe39a65da
+
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
+
