@@ -1,125 +1,112 @@
 Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8863BF676
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 08:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8843CCA12
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 08:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783932595; cv=none; b=WdQih8tGz7IyA0r3PnJf4lV7H8Y54rU6TWqL7bSXCQKdXjQ6XJv/jiWuhWx6gtLdtI3/AJ+eNwfbaHExgdUA5o63RC6CGv+xfYJs0/iXwdw6cHyCSH7PGy0lCj7zkBlH2esILiTZGOG2oLXDw3J1oW4KcAoUX5a3Jh0uo4Oy0G8=
+	t=1783932599; cv=none; b=F4V6BiibYmyyXHddg4EQyC+30SGNwXsfWRA2SFlWKrM/3QpRNdA6VWDjZVdUYHSuCbA594mU+M6cmYRFkUug3AhkPfkRxrKOlEWBMy/aQ90jDgOTq8RaZrnRvc1cYQitloici+vByzoya54pqL5ehyjzd6gf5kJK8x/kp0IV4Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783932595; c=relaxed/simple;
-	bh=zLZA/0N6r6WXd9eNjmThABurDW1rwbmaTtXQowEsKpM=;
+	s=arc-20240116; t=1783932599; c=relaxed/simple;
+	bh=gH8HxnyO1XfTFN31IbMWye8x4y4V6avllUroChwnIIk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YsRH25KVq+x+465caSOfsXIC9ktC/IFj8dDArbVslYJ1PT6mwKG1P8PIa/ufdPs8hZNMdHR74uWaMNqPzRmxMfKhhTVz6DbHvAeo/MHNBshdIkmk46kkhD578W77ESRyb4zWtRgzo/0TQWkpTBPIfChFLAA29EDVT1uZVBbJ2Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=K9KGQzu4; arc=none smtp.client-ip=91.218.175.179
+	 In-Reply-To:Content-Type; b=KWlBgrpekW3GimsKpGZpJSRWi7XfF9bHbdlhO25jVf7QUPd1NCz2rTLQeg7vgeQc/o4pA4Bqnuu+13gO5igFtRk7DZe3G0hjkaDL6M0vVo3a/TXVOMhtekBP9wubwgJPNW49cM12kBjvjtxEBnu7+GzvZqMTN82BcdzBSXz9qQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=LyH8uZm0; arc=none smtp.client-ip=91.218.175.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="K9KGQzu4"
-Message-ID: <cf0a24a9-40f1-4669-b616-9e244c1e7876@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="LyH8uZm0"
+Message-ID: <439a96fe-9fe1-4052-8e35-f442d7f857ad@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1783932590;
+	t=1783932595;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7kI5E+2L/tBVmnurmjL+L658ui+35MfSI2UylhZheeQ=;
-	b=K9KGQzu46LgqzD/nEuPPfkLT24+AQ3P4n/KfvSA+4KnQwBwa6EEZ6RjQpcg/KYJ9jKl6vT
-	a8v60kWVjfTQKsAKpuNvNppMl1txJn63+AuamYrMKUi3UY/arnMaXP1OnXx6P2aiAYjZDa
-	PwQe6QaTMbXJ1vLyBTgOY4QIT7geoa4=
-Date: Mon, 13 Jul 2026 10:01:19 +0200
+	bh=q8JpgXig8cb4Ro4duhCCMtU6KWJD7cfDJhsUqvJKuBE=;
+	b=LyH8uZm0UrcuCtT+yq7yddsVnusoUVzMBdRUyZE2sDGpaZwLIvEVxojmDufKJabGjG1m8v
+	9UJNWuJj16750I0N1XR554fC6ZX+dPakkxObwD7MkOzppdH9dzYjTu0yq/HzSY/SPPO5Hm
+	kGTUeTSHkEovVwEdMLcF7FJVIAzWeiU=
+Date: Mon, 13 Jul 2026 10:16:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] soundwire: stream: validate slave port against DisCo port
- bitmap
-To: Eric Wu <kunjinkao.jp@gmail.com>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260713071544.35722-1-kunjinkao.jp@gmail.com>
+Subject: Re: [PATCH 3/3] ASoC: codecs: wcd9378: add TX/capture codec driver
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+ Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, Conor Dooley <conor+dt@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260706192229.144137-1-jorijnvdgraaf@catcrafts.net>
+ <20260706192229.144137-4-jorijnvdgraaf@catcrafts.net>
+ <d643de20-50db-4f5c-a803-f1737da253fe@linux.dev>
+ <f484f295-f454-4a19-bd3a-cd0db5d5f970@oss.qualcomm.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260713071544.35722-1-kunjinkao.jp@gmail.com>
+In-Reply-To: <f484f295-f454-4a19-bd3a-cd0db5d5f970@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-Thanks for the patch.
-
-> sdw_slave_port_config() checks that the port number falls in the
-> generic valid range, but never checks whether the Slave actually
-> exposes that port for the requested direction. An in-range but
-> unsupported port number (or the right port with the wrong direction)
-> gets accepted without complaint.
+On 7/13/26 09:28, Srinivas Kandagatla wrote:
 > 
-> sdw_get_slave_dpn_prop() already does this lookup against the
-> source_ports/sink_ports bitmaps for other purposes, so reuse it here
-> instead of open-coding a new check.
-
-Smart, good idea. I would recommend adding the first sentence as code comments, I had to look up the code to figure out what it did.
-
-> Slaves that don't report source_ports/sink_ports at all (both zero)
-> are left unchecked, since that's treated elsewhere in the driver as
-> "property not provided" rather than "no ports supported".
+> On 7/7/26 12:42 PM, Pierre-Louis Bossart wrote:
+>>> + *
+>>> + * Qualcomm WCD9378 audio codec driver.
+>>> + *
+>>> + * The WCD9378 pairs a WCD937x-compatible analog core with SDCA-style
+>> SDCA-style or SDCA-compliant?
 > 
-> Signed-off-by: Eric Wu <kunjinkao.jp@gmail.com>
-> ---
-> Only compile-tested: x86_64 gcc, arm64 and arm32 clang (LLVM=1),
-> all clean with W=1. I do not have SoundWire hardware to test with.
-
-That's a problem in general, maybe push this patch first through the Intel/SOF CI to check that some SoundWire platforms are tested?
-
->  drivers/soundwire/stream.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+> This codec is SDCA compliant and used on X2 Elite Windows laptops.
 > 
-> diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-> index 4ed8fb7663ad..30cb8a8552d8 100644
-> --- a/drivers/soundwire/stream.c
-> +++ b/drivers/soundwire/stream.c
-> @@ -1054,14 +1054,23 @@ static int sdw_slave_port_config(struct sdw_slave *slave,
->  
->  	i = 0;
->  	list_for_each_entry(p_rt, &s_rt->port_list, port_node) {
-> -		/*
-> -		 * TODO: Check valid port range as defined by DisCo/
-> -		 * slave
-> -		 */
->  		if (!is_bpt_stream) {
->  			ret = sdw_slave_port_is_valid_range(&slave->dev, port_config[i].num);
->  			if (ret < 0)
->  				return ret;
-> +
-> +			/*
-> +			 * source_ports/sink_ports are optional DisCo properties:
-> +			 * both zero means "not provided" rather than "no ports",
-> +			 * so only enforce the check when the Slave reports them.
-> +			 */
+> This Codec can be configured in two modes, Mobile and Compute, and this
+> configuration is fused out.
 
-That comment is a tad misleading.
+How would you the drivers know which configuration is used? read from platform firmware?
 
-In the real world, all drivers ignore DisCo properties provided by platform firmware, and hard-code the values, e.g.
+> The codec IP is the same in both modes; what changes is how the
+> host-side SoundWire master setup.
+> 
+> The codec itself has two modes of working.
+> 1. mobile mode
+> 	in this mode the codec is enumerated as two slaves(tx and rx) on two
+> different soundwire masters (tx and rx), like any other wcd codecs.
+> 
+> 2. compute mode
+> 	In this mode, where the codec is enumerated as single slave on primary
+> soundwire master. Two Soundwire controllers(primary and dependent i.e tx
+> and rx) are aggregated and they act as one logical SoundWire bus with
+> four data lanes. The primary alone runs the SCP control channel,
+> enumerates the slave, drives the bus clock, the secondary follows. The
+> secondary drives some of the data lanes. There is a hardware sync
+> between these two. This is a new configuration on Qualcomm Soundwire
+> controllers called multi-master.
 
-	prop->source_ports = 0x14; /* BITMAP: 00010100 */
-	prop->sink_ports = 0x8; /* BITMAP:  00001000 */
+Very useful explanation, thanks.
 
-Those properties are really not optional at all, what's optional is that they are blindly read from firmware.
+In this configuration, I guess each lane is really dedicated to specific traffic?
+In theory the LaneCtrl port register allows a stream to be dynamically moved to a different lane, but I am not sure how this would work in such a 'multi-master' implementation. Along the same lines, I'd guess the non-zero data lanes remain enabled while the clock toggles, even if there's no traffic?
 
-> +			if ((slave->prop.source_ports || slave->prop.sink_ports) &&
-> +			    !sdw_get_slave_dpn_prop(slave, s_rt->direction, port_config[i].num)) {
+Management and optimization of multi-lane systems isn't straightforward, I've heard two theories:
+- one where it's better to only enable multi-lane when the bandwidth on lane0 is exceeded.
+- and a second where it's better to spread traffic on separate lanes and lower the clock.
+It probably depends on a number of factors, and in the end on how codecs are wired to the different lanes...
 
-This test is a bit odd, there could be cases where only source_ports are defined so you would try to check for a sink_port in sdw_get_slave_dpn_prop()
-It probably works in the end but maybe you could check s_rt->direction with source/sink port first?
+> From Codec pov, its exactly same IP, I have now SDCA drivers working for
+> both playback and capture, so Am hoping that we could use the same SDCA
+> driver for both of these modes. I still have to give it a try on a
+> mobile platform to verify this.
+> 
+> Am hoping to send a version of this driver sometime this week.
 
-> +				dev_err(&slave->dev, "port %d not supported for %s\n",
-> +					port_config[i].num,
-> +					s_rt->direction == SDW_DATA_DIR_TX ? "TX" : "RX");
-> +				return -EINVAL;
-> +			}
->  		} else if (port_config[i].num) {
->  			return -EINVAL;
->  		}
-
+Sounds good.
