@@ -1,132 +1,182 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de [85.215.255.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA40E3A5E97;
-	Mon, 13 Jul 2026 08:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783930259; cv=none; b=Y+Fb0CzjZdjdD5S40OJUtNqiLhFqva9ZWD2C0eG8Ze/StSq+vaPTJ4FmC9lr9g5aOqik2VOHAsCWRWAt5XCrRxix+caQXgKCc4BoxbidmsDeDLMSDoWmKWhB8G1/ZDKuwsahM4cGINM7nPP4BRfY0vUFrxiS2kJcmaey66GWg0A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783930259; c=relaxed/simple;
-	bh=r62lNHBeU+/LQxZVq7ReqdidWsxIYD2Dqi7IXymCZcY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D4qx76+WKN7zQH+BmMrV54sIYqFZN2TzaSB/UF1Gee+gtMOqo68qTbk33JwBJhkxaCSHAHxiN6K+SorVKzUFGRwoCquO7Hd+A71tqagJb+8K2LrZsp/udtl8DNoZFiS2FQ5Y5MlrQyEEt6+U4ar4UJjsrSD1rEr+UO9upuGmBOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 5dfe01267e9211f1aa26b74ffac11d73-20260713
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:4293df52-0e38-4139-bedd-47d1c8dc50b5,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:ca78c803f58562d2e899aad8fdff3308,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 5dfe01267e9211f1aa26b74ffac11d73-20260713
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 541443689; Mon, 13 Jul 2026 16:10:53 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: kees@kernel.org,
-	chengordon326@gmail.com,
-	jussi@sonarnerd.net,
-	hulianqin@vivo.com,
-	i@rong.moe,
-	g@b4.vu,
-	cryolitia@uniontech.com,
-	pav@iki.fi,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio device
-Date: Mon, 13 Jul 2026 16:10:48 +0800
-Message-Id: <20260713081048.189281-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8683AFD1D;
+	Mon, 13 Jul 2026 08:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.101
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783931244; cv=pass; b=FfwDFv3D0FKQmDhs5YstHiMDAgXSYoFS/gxE9oxm387kGhb5l3lQ+WQmM3osqbGl6sRoIUesW5pQoLVRfuVWHxxsT0RPUJOSIAbKP/8Pxcgl7PHTEZg32Kp0fBDFOQjptL4XvUMztVM9yneiUNJcZp/3u5vg15mNhuTo3J+oMXg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783931244; c=relaxed/simple;
+	bh=neYFUrjpt4d+eKiwf3U4FL7aP1Kz/MEYOd8OByQiveY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=bxBE5+kOvW4Zy3LN8YM4hrY5ldWvYdyitG312hFlNVYePEqEe+WAkWVW3unlsTJC4imyUgvcye1r5/8nQYUEPVN0ZwRRKibUTb5rKEFJxHfVy9akZtYn0rAfgJt8RnIc7rTWxeYZS6q6OgIqZ3b7Wqoa0ozIKSebjFb6tY6bzoA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=p4xjHkYV; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=Ir3lWB6A; arc=pass smtp.client-ip=85.215.255.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="p4xjHkYV";
+	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="Ir3lWB6A"
+ARC-Seal: i=1; a=rsa-sha256; t=1783931203; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=ApQ3WWCvBciM8URTbhxcxqb4i8zY4Wa35Ijaz69v+oBKLcM1aVNqHoqUTGZeNYRIhc
+    p3rOoNfW4pCwUYdeUN1u08wepro6wyrkzbQrOA/4TnWuc6Ziy8dPGCy9yWPrquD/r7Qr
+    SNp2p1/Qh0aM9E1g3ecQpwr/TGeuIdYRuGmA8pSa+CphL75R1gH9X8E0C/SslCkARY9F
+    j2gmsK/aTPGDAD0p2bVM7U7dFTZ3AyEUVI2xMfqEX0zlCzwgnI3ELjfbglhH9hxqO6av
+    TLCIVcLEDd0i0r25PPcLfSk8HyvaUX2HiV+4Xn1lp3Fq2M73Cj7jhuY5GbUAlPLta9Wp
+    jtBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1783931203;
+    s=strato-dkim-0002; d=strato.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=X5eaNUk6cCIj7tkB6iVA5BRLOW7UfZYznohwiY6XKyM=;
+    b=jkw1cYEuSot5zixvbO2Br/oB1pen23UVnS3yKFShKiB/eFVK0I/qQruj4Q/u7GbzLD
+    708vqr5eEwC5WA/8t83sD6ZnTYL2sWEqWAjo0s0PhEbCgJmOsANB/f+d6AZEWOlfKA3f
+    Ve+ECJAWcWgrpjIFkm7vuY45I2Ty9xZtj0tHztVJAVbdJJnbNdpvoBZOnw/VB1BeYolT
+    OiuOWVu6aDSbIUEJXeCKCQTyVnBZXSAMAWSukhc73+Oo3MbI/bn799GVDwGy7ABjhDtF
+    qi0jVqPdlLr8QUVqX0epVHtutYSYIu7BInotdu4QukP63gdwksRdMuS1Hm+U7+SOWWq3
+    CAbA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo03
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1783931203;
+    s=strato-dkim-0002; d=goldelico.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=X5eaNUk6cCIj7tkB6iVA5BRLOW7UfZYznohwiY6XKyM=;
+    b=p4xjHkYVayC9PTvG1lMRwEsAQQ0Ig/+fv7E0yJHN0xgS4xCjV0PSAWHVZuWsOlD5rZ
+    00rXBzV20qRSG8VlSv2pIO9dEe1Bfdv1CPXEontcCOiZmFAywiZJtw5w/71tZyNHGtSi
+    TrM67CF5eJQHee6YA+wAAMgvWdfHnGX1TfmZNDa278lwYJ6ZtUPToR5SZqhVQzNe2USY
+    cPJdob4Lf3v0GSyl+rCW4B+uenQvP4swR6esOmZLXrNb9KKlLfqQp8kITojd0fdsFqXg
+    juSj4/qeM7LyBuW356p6XVtq+ksYktxICTTxIYWNfduWx5+KlTzIwKJ7WRBNTDDonBBp
+    KL/Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1783931203;
+    s=strato-dkim-0003; d=goldelico.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=X5eaNUk6cCIj7tkB6iVA5BRLOW7UfZYznohwiY6XKyM=;
+    b=Ir3lWB6ATJq5Hfy9Uynb83ys1EpQsZ8CxCjBrPT4OB1dURlxyuLB9A2UFe50CGsdn4
+    sfRMP8oQAZABq37w88Cg==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrQi5pZlciNgDl2kEp5oHJ2/c57N2Mc49IfXTKd"
+Received: from smtpclient.apple
+    by smtp.strato.de (RZmta 55.5.6 AUTH)
+    with ESMTPSA id Q4b76426D8QfMvC
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+	(Client did not present a certificate);
+    Mon, 13 Jul 2026 10:26:41 +0200 (CEST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.8\))
+Subject: Re: [PATCH 01/16] dt-bindings: twl-regulator: Add bindings for
+ exposing ti,twl4030-regen
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20260713-aquatic-memorable-griffin-cf9e46@quoll>
+Date: Mon, 13 Jul 2026 10:26:31 +0200
+Cc: Stefan Leichter <sle85276@gmx.de>,
+ Grazvydas Ignotas <notasas@gmail.com>,
+ Tony Lindgren <tony@atomide.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Jarkko Nikula <jarkko.nikula@bitmer.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Andreas Kemnade <andreas@kemnade.info>,
+ Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Roger Quadros <rogerq@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Sen Wang <sen@ti.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Niranjan H Y <niranjan.hy@ti.com>,
+ letux-kernel@openphoenux.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org,
+ kernel@pyra-handheld.com,
+ mfd@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3D58F644-3EAA-4BE7-88FB-1DCEAE7D5768@goldelico.com>
+References: <cover.1783749722.git.hns@goldelico.com>
+ <00718b18253a764c2a7c9a2b95c3b8c411796583.1783749722.git.hns@goldelico.com>
+ <20260713-aquatic-memorable-griffin-cf9e46@quoll>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Grond <grond66@riseup.net>
+X-Mailer: Apple Mail (2.3826.700.81.1.8)
 
-The Generic USB Audio device (0x1e0b:d01e) produces crackling noise during
-system boot when the boot music plays. The issue disappears once the system
-has fully started.
+Hi Krzysztof,
 
-Kernel logs show xhci-ring warnings when the device initializes:
-[    2.836118] usb 1-3: New USB device found, idVendor=1e0b, idProduct=d01e
-[    9.654586] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5154, index 13) beyond range (645, 1539)
-[    9.654589] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
-[    9.655053] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5158, index 14) beyond range (645, 1539)
-[    9.655055] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
+Thank you for the feedback.
 
-These warnings are generated by xhci_get_isoc_frame_id() in xhci-ring.c.
-Data endpoints have multiple TDs per URB (number_of_packets > 1). For TD
-index=0, the function adjusts start_frame to a valid range when validation
-fails. However, for TD index>0, the calculated Frame IDs become stale
-before validation completes, causing xhci_get_isoc_frame_id() to return
--EINVAL and trigger a fallback to SIA (Schedule Information Address) mode
-for those TDs. This inconsistent scheduling between index=0 TD (direct
-Frame ID) and index>0 TDs (SIA mode) within the same data endpoint causes
-audio data misalignment and crackling noise during boot.
+> Am 13.07.2026 um 09:39 schrieb Krzysztof Kozlowski <krzk@kernel.org>:
+>=20
+> On Sat, Jul 11, 2026 at 08:01:48AM +0200, H. Nikolaus Schaller wrote:
+>> From: Grond <grond66@riseup.net>
+>>=20
+>> FIXME: not reflected in the bindings
+>>=20
+>> +Reguired properties:
+>> +For twl3040 REGEN signal:
+>> + - regulator-min-microvolt:
+>> +  - Same meaning as in bindings/regulator/regulator.yaml, but must =
+match
+>> +    regulator-max-microvolt.
+>> + - regulator-max-microvolt:
+>> +  - Same meaning as in bindings/regulator/regulator.yaml, but must =
+match
+>> +    regulator-min-microvolt.
+>> + - startup-delay-us:
+>> +  - Same meaning as in bindings/regulator/fixed-regulator.yaml.
+>=20
+> I don't know what that means.
+>=20
+>>=20
+>> Signed-off-by: Grond <grond66@riseup.net>
+>=20
+> As explicitly written in submitting patches: we do not take anonymous
+> contributions.
 
-Sync endpoints have only one TD per URB (number_of_packets = 1), so they
-don't suffer from this mixed scheduling issue.
+Thanks for pointing this out. In more than 10 years of contributing, I =
+actually have never run into this specific issue before.
 
-Fix by setting URB_ISO_ASAP flag for the data endpoint of this specific
-device. This flag causes the xHCI driver to skip Frame ID calculation
-entirely and let hardware schedule via SIA bit for all TDs, ensuring
-consistent scheduling within the data endpoint. Also add a quirk to skip
-the first 4 packets on the sync endpoint.
+To give some context: this is a contribution we received on our mailing =
+list about 5 years ago. We do not know the author personally, but the =
+code looks good and has been thoroughly tested by us. I kept their =
+Signed-off-by because I didn't want to falsely claim authorship.
 
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/usb/endpoint.c | 3 +++
- sound/usb/quirks.c   | 8 ++++++++
- 2 files changed, 11 insertions(+)
+Unless he answers to this mail, what would be the best way to proceed?
 
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index 24cd7692bd01..6a6a6797ac4b 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -1256,6 +1256,9 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
- 			goto out_of_memory;
- 		u->urb->pipe = ep->pipe;
- 		u->urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
-+		/* Generic USB Audio (0x1e0b:d01e): use SIA for consistent scheduling */
-+		if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e))
-+			u->urb->transfer_flags |= URB_ISO_ASAP;
- 		u->urb->interval = 1 << ep->datainterval;
- 		u->urb->context = u;
- 		u->urb->complete = snd_complete_urb;
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 2949a0d2d961..52a4fd352ea2 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -1938,6 +1938,14 @@ void snd_usb_endpoint_start_quirk(struct snd_usb_endpoint *ep)
- 	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
- 		ep->skip_packets = 4;
- 
-+	/*
-+	 * Generic USB Audio (0x1e0b:d01e) - skip initial sync packets
-+	 * to avoid crackling noise during system boot
-+	 */
-+	if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e) &&
-+	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
-+		ep->skip_packets = 4;
-+
- 	/*
- 	 * M-Audio Fast Track C400/C600 - when packets are not skipped, real
- 	 * world latency varies by approx. +/- 50 frames (at 96kHz) each time
--- 
-2.25.1
+Should I keep him as the Author: in the git metadata but remove the =
+pseudo-anonymous Signed-off-by, and instead add my own Signed-off-by =
+(and perhaps a Co-developed-by or From: note) to certify the Developer's =
+Certificate of Origin (DCO) myself?
 
+Anyways this will likely be reworked based on the sahiko-bot =
+recommendations to make regen not a regulator but a gpio that can be =
+controlled by a separate regulator-fixed. This will also clarify/remove =
+the "same meaning" statements and ambiguities.
+
+Thanks and BR,
+Nikolaus=
