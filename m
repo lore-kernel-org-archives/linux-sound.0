@@ -1,202 +1,138 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D25407CCA
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 12:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312DD4252A1
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 13:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783946849; cv=none; b=YIe9JJJJyTHsuU+UlHSsS/eOVqZ6d9aIKDUsdM6C2vJFqvEjORP4NutIzzFAghQdddFS4PybsfdD+S3zHtiNvBLM5TKx1zh5wat7omPq/vgSgnfKOEsICwoVOUJQmBTIEdFqABa7S1dP7WjI5CnrfCLECRKLKJvcZ6boXrcF7LA=
+	t=1783948835; cv=none; b=f8sSNM2eQqVL7fAGYxJcCF6TpRTE4F6RmBNNWiFnqxTwTHt/slhPEK2N1y26EeK2crDS8KYyPQbOB215d0axRkhm0yLnFWVpmq4h2EDPHEWtkqthPP76DBIcu24j3xP5mK5UXjiQTbjk2Xz79gt7b+LypV0THgEAEzSSvGGslZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783946849; c=relaxed/simple;
-	bh=0hUWPgChDdRqm6oNHr3kxUnu54j+aYaSO5M1ndyvYW8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Q7dqB6ZNw/E0GlfEz7GHOhGvwpbvK5dYNNyvFZB1lTs6t4PXE3d8eV5RanIEvwzHMFqlgdtfKRfsp7WzewagUMpLfQ4bPjxHPaJ5GnDHxgqzyF5IP85TftaiSR6q/oES/pLJqYxNgKFucCqhAssJ0IPTCxOFqt1LOvY8Queo9xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iJ3IZV1c; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1783948835; c=relaxed/simple;
+	bh=mzAix/5ip0Zopmow/9AHARQcTHnkWrXXhgyithcVSds=;
+	h=MIME-Version:From:To:Cc:Subject:In-Reply-To:References:Message-ID:
+	 Date:Content-Type; b=WwjgloSwZ2ySovJC9rnFwFeC1ZyW8ok2zG+x8NQNOSkmX852zl3AQKMSfdUd0iKKAF0eTZiqnEXYH1z9SS/MqnxifcRmPzUdNLyuNaJK4HSuv8OLM6dykEaR60EmSs6UMz6WBwBLe4MApCB0v6hWc3oPg5O9nSAzGy0it3wkGHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFS76TIE; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJ3IZV1c"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cac39b729dso7514845ad.3
-        for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 05:47:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFS76TIE"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso2202204a12.0
+        for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 06:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783946846; x=1784551646; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=z/yv6k2xKNRuiIcoHapp/ylsCggQpdNHdZ6/qndZDtw=;
-        b=iJ3IZV1ccErxh6MEnvcVI4gwkhv9zXZb4Fug15SIP1ct2T4Rt0DdP3/ua5V6zuGXG5
-         rWKb6nkOSM1sWnLQCCKL5N1hAcNLfv3p61HJpOpVUv/ZyPd5VvCGhiU+ukR4uJj8iU0O
-         5bwW7ykaLgkhNSIrJNes/py+/Bo3r8bpTPaXOhYC7yfIaDiyE/Wa0FMZg5FrqtSgWZ0N
-         Y10e+IrbM46btd7v3ahO3MbrTqsSs0KnSjxyXLFSiGCdqLc7FvTlmdTnllpPTvAi1Lkz
-         ztshgxzJqI3Y6343A41RU76unBM9TkCqB8GmmB/eu8K0JSpdZ8ugwIFaH4EtSTTYpYkt
-         nK7Q==
+        d=gmail.com; s=20251104; t=1783948833; x=1784553633; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:date:message-id:references
+         :in-reply-to:subject:cc:to:from:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0xQjdxZMKwK0/piRtiFV1AQ9KVJLXfDSp5HIDb5yZME=;
+        b=TFS76TIEvEOgiczQf3hkLYgN7O7vzR7NqBOJdr/dKwZbn6pPc2O0dT9fekSEBC+ZQI
+         f6Jt3cErFn7+Cp4vSKhF9i4sL8+b6mzHV1Modwf0DnQT3PDKmkRdIbdz5/fOaM6iD5K1
+         bo82wGG6s1XIyY+H0tRkeAM0wZOcvKufV5Aup/00HYlojp5q6SdafsbrlTqTZwG07N9W
+         YB453TWPIGxbXcgRmp9e/mwJiHD0WL+A9f+uV3CTEUwVegQ8kpJnQmXAQ+FZXdFgkaRz
+         tHYztSEienpjpoo92rNJVbEqmYzgIyTJTacivnvV13PysKwMfqVSsy0ym0reQXzgLJGb
+         QVYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783946846; x=1784551646;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=z/yv6k2xKNRuiIcoHapp/ylsCggQpdNHdZ6/qndZDtw=;
-        b=KPmCsAkkgo3UA/DM0Uq3dop5qVjqjtSPdCc6b+6Nnvfjw3LPyuxD9+GMZBNRNQAnzX
-         Os3ilcnAb/KeJ3XupGkDGfv29ZQ/NBwyg1oYcDfQVUNyqTV4YrAWr9p3BjIKlp11uXBZ
-         2ho60apZhywx+I8bRSc6AZ7v+nZOPyb1N9rr2+4D2WYrqbV+qfJgdEphD3HbaRhx957O
-         2vbUv1nzLRQKA7wDSsb7RAvdER0jt77olii7neSXbo7d3JnGtpiiV/2lXs/RdTs6YBz1
-         h91h95fA2BVXO1LQLWQWBFD0812NyIZ222bn8yCL3tfxo0ky4VdqR3uVDi/BSjX6QKV4
-         EcYg==
-X-Gm-Message-State: AOJu0YxmhPe6JcTqK53X41vNqr73RaMKwZO+vaibEjSWQRodok9gy9M2
-	EQSAsvyY5Tr52L2TJNaIQk8iPkGx/589O7sptTNg3GtwQdD9ERUuYu6P
-X-Gm-Gg: AfdE7cnvn+bqTsfbJzKhkmaoYgnvMlq4WZLY7AWNbaSrueACtt97gH4s286A+eYq1Xy
-	FOrOyMXBleYZ0W1NzjLhznYVB88cJRU4nzYQDcGySMrXYDcNYZOBPLl+vk3by1BkOHD664UwFrr
-	LzJdB1PoruBBAgQN3YwArYd+eQUpTyj/jykD0KcKQmfDJbupC0v3UJRR2MGq4QE1R00DYTrMsQn
-	vr2QjHjKOdZTF32IwE0XgkNbd7R3Rg+YS8b4HseWzVAWpDryfnx9c3Bk7RP0+2IzmlhoMH0bkNk
-	/TJfUkZUruVuKw2aqFgSYvA2HeGWwpNpPtV88PO49nhNpmxk6Py0vcxRlCqWKNKO/SwQ41L81gH
-	SLrkGDFVK5Y+Qj/ttnQqEfw6XMnQyCibYPceZ4Ux33UnmDfAq1ibphKccJHKNIvW6O0VWBCqjww
-	j5mkbqpkFeNa6/dkv8LFq2ow==
-X-Received: by 2002:a17:90b:224a:b0:38d:f0a7:85f9 with SMTP id 98e67ed59e1d1-38df0a786cbmr3219382a91.0.1783946845915;
-        Mon, 13 Jul 2026 05:47:25 -0700 (PDT)
-Received: from [192.168.1.2] ([2401:4900:881f:4446:b692:9244:2734:87f6])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ae6cd9sm74901304eec.31.2026.07.13.05.47.21
+        d=1e100.net; s=20251104; t=1783948833; x=1784553633;
+        h=content-transfer-encoding:content-type:date:message-id:references
+         :in-reply-to:subject:cc:to:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0xQjdxZMKwK0/piRtiFV1AQ9KVJLXfDSp5HIDb5yZME=;
+        b=V23fHVnDio6hU/Rrth6Q8mm0e/GWsRt4bWpOU4fi8b3uDiaPasyGJuzzFcYKxEv0no
+         0tgmA4YqRDhbgSbUR96f4tntBW5rq9Zq3wKYvEnQVv2uXKb/ZBSySngWbx9jakzSoCEj
+         10+JIGLAaOkbTVhNQ4GY00igg+zk9RjwnDOUJca1zqwHVWGq2AB9wwZ138D6WpJG5YMq
+         12K1M2JzZbqA8InBTWy2U9/DMbS8/sPnhSiiZNu3/qjUmF/wHA2LOq2CiupaAttLVkvT
+         AKr7YzWSf1TH79GfmFu2XBYBbqUM26ym25fBRdPtOhixlRzwJnNLvGzjDH27N3exJ1SH
+         vGFg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpo0kd6jPZePbHkcaJtj2YBIcBwv9MCCxvHcGLppiKKllaIqzN0EXAbxOHIw6AAMtgpX/l4LWd4hltOtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+jNMrO711ppWjNAVbszP5DA93zfxd2CYhiAmnU+phXhKpqhtq
+	UhYCKmmF6BQfCmKeC7M63q8OSHZSvv5uef7JGNogOkXbLrpGQtgzNxOW
+X-Gm-Gg: AfdE7ckzzYHZhzKUQZ5YRh5/hLBo+nRsHVKlnVYNcZPc1QCjYVf5zhfn5oagKKbdW2k
+	kcvlJCusUQr5XhZox0vLd7rQJ7crxQWEe3osRr8FGmhyBdUoLDvRqr3+ojfy8mz9dLGsOdjwptF
+	Xvf8ImdoI7b8MKIra8uuT06kMVT5lTLiq+re4gbLEwWv/xW8Q4sYQTlD45PuT1k95zwEoAdEKrx
+	wQXB1BFCUuJUoZzUQN3RYNSjSwU1I+51/oRcB76Nk/vDbCzdeVuIUqfRLTWBWkG3tUs211P8KEZ
+	she5J9lEjQ9eP0GRtkr4Gdql8pO0G+Tv5GW9qs2UUbtjY18ydjvmwMJlaVTuhdFsfIhkvOvixre
+	NrNURm05L3GOTImgFr/sxGf1F28XTTsiHWX186RnWKGKlHFufNaPwUkSArbOZRqKMl9V28WZxaG
+	e0KJod/eJM5mcgC+0=
+X-Received: by 2002:a05:6a20:12cf:b0:3b4:8f18:33a with SMTP id adf61e73a8af0-3c110762feamr9245794637.1.1783948833393;
+        Mon, 13 Jul 2026 06:20:33 -0700 (PDT)
+Received: from GordonMsi ([24.249.245.149])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659d8da9sm120679856c88.14.2026.07.13.06.20.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 05:47:25 -0700 (PDT)
-From: Bhargav Joshi <j.bhargav.u@gmail.com>
-Date: Mon, 13 Jul 2026 18:17:11 +0530
-Subject: [PATCH] ASoC: dt-bindings: ti,omap4-dmic: Convert to DT schema
+        Mon, 13 Jul 2026 06:20:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+From: "Gordon Chen" <chengordon326@gmail.com>
+To: "Zhang Heng" <zhangheng@kylinos.cn>, <perex@perex.cz>, 
+	<tiwai@suse.com>
+Cc: <kees@kernel.org>, <jussi@sonarnerd.net>, 
+	<hulianqin@vivo.com>, <i@rong.moe>, <g@b4.vu>, 
+	<cryolitia@uniontech.com>, <pav@iki.fi>, 
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio
+	 device
+In-Reply-To: <20260713081048.189281-1-zhangheng@kylinos.cn>
+References: <20260713081048.189281-1-zhangheng@kylinos.cn>
+Message-ID: <18c1dc0246121271.5ea4dc9a201e9dce.cafe1c196d712416@GordonMsi>
+Date: Mon, 13 Jul 2026 13:20:29 +0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260713-ti-omap4-dmic-v1-1-3cc6e13decec@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMAxA0atIZgMaaiheRRykRs1gK62IUHp3i
- +Mb/s+QJKokGJsMUR5NGnxF3zbgjsXvgrpWA3XEHRPhrRjO5TK4nuqQ2VhnWSzTALW5omz6/r9
- pLuUDliHJRF8AAAA=
-X-Change-ID: 20260622-ti-omap4-dmic-6648c86e8625
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, goledhruva@gmail.com, m-chawdhry@ti.com, 
- daniel.baluta@gmail.com, simona.toaca@nxp.com, j.bhargav.u@gmail.com
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783946841; l=3152;
- i=j.bhargav.u@gmail.com; h=from:subject:message-id;
- bh=0hUWPgChDdRqm6oNHr3kxUnu54j+aYaSO5M1ndyvYW8=;
- b=yEaAPm5zBg48bJCDHS8iLC6MWZfYw1cQ7W8YDmhU2xaDH2NN+TgX+pVTXjHOz4gjHYzzTxXSS
- WXGhorThiW3Dh6brTYOjEcjR/SOwO++WTmUn99oMl+I/k5GZ5oOfaxp
-X-Developer-Key: i=j.bhargav.u@gmail.com; a=ed25519;
- pk=IqNDwUZKECEA+n8wXctFLBbYL9NhFstZNbOznm/nX1k=
 
-Convert the TI OMAP4+ dmic bindings from txt to DT schema.
+On Mon, Jul 13, 2026 at 04:10:48PM +0800, Zhang Heng wrote:
+> +		/* Generic USB Audio (0x1e0b:d01e): use SIA for consistent scheduling */
+> +		if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e))
+> +			u->urb->transfer_flags |= URB_ISO_ASAP;
 
-Following changes are introduced during converson:
-  - Drop ti,hwmods property as it is not needed since the sysc
-    conversion no existing DTS uses it.
-  - Add dma, dma-names, reg-names properties to match the DTS.
-  - Update example node to match existing DTS.
+Not a maintainer, just a bystander who was Cc'd -- two small notes on the
+form of the patch, plus one question I can't answer myself.
 
-Signed-off-by: Bhargav Joshi <j.bhargav.u@gmail.com>
----
- .../devicetree/bindings/sound/omap-dmic.txt        | 20 --------
- .../devicetree/bindings/sound/ti,omap4-dmic.yaml   | 58 ++++++++++++++++++++++
- 2 files changed, 58 insertions(+), 20 deletions(-)
+A per-device usb_id comparison in the endpoint.c fast path seems like the
+kind of thing the quirk_flags_table in quirks.c exists to avoid. Would a
+QUIRK_FLAG_ISO_ASAP (set in the table, tested here as
+chip->quirk_flags & QUIRK_FLAG_ISO_ASAP) work for you? It keeps endpoint.c
+device-agnostic, and the next device with the same symptom becomes a
+one-line table entry rather than another if.
 
-diff --git a/Documentation/devicetree/bindings/sound/omap-dmic.txt b/Documentation/devicetree/bindings/sound/omap-dmic.txt
-deleted file mode 100644
-index 418e30e72e89..000000000000
---- a/Documentation/devicetree/bindings/sound/omap-dmic.txt
-+++ /dev/null
-@@ -1,20 +0,0 @@
--* Texas Instruments OMAP4+ Digital Microphone Module
--
--Required properties:
--- compatible: "ti,omap4-dmic"
--- reg: Register location and size as an array:
--       <MPU access base address, size>,
--       <L3 interconnect address, size>;
--- interrupts: Interrupt number for DMIC
--- ti,hwmods: Name of the hwmod associated with OMAP dmic IP
--
--Example:
--
--dmic: dmic@4012e000 {
--	compatible = "ti,omap4-dmic";
--	reg = <0x4012e000 0x7f>, /* MPU private access */
--	      <0x4902e000 0x7f>; /* L3 Interconnect */
--	interrupts = <0 114 0x4>;
--	interrupt-parent = <&gic>;
--	ti,hwmods = "dmic";
--};
-diff --git a/Documentation/devicetree/bindings/sound/ti,omap4-dmic.yaml b/Documentation/devicetree/bindings/sound/ti,omap4-dmic.yaml
-new file mode 100644
-index 000000000000..773b9bf2f1c2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,omap4-dmic.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,omap4-dmic.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments OMAP4+ Digital Microphone Module
-+
-+maintainers:
-+  - Peter Ujfalusi <peter.ujfalusi@ti.com>
-+
-+properties:
-+  compatible:
-+    const: ti,omap4-dmic
-+
-+  reg:
-+    items:
-+      - description: MPU access base address
-+      - description: L3 interconnect address
-+
-+  reg-names:
-+    items:
-+      - const: mpu
-+      - const: dma
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  dmas:
-+    maxItems: 1
-+
-+  dma-names:
-+    items:
-+      - const: up_link
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - dmas
-+  - dma-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    dmic@0 {
-+      compatible = "ti,omap4-dmic";
-+      reg = <0x0 0x7f>, /* MPU private access */
-+            <0x4902e000 0x7f>; /* L3 Interconnect */
-+      reg-names = "mpu", "dma";
-+      interrupts = <GIC_SPI 114 IRQ_TYPE_LEVEL_HIGH>;
-+      dmas = <&sdma 67>;
-+      dma-names = "up_link";
-+    };
+> +	if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e) &&
+> +	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+> +		ep->skip_packets = 4;
 
----
-base-commit: ef0c9f75a19532d7675384708fc8621e10850104
-change-id: 20260622-ti-omap4-dmic-6648c86e8625
+The block immediately above this one already does exactly
+"type == SND_USB_ENDPOINT_TYPE_SYNC -> skip_packets = 4"; adding the ID to
+that condition would avoid the duplicate if. Also, the changelog doesn't
+say what this hunk contributes on its own -- is URB_ISO_ASAP alone
+insufficient, and if so, what does skipping the first 4 sync packets fix
+that ASAP doesn't? Right now the two changes are indistinguishable in the
+commit message, and skip_packets = 4 reads as belt-and-braces.
 
-Best regards,
--- 
-Bhargav
+And the question. If xhci_get_isoc_frame_id() really does compute a
+stale Frame ID for TDs at index > 0 -- because the frame has advanced by
+the time validation runs -- then isn't that generic to any isoc URB with
+number_of_packets > 1, rather than specific to 1e0b:d01e? The index=0 TD
+gets clamped back into range, later TDs don't, and the endpoint ends up
+mixing explicit Frame IDs with SIA. Nothing in that description looks
+device-specific to me. If it is in fact generic, a per-device quirk in
+sound/usb papers over it for one device while every other multi-TD isoc
+consumer keeps hitting it -- and the fix would belong in xhci-ring.c.
 
+I'm not familiar enough with the xHCI scheduling side to say whether
+that's right, so it may be worth Cc'ing Mathias Nyman
+<mathias.nyman@linux.intel.com> to get a verdict before this is settled as
+a usb-audio quirk. If your device is the only one that turns the mixed
+scheduling into audible corruption, then the quirk is arguably the right
+scope after all -- but that reasoning should be in the changelog.
+
+One data point that cuts against my own question above: on an AMD xHCI
+here, streaming to a class-compliant USB audio device, I see no "beyond
+range" / "Ignore frame ID field" messages at all. If the index > 0
+staleness were unconditional I would expect to hit it too. So something
+about your device's packet layout or your host's timing is presumably
+what actually trips it -- which would make the device-specific scope
+defensible, but that is exactly the reasoning I would want to see spelled
+out in the changelog.
+
+Thanks,
+Gordon Chen
