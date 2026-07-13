@@ -1,49 +1,46 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6859B34BA28
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 17:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28ABC34D3A9
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 18:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783965317; cv=none; b=a3JkVw/nddNV4aj8J281GZ8rSSp7SrCBaSDr02M3Quu9fpmG8hfyMj76SMpWgpUdHiKzuQO6wo79g0Lx6yW5vYL7XSIIwcd/MPvw7c5BNpWxwGpVb3+lQbC2pRzrg1GDL3IMmLgsX7w06eGavJDlAip01XrblQ6aD4W0/xws7x0=
+	t=1783965789; cv=none; b=BmU50f9LBP6fayKVKakF3JoNvpyfeNArq5RprA10/TO8ktfjR4/Ap89H59mpIcF2snjpYhXn8R6TcCFfwxwiLb7j4gSgeL9dfg9FY3123Bw/Vy1XXbb+moBioYgNAHVLklRFNZYSC5GOw6pqvyRH1CK9a3smfb8B75yB0BMQ8Xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783965317; c=relaxed/simple;
-	bh=TPVgEZytTH06DWdMYlF+cD4KhwvKQTQNWNqkOewtAX8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vCU24fTsKUkIYSHWJOCZtaEYc6akenywGMCG6mOfL1eVVVIOj/Qny0UL1k6Nhaw85Q7fFgqUrB39kLAZQ1iReDx538GXy8sx9aTS5M+Na+DWKR4+/BpdEfglvzjLwaEe4JsbUsak+gZTuSNTOffd7zYUHeD7vCiBeIpgKKRA/0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hAmD1QKs; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1783965789; c=relaxed/simple;
+	bh=ouVwzUOX+9dgOZVEe5fHJI6vPN3m2tyLn6Rps4krpEk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jh5GUT9JMuGIY1KUbhPWcb27NQkL/2QvBOHKRP2aAoz9JIoSjQoD3M7/mOtg/CZUFC1nyH14/XB767EsMyNYQWCCOjh0hl1GYnrhkizXLAEZF5QPY+J1LEB2HWui/FlNdFR1sjH2PK/7biVLgKPNvYaDcf1DCoceNohBh7WRAzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bltnlb/b; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hAmD1QKs"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bltnlb/b"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=ePzvsVRatzWxP0bPU5Bk5zK1iUgrod3c3cdh7RrYZeE=; b=hAmD1QKsx2ubl3MHdzLrw+fp20
-	6yYaWVZ2GjwlsKZNZpUPy8XVO/294Ib4vMp24bcH5PRxtgN5zzQHFg17pWd84z/6SHCTKic+THexX
-	FoSzlhlqZ2rgPSFHNVIOTF5758TxGeBwvn10S5K6TA1f0sodlCAEG1kD9o95ngHbab0h26uAEu1w8
-	01RuAxZgkLEeKTbTuzWtbb6RKdHqqtYeyuj46oO4jL+27COPGijNMWKg2NWgXoPpVqcxKw8Pr93Sz
-	0zdGEy38zNiocPVgHM3bvJWiW/1exCSADz/RtlV+ISpGzCwoULiSFKg1ZtDD2kZYlZtVYYARpox7R
-	z6YUyMnA==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=XzlTJhm59v9Kev7MnaIFs+z9gdJyy10PBCaMlDAdt/M=; b=bltnlb/bQdc9IU7ARgVtgXjmtp
+	qV7p2O3fU2EzTvRCuW5Mgr5ewF5tgg2SA9VvgIlroNmuxXIjvLuENC2I5LeTYaQwbuIhM+Rv7LBm0
+	OAzL8Cgxp6WbOOoYAZfzGOS90O3r+GDqNzcj/fe/tBylZdyXBef+95TICuyOKi0dTSFPR2KetAUmv
+	g3dNIiq27djQBYw3lKrW3H+dQE2ktLvzLy3MUstz3/XSfvsvfBBrZClfNRpTwlvLKRDSLpSZo8A/8
+	z2rZM1titCLyiaKq60uGm6Ztu7kCFTaUhTcAhassi2mKgiCQbs7GHmE3ZWxiaz4LeZIGdLj9M93/5
+	lRzPUtzw==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjKs3-0000000A9bo-48SJ;
-	Mon, 13 Jul 2026 17:55:12 +0000
+	id 1wjKzi-0000000AAVv-1CQI;
+	Mon, 13 Jul 2026 18:03:06 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-sound@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	sound-open-firmware@alsa-project.org
-Subject: [PATCH 1/2] ASoC: SOF: don't use "/**" for non-kernel-doc comments
-Date: Mon, 13 Jul 2026 10:55:09 -0700
-Message-ID: <20260713175510.524728-1-rdunlap@infradead.org>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH 1/4] ALSA: ac97: use struct keyword for kernel-doc comments
+Date: Mon, 13 Jul 2026 11:03:00 -0700
+Message-ID: <20260713180303.526409-2-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260713180303.526409-1-rdunlap@infradead.org>
+References: <20260713180303.526409-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,45 +49,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Modify these errant comments to use "/*" since they are not kernel-doc
-comments.
+Inform kernel-doc that the comment block is for structs to void
+warnings:
 
-Warning: ../include/sound/sof/header.h:182 This comment starts with '/**', but isn't a kernel-doc comment.
- * OOPS header architecture specific data.
-Warning: ../include/sound/sof/header.h:190 This comment starts with '/**', but isn't a kernel-doc comment.
- * OOPS header platform specific data.
+Warning: include/sound/ac97/codec.h:46 cannot understand function prototype: 'struct ac97_codec_device'
+Warning: include/sound/ac97/codec.h:62 cannot understand function prototype: 'struct ac97_codec_driver'
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: sound-open-firmware@alsa-project.org
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
 
- include/sound/sof/header.h |    4 ++--
+ include/sound/ac97/codec.h |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
---- linext-2026-0710.orig/include/sound/sof/header.h
-+++ linext-2026-0710/include/sound/sof/header.h
-@@ -179,7 +179,7 @@ struct sof_ipc_compound_hdr {
- 	uint32_t count;		/**< count of 0 means end of compound sequence */
- }  __packed;
+--- linext-2026-0710.orig/include/sound/ac97/codec.h
++++ linext-2026-0710/include/sound/ac97/codec.h
+@@ -33,7 +33,7 @@ struct ac97_id {
+ };
  
--/**
-+/*
-  * OOPS header architecture specific data.
-  */
- struct sof_ipc_dsp_oops_arch_hdr {
-@@ -187,7 +187,7 @@ struct sof_ipc_dsp_oops_arch_hdr {
- 	uint32_t totalsize;	/* Total size of oops message */
- }  __packed;
+ /**
+- * ac97_codec_device - a ac97 codec
++ * struct ac97_codec_device - a ac97 codec
+  * @dev: the core device
+  * @vendor_id: the vendor_id of the codec, as sensed on the AC-link
+  * @num: the codec number, 0 is primary, 1 is first slave, etc ...
+@@ -53,7 +53,7 @@ struct ac97_codec_device {
+ };
  
--/**
-+/*
-  * OOPS header platform specific data.
-  */
- struct sof_ipc_dsp_oops_plat_hdr {
+ /**
+- * ac97_codec_driver - a ac97 codec driver
++ * struct ac97_codec_driver - a ac97 codec driver
+  * @driver: the device driver structure
+  * @probe: the function called when a ac97_codec_device is matched
+  * @remove: the function called when the device is unbound/removed
