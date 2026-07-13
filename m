@@ -1,207 +1,144 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DC229ACDD
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 02:08:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783908540; cv=none; b=Fgt67Xj/54UkVLGmQnCO0DpqjtMXC3lpDxucCt4/A1PaMFRC8XfjgFMq0vGanAY1dlc/eHs/IkwzOU+Yo1ne4pv+6r863mAMqAYjS6mmKL7HrTQzbHyS/lpeqsX3ZmxAqnchpVQiixQz81hWRlu4df7xzKoedtADgLM8gOOsHFc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783908540; c=relaxed/simple;
-	bh=Do9LmMhnLtZw65zDzHqJ5WhnlKIc2TDahxJpnIp62CY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fMI9Jz7SF5+AV1SmB0+H2tsGPWshFYGauNWWOf3+QKtXqr2ew6g75b1eDHUIlGrY1fErPUqFMApjXilgz1wYlpe9pnRqV973hQKSVZnWrfynoC9WsPHS5FDa69R0oHzXQvaBRaxswvmQSGf7AO0y5m5FeNc+XGM/08UxeLeR+KI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=sOPSv9Gk; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A3E2EB5B8
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 02:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783909588; cv=pass; b=rvKNSs+CJZXu84AxWa1RottEr2+MH9VvxnM16YJdptqEH5BlRJl+GlJUSv6xw27Sq0s8b6hvR/g58C328ljBteHlx/SaJ40K/9BL3S1VaJoyjdfhGoFoEs5CFoR8WxaxQWhpAFJcm1ak7S9kGG8EXly6154c/d4svhQQq+0FqaM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783909588; c=relaxed/simple;
+	bh=2vB+uhwFIY8gMPcGZcmqL/ngXLkazwzz1dcL9UAOl3k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NS3mEXoZoN+NL+ZVqrvU8q1dq1G/qrzDzKTXkPFlY59g2Cij0/ZcoCwzV9U7w09tnEm9o3TOt0VhioRay7MIBG3yiAdj/8jQZH7ozwWVe1MBHC5hF9lILiZkHubzmzd11Rzg5O74d2K8MIp4Kh/9T/rtZdS0K240gFfmNQBbodw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MEJWx1BY; arc=pass smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="sOPSv9Gk"
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 27E753F0B5
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 02:08:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1783908529;
-	bh=7lePleqyVN1zFZN0zuRgl3DYBgz7Zjmg7e9eYUsK1Bs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
-	b=sOPSv9Gkyj0wOWWi+dbIe7aaj8sxUD4R2kMxMr8aNb1Nh2ZZti39oJ1rLpZSVLDRz
-	 h8mV6fFs02nx/lG6JBjXz91FcoTjCk0T0x9Fn/kZaOvqkf6t3GJniRW7WKZFjY4Cbl
-	 C+OydaZ7AilfIerd68r6lAqs8UNO76V1j55XXjHs73H57bERAWO2pXOVRUatexggqS
-	 pSkboM7tVRDXX5KKsd/AQrffTZvUqZxTYQg5NeM6ugqHqj+gjKzQ8zec3qWTw2C47B
-	 ZBGdDvQNx01Bkz7Tc9FHRl6VT5DLFLB1545W1d+Tg77FIXFzzmUQMoDmweubnZs0yL
-	 EfA3KtDWi1OdVFIxdZMqvEtWDiwmIIIm2XLvZ4hb6sWY7nib3tZKPRsJEh9HrtpsXW
-	 IbROjnb8tkaZQKZ273qeDPGWIYRRU1cw+lYoqslbnfdeIY48FHh6kjClyKC1hnoBEq
-	 XZrtat7kzdCa1fZzTQ5eaGN70Vr208AF+BU75A5ibEtuu4tPneHe4KE3qLKy9IgVLN
-	 gusbfchmZWuYpERvCiQxKJd72NF7jMFKI9SCmnmn5j4EOP9POxP67JS43WchIOPFWL
-	 UQpDy1A3bD6WXULqL6lMbNm79fJRC4qHEKwveyb65oDQznDD5x1KcS2gkqorfiJKXk
-	 gXv6+FHvo9/Ryts9mLiIYhek=
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cc7e86e7c5so52865125ad.3
-        for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 19:08:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEJWx1BY"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c7cfa17fedso37378105ad.3
+        for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 19:26:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783909586; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LmTMsZIe37zGySwmay2EZTHYinaNLbbGzErWKMJMNkWTXg8YfvN84V4kNxlTxKZskV
+         +aK0uGOgiAK2Qq0HMalf0Zhks/F8ROAcD7zjCwkvVKoXIKfi3qmcWsTxR+dCQACrXhtJ
+         z1V3yi78tpH8Hno43S9aAurXpn/FjDhJ/G4Vx0q20//YP7GewfQP2ORzpK/wGOLzI8PX
+         A9ISmphUsMYt0Fi9+GZyZ9P1xjgSVoZoabywYwN3Xc8x+cwYclPO16SQ3AI+P3lmLWAi
+         Rq2dcZtgcj6dzBuPhIUxV+yH/9JKVvANM+SeUQ1bBvN5nc+10PFkRMfe5vr1OY9YWePl
+         vWTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Ei7lzooVNqPcmPvnGQUWAzZynen8CdGkVpkx9IfRm2g=;
+        fh=105oUpXhFMgz4geLse5Ll3z4bJ630iwIauePmftAxEo=;
+        b=iUHWmTQusvoy11iNvc5/Mufj5Py8mXW3rsLKU9UJteicYcUyE/gyZFN2nQYbGMRpNz
+         1cPd8Wo0QLMPg03muN6XMJEcSu/K/47XnNEXpT1REUlDUtoWSJk2rTwGt93+v+XlDk9W
+         F/YdsH7eBrhfI1Kj390+OFpWs08oLtdCM/sKes+a89wTyilPSw9urcIkVHW+ZBr2xuB5
+         agh6U7NmGRJE7jWYX80HaCWDqVAW87l50ngtEvFu1Agj/WK36ca/UasXFBT94RDrQvrt
+         OEbjl6v3EA+SKqI9+67Sa27l7oxvwp54ptePoNi+I5Bf0YeCIyCnG/mpAYGp0uvkrGuK
+         nO6Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783909586; x=1784514386; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Ei7lzooVNqPcmPvnGQUWAzZynen8CdGkVpkx9IfRm2g=;
+        b=MEJWx1BYAAU6IPK72aJg9fQ+Vu0P9xWBzhLndGfqra3sgzedHSVHhkLuib8Ohfr8IY
+         WE8oi0OvcLAr1VG77cgaF8rXcziXB2lhv09JiMV0bnhXNdbuDb6KLxexQzlvX2XN5qRC
+         nBnpbHM5gN5wGRLtApHX9L/FB50ix9rnS3b0h7AnWj2K/JAFDtOUvioqaaas0g+HMRQw
+         kxrVt1eUWLM36E1QutLQ37PU5SRJib3us5wzSk+yi8mM3xlQsdfvfQC/mdmKBmG/v6mD
+         2mAibClTDMSEURw3kF4v8aKRS0HXzdQwz3E/EdKQPrMu7UbCKGyZriSJDcAhy9xtOJuF
+         Hxhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783908527; x=1784513327;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7lePleqyVN1zFZN0zuRgl3DYBgz7Zjmg7e9eYUsK1Bs=;
-        b=p31JdP3tGWVlIXsm5QzKyauZXfIMnXECxyEFPNY52+JOr4JD3CVkLDN4f4ieJJR/Zl
-         4OF3tumphq+7/5eZPfvWeEoRN+az1H89yrTHFh9IjbnI/7D3OSx7LO5VwaNT+PqkhiV9
-         cVaNdpeigp3zCsCOeAlAm02nvCEBPwkV+OtlufIExoWCiZsi6FNk3EVbFJ5YTxbRVaDS
-         zOL6H4c1NDHHtT2y4rDd7KCRPrAkTROX6Eq9ArVmG9TC6Ixe+YcQvmQ98HkSGWm1US1+
-         0zZr3ZCVO+CI3mUJvN9AOJ6JX0x5bZ/+bjl6vPizoScFrwu6Ika3oCxhEscfVGxgB+Cz
-         Y8Wg==
-X-Gm-Message-State: AOJu0YxzQOcobiqsUBSRfBIi7rHLEG1yWXWol5e2iid3q3cxLQfrFHro
-	AZ4v13/hBoAii/zTZ5jMi/FpFQhpYWcxjydfOq0QZgGOwMbM4Ad3Byj1fUpJfwOucb3t2pmdR8j
-	iJORyFe3lrZ96V+BF6Au223732vjXF3K7rVgMcwVSEPSDzNwpsc+nzBOQBBTmOBwe7YTIPqtfTg
-	a1tPVs
-X-Gm-Gg: AfdE7ckNXivr7d1Tng2st5QCHJOuV//sz1nVJHXrysCkyCTQjjWY9E+1viT9u30y6ar
-	GfdKKf/2NeMh+EILMyhLwkoM/e33oitFG9h5NdEyPiHWcwK7CO6fECOG2QrVASDj8WfZBV80o2R
-	Z0BsteEfYLlbjScAhGucCSIuux2Yv4SmZnKDSHe4/5cZ7GW5HMxsgfq6nYNN0ZI/63QtaHq0WHF
-	iAabDAY6FWY2lScwRO6vj65OxyZL+TRWPsS10hDzgm6WJOKcAFMpjWwSFDkDN7EG5NSV2EjPYHx
-	FGAOv3yJGZpFgKgjt0D2RO6XypxF3J67gfmHocXGfoLVxzyYvuJl1vvB5JOP1SEtBekqNaWJp5r
-	udGZzW8GcAZs1jat8W/YAJHU/t+ePqCEl1xEY1tjUfgx9oJUBjXDPbQ==
-X-Received: by 2002:a17:903:3d0d:b0:2bd:5ab:af95 with SMTP id d9443c01a7336-2ce9e1df6c8mr71214245ad.0.1783908527573;
-        Sun, 12 Jul 2026 19:08:47 -0700 (PDT)
-X-Received: by 2002:a17:903:3d0d:b0:2bd:5ab:af95 with SMTP id d9443c01a7336-2ce9e1df6c8mr71214055ad.0.1783908527219;
-        Sun, 12 Jul 2026 19:08:47 -0700 (PDT)
-Received: from localhost.. (118-163-61-247.hinet-ip.hinet.net. [118.163.61.247])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d602fdsm90330825ad.81.2026.07.12.19.08.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 19:08:46 -0700 (PDT)
-From: Chris Chiu <chris.chiu@canonical.com>
-To: tiwai@suse.com,
-	kailang@realtek.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH v2] ALSA: hda/realtek: Add inverted LED quirk for HP ZBook 8 G2a
-Date: Mon, 13 Jul 2026 10:08:39 +0800
-Message-ID: <20260713020839.3822602-1-chris.chiu@canonical.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1783909586; x=1784514386;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Ei7lzooVNqPcmPvnGQUWAzZynen8CdGkVpkx9IfRm2g=;
+        b=HXbSdYzhxvhRKIZxgfCxu+uBRPhOBc24wlsbUh/QqEioQvZvD8dzWnknxdOyKTPu7M
+         IoJc77AGhLaCyz5x/jed5bhw0hPfVLHz6bGXh8jrxsuEkjIdp5KFWbstCevCMf2/Cbwk
+         BCvzsdgUHh9SX7iIub8VZ+u6SW+bUgoZD4LP2OGwUPcX886+BQcH6W/5QlxZuWzGVCMO
+         OSvm06AX9Vrtt8vLBXLscK+qeWiRa6K9cgiXVJwOTxdkVAQ7C+V8NCERVklM8kxrGPHb
+         X2r6cE1y19QR263W6JzNdo87A+oettswI47dsqM7upBLfPObOTharXKc6swVHP9cXY1z
+         QSzQ==
+X-Forwarded-Encrypted: i=1; AHgh+Romnh0auDtmE9BNJuG8WXIo/MDlBFkxOMbNbMB+G0GYKccR6XMAzUNxmNmFTRpGn4Sr1l/wBzEdAvrHJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yze2G710nB380GbakRTfHWGEmmehKHNAlBB9JjewMTkUE4q+PvP
+	wQZPWCTTKDlSuumUUDbQbsIlBHP1Q+d588PtQOKO8GoJnME4DaZ58RdzQVaYRo//ByGPHhFjZaL
+	6HGECdQe8dAiCTZ5mf9c3G2alRrEIA3M=
+X-Gm-Gg: AfdE7ckUSvvjuQoXXNit5e23h0BDzd9hOoDvqOif9rl7SADejpG/r0DF8qBQ1eUaLwb
+	TKNX2mqVsR2wfTi1NvlGBNWJJl7pgJuNRxNRWTNgX/v2VOZMTvPdX2zGGAG0NEgVclGCA4kId9A
+	hXgoZqwnQO88hW5ncgg6FpNI3pSx5xwPzomgzi++7XTmxkt0XlFKInMKdLaZbWO8X18p5n3uPO/
+	avVwr16lWgU4K/HQfLrJ8+1UIi7sqJeUn14ylYYYXw8NlqhTBg+D8qZJ21SUfmNVAOhG6EMujXJ
+	VlSnPCJnweJ2N46ga2QcLhpFmHMN5/jRx9bH2w==
+X-Received: by 2002:a17:902:fc8f:b0:2c9:97a8:afe5 with SMTP id
+ d9443c01a7336-2ce9f27e6dbmr67887935ad.40.1783909586414; Sun, 12 Jul 2026
+ 19:26:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260709045902.498848-1-phucduc.bui@gmail.com>
+ <20260710050511.14439-1-phucduc.bui@gmail.com> <20260710050511.14439-23-phucduc.bui@gmail.com>
+ <95f5d6ec-ecc5-4090-ac04-27cdcdc21b8a@sirena.org.uk> <CAABR9nHUc3KvC4t=hJ9osyw93aXa+kEL07G1posnYJdLvjHEkA@mail.gmail.com>
+ <CAABR9nEQWYzvxDduP=+9qYEJNzXVbu587Aq9eGR7Tyo-K-u1GQ@mail.gmail.com> <CAABR9nHKCYvev=owQVw2sisGRiQPc5gFcW8d2O3RvhsRn_Sr+w@mail.gmail.com>
+In-Reply-To: <CAABR9nHKCYvev=owQVw2sisGRiQPc5gFcW8d2O3RvhsRn_Sr+w@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Mon, 13 Jul 2026 09:26:14 +0700
+X-Gm-Features: AVVi8CcDb4bcqHg1Mp91TuPyHToFqGPv1UxLDhLLf3L4cwg_2AzYrLa7QzDha2M
+Message-ID: <CAABR9nFwGjed9SOUZwuPNu58KPQD-aWnCKj7YTTM8LdF9dig-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 25/27] ASoC: codecs: rt712: Use guard() for mutex locks
+To: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.com>, Nick Li <nick.li@foursemi.com>, 
+	Herve Codina <herve.codina@bootlin.com>, 
+	Support Opensource <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Srinivas Kandagatla <srini@kernel.org>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
+	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, Linus Walleij <linusw@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, u.kleine-koenig@baylibre.com, 
+	Zhang Yi <zhangyi@everest-semi.com>, Marco Crivellari <marco.crivellari@suse.com>, 
+	Kees Cook <kees@kernel.org>, HyeongJun An <sammiee5311@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Qianfeng Rong <rongqianfeng@vivo.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-HP ZBook 8 G2a 14 and 16 (SSIDs 0x103c:0x8f94, 0x103c:0x8f95) use
-Realtek ALC245 codec with TAS2781 amplifier via I2C. These models
-require inverted speaker mute LED handling compared to the existing
-ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED quirk.
+Another point is: when should regcache_sync() be considered to have failed?
 
-The existing quirk produces opposite LED behavior: when speaker is
-muted, the LED turns off (should be on), and when unmuted, the LED
-turns on (should be off). This patch adds a dedicated quirk that
-properly handles the inverted LED polarity.
+From my understanding, if patch application or cache synchronization fails
+before reaching the out: label, then regcache_sync() has already failed and
+should return that error.
+However, the function currently uses a single ret variable throughout
+the entire flow.
+To make the failure semantics clearer, I'm planning to submit the
+following follow-up patch.
+I'd appreciate any feedback.
 
-Code flow explanation:
-- With HP pin (hp_pin != 0): Uses standard HDA LED framework via
-  alc245_fixup_hp_mute_led_coefbit() for full control interface
-  support, enabling both manual control and direct hardware updates.
-  
-- Without HP pin (hp_pin == 0, speaker-only laptops): Registers
-  direct vmaster_mute hook (alc245_hp_spk_mute_led_update_inverted)
-  to control LED during mute operations, ensuring LED feedback
-  without headphone jack detection capability.
+------------------
+int paging_ret = 0;
+ /* ... */
+  out:
+/* ... */
 
-Both paths use inverted LED update logic to correct polarity and
-maintain backward compatibility with existing systems.
+paging_ret = _regmap_write(map, this->selector_reg, i);
+if (paging_ret) {
+        dev_err(...);
+        map->cache_dirty = true;
+        break;
+}
+/* ... */
+return ret ? ret : paging_ret;
+-------------------
 
-Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
----
- sound/hda/codecs/realtek/alc269.c | 56 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+This preserves any error that occurred before out: while also
+reporting errors that occur after out:.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index b26ed9c1f09f..e04b5adce075a 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3776,6 +3776,15 @@ static void alc245_hp_spk_mute_led_update(void *private_data, int enabled)
- 	alc_update_coef_idx(codec, 0x0b, 0x0c, val);
- }
- 
-+static void alc245_hp_spk_mute_led_update_inverted(void *private_data, int enabled)
-+{
-+	struct hda_codec *codec = private_data;
-+	unsigned int val;
-+
-+	val = enabled ? 0x04 : 0x08;	/* inverted: 0x04 off, 0x08 on */
-+	alc_update_coef_idx(codec, 0x0b, 0x0c, val);
-+}
-+
- /* JD2: mute led GPIO3: micmute led */
- static void alc245_tas2781_i2c_hp_fixup_muteled(struct hda_codec *codec,
- 					 const struct hda_fixup *fix, int action)
-@@ -3804,6 +3813,42 @@ static void alc245_tas2781_i2c_hp_fixup_muteled(struct hda_codec *codec,
- 		alc245_fixup_hp_mute_led_coefbit(codec, fix, action);
- 	alc285_fixup_hp_coef_micmute_led(codec, fix, action);
- }
-+
-+/* Inverted LED version for HP ZBook 8 G2a models (SSIDs 0x8f94, 0x8f95)
-+ * This fixup handles systems where the speaker mute LED polarity is reversed
-+/* Inverted LED quirk for HP ZBook 8 G2a (SSIDs 0x8f94, 0x8f95)
-+ * Speaker mute LED polarity is reversed vs standard behavior.
-+ * Code flow depends on HP pin detection availability:
-+ * - With HP pin: Uses HDA LED framework for full control support
-+ * - Without HP pin: Registers vmaster_mute hook for direct control
-+ */
-+static void alc245_tas2781_i2c_hp_fixup_muteled_inverted(struct hda_codec *codec,
-+const struct hda_fixup *fix, int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+	hda_nid_t hp_pin = alc_get_hp_pin(spec);
-+	static const hda_nid_t conn[] = { 0x02 };
-+
-+	switch (action) {
-+	case HDA_FIXUP_ACT_PRE_PROBE:
-+		if (!hp_pin) {
-+			/* Speaker-only config without HP pin detection */
-+			spec->gen.vmaster_mute.hook = alc245_hp_spk_mute_led_update_inverted;
-+			spec->gen.vmaster_mute_led = 1;
-+		}
-+		spec->gen.auto_mute_via_amp = 1;
-+		snd_hda_override_conn_list(codec, 0x17, ARRAY_SIZE(conn), conn);
-+		break;
-+	case HDA_FIXUP_ACT_INIT:
-+		if (!hp_pin)
-+			alc245_hp_spk_mute_led_update_inverted(codec, !spec->gen.master_mute);
-+		break;
-+	}
-+
-+	tas2781_fixup_txnw_i2c(codec, fix, action);
-+	if (hp_pin)
-+		alc245_fixup_hp_mute_led_coefbit(codec, fix, action);
-+	alc285_fixup_hp_coef_micmute_led(codec, fix, action);
-+}
- /*
-  * Clear COEF 0x0d (PCBEEP passthrough) bit 0x40 where BIOS sets it wrongly
-  * at PM resume
-@@ -4164,6 +4209,7 @@ enum {
- 	ALC256_FIXUP_VAIO_RPL_MIC_NO_PRESENCE,
- 	ALC245_FIXUP_HP_TAS2781_SPI_MUTE_LED,
- 	ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED,
-+	ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED,
- 	ALC288_FIXUP_SURFACE_SWAP_DACS,
- 	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO,
- 	ALC233_FIXUP_LENOVO_GPIO2_MIC_HOTKEY,
-@@ -4481,6 +4527,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_before = true,
- 		.chain_to = ALC269_FIXUP_HEADSET_MIC,
-+	},
-+	[ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc245_tas2781_i2c_hp_fixup_muteled_inverted,
- 	},
- 	[ALC288_FIXUP_SURFACE_SWAP_DACS] = {
- 		.type = HDA_FIXUP_FUNC,
-@@ -4785,6 +4835,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8e86, "HP", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ec0, "HP", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8f94, "HP", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
-+	SND_PCI_QUIRK(0x103c, 0x8f95, "HP", ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED_INVERTED),
- 	SND_PCI_QUIRK(0x103c, 0x91c6, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_GPIO),
- 	SND_PCI_QUIRK(0x103c, 0x221c, "HP", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x1043, 0x1080, "ASUS K53UT", ALC269_FIXUP_SSID_IGNORED),
+Best regards.
+Phuc
