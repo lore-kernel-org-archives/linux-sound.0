@@ -1,96 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7A034A3BF
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 17:33:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EC832FA2C;
+	Mon, 13 Jul 2026 17:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783963997; cv=none; b=l66q85YtSGKsr6txsis2BSAIpDWemoYyii2t36JoXyGmRDxMW19IREIsO7WgP2ZT0GavBGqlP6ewzcfzNeDBbFdMJEomWkN1NZL+k5/rmkMUNqZH44Ayy3Ba9Rofuw4LziItjOK+s/DVxJMWrjBRbgdc8huTP5irSUuLpiFY4Cs=
+	t=1783964999; cv=none; b=n3h6jn4pIggygWDC8hBdvZSscSsO/D1bVgx4XcD3vNZTSScP00KUIheYfF9PzomwMlOlpJgoHmw2rLV2R5PmMKS+l8Tk8FNCQKIQxql5pDMBK+mdkhbHrcf88kpIoYAvzB/05V2wLfMsTq40asDnyjLl2lnQakrJcSradvslfu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783963997; c=relaxed/simple;
-	bh=NSQlJSEsN34YS58KS3YVh19IkLjK3UDGpUPMJhg+2Tw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FEFVvhqsXWU3SGgyOQf9XtrQiUzvthKRLtGh0I7hIrYQJ0bFWpu0Uc8UYyp1whx2feGQTUamFhLVOwBEZwFAVYlSHWgK9utKnrV1efGy01g01B79WGaK2gAjo548SnaY31Fmxydf0t84HjeI4XzikiLWu7iqogxV5aiRlhFyNdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HYZabEe9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783964999; c=relaxed/simple;
+	bh=EdBCH5dd+Q2QtgXmbzmLCph1xdgtSkuOxy/KJSgUQGs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=sLk8/AFnuEObnI2Je7Pn5Ja9IUksP3V1TVM1qN19dZmkUze+MMMY285ePCbalFVL1T/ToySiz3/0KMTg5q0xt0zY8GqfTb7I59nDsSVr9JzkVZyDPPdIf9nFckssruUruST2PniuNvpKNrtkuIh0zNk3g+dmiQHVuI9bpc4sBXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oeIkudY2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HYZabEe9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C1001F000E9;
-	Mon, 13 Jul 2026 17:33:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oeIkudY2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92DDC1F00A3D;
+	Mon, 13 Jul 2026 17:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783963995;
-	bh=v7NfFVNpfsASCvQc21abWWSPiT5FanHJqZiJk2EBW5g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HYZabEe9IJupRu1V95R80pq16Lc7lXedfBv/aYWMmA1n0M7I6AnMZ9F6HJiTGdDPf
-	 uAsJC0chvRtyQjGv7qgtd571tIMrx7D++6wX3bu4yyKFqFywPOTUKvWzbdHo9a21Ak
-	 4grHwOYwZDwL6whyp20Q0BCsuKg3oqJtEddwQ8Q2A00l1NuhbIWWCpPAnShgeb//LY
-	 IWzC4oT2D9ueBVctccq+ohVjMNnLx1oEvV2FbZveQ3ZT7cBHrNRlBllSuhGxh1wAd+
-	 4p/47aZkiuNw8T9MATQxXEkavw5QtbaHD1h8zWJJuNyDBwz8bzRCXqEk0vxqx4/46I
-	 Q2hO4PgCOwjbQ==
-Date: Mon, 13 Jul 2026 18:33:11 +0100
+	s=k20260515; t=1783964998;
+	bh=Fa5TT7A7iaJiXQk7cDzWrcccsXQ1AmFPBgeZw6vo3Kk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=oeIkudY260diCJSQ180U3sbXGFrYTgvquUEo6c6E/H5baUd2zX92IrLkpo4+SULPl
+	 RQftAWQ8Vq0q8ky7aeRmdmFsEH35aZhNCNrxCFI1oc+/yeaS0HLDquqwzlwpY9RIcp
+	 RZKPh8k3aQ0vPV5NouggYU5pzaVayKPiL5oUNOcYXPQETEjtibfQjCnbR2lt/MRRKe
+	 bBHMdKdktAyat2GOhy8nd/UOh/vlHOXrukIDYzUrcB88nlhqShh5645CCPg95Mx91G
+	 egnpM09lxCOH0nFpNrax0dgQV9V13NeepmTxbP+qGioOLYhZrgtkrwfLTdRMFDhUIQ
+	 eK06G+RQ5K45Q==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-	=?utf-8?B?Ik1hcnRpbiBQb3ZpxaFlciI=?= <povik+lin@cutebit.org>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/5] ASoC: apple: use .auto_selectable_formats
-Message-ID: <9b2ce09d-45cf-4277-bcac-72cae66f8216@sirena.org.uk>
-References: <87pl0r20qo.wl-kuninori.morimoto.gx@renesas.com>
- <87o6gb20py.wl-kuninori.morimoto.gx@renesas.com>
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+In-Reply-To: <20260711-apple-audio-redux-v4-0-2994d87c2f24@gmail.com>
+References: <20260711-apple-audio-redux-v4-0-2994d87c2f24@gmail.com>
+Subject: Re: [PATCH v4 0/7] ASoC: apple: mca: support simultaneous I2S
+ capture on the frontend
+Message-Id: <178394656784.7914.15876722756156903983.b4-ty@b4>
+Date: Mon, 13 Jul 2026 13:42:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IS+qv+TJ3xRDqCtY"
-Content-Disposition: inline
-In-Reply-To: <87o6gb20py.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: Courage is grace under pressure.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2172; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=EdBCH5dd+Q2QtgXmbzmLCph1xdgtSkuOxy/KJSgUQGs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVSVDhdOgL1wxEVz/vduoL+nULsCHvqWT4NC3F
+ Ll3ZKq/FrOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalUlQwAKCRAk1otyXVSH
+ 0NLpB/4n4YUXqH3WNvZCBAANZopBaFRX/qJmaFsvGxs5hVjQ0KK6cegVA/tOVRZNL54PPbjoz/s
+ qdE7Z39jBXi/X0O+xuXPje5uXGjvxIZ4fTAEw2dYm4lofbdK9EC/Ce0wJMXs9DXutHyFaBtrq5g
+ yoLQ+NdWdk5Gdhh+zqO3M+9qnoHqvDNbkvpo7JbEpJQX9X2EWNwb08YqvEDziT9Cl8fgVn4Xz8f
+ ZwePfHlAk897lQtr4y784c1eE6aK4nzth7xehIkMAMNZsKPBprUsePDBcssJGuzuIfGav4IqQ2+
+ uQV78Kni1tzgSIVhUAcemYLHZNi1QTrKOnEg6pkrt4FQev24
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sat, 11 Jul 2026 11:11:18 +1000, James Calligeros wrote:
+> ASoC: apple: mca: support simultaneous I2S capture on the frontend
+> 
+> Hi folks,
+> 
+> This series introduces a number of changes to the ASoC driver
+> for the Apple MCA peripheral to enable support for bidirectional
+> I2S. This is achieved by allowing frontends to act as clock consumers
+> and logically ORing data input lines when multiple backends are linked
+> to a frontend.
+> 
+> [...]
 
---IS+qv+TJ3xRDqCtY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Jul 13, 2026 at 12:27:05AM +0000, Kuninori Morimoto wrote:
-> We can use .auto_selectable_formats. Let's adds it.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-> +static const u64 mca_fe_selectable_formats =
-> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-> +
->  static const struct snd_soc_dai_ops mca_fe_ops = {
->  	.startup = mca_fe_startup,
->  	.set_fmt = mca_fe_set_fmt,
-> @@ -706,6 +714,8 @@ static const struct snd_soc_dai_ops mca_fe_ops = {
->  	.set_tdm_slot = mca_fe_set_tdm_slot,
->  	.hw_params = mca_fe_hw_params,
->  	.trigger = mca_fe_trigger,
-> +	.auto_selectable_formats = &mca_fe_selectable_formats,
-> +	.num_auto_selectable_formats = 1,
+Thanks!
 
-Not all combinations are valid here, should we have separate formats for
-_I2S and _LEFT_J cases with the appropriate clock polarity settings so
-we don't autoselect something that doesn't work?
+[1/7] ASoC: apple: mca: increase SERDES reset delay
+      https://git.kernel.org/broonie/sound/c/cccd721e5aab
+[2/7] ASoC: apple: mca: Separate data & clock port setup
+      https://git.kernel.org/broonie/sound/c/108d4b654d82
+[3/7] ASoC: apple: mca: Factor out mca_be_get_fe
+      https://git.kernel.org/broonie/sound/c/2aab6230f8d8
+[4/7] ASoC: apple: mca: Support FEs being clock consumers
+      https://git.kernel.org/broonie/sound/c/00309bfb1f54
+[5/7] ASoC: apple: mca: Support capture on multiples BEs
+      https://git.kernel.org/broonie/sound/c/108a14b20f95
+[6/7] ASoC: apple: mca: Do not mark clocks in use for non-providers
+      https://git.kernel.org/broonie/sound/c/889c26cfb98d
+[7/7] ASoC: apple: mca: Add delay after configuring clock
+      https://git.kernel.org/broonie/sound/c/8dd595bca51a
 
---IS+qv+TJ3xRDqCtY
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpVIVcACgkQJNaLcl1U
-h9BClwgAhcyy6OODpQImHwsrpZPcoqlnAwDZVQVbrMzLIAEdktJJ5oni1hkcvcRc
-iz8CuWPQBtHKvFjVFnbloQsd507XOFYnHy88cG+ltgkZgWE1AsdjQwQFe+dpBhZk
-ooy+wspJFZdWVT2appEf2iLGK2Jz4u2s/g6D+M0W3Ergn/Xp+Z20pcu4HO2b6GLX
-lv2lZZ+RQZzkixt/TP2fUtVU+EvePTQdQp/U6NkEcF+j9Ya5EfU8KTfTOYSZ1nrB
-0uVwIj4+P4ADCGVBDQZd9tCOMHt5LptpOJ9+Qh/rLel7ueZCwSf75j9kDtC0hAxC
-Q2J0OETAJuSJ2QsPJlphQ8iwVvRjmg==
-=p1XK
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---IS+qv+TJ3xRDqCtY--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
