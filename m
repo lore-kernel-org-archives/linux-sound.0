@@ -1,144 +1,200 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A3E2EB5B8
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 02:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1102773F9
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 03:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783909588; cv=pass; b=rvKNSs+CJZXu84AxWa1RottEr2+MH9VvxnM16YJdptqEH5BlRJl+GlJUSv6xw27Sq0s8b6hvR/g58C328ljBteHlx/SaJ40K/9BL3S1VaJoyjdfhGoFoEs5CFoR8WxaxQWhpAFJcm1ak7S9kGG8EXly6154c/d4svhQQq+0FqaM=
+	t=1783912917; cv=pass; b=NKYOW+oX0k7XlUN1jfrPBdsUsk050zOWJH43uep075lAwkSDzkraa85/gW9VCGrFOspryfmEaMj6q1wAxqu2KJFeOvRUHz9lRqmzzaWTzU6NhmAV1XdcMg0UGk6B41AkuKAWWvoeOkIm1Pip7zSIjgIUYdMFPdWlBo1MOVmsHBg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783909588; c=relaxed/simple;
-	bh=2vB+uhwFIY8gMPcGZcmqL/ngXLkazwzz1dcL9UAOl3k=;
+	s=arc-20240116; t=1783912917; c=relaxed/simple;
+	bh=UIGqGtglHC59Nxfx1FhvxXxMc/luGIbaIGQycR2kNBw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NS3mEXoZoN+NL+ZVqrvU8q1dq1G/qrzDzKTXkPFlY59g2Cij0/ZcoCwzV9U7w09tnEm9o3TOt0VhioRay7MIBG3yiAdj/8jQZH7ozwWVe1MBHC5hF9lILiZkHubzmzd11Rzg5O74d2K8MIp4Kh/9T/rtZdS0K240gFfmNQBbodw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MEJWx1BY; arc=pass smtp.client-ip=209.85.214.177
+	 To:Cc:Content-Type; b=SMF91q4H0Z+H323AVyz9NqBrROK8Bdx+UBuWF0xFBIPEc2o+PRhmgR3EUIHw5OfrZ6pALeqMbvfk0QkRNJbYK9dkFTobXE/zRRrBGiH+xro9GMrl32PSQQAybj6SOApEJzdvr5rNlx+gd17VLPQeGhOiS/RQTtt3cQQ8YtXmTJk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2Yd3lsW; arc=pass smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEJWx1BY"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c7cfa17fedso37378105ad.3
-        for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 19:26:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783909586; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2Yd3lsW"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ceaf8a1265so12140115ad.2
+        for <linux-sound@vger.kernel.org>; Sun, 12 Jul 2026 20:21:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783912915; cv=none;
         d=google.com; s=arc-20260327;
-        b=LmTMsZIe37zGySwmay2EZTHYinaNLbbGzErWKMJMNkWTXg8YfvN84V4kNxlTxKZskV
-         +aK0uGOgiAK2Qq0HMalf0Zhks/F8ROAcD7zjCwkvVKoXIKfi3qmcWsTxR+dCQACrXhtJ
-         z1V3yi78tpH8Hno43S9aAurXpn/FjDhJ/G4Vx0q20//YP7GewfQP2ORzpK/wGOLzI8PX
-         A9ISmphUsMYt0Fi9+GZyZ9P1xjgSVoZoabywYwN3Xc8x+cwYclPO16SQ3AI+P3lmLWAi
-         Rq2dcZtgcj6dzBuPhIUxV+yH/9JKVvANM+SeUQ1bBvN5nc+10PFkRMfe5vr1OY9YWePl
-         vWTA==
+        b=eaw+xBGEcX0PWDpXM1zeCTYqT5ZPkDHM/nuauzFHOsCX2fNbtsmcyGLafe9AKKF3jP
+         DSogJGu2OX1M7B4/B+HCC1VlL5sToKmKOyASNHjE5smuMZJ33zxLsxfTmF7BGVOcoBzx
+         Uc2J3Zeo9ji8kow83vQEp0PV5iklQkWsEatcmaAVkNfW1XOAcB4O1/2wBaZNtzupJb4/
+         03yn1y3iVnTbT+j/Q22wfYD0un1MI2ZYxEzgpO6gsYy2z6TjHHEjvm1SMrtDxCN8nlMs
+         3IK+dIF+XDnnXG6Iwe0E7k/gX3Bq0iY+bnXX5+MSh3hz7zgC6LT3mOMB4kzsDY7RTebG
+         UP8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Ei7lzooVNqPcmPvnGQUWAzZynen8CdGkVpkx9IfRm2g=;
-        fh=105oUpXhFMgz4geLse5Ll3z4bJ630iwIauePmftAxEo=;
-        b=iUHWmTQusvoy11iNvc5/Mufj5Py8mXW3rsLKU9UJteicYcUyE/gyZFN2nQYbGMRpNz
-         1cPd8Wo0QLMPg03muN6XMJEcSu/K/47XnNEXpT1REUlDUtoWSJk2rTwGt93+v+XlDk9W
-         F/YdsH7eBrhfI1Kj390+OFpWs08oLtdCM/sKes+a89wTyilPSw9urcIkVHW+ZBr2xuB5
-         agh6U7NmGRJE7jWYX80HaCWDqVAW87l50ngtEvFu1Agj/WK36ca/UasXFBT94RDrQvrt
-         OEbjl6v3EA+SKqI9+67Sa27l7oxvwp54ptePoNi+I5Bf0YeCIyCnG/mpAYGp0uvkrGuK
-         nO6Q==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TSFFP+nKaR0576Boh3573ftrq0odrZqheyrYVqgy2zI=;
+        fh=qaSZk833dcyfd1/rOKinJd+GC8azI7a1u0ZfxbAc3Ps=;
+        b=hwY1sy/HJpe2aHXdsD6Q/mrRcbTCjHEOwmlac/WtZqbT7Ca7AE0lIR2Wm9Q+heh5VO
+         LeDz49PoQY9kjCU8e3Fy0bxklRtvEaBbREhpvgt9LmAQyKjZd4At0jQyeDb69jJlm//f
+         u2m9UFeNv8D3PbU8E1Ve1ul++ce1huOyWzZl4RX8GfUlAM+a+91GbQmUAZK/aUSZp5SR
+         +SYLXaXy278M5sWaMkfFZMMSkzdXLkU+145elyGGOzgwRsXmZlm+2GKKcrQ9gcp4Bs/p
+         rpbnSbnOuEq8paa88UXIYu1Nd+Hj5EkNEfWdocf5j5uIvkMDT0jufW/mDE4qebGvLStT
+         yVyQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783909586; x=1784514386; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ei7lzooVNqPcmPvnGQUWAzZynen8CdGkVpkx9IfRm2g=;
-        b=MEJWx1BYAAU6IPK72aJg9fQ+Vu0P9xWBzhLndGfqra3sgzedHSVHhkLuib8Ohfr8IY
-         WE8oi0OvcLAr1VG77cgaF8rXcziXB2lhv09JiMV0bnhXNdbuDb6KLxexQzlvX2XN5qRC
-         nBnpbHM5gN5wGRLtApHX9L/FB50ix9rnS3b0h7AnWj2K/JAFDtOUvioqaaas0g+HMRQw
-         kxrVt1eUWLM36E1QutLQ37PU5SRJib3us5wzSk+yi8mM3xlQsdfvfQC/mdmKBmG/v6mD
-         2mAibClTDMSEURw3kF4v8aKRS0HXzdQwz3E/EdKQPrMu7UbCKGyZriSJDcAhy9xtOJuF
-         Hxhw==
+        d=gmail.com; s=20251104; t=1783912915; x=1784517715; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TSFFP+nKaR0576Boh3573ftrq0odrZqheyrYVqgy2zI=;
+        b=G2Yd3lsW6DLm8rohYLB5pUGt82YxTaL8amobsmzqhIioMFKHpsbMv8Fj+4lE75trFC
+         Xd3ePqO33yRFjz3wxRdAc94aE9Lt+sTodm8oCnK990kwjQXNnjABqoOXTKWuXchGiKu6
+         3qB00tYluqdmNr1Eh4URGtSBkrgIRQUj1poGlaq3ZzBxzu/aPp1MLBEK2WXFgSFfdRTz
+         1B+7Tv51YOmRc055OAltUfM8izZlyyew4GE9A2OkoQneAy8RK6V2IhvGWt11GccdiR4A
+         gyrOnShoidufwlPv3o/168EMHeGydZkoYaBfes2JgCwMS2hovYHPTaGlWEJxq8M56s4z
+         8rRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783909586; x=1784514386;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Ei7lzooVNqPcmPvnGQUWAzZynen8CdGkVpkx9IfRm2g=;
-        b=HXbSdYzhxvhRKIZxgfCxu+uBRPhOBc24wlsbUh/QqEioQvZvD8dzWnknxdOyKTPu7M
-         IoJc77AGhLaCyz5x/jed5bhw0hPfVLHz6bGXh8jrxsuEkjIdp5KFWbstCevCMf2/Cbwk
-         BCvzsdgUHh9SX7iIub8VZ+u6SW+bUgoZD4LP2OGwUPcX886+BQcH6W/5QlxZuWzGVCMO
-         OSvm06AX9Vrtt8vLBXLscK+qeWiRa6K9cgiXVJwOTxdkVAQ7C+V8NCERVklM8kxrGPHb
-         X2r6cE1y19QR263W6JzNdo87A+oettswI47dsqM7upBLfPObOTharXKc6swVHP9cXY1z
-         QSzQ==
-X-Forwarded-Encrypted: i=1; AHgh+Romnh0auDtmE9BNJuG8WXIo/MDlBFkxOMbNbMB+G0GYKccR6XMAzUNxmNmFTRpGn4Sr1l/wBzEdAvrHJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze2G710nB380GbakRTfHWGEmmehKHNAlBB9JjewMTkUE4q+PvP
-	wQZPWCTTKDlSuumUUDbQbsIlBHP1Q+d588PtQOKO8GoJnME4DaZ58RdzQVaYRo//ByGPHhFjZaL
-	6HGECdQe8dAiCTZ5mf9c3G2alRrEIA3M=
-X-Gm-Gg: AfdE7ckUSvvjuQoXXNit5e23h0BDzd9hOoDvqOif9rl7SADejpG/r0DF8qBQ1eUaLwb
-	TKNX2mqVsR2wfTi1NvlGBNWJJl7pgJuNRxNRWTNgX/v2VOZMTvPdX2zGGAG0NEgVclGCA4kId9A
-	hXgoZqwnQO88hW5ncgg6FpNI3pSx5xwPzomgzi++7XTmxkt0XlFKInMKdLaZbWO8X18p5n3uPO/
-	avVwr16lWgU4K/HQfLrJ8+1UIi7sqJeUn14ylYYYXw8NlqhTBg+D8qZJ21SUfmNVAOhG6EMujXJ
-	VlSnPCJnweJ2N46ga2QcLhpFmHMN5/jRx9bH2w==
-X-Received: by 2002:a17:902:fc8f:b0:2c9:97a8:afe5 with SMTP id
- d9443c01a7336-2ce9f27e6dbmr67887935ad.40.1783909586414; Sun, 12 Jul 2026
- 19:26:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783912915; x=1784517715;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TSFFP+nKaR0576Boh3573ftrq0odrZqheyrYVqgy2zI=;
+        b=tVewKrP3v7trM3r3lerpMHkimHwA9YMwevD9RxRLmq+Cp96w3s+qvjwJ2FqGC9aa8z
+         DtUR26Z44RyfYIF+4TCvGiVkac4zqpnACWxRpvoqZaCXjcmLl57x1ER+igGELYkcL/Ei
+         7653lHiWec/V6uoc/nqUCpUeFgCQ+s3tdTF+h3901sagQBLwJshubr7J+JHzxN/T/IWV
+         Vktp4yWSAW3fZsq8RL9lJphfXSzV9Iw37n5LWr2Xf9yXKWLNIWs3mM+yjHhw+Ph3zrwX
+         TEfWuTYZ/dl5bxDh2ruSHk4iMKiK2AjOxL9tQgB4IdUmNn/xG1iX1knsdxQ9BEWAhD5t
+         D9XA==
+X-Forwarded-Encrypted: i=1; AHgh+RqdiaOVHWNK2Gu9X88n+wdBLQcT7Rf45Oz077Z6iJ+BjHKilUoB5Ca8JJLGUbv5pjdGeUDhB76SdRLE/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywbi/jjQSF8LLJoPn9Vhv7/G5JKNmr/pamdsm297tW2hDxd1U4r
+	fAboPYzcAIp3sjFzJqMbeKjiFvdG/CAZMxyhjI9S471QyVxpG9h3f/DLlmjVo3rQ+pDX5kkfH7j
+	wEeQ98VpfiGeFIuqcTnylq52e82I8Wy8=
+X-Gm-Gg: AfdE7clWJrYGpIO9x1HkWC2qtzkchHgCNqjaT/VYcAoVkKgNUTs7XMafpRdVtd6kDlo
+	p9AuBLiU7fWYIchpBgq146w6MyXc5wkciI2nCyXRWmYS4MlLYxw4AiH78+GaL5ScHWVMhn50Glt
+	xEs0ozT4nT8NwD3FUnQlPwe0EQrcRJ7h368CwDVFefHA2CIYbon+f/DNHPuNookHF6iD+qBMH05
+	FieWo9SO2Yu+YyYNfKN5UeEgKbiRs5/J1RLpH1PanHmBObP14DDR2B2qUqP5X6rTvLlfoqR
+X-Received: by 2002:a17:903:b07:b0:2c9:d298:6c06 with SMTP id
+ d9443c01a7336-2ce9f0268c4mr76691645ad.25.1783912915142; Sun, 12 Jul 2026
+ 20:21:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260709045902.498848-1-phucduc.bui@gmail.com>
- <20260710050511.14439-1-phucduc.bui@gmail.com> <20260710050511.14439-23-phucduc.bui@gmail.com>
- <95f5d6ec-ecc5-4090-ac04-27cdcdc21b8a@sirena.org.uk> <CAABR9nHUc3KvC4t=hJ9osyw93aXa+kEL07G1posnYJdLvjHEkA@mail.gmail.com>
- <CAABR9nEQWYzvxDduP=+9qYEJNzXVbu587Aq9eGR7Tyo-K-u1GQ@mail.gmail.com> <CAABR9nHKCYvev=owQVw2sisGRiQPc5gFcW8d2O3RvhsRn_Sr+w@mail.gmail.com>
-In-Reply-To: <CAABR9nHKCYvev=owQVw2sisGRiQPc5gFcW8d2O3RvhsRn_Sr+w@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Mon, 13 Jul 2026 09:26:14 +0700
-X-Gm-Features: AVVi8CcDb4bcqHg1Mp91TuPyHToFqGPv1UxLDhLLf3L4cwg_2AzYrLa7QzDha2M
-Message-ID: <CAABR9nFwGjed9SOUZwuPNu58KPQD-aWnCKj7YTTM8LdF9dig-Q@mail.gmail.com>
-Subject: Re: [PATCH v3 25/27] ASoC: codecs: rt712: Use guard() for mutex locks
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>, Nick Li <nick.li@foursemi.com>, 
-	Herve Codina <herve.codina@bootlin.com>, 
-	Support Opensource <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Srinivas Kandagatla <srini@kernel.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Oder Chiou <oder_chiou@realtek.com>, Linus Walleij <linusw@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, u.kleine-koenig@baylibre.com, 
-	Zhang Yi <zhangyi@everest-semi.com>, Marco Crivellari <marco.crivellari@suse.com>, 
-	Kees Cook <kees@kernel.org>, HyeongJun An <sammiee5311@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Qianfeng Rong <rongqianfeng@vivo.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org
+References: <20260710070835.3749817-1-chancel.liu@oss.nxp.com>
+In-Reply-To: <20260710070835.3749817-1-chancel.liu@oss.nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 13 Jul 2026 11:21:37 +0800
+X-Gm-Features: AVVi8CfYC_2UaQWz1pfB01RpZjLtZ5yJ4xkwVm543r8qOjus-QVMl3YHjma3FUk
+Message-ID: <CAA+D8ANi1LKZmFeZ8bFd2LovAoaL-RrcV-6seaV9DNLGMcB59Q@mail.gmail.com>
+Subject: Re: [PATCH v2] ASoC: fsl_sai: Fix spurious BCLK on resume by clearing BYP
+To: Chancel Liu <chancel.liu@oss.nxp.com>
+Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
+	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Another point is: when should regcache_sync() be considered to have failed?
+On Fri, Jul 10, 2026 at 3:08=E2=80=AFPM Chancel Liu <chancel.liu@oss.nxp.co=
+m> wrote:
+>
+> From: Chancel Liu <chancel.liu@nxp.com>
+>
+> When the BCLK divider ratio is 1:1, fsl_sai_set_bclk() enables bypass
+> mode by setting BYP, but never clears the bit. The BYP=3D1 value remains
+> in the regcache, and is restored by regcache_sync() on the next runtime
+> resume.
+>
+> Since BYP=3D1 combined with BCD=3D1 immediately outputs the ungated MCLK
+> as BCLK without waiting for BCE/TE/RE to be enabled, the clock is
+> driven prematurely before the stream is fully configured, causing
+> noise on some codecs.
+>
+> Fix this by clearing BYP and BCI in fsl_sai_hw_free() taking into
+> account sync mode and the opposite stream's state, so that the regcache
+> holds BYP=3D0 before runtime suspend and regcache_sync() on resume will
+> not restore bypass mode prematurely.
+>
+> Fixes: a50b7926d015 ("ASoC: fsl_sai: implement 1:1 bclk:mclk ratio suppor=
+t")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 
-From my understanding, if patch application or cache synchronization fails
-before reaching the out: label, then regcache_sync() has already failed and
-should return that error.
-However, the function currently uses a single ret variable throughout
-the entire flow.
-To make the failure semantics clearer, I'm planning to submit the
-following follow-up patch.
-I'd appreciate any feedback.
+Thanks for the update.
 
-------------------
-int paging_ret = 0;
- /* ... */
-  out:
-/* ... */
+Reviewed-by: Shengjiu Wang <shengjiu.wang@gmail.com>
 
-paging_ret = _regmap_write(map, this->selector_reg, i);
-if (paging_ret) {
-        dev_err(...);
-        map->cache_dirty = true;
-        break;
-}
-/* ... */
-return ret ? ret : paging_ret;
--------------------
-
-This preserves any error that occurred before out: while also
-reporting errors that occur after out:.
-
-Best regards.
-Phuc
+Best regards
+Shengjiu Wang
+> ---
+> Changes in v2:
+> - Move BYP/BCI clearing from fsl_sai_config_disable() (trigger path)
+>   to fsl_sai_hw_free() to avoid breaking pause/suspend-resume cycles
+>   where hw_params() is not called again on unpause/resume.
+>
+>  sound/soc/fsl/fsl_sai.c | 29 +++++++++++++++++++++++++----
+>  1 file changed, 25 insertions(+), 4 deletions(-)
+>
+> diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
+> index 9661602b53c5..d232c8f53061 100644
+> --- a/sound/soc/fsl/fsl_sai.c
+> +++ b/sound/soc/fsl/fsl_sai.c
+> @@ -808,6 +808,8 @@ static int fsl_sai_hw_free(struct snd_pcm_substream *=
+substream,
+>         struct fsl_sai *sai =3D snd_soc_dai_get_drvdata(cpu_dai);
+>         bool tx =3D substream->stream =3D=3D SNDRV_PCM_STREAM_PLAYBACK;
+>         unsigned int ofs =3D sai->soc_data->reg_offset;
+> +       int adir =3D tx ? RX : TX;
+> +       int dir  =3D tx ? TX : RX;
+>
+>         /* Clear xMR to avoid channel swap with mclk_with_tere enabled ca=
+se */
+>         regmap_write(sai->regmap, FSL_SAI_xMR(tx), 0);
+> @@ -815,10 +817,29 @@ static int fsl_sai_hw_free(struct snd_pcm_substream=
+ *substream,
+>         regmap_update_bits(sai->regmap, FSL_SAI_xCR3(tx, ofs),
+>                            FSL_SAI_CR3_TRCE_MASK, 0);
+>
+> -       if (!sai->is_consumer_mode[tx] &&
+> -           sai->mclk_streams & BIT(substream->stream)) {
+> -               clk_disable_unprepare(sai->mclk_clk[sai->mclk_id[tx]]);
+> -               sai->mclk_streams &=3D ~BIT(substream->stream);
+> +       if (!sai->is_consumer_mode[tx]) {
+> +               bool adir_active =3D !!(sai->mclk_streams & BIT(!substrea=
+m->stream));
+> +               /*
+> +                * If opposite stream provides clocks for synchronous mod=
+e and
+> +                * it is inactive, Clear BYP and BCI
+> +                */
+> +               if (fsl_sai_dir_is_synced(sai, adir) && !adir_active)
+> +                       regmap_update_bits(sai->regmap, FSL_SAI_xCR2(!tx,=
+ ofs),
+> +                                          FSL_SAI_CR2_BCI | FSL_SAI_CR2_=
+BYP, 0);
+> +               /*
+> +                * Clear BYP and BCI of current stream if either of:
+> +                * 1. current stream doesn't provide clocks for synchrono=
+us mode
+> +                * 2. current stream provides clocks for synchronous mode=
+ but no
+> +                *    more stream is active.
+> +                */
+> +               if (!fsl_sai_dir_is_synced(sai, dir) || !adir_active)
+> +                       regmap_update_bits(sai->regmap, FSL_SAI_xCR2(tx, =
+ofs),
+> +                                          FSL_SAI_CR2_BCI | FSL_SAI_CR2_=
+BYP, 0);
+> +
+> +               if (sai->mclk_streams & BIT(substream->stream)) {
+> +                       clk_disable_unprepare(sai->mclk_clk[sai->mclk_id[=
+tx]]);
+> +                       sai->mclk_streams &=3D ~BIT(substream->stream);
+> +               }
+>         }
+>
+>         return 0;
+> --
+> 2.50.1
+>
