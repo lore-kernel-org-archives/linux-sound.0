@@ -1,133 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D41F43712F;
-	Mon, 13 Jul 2026 13:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2ABD313534
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 15:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783951021; cv=none; b=Z0tjajTllWRjU/QV3jKa3ySTV0jM14Iobu6makKnzf8nFG6tOg+oVnHn8zx15bG3bJBbVETEfRkQ44SRxRS8gcIDpTQFyklWq0W5cSav/vHlTDTn4ozbV7v5/7wJand+/dlpoGwNZ7FJpkXmFV1D+l2tH8CY4Kq2K28Z4vFqg3c=
+	t=1783955088; cv=none; b=dOfm8dKi398PJ+5S0NF86z4yLEab4s1IsDgBKM0OWNKV/MfvN+hvi6C7AWcmykFzhEcHLfqfrHhKg6USj8ZDUsHMXTPWArt/dUdQD9bp/g68zC4dgPwTHonRSOFD4or4YdwB2qZETZmU5BFtltDGqsQF74PzB9h1Y2vM+Vy6nE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783951021; c=relaxed/simple;
-	bh=P6yxaomSNiaE++KfR5MuGM30KkzcWf5jlB4M5Cquz9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q5PSiFq9hQg57tEkYnp/40XP61LUpqB35RuoLt6EO6BBP/1aG6b0RhsGyvQAGzgghjDvz5wyCKVkepj5SEpXRZAQbBGyhnh7BqQKqNrfZASEDAvxy+y6s/ArYj8AlEraNwJ9Zv0QGmY8W5V4Xncb0FnGZ5yRumBXWplvgf2mRPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dpy0vAXL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783955088; c=relaxed/simple;
+	bh=CcUxOCYJu+kCaoHe9zAA6HFPq1oFXw4srhy8scQRLLM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pZFV9P6JsCeHX7FcCZcANc3p4EwdUm0FMei0uMfPPli9qXf+yhsvSZca5O67ui5nrCLPrEzFH1NF40++yTT+A+86/z/cScrsTxtHGOsKZH0JzwIZPw8m+9SZA04cEokL3DTB72H/2MHkRPDbHJdZW2h9w+Rz7KgAmh69i5O/nHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VKq6fCHq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kk81RgFJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VKq6fCHq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kk81RgFJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dpy0vAXL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D2751F000E9;
-	Mon, 13 Jul 2026 13:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783951020;
-	bh=zEDWIk6lLyra5HqUcesDwh+ikoWWZR0qs0eDO2jT9QM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Dpy0vAXL3SAJ1Joi2Obzxjaa039j1d2gE/akneZF+KFBc37UHojC1SbdMAj0etSRN
-	 GOuKBVj7LAsL/iu/k0aJcmN2kPwqHKHORmFMmxoc2RWizMx/rWjOcUQhRAQnRQ5xHE
-	 jruxQwu37HRysUwb9tITWTlFM3/C1mHzg09ZOGEPBDb3SZsS/g/mqRvyZ0DSAbHOnN
-	 UeL9ft1OadwTnpOZtNuM/Y+XjkmLWA8oVRYY9f+nAb5Uv7CkMP3fwg1nl3dDNP7mnc
-	 KxnxlNIDhMzTkkRZPUMJr4o/3s+bL4H4UbcOH/mfF9agG8X8OZJFTKsTX3Kg5c9t24
-	 Oxz101MQX4n5A==
-Date: Mon, 13 Jul 2026 14:56:54 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Gianluca Boiano <morf3089@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, "Wang, Sen" <sen@ti.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] ASoC: codecs: add TAS2557 mono smart amplifier
- driver
-Message-ID: <f50d266e-401c-413e-b15b-2b1af6afb230@sirena.org.uk>
-References: <20260711145722.188556-1-morf3089@gmail.com>
- <20260711145722.188556-3-morf3089@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VKq6fCHq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kk81RgFJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VKq6fCHq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kk81RgFJ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 346FF77941;
+	Mon, 13 Jul 2026 15:04:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783955085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIOvXaew/x5orSgLKcP5Gf9LyiNxo32RHsPyKfFhkIo=;
+	b=VKq6fCHqU2C3PZ57bsq0zgFAmM+yxTFGoD004x1pzaSwj+EAPEv1LN6y5wWuV2cyHbOUXj
+	295dv1MMy/KLm3MANv7TCona/xbOlg8Ap00BMsfZjaufcMVnTsP3y2cgNuHPN7SMj4OEYz
+	lv/23XIFD83qYZM7i/1liawZe2HXntE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783955085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIOvXaew/x5orSgLKcP5Gf9LyiNxo32RHsPyKfFhkIo=;
+	b=kk81RgFJuKOukj9RFxw0QXJ4qbPx950mg8hSQsniUA0W3KG1Ok/x22TBmHkxebpeY9OHBw
+	KsXr9obi9Z6rpDBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1783955085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIOvXaew/x5orSgLKcP5Gf9LyiNxo32RHsPyKfFhkIo=;
+	b=VKq6fCHqU2C3PZ57bsq0zgFAmM+yxTFGoD004x1pzaSwj+EAPEv1LN6y5wWuV2cyHbOUXj
+	295dv1MMy/KLm3MANv7TCona/xbOlg8Ap00BMsfZjaufcMVnTsP3y2cgNuHPN7SMj4OEYz
+	lv/23XIFD83qYZM7i/1liawZe2HXntE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1783955085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SIOvXaew/x5orSgLKcP5Gf9LyiNxo32RHsPyKfFhkIo=;
+	b=kk81RgFJuKOukj9RFxw0QXJ4qbPx950mg8hSQsniUA0W3KG1Ok/x22TBmHkxebpeY9OHBw
+	KsXr9obi9Z6rpDBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F2072779AE;
+	Mon, 13 Jul 2026 15:04:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aS7aOYz+VGpEUgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 13 Jul 2026 15:04:44 +0000
+Date: Mon, 13 Jul 2026 17:04:44 +0200
+Message-ID: <871pd7ylpv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	bo.liu@senarytech.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: conexant: Remove mic bias threshold override
+In-Reply-To: <20260713100329.306892-1-zhangheng@kylinos.cn>
+References: <20260713100329.306892-1-zhangheng@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gOmi8XbcwV0jgBXP"
-Content-Disposition: inline
-In-Reply-To: <20260711145722.188556-3-morf3089@gmail.com>
-X-Cookie: Courage is grace under pressure.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
+X-Spam-Score: -3.30
+
+On Mon, 13 Jul 2026 12:03:29 +0200,
+Zhang Heng wrote:
+> 
+> Remove the mic bias current comparator threshold override (NID 0x1c,
+> verb 0x320, value 0x010) from Conexant codec driver.
+> 
+> This override was originally intended to support volume up/down controls on
+> headsets with inline remote controls, but it causes microphone detection
+> failures on some headsets with impedance less than 1k ohm.
+> 
+> After consulting with the vendor's engineers, it was confirmed that this
+> setting is board-specific and should be handled by BIOS/firmware rather
+> than the generic codec driver, especially since inline remote support
+> is not currently implemented.
+> 
+> Fixes: 7aeb25908648 ("ALSA: hda/conexant: Fix headset auto detect fail in cx8070 and SN6140")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+
+Applied now.  Thanks.
 
 
---gOmi8XbcwV0jgBXP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Sat, Jul 11, 2026 at 04:57:21PM +0200, Gianluca Boiano wrote:
-
-> The TAS2557 is a mono Class-D smart amplifier with an on-chip DSP for
-> speaker protection. Audio is received over I2S/TDM (ASI) and processed
-> by DSP firmware before reaching the Class-D output stage.
-
-> +static int tas2557_set_program(struct tas2557_priv *tas2557,
-> +			       unsigned int prog_idx, int config_idx)
-> +{
-
-> +	/* Auto-select config: match program + sample_rate (0 = accept any) */
-> +	if (config_idx < 0) {
-> +		config_idx = -1;
-> +		for (cfg_idx = 0; cfg_idx < fw->num_configs; cfg_idx++) {
-> +			if (fw->configs[cfg_idx].program != prog_idx)
-> +				continue;
-> +			if (tas2557->sample_rate == 0 ||
-> +			    tas2557->sample_rate ==
-> +					fw->configs[cfg_idx].sample_rate) {
-> +				config_idx = (int)cfg_idx;
-> +				break;
-> +			}
-> +		}
-> +		if (config_idx < 0) {
-> +			dev_err(tas2557->dev,
-> +				"no config for program %u at %u Hz\n",
-> +				prog_idx, tas2557->sample_rate);
-> +			return -EINVAL;
-
-This will reject attempts to start audio based on the sample rates
-supported by the firmware but there's nothing that validates these
-sample rates in hw_params(), nor anything that tells userspace about the
-constraints coming from the firmware.
-
-Also does the fact that we're using a single firmware config mean that
-the driver needs to flag symmetric_rates?
-
-> +static int tas2557_volume_put(struct snd_kcontrol *kc,
-> +			      struct snd_ctl_elem_value *ucontrol)
-> +{
-
-> +	tas2557->dac_gain = gain;
-> +
-> +	if (tas2557->powered)
-> +		ret = tas2557_dev_update_bits(tas2557, TAS2557_SPK_CTRL_REG,
-> +					      TAS2557_DAC_GAIN_MASK,
-> +					      gain << TAS2557_DAC_GAIN_SHIFT);
-> +
-> +	mutex_unlock(&tas2557->lock);
-> +
-> +	if (ret < 0)
-> +		return ret;
-
-It'd be better to avoid updating the cached gain if the write failed,
-keep things consistent as much as possible?
-
---gOmi8XbcwV0jgBXP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpU7qUACgkQJNaLcl1U
-h9BB5Af/XnTAm1YvgH/Ljj95fva0QXgm87yNpeLl667B1CyFSqjZByU8cbzKT0eb
-Vf0xoIhMs+uDR91fnLiBcJWcnjP0z9NHUg4AXZpQmj5vqG9mvjbkBKIhraOrzReF
-InXGXPRSgs0ogyOAs98E1EYC9YeQfCtIY35MAaN0N9bHO4JY+86l3GLyYNp5zLur
-liFAKYCDNBdAZ+Ym3UtNx3dF96E2de6S8+NZnoiRgS2IQcyx9DJXeCqqyFlRg1AQ
-KYuTw45GREAZ0mUgRoI4ugckBS1G0olnowWXejzwy4I5yDrvF3dUO33hsIoNLfzY
-QeB11601CuBlG2R79ciCHMVUw61qsQ==
-=6Mjx
------END PGP SIGNATURE-----
-
---gOmi8XbcwV0jgBXP--
+Takashi
