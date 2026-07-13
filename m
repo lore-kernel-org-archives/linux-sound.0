@@ -1,91 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8AE7E0E4;
-	Mon, 13 Jul 2026 07:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA40E3A5E97;
+	Mon, 13 Jul 2026 08:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783928367; cv=none; b=nkGuX7WMZGov3OZzIu5e5rbQA/K5Sf3TcXT1qk8wgL3dtJqp+3Ev54/2cWy4obDUmU6MtwqywfYSoCZiQ5p0QRjcbLpU5hCX2IfUSkJWDCTp4VFUS9Sse+1c9FBGscsca+9j5bJGEHaHMLOUq16IgwVa9ZV+vxrtZs91wWQ3xNM=
+	t=1783930259; cv=none; b=Y+Fb0CzjZdjdD5S40OJUtNqiLhFqva9ZWD2C0eG8Ze/StSq+vaPTJ4FmC9lr9g5aOqik2VOHAsCWRWAt5XCrRxix+caQXgKCc4BoxbidmsDeDLMSDoWmKWhB8G1/ZDKuwsahM4cGINM7nPP4BRfY0vUFrxiS2kJcmaey66GWg0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783928367; c=relaxed/simple;
-	bh=5FP4NVlDZQNYCUyj0g8FbrAkZY9FoBlt1xLDWjZ7Zzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mrz/Zwg4xR4CxMBh8otL2Dc7ng+UymAFzARYiaXaQisL7L07mlLHR072pR3ceNKDQwu0kXmEri7chK9PW9UG01lqHPQuC9VB5Tqxus+nQ0hHgJpfqnvhmGHj4CVCjBaR7Rb/ujZp+wAWm0O6/UdpOec2fHjc6RMkXoa5cIdbEQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IIzr1qLN; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IIzr1qLN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 897DD1F000E9;
-	Mon, 13 Jul 2026 07:39:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783928366;
-	bh=4SLrEtPKJZ9McaHLWnqLfegFeDqMlOMFc4Y8tHwrtXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IIzr1qLNUULtevegyuR89oEHlFQ23S1IkHVuva7jxxnZTpPzRSOm3nITKPUQ2BnzM
-	 d2C5gBOQaN2qIYb/XgMBqlSdeSAyZzo6nPXSONQ/Ac4y4Zn0Kcg2e6Svq6lVZjNzwn
-	 ZYyTS/Qc39cObYasBpdjlWNRmanmuyhw9xJWMsjQ/Pq9Z6W/vuiO6pA4Mq8eF/Z6XZ
-	 7ifQvDuNRBLXBLA1QLqcYYq8hxg+KJmYnR2twoRhcBvsB0+2bV6bytbkl4dzK0GOLL
-	 mam3rDgJfp/mkXq72+uoSqUjRefvJQkEv8aFGGAcvbZotorH2qwU2BO1g7Rk2uV+/g
-	 Q6A08PLBaqOCQ==
-Date: Mon, 13 Jul 2026 09:39:22 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Grond <grond66@riseup.net>, Stefan Leichter <sle85276@gmx.de>, 
-	Grazvydas Ignotas <notasas@gmail.com>, Tony Lindgren <tony@atomide.com>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Jarkko Nikula <jarkko.nikula@bitmer.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Andreas Kemnade <andreas@kemnade.info>, 
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman <khilman@baylibre.com>, 
-	Roger Quadros <rogerq@kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Sen Wang <sen@ti.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, Niranjan H Y <niranjan.hy@ti.com>, letux-kernel@openphoenux.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, kernel@pyra-handheld.com, 
-	mfd@lists.linux.dev
-Subject: Re: [PATCH 01/16] dt-bindings: twl-regulator: Add bindings for
- exposing ti,twl4030-regen
-Message-ID: <20260713-aquatic-memorable-griffin-cf9e46@quoll>
-References: <cover.1783749722.git.hns@goldelico.com>
- <00718b18253a764c2a7c9a2b95c3b8c411796583.1783749722.git.hns@goldelico.com>
+	s=arc-20240116; t=1783930259; c=relaxed/simple;
+	bh=r62lNHBeU+/LQxZVq7ReqdidWsxIYD2Dqi7IXymCZcY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D4qx76+WKN7zQH+BmMrV54sIYqFZN2TzaSB/UF1Gee+gtMOqo68qTbk33JwBJhkxaCSHAHxiN6K+SorVKzUFGRwoCquO7Hd+A71tqagJb+8K2LrZsp/udtl8DNoZFiS2FQ5Y5MlrQyEEt6+U4ar4UJjsrSD1rEr+UO9upuGmBOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5dfe01267e9211f1aa26b74ffac11d73-20260713
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:4293df52-0e38-4139-bedd-47d1c8dc50b5,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:ca78c803f58562d2e899aad8fdff3308,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5dfe01267e9211f1aa26b74ffac11d73-20260713
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 541443689; Mon, 13 Jul 2026 16:10:53 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: kees@kernel.org,
+	chengordon326@gmail.com,
+	jussi@sonarnerd.net,
+	hulianqin@vivo.com,
+	i@rong.moe,
+	g@b4.vu,
+	cryolitia@uniontech.com,
+	pav@iki.fi,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio device
+Date: Mon, 13 Jul 2026 16:10:48 +0800
+Message-Id: <20260713081048.189281-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <00718b18253a764c2a7c9a2b95c3b8c411796583.1783749722.git.hns@goldelico.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 11, 2026 at 08:01:48AM +0200, H. Nikolaus Schaller wrote:
-> From: Grond <grond66@riseup.net>
-> 
-> FIXME: not reflected in the bindings
-> 
-> +Reguired properties:
-> +For twl3040 REGEN signal:
-> + - regulator-min-microvolt:
-> +  - Same meaning as in bindings/regulator/regulator.yaml, but must match
-> +    regulator-max-microvolt.
-> + - regulator-max-microvolt:
-> +  - Same meaning as in bindings/regulator/regulator.yaml, but must match
-> +    regulator-min-microvolt.
-> + - startup-delay-us:
-> +  - Same meaning as in bindings/regulator/fixed-regulator.yaml.
+The Generic USB Audio device (0x1e0b:d01e) produces crackling noise during
+system boot when the boot music plays. The issue disappears once the system
+has fully started.
 
-I don't know what that means.
+Kernel logs show xhci-ring warnings when the device initializes:
+[    2.836118] usb 1-3: New USB device found, idVendor=1e0b, idProduct=d01e
+[    9.654586] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5154, index 13) beyond range (645, 1539)
+[    9.654589] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
+[    9.655053] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5158, index 14) beyond range (645, 1539)
+[    9.655055] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
 
-> 
-> Signed-off-by: Grond <grond66@riseup.net>
+These warnings are generated by xhci_get_isoc_frame_id() in xhci-ring.c.
+Data endpoints have multiple TDs per URB (number_of_packets > 1). For TD
+index=0, the function adjusts start_frame to a valid range when validation
+fails. However, for TD index>0, the calculated Frame IDs become stale
+before validation completes, causing xhci_get_isoc_frame_id() to return
+-EINVAL and trigger a fallback to SIA (Schedule Information Address) mode
+for those TDs. This inconsistent scheduling between index=0 TD (direct
+Frame ID) and index>0 TDs (SIA mode) within the same data endpoint causes
+audio data misalignment and crackling noise during boot.
 
-As explicitly written in submitting patches: we do not take anonymous
-contributions.
+Sync endpoints have only one TD per URB (number_of_packets = 1), so they
+don't suffer from this mixed scheduling issue.
 
-Best regards,
-Krzysztof
+Fix by setting URB_ISO_ASAP flag for the data endpoint of this specific
+device. This flag causes the xHCI driver to skip Frame ID calculation
+entirely and let hardware schedule via SIA bit for all TDs, ensuring
+consistent scheduling within the data endpoint. Also add a quirk to skip
+the first 4 packets on the sync endpoint.
+
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/usb/endpoint.c | 3 +++
+ sound/usb/quirks.c   | 8 ++++++++
+ 2 files changed, 11 insertions(+)
+
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 24cd7692bd01..6a6a6797ac4b 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -1256,6 +1256,9 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
+ 			goto out_of_memory;
+ 		u->urb->pipe = ep->pipe;
+ 		u->urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
++		/* Generic USB Audio (0x1e0b:d01e): use SIA for consistent scheduling */
++		if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e))
++			u->urb->transfer_flags |= URB_ISO_ASAP;
+ 		u->urb->interval = 1 << ep->datainterval;
+ 		u->urb->context = u;
+ 		u->urb->complete = snd_complete_urb;
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 2949a0d2d961..52a4fd352ea2 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -1938,6 +1938,14 @@ void snd_usb_endpoint_start_quirk(struct snd_usb_endpoint *ep)
+ 	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+ 		ep->skip_packets = 4;
+ 
++	/*
++	 * Generic USB Audio (0x1e0b:d01e) - skip initial sync packets
++	 * to avoid crackling noise during system boot
++	 */
++	if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e) &&
++	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
++		ep->skip_packets = 4;
++
+ 	/*
+ 	 * M-Audio Fast Track C400/C600 - when packets are not skipped, real
+ 	 * world latency varies by approx. +/- 50 frames (at 96kHz) each time
+-- 
+2.25.1
 
