@@ -1,94 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880D534CFA1;
-	Mon, 13 Jul 2026 17:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68529349CC4
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 17:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783965009; cv=none; b=D4MCTulNKaJ0gu91gLdDC5kcb4hh9YD39CNsvrpV5xo0huU0xy+wVXU3azAJe+tJBUZI2VjpW2loIKu5RIQ/5m6rlEQrA9pxPRj2/2n7rHZSWRlZydG4DPHpCwTirx9oLoJi0qi0tXX5UHFn/DM0yEcwg5bKs6NDz7Ypf7OjQ3I=
+	t=1783965317; cv=none; b=JLSLEtPEhPv7rwEUQyFfDvSrVSqktaFnJ4tAaCWmX2Mas9u3ls1/YTuKtDBnbOqfJhgD8OGASo+zqi1xit+2+o0Jfa+QzzI1xNR28JyRheFVNJkKKAngsu72M6yhs4AHDvPZXEb+TtGlrhn2aS4JOfvZHUs96sd5ZJf4QYW6BP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783965009; c=relaxed/simple;
-	bh=P057jC9FPaM1QpIBuGZW5fCji3GTPUliH+a3Vutd1+o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Dafx+Vl81mbD1W04WGWSW6aMwqbNsIh/EluekTH0QPy+NCWrmfnCpds650Ec90idt/YznJnn27pn7d1+p9pfJbeviwqN2wHXOJR678U+N8ED6lELMRufvIAK7vabN3Wn7kUBkKfshq+CzGuHEqOgl8FFMCWWE0UcsoyfBPjG1d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgYD767i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783965317; c=relaxed/simple;
+	bh=0+KB2FaE9jYS4A06Hqul24oFw8PFDJT4rsVtpaa8xxg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sroGqGXINA1wZoO24p85pHxFTMwZDVENq7vHdB7ljZHCFBHGSFJc27bCN/3NbLAYNUQaB9SdNQ4AhDqurcI+EaiWVIiS9DhalLE5eNTfzlVIgJVB93UdvtMO5FDrUjJsY1UBG1xPgpiO4FxNI2foDFZrLRrWn+bPpWPdv9p61Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=5BSx+dOb; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgYD767i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 162F71F00A3A;
-	Mon, 13 Jul 2026 17:50:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783965008;
-	bh=njim2WHT5WxHIE8jcP0aU98d2/NMnPyWD2ataeKNeCo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=bgYD767iOAqD+o/HzVD8r3YcbocVp1ZZCFm/zhJN89cwFdNDVh/NR6jLmwKeI7f9Q
-	 vMtTuMMylbPVaRiEswZ8MxdB4IVuSkb5rGTb1S4n4t/SjgBfpnInNjsOP0T0eki7dY
-	 VTt/2U9KR/I0kq5gFKCJF8Pe1S7sVXtdBeQ6QxIyTPuOHPhKo3owTx7L66/Rw1KFrg
-	 u1Rexw1L0DDHbedEYaZG+n5Hc656jnVh8eehddlszEUl9IZtWSod/FFXt+gM1jRsgA
-	 h2WW9FJE6EtNB8Sy1JjfTSUl5UtT8XhWtpGkADEsRrcBo8/sGa7JXs1497lzQz9NKd
-	 EInX38CNMR8Yw==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- llvm@lists.linux.dev
-In-Reply-To: <20260713-asoc-fix-simple-card-build-v1-1-671ad44ad1a0@kernel.org>
-References: <20260713-asoc-fix-simple-card-build-v1-1-671ad44ad1a0@kernel.org>
-Subject: Re: [PATCH] ASoC: simple-card: Fix clang build
-Message-Id: <178396100709.7914.6074597279101348668.b4-ty@b4>
-Date: Mon, 13 Jul 2026 17:43:27 +0100
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="5BSx+dOb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=EijbFDQdsOvevGQVCfHaHxg8RUgF3geDkwMQ8z45jn4=; b=5BSx+dObpfhK9kX7JT9suZnpm+
+	n/aecss5o9YPwqAFI0hTW4YwvcWwCEO6T3ov44IIOCw5ZrFd55QvZ3OlhyKnzr15IWhKzYvgZNqkF
+	Qa27xOKlHGE+X6t046sxLC+azPTeGZrFLECMXD67oQZEZxOmNAmTaesQGGD5Yb+Kx6DT9EbxaKIRg
+	ZvsZBUyv9a2+31rDM5vueXnd6/nkajom1laFVt6lbJ5GsN79mZZvKzmnxOYxwW5V3ZzTCa4WsPxfE
+	lOgfopNxk9TCxQGqGbV/kECgGimUsWjfcLyBr2n+GWIJOzeKp648rZ79Qz6hqmmG7Csvjc0h+Kngi
+	rRvPvDzg==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wjKs4-0000000A9bo-1UHv;
+	Mon, 13 Jul 2026 17:55:12 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-sound@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	sound-open-firmware@alsa-project.org
+Subject: [PATCH 2/2] ASoC: SOF: ipc4-topology: repair struct kernel-doc comments
+Date: Mon, 13 Jul 2026 10:55:10 -0700
+Message-ID: <20260713175510.524728-2-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260713175510.524728-1-rdunlap@infradead.org>
+References: <20260713175510.524728-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1084; i=broonie@kernel.org;
- h=from:subject:message-id; bh=P057jC9FPaM1QpIBuGZW5fCji3GTPUliH+a3Vutd1+o=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVSVNpKQiY02CF01YA0vEXT83XOaqhmO03Y08B
- i9S7xvo8k2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalUlTQAKCRAk1otyXVSH
- 0Jc/B/9HDnafccwsTESYviylgNe5p8JznTZhjDhjt8x8g+qmUnOit7mRWPklex5n+tA23977Wmi
- JkNRR/APogWRyvTuCYAhaFysCzB4AgB+hu3ED9LmvdhkTvoUKpMaGq+7geRnPTy9O6gMxvMRoEq
- c82VEkgmiYpvHvo8IZ2aGB6DPxpFuPJvOlF2+Xp0MAnor08EnYzDawv3nqKxSNIooY+czDO7by7
- DAAZAGBtnsC0uJGDW9/CyA+IEYZVggtn/xdzU98YUvDuDJubnZ93Iu+Hts/ZCg7W4CsgZORE1bD
- YnTOhxu52EVkielrXSRiLheVGLE5glQxRURBJvBNx6ZQQ7PA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
 
-On Mon, 13 Jul 2026 17:04:04 +0100, Mark Brown wrote:
-> ASoC: simple-card: Fix clang build
+Use the correct struct names in the kernel-doc comments.
+Add missing struct member descriptions.
 
-Applied to
+This prevents all kernel-doc warnings:
+Warning: ../sound/soc/sof/ipc4-topology.h:176 expecting prototype for struct sof_ipc4_multi_pipeline_data. Prototype was for struct ipc4_pipeline_set_state_data instead
+Warning: ../sound/soc/sof/ipc4-topology.h:307 expecting prototype for struct sof_ipc4_dma_config. Prototype was for struct sof_ipc4_dma_config_tlv instead
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: sound-open-firmware@alsa-project.org
 
-Thanks!
+ sound/soc/sof/ipc4-topology.h |    9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-[1/1] ASoC: simple-card: Fix clang build
-      https://git.kernel.org/broonie/sound/c/a9a2c8c44b30
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--- linext-2026-0710.orig/sound/soc/sof/ipc4-topology.h
++++ linext-2026-0710/sound/soc/sof/ipc4-topology.h
+@@ -167,7 +167,7 @@ struct sof_ipc4_pipeline {
+ };
+ 
+ /**
+- * struct sof_ipc4_multi_pipeline_data - multi pipeline trigger IPC data
++ * struct ipc4_pipeline_set_state_data - multi pipeline trigger IPC data
+  * @count: Number of pipelines to be triggered
+  * @pipeline_instance_ids: Flexible array of IDs of the pipelines to be triggered
+  */
+@@ -210,7 +210,7 @@ struct sof_ipc4_available_audio_format {
+  * @node_id: ID of Gateway Node
+  * @dma_buffer_size: Preferred Gateway DMA buffer size (in bytes)
+  * @config_length: Length of gateway node configuration blob specified in #config_data
+- * config_data: Gateway node configuration blob
++ * @config_data: Gateway node configuration blob
+  */
+ struct sof_copier_gateway_cfg {
+ 	uint32_t node_id;
+@@ -285,7 +285,9 @@ struct sof_ipc4_dma_stream_ch_map {
+ struct sof_ipc4_dma_config {
+ 	uint8_t dma_method;
+ 	uint8_t pre_allocated_by_host;
++	/* private: */
+ 	uint16_t rsvd;
++	/* public: */
+ 	uint32_t dma_channel_id;
+ 	uint32_t stream_id;
+ 	struct sof_ipc4_dma_stream_ch_map dma_stream_channel_map;
+@@ -296,7 +298,7 @@ struct sof_ipc4_dma_config {
+ #define SOF_IPC4_GTW_DMA_CONFIG_ID 0x1000
+ 
+ /**
+- * struct sof_ipc4_dma_config: DMA configuration
++ * struct sof_ipc4_dma_config_tlv - DMA configuration
+  * @type: set to SOF_IPC4_GTW_DMA_CONFIG_ID
+  * @length: sizeof(struct sof_ipc4_dma_config) + dma_config.dma_priv_config_size
+  * @dma_config: actual DMA configuration
+@@ -321,6 +323,7 @@ struct sof_ipc4_alh_configuration_blob {
+  * @data: IPC copier data
+  * @copier_config: Copier + blob
+  * @ipc_config_size: Size of copier_config
++ * @ipc_config_data: Copier module config data
+  * @available_fmt: Available audio format
+  * @frame_fmt: frame format
+  * @msg: message structure for copier
