@@ -1,193 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD4E3C9EF3
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 08:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8863BF676
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 08:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783932439; cv=none; b=ZNWRsh7RhOKWt+t57SWjc1cNRbc+cdf5g0w7BbjhrUJrE754GGtX9JX12daQWOsaZMcXhwkhwnjO4id6dk9hsnjA/4XdInmhwQ5Q+xjr+nsVSaqSxWURxv46nutzEbvWZIxh55TLGoOPQ7NCi5LRPMQutiTMMx2infJYCcx//QI=
+	t=1783932595; cv=none; b=WdQih8tGz7IyA0r3PnJf4lV7H8Y54rU6TWqL7bSXCQKdXjQ6XJv/jiWuhWx6gtLdtI3/AJ+eNwfbaHExgdUA5o63RC6CGv+xfYJs0/iXwdw6cHyCSH7PGy0lCj7zkBlH2esILiTZGOG2oLXDw3J1oW4KcAoUX5a3Jh0uo4Oy0G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783932439; c=relaxed/simple;
-	bh=yxhLW4k0m/n41OCufu6mkA8fK95de5de+8e2BwZ6OPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JhW2qAltJfsE9lbJj8rLdNAWhFiSDM1wQoBd8X/s64He4qvdPeGZb0BuaxFDmIXunGma7xGcjZFEkrAoForABiqX4EDlg+m5gLbT8IMNDvbI898T+7VPhRV7zk22RYRROCxUF7k4XGWXEa///h4WMmFcrw0ykBXh9zGJdS272Vo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZuliXOm; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1783932595; c=relaxed/simple;
+	bh=zLZA/0N6r6WXd9eNjmThABurDW1rwbmaTtXQowEsKpM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YsRH25KVq+x+465caSOfsXIC9ktC/IFj8dDArbVslYJ1PT6mwKG1P8PIa/ufdPs8hZNMdHR74uWaMNqPzRmxMfKhhTVz6DbHvAeo/MHNBshdIkmk46kkhD578W77ESRyb4zWtRgzo/0TQWkpTBPIfChFLAA29EDVT1uZVBbJ2Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=K9KGQzu4; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZuliXOm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783932437; x=1815468437;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yxhLW4k0m/n41OCufu6mkA8fK95de5de+8e2BwZ6OPQ=;
-  b=MZuliXOm4hjBMrDLH9/y2s285HH8DGgl2b7NqBDxC8Ot23k+MnVQ1/g6
-   PwaaGwcwRqV7okP9nFzk6DlE9O1sNd3/pXIPqPd09trtRR1LcXNFRI42s
-   W7MperFmTvBajxDp/z8xwWVMnjFlMbDfWUJviiRZW3bZnKX28EeDqHpY5
-   vXx1ZZnVf8GpKSOg7qHSv1VoVXMLGE2KM+fENW06nAJ9H6yiJJ+er1J3Y
-   kMdLPFyqd588Nc+xMopYR+hhOL76nhx7tGxvNw69E5elv0mYO+VP+TM70
-   yHOkXHsiyHzrDQIwjwZOUMc/XjJkQre7DEjKqYIq0NMHqzyjpntCXoRxl
-   g==;
-X-CSE-ConnectionGUID: bQdVtj6nSl2P1e5FvI+/yg==
-X-CSE-MsgGUID: tiCBQNP+RKG7pxZXvu4T1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84554481"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="84554481"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 01:47:16 -0700
-X-CSE-ConnectionGUID: nBsC+7lbSiqq+xj0qgIyqQ==
-X-CSE-MsgGUID: nTYKr/CQSMaR/nxDtJEsNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="279905368"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 01:47:14 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH v2 2/2] ASoC: SOF: Intel: Disable SPIB in non ICCMAX stream
-Date: Mon, 13 Jul 2026 16:46:50 +0800
-Message-ID: <20260713084650.4138172-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260713084650.4138172-1-yung-chuan.liao@linux.intel.com>
-References: <20260713084650.4138172-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="K9KGQzu4"
+Message-ID: <cf0a24a9-40f1-4669-b616-9e244c1e7876@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1783932590;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7kI5E+2L/tBVmnurmjL+L658ui+35MfSI2UylhZheeQ=;
+	b=K9KGQzu46LgqzD/nEuPPfkLT24+AQ3P4n/KfvSA+4KnQwBwa6EEZ6RjQpcg/KYJ9jKl6vT
+	a8v60kWVjfTQKsAKpuNvNppMl1txJn63+AuamYrMKUi3UY/arnMaXP1OnXx6P2aiAYjZDa
+	PwQe6QaTMbXJ1vLyBTgOY4QIT7geoa4=
+Date: Mon, 13 Jul 2026 10:01:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH] soundwire: stream: validate slave port against DisCo port
+ bitmap
+To: Eric Wu <kunjinkao.jp@gmail.com>, Vinod Koul <vkoul@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260713071544.35722-1-kunjinkao.jp@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260713071544.35722-1-kunjinkao.jp@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-The existing code disable SPIB in the playback direction only because
-previously the hda data stream is only used for SOF firmware download
-and we prepare capture stream for ICCMAX and prepare playback stream
-for non ICCMAX case. But now the hda data stream is also used for
-SoundWire BPT which will use both directions. The SPIB is enabled in
-non ICCMAX cases and we should disable in clean up.
-Add a is_iccmax flag in the hda_data_stream_cleanup() function to align
-with the hda_data_stream_prepare() function to enable/disable the SPIB.
+Thanks for the patch.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/sof/intel/hda-loader.c  | 11 ++++++-----
- sound/soc/sof/intel/hda-sdw-bpt.c |  2 +-
- sound/soc/sof/intel/hda-stream.c  |  8 +++++---
- sound/soc/sof/intel/hda.h         |  5 +++--
- 4 files changed, 15 insertions(+), 11 deletions(-)
+> sdw_slave_port_config() checks that the port number falls in the
+> generic valid range, but never checks whether the Slave actually
+> exposes that port for the requested direction. An in-range but
+> unsupported port number (or the right port with the wrong direction)
+> gets accepted without complaint.
+> 
+> sdw_get_slave_dpn_prop() already does this lookup against the
+> source_ports/sink_ports bitmaps for other purposes, so reuse it here
+> instead of open-coding a new check.
 
-diff --git a/sound/soc/sof/intel/hda-loader.c b/sound/soc/sof/intel/hda-loader.c
-index 2b3abcf75d55..4347e71337f9 100644
---- a/sound/soc/sof/intel/hda-loader.c
-+++ b/sound/soc/sof/intel/hda-loader.c
-@@ -216,9 +216,10 @@ int hda_cl_trigger(struct device *dev, struct hdac_ext_stream *hext_stream, int
- EXPORT_SYMBOL_NS(hda_cl_trigger, "SND_SOC_SOF_INTEL_HDA_COMMON");
- 
- int hda_cl_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
--			  bool persistent_buffer, struct hdac_ext_stream *hext_stream)
-+		   bool persistent_buffer, struct hdac_ext_stream *hext_stream, bool is_iccmax)
- {
--	return hda_data_stream_cleanup(dev, dmab, persistent_buffer, hext_stream, false);
-+	return hda_data_stream_cleanup(dev, dmab, persistent_buffer, hext_stream,
-+				       is_iccmax, false);
- }
- EXPORT_SYMBOL_NS(hda_cl_cleanup, "SND_SOC_SOF_INTEL_HDA_COMMON");
- 
-@@ -302,7 +303,7 @@ int hda_dsp_cl_boot_firmware_iccmax(struct snd_sof_dev *sdev)
- 	 * If the cleanup also fails, we return the initial error
- 	 */
- 	ret1 = hda_cl_cleanup(sdev->dev, &hda->iccmax_dmab,
--			      persistent_cl_buffer, iccmax_stream);
-+			      persistent_cl_buffer, iccmax_stream, true);
- 	if (ret1 < 0) {
- 		dev_err(sdev->dev, "error: ICCMAX stream cleanup failed\n");
- 
-@@ -458,7 +459,7 @@ int hda_dsp_cl_boot_firmware(struct snd_sof_dev *sdev)
- 	 * If the cleanup also fails, we return the initial error
- 	 */
- 	ret1 = hda_cl_cleanup(sdev->dev, &hda->cl_dmab,
--			      persistent_cl_buffer, hext_stream);
-+			      persistent_cl_buffer, hext_stream, false);
- 	if (ret1 < 0) {
- 		dev_err(sdev->dev, "error: Code loader DSP cleanup failed\n");
- 
-@@ -587,7 +588,7 @@ int hda_dsp_ipc4_load_library(struct snd_sof_dev *sdev,
- cleanup:
- 	/* clean up even in case of error and return the first error */
- 	ret1 = hda_cl_cleanup(sdev->dev, &hda->cl_dmab, persistent_cl_buffer,
--			      hext_stream);
-+			      hext_stream, false);
- 	if (ret1 < 0) {
- 		dev_err(sdev->dev, "%s: Code loader DSP cleanup failed\n", __func__);
- 
-diff --git a/sound/soc/sof/intel/hda-sdw-bpt.c b/sound/soc/sof/intel/hda-sdw-bpt.c
-index 728ffe7ae54d..c10648f56f23 100644
---- a/sound/soc/sof/intel/hda-sdw-bpt.c
-+++ b/sound/soc/sof/intel/hda-sdw-bpt.c
-@@ -163,7 +163,7 @@ static int hda_sdw_bpt_dma_deprepare(struct device *dev, struct hdac_ext_stream
- 	u32 mask;
- 	int ret;
- 
--	ret = hda_data_stream_cleanup(sdev->dev, dmab_bdl, false, sdw_bpt_stream, true);
-+	ret = hda_data_stream_cleanup(sdev->dev, dmab_bdl, false, sdw_bpt_stream, false, true);
- 	if (ret < 0) {
- 		dev_err(sdev->dev, "%s: SDW BPT DMA cleanup failed\n",
- 			__func__);
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index 4a46e35c3eac..0778002e2bd6 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -1328,16 +1328,18 @@ hda_data_stream_prepare(struct device *dev, unsigned int format, unsigned int si
- EXPORT_SYMBOL_NS(hda_data_stream_prepare, "SND_SOC_SOF_INTEL_HDA_COMMON");
- 
- int hda_data_stream_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
--			    bool persistent_buffer, struct hdac_ext_stream *hext_stream, bool pair)
-+			    bool persistent_buffer, struct hdac_ext_stream *hext_stream,
-+			    bool is_iccmax, bool pair)
- {
- 	struct snd_sof_dev *sdev =  dev_get_drvdata(dev);
- 	struct hdac_stream *hstream = hdac_stream(hext_stream);
- 	int sd_offset = SOF_STREAM_SD_OFFSET(hstream);
- 	int ret = 0;
- 
--	if (hstream->direction == SNDRV_PCM_STREAM_PLAYBACK)
-+	if (!is_iccmax)
- 		ret = hda_dsp_stream_spib_config(sdev, hext_stream, HDA_DSP_SPIB_DISABLE, 0);
--	else
-+
-+	if (hstream->direction == SNDRV_PCM_STREAM_CAPTURE)
- 		snd_sof_dsp_update_bits(sdev, HDA_DSP_HDA_BAR, sd_offset,
- 					SOF_HDA_SD_CTL_DMA_START, 0);
- 
-diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-index 3f0966477ace..799e49539b4a 100644
---- a/sound/soc/sof/intel/hda.h
-+++ b/sound/soc/sof/intel/hda.h
-@@ -739,7 +739,7 @@ struct hdac_ext_stream *hda_cl_prepare(struct device *dev, unsigned int format,
- int hda_cl_trigger(struct device *dev, struct hdac_ext_stream *hext_stream, int cmd);
- 
- int hda_cl_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
--		   bool persistent_buffer, struct hdac_ext_stream *hext_stream);
-+		   bool persistent_buffer, struct hdac_ext_stream *hext_stream, bool is_iccmax);
- int cl_dsp_init(struct snd_sof_dev *sdev, int stream_tag, bool imr_boot);
- #define HDA_CL_STREAM_FORMAT 0x40
- 
-@@ -911,7 +911,8 @@ hda_data_stream_prepare(struct device *dev, unsigned int format, unsigned int si
- 			bool is_iccmax, bool pair);
- 
- int hda_data_stream_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
--			    bool persistent_buffer, struct hdac_ext_stream *hext_stream, bool pair);
-+			    bool persistent_buffer, struct hdac_ext_stream *hext_stream,
-+			    bool is_iccmax, bool pair);
- 
- /* common dai driver */
- extern struct snd_soc_dai_driver skl_dai[];
--- 
-2.43.0
+Smart, good idea. I would recommend adding the first sentence as code comments, I had to look up the code to figure out what it did.
+
+> Slaves that don't report source_ports/sink_ports at all (both zero)
+> are left unchecked, since that's treated elsewhere in the driver as
+> "property not provided" rather than "no ports supported".
+> 
+> Signed-off-by: Eric Wu <kunjinkao.jp@gmail.com>
+> ---
+> Only compile-tested: x86_64 gcc, arm64 and arm32 clang (LLVM=1),
+> all clean with W=1. I do not have SoundWire hardware to test with.
+
+That's a problem in general, maybe push this patch first through the Intel/SOF CI to check that some SoundWire platforms are tested?
+
+>  drivers/soundwire/stream.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
+> index 4ed8fb7663ad..30cb8a8552d8 100644
+> --- a/drivers/soundwire/stream.c
+> +++ b/drivers/soundwire/stream.c
+> @@ -1054,14 +1054,23 @@ static int sdw_slave_port_config(struct sdw_slave *slave,
+>  
+>  	i = 0;
+>  	list_for_each_entry(p_rt, &s_rt->port_list, port_node) {
+> -		/*
+> -		 * TODO: Check valid port range as defined by DisCo/
+> -		 * slave
+> -		 */
+>  		if (!is_bpt_stream) {
+>  			ret = sdw_slave_port_is_valid_range(&slave->dev, port_config[i].num);
+>  			if (ret < 0)
+>  				return ret;
+> +
+> +			/*
+> +			 * source_ports/sink_ports are optional DisCo properties:
+> +			 * both zero means "not provided" rather than "no ports",
+> +			 * so only enforce the check when the Slave reports them.
+> +			 */
+
+That comment is a tad misleading.
+
+In the real world, all drivers ignore DisCo properties provided by platform firmware, and hard-code the values, e.g.
+
+	prop->source_ports = 0x14; /* BITMAP: 00010100 */
+	prop->sink_ports = 0x8; /* BITMAP:  00001000 */
+
+Those properties are really not optional at all, what's optional is that they are blindly read from firmware.
+
+> +			if ((slave->prop.source_ports || slave->prop.sink_ports) &&
+> +			    !sdw_get_slave_dpn_prop(slave, s_rt->direction, port_config[i].num)) {
+
+This test is a bit odd, there could be cases where only source_ports are defined so you would try to check for a sink_port in sdw_get_slave_dpn_prop()
+It probably works in the end but maybe you could check s_rt->direction with source/sink port first?
+
+> +				dev_err(&slave->dev, "port %d not supported for %s\n",
+> +					port_config[i].num,
+> +					s_rt->direction == SDW_DATA_DIR_TX ? "TX" : "RX");
+> +				return -EINVAL;
+> +			}
+>  		} else if (port_config[i].num) {
+>  			return -EINVAL;
+>  		}
 
