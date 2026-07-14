@@ -1,112 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3FF360EFC;
-	Tue, 14 Jul 2026 10:34:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE9B36F917
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 10:47:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784025272; cv=none; b=dHH+LDoksL4xbxsyPEoVuVsXz6FU3/woOkW6KSFAEh+HVmHs9I++g314oNl5s8uXHDQPE5zq6PBcBpq7AtFTsuxdFlf3yljiM9NaBKvny7iUsh75lfshaYbq/ujMUR8HO7fr8IbeKZ8t9Dt75hX2DaFPxA2d5PHwxDZY16GsCfs=
+	t=1784026054; cv=none; b=bVqk7IluvwhB106kZrEe/qtksfqsI6AxNG35Ko1j2ig/rq84LbTlbova50r/6MPIf/BVIkM/OkXg6ko1sT33eX6bRwSbSqocUmsPeo5PIJE0I3xVph3cTBeUBAgbSB3HHS9tjUvizqAgixwb0ZtLHX+cbHGWgHjiirfgWxdbstA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784025272; c=relaxed/simple;
-	bh=L7PFV68jAhvRGopecOiQWDB18FkOZUY0hxG72/r1RtQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pBbk6Qd8w4cM33jkFJmlWnXaQK5stBYI/8dM3Wv+LlNzsdkC103qn4baBbaBHQSYjRYVQfdtyp4MroU57Sym+RjcsU9ch4jcUtybPEdC7dYH4I7KaIBClJ1cIc4u5ANsOJZvIcJmnk2W7uNw8kXzMI4yDipzngB2bELIh++60W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D66171F000E9;
-	Tue, 14 Jul 2026 10:34:29 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: kuninori.morimoto.gx@renesas.com
-Cc: broonie@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 08/12] ASoC: simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()
-Date: Tue, 14 Jul 2026 12:34:28 +0200
-Message-ID: <20260714103428.2318895-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <877bnexiyj.wl-kuninori.morimoto.gx@renesas.com>
-References: <877bnexiyj.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1784026054; c=relaxed/simple;
+	bh=NdJK6lU/WxJrj3+Bvaq+my1n3/N+X7rHkr6PzzAp97g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ibZjitfEV2+1qlP4/MyCP4Bf4yTtimMlSSx7MNvc3wxEfYJ2VyVGuXdKQNP88IYHwNp40AI6YNqmEDVw34RE/8Vp7TSuCP8dOhi0nanQ2ISaRyiGSVssRgA/1rH7hQP3NfkyYHCvDYPPdA8CbMd4l0nrHG8L35u+4OULK7ZAHwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RG65QSWX; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RG65QSWX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB0A1F00A3E;
+	Tue, 14 Jul 2026 10:47:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784026052;
+	bh=NdJK6lU/WxJrj3+Bvaq+my1n3/N+X7rHkr6PzzAp97g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RG65QSWXvUKUiU5XRyyUIck4Hf9Cbxljj7zD+jBVH+fNldU9A9XOK28+nHf2hZzOY
+	 f8xziTa+w/6FA8TtZ8ap5HD7yQT7V815E+7YHfkOyi/t0lLcEfKjourcbJVSIaZhOx
+	 ilF2ynFuRz0NnRkeEuWZse3WJ2j5YUcF1/+P/ji4y59lrgPwUXE03rMJS7zoP/nDIq
+	 ZqdyLEDm2CKtaKvxl9PF6Baeh/O+EvvHCYbuhNKwcY2dcbh8qzWBBNC98eCC50X24m
+	 eB9Vj3IHVzcqAfa90JOhmnHvV1yAd4+ZEIzctsqxAJhe0RAEfKsLRQCLdLLtS6okUs
+	 HQ56Bm5Js8JcQ==
+Date: Tue, 14 Jul 2026 11:47:28 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+	=?utf-8?B?Ik1hcnRpbiBQb3ZpxaFlciI=?= <povik+lin@cutebit.org>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 1/5] ASoC: apple: use .auto_selectable_formats
+Message-ID: <e9263d74-5e2d-449f-9e37-9122bc924d60@sirena.org.uk>
+References: <87pl0r20qo.wl-kuninori.morimoto.gx@renesas.com>
+ <87o6gb20py.wl-kuninori.morimoto.gx@renesas.com>
+ <9b2ce09d-45cf-4277-bcac-72cae66f8216@sirena.org.uk>
+ <871pd6pia1.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8smbjAibs1gFN93g"
+Content-Disposition: inline
+In-Reply-To: <871pd6pia1.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Neutrinos have bad breadth.
 
-	Hi Morimoto-san,
 
-> simple_parse_of() calls simple_util_parse_xxx(), but are random.
-> Let's gather them all in one place.
-> 
-> Let's keep same style with audio-graph-card/audio-graph-card2.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+--8smbjAibs1gFN93g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for your patch, which is now commit 27ecf4da5ad3845b ("ASoC:
-simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()")
-in sound-asoc/for-next.
+On Mon, Jul 13, 2026 at 11:43:50PM +0000, Kuninori Morimoto wrote:
 
-This breaks sound on Koelsch and RZ/Five:
+> > Not all combinations are valid here, should we have separate formats for
+> > _I2S and _LEFT_J cases with the appropriate clock polarity settings so
+> > we don't autoselect something that doesn't work?
 
-    asoc-simple-card sound: error -EINVAL: parse error
-    asoc-simple-card sound: probe with driver asoc-simple-card failed with error -22
-    ...
-    ALSA device list:
-     No soundcards found.
+> Do you mean some kind of limitation exist on this driver ?
+> I couldn't find it.
 
-> --- a/sound/soc/generic/simple-card.c
-> +++ b/sound/soc/generic/simple-card.c
-> @@ -704,23 +704,23 @@ static int simple_parse_of(struct simple_util_priv *priv)
->  	if (ret < 0)
->  		goto end;
->  
-> -	/* Single/Muti DAI link(s) & New style of DT node */
-> -	memset(li, 0, sizeof(*li));
-> -	ret = simple_for_each_link(priv, li,
-> -				   simple_dai_link_of,
-> -				   simple_dai_link_of_dpcm);
-> +	ret = simple_util_parse_card_name(priv, PREFIX);
->  	if (ret < 0)
->  		goto err;
->  
-> -	ret = simple_util_parse_card_name(priv, PREFIX);
-> +	ret = simple_util_parse_aux_devs(priv, PREFIX);
->  	if (ret < 0)
->  		goto err;
->  
-> -	ret = simple_populate_aux(priv);
-> +	/* Single/Muti DAI link(s) & New style of DT node */
-> +	memset(li, 0, sizeof(*li));
-> +	ret = simple_for_each_link(priv, li,
-> +				   simple_dai_link_of,
-> +				   simple_dai_link_of_dpcm);
->  	if (ret < 0)
->  		goto err;
->  
-> -	ret = simple_util_parse_aux_devs(priv, PREFIX);
-> +	ret = simple_populate_aux(priv);
->  	if (ret < 0)
->  		goto err;
->  
+Sorry, I misread the checks at the start of _set_fmt() - it's fine.
 
-All changed functions return zero, but the call to
-devm_snd_soc_register_card() below returns -EINVAL:
+--8smbjAibs1gFN93g
+Content-Type: application/pgp-signature; name="signature.asc"
 
-        snd_soc_card_set_drvdata(card, priv);
+-----BEGIN PGP SIGNATURE-----
 
-        simple_util_debug_info(priv);
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpWE78ACgkQJNaLcl1U
+h9BjRgf/SqmoxEfcAF9Z9O7MTOrSo2h6bPGipaf8j3UpJ6sL6b6BKMk3gh9CP73t
+gVQIO9qVEVOBFn7PUlkznlKpOnL+y3X/eJREH0YAmc82b4IXkwrDRM6buxsRfLlX
+nLE+UzdesTSyaqUvCqHd0RG444a5+tTs+wEJR9ezOEVeM89MP00fTCn6+tO+rUxt
+YiDLBNWp8pqqDp7qkAOoMNBdOnOOR3FBJsG8/IMuL+O7Xzu7jYM7Y6jElZkfrB1K
+a6blEbSuFYcfLwxEIncKH7Cr9nP1/dGL9nB3yPR9HsJp3mZWwF4KlmkFGoyrpXJ/
+4ouH4lxKBIGNLa5N58qXcE2RpQzKlg==
+=CCE9
+-----END PGP SIGNATURE-----
 
-        ret = devm_snd_soc_register_card(dev, card);
-
-Reverting the commit fixes the issue.
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--8smbjAibs1gFN93g--
