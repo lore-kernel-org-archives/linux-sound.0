@@ -1,76 +1,76 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F223D413F
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 06:09:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E20364049
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 06:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784009384; cv=none; b=RxQ7ad7FJ17ccdto1XemnYQRnPKf+pUdc5eA80rJLyUAAxqjmx7PFE6xffZ4vBiwbfLKbrSzEtTzxilh4lqIv6cJTUwcEMZ3iM2SgRAJmFMsqeGXZNjQUTqCIYT7pAqb/mwYevvhlsYCM4jfx3g1bb3F1n+j2xRyV6dqf7bz/2o=
+	t=1784009523; cv=none; b=UeJuqOjFElr+XDMQOkHVE9eQghY8VEmnWwz9rtyv7GMvgHZQQtxm3hIjuSahfee0b3AjVmTD1lpnDhwwAuLxVgRuoZuUx37Tf8v//8Pe97yD+oTNeQl9D3anFZCdk/OkNfc/1L+qtX6/i+UEaqdcLURrqB66jYWEm090zwkoEB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784009384; c=relaxed/simple;
-	bh=a85EeJ40ZOE7YbMSLUUmEgSF4NsNuFFtKQUNkqFzum8=;
+	s=arc-20240116; t=1784009523; c=relaxed/simple;
+	bh=uoGDJTSHWgWFzQbt+7IjVNFwqZgskwRSSXjP43QsV1Y=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fQ/91boEb4kpbAs60lxGejSLdBkMN1Iu8u/q8mftk6X4+OYtCFjG80dx9a7XHl0KpAWtSqaNKg8gujCbVxnpmoRdpTeWU+pZp8oTJGEu2p5Sc4vJNCxX5gczaYgwqxbq7fmtZvQ8HRXyv3FTG+8iggeQGWF1UjpzUYTWzTsnWJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Lqy0DpTc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vvBw1V3U; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Lqy0DpTc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vvBw1V3U; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=ILftHg81iE0Tsl1oJb/OgUioPT92VOClsYYWz6RryAjxlnurnqNGWoP1AAtLvLLsgZcDVCtotX1KNk/lHV7+t8hhGms4MKDj/aEYX3E35r1rWWlBe1zIVwTVUdBIJv5nG1B+ken70NRnQwcdvZHpJd0USbtijvCNOGgWyDA0wU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xPIRJaEL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZdQCoyxm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=beu9Atod; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IiWtnOW8; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Lqy0DpTc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vvBw1V3U";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Lqy0DpTc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vvBw1V3U"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xPIRJaEL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZdQCoyxm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="beu9Atod";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IiWtnOW8"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1EFB73E24;
-	Tue, 14 Jul 2026 06:09:41 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E34EF3E23;
+	Tue, 14 Jul 2026 06:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784009381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1784009520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Clc7DK9WXxvjwE9xbT+lWHrygHld2I2ne84I3e9m0lI=;
-	b=Lqy0DpTcVfREP8TRI1Lv5vHiPQEyv0UX07L6WZggKVLgdOmixcdOUz13OACXyRhktkSIIn
-	j0q0F3f8dvuncifhXnXeV6CrzOBoFXrFgQ8ISsBAu4PVfAC+xTXwBg3Z7GzhvBepj2wTPF
-	nSJu9Ev8VBv2QzdTAt8J1KGf724G26Y=
+	bh=wmhzYwUyk9YS6rAbrx9rFfktDawPLZ0ingvEM7onW0A=;
+	b=xPIRJaELt3viue8fkCKIibH9VzE+R98Bst/k43nIIkqe5i/kEp9E1c04xmPWyvPwOS+Rp/
+	pxdOg0HnQj6LayynXfQ0OnSFWy/9K+RUAIZD5CkS8othjrTHm0LQLR+iaeBqUm0F6D+GYV
+	SSjrZ8FvlkALBYq8+gPi/TSeo/Skktg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784009381;
+	s=susede2_ed25519; t=1784009520;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Clc7DK9WXxvjwE9xbT+lWHrygHld2I2ne84I3e9m0lI=;
-	b=vvBw1V3UTHxn2B1vgBQNTjiOjLu3VebWnFaZi4I3dB9MYTisJWuj2bXxofclsQguJWSU2R
-	U7voHDsb8V34dJDA==
+	bh=wmhzYwUyk9YS6rAbrx9rFfktDawPLZ0ingvEM7onW0A=;
+	b=ZdQCoyxm8a2Zu+0DO9wuQoAkWZ5otYDm5z1Je9SQscFaRN8qGPzBWHMNA/7yNVDOM3MugS
+	KTNaFNTmVNYtJvAg==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784009381; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1784009518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Clc7DK9WXxvjwE9xbT+lWHrygHld2I2ne84I3e9m0lI=;
-	b=Lqy0DpTcVfREP8TRI1Lv5vHiPQEyv0UX07L6WZggKVLgdOmixcdOUz13OACXyRhktkSIIn
-	j0q0F3f8dvuncifhXnXeV6CrzOBoFXrFgQ8ISsBAu4PVfAC+xTXwBg3Z7GzhvBepj2wTPF
-	nSJu9Ev8VBv2QzdTAt8J1KGf724G26Y=
+	bh=wmhzYwUyk9YS6rAbrx9rFfktDawPLZ0ingvEM7onW0A=;
+	b=beu9AtodHKJ74Lk5HMOniaC6/0psm16xVBSvCRF4CzQXgkLcJdOntb8/81MzV2WSC5LAEw
+	sdWXnk/pdIf+AYquB7GG0VGuJplhkWObYu7GCQUNADOQpPixIU/xcQIOja6ZexZkSNcAYj
+	Tqwvy+Zb8SlTKU2/Z+1p0clDUSpb0jg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784009381;
+	s=susede2_ed25519; t=1784009518;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Clc7DK9WXxvjwE9xbT+lWHrygHld2I2ne84I3e9m0lI=;
-	b=vvBw1V3UTHxn2B1vgBQNTjiOjLu3VebWnFaZi4I3dB9MYTisJWuj2bXxofclsQguJWSU2R
-	U7voHDsb8V34dJDA==
+	bh=wmhzYwUyk9YS6rAbrx9rFfktDawPLZ0ingvEM7onW0A=;
+	b=IiWtnOW8mABGfjydyKyF6oQUIn5VLksEafNwHjwSTNKzI4S/NzZJXaOxAZK+BZWNHC26qa
+	Qd2PZAuromiw+lBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E74D6779AE;
-	Tue, 14 Jul 2026 06:09:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B3F49779AE;
+	Tue, 14 Jul 2026 06:11:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5wZLN6TSVWqWJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Jul 2026 06:09:40 +0000
-Date: Tue, 14 Jul 2026 08:09:40 +0200
-Message-ID: <87mrvuje57.wl-tiwai@suse.de>
+	id eke/Ki7TVWrPJgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Jul 2026 06:11:58 +0000
+Date: Tue, 14 Jul 2026 08:11:58 +0200
+Message-ID: <87ldbeje1d.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: wangdich9700@163.com
 Cc: tiwai@suse.com,
@@ -78,10 +78,10 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	wangdicheng <wangdicheng@kylinos.cn>
-Subject: Re: [PATCH v2 2/3] ALSA: hda/cs35l56: Use scoped_guard() for irq_lock in cs35l56_hda_fw_load()
-In-Reply-To: <20260710084009.665814-3-wangdich9700@163.com>
+Subject: Re: [PATCH v2 3/3] ALSA: hda: Use scoped_guard() for open_mutex in azx_pcm_open()
+In-Reply-To: <20260710084009.665814-4-wangdich9700@163.com>
 References: <20260710084009.665814-1-wangdich9700@163.com>
-	<20260710084009.665814-3-wangdich9700@163.com>
+	<20260710084009.665814-4-wangdich9700@163.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,183 +96,227 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.993];
+	NEURAL_HAM_SHORT(-0.20)[-0.994];
 	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[163.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[163.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,kylinos.cn:email]
 X-Spam-Level: 
 
-On Fri, 10 Jul 2026 10:40:08 +0200,
+On Fri, 10 Jul 2026 10:40:09 +0200,
 wangdich9700@163.com wrote:
 > 
 > From: wangdicheng <wangdicheng@kylinos.cn>
 > 
-> Replace the manual mutex_lock/mutex_unlock of irq_lock with
-> scoped_guard(). This lets the compiler guarantee the lock is
-> released on all exit paths, eliminating the err label that
-> previously existed only to reach the unlock call.
+> The companion function azx_pcm_close() already uses
+> scoped_guard(mutex, &chip->open_mutex). Replace the manual
+> mutex_lock/mutex_unlock pair in azx_pcm_open() with the same
+> pattern for consistency.
+> 
+> All goto targets are within the scoped_guard() block, avoiding
+> the goto-jumping-out-of-scope pattern that is not recommended
+> when using cleanup guards.
+> 
+> No functional changes.
+> 
+> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 
-The combination of gotos in different scopes have risks, so I'm not
-thrilled by this change.  As you noticed, the locking scheme there is
-complex, hence just replacing with guard() doesn't improve the
-readability well.  If any, better to re-design the code and locking.
+This one has also a combination of guard() and goto, which isn't a
+good mix.
 
 
 thanks,
 
 Takashi
 
-> 
-> No functional changes.
-> 
-> Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
 > ---
->  sound/hda/codecs/side-codecs/cs35l56_hda.c | 104 ++++++++++-----------
->  1 file changed, 51 insertions(+), 53 deletions(-)
+>  sound/hda/common/controller.c | 158 +++++++++++++++++-----------------
+>  1 file changed, 81 insertions(+), 77 deletions(-)
 > 
-> diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-> index a0ea08eb96a9..4f74397ea06f 100644
-> --- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
-> +++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-> @@ -625,74 +625,72 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
->  		goto err_fw_release;
->  	}
+> diff --git a/sound/hda/common/controller.c b/sound/hda/common/controller.c
+> index afec5c5546ec..04ae21cc5e5e 100644
+> --- a/sound/hda/common/controller.c
+> +++ b/sound/hda/common/controller.c
+> @@ -584,86 +584,90 @@ static int azx_pcm_open(struct snd_pcm_substream *substream)
+>  	int buff_step;
 >  
-> -	mutex_lock(&cs35l56->base.irq_lock);
-> +	scoped_guard(mutex, &cs35l56->base.irq_lock) {
-> +		/*
-> +		 * If the firmware hasn't been patched it must be shutdown before
-> +		 * doing a full patch and reset afterwards. If it is already
-> +		 * running a patched version the firmware files only contain
-> +		 * tunings and we can use the lower cost reinit sequence instead.
-> +		 */
-> +		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> +			ret = cs35l56_firmware_shutdown(&cs35l56->base);
-> +			if (ret)
-> +				goto err_powered_up;
-> +		}
->  
-> -	/*
-> -	 * If the firmware hasn't been patched it must be shutdown before
-> -	 * doing a full patch and reset afterwards. If it is already
-> -	 * running a patched version the firmware files only contain
-> -	 * tunings and we can use the lower cost reinit sequence instead.
-> -	 */
-> -	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> -		ret = cs35l56_firmware_shutdown(&cs35l56->base);
-> -		if (ret)
-> -			goto err;
+>  	snd_hda_codec_pcm_get(apcm->info);
+> -	mutex_lock(&chip->open_mutex);
+> -	azx_dev = azx_assign_device(chip, substream);
+> -	trace_azx_pcm_open(chip, azx_dev);
+> -	if (azx_dev == NULL) {
+> -		err = -EBUSY;
+> -		goto unlock;
 > -	}
-> +		ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
-> +				      coeff_firmware, coeff_filename, "misc");
-> +		if (ret) {
-> +			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
-> +			goto err_powered_up;
-> +		}
->  
-> -	ret = cs_dsp_power_up(&cs35l56->cs_dsp, wmfw_firmware, wmfw_filename,
-> -			      coeff_firmware, coeff_filename, "misc");
-> -	if (ret) {
-> -		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_power_up ret %d\n", __func__, ret);
-> -		goto err;
+> -	runtime->private_data = azx_dev;
+> -
+> -	runtime->hw = azx_pcm_hw;
+> -	if (chip->gts_present)
+> -		runtime->hw.info |= SNDRV_PCM_INFO_HAS_LINK_SYNCHRONIZED_ATIME;
+> -	runtime->hw.channels_min = hinfo->channels_min;
+> -	runtime->hw.channels_max = hinfo->channels_max;
+> -	runtime->hw.formats = hinfo->formats;
+> -	runtime->hw.rates = hinfo->rates;
+> -	snd_pcm_limit_hw_rates(runtime);
+> -	snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
+> -
+> -	/* avoid wrap-around with wall-clock */
+> -	snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_TIME,
+> -				     20,
+> -				     178000000);
+> -
+> -	if (chip->align_buffer_size)
+> -		/* constrain buffer sizes to be multiple of 128
+> -		   bytes. This is more efficient in terms of memory
+> -		   access but isn't required by the HDA spec and
+> -		   prevents users from specifying exact period/buffer
+> -		   sizes. For example for 44.1kHz, a period size set
+> -		   to 20ms will be rounded to 19.59ms. */
+> -		buff_step = 128;
+> -	else
+> -		/* Don't enforce steps on buffer sizes, still need to
+> -		   be multiple of 4 bytes (HDA spec). Tested on Intel
+> -		   HDA controllers, may not work on all devices where
+> -		   option needs to be disabled */
+> -		buff_step = 4;
+> -
+> -	snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
+> -				   buff_step);
+> -	snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
+> -				   buff_step);
+> -	snd_hda_power_up(apcm->codec);
+> -	if (hinfo->ops.open)
+> -		err = hinfo->ops.open(hinfo, apcm->codec, substream);
+> -	else
+> -		err = -ENODEV;
+> -	if (err < 0) {
+> -		azx_release_device(azx_dev);
+> -		goto powerdown;
 > -	}
-> +		if (wmfw_filename)
-> +			dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
+> -	snd_pcm_limit_hw_rates(runtime);
+> -	/* sanity check */
+> -	if (snd_BUG_ON(!runtime->hw.channels_min) ||
+> -	    snd_BUG_ON(!runtime->hw.channels_max) ||
+> -	    snd_BUG_ON(!runtime->hw.formats) ||
+> -	    snd_BUG_ON(!runtime->hw.rates)) {
+> -		azx_release_device(azx_dev);
+> -		if (hinfo->ops.close)
+> -			hinfo->ops.close(hinfo, apcm->codec, substream);
+> -		err = -EINVAL;
+> -		goto powerdown;
+> -	}
+> +	scoped_guard(mutex, &chip->open_mutex) {
+> +		azx_dev = azx_assign_device(chip, substream);
+> +		trace_azx_pcm_open(chip, azx_dev);
+> +		if (azx_dev == NULL) {
+> +			err = -EBUSY;
+> +			break;
+> +		}
+> +		runtime->private_data = azx_dev;
 > +
-> +		if (coeff_filename)
-> +			dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
->  
-> -	if (wmfw_filename)
-> -		dev_dbg(cs35l56->base.dev, "Loaded WMFW Firmware: %s\n", wmfw_filename);
-> +		/* If we downloaded firmware, reset the device and wait for it to boot */
-> +		if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> +			cs35l56_system_reset(&cs35l56->base, false);
-> +			regcache_mark_dirty(cs35l56->base.regmap);
-> +			ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
-> +			if (ret)
-> +				goto err_powered_up;
->  
-> -	if (coeff_filename)
-> -		dev_dbg(cs35l56->base.dev, "Loaded Coefficients: %s\n", coeff_filename);
-> +			regcache_cache_only(cs35l56->base.regmap, false);
+> +		runtime->hw = azx_pcm_hw;
+> +		if (chip->gts_present)
+> +			runtime->hw.info |= SNDRV_PCM_INFO_HAS_LINK_SYNCHRONIZED_ATIME;
+> +		runtime->hw.channels_min = hinfo->channels_min;
+> +		runtime->hw.channels_max = hinfo->channels_max;
+> +		runtime->hw.formats = hinfo->formats;
+> +		runtime->hw.rates = hinfo->rates;
+> +		snd_pcm_limit_hw_rates(runtime);
+> +		snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
+> +
+> +		/* avoid wrap-around with wall-clock */
+> +		snd_pcm_hw_constraint_minmax(runtime, SNDRV_PCM_HW_PARAM_BUFFER_TIME,
+> +					     20,
+> +					     178000000);
+> +
+> +		if (chip->align_buffer_size)
+> +			/*
+> +			 * Constrain buffer sizes to be multiple of 128
+> +			 * bytes. This is more efficient in terms of memory
+> +			 * access but isn't required by the HDA spec and
+> +			 * prevents users from specifying exact period/buffer
+> +			 * sizes. For example for 44.1kHz, a period size set
+> +			 * to 20ms will be rounded to 19.59ms.
+> +			 */
+> +			buff_step = 128;
+> +		else
+> +			/*
+> +			 * Don't enforce steps on buffer sizes, still need to
+> +			 * be multiple of 4 bytes (HDA spec). Tested on Intel
+> +			 * HDA controllers, may not work on all devices where
+> +			 * option needs to be disabled
+> +			 */
+> +			buff_step = 4;
+> +
+> +		snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_BUFFER_BYTES,
+> +					   buff_step);
+> +		snd_pcm_hw_constraint_step(runtime, 0, SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
+> +					   buff_step);
+> +		snd_hda_power_up(apcm->codec);
+> +		if (hinfo->ops.open)
+> +			err = hinfo->ops.open(hinfo, apcm->codec, substream);
+> +		else
+> +			err = -ENODEV;
+> +		if (err < 0) {
+> +			azx_release_device(azx_dev);
+> +			goto powerdown;
+> +		}
+> +		snd_pcm_limit_hw_rates(runtime);
+> +		/* sanity check */
+> +		if (snd_BUG_ON(!runtime->hw.channels_min) ||
+> +		    snd_BUG_ON(!runtime->hw.channels_max) ||
+> +		    snd_BUG_ON(!runtime->hw.formats) ||
+> +		    snd_BUG_ON(!runtime->hw.rates)) {
+> +			azx_release_device(azx_dev);
+> +			if (hinfo->ops.close)
+> +				hinfo->ops.close(hinfo, apcm->codec, substream);
+> +			err = -EINVAL;
+> +			goto powerdown;
 > +		}
 >  
-> -	/* If we downloaded firmware, reset the device and wait for it to boot */
-> -	if (firmware_missing && (wmfw_firmware || coeff_firmware)) {
-> -		cs35l56_system_reset(&cs35l56->base, false);
-> -		regcache_mark_dirty(cs35l56->base.regmap);
-> -		ret = cs35l56_wait_for_firmware_boot(&cs35l56->base);
-> +		/* Disable auto-hibernate so that runtime_pm has control */
-> +		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
->  		if (ret)
->  			goto err_powered_up;
->  
-> -		regcache_cache_only(cs35l56->base.regmap, false);
+> -	/* disable LINK_ATIME timestamps for capture streams
+> -	   until we figure out how to handle digital inputs */
+> -	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
+> -		runtime->hw.info &= ~SNDRV_PCM_INFO_HAS_WALL_CLOCK; /* legacy */
+> -		runtime->hw.info &= ~SNDRV_PCM_INFO_HAS_LINK_ATIME;
 > -	}
-> +		regcache_sync(cs35l56->base.regmap);
+> +		/*
+> +		 * Disable LINK_ATIME timestamps for capture streams
+> +		 * until we figure out how to handle digital inputs
+> +		 */
+> +		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
+> +			runtime->hw.info &= ~SNDRV_PCM_INFO_HAS_WALL_CLOCK; /* legacy */
+> +			runtime->hw.info &= ~SNDRV_PCM_INFO_HAS_LINK_ATIME;
+> +		}
 >  
-> -	/* Disable auto-hibernate so that runtime_pm has control */
-> -	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_PREVENT_AUTO_HIBERNATE);
-> -	if (ret)
-> -		goto err_powered_up;
-> -
-> -	regcache_sync(cs35l56->base.regmap);
-> -
-> -	regmap_clear_bits(cs35l56->base.regmap,
-> -			  cs35l56->base.fw_reg->prot_sts,
-> -			  CS35L56_FIRMWARE_MISSING);
-> -	cs35l56->base.fw_patched = true;
-> +		regmap_clear_bits(cs35l56->base.regmap,
-> +				  cs35l56->base.fw_reg->prot_sts,
-> +				  CS35L56_FIRMWARE_MISSING);
-> +		cs35l56->base.fw_patched = true;
+> -	snd_pcm_set_sync(substream);
+> -	mutex_unlock(&chip->open_mutex);
+> -	return 0;
+> +		snd_pcm_set_sync(substream);
+> +		return 0;
 >  
-> -	ret = cs_dsp_run(&cs35l56->cs_dsp);
-> -	if (ret)
-> -		dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
-> +		ret = cs_dsp_run(&cs35l56->cs_dsp);
-> +		if (ret)
-> +			dev_dbg(cs35l56->base.dev, "%s: cs_dsp_run ret %d\n", __func__, ret);
->  
-> -	/* Don't need to check return code, it's not fatal if this fails */
-> -	cs35l56_hda_apply_calibration(cs35l56);
-> +		/* Don't need to check return code, it's not fatal if this fails */
-> +		cs35l56_hda_apply_calibration(cs35l56);
->  
-> -	ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
-> -	if (ret)
-> -		cs_dsp_stop(&cs35l56->cs_dsp);
-> +		ret = cs35l56_mbox_send(&cs35l56->base, CS35L56_MBOX_CMD_AUDIO_REINIT);
-> +		if (ret)
-> +			cs_dsp_stop(&cs35l56->cs_dsp);
->  
-> -	cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
-> +		cs35l56_log_tuning(&cs35l56->base, &cs35l56->cs_dsp);
->  
->  err_powered_up:
-> -	if (!cs35l56->base.fw_patched)
-> -		cs_dsp_power_down(&cs35l56->cs_dsp);
-> -err:
-> -	mutex_unlock(&cs35l56->base.irq_lock);
-> +		if (!cs35l56->base.fw_patched)
-> +			cs_dsp_power_down(&cs35l56->cs_dsp);
+> - powerdown:
+> -	snd_hda_power_down(apcm->codec);
+> - unlock:
+> -	mutex_unlock(&chip->open_mutex);
+> +powerdown:
+> +		snd_hda_power_down(apcm->codec);
 > +	}
->  err_fw_release:
->  	cs35l56_hda_release_firmware_files(wmfw_firmware, wmfw_filename,
->  					   coeff_firmware, coeff_filename);
+>  	snd_hda_codec_pcm_put(apcm->info);
+>  	return err;
+>  }
 > -- 
 > 2.25.1
 > 
