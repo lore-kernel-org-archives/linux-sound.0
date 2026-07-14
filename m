@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBB93D9DB6;
-	Tue, 14 Jul 2026 21:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5C33F2109;
+	Tue, 14 Jul 2026 21:24:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784064244; cv=none; b=YPLM/DHocUJP5QVV8+zmBZagQN6ObIurzyRH0gxZpjXgSorOYfstGp9jFkdFMIrYtBdUOZMBuSxgymKK1zquWZynQjyRjm5i9JkkgGL1JSMZ9WftTe73JkW+al5ckATbp49wUefwQv5/dtBUlounpWSJRrcknuWFAp2ieIzeirc=
+	t=1784064249; cv=none; b=p6/Rkd25QdCMOvsmfWpGmUIc5MYET3EH/kdms4EwhG0eQZ6h57lFSpebTNgGIllzJWIgldhQWPpo/w7Ug6ekD0MP2UB3Yb0zDQdkk2KZTIDf8IUC0fHXmGSxgHKYwxq8JoVVYrMQQay86m+AooeIjsszgeBUCE4gzDCGhm5PJHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784064244; c=relaxed/simple;
-	bh=YSadjA6VDvnwlSTfyr94BD1tQa3Y7pUEeuq6lviDoOo=;
+	s=arc-20240116; t=1784064249; c=relaxed/simple;
+	bh=1rlTdPVEJirmtaB3HgVUfJvhOsghnLMPPPjkkC1XBbA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EbyP5NA2GMYuCnyJK1fcOR4lFJXHGsPBMVuRTA6MiwRaLnwT9HGwyS5kHOFmPp+DNBiu/uSLn6FMywK/U/MD8d612l4MjuL5TbGeMgBg2rbfP1q892NcHkqz9zp6XrIO4haBpyPubnpy0zD4d+cnM13uqLS9zrRNhwmEltfBGg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JWXnzvlX; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Vj19Q3hMVF/eAD8PJRnRlQGs2sYvOCz0zW+u8qt+//zIW/56+/nfwOjbtPPu9bYyba2xtNnhEnGXyagMocjaBXCf5S8yb6+43YCacJMvVeCA4SbamjXsKynDze7u46ILt/fJPE1HzezLyRfNvre3D3qy0Zbntm+EpXI+yYEO6/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vf7weHc9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JWXnzvlX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753881F000E9;
-	Tue, 14 Jul 2026 21:24:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vf7weHc9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 145171F000E9;
+	Tue, 14 Jul 2026 21:24:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784064243;
-	bh=tcTh9kL71uJk1nx4BRTKDvRFS1WZs9ACdfjLy4is8aY=;
+	s=k20260515; t=1784064248;
+	bh=sm/C3/9RoriVv1DqhbJBNES+H3kJ5PkYRMMwKdFeWww=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=JWXnzvlXA6vaNiUzhCuGPysKoTnD1Xv58ElXIq5z3y6Brz38Ek2jAZdlQPBQwfy0D
-	 Lq7bOPuEI/86D5+du2Obxb/VCJDJGPqoIwbgSxocNGWhPQR6W0d3TmBXsPiqOmRHXU
-	 m/bqfoAd2xyAcPC0iyskpP+j8IrGVt7D50xLSc0xzE3B7wnvFUSKN1HhWe8JZETdck
-	 nSFRFDz+DEkOYzSWuZQ1OcQZqQk+PtJbLKHnobLoAAjHwcmiKsZHAiT/PLr2YcT/Rx
-	 Mh+o9t8NlLVqJQZGMuNFRWWooj3iknLTlf59oSJipFl+9W/7I1Ak1kEtdhoHHB41Ua
-	 e0yztUkE+chjA==
+	b=Vf7weHc9iI/62VbuZ5ZsoXrq3NVdMZxpqLw0+YnLnDaMXqOR0wkO0sPTVaSaYErbM
+	 l2jhlJIROBCZZH7ax9pFkyEcZwiBFIpZuhs+zBKWeHwyv/WdkQljtBwzHNvXk+Kmtq
+	 T3K7dN1xmATcc6mv+1hioafwqPMOgz9+7p2LY7EtRYmWY9OR2q2tH0zkq1E+0KXkk8
+	 ALkzxHM++rYlwrtxSPm4X9rxzVIdGNkaUh0PD/1ERa+D/ZDEK8nJNHJQLKpx5WAq0I
+	 /kQi8HKIyc12fdcoXMEzawbUjXPHH3NEbdyRpLCzkFaNgEg0Fr6Y/x9+7H51tsGr2U
+	 w7oTeeuaQPkSw==
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Sen Wang <sen@ti.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260706144540.93929-1-pengpeng@iscas.ac.cn>
-References: <20260706144540.93929-1-pengpeng@iscas.ac.cn>
-Subject: Re: [PATCH v2] ASoC: tas2781: bound firmware description string
- parsing
-Message-Id: <178402830091.7661.5699161292732694050.b4-ty@b4>
-Date: Tue, 14 Jul 2026 12:25:00 +0100
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Valerio Setti <vsetti@baylibre.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260702-fix-24-bit-i2s-playback-v2-1-9c008ff0b211@baylibre.com>
+References: <20260702-fix-24-bit-i2s-playback-v2-1-9c008ff0b211@baylibre.com>
+Subject: Re: [PATCH v2] ASoC: meson: aiu-formatter-i2s: remove pipeline
+ reset from prepare
+Message-Id: <178403353533.7661.3587699052288293091.b4-ty@b4>
+Date: Tue, 14 Jul 2026 13:52:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,29 +50,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
- h=from:subject:message-id; bh=YSadjA6VDvnwlSTfyr94BD1tQa3Y7pUEeuq6lviDoOo=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVqjwRh4STdClgm+pKifrINnnTQkOVcE0r1J5H
- 7fKaIb2bqqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalao8AAKCRAk1otyXVSH
- 0LtTB/47iItob0TVg2kzeVej/bWQPCLeAIZ/+QEhNY0KPHN1ZwAbdqVhDGF1vVU3YhbG/cj8h3t
- 9jpahj6o+6MpJAyH9q9ky5DagZF5yEUE8WT7iUz9CmUqIqoFqlnqxEjoQ4Ftax6G40a2V7Htvtx
- YCbfHUroc8hdteTzGqipVXb7v2qHedrWPtVRWCK641/Ouc6EZa1HK5JUhRX0p7JYzXzity6T6mN
- LHHfPmlv8gDZqmiHZzcgON8NHXZW1M0wfB3fIl/31a7Muwq/RrXx7rexJvPdjLbMVe7jh67SQEc
- KU40QWKEu3XdBWr7ypfqoIJY11utTNtD4es4SPY/EwmQHykH
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1151; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=1rlTdPVEJirmtaB3HgVUfJvhOsghnLMPPPjkkC1XBbA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVqj1h8DRXWnkwi8ihLSVZ4sFeF85Sd+R+80o2
+ g43jxHVLYyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalao9QAKCRAk1otyXVSH
+ 0Kg0B/0dKBQP+1uaY1hHT7K10/CjBAlegYHUZVMuaxpZ3kjQH2+upsicYrwgsF4Kq1jnycwrBP+
+ EV0lOyhDaoXqpYgHL1kMljpV3ZyOBEuCqnB3KYkj/on+hleHeR6zG9aFmgyiWxFdtpbQIU2NLiq
+ G09KfvOAdEPHR65JzTuSzDuOEXnrEYUSn2n0tSRiQWnMRKpOCs+oQbr+RYXB0GXw64RTSRQu7J6
+ C9K9mkfqXw1jP5GSiIhgaMNI4HZj/kqoFyU4yBn1gs6u+Zf7PmH64VKmwcU/cBgP43PcYkaNckp
+ E099aKupcxDWyVj0nu9ijxtwp62S7qH13TZh2FsD7mx/8b3S
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 06 Jul 2026 22:45:39 +0800, Pengpeng Hou wrote:
-> ASoC: tas2781: bound firmware description string parsing
+On Thu, 02 Jul 2026 23:31:46 +0200, Valerio Setti wrote:
+> ASoC: meson: aiu-formatter-i2s: remove pipeline reset from prepare
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
 Thanks!
 
-[1/1] ASoC: tas2781: bound firmware description string parsing
-      https://git.kernel.org/broonie/sound/c/bc889dfcea92
+[1/1] ASoC: meson: aiu-formatter-i2s: remove pipeline reset from prepare
+      https://git.kernel.org/broonie/sound/c/72fe2ef11df5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
