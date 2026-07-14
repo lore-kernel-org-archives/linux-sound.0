@@ -1,63 +1,63 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009CE38C2AE
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 12:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AF738F621
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 12:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784030521; cv=none; b=FGNRbQWYV21mJISU+p48Yoh37qrlROOeA4uilsk6sz8NwuyqoqupBU9qPjmm8thm4J89zqemQhH8XNH4JCXhkm2/MsH9fGcPcloHWJe1V1T74EVNl6+EuKA4gEa47yuJuyfhOz5TzqNhYID0i2Yf+/EjYe8D3guFcw8B79UUxCY=
+	t=1784030525; cv=none; b=tHqcBVIG0QBEHFrOZaaPZIIZ9X5QgvQfWDvFqmYv/qZ0+6qRngmn8SpDWvI7pkuMqK5SGjNkbvO8yicTR6yRqMHdxSq765qEpmUUsyatS1KPLIKPeI9Uf7bB4JuuxRnIZqgCeSeUxQ1UIq+Bv78QiUnmcZqLP/aKoiwDLcixSK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784030521; c=relaxed/simple;
-	bh=XWDzYN/QmDeP+BMWU96Wibo8K6xDaS1cOUFjBPJXQQU=;
+	s=arc-20240116; t=1784030525; c=relaxed/simple;
+	bh=NWzTd6xiPdBaZy/6UXtXar/YN26w4vS061xIq15Rj1c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uMj33YSYYoTh0s4h1Z6/4F0AnANcO+8yKG6gcwV7768+aZjoM97MpO8CwUldwdjEIYX7TuNwckFh4gD2GS59LuFDGK2NQ2kinCbMWaS2HmcftZb86dP49LLPjcJAEWHaKxWBjyOD39pSxP/AUIT80h+gu/kv8GhO9pYKXoCrVzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ouusHWBs; arc=none smtp.client-ip=209.85.216.46
+	 MIME-Version; b=jC96ENx4M7DUj4iJs8s3lcXGngftPAI+asfnvkRf/nujF0VECKULlQXGeklH9EmKcfV1kdHohnIUzS4z3PC9AdD9XoBBtzdcxdaPxsXu/xC1KzNvU9lZMH/JJCN5OaK36aVJLI27SW8a8MQMku6ty7mxbxM68VAznr4fjkwJ10E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GN/Ia07Y; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ouusHWBs"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so2859923a91.0
-        for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 05:01:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GN/Ia07Y"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so4372302a91.3
+        for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 05:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784030519; x=1784635319; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784030523; x=1784635323; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=06ntY9whyt2Zuo8Uv5yBesP3vRYcbp6uEAMZexttM1Q=;
-        b=ouusHWBswmaecj71e2raeNOShvorAgvc96mxNOAX11kw7qXObLOORcHn6h4GwTHKCf
-         XuHgXoIMtsCtlGzPHURjPtHPOnj7NY3xathGCaPQpMiriEHZ377ScgafqT2K8ubdHmbP
-         ak8s9Vy3R+orYn0woJ/d4CALuot8Z4nLIxQaMrugY44+xwd1gtOyXxhzvc9E2UrMYxAN
-         bujFdUnD+hCYvQ/rpMiyFt5bp+RnPhBmwPoY4P9WqYkczWKdV4lIIhFNhXHJjsYp1tE5
-         RwVw3ZWvWQ2fnFAr3bZgVJjJiPqizEDAzCzJERnHZtTNY1M9eDdsmSq/ECCBavTGT059
-         9wgA==
+        bh=Xl+ER8kJy0jFgleq1xDqpQH2nfl1PFzj8+QKjTW72EA=;
+        b=GN/Ia07YcGpVoDQ4OUKzp8IES2PA1Tk6bbOlBDV2lBJAiyErMNiUiHORK5Y+6ZxbTB
+         gTm1rTctr686PvZJo/LTXWlNXvObxbnp08kMOzjG2TU20OwA9jx4rm46qEPvFs7loHZW
+         8PBBvEG30P3ufhnt20htSKTgQpVkwtqrUTkg9Y/8Pw7D2Ss7HAncpKuPheOy2puhXDyv
+         y8oLvrJBfM/QcanmnqW5NpxFdTg+2zPZOfx5rov09DEMG5fm6tDlO1/MZ9JSJPeBNzPS
+         19ZonprahmuVh7DgqpiQW7cP/PIYApoOqEceaLNUYhUV59h58ZMaIKLX6bN1hJQRoCUa
+         sPuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784030519; x=1784635319;
+        d=1e100.net; s=20251104; t=1784030523; x=1784635323;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=06ntY9whyt2Zuo8Uv5yBesP3vRYcbp6uEAMZexttM1Q=;
-        b=sE9gSwXk9hl29Fx4ah23Pzz6kbjo9Wal5U/nTa3k3cpSdxexUJx8eyq8Vku6/Hkq8u
-         JCXFIhrQ05PdTI8zQZ2TS8H9nIZkZm9YAB0iHZdoWtHGFEsoTrHGNI2EgHFbefvdREDE
-         QXuZY6w16KlPq5Hqtl17EGtPA5ZMYCKB1NVkBxHCGJnfZYi0nbWGsxJao1b+CjzZysq2
-         LFtQI/KIMh2L6QpE0vTOhH7E048KZDc21N1OSn6JEKnnmFQpNTTSXvuXZ1Od6yQh4rBm
-         /ZmMMUbPNh2ofzRlX18Ci3zPx9CpXOKwFrYnHG0n15I7J0AmlIVb/N2iF7c8bQ07e+Fm
-         9f9g==
-X-Forwarded-Encrypted: i=1; AHgh+RqoZrQ9a1ejphNJX7fjY+QWou73RKolTdM6oNbiIGZmqS9gz7YE2NBquFY+e/AT5gVd3Ox34UzE+K61dg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNTic6LQIwInvUK56Znqyk147kdJofcJ8qeHp88PXOx4y7CgnI
-	sERAtIf9UQPkZ6+8CJDpDsffLSEIhdsc6Qx6WLh5eousZihJwqiymUlL
-X-Gm-Gg: AfdE7clVHi9xyywT0qNcQm1vuC6PBjKN962494oJ2UT58Tio+WHpcVyKSEPTLph1DEM
-	uPM7rH9xcBktSFTEVYu9EQMh7hEFikBiS/EZrKRRsHyC+9l73zKDzcQ9Qd991HSS2ig4ZPPQVhS
-	tuWDF2P9NLIB+UanphjmZvEk6LRqqdaEcU3avxqDfOc9Ay41cSHDmvEAfzIeVQJ9KVTZP0+mrw0
-	68zqQVxsePW1mxq8zrQ69ysv1zGdz/MmqLvErlB30gH+tsQwiF/YrVH+ZW3qd+kNplOwRDLgA+d
-	6SxhEqdGtFESZjWfvYbxbzBTHHszdRoNiR/lD48R4x6wNGJ0dZpW8zm2r4vzDIlM7fXopjqL170
-	GdtiWE9DsPFRquCCZqeZXn6fzeKxpVUfOYhQmFUcsXw439Asvb9WxTFfWgxgJPJvXFCbsI0Th5Q
-	zUdFIogNs8sZYWlxpmFGQ4PIj2h16dSBD+GYZgILtuKI+ljFg=
-X-Received: by 2002:a17:90b:35c8:b0:387:e0cb:c8dc with SMTP id 98e67ed59e1d1-38e1b00c165mr2212750a91.37.1784030518918;
-        Tue, 14 Jul 2026 05:01:58 -0700 (PDT)
+        bh=Xl+ER8kJy0jFgleq1xDqpQH2nfl1PFzj8+QKjTW72EA=;
+        b=bP78pNSHzLZVThZnwG0byQ1r5LsH6oAv94KhT0WTnsq9gbJ8f8tq2MUAyGVVNLiO6s
+         msMI7SjncuLAbWhMarwi9dlmJDS5kJMoBDWXlt+k88KIlmsmDJVDU8kiX+0F6P0Koo18
+         eMBVz2JFrYao02HiSJx0ZGZIYWMv/pK/ie2LkSzy3jvRGetSpXp3JLnRLG43sWQDojzS
+         24U0g1+eBnoxnUT5IHk5e8g80Sdsc2MaIwwt02AF7DSTps8WMGj6uk29UbFVAH0pvu2s
+         60lUysVargYipZ0jsPXm0nLg2qE0QpN6RcrDn3VIAYJ1I5vKHpXR+C/hQ2GyuyKI2/4B
+         zVTQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr2Za9JVvWF0o9LFKVUhC7imsWm7yTItwqKSJzuPsHxu7QeX88c2uj7WP03rDg3+jEqWGpsDu8fjG9XMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4HbRSfbQoSZGVLTzxUWnFMqkC8J62WqIDGUz3OJYv9OnKEQgG
+	oRzwDUPtfkvWjCjdo6u9fzq6qrgZmZbdg/vE8o2R8fMksSnaftREFNGo
+X-Gm-Gg: AfdE7clRWRZwFX0SOIQ/S9b0EvCOPo+PBR6xE11cPVMAoNHFTX8OmS6gPCXryVyDthB
+	dEUH5g3wOx59Ccn1c/LayeVQs503u/BzbFIETAygkOSgQnnNZBrmp0Qc28Ds/cUOWfTKCl7XXNk
+	t+/KMUwVq5Gb4JuhaP83fA6EbuAyVDyPpv/IN53GWIO/a+WfnJ6yGgfJeag/C8g8+5ooxklc0OT
+	v4xyi1vebLMN25hpnvF7E1K+uHVGEy88yh/Gx5bwtJR/uuqb+TIuiz/JUd1Tw0L8lehjTVkU/jm
+	wtFoi6esmYRJRmHcoeGMfr07/KldK9gdnpyK9zPRM7A4fEm4Exxe/MiliCRYNGT4/zxiD4xaJya
+	l9ACAl3e5Di6Z7lNgcyidOpNirhXwGxrIT9RgNr+WDNF8cxQG3wrmdxrhvy5Gk76rv3qsxLXgNe
+	HiRzRJkRDSwg9U5ljy48g6acrs54zw8mr5ebrKdXnGXyu2rrA=
+X-Received: by 2002:a17:90b:5585:b0:37f:db06:229c with SMTP id 98e67ed59e1d1-38dc777b895mr12241476a91.22.1784030522664;
+        Tue, 14 Jul 2026 05:02:02 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a583bcsm86725093eec.19.2026.07.14.05.01.56
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a583bcsm86725093eec.19.2026.07.14.05.01.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 05:01:58 -0700 (PDT)
+        Tue, 14 Jul 2026 05:02:02 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Sen Wang <sen@ti.com>,
@@ -69,9 +69,9 @@ To: Mark Brown <broonie@kernel.org>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 07/10] ASoC: ti: omap-hdmi: Use dev_err_probe() for error handling
-Date: Tue, 14 Jul 2026 19:00:39 +0700
-Message-ID: <20260714120042.491712-8-phucduc.bui@gmail.com>
+Subject: [PATCH 08/10] ASoC: ti: omap-twl4030: Return the original error code
+Date: Tue, 14 Jul 2026 19:00:40 +0700
+Message-ID: <20260714120042.491712-9-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260714120042.491712-1-phucduc.bui@gmail.com>
 References: <20260714120042.491712-1-phucduc.bui@gmail.com>
@@ -85,32 +85,32 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Replace dev_err() with dev_err_probe() when reporting
-devm_snd_soc_register_card() failures. This suppresses
-unnecessary log messages for deferred probe errors.
+Return the error from snd_soc_of_parse_card_name() directly and drop
+the redundant error message since the helper already logs the failure.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/ti/omap-hdmi.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ sound/soc/ti/omap-twl4030.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/ti/omap-hdmi.c b/sound/soc/ti/omap-hdmi.c
-index e60f5b483fc5..72114965c37d 100644
---- a/sound/soc/ti/omap-hdmi.c
-+++ b/sound/soc/ti/omap-hdmi.c
-@@ -375,10 +375,8 @@ static int omap_hdmi_audio_probe(struct platform_device *pdev)
- 	card->dev = dev;
+diff --git a/sound/soc/ti/omap-twl4030.c b/sound/soc/ti/omap-twl4030.c
+index 4d80f8a7a947..2a80e44035d7 100644
+--- a/sound/soc/ti/omap-twl4030.c
++++ b/sound/soc/ti/omap-twl4030.c
+@@ -253,10 +253,9 @@ static int omap_twl4030_probe(struct platform_device *pdev)
+ 		struct device_node *dai_node;
+ 		struct property *prop;
  
- 	ret = devm_snd_soc_register_card(dev, card);
--	if (ret) {
--		dev_err(dev, "snd_soc_register_card failed (%d)\n", ret);
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "snd_soc_register_card failed\n");
+-		if (snd_soc_of_parse_card_name(card, "ti,model")) {
+-			dev_err(&pdev->dev, "Card name is not provided\n");
+-			return -ENODEV;
+-		}
++		ret = snd_soc_of_parse_card_name(card, "ti,model");
++		if (ret)
++			return ret;
  
- 	ad->card = card;
- 	snd_soc_card_set_drvdata(card, ad);
+ 		dai_node = of_parse_phandle(node, "ti,mcbsp", 0);
+ 		if (!dai_node) {
 -- 
 2.43.0
 
