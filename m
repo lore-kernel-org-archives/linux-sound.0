@@ -1,91 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4323F2109;
-	Tue, 14 Jul 2026 21:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784064291; cv=none; b=XOVaPxgsujvPjoICG4OSmHPBJcTW9n9KAdHX2+igFEaDmxi3kJDFJ+I43dl+QQlMy/TDjud40mr13TxpqJKu7FERZfIWYdnhWF0egjwdIhBIXgS2DCdr9yHNkFEntobedH56D5b4QpSwXgxsYdzfye/ujte0XFzYD1Ax959DTjY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784064291; c=relaxed/simple;
-	bh=12s8fzNjslyFuFEky8pEZ/IzdrzMoQB35exv4PxhEIY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kXD0NX6Dm7axYkdYaHH4/BkOi1XSEThCEI9kCtOXF6OP+vcg8xJoR27DQx8q3vkcZYY7fNADJMkqvpnXI+OWdzuGnbgr6KavAYdMLS/rlLvgyowyNGEtS4Xt08xJG7c7w5Xhls07amYrQfdXLQO+5sGwhm2Qlu6lDtUlqWXmwg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=abQt8dzN; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C172641A931
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 23:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784070402; cv=pass; b=ZtDAJ6XEUlFj5YosysSGUjYb0HMtjgDSc4SMFFeDw4Xzrt73nzEu9unyHPQtc2GwvPs+il8bcO+oweH1WaMqwY7rZe3OwN93FdnKKeE/4sSbnSwYhcpFqeJ/sd7/ZghuF3UDPX691CqxFSLNMoxBNORrQNDGzR8ecjOucpySVmI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784070402; c=relaxed/simple;
+	bh=rlRcfcnT+ValWu5eD3CROgJ8ttsCpBtQ3lizbY4CaNQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WjQ+vBgKr7YoPC9aHs+K/NQDbV0HoQw6vuxtYMD2VMkmaQirYauNevRgLhFn4RWg5+cb0MAp8TuY/sMcdeHZUnBzgQV71T7tqitLo0Blm4jV0LY4/3yM1JABmZVB6o7+zf6ue4hmRPznB4z7ZUS63t00UPiKxxoL278XTHXtdRo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JaTbS6sv; arc=pass smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="abQt8dzN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED3711F000E9;
-	Tue, 14 Jul 2026 21:24:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784064290;
-	bh=EK5o/511Bfcsxnar1fnZzffAtXzmW6biOYC0uNIDMlk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=abQt8dzN6ZV4uQXLg0CR4SPjxrufm3lQ95gsI4fyCJ2TYljL341LTXHMF01DqVt0V
-	 VlIq4z5YoJz/YQJKKFsEFJIJwv4qrAsWUdKFsrfg7QkZ2vkZ0+NDusREANuOwHx8I/
-	 H95nrwzALiFmi6GNHaQuyyGyRU6poh+kmXdw1oi+b1KZBgELvdaTSUvZn0EA3PkMdd
-	 zfXsYpGKebvBrbNBPD1a7Oy5Np4UwPzqaRP85fahPI86DEG0Ar9gvS1uM5oNbTOQ16
-	 wD1B6ybkeciy7ZOMP2cmfYUhzi2grfU8SVxxSM+RVPlnFVZnwqAh+51qMQzroqOEoh
-	 nOeFQ/qsyvfPg==
-From: Mark Brown <broonie@kernel.org>
-To: Jernej Skrabec <jernej@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260714113304.270224-1-wens@kernel.org>
-References: <20260714113304.270224-1-wens@kernel.org>
-Subject: Re: [PATCH] ASoC: sun4i-codec: Set quirks.playback_only for H616
- codec
-Message-Id: <178403959229.7661.10222342202160410934.b4-ty@b4>
-Date: Tue, 14 Jul 2026 15:33:12 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JaTbS6sv"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cad4170e8eso58658635ad.3
+        for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 16:06:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784070397; cv=none;
+        d=google.com; s=arc-20260327;
+        b=X6Y1HIm8+m4Yf+sDcym7EG/NAiUraBoMVTv0UsPKe6LBGIQz387StAqK++2XhtfdQD
+         U0eRGRnPGExZiBj+vs2RTXUoJgJ49+FRnHnMEHvt03b94C5xix5wwr8e1EhXlYBBZ72m
+         78MxkwecwcGkJIJQ6Y/MufD5lVIhOi12+UlOKWOdZYma03HA9bt4b3dkF1CrJenAg1on
+         Zp3WNImd9aWO/b4R7Pnt2C8wZ49FdDT/Jqlnc4GNNhE/Yci0JrqNEZwjx327M9h0bdEO
+         w/bJDAogiqYBA9VZdT0WE6Z/NjcH85MVyQO2bbXsfUTC+pMCPXGuMRuuQ68kagvJPE2n
+         CcBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=rlRcfcnT+ValWu5eD3CROgJ8ttsCpBtQ3lizbY4CaNQ=;
+        fh=pBo+fTumDkTYMvReAZJM+21p47Hp9JkSxtJSjMn2b+w=;
+        b=KTiaQKaVE6AayoYX/CMfmNEcAgzV8L01bBL5IIbcl2KyWqk/aCoOAy8ZUn1FUcb8Ok
+         xxKgZ96UhNtuZKP5Pak/JRue042c/ZFnkEbitbqswzMY3eIC5k6K6WG/fwpyeUz0ewPF
+         nmZ0Ol1PmD8JSVAwMMold0e9tPGwreGsn7cQJM1gS4I4ZCsmHGf8Z/RGhyXDLB19coqk
+         ldj4q9auJo4oFjupDlly5HgfxcV8W+xaDVGyu5zMW4003QxVQS+6vm/id0WWb8si7K1F
+         UEvRb8uY0uuOGWf4xvkbEBhZDksFSnGN9pLkiFjTmgZb99cxilwpYMXRXsAsIJtiaYDz
+         H2qg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784070397; x=1784675197; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rlRcfcnT+ValWu5eD3CROgJ8ttsCpBtQ3lizbY4CaNQ=;
+        b=JaTbS6svqDysJdwppwr151FpltpF0cGDXvTIxETwBrOb12+qYsclC3nJ0bgzyGnmLl
+         bFOXZyDXtTqZZfO1L555XXQd7z7UEV5oVEZ7xUUFft6DqI8GxIOgPkfZS9YKo96IGbu0
+         yrVOG2xTgfkP+wfFWicXknpzBIYRz6j80K0TCOmicUwqYk0OVXI0CPV++UWsOHkbQxMc
+         t1vxSZ7fuoMdagnH7xvNqP/hosQVIRNlcXsFJ5a6jzfvd/G4hASStFrsY23SMrGtRnBr
+         U8NYojS7gVvnUO52LOL4NGAsxfkQPV3vJrAf3hQghl0eE411oJ/xKwcbH7JKjm19t/RB
+         DJsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784070397; x=1784675197;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=rlRcfcnT+ValWu5eD3CROgJ8ttsCpBtQ3lizbY4CaNQ=;
+        b=tG2NPZcPR9FxW9Rd6TMfCXuqo/L6rlfXmhiaGhsVTEV4A1Ig89ODlnf5CWwlzfNr4u
+         FyoBEBeWEO2WP/rOOObSzfJ8eqhL9sUb5YxIqzEeWeU3PiLzwX+6i9/ZqZPl2BSpAfPG
+         PKuPbYLsdn8SiPPj+wGP07TZ6b2uLJyoMwvyvwGP085cwiw68x+p3NNQ61gAnw1xkLen
+         KjJrKHsmSSlNS+2A4ZTMl0Gx1N7rHa1Mj4tH/rBHWEj7CQvNnAx2mKBeVcQin1d33aYL
+         UWMCJp1iwd9XvAru6f5e2y6roMaoUghL1QUF/UwUB1ps/L+aNLG3zBjgLSS3aRuGObkQ
+         J+sQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqLQgM9w5v1kWXxvhoGr0s7RRjRcK0If8WRC98lBocbqNnj9shFZXQ/xmzKYijnhDgoYRXptuBodGQ6xw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNnhlsfP2u4xmDbCcbbQ8CBCTRa2FSVv4sJ8u4pvVscyf4KQob
+	1cRGCXexRFexRQuOk4foBm3lei6KRzeA51LAdbheTz6x1CNwt5uq3SlyGFECkj+Q4+tCEJNO/fu
+	qRCJnVRWfht6WE+XaZHkNdcemo2KSNXU=
+X-Gm-Gg: AfdE7ck1RPknqmYkGEJpOTCRgQDVJ+K8ET66Kexhw3hjts9gASAzUARfsEzw6a1gXss
+	kk3KQY7i/VUwAFc0qt6CFtzvjLBlS8JD7bthgxAhEpoAsqvsiBbxg9jatxGSzukg2cFJwwiFwEu
+	ZtPtVmahYx3vyPnlAwdGr9Yg1a18wSABbvDOyiN1nluV2JLvmWVXsg4DDPrYxA+HimJghIJ2Oi2
+	pnN3vuvxvD4fupR+IbttP+UVoUR8pwLXXsLowIZ9+LW/6YoW1G+OQsyxCPYWMSFObJG41ZWiocu
+	5mFleL0YcDApg0HMJNe4R/9le3Sv2n/1SuEjH3UqcsGQdmBaEQVL893O8BnwwA==
+X-Received: by 2002:a17:903:3508:b0:2cc:9179:335 with SMTP id
+ d9443c01a7336-2cef12ea089mr45887525ad.8.1784070397005; Tue, 14 Jul 2026
+ 16:06:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1134; i=broonie@kernel.org;
- h=from:subject:message-id; bh=12s8fzNjslyFuFEky8pEZ/IzdrzMoQB35exv4PxhEIY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqVqkfLA3mqg0aAtZ38HIGHw1JSBhsmPDyke+y5
- wqOwmhXH42JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalapHwAKCRAk1otyXVSH
- 0HrTB/0ZLDG80c56Uxwv1qhhIYC5/PO+el/BNEiqcg0EFn6lDsmIt3VIHCJx6vlKfHZac2Fqycb
- cR7bY8krEoy0kwop6URIp+Z/K8MHfz2KS693xJoqrtBXi3yzRMMzYHVeFTwRCj7R1WcQYD8rC+7
- uA4bJJe87mv8drb2D3z7+SyxtyI99NeqyKKryHMzewOdgST8hrlWduOGQdLeveUURLEEV0glkK4
- DpOtmfMuX983fJiRyg7Q9HLRljsRBfxwDevMeoGqZQpBQ8I6bmrzJi7bDwXmwiaO/8zm+UweIa2
- E56OppcNNBhFVRzBKCrH4Wpz3GQfC6qnWXnkmqKmSIF0qvC5
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+References: <20260714120042.491712-1-phucduc.bui@gmail.com>
+ <20260714120042.491712-2-phucduc.bui@gmail.com> <8fff715a-1386-4f2f-b21e-2f5e6a5b97c6@wanadoo.fr>
+In-Reply-To: <8fff715a-1386-4f2f-b21e-2f5e6a5b97c6@wanadoo.fr>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Wed, 15 Jul 2026 06:06:25 +0700
+X-Gm-Features: AUfX_mxyHp85o-voeqtQKqthUl5PsbH5sXWRljBDmkL-JXWCSd1R7pafJbLpYRE
+Message-ID: <CAABR9nGK6Y3o3RL7YPTMjeH9-R4Rdb_jjiPQjrakhkZ77YjfoA@mail.gmail.com>
+Subject: Re: [PATCH 01/10] ASoC: ti: ams-delta: Use dev_err_probe() for error handling
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Jarkko Nikula <jarkko.nikula@bitmer.com>, linux-omap@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 14 Jul 2026 19:33:03 +0800, Chen-Yu Tsai wrote:
-> ASoC: sun4i-codec: Set quirks.playback_only for H616 codec
+Hi Christophe,
 
-Applied to
+Thank you for your review.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+>
+> Nitpick: could add some () (i.e. snd_soc_register_card()) to match patch
+> 9/10.
+>
+> CJ
+>
 
-Thanks!
+I'll fix this in the next version.
 
-[1/1] ASoC: sun4i-codec: Set quirks.playback_only for H616 codec
-      https://git.kernel.org/broonie/sound/c/d9e96f859de3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+Phuc
