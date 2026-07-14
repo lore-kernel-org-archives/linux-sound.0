@@ -1,117 +1,200 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBC036F42A;
-	Tue, 14 Jul 2026 01:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783993499; cv=none; b=sBnEDLIRy+2qs3bADGvKjtUtfz1mrX3KF50D31nvPeNH/soyXhnY+oc6bHsnNTMPC0heEPbX0FFCHr3xOs4TnLAWwKhPphmUvkcUvJhk+/TbpSR0J6U1qkOJehuUgi07zoMaInjmEySFLNCH4y4zrhqL60UKyS9cpYpHPB1sD6E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783993499; c=relaxed/simple;
-	bh=i66z+a6ewiQugyyGHpBicAqvKoR+eH1+SIZvYWsO96Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ko9qr6Q9/sKCOIr6c74Iow5pSZne33ilotGoY3NMjPyR+QgAzxJM5iBvKX+H2swa2ii6lxaT/B3E4KRhBlJmR6vqhSIH6YtZ0yQS6UvwNuO7Mwrpcud349+oQJE/vvg3GPf3Bs3wUVgd8kZE0EVP4ARgZw8l9eD6hQRbkQy+HRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Wpf+mTGC; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E0465192
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 01:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.123
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783994171; cv=pass; b=OaKm4wZbEZEBSkbI/i3729ml3olryGDjbHJGuiBkG4bQuKnEZRtjLZahNBdCpBnINIGs1ikZmhpIYDEdnIA4Z2viKhXat2qwSLH6iFItXptBcOuIGZ/UIsYZXkmshR0Fh3E6elaKoUejCVHfgNWyRulJ312HIgToDYo7RDuMgww=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783994171; c=relaxed/simple;
+	bh=W5R8u8NdUHDscmsrlv/8+haoKXIReMg46thRhoHmNnw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DigFFxVTjKCDPEd8WXKyjCMYChENn3y+Wt2MxZhIUmkkMVedEcYPjXwmxKwMGEeDPne581rrwnuI9vOyESidi3+hXNtBdIpV+pxcfgxivNjY8Cw1gp4Qp4+Ji0/01o81Ar7WWdnIu1ImyvFpfB5Ydk7uEeGhWF49JR1fTHE+T4Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=jiH+bZFY; arc=pass smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Wpf+mTGC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=3c6jVXUi+55jepOtFloOQNLKIS9Pd9AodNsSEPjbFmU=; b=Wpf+mTGC04w9/6knISjuoyn4ng
-	6GeE7czqqKRqbFnOCE+gpMDAEUQe57zEK3y6msSTZLW6ARFKL508dCaZ3+yVix6iWinpEkqa0s1Ii
-	7TvIf1+H+CgxiUTjJL9i96wsCySCJwyWq943ItF21FtwqOD3/xAWX1CEB1mWHRnGXnofoI+BnH8eu
-	qGvoaYGJ/d/WqQT2KCC3vALwCk1TEz66dgbY8P/OTJMfDIxBGkGmdd2nLye/dxD6I7lCP4g1zOCsw
-	HSsvX+xB6/dtCZB+BbvmvUaJzidiLKuiNk4dt/JKW2+4ApCkVtYzW657BLHN2/4GzZ7QkaCntpcez
-	uFj4btqA==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjSCb-0000000AgsR-09IW;
-	Tue, 14 Jul 2026 01:44:53 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-sound@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	patches@opensource.cirrus.com,
-	Srinivas Kandagatla <srini@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: [PATCH 10/14] ASoC: SDCA: correct enum names and add a missing struct field
-Date: Mon, 13 Jul 2026 18:44:41 -0700
-Message-ID: <20260714014445.569992-11-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260714014445.569992-1-rdunlap@infradead.org>
-References: <20260714014445.569992-1-rdunlap@infradead.org>
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="jiH+bZFY"
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com [74.125.224.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 7DD3B3F2B7
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 01:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1783994166;
+	bh=9tQBhP0PuM6aN+W31YuQ0UCndt/dUo0BulSfzn8ueJU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type;
+	b=jiH+bZFYzllWskJIQ5wqKuczNHsL/zlQzKWAXa8uaALo/bwVFcXb4I8SeWToMB8D7
+	 wcKVV1gxfDeMz+Rgb53ueK+MPcrzx8slje4UqAU4+zTBEqMtb/sfxss+in1Ap0ztIE
+	 KJYslESBi8K2pSCbzg+RMOhgl7mfzeE7fl7ns+6V5Bk9H6YhGaYbSftgWaoRJJTmC8
+	 EOihRT8iBEZtBU9zPtoUT+K9RrCG93pbGukqdR6lRfVXeD/xxAXLB9MZCMMiKaDAIl
+	 oRfHHAcDA9CgyTqi5O1Dqqg0Vzm828Kb0+Xm8sQMuxyHepgQEqP25HBB2j6uemGMer
+	 QbpHMAMaRkQN673V7C2lT24YZzqIQl1LyMi1U0/ZjZGIa2Tewmf4FRuu1vJ316xsbm
+	 TUz5rdcYQIo6l3cj+pLTwu5TStRcp4mGJjTTG5YNs5kx7qY80MlOpHxozo61YgQjG5
+	 p9MK7586xGSrs1iCT1oevG3yBLF1TzsVwuMYTwTmpCr8ptp+Izn6wo9sQkTlu4S4Dk
+	 MdDB4cuAcIOZsFeKwqNHYD6egKd0uuNMXg48ZClAzV+h2OabbkHvJfjaYx16yJFGcf
+	 o86hMJgkN5jcaIoum+TFil5WjiNxegaRz4getuT9cTHlC1ZrXEfHXuurcJv1HiHeiW
+	 Lk4mHEF1whwj0jNh6fhttkW0=
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-664e15b53d3so6869122d50.3
+        for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 18:56:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783994165; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Sdbu5tFNCZYc50lO4yhNeCaFi2hezLa/RiJV9Bx7TAC3M8Ml7tidMBKUCp0dMuPyO+
+         ulsm0sUsXbow7hIQW7Bxn/35Btni6ySt+do9e5Fkj7UU2vrymFHK7I8FKggxfgRCuzJU
+         IG3lJohylJxeWg3AGV+ulR+FIChwV64RPYU9zNBF1T5Cr5ND7ZpSDlvKJ6/XU8y0HaWh
+         PKRdV4xL6Y1kgVteWEXjf7zKneoBXmj9uHBFevSFWSx+kbpFuP2zFZfOZdyq1RxkioOU
+         XF0rLj+8rM9cflBhUCfJYVVClHAWvUpCjKawlhNzlOynr/s+pgryGTH5i7qdOvf9TgaN
+         jbdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version;
+        bh=9tQBhP0PuM6aN+W31YuQ0UCndt/dUo0BulSfzn8ueJU=;
+        fh=joIAMsqYusAt2nMKCCiAOFF4t9PnUsoyIcEF16SQzhU=;
+        b=QW0P9NWJW206KkexzphTSUvjtU98jR86tW/8Ip2qqBw2Xn72MGw1087M724qQHEWsO
+         N+/XDyevSogDrnc6Vx6SEAcN03usg7km4bKfDcob+Ad+VFJleQzDJN8W2acb3X48pZMI
+         4DfCJidcxuQZ8kEDm76NJF9q1IDdl4gr5mmlxgu7R54MKrYjNTxXlHW8MioB5rZimixs
+         SjnwvUPHE8Wo13tj7laHY/WeU7UJ45zCN5kj+ZQahcI2A2yj/mtVghhON5xAx1riWSuR
+         JVknzjABQUhgn0Eo/LZF4UtL1wL27FsT5Ysg0SRZ3cQcIMgdg4nRo84Jh9ev98PfWot0
+         x/Vw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783994165; x=1784598965;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9tQBhP0PuM6aN+W31YuQ0UCndt/dUo0BulSfzn8ueJU=;
+        b=slIBxnq7ytJYWGxAenRM45VKITd2iOaKf6OWz29hCKpUeJ7JA7xlxErjyjDFDtBLSA
+         6bRaVgD70aN5pKAZsCbprExz3yS77DRcuepRIQfdbiQymICkPn45sUD2tuTmfFeqa3wo
+         9WtL0+uRnEje+MZf6LPjghwy9PM+pxn9VEyoqsFUuQQI7ndLtfRKqP80QzIi3pmS17mW
+         2fu7Faqp19Ft1YywIB0GDSS+vhaPdRQO0pEVxas6nCHYXwwYrhqF7lSZnadtMyAwwbS1
+         72jDJ+bGvMpmlhPXqT+3hUF868yhKLpB2IdnLjcbRqJHvo4w7ChvkBKuk71Pqjnv9M0P
+         xYJg==
+X-Forwarded-Encrypted: i=1; AHgh+RpdasGCvtxSUdEVitQzxBFm1LO4IXqHUB39FTAyT+F3HRtEY+gAc6wBzkJ8bdm9dTv3vjzFWHOn8m8q5g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyaq6amLVc3se8wnfMy4Y9bArvDjtHBOr46WyFbATJTHfEjoKyc
+	lzbUe0dfgak4u9OAELvtJn3ZDilUbY8ZDqeWoJx7U3575UCDSf5gvqhCiO0WM6k+BUl8EjL7UMK
+	dzEvUe5lu1jgvGvHgNQUm6REuVNakgdwH5pRSWUUmRLA7MTarEXF3KKQkfcreX9oqsAUz06OT3D
+	EC3Uv7NRDreugbiOSTTGqf03QB1HBOtYKwxtf1py8ZGk0jeRf88TdzANA=
+X-Gm-Gg: AfdE7ckqt1nGWbfGpUCAeIbQXRM4bBirO4hwfq4ujugaQJgCHuEXsm5jyvfUvsCf9LH
+	BHSi8FAa+AeSVrpq5OuUqqkUq5OO9iLHjYco30pF/zYi8OQMK917Pqqz5ez7yBMXpmqPOmdqQVY
+	64wDrHmPnm2GTSY7VSPhVctBBG8xE2+LiAZc1tCn48s+mViMCTt8kOar0Ugb0pLs6U5YH7
+X-Received: by 2002:a53:a450:0:b0:666:3936:98fa with SMTP id 956f58d0204a3-667d7afc099mr6198316d50.4.1783994165183;
+        Mon, 13 Jul 2026 18:56:05 -0700 (PDT)
+X-Received: by 2002:a53:a450:0:b0:666:3936:98fa with SMTP id
+ 956f58d0204a3-667d7afc099mr6198305d50.4.1783994164712; Mon, 13 Jul 2026
+ 18:56:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260713020839.3822602-1-chris.chiu@canonical.com> <87qzl7yzd9.wl-tiwai@suse.de>
+In-Reply-To: <87qzl7yzd9.wl-tiwai@suse.de>
+From: Chris Chiu <chris.chiu@canonical.com>
+Date: Tue, 14 Jul 2026 09:55:53 +0800
+X-Gm-Features: AUfX_mwmV33SiHxxaGYKuN0tdsPD3c0HkONrBggRLFFsn7q7e_rO3IsiZsKU5PU
+Message-ID: <CABTNMG0iB9fGd9AAfvjjzsZULUaXr=sX_ZDL6riAAMgVZhnKqg@mail.gmail.com>
+Subject: Re: [PATCH v2] ALSA: hda/realtek: Add inverted LED quirk for HP ZBook
+ 8 G2a
+To: Takashi Iwai <tiwai@suse.de>
+Cc: tiwai@suse.com, kailang@realtek.com, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a kernel-doc comment for @is_volatile in struct sdca_control.
-Correct 2 malformed enum names to match the enums.
-Fixes 3 warnings:
+On Mon, Jul 13, 2026 at 6:09=E2=80=AFPM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Mon, 13 Jul 2026 04:08:39 +0200,
+> Chris Chiu wrote:
+> >
+> > HP ZBook 8 G2a 14 and 16 (SSIDs 0x103c:0x8f94, 0x103c:0x8f95) use
+> > Realtek ALC245 codec with TAS2781 amplifier via I2C. These models
+> > require inverted speaker mute LED handling compared to the existing
+> > ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED quirk.
+> >
+> > The existing quirk produces opposite LED behavior: when speaker is
+> > muted, the LED turns off (should be on), and when unmuted, the LED
+> > turns on (should be off). This patch adds a dedicated quirk that
+> > properly handles the inverted LED polarity.
+> >
+> > Code flow explanation:
+> > - With HP pin (hp_pin !=3D 0): Uses standard HDA LED framework via
+> >   alc245_fixup_hp_mute_led_coefbit() for full control interface
+> >   support, enabling both manual control and direct hardware updates.
+> >
+> > - Without HP pin (hp_pin =3D=3D 0, speaker-only laptops): Registers
+> >   direct vmaster_mute hook (alc245_hp_spk_mute_led_update_inverted)
+> >   to control LED during mute operations, ensuring LED feedback
+> >   without headphone jack detection capability.
+> >
+> > Both paths use inverted LED update logic to correct polarity and
+> > maintain backward compatibility with existing systems.
+>
+> So there can be multiple models with the same SSID and they have
+> different hardware configurations?
+>
 
-Warning: include/sound/sdca_function.h:306 expecting prototype for enum sdca_set_index_range. Prototype was for enum sdca_fdl_set_index_range instead
+The new SSIDs 0x8f94 and 0x8f95 actually have the same hardware
+configuration as the old 0x8f40, 0x8f41, 0x8f42, 0x8f62 but different
+GPIO polarity. I tried to request that they remain aligned but received no
+positive response.
 
-Warning: include/sound/sdca_function.h:829 struct member 'is_volatile' not described in 'sdca_control'
+> > Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
+> > ---
+> >  sound/hda/codecs/realtek/alc269.c | 56 +++++++++++++++++++++++++++++++=
++++++++++++++++
+> >  1 file changed, 56 insertions(+)
+> >
+> > diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realt=
+ek/alc269.c
+> > index b26ed9c1f09f..e04b5adce075a 100644
+> > --- a/sound/hda/codecs/realtek/alc269.c
+> > +++ b/sound/hda/codecs/realtek/alc269.c
+> > @@ -3776,6 +3776,15 @@ static void alc245_hp_spk_mute_led_update(void *=
+private_data, int enabled)
+> >       alc_update_coef_idx(codec, 0x0b, 0x0c, val);
+> >  }
+> >
+> > +static void alc245_hp_spk_mute_led_update_inverted(void *private_data,=
+ int enabled)
+> > +{
+> > +     struct hda_codec *codec =3D private_data;
+> > +     unsigned int val;
+> > +
+> > +     val =3D enabled ? 0x04 : 0x08;    /* inverted: 0x04 off, 0x08 on =
+*/
+> > +     alc_update_coef_idx(codec, 0x0b, 0x0c, val);
+> > +}
+> > +
+> >  /* JD2: mute led GPIO3: micmute led */
+> >  static void alc245_tas2781_i2c_hp_fixup_muteled(struct hda_codec *code=
+c,
+> >                                        const struct hda_fixup *fix, int=
+ action)
+> > @@ -3804,6 +3813,42 @@ static void alc245_tas2781_i2c_hp_fixup_muteled(=
+struct hda_codec *codec,
+> >               alc245_fixup_hp_mute_led_coefbit(codec, fix, action);
+> >       alc285_fixup_hp_coef_micmute_led(codec, fix, action);
+> >  }
+> > +
+> > +/* Inverted LED version for HP ZBook 8 G2a models (SSIDs 0x8f94, 0x8f9=
+5)
+> > + * This fixup handles systems where the speaker mute LED polarity is r=
+eversed
+> > +/* Inverted LED quirk for HP ZBook 8 G2a (SSIDs 0x8f94, 0x8f95)
+>
+> The comment block unbalance, you forgot to close the previous comment
+> line, or starting a new comment line mistakenly?
+>
 
-Warning: include/sound/sdca_function.h:1152 expecting prototype for enum sdca_xu_reset_machanism. Prototype was for enum sdca_xu_reset_mechanism instead
+Thanks for the reminder. I'll propose a v3 to fix.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: patches@opensource.cirrus.com
-
- include/sound/sdca_function.h |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
---- linext-2026-0710.orig/include/sound/sdca_function.h
-+++ linext-2026-0710/include/sound/sdca_function.h
-@@ -298,7 +298,7 @@ enum sdca_xu_controls {
- };
- 
- /**
-- * enum sdca_set_index_range - Column definitions UMP SetIndex
-+ * enum sdca_fdl_set_index_range - Column definitions UMP SetIndex
-  */
- enum sdca_fdl_set_index_range {
- 	SDCA_FDL_SET_INDEX_SET_NUMBER			= 0,
-@@ -803,6 +803,8 @@ struct sdca_control_range {
-  * @mode: Access mode of the Control.
-  * @layers: Bitmask of access layers of the Control.
-  * @deferrable: Indicates if the access to the Control can be deferred.
-+ * @is_volatile: Indicates the Control registers are forced to be treated
-+ *  as volatile.
-  * @has_default: Indicates the Control has a default value to be written.
-  * @has_reset: Indicates the Control has a defined reset value.
-  * @has_fixed: Indicates the Control only supports a single value.
-@@ -1144,7 +1146,7 @@ struct sdca_entity_hide {
- };
- 
- /**
-- * enum sdca_xu_reset_machanism - SDCA FDL Resets
-+ * enum sdca_xu_reset_mechanism - SDCA FDL Resets
-  */
- enum sdca_xu_reset_mechanism {
- 	SDCA_XU_RESET_FUNCTION				= 0x0,
+>
+> thanks,
+>
+> Takashi
