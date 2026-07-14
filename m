@@ -1,92 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01FF364949;
-	Tue, 14 Jul 2026 10:21:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3FF360EFC;
+	Tue, 14 Jul 2026 10:34:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784024463; cv=none; b=W7yaviNuYjmOS1K0OpduA8CTHKJz0UeYMXbURwgfeGfqjRBH8xi4jM6p0bHhwszk+rDeBfzu5uplKYzdpTw64xd9p+orzK4xFnIbEMfJOsRlyZEYTR6iTJyM3jmyxa5OD5xhReQrkI0mGf4OcfekIUQT5disoWqbzxvHvOlgggY=
+	t=1784025272; cv=none; b=dHH+LDoksL4xbxsyPEoVuVsXz6FU3/woOkW6KSFAEh+HVmHs9I++g314oNl5s8uXHDQPE5zq6PBcBpq7AtFTsuxdFlf3yljiM9NaBKvny7iUsh75lfshaYbq/ujMUR8HO7fr8IbeKZ8t9Dt75hX2DaFPxA2d5PHwxDZY16GsCfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784024463; c=relaxed/simple;
-	bh=w0goRcsZyeEqkyOuffZiYobg4mxvOCyRv5lJz3M5s2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s89AB3FjdGC0C1iz0s69GMf8AMTji8hOqatkusLe9ecx0sfzMopy7nKBCdMVUrXFk56pfom7xuyg24v+ZBzRKjXwIwWqphdlI7xJEuABCGB2dPE1/Nr5YqXi+hqggAPb36d5/TOTqR4jiKNWnP+nt3BrP2+HgIpws1F15oEeqMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCcDLzBU; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCcDLzBU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7234E1F000E9;
-	Tue, 14 Jul 2026 10:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784024462;
-	bh=9M/RXC3eOaKhkKYwY07SXTCAM7jjeRRObmHaBug2aUk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=DCcDLzBUE6xt1OhcIKEHEd50/x43uoCQKKaUNbaeRbTLXui6AITrTUWLbMfK0T+xP
-	 mFrAjgiEjrK8E5pMfQS9Af1+Tv+MRMU8VMyQIbhGuqF7jPx5PZkuCA2V/vsJYMtj/I
-	 UeoO3uBKOfIK6hEAaPSx4AaI/fd01y3k/tK9LtPKx9mUh+BgqJaB6dJhw960bwWpbM
-	 skaRQwI/nSPOzGo45rHJlEAFROmkHZJnxJURie5mo4txo35h3BscYB2+H/jf8SkNK4
-	 VAgVQnpf311NaoYFCBNdqFRocJpc2O2yMHDb0ZhaPxF1plARM0UbA/xZOb6y41K3Jv
-	 kgyuqa9SIBXKw==
-Date: Tue, 14 Jul 2026 11:20:56 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	patches@opensource.cirrus.com,
-	Srinivas Kandagatla <srini@kernel.org>,
-	linux-arm-msm@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>
-Subject: Re: [PATCH 01/14] ASoC: codecs: NeoFidelity: repair the kernel-doc
- format
-Message-ID: <4eddcb03-3c2a-4ef4-8825-e750e8109476@sirena.org.uk>
-References: <20260714014445.569992-1-rdunlap@infradead.org>
- <20260714014445.569992-2-rdunlap@infradead.org>
+	s=arc-20240116; t=1784025272; c=relaxed/simple;
+	bh=L7PFV68jAhvRGopecOiQWDB18FkOZUY0hxG72/r1RtQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pBbk6Qd8w4cM33jkFJmlWnXaQK5stBYI/8dM3Wv+LlNzsdkC103qn4baBbaBHQSYjRYVQfdtyp4MroU57Sym+RjcsU9ch4jcUtybPEdC7dYH4I7KaIBClJ1cIc4u5ANsOJZvIcJmnk2W7uNw8kXzMI4yDipzngB2bELIh++60W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D66171F000E9;
+	Tue, 14 Jul 2026 10:34:29 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: kuninori.morimoto.gx@renesas.com
+Cc: broonie@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 08/12] ASoC: simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()
+Date: Tue, 14 Jul 2026 12:34:28 +0200
+Message-ID: <20260714103428.2318895-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <877bnexiyj.wl-kuninori.morimoto.gx@renesas.com>
+References: <877bnexiyj.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LGa1tIjMTkLV9u70"
-Content-Disposition: inline
-In-Reply-To: <20260714014445.569992-2-rdunlap@infradead.org>
-X-Cookie: Neutrinos have bad breadth.
+Content-Transfer-Encoding: 8bit
 
+	Hi Morimoto-san,
 
---LGa1tIjMTkLV9u70
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> simple_parse_of() calls simple_util_parse_xxx(), but are random.
+> Let's gather them all in one place.
+> 
+> Let's keep same style with audio-graph-card/audio-graph-card2.
+> 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-On Mon, Jul 13, 2026 at 06:44:32PM -0700, Randy Dunlap wrote:
-> Don't use "/**" for a non-kernel-doc comment.
-> Use kernel-doc notation to document the parameters and return value of
-> ntpfw_load().
+Thanks for your patch, which is now commit 27ecf4da5ad3845b ("ASoC:
+simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()")
+in sound-asoc/for-next.
 
-As mentioned in submitting-patches.rst when submitting a patch series
-you should supply a cover letter for that patch series which describes
-the overall content of the series.  This helps people understand what
-they are looking at and how things fit together.
+This breaks sound on Koelsch and RZ/Five:
 
---LGa1tIjMTkLV9u70
-Content-Type: application/pgp-signature; name="signature.asc"
+    asoc-simple-card sound: error -EINVAL: parse error
+    asoc-simple-card sound: probe with driver asoc-simple-card failed with error -22
+    ...
+    ALSA device list:
+     No soundcards found.
 
------BEGIN PGP SIGNATURE-----
+> --- a/sound/soc/generic/simple-card.c
+> +++ b/sound/soc/generic/simple-card.c
+> @@ -704,23 +704,23 @@ static int simple_parse_of(struct simple_util_priv *priv)
+>  	if (ret < 0)
+>  		goto end;
+>  
+> -	/* Single/Muti DAI link(s) & New style of DT node */
+> -	memset(li, 0, sizeof(*li));
+> -	ret = simple_for_each_link(priv, li,
+> -				   simple_dai_link_of,
+> -				   simple_dai_link_of_dpcm);
+> +	ret = simple_util_parse_card_name(priv, PREFIX);
+>  	if (ret < 0)
+>  		goto err;
+>  
+> -	ret = simple_util_parse_card_name(priv, PREFIX);
+> +	ret = simple_util_parse_aux_devs(priv, PREFIX);
+>  	if (ret < 0)
+>  		goto err;
+>  
+> -	ret = simple_populate_aux(priv);
+> +	/* Single/Muti DAI link(s) & New style of DT node */
+> +	memset(li, 0, sizeof(*li));
+> +	ret = simple_for_each_link(priv, li,
+> +				   simple_dai_link_of,
+> +				   simple_dai_link_of_dpcm);
+>  	if (ret < 0)
+>  		goto err;
+>  
+> -	ret = simple_util_parse_aux_devs(priv, PREFIX);
+> +	ret = simple_populate_aux(priv);
+>  	if (ret < 0)
+>  		goto err;
+>  
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpWDYgACgkQJNaLcl1U
-h9CVsAf8DYSsoTawAK2saA5CV7XtmqI34Bf8Nt3udzbI78JyZVSFG6QZ6KZMp8uB
-OPWQixu2JlJ86SaHr3y4xPWCqDqY95ZrOW645UbdHTvaoHA9FnbnQUuaN/KM5zjF
-hoL2KXnw+4WRLiwouO2TwC8OMzHT7TIxzFVv/xCLCma2qhZCHXxvnzwflJAl7mnx
-yG5Nv7AVj8goa1ANV9a03TvZ4JSMk3EH5wFRiANYMIimhf6fQ0LX/CGkUr/Ogv6v
-xJ5NjE9GQ4QDad2ZNtUuYUqTh8+EyGfRz/63NuqVyMah/2tph3ckFeHa4G1RCNZM
-GF7nWmHmheXvdaQTs4xuyi+8yEwo6A==
-=bdq4
------END PGP SIGNATURE-----
+All changed functions return zero, but the call to
+devm_snd_soc_register_card() below returns -EINVAL:
 
---LGa1tIjMTkLV9u70--
+        snd_soc_card_set_drvdata(card, priv);
+
+        simple_util_debug_info(priv);
+
+        ret = devm_snd_soc_register_card(dev, card);
+
+Reverting the commit fixes the issue.
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
