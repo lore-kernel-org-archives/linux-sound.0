@@ -1,173 +1,328 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E226466B69;
-	Tue, 14 Jul 2026 13:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F5D477986
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 13:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784034600; cv=none; b=JDY7UYRgU40AL3zPuC/7B5BSgepT9GERFdVBMsOZm36tQTATibB/BtopCA4NdyR5bKBFQ8XTwCQJG+KnhPTcTcvq9OajKg8srkOOoSTJPZ+RQLubSPznfv7dBsF/Zqi55JeVTfnAJkUANzgEiRGZoZKs/5LU9H6pFLQXKpQ8/v8=
+	t=1784036327; cv=none; b=en01kdfEFgkkesM6lMntWwPrFMPN74aqCo029BKg/bjOLj0w+la2R9SvcCJsj7p+sKmmttJbaEs5/t0F7gfjdrOYxcU4BK1Gli0RguIK9LvzlZgmIdqIVkHaEctC8k8ZYRTjX4NwpWZNC+5zkESzjUmVADHJ8qth5sjRaoEKWXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784034600; c=relaxed/simple;
-	bh=IbVtsiK9tOf6G7NLl2G2sobf1fvYc+pZxtmosIKyozw=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=Dbg7EDZcEZLB8k+ns8TcIUUDZK74hMpEfxH/oYV0RQ1osuL3n9mcjUbX51/+uJ4exOgBBcHzlq4ODPneDF3VoO0xTjU5QOWvARLCIpKBcgRZ/gQTYKBBpqhMKm5R4mB2PEw6IIlpYXtt2rkyZq0jOZYmO0IuORZqYJ/Y5mlGNq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 4b36b1f27f8511f1aa26b74ffac11d73-20260714
-X-CID-CACHE: Type:Local,Time:202607142102+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:b88e7fa0-168a-4863-adb9-ff921d6be102,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:dafe997d1209d6f13553bc411b42027c,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|817|865|898,TC:nil,Conte
-	nt:-10|-8|-5|14|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC
-	:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 4b36b1f27f8511f1aa26b74ffac11d73-20260714
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 942375354; Tue, 14 Jul 2026 21:09:49 +0800
-Content-Type: multipart/mixed; boundary="------------66thek36EefFl6svLSyEU8LY"
-Message-ID: <d77254b3-1e6f-483e-8c03-b8f1e033d7a0@kylinos.cn>
-Date: Tue, 14 Jul 2026 21:09:46 +0800
+	s=arc-20240116; t=1784036327; c=relaxed/simple;
+	bh=/Wc6mhR78UAEiSQyZG+xiqb9XnfBNIr1JEq0T2KNkpo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GkA8xrY8MsBth2tSMJwLnXnLpW9tpyzNXJ9V6aw67Kd2Zu6QKyQ99uy5I3taPMaK3rEuzADCHyISP7zb6/4kKX6JT1NB8KdbYihjMMIjWP3PqrnLTUGHOQQpG5MFASuSnx8zNIjQe0OjXm3cqqd4imKpnC/ScxGYOArMhXy/AeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=psrNMcmT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GS0w9ZF6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=psrNMcmT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GS0w9ZF6; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="psrNMcmT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GS0w9ZF6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="psrNMcmT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GS0w9ZF6"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9AA7D3DF4;
+	Tue, 14 Jul 2026 13:38:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784036323; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AJgfRctefVvLHKw1bswhtN3cAhlMZWoQWCAaAHQNEVY=;
+	b=psrNMcmTmF6k2W+Gs7BCkRGwE1VmupfdNV9Z0AJUfHXhydZE6D0YOsFSeCMZpMiiHuoFLs
+	ynxLRJlPo23xu++IaQ4mVivAyZIMlu3n6aQTCssLdT4P76cZY4fQPv3E6YcA60rNmLucoY
+	7Oz40llNzhwJ9uoxvunX8Rlk4IleTzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784036323;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AJgfRctefVvLHKw1bswhtN3cAhlMZWoQWCAaAHQNEVY=;
+	b=GS0w9ZF6kVP4z4WE9cW/f5exLSiJBJV26IyGbQWCNLX2+ctzZp0wHcFkNBPYBPatjOgbM3
+	0zUIuVFQi75Sv2DA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=psrNMcmT;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=GS0w9ZF6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784036323; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AJgfRctefVvLHKw1bswhtN3cAhlMZWoQWCAaAHQNEVY=;
+	b=psrNMcmTmF6k2W+Gs7BCkRGwE1VmupfdNV9Z0AJUfHXhydZE6D0YOsFSeCMZpMiiHuoFLs
+	ynxLRJlPo23xu++IaQ4mVivAyZIMlu3n6aQTCssLdT4P76cZY4fQPv3E6YcA60rNmLucoY
+	7Oz40llNzhwJ9uoxvunX8Rlk4IleTzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784036323;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AJgfRctefVvLHKw1bswhtN3cAhlMZWoQWCAaAHQNEVY=;
+	b=GS0w9ZF6kVP4z4WE9cW/f5exLSiJBJV26IyGbQWCNLX2+ctzZp0wHcFkNBPYBPatjOgbM3
+	0zUIuVFQi75Sv2DA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6AFCB779AE;
+	Tue, 14 Jul 2026 13:38:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uuWGGeM7Vmo8aQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Jul 2026 13:38:43 +0000
+Date: Tue, 14 Jul 2026 15:38:43 +0200
+Message-ID: <878q7dzo64.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Gordon Chen <chengordon326@gmail.com>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kees@kernel.org,
+	jussi@sonarnerd.net,
+	hulianqin@vivo.com,
+	i@rong.moe,
+	g@b4.vu,
+	cryolitia@uniontech.com,
+	pav@iki.fi,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mathias.nyman@linux.intel.com
+Subject: Re: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio device
+In-Reply-To: <474deb99-7ac2-40cf-a5a3-c2a3feb064b9@kylinos.cn>
+References: <20260713081048.189281-1-zhangheng@kylinos.cn>
+	<18c1dc0246121271.5ea4dc9a201e9dce.cafe1c196d712416@GordonMsi>
+	<5ed9e0a3-e8ac-4295-b876-dcda8b96ca1e@kylinos.cn>
+	<87tsq2yq70.wl-tiwai@suse.de>
+	<474deb99-7ac2-40cf-a5a3-c2a3feb064b9@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio
- device
-To: Takashi Iwai <tiwai@suse.de>, Gordon Chen <chengordon326@gmail.com>
-Cc: perex@perex.cz, tiwai@suse.com, kees@kernel.org, jussi@sonarnerd.net,
- hulianqin@vivo.com, i@rong.moe, g@b4.vu, cryolitia@uniontech.com,
- pav@iki.fi, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260713081048.189281-1-zhangheng@kylinos.cn>
- <18c1dc0246121271.5ea4dc9a201e9dce.cafe1c196d712416@GordonMsi>
- <87zezvx73v.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <87zezvx73v.wl-tiwai@suse.de>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,perex.cz,suse.com,kernel.org,sonarnerd.net,vivo.com,rong.moe,b4.vu,uniontech.com,iki.fi,vger.kernel.org,linux.intel.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 9AA7D3DF4
+X-Spam-Score: -3.51
 
-This is a multi-part message in MIME format.
---------------66thek36EefFl6svLSyEU8LY
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Tue, 14 Jul 2026 15:02:09 +0200,
+Zhang Heng wrote:
+> 
+> > On Tue, 14 Jul 2026 03:58:08 +0200,
+> > Zhang Heng wrote:
+> >>> On Mon, Jul 13, 2026 at 04:10:48PM +0800, Zhang Heng wrote:
+> >>>> +		/* Generic USB Audio (0x1e0b:d01e): use SIA for consistent scheduling */
+> >>>> +		if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e))
+> >>>> +			u->urb->transfer_flags |= URB_ISO_ASAP;
+> >>> Not a maintainer, just a bystander who was Cc'd -- two small notes on the
+> >>> form of the patch, plus one question I can't answer myself.
+> >>> 
+> >>> A per-device usb_id comparison in the endpoint.c fast path seems like the
+> >>> kind of thing the quirk_flags_table in quirks.c exists to avoid. Would a
+> >>> QUIRK_FLAG_ISO_ASAP (set in the table, tested here as
+> >>> chip->quirk_flags & QUIRK_FLAG_ISO_ASAP) work for you? It keeps endpoint.c
+> >>> device-agnostic, and the next device with the same symptom becomes a
+> >>> one-line table entry rather than another if.
+> >> First of all, let me clarify: this issue occurs when there is startup music,
+> >> but it plays normally after entering the system. There is a heavy creaking
+> >> sound when the system is turned on here. Based on the information from dmesg
+> >> and syslog, there are a large number of xhci hcd frame synchronization
+> >> failures. I tried adding URB_ISO_ASAP here, and it will be much better,
+> >> with only a little noise.
+> > OK, but it still makes sense to deal URB_ISO_ASAP workaround more
+> > generically.
+> > 
+> >>>> +	if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e) &&
+> >>>> +	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+> >>>> +		ep->skip_packets = 4;
+> >>> The block immediately above this one already does exactly
+> >>> "type == SND_USB_ENDPOINT_TYPE_SYNC -> skip_packets = 4"; adding the ID to
+> >>> that condition would avoid the duplicate if. Also, the changelog doesn't
+> >>> say what this hunk contributes on its own -- is URB_ISO_ASAP alone
+> >>> insufficient, and if so, what does skipping the first 4 sync packets fix
+> >>> that ASAP doesn't? Right now the two changes are indistinguishable in the
+> >>> commit message, and skip_packets = 4 reads as belt-and-braces.
+> >> As mentioned above, there is still a bit of noise when only adding
+> >> URB_ISO_ASAP,
+> >> 
+> >> but skip-packets=4 can solve this problem.
+> > Well, one missing thing is to understand why this fixes.
+> > Originally, the skip_packets=4 for Playback Design devices was
+> > introduced for bogus feedback packets at the start of the stream long
+> > time ago.  But that's the only known device that needs it.  Does your
+> > device send also 4 bogus packets?
+> > 
+> > The skip_packets=16 for M-Audio devices are rather for avoiding the
+> > latency.  And, speaking of latency, I have a patch for the lowlatency
+> > support of implicit fb mode, but never had a test environment.
+> > Could you check the patch below and see the patch below has any
+> > positive/negative influence?  Just to be sure.
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> > -- 8< --
+> > index 682b6c1fe76b..6d144e39a849 100644
+> > --- a/sound/usb/pcm.c
+> > +++ b/sound/usb/pcm.c
+> > @@ -265,6 +265,7 @@ int snd_usb_init_pitch(struct snd_usb_audio *chip,
+> >   	return 0;
+> >   }
+> >   +/* stop both data and sync endpoints */
+> >   static bool stop_endpoints(struct snd_usb_substream *subs, bool keep_pending)
+> >   {
+> >   	bool stopped = 0;
+> > @@ -280,6 +281,24 @@ static bool stop_endpoints(struct snd_usb_substream *subs, bool keep_pending)
+> >   	return stopped;
+> >   }
+> >   +/* only start sync endpoint */
+> > +static int start_sync_endpoint(struct snd_usb_substream *subs)
+> > +{
+> > +	int err;
+> > +
+> > +	if (subs->sync_endpoint &&
+> > +	    !test_and_set_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags)) {
+> > +		err = snd_usb_endpoint_start(subs->sync_endpoint);
+> > +		if (err < 0) {
+> > +			clear_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags);
+> > +			return err;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/* start both data and sync endpoints */
+> >   static int start_endpoints(struct snd_usb_substream *subs)
+> >   {
+> >   	int err;
+> > @@ -295,14 +314,9 @@ static int start_endpoints(struct snd_usb_substream *subs)
+> >   		}
+> >   	}
+> >   -	if (subs->sync_endpoint &&
+> > -	    !test_and_set_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags)) {
+> > -		err = snd_usb_endpoint_start(subs->sync_endpoint);
+> > -		if (err < 0) {
+> > -			clear_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags);
+> > -			goto error;
+> > -		}
+> > -	}
+> > +	err = start_sync_endpoint(subs);
+> > +	if (err < 0)
+> > +		goto error;
+> >     	return 0;
+> >   @@ -656,12 +670,16 @@ static int
+> > lowlatency_playback_available(struct snd_pcm_runtime *runtime,
+> >   		return false;
+> >   	if (in_free_wheeling_mode(runtime))
+> >   		return false;
+> > -	/* implicit feedback mode has own operation mode */
+> > -	if (snd_usb_endpoint_implicit_feedback_sink(subs->data_endpoint))
+> > -		return false;
+> >   	return true;
+> >   }
+> >   +/* return true if it's a normal playback (not in implicit fb) */
+> > +static bool is_normal_lowlatency_playback(struct snd_usb_substream *subs)
+> > +{
+> > +	return subs->lowlatency_playback &&
+> > +		!snd_usb_endpoint_implicit_feedback_sink(subs->data_endpoint);
+> > +}
+> > +
+> >   /*
+> >    * prepare callback
+> >    *
+> > @@ -709,9 +727,11 @@ static int snd_usb_pcm_prepare(struct snd_pcm_substream *substream)
+> >   	runtime->delay = 0;
+> >     	subs->lowlatency_playback =
+> > lowlatency_playback_available(runtime, subs);
+> > -	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
+> > -	    !subs->lowlatency_playback) {
+> > -		ret = start_endpoints(subs);
+> > +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
+> > +		if (!subs->lowlatency_playback)
+> > +			ret = start_endpoints(subs);
+> > +		else if (snd_usb_endpoint_implicit_feedback_sink(subs->data_endpoint))
+> > +			ret = start_sync_endpoint(subs);
+> >   		/* if XRUN happens at starting streams (possibly with implicit
+> >   		 * fb case), restart again, but only try once.
+> >   		 */
+> > @@ -1539,7 +1559,7 @@ static int prepare_playback_urb(struct snd_usb_substream *subs,
+> >   		frame_limit = subs->frame_limit + ep->max_urb_frames;
+> >   		transfer_done = subs->transfer_done;
+> >   -		if (subs->lowlatency_playback &&
+> > +		if (is_normal_lowlatency_playback(subs) &&
+> >   		    runtime->state != SNDRV_PCM_STATE_DRAINING) {
+> >   			unsigned int hwptr = subs->hwptr_done / stride;
+> >   @@ -1625,7 +1645,8 @@ static int prepare_playback_urb(struct
+> > snd_usb_substream *subs,
+> >   			subs->trigger_tstamp_pending_update = false;
+> >   		}
+> >   -		if (period_elapsed && !subs->running &&
+> > subs->lowlatency_playback) {
+> > +		if (period_elapsed && !subs->running &&
+> > +		    is_normal_lowlatency_playback(subs)) {
+> >   			subs->period_elapsed_pending = 1;
+> >   			period_elapsed = 0;
+> >   		}
+> > @@ -1677,7 +1698,7 @@ static int snd_usb_pcm_playback_ack(struct snd_pcm_substream *substream)
+> >   	struct snd_usb_substream *subs = substream->runtime->private_data;
+> >   	struct snd_usb_endpoint *ep;
+> >   -	if (!subs->lowlatency_playback || !subs->running)
+> > +	if (!is_normal_lowlatency_playback(subs) || !subs->running)
+> >   		return 0;
+> >   	ep = subs->data_endpoint;
+> >   	if (!ep)
+> > @@ -1705,6 +1726,7 @@ static int snd_usb_substream_playback_trigger(struct snd_pcm_substream *substrea
+> >   					      prepare_playback_urb,
+> >   					      retire_playback_urb,
+> >   					      subs);
+> > +		/* start EPs for both normal and implicit-fb modes */
+> >   		if (subs->lowlatency_playback &&
+> >   		    cmd == SNDRV_PCM_TRIGGER_START) {
+> >   			if (in_free_wheeling_mode(substream->runtime))
+> Regarding your patch, I am unable to test it because my current
+> kernel is based on a certain stable version of 5.4. The
+> differences in pcm.c are too significant, so the patch cannot
+> be applied directly.
+
+Please verify whether the problem really exists with the latest
+kernel at first.  At least we have to be sure about the workaround
+with URB_ISO_ASAP for the latest kernel before taking to the upstream.
 
 
---------------66thek36EefFl6svLSyEU8LY
-Content-Type: text/x-patch; charset=UTF-8;
- name="v2-0001-ALSA-usb-audio-Fix-boot-time-crackling-for-Generic-U.patch"
-Content-Disposition: attachment;
- filename*0="v2-0001-ALSA-usb-audio-Fix-boot-time-crackling-for-Generic-U";
- filename*1=".patch"
-Content-Transfer-Encoding: base64
+thanks,
 
-RnJvbSAxMWMyNWNiNDlhMGEyMzNmZGE2NDNiMmViNmMwYmNhN2JjNzI2ZDM3IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBaaGFuZyBIZW5nIDx6aGFuZ2hlbmdAa3lsaW5vcy5j
-bj4KRGF0ZTogVHVlLCAxNCBKdWwgMjAyNiAxNzo1NTo1NCArMDgwMApTdWJqZWN0OiBbUEFU
-Q0hdIEFMU0E6IHVzYi1hdWRpbzogRml4IGJvb3QtdGltZSBjcmFja2xpbmcgZm9yIEdlbmVy
-aWMgVVNCCiBBdWRpbyBkZXZpY2UKClRoZSBHZW5lcmljIFVTQiBBdWRpbyBkZXZpY2UgKDB4
-MWUwYjpkMDFlKSBwcm9kdWNlcyBjcmFja2xpbmcgbm9pc2UgZHVyaW5nCnN5c3RlbSBib290
-IHdoZW4gdGhlIGJvb3QgbXVzaWMgcGxheXMuIFRoZSBpc3N1ZSBkaXNhcHBlYXJzIG9uY2Ug
-dGhlIHN5c3RlbQpoYXMgZnVsbHkgc3RhcnRlZC4KCktlcm5lbCBsb2dzIHNob3cgeGhjaS1y
-aW5nIHdhcm5pbmdzIHdoZW4gdGhlIGRldmljZSBpbml0aWFsaXplczoKWyAgICA5LjY1NDU4
-Nl0geGhjaV9oY2QgMDAwMDowMzowMC4zOiBGcmFtZSBJRCA2NDQgKHJlZyA1MTU0LCBpbmRl
-eCAxMykgYmV5b25kIHJhbmdlICg2NDUsIDE1MzkpClsgICAgOS42NTQ1ODldIHhoY2lfaGNk
-IDAwMDA6MDM6MDAuMzogSWdub3JlIGZyYW1lIElEIGZpZWxkLCB1c2UgU0lBIGJpdCBpbnN0
-ZWFkClsgICAgOS42NTUwNTNdIHhoY2lfaGNkIDAwMDA6MDM6MDAuMzogRnJhbWUgSUQgNjQ0
-IChyZWcgNTE1OCwgaW5kZXggMTQpIGJleW9uZCByYW5nZSAoNjQ1LCAxNTM5KQpbICAgIDku
-NjU1MDU1XSB4aGNpX2hjZCAwMDAwOjAzOjAwLjM6IElnbm9yZSBmcmFtZSBJRCBmaWVsZCwg
-dXNlIFNJQSBiaXQgaW5zdGVhZAoKVGhlc2Ugd2FybmluZ3MgaW5kaWNhdGUgdGhhdCB4aGNp
-X2dldF9pc29jX2ZyYW1lX2lkKCkgcmV0dXJucyAtRUlOVkFMIGZvcgpURHMgYXQgaW5kZXgg
-PiAwIGJlY2F1c2UgdGhlaXIgY2FsY3VsYXRlZCBGcmFtZSBJRHMgYmVjb21lIHN0YWxlIGJl
-Zm9yZQp2YWxpZGF0aW9uIGNvbXBsZXRlcy4gVGhpcyBjYXVzZXMgYSBmYWxsYmFjayB0byBT
-SUEgbW9kZSBmb3IgdGhvc2UgVERzLAp3aGlsZSBpbmRleD0wIFREIHVzZXMgZGlyZWN0IEZy
-YW1lIElELiBUaGUgcmVzdWx0aW5nIG1peGVkIHNjaGVkdWxpbmcgd2l0aGluCnRoZSBzYW1l
-IGRhdGEgZW5kcG9pbnQgY2F1c2VzIGF1ZGlvIGRhdGEgbWlzYWxpZ25tZW50IGFuZCBjcmFj
-a2xpbmcuCgpGaXggYnkgYWRkaW5nIFFVSVJLX0ZMQUdfSVNPX0FTQVAgYW5kIHNldHRpbmcg
-VVJCX0lTT19BU0FQIGZsYWcgZm9yIHRoZQpkYXRhIGVuZHBvaW50LiBUaGlzIGVuc3VyZXMg
-YWxsIFREcyB1c2UgY29uc2lzdGVudCBTSUEgc2NoZWR1bGluZy4gQWxzbyBhZGQKYSBxdWly
-ayB0byBza2lwIHRoZSBmaXJzdCA0IHN5bmMgcGFja2V0cywgYXMgc29tZSBkZXZpY2VzIHNl
-bmQgaW5jb3JyZWN0CmZlZWRiYWNrIGRhdGEgZHVyaW5nIHN0cmVhbSBzdGFydHVwLgoKVXNp
-bmcgdGhlIHF1aXJrIG1lY2hhbmlzbSBrZWVwcyBlbmRwb2ludC5jIGRldmljZS1hZ25vc3Rp
-YyBhbmQgYWxsb3dzIGVhc3kKYWRkaXRpb24gb2YgbmV3IGRldmljZXMgd2l0aCB0aGUgc2Ft
-ZSBzeW1wdG9tLgoKU2lnbmVkLW9mZi1ieTogWmhhbmcgSGVuZyA8emhhbmdoZW5nQGt5bGlu
-b3MuY24+Ci0tLQp2MS0+djI6CiAKLSBSZXBsYWNlIGhhcmRjb2RlZCBVU0IgSUQgY2hlY2sg
-aW4gZW5kcG9pbnQuYyB3aXRoIFFVSVJLX0ZMQUdfSVNPX0FTQVAKLSBBZGQgUVVJUktfVFlQ
-RV9JU09fQVNBUCA9IDMxIGVudW0gYW5kIFFVSVJLX0ZMQUdfSVNPX0FTQVAgbWFjcm8gaW4g
-dXNiYXVkaW8uaAotIEFkZCBkZXZpY2UgZW50cnkgdG8gcXVpcmtfZmxhZ3NfdGFibGUgaW4g
-cXVpcmtzLmMgZm9yIEdlbmVyaWMgVVNCIEF1ZGlvICgweDFlMGI6ZDAxZSkKLSBBZGQgSVNP
-X0FTQVAgc3RyaW5nIGVudHJ5IHRvIHNuZF91c2JfYXVkaW9fcXVpcmtfZmxhZ19uYW1lcwot
-IEFkZCBkb2N1bWVudGF0aW9uIGNvbW1lbnQgZm9yIFFVSVJLX0ZMQUdfSVNPX0FTQVAgaW4g
-dXNiYXVkaW8uaAotIEtlZXAgZW5kcG9pbnQuYyBkZXZpY2UtYWdub3N0aWMsIGFsbG93aW5n
-IGVhc3kgYWRkaXRpb24gb2YgbmV3IGRldmljZXMKCiBzb3VuZC91c2IvZW5kcG9pbnQuYyB8
-IDIgKysKIHNvdW5kL3VzYi9xdWlya3MuYyAgIHwgOCArKysrKysrKwogc291bmQvdXNiL3Vz
-YmF1ZGlvLmggfCA4ICsrKysrKysrCiAzIGZpbGVzIGNoYW5nZWQsIDE4IGluc2VydGlvbnMo
-KykKCmRpZmYgLS1naXQgYS9zb3VuZC91c2IvZW5kcG9pbnQuYyBiL3NvdW5kL3VzYi9lbmRw
-b2ludC5jCmluZGV4IDI0Y2Q3NjkyYmQwMS4uMTU1YjM4NThkYWM5IDEwMDY0NAotLS0gYS9z
-b3VuZC91c2IvZW5kcG9pbnQuYworKysgYi9zb3VuZC91c2IvZW5kcG9pbnQuYwpAQCAtMTI1
-Niw2ICsxMjU2LDggQEAgc3RhdGljIGludCBkYXRhX2VwX3NldF9wYXJhbXMoc3RydWN0IHNu
-ZF91c2JfZW5kcG9pbnQgKmVwKQogCQkJZ290byBvdXRfb2ZfbWVtb3J5OwogCQl1LT51cmIt
-PnBpcGUgPSBlcC0+cGlwZTsKIAkJdS0+dXJiLT50cmFuc2Zlcl9mbGFncyA9IFVSQl9OT19U
-UkFOU0ZFUl9ETUFfTUFQOworCQlpZiAoZXAtPmNoaXAtPnF1aXJrX2ZsYWdzICYgUVVJUktf
-RkxBR19JU09fQVNBUCkKKwkJCXUtPnVyYi0+dHJhbnNmZXJfZmxhZ3MgfD0gVVJCX0lTT19B
-U0FQOwogCQl1LT51cmItPmludGVydmFsID0gMSA8PCBlcC0+ZGF0YWludGVydmFsOwogCQl1
-LT51cmItPmNvbnRleHQgPSB1OwogCQl1LT51cmItPmNvbXBsZXRlID0gc25kX2NvbXBsZXRl
-X3VyYjsKZGlmZiAtLWdpdCBhL3NvdW5kL3VzYi9xdWlya3MuYyBiL3NvdW5kL3VzYi9xdWly
-a3MuYwppbmRleCAyOTQ5YTBkMmQ5NjEuLmY1ZTViNjYyYmZkMyAxMDA2NDQKLS0tIGEvc291
-bmQvdXNiL3F1aXJrcy5jCisrKyBiL3NvdW5kL3VzYi9xdWlya3MuYwpAQCAtMTkzOCw2ICsx
-OTM4LDEwIEBAIHZvaWQgc25kX3VzYl9lbmRwb2ludF9zdGFydF9xdWlyayhzdHJ1Y3Qgc25k
-X3VzYl9lbmRwb2ludCAqZXApCiAJICAgIGVwLT50eXBlID09IFNORF9VU0JfRU5EUE9JTlRf
-VFlQRV9TWU5DKQogCQllcC0+c2tpcF9wYWNrZXRzID0gNDsKIAorCWlmIChlcC0+Y2hpcC0+
-dXNiX2lkID09IFVTQl9JRCgweDFlMGIsIDB4ZDAxZSkgJiYKKwkgICAgZXAtPnR5cGUgPT0g
-U05EX1VTQl9FTkRQT0lOVF9UWVBFX1NZTkMpCisJCWVwLT5za2lwX3BhY2tldHMgPSA0Owor
-CiAJLyoKIAkgKiBNLUF1ZGlvIEZhc3QgVHJhY2sgQzQwMC9DNjAwIC0gd2hlbiBwYWNrZXRz
-IGFyZSBub3Qgc2tpcHBlZCwgcmVhbAogCSAqIHdvcmxkIGxhdGVuY3kgdmFyaWVzIGJ5IGFw
-cHJveC4gKy8tIDUwIGZyYW1lcyAoYXQgOTZrSHopIGVhY2ggdGltZQpAQCAtMjU4Miw2ICsy
-NTg2LDkgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfYXVkaW9fcXVpcmtfZmxhZ3NfdGFi
-bGUgcXVpcmtfZmxhZ3NfdGFibGVbXSA9IHsKIAlWRU5ET1JfRkxHKDB4YzUwMiwgLyogSGlC
-eSBkZXZpY2VzICovCiAJCSAgIFFVSVJLX0ZMQUdfRFNEX1JBVyksCiAKKwlERVZJQ0VfRkxH
-KDB4MWUwYiwgMHhkMDFlLCAvKiBHZW5lcmljIFVTQiBBdWRpbyAqLworCQkgICBRVUlSS19G
-TEFHX0lTT19BU0FQKSwKKwogCXt9IC8qIHRlcm1pbmF0b3IgKi8KIH07CiAKQEAgLTI2MjAs
-NiArMjYyNyw3IEBAIHN0YXRpYyBjb25zdCBjaGFyICpjb25zdCBzbmRfdXNiX2F1ZGlvX3F1
-aXJrX2ZsYWdfbmFtZXNbXSA9IHsKIAlRVUlSS19TVFJJTkdfRU5UUlkoTUlYRVJfQ0FQVFVS
-RV9MSU5FQVJfVk9MKSwKIAlRVUlSS19TVFJJTkdfRU5UUlkoSUZCX1NJTEVOQ0VfT05fRU1Q
-VFkpLAogCVFVSVJLX1NUUklOR19FTlRSWShNSVhFUl9HRVRfQ1VSX0JST0tFTiksCisJUVVJ
-UktfU1RSSU5HX0VOVFJZKElTT19BU0FQKSwKIAlOVUxMCiB9OwogCmRpZmYgLS1naXQgYS9z
-b3VuZC91c2IvdXNiYXVkaW8uaCBiL3NvdW5kL3VzYi91c2JhdWRpby5oCmluZGV4IGUyNmY5
-MDkyNDE3ZS4uOTA3MjExZmQ1YzNlIDEwMDY0NAotLS0gYS9zb3VuZC91c2IvdXNiYXVkaW8u
-aAorKysgYi9zb3VuZC91c2IvdXNiYXVkaW8uaApAQCAtMjU0LDYgKzI1NCwxMiBAQCBleHRl
-cm4gYm9vbCBzbmRfdXNiX3NraXBfdmFsaWRhdGlvbjsKICAqICBjaGVjayBiZWluZyBub24t
-ZmF0YWwgYW5kIG9ubHkgZGlzYWJsaW5nIEdFVF9DVVIgaW5zdGVhZCBvZiB0aGUgd2hvbGUg
-bWl4ZXIuCiAgKiAgVGhlIGN1cnJlbnQgdm9sdW1lIHdpbGwgdGhlbiBiZSBwcm92aWRlZCBi
-eSB0aGUgaW50ZXJuYWwgY2FjaGUgdGhhdCBzdG9yZXMKICAqICB0aGUgbGFzdCBzZXQgdm9s
-dW1lCisgKiBRVUlSS19GTEFHX0lTT19BU0FQCisgKiAgRW5hYmxlIFVSQl9JU09fQVNBUCBm
-bGFnIGZvciBpc29jaHJvbm91cyBVUkJzLiBUaGlzIGVuc3VyZXMgY29uc2lzdGVudAorICog
-IFNJQSAoU2NoZWR1bGUgSW4gQWR2YW5jZSkgc2NoZWR1bGluZyBmb3IgYWxsIFREcywgYXZv
-aWRpbmcgbWl4ZWQKKyAqICBzY2hlZHVsaW5nIG1vZGVzIHRoYXQgY2FuIGNhdXNlIGF1ZGli
-bGUgY3JhY2tsaW5nIGF0IGJvb3QgdGltZS4gTmVlZGVkIGJ5CisgKiAgZGV2aWNlcyB3aGVy
-ZSB4SENJIEZyYW1lIElEIHN0YWxlbmVzcyBmb3IgVERzIGF0IGluZGV4ID4gMCBjYXVzZXMK
-KyAqICBtaXhlZCBleHBsaWNpdCBGcmFtZSBJRHMgd2l0aCBTSUEuCiAgKi8KIAogZW51bSB7
-CkBAIC0yODgsNiArMjk0LDcgQEAgZW51bSB7CiAJUVVJUktfVFlQRV9NSVhFUl9DQVBUVVJF
-X0xJTkVBUl9WT0wJPSAyOCwKIAlRVUlSS19UWVBFX0lGQl9TSUxFTkNFX09OX0VNUFRZCQk9
-IDI5LAogCVFVSVJLX1RZUEVfTUlYRVJfR0VUX0NVUl9CUk9LRU4JCT0gMzAsCisJUVVJUktf
-VFlQRV9JU09fQVNBUAkJCT0gMzEsCiAvKiBQbGVhc2UgYWxzbyBlZGl0IHNuZF91c2JfYXVk
-aW9fcXVpcmtfZmxhZ19uYW1lcyAqLwogfTsKIApAQCAtMzI0LDUgKzMzMSw2IEBAIGVudW0g
-ewogI2RlZmluZSBRVUlSS19GTEFHX01JWEVSX0NBUFRVUkVfTElORUFSX1ZPTAlRVUlSS19G
-TEFHKE1JWEVSX0NBUFRVUkVfTElORUFSX1ZPTCkKICNkZWZpbmUgUVVJUktfRkxBR19JRkJf
-U0lMRU5DRV9PTl9FTVBUWQkJUVVJUktfRkxBRyhJRkJfU0lMRU5DRV9PTl9FTVBUWSkKICNk
-ZWZpbmUgUVVJUktfRkxBR19NSVhFUl9HRVRfQ1VSX0JST0tFTgkJUVVJUktfRkxBRyhNSVhF
-Ul9HRVRfQ1VSX0JST0tFTikKKyNkZWZpbmUgUVVJUktfRkxBR19JU09fQVNBUAkJCVFVSVJL
-X0ZMQUcoSVNPX0FTQVApCiAKICNlbmRpZiAvKiBfX1VTQkFVRElPX0ggKi8KLS0gCjIuMjUu
-MQoK
-
---------------66thek36EefFl6svLSyEU8LY--
+Takashi
