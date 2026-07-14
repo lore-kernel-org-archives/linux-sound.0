@@ -1,298 +1,121 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBA541CB23
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 08:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784018646; cv=none; b=raCOVzl7EEpXL+Iu9ALLtjjWO08M7A1zgkOfM5GQFSWPkVCbjVjQLl5lQbg6NTWf/sMiCmaBBSm1et5N68hE980TlxXyuMbXZ1Dsto0pzAXh9PDUOiCxCWreD9idAF+pmXZtnltoQdiOEk0yPlwO1E2wNru6HpG3tY/Pddl5RRM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784018646; c=relaxed/simple;
-	bh=Z94W1/W7TzLbivinV9rurg1VRUmupKdUn2Ra61GL0wA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qu1QOHk64wlyED4j4xHxpN2+hGDzbdYk83M4Nx6b6ohQfTEhfwnAraSpqB8EYeSmokUmpKbb72gmy0J3100+dre91XS6nBwUJVko0TN/93Rin7mXXbCdcjT47U62FcWM2RhPVvaG0pe0WMsxOg3D5jc2WplEVvRebBjP04mWh2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oPWz/jeU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UgadcJZq; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC815426693
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 08:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784018687; cv=pass; b=j9qY2+/CojXKctGQaTXo9ByHknheUS/8Mw8k9zHoQ59EoRKHt+pCAB7KCGBj7DrSuhpyUfa4bcHPGXccNjEgQeBL/q9EFh7uCKqu/wYiafXCkpOhK9EeFCi+fUPAkqTFuNBhqE+/ast7KTd/9nRdOZZRkVZSdFHpRJ+oq6qLaLk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784018687; c=relaxed/simple;
+	bh=v9CkC0IUkTCjijk10hesi2Ux7HcoYWXBGJgEZvYArnw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mGwWRscadM+LaZvVzxHGrSEW87uLxHV1qkY4YMo3lwb4L0LfgC4q3Zs5h1B5M5suIt3bxvCAPUjd3ypL4HYfFeWmz3hxm54y0bva+2Pmkxkiwii6/Y7jZCERsOWzreYTzCRzJu92e63klxKz/27C5r3e2rcYjfhwNpBOgq93NsI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WxX+q3+r; arc=pass smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oPWz/jeU";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UgadcJZq"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66E6Sdlg3887372
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 08:44:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	LW/CEzEGzNAEwypyCM6YJOofetx3Ogz57FDUQUJrgtA=; b=oPWz/jeUsdMn6FCg
-	PjfHIMu6f4PBmZud+RGwDpd3jwhR9MoL+HFZZpbuCtauxonF3MRx6S6YsT9+cFVl
-	P7okO5l/F4L6jzNhMfe0zbdjLT4ptqCXeiHwuZsONGw6DTyFiFpP5/dThjAWoPWB
-	kGgw8uUp90PKbbk2s8WN6jnEHxxsjrr80OdIYss/dR5RRNf2b1JzCGO0DpIzBq5m
-	89Hq4taMnOnePeVBtlmTe8E9IrAJOPjl+HQ4BhLfqiC2gSsi1h6eSSolo/IkEg0i
-	jIWLsO9Ak4x0+XISL+C5uMh8rAdxxz2IPS2mVtslPbGaSB5AemEXUQGyoCefGv56
-	/J7IYg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fdbr49dbb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 08:44:00 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cea6a46766so43552885ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 01:44:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WxX+q3+r"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-667b0ced2d3so5454122d50.2
+        for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 01:44:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784018683; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oumj4FPQ/MfcuzaHq/QP0o5VrKV76uBNBiS2LN3eIpUk0feYOSrd4+L40/sql2MG1r
+         xdfJFFsW55lkum1PTYH5dd2+bbqAFko+9MtYC1TaTyuqrXzsB97B26KCmzZpLZ9VSpLx
+         TbmKImQpMbnhKuRPlLSz8FeErphe401d4DgMLuI3Xpx0hqZBTCB+EX1Lw9W4hnmMwVLm
+         FoKkHFKm0cBg+srW7WcuDPcY0JNoeIo/gBwkuAbqMxIDD6ZkIC9w2gSNrP8j4ITA2Tk+
+         4pau/GyhTgtmf12MCeIKuWprG9IQiLAOAiVsWbt1dqiwAEAqENZrGOm9PWVCDSRpCbbl
+         365A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=997t2oDEbZst/e30RzuUFOMAIgJy7wVKg2mw9L5gqmI=;
+        fh=YblHzFqwReSA3ahni9mjeQZrgjmy2V64G/FnLxb1bnI=;
+        b=bg5nManSUjVpQaIlLDkL/8nPY5MvFjeQhzkuKWm5BwAD9DDECccde8sjqw2WSbYLbO
+         2zumT3F4ktYAa6DhqjbOrQI/XOrpVLqBMm/xJXr1SIEgxEo7U6x7ZetGdvAPj5NgB+KK
+         PuuN/HNdxaiODBfssYszaWKs3/ArpLrJ66nLESjpHICsfYxmqjWwco7PH8eJOWqQnQLy
+         zCpBYmQNf0F/D3Ugwjymc4PQDZ3bsM1FZmbUphE3HZnqS0wPOQZzFfeVmQsOuLncnqex
+         IAipg+2Fv86/LW0N6Dck6JVw+Tu30Z0JdLVUs+3Ixj3EfvKQOtdBvQjEjYZb0JrC9upy
+         4Pxg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784018639; x=1784623439; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784018683; x=1784623483; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LW/CEzEGzNAEwypyCM6YJOofetx3Ogz57FDUQUJrgtA=;
-        b=UgadcJZqqu8fYR9JleJ7QYpusp1y9tsjgr5Est/qHWbEh9x5l7orJtOk3DLhyd/8hQ
-         oVhSdDpG4kVWd62tAOmF8sKX1OwfgKsTv3MUXvGGTs39F5KXSWgaJkH2L2ox8I4SPz7q
-         jaxXXsmKic5yfpb1DClOeMiYOigYA7CXhXRruiiQY9sfYqhL8NjB9uhHt4KEzRrzv8xw
-         456+pTtgjPqd2XDBZ1U6CzDRvJkr8MiZJBu9SBCsTzyahJ4QUs29s8lG+2O0epUVDUzz
-         kG1DIlsE7fG9gcJKcMkz4cX2Pw6LJoX2vHzRJN0WoHjvO+jkO62tRrAjyMiYK2RfX3vg
-         +59A==
+        bh=997t2oDEbZst/e30RzuUFOMAIgJy7wVKg2mw9L5gqmI=;
+        b=WxX+q3+r5uGGsE6K5JE/YF/jyvqhW6WncyCvDT2ImOHWBjr4gUBE5DSWBHra1fBIMO
+         zOctUGiefVz/A3jHWhaA05YBEIKcNKhFLE3MKcHyWeoX4yfLvQWmhDYKctT+Ot0lOssR
+         /5zKc90//20LV5eHbCjB0Dka4n5CXx4wGxeKhJu9HXXhyQJeT4xvi7iKLjWZ1bcEd29X
+         iuYG0nJaFq/4kwc7zg3bZDSt8WhwY5YN9jWks8kWew9dfseT4jAYEZvezrLQu/espiqP
+         fUIHIki1BZh8P5yWdpUuzJLjo7RngWH8fyEYEbbWU6iNUVyWU7P8txEXFM+57DCnOhPT
+         nIfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784018639; x=1784623439;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LW/CEzEGzNAEwypyCM6YJOofetx3Ogz57FDUQUJrgtA=;
-        b=dvfVL3YOhHqc0Imbi/sqK+0Gx9L+cSSNdKkrypsxqTW1eAlNUXmQCoctpibiLi4fp4
-         u1aDgYh1+AXUiJ5AJCuruZPLd29KlBf+TQVLMQT65z3KMZSCq2zE8PNc5uuDGQDApmBk
-         4+7kc9QzW4OK36QqS4HRXAPaUUXHIv2xuVGCljnLTUu84pdb57JFes18ola7PQDgnDgF
-         C0rWJDW70ybterP8l6vtwNVhhBjjoLIHUVqVLUPJ4/bvRF17olUhLBQVYKnjEjfzTqIS
-         ClGPErWY7vuUg3IpOflhs2nzA0oEg6xz2qJylrOk+zV2a1wNL4cvEdTgaDun0LCuNhPD
-         SMbQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpCukYT+ayLe+051siu+Iz/wudBJWZgHSShgnk19YVUT1MYq3RzEJ2S8A3Lft8enX8P4KNSWf4lQksXIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFrAFHYsRcIoRFLtxoGN6uDQIGc1O+fGGrlZPkqwdBaQinMsw1
-	mRupt45L+yzmspnsQvn3tk67x+1vJvTeqxSxsPsmFNk+P3Yqy+u3G6Hi3JbNXkknXl1XVsORcLy
-	Q1xrNg7vFUkrncCJUeLu+wZdAzxkwe4dzZTZL9BJtY08u8vG5zx5okj08Hwty82Q1pw==
-X-Gm-Gg: AfdE7ckIdutuVTjNsXaSfEr3uxXTDj9XmEqay2UqEznNk45VULsu4KIaxCr/A+SG13a
-	X0PlK1F6nZBJvnnlnvEq1HlvAtsVP059XS771kvjWhNvAT6/rtlS3DoZdXoDLHCuHZk2y0W9ufc
-	a4dxCqReO8TIrAKuzPPwCloZf1Y1I5OQNB7jQ3lgwkjbiA7JEU5HOvyw+AHYGAaVJGhGeVzOvLy
-	FoN8XOHJ5b1q/BPLoc0SmVpWL57T0mqoBWE8LYzW19hlAMO2PpvmcLLDEaLZAf86zdefrgQ8Ui1
-	kFBo40BAMurpEozszQyhrqpenInO7UgNV+Ec6C8gmMOvgKf3AO9FuPSxoHdNXaV3qHwizCW8G+1
-	xK0PzPwkqPyhCtFWt/0vX2a0bpAhdcI1XSLUOj9T1tZl8
-X-Received: by 2002:a17:903:234f:b0:2c2:bd7f:ccd4 with SMTP id d9443c01a7336-2cef12055f9mr16470965ad.21.1784018639427;
-        Tue, 14 Jul 2026 01:43:59 -0700 (PDT)
-X-Received: by 2002:a17:903:234f:b0:2c2:bd7f:ccd4 with SMTP id d9443c01a7336-2cef12055f9mr16470495ad.21.1784018638978;
-        Tue, 14 Jul 2026 01:43:58 -0700 (PDT)
-Received: from [10.219.49.235] ([202.46.23.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bf737bsm111470935ad.19.2026.07.14.01.43.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2026 01:43:58 -0700 (PDT)
-Message-ID: <dae40416-f7b5-4f36-960d-808c1fdeef42@oss.qualcomm.com>
-Date: Tue, 14 Jul 2026 14:13:51 +0530
+        d=1e100.net; s=20251104; t=1784018683; x=1784623483;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=997t2oDEbZst/e30RzuUFOMAIgJy7wVKg2mw9L5gqmI=;
+        b=cb1pQA4XrKVb+SX70xCJU3R4qVSPBQQJdy3SY1UwP4Sqayq3ZqpEl78peg0Ot4WJ+x
+         Sz6dNQOaK47UBr55p7yi+hWcYUxAN+/dlORrsCuOeejt5bxnQHh+KwNZP1pBR/J9fPZo
+         JRlZ1tCdYi9GqElf+xlg9mq0uOJCTwVsCsDR0U7CysHAn0YWVl1WwgiixQ+s28klfpU9
+         44HePbyz9dKaRdd/VofNnT2feqGrnSEq/l6gUVb6BVx5VGBOYP10Fi6btzd53X7QT+eo
+         3sovcjl+GqCa5um1QoTuXTXvVz2eWi8KNj5ZDlQ90gvW++5oy3iJzrOORPlCAYru6ECC
+         BFdw==
+X-Gm-Message-State: AOJu0YyLpif1MPEGx/RUzl57PXn3NJ9+kpvxYlKG2frJ9AP3GPH/Riw1
+	BmavoueUS+wLM0BsAYT/0Z3RgjfOXYDo/d+K2NZGBHnHDtZ4DjNvoVyTWq0DtdJftxoI7cHsARg
+	gOdlizWECKclslZ59ZgGDUQCt4gqXXxU=
+X-Gm-Gg: AfdE7cn5bK5o2hNcbYgZ6ypUULMaSqkMYofY0JhPSa7uar4/lbhWAN1rqW7f9m+iNQQ
+	NBx0LM2XPeQBH0XsTdHJanafhcmvjNDOPL/GVMBMP+2UqDQhz6llDDPzhpYWT9+cGAvpMIYcENE
+	PXKYiA86WMZRur+ahUL9nBGisbSam8O/4Ixz4gn99DB1gUXBD39SDVIc10QUF7lW3h7h0x+L2ok
+	tIP3Gis4YM+685Y2O9h9Y1N43SZBH0tFQW0fINVNhIJ9Gtd15AYb+CusUKjy9a3ghdz3yrtvA==
+X-Received: by 2002:a05:690c:316:b0:81d:2194:6c4a with SMTP id
+ 00721157ae682-81e9015f77amr87430207b3.47.1784018682806; Tue, 14 Jul 2026
+ 01:44:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] ASoC: qcom: q6prm: add support for LPASS LPR
- resource voting
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Bartosz Golaszewski
- <brgl@kernel.org>,
-        Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20260713184549.929569-1-prasad.kumpatla@oss.qualcomm.com>
- <20260713184549.929569-4-prasad.kumpatla@oss.qualcomm.com>
- <046bb977-dad6-4bd0-b1c2-4321c58d3f27@oss.qualcomm.com>
-Content-Language: en-US
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-In-Reply-To: <046bb977-dad6-4bd0-b1c2-4321c58d3f27@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: e2xibUmxjDq5xN4jq3Hlb5i-mHbaYu2u
-X-Proofpoint-ORIG-GUID: e2xibUmxjDq5xN4jq3Hlb5i-mHbaYu2u
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDA5MSBTYWx0ZWRfX35I9xnyF3paS
- rF3CQUdHEUsdlFt9QbeK8zMJB9F4vIzA3TlDrVMZciSDCXMTLTDVnRmNy34Fpe9Dc/1u3dM2Ztf
- 7XNr77b/h6q23Cv02XUWbSrVPUm0CSofulA+iSFn93IqGUq5IbCMxMEXahuvPWbwgh59RYLpM2B
- HEMP95ghzvz8UfD9onOtfEg1m5AtRf6+9bBhk7+CL29yhedsU3W9Ah3/m3QF9pwdXUKCsCsmggf
- 0LB+bWmKttckC9he+L/WoXKl+SZn9q4ao1Hh1VDFe1cSLcTSKRuyR1gA4zFVZrbCoAIO3u+caD2
- 6dgkcyN9SaHF6wZEkPo/XDZ8tN0SU+4bZNrBxUqofpjMzlK8OCJBDOsdJX63Yau2ulVmz/R/FpX
- mUyQqBAUEya5NzzavT0j2UV/oKqBlbq7N+tC3hfBMlmJjBP8khOVa+HBUetIAFfXN0SzNwpMWXp
- MwFDHNn7embsM2Y71aw==
-X-Authority-Analysis: v=2.4 cv=F5hnsKhN c=1 sm=1 tr=0 ts=6a55f6d0 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=j4ogTh8yFefVWWEFDRgCtg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=EUspDBNiAAAA:8 a=XFR1filUoCuqy7zT_QkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDA5MSBTYWx0ZWRfX91ETI88zPZn7
- XRUUxf5mXI+qYw3hNHhxtEdaFKnBZxeGcE17K8XedeSMqbLnfGWH3t29CHyyhF6vMi3vxQOfJAk
- g6us1ayk0tOsnLYjqbBJ1kex3A/zlf4=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-14_02,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
- clxscore=1015 adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607140091
+References: <20260713071544.35722-1-kunjinkao.jp@gmail.com> <cf0a24a9-40f1-4669-b616-9e244c1e7876@linux.dev>
+In-Reply-To: <cf0a24a9-40f1-4669-b616-9e244c1e7876@linux.dev>
+From: chang wu <kunjinkao.jp@gmail.com>
+Date: Tue, 14 Jul 2026 16:44:31 +0800
+X-Gm-Features: AUfX_mxM_m1IgMVwvRU8E6rnRa5qy8VxT2MzQ5MxcMTKDe_z88FPQCS3fTM_p98
+Message-ID: <CAMTmk-2mGbujBgBBPVtwKxgF7OQJAoS4kK160mrMgazARrV38A@mail.gmail.com>
+Subject: Re: [PATCH] soundwire: stream: validate slave port against DisCo port bitmap
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Vinod Koul <vkoul@kernel.org>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+> Smart, good idea. I would recommend adding the first sentence as code comments, I had to look up the code to figure out what it did.
 
-On 7/14/2026 1:13 PM, Srinivas Kandagatla wrote:
-> On 7/13/26 7:45 PM, Prasad Kumpatla wrote:
->> Add support for issuing LPASS low-power resource (LPR) votes through
->> the PRM interface.
->>
->> Some platforms (e.g. Hawi) require the LPASS to be kept active via LPR
->> resource voting instead of the existing hardware core vote mechanism.
->> Handle this by introducing support for PARAM_ID_RSC_CPU_LPR when the
->> LPR vote clock ID is requested.
->>
->> For LPR requests, use the appropriate parameter ID and payload format
->> to disable CPU subsystem sleep, ensuring that the LPASS register space
->> remains accessible.
->>
->> Also add the corresponding clock mapping for LPASS_HW_LPR_VOTE and make
->> the q6dsp clock ID range consistent with the dt-bindings by deriving
->> it from Q6AFE_MAX_CLK_ID.
->>
->> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
->> ---
->>   sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c |  2 +-
->>   sound/soc/qcom/qdsp6/q6prm-clocks.c       |  2 ++
->>   sound/soc/qcom/qdsp6/q6prm.c              | 17 +++++++++++++----
->>   sound/soc/qcom/qdsp6/q6prm.h              |  1 +
->>   4 files changed, 17 insertions(+), 5 deletions(-)
->>
->> diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
->> index 03838582a..79527a367 100644
->> --- a/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
->> +++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
->> @@ -12,7 +12,7 @@
->>   #include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
->>   #include "q6dsp-lpass-clocks.h"
->>   
->> -#define Q6DSP_MAX_CLK_ID			104
->> +#define Q6DSP_MAX_CLK_ID			Q6AFE_MAX_CLK_ID
->>   #define Q6DSP_LPASS_CLK_ROOT_DEFAULT		0
->>   
->>   
->> diff --git a/sound/soc/qcom/qdsp6/q6prm-clocks.c b/sound/soc/qcom/qdsp6/q6prm-clocks.c
->> index 4c574b48a..2b2b3872e 100644
->> --- a/sound/soc/qcom/qdsp6/q6prm-clocks.c
->> +++ b/sound/soc/qcom/qdsp6/q6prm-clocks.c
->> @@ -63,6 +63,8 @@ static const struct q6dsp_clk_init q6prm_clks[] = {
->>   		       "LPASS_HW_MACRO"),
->>   	Q6DSP_VOTE_CLK(LPASS_HW_DCODEC_VOTE, Q6PRM_HW_CORE_ID_DCODEC,
->>   		       "LPASS_HW_DCODEC"),
->> +	Q6DSP_VOTE_CLK(LPASS_HW_LPR_VOTE, Q6PRM_HW_LPR_VOTE,
->> +		       "LPASS_HW_LPR_VOTE"),
->>   };
->>   
->>   static const struct q6dsp_clk_desc q6dsp_clk_q6prm __maybe_unused = {
->> diff --git a/sound/soc/qcom/qdsp6/q6prm.c b/sound/soc/qcom/qdsp6/q6prm.c
->> index 04892fb44..7a7a1d3d5 100644
->> --- a/sound/soc/qcom/qdsp6/q6prm.c
->> +++ b/sound/soc/qcom/qdsp6/q6prm.c
->> @@ -31,10 +31,16 @@ struct q6prm {
->>   #define PARAM_ID_RSC_HW_CORE		0x08001032
->>   #define PARAM_ID_RSC_LPASS_CORE		0x0800102B
->>   #define PARAM_ID_RSC_AUDIO_HW_CLK	0x0800102C
->> +#define PARAM_ID_RSC_CPU_LPR		0x08001A6E
->> +
->> +#define LPR_CPU_SS_SLEEP_DISABLED	0x1
->>   
->>   struct prm_cmd_request_hw_core {
->>   	struct apm_module_param_data param_data;
->> -	uint32_t hw_clk_id;
->> +	union {
->> +		u32 hw_clk_id;
->> +		u32 lpr_state;
->> +	};
->>   } __packed;
->>   
->>   struct prm_cmd_request_rsc {
->> @@ -62,6 +68,7 @@ static int q6prm_set_hw_core_req(struct device *dev, uint32_t hw_block_id, bool
->>   	struct prm_cmd_request_hw_core *req;
->>   	gpr_device_t *gdev = prm->gdev;
->>   	uint32_t opcode, rsp_opcode;
->> +	bool lpr_req = (hw_block_id == Q6PRM_HW_LPR_VOTE);
->>   
->>   	if (enable) {
->>   		opcode = PRM_CMD_REQUEST_HW_RSC;
->> @@ -82,10 +89,13 @@ static int q6prm_set_hw_core_req(struct device *dev, uint32_t hw_block_id, bool
->>   
->>   	param_data->module_instance_id = GPR_PRM_MODULE_IID;
->>   	param_data->error_code = 0;
->> -	param_data->param_id = PARAM_ID_RSC_HW_CORE;
->> +	param_data->param_id = lpr_req ? PARAM_ID_RSC_CPU_LPR : PARAM_ID_RSC_HW_CORE;
->>   	param_data->param_size = sizeof(*req) - APM_MODULE_PARAM_DATA_SIZE;
->>   
->> -	req->hw_clk_id = hw_block_id;
->> +	if (lpr_req)
->> +		req->lpr_state = LPR_CPU_SS_SLEEP_DISABLED;
-> this does not make sense, this should be set based on enable flag, here
-> you are disabling the LPR for both enable and disable request.
-Hi Srini,
+I'll add a short comment explaining that the generic range check does
+not verify whether the Slave exposes the port for the requested
+direction.
 
-The intent here is slightly different from a typical enable/disable 
-state variable.
-For PARAM_ID_RSC_CPU_LPR, the payload field (lpr_state) identifies the 
-low-power
-resource being controlled, and the DSP API defines a single valid value: 
-LPR_CPU_SS_SLEEP_DISABLED(0x1).
+> That's a problem in general, maybe push this patch first through the Intel/SOF CI to check that some SoundWire platforms are tested?
 
-The actual operation is encoded by the PRM command:
-PRM_CMD_REQUEST_HW_RSC + LPR_CPU_SS_SLEEP_DISABLED  -  Requests the 
-resource and prevents the subsystem from entering the corresponding 
-low-power state.
-PRM_CMD_RELEASE_HW_RSC + LPR_CPU_SS_SLEEP_DISABLED    - Releases the 
-resource, allowing the subsystem to enter that low-power state again.
+I'll run the updated patch through the Intel/SOF CI before posting v2.
 
-In other words, the payload does not represent the desired runtime state 
-and is therefore not toggled based on the enable flag.
-Instead, the request/release opcode determines whether the low-power 
-state is being blocked or re-enabled, while lpr_state remains 
-LPR_CPU_SS_SLEEP_DISABLED for both operations.
-
-Hope this clarifies why the payload remains unchanged across request and 
-release paths.
-
+> That comment is a tad misleading.
 >
+> In the real world, all drivers ignore DisCo properties provided by platform firmware, and hard-code the values, e.g.
 >
->> +	else
->> +		req->hw_clk_id = hw_block_id;
->>   
->>   	return q6prm_send_cmd_sync(prm, pkt, rsp_opcode);
->>   }
->> @@ -94,7 +104,6 @@ int q6prm_vote_lpass_core_hw(struct device *dev, uint32_t hw_block_id,
->>   			     const char *client_name, uint32_t *client_handle)
->>   {
->>   	return q6prm_set_hw_core_req(dev, hw_block_id, true);
->> -
-> unnecessary change.
-Agreed, the whitespace change is unrelated and will be dropped in the 
-next revision.
-
-Thanks,
-Prasad
-
+>       prop->source_ports = 0x14; /* BITMAP: 00010100 */
+>       prop->sink_ports = 0x8; /* BITMAP:  00001000 */
 >
->>   }
->>   EXPORT_SYMBOL_GPL(q6prm_vote_lpass_core_hw);
->>   
->> diff --git a/sound/soc/qcom/qdsp6/q6prm.h b/sound/soc/qcom/qdsp6/q6prm.h
->> index a988a3208..bd5ee0c40 100644
->> --- a/sound/soc/qcom/qdsp6/q6prm.h
->> +++ b/sound/soc/qcom/qdsp6/q6prm.h
->> @@ -87,6 +87,7 @@
->>   #define Q6PRM_LPASS_CLK_ROOT_DEFAULT	0
->>   #define Q6PRM_HW_CORE_ID_LPASS		1
->>   #define Q6PRM_HW_CORE_ID_DCODEC		2
->> +#define Q6PRM_HW_LPR_VOTE		3
->>   
->>   int q6prm_set_lpass_clock(struct device *dev, int clk_id, int clk_attr,
->>   			  int clk_root, unsigned int freq);
+> Those properties are really not optional at all, what's optional is that they are blindly read from firmware.
+
+Agreed. Describing source_ports and sink_ports as optional is
+inaccurate.So I'll rework the comment.
+
+
+> This test is a bit odd, there could be cases where only source_ports are defined so you would try to check for a sink_port in sdw_get_slave_dpn_prop()
+> It probably works in the end but maybe you could check s_rt->direction with source/sink port first?
+
+I'll select the relevant bitmap based on the stream direction first and
+reject a zero bitmap for that direction.
