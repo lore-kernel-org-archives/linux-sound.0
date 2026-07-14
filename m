@@ -1,21 +1,23 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601DA1F942;
-	Tue, 14 Jul 2026 02:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5D6370D65;
+	Tue, 14 Jul 2026 02:13:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783994857; cv=none; b=Tev56+1VGuG11h5bjl/WAyK4vin8JJckzFykZvnPljvlKBtdkczXjtHqIWkEfcCzMF7Trx8+eXZtuB0JyRCXGarJdSai91AzjI2y5b7QRnwEIl/Mm2BXJ/VSUlloJVvGKhn91iOQakiN88QJclz8M9el5oB7nY+jCOHfMpcfXDI=
+	t=1783995242; cv=none; b=DwKwO7dj1HtBhNDGQ0DdDZQalzmfWS7IHRL2Kv9JMVSUTDW5rg0OAazZ9/VcWujTgz5nMpPEAi5OrU3qCr2pTZKdMTvMfJw9bP3bLxkV3NOy78K+jfIdcIbsvhzXMNLkEGLz28Aqso5qldDsBeRSdKR8Qa4/6+tji6DPCvkpF9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783994857; c=relaxed/simple;
+	s=arc-20240116; t=1783995242; c=relaxed/simple;
 	bh=h0SYwxkJo19LrXhd/1NdzOEhPvy94f6zKmMnprH124c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rTB5MkoJ4d2i01/3hzul+UMDNRcuTv42KvI8h2OjiZyUAGIXuhJzTePGkf3LjNAtqTyJ0qmn/fojU2yTxab88a+UgHwNsNThhtNOcgi0PNKfkB/3+Je4VRnpRKsfL0qpr7ipf91XcpG10OWPMnY/keh722kPmWUsEs4LIXzTr7A=
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Hiz2efWquGC6UwDEkpBpd2+p1EI/j7F0zJYkdl3FcVi4/mq03RERovCp1FCUuz9jMJJijtdyIPdJHurNeoadXDzZ5U744cZ5aEvryAbyHW83iFVQs8WKbEi58eYfAxMIRQbUgYr+wB/NZIs9zCuGqMdFHpDBRIg2TJb/H1NjDdY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: c34c015e7f2811f1aa26b74ffac11d73-20260714
+X-UUID: a96e7a4a7f2911f1aa26b74ffac11d73-20260714
+X-CID-CACHE: Type:Local,Time:202607141007+08,HitQuantity:1
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:55c75d52-ec9b-4f7b-8a3a-a9818e6f953f,IP:0,U
+X-CID-O-INFO: VERSION:1.3.12,REQID:43a4c8a1-f6eb-41b9-9d19-f8974c1f6ccd,IP:0,U
 	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:-5
 X-CID-META: VersionHash:e7bac3a,CLOUDID:4f0481995bd4d5c3f43e1ea5f0377af0,BulkI
@@ -26,12 +28,12 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: c34c015e7f2811f1aa26b74ffac11d73-20260714
+X-UUID: a96e7a4a7f2911f1aa26b74ffac11d73-20260714
 X-User: songxiebing@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <songxiebing@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1743241300; Tue, 14 Jul 2026 10:07:27 +0800
+	with ESMTP id 1320613497; Tue, 14 Jul 2026 10:13:53 +0800
 From: songxiebing <songxiebing@kylinos.cn>
 To: tiwai@suse.com,
 	perex@perex.cz
@@ -39,10 +41,11 @@ Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	songxiebing@kylinos.cn
 Subject: Re: [PATCH] ALSA: hda: Check snd_hda_power_pm construct error before executing verb
-Date: Tue, 14 Jul 2026 10:07:25 +0800
-Message-Id: <20260714020725.309273-1-songxiebing@kylinos.cn>
+Date: Tue, 14 Jul 2026 10:13:51 +0800
+Message-Id: <20260714021351.332483-1-songxiebing@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
-Reply-To: 20260713020427.300628-1-songxiebing@kylinos.cn
+In-Reply-To: <20260713020427.300628-1-songxiebing@kylinos.cn>
+References: <20260713020427.300628-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
