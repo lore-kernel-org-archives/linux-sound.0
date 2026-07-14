@@ -1,87 +1,122 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5D6370D65;
-	Tue, 14 Jul 2026 02:13:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFEF2D8DD0;
+	Tue, 14 Jul 2026 02:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783995242; cv=none; b=DwKwO7dj1HtBhNDGQ0DdDZQalzmfWS7IHRL2Kv9JMVSUTDW5rg0OAazZ9/VcWujTgz5nMpPEAi5OrU3qCr2pTZKdMTvMfJw9bP3bLxkV3NOy78K+jfIdcIbsvhzXMNLkEGLz28Aqso5qldDsBeRSdKR8Qa4/6+tji6DPCvkpF9I=
+	t=1783995924; cv=none; b=PUDyaMA2Qqq50SA1m+5g8R24/APpgqE0GA2cexT7AWTV+xtej1SlpXz5J3U84X1dh/U3Lu5eZtHUHd7TxTIhVs2lbA5cmAhUSq/2fafMhp5VklcmvmAwM21+cLao1P7LnafWAoHba89i1jxDq/vKfvurgrFc9S0GXKY9L4k1Rw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783995242; c=relaxed/simple;
-	bh=h0SYwxkJo19LrXhd/1NdzOEhPvy94f6zKmMnprH124c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Hiz2efWquGC6UwDEkpBpd2+p1EI/j7F0zJYkdl3FcVi4/mq03RERovCp1FCUuz9jMJJijtdyIPdJHurNeoadXDzZ5U744cZ5aEvryAbyHW83iFVQs8WKbEi58eYfAxMIRQbUgYr+wB/NZIs9zCuGqMdFHpDBRIg2TJb/H1NjDdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: a96e7a4a7f2911f1aa26b74ffac11d73-20260714
-X-CID-CACHE: Type:Local,Time:202607141007+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:43a4c8a1-f6eb-41b9-9d19-f8974c1f6ccd,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:e7bac3a,CLOUDID:4f0481995bd4d5c3f43e1ea5f0377af0,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|83|102|136|850|865|898,TC:nil,Content
-	:0|15|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: a96e7a4a7f2911f1aa26b74ffac11d73-20260714
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1320613497; Tue, 14 Jul 2026 10:13:53 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn
-Subject: Re: [PATCH] ALSA: hda: Check snd_hda_power_pm construct error before executing verb
-Date: Tue, 14 Jul 2026 10:13:51 +0800
-Message-Id: <20260714021351.332483-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260713020427.300628-1-songxiebing@kylinos.cn>
-References: <20260713020427.300628-1-songxiebing@kylinos.cn>
+	s=arc-20240116; t=1783995924; c=relaxed/simple;
+	bh=tKXHQuobhjt0fgufEcd/UFqdLr8OpUHkdN2Iy9HZlHY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=h0l96NC6v8272vXZGjiPof0liItlXzx57PwaeEY1fNo85TX4XcAtzLg4cOOxN7ULLc5VJE6BV2CwISlAfRwBTrdExjeWjGC9ltByYQvt4hGL9Vbc409BsyKU3omMPAX30XOZ9/pHlgZ/NeOf8enyHyWYm29wlvsGjfaryn+aU0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=b48cJk93; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="b48cJk93"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93DE31F000E9;
+	Tue, 14 Jul 2026 02:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1783995922;
+	bh=dxhqIlF4Nmwz7Dc6V0zHplATkq8zPUSt2q/Zds9EZa8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=b48cJk93FtKmn41eVdolAVE/uzQX6EHo01Pnkn0OgnY1vIvJtpHyTyl3C+S0onbuL
+	 GGMGjmfE2JKefejiLP1J3PzT6MIi/Ch6j4XkBShkTRk15H8PEW9ZSYVvQQ/3WhTIGU
+	 P9nMjGwkFSOLhnsQCjHUwc7HZ389d5X722tVvR6w=
+Date: Mon, 13 Jul 2026 19:25:19 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+ <jack@suse.cz>, Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>, Pedro
+ Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>, Oscar
+ Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>, Nico Pache
+ <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain
+ <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, Lance Yang
+ <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, Inki Dae <inki.dae@samsung.com>, Seung-Woo
+ Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin
+ <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, Jani
+ Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Rob Clark
+ <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
+ <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Lyude Paul <lyude@redhat.com>, Danilo
+ Krummrich <dakr@kernel.org>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Sandy Huang <hjc@rock-chips.com>, Heiko
+ =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>, Andy Yan
+ <andy.yan@rock-chips.com>, Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Gurchetan Singh
+ <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, Zack Rusin
+ <zack.rusin@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Matthew Brost
+ <matthew.brost@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oleksandr Andrushchenko
+ <oleksandr_andrushchenko@epam.com>, Helge Deller <deller@gmx.de>, Kees Cook
+ <kees@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Boris Brezillon <boris.brezillon@collabora.com>, Steven
+ Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ xen-devel@lists.xenproject.org, linux-fbdev@vger.kernel.org,
+ linux-sound@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v2 00/13] mm: convert more vm_flags_t users to
+ vma_flags_t
+Message-Id: <20260713192519.58113fa69c169d3f5f82e453@linux-foundation.org>
+In-Reply-To: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
+References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Takashi,
+On Sat, 11 Jul 2026 19:44:57 +0100 Lorenzo Stoakes <ljs@kernel.org> wrote:
 
-At present, this patch may cause misjudgment for some platform devices.
-If rpm is not enabled on the platform device, the default runtime_status is suspended,
-which will result in the inability to write commands properly.
+> This series makes further progress in converting usage of the deprecated
+> vm_flags_t type to its replacement, vma_flags_t.
+> 
+> It focuses on mm, though updates some users of mm APIs also.
+> 
+> It updates:
+> 
+> * The core do_mmap() code path for VMA mapping.
+> * Unmapped area logic.
+> * The usage of mm->def_vma_flags.
+> * VMA page protection bit logic.
+> * General usage of VMA flags in core mm code, mlock, mprotect, mremap.
 
-Could you please drop this patch? Sorry for the trouble.
+Added to mm-new, thanks.
 
->On Mon, 13 Jul 2026 04:04:27 +0200,
->songxiebing wrote:
->> 
->> From: Bob Song <songxiebing@kylinos.cn>
->> 
->> When userspace writes 1 to /sys/bus/pci/devices/XX/remove to remove HDA PCI device,
->> the codec device enters runtime suspended state early. The snd_hda_power_pm RAII
->> constructor fails to wake up codec, but the original code ignores pm.err and continues
->> to execute hda verb commands. After pci driver remove callback completes, devres
->> automatically iounmap the BAR virtual address bus->remap_addr, resulting in access
->> to invalid unmapped MMIO address and triggering page fault BUG.
->> 
->> Add error check for snd_hda_power_pm constructor result:
->> 1. Detect pm construction failure when HDA core device is suspended;
->> 2. Print warning log with command and error code for debug;
->> 3. Return early to skip subsequent hardware register access, avoid page fault crash.
->> 
->> Signed-off-by: Bob Song <songxiebing@kylinos.cn>
->
->Applied to for-next branch.  Thanks.
->
->
->Takashi
+And oh my, what a lot of pre-existing issues:
+	https://sashiko.dev/#/patchset/20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org
+
+
