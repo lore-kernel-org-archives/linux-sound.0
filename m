@@ -1,231 +1,320 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98B93EA94A
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 06:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7BE3DA5B6
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 07:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784012044; cv=none; b=oDRkUYUeKvNeYgsVTG8ol4ZGizJkspPWTjekjW/VDqcaUF3dyxoQ/7VxD0SkDnsRX3GWKs7usSC0UcGXVr7VCptijsispW2o8fkBL4jLKyoskqY0y9U8O2ezvmawG86fiUeMzrGkewu/1hpbxA+h0j51dInhM24+BuCed5/9F4w=
+	t=1784014823; cv=none; b=BQ7g3ENAEAijTy1ScvrRb/4BIwYhxp1PY0t39IIX6PsdCzVQ5BhtIQsQq+bItbw8YDp9AtES46cr101md2P0FVjFqeKq9zoAOSCMD30BO3M+BrMX+P/8F0HlwyBkps1pGearVoj/UXun0UUpSjv9N3cl1DZ0rZSz5bqmohQjvQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784012044; c=relaxed/simple;
-	bh=du1fKzl+zbOOxRTgFJqsNwKglby2lARhz5MLhrd3ZZs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BSW/UtvUbr3IV/wodq1J6TjrrdUIjkESFdkDM+GASrHXF/Y12AD8s7m1TYaIAUWoTtGP/eSDp6iGvNe/G1MiQY+MybkpAY++rDmx98uFqwTMZQf3hwcQ4cQvsTA8yK6VtA9kl28cdFKJvka8UQPLRQfV9mqj+yi9fuDsDt4pUA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hQBcd6TC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NmgoV44U; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784014823; c=relaxed/simple;
+	bh=nEFpy+G4y7OTXuSAMf8XryZBv33bYBcgE6MJ7KeAnkE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hlGK92ncKlw1yiavoELoXpqgjMuyAT+RoYR12PDpoIaQfs/y0WRIB43z/K1bc0yR8nTUiKHqtdEI9H2Xb+i8USlh5Qw57hJAMGvVLySJnM955/qnhSIIl7EwIWgYFP1G2cU9gQhnPUydicat1rxQabqN9yFOHsuJXeR5TNhoIws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OB9Hg+hX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I1opvN3a; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OB9Hg+hX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=I1opvN3a; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hQBcd6TC";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NmgoV44U"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66E6STJ13743651
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 06:54:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gcoCHy1edFFqmcEKY7+Mhve73Yrzs7W+rUiD3MzHC+0=; b=hQBcd6TCFMk1uei+
-	3DVeRMg8odbYQdEksVZAVFPi6eAk4p6FpJbPhseav4gSz+ZYSAfFawpiYI2DRT+1
-	nPsKmA8K4xkxDqfLLPFy8N323iigAyLo0nXcQ7wuwzCNyAfmuzlzYAdDUJ2aapOl
-	5aqdR+LhpZ9NaaY65/V/doJvBLTbksxRX+II1jRdBMWx8TCHB7bckWpOJZhR7Ckd
-	elSUj17IgFftdJUTyXHxwUATkwDnya16r3yCl3HGbhwxY5Nz404OTiQXmTd+EL6O
-	gtjLxoqSDwxR/R+nxhVUgUb88HvrMpnUS++Ux341WfGOgjctQN2VUYIjR2LDwx1R
-	gOBoLA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fd44p2d40-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 06:54:00 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-8f2747d334dso10714576d6.1
-        for <linux-sound@vger.kernel.org>; Mon, 13 Jul 2026 23:54:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784012040; x=1784616840; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gcoCHy1edFFqmcEKY7+Mhve73Yrzs7W+rUiD3MzHC+0=;
-        b=NmgoV44UZX/ToGg+4sJhf7vHFqDJObFZctCdKAkCNg7Rv1xPuEulc5A0F6szzYGghL
-         jW/snnYQIRBeVSVgRrrmMLQKdng9Uc4jOLDuwGlej8YYEGTL1ibOhc5KvoGO0XnBun9p
-         yREBQt1Z7f/S98olIqu511u9s8yBU9pWqv3KDBU4w9UjQ4wtgxFX/kkPp5EQM5lkcAg5
-         vGnh1ZdhJDIhX3IllckL4i0xS+E3CftBleh3rdC6JX0fw/tAQvP3gjVnYyGHv4CnmN2N
-         vzINGyNsS1yYcTpt5abDUQ7XfGzKcqaLnJyvUkTNC6ucV24h8E9E0cdIfnQQ6fJB5+zI
-         m1xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784012040; x=1784616840;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gcoCHy1edFFqmcEKY7+Mhve73Yrzs7W+rUiD3MzHC+0=;
-        b=MC2taWD6ecb3DE7IAkCAM3PmZQ6TdXrSQ+hC529vmlWjFqIiHoENF4oBwlWsFk4i11
-         Xz1n/OAmdA0HFjimmm6j6YUBOEqIUJ5I2LkmkHTcdsofTv717B3eRSFlCR3V9Wbf96y1
-         /rSsqtmmWh8gOe5Zssb5J1pFgs6eL+h3coAgmdq77spr2xIW4VQ+TWdikboFwlQaoHnl
-         tX2sg04R+jZYlBgmSPK7TnpLp6la3X0xHZVq3KPsJr95ysfvmBrGSzjSKTGNCQivkUkZ
-         SPNE1BI6rLEgCV1yKiCzzCtsNlc5sz3GeCz78kazSyLNO6E+2lxqdI63GfB5rjhO5ue9
-         zJyg==
-X-Forwarded-Encrypted: i=1; AHgh+RpiEKEjkO3Buw0v9t+jN27QlYVBkfxaC70tWvb/ifedt7Warv3l9P0ui3FujHBtMQzhGKC5CmeNeiMMZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJhBELQ+NUQ3YMvbDSOihxkfDhce9nRskE/0b/cnk/Y3vmR9Fx
-	7iaVa1KF4HZnjl6SI0WOybXt1+g/BLWgd9lGpleavuqL/5/ZF7TpWi2EmdTxTsbSYW+LCB9ps0Z
-	U1BW/uTsrBORIVX+dWakLDYFzT6v5/ttlOEzXy40p4vGAtz9gknKYMAbTOJ4JvkVbTA==
-X-Gm-Gg: AfdE7cmw1ayqc7FUP+GOtGZthhXaudTet587qLSHt3V8Be4W+uGnZ5p2hSZ4QbzNfOA
-	SARHLY36thT1NaYbPbl9KdL48clMbCsUoljzNrmnzpSyJ8YnV2Kh7wAxz66A9yUrA/cSGkutXPn
-	jyk0x/go7YXHWldl2l9dHxp3vXkeHA8kq6mZcCLUk82EFvMJvAdyX1Kpw0mJttZhK4HG2RuYmMw
-	TOZ+6UDlGD0zbbkGkxFRY/JNZCHtvV4Hl0pVWGjYALQOWk5NcO9WI8Z/Fyy+5z+qZ1QkTWrFme9
-	0J/8s9qXl0DRqVHkFBDrWlIOLY2WhV2Qb5daOQ+92DhO1+v4nOqqD/bhPAe97hG88ocgSp1Le/4
-	9Qk9bqP/XDgRQG1GHRI8Vrx/ZtBTkpXeez1E=
-X-Received: by 2002:a05:6214:4f14:b0:8f2:d8fc:47e4 with SMTP id 6a1803df08f44-90410c668dcmr103925366d6.9.1784012039915;
-        Mon, 13 Jul 2026 23:53:59 -0700 (PDT)
-X-Received: by 2002:a05:6214:4f14:b0:8f2:d8fc:47e4 with SMTP id 6a1803df08f44-90410c668dcmr103925286d6.9.1784012039462;
-        Mon, 13 Jul 2026 23:53:59 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd295656fsm862065a12.29.2026.07.13.23.53.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2026 23:53:58 -0700 (PDT)
-Message-ID: <d132334b-f920-4858-b690-baeda6c527a0@oss.qualcomm.com>
-Date: Tue, 14 Jul 2026 08:53:55 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OB9Hg+hX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I1opvN3a";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OB9Hg+hX";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="I1opvN3a"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5E24D77D45;
+	Tue, 14 Jul 2026 07:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784014820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=azVcRkmhqIDjDax9Ua1GEC0un9Lsh2B75J8TleX2T1s=;
+	b=OB9Hg+hXZK3mD2bchNz+dLEr8l/J8vtlNNRCERuddHvgMBxiG9rfL+e8K8PwsC8KD3cq9Z
+	DH/pizw75s8rCKJTyXlyfCUtIm2qSBLe3LCyTDUsgqiBG10FVS7tNcw1nK6fH1892H7rR/
+	I7FFqdWUfIVnXJj628Wp61Ir7fU+WFs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784014820;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=azVcRkmhqIDjDax9Ua1GEC0un9Lsh2B75J8TleX2T1s=;
+	b=I1opvN3a6gQHWkfp0brrpaWCAkV4BZ6B1mZ5lugDtQ7G3weRKPHceGZt5GjHSyQYXNTMFA
+	TZEI/OlY+bG1rMBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OB9Hg+hX;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=I1opvN3a
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784014820; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=azVcRkmhqIDjDax9Ua1GEC0un9Lsh2B75J8TleX2T1s=;
+	b=OB9Hg+hXZK3mD2bchNz+dLEr8l/J8vtlNNRCERuddHvgMBxiG9rfL+e8K8PwsC8KD3cq9Z
+	DH/pizw75s8rCKJTyXlyfCUtIm2qSBLe3LCyTDUsgqiBG10FVS7tNcw1nK6fH1892H7rR/
+	I7FFqdWUfIVnXJj628Wp61Ir7fU+WFs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784014820;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=azVcRkmhqIDjDax9Ua1GEC0un9Lsh2B75J8TleX2T1s=;
+	b=I1opvN3a6gQHWkfp0brrpaWCAkV4BZ6B1mZ5lugDtQ7G3weRKPHceGZt5GjHSyQYXNTMFA
+	TZEI/OlY+bG1rMBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E1629779AE;
+	Tue, 14 Jul 2026 07:40:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id K9DTNePnVWpwfQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Jul 2026 07:40:19 +0000
+Date: Tue, 14 Jul 2026 09:40:19 +0200
+Message-ID: <87tsq2yq70.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: Gordon Chen <chengordon326@gmail.com>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kees@kernel.org,
+	jussi@sonarnerd.net,
+	hulianqin@vivo.com,
+	i@rong.moe,
+	g@b4.vu,
+	cryolitia@uniontech.com,
+	pav@iki.fi,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mathias.nyman@linux.intel.com
+Subject: Re: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio device
+In-Reply-To: <5ed9e0a3-e8ac-4295-b876-dcda8b96ca1e@kylinos.cn>
+References: <20260713081048.189281-1-zhangheng@kylinos.cn>
+	<18c1dc0246121271.5ea4dc9a201e9dce.cafe1c196d712416@GordonMsi>
+	<5ed9e0a3-e8ac-4295-b876-dcda8b96ca1e@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ASoC: Add LPASS VA CSR heartbeat pulse clock
-To: sarath.ganapathiraju@oss.qualcomm.com,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        prasad.kumpatla@oss.qualcomm.com
-References: <20260714-master-v1-0-1ebe5993225e@oss.qualcomm.com>
- <20260714-master-v1-2-1ebe5993225e@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260714-master-v1-2-1ebe5993225e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDA3MCBTYWx0ZWRfX3flUjUbw7fuY
- 2R2Tc9PIUhc6quYPxdBZZg51Hd7YQxWPNp/pYVOi1Gne0f7HOyuAXSm+Z1XVhlemr1D3+UVY8Nu
- Ez2o/RXstUAoR2n+3vn+CnurENIaoc4=
-X-Proofpoint-GUID: opyzgu62A_MAkUNVrtfDQPuYYWYMGjMt
-X-Proofpoint-ORIG-GUID: opyzgu62A_MAkUNVrtfDQPuYYWYMGjMt
-X-Authority-Analysis: v=2.4 cv=BZroFLt2 c=1 sm=1 tr=0 ts=6a55dd09 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=EUspDBNiAAAA:8 a=9XzChZoegFnburFei4AA:9 a=QEXdDO2ut3YA:10
- a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDA3MCBTYWx0ZWRfX3VRXNdpiEaoY
- atoo3zNY8MnlffdWm/iob8HO3U18cnsPrSYFCL6jwJ6yYDxgsn13PIHDv2KOcb0W0KaVaB9UdnD
- eVbHRzYq4jR85/wfeDhHWTJ4axfznIMJUwmDd5axOD4jlpAXvWDDuMVQ29qq1S3Gv+DwCey11iv
- HAHa/PgnQ9986IEEn4qvmNbFVbYEyLFKuDXmP7CAk5VTBvrY+iZUvx0Icr+981OObV+CfrlQEAB
- r23vT6JtIo6GZ4cJr2uivi2qw/Y3uY0uFgnA31VVGCe8z8ip9ehKr6nmNjRXopd0RqtaZx2VlIB
- LAWgn9Wx82qF8NjwKqMhoy0MttN0VDRo3eUn1tsjZpZk3YnJReQ3nIQOdHu9WHL8iaTjFOX4WW2
- akeS/7BFee/WBvvBLHqMnNFbuW6lvDCauO6YGqckG3+1aQJL9YLsfzz8mfAXC/zoBLBeHn+iqav
- vWCum1IVMkU7wkHbYoA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-14_02,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- malwarescore=0 impostorscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607140070
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 5E24D77D45
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,perex.cz,suse.com,kernel.org,sonarnerd.net,vivo.com,rong.moe,b4.vu,uniontech.com,iki.fi,vger.kernel.org,linux.intel.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On 7/13/26 10:05 PM, Sarath Ganapathiraju via B4 Relay wrote:
-> From: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
+On Tue, 14 Jul 2026 03:58:08 +0200,
+Zhang Heng wrote:
 > 
-> The HeartBeat Pulse (also known as RateGen Pulse) synchronizes the
-> start of the DMAs and Codec Interfaces for the audio usecases
-> and can serve as a periodic wakeup source for the DSP.
+> > On Mon, Jul 13, 2026 at 04:10:48PM +0800, Zhang Heng wrote:
+> >> +		/* Generic USB Audio (0x1e0b:d01e): use SIA for consistent scheduling */
+> >> +		if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e))
+> >> +			u->urb->transfer_flags |= URB_ISO_ASAP;
+> > Not a maintainer, just a bystander who was Cc'd -- two small notes on the
+> > form of the patch, plus one question I can't answer myself.
+> > 
+> > A per-device usb_id comparison in the endpoint.c fast path seems like the
+> > kind of thing the quirk_flags_table in quirks.c exists to avoid. Would a
+> > QUIRK_FLAG_ISO_ASAP (set in the table, tested here as
+> > chip->quirk_flags & QUIRK_FLAG_ISO_ASAP) work for you? It keeps endpoint.c
+> > device-agnostic, and the next device with the same symptom becomes a
+> > one-line table entry rather than another if.
+> First of all, let me clarify: this issue occurs when there is startup music,
+> but it plays normally after entering the system. There is a heavy creaking
+> sound when the system is turned on here. Based on the information from dmesg
+> and syslog, there are a large number of xhci hcd frame synchronization
+> failures. I tried adding URB_ISO_ASAP here, and it will be much better,
+> with only a little noise.
+
+OK, but it still makes sense to deal URB_ISO_ASAP workaround more
+generically.
+
+> >> +	if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e) &&
+> >> +	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+> >> +		ep->skip_packets = 4;
+> > The block immediately above this one already does exactly
+> > "type == SND_USB_ENDPOINT_TYPE_SYNC -> skip_packets = 4"; adding the ID to
+> > that condition would avoid the duplicate if. Also, the changelog doesn't
+> > say what this hunk contributes on its own -- is URB_ISO_ASAP alone
+> > insufficient, and if so, what does skipping the first 4 sync packets fix
+> > that ASAP doesn't? Right now the two changes are indistinguishable in the
+> > commit message, and skip_packets = 4 reads as belt-and-braces.
+> As mentioned above, there is still a bit of noise when only adding
+> URB_ISO_ASAP,
 > 
-> Add the LPASS VA CSR driver that models the rate generator as a clock
-> provider so it is enabled and disabled automatically alongside the
-> other clocks during runtime PM resume and suspend.
-> 
-> Signed-off-by: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
-> ---
+> but skip-packets=4 can solve this problem.
 
-[...]
+Well, one missing thing is to understand why this fixes.
+Originally, the skip_packets=4 for Playback Design devices was
+introduced for bogus feedback packets at the start of the stream long
+time ago.  But that's the only known device that needs it.  Does your
+device send also 4 bogus packets?
 
-> +#define LPASS_RATE_GEN_CTRL		0xD000
-> +#define LPASS_RATE_GEN_COUNTER_0	0xD004
-> +#define LPASS_RATE_GEN_DELAY		0xD010
+The skip_packets=16 for M-Audio devices are rather for avoiding the
+latency.  And, speaking of latency, I have a patch for the lowlatency
+support of implicit fb mode, but never had a test environment.
+Could you check the patch below and see the patch below has any
+positive/negative influence?  Just to be sure.
 
-lowercase hex, please
 
-> +
-> +#define LPASS_RATE_GEN_MAX_REG		LPASS_RATE_GEN_DELAY
-> +
-> +#define LPASS_RG_CTRL_EN		BIT(0)
-> +
-> +struct lpass_va_csr_data {
-> +	u32 counter_0;
-> +	u32 delay;
-> +};
-> +
-> +static const struct lpass_va_csr_data hawi_csr_data = {
-> +	.counter_0 = 0x960,
-> +	.delay = 0x16,
-> +};
-> +
-> +static const struct regmap_config lpass_rate_gen_regmap_config = {
-> +	.name = "lpass_rate_gen",
-> +	.reg_bits = 32,
-> +	.val_bits = 32,
-> +	.reg_stride = 4,
-> +	.max_register = LPASS_RATE_GEN_MAX_REG,
-> +	.cache_type = REGCACHE_MAPLE,
-> +};
-> +
-> +struct lpass_va_csr {
-> +	struct regmap *regmap;
-> +	const struct lpass_va_csr_data *data;
-> +	struct clk_hw hb_hw;
-> +};
-> +
-> +#define to_lpass_va_csr(_hw) container_of(_hw, struct lpass_va_csr, hb_hw)
-> +
-> +static int heartbeat_pulse_enable(struct clk_hw *hw)
-> +{
-> +	struct lpass_va_csr *csr = to_lpass_va_csr(hw);
-> +
-> +	regmap_write(csr->regmap, LPASS_RATE_GEN_COUNTER_0, csr->data->counter_0);
-> +	regmap_write(csr->regmap, LPASS_RATE_GEN_DELAY, csr->data->delay);
-> +	regmap_update_bits(csr->regmap, LPASS_RATE_GEN_CTRL,
-> +			   LPASS_RG_CTRL_EN, LPASS_RG_CTRL_EN);
+thanks,
 
-regmap_set_bits()
+Takashi
 
-> +
-> +	return 0;
-> +}
-> +
-> +static void heartbeat_pulse_disable(struct clk_hw *hw)
-> +{
-> +	struct lpass_va_csr *csr = to_lpass_va_csr(hw);
-> +
-> +	regmap_update_bits(csr->regmap, LPASS_RATE_GEN_CTRL,
-> +			   LPASS_RG_CTRL_EN, 0);
-
-regmap_clear_bits()
-
-> +}
-> +
-> +static int heartbeat_pulse_is_enabled(struct clk_hw *hw)
-> +{
-> +	struct lpass_va_csr *csr = to_lpass_va_csr(hw);
-> +	unsigned int val;
-> +
-> +	regmap_read(csr->regmap, LPASS_RATE_GEN_CTRL, &val);
-> +
-> +	return !!(val & LPASS_RG_CTRL_EN);
-
-regmap_test_bits()
-
-Konrad
+-- 8< --
+index 682b6c1fe76b..6d144e39a849 100644
+--- a/sound/usb/pcm.c
++++ b/sound/usb/pcm.c
+@@ -265,6 +265,7 @@ int snd_usb_init_pitch(struct snd_usb_audio *chip,
+ 	return 0;
+ }
+ 
++/* stop both data and sync endpoints */
+ static bool stop_endpoints(struct snd_usb_substream *subs, bool keep_pending)
+ {
+ 	bool stopped = 0;
+@@ -280,6 +281,24 @@ static bool stop_endpoints(struct snd_usb_substream *subs, bool keep_pending)
+ 	return stopped;
+ }
+ 
++/* only start sync endpoint */
++static int start_sync_endpoint(struct snd_usb_substream *subs)
++{
++	int err;
++
++	if (subs->sync_endpoint &&
++	    !test_and_set_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags)) {
++		err = snd_usb_endpoint_start(subs->sync_endpoint);
++		if (err < 0) {
++			clear_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags);
++			return err;
++		}
++	}
++
++	return 0;
++}
++
++/* start both data and sync endpoints */
+ static int start_endpoints(struct snd_usb_substream *subs)
+ {
+ 	int err;
+@@ -295,14 +314,9 @@ static int start_endpoints(struct snd_usb_substream *subs)
+ 		}
+ 	}
+ 
+-	if (subs->sync_endpoint &&
+-	    !test_and_set_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags)) {
+-		err = snd_usb_endpoint_start(subs->sync_endpoint);
+-		if (err < 0) {
+-			clear_bit(SUBSTREAM_FLAG_SYNC_EP_STARTED, &subs->flags);
+-			goto error;
+-		}
+-	}
++	err = start_sync_endpoint(subs);
++	if (err < 0)
++		goto error;
+ 
+ 	return 0;
+ 
+@@ -656,12 +670,16 @@ static int lowlatency_playback_available(struct snd_pcm_runtime *runtime,
+ 		return false;
+ 	if (in_free_wheeling_mode(runtime))
+ 		return false;
+-	/* implicit feedback mode has own operation mode */
+-	if (snd_usb_endpoint_implicit_feedback_sink(subs->data_endpoint))
+-		return false;
+ 	return true;
+ }
+ 
++/* return true if it's a normal playback (not in implicit fb) */
++static bool is_normal_lowlatency_playback(struct snd_usb_substream *subs)
++{
++	return subs->lowlatency_playback &&
++		!snd_usb_endpoint_implicit_feedback_sink(subs->data_endpoint);
++}
++
+ /*
+  * prepare callback
+  *
+@@ -709,9 +727,11 @@ static int snd_usb_pcm_prepare(struct snd_pcm_substream *substream)
+ 	runtime->delay = 0;
+ 
+ 	subs->lowlatency_playback = lowlatency_playback_available(runtime, subs);
+-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
+-	    !subs->lowlatency_playback) {
+-		ret = start_endpoints(subs);
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		if (!subs->lowlatency_playback)
++			ret = start_endpoints(subs);
++		else if (snd_usb_endpoint_implicit_feedback_sink(subs->data_endpoint))
++			ret = start_sync_endpoint(subs);
+ 		/* if XRUN happens at starting streams (possibly with implicit
+ 		 * fb case), restart again, but only try once.
+ 		 */
+@@ -1539,7 +1559,7 @@ static int prepare_playback_urb(struct snd_usb_substream *subs,
+ 		frame_limit = subs->frame_limit + ep->max_urb_frames;
+ 		transfer_done = subs->transfer_done;
+ 
+-		if (subs->lowlatency_playback &&
++		if (is_normal_lowlatency_playback(subs) &&
+ 		    runtime->state != SNDRV_PCM_STATE_DRAINING) {
+ 			unsigned int hwptr = subs->hwptr_done / stride;
+ 
+@@ -1625,7 +1645,8 @@ static int prepare_playback_urb(struct snd_usb_substream *subs,
+ 			subs->trigger_tstamp_pending_update = false;
+ 		}
+ 
+-		if (period_elapsed && !subs->running && subs->lowlatency_playback) {
++		if (period_elapsed && !subs->running &&
++		    is_normal_lowlatency_playback(subs)) {
+ 			subs->period_elapsed_pending = 1;
+ 			period_elapsed = 0;
+ 		}
+@@ -1677,7 +1698,7 @@ static int snd_usb_pcm_playback_ack(struct snd_pcm_substream *substream)
+ 	struct snd_usb_substream *subs = substream->runtime->private_data;
+ 	struct snd_usb_endpoint *ep;
+ 
+-	if (!subs->lowlatency_playback || !subs->running)
++	if (!is_normal_lowlatency_playback(subs) || !subs->running)
+ 		return 0;
+ 	ep = subs->data_endpoint;
+ 	if (!ep)
+@@ -1705,6 +1726,7 @@ static int snd_usb_substream_playback_trigger(struct snd_pcm_substream *substrea
+ 					      prepare_playback_urb,
+ 					      retire_playback_urb,
+ 					      subs);
++		/* start EPs for both normal and implicit-fb modes */
+ 		if (subs->lowlatency_playback &&
+ 		    cmd == SNDRV_PCM_TRIGGER_START) {
+ 			if (in_free_wheeling_mode(substream->runtime))
