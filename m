@@ -1,96 +1,148 @@
-Received: from ach1ajh126.fra1.oracleemaildelivery.com (ach1ajh126.fra1.oracleemaildelivery.com [138.1.108.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD8B44C678
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jul 2026 19:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=138.1.108.126
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0DE41DDF9;
+	Tue, 14 Jul 2026 19:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784057793; cv=none; b=nhqrCsJjH9gEf3h9LZisX5ky4ZsjdergyUSOyPP3yIkcJaAzVYKMWKv+RE17w6gX/Ak6t9DKpvJUGxF8T3ciDxXH5AUbf5zBUzp4tGfuSMgHDZsVOWS1QGgwcWfmAKkG5XhMqbyN24y12R/ccjxyRoSRqsmAQ+kvYnmjctknW1Y=
+	t=1784057803; cv=none; b=HxkhPSGqVdqW5EqGTqum8RjWhpCCdf2Hm7V/07FAxWYRAQhpjSwQQx4pkqk9CH/5AYPndWZresYyykB13sKVutHrlPQKQYQ/ro7QiYmvacdu90C7H5Bpryv3UzQ27yPteSSnLXibbvoy3xhqSiSRe8ASxI7h/Ol+Nq5XQdmrPGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784057793; c=relaxed/simple;
-	bh=LmveUmvvEIyEmVlZD3gZFKyDbkH7q7z/yPe4th6PCWY=;
-	h=Message-id:Date:MIME-version:From:Subject:To:Cc:Content-type; b=V2msnzJhFDAuaJq7pXdjJbAyNKwqo4AfRtLb1FzYXRk8VwD32f0Dgq1KKgovfT+fcC4a1nwf2itcTkieG4wrICZioAYeay13fre8BoYzX27lWhY7e2TSKk3xEpKaveUqEN8VClSsB4NCdUgm9hoX0I4gygYqHxm+cnUdIuH7Cdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marmak.net.pl; spf=pass smtp.mailfrom=fra1.rp.oracleemaildelivery.com; dkim=pass (2048-bit key) header.d=marmak.net.pl header.i=@marmak.net.pl header.b=tL7NdL4K; dkim=pass (2048-bit key) header.d=fra1.rp.oracleemaildelivery.com header.i=@fra1.rp.oracleemaildelivery.com header.b=jGNIqFU8; arc=none smtp.client-ip=138.1.108.126
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marmak.net.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fra1.rp.oracleemaildelivery.com
+	s=arc-20240116; t=1784057803; c=relaxed/simple;
+	bh=/m3Qkuf6/ar3+WA6/bC0iH3GQf1MX3/OjuI6168hCgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=laBbzI98eB3aDXhaj2jWHbrVy5z7Y9op05H2/r9/dyvH97muTMjzHltJg0TBWWdzYt+FcbBLwWeRsjtWvy5XmCMjvWoVkVMd/oMG7i8uawP3bLWTCEBayxr8P8BlnOie66+MsRvVqZvGbAk83sC3w7sPwEuPo6Boa/yU2RPph08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org; spf=pass smtp.mailfrom=fastmail.org; dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b=k4wrp//1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=m+J+64c/; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marmak.net.pl header.i=@marmak.net.pl header.b="tL7NdL4K";
-	dkim=pass (2048-bit key) header.d=fra1.rp.oracleemaildelivery.com header.i=@fra1.rp.oracleemaildelivery.com header.b="jGNIqFU8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=marmak-2025;
- d=marmak.net.pl;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender:List-Unsubscribe:List-Unsubscribe-Post;
- bh=xlHg7zzIGH4cgqXEayuWKHnY7aT40nkv/kfW7dTWU9k=;
- b=tL7NdL4KKVV0LAjbSZFSCDHFCVj+sVbkc8qqM8xxTxiyGuPlpOs29BR02lM8Tdwmt8vpJYBPOpuH
-   /MlZ7UjAjWseb2UoY4r5ShEteAhRLFKETbuMgdk/f7sJb8ZFlqkgchkFWEiot+x7yunCj91tpGFG
-   w0OWPVYyRcs2jU+6NCiY7LXPbmi4jdv4jXjM1A+nOkGwHifGXxl0oA18UVLrVro25qMtpZVIUrtw
-   ou2nULMyY68XOWrARSl2yDx5HP7cIiZ1eLDJNwzYKLPO5kt6dXScFp6Ug400WeQKKlIFeH2ezm0m
-   XDQnA/kUGmOi6zc4CrM+x6RfEBbEDYlcR2Ecyg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-fra-20191115;
- d=fra1.rp.oracleemaildelivery.com;
- h=Date:To:From:Subject:Message-Id:MIME-Version:Sender:List-Unsubscribe:List-Unsubscribe-Post;
- bh=xlHg7zzIGH4cgqXEayuWKHnY7aT40nkv/kfW7dTWU9k=;
- b=jGNIqFU8S2Pwj0Gi/+4jNX4TWLOPD4Iaknv3RZpLi8bsUuSH6aj7pFddpm050fXfHgaNGt2slh/0
-   3yWCE3+blVCK/aTD1obGLKi/Ej9woC9dFauQVc8ZYKTSOiyZWPmMQEe1sErSMIcb5URMN2pyUS2b
-   oaBgsfhzGkrzp5GQenwS8U3OPFR4YhcqG93WdmatF3+PuLFusFxfE73vtveDRd5s6XTTk5T+Gwv3
-   /jusk/8HHIbo9WlGU0JyO4ifkiddnqqMZGr0a+CphIkaPPqS31Eep3DSHeGoy0CotMzc7Vyw0/ng
-   +H587usBlWzx4dNfGZS//KnKuDvfFwrxnU+XBQ==
-Received: by omta-ad1-fd1-1402-eu-frankfurt-1.omtaad1.vcndpfra.oraclevcn.com
- (Oracle Communications Messaging Server 8.1.0.1.20260617 64bit (built Jun 17
- 2026))
- with ESMTPS id <0TI61UZGBJSRXVC0@omta-ad1-fd1-1402-eu-frankfurt-1.omtaad1.vcndpfra.oraclevcn.com>
- for linux-sound@vger.kernel.org; Tue, 14 Jul 2026 19:36:27 +0000 (GMT)
-List-Unsubscribe-Post: List-Unsubscribe=One-Click
-Message-id: <4dab5622-9100-4730-8c99-b58da939549b@marmak.net.pl>
-Date: Tue, 14 Jul 2026 21:36:26 +0200
+	dkim=pass (2048-bit key) header.d=fastmail.org header.i=@fastmail.org header.b="k4wrp//1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="m+J+64c/"
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfout.stl.internal (Postfix) with ESMTP id C9AD91D00025;
+	Tue, 14 Jul 2026 15:36:40 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Tue, 14 Jul 2026 15:36:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm2;
+	 t=1784057800; x=1784144200; bh=bBepFvY1LKlSxlgL4l06nBRvhcWtf9at
+	VR4FTFTQN/s=; b=k4wrp//1Hq1CGzDI2Re45jcIxItk/kyClRcbmdhZyqL/tPPV
+	O2UiQ0WkV+K0+017+4bZAQ2I4evnybgV/0WBtcQk56m4jE7xXztaKQUItXS3sMJA
+	4ltmx1oOslBByUMRfLB4aR/LufKOgMm4I4gu5o6JwAhz8HzuMvqDMxMPD4vS2i/s
+	XyXEVEB0nWmcZLm1Q8WluFoFsig7gXXKiU5HXUk35opAyQAlKXqd/6IMQ1H1z1+V
+	Yvw9CRVnltlbKDyAcCz+6/PCgyC/zP8Qr6gZLXcE5hJupAChY6MjXBMUj6AUF3WO
+	5iw89TvCQh/i7TR+SsbEksbm2zfcmIFb8ZeaNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784057800; x=
+	1784144200; bh=bBepFvY1LKlSxlgL4l06nBRvhcWtf9atVR4FTFTQN/s=; b=m
+	+J+64c/T6SSEGgfmzf7WOg9pVRnMrBavbfPWxArJed635s/F/xdQ2+MpFO3FEQiu
+	nVffHMgIpt9Lvf3TEfR9+zAqOX+q7PYQu84e0Jxun+QHmjBpfggQ/RrdwiLTbqvu
+	WlS5RpUIb9o7JiPtOGBlQU1tpR6NgiApDMFBTIHR1yKAw2CSFb0qccPoKar0Uk1q
+	+lDa/Vl9sAvdqWNtBxznmYqJ1lsmfqjeTbbQNfM9oOdLOTHhCOObJrGrLfep8oTh
+	5F1WkDCI3I+r7SgV518cP5907v63pCNrYmhdPRHc4EY9piLA6yDwhgS+unHo/LE8
+	bIEnR+JO8hKUSN0rP+/2w==
+X-ME-Sender: <xms:yI9Wak5UvcDZJH-yVQwD8BIi6WbcsVlQJ2UpVFs8bPvom220DBdanQ>
+    <xme:yI9Wau1SP4qepowCipP6RggHuwtW2HqOuBHWh5wbJHmH2It7uYfXrCY_jrGMsm8gV
+    JrAHEwcF4FDd5KhrAkfQHpHTAHQ6tohK4N8IjWUB-4App2xFL56VLY>
+X-ME-Received: <xmr:yI9WavCELBBmWiCRSzp6FREQpkqr2NG2283GOrBVeedv2glgtvMmpM0BC6k>
+X-ME-Proxy-Cause: dmFkZTFI0lKS02VttvzmWLTXz6Ea7hhNAxH/RTsvO02/LouO39/kpuqH7Bk5BkFAxAhIvM
+    9M+aAfcrUc03JSDKF8zi8FaT1wEgW6y3XnXHs1X6MAIkj7D1Yytui0iN7f1uYtCTVHBw0F
+    hH35fpYkURb+1CWWCRcNrCgu42z3NkozeFUD8gx7JWdYDAn5QPinOiUgevXCNQyH3xD/WH
+    Ne1QeFYw11DjcUYrIOKRMM9kahikcCCqKlqWbgwCErgkKUKrQgkXdaXmC6zkj+mCq+Qk38
+    W/W4tit31xd6hpv+J3gEjBmKZUnyhBx1Z9WNYBLRML9+9ailxbSZPuU0jW/xQwTHSnXIYY
+    P4UkJSS7+G6SDh7KcEMyZN9TEBUHtnZeZECLjNDD0ReyDNtBFufMBzV/jGzF9eLSs6hbTk
+    5Aeg/zI+qWfLxrsV6sZxks9GHKgld8l80TXtvj6wE3eMERaPERyNefL2eLNGlw4Me10Xsl
+    gn/J8egnMhn4qrH0eA5AK0J0HBzYIl9rTZSH0mr2jSLXATI0/WOk5ruAvbhw3M7Qu5Snen
+    hl+A/uur/NryV6KewHGF8lHhN0z7jqsrgVLNqzDCSjdWRcFZ0FRMRI4AsKLtdlkQ+4ne1G
+    58uaRzx4M92mObjfzXyGpjVYEyBHvvJiVHT/PINaXzo2Ser4B9ofFU27kDrA
+X-ME-Proxy: <xmx:yI9WapN7FYdVciZoq8h8Vy9LtUIc643jrP3yw3WLSdacI2HUQXEYUw>
+    <xmx:yI9WakYKc393qoaVJez5R2AeCqDs1j_c96lm_Q0Z4Me-trScKbrLPA>
+    <xmx:yI9Waouzq6-y4KiAP6h0XrCcAzJXp5NemPxEQAdOKzXb3gZF_5m9sA>
+    <xmx:yI9WamMjBITZF4u9VPCwKDKe2CCUIFcICOAYrj_XzMhIFwgfkkgX7w>
+    <xmx:yI9WarpJJzSF6n4OZgyF--6psUzDzcqLdqfzDt4d5zSekXiwEaDz7jnX>
+Feedback-ID: ib53e4b78:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Jul 2026 15:36:39 -0400 (EDT)
+Date: Tue, 14 Jul 2026 14:36:37 -0500
+From: Ian Bridges <icb@fastmail.org>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] ALSA: hda/generic: Replace strlcat() with strscpy()
+Message-ID: <alaPxW5S5PT_-kZi@dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-version: 1.0
-User-Agent: Mozilla Thunderbird
-From: =?UTF-8?Q?Marcel_K=C5=82os?= <marcel@marmak.net.pl>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for HP EliteBook 830 G8 (8AB8) to
- enable mute LEDs
-Content-language: en-US
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8bit
-Reporting-Meta:
- AAEZGPYiQxyy4woFyar989vYTYhwK/ZtIelICBF5wc4BWmbAgKKOejc+PGVKPcEp
- 6wRHPAjBlMaUJNhVUtGbyYim65ZZuBD0HBfI1zaOFYjxbhTieUk27K0/Y/BzMd8L
- ka2Su47VeC49rqjaReLu17DvHeBHu2v8xUV3nUYPCZMuAIP5iD9Nsud+wLKVeCqu
- Byo1+RsTeqIj2k+vO50eg3KcH/n3I34C74fDk9jzLBNVYdcdtsQnad7/f2dKeWfH
- 1Q7UrcHptzDOiSqevl/CNYgETeCCs3/Ld71vuUE1Qv4MsULZ5FoJg40y2DIzq4rA
- 1yX7VqEKqpDZHsgnA5fH5SxFzlskqzpLnK3yKDzCfd7dRijm5yaX398DMAfAcNJI
- +6X1uKVFmx7lGAVVCOQJxfAtOt7E5JsohWRvqfjJ29+xefSuaTAk1DBTMfMEqz0y j+x2hGA=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The sound and microphone mute LEDs do not function on this newer
-revision of the board (8AB8) while they do on the older 880D models.
-I have verified this on another laptop which was manufactured before
-the one with the issue.
-Added the ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED from a G9 model, which
-uses the same codec, to make it work. Tested on kernel version 7.1.3 on
-the aforementioned newer revision notebook. 
+In preparation for removing the strlcat() API[1], replace its two
+uses in the generic parser.
 
-Signed-off-by: Marcel Kłos <marcel@marmak.net.pl>
+Both call sites append one suffix to a string that the function has
+already bounded to the buffer size. A strscpy() anchored at the
+current end of the string writes the same bytes, including when the
+suffix is truncated.
+
+Link: https://github.com/KSPP/linux/issues/370 [1]
+Signed-off-by: Ian Bridges <icb@fastmail.org>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+The patch was tested as follows.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index f7700713d..18d3b17e5 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7131,6 +7131,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8aa3, "HP ProBook 450 G9 (MB 8AA1)", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8aa8, "HP EliteBook 640 G9 (MB 8AA6)", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8aab, "HP EliteBook 650 G9 (MB 8AA9)", ALC236_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8ab8, "HP EliteBook 830 G8 Notebook PC (MB 8AB8)", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ab9, "HP EliteBook 840 G8 (MB 8AB8)", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8abb, "HP ZBook Firefly 14 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ad1, "HP EliteBook 840 14 inch G9 Notebook PC", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+- W=1 build of sound/hda/, zero warnings.
+- A userspace differential harness compiled the old and the new
+  functions side by side. The buffers were byte identical over their
+  full length, including the bytes after the terminator.
+- A QEMU runtime compare. A guest with an emulated HDA codec was
+  booted on the base and on the patched kernel, and the captured
+  /proc/asound state was byte identical. That covers the PCM stream
+  names from fill_pcm_stream_name() live.
+
+ sound/hda/codecs/generic.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
+index 660a9f2c0ded..5f373cbf4a53 100644
+--- a/sound/hda/codecs/generic.c
++++ b/sound/hda/codecs/generic.c
+@@ -2712,10 +2712,12 @@ static void get_jack_mode_name(struct hda_codec *codec, hda_nid_t pin,
+ 			       char *name, size_t name_len)
+ {
+ 	struct hda_gen_spec *spec = codec->spec;
++	size_t used;
+ 	int idx = 0;
+ 
+ 	snd_hda_get_pin_label(codec, pin, &spec->autocfg, name, name_len, &idx);
+-	strlcat(name, " Jack Mode", name_len);
++	used = strnlen(name, name_len);
++	strscpy(name + used, " Jack Mode", name_len - used);
+ 
+ 	for (; find_kctl_name(codec, name, idx); idx++)
+ 		;
+@@ -5682,6 +5684,7 @@ static const struct hda_pcm_stream dyn_adc_pcm_analog_capture = {
+ static void fill_pcm_stream_name(char *str, size_t len, const char *sfx,
+ 				 const char *chip_name)
+ {
++	size_t used;
+ 	char *p;
+ 
+ 	if (*str)
+@@ -5695,7 +5698,8 @@ static void fill_pcm_stream_name(char *str, size_t len, const char *sfx,
+ 			break;
+ 		}
+ 	}
+-	strlcat(str, sfx, len);
++	used = strnlen(str, len);
++	strscpy(str + used, sfx, len - used);
+ }
+ 
+ /* copy PCM stream info from @default_str, and override non-NULL entries
 -- 
-2.55.0
+2.47.3
 
