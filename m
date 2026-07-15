@@ -1,35 +1,35 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437BE219E8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6856171CD;
 	Wed, 15 Jul 2026 00:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784073933; cv=none; b=hm3UyLZcsK4c4ajnoSDDnzQS0oAqd/glmqh3Tci+sTyUBVkQG8s7NFZOL/fzmS2w3LlK7p0ZVyXYqdWkM64cp51n6u493TJVnZw5gtj15QFJ+4079SfU+iWR9EmWREQ9In66Nr3gBBg6Fi0oKgqwObWHm1el/7eCfZoURpfIk8U=
+	t=1784073933; cv=none; b=ALznKITKTrsoNWGB44WPdat3YcIwOKrYDi01V30I4Kk0yyqOQQMb1C1ncf10xv9M2riqms7LqCqEIynn1pUNbTDd5zsPppprqHANPgeFNlic43QCyDSNW8GAK+gK5V0LQcP5RaeSzhvAZ9bDZTAtjqsRD4C6lCjYxlYyzgJVFY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784073933; c=relaxed/simple;
-	bh=kcEZMM9dwwv/+5LXAHMwexp/Dz8ByaXsOxuHEAExciw=;
+	bh=dVvCTd9HiPk4BuQ/Qor/jCgpHdkxzguxFXKBEOCAJ8A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YzJqFhyS7Hj2QD7ovd4D/Cm8apnYQPAfuEPw9oeH89CwJSfBv3TqX/+uftcy4GppKv+SlmidEmc+Sl8o3Q6fdn3GL/ydfgOmHph0sHxgCFpjBgQ5LbU2X/RDwiPSvdX/MoCB2TAB4DMwupUTQSsgYar6d1Hvebp1SuXePPzSmuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3/Skb14K; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=KU8NEHq0cBMgwftetwhQZZ3Rlj9QeX8HovshUPdYNyE9KmsYyUY9lhNJSNJkNpasADTvmhovOaNESHeT8hYA7p77E3IKo2EXLHwBaOdQBjermtsQORUmpTqK7edJEeVuICfcjEMDwP9MQt4Gs8rHbDeNfdU9J6m8uoW4aOzCrSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=0Ud7qJDY; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3/Skb14K"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="0Ud7qJDY"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=QfGvfC9/hXJmNDdXlodJG/Zikxj+nGFIjS0nGqw5KLc=; b=3/Skb14KpqKl8XgD2qSmCo5Omf
-	kUwlHnGIkgJyvOZEx7MA+s2OXp6Px+wU8qKdoE9DSGSIX0JVf+fdPt/MNtQp7BY2/ZFs9PjW5+E1A
-	Du7qQYNmqY6dsQ7mmh0mDWlXqBMNqMyHFVxm2cKwQa3YQYiPUfVPhEGtNGPKVVSJFcQFlDO6e18fP
-	qG2B/hGW4XyUUoxHdRLXXlYDmr0jQ+r4bdESGIIMmC+A6F+ZLbdKYo53wVtIC2GiS3JSWmmBeuIO+
-	iw9YZ+bcFAwNx5CPgvH8TeJWK0LhPN4aQRmOQCbPrgymVUNHap7lRae/3m5V3LiaITJKY1iXspsJ3
-	ZI0V7i2g==;
+	bh=IR3qjoddWhjrLMEmYv+RhozuipdTVtOmJ2AYAVnZkBc=; b=0Ud7qJDY4gle6F10k+EC8mwaWX
+	frHbP+h0NUsSuye5BAnnlKbMvIrd6KPAP5VQuQJUlEIVskHKOl+0qmflQpA6QJ1hL2W+Dwpf7qimQ
+	wpe+GmOpcy1XM6ABd4NxpATKeQ5HANYuekDkhBDoPRQOPIodZU+0o+vp9V1ToOiz1nApWJ009bEtF
+	ps5snFZdmX6Hh6AoYtao447Q7xJzTHygXx7RknJwGE03/m2lTryhvSi3V70GLdiXyoQEQ2gas5TeQ
+	YP0TibbgzfiHa9qqajxQWuBU9777MCo2dk9kic2K+Ltfg0l7D4H6yTWQfNFz0voIJUy6TUrCz/I5n
+	XmLfR6MQ==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjn7x-0000000DTcu-3IAY;
-	Wed, 15 Jul 2026 00:05:29 +0000
+	id 1wjn7y-0000000DTcu-46sc;
+	Wed, 15 Jul 2026 00:05:31 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-sound@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
@@ -49,9 +49,9 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
 	patches@opensource.cirrus.com,
 	Srinivas Kandagatla <srini@kernel.org>,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH 03/14 v2] ASoC: fsl_asrc: avoid kernel-doc warnings
-Date: Tue, 14 Jul 2026 17:05:14 -0700
-Message-ID: <20260715000525.739874-4-rdunlap@infradead.org>
+Subject: [PATCH 05/14 v2] ASoC: fsl_easrc: use struct keyword on structs
+Date: Tue, 14 Jul 2026 17:05:16 -0700
+Message-ID: <20260715000525.739874-6-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715000525.739874-1-rdunlap@infradead.org>
 References: <20260715000525.739874-1-rdunlap@infradead.org>
@@ -63,12 +63,11 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use the struct keyword to describe structs in kernel-doc format. This
-prevents kernel-doc warnings:
+Use the documented format for kernel-doc of structs to prevent
+kernel-doc warnings:
 
-Warning: ../sound/soc/fsl/fsl_asrc.h:452 cannot understand function prototype: 'struct fsl_asrc_soc_data'
-Warning: ../sound/soc/fsl/fsl_asrc.h:463 cannot understand function prototype: 'struct fsl_asrc_pair_priv'
-Warning: ../sound/soc/fsl/fsl_asrc.h:475 cannot understand function prototype: 'struct fsl_asrc_priv'
+Warning: ../sound/soc/fsl/fsl_easrc.h:606 cannot understand function prototype: 'struct fsl_easrc_ctx_priv'
+Warning: ../sound/soc/fsl/fsl_easrc.h:641 cannot understand function prototype: 'struct fsl_easrc_priv'
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
@@ -83,35 +82,26 @@ Cc: Fabio Estevam <festevam@gmail.com>
 Cc: Nicolin Chen <nicoleotsuka@gmail.com>
 Cc: linuxppc-dev@lists.ozlabs.org
 
- sound/soc/fsl/fsl_asrc.h |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/fsl/fsl_easrc.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- linext-2026-0710.orig/sound/soc/fsl/fsl_asrc.h
-+++ linext-2026-0710/sound/soc/fsl/fsl_asrc.h
-@@ -444,7 +444,7 @@ struct dma_block {
+--- linext-2026-0710.orig/sound/soc/fsl/fsl_easrc.h
++++ linext-2026-0710/sound/soc/fsl/fsl_easrc.h
+@@ -584,7 +584,7 @@ struct fsl_easrc_slot {
  };
  
  /**
-- * fsl_asrc_soc_data: soc specific data
-+ * struct fsl_asrc_soc_data - soc specific data
+- * fsl_easrc_ctx_priv: EASRC context private data
++ * struct fsl_easrc_ctx_priv - EASRC context private data
   *
-  * @use_edma: using edma as dma device or not
-  * @channel_bits: width of ASRCNCR register for each pair
-@@ -457,7 +457,7 @@ struct fsl_asrc_soc_data {
+  * @in_params: input parameter
+  * @out_params:  output parameter
+@@ -625,7 +625,7 @@ struct fsl_easrc_ctx_priv {
  };
  
  /**
-- * fsl_asrc_pair_priv: ASRC Pair private data
-+ * struct fsl_asrc_pair_priv - ASRC Pair private data
+- * fsl_easrc_priv: EASRC private data
++ * struct fsl_easrc_priv - EASRC private data
   *
-  * @config: configuration profile
-  */
-@@ -466,7 +466,7 @@ struct fsl_asrc_pair_priv {
- };
- 
- /**
-- * fsl_asrc_priv: ASRC private data
-+ * struct fsl_asrc_priv - ASRC private data
-  *
-  * @asrck_clk: clock sources to driver ASRC internal logic
-  * @soc: soc specific data
+  * @slot: slot setting
+  * @firmware_hdr:  the header of firmware
