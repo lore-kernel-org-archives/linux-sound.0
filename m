@@ -1,397 +1,163 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011004.outbound.protection.outlook.com [52.101.125.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5071FBC8E;
-	Wed, 15 Jul 2026 00:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784073938; cv=none; b=d4ZDXyEUvoFqwsPpNrlSiAwKBBqhPXAbGzB8s6ZW1Yj6IeYU1s5/BaOggv3ZBMQBghfc028z93N4eMpp2PWfLKb/cKo6b04xWe2rANcR/mn2Cich1mDgOGUUVjuhRQhBDffHhDxlxTrFssrPndZiBr2Jf35t+Yw/d2CPVBUhVc4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784073938; c=relaxed/simple;
-	bh=aYdNQrNEzqCckxgYnvn2gyahgp8+LWvEVHbyGPXSlag=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PIcBEUKrZkiSQsUM4gh6oFWYlZExpQOHg/MhqN9OiZVXNcVo0x+dppKoy+NFSjUMmcF6QFlcOV63/n/aNaL8mUZDGvRGQDvF35fqemMwgn0a+X61IHsO4OQldlfIabXQmKGicyDn8tnPbq4keCZODtTXhrXMzeAz1MbwgWhYzOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OYUnvyqJ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5E932B13A;
+	Wed, 15 Jul 2026 02:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784081582; cv=fail; b=ebSfJrpdkM7rCZxL8XNcF2kWReXTaKA1V5ScD2zf6DNpR2gz+UJfHcAH3V3BYZwj66+DRN0Tb54oCl6AS3TBvrePdbk4H5DMiSWFsgTds8b8NUdp60PXFK7x66cXezzwPxfZqnXxv3XAK9LAX03rgB5ZDaRU/l//p0+igAk+LDc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784081582; c=relaxed/simple;
+	bh=VQgGS0KakHKaVBrSfxegbjE6VTvAVfevndGMJg4jrRI=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=CnTzUuPJzP7ScRGSOvXDLKMNAm2+owoMF9j4nYWlpjFAZiIQHdUEUnRIfu1EmJcaCD+TetB72ndfU6mhXwyva701u0uqM5SNgqBX5wDISotePsOE/bWk2/40CAoTt+AbM6ZwD9OD1Raqyjb1r3k/3iqu9Y4jdW1EgJN9LhAtCSA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=c4a/+Cxf; arc=fail smtp.client-ip=52.101.125.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OYUnvyqJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=nF4+mwdE2wybCU4qYqinVHZqrLYvL5Hm7DQFRIiGdR0=; b=OYUnvyqJWqpJUQ4RgvwM6o5hJt
-	++BvrS3j6lZWBJXlXNf4NtxorHn+urKkabUXLei/Isf1sBLQIeRZzEj/OqJ7ZIH+pMDdmHQD8OJVb
-	ivYVZkuCoWM6SX6RrqSrLYWv/RI0r3gNqVNOLMaDSZCL/2vDB982NZInPVeifjJsgGC2dtvcgxMM8
-	2XSiiOjaDUqU6SXWtcCeEAhB+Cmqn9ZRWEtofXCjFNTWptblk9Rfo446Aq0wxYBHvq1IjSrkeFn38
-	40lRGfmo4oSU1dS0tHow/G3lg47MbXsQrVShJXtJqGX28jRfFLom40nztGAu4c7XrwzrpbVRouQo0
-	TMvlpCSg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjn83-0000000DTcu-0O9Z;
-	Wed, 15 Jul 2026 00:05:35 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-sound@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	patches@opensource.cirrus.com,
-	Srinivas Kandagatla <srini@kernel.org>,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH 12/14 v2] ASoC: Intel: Skylake: convert SKL_TKNS to kernel-doc format
-Date: Tue, 14 Jul 2026 17:05:23 -0700
-Message-ID: <20260715000525.739874-13-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260715000525.739874-1-rdunlap@infradead.org>
-References: <20260715000525.739874-1-rdunlap@infradead.org>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="c4a/+Cxf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BtTrBL6MpU+wVYbE+Ou9xA+fUOPWeQtDIcYl8jf6bGJbu7NZlC8RBTFvgDptAOS5aT9iGAaayNajunSD31Sh8upaKC5RkbX4PrgsDdl3Yn7vivXf0zAOZerm/6Qum4EKDx91iMLVa0HNVq3j6QLznAbgP+xbNX44DTpy09S6x7ESQf2IYq3X7x3GlTdHAG4Myrctk3TtmPGdwpYSm86Jy/3ssaaLzuQorCFTWyDjw5M376MHMPZy0GZZK4i5kKnYHxDkTXD5GNSnwKBbk573z1wO7YnbcVd6jaWjsrNxbdHnjwmXgQxVHLoXp2RugcxUeUHyu4ykQrEa/BaFrV0Dsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=slBEcapdktYEb6sGYj94lyX+1CDgqYzsjtGqO/v+qeE=;
+ b=EWlkoiNwl3DVYIGalC1ZbgxyRQ2csbPnZxg9TbVjuJ3CKuoarC0MstPK1Fio5EItqbLgIasRemGbVRcr3rDBJqP7be6yBxMdSNvhUe/392Zg+uYMCl4URESDzhoEz3ipiC1MYJ3A7xqxiwV7186kcuYYL4I8uq/uVEIr75gMkT+ZeiIK9wUio9P0pHNa8GJOiU/KvSOyl4HJEvCo/+JqJCCt2gcWuxltk2QlVvecuvkYM1tOaf+HPWlBE1c0D9emtjmrmse6ksvo9OnYuaRGl/AGU+6BeLaS+ym0PxAPDJ1MJsyi/4VspwMSqZVy3uAa9IIi1psM59lXGZGmQhsj/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=slBEcapdktYEb6sGYj94lyX+1CDgqYzsjtGqO/v+qeE=;
+ b=c4a/+Cxfj0N+zZBfNKiQpsqDikIRYMlCAyV9n6B2H5ZjTaSm1NBpLbTwYHvHUYSHGLAPF3erGJwQn2hZYzk2HbX4/VTnXJyFsZXvkj2qjME85ke1C3BulNIhCEL35WJV5W1Py6ONQqnvSZIYNVKw05G7kju70MSwvLvtE5t6RVA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYRPR01MB14253.jpnprd01.prod.outlook.com (2603:1096:405:21a::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Wed, 15 Jul
+ 2026 02:12:57 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0223.008; Wed, 15 Jul 2026
+ 02:12:57 +0000
+Message-ID: <871pd52e6w.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: broonie@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 08/12] ASoC: simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()
+In-Reply-To: <20260714103428.2318895-1-geert+renesas@glider.be>
+References: <877bnexiyj.wl-kuninori.morimoto.gx@renesas.com>
+	<20260714103428.2318895-1-geert+renesas@glider.be>
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 15 Jul 2026 02:12:56 +0000
+X-ClientProxiedBy: TY4P286CA0135.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:37f::18) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYRPR01MB14253:EE_
+X-MS-Office365-Filtering-Correlation-Id: df478005-294f-4877-fa9e-08dee216962b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|52116014|376014|38350700014|6133799003|18002099003|22082099003|4143699003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	fyDZwNd1TOeVOV3bM/LPuqE+kfW1iTUeAxhjWUAhsXXoWi2lR6rhkcOzUI3IPMNkodQ9ztVtDPzvsv+rOJI/+eMyM3mLFP1KcrlwzOdG7cBpJRRIAMwdcMvX0nTpgw0cJEO3ry3tLtM8pzf8XI18M0hpZycoyU2cPcpbHvv8uJZd1l2dAb5jcNP1voDGWJisqC8iyV4K5YKvfEPatdnrsgaHTKLsSgGLbZzyghrmWieI3zjx225DlBN7l15nTOAI8tvgS0WHc6iJbAUjOkmznGk6CHGX5hYUyA9GE9hfVtKDPytZxS/y6bgYZ26Zql3cvMVEfQnfBm/1EVqW/Rac1qHI63OZ/ChgqcYJCmS7g+S3yLSXAsj+GW8Q945BQF9mIDy7vpvFttSe4vE3317Zp3dK/GpkodOKkWPvJI+xDACQZ6EI3RtcVZ3ADD1Acetq0v0F7wcuqCRIx+4uShXfrMy+IzKw8s28Mrmz/qkM6dK0o1N3/SbKJKVVQ9s33wYWK6Dcs5kZd/y/dKOUiIJOcy7DQLikVayxovkNI5KzaiOh5rhm0hZw6VnxNhUwkirSyRxS5jk/UZwt2gkEsu1RTWyqKbjNovJmM05mvn5S2GZ3oV66R7MnQECohR3xLocGQP+PUad7/U01XMvNZPgDEvfvxYTgU7VGCWFd19pv4aRJEBUehUn88UBqydvXGoQvImS/SIygBhYfZwY5Yof5vQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(52116014)(376014)(38350700014)(6133799003)(18002099003)(22082099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?XfBo1fX3BJ5Cwh+pOPImkCbgMQWyyOMawFjnVtFCJ7R9ZLuggMb/MVdh30Oi?=
+ =?us-ascii?Q?qFI2X/OOSmRWGa7GdsXC/uMy7fIqRFU1Z0OpdyNgNRIv/63zpmLxQ/gqDHVw?=
+ =?us-ascii?Q?yCLLablKw2MrEYxhrkOCDqsSsmoLEF7sv/hy0DGPAjVfSdFkosr2G9fge3ez?=
+ =?us-ascii?Q?fHEGKhryXuUvw07qoNF+FzIh8kyH4SqU6xqydUVIbTYQxZuA4/7yNTyAWKmL?=
+ =?us-ascii?Q?9s0RXkpI6sZ4SXpgl0s/atx1fYl/r5JZnx6+p4O1BaBSKP6t+cqzYKO0F0rc?=
+ =?us-ascii?Q?6sKBn05X2BKQwPtVcuov3vFgO8zsR7WHPjOyzLdyfyMB7ZHPOhfbTMZjcLN8?=
+ =?us-ascii?Q?h0+Gp7oc2GSWKsH0xpvTU2e9F0TbK7YOjsJDWmFYgbfgRk64/R/VIfNdhjIr?=
+ =?us-ascii?Q?oMkMhep048k7HBFbizKJur0kiDG+DhDNS8LsZkjmeZG0DtFHlATHEJMWjerV?=
+ =?us-ascii?Q?P56xq7EMArUc8rNgkQ2OMPbfQVX/hgdIbvHn5jGUqoXYCaQscHzje72kavn4?=
+ =?us-ascii?Q?4ywq9E4+jI3t2apdEPa5YMe4crIpYOYuWGE6KsGzTaFaCeymYQvFlCqHwogc?=
+ =?us-ascii?Q?W5t5zUg8zP+gWC6zts51B2UywQNDZgxMB4ZL6pBdnIHwNjkN6A/Pk2uYSrRV?=
+ =?us-ascii?Q?l+yO3zFoIcxiPJ3TZinBCOePO/Nft1XoNnmxC5lzEZH6HfOaclJt/03oCE3Y?=
+ =?us-ascii?Q?BJJzJb/IoHw51XGEiz/h8yvSD2LcOzwZUEk22ApfBWTdaLx5F01mbH4Dg55g?=
+ =?us-ascii?Q?TfplIqoEj4KsxDhjFaZyfyp5wx6Xl09FbwF9a37vKoqcBZZX1EuaZCdP+C8D?=
+ =?us-ascii?Q?4w5QBs3iYJbxb6mFKhFmhQcJ+KV5ErEagNUyDkPQHeDy7rxKt2zadHTPGIOn?=
+ =?us-ascii?Q?+axYIKwfb+CPZH8gyJQn5EcYqOMPnc/yXDtshAevP+YPgQ0oCJveHeNElxkw?=
+ =?us-ascii?Q?AjIzLsudXV6tiNfgUizeprXWIOmIoWmbd3K1dVSyOttM5x9ZJtK2qFsIynSC?=
+ =?us-ascii?Q?gz95DwUU33UM9aJYrqcxLQK7HNWbCfmU79M19bXgGwqNWyu1NZ9+iyoRUqJe?=
+ =?us-ascii?Q?QupCwdnzUbeM52Cal3wqcnnCgLbzVpAEL0QNERs1utAL3FiyQXOJ6e1DzWbJ?=
+ =?us-ascii?Q?MkDi/P7+/t2ncb6P/Dq2N++kYfHzb/ncY5fK1KQgWsDleoFySADklrgIC6y/?=
+ =?us-ascii?Q?dITi/NIKxONLsxCygwYZ+RzZM5D9zUgRhX9AQDBbZQrEaIdvdJJLs/NB4dEj?=
+ =?us-ascii?Q?p4q67krVe75xTkfF5j57Zaj+//VkshwFnhoivEeH8/xEZvGkxxljZ9I0N8Ia?=
+ =?us-ascii?Q?kQld1GrKNjO0Qzg9f+BE4T1lS8YsIn/3gUivAZNDNyt3EsuPNMxz34eeVwbo?=
+ =?us-ascii?Q?bYvfJ/u7CzRpbh2l+/EddCNQdBDF/HFffuF5lWqI7CRAO8+es2T+vTWAYKLE?=
+ =?us-ascii?Q?xVZ9npwQjAGkm5rIc2g/UKfnM7c7G/yvQPMTKihu0Uai5nK38a3ifefhE/Tg?=
+ =?us-ascii?Q?lTcqVUrEx1ziHmF3K8h9tl5mDP3qbvN9aYmsDZdVlK6B+v7bYJ0DMmQ2j+kV?=
+ =?us-ascii?Q?x5O+5HItVIJENICLgkN6XzqgSvWljTokdxKuGU94T/5upWBxRulO3lD8dNID?=
+ =?us-ascii?Q?QdLAO/iqCi+BHM8emNViqK7Hqhby/P5vpiIhzuedLN5GuGPPCPEDzFqaAwfb?=
+ =?us-ascii?Q?sugTyQ4TiHYEJP8xJItbtnHU8G/yMcZ0aW88az7IvMiUrLNEIbWcOBvI8w/d?=
+ =?us-ascii?Q?AX2/KM+NjjLzw+hzwvz+rfLZNFicPUU=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: df478005-294f-4877-fa9e-08dee216962b
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 02:12:57.1324
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GKZwBoeOZWHMfYsOjjM04Omrh2mwlQT1+GpZHbtAxdrwMinchS7ZASpuYZc4GFLZNPCt3bcq5iOTEMITYUzJSC1+ZZtmu2na8TMl7YElGdTgh8PzPzFDrAw8jzWuCtKF
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB14253
 
-Convert enum SKL_TKNS to kernel-doc format:
-- use '@' instead of '%' for enum items
-- add missing enum values
-- correct a few enum names in the comments
-- remove the comment for %SKL_TKN_U16_PIN_INST_ID since it is undefined
-- fix a few typos
 
-Warning: include/uapi/sound/snd_sst_tokens.h:11 Cannot find identifier on line:
- * %SKL_TKN_UUID:               Module UUID
-Warning: ../include/uapi/sound/snd_sst_tokens.h:12 Cannot find identifier on line: *
-Warning: ../include/uapi/sound/snd_sst_tokens.h:13 Cannot find identifier on line:
- * %SKL_TKN_U8_BLOCK_TYPE:      Type of the private data block.Can be:
-Warning: include/uapi/sound/snd_sst_tokens.h:14 This comment starts with '/**', but isn't a kernel-doc comment.
- *                              tuples, bytes, short and words
+Hi Geert, Mark
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Thank you for your report
+
+> This breaks sound on Koelsch and RZ/Five:
+> 
+>     asoc-simple-card sound: error -EINVAL: parse error
+>     asoc-simple-card sound: probe with driver asoc-simple-card failed with error -22
+>     ...
+>     ALSA device list:
+>      No soundcards found.
+(snip)
+> All changed functions return zero, but the call to
+> devm_snd_soc_register_card() below returns -EINVAL:
+
+Grr, it was a pattern that fell outside my test cases.
+... and Mark had pointed out it.
+
+Please let me explain myself.
+
+The reason was it didn't have card->name.
+Card name setting function will try to set name by
+
+	1. from "label" property
+	2. from "name"  property
+	3. from dai_link->name
+
+My all test case have label (= 1), So my test didn't get damage :(
+And, in case of Simple-Card, it call the function with PREFIX,
+all 1/2/3 will fail.
+In case of Audio-Graph-Card/Card2, it call the function without PREFIX,
+it will get DT node name (= 2).
+
+Anyway, I will send the fixup patch.
+
+
+Thank you for your help !!
+
+Best regards
 ---
-v2: no change
-
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-
- include/uapi/sound/snd_sst_tokens.h |  165 +++++++++++++-------------
- 1 file changed, 87 insertions(+), 78 deletions(-)
-
---- linext-2026-0710.orig/include/uapi/sound/snd_sst_tokens.h
-+++ linext-2026-0710/include/uapi/sound/snd_sst_tokens.h
-@@ -9,43 +9,47 @@
- #define __SND_SST_TOKENS_H__
- 
- /**
-- * %SKL_TKN_UUID:               Module UUID
-+ * enum SKL_TKNS - SST tokens definitions
-  *
-- * %SKL_TKN_U8_BLOCK_TYPE:      Type of the private data block.Can be:
-+ * @SKL_TKN_UUID:               Module UUID
-+ *
-+ * @SKL_TKN_U8_BLOCK_TYPE:      Type of the private data block.Can be:
-  *                              tuples, bytes, short and words
-  *
-- * %SKL_TKN_U8_IN_PIN_TYPE:     Input pin type,
-+ * @SKL_TKN_U8_NUM_BLOCKS:      FIXME
-+ *
-+ * @SKL_TKN_U8_IN_PIN_TYPE:     Input pin type,
-  *                              homogenous=0, heterogenous=1
-  *
-- * %SKL_TKN_U8_OUT_PIN_TYPE:    Output pin type,
-+ * @SKL_TKN_U8_OUT_PIN_TYPE:    Output pin type,
-  *                              homogenous=0, heterogenous=1
-- * %SKL_TKN_U8_DYN_IN_PIN:      Configure Input pin dynamically
-+ * @SKL_TKN_U8_DYN_IN_PIN:      Configure Input pin dynamically
-  *                              if true
-  *
-- * %SKL_TKN_U8_DYN_OUT_PIN:     Configure Output pin dynamically
-+ * @SKL_TKN_U8_DYN_OUT_PIN:     Configure Output pin dynamically
-  *                              if true
-  *
-- * %SKL_TKN_U8_IN_QUEUE_COUNT:  Store the number of Input pins
-+ * @SKL_TKN_U8_IN_QUEUE_COUNT:  Store the number of Input pins
-  *
-- * %SKL_TKN_U8_OUT_QUEUE_COUNT: Store the number of Output pins
-+ * @SKL_TKN_U8_OUT_QUEUE_COUNT: Store the number of Output pins
-  *
-- * %SKL_TKN_U8_TIME_SLOT:       TDM slot number
-+ * @SKL_TKN_U8_TIME_SLOT:       TDM slot number
-  *
-- * %SKL_TKN_U8_CORE_ID:         Stores module affinity value.Can take
-+ * @SKL_TKN_U8_CORE_ID:         Stores module affinity value. Can take
-  *                              the values:
-  *                              SKL_AFFINITY_CORE_0 = 0,
-  *                              SKL_AFFINITY_CORE_1,
-  *                              SKL_AFFINITY_CORE_MAX
-  *
-- * %SKL_TKN_U8_MOD_TYPE:        Module type value.
-+ * @SKL_TKN_U8_MOD_TYPE:        Module type value.
-  *
-- * %SKL_TKN_U8_CONN_TYPE:       Module connection type can be a FE,
-+ * @SKL_TKN_U8_CONN_TYPE:       Module connection type can be a FE,
-  *                              BE or NONE as defined :
-  *                              SKL_PIPE_CONN_TYPE_NONE = 0,
-  *                              SKL_PIPE_CONN_TYPE_FE = 1 (HOST_DMA)
-  *                              SKL_PIPE_CONN_TYPE_BE = 2 (LINK_DMA)
-  *
-- * %SKL_TKN_U8_DEV_TYPE:        Type of device to which the module is
-+ * @SKL_TKN_U8_DEV_TYPE:        Type of device to which the module is
-  *                              connected
-  *                              Can take the values:
-  *                              SKL_DEVICE_BT = 0x0,
-@@ -56,43 +60,43 @@
-  *                              SKL_DEVICE_HDAHOST = 0x5,
-  *                              SKL_DEVICE_NONE
-  *
-- * %SKL_TKN_U8_HW_CONN_TYPE:    Connection type of the HW to which the
-+ * @SKL_TKN_U8_HW_CONN_TYPE:    Connection type of the HW to which the
-  *                              module is connected
-  *                              SKL_CONN_NONE = 0,
-  *                              SKL_CONN_SOURCE = 1,
-  *                              SKL_CONN_SINK = 2
-  *
-- * %SKL_TKN_U16_PIN_INST_ID:    Stores the pin instance id
-+ * @SKL_TKN_U16_MOD_INST_ID:    Stores the module instance id
-  *
-- * %SKL_TKN_U16_MOD_INST_ID:    Stores the mdule instance id
-+ * @SKL_TKN_U16_BLOCK_SIZE:     FIXME
-  *
-- * %SKL_TKN_U32_MAX_MCPS:       Module max mcps value
-+ * @SKL_TKN_U32_MAX_MCPS:       Module max mcps value
-  *
-- * %SKL_TKN_U32_MEM_PAGES:      Module resource pages
-+ * @SKL_TKN_U32_MEM_PAGES:      Module resource pages
-  *
-- * %SKL_TKN_U32_OBS:            Stores Output Buffer size
-+ * @SKL_TKN_U32_OBS:            Stores Output Buffer size
-  *
-- * %SKL_TKN_U32_IBS:            Stores input buffer size
-+ * @SKL_TKN_U32_IBS:            Stores input buffer size
-  *
-- * %SKL_TKN_U32_VBUS_ID:        Module VBUS_ID. PDM=0, SSP0=0,
-+ * @SKL_TKN_U32_VBUS_ID:        Module VBUS_ID. PDM=0, SSP0=0,
-  *                              SSP1=1,SSP2=2,
-  *                              SSP3=3, SSP4=4,
-  *                              SSP5=5, SSP6=6,INVALID
-  *
-- * %SKL_TKN_U32_PARAMS_FIXUP:   Module Params fixup mask
-- * %SKL_TKN_U32_CONVERTER:      Module params converter mask
-- * %SKL_TKN_U32_PIPE_ID:        Stores the pipe id
-+ * @SKL_TKN_U32_PARAMS_FIXUP:   Module Params fixup mask
-+ * @SKL_TKN_U32_CONVERTER:      Module params converter mask
-+ * @SKL_TKN_U32_PIPE_ID:        Stores the pipe id
-  *
-- * %SKL_TKN_U32_PIPE_CONN_TYPE: Type of the token to which the pipe is
-- *                              connected to. It can be
-+ * @SKL_TKN_U32_PIPE_CONN_TYPE: Type of the token to which the pipe is
-+ *                              connected. It can be
-  *                              SKL_PIPE_CONN_TYPE_NONE = 0,
-  *                              SKL_PIPE_CONN_TYPE_FE = 1 (HOST_DMA),
-  *                              SKL_PIPE_CONN_TYPE_BE = 2 (LINK_DMA),
-  *
-- * %SKL_TKN_U32_PIPE_PRIORITY:  Pipe priority value
-- * %SKL_TKN_U32_PIPE_MEM_PGS:   Pipe resource pages
-+ * @SKL_TKN_U32_PIPE_PRIORITY:  Pipe priority value
-+ * @SKL_TKN_U32_PIPE_MEM_PGS:   Pipe resource pages
-  *
-- * %SKL_TKN_U32_DIR_PIN_COUNT:  Value for the direction to set input/output
-+ * @SKL_TKN_U32_DIR_PIN_COUNT:  Value for the direction to set input/output
-  *                              formats and the pin count.
-  *                              The first 4 bits have the direction
-  *                              value and the next 4 have
-@@ -104,23 +108,23 @@
-  *                              and output made by reading direction
-  *                              token.
-  *
-- * %SKL_TKN_U32_FMT_CH:         Supported channel count
-+ * @SKL_TKN_U32_FMT_CH:         Supported channel count
-  *
-- * %SKL_TKN_U32_FMT_FREQ:       Supported frequency/sample rate
-+ * @SKL_TKN_U32_FMT_FREQ:       Supported frequency/sample rate
-  *
-- * %SKL_TKN_U32_FMT_BIT_DEPTH:  Supported container size
-+ * @SKL_TKN_U32_FMT_BIT_DEPTH:  Supported container size
-  *
-- * %SKL_TKN_U32_FMT_SAMPLE_SIZE:Number of samples in the container
-+ * @SKL_TKN_U32_FMT_SAMPLE_SIZE:Number of samples in the container
-  *
-- * %SKL_TKN_U32_FMT_CH_CONFIG:  Supported channel configurations for the
-+ * @SKL_TKN_U32_FMT_CH_CONFIG:  Supported channel configurations for the
-  *                              input/output.
-  *
-- * %SKL_TKN_U32_FMT_INTERLEAVE: Interleaving style which can be per
-+ * @SKL_TKN_U32_FMT_INTERLEAVE: Interleaving style which can be per
-  *                              channel or per sample. The values can be :
-  *                              SKL_INTERLEAVING_PER_CHANNEL = 0,
-  *                              SKL_INTERLEAVING_PER_SAMPLE = 1,
-  *
-- * %SKL_TKN_U32_FMT_SAMPLE_TYPE:
-+ * @SKL_TKN_U32_FMT_SAMPLE_TYPE:
-  *                              Specifies the sample type. Can take the
-  *                              values: SKL_SAMPLE_TYPE_INT_MSB = 0,
-  *                              SKL_SAMPLE_TYPE_INT_LSB = 1,
-@@ -128,104 +132,109 @@
-  *                              SKL_SAMPLE_TYPE_INT_UNSIGNED = 3,
-  *                              SKL_SAMPLE_TYPE_FLOAT = 4
-  *
-- * %SKL_TKN_U32_CH_MAP:         Channel map values
-- * %SKL_TKN_U32_MOD_SET_PARAMS: It can take these values:
-+ * @SKL_TKN_U32_FMT_CH_MAP:     Channel map values
-+ * @SKL_TKN_U32_PIN_MOD_ID:     FIXME
-+ * @SKL_TKN_U32_PIN_INST_ID:    FIXME
-+ * @SKL_TKN_U32_MOD_SET_PARAMS: It can take these values:
-  *                              SKL_PARAM_DEFAULT, SKL_PARAM_INIT,
-  *                              SKL_PARAM_SET, SKL_PARAM_BIND
-  *
-- * %SKL_TKN_U32_MOD_PARAM_ID:   ID of the module params
-+ * @SKL_TKN_U32_MOD_PARAM_ID:   ID of the module params
-  *
-- * %SKL_TKN_U32_CAPS_SET_PARAMS:
-+ * @SKL_TKN_U32_CAPS_SET_PARAMS:
-  *                              Set params value
-  *
-- * %SKL_TKN_U32_CAPS_PARAMS_ID: Params ID
-+ * @SKL_TKN_U32_CAPS_PARAMS_ID: Params ID
-  *
-- * %SKL_TKN_U32_CAPS_SIZE:      Caps size
-+ * @SKL_TKN_U32_CAPS_SIZE:      Caps size
-  *
-- * %SKL_TKN_U32_PROC_DOMAIN:    Specify processing domain
-+ * @SKL_TKN_U32_PROC_DOMAIN:    Specify processing domain
-  *
-- * %SKL_TKN_U32_LIB_COUNT:      Specifies the number of libraries
-+ * @SKL_TKN_U32_LIB_COUNT:      Specifies the number of libraries
-  *
-- * %SKL_TKN_STR_LIB_NAME:       Specifies the library name
-+ * @SKL_TKN_STR_LIB_NAME:       Specifies the library name
-  *
-- * %SKL_TKN_U32_PMODE:		Specifies the power mode for pipe
-+ * @SKL_TKN_U32_PMODE:		Specifies the power mode for pipe
-  *
-- * %SKL_TKL_U32_D0I3_CAPS:	Specifies the D0i3 capability for module
-+ * @SKL_TKL_U32_D0I3_CAPS:	Specifies the D0i3 capability for module (typo)
-+ * @SKL_TKN_U32_D0I3_CAPS:      Specifies the D0i3 capability for module
-  *
-- * %SKL_TKN_U32_DMA_BUF_SIZE:	DMA buffer size in millisec
-+ * @SKL_TKN_U32_DMA_BUF_SIZE:	DMA buffer size in millisec
-  *
-- * %SKL_TKN_U32_PIPE_DIR:       Specifies pipe direction. Can be
-+ * @SKL_TKN_U32_PIPE_DIRECTION: Specifies pipe direction. Can be
-  *                              playback/capture.
-  *
-- * %SKL_TKN_U32_NUM_CONFIGS:    Number of pipe configs
-+ * @SKL_TKN_U32_NUM_CONFIGS:    Number of pipe configs
-  *
-- * %SKL_TKN_U32_PATH_MEM_PGS:   Size of memory (in pages) required for pipeline
-+ * @SKL_TKN_U32_PATH_MEM_PGS:   Size of memory (in pages) required for pipeline
-  *                              and its data
-  *
-- * %SKL_TKN_U32_PIPE_CONFIG_ID: Config id for the modules in the pipe
-+ * @SKL_TKN_U32_PIPE_CONFIG_ID: Config id for the modules in the pipe
-  *                              and PCM params supported by that pipe
-  *                              config. This is used as index to fill
-  *                              up the pipe config and module config
-  *                              structure.
-  *
-- * %SKL_TKN_U32_CFG_FREQ:
-- * %SKL_TKN_U8_CFG_CHAN:
-- * %SKL_TKN_U8_CFG_BPS:         PCM params (freq, channels, bits per sample)
-+ * @SKL_TKN_U32_CFG_FREQ:       FIXME
-+ * @SKL_TKN_U8_CFG_CHAN:        FIXME
-+ * @SKL_TKN_U8_CFG_BPS:         PCM params (freq, channels, bits per sample)
-  *                              supported for each of the pipe configs.
-  *
-- * %SKL_TKN_CFG_MOD_RES_ID:     Module's resource index for each of the
-+ * @SKL_TKN_CFG_MOD_RES_ID:     Module's resource index for each of the
-  *                              pipe config
-  *
-- * %SKL_TKN_CFG_MOD_FMT_ID:     Module's interface index for each of the
-+ * @SKL_TKN_CFG_MOD_FMT_ID:     Module's interface index for each of the
-  *                              pipe config
-  *
-- * %SKL_TKN_U8_NUM_MOD:         Number of modules in the manifest
-+ * @SKL_TKN_U8_NUM_MOD:         Number of modules in the manifest
-  *
-- * %SKL_TKN_MM_U8_MOD_IDX:      Current index of the module in the manifest
-+ * @SKL_TKN_MM_U8_MOD_IDX:      Current index of the module in the manifest
-  *
-- * %SKL_TKN_MM_U8_NUM_RES:      Number of resources for the module
-+ * @SKL_TKN_MM_U8_NUM_RES:      Number of resources for the module
-  *
-- * %SKL_TKN_MM_U8_NUM_INTF:     Number of interfaces for the module
-+ * @SKL_TKN_MM_U8_NUM_INTF:     Number of interfaces for the module
-  *
-- * %SKL_TKN_MM_U32_RES_ID:      Resource index for the resource info to
-+ * @SKL_TKN_MM_U32_RES_ID:      Resource index for the resource info to
-  *                              be filled into.
-  *                              A module can support multiple resource
-- *                              configuration and is represnted as a
-+ *                              configuration and is represented as a
-  *                              resource table. This index is used to
-  *                              fill information into appropriate index.
-  *
-- * %SKL_TKN_MM_U32_CPS:         DSP cycles per second
-+ * @SKL_TKN_MM_U32_CPS:         DSP cycles per second
-  *
-- * %SKL_TKN_MM_U32_DMA_SIZE:    Allocated buffer size for gateway DMA
-+ * @SKL_TKN_MM_U32_DMA_SIZE:    Allocated buffer size for gateway DMA
-  *
-- * %SKL_TKN_MM_U32_CPC:         DSP cycles allocated per frame
-+ * @SKL_TKN_MM_U32_CPC:         DSP cycles allocated per frame
-  *
-- * %SKL_TKN_MM_U32_RES_PIN_ID:  Resource pin index in the module
-+ * @SKL_TKN_MM_U32_RES_PIN_ID:  Resource pin index in the module
-  *
-- * %SKL_TKN_MM_U32_INTF_PIN_ID: Interface index in the module
-+ * @SKL_TKN_MM_U32_INTF_PIN_ID: Interface index in the module
-  *
-- * %SKL_TKN_MM_U32_PIN_BUF:     Buffer size of the module pin
-+ * @SKL_TKN_MM_U32_PIN_BUF:     Buffer size of the module pin
-  *
-- * %SKL_TKN_MM_U32_FMT_ID:      Format index for each of the interface/
-+ * @SKL_TKN_MM_U32_FMT_ID:      Format index for each of the interface/
-  *                              format information to be filled into.
-  *
-- * %SKL_TKN_MM_U32_NUM_IN_FMT:  Number of input formats
-- * %SKL_TKN_MM_U32_NUM_OUT_FMT: Number of output formats
-+ * @SKL_TKN_MM_U32_NUM_IN_FMT:  Number of input formats
-+ * @SKL_TKN_MM_U32_NUM_OUT_FMT: Number of output formats
-  *
-- * %SKL_TKN_U32_ASTATE_IDX:     Table Index for the A-State entry to be filled
-+ * @SKL_TKN_U32_ASTATE_IDX:     Table Index for the A-State entry to be filled
-  *                              with kcps and clock source
-  *
-- * %SKL_TKN_U32_ASTATE_COUNT:   Number of valid entries in A-State table
-+ * @SKL_TKN_U32_ASTATE_COUNT:   Number of valid entries in A-State table
-  *
-- * %SKL_TKN_U32_ASTATE_KCPS:    Specifies the core load threshold (in kilo
-+ * @SKL_TKN_U32_ASTATE_KCPS:    Specifies the core load threshold (in kilo
-  *                              cycles per second) below which DSP is clocked
-  *                              from source specified by clock source.
-  *
-- * %SKL_TKN_U32_ASTATE_CLK_SRC: Clock source for A-State entry
-+ * @SKL_TKN_U32_ASTATE_CLK_SRC: Clock source for A-State entry
-+ *
-+ * @SKL_TKN_U32_FMT_CFG_IDX:    Format config index
-  *
-- * %SKL_TKN_U32_FMT_CFG_IDX:    Format config index
-+ * @SKL_TKN_MAX:                Max value for enum SKL_TKNS
-  *
-- * module_id and loadable flags dont have tokens as these values will be
-+ * module_id and loadable flags don't have tokens as these values will be
-  * read from the DSP FW manifest
-  *
-  * Tokens defined can be used either in the manifest or widget private data.
+Kuninori Morimoto
