@@ -1,86 +1,86 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E8730C152
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 07:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFA0388E4E
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 07:59:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784102102; cv=none; b=BlqoL4HGmhSmJrjh0TgOQVIBIJgUGcldTkts77AGkYEdqpSlj0mUioj2APEZovmnb3UHWNw0H/hgXiBGaS+KPO4rG5rf5OG4WtE4Dv1DfRLpcXk5pEowhSaRljZcjIj9ZnA0WdAAcROqOprQVUS/gmmieD3rxiNrbNqv9JJQc78=
+	t=1784102370; cv=none; b=IqSb1e/6Z90xjmnm6SMa1E/ivaNBWphG1ZFKrGic+VvUwRvs/EHqxiGJSmhivJR+dtk8fO2VntW5GHFrb315pdS/Shcq3HM4WQCqe5HuDnlBvmNHoldc5ErxrJnAamz4nSwU0AeWxmQvirW15ZhLjU4iYzdROhikKN7PxUwpo9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784102102; c=relaxed/simple;
-	bh=W+3PNG/rQkb1rXBSDdcPIdifSQue918SU9KPZ6VfCYs=;
+	s=arc-20240116; t=1784102370; c=relaxed/simple;
+	bh=VhylyxJQCADE9xDA+XdSmghqq4IRpQtzGtuFVSDcQ20=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s4Nb+vHnOWp94NlChnh3JhDhkGSjqbz9FB+BZ0uNW3dc0cqlC0nza3pITDFj1T4NXUJ4jd1Yu1pOXmx20UwqTYCfENJxbqFKpeWvyaGSJJsZFXuow+gC0Rs1tzZdepRjGG7aPMdVGr8TGL5Zt0JQotPUEeoOn6TL9AoAQFvtIog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LQ9BuE72; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZI4M2tq5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IkBb31TO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6I+9Y9xC; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=aVJFyNb5SGY5bYglddOKPEPHoi5uzH1AmmLI5m8sz8ukFe5DUcQv+e6Y3Ul6a4NumuUtzYqkF4Bz5Rm5QajTha37dFhimyOMC6Gr/xVgSUkrtTatiVIvHZ1MxXHKopNm2bS7LqxcwjhVat6Psqf5kd95ZMWT1yHoDn0ubdfI7WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fZQECmMC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Qq+sOQzU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2DzMQuqb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qn6NObp8; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LQ9BuE72";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZI4M2tq5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IkBb31TO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6I+9Y9xC"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fZQECmMC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Qq+sOQzU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2DzMQuqb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qn6NObp8"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3868E76073;
-	Wed, 15 Jul 2026 07:54:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A805F3E01;
+	Wed, 15 Jul 2026 07:59:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784102098; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1784102367; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wXJx+ndhr0wzT6Dna5r9N6rTI3YFqffJa78zyokU+SI=;
-	b=LQ9BuE72eYdNrei+jtepPFbc6rSzzdD0zxs3gaT73H0q/I4pBEmL8EsRTI6K1sAlUclbKD
-	vFGvJ4HFgt1iIz4FSa3evxy6vq87llSbrs2Y8AyVEiBSAG0S+kEUrP/wLexirrRc2NIKFE
-	ChBZY6Z4uri0TwzdWQF02K82zHuySAA=
+	bh=WACp3m63EF5pCNiv+mV3W8gnkRgIyNM8rtths6qw68Y=;
+	b=fZQECmMCltRfnUkbGlRwKWiHNnV898FeD09kuyMoqySxEiBYLl8GnFsd5D13LysNzlOHWP
+	hoyS5NAEPBpVww0dj4fd6eg/jgXoh5d07uv4SNBQHSnMJixYqGH0KvVBYKLPcaZd/TrtNX
+	kmv7VDwSRdlK2ofaWurNtErdNQj/6ao=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784102098;
+	s=susede2_ed25519; t=1784102367;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wXJx+ndhr0wzT6Dna5r9N6rTI3YFqffJa78zyokU+SI=;
-	b=ZI4M2tq5g5Shy2u0qHYZWqgW6CJ1pHJtm6BRWhNTDtktE3kzAzdaz0GEBF4g6F5LAPyvEn
-	cLaLS26sVtdWiiBA==
+	bh=WACp3m63EF5pCNiv+mV3W8gnkRgIyNM8rtths6qw68Y=;
+	b=Qq+sOQzU/tK72+kqCZb+Pj7PShj2NYqTC4ANBpT0Jndma1mdepoTX6dB6essyx+EX1U3P7
+	EsdXP77Nnel9cwDw==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2DzMQuqb;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qn6NObp8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784102097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1784102366; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wXJx+ndhr0wzT6Dna5r9N6rTI3YFqffJa78zyokU+SI=;
-	b=IkBb31TOe/ojsYlgb3lvrl4/GkmFjZrr8QKSpCWPhkCTv8nOaI+pK+8iiXzxCJ10VPGgCV
-	7NDKj2PgQXSALNvq8y166jGqZV6tG1G0/UvnDht0peIp2KrMMC/qxZcL9GIZpF130HOeAK
-	xzhV2CMz7CL9MmEsoZECVN7T4wJRclA=
+	bh=WACp3m63EF5pCNiv+mV3W8gnkRgIyNM8rtths6qw68Y=;
+	b=2DzMQuqb29MnMCwDpJWjTAB6Bez6MnbR/xOlqTOYMCaJE+MKK/SOXFWLWYEOGyT3IkLdHK
+	BI4+5yxYr4gC9Nv+yQ+wlijQmg2K/rOrrlQg80ffT0/FILZWYqM12LWBCv2N3KGlnlkW+b
+	mPOJqU/NHl+Wi2OnFX8RXQ3j8b2uRcU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784102097;
+	s=susede2_ed25519; t=1784102366;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wXJx+ndhr0wzT6Dna5r9N6rTI3YFqffJa78zyokU+SI=;
-	b=6I+9Y9xCygmxjIQceEwvWwdQeFhN/llBO4PUjHfmHFWVZyiX/IchOK7srvuoB+wwrqTpXi
-	xuG0I2qQqyWH61AQ==
+	bh=WACp3m63EF5pCNiv+mV3W8gnkRgIyNM8rtths6qw68Y=;
+	b=qn6NObp853APwdVgnnmDOOxgRqbiJVWemWppOGMVTV3QVNYRH/98GKYEpHHDOyo+758F6Z
+	nh72qsmyBMW7x/Ag==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EFD51779AD;
-	Wed, 15 Jul 2026 07:54:56 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7474E779AD;
+	Wed, 15 Jul 2026 07:59:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ur4QONA8V2pAPAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 15 Jul 2026 07:54:56 +0000
-Date: Wed, 15 Jul 2026 09:54:56 +0200
-Message-ID: <87o6g8y9f3.wl-tiwai@suse.de>
+	id RpI9G949V2ogQAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Jul 2026 07:59:26 +0000
+Date: Wed, 15 Jul 2026 09:59:25 +0200
+Message-ID: <87jyqwy97m.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Ian Bridges <icb@fastmail.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Chris Chiu <chris.chiu@canonical.com>
+Cc: tiwai@suse.com,
+	kailang@realtek.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/generic: Replace strlcat() with strscpy()
-In-Reply-To: <alaPxW5S5PT_-kZi@dev>
-References: <alaPxW5S5PT_-kZi@dev>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] ALSA: hda/realtek: Add inverted LED quirk for HP ZBook 8 G2a
+In-Reply-To: <20260715041855.63264-1-mingshuo.chiu@rakuten.com>
+References: <20260715041855.63264-1-mingshuo.chiu@rakuten.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,100 +89,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: A805F3E01
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,fastmail.org:email]
-X-Spam-Level: 
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[canonical.com:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Tue, 14 Jul 2026 21:36:37 +0200,
-Ian Bridges wrote:
+On Wed, 15 Jul 2026 06:18:55 +0200,
+Chris Chiu wrote:
 > 
-> In preparation for removing the strlcat() API[1], replace its two
-> uses in the generic parser.
+> From: Chris Chiu <chris.chiu@canonical.com>
 > 
-> Both call sites append one suffix to a string that the function has
-> already bounded to the buffer size. A strscpy() anchored at the
-> current end of the string writes the same bytes, including when the
-> suffix is truncated.
+> HP ZBook 8 G2a 14 and 16 (SSIDs 0x103c:0x8f94, 0x103c:0x8f95) use the
+> Realtek ALC245 codec with a TAS2781 amplifier via I2C. They share the
+> same hardware configuration as the existing 0x8f40/0x8f41/0x8f42/0x8f62
+> models but have inverted speaker mute LED polarity, so the existing
+> ALC245_FIXUP_HP_TAS2781_I2C_MUTE_LED quirk drives the LED backwards:
+> off when muted and on when unmuted.
 > 
-> Link: https://github.com/KSPP/linux/issues/370 [1]
-> Signed-off-by: Ian Bridges <icb@fastmail.org>
-> ---
-> The patch was tested as follows.
+> Add a dedicated quirk with inverted COEF values. These are speaker-only
+> models without an HP pin, so the LED is driven directly through the
+> vmaster_mute hook; there is no need to probe the HP pin at runtime since
+> the configuration is static and known per SSID.
 > 
-> - W=1 build of sound/hda/, zero warnings.
-> - A userspace differential harness compiled the old and the new
->   functions side by side. The buffers were byte identical over their
->   full length, including the bytes after the terminator.
-> - A QEMU runtime compare. A guest with an emulated HDA codec was
->   booted on the base and on the patched kernel, and the captured
->   /proc/asound state was byte identical. That covers the PCM stream
->   names from fill_pcm_stream_name() live.
-> 
->  sound/hda/codecs/generic.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
-> index 660a9f2c0ded..5f373cbf4a53 100644
-> --- a/sound/hda/codecs/generic.c
-> +++ b/sound/hda/codecs/generic.c
-> @@ -2712,10 +2712,12 @@ static void get_jack_mode_name(struct hda_codec *codec, hda_nid_t pin,
->  			       char *name, size_t name_len)
->  {
->  	struct hda_gen_spec *spec = codec->spec;
-> +	size_t used;
->  	int idx = 0;
->  
->  	snd_hda_get_pin_label(codec, pin, &spec->autocfg, name, name_len, &idx);
-> -	strlcat(name, " Jack Mode", name_len);
-> +	used = strnlen(name, name_len);
-> +	strscpy(name + used, " Jack Mode", name_len - used);
->  
->  	for (; find_kctl_name(codec, name, idx); idx++)
->  		;
-> @@ -5682,6 +5684,7 @@ static const struct hda_pcm_stream dyn_adc_pcm_analog_capture = {
->  static void fill_pcm_stream_name(char *str, size_t len, const char *sfx,
->  				 const char *chip_name)
->  {
-> +	size_t used;
->  	char *p;
->  
->  	if (*str)
-> @@ -5695,7 +5698,8 @@ static void fill_pcm_stream_name(char *str, size_t len, const char *sfx,
->  			break;
->  		}
->  	}
-> -	strlcat(str, sfx, len);
-> +	used = strnlen(str, len);
-> +	strscpy(str + used, sfx, len - used);
->  }
->  
->  /* copy PCM stream info from @default_str, and override non-NULL entries
+> Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
 
-Hmm...  IMHO, those changes are *too ugly*.
+Now it looks much better.  But the patch isn't applied cleanly on the
+current code.
 
-Is the reason to drop strlcat() is only about the performance, no?
-If it were some security hardening, I'd find OK, but if not, this kind
-of change is doubtful: the code path is no hot path, hence the effect
-is nothing, and yet readability becomes significantly worse.
+Could you rebase to the latest tree and resubmit?
 
 
 thanks,
