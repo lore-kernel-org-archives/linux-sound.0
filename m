@@ -1,56 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2311841D4D6
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 15:04:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AC9432E62
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 15:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784127853; cv=none; b=NeH/U0SVjCdNbulwmarVY3uNazRjikb+h69n86c0jy1S0i4fLK7eJSpi8OAdCS2dXzWHED+yiZn6oMNj/35eva5KqZdtMmQeAFDWuExC0zoIHPLrzhUXy8jQUBaIiVZ59lzsSP9QolXDLi7WinzMNYi2qQIQsdOfCUuzLlaUfCI=
+	t=1784127891; cv=none; b=qfBPZZKQfNjMY3R84wPoOhSUDEL1+fnmiPrr2rHJZiyKBz9LAVnuldnf6pca7E+YZeKOvjrLkJ6eC7iTtaErWvSJ78+y5frGJT1N5gOgDKBw4W6LjxWyJXIKt/Hp058oYbhWTPcLBogEfKrZfpxivltpO2WxQzbVqyq9kjBxGFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784127853; c=relaxed/simple;
-	bh=Uc9ixU7mpRtpCs70jSp612g1hyAczHyKoacPjXdxzoE=;
+	s=arc-20240116; t=1784127891; c=relaxed/simple;
+	bh=1i7b3l9rJpq4HTYvS3RcBvBfTdofsIZ1RrmCSl+AOlc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YsDxO3yVPNIC7wIyRk2/riw2FDRvzv1L4MCDhxv6kkZMjnAuwS6Smflc4fRHFSYYRUTkm7JWLAozv9ZSxIviwWfCfVu1pS8yLSTBaY77TmV350bGwvZ3DVsGAUU4zL9LTq9m3XTJFsJd/zQsjkKDXM6FBRnrF0R0CpLQBOaQISQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lkZrl/va; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=fSM48ePJlMOPYJKhJwuysfjMYihyP/8akE9/qZaNGbB+8iE4CSNSCpy2BW1TbfRMQ0kUbS62eKXra+ZCtM4Wgw1g3/luTrhLYG7Pu9iepbMNR93IpQlo2V1biemq3hNjr5Zcp8u2VBkDRIcGupNoeXjGYHTaRmYDDRSfori3ziA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChP5ArcP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lkZrl/va"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB621F00ADB
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 15:04:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChP5ArcP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55E931F00A3D
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 15:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784127851;
-	bh=Uc9ixU7mpRtpCs70jSp612g1hyAczHyKoacPjXdxzoE=;
+	s=k20260515; t=1784127889;
+	bh=1i7b3l9rJpq4HTYvS3RcBvBfTdofsIZ1RrmCSl+AOlc=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=lkZrl/va3yl6Q4VJC9ZefqvyJ4sx07gRYONmK6vWlBWL8XdKuvfHMxPJdYeM4YjuX
-	 GKZ4xMRJ3XfaK0LI4OM1RQe7PG5uhjgRFY0EIdDY7OFzbzMSXKZHyrOPvYurVpseMh
-	 dS26ABRzLqtUAmOSFGhQcauKcuCAXsB+4u4JJ5d3uHn7KWHd/6YQducbRzIS1cuQKA
-	 EBTFm3xFSb17TEacdM18qE7rmvj+RI0YAupvqoXj0nliCH291Ik1zmra1LIbTJ8ku0
-	 Xg2bBohiyv4kBv6Xe0+B2JCTdqaKs9yF93n037UfBlYkVdbWq9IKrhN2EPPhAqnZXu
-	 VhbeYU9pQEh3w==
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-4a496b6cc3dso413270b6e.0
-        for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 08:04:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoNXm7rmD0mD4LEIAeEJes5OsFKUqWFPIp1fbzGlgpdHEEwn8RR4Hp7xMkdKiuzngb918MO/hdQm+fkuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwB6Be6Qu16BO7t7zw9+MytWWoKByblr1CQWQNOiRgEqfmf4QN2
-	Sp3qM15qH6g+8favoRyZRWvo+kflhGoMxekqxITgzul3N6yT1y5F1YCZANXxLUroxM+/DQWa8/O
-	X8vMMpThTnpyJoIrhT4WVQTjVAqxkQrg=
-X-Received: by 2002:a05:6808:1703:b0:497:e39e:a002 with SMTP id
- 5614622812f47-4a47a72a883mr3694530b6e.30.1784127850988; Wed, 15 Jul 2026
- 08:04:10 -0700 (PDT)
+	b=ChP5ArcPoyxAheJKZwTqCP9/h3JqTIJqA/OU/wRQw4NdxXhX9JDhVSSJ71YT+2orz
+	 GElVYG1wyTwKrzodbclVbvhlZVZOQQ1ssp3AMtWphJlxYqIbMmFiej1eD97kodNDxj
+	 tqf/l0KH0c93RLcwKe2hUwnWyox9DSOU0XZkb+vQPckNl+RRiMDHsarz+bbQgbYfDZ
+	 gfw0ZIzySpIoUVIgUWchzSZaAHijZxtpBNW0K7NVVVkLd6pe4pV1hvCL9NW+4vpgeZ
+	 AO+j/BgzmuYS8Xgue9nVzNqr3GzmKe0sm1AhSnOHD58HwEg6UeTT1FawjP/0hYDJQo
+	 F/KLII+HIbxvA==
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-448df16ab34so2381251fac.1
+        for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 08:04:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoY59RjTujslbTykFOZFqXYcQ8dORImeW5uAwP1dZv6CB8USwF0/VwAtzaRIbP6R1o1iSEivg3bh26PuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYB/iUXXHGs6ig6iegB2wsnvRFUnjEkaxNvUoywNIPUtI2Mwe0
+	hw3YAZJ4luRxvdJ1EYfR5ispwe/D9lklYQQa+4xSVzbFdi9w/+UicpvJwyF5CuKJ5/EP57zK7OE
+	k9JG+GrTPZRIwx87qw2aBAlmygXorS+w=
+X-Received: by 2002:a05:6808:4446:b0:49f:39c9:82bd with SMTP id
+ 5614622812f47-4a47a7cebedmr4190612b6e.41.1784127888495; Wed, 15 Jul 2026
+ 08:04:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260715095525.40668-1-phucduc.bui@gmail.com> <20260715095525.40668-5-phucduc.bui@gmail.com>
-In-Reply-To: <20260715095525.40668-5-phucduc.bui@gmail.com>
+References: <20260715095525.40668-1-phucduc.bui@gmail.com> <20260715095525.40668-6-phucduc.bui@gmail.com>
+In-Reply-To: <20260715095525.40668-6-phucduc.bui@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 15 Jul 2026 23:03:56 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66nAAdni7d5-D0iT0qDaA0evzu6KdtE+BmVw=9Tw+vQ1Q@mail.gmail.com>
-X-Gm-Features: AUfX_mwt_greS7zKZg9j8B0HbmtSXlCaT15WYQ9IZOCzMApLlmkpzfRkYHxh7Ko
-Message-ID: <CAGb2v66nAAdni7d5-D0iT0qDaA0evzu6KdtE+BmVw=9Tw+vQ1Q@mail.gmail.com>
-Subject: Re: [PATCH 4/6] ASoC: sunxi: sun4i-spdif: Use dev_err_probe() for
- probe error handling
+Date: Wed, 15 Jul 2026 23:04:32 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64CEH5qEgMJsPL9fdT9M6_2vVjgsnv3Ot3f-Y_iHPNpiw@mail.gmail.com>
+X-Gm-Features: AUfX_myUc_a5M0pk-6lAb-cYFOcmcs2R1m0ZhqM4rRtcSdSlCczjuxeu7vx0bfI
+Message-ID: <CAGb2v64CEH5qEgMJsPL9fdT9M6_2vVjgsnv3Ot3f-Y_iHPNpiw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] ASoC: sunxi: sun50i-codec-analog: Improve probe error handling
 To: phucduc.bui@gmail.com
 Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
@@ -68,8 +67,9 @@ On Wed, Jul 15, 2026 at 5:56=E2=80=AFPM <phucduc.bui@gmail.com> wrote:
 >
 > From: bui duc phuc <phucduc.bui@gmail.com>
 >
-> Use dev_err_probe() for probe error handling to simplify the error paths
-> and handle -EPROBE_DEFER correctly.
+> Drop the redundant error message after devm_platform_ioremap_resource(),
+> which already reports failures, and use dev_err_probe() for regmap
+> initialization errors.
 >
 > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
