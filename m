@@ -1,28 +1,48 @@
-Received: from mail-m32107.qiye.163.com (mail-m32107.qiye.163.com [220.197.32.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87F0480950;
-	Wed, 15 Jul 2026 15:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4563537106A;
+	Wed, 15 Jul 2026 15:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784128759; cv=none; b=EFXLJUgPL6qi8hsGVgyOGfpiAPzyHffrBltcicuZirAsY7iIg8SzIr5yWgj4zTuXeA2Fvvm+aY8e0uc0Z02ZMZaVjpPKAaGid57/UcOoRRT+7XNPaGDRAIyTAytMhrC4OBFhXXvPMOTLTj79uHXdJ9Ycav2OPqcRJm8/JbHq5qA=
+	t=1784129428; cv=none; b=Hy6+n/ZFaQQDNopw2wBKE9S4oKf/DUrq0pXJeobldtr0Exbq7hEbLR7Tp/9IdUh1/zwVPmLJT3WhjxgY86P6LI6Sw23BAIoLemmFwnhbBMZw+UJLirgtJGv+btwfxYRs/mzNDTglNR5z2ufWwhynh97knwJIKvQhPaLZNuPsWys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784128759; c=relaxed/simple;
-	bh=bq8g9xkHiuWTkk3XAF0GfB67818hIQ3ys42KjTG2uy4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ty9FBUXaFiO1OxLPgXMi49lSDa54tH/uGvkoe0PylbYJLPEO0xMDKAuV2LJ7bjOnX64YP1OMy2RDUt33SpBSHsr4AQaaDEuVLzsMXhTex66fSSD274+V4bl24eEZNbAly4lTCGEhy1EIhGh69s7p9gZGmxpJVxRC1uqWOEPvGWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=k+egMmu7; arc=none smtp.client-ip=220.197.32.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	s=arc-20240116; t=1784129428; c=relaxed/simple;
+	bh=W+gadKUpvWfblgjIo0xlIOriKuf64FoovKCKpslgstA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qKYh5pU8aOV/B0Bj7SC8wC5jRU9bg0PFO6KG9sFuhlCJIkcgnqB5eED/EyaXMuvEMxEPd72WU+U5GDLgEidHgqCVYcx/51bA+cvcUn9fzkyay9Usg7t6W8IH/xeepEEHfP49xR49VrD3VES2ftlmwMxCuywsXtKwpQ05zcyThGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=daxH6pfU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="k+egMmu7"
-Received: from [127.0.1.1] (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 464e8f2f7;
-	Wed, 15 Jul 2026 22:03:29 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Date: Wed, 15 Jul 2026 22:02:54 +0800
-Subject: [PATCH v2 5/6] ASoC: qcom: sc8280xp: Add RubikPi 3 sound card
- support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="daxH6pfU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1108C1F000E9;
+	Wed, 15 Jul 2026 15:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784129426;
+	bh=T5WH7Pw6YoIN8oCloeuDQmzMiROiRI8mCaLxxBVXboE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=daxH6pfU1UJ69OFOvGfbHTrd7SRj4uGkf/rsERe5FMcvFFpbJ6pOc7uuRF9dFhYm4
+	 IuqHaOqvDX9LgtYZqjyck6EVswxBi6meip0o/U9B2oRStqvlFybI24ECq/y5cQga3e
+	 v8lSZD3+NqhAZTOi9flWSwelYMQNPpmY9XoLQz4RjYShqha/xYnlDB4/K1rP/kmCOu
+	 T+C7xNVaGyGx3c4Ht+bSsapuUU3SUqVfgZFWIEWB6ZVk5XCVvMYMpOwdPtubGYEArP
+	 mU9IGq9P7pG7f8v7/9+M0zAqWRyIF15w8FLe3emys2bmSAWtPqJDvZ++MmDQfYYYfa
+	 JW9Rb6k6TSbeg==
+From: Mark Brown <broonie@kernel.org>
+To: Thierry Reding <thierry.reding@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+ phucduc.bui@gmail.com
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Sheetal <sheetal@nvidia.com>, u.kleine-koenig@baylibre.com, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Rosen Penev <rosenp@gmail.com>, Piyush Patle <piyushpatle228@gmail.com>, 
+ Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
+ Bjorn Helgaas <bhelgaas@google.com>, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <20260715051115.17385-1-phucduc.bui@gmail.com>
+References: <20260715051115.17385-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 0/4] ASoC: tegra: Simplify error handling
+Message-Id: <178411975353.5968.4165896652354439644.b4-ty@b4>
+Date: Wed, 15 Jul 2026 13:49:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -31,123 +51,64 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260715-rubikpi-next-20260605-v2-5-67601d7a8581@thundersoft.com>
-References: <20260715-rubikpi-next-20260605-v2-0-67601d7a8581@thundersoft.com>
-In-Reply-To: <20260715-rubikpi-next-20260605-v2-0-67601d7a8581@thundersoft.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
- Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
- Matteo Martelli <matteomartelli3@gmail.com>, 
- Binbin Zhou <zhoubinbin@loongson.cn>, 
- Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Roger Shimizu <rosh@debian.org>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, 
- Hongyang Zhao <hongyang.zhao@thundersoft.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784124199; l=2744;
- i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
- bh=bq8g9xkHiuWTkk3XAF0GfB67818hIQ3ys42KjTG2uy4=;
- b=TU7Y/vfqmmE3PBsbqNs4aV/CQQffqcLkoSLbTM0lIPPmV0JfO1gyXi39GOLkApezBiAvz6Tp6
- WZu4NSZ8D/4AkOgJKsOXi6Qz2qjcZAYPqFQJK6BbFtQd+TjpRj+xR/O
-X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
- pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
-X-HM-Tid: 0a9f6616f8a409d5kunm638899c2110dd
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZGhlKVkwfHUsYHklKQh1JSVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09IVUpLS1VKQktLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=k+egMmu7mBB0s1EmV64EDydgX7fiejPU7BYLztvt0twcKzu5Ah7CkB0NnFPkxIX06ZmnuDDEQnuCLtzT2Lq0IkiqTb725a0E+TbH9/gzBpr8fn5/NrULl4+A0LMEc2xHhxgIYZ/zObH5e/Gss1zuonGYPxYteAXVITeJni14AfQ=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=sF1yQe3cHSrdtvnwidVs42rm5Q0btdZJti8KGLZLjp4=;
-	h=date:mime-version:subject:message-id:from;
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1878; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=W+gadKUpvWfblgjIo0xlIOriKuf64FoovKCKpslgstA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqV6ePZuZH9/LCvzO/p4E8Hu//jrjBmtjb6CjJ8
+ 3ezlwJImFuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalenjwAKCRAk1otyXVSH
+ 0Gx+B/48OPGtYwcvC9R0d+Jon58ouiz68MkNLxqGzzUBcKJ1oLsLV2nFXb5i80vpWkxcKnu9GZc
+ Dmpt7d4mdiRy4N1/lFvR1bWWGUAE9gESFpjrLZC1ENmuCMVAt8f6TR8DjVuXycDuUVRSy6CzhCy
+ 2jEEDenMYVQbPSGwsir8B7zZapSTbLszmTBQJsHaApjfnbVS/sfrEAWv/QJH0GwTJ23QgQLKSKV
+ 0/wZdrpaYNyzihGC+NTTNWLE+pOO+vF9zyHIY6bg3pJT73Z11P7NrDz2DkmTvTl5FRIvG86eE3g
+ 2y8SX5iEyu7UIo9BHvNpYYnTkRvEzpF2NvVyJxU0thQqdZh6
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-RubikPi 3 connects an ES8316 codec to the primary MI2S interface for
-headset playback and capture, and an LT9611 bridge to the quaternary
-MI2S interface for HDMI audio.
+On Wed, 15 Jul 2026 12:11:11 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: tegra: Simplify error handling
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> This series contains a few small cleanups for the Tegra ASoC drivers.
+>  - Use dev_err_probe() for regmap initialization failures.
+>  - Return the original error from snd_soc_add_component_controls().
+>  - Use devm_clk_get_optional() for the optional sync_input clock.
+> 
+> [...]
 
-Add board-specific DAI data for these links. Configure both directions
-of the primary interface for I2S with normal clock polarity and the
-codec as bit and frame clock consumer. Program the LPASS MCLK and BCLK,
-drive the ES8316 with its required 19.2 MHz MCLK, and enable the generic
-codec jack-detection setup on the playback link.
+Applied to
 
-Configure the quaternary playback link with the same I2S clock format.
-Do not request a codec sysclk for this link because the LT9611 HDMI
-codec DAI does not implement set_sysclk().
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Select this configuration through the RubikPi 3 sound-card compatible.
+Thanks!
 
-Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
----
- sound/soc/qcom/sc8280xp.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+[1/4] ASoC: tegra: tegra20_das: Use dev_err_probe() for error handling
+      https://git.kernel.org/broonie/sound/c/70d0d7b24d86
+[2/4] ASoC: tegra: tegra210_adx: Return the original error directly
+      https://git.kernel.org/broonie/sound/c/b82384bffb27
+[3/4] ASoC: tegra: tegra210_amx: Return the original error directly
+      https://git.kernel.org/broonie/sound/c/f7cbc51424cd
+[4/4] ASoC: tegra: tegra210: Use devm_clk_get_optional() for sync_input clock
+      https://git.kernel.org/broonie/sound/c/226791fa6dbb
 
-diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
-index 885ec1e3e575..1354eecb56c9 100644
---- a/sound/soc/qcom/sc8280xp.c
-+++ b/sound/soc/qcom/sc8280xp.c
-@@ -410,6 +410,41 @@ static const struct snd_soc_common qcs6490_priv_data = {
- 	}),
- };
- 
-+static const struct snd_soc_common qcs6490_rubikpi3_priv_data = {
-+	.driver_name = "qcs6490",
-+	.dapm_widgets = sc8280xp_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
-+	SC8280XP_DAI_DATA(
-+		{
-+			.id = PRIMARY_MI2S_RX,
-+			.codec_dai_fmt = SND_SOC_DAIFMT_I2S |
-+					 SND_SOC_DAIFMT_NB_NF |
-+					 SND_SOC_DAIFMT_BC_FC,
-+			.mclk_rate = 19200000,
-+			.codec_sysclk_set = true,
-+			.mi2s_mclk_enable = true,
-+			.mi2s_bclk_enable = true,
-+			.jack_setup = SC8280XP_JACK_SETUP_CODEC,
-+		},
-+		{
-+			.id = PRIMARY_MI2S_TX,
-+			.codec_dai_fmt = SND_SOC_DAIFMT_I2S |
-+					 SND_SOC_DAIFMT_NB_NF |
-+					 SND_SOC_DAIFMT_BC_FC,
-+			.mclk_rate = 19200000,
-+			.codec_sysclk_set = true,
-+			.mi2s_mclk_enable = true,
-+			.mi2s_bclk_enable = true,
-+		},
-+		{
-+			.id = QUATERNARY_MI2S_RX,
-+			.codec_dai_fmt = SND_SOC_DAIFMT_I2S |
-+					 SND_SOC_DAIFMT_NB_NF |
-+					 SND_SOC_DAIFMT_BC_FC,
-+		}
-+	),
-+};
-+
- static const struct snd_soc_common qcs8275_priv_data = {
- 	.driver_name = "qcs8300",
- 	.dapm_widgets = sc8280xp_dapm_widgets,
-@@ -480,6 +515,10 @@ static const struct of_device_id snd_sc8280xp_dt_match[] = {
- 	{ .compatible = "qcom,sm8550-sndcard", .data = &sm8550_priv_data },
- 	{ .compatible = "qcom,sm8650-sndcard", .data = &sm8650_priv_data },
- 	{ .compatible = "qcom,sm8750-sndcard", .data = &sm8750_priv_data },
-+	{
-+		.compatible = "thundercomm,qcs6490-rubikpi3-sndcard",
-+		.data = &qcs6490_rubikpi3_priv_data,
-+	},
- 	{}
- };
- 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
--- 
-2.43.0
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
