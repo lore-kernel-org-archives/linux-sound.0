@@ -1,344 +1,108 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9310377AB9;
-	Wed, 15 Jul 2026 08:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5475E3D8915
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 08:49:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784104440; cv=none; b=WyDzYIg/TzvOr2b3JXRl4l2Qe+c+7KMuofCku8HFU6bHY+2RmaIybdNofHuk8+lpRZkub7k3W+e+n1v7VNQ9rTXOb5pAujLGVakQeoKRFdzoPPlWPhXb2ebSevIhx7FFonEfkY4lCYEbojF/UBiEdVABtYCsZ8Ek/6yul9IQ9vk=
+	t=1784105385; cv=none; b=AsxE2fuuvJtlH7ZH8I83qQyCBkFExIrK/D/Yxg7RIwnESZ6O7wKgduvyoP9bU6tj3ysl2R5GR4EuNy+fc8knyFiEaGq40frVqBigPlDHqOxOZnhJoyrVR66hxohFGe2wJMQNEdEiO/kvRiU4jiPq1KZhobaLZfY7A7n5V9jvdXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784104440; c=relaxed/simple;
-	bh=u8swUNRN7joChPOADTFhXSvLM0uX9h1wE5CN/jrs74A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YxpcYHcFDZpBiiAUDKvVNEcgmFKFuA7r5V+uFXQbf/jnOURHb3S84eOUiiTHHGttYNDeEszlXK5630IaSNFzQ5m6kGxu4/uJkhWrnU5SOLTYNaH8Zs+pXBdH4cnwL8cLTBSXH9lOI5XHPc6RT+zSpDQ5O01mWnVXkfwYvvGGdlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowABHkcTkRVdqNz5HGA--.9680S2;
-	Wed, 15 Jul 2026 16:33:41 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: avs: validate configuration TLV bounds
-Date: Wed, 15 Jul 2026 16:33:40 +0800
-Message-ID: <20260715083340.24372-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1784105385; c=relaxed/simple;
+	bh=sPupfMIvRyc1zwc1GOdAnPJmK/zIKkGIh1ujRUFw7q0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r6yVOyS/lbOzwYl210yUHq65NYzd0VuA7kXQIohblGgynzLj/ISXRy67ztenFskTQ+ecEE6/uGgmyoy/JYeQL1F70/cr2Pz7OLcArgpEH57Q6Q2S/1gwsXcenKAvWNvrq2vID3pB2D0oLthwdkrh+0193pxjgnbWchvIt8XYZDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5bf95ade656so687495e0c.1
+        for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 01:49:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784105376; x=1784710176;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1TRR41G4fbrKFn7izDIjOVXGMByR097P/ma6UvjSrTg=;
+        b=rI4V+fPMwSLjjhsbDJ1vY/bVIO5EQOWeljOAp+dgexLTNYPOkSN9Jay10WnRlppND1
+         WztJ3M4PLvur+qUZlvfYJ49YiTVP0zCM6ux3WH8zSLHMoHmhBo1/ZLbC7KHimKogXkdX
+         02egcYk7VzLdlnSIE1kemgv6fWw6mhSnfBD8Wbspm5W0Fi3c60rmp9cqVtNjjEqTpnv2
+         RGZAxc9nh6ujlqMtcHdjErwfdpJ4UWTXr2f5pC6ASX1+5NP9/bY8Nu29v7kmYqJo2vTA
+         QVA+cRH2sUGctAmtk98o4mpl7vu80DXZiAE42tx1ryZQSDSo07NZ17rSHx0v3MeWcQ9m
+         samA==
+X-Forwarded-Encrypted: i=1; AHgh+RpQ+6RUbNM+mcwmHcniXNnzqzzuj4BwYc/++jAXpca120wzrm20rQT5tcuS00tiXTpNiLimEHee/Jfx0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqVdVdPmK9oYcd3SZUS/EzQe9yg0d2ujCqeVegaN2yYFoY8bNG
+	Y+B+sg5cKiaGT1iGzm1v+7YyVutMHzPvmg0ivvhqWhSxr/iTbpwNuAXTGfr7bVqLYMg=
+X-Gm-Gg: AfdE7ckIcQHV4ko9bvvP0grhTsyZDdyhaGboTztDSBdYRmD+OcWr9iI0lnKYrlzfq80
+	ENHat+37RsigJ6yciZCt62tuXUzTeAmDqLsbqw4nx+eL7dlE/6tDxMQFCeleCJtGaORVyNk0Z+Z
+	wkuXBSu30wJffuJax5H+Yk1/pGIUDmu2JsQBCwnGT9ygU7RTsGlFnSnzxleRH/ZW7C3vB9G+ubJ
+	up7Do6bAI3vOEUprt+j4it385VO7GzYDtV0oyxxktFI2+T0AyIr5dafIDDBfmlaGcoEDCBQR3xA
+	BYbSPxkZQPWwdCXlEgPS2p336f6tuja5srbmWkoOC1zO0Xcc+w8gSMNGGvAx3zS8GOqSAK918LD
+	qbtaTK0mty3gHjNvVJpo5aJ1/2yIhbnu8nqrBGL4w1sxaY/CATzPc+WfItnnMlijCu3A+nKnq7G
+	PT0uEaLwyTPXq6mRgQKIABd76qB9dvKIQQXuQiXDjEkiXEKoELoQ==
+X-Received: by 2002:a05:6122:459d:b0:56d:b639:5c0d with SMTP id 71dfb90a1353d-5bfbf41eb67mr8928850e0c.13.1784105376312;
+        Wed, 15 Jul 2026 01:49:36 -0700 (PDT)
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com. [209.85.217.42])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bfc655c77fsm6613866e0c.15.2026.07.15.01.49.34
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jul 2026 01:49:34 -0700 (PDT)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7387ac7d28cso535314137.1
+        for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 01:49:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqzFRLjx4zcV8yTINT7jxQ6HGBvWPPm/WtxbSIwRXmWRlzCvTgJsRKW8utFGGZuIyOe2eOMfgXETJyoLw==@vger.kernel.org
+X-Received: by 2002:a05:6102:5810:b0:744:dc62:55ae with SMTP id
+ ada2fe7eead31-74533d60832mr8373853137.16.1784105374266; Wed, 15 Jul 2026
+ 01:49:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABHkcTkRVdqNz5HGA--.9680S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3AF1kKr1ktFW7ArW7AFy5urg_yoW3Wr17pa
-	y5KF4jkw1UXFs5Wrn7tw18Z3WxtrWkKrZxCF9Yg34ktF92qrsaya4vgryUCa9xArWkGFy3
-	WrZF9rZ3ua1qga7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
-	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
-	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
-	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
-	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
-	VFxhVjvjDU0xZFpf9x0JUZYFZUUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+References: <87zezt0zlw.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87zezt0zlw.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 15 Jul 2026 10:49:21 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXfwYbMhzU4Q4L3Gz1vaatJs8gdgPytVGRUCzWAHTVK1w@mail.gmail.com>
+X-Gm-Features: AUfX_mx1W4-bigTkTe8QGRV7_w2yUpf2F_MMUV3Tv1JEabEnQSmtIJ8bjCQbjW4
+Message-ID: <CAMuHMdXfwYbMhzU4Q4L3Gz1vaatJs8gdgPytVGRUCzWAHTVK1w@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: generic: Card name parsing should be called after xxx_for_each_link()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Firmware and hardware configuration replies are parsed as a sequence of
-TLVs. The walkers only check that the complete reply is non-empty before
-casting the current offset to struct avs_tlv, reading its header, and
-consuming type-specific values. A short header or a declared value that
-extends past the reply can therefore be consumed as part of the current
-item.
+Hi Morimoto-san,
 
-Validate the fixed TLV header and the declared value span before dispatch.
-Also require the value space used by the selected type: firmware version
-copies need the complete version structure, scalar configuration values
-need one u32, and I2S capabilities need their two-word prefix plus all
-declared controller addresses.
+On Wed, 15 Jul 2026 at 04:13, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> "tidyup simple_util_parse_xxx() in xxx_parse_of()" commit changed the
+> function call order. But simple_util_parse_card_name() should be called
+> after dai_link settings, because it might use dai_link->name as card->name.
+>
+> Fixes: fa6222d5e121 ("ASoC: audio-graph-card2: tidyup simple_util_parse_xxx() in audio_graph2_parse_of()")
+> Fixes: b8081307f5c9 ("ASoC: audio-graph-card: tidyup simple_util_parse_xxx() in audio_graph_parse_of()")
+> Fixes: 27ecf4da5ad3 ("ASoC: simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()")
+> Reported-by: Mark Brown <broonie@kernel.org>
+> Link: https://lore.kernel.org/r/b81ebfa2-6a35-4ff0-9d04-b867233eda4d@sirena.org.uk
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Link: https://lore.kernel.org/r/20260714103428.2318895-1-geert+renesas@glider.be
 
-Fixes: 3322e1688953 ("ASoC: Intel: avs: Add basefw runtime-parameter requests")
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- sound/soc/intel/avs/messages.c | 114 +++++++++++++++++++++++++--------
- 1 file changed, 88 insertions(+), 26 deletions(-)
+s/Link/Closes/
 
-diff --git a/sound/soc/intel/avs/messages.c b/sound/soc/intel/avs/messages.c
-index a5ba27983091..c8adbb0de20c 100644
---- a/sound/soc/intel/avs/messages.c
-+++ b/sound/soc/intel/avs/messages.c
-@@ -388,9 +388,33 @@ int avs_ipc_set_d0ix(struct avs_dev *adev, bool enable_pg, bool streaming)
- 	return avs_dsp_send_pm_msg(adev, &request, NULL, false, "set d0ix");
- }
- 
-+static int avs_tlv_validate(const struct avs_tlv *tlv, size_t remaining,
-+			    size_t value_size)
-+{
-+	if (remaining < sizeof(*tlv) ||
-+	    tlv->length > remaining - sizeof(*tlv) ||
-+	    tlv->length < value_size)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int avs_tlv_read_u32(const struct avs_tlv *tlv, size_t remaining,
-+			    u32 *value)
-+{
-+	int ret;
-+
-+	ret = avs_tlv_validate(tlv, remaining, sizeof(*tlv->value));
-+	if (!ret)
-+		*value = *tlv->value;
-+
-+	return ret;
-+}
-+
- int avs_ipc_get_fw_config(struct avs_dev *adev, struct avs_fw_cfg *cfg)
- {
- 	struct avs_tlv *tlv;
-+	u32 *value;
- 	size_t payload_size;
- 	size_t offset = 0;
- 	u8 *payload;
-@@ -409,82 +433,91 @@ int avs_ipc_get_fw_config(struct avs_dev *adev, struct avs_fw_cfg *cfg)
- 
- 	while (offset < payload_size) {
- 		tlv = (struct avs_tlv *)(payload + offset);
-+		ret = avs_tlv_validate(tlv, payload_size - offset, 0);
-+		if (ret)
-+			goto exit;
-+
-+		value = NULL;
- 
- 		switch (tlv->type) {
- 		case AVS_FW_CFG_FW_VERSION:
-+			ret = avs_tlv_validate(tlv, payload_size - offset,
-+					       sizeof(cfg->fw_version));
-+			if (ret)
-+				goto exit;
- 			memcpy(&cfg->fw_version, tlv->value, sizeof(cfg->fw_version));
- 			break;
- 
- 		case AVS_FW_CFG_MEMORY_RECLAIMED:
--			cfg->memory_reclaimed = *tlv->value;
-+			value = &cfg->memory_reclaimed;
- 			break;
- 
- 		case AVS_FW_CFG_SLOW_CLOCK_FREQ_HZ:
--			cfg->slow_clock_freq_hz = *tlv->value;
-+			value = &cfg->slow_clock_freq_hz;
- 			break;
- 
- 		case AVS_FW_CFG_FAST_CLOCK_FREQ_HZ:
--			cfg->fast_clock_freq_hz = *tlv->value;
-+			value = &cfg->fast_clock_freq_hz;
- 			break;
- 
- 		case AVS_FW_CFG_ALH_SUPPORT_LEVEL:
--			cfg->alh_support = *tlv->value;
-+			value = &cfg->alh_support;
- 			break;
- 
- 		case AVS_FW_CFG_IPC_DL_MAILBOX_BYTES:
--			cfg->ipc_dl_mailbox_bytes = *tlv->value;
-+			value = &cfg->ipc_dl_mailbox_bytes;
- 			break;
- 
- 		case AVS_FW_CFG_IPC_UL_MAILBOX_BYTES:
--			cfg->ipc_ul_mailbox_bytes = *tlv->value;
-+			value = &cfg->ipc_ul_mailbox_bytes;
- 			break;
- 
- 		case AVS_FW_CFG_TRACE_LOG_BYTES:
--			cfg->trace_log_bytes = *tlv->value;
-+			value = &cfg->trace_log_bytes;
- 			break;
- 
- 		case AVS_FW_CFG_MAX_PPL_COUNT:
--			cfg->max_ppl_count = *tlv->value;
-+			value = &cfg->max_ppl_count;
- 			break;
- 
- 		case AVS_FW_CFG_MAX_ASTATE_COUNT:
--			cfg->max_astate_count = *tlv->value;
-+			value = &cfg->max_astate_count;
- 			break;
- 
- 		case AVS_FW_CFG_MAX_MODULE_PIN_COUNT:
--			cfg->max_module_pin_count = *tlv->value;
-+			value = &cfg->max_module_pin_count;
- 			break;
- 
- 		case AVS_FW_CFG_MODULES_COUNT:
--			cfg->modules_count = *tlv->value;
-+			value = &cfg->modules_count;
- 			break;
- 
- 		case AVS_FW_CFG_MAX_MOD_INST_COUNT:
--			cfg->max_mod_inst_count = *tlv->value;
-+			value = &cfg->max_mod_inst_count;
- 			break;
- 
- 		case AVS_FW_CFG_MAX_LL_TASKS_PER_PRI_COUNT:
--			cfg->max_ll_tasks_per_pri_count = *tlv->value;
-+			value = &cfg->max_ll_tasks_per_pri_count;
- 			break;
- 
- 		case AVS_FW_CFG_LL_PRI_COUNT:
--			cfg->ll_pri_count = *tlv->value;
-+			value = &cfg->ll_pri_count;
- 			break;
- 
- 		case AVS_FW_CFG_MAX_DP_TASKS_COUNT:
--			cfg->max_dp_tasks_count = *tlv->value;
-+			value = &cfg->max_dp_tasks_count;
- 			break;
- 
- 		case AVS_FW_CFG_MAX_LIBS_COUNT:
--			cfg->max_libs_count = *tlv->value;
-+			value = &cfg->max_libs_count;
- 			break;
- 
- 		case AVS_FW_CFG_XTAL_FREQ_HZ:
--			cfg->xtal_freq_hz = *tlv->value;
-+			value = &cfg->xtal_freq_hz;
- 			break;
- 
- 		case AVS_FW_CFG_POWER_GATING_POLICY:
--			cfg->power_gating_policy = *tlv->value;
-+			value = &cfg->power_gating_policy;
- 			break;
- 
- 		/* Known but not useful to us. */
-@@ -499,9 +532,16 @@ int avs_ipc_get_fw_config(struct avs_dev *adev, struct avs_fw_cfg *cfg)
- 			break;
- 		}
- 
-+		if (value) {
-+			ret = avs_tlv_read_u32(tlv, payload_size - offset, value);
-+			if (ret)
-+				goto exit;
-+		}
-+
- 		offset += sizeof(*tlv) + tlv->length;
- 	}
- 
-+exit:
- 	/* No longer needed, free it as it's owned by the get_large_config() caller. */
- 	kfree(payload);
- err:
-@@ -551,6 +591,7 @@ int avs_ipc_set_fw_config(struct avs_dev *adev, size_t num_tlvs, ...)
- int avs_ipc_get_hw_config(struct avs_dev *adev, struct avs_hw_cfg *cfg)
- {
- 	struct avs_tlv *tlv;
-+	u32 *value;
- 	size_t payload_size;
- 	size_t size, offset = 0;
- 	u8 *payload;
-@@ -569,31 +610,46 @@ int avs_ipc_get_hw_config(struct avs_dev *adev, struct avs_hw_cfg *cfg)
- 
- 	while (offset < payload_size) {
- 		tlv = (struct avs_tlv *)(payload + offset);
-+		ret = avs_tlv_validate(tlv, payload_size - offset, 0);
-+		if (ret)
-+			goto exit;
-+
-+		value = NULL;
- 
- 		switch (tlv->type) {
- 		case AVS_HW_CFG_AVS_VER:
--			cfg->avs_version = *tlv->value;
-+			value = &cfg->avs_version;
- 			break;
- 
- 		case AVS_HW_CFG_DSP_CORES:
--			cfg->dsp_cores = *tlv->value;
-+			value = &cfg->dsp_cores;
- 			break;
- 
- 		case AVS_HW_CFG_MEM_PAGE_BYTES:
--			cfg->mem_page_bytes = *tlv->value;
-+			value = &cfg->mem_page_bytes;
- 			break;
- 
- 		case AVS_HW_CFG_TOTAL_PHYS_MEM_PAGES:
--			cfg->total_phys_mem_pages = *tlv->value;
-+			value = &cfg->total_phys_mem_pages;
- 			break;
- 
- 		case AVS_HW_CFG_I2S_CAPS:
-+			ret = avs_tlv_validate(tlv, payload_size - offset,
-+					       2 * sizeof(*tlv->value));
-+			if (ret)
-+				goto exit;
- 			cfg->i2s_caps.i2s_version = tlv->value[0];
- 			size = tlv->value[1];
- 			cfg->i2s_caps.ctrl_count = size;
- 			if (!size)
- 				break;
- 
-+			if (size > (tlv->length - 2 * sizeof(*tlv->value)) /
-+				    sizeof(*tlv->value)) {
-+				ret = -EINVAL;
-+				goto exit;
-+			}
-+
- 			/* Multiply to get entire array size. */
- 			size *= sizeof(*cfg->i2s_caps.ctrl_base_addr);
- 			cfg->i2s_caps.ctrl_base_addr = devm_kmemdup(adev->dev,
-@@ -606,19 +662,19 @@ int avs_ipc_get_hw_config(struct avs_dev *adev, struct avs_hw_cfg *cfg)
- 			break;
- 
- 		case AVS_HW_CFG_GATEWAY_COUNT:
--			cfg->gateway_count = *tlv->value;
-+			value = &cfg->gateway_count;
- 			break;
- 
- 		case AVS_HW_CFG_HP_EBB_COUNT:
--			cfg->hp_ebb_count = *tlv->value;
-+			value = &cfg->hp_ebb_count;
- 			break;
- 
- 		case AVS_HW_CFG_LP_EBB_COUNT:
--			cfg->lp_ebb_count = *tlv->value;
-+			value = &cfg->lp_ebb_count;
- 			break;
- 
- 		case AVS_HW_CFG_EBB_SIZE_BYTES:
--			cfg->ebb_size_bytes = *tlv->value;
-+			value = &cfg->ebb_size_bytes;
- 			break;
- 
- 		case AVS_HW_CFG_GPDMA_CAPS:
-@@ -629,6 +685,12 @@ int avs_ipc_get_hw_config(struct avs_dev *adev, struct avs_hw_cfg *cfg)
- 			break;
- 		}
- 
-+		if (value) {
-+			ret = avs_tlv_read_u32(tlv, payload_size - offset, value);
-+			if (ret)
-+				goto exit;
-+		}
-+
- 		offset += sizeof(*tlv) + tlv->length;
- 	}
- 
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+
+Thanks, this revives (at least in dmesg) the sound cards on Koelsch
+and RZ/Five (simple-audio-card).  Sound cards are still instantiated on
+Salvator-XS (audio-graph-card) and Gray Hawk Single (audio-graph-card2).
+
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
