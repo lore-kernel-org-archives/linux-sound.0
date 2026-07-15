@@ -1,64 +1,83 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD353A1A3C
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 15:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784128096; cv=none; b=JRPnZMOcxI4nmDGatme1PbYJuEMotX5cPzpt3GrHLMVYCJDy/KdYyCKnKRQJxjMuJsmErL5+6Q0QkK1y5dH4fQjhhu4YNFgRjbt2dyr54JkGPsk0QCmE8K4Md+Rm3jz5fObN89+BtbRmKduRJD8M7RYp8WV7ToH/jTnmOEROuLE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784128096; c=relaxed/simple;
-	bh=mAuGNpdeshVQcCVxMFCCmwIQu0nxqqcw5NpHlcSzjl8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=gQQgYdCQXuJ9ub/FggreIDL3pONT+AhfJCHVPsHsMXBVLH0aPmpeqe0Ss2mdl0mKTPUpo0EhKGlePzMO+TaqkbF6uc/ve2FOhVRigmzHrnJ2PRHcz4RfldT+ohCoU4ynLSSK3pHL0oPUcVDzUe+0V0EnGAYc3XvXwszF/vmY++k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jWbS/EaY; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E5247F2DF;
+	Wed, 15 Jul 2026 15:16:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784128600; cv=fail; b=IX8x13LTT4YrkaZuO/9piPLum+PA1OmIZcSXO681rqU9BR6Qp7VoE/0NXOqqebiKnDbuIFgk7sicVtbuheRIWnchAOElsC8sjzu0OhtTGw4d6Cl1iBbzpIjx07VHpCNxw7yYxz6xKF6aZ2FxYnJ67P9HFVluFppP+H1kUaKXHrQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784128600; c=relaxed/simple;
+	bh=takggJ7Zk1wXY/fE9CPJHJLeaLZxdM7CAT+kzTA1q2o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oWWrIcSDBSe6bkakZpDkxvRZD0H9+2SWHEQRBIYcBk1TtrExw1J7giKJh2Ikdi0Ov5quv4nmkL1KNg+iTVlggWI0i6L/Ag6JX9nKRm5soX6uRbyr73AS0S/09cYoPGNUQkzKk7zBeTXTR3rWcmQLdXKf+eenj2kv84AIW1maWPs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Wi7vHZZ6; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=QylyhHW3; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jWbS/EaY"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f3e6cc44aso3055089f8f.3
-        for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 08:08:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Wi7vHZZ6";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="QylyhHW3"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66F4PWXd275548;
+	Wed, 15 Jul 2026 10:16:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=takggJ7Zk1wXY/fE9CPJHJLeaLZxdM7CAT+kzTA1q2o=; b=
+	Wi7vHZZ6HM6bUCCSnv75SswL+22KCDj8m9HgcAw4tdsHBBDtVZvXy91h9A4DSCsx
+	YykWqa3++vnHcqon4MPABRWI9jBstucuB0E0EudJuiR0HhRazvFT5ymTxrWfBTQU
+	6uWkpLXynMeClpIasGOKyvipld3osIu/1dbdkDlLYLhkFbSuRvQ5cITPgkWRCh1s
+	tvUvojfJowBA7v8xQH0HJxA08zIk4bz+nbYWP2CvN3HKR+xZJejyBb7/yA4bV1M4
+	3NL6rJ2uTE5sGwz+KPqAuYqN+EeCc6HLv5HEN8dOHxqCqole3EIyxbNiNeQSBfyZ
+	HgLQUn//wRijMI2s/aaGkA==
+Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11021097.outbound.protection.outlook.com [40.93.194.97])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fbk7vwqm0-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 15 Jul 2026 10:16:26 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fl4myu8fLxM3lf5rOqjFRxKus266ZRaxfRBe65pW/y0yYdTq1xZyH1Y5qF71I/KPcgUH7WKS6XVPmesYyGTR1GJA8BUvPkS3nATPSI/D6nYHbQ7ktdL+/GVah2e8FiBdKs3timY+vDp8Nr/gzEIjq6KbNyBpiQHS0OP/AMEP40KevFtV+YcZi4DqFBXDd6kImx3IgMcXk7mIwRtx1nwkxJZrTaK83dQIXT8UmpT3t+4LYYrIwMaWmYXTHYiNrIQZuM+2g8uQhjutGh0QsS8gRfFbmf/H/UcEi139nsUnlnig7fo0GuwbsZdKh9b52+WMQWBwVlhWotwTc+r/nRSQOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=takggJ7Zk1wXY/fE9CPJHJLeaLZxdM7CAT+kzTA1q2o=;
+ b=qz6PdL4M5RaH4UFcdk+HWKdzF1330ANI/nT7psIrP/J6E0JqIuICgi3upN6vELRUummbeOgeuQpj1ZRXweCa1hThAlAtzce0LgoNy/AzUApPYjmzzzSZrFnUuep0VjdmJmaMOE7opTWeqrVfI1zKSdZf6gGM8lFU1OuFyWDDnV9j24pUOygaZexxI/zj0RyC6MFcYVMf433+kKJFt8RzSRFRZsMY6QZmkvLYckxFKG//cDX3Za/oE88FBepPLJeFzgxsD6bG5Jo0Xyv7HoTPylXJbXa2Hp8O6xd5G5liPD37Umy4gtdHa76UhhiMvv+4U0BOBqoIoZKqMou3pB3U0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=chromium.org
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784128093; x=1784732893; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ge3+kmve43T55UiM7iPMLluXDi5ajDGPwJQiwHJ/lbU=;
-        b=jWbS/EaYX1MfOdljqUHOO9nICiylYenOHS5Loq8yUnH4nhAa4lpFrCm7H+gyOz+kUQ
-         F80h5bhcOJbeMhTlwH1aStq3o8sYUxLdU7xlwgkFCYqk35HBpMTaYSJxrxvcPAvRVLUr
-         gfmRY4tVsdgMVduAnB5W9yCAEGkOev7lgHZr5FskTY2HA0B1AYk3CxVkPzo4VX/nSCj6
-         y2vLMcaIrHtjkFijjGNWlw9f968YFlVp1sH0aZliWfFvPSWrNE2HaCmzoGQlL+DQobcP
-         ej2g4NCzuGCnI+ct/ANCwQ9TUAOodWY/iM5iG6zBslS8S4CakFTVvvhQ3ONSLAaNBUwW
-         S6NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784128093; x=1784732893;
-        h=content-transfer-encoding:content-type:content-language:cc:to
-         :subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ge3+kmve43T55UiM7iPMLluXDi5ajDGPwJQiwHJ/lbU=;
-        b=s+8B+LWQKKhcjpdmIOpXak0xB+ZgVdahvf1PLxnRcB6rCSaA3UMCGp3FvJ5b64/6Gr
-         h7IIXbev/9gt2mnS0dKCoxYw2QeMQP22uLEg091dRNzrWDR3ROtpWZdwXE3p0eNTKp2b
-         P8K/0UTjB5pvk88Rjg9VtB/nXpeGwSJLC+9OooQVoTTzdUFYbDMKLKEvmWfADIKJXm3R
-         Qdeq3I/vDGZf4+V5we6H0eqoGTilsPtQUZpIU2ApV2a68yynby5+QB4mdHmbtIXw2fet
-         HtZk5DXZs4bxRkfm51M5K0Ijud+tcdgSV/Bv9HON6lnFeski/n5G2p20r8Z3K7fZBlbK
-         s7ig==
-X-Gm-Message-State: AOJu0YxWTBytog1xgzw/RKKq1r2Bfyd679sYuPL3mLx9luUE0ftThGMW
-	coz439dSTcCqdIEQdhuD+ihGsJ3pUXA9+Z4vUYKUXyDfzfRpGGxOQ7OGqj3Jlu5C
-X-Gm-Gg: AfdE7ck6OYsOvtVK0CMb6xHoYMh4v/QYvtNIPU4LDxgyot+873dVJPoKoiYU7FAcEv1
-	rZaxwMg6tTLCxF4hz6RdrjlgYcuh//zv8Wz4A2Eq96+pgvKp2RyIy8lTvsHyvpdbGgb7T3ZzJfo
-	TuttHqUKUzJZGFV02Aa9oBOl0DoRJe72dpzSxU+bUdgPv8CzQJs682vEVzblyYLraVYElfrlKLC
-	Frj2F0naXDk4e/VkTMdHWnN21vWaOLP4jArVQCInekM+03zhFMOvTnIlJUc0o4dDPdko0eHqZAx
-	O2yq14FmbSlfd45mu6O/1uJO/lU40b4wUi61W8gV6yuhM4L1oZqR+kWCZxJ/URsKaAGHn8RAiDQ
-	QvleMl2hljXvSCYpm2F4gAWvv3gNx8fmY/IS1xybVrkwZdMforfuOeTY7cx3RiOr+v2K0/vklgc
-	fXQVX2HO5DTxN4xMESyMVfEGA8
-X-Received: by 2002:a05:600c:b90:b0:493:c182:6b08 with SMTP id 5b1f17b1804b1-49538a1e2famr77680395e9.36.1784128092666;
-        Wed, 15 Jul 2026 08:08:12 -0700 (PDT)
-Received: from [192.168.18.146] ([176.202.18.59])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4950a322dc6sm163843135e9.10.2026.07.15.08.08.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2026 08:08:11 -0700 (PDT)
-Message-ID: <35264720-a5b8-4b08-8bd4-442c0bd5a8a7@gmail.com>
-Date: Wed, 15 Jul 2026 18:08:09 +0300
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=takggJ7Zk1wXY/fE9CPJHJLeaLZxdM7CAT+kzTA1q2o=;
+ b=QylyhHW3sPYWYFtwoHg19QvE+ENRsHozdB8kdyQ9SBtG7c3kBc7ldHtMTrG8GFKD6dYmPGENqVPqWkmJ/EoOIQ6yMzA1UW3XGMoTbQ8t9OOUAIpC+bUn91Q/gdaBTVGU8vSMcVVbbifYA0aOBv3nLdc47tY+tvjbVDORGkBWYZ0=
+Received: from PH0PR07CA0089.namprd07.prod.outlook.com (2603:10b6:510:f::34)
+ by SA6PR19MB8717.namprd19.prod.outlook.com (2603:10b6:806:41d::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.202.18; Wed, 15 Jul
+ 2026 15:16:23 +0000
+Received: from CY4PEPF0000FCC4.namprd03.prod.outlook.com
+ (2603:10b6:510:f:cafe::82) by PH0PR07CA0089.outlook.office365.com
+ (2603:10b6:510:f::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.12 via Frontend Transport; Wed,
+ 15 Jul 2026 15:16:23 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CY4PEPF0000FCC4.mail.protection.outlook.com (10.167.242.106) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.9
+ via Frontend Transport; Wed, 15 Jul 2026 15:16:22 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 84B7F406541;
+	Wed, 15 Jul 2026 15:16:20 +0000 (UTC)
+Received: from [198.61.68.151] (LONNCK4V044.ad.cirrus.com [198.61.68.151])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 584A9820244;
+	Wed, 15 Jul 2026 15:16:20 +0000 (UTC)
+Message-ID: <0921e5a2-f8f9-4802-b40b-ec332b1aa4b4@opensource.cirrus.com>
+Date: Wed, 15 Jul 2026 16:16:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,213 +85,112 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: "Salman S. Tahir" <salman.abusaad@gmail.com>
-Subject: =?UTF-8?Q?=5BREGRESSION_7=2E2-rc3=5D_ASoC=3A_cs35l56=3A_component_p?=
- =?UTF-8?Q?robe_waits_for_an_init=5Fcompletion_that_cannot_be_signalled_unti?=
- =?UTF-8?Q?l_the_wait_ends_=E2=80=94_whole_sof=5Fsdw_card_fails?=
-To: patches@opensource.cirrus.com, rf@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
+To: Steven Kendall <skend@chromium.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com
+References: <20260713-fix-headphone-plug-cirrus-dell-v1-1-3c5157cd45cd@chromium.org>
+ <6cebda31-08b6-41e5-9335-a40ce2744d29@opensource.cirrus.com>
+ <CAB1bpFAXpjRYgc1aeCZo3vhbRq3zsCL9HjohbPk-ESx_8ia5JA@mail.gmail.com>
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Stefan Binding <sbinding@opensource.cirrus.com>
+In-Reply-To: <CAB1bpFAXpjRYgc1aeCZo3vhbRq3zsCL9HjohbPk-ESx_8ia5JA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC4:EE_|SA6PR19MB8717:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9db327ac-0b3b-46d3-cb2f-08dee28407bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|61400799027|82310400026|23010399003|18002099003|22082099003|16102099003|6133799003|10067099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	ZDjVqLBxmK59srfsnmGJ5VSixBvuw+50fZaPSqA9n/x8Z4FNWSVt9/ESygLO8Rjs/c15Y2HgRkB/KfX09UaDO2Y9TAzQyFj8AkHgRXv8iftBAkYoWheojPF7ln0h1MVZMHHIzWNuB8S/YeqFnghSMeWIUVcmFD//ZBCuhGpqG8FHWiE/QGaYhE+U3HyI6HAMYmCYuTsoN2PH3H10DfRNrlh/L26VRkZksvB4GULKbYApPIuxoZWQJO9kSONn5nWYblyjtyHiSMRgVDtv1Vg++ovxZjAmO8IxLJV7jx0Gbb2Ar9uyqw54Y2INVfPPyurlg7NfCJ5Fh7iytXxV5rXh3DWGm+78EDtVkcZlFxxNGZ0ujW7bsiBUJsPsJcuNkAYQnN+eSLg7QUy84WYRkSYSUOdrVtB5yl1E09eV0LDbSh5CtWJMDH8AfMkqUkcunH3Ul+qshDdprGGKr0s2ZTALu9niTHDd2arPM17Nf6oGytw8F3xiWHzqr9PfN+nx8/dmSAVkt5/uJeYOXJep5kbi3RvQ/bXjJzQygBDNvqOTXR6RMyADb8DQgTZZXxUGojoG57KOu9s70S18OJrKdbarLpbEy5OmPNfH/S4SJmSNGNM+2hDpOhZ++Bw7so3entxTAApbHsSjmqm3Q7fZAhLt/1j68O6M/je6D3QgklygyxHstydZAWVRXk/1m2qcdP2ZltoV7yHByoFOW5gN+4uPjQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(61400799027)(82310400026)(23010399003)(18002099003)(22082099003)(16102099003)(6133799003)(10067099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	NarTQNTK44FFkeWsojlIxIPz7w+nkscuV0Nmm+frtG++JVWx6C26mm5xPzL0bMDFPp4I/MMCEfDOM9DL5wRv9ZF3XIuKxc0tHLYuo/qTzfXYBmF/dMeR3vsaaRUI38k93WKw8yiYx/IQyDZ7z/j31kngmuhrgdFbSz7mJlDwaF+r5vM306qe5+IWLOCspYc9cZdYTpMnEZrBENAXHUx4/FDqzXv0c9Asu92HaULxm+DE31s8CPVAMsxGUCeBd35BN0C2XBKzyUJGynWLnfpp4SxnRol/4IOVyE+5EY8OA0H85CzE9y5y4jAqyBIjiTlcjK990T2wgUXPP02/K8/x0+wDNwhASTiw+BVt/YF4CC+ylvAPmIpjZ4ImVuv63N0wM2trRpng7BIlSWbxFCWfIAkwPy752am3Dz9PcQdc4qbstHQGiGQqPhyWSMhzk2xJ
+X-Exchange-RoutingPolicyChecked:
+	A5os+XeeT2PXMzZXVSNGswPXuZD2Jqq8EOMr+s0gxYZlFIz891VMsgw6zQwj2ffcM79H6GlbhQVUXEXDCX3kPzmUZi2lwf2+u1d2Ag1QKvQIFH1zCwgHR4O68iScFMuX8cc5Yrfvs3CWGVYXtX08rfhdV2sxUS628LtZeok10mp6sJ/gecUFRbDTVF+AnHRvzid7d/pyuRDaw+sjOPCVjAxk0gPN+HDY5DZY4Q/eHfjWYKHMPDCuY74glEZIzI1jLM83suFx8xH5vHyARIl+80+BgEMaWep0rdcY3re756Kq50m3Dg9YoTjBfIM/1yyhhi9C4d/defOC6o+80j+CIg==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 15:16:22.3831
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9db327ac-0b3b-46d3-cb2f-08dee28407bf
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY4PEPF0000FCC4.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR19MB8717
+X-Authority-Analysis: v=2.4 cv=V71NF+ni c=1 sm=1 tr=0 ts=6a57a44a cx=c_pps
+ a=9OPjPng9tO6d8HsITUYRUQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=7IC1ul7pBlHS5SCsi8IA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: 123VrS6JMZVm_z5ob35S4c33bXGwdYzK
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDE1MSBTYWx0ZWRfX2NcD5mhILSao
+ /LW30Dizs1/XhbTpEfAse+51VLprLGsbiEnVsAYyeWhYXpDhxJ50TkKzTUBK/2aItEZ3MbniJMM
+ LkZio5hbxBn4CPmy2W1FS+DFdFlGeQo=
+X-Proofpoint-GUID: 123VrS6JMZVm_z5ob35S4c33bXGwdYzK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDE1MSBTYWx0ZWRfXwHpATWf6dsge
+ bs5g02FHq2/CDbhFDZtha0lP/uqQ44KtUFVqRbfQAp9xi/BbU+Kd0w5dse78pVRgm8AgWV1ghG4
+ c614nI+uo2fhkFNj2QoYoC77+IuldIpXdMlfsuk/Npe13V2GyL9wpVLtYCuJTP9puSP25RE/a/+
+ /9LJqUzObO7Dky5m+us9Xd0NpxL8yZ2igwGLbMF6/0Cv+VDgv3mf5uZvPYojOzYqpCLIKe4U+Yq
+ MVqPxJEthIZKQzHrBeVsDjMwyHkQBzkmYkwmwsoEt9EnkmmsMeLYU1sQtNsbEY5cXoAW1/xBpjB
+ pK41R/VkdmoVGHDkFTYLSyQ1IrC9pGjPUWw0XHDGnvv7FuTX0Si9ArP8FUj19VW5ITGmKa1YeyY
+ BzFFc+h+mnE/qoPvByBCiy2M7HdR5CIYvKcFjGAYCi/swoLqM5yKbgrIvLwhTnQMaZNbh7FiOPD
+ pA/+viq17FPlTROBSdA==
+X-Proofpoint-Spam-Reason: safe
 
 Hi,
 
-On a Lenovo Yoga 9 2-in-1 14ILL10 (83LC, Core Ultra 7 258V / Lunar Lake; 
-CS42L43
-plus two SPI-attached CS35L56 amps behind it) the machine has no sound 
-card at all
-on 7.2-rc3. /proc/asound/cards is empty and PipeWire falls back to a 
-null sink.
+On 14/07/2026 20:26, Steven Kendall wrote:
+>> The original design on the driver relies on 2 different interrupts, one for Jack Detect, and one for Type Detect.
+>> I am concerned that these changes either prevent the interrupts from being enabled at the right time, or enable them at the wrong time, and possibly simultaneously.
+> Thanks for the info. I had trouble getting these interrupts to fire on
+> this machine. Have any advice for getting unsol events to fire? I
+> tried a few things but wasn't able to trigger any and resorted to
+> polling.
 
-The right-hand amp's ASoC component probe times out waiting for 
-init_completion,
-returns -ENODEV, and ASoC then tears down the entire card -- so 
-speakers, internal
-mics, headset and all three HDMI outputs die because of one failed 
-component:
+The interrupts not firing is very interesting. To give some background information on how the driver is intended to work:
 
-[ 10.301...] cs35l56 spi-cs35l56-right: _cs35l56_component_probe: 
-init_completion timed out
-[ 10.301...] cs35l56 spi-cs35l56-right: ASoC error (-19): at 
-snd_soc_component_probe() on spi-cs35l56-right
-[ 10.302...] sof_sdw sof_sdw: ASoC: failed to instantiate card -19
+There are 2 types of interrupts that the CS42L42 is configured to fire in this driver. The first is for Jack Plug/Unplug detection
+(which is enabled by the call to cs42l42_enable_jack_detect()), and the second is for Jack Type detection
+(enabled by the call to cs42l42_run_jack_detect()). The call to the second function disabled the interrupt of the first.
 
-This is 100% reproducible. Scanning my whole journal (151 boots, back to
-2026-03-07): 11 failures in 11 boots on 7.2.0-rc3, against 0 failures in 
-138 boots
-on every kernel I ran before it -- 6.17.0-14 (1 boot), 6.19.4 (83), 
-7.0.0-15 (20),
-7.0.0-22 (20), 7.0.0-27 (14). It breaks at the first 7.2-rc3 boot and 
-has failed
-every one since. (A 12th 7.2-rc3 boot is clean, but only because of the 
-workaround
-described below.) Those failures were all captured on an otherwise stock 
-machine --
-clean kernel cmdline, distro modprobe.d only, no out-of-tree modules 
-(other than the
-timeout experiment below), no DSDT override, distro Cirrus firmware. I 
-now run a
-local workaround (a snd_soc_sof_sdw blacklist plus a service that loads 
-it late --
-described below); I can drop it and reproduce the failure on demand.
+The intended flow for the driver is that when the system is initialised and resumed, the Jack Plug/Unplug interrupt is enabled,
+and thus if a jack is plugged or unplugged the interrupt fires, and upon plug, the driver then runs Jack Type detection.
+Eventually this calls snd_hda_jack_unsol_event() which informs the HDA core.
 
+The Plug/Unplug interrupt will only fire on Plug/Unplug, whereas the Type Detection interrupt will always fire, regardless if where a jack is inserted.
 
-This is not a slow-firmware race
---------------------------------
+This is why, after initialisation, the driver calls cs42l42_run_jack_detect(), to check the jack state after boot (since the plug interrupt could not have occurred).
 
-The obvious reading of that log is "the amp is a bit too slow and misses 
-the 5s
-deadline". It isn't, and I want to save you from chasing that. I rebuilt
-snd-soc-cs35l56 for 7.2-rc3 with a single change -- the component-probe 
-wait at
-sound/soc/codecs/cs35l56.c:1371, msecs_to_jiffies(5000) -> 
-msecs_to_jiffies(30000)
--- and booted it. It fails identically, just later:
+Similarly, we also do the same upon resume. We could never get the codec wake to work properly, so whilst the driver is suspended, the codec is asleep,
+and the plug/unplug interrupt will not fire, and therefore will not wake the system. If you are expecting to see interrupts occurring whilst suspended,
+you will not see any. Instead, when audio starts and the driver is resumed, type detection is run immediately, which switches the Jack at that time.
 
-component-probe timeout | wait expires at | right amp's cs35l56_init() 
-actually starts
-------------------------+-----------------+-------------------------------------------
-5000 ms (stock) | 10.301 s | 10.355 s -- 54 ms after the wait gave up
-30000 ms (patched) | 35.901 s | 36.005 s -- 104 ms after the wait gave up
-
-During the entire 30-second wait the right amp emits nothing. It does 
-not even reach
-the cs35l56_hw_init() identification print that the left amp produced at 
-5.29 s:
-
-[ 5.294911] cs35l56 spi-cs35l56-left: Cirrus Logic CS35L56 Rev B0 OTP3 
-fw:3.4.4 (patched=0)
-[ 5.603038] cs35l56 spi-cs35l56-left: DSP1: 
-cirrus/cs35l56-b0-dsp1-misc-17aa3832-spkid0.wmfw: format 3 ...
-[ 7.681077] cs35l56 spi-cs35l56-left: DSP1: Firmware: 1a00d6 vendor: 0x2 
-v3.11.26, 41 algorithms
-[ 9.498049] cs35l56 spi-cs35l56-left: Calibration applied
-<-- 26 seconds of silence from the right amp -->
-[ 35.901035] cs35l56 spi-cs35l56-right: _cs35l56_component_probe: 
-init_completion timed out
-[ 35.902534] sof_sdw sof_sdw: ASoC: failed to instantiate card -19
-[ 36.005138] cs35l56 spi-cs35l56-right: Cirrus Logic CS35L56 Rev B0 OTP3 
-fw:3.4.4 (patched=0)
-
-So the right amp's init is not losing a race against the deadline -- it 
-is blocked by
-the wait itself, and only proceeds once the waiter gives up. Increasing 
-the timeout
-just increases the wait; a 300-second timeout would fail at 305 seconds. 
-The amp is
-not slow: once released it completes cs35l56_init() normally. (It gets 
-no firmware
-download at that point -- the timeout path returns -ENODEV well before the
-queue_work(&cs35l56->dsp_work) at the end of _cs35l56_component_probe(), 
-so nothing
-ever queues one for it.)
-
-
-The hardware is fine -- the card is just built ~100 ms too early
-----------------------------------------------------------------
-
-After the failed instantiation, spi-cs35l56-right is bound to the 
-driver, i.e. its
-probe returned 0 and complete(&cs35l56->init_completion) did run. 
-Nothing about the
-hardware, the firmware download or the SPI-over-SoundWire path is 
-broken; the card is
-simply instantiated before the right amp is ready, and nothing ever 
-retries it.
-
-I confirmed that by keeping the deadlock from forming at all, rather 
-than repairing it
-afterwards: blacklist snd_soc_sof_sdw, wait until both amps have 
-signalled init, then
-load it. With no card probe in flight there is nothing to starve the 
-right amp: both
-amps reach their identification print within ~260 ms of each other 
-(4.744 s and
-5.008 s), the component probe's wait returns immediately, no timeout 
-fires, and the
-card registers first time. Both amps are still patched=0 at that point, 
-so both take
-the full firmware-download path, and both calibrate:
-
-[ 19.770067] cs35l56 spi-cs35l56-left: Calibration applied
-[ 19.777038] cs35l56 spi-cs35l56-right: Calibration applied
-
-That boot has since suspended and resumed with the card intact, and 
-contains no error
-or warning from cs35l56, cs42l43 or SOF at all.
-
-
-Hypothesis (unverified -- offered only as a starting point)
------------------------------------------------------------
-
-Something in 7.2 appears to have changed the ordering such that the 
-right amp's probe
-and the sof_sdw card probe end up on the same execution context (the 
-deferred-probe
-worker would fit the ~100 ms lag), so the blocking wait in 
-_cs35l56_component_probe()
-starves the very work it is waiting for. I have not confirmed that, and 
-I have not
-bisected -- I am reporting the reproducible behaviour rather than 
-guessing at the
-culprit commit, and I would rather not send you down a path I only inferred.
-
-
-Suggested direction
--------------------
-
-Regardless of what changed the ordering, blocking in a component probe 
-on a completion
-that a different probe must signal looks fragile by construction. Returning
--EPROBE_DEFER instead -- letting the driver core retry the card once the 
-amp is bound
--- would use the mechanism the kernel already has for this, and 
-snd_soc_bind_card()
-already special-cases -EPROBE_DEFER from soc_probe_link_components(). 
-Something along
-the lines of:
-
-if (!wait_for_completion_timeout(&cs35l56->init_completion,
-msecs_to_jiffies(5000)))
-return 
-dev_err_probe(cs35l56->https://www.google.com/url?q=http://base.dev&source=gmail&ust=1784212475584000&sa=E, 
--EPROBE_DEFER,
-"init_completion not signalled, deferring\n");
-
-I have not tested that; I did not want to submit a patch built on a 
-mechanism I have
-only hypothesised.
-
-I have the hardware, I can reproduce this on every boot, and I am happy 
-to test
-patches, run instrumented builds, or bisect if that would help. Just 
-tell me what
-would be most useful.
-
-
-Environment
------------
-
-- Lenovo Yoga 9 2-in-1 14ILL10 (83LC), Core Ultra 7 258V (Lunar Lake)
-- CS42L43 (SoundWire) + 2x CS35L56 Rev B0, SPI-attached via the CS42L43
-- Firmware: cirrus/cs35l56-b0-dsp1-misc-17aa3832-spkid0.wmfw v3.11.26 
-(distro linux-firmware)
-- Bad: 7.2-rc3 (7.2.0-070200rc3-generic, mainline build) -- 11 failures 
-/ 11 boots
-- Good: 7.0.0-27 (14 boots), 7.0.0-22 (20), 7.0.0-15 (20), 6.19.4 (83), 
-6.17.0-14 (1)
--- 138 boots, 0 failures
-- Only the 30 s-timeout boot above ran a rebuilt (out-of-tree, 
-kernel-tainting)
-snd-soc-cs35l56; every stock-timeout failure was on the untainted distro 
-module
-- Not bisected
-- Workaround currently in place: blacklist snd_soc_sof_sdw + a systemd 
-unit that
-modprobes it once both amps have signalled init. Removable on request -- 
-I can
-reproduce the failure on any boot.
+On Ubuntu, the driver is resumed when you go the Sound settings menu, so you can see the interrupts firing when you insert or remove the jack.
+I am unsure if ChromeOS does the same. Alternatively, playing audio will resume the driver and the interrupts should fire upon jack plug/unplug.
+Inserting or removing the jack whilst suspended will not result in any interrupts until the driver is resumed (either by playback or by opening the setting menu in Ubuntu).
 
 Thanks,
-Salman S. Tahir
+
+Stefan
+
+>
+>> I believe we may have one of these laptops ourselves, so we might be able to have a look ourselves, though it may take a few weeks for us to do this.
+>> Can you tell us which OS you are using to test this? This was originally tested on Ubuntu, but I think this is ChromeOS you are testing on?
+> That would be great! A few weeks wouldn't be an issue for us. I've
+> tested this on Chrome OS (Chrome OS Flex, specifically) but I also
+> noticed some odd behavior on Ubuntu even though everything more or
+> less worked there. Alsa wasn't reading the jack state as
+> plugged/unplugged until audio played. I'm not sure if that's by
+> design. I wasn't sure if Ubuntu had some additional kernel patches I
+> couldn't find; I was using their LTS HWE branch and when deployed on
+> Chrome OS I didn't see any change in behavior.
+>
