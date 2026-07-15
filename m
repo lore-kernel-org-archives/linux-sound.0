@@ -1,140 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC8E308F23;
-	Wed, 15 Jul 2026 06:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6905299A87;
+	Wed, 15 Jul 2026 06:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784095482; cv=none; b=OwjezlouLvJ60bZtn6L2bq41skXS/LovegrjUlp52oxGj9bPLeLL90ghMxnZ5LgKTi6asL77mzrN/2aY2GDCziauUQcclOhx2wPHERopAAjoEhyYW+A2lTr/gkssTK8GFG3ejz2v1V/EFnt0qNFr6xgoDu+FBH6AhZ8+TAAqV6A=
+	t=1784095535; cv=none; b=tOAuMt6UCEX0y7adm+F9eTW+ZDj5Jh6KBJzMQRabzeoOqvLgfzp2XA/it1CiGH6fKmDiehfbVOQCoW+xFw4/rehZkXDOMGYBHbQ1j7eU5RH0pOEPwZr7VpJwGz1B4NarB4Q9bgm0U4haVau2WznlKFIOHvzu05AYc2/PNd19fDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784095482; c=relaxed/simple;
-	bh=p0z8OfcS1fdiYyedH2MZyLZY7VEHaJFdRELjOTQv8uA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bCG8MFdWVXDozIL1mmx2qZ7BJv2BKzR9f2M2eSM4ZFRhCfOM5pcWDs/yQ9rGBALLY33XVKwmVI33wjpzZ4cipdtLxOoeIVmBFkmAz4TzJlWaUBRndYahT0SuQjzCgkWXSPLRJcaYQ6+PjGP0Wt36sUeQoQ9Bv/M2GuQsz/ZuXLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LHY952wb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784095535; c=relaxed/simple;
+	bh=mFmzIqI0E2AOl7iWfNAYg/+hrnFobdS4+ONb+V6PEKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k++KD768Wy1n3DpE6WYxsg0n6URSOL6VSO9vhA3Qper+RvbrKD1CJYtBewB7SCT5iFgk+KcZvsHvxGYYkINKzv5hVCOzv4lgrotnoBCqId4EQ5+bDelZ4JzzyyYIZt1Ljh9ATey6+hZlf5ojFFDizaNj1HsgidujomImEZ/1m74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fl868jUQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LHY952wb"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3CBF7C2BCF5;
-	Wed, 15 Jul 2026 06:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784095482;
-	bh=p0z8OfcS1fdiYyedH2MZyLZY7VEHaJFdRELjOTQv8uA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=LHY952wbD00sIWzXEIPNLNo/4741CiFQVMFH+yoka+ROGcdwwyOAdwBFxwMtH/Rg2
-	 P1jEuWB7YUBHTg5gG5t11kTC379yR1GqjlUWHMTcMU3OJSIb5mfJZDJeM4J1GfLPPp
-	 ebUeX8d0WPfJlxcSeeMXWFthZdOGi5lXKu6ZMa9JLkUHl67Mi2q6RmW/+JpaoGGmwp
-	 j5m5uOOVu+LaVQ7HbabUvX3PqSUBoHot0aEsklwTzE7Bkme0tUIjGdMajsRlxjzHaG
-	 /x8ARK7kdAsNWkvckmy6j5rXxjW8IVRtjArnNXEiGZ9OMpsM6PFn5Li6DZakMmt4C+
-	 Vq/Kjvd1/L89A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F46EC44508;
-	Wed, 15 Jul 2026 06:04:42 +0000 (UTC)
-From: Haidar Lee via B4 Relay <devnull+haidar.lee.adlinktech.com@kernel.org>
-Date: Wed, 15 Jul 2026 14:04:40 +0800
-Subject: [PATCH 1/2] ASoC: tas2562: fix DVC coefficient write order
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fl868jUQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D31A21F000E9;
+	Wed, 15 Jul 2026 06:05:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784095534;
+	bh=Q5d7uPn8O1XAg/4cjyjc6wAHhDa2fLUpBh2d/4RKbRQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fl868jUQ+yGdGjOaIPY4CI6mzrAOkJJKny6v47fBwE+BIHwfX4/W5KNsZZTuD1gc9
+	 5v11y14BoC4mwmAAceXvnZ6j5x6Vb7OmIlijLP7BnR3JkoO+iYRCJzPTXt3k0R7LXR
+	 JZewqjonyxorDSJHP58rxrHmVOnLAmai1unGIPlFTVDqTmVs0WbqlpKBPtmGrFUnEW
+	 y2raQZt4zJ2Dy2hMMlCJ1vVUzApyj7mkV3DqQHCzemX80dqUWFiDzapeO488uvj5gi
+	 ILZYW/siTIXd2z9n/QxqGrba0F3cruQX5xlHLqa14MrZyxjAOSMk77TAt2ka+HdVQm
+	 LPXigMo7GLPaw==
+Date: Wed, 15 Jul 2026 08:05:29 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Subject: Re: [PATCH v5 1/3] ASoC: dt-bindings: qcom,q6apm-lpass-dais:
+ Document DAI subnode
+Message-ID: <20260715-crafty-cheerful-goat-baba95@quoll>
+References: <20260714145250.2473461-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260714145250.2473461-2-mohammad.rafi.shaik@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260715-tas2562-dvc-fix-v1-1-072b13901b20@adlinktech.com>
-References: <20260715-tas2562-dvc-fix-v1-0-072b13901b20@adlinktech.com>
-In-Reply-To: <20260715-tas2562-dvc-fix-v1-0-072b13901b20@adlinktech.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Dan Murphy <dmurphy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Haidar Lee <haidar.lee@adlinktech.com>, stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784095481; l=2928;
- i=haidar.lee@adlinktech.com; s=20260715; h=from:subject:message-id;
- bh=NrDARQuuRTnNObQOb1pPNHaoWGmUellYTb5N5X9Elwo=;
- b=Jojabzbyv2lFEZ+hhb+FNhvvFy6aGlg1FWjgRUKsynbkhjiuLUXTy09CvpQAQFY8xgCKVnmSm
- Q2E7sIt6QfkC/9HXXYyFL1aXKW+yliFQZNA4kFu7bWAhrtCh+aSTr38
-X-Developer-Key: i=haidar.lee@adlinktech.com; a=ed25519;
- pk=p37KzVgRl0a8om8VCM7iEwQvNuZz2fxL4lBCBp5qrno=
-X-Endpoint-Received: by B4 Relay for haidar.lee@adlinktech.com/20260715
- with auth_id=872
-X-Original-From: Haidar Lee <haidar.lee@adlinktech.com>
-Reply-To: haidar.lee@adlinktech.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260714145250.2473461-2-mohammad.rafi.shaik@oss.qualcomm.com>
 
-From: Haidar Lee <haidar.lee@adlinktech.com>
+On Tue, Jul 14, 2026 at 08:22:48PM +0530, Mohammad Rafi Shaik wrote:
+> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
+> describe Digital Audio Interface (DAI) child nodes.
+> 
+> Add #address-cells and #size-cells to allow representation of multiple
+> DAI instances as child nodes, and define a dai@<id> pattern to document
+> per-DAI properties such as the interface ID and associated clocks.
+> 
+> On platforms such as Monaco and Lemans, third-party codecs are hardware
+> wired to the SoC and do not always have an in-tree codec driver to manage
+> their clocks. For these designs, clock line enablement must be driven
+> from the platform side, and this series provides the necessary support
+> for that.
+> 
+> On QAIF-based platforms such as Shikra and Hawi, responsibility for voting
+> I2S MCLK and BCLK has moved from the DSP to the kernel. This series
+> introduces the required device tree binding support to represent and
+> vote for these clocks from the kernel.
+> 
+> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+> ---
+>  .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 89 +++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+> index 2fb95544d..b37c62ccd 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+> @@ -21,6 +21,82 @@ properties:
+>    '#sound-dai-cells':
+>      const: 1
+>  
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +# Digital Audio Interfaces
+> +patternProperties:
+> +  '^dai@[0-9a-f]+$':
+> +    type: object
+> +    description:
+> +      Q6DSP Digital Audio Interfaces.
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +        description:
+> +          Digital Audio Interface ID
+> +
+> +      clocks:
+> +        minItems: 1
+> +        maxItems: 2
+> +        description: MI2S clocks (mclk, bclk and/or eclk).
+> +
+> +      clock-names:
+> +        minItems: 1
+> +        maxItems: 2
+> +
+> +    allOf:
+> +      - oneOf:
+> +          - properties:
 
-The TAS2562 applies the 32-bit digital volume coefficient to the
-playback path when the last byte, DVC_CFG4 (book 0 page 2 reg 0x0F), is
-written. tas2562_volume_control_put() wrote DVC_CFG4 first and DVC_CFG1
-(the MSB) last, so every volume change latched a value made of the
-previous coefficient's upper three bytes combined with the new LSB; the
-remaining bytes only took effect on the next volume change.
+Please don't do such stuff. Did you find it somewhere? If yes, then
+where - so we can remove it?
 
-In practice the control was unusable: the first setting after power-on
-always played at roughly 0 dB no matter what value was requested (the
-chip's default upper bytes were still latched), and most subsequent
-changes muted the output entirely or produced a distorted, over-unity
-gain.
+I gave you the close-to-exact syntax I expect. It was nothing like this.
 
-Verified on a TAS2562 (ADLINK OSM-520 / MT8189 board) by tracing the
-I2C writes with ftrace and by writing the same coefficients manually in
-both byte orders: written MSB-first the register block behaves exactly
-as the driver expects, LSB-first reproduces the broken behaviour.
-
-Write the bytes MSB first with DVC_CFG4 last so the complete new
-coefficient is latched atomically.
-
-Fixes: bf726b1c86f2 ("ASoC: tas2562: Add support for digital volume control")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haidar Lee <haidar.lee@adlinktech.com>
----
- sound/soc/codecs/tas2562.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
-
-diff --git a/sound/soc/codecs/tas2562.c b/sound/soc/codecs/tas2562.c
-index e1d62f30418a..ec32ef0afd7e 100644
---- a/sound/soc/codecs/tas2562.c
-+++ b/sound/soc/codecs/tas2562.c
-@@ -475,20 +475,27 @@ static int tas2562_volume_control_put(struct snd_kcontrol *kcontrol,
- 	u32 reg_val;
- 
- 	reg_val = float_vol_db_lookup[ucontrol->value.integer.value[0]/2];
--	ret = snd_soc_component_write(component, TAS2562_DVC_CFG4,
--				      (reg_val & 0xff));
--	if (ret)
--		return ret;
--	ret = snd_soc_component_write(component, TAS2562_DVC_CFG3,
--				      ((reg_val >> 8) & 0xff));
-+	/*
-+	 * The device applies the 32-bit coefficient to the playback path on
-+	 * the write to DVC_CFG4 (the LSB, book 0 page 2 reg 0x0F), so the
-+	 * bytes must be written MSB first and DVC_CFG4 last. Writing CFG4
-+	 * first latches a mix of the previous coefficient's upper bytes and
-+	 * the new LSB instead of the requested value.
-+	 */
-+	ret = snd_soc_component_write(component, TAS2562_DVC_CFG1,
-+				      ((reg_val >> 24) & 0xff));
- 	if (ret)
- 		return ret;
- 	ret = snd_soc_component_write(component, TAS2562_DVC_CFG2,
- 				      ((reg_val >> 16) & 0xff));
- 	if (ret)
- 		return ret;
--	ret = snd_soc_component_write(component, TAS2562_DVC_CFG1,
--				      ((reg_val >> 24) & 0xff));
-+	ret = snd_soc_component_write(component, TAS2562_DVC_CFG3,
-+				      ((reg_val >> 8) & 0xff));
-+	if (ret)
-+		return ret;
-+	ret = snd_soc_component_write(component, TAS2562_DVC_CFG4,
-+				      (reg_val & 0xff));
- 	if (ret)
- 		return ret;
- 
-
--- 
-2.34.1
-
+Best regards,
+Krzysztof
 
