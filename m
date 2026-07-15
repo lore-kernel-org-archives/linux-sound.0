@@ -1,58 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD9B32ED21;
-	Wed, 15 Jul 2026 16:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F7E40099F;
+	Wed, 15 Jul 2026 18:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784133918; cv=none; b=unSL67by8MmLJ3S1cBwkLJ0Dflx4+eANg7k+uf2XH3DSWwHjewC2yNZ3Iio59mLCtBrhUvF7tL4YXY3hbEQVWHAWs0ueDtD4YQAvPILKUrRMZLtbHk7kulhIJIFGL2xRqtYbFp07DoAh/nYdNfnmC5eoNbKcvJZjC4HD+2hckfc=
+	t=1784138798; cv=none; b=OcKq7l7yoCmmT/fae9OzfuB1BRTr8OpdtRzNVqxCvII+OSsQGjD9k3tKjhYnL5J0STmxuuBUV9XL9f0MFhjW/cfBcwfxVDaTC/TbuAt6ffyOE0tYvHmBi4BCDJBuM4CKfMlDYn/Fx3LjW9z4aEnjaT5ZsWMYnTvDGiueSVwqSKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784133918; c=relaxed/simple;
-	bh=umP7WylTRyWxFxFv1eOKiIfxYGS354u0KWab0Y8GqYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=na4Yv6R3ce5f2LbiF9C2oLaJIsRkIc66qwuGFIzulO3JAx0ZKGEqW9j6kPmDyExrubofUiCvmmnLo14pDIInXPono/vBj/9HTVvNf8yPuYoUt+tMNrhChgSLFDWCKnejWKCmbWepIpOSUP/wdLqvdL989f83aWc2UvvDD1nga8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHgFBLoK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784138798; c=relaxed/simple;
+	bh=2R7xHdLAkK6oE1u3sMq4e1CT5FMCSedKRKzElFTJ5Ts=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KqptKOJ8OhosaPANtTxsdLOlrwGFifsGI6lnQt8vdZPqqVYoNdAPVK7EJL1VdXe1D36uav2KUpHvUaumrVbcUwRqivVbuZfFALoXX9AawBtCKiJaiLKTqJZlvVWK8kchn5dHsEBQoh8BwsmYCkHMIlL1WgZRJ6qBXux12B7s9YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrUafhfg; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHgFBLoK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113851F00A3A;
-	Wed, 15 Jul 2026 16:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784133917;
-	bh=6liD7w9BIP02kaI4OLc655JWqWM1N/j7Ocx9ZTgpKXI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lHgFBLoK34HvyE6vYN3kFmgJxkVSHuQV8pIeWmKb2XpgDbNjCPGQCCIL85PKweLpM
-	 msIQJOTq9jm+w48OQcp6Dk/QCPAxVLJ7Qn+h22RF0dZfd6KtGm/GcIue9h9ld15avn
-	 O4fSpLF2lehl1ge/76Gba6dhrZcpNDySeVKH/sO9GNZXssiYMT4rjLDIzXQo3jpGNZ
-	 huNI4eO9U1fIglYAPxzV+TXwwqyTuB4qLOnkhkjWy0oZiVAPddd32Utp/hCcMngWPM
-	 fmBMXRcUpiJiXih2ZsPbqGlic1E3tg5NUIjePkKNd13M0Mg7fHu3D5REe4cqvaVwYK
-	 QJ8ZVjvPFJt9w==
-Date: Wed, 15 Jul 2026 09:45:16 -0700
-From: Kees Cook <kees@kernel.org>
-To: Ian Bridges <icb@fastmail.org>
-Cc: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/generic: Replace strlcat() with strscpy()
-Message-ID: <202607150944.0EDBF2874@keescook>
-References: <alaPxW5S5PT_-kZi@dev>
- <87o6g8y9f3.wl-tiwai@suse.de>
- <ale0bq8DSefjWC3P@dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrUafhfg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784138789; x=1815674789;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2R7xHdLAkK6oE1u3sMq4e1CT5FMCSedKRKzElFTJ5Ts=;
+  b=VrUafhfge47ppPPBALyySktLYG7lt7C6ILH8xQguS29a2g7rPJtYXYwM
+   Y0Yib2SkIXhxU2CIPoCcTM7z9Z5wXKxa5HhquCJvD/9YDsEYKDsuPpAih
+   nQ7ZdzwbbikPIVa9rCTY17FAc5Tmpk3eyJISTkQYjEgqu+AuxNEPKgc6E
+   ucyyfOJ4WHZhp6uK+rr6DtCwg29vT+hDw4zKiaRFe0D9CfurSy3Hm30i9
+   N5aNRQYBcSVYTCRHPiCXh+AZsa9Z7kZqFnlx8czLjX+1zdPqiS0jkqdKS
+   gFTGTQcS1rvjUp0fWQdgSPaD3fvcZEPITN2wuRBZGCDkes6AGwh0GCzjB
+   w==;
+X-CSE-ConnectionGUID: vjHs9JyzT8iCgSEuJLmVTA==
+X-CSE-MsgGUID: SSn5fbvlR+6lf+wfu5rc/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84904254"
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="84904254"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 11:06:22 -0700
+X-CSE-ConnectionGUID: fnSEMhE/T9CnWrTkeocA6g==
+X-CSE-MsgGUID: +lgknFKJSwOu2t7dybx5KA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="253650070"
+Received: from amilburn-desk.amilburn-desk (HELO kvehmane-desk1.ger.corp.intel.com) ([10.245.244.96])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 11:06:20 -0700
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	tiwai@suse.de
+Cc: peter.ujfalusi@linux.intel.com,
+	Uma Shankar <uma.shankar@intel.com>,
+	kai.vehmanen@linux.intel.com,
+	Alexander Kaplan <alexander.kaplan@sms-medipool.de>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda: codecs: hdmi: disable keep-alive before audio format change
+Date: Wed, 15 Jul 2026 21:06:10 +0300
+Message-ID: <20260715180610.1371243-1-kai.vehmanen@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ale0bq8DSefjWC3P@dev>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 15, 2026 at 11:25:18AM -0500, Ian Bridges wrote:
-> A seq_buf conversion would also be possible.
+When a keep-alive (KAE) silent stream is active on an Intel HDMI/DP
+codec, opening a real PCM stream reprograms the converter format and the
+audio infoframe in snd_hda_hdmi_generic_pcm_prepare(). Part of that
+reprogramming - the converter channel count and the channel mapping in
+snd_hda_hdmi_setup_audio_infoframe() - is not safe to do while a
+keep-alive stream is active. This is most visible when switching to a
+multichannel PCM configuration, where the active channel count actually
+changes. In that case the newly opened PCM stream plays no sound.
 
-I think this is the right approach. The string/length is passed around
-as arguments already, so switching that to seq_buf would mean all the
-users of those arg wouldn't have to do their own bounds checking, etc.
+Add an optional hdmi_ops .prepare hook, called at the start of the
+PCM prepare sequence (before the format and infoframe are touched), and
+implement it for HSW+ to release keep-alive. Keep-alive is then
+re-enabled as before once the new stream has been set up, in the
+setup_stream op.
 
+Fixes: 15175a4f2bbb ("ALSA: hda/hdmi: add keep-alive support for ADL-P and DG2")
+Reported-by: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
+Closes: https://gitlab.freedesktop.org/drm/xe/kernel/-/work_items/8412
+Tested-by: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+---
+ sound/hda/codecs/hdmi/hdmi.c       |  3 +++
+ sound/hda/codecs/hdmi/hdmi_local.h |  9 ++++++++
+ sound/hda/codecs/hdmi/intelhdmi.c  | 36 +++++++++++++++++++++++++-----
+ 3 files changed, 42 insertions(+), 6 deletions(-)
+
+diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
+index 0b6816018a42..053c41d98028 100644
+--- a/sound/hda/codecs/hdmi/hdmi.c
++++ b/sound/hda/codecs/hdmi/hdmi.c
+@@ -1688,6 +1688,9 @@ int snd_hda_hdmi_generic_pcm_prepare(struct hda_pcm_stream *hinfo,
+ 		per_pin->channels = substream->runtime->channels;
+ 		per_pin->setup = true;
+ 
++		if (spec->ops.prepare)
++			spec->ops.prepare(codec, per_pin);
++
+ 		if (get_wcaps(codec, cvt_nid) & AC_WCAP_STRIPE) {
+ 			stripe = snd_hdac_get_stream_stripe_ctl(&codec->bus->core,
+ 								substream);
+diff --git a/sound/hda/codecs/hdmi/hdmi_local.h b/sound/hda/codecs/hdmi/hdmi_local.h
+index 548241ad3fa9..dce9a335cff2 100644
+--- a/sound/hda/codecs/hdmi/hdmi_local.h
++++ b/sound/hda/codecs/hdmi/hdmi_local.h
+@@ -74,6 +74,15 @@ struct hdmi_ops {
+ 			    hda_nid_t pin_nid, int dev_id, u32 stream_tag,
+ 			    int format);
+ 
++	/*
++	 * Optional hook invoked at the beginning of the PCM prepare
++	 * sequence, before the audio infoframe and stream format are
++	 * (re)programmed. Used to disable keep-alive / silent stream so
++	 * that the format change is not done while keep-alive is active.
++	 */
++	void (*prepare)(struct hda_codec *codec,
++			struct hdmi_spec_per_pin *per_pin);
++
+ 	void (*pin_cvt_fixup)(struct hda_codec *codec,
+ 			      struct hdmi_spec_per_pin *per_pin,
+ 			      hda_nid_t cvt_nid);
+diff --git a/sound/hda/codecs/hdmi/intelhdmi.c b/sound/hda/codecs/hdmi/intelhdmi.c
+index 6a7882544ab7..73141046d502 100644
+--- a/sound/hda/codecs/hdmi/intelhdmi.c
++++ b/sound/hda/codecs/hdmi/intelhdmi.c
+@@ -418,6 +418,28 @@ static void intel_not_share_assigned_cvt_nid(struct hda_codec *codec,
+ 		intel_not_share_assigned_cvt(codec, pin_nid, dev_id, mux_idx);
+ }
+ 
++/*
++ * prepare ops override for HSW+
++ *
++ * Disable keep-alive before the converter format and audio infoframe are
++ * reprogrammed by the PCM prepare sequence. Changing the audio format (e.g.
++ * the channel count when switching to multichannel PCM) while a keep-alive
++ * stream is active is not safe, so release keep-alive here, early in the
++ * sequence. It is re-enabled once the new stream has been set up, in
++ * i915_hsw_setup_stream().
++ */
++static void i915_hsw_prepare(struct hda_codec *codec,
++			     struct hdmi_spec_per_pin *per_pin)
++{
++	struct hdmi_spec *spec = codec->spec;
++
++	if (spec->silent_stream_type == SILENT_STREAM_KAE && per_pin->silent_stream) {
++		silent_stream_set_kae(codec, per_pin, false);
++		/* wait for pending transfers in codec to clear */
++		usleep_range(100, 200);
++	}
++}
++
+ /* setup_stream ops override for HSW+ */
+ static int i915_hsw_setup_stream(struct hda_codec *codec, hda_nid_t cvt_nid,
+ 				 hda_nid_t pin_nid, int dev_id, u32 stream_tag,
+@@ -435,15 +457,16 @@ static int i915_hsw_setup_stream(struct hda_codec *codec, hda_nid_t cvt_nid,
+ 
+ 	haswell_verify_D0(codec, cvt_nid, pin_nid);
+ 
+-	if (spec->silent_stream_type == SILENT_STREAM_KAE && per_pin && per_pin->silent_stream) {
+-		silent_stream_set_kae(codec, per_pin, false);
+-		/* wait for pending transfers in codec to clear */
+-		usleep_range(100, 200);
+-	}
+-
+ 	res = snd_hda_hdmi_setup_stream(codec, cvt_nid, pin_nid, dev_id,
+ 					stream_tag, format);
+ 
++	/*
++	 * Keep-alive was disabled in i915_hsw_prepare(), re-enable it now.
++	 * The pin lookup above resolves to the same per_pin that prepare
++	 * used (pin_nid comes from that per_pin), so this stays balanced; a
++	 * NULL per_pin only occurs on a lookup failure that also implies no
++	 * active keep-alive stream to restore.
++	 */
+ 	if (spec->silent_stream_type == SILENT_STREAM_KAE && per_pin && per_pin->silent_stream) {
+ 		usleep_range(100, 200);
+ 		silent_stream_set_kae(codec, per_pin, true);
+@@ -607,6 +630,7 @@ static int intel_hsw_common_init(struct hda_codec *codec, hda_nid_t vendor_nid,
+ 	codec->depop_delay = 0;
+ 	codec->auto_runtime_pm = 1;
+ 
++	spec->ops.prepare = i915_hsw_prepare;
+ 	spec->ops.setup_stream = i915_hsw_setup_stream;
+ 	spec->ops.pin_cvt_fixup = i915_pin_cvt_fixup;
+ 	spec->ops.silent_stream = i915_set_silent_stream;
+
+base-commit: 41f1f6d8d2cfaba1fba07af993c9319a1ff2c81f
 -- 
-Kees Cook
+2.43.0
+
