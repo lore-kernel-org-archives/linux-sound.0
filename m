@@ -1,35 +1,35 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2077B249EB;
-	Wed, 15 Jul 2026 00:05:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43776FC0A;
+	Wed, 15 Jul 2026 00:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784073934; cv=none; b=Za4MQWNl+p0Q6aQ3jjNcQeNBf2Mbi67xtu9kJYXyJP1mMj56Fah1uijHSNmgNybcL10+mmykTQpMPt446ZBlMvwwLY+gMQWFkPxOPR/anh+LwFhk7Au6lg5c97o6WNoypHYQ6/49wMeU0I+8qIUF6OyWPA4V63FYR04S7UMVelE=
+	t=1784073934; cv=none; b=EYmkbEkiZiUusKAEdynu8ZIoWZSa6DNWi6q2YFDKMz+omgcp4arzQOFK6YcdGwxNvGDdeNwo0zpIZPBwEb7sgkRXGvIL83LTT5L49zZ/3mU3DiGslvmDP1+G86WOCI25Rdozo8eEbgtaLmqFSSJ6kO24GvCbj5hU0fwce3eeKNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784073934; c=relaxed/simple;
-	bh=R+zXM81A5iireYMWuE2ZqCa1la2+O9CZ4VLgvEAAL1s=;
+	bh=BZewiftLFYOj0FqoCELdWkal16OQR61j7OKb5kXzPvE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oYBp6d58+ETJTeU4dsaH6kNFlKVX8uPgyhSd1fhb4Qxq5Y3j2e05El2EC31TivU1FGt82HQy9HJY2etSGwKOlnvr9cueV8RE089LBN4AiLQUNqm/O3++GlntAu5qaha1OxqyxLfusJY2Hkc293lv/QVY/hvRUf1GMDhM3WggxbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LtPyVRC7; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=au4NPN7v6Q/YIvQWAX/YF5zB3Y8IfFZvx8I8Sp4E2R+yjbkHtfuAMz5QphnWM+Xio77fTrWMe+AyoXeZ7bOLbRmOyKftvFHB4coWS4uOUB/tUnrvZi/RaXjN8nnBMK78fG6IePfZ3OHvIQKsTuzAcnwZZKzOArsDwMaV6Spl9gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T0CUoKFP; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LtPyVRC7"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T0CUoKFP"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Cja07B7b6DLmEF/XlIxcOw/U7wRYtezoqU3BZOcxKts=; b=LtPyVRC7z5Fv1G5lhVKLjqm4e8
-	MVr4ZI54qkkNx5HdipAEdhwX2uZfcQXpkFyRNWDJRSM0e0hufIbxD+rLA3isL3EYb22rUxyWngj6v
-	AlVc/vz1b4bKWmLJ3e+h6xOinoCFzIWW7tqzc+w2k3u4jeHRzuEdBTo4MtMN5UjVSktSOqTGw5uuD
-	Fg27N7ZottEv3SS0cbb51/Q2VrrLeU71Z9cT4femzmZyM74o8QTxhkF08i0DcoMJuCaKqVhKaSJAA
-	j8SfLBRG3HvscvqwHpH2oM16+Y/ZRjbZsyUhQ0qwvHpaq+z2qSCDyO693Ys2P18cX3DYz5IcLuPTA
-	qE5TW4HA==;
+	bh=G+ICPr4j5N29bqgssjH6/kLVysBy2Z2WmiFI+/aQQHg=; b=T0CUoKFPmf9OVYNj4ZoWHojS2u
+	z4Gwx70W/kY+Hr1XC3YRzifUDHCih/fhoTwNy6/TpckrZWQW2RMcSu4g9QYujWZY3czHi5SXLs2yv
+	dkL9nB2kEPr2UoFbLyL3tvpLIpCQbtuGJZuR85aCsKXNndfBGx0JMWBiMwHOLQs+kBrK8Hrr7i14c
+	EYKoT9Lg0uvo8pwqqL7c0IuyK2cIK6iHNWJdofGjhaDwo8h7QMTaLTy5qWxLe7lazjVkr4BqQV4lf
+	mApc2S+FMlWkVUmLma9nuRubnFTSz7/tOrHT7FYl1RjBM8yxAlxjITdrqwIl0vsAidsGp3HKL7v+W
+	IuU66hOA==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjn80-0000000DTcu-365Y;
-	Wed, 15 Jul 2026 00:05:32 +0000
+	id 1wjn7y-0000000DTcu-1XYG;
+	Wed, 15 Jul 2026 00:05:30 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-sound@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
@@ -49,9 +49,9 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
 	patches@opensource.cirrus.com,
 	Srinivas Kandagatla <srini@kernel.org>,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH 08/14 v2] ASoC: fsl: p1022_ds: repair kernel-doc short descriptions
-Date: Tue, 14 Jul 2026 17:05:19 -0700
-Message-ID: <20260715000525.739874-9-rdunlap@infradead.org>
+Subject: [PATCH 04/14 v2] ASoC: fsl-dma: fix all kernel-doc warnings
+Date: Tue, 14 Jul 2026 17:05:15 -0700
+Message-ID: <20260715000525.739874-5-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715000525.739874-1-rdunlap@infradead.org>
 References: <20260715000525.739874-1-rdunlap@infradead.org>
@@ -63,12 +63,12 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The kernel-doc short description is assumed to be a function unless
-indicated by a keyword. Add the missing keyword (struct, var) to avoid
-kernel-doc warnings:
+Don't use "/**" for non-kernel-doc comments to avoid kernel-doc warnings:
 
-Warning: sound/soc/fsl/p1022_ds.c:62 cannot understand function prototype: 'struct machine_data'
-Warning: sound/soc/fsl/p1022_ds.c:182 cannot understand function prototype: 'const struct snd_soc_ops p1022_ds_ops ='
+Warning: ../sound/soc/fsl/fsl_dma.h:95 This comment starts with '/**', but isn't a kernel-doc comment.
+ *  List Descriptor for extended chaining mode DMA operations.
+Warning: ../sound/soc/fsl/fsl_dma.h:110 This comment starts with '/**', but isn't a kernel-doc comment.
+ *  Link Descriptor for basic and extended chaining mode DMA operations.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
@@ -83,26 +83,26 @@ Cc: Fabio Estevam <festevam@gmail.com>
 Cc: Nicolin Chen <nicoleotsuka@gmail.com>
 Cc: linuxppc-dev@lists.ozlabs.org
 
- sound/soc/fsl/p1022_ds.c |    4 ++--
+ sound/soc/fsl/fsl_dma.h |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
---- linext-2026-0710.orig/sound/soc/fsl/p1022_ds.c
-+++ linext-2026-0710/sound/soc/fsl/p1022_ds.c
-@@ -55,7 +55,7 @@ static inline void guts_set_dmuxcr(struc
- static phys_addr_t guts_phys;
+--- linext-2026-0710.orig/sound/soc/fsl/fsl_dma.h
++++ linext-2026-0710/sound/soc/fsl/fsl_dma.h
+@@ -92,7 +92,7 @@ static inline u32 CCSR_DMA_ECLNDAR_ADDR(
+ #define CCSR_DMA_ATR_SNOOP      	0x00050000
+ #define CCSR_DMA_ATR_ESAD_MASK  	0x0000000F
  
- /**
-- * machine_data: machine-specific ASoC device data
-+ * struct machine_data - machine-specific ASoC device data
+-/**
++/*
+  *  List Descriptor for extended chaining mode DMA operations.
   *
-  * This structure contains data for a single sound platform device on an
-  * P1022 DS.  Some of the data is taken from the device tree.
-@@ -178,7 +178,7 @@ static int p1022_ds_machine_remove(struc
- }
+  *  The CLSDAR register points to the first (in a linked-list) List
+@@ -107,7 +107,7 @@ struct fsl_dma_list_descriptor {
+ 	u8 res[8];      	/* Reserved */
+ } __attribute__ ((aligned(32), packed));
  
- /**
-- * p1022_ds_ops: ASoC machine driver operations
-+ * var p1022_ds_ops - ASoC machine driver operations
-  */
- static const struct snd_soc_ops p1022_ds_ops = {
- 	.startup = p1022_ds_startup,
+-/**
++/*
+  *  Link Descriptor for basic and extended chaining mode DMA operations.
+  *
+  *  A Link Descriptor points to a single DMA buffer.  Each link descriptor
