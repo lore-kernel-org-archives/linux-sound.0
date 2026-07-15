@@ -1,99 +1,165 @@
-Received: from sonic311-29.consmr.mail.ne1.yahoo.com (sonic311-29.consmr.mail.ne1.yahoo.com [66.163.188.210])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67CD3093B2
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 07:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.188.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9AA31717D
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 07:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784101580; cv=none; b=rfsENhGxq5b3k1Ei5IE62VEN4B4LkhSfJ46Zz489pmezo4EN5+Om02f3+px2S8n9s6/l1kC/9tu92y3O16GqPwN1O8ilspEgqHBRlH47UPdr1KKZ6dXOtEPMTIPVsK4428a+9o0ggf81NWaheoUG4ME8b8GkOmLngUMH4jTBN5o=
+	t=1784101657; cv=none; b=jiWLcF3sZ6wKrz4SuULGPLPhA00D7Js+B6TnXjexJinkiqOcgC63vevSjpKzl45dgeZMPnNlyxGNTYx45VW1YCJFZWa4HmY5BYaivFva60AL73u+3qBoJpMEScNG7Y43FfntMV1GCiromrDtDDnrMTzHIPbT0Y88jpGMmq8WbbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784101580; c=relaxed/simple;
-	bh=VssoyfTmj6GTUS9NnVXGP/5/+OsPYQIynXW85/FS36U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=jujlehP2f72IQzAMPgzUoGZEt6Rn3bVhLZDWxRZzQPKRvciv+2Gq4gPtuIhDwLKGopoP4Dx2hjK5Sk3JK18dXWY2ZERnOFaE5wuXtsXei3cS7jYYOvXskI57jpXeeyNQRsiwWJtqROp4BSLPwBO1h2dPFsAvUukiPC/x3ESPbfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=theohrts.com; spf=none smtp.mailfrom=theohrts.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=MHC6qaBa; arc=none smtp.client-ip=66.163.188.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=theohrts.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=theohrts.com
+	s=arc-20240116; t=1784101657; c=relaxed/simple;
+	bh=Trb3D/6dytoP2bUuL26pMieKFhiNQwDy4ruscUnwIn4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=plc0WcPdWNO/uLewT/7sCEDb8UkOY4Ura0IAcc7TpWjmubIGVrl6iyD+KUfkS5NlKz1Ka3Kqh3SYtfmbsa7L/noBp16djpPDYGLKhNbtarepfMIXeygTiLVRZW1zXlX5KPjzk4WsoqA1zY5YuY2XjteoNR+AF6yJHN59+23d0ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aiMHd1FM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LgQjn1En; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aiMHd1FM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LgQjn1En; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="MHC6qaBa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1784101577; bh=plIJm9RV84otxXFP32v7bYyxpSQuSgNSViFJBmS/AbI=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=MHC6qaBa9bjfU8RcJ48hNt385M9rJq3gs9OzygFKI/YwX6DXZbNEdVTqjrMhGDiM2bvgYWSh1vLo7nSOaZZ0XJ1eMYDtNcqPOdfk10gM4xca17NMlhHX4AKET5Vlq8xwoGPsOtOIHA0w5+TNGPUD5p/cv9XLAA0gja5FfP3SAiZrkByMcIZoDSbXDXSmv/Zz5dfLnMxtoCCMiBI+cC5iLWySpjBFI3uB1Zk8LoU0YXR41pubtH8CQGg0A5M527Qrh1XId67Hskvs0U69DH3fg9TDGc/035Nf47bDn57Xpx+rR36zJmr8+NzWom9uMpB5xqRiN/6sm2Mv7IKng7jS2g==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1784101577; bh=Bzb6v1YgduyMJX6HmBY/WlSKsDaVBEcIs+uGTO39y3Q=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=jXUp/aat4Db1M+ZRkiEJlxrJvwpU8uqcZOHt75CNlHwn49bjVFS2JoUPxEI8Mmo2LiEIeAGSmPts705iN8kD75bMYBn/CanilLvOn3tBrHvmrC1wWRLJWxPb6uFLYO3wz2kb8ZtoG35T9A2//DUWwCoI8v0IqytYituZ1F84YJxVdWy1MYIIfjWXHATNDSb4jwvPMfH5w1j9URHFHTnlKK2bd39jNLP3JTuPQOSHh3r7qzJTPiiazzyD5zjrjf8g3K05owpDl3zuQvOJMRkZabSu866C8SWfCHZLiO+J/PXnyZDCWm6h6LsGSoP1mQpCgzeofa6XCddXEHggRZVC0Q==
-X-YMail-OSG: ij5LHAQVM1lx8ItiWtAxHjE5gTGVBQvQpH1zKqROuHBw6o7_SffZOAqEF5R.ygq
- Hqy7OJAU8PEh3e22hKlPtusZtwv4LNFuwmWVVK0aAiKzxdqTyV.2oGGMZK5b6OgucwxzMdtlw95L
- rU3OM_ow.UYdi4A0o1Pxdc5BS0hxU2f.nPlu37Ss6OTEq8NLNPVMG8tKbgWeZJxSecFIAj69BcBk
- UevNsFf_m.S0I8liHSIWg.LgMTN0O_HFfnQE6w4BNE3I7yluS8yi2yvgYUPJUXJkgjFH_tvMq25S
- mOUwltIIHlEcWiRo5Wh4PeSnAP61BX1Rbwap4LTLEzA3DBgLTBrctBIASRutW4O2r44R3weSvD9Z
- UQd_B042YqFJoDcgeXV_27RxJOCIXaHSUdaLkYITELjwXAiJlF53WukqqWqd9uLlQv4g4d0672FL
- _T2BaulIB7pmsY_YGpAKdpRSR3rAQr5Qxiq3sll5j4cJFdqJQ.OAWJ_Huny7OASuPjav7Vle6707
- dQRvGwKrBBo4GWD33CCCBVqTYGJknMXYinpOmjfDHHVWxdjbU.eBgZMUgcdODiNok0AX7hcSSV3W
- DQoFqj.QinC1yZVWRKR_iRsKfTTk_dBeaKsW.hCQn.kxQMJSRC6GL5zwPO0N5q1MkVj0XYhxNwq2
- OngUJcPcWpS7q0r5Xx7ed8LywwPAx5LbIkilPBkoj6j.Rb5vtescQR4nO9qt5KxmM5s6n41dggkl
- 8rSSJFChb1s3nvdJzqrXw1Yq0MBHX6iJztybKa5bUbcHob.lEtVWvN1EDt5FHT.mFK.q2TNoBu3P
- kCP8D1qxi2U7k1r6D.sPssHj7Ck_JraVd7TYG1XPXoHtRH8XLu8NJEOfyIRZ1XB5dD.ff1QnePXO
- gP2z3jGdAv06Ov4BczJuXZZaAH_GmfnbzVOGRUnpXkgO1YwcAg.sYiDazWKHu2gFUbGXf6vxSlxm
- 2mJncI4PBSqAruL_Io1bw2gWbUdPtwq4DtAck6qMq5ghfNwuemycKdY0jCs4QhGd5QtO5ri8h3Yd
- ZFxDNuwBHhzPFPfnBIRDbQaBurRPEkuraDoe0wkWrHeD42.inAnO4LUif_IBuzPACZEv5yt2yRiJ
- jp3fvv4p27olb67n5m8w0tlU3MyRdY9AM59rrR9QYvWe4TMgYQZVY9gIT.y4ARyoV9c5WqUevdfm
- PvR2j7Kztc3w_nQEfaAyljDVjxjJrUOBOHezCF3rLlLIjKI3jShJvtWP15USMaEHMZqngzIl7uRw
- zhpMcVt1FVGV7qP0J2w3XmXf4HEnnA2iXksO30UbN_nbIc9naBtRsRgTlsURt9KotZqZ1qmobE_h
- tH_k4uUYUhnGo1yYAcB6SP2BhffktqQ2vNLRHp_Nn5R5kZNGu9XOQuB6k1WnH6fAkIYQMaaaJ5og
- BCRV6kTqMlFXGgJ.l1RfSHWBy7UViYyCRFDmcA5QLcTBPaxES3OaJs4PcCN.rJzuAwHmc7rOTmIP
- EQ7N86fEYghIUZBvmYFl76J3iTASQ3udBLD5vhZhyvRXzq1qCRGDN19JM3YUcjn1fKs5.WyJtvqY
- JcI2OjwhmH_1_zin8qqDcX0wbBpN8zG.SrnaOoYz.ueJWCCeC89rXwNBxx7BCezqo74Dx5QKNAIb
- dlp3QpSBBNqh8MaUr5hkftXgkFriKpWPmYtAuT8qscm8zkGNrciw92gMowu7nObIMs3NHsMm.hHL
- vBieiT3EaqkhuPyUiD.I7rRvwSYr2x0ktwo4fDw3tZilMXzjEyidciaVeFpBz2PJ9We7wiOpBXn3
- Y1Hr90lMdBZK65lZT89Rb7yHD10CqCOzc30SaC6z0KMzF2Va3AvnNxFj5HxYVqrXShASjmGgzPgV
- H9qyeo89pTtip7uJ_xBG01hUBCYJpHWnIgDNzSaO.iAHEnAtxob.GbIMNacAL9QYRIRo5WukPyqK
- JBCcW8GKE9xUSu9nZRADoJRATvpebqgX_..G6XiGWlzK9ibH6wsR9jjfX3UKCpAbf3DUwngZRAVK
- BR2oeWGee0n0JRFnB9fjqv2Bae9I3tZlCaN1uUzR2x5XdWvQ4lmUrnp0_wtxvyOBijRsRD4W8Rqa
- 1J5Kmo5_3IQIEfLjhv4IUGeuFzsW_B.QkqeGfBMtRe8tXk3W99KOw9J6asZxCCd7OyPEV8aixxaM
- c_zpBZakSUfGY9kOirxInfurALBvWAnnjaDIlDLVlU112JbTqCfrVoTY3TpH1Ec.U6.V3iRlVzD4
- afWZCIpI3YLX8CAn9YSEBrqTgCMuwLljZRVyI3In8sah3954cL3dK0JwuxidL5.7rb0lGIt7TaCA
- W3ThkWiHuVMjx2vgUnuDov1QApc4RuZ66LiOAq7ryYQ--
-X-Sonic-MF: <oliver@theohrts.com>
-X-Sonic-ID: beb742ab-212c-4555-b9fb-65d916f5007a
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Wed, 15 Jul 2026 07:46:17 +0000
-Received: by hermes--production-gq1-6dc558886b-gjrc4 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 59f344348f05d2845bc62437dfb48563;
-          Wed, 15 Jul 2026 07:03:46 +0000 (UTC)
-From: Oliver Ohrt <oliver@theohrts.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	Oliver Ohrt <oliver@theohrts.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix speakers on Alienware x16 R2
-Date: Wed, 15 Jul 2026 00:04:09 -0700
-Message-ID: <20260715070409.42696-1-oliver@theohrts.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aiMHd1FM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LgQjn1En";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aiMHd1FM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LgQjn1En"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D2D4F3DFA;
+	Wed, 15 Jul 2026 07:47:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784101653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MnoPAb7D5aQ2UwHozW5kG+96ZF5JKVJOHotJ937xC34=;
+	b=aiMHd1FMT0z/YAAsaw9IiWypfOHJWjC3b/7j+JJB4kFR08W5nXTm0jVZYc6k7y1g27v6Zq
+	kjH13JX12syKZGQVY2KU7BuZKpgRXgm6PyQuWOdwYhce6Nlpmc5pIr5nkSlSsAhfeg2lHH
+	hL615D3RPlMvOKl7sZPwaaw1WUYQxm8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784101653;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MnoPAb7D5aQ2UwHozW5kG+96ZF5JKVJOHotJ937xC34=;
+	b=LgQjn1En86GfhsZ62/ydHRQCNh98m5wWJYM9NGpR+cfrIX70s20hcu4gkAC118MvtZQNSL
+	uFSu8D0/iZlmgCCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aiMHd1FM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LgQjn1En
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784101653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MnoPAb7D5aQ2UwHozW5kG+96ZF5JKVJOHotJ937xC34=;
+	b=aiMHd1FMT0z/YAAsaw9IiWypfOHJWjC3b/7j+JJB4kFR08W5nXTm0jVZYc6k7y1g27v6Zq
+	kjH13JX12syKZGQVY2KU7BuZKpgRXgm6PyQuWOdwYhce6Nlpmc5pIr5nkSlSsAhfeg2lHH
+	hL615D3RPlMvOKl7sZPwaaw1WUYQxm8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784101653;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MnoPAb7D5aQ2UwHozW5kG+96ZF5JKVJOHotJ937xC34=;
+	b=LgQjn1En86GfhsZ62/ydHRQCNh98m5wWJYM9NGpR+cfrIX70s20hcu4gkAC118MvtZQNSL
+	uFSu8D0/iZlmgCCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A53A6779AD;
+	Wed, 15 Jul 2026 07:47:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yGYWJxU7V2o7NAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Jul 2026 07:47:33 +0000
+Date: Wed, 15 Jul 2026 09:47:33 +0200
+Message-ID: <87se5ky9re.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Steven Kendall <skend@chromium.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
+In-Reply-To: <CAB1bpFCNC1NWYpBRzzuxQMFN2wugSYUq2G6tkeoiT=ThUE094A@mail.gmail.com>
+References: <20260713-fix-headphone-plug-cirrus-dell-v1-1-3c5157cd45cd@chromium.org>
+	<87qzl6jf1o.wl-tiwai@suse.de>
+	<CAB1bpFCNC1NWYpBRzzuxQMFN2wugSYUq2G6tkeoiT=ThUE094A@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-References: <20260715070409.42696-1-oliver.ref@theohrts.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: D2D4F3DFA
+X-Spam-Score: -3.51
 
-The Alienware x16 R2 has two pairs of speakers, but the BIOS
-marks pin 0x17 as unused, so only the pin 0x14 pair plays and
-audio is very quiet/dull.
+On Tue, 14 Jul 2026 21:51:21 +0200,
+Steven Kendall wrote:
+> 
+> > This makes the remaining text not taken by git-am.
+> > And, I guess the text above should have been combined with the below?
+> 
+> Sorry about that! I'm using b4 and that was the result of having a
+> cover letter in addition to the commit.
 
-Apply ALC289_FIXUP_DUAL_SPK like on other Dell machines to set
-up pin 0x17 and route it to DAC1. Tested on my x16 R2 with
-kernel 6.18.38, and now all speakers play at full volume.
+If you want to give additional comments that shouldn't be included in
+the commit log, put it under '---' line, instead.  Then it'll be cut
+off.
 
-Signed-off-by: Oliver Ohrt <oliver@theohrts.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+> > The jack polling is really the last resort, and I'd like to know why
+> > the normal jack detection doesn't work at first.  Is it the missing
+> > unsol event?  Or the jack detection itself doesn't work?
+> > If it's a missing unsol event, this drop happens always?  Or on
+> > certain runtime PM state?
+> 
+> In my debugging output I could never get the unsol event to trigger.
+> I'm not sure if that's the same as jack detection not working. I tried
+> a few timing changes and pin changes but to no effect. From the user's
+> perspective, audio plays both from the headphones and the speakers
+> when headphones are plugged in. According to my notes, I also observed
+> this on Ubuntu 22.04  LTS on its initial image, but applying its
+> latest update resolved the issue. One notable clue is that currently
+> on Chrome OS (with no patch), sleeping and resuming the machine does
+> fix jack detection, but I've been unable to fix initial boot behavior
+> thus far besides an approach like the patch here.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6932,6 +6932,7 @@
- 	SND_PCI_QUIRK(0x1028, 0x0c1e, "Dell Precision 3540", ALC236_FIXUP_DELL_DUAL_CODECS),
- 	SND_PCI_QUIRK(0x1028, 0x0c28, "Dell Inspiron 16 Plus 7630", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
- 	SND_PCI_QUIRK(0x1028, 0x0c4d, "Dell", ALC287_FIXUP_CS35L41_I2C_4),
-+	SND_PCI_QUIRK(0x1028, 0x0c90, "Alienware x16 R2", ALC289_FIXUP_DUAL_SPK),
- 	SND_PCI_QUIRK(0x1028, 0x0c94, "Dell Polaris 3 metal", ALC295_FIXUP_DELL_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1028, 0x0c96, "Dell Polaris 2in1", ALC295_FIXUP_DELL_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1028, 0x0cbd, "Dell Oasis 13 CS MTL-U", ALC289_FIXUP_DELL_CS35L41_SPI_2),
---
-2.50.0
+Have you tried to turn off the runtime PM for HD-audio?
+The question is whether the unsol event doesn't work *at all*, or it
+just stops when the codec (or the controller) is powered down.
+Also, CS8409 driver enables the per-node power-save feature, and this
+might influence, too.
+
+
+Takashi
