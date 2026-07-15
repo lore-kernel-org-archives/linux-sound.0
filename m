@@ -1,104 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133B743A7FB;
-	Wed, 15 Jul 2026 11:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3438A44A708;
+	Wed, 15 Jul 2026 11:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784116348; cv=none; b=r4V13GdItBBbOUkQCCMTCVGLo1zM69bFsNe/T264UF4sv6MupKbQgBwYE9SOtQYzRKvBgynSbJdNoYgjFM3ah7BaomF0FQ+JcMTzaEKG7faLZaKACumU2AiQKkBsMPxT80q2Cdh14e3IwJY7uypja2ZLbSTjLd09UAiYvJpaApY=
+	t=1784116372; cv=none; b=r0e2z7nt6YQqgJigbeMMxxTEU0VMple0td7KXjbawD9PsSTV1Ag35Mo+eZHlB5CVOb+sqCJBG6tc7A48TNlUXDezTG3/iYgrgIFHCfCWtZPcV7IZhXY7kuI9EqicHoPRTWTlVz2rpaesnjZqqZg6kpbE40Xbw6nh3gGZsxb1N0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784116348; c=relaxed/simple;
-	bh=8ULvJQIoSjKTURpGhk9S15PCC0YJqx4411hpdjXxHA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MqvX1j27uSbSf21Px4jpDJm5FVh9H7YxaZUAT/UMI6M7NhiLxTM7++t3cJ5hRA5qjzWNYao2vyQyIz1h7f7tP3uv69VltiLL69Nxnv12ivEzOQulbwZvhi2B9DM00COtXfeVo5yqkJIIHlE9gZnmTlfLZIt7xrnlnADMCs19d78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxFpa7oq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784116372; c=relaxed/simple;
+	bh=ZSF8JHKi2pKQ4zmD1RFOzmFP2NHqtcBXdsDged0G6xg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BF8MHz+FtKjfmt2x9+CBGFFNWda5nRz9YpeSAZk+sBLrlwAaoLgr/zBI74g4tlK9hTB9YKU1Swh4XFSFX0Bk3p+J9wiweo/516XNlFAbXDNaLvjNhBRNwPapIx2gZR1o0UtIyz6nZEJKc0RFJfw3+3YG6bNrsvM0m0efbC7xsas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W9upAbMH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxFpa7oq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 241EF1F000E9;
-	Wed, 15 Jul 2026 11:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784116346;
-	bh=pj/ARY+WoaODUI15ZuASsCan1ELdT179BkHdN1ltSvI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KxFpa7oqK2t5Z1P+zQnAFa/NgLzXdbbQpJdEARHq0o0q4+cP6AMte/L4YvXpv/vw5
-	 S2K4Kc/c2WkO4Y+3lY8X6TviY3TfNu/KMz8DeId7dyJoekuNMDWkHfY8STPY/NBRTu
-	 t/JVVUtL6YXyLntl2LqhUN3pAIC4Ctn23NMciyQK07APR8HP9PVH7hmBD7HAoFtevj
-	 LMzofREahTupX7klXjCvweoRJcqAV/meolWmwkbTTDPeo47Ku7jv/+jYJhwk7YNJD9
-	 tjleegBe5TTfRkxsa8W5meva5US324qlKPj4xgho9VE8FfFmYea3ScArnA17FV4vTQ
-	 qDe37A167C1zQ==
-Date: Wed, 15 Jul 2026 13:52:24 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: phucduc.bui@gmail.com
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Sheetal <sheetal@nvidia.com>, u.kleine-koenig@baylibre.com, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Rosen Penev <rosenp@gmail.com>, 
-	Piyush Patle <piyushpatle228@gmail.com>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, 
-	Bjorn Helgaas <bhelgaas@google.com>, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 4/4] ASoC: tegra: tegra210: Use devm_clk_get_optional()
- for sync_input clock
-Message-ID: <ald0NfwnTmBsiM_j@orome>
-References: <20260715051115.17385-1-phucduc.bui@gmail.com>
- <20260715051115.17385-5-phucduc.bui@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W9upAbMH"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66FBcqaF523552;
+	Wed, 15 Jul 2026 11:52:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=eKlXuL8krmwHy7dm/mlBkjLjR2xOKjkvcB8
+	QhVUqCRc=; b=W9upAbMHTXADlZT0Pb0hR8nMebj4/FvnUhIK4LBX6WjmjVmN+TI
+	SZOyiITr0ojV0a99J7UpOfRlWPrbL5pLkTOkFdrSd8oBaGWHp/ljd4N9CRQazydF
+	DVWFWjOsEBC2wBhZngIL5Iawqso6U6PMqj38pLpTHJZ/l+xebiFXKE5XKo81moDZ
+	Iu/4CU8WhndSgn/amTPe2N0TOKHJ5gWtxPQWmrUZSlC/Kh8/j9MtqxYXmzeDYeit
+	/tDiVN/ICC2z4nRzIoyek36nyAVfx6OfYs8FDPpeI/Qa5Eqo74tTFe9sR9PJEbIW
+	G/quAVEgLmp9f8OUMVcsHjJJrNz/80pzPWg==
+Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fe68wrws4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jul 2026 11:52:39 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66FBqY5h021446;
+	Wed, 15 Jul 2026 11:52:34 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4fbewk6ngc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jul 2026 11:52:34 +0000 (GMT)
+Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66FBqYba021429;
+	Wed, 15 Jul 2026 11:52:34 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 66FBqYdv021425
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jul 2026 11:52:34 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 2A382635; Wed, 15 Jul 2026 17:22:33 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] Add support for the Qualcomm WSA885X Stereo smart speaker amplifier
+Date: Wed, 15 Jul 2026 17:22:18 +0530
+Message-Id: <20260715115220.3093799-1-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tbuz2hzdnvsz5cs6"
-Content-Disposition: inline
-In-Reply-To: <20260715051115.17385-5-phucduc.bui@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-ORIG-GUID: LlnbSeJzp9T7YOpO58EzWDQZvCwMzVW0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDExNyBTYWx0ZWRfX9T8Tls+QbLwX
+ M6Wzmu/tvQUEM8bL0PNfnijk1koHGkl4FFzPBJtyKNqM2Sxm5uZLcIzTdxW2AIpGvBYTEF5xVkE
+ 6TujmZNQF1/Mtc7JJuJL/JgRorsuIOZuTgcCwpm5i7UhSiTOa4h0enYoTTesvE/DUKY9BMOpcKQ
+ IIpAB1Hn4IHnihDsBTovp4wrztWOyId2VbpRQYRly5KVT9BTt26GURq1wSQGBRzZ+jhGhExtg6Y
+ x9scBlZ1pRN9pHsVX38gmYgAZh/OXcAwn4zze2p3SA54Jj961DTXYtClfqScaEAj+QNPt0cS34g
+ 6Q3zumVnsC/FTc7YO28t3wuVBSFlnCRZc3KKssPMvQqh0PtnGbK8jCEAIepTNblghVyCqibJqrf
+ vI/vgofSZJf+VZIZ5zEfGOfUyZLKRkFc9oD1NhQ0gP3IFRCsszSm73bGWrUwUYDqTO61nl3/DI1
+ vMwvmKlt+lwGuBKPMVg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDExNyBTYWx0ZWRfX3bkTuxur8M52
+ PyHN8FO5Uz6HXYUQo6+goAvgnUO2ddxT+r2LWuK1XgPCb5IhHLqWPhBiY6QhFm/1iP4dniVHY4A
+ NEOPsULW/YVpCkUfvKZ1eeNdR0B0QNY=
+X-Authority-Analysis: v=2.4 cv=LbgMLDfi c=1 sm=1 tr=0 ts=6a577487 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=eoimf2acIAo5FJnRuUoq:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=uthJsKoNB9gwUhIDdEMA:9
+X-Proofpoint-GUID: LlnbSeJzp9T7YOpO58EzWDQZvCwMzVW0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-15_02,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 suspectscore=0 adultscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607150117
 
+The series first documents the WSA885X devicetree binding,
+including supplies, GPIOs, Interrupt and battery configuration.
 
---tbuz2hzdnvsz5cs6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 4/4] ASoC: tegra: tegra210: Use devm_clk_get_optional()
- for sync_input clock
-MIME-Version: 1.0
+It then adds the ASoC codec driver with register programming, serial
+interface setup, clock handling, mute and gain control, reset handling,
+interrupt support, runtime TDM slot-count configuration, and stream-time
+power-state sequencing.
 
-On Wed, Jul 15, 2026 at 12:11:15PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->=20
-> The existing comment states that the sync_input clock is only needed
-> when another I/O is configured to use the current I2S instance as its
-> input clock, and the current code does not treat its absence as an
-> error.
-> Use devm_clk_get_optional() to match the existing behaviour while still
-> reporting real failures via dev_err_probe(). Update the comment to
-> describe the optional nature of the clock rather than the previous error
-> handling.
->=20
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  sound/soc/tegra/tegra210_i2s.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+validated speaker playback on Shikra and Hawi platforms.
 
-Reviewed-by: Thierry Reding <treding@nvidia.com>
+Changes in v4:
+	- Addressed comments from sashkio - Fix ASoC component/IRQ registration race condition.
+	- Addressed comments from sashkio - Mark SDCA_COMMIT register as volatile.
+	- Addressed comments from sashkio - Fix I2S TDM RX slot mask configuration for STEREO mode.
+	- Link for v3: https://lore.kernel.org/linux-arm-msm/20260709175915.3805851-1-prasad.kumpatla@oss.qualcomm.com/
 
---tbuz2hzdnvsz5cs6
-Content-Type: application/pgp-signature; name="signature.asc"
+changes in v3:
+	- Addressed comments from sashkio.
+	- Addressed Mark comments and Updated the sample rate which are validated.
+	- Addressed Krzysztof comments, added support for shared gpio pin.
+	- Link for v2: https://lore.kernel.org/linux-arm-msm/20260701135913.1641328-1-prasad.kumpatla@oss.qualcomm.com/
 
------BEGIN PGP SIGNATURE-----
+Changes in v2:
+	- Drop "-i2c" suffix from the binding filename.
+	- Convert qcom,battery-config to string-based configuration with improved documentation.
+	- Remove register/value initialization data from DT and move it to the driver.
+	- Replace interrupt-gpios with interrupts.
+	- Address all review comments and update the binding to follow upstream DT conventions.
+	- Removed redundant GPIO abstraction layer and direct GPIO API wrapper.
+	- Dropped unnecessary NULL checks on driver private data.
+	- Switched regulator management to devm_regulator_get_enable().
+	- Converted I2C device ID table entries to use named initializers.
+	- Cleaned up code per review feedback and aligned with upstream kernel conventions.
+	- Link for v1: https://lore.kernel.org/linux-arm-msm/20260610155708.151067-3-prasad.kumpatla@oss.qualcomm.com/
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmpXdHgACgkQ3SOs138+
-s6F2/g//R6Z8PVSVJHa/k17C5yXexk+ibyD0k518KFWDMmajhR7tBUXOA6+GhQ/8
-XDFMhHGlNpskzPwt7YU0wKwjN6zq9WeW6Q9jhknvXhV1GoW2KRdMJ21QfHfaoooV
-Ob8HaIh+Nm/60U4uP44WE5C/0HEKiymwrPKHE7zcNYBjNz+4kmgiz5lGkQ2SAN4J
-coNWawc68oRTHbGRwPYs9QcuDqqpvANj6Rio1+SD3qBA4TaktV1U5eGkuPO8+Dno
-U3ubu16QlH/57WgMZZPzCB5CR4Emt/ZMm2JdEUURRoqgjtabblT8+iWmvHu7NWy4
-ApUAbx0fMpoAHOg5fH2MpHcobpMjKjO7JhdxvPM0/m9quPrOZZ/eT8kMfc8fZlnZ
-69Dyfy+tDQ8PIMCAyppcogpOt7NJG6o2m5SFiC8RUkPJ5u8t7AAG5yy/+BGZXrg3
-bQGqt038hUedNfHi/8NKJpnGKAtm0wsnV7C9wXIKgg8NJiTpJpoI0mH0K3y+VaTl
-hJCjnULMYY31GMdJIu0zujevWWVMGQldh+8PB0oDIE7U8iQCN00i8Lw96SqzOtNy
-n9qfpuL5usuCYWBnSOrLkyoRdLBYAd69Xm6cq3u8fLRlmF6p8yPGWfg4LBmwAFMM
-M8E1xuKuI4GejEwugIyrvQ9d2JsFnnOqiYJ5aRmQKQRBcHZuliU=
-=bEvT
------END PGP SIGNATURE-----
+This series depends on:
+ - https://lore.kernel.org/all/20260707-dt-bindings-qcom-soc-naming-v2-4-1b7d695be2e1@oss.qualcomm.com/
 
---tbuz2hzdnvsz5cs6--
+Prasad Kumpatla (2):
+  ASoC: dt-bindings: qcom,wsa8855: add Qualcomm WSA8855 speaker
+    amplifier
+  ASoC: codecs: add Qualcomm WSA885X codec driver
+
+ .../bindings/sound/qcom,wsa8855.yaml          |   93 +
+ sound/soc/codecs/Kconfig                      |   11 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/wsa885x.c                    | 1533 +++++++++++++++++
+ 4 files changed, 1639 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa8855.yaml
+ create mode 100644 sound/soc/codecs/wsa885x.c
+
+-- 
+2.34.1
+
