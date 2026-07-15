@@ -1,157 +1,121 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011008.outbound.protection.outlook.com [40.107.130.8])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6231C3A7F7C;
-	Wed, 15 Jul 2026 02:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784083426; cv=fail; b=jTNRpKpJZyLgfkRQz3/qtW+z+sEo0nEOtL7Kvgg1XeYoBgHwBot+naAsmd8kgLUpyJvHZuL4R1+gra9nx6GxoPNQStJdSFtcH/ZDdZIUbxoImFkz6wgawfawA3J9I8LwOI9zROgZ6oTfbWcQUqvliWb5dnesfVoHZ7OZXFiMMwE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784083426; c=relaxed/simple;
-	bh=MSz1DnGxowJVuP8LKdQBQnhpU3jv/yWnk7yqFqo9V0w=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VKui7u3wP1mjtctzJ5es6yg5p3yGKagkaKK2pOYKOvDAyUraryzw67rHNL2kF7BH69ZW28oCDRmTWHlTF3IVU/wdN/M9hWxYrTWpQVtLHcFE5jMt/B5K9/US1jiKS3B3aUKZhkw22Pig11CRc4tvoCVscje9xaL+HVEwcyC04HI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=hoFZWQlc; arc=fail smtp.client-ip=40.107.130.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA3F1A3029
+	for <linux-sound@vger.kernel.org>; Wed, 15 Jul 2026 03:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784084847; cv=none; b=IGSpgnqipoQfOl+OV6CuVEhT/5ETn32jveW8UmktuzE7Ze8STkYAW8mVLhFAG0Pw8uu1YsC2kFMzLqSEIKymLvA8KW1NRQZqLb+BCrJOYPBCK487hezJGdcay2H3PfE7Efp8140jI13PhWPMa+cAebZ2Du0IxJVWTx/LJm95wQ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784084847; c=relaxed/simple;
+	bh=+g8FekZWUYzDNxY0Ip40MyShN81+MPSVsJ1m+uVGynY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OuCYENJ+aKhJSQ9mfHpQwu4tqO6aaEsNeSUKvXE9UbASsm8stEDts0jmnYcYRs2sRepTHFTmLoHkbZ6ro05OXuD2awnwlxRXjQfOGytdq3CjDWkKhAr8V2iB3D6bzczvI5S3//iXf/PZtrPdfcneib3zcYiMeRNQn6U2NLEPBoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UTy08Wdz; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="hoFZWQlc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C2cXI3fSal1H1DF1LOUmpfT+3FRF9NLgKNcSo/xeI7yuxKB40ZvRccES3oAGRRlzt6oUT15hKbkQLQnMY2QBiYSUJ5yvZ/Vy6BR5O3D7y70omRuTtMM+SpH8BBq7MN+fbvYUTY6V76QobhsZaUfkRmE1rdwsCxTQ9FDOYskVixCZS/CQevIvTGrq/fnUyxk7fvfuVs1rn8TKfo7fJ4mWl9fYLwlC3TqlHEr42cj/PRy8bsSSG4cbalmxoWl2z5OftADw3L59XvsX6KqkZcA9X3D1Cvu5VmK87Dj0ycR3ay7NngdGElaupXq0RBs0YDk7m9/tddsNIe4YJFFYzYjnBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lOIgeugpdlNs1eZ+9ykpSDyxKVn9Q33TEoTDTfPSDkE=;
- b=SQVtVhbekW7NuFn7aPFm6h9wyS6YVn9XwdPCP8zsu52pAhexvfXTokWYMUfG5KNEpydRryTh2VQldIaS4MIxQzRlNwom3iGXVcMbAyZr1hS5zobtsdgsIdzis1JoN91obOgJlzfCT5VWJdjSo+k3gDhXpnOuUQ4dm7JaZy6ZtMB9/nIXXWcn5EaID/J5OVWaoSUIXPxUbuf88TeErxa6HQ+UOX3fmnjr7vpTKA1FdR7e1ul1sKOMlxqqttUUSEh8mCnUEVwDm5CJqAU8H1br9snd4JMeYXuOH1nnYkdsZUxA+WVE0iLRmQV7ltML4qFmrgHoK8PwBXIlpqqJdqGqvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lOIgeugpdlNs1eZ+9ykpSDyxKVn9Q33TEoTDTfPSDkE=;
- b=hoFZWQlcw5OKS3k6mMS67IpEYf6xGaTswAlNfwsPYj9YFZTalf30tJb7cI5l8LpAI5KaZmYhStr/5WhGbeMFKdCH8+88AlncY3ZGubNXShZ4eoR/YVP+fOPmnKileZ+PxZWnq4qGn9INpmFcUnTOzyIrR4lBaqgGIP8ajRx4QBxyhyozcslhgn+Z9FfcSn3HKhNsLtCChJLGDfbj97FceIXDy+H/YroA4oxwG8y1+navx1yrFBUx68hAuIajiEJhx1IAsmc8E4AFoFQXp5h9SbYNXAq3LtwC/dyv7hFP1jkjlTKFr5EKwBpAJ6FL16PVytFEAj7E1IUXft6UguO7DQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
- by DU2PR04MB8583.eurprd04.prod.outlook.com (2603:10a6:10:2da::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Wed, 15 Jul
- 2026 02:43:42 +0000
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0202.018; Wed, 15 Jul 2026
- 02:43:42 +0000
-From: shengjiu.wang@oss.nxp.com
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: fsl_easrc: fix m2m_init error path to use goto instead of bare return
-Date: Wed, 15 Jul 2026 10:47:58 +0800
-Message-Id: <20260715024758.1252801-3-shengjiu.wang@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260715024758.1252801-1-shengjiu.wang@oss.nxp.com>
-References: <20260715024758.1252801-1-shengjiu.wang@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5PR01CA0075.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:1ad::7) To PAXPR04MB9351.eurprd04.prod.outlook.com
- (2603:10a6:102:2b6::17)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UTy08Wdz"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=sbD59O8C7IEtQZg0hghsSiXEtBsu9r3UGAbzUn9ABzk=; b=UTy08WdzKV1t0rREc5FBd2ThRE
+	gzxUaCQ6ozDy6TJUgi1dFi0Nh5rJpF3PMfk/5jE002PpCry/T9j/cSjOLLrcBhnBF3CBBYWhiShoL
+	L6vYcSXOUIiXFztiojyywS/rZb8l/dG3YUL8MyP+rXk8X3Aq7WZhz2Si8zaqXWgSkzkWwkbwv4BiT
+	EuMmguH0+ye/8b76cgFmNeui3YFYgViKJNvdSFYY4wvPrboEuasDl3I9QHIuX/lfLRNh40j4cgeTj
+	GGWVCeJHC2934xu9bzywwPnOeO53LHYzs7ZTGCheeiWlnf5j+5ci36mcwIaD03Tk4nWMqLX2F0ady
+	bOVIFgLg==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wjpxw-0000000Df08-1rvn;
+	Wed, 15 Jul 2026 03:07:20 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-sound@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Subject: [PATCH] soundwire: bus.h: repair kernel-doc comments
+Date: Tue, 14 Jul 2026 20:07:19 -0700
+Message-ID: <20260715030719.757781-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|DU2PR04MB8583:EE_
-X-MS-Office365-Filtering-Correlation-Id: e49be4c6-2db6-4d07-1afd-08dee21ae24b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|19092799006|1800799024|366016|921020|11063799006|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	GjgRID81Cbny9M/ozrl/q5UwSkM9FSPjRffoRhKQPG2cgyQeo8h6y/7T5Rs+rZUyQvd/KU+1ds+Hczn6FnX62aMhx030JwJk7Uis/YyEhSnUsXrqIhMbs4jBK6efSE95CiyjaESh3hN0UhuD9LLmeiv8kV0eYuRqADUun+BhRKMmHPGrRqpEPCsMBC3l05bjfkze56zZqgzVCqtZYux9oGCZH2/BxYtfag1cwMKxyT9H9eiccsyjpdoF4L41opV6CJ2ZBOyqTw5FGKan3GhenhXuznLLvKcTe7ELxHwCh7Njn006TtQVeGNy5aYhZMCRZyhCTRhIDRRsHtTL/OgupObkRPsZjiTzJMxfT5e+ifVclI/QGUcRvupYGrp5YN/IvJCBkKGO0EVP5NPIi6iLhM0eCEejapb5y7QFBiyHos+hnPGbDAToRW2vOvhqzNaeMr0md4Lr1Fkrk8kKYX1CoCadDj+NRLeV6ycbJOFevlJAHoolX7z03Sc/xbNCB/skICNlaeWaPTWWD8HozFIGBjCpPztOPWGsJP15agFHGadOikfvAFchMoJqNhrwF5hCVjWJwy3pwaJbiBfe6EnrDBAM1ZACOCWM6AHrG9xwe4eVYbD+s66LfN/gW8M7ndHPvOCkIVI92NrofqK+dZ++lYuM0gLU4B/fR5vtAMxJAwZLIb1QFOoITqL/vo7wtxj88hr7EJF6NJICqGu9sGQqEw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(19092799006)(1800799024)(366016)(921020)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?PyxneOanomxThuflHv8MZZndbI1zta2pvK9VMgBWyRh47n1I7bn748Rvrsyn?=
- =?us-ascii?Q?WBIUdxFb56KHKOnJDUMSVdtm8TtKfbqYEM9rz04K+SEF/vQTXAT9ShE3t75z?=
- =?us-ascii?Q?vv2Gl600acCL6ZovxV5Cvy8JcZrsPioTFigqUHpbgfx5h+du30+Yz4uoA9jd?=
- =?us-ascii?Q?wbwYxsPyeyEQOY9tSB+oD3p+Q9lg0sSBXiWxPGdZjPS9EJG3VBeGphZjzepa?=
- =?us-ascii?Q?fdZCBb40xzLTsZs8KI8opHTC2T4SusPR0AaN26pjEufRNm3QqziL8IxjSzXp?=
- =?us-ascii?Q?GPikHgr2vS86qI8lsJR3blEX0Es/uN3kF40Qe8WAp05o8W/KKYSyK7iHVAHI?=
- =?us-ascii?Q?+P1gLjJVVIzEc98AO6YEsCsietZcBFGm4JYdOJQgSOMucDySCNIto+h6kdpb?=
- =?us-ascii?Q?oBJJue0T8PSIBBy4379v1kUuxQZvMXWzhSjT5KVOIwcqPw40UyuyNH/UhrRF?=
- =?us-ascii?Q?VseQf7GCcnA7O9aU9WnLJzaPXoI4TL5MuOt6Y8x4FhEJYHeRDhl2RTlQyCoR?=
- =?us-ascii?Q?O2ejcrnlov6osrNREO02E/KtkKqDs2/CVCv6bAtLT6ey9nzscC+GtMjaY3q3?=
- =?us-ascii?Q?CBwedcNtOYn0ZOVwAaiWFn1sgZf9rQb1de2w0ZRqVAfGhSxuugkVUL3k3ULo?=
- =?us-ascii?Q?Yv4TqXYbwdrE9KKXFGtShCXCFed2O9XyX/zmX0mexSjEInWRszJMAoInZVA7?=
- =?us-ascii?Q?PMc3z/X5iIGW2c1Nh/BRLRwVHwuf01IKZ0Jl88AH+6YFg4TN+mCG6jQnAHmJ?=
- =?us-ascii?Q?dgRmuFf/nCyKftLEFmBrOAhFu8hVhPtXzPZ+a7jieMeBI9+8MOw9jQt+gm04?=
- =?us-ascii?Q?NKLZYFjXEVjv4TJXLo+kgfhr/YJDMbSNUS0SE5lE+x7VNlKtyZXaFF7r4B9i?=
- =?us-ascii?Q?paKNuAgGZ6GTSNQnYACnJbBOQKgVhyMrvtGdD/Uuoy8kcSPksgL/DhUP26Ql?=
- =?us-ascii?Q?onJBDngHOve/a2F73t95GBDbEkeXOeSXmduFpIrE1RibaZ5Psh5/gvGPgUl7?=
- =?us-ascii?Q?8awPp6E7h2IGxaAhjNa6JjbW1etI65NINC99pi+GoXLFBx/WITFLD4FsPUdX?=
- =?us-ascii?Q?EIzgwJasKEphdeo4f78WpX4HrrrsEtleIFOgZK5t8YWljTvsxpbHoVudR7TC?=
- =?us-ascii?Q?pNx/L2oHVHtiN4riTMeZRO3SAr1Sr3k9GoV5oyK4O0vtLgSWQDqwFpFfT8PV?=
- =?us-ascii?Q?QT0ZN/wG0st3Id5ZJVVWCyuHxphOTz59kldNsezRT78DNmWz958E1LZcz7QA?=
- =?us-ascii?Q?w/28WbNLwzfb2CyGmvAV3RthsFh+4s9n+mGJ8XTuEAeLGdOBrWuUDR/+Ob7y?=
- =?us-ascii?Q?K89LKGdVHsS7SMtx+NDRXWU31fQZ3xZnXqwVZZkyMrqOB8gIBNn0HdEK9iuj?=
- =?us-ascii?Q?5j2//EsDPg5k4xJRnE6Vz0NUCAyCjHtHN0bNvThD0dCvdEZ/h+YgA4MKsmVb?=
- =?us-ascii?Q?vFFXYFjjqSA/7d3n2PSWjEDTh4eP+jBMW+xEC+SQKkVK6R8iEfsiH2GXo614?=
- =?us-ascii?Q?0pRUCGU3OVqcNDez90f5p1fB0zJ/mmqRf1Nfc6bSaR+yokqTVmMXmLOkZL/y?=
- =?us-ascii?Q?LODD9Jhie3fLtZjKwoV0GZdFwv94PPY8hIHbFo9HIACxg1qJVa6AyyBZTlH6?=
- =?us-ascii?Q?C0z3d5R6dYRyeqFUAde9w5Jq8iZFuz1AtllSDDKjWI/QXjKEaSEAOAH7jtwP?=
- =?us-ascii?Q?/NhQgcMPtXgHNZVmhXM55242+XCSiGFMoUC9fvWpAG22USpBRHoqyCuk4WZB?=
- =?us-ascii?Q?f2K8NUS/S1UPt/d4qZMCBi4LksBn1cXPliVKefM3abEDhkXt2pWR?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e49be4c6-2db6-4d07-1afd-08dee21ae24b
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2026 02:43:42.7889
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bjuLoSv8w4o6pxK0fPhrVGfnTPumkcii0XmvTMf1YSi4IKiaBSkbPnpmfInlskT/xTXy4e6DkxBInbBQShmYeuMsZR7Skhako1uh0R/h9g7RvONnQWyHF04ZaZRitJS3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8583
+Content-Transfer-Encoding: 8bit
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+Use the correct struct names (i.e., correct typos).
+Use the struct keyword for structs as required.
 
-When fsl_asrc_m2m_init() fails in fsl_easrc_probe(), the code did a
-bare return ret, bypassing pm_runtime_disable() in err_pm_disable.
-Use goto err_pm_disable to ensure proper cleanup on failure.
+Prevents 5 warnings:
 
-Fixes: b62eaff0650d ("ASoC: fsl_easrc: register m2m platform device")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Warning: drivers/soundwire/bus.h:86 expecting prototype for struct
+  sdw_btp_section. Prototype was for struct sdw_bpt_section instead
+Warning: drivers/soundwire/bus.h:100 expecting prototype for struct
+  sdw_btp_msg. Prototype was for struct sdw_bpt_msg instead
+Warning: drivers/soundwire/bus.h:125 cannot understand function prototype:
+  'struct sdw_port_runtime'
+Warning: drivers/soundwire/bus.h:144 cannot understand function prototype:
+  'struct sdw_slave_runtime'
+Warning: drivers/soundwire/bus.h:165 cannot understand function prototype:
+  'struct sdw_master_runtime'
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
- sound/soc/fsl/fsl_easrc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index edfd943197a0..0d8bc3a9ee08 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -2261,7 +2261,7 @@ static int fsl_easrc_probe(struct platform_device *pdev)
- 	ret = fsl_asrc_m2m_init(easrc);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to init m2m device %d\n", ret);
--		return ret;
-+		goto err_pm_disable;
- 	}
+ drivers/soundwire/bus.h |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+--- linext-2026-0713.orig/drivers/soundwire/bus.h
++++ linext-2026-0713/drivers/soundwire/bus.h
+@@ -73,7 +73,7 @@ struct sdw_msg {
+ };
  
- 	return 0;
--- 
-2.34.1
-
+ /**
+- * struct sdw_btp_section - Message section structure
++ * struct sdw_bpt_section - Message section structure
+  * @addr: Start Register address accessed in the Slave
+  * @len: number of bytes to transfer. More than 64Kb can be transferred
+  * but a practical limit of SDW_BPT_MSG_MAX_BYTES is enforced.
+@@ -87,7 +87,7 @@ struct sdw_bpt_section {
+ };
+ 
+ /**
+- * struct sdw_btp_msg - Message structure
++ * struct sdw_bpt_msg - Message structure
+  * @sec: Pointer to array of sections
+  * @sections: Number of sections in the array
+  * @dev_num: Slave device number
+@@ -110,7 +110,7 @@ int sdw_find_row_index(int row);
+ int sdw_find_col_index(int col);
+ 
+ /**
+- * sdw_port_runtime: Runtime port parameters for Master or Slave
++ * struct sdw_port_runtime - Runtime port parameters for Master or Slave
+  *
+  * @num: Port number. For audio streams, valid port number ranges from
+  * [1,14]
+@@ -133,7 +133,7 @@ struct sdw_port_runtime {
+ };
+ 
+ /**
+- * sdw_slave_runtime: Runtime Stream parameters for Slave
++ * struct sdw_slave_runtime - Runtime Stream parameters for Slave
+  *
+  * @slave: Slave handle
+  * @direction: Data direction for Slave
+@@ -151,7 +151,7 @@ struct sdw_slave_runtime {
+ };
+ 
+ /**
+- * sdw_master_runtime: Runtime stream parameters for Master
++ * struct sdw_master_runtime - Runtime stream parameters for Master
+  *
+  * @bus: Bus handle
+  * @stream: Stream runtime handle
