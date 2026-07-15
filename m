@@ -1,35 +1,35 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43776FC0A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4374942BC50;
 	Wed, 15 Jul 2026 00:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784073934; cv=none; b=EYmkbEkiZiUusKAEdynu8ZIoWZSa6DNWi6q2YFDKMz+omgcp4arzQOFK6YcdGwxNvGDdeNwo0zpIZPBwEb7sgkRXGvIL83LTT5L49zZ/3mU3DiGslvmDP1+G86WOCI25Rdozo8eEbgtaLmqFSSJ6kO24GvCbj5hU0fwce3eeKNU=
+	t=1784073934; cv=none; b=ZWL83k+92uErOPqKctROzK+jKj5VWrOEkNt5FskJ/unBQeRy12U4YEAo/vSX0uAszJxfS33e9fq6OZBGWfta/CFH1YHit21+77qGayfZv5VUBEG9D4nYQ+1n+8ESu+NAy+wnF2eFwanaNWqjpF0GtuOYszWjnruXEkn4qqfai9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784073934; c=relaxed/simple;
-	bh=BZewiftLFYOj0FqoCELdWkal16OQR61j7OKb5kXzPvE=;
+	bh=mF3MCHi3YHEPYtjop3i9gaPyrknZouMvJIo5Ib6adhI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=au4NPN7v6Q/YIvQWAX/YF5zB3Y8IfFZvx8I8Sp4E2R+yjbkHtfuAMz5QphnWM+Xio77fTrWMe+AyoXeZ7bOLbRmOyKftvFHB4coWS4uOUB/tUnrvZi/RaXjN8nnBMK78fG6IePfZ3OHvIQKsTuzAcnwZZKzOArsDwMaV6Spl9gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T0CUoKFP; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=FVC7FAt7Dv/wE/0MqlrX7W63WugUhVkk4rlEyUZ/9/pfrX8YhGoElYLsXnUV55nvfGLwXKU1mJAPVT2Ji6Fq+FptipTrNWNDzZVcvEdthIVg3iX+HNsqDPmIlW/h+DG9hXxcLrWoeoy3xR59AdhH6mcZWMCB1dkFHz4fpteKNUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BFVhVWgm; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T0CUoKFP"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BFVhVWgm"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=G+ICPr4j5N29bqgssjH6/kLVysBy2Z2WmiFI+/aQQHg=; b=T0CUoKFPmf9OVYNj4ZoWHojS2u
-	z4Gwx70W/kY+Hr1XC3YRzifUDHCih/fhoTwNy6/TpckrZWQW2RMcSu4g9QYujWZY3czHi5SXLs2yv
-	dkL9nB2kEPr2UoFbLyL3tvpLIpCQbtuGJZuR85aCsKXNndfBGx0JMWBiMwHOLQs+kBrK8Hrr7i14c
-	EYKoT9Lg0uvo8pwqqL7c0IuyK2cIK6iHNWJdofGjhaDwo8h7QMTaLTy5qWxLe7lazjVkr4BqQV4lf
-	mApc2S+FMlWkVUmLma9nuRubnFTSz7/tOrHT7FYl1RjBM8yxAlxjITdrqwIl0vsAidsGp3HKL7v+W
-	IuU66hOA==;
+	bh=XertOOfFvpAplO/JrXsYikR9iJI/5mQbiOBJ8r5yVLw=; b=BFVhVWgmF8Tu0/VlCpz6e4+xxR
+	/z/aTnIe4M94RU3PDWGzerm3sAiS6RhmL9NR5RIB8j1ynsh4vGCQ51Gj1WwHMy5opjF6LDEfEPlU+
+	EHYJeSbgntpoTAaeeUX1V8YgmwmRT4o+AykGeEF58OzX6Dmd/MKM8l/jERzY5GwpIenwKLxlt/21X
+	isOStveFnQ844M08IsSVYa6CBec0u7e17AOmPMrPDf3WAh/RR4CBencwEJX9srqgpToMfBrzU0WA+
+	EvjMUboiLOZ3oWkS9Zt6M+EB3z/eiN2jUJkh5gjLpJIejWS8SxMVwFhx+bC3bRwkDI7gMYs+T3V9u
+	3GosD8mw==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wjn7y-0000000DTcu-1XYG;
-	Wed, 15 Jul 2026 00:05:30 +0000
+	id 1wjn7x-0000000DTcu-0oxX;
+	Wed, 15 Jul 2026 00:05:29 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-sound@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
@@ -49,9 +49,9 @@ Cc: Randy Dunlap <rdunlap@infradead.org>,
 	patches@opensource.cirrus.com,
 	Srinivas Kandagatla <srini@kernel.org>,
 	linux-arm-msm@vger.kernel.org
-Subject: [PATCH 04/14 v2] ASoC: fsl-dma: fix all kernel-doc warnings
-Date: Tue, 14 Jul 2026 17:05:15 -0700
-Message-ID: <20260715000525.739874-5-rdunlap@infradead.org>
+Subject: [PATCH 02/14 v2] ASoC: fsl_asrc_common: fix all kernel-doc warnings
+Date: Tue, 14 Jul 2026 17:05:13 -0700
+Message-ID: <20260715000525.739874-3-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715000525.739874-1-rdunlap@infradead.org>
 References: <20260715000525.739874-1-rdunlap@infradead.org>
@@ -63,12 +63,11 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Don't use "/**" for non-kernel-doc comments to avoid kernel-doc warnings:
+Add missing struct fields for struct fsl_asrc_m2m_cap.
+Add the missing "struct" keyword on struct kernel-doc headings.
 
-Warning: ../sound/soc/fsl/fsl_dma.h:95 This comment starts with '/**', but isn't a kernel-doc comment.
- *  List Descriptor for extended chaining mode DMA operations.
-Warning: ../sound/soc/fsl/fsl_dma.h:110 This comment starts with '/**', but isn't a kernel-doc comment.
- *  Link Descriptor for basic and extended chaining mode DMA operations.
+Warning: ../sound/soc/fsl/fsl_asrc_common.h:65 cannot understand function prototype: 'struct fsl_asrc_pair'
+Warning: ../sound/soc/fsl/fsl_asrc_common.h:129 cannot understand function prototype: 'struct fsl_asrc'
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
@@ -83,26 +82,37 @@ Cc: Fabio Estevam <festevam@gmail.com>
 Cc: Nicolin Chen <nicoleotsuka@gmail.com>
 Cc: linuxppc-dev@lists.ozlabs.org
 
- sound/soc/fsl/fsl_dma.h |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/fsl/fsl_asrc_common.h |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
---- linext-2026-0710.orig/sound/soc/fsl/fsl_dma.h
-+++ linext-2026-0710/sound/soc/fsl/fsl_dma.h
-@@ -92,7 +92,7 @@ static inline u32 CCSR_DMA_ECLNDAR_ADDR(
- #define CCSR_DMA_ATR_SNOOP      	0x00050000
- #define CCSR_DMA_ATR_ESAD_MASK  	0x0000000F
+--- linext-2026-0710.orig/sound/soc/fsl/fsl_asrc_common.h
++++ linext-2026-0710/sound/soc/fsl/fsl_asrc_common.h
+@@ -28,7 +28,9 @@ enum asrc_pair_index {
+  * @chan_min: minimum channel number
+  * @chan_max: maximum channel number
+  * @rate_in: minimum rate
+- * @rate_out: maximum rete
++ * @rate_in_count: number of array elements in @rate_in
++ * @rate_out: maximum rate
++ * @rate_out_count: number of array elements in @rate_out
+  */
+ struct fsl_asrc_m2m_cap {
+ 	u64 fmt_in;
+@@ -42,7 +44,7 @@ struct fsl_asrc_m2m_cap {
+ };
  
--/**
-+/*
-  *  List Descriptor for extended chaining mode DMA operations.
+ /**
+- * fsl_asrc_pair: ASRC Pair common data
++ * struct fsl_asrc_pair - ASRC Pair common data
   *
-  *  The CLSDAR register points to the first (in a linked-list) List
-@@ -107,7 +107,7 @@ struct fsl_dma_list_descriptor {
- 	u8 res[8];      	/* Reserved */
- } __attribute__ ((aligned(32), packed));
+  * @asrc: pointer to its parent module
+  * @error: error record
+@@ -90,7 +92,7 @@ struct fsl_asrc_pair {
+ };
  
--/**
-+/*
-  *  Link Descriptor for basic and extended chaining mode DMA operations.
+ /**
+- * fsl_asrc: ASRC common data
++ * struct fsl_asrc - ASRC common data
   *
-  *  A Link Descriptor points to a single DMA buffer.  Each link descriptor
+  * @dma_params_rx: DMA parameters for receive channel
+  * @dma_params_tx: DMA parameters for transmit channel
