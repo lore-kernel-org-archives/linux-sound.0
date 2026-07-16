@@ -1,235 +1,225 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010064.outbound.protection.outlook.com [52.101.229.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BD83EA66
-	for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 03:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784171867; cv=fail; b=VuSKy6/Io+KMInfL45FAp33MzKz4w5cCZH4sbinCMJZWe8zTrHTSD0E9Fy2wzW2Wm3YFPj4XC5xYO8W+5YShfvaZjt6tos1+q11JdtkCjD3lXvdCOE0cKiA6IMbnCGDBute3ACFpLBBKJyC1bOhbX1Lm0ue6p3kPBiK1NtmG9Zc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784171867; c=relaxed/simple;
-	bh=8N3jkfMawZYRAYR4sKdgspTOdaYnAsdCH3r5gid4OWQ=;
-	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=BqG0MNVpsDJMf1sPdUgg15obJZEt0hTP096dkfkqz7P8wvAe1A5N0cmdO8NjLFKM8Zdbemu2TzlWLkFvjiRXHuow6LP0C4CG+BCQX3dRWXqkSH8AGw94UB98hiDtv+5YkrZRKRc+9GWGmyF/7sgfXiCsbFxnCqohMokE5It+SjU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=eAq1iQU0; arc=fail smtp.client-ip=52.101.229.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64981A2545;
+	Thu, 16 Jul 2026 06:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784182759; cv=none; b=iZNiXkSQZ/Q+kMPD1C9xP3dJFjAsZwlFlEHvGd+wG9PFP0R5W1K5IyXPzsqzgQSMffyXovpIzOJcicGBhcoaDbJPE52L/0w25n2dyKTzZLHIWuxNdBzEoU66vJXcRbKe9EmfMCd9r/Zybdx1qYrHeZ+/l1Z5SeV1p9L/IhWOfAQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784182759; c=relaxed/simple;
+	bh=GXtBcwvzCn23X9TMuSnPc89rSWYHyJAuEyL2UFcNYQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rTkRzkybgm5Kb2I+Z2dDqEv98Y9A7Zte+g+FlgptynBV3JP03zbrsfZSG3aVyTEIxPzEv9yvteVohn9YWN+TXm3vUOn3G1gyD/rOdwy3tFEucfp+9vgox5CNWyOKl0+I1cfyM+iAdm2Fmzl0flmMOtc0vFMzh+BOV25i0wm3P3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KoA7UNs2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="eAq1iQU0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l9iYV70ATpptxgPQp682aC1fGsJ3fo0cqTLKcteSWxDp/dIVY2433ahVMN4WeR1Hr6O9hmv+jlm6lTFQ+yyv7XnvHP5ch7o0rKxSHMtt/6gC26taEhUgmnyOT0y7i1/BYZdj69+nqqnvtWNLKITfugicAeg6UUDGQcF8Yrl03ZEoVoADZEcDsR0SkYZTRGe+1/G96eWT+JL9+JFB3Tj64BOTcNpP9c1htuWzXmjYPXESZEAHeU+sGgLJhDP30pvkWSOMvkEre5mPzT50BCVlYQub5chD4BMrS7pIWVdXUPPF1Qj5EEyI07SddeViD7MI3W+E4/4DMvZ4iqcEAuEXvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wQienMWcjlLHHKy7bICfV917zpW6iGmTWHWr20/R3Q4=;
- b=dotIS4XZIksJ94lhhXprSywiNEWaGQP/+C6WEOVChW8YE+E3r6Cc0g5mmqMWfrYSpZPvuIYEnve4SBHv5pzqtREQoNrFNGTSZBTniouwidDHJMYqF6gcH0UF4A4hYCI5+qu9bu9xwGV156bDZzjcVe8Af9eJebEgjf/CRc98Hkpd1DIoM7gNRvF/TzJbdIeHiKSdJHJRuVs6yV0OaK1/twMfiVlg5A1ydzjvTY9JGTYIOYiI9l3h/j4ZHrJaIB6QhBV+vzcUweg7Ecrnvaf4Z35l3WCLQTYVxzLsCLNAkNeSNj8XtAybhEN/lzLJVwvM150D2821hHH3dKp400fvHw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wQienMWcjlLHHKy7bICfV917zpW6iGmTWHWr20/R3Q4=;
- b=eAq1iQU0U1DFTGkdBR17SyG7BE6kCyQ+JLhCWMs1aBVmzs9vkEwECLi+XAY4oh94EVdmqmgcjTBEZ2CDrne334gT7ynko5FsmZakAzgvnu0xhRfC9zup1ElS5bog9V47rhaS8rYuxhv5Zch2XXrbPu///bufJKYOh3aHp5wEmCg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by OSZPR01MB6752.jpnprd01.prod.outlook.com (2603:1096:604:135::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 03:17:41 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0223.008; Thu, 16 Jul 2026
- 03:17:40 +0000
-Message-ID: <87ech34o8b.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2] ASoC: generic: Card name parsing should be called after xxx_for_each_link()
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 16 Jul 2026 03:17:40 +0000
-X-ClientProxiedBy: TY4P301CA0013.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:26f::19) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KoA7UNs2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F01DD1F000E9;
+	Thu, 16 Jul 2026 06:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784182758;
+	bh=nNzTIlXXeV+QIzMVVpXCEP1ovlG1e3ky7RH3GgTN468=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=KoA7UNs2+WAqMBQ8/u7vivpptmEkyOUkSZVDVfKwEwhUM+GUw1iZcZCn6uhfjdZd5
+	 66XTUyHh1ZTAfMr3MT6bYxws1zyrN8hHJUVJkbqcTuCsnfEkSA4xx4WOLAVhsL5xJI
+	 AgMUqkhKXSb37bg3S3e6AiaZWCvxGfBflGztpWdly4HKYTTlIUT7aoXTIpAXQSg+qd
+	 xj+WPjCxZFR7zBNyerPmHN2IJwpWWeWRhWUfBhO8O6Cad52aIpb6Pxdq9P/Eth75fT
+	 gKsUlmoukbGmeKvkWGcMfGYdHI0MFyLH0BiFiVjTK+ySGnP8RS190UFS9kid+GM5wV
+	 2GfYlYq3D6mqQ==
+Message-ID: <e1c57781-846a-4d5a-95e1-90038f88afef@kernel.org>
+Date: Thu, 16 Jul 2026 08:19:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSZPR01MB6752:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4da0a6f2-c4e1-4229-d9de-08dee2e8cb7c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|52116014|376014|366016|10067099003|38350700014|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	qEilyyfsXxvNJbNpGnl2O3FGd033jc+G+DDXsURD61LDbEz7fFt7Q0niJoA/aTAgUuvitEtanIpX6sI7pXfX5Fuwdt/gYPE5R7UhOW9duq1hZbIZJglx1Q2Sqoazky43o5emj/wSnjg+OnPBFyUg7XD11GKikFgR7kBG/gV+J48t/sLbyys2p7HMZKjFOkeC4PxooslBgw+1QsUwim7rdOcRaz/lW1pGe5LoeNsFZh07bi3erqxI3ZicAdNCduYkjNLgqiobORYfownyzK6oxsGDQD2oTSzAY/9muWzO1M5X+Yt0d97S08KE9s644X3MSD4z6DosvVm/vKwVwQNfQFFW+UsujYJXVAFCW+oLUmlBmG4HUHx2zPwUfxFuXTwnbrF2YDxazCb8XD66rwNXQ8LaOwxvSXJSMU72aDefkNw8jwD0UhSZsVCO3ffMWa4iOZ7mRdl7sPVm6NJ2Pgdy7FF/u1x+SyojB0W7hLKfiD7qlkb7wW+hGNXuVITgUBPa7JJN7YZSv1a8Cb6mPStkcsr4iNLw5F1G0pokOS39uUgg7Aze4ipaz1Z2361VaMG/Dmk5wE7Qtrq2jbQ2K86E8ryU3fhyYcUwjGRda70I+qYL359Y/nfipiujqnuoluo1HXLABq9+x5NzDX2ALtjGfVjliY2B1DA3XbyO3T9nekvTUs/ndJ9yTzTlgUTX38VVhchuYMkLPr2b3Cl1uz7J3K3bdtm8DuMZBkP16Q9lJQ8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(52116014)(376014)(366016)(10067099003)(38350700014)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?yPcMv4DlAeoCuimA1XqAz6xoI6/mi1yChr1Mv4Q6r4sCITf7LtdtlzIBe5Io?=
- =?us-ascii?Q?DaaXTVhUGtaZK9CuhAnQ7+kEg3Dgwk2MQ2CWYdYZVq+J+4Sg6gmzJY2qU2tz?=
- =?us-ascii?Q?8vCU+16ltYP1BjmgaAyQKU3O6C967p4We1OUNt/XBWcUhypSRHgf1unR+fjK?=
- =?us-ascii?Q?AWhm1SH3MKbcQWdimp/fxuxHzBkvui4X1EgJ/b3fCf9oDrf/yRl49IWF866R?=
- =?us-ascii?Q?iSQ8zCdmiq6urXh11xD6OsWGNg+zJmcJgaPxEWFh1oVnl6iiD0SyGYduSsIC?=
- =?us-ascii?Q?lI8JuHoEgzzeorOZGO+Af2Gk6g7Vb93nmNiWwVYlfmtIzLbEzCoOm+J3mkCh?=
- =?us-ascii?Q?JrO0Wpd1Knpa1amq5R/3gS59VTTqSr8z/2u2cJxa8kLKLXHYi7XPzDH/exy+?=
- =?us-ascii?Q?MnNAhgRsWWgMXAl0C8op9zr6kBsMba8z4vUGV6T7XrYwtPRldtF/+S0rH65I?=
- =?us-ascii?Q?xme7eBAg9ORZ2dPgvfBNWgSamirnqciKRa4Vk+O7dK5SM4J/7F8Xwc6+bUe1?=
- =?us-ascii?Q?nS/JdJY9mfOsoMgl95ESQXtdFrP8WIs7ZFHJ0VtHEgIwmRikf0Q3H1DMzFk2?=
- =?us-ascii?Q?iArco7AEZNRn4HztzobcvcZFWt6gMZKkrS/XaG2ESlxifulLpQUNfNkJG8l/?=
- =?us-ascii?Q?l3b6ed8Pcwc3NgCED4P0zqtSWZyyAHDi4ciXF60sCdacKx2gvRWI9F0x8PMO?=
- =?us-ascii?Q?XdWLLhULJ5+1gSm4s8dqjY3F3pxnTTsyYr0sFHXUv9I1Z+MdV6q5D2qGl3MK?=
- =?us-ascii?Q?qfgZIsN0DSNQy6m+uRgnxWZsJ2vwjgWqu9ibvubt14530FnkPlR0NdV7U2Vs?=
- =?us-ascii?Q?3W1G40HcLE7PT+A5suyitiLwCC1TsasoSJUPDQxMo+L1YaB2RoaxaSQnYItR?=
- =?us-ascii?Q?+z/9uZ5cccK6n6SQWVdBiu6Ul/TNZZX9uyouXT23HuOioEvREKzjrAesVxW2?=
- =?us-ascii?Q?crtRUDQFw5DZ/bON6S8B1aYWOTymSxY5anSWDS9wza9OEhPQtjqVEFdRWTrm?=
- =?us-ascii?Q?V4Chbu67lMurYKermtaMnQB71Vr2foFxaIz3/aeIqMp8xzsJinv5EsFajipX?=
- =?us-ascii?Q?3QetVmwlqR6WNRYs+yoluTVu7zEDtvAl8lNnfNJPzuJ67cZrMGwM5F5voKeo?=
- =?us-ascii?Q?Ob1ZZZwO98L7r9Wq7+jHkjblBs4PtG1OmGKB5GWheab536T1rPFAX6xxO+A5?=
- =?us-ascii?Q?4G/S9xmupKOudIxp8YIwE7h9hS2yuEbP0Q8J6gpTzkt7i9gy1i8jsoJUZHad?=
- =?us-ascii?Q?PkENYRmVhoeUZ3jQwt3N8gN8bd8SmYcIdZMbri/gwYxT/rghIsdTGZsyNZGg?=
- =?us-ascii?Q?yi7hiCMgBQjDtMRn189I9VERSl6nrKZcBiesMXTdk/doIrfEVvq2C+VXU03j?=
- =?us-ascii?Q?OLarlEa64nz/pwmJdfGyEmmStQZTu/TlNur0Dhuea9LyIQ+MGXR+85LCAyJ8?=
- =?us-ascii?Q?YUseTETRuMDOXN2AyMnvYcmYkGcU179Gjq8rHtXfyvp0qCMCn/ao7Ia+axg1?=
- =?us-ascii?Q?tQqhEoz44TzAbS3HRuDcWQY7VzMR3QwcbU/t5ZYqxPMkn0BH4tD9Y3kBUnEh?=
- =?us-ascii?Q?nlbN91l3NCFL3BGrFHMMAKTA4tdhFl3MeN/KKJRamitDdtLxrTjQrGMio/5z?=
- =?us-ascii?Q?XHjM8W5rCde4pzoA7wGoYaS0Mcmejz8MdzC0FUdRbRRdc46ToTVHSj5MPTov?=
- =?us-ascii?Q?6E/QaOJMVX/ox/RYmcZSslZ3XV7ppHC+B1HYQtZCtQ9aImYlIZc0wp4ZNuNU?=
- =?us-ascii?Q?9oCPmmivWcEbkVArSMvyjxopRH7e9jBWP8I8eaqBMos1Dc/fYIyx?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4da0a6f2-c4e1-4229-d9de-08dee2e8cb7c
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 03:17:40.8233
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UHA67ui7clzHC06bPXYKwix2v4TWM3tkOockHdqT9GyHvlV363bC1CUC762nwYp9/Be1xjPJ4GK0XnfFoTvCubO7MgcdsF2GnrcdHHG3INut4sbLoolGWb/H6X4npLRf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB6752
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document
+ DAI subnode
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+References: <20260714145250.2473461-1-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260714145250.2473461-2-mohammad.rafi.shaik@oss.qualcomm.com>
+ <20260715-crafty-cheerful-goat-baba95@quoll>
+ <5612a63b-4052-41af-8676-9d92811dee9d@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
+ /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
+ s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
+ EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
+ rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
+ DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
+ IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
+ vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
+ oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
+ sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
+ vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
+ Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
+ BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
+ 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
+ f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
+ WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
+ XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
+ IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
+ YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
+ p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
+ GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
+ YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
+ vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
+ ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
+ QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
+ +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
+ wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
+ c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
+ K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
+ n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
+ qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
+In-Reply-To: <5612a63b-4052-41af-8676-9d92811dee9d@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-"tidyup simple_util_parse_xxx() in xxx_parse_of()" commit changed the
-function call order. But simple_util_parse_card_name() should be called
-after dai_link settings, because it might use dai_link->name as card->name.
+On 15/07/2026 08:58, Mohammad Rafi Shaik wrote:
+> 
+> 
+> On 7/15/2026 11:35 AM, Krzysztof Kozlowski wrote:
+>> On Tue, Jul 14, 2026 at 08:22:48PM +0530, Mohammad Rafi Shaik wrote:
+>>> Extend the qcom,q6apm-lpass-dais device tree binding to explicitly
+>>> describe Digital Audio Interface (DAI) child nodes.
+>>>
+>>> Add #address-cells and #size-cells to allow representation of multiple
+>>> DAI instances as child nodes, and define a dai@<id> pattern to document
+>>> per-DAI properties such as the interface ID and associated clocks.
+>>>
+>>> On platforms such as Monaco and Lemans, third-party codecs are hardware
+>>> wired to the SoC and do not always have an in-tree codec driver to manage
+>>> their clocks. For these designs, clock line enablement must be driven
+>>> from the platform side, and this series provides the necessary support
+>>> for that.
+>>>
+>>> On QAIF-based platforms such as Shikra and Hawi, responsibility for voting
+>>> I2S MCLK and BCLK has moved from the DSP to the kernel. This series
+>>> introduces the required device tree binding support to represent and
+>>> vote for these clocks from the kernel.
+>>>
+>>> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>> Signed-off-by: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+>>> ---
+>>>   .../bindings/sound/qcom,q6apm-lpass-dais.yaml | 89 +++++++++++++++++++
+>>>   1 file changed, 89 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> index 2fb95544d..b37c62ccd 100644
+>>> --- a/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/qcom,q6apm-lpass-dais.yaml
+>>> @@ -21,6 +21,82 @@ properties:
+>>>     '#sound-dai-cells':
+>>>       const: 1
+>>>   
+>>> +  '#address-cells':
+>>> +    const: 1
+>>> +
+>>> +  '#size-cells':
+>>> +    const: 0
+>>> +
+>>> +# Digital Audio Interfaces
+>>> +patternProperties:
+>>> +  '^dai@[0-9a-f]+$':
+>>> +    type: object
+>>> +    description:
+>>> +      Q6DSP Digital Audio Interfaces.
+>>> +
+>>> +    properties:
+>>> +      reg:
+>>> +        maxItems: 1
+>>> +        description:
+>>> +          Digital Audio Interface ID
+>>> +
+>>> +      clocks:
+>>> +        minItems: 1
+>>> +        maxItems: 2
+>>> +        description: MI2S clocks (mclk, bclk and/or eclk).
+>>> +
+>>> +      clock-names:
+>>> +        minItems: 1
+>>> +        maxItems: 2
+>>> +
+>>> +    allOf:
+>>> +      - oneOf:
+>>> +          - properties:
+>>
+>> Please don't do such stuff. Did you find it somewhere? If yes, then
+>> where - so we can remove it?
+>>
+> 
+> It was not copied from another binding.
+> 
+> It was my attempt to model the valid clock combinations.
+> 
+>> I gave you the close-to-exact syntax I expect. It was nothing like this.
+> 
+> clocks:
+>    minItems: 1
+>    maxItems: 3
+> 
+> 
+> clock-names:
+>    minItems: 1
+>    maxItems: 3
+>    items:
+>      enum:
+>        - mclk
+>        - bclk
+>        - eclk
 
-Fixes: fa6222d5e121 ("ASoC: audio-graph-card2: tidyup simple_util_parse_xxx() in audio_graph2_parse_of()")
-Fixes: b8081307f5c9 ("ASoC: audio-graph-card: tidyup simple_util_parse_xxx() in audio_graph_parse_of()")
-Fixes: 27ecf4da5ad3 ("ASoC: simple-card: tidyup simple_util_parse_xxx() in simple_parse_of()")
-Reported-by: Mark Brown <broonie@kernel.org>
-Closes: https://lore.kernel.org/r/b81ebfa2-6a35-4ff0-9d04-b867233eda4d@sirena.org.uk
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Closes: https://lore.kernel.org/r/20260714103428.2318895-1-geert+renesas@glider.be
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1 -> v2
-	- Links: -> Closes: on git-log
-	- setup DAI link first, setup options later
+But I did not wrote anything like that.
 
- sound/soc/generic/audio-graph-card.c  | 14 +++++++-------
- sound/soc/generic/audio-graph-card2.c | 10 +++++-----
- sound/soc/generic/simple-card.c       | 16 ++++++++--------
- 3 files changed, 20 insertions(+), 20 deletions(-)
+> 
+> The enum version does not enforce the positional relationship between 
+> clocks and clock-names,
 
-diff --git a/sound/soc/generic/audio-graph-card.c b/sound/soc/generic/audio-graph-card.c
-index 73ea562ce52b3..4ab25295695c6 100644
---- a/sound/soc/generic/audio-graph-card.c
-+++ b/sound/soc/generic/audio-graph-card.c
-@@ -572,6 +572,13 @@ int audio_graph_parse_of(struct simple_util_priv *priv, struct device *dev)
- 	if (ret < 0)
- 		goto end;
- 
-+	memset(li, 0, sizeof(*li));
-+	ret = graph_for_each_link(priv, li,
-+				  graph_dai_link_of,
-+				  graph_dai_link_of_dpcm);
-+	if (ret < 0)
-+		goto err;
-+
- 	priv->pa_gpio = devm_gpiod_get_optional(dev, "pa", GPIOD_OUT_LOW);
- 	if (IS_ERR(priv->pa_gpio)) {
- 		ret = PTR_ERR(priv->pa_gpio);
-@@ -591,13 +598,6 @@ int audio_graph_parse_of(struct simple_util_priv *priv, struct device *dev)
- 	if (ret < 0)
- 		goto err;
- 
--	memset(li, 0, sizeof(*li));
--	ret = graph_for_each_link(priv, li,
--				  graph_dai_link_of,
--				  graph_dai_link_of_dpcm);
--	if (ret < 0)
--		goto err;
--
- 	snd_soc_card_set_drvdata(card, priv);
- 
- 	simple_util_debug_info(priv);
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index e3e92025b317a..9e48bb9a7c525 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -1329,6 +1329,11 @@ int audio_graph2_parse_of(struct simple_util_priv *priv, struct device *dev,
- 	if (ret < 0)
- 		goto end;
- 
-+	memset(li, 0, sizeof(*li));
-+	ret = graph_for_each_link(priv, hooks, li, graph_link);
-+	if (ret < 0)
-+		goto err;
-+
- 	priv->pa_gpio = devm_gpiod_get_optional(dev, "pa", GPIOD_OUT_LOW);
- 	if (IS_ERR(priv->pa_gpio)) {
- 		ret = PTR_ERR(priv->pa_gpio);
-@@ -1352,11 +1357,6 @@ int audio_graph2_parse_of(struct simple_util_priv *priv, struct device *dev,
- 	if (ret < 0)
- 		goto err;
- 
--	memset(li, 0, sizeof(*li));
--	ret = graph_for_each_link(priv, hooks, li, graph_link);
--	if (ret < 0)
--		goto err;
--
- 	snd_soc_card_set_drvdata(card, priv);
- 
- 	if ((hooks) && (hooks)->hook_post) {
-diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
-index abfbc9fd7c6d4..72fa7be0d3ff4 100644
---- a/sound/soc/generic/simple-card.c
-+++ b/sound/soc/generic/simple-card.c
-@@ -692,6 +692,14 @@ static int simple_parse_of(struct simple_util_priv *priv)
- 	if (ret < 0)
- 		goto end;
- 
-+	/* Single/Muti DAI link(s) & New style of DT node */
-+	memset(li, 0, sizeof(*li));
-+	ret = simple_for_each_link(priv, li,
-+				   simple_dai_link_of,
-+				   simple_dai_link_of_dpcm);
-+	if (ret < 0)
-+		goto err;
-+
- 	ret = simple_util_parse_widgets(priv, PREFIX);
- 	if (ret < 0)
- 		goto end;
-@@ -712,14 +720,6 @@ static int simple_parse_of(struct simple_util_priv *priv)
- 	if (ret < 0)
- 		goto err;
- 
--	/* Single/Muti DAI link(s) & New style of DT node */
--	memset(li, 0, sizeof(*li));
--	ret = simple_for_each_link(priv, li,
--				   simple_dai_link_of,
--				   simple_dai_link_of_dpcm);
--	if (ret < 0)
--		goto err;
--
- 	ret = simple_populate_aux(priv);
- 	if (ret < 0)
- 		goto err;
--- 
-2.53.0
+So you do not use my code, but something completely different and does
+not work, therefore you come up with another approach.
 
+I don't know what to advise, but repeating myself seems pointless.
+
+Previous review stays valid.
+
+
+
+> 
+> which is why I tried the oneOf approach.
+> 
+> My concern with the suggested syntax is that mclk is not mandatory for 
+> all platforms.
+> 
+> For example, HAWI only requires bclk and does not use mclk, so requiring 
+> mclk as the first clock-name would reject valid DTs.
+
+Luckily I did not require mclk as first, so I do not understand why you
+refer to something like that.
+
+
+Best regards,
+Krzysztof
