@@ -1,162 +1,158 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012031.outbound.protection.outlook.com [40.107.75.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3F4423775;
-	Thu, 16 Jul 2026 13:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784209037; cv=fail; b=QwQVnn8nE96CPCb1oWo7NjGmQpQ1aSSf9G/Qn1/JP20NbnbDnnK/YF1fpt8PiRtQF3oXDRmLjIcHc+3ge2M/kNEmnuYBPlE1Smzu1RiED7Hc5pKGa419Q4tyWFZuUnnCN3B5DtkO2Pz+tt/IbtXtuxJEYNMhW7mlvduap7R2IiE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784209037; c=relaxed/simple;
-	bh=gvhnny3BxgNVCe+OiJMJS28ZExCCRGXy4jzGXfwrDCc=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=jZfCx/Zk6zIwaPjEvwPzldwweWiU6c84XRq+nX6U1uzSD22SO40tGpWAlgyVivYaUUt/P8CbZw8ZJ2AEthci/G9IKSfSmtd7NCiu3+qENKlqNhO0ZvDOXHQHJHE8WyMzvpyHcBd5Nqvtb2ZRAEcIXTgdRIDnuF+6gdm1r5WMALs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=e7+sAaZ+; arc=fail smtp.client-ip=40.107.75.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053A9423EB8
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 14:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784211189; cv=none; b=M+BkK8LcE4m/dP2G7G+GmylI0WOWr/WLnyJ6PypTFfx35sn1gUwdXfw8R4OFCFuAsIA6lSdVGRaiMz7CKZekXI242jS7j+BCE8rAk2cH9PnyEt4s6dZ+WIIJhEdS3cTZGUVta+1PbS0Su17RsyaJGkN489TjBs0+H7xwaMYKMBw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784211189; c=relaxed/simple;
+	bh=mS0Ga4Pt/PLsod/JJQWij1WkU/4wsX0uUIZOw5oLu9A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QHFZ6SMoRJ/dgRUtXbn6Q/7opbE/vt4/iGiY6pHgQyl4tPGPATbDTkySGnjZOh8p2oUP8W9usqBoeS28kGYOkrVJVqGaIo4yI3rCBFYTMjfJaEHQtK49xZ3pHzICuSNhs5Xsabs8FTayxrYHr3Ux6r3lmeyfOU08Jpvy0CFSbU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=LVVH+kF+; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="e7+sAaZ+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F1XPBQ6ThhqGTu1lLqugxQyfYTPsOHBfGZUmBiUMFyxbBcOWdEAECOdULc/X+FVFfR70zRynworEJhy8C3vx4IK925UG+eRfBtImvIeG37y3yLc0YPobdctcfYymxBvifSh6X4KT+4DGAB9zBcRwM5++3A39dbo+bIzLm8wpmfB2AfrvhF39H9USXuo5fSUEMw95V3JWMYxfDGUXo0W+5YGgjgRHcAzP+VRMIUdFeXNQdGYeYSg0lWu/QQ/+MOFqH3JYw5v8kJnShhYpCo5v/xnkMYwLzOhf3N7sa4rDgVcLI8t3vGmiVFKFlUTJHc7BYQolXZ5ebJJjrwlH1iwc1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lfKh5K3CHYV099CGQMVRw1xfNORcEHFncQbm7fmpVKM=;
- b=WTJ63dWNru3Y3K913l1Nutsk3Hhg+xF7Gq448155cIDJhi+EN+yMjuA71xqDx15HiXzLwCUbtDrvuhu5CvI7rwXMIkJK3LglNmOF3SyyHm0O1fmf4SzDzyECNWNVfTrNshX8dTxOnMYGSzWwgKEoQMPXrs2qSTsIHM/gBNk0jjcF/bOd/qttfwQv8I+njqNQ5l7tpF6pLfov1IvDG0O3EgkiCtFNGEZGVPhrlX6zB9kEAwRtwDsQ0vrAo5dB3FApISzLuf7yzwvFmBtrEFz4n4ZNpRvTOTYFZvDR3GfKb8AXWFqaWRVCegUc9NtR/ur1GiEwvW1h5ifCdNWAlb/YvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lfKh5K3CHYV099CGQMVRw1xfNORcEHFncQbm7fmpVKM=;
- b=e7+sAaZ+UhFmp7xBiXroAZUIzVmvpaBSvNGEeAKgW84RNXVIqXtgGmCpBKZh1gh9klnRV76Shmus/xqhrG83i8gFeG4Efxw1lEzA/C90rshTIgl/djawFhJ55LwgGmgFpDMwlt2DPGpgV2EH5crV/5TVZ/aelqworPQR3Jz5zvyDjLbgNMKlOge6PpZc1etU1XgI/bCDBAk+TxKIQFkuk3Ryq/79BpR9DnbGyupgOqOcopt8BQnT/tvgGqKbx6bIs6gtR+jecc+hcyz/JyeRiTlY6rn3Zh+Q2olfWkUjFmJxbrjJL3IR0/WCwyFXw3dihXmo0vQGXBLQwWef4L2oXg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com (2603:1096:101:c8::12)
- by SEYPR06MB5648.apcprd06.prod.outlook.com (2603:1096:101:c0::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 13:37:11 +0000
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b]) by SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
- 13:37:10 +0000
-From: Pan Chuang <panchuang@vivo.com>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-arm-msm@vger.kernel.org (open list:ARM/QUALCOMM MAILING LIST),
-	linux-sound@vger.kernel.org (open list:QCOM AUDIO (ASoC) DRIVERS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Pan Chuang <panchuang@vivo.com>
-Subject: [PATCH] soundwire: qcom: Remove redundant dev_err()
-Date: Thu, 16 Jul 2026 21:36:58 +0800
-Message-Id: <20260716133659.7600-1-panchuang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TP0P295CA0021.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:5::12) To SEZPR06MB5832.apcprd06.prod.outlook.com
- (2603:1096:101:c8::12)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="LVVH+kF+"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493ce08a75bso27354235e9.1
+        for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 07:13:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1784211185; x=1784815985; darn=vger.kernel.org;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=t/xbg5vG2nKWr3fodMKyYC2B3wNiKq/HK47SCCd7AP8=;
+        b=LVVH+kF+kfNd4CA0Qx/qrJsBZfIPQu3wD4HMKyxvRBfa23EBJgZTwKmHObccxLlmqP
+         oPZitTskEW16YhQUHjTNxPW4f0mJ4/FzjjkFekTRVUb+vcKjSTutASqB9BOLuMR/mqra
+         J7s0ItkwjNBdyKSi1MniOdLCQfVPielINWWC1WwhUlg5ICvoIU8C5leKxLYcKywu6LF2
+         fIleKF+FvpJOprRbDPST+N6CSgTlF2pCpcYL626i2wi3I5kn6BHFf3WzGaKgVjf0lKs/
+         sVRMwGzfyquUMcEU4iP4R8tGbl95ok68qMRHSXOu/H/u8cvzOIvBPmhwKShdsNavxCdx
+         Z/9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784211185; x=1784815985;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=t/xbg5vG2nKWr3fodMKyYC2B3wNiKq/HK47SCCd7AP8=;
+        b=oMdfNo309LgjYma3mjTMMXM4iJcrVZOSzFGFWRWMFGf0ksoY+WmOmHskVY3ZbE6zVg
+         pPrh6gPCxmJMADHMxNLd9Xr4uSe0U4ou6nnXufe0SayjOnKBQlJNbDW8oFtSEgGdlb7Q
+         NXxB3Sq1ILSuzhzAER49m/QLGefwrY5gctCEhx8UtTi1+FxbZ+OLZTrwE4w4qn4GuTCH
+         p6n5H4QNWXzIgu27FBSNbXj3G88ojZR8Kmj2YvsGGJigu1Rvy20swK87NT1w24LZoSEl
+         ZxOJdw68t3FNk3iC+Qj++gFFd4VDQKi0PNM4FLbhWdx7KHpQ62EWiX7GXxuWrR6OdumG
+         FG9Q==
+X-Forwarded-Encrypted: i=1; AHgh+RogIAR9MBhNwR/Qt0ysMRxLsawH12e0TIbJRmRtutY3OBPVbgFoc44RQvAFtI6EQQrkZTe8VDAttVFpKA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXtZdnrBBUvW/P4Xq6f9nl6V9GqjEnUACpbJiGpcQko2H5PqyL
+	nu8YEBrhCUbpMc7PiMOHxWvwQKw0rizaXs35PQyM7aGrVxFZwztFTWJPhPcQiv2ChnA=
+X-Gm-Gg: AfdE7clKCvh29rE0h9EAL+MFkaqo+SSQjZdjqYMoPl8TlAqs6SWAgf0zOauYjIyafte
+	frPeuLNYMnShxmvZ2mc0zzi4Z2RaZdPozuHJQHpJqREOFHqi+C0xSD6++PQVCXvs8JXUZLxavIv
+	/E4pj/9ChRRR1eO4yoIEF+HNGQB5aVumXrje4LNFL516tYDfXNtoG++rtlPWRLi8GntdncNuVI/
+	JJUfuEDl+48IdiU0Xzpb6nJKmKkvNgGU8qROoBqR2v7sCtFeumiO50naZ/lM986e1JN/m3XETjC
+	NWLVoKP94eLotf5+DIGLwpaKJtcBQner+OrTYe3EJkSwoTZLxhlJI2yKmIEhSXlzk87DpMExYqt
+	Bg9XuVAmPp/fMHwcGz+2+kTe3rnN378GgmjZjeVc+Zfi/XnAjlHNgj4qJKV72i1LSOAgWCvmbXp
+	3Vhyuyih9cfJQ=
+X-Received: by 2002:a05:600c:8509:b0:493:e451:fb8 with SMTP id 5b1f17b1804b1-49515904c4cmr154217465e9.21.1784211184975;
+        Thu, 16 Jul 2026 07:13:04 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:9758:7353:c342:aed3])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47f464c1f84sm25108252f8f.29.2026.07.16.07.13.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 07:13:03 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Linmao Li <lilinmao@kylinos.cn>
+Cc: Mark Brown <broonie@kernel.org>,  Liam Girdwood <lgirdwood@gmail.com>,
+  Jaroslav Kysela <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>,  Neil
+ Armstrong <neil.armstrong@linaro.org>,  Kevin Hilman
+ <khilman@baylibre.com>,  Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>,  linux-sound@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-amlogic@lists.infradead.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: meson: Keep link pointers valid on realloc failure
+In-Reply-To: <20260716100939.1381759-1-lilinmao@kylinos.cn> (Linmao Li's
+	message of "Thu, 16 Jul 2026 18:09:39 +0800")
+References: <20260716100939.1381759-1-lilinmao@kylinos.cn>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 16 Jul 2026 16:13:02 +0200
+Message-ID: <1jh5lzf2fl.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5832:EE_|SEYPR06MB5648:EE_
-X-MS-Office365-Filtering-Correlation-Id: 582b1717-9098-4d7e-0d29-08dee33f5683
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|23010399003|11063799006|56012099006|6133799003|18002099003|10067099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	EMlKssAQ0g+3K5uJNCSin+7upFte7ik1Eo2OMBkbUfsd75p5SHf3PL5DjRhqugy6ub6H0iNpuVNS1blk839mYt9zprFH2Jekbg1Gp74gkNpLwezB1P/W8VoEigDszhou8dta0Sg0rusdMNPf69Qg3cDjVdoDH3GldHS6ELeAtPhL399BExX27AwjMXRdFRv5fRHWTDZHFXNOKwtPmRgV6PIPyn9G3ocKSrAZ+Qhe7oiQMk0CUzhPVMiZ3clT5vUdmaka9gx9mzKSH1OgmdM0Sn83EfZgW+7yfjjR+gM0QNATJh4PmdnUt7rwoTd2PIGm3HTkCKXBzinQLP9JqMMK/ncGGa7MB7h2KyY7pgEreKxEO9/MpCeNZ+z7Ju8R+p1fltDR6DDrk8kK0/RK2hUrtrlWNPMBOMlG1PyQiDH3UwFtRUTfNsFcBvOhR3tZxaN71BdS4xzkC0AGcZIel/FjP0cx51Xa4911udQ52lImvsHkKhTUDNsLM7npe5YRek7QpaZLgJlkuWh2vOkOFACwGOYLEcdaiDwxVfCMs9b/gwwX3g3TjLlM2c+dRI7T5aNIjiFYk+f7Y6fKoYwtc8sq28ey9pP/miE6K91ntzbp/3a2sERylEsOZNod/zvwN03GHPPyBEWTnacpF3A78YChKh8Ba4uy/GAkdn1iAlLn5XTxdBr+HZOu1ihV9UHo9paBKCCel1MICj5J+xfVYesq+inGwhZayYJuymwg8sHnwzU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5832.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(23010399003)(11063799006)(56012099006)(6133799003)(18002099003)(10067099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?IfZ6SmkF6t8uF1Ccbzf3GGVJpgNErKFCRRe4f2i2Lxj0YjdltE2dihiMZRes?=
- =?us-ascii?Q?bJrWzq98wiriT9OD4Nsu+UtvVlfh/GgleopL6PEv6EhQnwtsghukdmxnboC3?=
- =?us-ascii?Q?MhHXLH9bM/uIESXs+s9FJRNwDiLBht0WJlgRjowe01bvfpEwZgfVYyQ9kl68?=
- =?us-ascii?Q?URpDZwmbrFJhCc6WXs6p+Xim8VWMB9gRS4kAbLEPlyhQkjz1bjVM9IQQZHKf?=
- =?us-ascii?Q?YGItYbo6u+3dmuwLRee7u2RyZwvcSZKJEreenmaoKY9kI42x+sla/uX1lk4j?=
- =?us-ascii?Q?CuxXpow4i1LH6/5KEpHLMoMCC2zRjR2JWVcHdw+5KltJ4t9o6E2L+MVDvpMz?=
- =?us-ascii?Q?d0F9PMAsOFZuI6S+zMkExmtRotb/qKqCqKcMD5mC2QMFT3ea0xjuEEY8KJQe?=
- =?us-ascii?Q?Zk+FiETv1PMJ6vFj+RK47nBPep3YU1TdRYaaqtNXd3yM9FrVKUyqE/8Q6WUs?=
- =?us-ascii?Q?JKlnAkf+QCBujK4NuTdqeXxgI768Tuk0duEkZNitFC97p2aa7vbUf+z6r0Ch?=
- =?us-ascii?Q?8n3B9YuDP35qc2ozUNcno1YK1TJsYu3lek4vdTwQYP33KNhta5kDvSRH17o1?=
- =?us-ascii?Q?zh+bbDI6oVwu7jM5Weqi++8ckrfnXGrQlmH8anzT/f8kiWXiBgDtm2HJYmxm?=
- =?us-ascii?Q?HqNfmxIhmMSIzn05Qx3PQVspJbP1wgPwJgjaQX7yzzN8j7G+oYogua00HzWO?=
- =?us-ascii?Q?WxpBECO4CsR0t/VbsMb26yIWTC6qkFF6OSt8xzEJ7WZkmuZ8hDSx4yNjU2SZ?=
- =?us-ascii?Q?jhCGzYIgVQL671vawOLnGo0kH7eOg3SgkHPRTay+1wotZWUsoS1S7DAgZlK7?=
- =?us-ascii?Q?7yS9cc6W9wR08J8bCYCvbsxNZmyzsyLUDQdgoZYP71Td1PGAtNTJy0IqgSy5?=
- =?us-ascii?Q?IexoyeazQPhSalZw2olZegTOEsDuLLSR6wmL8fL7BjoLlY+R0WGF/Pz57lJH?=
- =?us-ascii?Q?mSWgww+YhBzRv7tMWtwGQ0zah8AfJQbVGsd21PsMxG7oL/D3nqY10WtHTbfw?=
- =?us-ascii?Q?NQ4cxCmmC6T5D3Z7j1E61B1/nlnahAz2LbqG+GUaMuboPZKTSGMEIdRw5nfO?=
- =?us-ascii?Q?P/5m1MhllxXAdzAxWgfOVq/LiWD3FrftpZ9fBEwC7t+oKvkJndbhHnd76H8y?=
- =?us-ascii?Q?LYvX6zg2nK3OMcqn+/qILPAanjNdXr6ltGQYiVzy/rPgP6yeyRGOh2KoYKCW?=
- =?us-ascii?Q?NNmhFmnq0Uk2uf6l2EQbxUUCbvtUSsuBAQgS7/US+3t0f2R/bwkd9JEdjsxH?=
- =?us-ascii?Q?pnUjXZlLC5ydgXSXQrIdsXdV7R1voVEyGg4ydj3Llj1nsF3v4c9nevtlSV5Z?=
- =?us-ascii?Q?gTgfQKcFlmtKSz4Ps0wUYAfXS1zxPR9KFXvY4j45EYx8gpX+4j3wAKQc7Zd/?=
- =?us-ascii?Q?PEpmb//eQooR4szGzQFNu/nSkPeoFetArbqhjcynlilrQpiPiEAkcVq3wx5V?=
- =?us-ascii?Q?QUZwWnuOtpd00uwD53HBKZ7/ng+ISBxwHvYvoAteFDYpOyl07JQhf4gpmGbS?=
- =?us-ascii?Q?QUAtoDnj8dJ8KCOxCDznmXOeNWdSaq3kEcR+8BAQDNvokDkJahfbViZyc0GW?=
- =?us-ascii?Q?VAKWvjclWRSRncyNrzfgtuFs/mv5GU3OfWZ7CfwZDmp1uRLW4ukuWXv2eROo?=
- =?us-ascii?Q?+06JS6QeeepnqYDfLXmrDoAAQooktur0yw8sOTN+1teRSy9Yh+ivasrPhgZb?=
- =?us-ascii?Q?Jho6Sgwqy6wr4rv00rLaNbbAGmH/9Pm07EROlA7+Y5Blw+zmPgwBoyvIS2Hj?=
- =?us-ascii?Q?zb0estwdrA=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 582b1717-9098-4d7e-0d29-08dee33f5683
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5832.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 13:37:10.9024
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i2e1uGsPfnc+nSw2Y4znytG73W3IKyZ3ybm59G0WlAZEGLDobuTrJsKlrtW4PTZ8LPN79955TV+jFWDgb00z+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5648
+Content-Type: text/plain
 
-Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
-devm_request_*_irq()"), devm_request_threaded_irq() automatically logs
-detailed error messages on failure. Remove the now-redundant
-driver-specific dev_err() calls.
+On jeu. 16 juil. 2026 at 18:09, Linmao Li <lilinmao@kylinos.cn> wrote:
 
-Signed-off-by: Pan Chuang <panchuang@vivo.com>
----
- drivers/soundwire/qcom.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+> meson_card_reallocate_links() grows the DAI link and private data
+> arrays with two consecutive krealloc() calls and updates the owner
+> pointers only after both calls have succeeded.
+>
+> A successful krealloc() may move the data: it frees the old block and
+> returns a new one. When that happens for the link array and the second
+> krealloc() then fails, card->dai_link still points to the block that
+> krealloc() already freed, and the error path frees the new block too.
+> The probe error path then calls meson_card_clean_references(), which
+> dereferences card->dai_link and kfree()s it again, resulting in a
+> use-after-free and a double free.
+>
+> Set card->dai_link right after the first krealloc() succeeds and keep
+> the resized array when the second call fails, so the pointer always
+> refers to a valid allocation that the normal cleanup path can free.
+> card->num_links is still updated only on full success, which keeps the
+> cleanup limited to initialized links.
+>
+> Fixes: 7864a79f37b5 ("ASoC: meson: add axg sound card support")
+> Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
 
-diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
-index 3562802f4204..934b4053b1e3 100644
---- a/drivers/soundwire/qcom.c
-+++ b/drivers/soundwire/qcom.c
-@@ -1646,10 +1646,8 @@ static int qcom_swrm_probe(struct platform_device *pdev)
- 					IRQF_TRIGGER_RISING |
- 					IRQF_ONESHOT,
- 					"soundwire", ctrl);
--	if (ret) {
--		dev_err(dev, "Failed to request soundwire irq\n");
-+	if (ret)
- 		goto err_clk;
--	}
- 
- 	ctrl->wake_irq = of_irq_get(dev->of_node, 1);
- 	if (ctrl->wake_irq > 0) {
-@@ -1657,10 +1655,8 @@ static int qcom_swrm_probe(struct platform_device *pdev)
- 						qcom_swrm_wake_irq_handler,
- 						IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
- 						"swr_wake_irq", ctrl);
--		if (ret) {
--			dev_err(dev, "Failed to request soundwire wake irq\n");
-+		if (ret)
- 			goto err_init;
--		}
- 	}
- 
- 	ctrl->bus.controller_id = -1;
+Thanks for this
+
+With this fix there is not much point in keeping the labels doing the
+goto error handling. Please remove those (and the err print) and just return
+-ENOMEM.
+
+> ---
+>  sound/soc/meson/meson-card-utils.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/sound/soc/meson/meson-card-utils.c b/sound/soc/meson/meson-card-utils.c
+> index cdb759b466ad..38c1b2ae227f 100644
+> --- a/sound/soc/meson/meson-card-utils.c
+> +++ b/sound/soc/meson/meson-card-utils.c
+> @@ -52,19 +52,18 @@ int meson_card_reallocate_links(struct snd_soc_card *card,
+>  	if (!links)
+>  		goto err_links;
+>  
+> +	priv->card.dai_link = links;
+
+You must assign num_links too for this to be consistent.
+
+> +
+>  	ldata = krealloc(priv->link_data,
+>  			 num_links * sizeof(*priv->link_data),
+>  			 GFP_KERNEL | __GFP_ZERO);
+>  	if (!ldata)
+
+Adding a comment here saying that meson_card_clean_references() will
+take care of the above on the exist path would be helpful
+
+> -		goto err_ldata;
+> +		goto err_links;
+>  
+> -	priv->card.dai_link = links;
+>  	priv->link_data = ldata;
+>  	priv->card.num_links = num_links;
+>  	return 0;
+>  
+> -err_ldata:
+> -	kfree(links);
+>  err_links:
+>  	dev_err(priv->card.dev, "failed to allocate links\n");
+>  	return -ENOMEM;
+
+With this
+
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+
 -- 
-2.34.1
-
+Jerome
