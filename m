@@ -1,94 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D65D38887E;
-	Thu, 16 Jul 2026 08:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355CB3BED5F
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 08:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784188921; cv=none; b=dl3RFqRiHridKDZOPiVBsMZ99/gXVIQD75uhOC/tQAY18CoqrczSVz1P8TyD+QFpaY6BofHx4qu26no/7XGHZY9afurbL+V/eVHp7aiOvvHqTY6Npz4K91QFFe0x2Lg3F5nbuNRjqRlgGF9Oj6QAl8Gy0nzn77dARtDqcaCL69w=
+	t=1784189086; cv=none; b=BQrSRCG0jSfbL7yM4uUO/Gt692ZjnLn2RVIVc8ciOzrWILnNUO3SMGXsASmiU7xBgtLpJLkCjoFZZFrCllRz0gkFkiSiMvPQUlFHHLhriWnMsfCnA3D3V8CY8LCClS2DkPwA2Xk4xrrUxna/HjPD6Tt8aWXxG/s+fNNzf+AnMm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784188921; c=relaxed/simple;
-	bh=bDejbo93yQgr6W7GjRFEDtY5xdwkzyGp3xbScoG9wos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L+lc0SE161/Z/JSwCiTbWNrEZ5czBDYKAbwEJrud3qEp+TbFTcDsYM9qSdsQOkweJzhSasoBFsRm6NHW0HkJ/6tIf9T0YHMICQuH0PhE0rnaNnsFePrcL9mO7jK0z+Y87UoTHEU3AlcneDJs1/IjuQQjNVZrYvQF9gTlZzxEFy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4tYNcSK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784189086; c=relaxed/simple;
+	bh=DlU2zxnZriBtX4Ei5QrUL9XizaCDlZlSoZzzHGdrDWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rgTOnufGn6Q6j6GWSuPebQ8ENAxCebZCPGFT/LL7Wo/u/ULyTD7vUGDaJpDZheNtlO+YtVSpwHaoOYmx6Z4xVWQc+nPY5QIR2Zz7MLeJh7ClJRALrsOEFnvnANtOI69fviqPhTcFoJpF6A4GZj7V+uHI9nXG41+XL8pGXs6fss8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZq7nRQB; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4tYNcSK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 017AA1F000E9;
-	Thu, 16 Jul 2026 08:01:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784188919;
-	bh=l1enmY2p1KVZ+qo3xfFhOdv2MslkZrD2Vgso3vmEDBY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S4tYNcSK62Hnd6n/xxR7hhY3Yn0zHW4o5/k1NNwZ2kek12TRSmJ+UL1MQhxgAuIaA
-	 wpBC+jLk4j5+iVKqePaRf6aONbEV6aX6Cb57CI/PI44cV6U330b+wOSgf/yIC59TOz
-	 NmRkzuJ4l/yO/cNR4iKRBqANtsR4b9fYQ4CCvxx32Fy8wI0AwYvOa/syrqaD/+hk+1
-	 7angPXkNxvSYuuHUVoVwY8k9T/fwHoSDfmqpvnet26WEWaN7mH6VeiHNwVYO0qSdbL
-	 5JuM6k4FWzF8qeozTSPH4C4yGw+AKE9NIIYlVP0pL+nVsM14AGl3nhyAzyL+IDmRnq
-	 kMczH9naWg+dQ==
-Date: Thu, 16 Jul 2026 10:01:57 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v3 1/4] ASoC: dt-bindings: qcom: add LPASS LPR vote clock
- ID
-Message-ID: <20260716-powerful-aloof-wombat-5088a1@quoll>
-References: <20260715133243.3170821-1-prasad.kumpatla@oss.qualcomm.com>
- <20260715133243.3170821-2-prasad.kumpatla@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZq7nRQB"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2caced6038eso4598405ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 01:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784189084; x=1784793884; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=f9BS8NNAejL6wSrHiH8bKpJoXfBHJM+21C85fxNq9mc=;
+        b=QZq7nRQBzh2hi6wW2icB3932zUrUIe897nPqwnq5nAexy4tZ/K1f8X/WulSJp9x+PG
+         URInqSk5mKVIvSWoR5Gm7iDVqYClat0+6uL2isOYgX2iXY6aRiZsyp7RIFkZMGKm4/ec
+         OcJoy/9TURDROZlKkXsy82EoUuIrq7oVLBnK45Hcfne9MDIChQtuWkaHFq/3p6V+ARHD
+         ZMuK8vtY1kPKKGJorF+8g93cC+91pouMvK2ADgg9V+Jp7fMLRU8OADE1kUBlF6PyceSr
+         X5i9jGzZ9EOcDLRTQwAnA4VAmfRI7x34WXpKJhuG0kDhYSM8VUZFbcngUEnanHcAy+di
+         6cXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784189084; x=1784793884;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=f9BS8NNAejL6wSrHiH8bKpJoXfBHJM+21C85fxNq9mc=;
+        b=S4JtHGlj1Jw9kdyFGbIxVlxyyYfxu1Po9M0ZhOLt8th0rEodLIShhfsgUqD3xmnyHX
+         iUaA8opWbX8I9v+ogA1pGIJpVvNOMc7ZqpAIF+a3dJMWKl5YgT5rkjbRDqf94IvuFmC1
+         lWC7TeWIezfv++PgxO4usOp5B+XHSTlznWg2/ikWztznUbRNRr+6OdDZEUU+YFDu3kXe
+         7BgP6ZXuFRI5eRi2pHeW4YWr2bqiDDpWMNPTZWUnOx/vPUpIyWA/hVhbmmHKweSfgCjI
+         vQw8ClZy/FRorDr/Ykzw75wdwFNSwHreuvmRvdhqRU0M+TiwpilRzBQnvSWUSgaSG/WF
+         Er4A==
+X-Forwarded-Encrypted: i=1; AHgh+Ro0UwUoXqtzSP6tvTYhpXb4K1OZfbkCCe2Ai9K+AwuMMZbDDIwBwQvjnJhmxGc2uCbBcSG61JQyLvFx/A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2aq8ECGK1vx1LX9OgS1Fv7oYdoADWs4Vsw85zVzxRjpyDP2DW
+	PoREDUc6c0T75rriF88W+KeZO5v91dj+pXqPlxBgZycSB8BsJaNDqoIh
+X-Gm-Gg: AfdE7clAI+ofksZ5Tf68nbwmNvu6rm3TyrPuwdvKZbcIDhgrPrgTP2wdAy1MoXY9BDL
+	9L81coy9wla8KXGu9a0MnNyayAf2m0tFOQacMqmRwKT8vIsiT+b2E/+IlosMn5aKG06wTxR+Sme
+	Q/rGyXKCS83KkCYFwEUIJOUa4n+LVuCTxvoGbZibFAVoktywm67XIv7lHyo8sQPMwnD3myyLACk
+	8aylvk1pFt0LASbxVMSc0R5/VjEeIkJetWjUcU5xOCFfNxgefasS8KS//HQyycJ++67e6f/GvXh
+	ZyrklRx7chB5SVedT07IqfJJg2vDb17nT0rfDCvdXI6zDTWsvQp7iuQGBQCFUm+mZsgk2zrS0HE
+	97FJMdRZtoEqBjcfNPAdaA/gm9zsz+CcxYTuWXEoKEmY8l/MXryF8xEoYWe32OkUZHSpWe7ENI7
+	HDMdbxz4Rm11JUmrEq0sz3Umbjyk3+O6mA2p+3
+X-Received: by 2002:a17:902:e885:b0:2ce:d958:e3b with SMTP id d9443c01a7336-2cf1f570c5amr15363875ad.25.1784189084378;
+        Thu, 16 Jul 2026 01:04:44 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf101639a3sm15896905ad.37.2026.07.16.01.04.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 01:04:44 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Lars-Peter Clausen <lars@metafoo.de>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: soc-generic-dmaengine: report DMA channel request failures more clearly
+Date: Thu, 16 Jul 2026 15:04:28 +0700
+Message-ID: <20260716080428.57979-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260715133243.3170821-2-prasad.kumpatla@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 15, 2026 at 07:02:40PM +0530, Prasad Kumpatla wrote:
-> Add a new clock ID, LPASS_HW_LPR_VOTE, to represent the LPASS low-power
-> resource (LPR) vote through the PRM interface.
-> 
-> The LPASS PRM supports a resource voting mechanism to control low-power
-> states via PARAM_ID_RSC_CPU_LPR. Exposing this as a q6prm clock ID allows
-> clients to request the LPR vote using the existing qcom,q6prm clock
-> provider interface.
-> 
-> This functionality is required on newer platforms (e.g. Hawi) where LPASS
-> clients need to explicitly manage LPR resource voting via PRM.
-> 
-> Also update Q6AFE_MAX_CLK_ID to account for the newly added clock ID.
-> 
-> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-> ---
->  include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-> index 45850f2d4..06ca2c287 100644
-> --- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-> +++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
-> @@ -236,8 +236,9 @@
->  #define LPASS_HW_AVTIMER_VOTE		101
->  #define LPASS_HW_MACRO_VOTE		102
->  #define LPASS_HW_DCODEC_VOTE		103
-> +#define LPASS_HW_LPR_VOTE		104
->  
-> -#define Q6AFE_MAX_CLK_ID			104
-> +#define Q6AFE_MAX_CLK_ID			105
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Nope, ABI break. You cannot change that and as stated many times already
-- if you need it, then it is not a binding.
+Currently any dma_request_chan() failure other than -EPROBE_DEFER is
+silently ignored, since a missing channel is expected for devices that
+only support one DMA direction. This makes two real problems
+indistinguishable from that normal case:
 
+1. If the channel name is actually present in "dma-names" but the
+request still fails, that is a genuine error, not a missing direction
+warn about it instead of staying silent.
 
-Best regards,
-Krzysztof
+2. If neither direction ends up with a channel, the PCM device is
+entirely unusable. Unlike missing just one direction, this is never
+expected, so fail probe with a clear error instead of registering a
+non-functional PCM device.
+
+No change for the still-silent, still-supported case of a device that
+legitimately onlysupports one direction.
+
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/soc-generic-dmaengine-pcm.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/sound/soc/soc-generic-dmaengine-pcm.c b/sound/soc/soc-generic-dmaengine-pcm.c
+index 467426d2b5e4..c15c2d8248fa 100644
+--- a/sound/soc/soc-generic-dmaengine-pcm.c
++++ b/sound/soc/soc-generic-dmaengine-pcm.c
+@@ -395,6 +395,11 @@ static int dmaengine_pcm_request_chan_of(struct dmaengine_pcm *pcm,
+ 			 */
+ 			if (PTR_ERR(chan) == -EPROBE_DEFER)
+ 				return -EPROBE_DEFER;
++
++			if (device_property_match_string(dev, "dma-names", name) >= 0)
++				dev_warn(dev, "dma-names has '%s' but request failed (%ld)\n",
++					 name, PTR_ERR(chan));
++
+ 			pcm->chan[i] = NULL;
+ 		} else {
+ 			pcm->chan[i] = chan;
+@@ -406,6 +411,12 @@ static int dmaengine_pcm_request_chan_of(struct dmaengine_pcm *pcm,
+ 	if (pcm->flags & SND_DMAENGINE_PCM_FLAG_HALF_DUPLEX)
+ 		pcm->chan[1] = pcm->chan[0];
+ 
++	if (!pcm->chan[SNDRV_PCM_STREAM_PLAYBACK] &&
++	    !pcm->chan[SNDRV_PCM_STREAM_CAPTURE]) {
++		dev_err(dev, "no DMA chanel found for either playback or capture\n");
++		return -ENODEV;
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.43.0
 
