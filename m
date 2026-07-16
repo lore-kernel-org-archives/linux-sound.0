@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ECC3314B7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F5E33260D;
 	Thu, 16 Jul 2026 19:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784231496; cv=none; b=U/e9uI1UWWvN6UUGiAnGeVugyutz4ZhkdokKVddHo0AxjiS3JlghXVN8Ox/W0gX+V5Q9Cjjcqo0HL3YhtE0kZML8/zQfo3ItkSxKR7SJoj0sRBSQ1t5oqBbnXg2UBzHX6fwEWqk0RfNiy3hENLRKe9CdhHLDboKFq5wS5TwXLyw=
+	t=1784231496; cv=none; b=XSrvACjOgTe9Rlk4ObSJEyvOk0WX4TPG7rN29DtdlRaOh8wmXULvsl3usPktXyoD/wt0OHH/wRkLeH7dWN2s8oztABwx5ZVmP+rUedp0HskCNF3aVAvnuN9Vc3DeL7weD1dfRS5xlYKv79luL2HDhaSzyA5/Q9ZA4hp2q18+LD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784231496; c=relaxed/simple;
-	bh=5xh8In4T0B+e6FRwZmqeK+VMgCQ2uzOm3zsUrgFp6WA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UDTIXYjNOVXwO9tYeOtH2I1SPNGONCCmh02Tzrz9e5UxXTZYQfU5OnglRJgb7MBXGdRz6HtjYrxHfCMsveEUoRYyW/9pL2s3o/3zPZEdhWah91TH2ukATap2ZJreOr1pu1q69pdLSclj3lwdUUKG6jWsgPfsgcYcVR7KV+3Kqpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxX21xdf; arc=none smtp.client-ip=10.30.226.201
+	bh=ynSdBnUoyOi6UoJHyE2audEAzW2KnJocKKBLbmP65Mw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=L4PjauqS2J6F4CT/o2IcodCzrIegTzTwCHeqR5MJvcRSXERgp6y91SGCNMfVuEQXK58kxQ4tlBUA6n38D3LYsgo4DdjHRCIYiD9O63/q3NPGOtJ5sl7Rx4YNrocq6evh/sEScWJQptGcP2IaZowiOnwtMnVt6L7lwGTkmVTq80k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a+kZvWj2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxX21xdf"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 98D83C2BCC9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a+kZvWj2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 872D8C19425;
 	Thu, 16 Jul 2026 19:51:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1784231495;
-	bh=5xh8In4T0B+e6FRwZmqeK+VMgCQ2uzOm3zsUrgFp6WA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=VxX21xdfWUAxkqGLKEWhTj1JyCgfcyw7ZrgHg1JngytTD4IzxWzvxNAS9Jo8Bpf6f
-	 e/tMXmDadp/AnnUVQmT+U7cKqgQ6BIVfiYaGAaBFJdYLSLR1B+jPs2PiKgw2NxHwX/
-	 ogT27IP3xjmugb/127y9rN0GyOnryJR7VoLXj5hnliiuadCRcklDWDsuq6BpwyKXnO
-	 tQf9xUZgPUJl3wR/pBFIn0YQNLHZdht2EI86m0GtggJmRYyG3OTQGkPyrtIL6JSe1k
-	 J/QZSePk7+6ohBvWvdMkWUbAgDa+bDiw89D3wi9qT7TfiyFxbFjh19OfyPXoQ3+Z+n
-	 Zz4gYUq6slvIA==
+	bh=ynSdBnUoyOi6UoJHyE2audEAzW2KnJocKKBLbmP65Mw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=a+kZvWj2jZCixqdZZH9hd9cm1yHvB0r/EZmGECCx6tgut+ufkB7EjUbdSoXMKniU+
+	 +NVyhOWfDHvox1eJWpAhWR6+R0rcNOoK6g+Nn2aYw5elot3ak6OxlCv1dvBPBtETXH
+	 K+HZHcMoeAWJbHmdm00BxPjy+8mYUSmWaj95v9srweGO6uPBdDP/S4q/FCa8w+IF7i
+	 jAZ/W7+Wn+RagwGi337iI9KOUCkqLvGO/EAbmlV4I7p/bf1FJwD6dwt5H/Sf0IuE20
+	 v3MX5HrvrM/li6cWU6WEo7lhcQsjVnMz5btvtek+BWPjGTnJxQF5jCwWpTuIiTWhnC
+	 LrOkrjwg3ha4Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79CB9C44512;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63A89C44515;
 	Thu, 16 Jul 2026 19:51:35 +0000 (UTC)
 From: Sarath Ganapathiraju via B4 Relay <devnull+sarath.ganapathiraju.oss.qualcomm.com@kernel.org>
-Date: Fri, 17 Jul 2026 01:21:15 +0530
-Subject: [PATCH v2 1/3] ASoC: dt-bindings: qcom,lpass-va-csr: Add HeartBeat
- pulse clock
+Subject: [PATCH v2 0/3] ASoC: Add LPASS VA CSR HeartBeat pulse clock
+ support
+Date: Fri, 17 Jul 2026 01:21:14 +0530
+Message-Id: <20260717-master-v2-0-ae200627ad62@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,9 +41,11 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260717-master-v2-1-ae200627ad62@oss.qualcomm.com>
-References: <20260717-master-v2-0-ae200627ad62@oss.qualcomm.com>
-In-Reply-To: <20260717-master-v2-0-ae200627ad62@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIADI2WWoC/2WNQQ6CMBREr0L+2pK2WhFW3sOwKPUjNUK1vzQa0
+ rtbcOlmkpe8mVmA0FskaIoFPEZL1k0Z5K4AM+jphsxeM4Pk8sgrcWCjpoCeGX2qOtWLWiOHLD8
+ 99va9DV3aH9Pc3dGEtb0ag6Xg/Gd7imL1/kajYJwJ7FDV9V5KhWdHVL5m/TBuHMsc0KaUvp8h+
+ pS1AAAA
+X-Change-ID: 20260714-master-ca87b5f19ae0
 To: Srinivas Kandagatla <srini@kernel.org>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -56,12 +58,12 @@ Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
  Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
  Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784231493; l=2245;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784231493; l=2757;
  i=sarath.ganapathiraju@oss.qualcomm.com; s=default;
  h=from:subject:message-id;
- bh=T7zITenaLQ9Lrl6goebTesyTMddGvt+a0ZHdbi6L3fU=;
- b=FV3jm2e+mCBnFDWB8NR67V8GBPxEM1HNiCySFYpUWUd90ENy/Gnt1/ZMbvoBjOrRLUZdkL8D1
- iJRUnE1h7O/BcQnGGNnuZyaL+eHRoADGR+o7TyqDiF/qRc5E0xBNc2F
+ bh=ynSdBnUoyOi6UoJHyE2audEAzW2KnJocKKBLbmP65Mw=;
+ b=/C9B8KGtU5uhM5nYZ8q0JSK6VGi0voUYFXylhkxYG7PmyAnR++MmiAvRTmbU+FD8dechEU4Ui
+ na9TynqDWYFCdQhED+QUg25dI7mHPwyuaoFak7noES3RIqdTlve+LFj
 X-Developer-Key: i=sarath.ganapathiraju@oss.qualcomm.com; a=ed25519;
  pk=4p2FWGXM+F2sir13Lu5stw5aKX5trUymK/ttESvgxQg=
 X-Endpoint-Received: by B4 Relay for
@@ -69,80 +71,64 @@ X-Endpoint-Received: by B4 Relay for
 X-Original-From: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
 Reply-To: sarath.ganapathiraju@oss.qualcomm.com
 
-From: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
+The LPASS VA CSR block contains rate generator hardware that produces
+a HeartBeat Pulse (also known as RateGen Pulse). This pulse
+synchronizes the start of the DMAs and Codec Interfaces for the audio
+usecases and can serve as a periodic wakeup source for the DSP.
 
-Add Qualcomm LPASS VA CSR rate generator node that exposes
-the lpass_heartbeat_pulse clock on hawi.
+This series adds the DT binding and driver support to model this
+rate generator as a clock provider, and extends the VA macro binding
+with a new hawi variant that consumes the heartbeatpulse clock
+alongside its existing mclk, macro, and dcodec clocks.
 
-The HeartBeat Pulse (also known as RateGen Pulse) synchronizes the
-start of the DMAs and Codec Interfaces for the audio usecase
-and can serve as a periodic wakeup source for the DSP.
+Patch 1 adds the YAML binding for the new qcom,hawi-lpass-va-csr
+clock provider node.
+
+Patch 2 extends qcom,lpass-va-macro to describe the new
+qcom,hawi-lpass-va-macro compatible with its four-clock constraint.
+
+Patch 3 adds the lpass-va-csr driver that registers the
+lpass_heartbeat_pulse clock and enables/disables the rate generator
+via regmap when the clock consumer requests it.
 
 Signed-off-by: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
 ---
- .../bindings/sound/qcom,lpass-va-csr.yaml          | 52 ++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+Changes in v2:
+- Split the DT binding patch into two: one for the new
+  qcom,lpass-va-csr binding, one for the qcom,lpass-va-macro
+  extension (Srinivas).
+- Fixed the qcom,lpass-va-csr example so it uses a 2-cell reg
+  under a proper #address-cells/#size-cells parent node, fixing
+  dt_binding_check (Rob).
+- Switched the heartbeatpulse clk_ops from atomic
+  enable/disable/is_enabled to sleepable prepare/unprepare/is_prepared,
+  since regmap with a maple tree cache is not safe to call from the
+  raw spinlock context the atomic ops run under.
+- Checked and propagated regmap_write()/regmap_read() return values
+  instead of ignoring them.
+- Used regmap_set_bits()/regmap_clear_bits()/regmap_test_bits() instead
+  of manual regmap_update_bits()/regmap_read() combos (Konrad).
+- Used lowercase hex for register offset defines (Konrad).
+- Link to v1: https://lore.kernel.org/linux-arm-msm/20260714-master-v1-0-1ebe5993225e@oss.qualcomm.com/
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-va-csr.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-va-csr.yaml
-new file mode 100644
-index 0000000000..131debb04f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-va-csr.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/qcom,lpass-va-csr.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm LPASS VA CSR heartbeat pulse clock provider
-+
-+maintainers:
-+  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-+  - Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
-+
-+description:
-+  The LPASS VA CSR block contains the rate generator hardware which
-+  produces the heartbeatpulse consumed by the Bolero codec macros
-+  (rx, tx, wsa, va). It is modelled as a clock provider
-+  so consumers can reference it by name in their clocks list.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - qcom,hawi-lpass-va-csr
-+
-+  reg:
-+    maxItems: 1
-+    description: Must cover the full VA CSR block (base 0x7EE0000, size 0xE000).
-+
-+  "#clock-cells":
-+    const: 0
-+    description:
-+      Single clock output "lpass_heartbeat_pulse". Consumers reference
-+      it by clock-name "heartbeatpulse" in their clocks list.
-+
-+required:
-+  - compatible
-+  - reg
-+  - "#clock-cells"
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    soc {
-+      #address-cells = <2>;
-+      #size-cells = <2>;
-+
-+      va-csr@7ee0000 {
-+        compatible = "qcom,hawi-lpass-va-csr";
-+        reg = <0x0 0x07ee0000 0x0 0xe000>;
-+        #clock-cells = <0>;
-+      };
-+    };
+---
+Sarath Ganapathiraju (3):
+      ASoC: dt-bindings: qcom,lpass-va-csr: Add HeartBeat pulse clock
+      ASoC: dt-bindings: qcom,lpass-va-macro: Add hawi heartbeatpulse clock
+      ASoC: Add LPASS VA CSR heartbeat pulse clock
 
--- 
-2.34.1
+ .../bindings/sound/qcom,lpass-va-csr.yaml          |  52 ++++++++
+ .../bindings/sound/qcom,lpass-va-macro.yaml        |  18 +++
+ sound/soc/codecs/Kconfig                           |  13 ++
+ sound/soc/codecs/Makefile                          |   2 +
+ sound/soc/codecs/lpass-va-csr.c                    | 143 +++++++++++++++++++++
+ 5 files changed, 228 insertions(+)
+---
+base-commit: 1a1757b76427f6201bfe0bf1bea9f7574f332a93
+change-id: 20260714-master-ca87b5f19ae0
+
+Best regards,
+--  
+Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
 
 
