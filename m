@@ -1,146 +1,106 @@
-Received: from h6.fbrelay.privateemail.com (h6.fbrelay.privateemail.com [162.0.218.229])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE5C2D5412;
-	Thu, 16 Jul 2026 16:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.0.218.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E622F28FF;
+	Thu, 16 Jul 2026 16:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784217667; cv=none; b=sCimP4evuG3r0MQb2rslOjzYFE+4HfXlT175hrE7HkwPKWzLCP8qy15XqrdrgtuMrzn9oSaLx5t5Fxv39Zx6SDnl9FvDRWINtSWcd4QpD3aVG7z0W4/81AOrOSWM0K0gvdk+F38aiRpE61kHy9fBpuiTtBBB5svter1hrcYG66U=
+	t=1784218101; cv=none; b=X4E87ZnI8KtTDyCEo+MupKxGhumfNFyp7NL2dI67LkkXzJZdk4gv0WSTvclxMviCxoq8kyshI2V8IxujZ8oK6IG+DpTUd3I+aMj+/NYqtyGI2Q6K+JYRfCvg62GXmT5xnFd4Mm2YX28VqlLVnT9Rc4ioRfs/iO18sNVm7Yzq4zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784217667; c=relaxed/simple;
-	bh=j3xLloUiFKnQ2xhPuFCjH8HLy09+4RFKm8QCqeRZvDw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c/uKH0one28sityrIcwkHjfcek1B+/L6cSGQLbJN5Ts6425XGdXm1kd4ZUrbD8me6ni4m2TlQDeeIRaxNUq985cvY5Vgmug/rAm4nYWxGyq/kTx39w34sjj1hJz6XeSQi53MsPnv91rW3PxSFPJGg9s5SZjFc3vZg+Dcej4Ywoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=162.0.218.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
-Received: from MTA-10-3.privateemail.com (mta-10.privateemail.com [198.54.118.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by h5.fbrelay.privateemail.com (Postfix) with ESMTPSA id 4h1Hny10S6z2xj2;
-	Thu, 16 Jul 2026 16:00:54 +0000 (UTC)
-Received: from mail.privateemail.com (K8S-PROD-WORKER-08 [87.215.145.39])
-	by mta-10.privateemail.com (Postfix) with ESMTPA id 4h1HnS6vpbz3hhTK;
-	Thu, 16 Jul 2026 12:00:28 -0400 (EDT)
-From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
-	Mark Brown <broonie@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: codecs: add the Qualcomm WCD9378 audio codec
-Date: Thu, 16 Jul 2026 18:00:15 +0200
-Message-ID: <20260716160015.165574-1-jorijnvdgraaf@catcrafts.net>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <DJZUFFHFXZBK.3S5A9OPE7XYEZ@fairphone.com>
-References: <20260706192229.144137-1-jorijnvdgraaf@catcrafts.net> <DJZUFFHFXZBK.3S5A9OPE7XYEZ@fairphone.com>
+	s=arc-20240116; t=1784218101; c=relaxed/simple;
+	bh=Gqe7lUdsYGJMiHpnJ8qhfMOzEBoazsss6t6f7wn7Q58=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V1DjbzoMspifm3r/37sh7KJaTJcgKy9ZLXlJvKv0EBKw+QvvezzSGaKt5mxQCh1zCR8SJeHINmy7VzmvVoWEwm2AAbb2TTxpfCess2Q9Phqch19LxfNq6GDiJ60JMnwyH6HNTLLDfisZ/2rbt0A4ZdfBVhz9dEmpBW8gyt8sDOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TfTNv+fD; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TfTNv+fD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5688E1F000E9;
+	Thu, 16 Jul 2026 16:08:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784218099;
+	bh=HU6NSMw52EuRCnUwSJFEtm/y/U+8jVscyJ7ZIAzK2X0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TfTNv+fDcmZ/aCeaH1HS+h0ZTxrchO3i8Tm6xWqmADkZaRFh0+o/ROLUaHzyp/A+Y
+	 +V6gkTWXv8mz9SCxBOfTn4ISLumdo7f/o2katbPxhxxJThJ4wHFHYtcEiJAVrZnf2x
+	 6eOGNXZAZial06CibzFlNi57nODZ0MSwifo5JhtueA15PzG/LEl0ABePeTYL8JpeiV
+	 0fEvFdjB8cCyFwOR3MkIKNOscoDIIy1oiMLPvi905Bih4JO8JjkfjOZWQ4aykUTRrZ
+	 nq+czVSdUPPikCWBSed8ZlV/3MSwrMPkexXNPFXOgPLCTv5uK0NslCHC4e/IQCJErd
+	 sNNjKY4dFJicg==
+Date: Thu, 16 Jul 2026 17:08:14 +0100
+From: Lee Jones <lee@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	mfd@lists.linux.dev, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: Re: [PATCH 3/3] mfd: cs42l43: Add support for new cs42l44 variant
+Message-ID: <20260716160814.GE1424265@google.com>
+References: <20260708140039.1993489-1-ckeepax@opensource.cirrus.com>
+ <20260708140039.1993489-4-ckeepax@opensource.cirrus.com>
+ <20260716151437.GA1409595@google.com>
+ <alj9FS+pm5gm8Fp3@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4h1Hny10S6z2xj2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alj9FS+pm5gm8Fp3@opensource.cirrus.com>
 
-On Thu, 16 Jul 2026 10:13:21 +0200, Luca Weiss wrote:
-> Many thanks for all your work on the Fairphone (Gen. 6)!
->
-> If possible, can you share also dts patches with me, so I can try out
-> your patches, and provide at least Tested-by?
+On Thu, 16 Jul 2026, Charles Keepax wrote:
 
-Thanks! Everything is now public on my Forgejo:
+> On Thu, Jul 16, 2026 at 04:14:37PM +0100, Lee Jones wrote:
+> > On Wed, 08 Jul 2026, Charles Keepax wrote:
+> > > The cs42l44 is a cost optimised variant of cs42l43b. Add basic support
+> > > for this new device.
+> > > 
+> > > Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> > > ---
+> > >  	switch (devid) {
+> > >  	case CS42L43_DEVID_VAL:
+> > > +		valid_id = (cs42l43->variant_id == CS42L43_DEVID_VAL);
+> > > +		break;
+> > >  	case CS42L43B_DEVID_VAL:
+> > > -		if (devid != cs42l43->variant_id) {
+> > > -			dev_err(cs42l43->dev,
+> > > -				"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
+> > > -				devid, cs42l43->variant_id);
+> > > -			goto err;
+> > > -		}
+> > 
+> > Needs a fall-through statement.
+> 
+> I thought they weren't typically used if the case had no content,
+> the resultant code looks like:
+> 
+> case CS42L43B_DEVID_VAL:
+> case CS42L44_DEVID_VAL:
+> 	valid_id = (cs42l43->variant_id == CS42L43B_DEVID_VAL);
+> 	break;
+> 
+> But happy to add one if we really want it?
 
-  https://forgejo.catcrafts.net/Catcrafts/milos-linux
+Not particularly.  I'm happy to take your word for it.
 
-The default branch, combined-stable, is what I run on the phone minus
-experiments: the pure v7.1.2-milos tag plus carries for NFC (reader
-mode; card emulation is still open), speakers, microphone and the
-magnetometer -- the DTS changes plus mirrors of the driver series, so
-one branch has everything needed. Topic branches (nfc, audio, mic,
-sensors) exist too, and every DTS change is its own commit.
+> > > +	case CS42L44_DEVID_VAL:
+> > > +		valid_id = (cs42l43->variant_id == CS42L43B_DEVID_VAL);
+> > >  		break;
+> > >  	default:
+> > >  		dev_err(cs42l43->dev, "Unrecognised devid: 0x%06x\n", devid);
+> > >  		goto err;
+> > >  	}
+> > >  
+> > > +	if (!valid_id) {
+> > 
+> > How is this nor handled in the default branch?
+> 
+> The default case ends in goto err; so this doesn't run in that
+> case.
 
-What the driver carries mirror, status-wise:
-- mic: this series (v1), plus "soundwire: qcom: add SCP address paging
-  support", which Vinod applied to soundwire.git next for 7.3
-  (commit 999f80904763).
-- speaker: "ASoC: qcom: sc8280xp: support Senary MI2S" (v2 on the
-  list), "ASoC: codecs: aw88261: only check PLL and clock state at
-  power-up" (applied to sound.git for-7.3, commit 06b6f1245567) plus a
-  backport of the aw88261 format-negotiation work that is already in
-  mainline but not in the 7.1.2 base, and the q6apm-lpass-dais
-  graph-at-prepare RFC that is still under discussion.
-- NFC: the s3fwrn5 S3NRN4V series (v2) on netdev; binding has Conor's
-  ack, driver still waiting.
-- magnetometer: "iio: magnetometer: add support for QST QMC6308" (v1
-  on linux-iio); a v2 with review rework is pending, so binding and
-  DTS node may still change.
+So are there 'case's that do not populate valid_id?
 
-The board DTS itself I still intend to send to linux-arm-msm properly
-once the bindings land, as per the cover letter.
-
-> Also for audio, UCM and AudioReach topology if it differs from
-> https://github.com/z3ntu/audioreach-topology/commits/fp6/ or what
-> you've used to test the changes.
-
-It differs, yes:
-
-  https://forgejo.catcrafts.net/Catcrafts/audioreach-topology (branch fp6)
-
-That branch is your two WIP commits with one commit on top, so a plain
-diff shows the delta. The functional changes:
-
-- The backend is named SEN_MI2S_RX: the tplg backend name has to match
-  the DAI name the kernel exposes, which is "SEN_MI2S_RX" in
-  q6dsp-lpass-ports.c.
-- Playback goes through a device subgraph that inserts an MFC between
-  the logger and the I2S endpoint: the frontend stream is S16 while
-  the AW88261 boost converter needs 32-bit slots (3.072 MHz BCLK), so
-  the DSP has to convert on the way out.
-- There is a capture path now (MultiMedia2 -> TX_CODEC_DMA_TX_3) for
-  the WCD9378 mics -- that is the part needed to test this series.
-
-One gotcha: the CMake entry emits
-qcom/milos/MILOS-Fairphone-Gen6-tplg.bin, but the kernel requests
-qcom/<driver_name>/<card_name>-tplg.bin, i.e.
-"qcom/milos/Fairphone (Gen. 6)-tplg.bin", so the file has to be
-installed under that name.
-
-The UCM is here, speaker + handset mic (AMIC1) so far:
-
-  https://forgejo.catcrafts.net/Catcrafts/alsa-ucm-conf (branch fp6)
-
-laid out upstream-style (ucm2/Qualcomm/milos/Fairphone-Gen6/ plus the
-conf.d/milos symlink).
-
-> So for NFC, speaker, microphone and magnetometer would be great.
-
-All four are in combined-stable. One more thing the speakers need: the
-amps' ACF firmware, loaded as
-qcom/milos/fairphone/fp6/aw88261_acf.bin. I pulled it out of an FP6
-vendor image (vendor/firmware/aw882xx_acf.bin, 4328 bytes; the
-mainline aw88395 ACF parser reads it as-is). I have deliberately not
-put it in the public repos since I don't know its redistribution
-status -- something you are in a better position to answer than
-anyone: could Fairphone clear this file for redistribution, so it can
-eventually go to linux-firmware with a proper WHENCE entry? Happy to
-send it your way off-list in the meantime, though you likely have
-easier access to it than I do.
-
-Since Srinivas mentioned on the 3/3 thread that he plans to post his
-SDCA driver for this codec, the mic carry in the branch is simply this
-series' v1; I'll keep the branches refreshed as the series evolve.
-
-Regards,
-Jorijn
+-- 
+Lee Jones
