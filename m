@@ -1,26 +1,26 @@
-Received: from mail-m49206.qiye.163.com (mail-m49206.qiye.163.com [45.254.49.206])
+Received: from mail-m1973197.qiye.163.com (mail-m1973197.qiye.163.com [220.197.31.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9556D31716D;
-	Thu, 16 Jul 2026 09:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9442543F081;
+	Thu, 16 Jul 2026 10:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784195865; cv=none; b=LprAGKj6z66IE1PdAWP/JJHi88Ora5vVb1JNDOzzHxn6yBBwIZN6UNt1CmZo5AxBFZQAxW3d3ueCWFlL1pw6u+OtG7DaTJkATncdM+rfA5+U1zWETErC4rPzsdkQYyDZBdr4tenWz+GfMiFrEvAV5H8BPj8hC39JXOgGFGMRMVY=
+	t=1784196137; cv=none; b=FjWp4wEadOuDcTd6X58Az1UjmzLrhMAjtef3akkBGL3EsC/HYwFA6KaZyJHnEMM6zySiKptKdd52PtxvKe6tBRHD6YDVJdl9qxvlWOAHoM9w8yhuv9nkW3RPLR95XkFzvH206wWRFcrqqhD9bzj0FdcEafHfjpX0Sh8wJj4GL/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784195865; c=relaxed/simple;
-	bh=9MVu3h2TTHAPPzWoTWilO603EJ1DSCcmYvinWFklY+A=;
+	s=arc-20240116; t=1784196137; c=relaxed/simple;
+	bh=jnO7+lKbYHEo4ZDzz30LozA6BlpK0wWUh9h0g+5Ykdg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I4OUHsxoZR+gKEnysblHKeauqDJ1X3tPhI2RXuipxOXGJlh9zWb5dWKo6k+/XRCT9i74R9FSDL4Rzi2sjRS7jzGY2EJuAAh8BRhWmW5AbRjzEBaIikN5s3Xw8QlXgOqY+q+htijUsIiy4Rrke4aHqAOr+s1+hugiNpEgDX4rLQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=YmfBkgub; arc=none smtp.client-ip=45.254.49.206
+	 MIME-Version; b=Cy42ABP/iDjxZj0boyYQ1ea7uGOvoQ6987VBX8PzS1yxdCAxIPQvsAVEBVOBQYnMvW0fHftuSOABtZDu8917o9TO9D3d/SRtwfl17I4e/jDWgmn7ebhI89bmBAJhaY1ONbVT+7FekpNbMKuDcct4OW6EFIXPM+gNDGZunaqtLus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=hS0CDgbS; arc=none smtp.client-ip=220.197.31.97
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="YmfBkgub"
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="hS0CDgbS"
 Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 466f33bfd;
-	Thu, 16 Jul 2026 17:52:24 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 466c9bc16;
+	Thu, 16 Jul 2026 16:46:28 +0800 (GMT+08:00)
 From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-To: mohammad.rafi.shaik@oss.qualcomm.com
+To: krzk@kernel.org
 Cc: andersson@kernel.org,
 	broonie@kernel.org,
 	conor+dt@kernel.org,
@@ -31,11 +31,13 @@ Cc: andersson@kernel.org,
 	katsuhiro@katsuster.net,
 	konradybcio@kernel.org,
 	krzk+dt@kernel.org,
+	krzysztof.kozlowski@oss.qualcomm.com,
 	lgirdwood@gmail.com,
 	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	matteomartelli3@gmail.com,
+	mohammad.rafi.shaik@oss.qualcomm.com,
 	neil.armstrong@linaro.org,
 	perex@perex.cz,
 	robh@kernel.org,
@@ -43,12 +45,12 @@ Cc: andersson@kernel.org,
 	srini@kernel.org,
 	tiwai@suse.com,
 	zhoubinbin@loongson.cn
-Subject: Re: [PATCH v2 6/6] arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
-Date: Thu, 16 Jul 2026 17:52:17 +0800
-Message-ID: <20260716095217.2855206-1-hongyang.zhao@thundersoft.com>
+Subject: Re: [PATCH v2 0/6] Add audio support for QCS6490 RubikPi3
+Date: Thu, 16 Jul 2026 16:46:19 +0800
+Message-ID: <20260716084619.2835456-1-hongyang.zhao@thundersoft.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <7c905a1c-f65e-4ef5-a65c-2be83ff820ba@oss.qualcomm.com>
-References: <7c905a1c-f65e-4ef5-a65c-2be83ff820ba@oss.qualcomm.com>
+In-Reply-To: <20260716-valiant-elegant-wren-fbad5d@quoll>
+References: <20260716-valiant-elegant-wren-fbad5d@quoll>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,301 +58,73 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9f6a5773b009d5kunme5e0f0279f142
+X-HM-Tid: 0a9f6a1b166f09d5kunma38bff0594886
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCSkhCVkNDTkpJGkxCSklDQ1YVFA
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZThhLVkNPTUJIHUodSR0ZGVYVFA
 	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
 	lOS1VKS0tVSkJLQlkG
 DKIM-Signature: a=rsa-sha256;
-	b=YmfBkgubYcqBt7KESDAwVsm/f3kvdhBO3c5JvG54aA96QnMVWsbgevRq4lWu+1mnF2qhrDXcUaQF2HOKEridxXZaDb7EecycWjLdMr+WdcT5o+/ggpQnMeJwTxVIoPfxlw8n160IV79+vBgOQRe3HnaZTU6O09X8X6gn4l4fc2I=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=Ep01KusOgUcg83aHRrCrtmBum+1A5c5+kWDQYQuYo4M=;
+	b=hS0CDgbSegqLVVQ3w14sOJ0NIGpUhua33iPOPasVm5vZyaCZrMt9UJsFqUbXtDNWY2vs5uMEhKP4wbIsqa9odAgl7ZUUYaUBpKrM5ZbfrNSAJUPlEahlcQlCuwe+3AaJ8Za/lK6OCEuHqLkJbc89i26J+Pv16Hxs3hj3h9tR/6Q=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=jnO7+lKbYHEo4ZDzz30LozA6BlpK0wWUh9h0g+5Ykdg=;
 	h=date:mime-version:subject:message-id:from;
 
-Hi Rafi,
-
-Thank you for the review.
-
-On 7/15/2026 7:32 PM, Hongyang Zhao wrote:
-> > RubikPi 3 uses the AudioReach firmware path for its external audio
-> > interfaces. The primary MI2S interface connects to an ES8316 codec for
-> > headset playback and capture, while the quaternary MI2S interface feeds
-> > the LT9611 HDMI bridge.
+On Wed, Jul 15, 2026 at 10:02:49PM +0800, Hongyang Zhao wrote:
+> > Add audio support for the Thundercomm RubikPi3 board based on QCS6490.
 > >
-> > Enable the AudioReach description and add the three DAI links. Describe
-> > the primary MI2S MCLK and bit clock inputs under the backend DAI so the
-> > machine driver can control them. Add the primary and quaternary pin
-> > configurations to the sound card and make the LT9611 codec DAI
-> > addressable.
+> > RubikPi3 uses AudioReach/GPR on the ADSP. An ES8316 codec connected to
+> > primary MI2S provides headset playback, headset capture and jack
+> > detection. The LT9611 bridge connected to quaternary MI2S provides HDMI
+> > audio playback.
 > >
-> > Describe the ES8316, its 3.3 V enable supply, 19.2 MHz MCLK and inverted
-> > GPIO jack-detect signal. Route the codec headphone outputs and microphone
-> > input to the board headset connector.
+> > The series first documents the existing ES8316 jack-detect inversion
+> > property and adds a board-specific Qualcomm sound-card compatible. A
+> > generic Qualcomm headset helper is then added for codecs which implement
+> > component jack detection but are not connected through a WCD codec DMA
+> > link.
 > >
-> > Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-> > ---
-> >   .../boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts | 159 +++++++++++++++++++++
-> >   1 file changed, 159 insertions(+)
+> > The sc8280xp machine driver board data is converted to a per-DAI
+> > representation. This allows each backend to select its own DAI format,
+> > clock programming and jack setup. RubikPi3 uses this to drive the ES8316
+> > with a 19.2 MHz MCLK and to avoid unsupported sysclk programming on the
+> > LT9611 HDMI link.
 > >
-> > diff --git a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-> > index d8a9a7e47bdc..7b010823d692 100644
-> > --- a/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-> > +++ b/arch/arm64/boot/dts/qcom/qcs6490-thundercomm-rubikpi3.dts
-> > @@ -19,6 +19,7 @@
-> >   #include "pm7325.dtsi"
-> >   #include "pm8350c.dtsi" /* PM7350C */
-> >   #include "pmk8350.dtsi" /* PMK7325 */
-> > +#include "qcs6490-audioreach.dtsi"
+> > The final patch describes the two audio paths, clocks, pin control,
+> > codec power and jack-detect wiring in the RubikPi3 device tree.
 > >
-> >   /delete-node/ &adsp_mem;
-> >   /delete-node/ &cdsp_mem;
-> > @@ -128,6 +129,23 @@ fan0: pwm-fan {
-> >   		pinctrl-names = "default";
-> >   	};
+> > This series is based on next-20260710 and depends on Rafi's
+> > q6apm-lpass-dais MI2S clock control series and Neil's q6prm MCLK clock
+> > ID patch:
 > >
-> > +	vreg_es8316_3v3: regulator-es8316-3v3 {
-> > +		compatible = "regulator-fixed";
-> > +
-> > +		regulator-name = "vreg_es8316_3v3";
-> > +		regulator-min-microvolt = <3300000>;
-> > +		regulator-max-microvolt = <3300000>;
-> > +
-> > +		gpio = <&tlmm 117 GPIO_ACTIVE_HIGH>;
-> > +		enable-active-high;
-> > +
-> > +		pinctrl-0 = <&es8316_power_on>;
-> > +		pinctrl-names = "default";
-> > +
-> > +		regulator-always-on;
-> > +		regulator-boot-on;
-> > +	};
-> > +
-> >   	vreg_eth_1v8: regulator-eth-1v8 {
-> >   		compatible = "regulator-fixed";
-> >
-> > @@ -727,6 +745,26 @@ &gpu_zap_shader {
-> >   	firmware-name = "qcom/qcs6490/a660_zap.mbn";
-> >   };
-> >
-> > +&i2c0 {
-> > +	status = "okay";
-> > +
-> > +	es8316: audio-codec@11 {
-> > +		compatible = "everest,es8316";
-> > +		reg = <0x11>;
-> > +		#sound-dai-cells = <0>;
-> > +
-> > +		clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-> > +		clock-names = "mclk";
-> > +
-> > +		interrupts-extended = <&tlmm 63 IRQ_TYPE_LEVEL_HIGH>;
-> > +
-> > +		pinctrl-0 = <&es8316_jack_detect>;
-> > +		pinctrl-names = "default";
-> > +
-> > +		everest,jack-detect-inverted;
-> > +	};
-> > +};
-> > +
-> >   /* Pin 3, 5 in 40-pin connector */
-> >   &i2c1 {
-> >   	status = "okay";
-> > @@ -740,6 +778,7 @@ &i2c9 {
-> >   	lt9611_codec: hdmi-bridge@39 {
-> >   		compatible = "lontium,lt9611";
-> >   		reg = <0x39>;
-> > +		#sound-dai-cells = <1>;
-> >
-> >   		interrupts-extended = <&tlmm 20 IRQ_TYPE_EDGE_FALLING>;
-> >   		reset-gpios = <&tlmm 21 GPIO_ACTIVE_HIGH>;
-> > @@ -978,6 +1017,27 @@ &pon_resin {
-> >   	status = "okay";
-> >   };
-> >
-> > +&q6apmbedai {
-> > +	#address-cells = <1>;
-> > +	#size-cells = <0>;
-> > +
-> > +	dai@10 {
-> > +		reg = <PRIMARY_MI2S_RX>;
-> > +		clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
+> > Depends-on: https://lore.kernel.org/all/20260714145250.2473461-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> > Depends-on: https://lore.kernel.org/all/20251008-topic-sm8x50-next-hdk-i2s-v2-1-6b7d38d4ad5e@linaro.org/
 >
-> Drop this; it is already enabled from the codec node.
+> That's RFC with comments, so why do you send your patchset knowing IT
+> CANNOT BE merged?
 >
-> Why is the same clock being enabled in two places?
-
-Agreed. I removed MCLK from both Primary MI2S backend nodes. They now
-describe only BCLK, for example:
-
-	dai@10 {
-		reg = <PRIMARY_MI2S_RX>;
-		clocks = <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-		clock-names = "bclk";
-	};
-
-The ES8316 codec node is the sole MCLK consumer. The corresponding
-machine data also no longer enables CPU-side MCLK.
-
+> Last days Mark complained, Rob complained, sure, we can ignore
+> maintainers, but just stop for a second and think: what can we do with
+> your patchset? Really, what can we do?
 >
-> > +			 <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-> > +		clock-names = "mclk",
-> > +			      "bclk";
-> > +	};
-> > +
-> > +	dai@11 {
-> > +		reg = <PRIMARY_MI2S_TX>;
-> > +		clocks = <&q6prmcc LPASS_CLK_ID_MCLK_1 LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
-> > +			 <&q6prmcc LPASS_CLK_ID_PRI_MI2S_IBIT LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-> > +		clock-names = "mclk",
-> > +			      "bclk";
-> > +	};
-> > +};
-> > +
-> >   &qupv3_id_0 {
-> >   	firmware-name = "qcom/qcm6490/qupv3fw.elf";
-> >
-> > @@ -1014,6 +1074,69 @@ &sdhc_2 {
-> >   	status = "okay";
-> >   };
-> >
-> > +&sound {
-> > +	compatible = "thundercomm,qcs6490-rubikpi3-sndcard";
-> > +	model = "QCS6490-Thundercomm-RubikPi3";
-> > +
-> > +	pinctrl-0 = <&mi2s0_data0>, <&mi2s0_data1>, <&mi2s0_mclk>,
-> > +		    <&mi2s0_sclk>, <&mi2s0_ws>,
-> > +		    <&lpass_qua_mi2s_sclk>, <&lpass_qua_mi2s_ws>,
-> > +		    <&lpass_qua_mi2s_data>;
-> > +	pinctrl-names = "default";
-> > +
-> > +	audio-routing = "Headphone Jack", "HPOL",
-> > +			"Headphone Jack", "HPOR",
-> > +			"MIC2", "Mic Jack";
-> > +
-> > +	mi2s-playback-dai-link {
-> > +		link-name = "MI2S-LPAIF-RX-PRIMARY";
-> > +
->
-> What does "MI2S-LPAIF-RX-PRIMARY" represents?
+> Best regards,
+> Krzysztof
 
-The original name was intended to describe the primary MI2S receive
-path through LPAIF, but I agree that it was not clear.
+Hi Krzysztof,
 
-Following the naming used by other Qualcomm sound card device trees, I
-have changed the DAI link names to:
+You are right. I missed the RFC tag on Neil's series and misunderstood
+the status of that dependency.
 
-- "Primary MI2S Playback"
-- "Primary MI2S Capture"
-- "HDMI Playback"
+In v1 I carried Neil's MCLK clock-ID patch. I changed this to a
+Depends-on reference in v2 because I did not want to resend somebody
+else's work without coordination. I now understand that this still
+leaves the RubikPi series non-actionable while the dependency remains
+an RFC.
 
->
-> > +		codec {
-> > +			sound-dai = <&es8316>;
-> > +		};
-> > +
-> > +		cpu {
-> > +			sound-dai = <&q6apmbedai PRIMARY_MI2S_RX>;
-> > +		};
-> > +
-> > +		platform {
-> > +			sound-dai = <&q6apm>;
-> > +		};
-> > +	};
-> > +
-> > +	mi2s-capture-dai-link {
-> > +		link-name = "MI2S-LPAIF-TX-PRIMARY";
-> > +
-> > +		codec {
-> > +			sound-dai = <&es8316>;
-> > +		};
-> > +
-> > +		cpu {
-> > +			sound-dai = <&q6apmbedai PRIMARY_MI2S_TX>;
-> > +		};
-> > +
-> > +		platform {
-> > +			sound-dai = <&q6apm>;
-> > +		};
-> > +	};
-> > +
-> > +	quaternary-mi2s-playback-dai-link {
-> > +		link-name = "MI2S-LPAIF_RXTX-RX-PRIMARY";
-> > +
-> > +		codec {
-> > +			sound-dai = <<9611_codec 0>;
-> > +		};
-> > +
-> > +		cpu {
-> > +			sound-dai = <&q6apmbedai QUATERNARY_MI2S_RX>;
-> > +		};
-> > +
-> > +		platform {
-> > +			sound-dai = <&q6apm>;
-> > +		};
-> > +	};
-> > +};
-> > +
-> >   /* Pin 19, 21, 23, 24 in 40-pin connector */
-> >   &spi12 {
-> >   	status = "okay";
-> > @@ -1228,6 +1351,29 @@ &sdc2_data {
-> >   	drive-strength = <10>;
-> >   };
-> >
-> > +&lpass_tlmm {
-> > +	lpass_qua_mi2s_sclk: qua-mi2s-sclk-state {
-> > +		pins = "gpio0";
-> > +		function = "qua_mi2s_sclk";
-> > +		drive-strength = <8>;
-> > +		bias-disable;
-> > +	};
-> > +
-> > +	lpass_qua_mi2s_ws: qua-mi2s-ws-state {
-> > +		pins = "gpio1";
-> > +		function = "qua_mi2s_ws";
-> > +		drive-strength = <8>;
-> > +		bias-disable;
-> > +	};
-> > +
-> > +	lpass_qua_mi2s_data: qua-mi2s-data-state {
-> > +		pins = "gpio2", "gpio3", "gpio4";
-> > +		function = "qua_mi2s_data";
-> > +		drive-strength = <8>;
-> > +		bias-disable;
-> > +	};
-> > +};
-> > +
-> >   &tlmm {
-> >   	pcie1_reset_n: pcie1-reset-n-state {
-> >   		pins = "gpio2";
-> > @@ -1366,6 +1512,12 @@ m2_vcc_pin: m2-vcc-state {
-> >   		input-disable;
-> >   	};
-> >
-> > +	es8316_jack_detect: es8316-jack-detect-state {
-> > +		pins = "gpio63";
-> > +		function = "gpio";
-> > +		bias-disable;
-> > +	};
-> > +
-> >   	lt9611_vcc_pin: lt9611-vcc-pin-state {
-> >   		pins = "gpio83";
-> >   		function = "gpio";
-> > @@ -1395,6 +1547,13 @@ pcie0_wake_n: pcie0-wake-n-state {
-> >   		bias-pull-up;
-> >   	};
-> >
-> > +	es8316_power_on: es8316-power-on-state {
-> > +		pins = "gpio117";
-> > +		function = "gpio";
-> > +		drive-strength = <2>;
-> > +		bias-pull-down;
-> > +	};
-> > +
-> >   	wifi_power_on: wifi-power-on-state {
-> >   		pins = "gpio125";
-> >   		function = "gpio";
-> >
+Please consider this series withdrawn. I will coordinate with Neil
+about the MCLK clock-ID change and wait until the prerequisite work is
+in a mergeable state before sending another revision.
+
+Sorry for wasting your and the other maintainers' review time.
 
 Best regards,
 Hongyang
