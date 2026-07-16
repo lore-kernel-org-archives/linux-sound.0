@@ -1,184 +1,134 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D4D40315F
-	for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 10:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCE7331A57
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 10:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784197804; cv=none; b=n3tiGDrJ21uoFDIGBc7dUEAZviUxlD7uJpPVggxOu++VWbv3luWRdZnTisRq0/1b14rWWAGHUISUmsX+Ct+csrSWXXUgnZlsH/uuqwc+ZFRe+bNVt5MKyrrPTegPB/e9JXgk0vc4DE0Q3ZxC/u1NlUfKZwALf7XOVxQNfKJhhyE=
+	t=1784198368; cv=none; b=nBfSePsS1i5Ey4JtvTdEoRlh8iKgugivg9j2UTDLbui9Z2xijbeQjJKMO2Z8Trcq5sleNTJof4Q5Hqa35GZ6xYjbcrhCZyheDFoxx5BNlCqcawlvhDWvorm7pA3hUBVm9z3xTMqcSyhaczUPgjWhzaBEYNtPVztdN98VqN5keLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784197804; c=relaxed/simple;
-	bh=r0uL40poHrbOTwuMl5R0YkpdYmS8pPvuhnaDQo+y4Eo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uFvRbZRr60LKWy7H9jLe386vJTu8NFzt9PprGUBd0Zq8RPVqOq0WPha6DeUxw0r5UFS+faXVXxGdu7A3i8HbgMPkf1eZs5vaSTzkEMnXfqYx+IN4s5ZQSjOGW416aYUuIeHBvATGnzn1+40MJSo+Dt5G7UVvwb7qWv9wI1829R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kMSWPG4O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dXebXPf3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kMSWPG4O; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dXebXPf3; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784198368; c=relaxed/simple;
+	bh=HWp+w3zWLT/STA8qJtRJUsPudz8/gv6NAGmdGdKJKRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dnbX2mMGex488/7Meapq+7DqeUopuOUgMujbzzNakeS0F6IQ4TFH6Fv3c+pD7ZVZbaMD3rJSO+wVFgbHT4YRN+eJFSWbiHqvbvmgpdUizQRT98N0SDB/m0lZM1OjVJywwwUrZyt3h7fFP4kKqUrjEmc66WZ6sRPZZ7gnprC1aOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNtFc9BU; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kMSWPG4O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dXebXPf3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kMSWPG4O";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dXebXPf3"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B257A788E2;
-	Thu, 16 Jul 2026 10:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784197800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IowYhS0QHOnVk0pQxAnk4MM7yfk/rasVZRKPcDmOKOU=;
-	b=kMSWPG4OG1buWX2wo1n4jVo25NN/QF3ptfRdQY4BioKDSfvZQ43uvzfz8r/+j+XzGhQLre
-	7XJfCO5Lx5CgU9FxWZ3NRdL6BS4rACEoWS5TQJv4BiFdybBqtkZpX7nrx9i4Qybs2ExilO
-	0Gaa8K2oARjhSRXFNr4snaUon0DCFAg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784197800;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IowYhS0QHOnVk0pQxAnk4MM7yfk/rasVZRKPcDmOKOU=;
-	b=dXebXPf3hDS0zRc25292Ill/ff16YRU43ok15wlC8n4BQkDFcoB/rlOpist3bRptNFqxMX
-	evxkdBWs6jWK6eDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784197800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IowYhS0QHOnVk0pQxAnk4MM7yfk/rasVZRKPcDmOKOU=;
-	b=kMSWPG4OG1buWX2wo1n4jVo25NN/QF3ptfRdQY4BioKDSfvZQ43uvzfz8r/+j+XzGhQLre
-	7XJfCO5Lx5CgU9FxWZ3NRdL6BS4rACEoWS5TQJv4BiFdybBqtkZpX7nrx9i4Qybs2ExilO
-	0Gaa8K2oARjhSRXFNr4snaUon0DCFAg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784197800;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IowYhS0QHOnVk0pQxAnk4MM7yfk/rasVZRKPcDmOKOU=;
-	b=dXebXPf3hDS0zRc25292Ill/ff16YRU43ok15wlC8n4BQkDFcoB/rlOpist3bRptNFqxMX
-	evxkdBWs6jWK6eDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4858C779AD;
-	Thu, 16 Jul 2026 10:30:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8tYtEKiyWGqTUgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 16 Jul 2026 10:30:00 +0000
-Date: Thu, 16 Jul 2026 12:29:59 +0200
-Message-ID: <87ik6fut08.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Yufan <kuangfan955@gmail.com>
-Cc: sbinding@opensource.cirrus.com,
-    linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	david.rhodes@cirrus.com,
-	rf@opensource.cirrus.com,
-	perex@perex.cz,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: cs35l41: Fix Speakers on HP OmniBook 7 16-bh0xxx
-In-Reply-To: <20260716101708.86725-1-kuangfan955@gmail.com>
-References: <20260716101708.86725-1-kuangfan955@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNtFc9BU"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-84a2c90e383so89213b3a.0
+        for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 03:39:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784198367; x=1784803167; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nTjXyXh6ilqWafAhwi9/ETtAnvPu6wZfnYV8+FiwGAE=;
+        b=JNtFc9BUsuOkgsF85Ojus+GdIDCEulWB3CMbEgbqXDtkNiizqWZvGItzuhOLxxqTY4
+         s7olNUigBSMtYzClZywB1p2asNYcK71Sko/YBZOOG5/weN7nnqH/SDfoTr9MIP/qMWJH
+         HOL/nPrz5jmWnT8Wf7vlGxjClajrZYDrUZXJdRLBbPDgfQs5JxyPqDVrpPOzMSyUyOKI
+         wh4o6d1693geAsRiF5Dh9McWIDdHOkBmbB31WZQ0Z8cQ6cwfkWuXnUKasuJJHQYTiSE7
+         xblhSDy8vj/1OLGq1dNJpYOCkTKyHtNKyDMkCICWpzgKH/S7d2Ky6l263s5mx8qho4Y9
+         pEYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784198367; x=1784803167;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nTjXyXh6ilqWafAhwi9/ETtAnvPu6wZfnYV8+FiwGAE=;
+        b=Z+8Zt1+3g9bmTq4AFbaqltlAwlhP9FWbfH5YPkwMOlTjw86qnIM+1NfF1nOegMS9UI
+         gKL06RdHLrcZVF7xgNCNuK09le29+bcg7uEaQAAu3TNeHGxKwvIIIT4ghYR0GhK/X5DI
+         QQ5eJGzq9xS4i3fkM9/yGvYOPgIkeSADktcwrXHU3e3zkCeN3TKrwDOpjchu3Nd8ZLg9
+         GeD2VZIgdTvgL6eV7A+DJtZJeQ+1OlwSuK5C1ncJpZP9uE19Yy8uYWS1kPu8K/20cp7H
+         2wsGer+ySJFRm63DF4/V43fPMmHSo2TgZWGT7o///TvfWQf4dVo8w+XhUSO3qqbA3F1f
+         pPAg==
+X-Forwarded-Encrypted: i=1; AHgh+RpYW7kdLnFIe1BSunDA+Y9Kk8Pb0m+BHMxvTyxNT9ZQVQk5ZyIOjUe/biJcmwCYp9Etvn7ukIYxP6BOiA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTpH+I8nAchYy0J/cRPtDTniPQiRKgIleO7sCfvZVNRodIqyvp
+	tdMy++8bZmQNf3z5fx7VXS8Rhh0rdf4XfCGdIHM51EQ3+WgfXXch3dmP
+X-Gm-Gg: AfdE7cnnE/Ac0rJuGtD52gavcGc3EnpipeVqsTPK70yHnw/xjD/XqYSS1R1g6HXWKj8
+	ZQOPoESdtWFk6aDsnoxTvZTKOdGwHvSBTyGVOUHRolSQjW2kjHkJ8AFuJ7HerbEN9wPiU4AmS5f
+	Sq5WXOXlc0PLgBXZ1EnYqhAZOHszsOq6zetMDfR2nRv37GPstBx4VVl/JXeMO7xESWAOpMTIWLB
+	31BCjW0ATilYQca5s39FixoQhieQReZw9NIoVrxipIDitvJpVggSJ7y95+xMYZs198qczlAoY75
+	gzzMGSsAwiLe9B5hW3wZPQn8RCATbHfl8yrfK6ecM6MUZifpMkB5dvr41Prp0KRCWDLeABnEZf6
+	kxssKHORkkeY3XX1GKgLMubhWEM9DryE9kEFC33yl99g8d15n8N/f0NPkBwS0LqQaGn+CH/XQdF
+	ttUkSdr1xhFuFtV6LEpyhPoyXhdZbvRc65Bh79
+X-Received: by 2002:a05:6a00:f0f:b0:836:6f2e:bb6d with SMTP id d2e1a72fcca58-84beb18b699mr1948890b3a.14.1784198367073;
+        Thu, 16 Jul 2026 03:39:27 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f266724sm4757331b3a.15.2026.07.16.03.39.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 03:39:26 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Sen Wang <sen@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v3 00/10] ASoC: ti: Improve probe error handling
+Date: Thu, 16 Jul 2026 17:39:01 +0700
+Message-ID: <20260716103911.77652-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 16 Jul 2026 12:17:08 +0200,
-Yufan wrote:
-> 
-> From: Yufan Kuang <kuangfan955@gmail.com>
-> 
-> The HP OmniBook 7 Laptop 16-bh0xxx (SSID 103C8E60) has two CS35L41
-> amplifiers connected via I2C with internal boost, but its _DSD
-> provides cirrus,dev-index as a Package while the driver expects
-> per-device scalar values, causing the probe to fail with -EINVAL,
-> leaving only the left speaker working.
-> 
-> Add the SSID to the configuration and prop-model override tables.
-> 
-> Tested on a HP OmniBook 7 Laptop 16-bh0xxx (BIOS F.12) with
-> CachyOS 7.1.3-2; speaker-test confirms both channels work correctly.
-> 
-> Signed-off-by: Yufan Kuang <kuangfan955@gmail.com>
-> Assisted-by: Copilot:DeepSeek-V4-Pro
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-The very same change has been already submitted (maybe multiple
-times), e.g.
-  https://lore.kernel.org/20260709214414.8461-1-skbotnl@disroot.org
+Hi all,
 
-The problem is known, and it's basically an issue of the firmware.
-But obviously we need to address *something* in the driver side.
+This series cleans up probe error handling across several TI ASoC
+drivers.
 
-Cirrus people -- do you have ideas to fix those HP laptops?
+The changes fall into two categories:
+ 1.Replace dev_err() with dev_err_probe() when reporting probe
+   failures. This preserves the original error code while suppressing
+   unnecessary log messages for deferred probe errors.
+ 2.Preserve the original error codes returned by helper functions
+   instead of converting them to -ENODEV, and remove redundant error
+   messages where the helper already reports the failure.
 
-If it's not feasible in a short term, maybe it'd be better to take
-those quirk additions; although they aren't 100% correct, but they do
-work somehow in a certain level.
+Build-tested only.
 
+Changes in v2:
+ - Add missing parentheses to `snd_soc_register_card()` (Christophe).
+ - Remove an extra blank line (Christophe).
+Changes in v3:
+ - Add the remaining missing parentheses to `snd_soc_register_card()` 
+   (Cezary).
 
-thanks,
+Best regards,
+Phuc
 
-Takashi
+bui duc phuc (10):
+  ASoC: ti: ams-delta: Use dev_err_probe() for error handling
+  ASoC: ti: davinci-evm: Use dev_err_probe() for error handling
+  ASoC: ti: j721e-evm: Return the original error from card name parsing
+  ASoC: ti: omap-abe-twl6040: Preserve error code and drop redundant log
+  ASoC: ti: omap-abe-twl6040: Use dev_err_probe() for error handling
+  ASoC: ti: omap-dmic: Use dev_err_probe() for error handling
+  ASoC: ti: omap-hdmi: Use dev_err_probe() for error handling
+  ASoC: ti: omap-twl4030: Return the original error code
+  ASoC: ti: omap-twl4030: Use dev_err_probe() for error handling
+  ASoC: ti: rx51: Use dev_err_probe() for error handling
 
+ sound/soc/ti/ams-delta.c        |  4 ++--
+ sound/soc/ti/davinci-evm.c      |  3 +--
+ sound/soc/ti/j721e-evm.c        |  7 +++----
+ sound/soc/ti/omap-abe-twl6040.c | 15 ++++++---------
+ sound/soc/ti/omap-dmic.c        |  7 +++----
+ sound/soc/ti/omap-hdmi.c        |  6 ++----
+ sound/soc/ti/omap-twl4030.c     | 15 ++++++---------
+ sound/soc/ti/rx51.c             | 28 ++++++++++++----------------
+ 8 files changed, 35 insertions(+), 50 deletions(-)
 
-> ---
->  sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-> index 416d7bf3e289..e14a87336478 100644
-> --- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-> @@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
->  	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
->  	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
->  	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
-> +	{ "103C8E60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->  	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
->  	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
->  	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-> @@ -511,6 +512,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
->  	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
->  	{ "CSC3551", "103C8CDD", generic_dsd_config },
->  	{ "CSC3551", "103C8CDE", generic_dsd_config },
-> +	{ "CSC3551", "103C8E60", generic_dsd_config },
->  	{ "CSC3551", "104312AF", generic_dsd_config },
->  	{ "CSC3551", "10431433", generic_dsd_config },
->  	{ "CSC3551", "10431463", generic_dsd_config },
-> -- 
-> 2.55.0
-> 
+-- 
+2.43.0
+
