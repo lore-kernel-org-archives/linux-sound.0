@@ -1,63 +1,63 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A603F823E
-	for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 09:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AC83F58F5
+	for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 09:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784192947; cv=none; b=KHpwBg1Xz5Zu4zYDa7Gg6TU7mEnZkGGbtefupIakvMqx5DaPr5/P9ziTBB0CHYG4q6SoC9FvuXxTqfwdNRoHORpKl7DF5+50LVL0e9j8fthn3ZJGQQoqnA1Srkj5CHl+EHUxkxHUaFcmlKybann1XMfoMzGtzVEsFOzOM3UmV+U=
+	t=1784192953; cv=none; b=DFE9aRV/vP9Z3YjwirVl1Q2DnD1RRwQAqff20zDKtiL/izAwywlt0YEDw3ruDvsJKJn0ZTqj02gfysBhu5kG2fGlgm1iF13j+KMwld4ptF/Uw89YC/uXeA+GdnOZFxI1BAxphcAz+ECgCnNGLgxLcOJVKaQ3T74G6fHb+/KQa0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784192947; c=relaxed/simple;
-	bh=CoOWwx3COYYV6QKb4PIOurNZuXUVvz9Dj5UwRk88Cfs=;
+	s=arc-20240116; t=1784192953; c=relaxed/simple;
+	bh=+/YqiGn7cykJAzG8bjIMCJHbbdXednP2qib+QW4GpCU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=igVYmE3qpJCZ0tRGEiyzE1s3wyo5090sJWJWDpxq5xN7ntYqdUuscz/cY2rApXEFcOKYzP6zSzfNEhWFHANNG8dbbzrYYwni+/SpgqfgCDA95XcGLAIQj+Omb7UyGCNrPgr/LDNuoTR06c1egEDvDEJXtbW524zoYYKUFE7tzZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cn8bSOAP; arc=none smtp.client-ip=209.85.210.175
+	 MIME-Version; b=E4bt7ilIqY8arnsW7CVq2dk3rXZFRvDneehjV0dEFthQdydHNPXnRSS48f0R4WQ0sRPbqf1SOwkt8l0ZfIGOGEWEhxg+peaOsKn36bgrUzszsMQgVR9ECYreLQZ/GOl7TtxTbpGaIg0tMbmv07qm3WOG9mWpGJdvwG8ciL8VvsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLrcm5CV; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cn8bSOAP"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8484f229529so2190651b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 02:09:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLrcm5CV"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848761b5897so3344709b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 02:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784192944; x=1784797744; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784192948; x=1784797748; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8RPHamdnITVkuNj/ZkeTHvpdSQod9yZXbGMbztdv1oI=;
-        b=cn8bSOAP+olGB7CpaILMFcOGxJGd0cLnhwAtKkek9rcElfDv/qxfy9HHOG5Q/vIMgt
-         dTDvbyqpOwyqBTvIfS5lzpGB7HQKRSrUYiC9MWlbjFaJFwaMph3Y1M8fbbDAH2DQqk12
-         qXEcc1Poq2iezhUijw18XhKtmIvtYSutDLl2JKa6zIOyUnZ52VGIJ4jwRgjcRA8m0ubu
-         u7gadyiczI8a6REMh8Gt9asjTsJTe1KtyKGgCvbz82icmv9303I4J/cWp+++fDaHSqy9
-         UB4wB0Vy8y1UpetRz2QpM6qHF0UR1wtm9JCd2a9xoaIaFb4HvNVDNGRAa3X8No4TJaaj
-         O1ZQ==
+        bh=2J+VREtQ4n4G6L6SKO8vPnjuq5ltVfgrR5RTZCU3biM=;
+        b=kLrcm5CV0TJRe8Yhf9Tf5K6LGU/NfMgs5iOcQ3a6UYHbxstUqLuwmblrlQORZVtZDt
+         GMjxDw4a0y4vLlGmqTkQ0O3XX2oDrAUoZTjug7GeAnuW3yTdhpPB1M2flOY0HadbFnHk
+         0222vGaLTXKCcqS7TT6F4+5eO4yf6nvjlpkz4AdY9xxHSjjoIHSZ3FGJ1d+ARhMT9sg5
+         pqVw2IBR14bidhvk8BTjbDjUyDfqw6xlw9/xKOaH67otZYiVGrTEEdMMnYhLGK0pQvp7
+         Q8qdqdyh+E0SqHUutsNLrdc+DTflMBXLmI+7F5YwMZUJgCespIHVX8gRZGNsTWPjMQpA
+         YQdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784192944; x=1784797744;
+        d=1e100.net; s=20251104; t=1784192948; x=1784797748;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8RPHamdnITVkuNj/ZkeTHvpdSQod9yZXbGMbztdv1oI=;
-        b=kcVTcvSy41CH7FuhYxYxvA8m82xerY+l8dLTG/vdd23/1CfQVPgfFTvsmfSZaVLsWM
-         JTSDBttP/6ILautgZBZ90v+wrJwhhvIoLSDVUyBTxqRnLbq9bX4sD6Jdz8um/Iku1KJT
-         7TRoS1sBAlmfR33HaV/xcB+q27q664ZmuGf+jB+TIj9fMYWxSw2uAVuVPqdP+WzdsyFL
-         YT4CV3uyhGm/OFZt/+rkVTKj+ej7O4Zr2mEZz+afQ76igcnHb9XitrZLyH0lO4+RKCFY
-         oc5UeMFfIXFYZX/miEfCw8jTetCwAGrbmLLBe5XCmD+L+fcHpjEKt/qcMCgKnqO9/Z0v
-         fDug==
-X-Forwarded-Encrypted: i=1; AHgh+Rp/ldn63qnmuzoO88r+yQsa5Io5UOAr3CLYS9LDOSpVe0oHjvThDJSegYf66REf5lIRbZt3Hn3YRgkskA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YytLWext9FtglnqbN4+LeAESrNmeyntOg6xBuft4uJqrL1YV1Zg
-	lEpt+I5XMAieRv0roXZnMcq15zTHdcjTS2RqTAO0o+YabU9LjIOXiXkT
-X-Gm-Gg: AfdE7ck0biepVgmh8L6KIAtQjdxMpBiCf03d2iJOYz0JF8AeagBXv9H1XLyZ+d5btmk
-	u38GKOwNs2nUiXVbT9WnP0pD1yhpV2me+AWZgIClLZaMoYXTRc8O8ZkJZ5pD17AAME3DjBPGriO
-	wp6YPwyO4y4H4EBhH6OIm79ud3P9J/+Czi8y5giWmMzo5gsjGhRgITdnvNQDY6xdNLzllXvQqhB
-	2xMq9Fkkuuz9J3alm3C35Ob45Iqj5BrQBEb6F9n7k1WrPwSoWB6p+2m4Rf8BxfcTkCeyQ9Fj+s2
-	QheU8T5x3/q5e9s0+R7GW+q52nfzYD3MjWYl0PPBWUZD2llaADovFMFZRX8ymOBBF2DaWgM1Kib
-	MEV+FSvOYY5yfI+LuxFCf74aA28nighNjTL1yol1uM8hc/SLlq9brX229iCscDeZAHiZ1gJrGKn
-	KSlpxOaKpbTXEwOg4zptjP35ebMEO5LwhRPhjA
-X-Received: by 2002:a05:6a00:3388:b0:847:7010:f3e4 with SMTP id d2e1a72fcca58-8488971543fmr20770811b3a.25.1784192944447;
-        Thu, 16 Jul 2026 02:09:04 -0700 (PDT)
+        bh=2J+VREtQ4n4G6L6SKO8vPnjuq5ltVfgrR5RTZCU3biM=;
+        b=V28RcVU58X3bcNh3idTAjVtuMfe9RseoPaZ7z8XL55+BnbJzQtD5d31zz10H5SVAiP
+         WCBBpF83YJWHZbSojEWXfCUwaBfQ+VrusQ/twqGsiaYuflaOLSYbZxTucyX6mnsB5nTK
+         omEJRw2a9WVUURdfr/PErcCv4+S2evw0FwGTsUcQFqKZqpJMCZRaJFVGihEFKiZRpzVq
+         QxhYOXxe/5Hw41PR89az9UApReVvJh7IWwpzQh2aTXzJ0VfdH2HLp9Bf+8OD2oK/a0b6
+         PGdcqjgV5nj1Y5H/b0wejyAWDpLPrbeUYuM4W8/ls+voMVRjnQNFzx+STXt+15pIP9w9
+         syyw==
+X-Forwarded-Encrypted: i=1; AHgh+RrdVhl30tOz6PumNUJrpREhIp8v77FB28Pww175SocEzuMtfoDxgalxuEABY7l6ddIanvU3a0U4CAMIrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWyXDAQzTS/Ru8AVjb5k7cpBEy+GrqM5w2fO1+1XbSL1P+iPIE
+	rb0fxs3ZehQbqfGIMOzM52Onao4YnJYkqfuYudirD782lLqDs/HyiM3R
+X-Gm-Gg: AfdE7clHb2LEWvZkU2QcimlEygrvXEwXbQgq7q4q47PMBKuXiBNLmWm13nWTbrWn853
+	c/xdYheyP2XabwSgsfBGLqVrrKTwE7doquZ+v8hvshxFlov5Er0jPVxKZR9l1LwZaPxMJV0EadL
+	RGO59JHDzIXx/yp4WAvocglfavBKRpJ/jyvzK5NmibHU9SaUaRm7LFqq6A/ZBV7g+SXP37+33O8
+	Ly2GmZhkVsAQjVC8SMuo37rPmP7ENDx0BfgcvF1VMG2eZW5RQy7ZWrlzo3ajmgN+k/HKWoK7mvo
+	qfSfB5HKua0W+fIVlDcJLG/13bfTTJ0lDH7YazzwL1W7UsfFpo3dVkUSr7EHddgXDkwS9+dBI52
+	6SF2ievrmyWUrtdP4sdQ43SMeBorCvJ6lWDaKwqHNGpZJhrxZ4P6rboMaMh3zqE4Q7zubV/HEHC
+	vS8FF/1fDZsnPEZY4JQNS0kxHc7dhUeamfZOazAiqzSyfd+ME=
+X-Received: by 2002:a05:6a00:3e12:b0:848:2f6e:e537 with SMTP id d2e1a72fcca58-84a5588c65amr9075061b3a.75.1784192948259;
+        Thu, 16 Jul 2026 02:09:08 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f6bf5ecsm4511800b3a.29.2026.07.16.02.09.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f6bf5ecsm4511800b3a.29.2026.07.16.02.09.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 02:09:04 -0700 (PDT)
+        Thu, 16 Jul 2026 02:09:07 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Sen Wang <sen@ti.com>,
@@ -70,9 +70,9 @@ To: Mark Brown <broonie@kernel.org>,
 Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 05/10] ASoC: ti: omap-abe-twl6040: Use dev_err_probe() for error handling
-Date: Thu, 16 Jul 2026 16:08:24 +0700
-Message-ID: <20260716090829.72082-6-phucduc.bui@gmail.com>
+Subject: [PATCH v2 06/10] ASoC: ti: omap-dmic: Use dev_err_probe() for error handling
+Date: Thu, 16 Jul 2026 16:08:25 +0700
+Message-ID: <20260716090829.72082-7-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260716090829.72082-1-phucduc.bui@gmail.com>
 References: <20260716090829.72082-1-phucduc.bui@gmail.com>
@@ -86,30 +86,33 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Replace dev_err() with dev_err_probe() when reporting
-devm_snd_soc_register_card() failures. This suppresses
-unnecessary log messages for deferred probe errors.
+Replace dev_err() with dev_err_probe() when handling clock lookup
+failures. This preserves the original error code and suppresses
+unnecessary deferred probe error messages.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/ti/omap-abe-twl6040.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/ti/omap-dmic.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/ti/omap-abe-twl6040.c b/sound/soc/ti/omap-abe-twl6040.c
-index dfa931071d81..05239ccc1f41 100644
---- a/sound/soc/ti/omap-abe-twl6040.c
-+++ b/sound/soc/ti/omap-abe-twl6040.c
-@@ -296,8 +296,8 @@ static int omap_abe_probe(struct platform_device *pdev)
+diff --git a/sound/soc/ti/omap-dmic.c b/sound/soc/ti/omap-dmic.c
+index b795b9f66b0e..c8d791f05ae4 100644
+--- a/sound/soc/ti/omap-dmic.c
++++ b/sound/soc/ti/omap-dmic.c
+@@ -465,10 +465,9 @@ static int asoc_dmic_probe(struct platform_device *pdev)
+ 	mutex_init(&dmic->mutex);
  
- 	ret = devm_snd_soc_register_card(&pdev->dev, card);
- 	if (ret)
--		dev_err(&pdev->dev, "devm_snd_soc_register_card() failed: %d\n",
--			ret);
-+		dev_err_probe(&pdev->dev, ret,
-+			      "devm_snd_soc_register_card() failed\n");
+ 	dmic->fclk = devm_clk_get(dmic->dev, "fck");
+-	if (IS_ERR(dmic->fclk)) {
+-		dev_err(dmic->dev, "can't get fck\n");
+-		return -ENODEV;
+-	}
++	if (IS_ERR(dmic->fclk))
++		return dev_err_probe(dmic->dev, PTR_ERR(dmic->fclk),
++				     "can't get fck\n");
  
- 	return ret;
- }
+ 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dma");
+ 	if (!res) {
 -- 
 2.43.0
 
