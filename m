@@ -1,290 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0D63370EA;
-	Thu, 16 Jul 2026 19:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A951A29E117;
+	Thu, 16 Jul 2026 20:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784231496; cv=none; b=r8YB8f0HOql/53yt/clup/PLCYVx13ef4NfpLSft4eLS5CtkaT91qD3imou+9MQLr9D7KAmem7DUlAklogLU6cMI0iWrI0V50pUJy/6YBdjh9bTA+JBBPcTWWCvnwokqB5bkrxed/JPzUIvsMmJ5zMFOnK9OZ9uR/i0DHFcOf3Q=
+	t=1784232050; cv=none; b=aT/WXnQ166OIvQJ5rfJoN5RoJfOazThOutuoovOZ5G+hCANkel4fM4Oh3rW8mdHSEwxqZNo1HQBaXEziy6wzwSFOtFa3zk8wePm9w8uykAyGQMBfpSMAWkjIS+JGiD5sTLZN3Dnk3heoXLgViW6WO/xdRlSMh+rnWXSUdnHpcfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784231496; c=relaxed/simple;
-	bh=gjht4B6kLEaSd7U1uuU+Wtdxus3TUfO7jcOzDwO2h0o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XCn91xU0v7z6j/W017Ky30XH8Ll36mpSXxmcm8wKdwr3sTkTe5z60v3Kw+OWeSDdp0Rg3R6H+3R67cjHDQ2ftGeHHOlhkVe/xpA++hD5xaLW85E8uD9+8+i2Ua0+3025pxe9vH+gDaTKxwqj3hcBdfUn7/RcCxmpMRcQ8Eug6wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FKdEMa+W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784232050; c=relaxed/simple;
+	bh=B4VshDhGQfD/1AyTCWO9i4wlJk3e/ooqPZauVlVVDnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bW2rTdxnEkC/qAYXeHZdmvsyeEBDxkhePjj4SPvTZWAi6sEdXpjFIAHbqkj7ML4/AkVWigtnIPaEabzrPkve3rILdb1PYM5U5zb54mu0qiw1nr63Ot0HS1PwsCF9VtmF4ItmHSCqrTvaSD+zWcvuMAoLyKUgfzyax1dQZ9XHEgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a5qGtpAk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FKdEMa+W"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B0598C2BCF7;
-	Thu, 16 Jul 2026 19:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784231495;
-	bh=gjht4B6kLEaSd7U1uuU+Wtdxus3TUfO7jcOzDwO2h0o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FKdEMa+Wdpxm5HKNMTxCEVLS8cZKWq8z7Zx0ptyiYZNM+v8VNVSIxdEGT7W8kL3a6
-	 FZ27risvVxKAiHGl2cNT6m5M9OYhtywQTotBkeEzdj9T6k2BBuh6lQ72dcSwkiOKlz
-	 7pcOR9dYxHc7G2VMiBkMpcqMPpdoVx93s65uFyHtOcibYjSv5A92LRSyUhQE4r7J+f
-	 zd65dJez0aShproF8kX92JX2c65uWEPjoARaslF7Ps2DPbNqlmmOzcejB/qOQxSE3Q
-	 aTTTFYveDicu1wxFGYzwbfSsUUT/GcseosKp1cdzJyT7aGWingWGYDmwhhXulo+oxP
-	 t/gzLUhSTIyFw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D6CC44519;
-	Thu, 16 Jul 2026 19:51:35 +0000 (UTC)
-From: Sarath Ganapathiraju via B4 Relay <devnull+sarath.ganapathiraju.oss.qualcomm.com@kernel.org>
-Date: Fri, 17 Jul 2026 01:21:17 +0530
-Subject: [PATCH v2 3/3] ASoC: Add LPASS VA CSR heartbeat pulse clock
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a5qGtpAk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B5241F000E9;
+	Thu, 16 Jul 2026 20:00:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784232049;
+	bh=SkbdCLvPFiAZcCyqV3OjTuTi5o9qsDoHdIygT4AGL4s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=a5qGtpAkwNEV9jsxYeN/Q7n89zdNsN11G1zMfSI/etA7Yi8LAH8wgTwX8UoL8G6L3
+	 QtafStp+dmSt5fFR0M7Ai+HhZRfgGrSBdmRSVU1fjHDIuAp1dKdasuz9jt0aJrxD3/
+	 m0tYK1IMkzPighZh3SmtIb3LTdl0mWbQQGJdURYx9sNiNa31kAqFcPx603ZWrA8Z5J
+	 JfUlu+YJIGtuoeaFb2374D//LRjheitSmsxEZ9JXEZaPg3WYZES56yqM6EQ9jdxYlv
+	 mgAQgo5RIr1XNkCB+v1k0eQV6pruyKIOj7Rs+S8wE73+oNZNKsm6QaBr6/beqAO5pH
+	 tJpkEALlcnrlg==
+Date: Thu, 16 Jul 2026 15:00:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Eddie James <eajames@linux.ibm.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ge Gordon <gordon.ge@bst.ai>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulfh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Chen <peter.chen@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+	kernel@collabora.com, linux-tegra@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, sound-open-firmware@alsa-project.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH 01/42] of: reserved_mem: Introduce devres-managed
+ initialization functions
+Message-ID: <20260716200048.GA1183026-robh@kernel.org>
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <20260703193855.110619-2-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260717-master-v2-3-ae200627ad62@oss.qualcomm.com>
-References: <20260717-master-v2-0-ae200627ad62@oss.qualcomm.com>
-In-Reply-To: <20260717-master-v2-0-ae200627ad62@oss.qualcomm.com>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- prasad.kumpatla@oss.qualcomm.com, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784231493; l=6974;
- i=sarath.ganapathiraju@oss.qualcomm.com; s=default;
- h=from:subject:message-id;
- bh=DnVdQ9J5AHrIxPxYmGG+p8yZwISdgbHZpP4wxV2R65s=;
- b=O8dR1PjzSazMAT0yzdBZMtGqWPmkFN23wULOAFjlW9iwNWpy5YcfxbE7CANzKT24B/EQrY5MY
- BtKR3m4QSlBDMy9WgrK9Xg11SVUPp7uboRSikm5ylKbnTokt6i4KVVc
-X-Developer-Key: i=sarath.ganapathiraju@oss.qualcomm.com; a=ed25519;
- pk=4p2FWGXM+F2sir13Lu5stw5aKX5trUymK/ttESvgxQg=
-X-Endpoint-Received: by B4 Relay for
- sarath.ganapathiraju@oss.qualcomm.com/default with auth_id=870
-X-Original-From: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
-Reply-To: sarath.ganapathiraju@oss.qualcomm.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260703193855.110619-2-mukesh.ojha@oss.qualcomm.com>
 
-From: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
+On Sat, Jul 04, 2026 at 01:08:14AM +0530, Mukesh Ojha wrote:
+> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> Introduce devres-based helpers for of_reserved_mem_device_init(_by_idx)
+> to help fight dangling references and ever so slightly reduce the
+> number of boilerplate deinitialization calls.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  drivers/of/of_reserved_mem.c    | 41 +++++++++++++++++++++++++++++++++
+>  include/linux/of_reserved_mem.h | 25 ++++++++++++++++++++
+>  2 files changed, 66 insertions(+)
+> 
+> diff --git a/drivers/of/of_reserved_mem.c b/drivers/of/of_reserved_mem.c
+> index 82222bd45ac6..b35541e9fbe8 100644
+> --- a/drivers/of/of_reserved_mem.c
+> +++ b/drivers/of/of_reserved_mem.c
+> @@ -787,6 +787,47 @@ void of_reserved_mem_device_release(struct device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(of_reserved_mem_device_release);
+>  
+> +static void devm_of_reserved_mem_device_release(struct device *dev, void *res)
+> +{
+> +	of_reserved_mem_device_release(*(struct device **)res);
+> +}
+> +
+> +/**
+> + * devm_of_reserved_mem_device_init_by_idx() - Resource managed of_reserved_mem_device_init_by_idx()
+> + * @dev: Pointer to the device to configure
+> + * @np: Pointer to the device node with 'memory-region' property
+> + * @idx: Index of selected region
+> + *
+> + * This is a resource managed version of of_reserved_mem_device_init_by_idx().
+> + * The reserved memory region will be released automatically when the device
+> + * is unbound.
+> + *
+> + * Returns: Negative errno on failure or zero on success.
+> + */
+> +int devm_of_reserved_mem_device_init_by_idx(struct device *dev,
+> +					    struct device_node *np, int idx)
 
-The HeartBeat Pulse (also known as RateGen Pulse) synchronizes the
-start of the DMAs and Codec Interfaces for the audio usecases
-and can serve as a periodic wakeup source for the DSP.
+It looks to me like the only 2? users of this could be converted to 
+devm_of_reserved_mem_device_init() instead. The mmc one obviously can. 
+The imx one depends if np is dev->of_node. I'm not a fan of APIs with 
+only a few users.
 
-Add the LPASS VA CSR driver that models the rate generator as a clock
-provider so it is enabled and disabled automatically alongside the
-other clocks during runtime PM resume and suspend.
-
-Signed-off-by: Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>
----
- sound/soc/codecs/Kconfig        |  13 ++++
- sound/soc/codecs/Makefile       |   2 +
- sound/soc/codecs/lpass-va-csr.c | 143 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 158 insertions(+)
-
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 76e90144ea..5dbfa77d0e 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -2902,11 +2902,24 @@ config SND_SOC_LPASS_WSA_MACRO
- 	select SND_SOC_LPASS_MACRO_COMMON
- 	tristate "Qualcomm WSA Macro in LPASS(Low Power Audio SubSystem)"
- 
-+config SND_SOC_LPASS_VA_CSR
-+	depends on COMMON_CLK
-+	select REGMAP_MMIO
-+	tristate "Qualcomm LPASS VA CSR heartbeat pulse clock provider"
-+	help
-+	  Qualcomm LPASS VA CSR block contains the rate generator hardware
-+	  that produces the HeartBeat Pulse (also known as RateGen Pulse).
-+	  This driver models the rate generator as a clock provider so
-+	  that consumers can enable or disable it via the common clock
-+	  framework, and it can be used to synchronize the start of DMAs
-+	  and Codec Interfaces or as a periodic wakeup source for the DSP.
-+
- config SND_SOC_LPASS_VA_MACRO
- 	depends on COMMON_CLK
- 	depends on PM_CLK
- 	select REGMAP_MMIO
- 	select SND_SOC_LPASS_MACRO_COMMON
-+	select SND_SOC_LPASS_VA_CSR
- 	tristate "Qualcomm VA Macro in LPASS(Low Power Audio SubSystem)"
- 
- config SND_SOC_LPASS_RX_MACRO
-diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
-index aa0396e5b5..3e86c1bbf9 100644
---- a/sound/soc/codecs/Makefile
-+++ b/sound/soc/codecs/Makefile
-@@ -163,6 +163,7 @@ snd-soc-lpass-rx-macro-y := lpass-rx-macro.o
- snd-soc-lpass-tx-macro-y := lpass-tx-macro.o
- snd-soc-lpass-wsa-macro-y := lpass-wsa-macro.o
- snd-soc-lpass-va-macro-y := lpass-va-macro.o
-+snd-soc-lpass-va-csr-y := lpass-va-csr.o
- snd-soc-madera-y := madera.o
- snd-soc-max9759-y := max9759.o
- snd-soc-max9768-y := max9768.o
-@@ -886,6 +887,7 @@ obj-$(CONFIG_SND_SOC_TPA6130A2)	+= snd-soc-tpa6130a2.o
- obj-$(CONFIG_SND_SOC_LPASS_MACRO_COMMON)	+= snd-soc-lpass-macro-common.o
- obj-$(CONFIG_SND_SOC_LPASS_WSA_MACRO)	+= snd-soc-lpass-wsa-macro.o
- obj-$(CONFIG_SND_SOC_LPASS_VA_MACRO)	+= snd-soc-lpass-va-macro.o
-+obj-$(CONFIG_SND_SOC_LPASS_VA_CSR)	+= snd-soc-lpass-va-csr.o
- obj-$(CONFIG_SND_SOC_LPASS_RX_MACRO)	+= snd-soc-lpass-rx-macro.o
- obj-$(CONFIG_SND_SOC_LPASS_TX_MACRO)	+= snd-soc-lpass-tx-macro.o
- 
-diff --git a/sound/soc/codecs/lpass-va-csr.c b/sound/soc/codecs/lpass-va-csr.c
-new file mode 100644
-index 0000000000..1d0805789e
---- /dev/null
-+++ b/sound/soc/codecs/lpass-va-csr.c
-@@ -0,0 +1,143 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
-+
-+#include <linux/clk-provider.h>
-+#include <linux/device.h>
-+#include <linux/module.h>
-+#include <linux/of_clk.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+
-+#define LPASS_RATE_GEN_CTRL		0xd000
-+#define LPASS_RATE_GEN_COUNTER_0	0xd004
-+#define LPASS_RATE_GEN_DELAY		0xd010
-+
-+#define LPASS_RATE_GEN_MAX_REG		LPASS_RATE_GEN_DELAY
-+
-+#define LPASS_RG_CTRL_EN		BIT(0)
-+
-+struct lpass_va_csr_data {
-+	u32 counter_0;
-+	u32 delay;
-+};
-+
-+static const struct lpass_va_csr_data hawi_csr_data = {
-+	.counter_0 = 0x960,
-+	.delay = 0x16,
-+};
-+
-+static const struct regmap_config lpass_rate_gen_regmap_config = {
-+	.name = "lpass_rate_gen",
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+	.max_register = LPASS_RATE_GEN_MAX_REG,
-+	.cache_type = REGCACHE_MAPLE,
-+};
-+
-+struct lpass_va_csr {
-+	struct regmap *regmap;
-+	const struct lpass_va_csr_data *data;
-+	struct clk_hw hb_hw;
-+};
-+
-+#define to_lpass_va_csr(_hw) container_of(_hw, struct lpass_va_csr, hb_hw)
-+
-+static int heartbeat_pulse_prepare(struct clk_hw *hw)
-+{
-+	struct lpass_va_csr *csr = to_lpass_va_csr(hw);
-+	int ret;
-+
-+	ret = regmap_write(csr->regmap, LPASS_RATE_GEN_COUNTER_0, csr->data->counter_0);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(csr->regmap, LPASS_RATE_GEN_DELAY, csr->data->delay);
-+	if (ret)
-+		return ret;
-+
-+	return regmap_set_bits(csr->regmap, LPASS_RATE_GEN_CTRL, LPASS_RG_CTRL_EN);
-+}
-+
-+static void heartbeat_pulse_unprepare(struct clk_hw *hw)
-+{
-+	struct lpass_va_csr *csr = to_lpass_va_csr(hw);
-+
-+	regmap_clear_bits(csr->regmap, LPASS_RATE_GEN_CTRL, LPASS_RG_CTRL_EN);
-+}
-+
-+static int heartbeat_pulse_is_prepared(struct clk_hw *hw)
-+{
-+	struct lpass_va_csr *csr = to_lpass_va_csr(hw);
-+
-+	return regmap_test_bits(csr->regmap, LPASS_RATE_GEN_CTRL, LPASS_RG_CTRL_EN);
-+}
-+
-+static const struct clk_ops heartbeat_pulse_ops = {
-+	.prepare = heartbeat_pulse_prepare,
-+	.unprepare = heartbeat_pulse_unprepare,
-+	.is_prepared = heartbeat_pulse_is_prepared,
-+};
-+
-+static int lpass_va_csr_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct lpass_va_csr *csr;
-+	struct clk_init_data init = {
-+		.name = "lpass_heartbeat_pulse",
-+		.ops = &heartbeat_pulse_ops,
-+	};
-+	void __iomem *base;
-+	int ret;
-+
-+	csr = devm_kzalloc(dev, sizeof(*csr), GFP_KERNEL);
-+	if (!csr)
-+		return -ENOMEM;
-+
-+	csr->data = of_device_get_match_data(dev);
-+	if (!csr->data)
-+		return dev_err_probe(dev, -EINVAL, "no variant data for compatible\n");
-+
-+	base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
-+
-+	csr->regmap = devm_regmap_init_mmio(dev, base,
-+					    &lpass_rate_gen_regmap_config);
-+	if (IS_ERR(csr->regmap))
-+		return dev_err_probe(dev, PTR_ERR(csr->regmap),
-+				     "failed to init regmap\n");
-+
-+	csr->hb_hw.init = &init;
-+
-+	ret = devm_clk_hw_register(dev, &csr->hb_hw);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to register heartbeat clock\n");
-+
-+	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get, &csr->hb_hw);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to add clock provider\n");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id lpass_va_csr_dt_match[] = {
-+	{ .compatible = "qcom,hawi-lpass-va-csr", .data = &hawi_csr_data },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, lpass_va_csr_dt_match);
-+
-+static struct platform_driver lpass_va_csr_driver = {
-+	.driver = {
-+		.name = "qcom-lpass-va-csr",
-+		.of_match_table = lpass_va_csr_dt_match,
-+	},
-+	.probe = lpass_va_csr_probe,
-+};
-+
-+module_platform_driver(lpass_va_csr_driver);
-+
-+MODULE_DESCRIPTION("Qualcomm LPASS VA CSR heartbeat pulse clock provider");
-+MODULE_LICENSE("GPL");
-
--- 
-2.34.1
-
-
+Rob
