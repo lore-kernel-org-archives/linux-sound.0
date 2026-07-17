@@ -1,96 +1,150 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495BD3033D6;
-	Fri, 17 Jul 2026 05:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1DA332913
+	for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 06:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784266448; cv=none; b=HX1vSMTrpzy0s1BiQoo1SgCHci3SHCXwDnyiqRv9JmoEkD9UIigkeUD3R8sN9UlJu0dC2rC6Uq0FQ/EC/X+fVRFkrOojoZltTBu96JQVhnwgihbhEX632J8gztcsdP8JkcopqH0OuoYRTiQidYUpK4IMh3E4tzv4IH94gULb6OE=
+	t=1784268996; cv=none; b=qDBACUJ/FYB87d0W6roMXWoqvQJg9p6E18T1DVCDDkT0tf/qbx8zQIe3F7ZZZzO60BhN/Vn0pTl8OdhNtAu6VlVwINrhrBhd/LO1KGJhVInBYq5hJXd3gHsxTh6Ycn+7sS+pVZiLrMbyOhC4BJymMRZm2dXTxZV2SD9pw6z8npg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784266448; c=relaxed/simple;
-	bh=hlfuFgfXijMlBorYaZX/RiziFnsRa1GSQcAKNDJ0K0U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gY/zu1+EV38daAa1BIJYrYBnsyepPTKhhxbx1vCY1dZrvw8oDBjFaQ7mcQb6ANWTIVBrRF2QV5qQ8RRVT/+L/70f9+YD8K071vn2JXzlGhD07cxlRreqwEPlKzihje9Y12AoYCGzTLk8ea4dRPybbwI3cbWFpbiBj6LNe/UsYLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 1a33565081a111f1aa26b74ffac11d73-20260717
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:10e74539-5b21-41ce-8e89-6f6efdff4f85,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:8f8bc80f47d8e5493e5035055386a82b,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|136|850|865|898,TC:nil,Content
-	:0|15|50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
-	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 1a33565081a111f1aa26b74ffac11d73-20260717
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1914686430; Fri, 17 Jul 2026 13:33:55 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bob Song <songxiebing@kylinos.cn>
-Subject: [PATCH v3] ALSA: hda: Check snd_hda_power_pm construct error before executing verb
-Date: Fri, 17 Jul 2026 13:33:36 +0800
-Message-Id: <20260717053336.1149910-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260713020427.300628-1-songxiebing@kylinos.cn>
-References: <20260713020427.300628-1-songxiebing@kylinos.cn>
+	s=arc-20240116; t=1784268996; c=relaxed/simple;
+	bh=G9dQnTtE6B2elZOhdyNlV+3TIWahYCiVKVknRe3uSxE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s0WjUmN6Uu66VrOgaeg0QC7CVDc0FQKEUwsyQ7VKX2GmfDPUzwrsUNXNOMfjdejN+Hi0if/u6P2LoA1qiSLwJ3X2xcuo+J9d600lDOkIyKUuz6OJT9ol1yIyidppuc7c/t5RF/1aTQwqaaqH1NOSNMplrPeESZHx3qScaSKx4zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Bk+j3hdf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4PPkRrq8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OXn+Q6iZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rbl6GlU7; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Bk+j3hdf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4PPkRrq8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OXn+Q6iZ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rbl6GlU7"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AE33678D50;
+	Fri, 17 Jul 2026 06:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784268993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hkhYMVoDfzP/uEe9wacNczRJmfyg0WwLPfhhbgc/xc8=;
+	b=Bk+j3hdfWMAuTsBxJ/g+WrKxViwlAmy7rGl4hwfzvftbWdWK/60qRzUxcS9HCq3g422tuB
+	xD12XPCQ10OsOq8KqTiT65jVmrpQ/M8KWWzW0XxOKM2iUzIDUI2vAMc4srNTkfddgEVaHs
+	iI+ozqsM73degFe4yTpQ37yK1O8z8qg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784268993;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hkhYMVoDfzP/uEe9wacNczRJmfyg0WwLPfhhbgc/xc8=;
+	b=4PPkRrq8w0X1ZT7UoXe35QglkSy8iGLcFw/BjNm/LYuR10LB+ddOZzO7ptY6sd3xiUnf4w
+	rngvuWX2j/Z7IpAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OXn+Q6iZ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rbl6GlU7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784268991; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hkhYMVoDfzP/uEe9wacNczRJmfyg0WwLPfhhbgc/xc8=;
+	b=OXn+Q6iZvzCqKDxG6iHjnzgH8BbIYbfWOZJBw0we2G1dAoTeYzBpdklqptkvBBVOb3c6Dw
+	3ItZdnJ6oTUioZF3WPNCoPeoLaGPK2wSAT0wPJE3p5eWokv8RXxcb+7MKPXHHIRz9E3AGe
+	TY7z6yLAUoCXfvuWXPerSTxpQmu0Hk0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784268991;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hkhYMVoDfzP/uEe9wacNczRJmfyg0WwLPfhhbgc/xc8=;
+	b=rbl6GlU7Y2+79Z6F4z/WDhOyttzLSOqnNfedqsG5Ak/hsU4bBMbox4fNYdUs0mFHhS1YiL
+	EX0xI1acKibxTYDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88C58779AA;
+	Fri, 17 Jul 2026 06:16:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id p27uH7/IWWo0PwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 17 Jul 2026 06:16:31 +0000
+Date: Fri, 17 Jul 2026 08:16:31 +0200
+Message-ID: <87qzl2ta2o.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [GIT PULL] ASoC fixes for v7.2-rc3
+In-Reply-To: <e11aad798859896a3f0388f99de32bc0@kernel.org>
+References: <e11aad798859896a3f0388f99de32bc0@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: AE33678D50
+X-Spam-Score: -3.51
 
-From: Bob Song <songxiebing@kylinos.cn>
+On Thu, 16 Jul 2026 18:41:39 +0200,
+Mark Brown wrote:
+> 
+> The following changes since commit 3238c634725afbb2a137fdda762208510828f71d:
+> 
+>   ASoC: tas2562: fix deprecated 'shut-down' GPIO always cleared after lookup (2026-07-09 00:33:20 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc3
+> 
+> for you to fetch changes up to efd80de2de9d06ddf0eee55ca11b04e39bfc7cd8:
+> 
+>   ASoC: Intel: sof_sdw: Add quirks for new Dell laptops (2026-07-16 17:18:08 +0100)
+> 
+> ----------------------------------------------------------------
+> ASoC: Fixes for v7.2
+> 
+> A fairly standard collection of device specific fixes and quirks,
+> nothing particularly remarkable.
 
-When userspace writes 1 to /sys/bus/pci/devices/XX/remove to remove HDA PCI device,
-the HDA hardware control path is shut down and devres unmaps the BAR virtual address
-bus->remap_addr automatically during driver removal.
+Pulled now.  Thanks.
 
-If a delayed HDA verb command arrives after the MMIO region is unmapped, the driver
-will access invalid virtual addresses and trigger a page fault splat.
 
-So add an error check right after constructing snd_hda_power_pm:
-
-Signed-off-by: Bob Song <songxiebing@kylinos.cn>
----
-Changes in v3:
-- Just use bus->core.chip_init for check
-Changes in v2:
-- Modify the judgment from pm_runtime_datus_stuspended to bus->core.chip_init
----
- sound/hda/common/codec.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
-index ef533770179b..1af640148e90 100644
---- a/sound/hda/common/codec.c
-+++ b/sound/hda/common/codec.c
-@@ -39,6 +39,12 @@ static int call_exec_verb(struct hda_bus *bus, struct hda_codec *codec,
- 	int err;
- 
- 	CLASS(snd_hda_power_pm, pm)(codec);
-+	if (!bus->core.chip_init) {
-+		codec_warn(codec,
-+			   "Failed to send cmd 0x%x ret=[%d], hda control not init\n",
-+			   cmd, pm.err);
-+		return pm.err;
-+	}
- 	guard(mutex)(&bus->core.cmd_mutex);
- 	if (flags & HDA_RW_NO_RESPONSE_FALLBACK)
- 		bus->no_response_fallback = 1;
--- 
-2.25.1
-
+Takashi
