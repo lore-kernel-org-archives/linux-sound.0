@@ -1,75 +1,135 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308AE21ABBD
-	for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 20:46:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784321186; cv=none; b=BGjrYshqwsDDDTkVl0Z1qLAedsMun0TMNmnkcUbEtM5eqYS1N46f2TP6e2uRq5K4FpDqTV1mZEDKnjU9tpDPJaMqtOv4SpNP03UV7ee/QMKE1SQh68gnN5JcN4JIyhtLc9UHrouET83tq3jphULEc0TPaYBNo8aslpqi7R+Xh5E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784321186; c=relaxed/simple;
-	bh=35SKmivwvmyXQPAk/cuGeNvDV8IC5bM5NZ/4gYGGOnw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WvOJcey9gK80uuPzQSEE2V9C+Y5yILIyU2cGBd9vjL63cT5/z90Zld0iudiPK72zDUJBGVaW3MkgmGOAJNofgRNFHrjHSY2h6Fyii88jt/TTypy8+znLyPSAGgnzxOxGTGsyIZ23wPY5jolEQ9rFe9O0CzJTdn5P3BuLM+WCIq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=D+3Lr1gi; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB4F35E944
+	for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 21:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784323130; cv=pass; b=QkROUppwSHHxOVB1CPAxjUgq/TXPHRZ5UKRWmHRwT/zBX68IreudXmSU08m3SmiYl6v+BqBy74ptGEdU+NvQzNOv3nod0bX8jp/L7+apRWdrkuzNeNSGKiCGvSQWTN8umOFOXt0MwOtKHtxm/zbVWfe+aG8rHzt7CrwDYeZ58j0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784323130; c=relaxed/simple;
+	bh=QnFT5NOWeVCPOfOdR3thIX4iQ4NnVkBm0ATNAeXZ5eo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SW+qK9DAjv6lhjqhUnsKyPK/YhkwMbw8KwTKwmIoub6L1CD7XZ6nVhrbGX4BKQWYfTgGZt1b7dprc4a8n6iymGy/XraTVM9lti3xukAZbYMwwxhoudXo/r4HeA0uV+nK7FnFUVrCLWGPu+txHHFEZQENM1pkC9nYB5EkNf8rjY0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l/DEWoXj; arc=pass smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="D+3Lr1gi"
-Message-ID: <bcd410d4-9736-427e-a921-831fffd37c5e@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784321182;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UJXIuWC94S9kSygckRbwbucpc0ykgIOX09JHCObUxsk=;
-	b=D+3Lr1gi5Fvay+hTTy48sCo/OkjKNjj8z6BXXCO8YjSt8dYuP2jkpq9TqugMrWLmSDCaYF
-	+d5py5cNYfHL2vkzATzcX9diFgNIHoXTT9ofwnrbhG+FPK5h9lz+VryBCyzepNxcCA7oaN
-	AU9yEdp0Y+mTwIaA7/eqUJHyAWMrV/k=
-Date: Fri, 17 Jul 2026 22:42:46 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l/DEWoXj"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-66825847b2cso2244262d50.3
+        for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 14:18:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784323127; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XBRwh7m0oNnsOUUkU/PILb7WRFpAnTRhvpJeHX2pmrSgB2k2ZjLdpPnoFh99RQlJRW
+         W9EzOCOzpfA0sR8mS2pyC3E4KeNEtUq0r+w53/NFSDaBV+02wxv2fvgXQWA8YU0pr8eH
+         AlE2IHjFAV3lYTyyd0GbMQdH8C4DSieWclnfxWpl2CgzjcKZLCw549Z2dgF9zxI2jAoQ
+         eHJjFf1xrMfNngmHproTIvpp6F5AcHFWsnIJl+wqrR/5HkvyIT5seh+OvQq6pjEE/r+L
+         /lD7rMnVOR3LPtCG+rNdDwjlb5/YBZq4N+EE9F1jiZO1FJ3AnaQtQDTGyHuwKjXzyTt/
+         lEcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=QWC6rs75442FseDwWQTWWLd5hru2GYscqfZYMc4jX4E=;
+        fh=OtVEDUBn+RirUKo9sBUgOdmgvoa8lSP7KFeYnlU1gyM=;
+        b=hQRJU38FW4nudPX9zAfzUKdPdMRuJLenX4eOzvPBG9egKwERlLEJD1oq1XKGtxZiYK
+         fID3uAGde6FhCASWkdMvKhpY/urIrBU6Z50Sl00PHa1a/CO905zCXZtwTd+hEecwoSn8
+         6EM0s+gEoos6zYJRI3C2g8PMhv4q5QEPtii1MNxD/V1ZBd0/OAjJaEz0OkbZEo+tGBL+
+         5d9coGk34D7kfsR4ksChyKfGhimcHvSCadrFcEnnoa6ws7UutFp695sRIoP5+qvkuySb
+         Z/QuBmp1XqAF1v4EtghbKTqRp14AcRUpKEyGFhgYxS1yThB8kp1zYG/CuR5QE9Z36tmT
+         ua4w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1784323127; x=1784927927; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QWC6rs75442FseDwWQTWWLd5hru2GYscqfZYMc4jX4E=;
+        b=l/DEWoXj5laUNueWfGsmO3EvIokkJGCa8rxvDQh7/hPIU3OwKuFpYDI/qEwRgN/mk4
+         /TKxyqTwDqax1AZnu0s471Q1Gs/m99TJ3CxFnIYwDgF4yk2Zj6c8REoDf4sXwlbDCoYY
+         AVU7AIw7AqM8dwBi79m6CHOeu2seMvIMaXrZs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784323127; x=1784927927;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QWC6rs75442FseDwWQTWWLd5hru2GYscqfZYMc4jX4E=;
+        b=slxuOPwhzsvrjc9bG2XuGR2TZ/gCeqmq50825wM8MC+IMIpOjALMGEN5jMC6jSxMZy
+         9Vmyzv0eSmjINgXqwXvlRGGtMghdIg+HG47mCL7V8L/vfyVIuBEqD4lGz1Xpcem2FGo8
+         to27zFczlK+y7SzqMBbS21Ky070JA/p8pTZkBEBWzgZVB2hPnyMl/mgIVvBUFePIdKUs
+         svGc1+wK3PwbuyzOMMG9JVw/5wTJAZeH5HLUAfCBJ0WnfNHxiRbYbdIs09pvH6M2vaJE
+         aECMDAoGjt077nDBqR07/p6dmvcTdRBjtvHVXVtDChFqzw5Ab2QhyWbFcmNbwbh1qxNV
+         SeHg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp2RyrCcR9vULTId8+HLLbzRnf24Dh3ROQuGJB6qccNDqNfxspbginWp1VTp5OXQ+Leu8ZRbUVbFPlOVw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQ5kn7+EUAv7vxZsbNnnk36CiQ00Nk36i+dLPy//IoTR7k4ix0
+	UDFCafFScZE8AZnDuHrRXLRNQRyR0Bxp5re4w9m/owlsU6Wn5edIj9SX1JsU7iaMnN91TZvkdnN
+	UncVNTxco3ClUP0jyCw1IxS/BV/XOM3JlXT+xj21gxpUVt1MvvmxRKF+2
+X-Gm-Gg: AfdE7cldtpryP3KRDfZ0Q4X5K2liEKqhKLDdCNdhJGJVuaCXOPgmn/0V5V6xAsrK3rb
+	Btkfktk3ALK7uWfsDCtpBc2L4a7xkFAhUjLiuGyOnqW5DJehQqB8BRRggq+BjxGjGOUgQxqNWGJ
+	KbhyVo5HC04DWQ3nJkNXAhUcTNiTLECp8JUgJs6kYXEVCMYt5BcP6PZ5K4xMvTfcaqc3XBH9tpC
+	eNflN1+VjAQ1PPSVEwKuEwpecYBUI5qYE4ZvTUZ9w3AZUgSY3IX+gEcgLSrVek=
+X-Received: by 2002:a05:690e:4548:20b0:667:ef19:6705 with SMTP id
+ 956f58d0204a3-6683ba7e92dmr1014795d50.12.1784323127262; Fri, 17 Jul 2026
+ 14:18:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/4] ASoC: SDCA: Populate IRQ data earlier
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com
-References: <20260716142639.2306757-1-ckeepax@opensource.cirrus.com>
- <20260716142639.2306757-3-ckeepax@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260716142639.2306757-3-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260713-fix-headphone-plug-cirrus-dell-v1-1-3c5157cd45cd@chromium.org>
+ <87qzl6jf1o.wl-tiwai@suse.de> <CAB1bpFCNC1NWYpBRzzuxQMFN2wugSYUq2G6tkeoiT=ThUE094A@mail.gmail.com>
+ <87se5ky9re.wl-tiwai@suse.de>
+In-Reply-To: <87se5ky9re.wl-tiwai@suse.de>
+From: Steven Kendall <skend@chromium.org>
+Date: Fri, 17 Jul 2026 17:18:36 -0400
+X-Gm-Features: AUfX_mzU7xgwcCC9nWa7wu3F3bFi6cwSyRlncXDpg13abh556RS-FL7kkfU9iiI
+Message-ID: <CAB1bpFA5m_H2-9ksFvFNyXdrAirE+W3VaLuyRDX8Ncv4-V-dKQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/16/26 16:26, Charles Keepax wrote:
-> Currently, the IRQ data (attached Entity/Control/etc) is populated
-> as the IRQ is requested. However, this can cause issues as
-> occasionally the setup process wants to access specifics of
-> an IRQ before the IRQ is actually enabled. To facilitate this
-> cache all the IRQ data during sdca_irq_populate_early() and make
-> sdca_irq_populate() simply request the outstanding IRQs. This
-> also has the advantage that sdca_irq_populate() can now just
-> iterate through the IRQ array which is much smaller/faster than
-> going through every Entity in the Function for Controls.
-> 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
+ > Have you tried to turn off the runtime PM for HD-audio?
+> The question is whether the unsol event doesn't work *at all*, or it
+> just stops when the codec (or the controller) is powered down.
+> Also, CS8409 driver enables the per-node power-save feature, and this
+> might influence, too.
 
-I may be splitting hair but shouldn't this patch be moved
-earlier?patch1/3-4 seem to be completely tied with the introduction and
-use of the fixup_controls() callback, I am not sure I see the link with
-the IRQ stuff. Or conversely move this last if this makes more sense.
+I tried this before (disabling power management) and didn't see any
+success and just tried it two ways now:
+adding a segment in sound/hda/controllers/intel.c like
 
-Also while I am at it, I wouldn't hurt to have an explanation of the
-races conditions earlier, it's only in patch3 that the race condition is
-described in details.
+@@ -2306,6 +2306,8 @@ static const struct snd_pci_quirk
+power_save_denylist[] = {
+        SND_PCI_QUIRK(0x1028, 0x0962, "Dell ALC3271", 0),
+        /* https://bugzilla.kernel.org/show_bug.cgi?id=220210 */
+        SND_PCI_QUIRK(0x17aa, 0x5079, "Lenovo Thinkpad E15", 0),
++       /* Dell CS8409 Warlock MLK */
++       SND_PCI_QUIRK(0x1028, 0x0bb2, "Dell CS8409 Warlock MLK", 0),
+        {}
+ };
 
+and adding a segment in sound/hda/codecs/cirrus/cs8409.c like
 
+@@ -1606,6 +1607,13 @@ static int cs8409_probe(struct hda_codec
+*codec, const struct hda_device_id *id)
+        }
+
+        snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PROBE);
++
++       if (codec->bus->pci->subsystem_vendor == 0x1028 &&
++           codec->bus->pci->subsystem_device == 0x0bb2) {
++               pm_runtime_get_noresume(&codec->core.dev);
++               pm_runtime_forbid(&codec->core.dev);
++       }
++
+        return 0;
+ }
+
+I debug logs showing both these firing and
+/sys/module/snd_hda_intel/parameters/power_save reads as 0. However
+with either or both of these changes applied the plug events are still
+not detected on first boot, and the "fix" of closing the lid and
+opening it again still restores jack detection on Chrome OS.
