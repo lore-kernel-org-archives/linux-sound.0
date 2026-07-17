@@ -1,123 +1,94 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBD933E348
-	for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 02:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784256218; cv=pass; b=p48EbinFHm1d8x/zS7x0vekR2CRDt8whFiA+YFbWxx8GD0WEbxEQoH/4YIU47Lz7bhQ9fNcwA7EVYS3NyGar76MlSDPZE75EtdwL/BWQ/mr69ZioRHhf52rubDodjsb3JRbsUxDH1YB3H/ED7bptp869xMtdD31wDt83QiCehVA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784256218; c=relaxed/simple;
-	bh=2Fzo3M7LuDytk0ZJbhSffN1E7aCbsqWRH2lDInDjLQ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=osFGCvKfWADMZJ5e0K5aDb3lWRM7l7ZIXud3nuPGcddeNBHoaxCKTQS5ZfgeNpQ9ZmFsckQuShOkndLmnLq1cKAPuWV97LmPlLDeJwvXTNOCza5VNXjHlus3HTs5npemOB4GqpzRiyxFf2qxu/iLNd07jZGmeFOsgrhHal1LJbs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JexdhnVp; arc=pass smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JexdhnVp"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c966b9ee9cbso4328483a12.1
-        for <linux-sound@vger.kernel.org>; Thu, 16 Jul 2026 19:43:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784256216; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RQgDbBWnPyuoGDcxsJfzI+dfSstpV7N6VTTt4GCIwRSFaPpSXETcIjcGpZSOV6VXG7
-         M8nf6FDzKenGkwXaf2j0OV5kyzuizc4xgmzNnBSVExfhprnvkUnNb8tYg43Bvuqp2kgR
-         R79HT20LhbmLi/lbGmErFFwlMPpmv1egUo26DkcEiMYOJkFDKG7Vl73PVE7MzIf8XKd4
-         ue1qWpk+w4EgHym8RYTOhW9NP1DsRlnJMmnt8nMxDokJbNq2XOJnLZ5QUTcdbZQsCobP
-         aLx3U2s1UlAeuZODo55trIrYHFL5PIc8r18fKw0fKoVDwhLqlDITj2DfsoZSrKprsGAm
-         TNhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=a6ZTvlGa1jAX6x6nu+mWtSYvum03unbr5qRkIHCRmmA=;
-        fh=mbCUJpqvdxgU+icqJ30M7DqCWRxKLbxU7sVaDr19zG0=;
-        b=JFXqQpLjiR0ZBPPXLq/7Dap1ztI1RWcYsJ+s/qGHzrfY2U2pwTRjB37BXfbNTNLZeH
-         /jmE4xESr1s2s6OOpvUijvZVJbH1YQ2qYB/r0OqC1999mZjpRMdlT5ACu8zgDrJmHeqe
-         O33Fnjh3rv072R69sSYk49kOaMpD8j2TA9kbhg4p9k6CuW3gSUvDJ47tr7Xh93OHCelg
-         JSDpPL7uJqTQwpnqwaUPuNPNqbdQHhS61MC3plRXE6+Xki2/Wn7ecJVuEln5UBkqdqu/
-         4F3kdkhXahV3FfV02ZtbyioXArdJknYhcBYpEjG/ApQv9xXsiEtFcHy0AOikt6yyEuz+
-         AS4g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784256216; x=1784861016; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=a6ZTvlGa1jAX6x6nu+mWtSYvum03unbr5qRkIHCRmmA=;
-        b=JexdhnVpitKB0KltZFkuL8AhK9BVOWHsJvSuNk8ekC0TyMVF9R0I+WC0FNmJSk1hd0
-         6v2L1LhGlcCPY++TxhLzPiWZ3VI+477L5O9DJNUGqOKR4xf1Ls0QSaXDuvnrwRZho3qZ
-         YDlQ5w2uyIv+uhMVL/z49dei4lviln9qUuAKD9uZ1VZHd2MyRKUfknh8c5LycyRMMI9q
-         3kjSCxQOD64KahOtwMyiuAoJUZjI+4xJLXghgTOuGFMSvS3lqsniLjGQ3vNDwcK7UQuV
-         kJkEFZFkzng/xBWLZxC7cdrg6k+DhrIF0PLVMbhQVFgc/YHmrI42tftSMgFkSERYqfrX
-         7QsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784256216; x=1784861016;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=a6ZTvlGa1jAX6x6nu+mWtSYvum03unbr5qRkIHCRmmA=;
-        b=hdv0d8Fax0VYG/N4e0RVQm+367ny8VhENRt4DVkDluyE4sYslp9/35pVh6PGIWi6B9
-         24Sp02LO8e+VkoZdL9aPodKHveKP4tgWKLcE16maANHqzH52NEJysnQ846U87re6f2nQ
-         e+BzZhA5L17v4VQ//WAbCMT0pUDpGeLrtV0+ehoIxVeQT1nE++W/bNxoJM9bZXlEd7eX
-         XxFjDEmkkWuSBJJzZ4Dzt7i3PkvJ6CcNnApJArk6X4aGUcY4v8g6dZaFDLIKOOMVHbw+
-         gkCHvtkdDUhzaMNqwlmE94/stc93RsotYcikhdEtWkzDTQjzFxxXyE/ArSB1kJStjbDO
-         mfjQ==
-X-Forwarded-Encrypted: i=1; AHgh+RraNtne8QFmp7r0Jy+JNpdkQL5KCYbuvc0DDJ6SjOA0iTBsc6Nqdk9bRFtTKqoah4EmwafUXq77uovZEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxG3RGWv3f/ypun6/HHgnSSfwbLHxBFhNQMcLVecsMQWPY6giON
-	37l3EISf/BeA4QJ1jTAFCO6ns1m91bNUIXm28iiyZ+1iRbmnFPGuzk6/86cGvYqNLZ9RraUAuEO
-	xFZOib5cGhIT54culRaZeRqePqOVZUVA=
-X-Gm-Gg: AfdE7cmqapjeRsI1zyK+XXhwUEOwQ1EvgknS/Eek44YYa789KWCBxPnNFCDYSRK/GvB
-	spPn+MIcugO+g0VtUD97SIrxmxB/uJcRUcUFLcsbVWiWY1AtoQNzRLnTNyGv9BSZ+AIDsw2Z0Be
-	mYKgZD2EMSomzQZoub9hUmVOhg3saYmHdUX7ln5LmeH59dr0G8BqidKy+PY8So0hjo8rp8D5duF
-	nCP/KnuKd2rL4VWyEqoElgCwiy3SPoiGDXXWmKc6zDyFhmpPRYNmHOEF0CKOJcjwtiiBqBS8WVt
-	Lgq96+q1mCpZwO8OHl//gpta7mm75HRG+gLsAQH7YodavoXzBOA=
-X-Received: by 2002:a05:6a00:8c2:b0:848:54e0:96c1 with SMTP id
- d2e1a72fcca58-84c29590547mr541291b3a.77.1784256216411; Thu, 16 Jul 2026
- 19:43:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32F02E1F0E;
+	Fri, 17 Jul 2026 02:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784256619; cv=none; b=KjFe4CLcQbZRYGxLzLfUIqBPdNjLdMwVDqkaQ6nK9g+wYOXqIEmHrKJ8NCU3E4MZT1HdVlzZ1DcS5uOt3DS/KiDDGbmUjlKa3oUwmZzhXvEpzMttrheu4EW+1OC69mCmj6gq72xmknhWsZX9ZzckLPT9F0LcD1pukRagg+1v4es=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784256619; c=relaxed/simple;
+	bh=gIC8PFaFPXbxr4b+lLAJlBdaz6lVLc6Xwgxt03nSvkY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=s+bTUI7L/XxOVQf/o2JOIkCQr9CIffj3gAS2K8TSOw0Obk8gKzPjHLVwGIulWvxKYkZU5jBSjZB5bmgHUOTCM+xUQzxle8+nVUujZrBTlSd5dmSKt2RD7hreCboRuPoH8NgTpcSSECIPgatFlBwDvt1ryargmMwE167nrgK2lvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 38b1650c818a11f1aa26b74ffac11d73-20260717
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:3cc9960a-282c-4c4a-bc3d-5e40e67b130e,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:53c3e20c67611032e2e72056f3de16a8,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|136|850|865|898,TC:nil,Content
+	:0|15|50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
+	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 38b1650c818a11f1aa26b74ffac11d73-20260717
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 488722453; Fri, 17 Jul 2026 10:50:08 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bob Song <songxiebing@kylinos.cn>
+Subject: [PATCH v2] ALSA: hda: Check snd_hda_power_pm construct error before executing verb
+Date: Fri, 17 Jul 2026 10:49:48 +0800
+Message-Id: <20260717024948.506335-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260713020427.300628-1-songxiebing@kylinos.cn>
+References: <20260713020427.300628-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260715095525.40668-1-phucduc.bui@gmail.com> <20260715095525.40668-3-phucduc.bui@gmail.com>
- <CAGb2v67tVzjZsPbA9oeCFjuRjrixxCut05P5zkw+sYq-gJPoJg@mail.gmail.com> <CAABR9nEk19N-hBm+QKv6U=7SBgkQwC2Ohb_NDz8OLEetavLLAQ@mail.gmail.com>
-In-Reply-To: <CAABR9nEk19N-hBm+QKv6U=7SBgkQwC2Ohb_NDz8OLEetavLLAQ@mail.gmail.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Fri, 17 Jul 2026 09:43:24 +0700
-X-Gm-Features: AUfX_my9M2Eo3gIu3CtbO4S8ow-xrYGE6kyiiiETHDgngv6Z4-cu_CPDtHYWoKs
-Message-ID: <CAABR9nG2vYKhMKeSxFstCRcHb8Z2FzDTBuQ3PY261Lipx7FfJw@mail.gmail.com>
-Subject: Re: [PATCH 2/6] ASoC: sunxi: sun4i-codec: Drop redundant error messages
-To: wens@kernel.org
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Chen Ni <nichen@iscas.ac.cn>, 
-	Marcus Cooper <codekipper@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Danilo Krummrich <dakr@kernel.org>, u.kleine-koenig@baylibre.com, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+From: Bob Song <songxiebing@kylinos.cn>
 
-Actually, following our discussion about dma_request_chan() not always
-printing error logs internally, I did some further investigation into
-the code paths and have submitted two patches to address the underlying
-issues more comprehensively:
+When userspace writes 1 to /sys/bus/pci/devices/XX/remove to remove HDA PCI device,
+the HDA hardware control path is shut down and devres unmaps the BAR virtual address
+bus->remap_addr automatically during driver removal.
 
-1. A patch for dma_request_chan() itself to prevent potential NULL pointer
-   dereferences on invalid arguments:
-   https://lore.kernel.org/all/20260716052758.23465-1-phucduc.bui@gmail.com/
+If a delayed HDA verb command arrives after the MMIO region is unmapped, the driver
+will access invalid virtual addresses and trigger a page fault splat.
 
-2. A patch to improve the error handling flow inside
-   dmaengine_pcm_request_chan_of() when calling dma_request_chan():
-   https://lore.kernel.org/all/20260716080428.57979-1-phucduc.bui@gmail.com/
+So add an error check right after constructing snd_hda_power_pm:
 
-I wanted to share this here to provide more context on the proposed changes to
-these DMA engine error-handling flows.
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+Changes in v2:
+- Modify the judgment from pm_runtime_datus_stuspended to bus->core.chip_init
+---
+ sound/hda/common/codec.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Best regards,
-Phuc
+diff --git a/sound/hda/common/codec.c b/sound/hda/common/codec.c
+index ef533770179b..607d47a5b286 100644
+--- a/sound/hda/common/codec.c
++++ b/sound/hda/common/codec.c
+@@ -39,6 +39,12 @@ static int call_exec_verb(struct hda_bus *bus, struct hda_codec *codec,
+ 	int err;
+ 
+ 	CLASS(snd_hda_power_pm, pm)(codec);
++	if (pm.err < 0 && !bus->core.chip_init) {
++		codec_warn(codec,
++			   "Failed to send cmd 0x%x ret=[%d], hda control stopped\n",
++			   cmd, pm.err);
++		return pm.err;
++	}
+ 	guard(mutex)(&bus->core.cmd_mutex);
+ 	if (flags & HDA_RW_NO_RESPONSE_FALLBACK)
+ 		bus->no_response_fallback = 1;
+-- 
+2.25.1
+
