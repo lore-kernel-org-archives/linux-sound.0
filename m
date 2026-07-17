@@ -1,135 +1,174 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB4F35E944
-	for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 21:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784323130; cv=pass; b=QkROUppwSHHxOVB1CPAxjUgq/TXPHRZ5UKRWmHRwT/zBX68IreudXmSU08m3SmiYl6v+BqBy74ptGEdU+NvQzNOv3nod0bX8jp/L7+apRWdrkuzNeNSGKiCGvSQWTN8umOFOXt0MwOtKHtxm/zbVWfe+aG8rHzt7CrwDYeZ58j0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784323130; c=relaxed/simple;
-	bh=QnFT5NOWeVCPOfOdR3thIX4iQ4NnVkBm0ATNAeXZ5eo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SW+qK9DAjv6lhjqhUnsKyPK/YhkwMbw8KwTKwmIoub6L1CD7XZ6nVhrbGX4BKQWYfTgGZt1b7dprc4a8n6iymGy/XraTVM9lti3xukAZbYMwwxhoudXo/r4HeA0uV+nK7FnFUVrCLWGPu+txHHFEZQENM1pkC9nYB5EkNf8rjY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l/DEWoXj; arc=pass smtp.client-ip=74.125.224.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92E43E8681
+	for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 23:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784331268; cv=none; b=OZGOKaO2Z6ENZD/QJs6IuO0umDmBHMc/9ldCCQ2aLZCEtB1ULTSHIeMFohUi+CNnooAy9kF2KhGzxZAlWqAPOMnyoZlu/V8WF1h9ITRvdFEQCnmZutdueFWcUgvRlQrxyEtBUw9bHZO3c0gMCZ+gRll2B2wI7x6uzfkdxRef65I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784331268; c=relaxed/simple;
+	bh=xS2i3+ZGq2zm31s7LEacEbVxn2lbxkauDoC3qOM521U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oIGoN4m6a6noG3Z5xBJTlQHXB/JtJDa5Ytzr49W7szLgplJLsQYFI6TSXZEWQ7o6K396Oa+i/PsH+v0UHoShOtQrwPmdXrBKJBXstBNChaoniV90LapgIPzso6AKfitteBKL7TDsw7xbEX+npEHFTbQw1jsWpVAZ+q3oQ2qBDac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V056q1pC; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l/DEWoXj"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-66825847b2cso2244262d50.3
-        for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 14:18:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784323127; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XBRwh7m0oNnsOUUkU/PILb7WRFpAnTRhvpJeHX2pmrSgB2k2ZjLdpPnoFh99RQlJRW
-         W9EzOCOzpfA0sR8mS2pyC3E4KeNEtUq0r+w53/NFSDaBV+02wxv2fvgXQWA8YU0pr8eH
-         AlE2IHjFAV3lYTyyd0GbMQdH8C4DSieWclnfxWpl2CgzjcKZLCw549Z2dgF9zxI2jAoQ
-         eHJjFf1xrMfNngmHproTIvpp6F5AcHFWsnIJl+wqrR/5HkvyIT5seh+OvQq6pjEE/r+L
-         /lD7rMnVOR3LPtCG+rNdDwjlb5/YBZq4N+EE9F1jiZO1FJ3AnaQtQDTGyHuwKjXzyTt/
-         lEcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=QWC6rs75442FseDwWQTWWLd5hru2GYscqfZYMc4jX4E=;
-        fh=OtVEDUBn+RirUKo9sBUgOdmgvoa8lSP7KFeYnlU1gyM=;
-        b=hQRJU38FW4nudPX9zAfzUKdPdMRuJLenX4eOzvPBG9egKwERlLEJD1oq1XKGtxZiYK
-         fID3uAGde6FhCASWkdMvKhpY/urIrBU6Z50Sl00PHa1a/CO905zCXZtwTd+hEecwoSn8
-         6EM0s+gEoos6zYJRI3C2g8PMhv4q5QEPtii1MNxD/V1ZBd0/OAjJaEz0OkbZEo+tGBL+
-         5d9coGk34D7kfsR4ksChyKfGhimcHvSCadrFcEnnoa6ws7UutFp695sRIoP5+qvkuySb
-         Z/QuBmp1XqAF1v4EtghbKTqRp14AcRUpKEyGFhgYxS1yThB8kp1zYG/CuR5QE9Z36tmT
-         ua4w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V056q1pC"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-698a9f11776so8412858a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 17 Jul 2026 16:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784323127; x=1784927927; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QWC6rs75442FseDwWQTWWLd5hru2GYscqfZYMc4jX4E=;
-        b=l/DEWoXj5laUNueWfGsmO3EvIokkJGCa8rxvDQh7/hPIU3OwKuFpYDI/qEwRgN/mk4
-         /TKxyqTwDqax1AZnu0s471Q1Gs/m99TJ3CxFnIYwDgF4yk2Zj6c8REoDf4sXwlbDCoYY
-         AVU7AIw7AqM8dwBi79m6CHOeu2seMvIMaXrZs=
+        d=gmail.com; s=20251104; t=1784331262; x=1784936062; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xbjXNEQYMLgs++/HbjkyefmpfybhPopOmtA77cMAbug=;
+        b=V056q1pCbZXKBVHw0nCcn5tV3hxEvtOMSlENdf8QvTXtN4auqSq7TbFU1twv5bl8RN
+         VqkyQeilshIyHYXFOIkk3YYsLswpHK4wzu7903Dhg+nnE+3dJIT2QchAvMlKXP/DbQyq
+         babj8LACvZcWAJ4ZWt+vpZ1+FBIzMXCuQxfJUJvQNjshcM5lPwOLf0eWmIHeEj5swnlm
+         CbXfKooa8BqLSc2am85c4XJx5Q6Y5aBQRD3JFuhC6xoT1tq+wc7q3GcMJEjUuQlg+jJ9
+         mcVzRUeW9OtDuEr6/9PEWIv2VnVVGrAvQydLeZE0PqpwVA0dreAjOGdlcqdC9XH2euPm
+         azfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784323127; x=1784927927;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=QWC6rs75442FseDwWQTWWLd5hru2GYscqfZYMc4jX4E=;
-        b=slxuOPwhzsvrjc9bG2XuGR2TZ/gCeqmq50825wM8MC+IMIpOjALMGEN5jMC6jSxMZy
-         9Vmyzv0eSmjINgXqwXvlRGGtMghdIg+HG47mCL7V8L/vfyVIuBEqD4lGz1Xpcem2FGo8
-         to27zFczlK+y7SzqMBbS21Ky070JA/p8pTZkBEBWzgZVB2hPnyMl/mgIVvBUFePIdKUs
-         svGc1+wK3PwbuyzOMMG9JVw/5wTJAZeH5HLUAfCBJ0WnfNHxiRbYbdIs09pvH6M2vaJE
-         aECMDAoGjt077nDBqR07/p6dmvcTdRBjtvHVXVtDChFqzw5Ab2QhyWbFcmNbwbh1qxNV
-         SeHg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp2RyrCcR9vULTId8+HLLbzRnf24Dh3ROQuGJB6qccNDqNfxspbginWp1VTp5OXQ+Leu8ZRbUVbFPlOVw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ5kn7+EUAv7vxZsbNnnk36CiQ00Nk36i+dLPy//IoTR7k4ix0
-	UDFCafFScZE8AZnDuHrRXLRNQRyR0Bxp5re4w9m/owlsU6Wn5edIj9SX1JsU7iaMnN91TZvkdnN
-	UncVNTxco3ClUP0jyCw1IxS/BV/XOM3JlXT+xj21gxpUVt1MvvmxRKF+2
-X-Gm-Gg: AfdE7cldtpryP3KRDfZ0Q4X5K2liEKqhKLDdCNdhJGJVuaCXOPgmn/0V5V6xAsrK3rb
-	Btkfktk3ALK7uWfsDCtpBc2L4a7xkFAhUjLiuGyOnqW5DJehQqB8BRRggq+BjxGjGOUgQxqNWGJ
-	KbhyVo5HC04DWQ3nJkNXAhUcTNiTLECp8JUgJs6kYXEVCMYt5BcP6PZ5K4xMvTfcaqc3XBH9tpC
-	eNflN1+VjAQ1PPSVEwKuEwpecYBUI5qYE4ZvTUZ9w3AZUgSY3IX+gEcgLSrVek=
-X-Received: by 2002:a05:690e:4548:20b0:667:ef19:6705 with SMTP id
- 956f58d0204a3-6683ba7e92dmr1014795d50.12.1784323127262; Fri, 17 Jul 2026
- 14:18:47 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784331262; x=1784936062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xbjXNEQYMLgs++/HbjkyefmpfybhPopOmtA77cMAbug=;
+        b=rtuiQ0BORjo860rpZYKG6Vlj1Ea72ZT6wACzrY+mCKZsa9IhZr9fzVws9YFkrKetE9
+         XfJ2tgOc4Y+4wNuu3C3EJpTmDkHe/v7sm3pLu/3E+vIJ/0gpV/f09Q+5doPulcJl539W
+         gzMbe59+r0po+VI3hc/qIvRRG67G2POO8XB55PiuBQasdmgo4wRhxV4GOO6szkl6mA06
+         i04IeMDerar/DKsfiUjoCNMKVP4YXui6YhB6InTKvf5qq6FbT5vCS5YR8Cb3uSRkQOC9
+         TK5RrbQn6J7Wx2Gq4OPqucA+52khLjelUOJljnm5Rg/EPVKmr7/bhR/ABq3Vi574qhhP
+         wZSg==
+X-Forwarded-Encrypted: i=1; AHgh+RrQ+fbjsQJvm71PMaE+KdBIxuU3U4C/LBRG2o0aj/xjx1WcfAMwx82rdEq+hfEftoyxY7bcPN4zVckSog==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/Iu1UbrqPMUW+yO7JZr99GN9acQ3u4q693JNbvA2xsHCofwLl
+	Y4B0D0AG6nhj8EUH1Sg0ObTpg67TDlGzQmkJlBD5w1Uvb038p31LRZxQ
+X-Gm-Gg: AfdE7cmZlVSJxNnnKX4gHasOF0WzPdze2y33BCNZYZMx4/TC47LCPrKhbqx1/QZFKZN
+	NzS9QoS8AltcMy4zwFI/sdZRVBwxmSLfm8jSl3+27nZP0pAblXTFyqmVEq6RdRh4TQSx+rv+Jkr
+	iuBJpzjabu9xW6DtoC1k9mEwDf/UFzal1TtqVSc89s9fM/3KpBCjpaXg1ljX6HciNxEmDhxzdBU
+	BsPkIvKvJwe0CXuGW3kZweFyozLMJ5PqcqesBY2CQ+vJ5QcATbpUFGDbm38YJPgnHDz8Mxbe1zt
+	VKTjOJbyDV9UQjeJ2onm0bF+BF9aVoxhz0H8QXliH0WQ2IvuhKHwjjZCaKLdvRoDVlGhgsDqEdN
+	Gy/BI84Agquhe0+5ShSwM4xc4cY2rnjyEUyXRQ3EuZ9F9m2aa0PCim80NUxCZ1iu54smviiswm3
+	prx1WY9WKTP4FwgVbsoOaZReU1qdl9og==
+X-Received: by 2002:a05:6402:3809:b0:698:de64:6aa1 with SMTP id 4fb4d7f45d1cf-69e65272038mr1835284a12.10.1784331262041;
+        Fri, 17 Jul 2026 16:34:22 -0700 (PDT)
+Received: from unknown.tail46804.ts.net ([2a02:b027:11:f86c:39a3:6436:dcc2:e48a])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-69e6fef2477sm1429231a12.7.2026.07.17.16.34.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 16:34:21 -0700 (PDT)
+From: Gianluca Boiano <morf3089@gmail.com>
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Gianluca Boiano <morf3089@gmail.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	"Wang, Sen" <sen@ti.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] ASoC: codecs: add Texas Instruments TAS2557 smart amplifier driver
+Date: Sat, 18 Jul 2026 01:33:58 +0200
+Message-ID: <20260717233402.414326-1-morf3089@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260713-fix-headphone-plug-cirrus-dell-v1-1-3c5157cd45cd@chromium.org>
- <87qzl6jf1o.wl-tiwai@suse.de> <CAB1bpFCNC1NWYpBRzzuxQMFN2wugSYUq2G6tkeoiT=ThUE094A@mail.gmail.com>
- <87se5ky9re.wl-tiwai@suse.de>
-In-Reply-To: <87se5ky9re.wl-tiwai@suse.de>
-From: Steven Kendall <skend@chromium.org>
-Date: Fri, 17 Jul 2026 17:18:36 -0400
-X-Gm-Features: AUfX_mzU7xgwcCC9nWa7wu3F3bFi6cwSyRlncXDpg13abh556RS-FL7kkfU9iiI
-Message-ID: <CAB1bpFA5m_H2-9ksFvFNyXdrAirE+W3VaLuyRDX8Ncv4-V-dKQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
- > Have you tried to turn off the runtime PM for HD-audio?
-> The question is whether the unsol event doesn't work *at all*, or it
-> just stops when the codec (or the controller) is powered down.
-> Also, CS8409 driver enables the per-node power-save feature, and this
-> might influence, too.
+The TAS2557 is a mono Class-D smart amplifier with an on-chip DSP for
+speaker protection, controlled over I2C with audio carried over
+I2S/TDM.  The DSP requires a board-specific firmware image generated
+with TI's PurePath Console tuning tools; without it the device passes
+no audio.
 
-I tried this before (disabling power management) and didn't see any
-success and just tried it two ways now:
-adding a segment in sound/hda/controllers/intel.c like
+Patch 1 adds the devicetree binding.  Patch 2 adds the ASoC codec
+driver.  A single node manages one physical TAS2557, or two of them
+sharing one ASI bus and one reset/IRQ pair, using the reg-array
+convention of ti,tas2781.yaml: the device at reg index 0 is DEV_A and
+the device at index 1 is DEV_B, so no channel-selection property is
+needed.  The driver covers mono and dual-device stereo operation and
+fault-interrupt recovery that reloads the firmware configuration on
+clock loss, over-current, brownout or over-temperature.
 
-@@ -2306,6 +2306,8 @@ static const struct snd_pci_quirk
-power_save_denylist[] = {
-        SND_PCI_QUIRK(0x1028, 0x0962, "Dell ALC3271", 0),
-        /* https://bugzilla.kernel.org/show_bug.cgi?id=220210 */
-        SND_PCI_QUIRK(0x17aa, 0x5079, "Lenovo Thinkpad E15", 0),
-+       /* Dell CS8409 Warlock MLK */
-+       SND_PCI_QUIRK(0x1028, 0x0bb2, "Dell CS8409 Warlock MLK", 0),
-        {}
- };
+The driver has been exercised across development of this series in
+mono configuration on Xiaomi Mi A2 (SDM660, jasmine), Xiaomi Redmi
+Note 6 Pro (SDM636, tulip) and Xiaomi Redmi 5 Plus (MSM8953, vince),
+driving the top speaker, and in dual-device stereo on Xiaomi Mi Pad 4
+(SDM660, clover).  The v3 ASI word-length and data-slot-offset
+changes follow hardware reports from vince (16-bit, offset 0) and
+have not yet been re-confirmed on the 32-bit/offset-1 boards above.
 
-and adding a segment in sound/hda/codecs/cirrus/cs8409.c like
+Changes in v3:
+- rework the binding and driver to a single-node, reg-array model
+  that manages up to two devices, matching ti,tas2781.yaml; drop the
+  ti,channel property entirely and derive DEV_A/DEV_B tuning from the
+  device order in reg (Krzysztof Kozlowski)
+- rename ti,imon-slot-no/ti,vmon-slot-no to the plural
+  ti,imon-slot-nos/ti,vmon-slot-nos arrays (one entry per reg entry),
+  and constrain firmware-name to maxItems: 1 (Krzysztof Kozlowski)
+- derive the ASI word length from the stream (params_width) and
+  re-apply it after each reset instead of hardcoding 32-bit, so
+  16-bit boards are no longer forced to 32-bit
+- set symmetric_rate on the DAI (Mark Brown), and add
+  symmetric_sample_bits since one firmware config (one rate) is
+  active at a time and playback and capture share the single ASI
+  word length
+- apply the same write-then-cache ordering used for the DAC-gain
+  control to the ISENSE/VSENSE mixer setters, so a failed
+  POWER_CTRL2 write no longer leaves the cached enable state stale
+- only cache the DAC gain after the hardware write succeeds, so a
+  failed write no longer leaves the cache out of sync (Mark Brown)
+- default the ASI data-slot offset to 0; an explicit
+  snd_soc_dai_set_tdm_slot() still takes precedence
 
-@@ -1606,6 +1607,13 @@ static int cs8409_probe(struct hda_codec
-*codec, const struct hda_device_id *id)
-        }
+Changes in v2:
+- add the four mandatory supplies (vbat/iovdd/avdd/dvdd) to the
+  devicetree binding's "required" list (Wang Sen)
+- propagate register-write failures out of hw_params() instead of
+  only logging them (Wang Sen)
+- return IRQ_NONE instead of IRQ_HANDLED from the fault interrupt
+  handler when the device isn't in a state to have raised it, so
+  shared-IRQ accounting stays correct (Mark Brown)
+- re-apply cached runtime state (DAI format, sense enables, DAC gain,
+  ASI slot offsets) after every device reset, including fault
+  recovery, instead of letting a hardcoded startup sequence silently
+  override set_dai_fmt()/the ISENSE/VSENSE mixer controls (Mark Brown)
+- honour explicit snd_soc_dai_set_tdm_slot() configuration in
+  hw_params, and restore TX (OFFSET2) slot offsets after reset
+- wait for the asynchronous firmware load on first stream start
+  instead of failing with -ENODEV
+- make mute_stream direction-aware so capture-only IV-sense streams
+  are unmuted and stopping playback no longer mutes a live capture
 
-        snd_hda_apply_fixup(codec, HDA_FIXUP_ACT_PROBE);
-+
-+       if (codec->bus->pci->subsystem_vendor == 0x1028 &&
-+           codec->bus->pci->subsystem_device == 0x0bb2) {
-+               pm_runtime_get_noresume(&codec->core.dev);
-+               pm_runtime_forbid(&codec->core.dev);
-+       }
-+
-        return 0;
- }
+Link to v2: https://lore.kernel.org/linux-sound/20260711145722.188556-1-morf3089@gmail.com/
+Link to v1: https://lore.kernel.org/linux-sound/20260709221331.989109-1-morf3089@gmail.com/
 
-I debug logs showing both these firing and
-/sys/module/snd_hda_intel/parameters/power_save reads as 0. However
-with either or both of these changes applied the plug events are still
-not detected on first boot, and the "fix" of closing the lid and
-opening it again still restores jack detection on Chrome OS.
+Gianluca Boiano (2):
+  dt-bindings: sound: add Texas Instruments TAS2557
+  ASoC: codecs: add TAS2557 mono smart amplifier driver
+
+ .../devicetree/bindings/sound/ti,tas2557.yaml |  174 +
+ MAINTAINERS                                   |    1 +
+ sound/soc/codecs/Kconfig                      |   11 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/tas2557.c                    | 3067 +++++++++++++++++
+ sound/soc/codecs/tas2557.h                    |  228 ++
+ 6 files changed, 3483 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/ti,tas2557.yaml
+ create mode 100644 sound/soc/codecs/tas2557.c
+ create mode 100644 sound/soc/codecs/tas2557.h
+
+
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+-- 
+2.55.0
+
