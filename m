@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21103283C82;
-	Sat, 18 Jul 2026 21:56:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC142374E45;
+	Sat, 18 Jul 2026 21:56:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784411804; cv=none; b=nRdS12A5w2nakTsSOkNk8mYsY2fBJNt3KdOtDeMlBLJ4okP2vqeJcO/SMpJ5KbPWhfrjWTUQ5aUI9nENfpP3UG2bIa6YOjGLtYOkXNWVoyL/Uc6uuA8ufO2Z51g81TMDQJOojS01mSJVObQyhmEFdRnioEAfSAMKmVIotkMQT9s=
+	t=1784411811; cv=none; b=dbFTqTrQqa2D0ctH6ClFEqT24upD9UTYoTK1gERVB7uNPOvRmfw2s/rMS+R1xYAVwN0V+yONK2oMukP8fV6IkTHTaBdGD99aclTCRhiXMcqqaqkVDQl7rUxXRYDSgxjVTrexPQqYW10t78SIttjDtqSopK3FUUInFDX0raAyPj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784411804; c=relaxed/simple;
-	bh=mPHm8Q2Vgmz/I1ZJxFAxKg8vWOTyEvnReMtWu/vu+j0=;
+	s=arc-20240116; t=1784411811; c=relaxed/simple;
+	bh=2FrkQ/p6UzC3chQCE8Dg7w1WziNyTsHsey8A//r01m8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=e+OTi9qN01mIZ1FfOip33h1Z1WQtl8up6T3f7teOlArR5LoUMMaQHDtQqZXdFfiyv1HsLRizRrTzEWd/tO5zSrgy6I7/+Lf5/M3tdIkr5ZER2BmKC/FV3bi7WUXFs1vyKQPdYEvIhLuFy0IpIPdYfJ6D1aSfubDlueUaCfFqjtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DUNZnkzY; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Lom/e0QwKJ5YFdDL8gpBFEq1Nn30LY/D1A0IEddtCdcSA3JMblhbL7lOo+T4enm5jY6+DHYT1UZO8cbNvq3mszhzbvWSm4+4ARiVE4fIQOJAHA+oNWysJEPKpDYSd/eW0PeoOqZQvqLEIw/8qVZC5/IuTlW+R3y3kF62cJzBWC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOFUEqXQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DUNZnkzY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCB1E1F000E9;
-	Sat, 18 Jul 2026 21:56:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOFUEqXQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E162F1F000E9;
+	Sat, 18 Jul 2026 21:56:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784411802;
-	bh=kqDtBI6omrb4B+2/zAJlnPnLXvXuzlqfjpVcwZ2x0fk=;
+	s=k20260515; t=1784411810;
+	bh=10oGB3VrzbrtIlCOef/6xP4X3AULkySSj7RwG9TLI5c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DUNZnkzYqHt6lJFdaobZDXYtgNaxGEPpctTMnevR7hSLH1sG9EhTosQSLaHRObWiU
-	 CMDwg+fiDIEQ2+s7jXiJlj6YI5GJTkX8HvqDsgGc2UKXxjDAGs4iidE6IekwSy051p
-	 51Mhm2Bo2tocT21w9b9tPBQ3Soy2i4QgB12BMmVfXnKyXoILuELlYCD07ED5z9RbIh
-	 gqCO5MWiect4p8Q/WCFX0fzFU+gDFxl00pteZXSy+RnQqm/l4EPo9U3gpvRryCSzBQ
-	 Y1BHoNkAx2DtU8WcnKzm5FilhGaxw7yJlUdqkygPsa6rf1592KdekJR6FFBnD6DeYw
-	 FUde9A6AtCnkA==
+	b=GOFUEqXQhP4NbKR+0+BNv2CLKqzy9ZT2DXvMC58oN52wYncMk3f5Z4lsfnaqS6BDF
+	 es94pmUBQqJ12EiYNKcXlpvB1okJzqATgkJNoF93byyFp2Zs611S74szgoI9higxIF
+	 43Orka18tWfVsJgknv/j1uOdEHH+2LD5P0f0rJFTEgT2CGs7bYLYeW3CZMdErBRTta
+	 jEz8uNcabyrvUJb8WpFTvK749kmpto18ouI+wIw0z04uQCb+KUppo2zaVD8xoWkjAt
+	 TRP+5kwPIXZLcX3fbDCIh2DWfpiOUao9MhIa9SuVJGCDe69jTj4z257sYI7tnvNVM6
+	 JBUclT9ezC6+A==
 From: Mark Brown <broonie@kernel.org>
-To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
- phucduc.bui@gmail.com
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20260710110249.31830-1-phucduc.bui@gmail.com>
-References: <20260710110249.31830-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH] ASoC: uniphier: Drop redundant error messages in probe
-Message-Id: <178437738447.5332.9602281327457316152.b4-ty@b4>
-Date: Sat, 18 Jul 2026 13:23:04 +0100
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <alsAsTcQrpnnR46d@google.com>
+References: <alsAsTcQrpnnR46d@google.com>
+Subject: Re: [PATCH] ASoC: wcd9335: switch to using sleeping variants of
+ gpiod API
+Message-Id: <178437727464.5332.13969598032885249230.b4-ty@b4>
+Date: Sat, 18 Jul 2026 13:21:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=broonie@kernel.org;
- h=from:subject:message-id; bh=mPHm8Q2Vgmz/I1ZJxFAxKg8vWOTyEvnReMtWu/vu+j0=;
- b=kA0DAAoBJNaLcl1Uh9AByyZiAGpb9pehlMHAL++fmF335l0tX/GRozhra9KKg0H8SFXNLXOsZ
- YkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqW/aXAAoJECTWi3JdVIfQQeYH/2W3
- 4jN13RoUVe8uAmths6tGOYKhS4mlNJX2EgLr9nlMVom4pMr4N57uIrkIpb6lVu1IVhDcwj6d4ds
- cgUtXt34IFuumHJMCMJ4sVjd1n9tEfwtCN0+W/SQrQVsjF5WSEaT8i4+jwThpxYTCHETTQ4RKZ/
- k0EXJYNOHr+j87OyS+32lP/AqVKW1ksrAXZF9XyTm4aBJbLnZwsVvg63TszJYkq62nqbDYgtzOy
- HFVV0m0RBB1IJz5hfUjYHhR5JalOG4eOWkN/pzWmYCe5xJT/5JYzN6uhU4TnRL9Ou9gkkhFkSmu
- iEFzPnNhBxu5LF4cSw+GbOjaIW6YUDT1LoKB+NM=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1143; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=2FrkQ/p6UzC3chQCE8Dg7w1WziNyTsHsey8A//r01m8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqW/afmSWP8OmzZKPfpbQY8UIaakfxjb49hlDW1
+ brFnwTpF6iJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalv2nwAKCRAk1otyXVSH
+ 0JP/B/4xF9oMDPMmNwmqU34ENnNbX/0KV4QVVNXQ0LQQw3R1zlgxZIgDTOFAuAwfpWE1yPVUhnT
+ e3WzO8DCE9mJIEFKfcEKCjdNOyQmAMv9LQDjvDp47fyCkoiP6a/pktlqMgtmvdf5GgWSnpJRDA0
+ em/jRcDa8H2680sqPt+3/KLDuu2C2qAabWZ6wF08w3n38dbR2fCT7rJUkSVCnuHmaoz0i9TPiq+
+ PDRFqc4K51tHVA2XK4m/Zm1CnmP4UtssW/wd8k9wKnxlrmjrO3pROJ9h2K9kRnPCuSLaGvnHNbO
+ DDEnZCOUXPoNmY1GLzG+IzLytaEoDUMPFUYeAVWYssX0eIOC
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 10 Jul 2026 18:02:49 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: uniphier: Drop redundant error messages in probe
+On Fri, 17 Jul 2026 21:28:55 -0700, Dmitry Torokhov wrote:
+> ASoC: wcd9335: switch to using sleeping variants of gpiod API
 
 Applied to
 
@@ -69,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: uniphier: Drop redundant error messages in probe
-      https://git.kernel.org/broonie/sound/c/c89b22faa9ba
+[1/1] ASoC: wcd9335: switch to using sleeping variants of gpiod API
+      https://git.kernel.org/broonie/sound/c/50b2e4bfb4d4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
