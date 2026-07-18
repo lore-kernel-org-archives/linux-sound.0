@@ -1,55 +1,50 @@
-Received: from mail-m49204.qiye.163.com (mail-m49204.qiye.163.com [45.254.49.204])
+Received: from mail.sms-medipool.de (mail.sms-medipool.de [178.63.14.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8386E3845CF;
-	Sat, 18 Jul 2026 09:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBFA332EC5
+	for <linux-sound@vger.kernel.org>; Sat, 18 Jul 2026 10:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.14.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784368653; cv=none; b=gItpna5L/pn29mexn8CCpS4kflzvsmLUrBOAEnM0L5jCZCk2ZhSAw7jbx9UYYOE3na/f1oTF4OIm1r7Da5e9Go3XdfX0JaiTpHPquG/spUGjan3UJQVtmtd3gqwOz9OKWEZZWjP74bdzVS19/1HRwP88FPmwssGX/53ytvmv4Zo=
+	t=1784370278; cv=none; b=lJjkVatSks09A+LuA9HK7YeGhcAv50Gl4b2fO8atez7USn8J7UYFqx95WAIEsG0zRrDutMs0A19Fo91a26uhH8owa2bAQoZJTTHmNGp9pjAJ4mP6vGcbEGl4ddEHV5fh8cjx+dE7s7zuvwzE7LG6/BC1rkxFlu8t9XMX+eXaPgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784368653; c=relaxed/simple;
-	bh=T1dnzuCOirb4oTOrTln/mdR/NNhVCCKZTUISOr5SuhU=;
+	s=arc-20240116; t=1784370278; c=relaxed/simple;
+	bh=fIj0ThNKmmXK1Fev2Zo6yKFbDpGCZx8O3IYUuDkYArI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uoO3uzb+mKNZewPqgS0n8TJiCs9nZqNFbJgdHYD1pLteRTCjPHwg9/sdhmpbCrA69Bs+ShXWGdpMhybcxgpyUDSxhMLH/hdcMTvX6pZz+r+ZhJoM7PCpjlWAsVc4WB0UU5LtPxq5ev2CnWBEMZG1KvzjBuy+rDni4c8hA9B7rHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=AYb1THux; arc=none smtp.client-ip=45.254.49.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	 MIME-Version; b=OIHGtkL+IQqNqTenyzb9U2IsugRwoBZcwkmJC6dJqyH7cdGqKMqvX3aWjYew4i/jb9pK1s1LXLM5ZYQGIeJKGvpV7wCc0ksz2MxuOzOx3oCRMf8MghrzqUd+f/BCV+hxB+tQK6GLKz7vYHF/BjnffUUmHbPIYxdl84oUDAhw158=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de; spf=pass smtp.mailfrom=sms-medipool.de; dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b=KmA0/tAd; arc=none smtp.client-ip=178.63.14.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sms-medipool.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sms-medipool.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="AYb1THux"
-Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 46adb6181;
-	Sat, 18 Jul 2026 17:41:55 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-To: konrad.dybcio@oss.qualcomm.com
-Cc: andersson@kernel.org,
-	broonie@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	dmitry.baryshkov@oss.qualcomm.com,
-	drake@endlessm.com,
-	hongyang.zhao@thundersoft.com,
-	katsuhiro@katsuster.net,
-	konradybcio@kernel.org,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	matteomartelli3@gmail.com,
-	mohammad.rafi.shaik@oss.qualcomm.com,
-	neil.armstrong@linaro.org,
-	perex@perex.cz,
-	robh@kernel.org,
-	rosh@debian.org,
-	srini@kernel.org,
-	tiwai@suse.com,
-	zhoubinbin@loongson.cn
-Subject: [PATCH v2 6/6] arm64: dts: qcom: qcs6490-rubikpi3: Add audio support
-Date: Sat, 18 Jul 2026 17:41:47 +0800
-Message-ID: <20260718094147.413795-1-hongyang.zhao@thundersoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <43944722-3eeb-4e02-b3a6-6251d5fc78af@oss.qualcomm.com>
-References: <43944722-3eeb-4e02-b3a6-6251d5fc78af@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=sms-medipool.de header.i=@sms-medipool.de header.b="KmA0/tAd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sms-medipool.de;
+	s=mail; t=1784369685;
+	bh=fIj0ThNKmmXK1Fev2Zo6yKFbDpGCZx8O3IYUuDkYArI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KmA0/tAdPYduU6FwS913NW/UWa4GYVJuX/CxBcRaWhCAKF7x5l4MJ9dRFNSbvVdGG
+	 DzeJQdtN3G8jUR4Ie3avxK52BAyV8ppBRVYpGVYt4eK5p/9vwfGKDzdPBo9V2NLEVL
+	 DlbwZRQOfGRFhfMm2dlWKnr3lT1nlr/l9uWGk/YJSZJ7Jt0eXmrsH/ch4XdhXeEP77
+	 ah/8nGN+ilFocOVpB2GsM8iO80iJRnNph1H3T4bsJT6CPZXLFM5zg8u2r2atYxomq7
+	 8m1iLgTE3s3AW50248YG0TlGlMpopyLBEsr0LD/vKQEHXkb/oOsPJDklkd8Ukz/vdD
+	 2USRgCfWpXP3Q==
+Received: from mail.stoss-medica.de (mail.stoss-medica.de [213.147.17.40])
+	by mail.sms-medipool.de (Postfix) with ESMTPS id 5C31418B67;
+	Sat, 18 Jul 2026 12:14:45 +0200 (CEST)
+Received: from NUC16-Linux.sb.golima.de ([95.88.98.111])
+	by mail.stoss-medica.de (Kerio Connect 10.0.8 patch 2) with ESMTP;
+	Sat, 18 Jul 2026 12:14:43 +0200
+From: Alexander Kaplan <alexander.kaplan@sms-medipool.de>
+To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	peter.ujfalusi@linux.intel.com,
+	Uma Shankar <uma.shankar@intel.com>,
+	alexander.kaplan@sms-medipool.de
+Subject: Re: [PATCH] ALSA: hda: codecs: hdmi: disable keep-alive before audio format change
+Date: Sat, 18 Jul 2026 12:14:43 +0200
+Message-ID: <20260718101443.2628-1-alexander.kaplan@sms-medipool.de>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260715180610.1371243-1-kai.vehmanen@linux.intel.com>
+References: <20260715180610.1371243-1-kai.vehmanen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,62 +52,32 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9f749a938a09d5kunm1186d5631fe997
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDGhkYVktIHxlPSkIdGEJMGVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
-	lOS1VKS0tVSkJLQlkG
-DKIM-Signature: a=rsa-sha256;
-	b=AYb1THux6FDa2eq0vDUqBKvSl8L/MuUxWXZmatNXsx6+r56gWMEc4Xvvfr8J/1S+Yx5oaTOiwrXjPLqA6doAjehqyCM8mMs6vjMFF+NXisuFMLHIdYlYKb8zPvAW5W5u0EPuqOmz8aeotrFGx641O9LRlrpJ47xqAxJmxmDMh6I=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
-	bh=ZgyFMNAPh8OewPBkUg16pLl+pzENS/cg9LAueq0w9IA=;
-	h=date:mime-version:subject:message-id:from;
 
-On 7/15/26 4:02 PM, Hongyang Zhao wrote:
-> > RubikPi 3 uses the AudioReach firmware path for its external audio
-> > interfaces. The primary MI2S interface connects to an ES8316 codec for
-> > headset playback and capture, while the quaternary MI2S interface feeds
-> > the LT9611 HDMI bridge.
->
-> [...]
->
-> > +	vreg_es8316_3v3: regulator-es8316-3v3 {
-> > +		compatible = "regulator-fixed";
-> > +
-> > +		regulator-name = "vreg_es8316_3v3";
-> > +		regulator-min-microvolt = <3300000>;
-> > +		regulator-max-microvolt = <3300000>;
-> > +
-> > +		gpio = <&tlmm 117 GPIO_ACTIVE_HIGH>;
-> > +		enable-active-high;
-> > +
-> > +		pinctrl-0 = <&es8316_power_on>;
-> > +		pinctrl-names = "default";
-> > +
-> > +		regulator-always-on;
-> > +		regulator-boot-on;
->
-> Does it need to be always-on? Is it really on at boot time?
+On 15/07/2026 20:06, Kai Vehmanen wrote:
+> Add an optional hdmi_ops .prepare hook, called at the start of the
+> PCM prepare sequence (before the format and infoframe are touched), and
+> implement it for HSW+ to release keep-alive. Keep-alive is then
+> re-enabled as before once the new stream has been set up, in the
+> setup_stream op.
 
-I think the regulator-always-on constraint is currently required.
-GPIO117 controls the power switch for the ES8316, but the existing
-ES8316 binding and driver do not model regulator supplies.
+Hi Kai,
 
-GPIO117 is not kept asserted before Linux takes over,
-so I will drop regulator-boot-on.
+thanks for seeing this one through to the finish line.
 
->
-> [...]
->
-> > +	mi2s-playback-dai-link {
->
-> mi2s-'c'apture < mi2s-'p'layback
+I gave the final version another run on the original reproducer setup,
+now on 7.2-rc3 (Panther Lake NUC, Synaptics VMM7100 USB-C dongles).
+Multichannel keeps working across repeated stereo/5.1/7.1 profile
+switches and quick 2ch/6ch cycles, no dropouts, no regressions in
+normal desktop use.
 
-Got it. I will move mi2s-capture-dai-link before mi2s-playback-dai-link
-in the next revision.
+One small bonus compared to my earlier tests with the WIP version:
+the short display blanking I used to see on channel count
+down-transitions is gone on this kernel as well.
+That may just as well be the 7.1 to 7.2 jump, but it rounds the
+picture off nicely.
 
->
-> Konrad
+Thanks also to Takashi for picking it up so quickly.
 
 Best regards,
-Hongyang
+Alexander
+
