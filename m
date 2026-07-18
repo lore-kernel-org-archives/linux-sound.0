@@ -1,97 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from tbjjbihbhdcb.turbo-smtp.net (tbjjbihbhdcb.turbo-smtp.net [199.187.173.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF3E33A70E;
-	Sat, 18 Jul 2026 11:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6B43CCFD2
+	for <linux-sound@vger.kernel.org>; Sat, 18 Jul 2026 14:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.187.173.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784375511; cv=none; b=HKr6z1jrr/BQPyRwkgQuZcEBizUzhLQVh4FXW/vGeziwO3XzVYVMQA0VNiTieyIHseOkaNYdF7YlYiErv2Bo0z43DZ3tN5gzAVCYfu3R25E5CsVcRcZJ+tA2qei8v7BSdbwG/LTnCBtqhP/+O9Fxe97iToYY0XvTrWboXpWifF0=
+	t=1784385630; cv=none; b=OD1MCHu6q6wZY6F3wmG8L9W/MM/lPUc3S4qm7SHDB+eJ9ldp7f0p67UsnSMWuSsaW5e4VQeDAcsT+KgRYWOIBv6cc/9x+cGiAgq2oaQJSZQHuwjnHzzXUTDRzhwe0te6yfu7jQMfpDXNbZX3WrSsXWaiBwCZyTmti8ZZ6PHDtcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784375511; c=relaxed/simple;
-	bh=t1FEbwgmBFsrzp0w1i7/4UK/FSLvCidCuLyj0mAahY0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DHhGU+5gg8zvdcDEayOsXrlrrR+heybJs90qq/bGLW1rfO+VbcYGIGJDY5xHXl+b7nAg3wYvIL1KWFy/JJKj4RmTHwcG+8gS/u8/b/ut82+85kc9KwYc/gf7TuO/rTZg10dM639fFXPLn4cTKPS90hzxPzH/6bQr9Xw7Q8byR7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YkKfAftd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784385630; c=relaxed/simple;
+	bh=TqP0TFJQUlLEnc53mcEJzxksDYYarkOPW6cMJpOwh2Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LbENEvlHoADYsPImVRkCm7S1+Sp/I8+xMeX9pRtvXyq4hzy8Josj4lKNq1LY0lZcOXSx3N/siwwIaBsYQhBLSDF8TM1hZCmLqGN2QSRQFzdQHA8EU4MEsXBRy0VssUaoWLA0z0ucnd03bxtdXRIJzoX3mqfwun3l5PTQrkazmpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me; spf=pass smtp.mailfrom=yahyatoubali.me; dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b=HnV3VvM6; arc=none smtp.client-ip=199.187.173.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yahyatoubali.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahyatoubali.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YkKfAftd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B6B81F000E9;
-	Sat, 18 Jul 2026 11:51:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784375510;
-	bh=jTGIN/WTMUrxPZaJIWs7NHyrmABl3Zd8+o9XipNSaes=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=YkKfAftd6fmw81HhOWNB01pdPztKnW5Ixyd7abtPpUvDfPqse0QnD2XbbyBaiL3BN
-	 yWF8UvQYFPYfkmy+I5Gi9uvpHUHjOd/KXxde6C4OkwwRgPwn2SkA4LaTBrOJmDZ4Q3
-	 Q8QoHGCIrAPU7Gck3fq8VtFblSVvpLJRU5PVw5epH2lPJb72Li66AxG/YBkzqXdRjp
-	 hAOSlg21XPaeE1urlTRwHHT6Hpl65ccjnNTNVuRM7aPk47Z21vob0fsc24H2dyKVBK
-	 4oPvqahVsAK51iYZISzwhRjUU6pWL5mLddM0NKSa9EzUY8rUruc8kP+EPh2qNikmEC
-	 HA6gW1b+lep+g==
-From: Mark Brown <broonie@kernel.org>
-To: sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20260717172318.1784073-1-andriy.shevchenko@linux.intel.com>
-References: <20260717172318.1784073-1-andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] ASoC: SOF: Intel: Don't use "proxy" headers
-Message-Id: <178434154588.467936.8315586608938149317.b4-ty@b4>
-Date: Sat, 18 Jul 2026 03:25:45 +0100
+	dkim=pass (1024-bit key) header.d=yahyatoubali.me header.i=@yahyatoubali.me header.b="HnV3VvM6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=yahyatoubali.me; s=turbo-smtp; x=1784990426; h=Received:
+	Received:From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	Content-Transfer-Encoding:Feedback-Id; bh=y5RolVEjohR8iEYsN2yIrD
+	zUxPhtuWkOz+4WmCgUedM=; b=HnV3VvM6ld9+AOQaLCLZ29z+plOf9hVWkWOkWw
+	sZqMDWMkrd9+e9t9csZvVRbNh4JCNSMsWonjhW01nrrbDt5/snzugx4CJ+C2pMe7
+	aGPtV8PqRYnUwP/jywV7j7KyAYsPqlhHRgECp0Fsk+b4jg2H7Hl/2twTUCSU7nV9
+	5P38o=
+Received: (qmail 1927152 invoked from network); 18 Jul 2026 14:40:24 -0000
+Received: from 105.76.9.106  by turbo-smtp.com with SMTP; 18 Jul 2026 14:40:23 -0000
+X-TurboSMTP-Tracking: 64-018cfb16-00001e639f575f42e007-007-4288be33
+From: Yahya Toubali <yahya@yahyatoubali.me>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-doc@vger.kernel.org (open list:DOCUMENTATION), linux-kernel@vger.kernel.org (open list), workflows@vger.kernel.org (open list:DOCUMENTATION PROCESS), linux-sound@vger.kernel.org (open list:SOUND)
+Cc: Yahya Toubali <yahya@yahyatoubali.me>
+Subject: [PATCH 5/5] Documentation: add SPDX license identifiers to RST files
+Date: Sat, 18 Jul 2026 15:40:04 +0100
+Message-ID: <20260718144005.1880568-1-yahya@yahyatoubali.me>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1107; i=broonie@kernel.org;
- h=from:subject:message-id; bh=t1FEbwgmBFsrzp0w1i7/4UK/FSLvCidCuLyj0mAahY0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqW2jTT5Az+g2vf44XPGXoqsRmFZQHS0GCh3H9I
- RI/T5xEGBGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCalto0wAKCRAk1otyXVSH
- 0HZFB/4x/3IHUcf2oS1UGnOWgA+AQP5KZprLpGWOrvwA7+4RFtJi3ZBVDVJu3hMCN7s9ropkn2h
- nssFssrRreYO1PGsQedulWdaM8P7+37lwtYeRthHrIObPEa/Q4kyQyrl3FXrE0S0i8c/4Z3M7At
- MRFoWVQGSZt62azKgeJyA5LeOt2YXW96ogO6qYlWVs0teBsG3BltqwUCfVLC78mMsv7+qcPgQCK
- aTXCTKu5cTp9RdvrHZNdfloB2S8NqWxi7AExcq4HDopvP/LXhhqKtuEcwAkK9/bjaC3ojcr/mFd
- SBGPS6fSA1gc7TUET22G3kPkDQ7OICnk+UFh4q41LmGEOpR/
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Transfer-Encoding: 8bit
+Feedback-Id: 26016534
 
-On Fri, 17 Jul 2026 19:22:47 +0200, Andy Shevchenko wrote:
-> ASoC: SOF: Intel: Don't use "proxy" headers
+Add SPDX-License-Identifier: GPL-2.0 to documentation files that were missing it.
+---
+ Documentation/core-api/memory-allocation.rst | 1 +
+ Documentation/doc-guide/sphinx.rst           | 1 +
+ Documentation/process/5.Posting.rst          | 1 +
+ Documentation/process/howto.rst              | 1 +
+ Documentation/sound/designs/index.rst        | 2 ++
+ 5 files changed, 6 insertions(+)
 
-Applied to
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index 0f19dd524323..370f5a0c4238 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -1,4 +1,5 @@
+ .. _memory_allocation:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ =======================
+ Memory Allocation Guide
+diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
+index 51c370260f3b..74a3425e81c9 100644
+--- a/Documentation/doc-guide/sphinx.rst
++++ b/Documentation/doc-guide/sphinx.rst
+@@ -1,4 +1,5 @@
+ .. _sphinxdoc:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ =====================================
+ Using Sphinx for kernel documentation
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index 07d7dbed13ec..510abeea8977 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -1,4 +1,5 @@
+ .. _development_posting:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ Posting patches
+ ===============
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 9438e03d6f50..9001024e44cf 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -1,4 +1,5 @@
+ .. _process_howto:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ HOWTO do Linux kernel development
+ =================================
+diff --git a/Documentation/sound/designs/index.rst b/Documentation/sound/designs/index.rst
+index 6b825c5617fc..4ba4038187b5 100644
+--- a/Documentation/sound/designs/index.rst
++++ b/Documentation/sound/designs/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ Designs and Implementations
+ ===========================
+ 
+-- 
+2.55.0
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
-
-Thanks!
-
-[1/1] ASoC: SOF: Intel: Don't use "proxy" headers
-      https://git.kernel.org/broonie/sound/c/d542c74cac07
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
