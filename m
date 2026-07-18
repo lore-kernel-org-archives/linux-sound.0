@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5D834B66F;
-	Sat, 18 Jul 2026 11:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29122DB794;
+	Sat, 18 Jul 2026 11:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784375499; cv=none; b=m1u2Fvrj9TFOeekQKnXK2tLYpEIWw5kJ0GV872qQL65QxwSrYGnTTBE/TK7euupq/AdKEOmhXSSBgKoVtnMOkjs4R0QdKxID/3jU+iUPGJee+hafgzP5iiuJG4Kn3HoKnTJc8okqkeZqcHNM1oOhpIJS8vEqlIVsH1gi7m9IakM=
+	t=1784375503; cv=none; b=KCbpjSGYPW/4q1PdlUddEKOcBlSU5ugCjwefnkn6FFi69dFFWzVbcguLoynU95y+Z1m/O+oyoYuSkYvs86tfd3mCpAwxQsyMFgPPImLunzMePGtJ/YIP4vVZthttIQScAHwYIcGK5zPCCKOs9ttH7CU76DAekOFxwXxfMqtP4gk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784375499; c=relaxed/simple;
-	bh=zShSTrRppGP615BMqh6C7h4KJ0EQxSE7U+LfEa6pH4A=;
+	s=arc-20240116; t=1784375503; c=relaxed/simple;
+	bh=iiw/mcB5pNjz5VfaoJM5gH+SelLv6eHVRPQXQy64EiM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Jpx5rR/Ufj0fcmq/wjbVDYZRLFtQzaU1CZC2XkS8fXWyFtKL0e61Haqah8y4nhq17E2Kcrtb48IQrbMIskgVXNDAMdYodLBsHEBD0QQRbOV3MUEFBmhjc64rtUxj/0/Ogc7liOAcq2gx4H9Wq+wt87el5ApzclJEU+vB6D2loBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDLrTq39; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=WggXgZuUWC3wue8PwdhAyF0v7GqkddO/16SiHuKCqZZBSiIjjjtcVHRhPK8iCVCH8Pdz+Mf1BVhKM5I3vQY9dcYAzEx/632FK+JaB00BmH0jMnxN1uM0ZdBN0AIT7e4/NzXMorKOyxhjK7PbRrkOpzFVjpiIf0+RvMyxEaY9pZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+RWy1Ot; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDLrTq39"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2FD01F000E9;
-	Sat, 18 Jul 2026 11:51:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+RWy1Ot"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 717A61F000E9;
+	Sat, 18 Jul 2026 11:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784375497;
-	bh=F3Vmzqa+B7bnlNDZlpa95iUzPwaZ8ZUjd4m0PWZMX5A=;
+	s=k20260515; t=1784375501;
+	bh=OmlASOSbFcJxUSSqtIMS8xDLwmBnoHzjjhpPDvSZZ/E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=QDLrTq392zodIIq8YVemEq9q0HAQwARtV5rLM/m8TtgXxmYb8mKRMBk7Gk8TWpxL+
-	 uGXb2ppL8xXUhVxLrteb2yS2nZBEFpto8G4dKmjIqJ6zzkIMnCZV3X7TiAcrAXneHD
-	 Upd4r66hDf1NU62aYRlnmwBQwtFlUw7uctNazAonr2MshQYJQiTW96k8L8AvuJAvY4
-	 IzEYjlAgHjEcf6qGlu/ILpHxPISUKCrTm4HNHm0l4r9i8ENI75tPtxVWAkmF1s4QKW
-	 LkX/FjIcUpJG6pNRaunVJqVbXP/9KWpYAL159LXHuOJvJk1IaDWpbLab/tL8ODLqJ9
-	 jkr0IyJs6r0eg==
+	b=O+RWy1OtF+5yGh3myArYV1DC693sunHCScFBgCqyfXVn1YFqSE8y+CUS9IMZ+EFe5
+	 zuE9TYw/r6NLZ1Xrc6LOxxn+WIpnt4YEzexv062iMgvjGbEjFOcS86pW4KrlJyG0sc
+	 EgMGVaN+D9TM3n21uCNsEqxHRfR5CGT67rRwczBrh+/aObJTNMl+SAAQBidb4UCd2C
+	 7nT/vuSUpI9cK+A/x6RN3+PQ2xStf/Q+Hv+n7QzwDIUSgC2EoaA0Z0sE745hiLeHYC
+	 0fKlWgfvT/o1IvR6SCTp1dLIvHUf7iY+kuErtI4OG1Qr2nMEoP/qrrUf1xH67g3dPg
+	 JZvanVspDKx/Q==
 From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260715120135.939280-1-rf@opensource.cirrus.com>
-References: <20260715120135.939280-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/2] ASoC: cs35l56: Add support for CS35L62
-Message-Id: <178433879568.61249.2098398768104942925.b4-ty@b4>
-Date: Sat, 18 Jul 2026 02:39:55 +0100
+To: tiwai@suse.de, david.laight.linux@gmail.com, wangdich9700@163.com
+Cc: wangdicheng@kylinos.cn, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260717091542.721877-1-wangdich9700@163.com>
+References: <20260717091542.721877-1-wangdich9700@163.com>
+Subject: Re: (subset) [PATCH v2 0/3] ALSA: Fix compiler warnings in sound
+ subsystem
+Message-Id: <178433424139.61249.5529277845421219821.b4-ty@b4>
+Date: Sat, 18 Jul 2026 01:24:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,28 +45,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1563; i=broonie@kernel.org;
- h=from:subject:message-id; bh=zShSTrRppGP615BMqh6C7h4KJ0EQxSE7U+LfEa6pH4A=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqW2jHBy+5JaPCGTWH1mAspFw12/TnkZX/Zv4kK
- nQelJQ9dSWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaltoxwAKCRAk1otyXVSH
- 0MZ0B/43KCbycO4iGF/y2LXzwK5bnLm9FLCwBmWYr4MKIKKJu2sdU3dTuqiGGgg5ygeSuz9PW3+
- DyCHoCZnndMoMUIAp2/Fsn82I1blR7x1gkw3FzdBW8dkct0c9NGyNzRlnkvxrW0Eo4bxEf/zOEC
- Qnx2WOR8dwiPGxsaF8QVdOLiMvGJqwvUhw6LRmDeFcE/11s4Xqtj07ejoayzHpThXBGzD4VokE9
- OvLwTJhCHUH+1MwShHdDlAJIXr9Vg3UzoNv/VUdIN9NabbSw4d5uprIiLFtC6RwNqKGl9ma/Cik
- i0dQ9hR027I9b3ES9iFi08NweOb+j8IVKw5TPlApz0iWZDnf
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1469; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=iiw/mcB5pNjz5VfaoJM5gH+SelLv6eHVRPQXQy64EiM=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqW2jLJg6MqlKVd9ciaiykBqT/0NeC9QQvhk0P1
+ YAs3wptoVWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaltoywAKCRAk1otyXVSH
+ 0NKBB/wJ1nU2pH3WcHr2JbV6x+xWK6InTSCjUFGa2PjBhqsx7r0f6GovjGoP/Ek7GC3+WNcN81D
+ ijzrnuH6G8un6axmDZptBpQMMDCt4adXyYLQRiMxdywj9CNmcq4bfS85qRJFyoDHkwXychMdSZJ
+ ccFsY5C1QgezqWuKZv1Pebr9ckXUXeEgyg5SRl2nJnz++yB30yRy5FS/KY8MZTilZbXxpqW5h4x
+ LJxBmP10GVS4n+NOiEBAf8guspGaAi+3oDmsjoY+jIyqvjKGy+8xn366lJZPXztcGxlcRbV+jhA
+ rMlsO/fU+OQbZ88eiqnolsl3ErrXcH9H7VhIzgNWzZGPkx67
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 15 Jul 2026 13:01:32 +0100, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Add support for CS35L62
+On Fri, 17 Jul 2026 17:15:39 +0800, wangdich9700@163.com wrote:
+> ALSA: Fix compiler warnings in sound subsystem
 > 
-> The Cirrus Logic CS35L62 amp is similar to the CS35L63 and can be
-> supported by adding the chip IDs into the cs35l56 driver. It must
-> also be added to the codec table in sdw_utils.
+> From: wangdicheng <wangdicheng@kylinos.cn>
 > 
-> Stefan Binding (2):
->   ASoC: cs35l56: Add support for CS35L62 for SoundWire
->   ASoC: sdw_utils: Add codec info for CS35L62
+> This series fixes three compiler warnings in the sound subsystem,
+> covering both logical redundancies and a potential runtime bug.
 > 
 > [...]
 
@@ -75,10 +73,10 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: cs35l56: Add support for CS35L62 for SoundWire
-      https://git.kernel.org/broonie/sound/c/3330b5f6d8de
-[2/2] ASoC: sdw_utils: Add codec info for CS35L62
-      https://git.kernel.org/broonie/sound/c/0306d2115581
+[1/3] ASoC: mediatek: mt8189: Remove redundant else-if branch with identical body
+      https://git.kernel.org/broonie/sound/c/fcf2a365da23
+[3/3] ASoC: fsl_easrc: Use div64_u64 for 64-by-64 division
+      https://git.kernel.org/broonie/sound/c/a46ccc71877e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
