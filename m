@@ -1,65 +1,64 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BDC3B7A8
-	for <linux-sound@vger.kernel.org>; Sun, 19 Jul 2026 00:22:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D445472B
+	for <linux-sound@vger.kernel.org>; Sun, 19 Jul 2026 00:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784420572; cv=none; b=Ez89uR3+zKTx3mkgXfTuqYFRUBuqb/15R5vb0VLEr0XrzTy0C1jASlDZXfJ86Dfgk+OvCgy49Zwa1CDo1D/eF2WH5e3WlIAJ06HrIDkwldfyZ2C4ayCMd4Z7xzEbubvl8VPeF152DykdkDdfpy2wzIvLi+dXYMJ9q1cW7LA5Rsw=
+	t=1784422418; cv=none; b=Gozx9tjNZKeCEVIUN6z5eo/3ia9bs4U1VhwsgMz9NcCojDhIch+HS/QVqMV1X445GJGDh8NuyvJwETrBiitoqinbTMVvyNXSlAK35dLEdieQpgyDTmdDYqq9ODlFQMdd4PGjvVtDradN/idtF6yKp6csmwxA4DNmbGjhnipvHUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784420572; c=relaxed/simple;
-	bh=XVNrmOvZ8mqN4c03knT92DmHWes1niHXH9JLa7gVHeQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:Subject:From:Content-Type; b=AQ7jYENwePGxZmDtIkpGlF0+AMfQ9BAndNjnTfVfW8Q3tv4QowHO5BJj//xmPqh+jWdjAtThVrAOqeEw0W0y0SvDJfs0Vgo5chlf7InM2eVRgjHVh6jWE75YkuSZYakLN9O7uqOrSM8QMyw8tbNHS2wnXMAXl++8vSO2LuI/AB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=montane.tech; spf=pass smtp.mailfrom=montane.tech; dkim=pass (2048-bit key) header.d=montane-tech.20251104.gappssmtp.com header.i=@montane-tech.20251104.gappssmtp.com header.b=FStGI/nU; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=montane.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=montane.tech
+	s=arc-20240116; t=1784422418; c=relaxed/simple;
+	bh=DRtESRSAX/QtMhn0NE8GkXeAQoxffdhhbHkq2Wf9yj4=;
+	h=Message-ID:Date:MIME-Version:To:Cc:Subject:From:Content-Type; b=mTDEzK8EpREOf9sJ6PnRi1D2y22eDPWWdiBPVP+abl60ytmma2S8wkU3cX4+swdRZ3BYq2B7PdlPg7DS8lQTwOUh7wje8FFZJuwYsgsx8yBleRwGlWNXi1HYc1cO4rV7VccDj1k/5RYzC08DZ5ylDsm7fFLMlFlSm34kDb0eicU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b6WRhmUV; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=montane-tech.20251104.gappssmtp.com header.i=@montane-tech.20251104.gappssmtp.com header.b="FStGI/nU"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4953ddae026so28644295e9.3
-        for <linux-sound@vger.kernel.org>; Sat, 18 Jul 2026 17:22:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b6WRhmUV"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-495437bb891so18395985e9.1
+        for <linux-sound@vger.kernel.org>; Sat, 18 Jul 2026 17:53:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=montane-tech.20251104.gappssmtp.com; s=20251104; t=1784420567; x=1785025367; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784422416; x=1785027216; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:from:content-language
          :subject:cc:to:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=dOoyrgWFzOD737F1+W3OCztHf5gHGhh8QSblKBru174=;
-        b=FStGI/nUWHmM02JEMg5BiX3VeWGSIXO1RZgC3sdBH3TbVBo7jjoDazUGwv1x3xdwl0
-         FzB4KPneyKTpROqvWhK6AztdoxO23TZziUbqpZM8YHsaenpclGWpKCLkbu/I2fUb71d7
-         13HZ487+9AnMZkTsd4hHvWvWV+vMqVniwcEJ2d8+OfJA9i8jEzKPtz0vpKnByyCCoyTM
-         2lw9A7Hk9rORFijjaygY0vxF8yezw2oqL0HX0ddP5UpP06+7I4PB2jQmzNdB/bRbZL1l
-         HL4yjkIP6vPNQ+87/fjaxqzRF/vA+JgS91105mcCBjq0FQyJVZs1YfgjL2vo5snMQ84+
-         Yi5A==
+        bh=5Dh1soKEQySXKjgc6fGCPYB0LOrI9izAQteLhFhZz+U=;
+        b=b6WRhmUVoiLdsrm1Ju8bh5bhI+TV17QkovPrGaX2abfJ0jytC7IbSdrc7R8eyBivjN
+         R0q6ocImJ2PhgIMROB4oJBWy+tEtoRIxoR012nzjTVM9HY1aEWFsX6llrQ0aobzVhSGO
+         ge0Vug0NCmrSELFalAqO+iLZVKlhVzRGcbGS5Vsdub3t3TcA2iBgN3qmlqju5LkZ+t5s
+         H1xq5ZC55WpmdZOkE/lwey36Q5+OBRggOegnA7KH9pasbIHrJ+te3fA7dxBv0+ud4s49
+         hdDqVFHNWlJtHOFBdkXTarXP4RKNy8QX1HdrSFgP/xoSCHOzq/xoiTcl5680oY7fR/Yn
+         Yzew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784420567; x=1785025367;
+        d=1e100.net; s=20251104; t=1784422416; x=1785027216;
         h=content-transfer-encoding:content-type:from:content-language
          :subject:cc:to:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dOoyrgWFzOD737F1+W3OCztHf5gHGhh8QSblKBru174=;
-        b=YdUZuOgbc8h44s9GgNn9zgCTtmhlKOXeL+XqYmCwkFop00EbVVcKodke0wMwuNc1qp
-         Hamnph83TJ9PvNlJ2665mGuaU+7SvpspnMOkzv/AzB/vS8KR9egTe61qLN6OA8oeG7Xy
-         BD082sxYIEGc+as403BXsq/KiEhxZAv9YUoJA+5VkTvgC6gUYR2PpQOiub4pDFOnCJt0
-         6qdZrbZUBMc3+SD20UAzQN3azjfUxKkpup7QM3qO8wqaTka4ayLybX24IIVLFNtake9b
-         Ey1mAfzfnclj1j1dCuk+VLNnoKvpFU9gMcf2tzV+9PIrIU+qiTnbBuIyYSULzS62X2Yu
-         EgBw==
-X-Gm-Message-State: AOJu0Yzbvejf4/upaREUxqV2TsV5z7Yztrq7W+2Jd6J+gFM5H9gFeqre
-	p+GGkoCtLLW4yFLY7fP4FH8YkwBTa9cj2ormDn6HEQW5zYaWjkHKoMER+aaHLMxVmL7Pm5bXKsM
-	YvByVxeXe0A==
-X-Gm-Gg: AfdE7cnZZxAVayvcbVH5I89v0/8I+SGJHx6GBVi5s+4+cDpB9Rn9keQMlL+2zM/HRHR
-	bnmSwy8oXtL7cQGo9OzydxGitfobPp6OqzCIr74lGMKTftMtqvUynaBora6D+8SIZhjpi4L1Nr5
-	PIvcevVRHXzQHWpPSHUcnGYyYq+YFDU55A7PDaRHHqIQabVyRkrEeBeqnahJ73t6hXBBVzLSHLf
-	bq2D93XulWjR+Dx5IXmclZXhKCjqkGf44NO5SZDiIvq19pYVlWoTycMCDBDdoZXpZb30Oom1f9E
-	79ZDsO/mSGUwH4tYyANhj6haTQbS91PnuAOzOXKpAspvuf+ZyO3IWJ3NGeFa8zA3viqmBGR03H8
-	DjvxdvXnqFD/VSUHpuIJ1nbg5Z95q3xSevXdWycmxSGlYZlJCywuG7hSW39zfT1ZC6EYD/JSO5z
-	nc2ToaWaD0r0ffGGRnPHGyEsLgIvFGqUpLuXE0Mw==
-X-Received: by 2002:a05:600c:6a0c:b0:493:a5d0:d1a1 with SMTP id 5b1f17b1804b1-4954a40bd0fmr68269955e9.31.1784420566596;
-        Sat, 18 Jul 2026 17:22:46 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:f07:9aa0:48db:88:99a:9eb? ([2a01:e0a:f07:9aa0:48db:88:99a:9eb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2692a3sm141465835e9.0.2026.07.18.17.22.45
+        bh=5Dh1soKEQySXKjgc6fGCPYB0LOrI9izAQteLhFhZz+U=;
+        b=eEe16Ujq+jX1GtddOg8elGInswaP+5myjljacMZ5ai4Q+6CQ0rkljTUZ/pCKCNxh3o
+         V6K3rMGAqC6xSeQRvRgrET83+UUVuNZfP4UWmx8I5ULWwbtMjkMEQpFmgelQDhFeZM7l
+         PVfAbvu4Me4zBHCPhrsfy/TfiUxr88g84SFawQ7Ndv16M4IteoGf6Y8Wz0zYQkO+n6Lc
+         J/WlLm9uUInyfDRqMmrKAJsbS7T4LD94vJU+AIfb4xwXBjR0UvKIC8uUUaqRm1No6l8+
+         lzSp3ICLFI5Yks7DD1FEvj4uvUTT9AZT+EWt1QcqbWekNHKyuGCg4CrM3jbW3l2u6hpg
+         kjJA==
+X-Gm-Message-State: AOJu0YyZ8YKUs0dWKUTsFkrLlBC1O/KuG7MaoiLm6xu4y68YkUiuDKAQ
+	03ktHTHGT7v+mCdJTr8+7OG38K9+1yeNKGq84OTMYzapE5q2bu7g/HWEd7jBLHcfOqw=
+X-Gm-Gg: AfdE7ck3/UYYo5AhYBsAp2QyNUCcv3qY4hz/kcH4TlMg84zbS+pmJpOpqlIwO0OAcjr
+	B0+Hx9MentbDIIXj16CrqD/KoCD846TIi4Da2r8bSXci4Q7oYtF74GlphSV2oKlwAvqP+lGxEHB
+	bzw0Ei6ahHQllR6R01Rq+9fVsBUd69hP7ba5+gHsr3Xksvq6NhT3+dx/6Zzfb5sjLLauy+3AKoN
+	P3du8oJ3E/3+9bUxW4g1/d1UTJ8g+ljEEoAGnZN7ZaHgIxv1amEorzq7eRWUlqlKANhXdlwh6Z8
+	MW5dxE5aNK8mZgYaxuLbCvPBwKd8xfcpjiujPKRlSoK0qYHFCaWIrPXxvsJxqYAZZiGMDwetMk2
+	vItwaqLcid2iyJob4HoU8GWPXJzM38iqKBv03WrezSwNmUopGiQ6MmDUolEGHj9ToD9wHSfyCrt
+	F2hPHB3Ia54ay4VjAytT8HurXGsHogdEuHd4YnCMbDoZA2CqFEJF2FGA==
+X-Received: by 2002:a05:600c:e54a:20b0:495:4b40:88af with SMTP id 5b1f17b1804b1-4954b408964mr52683805e9.8.1784422415530;
+        Sat, 18 Jul 2026 17:53:35 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:f07:9aa0:b05e:a34a:d47b:7849? ([2a01:e0a:f07:9aa0:b05e:a34a:d47b:7849])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2a2504sm177093605e9.2.2026.07.18.17.53.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 18 Jul 2026 17:22:46 -0700 (PDT)
-Message-ID: <c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech>
-Date: Sun, 19 Jul 2026 02:22:45 +0200
+        Sat, 18 Jul 2026 17:53:35 -0700 (PDT)
+Message-ID: <29e8c08b-9475-4aba-bce0-6d4a45a26d3b@gmail.com>
+Date: Sun, 19 Jul 2026 02:53:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,108 +67,110 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 To: linux-sound@vger.kernel.org
-Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
- broonie@kernel.org, lgirdwood@gmail.com, Vijendar.Mukunda@amd.com,
- vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
- pierre-louis.bossart@linux.dev, linux-kernel@vger.kernel.org
-Subject: ASoC: tas2783-sdw: calibration firmware not re-downloaded after
- s2idle resume (AMD ACP SoundWire, ASUS ProArt PX13)
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Vinod Koul <vkoul@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ linux-kernel@vger.kernel.org
+Subject: ASoC: tas2783-sdw: no stereo channel split for two mono amps -> mono
+ output (AMD ACP SoundWire, ASUS ProArt PX13)
 Content-Language: en-US
-From: Antoine Monnet <antoine@montane.tech>
+From: Antoine Monnet <monnet.antoine@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On an ASUS ProArt PX13 (HN7306, Ryzen AI Max / "Strix Halo") with two 
-TAS2783
-SoundWire smart-amps on the AMD ACP SoundWire controller, internal-speaker
-playback works after a cold boot but fails permanently after a single
-s2idle suspend/resume cycle. From then on every playback attempt logs:
-
-slave-tas2783 sdw:0:1:0102:0000:01:8: error playback without fw download
-slave-tas2783 sdw:0:1:0102:0000:01:8: ASoC error (-22): at
-snd_soc_dai_hw_params() on tas2783-codec
-
-and userspace (PipeWire) drops to a dummy sink. Only a full reboot restores
-audio.
+On an ASUS ProArt PX13 (HN7306) with two mono TAS2783 SoundWire 
+smart-amps on a
+single AMD ACP SoundWire link, playback is effectively mono: only one amp
+produces sound and it plays the *left* channel out of the *right* 
+speaker; the
+right channel and the other (left) speaker are silent. Both amps enumerate,
+load firmware, and stream without any error.
 
 Environment
 -----------
 Machine : ASUS ProArt PX13, HN7306 (Ryzen AI Max, "Strix Halo")
-Distro : Debian 13 (trixie) 13.6
-Kernel : 7.0.13+deb13-amd64 #1 SMP PREEMPT_DYNAMIC Debian 7.0.13-1~bpo13+1
-ACP : 0000:c4:00.5 Audio Coprocessor [1022:15e2] rev 70,
-subsystem ASUSTeK [1043:1714], driver snd_pci_ps
-Codecs : 2x TAS2783 (SoundWire link 1, slaves 0x8 / 0xB) + rt721-sdca jack
-sdw:0:1:0102:0000:01:8, sdw:0:1:0102:0000:01:b, sdw:0:1:025d:0721:01
-Card : 1 [amdsoundwire]: amd-soundwire -
-ASUSTeKCOMPUTERINC.-ProArtPX13HN7306EAC-1.0-HN7306EAC
+Distro : Debian 13 (trixie)
+Kernel : 7.0.13+deb13-amd64 (Debian 7.0.13-1~bpo13+1); code identical in 
+7.1.3
+ACP : 0000:c4:00.5 [1022:15e2] rev 70, subsystem ASUSTeK [1043:1714],
+driver snd_pci_ps
+Amps : 2x TAS2783, SoundWire link 1, slaves 0x8 and 0xB
+(sdw:0:1:0102:0000:01:8, sdw:0:1:0102:0000:01:b)
 
-Note on the driver build: Debian ships sound/soc/codecs/tas2783-sdw.c 
-but does
-not set CONFIG_SND_SOC_TAS2783_SDW, so I built the *unmodified* in-tree 
-driver
-as an out-of-tree module (DKMS) from the matching 7.0.13 kernel source. The
-code is upstream and the defect is visible by inspection in current mainline
-too (checked against the 7.1.3 tree — the resume path is unchanged).
+Note on the build: Debian ships sound/soc/codecs/tas2783-sdw.c but does 
+not set
+CONFIG_SND_SOC_TAS2783_SDW, so this is the unmodified in-tree driver 
+built as an
+out-of-tree module (DKMS). The relevant code is unchanged in current 
+mainline
+(verified against 7.1.3).
 
-Analysis (root cause)
----------------------
-The amp's calibration/DSP firmware is downloaded once, via
-request_firmware_nowait() inside tas_io_init(), which is gated by 
-->hw_init and
-only runs on a SoundWire UNATTACHED->ATTACHED transition 
-(tas_update_status()),
-setting ->fw_dl_success on completion.
+Analysis
+--------
+In tas_sdw_hw_params() the driver does:
 
-During s2idle the SoC powers down and the TAS2783 DSP loses that 
-firmware. The
-system-resume callback tas2783_sdca_dev_resume() only performs 
-regcache_sync();
-it does not re-download the firmware, and the downloaded DSP 
-coefficients are
-not part of the regmap cache. ->hw_init stays true, so tas_io_init() (hence
-request_firmware_nowait()) is never called again, ->fw_dl_success stays 
-false,
-and the next hw_params() bails out with "error playback without fw download"
-(-EINVAL).
+snd_sdw_params_to_config(substream, params, &stream_config, &port_config);
+if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+port_config.num = 1;
+else
+port_config.num = 2;
+sdw_stream_add_slave(sdw_peripheral, &stream_config, &port_config, 1,
+sdw_stream);
 
-What I tried (none recover it; all consistent with the above)
-------------------------------------------------------------
-- ACP PCI reset (unbind/bind snd_pci_ps 0000:c4:00.5): the card is fully 
-torn
-down and recreated (/proc/asound/cards goes 1 -> 0 -> 1), yet firmware is
-still not downloaded.
-- Driver-level unbind/rebind of both amp SoundWire devices: fresh probe, no
-firmware download.
-- Full module reload (modprobe -r snd_soc_tas2783_sdw after ACP 
-teardown, then
-reload) + ACP rebind: still no firmware.
-- Only a cold reboot re-initializes the amp DSP and restores audio.
+snd_sdw_params_to_config() sets port_config.ch_mask to cover all stream 
+channels
+(0x3 for a 2-channel stream). This runs per-amp, so *both* mono amps are 
+added
+to the stream with ch_mask = 0x3 and neither is told which channel to 
+reproduce.
+There is no per-amp channel assignment anywhere in the driver (the only 
+other
+ch_mask use is the port-prep write of whatever mask was handed in). The 
+result
+on this board is mono out of a single amp.
 
-So neither a bus re-enumeration nor a fresh driver probe re-arms the 
-download in
-practice; the one-shot ->hw_init gate plus a resume path that only does
-regcache_sync() leaves the DSP permanently firmware-less until a power 
-cycle.
+Diagnosis on the hardware (per-amp mute + isolated-channel tests) confirmed:
+only one amp (tas2783-2, the right speaker) outputs, playing the left 
+channel;
+the other amp (left speaker) is silent regardless of content; no 
+"without fw"
+or port/prepare errors on either slave.
 
-Suggested fix
--------------
-On system resume (and on any re-enumeration where the DSP may have lost 
-state)
-the driver should re-run the firmware-download path rather than rely on
-regcache_sync() — e.g. clear ->hw_init / ->fw_dl_success and re-trigger
-tas_io_init() / request_firmware_nowait() from tas2783_sdca_dev_resume(), or
-gate the (re)download on DSP power state instead of a one-shot ->hw_init 
-flag.
+Fix
+---
+Assign a single SoundWire channel per amp, e.g. right after
+snd_sdw_params_to_config():
+
+if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
+params_channels(params) == 2) {
+switch (tas_dev->sdw_peripheral->id.unique_id) {
+case 0x8: port_config.ch_mask = 0x1; break; /* left */
+case 0xB: port_config.ch_mask = 0x2; break; /* right */
+}
+}
+
+With this the two speakers are correctly driven:
+speaker-test -Dpipewire -c2 -s1 -> left speaker
+speaker-test -Dpipewire -c2 -s2 -> right speaker
+
+The unique_id -> L/R mapping is board-specific, so a proper fix should 
+derive
+the per-amp channel assignment from firmware/ACPI (or a machine quirk table)
+rather than hard-coded SoundWire addresses. Filing this so the driver 
+grows a
+real mechanism for multi-amp channel mapping.
 
 Reproduce
 ---------
-1. Cold boot; confirm internal speakers play.
-2. systemctl suspend (s2idle); wake.
-3. Play audio -> "error playback without fw download"; sink is dummy.
-4. ACP reset / driver rebind / module reload do not recover; reboot does.
+1. Boot; internal speakers play but only one speaker is audible.
+2. speaker-test -Dpipewire -c2 -s1 -> wrong/only-one speaker
+speaker-test -Dpipewire -c2 -s2 -> silent
+3. With the per-amp ch_mask patch above, both speakers work.
 
 Happy to test patches on this hardware.
 
