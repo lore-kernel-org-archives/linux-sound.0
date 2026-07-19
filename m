@@ -1,136 +1,138 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a2-smtp.messagingengine.com (flow-a2-smtp.messagingengine.com [103.168.172.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCF61DFFD
-	for <linux-sound@vger.kernel.org>; Sun, 19 Jul 2026 02:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBB61ADFE4;
+	Sun, 19 Jul 2026 05:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784427770; cv=none; b=gzzCEd74X+aKD66oVlPVco4nnFLB9E7DY16kenNA+wCpQIZq3bRZVmOXbdga+RTPratqZPvF0IkQQ4Mw4SfNSsXcmrGvUVPH3r1cyH2iJW2MNvCa0ms9r5jQlAG0m1Y+SthmYuy9aaoeKmQa/v9RtbMlw6fksn+R5NPfunScuNk=
+	t=1784438796; cv=none; b=IUFgWgHIeSDzn85amJT27RgBRqN33DgB9Jfx4xAyfAXoce1HED1IMtjr01f9fTu1LIL4PAriKth6JvrM9vY98DulJSEQKhypwHvQ8kK9RzgIAzMNGEcnue/GJ5lCl7aMjgljf6A+Nl6q7qhjI/MsFI6WltVxba/2KbogC3jelwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784427770; c=relaxed/simple;
-	bh=205PGOhWA3GiaPzxyZjcK2paETYLYmho/eXrULg/4NA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZWOwh28DlX3KBvkh6DiswQ4xhna02MLimzzDCFQa2b6nLIXG+m9AezTKPGPEbnWAhL4ETCgKqwJthc09RGMwM0GBmNNF6NW7dN4dswFugbheCxibw/vEHunwRrEJzcNnMjAu8MiWzi91jGTwdzIvbSQjqW1+nLc6dl2aMI1V8BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RgMd3UGw; arc=none smtp.client-ip=74.125.224.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784438796; c=relaxed/simple;
+	bh=Hi0xnivGNtOREXt/UYVZ9Q6LdSO1ZOzCw7BzXniVlWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qBbCqLmbVg5+IwXvfpjhZNZF3CQV9J7zq8ib4tKWDp7/oi0MeiZ4WbmkeMSV0XzGdZgWoFGILgjOIr46i+aLNytm+ap47wyLU+fsaRLgC0qBxQoI3y48cH3GlDQETYSMIsRr03RJaEp0n9LQQjgdyHDLArzjQxn65xI62qyvnXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=wF3Z0gGe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AKArMgXA; arc=none smtp.client-ip=103.168.172.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RgMd3UGw"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-66825847b2cso2820558d50.3
-        for <linux-sound@vger.kernel.org>; Sat, 18 Jul 2026 19:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784427767; x=1785032567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eflu4Al3WySioMoQONHlRvylppCSuqZirkAbybWJ4Ns=;
-        b=RgMd3UGwl+d7XSbZz8/xVUUayKtnDSdl9UuDNalV+KfynfZZy6MUWam6PSmgFgngUY
-         F4sQ+kg3ec2FhBkWSmsbrCQmBytpWpVW8mk/s95DlC85PmpGMdOLQDfRFLptpkda6vjW
-         N7zoVFy7adHFBnXwPLxv/wFP2j/1MCKJLarWUXTQWOeI+UX2Gbt0V9kCYQ++C/KJDt74
-         iQtPLmQQJukH+8oANp9stXKvue+9DNmQwFj6BGWXr+G3E0W13FLutz30dRvT+mD+rnsB
-         Uvfdar4b5T4o82ZgTxf1b9PtfZNCF/LBiNvNmn6tGcl6cU8qjYyQdPSAjlY+nAqqbN+7
-         0ftA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784427767; x=1785032567;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eflu4Al3WySioMoQONHlRvylppCSuqZirkAbybWJ4Ns=;
-        b=c8YjnKfPvjbA4I+0WBYud3E4gYTUdBR1f8rmdIoQok7Gwyx6W9AsVIMYKr5iUtLOfb
-         +KZ30O1o6m3jpsWDGRC5wqkeXc7Zooto7KJV3lZebaHF5pwngLzLexGbg3DRSLGSZGY1
-         i/ffFSX0Av1fU0Pfb6jSQ+6FGfI37pJ6OaQH0VZ1bVU3aK/lk8BYx5Z/I9jUyRr4ZEoX
-         BeBNIfp4DPHwUlEA978qX+DIOCG2/cypK818z3uO3PaNceRA7q0Mjjz4PWwlD8eTfBTk
-         ZArYpLvd7AfWJzxR1lAmhXu63UF6oqSCiOCTqJJ/Fhj8HSS1A4sqmi7O0lC/VAjETt2A
-         xOAg==
-X-Gm-Message-State: AOJu0YwsLWPmF9HnCmNGSWs37lCR4vElNoHcmvKgbeUxhFyB3SvEken+
-	MS8l7VbaAyiGQ8ZxMROSZakOV99o9m4h+assC14I3OqIXHU1RqfaRIo0t1Y9fHFH
-X-Gm-Gg: AfdE7cmdbb5YRVYXIKjnlIuOv1MKPtTcCLwZ+hc4TL4vt4j71HQxY8lAgdSDCMaL7Re
-	Rya3SIrq/zZEk/6q19gUfy+5YcNAp72MW4TxVpGm3V0XAeWLunHmsm7ZaCvZd1PL1dKele4UFxt
-	YxaAcCM0GrIsIJIoyZROJ1ohKJu1nJ0khruqhvmRpKcWZmvuwvkLFiOGkgLoG1KXSgHgD2A5Z26
-	tuiMpMuazmmmUu7V01yao+ryEarbe3/XHBe8cux6BU5wq5C145bz75UBrygd3l++DXqzJ8mLXou
-	ZPCt5B6c8plXY/zt126gw3cNzNz2/5cYQgOYjHrr+6ZkRxwpWZrY45ig9BEqlKo+ugCg8/o3h0Z
-	wvZbscVSeB8ng8aO7yqupI0g+7MCHAT618m34I14xOJzjUNukxXStaeGO0OdwvUDl/53beI8Fpp
-	a5Q+m7sN4q95FA1fZlT7ywqfhy1VCg+ZlB9QiOl3XLGEXDnD8xDE79TwDAbY8JaayAEhJprA==
-X-Received: by 2002:a05:690c:4d84:b0:80c:2874:67b8 with SMTP id 00721157ae682-81ef254a7d6mr29568917b3.32.1784427767541;
-        Sat, 18 Jul 2026 19:22:47 -0700 (PDT)
-Received: from nixos-office.attlocal.net ([2600:1700:566e:ba00:173e:d781:2a07:621c])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81ef4033935sm37247817b3.11.2026.07.18.19.22.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 19:22:45 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-From: Julian Braha <julianbraha@gmail.com>
-To: srini@kernel.org,
-	andersson@kernel.org,
-	konradybcio@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	arnd@arndb.de,
-	Julian Braha <julianbraha@gmail.com>
-Subject: [PATCH] soc: qcom: fix unmet dependency for QCOM_PDR_MSG
-Date: Sun, 19 Jul 2026 03:22:41 +0100
-Message-ID: <20260719022242.139472-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="wF3Z0gGe";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AKArMgXA"
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailflow.phl.internal (Postfix) with ESMTP id CE29B1380039;
+	Sun, 19 Jul 2026 01:26:32 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Sun, 19 Jul 2026 01:26:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1784438792; x=1784445992; bh=eecg0lJ7GM
+	VPKq2dqzJPtaANo6Zq9o9SX4g1WVGOqPE=; b=wF3Z0gGeJCJaKfT2Xzm96MtuXe
+	6i9JuofDLJjag12vbKOQXxWUwCIDLG5qLYIs3jssGixw1ydxbSLbcUhEk3RYJ32q
+	p6jfDXze08QvqdxVdwl8rKjDASgJSXvLRwZ62jiWu9f4H2yYQmbl4WiOV2SWP1Vx
+	Ik8k2RBZOD3tdyhzUwg54aK8Sz9RMx2s127/iyv+7czqc/6+tcichKZSP1OZcPhP
+	0JZTTAWjf2TJn4ZrSgA0w0oQ6PCyE2omuPGsJPi0Z9Qmbb7Skdxhf/UNxqgyiXfw
+	jOJV6HVK+yhxgvIB2f3TKVK5WDLsMybEliLYF/TVypMNiOA5ZcrVFyk3eaHg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1784438792; x=1784445992; bh=eecg0lJ7GMVPKq2dqzJPtaANo6Zq9o9SX4g
+	1WVGOqPE=; b=AKArMgXA3oyEOmb2gYEzdRDbrk3jjIXGftrclIsUb78ZrPV9v5Y
+	2wcdLr1a/HOaopYJT2+xCMrXY7TMhrWHKmmp9/O1JVFCGtf1rdGVnOcpBVr8GQ28
+	hZ2Alpm2IEd7aSqo9PYD8mB3rh+G06RNMuoMG37xZqndPFspDxPTk0pnLQjHwtWt
+	klhTddiY9LhSZQbwBKTNyJOoCMv5EZcSfRjnfZXML/fGUGUEl0ZKu3UEGvyRoCNY
+	zHzI1uHYDh5yM7Nuh7ZCUZZCXs3+Qpynt4yP0+ToCTobJs94R1DSgA+HPqzaQhq9
+	jfE9BXC3zH145AcWFjp4PbGuSoepK6See2w==
+X-ME-Sender: <xms:CGBcam68ZHdmeOZ6tIQlFEKIdnwi1LM-SnuyPCsXOD78ThhloUfBTg>
+    <xme:CGBcanZmjiiooxYRu3pPUxpTWWn2AC0VxmPy-z3w490VEBZa84t5T_4cbahE8lezm
+    2I_TG77RStcZ3L79G_YeSCAxCvZpMD7_0HT7JDWxAt5SSfi-jE>
+X-ME-Received: <xmr:CGBcari6G4fr-bl4jC8-Td5rz8WjiZeWAmxbr3eJ--9PxS8mf55FfOnhyl6TFiEDiGhsjY4lioPkyNPLOTd233x_mA>
+X-ME-Proxy-Cause: dmFkZTFQyx31AWctr4aPvIzgtsidowCfviJ8Nq9RswvKEgWVIwvPHJ7EsYxWWMbjEFho7t
+    eR6zYIF+VcSNrTn/hg7VWB4uXEoAtwAzRf6c4Ux22xnFlnsswmCcO4dlsWLwit5cClU4lN
+    ECYl22j0epkDLpuABXzsKZmVYFeVuGQNlUPZPQmox1CQczKo6hSKFRmzaGpYxfNbs4BuAz
+    sv02VwwRup0SOCrcdLWmNwYGQIYSLiyJK5d7ilLs1rnPYKAnUdKHQ94+NCoqajlgyQ4XaD
+    aSvdTZeqskrLNrMmTmB9V80ytqPmuABDEHqWwfBGM3fYPxDplDwLNr3zg0bhul+bQOQjas
+    qV1G65lemm+JDmE4s94CT9c6EqdzXXwbftihLrVEI48kR5H1ahDB5w1sda33uxSKTkgNb/
+    8hb9jkSCAcAvLcLjQ+JEimezd3xBXPeZ/DHhmaGni/WJwJxHWI7cek23NEfyYp3RfrM872
+    Rmu+1pGFAFqcRsei+p+coRVDg4BPsUIOYEjsy7H/7kooso6XSi8eI6RwI9mrMc4VypYbO2
+    0R1JKagCw784hviQbYjNQ1kWTn/Njvg9X4JKynXiZsg8ypnlAjElr8koDDlcjoL+FrlePi
+    GObYuv5KGYMs65AWOwyjfBrvY6WPigO+wScHTOGsS6llmAhvm0vWbft3EWDA
+X-ME-Proxy: <xmx:CGBcahPa4HHXOK2-dWQGSAHgyS0kySTOlNx-M6lUq9lILtWlkbt97w>
+    <xmx:CGBcalPN2wFfvbIMC7-ekhGkcvvqpK73TSwuTd8mEJniJ8LG7doEwA>
+    <xmx:CGBcapJRtsQE8OHwhupEvfihfRzgTlb5TGQeXj_-3oqgVpadbrSpJw>
+    <xmx:CGBcakvRPEJGOgtk4HVpP1ynJCb7FxkI5EvuzJsllO7IgPXVJy02WA>
+    <xmx:CGBcapoJ6eTL5egjSNblq9BuInL0vu4lryGfgmHfPvOx7uAJrI_RmC1w>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 19 Jul 2026 01:26:31 -0400 (EDT)
+Date: Sun, 19 Jul 2026 07:26:24 +0200
+From: Greg KH <greg@kroah.com>
+To: Yahya Toubali <yahya@yahyatoubali.me>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:DOCUMENTATION PROCESS" <workflows@vger.kernel.org>,
+	"open list:SOUND" <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH v3] Documentation: add SPDX license identifiers to RST
+ files
+Message-ID: <2026071910-repressed-elsewhere-e2f8@gregkh>
+References: <20260718165618.1923627-1-yahya@yahyatoubali.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260718165618.1923627-1-yahya@yahyatoubali.me>
 
-QCOM_PDR_MSG is defined in an 'if QCOM_SOC..endif', so its selectors
-QCOM_PDR_HELPERS and SLIM_QCOM_NGD_CTRL also need to ensure QCOM_SOC is
-enabled. Otherwise, QCOM_PDR_MSG has an unmet dependency, such as:
+On Sat, Jul 18, 2026 at 05:56:16PM +0100, Yahya Toubali wrote:
+> Add SPDX-License-Identifier: GPL-2.0 to RST documentation files
+> that were missing it. This aligns with kernel documentation
+> conventions.
+> 
+> Signed-off-by: Yahya Toubali <yahya@yahyatoubali.me>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst      | 1 +
+>  Documentation/core-api/housekeeping.rst      | 2 ++
+>  Documentation/core-api/memory-allocation.rst | 1 +
+>  Documentation/doc-guide/sphinx.rst           | 1 +
+>  Documentation/process/5.Posting.rst          | 1 +
+>  Documentation/process/howto.rst              | 1 +
+>  Documentation/sound/designs/index.rst        | 2 ++
+>  7 files changed, 9 insertions(+)
 
-WARNING: unmet direct dependencies detected for QCOM_PDR_MSG
-  Depends on [n]: QCOM_SOC [=n]
-  Selected by [y]:
-  - QCOM_PDR_HELPERS [=y] && ARCH_QCOM [=y] && NET [=y]
+Hi,
 
-This unmet dependency was found by kconfirm, a static analysis tool for
-Kconfig.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Fixes: f2866e6a27f7 ("soc: qcom: Hide all drivers behind selectable menu")
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
----
- drivers/slimbus/Kconfig  | 2 +-
- drivers/soc/qcom/Kconfig | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-diff --git a/drivers/slimbus/Kconfig b/drivers/slimbus/Kconfig
-index 60b0dcbc0ebb..5dded61191e0 100644
---- a/drivers/slimbus/Kconfig
-+++ b/drivers/slimbus/Kconfig
-@@ -17,7 +17,7 @@ config SLIM_QCOM_NGD_CTRL
- 	tristate "Qualcomm SLIMbus Satellite Non-Generic Device Component"
- 	depends on HAS_IOMEM && DMA_ENGINE && NET
- 	depends on QCOM_RPROC_COMMON || (COMPILE_TEST && !QCOM_RPROC_COMMON)
--	depends on ARCH_QCOM || COMPILE_TEST
-+	depends on QCOM_SOC && (ARCH_QCOM || COMPILE_TEST)
- 	select QCOM_QMI_HELPERS
- 	select QCOM_PDR_HELPERS
- 	help
-diff --git a/drivers/soc/qcom/Kconfig b/drivers/soc/qcom/Kconfig
-index fd4d4ecd2df0..ef844947593c 100644
---- a/drivers/soc/qcom/Kconfig
-+++ b/drivers/soc/qcom/Kconfig
-@@ -292,7 +292,7 @@ config QCOM_PBS
- 	  This module provides the APIs to the client drivers that wants to send the
- 	  PBS trigger event to the PBS RAM.
- 
--endif
-+endif # QCOM_SOC
- 
- # Options selected by other drivers from different subsystems must be outside
- # of the menuconfig if-block:
-@@ -314,6 +314,7 @@ config QCOM_PDR_HELPERS
- 	select QCOM_QMI_HELPERS
- 	select QCOM_PDR_MSG
- 	depends on NET
-+	depends on QCOM_SOC
- 
- config QCOM_QMI_HELPERS
- 	tristate
--- 
-2.54.0
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
