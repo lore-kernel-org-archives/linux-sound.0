@@ -1,80 +1,80 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4D07263B
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 06:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382993AEF4C
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 06:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784528662; cv=none; b=GYFBfhGbzbUk5GIhbljmsF1XOJXqLn95VoEo+44GABmJEhl9gu0iQhVxC2gBsQKsZKaF13YVCEOXgCtac+bPPRGlGtzdnyNsPraYTS8AFxwsT2LdNIlec7DSTtPDwSaSSxTlG1mSKg6I+zZfKQT0/CVfpIpUnKgEjV3qcCHyIJI=
+	t=1784528663; cv=none; b=ECcwrIaST0C1bLqrxbBOOSpzA3ysSF9j9q8gUggIWXmDBzyQzaNjvqUo1mIgtU9mzdS1PMUa/7va8NAr74dXouWaH60rNMnn1+bvjKqkIa88Za9UYL2hPDHJAhxSfhYfo6A9E1qQ4iwsUHlg5S5NJPviWCXuPJsztury4JfxQYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784528662; c=relaxed/simple;
-	bh=vAKMmJnHPuZMbQlF7pMCnwvdxfkdQbAQi3GO0Glrn7k=;
+	s=arc-20240116; t=1784528663; c=relaxed/simple;
+	bh=IEyrBGamOBS7GfuiTxUUXKGxhoBnR27PUwSvcNTgK1s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d/S/h/2CsHq8W/uIPMEX4tGddMu2OpNa0oD+DMeqndtUgF8srmW9INbMW88RNcE/j6lzj1THt+1VsrMNnN5pmJ4jOq8YEsvZtZWWLv+5d6dGg5a3fgi+6Jk9yswxOEdQAVR+kfqxCUCGCzQfsK/sIZgkfSapUBIQkKyWj0AAY8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=oP2v08d2; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version:Content-Type; b=VN4MdtttPzgUySjw9NFGMEDXJI/BBifa0FSfCe/gXKKrmF0+mlvPjKttDaN0txBKseRLdmbBL68zYF0I92l0CmxX9VLQBsU9Ep9B0nezGLNxzg2s6rMdI7yiLumxZ7NV4mnuDb3U/HTK9+D/+c2IRPvTfuzFxnoxMuzeT5xBY/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=HmaK5PCE; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="oP2v08d2"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4956242332dso1236125e9.2
-        for <linux-sound@vger.kernel.org>; Sun, 19 Jul 2026 23:24:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="HmaK5PCE"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493b966dd74so40208205e9.3
+        for <linux-sound@vger.kernel.org>; Sun, 19 Jul 2026 23:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784528650; x=1785133450; darn=vger.kernel.org;
+        d=baylibre.com; s=google; t=1784528655; x=1785133455; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=LjslSMaLxzrkUem1WFJqu5PdOsbgvYRCxR6KR5IC8og=;
-        b=oP2v08d2MJJfQSjZM74oTFkzIs6IWdZ7b6J9tGyHPeNEbX4D6Ph5vmiZ7co7TxQaSj
-         gValrJce5+ldn//iR+vX7AK952DVXDHIl88JDISW1ZF07B6uEAV7GDirVuUrnGmKizP+
-         Gkdyry1T9DteNodKe0D0eX2gizsq9FrweR8ty1EuTFc8knaVG57hrJRf8r8lOjLZOxIM
-         SF84mglsxazJMxZfXgJqINjoQsQfyb6ddV1TK/ySDGfJsr2pe7rJVmMT3Uc5OQjw7hBX
-         8x6e4hPz9BkZdzJ2cwlcwNNj/LuUSrX+s6Zx/fFQx5hkVkf512K7y/Khhq2rAXpTipun
-         Lcbw==
+        bh=pwWjJ2ZQ4Dn/YuAemilqSWMfsoRjNjVa8hSlo5maMlY=;
+        b=HmaK5PCEfb3MWyuFjvdTCm8mWmA60LMXFwLtdX+/K6hoAfIYF11tr3uexr5zeaI9Xz
+         Uv2av1JFcNN5Opv+1zxV0whvqP6kMh7Tt6nOjF/B4BhCTpApgTj2hZOYeBKYt9WrYS3F
+         WJ1Q4jidd1IY94YUHzx1CAAodQrcbsiw9eSP9gHhLaBn9jcp55rBOG7VHyqFwB2rXAjm
+         wFttOYWNEky6tABJM0aB4n88XWGQCUi8rQ3KIywMbWOKiuTZ3H4hjlE4Z3563vvEaW2F
+         goIlkeLRyj52nkn9olTOhx9xlK99tTCJkLy6+5ixWuYLd3XHrTizuvnRU2WgqNseu7n7
+         SICA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784528650; x=1785133450;
+        d=1e100.net; s=20251104; t=1784528655; x=1785133455;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LjslSMaLxzrkUem1WFJqu5PdOsbgvYRCxR6KR5IC8og=;
-        b=fNvTLko0lb0PP8FiaXkYf6p8d1yVjtdIzwm/hLW3iUTiR5GeR2qwrNsMcQ+K9mFOSs
-         CeWpuVE7Cu7tJfZi4ZSVJR8oHmTY0PDu5DvYegduyyES9xpxNk5H/G82ScXtKnsbgVuF
-         mHMYR9drqq1ZsyPwAaxxTKso12Byg3grfhc5bmPosnnCb0aWOpuviej7Opob7c3PA51h
-         5bFuiqvJgJvhU17pphkIBFLzRGck/UnDmGdFJw7cYxV/WW+dVgdX19wnhVxPRfcnyFqU
-         6Rj44uZE2lm0HTUERuvbbb9YU25QsRC6pjM1U2G4jh67zCReVEZXBVGOHnX3QmJ+Bum5
-         hIPQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrjKGiAPSXO18kcwuXWRQtBLcU9p/62992xb7e3lrKdnhblZ6WXWrt/p4Mr6c99kMy9hNPR5FvEdBKyHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6qJQOuufcW7yyHLhiyrbleAVWBkyvCxhUyCxS/xPnSl8Aq2tX
-	dLtqaggSUx2ELMFcQ4/tQi99and3uoYGzCs/StbnDE18AfO8aggcnvjKSJG760yx58o=
-X-Gm-Gg: AfdE7clLm12HhCBmsgEqzanaTOKv1CfWlARxFqf6EX3ikcMuWMqCq1gUOCImRviv86D
-	UVL99lWDbFSQQeUPu20uqrDWeLzJTTd8fwdU9n+KlwZ0s7fwyFhXLq6laEWvHt0Dw446Nfx71k5
-	oZCj4Yn+KiCkWba6DYghDrejQ65VREcv61nu/Udp6CwbvR14kNNy0qSMshNDegCdeu2rY2stfiM
-	Ohluz95Sj8NYG/KCQrbMTLn7VNxmMPAN41gJr52QtBasvSuz0Wx2GaYxb1XQLJ4jauxULGXsx9w
-	ojvHLmFM8gOr5QnquykDJW0HaUvDtLPDSAdXaUpF09vgGzSQPfoYBY1HvFU60lbfob66h14YsL4
-	9htdvE0Hco7EsbxEY2SLb+y3zZGN4539dnMn7R/QfDLpjuv5ExBrGvIqQkSBdCJJkSmkMi89GVH
-	lLGX6PGBM=
-X-Received: by 2002:a05:600c:3b9e:b0:493:c1bc:79bd with SMTP id 5b1f17b1804b1-4954a41150fmr139665125e9.20.1784528650076;
-        Sun, 19 Jul 2026 23:24:10 -0700 (PDT)
+        bh=pwWjJ2ZQ4Dn/YuAemilqSWMfsoRjNjVa8hSlo5maMlY=;
+        b=SnU0KBCa2jt45W3TZu2Sfxnt1eRLbnvJZv1DsBu6rmYVQFMuAYtCgzQoLNUZQLad4c
+         GAA4KQXQMBixCCppCm6PCFF3La7yAcL8hgnBDgWH6QSZ3jKkEhGk1qP5IBcOpl+C+rAw
+         wFmWk2s8hSmyP0L18CduU5VqpGrGAsF+AOj7owuiNWx5JpVkDLRwiaq6nZPHuhryMZCg
+         3vjJKlUpK99ASjlPtRpxLhnff8QgHQsMGiHy7qZgRtlL8kw4pQb70PWtQw/RFVqdkq5M
+         DCZOJmjBhc3Qz/tLcVot3/PeV8e8LQKOAcsuelZABRBFVXRk4mXDUxl2sUB3d8ZeGBq5
+         ZlNg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4gTwiGfEWdtGL/vkwHWb5IvV8v2uPqusasHLUuQfsY+gfms+PSCyBBMy76BWq3DuZVnIPcU6TE4uKfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyeb6MQQiiFhzyHAZ3U1nJzPmx50W8HIA74c7VpIx7ft/cEMp4B
+	p9iT4WrBONY/NyVQvWGLbZjELR8PO+bdqobra/MgAqCyxQOJpqY7KmfOtk2uNQkDO7U=
+X-Gm-Gg: AfdE7cmZgKNnOp+6zBWUtT2sRFqKYtkEW6wUz7wOpQ/FeGEzxUkDdirhVLgVtqogawh
+	ZJWks/l+eo5IKfp2pIEuEh6WABtSZL/ZYgMPf9qRejpXsZSNl/DmytpBqfKGJUa2fzGeOAGeNlQ
+	mdI/FENuuWs04jw/SNF8gEaa56G5dXAqk8jD3bAN+lDjQCOp/SyStlnL3aAZescYtcfAX2Ml2DH
+	gyMlAyatC4mRndfOBcdAKMeQYA83lkXz4OOrjNzhxFoN/daDg0y6a31a8tyQJuCBF0tLqV6/hBT
+	Wv6HDIGosuhHuZpCIUvztiUtGiMUXZZIJEZjTICRZErxu+llIIPRITxtCP2mwY84vSvB+MrAva+
+	pXHTFq5nrAtli3sjLymBY6FXq3UJXuimeKFarO5Tgw9VS8AUwswZqz1B27fXLR1n2Un75iC0are
+	AJUx82aH0=
+X-Received: by 2002:a05:600c:3586:b0:495:3f68:699b with SMTP id 5b1f17b1804b1-4954a3f3173mr133709685e9.9.1784528654948;
+        Sun, 19 Jul 2026 23:24:14 -0700 (PDT)
 Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47f63ed1911sm28677377f8f.22.2026.07.19.23.24.09
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-495499a5847sm185174785e9.2.2026.07.19.23.24.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 23:24:09 -0700 (PDT)
+        Sun, 19 Jul 2026 23:24:14 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH v2 1/6] ASoC: codecs: mt6357: Drop unused assignment of platform_device_id driver data
-Date: Mon, 20 Jul 2026 08:23:45 +0200
-Message-ID:  <724af6f60ed9420d5513724d126d70f22e319c91.1784528081.git.u.kleine-koenig@baylibre.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/6] ASoC: amd: acp: Unify code style for platform_device_id array
+Date: Mon, 20 Jul 2026 08:23:48 +0200
+Message-ID:  <08137cf5b3cdd0cc2e00da32256664f3cb9b1e4e.1784528081.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
 In-Reply-To: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
 References: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
@@ -85,37 +85,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=996; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=vAKMmJnHPuZMbQlF7pMCnwvdxfkdQbAQi3GO0Glrn7k=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqXb7zvzrc7TRHECpePNkMrYEielNWjuww1fVDr ZBkweZo62OJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCal2+8wAKCRCPgPtYfRL+ TiVRB/9pxg+lmyYWuCSLbYSK9sf7vzngD6LucEFTmTPJICBCB4vNZ3/XUHrJlM1DESz4TIzE2Fh 1fwPQsqTHoPspzc+0uTxTmt68ghGm5Xr1drI9zNF9bbji6fWZhpXSlmMSbvfctD7OBsqTDg/wF0 6PyxjnmLlOlSo42BTI1Qq1qTrxRpLWs7GU+C+KW098GhMah3AUzkFe6oKPDwgkYVhIUCCHvq4bl lI2gUj9DrJCts6IznbFJQi34G3AgS59Jkd+AsDET5IuL8q23tuscpT1HNsDs8SJgBrkQxLfIczg Dn9ZzmUSYacJgaE0Dz12vY3llnccIhHPDDHlun34OYeksTb8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1902; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=IEyrBGamOBS7GfuiTxUUXKGxhoBnR27PUwSvcNTgK1s=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqXb77fpCwiUmUojHzPSYC2J03D8fA1q0QKo/SU HWYUlW7i3+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCal2++wAKCRCPgPtYfRL+ ToLbCACb7ylvwE+PbS1ljscYDrjo3gZmaILfrxzzn7RiA657SZKqGCTIx4C4xGDIEkrx+yeZfjs G5OSgcenjLLxDurdThVcuQvJ9pajFx7wH5U7NaKCyu3GEHqwtyDEKzsApJmTLfTQ/F9a3PTPbFm xuOAAuZn1Wxe0h1JqafavYIMPcUgpy1XtXOZa4kHXNuoL0kNgqrfMwrAnFYTZoCTE5nn74YuDJ4 Outa1N0EMIHd6vXvoow3baPa1gMx5NnBIY2qPd4gUzPrWWL1keskfxTKonngqAM9JQAxSSax1f/ /8K8lJCm8Iti/rLXr6ia45kSdjcIZW8gEUrpNLt79LvCYWN4
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-The driver explicitly sets the .driver_data member of struct
-platform_device_id to zero without relying on that value. Drop this
-unused assignment.
+ - Add a trailing comma for initializers unless the closing brace is on
+   the same line and for the list terminator;
+ - Use a single space in the list terminator;
 
-While touching this array unify spacing, use a named initializer for
-.name and drop a trailing comma after the list terminator.
-
+Acked-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 ---
- sound/soc/codecs/mt6357.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/amd/acp/acp-sof-mach.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/codecs/mt6357.c b/sound/soc/codecs/mt6357.c
-index 674cf7df9df4..3b07087e1cab 100644
---- a/sound/soc/codecs/mt6357.c
-+++ b/sound/soc/codecs/mt6357.c
-@@ -1834,8 +1834,8 @@ static int mt6357_platform_driver_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id mt6357_platform_ids[] = {
--	{"mt6357-sound", 0},
--	{ /* sentinel */ },
-+	{ .name = "mt6357-sound" },
-+	{ /* sentinel */ }
+diff --git a/sound/soc/amd/acp/acp-sof-mach.c b/sound/soc/amd/acp/acp-sof-mach.c
+index 36ecef7013b9..8874151e159a 100644
+--- a/sound/soc/amd/acp/acp-sof-mach.c
++++ b/sound/soc/amd/acp/acp-sof-mach.c
+@@ -128,31 +128,31 @@ static int acp_sof_probe(struct platform_device *pdev)
+ static const struct platform_device_id board_ids[] = {
+ 	{
+ 		.name = "rt5682-rt1019",
+-		.driver_data = (kernel_ulong_t)&sof_rt5682_rt1019_data
++		.driver_data = (kernel_ulong_t)&sof_rt5682_rt1019_data,
+ 	},
+ 	{
+ 		.name = "rt5682-max",
+-		.driver_data = (kernel_ulong_t)&sof_rt5682_max_data
++		.driver_data = (kernel_ulong_t)&sof_rt5682_max_data,
+ 	},
+ 	{
+ 		.name = "rt5682s-max",
+-		.driver_data = (kernel_ulong_t)&sof_rt5682s_max_data
++		.driver_data = (kernel_ulong_t)&sof_rt5682s_max_data,
+ 	},
+ 	{
+ 		.name = "rt5682s-rt1019",
+-		.driver_data = (kernel_ulong_t)&sof_rt5682s_rt1019_data
++		.driver_data = (kernel_ulong_t)&sof_rt5682s_rt1019_data,
+ 	},
+ 	{
+ 		.name = "nau8825-max",
+-		.driver_data = (kernel_ulong_t)&sof_nau8825_data
++		.driver_data = (kernel_ulong_t)&sof_nau8825_data,
+ 	},
+ 	{
+ 		.name = "rt5682s-hs-rt1019",
+-		.driver_data = (kernel_ulong_t)&sof_rt5682s_hs_rt1019_data
++		.driver_data = (kernel_ulong_t)&sof_rt5682s_hs_rt1019_data,
+ 	},
+ 	{
+ 		.name = "nau8821-max",
+-		.driver_data = (kernel_ulong_t)&sof_nau8821_max98388_data
++		.driver_data = (kernel_ulong_t)&sof_nau8821_max98388_data,
+ 	},
+ 	{ }
  };
- MODULE_DEVICE_TABLE(platform, mt6357_platform_ids);
- 
 -- 
 2.55.0.11.g153666a7d9bb
 
