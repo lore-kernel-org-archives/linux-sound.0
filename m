@@ -1,85 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E1A426ED5
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 13:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FD9370D49
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 13:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784554934; cv=none; b=DGG3/A894Dra2aEnRvZX1PRPJuSizxykPaii5ZMwdHHUM0kFsxpRE/E3JkhTKt7CZzWwxbZ+3bcOH/DYSgwESPiiJs0RYjxoXVfrczV8doA+GwL3bQF+ckKN2lpZcjxziuUIWA0w6HjrY+j9DdqhtXOTgNAcizT5R5OJG42JmbM=
+	t=1784555645; cv=none; b=cCqFYC10Mz8kO7BUG50TeJStK6uYVuTA4gHF27u9bGFzTqtmklC3ueLd1Tlmr3zRFZu4WZObfgy6t7jfKn8acTyHd87k/NQPnAqwpLAD21xgkCxADx4qvazOsV5QMeWf3O2YwS8go1G6y4ug7sVt6I2uxyZaSe7SUXatXqtLOwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784554934; c=relaxed/simple;
-	bh=AufKo+x9e+YTdFLLkWDq/9s35hno6ztNd/WNA1wwc3M=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sea+nyXBfF4PY8Bl6P0kFU/LUP/fUtWfsYlWqWsDChw7PhvzEDYUgKUSzEpb+hvzZxYeHGNqQOTgcFil9yiO1U0xSeMSK4MuDahnKRwe0LgnxQ6HbXaL8t9zxhBCr/R6LhJIwph4PDw4g22pkE/KDt7oV1MrDgIBLai8mXP/iDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=krAYSCer; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784555645; c=relaxed/simple;
+	bh=GDOAuLGlWfU/3pZrRDF8pgbr9JlZhJZCTO9DoT1MHsE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OTOHKXHli2/EMBjQeta/If9H+T7cbBmlqgv0bcT1hzjoKV4pEtFPqH+lrSVTY6V9TG55mkS3E8J4sd7V8wqPiVuTPgQ1ckDjuEXk8nELFKfSDxpXO8RhdiV9MQm+4dOh1Cg5SMAbF/Qnzzp+58mrD2nqic2OmaWm1Awoq9lhIAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cbtDw9tY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=obr37YFr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cbtDw9tY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=obr37YFr; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="krAYSCer"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DFCA1F00ADF
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 13:42:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784554930;
-	bh=AufKo+x9e+YTdFLLkWDq/9s35hno6ztNd/WNA1wwc3M=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=krAYSCerPbAECToptJptyTSvTQt7Kqimf8k+M4PHZeg6rRF79l5bokUGb5Bm5N0A8
-	 G+9sSA6KjlEz4F7A1BXsYQJ/RXnqf1kUsNeAqhCZnbfS7cCJHACJdeoBBip6HMlvED
-	 uHGd3QwRKS/e61Ck1rt4R3Dag+/GXhyeBFARYWJ2yEXuANbNUSB5gkjF+KWLvkfFNB
-	 cGRJ403bqJjvtVE+j7FG3oCkLdqEcATk47NMOQZc/myax3lbpFx7BEvMduC8b8UK21
-	 rHNp7EiK/d0IjT5BABx0nbBaJ4Afs8PjeCpHanZWmtx0oXz7QyrSS/pVpLwfzYPDl+
-	 UtaSQw5TblhNw==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39c94fccf3eso62906261fa.0
-        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 06:42:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RoQq2D69jKQ2OetSSDBwHMTSPbJNBB7UM6FerXlc1dFtWcDFEsYWYuECht4j2UNEl201lSUb88Gg3Ld2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ86G49eA1mkhTMNjPTNMayd920kKBMH6up4w+gucw1bVTJa3h
-	jBYtibtqSWjgaycsO+yQzookaN8C2wIaO7LUdciUZS25w4VZuinXf8z2jyA/AHN76UwSBXuN7I+
-	OWeDD5mxRiZJTBKp3qaNQGtXn7Y0Y+hW/DDT44qS7Pg==
-X-Received: by 2002:a05:6512:696:b0:5b2:9f9c:4634 with SMTP id
- 2adb3069b0e04-5b29f9c46c3mr777376e87.45.1784554928648; Mon, 20 Jul 2026
- 06:42:08 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 20 Jul 2026 06:42:07 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 20 Jul 2026 06:42:07 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260720130511.493295-1-prasad.kumpatla@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cbtDw9tY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="obr37YFr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cbtDw9tY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="obr37YFr"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BCE8679FA7;
+	Mon, 20 Jul 2026 13:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784555641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=4T4EbWJ3BFLxEozB4C9mdMSwLQgbOtGNHAcrVB/7nV0=;
+	b=cbtDw9tYY8olwNuEUHt7QeoDWuh2akZAwzcIP+2/X59ExUevioYl+au5yrAu3lAgqqjZoX
+	IGntdYDeM8PbqPDYjpAe5KT9nKWff0g6Jlc2ADEG5N2aBNH405YrGmQAIL52rUEjHORdUS
+	uZOPClOFnUlDuHpo6BcpLgrJa1/FvKk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784555641;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=4T4EbWJ3BFLxEozB4C9mdMSwLQgbOtGNHAcrVB/7nV0=;
+	b=obr37YFrcc4L8VwMaLaELa8v2X2Qy/Ga+6ePylyA75Moi4LXo++PpMuoV7C2r/BbHmGPDT
+	EoZctYpCukRFFmDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784555641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=4T4EbWJ3BFLxEozB4C9mdMSwLQgbOtGNHAcrVB/7nV0=;
+	b=cbtDw9tYY8olwNuEUHt7QeoDWuh2akZAwzcIP+2/X59ExUevioYl+au5yrAu3lAgqqjZoX
+	IGntdYDeM8PbqPDYjpAe5KT9nKWff0g6Jlc2ADEG5N2aBNH405YrGmQAIL52rUEjHORdUS
+	uZOPClOFnUlDuHpo6BcpLgrJa1/FvKk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784555641;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=4T4EbWJ3BFLxEozB4C9mdMSwLQgbOtGNHAcrVB/7nV0=;
+	b=obr37YFrcc4L8VwMaLaELa8v2X2Qy/Ga+6ePylyA75Moi4LXo++PpMuoV7C2r/BbHmGPDT
+	EoZctYpCukRFFmDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91FD3779AA;
+	Mon, 20 Jul 2026 13:54:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 4mjNIHkoXmr8KgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 20 Jul 2026 13:54:01 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] ALSA: dummy: Improvements of timer backend calls
+Date: Mon, 20 Jul 2026 15:53:51 +0200
+Message-ID: <20260720135356.1779857-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720130511.493295-1-prasad.kumpatla@oss.qualcomm.com>
-Date: Mon, 20 Jul 2026 06:42:07 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MfvfVvJ4anwY5WZUr5K8fSGkcvejah72fUDLc7ZC59jNw@mail.gmail.com>
-X-Gm-Features: AUfX_mzkKRJxqWtXztybEccZih4vaheradj3-Hfi7e4EOBdahV046NLAZZdxguU
-Message-ID: <CAMRc=MfvfVvJ4anwY5WZUr5K8fSGkcvejah72fUDLc7ZC59jNw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] ASoC: qcom and pinctrl: add LPASS LPR voting and
- Hawi LPASS LPI TLMM
-To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Bartosz Golaszewski <brgl@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	BAYES_HAM(-2.99)[99.96%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWO(0.00)[2];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Level: 
+X-Spam-Score: -2.79
 
-On Mon, 20 Jul 2026 15:05:07 +0200, Prasad Kumpatla
-<prasad.kumpatla@oss.qualcomm.com> said:
-> This series adds support for LPASS low-power resource (LPR) voting
-> through PRM and introduces LPASS LPI TLMM pinctrl support for newer
-> platforms such as Hawi.
->
-> On such platforms, LPASS requires LPR resource voting via PRM to keep
-> the subsystem active. This is handled by adding a new clock ID and
-> support for PARAM_ID_RSC_CPU_LPR in q6prm.
->
-> Additionally, a new LPASS LPI TLMM block is introduced, requiring a
-> dedicated DT binding and pinctrl driver.
+Here is a small patch series for ALSA dummy driver to improve the
+handling of systimer and hrtimer callbacks.  This is mainly a cleanup
+and a hardening for the cases where we miss the synchronizations after
+stopping the PCM.
 
-What is the merging strategy? Is an Ack from Mark required and the series
-should go together through the pinctrl tree?
 
-Bart
+Takashi
+
+===
+
+Takashi Iwai (3):
+  ALSA: dummy: Use the standard PCM sync_stop callback for hrtimer
+  ALSA: dummy: Implement sync_stop for systimer, too
+  ALSA: dummy: Properly shutdown the systimer at freeing
+
+ sound/drivers/dummy.c | 33 +++++++++++++++++++++++++++++----
+ 1 file changed, 29 insertions(+), 4 deletions(-)
+
+-- 
+2.55.0
+
