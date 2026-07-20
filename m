@@ -1,142 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F583DA7E1;
-	Mon, 20 Jul 2026 09:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E56B3DB62E
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 09:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784540513; cv=none; b=WN0uMeJJGenZV+IcGBaYgv/xozNrWipS6N23ych6mk19bMUuhKw3oYEXqAJKOO3sOYf1Zf0TSdJWpn7kc1iNNGvEHDuM4Z5MnbDd8j5Lq1QVhac1DeyEWkdJTNZfmnDBTs03iGxg49KcvZoUzLeWg/JTReBrFTcu9qCOni0ypGE=
+	t=1784540524; cv=none; b=PJmeY3xeT52QPEgNh+FP42jVlN/OLBLINSms8SKXQdlvG2r4Wxq6KNt8VfaGGnIWZVrGmVR7pQY9Bw9XXUzoSh0maKDJmXSXhhEIQMwTZNGoR2hy4IO6p19tsoOEhpRG4Q/01hMlqHa11W/xNm9rQ6BuNTPcC7rAMA8p5E7w+CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784540513; c=relaxed/simple;
-	bh=7qP/saATMfVrYH3GbylnEd4uteuiWjMTWxpwFd3ZWCk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=H8zoFlkxEYFOQTCSZVA1gVnBki49kObBhbG7RaC2m0Q6xpwU1jAh6B0UMh8LzcsRo1q4A5OScCAE6M9CLSbuh/ZHsFIgx52aXIj3BIPDBRo0VweFataYYf9PIflkdEOeBXWFYXXrDNs7d8jOlGhXsdlZxvmkrdeq10G/D1Tj27w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tcHdevEv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784540524; c=relaxed/simple;
+	bh=lR1RewoAZbIahGA8KBdG5nh8j880NEupATIBBXBivDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZYSxkTC0Td9qNCyh3+Wo2jBUEvtakYkGk9yAT034XbfrxdihKWm7fgM3Q1V5wfnDRoMHOLCPjjHfHI3SCQflK8jn9G8gjHqRQQN0LYdc/QPuFFHaimyIXcJBU8y4W30CgeQ5mkJ+5iuUvpOHE6VJY6oXhKb8hW0qxd0pAf5dU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dKgt1tBV; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tcHdevEv"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 85583C2BCF6;
-	Mon, 20 Jul 2026 09:41:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784540511;
-	bh=7qP/saATMfVrYH3GbylnEd4uteuiWjMTWxpwFd3ZWCk=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=tcHdevEvfChpSV2LWrwexjtdrcqkN4yszfSeX9gmQSiiiIPUZrF6FF5CYhlri9BrP
-	 FKgbYuHVcSf4VhuLq3YWb/5s9aPsT3CRWnpddUJw4sQEGjvEDrrIWc8m258hmBobpE
-	 MvHXG24NGtGgDQFXomCGBxPn9CZRMFxMoRroKEMlHBZmzMrhaTjDXGBt/Pyk73lqv6
-	 RV3DAghhHBoSIYjh3AuBP6+zhI7T/SNpvht6yB99h7Sn63I1cd2I47/778vabUOJe+
-	 pldDlyhXZT9Fe2S8eIRhnlBX75gxb9Ie4syPYSfq+0xL+UvgjtCeZdCHjleNxbAJ1T
-	 7BTIlK7QDYhTA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73411C44527;
-	Mon, 20 Jul 2026 09:41:51 +0000 (UTC)
-From: Philipp Oster via B4 Relay <devnull+philippdev5396.outlook.de@kernel.org>
-Date: Mon, 20 Jul 2026 11:41:51 +0200
-Subject: [PATCH] ALSA: hda/tas2781: clear cali_data.total_sz when
- calibration read fails
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dKgt1tBV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=PVbz
+	oDnpVKgVDd4gX36wEhQdxOoPAfSCiS1SYLlMuPY=; b=dKgt1tBVRUujW/Or9cUu
+	Njja0ewW303cV+XaqwFoCQhB4c92qFLo6R2X6sOWdGkc8aBgR5JQFhIWaEWcAIhT
+	ELaWXGkWF4TQf045bOVNttofBiEbrSDZ3+Yqm8D9+bax3qCI5R5C+MS0DeCcijN9
+	Fss16LtdQO5O0f9FhrRmDaKyVHMHZp98odmgKivqaj71XmC1opc0ba/4i74Ct9Gi
+	DuyHeZ0ZR3DyqPF5BXuurNzEbn5sfPu0hp8WuGPLN9FFs7vr0LkZCnFCvUaW6fvD
+	CQK/udY2wPkxN7LbOq1oXh8N0ro3KVlKbavEV+FZHj5TiDVYGPc1jiUWwDFBFFzV
+	pQ==
+Received: (qmail 2419193 invoked from network); 20 Jul 2026 11:41:39 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Jul 2026 11:41:39 +0200
+X-UD-Smtp-Session: l3s3148p1@XpiKtgdXCtIujntM
+Date: Mon, 20 Jul 2026 11:41:39 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Srinivas Kandagatla <srini@kernel.org>, brgl@kernel.org,
+	driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, netdev@vger.kernel.org,
+	linux-pm@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, mfd@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/8] i2c: pxa-pci: use platform_device_set_fwnode()
+Message-ID: <al3tU6t0LQdWYoNX@ninjato>
+References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
+ <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260720-tas2781-calfix-v1-1-3a5fa6ad90bc@outlook.de>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7TlATjb4SHUzXWggLjQjEvycdZ
- 2CmQMZEmGHqCiR8KNMZG4i+A7fbuCEj3xgkl5obydltszSjYM4egV42WOG1FhiUWqFFV8Km/+G
- 81PoBHxcj6WAAAAA=
-X-Change-ID: 20260720-tas2781-calfix-3a1d661ef44b
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Gergo Koteles <soyer@irl.hu>, Philipp Oster <philippdev5396@outlook.de>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784540510; l=2997;
- i=philippdev5396@outlook.de; s=20260720; h=from:subject:message-id;
- bh=3ASFuBghZlzq4VeXWB7VHquriNyFyHqybRG8T5MRS3s=;
- b=GG8FGNBRFA3VHwPkrtKPNzvRM1WwLT8GN/sWIf/FRCXQ8L4PIYdspcglEoscAZ+5RuhpVqzfC
- w68i4MXscGLDTwGtzHp5CUVEpt59yvmXnepaAkc8gWvjMJCd3B1O3kY
-X-Developer-Key: i=philippdev5396@outlook.de; a=ed25519;
- pk=eT8kbz1b1YS9DKzFAuB7xKR6XscHmecvQiv3Mddjjhs=
-X-Endpoint-Received: by B4 Relay for philippdev5396@outlook.de/20260720
- with auth_id=885
-X-Original-From: Philipp Oster <philippdev5396@outlook.de>
-Reply-To: philippdev5396@outlook.de
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
 
-From: Philipp Oster <philippdev5396@outlook.de>
+On Mon, Jul 20, 2026 at 11:24:49AM +0200, Bartosz Golaszewski wrote:
+> Prefer the higher-level platform_device_set_fwnode() over the
+> OF-specific platform_device_set_of_node() for dynamically allocated
+> platform devices.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-tas2563_save_calibration() assigns cali_data.total_sz before it reads the
-per-device calibration data from EFI, but its error paths return without
-clearing it again. cali_data.cali_reg_array is left all zero, because the
-function returns before the register addresses are assigned.
+Fine with me.
 
-On the first playback tasdev_load_calibrated_data() does
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-	if (!data || !cali_data->total_sz)
-		return;
-
-which passes, since total_sz is still non-zero. It then issues five
-4-byte bulk writes to p->r0_reg, p->r0_low_reg, p->invr0_reg, p->pow_reg
-and p->tlimit_reg, all of which are 0. Register 0 decodes to book 0 /
-page 0 / register 0x00, so the auto-incrementing block write zeroes
-registers 0x00 to 0x03. Register 0x03 is PB_CFG1, which holds AMP_LEVEL,
-so the amplifier gain is set to its minimum and the speaker stays silent.
-
-This is reproducible on a Lenovo Yoga 7 14ARB7 (two TAS2563 on I2C,
-ACPI INT8866) whose factory calibration was never written to UEFI, so the
-EFI read fails with EFI_NOT_FOUND. The two woofers driven by the
-amplifiers are silent while the tweeters driven directly by the ALC287
-play. Reading the amplifier registers over i2c shows PWR_CTL = 0x00
-(active) and the TDM slots correctly programmed by the RCA profile, but
-PB_CFG1 = 0x00. With this change PB_CFG1 keeps its power-on default of
-0x20 and both woofers play.
-
-tas2781_save_calibration() in tas2781_hda.c already clears total_sz on
-failure; do the same for the TAS2563 variant.
-
-Signed-off-by: Philipp Oster <philippdev5396@outlook.de>
----
-Single patch - see the commit message for the full analysis and the
-register-level evidence from the affected machine.
----
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index 67240ce18..b1c89cc35 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -355,6 +355,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
- 			if (ret < 0 || ret >= sizeof(var8) - 1) {
- 				dev_err(p->dev, "%s: Read %s failed\n",
- 					__func__, var8);
-+				cd->total_sz = 0;
- 				return -EINVAL;
- 			}
- 			/*
-@@ -372,6 +373,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
- 				dev_warn(p->dev,
- 					"Dev %d: Caldat[%d] read failed %ld\n",
- 					i, j, status);
-+				cd->total_sz = 0;
- 				return -EINVAL;
- 			}
- 			bedata = cpu_to_be32(*(uint32_t *)&data[offset]);
-@@ -383,6 +385,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
- 	if (cd->total_sz != offset) {
- 		dev_err(p->dev, "%s: tot_size(%lu) and offset(%u) mismatch\n",
- 			__func__, cd->total_sz, offset);
-+		cd->total_sz = 0;
- 		return -EINVAL;
- 	}
- 
-
----
-base-commit: 199c9959d3a9b53f346c221757fc7ac507fbac50
-change-id: 20260720-tas2781-calfix-3a1d661ef44b
-
-Best regards,
--- 
-Philipp Oster <philippdev5396@outlook.de>
-
+Note that we still need Andi's ack.
 
