@@ -1,103 +1,89 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950B142D752;
-	Mon, 20 Jul 2026 14:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522A042FCC0
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 14:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784558642; cv=none; b=GWnqllMV7JunNieHCvxzqU2Gs9/BaSOTW/PXLwRgq8A1t5MZ6YrLv3vvFhv1VpvD5zFIutIFL/mKEaoNjkdrkNoVpi9G74ezMUyjRDkifm2XeZvpKSEg7kGYQXNEboxCD8xJsMY/+4Kup5zebdg+oa4AjWLTK+vIr0mDBPweXQU=
+	t=1784558686; cv=none; b=lR8HmvMFd5Ws1t8FNRdPlrlmhr+7jxFEApS/GBEobBYDuwN881ing9vgJ6ir2t2dTToy+yXoMH8wC6KxNVCIFV8PG+Saee4t5G9iTmo8RVlIc+xFekR9XfPAwdm/mr2al7H/6QyRybm4D3EuyLxFMq4UgEMHzulTVmHD9OWCfqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784558642; c=relaxed/simple;
-	bh=CQJGspfiB/NAwgT88jIh/m4ZZrG8ah3eLPy3cB4vUOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NDORlzVpDyKVc5H/Ie68JyauIXkFdy4BRRJwf/R2BfajYk4ahwvNMXu9RlIxROZViPDytNqVMPfYFcDO6p2fHh7I4ZGw+nuj79KVR7RQjMiUiaN/8my8RhNlEr1E7pobcTv2wy7ZZuURphmzXN6xmPBo4tzg6EoqPy03Xyalzmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=u87EBpi0; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1784558686; c=relaxed/simple;
+	bh=D5eNkc6oopz6Vs5ScuNTuY02P0gVdZnp0VO3XIAQcRI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=otwc4p/Z0fS/E6ULhDUY+ui00lse0q0rqMWX7cmMoIVwj2LPDQM3tmdVYMj0VNvuDjoEIGntSdD0KdBSXGjkjr+8iUO7LLcVAxa+bqWo8q4q9bR1Mf/I9L52Rm0i6wu/m2d4iexOo6U6abbXlcjFh/5Tm85Jlvq0XzVtS+fP5f0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jnI3ALc+; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="u87EBpi0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=BXhfFoqflgF82KRwFNK0K4F+WC7W4X52vQ4MqWkibHk=; b=u87EBpi0W7PcezV9DBKXdXN4/P
-	p9UYaLCZFtgUyOGYdytHLutMvSSNyvUcIgRfwGDopHvUqq9ZIlniLUGgYPwPRrDPsFmM1fCmmLkzn
-	A985PR89vvPMIsZsJvQqT/OtMNtLd8+M4EQYIuLAiGvk2F3QoNojNtnckKSJnLpXICWU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wlpDY-00DHCs-Cz; Mon, 20 Jul 2026 16:43:40 +0200
-Date: Mon, 20 Jul 2026 16:43:40 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Srinivas Kandagatla <srini@kernel.org>, brgl@kernel.org,
-	driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, netdev@vger.kernel.org,
-	linux-pm@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, mfd@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 7/8] net: mv643xx: use platform_device_set_fwnode()
-Message-ID: <86b2aba7-b049-47e6-bc94-6cb499b30ce4@lunn.ch>
-References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
- <20260720-pdev-set-fwnode-instead-of-of-node-v1-7-2dee93f42c54@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jnI3ALc+"
+Message-ID: <c7fed24d-3dda-4750-b6f0-7e97986c1a81@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784558683;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+a/cGv82mut/Z1M4ulFrjuCu7c10/qUkSIdkoIV5Teg=;
+	b=jnI3ALc+vepgwctPAeS2em2V6Sz92GxD0uSklg/i62jjZIVmu41pC/3ePtIodtqOORAiPJ
+	igUnYtcB2kCBdP7VhQlt4l3eBZcYs4+Lpc8aB5xiJ3Ti7qyAn9Myr9ra6+Ce5AsjmU+1lC
+	h1huwZj1mZIwb4XXtvVR/i/AIYECGes=
+Date: Mon, 20 Jul 2026 16:13:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720-pdev-set-fwnode-instead-of-of-node-v1-7-2dee93f42c54@oss.qualcomm.com>
+Subject: Re: [PATCH] soundwire: dmi-quirks: Disable ghost Realtek on Asus
+ Zenbook Duo
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20260720095741.3592825-1-ckeepax@opensource.cirrus.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260720095741.3592825-1-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jul 20, 2026 at 11:24:54AM +0200, Bartosz Golaszewski wrote:
-> Prefer the higher-level platform_device_set_fwnode() over the
-> OF-specific platform_device_set_of_node() for dynamically allocated
-> platform devices.
+On 7/20/26 11:57, Charles Keepax wrote:
+> The Asus Zenbook Duo also has a Realtek device in the ACPI that
+> doesn't exist in the physical hardware. This confuses the machine
+> driver into attempting to create DAI links for the device. Add a
+> quirk to remove this device.
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+
+This is likely to be a never-ending race... I wonder if the machine
+description used to find the relevant machine driver could be used to
+drop that ghost device, or if there would be any merit in having a quirk
+file provided to distros and read via e.g. sysfs to have faster patching
+done by userspace.
+
 > ---
->  drivers/net/ethernet/marvell/mv643xx_eth.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/soundwire/dmi-quirks.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/drivers/net/ethernet/marvell/mv643xx_eth.c b/drivers/net/ethernet/marvell/mv643xx_eth.c
-> index 9caa1e47c174c9d7a161b7f2e2ee12a829b813d4..2f2d6cce8d852b9ec3ab42678a04a7915d1f00cc 100644
-> --- a/drivers/net/ethernet/marvell/mv643xx_eth.c
-> +++ b/drivers/net/ethernet/marvell/mv643xx_eth.c
-> @@ -2780,7 +2780,7 @@ static int mv643xx_eth_shared_of_add_port(struct platform_device *pdev,
->  		goto put_err;
->  	}
->  	ppdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
-> -	platform_device_set_of_node(ppdev, pnp);
-> +	platform_device_set_fwnode(ppdev, of_fwnode_handle(pnp));
+> diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.c
+> index 62cee6e2179da..f738e547a1f30 100644
+> --- a/drivers/soundwire/dmi-quirks.c
+> +++ b/drivers/soundwire/dmi-quirks.c
+> @@ -200,6 +200,13 @@ static const struct dmi_system_id adr_remap_quirk_table[] = {
+>  		},
+>  		.driver_data = (void *)ghost_realtek,
+>  	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "ASUS"),
+> +			DMI_MATCH(DMI_BOARD_NAME, "UX8407AA"),
+> +		},
+> +		.driver_data = (void *)ghost_realtek,
+> +	},
+>  	{
+>  		.matches = {
+>  			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
 
-This is definitely an OF only driver. There are no other calls to
-fwnode functions in this driver, so this is the wrong thing to do.
-
-Sorry, NACK.
-
-       Andrew
