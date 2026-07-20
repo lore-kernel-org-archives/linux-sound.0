@@ -1,84 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EA1F3C73D7
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 13:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D82D41DECA
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 13:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784555652; cv=none; b=ELSLi6dIoOB18vS8kPisH6WESna+CHswC2+RaGJ1fzdhuX5TSSFID+L5CnC+UxpUZQ77RRbDFvmiJKCAHquCCXqmXIvzNBYUXOw0R7VfxtmkJycghHZ1SMNikRrFQ0ew5AvV9INWmD3EhJvjonWb/zfx1N+y9YYN3PabU/5MRF0=
+	t=1784555658; cv=none; b=WKVIKFquBKtOlb8JSgwN222qdj9NZWKakU3glxxNFvA9Hh4r/5IEFt2CwVeejNtZi/NaiZLFdHSmXJny1UiWu6Hm7ls56lCLNuywt2vT4w6agIrTAfU+QHTdQDl5YlNVFGcCa9zgLU0miXYFoZfZH0zH914aikQ25IwdKeoL2l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784555652; c=relaxed/simple;
-	bh=BnPHvbdLR+KK/clJ6eTNjKjFOiu/0M9EJtxFUfESucs=;
+	s=arc-20240116; t=1784555658; c=relaxed/simple;
+	bh=e0aSv+9JnyYvKEk+xoJb7PTEJeDYhakF2wCfud0spzo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jb6wUaSB+HgDpOSfsfqMYCXpV6ozgB6v9MtwONfv4LDE8dMsqd5qAzFUCWqR+isClgb2FlyPi8LFj1w1SjiJHsgVQtVvv7iSOdKeVz70JajjHTBkTWZw2R65nu30/Il/MtTeSYS/9YLlME9YOq0gwasWwVcRZzaPUpHczk8GgT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sUrerCgw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U8ri74AN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sUrerCgw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=U8ri74AN; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=EyZz1VST+qehcwGB0adlG4nwT5HsBzODz1AcUFBfVu1bovnzMx9iOxIayF4fuGylHgNujXZVhrWoXCEu8pxRG2s12wQqIzdHrTiCvQ0FzUTvq41Y3Z1F/zRFpggLD5ZZacaFtxk321sVP+NnYIS8py1bvZfIy9dc3KGJlWXqTWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iIwTkBSl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=js+z9I/o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iIwTkBSl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=js+z9I/o; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sUrerCgw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U8ri74AN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sUrerCgw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U8ri74AN"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iIwTkBSl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="js+z9I/o";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iIwTkBSl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="js+z9I/o"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E290579FA8;
-	Mon, 20 Jul 2026 13:54:01 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 13E4A79FA9;
+	Mon, 20 Jul 2026 13:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784555641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1784555642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oT6wM0Z5RqQGdb//l1PG30oj+xsYg7TUcqiShGqM594=;
-	b=sUrerCgwjS8csW0wuRJt99xKeqG9pzri8K6YYBKbMo45wsnpAawgwnyhqLvIOTSH3zLFzR
-	pRTP+FDN3iBJo/QxMtEWT6g6tzhn8dc73hJN+TE/pe1iRmEy+Pah+Dt8ch0hV8AUDg5Flf
-	R7PA2sjJqsRtnQAcjG2wjZ1Tv4jkxbg=
+	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
+	b=iIwTkBSl71MYOOgqBXkhLqeD8i2kEVypzRhjdRB868XpSZlw0zcCX1VgDbs23MnCCjgnlm
+	5Z19JxRRiu8PNVY/di19tBCsktsCQwgCI9Skb0PUyrF0yEFcEhX/4KAv9VnIUnT5N4PQnl
+	vo8l0aDczCpt6459OGmbzGyAeAy7Lec=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784555641;
+	s=susede2_ed25519; t=1784555642;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oT6wM0Z5RqQGdb//l1PG30oj+xsYg7TUcqiShGqM594=;
-	b=U8ri74ANTsniqYI74AwQBGvjO6ZoxHcRF6PzZiamD00nF8qOS2kGrIE89aWSUFr3okUR80
-	imGzgeAdDINTVSCw==
+	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
+	b=js+z9I/oBTXa8Z0uZ4qrCNPhmmiBsbbiajWGxZ4vfuBtqxRf2fS1tR4WTs7o1/my9OUh/5
+	3Mfpe8qY65Xr/dBw==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784555641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1784555642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oT6wM0Z5RqQGdb//l1PG30oj+xsYg7TUcqiShGqM594=;
-	b=sUrerCgwjS8csW0wuRJt99xKeqG9pzri8K6YYBKbMo45wsnpAawgwnyhqLvIOTSH3zLFzR
-	pRTP+FDN3iBJo/QxMtEWT6g6tzhn8dc73hJN+TE/pe1iRmEy+Pah+Dt8ch0hV8AUDg5Flf
-	R7PA2sjJqsRtnQAcjG2wjZ1Tv4jkxbg=
+	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
+	b=iIwTkBSl71MYOOgqBXkhLqeD8i2kEVypzRhjdRB868XpSZlw0zcCX1VgDbs23MnCCjgnlm
+	5Z19JxRRiu8PNVY/di19tBCsktsCQwgCI9Skb0PUyrF0yEFcEhX/4KAv9VnIUnT5N4PQnl
+	vo8l0aDczCpt6459OGmbzGyAeAy7Lec=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784555641;
+	s=susede2_ed25519; t=1784555642;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=oT6wM0Z5RqQGdb//l1PG30oj+xsYg7TUcqiShGqM594=;
-	b=U8ri74ANTsniqYI74AwQBGvjO6ZoxHcRF6PzZiamD00nF8qOS2kGrIE89aWSUFr3okUR80
-	imGzgeAdDINTVSCw==
+	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
+	b=js+z9I/oBTXa8Z0uZ4qrCNPhmmiBsbbiajWGxZ4vfuBtqxRf2fS1tR4WTs7o1/my9OUh/5
+	3Mfpe8qY65Xr/dBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C39DB779AB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E98BE779AA;
 	Mon, 20 Jul 2026 13:54:01 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8PSHLnkoXmr8KgAAD6G6ig
+	id qCuzN3koXmr8KgAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Mon, 20 Jul 2026 13:54:01 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] ALSA: dummy: Use the standard PCM sync_stop callback for hrtimer
-Date: Mon, 20 Jul 2026 15:53:52 +0200
-Message-ID: <20260720135356.1779857-2-tiwai@suse.de>
+Subject: [PATCH 2/3] ALSA: dummy: Implement sync_stop for systimer, too
+Date: Mon, 20 Jul 2026 15:53:53 +0200
+Message-ID: <20260720135356.1779857-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260720135356.1779857-1-tiwai@suse.de>
 References: <20260720135356.1779857-1-tiwai@suse.de>
@@ -90,9 +90,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
 X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
@@ -112,99 +111,45 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	TO_DN_NONE(0.00)[];
 	RCVD_TLS_ALL(0.00)[]
 X-Spam-Level: 
+X-Spam-Score: -2.80
 
-The hrtimer backend code in ALSA dummy driver calls explicitly the
-synchronization of hrtimer cancel from prepare and free callbacks, and
-this is exactly what the standard PCM sync_stop callback serves for.
-
-Replace the open-code with the standard PCM sync_stop callback.
+The systimer backend invokes timer_delete() at stopping the PCM, but
+it misses its synchronization, which might lead to concurrent changes
+or releases at PCM prepare or free.  Use the sync_stop callback to
+assure the synchronization of timer deletion.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/drivers/dummy.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ sound/drivers/dummy.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
-index 7283f0f18813..ddd4da058693 100644
+index ddd4da058693..3bc0289e3518 100644
 --- a/sound/drivers/dummy.c
 +++ b/sound/drivers/dummy.c
-@@ -100,6 +100,7 @@ struct dummy_timer_ops {
- 	int (*prepare)(struct snd_pcm_substream *);
- 	int (*start)(struct snd_pcm_substream *);
- 	int (*stop)(struct snd_pcm_substream *);
-+	int (*sync_stop)(struct snd_pcm_substream *);
- 	snd_pcm_uframes_t (*pointer)(struct snd_pcm_substream *);
- };
- 
-@@ -407,9 +408,12 @@ static int dummy_hrtimer_stop(struct snd_pcm_substream *substream)
+@@ -286,6 +286,14 @@ static int dummy_systimer_stop(struct snd_pcm_substream *substream)
  	return 0;
  }
  
--static inline void dummy_hrtimer_sync(struct dummy_hrtimer_pcm *dpcm)
-+static int dummy_hrtimer_sync_stop(struct snd_pcm_substream *substream)
- {
-+	struct dummy_hrtimer_pcm *dpcm = substream->runtime->private_data;
-+
- 	hrtimer_cancel(&dpcm->timer);
-+	return 0;
- }
- 
- static snd_pcm_uframes_t
-@@ -435,7 +439,6 @@ static int dummy_hrtimer_prepare(struct snd_pcm_substream *substream)
- 	long sec;
- 	unsigned long nsecs;
- 
--	dummy_hrtimer_sync(dpcm);
- 	period = runtime->period_size;
- 	rate = runtime->rate;
- 	sec = period / rate;
-@@ -463,7 +466,7 @@ static int dummy_hrtimer_create(struct snd_pcm_substream *substream)
- static void dummy_hrtimer_free(struct snd_pcm_substream *substream)
- {
- 	struct dummy_hrtimer_pcm *dpcm = substream->runtime->private_data;
--	dummy_hrtimer_sync(dpcm);
-+
- 	kfree(dpcm);
- }
- 
-@@ -473,6 +476,7 @@ static const struct dummy_timer_ops dummy_hrtimer_ops = {
- 	.prepare =	dummy_hrtimer_prepare,
- 	.start =	dummy_hrtimer_start,
- 	.stop =		dummy_hrtimer_stop,
-+	.sync_stop =	dummy_hrtimer_sync_stop,
- 	.pointer =	dummy_hrtimer_pointer,
- };
- 
-@@ -495,6 +499,13 @@ static int dummy_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 	return -EINVAL;
- }
- 
-+static int dummy_pcm_sync_stop(struct snd_pcm_substream *substream)
++static int dummy_systimer_sync_stop(struct snd_pcm_substream *substream)
 +{
-+	if (get_dummy_ops(substream)->sync_stop)
-+		return get_dummy_ops(substream)->sync_stop(substream);
++	struct dummy_systimer_pcm *dpcm = substream->runtime->private_data;
++
++	timer_delete_sync(&dpcm->timer);
 +	return 0;
 +}
 +
- static int dummy_pcm_prepare(struct snd_pcm_substream *substream)
+ static int dummy_systimer_prepare(struct snd_pcm_substream *substream)
  {
- 	return get_dummy_ops(substream)->prepare(substream);
-@@ -646,6 +657,7 @@ static const struct snd_pcm_ops dummy_pcm_ops = {
- 	.hw_params =	dummy_pcm_hw_params,
- 	.prepare =	dummy_pcm_prepare,
- 	.trigger =	dummy_pcm_trigger,
-+	.sync_stop =	dummy_pcm_sync_stop,
- 	.pointer =	dummy_pcm_pointer,
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+@@ -351,6 +359,7 @@ static const struct dummy_timer_ops dummy_systimer_ops = {
+ 	.prepare =	dummy_systimer_prepare,
+ 	.start =	dummy_systimer_start,
+ 	.stop =		dummy_systimer_stop,
++	.sync_stop =	dummy_systimer_sync_stop,
+ 	.pointer =	dummy_systimer_pointer,
  };
  
-@@ -655,6 +667,7 @@ static const struct snd_pcm_ops dummy_pcm_ops_no_buf = {
- 	.hw_params =	dummy_pcm_hw_params,
- 	.prepare =	dummy_pcm_prepare,
- 	.trigger =	dummy_pcm_trigger,
-+	.sync_stop =	dummy_pcm_sync_stop,
- 	.pointer =	dummy_pcm_pointer,
- 	.copy =		dummy_pcm_copy,
- 	.fill_silence =	dummy_pcm_silence,
 -- 
 2.55.0
 
