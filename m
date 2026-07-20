@@ -1,176 +1,2226 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151E63CEBAA;
-	Mon, 20 Jul 2026 08:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784535882; cv=fail; b=gPYFTqJgR5bEw8ONYtUVdZjvfX87HXnUdn2ShCnamDchDFGLDbYCEKuH4p9tO+xRcKTXZsVI4SnuBV43FoYylUIgMmhU/N5YTKB+V+ibJCgx2nKBwKAc8+fbwuEvzzEFmoXjbzxpqXoNvZe/JvunEZLPdPA7s3ASFvwj0pw9Sl4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784535882; c=relaxed/simple;
-	bh=bjQ78mUNyKvh5jPOJE3BXpV3PcFAhgjeuV6W6D2YWGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GoHU/kRuvk2AgEuPwOzsXTSfZkXT9JX6KE7OynKp2tErAn1oZakQp8KeJVCUDsV0wPAFsYwC49DKiI01tzUdlNRaW4Tq03ThvPyuLmBNAWlv1lvsPZuJpCWqEF/cCd2Tk/tlYSTo9eACRa4y/bSzfhEs/+WUOjwwb4sjkq2AaUA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Jg+WOwlt; dkim=fail (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=d/1m4n0v reason="signature verification failed"; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE183033E8
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 09:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784538406; cv=none; b=TtT44G/CWAlZQBmjW/7vrfamnFO9fWGGVjGsTnSUnpNBr4UJLJiSKZd0ZtXOVowoiPCZCmLa0Eya8a6g+s+gSf8hxdLJNoZrh54x8Jnm6JmAWNWbyCg8sbgNS6NTCa09HvJXTp7EC2cu6rxrgSWsNx2UhtYlOCUkXP3ZzWtQ+GE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784538406; c=relaxed/simple;
+	bh=dKeG1ZdciSpXuTncs4dN102Rdd3P7GMdhbjSnD6t37E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZU17izlGPHdrBTvbBx7moJgYSZUM3FC/nk5BszvQL2ws868ujAYBi1y75cTZHdHkkppo24FJs8/ShYbZ/VapvVtFy8SI0gLtoVt8DIbSibWSSSCpoGtf6aoMqn8GFLv7J8Z7K6NaCVUigHwXdRyTstymvgX1/lOgDcYefcKSpO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=tQAKppuV; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Jg+WOwlt";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="d/1m4n0v"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66K515351440255;
-	Mon, 20 Jul 2026 03:24:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=MbaXE+E/moXKsSRqCey7AW1tMPD9kGohnAdiONYC2RM=; b=
-	Jg+WOwltYJmyk9C+fq8K5JEASybJr8GRyTNoYvl1yRz9lK1LatRR7UwVLFhsOFMS
-	N48YyAYS7qAuIl6vyyW3wdB3cCZVO29sRbCrDKgdAXnRyP2DkulNHTyoRtBa0hcV
-	O5yvsgJfKstV1SbLoyE3YfVNNcVD/BDH8ffhD/q5jE/0hoca1X56TL9OlJk1TF6I
-	NLKsk7NVfOaWcBgjhf7lGcBiTS7XqfJ0BYSSoacofia4PkdvzMKIrYSpvPYN1ABI
-	R4N9cdeqC7WtxN31jSZkGI6/9GdZmkDV1jX4CmTMQ2IWBSiJ7qRhtmN1NtRhNJTa
-	sz0gT0axirWUJKrLtLXWOg==
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021077.outbound.protection.outlook.com [52.101.62.77])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fg5wfa3gv-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 20 Jul 2026 03:24:07 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WCAHUZcuSj1ua2ifbqqIqSdUnxEk5lmMwjWNrhe7L6NhGmP6hSKk+5MqKbQH1ghEkfDaVbJs8mjW3q32BmABP7i2k1jpAv5laviu9k0Yo3J38plYeJyGO3QA6BHFpISHQ+CZHRYd5k7bse6Ne7G7mvUXNV/K/RDsKsZKQKXgsJY0/AJoi8BmPgsjUqAJorLLepdWN6c7QNXXV2MkHG0fJx4o2QvCzvYJdcYSRtQnyYWYHgSGMhDM0o6maw3smXjHFxcxhhw4+AptrRFqW9eBh0IeHZ8iMYECINcIxkEW57FmoqT8j9GNYNf3sqgfZJbwX/JNcYGziHgPuI0r50sRpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bwWV0z8A3XxXOnIf5XrVRw6dkxjiI+sulqbSchCGh/g=;
- b=OW8l2ZG3TNx6Z2U47Xs6KI477kKoJpkF8b7EK/d9WWB+SR3V+wiS1vOt3A6Qc0jKBa8b9qTtCFKY28fc8/Ze+MTqRvtVCXSHT+/TwGTRolUyzqfVlgKcZLqjToqX6OfFv19cNj3XQ4zAWhyqe/jkb4xcVvGOTgoEH7MD3HgXCmZ/tJ9S/egONpXS/Fb9srcA8hWVQfEvmX765Pau9nnptxJoebeEG7wlSo8fZC/At26+lmxvreUtbaPE2ww69Uit2dCElW9aAVmntXOEfaxSb0jHusfZWwCSukrmnqEEyEQSddBo7L/tt3oy+/DftIDGr81e6bGPvYN0xSoXbKsJhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=baylibre.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bwWV0z8A3XxXOnIf5XrVRw6dkxjiI+sulqbSchCGh/g=;
- b=d/1m4n0vBy+91f/HyGKGvFVDEY44J6FStP1Nr7TggwpX4TORVH+9OoCbREGP2gi9o9DBNr/lb43O5cNu4CduWcXpcmtXnbQZLXEdwt2a1fcO9Q61Q9cO1TpayP3Q+AyYKYVvT0FDsAvVRnwzKr8/d2QUQFg0C8CbDGJklRCoGwo=
-Received: from BLAPR03CA0153.namprd03.prod.outlook.com (2603:10b6:208:32f::19)
- by SJ0PR19MB5431.namprd19.prod.outlook.com (2603:10b6:a03:3e3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.16; Mon, 20 Jul
- 2026 08:24:03 +0000
-Received: from BL02EPF0002992B.namprd02.prod.outlook.com
- (2603:10b6:208:32f:cafe::49) by BLAPR03CA0153.outlook.office365.com
- (2603:10b6:208:32f::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.16 via Frontend Transport; Mon,
- 20 Jul 2026 08:24:03 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL02EPF0002992B.mail.protection.outlook.com (10.167.249.56) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5
- via Frontend Transport; Mon, 20 Jul 2026 08:24:02 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4E538406541;
-	Mon, 20 Jul 2026 08:24:01 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 281F182025A;
-	Mon, 20 Jul 2026 08:24:01 +0000 (UTC)
-Date: Mon, 20 Jul 2026 09:23:59 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        James Ogletree <jogletre@opensource.cirrus.com>,
-        Fred Treven <fred.treven@cirrus.com>,
-        Ben Bright <ben.bright@cirrus.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>,
-        Mac Chiang <mac.chiang@intel.com>,
-        Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-        Kees Cook <kees@kernel.org>, patches@opensource.cirrus.com,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] ASoC: Use named initializers for
- platform_device_id arrays
-Message-ID: <al3bH0vpePggracI@opensource.cirrus.com>
-References: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
- <a76e26aa4edb901b4bea684919463b2243dd8d9d.1784528081.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="tQAKppuV"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 66K96IQH02337427, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1784538378; bh=W9Tr8mB7g4Y8dOQwsi5fCLxUUvdN8iqsCXj+PE0HBrA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=tQAKppuVWSS4jbW/nTuTBbiusZ69K6TVSuKsvmwdbkNxpew5+Q9hEnD2JYotKus53
+	 EfircoDyx0y/kWMhGpaRovD9rsNRjrjoeLO0KgUJMGphmRzlGfy2WRpS3uShQkkp8K
+	 UNDDzG5BmaFWUXe7FXza2tpyv9kPsEAtfyoXaaWYeLJ310h2b4fLyhcs1CbLcRfABQ
+	 UZRtI6B1LwxBT8/5dhkf/uZUKaIO7AKAsjveQbbXlFf/mIfS7XO54U9AC6OlrqGP1M
+	 gIcZvlJ3DOSv/URtslS6+aEpOrpPg8N/7DAzf8Y8PhnBA3vrAGtazT7D/GHXT5x0Hd
+	 1ilhspAa5tb8w==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 66K96IQH02337427
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 20 Jul 2026 17:06:18 +0800
+Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 20 Jul 2026 17:06:18 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 20 Jul 2026 17:06:18 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server id
+ 15.2.2562.17 via Frontend Transport; Mon, 20 Jul 2026 17:06:18 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt766: add RT766/RT767 SDCA driver
+Date: Mon, 20 Jul 2026 17:06:13 +0800
+Message-ID: <20260720090613.2239891-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a76e26aa4edb901b4bea684919463b2243dd8d9d.1784528081.git.u.kleine-koenig@baylibre.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992B:EE_|SJ0PR19MB5431:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1ff13822-7819-4c81-e0a1-08dee63841ae
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|7416014|36860700016|82310400026|61400799027|11063799006|4143699003|10067099003|5023799004|56012099006|18002099003|16102099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	QuOC8orRePODG4befVdvvjiLB4KsxjKzqHRBEutFCYNUvospXc6wWNVv+VvrTpdQN1cprUlV5JKkLif34DppridYYuxKb8WvR+uEx+d/bxXMWaqgC03D15FD/itEDW6dJqX2QocBkdYRBSfBl7Zn+JmB/J//5r+78dtEt1sqQPze4MLMhin0fyatRCHiajMyT/DW/VxNvjftVKW7yQAA1MR9HXh1mxyFVm4rAp8eR1wXWKiOKohrxj1MrXarIDryoOfM+xYVKCYI/W/IQ6eHwwxeXQiy3JbpFFJi0E7FoLkq6i3oXmKlv3J4GZjyyfpyAUDksXZbD8sEQ3kwzxEH1GPn25KGpCVaKdxZQ+/rg0bSq5HIDFxVH6qfWdmEixk9H6/M2imYp1cXmO4QuK/KbJgD31BFaIUawkTE2ACWfXy6CnQsReBtUruKJbER1y3a9SqPAV9K1QinIMRbUFF0qcj+zUXwwx273KIw1kkqEUKB3FTn2q/HXQ96Qz/XMR2yU0tm6r1NZsQghb5y3UWePK5OQd882pMoeDlg1TX2R5S5TYKci9TNciqZUfD3s/l82jTXx6BHPhPn59r3u26UHNGqxEUQJ8TGNeOdNLs4JWg0MtLf1iRUf8CQ8SYfgLjLI+anWXuIPWTJ5k8IrMpbt5KbBCp2R5IrLUPZvZft+/t/cmmrGPJt3nWF4oc4ffqUxdB4UFIJTf0zHvF7uFS3xA==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(36860700016)(82310400026)(61400799027)(11063799006)(4143699003)(10067099003)(5023799004)(56012099006)(18002099003)(16102099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	cSau3Tfal/M4PC9+bG5bXULT6dg5niASYZipBNpvv/1rVa5YKdcBCzAAXP6dNn5OwsDKBAmXSKFi8xohcT8dJo/DuyIIEFRIGyQHaghs9UkblSGwLJNGbnWFdEqZxknxO0HfzI3ZYr9BzGTrhASH7n48TMY2U5u97F/b7LQaJTfU63dC40GV5llBtFmq+BMNLEJIAUM0QD6L3GWo7Skv7vl6JFFxeKhI8v82tOz1imzNYDFmqImELgS67MkvzVxS/r+KLxnaapfYBm8+T41e8A4XYTf0OXOP4tBeuMS3ReSyQ2kfmLTcQTBFZGkiATSEy/aOskyzN2znIMRQLQ3QWNS/40dLuwTatmmcbnesyqwCZi2lg7X6VymPvZqNqVuADAh5lonPm7MS+YMJ//7PpBlL2SPLYIe8p6DpChdeMxAjQ8SnBn755fajlw6ibP/v
-X-Exchange-RoutingPolicyChecked:
-	GehTsD8ew909SFzxA/mCxCj5lL2+ixIU98ETo7cLwFVEb/liiw6/tfQYXUhWacD1cQNW827MM9QG6td1lkb+NwsMzcOwsQFfIJ6/qmuq0MOtZjLn1pFHY8IoXTxhAjVTiPCf9roSaq8Jg83aHNiMP1KI/h2QmUsHmFYorKMbOC3+DfRZ79YrsgoxW2drIaQNv0TlLmsU+grAMAY0D+CRQNfsgL1TThdeGNk1I7ok53pJ9uh/9HuVf/MYHZTz4Z2p3Zn5ULjkxayCIeqXOXpYK5BKtYgOiC08NgLDuoJ7RNuOPOV5jWDmqGaLOebAouC+fKDxpyxWBp9Ylmp8J2d+Yg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 08:24:02.5678
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ff13822-7819-4c81-e0a1-08dee63841ae
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL02EPF0002992B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR19MB5431
-X-Proofpoint-ORIG-GUID: Lhsb1I8hv-1TfHmTds0V2il0ehuAFF0A
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDA5MiBTYWx0ZWRfX8fZGR1xFkLkX
- gCX3K345h/e0wRJvFt+aUGLdPY2/k0QW9lhut6R5Lrp5t+pakRh4B0tQP37xLN439EexDWL4yrX
- rru5E7hLlh0QUoz7ig9mDapW6OJj4Ug=
-X-Proofpoint-GUID: Lhsb1I8hv-1TfHmTds0V2il0ehuAFF0A
-X-Authority-Analysis: v=2.4 cv=BdjoFLt2 c=1 sm=1 tr=0 ts=6a5ddb27 cx=c_pps
- a=Qy130IFfx9qnCPISBCfGtw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=8nJEP1OIZ-IA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=IpJZQVW2AAAA:8 a=w1d2syhTAAAA:8 a=6OKiDxQQV3JOeiROQ6gA:9 a=3ZKOabzyN94A:10
- a=wPNLvfGTeEIA:10 a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDA5MiBTYWx0ZWRfX26sEqW4wm0eN
- gCEUfEp+ZgZ0UtPSVi6lMh8Ca4ivoX0/BVpOvYejavCjDRz3zqiYU5pyXlZkUdXRYTkd4A3Wt3i
- j2LnBipNmJmdN28jGCol4HdOe58mj4b6bX4TxTqHjSGKnCVAyd9LQQbeR2tfiUDJW70afhSvFfY
- nIdKR2MZGOtbUrecM5/1FNckJ1jdQJrzpvuyQcvZ/vFPOeWnFuaiTy7HySXg13QZw9CM12pkVxv
- zVcDwj61sma2ZD5t4fB/SyP+Gcnv5Jd6ZgjLjY2w7g/QMrrHTElf//PUp5FY2V+TrCIYyj+5+OE
- +BEJkFrCe3jTx+ss4BQpG8EqD48ZIBL2zReASnXAZ8Gudjl7vnZ8r0KYEAJZI8q5H4cK0nI3/94
- 22wJFgut1CwPUnAndkgopUk31RpYwAZbjqx42ssO889j/6Z6DR9FRH1XkD2QN2a8xazDwCVJelb
- 1oC8IoE+Gv5Txb/Wmzw==
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain
 
-On Mon, Jul 20, 2026 at 08:23:49AM +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> Named initializers are better readable and more robust to changes of the
-> struct definition. This robustness is relevant for a planned change to
-> struct platform_device_id replacing .driver_data by an anonymous union.
-> 
-> While touching these arrays unify spacing and usage of commas.
-> 
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
-> ---
+From: Shuming Fan <shumingf@realtek.com>
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+This patch adds the initial SDCA multi-function codec driver for the RT766 and RT767.
 
-Thanks,
-Charles
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
+---
+ sound/soc/codecs/Kconfig          |    8 +
+ sound/soc/codecs/Makefile         |    2 +
+ sound/soc/codecs/rt766-sdca-sdw.c |  350 +++++++
+ sound/soc/codecs/rt766-sdca-sdw.h |   71 ++
+ sound/soc/codecs/rt766-sdca.c     | 1521 +++++++++++++++++++++++++++++
+ sound/soc/codecs/rt766-sdca.h     |  132 +++
+ 6 files changed, 2084 insertions(+)
+ create mode 100644 sound/soc/codecs/rt766-sdca-sdw.c
+ create mode 100644 sound/soc/codecs/rt766-sdca-sdw.h
+ create mode 100644 sound/soc/codecs/rt766-sdca.c
+ create mode 100644 sound/soc/codecs/rt766-sdca.h
+
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 76e90144ea91..8b3690fe2b5a 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -238,6 +238,7 @@ config SND_SOC_ALL_CODECS
+ 	imply SND_SOC_RT715_SDCA_SDW
+ 	imply SND_SOC_RT721_SDCA_SDW
+ 	imply SND_SOC_RT722_SDCA_SDW
++	imply SND_SOC_RT766_SDCA_SDW
+ 	imply SND_SOC_RT1308_SDW
+ 	imply SND_SOC_RT1316_SDW
+ 	imply SND_SOC_RT1318
+@@ -1978,6 +1979,13 @@ config SND_SOC_RT715_SDCA_SDW
+ 	select REGMAP_SOUNDWIRE
+ 	select REGMAP_SOUNDWIRE_MBQ
+ 
++config SND_SOC_RT766_SDCA_SDW
++	tristate "Realtek RT766 SDCA Codec - SDW"
++	depends on SOUNDWIRE
++	depends on SND_SOC_SDCA
++	select REGMAP_SOUNDWIRE
++	select REGMAP_SOUNDWIRE_MBQ
++
+ config SND_SOC_RT9120
+ 	tristate "Richtek RT9120 Stereo Class-D Amplifier"
+ 	depends on I2C
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index aa0396e5b575..bcc753bd0ca9 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -284,6 +284,7 @@ snd-soc-rt715-y := rt715.o rt715-sdw.o
+ snd-soc-rt715-sdca-y := rt715-sdca.o rt715-sdca-sdw.o
+ snd-soc-rt721-sdca-y := rt721-sdca.o rt721-sdca-sdw.o
+ snd-soc-rt722-sdca-y := rt722-sdca.o rt722-sdca-sdw.o
++snd-soc-rt766-sdca-y := rt766-sdca.o rt766-sdca-sdw.o
+ snd-soc-rt9120-y := rt9120.o
+ snd-soc-rt9123-y := rt9123.o
+ snd-soc-rt9123p-y := rt9123p.o
+@@ -724,6 +725,7 @@ obj-$(CONFIG_SND_SOC_RT715)     += snd-soc-rt715.o
+ obj-$(CONFIG_SND_SOC_RT715_SDCA_SDW)     += snd-soc-rt715-sdca.o
+ obj-$(CONFIG_SND_SOC_RT721_SDCA_SDW)     += snd-soc-rt721-sdca.o
+ obj-$(CONFIG_SND_SOC_RT722_SDCA_SDW)     += snd-soc-rt722-sdca.o
++obj-$(CONFIG_SND_SOC_RT766_SDCA_SDW)     += snd-soc-rt766-sdca.o
+ obj-$(CONFIG_SND_SOC_RT9120)	+= snd-soc-rt9120.o
+ obj-$(CONFIG_SND_SOC_RT9123)	+= snd-soc-rt9123.o
+ obj-$(CONFIG_SND_SOC_RT9123P)	+= snd-soc-rt9123p.o
+diff --git a/sound/soc/codecs/rt766-sdca-sdw.c b/sound/soc/codecs/rt766-sdca-sdw.c
+new file mode 100644
+index 000000000000..94c5a7b0eac2
+--- /dev/null
++++ b/sound/soc/codecs/rt766-sdca-sdw.c
+@@ -0,0 +1,350 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// rt766-sdca-sdw.c -- rt766 SDCA ALSA SoC audio driver
++//
++// Copyright(c) 2026 Realtek Semiconductor Corp.
++//
++//
++
++#include <linux/delay.h>
++#include <linux/device.h>
++#include <linux/module.h>
++#include <linux/pm_runtime.h>
++#include <linux/soundwire/sdw_registers.h>
++#include <sound/sdca.h>
++#include <sound/sdca_function.h>
++#include "rt766-sdca.h"
++#include "rt766-sdca-sdw.h"
++
++#define RT766_PROBE_TIMEOUT 5000
++
++static bool rt766_sdca_readable_register(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case SDW_SCP_SDCA_INT1 ... SDW_SCP_SDCA_INTMASK4:
++	case RT766_VERSION_ID ... RT766_BOND_LATCH_ID:
++	case 0xc344 ... 0xc345:
++	case 0xc900:
++	case 0xc920:
++	case 0xd540 ... 0xd542:
++	case 0xf01e:
++	case RT766_HP_POWER_STATE ... RT766_HP_FSM_CTL2_1:
++	case 0x310100:
++	case RT766_MCU_PATCH_ADDR1_START ... RT766_MCU_PATCH_ADDR1_END:
++	case RT766_MCU_PATCH_ADDR2_START ... RT766_MCU_PATCH_ADDR2_END:
++	case RT766_MUTE_REG(UAJ, USER_FU41, 1):
++	case RT766_MUTE_REG(UAJ, USER_FU41, 2):
++	case RT766_VOLUME_REG(UAJ, USER_FU41, 1):
++	case RT766_VOLUME_REG(UAJ, USER_FU41, 2):
++	case RT766_MUTE_REG(UAJ, USER_FU36, 1):
++	case RT766_MUTE_REG(UAJ, USER_FU36, 2):
++	case RT766_VOLUME_REG(UAJ, USER_FU36, 1):
++	case RT766_VOLUME_REG(UAJ, USER_FU36, 2):
++	case RT766_PDE_REQ_REG(UAJ, PDE47):
++	case RT766_PDE_REQ_REG(UAJ, PDE34):
++	case RT766_SDCA_CTL(UAJ, CS41, SDCA_CTL_CS_SAMPLERATEINDEX):
++	case RT766_SDCA_CTL(UAJ, CS36, SDCA_CTL_CS_SAMPLERATEINDEX):
++	/* 0x40480000 */
++	case RT766_FUNC_STATUS_REG(UAJ):
++	/* 0x40481400 */
++	case RT766_PDE_ACTUAL_REG(UAJ, PDE47):
++	/* 0x40481480 */
++	case RT766_PDE_ACTUAL_REG(UAJ, PDE34):
++	case RT766_GAIN_REG(UAJ, PLATFORM_FU33, 1):
++	case RT766_GAIN_REG(UAJ, PLATFORM_FU33, 2):
++	case RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_SELECTED_MODE):
++	/* 0x40600490 */
++	case RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_DETECTED_MODE):
++	case RT766_PDE_REQ_REG(MIC, PDE11):
++	case RT766_MUTE_REG(MIC, USER_FU113, 1):
++	case RT766_MUTE_REG(MIC, USER_FU113, 2):
++	case RT766_MUTE_REG(MIC, USER_FU113, 3):
++	case RT766_MUTE_REG(MIC, USER_FU113, 4):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 1):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 2):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 3):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 4):
++	/* 0x40880000 */
++	case RT766_FUNC_STATUS_REG(MIC):
++	case RT766_SDCA_CTL(MIC, CS113, SDCA_CTL_CS_SAMPLERATEINDEX):
++	/* 0x40881500 */
++	case RT766_PDE_ACTUAL_REG(MIC, PDE11):
++	/* 0x40c80000 */
++	case RT766_FUNC_STATUS_REG(HID):
++	/* 0x40c80080 - 0x40c80098 */
++	case RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_CURRENTOWNER) ...
++		RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_MESSAGELENGTH):
++	case RT766_MUTE_REG(AMP, USER_FU21, 1):
++	case RT766_MUTE_REG(AMP, USER_FU21, 2):
++	case RT766_VOLUME_REG(AMP, USER_FU21, 1):
++	case RT766_VOLUME_REG(AMP, USER_FU21, 2):
++	case RT766_PDE_REQ_REG(AMP, PDE23):
++	/* 0x41080000 */
++	case RT766_FUNC_STATUS_REG(AMP):
++	case RT766_SDCA_CTL(AMP, PPU21, SDCA_CTL_PPU_POSTURENUMBER):
++	case RT766_SDCA_CTL(AMP, CS21, SDCA_CTL_CS_SAMPLERATEINDEX):
++	/* 0x41081980 */
++	case RT766_PDE_ACTUAL_REG(AMP, PDE23):
++	case RT766_BUF_ADDR_HID1 ... RT766_BUF_ADDR_HID2:
++		return true;
++	default:
++		return false;
++	}
++}
++
++static bool rt766_sdca_volatile_register(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case SDW_SCP_SDCA_INT1 ... SDW_SCP_SDCA_INTMASK4:
++	case RT766_VERSION_ID ... RT766_BOND_LATCH_ID:
++	case 0xc344 ... 0xc345:
++	case 0xc900:
++	case 0xc920:
++	case 0xd540 ... 0xd542:
++	case 0xf01e:
++	case RT766_HP_POWER_STATE ... RT766_HP_FSM_CTL2_1:
++	case 0x310100:
++	case RT766_MCU_PATCH_ADDR1_START ... RT766_MCU_PATCH_ADDR1_END:
++	case RT766_MCU_PATCH_ADDR2_START ... RT766_MCU_PATCH_ADDR2_END:
++	case RT766_FUNC_STATUS_REG(UAJ):
++	case RT766_PDE_ACTUAL_REG(UAJ, PDE47):
++	case RT766_PDE_ACTUAL_REG(UAJ, PDE34):
++	case RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_DETECTED_MODE):
++	case RT766_FUNC_STATUS_REG(MIC):
++	case RT766_PDE_ACTUAL_REG(MIC, PDE11):
++	case RT766_FUNC_STATUS_REG(HID):
++	case RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_CURRENTOWNER) ...
++		RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_MESSAGELENGTH):
++	case RT766_FUNC_STATUS_REG(AMP):
++	case RT766_PDE_ACTUAL_REG(AMP, PDE23):
++	case RT766_BUF_ADDR_HID1 ... RT766_BUF_ADDR_HID2:
++		return true;
++	default:
++		return false;
++	}
++}
++
++static int rt766_sdca_mbq_size(struct device *dev, unsigned int reg)
++{
++	switch (reg) {
++	case RT766_VOLUME_REG(UAJ, USER_FU41, 1):
++	case RT766_VOLUME_REG(UAJ, USER_FU41, 2):
++	case RT766_VOLUME_REG(UAJ, USER_FU36, 1):
++	case RT766_VOLUME_REG(UAJ, USER_FU36, 2):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 1):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 2):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 3):
++	case RT766_VOLUME_REG(MIC, USER_FU113, 4):
++	case RT766_VOLUME_REG(AMP, USER_FU21, 1):
++	case RT766_VOLUME_REG(AMP, USER_FU21, 2):
++		return 2;
++	default:
++		return 1;
++	}
++}
++
++static const struct regmap_sdw_mbq_cfg rt766_sdca_mbq_cfg = {
++	.mbq_size = rt766_sdca_mbq_size,
++};
++
++static const struct regmap_config rt766_sdca_regmap = {
++	.reg_bits = 32,
++	.val_bits = 16,
++	.readable_reg = rt766_sdca_readable_register,
++	.volatile_reg = rt766_sdca_volatile_register,
++	.reg_defaults = rt766_sdca_defaults,
++	.num_reg_defaults = ARRAY_SIZE(rt766_sdca_defaults),
++	.max_register = SDW_SDCA_MAX_REGISTER,
++	.cache_type = REGCACHE_MAPLE,
++	.use_single_read = true,
++	.use_single_write = true,
++};
++
++static int rt766_sdca_update_status(struct sdw_slave *slave,
++				enum sdw_slave_status status)
++{
++	struct rt766_sdca_priv *rt766 = dev_get_drvdata(&slave->dev);
++
++	if (status == SDW_SLAVE_UNATTACHED)
++		rt766->hw_init = false;
++
++	if (status == SDW_SLAVE_ATTACHED) {
++		if (rt766->hs_jack) {
++			/*
++			 * Due to the SCP_SDCA_INTMASK will be cleared by any reset, and then
++			 * if the device attached again, we will need to set the setting back.
++			 * It could avoid losing the jack detection interrupt.
++			 * This also could sync with the cache value as the rt766_sdca_jack_init set.
++			 */
++			sdw_write_no_pm(rt766->slave, SDW_SCP_SDCA_INTMASK3,
++				SDW_SCP_SDCA_INTMASK_SDCA_16);
++			sdw_write_no_pm(rt766->slave, SDW_SCP_SDCA_INTMASK4,
++				SDW_SCP_SDCA_INTMASK_SDCA_24);
++		}
++	}
++
++	/*
++	 * Perform initialization only if slave status is present and
++	 * hw_init flag is false
++	 */
++	if (rt766->hw_init || status != SDW_SLAVE_ATTACHED)
++		return 0;
++
++	/* perform I/O transfers required for Slave initialization */
++	return rt766_sdca_io_init(&slave->dev, slave);
++}
++
++static int rt766_sdca_read_prop(struct sdw_slave *slave)
++{
++	struct sdw_slave_prop *prop = &slave->prop;
++	int ret;
++
++	ret = sdw_slave_read_prop(slave);
++	if (ret < 0)
++		return ret;
++
++	prop->scp_int1_mask = SDW_SCP_INT1_BUS_CLASH | SDW_SCP_INT1_PARITY;
++	prop->quirks = SDW_SLAVE_QUIRKS_INVALID_INITIAL_PARITY;
++	/*
++	 * SDCA interrupts are routed through SoundWire domain IRQ.
++	 */
++	prop->use_domain_irq = true;
++
++	return 0;
++}
++
++static const struct sdw_slave_ops rt766_sdca_slave_ops = {
++	.read_prop = rt766_sdca_read_prop,
++	.update_status = rt766_sdca_update_status,
++};
++
++static int rt766_sdca_sdw_probe(struct sdw_slave *slave,
++				const struct sdw_device_id *id)
++{
++	struct regmap *regmap;
++
++	/* Regmap Initialization */
++	regmap = devm_regmap_init_sdw_mbq_cfg(&slave->dev, slave,
++					      &rt766_sdca_regmap, &rt766_sdca_mbq_cfg);
++	if (IS_ERR(regmap))
++		return PTR_ERR(regmap);
++
++	return rt766_sdca_init(&slave->dev, regmap, slave);
++}
++
++static void rt766_sdca_sdw_remove(struct sdw_slave *slave)
++{
++	struct rt766_sdca_priv *rt766 = dev_get_drvdata(&slave->dev);
++
++	pm_runtime_disable(&slave->dev);
++
++	mutex_destroy(&rt766->disable_irq_lock);
++}
++
++static const struct sdw_device_id rt766_sdca_id[] = {
++	SDW_SLAVE_ENTRY_EXT(0x025d, 0x766, 0x3, 0x1, 0),
++	SDW_SLAVE_ENTRY_EXT(0x025d, 0x767, 0x3, 0x1, 0),
++	{},
++};
++MODULE_DEVICE_TABLE(sdw, rt766_sdca_id);
++
++static int rt766_sdca_dev_suspend(struct device *dev)
++{
++	struct rt766_sdca_priv *rt766 = dev_get_drvdata(dev);
++
++	if (!rt766->hw_init)
++		return 0;
++
++	regcache_cache_only(rt766->regmap, true);
++	return 0;
++}
++
++static int rt766_sdca_dev_system_suspend(struct device *dev)
++{
++	struct rt766_sdca_priv *rt766 = dev_get_drvdata(dev);
++	struct sdw_slave *slave = dev_to_sdw_dev(dev);
++	int ret1, ret2;
++
++	if (!rt766->hw_init)
++		return 0;
++
++	/*
++	 * prevent new interrupts from being handled after the
++	 * deferred work completes and before the parent disables
++	 * interrupts on the link
++	 */
++	mutex_lock(&rt766->disable_irq_lock);
++	rt766->disable_irq = true;
++	ret1 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK3,
++				SDW_SCP_SDCA_INTMASK_SDCA_16, 0);
++	ret2 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK4,
++				SDW_SCP_SDCA_INTMASK_SDCA_24, 0);
++	mutex_unlock(&rt766->disable_irq_lock);
++
++	if (ret1 < 0 || ret2 < 0) {
++		/* log but don't prevent suspend from happening */
++		dev_dbg(&slave->dev, "%s: could not disable SDCA interrupts\n:", __func__);
++	}
++
++	return rt766_sdca_dev_suspend(dev);
++}
++
++static int rt766_sdca_dev_resume(struct device *dev)
++{
++	struct sdw_slave *slave = dev_to_sdw_dev(dev);
++	struct rt766_sdca_priv *rt766 = dev_get_drvdata(dev);
++	int ret;
++
++	if (!rt766->first_hw_init)
++		return 0;
++
++	if (!slave->unattach_request) {
++		mutex_lock(&rt766->disable_irq_lock);
++		if (rt766->disable_irq == true) {
++			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK3, SDW_SCP_SDCA_INTMASK_SDCA_16);
++			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK4, SDW_SCP_SDCA_INTMASK_SDCA_24);
++			rt766->disable_irq = false;
++		}
++		mutex_unlock(&rt766->disable_irq_lock);
++		goto regmap_sync;
++	}
++
++	ret = sdw_slave_wait_for_init(slave, RT766_PROBE_TIMEOUT);
++	if (ret) {
++		sdw_show_ping_status(slave->bus, true);
++		return ret;
++	}
++
++regmap_sync:
++	regcache_cache_only(rt766->regmap, false);
++	ret = regcache_sync(rt766->regmap);
++	if (ret) {
++		regcache_cache_only(rt766->regmap, true);
++		regcache_mark_dirty(rt766->regmap);
++		return ret;
++	}
++
++	return 0;
++}
++
++static const struct dev_pm_ops rt766_sdca_pm = {
++	SYSTEM_SLEEP_PM_OPS(rt766_sdca_dev_system_suspend, rt766_sdca_dev_resume)
++	RUNTIME_PM_OPS(rt766_sdca_dev_suspend, rt766_sdca_dev_resume, NULL)
++};
++
++static struct sdw_driver rt766_sdca_sdw_driver = {
++	.driver = {
++		.name = "rt766-sdca",
++		.pm = pm_ptr(&rt766_sdca_pm),
++	},
++	.probe = rt766_sdca_sdw_probe,
++	.remove = rt766_sdca_sdw_remove,
++	.ops = &rt766_sdca_slave_ops,
++	.id_table = rt766_sdca_id,
++};
++module_sdw_driver(rt766_sdca_sdw_driver);
++
++MODULE_DESCRIPTION("ASoC RT766 SDCA SDW driver");
++MODULE_AUTHOR("Shuming Fan <shumingf@realtek.com>");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("SND_SOC_SDCA");
+diff --git a/sound/soc/codecs/rt766-sdca-sdw.h b/sound/soc/codecs/rt766-sdca-sdw.h
+new file mode 100644
+index 000000000000..ae6e534d4ccc
+--- /dev/null
++++ b/sound/soc/codecs/rt766-sdca-sdw.h
+@@ -0,0 +1,71 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * rt766-sdca-sdw.h -- RT766 SDCA ALSA SoC audio driver header
++ *
++ * Copyright(c) 2026 Realtek Semiconductor Corp.
++ */
++
++#ifndef __RT766_SDW_H__
++#define __RT766_SDW_H__
++
++#include <linux/regmap.h>
++#include <linux/soundwire/sdw_registers.h>
++
++static const struct reg_default rt766_sdca_defaults[] = {
++	/* 0x40400289 - 0x4040028a */
++	{ RT766_MUTE_REG(UAJ, USER_FU41, 1), 0x01 },
++	{ RT766_MUTE_REG(UAJ, USER_FU41, 2), 0x01 },
++	/* 0x40400291 - 0x40400292 */
++	{ RT766_VOLUME_REG(UAJ, USER_FU41, 1), 0x0000 },
++	{ RT766_VOLUME_REG(UAJ, USER_FU41, 2), 0x0000 },
++	/* 0x40400789 - 0x4040078a */
++	{ RT766_MUTE_REG(UAJ, USER_FU36, 1), 0x01 },
++	{ RT766_MUTE_REG(UAJ, USER_FU36, 2), 0x01 },
++	/* 0x40400791 - 0x40400792 */
++	{ RT766_VOLUME_REG(UAJ, USER_FU36, 1), 0x0000 },
++	{ RT766_VOLUME_REG(UAJ, USER_FU36, 2), 0x0000 },
++	/* 0x40401408 */
++	{ RT766_PDE_REQ_REG(UAJ, PDE47), 0x03 },
++	/* 0x40401488 */
++	{ RT766_PDE_REQ_REG(UAJ, PDE34), 0x03 },
++	/* 0x40480080 */
++	{ RT766_SDCA_CTL(UAJ, CS41, SDCA_CTL_CS_SAMPLERATEINDEX), 0x09 },
++	/* 0x40480880 */
++	{ RT766_SDCA_CTL(UAJ, CS36, SDCA_CTL_CS_SAMPLERATEINDEX), 0x09 },
++	/* 0x40600259 - 0x4060025a */
++	{ RT766_GAIN_REG(UAJ, PLATFORM_FU33, 1), 0xfe00 },
++	{ RT766_GAIN_REG(UAJ, PLATFORM_FU33, 2), 0xfe00 },
++	/* 0x40600488 */
++	{ RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_SELECTED_MODE), 0x00 },
++
++	/* 0x40801508 */
++	{ RT766_PDE_REQ_REG(MIC, PDE11), 0x03 },
++	/* 0x40801809 - 0x4080180c */
++	{ RT766_MUTE_REG(MIC, USER_FU113, 1), 0x01 },
++	{ RT766_MUTE_REG(MIC, USER_FU113, 2), 0x01 },
++	{ RT766_MUTE_REG(MIC, USER_FU113, 3), 0x01 },
++	{ RT766_MUTE_REG(MIC, USER_FU113, 4), 0x01 },
++	/* 0x40801811 - 0x40801814 */
++	{ RT766_VOLUME_REG(MIC, USER_FU113, 1), 0x0000 },
++	{ RT766_VOLUME_REG(MIC, USER_FU113, 2), 0x0000 },
++	{ RT766_VOLUME_REG(MIC, USER_FU113, 3), 0x0000 },
++	{ RT766_VOLUME_REG(MIC, USER_FU113, 4), 0x0000 },
++	/* 0x40880900 */
++	{ RT766_SDCA_CTL(MIC, CS113, SDCA_CTL_CS_SAMPLERATEINDEX), 0x09 },
++
++	/* 0x41000189 - 0x4100018a */
++	{ RT766_MUTE_REG(AMP, USER_FU21, 1), 0x01 },
++	{ RT766_MUTE_REG(AMP, USER_FU21, 2), 0x01 },
++	/* 0x41000191 - 0x41000192 */
++	{ RT766_VOLUME_REG(AMP, USER_FU21, 1), 0x0000 },
++	{ RT766_VOLUME_REG(AMP, USER_FU21, 2), 0x0000 },
++	/* 0x41001988 */
++	{ RT766_PDE_REQ_REG(AMP, PDE23), 0x03 },
++	/* 0x41080200 */
++	{ RT766_SDCA_CTL(AMP, PPU21, SDCA_CTL_PPU_POSTURENUMBER), 0x00 },
++	/* 0x41081080 */
++	{ RT766_SDCA_CTL(AMP, CS21, SDCA_CTL_CS_SAMPLERATEINDEX), 0x09 },
++
++};
++
++#endif /* __RT766_SDW_H__ */
+diff --git a/sound/soc/codecs/rt766-sdca.c b/sound/soc/codecs/rt766-sdca.c
+new file mode 100644
+index 000000000000..ac920736ee48
+--- /dev/null
++++ b/sound/soc/codecs/rt766-sdca.c
+@@ -0,0 +1,1521 @@
++// SPDX-License-Identifier: GPL-2.0-only
++//
++// rt766-sdca.c -- rt766 SDCA ALSA SoC audio driver
++//
++// Copyright(c) 2026 Realtek Semiconductor Corp.
++//
++//
++
++#include <linux/bitops.h>
++#include <sound/core.h>
++#include <linux/delay.h>
++#include <linux/init.h>
++#include <sound/initval.h>
++#include <sound/jack.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/pm_runtime.h>
++#include <linux/soundwire/sdw_registers.h>
++#include <sound/pcm.h>
++#include <sound/pcm_params.h>
++#include <sound/sdca.h>
++#include <sound/sdca_asoc.h>
++#include <sound/sdca_function.h>
++#include <sound/sdca_regmap.h>
++#include <sound/sdca_interrupts.h>
++#include <linux/slab.h>
++#include <sound/soc-dapm.h>
++#include <sound/tlv.h>
++#include "rt766-sdca.h"
++#include "rt-sdw-common.h"
++
++static struct sdca_entity *rt766_find_entity_by_label(struct sdca_function_data *func,
++	const char *label)
++{
++	struct sdca_entity *entity = NULL;
++	int idx;
++
++	for (idx = 0; idx < func->num_entities; idx++) {
++		entity = &func->entities[idx];
++
++		if (!strcmp(entity->label, label))
++			return entity;
++	}
++
++	return NULL;
++}
++
++static int rt766_sdca_btn_detect(struct sdca_interrupt *interrupt)
++{
++	struct rt766_sdca_priv *rt766 = interrupt->priv;
++	struct sdca_entity *ent_hid = interrupt->entity;
++	unsigned char *buf = NULL;
++	unsigned int offset, owner, length;
++	unsigned int det_mode, idx, val;
++	int ret;
++
++	ret = regmap_read(rt766->regmap,
++		RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_DETECTED_MODE),
++		&det_mode);
++	if (ret < 0)
++		goto io_error;
++
++	/* get current UMP message owner */
++	ret = regmap_read(rt766->regmap,
++		RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_CURRENTOWNER),
++		&owner);
++	if (ret < 0)
++		goto io_error;
++
++	/* if owner is device then there is no button event from device */
++	if (owner == 1)
++		return 0;
++
++	if (det_mode) {
++		/* read UMP message length */
++		ret = regmap_read(rt766->regmap,
++			RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_MESSAGELENGTH),
++			&length);
++		if (ret < 0)
++			goto _end_btn_det_;
++
++		/* read UMP message offset */
++		ret = regmap_read(rt766->regmap,
++			RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_MESSAGEOFFSET),
++			&offset);
++		if (ret < 0)
++			goto _end_btn_det_;
++
++		buf = devm_kzalloc(&rt766->slave->dev, length, GFP_KERNEL);
++		if (!buf) {
++			dev_err(&rt766->slave->dev, "%s: alloc buf failed\n", __func__);
++			goto _end_btn_det_;
++		}
++
++		for (idx = 0; idx < length; idx++) {
++			ret = regmap_read(rt766->regmap,
++				RT766_BUF_ADDR_HID1 + offset + idx, &val);
++			if (ret < 0)
++				goto _end_btn_det_;
++			buf[idx] = val & 0xff;
++		}
++
++		if (ent_hid)
++			hid_input_report(ent_hid->hide.hid, HID_INPUT_REPORT,
++				buf, length, 1);
++	}
++
++_end_btn_det_:
++	if (buf)
++		devm_kfree(&rt766->slave->dev, buf);
++
++	/* Host is owner, so set back to device */
++	if (owner == 0) {
++		regmap_write(rt766->regmap,
++			RT766_SDCA_CTL(HID, HID101, SDCA_CTL_HIDE_HIDTX_CURRENTOWNER), 0x01);
++	}
++
++	return 0;
++
++io_error:
++	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
++	return ret;
++}
++
++static irqreturn_t rt766_sdca_irq_btn_handler(int irq, void *data)
++{
++	struct sdca_interrupt *interrupt = data;
++	struct rt766_sdca_priv *rt766 = interrupt->priv;
++
++	if (!rt766->hs_jack)
++		return IRQ_HANDLED;
++
++	if (!rt766->component->card || !rt766->component->card->instantiated)
++		return IRQ_HANDLED;
++
++	mutex_lock(&rt766->disable_irq_lock);
++	if (!rt766->disable_irq)
++		rt766_sdca_btn_detect(interrupt);
++	mutex_unlock(&rt766->disable_irq_lock);
++	return IRQ_HANDLED;
++}
++
++static int rt766_sdca_headset_detect(struct rt766_sdca_priv *rt766)
++{
++	unsigned int det_mode;
++	int ret;
++
++	/* get detected_mode */
++	ret = regmap_read(rt766->regmap,
++		RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_DETECTED_MODE),
++		&det_mode);
++	if (ret < 0)
++		goto io_error;
++
++	switch (det_mode) {
++	case 0x00:
++		rt766->jack_type = 0;
++		break;
++	case 0x03:
++		rt766->jack_type = SND_JACK_HEADPHONE;
++		break;
++	case 0x05:
++		rt766->jack_type = SND_JACK_HEADSET;
++		break;
++	}
++
++	/* write selected_mode */
++	if (det_mode) {
++		ret = regmap_write(rt766->regmap,
++			RT766_SDCA_CTL(UAJ, GE49, SDCA_CTL_GE_SELECTED_MODE),
++			det_mode);
++		if (ret < 0)
++			goto io_error;
++	}
++
++	dev_dbg(&rt766->slave->dev,
++		"%s, detected_mode=0x%x\n", __func__, det_mode);
++
++	return 0;
++
++io_error:
++	pr_err_ratelimited("IO error in %s, ret %d\n", __func__, ret);
++	return ret;
++}
++
++static irqreturn_t rt766_sdca_irq_jd_handler(int irq, void *data)
++{
++	struct sdca_interrupt *interrupt = data;
++	struct rt766_sdca_priv *rt766 = interrupt->priv;
++
++	if (!rt766->hs_jack)
++		return IRQ_HANDLED;
++
++	if (!rt766->component->card || !rt766->component->card->instantiated)
++		return IRQ_HANDLED;
++
++	mutex_lock(&rt766->disable_irq_lock);
++	if (!rt766->disable_irq)
++		rt766_sdca_headset_detect(rt766);
++	mutex_unlock(&rt766->disable_irq_lock);
++
++	dev_dbg(&rt766->slave->dev,
++		"in %s, jack_type=%d\n", __func__, rt766->jack_type);
++
++	snd_soc_jack_report(rt766->hs_jack, rt766->jack_type, SND_JACK_HEADSET);
++	return IRQ_HANDLED;
++}
++
++static int rt766_sdca_irq_ctl(struct rt766_sdca_priv *rt766,
++							  struct sdca_function_data *function,
++							  struct snd_soc_component *component,
++							  struct sdca_interrupt_info *info,
++							  bool enabled)
++{
++	struct device *dev = &rt766->slave->dev;
++	struct sdca_interrupt *interrupt;
++	struct sdca_control *control;
++	struct sdca_entity *entity;
++	irq_handler_t handler;
++	int i, j, irq, ret;
++
++	for (i = 0; i < function->num_entities; i++) {
++		entity = &function->entities[i];
++
++		for (j = 0; j < entity->num_controls; j++) {
++			control = &entity->controls[j];
++			irq = control->interrupt_position;
++
++			switch (SDCA_CTL_TYPE(entity->type, control->sel)) {
++			case SDCA_CTL_TYPE_S(GE, DETECTED_MODE):
++				handler = rt766_sdca_irq_jd_handler;
++				break;
++			case SDCA_CTL_TYPE_S(HIDE, HIDTX_CURRENTOWNER):
++				handler = rt766_sdca_irq_btn_handler;
++				break;
++			default:
++				continue;
++			}
++
++			interrupt = &info->irqs[irq];
++
++			if (enabled) {
++				ret = sdca_irq_data_populate(dev, rt766->regmap, component,
++								function, entity, control,
++								interrupt);
++				if (ret)
++					return ret;
++
++				interrupt->priv = rt766;
++				ret = sdca_irq_request(dev, info, irq, interrupt->name,
++								handler, interrupt);
++				if (ret) {
++					dev_err(dev, "failed to request irq %s: %d\n",
++						interrupt->name, ret);
++					return ret;
++				}
++				dev_dbg(dev, "Requesting IRQ %d InterruptName=%s\n", irq, interrupt->name);
++			} else {
++				sdca_irq_free(dev, info, irq, interrupt->name, interrupt);
++				dev_dbg(dev, "Freeing IRQ %d\n", irq);
++			}
++		}
++	}
++
++	return 0;
++}
++
++static int rt766_sdca_set_jack_detect(struct snd_soc_component *component,
++	struct snd_soc_jack *hs_jack, void *data)
++{
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	int ret;
++
++	if (!rt766->uaj_func_data) {
++		dev_err(&rt766->slave->dev, "The SDCA UAJ function is not supported.\n");
++		return -EINVAL;
++	}
++
++	rt766->hs_jack = hs_jack;
++
++	if (!rt766->first_hw_init)
++		return 0;
++
++	ret = pm_runtime_resume_and_get(component->dev);
++	if (ret < 0) {
++		if (ret != -EACCES) {
++			dev_err(component->dev, "%s: failed to resume %d\n", __func__, ret);
++			return ret;
++		}
++
++		/* pm_runtime not enabled yet */
++		dev_dbg(component->dev,	"%s: skipping jack init for now\n", __func__);
++		return 0;
++	}
++
++	/* disable interrupts if hs_jack is not set */
++	if (!rt766->hs_jack) {
++		if (rt766->uaj_func_data)
++			rt766_sdca_irq_ctl(rt766, rt766->uaj_func_data,
++				rt766->component, rt766->irq_info, false);
++
++		if (rt766->hid_func_data)
++			rt766_sdca_irq_ctl(rt766, rt766->hid_func_data,
++				rt766->component, rt766->irq_info, false);
++	}
++
++	pm_runtime_put_autosuspend(component->dev);
++
++	return 0;
++}
++
++static int rt766_sdca_set_fu41_playback_ctl(struct rt766_sdca_priv *rt766)
++{
++	int err;
++	unsigned int ch_01, ch_02;
++
++	ch_01 = (rt766->fu41_dapm_mute || rt766->fu41_mixer_l_mute) ? 0x01 : 0x00;
++	ch_02 = (rt766->fu41_dapm_mute || rt766->fu41_mixer_r_mute) ? 0x01 : 0x00;
++
++	err = regmap_write(rt766->regmap, RT766_MUTE_REG(UAJ, USER_FU41, 1), ch_01);
++	if (err < 0)
++		return err;
++
++	err = regmap_write(rt766->regmap, RT766_MUTE_REG(UAJ, USER_FU41, 2), ch_02);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++
++static int rt766_sdca_fu41_playback_get(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++
++	ucontrol->value.integer.value[0] = !rt766->fu41_mixer_l_mute;
++	ucontrol->value.integer.value[1] = !rt766->fu41_mixer_r_mute;
++	return 0;
++}
++
++static int rt766_sdca_fu41_playback_put(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	int err;
++
++	if (rt766->fu41_mixer_l_mute == !ucontrol->value.integer.value[0] &&
++		rt766->fu41_mixer_r_mute == !ucontrol->value.integer.value[1])
++		return 0;
++
++	rt766->fu41_mixer_l_mute = !ucontrol->value.integer.value[0];
++	rt766->fu41_mixer_r_mute = !ucontrol->value.integer.value[1];
++
++	err = rt766_sdca_set_fu41_playback_ctl(rt766);
++	if (err < 0)
++		return err;
++
++	return 1;
++}
++
++static int rt766_sdca_set_fu36_capture_ctl(struct rt766_sdca_priv *rt766)
++{
++	int err;
++	unsigned int ch_01, ch_02;
++
++	ch_01 = (rt766->fu36_dapm_mute || rt766->fu36_mixer_l_mute) ? 0x01 : 0x00;
++	ch_02 = (rt766->fu36_dapm_mute || rt766->fu36_mixer_r_mute) ? 0x01 : 0x00;
++
++	err = regmap_write(rt766->regmap, RT766_MUTE_REG(UAJ, USER_FU36, 1), ch_01);
++	if (err < 0)
++		return err;
++
++	err = regmap_write(rt766->regmap, RT766_MUTE_REG(UAJ, USER_FU36, 2), ch_02);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++
++static int rt766_sdca_fu36_capture_get(struct snd_kcontrol *kcontrol,
++			struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++
++	ucontrol->value.integer.value[0] = !rt766->fu36_mixer_l_mute;
++	ucontrol->value.integer.value[1] = !rt766->fu36_mixer_r_mute;
++	return 0;
++}
++
++static int rt766_sdca_fu36_capture_put(struct snd_kcontrol *kcontrol,
++			struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	int err;
++
++	if (rt766->fu36_mixer_l_mute == !ucontrol->value.integer.value[0] &&
++		rt766->fu36_mixer_r_mute == !ucontrol->value.integer.value[1])
++		return 0;
++
++	rt766->fu36_mixer_l_mute = !ucontrol->value.integer.value[0];
++	rt766->fu36_mixer_r_mute = !ucontrol->value.integer.value[1];
++	err = rt766_sdca_set_fu36_capture_ctl(rt766);
++	if (err < 0)
++		return err;
++
++	return 1;
++}
++
++static int rt766_sdca_set_fu21_playback_ctl(struct rt766_sdca_priv *rt766)
++{
++	int err;
++	unsigned int ch_01, ch_02;
++
++	ch_01 = (rt766->fu21_dapm_mute || rt766->fu21_mixer_l_mute) ? 0x01 : 0x00;
++	ch_02 = (rt766->fu21_dapm_mute || rt766->fu21_mixer_r_mute) ? 0x01 : 0x00;
++
++	err = regmap_write(rt766->regmap, RT766_MUTE_REG(AMP, USER_FU21, 1), ch_01);
++	if (err < 0)
++		return err;
++
++	err = regmap_write(rt766->regmap, RT766_MUTE_REG(AMP, USER_FU21, 2), ch_02);
++	if (err < 0)
++		return err;
++
++	return 0;
++}
++
++static int rt766_sdca_fu21_playback_get(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++
++	ucontrol->value.integer.value[0] = !rt766->fu21_mixer_l_mute;
++	ucontrol->value.integer.value[1] = !rt766->fu21_mixer_r_mute;
++	return 0;
++}
++
++static int rt766_sdca_fu21_playback_put(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	int err;
++
++	if (rt766->fu21_mixer_l_mute == !ucontrol->value.integer.value[0] &&
++		rt766->fu21_mixer_r_mute == !ucontrol->value.integer.value[1])
++		return 0;
++
++	rt766->fu21_mixer_l_mute = !ucontrol->value.integer.value[0];
++	rt766->fu21_mixer_r_mute = !ucontrol->value.integer.value[1];
++
++	err = rt766_sdca_set_fu21_playback_ctl(rt766);
++	if (err < 0)
++		return err;
++
++	return 1;
++}
++
++static int rt766_sdca_set_fu113_capture_ctl(struct rt766_sdca_priv *rt766)
++{
++	int err, i;
++	unsigned int ch_mute;
++
++	for (i = 0; i < ARRAY_SIZE(rt766->fu113_mixer_mute); i++) {
++		ch_mute = (rt766->fu113_dapm_mute || rt766->fu113_mixer_mute[i]) ? 0x01 : 0x00;
++		err = regmap_write(rt766->regmap, RT766_MUTE_REG(MIC, USER_FU113, 1) + i,
++				ch_mute);
++		if (err < 0)
++			return err;
++	}
++
++	return 0;
++}
++
++static int rt766_sdca_fu113_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component =
++		snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		rt766->fu113_dapm_mute = false;
++		rt766_sdca_set_fu113_capture_ctl(rt766);
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		rt766->fu113_dapm_mute = true;
++		rt766_sdca_set_fu113_capture_ctl(rt766);
++		break;
++	}
++	return 0;
++}
++
++static int rt766_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
++		struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	struct rt_sdca_dmic_kctrl_priv *p =
++		(struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
++	const unsigned int interval_offset = 0xc0;
++	unsigned int regvalue, ctl, i;
++
++	/* check all channels */
++	for (i = 0; i < p->count; i++) {
++		regmap_read(rt766->regmap, p->reg_base + i, &regvalue);
++		ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
++
++		ucontrol->value.integer.value[i] = ctl;
++	}
++
++	return 0;
++}
++
++static int rt766_sdca_dmic_set_gain_put(struct snd_kcontrol *kcontrol,
++		struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt_sdca_dmic_kctrl_priv *p =
++		(struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	const unsigned int interval_offset = 0xc0;
++	unsigned int gain_val[4];
++	unsigned int i, changed = 0;
++	unsigned int regvalue[4];
++	int err;
++
++	/* check all channels */
++	for (i = 0; i < p->count; i++) {
++		regmap_read(rt766->regmap, p->reg_base + i, &regvalue[i]);
++
++		gain_val[i] = ucontrol->value.integer.value[i];
++		if (gain_val[i] > p->max)
++			gain_val[i] = p->max;
++
++		gain_val[i] = 0x1e00 - ((p->max - gain_val[i]) * interval_offset);
++		gain_val[i] &= 0xffff;
++
++		if (regvalue[i] != gain_val[i])
++			changed = 1;
++	}
++
++	if (!changed)
++		return 0;
++
++	for (i = 0; i < p->count; i++) {
++		err = regmap_write(rt766->regmap, p->reg_base + i, gain_val[i]);
++		if (err < 0)
++			dev_err(&rt766->slave->dev, "0x%08x can't be set\n", p->reg_base + i);
++	}
++
++	return changed;
++}
++
++static int rt766_sdca_dmic_fu113_capture_get(struct snd_kcontrol *kcontrol,
++			struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	unsigned int i;
++
++	for (i = 0; i < 4; i++)
++		ucontrol->value.integer.value[i] = !rt766->fu113_mixer_mute[i];
++	return 0;
++}
++
++static int rt766_sdca_dmic_fu113_capture_put(struct snd_kcontrol *kcontrol,
++			struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	int err, changed = 0, i;
++
++	for (i = 0; i < 4; i++) {
++		if (rt766->fu113_mixer_mute[i] != !ucontrol->value.integer.value[i])
++			changed = 1;
++		rt766->fu113_mixer_mute[i] = !ucontrol->value.integer.value[i];
++	}
++
++	err = rt766_sdca_set_fu113_capture_ctl(rt766);
++	if (err < 0)
++		return err;
++	return changed;
++}
++
++static int rt766_sdca_fu41_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component =
++		snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		rt766->fu41_dapm_mute = false;
++		rt766_sdca_set_fu41_playback_ctl(rt766);
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		rt766->fu41_dapm_mute = true;
++		rt766_sdca_set_fu41_playback_ctl(rt766);
++		break;
++	}
++	return 0;
++}
++
++static int rt766_sdca_pde47_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	const struct sdca_entity *entity = NULL;
++	unsigned char ps0 = 0x0, ps3 = 0x3;
++	int from_ps, to_ps;
++	int ret;
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(UAJ, PDE47), ps0);
++		from_ps = ps3;
++		to_ps = ps0;
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(UAJ, PDE47), ps3);
++		from_ps = ps0;
++		to_ps = ps3;
++		break;
++	}
++
++	entity = rt766_find_entity_by_label(rt766->uaj_func_data, "PDE 47");
++	ret = sdca_asoc_pde_poll_actual_ps(component->dev, rt766->regmap,
++				   RT766_FUNC_NUM_UAJ,
++				   RT766_SDCA_ENT_PDE47,
++				   from_ps, to_ps,
++				   entity ? entity->pde.max_delay : NULL,
++				   entity ? entity->pde.num_max_delay : 0);
++	if (ret)
++		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
++			__func__, from_ps, to_ps, ret);
++
++	return ret;
++}
++
++static int rt766_sdca_fu36_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component =
++		snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		rt766->fu36_dapm_mute = false;
++		rt766_sdca_set_fu36_capture_ctl(rt766);
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		rt766->fu36_dapm_mute = true;
++		rt766_sdca_set_fu36_capture_ctl(rt766);
++		break;
++	}
++	return 0;
++}
++
++static int rt766_sdca_pde34_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	const struct sdca_entity *entity = NULL;
++	unsigned char ps0 = 0x0, ps3 = 0x3;
++	int from_ps, to_ps;
++	int ret;
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(UAJ, PDE34), ps0);
++		from_ps = ps3;
++		to_ps = ps0;
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(UAJ, PDE34), ps3);
++		from_ps = ps0;
++		to_ps = ps3;
++		break;
++	}
++
++	entity = rt766_find_entity_by_label(rt766->uaj_func_data, "PDE 34");
++	ret = sdca_asoc_pde_poll_actual_ps(component->dev, rt766->regmap,
++				   RT766_FUNC_NUM_UAJ,
++				   RT766_SDCA_ENT_PDE34,
++				   from_ps, to_ps,
++				   entity ? entity->pde.max_delay : NULL,
++				   entity ? entity->pde.num_max_delay : 0);
++	if (ret)
++		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
++			__func__, from_ps, to_ps, ret);
++
++	return ret;
++}
++
++static int rt766_sdca_fu21_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component =
++		snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		rt766->fu21_dapm_mute = false;
++		rt766_sdca_set_fu21_playback_ctl(rt766);
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		rt766->fu21_dapm_mute = true;
++		rt766_sdca_set_fu21_playback_ctl(rt766);
++		break;
++	}
++	return 0;
++}
++
++static int rt766_sdca_pde23_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	const struct sdca_entity *entity = NULL;
++	unsigned char ps0 = 0x0, ps3 = 0x3;
++	int from_ps, to_ps;
++	int ret;
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(AMP, PDE23), ps0);
++		from_ps = ps3;
++		to_ps = ps0;
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(AMP, PDE23), ps3);
++		from_ps = ps0;
++		to_ps = ps3;
++		break;
++	}
++
++	entity = rt766_find_entity_by_label(rt766->sa_func_data, "PDE 23");
++	ret = sdca_asoc_pde_poll_actual_ps(component->dev, rt766->regmap,
++				   RT766_FUNC_NUM_AMP,
++				   RT766_SDCA_ENT_PDE23,
++				   from_ps, to_ps,
++				   entity ? entity->pde.max_delay : NULL,
++				   entity ? entity->pde.num_max_delay : 0);
++	if (ret)
++		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
++			__func__, from_ps, to_ps, ret);
++
++	return ret;
++}
++
++static int rt766_sdca_pde11_event(struct snd_soc_dapm_widget *w,
++	struct snd_kcontrol *kcontrol, int event)
++{
++	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	const struct sdca_entity *entity = NULL;
++	unsigned char ps0 = 0x0, ps3 = 0x3;
++	int from_ps, to_ps;
++	int ret;
++
++	switch (event) {
++	case SND_SOC_DAPM_POST_PMU:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(MIC, PDE11), ps0);
++		from_ps = ps3;
++		to_ps = ps0;
++		break;
++	case SND_SOC_DAPM_PRE_PMD:
++		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(MIC, PDE11), ps3);
++		from_ps = ps0;
++		to_ps = ps3;
++		break;
++	}
++
++	entity = rt766_find_entity_by_label(rt766->sm_func_data, "PDE 11");
++	ret = sdca_asoc_pde_poll_actual_ps(component->dev, rt766->regmap,
++				   RT766_FUNC_NUM_MIC,
++				   RT766_SDCA_ENT_PDE11,
++				   from_ps, to_ps,
++				   entity ? entity->pde.max_delay : NULL,
++				   entity ? entity->pde.num_max_delay : 0);
++	if (ret)
++		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
++			__func__, from_ps, to_ps, ret);
++
++	return ret;
++}
++
++static int rt766_dmic_fu_info(struct snd_kcontrol *kcontrol,
++	struct snd_ctl_elem_info *uinfo)
++{
++	struct rt_sdca_dmic_kctrl_priv *p =
++		(struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
++
++	if (p->max == 1)
++		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
++	else
++		uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
++	uinfo->count = p->count;
++	uinfo->value.integer.min = 0;
++	uinfo->value.integer.max = p->max;
++	return 0;
++}
++
++static const char * const rt766_rx_data_ch_select[] = {
++	"L,R",
++	"R,L",
++	"L,L",
++	"R,R",
++	"L,L+R",
++	"R,L+R",
++	"L+R,L",
++	"L+R,R",
++	"L+R,L+R",
++};
++
++static SOC_ENUM_SINGLE_DECL(rt766_rx_data_ch_enum,
++	RT766_SDCA_CTL(AMP, PPU21, SDCA_CTL_PPU_POSTURENUMBER), 0,
++	rt766_rx_data_ch_select);
++
++static const DECLARE_TLV_DB_SCALE(hp_vol_tlv, -9525, 75, 0);
++static const DECLARE_TLV_DB_SCALE(spk_vol_tlv, -6525, 75, 0);
++static const DECLARE_TLV_DB_SCALE(mic_vol_tlv, -1725, 75, 0);
++static const DECLARE_TLV_DB_SCALE(boost_vol_tlv, -200, 200, 0);
++
++#define RT766_P75DB_STEP		0xC0	/* 0.75 dB in Q7.8 format */
++#define RT766_2DB_STEP			0x200	/* 2 dB in Q7.8 format */
++#define RT766_HP_VOL_MIN		(-127)	/* -95.25 dB / 0.75 dB step */
++#define RT766_HS_VOL_MIN		(-23)	/* -17.25 dB / 0.75 dB step */
++#define RT766_HS_BOOST_VOL_MIN		(-1)	/* -2 dB / 2 dB step */
++#define RT766_SPK_VOL_MIN		(-87)	/* -65.25 dB / 0.75 dB step */
++#define RT766_P_VOL_MAX			0	/* 0 dB / 0.75 dB step */
++#define RT766_HS_VOL_MAX		40	/* 30 dB / 0.75 dB step */
++#define RT766_HS_BOOST_VOL_MAX		20	/* 40 dB / 2 dB step */
++
++static const struct snd_kcontrol_new rt766_sdca_controls[] = {
++	SOC_DOUBLE_EXT("FU41 Playback Switch", SND_SOC_NOPM, 0, 1, 1, 0,
++		rt766_sdca_fu41_playback_get, rt766_sdca_fu41_playback_put),
++	SDCA_DOUBLE_Q78_TLV("FU41 Playback Volume",
++		RT766_VOLUME_REG(UAJ, USER_FU41, 1),
++		RT766_VOLUME_REG(UAJ, USER_FU41, 2),
++		RT766_HP_VOL_MIN, RT766_P_VOL_MAX, RT766_P75DB_STEP, hp_vol_tlv),
++	SOC_DOUBLE_EXT("FU36 Capture Switch", SND_SOC_NOPM, 0, 1, 1, 0,
++		rt766_sdca_fu36_capture_get, rt766_sdca_fu36_capture_put),
++	SDCA_DOUBLE_Q78_TLV("FU36 Capture Volume",
++		RT766_VOLUME_REG(UAJ, USER_FU36, 1),
++		RT766_VOLUME_REG(UAJ, USER_FU36, 2),
++		RT766_HS_VOL_MIN, RT766_HS_VOL_MAX, RT766_P75DB_STEP, mic_vol_tlv),
++	SDCA_DOUBLE_Q78_TLV("FU33 Boost Volume",
++		RT766_GAIN_REG(UAJ, PLATFORM_FU33, 1),
++		RT766_GAIN_REG(UAJ, PLATFORM_FU33, 2),
++		RT766_HS_BOOST_VOL_MIN, RT766_HS_BOOST_VOL_MAX, RT766_2DB_STEP, boost_vol_tlv),
++
++	SOC_DOUBLE_EXT("FU21 Playback Switch", SND_SOC_NOPM, 0, 1, 1, 0,
++		rt766_sdca_fu21_playback_get, rt766_sdca_fu21_playback_put),
++	SDCA_DOUBLE_Q78_TLV("FU21 Playback Volume",
++		RT766_VOLUME_REG(AMP, USER_FU21, 1),
++		RT766_VOLUME_REG(AMP, USER_FU21, 2),
++		RT766_SPK_VOL_MIN, RT766_P_VOL_MAX, RT766_P75DB_STEP, spk_vol_tlv),
++	SOC_ENUM("RX Channel Select", rt766_rx_data_ch_enum),
++
++	RT_SDCA_FU_CTRL("FU113 Capture Switch",
++		RT766_MUTE_REG(MIC, USER_FU113, 1), 1, 1, 4, rt766_dmic_fu_info,
++		rt766_sdca_dmic_fu113_capture_get, rt766_sdca_dmic_fu113_capture_put),
++	RT_SDCA_EXT_TLV("FU113 Capture Volume",
++		RT766_VOLUME_REG(MIC, USER_FU113, 1),
++		rt766_sdca_dmic_set_gain_get, rt766_sdca_dmic_set_gain_put,
++		4, 0x3f, mic_vol_tlv, rt766_dmic_fu_info),
++};
++
++static const struct snd_soc_dapm_widget rt766_sdca_dapm_widgets[] = {
++	/* UAJ */
++	SND_SOC_DAPM_OUTPUT("HP"),
++	SND_SOC_DAPM_INPUT("MIC2"),
++	SND_SOC_DAPM_SUPPLY("PDE 47", SND_SOC_NOPM, 0, 0,
++		rt766_sdca_pde47_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_SUPPLY("PDE 34", SND_SOC_NOPM, 0, 0,
++		rt766_sdca_pde34_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_DAC_E("FU 41", NULL, SND_SOC_NOPM, 0, 0,
++		rt766_sdca_fu41_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_ADC_E("FU 36", NULL, SND_SOC_NOPM, 0, 0,
++		rt766_sdca_fu36_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_AIF_IN("DP3RX", "DP3 Playback", 0, SND_SOC_NOPM, 0, 0),
++	SND_SOC_DAPM_AIF_OUT("DP12TX", "DP12 Capture", 0, SND_SOC_NOPM, 0, 0),
++
++	/* AMP */
++	SND_SOC_DAPM_OUTPUT("SPOL"),
++	SND_SOC_DAPM_OUTPUT("SPOR"),
++	SND_SOC_DAPM_DAC_E("FU 21", NULL, SND_SOC_NOPM, 0, 0,
++		rt766_sdca_fu21_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_SUPPLY("PDE 23", SND_SOC_NOPM, 0, 0,
++		rt766_sdca_pde23_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_AIF_IN("DP1RX", "DP1 Playback", 0, SND_SOC_NOPM, 0, 0),
++
++	/* DMIC */
++	SND_SOC_DAPM_INPUT("DMIC1"),
++	SND_SOC_DAPM_INPUT("DMIC2"),
++	SND_SOC_DAPM_SUPPLY("PDE 11", SND_SOC_NOPM, 0, 0,
++		rt766_sdca_pde11_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_ADC_E("FU 113", NULL, SND_SOC_NOPM, 0, 0,
++		rt766_sdca_fu113_event,
++		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
++	SND_SOC_DAPM_AIF_OUT("DP8TX", "DP8 Capture", 0, SND_SOC_NOPM, 0, 0),
++};
++
++static const struct snd_soc_dapm_route rt766_sdca_audio_map[] = {
++	{ "FU 41", NULL, "DP3RX" },
++	{ "DP12TX", NULL, "FU 36" },
++	{ "FU 36", NULL, "PDE 34" },
++	{ "FU 36", NULL, "MIC2" },
++	{ "HP", NULL, "PDE 47" },
++	{ "HP", NULL, "FU 41" },
++
++	{ "FU 21", NULL, "DP1RX" },
++	{ "FU 21", NULL, "PDE 23" },
++	{ "SPOL", NULL, "FU 21" },
++	{ "SPOR", NULL, "FU 21" },
++
++	{"DP8TX", NULL, "FU 113"},
++	{"FU 113", NULL, "PDE 11"},
++	{"FU 113", NULL, "DMIC1"},
++	{"FU 113", NULL, "DMIC2"},
++};
++
++static int rt766_sdca_probe(struct snd_soc_component *component)
++{
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	struct device *dev = &rt766->slave->dev;
++	int ret;
++
++	rt766->component = component;
++
++	ret = pm_runtime_resume(component->dev);
++	if (ret < 0 && ret != -EACCES)
++		return ret;
++
++	if (rt766->uaj_func_data) {
++		dev_dbg(dev, "%s : irq %d\n", __func__, rt766->slave->irq);
++
++		rt766->irq_info = sdca_irq_allocate(dev, rt766->regmap, rt766->slave->irq);
++		if (IS_ERR(rt766->irq_info))
++			return PTR_ERR(rt766->irq_info);
++
++		ret = rt766_sdca_irq_ctl(rt766, rt766->uaj_func_data,
++			component, rt766->irq_info, true);
++		if (ret < 0) {
++			dev_err(dev, "Failed to request UAJ SDCA IRQ: %d\n", ret);
++			return ret;
++		}
++
++		if (rt766->hid_func_data) {
++			ret = rt766_sdca_irq_ctl(rt766, rt766->hid_func_data,
++				component, rt766->irq_info, true);
++			if (ret < 0) {
++				dev_err(dev, "Failed to request HID SDCA IRQ: %d\n", ret);
++				return ret;
++			}
++		}
++	}
++
++	return 0;
++}
++
++static void rt766_sdca_remove(struct snd_soc_component *component)
++{
++	struct rt766_sdca_priv *rt766  = snd_soc_component_get_drvdata(component);
++
++	sdca_irq_cleanup(component->dev, rt766->uaj_func_data, rt766->irq_info);
++	sdca_irq_cleanup(component->dev, rt766->hid_func_data, rt766->irq_info);
++}
++
++static const struct snd_soc_component_driver soc_sdca_dev_rt766 = {
++	.probe = rt766_sdca_probe,
++	.remove = rt766_sdca_remove,
++	.controls = rt766_sdca_controls,
++	.num_controls = ARRAY_SIZE(rt766_sdca_controls),
++	.dapm_widgets = rt766_sdca_dapm_widgets,
++	.num_dapm_widgets = ARRAY_SIZE(rt766_sdca_dapm_widgets),
++	.dapm_routes = rt766_sdca_audio_map,
++	.num_dapm_routes = ARRAY_SIZE(rt766_sdca_audio_map),
++	.set_jack = rt766_sdca_set_jack_detect,
++	.endianness = 1,
++};
++
++static int rt766_sdca_set_sdw_stream(struct snd_soc_dai *dai, void *sdw_stream,
++				int direction)
++{
++	snd_soc_dai_dma_data_set(dai, direction, sdw_stream);
++
++	return 0;
++}
++
++static void rt766_sdca_shutdown(struct snd_pcm_substream *substream,
++				struct snd_soc_dai *dai)
++{
++	snd_soc_dai_set_dma_data(dai, substream, NULL);
++}
++
++static int rt766_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
++				struct snd_pcm_hw_params *params,
++				struct snd_soc_dai *dai)
++{
++	struct snd_soc_component *component = dai->component;
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	struct sdw_stream_config stream_config;
++	struct sdw_port_config port_config;
++	enum sdw_data_direction direction;
++	struct sdw_stream_runtime *sdw_stream;
++	int retval, port, num_channels;
++	unsigned int sampling_rate;
++
++	dev_dbg(dai->dev, "%s %s id %d", __func__, dai->name, dai->id);
++	sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
++
++	if (!sdw_stream)
++		return -EINVAL;
++
++	if (!rt766->slave)
++		return -EINVAL;
++
++	/* SoundWire specific configuration */
++	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
++		direction = SDW_DATA_DIR_RX;
++		if (dai->id == RT766_AIF1)
++			port = 3;
++		else if (dai->id == RT766_AIF2)
++			port = 1;
++		else
++			return -EINVAL;
++	} else {
++		direction = SDW_DATA_DIR_TX;
++		if (dai->id == RT766_AIF1)
++			port = 12;
++		else if (dai->id == RT766_AIF3)
++			port = 8;
++		else
++			return -EINVAL;
++	}
++
++	stream_config.frame_rate = params_rate(params);
++	stream_config.ch_count = params_channels(params);
++	stream_config.bps = snd_pcm_format_width(params_format(params));
++	stream_config.direction = direction;
++
++	num_channels = params_channels(params);
++	port_config.ch_mask = GENMASK(num_channels - 1, 0);
++	port_config.num = port;
++
++	retval = sdw_stream_add_slave(rt766->slave, &stream_config,
++					&port_config, 1, sdw_stream);
++	if (retval) {
++		dev_err(dai->dev, "%s: Unable to configure port\n", __func__);
++		return retval;
++	}
++
++	if (params_channels(params) > 16) {
++		dev_err(component->dev, "%s: Unsupported channels %d\n",
++			__func__, params_channels(params));
++		return -EINVAL;
++	}
++
++	/* sampling rate configuration */
++	switch (params_rate(params)) {
++	case 44100:
++		sampling_rate = RT766_SDCA_RATE_44100HZ;
++		break;
++	case 48000:
++		sampling_rate = RT766_SDCA_RATE_48000HZ;
++		break;
++	case 96000:
++		sampling_rate = RT766_SDCA_RATE_96000HZ;
++		break;
++	case 192000:
++		sampling_rate = RT766_SDCA_RATE_192000HZ;
++		break;
++	default:
++		dev_err(component->dev, "%s: Rate %d is not supported\n",
++			__func__, params_rate(params));
++		return -EINVAL;
++	}
++
++	/* set sampling frequency */
++	switch (dai->id) {
++	case RT766_AIF1:
++		regmap_write(rt766->regmap,
++			RT766_SDCA_CTL(UAJ, CS41, SDCA_CTL_CS_SAMPLERATEINDEX),
++			sampling_rate);
++		regmap_write(rt766->regmap,
++			RT766_SDCA_CTL(UAJ, CS36, SDCA_CTL_CS_SAMPLERATEINDEX),
++			sampling_rate);
++		break;
++	case RT766_AIF2:
++		regmap_write(rt766->regmap,
++			RT766_SDCA_CTL(AMP, CS21, SDCA_CTL_CS_SAMPLERATEINDEX),
++			sampling_rate);
++		break;
++	case RT766_AIF3:
++		regmap_write(rt766->regmap,
++			RT766_SDCA_CTL(MIC, CS113, SDCA_CTL_CS_SAMPLERATEINDEX),
++			sampling_rate);
++		break;
++	default:
++		dev_err(component->dev, "%s: Wrong DAI id\n", __func__);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int rt766_sdca_pcm_hw_free(struct snd_pcm_substream *substream,
++				struct snd_soc_dai *dai)
++{
++	struct snd_soc_component *component = dai->component;
++	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
++	struct sdw_stream_runtime *sdw_stream =
++		snd_soc_dai_get_dma_data(dai, substream);
++
++	if (!rt766->slave)
++		return -EINVAL;
++
++	sdw_stream_remove_slave(rt766->slave, sdw_stream);
++	return 0;
++}
++
++#define RT766_STEREO_RATES (SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000 | SNDRV_PCM_RATE_96000 | \
++			SNDRV_PCM_RATE_192000)
++#define RT766_DAC_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE)
++#define RT766_ADC_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | \
++			SNDRV_PCM_FMTBIT_S32_LE)
++
++static const struct snd_soc_dai_ops rt766_sdca_ops = {
++	.hw_params	= rt766_sdca_pcm_hw_params,
++	.hw_free	= rt766_sdca_pcm_hw_free,
++	.set_stream	= rt766_sdca_set_sdw_stream,
++	.shutdown	= rt766_sdca_shutdown,
++};
++
++static struct snd_soc_dai_driver rt766_sdca_dai[] = {
++	{
++		.name = "rt766-sdca-aif1",
++		.id = RT766_AIF1,
++		.playback = {
++			.stream_name = "DP3 Playback",
++			.channels_min = 1,
++			.channels_max = 2,
++			.rates = RT766_STEREO_RATES,
++			.formats = RT766_DAC_FORMATS,
++		},
++		.capture = {
++			.stream_name = "DP12 Capture",
++			.channels_min = 1,
++			.channels_max = 2,
++			.rates = RT766_STEREO_RATES,
++			.formats = RT766_ADC_FORMATS,
++		},
++		.ops = &rt766_sdca_ops,
++	},
++	{
++		.name = "rt766-sdca-aif2",
++		.id = RT766_AIF2,
++		.playback = {
++			.stream_name = "DP1 Playback",
++			.channels_min = 1,
++			.channels_max = 4,
++			.rates = RT766_STEREO_RATES,
++			.formats = RT766_DAC_FORMATS,
++		},
++		.ops = &rt766_sdca_ops,
++	},
++	{
++		.name = "rt766-sdca-aif3",
++		.id = RT766_AIF3,
++		.capture = {
++			.stream_name = "DP8 Capture",
++			.channels_min = 1,
++			.channels_max = 4,
++			.rates = RT766_STEREO_RATES,
++			.formats = RT766_ADC_FORMATS,
++		},
++		.ops = &rt766_sdca_ops,
++	}
++};
++
++static unsigned int rate_find_mask(struct device *dev, unsigned int rate)
++{
++	switch (rate) {
++	case 44100:
++		return SNDRV_PCM_RATE_44100;
++	case 48000:
++		return SNDRV_PCM_RATE_48000;
++	case 96000:
++		return SNDRV_PCM_RATE_96000;
++	case 192000:
++		return SNDRV_PCM_RATE_192000;
++	default:
++		dev_warn(dev, "%s: Rate %d is not supported\n", __func__, rate);
++		return 0;
++	}
++}
++
++static int rt766_parse_rates(struct device *dev,
++				struct sdca_function_data *function,
++				struct sdca_entity *entity,
++				unsigned int *out_rates)
++{
++	struct sdca_control_range *range;
++	unsigned int sample_rate;
++	unsigned int clock_rates = 0;
++	unsigned int rates = 0;
++	int sel, i;
++
++	switch (entity->type) {
++	case SDCA_ENTITY_TYPE_IT:
++		sel = SDCA_CTL_IT_USAGE;
++		break;
++	case SDCA_ENTITY_TYPE_OT:
++		sel = SDCA_CTL_OT_USAGE;
++		break;
++	default:
++		dev_err(dev, "%s: entity type has no usage control\n",
++			entity->label);
++		return -EINVAL;
++	}
++
++	if (entity->iot.clock) {
++		range = sdca_selector_find_range(dev, entity->iot.clock,
++						 SDCA_CTL_CS_SAMPLERATEINDEX,
++						 SDCA_SAMPLERATEINDEX_NCOLS, 0);
++		if (!range)
++			return -EINVAL;
++
++		for (i = 0; i < range->rows; i++) {
++			sample_rate = sdca_range(range, SDCA_SAMPLERATEINDEX_RATE, i);
++			clock_rates |= rate_find_mask(dev, sample_rate);
++		}
++	} else {
++		clock_rates = UINT_MAX;
++	}
++
++	range = sdca_selector_find_range(dev, entity, sel, SDCA_USAGE_NCOLS, 0);
++	if (!range)
++		return -EINVAL;
++
++	for (i = 0; i < range->rows; i++) {
++		sample_rate = sdca_range(range, SDCA_USAGE_SAMPLE_RATE, i);
++		sample_rate = rate_find_mask(dev, sample_rate);
++
++		if (sample_rate & clock_rates)
++			rates |= sample_rate;
++	}
++
++	*out_rates = rates;
++
++	dev_dbg(dev, "%s: entity %s supports rates 0x%08x, clock_rates=0x%08x\n",
++		__func__, entity->label, rates, clock_rates);
++
++	return 0;
++}
++
++static unsigned int rt766_find_dt_rates(struct device *dev, struct sdca_function_data *function,
++							const char *label)
++{
++	struct sdca_entity *entity = NULL;
++	unsigned int rates;
++	int i, ret;
++
++	for (i = 0; i < function->num_entities; i++) {
++		entity = &function->entities[i];
++
++		if (strcmp(entity->label, label))
++			continue;
++
++		/* Can't check earlier as only terminals have an iot member. */
++		if (!entity->iot.is_dataport)
++			continue;
++
++		ret = rt766_parse_rates(dev, function, entity, &rates);
++		if (ret < 0) {
++			dev_dbg(dev, "%s: failed to parse rates for entity %s\n",
++				__func__, entity->label);
++			return 0;
++		}
++
++		dev_dbg(dev, "%s: %s supports rates 0x%08x\n", __func__, entity->label, rates);
++	}
++
++	return rates;
++}
++
++int rt766_sdca_init(struct device *dev, struct regmap *regmap, struct sdw_slave *slave)
++{
++	struct sdca_function_data *func_data_ptr;
++	struct rt766_sdca_priv *rt766;
++	unsigned int rates;
++	int ret;
++	int i;
++
++	rt766 = devm_kzalloc(dev, sizeof(*rt766), GFP_KERNEL);
++	if (!rt766)
++		return -ENOMEM;
++
++	dev_set_drvdata(dev, rt766);
++	rt766->slave = slave;
++	rt766->regmap = regmap;
++
++	regcache_cache_only(rt766->regmap, true);
++
++	mutex_init(&rt766->disable_irq_lock);
++
++	/*
++	 * Mark hw_init to false
++	 * HW init will be performed when device reports present
++	 */
++	rt766->hw_init = false;
++	rt766->first_hw_init = false;
++	rt766->fu41_dapm_mute = true;
++	rt766->fu41_mixer_l_mute = rt766->fu41_mixer_r_mute = false;
++	rt766->fu36_dapm_mute = true;
++	rt766->fu36_mixer_l_mute = rt766->fu36_mixer_r_mute = true;
++	rt766->fu21_dapm_mute = true;
++	rt766->fu21_mixer_l_mute = rt766->fu21_mixer_r_mute = false;
++	rt766->fu113_dapm_mute = true;
++	rt766->fu113_mixer_mute[0] = rt766->fu113_mixer_mute[1] =
++		rt766->fu113_mixer_mute[2] = rt766->fu113_mixer_mute[3] = true;
++
++	/* get SDCA function data */
++	dev_dbg(dev, "SDCA functions found: %d", slave->sdca_data.num_functions);
++	for (i = 0; i < slave->sdca_data.num_functions; i++) {
++		func_data_ptr = devm_kzalloc(dev, sizeof(*func_data_ptr), GFP_KERNEL);
++		if (!func_data_ptr)
++			return dev_err_probe(dev, -ENOMEM, "failed to allocate function data");
++
++		func_data_ptr->desc = &slave->sdca_data.function[i];
++		ret = sdca_parse_function(dev, slave, func_data_ptr);
++		if (ret) {
++			devm_kfree(dev, func_data_ptr);
++			return ret;
++		}
++		dev_dbg(dev, "Function type=%d, num_entities=%d",
++			slave->sdca_data.function[i].type, func_data_ptr->num_entities);
++
++		switch (slave->sdca_data.function[i].type) {
++		case SDCA_FUNCTION_TYPE_UAJ:
++			rt766->uaj_func_data = func_data_ptr;
++			/*
++			 * Some machines may only support a subset of the sample rates supported by the codec.
++			 * Therefore, we need to parse the supported sample rates from the DisCo table and
++			 * configure them in the DAI. If the DisCo table does not provide sample rate information,
++			 * we will fall back to the default supported rates defined in the codec driver.
++			 */
++			rates = rt766_find_dt_rates(dev, func_data_ptr, "IT 41");
++			if (rates)
++				rt766_sdca_dai[0].playback.rates = rates;
++
++			rates = rt766_find_dt_rates(dev, func_data_ptr, "OT 36");
++			if (rates)
++				rt766_sdca_dai[0].capture.rates = rates;
++			break;
++		case SDCA_FUNCTION_TYPE_SMART_AMP:
++			rt766->sa_func_data = func_data_ptr;
++			rates = rt766_find_dt_rates(dev, func_data_ptr, "IT 21");
++			if (rates)
++				rt766_sdca_dai[1].playback.rates = rates;
++			break;
++		case SDCA_FUNCTION_TYPE_SMART_MIC:
++			rt766->sm_func_data = func_data_ptr;
++			rates = rt766_find_dt_rates(dev, func_data_ptr, "OT 113");
++			if (rates)
++				rt766_sdca_dai[2].capture.rates = rates;
++			break;
++		case SDCA_FUNCTION_TYPE_HID:
++			rt766->hid_func_data = func_data_ptr;
++			break;
++		default:
++			dev_dbg(dev, "Unexpected SDCA function type found: %d",
++				slave->sdca_data.function[i].type);
++		}
++	}
++
++	ret =  devm_snd_soc_register_component(dev,
++			&soc_sdca_dev_rt766, rt766_sdca_dai, ARRAY_SIZE(rt766_sdca_dai));
++	if (ret < 0)
++		return ret;
++
++	/* set autosuspend parameters */
++	pm_runtime_set_autosuspend_delay(dev, 3000);
++	pm_runtime_use_autosuspend(dev);
++
++	/* make sure the device does not suspend immediately */
++	pm_runtime_mark_last_busy(dev);
++
++	pm_runtime_enable(dev);
++
++	dev_dbg(dev, "%s\n", __func__);
++
++	return 0;
++}
++
++static int rt766_func_initialize(struct rt766_sdca_priv *rt766, struct sdca_function_data *func_data)
++{
++	struct device *dev = &rt766->slave->dev;
++	unsigned int func_status_reg;
++	unsigned int func_status;
++	int ret;
++
++	switch (func_data->desc->type) {
++	case SDCA_FUNCTION_TYPE_UAJ:
++		func_status_reg = RT766_FUNC_STATUS_REG(UAJ);
++		break;
++	case SDCA_FUNCTION_TYPE_SMART_AMP:
++		func_status_reg = RT766_FUNC_STATUS_REG(AMP);
++		break;
++	case SDCA_FUNCTION_TYPE_SMART_MIC:
++		func_status_reg = RT766_FUNC_STATUS_REG(MIC);
++		break;
++	case SDCA_FUNCTION_TYPE_HID:
++		func_status_reg = RT766_FUNC_STATUS_REG(HID);
++		break;
++	default:
++		dev_dbg(dev, "Unexpected SDCA function type found: %d",
++			func_data->desc->type);
++		return -EINVAL;
++	}
++
++	regmap_read(rt766->regmap, func_status_reg, &func_status);
++	dev_dbg(dev, "%s, %s func_status=0x%x\n", __func__, func_data->desc->name, func_status);
++
++	if ((func_status & SDCA_CTL_ENTITY_0_FUNCTION_NEEDS_INITIALIZATION) || (!rt766->first_hw_init)) {
++		ret = sdca_regmap_write_init(dev, rt766->regmap, func_data);
++		if (ret) {
++			dev_err(dev, "%s initialization table update failed\n", func_data->desc->name);
++			goto _func_init_err_;
++		}
++
++		regmap_write(rt766->regmap, func_status_reg,
++			SDCA_CTL_ENTITY_0_FUNCTION_NEEDS_INITIALIZATION);
++	}
++
++	return 0;
++
++_func_init_err_:
++	dev_err(dev, "%s: %s init writes failed, err=%d", __func__, func_data->desc->name, ret);
++	return ret;
++}
++
++int rt766_sdca_io_init(struct device *dev, struct sdw_slave *slave)
++{
++	struct rt766_sdca_priv *rt766 = dev_get_drvdata(dev);
++	unsigned int val;
++
++	rt766->disable_irq = false;
++
++	if (rt766->hw_init)
++		return 0;
++
++	regcache_cache_only(rt766->regmap, false);
++	if (rt766->first_hw_init) {
++		regcache_cache_bypass(rt766->regmap, true);
++	} else {
++		/*
++		 *  PM runtime status is marked as 'active' only when a Slave reports as Attached
++		 */
++
++		/* update count of parent 'active' children */
++		pm_runtime_set_active(&slave->dev);
++	}
++
++	pm_runtime_get_noresume(&slave->dev);
++
++	regmap_read(rt766->regmap, RT766_BOND_LATCH_ID, &val);
++	dev_dbg(&slave->dev, "%s bond ID=0x%x (%s)\n", __func__, val, (val == 0x1) ? "RT767" : "RT766");
++
++	/* check function status and initialize if needed */
++	if (rt766->uaj_func_data)
++		rt766_func_initialize(rt766, rt766->uaj_func_data);
++	if (rt766->sa_func_data)
++		rt766_func_initialize(rt766, rt766->sa_func_data);
++	if (rt766->sm_func_data)
++		rt766_func_initialize(rt766, rt766->sm_func_data);
++	if (rt766->hid_func_data)
++		rt766_func_initialize(rt766, rt766->hid_func_data);
++
++	if (rt766->first_hw_init) {
++		regcache_cache_bypass(rt766->regmap, false);
++		regcache_mark_dirty(rt766->regmap);
++	} else {
++		rt766->first_hw_init = true;
++	}
++
++	/* Mark Slave initialization complete */
++	rt766->hw_init = true;
++
++	dev_dbg(&slave->dev, "%s hw_init complete\n", __func__);
++
++	pm_runtime_put_autosuspend(&slave->dev);
++
++	return 0;
++}
++
++MODULE_DESCRIPTION("ASoC RT766 SDCA SDW driver");
++MODULE_AUTHOR("Shuming Fan <shumingf@realtek.com>");
++MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS("SND_SOC_SDCA");
+diff --git a/sound/soc/codecs/rt766-sdca.h b/sound/soc/codecs/rt766-sdca.h
+new file mode 100644
+index 000000000000..8c0fe7e80c76
+--- /dev/null
++++ b/sound/soc/codecs/rt766-sdca.h
+@@ -0,0 +1,132 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * rt766-sdca.h -- RT766 SDCA ALSA SoC audio driver header
++ *
++ * Copyright(c) 2026 Realtek Semiconductor Corp.
++ */
++
++#ifndef __RT766_H__
++#define __RT766_H__
++
++#include <linux/pm.h>
++#include <linux/regmap.h>
++#include <linux/soundwire/sdw.h>
++#include <linux/soundwire/sdw_type.h>
++#include <sound/soc.h>
++#include <linux/workqueue.h>
++
++struct  rt766_sdca_priv {
++	struct regmap *regmap;
++	struct snd_soc_component *component;
++	struct sdw_slave *slave;
++	bool hw_init;
++	bool first_hw_init;
++	struct snd_soc_jack *hs_jack;
++	struct mutex disable_irq_lock; /* SDCA irq lock protection */
++	bool disable_irq;
++	int jack_type;
++	bool fu41_dapm_mute;
++	bool fu41_mixer_l_mute;
++	bool fu41_mixer_r_mute;
++	bool fu113_dapm_mute;
++	bool fu113_mixer_mute[4];
++	bool fu21_dapm_mute;
++	bool fu21_mixer_l_mute;
++	bool fu21_mixer_r_mute;
++	bool fu36_dapm_mute;
++	bool fu36_mixer_l_mute;
++	bool fu36_mixer_r_mute;
++	struct sdca_function_data *uaj_func_data;
++	struct sdca_function_data *sm_func_data;
++	struct sdca_function_data *sa_func_data;
++	struct sdca_function_data *hid_func_data;
++	struct sdca_interrupt_info *irq_info;
++};
++
++/* vendor registers */
++#define RT766_VERSION_ID	0xc404
++#define RT766_DEV_ID1		0xc405
++#define RT766_DEV_ID0		0xc406
++#define RT766_BOND_LATCH_ID	0xc407
++
++#define RT766_HP_POWER_STATE		0x1000004
++#define RT766_HP_FSM_CTL2_1		0x100000d
++
++/* MCU Patch address */
++#define RT766_MCU_PATCH_ADDR1_START	0x10010000
++#define RT766_MCU_PATCH_ADDR1_END	0x10011fff
++#define RT766_MCU_PATCH_ADDR2_START	0x10020000
++#define RT766_MCU_PATCH_ADDR2_END	0x10023fff
++
++/* Buffer address for HID */
++#define RT766_BUF_ADDR_HID1	0x44030000
++#define RT766_BUF_ADDR_HID2	0x44030020
++
++/* SDCA (Channel) */
++#define RT766_CH_1	0x01
++#define RT766_CH_2	0x02
++#define RT766_CH_3	0x03
++#define RT766_CH_4	0x04
++
++/* RT766 SDCA Control - function number */
++#define RT766_FUNC_NUM_UAJ 0x01
++#define RT766_FUNC_NUM_MIC 0x02
++#define RT766_FUNC_NUM_HID 0x03
++#define RT766_FUNC_NUM_AMP 0x04
++
++/* RT766 SDCA entity */
++#define RT766_SDCA_ENT_0		0x00
++#define RT766_SDCA_ENT_HID101		0x01
++#define RT766_SDCA_ENT_GE49		0x49
++#define RT766_SDCA_ENT_USER_FU41	0x05
++#define RT766_SDCA_ENT_USER_FU36	0x0f
++#define RT766_SDCA_ENT_USER_FU21	0x03
++#define RT766_SDCA_ENT_USER_FU113	0x30
++#define RT766_SDCA_ENT_PDE23		0x33
++#define RT766_SDCA_ENT_PDE47		0x28
++#define RT766_SDCA_ENT_PDE11		0x2a
++#define RT766_SDCA_ENT_PDE34		0x29
++#define RT766_SDCA_ENT_CS41		0x01
++#define RT766_SDCA_ENT_CS36		0x11
++#define RT766_SDCA_ENT_CS113		0x12
++#define RT766_SDCA_ENT_CS21		0x21
++#define RT766_SDCA_ENT_PLATFORM_FU33	0x44
++#define RT766_SDCA_ENT_PPU21		0x04
++
++/* sample frequency index */
++#define RT766_SDCA_RATE_44100HZ		0x08
++#define RT766_SDCA_RATE_48000HZ		0x09
++#define RT766_SDCA_RATE_96000HZ		0x0b
++#define RT766_SDCA_RATE_192000HZ	0x0d
++
++/* SDCA Register macros */
++#define RT766_MUTE_REG(func, fu, ch) \
++	SDW_SDCA_CTL(RT766_FUNC_NUM_##func, RT766_SDCA_ENT_##fu, SDCA_CTL_FU_MUTE, RT766_CH_##ch)
++
++#define RT766_VOLUME_REG(func, fu, ch) \
++	SDW_SDCA_CTL(RT766_FUNC_NUM_##func, RT766_SDCA_ENT_##fu, SDCA_CTL_FU_CHANNEL_VOLUME, RT766_CH_##ch)
++
++#define RT766_GAIN_REG(func, fu, ch) \
++	SDW_SDCA_CTL(RT766_FUNC_NUM_##func, RT766_SDCA_ENT_##fu, SDCA_CTL_FU_GAIN, RT766_CH_##ch)
++
++#define RT766_PDE_REQ_REG(func, pde) \
++	SDW_SDCA_CTL(RT766_FUNC_NUM_##func, RT766_SDCA_ENT_##pde, SDCA_CTL_PDE_REQUESTED_PS, 0)
++
++#define RT766_PDE_ACTUAL_REG(func, pde) \
++	SDW_SDCA_CTL(RT766_FUNC_NUM_##func, RT766_SDCA_ENT_##pde, SDCA_CTL_PDE_ACTUAL_PS, 0)
++
++#define RT766_FUNC_STATUS_REG(func) \
++	SDW_SDCA_CTL(RT766_FUNC_NUM_##func, RT766_SDCA_ENT_0, SDCA_CTL_ENTITY_0_FUNCTION_STATUS, 0)
++
++#define RT766_SDCA_CTL(func, ent, ctl) \
++	SDW_SDCA_CTL(RT766_FUNC_NUM_##func, RT766_SDCA_ENT_##ent, ctl, 0)
++
++enum {
++	RT766_AIF1,
++	RT766_AIF2,
++	RT766_AIF3,
++};
++
++int rt766_sdca_io_init(struct device *dev, struct sdw_slave *slave);
++int rt766_sdca_init(struct device *dev, struct regmap *regmap, struct sdw_slave *slave);
++#endif /* __RT766_H__ */
+-- 
+2.54.0
+
