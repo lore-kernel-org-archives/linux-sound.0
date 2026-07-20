@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E483803F9;
-	Tue, 21 Jul 2026 13:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94A8376497;
+	Tue, 21 Jul 2026 13:55:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784642095; cv=none; b=Nighaqbr1cRFJSdBQugF7R/yaYhB8WYyIFKei5jNg8QHENCuBTCNePdGwSSv6ys7mWwxf/DJPv2k1d1WM0mGRzRifvpNDMffuk2kgDK3hSZIgqHyS0kiy5tubIqXaXVJumFirlcZpuswacIWjDFoEKcOPUby+oFkbog6XTKNLY4=
+	t=1784642104; cv=none; b=Cz9Av0fpO8P40vWFKE3tB7GA7oe4PRTo5962WXec8ZuVePd4EgqO34dqR5vw8L98izVMSlebPn/1HtC60AcSoJXsLGGOPBGOXMxS2mp1qvTNOw47Z6bVPIVO2pYDSYL7MuX5MUcRpAtCClw1zPqLoJO1Z7w4iWPxRaRw5iMr/0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784642095; c=relaxed/simple;
-	bh=6S8+jzqaV/BBg69Yx45/aG5PQ9pJg03aKwX45gO20Qk=;
+	s=arc-20240116; t=1784642104; c=relaxed/simple;
+	bh=B4LnVsS8kwwGsTVBlFUWnvG/tFdsLUnv1gl/KAFFDcs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lsRMewdX59If6Nh+omoLCNYMILOV2TiBJqVJ8h2l9Y+He5hR/TLQ0iWCAh7DNJbvKWgRZVXYDvdx2FNKkUi6hJtGmnN8kX+bF9HhPgGxyAnRAaSF1JWrw4qM4HdWlgYFbJyTZ24HI8BbFHz27GKw8B+ofrDIvmm5eHlwql9iYDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MSmg7TpG; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=MuFMH+Icti4+9UO9qBcCbySDEtHWrZ77vQDp9GToz8T8sQGs/1luue0cTEaC9YYbkkTfsniJSOlcE6UM9DurMLQakUK3qljGk1i1+h2hbbkj9cB9YLEn2QGFqylczz/9f2KZ27NNyd9n8IGaEM7tN+PP26dnApuG5stiKGr7sNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4pb/7Yu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MSmg7TpG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5729E1F00A3F;
-	Tue, 21 Jul 2026 13:54:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4pb/7Yu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E87D1F00A3D;
+	Tue, 21 Jul 2026 13:55:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784642094;
-	bh=j4xSJky6D9pxt9luBUgFc8GPFToOMGSnRsYPikntgKc=;
+	s=k20260515; t=1784642103;
+	bh=wbYa8NO9yNpjUssD2LttgHuab3do1KqP4VEGwT1SpqE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=MSmg7TpGX/n/9iWD2dfXOHoOsptSaUE4vOEh33sybFshBLJ4REd2PMUi+ogcfOrkf
-	 G1ADyKbaK6+0VVMo1VW6B0+5sLRyKM8nId+VY7sIU9jKM+kvDCv4dCiqNE+03mypwJ
-	 OkVplQZxjV79C8r21LQ/DFMg5kC/yPsL+vQ5X5T6CGjbkVV1FH5X047OCLCL73PBKn
-	 YyrPAd7eNJTnuUB8QDtxVUO+nvNMvmHDEFFpIaAzZee7Sd5atgG8jokBbDoLGRIIcB
-	 2bt6xTU32zGjusPwZY7VuPsFr1bxV7eawRkg2Jj3sKgycI1fToB1Hb/pN/HFYhUQ22
-	 NCvz0nXZH8Yiw==
+	b=P4pb/7YuV7AjP9mE5XvBQRxKZzZByw45mZI7TXk0hcnKmfhp79g8mVaS4hH87kkmC
+	 +aPj/faFDj7SsRpZNURQStyGIXPSbJPdN3BqhTStTwAoU70rHMZqcDaMnrvx0CCGdN
+	 WTaPV6Rld+K8NGm571UmacBg0JMU1Vl0cihSy9u7etLCX5L+Zu4mylyi2xLnVkoNoI
+	 M2xWC+E+3MeHrJd85W75NsrIKh7UBQkVT6EfQsLkU7bPSZPLTYyZFjcJYlHuXejKC/
+	 +tBNT2iqlFFAp79qClHDqXQO1HxVyxlDyBPx0yQ1uHyAaSnF6q/uWNKN4Al362Vlpk
+	 okft8RNOWEhUg==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260715-xo-sd-codec-wsa-va-clk-set-rate-v2-0-16ca64c2b929@oss.qualcomm.com>
-References: <20260715-xo-sd-codec-wsa-va-clk-set-rate-v2-0-16ca64c2b929@oss.qualcomm.com>
-Subject: Re: [PATCH v2 0/2] ASoC: codecs: lpass-{wsa,va}-macro: check
- clk_set_rate() return value
-Message-Id: <178455969776.8049.2661342430699692451.b4-ty@b4>
-Date: Mon, 20 Jul 2026 16:01:37 +0100
+To: zhangyi@everest-semi.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: ckeepax@opensource.cirrus.com, linusw@kernel.org, 
+ u.kleine-koenig@baylibre.com, lazycat-xiao@foxmail.com, 
+ kuninori.morimoto.gx@renesas.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260719221502.536804-1-ethantidmore06@gmail.com>
+References: <20260719221502.536804-1-ethantidmore06@gmail.com>
+Subject: Re: [PATCH] ASoC: codecs: ES8389: Remove redundant comparison
+Message-Id: <178455388000.8049.243828046789905977.b4-ty@b4>
+Date: Mon, 20 Jul 2026 14:24:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,28 +47,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1589; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6S8+jzqaV/BBg69Yx45/aG5PQ9pJg03aKwX45gO20Qk=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqX3orsbkBc649agdutXgG0q4c6PfDzp/uzsgfX
- bReqAp/htWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCal96KwAKCRAk1otyXVSH
- 0HxQB/sF/tMBjGwXvCxlq1tEPtGN2lIo3mglQpQx3u4q9iF15c4rgFcprifRArCFHQXz04NZvkB
- 9itcEJpabRhhg5FgdVG6B0gm8xotg+S81mLp4mevLIQzwh57qa3ub3e0OnNTFzHD9U98SHG7RSR
- PdGWdObfvVmoBLBRGJhlZDqlt5wdYMy2tRpj8w1FaTCLPmHAzskLtTn64ZOLYpnkPBXDyw70p7q
- /DeJhEMFKKD2l+yaLFwFe4WyDqUPJznNfY8sVzOO1Recp4ElLEs2j/fuFLuYSDg/QMIkYILzCr4
- p2ExnvD7phlKK+PA8kY9470/FRpAPMEkV0p+CGVxV5EPxHst
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1117; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=B4LnVsS8kwwGsTVBlFUWnvG/tFdsLUnv1gl/KAFFDcs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqX3o0ENmdQA7LYPKejnFZBvT7DjDFmGuoEUt2X
+ KH793XQulaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCal96NAAKCRAk1otyXVSH
+ 0JwLB/wIFPcLI1KcCn4z0Kq+mO/A8o35tOx3rRMia2kL9ZmATqLI2NHmZo14FiyK1FhkvKtTQIy
+ TZCiA7WO9JzodnpgZ29RYw0Yvo5EYwgA5Vt22/bx/MV9E2zK/hCwDDRMYzHllgQ8EYSCooROEtC
+ 4kFJTk++5Qdseo8q3eD1XL1GtSQgpngSAbetUfgRbIgpNKN1gz+bJ7oxEvA+DcAJbjLOIgdSjNB
+ ZKqz3Ly9JhfsZ7pwPbBlhwEHiR4i28y+45VpUm18cavgmESJ5u8NafdgwVfT68732YPMB+9Y+Zo
+ PFUyJ1kzsUkj2gJUHJB5eI0yVUpQmq8VSQsvYG/44VI+O5x0
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 15 Jul 2026 17:25:12 +0530, Ajay Kumar Nandam wrote:
-> ASoC: codecs: lpass-{wsa,va}-macro: check clk_set_rate() return value
-> 
-> clk_set_rate() returns 0 on success or a negative errno on failure but
-> the WSA and VA macro probe functions are ignoring it. This series adds
-> return value checking and bails out of probe on failure.
-> 
-> This mirrors the same fix already posted for the TX and RX macros [1].
-> 
-> [...]
+On Sun, 19 Jul 2026 17:15:02 -0500, Ethan Tidmore wrote:
+> ASoC: codecs: ES8389: Remove redundant comparison
 
 Applied to
 
@@ -78,10 +68,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: lpass-wsa-macro: check clk_set_rate() return value
-      https://git.kernel.org/broonie/sound/c/6173e18dd47c
-[2/2] ASoC: codecs: lpass-va-macro: check clk_set_rate() return value
-      https://git.kernel.org/broonie/sound/c/4fddda16f939
+[1/1] ASoC: codecs: ES8389: Remove redundant comparison
+      https://git.kernel.org/broonie/sound/c/acc414eda8e9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
