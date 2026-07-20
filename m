@@ -1,104 +1,115 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9BD38E8A1
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 19:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784575984; cv=pass; b=BxsKZY2Lt7hLjzEnRMq8HzzlnNPJRvWUNnXR9NLKK80Q+G7ZX6e5UlXknZ0erZmJSNOchnuDPNAqm+NYj6wXJKVBipiCoU2hWESSQNDfAKbZODeLe4MdktYtGJ2CPfgJpwDZvi0O7/z79IwGKlLTsyTrzbb7pRzbSAlels7Wl90=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784575984; c=relaxed/simple;
-	bh=dNSBAb8XyKhiLO0nuR6CCRPuSh7CaeUeyVr80M08pP8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OJWCFQzymy/1wLFQpqVE/iZQKe+ynD7FoBSj7QNnaFjnn/Otpbxg463ADzva/8KsRuIPF6U1il+MhJ7HVHm3WACE1RN22oIXZ2yHuZjlgnLxlIXeiOBmCMJ6wylzS0U74++tFkMKNqDn00I/KDfdnIq9k2pZAW2hGjUyEW6LRF8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DOM3ngNF; arc=pass smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AAF29DB6C;
+	Mon, 20 Jul 2026 19:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784576055; cv=none; b=qTuHBdZSTyCNXZuSi1nKUhjGpm21dwSmnCRecn1r2FKOO/YvTxbCg1L8ECy+hdtibVydyCkJ5p8ZKc45Og9zh/L1o6hTI6xlYYhz3IeivOwq1hg6sTxTqzpK8XwYgRG6wjOFvO3BIhazJrUJ2e6iu5WzNtfylAsOqvchRgE1O84=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784576055; c=relaxed/simple;
+	bh=CmNrd492sHNTKKzbYCGaXBAny5hcqZLEcI+MXCaax3k=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Xh6YP0yRol+xxRp5hcuL0GysXmS2mO2XBdHitQtSjXqVS0nzJMl1omLOJxbTB4EkdP7Z+f7lIhebYUpybLdiHtSitWYPinLiVWgfn7GX7KgKXcHBZ2aU4GNvOY2Jsg07jC4bIFrxsGF7ZX0spz61L+fybkm56nWx0OcgN29hhtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4wJM/AU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DOM3ngNF"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-664c6304683so5980712d50.2
-        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 12:33:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784575982; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Z/QO/qq1DsXOpxi7/lfU19RHKKbbgzVzIu1aGlUXEDi6NWccZBxDcWLY3gAeCMT688
-         n2QegXuEctYNdgVozGEi7g6FmZlEEs0/0iHqJ4VlBjQPusBvQf1i+oi0T0oOPdJYSVnp
-         QQZ92OkQgtc9iUtCs1NaRK4MpDeXWdlhekA4+wDqqKaLplDXWK1rd2l+BwBezN45ggrR
-         oTK9e2hUzYcCwODz96d+hfmJ9vqInXoNXcRTB0rnzAFBp3/N9GSclMppWC6LLlB7CVRS
-         2Y4PbuYLMIFYWUzUU8k2C1Q9afpKS5jqmFj8hoJ5buvqzkW6SnzKYD8JE9QOQgAlwJS/
-         2LWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=HA0LCRPit061rcPUHtfmiZ0quvjP+0qqUiR8ovXvpJI=;
-        fh=QRCM1Tt1ODhRN2GRxYjdgDTlx9s2SYzyJjM8y1F1M1w=;
-        b=TPXXHTpWLLMUPPSMbkewoWJT0wqpdP2/Yau3fWZZSO1SZlJ0RZlctwl+Nf2LLvU2xS
-         QSs3k0IMnGSRhTQUCm6n2Ta2YKi9ZyeAGlQ8IRRF+AJtyCvlHrnS2r9TdV/LMeSlii4g
-         XZMVRVxi3Tvj6rKFjRKom4KQMz1K0otU3Un6P81MFaDzAdKXiHDc4NtVRhkls4dYqcWN
-         wW5dLlBcLBUnbW2M2FfnaVVCByTY6zsxKbHSjgULVNs2ckOS7AwGdW6KWdFNPfknCVq0
-         2whXZmoC2FkxOdwNg7xIX//lf9qHgiazQdakEDxthrrEq6RbWmmxOrl+rdlD8uIcVplG
-         zc7A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784575982; x=1785180782; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HA0LCRPit061rcPUHtfmiZ0quvjP+0qqUiR8ovXvpJI=;
-        b=DOM3ngNFPxfXB2AzaM0yqVOdxTCzVCsKCJx0VSq1l6HTU5iFVCoFHNv22+SVOakY+l
-         aqOL/6eDmwcaKQiLRufnV4knZLKc1YyPzw6U+2ykMfGghuaLNdKDDST+nqcoMLf5hw4E
-         KJ5amTLhhgAsPWc7tYKoYFDLvG4+cacvsnoX0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784575982; x=1785180782;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HA0LCRPit061rcPUHtfmiZ0quvjP+0qqUiR8ovXvpJI=;
-        b=pZRw3zA/07DvN7kbyr3yS7bT5LxZ1RxdJqCZ4seKkicuXacWNX2+qJjh8Jq+fN0bf+
-         nZAx765mA6KJtCffOdT5QaNC1KwAHlIaHjxUp/24sWGZgZS9EwUEqeLvAkxpPUbgab9g
-         PYfWe+A1AJbv6EMcSajDjcYb16pnblIWFBXG2VRDYKO/4GKUMeTw9DUw0R8sYRSAtQb5
-         RY95QHeto+KXYb7Dm4hjPYt7TrjKpXZHhfE0Z0dHTNufs3R+iPBbvzL4Ra1o0OeNOeZB
-         s5bFjH+h568gao5/B9yNBL0ilXpSH+do/popopenBbvYz0czjZ2cpXvMHU8UehbyGaa6
-         Zb4Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqFeBAN+KhG7AhIgYsIpnZyuCMU3wkSm3lgfeIY1rvNA/GIuRFic8VdnDY9OaUZiXudTpUGdFzcPFozBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBQs02qTf8l/Z6lhWToearRj3fBPAghlNCWzfVg3PqNRzeP7Su
-	UGD4bY8WSagR1Bnh/XB/axlhCMxiox7Gm7gJTrW/3GQJCJ1raDsyYIQldnXz55IBL+XAU+PpZKs
-	dnjI9Pn8oVgKmcPJC7UkQDjUjI/JxeMt0oWX1UosE
-X-Gm-Gg: AR+sD12e6Jucxj4TM/FYjWyZXroMAdYCgXDE9gpWWW2Ws+IpTjJp1kijCXJ+t0CLn3l
-	TK+MduCq4CezmIi/qsuTQH6bNbayHAAW0KH6z/GtDGpN81esEyHvcd5K4oXeWHBoui6LiOxxp3n
-	ufmyKHaK66I/WAAPK0YsQ0U44wq0Uvr160SxZNaeBzE3McoxkuvKxtuzw1vEQnYolHe0rZ+0hrt
-	9/XUW1RkKSwlFC4hAzhiL8Q7/VUlLZboyQey1E/KVzGjV5BBU7G72KYbMYAES4=
-X-Received: by 2002:a05:690e:1c1b:b0:667:ba32:4612 with SMTP id
- 956f58d0204a3-6683bbe7e2dmr3844826d50.46.1784575982339; Mon, 20 Jul 2026
- 12:33:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4wJM/AU"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 50CE5C2BCB8;
+	Mon, 20 Jul 2026 19:34:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784576055;
+	bh=CmNrd492sHNTKKzbYCGaXBAny5hcqZLEcI+MXCaax3k=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=S4wJM/AUQw6Q7ZFDqHOV9/kQYmn4FMbHdvN0eypwDE0GGYSpkpueDdTxqut4tJUvJ
+	 dKHYmE/SgKbFm9wB9wBlhE5bRm5DItz2vhw5ALtBoYPqAf1hJXvTYU9D72aMMC/ycz
+	 kWXJvTz2tMpSyIeR+Gc04u9MBWHCWFqAjIXnyN6gxLprlZQi8gJJwP4RCMKBWWB3/n
+	 UWrS+7g+PwdPFc470R6AmSJYDR+8yUlEzn1YdWrh9Qpbm2uVU54JYNH4GXoCCyninL
+	 kCjJCEzrTNXyamDJQIpUcYb4Qs+JlQPzJzfU+UcyK9XKXejL6IM/drGTMjUfRzIClB
+	 vv61CDaZPSJbg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C6BC44515;
+	Mon, 20 Jul 2026 19:34:15 +0000 (UTC)
+From: =?utf-8?q?=E9=83=91=E9=B8=BF=E6=BA=90_via_B4_Relay?= <devnull+spark_psc.outlook.com@kernel.org>
+Date: Tue, 21 Jul 2026 03:31:58 +0800
+Subject: [PATCH] ASoC: amd: yc: Add MSI Crosshair A16 HX D7WFKG to quirk
+ table
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260718-fix-headphone-plug-cirrus-dell-v2-1-f88121570d62@chromium.org>
- <87h5lvs8zu.wl-tiwai@suse.de>
-In-Reply-To: <87h5lvs8zu.wl-tiwai@suse.de>
-From: Steven Kendall <skend@chromium.org>
-Date: Mon, 20 Jul 2026 15:32:51 -0400
-X-Gm-Features: AUfX_mwILK-aUna92LTQ3LU8ZnzLkjirveUmPV-MzUiYs-fix-_dYjgm4VLLSeY
-Message-ID: <CAB1bpFDu7iXmo-uzhZ-LGg6XQ2GHJ0gqMX=ZiL43OOcRdUCrPA@mail.gmail.com>
-Subject: Re: [PATCH v2] ALSA: hda/cs8409: Fix for Dell Cirrus audio jack detect
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260721-master-v1-1-6f56d5a54d96@outlook.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBCF4avIrA1NIrXWq4iL0Ux1Fo1lRkQI3
+ t1olx+8/yVQEiaFtkggtLHyEjNcWcA4Y5zIcMgGb31tX96ZL+pKYt7UVE8XbKgdQh7/hD6830d
+ dnz2gkhkE4zhf+SI8cXz8YziOEwUDumB4AAAA
+X-Change-ID: 20260721-master-9e8351d0d61a
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?=E9=83=91=E9=B8=BF=E6=BA=90?= <spark_psc@outlook.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784575921; l=1505;
+ i=spark_psc@outlook.com; h=from:subject:message-id;
+ bh=sPieR3UZfAQY/O5EmOaFntl04LzU4hXdSmuT+Pa9MUk=;
+ b=tcrtQFzYLHt0rPWGpDtA+KzxseW/Lj0w5h1Gllgj12fDIlwnBoI5+A0dcq3wLcgoRi8fl9ltj
+ uFXucVuRReGBJSNzfYY1reyukjPc/mC2Gc/sfvkMNIoiQKktRzx63wX
+X-Developer-Key: i=spark_psc@outlook.com; a=ed25519;
+ pk=2Jj+f2FmVYca2wcyeqtE4uty2ySW1dJ5k3c4Zde3V4Q=
+X-Endpoint-Received: by B4 Relay for spark_psc@outlook.com/default with
+ auth_id=886
+X-Original-From: =?utf-8?q?=E9=83=91=E9=B8=BF=E6=BA=90?= <spark_psc@outlook.com>
+Reply-To: spark_psc@outlook.com
 
-> > - I'm now using the latest release of b4. Hopefully this addresses the formatting issues I was having!
->
-> Hmm, not really.  You've put the foreword separated with '---' again,
-> hence git-am picks up only the foreword, not the actual patch
-> description.  In general, there is no foreword in the patch.  And,
-> your foreword texts are obviously a part of the patch description, so
-> don't use foreword at all.
+From: 郑鸿源 <spark_psc@outlook.com>
 
-Ok, I'll see if I can figure out what's going on and then submit a
-patch to b4 if appropriate. I've just been following the workflow
-recommended on https://b4.docs.kernel.org/en/latest/ which I think
-used to work well for me. Apologies for the formatting problems.
+The MSI Crosshair A16 HX D7WFKG has an internal digital microphone
+connected through AMD ACP6x, but the system does not expose the
+AcpDmicConnected ACPI property. As a result, acp_yc_mach does not bind
+and no DMIC capture device is created.
+
+Add a DMI quirk for this model. This was tested on a system with board
+MS-15PL, BIOS E15PLAMS.10B, and AMD ACP6x rev 0x62. After applying the
+quirk, the internal microphone appears as an acp6x DMIC capture device
+and records correctly.
+
+Signed-off-by: 郑鸿源 <spark_psc@outlook.com>
+---
+This patch adds a DMI quirk for the MSI Crosshair A16 HX D7WFKG.
+The commit message contains the full rationale and test details.
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index d6df7de..3a8a5da 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -521,6 +521,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Vector A16 HX A8WHG"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Micro-Star International Co., Ltd."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Crosshair A16 HX D7WFKG"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+
+---
+base-commit: 1590cf0329716306e948a8fc29f1d3ee87d3989f
+change-id: 20260721-master-9e8351d0d61a
+
+Best regards,
+-- 
+郑鸿源 <spark_psc@outlook.com>
+
+
