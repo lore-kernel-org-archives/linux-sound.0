@@ -1,155 +1,124 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D82D41DECA
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 13:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96658353EDF;
+	Mon, 20 Jul 2026 13:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784555658; cv=none; b=WKVIKFquBKtOlb8JSgwN222qdj9NZWKakU3glxxNFvA9Hh4r/5IEFt2CwVeejNtZi/NaiZLFdHSmXJny1UiWu6Hm7ls56lCLNuywt2vT4w6agIrTAfU+QHTdQDl5YlNVFGcCa9zgLU0miXYFoZfZH0zH914aikQ25IwdKeoL2l8=
+	t=1784555690; cv=none; b=F1oJ3VR33ZJDAVMK8f28zN0u48UQw6ZK885XAXI20JZSg43OHqKuPr0usNq/FIK/JWdsgh/Z7Rni4h8JPCImaK+Y0Pg/6bz5/etfu9jAlUCORAZsLDAqw5kCJNZpBnbt0uI7jWGZIpmclK4rA3D46UuQvEJdH3dE04TqF3/hmXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784555658; c=relaxed/simple;
-	bh=e0aSv+9JnyYvKEk+xoJb7PTEJeDYhakF2wCfud0spzo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EyZz1VST+qehcwGB0adlG4nwT5HsBzODz1AcUFBfVu1bovnzMx9iOxIayF4fuGylHgNujXZVhrWoXCEu8pxRG2s12wQqIzdHrTiCvQ0FzUTvq41Y3Z1F/zRFpggLD5ZZacaFtxk321sVP+NnYIS8py1bvZfIy9dc3KGJlWXqTWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iIwTkBSl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=js+z9I/o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iIwTkBSl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=js+z9I/o; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784555690; c=relaxed/simple;
+	bh=DfUO5w0eGZAxJGLC6driOdswr6zt8DtITXW6kI57na8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oyzffEAX8K27OP+yUexMiDumXIepQxA7LADO4jTXemAvcN09qvhwCJLnAp/xnkVf0ay1NJBV91hJamlLqLtNkNi40SLRhzQGGMAvbGIy/Rl+/pSSe+ja08Ly8ZGY4PlWh8lk4s2Wmd4/61rf5P8xjYsCc3M5AUP0iK4Z6SQrfTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kz/Yb2rq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iIwTkBSl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="js+z9I/o";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iIwTkBSl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="js+z9I/o"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 13E4A79FA9;
-	Mon, 20 Jul 2026 13:54:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784555642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
-	b=iIwTkBSl71MYOOgqBXkhLqeD8i2kEVypzRhjdRB868XpSZlw0zcCX1VgDbs23MnCCjgnlm
-	5Z19JxRRiu8PNVY/di19tBCsktsCQwgCI9Skb0PUyrF0yEFcEhX/4KAv9VnIUnT5N4PQnl
-	vo8l0aDczCpt6459OGmbzGyAeAy7Lec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784555642;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
-	b=js+z9I/oBTXa8Z0uZ4qrCNPhmmiBsbbiajWGxZ4vfuBtqxRf2fS1tR4WTs7o1/my9OUh/5
-	3Mfpe8qY65Xr/dBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784555642; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
-	b=iIwTkBSl71MYOOgqBXkhLqeD8i2kEVypzRhjdRB868XpSZlw0zcCX1VgDbs23MnCCjgnlm
-	5Z19JxRRiu8PNVY/di19tBCsktsCQwgCI9Skb0PUyrF0yEFcEhX/4KAv9VnIUnT5N4PQnl
-	vo8l0aDczCpt6459OGmbzGyAeAy7Lec=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784555642;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uPgCshBj2V6WI6FFQ3vk3tVARqmn3O7GTHYH4EVXB38=;
-	b=js+z9I/oBTXa8Z0uZ4qrCNPhmmiBsbbiajWGxZ4vfuBtqxRf2fS1tR4WTs7o1/my9OUh/5
-	3Mfpe8qY65Xr/dBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E98BE779AA;
-	Mon, 20 Jul 2026 13:54:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qCuzN3koXmr8KgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 20 Jul 2026 13:54:01 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] ALSA: dummy: Implement sync_stop for systimer, too
-Date: Mon, 20 Jul 2026 15:53:53 +0200
-Message-ID: <20260720135356.1779857-3-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260720135356.1779857-1-tiwai@suse.de>
-References: <20260720135356.1779857-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kz/Yb2rq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82CD11F000E9;
+	Mon, 20 Jul 2026 13:54:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784555689;
+	bh=2e4JlFLyKN9wo6YUvrmYI0rCFdNq/NCuMYtES0ROEic=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=kz/Yb2rqyPWn5uvHMQHfk0c9r2AtKUvSwr/aK7PkTmOoVZp+1mhu2zv6gIATRgGxN
+	 yYPfmvatlxFO4rMOvq3wy7Qfy7r8LcoNlXlQGESQtK9Xu3yNz7n6TCOBSDmmMC2BJe
+	 oxUzSo2fmG584wbrAAxIwCkR67FhM3FvpPg5BeBIWcbVLZw/Je9PMSup3j/ofeqJUo
+	 Y9W0TY2brdPYziG5lPttU2gwmXHpP2uu6cbNXaYKp50HtnRPxs4dMfX7CWNvLnM3b/
+	 2UMAPK4lcctCEscGYG2FJOmUdeiE6z1hjz19JzIhE+kJrfmq0tJCvIZZXsPmaB7JrI
+	 thfycVv0ZrKBg==
+Message-ID: <44ee60ff-c7f8-4ca7-ad65-7b610ad13d24@kernel.org>
+Date: Mon, 20 Jul 2026 15:54:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Level: 
-X-Spam-Score: -2.80
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/4] ASoC: qcom and pinctrl: add LPASS LPR voting and
+ Hawi LPASS LPI TLMM
+To: Bartosz Golaszewski <brgl@kernel.org>,
+ Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+ Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+References: <20260720130511.493295-1-prasad.kumpatla@oss.qualcomm.com>
+ <CAMRc=MfvfVvJ4anwY5WZUr5K8fSGkcvejah72fUDLc7ZC59jNw@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <CAMRc=MfvfVvJ4anwY5WZUr5K8fSGkcvejah72fUDLc7ZC59jNw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The systimer backend invokes timer_delete() at stopping the PCM, but
-it misses its synchronization, which might lead to concurrent changes
-or releases at PCM prepare or free.  Use the sync_stop callback to
-assure the synchronization of timer deletion.
+On 20/07/2026 15:42, Bartosz Golaszewski wrote:
+> On Mon, 20 Jul 2026 15:05:07 +0200, Prasad Kumpatla
+> <prasad.kumpatla@oss.qualcomm.com> said:
+>> This series adds support for LPASS low-power resource (LPR) voting
+>> through PRM and introduces LPASS LPI TLMM pinctrl support for newer
+>> platforms such as Hawi.
+>>
+>> On such platforms, LPASS requires LPR resource voting via PRM to keep
+>> the subsystem active. This is handled by adding a new clock ID and
+>> support for PARAM_ID_RSC_CPU_LPR in q6prm.
+>>
+>> Additionally, a new LPASS LPI TLMM block is introduced, requiring a
+>> dedicated DT binding and pinctrl driver.
+> 
+> What is the merging strategy? Is an Ack from Mark required and the series
+> should go together through the pinctrl tree?
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/drivers/dummy.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Why would an ack be needed? Cover letter is very explicit on that
+through complete silence that there is no dependency (except that it is
+not true) so why would you take ASoC bits?
 
-diff --git a/sound/drivers/dummy.c b/sound/drivers/dummy.c
-index ddd4da058693..3bc0289e3518 100644
---- a/sound/drivers/dummy.c
-+++ b/sound/drivers/dummy.c
-@@ -286,6 +286,14 @@ static int dummy_systimer_stop(struct snd_pcm_substream *substream)
- 	return 0;
- }
- 
-+static int dummy_systimer_sync_stop(struct snd_pcm_substream *substream)
-+{
-+	struct dummy_systimer_pcm *dpcm = substream->runtime->private_data;
-+
-+	timer_delete_sync(&dpcm->timer);
-+	return 0;
-+}
-+
- static int dummy_systimer_prepare(struct snd_pcm_substream *substream)
- {
- 	struct snd_pcm_runtime *runtime = substream->runtime;
-@@ -351,6 +359,7 @@ static const struct dummy_timer_ops dummy_systimer_ops = {
- 	.prepare =	dummy_systimer_prepare,
- 	.start =	dummy_systimer_start,
- 	.stop =		dummy_systimer_stop,
-+	.sync_stop =	dummy_systimer_sync_stop,
- 	.pointer =	dummy_systimer_pointer,
- };
- 
--- 
-2.55.0
-
+Best regards,
+Krzysztof
