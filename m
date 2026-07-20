@@ -1,527 +1,188 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A01C235045
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 06:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BA5279903
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 06:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784528673; cv=none; b=A+MH50RWofCKHHG8sQIgpjoXFKouSD+ZesIoT7U/VCjbLHwPkgHcnOdQhNA9Nu8rmNzl8/VbfcCyyFJDBUmnsTK1IsUrVk/m9f/irR0K7Fz50nrOHCRtcllM+H8mW2nQEvl4tcPIJBLQKLXFa/anP58KqJz//5D6c95LibzsxIU=
+	t=1784529563; cv=none; b=gTvkj2eb2fjsRTDot/S+Mv1A1k64kGeve8PD/1XYx0mVIGi9Lse+wN2XigORQqwpS0YgKzKpy2krBFci+yygGcAZy1ClmKmhPhjuzxHdLoA+9F5aqZutNUNRv/H1htBPRX1iQa/CnaK9Jo/QjtZEQ5AX6oqedr+EgYXEAJgo2sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784528673; c=relaxed/simple;
-	bh=iR1LqIFM5kpqU9FhK7AKXR85Ty5byfvUM0BITDHvv+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UDOzAXgzLL07IVCADwILAdZpoa3NduOvxsXtyr38HM9EVpt81yXkTbvpSr1WiHg+/uAqvN4p/anKUNhAdy1XjIuPuWL5K5htI76wWC0TedJf7OcfrUBiuY082tP6hI0C5X8NOE3S5f+e+nZOJboRFi0U4wMV5Dbu5gTYp+zWjfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=JJ1tm0Mp; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1784529563; c=relaxed/simple;
+	bh=cf0UcdF1oc6fazNfMpqORhG4w+Lu+pEQjQMfAtBQMwY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OV7FdOcDq7j2pnS5hESihV+P7Lff8KKUQ1jlvVweSXqxJce/1Hu6aEem7He+a1w2zX2oZEZD6eIuK9l1cPxnG3+VAxu/n3AfqWy+3Ng84tBF3ZcpX3Vv6zVRLADIYZbipGQxdBicIPf3ckmM6qquSf7E9Vk6cl2OE0MsRDZfCEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kOhQn02j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ad2h3kaS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZUzII9a/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cGbObu0/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="JJ1tm0Mp"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4954dff6536so14128185e9.0
-        for <linux-sound@vger.kernel.org>; Sun, 19 Jul 2026 23:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784528663; x=1785133463; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YeGYNprjO9RozTDm6r0Dm+rCthz+7k4Z0dmrZWw1tp8=;
-        b=JJ1tm0MpNinuTAtW5HoxTLW4VQ7a/LrlKeKoDC9PInARYYHCho5Zy58hBLWupiCifQ
-         yZ/WBZ5vXRNUooyJdgVCT4Nc0eCwte11rcapznouy3obCUiCO8XylDGmYa5KE22OO5EQ
-         bN20Rx+nrg3ivYJVmacMpQ6QXhN9q2JUmLl24tlOC+VEKOjM8EeBJxIZh0y0Mdljjoja
-         gy7fXqZUDbaChabHJ7OPMJ2t3tZF1u0mNG5PGFrN/MEhPkuZis8REAen2glX6/71B1Wh
-         uPOgLdeDygHqnpua4FmUvFeYQGb2D2IHBZ68l0NeR+rADiPLqbA6WFQOCSrwp1fgSZ3f
-         C8pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784528663; x=1785133463;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YeGYNprjO9RozTDm6r0Dm+rCthz+7k4Z0dmrZWw1tp8=;
-        b=sxkGDSPs4KdRmjVmhQyT5G3UNNOKtgfYNxAfQGo4rKnQ3JKICQ7iq4T3qj/BhJRzDq
-         OWsiRb9Z2S7VmtAN7BKgJ3ysQ3EizgA6xc14LmDGbZkS6rw5b9TYnCagH5AbLgF6NhI/
-         EXIwcm0ieyqX0CyMIGuDzcfsssD9aqYtp8tEnIUv6JXfCY7phHi0WQHGKCilG5FRyMEq
-         XFe+iQNyV7FozjjeGG/GFm4mNbCuXMYgu+nmZ3gMnaneuNDaylwiEMWCAAYBzzx81zA5
-         vOnkgw+UUFj+0iH9tsRSD2hQd8rZxoLCorhc2omGmNzuDD1hV6NZp49l7XN0c8RJJ8Ch
-         a8bw==
-X-Forwarded-Encrypted: i=1; AHgh+RpT908a8Al1vohFd1FTa5nhJYq41K1PMLfrB8nwFUy/FCGSBP+0fdD0nzyBR10fzuvMHZihkM9FNrg+Gw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzK+oa/195KqDWsxyHGTBQ7ngE59eOFUipfCMLYvm8prUKkOhjX
-	2TKZVjB8Y5aMI/1b71okOeZTWAI/3xb0hi6HBDa7+ovOToCoulnFZ73TVdOUq0qHx0Y=
-X-Gm-Gg: AfdE7clhkMYP0Vebhimv1d2Qhs1fKPPvhq6tRo0v+iIeWDL3cVPFNfC6CNAKvihhwqm
-	3dG4k3W5bbEwcUktOw3Kx2FzLgSpd0P4VKkhBAjdYi4gSdx6BgWHqfEkpD6i0ZtWtCK9YlAfLP5
-	+zU3UbpjwEnIL4dU/RocCkUS/hxMx7XjF2wqR/buBDt5rCsYK2rHJvHrtddgYmC+KwnxKhsuRZJ
-	/TfpcSlvF2vZflhpWiD1mLBVJmfdfjeXV4vLXeqIBn4pALX9OkG65gCImiKZ153EpWLcs1J3cM9
-	VgHRIFqCgwYVvohqVM5FMEHf5LTcbnUJT4PDavH5ybZqn30qL/Ye7Wdtisv0VG9DFjnjDe675kp
-	+YdTK6XgkVKxsJT3tOxUJ+p3h+YNVngGbA7ECW2q/6vcviVDNW9mCPNtxBjedxAdslMt98vi049
-	lhGRhhLdFQ0JaRunbeNw==
-X-Received: by 2002:a05:600c:1d1b:b0:493:f7c8:eae2 with SMTP id 5b1f17b1804b1-4954a3db7dbmr131890425e9.15.1784528663074;
-        Sun, 19 Jul 2026 23:24:23 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4954a2b87c6sm455259245e9.7.2026.07.19.23.24.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 23:24:22 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	=?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kOhQn02j";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ad2h3kaS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZUzII9a/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cGbObu0/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E58E479DE1;
+	Mon, 20 Jul 2026 06:39:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784529558; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4UOF+4eEYsPA/rMBkMMMH9808Zr1SRxW1O8QPqeS1QI=;
+	b=kOhQn02jQV35tdT9KmSaVJQP7N57AtNBY/0Pa1OzlB6jrtuZH7AsvLaV8tFj3Cf9YfdYhy
+	W5LnKl3IJoNnj3wjq73ENCFXp91c6Gb15GTxoqXHSeTI8rJT2PWcAyXvUVef/ByAHmOVZz
+	H30mQfxyIfMbbCvOtyI1UWHCYDtRFXU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784529558;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4UOF+4eEYsPA/rMBkMMMH9808Zr1SRxW1O8QPqeS1QI=;
+	b=Ad2h3kaSXVUyjpD7fSM76f8V0lMpNdk3MgLHXOhrIpOUTXp16P2cskRRQOZgTO4L1RXl/X
+	J/ViLfpvwPxmrrBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ZUzII9a/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="cGbObu0/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1784529557; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4UOF+4eEYsPA/rMBkMMMH9808Zr1SRxW1O8QPqeS1QI=;
+	b=ZUzII9a/TnSHe+/gxDP0Eu40lZC9hJIYaLWDI6SSDOEab64dw7526CpZymPHkEamHfnNHI
+	ryajv/sCaIA+527BaaDzNfxhp+xFK4JP3cZpw8h3CTvuU6waoxJFPKipx+EiqICraHoMHc
+	3OQpcI6bZQGQsvj5SPuhxp/HsPRnLPg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1784529557;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4UOF+4eEYsPA/rMBkMMMH9808Zr1SRxW1O8QPqeS1QI=;
+	b=cGbObu0/Mebo3+blkbL44/K5wJ7K5JFUlOQDHoQk9fy1Ei+LxV/utqocaOX/M1YUA7Nb1L
+	DOexKHVIU0MhmGBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86827779AA;
+	Mon, 20 Jul 2026 06:39:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kCdNH5XCXWpDegAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 20 Jul 2026 06:39:17 +0000
+Date: Mon, 20 Jul 2026 08:39:17 +0200
+Message-ID: <87tspuqi5m.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Gordon Chen <chengordon326@gmail.com>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kees@kernel.org,
+	jussi@sonarnerd.net,
+	hulianqin@vivo.com,
+	i@rong.moe,
+	g@b4.vu,
+	cryolitia@uniontech.com,
+	pav@iki.fi,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 6/6] ASOC: Unify code style for platform_device_id arrays
-Date: Mon, 20 Jul 2026 08:23:50 +0200
-Message-ID:  <093867d47c079d2aaab06bccaae734c54c342a7d.1784528081.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.55.0.11.g153666a7d9bb
-In-Reply-To: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
-References: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio device
+In-Reply-To: <9fc3da84-0985-4357-93bb-ce90a86b01de@kylinos.cn>
+References: <20260713081048.189281-1-zhangheng@kylinos.cn>
+	<18c1dc0246121271.5ea4dc9a201e9dce.cafe1c196d712416@GordonMsi>
+	<87zezvx73v.wl-tiwai@suse.de>
+	<d77254b3-1e6f-483e-8c03-b8f1e033d7a0@kylinos.cn>
+	<878q77s6jp.wl-tiwai@suse.de>
+	<9fc3da84-0985-4357-93bb-ce90a86b01de@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=13598; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=iR1LqIFM5kpqU9FhK7AKXR85Ty5byfvUM0BITDHvv+A=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqXb7/ZjkV1xENnv57f8GUMRLZBCpZ1LZrci46v TNMnyy6QuCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCal2+/wAKCRCPgPtYfRL+ Tk+/B/4zvL3PZkVE/LvqrCiNOp093/fSaf+JA33aGPRnYdd3KE4PbdhEyLN92lv8dUj8MS+5U/C nd/3Jw3tR64O4+HgjFbfwaFuQnkUnsAkl1y3vrsscJpaV5FfRy/q3Fe/rMxYj3rEB5B2S+eR9f9 9eqlrwN6uNkJfN+cCAjdjKOVgZflj7GY5J4tXcqRR9KG0dr2h186sG/16b6M7ocumP8SmSnlkor MIMG/xs6Yj+5RLaWHP4wsA3g6iAcmK4nA66jB3h44Eneonrp/xOpjrN+JJBxEmJOolDyTgsUgP3 bzcA38YgoukL02WmEgrd6mYHAhsOsBbKUz+ap5KbL2kWMmwU
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,perex.cz,suse.com,kernel.org,sonarnerd.net,vivo.com,rong.moe,b4.vu,uniontech.com,iki.fi,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E58E479DE1
+X-Spam-Score: -3.51
 
- - Add a trailing comma for initializers unless the closing brace is on
-   the same line and for the list terminator;
- - Use a single space in the list terminator;
- - Use compact one-line style for small entries;
- - s/\t=/ =/ were the tab is only one char wide anyhow;
+On Mon, 20 Jul 2026 04:23:25 +0200,
+Zhang Heng wrote:
+> 
+> 
+> > Please add some comment why the device needs this workaround.
+> > IIUC, the reason is different from the others in your case.
+> > 
+> > Also, please verify that the problem is reproduced in the latest
+> > upstream kernel, and the workaround works as expected there, too.
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> 
+> >> --- a/sound/usb/quirks.c
+> >> +++ b/sound/usb/quirks.c
+> >> @@ -1938,6 +1938,10 @@ void snd_usb_endpoint_start_quirk(struct
+> snd_usb_endpoint *ep)
+> >>   	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+> >>   		ep->skip_packets = 4;
+> >>
+> >> +	if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e) &&
+> >> +	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+> >> +		ep->skip_packets = 4;
+> >> +
+> 
+> Let me update the current status: that piece of code can be
+> omitted. I have applied your test patch, but there is no
+> change. It might be that your patch has no effect on this
+> device. I tested with version v7.2-rc1. To be honest,
+> without any modification, the problem becomes a reproducible
+> stutter plus crackling noise. After applying my fix, it
+> becomes a probabilistic stutter (still with a relatively
+> high probability of recurrence), but when there is no
+> stutter, there is also no crackling noise. So I am sure
+> that this patch is at least useful, but it does not
+> perfectly solve the problem. I am still trying to resolve
+> the stutter issue, and I wonder if it is due to resource
+> contention during boot? This problem only occurs at boot
+> time; after entering the system, it disappears.
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- sound/soc/au1x/db1200.c                |  2 +-
- sound/soc/codecs/adau7118-hw.c         |  2 +-
- sound/soc/codecs/bt-sco.c              | 10 +++-------
- sound/soc/codecs/wcd934x.c             |  6 ++----
- sound/soc/fsl/imx-pcm-rpmsg.c          |  6 +++---
- sound/soc/intel/avs/boards/da7219.c    |  6 ++----
- sound/soc/intel/avs/boards/dmic.c      |  6 ++----
- sound/soc/intel/avs/boards/es8336.c    |  6 ++----
- sound/soc/intel/avs/boards/hdaudio.c   |  6 ++----
- sound/soc/intel/avs/boards/i2s_test.c  |  6 ++----
- sound/soc/intel/avs/boards/max98357a.c |  6 ++----
- sound/soc/intel/avs/boards/max98373.c  |  6 ++----
- sound/soc/intel/avs/boards/max98927.c  |  6 ++----
- sound/soc/intel/avs/boards/nau8825.c   |  6 ++----
- sound/soc/intel/avs/boards/pcm3168a.c  |  6 ++----
- sound/soc/intel/avs/boards/probe.c     |  2 +-
- sound/soc/intel/avs/boards/rt274.c     |  2 +-
- sound/soc/intel/avs/boards/rt286.c     |  2 +-
- sound/soc/intel/avs/boards/rt298.c     |  2 +-
- sound/soc/intel/avs/boards/rt5514.c    |  2 +-
- sound/soc/intel/avs/boards/rt5640.c    |  2 +-
- sound/soc/intel/avs/boards/rt5663.c    |  2 +-
- sound/soc/intel/avs/boards/rt5682.c    |  2 +-
- sound/soc/intel/avs/boards/ssm4567.c   |  2 +-
- sound/soc/samsung/i2s.c                |  2 +-
- 25 files changed, 40 insertions(+), 66 deletions(-)
+OK, if the workaround is no solid solution, it's not worth to take.
 
-diff --git a/sound/soc/au1x/db1200.c b/sound/soc/au1x/db1200.c
-index 81abe2e18402..78346cd7959c 100644
---- a/sound/soc/au1x/db1200.c
-+++ b/sound/soc/au1x/db1200.c
-@@ -42,7 +42,7 @@ static const struct platform_device_id db1200_pids[] = {
- 		.name		= "db1550-i2s",
- 		.driver_data	= 5,
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, db1200_pids);
- 
-diff --git a/sound/soc/codecs/adau7118-hw.c b/sound/soc/codecs/adau7118-hw.c
-index 92b226b8b4bb..4342eb7dd9e5 100644
---- a/sound/soc/codecs/adau7118-hw.c
-+++ b/sound/soc/codecs/adau7118-hw.c
-@@ -22,7 +22,7 @@ static const struct of_device_id adau7118_of_match[] = {
- MODULE_DEVICE_TABLE(of, adau7118_of_match);
- 
- static const struct platform_device_id adau7118_id[] = {
--	{ .name	= "adau7118" },
-+	{ .name = "adau7118" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(platform, adau7118_id);
-diff --git a/sound/soc/codecs/bt-sco.c b/sound/soc/codecs/bt-sco.c
-index c0bf45b76cb8..b085885e3f18 100644
---- a/sound/soc/codecs/bt-sco.c
-+++ b/sound/soc/codecs/bt-sco.c
-@@ -85,13 +85,9 @@ static int bt_sco_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id bt_sco_driver_ids[] = {
--	{
--		.name		= "dfbmcs320",
--	},
--	{
--		.name		= "bt-sco",
--	},
--	{},
-+	{ .name = "dfbmcs320" },
-+	{ .name = "bt-sco" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, bt_sco_driver_ids);
- 
-diff --git a/sound/soc/codecs/wcd934x.c b/sound/soc/codecs/wcd934x.c
-index bc41a1466c70..a9e6f2923099 100644
---- a/sound/soc/codecs/wcd934x.c
-+++ b/sound/soc/codecs/wcd934x.c
-@@ -5899,10 +5899,8 @@ static int wcd934x_codec_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id wcd934x_driver_id[] = {
--	{
--		.name = "wcd934x-codec",
--	},
--	{},
-+	{ .name = "wcd934x-codec" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, wcd934x_driver_id);
- 
-diff --git a/sound/soc/fsl/imx-pcm-rpmsg.c b/sound/soc/fsl/imx-pcm-rpmsg.c
-index ee741f3d79bd..7086fb7fc1eb 100644
---- a/sound/soc/fsl/imx-pcm-rpmsg.c
-+++ b/sound/soc/fsl/imx-pcm-rpmsg.c
-@@ -810,9 +810,9 @@ static const struct dev_pm_ops imx_rpmsg_pcm_pm_ops = {
- };
- 
- static const struct platform_device_id imx_rpmsg_pcm_id_table[] = {
--	{ .name	= "rpmsg-audio-channel" },
--	{ .name	= "rpmsg-micfil-channel" },
--	{ },
-+	{ .name = "rpmsg-audio-channel" },
-+	{ .name = "rpmsg-micfil-channel" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, imx_rpmsg_pcm_id_table);
- 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index 2b17abcbd2bc..163d9982d797 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -259,10 +259,8 @@ static int avs_da7219_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_da7219_driver_ids[] = {
--	{
--		.name = "avs_da7219",
--	},
--	{},
-+	{ .name = "avs_da7219" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_da7219_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/dmic.c b/sound/soc/intel/avs/boards/dmic.c
-index bf6f580a5164..8d36bc7ddf16 100644
---- a/sound/soc/intel/avs/boards/dmic.c
-+++ b/sound/soc/intel/avs/boards/dmic.c
-@@ -104,10 +104,8 @@ static int avs_dmic_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_dmic_driver_ids[] = {
--	{
--		.name = "avs_dmic",
--	},
--	{},
-+	{ .name = "avs_dmic" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_dmic_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/es8336.c b/sound/soc/intel/avs/boards/es8336.c
-index 301cfb3cf15b..36c13db3a272 100644
---- a/sound/soc/intel/avs/boards/es8336.c
-+++ b/sound/soc/intel/avs/boards/es8336.c
-@@ -309,10 +309,8 @@ static int avs_es8336_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_es8336_driver_ids[] = {
--	{
--		.name = "avs_es8336",
--	},
--	{},
-+	{ .name = "avs_es8336" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_es8336_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/hdaudio.c b/sound/soc/intel/avs/boards/hdaudio.c
-index aec769e2396c..03cfd91202d3 100644
---- a/sound/soc/intel/avs/boards/hdaudio.c
-+++ b/sound/soc/intel/avs/boards/hdaudio.c
-@@ -231,10 +231,8 @@ static int avs_hdaudio_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_hdaudio_driver_ids[] = {
--	{
--		.name = "avs_hdaudio",
--	},
--	{},
-+	{ .name = "avs_hdaudio" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_hdaudio_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/i2s_test.c b/sound/soc/intel/avs/boards/i2s_test.c
-index 9a6b89ffdf14..787d781ba1d9 100644
---- a/sound/soc/intel/avs/boards/i2s_test.c
-+++ b/sound/soc/intel/avs/boards/i2s_test.c
-@@ -107,10 +107,8 @@ static int avs_i2s_test_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_i2s_test_driver_ids[] = {
--	{
--		.name = "avs_i2s_test",
--	},
--	{},
-+	{ .name = "avs_i2s_test" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_i2s_test_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/max98357a.c b/sound/soc/intel/avs/boards/max98357a.c
-index e9a87804f918..389a50923d3b 100644
---- a/sound/soc/intel/avs/boards/max98357a.c
-+++ b/sound/soc/intel/avs/boards/max98357a.c
-@@ -136,10 +136,8 @@ static int avs_max98357a_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_max98357a_driver_ids[] = {
--	{
--		.name = "avs_max98357a",
--	},
--	{},
-+	{ .name = "avs_max98357a" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_max98357a_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/max98373.c b/sound/soc/intel/avs/boards/max98373.c
-index 8b45b643ca29..b8231f71d3d6 100644
---- a/sound/soc/intel/avs/boards/max98373.c
-+++ b/sound/soc/intel/avs/boards/max98373.c
-@@ -191,10 +191,8 @@ static int avs_max98373_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_max98373_driver_ids[] = {
--	{
--		.name = "avs_max98373",
--	},
--	{},
-+	{ .name = "avs_max98373" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_max98373_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/max98927.c b/sound/soc/intel/avs/boards/max98927.c
-index db073125fa4d..d657e7da1cc0 100644
---- a/sound/soc/intel/avs/boards/max98927.c
-+++ b/sound/soc/intel/avs/boards/max98927.c
-@@ -188,10 +188,8 @@ static int avs_max98927_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_max98927_driver_ids[] = {
--	{
--		.name = "avs_max98927",
--	},
--	{},
-+	{ .name = "avs_max98927" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_max98927_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/nau8825.c b/sound/soc/intel/avs/boards/nau8825.c
-index d44edacbfc9a..d7ea08bb27cd 100644
---- a/sound/soc/intel/avs/boards/nau8825.c
-+++ b/sound/soc/intel/avs/boards/nau8825.c
-@@ -293,10 +293,8 @@ static int avs_nau8825_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_nau8825_driver_ids[] = {
--	{
--		.name = "avs_nau8825",
--	},
--	{},
-+	{ .name = "avs_nau8825" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_nau8825_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/pcm3168a.c b/sound/soc/intel/avs/boards/pcm3168a.c
-index b5bebadbbcb2..9d415fd0499a 100644
---- a/sound/soc/intel/avs/boards/pcm3168a.c
-+++ b/sound/soc/intel/avs/boards/pcm3168a.c
-@@ -132,10 +132,8 @@ static int avs_pcm3168a_probe(struct platform_device *pdev)
- }
- 
- static const struct platform_device_id avs_pcm3168a_driver_ids[] = {
--	{
--		.name = "avs_pcm3168a",
--	},
--	{},
-+	{ .name = "avs_pcm3168a" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_pcm3168a_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/probe.c b/sound/soc/intel/avs/boards/probe.c
-index 73884f8a535c..4053d14289b9 100644
---- a/sound/soc/intel/avs/boards/probe.c
-+++ b/sound/soc/intel/avs/boards/probe.c
-@@ -64,7 +64,7 @@ static const struct platform_device_id avs_probe_mb_driver_ids[] = {
- 	{
- 		.name = "avs_probe_mb",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_probe_mb_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/rt274.c b/sound/soc/intel/avs/boards/rt274.c
-index a689f4c80867..289f1230851f 100644
---- a/sound/soc/intel/avs/boards/rt274.c
-+++ b/sound/soc/intel/avs/boards/rt274.c
-@@ -261,7 +261,7 @@ static const struct platform_device_id avs_rt274_driver_ids[] = {
- 	{
- 		.name = "avs_rt274",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_rt274_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/rt286.c b/sound/soc/intel/avs/boards/rt286.c
-index 4c9ac545555a..9364d60cfcc7 100644
---- a/sound/soc/intel/avs/boards/rt286.c
-+++ b/sound/soc/intel/avs/boards/rt286.c
-@@ -231,7 +231,7 @@ static const struct platform_device_id avs_rt286_driver_ids[] = {
- 	{
- 		.name = "avs_rt286",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_rt286_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/rt298.c b/sound/soc/intel/avs/boards/rt298.c
-index 2d7a7748d577..5d3b3cdc9564 100644
---- a/sound/soc/intel/avs/boards/rt298.c
-+++ b/sound/soc/intel/avs/boards/rt298.c
-@@ -250,7 +250,7 @@ static const struct platform_device_id avs_rt298_driver_ids[] = {
- 	{
- 		.name = "avs_rt298",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_rt298_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/rt5514.c b/sound/soc/intel/avs/boards/rt5514.c
-index 22139eaad83a..e448bc9fa5ad 100644
---- a/sound/soc/intel/avs/boards/rt5514.c
-+++ b/sound/soc/intel/avs/boards/rt5514.c
-@@ -178,7 +178,7 @@ static const struct platform_device_id avs_rt5514_driver_ids[] = {
- 	{
- 		.name = "avs_rt5514",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_rt5514_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/rt5640.c b/sound/soc/intel/avs/boards/rt5640.c
-index 2990d32f2301..c4e33d71e82f 100644
---- a/sound/soc/intel/avs/boards/rt5640.c
-+++ b/sound/soc/intel/avs/boards/rt5640.c
-@@ -252,7 +252,7 @@ static const struct platform_device_id avs_rt5640_driver_ids[] = {
- 	{
- 		.name = "avs_rt5640",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_rt5640_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/rt5663.c b/sound/soc/intel/avs/boards/rt5663.c
-index 68fea325376a..aadbd3f2a1b2 100644
---- a/sound/soc/intel/avs/boards/rt5663.c
-+++ b/sound/soc/intel/avs/boards/rt5663.c
-@@ -249,7 +249,7 @@ static const struct platform_device_id avs_rt5663_driver_ids[] = {
- 	{
- 		.name = "avs_rt5663",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_rt5663_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/rt5682.c b/sound/soc/intel/avs/boards/rt5682.c
-index 81863728da1d..d33699cca595 100644
---- a/sound/soc/intel/avs/boards/rt5682.c
-+++ b/sound/soc/intel/avs/boards/rt5682.c
-@@ -325,7 +325,7 @@ static const struct platform_device_id avs_rt5682_driver_ids[] = {
- 	{
- 		.name = "avs_rt5682",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_rt5682_driver_ids);
- 
-diff --git a/sound/soc/intel/avs/boards/ssm4567.c b/sound/soc/intel/avs/boards/ssm4567.c
-index ae0e6e27a8b8..d7c9bff37556 100644
---- a/sound/soc/intel/avs/boards/ssm4567.c
-+++ b/sound/soc/intel/avs/boards/ssm4567.c
-@@ -180,7 +180,7 @@ static const struct platform_device_id avs_ssm4567_driver_ids[] = {
- 	{
- 		.name = "avs_ssm4567",
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, avs_ssm4567_driver_ids);
- 
-diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
-index 56d11741dabd..81d5dd36a246 100644
---- a/sound/soc/samsung/i2s.c
-+++ b/sound/soc/samsung/i2s.c
-@@ -1675,7 +1675,7 @@ static const struct platform_device_id samsung_i2s_driver_ids[] = {
- 		.name           = "samsung-i2s",
- 		.driver_data	= (kernel_ulong_t)&i2sv3_dai_type,
- 	},
--	{},
-+	{ }
- };
- MODULE_DEVICE_TABLE(platform, samsung_i2s_driver_ids);
- 
--- 
-2.55.0.11.g153666a7d9bb
+Have you tried lowlatency=0 option?  If it's an implicit fb and about
+the playback, it might stabilize.
 
+
+thanks,
+
+Takashi
