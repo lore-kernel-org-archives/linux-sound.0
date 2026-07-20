@@ -1,140 +1,146 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D183AFD00
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 07:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35593B71C5
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 07:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784531410; cv=none; b=W8NkvXbS+y22780sjZZDKfkQvlXMYq4sjORGJ8Tzmf4sFuvZdyKJyLck0bv2lHgoMrQGhnR/Av1kklpSkaWD7rtqozFGMMd831Vj2j1vHXOvCOi3/vPT5K2YfZYzcf/FFejeq/MxLl4SDET00gDPENIUnHQD8i6G7jVfBP8pz/4=
+	t=1784531672; cv=none; b=haxZ1AVSQ477FeAD9fO6pJwLfe7tnhn+IM1QbfEYAwBt73ocJBu+HEDwsdTA3Og72j3oF6JW7D4uZzH+owXB9grOV5tqHTUp7MLlGZyvEU2A1kMyq07KIpa2ZTjgJqZF01WKMj9sQloHWpnkqzvYdN0cOBinm/c22Rf8b03T7i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784531410; c=relaxed/simple;
-	bh=hqfg6so42unj8zmnIxXebCj+aQ0vMQuAF4mF9mpk7do=;
-	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=jCwvw+X+CvtSEErnQ0BwxZUT5XL3CwV7p5iRpSf+9QI9HGmaLAyGMj10Y/SlT9MEdyyWHJsDYwITPko4SDIrAnj8/e+cq6C2VscpQ8FYWqJuM2a59rYp85ENK/wsGlBN7bvW6sBD/3JOUiX9haHUchjJoCJE1nDbQUb6uAT1jdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=KkZVambK; arc=none smtp.client-ip=209.85.208.46
+	s=arc-20240116; t=1784531672; c=relaxed/simple;
+	bh=VjA1FIKhgjCtwMBOccoujN3/BZcDsX6IJ7YmyIXhUbQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=gAVl/rT88BClAkGHKpvRiGaNtgCxh4mqxhnAZNChc529xSMDPbpFXhvnVl+neWD4s+wPkwPrrmbaowGlDFo1+vN2Zn2JSg6m0pmjxNc7B/azgqAUUWBq3k9dvFueQxzOH2qhB95WHi4JZdqXK5BerQG6TCMx06bpGjkAeuxNO8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=Ul6mEPsd; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=doyensec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b="KkZVambK"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-697cee2eb6dso6627053a12.0
-        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 00:10:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b="Ul6mEPsd"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c15d111ca99so1008382766b.0
+        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 00:14:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=doyensec.com; s=google; t=1784531407; x=1785136207; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:content-type:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oi3ZbPnlHwU9DFLUJTGqO6dU9swUKcGZ3/fvMYOPSZE=;
-        b=KkZVambKM85yD2P6EjUDMGguAmY/lwqSa+eHk0NjdFH6uSCpXNjo5GzyANBWlIUY+A
-         4rXvSX093fSinAh4vjf2ayDZmXOUy9LhWT5cvdUkk1r2brjjy7rkYwnoxh3vXKi1X04u
-         6oemfi8MQz/Fl3RhzHPFsaG36XTcTqcVVN4hL2JJe3qM+2EfHU/E/Z2YQzYkDDxiRA4C
-         iA+/ZLD5q4nHLveD9kbqbljXbVYu3ZHeoCAnvx8ebeLz6ukcans6ooMFhdUMrVdMcbrd
-         ALRyMp8fPNWZW549/f5TzNS0daMJ1wGueyM8wges+vNHROQwkwynB57fzpBqTyZRcWxR
-         5Ivw==
+        d=doyensec.com; s=google; t=1784531666; x=1785136466; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=NeZD4ND3M0jkTrNWKT4lBd0LRKrWJlRu5YRE32UTcVk=;
+        b=Ul6mEPsdxqUNuLXdOzbXOtjOBC4T48shJkMP6WlwzAsT9hole41CAfG5rPnVuUuMCx
+         JWZY8VfZCXIWRLFZfih00AVHCTeT63a4cLxludqBuGUMtviDxte3tqrZlQcY/dHTrrE3
+         do34QxTv9+DpwpwNESriBQsu3IKSzrihrXg6Q6v94kF4sjVZYFL2iWskm95ijFrf0kY7
+         pckuwk12a+k3xX7OsFlboWKFD6JJCT0pRz6yvlyPI399p5a9aRBabyEIulZGNQR91Xd+
+         Zvw2rJm6pBoKgn5K1ni0cElGfeXxxY1lC1CfbiKRRTMlW47RJmGe3KGBwTQMsuaXqeV7
+         /EHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784531407; x=1785136207;
-        h=to:cc:date:message-id:subject:mime-version
-         :content-transfer-encoding:content-type:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1784531666; x=1785136466;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:content-type:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oi3ZbPnlHwU9DFLUJTGqO6dU9swUKcGZ3/fvMYOPSZE=;
-        b=ip6Z9YE7UsDoaHuYB5VSwpCSjsE1Q3Wj92rv+KgGw3DjhAikpiqHXREibjfTp1jlC5
-         RXtALYdGk062+mHlNgZ917Pu2zoPPaHKWr0rqbfTNPgaYaU71I/hFxBKw8zsbka3BUl2
-         PxVcJTs/keHtmVFCN6Nv5Jpb4SMVMGOiIi9yqAaYU1F4u36ZvMAIKRAoyC6+gZaSzTya
-         SAFiziK9f6YW8DvmC2VyZr8OP5RYc5S8z7BgmmbA0UUOrLHHA25c7RucmVv2AJ63NCE3
-         TcO3yTNnY3kE0V5LLpqiWB649wQRxuKDRHc5F2Yl9YGI4exJDabuoMsQ3023sywlXxB2
-         syxw==
-X-Gm-Message-State: AOJu0YxKd5VYAtpX6mSsAsW0VWxbZ/nPtRqnWaijQtxgb/w+no+ia2bU
-	Q/pqcONdAxKm3v5MHdK5z80cF7NSQyZDcuk3i3gceQWpjOoDhSz09TsmuFQZo0Q5cGX7fWnIY5u
-	F2cPsHAGUyw==
-X-Gm-Gg: AfdE7cmYYDidfHPJ4HKM0itCIWv2KIVBksuihAufJB+8W3i1MAZDf8LGKwPm+wXVgJ2
-	I6pkmnbJX9fUbM3oIkTB/l2ajt6xNUX04KhUWd/DPEM/h0ADvpZZYhhjCnNDBezsC8xdmj47fRk
-	DdF3MVFaqJ+AGE87Gjrn2fdwWbenqIy7/lfdrjZsEV3d5mrfPUoZcUsDmCJTthMjiG31R567pae
-	WwepsYQIcpEaUiGNYhzm9Nd+ubsDtojrQaeMgsfZpSpTnSyfXqJ2qJNQHzlyEAJ5/fygHq53Lcq
-	GqitGY4RyRCPvaMdgckyiM4lm2novn9hifqcrK4wVknHljKY1O6VV1SIQaeu+4Z1nCHKzni0V/A
-	8dvnCQ8ocxJANWE1xMmFc+l3DJI+cj15YsBrdS/j9tga9vf5PJx7ZA4Ayran+SSgO5La3q4vTC0
-	QReLdaEAyUWDbmKfV4Pm4XrAZlpsKE9GKuAxbQ3DI6AosVT3Y07/JnW0Yf9WdlxJ43xeJMHha59
-	EyWkR8VAHsVgojnKeFiuzV1qNBVttyb2F/tTt93zdMA9YI=
-X-Received: by 2002:a17:907:bd84:b0:c0e:883e:e4f2 with SMTP id a640c23a62f3a-c16b4856ffcmr415917366b.30.1784531406928;
-        Mon, 20 Jul 2026 00:10:06 -0700 (PDT)
+        bh=NeZD4ND3M0jkTrNWKT4lBd0LRKrWJlRu5YRE32UTcVk=;
+        b=Me1LvyUxxTKa73GdK9nmsC51OIR//xNL6C1zC/g6Q11nYBCikQAFM14AT6XmAl/XlS
+         JKMTtGzvpM1SfuvocEQO0xRkmam1UQgLVk8RtoMCl+wPty7Bg/nQVhPKEhbHDPDhAkLi
+         uMV+W9JyFdxMprjUl5WPBhiZDxzU6DzC3Mfu9LJVpkMYYC0O5Ms10lAGBJ+a7yXLgH6e
+         PRZthcndiJzdc3vRCZUrwet3VqmjvWd7bwOuxuUS1DFoLbAsvOMba+GW1JItktcIv/B+
+         g8sEj2jpUN5Rk97VR8tKSNTrxCCan4o+i2UqtRCrhj3S/BT5YFCvtdLIjYivatr9DkIX
+         DAmQ==
+X-Gm-Message-State: AOJu0YylA61W3Sihw9SZruFLwvqtaYajDY6wGJnNRGOB4lm8hJxCuAQa
+	y6Spx4p6WpPFmPsQxZn8qgcTjN37O0Mv1Of4AEN17VIzjQdxMDp+OZfibWZ6qPqzawbe7yrly/K
+	Qk0e5DgXnmQ==
+X-Gm-Gg: AfdE7cl/d4quw0uvSrOiUU3oDfCnWOfF6eY1cHraMrlGc05AxrnkPEZ3n5SY/205oar
+	nPrP/U2yQ8a6pPNmxaWWzXk+uKTyNRYL4xk3Af8lVCuNyG4HYUtFg5ZDEqn1EGh/Tk7CTxPZqly
+	Iv7P65zaFtH8T6qkY5cY9q0t+nBv1EtEMuPfQQt6rfKZziiw0t8FxunQHuYIDu6utCx96+h01rB
+	gUCtQWFfo285M6aw8V9/PZbDnEd0fna0JRivSrxvOqrRxBR8Iv27g+LKRll5IVNhsgLz5kd1jUF
+	2FY7PfnLwQ9ZExPo5SN61mlJY9697y87gXO5hEW5I9kpUcqcJLakA4sS0IaR/J9ZWSYVIHS5lti
+	NsCXRbZTCYKAgYsz261sexoTuXeMXfNHoIepa3d5bo2+aOSO4yHzw7/iyRNpkepyeOFkBhWTcRH
+	vxQcw/9op4jL4PlauIgSK13cb8MK7iUzC9XX1CWW+mK4X21y6RZgwdjcROruGexJTxLLMkLoJEl
+	ULqGKvalwavbY3qpjiXt+SqUedqJ2oG6T3kHGUfpIIVNP8=
+X-Received: by 2002:a17:907:9704:b0:bb7:eb68:514e with SMTP id a640c23a62f3a-c16b477c696mr482401366b.36.1784531665797;
+        Mon, 20 Jul 2026 00:14:25 -0700 (PDT)
 Received: from smtpclient.apple (83.10.38.128.ipv4.supernova.orange.pl. [83.10.38.128])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1740bf638asm417482966b.59.2026.07.20.00.10.06
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffe104esm4207682a12.22.2026.07.20.00.14.23
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Jul 2026 00:10:06 -0700 (PDT)
-From: Norbert Szetei <norbert@doyensec.com>
+        Mon, 20 Jul 2026 00:14:24 -0700 (PDT)
 Content-Type: text/plain;
 	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
-Subject: [PATCH 1/2] ALSA: timer: don't re-enter an instance callback that is
- still running
-Message-Id: <6F9B6501-8E65-4265-B02C-7EFB240D1664@doyensec.com>
-Date: Mon, 20 Jul 2026 09:09:55 +0200
+Subject: [PATCH 2/2] ALSA: timer: drain a slave's callback before its master
+ detaches it
+From: Norbert Szetei <norbert@doyensec.com>
+In-Reply-To: <6F9B6501-8E65-4265-B02C-7EFB240D1664@doyensec.com>
+Date: Mon, 20 Jul 2026 09:14:12 +0200
 Cc: linux-kernel@vger.kernel.org,
  Takashi Iwai <tiwai@suse.de>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <D26598EB-DBF7-4D76-9F71-8E4BD59822D4@doyensec.com>
+References: <6F9B6501-8E65-4265-B02C-7EFB240D1664@doyensec.com>
 To: linux-sound@vger.kernel.org
 X-Mailer: Apple Mail (2.3826.700.81.1.4)
 
-The userspace-driven timer (utimer) TRIGGER ioctl calls
-snd_timer_interrupt() directly with no serialization, so two threads
-triggering the same utimer can run snd_timer_interrupt() on one
-snd_timer concurrently.
+snd_timer_close_locked() drains the closing instance's own in-flight
+callback (IFLG_CALLBACK) before freeing it, but not its slaves'. When a
+master instance is closed, remove_slave_links() clears each slave's
+->timer; the slave's own close then reads timer =3D=3D NULL and takes =
+the
+branch that skips the drain entirely (snd_timer_stop_slave() also no-ops
+on a NULL timer). So a slave whose callback is still running when the
+master is closed is freed underneath the live callback, leading to
+use-after-free.
 
-snd_timer_process_callbacks() drops timer->lock around each instance
-callback and marks the in-flight callback with the single
-SNDRV_TIMER_IFLG_CALLBACK bit; snd_timer_close_locked() waits on that
-bit to drain an in-flight callback before freeing the instance. The bit
-cannot represent two concurrent callbacks: when a second interrupt
-re-queues an instance whose callback is still running, both run at once,
-the first to finish clears the bit, and the close-path drain then frees
-the instance (and its callback_data) while the other callback is still
-live - a use-after-free reachable by any user able to open
-/dev/snd/timer, both via a user timer instance and via a sequencer queue
-timer bound to the utimer.
-
-snd_timer_interrupt() sets IFLG_CALLBACK before dropping timer->lock, so
-a concurrent interrupt already observes it under the lock. Skip
-re-queuing an instance (and its slaves) to the ack/sack list while its
-callback is in flight; the accumulated pticks are delivered on the next
-tick, so no event is lost.
+Drain the slaves too before remove_slave_links() severs them.
+snd_timer_stop() has already taken this instance off the active list, so
+no new slave callback can be queued. Take the slaves off the ack list so
+a pending one can't fire either, then wait for any that is already in
+flight.
 
 Fixes: 37745918e0e7 ("ALSA: timer: Introduce virtual userspace-driven =
 timers")
 Cc: <stable@vger.kernel.org>
-Suggested-by: Takashi Iwai <tiwai@suse.de>
 Assisted-by: Claude:claude-opus-4-8
 Signed-off-by: Norbert Szetei <norbert@doyensec.com>
 ---
- sound/core/timer.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ sound/core/timer.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/sound/core/timer.c b/sound/core/timer.c
 --- a/sound/core/timer.c
 +++ b/sound/core/timer.c
-@@ -927,12 +927,15 @@ void snd_timer_interrupt(struct snd_timer * timer, =
-unsigned long ticks_left)
- 			ack_list_head =3D &timer->ack_list_head;
- 		else
- 			ack_list_head =3D &timer->sack_list_head;
--		if (list_empty(&ti->ack_list))
-+		/* don't requeue an instance whose callback is still =
-running */
-+		if (list_empty(&ti->ack_list) &&
-+		    !(ti->flags & SNDRV_TIMER_IFLG_CALLBACK))
- 			list_add_tail(&ti->ack_list, ack_list_head);
- 		list_for_each_entry(ts, &ti->slave_active_head, =
-active_list) {
- 			ts->pticks =3D ti->pticks;
- 			ts->resolution =3D resolution;
--			if (list_empty(&ts->ack_list))
-+			if (list_empty(&ts->ack_list) &&
-+			    !(ts->flags & SNDRV_TIMER_IFLG_CALLBACK))
- 				list_add_tail(&ts->ack_list, =
-ack_list_head);
+@@ -489,10 +489,20 @@ static void snd_timer_close_locked(struct =
+snd_timer_instance *timeri,
+ 	snd_timer_stop(timeri);
+
+ 	if (timer) {
++		struct snd_timer_instance *slave;
++		bool busy;
++
+ 		timer->num_instances--;
+-		/* wait, until the active callback is finished */
++		/* unqueue then drain the slaves' callbacks before =
+remove_slave_links() severs them */
+ 		spin_lock_irq(&timer->lock);
+-		while (timeri->flags & SNDRV_TIMER_IFLG_CALLBACK) {
++		list_for_each_entry(slave, &timeri->slave_list_head, =
+open_list)
++			list_del_init(&slave->ack_list);
++		for (;;) {
++			busy =3D timeri->flags & =
+SNDRV_TIMER_IFLG_CALLBACK;
++			list_for_each_entry(slave, =
+&timeri->slave_list_head, open_list)
++				busy |=3D slave->flags & =
+SNDRV_TIMER_IFLG_CALLBACK;
++			if (!busy)
++				break;
+ 			spin_unlock_irq(&timer->lock);
+ 			udelay(10);
+ 			spin_lock_irq(&timer->lock);
  		}
- 	}
+ 		spin_unlock_irq(&timer->lock);
+
+ 		remove_slave_links(timeri, timer);
 --
 2.55.0=
