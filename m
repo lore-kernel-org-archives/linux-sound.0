@@ -1,146 +1,87 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574E238D3FD
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 18:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AA92C15BE
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 19:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784573409; cv=none; b=IgfKkOVTyKw0KBfqqSL16KCW92Co68MshkAcatB7xsF0eVrF0v/gHJ1d8ZwTEkYAKq1iSM+mE3y9rGV0Lfxt8uG1NxaIB6HLNO1CSOJaH3QTFPxcLMyF4qW/Dl5UaS9jt+01wGPUB1l5hEXNWb3ffm3UivH9kqUsFezAoJx8qb8=
+	t=1784575849; cv=none; b=YX4wnz8MShVTPGy5ubBD6xoL29MBEWBbbF5RHqkg1U3n5Lu0pIJs+6BPaJCV8lHKZvErJHJIiyQZZTcl/VB3VpukaWYj4QMtNvFcv/YDctUnb1DpJbYJNWqDzzYMONMAjVUexHC1VxB/Hat4H8D/0CWV9FLgOYOeK4065q0MZIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784573409; c=relaxed/simple;
-	bh=QJbXtu5v2+bAafxS8bftd0t2pahC8XQvAqqa7M+H7Tw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XpOrlab3IxF6OLB/nrgVB7eUcylPkpEenR2hVndolNRGfieNUK7klD8ZyNZTqROc1+L8I6PJykrGrg177A13g/xVvaXfP914Qg85gAn5XLOe8fofgxnCGDu4+dd6KB1Cz6D6cDCQx/luo/zoJBiXlz9lI6WwvviR+iY3PZvupyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YN+E/JlT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/WQISubJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YN+E/JlT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/WQISubJ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1784575849; c=relaxed/simple;
+	bh=7skgVc6273QkEFZHd4UQk+PRxSzhlM0DTWewI8WAxs4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BZdzKbgJIR/xjCmt2JE72fvmuMvR/xFdiFVMZjSVJAXsy0GL4KMNugs3XDam43katVGdJovp4W/HfHY9DykLVkXFRn55/7zSDWgnc7Iptuw2ZQn4CZZNKp9azmSgjf+JHw3umaDMRSytqy+FF2xGMwP4Ri3onbDpTCFsu4JEVJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ZNc1cZ7J; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YN+E/JlT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/WQISubJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YN+E/JlT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/WQISubJ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 746D67A167;
-	Mon, 20 Jul 2026 18:50:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784573406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ZNc1cZ7J"
+Message-ID: <ad18e774-3478-4a7a-8b29-86564f77ad35@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784575845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3yvbE5+xExqEyuMfL0GPxobaon1xgfNFJaSNpUtJrYA=;
-	b=YN+E/JlTptLDtF5uQyFaPWjIcUoazULQY8oTOs6xOMzu16LERrBjyU3MS8uH9dT2FKhPj7
-	/QA8GW5orKhRTGz5GkWDnHruOwHCsGc7N4G/mrqpIFtZ5NPzBYDbDRbxLo/T6EwB78Ksfc
-	iyGplzw+HdzOCJGapobBdRHwuYhFD4g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784573406;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yvbE5+xExqEyuMfL0GPxobaon1xgfNFJaSNpUtJrYA=;
-	b=/WQISubJHgRME3jnhR/GthNKl52TXK3JoWfgKA+WaafghpuHKwGY0Z24DwQZrsDp5vSdP3
-	19Xif9tGFdIgLtAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="YN+E/JlT";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/WQISubJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784573406; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yvbE5+xExqEyuMfL0GPxobaon1xgfNFJaSNpUtJrYA=;
-	b=YN+E/JlTptLDtF5uQyFaPWjIcUoazULQY8oTOs6xOMzu16LERrBjyU3MS8uH9dT2FKhPj7
-	/QA8GW5orKhRTGz5GkWDnHruOwHCsGc7N4G/mrqpIFtZ5NPzBYDbDRbxLo/T6EwB78Ksfc
-	iyGplzw+HdzOCJGapobBdRHwuYhFD4g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784573406;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yvbE5+xExqEyuMfL0GPxobaon1xgfNFJaSNpUtJrYA=;
-	b=/WQISubJHgRME3jnhR/GthNKl52TXK3JoWfgKA+WaafghpuHKwGY0Z24DwQZrsDp5vSdP3
-	19Xif9tGFdIgLtAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C221779AA;
-	Mon, 20 Jul 2026 18:50:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RxQ5Ed5tXmoYTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 20 Jul 2026 18:50:06 +0000
-Date: Mon, 20 Jul 2026 20:50:05 +0200
-Message-ID: <87v7a9pkbm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Nikita Maksimov <nickstogramm@yandex.ru>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix speakers on Lunnen Ground 14
-In-Reply-To: <20260720180214.73770-1-nickstogramm@yandex.ru>
-References: <20260720180214.73770-1-nickstogramm@yandex.ru>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=NX+PqfLcX+xEyxswbAcY+tNmKhjF6VmV3OZ+qzQ4qRY=;
+	b=ZNc1cZ7JU+Z6wwpS3eIBUIY+lTj0wE/IJ+fg1RhTYsiq+9BGQ+NPHSW+Rjot+2poNMr8Ab
+	Syj/tRv1Ny5/CjIaN1SSoCH1V/rXbTJ90MadvFHgcx/JdkpuE+uYlUxBK2Jx4JZgVwNpZp
+	suomdyU0H4juHE/zrF+qpkoTOmz6uto=
+Date: Mon, 20 Jul 2026 21:30:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 746D67A167
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[yandex.ru];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[yandex.ru];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-
-On Mon, 20 Jul 2026 20:02:14 +0200,
-Nikita Maksimov wrote:
-> 
-> The firmware on the Lunnen Ground 14 marks pin 0x1b as unused even
-> though the internal speakers are connected to it. As a result, the
-> speakers are not detected.
-> 
-> Add a pin configuration quirk for PCI subsystem ID 2782:a212 to configure
-> pin 0x1b as an internal speaker.
-> 
-> The pin configuration was tested on a Lunnen Ground 14 (DMI product LL4FA)
-> with an ALC269VC codec. The internal speakers and microphone work as
-> expected.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikita Maksimov <nickstogramm@yandex.ru>
-
-Applied now.  Thanks.
+MIME-Version: 1.0
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Subject: Re: SoundWire: amd: all peripherals stay UNATTACHED after s2idle
+ resume (AMD ACP70, ASUS ProArt PX13 HN7306)
+To: Antoine Monnet <antoine@montane.tech>, linux-sound@vger.kernel.org
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Vinod Koul
+ <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, linux-kernel@vger.kernel.org
+References: <466a905d-8203-46d2-bfe4-a3b3f9b5d68b@montane.tech>
+Content-Language: en-US
+In-Reply-To: <466a905d-8203-46d2-bfe4-a3b3f9b5d68b@montane.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
-Takashi
+> One further detail looks suspicious, though I have not confirmed it is the
+> cause: in the POWER_OFF_MODE branch of amd_resume_runtime(), the clock
+> resume
+> handshake is conditional —
+> 
+> val = readl(amd_manager->mmio + ACP_SW_CLK_RESUME_CTRL);
+> if (val) {
+> val |= AMD_SDW_CLK_RESUME_REQ;
+> ...poll for AMD_SDW_CLK_RESUME_DONE...
+> if (val & AMD_SDW_CLK_RESUME_DONE) {
+> writel(0, ...);
+> amd_manager->clk_stopped = false;
+> }
+> }
+> 
+> After amd_deinit_sdw_manager() and a D3 transition the register block
+> may well
+> read back as 0, in which case AMD_SDW_CLK_RESUME_REQ is never issued and
+> amd_manager->clk_stopped stays true from suspend. Whether the peripherals
+> require that clock-resume handshake before they will re-attach is a
+> question for
+> someone with the ACP70 programming documentation.
+
+Even without the ACP70 documentation, if the clock line doesn't toggle
+nothing will happen on the peripheral sides. That's a generic SoundWire
+property, the peripherals can only look for a sync pattern on the data
+line if there's a clock signal.
+
+I don't have any specific info on this IP, in general such bugs result
+from one of:
+- manager IP not powered
+- manager IO pins not configured for SoundWire operation
+- clock not toggling
+- reset sequence not applied
