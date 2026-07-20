@@ -1,428 +1,282 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f100.google.com (mail-ot1-f100.google.com [209.85.210.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6768D43F4A1
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 16:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784564511; cv=fail; b=dA7B3spB2y8yqOKIuIrpmtVVp+QQhSCmg8IPJXb7d8JYFWCDIb749kJO+baI0eldM1aQDOYV2uuztAnHNuM1EmH7f1/Hy31rF9tu86t6GW5weNKMgYzVqc2Um0FKaVqbHWLSxaEggOKoikYqGda2WkhPQhOtFH8VqmEDZFgsERI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784564511; c=relaxed/simple;
-	bh=cV2PTZvZCVLYsCMXtOb1bWO6XCrnq16fHy9Zyc3IiAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChaigzsrfL+bTLGpzOY2xD2f0qGEJSeBX18YwO1y0YGW8xJ2VGRvKs8/MZCmqX23eTTpHiXN4bkHWPlxILf92vLNGmXZAXvFwkvlv3GnjeDbzDSPC1hHNNbUPeZCHCewAOpRA7YLZYQ9aHB3U58MDzyq2v1yfF7ifjSh/3Alxz0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=mMIGpwH2; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=xdZMnTVg; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FE1443E21
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 16:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.100
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784566675; cv=none; b=rAAJXmPRILirxfgAl7savAQmpNmooWuqlo23vjeyTPm2PHI/W0FaUn7/zls86pI5yvLSkpbnxjCetXzeUYijjHvOJG5SQ0q8u7fZj9uY1YE1pk88W+BxAYJRWeLftcPj8adP9aIQlSyJt51KmRcNgikb9HvC/rwpSzk5/LExjN4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784566675; c=relaxed/simple;
+	bh=RGbFQcBEpK6U45iOTZAbxBvqywhR62M52zMN+2dAYZY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CzrjTavtoH/c6KhFPeG55MYa2os8XqoXgObyXnqk9fxrLnnL+qppkXkG1+pzf+dgXIORKrgxdfJynNt/JvqP5v5rxD0UK66AYDz+EGqFDUDQVqKMyyuE+Y52/U2WxvhMpFGp6+3JMhHktpk4ynP8JOq25JqUNNM+9KpxFmvpfMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=M7uMI6re; arc=none smtp.client-ip=209.85.210.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mMIGpwH2";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="xdZMnTVg"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66KBgcvk100316;
-	Mon, 20 Jul 2026 11:21:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=z3hb1/V4n7TU+LenUN
-	H2uoMo7/TV3tVkIQIjBosHU7Q=; b=mMIGpwH2XGe4t2FYuSMwIRkwENT7N/1jJ3
-	vphV63p0YXfkm3efImjpNYQN8HrUu9WGyAsD2GOxIkyiccLVfHAtNp4Qv3LlvzPS
-	ys7n2mADbSBTLSy/2Bp7s0vVfcemQoGPfoYTVpWX/bGgBmBOAvV1Bdw7TCvtdpij
-	spQ+iMOc9tIdMiiEP4yqzUNSHya0vidkJjrNuyQHUYFwNFAvG+35o1bp+aAY3BdL
-	Ujn/4Qb/2uwllYFBCWR53MQJcKjXK+XUQDg4kVHLYMRJJ5syCVsp0TmefK9DjNmD
-	t5jyH7vYTJAUrEMywblGIgKUuIfia9EWVkJpvin2XBJDc9CnkyBQ==
-Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11023108.outbound.protection.outlook.com [40.93.196.108])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fg6vyjr4s-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 20 Jul 2026 11:21:19 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PsCxug3cpgoUA/cNgjm+dlHugvtd0er4FXXtCJhxpf/slFzLZKmg3oslR+W6Fqk6gaa9bcQi8JMpy/STSmuWYKONs5BOvK35w4zwLy5i9EIRfbI0KStgC6g/SciO0qiu6UIIBt9Am1BNmG8pAk3PfenR40d7EKZQCWL0jZKDL+rxbvRXi4tXkLhpCNuwKYcabi8mFgAuyfkJJRTxXkjvV9SHhoWaHve9bGnJUPfBD7gkO0Wr9h5pNQN2T6Uy2pbOrvMYS7Kvvr4GhfdReZNqScdNm2QVqbytinEj+UEPS3VIMLHC1+tk1tcsPMDpY3HYRQhBv9niuO9HIyDRCgG14g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z3hb1/V4n7TU+LenUNH2uoMo7/TV3tVkIQIjBosHU7Q=;
- b=R+5UimSQYIfMRfiJm2Q6hUPrsIckArM2WqXQYgKQPO3SC/PfgvCGjxz4CfneUZYSqqESbYmYz3BJ5dckj9hSBO7wvogbSIHG467RMVYQ+qpDQVALs4OWo2OZUYr21W+MPGrZ1S2Fpj+NDXx3m/VbGDz62Q2mNIKE/pu/lE6dyAooBACrOteBbGY5Q3ZByCWUXgWb/5yuF8z0A2w6fed3BDk6cdutUVSBU40a5KZ/MHLkTeJoh5iRCj4n/QcPlz5wLKW2O7uGRPt4xJfbEyaF0kRgmrtriiRFrcvI0R1r4/UFixw+FK2ThnWHOIzw9OuMauWL8im0T4tSiwVG5JxkMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=gmail.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="M7uMI6re"
+Received: by mail-ot1-f100.google.com with SMTP id 46e09a7af769-7e9f829d75aso4493062a34.0
+        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 09:57:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784566673; x=1785171473;
+        h=content-type:in-reply-to:autocrypt:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t664smw+mzdNiPvWTCMg7obzENuw+5QIHQVyc56EDhA=;
+        b=EK+pNZcUjSz8nvNERBFrzXSN0j4JIZNuj0VpCjt/xFchJodqWHaxspcPQ+NTN3QqFG
+         pO5db6FS3TOkX0A985fAuBdx1P4A/fAZMjcDseBOkV21TNeMyfqOKqQH0lt1Ia9zDTm/
+         7qKM5YQ8IdiCIVuSW0fxrZiZwgFgFChu//9OeTGYoEI8nkUcF2VyuFMDU7g3N+KAUzyK
+         C6IgfThWJ8y32DZ/zAf0LXlz6pZJLVvcUwc2rxRWi6iRoJqrSajh7aI5OLAWzkbfvow/
+         9lfyh8V75Z+O3ENVeCH2PaS59HlsvrGKEjUM2PWf1aseKzuu8ltph+TvcnU9eGxNU7nx
+         mGAA==
+X-Forwarded-Encrypted: i=1; AHgh+RrDYg/vTv1/g74ynG8fkpv7rDWrACKNLShFMY6y/6z49ikGplTU/O+y12yU7AC+5iRSFboe+q4EfEjXLg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEDwazm3z2ANgm08eZZas3cvUI8/2yNCzxnItlyj6FAp2sztWR
+	ztg9B9ON0I983HvSVJamqgQGzRY02pk32lH3NwyVkwLQB50QJ9Ania8wyPHpMY4wGcg3rs1OWxL
+	6tK0qPDEixJOJFPvV1sxgYitZYll8bfvd2HKYIOEmimsnhcJT6bdjfyq9Ov9wWmclpBz3oxwy+m
+	+dUsHzbyw9hEce4LDU2KGN8XlRaTM/1DmDmWE7/Z0yFnPIuWYSCUk2CHTnAA4iPkH2AZHL4iyPD
+	rCA0NBOyBFj2N5AcM4Em94=
+X-Gm-Gg: AfdE7cnGA8cIttuHEKN9uZrjLTZFFPOh6LGmmwyP7uXHXG8KHdkoU+dzAGLUmEMBgRo
+	2FdCiiEKzg1D0ExZ/r5EpgEBwqIO6t/iNeegbb0T0jRJJ0Couse8FFJGTXMgO2ZRnyWmw6GkJFH
+	YjitXIsnJCCcrm+vLFjcM0pVVs6klviJiMGc5TiRUI8r/GGyhewFHZMglVGb8G3lt0J+tRa/Z+s
+	XMl8RSu8vMRMupGZwouYJEtxm45p8MMlHYKfhRftIWduZ9F7We9PrjVCBFyZca3JgLe/rA1Jekj
+	JamCHBQ32A8JfoxIlVVJeNyypbXhrw+TClVuvQlzdPgq9kKCq10454AraRI5EvGHak5Mtc9oz6H
+	zK9yyqxeinJqBHRCYHzHwMjbneKdN2S1E2YDD9piYaATGYqZVAZKmCrEOcx0Oec2p98lKwBFz74
+	M/DcN5OmtAnT25241WZUZEL+OKyUSoYVb3GZH1/YnC
+X-Received: by 2002:a05:6830:4c16:b0:7e9:ea18:d1ea with SMTP id 46e09a7af769-7eda099e0damr8928635a34.28.1784566673130;
+        Mon, 20 Jul 2026 09:57:53 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-25.dlp.protect.broadcom.com. [144.49.247.25])
+        by smtp-relay.gmail.com with ESMTPS id 46e09a7af769-7edad9d40a9sm610817a34.1.2026.07.20.09.57.50
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Jul 2026 09:57:53 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-lf1-f70.google.com with SMTP id 2adb3069b0e04-5aec6240ddbso4282639e87.3
+        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 09:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z3hb1/V4n7TU+LenUNH2uoMo7/TV3tVkIQIjBosHU7Q=;
- b=xdZMnTVguNJq6pdVRSnZ6cUEI+fbOHQmkkixSdnlZMCM4VUF+M5QVvXUm19jr7bml9Xx7+xLsVNaD+ZggZXeLeOFusGXrcgMFfVQL5HK2XCFa+Aymp/OgP4qc1WwRanlT+lzhnaWSH7qQhnpCZtexXvnw1ihl+vmlgdDndeVydk=
-Received: from SA1P222CA0187.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:3c4::14)
- by LV3PR19MB8253.namprd19.prod.outlook.com (2603:10b6:408:1a6::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
- 2026 16:21:12 +0000
-Received: from SA2PEPF00003F65.namprd04.prod.outlook.com
- (2603:10b6:806:3c4:cafe::93) by SA1P222CA0187.outlook.office365.com
- (2603:10b6:806:3c4::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.18 via Frontend Transport; Mon,
- 20 Jul 2026 16:21:12 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF00003F65.mail.protection.outlook.com (10.167.248.40) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5
- via Frontend Transport; Mon, 20 Jul 2026 16:21:11 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 5721A406541;
-	Mon, 20 Jul 2026 16:21:10 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 42DAA820244;
-	Mon, 20 Jul 2026 16:21:10 +0000 (UTC)
-Date: Mon, 20 Jul 2026 17:21:09 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: shumingf@realtek.com
-Cc: broonie@kernel.org, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
-        lars@metafoo.de, flove@realtek.com, oder_chiou@realtek.com,
-        jack.yu@realtek.com, derek.fang@realtek.com
-Subject: Re: [PATCH] ASoC: rt766: add RT766/RT767 SDCA driver
-Message-ID: <al5K9RHWIeHjL0BM@opensource.cirrus.com>
-References: <20260720090613.2239891-1-shumingf@realtek.com>
+        d=broadcom.com; s=google; t=1784566669; x=1785171469; darn=vger.kernel.org;
+        h=content-type:in-reply-to:autocrypt:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=t664smw+mzdNiPvWTCMg7obzENuw+5QIHQVyc56EDhA=;
+        b=M7uMI6reLb7YO5edkiktbGAabuU3e4btKO/8yMm+y0UPpbRg+vjpTNpUY5tFjiKIWL
+         RsqWG2BggICQNmx0Py4Xe3WFUaYFoQ8GNgHdu0VtgX1lJlI07DYLeomIxNnmITBrmIMC
+         6uHPnrPE4OdhZGz7X9E3Ty5xZiejY6FSOT0wE=
+X-Forwarded-Encrypted: i=1; AHgh+RrsDxqgQB8xpuArT55gVTN/5r3T9ke0QUj/woftVk7aoSljyZNJVhtF00wW//125TYaH99eP3CGAS/7lw==@vger.kernel.org
+X-Received: by 2002:a05:6512:b93:b0:5aa:8822:c945 with SMTP id 2adb3069b0e04-5b28f9b72bdmr3591663e87.47.1784566668675;
+        Mon, 20 Jul 2026 09:57:48 -0700 (PDT)
+X-Received: by 2002:a05:6512:b93:b0:5aa:8822:c945 with SMTP id 2adb3069b0e04-5b28f9b72bdmr3591622e87.47.1784566668133;
+        Mon, 20 Jul 2026 09:57:48 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b291e1887esm2450178e87.59.2026.07.20.09.57.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Jul 2026 09:57:39 -0700 (PDT)
+Message-ID: <b8062978-128c-4129-a803-1d02910122c8@broadcom.com>
+Date: Mon, 20 Jul 2026 09:57:27 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720090613.2239891-1-shumingf@realtek.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003F65:EE_|LV3PR19MB8253:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd50ef74-64cc-4fc1-8564-08dee67ae9df
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|61400799027|23010399003|376014|82310400026|6133799003|56012099006|11063799006|10067099003|22082099003|18002099003|16102099003;
-X-Microsoft-Antispam-Message-Info:
-	AUN1fyLB5i+4r7gR4NF8QF2ujHAsuGtDiQN0r2Ladgz1GPNLp1wAHiWkS85mtV5Ss2YRiJqNaZ5QXAey95RJJITRC8O/q/ixG4MXPjkk8pbjq56u3MnJJT58ld3lbPLGHOhPLvbA+OJsDIaQSaGLCNj5/p8yg/2VV24S4wayFpU8diNXRG8/m7HeUHPgnNmdkkP9ypwRVNYOGuZx7DOy21z7lUb6CoR8zIu/MQOTFNtcqiVSxkBGKJeT3HOBR+xIJttSInRzLoP8g7mbFIYzNvBlJtlpdXJSrynP286NyF2u1G7227Sy2LHq1s41scW3lN9+/YjL3lM+rHZQ7EeuUu8hnCzZjWQV60jm8W/PSLwPsrAbtFgcUCJiyG7Enlz2vfAs37hh4MggxAKRuRNCt6ZkqsVu1PGhLwJdXle96UuM4Sda8Le0ST5jiCcAWIdfKknkkdEV+2BJswU2nyc4G1coG4tQXBfl8ZxRzQLmADdYgYX438dJXIwaNjQo/X+EMZT9oizY4kFFRW6Per3yRofu8+qy9sahIteRpgcjyf7KZ5+1GdSvZTsh68zLpFkWsrhLuIpfUEl/wH7xUQDyIwvvtC7bLeM31XEEpXhPbCgewRbcmBafWfJli+GDixHNzncMGnqk3NQ85y/vKrZt3YlmLqprP1vFHuUYnIXdqggxCVzqXh7d8r76eo34Od5E1JvZoGlsl9mT2NxefDkogQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(23010399003)(376014)(82310400026)(6133799003)(56012099006)(11063799006)(10067099003)(22082099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	9uQ+KiEvsSqzWSEggW0GjijbCTdkxZhRBic8rqc6gq4k2y1ZVEXzNDun31z2zoOS/1nkv9gqJyncrx3kxH4ACbqtLoqyQAlT5e1DnC41l45NdIep9Qx0SNu8wBI5vxjKx/nCa6IHwL7YvC6omjsTtryGrd+Qcv7EAEpxZ7bjffBWGBDCxZaP7fAwXuHur89XAy9ggkYFXKEWNKBV5pWBbxVyEcO+OS2c+VSz1wagD/6ez84yG7BFcmxvSczyuC4ku/sav6akQfmuKjqE1MJVk8HFxGsYrHokBsHnCrIvn/bHZKcAG0tJ6YU2g9hElHsIfJCKv5pasKJFkCqLH3Ac9oUIF5D3D702kjwK32lBp3Wg7+FFkOm5nfO1IVwk6qDaILmzTg7jTbbFneYPrU7v8AgN6uLpIN2AFFjG60FD+HJtSUOOb6h3A2eFtSuSNlIW
-X-Exchange-RoutingPolicyChecked:
-	nVR1fhkvOcYrpmc+EzmzUzsiuR/5xtWwB/RdNngxAFDBNYFmG4mkr0kEGAEoWHIXfcVnIrC+ssKWnwdcksYsKk6gqhtZFMA3c0rKKIM7woYAMb6wQqihupTXaMrfCzs1Ede0eiTW6TkLuS/A4hNR9V3y2icn0sIVM0IJy9WFpjMPw0NPk6YYZLPmJQQ34W9KSgehhRTdYJcBFEl4QkaCbsIWlIXLm9t7X1S+PBH4GWLdM3Va3bYwRBE/weWoUu6WOiwuZk1VCIUnNzx0xHMCgkGywyrtIy8zIGqldlXLzHL2oe+V4EPyYTiZ7XQ3b3A3RamUqVoT/IAIJtO4zXwzMQ==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 16:21:11.4468
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd50ef74-64cc-4fc1-8564-08dee67ae9df
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00003F65.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR19MB8253
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIwMDE4MSBTYWx0ZWRfX/cixuwsZQP0p
- apqA8loJYnNOTBV4Ox7K5fLq/4Sb6PzdOpO28xpc+uZyixCEZA8SPnS86JC7Hoiyo1WqTf3PHsS
- iVotxDLBk7Y88aVTZSexMi9odkm83FM=
-X-Authority-Analysis: v=2.4 cv=f5l4wuyM c=1 sm=1 tr=0 ts=6a5e4aff cx=c_pps
- a=5+C5dWQ2lNXIGJ5Pv9T82A==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=n9Sqmae0AAAA:8 a=062RrBuUMarYxC8gZw0A:9 a=CjuIK1q_8ugA:10
- a=UmAUUZEt6-oIqEbegvw9:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIwMDE4MSBTYWx0ZWRfX9xOroGZQ6LwY
- zJuZzv/iI7M0k0gb7loQ5dvEsW36zGJzf6pIQmtl0PMiQMyi96jwpHV9ZlDDapAVhSl4w58/H4v
- X31yn0rNoZhTvIBwzL66E5TInSMbwr7JoCZXVlCc3Qx1L0kSPqx2/Qkb8zKpesUZZ90aVQ/ks6n
- ILE2APcLgO3gOxssjoac7XmOXkTFTD5lrmq5AuzImPomyYQ6VBI1h0a7xcFux2OXHuNbfkNOiIt
- qeNijvxYXtXzFcAIk22dWSZW+4cN1GGzRDqK5NbRmg/G8ESxUJ4qb77syGC7RS7pBzAJtUQKWpV
- XO+xc2bZTixTxXsLGBqo0vUXCU/FxiS/YwYxRmgoR/OafNEz4KvbbaMKBKyzFgBYc9QBkeKoGXt
- RSCpcgQzhiwhKvfB9iNP7/ayvVBzRM9Sd8O6oqVwlxBi0f9NF3u/HrQlJP9VGl1itIT1Eif1/0W
- qIL6L3KjhP5rKV4pMVw==
-X-Proofpoint-ORIG-GUID: PZfGacB_rw8WG_YlDlqy2u38XGAf6Hi_
-X-Proofpoint-GUID: PZfGacB_rw8WG_YlDlqy2u38XGAf6Hi_
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/8] net: bcmgenet: use platform_device_set_fwnode()
+To: Andrew Lunn <andrew@lunn.ch>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Doug Berger <opendmb@gmail.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Ulf Hansson <ulfh@kernel.org>,
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ Srinivas Kandagatla <srini@kernel.org>, brgl@kernel.org,
+ driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ iommu@lists.linux.dev, netdev@vger.kernel.org, linux-pm@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ mfd@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
+ <20260720-pdev-set-fwnode-instead-of-of-node-v1-4-2dee93f42c54@oss.qualcomm.com>
+ <ae9da5dd-3528-4270-ada0-d17ed14478e0@lunn.ch>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <ae9da5dd-3528-4270-ada0-d17ed14478e0@lunn.ch>
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000006827a606570dce0b"
 
-On Mon, Jul 20, 2026 at 05:06:13PM +0800, shumingf@realtek.com wrote:
-> From: Shuming Fan <shumingf@realtek.com>
+--0000000000006827a606570dce0b
+Content-Language: en-US, fr-FR
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 7/20/26 07:38, Andrew Lunn wrote:
+> On Mon, Jul 20, 2026 at 11:24:51AM +0200, Bartosz Golaszewski wrote:
+>> Prefer the higher-level platform_device_set_fwnode() over the
+>> OF-specific platform_device_set_of_node() for dynamically allocated
+>> platform devices.
 > 
-> This patch adds the initial SDCA multi-function codec driver for the RT766 and RT767.
+> Why?
 > 
-> Signed-off-by: Shuming Fan <shumingf@realtek.com>
-> ---
-> +static struct sdca_entity *rt766_find_entity_by_label(struct sdca_function_data *func,
-> +	const char *label)
-> +{
-> +	struct sdca_entity *entity = NULL;
-> +	int idx;
-> +
-> +	for (idx = 0; idx < func->num_entities; idx++) {
-> +		entity = &func->entities[idx];
-> +
-> +		if (!strcmp(entity->label, label))
-> +			return entity;
-> +	}
-> +
-> +	return NULL;
-> +}
+> This driver is OF only. It does not support ACPI, and probably never
+> will. In general, networking and ACPI don't go together, ACPI is not
+> sufficiently advanced.
+> 
+> What is you use case here?
 
-Probably better to export find_sdca_entity_by_label() if you need
-this from the driver.
+The driver has been, or was used on ACPI-based platforms:
 
-> +static int rt766_sdca_irq_ctl(struct rt766_sdca_priv *rt766,
-> +							  struct sdca_function_data *function,
-> +							  struct snd_soc_component *component,
-> +							  struct sdca_interrupt_info *info,
-> +							  bool enabled)
-> +{
-> +	struct device *dev = &rt766->slave->dev;
-> +	struct sdca_interrupt *interrupt;
-> +	struct sdca_control *control;
-> +	struct sdca_entity *entity;
-> +	irq_handler_t handler;
-> +	int i, j, irq, ret;
-> +
-> +	for (i = 0; i < function->num_entities; i++) {
-> +		entity = &function->entities[i];
-> +
-> +		for (j = 0; j < entity->num_controls; j++) {
-> +			control = &entity->controls[j];
-> +			irq = control->interrupt_position;
-> +
-> +			switch (SDCA_CTL_TYPE(entity->type, control->sel)) {
-> +			case SDCA_CTL_TYPE_S(GE, DETECTED_MODE):
-> +				handler = rt766_sdca_irq_jd_handler;
-> +				break;
-> +			case SDCA_CTL_TYPE_S(HIDE, HIDTX_CURRENTOWNER):
-> +				handler = rt766_sdca_irq_btn_handler;
-> +				break;
-> +			default:
-> +				continue;
-> +			}
-> +
-> +			interrupt = &info->irqs[irq];
-> +
-> +			if (enabled) {
-> +				ret = sdca_irq_data_populate(dev, rt766->regmap, component,
-> +								function, entity, control,
-> +								interrupt);
-> +				if (ret)
-> +					return ret;
-> +
-> +				interrupt->priv = rt766;
-> +				ret = sdca_irq_request(dev, info, irq, interrupt->name,
-> +								handler, interrupt);
-> +				if (ret) {
-> +					dev_err(dev, "failed to request irq %s: %d\n",
-> +						interrupt->name, ret);
-> +					return ret;
-> +				}
-> +				dev_dbg(dev, "Requesting IRQ %d InterruptName=%s\n", irq, interrupt->name);
-> +			} else {
-> +				sdca_irq_free(dev, info, irq, interrupt->name, interrupt);
-> +				dev_dbg(dev, "Freeing IRQ %d\n", irq);
-> +			}
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=99c6b06a37d4cab118c45448fef9d28df62d35d8
+-- 
+Florian
 
-Hmm... yeah this is moving in a slightly different direction from
-where I was going with the core code. Let me think about that and
-update tomorrow.
+--0000000000006827a606570dce0b
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-> +static int rt766_sdca_pde47_event(struct snd_soc_dapm_widget *w,
-> +	struct snd_kcontrol *kcontrol, int event)
-> +{
-> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-> +	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
-> +	const struct sdca_entity *entity = NULL;
-> +	unsigned char ps0 = 0x0, ps3 = 0x3;
-> +	int from_ps, to_ps;
-> +	int ret;
-> +
-> +	switch (event) {
-> +	case SND_SOC_DAPM_POST_PMU:
-> +		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(UAJ, PDE47), ps0);
-> +		from_ps = ps3;
-> +		to_ps = ps0;
-> +		break;
-> +	case SND_SOC_DAPM_PRE_PMD:
-> +		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(UAJ, PDE47), ps3);
-> +		from_ps = ps0;
-> +		to_ps = ps3;
-> +		break;
-> +	}
-> +
-> +	entity = rt766_find_entity_by_label(rt766->uaj_func_data, "PDE 47");
-> +	ret = sdca_asoc_pde_poll_actual_ps(component->dev, rt766->regmap,
-> +				   RT766_FUNC_NUM_UAJ,
-> +				   RT766_SDCA_ENT_PDE47,
-> +				   from_ps, to_ps,
-> +				   entity ? entity->pde.max_delay : NULL,
-> +				   entity ? entity->pde.num_max_delay : 0);
-> +	if (ret)
-> +		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
-> +			__func__, from_ps, to_ps, ret);
-
-Does this actually run in cases where the entity doesn't exist? I
-would be inclined to error out if you didn't find the entity.
-
-> +static int rt766_sdca_pde11_event(struct snd_soc_dapm_widget *w,
-> +	struct snd_kcontrol *kcontrol, int event)
-> +{
-> +	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
-> +	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
-> +	const struct sdca_entity *entity = NULL;
-> +	unsigned char ps0 = 0x0, ps3 = 0x3;
-> +	int from_ps, to_ps;
-> +	int ret;
-> +
-> +	switch (event) {
-> +	case SND_SOC_DAPM_POST_PMU:
-> +		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(MIC, PDE11), ps0);
-> +		from_ps = ps3;
-> +		to_ps = ps0;
-> +		break;
-> +	case SND_SOC_DAPM_PRE_PMD:
-> +		regmap_write(rt766->regmap, RT766_PDE_REQ_REG(MIC, PDE11), ps3);
-> +		from_ps = ps0;
-> +		to_ps = ps3;
-> +		break;
-> +	}
-> +
-> +	entity = rt766_find_entity_by_label(rt766->sm_func_data, "PDE 11");
-> +	ret = sdca_asoc_pde_poll_actual_ps(component->dev, rt766->regmap,
-> +				   RT766_FUNC_NUM_MIC,
-> +				   RT766_SDCA_ENT_PDE11,
-> +				   from_ps, to_ps,
-> +				   entity ? entity->pde.max_delay : NULL,
-> +				   entity ? entity->pde.num_max_delay : 0);
-> +	if (ret)
-> +		dev_err(component->dev, "%s: PDE transition %x -> %x failed, err=%d\n",
-> +			__func__, from_ps, to_ps, ret);
-> +
-> +	return ret;
-> +}
-
-I feel like lot of these put/get and event helpers would benefit
-from a parameterised helper. You have loads of functions doing
-the same thing, would it be nicer to have a helper that takes
-the required registers etc.
-
-> +static int rt766_sdca_pcm_hw_params(struct snd_pcm_substream *substream,
-> +				struct snd_pcm_hw_params *params,
-> +				struct snd_soc_dai *dai)
-> +{
-> +	struct snd_soc_component *component = dai->component;
-> +	struct rt766_sdca_priv *rt766 = snd_soc_component_get_drvdata(component);
-> +	struct sdw_stream_config stream_config;
-> +	struct sdw_port_config port_config;
-> +	enum sdw_data_direction direction;
-> +	struct sdw_stream_runtime *sdw_stream;
-> +	int retval, port, num_channels;
-> +	unsigned int sampling_rate;
-> +
-> +	dev_dbg(dai->dev, "%s %s id %d", __func__, dai->name, dai->id);
-> +	sdw_stream = snd_soc_dai_get_dma_data(dai, substream);
-> +
-> +	if (!sdw_stream)
-> +		return -EINVAL;
-> +
-> +	if (!rt766->slave)
-> +		return -EINVAL;
-> +
-> +	/* SoundWire specific configuration */
-> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-> +		direction = SDW_DATA_DIR_RX;
-> +		if (dai->id == RT766_AIF1)
-> +			port = 3;
-> +		else if (dai->id == RT766_AIF2)
-> +			port = 1;
-> +		else
-> +			return -EINVAL;
-> +	} else {
-> +		direction = SDW_DATA_DIR_TX;
-> +		if (dai->id == RT766_AIF1)
-> +			port = 12;
-> +		else if (dai->id == RT766_AIF3)
-> +			port = 8;
-> +		else
-> +			return -EINVAL;
-> +	}
-> +
-> +	stream_config.frame_rate = params_rate(params);
-> +	stream_config.ch_count = params_channels(params);
-> +	stream_config.bps = snd_pcm_format_width(params_format(params));
-> +	stream_config.direction = direction;
-> +
-> +	num_channels = params_channels(params);
-> +	port_config.ch_mask = GENMASK(num_channels - 1, 0);
-> +	port_config.num = port;
-
-Can you use snd_sdw_params_to_config here?
-
-> +static int rt766_parse_rates(struct device *dev,
-> +				struct sdca_function_data *function,
-> +				struct sdca_entity *entity,
-> +				unsigned int *out_rates)
-> +{
-> +	struct sdca_control_range *range;
-> +	unsigned int sample_rate;
-> +	unsigned int clock_rates = 0;
-> +	unsigned int rates = 0;
-> +	int sel, i;
-> +
-> +	switch (entity->type) {
-> +	case SDCA_ENTITY_TYPE_IT:
-> +		sel = SDCA_CTL_IT_USAGE;
-> +		break;
-> +	case SDCA_ENTITY_TYPE_OT:
-> +		sel = SDCA_CTL_OT_USAGE;
-> +		break;
-> +	default:
-> +		dev_err(dev, "%s: entity type has no usage control\n",
-> +			entity->label);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (entity->iot.clock) {
-> +		range = sdca_selector_find_range(dev, entity->iot.clock,
-> +						 SDCA_CTL_CS_SAMPLERATEINDEX,
-> +						 SDCA_SAMPLERATEINDEX_NCOLS, 0);
-> +		if (!range)
-> +			return -EINVAL;
-> +
-> +		for (i = 0; i < range->rows; i++) {
-> +			sample_rate = sdca_range(range, SDCA_SAMPLERATEINDEX_RATE, i);
-> +			clock_rates |= rate_find_mask(dev, sample_rate);
-> +		}
-> +	} else {
-> +		clock_rates = UINT_MAX;
-> +	}
-> +
-> +	range = sdca_selector_find_range(dev, entity, sel, SDCA_USAGE_NCOLS, 0);
-> +	if (!range)
-> +		return -EINVAL;
-> +
-> +	for (i = 0; i < range->rows; i++) {
-> +		sample_rate = sdca_range(range, SDCA_USAGE_SAMPLE_RATE, i);
-> +		sample_rate = rate_find_mask(dev, sample_rate);
-> +
-> +		if (sample_rate & clock_rates)
-> +			rates |= sample_rate;
-> +	}
-> +
-> +	*out_rates = rates;
-> +
-> +	dev_dbg(dev, "%s: entity %s supports rates 0x%08x, clock_rates=0x%08x\n",
-> +		__func__, entity->label, rates, clock_rates);
-> +
-> +	return 0;
-> +}
-
-This is mostly just populate_rate_format(), the values end up in
-the snd_soc_pcm_stream, can we export that and use it here?
-
-Thanks,
-Charles
+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
+tJVewHuOmXgWQxNWV7Oiszu1d9xAcqyj65s1PrEIIaHnxEM3eTK+teecLEy8QymZjjDTrCHg4x36
+2AczdlQAIiq5TSAucGja5VP8g1zTnfL/RAxEZvLS471GABptArolXY2hMVHdVEYcTduZlu8aHARc
+phXveOB5/l3bPqpMVf2aFalv4ab733Aw6cPuQkbtwpMFifp9Y3s/0HGBfADomK4OeDTDJfuvCp8g
+a907E48SjOJBGkh6c6B3ace2XH+CyB7+WBsoK6hsrV5twAXSe7frgP4lN/4Cm2isQl3D7vXM3PBQ
+ddI2aZzmewTfbgZptt4KCUhZh+t7FGB6ZKppQ++Rx0zsGN1s71MtjJnhXvJyPs9UyL1n7KQPTEX/
+07kwIwdMjxC/hpbZmVq0mVccpMy7FYlTuiwFD+TEnhmxGDTVTJ267fcfrySVBHioA7vugeXaX3yL
+SqGQdCWnsz5LyCxWvcfI7zjiXJLwefechLp0LWEBIH5+0fJPB1lfiy1DUutGDJTh9WZHeXfVVFsf
+rSQ3y0VaTqBESMjYsJnFFYQJ9tZJScBluOYacW6gqPGC6EU+bNYC1wpngwVayaQQMIIGnzCCBIeg
+AwIBAgIMaT9V748TBL0gqLOFMA0GCSqGSIb3DQEBCwUAMFIxCzAJBgNVBAYTAkJFMRkwFwYDVQQK
+ExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBDQSAy
+MDIzMB4XDTI1MDYxOTA4NDMwM1oXDTI3MDYyMDA4NDMwM1owgeMxCzAJBgNVBAYTAlVTMRMwEQYD
+VQQIEwpDYWxpZm9ybmlhMREwDwYDVQQHEwhTYW4gSm9zZTEZMBcGA1UEYRMQTlRSVVMrREUtNjYx
+MDExNzERMA8GA1UEBBMIRmFpbmVsbGkxEDAOBgNVBCoTB0Zsb3JpYW4xFjAUBgNVBAoTDUJST0FE
+Q09NIElOQy4xJjAkBgNVBAMMHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMSwwKgYJKoZI
+hvcNAQkBFh1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTCCASIwDQYJKoZIhvcNAQEBBQAD
+ggEPADCCAQoCggEBAK9u0aBdl51z/nEmpFSqdvC3Bu87AnBaOq1NGLM4vKTwCRuh1hSPhQOJkIB0
+X3lGlHAEUufNmKYb1aeLHW2kToCe+9mr2cBXqHP0aWl/Oy/ZjQabOsXzOzE0SfGLnLfGJMLV7yFB
+pwKwqxC8t5MBK+6zhQZGcnnuz9wF1tWGdczOeCmQCTO9+MlB1fNac8pKSB8bUhOSC4fr0ev7BfPA
+KmfMr9BBremQmDCaHeTwYy6wZLdj4dZzGMfF6PZOLiV5DU61ehA+spBd00RbowgJfmI525dEWihB
+DaLZim3cCy0sCU9GfGm2sHUX+3B0S6twomZzsrTE02PfoUuxXAqf0gMCAwEAAaOCAeEwggHdMA4G
+A1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMIGTBggrBgEFBQcBAQSBhjCBgzBGBggrBgEFBQcw
+AoY6aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyNnNtaW1lY2EyMDIz
+LmNydDA5BggrBgEFBQcwAYYtaHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyNnNtaW1l
+Y2EyMDIzMGUGA1UdIAReMFwwCQYHZ4EMAQUDAzALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgoDAjA0
+MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzBBBgNV
+HR8EOjA4MDagNKAyhjBodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjZzbWltZWNhMjAy
+My5jcmwwKAYDVR0RBCEwH4EdZmxvcmlhbi5mYWluZWxsaUBicm9hZGNvbS5jb20wEwYDVR0lBAww
+CgYIKwYBBQUHAwQwHwYDVR0jBBgwFoAUACk2nlx6ug+vLVAt26AjhRiwoJIwHQYDVR0OBBYEFCuk
+Rbf0cgc52/dpv3u8tk5QBzfLMA0GCSqGSIb3DQEBCwUAA4ICAQCEf8H6iR/fp2Yv2FycUR0XNfkZ
+5C5jGago+UGEiNDE1ZEz27RO9dIuFrh6TPwC7Z9zkRxSSEPoXEF9UmaNZpUK9hIOLja4nh2xD83z
+udss8gNXHS7AePBy6asDTxJVl+S+Ls7j1mr9udBw4WCD6pSa8PfyTKjG+zhD6BWxBuajysSfyXNJ
+lQkOmI4EW0SH3VOIIwZRb1QjxFhPyJI6rqp4osvjzNY3YFtK/F1ylmGI5m0RkwtqgJ/0Lx115i9U
+uIo/v/g1BPD0rQqHpVtLvfH4s75U0vw8Cd+Wg7QQUk21PxweqcwnuFakkHi6xarxwnlijKgv9vZn
+5p3Gf6TWVrCD7mXWDbl4D+KndfIa6E7hc4xPUA+idcQ02s1s6lfZ36s9f/5ZY9L+BwR12LFvzKcf
+JhVO78ugQDvSIrbq4lgDk4HILUi7se+UWdSWg/GvaglFs28PE9DoxG3MOX4wrbXPqpD3lrnZDFMM
+uPID5U7ukJqoVbHLZU3u11CcI5k9ko1s9A1Q11sOaUcJHvma/vYz0K0mub0Li4MBym/O5K+kJ98p
+sguXKkldCDDtyTm5mFBVXOqbXFDn/oBPRIcHEgjXf8xZVEU6Sh90+k87Vm91WZMWona3POJKJVhe
+9sd9RXscJiiFPaZ7E2d3IHNuRetYSfVr9qZl1mOcJIB1i0f1djGCAlcwggJTAgEBMGIwUjELMAkG
+A1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYtc2ExKDAmBgNVBAMTH0dsb2JhbFNpZ24g
+R0NDIFI2IFNNSU1FIENBIDIwMjMCDGk/Ve+PEwS9IKizhTANBglghkgBZQMEAgEFAKCBxzAvBgkq
+hkiG9w0BCQQxIgQgtguLygfxrhNVB5QxIrqOmU3TKZb0RS+lv6/SRrX5y/UwGAYJKoZIhvcNAQkD
+MQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjYwNzIwMTY1NzQ5WjBcBgkqhkiG9w0BCQ8x
+TzBNMAsGCWCGSAFlAwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAeq3nYXlza/7W39PhvFKy
+GEWmWyI2kGnHey4BbWIJ+58V56tjtS4AGMtUU5albTckgEWz0OLwdmggt5FneaTbrrNdq+cPOgwf
+fBH+kg9gn+L6Svf2oE5zIgqI2eRIm7oUQPqBrFgA/gk+uaRK/jjB8H4LkAiRIyNLD7m28w8cj2UC
+KdCQ/hmg2XWlF6YVw9PO/TFgO51PK4ea/EWtWoq8qEZpxC2tkj1Afx0rIRe20Oa0GQwa8M87hidX
+orKliNijwhW+xSIHDfyQciFwSgilj+pq6AkpfG4syt2y4zeR12JTJUGQ3CrjnCBgyia+81uDFViX
+8rECvV643IfMgrqimQ==
+--0000000000006827a606570dce0b--
