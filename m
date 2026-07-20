@@ -1,61 +1,63 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862AA3B42FC
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 07:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52143C3F74
+	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 07:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784533268; cv=none; b=S7DQXT8NrF7ZXXadmO9gfjD+LByTIQKPsHhjiwKibDiaf//9t3c8crgDMGJFWu+2neoIAhue1je+X661FdSkwatdDPAp+PhtNkqWuqOnEFvwzwzCM75cpbp5ANinIFH6QFkWrHhv//+d+QY0aDVzxaiKNOH7P2Wg9Rw8ERFcYNE=
+	t=1784533273; cv=none; b=uVvdRT8Dbvxx5r22tHaJQHmdfBkcO6yafywOVAMKPRsBMFmcubG0Tv+of0alk18g0ZaIN7X4//9LtLqEtUBTzyl+KPBthXdXkwdhYZGx+y37s+akHxK6kLKmfD7rJEES/oF40HjrEneEwn6fRtGwNAoTIZ84s6WuuA9g9M26Xz8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784533268; c=relaxed/simple;
-	bh=OZzoGHiDTikJl3CYGzEEUkUz6R97UYrqkpPesi2Dq1Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ijfUesvnT7h5CpETCSRXiM58Ofdqn8RAu2UTPf9rGMeBytsKaentLn9plWE3/fjjc9gZwKesym5I5nkIEDoKIF4wYD5R8t+N6sGGqVlTnlh+lYyQociX5yY3viz18IITSrt87B8EuBUGAyE353S9ZoY6lVNghX+q+a4tfklmFew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NqAQ6lr9; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1784533273; c=relaxed/simple;
+	bh=u88Le1fV0hlOGZ81Qp53coKrtVP9bOQJkZkhQ+nRmbM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N3/FRGrZx5VzAO/pepluJwijq0gPy7k1pJBevnRnv+O9zRTaBXg69ciXUAoWW7Wun5/Al26tM4VGDFSz2hY3144Awgm4U4Ce0IprW9lxj4egxaMRsgU4nTH81YsVbJbtCrb4WUnlI6bhU6zqxbyCSaES3BujSTKynTWf35KksfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kxv7zBoR; arc=none smtp.client-ip=209.85.216.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NqAQ6lr9"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38de840f2f0so5970662a91.0
-        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 00:41:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kxv7zBoR"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38e3efab7e0so2406210a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 00:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784533266; x=1785138066; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hgdS1xQfEoAxbMyvnXhxLVHwgSMFRoTNpVUAudjrVcU=;
-        b=NqAQ6lr9djQueSZqzG6d3WdzYidsh2ck1QjSV9ycoSDeKxVQ+KYuUild2GwEghIft+
-         650DcwrX3CJ2MrlaxL6K2D+Xu3/eYWxLcACJ8AjvFbdS8JvLkaa/krEE03Caj7vHNbjL
-         R5NfuVAPc3+gQmRJhByMhdBGCK3uWOJxzhLLtK653/nJlFygTc50evZDWp9UjzskmFGe
-         kqfWQ3mr6wmEp27A/IQaWKvSE8YjxPo+Wy/qdZXKiprhINScMnVGlRG/5KQz/3rbo8/a
-         1NxhEY1LmSLVlJwruTW3ljAUFEL0rI0PY4C+eK20RjHYUSHF2OD+8r7pg3/eAU/1pxRw
-         tfAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784533266; x=1785138066;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1784533272; x=1785138072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hgdS1xQfEoAxbMyvnXhxLVHwgSMFRoTNpVUAudjrVcU=;
-        b=e4K6u7Vp8PEg894bXIt2jiBYgXJjW2rciLRce9mV5IWAInrjzpAG4/oH6vEfgznn4c
-         xz2OngUqgjZLVEQtOF3HaBb/S7V79JotGuVHjeuVXvND62cHcQ71V8oByE4QIO9uDss8
-         Z5sArq8AwRCTrT8EBB83IZhvjEpgJe3oEN64xgMCD33rMKwWk9Pr/PVhynyAX5qk36JO
-         nWI9n7ctx/0yeaMc/BTcjkEx6o5TBeyrt2sF5jTb14Ah8EojfjPguGhUP72qGQjhcgL9
-         WnepaL+uYVUP1qDJ2+MXpDvx7Z3NA4m55HUdXTBHX1Ur81EaoxoHQBn2Hx3v86+CnNBJ
-         mh1w==
-X-Forwarded-Encrypted: i=1; AHgh+RrLcM7gJNkO5om7O9rnoc1UeNjokAW/wCQ3yAXRKA1hazDehuQNPl12wPpK8JGVIR/ULLT7dG4p98yxzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyKqDkO8/5qdtLjfduUkFhCRwcdMf4UE57Mre0h/cWF1GM0kkO
-	dEOJ2xN5DWnSXAcNSI05Ph3QaSgknWpUwHen54A+YZsq/uCwnKiwt9VJ
-X-Gm-Gg: AfdE7clh2+1wlFrJeNb/UnFtAi+PTX7BY4r+xANNF1mahEVe26z1ZNiPSbSbf914EA7
-	BMVxvGDXTySNY+ZptkWBaNOmAsPM10KZ6zuYMDdFuBNJ+K0aAvPjdXZTjPb7BYnKjzo5h9HSqTl
-	YRMHPle+e2GFqXGRHWZX9DgDQ2B/9siIw8z359rVabRnFnKL2ys0+IAVLPVgJmjEHXf6qzh1LWs
-	C+NZATyZ52yrkMpTR3zOozAMr5kpvE+NQGp++YH7no2vUyBYbN0aQqIDZ20eGbnTbmC4MvhVMT7
-	nYg5FqODbLU+TYStljDwbp4IcALZ+JK1UmIX4JLrDC8Bwkghwya0ikGPZCP+3eSMGq+hnn/xO3z
-	VWlzkhXaWiqGXzyVGuzxkylBRtZPue1VUkSzC5YYuu6HZNAhVkLnsQIn5uiJwvISJhL1LSrlmKA
-	TxX7ECb+i5EUlmwLtwJHRAD+7PAsW51eEIjBSh+MU7tk9F9mw=
-X-Received: by 2002:a17:90a:ec88:b0:38d:adae:4866 with SMTP id 98e67ed59e1d1-38e4b516544mr13416775a91.21.1784533266485;
-        Mon, 20 Jul 2026 00:41:06 -0700 (PDT)
+        bh=scpaRJrlW34d2i0T3LPzlbqHWj1iPSwqpLVD8tv+N3k=;
+        b=kxv7zBoR7+Ghvd6kBVkeLk98iml4R872qxdY+UpoHurMnNk7rtvenZ9YRFLXZj9QY5
+         ZbKTQyKQu7F96wh+RrUmG2Lre3e07CzrABZ1APEsOe3KF0Q8k3havYeA+CzgV7hAqe5A
+         9CewQKSoTkJ+DY1XQr5YT/yiEmz/psiCS2VBKKYTwkzi7/9U5oUcWJyaoCABjowepO/p
+         VPryEJ3zfN9UOPiRjyH5hqeFultpB7tYvC9lNX/FqCj2t3wb683uKn7RI5Uuflf2bKhQ
+         qCBZibxpM/9/lMSG9bFqMuoPUPYI9YnPRLNP9UwwZHmwEf847Ranxx1XAOAN42HK7PjF
+         v41w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784533272; x=1785138072;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=scpaRJrlW34d2i0T3LPzlbqHWj1iPSwqpLVD8tv+N3k=;
+        b=Rke5ULbayrZlMOd3TX4UqYPsErNKJPnKFVmgHe3kGNgrNe9qNKTwyN839g9vH/N7bX
+         TTdNOBVnqPa7sNlONtRv8UOdaD0arLzywSeGJUqn75ORUji27I6rZVgMpNOan+IEnGVf
+         c/L0X4u6j35ogL8deirFnKDAwHoq8yIO/dbr7b9j9fm4c6b1hGJAH4vKHNX6Dup+O17O
+         AQZ2SKyJgQyRLUbd34NDWyUAkNHNNga6fHh832MOJ4RAjGjhbZmyQcr1N+80h5NtazQ2
+         F2LylRdfqSThd5661RhQEjvGtzmRR13qkrTMM9o0Bdsp/jukKIAjEJRXwNJeI76CrCNi
+         kNgw==
+X-Forwarded-Encrypted: i=1; AHgh+RoTRHLS+PEs66gMWBRJ8Q2XweLzjuKIa/yz/5Bfi1H0qYuFPCAHge+3g47Y3Bofskk/E+pjefw8LgpUcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF0xcYBpNNqJXwvZvBnANURcpXhdu9Wv/vbDExZhr9DJt7yKcB
+	C9rlnMzoVtryqWAomItOVB2mxNqu+y1FScwOedkVlDGEJTRNeRu0H6ZB
+X-Gm-Gg: AfdE7ckOVH+4kvByMjd/X6GVMneVki024aJPBjtMdtGE3pIneZtN5B9u9BBi2FcYkKk
+	Xaj/xOKJezjIiUPH5Zo9GkuuzfbzmUHosbmQnzxLOB1eFQFyTzAbffaIiE18ZUvXLpq7rNj4uy/
+	9chMVL2hy4ioF5UNamxXZlmJlfn1j7azwqNiW/yq4oJQM1TUQOc6hMF+X15oysb5rzLxxUMGZrX
+	odns5daUGMTyaZsDYCsja4ojS2s3LV2jKohSSPGfVb/5YRhdw9STAtahfU6LLPZR+R7kTlwzdOa
+	q5UlVSYW1FQjaKpYs+izBfgKvBFdAUrNnWnatJdEdbRQ+aBQbj0Ezk9vbNMKDVUhRrNSSDtq5+b
+	vmYepk977rjDBMJN5sLZoRfmidY+EAntqhLKEQOPX0tnZqVkBFv7nNHxpG2PWXxqqlX6wbY/j96
+	H6weiD0KGRedmt8WYDN/iAsZgfjq+n5iHGIDgo
+X-Received: by 2002:a17:90b:1d48:b0:37f:9e21:91d6 with SMTP id 98e67ed59e1d1-38e4b610362mr11098900a91.13.1784533271902;
+        Mon, 20 Jul 2026 00:41:11 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e60cc2ad5sm470171a91.4.2026.07.20.00.41.03
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38e60cc2ad5sm470171a91.4.2026.07.20.00.41.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 00:41:06 -0700 (PDT)
+        Mon, 20 Jul 2026 00:41:11 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -70,10 +72,12 @@ Cc: linux-stm32@st-md-mailman.stormreply.com,
 	linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 0/4] ASoC: stm: Drop redundant error message
-Date: Mon, 20 Jul 2026 14:40:39 +0700
-Message-ID: <20260720074044.87528-1-phucduc.bui@gmail.com>
+Subject: [PATCH 1/4] ASoC: stm: stm32_adfsdm: Drop redundant error message
+Date: Mon, 20 Jul 2026 14:40:40 +0700
+Message-ID: <20260720074044.87528-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260720074044.87528-1-phucduc.bui@gmail.com>
+References: <20260720074044.87528-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,29 +88,31 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+devm_snd_soc_register_component() already logs the failure internally.
+Drop the redundant error message and return the original error directly.
 
-This series removes redundant error messages across multiple STM32 ASoC
-drivers. Since core functions already log failures internally, dropping
-these explicit dev_err() blocks prevents duplicate log messages and
-cleans up the code.
-Compile-tested only.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/stm/stm32_adfsdm.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Best regards,
-Phuc
-
-bui duc phuc (4):
-  ASoC: stm: stm32_adfsdm: Drop redundant error message
-  ASoC: stm: stm32_i2s: Drop redundant error messages
-  ASoC: stm: stm32_sai_sub: Drop redundant error messages
-  ASoC: stm: stm32_spdifrx: Drop redundant error messages
-
- sound/soc/stm/stm32_adfsdm.c  | 5 +----
- sound/soc/stm/stm32_i2s.c     | 6 ++----
- sound/soc/stm/stm32_sai_sub.c | 8 ++------
- sound/soc/stm/stm32_spdifrx.c | 6 ++----
- 4 files changed, 7 insertions(+), 18 deletions(-)
-
+diff --git a/sound/soc/stm/stm32_adfsdm.c b/sound/soc/stm/stm32_adfsdm.c
+index 66efb9a0acb9..73c6460a6327 100644
+--- a/sound/soc/stm/stm32_adfsdm.c
++++ b/sound/soc/stm/stm32_adfsdm.c
+@@ -360,11 +360,8 @@ static int stm32_adfsdm_probe(struct platform_device *pdev)
+ 	ret = devm_snd_soc_register_component(&pdev->dev,
+ 					      &stm32_adfsdm_soc_platform,
+ 					      NULL, 0);
+-	if (ret < 0) {
+-		dev_err(&pdev->dev, "%s: Failed to register PCM platform\n",
+-			__func__);
++	if (ret < 0)
+ 		return ret;
+-	}
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
 -- 
 2.43.0
 
