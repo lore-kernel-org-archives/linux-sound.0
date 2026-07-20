@@ -1,168 +1,101 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123DE4C6D
-	for <linux-sound@vger.kernel.org>; Mon, 20 Jul 2026 00:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9834023EAA0;
+	Mon, 20 Jul 2026 02:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784506258; cv=none; b=SzJeQkhlH3/xXhpPPtPhuQ43fSIiKmD1GUPwXUAUL/zWuv3Alz4K7ipSDB5u2RmkVerthWI3jtWiQl2FtAnp43BCwsM13UTQpVHDZAnFEwUNndGNet+mb1ItlHJTqlcbVzIJxyilkqtO953xJ1CEEWDsgaMvrAHcXQ5L2aPe9s0=
+	t=1784514216; cv=none; b=gwHUfUwpSgw5+ste9+ilzrK+/net5TT9QD031LxQVNHwWv+O7P7HT9fHaS+fSp4EO9+SamVUMAqFddl8DVLMUxT2JwKt4y19bbN6F1RtUBQsEMokrzTa8lscgSGy+H3E+pa+/HaINCuc8cEwnzp4SlP2YgEW0MqZo9/CJ//zKeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784506258; c=relaxed/simple;
-	bh=XTw3AwFb1YcwTYZdYmPrrrNQJb6VvWRBt5MJz4ibYUI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j/yrHq/Pe88pZRRv93kguY6nR3y2W561yRkjzdaXojMhFemcO2XEbVkppiz8GhcMR6cpGbaJrkZfsLSZYz/jiaf/hcDB0eB4eSPsiNStzYUpRRwStlA+dw+9jT3GXWMX4JruEzaWjbUwswUt6HZsRar/vzmfTuhH+RiODsDM/dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NM+19RE3; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NM+19RE3"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ca7c1176317so6971793a12.1
-        for <linux-sound@vger.kernel.org>; Sun, 19 Jul 2026 17:10:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784506256; x=1785111056; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mcHvPzL38Wp+Wu9dffoXAEVAy0XziQJGzhqz3Hssx80=;
-        b=NM+19RE3kPYhbwVsTK1jpJXCaj0qiWeqyNJSxuwO3xqrgVUYfG7BFQzmtfEY/FlgtD
-         SS/Klh0c6sqlwcbnss52Fg5pgcpg1mqI8IyYvczkvrlA1B6Xy0rjxIw/Z13sOt3F7UI8
-         mpVbbd80uW/D3pZGKTwKRQENkxy13UIUbMhTVWPoamMW5xzQkmfXJANVKlFoRkYJVaTU
-         MWWqPRE53LRfze78eR0lWV857p3eZjMUN3WNd8xpE9GJNCR/XWGg1iU8KSN2HNSghRR2
-         AtyzP8uKtFjyKJdHO9YTz77Vg9UlgFK4+hnSWX+HtZApnPPV9Sakv2kSzModMy41sO9Y
-         PUrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784506256; x=1785111056;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mcHvPzL38Wp+Wu9dffoXAEVAy0XziQJGzhqz3Hssx80=;
-        b=Rqe0sEnBRttgvuh58n+YSONTLCiKOqBfbrP1BITdzFFWgumKKkgqLS2hLHQI9NEqDk
-         /F5oDdKVMzVI5tKXWSBaqtkBd/xtPVmZVPVWSBOQn7COE9n5fjIHfb92urtxOhbDoNo7
-         4allSrY3PRYBdGjMNpyXHkeOSsPB3iUJPIH/VGFrcU9KfnTFFaESjPoV1gLpkzZQ4ru1
-         88J7JldRhZAygUd1cOs/U6C88TzeB+uJHlgCdwfWTWdzP5Ka+VvcdGXIYcedp8we5GW1
-         TBWwFa/4eN0P9IJKQuWOzUVGXpzwGBU/y+ctQdROEdcTgpLz22ajxpbJ0qqdvJ/V1+o9
-         wmpA==
-X-Gm-Message-State: AOJu0YxaD1r+rKs1A5dJtPdkDTwIdApxJ1mwfAStqmCxtrBGrU3mE2M6
-	qQF4X3quRad1Pw2UGt2sQ02bVm11R/q41GMw+ntBYgoaUY9UMDltec97K82CwA==
-X-Gm-Gg: AfdE7cloKkvUzv2n17KjhHy3qro2dllPUuK9Em0tdVnr/obm5ZO/EZC2vuXKH/418VO
-	/0voY4cCiDCYBCtaQ1JzP5Kn6BeLELqpZM7SLaqEuAElBMxInMvE5FPTW/1oCwsiSI3fiTLiGga
-	L37yI0uD4Ywr/QsSlC46mRUSAGkxJOcJY4RLnO5Amdybs8L+SjLktSKmVe+yv+j5aiuVtCKESSO
-	GiuPWKMIQUNnpiRGhTgDUUHlM5SgyRRXNegZk68FLMV6zpobZHg+JnLjEPCN9LPsGOilaWJAQwO
-	UqYSq9BMMUYKzEdFGq4qBi8dl/vseoVkuK9RwQFziHpgFOgwOzGEXPOKLRRkeXm1RBNp0YtKm6E
-	c8OjAlGSdlnEikyJb17dHQlFkcupgOr83pyko1Swy8tulGcoCfgL6xw54sV20tsyewzuiMopjWs
-	h/Ti1VcW6Nof75BWm6XWXXEyqMrzlOseblMR3/VNXSuVoO02epQDpgJAUH+VwxWZ6gkBbBI8MzV
-	+wM5nkmmvGcPYQY6Hjt4T5Lg7ysejSbWtoK9jnbOW2zKaZdnVPwpNNh5iytJKc/Dg==
-X-Received: by 2002:a05:6a21:1404:b0:3c0:fab7:bee0 with SMTP id adf61e73a8af0-3c3ada77847mr12682703637.62.1784506256276;
-        Sun, 19 Jul 2026 17:10:56 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cb517aada63sm3680944a12.3.2026.07.19.17.10.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 17:10:55 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ASoC: amd: acp: Use pcim_iomap_region() in acp-pci
-Date: Sun, 19 Jul 2026 17:10:54 -0700
-Message-ID: <20260720001054.1439409-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1784514216; c=relaxed/simple;
+	bh=50AdvGdhuePSjFHXZ3DQqgeP6Zk91kLTBiO/44cORkk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VCeK0OZJsozWkIiJdj4aJSYSn0093Y0b9zHFOUiXg2jOHHZKEM129sXWGstFz5nUmo6AwbU0jIClk+yAqxJxjcaRXWGt7q68tkjPR7WZZ7rh+wwW2ghvJ+YyGWOrp81exJgh5DX4WepGTSoqLB+5gdcKmDTn9vuHn+Raikb4DWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: fe486aa083e111f1aa26b74ffac11d73-20260720
+X-CID-CACHE: Type:Local,Time:202607200959+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:19030b67-7dd9-415b-a215-0b95a485309a,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:b9fd884dab7528900885db25aeaa0961,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|865|898,TC:0,Content:1|1
+	4|50|-19,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: fe486aa083e111f1aa26b74ffac11d73-20260720
+X-User: zhangheng@kylinos.cn
+Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 201426729; Mon, 20 Jul 2026 10:23:28 +0800
+Message-ID: <9fc3da84-0985-4357-93bb-ce90a86b01de@kylinos.cn>
+Date: Mon, 20 Jul 2026 10:23:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb-audio: Fix boot-time crackling for Generic USB Audio
+ device
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Gordon Chen <chengordon326@gmail.com>, perex@perex.cz, tiwai@suse.com,
+ kees@kernel.org, jussi@sonarnerd.net, hulianqin@vivo.com, i@rong.moe,
+ g@b4.vu, cryolitia@uniontech.com, pav@iki.fi, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260713081048.189281-1-zhangheng@kylinos.cn>
+ <18c1dc0246121271.5ea4dc9a201e9dce.cafe1c196d712416@GordonMsi>
+ <87zezvx73v.wl-tiwai@suse.de>
+ <d77254b3-1e6f-483e-8c03-b8f1e033d7a0@kylinos.cn>
+ <878q77s6jp.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Zhang Heng <zhangheng@kylinos.cn>
+In-Reply-To: <878q77s6jp.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Convert acp-pci to the pcim-managed PCI life-cycle. Replace
-pci_enable_device() with pcim_enable_device() and fold the
-open-coded pci_request_regions() + devm_ioremap() pair into a single
-pcim_iomap_region() call for BAR0, which reserves and iomaps the
-register window.
 
-This lets the driver drop the manual pci_release_regions() and
-pci_disable_device() calls from the probe error path; pcim releases
-the device and region automatically on detach or probe failure. The
-error check moves from a NULL test to IS_ERR(), since pcim_iomap_region()
-returns an IOMEM_ERR_PTR on failure.
+> Please add some comment why the device needs this workaround.
+> IIUC, the reason is different from the others in your case.
+> 
+> Also, please verify that the problem is reproduced in the latest
+> upstream kernel, and the workaround works as expected there, too.
+> 
+> 
+> thanks,
+> 
+> Takashi
 
-The child platform devices only use devm_ioremap() on their sub-range
-of BAR0 (no request_mem_region), so reserving the full BAR0 here does
-not conflict with them.
+ >> --- a/sound/usb/quirks.c
+ >> +++ b/sound/usb/quirks.c
+ >> @@ -1938,6 +1938,10 @@ void snd_usb_endpoint_start_quirk(struct 
+snd_usb_endpoint *ep)
+ >>   	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+ >>   		ep->skip_packets = 4;
+ >>
+ >> +	if (ep->chip->usb_id == USB_ID(0x1e0b, 0xd01e) &&
+ >> +	    ep->type == SND_USB_ENDPOINT_TYPE_SYNC)
+ >> +		ep->skip_packets = 4;
+ >> +
 
-Assisted-by: opencode:hy3-free
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- sound/soc/amd/acp/acp-pci.c | 26 ++++++--------------------
- 1 file changed, 6 insertions(+), 20 deletions(-)
-
-diff --git a/sound/soc/amd/acp/acp-pci.c b/sound/soc/amd/acp/acp-pci.c
-index f83708755ed1..98771323eace 100644
---- a/sound/soc/amd/acp/acp-pci.c
-+++ b/sound/soc/amd/acp/acp-pci.c
-@@ -118,17 +118,10 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
- 	if (!chip)
- 		return -ENOMEM;
- 
--	if (pci_enable_device(pci))
-+	if (pcim_enable_device(pci))
- 		return dev_err_probe(&pci->dev, -ENODEV,
- 				     "pci_enable_device failed\n");
- 
--	ret = pci_request_regions(pci, "AMD ACP3x audio");
--	if (ret < 0) {
--		dev_err(&pci->dev, "pci_request_regions failed\n");
--		ret = -ENOMEM;
--		goto disable_pci;
--	}
--
- 	pci_set_master(pci);
- 
- 	chip->acp_rev = pci->revision;
-@@ -161,24 +154,21 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
- 		break;
- 	default:
- 		dev_err(dev, "Unsupported device revision:0x%x\n", pci->revision);
--		ret = -EINVAL;
--		goto release_regions;
-+		return -EINVAL;
- 	}
- 	chip->flag = flag;
- 
- 	addr = pci_resource_start(pci, 0);
--	chip->base = devm_ioremap(&pci->dev, addr, pci_resource_len(pci, 0));
--	if (!chip->base) {
--		ret = -ENOMEM;
--		goto release_regions;
--	}
-+	chip->base = pcim_iomap_region(pci, 0, "AMD ACP3x audio");
-+	if (IS_ERR(chip->base))
-+		return PTR_ERR(chip->base);
- 
- 	chip->addr = addr;
- 
- 	chip->acp_hw_ops_init(chip);
- 	ret = acp_hw_init(chip);
- 	if (ret)
--		goto release_regions;
-+		goto de_init;
- 
- 	ret = devm_request_irq(dev, pci->irq, irq_handler,
- 			       IRQF_SHARED, "ACP_I2S_IRQ", chip);
-@@ -214,10 +204,6 @@ static int acp_pci_probe(struct pci_dev *pci, const struct pci_device_id *pci_id
- 
- de_init:
- 	acp_hw_deinit(chip);
--release_regions:
--	pci_release_regions(pci);
--disable_pci:
--	pci_disable_device(pci);
- 
- 	return ret;
- };
--- 
-2.55.0
-
+Let me update the current status: that piece of code can be
+omitted. I have applied your test patch, but there is no
+change. It might be that your patch has no effect on this
+device. I tested with version v7.2-rc1. To be honest,
+without any modification, the problem becomes a reproducible
+stutter plus crackling noise. After applying my fix, it
+becomes a probabilistic stutter (still with a relatively
+high probability of recurrence), but when there is no
+stutter, there is also no crackling noise. So I am sure
+that this patch is at least useful, but it does not
+perfectly solve the problem. I am still trying to resolve
+the stutter issue, and I wonder if it is due to resource
+contention during boot? This problem only occurs at boot
+time; after entering the system, it disappears.
