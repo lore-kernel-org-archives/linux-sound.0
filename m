@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F752EBBB7
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 16:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B59D3793D2
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 16:04:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784649798; cv=none; b=WwkrlA/IX/A8B5TivnLlJO2FPzIkVCrap669O6JJsdowxwubqtpD9J4eq7hHWh3CyAQntVInWl/xa6UNP209Klm9j1X8mn1iheVYOf9kcCOf1W+NYnnOsVfLdNQm14I0vLWC/fRNh6WyXBRUIuyJB1aA9F2W4i9aYRGLx1yn2Jo=
+	t=1784649883; cv=none; b=CsxpkpdQuOzJSLzlb05lr8DCqlYPqzkvWxb3swzFS9hFJnoh6DlgD/skVMR/L4HY2/uJpqmqzF7ScrCO3CNEOKIYzoLFD9P2ezp1uVRA/RaTVAOVrDi4wD8XWP3wLqTw6oagyZgVN8tJFlfAjP+mFbSclOo3cN+FZObvmozKRIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784649798; c=relaxed/simple;
-	bh=Ll+J3BSOBqlG+PhTaIZ10WOa5N62rgX4HFICI+Us75U=;
+	s=arc-20240116; t=1784649883; c=relaxed/simple;
+	bh=fqzQQ71yafrYpmYX4cux5apST4ZjIEZyMaAiPqtWsfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LbTbh4+69pCTJ/D/JS5gYcu8Zgqm8Vz7sX8g7S1a++BmbsSqdMNqA1yC10bUp5c5opdz1dAwwFOdfp6taJWIUgcUoT+bZ5GPjieKzQenEfoJfzDHd9n9iHFxZ62IFuGKcO1hri12JovIH5wTSJLlLKlng7q+RRn0s46y60dld5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBKLzTuh; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ah8YwV71xSw7enJEtVPvrjQ/92X1T7Ep8lKEUdv2Oa+A8p6n86cKnGlnhe1wQkw3D6q1cf0KV2WPMSUViYDzOlci4COaWtRkzoELOb99vod9BL8GAmRvIlq2AyJ9XKBGlNvFCLCVs3YbSepfGGoyJFlCGVVTLPZ4ddyV1I9lMNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IYq766m/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBKLzTuh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67EAC1F00A3A;
-	Tue, 21 Jul 2026 16:03:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IYq766m/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28D741F00A3F;
+	Tue, 21 Jul 2026 16:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784649797;
-	bh=cfQFjbL1r096alBzzgBKZcMoMhH9HJhH+rTuNdX1fNg=;
+	s=k20260515; t=1784649882;
+	bh=gxnzGM/GJxQMLcrffWgU59tkbGwcawho6//YGKy6yHM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dBKLzTuhhBJbL7779vLINsAPWJ3mzYLa2AFrIgxP8TAOm1BE1KIa3wXJNlFWjijYe
-	 7ap71XNIVcs2Hs6B//Hx8NnQ2EsEQEMbB7p1yXuVZ/LxL7tvjsLEQUTOsLvrgovnA+
-	 bt0UyDpjNz9ruUSuRuzIcHcNFaN35/oc5oorDhLfpcWShfLR0FOnPS9/juO9DlUUzi
-	 EXbHkWzUQ1X1oFMvU2NgzZGWeGYUxs30nbS5eg86v/OjCbU4JQeRoAo6mWOknyRean
-	 WbUvcRvoQm9lTiINdeOApY69PxmbKMIYea86VuC/TEUCbdqUn+q3H2/8qE08FsDCa5
-	 t3aUX2eZ3tNIw==
-Date: Tue, 21 Jul 2026 17:03:11 +0100
+	b=IYq766m/rkIXGGb7DWF3f2NdkjnbtKi65JJj9Ih40eswePzTCfMoCvsQTE36wApLi
+	 Kv6zrPxYj/qtKKJYueVV1rDMqCqO6lJZOxa9kfDFb+OSQM6kWmXbFjzjkNKZb6KNKh
+	 +MJ7ArnzOrrZfpA+tl5n02tefsox9Tx8x3KBop7Bvnoi/eW76k8lBTwKxCxaX9SxmL
+	 i9aJruNyjucvhqxJSremfQLNUkvtRyucvl++hqgNOVFTxQTFX2Upj29+sWL+gtzXJf
+	 VpK8sqOCgEBQfUGErzbWvLdZ/nfO7lb3+FWD29f0l5q1dW6jphPJVG4oUlR3mkWJXk
+	 l4UjvNTjBG4/g==
+Date: Tue, 21 Jul 2026 17:04:36 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
@@ -42,11 +42,11 @@ Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Shengjiu Wang <shengjiu.wang@gmail.com>,
 	Takashi Iwai <tiwai@suse.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 06/12] ASoC: intel: avs: use
+Subject: Re: [PATCH v4 10/12] ASoC: soc-topology-test: use
  snd_soc_register_component()
-Message-ID: <4aa7a0b3-19f7-4108-b2eb-71f197e1391a@sirena.org.uk>
+Message-ID: <b7b05fbc-8c29-4cf6-92ee-ef835a420230@sirena.org.uk>
 References: <87qzkxjg53.wl-kuninori.morimoto.gx@renesas.com>
- <87ik69jg3t.wl-kuninori.morimoto.gx@renesas.com>
+ <87cxwhjg3b.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,55 +54,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="T6WcZARPgnHSTkzT"
+	protocol="application/pgp-signature"; boundary="5NwEnPg3WZ6/P3aM"
 Content-Disposition: inline
-In-Reply-To: <87ik69jg3t.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87cxwhjg3b.wl-kuninori.morimoto.gx@renesas.com>
 X-Cookie: Love America -- or give it back.
 
 
---T6WcZARPgnHSTkzT
+--5NwEnPg3WZ6/P3aM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Jul 21, 2026 at 01:17:42AM +0000, Kuninori Morimoto wrote:
+On Tue, Jul 21, 2026 at 01:18:00AM +0000, Kuninori Morimoto wrote:
 > It is calling snd_soc_component_initialize() / snd_soc_add_component().
 > We can now use snd_soc_register_component() instead.
 
-> @@ -1387,25 +1387,29 @@ int avs_register_component(struct device *dev, const char *name,
->  			   struct snd_soc_dai_driver *cpu_dais, int num_cpu_dais)
->  {
->  	struct avs_soc_component *acomp;
-> +	const char *comp_name;
->  	int ret;
+> +	component = snd_soc_component_alloc(test_dev);
+> +	if (!component)
+> +		KUNIT_FAIL(test, "Failed to alloc component");
 
-> -       acomp->base.name = devm_kstrdup(dev, name, GFP_KERNEL);
-> -       if (!acomp->base.name)
-> +       acomp->base = snd_soc_component_alloc(dev);
-> +       if (acomp->base)
-> +               return -ENOMEM;
+KUNIT_ASSERT_NOT_NULL() - you need an assert of some kind to be or we'll
+carry on running.
 
-That test is the wrong way round.
-
-> -	ret = snd_soc_component_initialize(&acomp->base, drv, dev);
-> -	if (ret < 0)
-> -		return ret;
-
-That was the only user of ret, this will fail a -Werror build.
-
-
---T6WcZARPgnHSTkzT
+--5NwEnPg3WZ6/P3aM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpfmD4ACgkQJNaLcl1U
-h9AmkQf/Xnby9yb0qkMfe4SM8nsJkhYbr2POzwbpFlNOHPLz3x2jT2jphT/dgNrq
-aitZNxV2t1AmELkACTIkmCsRP4uS/gkTQw5stZdp7uc5lEkuCWU1vkkiGtgjXlbn
-WXcENBd6iyx3j/sp8YaWTH4uc/zjm2BHil1o2jbXXebhSkcgJy21sbPzPkygxlc3
-74oSYEO/zFhJkHO5xuVZ/UxUklUcAgHCEm5jbRXouFfo5ErVvkdFR75O22wSsO0C
-The1EJomyjCd7O3W106ti5jDCLUiE5TeL47wpC9bRIpNjpRx6OxIed+MP22GRjfZ
-Mw2TU80DMfmCZ/XR4y4MZzIhSGM9LQ==
-=xocM
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpfmJMACgkQJNaLcl1U
+h9DqZAf/U7CjIWI3EOSut1nwSE1J+ctIcO72fbu1IHnVd20tKhUHt4qJl7wIFJm1
+Pef9TQJDw4m7cuyYsTZlY++qCcHVqacRpJSJAPha2ZpEKUgVWYg2ptT+mXhWVdkI
+HzQH9jpy/qNqtGEHFs/EhRH44Ly56DTDdexTWlloOTDgx4P3Rw75UcN4/pkVt9bd
+2ZWvR3ugNC2ExYia7e5IC7+uRjJjZzNF2dXRu8eNP967GNCvrP3e8+E2yfUjxXWX
+ltcI8LTFj50cFyauukU9mtPoZakNSZ8RRpwIgoSeaTL2rOXN+LC1CKFwy2/Cpbfs
+Zk8rkvjA9qD1K20cvoZYoSFx0agjjw==
+=UwQG
 -----END PGP SIGNATURE-----
 
---T6WcZARPgnHSTkzT--
+--5NwEnPg3WZ6/P3aM--
