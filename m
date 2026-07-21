@@ -1,272 +1,162 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011062.outbound.protection.outlook.com [52.101.125.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D4F431A4E
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 22:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784674780; cv=none; b=hJ85ck3mTeWTQRYF/8Ot7Gt1wQU9kVK8Kx6it8SzwUDzJtdOoUC/TJ6+ohdTvaXGaK1VWlA9Q+9aKjZdofQFdWsMhxtAVxfESHy+I8KEv/biLf+HKzA6izGrsaj7xdIrgM9uJqm/r/h+8JDvJTs/r22+sVlD82ikZpRhK+0YBQE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784674780; c=relaxed/simple;
-	bh=tj1nKeUvxwBYfAqhXEZu125F6z4Ec5QaRnY7PuVmD6k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DNVhmSv1Q0p54iUgAVwTzSFSR1igNyEAAjuYC22JkyfdCLBJY3zNHJ4aoPPaAxZ17k/XjOxgdH98hA67WcP4e5NhFxMhqYy7iKIJ3HCaeZ9nE9CtXVibPquTjiML1U2zrxNXe4Uhau5eaIWXHIfqV0uRRx6TVN1jhP+cjOWctNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pp6pRAVy; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B643E121A
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 23:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784676137; cv=fail; b=LB6ZKzLjPFcduU09si19zeebFDCghCrzNqn5zBA0gX5ZPT/6xKNe7NOW6431tpH1MiecVuzAl73y1wJyc3D2Q52RczdB5BUWu+okopzDftjycr/dHpsQtDWD2vR1BQYOMj6RubRB1aV/WK42y2iYSMNDm06KlexyKDttZ9z6WV0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784676137; c=relaxed/simple;
+	bh=xWWzQxkyMi2ljWYGd1tqUNM99oCAYh7jZhg5XiTU0dI=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=MGW1F4NxEOTT87ZPkBK+reS1NLFabEClXI6lm4586QGFA58odci2OTK2gG2LT885VxmrMt6Nn5WuEZENDtrJ17uNdpkvLb2Enq2vZbkg1HI5r7NRXv+LefY2LbidZG00zWdy2CuhEFllndBkJKwM/K8nnIPT+eebR14Yr5orxgA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=XfP8vZBC; arc=fail smtp.client-ip=52.101.125.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pp6pRAVy"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ce98cb8165so58152775ad.1
-        for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 15:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784674779; x=1785279579; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5v1SpCcEJEF5L1lruFHQA8jtL7QADyRj485pvMovoIM=;
-        b=Pp6pRAVyo8ctrjKyam4yEBwd1uaCYAujCBZUldaDuk64zCciYjYYw4xgv+ayeR9ngc
-         TA3iXoFW2RkBuqQLhOEEnlMLJs+fqygxQDEimFnKu45905gadzBE7NyQWjM/IsnAdqPQ
-         9RuSIK0r75TpUO1urrD1UUXINaT4vZEFSAxkyxYOzac2J0ghnWOGlKv7IDKpNHBMZZhY
-         zCNmgvKeL4HyEE2KlotBRPHVsecYOwNZHEOfzscNHMT5JImd+Zd6iaW+WQ2DxRBOzwA1
-         o5Ylzu9DH3Et6nuT06OuJ7816+KXf/ClJ8DBUCSa+hbCLMV6h8l25X4vRROfWJ+MQyKB
-         wqlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784674779; x=1785279579;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5v1SpCcEJEF5L1lruFHQA8jtL7QADyRj485pvMovoIM=;
-        b=QTO4k4Pie3x56X31XZQnrabM8uN/bhMR4BIVbxd6oaoFjJsXww4ppeQ0WVrRL2uTsE
-         Yottzfm8iwwNlkg63ei4fQwtFgLtYerjlTgh1WePZ7IhpGqzQRIvQaIC/2IPFB8zpHgy
-         6wTMg1WBocMd2LdSWSOV8KVf6kMk58o+yVF/K3jnjfIdqfAte5eiLgilap0sDAifbHWA
-         isqrt+rKN95abo9d1+aJl6pZ/d8kAngqMZV/x3m8MRaWHUa51EjP01wML0Lc5N0OI26r
-         Asu8P72jo6e5Wc/o+L4OzXc3o5jecVHNOEM4M3blAcy8VG2CqSxmxD9HiabAZ9kKr+Sp
-         dxpQ==
-X-Gm-Message-State: AOJu0YwKaH1jAU2FFch7gl+kYk11qUv/uGTOHbvWAQlSRGv2k/qTYtTM
-	It3D6Lk8LEHVkk618nBHxm2rh1CYIGQrz/XEt35IeSccvVqelt0gRAFV3x33qw==
-X-Gm-Gg: AR+sD13GGaXnnXFHUh+pItblR2LJkTtwhgvivW4bO815VE63GYn9EujVmr18skj9JPQ
-	yYBO/qDJU3nhGB/8sK23WbZ4wltoeLvYcVMP4nxVJg+12ZVbH7nssTHhfSWM1vw9cWeccjG3cp8
-	3M3LZAJ0JFIdLP+Xsr7cXhJ3t5YW8bjHzuhZxH14QaIzE4Y9utDLSMOID1b+mQfbstaOuviNnVK
-	Wf4QxenJsL4Hj2UXzOcQQA7ywLJLfEbC69C/hVlKOLKJhRzj6YwkaGgu6hWWsL/gsrQ4zhODpZX
-	zd5TtTxAhYxyKZXl+f+xVWUTuEOSzHWi8z7sc2JlHOqdPyA6v9o32lUccuVSNtXazdkj6SmDM3r
-	Z0v0cHTrPDBtN4Z0h6YFEGOuaNi+IzLbEk+LEGAxSaeSKPlBDczLUNTgaht5mr0zb4QtPh9QnDZ
-	2kgu1WxOqrgAo+N81zbUt77glaNH0ddjksmIQKgQ+uRvNMQlPuV1W/EeCpS5/bGCXJIDUHcgrzm
-	rzlteF/M+Ie2DKbhbovcu2erbhu/Ja3FHyup4TDX7v9ssISWgQh/So=
-X-Received: by 2002:a17:902:f706:b0:2cc:92ae:b36 with SMTP id d9443c01a7336-2cf8dde30a5mr13984515ad.24.1784674778619;
-        Tue, 21 Jul 2026 15:59:38 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8f3808a8sm3805075ad.73.2026.07.21.15.59.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 15:59:37 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="XfP8vZBC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SDdVJKutul9VbZ72yVnk+M9BB596gnjTAY/WbPJRkidWKg/98828JsZfifs9I8v4hz3jKfRarb6Vz7JF228D8UX1rX8mvMTFSRtg9+AorHJAJV0KqbA8brPMLzWMXW/gUlNZJ59OJsXlX1iztyo6LagzTNYMZhO3EWIe5NHVhQGfkxsNTOrG+GNx2AiDRXyaCq2rQLHQnNivrap1qcztTMxnHMoCai9u6hVOWFcPSiw0T2JpJrAhPJ3wTpdi8lWQwL6d/DLIe9L/Jw9Zme9AWBzFEFLrjdbUe6ez809jhBWpZZ4DlUK5oa2Vt70My02uD0oAEZ3J3gI8aUDhUbJxoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=16b8xemgFkcJqbY5LZiSU0Iy4MCUz8RvXcGIy7gYCL0=;
+ b=EsTBX0nO2eWmxSkSmSfRmMUZKgRoMMtlxUVuK5CSLIOlHzsh8GJ2i3duIpW9uhiRNjmCS52PmB5RAtRSLc09CG7/Z2spIyC52zNChRnbPGOBzwnW1iGrwYgm7YwjiBkFch+5SGkkTvLRiMwYLBg7KSdeBqaEhLV7ax/lhur3WJrFxbFbuLx0n8MviJlXi//O1wd/Jiru5oGGqUnNEv0k7CLnQIeSmpbAVfUvPs121zixadIQ3TOlDWGLnDfww9fNoHNaTluxmI4YS9VG9lxkQDe6EbYzEsA5tT28Hdl8D/9NnHk3qU6QNBcu5UGUP2bKmmCOIle7sJ+W8L+T6MN/vA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=16b8xemgFkcJqbY5LZiSU0Iy4MCUz8RvXcGIy7gYCL0=;
+ b=XfP8vZBCWyVBINr6gh+i25lyN+VsGKAwBqrWycnQqjf5WeHjxLLablqKOX48IFjC/cssRkSSglHer1ZO6QV6nUCyUrUxASiryX6rJqVdjvOWP01wQjc9GTkysZRGzvlZbRq8QB3FrohjFxclKm+w0mYC8gfoa4a2C/j2zuAOV9c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYWPR01MB8712.jpnprd01.prod.outlook.com (2603:1096:400:16b::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Tue, 21 Jul
+ 2026 23:22:08 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0245.009; Tue, 21 Jul 2026
+ 23:22:08 +0000
+Message-ID: <874ihs0vz3.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Neil Armstrong
+ <neil.armstrong@linaro.org>,
 	Takashi Iwai <tiwai@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-kernel@vger.kernel.org (open list),
-	llvm@lists.linux.dev (open list:CLANG/LLVM BUILD SUPPORT:Keyword:\b(?i:clang|llvm)\b)
-Subject: [PATCH] ASoC: fsl: mpc5200_dma: use platform helpers and devm cleanup
-Date: Tue, 21 Jul 2026 15:59:36 -0700
-Message-ID: <20260721225936.838299-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/2] ASoC: meson: meson-card: use priv instead of card on each functions
+In-Reply-To: <1jfr1ceqx5.fsf@starbuckisacylon.baylibre.com>
+References: <87v7a9i0o8.wl-kuninori.morimoto.gx@renesas.com>
+	<87se5di0n8.wl-kuninori.morimoto.gx@renesas.com>
+	<1jfr1ceqx5.fsf@starbuckisacylon.baylibre.com>
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 21 Jul 2026 23:22:08 +0000
+X-ClientProxiedBy: TYCP301CA0017.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:381::8) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYWPR01MB8712:EE_
+X-MS-Office365-Filtering-Correlation-Id: c964cfcd-e782-4039-7b3b-08dee77ee262
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|23010399003|7416014|1800799024|366016|11063799006|10067099003|56012099006|4143699003|38350700014|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	c9D5NgWMSz78K/6vtTqzyWtcEHKcksSmci7MOKDFkS6CnO/LLuP+/db/vX9DaZds0rya7t52srRyg/yjrVo8rna3staWtEg5l9lQEZ/YFDM+e0eUp0XHkBNXiouU/cStsIzXC+0y29OO8fFfmF6MUVrjdXuh/QAfh04fnF76d+RPlss+Y09UYnNtDgrEwhVXKYKRyKfl84HLZj2wuGUQsf83Ci4p2CJMsPyj3hjCAeDKcxKb/79rSbWBcsnb5ulfO86puVtz+fJXGizjcaMGvLSQ5zBpFJhRlwtFSY6xWnknakEDwkuFuKROi/71gJU6v38AIKwLSEOXm+QaVWXm3L0ASZDzIEw0/tyOSj9TAwym3A471EPbmU0SMC1rOul3kAFMW7Kq2CiOH0j45iTMJhDX7nribobYe48LR3J0bqya1Y2nlK9E9n8sWXau1xp19UVG/U+4TJ5eL1VAwSlvN4OFEKOcPJqdfupPwhfB+rzZucW6IO31ncRT4BT048wQAl2K75MPIdTjQxFYJngWGOnexky6Bi57oN1yJeHoqmls7hjc1Xf0P2Vw427IQubjSgSir5PkWuaIJp5dbPLa7NSLC4Esasz+BI01Vrx88YeI3i9x1zF2/29xbD29PN0aHWurrz9AWWsGnPCdC7ilQI65EGE70aok7Ss/YhQWeaKpV/KGwVgVLfpziswPThps0M9WXWA8XYwXF+mTxJsLA/WCkU9Pu7hKc7ZtS+SADao=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(7416014)(1800799024)(366016)(11063799006)(10067099003)(56012099006)(4143699003)(38350700014)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?A+8xmdoV3ymzOra+XloPM4pfqSO78icMrzTWqxSX4fEXVqTDuTe/DMwfXPIe?=
+ =?us-ascii?Q?OeEclgQ0Y5cQSzgdws+cijcvlnmJZ7i9oG2XISOnX6LEkZ4wBCq6sgnN4QV8?=
+ =?us-ascii?Q?lo3EK9jFhOhmacUKq2JqY5jSmRYmJE9VttUCOEuJjATQ8D5JE7puIzrgR5Za?=
+ =?us-ascii?Q?ewPbVlx9Ux/+Bqhvwme40PXby9UTuU8X2NUS0Y+69o8wmKN+5YP8BMzmp3qS?=
+ =?us-ascii?Q?srEHAp1OOu4o7gXKspTJtCGxh3og82/gTtLJjtZ5tAGjY7sIIyBRQb5Y+Slb?=
+ =?us-ascii?Q?dgkhxcQv/PaG5SCPJKML7QkwGF8/zoDoV9FG6o3AVJ2b1DYPLIipmQUhQOJ5?=
+ =?us-ascii?Q?Xy0ijfo4kRk4qCnYjn4XOyaqM2CwNr1hxBOprzbNRYvf8+sxFn9qTpoMkQUT?=
+ =?us-ascii?Q?wfRLbcSPhm38X3ocj6n0szIZf78tiCllG8sziMxWY5cI2se/xjrZUYZMLb1b?=
+ =?us-ascii?Q?v4roAGKG60ir5wZMmUBc/OgZJreg5sh67RsGDOWE+5uZnxSw8IW4JmlgVtBt?=
+ =?us-ascii?Q?kgLLbAM1EtZHNSDXUlxnY2YXpV4DIEDk/LByDVnKLM5Rfvy/H2ldYk5H1dNt?=
+ =?us-ascii?Q?8HNlQuqJk/vccLXhSzZ4hCEvxV7rIumNxRea0wc8536Qbzit+UfZxiW10lf1?=
+ =?us-ascii?Q?0Sna4eQIfOZJSDWZCx7tVElaKfDn9Amgd7/dxgnx61YDuOQYACZsNBz82AuW?=
+ =?us-ascii?Q?NBxQuhtxFYQW96Gauu+O1jcIHZb/pkgqgC3SgRvNHoP/ZNq81QRTsie7WQ+p?=
+ =?us-ascii?Q?WzOWDqnCSTKj/gCUQSGmRjDy9LdEYJqeyIhUlPiXXw6toPjgZqCObfZn+lA4?=
+ =?us-ascii?Q?qjzKBvyOXNBnPjaGQd3uB6C8s7X3ebwZrQQ++IpaO+RoeZbBb//nK15rZDca?=
+ =?us-ascii?Q?qj1lw+OuZZ+IXDVKyMzoMoUvXcgJA3B1Uf9L0nvCYPZxDaKUMguLlH2ql4uz?=
+ =?us-ascii?Q?/lA+ObfqHA4bUwkCh5BCZUXLC93et+cUfoAL5bXuJISYx5UzX2laubUlWBDS?=
+ =?us-ascii?Q?YJEVYLuudR5MvyX7FxNt1Ieb9A9S1cdTvtrh/yvobyIUaEWw650W/EVIvFb3?=
+ =?us-ascii?Q?EsIX0IpGmYPX3c8Ca3fwMw0yjZCtGB8PlI4fBtZKeqyilv79n7Gf3b/uznm0?=
+ =?us-ascii?Q?VCZB22OoGwtsSbr5t6DWmVwwbj5FnrqhNTx31BXQHXpdXiY4Ka/CPNAQxYXF?=
+ =?us-ascii?Q?YQsumWJ/AFJh/zhBDupVkYDWTQREKEqHndhhjNmea79xO72ZjQrpyuFIc49y?=
+ =?us-ascii?Q?p9Jd/n0vL7rUWr+EreYJ853TNTnM6GDw0trw5syeyPhEhFZcEau44k0AZ1BD?=
+ =?us-ascii?Q?dah3fOB7CQm3yaXauhssjKL5sillf3sBF1zCieb0SJGXmTYy2WGfwJ3kmm0k?=
+ =?us-ascii?Q?pJPz9xTra0uNJpWqxmwIszP8ssQYc1590i4wuHFwo3MgELb2/Bxp5nIyJBJP?=
+ =?us-ascii?Q?BwX9pHBko5fOu3sope3IabGmsUCv1Gnstw9xvk5y18nD0h61+pjr02p3xaAh?=
+ =?us-ascii?Q?qSwm7ThZB1vNl6WWxXx/8YNgizEMQfd+XUjvhFbhuBCy14pqmoYPB9lKTX+x?=
+ =?us-ascii?Q?/SBO5D6+ks8mfWPc5BVUB1rIKFDDulXXnrfXNx6Y4lzDHOQM9HzwrnQjwC/a?=
+ =?us-ascii?Q?13SbxwgrOQK8POqKAdFF7ddZZ/I2XHKvXn8zjOMme9132rlDh0yVpYHHGJdO?=
+ =?us-ascii?Q?Z1DfrKoe5y3o+jj24kpg1zdfqPUPfEls/AurjsMS0IKZTQ0kKWzPAgg2BeZb?=
+ =?us-ascii?Q?Yho6m6O2cbuDdzC1K6/uNZz7YqeHEb7hLxShAzZrk3gJ14ISgtfb?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c964cfcd-e782-4039-7b3b-08dee77ee262
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 23:22:08.5108
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A+gtT6mtgVxQcqElx/i3WkBq7qpLn3otxs27zT4ymF8eJoLI40mjtuXSOwxKTB0LGODqIlB3eTjffin1cFq8d7dUMNgZBvGKXSoqnTVjSmTaQid9/th8divCX1iRJDQn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8712
 
-Convert mpc5200_audio_dma_create() to the managed APIs. Replace the
-open-coded of_address_to_resource() + devm_ioremap() of the PSC registers
-with devm_platform_get_and_ioremap_resource(), and irq_of_parse_and_map()
-with platform_get_irq() (which returns a negative errno instead of 0).
-Switch the allocation to devm_kzalloc(), the three interrupt requests to
-devm_request_irq(), and drop the now-unneeded error-path cleanup and the
-manual teardown in mpc5200_audio_dma_destroy().
 
-The PSC register window is owned solely by this driver, so the new region
-request from devm_platform_get_and_ioremap_resource() cannot conflict
-with another claimant, and it is mapped exactly once (no double mapping).
-The resource pointer is still used (res->start) to compute the FIFO
-physical address.
+Hi Jerome
 
-No functional change; built for powerpc (allmodconfig + CONFIG_SND_SOC_MPC5200_DMA)
-with LLVM=1 and sound/soc/fsl/mpc5200_dma.o compiles cleanly.
+Thank you for your review
 
-Assisted-by: opencode:hy3-free
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> > We can get card via priv->card, use priv for function param.
+> > No functional change, but is preparation for Card capsuling.
+> 
+> The change is simple but it will make more complex to backport fix an
+> older kernel once this fix is applied. So again, getting more context to
+> understand what you are trying to accomplish and why it needs a standard
+> card variable name would help.
+
+Basically, after "Card capsuling" has done, we can't directly use card->xxx
+anymore. So we need to update all of such code.
+I would like to update such code as much as possible in advance.
+Otherwise, "Card capsuling" patch itself will be more complex and difficult
+to review.
+
+But looking at the code again, indeed it is some rather exaggerated changes.
+I think v2 can be more simple.
+
+
+About [1/2], I have noticed that there is meson_card_parse_of_optional(),
+but snd_soc_card_driver_of_parse_aux_devs() case didn't use it.
+I wondered if it was a mistake not to use it, even though it was the same
+pattern. Not a big-deal. If it is intentional, there is no problem.
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/soc/fsl/mpc5200_dma.c      | 58 ++++++++++----------------------
- sound/soc/fsl/mpc5200_psc_ac97.c |  4 +--
- sound/soc/fsl/mpc5200_psc_i2s.c  |  3 +-
- 3 files changed, 20 insertions(+), 45 deletions(-)
-
-diff --git a/sound/soc/fsl/mpc5200_dma.c b/sound/soc/fsl/mpc5200_dma.c
-index bfedb2dea0b3..8327fff3e1b5 100644
---- a/sound/soc/fsl/mpc5200_dma.c
-+++ b/sound/soc/fsl/mpc5200_dma.c
-@@ -314,35 +314,29 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- {
- 	phys_addr_t fifo;
- 	struct psc_dma *psc_dma;
--	struct resource res;
-+	struct resource *res;
- 	int size, irq, rc;
- 	const __be32 *prop;
- 	void __iomem *regs;
--	int ret;
-+
-+	regs = devm_platform_get_and_ioremap_resource(op, 0, &res);
-+	if (IS_ERR(regs))
-+		return PTR_ERR(regs);
- 
- 	/* Fetch the registers and IRQ of the PSC */
--	irq = irq_of_parse_and_map(op->dev.of_node, 0);
--	if (of_address_to_resource(op->dev.of_node, 0, &res)) {
--		dev_err(&op->dev, "Missing reg property\n");
--		return -ENODEV;
--	}
--	regs = devm_ioremap(&op->dev, res.start, resource_size(&res));
--	if (!regs) {
--		dev_err(&op->dev, "Could not map registers\n");
--		return -ENODEV;
--	}
-+	irq = platform_get_irq(op, 0);
-+	if (irq < 0)
-+		return irq;
- 
- 	/* Allocate and initialize the driver private data */
--	psc_dma = kzalloc_obj(*psc_dma);
-+	psc_dma = devm_kzalloc(&op->dev, sizeof(*psc_dma), GFP_KERNEL);
- 	if (!psc_dma)
- 		return -ENOMEM;
- 
- 	/* Get the PSC ID */
- 	prop = of_get_property(op->dev.of_node, "cell-index", &size);
--	if (!prop || size < sizeof *prop) {
--		ret = -ENODEV;
--		goto out_free;
--	}
-+	if (!prop || size < sizeof *prop)
-+		return -ENODEV;
- 
- 	spin_lock_init(&psc_dma->lock);
- 	mutex_init(&psc_dma->mutex);
-@@ -357,7 +351,7 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- 
- 	/* Find the address of the fifo data registers and setup the
- 	 * DMA tasks */
--	fifo = res.start + offsetof(struct mpc52xx_psc, buffer.buffer_32);
-+	fifo = res->start + offsetof(struct mpc52xx_psc, buffer.buffer_32);
- 	psc_dma->capture.bcom_task =
- 		bcom_psc_gen_bd_rx_init(psc_dma->id, 10, fifo, 512);
- 	psc_dma->playback.bcom_task =
-@@ -365,8 +359,7 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- 	if (!psc_dma->capture.bcom_task ||
- 	    !psc_dma->playback.bcom_task) {
- 		dev_err(&op->dev, "Could not allocate bestcomm tasks\n");
--		ret = -ENODEV;
--		goto out_free;
-+		return -ENODEV;
- 	}
- 
- 	/* Disable all interrupts and reset the PSC */
-@@ -399,16 +392,14 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- 	psc_dma->capture.irq =
- 		bcom_get_task_irq(psc_dma->capture.bcom_task);
- 
--	rc = request_irq(psc_dma->irq, &psc_dma_status_irq, IRQF_SHARED,
-+	rc = devm_request_irq(&op->dev, psc_dma->irq, &psc_dma_status_irq, IRQF_SHARED,
- 			 "psc-dma-status", psc_dma);
--	rc |= request_irq(psc_dma->capture.irq, &psc_dma_bcom_irq, IRQF_SHARED,
-+	rc |= devm_request_irq(&op->dev, psc_dma->capture.irq, &psc_dma_bcom_irq, IRQF_SHARED,
- 			  "psc-dma-capture", &psc_dma->capture);
--	rc |= request_irq(psc_dma->playback.irq, &psc_dma_bcom_irq, IRQF_SHARED,
-+	rc |= devm_request_irq(&op->dev, psc_dma->playback.irq, &psc_dma_bcom_irq, IRQF_SHARED,
- 			  "psc-dma-playback", &psc_dma->playback);
--	if (rc) {
--		ret = -ENODEV;
--		goto out_irq;
--	}
-+	if (rc)
-+		return -ENODEV;
- 
- 	/* Save what we've done so it can be found again later */
- 	dev_set_drvdata(&op->dev, psc_dma);
-@@ -416,13 +407,6 @@ int mpc5200_audio_dma_create(struct platform_device *op)
- 	/* Tell the ASoC OF helpers about it */
- 	return devm_snd_soc_register_component(&op->dev,
- 					&mpc5200_audio_dma_component, NULL, 0);
--out_irq:
--	free_irq(psc_dma->irq, psc_dma);
--	free_irq(psc_dma->capture.irq, &psc_dma->capture);
--	free_irq(psc_dma->playback.irq, &psc_dma->playback);
--out_free:
--	kfree(psc_dma);
--	return ret;
- }
- EXPORT_SYMBOL_GPL(mpc5200_audio_dma_create);
- 
-@@ -435,12 +419,6 @@ int mpc5200_audio_dma_destroy(struct platform_device *op)
- 	bcom_gen_bd_rx_release(psc_dma->capture.bcom_task);
- 	bcom_gen_bd_tx_release(psc_dma->playback.bcom_task);
- 
--	/* Release irqs */
--	free_irq(psc_dma->irq, psc_dma);
--	free_irq(psc_dma->capture.irq, &psc_dma->capture);
--	free_irq(psc_dma->playback.irq, &psc_dma->playback);
--
--	kfree(psc_dma);
- 	dev_set_drvdata(&op->dev, NULL);
- 
- 	return 0;
-diff --git a/sound/soc/fsl/mpc5200_psc_ac97.c b/sound/soc/fsl/mpc5200_psc_ac97.c
-index 2aefd6414ace..ccd8bda05860 100644
---- a/sound/soc/fsl/mpc5200_psc_ac97.c
-+++ b/sound/soc/fsl/mpc5200_psc_ac97.c
-@@ -276,7 +276,7 @@ static int psc_ac97_of_probe(struct platform_device *op)
- 		return rc;
- 	}
- 
--	rc = snd_soc_register_component(&op->dev, &psc_ac97_component,
-+	rc = devm_snd_soc_register_component(&op->dev, &psc_ac97_component,
- 					psc_ac97_dai, ARRAY_SIZE(psc_ac97_dai));
- 	if (rc != 0) {
- 		dev_err(&op->dev, "Failed to register DAI\n");
-@@ -302,8 +302,6 @@ static int psc_ac97_of_probe(struct platform_device *op)
- static void psc_ac97_of_remove(struct platform_device *op)
- {
- 	mpc5200_audio_dma_destroy(op);
--	snd_soc_unregister_component(&op->dev);
--	snd_soc_set_ac97_ops(NULL);
- }
- 
- /* Match table for of_platform binding */
-diff --git a/sound/soc/fsl/mpc5200_psc_i2s.c b/sound/soc/fsl/mpc5200_psc_i2s.c
-index 7831136f4f12..55a12be6ad18 100644
---- a/sound/soc/fsl/mpc5200_psc_i2s.c
-+++ b/sound/soc/fsl/mpc5200_psc_i2s.c
-@@ -166,7 +166,7 @@ static int psc_i2s_of_probe(struct platform_device *op)
- 	if (rc != 0)
- 		return rc;
- 
--	rc = snd_soc_register_component(&op->dev, &psc_i2s_component,
-+	rc = devm_snd_soc_register_component(&op->dev, &psc_i2s_component,
- 					psc_i2s_dai, ARRAY_SIZE(psc_i2s_dai));
- 	if (rc != 0) {
- 		pr_err("Failed to register DAI\n");
-@@ -213,7 +213,6 @@ static int psc_i2s_of_probe(struct platform_device *op)
- static void psc_i2s_of_remove(struct platform_device *op)
- {
- 	mpc5200_audio_dma_destroy(op);
--	snd_soc_unregister_component(&op->dev);
- }
- 
- /* Match table for of_platform binding */
--- 
-2.55.0
-
+Kuninori Morimoto
