@@ -1,233 +1,256 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AACB471431;
-	Tue, 21 Jul 2026 20:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784664539; cv=pass; b=cDhf8+tneloiakgbhLbCXJ9pqwFbqBVs3VtntwvU052tLFiloi6XAUiQnNESs5uYAgICxyeKCYob+qE1pfmveCsQoPurmIBHkiU4wN6Vd5BNNyRqM3TLJnVSZoFIzDWMI8UQpgoynqSV8mPMC+fk5FZiNWbdXRcsA/m4KGiNU6E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784664539; c=relaxed/simple;
-	bh=mNWbMthKmMW63th/pfQ2qoUR883sKSX1x7UdcTAZgYg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BI/uLGt4MQtyxRr7fb5PdbrvqIzhd/zs//jRxc2l2bdNt4clw4yKrpLcqRr42JQE6FkElxqgBBnxoblvRWighW/H3TybXegCkg8fKuItND5uB+hGNjLquhe7PDCGlGnop2q31ZKUIm/IVqFjPYvDusFo0u5RSApUlBHwLsUzPdI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=ZIoLZcbC; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AB1347BC6
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 22:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784674455; cv=none; b=PP2oWmpxQMY3v7gfmVZSkqMEMCsPEJcl8iWi7w/AVRgIsxzPkIToqSsQoeZFuvET04Nmgi6z192KftEZ0ptLrMQ9iWuTDeRJOZTdXvh9U6M8P/G59cKiqRYjd5YPCmODPKl3EWCjlbI0//veXX5PGQsPPVMYbHE+B0MbGB7eHtc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784674455; c=relaxed/simple;
+	bh=MBjhWcgOvvehp0elF3oz48EUBUyyETA5XSihwakMXr8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A7i7MFFdKD99NS9iRuj8jue2/1vC8lLxoExie8adS/bImfTFYSg9deTIjdF8Whp5L5awDyjpioXqJLTA1lodgz7tpTANnIzK5HIdZxxNvdoHX1jdFtXq1TtfpfdjClca30HAyHA2LZ72eFt6Msw4THqzDJSXm6XrtE/Mq2xfLHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K2t0PWMR; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="ZIoLZcbC"
-ARC-Seal: i=1; a=rsa-sha256; t=1784664513; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Xy48KQ0mMGbTfoOLAAlAqAutb66Xa9oYZ2WZZTv7KRn8zxCghiSp602Cu8fkWBJIRS/h4cUfHQA2ZpbjMtSH0KvWzYmF8lUlYs+ObeSsmGLG7z4NKjzH5IvqcnQfh58qq7JXvKQB+ZhqJc6zypedjcfUUQlKiGv1XMsU7LO3yL4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784664513; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=28n+EFe+6p+gax4GYXdCTcLZXvB/wD3zfATsjeRdS8E=; 
-	b=mTSTRfyjSApfqAMNBZFZc5hH3tsd+UBCTy4m4aqtahoSCmfBlYqOo8pYsbURblqHWXV/Z0FvqwhcLbbO5PMx9vDTdAsHlETr854RC23BIgaDIdXfRIQROl4Ihy7zzaBEmnW4mnX7KGoZR1Hhe2lLEWbeDIbOvdtLn7DrhdQFALI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
-	dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784664513;
-	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=28n+EFe+6p+gax4GYXdCTcLZXvB/wD3zfATsjeRdS8E=;
-	b=ZIoLZcbCEaG1eWFx9JzIXKiEZAjA+tKNIBGqAOPEWGy0+TbDnjxeQLrbS8eBIeQv
-	bwWJz+ovoG5SrX1qTzaBIwNmSY2pMVJ0pi36qQe/nEbTxam9RI2bvZqqE/kuKtWJyLG
-	YOCrAvLgQ3ShyH/nnBLwWBNGQtqAXZ25UujpS18M=
-Received: by mx.zohomail.com with SMTPS id 1784664510931327.88888428224595;
-	Tue, 21 Jul 2026 13:08:30 -0700 (PDT)
-Message-ID: <55cecbcf049d3e95d3a6d0cd33004fbf6c7d01e1.camel@collabora.com>
-Subject: Re: [PATCH] ASoC: cs35l41: Restore register state after system sleep
-From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
-To: "Rhodes, David" <drhodes@opensource.cirrus.com>, Stefan Binding	
- <sbinding@opensource.cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,  Jaroslav Kysela	
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-Date: Tue, 21 Jul 2026 17:08:26 -0300
-In-Reply-To: <a824dfcc-71cf-4ac9-b17c-563ba857cc83@opensource.cirrus.com>
-References: <20260615-cs35l41-s4-support-v1-1-f5a21e35dd9e@collabora.com>
-	 <adcf487e-a6c1-4439-b986-c421e206d6fe@opensource.cirrus.com>
-	 <a824dfcc-71cf-4ac9-b17c-563ba857cc83@opensource.cirrus.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-10 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K2t0PWMR"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so798499a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 15:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784674453; x=1785279253; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QGYc1TdXcvIKmo54F2N01YiaD23wedJvo9tZPTjUvCE=;
+        b=K2t0PWMR6L+fOu0ZuIhGdfO6mHm7GdKykI7UJhPQLWDNVDl9SDh9vEvJEgeGrx6YDm
+         WWIMiCNPyBxzniZJ0WGFiWv/Fk6XY6MKvZVqyW3DEuTZdYVhsOoNupaZT6HePq+oDCSN
+         /3+o6E4+g7PDtQRfggoFvXiCfSOUJjG5jD/GsmAhHhTzU0WiBIkfIpXzHkaWePK7vg6C
+         0KAoPF1djIvCo9VxJSOBmNJ5kUa6QhCebvMuCLn5qROCYEZlLgzykvJebbKsidLObY4S
+         GouEDeJXUxcMC6cB8751wtN2bOw8Q6aM0zSdGvCzY3lFUJ5kn8vPI9a432V8sr6okUif
+         01Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784674453; x=1785279253;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QGYc1TdXcvIKmo54F2N01YiaD23wedJvo9tZPTjUvCE=;
+        b=lI1tt8Nd1WYfSqPWnty2OsERXDYFnOlLUsCuGZC61jkvkvAy30Fp8kI4obmhCLO+ez
+         ugLfBuaj6rwyKoczuaQW0QXOMwi7V1GjP+X3lGRwH4V/RPmnhH5bCgnESD/kr9l7Qdui
+         lESgxrkcAs5ThsKefzD33SdR1uCk/Fs88z/Zsr/TLtwxWR7LR7x79hPKj/GRNRMQiKBG
+         4bvD1taSonlV+6n1s9AJEC0Le5FV0wF41MKE/K2j1+8MG8+rPVKeUYDcjgTd94isXhYg
+         V4OzpKYXrttFm8mlEPuJXoeCWMh2sEwCjI+/pl5QG8sEoU/AFlaUP4T0pbgWINAZnnRf
+         o+OA==
+X-Gm-Message-State: AOJu0YxQpm0gxqbAOGZVVhY8CtUZRE+stO0GnKdMIYuLkkjP8wbKe0Cc
+	FFrLPS3/wZParU/JWwt4JE2c4EFhESxVwu1y8b4/ryEPIGvoqx7Dw1LnFFvXwQ==
+X-Gm-Gg: AR+sD11iGP0BD8LZ/FfRZ62cVhSWuOdP8xssazPHoBVVKzqNd3G7Wof33TE9rSvdbI8
+	caWIyuPXnQuhngbelDBX8wV62I3FsdHMtB7hYPaEFXU0aH6YX26Z7MAQLSpjceWTywHM6iL972K
+	dSLXwHaMlq6CoBCY3Dih5aszhS7y2kkbhxZkC+58yOsU8kvRhRnnl3AbUVbuL4obnNOHLz3/Ia+
+	yzPK8jJJ5ahc+8/c1dXnmrv1yANdyDmuRzMVdOKOy7wcoq5LSaqfJFg1yJ02dIN10GpVLFQ9OPd
+	ZOxmNdLfRvhuUmBtA0TF8DNUfSwCML5BigxpPH1NlN++J5TQljOZSJUMd+aMqhe78vJh/ZhYari
+	uJldNkDsmY7ZwZprsTZjX8PjOm4+ysljmUgfbiMBqQj2fNC889LaetOyvAWY0uC2iJUiLTC4gbU
+	Ji978AgIYqQi1E+0QzYzV+AKQemV274KZeXP3EO5Z3QH+Ck2Kb1N04CGZC1R1aI+abmcucmixeC
+	wLcBQl+VrFKAihkeQaOFDINmGSPAjtr+WtoQZpvZnn3JfusGIefhUk=
+X-Received: by 2002:a05:6a21:7008:b0:3b4:8ba9:4d8e with SMTP id adf61e73a8af0-3c3ad7a3d10mr23380821637.23.1784674453530;
+        Tue, 21 Jul 2026 15:54:13 -0700 (PDT)
+Received: from ryzen.lan ([2601:644:8000:7a86::e35])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbb8f1a884esm199994a12.23.2026.07.21.15.54.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 15:54:12 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Microchip (AT91) SoC support),
+	linux-kernel@vger.kernel.org (open list),
+	llvm@lists.linux.dev (open list:CLANG/LLVM BUILD SUPPORT:Keyword:\b(?i:clang|llvm)\b)
+Subject: [PATCH] ALSA: atmel: ac97c: use platform helpers and devm cleanup
+Date: Tue, 21 Jul 2026 15:54:11 -0700
+Message-ID: <20260721225411.815553-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2026-06-17 at 12:40 -0500, Rhodes, David wrote:
-> On 6/16/26 11:31 AM, Stefan Binding wrote:
-> > Hi,
-> >=20
-> > I have some concerns about this patch.
-> >=20
-> > This driver is used for more than just the Steam Deck, so we would
-> > need to ensure that this patch doesn't break those systems.
-> > There are some potential complexities around cs35l41 with respect
-> > to Boost and DSP enablement that need careful thought when
-> > supporting system sleep.
-> >=20
-> > The HDA equivalent driver for cs35l41 does have support for system
-> > sleep, but this driver works very differently.
-> >=20
-> > I recommend reaching out to David Rhodes <david.rhodes@cirrus.com>
-> > for more information on the ASoC driver for CS35L41.
-> > Please also cc patches@opensource.cirrus.com.
-> >=20
-> > Thanks,
-> >=20
-> > Stefan
-> >=20
-> > On 15/06/2026 15:54, N=C3=ADcolas F. R. A. Prado wrote:
-> > > Currently, on the Steam Deck LCD when the system goes into
-> > > hibernation
-> > > and resumes back, the speakers are silent when playing with:
-> > >=20
-> > > =C2=A0=C2=A0 aplay -D plughw:acp5x,1 /usr/share/sounds/alsa/Front_Lef=
-t.wav
-> > >=20
-> > > A crude workaround was to, after resuming the system, bypassing
-> > > the
-> > > regmap cache on the cs35l41 devices, before playing:
-> > >=20
-> > > =C2=A0=C2=A0 echo 1 > /sys/kernel/debug/regmap/spi-VLV1776\:00/cache_=
-bypass
-> > > =C2=A0=C2=A0 echo 1 > /sys/kernel/debug/regmap/spi-VLV1776\:01/cache_=
-bypass
-> > >=20
-> > > That indicated that the hardware registers had gone out of sync
-> > > with
-> > > the regmap cache due to the power down in system hibernation.
-> > >=20
-> > > Fix the issue by, before system sleep, marking the regcache as
-> > > cache
-> > > only, and after system sleep, resetting the hardware and
-> > > restoring the
-> > > hardware registers from the regcache.
-> > >=20
-> > > This gets the sound working on the Steam Deck LCD after resume
-> > > from S4.
-> > >=20
-> > > While the issue was only observed on S4 on this platform, the
-> > > callbacks
-> > > for suspend/resume are also set in the same way to account for
-> > > platforms
-> > > that might power down the chip on S3 as well.
-> > >=20
-> > > Note that this change does not take care of restoring the DSP
-> > > state,
-> > > since the affected platform does not use the DSP and it couldn't
-> > > be
-> > > tested, so it is only shut down on resume so it can be
-> > > reinitialized in
-> > > a future DSP preload event.
-> > >=20
-> > > Assisted-by: Copilot:claude-sonnet-4.6
-> > > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
->=20
-> Hi Nicholas,
->=20
-> I share Stefan's concerns about this patch affecting other devices. I
-> also wonder if there is a less crude workaround for your system's
-> behavior.
->=20
-> The existing driver uses runtime_suspend/runtime_resume to enter and=20
-> exit a low power 'hibernation' mode=20
-> (wm_adsp_hibernate/cs35l41_enter_hibernate). In this mode the part
-> will=20
-> lose some configuration so the regmap is put into cache_only for the=20
-> duration of the sleep and synced when waking up.
->=20
-> Are you sure the device is not just missing a runtime_resume after
-> the=20
-> system is in S4? This whole sequence of sys operations should only be
-> needed if the amp is completely losing power.
+Convert atmel_ac97c_probe() to the managed APIs. Replace the open-coded
+platform_get_resource() + ioremap() with devm_platform_ioremap_resource(),
+which requests and maps the AC97C register window in one call. Switch the
+clock to devm_clk_get_enabled(), the card to snd_devm_card_new(), and the
+interrupt to devm_request_irq(). The now-unnecessary error-path cleanup
+and the manual teardown in atmel_ac97c_remove() are dropped, since devm
+handles them.
 
-Hi David, Stefan,
+platform_get_irq() was already used; tighten its error check to irq < 0.
 
-The current PM runtime logic is to runtime-resume the device before
-carrying out the system PM callbacks, and only allow runtime-suspend
-after the system has resumed back. So during S4 the device is runtime-
-resumed.
+Both resource and IRQ lookups are equivalent for a platform-backed
+device. The AC97C register window is owned solely by this driver, so the
+new region request cannot conflict with another claimant, and it is
+mapped exactly once (no double mapping).
 
-Also, since on my system the DSP is not used, the early return in the
-runtime suspend/resume `if (!cs35l41->dsp.preloaded || !cs35l41-
->dsp.cs_dsp.running)` means that the runtime suspend/resume callbacks
-are no-ops on my system.
+No functional change; built for ARM (allmodconfig + SND_ATMEL_AC97C)
+with LLVM=1 and sound/atmel/ac97c.o compiles cleanly.
 
-Nonetheless, I tried simply marking the regcache dirty and syncing it
-upon system resume, mimicking the runtime suspend/resume, as follows:
+Assisted-by: opencode:hy3-free
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ sound/atmel/ac97c.c | 67 ++++++++++++---------------------------------
+ 1 file changed, 17 insertions(+), 50 deletions(-)
 
-diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
-index 5001a546a3e7..5933d61753d8 100644
---- a/sound/soc/codecs/cs35l41.c
-+++ b/sound/soc/codecs/cs35l41.c
-@@ -1445,6 +1445,9 @@ static int cs35l41_sys_suspend(struct device
-*dev)
- {
-        struct cs35l41_private *cs35l41 =3D dev_get_drvdata(dev);
-=20
-+       regcache_cache_only(cs35l41->regmap, true);
-+       regcache_mark_dirty(cs35l41->regmap);
+diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
+index e394205f469b..234549e17351 100644
+--- a/sound/atmel/ac97c.c
++++ b/sound/atmel/ac97c.c
+@@ -693,7 +693,7 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 	struct device			*dev = &pdev->dev;
+ 	struct snd_card			*card;
+ 	struct atmel_ac97c		*chip;
+-	struct resource			*regs;
++	void __iomem			*regs;
+ 	struct clk			*pclk;
+ 	static const struct snd_ac97_bus_ops	ops = {
+ 		.write	= atmel_ac97c_write,
+@@ -702,42 +702,34 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 	int				retval;
+ 	int				irq;
+ 
+-	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!regs) {
+-		dev_dbg(&pdev->dev, "no memory resource\n");
+-		return -ENXIO;
+-	}
++	regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(regs))
++		return PTR_ERR(regs);
+ 
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0) {
+-		dev_dbg(&pdev->dev, "could not get irq: %d\n", irq);
++	if (irq < 0)
+ 		return irq;
+-	}
+ 
+-	pclk = clk_get(&pdev->dev, "ac97_clk");
++	pclk = devm_clk_get_enabled(&pdev->dev, "ac97_clk");
+ 	if (IS_ERR(pclk)) {
+ 		dev_dbg(&pdev->dev, "no peripheral clock\n");
+ 		return PTR_ERR(pclk);
+ 	}
+-	retval = clk_prepare_enable(pclk);
+-	if (retval)
+-		goto err_prepare_enable;
+ 
+-	retval = snd_card_new(&pdev->dev, SNDRV_DEFAULT_IDX1,
++	retval = snd_devm_card_new(&pdev->dev, SNDRV_DEFAULT_IDX1,
+ 			      SNDRV_DEFAULT_STR1, THIS_MODULE,
+ 			      sizeof(struct atmel_ac97c), &card);
+ 	if (retval) {
+ 		dev_dbg(&pdev->dev, "could not create sound card device\n");
+-		goto err_snd_card_new;
++		return retval;
+ 	}
+ 
+ 	chip = get_chip(card);
+ 
+-	retval = request_irq(irq, atmel_ac97c_interrupt, 0, "AC97C", chip);
+-	if (retval) {
+-		dev_dbg(&pdev->dev, "unable to request irq %d\n", irq);
+-		goto err_request_irq;
+-	}
++	retval = devm_request_irq(&pdev->dev, irq, atmel_ac97c_interrupt, 0, "AC97C", chip);
++	if (retval)
++		return retval;
 +
-        dev_dbg(cs35l41->dev, "System suspend, disabling IRQ\n");
-        disable_irq(cs35l41->irq);
-=20
-@@ -1474,10 +1477,23 @@ static int cs35l41_sys_resume_noirq(struct
-device *dev)
- static int cs35l41_sys_resume(struct device *dev)
- {
-        struct cs35l41_private *cs35l41 =3D dev_get_drvdata(dev);
-+       int ret;
-=20
-        dev_dbg(cs35l41->dev, "System resume, reenabling IRQ\n");
-        enable_irq(cs35l41->irq);
-=20
-+       regcache_cache_only(cs35l41->regmap, false);
-+
-+       /* Test key needs to be unlocked to allow the OTP settings to
-re-apply */
-+       cs35l41_test_key_unlock(cs35l41->dev, cs35l41->regmap);
-+       ret =3D regcache_sync(cs35l41->regmap);
-+       cs35l41_test_key_lock(cs35l41->dev, cs35l41->regmap);
-+       if (ret) {
-+               dev_err(cs35l41->dev, "Failed to restore register
-cache: %d\n", ret);
-+               return ret;
-+       }
-+       cs35l41_init_boost(cs35l41->dev, cs35l41->regmap, &cs35l41-
->hw_cfg);
-+
-        return 0;
+ 	chip->irq = irq;
+ 
+ 	spin_lock_init(&chip->lock);
+@@ -749,13 +741,7 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 	chip->card = card;
+ 	chip->pclk = pclk;
+ 	chip->pdev = pdev;
+-	chip->regs = ioremap(regs->start, resource_size(regs));
+-
+-	if (!chip->regs) {
+-		dev_dbg(&pdev->dev, "could not remap register memory\n");
+-		retval = -ENOMEM;
+-		goto err_ioremap;
+-	}
++	chip->regs = regs;
+ 
+ 	chip->reset_pin = devm_gpiod_get_index(dev, "ac97", 2, GPIOD_OUT_HIGH);
+ 	if (IS_ERR(chip->reset_pin))
+@@ -770,25 +756,25 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 	retval = snd_ac97_bus(card, 0, &ops, chip, &chip->ac97_bus);
+ 	if (retval) {
+ 		dev_dbg(&pdev->dev, "could not register on ac97 bus\n");
+-		goto err_ac97_bus;
++		return retval;
+ 	}
+ 
+ 	retval = atmel_ac97c_mixer_new(chip);
+ 	if (retval) {
+ 		dev_dbg(&pdev->dev, "could not register ac97 mixer\n");
+-		goto err_ac97_bus;
++		return retval;
+ 	}
+ 
+ 	retval = atmel_ac97c_pcm_new(chip);
+ 	if (retval) {
+ 		dev_dbg(&pdev->dev, "could not register ac97 pcm device\n");
+-		goto err_ac97_bus;
++		return retval;
+ 	}
+ 
+ 	retval = snd_card_register(card);
+ 	if (retval) {
+ 		dev_dbg(&pdev->dev, "could not register sound card\n");
+-		goto err_ac97_bus;
++		return retval;
+ 	}
+ 
+ 	platform_set_drvdata(pdev, card);
+@@ -797,18 +783,6 @@ static int atmel_ac97c_probe(struct platform_device *pdev)
+ 			chip->regs, irq);
+ 
+ 	return 0;
+-
+-err_ac97_bus:
+-	iounmap(chip->regs);
+-err_ioremap:
+-	free_irq(irq, chip);
+-err_request_irq:
+-	snd_card_free(card);
+-err_snd_card_new:
+-	clk_disable_unprepare(pclk);
+-err_prepare_enable:
+-	clk_put(pclk);
+-	return retval;
  }
+ 
+ static int atmel_ac97c_suspend(struct device *pdev)
+@@ -839,13 +813,6 @@ static void atmel_ac97c_remove(struct platform_device *pdev)
+ 	ac97c_writel(chip, CAMR, 0);
+ 	ac97c_writel(chip, COMR, 0);
+ 	ac97c_writel(chip, MR,   0);
+-
+-	clk_disable_unprepare(chip->pclk);
+-	clk_put(chip->pclk);
+-	iounmap(chip->regs);
+-	free_irq(chip->irq, chip);
+-
+-	snd_card_free(card);
+ }
+ 
+ static struct platform_driver atmel_ac97c_driver = {
+-- 
+2.55.0
 
-
-With just this change, the first playback after resume from S4 works,
-but I see in dmesg:
-
-[  133.019606] cs35l41 spi-VLV1776:00: Enable(0) failed: -110
-[  133.019896] cs35l41 spi-VLV1776:00: ASoC: POST_PMD: Left Main AMP
-event failed: -110
-[  133.124515] cs35l41 spi-VLV1776:01: Enable(0) failed: -110
-[  133.124831] cs35l41 spi-VLV1776:01: ASoC: POST_PMD: Right Main AMP
-event failed: -110
-
-Which points to CS35L41_IRQ1_STATUS1 reads timing out. Subsequent
-attempts to playback sound are completely silent and the same error is
-printed.
-
-Given that my patch that fully reinitializes the hardware works, while
-this doesn't, I'm inclined to believe that the chip loses power during
-S4 indeed, at which point just restoring the register state is no
-longer enough. But perhaps you could shed more light into this since
-you're much more familiar with this hardware than I am.
-
-Thanks,
-N=C3=ADcolas
