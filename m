@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D338F41DE0D;
-	Tue, 21 Jul 2026 06:48:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9E442A785;
+	Tue, 21 Jul 2026 06:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784616486; cv=none; b=WjsW58urTqkSgIIMfkUa+FO5lbbHpPfqL2y8PaR/0zQuihCUx3nrICNUcDgoQflPByei2mdfQJjUlGlH1uYA50qhfujgu8IxRiL5dbF4RotoMEvJ6Q5BqrdWDhmiQjezUoibhLQFRfomP1X25lhNTyaAw0Obms87zVUOrzibkdg=
+	t=1784617135; cv=none; b=ZCsAaf+y0zdesqfCXt8mrc4yoZ5JxgnbtVkB9Qoo06XPQ8Cl1zVq0kRKHS0kq90wNbU5Eq5s8XGr6EifUEgND9bpEo4INSx4GlvB7HBCOdb+zLrcXmndNpqfZ+AlxM3HYpmjXnF6tQ4l3AuQ5LigUDJhoJgYT491I6yKhlqaxaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784616486; c=relaxed/simple;
-	bh=oZqUSki0lSiZk5rsUXpeGL6vruLF2oPt3Y+MRxOQ5f4=;
+	s=arc-20240116; t=1784617135; c=relaxed/simple;
+	bh=NxGcrdua1B4X5mFuu5yUz1UuHhvXUStIBtQsSc85lL4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HG55/Rca9wKCYzuoVSLKYkU3YDGOSFQcNjusUF0AUlDokUsMrQgLgwKbbSLzmlQ4ooF/1GLOSXmVb89ujZlWpllL3wyh1tOBG8hNe4sXS1aYBloTqR/sCL4lReBWosmdM+9Ah/V4MuOjKbxEGBk8Ct41xPrAPn4dFb6Knmqiz0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UTUF7xPQ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PGLe1mGSZ1cJGbxSlhfUa7/AB0NHwa5rsIuhbMILAOzHrT64uqfEHZ0rJ0/hcXmRnxiuHqDV+lR9/Sjd4Jl6q9hQJNgMMsmKfyslwIoA0xZe+b93Mvag92pucsqxQ/sLjsh0VE3fqma4VjBN0r/A11qvFWletgcB2b2hRcSFUhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGIUV1xz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UTUF7xPQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726941F000E9;
-	Tue, 21 Jul 2026 06:48:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGIUV1xz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB6681F000E9;
+	Tue, 21 Jul 2026 06:58:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784616485;
-	bh=/JUMLqzj6fOHdfOyj5iXlmKfbuFHeUYbYWgYpKr+ev8=;
+	s=k20260515; t=1784617134;
+	bh=xeRIRGrfNWUX8GWj59TVY74odo1jPftUSWcC7afb/6Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UTUF7xPQxqNfqYRwQIKxSWDIGYDII2y86dWle/aDT2XnYiYWI8Z50Fs4aVH2izXCn
-	 gYh5K2M40eyycnv1NWmlxBbppf8DURPzUfN6kbK/TlvoXR4bMT3K5OEiZ7VCHurGck
-	 nrERz4A5xNwh/0lx/I/njYsZ1OdMH4feZuesemPHGYq0nYda2bORN3OwxFlXfjXn8j
-	 oD6DKYf+vkVSBvIeMLbMnkXOf0k8U9fEhirMTvxeABTQuy3+/2+utf607gB2ubXYbu
-	 Bvbx9aie5lIHytlgK7BmE4E3jDgKXtA9kvWkqZop/GQEp7rj5N7Ig+osNtzC5Y6bey
-	 cJyHUA0kq4klw==
-Date: Tue, 21 Jul 2026 08:48:01 +0200
+	b=eGIUV1xz8LN+bzI8P/MvLoaec4JeSMBj6sTUMSvkcReJSC0ZSQytWebPAPQbR1cz1
+	 GsOVOzCKc4L2uEIixnH7WeE9p4G21SaWVQASE6e9EzNd9KrNmVArYVmoAzx11o4tJu
+	 Yp4ZBSmfBQ9/SfQhYpwkn1+cXPpwdpHkuVh3mjByD6jJfo+EdoXNBNrKVrQ99b93K8
+	 azqRZAT7halR1GVxQxrDGJTNd9G/1NqBWojuek/U1PFO6NK6UTPIaYHPk7yYBmC525
+	 pglwPgNEyS9524N/V7YExKCyddBaY42brORnDYXqN7AE5PPH+MRFKxv0o6z5f9Qy2C
+	 pxbpGhT2Guzaw==
+Date: Tue, 21 Jul 2026 08:58:51 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v6 1/3] ASoC: dt-bindings: qcom,q6apm-lpass-dais:
- Document DAI subnode
-Message-ID: <20260721-fiery-sheep-of-piety-4fd04b@quoll>
-References: <20260720160226.1026440-1-mohammad.rafi.shaik@oss.qualcomm.com>
- <20260720160226.1026440-2-mohammad.rafi.shaik@oss.qualcomm.com>
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v4 1/4] ASoC: dt-bindings: qcom: add LPASS LPR vote clock
+ ID
+Message-ID: <20260721-proficient-witty-curassow-e203a6@quoll>
+References: <20260720130511.493295-1-prasad.kumpatla@oss.qualcomm.com>
+ <20260720130511.493295-2-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,44 +50,22 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260720160226.1026440-2-mohammad.rafi.shaik@oss.qualcomm.com>
+In-Reply-To: <20260720130511.493295-2-prasad.kumpatla@oss.qualcomm.com>
 
-On Mon, Jul 20, 2026 at 09:32:24PM +0530, Mohammad Rafi Shaik wrote:
-> +# Digital Audio Interfaces
-> +patternProperties:
-> +  '^dai@[0-9a-f]+$':
-> +    type: object
-> +    description:
-> +      Q6DSP Digital Audio Interfaces.
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +        description:
-> +          Digital Audio Interface ID
-> +
-> +      clocks:
-> +        minItems: 1
-> +        items:
-> +          - description: MI2S bit clock
-> +          - description: MI2S external bit clock
-> +          - description: MI2S master clock
-> +
-> +      clock-names:
-> +        minItems: 1
-> +        items:
-> +          - enum: [bclk, eclk, mclk]
-> +          - const: mclk
+On Mon, Jul 20, 2026 at 06:35:08PM +0530, Prasad Kumpatla wrote:
+> diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+> index 45850f2d4..ce5e8589d 100644
+> --- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+> +++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+> @@ -236,8 +236,8 @@
+>  #define LPASS_HW_AVTIMER_VOTE		101
+>  #define LPASS_HW_MACRO_VOTE		102
+>  #define LPASS_HW_DCODEC_VOTE		103
+> +#define LPASS_HW_LPR_VOTE		104
+>  
+> -#define Q6AFE_MAX_CLK_ID			104
 
-This does not match your clocks.
-
-I gave you exact syntax to use, then in previous version you used
-something else. So I reminded. Again you used something else.
-
-If you decide not to use it, sure, your right but YOU CANNOT come with
-clearly invalid code as a substitute.
-
-NAK
+That's a separate patch.
 
 Best regards,
 Krzysztof
