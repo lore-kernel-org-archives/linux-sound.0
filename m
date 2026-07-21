@@ -1,60 +1,58 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011064.outbound.protection.outlook.com [40.107.74.64])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011065.outbound.protection.outlook.com [52.101.125.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DAE3EFD22
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 01:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D043EFD2D
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 01:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784595614; cv=fail; b=FfUj9IKpzS9lVMEYC1FCEsuLB3MPaCjD1Eup6gFeHnS2wro679ZI2fmfZK53fm2xomUvVuNxlkXtBPm2MONixmQgXKgZrbjBCvmBx6JOye2f3NnsjGOCochgwvD1Em7xlfyOA9CBLBnI1IF8hraXd0Ej9C4dMwtMjFc0bh/nwgU=
+	t=1784595629; cv=fail; b=mojID//Da4usrGzv1+ws1l8G6DttbHDC6C5Xq3PE52DY4EfGbxcsFOwAKkyCIgq9rCaGQBQbYEGyQEO6JUyNd720h+J7vCM5OzLpJNgucPyO5qE84z5jk7wVjXzfAN10WDcYHCRaDgW1WiJpl7L/adnORDsGs+1VayjGvZiZ15k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784595614; c=relaxed/simple;
-	bh=3jwYQ3Q/yXOCMbtwIIZgWbeJqVolnuCJ4IioJfcopO4=;
+	s=arc-20240116; t=1784595629; c=relaxed/simple;
+	bh=Ke73rEoZ231xrGFVQMuPp0OPtBvAHT5/yRPLbSMA5RM=;
 	h=Message-ID:To:Cc:From:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=VRVn5BeARA5sBxeHbTJe+CA2hf/kueynunkj+m8jfi1fqnT/WgZ90rNa1sah1Xv9GaLvjMO0y6nniEycGIy6u+hxPiYjrV5vyQ+zILwFzf1y5B3LDIC6/Sn/jj4F1cnIIRH2guBTB6howcj8Nr3yRVA3PzTNLzycokXW/kS+5Cg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=N3YiPdwM; arc=fail smtp.client-ip=40.107.74.64
+	 Date:MIME-Version; b=P9G5kSCyeBqG7rVeVZbxLbVW/47zBXkmvRvCet6o/Cc5GPt3WXt8TsSkRggUv5U8i2sCC072k91sFPgZAZqF3znXG2YqKHySgpETJ5p5f6KPIscdh99rTHOZBgfme3hB2m8K9zLZSE5nWoTuhTsvRLPoCdaQuTJcWyjY94II4lI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=fKJfJFNL; arc=fail smtp.client-ip=52.101.125.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="N3YiPdwM"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="fKJfJFNL"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oQ5N9UUXiv9qnQKWtTsh02aHPcawkBVTQmky83VMgBa4KxxxHieAAHi+YQJ0VB5jvSylplwvryjR3/1E4pRIfMXkmRO//h9cSlQbvuHssXz027vN2UGMnQNx5BhnwiIMZdWXChQzRDyvIlJWnbSKGBEDMuU4oZLsNRgEJib7d44UX8gTDiRNj9+dqy8Df9j52v0ORIFZogpnP9DHa3MxvzCjIC1Pnb+a1yztGP8VXk7p8UYwrJKA73qzxC3FLQ+HL7o8cGMOBgti/Z2RDUGEujRCpBjfWHIg4pOAZeV+cWiegFDTBLPpKb6vHzJ4eBvgsUZUnHhXKhy65ntzo3pY4g==
+ b=v0fC5ousKQJp8kmSpkgUJwWWO8HfvtTwEo4b1TCvGYUupXmcR/b7YOM1CIXXgZwJFl5/6GfQtUw96rk+LSkhZWJyGrCYEwrXnccJ3CnDvMCa5R7D8OafO8VoSqFqn4Y2J3Jz2H8EveGxFftfQIBbdkNToZvpSlZokFA5LWmFRO36gxchJaGo8BE9/cvriIScF6b67vMJMCs+46JQRbsolVwI4CQbxNxIcLxHeiuBwcPATX7rmZjX/6BxVYsEp40rh7+bx6MrGjnslxCqHBApk+Qrj5rCxG6GV+oxu4Gk1BxNUNtfBv8PeFMHaTUNNu4XO749XqjkEEVTgiTI/gPhTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jsUry4kJYL424dyBpANyXoGKWcKV0Z9nSq88W0TByeQ=;
- b=haHoXi4LL4wTdfW17/fOVqWgBFDzOnUkZSdzsO+p3s48wSCytZDhVQUppINrCLMP0lFOdSUB0YshYYWEh+jGJjxRx9nmnngZPankNDvc6g/oBMfq4sJ3Is19Hp8QEKhiIUf8cMYwWT+NO7EWQbDtSmPO/6R1f8TOetVnor7tbUNIvpcevdcEtNbb4ugE6S9fGAPMeFAbGfwLozG+CN0hOpOTQFqu7ylNJIpRiqIB+cAiQYELy0lIaiEjPo0BgWjBjd3q55pBINt7u8+WDksT1ttnqgys0usTTVUK70ZYiJJE66ujq8E/EF41TeVssRYfyPs1dbfRf/6m68JMd3ClBQ==
+ bh=N58aP0s8yDnWFviY0sOhZnd1vxiappgvSpr87UHRRsI=;
+ b=qoY7zXrE8BQjjmmVWp3TU5I3QjhuogK+aOkcja+otxqf3OqsSAzcoqrN2gjnoef7R69TLEBLLgQ+KezLTmZKzh3CU7W9j2SYmyQoFGKDecwsxtKld6NYz2gpQKXGKhReNtYfSpSPABWPCpYayWzwrcZQr0nRnHTSHWL5244+4L1OuoT0L4Hb0g/JgcByvFNb7rupAnkrJfotA73vQZ+du+Wu/lAcFjceOyo4fYVSJm3s001oIBR3kItnZFLj6NQ2S5hYb8v7HV3LpM0Dc2cNNARNRN3gXK2AOn67FR/sYmD6/8wPLmqdLEj84JCN2T4wT8Vu7SJSi0FcI9K4IehJhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jsUry4kJYL424dyBpANyXoGKWcKV0Z9nSq88W0TByeQ=;
- b=N3YiPdwMZa9IRPTWd5idnXEW/swNcuqGdSLIBHUG7k61ZpS/2D8QGgHpq/ZnxJJhOzwz6pEhF012lsv/hZ198xciX1nO2CVQiOJL4kN2yXrGEP1DGNDtt+VkBPMd2CjoVUH3XUQNmHigvR/obTeQe0o1Ys0tlLLNHXVV8qbkw8U=
+ bh=N58aP0s8yDnWFviY0sOhZnd1vxiappgvSpr87UHRRsI=;
+ b=fKJfJFNLKEanP0PDiqw1neOwJkrVTMijL38GjO9Ew17OHS91snZEr735mJL8Btenhis52iLFHysmOm8lo2WPyQmuT5yFFrTA1exax+uRMpHiGQVop4qma0bazocyLLstJTAn6nH59+/xVhVqxxqtjYxpwxo/dginQwAR93pfbuo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
  by OSCPR01MB15382.jpnprd01.prod.outlook.com (2603:1096:604:3a6::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
- 2026 01:00:09 +0000
+ 2026 01:00:23 +0000
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0223.017; Tue, 21 Jul 2026
- 01:00:09 +0000
-Message-ID: <87y0f5jgx2.wl-kuninori.morimoto.gx@renesas.com>
-To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, =?ISO-8859-2?Q?=22Martin_Povi=B9er=22?=
- <povik+lin@cutebit.org>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
+ 01:00:23 +0000
+Message-ID: <87wlupjgwp.wl-kuninori.morimoto.gx@renesas.com>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v3 1/5] ASoC: apple: use .auto_selectable_formats
+Subject: [PATCH v3 2/5] ASoC: atmel: use .auto_selectable_formats
 In-Reply-To: <87zezljgxy.wl-kuninori.morimoto.gx@renesas.com>
 References: <87zezljgxy.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 21 Jul 2026 01:00:09 +0000
-X-ClientProxiedBy: TYCP286CA0268.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:455::13) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+Date: Tue, 21 Jul 2026 01:00:23 +0000
+X-ClientProxiedBy: TY4P301CA0064.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36a::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
  (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -64,99 +62,165 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSCPR01MB15382:EE_
-X-MS-Office365-Filtering-Correlation-Id: 251fc434-3258-4e58-14d6-08dee6c36980
+X-MS-Office365-Filtering-Correlation-Id: 2cda29ca-b112-4405-41a7-08dee6c3719d
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|23010399003|376014|52116014|1800799024|366016|11063799006|56012099006|10067099003|6133799003|22082099003|18002099003|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	yZnLunGddkuN+Va65b1d3ew6aYjox5Ny70imjSn41wvkPfW/2qznsLyKzi8aEc8wqtDwQZ2fNrB4dIqWiFfxFAdXz3e8gQey4T7KEMg8Ro1gT7ZFKUqq3P26sZJtZLkFMlP5rTxmDCdMj7Jn/KyYSYxGCFgRts7ZcKcGSMT99PuwzAIahPXCpbv7tzUGAHI80U803SIhHHR0iUQlUZUWS9y2Txe2kMPqSTWYT3LC7QeCptCtVl+JVbvRPdUQ27TZHzlVe/yRwoBMO7ZQjFD5YnQPOx4KAZs+jr7H+bBq6ZZfVExAeoVzHzaye1uIyzlyMGHGft4Pkt1pgJtUbekOI2NNbUKB7sMQWcwnoIF8WjsbY85KSgcv4UwHYtaSIv+GK5001/PnifBH54xUSvIudNn71pXi6hz3IMav0qTRQYo+2FXX2YSvzXVxIvr3vLQjq0fxB06byhv8iNAJjFz8g+2cWJk2E91MqoC5GIOPob/UZ1NXjsfHjGD/aRKH3e8/aRNShlUZDDrp/fd4F7gxjB/ytREUk/R4L/oN7KEf8AwdIyiZXUXip/6xC34IjhsX/6TCvnjLOgmGeaQtgU4UHqTdUmLyQI1pQ0teH7WDHILxWzdQZINclCuyjXoOC4gsj4U+Y0GBz3N24gqxYyqE0Q9Pj4h8VZZnEKyoalixrJiEHHED0/3TfvsYUsBSn8BkFo84b2EfIvSDWeUyEHdM3DDbZ13iPahFDOcy5thFRTM=
+	Ly6UAOCar8jjqgh4yqUBxFQUbdRHku5PXHufOM7UMrjoBTGh3sPJwDHe8tp1av5gQW9cThWM3hjrpXMUDS5WDXqakXlMNDwJbehpxqsZQpkcei/gwsZYwV9Z2qnc/nn9K8DvoKghSYtd0OvgXJDvIFpIynlkVdkMMcqUZTtcJWRRW/mvK2e0MG2XytbZG2k/msJJ0ni3HI2dvYu4vj1NCXf5WKK8UtV5EnbndjqGuKMQIUoBZEnM52nki93Zkk8tzcO2hllRo5xB5AXuWDjzcYCfVtKmIY+nPTvSVKlBLAT9F9GbHulnWdtqfaV+ezC2kklP62eqox2LGPOuFqMFLAehN4JaMx92aGh8b5gzmwlpwj1k1LuMjOhueiqn5f8Fc8Q2IxYTMArcO0tXH0Dw5WvXkMYvIL+btxbp3n7FWwQs8Dt77LtFBFXP9y/FyJAuajM0LADFF0WkVo3s4xwZgRGPMyR4WAqMVAqojfoWlBK1ATxWBvGQzaffihxLnuNF8buJTkaDWgXduvbm8SZ3O0prWM13IbP6dq5d1uauaDa5K0LQTqitdRSxkUnjgf8TXAZGCZ9kwW7J4j0pLMvlnqqUXIboHKhbLoi2CG6lZxxSWJSuzcloMNbOf9lfY8rqE8iGLrPJ4Es/T4aTWnsGMaRv1qAeeIaMRolkKjP+OQMQEGi5eJL6Rpo+YoX4hrGkCqqHuh9SAJVgsyUyZS88p7fF5f4U0i+p6cs8Ov7fmeg=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(1800799024)(366016)(11063799006)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?IzGFUXXF6rqr3A9lKt37hF32rP1fyO8Jr1ek0tpJbAEJxjliJ1sFxeUrcbge?=
- =?us-ascii?Q?dQQfIvDqiXt/nAljY391AikWdCW65+RDOTeIKhiVU1nI0awnezaj1gustsOk?=
- =?us-ascii?Q?2xpf7Brjhghn/dO4q6Wvtid+xKjAF78HqkaUGY3bnhazalUbPyqg6pvZfate?=
- =?us-ascii?Q?5aZkFh2jHvKINnowW1wJrceTAYO3NjdlW13ttc6/mbc1Usr1mWpEk9jjobHC?=
- =?us-ascii?Q?g3clonwDXyntzgYlGjdBdlcTfGau7E07gMDq5CzU8Xil15sR3byRdxKUO1Pc?=
- =?us-ascii?Q?znPi+FxQJ5C+9Q1ESbcQ/AuZhPUCTgogqwILBO/Qv3O9fB1GJJurC04HuhRx?=
- =?us-ascii?Q?5rZaVaOvplKCAjPFomNjzPSceMqO9XlbpAVdxM0X56iewywkLUHr8D/9eP1D?=
- =?us-ascii?Q?Bmp8+imJBOtQlZq4gw8fsTI7693ye+8yPep8v/W4+3FjGEjQ2aPLe/KbTdT8?=
- =?us-ascii?Q?HdiRdNo6AMfJz2WCZ5e+zcYSEwmLmENaE9yr62r34Eh1LPjbO+a4GudsSS+e?=
- =?us-ascii?Q?z5HaE0QqdsOt9Z1wAHFgVtPBCr71EBNXmc5V0IGv/PjhzGHuChdC0QvUC6l2?=
- =?us-ascii?Q?+vevRp9V3GP6UpRDwM4556tU7BkM9LUrfsxePVPHj98USxpmUbriaPlKyZat?=
- =?us-ascii?Q?Lyn+4tJInI8AGva7TsajLP3U96hVwGcDXa9DkusuQMA7Hxga5FE/dKQmXg5Q?=
- =?us-ascii?Q?V0T9hpmCrvJXQQHtqP6QliI9EhHrM6Vtk6pZ3WsGkYtZiIhplO0/kuy/JcMa?=
- =?us-ascii?Q?SktpIHfuifVdtaiyOar7rRl+IEovg0gX+F/Mrws+uh7nvLFmN/g4RsIfX3l4?=
- =?us-ascii?Q?m61qYZz1yGlNEU08G/j9rQLFP0ySfyGuotLzqVNBhpADj1ifIBhATd+0JSFA?=
- =?us-ascii?Q?Fb98oL1jv5ml+588UapmIthC2naICRvXtZYmH7bS2duaDp21IwEzDsaC5B3f?=
- =?us-ascii?Q?/HamgRMgfDzcD8q8ilwC97rVocbCah3Hr78a6xeI8E124jv6IdBLFz821foU?=
- =?us-ascii?Q?G7OkJ8QtuwTbxanSI6J8+/5reymHoWFB8I0e9M4b433Pp/L4J7MRjy7Xz7Aw?=
- =?us-ascii?Q?NkY/Un/fCXCPkN12UVi6nlcv7I0doULpb7u0ZC/m1SrlGO2lTJo4P12WQ5RM?=
- =?us-ascii?Q?xdoNFgUAjqKzjdqyHZsYwGrJpw+wV9FFYGaXQ++vhS4mss6vSbt4eN0YKwei?=
- =?us-ascii?Q?MzC0+XtPWlDSh1rM/l7IC0v8+98gsy9gvhSkikSceUmuXTbPPbxESlQG1dSO?=
- =?us-ascii?Q?u5mZ1LR6Q1T72AbdpffLZ3yFX5ZgI/LIfuJ2NY2qXzvan7YfEo3ZQXBA39H4?=
- =?us-ascii?Q?UtO5bVZTyjzUbPWjgtgPDs/cvoRStfXZKGAGy+MlNCxagDxNGkQN9YgzcZso?=
- =?us-ascii?Q?04crphngYjC2ZOQ9GwG3hfpQbGsvyrr5DUDHtXphVHoLBWOS/yZSCd4BcPKG?=
- =?us-ascii?Q?strSR/gSFpF/p4dnxbVF84JgHxoIKIpAWi9IV2Gzg+CcPt25JoaNb5Ib/8p5?=
- =?us-ascii?Q?LdR1M91/oFoEKvxScu+ElhdfSLlHAOZqrEepXo/7e1t5bDDO1IcI7TqfiPCn?=
- =?us-ascii?Q?x/Ciyj2FlOpXzEeKRwdrcKhgWTnQh15WGcESmxMY9cSX2jcWqbK2zmmZkW3R?=
- =?us-ascii?Q?s2N/9gnRD2p5cnJxIxahNsdw7YlKob2cFymUoaL+IqZ4FKayPnUBBRXafAoz?=
- =?us-ascii?Q?aaKcysaRJkLBCXINdU4F73+Css/D4Y/RPd7K+6fb54Nmr5qB5l43jOb4EZl8?=
- =?us-ascii?Q?aF2TiXMWP/Sw285JC37RrEQuPs+lGTrPy/WzmFxE9ibsZFk4D9gU?=
+	=?us-ascii?Q?Og+3DTM4xKerjtmN4M3AuQfy85rjjiAg8s40+wafhWZ7Ymg2vgVa7oQM31ae?=
+ =?us-ascii?Q?chb5fH2MM89FgHE4BA4vGQ6bhXkiBAR6SwoDjWRYdoZ8LiyZZ0nBhuDWtDlC?=
+ =?us-ascii?Q?/QukIGO4e+XVpf0w3MMOnCK+LL1Ge5oN4csmKx/cFNQd9xQwRN8RJ3srarsS?=
+ =?us-ascii?Q?J9d3x8D9B3/5PgO9gxGlkkcUVEONKRqdVoQ4fQES1Vgdmd00snDmhIEzDzgc?=
+ =?us-ascii?Q?MlDvKqTN6iyK1ikdMZIvruCrtwHV1bSLdswCqdQDjOa0b/XEtgYtjTPiGC5g?=
+ =?us-ascii?Q?15kYcjWDKpWbg6EWulfYtqVFjA1ZQgmwiGUqo0jzpZKEhXlm2KRBkAfulfN0?=
+ =?us-ascii?Q?zMAE260dkfgGstFuM2VZ9sceHFzbr66kLkyvB1Dll2EcuaMknG/Z65QtTYWh?=
+ =?us-ascii?Q?j0wJ8cSu/BKQQ1doxNBmM8EEG0HTIsYwG5dS/84Tpm02p8F1EKUuTY9zM4Vx?=
+ =?us-ascii?Q?KmxrztA3yuGxdugAcb7Ihxj6MgXtB4kk0W9q+OUuyBS58wQdjU4BAcbPzZ0Z?=
+ =?us-ascii?Q?e0qUHPGDKPDeDnVfdgKvHcjWI3KPsNNPMbIR9NN2qThYWPBrUL50DLK6KoE+?=
+ =?us-ascii?Q?wlZ8feFKLCB72+bKnIUULnZjzVWzr209IF9qxxle8ndIuYi6lmvh4YaLguNn?=
+ =?us-ascii?Q?XrtBjWtC6SLOe2oCTcTRV+yzx+J1OC9lv9HMDpTwHLY8eTMfA1gVq0y48+NO?=
+ =?us-ascii?Q?FCqFUq1swqtGhNg9WIggpBzyjhY58aWwduu+czCM5porkHoCTFyJhuUbUhjR?=
+ =?us-ascii?Q?ENPXQI2TNxbDrxCydhyW3QwnOHD4yW6jGDNj3NunSFIwYJ0D4Z2jdD3ar2w9?=
+ =?us-ascii?Q?npr2JUWZHKWx7bW+Or/ot84nBMYDo/RRO9eohLyLera26SCTuNumnemBnys8?=
+ =?us-ascii?Q?y4d4yUb1virp0Kc39rb+U51WjUoiZki9H7cS/xX41bynoKrdBAar6ZG4g6SE?=
+ =?us-ascii?Q?OB/NBorZXbCAEHYwJNInMVYlfYCJfvDjDDccW30EQwP0L7lW2n07xLfKRcSq?=
+ =?us-ascii?Q?31geHwaBwYdKQdtAGWqOiSD4XyEiBZh+TdBRVLmL0nL35NJvgx6rTIcDn5k2?=
+ =?us-ascii?Q?2aia25lRsIApK1aSVWNjS/BkcJV9w7VP7iLwBOYkRkVBqW9nPp7sV2DoKqRQ?=
+ =?us-ascii?Q?865cptlw3RwXXIyqeAuC0OblI6wggIafjRzbi5sQshrb3/V9KKBIvgnRCFnR?=
+ =?us-ascii?Q?LLDAZ3TKy2k0H1LeaWbBxZauGrpgiYHZaTb8MamG4B48BLpbMEDC8xH1GC0u?=
+ =?us-ascii?Q?VKAmclK5lSXN8TjElifgSGaNR/nNzn8ew+NB+MlEM9PYtJjMUavU9IlAx6mq?=
+ =?us-ascii?Q?Hel7MWhx+JfnJDWsv5l3cZNx4gr9gRPp4bouE2wA805cCXnD8tRHr1S+DpSE?=
+ =?us-ascii?Q?TbNSJZHX+A6mGzX43HcaQU+trv1P1AjscWdcSVxTcahxoFCxh/4Z5+OZksVR?=
+ =?us-ascii?Q?FIsZOjIZPAPesrAtO3naatCQub3pcTMRmbBY6ek+TjbJLZ/SRRt8yCovTHKQ?=
+ =?us-ascii?Q?Bv16DhkbuGtM2SDnxRdX4Fe3uYoBFDMMq6H3NNBAWvUB/rDLd+eWOLA5kgwm?=
+ =?us-ascii?Q?OY1YfVyBhH0XCuY+rmDMDsgL803eJmYTbyrdGF9KX/B0KlnO/HRuXGEA9S3H?=
+ =?us-ascii?Q?kPilbFmLkYi8hZUYiKNAiqp3mG3rU3sO71m/ovb7BympE0z7HdeYKX6KcwUG?=
+ =?us-ascii?Q?rAKc2h5maDwRMrwEMxkDWl5rdeflpMh8kXpmaicrpBSRUACrAxj/FAjvAJXv?=
+ =?us-ascii?Q?osnB52Iwljq7PePlrA3C2clzOsQRNA8=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 251fc434-3258-4e58-14d6-08dee6c36980
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cda29ca-b112-4405-41a7-08dee6c3719d
 X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 01:00:09.7484
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 01:00:23.4100
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wjevph7s1uUkqjkjgR77qjEGxwAb6Ilx0sujj9H+jiGMbxDW2wxe0Xdr1E4mSjujmTeH5XwyllVmXHrfptxEyqOC0ppdgF2L0QZw8VZhcMAnQrUdXpJDZd2dFBUw2wCC
+X-MS-Exchange-CrossTenant-UserPrincipalName: M89GFHAfYrgsEOSNeWhW/TnhIjlqmpEGG/Sxk7nnNb+k3YY+Y7j4JQ0ECbdFLGnCawF+ZfO/oGnHX6J5KIN6FUPE+EDOgSfHFP5alk+wWodgcEOTeQOKB+VwSiAjkEDl
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB15382
 
 We can use .auto_selectable_formats. Let's adds it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/apple/mca.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ sound/soc/atmel/atmel-i2s.c     | 4 ++++
+ sound/soc/atmel/atmel_ssc_dai.c | 7 +++++++
+ sound/soc/atmel/mchp-i2s-mcc.c  | 9 +++++++++
+ sound/soc/atmel/mchp-pdmc.c     | 4 ++++
+ 4 files changed, 24 insertions(+)
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index afb3754a88835..be702b2942a53 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -739,6 +739,19 @@ static int mca_fe_hw_params(struct snd_pcm_substream *substream,
+diff --git a/sound/soc/atmel/atmel-i2s.c b/sound/soc/atmel/atmel-i2s.c
+index 762199faf872e..d9ad262ec44de 100644
+--- a/sound/soc/atmel/atmel-i2s.c
++++ b/sound/soc/atmel/atmel-i2s.c
+@@ -540,12 +540,16 @@ static int atmel_i2s_dai_probe(struct snd_soc_dai *dai)
  	return 0;
  }
  
-+static const u64 mca_fe_selectable_formats[] =
-+{
-+	/* pattern 1 */
-+	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_IF,
++static const u64 atmel_i2s_selectable_formats = SND_SOC_POSSIBLE_DAIFMT_I2S;
 +
-+	/* pattern 2 */
-+	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_NF
-+};
-+
- static const struct snd_soc_dai_ops mca_fe_ops = {
- 	.startup = mca_fe_startup,
- 	.set_fmt = mca_fe_set_fmt,
-@@ -748,6 +761,8 @@ static const struct snd_soc_dai_ops mca_fe_ops = {
- 	.trigger = mca_fe_trigger,
- 	.prepare = mca_fe_prepare,
- 	.hw_free = mca_fe_hw_free,
-+	.auto_selectable_formats = mca_fe_selectable_formats,
-+	.num_auto_selectable_formats = ARRAY_SIZE(mca_fe_selectable_formats),
+ static const struct snd_soc_dai_ops atmel_i2s_dai_ops = {
+ 	.probe		= atmel_i2s_dai_probe,
+ 	.prepare	= atmel_i2s_prepare,
+ 	.trigger	= atmel_i2s_trigger,
+ 	.hw_params	= atmel_i2s_hw_params,
+ 	.set_fmt	= atmel_i2s_set_dai_fmt,
++	.auto_selectable_formats	= &atmel_i2s_selectable_formats,
++	.num_auto_selectable_formats	= 1,
  };
  
- /*
+ static struct snd_soc_dai_driver atmel_i2s_dai = {
+diff --git a/sound/soc/atmel/atmel_ssc_dai.c b/sound/soc/atmel/atmel_ssc_dai.c
+index 89098f41679c0..f4f886bf678d2 100644
+--- a/sound/soc/atmel/atmel_ssc_dai.c
++++ b/sound/soc/atmel/atmel_ssc_dai.c
+@@ -825,6 +825,11 @@ static int atmel_ssc_resume(struct snd_soc_component *component)
+ #define ATMEL_SSC_FORMATS (SNDRV_PCM_FMTBIT_S8     | SNDRV_PCM_FMTBIT_S16_LE |\
+ 			   SNDRV_PCM_FMTBIT_S32_LE)
+ 
++static const u64 atmel_ssc_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A;
++
+ static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
+ 	.startup	= atmel_ssc_startup,
+ 	.shutdown	= atmel_ssc_shutdown,
+@@ -833,6 +838,8 @@ static const struct snd_soc_dai_ops atmel_ssc_dai_ops = {
+ 	.hw_params	= atmel_ssc_hw_params,
+ 	.set_fmt	= atmel_ssc_set_dai_fmt,
+ 	.set_clkdiv	= atmel_ssc_set_dai_clkdiv,
++	.auto_selectable_formats	= &atmel_ssc_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ static struct snd_soc_dai_driver atmel_ssc_dai = {
+diff --git a/sound/soc/atmel/mchp-i2s-mcc.c b/sound/soc/atmel/mchp-i2s-mcc.c
+index 17d138bb90648..a832dee73ac78 100644
+--- a/sound/soc/atmel/mchp-i2s-mcc.c
++++ b/sound/soc/atmel/mchp-i2s-mcc.c
+@@ -912,6 +912,13 @@ static int mchp_i2s_mcc_dai_probe(struct snd_soc_dai *dai)
+ 	return 0;
+ }
+ 
++static const u64 mchp_i2s_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_GATED	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF;
++
+ static const struct snd_soc_dai_ops mchp_i2s_mcc_dai_ops = {
+ 	.probe		= mchp_i2s_mcc_dai_probe,
+ 	.set_sysclk	= mchp_i2s_mcc_set_sysclk,
+@@ -922,6 +929,8 @@ static const struct snd_soc_dai_ops mchp_i2s_mcc_dai_ops = {
+ 	.hw_free	= mchp_i2s_mcc_hw_free,
+ 	.set_fmt	= mchp_i2s_mcc_set_dai_fmt,
+ 	.set_tdm_slot	= mchp_i2s_mcc_set_dai_tdm_slot,
++	.auto_selectable_formats	= &mchp_i2s_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ #define MCHP_I2SMCC_RATES              SNDRV_PCM_RATE_8000_192000
+diff --git a/sound/soc/atmel/mchp-pdmc.c b/sound/soc/atmel/mchp-pdmc.c
+index ec7233ce1f78b..a6a9b5e6cd95e 100644
+--- a/sound/soc/atmel/mchp-pdmc.c
++++ b/sound/soc/atmel/mchp-pdmc.c
+@@ -741,6 +741,8 @@ static int mchp_pdmc_pcm_new(struct snd_soc_pcm_runtime *rtd,
+ 	return ret;
+ }
+ 
++static const u64 mchp_selectable_formats = SND_SOC_POSSIBLE_DAIFMT_PDM;
++
+ static const struct snd_soc_dai_ops mchp_pdmc_dai_ops = {
+ 	.probe		= mchp_pdmc_dai_probe,
+ 	.set_fmt	= mchp_pdmc_set_fmt,
+@@ -748,6 +750,8 @@ static const struct snd_soc_dai_ops mchp_pdmc_dai_ops = {
+ 	.hw_params	= mchp_pdmc_hw_params,
+ 	.trigger	= mchp_pdmc_trigger,
+ 	.pcm_new	= &mchp_pdmc_pcm_new,
++	.auto_selectable_formats	= &mchp_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ static struct snd_soc_dai_driver mchp_pdmc_dai = {
 -- 
 2.53.0
 
