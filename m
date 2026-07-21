@@ -1,126 +1,87 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442223BFE31
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 08:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784624296; cv=pass; b=fpNI4iIZoG2RMjIdq94I/cXZLMpuRm4XSdksw4lOCXlLJwX3Je7y0byH5ZyrpCMNxKPKgtYJQlgArji23P5phesmYTZpIBoTrWlUy2dZwvX3FcEC8xZOSriT0iYd/OHa8dg7NqtWP5YMNkL0fteas3IAlstObvqnsqRgUMxbK0g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784624296; c=relaxed/simple;
-	bh=o3orbY6NhqfjfstnAFooB/Z50XxpaSPbmYmh8aGbV/4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t5bZCqDPi0DVz/oh3Sw6nZBwKfPW6g+YmgXxfHLfkx2RJCjNc/YliHei2eLE7d8jAhQLWFFBrR39jnyj9dd7mP3OErq6KiWrejyHj0KjmmPYpMYU6mL9Wj7Kk/eHufTiPbsc2Z88TH3rzJ44uhzhavJhNKzEunxAxTVmo3Im7KE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LxL0a9/D; arc=pass smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFBB3FA5C8
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 09:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784625719; cv=none; b=WOv3WcwnYHOmB0Ey08fzrMu5IWj8yu70aYc0GecYiV6roovZTaNOHjQOOQg2CrEJ/UpLeGAVgTTDkaPbFL0UVFUPc3Crqou3ITNCo11NOCM86Ga4GDnTZ0lsqll1Idzj+0Dcg4coL2OiEY3MWG5stypZgJqBZQORy59KR4DEfKo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784625719; c=relaxed/simple;
+	bh=erEGNGVLEIxDkPO6zBTgGI3KJKyGhoY67y0vl9j6x84=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kUbv7HSaBEITQ+7MjBsX1vQobEu2skLLSZAexw8ZKbKxYZ9+eud7oi2qtpnV3ghc6iabEm2SK77gIKxpd+scrYQsU0qf+df8NkXgSp3XR5y7QJsM144TVmG/yDqOQxvl53eLNLoXFZw/G+0sehm7XW/XGi+aiTI7Ihfc4Gf9Zbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KfhF4bEa; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LxL0a9/D"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c999f162c9aso6930787a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 01:58:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784624294; cv=none;
-        d=google.com; s=arc-20260327;
-        b=IhIDcNmA6tEQBBtC2P1Vm32nN1uy+uK94XOqNC5exmhHzjAwVLFV0ARKFUXBDT4iQ5
-         kn74Hog9w8f/4BNkNCHBcAg2drziRioPAk8uqSK7v1ZcQWIyKdEjRpBF6N8oYaUULaBR
-         5XqtsJWdFSQDDSBa22TCm3ZkI553W4STjw354HTflXww3H4/JIEZHETdNUdihUykEOIf
-         gBLwBjG9fb5ChXi7svaNPCxaH9HAoeUEVV7dJ3AL1W3MtNFQPDsYOs2oAX6dboT0S8w5
-         jQwlTf4fWmFCOWgISBg0xDldtP6C4ezGhNiMHunBnYaVIwEyExKrcArZXp01CwWtpiwH
-         Im8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=o3orbY6NhqfjfstnAFooB/Z50XxpaSPbmYmh8aGbV/4=;
-        fh=MZ2CkM2IRr9eia8A0bQ3tBzaN3hZPoaF2QBmLRfPh7Q=;
-        b=jaeunpcLrf7jVSai2th2GPJCjb1y6lZRlsREy5Gv1V4TA/xkVXbHF5X/MryXagXZ8O
-         hy05amsk4PWmDRl2qzo+iCz7y2FCCGmDMRnvd4oPXxe3U8qN7rVkZ5XSMTXmvKBXkic4
-         Twj5mCnTqge43q2x2W01NHLj8gv9lPdaRbsQTfY9dy6r18lRYomexe9Hks3RqAwTtpLI
-         R0JcNNn5d6Qk95KDgs7s8jf3jYjBNDIiDp7MZk+lYt4l2IIWB3XgQYfKB3Qk/hz3RoP7
-         df3t61cbkGERaxLr/0TL7/ZIzsov6FvufIcEfpmTuR1E48fPYZwAqwofi3UvSYoAqOGy
-         SeeA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784624294; x=1785229094; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=o3orbY6NhqfjfstnAFooB/Z50XxpaSPbmYmh8aGbV/4=;
-        b=LxL0a9/DFlIrk72VVKtWZfnFf97H9o+9GsVmwWk4vcDneFP7p9kl3GPNVDd6H+u/zD
-         F+C53FJpDkJzez5gk/awiXkvEbHkND4khZNVndSsBu20+O+o56wRIkIeDejphwaFUJvf
-         9WvA2gqKh5eFjMou0S5s7SvfmnI++Sk00al4XgfBQNG3xsLx5zgmpdrLOp0YU04Gnll4
-         nRgGAhoAvexgcWq7faoFbUsHnCllKSqGCEO+XvZO7zjymWAw/GGlnsbs6qWNDc4NasLo
-         0G5tMprhCVfut1/DcqHZrgGkK0dCzw8aSH6C4BOqAEP+/ldmS0mXfxbzd33kEB3g2woA
-         qnSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784624294; x=1785229094;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o3orbY6NhqfjfstnAFooB/Z50XxpaSPbmYmh8aGbV/4=;
-        b=olHDhPkLQ14EjmRHpOgOJMB48FfgOouNcm0dFBjelFVSNrpPmw2381HQXzHJOMnKlr
-         IS8+vszrC1oaZpxdEBvHSG/1nx7CbR28wXmqroPncZ6tQERIbchMXwLMZguNlVe6dEwN
-         wZt791KQDq0rCcF2L141HIDcRAhLUk25d0IZH0JSXAG1pD654nFA+TWYpzHrbfgv6NTk
-         qJdXY3KCyqwl8ugJ01YrZLZedsWbQ5XjqGM/etRT+ZnsQ5eJuruQ6zNzTYFxj0upzwBG
-         wDlnE/hhm+EVJJdPiwy53FbpKP4zN2L1aqMmQkx6C2058NHrJ0keu7ZHfQWs95P1AF0E
-         Q2EA==
-X-Forwarded-Encrypted: i=1; AHgh+RrJhmPEaTCB2vNcfK59KLg9/w5yxSnFhaHUt0MonROfHBXN3I54yOndT/87Ld22RW2LQDEI7McMuqMWYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5q9shPnnhsjSXnHKhjf+pRRFRRB8abFWFdOlAWfFL21v1V7l7
-	Sa9QuoWJkT3PxbIRoFkOkb8xcKW/kl/iWMD9ubkCjN/BJjHgNL/uMgAKlYLkQcxzjsJ9gFRLUrw
-	lj8GdJONfPxSRZZ8pT8cHVv/4Y59kY1I=
-X-Gm-Gg: AfdE7ck4Q0nFNpMAFgYif66hH9R45FQN+VTtrAHEOmmnMhzs3Pd8lwyOKp2ADdroGU/
-	Fgqi+l96E+8jp7tKrll1WSamB9D0UPzE5ifeb0LKrdP/TSg6ZpT2I16w7g8meI0nRJYtcxbbzHl
-	L1QRRU49+SqSAjHdjY1lTHqOVcZFXoyRRc1XAORWI5pi1eIYZorHJBJtFQknSY9DhGYrZWRnIKR
-	P63Rm073/x6TqEM0NLPFnr7KBH0iqgrahGGtv1RXDSQlhY/DgimZFJIuKtM3TpswdhcXlBm
-X-Received: by 2002:a05:6a20:734f:b0:3c3:6af8:ab24 with SMTP id
- adf61e73a8af0-3c3ad9d5fe8mr19173494637.56.1784624294467; Tue, 21 Jul 2026
- 01:58:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KfhF4bEa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1784625714;
+	bh=erEGNGVLEIxDkPO6zBTgGI3KJKyGhoY67y0vl9j6x84=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KfhF4bEaynKj1/w6EFnk/y0cfay9TU82h1NZr440/4ECY+S30klxfJ8mgfgtNFi8v
+	 QuAaNdaM708kWDzouvnXXNPu80WJLFi+/NuXpC16E2RKX4klusHBxLfN3IVCMb2lpf
+	 bzDd+2uHthQH4q8DPXWgIHO81u9vlTY9+jqxuCvkZEXnktihZA8UCjRlMU4xFyFPf6
+	 jmZstNm5dAsCjfq9ugSRWZ8pYTqum9FnR7t7Q2EBjK5kyyKuQCkk2T9wPvg/Q6rIiQ
+	 /3xKfPEcU4dbhm/L3RclO3wCRBvjlRg+3TZ7Cc/flmQUP8c5iCFp+AbcxgYoDv0tRk
+	 yeL1m5a/P7r6g==
+Received: from [100.64.1.21] (unknown [100.64.1.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 64A3317E0A46;
+	Tue, 21 Jul 2026 11:21:54 +0200 (CEST)
+Message-ID: <323095f5-0006-4473-925f-2e2f1febf8de@collabora.com>
+Date: Tue, 21 Jul 2026 11:21:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720095450.1618747-1-shengjiu.wang@oss.nxp.com>
- <20260720095450.1618747-2-shengjiu.wang@oss.nxp.com> <3ce4bfa8-b051-40af-9478-00540019680b@sirena.org.uk>
-In-Reply-To: <3ce4bfa8-b051-40af-9478-00540019680b@sirena.org.uk>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 21 Jul 2026 16:58:02 +0800
-X-Gm-Features: AUfX_mxyjKglcWDGiHlL7pHojtmA7GYBRqbKLhdnlf4NA0C5KwDC9Zvpc1PZDyM
-Message-ID: <CAA+D8ANTBSgzhEQ-fsj9jpKnOBKCQiJeY5pv2-zck0O4DTM04Q@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: sound: fsl,imx-asrc: update port binding
- to support multiple pairs
-To: Mark Brown <broonie@kernel.org>
-Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	shawnguo@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
-	perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] ASoC: mediatek: preparation for Card capsuling
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Darren Ye <darren.ye@mediatek.com>, Jaroslav Kysela <perex@perex.cz>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
+References: <8733xdjfdq.wl-kuninori.morimoto.gx@renesas.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <8733xdjfdq.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 20, 2026 at 10:28=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
-ote:
->
-> On Mon, Jul 20, 2026 at 05:54:47PM +0800, shengjiu.wang@oss.nxp.com wrote=
-:
-> > From: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >
-> > The i.MX ASRC hardware supports up to three conversion pairs (A, B, C).
-> > The existing binding exposed only a single generic audio-graph port,
-> > which cannot represent the individual pair endpoints.
->
-> Please submit patches using subject lines reflecting the style for the
-> subsystem, this makes it easier for people to identify relevant patches.
-> Look at what existing commits in the area you're changing are doing and
-> make sure your subject lines visually resemble what they're doing.
-> There's no need to resubmit to fix this alone.
+On 7/21/26 03:33, Kuninori Morimoto wrote:
+> 
+> Hi Mediatek developers
+> 
+> I will post Card capsuling patch.
+> To makes its review easy, tidyup mediatek drivers to reduce
+> un-related diff as preparation.
+> No functional change, but is preparation for cleanup driver.
+> 
+> 
 
-Thanks for pointing this out. There are also some comments from sashiko.dev
-I will try to address in the next version.
+Entire series is
 
-Best regards
-Shengjiu Wang
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+
+Cheers,
+Angelo
+
+> Kuninori Morimoto (4):
+>    ASoC: mediatek: mt8192-mt6359-rt1015-rt5682: use *dev in mt8192_mt6359_card_set_be_link()
+>    ASoC: mediatek: common/mtk-dsp-sof-common: use for_each_card_prelinks()
+>    ASoC: mediatek: mt8196-nau8825: remove unnecessary declaration
+>    ASoC: mediatek: mt8365-mt6357: remove useless assignment
+> 
+>   sound/soc/mediatek/common/mtk-dsp-sof-common.c       |  7 ++++---
+>   .../mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c    | 12 ++++++------
+>   sound/soc/mediatek/mt8196/mt8196-nau8825.c           |  2 --
+>   sound/soc/mediatek/mt8365/mt8365-mt6357.c            |  1 -
+>   4 files changed, 10 insertions(+), 12 deletions(-)
+> 
