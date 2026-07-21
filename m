@@ -1,43 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21EA34EEFD
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 13:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E7035AC28;
+	Wed, 22 Jul 2026 13:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784727269; cv=none; b=nAYdmyXjD1sD/6ChLbC8jOkmElX9HC1qdzPRi+l0VBeYVDmdfgIt3CGSFrKdTExWzzEvd0mwOEIBjNAivNp1aSHYbiWpxxBN/TQ0GbgCALC+ilkCu7FRpJIN6YorWtR0qgK0LSrcAFLPUskQG+DuEbOlhiu4gMPu/tx4fs4tiIU=
+	t=1784727271; cv=none; b=COBNIJRGNiJ/mBIW5ioeg9ewCpbwganOymVAb8OO1nS+ukVMNNc8yRtyCt4hqXBSjk+/NoNjW+ROZAAq2wK7FGzMdfY998GLPttXz3paL4f6jb4LSIBJ4WjT3qOmhaH4yJ9cNiocZ2LZlJrUoKaHfUOvfxk1++y887Hrdv5nkO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784727269; c=relaxed/simple;
-	bh=D9+/Td8Wm7af9ygq2eIXcVzX3ufnwVZvoGMz68HYenI=;
+	s=arc-20240116; t=1784727271; c=relaxed/simple;
+	bh=RWJkUAxNc4GbsZaqLm6Y6daUxTzY6ozDVLSGNXmnAb4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qD+j3kERQ2PD6ebXDwbhq67ATz0Pyg66awpy4PsGXIAw8hvgg6H/jbLCrg3uWUcapaM81KAwAdXvKeTfuS+Q/lqQ/d7KZpuzer+MuSuNmUrU9JfnSwDgeDp4fk9EI11fbRZ3Ys9/2tHp8PA2SP3l490WaieOnHTQyNtKyl9sMnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Og/WWq0J; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=jk7LZ2BoeLyd8LjkHfbrnGgO4xICUhWa0L36fjrFyVXEwpEso92z5YZ6Tl55o2N2OcQFkwxLnhg3QbaByWBts/h7I6OtIXbXdXpU1/1Gd2rPNgkjFqjMB4ZoJR2zPnIY4NBOTxnVb77wRlq/6Gw0A4wgyB76RDmfRS1T6O5DmLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOXAlSNl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Og/WWq0J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E72D1F000E9;
-	Wed, 22 Jul 2026 13:34:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOXAlSNl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4B041F00A3A;
+	Wed, 22 Jul 2026 13:34:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784727266;
-	bh=jmChifo/Gjz7A2amPSNMWNpWBYkzl0p0o+oaQshPTd4=;
+	s=k20260515; t=1784727270;
+	bh=4txzsneR2KxSiA53F0gILCYo1BNWP06MtMDtkpborEQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Og/WWq0JkRxmGCMk1czJjwIUBIyaV7DSP2g9GSu4PPv5jW2uoUEhkpH9/HDy+fpT1
-	 u3X+rzAxAzXUQVebdfsYB0xJBVK/zJnMHEAusYO3ZEtpqz+vltHolQpRVvgvgbybdq
-	 ujnczKmeDOTfb6GpRRi5jzNkBEFkH8qSFh7c42Il/dW2tuMUnml4rs1EhatMZqLrra
-	 n5jO+Fi+M8xjPrV3AIY2WJqkH8t05IJBUo74LbYeB9Az+xzpAuXTkWcY16z6iXbdVV
-	 aIPXE1A2r9ut0EaphZsmdNkK6zeHmefsz7zk/jzvUOvIWfsL8Bx3+Zf2v9bxWTZTcf
-	 o1Pk2fGrBqLMw==
+	b=iOXAlSNleEB/5Z9bO6YuIcNNWHKWHovXs+IDdlzaLSahPl+JNkUMD9xtz2wNHneGK
+	 i/OoWoe9ODYMpETx4Bx7Xac2kqzcTHqb1zUhbwadf+wR86g6M9m33JuKHruj3TUE0U
+	 ZIJm6ddadoD2303yVxaMuiKprtX3/qVssV7ktrDyAO5VITXkDlNhdIcD86apCCy6uP
+	 +tar7zjUqXKPV3P62/bNkluYbvKXPqSguz/8R0G7CMUTTE8KaoEkCL3PBGk9ldD+1q
+	 3p3T+rS2oM5fdFgZ16Mt+757hf6r446XOD7+1eZ0ifUHnfgUDOhlalALrhoswCRYAo
+	 xiFOzPrSFrrIw==
 From: Mark Brown <broonie@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Darren Ye <darren.ye@mediatek.com>, Jaroslav Kysela <perex@perex.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
+To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
-In-Reply-To: <8733xdjfdq.wl-kuninori.morimoto.gx@renesas.com>
-References: <8733xdjfdq.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/4] ASoC: mediatek: preparation for Card capsuling
-Message-Id: <178466142199.260430.443154717706779036.b4-ty@b4>
-Date: Tue, 21 Jul 2026 20:17:01 +0100
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
+In-Reply-To: <87qzkxi0j5.wl-kuninori.morimoto.gx@renesas.com>
+References: <87qzkxi0j5.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/3] ASoC: qcom: preparation for Card capsuling
+Message-Id: <178465724276.123404.7579010273952495297.b4-ty@b4>
+Date: Tue, 21 Jul 2026 19:07:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,25 +45,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1794; i=broonie@kernel.org;
- h=from:subject:message-id; bh=D9+/Td8Wm7af9ygq2eIXcVzX3ufnwVZvoGMz68HYenI=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqYMbfaOVThgOx+6ES/VyfJQ5iIHUoKVIxq/bTJ
- Fm8T4tDJWaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamDG3wAKCRAk1otyXVSH
- 0AboB/4zC+6rh+8Py9zo8qDAHu1a32ouy1OBRAzdmGIxje4WQhtCxZDCojWuQ6ELClyaE20cJZ4
- Y8pc+Y86IO5vm7eg1bpIf/9nx0Gx580YuQybFUPO6dqMrcg6XwQlqYM21uTb6CG4Mbo0PnUFr8d
- PN9W8OyIrcIe49sxVyOX6+x1owXaTcI2Z3+muAzfMBg7N15CNXxNqDOmaGSZT8fncQPHspKYXg6
- zCvbatu9M4plpp32ePLfSz0ZD2Y1BEOf3CGPbrC31of/RWHKTSrznpP8obJUbs2XFMRU8TzV6WV
- bzwtZ21YUSn9hvcIg1sdgpisB3m1Tpl4s6gUCNS1a2N2ZpAq
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1565; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=RWJkUAxNc4GbsZaqLm6Y6daUxTzY6ozDVLSGNXmnAb4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqYMbj1PK6qtO3u30yzfp/V8yQZDLKVn7ca6yBF
+ uE53gORVimJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamDG4wAKCRAk1otyXVSH
+ 0GnLB/4o5tVGdEz0AOmROWBlMBehWvIOg2h9+RnOgS6tUxHuUiM0Rjue+umWFhDcamobd+Xgnb8
+ 7kedfVUX+80WCW5JyDz1FGcqbsV8K78W2qoKUfXLif+ZDv+N1uNdt1Fjb4XbwGIHg1VedeS9pV9
+ q+mFl+qVmHTX5fEf+2wzDu2e0JYyEkiOhL6wgsf/XM7N2sciS4MdhxB0obGopzofk7tw6mwjvzA
+ V/vSzjm2SodQ5jRhRkZn1QzLcUSm3dWU62qSvceXFHbZu2bM6jHGuf+J7TXl0qPTHJ+zCvJheNP
+ qugOkTPaGS4To8Md+CsLU9pPD/PQsk6lGAe3HmUXFWq6Ydqd
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 21 Jul 2026 01:33:21 +0000, Kuninori Morimoto wrote:
-> ASoC: mediatek: preparation for Card capsuling
+On Tue, 21 Jul 2026 01:39:26 +0000, Kuninori Morimoto wrote:
+> ASoC: qcom: preparation for Card capsuling
 > 
-> Hi Mediatek developers
+> Hi Qcom developers
 > 
 > I will post Card capsuling patch.
-> To makes its review easy, tidyup mediatek drivers to reduce
+> To makes its review easy, tidyup meson drivers to reduce
 > un-related diff as preparation.
 > No functional change, but is preparation for cleanup driver.
 > 
@@ -77,14 +75,12 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: mediatek: mt8192-mt6359-rt1015-rt5682: use *dev in mt8192_mt6359_card_set_be_link()
-      https://git.kernel.org/broonie/sound/c/315a717c716e
-[2/4] ASoC: mediatek: common/mtk-dsp-sof-common: use for_each_card_prelinks()
-      https://git.kernel.org/broonie/sound/c/8fd27d490a87
-[3/4] ASoC: mediatek: mt8196-nau8825: remove unnecessary declaration
-      https://git.kernel.org/broonie/sound/c/a5db24234405
-[4/4] ASoC: mediatek: mt8365-mt6357: remove useless assignment
-      https://git.kernel.org/broonie/sound/c/7a8073fe03bb
+[1/3] ASoC: qcom: common: use dev
+      https://git.kernel.org/broonie/sound/c/a846f5f62a8b
+[2/3] ASoC: qcom: sdm845: remove unused card
+      https://git.kernel.org/broonie/sound/c/af6111f7aa9a
+[3/3] ASoC: qcom: storm: use dev instead of card on storm_parse_of()
+      https://git.kernel.org/broonie/sound/c/3c39af873af0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
