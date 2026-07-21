@@ -1,161 +1,229 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038C03EF0BE
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 11:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784633894; cv=none; b=bPeuCsh00/uCJqp7fWU2RA0S77Ewlaw0UWEtVjaal8xRB7zcMHvBeEEUnh6rOh1OsYxwmHgFpKUp3YZNrNVHPT6EJaZAZqAqZjBzyq+IqR+wdveZxYBo7/owqCjrIRtb0Uf4vyGkYWHGP/GW4p8N5M/bOaKvqTUFj/jnFUgOA/U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784633894; c=relaxed/simple;
-	bh=J5+dlRIcGdEBIMh3/R6fcjXfPbiVgnNn/3o+ZMwkvLo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hBtsXnci4MSCVMvWC6n2LRd0onWpQm/hfQchOrHfDlMXsUrzdX/u8rwheaaYnIS2VXOCoUsjOshoxKIi1mjhqbvg705FtFLcxlNH9Cb9YACWrOoOSdn//s84tQAg3kxJVG8WSlkDpw99MXOGHQa1C5k+KnaI5HNJVxljvYkypGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=V8FLkf5+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=QOrIPVpE; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFFD48C8AE;
+	Tue, 21 Jul 2026 12:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784635712; cv=pass; b=qHmteRa1A+clFoOUn2D6DJN48f80CqAE78VkJrZOgWZpM6qDS/tUAGvMMbH58Kkhe0iCGzgu6PkHKhi0+hpIK2rH9THY8i10jZDCbfaBpnJqnTC9Fe/UrtNbuinwtCm4j9w18SpjAkXFzJuvoI/nEM1rEGYwKSotUsVXyDX9N8A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784635712; c=relaxed/simple;
+	bh=9/Rc69ICcMIXTRsEEcWrTvEKGRw9LcH0+wP9oDuTp54=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EUWMw1dEs+TwfcPd8KeleGgCjMEr2Y1ZojvvbeHIxUfVD4QD/1uJayqC5RvgxU2OC4ft4Vr138GwCnJFYRjT+4KyAzwntAqOMPLSMTOAP+pFENixteHTd9LZqUxMRixzOA/lG4rM8hoyj7c3e6tWFvlwq32RVmrdxf2nCrpMsyE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=i/1rLOvD; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="V8FLkf5+";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QOrIPVpE"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66LARMew1482121
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 11:38:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	TqJGlr8Kz83Q6EIkPq2Cky3r4CDJupsLgkqPRxSx25Q=; b=V8FLkf5+YYyljXR7
-	xCOxkgLFeD6d556f8ZWaW014/LdxfWAAF9Y+W3Is21iFI6DgcPhqZApi4hKyGzB3
-	Dv/BkjF4XyKENHWNnQg1TOggOnUTSWY7OJwnS/DG/buovcZfVPxMkE33GSPHweA5
-	ZHAGdXbolS061sNBoku/X7NsTQDmSLWQR5wJIp7d+F5PyCLrc3nIkGo1LL8YcwdI
-	Loe8WzsSPKaFIq7/E0zM5+TCds6L4gMxBqbxXHnTH/BvNSqqGDSx5ko+ZIpnFtER
-	JyoZMUKH/KFUFHhSERUNZ6fKi1vXSAloJ6/Yzv9/iAteSWgAcoXyy8S6Kku+g9ao
-	H0ybjQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fhvqnb22m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 11:38:12 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c26012cd0so197595981cf.0
-        for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 04:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784633891; x=1785238691; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TqJGlr8Kz83Q6EIkPq2Cky3r4CDJupsLgkqPRxSx25Q=;
-        b=QOrIPVpEc6QtHqdgECXw6ukJxyjF75ncakddZVVVuNe0GBCz9k3E74xgppHLQbVQKO
-         8dfwS9Ca7Ne6nT6sVPJfbJjFohx1yhizTvgzV0Q/AV9hrxOSkBLISwqgJvqJWoS45gDH
-         tuw6Rnp+BIyPN6kyGvevNBJN6VSSlP4F6MAEiPy5FYeIAXGiGN9qtHAHI6G7ius5ybLi
-         a22vjo184UNvq8nq8ghaqfskvOyLmdfQpscarespLnyZpX+/nEJYMtmtGK23Je3jikIO
-         tmF3Tm1DkJQ4xqRSwRWFgseAZymueLGkWtNO1ottRDw9giFPWHE0RZx8ve8djLX8dnfW
-         WSqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784633891; x=1785238691;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TqJGlr8Kz83Q6EIkPq2Cky3r4CDJupsLgkqPRxSx25Q=;
-        b=hGactYUtFhcpRWWhfjNuJUsi6BGV5ftv1n9FS1g72Ef+wLLsdWzTwj6LbvZtNZ5RD1
-         AxeMHKMgHwfXp8qrpE5jaNw1gsxC3weVnK6HJusdnJ0ItfqFpiVVNH/UCEqETSqs2fL7
-         dnelquWfazsYn9e3tZz0i3NH01CgZimUaHMduOVC71TX+yw1r6x9chTW9/ivG0B5GmUN
-         FSSiMlWUPD2qMyGJ5TIocvAJrsa0gDHhGnTiYkrGuypmqftFKWrFr70s3rtDJaW5ah3M
-         2A2t4JkeveSmDMVRpYBo4c56SE658cWg+FfY8dqCXHDeOSoGAsmit3f1ckuL+raxUvOD
-         2aPQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrTCjO7k0BsnIMiE2TjZfZYKG72aZ4MxAJ97xMDFNdjudEME9LnTFWbN1zY7ImIKAdmvjvZSAWARSXqiw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0V4Wr+awr0o7hB3VBk7moEuIuf745kt2wc/W0HyBzCZs40kY1
-	54Ft8srC9uC+BNvBW3l5rbFH9C+QVwXDD6EqEKxydRHchM0uuYJSvFGr14s1VFz7ppaywyjf8Er
-	W+esDF/NXYPEQRgzSEjwBiu8eKSREk8JuzL7bK+gbNDlgPou0B/4HIS4xj1U8VD5oTA==
-X-Gm-Gg: AfdE7ckJHvKq7BFjBMJPfMgqHhrvPqvRgNyBRx5+0g3kZceX8h9tuy5qUoN0Cxq9HKU
-	Yu+ihc5etOv/ThXYZYxKj5zIjyyEzwFLqiJeyUHuPagSMozeYMyiNaU6YzBNlBZmKv5otKJHTni
-	BCwcRCHqXdao5z/CDJ7p+09iw9EY3DG28orIyxyhfhefJn2olQtQJ7kiTVX5FqXbbAXb/WerRUV
-	6jQ+DMSCXlq7u/MRSzDrtyQMA7OtjAHUdS8sGkG9SX9OgZIrlI0pf20KMUhWEMKuxUgLGzmMqdL
-	GSgB0jhAGiNx37uawuaa5+ie9b76TaxqyuTTXk96NZp8Gxf8jULU0AmkTWkzoV1aUvkRLM5aOgr
-	6Asl2obZzzx2N5I2tcqEEJuiMtr0=
-X-Received: by 2002:ac8:7d0e:0:b0:51b:e991:92b7 with SMTP id d75a77b69052e-5213c2018d4mr158323501cf.29.1784633891358;
-        Tue, 21 Jul 2026 04:38:11 -0700 (PDT)
-X-Received: by 2002:ac8:7d0e:0:b0:51b:e991:92b7 with SMTP id d75a77b69052e-5213c2018d4mr158323331cf.29.1784633890849;
-        Tue, 21 Jul 2026 04:38:10 -0700 (PDT)
-Received: from [192.168.68.118] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47f63e496ffsm37564253f8f.3.2026.07.21.04.38.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jul 2026 04:38:09 -0700 (PDT)
-Message-ID: <850593bb-a348-4384-a034-19f98fda9197@oss.qualcomm.com>
-Date: Tue, 21 Jul 2026 12:38:09 +0100
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="i/1rLOvD"
+ARC-Seal: i=1; a=rsa-sha256; t=1784635691; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=QMzxjQ57NYr9BooOwPo5hMWKlOWNkk3kX6KXgbb6WqQhQJCJkkVxGhHv10+z21zs/PljupmoaKekrKrcyGD6fu9E9FwUH5VNQ+rsKHV4KEhEZPf2ksqdScM86bm3/UPrTBGV5POl7tmvBg4FHcvAp7C5hy3LLx+sCIsPVFqo76Q=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1784635691; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=/JLUszQw5nxntPaMSf0GuQmSHicYA2ZRYKBzU+ywtRU=; 
+	b=Mv3S9CyFCDf036vRiccAQDi/NTxkqhop8CKFVnX9qitzt8iypy8xlxzr8RM7NwtlQWNuSND2/wLmtRJNYmrgcYUrNyrUy61Cxq6cpkLjN68DAY6Pi4xnnhdtjNoOvGPuYgF1EhgEwLc178xH6faC+EUpHlRYLxe96QLAF2/YIos=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784635691;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=/JLUszQw5nxntPaMSf0GuQmSHicYA2ZRYKBzU+ywtRU=;
+	b=i/1rLOvDpal9TKEZUrPz4yP1/hgb0vfpGw7P7SLL+jJTpEl/mihDp3GDXQcQtBgs
+	qFrumGcUFbu4FKfh9aLI9+dbwSIYUsusSC6dyGKj+M0b1bKFVgKQiwdNSJjrqaDF1SE
+	CGzDaX+1CJmG6xPZKVqgd58J9qmhr7b3lyryOsPc=
+Received: by mx.zohomail.com with SMTPS id 1784635689231785.3049535059575;
+	Tue, 21 Jul 2026 05:08:09 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Mark Brown <broonie@kernel.org>, Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, Liam Girdwood <lgirdwood@gmail.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH] ASoC: rockchip: rockchip_sai: Hand over hclk control exclusively
+ to Runtime PM
+Date: Tue, 21 Jul 2026 14:08:03 +0200
+Message-ID: <xrl5n7J2R2GNQC1ABA20Mw@collabora.com>
+In-Reply-To:
+ <CAABR9nF8GebpxX0ry-MMLCfsyPJ6EUpkEtYdASAep2jX+d5gnw@mail.gmail.com>
+References:
+ <20260622005613.21870-1-phucduc.bui@gmail.com>
+ <CAABR9nG6BL+-urEg0qDzJHYmowm7O=du_0T4+K2ogdrcD30CXA@mail.gmail.com>
+ <CAABR9nF8GebpxX0ry-MMLCfsyPJ6EUpkEtYdASAep2jX+d5gnw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] ASoC: qcom: preparation for Card capsuling
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
-References: <87qzkxi0j5.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <87qzkxi0j5.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDEyMyBTYWx0ZWRfX0ohkx2iXNdkG
- UJPfnCA69G8Zt/i/R3Ndkm3F8tnQl9zpayV9qPq4gAUBnpGeSQGsMlK6AGIH9ZsKBwKCCpY8Q/W
- i0LLNWaRg7m8xe04caJR7RxELTprvRFE1a2VbAzSL5KQElWa/uqYQb2W1/1QMSIN1D7oe5sUf0n
- 4ywOwIUBJG4MhM/i3VRqIL6JfdjIyu6bsG78XTfLQMj7b5lenVONO03Q+dZLjM5RK1rXZdD52/r
- 9kkwSrp4stqb1FPxtmoZ8P5E7FgkEVFk5Aaq6jX7IbZ1uBnyqKK7qPSbILZ0syRRS8n8i/swhU4
- QLY70yLg2TJuW4BvqJvHhIpbIKly5W4CKRMkonpAez0zgQSGlLPD3zIzw6bOC+qJ6290aKdVIoG
- 4WMIFpo3G9/kHNVHTOELT7Lm12+ANqsDUmcr7QOXTuiiaZTPWNorWCMsxPfz76hAQ5HenTMR7VM
- vjWaoEQLq/1j1q3rDMQ==
-X-Proofpoint-ORIG-GUID: Vl5P7N9hr0x_AkyKL1BsOQElh8oNQUk8
-X-Proofpoint-GUID: Vl5P7N9hr0x_AkyKL1BsOQElh8oNQUk8
-X-Authority-Analysis: v=2.4 cv=M5F97Sws c=1 sm=1 tr=0 ts=6a5f5a24 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=aXA5RslYEjuksw6KpowA:9 a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDEyMyBTYWx0ZWRfXyVne1+EHplPu
- gZWUvXSu4wgARYACdMkbrrAButE+RcK5AV9yqi+8M+qf6WeOl7CAjpTAQ4GAukpYCuho2t4iqtG
- 7tepROaFFCwjFyccpAbMEfophsW63VA=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-21_01,2026-07-20_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 spamscore=0 bulkscore=0 impostorscore=0 phishscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607210123
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+
+Hello, finally got around to responding to this.
+
+On Wednesday, 24 June 2026 04:37:33 Central European Summer Time Bui Duc Ph=
+uc wrote:
+> Hi all,
+>=20
+> Regarding the case where PM configuration is not enabled, with the old
+> source code, I suspect there is an unbalanced clk_disable_unprepare()
+> call on hclk when the driver is unbound after a successful probe under
+> CONFIG_PM=3Dn.
+
+If "old source code" refers to what's currently in the tree with the
+devm_clk_get_enabled, then yes. There's the manual resume function
+call which isn't balanced.
+
+I think your follow-up patch does make sense in light of that.
+
+>=20
+> The actual enable_count / prepare_count sequence for hclk (with values
+> clamped at 0) would be:
+>=20
+> probe:
+>=20
+> devm_clk_get_enabled           0 -> 1
+> runtime_resume (manual)       1 -> 2
+> clk_disable_unprepare            2 -> 1 (at the end of probe)
+>=20
+> unbind:
+>=20
+> remove -> runtime_suspend   1 -> 0 (ops->disable/unprepare executed here)
+> devm cleanup                          0 -> WARN "already disabled" /
+> "already unprepared"
+>=20
+> This conclusion is based solely on code inspection; I do not have
+> hardware available to verify it.
+
+I'll e-mail you off-list to see if we can rectify that.
+
+> I noticed that Nicolas tested and ACKed the use of devm_clk_get_enabled(),
+> so I'm not sure whether that testing included the CONFIG_PM=3Dn configura=
+tion.
+
+Nope, I basically never build with PM/RPM disabled.
+
+>=20
+> https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
+>=20
+> If it did, then I may have overlooked something.
+>=20
+> @Nicolas (or anyone familiar with this), could you please help
+> double-check if my understanding is correct?
+>=20
+> Best regards,
+> Phuc
+>=20
+>=20
+>=20
+> On Tue, Jun 23, 2026 at 5:53=E2=80=AFPM Bui Duc Phuc <phucduc.bui@gmail.c=
+om> wrote:
+> >
+> > Hi Mark,
+> >
+> > Thank you for your review.
+> >
+> > > >    1 Reverting back to devm_clk_get() to remove the implicit devres
+> > > >      enable/disable behavior.
+> > > >    2 Manually enabling and disabling hclk explicitly only around the
+> > > >      early register access before Runtime PM takes over.
+> > > >    3 Dropping the stray clk_disable_unprepare() at the end of probe=
+()
+> > > >      so Runtime PM solely owns hclk afterward.
+> > >
+> > > Note that runtime PM can be disabled at build time so we might not ha=
+ve
+> > > runtime PM at all...
+> > >
+> >
+> > Thanks for pointing this out. You're right that with !CONFIG_PM, the
+> > driver only relies on the
+> > two manual calls to rokchip_sai_runtime_resume() / suspend(), so hclk
+> > stays enabled the
+> > whole time. I understand this is unvavoidable in that configuration,
+> > throgh, since there's no
+> > Runtime PM to re-enable the clock when it's needed.
+> >
+> > I'll update the commit message to reflect that the driver uses a
+> > combination of Runtime PM
+> > and explicit manual enable/disable, rather than relying on Runtime PM a=
+lone.
+> >
+> > > > Links:
+> > > > 1 This change is based on the discussion around manual hclk handing=
+ during probe(),
+> > > >   as raised by Krysztof:
+> > > >   https://lore.kernel.org/all/20e4754b-ea9a-404d-b529-ec44a7263cbf@=
+kernel.org/#t
+> > > > 2 Background for the earlier devm_clk_get_enbabled() conversion:
+> > > >   https://lore.kernel.org/all/2818018.CQOukoFCf9@workhorse/
+> > >
+> > > > An alternative approach would be use devm_regmap_init_mmio_clk() an=
+d let regmap
+> > > > manage clock enablement around register accesses. If preferred, I c=
+an rework the
+> > > > driver accordingly.
+
+Hm, I'm worried only ungating the clock around register accesses isn't
+going to go well if the clock is needed by the internal logic of the
+device as well.
+
+> > >
+> > > > -     sai->hclk =3D devm_clk_get_enabled(&pdev->dev, "hclk");
+> > > > +     sai->hclk =3D devm_clk_get(&pdev->dev, "hclk");
+> > > >       if (IS_ERR(sai->hclk))
+> > > >               return dev_err_probe(&pdev->dev, PTR_ERR(sai->hclk),
+> > > >                                    "Failed to get hclk\n");
+> > > >
+> > > > +     ret =3D clk_prepare_enable(sai->hclk);
+> > > > +     if (ret)
+> > > > +             return dev_err_probe(&pdev->dev, ret, "Failed to enab=
+le hclk\n");
+> > > > +
+> > >
+> > > > @@ -1482,8 +1492,6 @@ static int rockchip_sai_probe(struct platform=
+_device *pdev)
+> > > >       pm_runtime_use_autosuspend(&pdev->dev);
+> > > >       pm_runtime_put(&pdev->dev);
+> > > >
+> > > > -     clk_disable_unprepare(sai->hclk);
+> > > > -
+> > > >       return 0;
+> > >
+> > > Are you sure that the runtime PM state there is such that it knows a
+> > > reference is held?  The driver used pm_runtime_get_noresume() so the
+> > > device didn't have RPM_ACTIVE set I think?
+> >
+> >
+> > You are right, pm_runtime_get_noresume() doesn't set RPM_ACTIVE. I
+> > think we need to add
+> > pm_runtime_set_active() before pm_runtime_enable(). Otherwise, with CON=
+=46IG_PM,
+> > the pm_runtime_put() at the end of probe() might skip the suspend,
+> > since the core still considers
+> > the device suspended .
+
+Agreed, this needs fixing. That is an odd behaviour of the PM API.
+
+> >
+> > >
+> > > The runtime PM API really is a miserable collection of landmines :(
+> >
+> > Yeah, plenty of landmines indeed :(
+> > I checked, and rockchip_spdif.c does use devm_regmap_init_mmio_clk() fo=
+r hclk,
+> > rather than wrapping every register access in pm_runtime_get_sync() /
+> > pm_runtime_put()
+> > the way rockchip_sai does.
+> >
+> > Best regards,
+> > Phuc
+>=20
 
 
 
-On 7/21/26 2:39 AM, Kuninori Morimoto wrote:
-> 
-> Hi Qcom developers
-> 
-> I will post Card capsuling patch.
-> To makes its review easy, tidyup meson drivers to reduce
-> un-related diff as preparation.
-> No functional change, but is preparation for cleanup driver.
-> 
-> 
-> Kuninori Morimoto (3):
->   ASoC: qcom: common: use dev
->   ASoC: qcom: sdm845: remove unused card
->   ASoC: qcom: storm: use dev instead of card on storm_parse_of()
-> 
-
-LGTM
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-
---srini
->  sound/soc/qcom/common.c |  8 ++++----
->  sound/soc/qcom/sdm845.c |  2 --
->  sound/soc/qcom/storm.c  | 12 ++++++------
->  3 files changed, 10 insertions(+), 12 deletions(-)
-> 
 
