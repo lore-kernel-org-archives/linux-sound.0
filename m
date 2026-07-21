@@ -1,63 +1,63 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0D0480DFC
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 10:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBC8481FC4
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 10:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784629737; cv=none; b=O5Lvofc6CL8WSBupqAc1GdYS8Al3WTaq9G6+CPgEjs3bt+19L0kzA4v9zZXgWXOigDleL4k0ByGVYNa08LrPf/h5jKMMxdduVdT6pKCoDAIZX6SAnZ0Wxc+QEhS2VzqDuGdnDzpuQelgn5/qMFYbeX12CBzGJH6IvJGdbh33v5E=
+	t=1784629741; cv=none; b=tdxvZdCTWaItTvDet/N+0FQKhFKPgHKhqNXsY3usdl88QMlvX+zm2Q+Feuj/2500oYJpL8jyWMKM2I/UJe83oCwbefwFsUhXqM/hKoIpfY4NqTk7YhqzOKbyegyYkfmoWmmC8BmteHzkMMbDOLJJx7TwahAJzEzgz1AKMLMW5P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784629737; c=relaxed/simple;
-	bh=71e6v5A0pmTCpY/muFVgY0bKxBOo24zj6ulqSaCErLQ=;
+	s=arc-20240116; t=1784629741; c=relaxed/simple;
+	bh=j1KzWxhp75swdsTYPJvVoYjcP8hTRieKELlWe5iEq2U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U0fnd6/G2Tax6BECCRCg7xjQOPEOVOE44sBZID4LrCcZfX/zu1KXNTi6P7x2OANsiUmjA1OYjpWPzEHYYuWiraoGk5+n4FDYMR8NU7rC2Rpp9nm3NttNckWwsBIV8Kx8ZTHwSEofGxSqzw6wF66ja1UjGRuwiQbP7BfkZUn6Lwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qvKMWgnN; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=IDvJ0MqQe8gH9QLL1LaIr/1g4oEAzE1x1iuEMcW/PI0LgY6Nt2BudJZoEzVSnlzILyZTRAO+IaGVUTvSFbYjgUvcCevmMN6p6j20r3NJaxqlecIvkTArQ/NhK8dC7mwCwJeCEqbh+SavPBFYcU42Kan1AhIUvsInzyn7vWph6OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZCh6/J0; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvKMWgnN"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cab973140bso136550195ad.3
-        for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 03:28:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZCh6/J0"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2caed617615so123146805ad.3
+        for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 03:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784629731; x=1785234531; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784629739; x=1785234539; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jE/vGes9bWof+nCBjw7kvawhZty+DCUG3JNg48uQoDI=;
-        b=qvKMWgnNn1YFVGOCpX6r+V+fS78YWOo5eycufmTkDAAM+876VlCQgeWn6QbzjGhIjr
-         NJbAyYDdxe4YgEI2AvQ4RlLtHiVup994C5Y+7nnT3dmQ+FL+rv3EEQtzBuYzW/er8T0R
-         wWdvC7FzHi9a4ZjAtOd5bq1dNFqqcIZiTUWbuSahOu4IPlHpLVbs0laEOVGcrCshQt6Z
-         vFOYtgjs0ORZsDUFz8ieumhr25IwalTP/UQnB4LIHYWc0Siwf2c8o72zxYPvCwAE84en
-         ACHNbmFyfah+Ndhd+ou5S6jdulVdrrr9Od6KPxNTLEti1utlwNxvVssITevTIQnYDW9R
-         WWqg==
+        bh=26LuwxXuYnG2tABKOgMVR7HJmLwQlsRPpHyBPQzuKoY=;
+        b=nZCh6/J09Q70+eb434fgInxIXahgqRBo2r97XRpqV08yyxhQgp2K+wCV+IgwgbX3U8
+         9SHYP+JDgu+AyQM9TpRuUVeXk1Y2ncWUllaneVzE42dbft9BFRPqnSgjIyoaOB7IIb0s
+         K8ItvUfWezfDWIQ/iEZeZSiqBtn5KQhUTN206qpWo01lEdbNWC3szZrMlk1oPA3I9VZA
+         MeSUvEphxnbCvpAap4fSWRwdaLk6+3V+f8LjTrz32Ne0GoqrOhEw/7LXYkSqRQKkMLA7
+         Mi0ZtmrbH+BJtcRseZpaekYtRwNHScvh6UmOVT0DhTA1rnA3tcrLnZYzjpZtIxk8NVY+
+         Egpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784629731; x=1785234531;
+        d=1e100.net; s=20251104; t=1784629739; x=1785234539;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jE/vGes9bWof+nCBjw7kvawhZty+DCUG3JNg48uQoDI=;
-        b=RO+yuN01SGBNWmocdyTodsmAAfhfa79OT8OcO0eu23xB6oCV6+e8145S9W5FLe2H3N
-         bCsYPSJFBbtcMHAS0PYo7ZrYTdvEJi3gw6BB2s5Q4mDXxVMJeJDRF9SVymrmksmhaCJ4
-         R8a7CwHUTH0erDbVDV4JE3I0E6gdV8MxXBDm8A5GreKWWt9f5ZWrXWRtZgq05MagT4ey
-         z42zX6ELkYlnayr4sEejQdHQoyNTNaYAAbdKVOd+fWHIAMsH7O02oXVNuMlOqnMdzzXt
-         c7u9mYohnGmD3YSkZwzCH8Vh2jJr+VFsV8pcb6yGT/XWfZKeT6C9huNjPo868FN3u//v
-         p0Fg==
-X-Forwarded-Encrypted: i=1; AHgh+RqK6LnHgckrzEMgvd3jKnn8u/LVuZxAWWdiKXaAGtnEXpMRMIc4BS4+PGku6jImhZ61zQN4MViectrhDQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVFbOOPZEy3Of7Mqy3wa0lPwgk1tzAPaI6R+1nqqZXChBxvftF
-	nOb9Jms9rE4ZT48s+Fy69Gl8nX1RiLXkIUvoGkaUsNJ8kUxmQcfNYeI0
-X-Gm-Gg: AR+sD100q3hrNhsVdy6Cx8OQH+6u1h99RETIaNZw2hc8ZFpCFiHYRFV3uOeTcOJw6hS
-	gBM/k1AMeBhcVKimRxYw3pSL2p+f5Eafc8RkWIe+w0UtQUBnxK8+iDtprXBpWhGVFOlTW644e+B
-	CNCP4EHNHwqfa0E7eP3iylRqM5XRqGVin+pqaaaF+rX4j2DogdG8igpexIDoKbTBhzzc44b9udO
-	AGlCEqqdX931xlg8Aef6lba5ongvHU/sTphjmc9Xc4/1VkjlLO9DLJMYidtZTBaZOW7TDqlG0+e
-	S7Aftb2wbtT9tAl/h/BMNuGPR5HRTXbFjekdmG5yf+ldO+ROpmwHO23YHF/HTuWWYmYczblcUXn
-	bJ/PAeWA9vq/wFui2KdoIGGVLKErO+ZVFRMl5I6TFcokma2rleX64K4qjlkLXs6ZKZZijwqqI27
-	IGH2/xhOPBGhc33slXulEsHVLL1NTyu9ZB+1wN
-X-Received: by 2002:a17:902:ce07:b0:2cf:7d0d:ddde with SMTP id d9443c01a7336-2cf7d1d27camr38565945ad.0.1784629730842;
-        Tue, 21 Jul 2026 03:28:50 -0700 (PDT)
+        bh=26LuwxXuYnG2tABKOgMVR7HJmLwQlsRPpHyBPQzuKoY=;
+        b=nKpzF4hCt3NYjBXD9tlctWJwnxXwo2Nen1VOf+WMpe6afBxCcmYaEUD+s/yaF4mrIQ
+         7lbDCvkz6PvfzOJThuIl20NIZ2T9eM9s9ePZrbNMo7BDM8PhKldqTzLzLg1DnOURejsx
+         9yV8HLCD3MenCDg6b59JzrHlbqFqjCrwy7KlIQy35iybNwj6rRPWjoFtXQR3pZ4rSGr/
+         QIJf6MDOyr6jS0ilDlZHgpO2EC+WT9pUEUqtQCGxH3Wabiq6SjqxFafXm6Q+S6NX38zk
+         OkvoCjtiP5ono64Nrl6hEcXvHYKCZW0OD8EdTG00b0nloM/+WZOcyZYFbIuK7KqE6I7L
+         cz6A==
+X-Forwarded-Encrypted: i=1; AHgh+RoWbl4nc7ypwK698JuJdnqtMEMfBDpdeaQRVfRk9YsHrKCznqGBPxTGPOMSOXx4NoHJnz++4h2onnzM5Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyboFnr1L5IW9Vm34E7DsmrTvQz6zCL4gOCWFYF+M1zuK8k2jRL
+	UCPYyRqcP8FGIQoTuDcKawv7e3oSL9dMFURHVd7h48zdvcov8WuIt5bA
+X-Gm-Gg: AR+sD11VZYGKahlSGhAnMgPS9+QpVJb2Xwd9dG094BZcZxvorgr3/itJYwfFD+OLI/I
+	ObWIMAMqy9erutXcPBsFRFjkR8DfgzXgbsaAy8nfKjekvELEU4lPSaBMv7EEFyU568FwV5xHDbu
+	cSWujDXn0fHuv1msCX3mBwDwMA70J2eYcQVDHQ5jSsIPUIT/w8oC7xepfNdvAkB15xALW7KZ/gG
+	m3ZiVoFfxs26lF9lgM9CJIYKKjJ0x6cxsZg+v1cHlCRH4jVkGcuB+YyAistVdC4OGYdqkYh/Fj/
+	ZnE+yr3ZS7ETmlUpe016pmxFYpNyshWi7nOc0gew18y/yOZL3M8+gmpQryfeOeyMdi52Zm9Iegl
+	KuwWjgfreO97LXX3MX+QIfgObFt8+V8JIPlTVJA+AN1xnoRoiQ7Ia7aZPxF28Kd0nnz8pKXFzfX
+	z7SVIWj//NruJ7CGW4vb7C1/vVCiBhCDH6M46c
+X-Received: by 2002:a17:902:e54b:b0:2c9:b48c:fdec with SMTP id d9443c01a7336-2cf348547d0mr202166025ad.12.1784629738893;
+        Tue, 21 Jul 2026 03:28:58 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448dac2sm73581365ad.3.2026.07.21.03.28.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448dac2sm73581365ad.3.2026.07.21.03.28.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 03:28:50 -0700 (PDT)
+        Tue, 21 Jul 2026 03:28:58 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -92,9 +92,9 @@ Cc: Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-msm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v4 19/29] ASoC: codecs: rt5665: Use guard() for mutex locks
-Date: Tue, 21 Jul 2026 17:25:50 +0700
-Message-ID: <20260721102600.523199-20-phucduc.bui@gmail.com>
+Subject: [PATCH v4 20/29] ASoC: codecs: rt5668: Use guard() for mutex locks
+Date: Tue, 21 Jul 2026 17:25:51 +0700
+Message-ID: <20260721102600.523199-21-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260721102600.523199-1-phucduc.bui@gmail.com>
 References: <20260721102600.523199-1-phucduc.bui@gmail.com>
@@ -113,13 +113,13 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/rt5665.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ sound/soc/codecs/rt5668.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5665.c b/sound/soc/codecs/rt5665.c
-index 48f57cd0920d..1d987472ba42 100644
---- a/sound/soc/codecs/rt5665.c
-+++ b/sound/soc/codecs/rt5665.c
+diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
+index fed6de40b8c8..4154bad27610 100644
+--- a/sound/soc/codecs/rt5668.c
++++ b/sound/soc/codecs/rt5668.c
 @@ -6,6 +6,7 @@
   * Author: Bard Liao <bardliao@realtek.com>
   */
@@ -128,63 +128,43 @@ index 48f57cd0920d..1d987472ba42 100644
  #include <linux/module.h>
  #include <linux/moduleparam.h>
  #include <linux/init.h>
-@@ -1208,7 +1209,7 @@ static void rt5665_jack_detect_handler(struct work_struct *work)
- 		usleep_range(10000, 15000);
+@@ -986,7 +987,7 @@ static void rt5668_jack_detect_handler(struct work_struct *work)
+ 		return;
  	}
  
--	mutex_lock(&rt5665->calibrate_mutex);
-+	guard(mutex)(&rt5665->calibrate_mutex);
+-	mutex_lock(&rt5668->calibrate_mutex);
++	guard(mutex)(&rt5668->calibrate_mutex);
  
- 	val = snd_soc_component_read(rt5665->component, RT5665_AJD1_CTRL) & 0x0010;
- 	if (!val) {
-@@ -1274,8 +1275,6 @@ static void rt5665_jack_detect_handler(struct work_struct *work)
- 		schedule_delayed_work(&rt5665->jd_check_work, 0);
+ 	val = snd_soc_component_read(rt5668->component, RT5668_AJD1_CTRL)
+ 		& RT5668_JDH_RS_MASK;
+@@ -1053,8 +1054,6 @@ static void rt5668_jack_detect_handler(struct work_struct *work)
+ 		schedule_delayed_work(&rt5668->jd_check_work, 0);
  	else
- 		cancel_delayed_work_sync(&rt5665->jd_check_work);
+ 		cancel_delayed_work_sync(&rt5668->jd_check_work);
 -
--	mutex_unlock(&rt5665->calibrate_mutex);
+-	mutex_unlock(&rt5668->calibrate_mutex);
  }
  
- static const char * const rt5665_clk_sync[] = {
-@@ -4564,7 +4563,7 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
+ static const struct snd_kcontrol_new rt5668_snd_controls[] = {
+@@ -2356,7 +2355,7 @@ static void rt5668_calibrate(struct rt5668_priv *rt5668)
  {
  	int value, count;
  
--	mutex_lock(&rt5665->calibrate_mutex);
-+	guard(mutex)(&rt5665->calibrate_mutex);
+-	mutex_lock(&rt5668->calibrate_mutex);
++	guard(mutex)(&rt5668->calibrate_mutex);
  
- 	regcache_cache_bypass(rt5665->regmap, true);
- 
-@@ -4601,7 +4600,8 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
- 			pr_err("HP Calibration Failure\n");
- 			regmap_write(rt5665->regmap, RT5665_RESET, 0);
- 			regcache_cache_bypass(rt5665->regmap, false);
--			goto out_unlock;
-+			rt5665->calibration_done = true;
-+			return;
- 		}
- 
- 		count++;
-@@ -4620,7 +4620,8 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
- 			pr_err("MONO Calibration Failure\n");
- 			regmap_write(rt5665->regmap, RT5665_RESET, 0);
- 			regcache_cache_bypass(rt5665->regmap, false);
--			goto out_unlock;
-+			rt5665->calibration_done = true;
-+			return;
- 		}
- 
- 		count++;
-@@ -4635,9 +4636,7 @@ static void rt5665_calibrate(struct rt5665_priv *rt5665)
- 	regmap_write(rt5665->regmap, RT5665_BIAS_CUR_CTRL_8, 0xa602);
- 	regmap_write(rt5665->regmap, RT5665_ASRC_8, 0x0120);
- 
--out_unlock:
- 	rt5665->calibration_done = true;
--	mutex_unlock(&rt5665->calibrate_mutex);
+ 	rt5668_reset(rt5668->regmap);
+ 	regmap_write(rt5668->regmap, RT5668_PWR_ANLG_1, 0xa2bf);
+@@ -2400,9 +2399,6 @@ static void rt5668_calibrate(struct rt5668_priv *rt5668)
+ 	/* restore settings */
+ 	regmap_write(rt5668->regmap, RT5668_STO1_ADC_MIXER, 0xc0c4);
+ 	regmap_write(rt5668->regmap, RT5668_PWR_DIG_1, 0x0000);
+-
+-	mutex_unlock(&rt5668->calibrate_mutex);
+-
  }
  
- static void rt5665_calibrate_handler(struct work_struct *work)
+ static int rt5668_i2c_probe(struct i2c_client *i2c)
 -- 
 2.43.0
 
