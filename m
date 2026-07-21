@@ -1,198 +1,161 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440DC481A8F
-	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 10:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784629798; cv=fail; b=m/F8FczT5YWOcdlV+gLsrDec7PsqyBZyXMe7OT5XMEPxlZrzBdVt03JHbzXF8NVEZ4PsI9yJB8SnR5S0J1rrBcNSeQJqFB7L/QY2V846eXxsmHZUCdQCHUEF3a40av1mgJn/eSKuu+vnfvXeDRXt4FBkDHdUlSWujlI7f9gUV7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784629798; c=relaxed/simple;
-	bh=/y36AF5iRBxhUcX9wT5iHD/FGOErzlbnVenhLdAWu68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihx8L/u8349KThqjdYyXThuqyreKz0MHRlpm5Grn6DLASnRNZERB+x3yZ3ZCdo+Z6X5KpBUoDgGFSUobbCyRVi5dTeYbFp0TS+k+Q4RBQzxprKtLASLauoclzs5WLzwDildO5yklS0tIfZ94j4Qsuhz33xbIv4sieUFIxoVwCbg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PmMIovHO; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=s8kElufe; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C1648095B
+	for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 10:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784629799; cv=none; b=HrHUv8aXEYq5ScTqHoMY+0WIXfn+NxAExMN3ciXItnOjYsQuJX4H0LkdChhkTLiQ/SunEHmALso6/2UAS+5LoXj62jwfqxdTwzqEKXPaV/kC3B2BqQFaPHsk74qkcYx8ofCx/TaKpVESCMJp1U2RbqhcaLBNW79YubWP8S9PqKI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784629799; c=relaxed/simple;
+	bh=qbBdxV0HbQfAJ4j0QSXdXWta72IP+0GjR3MdtixOid8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=vAk3mQVA4vW8P7jbhjMFFN9Ngz0FrDvafor4HbtjZB9jFpKlriRRRfT6sZMt/OprICR4mHhzY/QOZ1fvCXMimk6wiZ4tg+QpQZ/AwtYkw3Tu4HAtsWi+4scjxFkcmfZXiRP/e8A2WeIANSRnPRHMTtD8nvSYM1GAuLwy8xV5/vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I/k1uNWV; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PmMIovHO";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="s8kElufe"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66L4uqOX3876025;
-	Tue, 21 Jul 2026 05:29:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=joVkV4CZfYRQeEC+ViR8k2cZkz1aF3mg02WMPp+8nRU=; b=
-	PmMIovHO4onwHs3iSabON4WMsuASE0UYiESyTzB3QW84EkjblqZFxEgI0X2p8IaF
-	HMaHy6s7K13oCPMDIetM2zwDkPGSV7jZxmTQk72eLwK7a65iqBkdFc5j2LkDq3pG
-	YvJigUyz+RU5eF/dpGbx+/3QZC2lfbA5YU6mWHsZK8ppD4r+QJXZL8brVwEBNjCb
-	3D0kqRDQt+c0W6BGDuQsLG+YxUCb0nEbscsMNV1th1sYbiDmxBR9g6xWK6JV7LQg
-	In2xDoZmt/R+psQx5/WGwbUe/BSGkHB0kWSjtEMvZi2lpjhCoyqFsck/WpwUNFjM
-	7N6X6yq8YnaL6Pbmv53wXQ==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020086.outbound.protection.outlook.com [40.93.198.86])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fg5wfbver-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 21 Jul 2026 05:29:20 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uHKxssMuaj1Zeucref0QuYogopYgH6uy3B9Y8S5zChlMjE4pgfWm0vpITkZpFXqb31i5NXCj8W5oGx5wGW0DrfiCU0J4Mq90WcRzQwHUync0lH2zQCtq8vvBMkb3jfMGjlp5yEjQJ9D3pat1ArDCUJDLX0M51lcl53IGpbt23lYAdxjf2m+1NlcbL1dSOkGgnUHKgAUV2CDFH34w65cgGhonDxHQo+j12fad1aWe5CW/GN9Xwgj8MCx8jXHT3lK89SAUAn4IhVSbA2vfqUa5iY92y582IVEYgIH8xKXNEf/VF87TeOyrJGkNShHJulaUgSTZWf3oBPXSTmlPNk6O/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=joVkV4CZfYRQeEC+ViR8k2cZkz1aF3mg02WMPp+8nRU=;
- b=rP/yDGXGgsyTyQJYcU2zrl4SOLrLG1jeU8S6I6onmfUl3bha/yM3mgRUB+WmWgoS7L9/+8ITF4Fj5SBR/ogOgtf25ISL8KY0j9DS9YcbhK6HJ3MvkaoT+sLhTXy3i8692lWozkeGtpRzHoerYfOCrx9xTCC0ckbg//NU1+eXv7sVYfyEc1MwKR0NX8ue4qGA8BFss4e/WJHmW+NRQTkP9in/r7DGwOMBkNyUGg9ZbkcRqu17kXd50j42e5YoDLCl6TCE9mfkYMIcH00wUmvsQ/rTrBSlWZWlZmih6ryc0rhVvWGaCb+9bSYIQkIfHKc/CBXty2R/E/4W4/UdigjHlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=gmail.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I/k1uNWV"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cf6d65d8a7so24148295ad.0
+        for <linux-sound@vger.kernel.org>; Tue, 21 Jul 2026 03:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=joVkV4CZfYRQeEC+ViR8k2cZkz1aF3mg02WMPp+8nRU=;
- b=s8kElufel4e5k2jDFhu1QEXCfGxWAOrrQjDsRPFWH5OXkJgjii2y4r0CND++M1mZpQIlVBg9dlwGODqpF+qZTJ0AEwmU9G+ysfdpu7XqzoUTqHGAhs7wh/o+HxOIWztVN43zWm8ooGo2pWj3mj3WTEUHd//ZhxZzw6tKNqEYvEU=
-Received: from DS3P221CA0001.NAMP221.PROD.OUTLOOK.COM (2603:10b6:8:45e::6) by
- SA6PR19MB8803.namprd19.prod.outlook.com (2603:10b6:806:41c::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Tue, 21 Jul
- 2026 10:29:17 +0000
-Received: from DS1PEPF0001709B.namprd05.prod.outlook.com
- (2603:10b6:8:45e:cafe::2d) by DS3P221CA0001.outlook.office365.com
- (2603:10b6:8:45e::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Tue,
- 21 Jul 2026 10:29:17 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS1PEPF0001709B.mail.protection.outlook.com (10.167.18.105) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5
- via Frontend Transport; Tue, 21 Jul 2026 10:29:16 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id BCF38406541;
-	Tue, 21 Jul 2026 10:29:15 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id A35E3820244;
-	Tue, 21 Jul 2026 10:29:15 +0000 (UTC)
-Date: Tue, 21 Jul 2026 11:29:14 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Shuming =?utf-8?B?W+iMg+abuOmKmF0=?= <shumingf@realtek.com>
-Cc: "broonie@kernel.org" <broonie@kernel.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "lars@metafoo.de" <lars@metafoo.de>,
-        "Flove(HsinFu)" <flove@realtek.com>,
-        Oder Chiou <oder_chiou@realtek.com>, Jack Yu <jack.yu@realtek.com>,
-        Derek =?utf-8?B?W+aWueW+t+e+qV0=?= <derek.fang@realtek.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: Re: [PATCH] ASoC: rt766: add RT766/RT767 SDCA driver
-Message-ID: <al9J+uxU5sJ/i7Dz@opensource.cirrus.com>
-References: <20260720090613.2239891-1-shumingf@realtek.com>
- <al5K9RHWIeHjL0BM@opensource.cirrus.com>
- <3f470a3c2e2f4123b93c5671dd92fae9@realtek.com>
+        d=gmail.com; s=20251104; t=1784629795; x=1785234595; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/AG1aLLSk1A+OF1XRTr/NNeiulfMJPmRiCY4S1R09y4=;
+        b=I/k1uNWVH5bx1Odd8iRFccgm4A6WbnVMOknhzGRa63q7qcK2cQkLArByiJQ6FC2XBY
+         G3aRGP4Eo3U8/v97X1xIy6+3VsI81Sqj+jlBPjWMRc38xFtI/FZGOh3KRnieDsZ6Fs2i
+         BpOdps/Y9WYDVq24fDWvdeJA5ZMySCNuAWOx8MaW2MkDvKRUo7B+JNwtIOZONuSN84gc
+         HWevKD9PSyv8ye/688L+zEAcmOhGcu1g9CBwaT4yhCQ09dkpbjeLx/cDE83LeB9/reOG
+         SW6P/eHst+i1EDolBfcShoxKGSk9aX3caohHac9Z77XwlgzIDtwIqCCvuJ1gUZpBw8fE
+         FXTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784629795; x=1785234595;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/AG1aLLSk1A+OF1XRTr/NNeiulfMJPmRiCY4S1R09y4=;
+        b=cMtzCxD67huZDYYDsUq0S565OORNosgHNAEOFoLiC4MOv6EMPtKQYsv0nSvfmknMyw
+         /olzc9b2PC/0JcWQdSWuIJwr78HuqA5ajzKGwyCCGQ+zxJjZdjv+RTdLvbIOgJuRbYRI
+         4p1798n5scrEdrWMCGpaH2PfR1r0F8uPhcAMqRF6qJWzpuyw7VSJs3VPjZip0lmi4mBb
+         eOO23NgY7Wn7K5LqB+UofRIdj3NiN0wrNsRMqFz8RW3I51dtJrJUym8CMD4JfzQQmObK
+         JceXisu+FoqljTyu1FOhEqvkhYrID3SlTi1pzjaK/E0j6KMV0vuwQJPAPyDVTtqYDbY/
+         COEg==
+X-Forwarded-Encrypted: i=1; AHgh+RqLWrjpBE4H/HTpMdIGiS+cqcj+G1rGrTtEjHqZH49r4226YdSUiqJ5Dhsxj+kYmQthnIPr2+2aicX1KQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YybZI3DW8sXuNpXcXq/7vp96Azxe9cvC4sItRko3LYjNad9X6W0
+	H0eqDiHTVJL9RFa3Vpz6ZawslkSm8yMSr/VZjSkwbPFvt/YjcpEpKxiP
+X-Gm-Gg: AR+sD11cIjYlPKqy/1KSLahweKYPzcpQ8AtGbvYouUP6x2cPjbdAl65y+8PsALTFEVg
+	D4mjfPjqoUooVQ6VFATIh/LKKGMSlgiYC7czdWUybad51JmAYwxZjIX0HKOdM33cw7wRvoDRUj9
+	Ql9nJxrn3lKyLCygJnvCFfuhyONLP8IxYTQNeRQJGyJtvmiPimLVCNhQDHd0j54a3uI+rMsPTOW
+	7Yxogyqy9Rdn7EU54EoE3FCFtHJ/UFkQFgADObh1bBVgkscoOEGb3+LUSXjzdHNphkkIO0Rn3V/
+	NuCywTQxL/d9X6gOX5Rpr0dRbTKbMC0jsy0F7tswb0QavaXoTAs9rAsY6BrDc4QlnbKEM59dyB/
+	owiIm08N5gZDUKLD3y9tRKq7BSgDXEOpDnwZRawzsS58bw5BkyHkohmvNgHKRujVwCOin0PBrCo
+	ZjQZS+6NISX/lVarh26XnKS3d1nvAtiFraoNxY
+X-Received: by 2002:a17:903:2f8c:b0:2c0:b6c7:2271 with SMTP id d9443c01a7336-2cf348047e3mr198541925ad.4.1784629795303;
+        Tue, 21 Jul 2026 03:29:55 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf3448dac2sm73581365ad.3.2026.07.21.03.29.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 03:29:55 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Nick Li <nick.li@foursemi.com>,
+	Herve Codina <herve.codina@bootlin.com>
+Cc: Support Opensource <support.opensource@diasemi.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	u.kleine-koenig@baylibre.com,
+	Zhang Yi <zhangyi@everest-semi.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Kees Cook <kees@kernel.org>,
+	HyeongJun An <sammiee5311@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v4 27/29] ASoC: codecs: rt721-sdca-sdw: Simplify regcache error handling in resume
+Date: Tue, 21 Jul 2026 17:25:58 +0700
+Message-ID: <20260721102600.523199-28-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260721102600.523199-1-phucduc.bui@gmail.com>
+References: <20260721102600.523199-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3f470a3c2e2f4123b93c5671dd92fae9@realtek.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0001709B:EE_|SA6PR19MB8803:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2241446-0a48-4f87-8989-08dee712eb0b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|36860700016|61400799027|82310400026|7416014|376014|56012099006|11063799006|4143699003|10067099003|18002099003|22082099003|16102099003;
-X-Microsoft-Antispam-Message-Info:
-	8zJ0Ua/+6rKVZGvPHGLaHADNoQ7x22naUQjiA9+9JLZi/UgbZSpwWLjQh220XiPFNDZHkWo6WQL0KqdMiQ5G0SAt6XbdI7X242FNwzWrUVZ/d3mxPG+AH1qy5m6h0oPsDuiSu1B2C15dbBWgb1eDKOY6kNjW8qzjiL+UfzoR66ijq9zx6c7JlueN+pA8kfFCfcBY/qb+0uPLEqLcyj7DQ2F5PGN61G0UWpC0AX/+/rAUjQU9eIDJF424WSHFsn6rqpLbRjq2MMf8QkGNFx6dBoCzh7qLEIbfv9cEcPHHYNmE/jG7O+q3auAfjdRXNkXhCF49/zJ5nCWEeKIaB+yiQ3+TXOpdPc1ZmGAb2JuYoU/tsHYrE38KUI7ppfch9BMMb4jJQo7Kv2psqbRaHWt2WpxTuIjsNhfcu72xime9U+WHGg5YSTkPAncZmW9TQorH7U2BVwgkxfiAtVHkYpBfg9OMd7J1YnUU2K7yZ4k/UL2hCjDhxLHtLLlemOzyGdMGYHCBcmVE3r1wZ9MMVdYieqzG5FmTmkQmmU2XN+gkENpYOvN4CbrClmOJ/SlkBV87ASZHeZ8tAlAjI36Y5Tc/Pj2bwKX8c5+SDWI55JPMBR1YxqQuQmRbhce/k2Ecv8tORGhEulZhbamlmNnMfZRMd8FLEVV6qX9D/yZiSKguXWxdGC7mLHo51BpuN/g1OreIp9FR5gIbEsZVYsXIUxTfnQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(61400799027)(82310400026)(7416014)(376014)(56012099006)(11063799006)(4143699003)(10067099003)(18002099003)(22082099003)(16102099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	fNm3pAeDX8XX1J3XACZTNybNtZj34vy59RptUQcW4NeNBWkTxxGS/HL+KpOrpXs23Y99ZCwQu/0B2TnFFATPkj+1IsSJITxE5KokQTb4QqnZeDvTH5LK0M43zAmOjj1Ohqvg5iRFU3zoYCcuQc3nQ2GllVB/Qe0L2eoKHHEMiOisY506e0zlcA8WIQthVGShtbUOnVVpnQcu8jBuoNutptdCT0CDnT7HB9RNBnda/PVRtB1GcaBKw6rV98X6kjvoHjALmoUSaTOlweuy78u+Tnd/UQR/UCbn15PLVpDR31iCsmSr5M808gIal26MiSjYrHukvHsBwVPG0/RoKMjc2gBDY6ejaGab0LZyWeCyLzAYMOWKiQcNioO6qvioZprU7pvicpftyU196MIvIN1O/KKoMeSAmMu5iUR/SOaM4RCtW0CkHDZydTVPdpXM8CT3
-X-Exchange-RoutingPolicyChecked:
-	SnFE0k30ayNTadOYkP+Sc+vpeYOziCU6Sc+KOn8P6Wrc9YbdsCU5JCftKQZzSpUZ+ebi26o6CaWN77QvHSjk6VyOCbvWST7+ZMCwTuLugJF+KD3SqOg4y8ipS/jRx+pYv2b4B2lxrC8gxojeb7lJB0ZGCvXutEuI/a93AA7/8rAlnoGeMYOA5qjwcCkAU1rCLpoGS+PZqB8UfMBCgJTFeTSNE3/ZPxJMKmfCi2cpM+7D5ssqneQU+OA8IBXIAk+ap6CvOe1HDxiS+Xncp+kXVbqs4OjKGCkwOXipiHeK7Ky/FuRD5VINFqFsK4u2r/4+FIo67IgeXUzi9HPmwQvztA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2026 10:29:16.9259
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2241446-0a48-4f87-8989-08dee712eb0b
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS1PEPF0001709B.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA6PR19MB8803
-X-Proofpoint-ORIG-GUID: kNlj7zaaNvXcRcyWz3sDQbF6roazWezT
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIxMDExMCBTYWx0ZWRfX+3PgtXMJ+in9
- em4dtmRp9A6ztYHV54qNGm5QOyRvtp5PFt6Dz9D744oXpXNv9CvMpnr6lmmKd5YNHYTQUlss4zO
- Hfc1UG+2kwxEuj9rjIkvX6RoPySUK3g=
-X-Proofpoint-GUID: kNlj7zaaNvXcRcyWz3sDQbF6roazWezT
-X-Authority-Analysis: v=2.4 cv=BdjoFLt2 c=1 sm=1 tr=0 ts=6a5f4a00 cx=c_pps
- a=lEAsXE5stpqivpVhnk0CUA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=2kj9mhMZ4QmHzkKD78cA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIxMDExMCBTYWx0ZWRfX8dHMDVG753sI
- loMlYhy2WtRRPlj2Vy7dzhVdgRUDFhB5BjdNF2qpx0GOOrThDSpSL6K8vf9gKhU/zSTxNflWnq6
- zv+Mkn//XfYtoagujCLPry3lvaqTM7Yf20LumiwH8bFvFGxVOqmDFCZ92a2psNyX18CJg912wF7
- vYcsNchKMnT2jvbMi6aP90fc1kfDCAvEGseBvU3uQa+fHxlOLYNtvizBVtQmcv6nXiBWaPczqvr
- J8qLb8UfKR7tCm6RRxf6iZfXQTZlFB671yvuueE4jt11XCcXShi2Ih+sPgiWQUo4T7gY+MU/frs
- tk0N4vR9Ru2J9FrsEX6JclrJrTwT4UPGUs/YLmo0mqU/G9aMxypy3y8afX6IJJTNpZkq2wO2kUr
- CLSY9BQCeAk+0HZkNwKNC5QOPGZoERj9bVMBwRPCPnViwF57epGSaI6demQ75cbVFZJw3MS1yZo
- 2lRQKqqW/5kdjZu9FVA==
-X-Proofpoint-Spam-Reason: safe
 
-On Tue, Jul 21, 2026 at 07:10:00AM +0000, Shuming [范書銘] wrote:
-> > > +                             if (ret)
-> > > +                                     return ret;
-> > > +
-> > > +                             interrupt->priv = rt766;
-> > > +                             ret = sdca_irq_request(dev, info, irq,
-> > interrupt->name,
-> > > +
-> > handler, interrupt);
-> > > +                             if (ret) {
-> > > +                                     dev_err(dev, "failed to
-> > request irq %s: %d\n",
-> > > +                                             interrupt->name,
-> > ret);
-> > > +                                     return ret;
-> > > +                             }
-> > > +                             dev_dbg(dev, "Requesting IRQ %d
-> > InterruptName=%s\n", irq, interrupt->name);
-> > > +                     } else {
-> > > +                             sdca_irq_free(dev, info, irq,
-> > interrupt->name, interrupt);
-> > > +                             dev_dbg(dev, "Freeing IRQ %d\n", irq);
-> > > +                     }
-> > > +             }
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +}
-> > 
-> > Hmm... yeah this is moving in a slightly different direction from where I was
-> > going with the core code. Let me think about that and update tomorrow.
-> 
-> Sorry, I don't quite follow the point.
-> Do you mean that it will not work with this patch (ASoC: SDCA: Populate IRQ data earlier)?
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Mostly, the issue here is you are calling things at different
-times to the class driver, so the devm allocations will probably
-leak but I think I will update my patch chain to drop the devm
-allocations to keep things flexible. There are some minor updates
-required to this patch for my core changes but that is the only
-one that doesn't work I think.
+Calling regcache_mark_dirty() on error is redundant as regcache_sync()
+retains dirty state on failure, and any write in cache_only mode marks
+the cache dirty anyway.
+Restore cache_only directly on error for active regmaps and drop the
+redundant regcache_mark_dirty() calls. This also removes goto labels
+to prepare for guard cleanup.
 
-I will send out a new spin later today and CC you on it.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/codecs/rt721-sdca-sdw.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
-Thanks,
-Charles
+diff --git a/sound/soc/codecs/rt721-sdca-sdw.c b/sound/soc/codecs/rt721-sdca-sdw.c
+index 6e27e761afb6..6411df4eede7 100644
+--- a/sound/soc/codecs/rt721-sdca-sdw.c
++++ b/sound/soc/codecs/rt721-sdca-sdw.c
+@@ -511,22 +511,20 @@ static int rt721_sdca_dev_resume(struct device *dev)
+ 
+ 	regcache_cache_only(rt721->regmap, false);
+ 	ret = regcache_sync(rt721->regmap);
+-	if (ret)
+-		goto err_sync;
++	if (ret) {
++		regcache_cache_only(rt721->regmap, true);
++		return ret;
++	}
+ 
+ 	regcache_cache_only(rt721->mbq_regmap, false);
+ 	ret = regcache_sync(rt721->mbq_regmap);
+-	if (ret)
+-		goto err_sync;
++	if (ret) {
++		regcache_cache_only(rt721->mbq_regmap, true);
++		regcache_cache_only(rt721->regmap, true);
++		return ret;
++	}
+ 
+ 	return 0;
+-
+-err_sync:
+-	regcache_cache_only(rt721->regmap, true);
+-	regcache_cache_only(rt721->mbq_regmap, true);
+-	regcache_mark_dirty(rt721->regmap);
+-	regcache_mark_dirty(rt721->mbq_regmap);
+-	return ret;
+ }
+ 
+ static const struct dev_pm_ops rt721_sdca_pm = {
+-- 
+2.43.0
+
