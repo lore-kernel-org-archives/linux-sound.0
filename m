@@ -1,112 +1,168 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6087B3537FE;
-	Wed, 22 Jul 2026 13:55:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12804306764;
+	Wed, 22 Jul 2026 14:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784728510; cv=none; b=PtaUiVWxxDW4Fvqz3h9n0IIWdhsz1OHHtQzMdPU6KkujiijI8aZPI2qpW37Vc6Ng0nrQ91stKnvW9uEPuzeYH27u193poVJMivZOexi1mc17A4g1yhkyhfCVqnG43JOHr79KkDsYCbFpbY8UmTIM9pOtUrO3lPs9Q199wfoDzVM=
+	t=1784729885; cv=none; b=NFyq8sDsdxVDm0FtWe05iQLXYHxd5P9LMdPLw+j9zow0JKPUdg516kN7tOzIO+T6+nxIIvKYPDCmICrS1w4HZ6n9VzqhrRwio21ETMtVYnU/CYRNUJdVeobgHA2KrjVjNMlFwMytZBLvQfVjp3mVXznUJRaZ7KFF1CyqdAve6wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784728510; c=relaxed/simple;
-	bh=XBCO//4bOUqgFpqE//vIjH+DujHRBBcSFqL2K6qxAPg=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=InYZqMhDlGsOQQ+625/LW/Hok6CaKIDu4VDjCuVtPJLZcza0TIHmzw+5fbR/i9VviziW8Oc+i0R5As0XChyJ12Aacr7+Xn52/O0dO0q1mMWvnsKAW1hR9S14d4uiwv71prkqe3VYFrqA9eGLJla5x8X1eHnr739EAsBhBR3vjO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=VxXSkUcI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TRgbYFzr; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1784729885; c=relaxed/simple;
+	bh=np4yayh2BMzDrIbeGsDIccHY4xwm2Ph+deSS9Lu+mrc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=el71np27iqmyVtSo01el7is+WblCD4XWe8cGnUIbZGeEKpIeI2gsZODQj2/JEkVGPJLStjtrVgZOxHl10OUuatO68BdYKBlmlUzvzhRJcPpPzsJt6nd4GzuJ/rjqfuOXAzfRX7/1m0/qfMu40102hsHooqZZBqOgMZBqkz7eSmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4vdnNdZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="VxXSkUcI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TRgbYFzr"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 5323214000FB;
-	Wed, 22 Jul 2026 09:55:07 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Wed, 22 Jul 2026 09:55:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1784728507;
-	 x=1784814907; bh=i9XQ302+wMLYayJz2OXndovc8ZrOrsdUl9Md+CMCK/k=; b=
-	VxXSkUcIT4hvugcxyzBUG0MosufyyYobGDwV4eQ6zjsUse2ywIkV5LZ/k6xlytTq
-	CHwcAaxsSugEoJ7kLxbLQXhLmZUsInPdjeNmcbRGjW+E0RNwGU/yQzAqVTHXtYnn
-	DUYWkns/E2EMpyjZUAi7QcI+/d5fj0803TZEPMgWriBsBmE6Bsv0lInBQ3nmBxp6
-	Sk/v2khYxfPoLEVwGhRZ4fEK+nZAIWyPO5+SBcFyKlPEsljxIQP8/4R6S0jeLZte
-	xHENpIVEvTACgSHySCsc01kGDmn2o7GAErLZ6blzNGgPPl268uKDTi7ZWZvhtG8i
-	osEbADM4yJrD7g1dj3Wesg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784728507; x=
-	1784814907; bh=i9XQ302+wMLYayJz2OXndovc8ZrOrsdUl9Md+CMCK/k=; b=T
-	RgbYFzrUnD9hLo2KqgtQUjvsMGqkDsSZ1m4NTd8IKFNzZuERzzA9mV/hwZzO/bnh
-	A7Y1JSzGF/Cdr9BmsQMOKAusTXK1/SPq9GudOPoAndpXpu6lP4fMMPjVfwnWGboV
-	ymr4lptacC5djLBThBaKMFZMv0Nj6Xq6Tbk0hsOfjzM636KssSUA2p9o2QMHcrgk
-	E8qXLn11ju5q9EA6fH6o7+kJCeHbwTPsHAOr05um26Xwjn+oNs33mLk5zrVPMeEY
-	OV+puvLqdkClPUPuo9FPj1xpa3pVgaEt2FI8hTKjgj9MLftTzqA98m0RvZTQfgcB
-	GdDVbv5Mf9k67GaIo5LTw==
-X-ME-Sender: <xms:u8tgams0iedW3eOKO3WzwUAsRvB9NBlXMphjY9GCtYPTa4aT8jzB7g>
-    <xme:u8tgamRHttIlhijYEXbjFZLvbaMUZiyu08381mBWb1WR3OY4NV6Os9mrc9uuE-8Gq
-    M2ZzQFC6dRPPsJv6trUYXuqu70EQxAA0GiVbEg4ijDmWQJ9HnxBOxw>
-X-ME-Proxy-Cause: dmFkZTE40NkhG1SOB890bL2lS9G9xuucOgORKqdwfeK8xNraecin7w3CRgDs1MRMOm+Aa8
-    gqlsiFUa2ppsT8tdBBUqDeLYH8gP0+O75wj7bw/8C9U2e2rt7s/0yaMplnjkbzog+hQhzg
-    Uh5Q86b57aSxnQfzOaYnyUgtkVX0xQMrbZudJufhA1uENnnSc4TeuEi4LhlTHCfEN4mdH7
-    eug8k68E+XrK2qpaHi/WaMJnRfVPIg/hwqG26wdlZ9GwVjtyhskt2WxhPi/wzng4Y3WxKA
-    +72cnf709+pDDZmR5124c+mU8XXCdgbI/1SDqOoEt6vDDomo/NfTRwtcBtaaQqYO1oIiZH
-    DG7Xk1Z6sDTUUo/zjwGsQXCuMxoR6p1vIKehMqAsaqVyoUYC1cRFz6z2zWaq3cvjwURE2o
-    LkokTnn/ih7NFR4xLFeiFw9jec8wUDvNPfS8b0NgVvE/5k/N3LUKFoooIOWpZFJF84SOP7
-    85kri0vTciWRWM5oorMPKFPZS0ysqh4bSW2FzXM2LrokHzXkA1b32BM2bD5Hv9kBfQ1B/w
-    jaZSvEtimLHjVycPv3P6iPrl09fMViSFP/jf/nf2qCdiTYG2f8YgUWd5L1PudlR9UB3qfV
-    lFClNw268nqZh5PwWUDWjO5WFbUkrAmio2xsurmluGDGS8XBEN6oXq6tDoMg
-X-ME-Proxy: <xmx:u8tgaoLvP83ut5ZSEZJU1uNIxQStbOwDOAOFvWecPbp8EtoXgRG0pw>
-    <xmx:u8tgatF7zGpimcCCBJ4CVZtzJQTSuNfqmaetcW33MYSGtV-Ij21feA>
-    <xmx:u8tgas-tehRpUgW8IS7e1CEDOJQcZaDH0UyaIsRAvPD6KTq3aA8uXg>
-    <xmx:u8tgalKx2b6CUKGj2aO4d-TLz2cHavN-bKO_a_EZO2i989bRhe6L0w>
-    <xmx:u8tgatMF-yay10wYz45j0bdoOvVIIiyVbM_ej75wXBbwKZEDz6gpOPGc>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1B435182007E; Wed, 22 Jul 2026 09:55:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a4vdnNdZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 998571F000E9;
+	Wed, 22 Jul 2026 14:17:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784729883;
+	bh=nr20QdluTC6Xb2QJCx/L2OqHD3wYjRZzxUHD+ltN0io=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=a4vdnNdZSy07RDuS+C9gat8xlWANgEMGre2Gt8w50+S/RARkD/NxqriSXn9wrozPj
+	 E5W9CBr1d7eepeguATkGjOrPXaqKaMp0+xcdJH6JVLGWRdkxSRqsBQirTItAu9VNRf
+	 xKAJOUg/URAYNGPYd8y4vGKj+ONw/nWOpgBtlfPsR8ltFxfx8IoinmWT2jtQMA7WpP
+	 nozoGRCEMkB8851Fg9u/prJ/JOJKbaLEpz8L+8Zr68k62Ilb0p88pE+y3ZC8cSKbhK
+	 kBpgQZfX/d3Rxy5rU6yBQqCx1AN3uW+o51yyGmm2In6YviRmTxHVmf6qDl7Zlbt9Ib
+	 DwnPnhWrhgAMw==
+Message-ID: <ac18f5bc-62a9-41b0-8980-a4c465a4229a@kernel.org>
+Date: Wed, 22 Jul 2026 16:17:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AHTtZi6a84Qg
-Date: Wed, 22 Jul 2026 15:54:46 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
- "Julian Braha" <julianbraha@gmail.com>
-Cc: "Srinivas Kandagatla" <srini@kernel.org>,
- "Bjorn Andersson" <andersson@kernel.org>,
- "Konrad Dybcio" <konradybcio@kernel.org>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Message-Id: <de25fc15-f438-4f8c-8c34-67b10dddab12@app.fastmail.com>
-In-Reply-To: 
- <qhrevlgsup5xtnxhhmon5cjic5utdhc2mdviczylqesw6yjjzv@s3kk2dr5vk7o>
-References: <20260719022242.139472-1-julianbraha@gmail.com>
- <qhrevlgsup5xtnxhhmon5cjic5utdhc2mdviczylqesw6yjjzv@s3kk2dr5vk7o>
-Subject: Re: [PATCH] soc: qcom: fix unmet dependency for QCOM_PDR_MSG
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/13] mm: convert __get_unmapped_area() to use
+ vma_flags_t
+Content-Language: en-US
+To: Lorenzo Stoakes <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Helge Deller <deller@gmx.de>, Kees Cook <kees@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
+ <20260711-b4-vma-flags-mm-v2-3-0fa2357d5431@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260711-b4-vma-flags-mm-v2-3-0fa2357d5431@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 22, 2026, at 15:47, Dmitry Baryshkov wrote:
->> diff --git a/drivers/slimbus/Kconfig b/drivers/slimbus/Kconfig
->> index 60b0dcbc0ebb..5dded61191e0 100644
->> --- a/drivers/slimbus/Kconfig
->> +++ b/drivers/slimbus/Kconfig
->> @@ -17,7 +17,7 @@ config SLIM_QCOM_NGD_CTRL
->>  	tristate "Qualcomm SLIMbus Satellite Non-Generic Device Component"
->>  	depends on HAS_IOMEM && DMA_ENGINE && NET
->>  	depends on QCOM_RPROC_COMMON || (COMPILE_TEST && !QCOM_RPROC_COMMON)
->> -	depends on ARCH_QCOM || COMPILE_TEST
->> +	depends on QCOM_SOC && (ARCH_QCOM || COMPILE_TEST)
->
-> This defeats the purpose of COMPILE_TEST.
+On 7/11/26 20:45, Lorenzo Stoakes wrote:
+> Update __get_unmapped_area() to be parameterised by vma_flags_t rather than
+> vm_flags_t as part of the effort to move VMA flags from a system word to a
+> bitmap.
+> 
+> We cascade the changes up to arch_get_unmapped_area_topdown() and
+> arch_get_unmapped_area(), where, for now, we use vma_flags_to_legacy() in
+> order to propagate the VMA flags.
+> 
+> No functional change intended.
+> 
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-The '(ARCH_QCOM || COMPILE_TEST)' is probably not even helpful
-here because QCOM_SOC also depends on that.
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-     Arnd
