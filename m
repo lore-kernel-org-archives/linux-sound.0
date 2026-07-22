@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2EC2E1EFC
-	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 00:58:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698CF2EEE6A;
+	Fri, 24 Jul 2026 00:59:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784854738; cv=none; b=DtEaDmJ25VkYmqyWUJ5G+Ai8RRAhbr1zcQlpWslmIOzyEzVF8hG/gZ6e/OmIXzqbyrhS2Xe7FaV2n2q2JD3YRkLEdrJBvA8bo11GfhRP1H3ZKtHaxABClwjyT6vXB4DBFk4629m7bWNoJpxnreyNhprt6XsFLMd7uB+fJsLTanI=
+	t=1784854742; cv=none; b=tz5+IevlRVJBZA33Jt2YrMsGdNUbv/hXvoOy8AE9h+C4Lvh/l07seNVXsMrG+3BRuSCTnkFCoWVXK/H6D6oV+mIirJSKNDapXHcV11XTzFkbof7xD6nPRe413kDFtaw8JBk3FNeYcFZwIJHqW6bu6IHskuC7DKA4bCTOqiysTww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784854738; c=relaxed/simple;
-	bh=/J/6h+D0VmAKhxARJazX7lwdAuozYolYT3KXxjQPIZo=;
+	s=arc-20240116; t=1784854742; c=relaxed/simple;
+	bh=0mDYqZmy8MkRizZfFYfK+DRi3BZuzdXAA9blzDbiphc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lYfKt8LXlHEPB3VzYtexp+cwYxLkyK5IXOO2Hrvl4dMMrAPqzn1gSZMRcauqIcuN1aQYpjAUbvwCJ5j9z5RmH/BRzwc7U9A4TJr47FQOLRqLQSQ09wL9s+Gn50eoa0PuVYZetjk3GXpbeyeCgXV44rV887xVjOfjWgq1beNEK5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jJVnVlAG; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=vEt8VBfbKyKgtT56L7fNaG2uSjo54TREf8InY5kkphI0NBOl92R+rq1fMAy9xO3CcU3/HopvILUpW0bJVGwu1WYpSLhabNquf2OBrSjTxT8LdtI5+wCfjatUr47rrXUlHfwedLRdxqsA51vx6hZbUr8+b1Cs+Vvtgzb+XUpq3YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bv7tZcdF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jJVnVlAG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEEF71F000E9;
-	Fri, 24 Jul 2026 00:58:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bv7tZcdF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 550351F000E9;
+	Fri, 24 Jul 2026 00:58:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784854736;
-	bh=hiKris7HYIRpR+Komj28ENPt0b8rY1LMTenhCMiH1iA=;
+	s=k20260515; t=1784854741;
+	bh=gj/HXjeSnZmqPX52UguXUuV+ZUY5c/zfkv1bO85kAGw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=jJVnVlAG9h5vuazg9+i9ZM6j8KIBhQcopDZGM4clIXpdxyLlsihTyYvlf0PPTjHJh
-	 +xoeaXyz5qkkjNQG8L1IlskFBcTjkt5RfPfroh88ILme79bDy+zR7ln0KP0K0aLsQB
-	 LN3vZOMJ9rkOEuw0vyRwO6cpOmfRImPmr4alYgw91VmScTOJgsAdsrj6H2Ujns9Ab2
-	 CaR5JOvNBKRxnAhpGxWaprUOawDzDrQqK0EUqgUwjFs8oLOQvKCWRTz21pUQ+AyeBk
-	 I5dytvgy1NFe4m/KVHp1vSyNSuFB0LY88BVe5NXAFUp1pmOMnM1/Een5q5uWmJUZJM
-	 zmriCU6nLzHWw==
+	b=bv7tZcdFazuaZ9VBG0l5w7VllGPFysIPpj52x18tPxrX5KwGSKMfPXMu5KfYGr/bs
+	 tgID9wM58/n+haDVWtUH3wvAi3gUoRqaSHLt9/ebebXsbfKKWF8MuwlYPkO4RUbgTm
+	 GyaKYlG/6RosTgv69fIPoCiPk1frsiO9xNcxfSenLrkU3SCnxqmHE93qkb1zo633m4
+	 HoHJRdOqKKdHI7esvc/Xu30W+4pTvdKGi1E87XbftSLSbc09mGnxgZgcJ0th5fedjm
+	 rbudvOI7hXESrBaRZFBqBvlQnW41YzGg2112Vzz0oF6jRbaESHdoORmvBo8IIS0tFC
+	 WoBsA+6qa32OQ==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>, 
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87bjbytkej.wl-kuninori.morimoto.gx@renesas.com>
-References: <87bjbytkej.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2 0/3] ASoC: meson: preparation for Card capsuling
-Message-Id: <178482430714.53486.303953655618538220.b4-ty@b4>
-Date: Thu, 23 Jul 2026 17:31:47 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260722111655.3558096-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260722111655.3558096-1-prasad.kumpatla@oss.qualcomm.com>
+Subject: Re: [PATCH] ASoC: qcom: qdsp6: Remove unused Q6AFE_MAX_CLK_ID
+ define
+Message-Id: <178472993178.5645.8348722893682291056.b4-ty@b4>
+Date: Wed, 22 Jul 2026 15:18:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,31 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1668; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/J/6h+D0VmAKhxARJazX7lwdAuozYolYT3KXxjQPIZo=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqYrjNymFE/Mui+RSYfZnhir7yM7AXdyRkq565Z
- GcjiWTIcr2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamK4zQAKCRAk1otyXVSH
- 0NXgB/46dsP7sWXpK2rNuHKOAQzVL/WAAwU+CYqJ4L+RMQxZQvrjOdEBgty7xgfxqNG3BSYio72
- NmPcqHMtaK5Ewx5Qpd7sm76ySPPtOzExFaLmj7SF+0x+7tmThr8Iudd9fj6U4mFmBV02RByyffC
- vl7jlRuCa2heTU5YaV+Rm3XzmdIH9Y1wTtoYcC14+scxnAR6hH65AlRD8/RE5IzzR3r5LeBBbxw
- HHlcsafMWta6XT+bC3gsFQZfVs0jxaKN6sNsFGulNFtnG1PGSN5vp10ROyTsIG/5PopYSuXyie3
- 1Im+APWjo/gWgSGeqjjuWKCEKYAj+jYbyIp5MtCHdrnVqruD
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=0mDYqZmy8MkRizZfFYfK+DRi3BZuzdXAA9blzDbiphc=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqYrjSWtSrq2rSqIfXvQxbjMYjg9ZwmjjImtvlo
+ jztwlpuoyiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamK40gAKCRAk1otyXVSH
+ 0EDqB/wMs2QW4fL3QuRnifRLgeXwmQfQ0yCm2E5U+oN3dRmtZifC98PaLltGBPWD/93ZsEbfHwZ
+ ntwGVOokwDhg5pOEV+1BKLCtA8+98EM6Mr9n7X5YVY6X7n6fx/vLUiFmqfxF8TuX4Wq4s0yNSIG
+ kpxSj6WnhSXyZUyor0ICRYFTE8EaY17PkufejfEKzuX8f3PZkkDdjKYWe5SMEZ8dK0We8yg4WFE
+ AyQLbWszuLrnJOK1XPH7rIMgqrPb2bPDuTsxwM0HGRbvJq9NHQjWVSpvgbZEGYVwQCsCHBnLdiC
+ 6bCVmb/QY7PiJjVrr35eLkhzzWTk+xAfcGSWZEe/rUm0WUyg
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 23 Jul 2026 04:11:32 +0000, Kuninori Morimoto wrote:
-> ASoC: meson: preparation for Card capsuling
-> 
-> Hi Meson developers
-> 
-> These are v2 patch-set of meson preparation for Card capsuling.
-> 
-> I will post Card capsuling patch.
-> To makes its review easy, tidyup meson drivers to reduce
-> un-related diff as preparation.
-> No functional change, but is preparation for cleanup driver.
-> 
-> [...]
+On Wed, 22 Jul 2026 16:46:55 +0530, Prasad Kumpatla wrote:
+> ASoC: qcom: qdsp6: Remove unused Q6AFE_MAX_CLK_ID define
 
 Applied to
 
@@ -79,12 +69,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: meson: axg-card: tidyup not to use card->dev
-      https://git.kernel.org/broonie/sound/c/13651ae6548d
-[2/3] ASoC: meson: gx-card: tidyup not to use card->dev
-      https://git.kernel.org/broonie/sound/c/138a0faeaca4
-[3/3] ASoC: meson: meson-card-utils: tidyup not to use card->dev
-      https://git.kernel.org/broonie/sound/c/6c3042f65f20
+[1/1] ASoC: qcom: qdsp6: Remove unused Q6AFE_MAX_CLK_ID define
+      https://git.kernel.org/broonie/sound/c/784e04110272
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
