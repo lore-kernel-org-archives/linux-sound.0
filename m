@@ -1,167 +1,166 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53BC35AC12;
-	Wed, 22 Jul 2026 14:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784730978; cv=fail; b=WsobAbDINYrlVNxCBdEPdL9SQhZkh4MhQintKrvJiruODE2ZSEPov7fBpudm6ptpUoFrc3F8Jif0e/b3Qz6Gi1B8RWxJtC41FESlkqNOAg7qfqOZ/SpDdJIXnncTHVtKyre1mIVgqo11lkHWqFNBbCD27ku71EnazapZZfL5FjM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784730978; c=relaxed/simple;
-	bh=SmSsKddlmzdpW7BE768orsNkou/+0sMV6OlPE73ke88=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BGD5cX1sQ3sWfmW2SpbOX7rm2USjmbRfJ4mEJSkC2xVXg4aVbAzsB4t4LYSnK+nnQVINXCPvvwcKZ9krJxyN6LRXTRev/XsVO002FeTl+kLt4Pv+b2GgV9X0UyigWbkglO8Wzxo4uBPOeZtsSfIFCVOZ3XIEugpeKHkFhZH+NNc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=blK8Jc0/; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=MKa4l6bq; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1AA3655CC;
+	Wed, 22 Jul 2026 14:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784730980; cv=none; b=RiZ8MVPkr9HEa/pLhRlbUkL5+U0lKgpLtCPtTeXBR4dbT556R1kGqvX0vMNcBEW0y2VMrUDakfQctMWdYaHZEbiEnxczdPEXZtkJq0XDRABM+d1oTU+ibQjTTdsVHy+2eAiBzmwJLU3OT8gkew0vhBmVYzD8kHlh6O1LNGq98jY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784730980; c=relaxed/simple;
+	bh=OzKhpL/xCcLDtrs/vE76e2SHBeM0GhDirW4fjbn1y10=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sR3TEdhtjEZt878lnhmnTR+JGi5gjPJJtuHZRaeROGUqfhDJVTdizEBE8rel85DLdY21kovf4sj7wbuubb7zbZzZ2eFeYPCzbvPyFX8zILQRi9Mu2VBvUh0ZQlMXMtZKMAbzfWi2IDOZby/dqPSM56dDh2Zs+7t6OsnadaSJLGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cFGra5uf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="blK8Jc0/";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="MKa4l6bq"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66MDDAl3772910;
-	Wed, 22 Jul 2026 09:36:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=EdqNQLFNbDvBRDWa
-	XoNEVVTOINHPNA9jnCzW+Xbjw/U=; b=blK8Jc0/mzg5cv2crIO7xjoUw8FRiHIv
-	/SIuRIErOIBkiGhonhwLZKfIMklKd0pndddTWAk/EfdgnVFMPiwVuh1sfKhW+qoD
-	rp9oAn/1k6FTyDXdLwvnN0J6Q7+jNVXmymbdcWx7JS/kFDuLvUTUE5AMwYnWcYlY
-	gJugRDhIMSZCoztlDfzUJoAEMVWwlFkZZR5sgIt4wzcHwUgZpjstEwh2bFhTJf/1
-	b884m8gUDmBFU7Lfy+/dtKeAJwoCNcVNhH1lklw36uiOHDwb/iSC3EBO1PRZrN4e
-	0XFw66J5NHPnPqTGaKI3wwDP0nmXRldLpLtISZwluaCLQYqCFGClmw==
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020099.outbound.protection.outlook.com [52.101.201.99])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fg6vynx53-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 22 Jul 2026 09:36:14 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xmz3+onEI1MP5fyuBC1J/Guo6IypDzdiX937XIECdOvv3gqBosTUfQpWhH1QvfIf3QyISDj9XvxWRQmCTPBUtBDei6VbEzcxzRjbmzisH/2aPCc3nfObWDH++ergQVnTCneWF9fFw1i0q0WEIGGzCSz4eZBssfgU9nu+nzYVqYEqpsrU1SIiRmCZCyPyKuymPKHF5dBVUqFNTymiiTZkfBKFraV6iQkHd+blYliqMt2cS0bTTzIDgt9L9MWIMMYVy1ZH3SQOB6dqFhDIbr8OS5p3yGaY1FmBGTDRCwTK85jK50wJkctt7h5q9zQ49FjBVRtHfTLWvQB3jM/up5fxug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EdqNQLFNbDvBRDWaXoNEVVTOINHPNA9jnCzW+Xbjw/U=;
- b=vMvLYncE9T/IC9sd4plAS0Y8JgIBAfb4MB/rhIl5Q40dF0ssRQVdF53ryDt0lNeSPsaBMiM25vfbtXs0fpPrdakeoKzKu2/Ie6WlhsGNdycGCIh5inLp39a0EaMum3nKfe9FfxH7qyhrwLl2RUXRykd9kb1E/NDak9uCqFBMkS2NOmo22qQ27kcwuxdnBGHNSEwNccRArC53KXHxUJq5rhlBaT3L8BkWjqGK+HQ5slvy00sKhPnrSiVbY2B0KwSKUxy4DXDL68Dd7nsbzGcejoUx4xuBsTVV5UEWUBnADtjqJvj53jvQzT4womVaWqxpnWAdbq62ehi4HkyL9dg5bA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EdqNQLFNbDvBRDWaXoNEVVTOINHPNA9jnCzW+Xbjw/U=;
- b=MKa4l6bqnV5LJhd30gzKwNL3NvYjo4sf1AQTwyowYWlfmRVUKlgGCJWaeNblQO9UuPSVWm0hnBmc6GF5d3Mo61Gi8z2igTKAMIVab669laysVlzyc9kPPmJRbGHh7Uf+L/kExsGbP8Awffepy66LrhciuWi/nK54cqeOWjrytKo=
-Received: from BN9PR03CA0948.namprd03.prod.outlook.com (2603:10b6:408:108::23)
- by PH7PR19MB6955.namprd19.prod.outlook.com (2603:10b6:510:1ef::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
- 2026 14:36:09 +0000
-Received: from BL6PEPF00022571.namprd02.prod.outlook.com
- (2603:10b6:408:108:cafe::72) by BN9PR03CA0948.outlook.office365.com
- (2603:10b6:408:108::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Wed,
- 22 Jul 2026 14:36:09 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL6PEPF00022571.mail.protection.outlook.com (10.167.249.39) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5
- via Frontend Transport; Wed, 22 Jul 2026 14:36:09 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id D53E2406541;
-	Wed, 22 Jul 2026 14:36:07 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.11])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C839A820244;
-	Wed, 22 Jul 2026 14:36:07 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH] ASoC: cs35l56: Sort table of sdw_device_id
-Date: Wed, 22 Jul 2026 15:36:07 +0100
-Message-ID: <20260722143607.1001473-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cFGra5uf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A298F1F000E9;
+	Wed, 22 Jul 2026 14:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784730979;
+	bh=rncOYEHNQZnCerUEAUIKUY0kxzd/Rst4GSYy3YkGBiE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cFGra5ufilocIuJfM8gSzW60rH5UffaGWTjVoku9icCvdKfbGshoBgtpoU9J4TBAR
+	 Ns3ac9kv1Th/g54QOx5z56SLMZe2ySiEIv65XpPoMjA3UFpsdZzi0oJqofN4x98D2p
+	 m4lZ9oMMil7zMd9k9+rzQMvGQdzHReyfYjjBBm955F4gkk4KFjIQOOT/mPUzrrmxtD
+	 43IiL1O3Fmq0qqGqb9k2MDnCWisp77KJ0x6mk3tstlzQOGQrq1aJdtHXn8pW6ulVrO
+	 jeZk5ldH2UFluVUmoTqWL6jsrRH19TDzr1NKw9PWN4J5MDMUhRoM2zp1AiEyGdBH8q
+	 UANALHWmfhrFQ==
+Message-ID: <7b43e8e2-eb03-4c44-b7a9-1f0640141612@kernel.org>
+Date: Wed, 22 Jul 2026 16:36:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF00022571:EE_|PH7PR19MB6955:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 4f59051d-0703-4da6-5fce-08dee7fe9221
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|36860700016|376014|82310400026|61400799027|56012099006|5023799004|11063799006|10067099003|18002099003|16102099003;
-X-Microsoft-Antispam-Message-Info:
-	c0zNJLstGn2sMVGf9XU9XIuWQ9gY8D5dgFK9N4q26HXt7YqHKfcEEVjziWXH6qkWV30lwBcK95M2wB4mKWKL2hTQRo4QQdVpmwIqIwifxSurWPgONNaGxicPW8L8gisF3DYq0RpqylXeNnmTY/paVv4toh8Z5foQZqvKENtQRzRKSjcgNhja0N7U4HFyqkKo8AQbeWCAbVPnRjtDPD0y95T3CPy0kyP2yuSqKZ3eC6uyV3DdD1ufkWkKE6S2TDx7zFKj9X8LTihjK8KxMOfcOP1MuLyzHMcOY9uGsueeRbiVtsUw8i2gabFnZMaP7l4IhkQSVpSVdROGq/1Pwv7P50RN/M9rf2SCvILE+toQhMHfgCHuP7Ipv70Wreit02cXlFdw1IrQcUmXg6udEiqCNSKxlAxSvp+nZwm4E47BwgWeR2Xjt5XKN+jpkDUooyUeSHc6JgEBOi9k8AcSucY6GoBeO34gZDHLAweKOVStqyRoL4B5oBUDEvTt2X4QZCtJGTPFxwIzSwny+ZOB3wf8P2LqKwpBWF/5/aP+70MJpXMscIIT17QeuYBOxrx4DSFUJdUoEW7NMK1kf4eVP+48x65ueW1i4u6JXweJ5rnThKUbZOQaJLKwfSuIQOyEDg6uFU6s85Mnm9bGUz7kVw/QHeYHuJ4UMKQ1v3E64tVn95KAxwA1mYcqkTeZpndoX38qdsptw/Yv2nBvBRAYDFo3AA==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(376014)(82310400026)(61400799027)(56012099006)(5023799004)(11063799006)(10067099003)(18002099003)(16102099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Wv5G7fy9WHiZKH3m+19S6mc8v9fA5EiuGPxGvjRG7vDu30MDX7XXGpXMhpA1h9CqcSqEyXw/T1G+3FxjqcGMCYDBg8vMSzk/y0FtGN2WdoWF5Cep4NkL0F66wo78eExcrQC0fcist440pZaDQA4KYhNLcZ0jpmofRY4C7PLxVKcbdh5ZAqxwCuJcm4FM5cWCdhR0YVLn8hL2OA3uKzfzXjrjz0W2+Co40EnDchm8QEIbxwRUqRkEu/JfJORV3S898GUgMg6Yfkm+XiZDkLdcVZqN7QgUsgr2jQzaWjBqeyK26zoSw0+s1cEN4mVbKndkQ/6wsXcPmiESwDX+fiM5mvpaHaRd19XdXJiYdVR+tiuBhFCesSqoAOWWRo5Qqa9TajHKGI4r37/3XUkapUwr4jw0aMMn90oh+JghGCIsH5sbTtZkp8evnkeyU7lcGez2
-X-Exchange-RoutingPolicyChecked:
-	DkqX61QtDP1qRhRjvtSF8k0be9xw38byuOGktIsHTeDwDNz1Sx72b3gQx4QANraVdVefZmKuSjfR8zcb3ozW/gSucnECDd1Zy1aAu4hfB9lp8CLHA2zXS8tFXeZkNrjUCKHzVZAA/1t8JY4nnNqFG+lViC5RLYfnuVdkn6461k253sVruDReFCxuYQc5m9oKRYFfJHj0KaXp+wcJDqCPAz4Ck3rVHxL+basSLTZU03zQTkc6yDkt/jXRy0nuv9LYiBuNREWsAraWFI5XclfG+0FzkH3dPfqaiTE6PvPSNaPCfqZzfYRJvyyeO+FM28ZB32lBJMpbqQVFHHTi8+lgRg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 14:36:09.0419
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f59051d-0703-4da6-5fce-08dee7fe9221
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF00022571.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6955
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDE0MyBTYWx0ZWRfX9q2SDJ5sfkTm
- 8d0tiZfzsC9fQ0I0h+UMdbv9jbZSaS+8u8+ycql8EF1cxoddD5hYwXKVF1Z5T133d8t8D0sGctJ
- dJ+pJDs4OPc4NTj8g34GHYUoSOOoL2I=
-X-Authority-Analysis: v=2.4 cv=f5l4wuyM c=1 sm=1 tr=0 ts=6a60d55e cx=c_pps
- a=kJh41/vVy0mmRivLipeQDA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=QKsbQbz7oeLZQiVCAHIA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDE0MyBTYWx0ZWRfX/mUrrTHEuZxX
- XOtXW1aBPTWBiG9gUWxGQKDMLZSUwm79zrnmn+OBH8JnwBofDmeQUZWlEyZRFepfqHpz4Jkzo5O
- iANuKVUdiMVNZWK/hbpY/Ocvpttp4BrMM1waYXbEfcZRdM45AXn9q7zPcJTWUztg4ERwsP1Ys8S
- KKz9n+2vFE4B36QrLgDFPHcZneNtt0WPobRrwXS2goqEJC2go0y2DoKWAILLhoOPYJpQT930gWo
- fvm8YXBzCrjRftm51BVcCaoHvFVq+yxNqDtcdHCBzo1Q1ToedKOJQDpxj7rMyKPiUN3O98B3tPM
- ASg48/6YLXiUr8FniRTLF4+abCgmprOzCk457/U+5kTPdfu1MzLfwi+hAnhexyRp4LJoe+pJqe7
- GI7niq8sO67giUMXImnTaUzMNmQLD/uN/mQ7xbfQRdgb48d3CY2jaUrh5i3kpc1+EkNDHVFwHXK
- r4JK0CH4MYiyKgfEY/Q==
-X-Proofpoint-ORIG-GUID: Fo64pCXdZG8H4GdZdBRhyWQecPNGJIFu
-X-Proofpoint-GUID: Fo64pCXdZG8H4GdZdBRhyWQecPNGJIFu
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/13] mm/vma: rename vma_get_page_prot to
+ vma_flags_to_page_prot
+Content-Language: en-US
+To: Lorenzo Stoakes <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, "Liam R. Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Benjamin LaHaise <bcrl@kvack.org>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Zi Yan <ziy@nvidia.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Helge Deller <deller@gmx.de>, Kees Cook <kees@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-tegra@vger.kernel.org, virtualization@lists.linux.dev,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ linux-fbdev@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260711-b4-vma-flags-mm-v2-0-0fa2357d5431@kernel.org>
+ <20260711-b4-vma-flags-mm-v2-7-0fa2357d5431@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260711-b4-vma-flags-mm-v2-7-0fa2357d5431@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Swap the entries for 3562 and 3563 to keep the table in order of
-increasing part number.
+On 7/11/26 20:45, Lorenzo Stoakes wrote:
+> Having vma_get_page_prot() refer to VMA flags and vma_set_page_prot() refer
+> to a VMA is confusing.
+> 
+> Rename vma_get_page_prot() to vma_flags_to_page_prot() to resolve this
+> confusion.
+> 
+> No functional change intended.
+> 
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes <ljs@kernel.org>
 
-There's nothing broken here, it's just cosmetic.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- sound/soc/codecs/cs35l56-sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/cs35l56-sdw.c b/sound/soc/codecs/cs35l56-sdw.c
-index 1e442f43b306..303d37e7d0bf 100644
---- a/sound/soc/codecs/cs35l56-sdw.c
-+++ b/sound/soc/codecs/cs35l56-sdw.c
-@@ -510,8 +510,8 @@ static const struct dev_pm_ops cs35l56_sdw_pm = {
- static const struct sdw_device_id cs35l56_sdw_id[] = {
- 	SDW_SLAVE_ENTRY(0x01FA, 0x3556, 0x3556),
- 	SDW_SLAVE_ENTRY(0x01FA, 0x3557, 0x3557),
--	SDW_SLAVE_ENTRY(0x01FA, 0x3563, 0x3563),
- 	SDW_SLAVE_ENTRY(0x01FA, 0x3562, 0x3562),
-+	SDW_SLAVE_ENTRY(0x01FA, 0x3563, 0x3563),
- 	{},
- };
- MODULE_DEVICE_TABLE(sdw, cs35l56_sdw_id);
--- 
-2.47.3
+Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
