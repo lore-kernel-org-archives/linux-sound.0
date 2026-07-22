@@ -1,82 +1,84 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82CB46D2CC
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C28246D2CC
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784763766; cv=none; b=eV1vJ7T1MZWZR/QBp1Qu5jpg2jNR8PAzrqEwt4AyL1OUhQDjKoIQRBE1fwRnwxwgm6jCT7A+FeX4P2VcCWaNDoIs9U+G7EBFeKiS+oqjmo15bgOWL86Ixr/DeX1Mkw/Rx/tquru6/N//hZQ3dGx6uT0AYl3fE77E7j+MQf309Q8=
+	t=1784763770; cv=none; b=VRyTPYwD/updEcG0vUF68jtByqo8zaL3ofIVBcbSOwq12O1j/0mRE/POjYa59ag/HLPy7yqAmnl0IcJsSkf5VZaqD6YGNa9kbVuiHYHZORGnpkZgEUiQGq4VILb07AP2zRoH6OzLv8VN9Dn8pESRwQBHB1k1y+JD6d/pjdtEyjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784763766; c=relaxed/simple;
-	bh=pOlNWN/SE7+GOWg3lwO7wBAjUsf1hbmGRPplEOANydw=;
+	s=arc-20240116; t=1784763770; c=relaxed/simple;
+	bh=P5E6PJIAFHOvFKOojO8WfDv1X5hte4vtVCZ4CiYGIzk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=reR8kYNtF/PDTUU7dNT8I9E72cN+RIgP6isKT4e+ZNomRJrvwBnQhYG4NsTSv4gMJh6Gkhk8Lixp8oUZD27/lF7zgjOpfHsdUugPxGRBNSSpBsYas4BAGu1sxQWCpneT8Ob6K4rkVSBriCckYAyGH35Bcs0cV36blyRonVPjlbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=moYpWRxq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dVjVYExl; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=aeOjRIUKND8nI1KaDhmLL4g1dr7BlYq9kG7dF4eI5WsROyaYCp08u4641Wu8CtBKBD0FvmCWMrYTHLZXantRirQD4LS6T0AEJTrVDQm5oCUZubICe2OmKs/wfOFtgYIyTt4rNdUsjblCeIIEshTSuRWioKug6Q5FKoz8sPyl7Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=b0lhoPYD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ex8vf6ll; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="moYpWRxq";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dVjVYExl"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66MMnvtV2176022
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:43 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="b0lhoPYD";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ex8vf6ll"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66MMoBx91921105
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=L12LTqZQ+Uv
-	nxuqB4DZoUExrnf4AgkG5KfhXRLi+mUk=; b=moYpWRxqFsJuva115DBLOU9LJbH
-	3W9mhpBVHlEZxIIkHnJPlgquNGmlfKoi6X227+jZqBD9SteYUfhtXBgNzX/y3yoW
-	jqcUzNq4vcP0g7v2E+FNDtRUY1U6a14mWIxsH3C2bEfBRoQ6H3j5ot/7uB0sB1ZO
-	dkEFDR27PrLUF15+qyjTnd/bWk6mUTgakDsGTmGD7mH2iVQ0CADCXZuBBVB5IFxO
-	F9NcGLRvur9BQI8sUYd/NiQvbOP7iABWug9oZrB7s0xWdxIQjI29EhYfqxwh5a/Y
-	BuAHVV/WnbD0hLKwOTe9JC2lb9k55lUOn269oZFBG6OtM26hWOvIxlqfsLA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fjxm12f19-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	5/obpLdePENN28oe7/16g7wkCuj4dYNKilBuML27YeA=; b=b0lhoPYDKNEppbQ7
+	77O7MtCeYdSIt8izU/HZhoBcxN25V7qumxB+Y5wNftaG31ZhpLnPcSbURm8fsIuo
+	ti2+cvDI9oQgfd/hlaSgvypVi4c8Px/TCvtV04inuSXMINovqmc76V4OM4SzNVvT
+	aPTX6zY3YbDMF3P7OrsBbzFN+K7aV+26gGJNI+iQAiDfjtYCHBAMq9KPsz0rVgQ+
+	2bFWyYo+NlARU+FCljqpFydM2EPNKwVwVVTMESWRkUDxshJ1l0QtFZzEkz4j9Og9
+	7JXHS/P+tTHG90DQbtk28mpHM1ha9rBy7BYBfHSICKuuyGIjNEdYPEYIBX5USRis
+	Q6MwJw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fju22bfp8-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:42 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c19493ac2so489651cf.1
-        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 16:42:42 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:45 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8ec3314f65fso1399756d6.3
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 16:42:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784763762; x=1785368562; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=L12LTqZQ+UvnxuqB4DZoUExrnf4AgkG5KfhXRLi+mUk=;
-        b=dVjVYExlMyQeLAkl6em4txps51GPvxoWLvsjX3Tt4BvXEt6o5PmRv3W3I4L9UX8AN+
-         zVuXpNpmxyxxbQ0CC8PnmXgZX8H9HuFDBlM3MVMQbkKtoorLuE9X3t1KO9W9XEZPeUUT
-         6eiagRNEgpPUOahtuX/RGINa/mBMpeQWQP7yhN91vhacIt1bToo2PJciPK+1De1ghKuw
-         aC1VEOW26jJPCm8GA1itAVAG99rvBK+SCCZKOMENReOqdH7qLQE9gIqtI/UF5Xgi1EBr
-         N9JWeZXJW7YbJcLnWMTHdWWAf3gzLIFZLFqkua+Oddb/HVSKvQl+ZzwzHJRzTeNp+5Fw
-         kecA==
+        d=oss.qualcomm.com; s=google; t=1784763764; x=1785368564; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5/obpLdePENN28oe7/16g7wkCuj4dYNKilBuML27YeA=;
+        b=Ex8vf6llAIDjaWP+Ql1hOigIgtqX54x+/z50yBcsAxqzztSSDmuL0rco6yARCNvq7N
+         Epflbb4+2NtsE+/j3bwqqbibYMDzJlVvjv5tlWdiV3nNmleQAoSHXNnLLM1nitQ5hy4k
+         BuQB6mh55AfhZQa16F0tE9EP+JyAxP84P8bHNka6CLdZzxOV+V91V0AwcNDmxAMWqbb/
+         hlxH9MooCPlzYa9BT16+c9EF7AfcSPPUApdAtSQ9ZTzzsCDuS9Iw+Wig5WeLSov80m3Y
+         2p5iR94pe4vi9kyvT1MYk3jTnujHkGtNGqQkIF3qfKdWP5P6gMhrAYIZEb0MWhvMXA12
+         zpEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784763762; x=1785368562;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=L12LTqZQ+UvnxuqB4DZoUExrnf4AgkG5KfhXRLi+mUk=;
-        b=D7WH09+KVNxfLWaTlha3Z2LP1rZ41ReDLordS8oq3R50eTHhMdABqFjTTzV2NE2Jq2
-         L5NMp4qRRSEapsu3AOOdcH4iaciFgGUAdwPxt7hp9zNSbbHFtAk4IB4eji9qSlMbFQ6k
-         FtOJSBB7+0RsJSp73DaNFLNj75zv7+SW0splWiBRFABj11l2gAaXehswRJZLDp6pwejP
-         1FOuULOl0rrQQnAQIAE0o6U6vYj8nRrIG6RP39reReWwyTbodiSFLYMqsCyAzLloOPIk
-         U0ghKdZuoq3qnZCPvdISZiCAWDWjDaV9TJTDrGa08gibREzQ4lPquShok318uyifc3pt
-         B5zw==
-X-Forwarded-Encrypted: i=1; AHgh+RrUyZA75nxh8Wo554n9ReT31cF9H2IFrGiwZHXaq4qCZYhugB10tuHZHeet2nzqjRpYordPLNqSJGBFLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/JFhZOYjwirXejlyDiYt8crhbZY2cXfptQgB6WUYtY73bkSv5
-	NDtQTeTLfMyH8/D4cv1UjdiDGPfT4Lmj/xZv9WZhhyJLe4NQOTv8Gc8zXpXIpSs2UJ7s3Zacsbp
-	byMMw1JmmZiGzJovFYeXABI6bDpk7jBowcrIZJBUHLdn6DHAvjL2Niir69m2puUdPcA==
-X-Gm-Gg: AR+sD12JQVc4VmOdMSH/bwnTRoNzjq9X8ukRnGEzSnPjBZlobSTjp4IAi5vT5bII59z
-	+kAPZEoRlnuZY50zaw7YiIkiRSwyuXRNxXyifKcUXUAvho5pLCi4fsDj0d6tgG+kfLVfGsXV1HG
-	KSdVhAoA6oAoMj+P/odaHtGVRVFsAZkhxb/EvbK05xOauW6iDVTRNl/OE3PuKYzujgXUmcKXmTO
-	sgra1BkrSdK2HD3nFqP1dyV8Pw1+k5iT6RoBDXqFFb1OCoFvCQy8CqA7sVNC0ow9nUCYaLWR7KJ
-	zvP4zpiZoYCyB6FfKzbW1MaeRzGt4qAD6/m+ppwmn4YvHvCKOTuCUdsfmxvwCWFaSAA6XgFpQnK
-	XO9EpEc9XTeUcUQ==
-X-Received: by 2002:a05:622a:580c:b0:51a:8c9c:7f3e with SMTP id d75a77b69052e-5283df4fe14mr6874071cf.65.1784763761807;
-        Wed, 22 Jul 2026 16:42:41 -0700 (PDT)
-X-Received: by 2002:a05:622a:580c:b0:51a:8c9c:7f3e with SMTP id d75a77b69052e-5283df4fe14mr6873761cf.65.1784763761209;
-        Wed, 22 Jul 2026 16:42:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784763764; x=1785368564;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5/obpLdePENN28oe7/16g7wkCuj4dYNKilBuML27YeA=;
+        b=Jtx4KvUwBodQgfEa8Iw/xCk92XNFd2BZq+R08TCeAgfDF7RASjTcQ6g/8keCk7388r
+         1LuI59Hj7lfSW5bWEVyDmswzTQ1JcssqO9CHab0JG9itfL2sT/nVXOO5qfwimyGQh3sE
+         pRYBZZMXi9kVaPw1HXrCNjuQ6rlEx1iDEEJt1w+ZmK8bktkLbLe738w0HzuvsesTJ35D
+         v5eTYQo50uIxlVUOVJn4HW2xmRNW2fyx0SVhbAGHoj09Fsgde1HZC3kvcZPOJ9ESqTZ0
+         rMQysiQn6a/2ZtjZK+cpWGupFQSQAmSOiLaeIA4VNWcn+JOsor+D9q9/3oTIrp/SXvw7
+         ESBQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqKY81T3sCeyFIRP46M35qk4p1X8sSyQ0eC5gbP/E5vvI5g3PeTmpkR7qE7wUkyKwIOuHA1qQqfEewCDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywxu8AOetq/+kFXyTFwOGfJGaijZVgUGM5skeKJdFXSA7r05jwL
+	DnZ31LXp/PwmwSxsxD6eS6Hdxaj9jnlrToLogU03yr7B/0PZOOQU+l0n5NqOT6copGf4c1QOBC7
+	PdGHmmUuJap9vLPwPt+cZrg+oTbYadFbEJCo3jPVN56VJH/2XT59ah66jkDh5UvWpiQ==
+X-Gm-Gg: AR+sD11tZz2N9S2uMkMURAIZs6bcECT3y6msySReRW1OT6AadRE+wZMSd3VMlQtIbdh
+	x6NaubXVrnNLhlXyEfk7unVf55tD2fPOgXG3MmBLaMt/ay+ze+CQ3BRBsfkn8X2lthhlm7ogjvt
+	AbJSUNlQ5wks7+ILN166j7coMIxrXT5GY8PssIaNd4XVdnbeCH2oZfoRtxukx0Slr//e3w/O6XA
+	s4W3YHEKoKgK3AcYm57UUQ53odMp7vaOAN5vP+ZpoBEFNuoResDojjctM3OLHorI6luGsxEkJbk
+	2E1RkwTAdvve/kocX7MKq2nCRoKUNwXG9COLn4Hoy8O0wk6nIbDtsZGJKOmtRle/AvuNl9JRFbe
+	mTPgzFFDS+jWIDg==
+X-Received: by 2002:a05:622a:44e:b0:51c:9e6:ec42 with SMTP id d75a77b69052e-5283def061cmr6711741cf.57.1784763763751;
+        Wed, 22 Jul 2026 16:42:43 -0700 (PDT)
+X-Received: by 2002:a05:622a:44e:b0:51c:9e6:ec42 with SMTP id d75a77b69052e-5283def061cmr6711311cf.57.1784763762859;
+        Wed, 22 Jul 2026 16:42:42 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a4aae16sm101796345e9.0.2026.07.22.16.42.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a4aae16sm101796345e9.0.2026.07.22.16.42.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 16:42:40 -0700 (PDT)
+        Wed, 22 Jul 2026 16:42:42 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +96,9 @@ Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
         devicetree@vger.kernel.org, patches@opensource.cirrus.com,
         linux-kernel@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [RFC PATCH 7/8] dt-bindings: sound: qcom: add Tambora WCD9378 SDCA codec
-Date: Thu, 23 Jul 2026 00:42:17 +0100
-Message-ID: <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [RFC PATCH 8/8] ASoC: codecs: add Qualcomm Tambora (WCD9378) SDCA codec
+Date: Thu, 23 Jul 2026 00:42:18 +0100
+Message-ID: <20260722234221.884765-9-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -106,263 +108,1305 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfX3TTsX8MmTgxm
- F1ilqgYrIr0VaGQWKmyT4e24rNANp0lcN63qpNcVIu6pQDfoac1nytNLPdAIAoSYzz5YyfC98Dz
- cMGYacFmdFhQrdRft4f0l8Ef57xTMqM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfX7Y47HPjJq+jE
- Pv6cUMkHfEPdAO6Xiu/fA5O9r//tusG1PUGOuSJHzzBS4peUE2/8M5AJepRmWOMzc4Ez/xBE5JS
- 3Qdmy1uWq1GaC23DD4MaDUhHZr/h9L26Dg0e1zscU22KlLRxtLDrExUgc4egQFHSkHvKnRDF9e2
- 3uY+QMLbiUwp771+KyOZl8CfhzH23tBljD8ZVtm+T+OVcATUYjERtKbg5UQupzY86fuLliMvRqE
- wj6YKBCdzu9s8XvOZ4mGR2yeXjlbovpdN0DbnljV2fftE0VhxIsxQHA6GhVPTaNYUo/DOnd2qfv
- 7DMvpGv9N7EqCNCN7UkUbux2iQbknxTrbBrHo/XdzvAF3gUKcKpdUCmd4zInuAQ8qvUEXpL8D0x
- SKbe87nqKXbaXnxY4xGxoN2kfofZTsJ5ua8pkkQY8o8jYFEwB9x7izLVmUe94ail7l+BAMWl39n
- XeoaqpBCRuN9YPXl2uw==
-X-Authority-Analysis: v=2.4 cv=Rsv16imK c=1 sm=1 tr=0 ts=6a615572 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=gEfo2CItAAAA:8
- a=EUspDBNiAAAA:8 a=GYSh3LzNAAAA:8 a=s5uLdfJeeDcd-HM_FJ0A:9
- a=kacYvNCVWA4VmyqE58fU:22 a=sptkURWiP4Gy88Gu7hUp:22 a=lWcdFasyL5yHfcDTNXXo:22
-X-Proofpoint-GUID: 5CbMC6nylu-AEFFEd93v20tZiVCYqpCp
-X-Proofpoint-ORIG-GUID: 5CbMC6nylu-AEFFEd93v20tZiVCYqpCp
+X-Authority-Analysis: v=2.4 cv=X4Bi7mTe c=1 sm=1 tr=0 ts=6a615575 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=o0TCp_R9GsAS89_1xQEA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=O8hF6Hzn-FEA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: cRQsCOFTXzKe9Gqc3AIWZd-TQP_ojKwg
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfXxren5Ci7roG4
+ x9pudxx1LCHsbG0ziW1anxc6pey3pe1pxs8tCnoRPkt7Z/BocSxuc092ruPDIIchtZfaZXzP3MR
+ JBVp6XK1xX+UnKHx4NLzEc8opF3EZRw=
+X-Proofpoint-ORIG-GUID: cRQsCOFTXzKe9Gqc3AIWZd-TQP_ojKwg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfX/0b9y5PdXB1d
+ lF32ttM4fGveamtlqPSuXn2juJnBGYQoNQeMCsK2/hllItS9KuFDoLytwLe22SCxv7kwppj+h18
+ f45xJUjPynDugfeNGxxyS/+rZ2HNNZB/Clc4XNAbGBV2XME/SdEzGgGkLW7WCmUSXJTd7uix5lT
+ vSNwDfMpmaGrMrLYs8dNlN+jtC2D10ccKKSnK/86SVkrDIf78vBAUm/8tesCNh7SfD+j9k6MMaB
+ D+yHy8HAqlLVjb5bDLy58sWZ+vNDQHEUiJDvuXzX9yajJ14q7D7q/Ui/xtqWhmaroGaeS68PibQ
+ Lund9hE4ZVUTAeTPmjJr51dou6l5UHJohcND2nY1jY/puIWhyD+K9WwHkA+xoqtl8+a9pSHneqN
+ NX1gQ4eP/8An/a/gJ162LHw5rL9QPDR3OWZYPPmhBoRg0+HnU6icsURlIP+MknEMB0StaGHfspv
+ gOo01UQ1wpBC/hku5Xw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-22_05,2026-07-22_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0 impostorscore=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015
+ bulkscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0 malwarescore=0
+ clxscore=1015 priorityscore=1501 spamscore=0 adultscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607220233
 
-Describe the WCD9378 SDCA peripheral node (compatible sdw20217011000)
-driven by the wcd9378-sdca codec driver for headphone playback, headset
-mic capture and jack detection via the SimpleJack SDCA function type.
+Add support for the Qualcomm Tambora (WCD9378) headset codec in SDCA
+mode over SoundWire.
 
-WCD9378 codec can be wired up in 2 different modes.
-"mobile mode" on phone/tablet SoCs is enumerated as tx and rx device,
-each of which has dedicated control and data lines.
-"compute mode" on compute platforms such as Glymur is enumerated as
-single standard MIPI SDCA class device.
-
-Both modes share same Device ID, compatible; qcom,compute-mode selects
-which driver path is taken.  Supplies, reset GPIO and mic-bias voltages
-live on the SoundWire slave node in compute mode and are forbidden in
-mobile mode (owned by the top-level codec parent there).
+WCD9378 ("Tambora") is a low-power stereo audio codec used across
+Qualcomm mobile and compute platforms.  It integrates a headphone
+amplifier, mono earpiece output, three analogue microphone inputs
+with independent programmable mic-bias supplies, jack and button
+detection, and SoundWire dataports for both playback and capture.
 
 Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- .../bindings/sound/qcom,wcd9378-sdw.yaml      | 200 ++++++++++++++++++
- 1 file changed, 200 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+ sound/soc/codecs/Kconfig        |   12 +
+ sound/soc/codecs/Makefile       |    2 +
+ sound/soc/codecs/wcd9378-sdca.c | 1202 +++++++++++++++++++++++++++++++
+ 3 files changed, 1216 insertions(+)
+ create mode 100644 sound/soc/codecs/wcd9378-sdca.c
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 76e90144ea91..372d2e134f05 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -2770,6 +2770,18 @@ config SND_SOC_WSA884X
+ 	  This enables support for Qualcomm WSA8840/WSA8845/WSA8845H Class-D
+ 	  Smart Speaker Amplifier.
+ 
++config SND_SOC_WCD9378_SDCA
++	tristate "Qualcomm Tambora (WCD9378) SDCA codec"
++	depends on SOUNDWIRE
++	depends on SND_SOC_SDCA_CLASS
++	default m if ARCH_QCOM
++	help
++	  This enables support for the Qualcomm Tambora (WCD9378) headset
++	  codec when driven via the SDCA class driver on ARM platforms
++	  without ACPI/DisCo tables. It provides the static SDCA topology
++	  and SoundWire data port properties transcribed from the factory
++	  ACPI tables.
++
+ config SND_SOC_ZL38060
+ 	tristate "Microsemi ZL38060 Connected Home Audio Processor"
+ 	depends on SPI_MASTER
+diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+index aa0396e5b575..6dcf28b88972 100644
+--- a/sound/soc/codecs/Makefile
++++ b/sound/soc/codecs/Makefile
+@@ -426,6 +426,7 @@ snd-soc-wm-hubs-y := wm_hubs.o
+ snd-soc-wsa881x-y := wsa881x.o
+ snd-soc-wsa883x-y := wsa883x.o
+ snd-soc-wsa884x-y := wsa884x.o
++snd-soc-wcd9378-sdca-y := wcd9378-sdca.o
+ snd-soc-zl38060-y := zl38060.o
+ # Amp
+ snd-soc-max9877-y := max9877.o
+@@ -876,6 +877,7 @@ obj-$(CONFIG_SND_SOC_WM_HUBS)	+= snd-soc-wm-hubs.o
+ obj-$(CONFIG_SND_SOC_WSA881X)	+= snd-soc-wsa881x.o
+ obj-$(CONFIG_SND_SOC_WSA883X)	+= snd-soc-wsa883x.o
+ obj-$(CONFIG_SND_SOC_WSA884X)	+= snd-soc-wsa884x.o
++obj-$(CONFIG_SND_SOC_WCD9378_SDCA) += snd-soc-wcd9378-sdca.o
+ obj-$(CONFIG_SND_SOC_ZL38060)	+= snd-soc-zl38060.o
+ 
+ # Amp
+diff --git a/sound/soc/codecs/wcd9378-sdca.c b/sound/soc/codecs/wcd9378-sdca.c
 new file mode 100644
-index 000000000000..2ed4ad92958e
+index 000000000000..46a2b5728d2c
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
-@@ -0,0 +1,200 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/qcom,wcd9378-sdw.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/sound/soc/codecs/wcd9378-sdca.c
+@@ -0,0 +1,1202 @@
++// SPDX-License-Identifier: (GPL-2.0 OR BSD-3-Clause)
++// Copyright (c) 2025 Qualcomm Technologies, Inc. All rights reserved.
 +
-+title: Qualcomm SoundWire Slave devices on WCD9378
++/*
++ * WCD9378 SDCA hardware quirk for the SDCA class driver.
++ *
++ * sdca_class.c is the SoundWire slave driver; it calls wcd9378_sdca_hw_ops
++ * during probe to enable supplies, toggle the reset GPIO, and apply
++ * SoundWire slave properties and static SDCA function data that are specific
++ * to this device (the Tambora / WCD9378 codec). On ARM/DT platforms there is
++ * no ACPI/DisCo firmware node, so the topology transcribed from the factory
++ * ASL is supplied via get_function_data.
++ */
 +
-+maintainers:
-+  - Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-+  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
++#include <linux/delay.h>
++#include <linux/gpio/consumer.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/pm_runtime.h>
++#include <linux/regmap.h>
++#include <linux/regulator/consumer.h>
++#include <linux/soundwire/sdw.h>
++#include <linux/soundwire/sdw_registers.h>
++#include <linux/soundwire/sdw_type.h>
++#include <linux/workqueue.h>
++#include <sound/pcm.h>
++#include <sound/sdca.h>
++#include <sound/sdca_function.h>
++#include <sound/soc.h>
++#include <sound/soc-dai.h>
++#include "../sdca/sdca_class.h"
 +
-+description: |
-+  The Qualcomm WCD9378 codec presents its SoundWire slave devices with
-+  class ID sdw20217011000 in both operating modes:
++/* Forward declaration of entities array */
++static struct sdca_entity wcd9378_sdca_entities[];
++/*
++ * Entity array index map (see wcd9378_sdca_entities[] below).
++ * The entities are stored in the same order as the ASL entity-id-list,
++ * with Entity 0 (Function) last.
++ *
++ *  [0]  E001 IT 41    (0x1)   [11] E00F IT 33    (0xF)
++ *  [1]  E002 CS 41    (0x2)   [12] E010 PDE 34   (0x10)
++ *  [2]  E003 MFPU 21  (0x3)   [13] E011 FU 33    (0x11)
++ *  [3]  E004 XU 42    (0x4)   [14] E012 SU 35    (0x12)
++ *  [4]  E007 SU 43    (0x7)   [15] E013 XU 36    (0x13)
++ *  [5]  E008 SU 45    (0x8)   [16] E015 CS 36    (0x15)
++ *  [6]  E009 PDE 47   (0x9)   [17] E016 OT 36    (0x16)
++ *  [7]  E00A OT 43    (0xA)   [18] E017 MFPU 236 (0x17)
++ *  [8]  E00B OT 45    (0xB)   [19] E018 CS 236   (0x18)
++ *  [9]  E00C GE 35    (0xC)   [20] E019 OT 236   (0x19)
++ *  [10] E00D IT 131   (0xD)   [21] E000 Function (0x0)
++ */
++#define QSJ_IT41	0
++#define QSJ_CS41	1
++#define QSJ_MFPU21	2
++#define QSJ_XU42	3
++#define QSJ_SU43	4
++#define QSJ_SU45	5
++#define QSJ_PDE47	6
++#define QSJ_OT43	7
++#define QSJ_OT45	8
++#define QSJ_GE35	9
++#define QSJ_IT131	10
++#define QSJ_CS131	11
++#define QSJ_IT33	12
++#define QSJ_PDE34	13
++#define QSJ_FU33	14
++#define QSJ_SU35	15
++#define QSJ_XU36	16
++#define QSJ_CS36	17
++#define QSJ_OT36	18
++#define QSJ_MFPU236	19
++#define QSJ_CS236	20
++#define QSJ_OT236	21
 +
-+    * mobile mode -- two slave instances sit on separate SoundWire
-+      masters carrying data only.  A separate top-level codec node
-+      owns the codec's supplies, mic-bias voltages and reset GPIO.
++/*
++ * Range Data Structures
++ *
++ * Range layout is { cols, rows, data[cols*rows] }. The raw values mirror
++ * the little-endian buffers from the ASL.
++ */
 +
-+    * SDCA / compute mode -- one aggregated slave sits on a multi-lane
-+      master and carries both control and data.  There is no separate
-+      top-level codec node, so the SoundWire slave node itself owns
-+      supplies, reset GPIO and mic-bias voltage configuration.  It is
-+      marked with qcom,compute-mode.
++/* Entity 1 (IT 41) - Usage range: 1 septuple (cols=7, rows=1)
++ * PDM render stream: SoundWire carries 2-bit PDM at 4.8MHz internally, but
++ * the host-visible PCM rate/width is 48kHz/16-bit (msft-sdca-pdm-pcm map).
++ * Usage value = 0x2 (HIFI); value 0x3 (ULP) does not route audio to the
++ * HPH analog driver on WCD9378.
++ */
++static u32 range_it41_usage_data[] = {
++	/* usage, CBN, sample_rate, sample_width, full_scale, noise_floor, tag */
++	0x2, 0x2D0, 0xBB80, 0x10, 0x0, 0x0, 0x0,  /* HIFI, 48kHz PCM, 16-bit */
++};
 +
-+  Codec drivers that match sdw20217011000 use qcom,compute-mode to
-+  decide which mode to serve; the presence or absence of this property
-+  also gates whether the supply and mic-bias properties on this node
-+  are required or forbidden.
++/* Entity 1 (IT 41) - ClusterIndex range: index -> cluster id */
++static u32 range_it41_cluster_data[] = { 0x1, 0x1 };
 +
-+properties:
-+  compatible:
-+    const: sdw20217011000
++/* Entity 1 (IT 41) - DataPort selector range (16 cols x 4 rows)
++ * DC value = 6; row A col 6 = 0x06 (DP6 / HPH render port).
++ */
++static u32 range_it41_dp_data[] = {
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x6, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
++};
 +
-+  reg:
-+    maxItems: 1
++/* Entity 2 (CS 41) - SampleRateIndex range: index 1 -> 48kHz PCM
++ * Register DC value = 1. PCM rate is 48kHz (PDM-to-PCM mapped internally).
++ */
++static u32 range_cs41_sr_data[] = { 0x1, 0xBB80 };
 +
-+  qcom,compute-mode:
-+    description: |
-+      Marks this SoundWire slave as the single aggregated slave that
-+      implements the codec in SDCA / compute mode.  Only present when
-+      the codec has no separate top-level codec parent; in that case
-+      this slave node also owns the codec's supplies, reset GPIO and
-+      mic-bias voltage configuration.  Absent in mobile mode.
-+    type: boolean
++/* Selector unit range: disconnected / connected (shared layout) */
++static u32 range_su_sel_data[] = { 0x0, 0x1 };
 +
-+  qcom,port-mapping:
-+    description: |
-+      Static mapping between codec SoundWire peripheral ports and master
-+      ports on the SoundWire bus.  Length and interpretation depend on
-+      the slave's role as fixed by the parent codec node:
++/* PDE Requested_PS range: PS0 / PS3 (shared layout) */
++static u32 range_pde_req_ps_data[] = { 0x0, 0x3 };
 +
-+        mobile (5 entries): the mobile-mode driver derives direction
-+            (RX / TX) from its own context (parent phandle from the
-+            top-level codec node, or the presence of
-+            qcom,tx-port-mapping / qcom,rx-port-mapping on other slaves
-+            in that binding).
-+        SDCA (7 entries):   DP1..DP7 aggregated on the single slave
-+            (index 0 unused).
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    minItems: 5
-+    maxItems: 8
++/* Entity 0xC (GE 35) - SelectedMode range: mode -> terminal type
++ *
++ * WORKAROUND: modes 0 (Jack Unplugged) and 1 (Jack Unknown) are added
++ * and mapped to the same "Headphone on jack" terminal type as mode 4.
++ * The Tambora firmware on this board does the mechanical MBHC (fires
++ * SDCA_4 with DETECTED_MODE=1) but cannot complete headphone-vs-headset
++ * ADC discrimination on its own, so the state machine gets stuck at
++ * Jack Unknown and sdca_jack_process falls back to SELECTED_MODE=0.
++ * Without these mode 0/1 entries, the GE MUX DAPM widget has no route
++ * for those values and drops SU45's selector, muting all HPH playback.
++ * Aliasing both to Headphone keeps the IT41->OT43 (HPH) DAPM path alive
++ * so the analog HP jack works while proper HS discrimination lands in
++ * a future wcd-mbhc-v2 integration.
++ */
++static u32 range_ge35_mode_data[] = {
++	0x0, 0x6C0,	/* Mode 0: Jack Unplugged (workaround: routes to HPH) */
++	0x1, 0x6C0,	/* Mode 1: Jack Unknown (workaround: routes to HPH) */
++	0x3, 0x6D0,	/* Mode 3: Headset output on jack */
++	0x4, 0x6C0,	/* Mode 4: Headphone on jack */
++};
 +
-+  reset-gpios:
-+    description: |
-+      SDCA / compute mode only.  GPIO used to release the codec from
-+      reset.  Active-low.
-+    maxItems: 1
++/* Entity 0xD (IT 131) - Usage range: optimization render stream at 192kHz */
++static u32 range_it131_usage_data[] = {
++	0x3, 0x334, 0x2EE00, 0x8, 0x0, 0x0, 0x0,  /* ULP, 192kHz, 8-bit */
++};
 +
-+  vdd-buck-supply:
-+    description: SDCA / compute mode only.  1.8 V analog buck supply.
++/* Entity 0xD (IT 131) - ClusterIndex range: index -> cluster id 3 */
++static u32 range_it131_cluster_data[] = { 0x1, 0x3 };
 +
-+  vdd-rxtx-supply:
-+    description: SDCA / compute mode only.  1.8 V RX/TX supply.
++/* Entity 0xD (IT 131) - DataPort selector range (DP7) */
++static u32 range_it131_dp_data[] = {
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
++};
 +
-+  vdd-io-supply:
-+    description: SDCA / compute mode only.  Digital I/O supply.
++/* Entity 0xE (CS 131) - SampleRateIndex range: index -> 192kHz */
++static u32 range_cs131_sr_data[] = { 0x1, 0x2EE00 };
 +
-+  vdd-mic-bias-supply:
-+    description: SDCA / compute mode only.  Mic bias supply.
++/* Entity 0xF (IT 33) - Mic bias range: 2.75V */
++static u32 range_it33_micbias_data[] = { 0x5 };
 +
-+  qcom,micbias1-microvolt:
-+    description: SDCA / compute mode only.  MICB1 rail voltage in microvolts.
-+    minimum: 1800000
-+    maximum: 2850000
++/* Entity 0xF (IT 33) - Usage range */
++static u32 range_it33_usage_data[] = {
++	0x1, 0x2C6, 0x0, 0x0, 0x0, 0x0, 0x0,  /* HIFI */
++};
 +
-+  qcom,micbias2-microvolt:
-+    description: |
-+      SDCA / compute mode only.  MICB2 rail voltage in microvolts.
-+      Used by the SDCA SimpleJack headset-mic input (IT33 / AMIC2).
-+    minimum: 1800000
-+    maximum: 2850000
++/* Entity 0xF (IT 33) - ClusterIndex range: index -> cluster id 2 */
++static u32 range_it33_cluster_data[] = { 0x1, 0x2 };
 +
-+  qcom,micbias3-microvolt:
-+    description: SDCA / compute mode only.  MICB3 rail voltage in microvolts.
-+    minimum: 1800000
-+    maximum: 2850000
++/* Entity 0x15 (CS 36) - SampleRateIndex range: index 1 -> 48kHz PCM */
++static u32 range_cs36_sr_data[] = { 0x1, 0xBB80 };
 +
-+  '#sound-dai-cells':
-+    const: 1
++/* Entity 0x16 (OT 36) - Usage range
++ * PDM capture: 1-bit PDM at 4.8MHz internally; host sees 48kHz/16-bit PCM.
++ */
++static u32 range_ot36_usage_data[] = {
++	0x1, 0x2C6, 0xBB80, 0x10, 0x0, 0x0, 0x0,  /* HIFI, 48kHz PCM, 16-bit */
++};
 +
-+required:
-+  - compatible
-+  - reg
-+  - qcom,port-mapping
-+  - '#sound-dai-cells'
++/* Entity 0x16 (OT 36) - DataPort selector range (DP2 / TX1) */
++static u32 range_ot36_dp_data[] = {
++	0xFF, 0xFF, 0x2, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
++};
 +
-+allOf:
-+  # qcom,compute-mode gates the standalone-slave shape: supplies, reset
-+  # and mic-bias voltages live on this node in compute mode and are
-+  # forbidden in mobile mode (owned by the top-level codec parent there).
-+  - if:
-+      required:
-+        - qcom,compute-mode
-+    then:
-+      required:
-+        - vdd-buck-supply
-+        - vdd-rxtx-supply
-+        - vdd-io-supply
-+        - vdd-mic-bias-supply
-+        - qcom,micbias1-microvolt
-+        - qcom,micbias2-microvolt
-+        - qcom,micbias3-microvolt
-+    else:
-+      properties:
-+        vdd-buck-supply: false
-+        vdd-rxtx-supply: false
-+        vdd-io-supply: false
-+        vdd-mic-bias-supply: false
-+        qcom,micbias1-microvolt: false
-+        qcom,micbias2-microvolt: false
-+        qcom,micbias3-microvolt: false
-+        reset-gpios: false
++/* Entity 0x18 (CS 236) - SampleRateIndex range: index -> 48kHz */
++static u32 range_cs236_sr_data[] = { 0x1, 0xBB80 };
 +
-+additionalProperties: false
++/* Entity 0x19 (OT 236) - Usage range
++ * Optimization capture; clock domain is CS 131 (192 kHz), so PCM rate = 192 kHz.
++ */
++static u32 range_ot236_usage_data[] = {
++	0x1, 0x334, 0x2EE00, 0x8, 0x0, 0x0, 0x0,  /* HIFI, 192kHz, 8-bit */
++};
 +
-+examples:
-+  # Mobile mode: two SoundWire slaves on separate masters.  Neither
-+  # carries supplies or mic-bias -- the top-level codec parent owns
-+  # those.
-+  - |
-+    soundwire@3210000 {
-+        reg = <0x03210000 0x2000>;
-+        #address-cells = <2>;
-+        #size-cells = <0>;
++/* Entity 0x19 (OT 236) - DataPort selector range (DP5 / TX4) */
++static u32 range_ot236_dp_data[] = {
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x5, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
++};
 +
-+        wcd9378_rx: audio-codec@0,4 {
-+            compatible = "sdw20217011000";
-+            reg = <0 4>;
-+            qcom,port-mapping = <1 2 3 4 5>;
-+            #sound-dai-cells = <1>;
-+        };
-+    };
++/*
++ * Control Value Arrays
++ */
 +
-+    soundwire@33b0000 {
-+        reg = <0x033b0000 0x2000>;
-+        #address-cells = <2>;
-+        #size-cells = <0>;
++/* Entity 0 (Function) Control Values */
++static int ctrl_fun_sdca_ver_vals[] = { 0x11 };
++static int ctrl_fun_type_vals[] = { 0x08 };	/* SimpleJack */
++static int ctrl_fun_man_id_vals[] = { 0x0217 };
++static int ctrl_fun_id_vals[] = { 0x3 };
++static int ctrl_fun_ver_vals[] = { 0x0 };
++static int ctrl_dev_sdca_ver_vals[] = { 0x11 };
 +
-+        wcd9378_tx: audio-codec@0,3 {
-+            compatible = "sdw20217011000";
-+            reg = <0 3>;
-+            qcom,port-mapping = <1 1 1 2 3>;
-+            #sound-dai-cells = <1>;
-+        };
-+    };
++/* Entity 1 (IT 41) Control Values */
++static int ctrl_it41_latency_vals[] = { 0x0 };
++static int ctrl_it41_cluster_vals[] = { 0x1 };
++static int ctrl_it41_dp_vals[] = { 0x6 };
 +
-+  # SDCA / compute mode: single aggregated slave -- owns supplies,
-+  # reset GPIO and mic-bias voltages.
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
++/* Entity 2 (CS 41) Control Values */
++static int ctrl_cs41_sr_vals[] = { 0x1 };
 +
-+    soundwire@7630000 {
-+        reg = <0x07630000 0x10000>;
-+        #address-cells = <2>;
-+        #size-cells = <0>;
++/* Entity 3 (MFPU 21) Control Values */
++static int ctrl_mfpu21_bypass_vals[] = { 0x1 };
 +
-+        wcd9378c_sdw: audio-codec@3,0 {
-+            compatible = "sdw20217011000";
-+            reg = <0 3>;
++/* Entity 4 (XU 42) Control Values */
++static int ctrl_xu42_id_vals[] = { 0x2131 };
++static int ctrl_xu42_ver_vals[] = { 0x1 };
 +
-+            qcom,compute-mode;
-+            qcom,port-mapping = <2 2 3 4 5 6 7 8>;
++/* Entity 0xD (IT 131) Control Values */
++static int ctrl_it131_latency_vals[] = { 0x0 };
++static int ctrl_it131_cluster_vals[] = { 0x1 };
++static int ctrl_it131_dp_vals[] = { 0x7 };
 +
-+            reset-gpios = <&tlmm 191 GPIO_ACTIVE_LOW>;
++/* Entity 0xE (CS 131) Control Values */
++static int ctrl_cs131_sr_vals[] = { 0x1 };
 +
-+            vdd-buck-supply = <&vreg_l15b_1p8>;
-+            vdd-rxtx-supply = <&vreg_l15b_1p8>;
-+            vdd-io-supply = <&vreg_l18b_1p2>;
-+            vdd-mic-bias-supply = <&vreg_bob1>;
++/* Entity 0xF (IT 33) Control Values */
++static int ctrl_it33_micbias_vals[] = { 0x5 };	/* 2.75V mic bias */
++static int ctrl_it33_latency_vals[] = { 0x0 };
++static int ctrl_it33_cluster_vals[] = { 0x1 };
 +
-+            qcom,micbias1-microvolt = <1800000>;
-+            qcom,micbias2-microvolt = <2750000>;
-+            qcom,micbias3-microvolt = <1800000>;
++/* Entity 0x13 (XU 36) Control Values */
++static int ctrl_xu36_id_vals[] = { 0x2131 };
++static int ctrl_xu36_ver_vals[] = { 0x1 };
 +
-+            #sound-dai-cells = <1>;
-+        };
-+    };
-+...
++/* Entity 0x15 (CS 36) Control Values */
++static int ctrl_cs36_sr_vals[] = { 0x1 };
++
++/* Entity 0x16 (OT 36) Control Values */
++static int ctrl_ot36_latency_vals[] = { 0x0 };
++static int ctrl_ot36_dp_vals[] = { 0x2 };
++
++/* Entity 0x17 (MFPU 236) Control Values */
++static int ctrl_mfpu236_bypass_vals[] = { 0x1 };
++
++/* Entity 0x18 (CS 236) Control Values */
++static int ctrl_cs236_sr_vals[] = { 0x1 };
++
++/* Entity 0x19 (OT 236) Control Values */
++static int ctrl_ot236_latency_vals[] = { 0x0 };
++static int ctrl_ot236_dp_vals[] = { 0x5 };
++
++/* Entity 0 (Function) Controls */
++static struct sdca_control entity0_controls[] = {
++	{ .sel = 0x1,  .mode = SDCA_ACCESS_MODE_RW,   .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_COMMIT_GROUP_MASK_NAME },
++	{ .sel = 0x4,  .mode = SDCA_ACCESS_MODE_DC,   .layers = 0x4, .cn_list = 0x1, .values = ctrl_fun_sdca_ver_vals, .has_fixed = true, .label = SDCA_CTL_FUNCTION_SDCA_VERSION_NAME },
++	{ .sel = 0x5,  .mode = SDCA_ACCESS_MODE_DC,   .layers = 0x4, .cn_list = 0x1, .values = ctrl_fun_type_vals, .has_fixed = true, .label = SDCA_CTL_FUNCTION_TYPE_NAME },
++	{ .sel = 0x6,  .mode = SDCA_ACCESS_MODE_DC,   .layers = 0x4, .cn_list = 0x1, .values = ctrl_fun_man_id_vals, .has_fixed = true, .label = SDCA_CTL_FUNCTION_MANUFACTURER_ID_NAME },
++	{ .sel = 0x7,  .mode = SDCA_ACCESS_MODE_DC,   .layers = 0x4, .cn_list = 0x1, .values = ctrl_fun_id_vals, .has_fixed = true, .label = SDCA_CTL_FUNCTION_ID_NAME },
++	{ .sel = 0x8,  .mode = SDCA_ACCESS_MODE_DC,   .layers = 0x4, .cn_list = 0x1, .values = ctrl_fun_ver_vals, .has_fixed = true, .label = SDCA_CTL_FUNCTION_VERSION_NAME },
++	{ .sel = 0x9,  .mode = SDCA_ACCESS_MODE_RO,   .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_FUNCTION_EXTENSION_ID_NAME },
++	{ .sel = 0xA,  .mode = SDCA_ACCESS_MODE_RO,   .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_FUNCTION_EXTENSION_VERSION_NAME },
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_RW1C, .layers = 0x4, .cn_list = 0x1, .is_volatile = true, .label = SDCA_CTL_FUNCTION_STATUS_NAME },
++	{ .sel = 0x11, .mode = SDCA_ACCESS_MODE_RW1S, .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_FUNCTION_ACTION_NAME },
++	{ .sel = 0x2C, .mode = SDCA_ACCESS_MODE_RO,   .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_DEVICE_MANUFACTURER_ID_NAME },
++	{ .sel = 0x2D, .mode = SDCA_ACCESS_MODE_RO,   .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_DEVICE_PART_ID_NAME },
++	{ .sel = 0x2E, .mode = SDCA_ACCESS_MODE_RO,   .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_DEVICE_VERSION_NAME },
++	{ .sel = 0x2F, .mode = SDCA_ACCESS_MODE_DC,   .layers = 0x4, .cn_list = 0x1, .values = ctrl_dev_sdca_ver_vals, .has_fixed = true, .label = SDCA_CTL_DEVICE_SDCA_VERSION_NAME },
++};
++
++/* Entity 1 (IT 41) Controls */
++static struct sdca_control entity_it41_controls[] = {
++	{ .sel = 0x4,  .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .range = { .cols = 0x7, .rows = 0x1, .data = range_it41_usage_data },
++	  .label = SDCA_CTL_USAGE_NAME },
++	{ .sel = 0x8,  .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it41_latency_vals, .has_fixed = true, .label = SDCA_CTL_LATENCY_NAME },
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it41_cluster_vals, .has_fixed = true,
++	  .range = { .cols = 0x2, .rows = 0x1, .data = range_it41_cluster_data },
++	  .label = SDCA_CTL_CLUSTERINDEX_NAME },
++	{ .sel = 0x11, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it41_dp_vals, .has_fixed = true,
++	  .range = { .cols = 0x10, .rows = 0x4, .data = range_it41_dp_data },
++	  .label = SDCA_CTL_DATAPORT_SELECTOR_NAME },
++};
++
++/* Entity 2 (CS 41) Controls */
++static struct sdca_control entity_cs41_controls[] = {
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_cs41_sr_vals, .has_fixed = true,
++	  .range = { .cols = 0x2, .rows = 0x1, .data = range_cs41_sr_data },
++	  .label = SDCA_CTL_SAMPLERATEINDEX_NAME },
++};
++
++/* Entity 3 (MFPU 21) Controls */
++static struct sdca_entity *entity_mfpu21_sources[] = {
++	&wcd9378_sdca_entities[QSJ_IT41],
++	&wcd9378_sdca_entities[QSJ_IT131],
++};
++
++static struct sdca_control entity_mfpu21_controls[] = {
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_mfpu21_bypass_vals, .has_fixed = true, .label = SDCA_CTL_BYPASS_NAME },
++};
++
++/* Entity 4 (XU 42) Controls */
++static struct sdca_entity *entity_xu42_sources[] = { &wcd9378_sdca_entities[QSJ_MFPU21] };
++
++static struct sdca_control entity_xu42_controls[] = {
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1, .label = SDCA_CTL_BYPASS_NAME },
++	{ .sel = 0x7, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_xu42_id_vals, .has_fixed = true, .label = SDCA_CTL_XU_ID_NAME },
++	{ .sel = 0x8, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_xu42_ver_vals, .has_fixed = true, .label = SDCA_CTL_XU_VERSION_NAME },
++};
++
++/* Entity 7 (SU 43) Controls */
++static struct sdca_entity *entity_su43_sources[] = { &wcd9378_sdca_entities[QSJ_XU42] };
++
++static struct sdca_control entity_su43_controls[] = {
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_DEVICE,
++	  .cn_list = 0x1,
++	  .range = { .cols = 0x1, .rows = 0x2, .data = range_su_sel_data },
++	  .label = SDCA_CTL_SELECTOR_NAME },
++};
++
++/* Entity 8 (SU 45) Controls */
++static struct sdca_entity *entity_su45_sources[] = { &wcd9378_sdca_entities[QSJ_XU42] };
++
++static struct sdca_control entity_su45_controls[] = {
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_DEVICE,
++	  .cn_list = 0x1,
++	  .range = { .cols = 0x1, .rows = 0x2, .data = range_su_sel_data },
++	  .label = SDCA_CTL_SELECTOR_NAME },
++};
++
++/* Entity 9 (PDE 47) - manages OT 43 and OT 45 */
++static struct sdca_entity *entity_pde47_managed[] = {
++	&wcd9378_sdca_entities[QSJ_OT43],
++	&wcd9378_sdca_entities[QSJ_OT45],
++};
++
++static struct sdca_pde_delay pde47_delays[] = {
++	{ .from_ps = 3, .to_ps = 0, .us = 30000 },
++	{ .from_ps = 0, .to_ps = 3, .us = 30000 },
++};
++
++static struct sdca_control entity_pde47_controls[] = {
++	{ .sel = 0x1,  .mode = SDCA_ACCESS_MODE_RW, .layers = SDCA_ACCESS_LAYER_CLASS, .cn_list = 0x1,
++	  .range = { .cols = 0x1, .rows = 0x2, .data = range_pde_req_ps_data },
++	  .label = SDCA_CTL_REQUESTED_PS_NAME },
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS, .cn_list = 0x1,
++	  .is_volatile = true, .label = SDCA_CTL_ACTUAL_PS_NAME },
++	/*
++	 * Fake interrupt anchors for the WCD9378 HPH protection interrupts
++	 * (INTMASK_1 bits 5/6/7 = HPH OCP/CNP, INTMASK_2 bit 0 = SDCA_8
++	 * HPHL_CNP, INTMASK_3 bits 2/3 = SDCA_18/19 HPH surge det).  These
++	 * SDCA_N positions have no matching ASL controls, so use invented
++	 * selectors on PDE47 (which owns the HPH power domain) so the SDCA
++	 * framework registers regmap-irq virqs for them.
++	 *
++	 * With virqs registered, regmap-irq's mask_buf_def includes these
++	 * bits and enable_irq() unmasks them in SDW_SCP_SDCA_INTMASK1..3.
++	 * When a bit fires the base_handler in sdca_interrupts.c logs the
++	 * name ("PDE 47 HPHR OCP" etc.) and regmap-irq acks via INT1..4.
++	 *
++	 * sel values must be unique within the entity but are otherwise
++	 * unused since the base_handler only logs the name.  Using values
++	 * >0x30 to avoid collision with real SDCA controls.
++	 */
++	{ .sel = 0x30, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS,
++	  .cn_list = 0x1, .interrupt_position = 5, .is_volatile = true,
++	  .label = "HPHR OCP" },
++	{ .sel = 0x31, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS,
++	  .cn_list = 0x1, .interrupt_position = 6, .is_volatile = true,
++	  .label = "HPHR CNP" },
++	{ .sel = 0x32, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS,
++	  .cn_list = 0x1, .interrupt_position = 7, .is_volatile = true,
++	  .label = "HPHL OCP" },
++	{ .sel = 0x33, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS,
++	  .cn_list = 0x1, .interrupt_position = 8, .is_volatile = true,
++	  .label = "HPHL CNP" },
++	{ .sel = 0x34, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS,
++	  .cn_list = 0x1, .interrupt_position = 18, .is_volatile = true,
++	  .label = "HPHR SURGE" },
++	{ .sel = 0x35, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS,
++	  .cn_list = 0x1, .interrupt_position = 19, .is_volatile = true,
++	  .label = "HPHL SURGE" },
++};
++
++/* Entity 0xA (OT 43) - Headphone, no controls */
++static struct sdca_entity *entity_ot43_sources[] = { &wcd9378_sdca_entities[QSJ_IT41] };
++
++/* Entity 0xB (OT 45) - Headset, no controls */
++static struct sdca_entity *entity_ot45_sources[] = { &wcd9378_sdca_entities[QSJ_IT41] };
++
++/* Entity 0xC (GE 35) - jack detection group entity */
++
++/*
++ * WORKAROUND: modes 0 (Jack Unplugged) and 1 (Jack Unknown) route SU 45
++ * the same as mode 4 (Headphone) so the DAPM path IT41 -> SU45 -> OT43
++ * stays connected even when the Tambora firmware cannot complete
++ * HP/HS discrimination and leaves DETECTED_MODE at 1.  See the
++ * range_ge35_mode_data comment above.
++ */
++static struct sdca_ge_control ge35_mode0_controls[] = {
++	{ .id = 0x8, .sel = 0x1, .cn = 0x0, .val = 0x1 },	/* SU 45 selector = source 1 (XU 42) */
++};
++
++static struct sdca_ge_control ge35_mode1_controls[] = {
++	{ .id = 0x8, .sel = 0x1, .cn = 0x0, .val = 0x1 },	/* SU 45 selector = source 1 (XU 42) */
++};
++
++static struct sdca_ge_control ge35_mode3_controls[] = {
++	{ .id = 0x7, .sel = 0x1, .cn = 0x0, .val = 0x1 },	/* SU 43 selector = source 1 (XU 42) */
++};
++
++static struct sdca_ge_control ge35_mode4_controls[] = {
++	{ .id = 0x8, .sel = 0x1, .cn = 0x0, .val = 0x1 },	/* SU 45 selector = source 1 (XU 42) */
++};
++
++static struct sdca_ge_mode ge35_modes[] = {
++	{ .val = 0x0, .num_controls = ARRAY_SIZE(ge35_mode0_controls), .controls = ge35_mode0_controls },
++	{ .val = 0x1, .num_controls = ARRAY_SIZE(ge35_mode1_controls), .controls = ge35_mode1_controls },
++	{ .val = 0x3, .num_controls = ARRAY_SIZE(ge35_mode3_controls), .controls = ge35_mode3_controls },
++	{ .val = 0x4, .num_controls = ARRAY_SIZE(ge35_mode4_controls), .controls = ge35_mode4_controls },
++};
++
++static struct sdca_control entity_ge35_controls[] = {
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .interrupt_position = SDCA_NO_INTERRUPT,
++	  .range = { .cols = 0x2, .rows = 0x4, .data = range_ge35_mode_data },
++	  .label = SDCA_CTL_SELECTED_MODE_NAME },
++	{ .sel = 0x2, .mode = SDCA_ACCESS_MODE_RO, .layers = 0x4, .cn_list = 0x1,
++	  .interrupt_position = 4, /* SDCA_4 = GE_DETECTED_MODE, see init_table INTMASK_1 */
++	  .is_volatile = true, .label = SDCA_CTL_DETECTED_MODE_NAME },
++};
++
++/* Entity 0xD (IT 131) - optimization stream input */
++static struct sdca_control entity_it131_controls[] = {
++	{ .sel = 0x4,  .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .range = { .cols = 0x7, .rows = 0x1, .data = range_it131_usage_data },
++	  .label = SDCA_CTL_USAGE_NAME },
++	{ .sel = 0x8,  .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it131_latency_vals, .has_fixed = true, .label = SDCA_CTL_LATENCY_NAME },
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it131_cluster_vals, .has_fixed = true,
++	  .range = { .cols = 0x2, .rows = 0x1, .data = range_it131_cluster_data },
++	  .label = SDCA_CTL_CLUSTERINDEX_NAME },
++	{ .sel = 0x11, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it131_dp_vals, .has_fixed = true,
++	  .range = { .cols = 0x10, .rows = 0x4, .data = range_it131_dp_data },
++	  .label = SDCA_CTL_DATAPORT_SELECTOR_NAME },
++};
++
++/* Entity 0xE (CS 131) Controls */
++static struct sdca_control entity_cs131_controls[] = {
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_cs131_sr_vals, .has_fixed = true,
++	  .range = { .cols = 0x2, .rows = 0x1, .data = range_cs131_sr_data },
++	  .label = SDCA_CTL_SAMPLERATEINDEX_NAME },
++};
++
++/* Entity 0xF (IT 33) - headset mic input */
++static struct sdca_control entity_it33_controls[] = {
++	{ .sel = 0x3,  .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it33_micbias_vals, .has_default = true,
++	  .range = { .cols = 0x1, .rows = 0x1, .data = range_it33_micbias_data },
++	  .label = SDCA_CTL_MIC_BIAS_NAME },
++	{ .sel = 0x4,  .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .range = { .cols = 0x7, .rows = 0x1, .data = range_it33_usage_data },
++	  .has_reset = true,
++	  .label = SDCA_CTL_USAGE_NAME },
++	{ .sel = 0x8,  .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it33_latency_vals, .has_fixed = true, .label = SDCA_CTL_LATENCY_NAME },
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_it33_cluster_vals, .has_fixed = true,
++	  .range = { .cols = 0x2, .rows = 0x1, .data = range_it33_cluster_data },
++	  .label = SDCA_CTL_CLUSTERINDEX_NAME },
++};
++
++/* Entity 0x10 (PDE 34) - manages IT 33 */
++static struct sdca_entity *entity_pde34_managed[] = { &wcd9378_sdca_entities[QSJ_IT33] };
++
++static struct sdca_pde_delay pde34_delays[] = {
++	{ .from_ps = 3, .to_ps = 0, .us = 30000 },
++	{ .from_ps = 0, .to_ps = 3, .us = 30000 },
++};
++
++static struct sdca_control entity_pde34_controls[] = {
++	{ .sel = 0x1,  .mode = SDCA_ACCESS_MODE_RW, .layers = SDCA_ACCESS_LAYER_CLASS, .cn_list = 0x1,
++	  .range = { .cols = 0x1, .rows = 0x2, .data = range_pde_req_ps_data },
++	  .label = SDCA_CTL_REQUESTED_PS_NAME },
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_RO, .layers = SDCA_ACCESS_LAYER_CLASS, .cn_list = 0x1,
++	  .is_volatile = true, .label = SDCA_CTL_ACTUAL_PS_NAME },
++};
++
++/* Entity 0x11 (FU 33) - no controls */
++static struct sdca_entity *entity_fu33_sources[] = { &wcd9378_sdca_entities[QSJ_IT33] };
++
++/* Entity 0x12 (SU 35) Controls */
++static struct sdca_entity *entity_su35_sources[] = { &wcd9378_sdca_entities[QSJ_FU33] };
++
++static struct sdca_control entity_su35_controls[] = {
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_RO, .layers = 0x4, .cn_list = 0x1,
++	  .range = { .cols = 0x1, .rows = 0x2, .data = range_su_sel_data },
++	  .label = SDCA_CTL_SELECTOR_NAME },
++};
++
++/* Entity 0x13 (XU 36) Controls */
++static struct sdca_entity *entity_xu36_sources[] = { &wcd9378_sdca_entities[QSJ_SU35] };
++
++static int ctrl_xu36_bypass_vals[] = { 0x1 };
++
++static struct sdca_control entity_xu36_controls[] = {
++	/* bypass=1: pass mic signal through XU36 without proprietary processing */
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_xu36_bypass_vals, .has_default = true, .label = SDCA_CTL_BYPASS_NAME },
++	{ .sel = 0x7, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_xu36_id_vals, .has_fixed = true, .label = SDCA_CTL_XU_ID_NAME },
++	{ .sel = 0x8, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_xu36_ver_vals, .has_fixed = true, .label = SDCA_CTL_XU_VERSION_NAME },
++};
++
++/* Entity 0x15 (CS 36) Controls */
++static struct sdca_control entity_cs36_controls[] = {
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_cs36_sr_vals, .has_fixed = true,
++	  .range = { .cols = 0x2, .rows = 0x1, .data = range_cs36_sr_data },
++	  .label = SDCA_CTL_SAMPLERATEINDEX_NAME },
++};
++
++/* Entity 0x16 (OT 36) - mic capture output; signal chain: IT33→FU33→SU35→XU36→OT36 */
++static struct sdca_entity *entity_ot36_sources[] = { &wcd9378_sdca_entities[QSJ_XU36] };
++
++static struct sdca_control entity_ot36_controls[] = {
++	{ .sel = 0x4,  .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .range = { .cols = 0x7, .rows = 0x1, .data = range_ot36_usage_data },
++	  .label = SDCA_CTL_USAGE_NAME },
++	{ .sel = 0x8,  .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_ot36_latency_vals, .has_fixed = true, .label = SDCA_CTL_LATENCY_NAME },
++	{ .sel = 0x11, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_ot36_dp_vals, .has_fixed = true,
++	  .range = { .cols = 0x10, .rows = 0x4, .data = range_ot36_dp_data },
++	  .label = SDCA_CTL_DATAPORT_SELECTOR_NAME },
++};
++
++/* Entity 0x17 (MFPU 236) Controls */
++static struct sdca_control entity_mfpu236_controls[] = {
++	{ .sel = 0x1, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_mfpu236_bypass_vals, .has_fixed = true, .label = SDCA_CTL_BYPASS_NAME },
++};
++
++/* Entity 0x18 (CS 236) Controls */
++static struct sdca_control entity_cs236_controls[] = {
++	{ .sel = 0x10, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_cs236_sr_vals, .has_fixed = true,
++	  .range = { .cols = 0x2, .rows = 0x1, .data = range_cs236_sr_data },
++	  .label = SDCA_CTL_SAMPLERATEINDEX_NAME },
++};
++
++/* Entity 0x19 (OT 236) - optimization stream capture output */
++static struct sdca_entity *entity_ot236_sources[] = { &wcd9378_sdca_entities[QSJ_IT33] };
++
++static struct sdca_control entity_ot236_controls[] = {
++	{ .sel = 0x4,  .mode = SDCA_ACCESS_MODE_RW, .layers = 0x4, .cn_list = 0x1,
++	  .range = { .cols = 0x7, .rows = 0x1, .data = range_ot236_usage_data },
++	  .label = SDCA_CTL_USAGE_NAME },
++	{ .sel = 0x8,  .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_ot236_latency_vals, .has_fixed = true, .label = SDCA_CTL_LATENCY_NAME },
++	{ .sel = 0x11, .mode = SDCA_ACCESS_MODE_DC, .layers = 0x4, .cn_list = 0x1,
++	  .values = ctrl_ot236_dp_vals, .has_fixed = true,
++	  .range = { .cols = 0x10, .rows = 0x4, .data = range_ot236_dp_data },
++	  .label = SDCA_CTL_DATAPORT_SELECTOR_NAME },
++};
++
++/* Entities Array (see index map at top of file) */
++static struct sdca_entity wcd9378_sdca_entities[] = {
++	/* [0] E001: IT 41 - PDM render stream input */
++	{ .id = 0x1, .label = "IT 41", .type = SDCA_ENTITY_TYPE_IT,
++	  .iot = { .type = 0x0191, .is_dataport = true, .clock = &wcd9378_sdca_entities[QSJ_CS41] },
++	  .num_controls = ARRAY_SIZE(entity_it41_controls), .controls = entity_it41_controls },
++	/* [1] E002: CS 41 */
++	{ .id = 0x2, .label = "CS 41", .type = SDCA_ENTITY_TYPE_CS,
++	  .cs = { .type = 0x0 },
++	  .num_controls = ARRAY_SIZE(entity_cs41_controls), .controls = entity_cs41_controls },
++	/* [2] E003: MFPU 21 */
++	{ .id = 0x3, .label = "MFPU 21", .type = SDCA_ENTITY_TYPE_MFPU,
++	  .num_controls = ARRAY_SIZE(entity_mfpu21_controls), .controls = entity_mfpu21_controls,
++	  .num_sources = ARRAY_SIZE(entity_mfpu21_sources), .sources = entity_mfpu21_sources },
++	/* [3] E004: XU 42 */
++	{ .id = 0x4, .label = "XU 42", .type = SDCA_ENTITY_TYPE_XU,
++	  .num_controls = ARRAY_SIZE(entity_xu42_controls), .controls = entity_xu42_controls,
++	  .num_sources = ARRAY_SIZE(entity_xu42_sources), .sources = entity_xu42_sources },
++	/* [4] E007: SU 43 - render selector (headset path), driven by GE 35 jack detection */
++	{ .id = 0x7, .label = "SU 43", .type = SDCA_ENTITY_TYPE_SU,
++	  .group = &wcd9378_sdca_entities[QSJ_GE35],
++	  .num_controls = ARRAY_SIZE(entity_su43_controls), .controls = entity_su43_controls,
++	  .num_sources = ARRAY_SIZE(entity_su43_sources), .sources = entity_su43_sources },
++	/* [5] E008: SU 45 - render selector (headphone path), driven by GE 35 jack detection */
++	{ .id = 0x8, .label = "SU 45", .type = SDCA_ENTITY_TYPE_SU,
++	  .group = &wcd9378_sdca_entities[QSJ_GE35],
++	  .num_controls = ARRAY_SIZE(entity_su45_controls), .controls = entity_su45_controls,
++	  .num_sources = ARRAY_SIZE(entity_su45_sources), .sources = entity_su45_sources },
++	/* [6] E009: PDE 47 - render power domain */
++	{ .id = 0x9, .label = "PDE 47", .type = SDCA_ENTITY_TYPE_PDE,
++	  .pde = { .num_managed = ARRAY_SIZE(entity_pde47_managed), .managed = entity_pde47_managed,
++		   .num_max_delay = ARRAY_SIZE(pde47_delays), .max_delay = pde47_delays },
++	  .num_controls = ARRAY_SIZE(entity_pde47_controls), .controls = entity_pde47_controls },
++	/* [7] E00A: OT 43 - Headphone on jack */
++	{ .id = 0xA, .label = "OT 43", .type = SDCA_ENTITY_TYPE_OT,
++	  .iot = { .type = 0x06C0 },
++	  .num_sources = ARRAY_SIZE(entity_ot43_sources), .sources = entity_ot43_sources },
++	/* [8] E00B: OT 45 - Headset output on jack */
++	{ .id = 0xB, .label = "OT 45", .type = SDCA_ENTITY_TYPE_OT,
++	  .iot = { .type = 0x06D0 },
++	  .num_sources = ARRAY_SIZE(entity_ot45_sources), .sources = entity_ot45_sources },
++	/* [9] E00C: GE 35 - jack detection group entity */
++	{ .id = 0xC, .label = "GE 35", .type = SDCA_ENTITY_TYPE_GE,
++	  .ge = { .num_modes = ARRAY_SIZE(ge35_modes), .modes = ge35_modes },
++	  .num_controls = ARRAY_SIZE(entity_ge35_controls), .controls = entity_ge35_controls },
++	/* [10] E00D: IT 131 - optimization stream input */
++	{ .id = 0xD, .label = "IT 131", .type = SDCA_ENTITY_TYPE_IT,
++	  .iot = { .type = 0x0190, .is_dataport = true, .clock = &wcd9378_sdca_entities[QSJ_CS131] },
++	  .num_controls = ARRAY_SIZE(entity_it131_controls), .controls = entity_it131_controls },
++	/* [11] E00E: CS 131 */
++	{ .id = 0xE, .label = "CS 131", .type = SDCA_ENTITY_TYPE_CS,
++	  .cs = { .type = 0x0 },
++	  .num_controls = ARRAY_SIZE(entity_cs131_controls), .controls = entity_cs131_controls },
++	/* [12] E00F: IT 33 - headset mic input */
++	{ .id = 0xF, .label = "IT 33", .type = SDCA_ENTITY_TYPE_IT,
++	  .iot = { .type = 0x06D0 },
++	  .num_controls = ARRAY_SIZE(entity_it33_controls), .controls = entity_it33_controls },
++	/* [13] E010: PDE 34 - mic power domain */
++	{ .id = 0x10, .label = "PDE 34", .type = SDCA_ENTITY_TYPE_PDE,
++	  .pde = { .num_managed = ARRAY_SIZE(entity_pde34_managed), .managed = entity_pde34_managed,
++		   .num_max_delay = ARRAY_SIZE(pde34_delays), .max_delay = pde34_delays },
++	  .num_controls = ARRAY_SIZE(entity_pde34_controls), .controls = entity_pde34_controls },
++	/* [14] E011: FU 33 - mic feature unit */
++	{ .id = 0x11, .label = "FU 33", .type = SDCA_ENTITY_TYPE_FU,
++	  .num_sources = ARRAY_SIZE(entity_fu33_sources), .sources = entity_fu33_sources },
++	/* [15] E012: SU 35 - mic selector */
++	{ .id = 0x12, .label = "SU 35", .type = SDCA_ENTITY_TYPE_SU,
++	  .num_controls = ARRAY_SIZE(entity_su35_controls), .controls = entity_su35_controls,
++	  .num_sources = ARRAY_SIZE(entity_su35_sources), .sources = entity_su35_sources },
++	/* [16] E013: XU 36 - mic extension unit */
++	{ .id = 0x13, .label = "XU 36", .type = SDCA_ENTITY_TYPE_XU,
++	  .num_controls = ARRAY_SIZE(entity_xu36_controls), .controls = entity_xu36_controls,
++	  .num_sources = ARRAY_SIZE(entity_xu36_sources), .sources = entity_xu36_sources },
++	/* [17] E015: CS 36 */
++	{ .id = 0x15, .label = "CS 36", .type = SDCA_ENTITY_TYPE_CS,
++	  .cs = { .type = 0x0 },
++	  .num_controls = ARRAY_SIZE(entity_cs36_controls), .controls = entity_cs36_controls },
++	/* [18] E016: OT 36 - PDM mic capture output */
++	{ .id = 0x16, .label = "OT 36", .type = SDCA_ENTITY_TYPE_OT,
++	  .iot = { .type = 0x0191, .is_dataport = true, .clock = &wcd9378_sdca_entities[QSJ_CS36] },
++	  .num_controls = ARRAY_SIZE(entity_ot36_controls), .controls = entity_ot36_controls,
++	  .num_sources = ARRAY_SIZE(entity_ot36_sources), .sources = entity_ot36_sources },
++	/* [19] E017: MFPU 236 - optimization TX processing */
++	{ .id = 0x17, .label = "MFPU 236", .type = SDCA_ENTITY_TYPE_MFPU,
++	  .num_controls = ARRAY_SIZE(entity_mfpu236_controls), .controls = entity_mfpu236_controls },
++	/* [20] E018: CS 236 */
++	{ .id = 0x18, .label = "CS 236", .type = SDCA_ENTITY_TYPE_CS,
++	  .cs = { .type = 0x0 },
++	  .num_controls = ARRAY_SIZE(entity_cs236_controls), .controls = entity_cs236_controls },
++	/* [21] E019: OT 236 - optimization stream capture output */
++	{ .id = 0x19, .label = "OT 236", .type = SDCA_ENTITY_TYPE_OT,
++	  .iot = { .type = 0x0190, .is_dataport = true, .clock = &wcd9378_sdca_entities[QSJ_CS131] },
++	  .num_controls = ARRAY_SIZE(entity_ot236_controls), .controls = entity_ot236_controls,
++	  .num_sources = ARRAY_SIZE(entity_ot236_sources), .sources = entity_ot236_sources },
++	/* Entity 0 (Function) */
++	{ .id = 0x0, .label = "entity0",
++	  .num_controls = ARRAY_SIZE(entity0_controls), .controls = entity0_controls },
++};
++
++/* Clusters */
++static struct sdca_channel cl1_channels[] = {	/* CL01 - render (HPH) stereo */
++	{ .id = 0x1, .purpose = 0x1, .relationship = 0x2 },	/* Left */
++	{ .id = 0x2, .purpose = 0x1, .relationship = 0x3 },	/* Right */
++};
++
++static struct sdca_channel cl2_channels[] = {	/* CL02 - mic capture mono */
++	{ .id = 0xFF, .purpose = 0x1, .relationship = 0x1 },
++};
++
++static struct sdca_channel cl3_channels[] = {	/* CL03 - optimization RX */
++	{ .id = 0xFF, .purpose = 0x1, .relationship = 0x1 },	/* Mono */
++	{ .id = 0x1,  .purpose = 0x1, .relationship = 0x2 },	/* Left */
++	{ .id = 0x2,  .purpose = 0x1, .relationship = 0x3 },	/* Right */
++};
++
++static struct sdca_channel cl5_channels[] = {	/* CL05 - optimization TX mono */
++	{ .id = 0xFF, .purpose = 0x1, .relationship = 0x1 },
++};
++
++static struct sdca_cluster wcd9378_sdca_clusters[] = {
++	{ .id = 0x1, .num_channels = ARRAY_SIZE(cl1_channels), .channels = cl1_channels },
++	{ .id = 0x2, .num_channels = ARRAY_SIZE(cl2_channels), .channels = cl2_channels },
++	{ .id = 0x3, .num_channels = ARRAY_SIZE(cl3_channels), .channels = cl3_channels },
++	{ .id = 0x5, .num_channels = ARRAY_SIZE(cl5_channels), .channels = cl5_channels },
++};
++
++/*
++ * Init Table (from QcSimpleJack.asl BUF0).
++ *
++ * 32-bit register addresses with single-byte values, transcribed from the
++ * factory ACPI initialization table.
++ */
++static struct sdca_init_write wcd9378_sdca_init_table[] = {
++	{ .addr = 0x401804F0, .val = 0x00 }, /* DIGITAL_PLATFORM_CTL */
++	{ .addr = 0x4018046E, .val = 0x10 }, /* DIGITAL_INTR_MODE */
++	{ .addr = 0x0000004D, .val = 0x01 }, /* SWRS_SCP_BUSCLOCK_BASE */
++	{ .addr = 0x00000062, .val = 0x02 }, /* SWRS_SCP_BUSCLOCK_SCALE_BANK */
++	{ .addr = 0x4018016A, .val = 0x80 }, /* CP_DTOP_CTRL_14 */
++	{ .addr = 0x40180165, .val = 0x6b }, /* CP_DTOP_CTRL_9 */
++	{ .addr = 0x40180103, .val = 0x1E }, /* SLEEP_CTL BG_CTL (0.9V) */
++	{ .addr = 0x40180103, .val = 0x9E }, /* SLEEP_CTL BG_EN */
++	{ .addr = 0x40180103, .val = 0xDE }, /* SLEEP_CTL LDOL_BG_SEL */
++	{ .addr = 0x40180029, .val = 0xB5 }, /* BIAS_VBG_FINE_ADJ */
++	{ .addr = 0x40180001, .val = 0x80 }, /* ANA_BIAS ANALOG_BIAS_EN */
++	{ .addr = 0x40180001, .val = 0xC0 }, /* ANA_BIAS PRECHRG_EN(1) */
++	{ .addr = 0x40180001, .val = 0x80 }, /* ANA_BIAS PRECHRG_EN(0) */
++	{ .addr = 0x4018007B, .val = 0xA2 }, /* TX_COM_TXFE_DIV_CTL SEQ_BYPASS */
++	{ .addr = 0x40180465, .val = 0x17 }, /* PDM_WD_CTL0 TIME_OUT_SEL_PCM */
++	{ .addr = 0x40180466, .val = 0x17 }, /* PDM_WD_CTL1 TIME_OUT_SEL_PCM */
++	{ .addr = 0x4018006C, .val = 0x01 }, /* MICB1_TEST_CTL_2 IBIAS_LDO_DRIVER */
++	{ .addr = 0x40180072, .val = 0x81 }, /* MICB3_TEST_CTL_2 IBIAS_LDO_DRIVER */
++	{ .addr = 0x401800CE, .val = 0x38 }, /* HPH_OCP_CTL OCP_FSM_EN */
++	{ .addr = 0x401800CE, .val = 0x3A }, /* HPH_OCP_CTL SCD_OP_EN */
++	{ .addr = 0x401800D4, .val = 0xE1 }, /* HPH_L_TEST OCP_DET_EN */
++	{ .addr = 0x401800D7, .val = 0xE1 }, /* HPH_R_TEST OCP_DET_EN */
++	{ .addr = 0x4018044E, .val = 0x04 }, /* CDC_HPH_GAIN_CTL HPHL_RX_EN */
++	{ .addr = 0x4018044E, .val = 0x0C }, /* CDC_HPH_GAIN_CTL HPHR_RX_EN */
++	{ .addr = 0x4018000F, .val = 0x0C }, /* ANA_TX_CH2 GAIN (18.0dB) */
++	{ .addr = 0x40180133, .val = 0x84 }, /* HPH_NEW_INT_RDAC_HD2_CTL_L */
++	{ .addr = 0x40180136, .val = 0x84 }, /* HPH_NEW_INT_RDAC_HD2_CTL_R */
++	{ .addr = 0x401800D9, .val = 0x19 }, /* HPH_RDAC_CLK_CTL1 OPAMP_CHOP_CLK_EN */
++	{ .addr = 0x40180132, .val = 0x50 }, /* HPH_NEW_INT_RDAC_GAIN_CTL RDAC_GAINCTL(0.55) — validated spec */
++	{ .addr = 0x401800A5, .val = 0xE0 }, /* FLYBACK_VNEG_CTRL_1 */
++	{ .addr = 0x401800A8, .val = 0x70 }, /* FLYBACK_VNEG_CTRL_4 */
++	{ .addr = 0x4018013A, .val = 0xFC }, /* HPH_NEW_INT_HPH_TIMER1 */
++	{ .addr = 0x401801C5, .val = 0x13 }, /* PDM_WD_CTL0 (HPHR) */
++	{ .addr = 0x401801C6, .val = 0x13 }, /* PDM_WD_CTL1 (HPHL) */
++	{ .addr = 0x40180510, .val = 0x05 }, /* SEQR_CTRL HPH_UP_T0 */
++	{ .addr = 0x40180519, .val = 0x05 }, /* SEQR_CTRL HPH_UP_T9 */
++	{ .addr = 0x4018051B, .val = 0x06 }, /* SEQR_CTRL HPH_DN_T0 */
++	{ .addr = 0x40180414, .val = 0x02 }, /* CDC_COMP_CTL_0 HPHL_COMP_EN */
++	{ .addr = 0x40180414, .val = 0x03 }, /* CDC_COMP_CTL_0 HPHR_COMP_EN */
++	{ .addr = 0x401804F2, .val = 0x80 }, /* DRE_DLY_VAL SWR_HPHL(0) */
++	{ .addr = 0x401804F2, .val = 0x00 }, /* DRE_DLY_VAL SWR_HPHR(0) */
++	{ .addr = 0x40180501, .val = 0x01 }, /* SEQR_CTRL SYS_USAGE_CTRL */
++	/*
++	 * DEVICE_DET (0x40180601): re-added.  The validation team's
++	 * tambora_reg_writes.xlsx does NOT write this register, but the
++	 * original ASL init table (QcSimpleJack.asl BUF0 line 131) does.
++	 * With DEVICE_DET=0x01 and the firmware in SDCA-mode MBHC reporting,
++	 * physical jack insertion should assert SDCA_4 (GE_DETECTED_MODE).
++	 * Now that the SDCA interrupt dispatch chain works (post MCLK +
++	 * use_domain_irq fixes), test whether this write is what enables the
++	 * firmware's MBHC state machine on our part.
++	 */
++	{ .addr = 0x40180601, .val = 0x01 }, /* MBHC_CTRL DEVICE_DET */
++	{ .addr = 0x40180414, .val = 0x00 }, /* CDC_COMP_CTL_0 */
++	{ .addr = 0x401804F2, .val = 0x88 }, /* DRE_DLY_VAL */
++	{ .addr = 0x40180517, .val = 0x07 }, /* SEQR_CTRL HPH_UP_T7 */
++	{ .addr = 0x4018051C, .val = 0x07 }, /* SEQR_CTRL HPH_DN_T1 */
++	{ .addr = 0x401800CE, .val = 0x28 }, /* HPH_OCP_CTL */
++	{ .addr = 0x401800D4, .val = 0xe0 }, /* HPH_L_TEST */
++	{ .addr = 0x401800D7, .val = 0xe0 }, /* HPH_R_TEST */
++	{ .addr = 0x40180510, .val = 0x07 }, /* SEQR_CTRL HPH_UP_T0 */
++	{ .addr = 0x40C80008, .val = 0x01 }, /* SMP_JACK_CTRL FUNC_ACT (RESET_FUNCTION_NOW) */
++	{ .addr = 0x40C00008, .val = 0x02 }, /* SMP_JACK_CTRL CMT_GRP_MASK */
++	{ .addr = 0x40C80000, .val = 0xFF }, /* SMP_JACK_CTRL FUNC_STAT */
++	{ .addr = 0x00000000, .val = 0x08 }, /* clear DP0 INT status SDCA_CASCADE */
++	{ .addr = 0x00000041, .val = 0x08 }, /* SCP_INT_STATUS_MASK_1 PORT_0_CASCADE_3 */
++	{ .addr = 0x000000f4, .val = 0xff }, /* SWRS_SCP_SDCA_INTRTYPE_1 */
++	{ .addr = 0x000000f8, .val = 0x0b }, /* SWRS_SCP_SDCA_INTRTYPE_2 */
++	{ .addr = 0x000000fc, .val = 0xff }, /* SWRS_SCP_SDCA_INTRTYPE_3 */
++	/*
++	 * INTMASK: only SDCA_4 (GE_DETECTED_MODE) unmasked.  Validation dump
++	 * enables SDCA_5-8/18/19 too (HPH OCP/CNP/surge) but they cause an
++	 * interrupt storm during HPH power-up: the SoundWire alert cascade
++	 * fires but regmap_irq_thread never dispatches (INTSTAT_1..4 at
++	 * 0x58-0x5B are never read on our platform, possibly due to the
++	 * "no bus MCLK, cannot set SDW_SCP_BUS_CLOCK_BASE" bus-init failure
++	 * that returns -22 from sdw_initialize_slave).  Without a working
++	 * dispatch path, unmasking these bits means the cascade never
++	 * clears -> MAX_RETRY spam.  Keep them masked until the underlying
++	 * bus-init/PM issue is resolved.
++	 */
++	{ .addr = 0x0000005C, .val = 0x10 }, /* INTMASK_1 SDCA_4 (GE_DETECTED_MODE) */
++	{ .addr = 0x4018016A, .val = 0x00 }, /* CP_DTOP_CTRL_14 */
++	{ .addr = 0x40180165, .val = 0x6b }, /* CP_DTOP_CTRL_9 */
++	/* ANA_MBHC_MECH must NOT be written here: enabling L_DET_EN before the
++	 * machine card registers causes continuous SDCA_4 interrupts that block
++	 * the deferred card probe. */
++};
++
++/* Function Descriptor */
++static struct sdca_function_desc wcd9378_sdca_desc = {
++	.adr  = 0x3,
++	.type = SDCA_FUNCTION_TYPE_SIMPLE_JACK,
++	.name = SDCA_FUNCTION_TYPE_SIMPLE_NAME,
++};
++
++/* Main Function Data */
++static struct sdca_function_data wcd9378_sdca_data = {
++	.desc             = &wcd9378_sdca_desc,
++	.num_entities     = ARRAY_SIZE(wcd9378_sdca_entities),
++	.entities         = wcd9378_sdca_entities,
++	.num_clusters     = ARRAY_SIZE(wcd9378_sdca_clusters),
++	.clusters         = wcd9378_sdca_clusters,
++	.num_init_table   = ARRAY_SIZE(wcd9378_sdca_init_table),
++	.init_table       = wcd9378_sdca_init_table,
++	.reset_max_delay  = 100000, /* 100ms — WCD9378 power-on reset completes well within this */
++};
++
++/*
++ * IT33 (headset mic input terminal) SDCA control for the AMIC2 bias
++ * rail.  The framework's write_defaults programs 2V75 into the cache at
++ * probe, but the codec's RESET_FUNCTION_NOW during class boot clears
++ * the hardware value while the cache remains valid, so no PDE-time
++ * write ever reaches the codec.  Drop the cache and re-issue the write
++ * from pde_pre_pmu to ensure the bias rail is up before mic capture.
++ */
++#define WCD9378_IT33_ENTITY_ID		0x0F
++#define WCD9378_IT33_MICBIAS_SEL	0x03
++
++/* PDE34 (entity_id=0x10) manages the headset-mic (IT33/AMIC2) power domain */
++#define WCD9378_PDE34_ENTITY_ID		0x10
++
++/* PDE47 (entity_id=0x09) manages the headphone (HPH L/R) power domain */
++#define WCD9378_PDE47_ENTITY_ID		0x09
++
++/*
++ * FU42 vendor Feature Unit — mute (CH1/CH2) and 16-bit Q7.8 dB channel
++ * volume.  Writes to the immediate FU42 alias are ignored by the codec;
++ * state changes only latch through the _CN (BIT(14)) alias followed by
++ * SoundWire SCP_COMMIT, and the codec re-mutes FU42 on every PDE47
++ * PS3->PS0 cycle so the sequence has to run from pde_post_pmu.
++ * TODO: model FU42 as a proper SDCA Feature Unit entity once the SDCA
++ * framework supports DUAL-mode writes via the NEXT alias + SCP_COMMIT
++ * and re-applies defaults on PDE power-up.
++ */
++#define WCD9378_FU42_MUTE_CH1_ADDR		0x40c04309
++#define WCD9378_FU42_MUTE_CH2_ADDR		0x40c0430a
++#define WCD9378_FU42_MUTE_UNMUTE		0x00
++#define WCD9378_FU42_CH_VOL_CH1_MSB_ADDR	0x40c06311
++#define WCD9378_FU42_CH_VOL_CH1_LSB_ADDR	0x40c04311
++#define WCD9378_FU42_CH_VOL_CH2_MSB_ADDR	0x40c06312
++#define WCD9378_FU42_CH_VOL_CH2_LSB_ADDR	0x40c04312
++#define WCD9378_FU42_CH_VOL_UNITY_BYTE		0x00
++
++/*
++ * Entity_0 Commit_Group_Count.  Must be written before the staged FU42
++ * writes go on the bus so the codec latches the count first.  Value 2
++ * groups the FU42 mute and volume writes into a single SCP_COMMIT.
++ */
++#define WCD9378_ENT0_COMMIT_GROUP_COUNT_ADDR	0x40c00008
++#define WCD9378_ENT0_COMMIT_GROUP_COUNT_TWO	0x02
++
++/*
++ * ANA_MBHC_MECH configures the mechanical jack-detect comparator.  Value
++ * 0xB5 sets L_DET_EN, MECH_DET_TYP, HPHL_PLUG_TP,
++ * HS_L_DET_PULLUP_COMP_CTRL and SW_HPH_LP_100K_TO_GND — the standard
++ * enable pattern for a 3-pole/4-pole detect.
++ */
++#define WCD9378_ANA_MBHC_MECH_ADDR		0x40180014
++#define WCD9378_ANA_MBHC_MECH_ENABLE		0xB5
++
++/* Vendor-specific SCP register: enable host clock divide-by-2 (bank 1 shadow) */
++#define WCD9378_SCP_HOST_CLK_DIV2_CTL_B1	0xF0
++
++/* Slave ports 1..7 are mapped to master ports via qcom,port-mapping */
++#define WCD9378_SDCA_MAX_PORTS	7
++
++static const char * const wcd9378_sdca_supplies[] = {
++	"vdd-buck", "vdd-rxtx", "vdd-io", "vdd-mic-bias",
++};
++
++static int wcd9378_sdca_sdw_read_prop(struct sdw_slave *slave)
++{
++	struct sdw_slave_prop *prop = &slave->prop;
++	struct device *dev = &slave->dev;
++	struct sdw_dpn_prop *sink, *src;
++	int ret;
++
++	ret = sdca_class_read_prop(slave);
++	if (ret)
++		return ret;
++
++	/* Configure SoundWire slave properties missing from DT/DisCo data */
++	prop->simple_clk_stop_capable = true;
++	prop->paging_support = true;
++	prop->clock_reg_supported = true;
++	prop->lane_control_support = true;
++
++	/* Source ports: DP2 (headset mic), DP5 (optimisation TX). */
++	prop->source_ports = BIT(2) | BIT(5);
++	/* Sink ports: DP6 (HPH audio), DP7 (HPH envelope), DP8 (optimisation RX). */
++	prop->sink_ports = BIT(6) | BIT(7) | BIT(8);
++
++	src = devm_kcalloc(dev, 2, sizeof(*src), GFP_KERNEL);
++	if (!src)
++		return -ENOMEM;
++
++	src[0].num = 2;
++	src[0].type = SDW_DPN_SIMPLE;
++	src[0].simple_ch_prep_sm = true;
++	src[0].ch_prep_timeout = 10;
++	src[0].max_ch = 1;
++	src[0].min_ch = 1;
++
++	src[1].num = 5;
++	src[1].type = SDW_DPN_SIMPLE;
++	src[1].simple_ch_prep_sm = true;
++	src[1].ch_prep_timeout = 10;
++	src[1].max_ch = 1;
++	src[1].min_ch = 1;
++
++	prop->src_dpn_prop = src;
++
++	sink = devm_kcalloc(dev, 3, sizeof(*sink), GFP_KERNEL);
++	if (!sink)
++		return -ENOMEM;
++
++	sink[0].num = 6;
++	sink[0].type = SDW_DPN_SIMPLE;
++	sink[0].simple_ch_prep_sm = true;
++	sink[0].ch_prep_timeout = 10;
++	sink[0].max_ch = 2;
++	sink[0].min_ch = 1;
++
++	sink[1].num = 7;
++	sink[1].type = SDW_DPN_FULL;
++	sink[1].simple_ch_prep_sm = true;
++	sink[1].ch_prep_timeout = 10;
++	sink[1].max_ch = 1;
++	sink[1].min_ch = 1;
++
++	sink[2].num = 8;
++	sink[2].type = SDW_DPN_REDUCED;
++	sink[2].simple_ch_prep_sm = true;
++	sink[2].ch_prep_timeout = 10;
++	sink[2].max_ch = 2;
++	sink[2].min_ch = 1;
++
++	prop->sink_dpn_prop = sink;
++
++	if (device_property_read_u32_array(dev, "qcom,port-mapping",
++					   &slave->m_port_map[1],
++					   WCD9378_SDCA_MAX_PORTS))
++		dev_dbg(dev, "qcom,port-mapping not found, using default\n");
++
++	return 0;
++}
++
++/*
++ * Convert a MICB rail voltage in microvolts to the SDCA MIC_BIAS
++ * usage enum understood by IT-family entities.  WCD9378 supports a
++ * fixed set of bias voltages; any unsupported value is rejected so
++ * the DT stays honest.
++ */
++static int wcd9378_sdca_micbias_uv_to_sdca(u32 uv)
++{
++	switch (uv) {
++	case 1800000:	return 0x03;
++	case 2500000:	return 0x04;
++	case 2750000:	return 0x05;
++	default:	return -EINVAL;
++	}
++}
++
++static int wcd9378_sdca_hw_init(struct sdw_slave *slave)
++{
++	struct device *dev = &slave->dev;
++	struct gpio_desc *reset;
++	u32 micbias_uv;
++	int ret;
++
++	/*
++	 * Compute-mode WCD9378 has no SPMI parent, so the supplies, reset
++	 * GPIO and mic-bias voltages all sit on this SoundWire slave's own
++	 * DT node (gated by qcom,compute-mode).  Own them here.
++	 */
++	ret = devm_regulator_bulk_get_enable(dev,
++					     ARRAY_SIZE(wcd9378_sdca_supplies),
++					     wcd9378_sdca_supplies);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to enable supplies\n");
++
++	reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
++	if (IS_ERR(reset))
++		return dev_err_probe(dev, PTR_ERR(reset),
++				     "failed to get reset GPIO\n");
++
++	if (reset) {
++		gpiod_set_value(reset, 1);
++		/* 20us assert per WCD9378 reset sequence */
++		usleep_range(20, 30);
++		gpiod_set_value(reset, 0);
++		/* 20us settle after deassert */
++		usleep_range(20, 30);
++	}
++
++	ret = device_property_read_u32(dev, "qcom,micbias2-microvolt",
++				       &micbias_uv);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "qcom,micbias2-microvolt missing\n");
++
++	ret = wcd9378_sdca_micbias_uv_to_sdca(micbias_uv);
++	if (ret < 0)
++		return dev_err_probe(dev, ret,
++				     "unsupported qcom,micbias2-microvolt %u\n",
++				     micbias_uv);
++	ctrl_it33_micbias_vals[0] = ret;
++
++	/*
++	 * Vendor SCP bank-1 shadow that clocks the TX PDM path.  SCP
++	 * registers survive PDE cycles, so the one-time write here is
++	 * enough for every subsequent mic capture.  The trailing
++	 * SCP_COMMIT swaps the bank in — safe to do at hw_init since no
++	 * stream is running that could underflow.
++	 */
++	ret = sdw_write_no_pm(slave, WCD9378_SCP_HOST_CLK_DIV2_CTL_B1, 0x01);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "HOST_CLK_DIV2_CTL_B1: %d\n", ret);
++
++	ret = sdw_write_no_pm(slave, SDW_SCP_COMMIT, 0x02);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "SCP_COMMIT: %d\n", ret);
++
++	return 0;
++}
++
++static struct sdca_function_data *wcd9378_sdca_get_function_data(unsigned int *num)
++{
++	*num = 1;
++	return &wcd9378_sdca_data;
++}
++
++static int wcd9378_sdca_pde_pre_pmu(struct sdw_slave *slave,
++				      struct regmap *regmap,
++				      unsigned int function_id,
++				      unsigned int entity_id)
++{
++	struct sdca_class_drv *core = dev_get_drvdata(&slave->dev);
++	int ret;
++
++	if (!core || !core->dev_regmap)
++		return 0;
++
++	if (entity_id == WCD9378_PDE34_ENTITY_ID) {
++		unsigned int mic_bias = SDW_SDCA_CTL(function_id,
++						     WCD9378_IT33_ENTITY_ID,
++						     WCD9378_IT33_MICBIAS_SEL, 0);
++
++		regcache_drop_region(regmap, mic_bias, mic_bias);
++		ret = regmap_write(regmap, mic_bias, ctrl_it33_micbias_vals[0]);
++		if (ret)
++			dev_err(&slave->dev, "IT33 MIC_BIAS: %d\n", ret);
++	} else if (entity_id == WCD9378_PDE47_ENTITY_ID) {
++		/* Announce commit-group count for the FU42 writes in pde_post_pmu. */
++		ret = regmap_write(core->dev_regmap,
++				   WCD9378_ENT0_COMMIT_GROUP_COUNT_ADDR,
++				   WCD9378_ENT0_COMMIT_GROUP_COUNT_TWO);
++		if (ret)
++			dev_err(&slave->dev, "Commit_Group_Count: %d\n", ret);
++
++		/* Let the master's WR FIFO drain before PDE47_REQ_PS=0. */
++		usleep_range(2000, 2500);
++	}
++
++	return 0;
++}
++
++static int wcd9378_sdca_pde_post_pmu(struct sdw_slave *slave,
++				       struct regmap *regmap,
++				       unsigned int function_id,
++				       unsigned int entity_id)
++{
++	struct sdca_class_drv *core = dev_get_drvdata(&slave->dev);
++	int ret;
++
++	if (entity_id != WCD9378_PDE47_ENTITY_ID)
++		return 0;
++
++	if (!core || !core->dev_regmap)
++		return 0;
++
++	/* Wait for the SEQR sequencer to finish the HPH bring-up before
++	 * re-applying FU42 state; the codec re-mutes FU42 on every PDE47
++	 * PS3->PS0 cycle so the sequence has to wait for the transition. */
++	msleep(30);
++
++	/*
++	 * Unmute FU42 CH1/CH2 and stage 0 dB volume via the _CN (NEXT) alias
++	 * so all four staged writes activate together on the SCP_COMMIT
++	 * below.  Writes go to the vendor slave regmap because FU42
++	 * addresses are outside the SDCA class regmap's routing.
++	 */
++	ret = regmap_write(core->dev_regmap, WCD9378_FU42_MUTE_CH1_ADDR,
++			   WCD9378_FU42_MUTE_UNMUTE);
++	if (ret)
++		dev_err(&slave->dev, "FU42 MUTE_CH1: %d\n", ret);
++
++	ret = regmap_write(core->dev_regmap, WCD9378_FU42_MUTE_CH2_ADDR,
++			   WCD9378_FU42_MUTE_UNMUTE);
++	if (ret)
++		dev_err(&slave->dev, "FU42 MUTE_CH2: %d\n", ret);
++
++	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH1_MSB_ADDR,
++			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
++	if (ret)
++		dev_err(&slave->dev, "FU42 CH1_MSB: %d\n", ret);
++	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH1_LSB_ADDR,
++			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
++	if (ret)
++		dev_err(&slave->dev, "FU42 CH1_LSB: %d\n", ret);
++	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH2_MSB_ADDR,
++			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
++	if (ret)
++		dev_err(&slave->dev, "FU42 CH2_MSB: %d\n", ret);
++	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH2_LSB_ADDR,
++			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
++	if (ret)
++		dev_err(&slave->dev, "FU42 CH2_LSB: %d\n", ret);
++
++	ret = sdw_write_no_pm(slave, SDW_SCP_COMMIT, 0x02);
++	if (ret)
++		dev_err(&slave->dev, "FU42 SCP_COMMIT: %d\n", ret);
++
++	return 0;
++}
++
++static const struct sdca_class_hw_ops wcd9378_sdca_hw_ops = {
++	.hw_init           = wcd9378_sdca_hw_init,
++	.get_function_data = wcd9378_sdca_get_function_data,
++	.pde_pre_pmu       = wcd9378_sdca_pde_pre_pmu,
++	.pde_post_pmu      = wcd9378_sdca_pde_post_pmu,
++};
++
++static int wcd9378_sdca_sdw_probe(struct sdw_slave *slave,
++				    const struct sdw_device_id *id)
++{
++	struct device *dev = &slave->dev;
++
++	/*
++	 * The WCD9378 SoundWire class ID sdw20217011000 matches in both
++	 * mobile and SDCA / compute modes.  qcom,compute-mode on the slave
++	 * DT node distinguishes them: this driver serves compute-mode
++	 * peripherals only, so bail out with -ENODEV for mobile-mode
++	 * slaves (a mobile-mode driver will pick them up).
++	 */
++	if (!device_property_read_bool(dev, "qcom,compute-mode"))
++		return -ENODEV;
++
++	return sdca_class_probe(slave, &wcd9378_sdca_hw_ops);
++}
++
++static const struct sdw_slave_ops wcd9378_sdca_sdw_ops = {
++	.read_prop	= wcd9378_sdca_sdw_read_prop,
++};
++
++static const struct sdw_device_id wcd9378_sdca_sdw_id[] = {
++	SDW_SLAVE_ENTRY(0x0217, 0x0110, 0),
++	{}
++};
++MODULE_DEVICE_TABLE(sdw, wcd9378_sdca_sdw_id);
++
++static struct sdw_driver wcd9378_sdca_sdw_driver = {
++	.driver = {
++		.name	= "wcd9378-sdca",
++		.pm	= pm_ptr(&sdca_class_pm_ops),
++	},
++	.probe		= wcd9378_sdca_sdw_probe,
++	.id_table	= wcd9378_sdca_sdw_id,
++	.ops		= &wcd9378_sdca_sdw_ops,
++};
++module_sdw_driver(wcd9378_sdca_sdw_driver);
++
++MODULE_DESCRIPTION("Qualcomm SimpleJack (Tambora/WCD9378) SDCA codec");
++MODULE_AUTHOR("Qualcomm Technologies, Inc.");
++MODULE_LICENSE("Dual BSD/GPL");
++MODULE_IMPORT_NS("SND_SOC_SDCA_CLASS");
 -- 
 2.53.0
 
