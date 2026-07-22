@@ -1,40 +1,41 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11C62EEE62;
-	Wed, 22 Jul 2026 02:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEEA38737A;
+	Wed, 22 Jul 2026 02:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784687828; cv=none; b=iOX3uJXVDfA0atUK6j9rtZ3sr1IgK/yCy229By4RtmT1d7r3Kb6sUpMcq5ZLxn0wd2lHLsndXiW4cNFdOxLdUXoIkCqmFz715AtmJAi4x9AJ4EqhnJpRVs0JZxoqhtFAwz3m7uO4TM95CfhnXxibLwy698nhdPPSPeyy6Y5jhms=
+	t=1784687834; cv=none; b=uaLyEcYvWRVzt0b66cLB7KBBvmPopuhk79sm/ZfHTdeBs2Jgeyg2AqYtLN0/iXGD7SinACc0zDu56GlZagqp1z2Fyx41UCq80CEmCBNYpgBXSPyXt88OePZqDjEqeQKhVZCgjOZqlEU3GB3ScBuGJytk9tSQGeZMfTW03W7r4GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784687828; c=relaxed/simple;
-	bh=jrHvtJJjJw3mm1T9ySuHoE7AIwPO+62MWL9jFXLBJCk=;
+	s=arc-20240116; t=1784687834; c=relaxed/simple;
+	bh=3XclcJ4XW55zz2372RWOxPaffuQ2freHc9ROzBHC7a0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ilfj/yS6Dgj0u4Ux9OcxIdi1VPdMA2QWiA0uX09vR5xm3I/gYBGC/7gsuOLpS8A7u8KL7lRZQq5VlW9eJXg4A7KOYgcOZ/iugfWpr5YWAbUxMHjBdxxcfY8acyJI8woCD44C/P1hCs1KUr8oZxUWULsOiyczPRgo5uYoXiOhKG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=wJ3x6P/n; arc=none smtp.client-ip=54.254.200.92
+	 In-Reply-To:To:Cc; b=ZG7Xx1sJ4YVIRyxzP9HbEEoEE+htL7Z6yE/dj/AaL7d8765B9NikTI2mUDKlS7FkuabQzRPzcWPg7NOVI4wLHa9aqEkcm8NKJL7sqeB0DNWFZ7IAUkinWgKQ+lZmwx2z5ipZGL0eWCcve3eJ6ngFpSgC0P6HlEa0IXsSFMeQj8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=DyGuII3L; arc=none smtp.client-ip=18.194.254.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="wJ3x6P/n"
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="DyGuII3L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1784687782;
-	bh=ccX/tPMsliOTlQmj+dICa2vBwaEFrsSi28P1lesAFrI=;
+	s=mxsw2412; t=1784687787;
+	bh=HGW9RS99UXPTRIjcR5ouUmO1WCCQhB7oA3V+O1SJRmE=;
 	h=From:Date:Subject:MIME-Version:Message-Id:To;
-	b=wJ3x6P/neSL/ofYomSzX5bmRFAdK5tcCxezYq40iLv/qY4JMKK9S2UyNfk9tzA6Ca
-	 YDrfEXAK9+6A3eCgvdbCOJyaI9hWSoll4svMuan4KGjcJKs9ev+oxcSt3/2Z8KJpb6
-	 DuW0qgJkOZNS+fQ49BZN3otur6o69FghvkIEYUz8=
-X-QQ-mid: zesmtpsz4t1784687780t10b780fb
-X-QQ-Originating-IP: OfCdjE2/vGeRvdx3D7wLq6TTtSUMIjEd+5j7CBlmMRs=
+	b=DyGuII3LFiHsoIp9tHVc/8bzB0TvUMiZjxoCAiObfW/UB7Xa5gdvQWfPrrK+eJ6gD
+	 A7ZyX3BcLJLW4hPbMUbBj8XKwAn4HdRZ1BPQzGiFQdNdWI6N7epLS8ln1iFsvMZf4O
+	 spRodoyWlkAAgvByzfEaiHdCYgw/QoJtu9bWYBQg=
+X-QQ-mid: esmtpsz16t1784687785t775da8d6
+X-QQ-Originating-IP: JrFIRd5+Oox+EKXPj8BBg3/w3oO5yvLiSC4GkB9KUSI=
 Received: from = ( [120.237.158.181])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 22 Jul 2026 10:36:17 +0800 (CST)
+	id ; Wed, 22 Jul 2026 10:36:22 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 15532234414416572304
+X-BIZMAIL-ID: 4977255373091264881
 EX-QQ-RecipientCnt: 19
 From: Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Date: Tue, 21 Jul 2026 19:35:55 -0700
-Subject: [PATCH 1/3] ASoC: spacemit: rename clock inputs to match binding
+Date: Tue, 21 Jul 2026 19:35:56 -0700
+Subject: [PATCH 2/3] dt-bindings: sound: spacemit,k1-i2s: allow 6 clocks
+ for K3 i2s1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260721-kx-i2s-dts-v1-1-d22cb6cfaab5@linux.spacemit.com>
+Message-Id: <20260721-kx-i2s-dts-v1-2-d22cb6cfaab5@linux.spacemit.com>
 References: <20260721-kx-i2s-dts-v1-0-d22cb6cfaab5@linux.spacemit.com>
 In-Reply-To: <20260721-kx-i2s-dts-v1-0-d22cb6cfaab5@linux.spacemit.com>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -58,97 +59,142 @@ Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
  devicetree@vger.kernel.org, 
  Troy Mitchell <troy.mitchell@linux.spacemit.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2490;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3386;
  i=troy.mitchell@linux.spacemit.com; h=from:subject:message-id;
- bh=jrHvtJJjJw3mm1T9ySuHoE7AIwPO+62MWL9jFXLBJCk=;
- b=owGbwMvMwCU2g/N9w09jE33G02pJDFkJOjMufzjufNlfOofvx5x18UeU2gPFD38/8p7NNu71T
- amrO19c6ihlYRDjYpAVU2TpfsCzrcAnyrZAoNAXZg4rE8gQBi5OAZiIoyQjw1nrI9HXPpW9SdN1
- +jtBb7P57Oj9SWrGSyMjfjrXSOnue8Pwh+f+9KrWn5wXf7m7NtQUphh6PW5JOFcoHJrzskB2FX8
- ROwA=
+ bh=3XclcJ4XW55zz2372RWOxPaffuQ2freHc9ROzBHC7a0=;
+ b=owGbwMvMwCU2g/N9w09jE33G02pJDFkJOjOVbLv5QmY2tU1UnXpk/mz3NJmXHiw7me+qcfCaS
+ a6datfeUcLCIMbFICumyNL9gGdbgU+UbYFAoS/MHFYmkCEMXJwCMJEp9xj+15hbKO+WmvSpRuV4
+ 9hGm6z5BouuFpHlFAn94S0317735i+F7RabTSkkRS7nPvw9MeLj50MxSdfEj/ZKL/2YKn/QsSGE
+ CAA==
 X-Developer-Key: i=troy.mitchell@linux.spacemit.com; a=openpgp;
  fpr=3FE5535CF1B0E658E57DB59BAE1C2FBEA7DB42E1
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: NtKu8ZqGWm0vuJsXTKHf8doojgNBYJyNQpalh0CQvKZl/Klx9H3sVojG
-	0gRVo5vMH7B9wHcTpDvQT7gLTnxRw9aKEshbuQXdL/dgCZb8ee+AChovUPJmGoEsYRXOCLc
-	rjf4I8tF7M8pgynz6bGOo/r4PQRSkhH9i1BVI/+GPfUvWvX/pm6BNRzpdKh/nHQxR7V/aAm
-	R1NxY0tHPahV0WbATVCQvueq+7JGHJ+/RSpUL+QxI4etNQH9BKrgBuIzvmH8fUn4KQ/t1Dr
-	fdCw3k2jTEZSn2DmzqTnxIemPOB0g0lEXEhSnSePDn0cla6qfrqVImPRpyS2S8Q5RLABlKl
-	HIB20taOdars2Zj4vWNZhnCtkQ3ldo6FXUBsG00J7IE83S1eyrULTXiscdluD4mJ7QlvgBh
-	THZdJkRauqP+Rl4wmcN+p7yrGXr9WyI3VPGB9l2+qT2Ak2ZnpH2Fnrk2aM44Xfxfj52uAxp
-	+QyO/U3dS1KDbrrOlIgJSCc9gVcauiqXuCjI4NU/P6BkMtW24bDUSGVQJnwpYRl3G65sv1U
-	YaAIgXPH42RBDoJU7Lt3FgX2cE/3v3nZcDSm96bXhGlLHrj/1YG+IWIO5AnhlnFHPSPEKNL
-	Z41eG0NlKOt6ws+RqiGsTrxxHIqpzIgcqrLrkuvTa3uS+J7j8QF8XZFF37lWJ9k7qlrn/KX
-	iCGTJFjXwwBxrAVaRIrn6nfR1CIaP8NYLsrDdNk4pOVuIOKXkNwGLXvB9+tauBNc7zCcu9r
-	bgVteq6QgPUTTzzW+GYh4+stuIpd2qreNQ7JWVPKM+gmNPLRvBO8jV/ojp6MLvgDt2CjFPD
-	P/sif+TASHkxDTDqYoE4sxk9V1YVlDUJl0mdKLBl0hL7yA7jP4fUReGh71Vi7ZWaLaBP0lm
-	OJGsKQ6qzhZGIw9fvjgSp/jNYcQxs4fq6kb+idRRrz3lULtiUHgGqBOlLBtfuyy9zg1qBTk
-	0sc5JLEytyQpcT25HLpJcy7F7/UO9e3DXgVD3BpWWwdsqBolmWA1gTNnTOVNu8Ep4T6Bg9C
-	ZDPIUFfsgGgOfIQurDIqULSDgsQLd1eBfoTj7fbCValvnCSKy+tROH0u0qOFnAjRnxYPWbL
-	XqH3Rzz3sjCvHPGK8qZYpDilKJYW3cI8k7DleQAaL4bVhb8AzC+jPbfzF8M5oXRrw0GrsCd
-	R6bZ9G4tGFRUMNRYlfSJW5/7pRaKqbIKIJbK
+Feedback-ID: esmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: Nqf9sU0KQdcIlEjrIGd7eOmqGA7gHo4fmyDF+wHpiIvkkqKjtO8rm84y
+	e+1pVIwSpcqXLb5alBI9sdy6as9RU3Wy3F9HWaGhj9bQJkzrBWWWqDxHeqSGGOcmJL/PD1w
+	1IBilh9d9fFEel8gXbNwnfvlE+tDVnloC7R57L9TNnGfzKGju/L0r+2LQuGfPWluPZivMjB
+	1AaybDFDYM4ebnVx4Zww3W0+c8/axtkRg0Eh+amjbcqEtMt581rB/5fH75j7NRLnV/8Si/3
+	L7NrTAxcd0jcsnX+yi/4gwq+YTKUNiEXLUqBGEJiC6RyKIXpKfGcuIoERhm22wVB2Ta3S61
+	8NcxVAKqk4wUfuG84fll+Rz57zticL2UAVa/BbnHlDCuPg6BkyzhezVXP8Gg0URd3FT9RXq
+	QR7pHcmLH6x0bXOfiEuWJ6gJiCX+kgNBQF7LvfBI2LxcR9wNKhPrZkMUKaWhw5CJ3r+kWcu
+	57Qsf6e5yIKdtAGGh+c3JUY2fdPLfrqEygF5QDgokSM+zDl8I9YF01lxZ5z71fy6+Std4lK
+	ItXDUteiu4LGVleRtlD7R1Pif5YoSiZknfp1B5GSLqFTWVynrnAxOXdYEby29gKo5dE7k7j
+	SgzkL4bal+FgOMG4IXa3J2soz43SrDKRpJnIeOsX0nMOx4ypHb3QocaXatsQGQzk5eJnOfc
+	9LwWhGAdwfoosoQMVC8u0e8Hb/BfWGJL2JK4gJ1HUthTWiUmYSyRVY7QzyO59corfh4W8FG
+	rDXL1/070JUtsKFKpZR2N5L+Gm0OCjFO2k+RDj8UcWqAHiLOTkJv3DW3bdev9rtVB6Ca36d
+	+wQID8urQlqmZvLuAOugov2P42O9BOajh6/GvxLlYRz+kg0+zEHCpCnc77fbj7gDZkWwM+i
+	6rjSx5jRDAzIPgWuVkGeZt6uu78yeXXaD/FKBmDBhMc41ssQYlMQXDBgOfIDNzHMg2JlhkS
+	WB+Ke1s3EezG88hG83SC1xX9k61go2P7NfcgMXW/8ON5m8qu3neRjlBDYXeAL/cxQpDIA85
+	1u2i/Cmb8tPqzEgMKYpKlWusOxX9tCZWiOxtpld0Qnhw45QGtfEF5KXecSoxT+nAyP1XK4+
+	yG1RjVI07oao1zXU9WSXyhOQDKBMTqgCGwEe32oEZsGz5aXZIFNm0fiaAIPdQNH6mWUQ/VL
+	rEY1
 X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
 X-QQ-RECHKSPAM: 0
 
-The driver requests the per-controller SSPA bus and functional clocks
-as "sspa_bus" and "sspa", but the device tree binding (spacemit,k1-i2s)
-specifies them as "bus" and "func". As a result, any DT written against
-the published binding fails to probe.
+The K3 I2S controllers normally use the published 7-clock layout:
 
-There are currently no in-tree DT users referencing these names, so
-rename the clock inputs in the driver to match the binding rather than
-changing the binding. While at it, rename the matching struct member
-sspa_clk to func_clk for consistency with the new clock-names.
+  sysclk, bclk, bus, func, sysclk_div, c_sysclk, c_bclk
 
-Fixes: fce217449075 ("ASoC: spacemit: add i2s support for K1 SoC")
+However, K3 i2s1 has no dedicated sysclk divider and therefore uses a
+6-clock layout:
+
+  sysclk, bclk, bus, func, c_sysclk, c_bclk
+
+Describe the 4-clock K1 and both K3 layouts as separate tuples. Lower
+the K3 minimum from 7 to 6 clocks while preserving the existing
+7-clock ordering.
+
+Fixes: 6bc6b28c0314 ("ASoC: dt-bindings: add SpacemiT K3 SoC compatible")
 Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 ---
- sound/soc/spacemit/k1_i2s.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ .../devicetree/bindings/sound/spacemit,k1-i2s.yaml | 64 +++++++++++++++-------
+ 1 file changed, 44 insertions(+), 20 deletions(-)
 
-diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-index 8871fc15b29c..4247d8d3a637 100644
---- a/sound/soc/spacemit/k1_i2s.c
-+++ b/sound/soc/spacemit/k1_i2s.c
-@@ -52,7 +52,7 @@ struct spacemit_i2s_dev {
+diff --git a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+index 240d90402e4f..72723f067b2a 100644
+--- a/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/spacemit,k1-i2s.yaml
+@@ -23,9 +23,9 @@ allOf:
+     then:
+       properties:
+         clocks:
+-          minItems: 7
++          minItems: 6
+         clock-names:
+-          minItems: 7
++          minItems: 6
+     else:
+       properties:
+         clocks:
+@@ -43,26 +43,50 @@ properties:
+     maxItems: 1
  
- 	struct clk *sysclk;
- 	struct clk *bclk;
--	struct clk *sspa_clk;
-+	struct clk *func_clk;
- 	struct clk *sysclk_div;
- 	struct clk *c_sysclk;
- 	struct clk *c_bclk;
-@@ -221,7 +221,7 @@ static int spacemit_i2s_hw_params(struct snd_pcm_substream *substream,
- 	if (ret)
- 		return ret;
+   clocks:
+-    minItems: 4
+-    items:
+-      - description: clock for I2S sysclk
+-      - description: clock for I2S bclk
+-      - description: clock for I2S bus
+-      - description: clock for I2S controller
+-      - description: clock for I2S sysclk divider
+-      - description: clock for I2S common sysclk
+-      - description: clock for I2S common bclk
++    oneOf:
++      - items:
++          - description: clock for I2S sysclk
++          - description: clock for I2S bclk
++          - description: clock for I2S bus
++          - description: clock for I2S controller
++      - items:
++          - description: clock for I2S sysclk
++          - description: clock for I2S bclk
++          - description: clock for I2S bus
++          - description: clock for I2S controller
++          - description: clock for I2S common sysclk
++          - description: clock for I2S common bclk
++      - items:
++          - description: clock for I2S sysclk
++          - description: clock for I2S bclk
++          - description: clock for I2S bus
++          - description: clock for I2S controller
++          - description: clock for I2S sysclk divider
++          - description: clock for I2S common sysclk
++          - description: clock for I2S common bclk
  
--	return clk_set_rate(i2s->sspa_clk, bclk_rate);
-+	return clk_set_rate(i2s->func_clk, bclk_rate);
- }
+   clock-names:
+-    minItems: 4
+-    items:
+-      - const: sysclk
+-      - const: bclk
+-      - const: bus
+-      - const: func
+-      - const: sysclk_div
+-      - const: c_sysclk
+-      - const: c_bclk
++    oneOf:
++      - items:
++          - const: sysclk
++          - const: bclk
++          - const: bus
++          - const: func
++      - items:
++          - const: sysclk
++          - const: bclk
++          - const: bus
++          - const: func
++          - const: c_sysclk
++          - const: c_bclk
++      - items:
++          - const: sysclk
++          - const: bclk
++          - const: bus
++          - const: func
++          - const: sysclk_div
++          - const: c_sysclk
++          - const: c_bclk
  
- static int spacemit_i2s_set_sysclk(struct snd_soc_dai *cpu_dai, int clk_id,
-@@ -445,14 +445,14 @@ static int spacemit_i2s_probe(struct platform_device *pdev)
- 	if (IS_ERR(i2s->bclk))
- 		return dev_err_probe(i2s->dev, PTR_ERR(i2s->bclk), "failed to enable bit clock\n");
- 
--	clk = devm_clk_get_enabled(i2s->dev, "sspa_bus");
-+	clk = devm_clk_get_enabled(i2s->dev, "bus");
- 	if (IS_ERR(clk))
--		return dev_err_probe(i2s->dev, PTR_ERR(clk), "failed to enable sspa_bus clock\n");
-+		return dev_err_probe(i2s->dev, PTR_ERR(clk), "failed to enable bus clock\n");
- 
--	i2s->sspa_clk = devm_clk_get_enabled(i2s->dev, "sspa");
--	if (IS_ERR(i2s->sspa_clk))
--		return dev_err_probe(i2s->dev, PTR_ERR(i2s->sspa_clk),
--				     "failed to enable sspa clock\n");
-+	i2s->func_clk = devm_clk_get_enabled(i2s->dev, "func");
-+	if (IS_ERR(i2s->func_clk))
-+		return dev_err_probe(i2s->dev, PTR_ERR(i2s->func_clk),
-+				     "failed to enable func clock\n");
- 
- 	i2s->sysclk_div = devm_clk_get_optional_enabled(i2s->dev, "sysclk_div");
- 	if (IS_ERR(i2s->sysclk_div))
+   dmas:
+     minItems: 1
 
 -- 
 2.55.0
