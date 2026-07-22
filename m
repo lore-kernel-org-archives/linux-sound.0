@@ -1,171 +1,156 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042413B47D0
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 07:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2474028F2
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 08:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784706062; cv=none; b=FZ4wAEgLAbJL7kbCSFvpqG64OgpPhL1MEnQlQpKr8CfxI+u60+Dy/2lx1NpI1pjBHVCMO18kIMRGFaZuxXCOubD/szLG1BcvH1WRUmz/xbH1lUtPr4pgEXPtYiZ6Quh2M1WHXlLPYLLrafAOUtCBmrEQC2yC9eiBdv19KUEzYrQ=
+	t=1784707242; cv=none; b=gGtmAk4AGjA4YeOzjrKUn/4gxfNGolgDwPoz3caRDoUcRSc/fTJqxsSES7UpoD+2XHwNocmEHgIyEbxIxOuKJUC4wo1cPWVb+d57VpvYeVIE0tVKMDBFrYF1i9G4HqwiLVDQxdVkvrUjsJ6so3Np6aZNsrHPMUCGM6gRIIvKsJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784706062; c=relaxed/simple;
-	bh=gQxBbM5etcTEezXE1B1JH5ER3yiGi6xTZs5DdLZI0LE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FueqKRSnour+/XSpFLJHsa+F9r9csZ/NwG7o+G2SperebemL4aOZm7j7Vxi05QSdxL0kahi3Ma5mFUZBCM6EqVGcg1sZeKFH+0Pm5m4j4gRdzO40tMEmvWD6D1SvHxkNKFONV8UXH4/n1kQdUhlyFKOlYUVnoZy7oQ5wvVsqnVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=mXYWDJhQ; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1784707242; c=relaxed/simple;
+	bh=4VpytwC09Qov53LruegfplaYigW5Psmc3PClQcDO/1U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G4F6r/v4O2coQ/1tVvobhaTB+PLeP/fMq1/o+P5eNEAfPVHfF+cCdjUHZHOx0SFgVOd6WTZe2q5WUY75YsWkpLoyFIeOLYbphyR72RUKVOTpbnUo0ZF1fGln7ON/DcJm2loBwIhbBIV7mR/GvAeJUnmEu6X63RGo/unLB1S2WRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j31v4J41; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=j70Jzdw8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="mXYWDJhQ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954d29264cso22385475e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 00:40:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="j31v4J41";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="j70Jzdw8"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66M53ZbE3662150
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 08:00:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zgU+BzNuR/deTzqnhX5m6s/7fOxLFizypouvSda4pJw=; b=j31v4J41YDqoQvLH
+	2pvpaHGCExy4IvSS7DUY7C83r4mlw7tGQ2LgdpDVfDQ4Ko9wXkqfCAoRyT9vdUAW
+	FVPVC2uFH0/AetlfXaaIUt+s9FM8+z0tsjCat/LI7fv0QVExZExYW9+LwGMdYwTM
+	QhjjvDyFCDF738PnuSln/o5IYBfb7+52S1n2hLOTvsQkvAyKKClWhbI+1tulT6em
+	rZ5khgbD3NZUdwIwROUi5BJlxql8OeICAvN0jXi7If0h/WdbL7b572YJ/X9QZeXf
+	kCxtBuivs7a1LCnqtdB7Eais/w3RTe96aYMT69M5EBRPzsTHiF1kaGrGrCWHKabV
+	aGK8eA==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fjd5e2x10-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 08:00:39 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-51caa0b48ccso21929221cf.0
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 01:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784706058; x=1785310858; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ME4lepCTDaiBdE3UAEs86uArPM75PRdP2/SxaEDo12E=;
-        b=mXYWDJhQYHOEuiBG2d+lNkpjBcRNX+HB3Ve3+FB68lKXi+3cbkzwonbMncl9nAOVbW
-         p29QtwW/gaWF5HFAGKb1dTkCAmMA+xmD7ywkxvr94F7hdXhrYPaPdA4QJQJ7nqVTqPPr
-         ur1e84WZIQFhKJetGTSGBW7yQk+n2YBZztRWz1WiyZAA8HH9BPc1CQYS40l1aX/K+oiK
-         tEe6zNaDUp/VCUZaObRD5epfeM5ulKYz4jd1Oijic7jpZWbW9rXhSjkltLQSxDmpM+OL
-         ot2lQFbQFgjREfqtsjc9rUyLAWyC5VWfYAwMGWW2sH4/R41QJ7vWd87fOpsPpKjBgoLt
-         egUw==
+        d=oss.qualcomm.com; s=google; t=1784707239; x=1785312039; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zgU+BzNuR/deTzqnhX5m6s/7fOxLFizypouvSda4pJw=;
+        b=j70Jzdw8aXfU7vVa4NguhLqXEqYlr2ETog9vciVCZuaFmY0dCEH4F51AbaV9lceKAf
+         FyhOKhsKhKmC7n+olYTEt8EM45f9MXqhE8bMkNavMImTh2e8kuFplM4Dyf1PsPUBqppI
+         keYhmxnaFCfgi1rm60rP822pfj1Anlnwa4u8FjhbSWuUOE8ZgWMUNP3xdZgaJ+FNVvdf
+         TRLqPUf8SViswpUpsVMWKTVnXbeil2jqqJ5Gtmu5p2bi298tP+LtblmVQ028aucpd4tw
+         Cebjq5xfZXie2iYWs3WhzGrVR5/U9Hyw4Y3DiitB9AEA0HpVO9rNGZFeTl12h0nswyRe
+         Epxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784706058; x=1785310858;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=ME4lepCTDaiBdE3UAEs86uArPM75PRdP2/SxaEDo12E=;
-        b=YszGTDu4y5fbq7jekYY8mWFzodIoi8VkvsPOAGRnQmSjcXdSRAyFN/+Hn2CIjp4eMS
-         UrfmM4Y1WTvaW4TeuamuKaWy84UXOaoTkPMWQQM3y2CwQNVgQA/wX+wwiH+yBkAUhr3C
-         x2KHYDIpVHMEG/tlbKob9mSBOhVYcvjKeUJQI5c1FWj1u7y9hb/ncOmTLWVz7x++7+yn
-         8NuIPyvRPJQyC46YUQxy/OSMFS0gIvihXvdsyZHHDreFvyv/AOW/u/vruU8xbXg9Hp/2
-         3FxK9GHs0U4qqAqn2J+SuKfBvBbU2MNpP3o3ZKlSSTSIsWpPKpJ/2vETGZaOipOkKYdL
-         bzug==
-X-Forwarded-Encrypted: i=1; AHgh+RrPTCzv6EN5/uVXIy6Lqjqbg36c5VRsQa+yg0MyBFB//tIMZm/LMKHJ+s3hcvrPTJDxXj2glUhN0wr+nA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxx1yzItbPl9rMp97WX9EeCbEJWFUtwrMgZvccuNFTOXSiZCMjP
-	6MFnDohTt9S8mD5DEVZwKQ/296w5ZKeyFXIWXQgNJv7LDwzHxxCEGgeenJBxmtZHiwI=
-X-Gm-Gg: AR+sD12uDfuEWTv5Z886ZYgO+ozAwM4r7Cl3arKVKQUePUSngEgy5RPamSxflUnVdET
-	Fc3bS/FJ4TOq2WU6OaowrxBOHUD5XW1vTvb0p9PECbwv3mqnyFNLa86SR+81SlLY1KNbZKyVpNv
-	EU4Y3TvOy+8kZAvUL26RwfkBb7lTl73siJZdmJge3ixwbpkP6TAW1Y0uH3hFEDWtH9FQ0dLGAFx
-	dc6yNgZH11dFkoEtW+tsHXH0qIzV5Cp2gkW5ojxB9wU/tf7A3s7o+NX+9rLt9ClcXQXMPw7BhER
-	yKssfZUJWWBO/5ka6RgbiI0Vhcl5ZK/6/pAx2I7rKkRNp3XCkLp16zyo28cMY+CJTyqLemQdUb7
-	LB6l5OCbYcy4bhvqilFftgZzffikMu/wE/peiyO+penTzFQxs4UHSoKFkWEZiJnZem+N8ca5nI5
-	ae
-X-Received: by 2002:a05:600c:21da:b0:495:3e08:ad24 with SMTP id 5b1f17b1804b1-4954a51b524mr172945825e9.33.1784706057686;
-        Wed, 22 Jul 2026 00:40:57 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:a589:14b5:ba97:3626])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-47f85c52fc0sm3587920f8f.23.2026.07.22.00.40.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 00:40:56 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,  Kevin Hilman <khilman@baylibre.com>,
-  Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Takashi Iwai <tiwai@suse.com>,
-  linux-arm-kernel@lists.infradead.org,  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: meson: meson-card: use priv instead of card
- on each functions
-In-Reply-To: <87y0f3zwrt.wl-kuninori.morimoto.gx@renesas.com> (Kuninori
-	Morimoto's message of "Wed, 22 Jul 2026 00:35:34 +0000")
-References: <87v7a9i0o8.wl-kuninori.morimoto.gx@renesas.com>
-	<87se5di0n8.wl-kuninori.morimoto.gx@renesas.com>
-	<1jfr1ceqx5.fsf@starbuckisacylon.baylibre.com>
-	<874ihs0vz3.wl-kuninori.morimoto.gx@renesas.com>
-	<87y0f3zwrt.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Wed, 22 Jul 2026 09:40:55 +0200
-Message-ID: <1ja4rjeak8.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20251104; t=1784707239; x=1785312039;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zgU+BzNuR/deTzqnhX5m6s/7fOxLFizypouvSda4pJw=;
+        b=mCMGXe8apGgmBn38ogtzqsmtSFhbaP4YS6jdLaXZtsUUDw6Wa8ho3QrTcnZPCQ4hnA
+         A5L6sN0i02B/OV9ezBqEdA1A4zzR4xR6ljuJcUF5eJTqYkR+gDaFqqxVADm0ImZVs7ov
+         7QZvMcSbrtIGe1dq1uV0T6yqS1LHeBJ1C/4q47Bjd8foyo2hm36JVRJvHdLN1szg5wgJ
+         ElE7z3osisajA5k3N3GVQuBp/O7mL6SaO25H+qfRnQEChlkC2UspcROdrMogPQS1dffG
+         6DxD89eFc+2sTGnAX0hNOay1GU/HFbl8NVQ7mAbsucWEqF3rgEw7+hnG60xN3f4Iygdi
+         2aKw==
+X-Forwarded-Encrypted: i=1; AHgh+RqDkT8ckdmL6oBdpHGlmCHRVD6Mydu9Iah0n7W0BcOK53efXG8N1Iz+U+5RxE1dm5YOKts4O3/8pFpqTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzamfyUrPZXFg6JgmgsFqOktmIErDd9IVyCnVv+29ZaUOwYc6V9
+	q1xzrcrbhDDzUrYdDgum1Y6CnmDLXvwo4REQ/BRja8uAOZHXkRdaEGNSmgGnIlXhvEt9ZVgLbHo
+	RnohO6OcuPd0ZbcNpahhp5vOl45C1CF/evm5STe7bGDbTVyc0EcsZB4eBgL4VCS3fpA==
+X-Gm-Gg: AR+sD11FAoCTP1ho0rUp+D9m08q7QDWvkjaSt+AEA9tClsmR9FWVI1usKvzn/T43SgH
+	OVsKtLsm+MM5qKRd2HTda7FkliNpPptIAWw9vW0rKafM2D2Hoyx/LyEwyaK1UDzpsY6SkbVaFR+
+	KzJtFx83/n1stS6myXfhIctCq8PK3HuKoEPsCzRnJ2Uuw+aExuB0YKlLOwazsM3zaj9L3gOTk8u
+	X4/LVqsy7bhPio5UBbJk7DlNlHwB70R9qX8LkI/SB5+JM/jN6cXcQLp536ZuPRUlB7sayalQ1p0
+	PMol3VCONYqiQh3i9jwHoJ+O88qQLcVLusvVzmDTNDE9AeoxjYLNHzpkWmnnofDVcxsK3375STc
+	8qtB8P2KL3k9vJke9Vg2S645X
+X-Received: by 2002:a05:622a:841b:10b0:51a:8c9c:7de1 with SMTP id d75a77b69052e-526756d33d1mr39223631cf.11.1784707238792;
+        Wed, 22 Jul 2026 01:00:38 -0700 (PDT)
+X-Received: by 2002:a05:622a:841b:10b0:51a:8c9c:7de1 with SMTP id d75a77b69052e-526756d33d1mr39223311cf.11.1784707238338;
+        Wed, 22 Jul 2026 01:00:38 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32ac7eacsm66595066b.17.2026.07.22.01.00.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2026 01:00:37 -0700 (PDT)
+Message-ID: <85f2799d-fadf-478d-9f3f-fb8ff91ba84d@oss.qualcomm.com>
+Date: Wed, 22 Jul 2026 10:00:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: qcom: remove ipq806x Storm machine driver
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        Christian Marangi <ansuelsmth@gmail.com>
+References: <20260721-drop-sound-storm-v1-0-23ae4a689ffe@oss.qualcomm.com>
+ <20260721-drop-sound-storm-v1-1-23ae4a689ffe@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260721-drop-sound-storm-v1-1-23ae4a689ffe@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: GqlJ0zBjgn-X2wkrw70VFVLULZlCC2hd
+X-Authority-Analysis: v=2.4 cv=CbE4Irrl c=1 sm=1 tr=0 ts=6a6078a7 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=54rlfCshIiuqjZLbhqIA:9 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-ORIG-GUID: GqlJ0zBjgn-X2wkrw70VFVLULZlCC2hd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDA3MyBTYWx0ZWRfX0JVISf2FxVGa
+ D6BLVlN43/P7IaUXPSfczamoUVfOyubHM1/+kp31Y3JHlSFoEWtAEjrbothR3bwwS/hgTpti8br
+ q4fuklZtab3PdFzIgAeZz/Y5quhxngeF2qZAM/dzDt63TDK+ozkJKaj0yty1MhmEWY1ZJJku7G+
+ N+cM0IpGsqvVeuaWMlol/fR2VB1RLLvOlvkE4MlsZa8NKmcKAchBPRWbntYJnHtgdZlM2k1tPFo
+ tAZeIWarnLI2+b7jQLZ3Ov27Q/IODY/1C3ybz0Q8ASXLTgNBTbpJwVadgJTQD1/UbDXLXd/XyEa
+ IQLVPjgs9WYkRWL399FfKHq2P2IfnLhxsa4fLYoz34s6tb7+d1zg2iFyVFd2rxFH2I9aPeQuPWY
+ Pku/ORFPH+vRV4vXZMwLKeg8Mf5KvUKJqBklvSjS2RbxlRwSJLQk3kucy0EXHJ8y9+Ugt5Y9bEU
+ BtQtk16wO5ba5yMBKDg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDA3MyBTYWx0ZWRfXy4du0CgPVFYq
+ PIt/ZC1xzJRQpUa8ePJzS1Ipv71z1B8cLv5HpB1uJpdAlpeIcb/fAEDtw8Bh/5En7LtatpVYFpO
+ Huf16N9CWxEDdPSSXU6UZ3OfpCqmqiU=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-22_02,2026-07-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 suspectscore=0 clxscore=1015 spamscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607220073
 
-On mer. 22 juil. 2026 at 00:35, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+On 7/21/26 8:12 PM, Dmitry Baryshkov wrote:
+> The Storm board machine driver targets Google's IPQ806x-based Storm
+> reference board (a MAX98357A DAC wired to the LPASS I2S bus). This board
+> has no upstream device tree, no active users and has seen no functional
+> changes in years, so the driver is dead weight.
+> 
+> Remove the driver together with its Kconfig entry and Makefile rule.
+> 
+> Assisted-by: Claude:claude-opus-4-8
 
-> Hi Jerome, again
->
-> I now double checked.
->
->> > The change is simple but it will make more complex to backport fix an
->> > older kernel once this fix is applied. So again, getting more context to
->> > understand what you are trying to accomplish and why it needs a standard
->> > card variable name would help.
->> 
->> Basically, after "Card capsuling" has done, we can't directly use card->xxx
->> anymore. So we need to update all of such code.
->> I would like to update such code as much as possible in advance.
->> Otherwise, "Card capsuling" patch itself will be more complex and difficult
->> to review.
->
-> Current functions get "card" as parameter to get "dev".
->
-> 	func(card, ...)
-> 	{
-> 		struct device *dev = card->dev;
-> 		...
-> 	}
->
-> After "Card capsuling", we will use "card_driver" instead.
-> But switching "card" to "card_driver" only is not enough, on Meson case,
-> because "card_driver" don't have "dev".
->
-> On Meson case, it don't need to keep "card" in priv anymore after
-> "Card capsuling". So I would like to add "dev" in priv instead, and remove
-> "card", like this.
->
-> 	struct meson_card {
-> 	 	...
-> -		struct snd_soc_card card;
-> +		struct snd_soc_card_driver card_driver;
-> +		struct device *dev;
-> 		...
-> 	};
->
-> Then, we can get both "card_driver" and "dev" from "priv".
->
-> If we can switch to use "priv" instead of "card" *now*, the diff will be
-> more small when "Card capsuling", because the patch will have
-> "Card capsuling diff" (A) + "switch card to priv" (B).
->
-> This diff of (B) part is doing very simple things, but is big volume,
-> because it is sharing the code on Meson.
->
-> -	func(card, ...)
-> +	func(priv, ...)
-> 	{
-> -		struct device *dev = card->dev;
-> +		struct device *dev = priv->dev;
-> +		struct snd_soc_card_driver *card_driver = priv->card_driver;
->  		...
-> - 		snd_soc_card_xxx(card, ...);
-> + 		snd_soc_card_xxx(card_driver, ...);
-> 		...
-> 	}
->
-> -	func(card, ...);
-> +	func(priv, ...);
->
-> If we can merge (B) part first, remaining part (A) can be simple.
-> But yes, the backport will be complex.
->
-> Thank you for your help !!
->
-> Best regards
+Using AI to `git rm` is definitely tokenmaxxing!
+
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
-> Kuninori Morimoto
 
-I think getting the device from the card (or other ASoC element) is a
-regular pattern. I get what you are trying to do with what you call
-capsuling but maybe you should add an API to query those things from
-the framework ? like Something snd_soc_card_get_dev(card) ?
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-The driver then does not have poke the internals of the card but can
-still get stuff like that from it
-
--- 
-Jerome
+Konrad
