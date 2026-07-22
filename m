@@ -1,139 +1,153 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013013.outbound.protection.outlook.com [40.107.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B222343BE;
-	Wed, 22 Jul 2026 04:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784693751; cv=none; b=YQfRnK9BOJtrSzKp1xOvkvvJYJrOZzQqM/m5JZf4cXLwBeSzrIAu41C9yDF9KC9vMmaItqIgN3FwHc39syXMwNb/2PxA6zq/LhZmVu8cOb32hHPFSmCUzYhpOq4tEgjfznGSngsoGLFUQWbt5MalF2e+StcbjlyVqzRfrdTG+0c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784693751; c=relaxed/simple;
-	bh=WGeKs5WpQbeXn0N42VrU0ZYiib72V0Ggj+QJvKEmu10=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kdKBeKn5t3A3QIBq991eBnevK8FYomPyCJcVafMEWl7z5m7+JH99Uh2KY6+hUI2O3xUX7wdhdTTb41BU+ftnGkw2z5lh80KhENNdR5UvjS9A/j9JHwt/DckTl+uIcAayZ3caw8Pqbt927IsmMW0xESkq++haABR9DPEZtlFy8d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowABXiELkQ2BqPSq7AA--.34673S2;
-	Wed, 22 Jul 2026 12:15:32 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH] ASoC: SOF: validate topology volume range before allocation
-Date: Wed, 22 Jul 2026 12:15:32 +0800
-Message-ID: <20260722041532.14085-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D59FB3624DB;
+	Wed, 22 Jul 2026 04:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784695870; cv=fail; b=RVIyakAADV7MAt2E8oVxRahWFJ2Y5VBw0Fz65MshvP/PDegpoLMSOnKoEFKCl4VbHZgN9xcgg/I8R7OtNwH3Ww4e1PfQfk+HdqTUv9MSm04YGhQ8i9GeC0aoYXNU42ZVURvwPgj2YkEJtmOr+nSlZYHN0zhEwdYJJewVzGcNU2g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784695870; c=relaxed/simple;
+	bh=SR49CLucby1hVicSP4oQ9ksYmbSwAdhcE6j8+Bm7dcw=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=kMZ0N5h3gKwHCqhYRPHipSgVJbCPVTfk/COaBoqY2EYJGh3osxmzdYA/OBttVOc2P25yIHO3/qFwAPz20bdbNd969A/4xGBGp5JgRu5L30nQwxczI49B7f6PeylNEDIuMBrcQdlliRtno8Z3OBD0s5glj/2gj98w8HnvOXlfGvs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=BKmdKG5v; arc=fail smtp.client-ip=40.107.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="BKmdKG5v"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eKwJuQt+cmdAmX/bpRujVOIs2b9amEFMNQSkdDfsXInA5pmxJZIl142ObVZe9BpSgIQRcSn0Hlkj3cf2QILvw6XcedmXNcKywOuPdI4jDASPgFAYI11P2TkF27t1WJ7EmS7w386z/YkKRlG727o+o6QykJTUSu5vfXLSR11y7J+vdx8sRFiS6M7thtPXEyorSewiR5Z9zDwnrr83J2l7ZTBN8tVI2BxWHi6VBk3RIIduxulpwNr9Gy3dGn2Bh12/l5AXbksfUMqMzxBcF6nctAwY1CjVbiWsFUeK4Rlu77kdG4HgBwTr9iCqCk0KmDohMqdOwm+hx4jKypxpV/fNGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SR49CLucby1hVicSP4oQ9ksYmbSwAdhcE6j8+Bm7dcw=;
+ b=dGSxkG5BcPmJMtt39KtXK+maoto+MY5PtYY9TuQBHClytuTIRxrmvOKKMoTxwHTYspFZ94hOBd/izjh6i/LZsOImbNy8oqx150lZOkv8n9SS2VUqbrXtNL2tLsK1cf1+YdnCe1jnRS0I9Yn9eXCBKgD1yTLrO5D0YWef0hvhrzD7J6RGTjcbr0NdlXUpGkS1Iy+VaOvMiccRLPEZ/1hLgGFzX1nDPNcqzTHFHvLvYPTiFdNeNFywf8lGLxOxni8s1oY7SfRr4tcPGyTg9OZJkvo+T0p08k1IBYQvpR6epU4zLEypYpGweMDdQv1G7GTZ805dv+sDDAkRZqbRTCpl9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SR49CLucby1hVicSP4oQ9ksYmbSwAdhcE6j8+Bm7dcw=;
+ b=BKmdKG5vsLzD0BWyjeCdzUUlb338E7vZzn5YiM2bs2DMNV17uBHVmfK1+Xeoef6LLS2+UAVHE+yVIEYCe9B5AIsRYehxJbvqDZ3gQCDkCgPurwUO6pJNY5ncrGKDBGpWHEP4bNzpZyuDcFMNApT0lS+lpsBRUYx+Y5Wm+/L3VNwtLMVuYnks6QoMrOS3fuNiGCWpSFKvEf+g0AD6hhR0B4IYYRnJUmzc/fc4Jb6b4VeZnNOhXoyjjUL5cWo1CuCKjy7AL/nyUx4N7E6P6tuYI/M6BEJC6dDwywWR6cLUiRmB30lBaI6VpU2gSBKPTvzSUKO1VvT5hTpJa3LRYyLMbA==
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
+ by TYZPR06MB6546.apcprd06.prod.outlook.com (2603:1096:400:458::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 04:51:04 +0000
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc]) by TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc%6]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 04:51:04 +0000
+From: =?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+To: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+	"i@rong.moe" <i@rong.moe>, Cryolitia PukNgae <cryolitia@uniontech.com>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Subject: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for Generic
+ USB Headphone
+Thread-Topic: [PATCH] ALSA: usb-audio: Add iface reset and delay quirk for
+ Generic USB Headphone
+Thread-Index: Ad0ZlO1BPCkDJxiHTNSKhkjrjc0+AQ==
+Date: Wed, 22 Jul 2026 04:51:04 +0000
+Message-ID:
+ <TYUPR06MB6217572BF01C286C94B7596CD2C12@TYUPR06MB6217.apcprd06.prod.outlook.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|TYZPR06MB6546:EE_
+x-ms-office365-filtering-correlation-id: 9411477e-f6ba-4c4e-f259-08dee7acd5e7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|42112799006|376014|23010399003|366016|1800799024|38070700021|56012099006|11063799006|10067099003|18002099003;
+x-microsoft-antispam-message-info:
+ qnGOxEYw3eKD4XR3boRnC4MPFKriI1knMtY7wPvEvAIrl7zjBkzmLjOBafk81tGiju48A1JnAwTGJK/k2Ur+WzptrUb/WnsTtoJ8NtphFWUynFLjRD8BOVXUmWMXDKQKlhZc0gD0mJf2JlOdpmo/eTudP6k4/RSFuPUpest93LGIl5V3hgb46swVxa+blkq+hfJvEe9odbs4i8c2a9v85WXZLhD1rEmRNbWm9jtwbqJ+bTrXLY+K9RC3wnXBjBoJ3ePL1A0eYdI4ClJEuaAN3UMbAjE1HF2FxhNY3wwRyEysLEdDVMjKPnNTibT+13nc7EFTyv1VZnkJqpFx+EKWVjMNsGiyK6cPiNZCYfT+7tnItZ1O1lCaBLGdyupvdNGpswholINgq2IrBB0RvhFv8bfjT9Av1Gi1qrESceHqMpqwP0qxvrpjUSSw6aOSUnOWAY0A582oDt4bVA87YcUkTZkmxb7NobAahiegR731hDN/2QrB03s2Cv6LF4XD9QAZzS6R2jHG5+5R6ZpzpRxaKCIQw+Ve2vAP1kg4nNjRD1DxNC8N/wKr7AdgTQHq6mOEaSd9nq//EPKTobwgbwNTBFJ0oSU5fNbXqmYJiy51yDgkYZbqYzgvPVGbxFkkp1aZxiVbUpcQuttdrMsf25/ZyHOwhN0Riqs+ym/JVIspZoeuG0mOPMNeKpnZT20IG0+p93jWeiY+DRdxzi2YhgBvhl+RxnbuCgBhlnJOL9935x8=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(42112799006)(376014)(23010399003)(366016)(1800799024)(38070700021)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?gb2312?B?SnpYVlRwclpsYkxQczlXSDQ3ZlBLbnV3TlFCL2JtY251Mytnd0JpMlYyWXUz?=
+ =?gb2312?B?c2JmRzdWV1dnV1BVN2I5SmxLWmd0NWdueW1xM1g2Zlo0c1VMU0NxbFpKaFlY?=
+ =?gb2312?B?bkcxOHBCUTV3S2tDSEJWb1FGQXpyYzUrRW5NREtscWFkdFRXeEhBK3NJWThT?=
+ =?gb2312?B?R1VrZ3NKNXl1MFd0R09FUWJkb0x4anY4cDhydXV4eWk3NDBDRkJJdlN3OVVs?=
+ =?gb2312?B?eXByZTFWUmRkLzUvT09PWE9IM25vT2lXaVREUFJ4YlBjdWpWL2tiWENhZUVm?=
+ =?gb2312?B?d05reTRjNGx6aE9VbEhtbDk4SzJGVVRZb0lxUnI0Slo1ZmdoeG9CUVdFWE1V?=
+ =?gb2312?B?S2dPRVdFMktOSC9EU1o1WW85Z09pd1pyaXo2aTBQMmFTTUM4Sk9PRy9Wd09G?=
+ =?gb2312?B?RlR2ekdHTDFoM0Vnc0FyRW1GdUVEMGxWSThrYTBzWU1uZ002eUcva1ZWbHcx?=
+ =?gb2312?B?S3kvdWJNa20rNEEwc2dUWjlvcktSTytEMjZadHdyTEhST3J4azV5R0dFYzJu?=
+ =?gb2312?B?NXlxdGdWbzB3ZFRoazYzS20zZEF1Y1FWQmg2QjJWRlpITE5wZzJadXhXdTdK?=
+ =?gb2312?B?bkxORHA5T1QvamtzSW9WTks3Y2dIeEtrWGhNUmRmRS8vWnJxalE2cjFLdlha?=
+ =?gb2312?B?TFJMRityR2hZZzVoRStwR2I0WDBGeWZNOHY3RWM1bWdybHptTFQxQzZGek5i?=
+ =?gb2312?B?VVYweXJ0dDh4MFhDK0ZHeXloanRXMnpySXcyVms1dzkrTUczQkx0cHptNWg5?=
+ =?gb2312?B?WERoSUZJdGlpSmtGT1hlYit4RnVVZzNTVVdHLzUzcWwyV3pMczFsdXNUR3Er?=
+ =?gb2312?B?azkzc3hidXkyWTFSb3VVL01BckF6bUM0a3FNQkNjYW5VaVFvSk5nSGZmalpK?=
+ =?gb2312?B?ZFRhYzR6ZnpIeWpBVStEN3R1WTZkdy9XaU42bGdoSUZYSHJDVFBzV2JTbVBW?=
+ =?gb2312?B?dHVMcmdoVHZhQlZQdERTSDFTSUNoYlN5eXVUOU9SQVlLOHF2T0dMK0ZVNXZU?=
+ =?gb2312?B?NEhZZ3B6Z2NmTmRZSENJY21xSzRUaVp2UUpDQW1QaG9zYmh1bFg3L254YXph?=
+ =?gb2312?B?UVMrb0luUUZkZkVZaW1Jb2VsamZ1N1FOdFJpRkRCQXFVbVhOUmM3d2lDalpv?=
+ =?gb2312?B?RVdkcml3WU42YnFyc3VkVkRBbzRaS3lFaVcyMWJtenBtQ2xvRk05eEhzcVNI?=
+ =?gb2312?B?aU9BYnVjT2J0ZUFFK1h1dVhubUVUVTROV2lNZmtrcnl2d0JFUkdueTdrVVU5?=
+ =?gb2312?B?UHB4ZmZwOUFKa0xyZ09wdzM0ZTBGVnBUTTdkMzdqcjR1ZFlBUjB0RjNVMWRJ?=
+ =?gb2312?B?R00xNXJ4dDVucVhMS1JzMU9kdys4NG00T3haSndHWkFNcllzZklVMmVRL1JK?=
+ =?gb2312?B?YkNKcDYxY3Mrc0d4eWJDZmZjZDEyT2NnRm0xVUtIK2RpTHNsV2szaXVraXIz?=
+ =?gb2312?B?OU9FV1ZNbkZySVYvN09QUXRETk1vZG52Z0JaVG5rRDFQSEgydnJ2STMwajZ4?=
+ =?gb2312?B?aStrQ3U1dEVmdmZmMElPUGhuN0pxeEVxRG0zKzgwMnVHSXZVNERaWDB4cFNi?=
+ =?gb2312?B?dUlpQlZvQ0xIeDZkYktBejZwb1BuOVM4clhLTGh4MC9Pc3JTR3hBTHBEejRP?=
+ =?gb2312?B?cSt1T1lwSjJIUi95MDhVQmNTY0pEOXRqb2RCU0U2dVFsYm1lRXFNa3BWK3k5?=
+ =?gb2312?B?SnkzbWUwNHE0TDA5NTBmQ0psbFZ6TVlNZXB4N2FGZUY4WnhLRlZpVWtPL3Np?=
+ =?gb2312?B?MjJubkZFb0p0MmNQMUJyKzJyaEJBaHIvVVhqQW96WDJ1UUp0UVZ6RnFTZldj?=
+ =?gb2312?B?aGx5aTR1RWhXeXNpNmxZbzhSemdibktvcGxtQmo4YXZIeW5OenVTZ1poN3lY?=
+ =?gb2312?B?SUNRNWVObHBHUGRWWGRVNkxEL01IQTF1LzZVMk40U0RCekNwOXJMMGM1MVJi?=
+ =?gb2312?B?RE9RcEdTUXR6a2RoQzhGRGFQZlhLZFZrcG9QWmhrdVR5UGszdkxWSlJ3TUY0?=
+ =?gb2312?B?NUhmeEM5ckErL3JDZm0yQUsrRWJqbGc2NDNkYUtKRThSUUVRSzVpSVVaWWsv?=
+ =?gb2312?B?TEFKZ25wbTdNcWVQdzkxME9WdEhTWDJUUW5ycERva1dpdTUzaFVMdWJtTkta?=
+ =?gb2312?B?Wk0wTkdHT0d5L2h6SEViQ2Vva01vTitPSjIrSlluakhUaXAzVkx4OURzZ3pG?=
+ =?gb2312?B?TEErdjYrNEVjT2s0NDRON3U2N1FxNzkzWTh4RXF0TDJkb3ErUXZ4dGcvV3dz?=
+ =?gb2312?Q?ZaItMhfp5didwcE+3YPMiEZEW0LLafh4b1M2LMKy1g=3D?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABXiELkQ2BqPSq7AA--.34673S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCF18uFy3ZFy8tryDGFW5trb_yoW5Gw17pF
-	s5WrZIgrWFqr45JFnxtwnY9rn3u3y7CFZrJ39Fq3s3ZF13Ar1xuw4Ut34ayFWUCr98tr4a
-	kF4Yy3y7Xa1qyFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9I14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26F
-	4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
-	628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4
-	IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1r
-	MI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCV
-	W8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWU
-	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
-	IYCTnIWIevJa73UjIFyTuYvjfUOuc_DUUUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9411477e-f6ba-4c4e-f259-08dee7acd5e7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2026 04:51:04.2005
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g8u+FYtiNDIOSVtnfx68HGYZaL0xm6KF2dRK9qBe5l3Jgv7+M9lX04wWy33wUrAs1N15KaQ/chAL4YHa+NY1Tw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6546
 
-Topology supplies mixer min and max as unsigned 32-bit values. SOF stores
-them in signed fields and passes max + 1 through an int size argument to
-the IPC-specific volume-table allocator. An inverted range is invalid,
-and a maximal value can wrap or become negative before allocation.
-
-Validate min <= max and require max + 1 to remain representable as an
-int before storing the range or allocating the table.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- sound/soc/sof/topology.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 63d582c65891..f4700a500726 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -836,6 +836,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
- 	struct snd_soc_tplg_mixer_control *mc =
- 		container_of(hdr, struct snd_soc_tplg_mixer_control, hdr);
- 	int tlv[SOF_TLV_ITEMS];
-+	u32 min, max;
- 	unsigned int mask;
- 	int ret;
- 
-@@ -843,6 +844,11 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
- 	if (le32_to_cpu(mc->num_channels) > SND_SOC_TPLG_MAX_CHAN)
- 		return -EINVAL;
- 
-+	min = le32_to_cpu(mc->min);
-+	max = le32_to_cpu(mc->max);
-+	if (min > max || max >= INT_MAX)
-+		return -EINVAL;
-+
- 	/*
- 	 * If control has more than 2 channels we need to override the info. This is because even if
- 	 * ASoC layer has defined topology's max channel count to SND_SOC_TPLG_MAX_CHAN = 8, the
-@@ -853,12 +859,12 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
- 		kc->info = snd_sof_volume_info;
- 
- 	scontrol->comp_id = sdev->next_comp_id;
--	scontrol->min_volume_step = le32_to_cpu(mc->min);
--	scontrol->max_volume_step = le32_to_cpu(mc->max);
-+	scontrol->min_volume_step = min;
-+	scontrol->max_volume_step = max;
- 	scontrol->num_channels = le32_to_cpu(mc->num_channels);
- 
--	scontrol->max = le32_to_cpu(mc->max);
--	if (le32_to_cpu(mc->max) == 1)
-+	scontrol->max = max;
-+	if (max == 1)
- 		goto skip;
- 
- 	/* extract tlv data */
-@@ -868,7 +874,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
- 	}
- 
- 	/* set up volume table */
--	ret = set_up_volume_table(scontrol, tlv, le32_to_cpu(mc->max) + 1);
-+	ret = set_up_volume_table(scontrol, tlv, max + 1);
- 	if (ret < 0) {
- 		dev_err(scomp->dev, "error: setting up volume table\n");
- 		return ret;
-@@ -901,7 +907,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
- 	return 0;
- 
- err:
--	if (le32_to_cpu(mc->max) > 1)
-+	if (max > 1)
- 		kfree(scontrol->volume_table);
- 
- 	return ret;
--- 
-2.43.0
-
+U2V0dGluZyB1cCB0aGUgaW50ZXJmYWNlIHdoZW4gc3VzcGVuZGVkL3Jlc3VtaW5nIGZhaWxzIG9u
+IHRoaXMgY2FyZC4NCkFkZGluZyBhIHJlc2V0IGFuZCBkZWxheSBxdWlyayB3aWxsIGVsaW1pbmF0
+ZSB0aGlzIHByb2JsZW0uDQoNCnVzYiAxLTE6IE5ldyBVU0IgZGV2aWNlIGZvdW5kLCBpZFZlbmRv
+cj0wMTI0LCBpZFByb2R1Y3Q9MGMyMQ0KdXNiIDEtMTogTmV3IFVTQiBkZXZpY2Ugc3RyaW5nczog
+TWZyPTEsIFByb2R1Y3Q9MiwgU2VyaWFsTnVtYmVyPTMNCnVzYiAxLTE6IFByb2R1Y3Q6IFVTQiBI
+ZWFkcGhvbmUNCnVzYiAxLTE6IE1hbnVmYWN0dXJlcjogR2VuZXJpYw0KdXNiIDEtMTogU2VyaWFs
+TnVtYmVyOiAyMDIxMDcyNjkwNTkyNg0KDQpTaWduZWQtb2ZmLWJ5OiBMaWFucWluIEh1IDxodWxp
+YW5xaW5Adml2by5jb20+DQotLS0NCiBzb3VuZC91c2IvcXVpcmtzLmMgfCAyICsrDQogMSBmaWxl
+IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQ0KDQpkaWZmIC0tZ2l0IGEvc291bmQvdXNiL3F1aXJr
+cy5jIGIvc291bmQvdXNiL3F1aXJrcy5jDQppbmRleCA0MTE0OTU2MWFhMDYuLjAwMTEyOTgyMWJh
+YSAxMDA2NDQNCi0tLSBhL3NvdW5kL3VzYi9xdWlya3MuYw0KKysrIGIvc291bmQvdXNiL3F1aXJr
+cy5jDQpAQCAtMjIwOCw2ICsyMjA4LDggQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfYXVkaW9f
+cXVpcmtfZmxhZ3NfdGFibGUgcXVpcmtfZmxhZ3NfdGFibGVbXSA9IHsNCiAJCSAgIFFVSVJLX0ZM
+QUdfRk9SQ0VfSUZBQ0VfUkVTRVQgfCBRVUlSS19GTEFHX0lGQUNFX0RFTEFZKSwNCiAJREVWSUNF
+X0ZMRygweDAwMjAsIDB4MGIyMSwgLyogR0hXLTEyM1AgKi8NCiAJCSAgIFFVSVJLX0ZMQUdfRk9S
+Q0VfSUZBQ0VfUkVTRVQgfCBRVUlSS19GTEFHX0lGQUNFX0RFTEFZKSwNCisJREVWSUNFX0ZMRygw
+eDAxMjQsIDB4MGMyMSwgLyogR2VuZXJpYyBVU0IgSGVhZHBob25lICovDQorCQkgICBRVUlSS19G
+TEFHX0ZPUkNFX0lGQUNFX1JFU0VUIHwgUVVJUktfRkxBR19JRkFDRV9ERUxBWSksDQogCURFVklD
+RV9GTEcoMHgwM2YwLCAweDY1NGEsIC8qIEhQIDMyMCBGSEQgV2ViY2FtICovDQogCQkgICBRVUlS
+S19GTEFHX0dFVF9TQU1QTEVfUkFURSB8IFFVSVJLX0ZMQUdfTUlDX1JFU18xNiksDQogCURFVklD
+RV9GTEcoMHgwNDBiLCAweDA4OTcsIC8qIFdlbHRyZW5kIFNlbWljb25kdWN0b3IsIHNvbGQgYXMg
+UmVkcmFnb24gSDUxMC1QUk8gV2lyZWxlc3MgaGVhZHNldCAqLw0KLS0gDQoyLjM5LjANCg0K
