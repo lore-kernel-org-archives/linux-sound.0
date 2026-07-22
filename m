@@ -1,82 +1,82 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A4545D5E5
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC3A45D5F5
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784763761; cv=none; b=kKM1QT3gVfRtEghGIhNGtGqzqBSSXTbjnbwgd2jL3kUXmkVSktVcTT/RtEmfzOJ6rk3ZkMiWeagf2WjjmT1EbvfzqUGZbr5mhaBIuGUz5Edg8NEom/EsbDA2BL+h1jOCclOAXrAdNyiOAkGzwAxx+/YRmodhTYZX9K0uDzg9jlM=
+	t=1784763764; cv=none; b=m8FSZXqqcCNP/C4yF5ITmUGXNeWJD9E5kdni1ttD2PQVwm+woH92T3HwOnpPlQ0LdA+Xi/GqrGb1ks8GHOPFoQZoTI+sFk1ddrHOxMTFAA5xYyUhTHopyueYiy2i0TYeuBmAVhnHwobyX4f8WA/XnPwTRPqxzvW22O+LtzI6ObY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784763761; c=relaxed/simple;
-	bh=7zLqofSl1fFRrfQhgsKi3J3B3rL/IRezTib4sF9WHmI=;
+	s=arc-20240116; t=1784763764; c=relaxed/simple;
+	bh=7rkC2k0Lo1vXVJ45Hmq7MvKzcx0DEVOuMEPgR81TGc4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SxEWoGpxJ56NKtNduRKTrrKZlEVu/VmMRKPKmRhKcJW9EHwZfKsjgpPrae+/ynn8eisrJLtfBUl5bqX4aZJD/fi7rmlP7Ns1IaFTM2yYvLR61BtfgJbcpMk884JcabBhWBQHs/Tm4CjRVeaNHRGscAoogPoMmJXGO7KP7dvxhgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pyYY8QNc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Mk2IDjm9; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version; b=eJcI9r/q5YBYmyyYs3zlq+m+47BaPSwF5zEI8RbVEUQsszINXQ7rD8Fw86ikNn7azNwD9aDGLRD6jaaI/RCfl3YCREsXlyVRNyppy7lOy2zrrRrwGOrdXazbaLAqInxR3B/e8AafUV3LcIRPPoFQlxQEcFKz3kPABosud+QeH/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nv59NaIp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MnxWE2cb; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pyYY8QNc";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Mk2IDjm9"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nv59NaIp";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MnxWE2cb"
 Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66MMnmod2316300
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:38 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66MMnaHT2316204
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=oqvjgH5GFBL
-	7f+z5ZXVfT3VkAPAKsKCcpcjs7sW2udw=; b=pyYY8QNcHHHbFkhGM3eeUorAELn
-	SqpOXkrEqw9HADN27FgmDM1gvOx010xUdRDMjDc5pyOAYqULghMtgLWoiTCbqCWz
-	8I0l83xvN1PnQmtJ+mRC56wn/2yqVArGXoWsWPqzch12+fD2rqYNYRoJ3wqrGTSm
-	mXa3+3MqG0n2bU9OnLTD1y28iTA4103xevs8C1G2AANhn2MHztN3Tah1SXEWAr05
-	NEi5PitefOh6Gq9YnEZ5nUDZyFtlF+PJAI1AIVD+i99DfNF4jGDBiWdjeiofKn0M
-	qoFwf/iFq0ngQWZOn2Cviw/5WwCu7B4LyJmPWK6Go+8yRxhscnmnhBSpWAg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fk5cc0fsr-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=S9XQeQnGmad
+	nUCXQJ+wg7LPiyIzeyxrCrD18wQUy38Q=; b=nv59NaIpNut9agHnKuIk6yldifR
+	+lL9Nur4YY0SjpyIAUGUriwDyXoeqrDvl6n88fzCojzc1+56bb2nYNP+uiIr6M/j
+	rydnktn3uUbJ08tzhDwGZpAawcztDRUy/rAvIoTWL3rJYzhl5PtTNGsoR4oIJWcA
+	YDkFRwFY6BfkJ48c4yc9tyLuug842Ege7FgE/KIIykB8baq3kLsDoRL0NUL0JAXb
+	s7XYjr9GxSTw3DLmdA4j3Zt56P/fsyESM90mi/R6kfqCNcq+EULGh9bpYXhFlciu
+	P6xEyBrPSePHpK0/3/9+Z5PxJW1r02tGnW1wUYKzepepuAlFvZTW/IeNPQg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fk5cc0ft2-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:38 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c0408254aso536481cf.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 16:42:38 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 23:42:40 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-526da7e3c9dso388021cf.1
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 16:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784763758; x=1785368558; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1784763760; x=1785368560; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oqvjgH5GFBL7f+z5ZXVfT3VkAPAKsKCcpcjs7sW2udw=;
-        b=Mk2IDjm94rCybPiWn5lwusYrLe52EKHiu2Xmq5wJJLUGPRQtgVGSFSrejQFhriBGDe
-         BgtAAKaSdvkqA+74H2F3HTB70cJKgavX1bbCBJwotUfOuQvqQTHdso6Tid5F+FPnkVCK
-         BmCizer6hRFHfrCcjMqE2BgND6uu0VZWLu00QumcFPDn3xfmFRD7tulu+itSkOQ5wRD6
-         AtlyalQTeVj4UTVVlN2leP837WIfAtEKDuXbu9RItHjcL29YVALXJ4TPTtwq7id4Ng7z
-         ZsBhJTdridQSLfyuDIrF4+3rZH8LXIWgnhtosTqDD7ZF85xKnQMW4K4ZUmOPWarihkqx
-         +CJw==
+        bh=S9XQeQnGmadnUCXQJ+wg7LPiyIzeyxrCrD18wQUy38Q=;
+        b=MnxWE2cbKjxcCF70RGxDhQHHNpA+XDemq9DB7tbBskDQKYfc7cbCG9ul1Mtr+tLMgq
+         WfCwaZNNG/BiVTx3vYRLa7gCKguVu55bs6MIISbx09MFkmd38oPRMA6ZJfmZhdVyGLjs
+         LHvWLdNlySPhHkQYLXeMSgpYBNWtM5ZPcLbeZE7AlY5EboRu3PvksGxrqW+S0F2aONqX
+         QQAwKYyWJE32WDfWYj9T+sFSUNXkkvNSTDA6gxVxzsEUi1GBLPDn9IH/ioIcA9t9xQxZ
+         ZnYz0k4zCmNTK0Q1ctlLInrHLpwARigfS5j/UlaPDuJlOVdSMlKd9JHxFNQNKHzRnZLh
+         wfTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784763758; x=1785368558;
+        d=1e100.net; s=20251104; t=1784763760; x=1785368560;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oqvjgH5GFBL7f+z5ZXVfT3VkAPAKsKCcpcjs7sW2udw=;
-        b=LQwKrYppuCgs4mxJ6lN0ieRfQ1pTfKM+2CzxeGOLiQ1wjH/+A5BHNsPcnREqhgMh28
-         dPX12Hr+C6DFNERX2ENCXU/rYKlDE5BSYCLLNJXT8Ih0FEBAVObu71uPFF2g2MfWLm1a
-         etWKu1lqbJsYR+afN0+T5yTbLZ2BWNw1aI671o1QOQS02pWQiQEGo16AlQEMI9rXnkBs
-         uf16rEI796u680X968cNxGwokOkbsFynMki9FAUEuCpwBultzE9OcT2b4qkOYjQcDPJP
-         hDjUhjE2WKTf9WPznVPjg3RMfDzqktyr3fTysIFh/bXWNenw9KDDc7kcdrIXilIFeQfd
-         FndQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2jsjZ9CDIoLZSemVnijSrRGPTvf5TGRyfrFnl3dPMlZOkfU87bZcHCKWb3rFxTo1jKiWnvpeSb0ObAg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLP6+0DUGjBn7zAChIg7jTk/u7g2mc8XXWaJM3xXGhXMMQRJq1
-	vMoaZGgKW7Pbksem6O2b6/3jsrSYm4pOpbV4JdMntzW/oqtEgarv6bVkjC2Fui48v62YJux4cYI
-	TxyX37gy3KbCXlgCrqDXP//O/XPBqhVNCACFZzxD516X3x4gqiKGxXilV9Hd87+nlqA==
-X-Gm-Gg: AR+sD13Wh5XtrWb0XwEP8MPE94PajVwuRYAvWNlCLG+74fsvHD3MBhPskhNyDxlq6ys
-	FtTVFReNeKT4RsQwtEDKufjXt0HmgibNMZ2AuJn3SZFevGTGtzou96G+4xAmFoAVJVLST/ljyf6
-	wdjcXk0HJutlYMw3+UX8So7fX1KnJc6qkwBifItTP2pVaclVrAPXdsyN/5b79YgqFVZ7dfkZLeu
-	nhWyjP3ulBAg/JzEIhYuuRj+M7rnbgOzCDRNpPR3ToloLuTJ5jy7+dQcWkdo/2Sbj9Eu5ThOs2o
-	bTHvjDsUHUh4eu9U52RwmakschcVILf6dKR01a3WsnKcKuNldG88BLAVnrXAPovEIObYGNKy20+
-	03+I0ZUqrU9JvSQ==
-X-Received: by 2002:a05:622a:2c2:b0:51c:98f:f288 with SMTP id d75a77b69052e-5283edce89bmr4129941cf.25.1784763758070;
-        Wed, 22 Jul 2026 16:42:38 -0700 (PDT)
-X-Received: by 2002:a05:622a:2c2:b0:51c:98f:f288 with SMTP id d75a77b69052e-5283edce89bmr4129461cf.25.1784763757480;
-        Wed, 22 Jul 2026 16:42:37 -0700 (PDT)
+        bh=S9XQeQnGmadnUCXQJ+wg7LPiyIzeyxrCrD18wQUy38Q=;
+        b=n3U27w++FztOPUO0R6tBVtwvIxTdP9IrmYBF3oluz2UaI7mAY0zdOvqdyVplX8rXcc
+         KRkI7AnILVSjtF1Nv5ZIXk4h7YSTsxz9wtwhkEvO5E+jWNOWL4Z6IAYXJxoiK81Dinku
+         kZWJrFdRoh0uHBqcctSBwlbcBieJd/A/WL80mxx3i1ppXP+0tRfmpmlKLlVSVlQdUmNf
+         PgHjKTSWtT0AVXbRVX5jSinOarRlya9DM8fvYH5XlV3Dc284sokRH4Rq326gXZ3jp24f
+         NWvT9wyWStOL5pmuK+z3YZACDj4kB8QtflIptjPUqerD4yw2VR8PuMhO03hS0gnQhBxJ
+         EBvw==
+X-Forwarded-Encrypted: i=1; AHgh+RrORuCiP0bbIA5n7sdxWm5K3sNhUBdZwGW6h1IuH07uUgoYNEousN+MswM6PDrrNa/CqXgk2LwttdjUnA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMy9Iof7u18nZLujbx5oBfBKYRRPJXMwTFbe1Y8oAmby65ziXN
+	26d/yLHf84VgZ3aaw2zgTrDGF9VzeLID88L5+GgowUMVBOrqZnw04KkjRiY4XJGYoAAzUIcdc+F
+	UQSimg7R3jcMHJzoDDYkc08ioQInxhMvqp0by5oHXOpaNg7Y7Xltj2k1DQEHhbdHYEg==
+X-Gm-Gg: AR+sD10jjUx3HSd1G+pK6mjWEF4rxEmeZodDezoI82T6fdIYlYBJZGxOoHXTiI111UX
+	YXBy8emkQqVvUGzcStDs2JlZ9D54UnQaGxOXIeU6SX9Chi1YnZ0Ar6pj0H9Ds6pTB9xxrywvPYT
+	OGclsu7ebnxEu5puawmq/4Z+pZrSehlWFXJlNeabuZRu74WXdVawUfQFfJ/K3CjfRPfyMj/sN9D
+	wo/jxBw72pZ5QGBEOxqQm5zJ0RrVPUZXL2JHSFC/J4lpzLfXjVCFrYv4NUz2RCsmThaH6FHJEVj
+	vGl+6o/4oOefdxarpYYHDhjRzPc6Mh9tYF4NRhfirs4W7czCFJZCSl2GMnkrYuJCXfiA/zdw06J
+	zFIvcTMqsMJ/C9g==
+X-Received: by 2002:a05:622a:64d:b0:51a:8c97:938e with SMTP id d75a77b69052e-5283df680bamr6735081cf.69.1784763760280;
+        Wed, 22 Jul 2026 16:42:40 -0700 (PDT)
+X-Received: by 2002:a05:622a:64d:b0:51a:8c97:938e with SMTP id d75a77b69052e-5283df680bamr6734631cf.69.1784763759798;
+        Wed, 22 Jul 2026 16:42:39 -0700 (PDT)
 Received: from debian ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a4aae16sm101796345e9.0.2026.07.22.16.42.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4956a4aae16sm101796345e9.0.2026.07.22.16.42.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 16:42:36 -0700 (PDT)
+        Wed, 22 Jul 2026 16:42:38 -0700 (PDT)
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
         Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -94,9 +94,9 @@ Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
         devicetree@vger.kernel.org, patches@opensource.cirrus.com,
         linux-kernel@vger.kernel.org,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: [RFC PATCH 5/8] ASoC: SDCA: class_function: xlate sound-dai cell by entity index
-Date: Thu, 23 Jul 2026 00:42:15 +0100
-Message-ID: <20260722234221.884765-6-srinivas.kandagatla@oss.qualcomm.com>
+Subject: [RFC PATCH 6/8] ASoC: SDCA: register SDCA_FUNCTION_TYPE_SIMPLE_JACK in class function driver
+Date: Thu, 23 Jul 2026 00:42:16 +0100
+Message-ID: <20260722234221.884765-7-srinivas.kandagatla@oss.qualcomm.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
 References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
@@ -107,24 +107,24 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 8d410_m86R8tSk7YEbISSxPjq5gO2gUf
-X-Proofpoint-GUID: 8d410_m86R8tSk7YEbISSxPjq5gO2gUf
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfX4MX8K8EpsuFI
- 358Pe4zcm+6RGbSnsJHdXjZNI3cUIZP5VoQ6tJPdV38zTbyIGMRlK6cmpcbZE0/S2m21NaLAfDc
- BRkOR00NkZWVqV/yAmeIxmlFPyQt1ew=
-X-Authority-Analysis: v=2.4 cv=L/ItheT8 c=1 sm=1 tr=0 ts=6a61556e cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-ORIG-GUID: gHJwgGW9iPO-ned3YIFb91UQdHfI2jg1
+X-Proofpoint-GUID: gHJwgGW9iPO-ned3YIFb91UQdHfI2jg1
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfX56uqMfWujvBb
+ WI+56DS3Gh4IHFS+j4zKhQNbjy7FbA1WhKWpQVL3/ed27qn4t4+qkI5RyoMbkkPJBTIcI0at5U4
+ VEeS14wTrDClKoV3Wq+BDmAFHYq6Esw=
+X-Authority-Analysis: v=2.4 cv=L/ItheT8 c=1 sm=1 tr=0 ts=6a615570 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
- a=D7LRd5SpCY7MsyqoJ6wA:9 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfXxC9kkpBKBbSQ
- fu7gBOTMprY7B35YmNPBV2H+6/ghKrWaZfcBUMtdISaTEtueuinmDBo4wKzenfKiT+205/y0adj
- 5lbwgmk3ZKdbQX+T3RKXE+zhp1jypfguBpF3xNxr9H0yhQxtsjzukiJIMV6/hyKxlLm2eqZn6Q7
- nuQCXuThzpoNt3WvY8pBTSpu673c0Ze29zUcTLWGB1KdXh/XVEyyin3homJM9lkKTxJ6ejR2Brv
- iMVVkRUq7hg+i7lwhNK87/7BZag4y7NU0CYFIBYYuRUSyJtpX7C6CKvEFslXdJTp/Be04UhvJec
- 8I3AsxqHkUyxp0Zz/5m/J59nfZGryQuwqee/BPssl2x0eM/QejDM+pwZi33pL08UgXh6bjGk/vd
- Lo0Snvu0/ZDxn2Of5ZiNrRVgNqUMbuaXZR+r0QZRIhmCJKdviOhkQYZ+mnfUaM4nk18peIDGZ2/
- coGAWaSvct9MPCeUFoA==
+ a=_VQL4OnVw18WlseRxScA:9 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDIzMyBTYWx0ZWRfX4pfKeasZ+KSm
+ Oys7v8K7iATyYMTa/oG1RflNdCSuxGmeZ/w7T2JUugsCFbmwttf6mbgUXuFLRLGINU1XOI4voap
+ pO2Q6fvkgBVOlpkeSgOoy8kGzkbcA1ApNAcQYqltYGmzrdLRV/xoGkQ1PvPG8bJIBuQOM3FCSBg
+ MRpLL3qOcCX1rfYoSU1I4z/LjUW2428qUBmljd4ZsOEiICADQcrrfC2WvvTFluNwko456lSsDch
+ nNbU17SThEFN/mvNvoFCMRcTwShdQF0B3AuQehGHt567c8NZEoa3LiZ8cV6qB3vZssAw9ZHJ+SQ
+ G2KruktDPszOsSoBKk4OTbeV12nWPxgCmzsvmncAHLT9VuqtlZN+hq9wlhcE1RZ22+GhRExsQdg
+ K8ILvuMdhFFbzeGuJFNFSauHG6uoY8PA+4xVqV+ysaQCPwLfrbn9flY528NfMW2TNKhlVDZUyw7
+ 6lnvSiivSirVuT/3ynQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-22_05,2026-07-22_02,2025-10-01_01
@@ -135,70 +135,40 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
  definitions=main-2607220233
 
-sdca_asoc_populate_dais() sets each DAI id from the SDCA Function's
-entity array index.  ASoC's default of_xlate_dai_name treats the
-phandle cell as a positional index into the DAI list, so on a Function
-with non-DAI entries between dataport entities a sound-dai phandle
-resolves to the wrong DAI.
-
-Register a custom of_xlate_dai_name that walks the entity array and
-returns the dataport entity whose array index matches the cell value.
+Add SDCA_FUNCTION_TYPE_SIMPLE_JACK to the class function driver's
+auxiliary id table so a SimpleJack auxdev is bound and enumerated as
+an ASoC component.  Wire set_jack for this function type so the machine
+driver can register an ASoC jack against it.
 
 Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 ---
- sound/soc/sdca/sdca_class_function.c | 35 ++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ sound/soc/sdca/sdca_class_function.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/sound/soc/sdca/sdca_class_function.c b/sound/soc/sdca/sdca_class_function.c
-index 905c96ed6172..b0fbe243d732 100644
+index b0fbe243d732..ed00bc1eeafa 100644
 --- a/sound/soc/sdca/sdca_class_function.c
 +++ b/sound/soc/sdca/sdca_class_function.c
-@@ -216,9 +216,44 @@ static int class_function_set_jack(struct snd_soc_component *component,
- 	return sdca_jack_set_jack(core->irq_info, jack);
- }
- 
-+/*
-+ * Map a "sound-dai" phandle cell to a DAI.  The cell value is the SDCA entity
-+ * array index (matching dais[].id assigned in sdca_asoc_populate_dais()), not
-+ * the positional order of the dataport DAIs, so the default positional xlate
-+ * cannot be used.
-+ */
-+static int class_function_of_xlate_dai_name(struct snd_soc_component *component,
-+					    const struct of_phandle_args *args,
-+					    const char **dai_name)
-+{
-+	struct class_function_drv *drv = snd_soc_component_get_drvdata(component);
-+	struct sdca_function_data *function = drv->function;
-+	int target = args->args[0];
-+	int i;
-+
-+	for (i = 0; i < function->num_entities - 1; i++) {
-+		struct sdca_entity *entity = &function->entities[i];
-+
-+		if (entity->type != SDCA_ENTITY_TYPE_IT &&
-+		    entity->type != SDCA_ENTITY_TYPE_OT)
-+			continue;
-+		if (!entity->iot.is_dataport)
-+			continue;
-+		if (i == target) {
-+			*dai_name = entity->label;
-+			return 0;
-+		}
-+	}
-+
-+	dev_err(component->dev, "xlate: no dataport entity at index %d (num_entities=%d)\n",
-+		target, function->num_entities);
-+	return -EINVAL;
-+}
-+
- static const struct snd_soc_component_driver class_function_component_drv = {
- 	.probe			= class_function_component_probe,
- 	.remove			= class_function_component_remove,
-+	.of_xlate_dai_name	= class_function_of_xlate_dai_name,
- 	.endianness		= 1,
+@@ -436,6 +436,7 @@ static int class_function_probe(struct auxiliary_device *auxdev,
+ 	switch (drv->function->desc->type) {
+ 	case SDCA_FUNCTION_TYPE_UAJ:
+ 	case SDCA_FUNCTION_TYPE_RJ:
++	case SDCA_FUNCTION_TYPE_SIMPLE_JACK:
+ 		cmp_drv->set_jack = class_function_set_jack;
+ 		break;
+ 	default:
+@@ -621,6 +622,10 @@ static const struct auxiliary_device_id class_function_id_table[] = {
+ 		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_RJ_NAME,
+ 		.driver_data = SDCA_FUNCTION_TYPE_RJ,
+ 	},
++	{
++		.name = "snd_soc_sdca." SDCA_FUNCTION_TYPE_SIMPLE_NAME,
++		.driver_data = SDCA_FUNCTION_TYPE_SIMPLE_JACK,
++	},
+ 	{},
  };
- 
+ MODULE_DEVICE_TABLE(auxiliary, class_function_id_table);
 -- 
 2.53.0
 
