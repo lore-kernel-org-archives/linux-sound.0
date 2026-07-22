@@ -1,257 +1,180 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84380436BFE
-	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 09:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784711751; cv=none; b=spI+PgsQAUUJQup6H3Gj50irraAdUyeUxf3NhiPsYAg3jrM4HYlDvbVd0CwoQ5pZSGdR+sOIsyYvms2TP6qPKCIu7znbAfA6USKdGqZ+09hq1KaNnapcvh7H0ahvRvRNhvvV5KatWxtpFff5kRnFMN0f0oFZzLnNPvq3CTOqULs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784711751; c=relaxed/simple;
-	bh=um4kfNdDWbp9uc5D89G02PpHbMvWJSolgKdKupThDR0=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=d3/xWLvtZ1Q6yVytnKbvLGOkcPV5wmlRxzB+5YdCWFELfCGmZxCsT5f0UAC5il3dWA5Bq8uFUy7uZUxpJqZ22DxNvacY28xgFBkmvi9tekbYpqlsV5UNAYCxEVo/pmnp1toT7KNgOWbGZb5ro8ICaM/rmP7pVIpKQSavyZKMkkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dzelg/cV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MDXGZ/Vx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=au3TGqFL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cW7E+m9U; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C028947F2D3
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 09:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784714153; cv=fail; b=BQZzmuWiyfJ8bSMecKxgSQLh/mbmF12F0Ab4VbYN0jIYfydT5PKFGQvhWuVywX9UhrYH6DwGYRder5Zwl3qwexJRQGbAOLD5YQYxOF7nSulJYWJqiQrxoowGcua2c76lDh/G+4p4SUT4MaXjGRSZlXqLRTScLqE8hHRAyUqHMLg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784714153; c=relaxed/simple;
+	bh=tlLYwgxDa9ZwxV+JemuQcHUa5PIfspjtlb4Lch1jRrs=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HZac0/vCQvzEu+WwmIeAnoMZ4kulcR7E/4e9ss0KAtZDjBRz7Y6A4umSJwnZA/ClUBcb9TCamUfLNPP8QkYeMaaVx06zDSQsPJCBeGlMpc2bw9LoR4Voez2AuZKEpa1w1Sz7mWSiDcyy01R0WEEwUuNWpdE1HThzkDlNPfe74aw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CX5JXB5T; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dzelg/cV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MDXGZ/Vx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="au3TGqFL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cW7E+m9U"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BFA997A9E9;
-	Wed, 22 Jul 2026 09:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784711741; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5Zo8bndnyFqzBbVaDGiCUk4rt4HY5PK45ST0QQ/ZWA4=;
-	b=dzelg/cVjcOUxGQIKQ3ZlXmM2gNn/IjG9yFAcoYcrrFhG4HCoeTDHo6yaMENiSc97Ypbgq
-	I4HzBVxDiu0DUdpXyzuyOi/R4HslR4tQPYgg4xIl6uDAVivopnYn6OLiowt1iAs4OUeXMA
-	AAGwloZMM+9mLGnULdNG1tgpGdHrJT0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784711741;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5Zo8bndnyFqzBbVaDGiCUk4rt4HY5PK45ST0QQ/ZWA4=;
-	b=MDXGZ/VxMhFKeniMVxeJlwcnktXVuznYkHI08Bb2x3NpH3ZHcLlpiYmce2pd66vcTItVfN
-	lYXOs+rWGlRpuqCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=au3TGqFL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cW7E+m9U
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784711738; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5Zo8bndnyFqzBbVaDGiCUk4rt4HY5PK45ST0QQ/ZWA4=;
-	b=au3TGqFLF7uxgbi/aGelFdRQVPErwWUTPH8Xda/pfiNAzbLZ9r21RznbxOXW2jDrqMNlsO
-	VhltqaXLFG8i6hhKX4l5uW7jJPMcSGcg0/NTmQ+QJNHfnMN446UndSX6h0/8EgI/tDSDFJ
-	gKkvxcbjQROftZQq1uUnvWg0hWUt6rc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784711738;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5Zo8bndnyFqzBbVaDGiCUk4rt4HY5PK45ST0QQ/ZWA4=;
-	b=cW7E+m9UAtkL+MqCby7fytOb7IAe8Mo+LodQJceu3kdql91nLn9auHc4rRgiCLdbQd627f
-	NhDGtdt8x1zPuyDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 937D7779B0;
-	Wed, 22 Jul 2026 09:15:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZW/JIjqKYGqPLgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 22 Jul 2026 09:15:38 +0000
-Date: Wed, 22 Jul 2026 11:15:38 +0200
-Message-ID: <87ldb3gzb9.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 7.2-rc5
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CX5JXB5T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784714151; x=1816250151;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=tlLYwgxDa9ZwxV+JemuQcHUa5PIfspjtlb4Lch1jRrs=;
+  b=CX5JXB5TrbUQmZ06iwhzS8rAHwhXyMElTHfRv/6wDiVMZ7epQijdh7MN
+   IRsjedMpdhtiFFE3JUGSnZ5gCAsp30ny3gfTgdZ+9a5kewDL+8yQyNUr6
+   NlZXKC8G5kcmpFht8JjQcd9cRjLCWNoHMzZ9xhozR9fOUl+emR6WiubkV
+   39HE22DeuEUVUqPsnvegmeMSn1T3IsP7hUgKdiTKsec2DdXohoZrL6D9j
+   QSvCMP3905h720qMj1RcADjhK5MgEaPYSwdjSmfdveCcniXbc7Mb23pCY
+   iXOQ79Jz2cZXAhgCf9dqGj9U5afeBOiHZKcE62I+UgDoifpgTKSI8hO1u
+   A==;
+X-CSE-ConnectionGUID: +H38TnF0RVW5HjHSGTZVaw==
+X-CSE-MsgGUID: 8qgb/8ewTMqrX3bdeuVXwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="110888228"
+X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
+   d="scan'208";a="110888228"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 02:55:48 -0700
+X-CSE-ConnectionGUID: EcacPInwT7yvmjwZ4EaB/w==
+X-CSE-MsgGUID: ETz4MRicR6GnU5+by3ftFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
+   d="scan'208";a="262980583"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 02:55:48 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 22 Jul 2026 02:55:47 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Wed, 22 Jul 2026 02:55:47 -0700
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.3) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Wed, 22 Jul 2026 02:55:47 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ewpNqPGAzdsPUQn7pbwmN+MV47TMsPoWn2PUqZqMZ4gPfpGdYc35d/8SSiUEkjRCfjbwitYV5nndI3O9GePPvk+byETUICBYHL+jWA4yC4QNJbIY09nzzCFz8VuJLQs8Jxwth+BTvl7EYhxZ3MTqfEZWdDWPlqCEgZ9PQbQubfyDtzJhEFAlxR8s9tVuYej+5jOfqvgS7yJJVi5hi6DvI0lPGXnyVbEIU9s1A3eKCvYRhqCzwn5d0H2CqD6NT6B9fLMggjHPFHTiBE7eM+o9LtwBGznFSqeRDF3ItDHN6Iy+OdOdg6SExF/G1YULgFVZfjI6vlfO085wz0yR7axXiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L9tJLYCR+9x8PO46nMlhZ2i4i10RzKGrHQAFoGC1uhA=;
+ b=i9K7rj2kx8ssUu8q/mHeZtdbIjz5H4AU4YtYkQaHQNtHN0l71ykwtzpP+FiA11/732ENPnHK4p+DLTTFC7wml3jNj/bPMcccPC0QGqtFXg0C/GrLBm6DIZHZpEZo2oHEBCml20aoCtxwhHaAj8m1/bikcHG9sAgEdzy1UMF94GOM/1dadamvh0m/KJMY16F6pY5RcvHG3tH51qcZEaJqgBH8TvpSpurWqmKtf+R9ZsIO9olm70HUhXnxEPMjuQHMF6olZCBHyViDStcz4JdkU4m4vArtD2uZ+acCBbFA+qe8u4yziG1MGB3FPoXop31wsBtOZQXpd1m/WjGadSIiUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by DS7PR11MB6248.namprd11.prod.outlook.com (2603:10b6:8:97::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Wed, 22 Jul
+ 2026 09:55:45 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0245.009; Wed, 22 Jul 2026
+ 09:55:45 +0000
+Message-ID: <ad75fc99-1932-4164-8363-7a0fbdef94ff@intel.com>
+Date: Wed, 22 Jul 2026 11:55:38 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: intel: sof_sdw: use &pdev->dev instead of card->dev
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: <linux-sound@vger.kernel.org>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Jaroslav Kysela <perex@perex.cz>, "Kai
+ Vehmanen" <kai.vehmanen@linux.intel.com>, Liam Girdwood
+	<liam.r.girdwood@linux.intel.com>, Mark Brown <broonie@kernel.org>, "Peter
+ Ujfalusi" <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Takashi Iwai <tiwai@suse.com>
+References: <877bmpi02q.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <877bmpi02q.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR06CA0111.eurprd06.prod.outlook.com
+ (2603:10a6:803:8c::40) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: BFA997A9E9
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|DS7PR11MB6248:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3d63d7c-65bc-4924-e2f7-08dee7d765dc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|23010399003|1800799024|22082099003|18002099003|10067099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info: vJL8Kfjo4f2BRtxQORALD/V5A23uR8ko905XVcQUSa9Xwct+fFw4Gtl0km7KrxZI2JyVKNM+y83d9TBEFvTgliAIJrTuGWkRGTDPurLcCWkj9neBmIRz5K4Psz0TF67eanQOJfInnuiYyxhhWddkFXbhSK7ueSluYcxgNg/nyO8oOeyd2FniF7tUyhGXsc1YXwXBy6q/Yl5Wq3vZ6mvAfL5ukWTkRsq9ydvJsx8AQLS5z310jGeHsywloZ34IjfvMPwcmiz1G+G3caJKT4pbkLSxsXBal8kcO7h14s4zmNanUHDov+DUa2c94JeQ6Zb3iTvXY1g27Obfh+AslgL4CKuC7eApL4F0TNjy+B7EJfFCNmHBwmAvv7On+5YOhYyHvxUfaNe1Nb9heHNv1DJYKM9oSNOh6/7rOR0dTKf2uqjaksnoVtnaiuoH+zLNnuanLWaPD13l9rGomQUfJHXYkrmCxD4e1Hsx/9D7EkT5tMsUf2v1QuVRTQiwkx4NquiX7K22V2dsqkKNEFSgaagS3VpUqjYZe8n9D5edF0w+expPmuN7GvGqn+F6b/5e49woDp844qBqPTGdrMlZFCB4y3AgNX6jBJG6+rstOkDYVU1awOGpF1UWv8PeUQ4hmhc72VqWPyQxwlZJ9EQUnDqrcbQrIngBEAEHWVlwbnmrOGo=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(23010399003)(1800799024)(22082099003)(18002099003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjVVRDNJdjZuMWZpdjhRK1A4UUtHTnI5dHZBWjZqL2pnaUpHbWFaQmM1cFJ3?=
+ =?utf-8?B?MEJiSnFUSFEwY1RxNXIyYVN4Zk1HMDZTZ0R2Z3NYYXdEVEVCVDR5V3drVS95?=
+ =?utf-8?B?UW80cko2b09JOGZ2dXBJcnM0NXBJVFVxbU1RdlZ6SG9zOVJtODJlOHNjV25y?=
+ =?utf-8?B?WUtwbXpNVWUzaGhhRXU4UHdhTzVMVjhQS2JzcW15d3h0VVdaWTdHN2RSZFgx?=
+ =?utf-8?B?U25oYXd4TTdINjZXSHZ5MkMwcHZRQ1V2REhRMll0SDZwNDYwZDJEV2E0NWFx?=
+ =?utf-8?B?M0Z5eFhMdTZNdnQyVTh0LzlPSHRrWDg2RUhjNEVQY3VRK3N5cVNyVkVibXY1?=
+ =?utf-8?B?VW5kNkZoWTY0d0FYZW85RUhUWDNlSlorUkE5VUphSjZ4VjVGQVc4eTB3U2RM?=
+ =?utf-8?B?bm5kZldiK3E4a3FNRHpxcmFiVXNpb1FNQnhta1BSSlFoSU10emNtSlBGNDNQ?=
+ =?utf-8?B?NVVuQzUrUUEvT0RvdUlhTHpqc3g5SzZvd3Y5QWZUeE9qUWRod2xDbHpEanBx?=
+ =?utf-8?B?ajloUThqOU1ONTJGSEhId1hRRHNrb0YwZmtscDVGUVkzdTBjTHQ3blpRNWk1?=
+ =?utf-8?B?ZmNZTDN3SVhGVFhJd2ZmaVRMSHJaUUpWQjhYd2xwdjMrYzlEekYvR0FoMG83?=
+ =?utf-8?B?VFY2U0xtcUxHRHk2aVU4UXpqNDQrS3VocjlXUGdZMmllU1dzT0h0TFZZMUFi?=
+ =?utf-8?B?VFljeG5qSitHdkNOQ3laVmF2eFQ3NzFkN0xYUml1MFowNU8vYnQ0UEJQRW9E?=
+ =?utf-8?B?ZjRWVjR6ZFFlU0hObnN4YWtLZ3ZuMU1xSGRjSnp5Vy9seDhuUnFweG1qVXhT?=
+ =?utf-8?B?MTdnWUlCVCszbVhtRmxHbWpBejFLQlFkUXFLak52Nmgzb0IzbTdZNENScGpW?=
+ =?utf-8?B?NFpLc2l1Rmo1OG43aW01WFk3OUZyQ3gxaFZVSGVsT2FQRm0yeXRmT2hGdlFD?=
+ =?utf-8?B?RUlVNWhoN3JoV2k3RUdBZXNHQjdjWE9JbllFaWYrL0s0WVd3SG9vWGtmVkpS?=
+ =?utf-8?B?OHBHYjlGdDNRRE0yNmFMUVNkL3RUQzUrNE16QlE5WVQrTjROVW1vdFRpUVQ5?=
+ =?utf-8?B?NFd4THpYTkZiWVVUcjFVWHlBb3ZDb1BiaHlPdVpMbDljNGxjNkRpMU5NNUpU?=
+ =?utf-8?B?VGY3Z1dWTWpGNlhVTVlEQTlXYmxUdjFtdFNpWEdKUmV0ZDREeFNwRDNyOGdW?=
+ =?utf-8?B?VjlVWnZZUFppR1ZFMk1KWERVYVFGdFFiR2VndmdGcDAzbElWOXF3VmpLcTA5?=
+ =?utf-8?B?a0ZLQ1pQUE15d2szVWcwVWNsTnhwMWlSVWFRTzYrNjQ3a0h4UzhPVUd2aXVS?=
+ =?utf-8?B?bG5CNDhSblE5eEwvcXNMaEFDSFlsbm5ucFU5RmdIR0N1MlFobUZTb01uOWNa?=
+ =?utf-8?B?QXRyNDBHbFNNRVVDU3NuK25yNDhnQnQ4THFrYkVrekhadE1DSzlLK0hHUGdz?=
+ =?utf-8?B?QXpjSXh0SXN6RmJBalREVFZaNVpyRUVJVFM4U3M2S25DNWVoSjA1aXBROHBD?=
+ =?utf-8?B?SzU2K21saTBNaWtOQXNQWlFtMXBFc0xLcGYybHdTcDJTUTdJZ0FiamxCRWN0?=
+ =?utf-8?B?ZENaSUFHbTZaZkg2Ulpoa1lPamdwcDEyZnNHRGdwWERucnp3ZFdRdDNhVWUz?=
+ =?utf-8?B?QWhIa2lQeGF0NERtdXIxZ3k0ZjRJWEdIU2xtU2lGRzVIVGFjOE1NNkVWRkRF?=
+ =?utf-8?B?V0lSY0haVzQxd1NBNitaOHQxdENVbHkvZlNJOTZYMkxmSElueUVGdEI1dEtY?=
+ =?utf-8?B?bXRvWjVjRmxJZ0s1Mzg2UVJmRUVBeEk1NllDOTkxaEJnUUhncHY1SlpaZVFK?=
+ =?utf-8?B?MVdlSHpvM2lqYmdicmdYZFMxdlMrL3JtNGdoMnJZWlcrMWdBR0dZK0tRN015?=
+ =?utf-8?B?TjJxeHo4djlTWll2Sm1nSzNIazY3eUJEcmxMK285cHlmbTZ2R2p2UDlCRW1x?=
+ =?utf-8?B?b2FySytlR1dyL21RZUV0M1RSdGR5cWRtQlhpQkJFMnJDZXFxKytaUU9hOVFw?=
+ =?utf-8?B?dEt5SXQ5VlVlQUVRM2hPaC9vUzVjMElGdlJZbG5iUTByVUs3clVuUTFBTU1G?=
+ =?utf-8?B?aXFaczJUaXRJdmJzcDBPeGN1VlpRQkVLUGxFbk5jVFBHalN1c2tVUndiN0ZC?=
+ =?utf-8?B?TlRndGM2YjhPQW9YUjBkQnJmVDd0Rks3Zkk4SkRnY2tKQWJHWk9kdXU1UVQv?=
+ =?utf-8?B?R1EzcE5yV1crK3UyeVdLaytkSmQ0SUxXNHYxV1lNakw5c3pubmRUTm92SXR2?=
+ =?utf-8?B?dVJFemgzd0tFNnNMTE5uWW5PdWhhanMxb3ZKTjFzb3U2dURPYkZzUGE3b2ZY?=
+ =?utf-8?B?ckRBeTE3L1ZXVG1tYVlhZ3RLaFI3OUhzSGwvZm00QzNmOWNpTFkrclhXR25P?=
+ =?utf-8?Q?koezzNvEuIql+Sqk=3D?=
+X-Exchange-RoutingPolicyChecked: M8A1f8+OBj7OGRbMZB/5rqmvdtb0E+jleameS3InOPNpeO0kBGxI8m7SXIISgXQX48HkihZH1APXDnXLkuNBE5zr6nKwDVdpBRfNCFtx54A/0zoxlQZzSwO3APRygBFsmlP/hVvKMXedeBOZFUQJucNGNHPjVYMe+4Ngxux+y1/Ln3YTDibZJeB1UbGD1QIW39AhLuA1nznneFpWDm6UdwIfMGcywuzxtV8qEyXck1PT9HPMY7PmHULHJHiY/IykRNipxRPDk1CoucXIVfdJhcjOH35YAhwGUK67ej8XZb9PiebsfMvSEiI3jq8PTR4hiP6JMCRONwlc6xUlOMEMSw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3d63d7c-65bc-4924-e2f7-08dee7d765dc
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2026 09:55:45.1360
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ffmmZlXMl0cmdZY2D/m1/II2RN1dvXrzmsmwG38fAvAbRiOzucLfLQd7zi9DEliFcOJ5Ubg4e6WBz+Wbr3fN+yx/FW9ByZ8kpXsbGDggllQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6248
+X-OriginatorOrg: intel.com
 
-Linus,
-
-please pull sound fixes for v7.2-rc5 from:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.2-rc5
-
-The topmost commit is 9573818cc1b7ac22176d0a2b60bfbc440e94f7d5
-
-----------------------------------------------------------------
-
-sound fixes for 7.2-rc5
-
-A collection of fixes that have been accumulated recently.
-The amount is still "new normal", but all small fixes.
-Mostly hardware-specific quirks, but including a few core fixes, too.
-
-ALSA Core:
-- Fix potential UAF and race fixes in ALSA timer core
-- Fix sequencer queue timer cleanup to prevent leaks and double-free
-
-HD-audio:
-- Fix silent streams with Intel HDMI keep-alive silent mode
-- Quirks for HP laptops (Pavilion x360, EliteBook 830 G8, ZBook 8
-  G2a), Samsung 750XBE/730XBE, and Dell Pro QC1255, Alienware x16 R2,
-  Lunnen Ground 14
-- Properly validate ACPI mute object in CS35L41 HDA companion driver
-- Reset calibration data size on failure in TAS2781 HDA driver.
-
-USB-audio:
-- Support FIXED_RATE quirk for JBL Quantum650 Wireless USB headset
-
-ASoC:
-- Intel SOF SoundWire board driver quirks for new Dell laptops
-- DMI overrides and quirks for AMD ACP/YC platforms, including new
-  ASUS TUF platforms and MSI Vector A16 HX laptops
-- Skip sysclk reset for active DAIs in shutdown for FSL imx-card
-- Fix spurious BCLK on resume by clearing BYP in FSL SAI driver
-- Add playback-only quirk for H616 codec in Allwinner driver
-- Fix Cirrus Logic CS35L56 potential probe deadlock
-- Fix cache write-through on resume in FS210X codec
-- Bound firmware description string parsing in TAS2781 codec driver
-- Fix duplicate DAPM widget names for wideband DAI in BT-SCO codec
-
-----------------------------------------------------------------
-
-Antonio Ignacio Campos Ruiz (1):
-      ASoC: amd: yc: Add DMI quirk for MSI Vector A16 HX A8WIG
-
-Chancel Liu (2):
-      ASoC: fsl_sai: Fix spurious BCLK on resume by clearing BYP
-      ASoC: fsl: imx-card: Skip sysclk reset for active DAIs in shutdown
-
-Charles Keepax (1):
-      ASoC: Intel: sof_sdw: Add quirks for new Dell laptops
-
-Chen-Yu Tsai (1):
-      ASoC: sun4i-codec: Set quirks.playback_only for H616 codec
-
-Chris Chiu (1):
-      ALSA: hda/realtek: Add inverted LED quirk for HP ZBook 8 G2a
-
-Daniel C. Ribeiro (1):
-      ALSA: usb-audio: Add FIXED_RATE quirk for JBL Quantum650 Wireless
-
-Guangshuo Li (1):
-      ALSA: hda: cs35l41: validate and free ACPI mute object
-
-Kai Vehmanen (1):
-      ALSA: hda: codecs: hdmi: disable keep-alive before audio format change
-
-Kailang Yang (1):
-      ALSA: hda/realtek - Add quirk for Dell Pro QC1255
-
-Marcel K³os (1):
-      ALSA: hda/realtek: Add quirk for HP EliteBook 830 G8 (8AB8) to enable mute LEDs
-
-Mark Brown (1):
-      ASoC: fs210x: Make cache write through again during resume
-
-Nikita Maksimov (1):
-      ALSA: hda/realtek: Fix speakers on Lunnen Ground 14
-
-Norbert Szetei (3):
-      ALSA: seq: close a re-opened queue timer in the destructor
-      ALSA: timer: don't re-enter an instance callback that is still running
-      ALSA: timer: drain a slave's callback before its master detaches it
-
-Oliver Ohrt (1):
-      ALSA: hda/realtek: Fix speakers on Alienware x16 R2
-
-Pengpeng Hou (1):
-      ASoC: tas2781: bound firmware description string parsing
-
-Philipp Oster (1):
-      ALSA: hda/tas2781: clear cali_data.total_sz when calibration read fails
-
-Richard Fitzgerald (2):
-      ASoC: cs35l56: Fix potential probe() deadlock
-      ASoC: cs35l56: Use complete_all() to signal init_completion
-
-Shengjiu Wang (1):
-      ASoC: bt-sco: fix duplicate DAPM widget names for wideband DAI
-
-Syed Saba Kareem (1):
-      ASoC: amd: acp: add ACP70 DMI override for new ASUS TUF platforms
-
-Takashi Iwai (1):
-      ALSA: hda/realtek: Add quirk for HP Pavilion x360
-
-Zhang Heng (1):
-      ALSA: hda/realtek: Add HDA_CODEC_QUIRK for Samsung 750XBE/730XBE
-
----
- sound/core/seq/seq_timer.c                     | 13 ++++-
- sound/core/timer.c                             | 21 +++++--
- sound/hda/codecs/hdmi/hdmi.c                   |  3 +
- sound/hda/codecs/hdmi/hdmi_local.h             |  9 +++
- sound/hda/codecs/hdmi/intelhdmi.c              | 36 ++++++++++--
- sound/hda/codecs/realtek/alc269.c              | 76 +++++++++++++++++++++++++-
- sound/hda/codecs/side-codecs/cs35l41_hda.c     | 11 +++-
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c |  3 +
- sound/soc/amd/acp-config.c                     | 12 ++++
- sound/soc/amd/yc/acp6x-mach.c                  |  7 +++
- sound/soc/codecs/bt-sco.c                      | 10 +++-
- sound/soc/codecs/cs35l56-i2c.c                 |  4 +-
- sound/soc/codecs/cs35l56-spi.c                 |  4 +-
- sound/soc/codecs/cs35l56.c                     | 17 +++++-
- sound/soc/codecs/fs210x.c                      |  1 +
- sound/soc/codecs/tas2781-fmwlib.c              | 63 +++++++++++++++++++--
- sound/soc/fsl/fsl_sai.c                        | 29 ++++++++--
- sound/soc/fsl/imx-card.c                       | 12 ++--
- sound/soc/intel/boards/sof_sdw.c               |  2 +
- sound/soc/sunxi/sun4i-codec.c                  |  1 +
- sound/usb/quirks.c                             |  2 +
- 21 files changed, 300 insertions(+), 36 deletions(-)
-
+On 7/21/2026 3:49 AM, Kuninori Morimoto wrote:
+> sof_sdw.c will be updated when Card capsuling.
+> To makes its review easy, use &pdev->dev instead of card->dev in mc_probe().
+> There is no diff, because
+> 
+> 	static int mc_probe(...)
+> 	{
+> 		...
+> 		card->dev = &pdev->dev;
+> 		...
+> 	}
+> 
+> No functional change, but is preparation for cleanup driver.
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
