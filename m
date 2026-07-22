@@ -1,83 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2F6423A83;
-	Wed, 22 Jul 2026 20:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120C04399D4
+	for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 20:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784750999; cv=none; b=Tgyntri3GapuHshRV5TMhZVVFBzLGMFRte4j46PBJSh0ZL7dsmAAphq56NyP4qOTb5sQ1vh/Mv7v8Ke0OMio/BGJIGWEbkAXlANuD+uJWJN01xmhoN/J5H93KwZxDgfCzrJ0cS3UTwIGnBIW81yIKI4z3nG/hjaEBdtzCRP0TME=
+	t=1784752185; cv=none; b=jI3xde1iaWfShj+GjFPiAtugPwW5vw5bUX+5Tr9RnWSSFwdAaLN7teboAJwUdLgRxkxdQyQ3gYCY/6Hb+HkgPJfvSbWZkDL79A7fx4hXD3SkVcqFq8hM50X8GUeItb1cWuy8F4Tfxumly25Yh5VIbdDWKG9qy14sfk/VR6XPyBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784750999; c=relaxed/simple;
-	bh=8wGUtkpaa6l5ex8a6YuWiIPU+0+YiqWveT0toBcO+A4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D8Xu94StCE/8usdFfNXBDHtnXKDmHONlPU82b283dnYDD1dM5cwXHhaUoYsgbnJVW5yi9jHuA83YqPqFEhAr4ddEoHwUfTrjn87au8c+qjCwTmPCE7HLpMLCyR4ywUadFg2oA/Bq6q9huD9+7wIj5/QwsJM9LkUerWwdSkZ5dAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BFu1b2Nj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784752185; c=relaxed/simple;
+	bh=GJPIpuAYOH/Cd72F8JXZljndf72BGP41ynlicTsSZpc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ElQH1CAJ2GRlC74HfYSPwUn3KUFpCAy343LmFuJyB01DBub4WfnxPMXGE0+WJpGwXdSq1f4TPoRnWu0PX55e7RmY2r5o7DrfM/PRUuN8c2NYSzEDp1nTkQUjrWKDnAa9pT27ufJpMrJTAOv2ziho9ku045hivT6jJ5BGLj3ggLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YVj6vpfs; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BFu1b2Nj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E34C1F00A3A;
-	Wed, 22 Jul 2026 20:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784750995;
-	bh=8wGUtkpaa6l5ex8a6YuWiIPU+0+YiqWveT0toBcO+A4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BFu1b2Njd64ZPgpGvhopOx5JvktGgyu9Wgy/Oq4mhAcFbJlxmTXAIDSSTX54LmDCC
-	 D1/ypYjUqztGcZtYeoIraazJ0hnwchI5L+ZOUbgzX7xw+jQN5PKK2M9QAvazF64ocD
-	 KpKTEdig+KaYORPLJ8JY4CBtYA6SW0CdmsTQJCTot+Psu30QYTvaBvZqNFYcVq/hmL
-	 dV6VhAjTospl1ksLuS59isbkZw4E163T1yuSagqU4HB5XynKKu0mjPRLSUQuisORKy
-	 APk+8VMddwT2BwuZ625stGtYOMUmNtRzBPrL5S9rkY3n50OmdpnE7V3wqUYu7NnTMA
-	 kB0JOKujdIUKQ==
-Date: Wed, 22 Jul 2026 21:09:49 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Eduard Bostina <egbostina@gmail.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	daniel.baluta@nxp.com, simona.toaca@nxp.com, goledhruva@gmail.com,
-	m-chawdhry@ti.com
-Subject: Re: [PATCH] dt-bindings: sound: Convert TI OMAP2+ McBSP to DT schema
-Message-ID: <96c3fbf6-cdcf-4454-ba40-dd8425356a2c@sirena.org.uk>
-References: <20260722171654.298557-1-egbostina@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YVj6vpfs"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso29271455e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 13:29:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784752182; x=1785356982; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GJPIpuAYOH/Cd72F8JXZljndf72BGP41ynlicTsSZpc=;
+        b=YVj6vpfsHVUTgex0kjgtjlXW+2qU9sKjauhrevC1m0jze73Y5brKVbVr8fTOexZzbz
+         QNhWoT2lYPwAB1dcbOII0Vzi/3iBlotuc6xwIbg//Z52C/N61y/dNykPk9jrKfEt6Wke
+         hCeeU8e9i4J0TacJJEZ+CB5hvwsvMl/twQ3QGt90sSVFWCyOmbZTW+FtZSwr8W/fBK4q
+         A5Lh4tIwwKrOCWSw44K8wTff60NxMn34L9XOQp4AovB7qvCPvUbZHQmeHMA5bNM0sJ0N
+         MN9Y8RUhjOQWapUNgN0StlAsekorRZFfvcm+7NgcfGj6BZSF+Pe96bdHLuD+hnETc4GS
+         IXfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784752182; x=1785356982;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GJPIpuAYOH/Cd72F8JXZljndf72BGP41ynlicTsSZpc=;
+        b=DCEw7cT4Dqocw0feMFiz0s3S+3/ktIlWoSACyT1XyYSiHjVOlGsgjEwFReXSuc5Vx1
+         PMihajtGPji/aNPDY58+/a2Kt2idDOhivJWSwregKvTUwTFKrxbtp1YNFfrd9eJ3rXMN
+         E95bnHXEE2CIjfGG3sEzoNvNmjz/IW6SD6ndNWPHs1bN0vP7IzMD/PEnjG9/KVfKqZ7C
+         vzgSMqOr2+vVhwtDA7U6tvoqbElencZG32s9sFfrM63H0c5Y3W+A4YCX4z8M/ykUrsN3
+         wZko/MVw3Xpn2ySaoTAdE5s9xMMiUZ2tJY/mOk1R9aZBGIYTr5+KeI6L6KNrfxDOS4BR
+         4YvQ==
+X-Forwarded-Encrypted: i=1; AHgh+RppdFfAXmbNvZ5cxSi7OTRoR5+KTL5FwhfHJk4LSYYciZlYSbC0whNOEL7v4HOCi6KuVYAnI7IodHkCkQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgDdwTlIFLoLVd/UDeCbX5xqsXtFoVx+nsqGwlfVf86+F8+6oW
+	G0gJQo3tXZRMonGiAvxdQUw4Cxz3s/nvugU2p7iYdHhX6EbQtB2zZazo
+X-Gm-Gg: AR+sD126ych6d9RjJHO7rm8Xx88az7qPfphRSanK+h0qOtXVZzq6NP9iFsMffyEqvht
+	dJZ25zLv8iaZkPw7veGKCwnTaL+KaYMw4GCfsetLn8Ua4+nGGleBjM5Vhtmnqfx8xYKUD+yOSIo
+	GC4Uz3T0wRBL/oJTkm0QUgNYVhzBiIs0MyYdojDvx/F3pMW0/zc8uVnxdyRtCZdO/s83vezmnyw
+	asxF23IKPXm2VA5gUSR1MlisS6+6I8W9gfKPAfN8lDWTxJBHqXE7/GYRMXWBVU7atUxRosPMhI8
+	53zdp5ETkWDTESG1Q3e1sGiPMbU2/Hz0Fcb7TtUTNOyAfm3ncmacGSNmIddcVe1OFDLZZrLDMzs
+	4JORREEuFnTtTkpgxbSbK38PhfRnE0hH5h3EQrSwpZN1UukcYjqH8Ci0lHsOLkIk1DyevF90MVI
+	SoYKbbmKsPXuxsPTg5adOA/Sw4sUaIfCgrRp2Gi7XH6zRH1DAdCz0ldQF5bk8jUGxTgfR8KHqnA
+	Y2smlYW
+X-Received: by 2002:a05:6000:18a2:b0:475:f0c2:5afe with SMTP id ffacd0b85a97d-47f8dca4f76mr389618f8f.52.1784752182154;
+        Wed, 22 Jul 2026 13:29:42 -0700 (PDT)
+Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a6d7sm9453665f8f.2.2026.07.22.13.29.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2026 13:29:41 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <194de1d4-6303-41bb-925c-dae08d382bd4@gmail.com>
+Date: Wed, 22 Jul 2026 21:29:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MdROuNUDL1Dcdy5F"
-Content-Disposition: inline
-In-Reply-To: <20260722171654.298557-1-egbostina@gmail.com>
-X-Cookie: Life is like an analogy.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] soc: qcom: fix unmet dependency for QCOM_PDR_MSG
+To: Arnd Bergmann <arnd@arndb.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20260719022242.139472-1-julianbraha@gmail.com>
+ <qhrevlgsup5xtnxhhmon5cjic5utdhc2mdviczylqesw6yjjzv@s3kk2dr5vk7o>
+ <de25fc15-f438-4f8c-8c34-67b10dddab12@app.fastmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <de25fc15-f438-4f8c-8c34-67b10dddab12@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 7/22/26 14:54, Arnd Bergmann wrote:
+> The '(ARCH_QCOM || COMPILE_TEST)' is probably not even helpful
+> here because QCOM_SOC also depends on that.
 
---MdROuNUDL1Dcdy5F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Nice catch, thanks Arnd. Will send a v2.
 
-On Wed, Jul 22, 2026 at 05:16:54PM +0000, Eduard Bostina wrote:
-> Convert the Texas Instruments OMAP2+ McBSP (Multi-Channel Buffered
-> Serial Port) bindings to DT schema.
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---MdROuNUDL1Dcdy5F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmphI40ACgkQJNaLcl1U
-h9D4dQf/ZBRGzG3If1fxQ2R3rRkUEcoKums4VwrwkVrlILfapg9u13mTHdiwiTC8
-9naYCSByyf5HdeN1WxlrS0DLwKYrUFTKee9oBGsEcjOa6Mqo3VCNAoS6PFKnebln
-dL9StU7oyzQKZNsfyGRdoMPU7Bh/2W2DKCl5QPgn9oq6GNxMI+jAJT8m9zE3HKYI
-RGdhWegEZfqTkrvi0FW0CSzmFrH2I2n/+v3R8hY9bGW2lcdyLRmEwJswDNen7MIM
-eUvQMhjIGgMWOIMsv4TeAyiowWmlQrYdpnM+2pKPgQcnU0ZX2B77qneD838g6rK1
-v7eEBtDCa773LE3XQDvUC5TTTQpJjA==
-=+cTa
------END PGP SIGNATURE-----
-
---MdROuNUDL1Dcdy5F--
+- Julian Braha
