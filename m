@@ -1,203 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153263DB960
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 07:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EFA3E49E2
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 07:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784790355; cv=none; b=XirdXyNEOGeqYLd8+czJjUr+qFinXZRPJZJbwwgcKmHMWo1HxXQ9ek6KuhJaB0hrgAyTpsT60ms8OTA9ph6ugSn3NOeemR2PF8AI1YulinDIrL7o0A4eBA+nct6YRo5hZHlf0E+4aGTDfTWyVs4UM3KK2obh6lFgXFWBlq+ZcYY=
+	t=1784790972; cv=none; b=JNMT7QJ2Obc5bEKmpYirrgNduvAvWaCxn9kyWdI95lFwrlWMdBmtdL4OH/JKZ6tpdb58/wBJlGCn6mqHlU6+Y1CE3gZX5NmZohycISNyxK08CZyEEOkGxPEeXiG8pSPs1w7Vce96fD6MzeCIUAb9l21dhT1sAMA1SMlqO2v7U7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784790355; c=relaxed/simple;
-	bh=l1XuSGQMg+enjnM+AvHIL0o/5xCx4VcRwhOGRO1XHLc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BuipNT/F2eAD4wZHF54m2M426B5nODhXa/+yjcfDAZe9RG6YWIq/eq0map27mU5CUlo2WSqHk1XbrfYB43i8wkiKeJqw9aXnK5olL2drJPvtAE4Y3qGKvx0EyyrpUh8N5oCfNCsumTQtiU0Iw7RfrEfCLL8lCNNZ6sep2Nd2hYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sxg/hbg1; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1784790972; c=relaxed/simple;
+	bh=ydpWMNazXbR1dy5fVTGqIscLCeSrT6lVDeoIj/FXIk0=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=HCFOrP0cSoB/4rJrGaMqSgoDQpV7cXQQgi1c6Makjrw5ulGsZhnIrJwauJJIodL7l4IuPlImlprPfKW5RYdmI0wgAc4Gc3P4a25Gq12vRFnDWaxkQSrYcOCp1XZMQj7y5KvU9y3yKcaqloOdw/VGeoHLi4YzlPoDOHk98Ipz7MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=uv4d/VP7; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sxg/hbg1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784790352; x=1816326352;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=l1XuSGQMg+enjnM+AvHIL0o/5xCx4VcRwhOGRO1XHLc=;
-  b=Sxg/hbg1q1gHlYO7rPnpVRR5D9jSxpaXMtQGTgf0Lt7NRTA/WN5fkHJe
-   xhXktXoDecPY9RqjHKviLjZG8SVi5+4aUYqazbWRalmNaSwnUyMyFPOWE
-   OUG1SwAxCM2tE4ympKX5DXgipl0OKdQ4vxHF0ya5+L7sj1Z0MqGGjgeMR
-   h0cX0giTRgN3/O18a9X02urhTu7Kbfk99KucKGz0Bbb0lFK0L0/aGESOU
-   gW+/XFzPHISEZf2gySo2fbITlLqYOAT5BYWYlCfMhoH3RNyA1zt3sLVk6
-   s0thB+uxvQIGEXq8G3ecDVAl3iaERCRS6mmo1m4znw/lhh99eefx+NHDI
-   A==;
-X-CSE-ConnectionGUID: zP3LdcklSEKfQL88CsFayw==
-X-CSE-MsgGUID: ohjZjOaIRRWFhOJBhVjSnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="96095060"
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="96095060"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 00:05:50 -0700
-X-CSE-ConnectionGUID: E0cgl50ZSkafJc/MwHcFhw==
-X-CSE-MsgGUID: 48Xrmr34Qn+p2wJrcmi4SA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="256522081"
-Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 00:05:49 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	bard.liao@intel.com,
-	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 6/6] ASoC: soc-acpi-intel-mtl-match: use function topology by default
-Date: Thu, 23 Jul 2026 15:05:21 +0800
-Message-ID: <20260723070521.870256-7-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260723070521.870256-1-yung-chuan.liao@linux.intel.com>
-References: <20260723070521.870256-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="uv4d/VP7"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 66N7FieK6277919, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1784790944; bh=0ZWxfw2lQrj7bDvw7NIqLdCf2fLmKPrQ7tQ7YcRepGA=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	b=uv4d/VP7bLgr8KLdwAk0oOgXN567wf/vaeuflY64twrguI5aEeMGIWIN9WADF1pig
+	 WjrHaCOwQF48/jf3CoeHQKhR+jhiHy2pCTm+CHjI3eE7BEtpQtY44gB/DXPJZMwy3M
+	 sQCmdeUCOon+yXbUQgQamfgYjuvzkvEoGr9q4T50lcaw59HZEkX8NiijmL+tXh0seX
+	 dAf//MEluWt0YwXY01voQE5zMaiUBpK24QOz050zzppOfc3w5FSZGKU4TRJBzLhfzb
+	 +bhwGY2KfSwfsCArIHYeNOVhATJqKN83DsVwPEKX10kNDoTOUEuqpugezl5ElBg6zP
+	 VlkjOuEawogww==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 66N7FieK6277919
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 23 Jul 2026 15:15:44 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 23 Jul 2026 15:15:44 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
+ 15.02.2562.017; Thu, 23 Jul 2026 15:15:44 +0800
+From: Kailang <kailang@realtek.com>
+To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Add quirk to another Razer Blade 16
+Thread-Topic: Add quirk to another Razer Blade 16
+Thread-Index: Ad0acr1oaml9H8FAQTuH7IPjumBaRw==
+Date: Thu, 23 Jul 2026 07:15:44 +0000
+Message-ID: <0cd8c77a82a4481ca9409ac68f1041e8@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+Content-Type: multipart/mixed;
+	boundary="_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-With commit c84179a1d36b ("ASoC: Intel: sof_sdw: append dai type to dai
-link name unconditionally"), function topology can apply to all
-SoundWire codec configurations. Set .get_function_tplg_files callback to
-use function topology by default. If any required function topology can
-not be found in the file system, it will fallback to use the monolithic
-topology.
+--_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
----
- .../intel/common/soc-acpi-intel-mtl-match.c    | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+Hi Takashi,
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-index 2e4222456f27..596582053d93 100644
---- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-@@ -1321,60 +1321,70 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.links = tac5572_l0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-tac5572.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = tac5672_l0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-tac5672.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = tac5682_l0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-tac5682.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = tas2783_link0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-tas2783.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
- 		.links = tas2883_l0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-tas2883.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = GENMASK(3, 0),
- 		.links = mtl_rt713_l0_rt1316_l12_rt1713_l3,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt713-l0-rt1316-l12-rt1713-l3.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = GENMASK(3, 0),
- 		.links = mtl_rt713_l0_rt1318_l12_rt1713_l3,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt713-l0-rt1318-l12-rt1713-l3.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0) | BIT(1) | BIT(3),
- 		.links = mtl_rt713_l0_rt1318_l1_rt1713_l3,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt713-l0-rt1318-l1-rt1713-l3.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = GENMASK(2, 0),
- 		.links = mtl_rt713_l0_rt1316_l12,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt713-l0-rt1316-l12.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(3) | BIT(0),
- 		.links = mtl_712_l0_1712_l3,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt712-l0-rt1712-l3.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
-@@ -1395,7 +1405,8 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.link_mask = GENMASK(2, 0),
- 		.links = mtl_sdw_rt1318_l12_rt714_l0,
- 		.drv_name = "sof_sdw",
--		.sof_tplg_filename = "sof-mtl-rt1318-l12-rt714-l0.tplg"
-+		.sof_tplg_filename = "sof-mtl-rt1318-l12-rt714-l0.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0) | BIT(2) | BIT(3),
-@@ -1455,12 +1466,14 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.links = mtl_3_in_1_sdca,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt711-l0-rt1316-l23-rt714-l1.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = 0x9, /* 2 active links required */
- 		.links = mtl_rt711_l0_rt1316_l3,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt711-l0-rt1316-l3.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0),
-@@ -1474,18 +1487,21 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
- 		.links = mtl_rvp,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-rt711.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0) | BIT(2),
- 		.links = rt5682_link2_max98373_link0,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-sdw-rt5682-l2-max98373-l0.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{
- 		.link_mask = BIT(0) | BIT(2),
- 		.links = cs42l42_link0_max98363_link2,
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-mtl-sdw-cs42l42-l0-max98363-l2.tplg",
-+		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
- 	{},
- };
--- 
-2.43.0
+Razer Blade 16 had another SSID.
+The patch will add quirk to another machine.
 
+BR,
+Kailang
+
+--_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_
+Content-Type: application/octet-stream; name="0000-razer-p11.patch"
+Content-Description: 0000-razer-p11.patch
+Content-Disposition: attachment; filename="0000-razer-p11.patch"; size=1210;
+	creation-date="Thu, 23 Jul 2026 07:15:13 GMT";
+	modification-date="Thu, 23 Jul 2026 07:11:14 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSBlNzJhNjBkYTcxM2YyYTBiYWNmZTMzNGRjNDc4M2FmOTUzNmRkOGVkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IFRodSwgMjMgSnVsIDIwMjYgMTQ6NTk6NDcgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
+OiBoZGEvcmVhbHRlayAtIEFkZCBxdWlyayB0byBhbm90aGVyIFJhemVyIEJsYWRlIDE2CgpBZGQg
+cXVpcmsgdG8gYW5vdGhlciBtYWNoaW5lLgoKRml4ZXM6IDk2MWQ5Zjk4ZGEwZCAoIkFMU0E6IGhk
+YS9yZWFsdGVrOiBFbmFibGUgaW50ZXJuYWwgc3BlYWtlcnMgb24gUmF6ZXIgQmxhZGUgMTYgKDIw
+MjUpIikKU2lnbmVkLW9mZi1ieTogS2FpbGFuZyBZYW5nIDxrYWlsYW5nQHJlYWx0ZWsuY29tPgoK
+ZGlmZiAtLWdpdCBhL3NvdW5kL2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYyBiL3NvdW5kL2hk
+YS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYwppbmRleCBhZGRlN2M5NTNkNjYuLjVjMjcxNWI0OWE4
+ZCAxMDA2NDQKLS0tIGEvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCisrKyBiL3Nv
+dW5kL2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYwpAQCAtODAzMiw2ICs4MDMyLDggQEAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsgYWxjMjY5X2ZpeHVwX3RibFtdID0gewogCVNORF9Q
+Q0lfUVVJUksoMHgxOWU1LCAweDMyMDQsICJIdWF3ZWkgTUFDSC1XWDkiLCBBTEMyNTZfRklYVVBf
+SFVBV0VJX01BQ0hfV1g5X1BJTlMpLAogCVNORF9QQ0lfUVVJUksoMHgxOWU1LCAweDMyMGYsICJI
+dWF3ZWkgV1JULVdYOSAiLCBBTEMyNTZfRklYVVBfQVNVU19NSUNfTk9fUFJFU0VOQ0UpLAogCVNO
+RF9QQ0lfUVVJUksoMHgxOWU1LCAweDMyMTIsICJIdWF3ZWkgS0xWLVdYOSAiLCBBTEMyNTZfRklY
+VVBfQUNFUl9IRUFEU0VUX01JQyksCisJU05EX1BDSV9RVUlSSygweDFhNTgsIDB4MjAyMywgIlJh
+emVyIEJsYWRlIDE2ICgyMDI1KSIsCisJCSAgICAgIEFMQzI5OF9GSVhVUF9SQVpFUl9CTEFERTE2
+XzIwMjVfUElOUyksCiAJU05EX1BDSV9RVUlSSygweDFhNTgsIDB4MzAwZSwgIlJhemVyIEJsYWRl
+IDE2ICgyMDI1KSIsCiAJCSAgICAgIEFMQzI5OF9GSVhVUF9SQVpFUl9CTEFERTE2XzIwMjVfUElO
+UyksCiAJU05EX1BDSV9RVUlSSygweDFiMzUsIDB4MTIzNSwgIkNaQyBCMjAiLCBBTEMyNjlfRklY
+VVBfQ1pDX0IyMCksCg==
+
+--_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_--
