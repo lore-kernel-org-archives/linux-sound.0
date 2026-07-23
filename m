@@ -1,114 +1,100 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m19731103.qiye.163.com (mail-m19731103.qiye.163.com [220.197.31.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043D83DCDB1
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 07:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EF23F1678;
+	Thu, 23 Jul 2026 07:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784791598; cv=none; b=PAQmrryJ2rVl/MrktWEqHVRvg1wQ6gzmozeVAXhHrHfY4M1ID+Pnwkz5OuunZITXzKzUph+cHGBnneXpYfZqgdmq001pGaMdMoI/4cW9sSBPDpGXhVLA3stbAWZPNPmUADO0g9Ajy666y/x5yz2c9KhIyZ7X3tQPCF/P+37jbd0=
+	t=1784793603; cv=none; b=X3OmopiGrnb6zuOAmoCThqyFjRNJE5VraY3a79iltqqcuYXR54zNLUpzF1k0v0A1UqWx3RWDJTU51OHKU9w9zr5kkBUyVfELVPG6C7lQujtUyUf6Eginwuk2QH3XEMKQ++fR5ouj/d8lsMpGgxAdhuqbbhG50eVmavNZBTqfvS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784791598; c=relaxed/simple;
-	bh=PHVVHMzvamfInu0laUoasP6sfprHLwXreih4RDNS2Es=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=olBYy0oeeJvsVyx2ZjLFjNetr+ex7nWH7UAADmqqytMdIKom4BZKC1eAkq2PXEbvuzPF6yrjnFZcpvORslgmLkDTsTWk8VWzH+XCA6Sr7Em9DO5gaMSEuZjc5SJgRMfzchEc9Ozx1aa7koONT8j8l7rQ2MPnhaCNbJEvqzIify0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=gIgiAGjA; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1784793603; c=relaxed/simple;
+	bh=W7fzSgQwlJA5o9kwdWYuGvp88AVfd9IYKMBtaUePYhk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jjXpQlR9DPefizBDBBSYTCi2HiuHfMfNzi0zkSNdG9LaUGMtz2lFAQ+TCP199aF5myrH/ypT9qbvSV9hxqynkoe7kBEHYjAWmAzsn8nX1qtoKOy3uoz3FAoh5LxpTWVbrmYzxgIT6uk0eYj5kdZK1dxzqcceSmRuO0m61M4s6Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=QTjiPPu/; arc=none smtp.client-ip=220.197.31.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="gIgiAGjA"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49555a0e68bso1326935e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 00:26:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784791591; x=1785396391; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=YZYNxTA29o+VVvsMIKxzvkFs91vd12LPquYRo5EUNDc=;
-        b=gIgiAGjA1p1INPu05PAHiL2LJ+Yhr32WHh/kLL4+TEjjUUWUQ11+zYzyoTMvz9TdLl
-         QHsbaeb+Smuo8rlRf5lp6f/3OoRd2B6WNL596qWkrK9du1uyw7HE66mxh6laKsJym1C/
-         sREIgwzBcxqN3QlgoqWLL1/VIqgZUP+thC0AuT2ooNHek3izP3f6irETxrixDRTfRSdh
-         A9InLdwmzt683PXPCDe1OBGe9NHo8tTdxD9Ktto0VxrAYB6Z7gbYewXVo14CgoyXcDzX
-         0kwpDGecliTO0Qfxtvo4wQPVA57hXu+XpZm58VS10g9CHOa/dQrMDjm8Dp54peEHexdW
-         /gfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784791591; x=1785396391;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=YZYNxTA29o+VVvsMIKxzvkFs91vd12LPquYRo5EUNDc=;
-        b=dVkGYN8PTNTiwcsuwNaLHTMC+UMNhlPimDNTuqMtkM/zThDf/3IwzDRc8XgqDrSS88
-         v52KjAEG2Zh7oMT0nmTiPX/ayaTBEHZj6SXJw01MTPvLcC75AtUbkJFEFK8ljm9x9HaG
-         uonKx+lM2SdjYxr96JYScQT5J0500KaQSOql5Ir/qDTEgIwDEjcj9JWJ8FHMIWF+2ICR
-         6ParW0uy5+7qFmMtsiZ+YZ1vvGD9MHIZQiG6vrS+lfGOx3P88yZovs0ZZ7qaZOZaJOaq
-         lL5e0SEhXiGgv37w14WHKbEy/FLc1p3E0oipps6LsBp6t9F3DREj7PJrbX3mbzooO1F8
-         oibg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq+/NmfnvXvVCq9Sp4v7ppVR1moH1KEPB72eUfzmBwj/ZXgKYfQH55O/4nCFMGENuRvSqaUSuis043DEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuZ7iPjZOMTpVAfjgakDRmqLAdNVVIDO7eJA0+K2MNFIuLeKGf
-	2HMhExuOnBygpiyJsSHl5AuafyiUMZ9j9LWUzIS5bpqLr5rvKWzyi1rvUoP68G/9bXw=
-X-Gm-Gg: AR+sD12QE/B2v6jaDhOQAq+ycO3kB3B++FBV378uqT2sNhXRyGJ/tOx8sn7xSSXBatg
-	Ucj4sZMdZCgBsMrLluorL2MD5Edf4xNCFWT4ZgnLQCzm6e9m2GGLi0sC2Xko7IRco0luMvMTwAn
-	VFHywdq8RtMNLtIls2ND8DWj2u/E3c+Ww3SEG5ZIO+qs/Pc6nRYc/h67H/H/GwDZFmNM5v3hLQF
-	vOeYwtURRd/4QkcbTEzRH1pJly8r015ovY7ecmRybAyjjFp+tkYRY58vd2atzP2uHVfuUfxciT5
-	jaKa+NeEPI/uWtL+tfAPdlNzAucbQ6eFbncJUNBno9/+chFHNcYmEpiQTgRHUCnjM/1E9PmY0KS
-	v4vH/I6/htDaI5gcAIwoJmtbvs2qaHVa1vPj9gFqGjX9OfDkIsLYcSmXUqDErfJQUHzb7rfxceO
-	G83acZEwtemDY=
-X-Received: by 2002:a05:600c:8b35:b0:493:bfea:2780 with SMTP id 5b1f17b1804b1-49573c99630mr15932445e9.9.1784791591318;
-        Thu, 23 Jul 2026 00:26:31 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:3274:dbb5:2710:802b])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4956b0395f7sm83940215e9.3.2026.07.23.00.26.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 00:26:30 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,  Kevin Hilman <khilman@baylibre.com>,
-  Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Takashi Iwai <tiwai@suse.com>,
-  linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] ASoC: meson: preparation for Card capsuling
-In-Reply-To: <87bjbytkej.wl-kuninori.morimoto.gx@renesas.com> (Kuninori
-	Morimoto's message of "Thu, 23 Jul 2026 04:11:32 +0000")
-References: <87bjbytkej.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Thu, 23 Jul 2026 09:26:29 +0200
-Message-ID: <1jmrvicgka.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="QTjiPPu/"
+Received: from [127.0.1.1] (unknown [36.129.139.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 474a1d1c0;
+	Thu, 23 Jul 2026 15:54:37 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+Subject: [PATCH 0/2] ASoC: es8316: Add regulator support
+Date: Thu, 23 Jul 2026 15:54:28 +0800
+Message-Id: <20260723-es8316-regulator-next-20260722-v1-0-721f757879a0@thundersoft.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALTIYWoC/y2NQQqDMBAAvyJ77kKMJVq/UjzE7qoLJcpGRZD83
+ SAeh4GZEyKrcIS2OEF5lyhzyFC+CvhNPoyMQpnBGutMbSvk2FSlQ+Vx+/t1Vgx8rPhoizV9XO9
+ poDd5yJFFeZDjHny7lC6qsAnAcAAAAA==
+X-Change-ID: 20260723-es8316-regulator-next-20260722-7d96badfd4da
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
+ Matteo Martelli <matteomartelli3@gmail.com>, 
+ Binbin Zhou <zhoubinbin@loongson.cn>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Roger Shimizu <rosh@debian.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hongyang Zhao <hongyang.zhao@thundersoft.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784793277; l=1396;
+ i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
+ bh=W7fzSgQwlJA5o9kwdWYuGvp88AVfd9IYKMBtaUePYhk=;
+ b=+8f5oKXLvUiQWNZCoQILSjSqL3+/EQuJbwn5oB60DT++hP/2s0lPWAHKtLvq6PHKaazZAhoCX
+ 1k+DS8MFJryBr6bZIOmWAh3sXTIKT3i0J3NR19RRguRHcposO+hFaBS
+X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
+ pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
+X-HM-Tid: 0a9f8df824f609d5kunmc0741ac25143e3
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGExPVkxKSR5DGExKHU1PSlYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lPT09IVUpLS1VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=QTjiPPu/EvRT/8v7LqTbThwQABjyE/mvVDaPjboujOsGvS4q3rUB6sprk0SqCyK+5wmKoMIah9n4l6av/wU4fn8gcNvi+0zCmQlRByXcBfzUXlB68e7kq/yEnFO2kGHo5OQHYWph1YWAkT34c3Utn8JgJw1wUoZNUm/qCWqJki8=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=VBSbDykjNHOmBlXEJx/lTvZqaeEf/DE7qMTQxXoOgV4=;
+	h=date:mime-version:subject:message-id:from;
 
-On jeu. 23 juil. 2026 at 04:11, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+Add regulator support for the four ES8316 power domains so
+board descriptions can model and control the codec supplies.
 
-> Hi Meson developers
->
-> These are v2 patch-set of meson preparation for Card capsuling.
->
-> I will post Card capsuling patch.
-> To makes its review easy, tidyup meson drivers to reduce
-> un-related diff as preparation.
-> No functional change, but is preparation for cleanup driver.
->
-> v1 -> v2
-> 	- Do nothing for snd_soc_of_parse_aux_devs()
-> 	- Don't replace card to priv
-> 	- replace card->dev to dev only
->
-> Link: https://lore.kernel.org/r/87v7a9i0o8.wl-kuninori.morimoto.gx@renesas.com
->
-> Kuninori Morimoto (3):
->   ASoC: meson: axg-card: tidyup not to use card->dev
->   ASoC: meson: gx-card: tidyup not to use card->dev
->   ASoC: meson: meson-card-utils: tidyup not to use card->dev
->
->  sound/soc/meson/axg-card.c         | 25 +++++++++++++++----------
->  sound/soc/meson/gx-card.c          |  6 ++++--
->  sound/soc/meson/meson-card-utils.c | 22 ++++++++++++++--------
->  3 files changed, 33 insertions(+), 20 deletions(-)
+The binding patch documents AVDD, CPVDD, DVDD and PVDD as optional
+supplies to preserve compatibility with existing device-tree descriptions.
+The driver patch requests and enables them before clocking or accessing the
+codec, and unwinds them on failure and removal.
 
-Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
+The supplies remain enabled over system suspend because the existing
+suspend and resume callbacks do not handle a complete power loss.
+Powering the codec down would require separate reset and
+reinitialization support.
 
+The missing supply model was identified while reviewing the RubikPi 3
+audio support:
+https://lore.kernel.org/linux-arm-msm/c293d9c7-bdb7-4303-80c8-404228c434d7@oss.qualcomm.com/
+
+Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+---
+Hongyang Zhao (2):
+      ASoC: dt-bindings: es8316: Add regulator supplies
+      ASoC: codecs: es8316: Add regulator support
+
+ .../devicetree/bindings/sound/everest,es8316.yaml  | 16 ++++++++++
+ sound/soc/codecs/es8316.c                          | 35 ++++++++++++++++++++--
+ 2 files changed, 49 insertions(+), 2 deletions(-)
+---
+base-commit: b4515cf4156356e8f4fe6e0fdc17f59adab9772f
+change-id: 20260723-es8316-regulator-next-20260722-7d96badfd4da
+
+Best regards,
 -- 
-Jerome
+Hongyang Zhao <hongyang.zhao@thundersoft.com>
+
