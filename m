@@ -1,33 +1,33 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02269486B99
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 17:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D57FF456DE9
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 17:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784828114; cv=none; b=RdBhN1LT8VxQbu88hlEve7oQOCU2TNHZIn59gRi+fvvk3A/aD05S15qxXxyjwTBD8/0tyatmURp4BsFF9bNFHWCKeu6OCKVIz86x2mOaMKtxf4g5amnL4P6TDCkwCqxOYlVOP992M9g7Rr9fDrjprfuAU8g8VxE2dh7uy4N/49U=
+	t=1784828119; cv=none; b=l+hRQi/baKT11fKTHgGVKxXwzBfznlwjUPAm3Yze0vpj645lPTOKwYXwnZ8k46HrA/oSyJ3niAlRf+JVJONqJeNdDS9NgxvhuIdpQp6HW/wjMhmUVcfOkxRNnUhpk1mLYiJ0DCYpHGXiPLxGSeRk7E0vkAiZfEh6Al8pII1y5J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784828114; c=relaxed/simple;
-	bh=7hTvOZXzPJrHhrdm6ZwUIbIMAWuhabU2XenNB3eaUKA=;
+	s=arc-20240116; t=1784828119; c=relaxed/simple;
+	bh=TZ3qenQJFicTEI9C0kYCuMjNHSmyytOuC51GUPiQlME=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rKuUXPD8bBVQQcZiMmvyTeB23GKHCQnJG+TBt7XgAGxE5a0kOnkN3roJkoQL1vWB6ebWPvBKsp4rEKYkWVRLfDLejq9gz7IZ7B9x/GuD4gn7OZXD8X736LedOQmI+B0nkVmDN4H3L0MrlRy6aZ2kxsz8F71JuyaxpEf84M6B/Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qy0ALSYm; arc=none smtp.client-ip=91.218.175.172
+	 In-Reply-To:Content-Type; b=uiYj4gts+J82NdC49Mj57NOcGZKosL1C43gkEu2y7b6qz4a9NiPQMIHPXeWycJK3d+CUc8OWrZNwGUMYlyXd3bDSx+XZjpqHeNNMzxrftsqz8ZzwaHMjvQEeNPe8K/5VUCBWsyDyH/xa5kH1UqZ0th1KIFQySfv9OWK8irWno4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NdIlcI+o; arc=none smtp.client-ip=91.218.175.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qy0ALSYm"
-Message-ID: <3db1c203-e81d-43a3-9c72-b2abb1374253@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NdIlcI+o"
+Message-ID: <18b06aa8-dbf5-442d-8b7d-33b5fba9df40@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784828109;
+	t=1784828113;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SfyhetuzsZBwOZBpfSzp1mr3ZhcoJsx7ZyT810Wia08=;
-	b=qy0ALSYmz8r9TLlzHsg4nV6cqXo35LbS/bQ34LikxWHiUb+aU7tjejxNcmo6/HVKl90R0E
-	HrXhBELJLnQn/VUm5JWhv4fxgXZep0S6RyFXwbGUOH4u4/0c93feltX2fDFWuC992rGn22
-	qxmhUnJAxoVDVb6aU1xJSdh0LG7U8LQ=
-Date: Thu, 23 Jul 2026 19:34:13 +0200
+	bh=GhN2pWgn16DnimEr/1dNlGwWea9hyYKPiEk/DBvvzIk=;
+	b=NdIlcI+ootNNt5Gk/0RCAjEMv3eSFslfb4mqOLqqChZcVkhaCo4SnHDaFSqKHbZoslju1i
+	KivNZ0rStmIqHk9h/SzVzQqdFm9a2j2M6gTEg5USqSjP1orGCRQdkkmGwacrWlQw86VWSj
+	4ocCe36vYlz9rDYy3cw2sQpVFeE3iI4=
+Date: Thu, 23 Jul 2026 19:34:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -36,455 +36,340 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: =?UTF-8?B?UmU6IFvigJlQQVRDSOKAmSAzLzNdIEFTb0M6IGNvZGVjczogYWRkIG5l?=
+Subject: =?UTF-8?B?UmU6IFvigJlQQVRDSOKAmSAyLzNdIEFTb0M6IGNvZGVjczogYWRkIG5l?=
  =?UTF-8?Q?w_SoundWire-based_SN624x?=
 To: ming cong <ming.cong@senarytech.com>, broonie@kernel.org,
  julianbraha@gmail.com
 Cc: qianghua.wang@senarytech.com, jim.tang@senarytech.com,
  Bard Liao <yung-chuan.liao@linux.intel.com>,
- Mac Chiang <mac.chiang@intel.com>, Gary C Wang <gary.c.wang@intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Zhang Yi <zhangyi@everest-semi.com>, Niranjan H Y <niranjan.hy@ti.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Stefan Binding <sbinding@opensource.cirrus.com>,
- Liam Girdwood <liam.r.girdwood@intel.com>,
  Simon Trimmer <simont@opensource.cirrus.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
  Charles Keepax <ckeepax@opensource.cirrus.com>,
- Jang Pyohwan <vhgksl@daum.net>, Balamurugan C <balamurugan.c@intel.com>,
+ Niranjan H Y <niranjan.hy@ti.com>, Derek Fang <derek.fang@realtek.com>,
+ Zhang Yi <zhangyi@everest-semi.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ Maciej Strozek <mstrozek@opensource.cirrus.com>,
+ Shuming Fan <shumingf@realtek.com>, Miaoqian Lin <linmq006@gmail.com>,
  "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <20260723063129.9151-1-ming.cong@senarytech.com>
+References: <20260723063112.9086-1-ming.cong@senarytech.com>
 Content-Language: en-US
-In-Reply-To: <20260723063129.9151-1-ming.cong@senarytech.com>
+In-Reply-To: <20260723063112.9086-1-ming.cong@senarytech.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 7/23/26 08:31, ming cong wrote:
-> The current kernel does not support the SN624x codec chip.
-> Add the SN624x codec configuration item to kernel.
-> 
-> Signed-off-by: ming cong <ming.cong@senarytech.com>
-> ---
->  MAINTAINERS                                   | 10 ++
->  .../intel/common/soc-acpi-intel-arl-match.c   | 69 +++++++++++++
->  .../intel/common/soc-acpi-intel-lnl-match.c   | 69 +++++++++++++
->  .../intel/common/soc-acpi-intel-mtl-match.c   | 52 ++++++++++
->  .../intel/common/soc-acpi-intel-ptl-match.c   | 96 +++++++++++++++++++
 
-this isn't an ASoC: codecs patch but an Intel patch.
+> +static const struct snd_soc_dapm_route sn6242_sdca_map[] = {
+> +	{ "Headphone", NULL, "sn6242 HP" },
+> +	{ "sn6242 MIC2", NULL, "Headset Mic" },
+> +};
+> +
+> +static struct snd_soc_jack_pin senary_sdca_jack_pins[] = {
+> +	{
+> +		.pin    = "Headphone",
+> +		.mask   = SND_JACK_HEADPHONE,
+> +	},
+> +	{
+> +		.pin    = "Headset Mic",
+> +		.mask   = SND_JACK_MICROPHONE,
+> +	},
+> +};
+> +
+> +static const char * const need_sdca_suffix[] = {
+> +	"sn6242", "sn6244", "sn6247"
+> +};
+> +
+> +int asoc_sdw_senary_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+> +{
+> +	struct snd_soc_card *card = rtd->card;
+> +	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
+> +	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+> +	struct snd_soc_component *component;
+> +	struct snd_soc_jack *jack;
+> +	int ret;
+> +	int i;
+> +
+> +	component = dai->component;
+> +	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+> +					  "%s hs:%s",
+> +					  card->components, component->name_prefix);
+> +	if (!card->components)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(need_sdca_suffix); i++) {
+> +		if (strstr(component->name_prefix, need_sdca_suffix[i])) {
+> +			/* Add -sdca suffix for existing UCMs */
+> +			card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+> +							  "%s-sdca", card->components);
+> +			if (!card->components)
+> +				return -ENOMEM;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (strstr(component->name_prefix, "sn6242")) {
+> +		ret = snd_soc_dapm_add_routes(dapm, sn6242_sdca_map,
+> +					      ARRAY_SIZE(sn6242_sdca_map));
+> +	} else if (strstr(component->name_prefix, "sn6244")) {
+> +		ret = snd_soc_dapm_add_routes(dapm, sn6242_sdca_map,
+> +					      ARRAY_SIZE(sn6242_sdca_map));
+> +	} else if (strstr(component->name_prefix, "sn6247")) {
+> +		ret = snd_soc_dapm_add_routes(dapm, sn6242_sdca_map,
+> +					      ARRAY_SIZE(sn6242_sdca_map));
 
->  5 files changed, 296 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 54b7325f01e9..a157da5e4937 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -29530,3 +29530,13 @@ F:	sound/soc/sdw_utils/soc_sdw_senary_sdca.c
->  F:	sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c
->  F:	sound/soc/sdw_utils/soc_sdw_utils.c
->  F:	include/sound/soc_sdw_utils.h
-> +
-> +SENARYTECH AUDIO SN624X CODEC DRIVER
-> +M:	ming cong <ming.cong@senarytech.com>
-> +S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
-> +F:	sound\sound\soc\intel\common\soc-acpi-intel-arl-match.c
-> +F:	sound\sound\soc\intel\common\soc-acpi-intel-lnl-match.c
-> +F:	sound\sound\soc\intel\common\soc-acpi-intel-mtl-match.c
-> +F:	sound\sound\soc\intel\common\soc-acpi-intel-ptl-match.c
+looks like all branches do the same thing, consider refactoring all this...
 
-that also doesn't seem quite right, this is an Intel directory with
-things that aren't related to Senary support.
+> +	} else {
+> +		dev_err(card->dev, "%s is not supported\n", component->name_prefix);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (ret) {
+> +		dev_err(card->dev, "senary sdca jack map addition failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
+> +					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
+> +					 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
+> +					 SND_JACK_BTN_3,
+> +					 &ctx->sdw_headset,
+> +					 senary_sdca_jack_pins,
+> +					 ARRAY_SIZE(senary_sdca_jack_pins));
+> +	if (ret) {
+> +		dev_err(rtd->card->dev, "Headset Jack creation failed: %d\n",
+> +			ret);
+> +		return ret;
+> +	}
+> +
+> +	jack = &ctx->sdw_headset;
+> +
+> +	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
+> +	snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOICECOMMAND);
+> +	snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEUP);
+> +	snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_VOLUMEDOWN);
+> +
+> +	ret = snd_soc_component_set_jack(component, jack, NULL);
+> +
+> +	if (ret)
+> +		dev_err(rtd->card->dev, "Headset Jack call-back failed: %d\n",
+> +			ret);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_NS(asoc_sdw_senary_sdca_jack_rtd_init, "SND_SOC_SDW_UTILS");
+> +
+> +int asoc_sdw_senary_sdca_jack_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
+> +{
+> +	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+> +
+> +	if (!ctx->headset_codec_dev)
+> +		return 0;
+> +
+> +	if (!SOC_SDW_JACK_JDSRC(ctx->mc_quirk))
+> +		return 0;
+> +
+> +	device_remove_software_node(ctx->headset_codec_dev);
+> +	put_device(ctx->headset_codec_dev);
+> +	ctx->headset_codec_dev = NULL;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS(asoc_sdw_senary_sdca_jack_exit, "SND_SOC_SDW_UTILS");
+> +
+> +int asoc_sdw_senary_sdca_jack_init(struct snd_soc_card *card,
+> +			       struct snd_soc_dai_link *dai_links,
+> +			       struct asoc_sdw_codec_info *info,
+> +			       bool playback)
+> +{
+> +	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
+> +	struct device *sdw_dev;
+> +	int ret;
+> +
+> +	/*
+> +	 * Jack detection should be only initialized once for headsets since
+> +	 * the playback/capture is sharing the same jack
+> +	 */
+> +	if (ctx->headset_codec_dev)
+> +		return 0;
+> +
+> +	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[0].name);
+> +	if (!sdw_dev)
+> +		return -EPROBE_DEFER;
+> +
+> +	ret = senary_sdca_jack_add_codec_device_props(sdw_dev, ctx->mc_quirk);
+> +	if (ret < 0) {
+> +		put_device(sdw_dev);
+> +		return ret;
+> +	}
+> +	ctx->headset_codec_dev = sdw_dev;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_NS(asoc_sdw_senary_sdca_jack_init, "SND_SOC_SDW_UTILS");
 
-> +
-> diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-> index 59bfd5248819..07c95d0f2f31 100644
-> --- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-> +++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-> @@ -319,6 +319,63 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group1_adr[] = {
->  	}
->  };
->  
-> +static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
-> +	{
-> +		.num = 0,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 1,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 2,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device sn6242_single_adr[] = {
-> +	{
-> +		.adr = 0x0000000496624201ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device sn6244_single_adr[] = {
-> +	{
-> +		.adr = 0x0000000496624401ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr link_sn6242[] = {
-> +	{
-> +		.mask = BIT(0),
-> +		.num_adr = ARRAY_SIZE(sn6242_single_adr),
-> +		.adr_d = sn6242_single_adr,
-> +	},
-> +	{}
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr link_sn6244[] = {
-> +	{
-> +		.mask = BIT(0),
-> +		.num_adr = ARRAY_SIZE(sn6244_single_adr),
-> +		.adr_d = sn6244_single_adr,
-> +	},
-> +	{}
-> +};
-> +
->  static const struct snd_soc_acpi_link_adr arl_cs42l43_l0[] = {
->  	{
->  		.mask = BIT(0),
-> @@ -621,6 +678,18 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
->  		.sof_tplg_filename = "sof-arl-es9356.tplg",
->  		.get_function_tplg_files = sof_sdw_get_tplg_files,
->  	},
-> +	{
-> +		.link_mask = BIT(0),
-> +		.links = link_sn6242,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-arl-sn624x.tplg",
-> +	},
-> +	{
-> +		.link_mask = BIT(0),
-> +		.links = link_sn6244,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-arl-sn624x.tplg",
-> +	},
->  	{},
->  };
->  EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
-> diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-> index 937a74a5d523..845d10575459 100644
-> --- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-> +++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-> @@ -215,6 +215,27 @@ static const struct snd_soc_acpi_endpoint cs42l43_amp_spkagg_endpoints[] = {
->  	},
->  };
->  
-> +static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
-> +	{
-> +		.num = 0,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 1,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 2,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +};
-> +
->  static const struct snd_soc_acpi_adr_device cs35l56_2_l_adr[] = {
->  	{
->  		.adr = 0x00023001FA355601ull,
-> @@ -482,6 +503,24 @@ static const struct snd_soc_acpi_adr_device rt714_1_adr[] = {
->  	}
->  };
->  
-> +static const struct snd_soc_acpi_adr_device sn6242_single_adr[] = {
-> +	{
-> +		.adr = 0x0000000496624201ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device sn6244_single_adr[] = {
-> +	{
-> +		.adr = 0x0000000496624401ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
->  static const struct snd_soc_acpi_link_adr lnl_cs42l43_l0[] = {
->  	{
->  		.mask = BIT(0),
-> @@ -684,6 +723,24 @@ static const struct snd_soc_acpi_link_adr lnl_sdw_rt712_vb_l2_rt1320_l1[] = {
->  	{}
->  };
->  
-> +static const struct snd_soc_acpi_link_adr link_sn6242[] = {
-> +	{
-> +		.mask = BIT(0),
-> +		.num_adr = ARRAY_SIZE(sn6242_single_adr),
-> +		.adr_d = sn6242_single_adr,
-> +	},
-> +	{}
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr link_sn6244[] = {
-> +	{
-> +		.mask = BIT(0),
-> +		.num_adr = ARRAY_SIZE(sn6244_single_adr),
-> +		.adr_d = sn6244_single_adr,
-> +	},
-> +	{}
-> +};
-> +
->  /* this table is used when there is no I2S codec present */
->  /* this table is used when there is no I2S codec present */
->  struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
-> @@ -796,6 +853,18 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
->  		.sof_tplg_filename = "sof-lnl-rt713-l2-rt1320-l13.tplg",
->  		.get_function_tplg_files = sof_sdw_get_tplg_files,
->  	},
-> +	{
-> +		.link_mask = BIT(0),
-> +		.links = link_sn6242,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
-> +	},
-> +	{
-> +		.link_mask = BIT(0),
-> +		.links = link_sn6244,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
-> +	},
->  	{},
->  };
->  EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_lnl_sdw_machines);
-> diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-> index 2e4222456f27..542e56c65715 100644
-> --- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-> +++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
-> @@ -233,6 +233,51 @@ static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
->  	.group_id = 1,
->  };
->  
-> +static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
-> +	{
-> +		.num = 0,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 1,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 2,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device sn624x_single_adr[] = {
-> +	{
-> +		.adr = 0x0000000496624401ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +	{
-> +		.adr = 0x0000000496624201ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr link_sn624x[] = {
-> +	{
-> +		.mask = GENMASK(3, 0),
-> +		.num_adr = ARRAY_SIZE(sn624x_single_adr),
-> +		.adr_d = sn624x_single_adr,
-> +	},
-> +	{}
-> +};
-> +
->  static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
->  	{
->  		.adr = 0x000030025D071101ull,
-> @@ -1487,6 +1532,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
->  		.drv_name = "sof_sdw",
->  		.sof_tplg_filename = "sof-mtl-sdw-cs42l42-l0-max98363-l2.tplg",
->  	},
-> +	{
-> +		.link_mask = GENMASK(3, 0),
-> +		.links = link_sn624x,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-mtl-sn624x.tplg",
-> +		.get_function_tplg_files = sof_sdw_get_tplg_files,
-> +	},
->  	{},
->  };
->  EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_mtl_sdw_machines);
-> diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-> index f7694b2a2b02..2bac02de3d55 100644
-> --- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-> +++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-> @@ -160,6 +160,27 @@ static const struct snd_soc_acpi_endpoint cs42l43_amp_spkagg_endpoints[] = {
->  	},
->  };
->  
-> +static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
-> +	{
-> +		.num = 0,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 1,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +	{
-> +		.num = 2,
-> +		.aggregated = 0,
-> +		.group_position = 0,
-> +		.group_id = 0,
-> +	},
-> +};
-> +
->  static const struct snd_soc_acpi_adr_device cs42l43_3_agg_adr[] = {
->  	{
->  		.adr = 0x00033001FA424301ull,
-> @@ -301,6 +322,33 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group2_adr[] = {
->  	}
->  };
->  
-> +static const struct snd_soc_acpi_adr_device sn6242_single_adr[] = {
-> +	{
-> +		.adr = 0x0000000496624201ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device sn6244_single_adr[] = {
-> +	{
-> +		.adr = 0x0003000496624401ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
-> +static const struct snd_soc_acpi_adr_device sn6247_single_adr[] = {
-> +	{
-> +		.adr = 0x0003000496624701ull,
-> +		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),
-> +		.endpoints = sn624x_endpoints,
-> +		.name_prefix = "sn6242",
-> +	},
-> +};
-> +
->  static const struct snd_soc_acpi_link_adr ptl_cs42l43_agg_l3_cs35l56_l2[] = {
->  	{
->  		.mask = BIT(3),
-> @@ -437,6 +485,33 @@ static const struct snd_soc_acpi_link_adr ptl_sdw_rt712_vb_l3_rt1320_l3[] = {
->  	{}
->  };
->  
-> +static const struct snd_soc_acpi_link_adr link_sn6242[] = {
-> +	{
-> +		.mask = BIT(3),
-> +		.num_adr = ARRAY_SIZE(sn6242_single_adr),
-> +		.adr_d = sn6242_single_adr,
-> +	},
-> +	{}
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr link_sn6244[] = {
-> +	{
-> +		.mask = BIT(3),
-> +		.num_adr = ARRAY_SIZE(sn6244_single_adr),
-> +		.adr_d = sn6244_single_adr,
-> +	},
-> +	{}
-> +};
-> +
-> +static const struct snd_soc_acpi_link_adr link_sn6247[] = {
-> +	{
-> +		.mask = BIT(3),
-> +		.num_adr = ARRAY_SIZE(sn6247_single_adr),
-> +		.adr_d = sn6247_single_adr,
-> +	},
-> +	{}
-> +};
-> +
->  /* this table is used when there is no I2S codec present */
->  struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
->  /* Order Priority: mockup > most links > most bit link-mask > alphabetical */
-> @@ -531,6 +606,27 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
->  		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l3.tplg",
->  		.get_function_tplg_files = sof_sdw_get_tplg_files,
->  	},
-> +	{
-> +		.link_mask = BIT(3),
-> +		.links = link_sn6242,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-> +		.get_function_tplg_files = sof_sdw_get_tplg_files,
-> +	},
-> +	{
-> +		.link_mask = BIT(3),
-> +		.links = link_sn6244,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-> +		.get_function_tplg_files = sof_sdw_get_tplg_files,
-> +	},
-> +	{
-> +		.link_mask = BIT(3),
-> +		.links = link_sn6247,
-> +		.drv_name = "sof_sdw",
-> +		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
-> +		.get_function_tplg_files = sof_sdw_get_tplg_files,
-> +	},
->  	{},
->  };
->  EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_ptl_sdw_machines);
+quite a few lines from this file are just copy-pasted, is it time to try
+and share these helpers?
 
-It's a bit weird to see sometimes 3 descriptors, sometimes 2 and
-sometimes 1. The only difference seems to be the partID, so wondering if
-there's a better way to add more than one part ID to a descriptor.
+> diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+> index d8db8fc5313e..603e57a4f09c 100644
+> --- a/sound/soc/sdw_utils/soc_sdw_utils.c
+> +++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+> @@ -1228,6 +1228,148 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+>  		},
+>  		.dai_num = 1,
+>  	},
+> +	{
+> +		.part_id = 0x6244,
+> +		.name_prefix = "sn6242",
+> +		.ignore_internal_dmic = true,
+> +		.dais = {
+> +			{
+> +				.direction = {true, true},
+> +				.dai_name = "sn6242-sdca-aif",
+> +				.dai_type = SOC_SDW_DAI_TYPE_JACK,
+> +				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+> +				.init = asoc_sdw_senary_sdca_jack_init,
+> +				.exit = asoc_sdw_senary_sdca_jack_exit,
+> +				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
+> +				.controls = generic_jack_controls,
+> +				.num_controls = ARRAY_SIZE(generic_jack_controls),
+> +				.widgets = generic_jack_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+> +			},
+> +			{
+> +				.direction = {true, false},
+> +				.dai_name = "sn6242-sdca-aif2",
+> +				.component_name = "sn6242",
+
+not sure why there is a component_name only for capture?
+
+> +				.dai_type = SOC_SDW_DAI_TYPE_AMP,
+> +				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+> +				.init = asoc_sdw_senary_amp_init,
+> +				.exit = asoc_sdw_senary_amp_exit,
+> +				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
+> +				.controls = generic_spk_controls,
+> +				.num_controls = ARRAY_SIZE(generic_spk_controls),
+> +				.widgets = generic_spk_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+> +				.quirk = SOC_SDW_CODEC_SPKR,
+> +				.quirk_exclude = true,
+> +			},
+> +			{
+> +				.direction = {false, true},
+> +				.dai_name = "sn6242-sdca-aif3",
+> +				.dai_type = SOC_SDW_DAI_TYPE_MIC,
+> +				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+> +				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
+> +				.quirk = SOC_SDW_CODEC_MIC,
+> +				.quirk_exclude = true,
+> +			},
+> +		},
+> +		.dai_num = 3,
+> +	},
+> +	{
+> +		.part_id = 0x6242,
+> +		.name_prefix = "sn6242",
+> +		.ignore_internal_dmic = true,
+> +		.dais = {
+> +			{
+> +				.direction = {true, true},
+> +				.dai_name = "sn6242-sdca-aif",
+> +				.dai_type = SOC_SDW_DAI_TYPE_JACK,
+> +				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+> +				.init = asoc_sdw_senary_sdca_jack_init,
+> +				.exit = asoc_sdw_senary_sdca_jack_exit,
+> +				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
+> +				.controls = generic_jack_controls,
+> +				.num_controls = ARRAY_SIZE(generic_jack_controls),
+> +				.widgets = generic_jack_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+> +			},
+> +			{
+> +				.direction = {true, false},
+> +				.dai_name = "sn6242-sdca-aif2",
+> +				.component_name = "sn6242",
+> +				.dai_type = SOC_SDW_DAI_TYPE_AMP,
+> +				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+> +				.init = asoc_sdw_senary_amp_init,
+> +				.exit = asoc_sdw_senary_amp_exit,
+> +				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
+> +				.controls = generic_spk_controls,
+> +				.num_controls = ARRAY_SIZE(generic_spk_controls),
+> +				.widgets = generic_spk_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+> +				.quirk = SOC_SDW_CODEC_SPKR,
+> +				.quirk_exclude = true,
+> +			},
+> +			{
+> +				.direction = {false, true},
+> +				.dai_name = "sn6242-sdca-aif3",
+> +				.dai_type = SOC_SDW_DAI_TYPE_MIC,
+> +				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+> +				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
+> +				.quirk = SOC_SDW_CODEC_MIC,
+> +				.quirk_exclude = true,
+> +			},
+> +		},
+> +		.dai_num = 3,
+> +	},
+> +	{
+> +		.part_id = 0x6247,
+> +		.name_prefix = "sn6242",
+> +		.ignore_internal_dmic = true,
+> +		.dais = {
+> +			{
+> +				.direction = {true, true},
+> +				.dai_name = "sn6242-sdca-aif",
+> +				.dai_type = SOC_SDW_DAI_TYPE_JACK,
+> +				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+> +				.init = asoc_sdw_senary_sdca_jack_init,
+> +				.exit = asoc_sdw_senary_sdca_jack_exit,
+> +				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
+> +				.controls = generic_jack_controls,
+> +				.num_controls = ARRAY_SIZE(generic_jack_controls),
+> +				.widgets = generic_jack_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+> +			},
+> +			{
+> +				.direction = {true, false},
+> +				.dai_name = "sn6242-sdca-aif2",
+> +				.component_name = "sn6242",
+> +				.dai_type = SOC_SDW_DAI_TYPE_AMP,
+> +				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+> +				.init = asoc_sdw_senary_amp_init,
+> +				.exit = asoc_sdw_senary_amp_exit,
+> +				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
+> +				.controls = generic_spk_controls,
+> +				.num_controls = ARRAY_SIZE(generic_spk_controls),
+> +				.widgets = generic_spk_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+> +				.quirk = SOC_SDW_CODEC_SPKR,
+> +				.quirk_exclude = true,
+> +			},
+> +			{
+> +				.direction = {false, true},
+> +				.dai_name = "sn6242-sdca-aif3",
+> +				.dai_type = SOC_SDW_DAI_TYPE_MIC,
+> +				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+> +				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
+> +				.widgets = generic_dmic_widgets,
+> +				.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
+> +				.controls = generic_dmic_controls,
+> +				.num_controls = ARRAY_SIZE(generic_dmic_controls),
+> +				.quirk = SOC_SDW_CODEC_MIC,
+> +				.quirk_exclude = true,
+> +			},
+> +		},
+> +		.dai_num = 3,
+
+all those 3 dais look identical, the only difference is the part_id.
+Isn't there a better way to define and represent these dais?
+
+> +	},
+>  };
+>  EXPORT_SYMBOL_NS(codec_info_list, "SND_SOC_SDW_UTILS");
+>  
 
