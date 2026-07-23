@@ -1,301 +1,91 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011023.outbound.protection.outlook.com [52.101.70.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46695342538;
-	Thu, 23 Jul 2026 02:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.23
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784773200; cv=fail; b=BxhMEC/vWMM0cKAmPU34f1MeeMbtoVLtITuOklR9SyPbJiPG6py9i8FqgtHpa6R5tjE/+Ft+gfg2rJMun5vKVEIm1hPcU877vSyKp9Z+StQ493Caf+rmqOj52R5rslL2ZkdRUZWLycX8dRAvA40+002eQNDX8NT7YgyGEAG0Gn4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784773200; c=relaxed/simple;
-	bh=bZh34oFqIh4MvbHgvoOlnpPQ6EvKxMRasqUzeEASFrY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JRTsiJORxoXLrnAXinEvxq9WBmChgAcfNBXN4DLMGasybq9Jm9/a1lgcqQL+a1b7Zls/2+1f0YUIPI1mj3ENRce3ywNK4RCdh+o+lQDIFVg+oBFHiN3h5+wo81ecoltVKbrWTjeBxf4pDbwG8+cva1udaI6iLiWZ2z9kUIEiKPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=F2zpgrwS; arc=fail smtp.client-ip=52.101.70.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E88D3C1F
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 02:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784775182; cv=none; b=YYhOx134I8M6DX6T6fAy4GEpM0CG+BDCCson8NACpaLSUprC/ihtQAT2SpN/jemjB3XxySVtfGf1011rwpsH1EY3aTpz+7njmGpqDMNK9ykKU/F1b6D8EJW7GFixSmg9LMvBAx4Ac3d1ua4dRUXseMzatEo2z944dredX5uGDOc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784775182; c=relaxed/simple;
+	bh=W4ETRojpiob9HsXxAHkbwWc4p3/k3g3Yj6SXjZRed5c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ryrz0CpT1GbQSUxeZ6VO5LXd9/fLxnBaRqcP8nbLTucfuagNw+Ofl8zr0Kxybn3csDnw/tUrhhLE8TbUzlVERd/S5/Y6o63wrWw/Aciv4huQW8BszDhVGO7VIwQfnR/54KI9WY44PnQGSh368h6HpBjRX10Ec66YKIEJyd0bUss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=vPAEa2ar; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="F2zpgrwS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gKtLFg96qOW4LczZK5A4sQVss3mmLB6ogBgUV0ekSrE3ot6TGDoKsnkqcqry3R3s77qWEK3UBkez25gOQxCVlxMkMyObqgox5dMapvC0I/fnR2G67E2QVsNsKd5iD9eky73WUo8vFnqQ6/Aa3D0VerZuOV2HiVo44KmZsn2Z5gV6LThuod4KyOLfZ2ZcJEf1rTkQXdc3PQlol6SmNP7l9EO/tE+99mESrytpRhYCiUetnWOBMaV9+mWWut30Nmkd/wXvTHIgAIj6q0r84KeY0xDvgyKTFZ8nGoQcNsfEmqYjYmvrDVwtfOuWO99+G9xx/HS6qlWzhfHeJBiqBGsSiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gwzohd4gnzgydc8pnQ27HyzZf77uVO8FACmnw7IqlZU=;
- b=beOhpqxwfELwTW9h01rQX0YIToQO8YX5/xKeKotAddfP0eRUj5ZxXshHdUKVAmEN9FkDm0w1hik3kwTC4YqI1bBVkACLD405cYxnqoP1Ar1CL68KOChDuCmrRuerpOFLM8wnhJ8CS9uYuY3ktzvTZOvwCtrSEP13Gi0GPN6aaXLCs2Ok29107MwewZTLmf/K0V8hEaazEhNlgiq05eJHXdhiBnUKQm/wKKgFKuLknsE/KvajpiwXH2W4kmihnupWz8RlZei85twi8eYMDmSvDLxHBdTYLj+L6TabNiUkKeXXULC9jBCaT55wm0O5rCI5/6NFCd+RpYGuIu9mFM1ZGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gwzohd4gnzgydc8pnQ27HyzZf77uVO8FACmnw7IqlZU=;
- b=F2zpgrwSth64kdiL0tghylsbPqNf5nAaTbx3OLnSjG6WLuCIdnJbx1F5cH/j/j97YxpCBGzHYW56snZeL6FCIGQ93aUecNtoU3czXAnoIuJMHGH8AlQBatRStvbhjg89MqkokUbwfMX5XuHNErKz+D2lxJVux/EL69OmSjzunKbmKLYuaY6l2W1UwlNyPfb7qG55L485NZxbUpYrSWjuPsFEuOUebwz70NxFetDjft0D2iEEuv3tMsdmT4VECeFOzEC9XZxljlWPm3kFXw30Dn1+Pnc4y4ydJ2CHtf8kn/vX+kIxUFbLEny0mBQJva+DgBjrnNiGhvpnKth+YMdbcQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
- by DU0PR04MB9252.eurprd04.prod.outlook.com (2603:10a6:10:353::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 02:19:56 +0000
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 02:19:55 +0000
-From: shengjiu.wang@oss.nxp.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	Frank.Li@nxp.com,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	shawnguo@kernel.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	nicoleotsuka@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linuxppc-dev@lists.ozlabs.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject: [PATCH v2 5/5] ASoC: fsl_easrc: expose individual DAIs per conversion path
-Date: Thu, 23 Jul 2026 10:23:13 +0800
-Message-Id: <20260723022313.1905051-6-shengjiu.wang@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260723022313.1905051-1-shengjiu.wang@oss.nxp.com>
-References: <20260723022313.1905051-1-shengjiu.wang@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MA5P287CA0141.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d2::6) To PAXPR04MB9351.eurprd04.prod.outlook.com
- (2603:10a6:102:2b6::17)
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="vPAEa2ar"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 66N2qJoH5161661, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1784775139; bh=W4ETRojpiob9HsXxAHkbwWc4p3/k3g3Yj6SXjZRed5c=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=vPAEa2arO3nYI4OgLa4PjXH4/c4sKUEvqd2rZGDTIFEebOljfoubUv+R6glj5mQhz
+	 e82rBDrUhxQmKLIZRfYXVCffPac0Yvqyrz+xzfYrOXrhpbYYHehAHvEkttaKd2Sr5y
+	 Hk0Ik4xKHgJrtb3r9bIlqt++H79gAIOo1Y0qPYO0Ag3v+i2vFExlr0mj99xVASsCiY
+	 UdZen9C8D3C0l0VqQp9gdAyYv48m6jNTMAgodxJQ5c2/piu2AAYP5wGgy89rSlHuRu
+	 babyuun2hQZYx6EofisxLii/wptmR/75yuSwKn8sPPBdDiLOxU0cFqOGb4C+l/yZ8Z
+	 8dhx0p48tGnAg==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 66N2qJoH5161661
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 23 Jul 2026 10:52:19 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 23 Jul 2026 10:52:19 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
+ 15.02.2562.017; Thu, 23 Jul 2026 10:52:19 +0800
+From: =?utf-8?B?U2h1bWluZyBb6IyD5pu46YqYXQ==?= <shumingf@realtek.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+CC: "broonie@kernel.org" <broonie@kernel.org>, "lgirdwood@gmail.com"
+	<lgirdwood@gmail.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "lars@metafoo.de" <lars@metafoo.de>,
+	"Flove(HsinFu)" <flove@realtek.com>, Oder Chiou <oder_chiou@realtek.com>,
+	Jack Yu <jack.yu@realtek.com>, =?utf-8?B?RGVyZWsgW+aWueW+t+e+qV0=?=
+	<derek.fang@realtek.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>
+Subject: RE: [PATCH] ASoC: rt766: add RT766/RT767 SDCA driver
+Thread-Topic: [PATCH] ASoC: rt766: add RT766/RT767 SDCA driver
+Thread-Index: AQHdGCcGf8NCRKeWy02JuRrLX15fk7Z2ESGAgAE9nBCAAbRuAIABZlQw
+Date: Thu, 23 Jul 2026 02:52:19 +0000
+Message-ID: <c4d709f9c73f41a28aa4cd040326f0b7@realtek.com>
+References: <20260720090613.2239891-1-shumingf@realtek.com>
+ <al5K9RHWIeHjL0BM@opensource.cirrus.com>
+ <3f470a3c2e2f4123b93c5671dd92fae9@realtek.com>
+ <amDDfsCnhdq/I0X1@opensource.cirrus.com>
+In-Reply-To: <amDDfsCnhdq/I0X1@opensource.cirrus.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|DU0PR04MB9252:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87156165-146a-4887-15a9-08dee860e303
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|19092799006|1800799024|366016|921020|6133799003|56012099006|11063799006|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	5cegR5ddw3b2VdZRONhKF4uRifJ10vGTPTcSzUq0LJl83m/JpB8jbQvDW4vdFQ8BnFvU0cczUTXiRqqMnKjlC/bzB2/cQxZlogGzjRqhb5uB9Lo3KyPlddnWLFObZsbgVEg2wR8zyCLo2sKIK4cr77SYGb7GVor/Y+2PmKb6RvbRDBBFI8tNLh7JuAR7knHj05mHSkAIlnaZBzVRz3bo0oBL6Eb/akyEVUC6IghfJyK5LDUxu4Vi6EWYnOnbYvrcbmDN8EySNAdOruKdDkKmwSDvkh+Ck8NGFCi8aXgtEyCMxBgoRJTv90bYgZ1saHixKK/IMycvsw3mLQS9qNLcJ2iDa3UkJMjOSKrSuCHN8zwCXJcQTtJNo60TUSO1uOtj8yRvaMese3OdkSxsN5YS3rvuCgEZV7hR4GRuw56tkXBRj66LlY3AinWWkmieq+PlR7bf8rtCsNuDAiBuHoLDdpqYVGpoKj4A/mnpfPRKV6NWZuXXdutnQymULMYbokS892hOA9jva0h2AulCJjLfBHK/nyKj5chJund0mRlGZ2I9Oa2XRnkZN+c+HF+b4+kF0iNsLgJSEz1CzfPRFQr7d7jc3AkW5ZSJbNh1KStPVp6fw2mL4PcxvWK1C3GiUWcDdlAhfdHpc0YTt2OXMLeGYRfh+Ueche0g7euncKbCvBegcuN6dwUaPsqOHwAR6PDrqeinv3aH5rSCzeZqcKZTYg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(19092799006)(1800799024)(366016)(921020)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NttoXwrSW7xEzo3bfKTCC/LnzDLGDhBzPd42aneiCDL4zemNJkIRKT0esgLC?=
- =?us-ascii?Q?nwAVg/u5zzF7JlGHYRmo5zth4s69WUHJk/zR2VoRnP/FYC4WAY8Aqr9+Yj/z?=
- =?us-ascii?Q?HU0awkClh2Fo/snYkqFdIDT4J48SNP5pI13XN4HBqzKfbYxvQUC/cwrRa4/+?=
- =?us-ascii?Q?q2gal+uQfeKB8R/6hMA1SvWO2n6XfhpO4pOLxd3r3m6Dx57qpDbJ5Vd/Vi4+?=
- =?us-ascii?Q?hVo+dTyczQgmNCN9LE8e0MvSlfkNiPeYKD2xcbPOQaq4LIaDOXW4wNi9DAHu?=
- =?us-ascii?Q?/6VwViuUxQspWkuN9bsPPzn1LZWzitSS0H7bggC08nixrcobF2q4ELZslqNJ?=
- =?us-ascii?Q?GRMkl0u5jBBjF6FPXHpqssQZLSE0Qe3UvHnIERt4+L79zly++PpJbiq3AxEl?=
- =?us-ascii?Q?h66P/2pK+l1yGuvbW/Wezi4APLCfU6Zp473kPYa4ePZEyZVte0q6yKaKb9uO?=
- =?us-ascii?Q?2dfDk71bC/D4A/Kf6ZUgnWf2+8ost5fJK/jAt/vuPh6xe2m3zzekQfaY5OPi?=
- =?us-ascii?Q?Cxelb3FkTS8LTHeZ5dFtyzwRdMWTo+jS23FLR20jfXkJloksc5awR1aIY42z?=
- =?us-ascii?Q?G5LjPb+zFNQ0KoMJTOOCzru5+87iep7nhywtUwq4EoNouIb+Z665fneS01MD?=
- =?us-ascii?Q?nu6BGFGeWGo5velg5qKyfii6Gox4bYYqWo04dSUISuDFnPdNXZdCLGMVkcGd?=
- =?us-ascii?Q?IEqIISwUvfjNXBlph5yNv66dyx95DKesxYkEBpt9bFVFwWiYccQDR03IZezt?=
- =?us-ascii?Q?1L8zzWr44zTaA2c7WlXAj1cd4D54HXAbtjGWpcAS4CUEM63qBVjfBH+uPGL8?=
- =?us-ascii?Q?pK7/jG0+hQxcYWofu2mNMdHOadoAj1HohHGRzCD0s56rZhK3XFiGzJ+pC/Rs?=
- =?us-ascii?Q?JDdRssAgnr0glYzdxcV5ACTpmMeJNVABvGGgvkbYa19kn5Ah8neTcaP5FKwH?=
- =?us-ascii?Q?1lAJHaD6/V1oRb7EYLpU6LfJSRlnYLmETI8dLsWWCetd4mDi7I1WPKXarwB3?=
- =?us-ascii?Q?rHivSQZrrGnIn6wPdbmqrw1VLpeF4+u5sfjNLgRIrI99osPNZPcTI2QH/lY1?=
- =?us-ascii?Q?pmmfkT9L6op4yRBOT0UqyhOySKnZmlt7wEt7kWQQvKsV7qZSIXAReqzB8xSN?=
- =?us-ascii?Q?a7Ns3yepUuaefoyCpLTzjQO6w6PhvK6QNt07AmlQ59FIZ36qLufZ42BD+MJf?=
- =?us-ascii?Q?2WJ4eD2Xxbnl6uOT1oL0oC7Awk0fXjAOCirwYUORYQ+RsWFZv6M8q1tiLfic?=
- =?us-ascii?Q?Zknj9jMUmm8rbc0pglm34la9v5Smhek8IstsX+gXLNM85IKAni0WPZCnbpYQ?=
- =?us-ascii?Q?9ouTDznxCsQfJMtsvBot8ueBWwjB3E9pIXoh7J7tp5TyXMJukF13aW5tvufR?=
- =?us-ascii?Q?keo7cIgSnSSqIlhNEKf8UoQqZ4aH3zutHaDWMx/HVdR1RfOqPQ//ZwQm5IrI?=
- =?us-ascii?Q?x8Z8UkzjEmO3CP4q0sw4DQhVsMAJdS3MxHleuOT4tqkRUuxxCR5E2Cei/8sa?=
- =?us-ascii?Q?RW1nETRAS7AVBvYs21ke7JvLGWZ8UowdG8hGGXTgnF6njVNAlamGMN+IlcGT?=
- =?us-ascii?Q?bdTSYeuAh1OKD4KVk8tSo8sBXCZKaObZfnPHqJacc8bV3/JmElnD4jxh2dm8?=
- =?us-ascii?Q?cu1gVkRfPc7L6MOSA8qBaG/9ctj/RqJMnoIsVHykYYaicmCKmoiJOOXknwkG?=
- =?us-ascii?Q?r40/DXGzSWXzI18v5lXWvH3BP0Xtr07h8Q6RmeOgExAO8iZ+bX7eIKb9ZPPj?=
- =?us-ascii?Q?jEqS+2jgv3BfcacgHbF6PlXpfo4/7OUyyWUHfBC6Ea6PDYPYt0LB?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87156165-146a-4887-15a9-08dee860e303
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 02:19:55.8142
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LzIp2vl/d4sp9qEGA2L/ny8LprmmtWMW8AIE6UM9wez3rg2lkP9Uk3W54U1WU6mulzAJ+I4Hxz7qrAc1iLwaUadF5oHYMj0GAGvUtZ6iSwAGa91fzyDPdyDKYXzVRqFk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9252
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-
-The i.MX EASRC hardware supports four independent conversion contexts
-(A, B, C, D). The driver previously registered a single DAI with generic
-stream names "ASRC-Playback" and "ASRC-Capture", which prevents
-multiple independent conversion paths from being used simultaneously.
-
-Replace the single fsl_easrc_dai instance with an array of four DAI
-drivers to allow up to four independent conversion paths to be active
-at the same time:
-
-  easrc-0 -- ASRC-Playback / ASRC-Capture (backward compatible)
-  easrc-1 -- ASRC1-Playback / ASRC1-Capture
-  easrc-2 -- ASRC2-Playback / ASRC2-Capture
-  easrc-3 -- ASRC3-Playback / ASRC3-Capture
-
-easrc-0 retains the original generic stream names to preserve backward
-compatibility with existing machine drivers and board configurations.
-Each DAI retains the same channel, rate and format capabilities as the
-original, including IEC958 subframe support on the capture side. Update
-the devm_snd_soc_register_component() call to register all four DAIs.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_easrc.c | 112 +++++++++++++++++++++++++++++++-------
- 1 file changed, 92 insertions(+), 20 deletions(-)
-
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index e68f6cbdd653..8571fa0bfabd 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -1589,27 +1589,99 @@ static const struct snd_soc_dai_ops fsl_easrc_dai_ops = {
- 	.hw_free	= fsl_easrc_hw_free,
- };
- 
--static struct snd_soc_dai_driver fsl_easrc_dai = {
--	.playback = {
--		.stream_name = "ASRC-Playback",
--		.channels_min = 1,
--		.channels_max = 32,
--		.rate_min = 8000,
--		.rate_max = 768000,
--		.rates = SNDRV_PCM_RATE_KNOT,
--		.formats = FSL_EASRC_FORMATS,
-+static struct snd_soc_dai_driver fsl_easrc_dai[] = {
-+	{
-+		.name = "easrc-0",
-+		.playback = {
-+			.stream_name = "ASRC-Playback",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "ASRC-Capture",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS |
-+				   SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE,
-+		},
-+		.ops = &fsl_easrc_dai_ops,
- 	},
--	.capture = {
--		.stream_name = "ASRC-Capture",
--		.channels_min = 1,
--		.channels_max = 32,
--		.rate_min = 8000,
--		.rate_max = 768000,
--		.rates = SNDRV_PCM_RATE_KNOT,
--		.formats = FSL_EASRC_FORMATS |
--			   SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE,
-+	{
-+		.name = "easrc-1",
-+		.playback = {
-+			.stream_name = "ASRC1-Playback",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "ASRC1-Capture",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS |
-+				   SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE,
-+		},
-+		.ops = &fsl_easrc_dai_ops,
-+	},
-+	{
-+		.name = "easrc-2",
-+		.playback = {
-+			.stream_name = "ASRC2-Playback",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "ASRC2-Capture",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS |
-+				   SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE,
-+		},
-+		.ops = &fsl_easrc_dai_ops,
-+	},
-+	{
-+		.name = "easrc-3",
-+		.playback = {
-+			.stream_name = "ASRC3-Playback",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS,
-+		},
-+		.capture = {
-+			.stream_name = "ASRC3-Capture",
-+			.channels_min = 1,
-+			.channels_max = 32,
-+			.rate_min = 8000,
-+			.rate_max = 768000,
-+			.rates = SNDRV_PCM_RATE_KNOT,
-+			.formats = FSL_EASRC_FORMATS |
-+				   SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE,
-+		},
-+		.ops = &fsl_easrc_dai_ops,
- 	},
--	.ops = &fsl_easrc_dai_ops,
- };
- 
- static const struct snd_soc_component_driver fsl_easrc_component = {
-@@ -2234,7 +2306,7 @@ static int fsl_easrc_probe(struct platform_device *pdev)
- 	regcache_cache_only(easrc->regmap, true);
- 
- 	ret = devm_snd_soc_register_component(dev, &fsl_easrc_component,
--					      &fsl_easrc_dai, 1);
-+					      fsl_easrc_dai, ARRAY_SIZE(fsl_easrc_dai));
- 	if (ret) {
- 		dev_err(dev, "failed to register ASoC DAI\n");
- 		goto err_pm_disable;
--- 
-2.34.1
-
+PiBPbiBUdWUsIEp1bCAyMSwgMjAyNiBhdCAwNzoxMDowMEFNICswMDAwLCBTaHVtaW5nIFvojIPm
+m7jpiphdIHdyb3RlOg0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICpvdXRfcmF0ZXMgPSByYXRl
+czsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICBkZXZfZGJnKGRldiwgIiVzOiBlbnRpdHkgJXMg
+c3VwcG9ydHMgcmF0ZXMgMHglMDh4LA0KPiA+ID4gY2xvY2tfcmF0ZXM9MHglMDh4XG4iLA0KPiA+
+ID4gPiArICAgICAgICAgICAgIF9fZnVuY19fLCBlbnRpdHktPmxhYmVsLCByYXRlcywgY2xvY2tf
+cmF0ZXMpOw0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgIHJldHVybiAwOw0KPiA+ID4gPiArfQ0K
+PiA+ID4NCj4gPiA+IFRoaXMgaXMgbW9zdGx5IGp1c3QgcG9wdWxhdGVfcmF0ZV9mb3JtYXQoKSwg
+dGhlIHZhbHVlcyBlbmQgdXAgaW4gdGhlDQo+ID4gPiBzbmRfc29jX3BjbV9zdHJlYW0sIGNhbiB3
+ZSBleHBvcnQgdGhhdCBhbmQgdXNlIGl0IGhlcmU/DQo+ID4NCj4gPiBTdXJlLCB3aWxsIHRyeSB0
+byBleHBvcnQgcG9wdWxhdGVfcmF0ZV9mb3JtYXQoKSBhbmQgdXNlIGl0IGhlcmUuDQo+IA0KPiBM
+b29raW5nIGEgYml0IG1vcmUgaXMgdGhlcmUgcmVhbGx5IGFueXRoaW5nIHRoYXQgd291bGQgc3Rv
+cCB5b3UganVzdCB1c2luZw0KPiBzZGNhX2Fzb2NfcG9wdWxhdGVfZGFpcygpLCB3aGljaCBpcyBh
+bHJlYWR5IGV4cG9ydGVkPw0KPiBZb3Ugd291bGQgcHJvYmFibHkgd2FudCB0byBmaXh1cCB0aGUg
+Y2hhbm5lbHNfbWF4IGF0IHRoZSBlbmQgYW5kIHRoZQ0KPiBuYW1pbmcgb2YgdGhlIERBSXMgd291
+bGQgZW5kIHVwIGJlaW5nIHNsaWdodGx5IG1vcmUgU0RDQSwgYnV0IHRob3NlIGRvbid0DQo+IHNl
+ZW0gbGlrZSBodWdlIHByb2JsZW1zLg0KDQpUaGFua3MgZm9yIHRoZSBzdWdnZXN0aW9uLiANClRo
+YXQncyBmaW5lLCBidXQgSSdkIHN0aWxsIGxpa2UgdG8gZXhwb3J0IHBvcHVsYXRlX3JhdGVfZm9y
+bWF0KCkgZm9yIHRoaXMgdXNlIGNhc2UuDQoNCkJ5IHRoZSB3YXksIEknbGwgd2FpdCB1bnRpbCB5
+b3VyICJBU29DOiBTRENBOiBSZW5hbWUgc2RjYV9pcnFfYWxsb2NhdGUoKSB0byBpbmNsdWRlIGRl
+dm0iIHBhdGNoIGlzIG1lcmdlZCBiZWZvcmUgc2VuZGluZyB2MiBvZiB0aGUgUlQ3NjYgY29kZWMg
+ZHJpdmVyLg0KDQo+IFRoYW5rcywNCj4gQ2hhcmxlcw0K
