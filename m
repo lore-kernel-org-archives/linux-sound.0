@@ -1,158 +1,110 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011005.outbound.protection.outlook.com [52.101.125.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0C641D139
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 23:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784849522; cv=fail; b=igr3MESTFZIr/ynmHPQ4F/dPlPdqc0ODcH/ng1DDrisWerCWCFDFsJrEZVNhnujBOhuzYJ+HNo4mCA8+e2iCVhFBLXLg7ObVfK/hshyaa0BihpLF6ph2r+XQjv4DRfC5THJIW3IMLzhzlmqLito6nUUz9gM12fTBG4gqsBFX32A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784849522; c=relaxed/simple;
-	bh=i/lJDo0IKxiuRIgPLBS88oXSejyhASn3QQhduQCII3Y=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=JyUx+vKj3B4HQa9yJV36YTvlmuv4qp0Ba65jM6wVafDYC+Xebf42me8BL/6Bz7IKZ0Cj5gnlRPbq6TabaGSvALzRLwjmaiE+xTsJ6uykmMrQTKDhj/eMvPSevtsGVt8S/lx/AWj6rEDMH1YUL1kmSFwGcg/WAAPpikyewRx+s7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PL1p6JZP; arc=fail smtp.client-ip=52.101.125.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D4225B083;
+	Fri, 24 Jul 2026 00:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784854709; cv=none; b=mNpEhXSqxWZTD2O+GNOFG0UblTdr2YjA3h5PbZ3S2dlcAD+5V7klzo8TvjC+NZeaMUr1wBWYOpupaKhNM/EupUyApO6/PO5TAAnvZ91awaKxAHH5ZPmivsOY61wdKJ0UvE+JZUEPBMp2HN9IX2OqnpdvUw86UzqnJeBl9umt0nA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784854709; c=relaxed/simple;
+	bh=Z+DZXaVMkBJvppVuH05mkoVURmyRDBb0qJxSdWYGHJY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HosMdXOIfhTT7VrS2s394sQUoT6Kh67DQSHLzmF3SxbolqWy7HyNpPh8BbWWgx/8MQwWh/9WKrawWOtX7DhQv7nz3N98zFJASm+yS64mTU+HoOb8PHV88L7zRVNFYqRGAXy+quNRGtvCsKK4sLT6Hl6uoOgrEXHrSzbVGJfU5y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckOaAxvH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PL1p6JZP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WfQI7f1l5Qp2C1kLZBhunvc86uBUacd4NAIuzVUYntu8a+arNRDa+u0oXiEc1bsZP8Nh4e7d6Hh40vXfWujsmCLNsuKF7EY28n496X1+wkxCPdCgODqoPajaIJx0SqaCWuxfh09pjEUmUlU+PANrB3HWZBaBp4vSwaMIFPq8QuuikciQ5khjAJxu4zeHItfrUA6DK2ONcwoOe/bjerZ1Cnt4uKciL1SQJWJ+npg8bZ7QHWiR0th14Ks+5EPGUXwb1n+1F/eC1pMzT1H1TcEL7ONz3uWsfD8KY0Em7eZ2Fmb+scN+hndmVLLFcu66rkVtD2BZWnFW1dlnSW1bnIVo7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2Bffug7sEkQ2wD5eT2pzGr/Z+irKFuKzd2f4B3HpefU=;
- b=kZtWPP49AuixjRMR4tdJVoLtuOgJ6GNBE/X4BA08pNDMZg3m4ked01DGtx9y2g3jyuJCoyfUZ/f35yGq4pBiGQ5NE5iZIsi9KtZcUQJVtrEgpg9p6KvWkq41VI6ar2f2XXLa0gqwPrmfKNsmknxqeJqqbWJO+rFWIJsgS4fFszsobtKygWZMTCwFEl4s9HjR5eWwg5QSNDLeG5NSuJ1SPVKsisijbOHITlwlpvviWXGpshUINKCwZqQXEHcY94HGBwYSPbt9dhE0tDCCrKzt+WZVVhWLZa4cZ3tXq8hE/4fq0SGN5MekXLb/YrwYaUDiuNTenmRabE+HtRz23aPVYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2Bffug7sEkQ2wD5eT2pzGr/Z+irKFuKzd2f4B3HpefU=;
- b=PL1p6JZPX4A9Aby7JAc4v7fIFAi0+GoSoSA2tlalZ0kfIEjkXoyTjJpCYepvH71qMb1E6eRii1iiDqpM+UkHLOCUV63+E/nA723S51sUM4a8dWT8rtiCf9wDRSnoNcWPsq7RAbI3dD+H4Vyn+sBZsJKhwoLgFk/w+eAfDcgZpIg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by OSOPR01MB12427.jpnprd01.prod.outlook.com (2603:1096:604:2d9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Thu, 23 Jul
- 2026 23:31:55 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0245.010; Thu, 23 Jul 2026
- 23:31:54 +0000
-Message-ID: <87zezh2sgl.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: <linux-sound@vger.kernel.org>,
-	Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	"Liam\
- Girdwood" <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Nicolin
- Chen <nicoleotsuka@gmail.com>,
-	Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>
-Subject: Re: [PATCH v5 07/12] ASoC: intel: avs: probes: use snd_soc_register_component()
-In-Reply-To: <58f7f20f-6a70-47a7-8aed-05c5676baf25@intel.com>
-References: <87y0f2rz8l.wl-kuninori.morimoto.gx@renesas.com>
-	<87o6fyrz7h.wl-kuninori.morimoto.gx@renesas.com>
-	<58f7f20f-6a70-47a7-8aed-05c5676baf25@intel.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 23 Jul 2026 23:31:54 +0000
-X-ClientProxiedBy: TYCP286CA0173.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c6::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckOaAxvH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3401D1F000E9;
+	Fri, 24 Jul 2026 00:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784854708;
+	bh=bcXw+uIE6W+aK5mxlbiXr2hjN6fRQj7fOTAKPEDEydk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ckOaAxvH6ImfAeVxHn6JpB+5j75OsgTrQXC9NZPpACvjgH/VnkuhHoC9WCh0I8f4d
+	 mcGwbbnlNNHPRRYqQnVZT0r+jcFph/AIZo4rekx7j2Locr8S6hfNkXq1Imgq2sAOT/
+	 lTxcMq59AksRdH4uboHxVVmIJAFouMbhWny/rxdlpj8s1TkTPIxADoRzev+XDPzoHA
+	 rL7SIZESSH9QCcXzUtT6KJEztHwQhyuBnM2IhQCl6us47dyvletaqpHalo1TwCxFQr
+	 NAHiA64bw2vmCqKmzu+f6nRKoUF2059A8Y6zgTZtE9ViVZSccks/w3QLqrp5Gr1pPp
+	 uIOHMHZL+RsWA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Yixun Lan <dlan@kernel.org>, 
+ Jinmei Wei <weijinmei@linux.spacemit.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, 
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ spacemit@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+In-Reply-To: <20260721-kx-i2s-dts-v1-0-d22cb6cfaab5@linux.spacemit.com>
+References: <20260721-kx-i2s-dts-v1-0-d22cb6cfaab5@linux.spacemit.com>
+Subject: Re: (subset) [PATCH 0/3] SpacemiT K3: fix I2S DT integration and
+ add controller nodes
+Message-Id: <178482894045.53486.14996255355571230454.b4-ty@b4>
+Date: Thu, 23 Jul 2026 18:49:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSOPR01MB12427:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8ac425b-c784-4a7f-c6c4-08dee91294a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|23010399003|366016|38350700014|18002099003|22082099003|56012099006|11063799006|10067099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	o+vY4F6MBbtSZPQOz/MdECqm92UBc2kYdMU9K8GiievsZBmUaymsCc6EkQrTk/TVhAx0fJlnHVc5uB5w0JGwkj5jTHUUS0T5ug4Swn5NrqQv0BJo2QyTnJqy2US9NywS2Cn3GzQppntVkuwFTrZb415VQX59gEY1di/si16ComIrLBX1O0lyEdSTHzS84xSA4vXb2rdZAq4bGkmcJlKfGECzj4nA+OsIaRF+o0CKE7SH4xUzFeJz94EKZlMDvOtlpaQfxDxt7Paaz7UAtAkj+ETEEvHVpK4m86VnrV+UjXEtkCtAf10M5TIH+kdn3Z36kKTl/hxwiOIoadIspITfRPTL+Oy0qxIdOeA1clTJRlDw6pQLSIMtCUtuJosNTTuX6iWaoSrekdMOJMDZcxXsuCymkIoRR0pkPwxGQLh1ErTFCibOi0zmPnOq8LYOz/7/cFv5OdpillH0+hMlvgopv7LV7prT0nSEaGoPVb/FdckAsemiMNKISx8WrY2euIJCmK+BqZgIGXGD0qPEEXDkKqhWVvvYOt3UunuwHIbSKTCy1kyUg16kMNkyw/FVm9PKrIp28WmvMs/gbcQN2gpeZ7AlMUZMJ5RAX3gPEuiIIBWRFMstxjTSCFXw3dXpcnPJS8RfAYYgiF0CtHD1qxBeXDhLor0QVPgH0cT/zIeq1N4j+NkfwtQQ2pneBnmxRG6+f1SUYJeYxTfb8GHQJ14KuQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(23010399003)(366016)(38350700014)(18002099003)(22082099003)(56012099006)(11063799006)(10067099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?STe6pbot3ATVbVWyRtQt/XVzrPrOFjRTVDY6g2CMglhquUnrKg1IU9JpatQB?=
- =?us-ascii?Q?mW+j3LAQI25+v0vWAGfs4uVAF4USDd+5b1oo99QACfb/VD1dWzk63GR9Gmkz?=
- =?us-ascii?Q?hk8hFF00bIIiwYLQjgISOj/rdO9G2cDFXYLVFmJQUGz/WAA+3QX6RNOUyaGK?=
- =?us-ascii?Q?ABTciPajslBdvCjSdOWVe4c1jNGa4h0UKEayMtup/DVjNminaJpMTVE6bpyz?=
- =?us-ascii?Q?QAB9SYeoZa5pEoIspp/qeU/Wk/csUZ6H6afzLUQ3FkjaBImYX8gmSrPXgoun?=
- =?us-ascii?Q?OSSBPzUOgWuPEag/m5MhbWHj/W7d70nXOWIbEkdBPHCa+Qa9lMEraLypIhSw?=
- =?us-ascii?Q?AIuGE1koKbVG+wtc39lsNABDyoqlovwZbNmBscS3WqfamCAzo85oMIRVSPHh?=
- =?us-ascii?Q?cKEK23thJQTkXCyCC5O3qTkm19ee/0iPglDmtcko4yoDTGH1G44rS2g6mHQM?=
- =?us-ascii?Q?Zfai/5x8yNry4gwMJjvDMhG94K0NjRK0Zn20VEBnD2ZcUYbWc85OmydBtqX7?=
- =?us-ascii?Q?rRUFG9vY7S7NXMnqjpBOvjWjvENNqPjbPCZoWLBVT5LRp2uURz/78vRiYkQ5?=
- =?us-ascii?Q?BWb+5B9A9CCILhh/fqs0i1sFEHT93l28AxQk/RQPC9ypFB5+0ULZm8CPyFRl?=
- =?us-ascii?Q?XUYV3UJEMDvZOTvMV3WSGITkhRVN28j1aOiTBKzMzCVDRxAWzYuFSfQoNrdx?=
- =?us-ascii?Q?mm4QIKb0BUcNA3VN98BqXKC24gjXJhBaOrR3JoLZITrc54YTg0mhAhZlRwk7?=
- =?us-ascii?Q?hMe8GYjH16DHsmHgsAShWCYsRWqxdUFawOkUb2eQfDaA/xcGXwbQlA/H9DNl?=
- =?us-ascii?Q?cc2MK1IHWyf0eiV7dZabYX2ywe45fu6LPo21InMPWrSKaOidFVQeSQDxfjfN?=
- =?us-ascii?Q?CQiNVwX3x4l8ZQGDH8imMK5rUlroTSCoZ2w9LJsmOpxcwH5PLwOtKguy68Ab?=
- =?us-ascii?Q?tqJoIp/HzKKXbo+fhVkngfRPjk8SAFv3rDjKInvyxKO9jpBBT4WOYJmt2d4F?=
- =?us-ascii?Q?avdkmy+xKXg97poAmE1CxQUZgJ8qGovPOLp+mXc8XMSdNP/GZrfxf1R4buY8?=
- =?us-ascii?Q?xk88eDY01E7F29excptYWWdOqC9fPhruePVEdCp8nU/JGJpmYmTXfNLbrW6z?=
- =?us-ascii?Q?zyEdMI4J9/xcNeZuLPN3VBJ5PVVdOIPT31zTSCW9oHOc9rsDHc+8N95Gn877?=
- =?us-ascii?Q?McT67HZ2Tcmt6qQJfxGZdpIfgh6hd9nQXE7QUg1wYu8U4xvm9KfJwSvQQK4b?=
- =?us-ascii?Q?HlW1hOkmTYaCS1VajdcQC9xH2PkwE+fDZ737xk2xJDaAK2EserVT/JL/gZou?=
- =?us-ascii?Q?rnvuy9rL1zbFnRal08Og2mjk6OhbsW7Ab9AxNoX0sA2i+QN9NUL7WyfKbuBL?=
- =?us-ascii?Q?OSxwo+3QtKcabW+7IcOd5GMO7rDkgbshC//8n2w4TfVV3Xnv2wujVKKwwneK?=
- =?us-ascii?Q?9cRGHWag9tVqBXYPh5e+hOBvuz3/SeohJcg7gW3+cJabxcdLw/0tLzZDesjU?=
- =?us-ascii?Q?+GfD/NghfJslF+M8+7+i15aYUVOuVrpXqVFLoAzM6DQZhWzAXmE2L0usxjvX?=
- =?us-ascii?Q?acJgb2+8BPtL07e28oyKcyWOe9H6chx7gTyVZ5yclSEtVQSc0BQGJdVMsfgs?=
- =?us-ascii?Q?8QfhWZc8xGa79PCIwemrQXMoqvsq385wIL3hAgkYv7H4Oi33h9UzXtTaePa+?=
- =?us-ascii?Q?SnJ2Dc1YX8V1D4Ru/dJmFI0It/fvTAGtZ+5agj+31nFTP4k6T13nTOevH9UQ?=
- =?us-ascii?Q?s3asTFOc5Idb3ldDDHaFPvXk4KuQbKx5Ty/7JDyfdc4Tm73dj257?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8ac425b-c784-4a7f-c6c4-08dee91294a7
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 23:31:54.7421
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3IgEObtwUFQ7g4gHYXqQihljZ+UBzJYFDEwLJ7xgJdJhD2M7AYroX9ubVaJq6AsILeRrkKciZdFXgsw/ErVSFc7is6JhXLNE6ZUTf4pi0BtVtRPfXN6SmG1X0Tk8m/Jz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSOPR01MB12427
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1675; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Z+DZXaVMkBJvppVuH05mkoVURmyRDBb0qJxSdWYGHJY=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqYriwtHQzGPiVMTAq4TXVnYB8E272P0kdF5zON
+ 4Tl55YNbL2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamK4sAAKCRAk1otyXVSH
+ 0HOSB/4wOzhGtKviF7czKKjFRLfpx+au1bP8poyRbExsvd5h6bZJq2xNP3571T+7iiG46UQxo5T
+ dzdaugQrRvZhQMUJQZ2frnSvmqUAcoeuwvb25RzOweTxG0mSNclXE26WC/aZa8pJ0KilZx3riwg
+ ODiLabcKo2O3ZfP3uvGn0C8l/ItUne4sZXY8MMeUh4peYqogTGNA3sgrBWuF4mDDLLKnl70KMhn
+ pe+1hMKvvIuzfPG0gHoE0kEqKwX/qphYu5BklY8VIw7NF8LfYV/jqswOGjdAirndJTvJavTFyA9
+ jIT8f4prAy8zPq4yjYauRhb7URUZLc6ShG5aZO87+12KJg0C
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Tue, 21 Jul 2026 19:35:54 -0700, Troy Mitchell wrote:
+> SpacemiT K3: fix I2S DT integration and add controller nodes
+> 
+> The SpacemiT K3 SoC has six SSPA-based I2S controllers (i2s0-i2s5).
+> This series fixes two bugs that prevented writing a correct DT for any
+> of them and adds all six nodes.
+> 
+> Patch 1 fixes the ASoC driver's clock lookup names. The driver was
+> requesting "sspa_bus" and "sspa" but the published binding specifies
+> "bus" and "func", causing probe failures on any conformant DT node.
+> 
+> [...]
 
-Hi Cezary
+Applied to
 
-Thank you for your review
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-> > It is calling snd_soc_component_initialize() / snd_soc_add_component().
-> > We can now use snd_soc_register_component() instead.
-> Noticed it only just now, why is "probes" change split away from 6/12? 
-> That's just a nitpick, not a blocker.
+Thanks!
 
-I have found each "snd_soc_add_component()", and replaced them 1-by-1.
-I thought [06/12] and [07/12] are independent.
-But I can merge them into one if it is necessary. Please let me know.
+[1/3] ASoC: spacemit: rename clock inputs to match binding
+      https://git.kernel.org/broonie/sound/c/4c69d04958ec
+[2/3] dt-bindings: sound: spacemit,k1-i2s: allow 6 clocks for K3 i2s1
+      https://git.kernel.org/broonie/sound/c/ec926b3bcb49
 
-Thank you for your help !!
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Best regards
----
-Kuninori Morimoto
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
