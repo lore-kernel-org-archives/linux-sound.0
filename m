@@ -1,181 +1,158 @@
-Received: from MTA-11-3.privateemail.com (mta-11-3.privateemail.com [198.54.122.105])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011005.outbound.protection.outlook.com [52.101.125.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B364385D9F;
-	Thu, 23 Jul 2026 19:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.122.105
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784835694; cv=none; b=X3YwPrr+qL054MXZ3AAMf04P/JGhd4PwWwXEcJdQ5DlMeVCgYb+XX9WE+TX9yht2K2lSSTgIuvuAkc1Vso/kbznzi0uS9SBt1nGVqEsn//A4M0NFHrm29oaiW20HpYN9ggp56sqUnWIhsw0lPlAPh7s4Ddc8mH9/Tl6JUERBwqU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784835694; c=relaxed/simple;
-	bh=EHbV5b4pM+yqB8Fvu5UDqJ+ul5JiE8AwLN9LGhuIaHw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DJ6pFHBtcKMR4JkQl38Ncn9I/5sPyMa7TX9iq09D5TpljwDFAVAVg8AGGmMps1/t7kSdQQansFfN/Md3fvvivaYfpJ86hCbsUmJavW8nr/W6u8l/d2l4qNk53DkSd/zIgkXAh4qcpKiUZSrcihviHS/QvG/5LiGaDcB7BLvVZPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.122.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
-Received: from mail.privateemail.com (K8S-PROD-WORKER-14 [87.215.145.39])
-	by mta-11.privateemail.com (Postfix) with ESMTPA id 4h5hLd179Sz3hhTK;
-	Thu, 23 Jul 2026 15:40:56 -0400 (EDT)
-From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0C641D139
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 23:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784849522; cv=fail; b=igr3MESTFZIr/ynmHPQ4F/dPlPdqc0ODcH/ng1DDrisWerCWCFDFsJrEZVNhnujBOhuzYJ+HNo4mCA8+e2iCVhFBLXLg7ObVfK/hshyaa0BihpLF6ph2r+XQjv4DRfC5THJIW3IMLzhzlmqLito6nUUz9gM12fTBG4gqsBFX32A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784849522; c=relaxed/simple;
+	bh=i/lJDo0IKxiuRIgPLBS88oXSejyhASn3QQhduQCII3Y=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=JyUx+vKj3B4HQa9yJV36YTvlmuv4qp0Ba65jM6wVafDYC+Xebf42me8BL/6Bz7IKZ0Cj5gnlRPbq6TabaGSvALzRLwjmaiE+xTsJ6uykmMrQTKDhj/eMvPSevtsGVt8S/lx/AWj6rEDMH1YUL1kmSFwGcg/WAAPpikyewRx+s7c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PL1p6JZP; arc=fail smtp.client-ip=52.101.125.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PL1p6JZP"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WfQI7f1l5Qp2C1kLZBhunvc86uBUacd4NAIuzVUYntu8a+arNRDa+u0oXiEc1bsZP8Nh4e7d6Hh40vXfWujsmCLNsuKF7EY28n496X1+wkxCPdCgODqoPajaIJx0SqaCWuxfh09pjEUmUlU+PANrB3HWZBaBp4vSwaMIFPq8QuuikciQ5khjAJxu4zeHItfrUA6DK2ONcwoOe/bjerZ1Cnt4uKciL1SQJWJ+npg8bZ7QHWiR0th14Ks+5EPGUXwb1n+1F/eC1pMzT1H1TcEL7ONz3uWsfD8KY0Em7eZ2Fmb+scN+hndmVLLFcu66rkVtD2BZWnFW1dlnSW1bnIVo7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2Bffug7sEkQ2wD5eT2pzGr/Z+irKFuKzd2f4B3HpefU=;
+ b=kZtWPP49AuixjRMR4tdJVoLtuOgJ6GNBE/X4BA08pNDMZg3m4ked01DGtx9y2g3jyuJCoyfUZ/f35yGq4pBiGQ5NE5iZIsi9KtZcUQJVtrEgpg9p6KvWkq41VI6ar2f2XXLa0gqwPrmfKNsmknxqeJqqbWJO+rFWIJsgS4fFszsobtKygWZMTCwFEl4s9HjR5eWwg5QSNDLeG5NSuJ1SPVKsisijbOHITlwlpvviWXGpshUINKCwZqQXEHcY94HGBwYSPbt9dhE0tDCCrKzt+WZVVhWLZa4cZ3tXq8hE/4fq0SGN5MekXLb/YrwYaUDiuNTenmRabE+HtRz23aPVYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2Bffug7sEkQ2wD5eT2pzGr/Z+irKFuKzd2f4B3HpefU=;
+ b=PL1p6JZPX4A9Aby7JAc4v7fIFAi0+GoSoSA2tlalZ0kfIEjkXoyTjJpCYepvH71qMb1E6eRii1iiDqpM+UkHLOCUV63+E/nA723S51sUM4a8dWT8rtiCf9wDRSnoNcWPsq7RAbI3dD+H4Vyn+sBZsJKhwoLgFk/w+eAfDcgZpIg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by OSOPR01MB12427.jpnprd01.prod.outlook.com (2603:1096:604:2d9::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Thu, 23 Jul
+ 2026 23:31:55 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0245.010; Thu, 23 Jul 2026
+ 23:31:54 +0000
+Message-ID: <87zezh2sgl.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: <linux-sound@vger.kernel.org>,
+	Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+	Fabio Estevam <festevam@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>,
+	Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	"Liam\
+ Girdwood" <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Nicolin
+ Chen <nicoleotsuka@gmail.com>,
+	Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
 	Takashi Iwai <tiwai@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/8] ASoC: SDCA: enable on DT platforms and add Qualcomm WCD9378 (Tambora) codec
-Date: Thu, 23 Jul 2026 21:40:45 +0200
-Message-ID: <20260723194045.49021-1-jorijnvdgraaf@catcrafts.net>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
-References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
+	Xiubo Li <Xiubo.Lee@gmail.com>
+Subject: Re: [PATCH v5 07/12] ASoC: intel: avs: probes: use snd_soc_register_component()
+In-Reply-To: <58f7f20f-6a70-47a7-8aed-05c5676baf25@intel.com>
+References: <87y0f2rz8l.wl-kuninori.morimoto.gx@renesas.com>
+	<87o6fyrz7h.wl-kuninori.morimoto.gx@renesas.com>
+	<58f7f20f-6a70-47a7-8aed-05c5676baf25@intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 23 Jul 2026 23:31:54 +0000
+X-ClientProxiedBy: TYCP286CA0173.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c6::16) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OSOPR01MB12427:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8ac425b-c784-4a7f-c6c4-08dee91294a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|23010399003|366016|38350700014|18002099003|22082099003|56012099006|11063799006|10067099003|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	o+vY4F6MBbtSZPQOz/MdECqm92UBc2kYdMU9K8GiievsZBmUaymsCc6EkQrTk/TVhAx0fJlnHVc5uB5w0JGwkj5jTHUUS0T5ug4Swn5NrqQv0BJo2QyTnJqy2US9NywS2Cn3GzQppntVkuwFTrZb415VQX59gEY1di/si16ComIrLBX1O0lyEdSTHzS84xSA4vXb2rdZAq4bGkmcJlKfGECzj4nA+OsIaRF+o0CKE7SH4xUzFeJz94EKZlMDvOtlpaQfxDxt7Paaz7UAtAkj+ETEEvHVpK4m86VnrV+UjXEtkCtAf10M5TIH+kdn3Z36kKTl/hxwiOIoadIspITfRPTL+Oy0qxIdOeA1clTJRlDw6pQLSIMtCUtuJosNTTuX6iWaoSrekdMOJMDZcxXsuCymkIoRR0pkPwxGQLh1ErTFCibOi0zmPnOq8LYOz/7/cFv5OdpillH0+hMlvgopv7LV7prT0nSEaGoPVb/FdckAsemiMNKISx8WrY2euIJCmK+BqZgIGXGD0qPEEXDkKqhWVvvYOt3UunuwHIbSKTCy1kyUg16kMNkyw/FVm9PKrIp28WmvMs/gbcQN2gpeZ7AlMUZMJ5RAX3gPEuiIIBWRFMstxjTSCFXw3dXpcnPJS8RfAYYgiF0CtHD1qxBeXDhLor0QVPgH0cT/zIeq1N4j+NkfwtQQ2pneBnmxRG6+f1SUYJeYxTfb8GHQJ14KuQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(23010399003)(366016)(38350700014)(18002099003)(22082099003)(56012099006)(11063799006)(10067099003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?STe6pbot3ATVbVWyRtQt/XVzrPrOFjRTVDY6g2CMglhquUnrKg1IU9JpatQB?=
+ =?us-ascii?Q?mW+j3LAQI25+v0vWAGfs4uVAF4USDd+5b1oo99QACfb/VD1dWzk63GR9Gmkz?=
+ =?us-ascii?Q?hk8hFF00bIIiwYLQjgISOj/rdO9G2cDFXYLVFmJQUGz/WAA+3QX6RNOUyaGK?=
+ =?us-ascii?Q?ABTciPajslBdvCjSdOWVe4c1jNGa4h0UKEayMtup/DVjNminaJpMTVE6bpyz?=
+ =?us-ascii?Q?QAB9SYeoZa5pEoIspp/qeU/Wk/csUZ6H6afzLUQ3FkjaBImYX8gmSrPXgoun?=
+ =?us-ascii?Q?OSSBPzUOgWuPEag/m5MhbWHj/W7d70nXOWIbEkdBPHCa+Qa9lMEraLypIhSw?=
+ =?us-ascii?Q?AIuGE1koKbVG+wtc39lsNABDyoqlovwZbNmBscS3WqfamCAzo85oMIRVSPHh?=
+ =?us-ascii?Q?cKEK23thJQTkXCyCC5O3qTkm19ee/0iPglDmtcko4yoDTGH1G44rS2g6mHQM?=
+ =?us-ascii?Q?Zfai/5x8yNry4gwMJjvDMhG94K0NjRK0Zn20VEBnD2ZcUYbWc85OmydBtqX7?=
+ =?us-ascii?Q?rRUFG9vY7S7NXMnqjpBOvjWjvENNqPjbPCZoWLBVT5LRp2uURz/78vRiYkQ5?=
+ =?us-ascii?Q?BWb+5B9A9CCILhh/fqs0i1sFEHT93l28AxQk/RQPC9ypFB5+0ULZm8CPyFRl?=
+ =?us-ascii?Q?XUYV3UJEMDvZOTvMV3WSGITkhRVN28j1aOiTBKzMzCVDRxAWzYuFSfQoNrdx?=
+ =?us-ascii?Q?mm4QIKb0BUcNA3VN98BqXKC24gjXJhBaOrR3JoLZITrc54YTg0mhAhZlRwk7?=
+ =?us-ascii?Q?hMe8GYjH16DHsmHgsAShWCYsRWqxdUFawOkUb2eQfDaA/xcGXwbQlA/H9DNl?=
+ =?us-ascii?Q?cc2MK1IHWyf0eiV7dZabYX2ywe45fu6LPo21InMPWrSKaOidFVQeSQDxfjfN?=
+ =?us-ascii?Q?CQiNVwX3x4l8ZQGDH8imMK5rUlroTSCoZ2w9LJsmOpxcwH5PLwOtKguy68Ab?=
+ =?us-ascii?Q?tqJoIp/HzKKXbo+fhVkngfRPjk8SAFv3rDjKInvyxKO9jpBBT4WOYJmt2d4F?=
+ =?us-ascii?Q?avdkmy+xKXg97poAmE1CxQUZgJ8qGovPOLp+mXc8XMSdNP/GZrfxf1R4buY8?=
+ =?us-ascii?Q?xk88eDY01E7F29excptYWWdOqC9fPhruePVEdCp8nU/JGJpmYmTXfNLbrW6z?=
+ =?us-ascii?Q?zyEdMI4J9/xcNeZuLPN3VBJ5PVVdOIPT31zTSCW9oHOc9rsDHc+8N95Gn877?=
+ =?us-ascii?Q?McT67HZ2Tcmt6qQJfxGZdpIfgh6hd9nQXE7QUg1wYu8U4xvm9KfJwSvQQK4b?=
+ =?us-ascii?Q?HlW1hOkmTYaCS1VajdcQC9xH2PkwE+fDZ737xk2xJDaAK2EserVT/JL/gZou?=
+ =?us-ascii?Q?rnvuy9rL1zbFnRal08Og2mjk6OhbsW7Ab9AxNoX0sA2i+QN9NUL7WyfKbuBL?=
+ =?us-ascii?Q?OSxwo+3QtKcabW+7IcOd5GMO7rDkgbshC//8n2w4TfVV3Xnv2wujVKKwwneK?=
+ =?us-ascii?Q?9cRGHWag9tVqBXYPh5e+hOBvuz3/SeohJcg7gW3+cJabxcdLw/0tLzZDesjU?=
+ =?us-ascii?Q?+GfD/NghfJslF+M8+7+i15aYUVOuVrpXqVFLoAzM6DQZhWzAXmE2L0usxjvX?=
+ =?us-ascii?Q?acJgb2+8BPtL07e28oyKcyWOe9H6chx7gTyVZ5yclSEtVQSc0BQGJdVMsfgs?=
+ =?us-ascii?Q?8QfhWZc8xGa79PCIwemrQXMoqvsq385wIL3hAgkYv7H4Oi33h9UzXtTaePa+?=
+ =?us-ascii?Q?SnJ2Dc1YX8V1D4Ru/dJmFI0It/fvTAGtZ+5agj+31nFTP4k6T13nTOevH9UQ?=
+ =?us-ascii?Q?s3asTFOc5Idb3ldDDHaFPvXk4KuQbKx5Ty/7JDyfdc4Tm73dj257?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8ac425b-c784-4a7f-c6c4-08dee91294a7
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 23:31:54.7421
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3IgEObtwUFQ7g4gHYXqQihljZ+UBzJYFDEwLJ7xgJdJhD2M7AYroX9ubVaJq6AsILeRrkKciZdFXgsw/ErVSFc7is6JhXLNE6ZUTf4pi0BtVtRPfXN6SmG1X0Tk8m/Jz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSOPR01MB12427
 
-Hi Srini,
 
-On Thu, 23 Jul 2026 00:42:10 +0100, Srinivas Kandagatla wrote:
-> The most obvious follow-up is figuring out how the mobile-mode and
-> compute-mode WCD9378 drivers coexist under one compatible.  Jorijn's
-[...]
-> tree without racing to bind the same slave.  I would like to line this
-> uip with Jorijn as a follow-up to this series.
+Hi Cezary
 
-Happy to line this up. To ground the discussion I ported the series
-onto my FP6 tree and have mobile-mode capture working end-to-end
-through the class framework, including PipeWire in Plasma — findings
-and a proposal below.
+Thank you for your review
 
-1) Arbitration, near term
+> > It is calling snd_soc_component_initialize() / snd_soc_add_component().
+> > We can now use snd_soc_register_component() instead.
+> Noticed it only just now, why is "probes" change split away from 6/12? 
+> That's just a nitpick, not a blocker.
 
-Your probe already returns -ENODEV when qcom,compute-mode is absent;
-v2 of my mobile series will add the mirror check, so neither driver
-can bind the other's slaves regardless of probe order. If a single
-owner of the modalias is preferred instead, a small wcd9378-common
-stub dispatching on the property also works for me — your call.
-Either path can later sanity-check the fused mode the way the
-downstream driver does (EFUSE_REG_29 PLATFORM_BLOWN, else
-PLATFORM_CTL MODE) once register access is up.
+I have found each "snd_soc_add_component()", and replaced them 1-by-1.
+I thought [06/12] and [07/12] are independent.
+But I can merge them into one if it is necessary. Please let me know.
 
-One mobile-specific data point for the split: in mobile mode the SDCA
-control space is only decoded on the TX slave. On the FP6, a paged
-read of DEV_MANU_ID/DEV_PART_ID (0x40100060/0x40100068) via the TX
-slave returns 0x0217/0x0110, while the same reads via the RX slave
-return zeros — with the RX slave's standard SCP DevID registers
-reading fine. That matches the downstream driver, which creates its
-only regmap on the TX device and drives the render dataports through
-the RX slave. So for mobile RX playback the function control and its
-dataports live on *different* slaves; a per-dataport slave mapping
-(or similar) would be needed in the class framework for that. Capture
-doesn't have this problem — the TX dataports sit on the control
-slave, so no cross-slave mapping is needed there.
+Thank you for your help !!
 
-2) Bindings — one file
-
-Patch 7 adds the same new file as my series
-(Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml), so
-one of us should carry a merged version and the other drop it.
-Suggestion: the mobile side keeps my v1's tx/rx split shape, with
-the v2 changes already committed on my binding thread
-(qcom,{tx,rx}-port-mapping staying optional, matching
-qcom,wcd938x-sdw.yaml; qcom,{tx,rx}-channel-mapping dropped). The
-compute side keeps your qcom,compute-mode if/then, extended to also
-cover qcom,port-mapping and #sound-dai-cells. As posted, patch 7's mobile shape wouldn't
-validate my mobile DTS: it defines a combined qcom,port-mapping but
-the description references qcom,tx/rx-port-mapping, and
-#sound-dai-cells is required unconditionally while the mobile DAIs
-live on the top-level codec node. I'm happy to carry the merged file
-in my v2 so your v2 can drop patch 7 — or the reverse, whichever you
-prefer.
-
-3) Prototype findings on patches 1-6 (mobile capture, FP6)
-
-What I ran: your 8 patches on my 7.1.2-based tree, plus a new
-wcd9378-sdca-mobile codec registering its own sdw_driver for the TX
-slave, static sdca_function_data for the SmartMic0 function
-(IT11 -> OT10 on DP1, with PDE11 as the power domain), and hw_ops
-doing the vendor bring-up
-(micbias routing, bus-clock indication, a clock-stop hold; supplies
-stay on the mobile top-level codec node, so hw_init has nothing to
-do — that part of the design accommodates the mobile supply model
-as-is). Capture works: the card binds, PDE11 reaches PS0 through the
-DAPM supply widget, and a 1 kHz tone played from the speakers
-captures at ~46% of full scale through the SDCA path. The bus-clock
-indication in hw_ops is partly a stopgap: the core path discussed
-with Pierre-Louis on my driver thread needs the qcom controller to
-set prop.mclk_freq, and that patch is still on my list. The
-prototype branch (your series + the mobile codec on a 7.1.2 base) is
-at https://forgejo.catcrafts.net/Catcrafts/milos-linux, branch
-sdca-mobile, if useful.
-
-Findings:
-
-a) PDM dataports. class_function_sdw_add_peripheral() derives the
-   SoundWire stream/port config from the host-visible PCM params via
-   snd_sdw_params_to_config(), but the WCD9378 mic dataports carry
-   1-bit PDM on a single channel (the working mobile driver programs
-   sconfig.bps = 1 and port ch_mask = BIT(0)). Result with the
-   generic path: "bps not matching" from the qcom master and silence
-   on the capture while the PDE sits happily in PS0. I prototyped
-   optional per-dataport overrides in sdca_entity_iot
-   (sdw_bps/sdw_ch_mask) consumed in add_peripheral, which fixed it;
-   maybe DisCo has a proper home for this, but something is needed
-   for PDM parts.
-
-b) The IT33 micbias cache-vs-hardware workaround in your patch 8
-   (drop cache + rewrite from pde_pre_pmu) ported directly to the
-   mobile part's IT11; I carried it prophylactically and haven't yet
-   isolated whether mobile strictly needs it. If it does turn out to
-   be family behavior, it might argue for the class handling
-   has_default controls on PDE power-up generically.
-
-Userspace needed no changes beyond UCM: the class-driver card works
-with a ControlExists conditional in the same profile (the stock
-branch of the conditional is the unchanged stock sequence).
-
-On interrupts: sdca_irq_allocate() got a valid IRQ out of the box on
-my board via the bus irq domain; I haven't exercised actual SDCA
-interrupt delivery (capture doesn't need it), so I can't yet say
-whether the INTSTAT dispatch issue in your patch-8 comment reproduces
-here.
-
-Longer term: until the framework covers mobile end-to-end (the PDM
-transport and the cross-slave RX question), my posted mobile series
-stays the working mobile path — the v2 above is about the two
-drivers coexisting cleanly in the meantime. Mobile capture converging
-on the class framework looks realistic (my static tables came
-straight from the posted mobile driver); I'll keep using the FP6 as
-the mobile-mode test vehicle for the next revisions.
-
-One dependency note for your platform posting: SDCA register access
-on Qualcomm controllers needs the SCP address paging support now in
-soundwire next, commit 999f80904763 ("soundwire: qcom: add SCP
-address paging support").
-
-One small nit: link [2] in the cover credits "Jorijn Rikhof" — the
-surname is van der Graaf.
-
-Thanks,
-Jorijn
+Best regards
+---
+Kuninori Morimoto
