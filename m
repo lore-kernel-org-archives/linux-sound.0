@@ -1,63 +1,63 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62642387378
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 04:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDD13A4F3B
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 04:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782584; cv=none; b=GpsglcG7aIXKLI/z2f8QJSHmDjCQ0RwixEKBKqJDKA1pXQb7qyCuPdjnwMARR7S+UE/Dw2TT3LVwjwEu8MP17WCX5+wpFByNqc6yC6EJCRcg6Eib0umRCEt//Etv9DGYyZMwm5uURuC/2JJ/MwsMne4xJbDyDcO2nvrl4cAn7oc=
+	t=1784782582; cv=none; b=W8o9yMTulAvhBEPlCJ/41rkqaAd8ERN/c+vg5t6gbl73VMXcRAmQpegkUgLYxXjXpGU7i617tLhtpw+Wx0eDDrSXG0mEETMAAyR1lN5lFtzb/B/TV1oNBPsdE5etr23FB8xrObu/OALZRAx8pgvCnzctZnp3/H4TcqiQ+ul6gQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782584; c=relaxed/simple;
-	bh=2Xk1hXvsA2IpLifbN7YBERIeU06kepyhohGyxFLXL8k=;
+	s=arc-20240116; t=1784782582; c=relaxed/simple;
+	bh=vhQNcZw7Vwuw+2mEaZrrAwX4ICzGoAV2kKF+a5LkSM0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UwVVUJF3WDJKS05Oa4kvlhLIh4wRtyv9HcO6PTAGzYFF9tQddwbIeTMzN5IhUJsqUgp0Yt6LltkqV9BT0rGgL6Okgg7DTc7i5SsPkxqNQa6siKskTK2iOSfUPHxQpjmAWc/kgYOoeqJvzKMCYxSwFovQ01k9bvwPN1L74kB8WHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cewA6Vnf; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=F0s9Owy8jYkx6E9yahBheyweITzU6i9nBlQjFZ3twTrFhu30TOI2PiQnYdRwSm4U3AKIRXikgG/W9w+8F+iadfFnJJ/Rx8EnFtPLjC7/mjGeyZtbbcmVjN8AQujqvS2MJnF+YQzuHo6+ouK9Lv0K5vwPd2W4e0VxoryZtb/cfVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rrKRhYrq; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cewA6Vnf"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cce6a0c9c3so2482255ad.1
-        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 21:56:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rrKRhYrq"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cc73e322dbso2568105ad.1
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 21:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784782571; x=1785387371; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784782565; x=1785387365; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DsESuYKzKzZpwopQsJDBDE/AgD8FvSh3g/JSOgCHZBM=;
-        b=cewA6VnfJuT7f34D9OWC2XsBMGycusJp/hYnxVBE2X9PRHLbmJ5MlPl7amCByBpSQU
-         zwCD4FJsqrM8mNqaK6va1zB5UxuQ20ZbsGgekAisZWKBqKWyrPtke1O+B5iVtCOA1ufH
-         Ph47NYFrH6SWueuj+uGSDXGLUvaOyOXD5k1fari35wIgb7OIu/DfEMxDLpfgsO2cuMoh
-         ZccHuIRyhe16vaAYR0yYmB0UmyhGsARlCrY8GxiqZa0m5bpbC8CEYuyiZUmy2pHr2/+z
-         k0coJ2Q0tc5PxEsNb1RPtoCtgU0+1XjQKq5gQ/aZcRFMZJM10KrF6Tn33Wtm0koWjk8H
-         9w8w==
+        bh=ok4tGf8ERF2To39hRUrBqxTeX6IvjzaUkkiuJi5gDOQ=;
+        b=rrKRhYrq4Y92gQuENolZWWlDgGdIE/xWt5iSHO2IeK3CteRdWKSKOMZwqgjmYlJ2KP
+         rndhdFuwhUt4kKKOes9qaZ/mikuG6+gegjqx60cwEHPniNokWI2TUeJUSDjlGWohHhvb
+         UJu1ioXurTZxtLfdzxPkyniomFSwNj1KmnnQ8W+Z3iE8jbeCwtBnCn2urWnV5IuqZY8C
+         k+vgT2fqjDkIHGo7GTVtNY5KFRxD0eErLmTS81jvLYnV+hIqX9prujEJknxwHFYw/oFU
+         wgNxgfI+XpoY4BdbDxPXJITqrS9Gw/c258Pq7wuHyCuNFTjyqWhuAA1MYTzCSsaLeTEI
+         VNhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784782571; x=1785387371;
+        d=1e100.net; s=20251104; t=1784782565; x=1785387365;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DsESuYKzKzZpwopQsJDBDE/AgD8FvSh3g/JSOgCHZBM=;
-        b=Oue77PA3NZW+k74mbpS/K1UCh6ZKwD+dxLb3Z+ypEoM4hQPq12MYIZXC4ri643ZGhY
-         FXanbqxleSP1eQINPGeWrTHoygPu9hsgcfRdt6UCsQAii+XsTiUaIjOC5yJPlrgA16jE
-         YFw+qE0BzZyGkjOFYlMf1yNRC7okrlwMQajCcYFZHDbp7tsn7xqovrD0txe4Ry5wWbNh
-         lNwXePGnFwoKc9uHWsSojfmWhmIbne2YPeQ4nV70nUHzJLGrWU/tNlqcTow1mNuIfggH
-         ga0yO+6CpVhvId7WTN+cKm0SC7JdNmpQkyUEqpHH5rxvO7BpxwDM/vSthCYzj1qbO9Rs
-         UAqQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqJytow/p98fIdj5Y4sYufQlS1G/kDybtWnYOo+kEWD5ioGEKu8z5G+ce+QAcu/kE5ksaIdBjE8ghUZ3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyf8eX0TxpPfqe0yd6rsk2VX8zGwglQ52TId5JgumRclNbEWj2J
-	1nBudndbUBQ+w3Xna6P22sUCeJDksdqcu3sPGlwinfSDTpnEHhl6nteK
-X-Gm-Gg: AR+sD1095+pIUSv7bDaAZBftW1ecPlQYaVRb1hTYzB7/mTtHda00hBxHNnDKvcyI7vp
-	AbcXToQ+xIFmSOdd+/gtbz8SPdC+0Njihr6zWhIOEbCbuLokZYLkw4loAScBQKRDGf095sEjDqq
-	KRhsuCIgKqBXSWm0N7GSfgKZ5sQSotm95zyIdBwCgt9jOZQ1Kctn+3yEdg8KGmwddxobGNXTC5g
-	GLl1j2ku3p0WdTXESl4aASH55E/IccOhYp23O9P2Y3/4iNRBUaqd/MmPaCZ/XW6wg3y3Mf1ASRH
-	Gg1t3/Q3JcvT5PLggmXz1OtIRMMlvIY4TQPgdoESFHfvHvbiSpwlPum00RpICz2JwPqK3io3h1T
-	MF7fB/ukmkd4js2UfaI8c9Z8BeTqg0fAUffcczasL5ECnjL8pXc0QygvtaTfwKepLeILNdAeWRm
-	wNBkCS55WqlOo8Mr99Uz05GD784fKipKyQK+ha
-X-Received: by 2002:a17:903:2ec7:b0:2ca:4b7a:4a02 with SMTP id d9443c01a7336-2cfa71ce943mr18539775ad.43.1784782571078;
-        Wed, 22 Jul 2026 21:56:11 -0700 (PDT)
+        bh=ok4tGf8ERF2To39hRUrBqxTeX6IvjzaUkkiuJi5gDOQ=;
+        b=lvTene5a3BfZYQyJVBZtwPNe8SWJAzcy6n3jOEelzn+P2MxHxW4TQABX2AIaaK0JeO
+         cA883kK5xBJgneiRTZRRK1D9ANitYuBj8DIGenV7tYsoPbjlwwQEdOyU/A36LJDzxCCu
+         S7YAh4OplJD16td4Q/z6kB7vWeknBtIn9mmwFNwSmLHHA9UK1HShuPdx20Q4ME0/phq1
+         koWPsNf5iVh3zrzk6aEkFBPREjZH0dC22LEPcTFws5hijR68EDLFYNVKxv4yQtQXthPG
+         lKXC0bt2gTC7lyUkvsurBzP8B0jz+oMRc/PE5nuPWEfKuMveMIymZv5VrhJx9IOG1dMm
+         QyoA==
+X-Forwarded-Encrypted: i=1; AHgh+RrG+2rO80g7JIhai7LD6Qwk/83lIU+pxQifzYRZI7VqB/PScPgsDK6tdV5bOGcizUnDqsFOAlqhNjQ5RQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiEwb0WpL2ad1ZJEA3hZ5qaQ/Rc7OGoIabWdUgtjoDEoBzAbF4
+	n9yJDZKnSc5mozbvGV1pNj1rW7XGKx43wT06DD3UstO1Gt8aCCZ3pQPW
+X-Gm-Gg: AR+sD10ox4i8jDgEmVmt1n4KATogc651TfGnLvS1e8mfKkQ8VBDPPN09LFQtNEMDcTh
+	niO6tVHB6ofs92E1fL69313O0z86JTA9xbArZ9jVYFKe7SyVETUpsTn0Yk3wBAU3gyWDA9tB9lE
+	7pce4adptihVHcZ/CXF7ifDeEkkmBUd2tBnreI1DzZ0NC6U2LF7HydWKE4ANln/Lt842HTPwkQ4
+	a+dE5u3fFBr0gbvZPf91sSy8izM9NNOPKxhygWOhKpirr7U77dDjLqyqdNS+nt5SbI6P1TT4P8Q
+	X7f5PDmUrj+lisppRgZPFokiT8zVfjIOqaoDlZEWsQb+9bpxHTVcONGZlxB1Ke5UWT6Rq0SEqr0
+	1meccAD38gpE3XrLrzU8PRm0q8R+fxO0f3sk0D9SFOuEw3+wWVU9BIvOVxhPa//Qe2hEqWKmZyJ
+	dmglCdhD635YVp1zUJjA9zpQirJF3BCILGV7Nu
+X-Received: by 2002:a17:902:ecd0:b0:2c6:9f6a:9f6f with SMTP id d9443c01a7336-2cfa6c66734mr19973065ad.28.1784782564905;
+        Wed, 22 Jul 2026 21:56:04 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfa57542e0sm7258365ad.67.2026.07.22.21.56.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfa57542e0sm7258365ad.67.2026.07.22.21.55.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 21:56:10 -0700 (PDT)
+        Wed, 22 Jul 2026 21:56:04 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -88,9 +88,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 19/26] ASoC: codecs: wm8731: Use guard() for mutex locks
-Date: Thu, 23 Jul 2026 11:53:20 +0700
-Message-ID: <20260723045327.28260-20-phucduc.bui@gmail.com>
+Subject: [PATCH 18/26] ASoC: codecs: wm5102: Use guard() for mutex locks
+Date: Thu, 23 Jul 2026 11:53:19 +0700
+Message-ID: <20260723045327.28260-19-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260723045327.28260-1-phucduc.bui@gmail.com>
 References: <20260723045327.28260-1-phucduc.bui@gmail.com>
@@ -109,47 +109,87 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/wm8731.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ sound/soc/codecs/wm5102.c | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
-diff --git a/sound/soc/codecs/wm8731.c b/sound/soc/codecs/wm8731.c
-index a2f0e2f5c407..ce87280d590d 100644
---- a/sound/soc/codecs/wm8731.c
-+++ b/sound/soc/codecs/wm8731.c
-@@ -10,6 +10,7 @@
-  * Based on wm8753.c by Liam Girdwood
+diff --git a/sound/soc/codecs/wm5102.c b/sound/soc/codecs/wm5102.c
+index b4d4137c05b4..74b775b95bfd 100644
+--- a/sound/soc/codecs/wm5102.c
++++ b/sound/soc/codecs/wm5102.c
+@@ -7,6 +7,7 @@
+  * Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
   */
  
 +#include <linux/cleanup.h>
  #include <linux/module.h>
  #include <linux/moduleparam.h>
  #include <linux/init.h>
-@@ -110,22 +111,20 @@ static int wm8731_put_deemph(struct snd_kcontrol *kcontrol,
+@@ -667,10 +668,9 @@ static int wm5102_out_comp_coeff_get(struct snd_kcontrol *kcontrol,
  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct wm8731_priv *wm8731 = snd_soc_component_get_drvdata(component);
- 	unsigned int deemph = ucontrol->value.integer.value[0];
+ 	struct arizona *arizona = dev_get_drvdata(component->dev->parent);
+ 
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	put_unaligned_be16(arizona->dac_comp_coeff,
+ 			   ucontrol->value.bytes.data);
+-	mutex_unlock(&arizona->dac_comp_lock);
+ 
+ 	return 0;
+ }
+@@ -681,16 +681,14 @@ static int wm5102_out_comp_coeff_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct arizona *arizona = dev_get_drvdata(component->dev->parent);
+ 	uint16_t dac_comp_coeff = get_unaligned_be16(ucontrol->value.bytes.data);
 -	int ret = 0;
  
- 	if (deemph > 1)
- 		return -EINVAL;
- 
--	mutex_lock(&wm8731->lock);
-+	guard(mutex)(&wm8731->lock);
- 	if (wm8731->deemph != deemph) {
- 		wm8731->deemph = deemph;
- 
- 		wm8731_set_deemph(component);
- 
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	if (arizona->dac_comp_coeff != dac_comp_coeff) {
+ 		arizona->dac_comp_coeff = dac_comp_coeff;
 -		ret = 1;
 +		return 1;
  	}
--	mutex_unlock(&wm8731->lock);
+-	mutex_unlock(&arizona->dac_comp_lock);
  
 -	return ret;
 +	return 0;
  }
  
- static const DECLARE_TLV_DB_SCALE(in_tlv, -3450, 150, 0);
+ static int wm5102_out_comp_switch_get(struct snd_kcontrol *kcontrol,
+@@ -699,9 +697,8 @@ static int wm5102_out_comp_switch_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct arizona *arizona = dev_get_drvdata(component->dev->parent);
+ 
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	ucontrol->value.integer.value[0] = arizona->dac_comp_enabled;
+-	mutex_unlock(&arizona->dac_comp_lock);
+ 
+ 	return 0;
+ }
+@@ -712,19 +709,17 @@ static int wm5102_out_comp_switch_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct arizona *arizona = dev_get_drvdata(component->dev->parent);
+ 	struct soc_mixer_control *mc = (struct soc_mixer_control *)kcontrol->private_value;
+-	int ret = 0;
+ 
+ 	if (ucontrol->value.integer.value[0] > mc->max)
+ 		return -EINVAL;
+ 
+-	mutex_lock(&arizona->dac_comp_lock);
++	guard(mutex)(&arizona->dac_comp_lock);
+ 	if (arizona->dac_comp_enabled != ucontrol->value.integer.value[0]) {
+ 		arizona->dac_comp_enabled = ucontrol->value.integer.value[0];
+-		ret = 1;
++		return 1;
+ 	}
+-	mutex_unlock(&arizona->dac_comp_lock);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static const char * const wm5102_osr_text[] = {
 -- 
 2.43.0
 
