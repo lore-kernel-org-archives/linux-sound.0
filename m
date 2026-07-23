@@ -1,246 +1,175 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011058.outbound.protection.outlook.com [40.107.130.58])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54438385D7F;
-	Thu, 23 Jul 2026 04:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784781294; cv=fail; b=MYD+Qicz3lbhf4LIc/9Di5vaJPqVuvi+vzxtbACukIqMeOPQTe9YNuqLCPO+8+lH74WEHamQ7vEYc5HK41oV6yV+UaYsWb1s8bCsNJplvFwJY0v/yUjruSyiJssS5NNX53FyFKwj+MyMUWl8+QK3VV1VqaSlsBmFOk27QbGUe7I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784781294; c=relaxed/simple;
-	bh=q148DXN/ZD2lmUJqGdZZOvsnDoMPIntJuik8Ru/XRIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=a79Vb2QG+HueYykWaV7SiKdEQue2ysd7hhzODjZCyUjJdVWrfEGHIgrfT0CEDisj8PGZs+jn4rnH9hcfl9vhCD6zxaJ/xpu4kAlz/LQ0sY6+OpkLPBIJ32hJY4LxQH/JaJUZR87BF6WWhzSiHHby5bDQshdVOsXAe+F5gweVgAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Pnv404Up; arc=fail smtp.client-ip=40.107.130.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4210338F656
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 04:53:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784782439; cv=none; b=Uxy9dxhwWNJco1fvUdFCgr1QGPnbsTQXDjeJyP1f+wkugdn7mk1yFzVQMDxrjG5JIN4HhwsIEwi9T9L4qlV+DJOXAVVlyQUuKsJMO4sixsKVz9F5hu4dmr/toVISBqsw2tlewBdvcQv6gSZ9ESVYRKdsZgAnNYVBsknp0fptS4Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784782439; c=relaxed/simple;
+	bh=1m7GJ8YWaP7wefU+zhqO4O/9UTZF7BSXndpbKxTVTpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JKhB7AGEXPKgJ2hWV+XxqyxXZvZE19o+bLwm6c6noGDObTMAs3Sg15TNDDATKQs89fdilid8iQnH+rjtmHlZdjA/FhItRa4ln8/G9+xWcbIr1y+To6hzAykhjvExM+zQlDZ+3nM6eTxb4XTciE7/whTuuh52pf/DCpCmZcpZhF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mppCFj+f; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Pnv404Up"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IlcAMTrxiI6vBbIu9HSbtlTLOaVdVUvnx/YMT6VNkp5IoQXv/SkOT9XhmW3a9a2aIQdWxaGedoGo2MDrXAgr2305Na7y8CCZ+TF3jjfWR33qAIJES4APeaZM+/gjwfcFlnzAUemqU1gD6HC6FFv51lP00vBUt7Ykvs/wDhu6/xL5auitETwGTjWSf6OotDSURwyUwO4oDmYoBXTJZ7RTR2hw1oj8A281Sx9dLk8XVAu8feLze2ZQR5aJzTMSnkI5W9r9pzjE81LL39eYrOdey1lXZxdZJIewaNYhYqJvc/YKdOXbicTTWloGBfNqFWtbl1KhJMew6FQzmFcDkpbD8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qkd3yxuI7Ji+7sHH6dANqOiguDQqyDXpKnLaGP9dPPI=;
- b=Fpua/GFNf9YyghgfHfxl/oYMIZAp17RyJJdeo4MMCsHMWvLwmXW6ZerQzQQJD1IXLmwRmlS5CRW/xcdyTdB4GimmRcrXQJv19Pj/+iFCLGibhg7ac2E5JaMCNR6QzpoWIwKLeP5gO9jHLDHnTYhJASTIRtFF26N4TdIJ9O1+njqG+BQ+oSa/85fHLJwggfHWmS9AfgSZs9Lx5T93HxsntRoGfnn1yrbngm+wHpF8bZVBl692n5y8Lndifu/lfR0urTVSSpxcQS84DtUaP6fsJLH70pSOOZtQE+ERcnB2WFmZoGcmLU7nQgo+LAYt14lvs+i33CUIYolym3hY2g6UlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qkd3yxuI7Ji+7sHH6dANqOiguDQqyDXpKnLaGP9dPPI=;
- b=Pnv404UpaRsKFtCMF+q7/pY3djY78TItLhZ4pHEb7jPVCAsaQ7Oo5LW5nT32M7lFH0oxBjZv0dLVXksVqdxBBEx52jb3bQ6Gd6w34VEbeY0pjLZKaL1FHRq/VBVbkj54KFlAKfwT33B5tzizVhTTmBifdwxWcKOotuJzM0a5C+7sqY4+qpOMJDTVK0lH3M50jcfpdfXGzQX1K4aKWeaf0C5IhtQBtQboUNUm956QB7m7A00bO+kbm5+/5IwlSFV2aO6KhTdQrhHnKIkrLz4HFEAiy5SrC7Ve+5pJdwPcsesN1P+rfd9K9vlG4NP1gSbzIV+ipwN9PnujUhiMuY01Cw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by PA2PR04MB10374.eurprd04.prod.outlook.com (2603:10a6:102:41e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 04:34:28 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0245.010; Thu, 23 Jul 2026
- 04:34:28 +0000
-Date: Wed, 22 Jul 2026 23:34:13 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: shengjiu.wang@oss.nxp.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	shawnguo@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
-	nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linuxppc-dev@lists.ozlabs.org,
-	Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v2 2/5] ASoC: dt-bindings: fsl,easrc: add ports binding
- for multiple conversion paths
-Message-ID: <amGZxZPs1gvPcMeF@SMW015318>
-References: <20260723022313.1905051-1-shengjiu.wang@oss.nxp.com>
- <20260723022313.1905051-3-shengjiu.wang@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260723022313.1905051-3-shengjiu.wang@oss.nxp.com>
-X-ClientProxiedBy: PH7P222CA0011.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:510:33a::6) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mppCFj+f"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ccf2360620so2107295ad.3
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 21:53:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784782424; x=1785387224; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HPmSshlx0VhFlDIeKTOyyoSslyu9w/lmyi2JYXnbRm0=;
+        b=mppCFj+f5LZwWHlPXluwcDuWJfE8mLfCIQzIOqq6lh+UHHqHs7PE6CqLON1JGb4c57
+         fxbXr/r+yNWjjJhlYbX1T2jInSK3Bj3gC2E4ztfGMdN0DDH9PqP3/afm5DyGR+vfXA0d
+         hIvhl2lLO5GcdYJTrKmNBQS4ZDv1pHxgn84pq/D8oJgG4e/Uoej7e21fPQ2F8fVd4BD2
+         cgvIDWXcfcayu4kLwnW5Rqu24P1IitsLTN2MaIDnT4K3776h9vGh8UkLnL4dsPT75CBF
+         oBRMhcRG+wUZM/QRB6Zx0PHRko9Np8BTRJTEOWHiON9Pxtw6Pgjt/xEWkBlfDAaZHEnJ
+         OKSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784782424; x=1785387224;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HPmSshlx0VhFlDIeKTOyyoSslyu9w/lmyi2JYXnbRm0=;
+        b=OR/74/iQhyNlFMN5XfxK8N+LHOy8mnymRMWPf/CK3ddXqT8D2Um9NBCZjEscylbroO
+         DgDefbp78X0ZY7O6yXZrw9J8QAmDzH49pYlQ9EFRy1P8wOQmfogInf4SsiSaI0Vd9h9B
+         6afnulmrHr140Sr8G3uGw+cWDfpecaWBaaqNihtO9GVUkHxS2r89PubJwByy/oBjgOcG
+         uU14WiPn2G2m66Kzh5WkiMyO1tBMbztnA8f2l2zQ309MRHd+B2LW5jYh1/jgEPeDN/+n
+         ANx7qQq978xm9+RM4I/NJ22TE8iFbd9yednBk1x/E0BCfThon2paojiNhGBiXRww4Osn
+         Z6hA==
+X-Forwarded-Encrypted: i=1; AHgh+RqBmmvQeSjXHc5VxrIqWN+lyAzwPWFgXQt6sRcve7XhEdiszyODjhyeyifaED8qAag/4xaLsjdJevGSvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEz1oy/tonDRSWkh5hTjBs1x/bgLiTaOqj/p8kcc1iz4WiO7V9
+	HBmHb1ugdm8PYscMg6emvx67dCMYQt1+tIZWwHC7PTXIte0cfVHocBZQ
+X-Gm-Gg: AR+sD12LNvYkktAnOdxMv9H0qeOPzJ9vOaNuRw0t86g7M19h84BVGcXtvTE+Ikvc51R
+	nShKxFFSHfstxvPpGIksFfCQpJ1A8ZsFrdnVrA9ui6R00k8Xym0pyOBqv39Np/Qo/5Ub2q/CRnI
+	Kr4GxaUrn9OZa73vEUuiu4d24ujGexyJX7eFHWHWzCPCms6POQ57FRUOZv5BqudzZur68RTx9Kd
+	itDBZZ+ZtzuXaEAQHN5WmolBuTw5zEC1oUx6TBJTod+MrhhPM/iNI6NTzrRih40lyX20M48DYdL
+	RkZMZaMhE5u4Vyq3F18V0Q9/Gz3irYmYDtmp4WCzAs8Bx40mbOLdn6addnIBqGH+BzukclBCQJt
+	h0s1Jco3+g/zv4TYH18I7vPIqfazk7P3UMkA8ItyOfK8Zuc+rG0OIRg6X2h6sFtVVwNcHhwmZkW
+	bDLjehsvzXTWgEjIIp70SDczFQs8Rm8bdMbklf9Hjx/I645as=
+X-Received: by 2002:a17:903:1246:b0:2ca:4cfd:a6df with SMTP id d9443c01a7336-2cfa6f821aamr20406655ad.43.1784782423932;
+        Wed, 22 Jul 2026 21:53:43 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfa57542e0sm7258365ad.67.2026.07.22.21.53.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jul 2026 21:53:43 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	nuno.sa@analog.com,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>
+Cc: Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Linus Walleij <linusw@kernel.org>,
+	u.kleine-koenig@baylibre.com,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 00/26] ASoC: codecs: Use guard() for mutex & spin locks - part 3
+Date: Thu, 23 Jul 2026 11:53:01 +0700
+Message-ID: <20260723045327.28260-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PA2PR04MB10374:EE_
-X-MS-Office365-Filtering-Correlation-Id: 99dffb3e-288e-4d98-81c2-08dee873ae5a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|23010399003|19092799006|1800799024|366016|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	voGXeRGPRGIyprTfRaWEiWAt+lHqgfw74oH7H0hGYykoynlx2RwIKQN3dczkE390gI+SNljzqMO9NtFRFMIZEVl42RFZitEKyVTyfH7VN8GRX30/MaCh4dtJxwqdhtwhGfbJ1z7n/HXR7NicSygYw39cHoGDM2x1DA18NZn8XULTR5UWk7t0xulqh7wIBpw+EUgSk0Uo8gZG+tUHl+WWAt5ysRdrk80sXadCLsyH/3WBQp6C677jhu1XzieKmCKnvjp3XgAjQu80L/58Hilj6wiVrQGAy9lZQqDAl2G2tRlfTzjjBvzLrMC/NO6pqvV26gJ3r4eDItHBBBybUyM6/em1W/yLIShU2oWDH91NsLROSuXY65oai5F/FbPOgJT7/8duGjtp2S4ACbGkfJVK7jotRtkbqTrafstkcAp802geQBBy+HIJik9x2e/3tS245K3+j6XWp5wAqNeJ46FHlBpanyMj0wVW05RniQTo6xMpLgt4yuzltLgRLnZeH4vRh/Gb9SkPDBftjnc4q5DqwBlJgpufcfdsR1kd//jbVNq5KK5iHO4yUTiyif8sHFsFPBAU68w/Get9HOQrgtRdG6UmNthddFnxOU7eFxZQDub4/Og5Pt0H9yAix96ileB09Iiq2ggxbqAmfFOYnX6vn9SNrnELI8IRsdnxbvqKTUo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(19092799006)(1800799024)(366016)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?iqP8A6EjygAO7nDzZ29LDYlupFaxQylBgbqU9d+KbwW8LhT2QF/NNJEJ7KEc?=
- =?us-ascii?Q?/9HIjfvcxwGxEynzvz+TlRDTIB4f0ay909OU1gC1t96y7ZfnkwbdFjIMGteQ?=
- =?us-ascii?Q?sBv6Mfl7f2Cw8+lyGygWT5IqrcZivkHMYT2b/4cf0Ua+2jfKVDu1m6p4VN1c?=
- =?us-ascii?Q?C94IsFYxtUNhmV1xLTrAO1Aygd5udEi9iCJ39iW8/sRe4nJkR7u7Eh9N9Kx+?=
- =?us-ascii?Q?gJgQaU1qP5ouNVIo08rsmvlTeu9o8NVz+gZ5CNtpAVazW7jW4tTc+F90Q2lx?=
- =?us-ascii?Q?4kIZiYiFh8Ec9VDbFaHvz5lPJT5OhdDP23AhxUvh6AcpOwzQapTmLNFPJRSa?=
- =?us-ascii?Q?uUUOxwv8RfmalXrskdgJJajszNsZdOhy8TcH9jBkFtiMZYFkKFUid11iJdRQ?=
- =?us-ascii?Q?fhaZqrzZRfJtc6PomqM+74Qki5nR5183IrvJS+dvvi+YpnCrNXvZULdc7c2D?=
- =?us-ascii?Q?fVXQnMc085ocMksQz/JwJRxrmUexRXN6UEnexLzn5NvzzoHrlWqdRTIZWHbJ?=
- =?us-ascii?Q?GthMtQxAP4FFds89UOmYoPvs+e6afsihE9T1Fu0Yh9OYjCkC5oHi3QrPo2yq?=
- =?us-ascii?Q?WSkmArirogFmK+Ul/STuX4yMYZXd5BAiOdhIUDcIhRTRHwCp8x6iTXzw3Eqo?=
- =?us-ascii?Q?O6DdONUf1rE5rL0/vA3UhMU6XBNMKqSmjTW9/DIU62IhqJZHYg5LQRz/PNzb?=
- =?us-ascii?Q?VRdFB3O4twAaq0eCwxBux8GVuZ0hLIcltwSkyI80GIHwmKtxqwq73TtOSgMH?=
- =?us-ascii?Q?1r6h+53cNnX6Esdi4lPPrFDv1XU1OdluWJjuYDp05R6+4cZAscVNlgX5QzCk?=
- =?us-ascii?Q?fw85xVkisZX9n03QdQaQPgWPoQKRAhe5LA04RqyhFFfMwb8USb1MWpL33D26?=
- =?us-ascii?Q?fn0gBSsOFBQNS3yFbhOXDlcYP2feR6GnXQ2Uwgmkftx7faWQK38TVM0bUAgP?=
- =?us-ascii?Q?/Xw0M4r8TaJxqlK2hM9vH8h4ikVJmD3ZRbshKkkWEgGduLDiwOLs8QdH55cp?=
- =?us-ascii?Q?HQtDiWNQA8peCbivp560AQEO3mcmFQ3pzWPCjLVZAt+DFwr8NSq/XhvlZ2cR?=
- =?us-ascii?Q?leTxKg0mZrvWWUYH0+X1OGV9PSZPFTzhrODbXHoCpls3cu0SYPVfdBHWHCOp?=
- =?us-ascii?Q?PuxyBPfsDwAh6HGqoTmM/9yULPwJnwLpqhaUkAmkbvTRkaVPpsYcE93H4sML?=
- =?us-ascii?Q?uwd0QvdetPnge5o/pPqjnTURB8zNTOvYNm6TXE14QFfK1KDIVN7B5ZJA5DGb?=
- =?us-ascii?Q?j5BY2ybdQ/EIV5hRaSbXBa0G/t/eHtvtxN54Kuw158GzMFbL2LwvAWdfIctB?=
- =?us-ascii?Q?RmQ5gMfwNy5/zoFcKesVFfNB3Vvugf+oz8Iw53vo5vif26sOFlOWe6Bk/ANC?=
- =?us-ascii?Q?3O6Q0CGiFRtxhTgGkvp6e4wHaoq9oKXo9OXttsPul/mRiV9n6d0bT3MTkTX/?=
- =?us-ascii?Q?p6LRNj8N6RcDxAsevrykx25N2fj2+9lQeDhS3m+qLXomZxIQR6Pe20241jQm?=
- =?us-ascii?Q?MsZRmKU6V90K9WACGasFtRzEUbUmcC1Fh2Xz/+BUza8X4yTYeUC4qIjlMID1?=
- =?us-ascii?Q?1oriwURowvaoGubwl8XOEclyDkTL/S6hNoT/cZ1JK/2z+mJbDHKFrVvxXZjV?=
- =?us-ascii?Q?ohqAw4OMYU3vlkWFJOKWy9trCUZCfBe/jE/yU5/DOohhmhKdeO+9hOs6CnOZ?=
- =?us-ascii?Q?N8vwUPJLF2yI/2tVwhs3ES7Ukf514DMiuw6qVYUDi5pmZ8axi0rBo7c/gD3b?=
- =?us-ascii?Q?YAJgdl2T0Ab8kbKRrFP/zeXC85aElIfwJXRlkuFzcTKHvgVcrL8m?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99dffb3e-288e-4d98-81c2-08dee873ae5a
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 04:34:28.0732
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3fLsy009BxTY8JWNgALSI8ymZnMEx1uR+flN25t/mOafloQ8r7gkn2VMBY2nMgRzd76wdw1l5hJk8mSFBEpZn6c2hduWrP+iaQuNvUzSebTzlfJrukXPMqdfpqzhWW0c
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10374
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 23, 2026 at 10:23:10AM +0800, shengjiu.wang@oss.nxp.com wrote:
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
->
-> The i.MX EASRC hardware supports up to four conversion contexts
-> (A, B, C, D). Add a ports container property to the binding to allow
-> each independent conversion path to be represented as an individual
-> audio-graph port:
->
->   port@0 -- conversion path 0
->   port@1 -- conversion path 1
->   port@2 -- conversion path 2
->   port@3 -- conversion path 3
->
-> Each sub-port references audio-graph-port.yaml and follows the standard
-> audio-graph binding conventions. Contexts are allocated dynamically at
-> stream open time; each active stream direction (playback or capture) on
-> a port consumes one hardware context.
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  .../devicetree/bindings/sound/fsl,easrc.yaml  | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,easrc.yaml b/Documentation/devicetree/bindings/sound/fsl,easrc.yaml
-> index d5727f8bfb0b..e6d7cae5983d 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,easrc.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,easrc.yaml
-> @@ -55,6 +55,14 @@ properties:
->        - const: imx/easrc/easrc-imx8mn.bin
->      description: The coefficient table for the filters
->
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +    patternProperties:
-> +      "^port@[0-3]$":
-> +        $ref: audio-graph-port.yaml#
-> +        unevaluatedProperties: false
-> +        description: port for an independent conversion path
-> +
->    fsl,asrc-rate:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      minimum: 8000
-> @@ -107,3 +115,63 @@ examples:
->          fsl,asrc-rate = <8000>;
->          fsl,asrc-format = <2>;
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/imx8mn-clock.h>
-> +
-> +    easrc1: easrc@300c0000 {
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Needn't label in example.
+Hi all,
 
-> +        compatible = "fsl,imx8mn-easrc";
-> +        reg = <0x300c0000 0x10000>;
-> +        interrupts = <GIC_SPI 122 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&clk IMX8MN_CLK_ASRC_ROOT>;
-> +        clock-names = "mem";
-> +        dmas = <&sdma2 16 23 0> , <&sdma2 17 23 0>,
-> +               <&sdma2 18 23 0> , <&sdma2 19 23 0>,
-> +               <&sdma2 20 23 0> , <&sdma2 21 23 0>,
-> +               <&sdma2 22 23 0> , <&sdma2 23 23 0>;
-> +        dma-names = "ctx0_rx", "ctx0_tx",
-> +                    "ctx1_rx", "ctx1_tx",
-> +                    "ctx2_rx", "ctx2_tx",
-> +                    "ctx3_rx", "ctx3_tx";
-> +        firmware-name = "imx/easrc/easrc-imx8mn.bin";
-> +        fsl,asrc-rate = <8000>;
-> +        fsl,asrc-format = <2>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                playback-only;
-> +                easrc1_endpoint0: endpoint {
+This series is the final part of the cleanup to convert ASoC codec
+drivers to use the guard() and scoped_guard() helpers for mutex and
+spinlock handling.
 
-Needn't label.
+Compile-tested only.
 
-Frank
-> +                    remote-endpoint = <&fe00_ep>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                playback-only;
-> +                easrc1_endpoint1: endpoint {
-> +                    remote-endpoint = <&fe01_ep>;
-> +                };
-> +            };
-> +
-> +            port@2 {
-> +                reg = <2>;
-> +                capture-only;
-> +                easrc1_endpoint2: endpoint {
-> +                    remote-endpoint = <&fe02_ep>;
-> +                };
-> +            };
-> +
-> +            port@3 {
-> +                reg = <3>;
-> +                capture-only;
-> +                easrc1_endpoint3: endpoint {
-> +                    remote-endpoint = <&fe03_ep>;
-> +                };
-> +            };
-> +        };
-> +    };
-> --
-> 2.34.1
->
->
+Best regards,
+Phuc
+
+bui duc phuc (26):
+  ASoC: codecs: sigmadsp: Use guard() for mutex locks
+  ASoC: codecs: sta350: Use guard() for mutex locks
+  ASoC: codecs: sta32x: Use guard() for mutex locks
+  ASoC: codecs: tas2781: Use guard() for mutex locks
+  ASoC: codecs: tas2783: Use guard() for mutex locks
+  ASoC: codecs: tas5805m: Use guard() for mutex locks
+  ASoC: codecs: tlv320dac33: Use guard() for mutex & spin locks
+  ASoC: codecs: tscs42xx: Use guard() for mutex locks
+  ASoC: codecs: tscs454: Use guard() for mutex locks
+  ASoC: codecs: twl6040: Use guard() for mutex locks
+  ASoC: codecs: wcd-mbhc: Use guard() for mutex locks
+  ASoC: codecs: wcd934x: Use guard() for mutex locks
+  ASoC: codecs: wcd937x: Use guard() for mutex locks
+  ASoC: codecs: wcd938x: Use guard() for mutex locks
+  ASoC: codecs: wcd939x: Use guard() for mutex locks
+  ASoC: codecs: wm0010: Use guard() for mutex & spin locks
+  ASoC: codecs: wm2000: Use guard() for mutex locks
+  ASoC: codecs: wm5102: Use guard() for mutex locks
+  ASoC: codecs: wm8731: Use guard() for mutex locks
+  ASoC: codecs: wm8903: Use guard() for mutex locks
+  ASoC: codecs: wm8958: Use guard() for mutex locks
+  ASoC: codecs: wm8962: Use guard() for mutex locks
+  ASoC: codecs: wm8994: Use guard() for mutex locks
+  ASoC: codecs: wm971x: Use guard() for mutex locks
+  ASoC: codecs: wm_adsp: Use guard() for mutex locks
+  ASoC: codecs: wsa88xx: Use guard() for mutex locks
+
+ sound/soc/codecs/sigmadsp.c           |  17 ++--
+ sound/soc/codecs/sta32x.c             |  21 ++--
+ sound/soc/codecs/sta350.c             |  20 ++--
+ sound/soc/codecs/tas2781-comlib-i2c.c |   5 +-
+ sound/soc/codecs/tas2781-i2c.c        |  32 +++---
+ sound/soc/codecs/tas2783-sdw.c        |  60 ++++++-----
+ sound/soc/codecs/tas5805m.c           |  21 ++--
+ sound/soc/codecs/tlv320dac33.c        |  87 +++++++---------
+ sound/soc/codecs/tscs42xx.c           |  61 ++++-------
+ sound/soc/codecs/tscs454.c            | 107 ++++++++------------
+ sound/soc/codecs/twl6040.c            |   5 +-
+ sound/soc/codecs/wcd-mbhc-v2.c        | 140 ++++++++++++--------------
+ sound/soc/codecs/wcd934x.c            |  42 +++-----
+ sound/soc/codecs/wcd937x.c            |  25 ++---
+ sound/soc/codecs/wcd938x.c            |  22 ++--
+ sound/soc/codecs/wcd939x.c            |  20 ++--
+ sound/soc/codecs/wm0010.c             |  28 ++----
+ sound/soc/codecs/wm2000.c             |  28 ++----
+ sound/soc/codecs/wm5102.c             |  23 ++---
+ sound/soc/codecs/wm8731.c             |   9 +-
+ sound/soc/codecs/wm8903.c             |   9 +-
+ sound/soc/codecs/wm8958-dsp2.c        |  10 +-
+ sound/soc/codecs/wm8962.c             |  13 +--
+ sound/soc/codecs/wm8994.c             |  30 ++----
+ sound/soc/codecs/wm9712.c             |   5 +-
+ sound/soc/codecs/wm9713.c             |   5 +-
+ sound/soc/codecs/wm_adsp.c            |  77 ++++----------
+ sound/soc/codecs/wsa883x.c            |  11 +-
+ sound/soc/codecs/wsa884x.c            |  10 +-
+ 29 files changed, 368 insertions(+), 575 deletions(-)
+
+-- 
+2.43.0
+
