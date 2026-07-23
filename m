@@ -1,63 +1,63 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42057395AD4
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 04:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDC33B3C0F
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 04:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782596; cv=none; b=gv+rJVPjeoln4cB4hklask6AyXEJI58tgWXrb0OdUg1JNtAtZVFQ6s5EQ4F8AXPtF3ymZUvpe03bzSA9r0hzjio6D5x9UkaP/X3DAy7O+iOnGKoKgG9w/M5Gj/HWk8of+gDu252SA+KGeZ/DgoJWzylSzaUc+UxrCImSZ1JwmvQ=
+	t=1784782602; cv=none; b=Q3Hpk5WjFFGWA2EI0Xkthgz125eypFoJpVu5W2HNkj6Wq/qvLt++EG8whlxdr+iJWexMJHBdiZOE78eIC+ypLuDNn5z5xfRWD65VNoTgjWt0ocBhkXCd/8V9qq2IEbpMcUkFUmMxdPFmWPwVwra7KRtGqtjlzczZj4LPs+wa7C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782596; c=relaxed/simple;
-	bh=K0qNNfC3kV/sDligl/YtVeKeS0f+6Ya3lXb6LENAZSs=;
+	s=arc-20240116; t=1784782602; c=relaxed/simple;
+	bh=mTFpbE7y3C+2o7mpAVBR3/EaCOyAljsg1tywzWeZ7gY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BCtvCEqiXQzg5jdygG2nKqku5RrVeYwckc3/vWkhKTuc5BTkeeojarAz34Rah7CrimHmUcnRWxr0xpqSuAqad9RGTAyJtYmqIDpm/oCheG/VnrQjMMbKQLePz93qcGBjnLBj0Tw1bc3jGama9AzXssQmESr9muvSEvwL5qZxRm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+THBt3O; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=J7cnQiTfiJFkmtbS1V4T33ouslpgC0OT76YhTmlGu0rUtCXYk+fXF0W6RS4NiYGwojIg/GykLDJorEqmUVu3YyhLcwsz3Obj+Cdk1mbUmrQ9TgNOhzZLjbwGN/VZVysBxaVEkAh0QCAZufnTXKXwIFfIozpTuV0si/IMhrV3wRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a6mrd0YZ; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+THBt3O"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2caced6038eso589925ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 21:56:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a6mrd0YZ"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc7e86e7aeso2568985ad.2
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 21:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784782584; x=1785387384; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784782591; x=1785387391; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6nAKMdocPGkvuO4NtwVmzSRSgTeiuWi8Ahf/iUqF1PE=;
-        b=L+THBt3Ogue/f6u48xoVpyL67PRwJjV6FiIRb6FMd0fmJMJmihBRUUIvB6oXgCCnk6
-         ga2njBwBxb4xQpzBFVwu8p82wJxMY/cTjAOp+OGERaqYX1OagtCNUqGKnJQ0j5tOORVl
-         WDQAOW8eSE1u97FCKUHEqepvbxJ553IKXXDpIdpBjJXnxQ/UKMrC+qKMC8bAP1f4ygkF
-         rqe+vTnQ9WXlZzyC6/yQmIKQI1nw17MSpe8l7toXoP2kyTfOGUpxk7+ejrjVJxsTrXOW
-         EAiZouE8OaG7cuzGEfx+hP/vu3s/uOR7EzvsbiYQ551F4aVJHNVIuq0kQ6cs7GK3BA3h
-         NVWw==
+        bh=2qqyvFlsAJpGp08mEcLtsqWSAzW5XWPBTBAzSWZnfs4=;
+        b=a6mrd0YZkIHxLi4ckfh1lZoTYS87DUn2J33GMTQby2aqb09DpgtZVUWbOMQE4ekx8f
+         t2SBlyOIXrY0JnEgQbBLzEG4q6+gXefqtNm6sCc91edJny2rUddhqwui6YdnQS2P1Mpa
+         t+rirL31kj011rXaePXdmNSOrhZvbJ/CsQlHp+sJZqCKIH6HZSReLuYWxT87TwWOFrda
+         OQPTQ6OEFKfusRwakNkCHeV5dBLvHl/WyW7z7jSD6eKYUwqXIBg5eRAvm49McdtijPIg
+         35Oj58k7XiesnrRvQRm82hzOXmUfOE3JdNssTP1eyGvPer1NQpsVWh3Gg0rjg0moARx3
+         aiKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784782584; x=1785387384;
+        d=1e100.net; s=20251104; t=1784782591; x=1785387391;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6nAKMdocPGkvuO4NtwVmzSRSgTeiuWi8Ahf/iUqF1PE=;
-        b=aiKIYk/OybRihhT0FOlvNlAqP8bFW9wYrri/E36OsH1HKkhJmXFOQzy4RqnRt98LQk
-         h6nTHz6Sa4UL1+lVBp67nzKgQppjBHQkz81qA5dtSLHerCSpa6DChUUsQ0NXZX0BNDsF
-         7RQQ/QgtviNaBGAhNC0o4u30EeizZ1xtPZnmIyY9Jwu3srTH7t6/46BAHNQnkHJRS1ku
-         1Vos/LURQ9YyYCtvJ/8pWiQbFra0hy0+NzNA/NAQ2Sosdin9F+ntjgDvjHG0SGofbvIE
-         fZTFXOC9c81cRSWfPjL+EuC0Uc+VJHCbtzLZGS0P+1SSZqPYYeXs1c3ueqS1srfbV65g
-         +9hA==
-X-Forwarded-Encrypted: i=1; AHgh+RouuS1wu6tBGo3KhSr/hddu4Wjtvu8tvFsMB7LpBzLq1sqw1hMzxkwPuDrIPxjmEFoOt2/KsW412Otgjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMEgZ8U3E4Mz8QtIZTG9Gxtgq+VuQ2wZoiZDnRztBtQq1yGKT0
-	l9hdYdio2GeynKQoQPM5auzgG5emWLhCkqI4Xq2z5phRaTRSU2HMasBp
-X-Gm-Gg: AR+sD12Lfg2C78DDFDwne8puJc0HidzKMuWrUkPvkLV6usHxnMFZE/WikxBVDuuojeR
-	wPo91NRKQYrHRrcsP2sep5U9Dz2YCn7SyxaYu8fAtrb1Q64we3Pd6fWtuzUeUFFScxLVzPrg5sl
-	Wq5lKR1D4iu4v78JxQHvX639LMYEhstJKu8Fbi7ttt4f2r+tH1CpcEjql+1V9EDBKY+LHMujKvW
-	XnzRHvBK2xKE+/HMqCCBAYBftakFClwVjv05N7ykj00bZiH7x2gm6AUjJYM5gHFFGQBqVUpvgLH
-	r+quIZMaX+hrLOFbvQMa2J7lO6+umY76GHRnd0LRUE6663p1ZQFBybcUeHm0sc4/+0PFMUeivZh
-	h6vKLCx2T4+2WSy0HDC0ovWqjmNOfcxgXpRDvCDuNfwZ5oF9vQXPtfCsdvoiXJmngcLyDK9e4E7
-	+8r+uNG7Q0jZcKs2K30nBL9ffhcPhfP+kaAAZn
-X-Received: by 2002:a17:903:2406:b0:2cf:41ba:96c2 with SMTP id d9443c01a7336-2cfa94ce6demr13480345ad.12.1784782584053;
-        Wed, 22 Jul 2026 21:56:24 -0700 (PDT)
+        bh=2qqyvFlsAJpGp08mEcLtsqWSAzW5XWPBTBAzSWZnfs4=;
+        b=hDpAzCtzj9P8OmeLocyv2jh4oQA3HYChXeWt9wZLndaR9j3Y1LSy7VYUNygsr7THu3
+         lYbbM3GeBsLflXQOV+Vn4wXc6CiYeTm00/RqT2zzLgQ9iYnIOXemyfbqmKjdyXk0DLGo
+         URmo26tY3weexmF8pzjV7eKJXWNWxtIkDuMljaYE3OzSh0HNkncgOsSoO7desG51dziH
+         3dJecyod/vD4toBVPlbWV7M4GOvxeZE8xu3eZaIXBVNuY7AOyD6E7uru/PH4OkbsUXcl
+         cGtFngSJl6xirepdmQkjRUr2zwNHqjABQG89HScPQu/Hkw1y3F5UDJCUicY8ATJlhMte
+         ItZw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq3GDau31JbSB7F5biu6Y5ZRhO9DioDzJxqcxyfu/BZtIxoVg9UwzBF4R0IbFXs3auQbV8nwVnlz2kYtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxG0NSAXdce+666WQhc82DzzS6SABi069YO9GqGUl4Xn/EL/5oM
+	l11KNK2+XhblTqIryCRaGq0eTemXG0u2WqUQ4SogJwlz8qTNjQ4vGiLP
+X-Gm-Gg: AR+sD11/+ZboeaOFCw185O08ABAdKT+m9Trbp89pbu8xE9G1V3Bm/vp8qlSsW9YeBdd
+	2ma75l4lzvVBhGk4TkB4ii6KNFA45gdyQDxkZZsO3ckdsj3+T9fw8XMa13dw6/kvqozeHOd8y70
+	F6VUiOK52dHF2yYGZcUQl7oM/Yi5rgHnO+rTJ3crm1JwOvR+pkjdp5V1VjzyMjYr9JTN+2ZvnYC
+	CI52G3JDnn0JU/suPbCjY902lWaxet3ScvJwh4EG9Iufjtysf0yJCpCbLYLJZM6Wlvo3PhFq65h
+	NmSdxjjHKJ9JYDo+GDtfzlxgozF3ik2h3FTJtJU2iRYb00NbIMdtlTjsaUld2KtQ83OC5T3CM2n
+	cEubgwGWnWXD3Ha/BAnUic6HwLHOfVnw4EDPVu52skBAMyi52OO9vuvPd+1qh+i/T6cRM6o8V4v
+	hR9WaariLb7Aew125zu/y0AlYQri5jKtBbbcDq
+X-Received: by 2002:a17:902:e801:b0:2c9:8f4a:90b with SMTP id d9443c01a7336-2cfa6a54e47mr20230015ad.3.1784782591028;
+        Wed, 22 Jul 2026 21:56:31 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfa57542e0sm7258365ad.67.2026.07.22.21.56.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfa57542e0sm7258365ad.67.2026.07.22.21.56.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 21:56:23 -0700 (PDT)
+        Wed, 22 Jul 2026 21:56:30 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -88,9 +88,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 21/26] ASoC: codecs: wm8958: Use guard() for mutex locks
-Date: Thu, 23 Jul 2026 11:53:22 +0700
-Message-ID: <20260723045327.28260-22-phucduc.bui@gmail.com>
+Subject: [PATCH 22/26] ASoC: codecs: wm8962: Use guard() for mutex locks
+Date: Thu, 23 Jul 2026 11:53:23 +0700
+Message-ID: <20260723045327.28260-23-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260723045327.28260-1-phucduc.bui@gmail.com>
 References: <20260723045327.28260-1-phucduc.bui@gmail.com>
@@ -109,54 +109,57 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/wm8958-dsp2.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ sound/soc/codecs/wm8962.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/sound/soc/codecs/wm8958-dsp2.c b/sound/soc/codecs/wm8958-dsp2.c
-index 8ff0882732e7..f75a6dc9d2bb 100644
---- a/sound/soc/codecs/wm8958-dsp2.c
-+++ b/sound/soc/codecs/wm8958-dsp2.c
-@@ -7,6 +7,7 @@
-  * Author: Mark Brown <broonie@opensource.wolfsonmicro.com>
-  */
- 
-+#include <linux/cleanup.h>
+diff --git a/sound/soc/codecs/wm8962.c b/sound/soc/codecs/wm8962.c
+index 2db822fc1de7..8a9598161b35 100644
+--- a/sound/soc/codecs/wm8962.c
++++ b/sound/soc/codecs/wm8962.c
+@@ -10,6 +10,7 @@
  #include <linux/module.h>
  #include <linux/moduleparam.h>
  #include <linux/init.h>
-@@ -864,9 +865,8 @@ static void wm8958_enh_eq_loaded(const struct firmware *fw, void *context)
- 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/pm.h>
+@@ -1564,11 +1565,10 @@ static int wm8962_dsp2_ena_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct wm8962_priv *wm8962 = snd_soc_component_get_drvdata(component);
+ 	int old = wm8962->dsp2_ena;
+-	int ret = 0;
+ 	int dsp2_running = snd_soc_component_read(component, WM8962_DSP2_POWER_MANAGEMENT) &
+ 		WM8962_DSP2_ENA;
  
- 	if (fw && (wm8958_dsp2_fw(component, "ENH_EQ", fw, true) == 0)) {
--		mutex_lock(&wm8994->fw_lock);
-+		guard(mutex)(&wm8994->fw_lock);
- 		wm8994->enh_eq = fw;
--		mutex_unlock(&wm8994->fw_lock);
+-	mutex_lock(&wm8962->dsp2_ena_lock);
++	guard(mutex)(&wm8962->dsp2_ena_lock);
+ 
+ 	if (ucontrol->value.integer.value[0])
+ 		wm8962->dsp2_ena |= 1 << shift;
+@@ -1576,9 +1576,7 @@ static int wm8962_dsp2_ena_put(struct snd_kcontrol *kcontrol,
+ 		wm8962->dsp2_ena &= ~(1 << shift);
+ 
+ 	if (wm8962->dsp2_ena == old)
+-		goto out;
+-
+-	ret = 1;
++		return 0;
+ 
+ 	if (dsp2_running) {
+ 		if (wm8962->dsp2_ena)
+@@ -1587,10 +1585,7 @@ static int wm8962_dsp2_ena_put(struct snd_kcontrol *kcontrol,
+ 			wm8962_dsp2_stop(component);
  	}
+ 
+-out:
+-	mutex_unlock(&wm8962->dsp2_ena_lock);
+-
+-	return ret;
++	return 1;
  }
  
-@@ -876,9 +876,8 @@ static void wm8958_mbc_vss_loaded(const struct firmware *fw, void *context)
- 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
- 
- 	if (fw && (wm8958_dsp2_fw(component, "MBC+VSS", fw, true) == 0)) {
--		mutex_lock(&wm8994->fw_lock);
-+		guard(mutex)(&wm8994->fw_lock);
- 		wm8994->mbc_vss = fw;
--		mutex_unlock(&wm8994->fw_lock);
- 	}
- }
- 
-@@ -888,9 +887,8 @@ static void wm8958_mbc_loaded(const struct firmware *fw, void *context)
- 	struct wm8994_priv *wm8994 = snd_soc_component_get_drvdata(component);
- 
- 	if (fw && (wm8958_dsp2_fw(component, "MBC", fw, true) == 0)) {
--		mutex_lock(&wm8994->fw_lock);
-+		guard(mutex)(&wm8994->fw_lock);
- 		wm8994->mbc = fw;
--		mutex_unlock(&wm8994->fw_lock);
- 	}
- }
- 
+ /* The VU bits for the headphones are in a different register to the mute
 -- 
 2.43.0
 
