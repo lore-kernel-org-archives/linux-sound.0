@@ -1,100 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8B6470EAD;
-	Thu, 23 Jul 2026 10:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870633D6688;
+	Thu, 23 Jul 2026 10:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784803603; cv=none; b=YHMqpcVkF1Mz0Cztot1ooWosYF0+pzGOy2j+yfb+PwHLHV5E+ndfPgRge9aeQzW4+baXpokIRuSXI6RwrW24tzl/vNOap1RrQDwdO524Wuo0HtXFhj3avhvzopVgZfurW8E4xXn0v1HJf4/kp4zSxqmS8edp5ARrw+oaGtwDC7A=
+	t=1784803825; cv=none; b=csHoKO3SIPI/LJTxZz0b+wt3gVsksJfbvFfQwGYzXX9P3UhsNzp6UHGgPjAED/+NXJ6R9aaYCDe5QSGQAspNpbdKpKtMZX7a4fANU1w+IlMw8VeXR9fpiXYErMCsEDGwGtUNtrIVrHn7d5jX/712gnmFUqcGo/gBbWXn44bZAXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784803603; c=relaxed/simple;
-	bh=MemXIWXqKpq7EuZDuUTzqU1nPbcw4c2dV9qt4FWWFn8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TFjtN7KH1DAIZxdDH1XfO5xumXRP4cL775/lfLG4YLi0ykGSflJnzkAkZpdL444OBclNv61NBDLF7OotMaRaDECXxr9ootVaSbw8kvgxmwXWUlNeY7loxT3Ewer5dm3EjaTgrtGIjLinhEYEO0IUmqvNnWF/RZUED2bznP48HDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MCAMqp3I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784803825; c=relaxed/simple;
+	bh=D0a8s/NQ4Aao9oBgwpAdjKsbBI6x6F+hPt/2rH6En4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WJziUTng+MyqwelL/svxn4DciyRGv602kB/Buz7IH3hMlzItbwZoxvS/x6F4XDtaav5aHa5M/f6UEI802T17k2ByJzA0gG9ocJrkz6YPDVJaigNMnWRi8y9r8baKDL3gh2ItQtnjduEUTlBZWgZiqk1QMA6psug9inGI179SLV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=bg0veIzW; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MCAMqp3I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC4D01F000E9;
-	Thu, 23 Jul 2026 10:46:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784803602;
-	bh=LMATYmt4YR+CzzlSlSZabwHEq4jQdYtLz872HlFl00M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MCAMqp3Icihvo4o3vi4QtPukT0LBRE0ve0MhR4Q0ZWZFXAyIQZZ6PWhwwHQWKUbm0
-	 vCAQt35uXA0E0MHC50a/yaoz8K6C7JOMFRJD+89/3c61LKiQ1CqF9nI3I+Wy52hcuf
-	 CxCkOZEzqECEvumcG7w91lY9YcSifcs0ZILTImttnP1Q8jz6WdS2GD6mfCs4RD1BLR
-	 vnhKGFmb1UrjNc+bP6RlAYgzHpZXqK60xBm+0vb3nlc2aTB2tZXQGi6fxUXl/adYLq
-	 6/YQP7tHrpbR6PX3xdcuxdvEUfWNhRsE7ErWIeeqkFKABvb0SgoVY9+Pnedf/xidnT
-	 nQjyY3skUuNbA==
-Date: Thu, 23 Jul 2026 11:46:32 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: phucduc.bui@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com,
-	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
-	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Linus Walleij <linusw@kernel.org>, u.kleine-koenig@baylibre.com,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Kees Cook <kees@kernel.org>, Chen Ni <nichen@iscas.ac.cn>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>, patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 18/26] ASoC: codecs: wm5102: Use guard() for mutex locks
-Message-ID: <8a7bca4d-80da-44cd-b0f7-6dcd9609a779@sirena.org.uk>
-References: <20260723045327.28260-1-phucduc.bui@gmail.com>
- <20260723045327.28260-19-phucduc.bui@gmail.com>
- <c3f876ad-e222-4cd4-ac29-e55040ccc863@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="bg0veIzW"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id D27D383F7A;
+	Thu, 23 Jul 2026 12:50:21 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id mN0eZR0YPdSt; Thu, 23 Jul 2026 12:50:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1784803821; bh=D0a8s/NQ4Aao9oBgwpAdjKsbBI6x6F+hPt/2rH6En4Q=;
+	h=From:To:Cc:Subject:Date;
+	b=bg0veIzW/rGvKvYfZb3MA5puWhfMXVyhd1ddL5fcFk9SG/9ytrTpNwu6rqsMkNIz8
+	 F5m1D9GHTkS3K7T7Gugvjmec184+Qpcy5qNENtRaDRJBvdnjMRPSj61GWN1xdgQZVl
+	 TN+T0BJUY9h8bqhE0AxGU/+FK8YkVGl7FwYIJkVg8NNpdTvyZ30Qlc8Gek9AidmrMu
+	 hOOS7P3n3SntBOBt+TH7pSCWEaXBuo1gSRtyqVZHPgiQBQhNCYsYKetlKsChO4u40r
+	 BueLj7aMTiXdK3CtAUmZbm+3vYENCNULCACDFQf8SNatO4Mkp4cQFvKkfR1bHFlWko
+	 OWDWKr8LlXUYA==
+From: Madhavender Singh <madhav@disroot.org>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Madhavender Singh <madhav@disroot.org>
+Subject: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP Laptop 14s-dr1xxx
+Date: Thu, 23 Jul 2026 16:17:36 +0530
+Message-ID: <20260723104736.23386-1-madhav@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="aPSowDBKMhYQhe8P"
-Content-Disposition: inline
-In-Reply-To: <c3f876ad-e222-4cd4-ac29-e55040ccc863@opensource.cirrus.com>
-X-Cookie: (null cookie
+Content-Transfer-Encoding: 8bit
 
+This laptop with an ALC236 codec requires the
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2
+fixup for its mute LED to function correctly.
 
---aPSowDBKMhYQhe8P
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add the subsystem ID 0x103c:0x86c8 to the quirk table to apply this
+fixup.
 
-On Thu, Jul 23, 2026 at 10:51:52AM +0100, Richard Fitzgerald wrote:
-> On 23/07/2026 5:53 am, phucduc.bui@gmail.com wrote:
-> > From: bui duc phuc <phucduc.bui@gmail.com>
-> >=20
-> > Clean up the code using guard() for mutex locks.
-> > Merely code refactoring, and no behavior change.
+Signed-off-by: Madhavender Singh <madhav@disroot.org>
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 379e1458f4ac..cc273e5f782c 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7108,6 +7108,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x869d, "HP", ALC236_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x86c1, "HP Laptop 15-da3001TU", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x86c7, "HP Envy AiO 32", ALC274_FIXUP_HP_ENVY_GPIO),
++	SND_PCI_QUIRK(0x103c, 0x86c8, "HP Laptop 14s-dr1xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x86e7, "HP Spectre x360 15-eb0xxx", ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+ 	SND_PCI_QUIRK(0x103c, 0x863e, "HP Spectre x360 15-df1xxx", ALC285_FIXUP_HP_SPECTRE_X360_DF1),
+ 	SND_PCI_QUIRK(0x103c, 0x86e8, "HP Spectre x360 15-eb0xxx", ALC285_FIXUP_HP_SPECTRE_X360_EB1),
+-- 
+2.47.3
 
---aPSowDBKMhYQhe8P
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmph8QgACgkQJNaLcl1U
-h9Bf4wf7Bm+zdQojTrRb2CrEQzw770XgqbN8TnSB+p6n3niHfa90H/DO14t0S3h+
-PtWC51dsQegER/FRKxkvEpgtJgDAmOmIiTHK8BQbtXed5VFGwwzHajyIp2nfskUt
-ZLkjYvvEtlRAQZrxPY76+iHsrlqWyHU1O14fNJJscvdn+9d109ztMMbNBcvvT1l6
-PwJ+6quO8D1tXENKgGnbCbZwKpdWDP52uYQzkNVZRLPd6+kn3wkBJD6O/bv5XVRq
-u1z/aeQ6pUjRgsbAgLd6u3y/8pf1liLb/rSK+cPjpOT6yteuStVcshOcSE09EApV
-XuFte6c8frdyLtpOtJ3EoaEY85Uqow==
-=w97y
------END PGP SIGNATURE-----
-
---aPSowDBKMhYQhe8P--
