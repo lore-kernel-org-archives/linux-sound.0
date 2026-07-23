@@ -1,103 +1,114 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EFA3E49E2
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 07:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043D83DCDB1
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 07:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784790972; cv=none; b=JNMT7QJ2Obc5bEKmpYirrgNduvAvWaCxn9kyWdI95lFwrlWMdBmtdL4OH/JKZ6tpdb58/wBJlGCn6mqHlU6+Y1CE3gZX5NmZohycISNyxK08CZyEEOkGxPEeXiG8pSPs1w7Vce96fD6MzeCIUAb9l21dhT1sAMA1SMlqO2v7U7o=
+	t=1784791598; cv=none; b=PAQmrryJ2rVl/MrktWEqHVRvg1wQ6gzmozeVAXhHrHfY4M1ID+Pnwkz5OuunZITXzKzUph+cHGBnneXpYfZqgdmq001pGaMdMoI/4cW9sSBPDpGXhVLA3stbAWZPNPmUADO0g9Ajy666y/x5yz2c9KhIyZ7X3tQPCF/P+37jbd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784790972; c=relaxed/simple;
-	bh=ydpWMNazXbR1dy5fVTGqIscLCeSrT6lVDeoIj/FXIk0=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=HCFOrP0cSoB/4rJrGaMqSgoDQpV7cXQQgi1c6Makjrw5ulGsZhnIrJwauJJIodL7l4IuPlImlprPfKW5RYdmI0wgAc4Gc3P4a25Gq12vRFnDWaxkQSrYcOCp1XZMQj7y5KvU9y3yKcaqloOdw/VGeoHLi4YzlPoDOHk98Ipz7MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=uv4d/VP7; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1784791598; c=relaxed/simple;
+	bh=PHVVHMzvamfInu0laUoasP6sfprHLwXreih4RDNS2Es=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=olBYy0oeeJvsVyx2ZjLFjNetr+ex7nWH7UAADmqqytMdIKom4BZKC1eAkq2PXEbvuzPF6yrjnFZcpvORslgmLkDTsTWk8VWzH+XCA6Sr7Em9DO5gaMSEuZjc5SJgRMfzchEc9Ozx1aa7koONT8j8l7rQ2MPnhaCNbJEvqzIify0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=gIgiAGjA; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="uv4d/VP7"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 66N7FieK6277919, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1784790944; bh=0ZWxfw2lQrj7bDvw7NIqLdCf2fLmKPrQ7tQ7YcRepGA=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	b=uv4d/VP7bLgr8KLdwAk0oOgXN567wf/vaeuflY64twrguI5aEeMGIWIN9WADF1pig
-	 WjrHaCOwQF48/jf3CoeHQKhR+jhiHy2pCTm+CHjI3eE7BEtpQtY44gB/DXPJZMwy3M
-	 sQCmdeUCOon+yXbUQgQamfgYjuvzkvEoGr9q4T50lcaw59HZEkX8NiijmL+tXh0seX
-	 dAf//MEluWt0YwXY01voQE5zMaiUBpK24QOz050zzppOfc3w5FSZGKU4TRJBzLhfzb
-	 +bhwGY2KfSwfsCArIHYeNOVhATJqKN83DsVwPEKX10kNDoTOUEuqpugezl5ElBg6zP
-	 VlkjOuEawogww==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 66N7FieK6277919
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 23 Jul 2026 15:15:44 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 23 Jul 2026 15:15:44 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
- 15.02.2562.017; Thu, 23 Jul 2026 15:15:44 +0800
-From: Kailang <kailang@realtek.com>
-To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Add quirk to another Razer Blade 16
-Thread-Topic: Add quirk to another Razer Blade 16
-Thread-Index: Ad0acr1oaml9H8FAQTuH7IPjumBaRw==
-Date: Thu, 23 Jul 2026 07:15:44 +0000
-Message-ID: <0cd8c77a82a4481ca9409ac68f1041e8@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-Content-Type: multipart/mixed;
-	boundary="_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_"
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="gIgiAGjA"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49555a0e68bso1326935e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 00:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1784791591; x=1785396391; darn=vger.kernel.org;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=YZYNxTA29o+VVvsMIKxzvkFs91vd12LPquYRo5EUNDc=;
+        b=gIgiAGjA1p1INPu05PAHiL2LJ+Yhr32WHh/kLL4+TEjjUUWUQ11+zYzyoTMvz9TdLl
+         QHsbaeb+Smuo8rlRf5lp6f/3OoRd2B6WNL596qWkrK9du1uyw7HE66mxh6laKsJym1C/
+         sREIgwzBcxqN3QlgoqWLL1/VIqgZUP+thC0AuT2ooNHek3izP3f6irETxrixDRTfRSdh
+         A9InLdwmzt683PXPCDe1OBGe9NHo8tTdxD9Ktto0VxrAYB6Z7gbYewXVo14CgoyXcDzX
+         0kwpDGecliTO0Qfxtvo4wQPVA57hXu+XpZm58VS10g9CHOa/dQrMDjm8Dp54peEHexdW
+         /gfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784791591; x=1785396391;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=YZYNxTA29o+VVvsMIKxzvkFs91vd12LPquYRo5EUNDc=;
+        b=dVkGYN8PTNTiwcsuwNaLHTMC+UMNhlPimDNTuqMtkM/zThDf/3IwzDRc8XgqDrSS88
+         v52KjAEG2Zh7oMT0nmTiPX/ayaTBEHZj6SXJw01MTPvLcC75AtUbkJFEFK8ljm9x9HaG
+         uonKx+lM2SdjYxr96JYScQT5J0500KaQSOql5Ir/qDTEgIwDEjcj9JWJ8FHMIWF+2ICR
+         6ParW0uy5+7qFmMtsiZ+YZ1vvGD9MHIZQiG6vrS+lfGOx3P88yZovs0ZZ7qaZOZaJOaq
+         lL5e0SEhXiGgv37w14WHKbEy/FLc1p3E0oipps6LsBp6t9F3DREj7PJrbX3mbzooO1F8
+         oibg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+/NmfnvXvVCq9Sp4v7ppVR1moH1KEPB72eUfzmBwj/ZXgKYfQH55O/4nCFMGENuRvSqaUSuis043DEw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuZ7iPjZOMTpVAfjgakDRmqLAdNVVIDO7eJA0+K2MNFIuLeKGf
+	2HMhExuOnBygpiyJsSHl5AuafyiUMZ9j9LWUzIS5bpqLr5rvKWzyi1rvUoP68G/9bXw=
+X-Gm-Gg: AR+sD12QE/B2v6jaDhOQAq+ycO3kB3B++FBV378uqT2sNhXRyGJ/tOx8sn7xSSXBatg
+	Ucj4sZMdZCgBsMrLluorL2MD5Edf4xNCFWT4ZgnLQCzm6e9m2GGLi0sC2Xko7IRco0luMvMTwAn
+	VFHywdq8RtMNLtIls2ND8DWj2u/E3c+Ww3SEG5ZIO+qs/Pc6nRYc/h67H/H/GwDZFmNM5v3hLQF
+	vOeYwtURRd/4QkcbTEzRH1pJly8r015ovY7ecmRybAyjjFp+tkYRY58vd2atzP2uHVfuUfxciT5
+	jaKa+NeEPI/uWtL+tfAPdlNzAucbQ6eFbncJUNBno9/+chFHNcYmEpiQTgRHUCnjM/1E9PmY0KS
+	v4vH/I6/htDaI5gcAIwoJmtbvs2qaHVa1vPj9gFqGjX9OfDkIsLYcSmXUqDErfJQUHzb7rfxceO
+	G83acZEwtemDY=
+X-Received: by 2002:a05:600c:8b35:b0:493:bfea:2780 with SMTP id 5b1f17b1804b1-49573c99630mr15932445e9.9.1784791591318;
+        Thu, 23 Jul 2026 00:26:31 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:3274:dbb5:2710:802b])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4956b0395f7sm83940215e9.3.2026.07.23.00.26.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 00:26:30 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,  Kevin Hilman <khilman@baylibre.com>,
+  Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Takashi Iwai <tiwai@suse.com>,
+  linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] ASoC: meson: preparation for Card capsuling
+In-Reply-To: <87bjbytkej.wl-kuninori.morimoto.gx@renesas.com> (Kuninori
+	Morimoto's message of "Thu, 23 Jul 2026 04:11:32 +0000")
+References: <87bjbytkej.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 23 Jul 2026 09:26:29 +0200
+Message-ID: <1jmrvicgka.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
 
---_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On jeu. 23 juil. 2026 at 04:11, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-Hi Takashi,
+> Hi Meson developers
+>
+> These are v2 patch-set of meson preparation for Card capsuling.
+>
+> I will post Card capsuling patch.
+> To makes its review easy, tidyup meson drivers to reduce
+> un-related diff as preparation.
+> No functional change, but is preparation for cleanup driver.
+>
+> v1 -> v2
+> 	- Do nothing for snd_soc_of_parse_aux_devs()
+> 	- Don't replace card to priv
+> 	- replace card->dev to dev only
+>
+> Link: https://lore.kernel.org/r/87v7a9i0o8.wl-kuninori.morimoto.gx@renesas.com
+>
+> Kuninori Morimoto (3):
+>   ASoC: meson: axg-card: tidyup not to use card->dev
+>   ASoC: meson: gx-card: tidyup not to use card->dev
+>   ASoC: meson: meson-card-utils: tidyup not to use card->dev
+>
+>  sound/soc/meson/axg-card.c         | 25 +++++++++++++++----------
+>  sound/soc/meson/gx-card.c          |  6 ++++--
+>  sound/soc/meson/meson-card-utils.c | 22 ++++++++++++++--------
+>  3 files changed, 33 insertions(+), 20 deletions(-)
 
-Razer Blade 16 had another SSID.
-The patch will add quirk to another machine.
+Reviewed-by: Jerome Brunet <jbrunet@baylibre.com>
 
-BR,
-Kailang
-
---_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_
-Content-Type: application/octet-stream; name="0000-razer-p11.patch"
-Content-Description: 0000-razer-p11.patch
-Content-Disposition: attachment; filename="0000-razer-p11.patch"; size=1210;
-	creation-date="Thu, 23 Jul 2026 07:15:13 GMT";
-	modification-date="Thu, 23 Jul 2026 07:11:14 GMT"
-Content-Transfer-Encoding: base64
-
-RnJvbSBlNzJhNjBkYTcxM2YyYTBiYWNmZTMzNGRjNDc4M2FmOTUzNmRkOGVkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
-dGU6IFRodSwgMjMgSnVsIDIwMjYgMTQ6NTk6NDcgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
-OiBoZGEvcmVhbHRlayAtIEFkZCBxdWlyayB0byBhbm90aGVyIFJhemVyIEJsYWRlIDE2CgpBZGQg
-cXVpcmsgdG8gYW5vdGhlciBtYWNoaW5lLgoKRml4ZXM6IDk2MWQ5Zjk4ZGEwZCAoIkFMU0E6IGhk
-YS9yZWFsdGVrOiBFbmFibGUgaW50ZXJuYWwgc3BlYWtlcnMgb24gUmF6ZXIgQmxhZGUgMTYgKDIw
-MjUpIikKU2lnbmVkLW9mZi1ieTogS2FpbGFuZyBZYW5nIDxrYWlsYW5nQHJlYWx0ZWsuY29tPgoK
-ZGlmZiAtLWdpdCBhL3NvdW5kL2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYyBiL3NvdW5kL2hk
-YS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYwppbmRleCBhZGRlN2M5NTNkNjYuLjVjMjcxNWI0OWE4
-ZCAxMDA2NDQKLS0tIGEvc291bmQvaGRhL2NvZGVjcy9yZWFsdGVrL2FsYzI2OS5jCisrKyBiL3Nv
-dW5kL2hkYS9jb2RlY3MvcmVhbHRlay9hbGMyNjkuYwpAQCAtODAzMiw2ICs4MDMyLDggQEAgc3Rh
-dGljIGNvbnN0IHN0cnVjdCBoZGFfcXVpcmsgYWxjMjY5X2ZpeHVwX3RibFtdID0gewogCVNORF9Q
-Q0lfUVVJUksoMHgxOWU1LCAweDMyMDQsICJIdWF3ZWkgTUFDSC1XWDkiLCBBTEMyNTZfRklYVVBf
-SFVBV0VJX01BQ0hfV1g5X1BJTlMpLAogCVNORF9QQ0lfUVVJUksoMHgxOWU1LCAweDMyMGYsICJI
-dWF3ZWkgV1JULVdYOSAiLCBBTEMyNTZfRklYVVBfQVNVU19NSUNfTk9fUFJFU0VOQ0UpLAogCVNO
-RF9QQ0lfUVVJUksoMHgxOWU1LCAweDMyMTIsICJIdWF3ZWkgS0xWLVdYOSAiLCBBTEMyNTZfRklY
-VVBfQUNFUl9IRUFEU0VUX01JQyksCisJU05EX1BDSV9RVUlSSygweDFhNTgsIDB4MjAyMywgIlJh
-emVyIEJsYWRlIDE2ICgyMDI1KSIsCisJCSAgICAgIEFMQzI5OF9GSVhVUF9SQVpFUl9CTEFERTE2
-XzIwMjVfUElOUyksCiAJU05EX1BDSV9RVUlSSygweDFhNTgsIDB4MzAwZSwgIlJhemVyIEJsYWRl
-IDE2ICgyMDI1KSIsCiAJCSAgICAgIEFMQzI5OF9GSVhVUF9SQVpFUl9CTEFERTE2XzIwMjVfUElO
-UyksCiAJU05EX1BDSV9RVUlSSygweDFiMzUsIDB4MTIzNSwgIkNaQyBCMjAiLCBBTEMyNjlfRklY
-VVBfQ1pDX0IyMCksCg==
-
---_002_0cd8c77a82a4481ca9409ac68f1041e8realtekcom_--
+-- 
+Jerome
