@@ -1,50 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBABB3C5DD4;
-	Thu, 23 Jul 2026 09:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784798920; cv=none; b=Ng/9gPDcEZf0nK/wJ9b+Xlu+UWJKPavCRg5TOJUAdStnyp+N13gGG20lJPctGmKyfHBSisBwW05HiNseXu0puchCdmaXC1eUwS8noA7CI1R02UaKmzTrR95YOJh5L4Dpmxg8tin6uOfgoNT9OKS7KULNsji5oBfm79gfUg4wzig=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784798920; c=relaxed/simple;
-	bh=qwlb+IvyEWpjUo1K7CVYOI60Uq7utJOWMfS0YAQ7Vbo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15727421A07;
+	Thu, 23 Jul 2026 09:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784799088; cv=fail; b=sLX7KxyQO8yCAideu2EmaynXNQ08Q1MvmaJjlS7yo0tnWo93kynvHJwGRPjgyXg1ZfOyFfhTZg2ODtlTWtpFXa5/n92xtgOUOYmvQP6UHREUY05zxinWR5C7w4J6kQX6YkvoCP9OrUsoAk1uSl99gz63uRk4Ed6br0QzbEcdLX4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784799088; c=relaxed/simple;
+	bh=C2nJRErEzqwUntSJjuK32xafL+Rrm/KyzXFlApXcZfY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hXbh0D/r03sNWKyXXp2eAC5xvGOzl7tDuAGgR3lrLQMR8yj3z8JJm31WuT/d7su4Znt6UFRras6iA1UQIn1W5n25Hb4e/JTXkMO482d6jnO/FYcow5udGI2MqrBFfMLwknjat6M1O6l3xuS6IeL6A58jFqi3At3T8im3p7oBHkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L6XlVNwg; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=du/LaM4Z4ueKqY5dnOK/XfQH8P6OcEKFUshgv/IQGNU5JYirfVEw+6rgwCrnVE8MsdOAYOy0zfi795VYxlLgimwiyfrDkgd2xvHmhrQ0vZUV5laD+A70rG4v/65vX2ZGhc5rvejxIb+NoFEIR3aoFO3ZS2GKpXEBvTN8Iev3X54=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LH4LrGUO; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=iDGhD6vr; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L6XlVNwg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784798917; x=1816334917;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=qwlb+IvyEWpjUo1K7CVYOI60Uq7utJOWMfS0YAQ7Vbo=;
-  b=L6XlVNwgKuGDVoH8ERto7B5HSF4+nXHNF6jQCdGj1Rqe7PbIN4YHUFlR
-   029bJE2nx42hCeBzHyFXvzxkESP2GOHPUmE6y+2fPZFb/Yz9p7JOIZTW2
-   l9fQz/5+tPeGjqFBkAyzTTKpC2quyf/O8RNxfCARJtqnWHxiajmxUIpFS
-   e5JuRWWDzCkWTUwmGDPXBMn5gYDcJEx0YE806gMmggL+j1dnorwnrHwhR
-   7z/hC/4C1RSKid1iT22THd1xBCj1D3e95mvWqn85le8HW9L73hqTLtzo6
-   bjzQ8BCmaUPY1jQfql0EqTMDa/q4u7ReCRHXgELXrnnoP2/9xZhASI750
-   w==;
-X-CSE-ConnectionGUID: lzInlwE2Qo6mq4yWxGToqg==
-X-CSE-MsgGUID: 5KB9iEuORQylceIPWIvHew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="85394820"
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="85394820"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 02:28:36 -0700
-X-CSE-ConnectionGUID: hc3RqUe2TcC1y60p9D0eww==
-X-CSE-MsgGUID: CEzddS6dS0eahVZ2NEGmKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,180,1779174000"; 
-   d="scan'208";a="262135089"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.159]) ([10.245.246.159])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2026 02:28:34 -0700
-Message-ID: <ed393a64-0b24-462e-a59a-b784831ac810@linux.intel.com>
-Date: Thu, 23 Jul 2026 12:28:59 +0300
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LH4LrGUO";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="iDGhD6vr"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66N4Unqq2279487;
+	Thu, 23 Jul 2026 04:30:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=w9gr48Dwvfl71BB45TQuwCyl/14PQaExO09HrSvMZrw=; b=
+	LH4LrGUOSydLWgXfSlEaIfwh4CR50dbaks/9fQSVM6GcQ7RSI5PUsXa6YSNSao4c
+	DVKKAn9SqrdJF96HnwS0CXHI8MyX0bkmzsourbuLF6nvTzLHj+rCoZGh5jEbwFBI
+	4rRldzd4jsizZf77W1xBR+1KYx82SxcIUv6Nw2OLe3OvmOHejHXR3dUnhJjTZMSv
+	xLM2k8CDqEBlmP2C/wdw3dmi3BssEkFgPaqxhtco56fqD9keZ8OZZ3BWSSZ3mF5V
+	lIajDwVomTLnl1qgmu6tkTvH7QU6c7GCrTOOT4Kc+tD3KyJtfIykTl4vFhT6mSl+
+	QUUAJUd9lrd/lBwqFR4IQw==
+Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11022123.outbound.protection.outlook.com [52.101.53.123])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fg6vyq349-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 23 Jul 2026 04:30:42 -0500 (CDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ijLgT7icvtKrcpl4zP4l0gvLINJGB85/H0JQZwWiK72GdccftgyV42yo9dQ8mlPUgJ9ScZAZ0VGxeU6RlE+ij8Gy7HJHKskN43mLOEKcnrBICkn04XE84CajcfYlQdTnJUTJh6q0DxdtBAKPcO4UUuyxhu6W9sBWejc8I75CrIT+R8ccYBerU491FRx28tm0yErcsbsIAm5rmlRs4hOq40zZpYKI7736LvilXf66Zw4C/FhRCGdh7+8AbEOVK4FDJOoJ0bybjg600O51UN+7U+8JjpSIxc/heK7D6GHnqnlUXLp5//sYjwSSgKEdFjM9ALQnrb5xqwUz5lzhnqWamQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w9gr48Dwvfl71BB45TQuwCyl/14PQaExO09HrSvMZrw=;
+ b=UQtyOH8TwMnBBEQQRHInFp00HAIupRJUGmBT0+SFiZHaz5aOErcmNggqhyMDO5EappOaYngyWHzgnj29KhKrqRN2vMFRFcjDAffmTOeOKts5JA1Pfoykgc1nvGtaTghhkk2CY+RIub2wOfFqywE7EoTYU5NK8Rvtqs4nBBc2/z9ZTA8VsCls/8n+yNLARIYz9XrwRA+LyCH3DL4iCHpKg2nm9Lw67h/CVzU18gRsbzhcg/9rxc1QjoaXOsAZn2vNiGoBsIhgporBAzAD/kNPDsFq/M0T3j30/ulPKxLvtja8kc7Y/WmHdEx/vM+ncub/DWGMrErxzAT+/a4jVEz9HA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=analog.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w9gr48Dwvfl71BB45TQuwCyl/14PQaExO09HrSvMZrw=;
+ b=iDGhD6vroGeopHw43+FS9JodZvC5yJ6Ub0Q642/u3TL3GQ3K6r3lwW/PUEETrMolsi0yPifEsyeIZtWucdlP83PUwkWcWOfIN17HqaSDzDOrlJMa2L1Ukjwvrspfk25jL5PYQg2SSp4orGM1InymEqGP4SFFSniENsamMq0tjAg=
+Received: from MN2PR01CA0060.prod.exchangelabs.com (2603:10b6:208:23f::29) by
+ SA3PR19MB7813.namprd19.prod.outlook.com (2603:10b6:806:2fd::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Thu, 23 Jul
+ 2026 09:30:36 +0000
+Received: from BL6PEPF00022572.namprd02.prod.outlook.com
+ (2603:10b6:208:23f:cafe::ab) by MN2PR01CA0060.outlook.office365.com
+ (2603:10b6:208:23f::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.10 via Frontend Transport; Thu,
+ 23 Jul 2026 09:30:36 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BL6PEPF00022572.mail.protection.outlook.com (10.167.249.40) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.5
+ via Frontend Transport; Thu, 23 Jul 2026 09:30:35 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 9C159406541;
+	Thu, 23 Jul 2026 09:30:34 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 8272882025A;
+	Thu, 23 Jul 2026 09:30:34 +0000 (UTC)
+Message-ID: <36d913b2-929f-47fa-91d7-2af198341ff0@opensource.cirrus.com>
+Date: Thu, 23 Jul 2026 10:30:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,227 +85,169 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/hdmi: stop KAE before multichannel infoframe
- setup
-To: cluster@cluster.wtf, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- stable@vger.kernel.org
-References: <20260722220309.24432-1-cluster@cluster.wtf>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20260722220309.24432-1-cluster@cluster.wtf>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 16/26] ASoC: codecs: wm0010: Use guard() for mutex & spin
+ locks
+To: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>,
+        nuno.sa@analog.com, Shenghao Ding <shenghao-ding@ti.com>,
+        Kevin Lu <kevin-lu@ti.com>
+Cc: Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+        Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Linus Walleij <linusw@kernel.org>, u.kleine-koenig@baylibre.com,
+        Thorsten Blum <thorsten.blum@linux.dev>, Kees Cook <kees@kernel.org>,
+        Chen Ni <nichen@iscas.ac.cn>, Bartosz Golaszewski <brgl@kernel.org>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>,
+        Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+        Pengpeng Hou <pengpeng@iscas.ac.cn>, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20260723045327.28260-1-phucduc.bui@gmail.com>
+ <20260723045327.28260-17-phucduc.bui@gmail.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20260723045327.28260-17-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00022572:EE_|SA3PR19MB7813:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4fa015d5-320d-4f21-9fa6-08dee89d0cdc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|23010399003|82310400026|61400799027|376014|7416014|10067099003|4143699003|11063799006|18002099003|16102099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	COZ6gbFD84i7/cPlCeWXASVWVJnuQl6BezQ5hcVuR8+dfrRxrRqpjA/scJUwQCbCljIAPc2zODu5bv+WQ7+4KTppnxo5RmqiayXP0YsmoAnIAb3xWaDekg2X8HLNuYbmdu0XVs2yXBROLjb8mZ4LQzUThqxwqEgIkanRPgjHlaV0G16D19l23/uYvc7goNaHqMIKsdTU+9se8avGci/f0TpOsKZf8VSHXIFyfWGC4N7vng81XUuuB/Kvwuvg8osYxOKVS/loxPkO8POmpEGVCluB4pex+zLGaFGDnQsVfXM075GeFCmAigtxF+ruPRCo8Ti3+P+wXnYSAt1/3HPf42GtemNYHxMniFvP4CBQX47bjC/rfLRG6BlE5coYmM3gD3n8zQyRuKuMZ6FzIYC400enMRKMZAUVBD4t6WMLup9qG8yR4UO8In3mQYI3HjoBPrUTnyJFGNrNSXKpRuzfNnlTmpzHfipIQvr45yrVpNchlXh6puF3H+K/BYrne0HajaGP+1RPqQqZLxYD6JGD7M+px4hxKlT5hTIZmORrOOpQDeuK3ayykYnUrKEIaalGdSGbsBX7AwtCZev0cJzmw1FrfYUuyxeYwxBgrCQGSqnJmPb2O09uq9V6hJ3lzfoxReeCFodrINTTRwKOP2GGR65tdhQce3ooMZHo7QwRbsRKZu3Qum5uhwjAXQuc34Gy/XD6LDS+nQVuETfLWoAuHQ==
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(82310400026)(61400799027)(376014)(7416014)(10067099003)(4143699003)(11063799006)(18002099003)(16102099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	aRL/PVtIS4dObIWNT5tIiNl4Lta859uTRg0NGifeY9tNKnZ9xPJZ8+pFS+huZFahQDx3ktJSYQANSSLGj9Bl7O7slL8eLa+DRY21oO/HzgR0G9RDDD7rVZuMH1c8c+FAygiOhheR8glOJEV3sWHKU9hb0Wi+RuLf53AH5nQ/+2a3TNy72X7KwaCwQb9vRW+79G02PBJPvTQhlo/w6N6pdemLNur3GXO/em65QDiDN9vEm3OPm5LFoWjhGtOfDHG9utFy9605kLn1cF0mkkAh9uTFg8p0AhPANJLvFfXsX4l0xiwVeOO7W77+65Cq2bdksnio5b/1iU9JWxTaSMMmAU7+FxQER85x5fKPorA6oUgYwtBm8l7A21/TMnWPIvg4vEYH1lIs3DTVAOVpoIqrKOv7JKIHIP2o2edKKyUvF4qgWrtfHOiqhiSy4cd6XKnq
+X-Exchange-RoutingPolicyChecked:
+	egJU3/TtTM+cmYOSbgNM3MrATFiW8j/9+PPeQjiqncw0gIEgf94zB7WMddiTJXBdWnDkn9OV84wU+qguu746yR1NzuQFGWYiMwxQQmIjY06KyZVSL/QVRACxJKqon/DgZd3qg9f46IhVN5ExEZIbUoslQgBi2Z+81gTBxqd2FQ2FhPWHSoi2Az+Lan+RYeMw5I9dwMEtP7kDQYGTK0BTmHFki2B4JWzfcqwCEHkUp9Ut39NiqqgnLKvpmvpsu/4UeKbASVF5ew9OB2bgLp7+AbmfibzK2slNZs1uo3Ei0gmM4p87I+1+wvh1M7Bjxjds303jUR3QCICdET6q2Ao2qQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 09:30:35.4404
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fa015d5-320d-4f21-9fa6-08dee89d0cdc
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF00022572.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR19MB7813
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIzMDA5NCBTYWx0ZWRfX0JKgk63+cMzd
+ aWTwgNRBi57je4HgAbcsGqTb/bXW8eFyfHCBQojKbqjA2LRp0Zfvs3s+ZXo6bJqo37MIaliR5Xy
+ bt5XaRnmHySHDacFonuZcStn2SdzRXA=
+X-Authority-Analysis: v=2.4 cv=f5l4wuyM c=1 sm=1 tr=0 ts=6a61df42 cx=c_pps
+ a=8Uv1ePJK+YeJzHcGDdU98w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=pGLkceISAAAA:8 a=wggVRkVUAAAA:8 a=w1d2syhTAAAA:8 a=dseZgc7Wqv4YLdx5lZwA:9
+ a=QEXdDO2ut3YA:10 a=MZpHe7prQc2n3JaO1KVd:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIzMDA5NCBTYWx0ZWRfXyxohM66/NnZZ
+ eu5G0/HdWTtuFouB1VtJxVzdZsTAUARJDYB3G6Mr4s7yh5xEKZglG6RsXqk5/nKMOT7dw2i2+uy
+ vwE+COuW9+Mpitrk49OqZf1HpO/v+v7KIs+m0FgWsGRxGnxslnEHGebdg/ge4ZOkYAY2MQDSFtY
+ mlq7Sj9jcgh6cQsWdcOs0a9bIYWl8rlM9zcgG0EPzlcCGJLhzRDGeYnQC+T/ZPBLU3oAsIEtkVN
+ oo0oDRITWG0ALq4je3jxxO6EjBqRJ7cqjvtq7Eti+zPGgoxCeJa4yUd/bYnnPJuLfQujKGGnozP
+ wAHVULYSGwrMsFeCXO8rIRFo5nBnyfSDZ2386HKR+qQbCCrXGL6jv0R1q4PFUl2ixTQVRczNR2f
+ hQKqpbk71zoXaThXxlNH5wfmLeDYarvImN6NaewaoPPXmmGiuVpk58tvD3CxlDeyiVmiDnTwJHw
+ e5nXHTDTzSVS2LA4/QQ==
+X-Proofpoint-ORIG-GUID: klnDbsqK3jEq0NoDuNBHp8_LPnPmt4qH
+X-Proofpoint-GUID: klnDbsqK3jEq0NoDuNBHp8_LPnPmt4qH
+X-Proofpoint-Spam-Reason: safe
 
-
-
-On 23/07/2026 01:03, cluster@cluster.wtf wrote:
-> On Intel Meteor Lake and other ADLP-class display codecs, HDA Keep-Alive
-> (KAE) silent stream stays active while idle and transmits stereo silence.
-> PCM prepare programmed converter channel count and the DP/HDMI audio
-> infoframe before KAE was stopped, then re-enabled KAE during real
-> playback. Reconfiguring an active keep-alive stream to 5.1/7.1 can hang
-> the display audio codec until reboot. Stereo playback is unaffected.
+On 23/07/2026 5:53 am, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> Stop KAE in a new pre_prepare hook before infoframe/channel-count setup,
-> do not re-enable KAE while real PCM is running, and restore the stereo
-> silent stream from PCM close when the sink is still present.
-
-I think this has been fixed by
-https://lore.kernel.org/linux-sound/20260715180610.1371243-1-kai.vehmanen@linux.intel.com/T/#u
-
+> Clean up the code using guard() for mutex & spin locks.
+> Merely code refactoring, and no behavior change.
 > 
-> Signed-off-by: Alexey Cluster <cluster@cluster.wtf>
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 > ---
+>   sound/soc/codecs/wm0010.c | 28 +++++++++++-----------------
+>   1 file changed, 11 insertions(+), 17 deletions(-)
 > 
-> Hardware / test notes:
-> - Laptop: HP OMEN Transcend Gaming Laptop 14-fb0xxx
->   (marketing: OMEN Transcend Laptop 14-fb0065TX, SKU 9T0M1PA#AB2)
-> - CPU/iGPU: Meteor Lake-P, PCI 8086:7d55 (Arc Graphics)
-> - Audio controller: Meteor Lake-P HD Audio, PCI 8086:7e28
-> - Stack: sof-soundwire + snd-hda-codec-intelhdmi
-> - Display codec: Intel Meteor Lake HDMI, vendor_id 0x8086281d
-> - Path: USB-C DisplayPort -> AVR "CZ350CK" (ELD speakers 0x4f, LPCM up to 8ch)
-> - CONFIG_SND_HDA_INTEL_HDMI_SILENT_STREAM=y / enable_silent_stream=Y
-> 
-> Before this change, switching the sink from 2.0 to 5.1 (UCM "HiFi 5+1" /
-> speaker-test -c6 on hw:sofsoundwire,5) could hang display audio until reboot.
-> Stereo continued to work. After the change, cold 6ch open and 2ch<->6ch
-> transitions complete with ca=0x0b and no hang.
-> 
->  sound/hda/codecs/hdmi/hdmi.c       | 40 ++++++++++++++++++++++++----
->  sound/hda/codecs/hdmi/hdmi_local.h |  9 +++++++
->  sound/hda/codecs/hdmi/intelhdmi.c  | 42 ++++++++++++++++++++++++++----
->  3 files changed, 81 insertions(+), 10 deletions(-)
-> 
-> diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
-> index 0b6816018a42..e2a77877358a 100644
-> --- a/sound/hda/codecs/hdmi/hdmi.c
-> +++ b/sound/hda/codecs/hdmi/hdmi.c
-> @@ -557,6 +557,11 @@ void snd_hda_hdmi_setup_audio_infoframe(struct hda_codec *codec,
->  
->  	active_channels = snd_hdac_get_active_channels(ca);
->  
-> +	codec_dbg(codec,
-> +		  "HDMI: infoframe pin-NID=0x%x channels=%d active=%d ca=0x%02x conn=%d spk_alloc=0x%x non_pcm=%d\n",
-> +		  pin_nid, channels, active_channels, ca, eld->info.conn_type,
-> +		  eld->info.spk_alloc, non_pcm);
-> +
->  	chmap->ops.set_channel_count(&codec->core, per_pin->cvt_nid,
->  						active_channels);
->  
-> @@ -1683,6 +1688,13 @@ int snd_hda_hdmi_generic_pcm_prepare(struct hda_pcm_stream *hinfo,
->  		snd_hdac_sync_audio_rate(&codec->core, per_pin->pin_nid,
->  					 per_pin->dev_id, runtime->rate);
->  
-> +	/*
-> +	 * Stop Intel KAE (and similar) before channel-count / infoframe are
-> +	 * programmed. Must not sleep under per_pin->lock.
-> +	 */
-> +	if (spec->ops.pre_prepare)
-> +		spec->ops.pre_prepare(codec, per_pin, runtime->channels);
-> +
->  	non_pcm = check_non_pcm_per_cvt(codec, cvt_nid);
->  	scoped_guard(mutex, &per_pin->lock) {
->  		per_pin->channels = substream->runtime->channels;
-> @@ -1732,6 +1744,7 @@ static int hdmi_pcm_close(struct hda_pcm_stream *hinfo,
->  	struct hdmi_spec_per_cvt *per_cvt;
->  	struct hdmi_spec_per_pin *per_pin;
->  	int pinctl;
-> +	bool restore_silent = false;
->  
->  	guard(mutex)(&spec->pcm_lock);
->  	if (hinfo->nid) {
-> @@ -1769,12 +1782,29 @@ static int hdmi_pcm_close(struct hda_pcm_stream *hinfo,
->  					    pinctl & ~PIN_OUT);
->  		}
->  
-> -		guard(mutex)(&per_pin->lock);
-> -		per_pin->chmap_set = false;
-> -		memset(per_pin->chmap, 0, sizeof(per_pin->chmap));
-> +		scoped_guard(mutex, &per_pin->lock) {
-> +			per_pin->chmap_set = false;
-> +			memset(per_pin->chmap, 0, sizeof(per_pin->chmap));
-> +
-> +			per_pin->setup = false;
-> +			per_pin->channels = 0;
-> +			/*
-> +			 * KAE keep-alive is stopped for the duration of real
-> +			 * PCM; restore stereo silent stream after close. The
-> +			 * older I915 silent-stream mode keeps its own power
-> +			 * refs and must not be re-armed here.
-> +			 */
-> +			restore_silent = per_pin->silent_stream &&
-> +					 per_pin->sink_eld.monitor_present &&
-> +					 spec->silent_stream_type == SILENT_STREAM_KAE;
-> +		}
->  
-> -		per_pin->setup = false;
-> -		per_pin->channels = 0;
-> +		if (restore_silent && spec->ops.silent_stream) {
-> +			codec_dbg(codec,
-> +				  "HDMI: restore silent stream after PCM close pin-NID=0x%x\n",
-> +				  per_pin->pin_nid);
-> +			spec->ops.silent_stream(codec, per_pin, true);
-> +		}
->  	}
->  
->  	return 0;
-> diff --git a/sound/hda/codecs/hdmi/hdmi_local.h b/sound/hda/codecs/hdmi/hdmi_local.h
-> index 548241ad3fa9..20e7536efef0 100644
-> --- a/sound/hda/codecs/hdmi/hdmi_local.h
-> +++ b/sound/hda/codecs/hdmi/hdmi_local.h
-> @@ -74,6 +74,15 @@ struct hdmi_ops {
->  			    hda_nid_t pin_nid, int dev_id, u32 stream_tag,
->  			    int format);
->  
-> +	/*
-> +	 * Optional: called before channel-count / infoframe programming in
-> +	 * PCM prepare. Used by Intel KAE silent-stream to stop keep-alive
-> +	 * before the converter is reconfigured for real playback.
-> +	 */
-> +	void (*pre_prepare)(struct hda_codec *codec,
-> +			    struct hdmi_spec_per_pin *per_pin,
-> +			    unsigned int channels);
-> +
->  	void (*pin_cvt_fixup)(struct hda_codec *codec,
->  			      struct hdmi_spec_per_pin *per_pin,
->  			      hda_nid_t cvt_nid);
-> diff --git a/sound/hda/codecs/hdmi/intelhdmi.c b/sound/hda/codecs/hdmi/intelhdmi.c
-> index 6a7882544ab7..60ed2ffb182d 100644
-> --- a/sound/hda/codecs/hdmi/intelhdmi.c
-> +++ b/sound/hda/codecs/hdmi/intelhdmi.c
-> @@ -418,6 +418,32 @@ static void intel_not_share_assigned_cvt_nid(struct hda_codec *codec,
->  		intel_not_share_assigned_cvt(codec, pin_nid, dev_id, mux_idx);
->  }
->  
-> +/*
-> + * Stop KAE before channel-count / infoframe are programmed. Reconfiguring an
-> + * active keep-alive stream (stereo silence) to multichannel can hang Intel
-> + * display codecs (MTL and earlier ADLP KAE). KAE is restored from PCM close.
-> + */
-> +static void i915_hsw_pre_prepare(struct hda_codec *codec,
-> +				 struct hdmi_spec_per_pin *per_pin,
-> +				 unsigned int channels)
-> +{
-> +	struct hdmi_spec *spec = codec->spec;
-> +
-> +	if (spec->silent_stream_type != SILENT_STREAM_KAE || !per_pin)
-> +		return;
-> +	if (!per_pin->silent_stream)
-> +		return;
-> +
-> +	codec_dbg(codec,
-> +		  "HDMI: KAE stop before prepare pin-NID=0x%x cvt-NID=0x%x channels=%u->%u conn=%d\n",
-> +		  per_pin->pin_nid, per_pin->cvt_nid, per_pin->channels,
-> +		  channels, per_pin->sink_eld.info.conn_type);
-> +
-> +	silent_stream_set_kae(codec, per_pin, false);
-> +	/* wait for pending transfers in codec to clear */
-> +	usleep_range(100, 200);
-> +}
-> +
->  /* setup_stream ops override for HSW+ */
->  static int i915_hsw_setup_stream(struct hda_codec *codec, hda_nid_t cvt_nid,
->  				 hda_nid_t pin_nid, int dev_id, u32 stream_tag,
-> @@ -435,7 +461,13 @@ static int i915_hsw_setup_stream(struct hda_codec *codec, hda_nid_t cvt_nid,
->  
->  	haswell_verify_D0(codec, cvt_nid, pin_nid);
->  
-> -	if (spec->silent_stream_type == SILENT_STREAM_KAE && per_pin && per_pin->silent_stream) {
-> +	/*
-> +	 * KAE should already be cleared in pre_prepare; keep a safety stop
-> +	 * here for callers that only go through setup_stream. Do not re-enable
-> +	 * KAE while real PCM is active — that races with multichannel formats.
-> +	 */
-> +	if (spec->silent_stream_type == SILENT_STREAM_KAE && per_pin &&
-> +	    per_pin->silent_stream) {
->  		silent_stream_set_kae(codec, per_pin, false);
->  		/* wait for pending transfers in codec to clear */
->  		usleep_range(100, 200);
-> @@ -444,10 +476,9 @@ static int i915_hsw_setup_stream(struct hda_codec *codec, hda_nid_t cvt_nid,
->  	res = snd_hda_hdmi_setup_stream(codec, cvt_nid, pin_nid, dev_id,
->  					stream_tag, format);
->  
-> -	if (spec->silent_stream_type == SILENT_STREAM_KAE && per_pin && per_pin->silent_stream) {
-> -		usleep_range(100, 200);
-> -		silent_stream_set_kae(codec, per_pin, true);
-> -	}
-> +	codec_dbg(codec,
-> +		  "HDMI: setup_stream pin-NID=0x%x cvt-NID=0x%x tag=%u fmt=0x%x res=%d\n",
-> +		  pin_nid, cvt_nid, stream_tag, format, res);
->  
->  	return res;
->  }
-> @@ -608,6 +639,7 @@ static int intel_hsw_common_init(struct hda_codec *codec, hda_nid_t vendor_nid,
->  	codec->auto_runtime_pm = 1;
->  
->  	spec->ops.setup_stream = i915_hsw_setup_stream;
-> +	spec->ops.pre_prepare = i915_hsw_pre_prepare;
->  	spec->ops.pin_cvt_fixup = i915_pin_cvt_fixup;
->  	spec->ops.silent_stream = i915_set_silent_stream;
->  
-
--- 
-Péter
-
+> diff --git a/sound/soc/codecs/wm0010.c b/sound/soc/codecs/wm0010.c
+> index 2a8c61a72c17..58c0c601ee6c 100644
+> --- a/sound/soc/codecs/wm0010.c
+> +++ b/sound/soc/codecs/wm0010.c
+> @@ -9,6 +9,7 @@
+>    *          Scott Ling <sl@opensource.wolfsonmicro.com>
+>    */
+>   
+> +#include <linux/cleanup.h>
+>   #include <linux/module.h>
+>   #include <linux/moduleparam.h>
+>   #include <linux/interrupt.h>
+> @@ -148,13 +149,11 @@ static const char *wm0010_state_to_str(enum wm0010_state state)
+>   static void wm0010_halt(struct snd_soc_component *component)
+>   {
+>   	struct wm0010_priv *wm0010 = snd_soc_component_get_drvdata(component);
+> -	unsigned long flags;
+>   	enum wm0010_state state;
+>   
+>   	/* Fetch the wm0010 state */
+> -	spin_lock_irqsave(&wm0010->irq_lock, flags);
+> -	state = wm0010->state;
+> -	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
+> +	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
+> +		state = wm0010->state;
+>   
+>   	switch (state) {
+>   	case WM0010_POWER_OFF:
+> @@ -173,9 +172,8 @@ static void wm0010_halt(struct snd_soc_component *component)
+>   		break;
+>   	}
+>   
+> -	spin_lock_irqsave(&wm0010->irq_lock, flags);
+> -	wm0010->state = WM0010_POWER_OFF;
+> -	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
+> +	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
+> +		wm0010->state = WM0010_POWER_OFF;
+>   }
+>   
+>   struct wm0010_boot_xfer {
+> @@ -190,11 +188,9 @@ struct wm0010_boot_xfer {
+>   static void wm0010_mark_boot_failure(struct wm0010_priv *wm0010)
+>   {
+>   	enum wm0010_state state;
+> -	unsigned long flags;
+>   
+> -	spin_lock_irqsave(&wm0010->irq_lock, flags);
+> -	state = wm0010->state;
+> -	spin_unlock_irqrestore(&wm0010->irq_lock, flags);
+> +	scoped_guard(spinlock_irqsave, &wm0010->irq_lock)
+> +		state = wm0010->state;
+>   
+>   	dev_err(wm0010->dev, "Failed to transition from `%s' state to `%s' state\n",
+>   		wm0010_state_to_str(state), wm0010_state_to_str(state + 1));
+> @@ -734,9 +730,8 @@ static int wm0010_set_bias_level(struct snd_soc_component *component,
+>   		break;
+>   	case SND_SOC_BIAS_STANDBY:
+>   		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_PREPARE) {
+> -			mutex_lock(&wm0010->lock);
+> -			wm0010_halt(component);
+> -			mutex_unlock(&wm0010->lock);
+> +			scoped_guard(mutex, &wm0010->lock)
+> +				wm0010_halt(component);
+>   		}
+>   		break;
+>   	case SND_SOC_BIAS_OFF:
+> @@ -832,9 +827,8 @@ static irqreturn_t wm0010_irq(int irq, void *data)
+>   	case WM0010_OUT_OF_RESET:
+>   	case WM0010_BOOTROM:
+>   	case WM0010_STAGE2:
+> -		spin_lock(&wm0010->irq_lock);
+> -		complete(&wm0010->boot_completion);
+> -		spin_unlock(&wm0010->irq_lock);
+> +		scoped_guard(spinlock, &wm0010->irq_lock)
+> +			complete(&wm0010->boot_completion);
+>   		return IRQ_HANDLED;
+>   	default:
+>   		return IRQ_NONE;
+Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
