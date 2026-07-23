@@ -1,50 +1,50 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010007.outbound.protection.outlook.com [52.101.229.7])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011046.outbound.protection.outlook.com [52.101.125.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483193CAA55
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 06:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC573BB69D
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 06:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784788497; cv=fail; b=in5Uz03MLpDGAMQyr215Eo6A3gKZt9PUzBNaN2E1FoIzDZMtmyDCQsMqPowAWzswJH9sv51uFop1U3JS5QZ0BKpYGdhukoCoCWRl7AVakQv5V2qMEHm6TYspFkA/HRG4II0/qlyAmTVOC80m+2LgubgvvTETNkY2YAHlYBTuzO0=
+	t=1784788501; cv=fail; b=al7C0BkhZQpQblzLH7m6hpY0jCAs8UefuPYjIxcmxXh7YdmIFIkLeD7cjbWaRK8zCGVHz53VLwWFt2nw1XaBz6vSH2HbP+Yie5wSIJBexc4vxWkNdEUZQpDDIONGdxvg6b72DX/qr+Gic24YZCeDjjQ4+nrSpXKFuPTAyiuLHcI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784788497; c=relaxed/simple;
-	bh=R7V/5DU3+E0Zi6tl0fNHwmzE0rbuSTw2RuD7KEnPdkk=;
+	s=arc-20240116; t=1784788501; c=relaxed/simple;
+	bh=P+UV5G2YtvEzWoJuo3YuJf8fcjSbhOi3FvuMYCnasWE=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=r/k9LWUF8fLihU2JezZwWeVHCWBrRx32Jg3+uGmXO2evmAiFk+2SAQ6Rkigem1hqufjkp0+MF8wgAq9yYZ5qA7/54SzdYDxfFkDfp/c+tLqCTcNM4/GVjWXdnJVccWe0BggCbR+Lo15aTgQHxD6K76QRI2Z8x0Jdnz4hMX4rIRc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TSwObGDm; arc=fail smtp.client-ip=52.101.229.7
+	 Date:MIME-Version; b=jE0TshaYRB41iUIg2YODvJG6BV768SDQHHd3Va0kuNcGju68rGxTDCulNJVLQX0fe50xWb3q+sJm1KMPb6//uA0TxPhJzzB97aPzsRmtWmDERKyA8OJFOZPuoLnU7BVNPDYvSJjMQnCULjhdvB4ac9cKxHJ68gG44BAoZvVb0XI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=fKD1IWah; arc=fail smtp.client-ip=52.101.125.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TSwObGDm"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="fKD1IWah"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GYHOC171p0qcnc6sdBRFjA4ozOAO8yvHgkQhhc7SLYJWWgN9ZhNV6+OJEVrcuXCxeYBxCKVOwFokLWbCloy6dG2U41pHHFVhMKIIJUX7u426sUz3ul2qA4cNA0t8AZfJUfuj79BRg2Gi5zzziNc2Q0YGny+TUeMdDwmF/IlZe7D3WZf2G2q0kWdiODGSCc7ZOBSkPiTP+/WdOa7DxQApWBiHh9xxAUMha0j9j8H4N0rrlWNbsI0h5Q0FHmU8pXyItaxokYUjGfYWyR/6yzWZKQLCV/HdwsoVQZ0ei8mQK5VC02uc7A4K4kDLpK5R68mldwyR0AuyE6KCWTG/FwiVHQ==
+ b=OWOujJu4PhjvEAvOTfUYEONZlboS7iH1vm6WQWr2G38NmJm++jc/HnZv69+wctqAiN+jqIzSmzM8uDB8KclOwLou7ggi2fU/E4/QFwS5AubTKAg/o6o4fmCYt7/07A7yg1jAYs55oIjn4z2keHZXRwEy58Ija/qb59KH/QHtt5PWjMihWEfm4ZdRKLjcZDJrMs9s9VilVxg0m1uW/N/rbwIWJLuwjzCFr0N7F0rn4rrIaYnxvq7/9kOVvklVpTyqoihn6DrJuT3R+kpOdsO/owc+gu7cPzaHgUpW7zJUP3PywzNGSsYDhFYqMqiFwrFNkMidcFuMukU4Kj6VfFIVsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zHl3e/U8y+wZ6eLc5IgszrAZR1vzcCO9onL72rn955U=;
- b=Ir5ovH5l9c7cDKatGo0V+8iEFx4unskGWm5BGTWnXKCalqKistHxvmkfJhoEBjkkcblSN+7nxg/4HlId4paLO3nfhVUQXaM+YDujH860iFjCTowDtbzFDLanwKr52BDltdUerFKx1Ppjf7uwOFYO+pzgQOArqbfHrz7xcbm7KKE/Yb/++uFQ1LoKXZSb2JwP5OgGu3VmM5Ddwm9hQxf5bnmP8YmHQKoJWJ+C6zdqzNigtM/ckvFKWMXINXL99JkfLfcl54KwzCkZqEyOiiR52jAMJJMoX0snqKDY7qC5RiWA7kPxhVGTTlC1b0LZOkuMOXocYkmLN1ESD3tprKAUuQ==
+ bh=YFE6k/LWm9yIgUic/V5Xi13sRpMsMaW46xDjddiodDY=;
+ b=ODx2R6FmCpi7kq4yhgems9CHUMqlnawd1Oe8OK1ik8kz8/kV+f3eLTFJYoGuWALs3x4PAGO9NoNDc27aA8po9/7h2aRCdpTqjZHeWTYMwh0/WaYadY6N4BKuDkD0WAHNF9Sy/Y6nVImN348DeQ+9+rzDW+zf+2HVTXP+1WiLkWMCGRM2x3NLbiHgor6EIzwwrluQsZ5OsCNGBwSPJo/sKzcfPSjFsLyL87/l8WHdYE4uaAAv/f4vmiPgWaKoyth6vuGd6yjS8WSGePztRzouX3Yp2xfPsHUczpUNFB7vZzp7nohKOHEyHEA73J5T/q8N1sHHq7jdXOFtJ1BK7nJ5HQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zHl3e/U8y+wZ6eLc5IgszrAZR1vzcCO9onL72rn955U=;
- b=TSwObGDmmOfnx268f0FtOwgliBAr0T83PqSltgaXDSxFx7st85ylWO86OM6dAgSrVlcv+7A5vhM1SYwr3gZNJY3VFErjuhheOXbpbk8fhKlt+IAY1oEu07+DJIn5tDApH7MIYcrQyhQnV6uVgAoP0gstJtmu9BPscqAFWmw4N+s=
+ bh=YFE6k/LWm9yIgUic/V5Xi13sRpMsMaW46xDjddiodDY=;
+ b=fKD1IWahcaqI8JkQ0W8OXQyVJs2y+35wBenaYwO6WpYpw8dr4TkaWTSbkR4H5eZgzJ8DzRoaML6imD67PV4ZzAqr/HZueXZal7bnf/tVOlAEPCpb+WAFP7JS0XyXmueXj+oSLnnIbUsj9JgyEB4WLpAgUJbChKIDel/3nmD2p/4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
  by OS7PR01MB15042.jpnprd01.prod.outlook.com (2603:1096:604:38c::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 06:34:53 +0000
+ 2026 06:34:57 +0000
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 06:34:53 +0000
-Message-ID: <87jyqmrz76.wl-kuninori.morimoto.gx@renesas.com>
+ 06:34:57 +0000
+Message-ID: <87ik66rz73.wl-kuninori.morimoto.gx@renesas.com>
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v5 10/12] ASoC: soc-topology-test: use snd_soc_register_component()
+Subject: [PATCH v5 11/12] ASoC: soc-core: makes snd_soc_component_initialize() / snd_soc_add_component() local
 User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
 To: Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Cezary Rojewski <cezary.rojewski@intel.com>,
@@ -64,9 +64,9 @@ Cc: linux-sound@vger.kernel.org
 In-Reply-To: <87y0f2rz8l.wl-kuninori.morimoto.gx@renesas.com>
 References: <87y0f2rz8l.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 23 Jul 2026 06:34:53 +0000
-X-ClientProxiedBy: TY4PR01CA0049.jpnprd01.prod.outlook.com
- (2603:1096:405:372::14) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+Date: Thu, 23 Jul 2026 06:34:57 +0000
+X-ClientProxiedBy: TYCPR01CA0176.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b2::18) To TY3PR01MB11797.jpnprd01.prod.outlook.com
  (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -76,450 +76,144 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|OS7PR01MB15042:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28ecdc5a-9ec1-41d2-0160-08dee884814c
+X-MS-Office365-Filtering-Correlation-Id: 0058eb84-7779-4a06-9f33-08dee884837b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|52116014|376014|7416014|921020|38350700014|11063799006|56012099006|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|52116014|376014|7416014|921020|38350700014|6133799003|11063799006|56012099006|10067099003|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	oLdLwEm5gAAGmXEI+JIBaDYw/PWiRzL+cbWFEtqDIhZbUvvg18Az2x/wOmJBkUdP8LTgeP1K3DBpsEzmZmJPWYihd8ghWt2mzjMURyqq0cA+9xe7vdZHTsdyR2rpjt8uSMZc55JnzaVbVGo/lLtf2fz/kmKgYc0EGdW0PRUc5AzBMEZodaA49oAV7lW4VlnhaMQNPl1GoViVK5YpzDQcc4I9gik++1mm8tcNmB0zLO5yjgAWrnoip7SUdqnI2mxT9INqVuGFwpUMB4fSC3r/oodP0YhL3qD5y4Vh1L/Qo0rUtW5QdBtvOSWUvaIN/hqkHBWN/3xxsWcbqSDgp+I9RC7ZvJsgKHz0HbnlaweiZ1Utq2i+rFOGs3yHdluk2579cRs0B+n9gKkuK6aW35UUkfPhW45bhKam11YSl4SVICtbPJe0/wc90PQxwMyLhPmpwZLEvbRmB+ZT/Md0nMin3O6EJmvwAcACqea3UwBMNwm++NNKdj+UMTpnK5o3Fvie6C/wbFv9dYtjH/iQKitvUF0WVLZ5ymXURAc/hsmnfeZgZjdkrsihnd2JtY7r4bgEQ9KWWZ+wsk6kFGbVDaM7Irljlo+CgDAbHQ/DX1Yi6iEMywpOWFzi4iob/eD/Eg1fPwMxFXtFo2+q9H06DwKWO+ZSZqWZ/LXTNsRH0L9zRc3XH/1y2FiWCE+LPqZriTSkpk2O+w3A7VWFVn+696Iosq9ElCrgleSPJDKguQjLDSlhEVDQkGq8HqaLl215TCU5
+	bOb6ln8lYDZYwh6WmpkOLNKbjbg0CMPUEzUGIUcYjQ5+D2MVKEJ7isrRQo3YocTtheef819xJk4E+Va0R5YEoYIHpJI/lXAkTvoKESkJs8mVTO5nUKLM49tp+Svq4P+/HCBzLwZd0PKG5v1kq9XrsCqFJa1ZrQL9oPz9yulGTINjDIZU3LNo5AAQedVvkUhDygH75fSr2ds5hNv9x4K65CqrWkQctz2/lqWYIRe0qt/E8dfxg3KzjcB7TCrP44UNLuosBvzWIK14F3TFb4XQGnuvKfnGU5NkNYH3vs5xkQS4ok+4nCDZbCzjdTqoMguCy5T0jSsna6horgiCxeTN7saRljQk6jyAbeBoRHFXsaS8FGgtqE1VrbVsFAguyvyxcCaOVWzAYkXU3kZoI8q/XtI8AFndJoJ+KJRCMUXmGi1F+NRTxV75KcANfva2IRVb0z5PPWclo2fOKUZCRDrm4BTGrw4BJzI9QX6/jnEvwkfbw1BJcPbiiCu9tgAd4OARfkBIBuckFHYdrL2H/SBMXf7L+/dNziIxYG+hMrxjDqXfwavNoA3K1OCrpyHLog8/RW9v3mFL1+31EVqgD5u81xa9n3dpBbObiEhgcsAkHGIisKYr9yx6f4hQTWl1ThxFmceIDfDaJgipQP5EKUBJDNN30O0vJoZZnc7Sea6fW5LS0xg1q6F12IsQy821nzURqs/E4oX4Y/L4l+Lar/fPEF1+pG29FUBafVx3rtLaW1XakQtZLhG1AYr4d2mTY9Zy
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(52116014)(376014)(7416014)(921020)(38350700014)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(52116014)(376014)(7416014)(921020)(38350700014)(6133799003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RASkpDr953NGAzSMGT3Llwbc/c5x5ANZwfMUvPidkay04zsdk99CqeiCsgtE?=
- =?us-ascii?Q?kKBR25hxC4xTDRFr4P4/z84JcYEyKeBtWGtdEm3DMhtIKZPv05x0TW13dDXH?=
- =?us-ascii?Q?V2nENvo4tArM2ULwvJzLG4gxMfKbwEWQAqaLsrzu9DCiMqo6dluH4hNhnyPq?=
- =?us-ascii?Q?gjzt9ONg2DrM0JcErPDn1+ntaUAKCWyv/V/lxgssre7CVbrRu650MTIlonYB?=
- =?us-ascii?Q?n9sBOb+Y1p5GUmWraooIXAfu8+OhZovUvsOBFs//C8vDQio1N1ck9t0nqZ+H?=
- =?us-ascii?Q?e2NWo/XMpRZQIiagf2iMzQ1oqtYOs1OAttEsHQE3SgqmyH4QEouD0+I03vcf?=
- =?us-ascii?Q?CCOrKum3+hkbbpm67uUgmfNzCxMiWfZvsLUfxqFuUuiC+ux1zp2th5c0zlTP?=
- =?us-ascii?Q?32w+RCwRIyPPUfEniS3eEbKHXiBf8ACgQt/uwi93/InuHv3VxepopYVO7g+q?=
- =?us-ascii?Q?G2zKaOMFoIOMnYe+0A0yKeas29x9lWRSffKgozRUTU0Q5pjqXBGYc3d69d7y?=
- =?us-ascii?Q?D5kj+ZFpp51ffbjLv7RSUqjNidUacYiOvhGEGcyDuxUTGSLkgRh8lyLfK6ZV?=
- =?us-ascii?Q?eBdMZXwF5MctetpXG3LBJE/nFV9jiuckbiscrUQ/dbdi6rLC9MHwhapo3hNs?=
- =?us-ascii?Q?FVlBuI+Qt4m+m+i5OH3U5728gyNQPVtE7Ga24+cmTuJN/mBuJzyXKi4aegaD?=
- =?us-ascii?Q?u6uht1W0d/6ep6Tu8Cfr5L7UFwSeoLL3pXfAPRxX7+kRfBDgpmhbIwh+uhyT?=
- =?us-ascii?Q?gVwVaQjA1bIfm/ENfDPyUzIYRJBJjL76P/TV9+CrgNFApgG7wqPEQ2ZNPof/?=
- =?us-ascii?Q?+KI76h6s7amqP7ZvKhFbKuszce+0LMe1rQqyHTjT/QjU8eLitVmLMUV1m3ed?=
- =?us-ascii?Q?ixK4jAj927w7Lowm206OaP8lKM2pySK4cJvdFCV3vT4e23/Hivbx/rTebqYD?=
- =?us-ascii?Q?Dz0awLbd1kpog5cWTP/EtfJsY9JxsEwg4DYJMymjSYbjZFnjKFaBL/9z0qeb?=
- =?us-ascii?Q?lAgzyU4RyYjOD5UdYD1s3bpDLnPgm0sithMpOM5ZSBrKBy8or4s7q71fKSCG?=
- =?us-ascii?Q?BsKgHVSqGNewGu4v6YVwmWZf9qMc7xt29kxJ39KQWUkflHffU0yHZ0jA2l6d?=
- =?us-ascii?Q?wa4EcC05WnKlORnosEmmcrajA5Wss2cyuJ1ORmEhbUfJtU2xHzYFqRF54G0D?=
- =?us-ascii?Q?LqFrx2USfZdj6l2KD3IgbpGjFTPkc8Nl5k40+eKnkPi0vuVuIIXyh+n7xiTI?=
- =?us-ascii?Q?5ENy1XiTYOnCi4FowoMhGB81ukHPSz3t4X7sonkj9AdNMuK22U0nL4Lvyff2?=
- =?us-ascii?Q?phuJxDpf2uvXSDxDhZLbrRHHQ1WvtjpOuS/udwgg2HbArKC1uNb4/nC4RxOP?=
- =?us-ascii?Q?1bqO0UPAfA7aoMROOvZt1OMx6Vnw5lZlTFA25ZIEKzcQbeHYz0UQlrxXgHKl?=
- =?us-ascii?Q?XcZGvx5rho5jDvXfVWcmcYlfQypt75pJLnyc+L3ZvS4g/tgDymRDP8IvWsxD?=
- =?us-ascii?Q?CnNg8UItJ4vZSyaQjiRbFUaRd2n57DodqBVQA1wqrpa9D/njkNqp8D/4pDUN?=
- =?us-ascii?Q?TLrPeGnuXz+vrE9RrskoAN8L60dNi2v6bKHNLiD9BCJQd2dmHfkDSQI+Q0b0?=
- =?us-ascii?Q?c1eTjEXftlABD0hGxUik8b4D3g0dyjjFGFFtsRdmGC/OY3vbjhw11hI5CbHg?=
- =?us-ascii?Q?EsLTmT8s0uwfejLeovG7o7EefG4B1/E7feY77orrwtYV+WTDVEWm52vM+k3l?=
- =?us-ascii?Q?rGW037yzyueqb91Otaay/8JEa69WXPcOAiOZRnRqkrjUwLiSm6UN?=
+	=?us-ascii?Q?29FmNMGaajqzeHW8CE98+ImEbjYmHyrGCIj3fcxvwg8v9f1i2EhcoifWS5gc?=
+ =?us-ascii?Q?fjBcmUr0llfJ8Y+6FLStHDcf0cqz5i8YUP71bkdxn8q81K41BO4aZ+5CSux4?=
+ =?us-ascii?Q?/S6ewKiV8qHG41SzcKUoD9oJHOEq3yD9S2AL2rUGpPe34dnOIf52h9pBaPG+?=
+ =?us-ascii?Q?BKDQjKqFNu3SVfHbCF1m9wAYb315HS53+frIKFBr9DFy57Ck60g9DVSN6HpY?=
+ =?us-ascii?Q?n7MRd+0qSJmDQfV7Nn6HHKW0XJ1OSscMM+omV8VcKHQRMteudfIJYE01oIRG?=
+ =?us-ascii?Q?5NbDgwY+RhA8O++Gx+GzQqvojhnliIMaxh+o28UMjdvAwbPiLq37/YVAqKbt?=
+ =?us-ascii?Q?1N467H476BS1lmejrj0fnkGYTG+pHsLeZ4l9L8Ru9d4mBK4pdxWz4+IQga0m?=
+ =?us-ascii?Q?ZjCjccsJJezxuOffVFUPHSSxs00+2GW+8FBPi7fhAbarrKRk4ujVuXiFJk0e?=
+ =?us-ascii?Q?neNjMQ7qC5TwIpGngtjAMOmeOZfHesLkTqv8QDRfQE9wayVwY0eBWe6YUrnr?=
+ =?us-ascii?Q?wW3rCKtAoyK3wMtTbdZclriYMaVYxeBgrOu3Gd3VtCjrz3mLdVC+x2TOOHcp?=
+ =?us-ascii?Q?+9bQckZTpvHT1JaiULswhmEAzEszmL7ytOB6t/TI4rfrNlHTCYWwy0xw0HxJ?=
+ =?us-ascii?Q?M6/UP72XKTCqiD001G+e70Sa2krFCpbITRDn0aqyaol+gqudK46sVbcU6tCN?=
+ =?us-ascii?Q?lDs73Rn3xy/gUbhHcFeZxFF3QNhVapy7k1y4XJbjMlqT28vLjdZCNkSZvyxB?=
+ =?us-ascii?Q?6CJ2a8Lo8BwXcNRQH4wpkdBteZXL0ZMLFEK8vDRIEGiLm2g1CMm0dlUIfXXV?=
+ =?us-ascii?Q?7/nu4C6B+uQOvM5h+DP80h1vj2F1/aXlwydUY7a3kSjbSx11K/wg6JL90sJb?=
+ =?us-ascii?Q?WwsTWsGMLruzwkNcN3bzfD7Uxabn9+BQQboGGy1wXg/yVKa6293JdYbSlpO5?=
+ =?us-ascii?Q?OwR/AcbvkEW2x0kFI7QFNcQwWi/SqThgA/k+g9gddsu+S5ycb19NzvZAt/6M?=
+ =?us-ascii?Q?g8UkJh/BMjfkrduhlBIHT/uSnh9oKmJV+ub1LrQM2BF8JojzfPJdtBT8Jd/k?=
+ =?us-ascii?Q?MmlAMDm4stePsZv7gs78PJ2T0ad2xdloPiePXJHyfKbvdhdz2fi053+H1zRn?=
+ =?us-ascii?Q?swrSid/VjC+S+yR3X2Byea6n63U4PDPrz3fLIuOypDAe1fHis6w5YfJhMoFd?=
+ =?us-ascii?Q?+tM0uupqPC0Sayaw2CzlrkT0CAz3VI2662N2IXbDIEnUcXkAaUuu9aN04u52?=
+ =?us-ascii?Q?ADuXwMJYgWlH2pemrUKiCvC2r7pd+9SxDTAny1da4C/S0TU52ShJ3whKHXLx?=
+ =?us-ascii?Q?QnU/HvJNPwgUy5UJOCwy7udYHVLqq12jT49Bb2Mju6mX+mAlI2MQFxFSJ8J9?=
+ =?us-ascii?Q?wHEJOwE9f7s9F5q/6YDtzGnuGvFFR+Dv+E48VpGFfA1byGahTzE1OmxotfWB?=
+ =?us-ascii?Q?74Bq7Dp1i4fhXkHPCZplzftE3S4le4e7K9pdeA04oh+ucEAaM1N/0ArhDv29?=
+ =?us-ascii?Q?MCpXK7yrUlRTd4JsAuhi6fIBsPMPX+8kxqm5XXkiqwjtevrkob76lnHFpr7L?=
+ =?us-ascii?Q?FNwLQt7IzGjQ10mY+v+t9da2Q/veNQgK9zdlXTgG5pxK18dj0bgG56M09ruY?=
+ =?us-ascii?Q?zD1r2ZNtFNxk3OVJ8OlLHDHzaftPdNoRNaxkH6pm2XFNhu9d9F02x3XsBj7J?=
+ =?us-ascii?Q?w3mPOp1q2lv82xyZ+cWYZRNflvMo9wA3gDtGWZ+sSeveFGsU8dTVI//UIqdE?=
+ =?us-ascii?Q?RribcuDuRebfklmxZQ0NiPbTUYZkQomxLwDDQN4RGz4edVGi0Df1?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28ecdc5a-9ec1-41d2-0160-08dee884814c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0058eb84-7779-4a06-9f33-08dee884837b
 X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 06:34:53.6782
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 06:34:57.3685
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ao9tVVpdtnWYMJxN7366z+2zx1AzVlv3YmE+QWLaqiin6tAB3V4uf72ZX5r4Ip/cfgpattU93viDYuVaFshq1MVQxAir780alaYfMSdXxKUORgwj8T+Infiyl6cxZQjA
+X-MS-Exchange-CrossTenant-UserPrincipalName: eRy4ji6XNbF/QEzjZaXc7yeRfr7KJZM9tJokcTCPsisItrkVuEJPBbPVKMaF/GvfsNzWb+MBD0gdoOiQFyRvxqkQBmlRtM9E6Z/lLMF4sUH9RijCMJyY0WD+PP/yyVsR
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB15042
 
-It is calling snd_soc_component_initialize() / snd_soc_add_component().
-We can now use snd_soc_register_component() instead.
+No one is calling snd_soc_component_initialize() / snd_soc_add_component()
+calling from driver. Makes them local functions.
 
-It is using container_of() to get kunit_soc_component from component, but
-will not be able to use it when capsuling has done.
-We can use snd_soc_component_to_priv() instead.
+It renames
+	- snd_soc_add_component()
+	+ snd_soc_component_add()
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/soc-topology-test.c | 133 +++++++++++++++++++++-------------
- 1 file changed, 81 insertions(+), 52 deletions(-)
+ include/sound/soc.h  |  6 ------
+ sound/soc/soc-core.c | 18 ++++++++----------
+ 2 files changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/sound/soc/soc-topology-test.c b/sound/soc/soc-topology-test.c
-index c8f2ec29e9703..346a52d3006a6 100644
---- a/sound/soc/soc-topology-test.c
-+++ b/sound/soc/soc-topology-test.c
-@@ -45,15 +45,13 @@ static void snd_soc_tplg_test_exit(struct kunit *test)
- struct kunit_soc_component {
- 	struct kunit *kunit;
- 	int expect; /* what result we expect when loading topology */
--	struct snd_soc_component comp;
- 	struct snd_soc_card card;
- 	struct firmware fw;
- };
+diff --git a/include/sound/soc.h b/include/sound/soc.h
+index cb0de41e2ada5..f46b2bc2a022b 100644
+--- a/include/sound/soc.h
++++ b/include/sound/soc.h
+@@ -447,12 +447,6 @@ static inline int snd_soc_resume(struct device *dev)
+ }
+ #endif
+ int snd_soc_poweroff(struct device *dev);
+-int snd_soc_component_initialize(struct snd_soc_component *component,
+-				 const struct snd_soc_component_driver *driver,
+-				 struct device *dev);
+-int snd_soc_add_component(struct snd_soc_component *component,
+-			  struct snd_soc_dai_driver *dai_drv,
+-			  int num_dai);
+ int snd_soc_register_component_c(struct snd_soc_component *component,
+ 			 const struct snd_soc_component_driver *component_driver,
+ 			 struct snd_soc_dai_driver *dai_drv, int num_dai);
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index 3b1d18bfadda9..f1368bfe3fa4e 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -2702,9 +2702,9 @@ static void snd_soc_del_component_unlocked(struct snd_soc_component *component)
+ 	list_del(&component->list);
+ }
  
- static int d_probe(struct snd_soc_component *component)
+-int snd_soc_component_initialize(struct snd_soc_component *component,
+-				 const struct snd_soc_component_driver *driver,
+-				 struct device *dev)
++static int soc_component_initialize(struct snd_soc_component *component,
++				    const struct snd_soc_component_driver *driver,
++				    struct device *dev)
  {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
+ 	component->dapm = snd_soc_dapm_alloc(dev);
+ 	if (!component->dapm)
+@@ -2730,11 +2730,10 @@ int snd_soc_component_initialize(struct snd_soc_component *component,
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL_GPL(snd_soc_component_initialize);
+ 
+-int snd_soc_add_component(struct snd_soc_component *component,
+-			  struct snd_soc_dai_driver *dai_drv,
+-			  int num_dai)
++static int soc_component_add(struct snd_soc_component *component,
++			     struct snd_soc_dai_driver *dai_drv,
++			     int num_dai)
+ {
+ 	struct snd_soc_card *card, *c;
+ 	int ret;
+@@ -2773,7 +2772,6 @@ int snd_soc_add_component(struct snd_soc_component *component,
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(snd_soc_add_component);
+ 
+ int snd_soc_register_component_c(struct snd_soc_component *component,
+ 			const struct snd_soc_component_driver *component_driver,
+@@ -2782,11 +2780,11 @@ int snd_soc_register_component_c(struct snd_soc_component *component,
+ {
  	int ret;
  
- 	ret = snd_soc_tplg_component_load(component, NULL, &kunit_comp->fw);
-@@ -65,8 +63,7 @@ static int d_probe(struct snd_soc_component *component)
+-	ret = snd_soc_component_initialize(component, component_driver, component->dev);
++	ret = soc_component_initialize(component, component_driver, component->dev);
+ 	if (ret < 0)
+ 		return ret;
  
- static void d_remove(struct snd_soc_component *component)
- {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
- 	int ret;
+-	return snd_soc_add_component(component, dai_drv, num_dai);
++	return soc_component_add(component, dai_drv, num_dai);
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_register_component_c);
  
- 	ret = snd_soc_tplg_component_remove(component);
-@@ -214,8 +211,7 @@ static struct tplg_tmpl_002 tplg_tmpl_with_pcm = {
-  */
- static int d_probe_null_comp(struct snd_soc_component *component)
- {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
- 	int ret;
- 
- 	/* instead of passing component pointer as first argument, pass NULL here */
-@@ -234,6 +230,7 @@ static const struct snd_soc_component_driver test_component_null_comp = {
- static void snd_soc_tplg_test_load_with_null_comp(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	int ret;
- 
- 	/* prepare */
-@@ -249,15 +246,17 @@ static void snd_soc_tplg_test_load_with_null_comp(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component_null_comp, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component_null_comp, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -276,6 +275,7 @@ static void snd_soc_tplg_test_load_with_null_comp(struct kunit *test)
- static void snd_soc_tplg_test_load_with_null_ops(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	int ret;
- 
- 	/* prepare */
-@@ -291,15 +291,17 @@ static void snd_soc_tplg_test_load_with_null_ops(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -318,8 +320,7 @@ static void snd_soc_tplg_test_load_with_null_ops(struct kunit *test)
-  */
- static int d_probe_null_fw(struct snd_soc_component *component)
- {
--	struct kunit_soc_component *kunit_comp =
--			container_of(component, struct kunit_soc_component, comp);
-+	struct kunit_soc_component *kunit_comp = snd_soc_component_to_priv(component);
- 	int ret;
- 
- 	/* instead of passing fw pointer as third argument, pass NULL here */
-@@ -338,6 +339,7 @@ static const struct snd_soc_component_driver test_component_null_fw = {
- static void snd_soc_tplg_test_load_with_null_fw(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	int ret;
- 
- 	/* prepare */
-@@ -353,15 +355,17 @@ static void snd_soc_tplg_test_load_with_null_fw(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component_null_fw, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component_null_fw, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -375,6 +379,7 @@ static void snd_soc_tplg_test_load_with_null_fw(struct kunit *test)
- static void snd_soc_tplg_test_load_empty_tplg(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	struct tplg_tmpl_001 *data;
- 	int size;
- 	int ret;
-@@ -401,15 +406,17 @@ static void snd_soc_tplg_test_load_empty_tplg(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -425,6 +432,7 @@ static void snd_soc_tplg_test_load_empty_tplg(struct kunit *test)
- static void snd_soc_tplg_test_load_empty_tplg_bad_magic(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	struct tplg_tmpl_001 *data;
- 	int size;
- 	int ret;
-@@ -456,15 +464,17 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_magic(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -480,6 +490,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_magic(struct kunit *test)
- static void snd_soc_tplg_test_load_empty_tplg_bad_abi(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	struct tplg_tmpl_001 *data;
- 	int size;
- 	int ret;
-@@ -511,15 +522,17 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_abi(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -535,6 +548,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_abi(struct kunit *test)
- static void snd_soc_tplg_test_load_empty_tplg_bad_size(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	struct tplg_tmpl_001 *data;
- 	int size;
- 	int ret;
-@@ -566,15 +580,17 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_size(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -590,6 +606,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_size(struct kunit *test)
- static void snd_soc_tplg_test_load_empty_tplg_bad_payload_size(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	struct tplg_tmpl_001 *data;
- 	int size;
- 	int ret;
-@@ -622,15 +639,17 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_payload_size(struct kunit *tes
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	/* cleanup */
-@@ -644,6 +663,7 @@ static void snd_soc_tplg_test_load_empty_tplg_bad_payload_size(struct kunit *tes
- static void snd_soc_tplg_test_load_pcm_tplg(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	u8 *data;
- 	int size;
- 	int ret;
-@@ -670,15 +690,17 @@ static void snd_soc_tplg_test_load_pcm_tplg(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
--
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	snd_soc_unregister_component(test_dev);
-@@ -693,6 +715,7 @@ static void snd_soc_tplg_test_load_pcm_tplg(struct kunit *test)
- static void snd_soc_tplg_test_load_pcm_tplg_reload_comp(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	u8 *data;
- 	int size;
- 	int ret;
-@@ -720,16 +743,19 @@ static void snd_soc_tplg_test_load_pcm_tplg_reload_comp(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
-+
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
- 	/* run test */
- 	ret = snd_soc_register_card(&kunit_comp->card);
- 	if (ret != 0 && ret != -EPROBE_DEFER)
- 		KUNIT_FAIL(test, "Failed to register card");
- 
- 	for (i = 0; i < 100; i++) {
--		ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--		KUNIT_EXPECT_EQ(test, 0, ret);
- 
--		ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+		ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 		KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 		snd_soc_unregister_component(test_dev);
-@@ -745,6 +771,7 @@ static void snd_soc_tplg_test_load_pcm_tplg_reload_comp(struct kunit *test)
- static void snd_soc_tplg_test_load_pcm_tplg_reload_card(struct kunit *test)
- {
- 	struct kunit_soc_component *kunit_comp;
-+	struct snd_soc_component *component;
- 	u8 *data;
- 	int size;
- 	int ret;
-@@ -772,11 +799,13 @@ static void snd_soc_tplg_test_load_pcm_tplg_reload_card(struct kunit *test)
- 	kunit_comp->card.num_links = ARRAY_SIZE(kunit_dai_links);
- 	kunit_comp->card.fully_routed = true;
- 
--	/* run test */
--	ret = snd_soc_component_initialize(&kunit_comp->comp, &test_component, test_dev);
--	KUNIT_EXPECT_EQ(test, 0, ret);
-+	component = snd_soc_component_alloc(test_dev);
-+	KUNIT_ASSERT_NOT_NULL(test, component);
- 
--	ret = snd_soc_add_component(&kunit_comp->comp, NULL, 0);
-+	snd_soc_component_set_priv(component, kunit_comp);
-+
-+	/* run test */
-+	ret = snd_soc_register_component(component, &test_component, NULL, 0);
- 	KUNIT_EXPECT_EQ(test, 0, ret);
- 
- 	for (i = 0; i < 100; i++) {
 -- 
 2.53.0
 
