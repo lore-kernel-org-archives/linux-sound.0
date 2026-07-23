@@ -1,63 +1,63 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6F139CD09
-	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 04:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43E538A72F
+	for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 04:54:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784782495; cv=none; b=SfA8jbI4npFmOoyylPDG03gDVsqSGp97zvcQBGJOMhooP/wiIsuHz/fBgpuZtL24mgYs1RIaR3fIfjH9hovOOIVw8y8lUM5Wh/Fc+OqqXjsgS7fXqTJmPTObfd1FlvHBxFq+HF3c1oLlpkKub53W3FF6IzmE9GVdSmiLjNie+LM=
+	t=1784782507; cv=none; b=KkH5e4EXYBeIS0j8N+CPg1HtVfHjP0i98AkUqvEeyxbWRj0L6DoTOy86O7z1CIbaub4x9efOEjygI4kk4beYzNQx2boZIUKcWBIStT3tBGOwNj27A7hSEKkYLJ86s3WS7rWRqysL1Trp78FH0zSoTQCn2KEaDEpk3cCJPTbo1Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784782495; c=relaxed/simple;
-	bh=nZGVKfdU4GqxPhxmWCUGDD6Nc/KNfAjP7JAS+KPicHo=;
+	s=arc-20240116; t=1784782507; c=relaxed/simple;
+	bh=tQignsy0Uqf27H/ST9+cDOhKM7ywT6SKO99/+Fa+egA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gIL41pxQoRCKmRPXbEVZ7yQAW+/Ipkq7AlaaIKCUWoWKpu0ee4O++A1z5c7RXQFku/+Vdec/eO9Ws+cQJ46nXnGGVAeyRmIGPs65dXZ4WupuF4h82hOcPwek8rjtzTNn0PpCt1zbHNVIsQtY8ZbDJZsuOg2NFgRooh+LiRFBAAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KbVIMY1i; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version; b=aoLnFsKTDnY8Qu11MoAWrpew0rSudxn+gh6nK/hzy3XYmG4zzKIjugIXMIZtLx8C8p4zXV4kif7N8r/wpdphU3r8z1DZZ38HFL+6tcL1kIsXmdFzDtjRIwvf3cUxG1ZJ5PoeQO9Bjw5FB2iGBxN7G/sKJE5pUe7sl/vGGHgf12c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gm08PH1A; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KbVIMY1i"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cca0c5799eso2248075ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 21:54:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gm08PH1A"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2caced6038eso579315ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 22 Jul 2026 21:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784782484; x=1785387284; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784782491; x=1785387291; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2URIyRhsqdkSXLbHXTDfJ+qkOeAaYtVPXldxW4D65fM=;
-        b=KbVIMY1ixYi8TmFd6CWkRJcLP/1lbQq4BMl+r517aud6OtmakQyU6nytwF4xu1e6k5
-         rcg6/q58DqF2cEWIDE4PZYpQg3v4a0YWuZm5NWW1XRKJGvMgfmQJOMQemqrh+2W8r39V
-         4Jfr2lbbkVanW0A5jtCGYVva524QwFZF5kcWyVQcNNOm5cfhTayoB8qb8zUiB1GhcBv+
-         3h/bB2MgNw2o7x5wuwdPkhXH8RgLoFBdt8hnZ/jiiW66l20iZz7PjFO4qrz1sbw81FPE
-         MM0BkGyBCrcHI6/hourgFBAm10kvlentP/UUzMeKA7hDWyKgagh7VdxdW6SAyB0BPc0y
-         VVFQ==
+        bh=ipgET18nqnZuvZuo94ljzJ78lvwUk1zejtWxurs02pM=;
+        b=Gm08PH1AAjp1X1OKGm4FQBj87cFduC6FdFU1AP/ftQwwpYAKXhpVQnFWg+lr2FsdOD
+         5Z1KEvYkmuJ8QiCtdSuf3Dj8fWBIPbFl41uzeMYF1EPZIehHfmaorCiVVL2x5MuYlqSf
+         NIqhjUT1GKwcbjiRlPDPIgmZV7BMPx5ALESkSF+0to6N4Iv/zFsJ6OB4BM11J2nK122r
+         SQerilxSJkWubHsFREHi2KeExgeHJ79HSAiCOzSJoF630/Oevk8HGP7URvb4hAmVEKOB
+         70y3yffQfJGgFbVUjoTtNA1yIBhMVF4V9FpR3xiKRzJ97siyUzYoxOF6zFnxR2MxPVuK
+         UXTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784782484; x=1785387284;
+        d=1e100.net; s=20251104; t=1784782491; x=1785387291;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2URIyRhsqdkSXLbHXTDfJ+qkOeAaYtVPXldxW4D65fM=;
-        b=NVe71PFvOmzTIwuLSvuOtj4Vg0erUkx4TsZh+19VCivDMKYLqvrD8qsUO3n4g+1YNl
-         G68atIlkdmxBy9U1+C1fPTJ1jJDD4HpTgSNmeIvc4UupZmI3jVKyWHfxq1Q2yo5tDBtC
-         Dv0O2Rw8s4K+a6XxkJIzHGkzSDJDPvkiDqlFbqgnBOSULCf/2mCF6DBPJVr7JSbjaY+8
-         BuCXBjgTFgpwH7I7UfCZ3KjhkG4NvcJWt4yVCsVbNDK4Z09hxZ6y8CqSU1fqwzyuUNsj
-         hh4+4H1CkydQZw8FIae79lB4I2OiZkQ4Vqh6Z6oDyz3u2g2uHLjQPNHwuei1lIBOQn1+
-         4QLg==
-X-Forwarded-Encrypted: i=1; AHgh+RqKSQp518SRyWBMa5YGnHPZjWSSM0MYz/0+++p2GUiITzYRXu5vLAGkGyJ5IdOi57azu1kOkNXAI8ifbQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmAhdpbZFRZ8a0bRBTWImaiiFBJ3EoLKuNIdszBJdil2CAedX4
-	XvyjsI/6sr5Bc4edBjpdpLFcrLXtqM61UUfQX264Ohvnc6aUNNMFwlm4
-X-Gm-Gg: AR+sD139mPfko/v0Yi1OgzFJt3+I/8zE3QVa/sSmCZxb/P51sC/v1RBz4wzOajr5E0Z
-	sFqiKIZbs3Sxh8q86EQydcw7Fm6d/GKbjVH2CjMhGpdjoKeb5pyomOgrxLNaxw97OhdaoewGQqX
-	d698+25G1NmAlAP8ZcXVkdNCbGBFjJhZZ87ABeZNfJ1CLsrDclkkTclU1H9GyEiEGi09A3SKb80
-	yR2AHNT9kJCnflRGVzFvcLnqIMxnRP1DAAmNNNEMQiuS+iNwUpzen1xsvxCKFOxuOyP41UpTyjK
-	ohfTi0xzuDFSxmldqGBLvyT62yINSsTBiXLxqf+yvYq9nJmTmkMRL0x9qmaV6SdlJ6pgQvRXokh
-	ecZ7zTWHJk4ietyTWjEd1cRt/3BgVz7/wtUSNe9q2vVkpQbjPMzIP2EcGHgHn3ZHSWguUBFGBZx
-	drltGSAMmuvvH2i0j1ZdZnsPBXP8yjmbAqzmjB
-X-Received: by 2002:a17:903:22c7:b0:2c9:ed16:8d8d with SMTP id d9443c01a7336-2cfa6d8797bmr19246355ad.38.1784782484352;
-        Wed, 22 Jul 2026 21:54:44 -0700 (PDT)
+        bh=ipgET18nqnZuvZuo94ljzJ78lvwUk1zejtWxurs02pM=;
+        b=q6nz2q7gKd+Od9XS0Wy/Y+g0LlKaEamehGscNlpTT6PC2Spxj5oaoGc26XqewtZwH9
+         JiU0/kKXTGYRtTlU5AsafY5Y42iWJwmUaQivDId2xl5JuNOq8fjoZeldommeztcclhZV
+         +KU3oGpRml+G9exlQ0+5k+kodhnkC1K/2yeksDJMDiYNJqMsHuol0hjU9Ype07kM6Y/8
+         fg2MnedGZkaSc/o3SKCd/na/zbFVSLFY8fSPTETqzJzwXjYe/MiTEGdSSvJA1Xk94xLS
+         ND9mq+DE6YiKOTMBmcxLrKJI16ZuhlztCtXOjQpUREJQFMmMuOYQYQhrdMXCIyJ+3MEk
+         6oDQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrouKp6WwRglxO+ATwHifzhroAvSqv1aAiuCRJ+J6UEPqS+3fM9CMTeD09hjk9P2uPjubjciNEQWTw6nw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH7ptIqYVAkq+0jOndYxtB9huDNVDNtAkRqSPhrOMtN1AChaUl
+	9jjRQcm1v+sPHEgMbEroKGZL/T6lBqHgwstpcaFEzeYtaiDNDUXLKiBh
+X-Gm-Gg: AR+sD12XoFha3jDdJLjMHfTtbttDL4dcJPmfL8qwU/OObpxlVWBpUAWmA3lQZz4cBcc
+	zwFA0R/9AhkvLYoqHaW3GMKws+891aiDD5q3Ryzjt2lz0iemtKgQU/1BofrRGHVyak4ekjFcSSf
+	6m+CVOj8v7t779sFtsDfsnh23ChZSOSK7/uFpoF/akSBkLbEbugxm/xAHTzAmRYcyXyj/G3GKKT
+	mOEBDHmHOYScc052kYRwJq0if4by0XDxLIrKM/NS11k7dTq8QnRPnuOpTfH4j+CIBzQ4RxU09JS
+	+b0tfQjckyEVWunBm7vO3CvtO5w3LyybuZiK4y/cmJT13TBWa7rwR1Pu7Mx3wTPNjkOvXoXSuvk
+	EsCEwusOCBfzRaiy2i5vbjEnhMHATcSluHgJ9jldCqyMpsnFpRUdOlZew0fOhtgk20iAmwU2de4
+	DsyvXrKZZyEf5ferzr0X3/GfqTab8m9OW3eZJD
+X-Received: by 2002:a17:902:c409:b0:2c9:97a7:3283 with SMTP id d9443c01a7336-2cfa954df7amr13349015ad.23.1784782490606;
+        Wed, 22 Jul 2026 21:54:50 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfa57542e0sm7258365ad.67.2026.07.22.21.54.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfa57542e0sm7258365ad.67.2026.07.22.21.54.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 21:54:44 -0700 (PDT)
+        Wed, 22 Jul 2026 21:54:50 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -88,9 +88,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 08/26] ASoC: codecs: tscs42xx: Use guard() for mutex locks
-Date: Thu, 23 Jul 2026 11:53:09 +0700
-Message-ID: <20260723045327.28260-9-phucduc.bui@gmail.com>
+Subject: [PATCH 09/26] ASoC: codecs: tscs454: Use guard() for mutex locks
+Date: Thu, 23 Jul 2026 11:53:10 +0700
+Message-ID: <20260723045327.28260-10-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260723045327.28260-1-phucduc.bui@gmail.com>
 References: <20260723045327.28260-1-phucduc.bui@gmail.com>
@@ -109,190 +109,237 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/tscs42xx.c | 61 ++++++++++++-------------------------
- 1 file changed, 19 insertions(+), 42 deletions(-)
+ sound/soc/codecs/tscs454.c | 107 +++++++++++++++----------------------
+ 1 file changed, 42 insertions(+), 65 deletions(-)
 
-diff --git a/sound/soc/codecs/tscs42xx.c b/sound/soc/codecs/tscs42xx.c
-index dba581857920..02082ef790b4 100644
---- a/sound/soc/codecs/tscs42xx.c
-+++ b/sound/soc/codecs/tscs42xx.c
-@@ -12,6 +12,7 @@
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/mutex.h>
+diff --git a/sound/soc/codecs/tscs454.c b/sound/soc/codecs/tscs454.c
+index aad394937ce6..b70c9d931e1e 100644
+--- a/sound/soc/codecs/tscs454.c
++++ b/sound/soc/codecs/tscs454.c
+@@ -4,6 +4,7 @@
+ // Author: Steven Eckhoff <steven.eckhoff.opensource@gmail.com>
+ 
+ #include <linux/kernel.h>
 +#include <linux/cleanup.h>
  #include <linux/clk.h>
- #include <sound/tlv.h>
- #include <sound/pcm_params.h>
-@@ -210,25 +211,21 @@ static int power_up_audio_plls(struct snd_soc_component *component)
- 		return ret;
+ #include <linux/device.h>
+ #include <linux/regmap.h>
+@@ -329,12 +330,10 @@ static int coeff_ram_get(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
  	}
  
--	mutex_lock(&tscs42xx->pll_lock);
-+	guard(mutex)(&tscs42xx->pll_lock);
- 
- 	ret = snd_soc_component_update_bits(component, R_PLLCTL1C, mask, val);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to turn PLL on (%d)\n", ret);
--		goto exit;
-+		return ret;
- 	}
- 
- 	if (!plls_locked(component)) {
- 		dev_err(component->dev, "Failed to lock plls\n");
- 		ret = -ENOMSG;
--		goto exit;
-+		return ret;
- 	}
- 
--	ret = 0;
--exit:
--	mutex_unlock(&tscs42xx->pll_lock);
+-	mutex_lock(coeff_ram_lock);
 -
--	return ret;
-+	return 0;
- }
- 
- static int power_down_audio_plls(struct snd_soc_component *component)
-@@ -236,28 +233,24 @@ static int power_down_audio_plls(struct snd_soc_component *component)
- 	struct tscs42xx *tscs42xx = snd_soc_component_get_drvdata(component);
- 	int ret;
- 
--	mutex_lock(&tscs42xx->pll_lock);
-+	guard(mutex)(&tscs42xx->pll_lock);
- 
- 	ret = snd_soc_component_update_bits(component, R_PLLCTL1C,
- 			RM_PLLCTL1C_PDB_PLL1,
- 			RV_PLLCTL1C_PDB_PLL1_DISABLE);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to turn PLL off (%d)\n", ret);
--		goto exit;
-+		return ret;
- 	}
- 	ret = snd_soc_component_update_bits(component, R_PLLCTL1C,
- 			RM_PLLCTL1C_PDB_PLL2,
- 			RV_PLLCTL1C_PDB_PLL2_DISABLE);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to turn PLL off (%d)\n", ret);
--		goto exit;
-+		return ret;
- 	}
- 
--	ret = 0;
--exit:
--	mutex_unlock(&tscs42xx->pll_lock);
+-	memcpy(ucontrol->value.bytes.data,
+-		&coeff_ram[ctl->addr * COEFF_SIZE], params->max);
 -
--	return ret;
-+	return 0;
- }
+-	mutex_unlock(coeff_ram_lock);
++	scoped_guard(mutex, coeff_ram_lock) {
++		memcpy(ucontrol->value.bytes.data,
++		       &coeff_ram[ctl->addr * COEFF_SIZE], params->max);
++	}
  
- static int coeff_ram_get(struct snd_kcontrol *kcontrol,
-@@ -269,13 +262,11 @@ static int coeff_ram_get(struct snd_kcontrol *kcontrol,
- 		(struct coeff_ram_ctl *)kcontrol->private_value;
- 	struct soc_bytes_ext *params = &ctl->bytes_ext;
- 
--	mutex_lock(&tscs42xx->coeff_ram_lock);
-+	guard(mutex)(&tscs42xx->coeff_ram_lock);
- 
- 	memcpy(ucontrol->value.bytes.data,
- 		&tscs42xx->coeff_ram[ctl->addr * COEFF_SIZE], params->max);
- 
--	mutex_unlock(&tscs42xx->coeff_ram_lock);
--
  	return 0;
  }
+@@ -428,15 +427,15 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
+ 	}
  
-@@ -290,14 +281,14 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
- 	unsigned int coeff_cnt = params->max / COEFF_SIZE;
- 	int ret;
+-	mutex_lock(coeff_ram_lock);
++	guard(mutex)(coeff_ram_lock);
  
--	mutex_lock(&tscs42xx->coeff_ram_lock);
-+	guard(mutex)(&tscs42xx->coeff_ram_lock);
+ 	*coeff_ram_synced = false;
  
- 	tscs42xx->coeff_ram_synced = false;
- 
- 	memcpy(&tscs42xx->coeff_ram[ctl->addr * COEFF_SIZE],
+ 	memcpy(&coeff_ram[ctl->addr * COEFF_SIZE],
  		ucontrol->value.bytes.data, params->max);
  
--	mutex_lock(&tscs42xx->pll_lock);
-+	guard(mutex)(&tscs42xx->pll_lock);
+-	mutex_lock(&tscs454->pll1.lock);
+-	mutex_lock(&tscs454->pll2.lock);
++	guard(mutex)(&tscs454->pll1.lock);
++	guard(mutex)(&tscs454->pll2.lock);
  
- 	if (plls_locked(component)) {
- 		ret = write_coeff_ram(component, tscs42xx->coeff_ram,
-@@ -305,18 +296,12 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
+ 	val = snd_soc_component_read(component, R_PLLSTAT);
+ 	if (val) { /* PLLs locked */
+@@ -446,18 +445,12 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
  		if (ret < 0) {
  			dev_err(component->dev,
  				"Failed to flush coeff ram cache (%d)\n", ret);
 -			goto exit;
 +			return ret;
  		}
- 		tscs42xx->coeff_ram_synced = true;
+ 		*coeff_ram_synced = true;
  	}
  
 -	ret = 0;
 -exit:
--	mutex_unlock(&tscs42xx->pll_lock);
--
--	mutex_unlock(&tscs42xx->coeff_ram_lock);
+-	mutex_unlock(&tscs454->pll2.lock);
+-	mutex_unlock(&tscs454->pll1.lock);
+-	mutex_unlock(coeff_ram_lock);
 -
 -	return ret;
 +	return 0;
  }
  
- /* Input L Capture Route */
-@@ -385,21 +370,17 @@ static int dac_event(struct snd_soc_dapm_widget *w,
- 	struct tscs42xx *tscs42xx = snd_soc_component_get_drvdata(component);
+ static inline int coeff_ram_sync(struct snd_soc_component *component,
+@@ -465,41 +458,35 @@ static inline int coeff_ram_sync(struct snd_soc_component *component,
+ {
  	int ret;
  
--	mutex_lock(&tscs42xx->coeff_ram_lock);
-+	guard(mutex)(&tscs42xx->coeff_ram_lock);
- 
- 	if (!tscs42xx->coeff_ram_synced) {
- 		ret = write_coeff_ram(component, tscs42xx->coeff_ram, 0x00,
- 			COEFF_RAM_COEFF_COUNT);
- 		if (ret < 0)
--			goto exit;
-+			return ret;
- 		tscs42xx->coeff_ram_synced = true;
+-	mutex_lock(&tscs454->dac_ram.lock);
+-	if (!tscs454->dac_ram.synced) {
+-		ret = write_coeff_ram(component, tscs454->dac_ram.cache,
+-				R_DACCRS, R_DACCRADD, R_DACCRWDL,
+-				0x00, COEFF_RAM_COEFF_COUNT);
+-		if (ret < 0) {
+-			mutex_unlock(&tscs454->dac_ram.lock);
+-			return ret;
++	scoped_guard(mutex, &tscs454->dac_ram.lock) {
++		if (!tscs454->dac_ram.synced) {
++			ret = write_coeff_ram(component, tscs454->dac_ram.cache,
++					      R_DACCRS, R_DACCRADD, R_DACCRWDL,
++					      0x00, COEFF_RAM_COEFF_COUNT);
++			if (ret < 0)
++				return ret;
+ 		}
  	}
+-	mutex_unlock(&tscs454->dac_ram.lock);
+ 
+-	mutex_lock(&tscs454->spk_ram.lock);
+-	if (!tscs454->spk_ram.synced) {
+-		ret = write_coeff_ram(component, tscs454->spk_ram.cache,
+-				R_SPKCRS, R_SPKCRADD, R_SPKCRWDL,
+-				0x00, COEFF_RAM_COEFF_COUNT);
+-		if (ret < 0) {
+-			mutex_unlock(&tscs454->spk_ram.lock);
+-			return ret;
++	scoped_guard(mutex, &tscs454->spk_ram.lock) {
++		if (!tscs454->spk_ram.synced) {
++			ret = write_coeff_ram(component, tscs454->spk_ram.cache,
++					      R_SPKCRS, R_SPKCRADD, R_SPKCRWDL,
++					      0x00, COEFF_RAM_COEFF_COUNT);
++			if (ret < 0)
++				return ret;
+ 		}
+ 	}
+-	mutex_unlock(&tscs454->spk_ram.lock);
+ 
+-	mutex_lock(&tscs454->sub_ram.lock);
+-	if (!tscs454->sub_ram.synced) {
+-		ret = write_coeff_ram(component, tscs454->sub_ram.cache,
+-				R_SUBCRS, R_SUBCRADD, R_SUBCRWDL,
+-				0x00, COEFF_RAM_COEFF_COUNT);
+-		if (ret < 0) {
+-			mutex_unlock(&tscs454->sub_ram.lock);
+-			return ret;
++	scoped_guard(mutex, &tscs454->sub_ram.lock) {
++		if (!tscs454->sub_ram.synced) {
++			ret = write_coeff_ram(component, tscs454->sub_ram.cache,
++					      R_SUBCRS, R_SUBCRADD, R_SUBCRWDL,
++					      0x00, COEFF_RAM_COEFF_COUNT);
++			if (ret < 0)
++				return ret;
+ 		}
+ 	}
+-	mutex_unlock(&tscs454->sub_ram.lock);
+ 
+ 	return 0;
+ }
+@@ -658,16 +645,14 @@ static int set_sysclk(struct snd_soc_component *component)
+ 
+ static inline void reserve_pll(struct pll *pll)
+ {
+-	mutex_lock(&pll->lock);
++	guard(mutex)(&pll->lock);
+ 	pll->users++;
+-	mutex_unlock(&pll->lock);
+ }
+ 
+ static inline void free_pll(struct pll *pll)
+ {
+-	mutex_lock(&pll->lock);
++	guard(mutex)(&pll->lock);
+ 	pll->users--;
+-	mutex_unlock(&pll->lock);
+ }
+ 
+ static int pll_connected(struct snd_soc_dapm_widget *source,
+@@ -679,15 +664,13 @@ static int pll_connected(struct snd_soc_dapm_widget *source,
+ 	int users;
+ 
+ 	if (strstr(source->name, "PLL 1")) {
+-		mutex_lock(&tscs454->pll1.lock);
+-		users = tscs454->pll1.users;
+-		mutex_unlock(&tscs454->pll1.lock);
++		scoped_guard(mutex, &tscs454->pll1.lock)
++			users = tscs454->pll1.users;
+ 		dev_dbg(component->dev, "%s(): PLL 1 users = %d\n", __func__,
+ 				users);
+ 	} else {
+-		mutex_lock(&tscs454->pll2.lock);
+-		users = tscs454->pll2.users;
+-		mutex_unlock(&tscs454->pll2.lock);
++		scoped_guard(mutex, &tscs454->pll2.lock)
++			users = tscs454->pll2.users;
+ 		dev_dbg(component->dev, "%s(): PLL 2 users = %d\n", __func__,
+ 				users);
+ 	}
+@@ -806,7 +789,7 @@ static inline int aif_free(struct snd_soc_component *component,
+ {
+ 	struct tscs454 *tscs454 = snd_soc_component_get_drvdata(component);
+ 
+-	mutex_lock(&tscs454->aifs_status_lock);
++	guard(mutex)(&tscs454->aifs_status_lock);
+ 
+ 	dev_dbg(component->dev, "%s(): aif %d\n", __func__, aif->id);
+ 
+@@ -829,8 +812,6 @@ static inline int aif_free(struct snd_soc_component *component,
+ 		free_pll(tscs454->internal_rate.pll);
+ 	}
+ 
+-	mutex_unlock(&tscs454->aifs_status_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -3174,7 +3155,7 @@ static int tscs454_hw_params(struct snd_pcm_substream *substream,
+ 	unsigned int val;
+ 	int ret;
+ 
+-	mutex_lock(&tscs454->aifs_status_lock);
++	guard(mutex)(&tscs454->aifs_status_lock);
+ 
+ 	dev_dbg(component->dev, "%s(): aif %d fs = %u\n", __func__,
+ 			aif->id, fs);
+@@ -3207,14 +3188,14 @@ static int tscs454_hw_params(struct snd_pcm_substream *substream,
+ 	ret = set_aif_fs(component, aif->id, fs);
+ 	if (ret < 0) {
+ 		dev_err(component->dev, "Failed to set aif fs (%d)\n", ret);
+-		goto exit;
++		return ret;
+ 	}
+ 
+ 	ret = set_aif_sample_format(component, params_format(params), aif->id);
+ 	if (ret < 0) {
+ 		dev_err(component->dev,
+ 				"Failed to set aif sample format (%d)\n", ret);
+-		goto exit;
++		return ret;
+ 	}
+ 
+ 	set_aif_status_active(&tscs454->aifs_status, aif->id,
+@@ -3223,11 +3204,7 @@ static int tscs454_hw_params(struct snd_pcm_substream *substream,
+ 	dev_dbg(component->dev, "Set aif %d active. Streams status is 0x%x\n",
+ 		aif->id, tscs454->aifs_status.streams);
  
 -	ret = 0;
 -exit:
--	mutex_unlock(&tscs42xx->coeff_ram_lock);
+-	mutex_unlock(&tscs454->aifs_status_lock);
 -
 -	return ret;
 +	return 0;
  }
  
- static const struct snd_soc_dapm_widget tscs42xx_dapm_widgets[] = {
-@@ -926,12 +907,10 @@ static int setup_sample_rate(struct snd_soc_component *component,
- 		return ret;
- 	}
- 
--	mutex_lock(&tscs42xx->audio_params_lock);
-+	guard(mutex)(&tscs42xx->audio_params_lock);
- 
- 	tscs42xx->samplerate = rate;
- 
--	mutex_unlock(&tscs42xx->audio_params_lock);
--
- 	return 0;
- }
- 
-@@ -1253,12 +1232,10 @@ static int tscs42xx_set_dai_bclk_ratio(struct snd_soc_dai *codec_dai,
- 		return ret;
- 	}
- 
--	mutex_lock(&tscs42xx->audio_params_lock);
-+	guard(mutex)(&tscs42xx->audio_params_lock);
- 
- 	tscs42xx->bclk_ratio = ratio;
- 
--	mutex_unlock(&tscs42xx->audio_params_lock);
--
- 	return 0;
- }
- 
+ static int tscs454_hw_free(struct snd_pcm_substream *substream,
 -- 
 2.43.0
 
