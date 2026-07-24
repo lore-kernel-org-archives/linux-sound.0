@@ -1,227 +1,188 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614CE3AD50D
-	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 07:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784879106; cv=none; b=ASjfXoyu4kUxEN8vqpzdnzEPtl5vhi0VV2+pyf8h4J/nStBn43rOOtoAGeeNvG2D4WENXk2zMunJtiRFb9wDv8nC1Y0cF4voMsDh9viK9m8csmQs5e/QJ5FYsDnq5Ftvjg5FGu0CSpWSAlm1YAZYvprOKT5cN2odGgUYb5mJZME=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784879106; c=relaxed/simple;
-	bh=+xAdmtBxHOpeBSxwwUHONGybk3sBXV5/JscU00Kn1G8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nCLT0TpXmHEob7C2xXnEx0zLR/stnl3OsrZOh4O2utjvm9SHqwGSgfLPKv0qURHOM3dd9denKUU60CZ6WyWA05RyfNiwwP9BYI1M1DJGr1STRYRqVCz3Rt2RZry9/gr1eSUmdchLQbAW1GE7TFKINq5YjMshyjvaZNxe7I49fgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ruvny4fu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0GpIbbnM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ruvny4fu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0GpIbbnM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE421F4180
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 08:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784880834; cv=fail; b=uA0t+YRZCQP0hGbxcxkUC+Ol5RUEcDMLijVLEc5iY4edavKU3LAkgzFfwC0VTpEGFk37RjewUqC7SZUk20Fybn2h/92ki0eTAKwNMdUbsz0Y4YD2nuMIkmlUKQDREKhM+DoB0kPwcbPkxNxKjjZQB4jkeG34SNZdahlzPxrB27w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784880834; c=relaxed/simple;
+	bh=syRG88Y7Zl3FI2obe5ObzK0aTcM1j51z6Xx9WeJmYDs=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ntRDYEZoa+fqnDVVRG2nUNsiSXzrJOhdJ8J7E/CJoJJ8f8bA16Hga84jhgXkvyXnHVExpRgrWBxjzAN3a9PFUkLd8VkhrqOsmsRdYoeTEiUXWkPWGV3bW4cTEIGX7dd/bF48zKIRLOaY1FLNmWWCpiJFyKTJEv/+QSVzrUd8BuE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjlzZZHX; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ruvny4fu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0GpIbbnM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ruvny4fu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0GpIbbnM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 43EA03DFB;
-	Fri, 24 Jul 2026 07:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784879102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lTgYXP8+4t2Dis1iHYQlB38l4Xa/gc21p7Bi3mTk3TM=;
-	b=ruvny4fuBHfPrxnxQo0+wpF1n3BLn4eqp8peiL121LfsjeqUhYTJigjr5LKTFFNgNKvEBc
-	CDc4Di0nb/QhrJXQE1no22ZH1GkTCVIAQ/f8TzoL299Tc2+bbTxnzO4SdQuAc8G25fQQDM
-	YkH6UUPUhHsyvo6ItGOlAiQlXHoak3c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784879102;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lTgYXP8+4t2Dis1iHYQlB38l4Xa/gc21p7Bi3mTk3TM=;
-	b=0GpIbbnM0PP1fqX/ZLjkHfyHJh57YS+JjeS/dgi6q0xxvrk5V+ZawwxjvZIgNjv7/1dU8x
-	WkFRZg75ADPhUDCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ruvny4fu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0GpIbbnM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1784879102; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lTgYXP8+4t2Dis1iHYQlB38l4Xa/gc21p7Bi3mTk3TM=;
-	b=ruvny4fuBHfPrxnxQo0+wpF1n3BLn4eqp8peiL121LfsjeqUhYTJigjr5LKTFFNgNKvEBc
-	CDc4Di0nb/QhrJXQE1no22ZH1GkTCVIAQ/f8TzoL299Tc2+bbTxnzO4SdQuAc8G25fQQDM
-	YkH6UUPUhHsyvo6ItGOlAiQlXHoak3c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1784879102;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lTgYXP8+4t2Dis1iHYQlB38l4Xa/gc21p7Bi3mTk3TM=;
-	b=0GpIbbnM0PP1fqX/ZLjkHfyHJh57YS+JjeS/dgi6q0xxvrk5V+ZawwxjvZIgNjv7/1dU8x
-	WkFRZg75ADPhUDCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12C67779BA;
-	Fri, 24 Jul 2026 07:45:02 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rWVuA/4XY2oGTAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 24 Jul 2026 07:45:02 +0000
-Date: Fri, 24 Jul 2026 09:45:01 +0200
-Message-ID: <87bjbwesqq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] ALSA: usb: 6fire: KASAN slab-use-after-free in dummy_timer
-In-Reply-To: <20260724030900.1984491-1-shuangpeng.kernel@gmail.com>
-References: <20260724030900.1984491-1-shuangpeng.kernel@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjlzZZHX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784880832; x=1816416832;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=syRG88Y7Zl3FI2obe5ObzK0aTcM1j51z6Xx9WeJmYDs=;
+  b=PjlzZZHXmqLpPXpjBVGDnY9TYygvS1wIEhDyzHH+FvLAD+gfQ+btz4cX
+   0cz4yyz31cw5HLYkVCs1EQp7SC6F+PdZruP/VljqvKUTjLQCPZLIdU0AK
+   +lp3W6Bw5ivLK2sc61KuWhC3SITREC6z2TWT96L0jDPCcQmOTEYd4N5xY
+   nWrIlPT+BJBLxTX5LJvn3cx8PNx/wKkexuR/cj5Z1gIRQLPv2i8gUjxou
+   RN/Vm60VyKIRaV2varw1b0x3caQX/YPtBV9Of+7vz/tPENEvt8AVMp2Fv
+   0SZv717JwVRpGwb0gVFz6oHJ+rUcev9WjjES+MqdH07a8A73XrydV9w+j
+   g==;
+X-CSE-ConnectionGUID: 9hY2AcNzRGW7sbH/ZNB+ZA==
+X-CSE-MsgGUID: qdJ1fx3aRqip5sJuAFDSHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="108332976"
+X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
+   d="scan'208";a="108332976"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 01:13:43 -0700
+X-CSE-ConnectionGUID: fbBfhKhfS6yqhvkFprI2WA==
+X-CSE-MsgGUID: 3RFKKNm8TMmJj5w6e8pXvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,182,1779174000"; 
+   d="scan'208";a="288622408"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2026 01:13:43 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Fri, 24 Jul 2026 01:13:42 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43 via Frontend Transport; Fri, 24 Jul 2026 01:13:42 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.39) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Fri, 24 Jul 2026 01:13:41 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ionCAnOyToRZHQ1wQ/QMYsemPbmvD1Anhn7JIBqurYfA97pyroRpDF3RUnliDcoE67VHP4MinHirDGTauuUXEdOkXglZfyYFkt/U2ZN0i7r2AClXWjdhzhO+H/eV9xlBiajxCXLWHCqkwzaQVzKadLFmfuJkppXD5caPpP6UPZPgdxv7rriUVktAu4qrENsjkXiGnTxkL8suJkJQjjTEbdYaguzCAMukpCEDLtTlVrcGxqIebIp8Ceqpdkf2Qhpr1wkOIEX47QNVuwzns0/yL+TitTVxmVjFyDzgjYZiZTkNMyiZh1QV24O38Z5476Wj7XBqWlhrcNxa7sNp5MP6Wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0y7Su7s9zq/0BP4XqEA6WiBpGWXSCknc1STr7GeCVrY=;
+ b=x9R1LUbkr72h/semV+pT3czrlbjEfnYPP++TRcDGSMicJMxqZ+tnNnJ+7HZTVpRDxzZKejMKL3e0tZsmDrVl6YGTa9BskX79/9dhkL34OoeVC17e7EZPlp/eK8dHdim0B2YY2Vwck0ltlmrUA+idUUZW3jXEJDuQPtwS8QN7ZShyxAdqMuLCbGJxS1BqLZF4oaBq0j+2vxqwY0pXZUUm40H1FLcZ52JqBlZLMdejT7Epd0c9y5M/zzvAjNY1Yb9yv4lWpKrPc/8wxQbe8fj3D0LkmzN3YercqVBe9KO7YpGa0+1LwSu5yXIb04eEkW97X/Dcmm7ASvShMbM1gVxbjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by SJ1PR11MB6155.namprd11.prod.outlook.com (2603:10b6:a03:45e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Fri, 24 Jul
+ 2026 08:13:33 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
+ 08:13:33 +0000
+Message-ID: <64b042cc-088c-4963-b96b-ae5d9528ac36@intel.com>
+Date: Fri, 24 Jul 2026 10:13:27 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 07/12] ASoC: intel: avs: probes: use
+ snd_soc_register_component()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: <linux-sound@vger.kernel.org>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Fabio Estevam <festevam@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>, Lars-Peter Clausen <lars@metafoo.de>, "Liam
+ Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Nicolin
+ Chen <nicoleotsuka@gmail.com>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>, Xiubo Li <Xiubo.Lee@gmail.com>
+References: <87y0f2rz8l.wl-kuninori.morimoto.gx@renesas.com>
+ <87o6fyrz7h.wl-kuninori.morimoto.gx@renesas.com>
+ <58f7f20f-6a70-47a7-8aed-05c5676baf25@intel.com>
+ <87zezh2sgl.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <87zezh2sgl.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM9P193CA0009.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21e::14) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 43EA03DFB
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|SJ1PR11MB6155:EE_
+X-MS-Office365-Filtering-Correlation-Id: 209e2f6a-69fa-4139-367d-08dee95b73c9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|7416014|56012099006|11063799006|10067099003|18002099003|22082099003|4143699003;
+X-Microsoft-Antispam-Message-Info: pVZRBOI2L8JXTMuRIF6ufS35oXq6IH0DG9AP+1qPPHyE3MbNSfpHRYHl6sJslETwj/XlUZCKiz58gfejdCrJZ0DX0ZO53V+oaYVDOVR72uC2qUcmAmwAFvtCoHQkPUmq2+Tl31R7Btn7gOP0/1/PoMQyMoXWA9u686AtwqXzAtCd59U6sm310IWcnPfwGKhTtj5JxYdKF2f0gYcdN20ADaukc5sEEEsGKw/DeAe/F6Unnt8WoBRgev4R2cG9RTTWB9RsKZum08kRCjB/7ap0Y08PIBAVwonjG0p1OQ3U2Vn8Yw7o8GdcfZ0wybvz0SCGSd/8zakIgj2K6GNhciVWyQiHr05Dtsa5AD/rgbWnEqpWp6T8VStL9uJl2lx+XUPr2BAOuf/UB/4muZ6Dl/im5Ay1G3cQov7599yIKVEcD/t5SUyC5BBc+YZdqXIEi2rWjL1tyhRdjb/TmlQ2oTEZZNl5FWmgAesewa5pYg+dB8Z/2eAOUTLaifuIS7HyJZb00bG8ThTvWrBpzSvXRBcA6NWFHZbD9Bvqno2o17rprHU0ZVl5TxXIxbfZm549KmNred4LwyG84GA7wn45XhupInHjdLDfJ5QBnF/++kYRrT4eSf2q0R1px7mELx7Ln+hdB2erOBbZthZsFnPPgFCdlw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(7416014)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjF5S1pic3VvNnJoYTd3cUtTVE9TdDYyNUVCK3NyMnN0MVYyc3hoL0VZc2Rv?=
+ =?utf-8?B?UmZZSG1CVnpvdGJ0dkFRd3NTQU5xRzFTdWFNTVllNlRtTTdCYWZFWS9rendn?=
+ =?utf-8?B?TGFsaDM5clBIOWRPYmFPeWUxMmF1Znl1YlNGNERMek9JRFpES3hLaHYzNTRw?=
+ =?utf-8?B?RlVNZ0YyeVhBbW5WaHZLTHhMd2tVK0VFNStmdXAwODRtQlZhUlVGOHZqMnJT?=
+ =?utf-8?B?Zkk3Z2UyUVNlL3ROYUhLYU44cVN4SXFFQ1V5Nk91TXkvS1ZPN1JzTUZERUdn?=
+ =?utf-8?B?SGpoMGhYQ1Y3S0xrNHR0alI2M1I2UERXOXJnb0FSd0JzTjJuUUorMnRXVG5t?=
+ =?utf-8?B?Wm9jZHZRM3l2VjNDTitWTnJiOEJIRGJPYUlrZ0ZlZlhxditlNkpuM3g4bTVY?=
+ =?utf-8?B?eXJ5K3NUS2Qzb2wrYkhqZHJLaTU5WkhJNXU5Ry9LOWFHcUJZTDlVRnVSeDFO?=
+ =?utf-8?B?emRjSm9KU3AyakN1L3JLRHZ6NlJpZ2pyMGEzMkRQMzZGd3RoSlpUT3JCc3Bt?=
+ =?utf-8?B?bi9CcEx0enIxdXpSM0tQR0NYU0I2UUM4ZDVpd2NXZ3JaMlZJUEQ0OVFCYmFV?=
+ =?utf-8?B?d1pYK1VUdXpMTU0wV1RCN0lrRTRYMC9CbWVpSExqb3lFTWVtQ2lQN3BzR0RF?=
+ =?utf-8?B?OGJFMmdtcnVDbHNrMHJCVXdpbUNKV0lhUk51akxHYUtmZzVWUjdYNmltNUZy?=
+ =?utf-8?B?bkI3SVB5R21NTEMwMVNlUGxKY0tmNWJSSnR2VnhBSUFDem1MUVg3ZkRKN2k3?=
+ =?utf-8?B?WnA4anV2N0NDVU9QSllCV29wVFllclo2TDVHVWxFeE1MV3ZiMFRzZlRGY2NU?=
+ =?utf-8?B?ay9LQzltSjNOTTZGUC90NjFCRngxMlpGd0dCRFhBbGhyNGhnaEpZNVBKSGEr?=
+ =?utf-8?B?YkhrMWMxajNDUkUzQldtVERGSjBCeWdsamgva3hBdXRtbTBUSXZ6SG1ySHFP?=
+ =?utf-8?B?WWZGNVk4MEdPdzNyaW1tbnEvSmhBWCtGdVhWNjJRZGZEalZQcngxR3pMencv?=
+ =?utf-8?B?aDZxU29ySnpnM3ZYTEZqV2NubzZKbUxUSmR2Yjd4WDBLVE5yV3hjY2E1SzU1?=
+ =?utf-8?B?K1BLMEZnTXh5dnRsU0JIZ2lDbDhXRm9CVTdkVTJzbDdrRWRLVzhMc1FDWWVB?=
+ =?utf-8?B?RWM0blhOK2NuODA4dEFPaC8zSHBkWDY0dGxMZXRyZHJiWmZPcWIxV3hHQklD?=
+ =?utf-8?B?RGVqYU82cms1UVFnOG5qbHR2c2FCeUZjK3g2eUsweHJJTGUySFVMY2d5Q3NI?=
+ =?utf-8?B?K04yUFNGVlBuUFIwQktrakdJMWgxZDFEeU9BZExiRDNPcVBrZDlPdmdWVm1D?=
+ =?utf-8?B?SDN0WENmMExFK1NUZTYvU21VdjRyOWxTY2dkZytnUGRnbHNaNnB6QW55WlF2?=
+ =?utf-8?B?UWlkV0ZpOTFTdTd0aWhJL1VCMUdaZHN5alhJUU8yanhSdmx4UlZSaVQwejZR?=
+ =?utf-8?B?ZklRRmpuN0RGdjMwSGZWd1o0UFVwMXp3M2szTG5rdDB3Tjh4c2RuLzBGRE95?=
+ =?utf-8?B?MGh1V1JvbHRTWk9aMmJhZUM2bVIvRmU3MTZrQlFMUXNnT0xBMitMTjN1dTcz?=
+ =?utf-8?B?NjgweGRCdU5RMWZlTHdzL0oyZ2lBRU10dHdsb0xoMHlPb1BGUzNVWWNITEp1?=
+ =?utf-8?B?WE5zYVZlMzJ2TU52bklFTlJrbVBqWDVXcFczZCt0cDFjUFhzWUovSkJMQ2Mz?=
+ =?utf-8?B?TktlL1dtMFl3eDk1MW9USHBjKzZDQjl3cEhIalE4S0xhTVJSQ2lmSmVzV1pR?=
+ =?utf-8?B?VXJRQVQrcW81Um1GaWlId0RURHEySjI2eVZ5V3hScWY3b2hMVEFocVBTM3hw?=
+ =?utf-8?B?RGt0R00xSmtIWmpnQTZDbVo2a3lVUmYvUlN6eFp4aHlvdklDVmM2OWR6b2VN?=
+ =?utf-8?B?dENTUjNaVXNOWkxaWnYzK1lJY2x3UlpIbHdNY0hyVGlZZWNXWkNaUEFUSEZD?=
+ =?utf-8?B?dHRhU0NwWWRCQ1J2UjRPN21IZkR2bnJxbUZNN2t4eHp5QmY4b0RoNWtrcDJN?=
+ =?utf-8?B?eWdtT1cvbE0zci9pMnA0VzB0UFBMbm8vemNyK1Jmd292cEh4TEZsVDgyOGhl?=
+ =?utf-8?B?SE1UaHh4ZnQ4LzNIODlJVmthc1BxZUVUZFY2a1NTaW1FUUJ5a0h1WXdHOU04?=
+ =?utf-8?B?Qi9XMjkxeklxNGtucFFlWGRJZFJHQjhibzdWNEJIdGtIWlFzdFFqSi90U0M0?=
+ =?utf-8?B?QjNFTGtzM201L3RDd016SndrU21sTFFRS0h3SWU5WjhkVGpsWENYbTVTd2Zn?=
+ =?utf-8?B?TUhZUXM4OUVSK0tLQXFkcUFDMTYzVjBlWW9YcEtQb3ZCOWFjTzczMTVFWHgv?=
+ =?utf-8?B?WDcyYnBURjZIcGdKaGdDaUs3N09nZTU1MGxmWExOdFhreS9Zenh5cllWS1A5?=
+ =?utf-8?Q?5KSK1EtRHrdoc5HI=3D?=
+X-Exchange-RoutingPolicyChecked: Mo10o1/Zsq4a9k12B3BH9U7jW8qTrnMNRlDW/LrAQ077XDXLaKhbkOd8HTb3E37kljcLoYlj65548aJBcEUFs9ck3uqglKO7pRFE/Tar2RbdGgaepDu5oPJPoH5vHun0cfQsst9MJ3QGRIPq4LXw4J+Ctcv2OFE8YjpylTf7Btx9McPWJPsKjxJnqxETRt7touyFCpZnmHYIALt/r1y6ggFi69m+Yq8J8HM/WFGz6EvnYBXDuHNIc+ub0itVLMrwu1mDmBIs1qD2ydV+wkCk/i9JTmX/mLt/+qHx9bmx2k3IbbagV6uewW5yUE00bJTGoKj1gIgLufW1GV8h3aNRbg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 209e2f6a-69fa-4139-367d-08dee95b73c9
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 08:13:33.0619
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1gVHoCbIE73SVOhwpx7+IHtY7osOCfWu3aRr0TbHsQJ8a6hLNYQz1ujMFGBK71pH8aOGADniHN508fZotd268WoBd41ztHIVuzrRmk3oGJU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6155
+X-OriginatorOrg: intel.com
 
-On Fri, 24 Jul 2026 05:07:50 +0200,
-Shuangpeng Bai wrote:
-> 
-> Hi Kernel Maintainers,
-> 
-> I hit the following report while testing current upstream kernel:
-> 
-> KASAN: slab-use-after-free in dummy_timer
-> 
-> on commit: fce2dfa773ced15f27dd27cd0b482a7473cdcf2a (2026-07-16)
-> 
-> The reproducer and .config files are here.
-> https://gist.github.com/shuangpengbai/a410bc05b4f22d1ba4ce7ef059043fea
-> 
-> I'm happy to test debug patches or provide additional information.
-> 
-> Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-> 
-> [  400.891255][    C0] BUG: KASAN: slab-use-after-free in dummy_timer (drivers/usb/common/usb-otg-fsm.c:393)
-> [  400.891273][    C0] Read of size 4 at addr ffff8881789bc20c by task kworker/0:2/773
-> [  400.891276][    C0]
-> [  400.891291][    C0] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> [  400.891294][    C0] Workqueue: usb_hub_wq hub_event
-> [  400.891299][    C0] Call Trace:
-> [  400.891301][    C0]  <IRQ>
-> [  400.891302][    C0]  dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
-> [  400.891306][    C0]  print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
-> [  400.891322][    C0]  kasan_report (mm/kasan/report.c:595)
-> [  400.891330][    C0]  dummy_timer (drivers/usb/common/usb-otg-fsm.c:393)
-> [  400.891397][    C0]  __hrtimer_run_queues (kernel/time/hrtimer.c:2032 kernel/time/hrtimer.c:2096)
-> [  400.891403][    C0]  hrtimer_run_softirq (kernel/time/hrtimer.c:2113)
-> [  400.891414][    C0]  handle_softirqs (kernel/softirq.c:622)
-> [  400.891420][    C0]  __irq_exit_rcu (kernel/softirq.c:656 kernel/softirq.c:496 kernel/softirq.c:735)
-> [  400.891423][    C0]  sysvec_apic_timer_interrupt (arch/x86/kernel/apic/apic.c:1062 arch/x86/kernel/apic/apic.c:1062)
-> [  400.891427][    C0]  </IRQ>
-> [  400.891428][    C0]  <TASK>
-> [  400.891579][    C0]  really_probe (drivers/base/dd.c:644 drivers/base/dd.c:706)
-> [  400.891582][    C0]  __driver_probe_device (drivers/base/dd.c:868)
-> [  400.891585][    C0]  driver_probe_device (drivers/base/dd.c:898)
-> [  400.891588][    C0]  __device_attach_driver (drivers/base/dd.c:1026)
-> [  400.891593][    C0]  bus_for_each_drv (drivers/base/bus.c:500)
-> [  400.891615][    C0]  __device_attach (drivers/base/dd.c:1098)
-> [  400.891631][    C0]  device_initial_probe (drivers/base/dd.c:1153)
-> [  400.891634][    C0]  bus_probe_device (drivers/base/bus.c:620)
-> [  400.891637][    C0]  device_add (drivers/base/core.c:3772)
-> [  400.891641][    C0]  usb_set_configuration (drivers/usb/core/message.c:2268)
-> [  400.891647][    C0]  usb_generic_driver_probe (drivers/usb/core/generic.c:250)
-> [  400.891651][    C0]  usb_probe_device (drivers/usb/core/driver.c:291)
-> [  400.891653][    C0]  really_probe (drivers/base/dd.c:? drivers/base/dd.c:706)
-> [  400.891656][    C0]  __driver_probe_device (drivers/base/dd.c:868)
-> [  400.891663][    C0]  driver_probe_device (drivers/base/dd.c:898)
-> [  400.891665][    C0]  __device_attach_driver (drivers/base/dd.c:1026)
-> [  400.891671][    C0]  bus_for_each_drv (drivers/base/bus.c:500)
-> [  400.891685][    C0]  __device_attach (drivers/base/dd.c:1098)
-> [  400.891704][    C0]  device_initial_probe (drivers/base/dd.c:1153)
-> [  400.891707][    C0]  bus_probe_device (drivers/base/bus.c:620)
-> [  400.891710][    C0]  device_add (drivers/base/core.c:3772)
-> [  400.891714][    C0]  usb_new_device (drivers/usb/core/hub.c:2695)
-> [  400.891726][    C0]  hub_event (drivers/usb/core/hub.c:5567 drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 drivers/usb/core/hub.c:5953)
-> [  400.891743][    C0]  process_scheduled_works (kernel/workqueue.c:3322 kernel/workqueue.c:3405)
-> [  400.891748][    C0]  worker_thread (kernel/workqueue.c:3486)
-> [  400.891756][    C0]  kthread (kernel/kthread.c:436)
-> [  400.891764][    C0]  ret_from_fork (arch/x86/kernel/process.c:158)
-> [  400.891790][    C0]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
-> [  400.891795][    C0]  </TASK>
-> [  400.891797][    C0] Freed by task 773 on cpu 0 at 400.890164s:
-> [  400.891805][    C0]  kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
-> [  400.891813][    C0]  kasan_save_free_info (mm/kasan/generic.c:584)
-> [  400.891821][    C0]  __kasan_slab_free (mm/kasan/common.c:253 mm/kasan/common.c:285)
-> [  400.891824][    C0]  kfree (./include/linux/kasan.h:235 mm/slub.c:2705 mm/slub.c:6405 mm/slub.c:6720)
-> [  400.891827][    C0]  usb6fire_comm_destroy (sound/usb/6fire/comm.c:197)
-> [  400.891830][    C0]  usb6fire_card_free (sound/usb/6fire/chip.c:65)
-> [  400.891832][    C0]  release_card_device (sound/core/init.c:594 sound/core/init.c:153)
-> [  400.891852][    C0]  kobject_put (lib/kobject.c:689 lib/kobject.c:720 ./include/linux/kref.h:65 lib/kobject.c:737)
-> [  400.891855][    C0]  snd_card_free (sound/core/init.c:626 sound/core/init.c:658)
-> [  400.891858][    C0]  usb6fire_chip_probe (sound/usb/6fire/chip.c:153)
-> [  400.891860][    C0]  usb_probe_interface (drivers/usb/core/driver.c:396)
+On 7/24/2026 1:31 AM, Kuninori Morimoto wrote:
 
-Through a quick glance, this looks like a stale URB firing after the
-release.  Does the patch below work?
+>>> It is calling snd_soc_component_initialize() / snd_soc_add_component().
+>>> We can now use snd_soc_register_component() instead.
+>> Noticed it only just now, why is "probes" change split away from 6/12?
+>> That's just a nitpick, not a blocker.
+> 
+> I have found each "snd_soc_add_component()", and replaced them 1-by-1.
+> I thought [06/12] and [07/12] are independent.
+> But I can merge them into one if it is necessary. Please let me know.
+Only if there are other, strong arguments for you to send v6. My nitpick 
+alone is not a reason for generating additional traffic on the list.
 
-
-thanks,
-
-Takashi
-
--- 8< --
---- a/sound/usb/6fire/chip.c
-+++ b/sound/usb/6fire/chip.c
-@@ -150,6 +150,10 @@ static int usb6fire_chip_probe(struct usb_interface *intf,
- 	return 0;
- 
- destroy_chip:
-+	chip->shutdown = true;
-+	if (card)
-+		snd_card_disconnect(card);
-+	usb6fire_chip_abort(chip);
- 	snd_card_free(card);
- 	return ret;
- }
+Kind regards,
+Czarek
