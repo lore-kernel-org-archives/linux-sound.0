@@ -1,204 +1,227 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013052.outbound.protection.outlook.com [40.107.44.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A49403E97;
-	Fri, 24 Jul 2026 12:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E240417BCF;
+	Fri, 24 Jul 2026 12:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784894575; cv=pass; b=p2d8g+vdt3P5X417YkoWIzuMgHKo8Uztd5vNU0d7Kko+pcTOcrtkNC7/CkQqu9aWDkwO1RLAGfppwQV/MnS4ln4J5FfYJ5OjtT7sLYGH58roMQU6Tqwhln1Gb8yqrmYqaIeN3CMK7YJbT7qN0SQJta+QEvH3aYh3nYbuFPIDfhg=
+	t=1784895113; cv=fail; b=Q8tzrqjsqScORr5qXzRIfktynKJADYkKWrPjD96sD0p3RSEO3seW7+CIDuSzk/5OSRWN8tNoINVvQj9b2KQZFJ8bBXO7gIwZChb3E5eRziB7e/p4Q2V3QIkcU34uXJL+r/LkTb75avwMa6vx2vUDYyXC/uKxNTjowaPLHsbXYkI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784894575; c=relaxed/simple;
-	bh=uAFIFbPktDnWEjnqkPVbPuCJdntunjNOlK5lFGV2Wes=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=rdxfbRXqYQuxBkySRwppWB+EaIhiNdsjKxC7D2KGkoDzHQCXirLnyKHyvKNvVL1yjKFdRSBjzNaj6tsjLmoBU5OFy6CZmDOrVks0feFM7X4SVbUbFvyZXhWJ2yMpZq5PRGlMJmAnlNiL9pRWlSycITwi07XGep6r9Aaswz+uqLQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=CpCayhZR; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	s=arc-20240116; t=1784895113; c=relaxed/simple;
+	bh=KGjY9ln5wGbOuG0eiryJElRq9zqD4ypeHqkfC4edvc8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qK2iPzinTwpjEjDHHOHDunXnMj6frY5Vj4+rsJY4ym32jbnlpw6M8Qm5ZPHGWLgK4M9t0m+bQjqgf+gPda+b93iM9QFXJ+5dG/dxvcxmRzMeuKB/TVM4QYP7t4+opEo9rPfdldkNaEVgsm2Bllx6okRap0e4hz4cMv7H3q02P20=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=exAN0o1K; arc=fail smtp.client-ip=40.107.44.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="CpCayhZR"
-ARC-Seal: i=1; a=rsa-sha256; t=1784894559; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=eg2SNe0BlifAdr5Qf6XLiuJRnMNBPgBCoWA5mo2QboufXZ848P8H6xKj6d9IL6sxHVY/fRMAxppaQCf2DJm4WzUlJsfIHethzaU8QLszBi2n04VXlwKqmMkrYCvu0VrgR1H962MLiTqzugamnOCMp6lOdOFcsQYp4h+4BSX4jxo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784894559; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=HLSWpW4LYX/Yb7wfkhbUYvnSlNGs0HKDe7/E2A5LAlg=; 
-	b=k50BgKtCn2YxPH1eWp1EPweyhCnwj8kof2aQRXrCqj3Uu8jyTGUvDja15zSYIYp1Ko2jQJsUig7PKCxg5X4P+zmUeXVLa9cfaeBwc1xzeRc7sEF9ckImGmBVjuNBGkrVybh3LTD9FugqFSs5mMWj8ERXYnjeqWFzU7E1W1QmfEg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784894559;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=HLSWpW4LYX/Yb7wfkhbUYvnSlNGs0HKDe7/E2A5LAlg=;
-	b=CpCayhZRn+J9abyBwHkZV55KYDG6C7F9KWWkR4e10L/zMSRKd1dkZ2AVFcYPEku8
-	r28Ap4WRWmlsQh+vvlzLef2xDwH7LRL9QTKZw4wgS66UoRtBOMCGUNxpYHZni+r2Bzh
-	PJtRMI14JxmvzbBxJN769kRyC//5CJWCy7fq2jL+QKPWedVpzwndfRW43TWSMgpfYSa
-	JmlSS35eV6Bj2vTJ440iWWNkelgKhDD9nLAX5WLmAV/nmquWlpc9PSL5psP46YrMWtZ
-	VNDe8bXZHN/HdI1nIDAdzZmn7Y9Fr76UjD8tlZ8aKtF9ljpudQfMqL5U4wQf+kIA4lS
-	C7mnPbMNoA==
-Received: by mx.zohomail.com with SMTPS id 1784894557091495.0243486991484;
-	Fri, 24 Jul 2026 05:02:37 -0700 (PDT)
-Message-ID: <0e84fcceb30e1af49f2450cdfa8f4c5aa552607c.camel@rong.moe>
-Subject: Re: =?gb2312?Q?=B4=F0=B8=B4=3A?= [PATCH] ALSA: usb-audio: Add
- iface reset and delay quirk for JKY Technology Q2A
-From: Rong Zhang <i@rong.moe>
-To: =?gb2312?Q?=BA=FA=C1=AC=C7=DA?= <hulianqin@vivo.com>, "perex@perex.cz"
-	 <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>
-In-Reply-To: <TYUPR06MB621767F631B7932FD6F3B079D2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: 
-	<TYUPR06MB6217BD7BF1AE9B308295FFFCD2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="exAN0o1K"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V76Km/A2anmuEwLfUAt9LK1p5bS4jgC0SQ7zdLOvaZKJsV6p2lwI2iR8iOsfCoLQfUYTLyBkwNIm27viaLjN+WIXin3AGniNoId+LOuNz6WHRQsbNv2ST/CfHPnxg1OkQlwjPbby4EnVb0/bViRyBIMGPAstxWGZDEKC8p6ETcxmg4GJVKNFXoOVfUwp5D37Rw0d7MaZ/Rmor+i3BEyohGlNzKC9Zh+rNdrop8tV5570Q2XVjCHX4U+BUrkNYNzNF2iFW1HuDCGysoz3GshuU8Qr/9XvG+byIc9FZrnzlE8LxjlDuYw8m3nrKRCfqiJNR9rP44cz9CV7ryPONG/WUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KGjY9ln5wGbOuG0eiryJElRq9zqD4ypeHqkfC4edvc8=;
+ b=e4IgBtxbrYTq4RHkoiuMDYuFKOVl0+wXtFouGIdbNI/pVTPdt2Ga/IcAUR4P5rx8JJP6PiAQf9hICxrq/vo7WsQPJ3OTre2EU+FxuWNINVE4u3ErKdSrrarP0po2BQUcPTcw4Y6rUTf72mi91trLOpcty0OUl32o4P1KPWYIB9Xf7yMvUHDvW7Kk4xvSVe31uxnDR5rpYCrtELO2HXMZRuZ+LRfeGJemdsTJW3GoSKo6GBZOlf1+Z7v936yKN0tG8K/3nHCFPo12k62jzmLbUW9294aWLAnAerVWT0mFdYkgqNm40zwluVGMvpRMfBCMeNalTECEdNuxAw35Hpynow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KGjY9ln5wGbOuG0eiryJElRq9zqD4ypeHqkfC4edvc8=;
+ b=exAN0o1KjTDVXOKlCLR0Jp/t6zE39EoNv+v25w5hFOM5ATdH0ojGcf14JXkz7HHKpJ1v3lDfK6h3X0VmPNOeP3Kg5qrReY6dSeC1+fx71/A7khB0rxMDYAY3ad7cKDcUPdd0ly+I+b+owo4IUdT7e1rIZmRySQi43prtNNAZPh79FEH4HKh7GjQZ0gc+7ainzNzPufMkXuDc18jPxJGSLo6R/tIA6sWZbCW6TB6vyn6F/0+hR3a6T94Y2yssfeKw8G+z6YJgCAevbwhMtvt36JvyhiAAAcuUJFkLiqQxyj6uNjjiDEgKSD3dcOZYH8W+agPAN6dZ9c7gKFROMmsm8A==
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
+ by TYZPR06MB5930.apcprd06.prod.outlook.com (2603:1096:400:336::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Fri, 24 Jul
+ 2026 12:11:45 +0000
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc]) by TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc%6]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
+ 12:11:44 +0000
+From: =?utf-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>
+To: Rong Zhang <i@rong.moe>, "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>
+CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject:
+ =?utf-8?B?562U5aSNOiDnrZTlpI06IFtQQVRDSF0gQUxTQTogdXNiLWF1ZGlvOiBBZGQg?=
+ =?utf-8?B?aWZhY2UgcmVzZXQgYW5kIGRlbGF5IHF1aXJrIGZvciBKS1kgVGVjaG5vbG9n?=
+ =?utf-8?Q?y_Q2A?=
+Thread-Topic:
+ =?utf-8?B?562U5aSNOiBbUEFUQ0hdIEFMU0E6IHVzYi1hdWRpbzogQWRkIGlmYWNlIHJl?=
+ =?utf-8?Q?set_and_delay_quirk_for_JKY_Technology_Q2A?=
+Thread-Index: Ad0bRhPoJJEBfya5Q7SBchl1mjk0TwAFrMMAAABG3KAAAZdSgAAAHsCQ
+Date: Fri, 24 Jul 2026 12:11:44 +0000
+Message-ID:
+ <TYUPR06MB6217DF257393FF328C1602FAD2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References:
+ <TYUPR06MB6217BD7BF1AE9B308295FFFCD2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
 	 <2cb27fb80f6fbdbd3b72138ce2d33c878e4e8049.camel@rong.moe>
 	 <TYUPR06MB621767F631B7932FD6F3B079D2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 24 Jul 2026 20:02:07 +0800
+ <0e84fcceb30e1af49f2450cdfa8f4c5aa552607c.camel@rong.moe>
+In-Reply-To: <0e84fcceb30e1af49f2450cdfa8f4c5aa552607c.camel@rong.moe>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|TYZPR06MB5930:EE_
+x-ms-office365-filtering-correlation-id: 3e6616c2-a169-4c8a-73ec-08dee97cba9b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|366016|23010399003|42112799006|1800799024|18002099003|22082099003|38070700021|56012099006|11063799006|4143699003|10067099003;
+x-microsoft-antispam-message-info:
+ dTgfdES74CzKyL1tlMmoto2s96LYK73jZiFchq/wxMg+iJvtk5XYDyoyySkQZVpl/KGttQmnjv7GmdYO2fjh8a45WDBfvHRuh8M/wmI9k0+jSb2osN1Ml1WxSn0wJkFXuijoIoBmznk9DC2FHZPphO/MsC0X9qHtBvtHy1SE6uKQYQ+n3q3NQUAzxPFoVOfSMfVm0Gub6clTfTLMD+wwmCp/Ef3yGgzYT112R3v3QLwj8/k3FWmNANoZR2cmSfzooG4LgXg82dPi0xOsLiQohPmhzrL08TOnW1TAuwPwhNsd1olRBvs6d56VLPLMYpVCkGxoMpfiueQCYZnDnJVameLijJUpn1tfg6l5ypzCi5drV1lsAP/fWAx0DnpRm8Ru8acEafM817bGnDoqcqydp3ZqAigfoHc5IoX3fJuAhwzfT3TY52NKeSJhH9hR89TuUCwCLuEObyZYlkpyqpnxKlHvXAMwZ+YsjQ6OJECWRyE7Bg0JUeP1gR38+85fyVp2E7CbZ5658kZLwnZ+5oWHvjIxXyUW0Xps77ncCg1/SCSyn8xjIKlcOm+OIzRy+5Mnp9XM2J7vLIZ8RJwPjNrzRiDJAgEylUNxkcGnBhq5y146V0q07XGXbMLfM5LHqLS7Di/jigZ+lpgwVZ23pTpyvYqIi0gASBW3LHt58M8T7ff7myr7o83isYA0rQuM2u1AsTAnyEjir3EhK7DlObsmn1BVX7aZyZBXg1h5Pc4Hoq0=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(42112799006)(1800799024)(18002099003)(22082099003)(38070700021)(56012099006)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ckJrbDZDT2N2THVGQW5LTU9BMUlld3VZQzRXa3NINENSYUdYZjFtUUQ4d1NP?=
+ =?utf-8?B?OWZnc1AxYW1peFJacE5PL0ZBRS9JWndoZ2RqbUJrdHhrMjNtNnFLakdlMWJV?=
+ =?utf-8?B?QmI1YzNrSkNRRjg1M1FxSFRJMlo0QUtUUkJ0SGE3OHBtci8zMkIrTDl4dXFa?=
+ =?utf-8?B?UWZzeE5qY2szcFdZdHgvL1ZHSmpSMjJJNFlKbHBxOHBpNDEybnVmOWtpUXNz?=
+ =?utf-8?B?L1RieGJKVHdidk1CVzhuK0hPaFlOdHdTR1c3ZFJPdHBhVnZDQmtvUCtSTjh0?=
+ =?utf-8?B?N3hybzJNb1VKRXh4NDNDRVpNbFFzS2grQzhTNmVjL2pRYlRrTFI0MHRmbU9Z?=
+ =?utf-8?B?MTA1RGt1aEVQbUpJQS9CMTJtRWF0SXNUZHIxVGFkTEJPSTNLdnFGMEJBRGUr?=
+ =?utf-8?B?Uk9pL3hIbmg3TzhxUkFMUVJYSFNkcGpHSElEaFdtVEtTRDMyMmxGWk5nWStB?=
+ =?utf-8?B?dUdhUTYxSUFteDdGcmlobDl2MTczNlpadmdXdGRHbmdZb2E0bXZBNmM2VjJp?=
+ =?utf-8?B?K0g3aU4rcXBwUzZFTGlZTnVpeEVER2duai9EemFvbXVabjNxamRDc3ZEeUZh?=
+ =?utf-8?B?NFp4cGVIMEhGc3NETC9uWjUwakpQbDc4RmhhR05Hcm1zM3FKM004OC9aQ1RN?=
+ =?utf-8?B?MGNDazBuSDVhNDE5R1hXcS9Kc1ZBeDVJMy85cElFaE1PNDhYWnBrUVdoWU05?=
+ =?utf-8?B?bTVMMFpyZG1LSlA1MHFBOHU3SWQvNWtmRWlHTGNvZ3NXYlNrdTQ5cnJCeENE?=
+ =?utf-8?B?Q3ZpQmZpeEthT0haYXpXejlpaUZ5QWM4U3VkMmlOOWFqVGsveXpYYkJaUlZt?=
+ =?utf-8?B?STloMkdMVFlTdUE5b3lMdzdqSFpuRW9lZldXOGVJV2hSTUJxcFZPTW1ZV2Ex?=
+ =?utf-8?B?TENBY1ljT3RQSEJQeXJDc0NGQlYwYldqTWx2MUFVMlRIMnMvbjJ1OHlzajlh?=
+ =?utf-8?B?dFVPTUp3dDZ2clJ3WkhDK3o2d25DVE56VlBtdWZUL2NBMEZNL3QwS20zVW5q?=
+ =?utf-8?B?VEkvZEpCS0J1NDZSeFRSd3QybGZnUFpyR1RUQXBPWEVJbEdoWm1KWEZNNGRO?=
+ =?utf-8?B?YWNXaTFlb1U3U25uZlN6ekNSZ3dqSjE2dVJZRDFKclJMWjF5VHV3OGVNRHJ0?=
+ =?utf-8?B?OVc3TVY5aVQ5VWFLV0laMXVtYzFNZFBBdXAwTFlHZHZpdnA3MTBMRmUzQVI0?=
+ =?utf-8?B?ekViYnFxRFdhTFoxVXpRL2pMbFExVVMzZldGQlc0NG9NM1BqMmQ3YXBvSkNI?=
+ =?utf-8?B?K3lBTGxtbVV2S29JRVZLRmdiSnRmRUozVHBSZjFnUVphUnJKWUFmZXEzKzA4?=
+ =?utf-8?B?SU53Tm9IbUpaRCtDV3dySHdjbDJYRlVSb2tUdjNPc3FDL3Y0R3hrZ1JudVg5?=
+ =?utf-8?B?ZmdiUkxaWml0UHh6NzZ4WUhCTW5vbUZ6M0xVV2FlOURDdWhBRktFUjB4MExx?=
+ =?utf-8?B?VHVsZ2U5V0ovdDAyQlJCQ0ZuZzlUeVhEajBuZlB1bFVSd0JWY01wYjN1a1lR?=
+ =?utf-8?B?MkpCdDZJR3pBZU9JaE5kWlVHc1YrYlIwaEhxUHBoL3B1SW5ocnF3QThoL0VU?=
+ =?utf-8?B?b21uTWZnWkovYWtGaGFKMTFlUUNMT2FkcGc4SnA5L2NVMk0wRk9KdGx0MTdL?=
+ =?utf-8?B?b25tdGpqbmgyOHN4NEtzT3BMcDc3VXZlU1AxcWMxQXUyeElxM3c3cEVrY0xF?=
+ =?utf-8?B?Zno2bzQyc2wremo4TXVFSzAyRWJia0lEVkhoZ1g0K1NLN0d3cFlJMWlyTVFN?=
+ =?utf-8?B?ME5xV2c5ZHErQy85aVBsS3NHNlBPZ0NwSU5reEZOaFo3N0twcHY0OFFyNElC?=
+ =?utf-8?B?bVpDM1BESFZ1YXVMaEQyaFc1RkV1WGRFY0ovR2dNeUFJaklpT0h3UHl6elBP?=
+ =?utf-8?B?MllTZmIwOGxQWDZYZVhXaVpJd3BnR0VvWEJLcWV5VW5yNXFyWjgrQjZ2RnpE?=
+ =?utf-8?B?cFdyMCtzL0NkKzc1SXExLzlBVzE4bm9qeFJjUzI2Z3FIMzVKR0ljdmtHc3Bi?=
+ =?utf-8?B?QkQ3bFZOUHZ1a1BGV1pqWEJqQy9SWWR0Zk13T3pIUlJsOXZxOXUyc0Jtb0c4?=
+ =?utf-8?B?ZDdNU3Q3dE5YZXBBdlFjR3JKaVNXNTFxbm9WUi9Vdm9OUksvZmZkc3JrVU5n?=
+ =?utf-8?B?S25HWEFscFF3YlBSd2MzdFE0MXhnZDE2OWllYkt0UXNwZUV1M1pITlQ4NlRZ?=
+ =?utf-8?B?Tkkzb1ZxMGZUYVRrQlBZSHVMZzlGSm5Ha1dVUTliZ2R6MEhGQkZEQktjdTlN?=
+ =?utf-8?Q?k9Oz3fpCb6kGR2GYzn5xkBj6Zu4THVmYRMnQhE3PxI=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-10 
-X-ZohoMailClient: External
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e6616c2-a169-4c8a-73ec-08dee97cba9b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2026 12:11:44.8503
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EDiEQDZdXvf6X5LtpsbPyHI6kfV57Dde5X3RMSEoZwzfkBooZXgj2r+8p1w3AnWmuZO6PLQ75Jx44FDX9CnE0g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5930
 
-Hi Lianqin,
-
-On Fri, 2026-07-24 at 11:41 +0000, =E8=83=A1=E8=BF=9E=E5=8B=A4 wrote:
-> Hi Rong:
->=20
-> >=20
-> > On Fri, 2026-07-24 at 08:29 +0000, =E8=83=A1=E8=BF=9E=E5=8B=A4 wrote:
-> > > Setting up the interface when suspended/resuming fails on this card.
-> > > Adding a reset and delay quirk will eliminate this problem.
-> > >=20
-> > > Note: This device misuses the Apple VID (0x05ac) & PID (0x110b).
-> >=20
-> > The device's VID conflicts with Apple's, but there is no PID conflict,
-> > right?
-> The VID & PID are the same as those of Apple's official digital headphone=
-s.=20
-> This is the VID & PID information of digital headphones purchased from Ap=
-ple:
->=20
-> [20946.829805] usb 1-1: New USB device found, idVendor=3D05ac, idProduct=
-=3D110b, bcdDevice=3D26.81
-> [20946.829811] usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, Ser=
-ialNumber=3D3
-> [20946.829813] usb 1-1: Product: EarPods
-> [20946.829815] usb 1-1: Manufacturer: Apple, Inc.
-> [20946.829816] usb 1-1: SerialNumber: JCRF0XQQH1
-> [20946.830111] usb 1-1: usb_probe_device
->=20
-> >=20
-> > If a manufacturer uses other's VID, it's a VID conflict. The device
-> > falls into this category.
-> >=20
-> > If the manufacturer uses the same PID among different products, it's a
-> > PID conflict. I don't think it's the case of the device, unless JKY
-> > Technology reuses PID 0x110b for products other than Q2A.
->=20
-> The device's VID & PID information are exactly the same as Apple's offici=
-al information.
-> Misusing Apple digital headphones' VID and PID information
-
-It doesn't matter at all whether the PID is the same as one of Apple
-products.
-
-Between two different manufacturers there is only a VID conflict, but no
-PID conflict. It is a PID conflict *only if* two different products from
-*JKY Technology* share the same PID, but you haven't seen another JKY
-Technology product with the same PID, right?
-
->=20
-> >=20
-> > >=20
-> > > usb 1-1: New USB device found, idVendor=3D05ac, idProduct=3D110b
-> > > usb 1-1: New USB device strings: Mfr=3D1, Product=3D2, SerialNumber=
-=3D3
-> > > usb 1-1: Product: Q2A
-> > > usb 1-1: Manufacturer: JKY Technology
-> > > usb 1-1: SerialNumber: 330270D2251225
-> > >=20
-> > > Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
-> > > ---
-> > >  sound/usb/quirks.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >=20
-> > > diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-> > > index 0de7c9d94259..ad2ce384e32d 100644
-> > > --- a/sound/usb/quirks.c
-> > > +++ b/sound/usb/quirks.c
-> > > @@ -2200,6 +2200,8 @@ struct usb_audio_quirk_flags_table {
-> > >=20
-> > >  static const struct usb_audio_quirk_flags_table quirk_flags_table[] =
-=3D {
-> > >  	/* Device and string descriptor matches */
-> > > +	DEVICE_STRING_FLG(0x05ac, 0x110b, "JKY Technology", "Q2A", /* JKY T=
-echnology Q2A */
-> >=20
-> > Hence, I don't think it's necessary to match "Q2A" here.
-> >=20
-> > Meanwhile, in any case, the comment should describe the VID/PID conflic=
-t
-> > instead of repeating the string descriptor(s) being matched, and the
-> > strings should break into another line.
->=20
-> OK, The comments should include information about any conflicting vid and=
- pid information.
->=20
-> >=20
-> > See how commit b13031ca112a ("ALSA: usb-audio: Deconflict VID between
-> > Focusrite Novation & MV-SILICON") describe the conflict and arrange
-> > lines.
-> >=20
-> > > +		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-> >=20
-> > Bad indent.
-> After careful inspection, the indentation in quirk.c appears to be consis=
-tent with previous indentation practices.
->=20
-> 	DEVICE_FLG(0x413c, 0xa506, /* Dell AE515 sound bar */
-> 		   QUIRK_FLAG_GET_SAMPLE_RATE),
-> 	DEVICE_FLG(0x534d, 0x0021, /* MacroSilicon MS2100/MS2106 */
-> 		   QUIRK_FLAG_ALIGN_TRANSFER),
-> 	DEVICE_FLG(0x534d, 0x2109, /* MacroSilicon MS2109 */
-> 		   QUIRK_FLAG_ALIGN_TRANSFER),
-> 	DEVICE_FLG(0x84ef, 0x0082, /* Hotone Audio Pulze Mini */
-> 		   QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL | QUIRK_FLAG_MIXER_CAPTURE_LINE=
-AR_VOL),
->=20
-> >=20
-> > This is the first DEVICE_STRING_FLG() item, so please don't set a bad
-> > example. I would prefer:
-> >=20
-> > 	DEVICE_STRING_FLG(0x05ac, 0x110b, /* VID conflicts with Apple */
-> > 			  "JKY Technology", NULL /* Q2A */,
-> > 			  QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
-> >=20
-> OK=EF=BC=8CThis way of writing is better, but the indentation is slightly=
- different from that of the predecessors.
->  I personally hope to keep it consistent with the predecessors.
-
-Alignment should match the open parenthesis. See PARENTHESIS_ALIGNMENT in
-scripts/checkpatch.pl. It's not a strict requirement but it makes the
-code more readable. See also the indentation of VENDOR_STRING_FLG().
-
-Thanks,
-Rong
-
->=20
-> > Thanks,
-> > Rong
-> >=20
-> > >=20
-> > >  	/* Device matches */
-> > >  	DEVICE_FLG(0x001f, 0x0b21, /* AB13X USB Audio */
-> > > --
-> > > 2.39.0
->=20
-> Thanks
-> Lianqin
+SGkgUm9uZzoNCg0KPiA+DQo+ID4gPg0KPiA+ID4gT24gRnJpLCAyMDI2LTA3LTI0IGF0IDA4OjI5
+ICswMDAwLCDog6Hov57li6Qgd3JvdGU6DQo+ID4gPiA+IFNldHRpbmcgdXAgdGhlIGludGVyZmFj
+ZSB3aGVuIHN1c3BlbmRlZC9yZXN1bWluZyBmYWlscyBvbiB0aGlzIGNhcmQuDQo+ID4gPiA+IEFk
+ZGluZyBhIHJlc2V0IGFuZCBkZWxheSBxdWlyayB3aWxsIGVsaW1pbmF0ZSB0aGlzIHByb2JsZW0u
+DQo+ID4gPiA+DQo+ID4gPiA+IE5vdGU6IFRoaXMgZGV2aWNlIG1pc3VzZXMgdGhlIEFwcGxlIFZJ
+RCAoMHgwNWFjKSAmIFBJRCAoMHgxMTBiKS4NCj4gPiA+DQo+ID4gPiBUaGUgZGV2aWNlJ3MgVklE
+IGNvbmZsaWN0cyB3aXRoIEFwcGxlJ3MsIGJ1dCB0aGVyZSBpcyBubyBQSUQgY29uZmxpY3QsDQo+
+ID4gPiByaWdodD8NCj4gPiBUaGUgVklEICYgUElEIGFyZSB0aGUgc2FtZSBhcyB0aG9zZSBvZiBB
+cHBsZSdzIG9mZmljaWFsIGRpZ2l0YWwgaGVhZHBob25lcy4NCj4gPiBUaGlzIGlzIHRoZSBWSUQg
+JiBQSUQgaW5mb3JtYXRpb24gb2YgZGlnaXRhbCBoZWFkcGhvbmVzIHB1cmNoYXNlZCBmcm9tIEFw
+cGxlOg0KPiA+DQo+ID4gWzIwOTQ2LjgyOTgwNV0gdXNiIDEtMTogTmV3IFVTQiBkZXZpY2UgZm91
+bmQsIGlkVmVuZG9yPTA1YWMsIGlkUHJvZHVjdD0xMTBiLCBiY2REZXZpY2U9MjYuODENCj4gPiBb
+MjA5NDYuODI5ODExXSB1c2IgMS0xOiBOZXcgVVNCIGRldmljZSBzdHJpbmdzOiBNZnI9MSwgUHJv
+ZHVjdD0yLCBTZXJpYWxOdW1iZXI9Mw0KPiA+IFsyMDk0Ni44Mjk4MTNdIHVzYiAxLTE6IFByb2R1
+Y3Q6IEVhclBvZHMNCj4gPiBbMjA5NDYuODI5ODE1XSB1c2IgMS0xOiBNYW51ZmFjdHVyZXI6IEFw
+cGxlLCBJbmMuDQo+ID4gWzIwOTQ2LjgyOTgxNl0gdXNiIDEtMTogU2VyaWFsTnVtYmVyOiBKQ1JG
+MFhRUUgxDQo+ID4gWzIwOTQ2LjgzMDExMV0gdXNiIDEtMTogdXNiX3Byb2JlX2RldmljZQ0KPiA+
+DQo+ID4gPg0KPiA+ID4gSWYgYSBtYW51ZmFjdHVyZXIgdXNlcyBvdGhlcidzIFZJRCwgaXQncyBh
+IFZJRCBjb25mbGljdC4gVGhlIGRldmljZQ0KPiA+ID4gZmFsbHMgaW50byB0aGlzIGNhdGVnb3J5
+Lg0KPiA+ID4NCj4gPiA+IElmIHRoZSBtYW51ZmFjdHVyZXIgdXNlcyB0aGUgc2FtZSBQSUQgYW1v
+bmcgZGlmZmVyZW50IHByb2R1Y3RzLCBpdCdzIGENCj4gPiA+IFBJRCBjb25mbGljdC4gSSBkb24n
+dCB0aGluayBpdCdzIHRoZSBjYXNlIG9mIHRoZSBkZXZpY2UsIHVubGVzcyBKS1kNCj4gPiA+IFRl
+Y2hub2xvZ3kgcmV1c2VzIFBJRCAweDExMGIgZm9yIHByb2R1Y3RzIG90aGVyIHRoYW4gUTJBLg0K
+PiA+DQo+ID4gVGhlIGRldmljZSdzIFZJRCAmIFBJRCBpbmZvcm1hdGlvbiBhcmUgZXhhY3RseSB0
+aGUgc2FtZSBhcyBBcHBsZSdzIG9mZmljaWFsIGluZm9ybWF0aW9uLg0KPiA+IE1pc3VzaW5nIEFw
+cGxlIGRpZ2l0YWwgaGVhZHBob25lcycgVklEIGFuZCBQSUQgaW5mb3JtYXRpb24NCj4gDQo+IEl0
+IGRvZXNuJ3QgbWF0dGVyIGF0IGFsbCB3aGV0aGVyIHRoZSBQSUQgaXMgdGhlIHNhbWUgYXMgb25l
+IG9mIEFwcGxlDQo+IHByb2R1Y3RzLg0KWWVzLCBBZ3JlZWQsIFBJRCBjYW5ub3QgcmVwcmVzZW50
+IHRoZSBtYW51ZmFjdHVyZXIuDQoNCg0KPiBCZXR3ZWVuIHR3byBkaWZmZXJlbnQgbWFudWZhY3R1
+cmVycyB0aGVyZSBpcyBvbmx5IGEgVklEIGNvbmZsaWN0LCBidXQgbm8NCj4gUElEIGNvbmZsaWN0
+LiBJdCBpcyBhIFBJRCBjb25mbGljdCAqb25seSBpZiogdHdvIGRpZmZlcmVudCBwcm9kdWN0cyBm
+cm9tDQo+ICpKS1kgVGVjaG5vbG9neSogc2hhcmUgdGhlIHNhbWUgUElELCBidXQgeW91IGhhdmVu
+J3Qgc2VlbiBhbm90aGVyIEpLWQ0KPiBUZWNobm9sb2d5IHByb2R1Y3Qgd2l0aCB0aGUgc2FtZSBQ
+SUQsIHJpZ2h0Pw0KWWVzLCB3ZSBoYXZlbid0IGVuY291bnRlcmVkIGl0IHlldC4NCg0KPiANCj4g
+Pg0KPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gdXNiIDEtMTogTmV3IFVTQiBkZXZpY2UgZm91bmQs
+IGlkVmVuZG9yPTA1YWMsIGlkUHJvZHVjdD0xMTBiDQo+ID4gPiA+IHVzYiAxLTE6IE5ldyBVU0Ig
+ZGV2aWNlIHN0cmluZ3M6IE1mcj0xLCBQcm9kdWN0PTIsIFNlcmlhbE51bWJlcj0zDQo+ID4gPiA+
+IHVzYiAxLTE6IFByb2R1Y3Q6IFEyQQ0KPiA+ID4gPiB1c2IgMS0xOiBNYW51ZmFjdHVyZXI6IEpL
+WSBUZWNobm9sb2d5DQo+ID4gPiA+IHVzYiAxLTE6IFNlcmlhbE51bWJlcjogMzMwMjcwRDIyNTEy
+MjUNCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogTGlhbnFpbiBIdSA8aHVsaWFucWlu
+QHZpdm8uY29tPg0KPiA+ID4gPiAtLS0NCj4gPiA+ID4gIHNvdW5kL3VzYi9xdWlya3MuYyB8IDIg
+KysNCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykNCj4gPiA+ID4NCj4g
+PiA+ID4gZGlmZiAtLWdpdCBhL3NvdW5kL3VzYi9xdWlya3MuYyBiL3NvdW5kL3VzYi9xdWlya3Mu
+Yw0KPiA+ID4gPiBpbmRleCAwZGU3YzlkOTQyNTkuLmFkMmNlMzg0ZTMyZCAxMDA2NDQNCj4gPiA+
+ID4gLS0tIGEvc291bmQvdXNiL3F1aXJrcy5jDQo+ID4gPiA+ICsrKyBiL3NvdW5kL3VzYi9xdWly
+a3MuYw0KPiA+ID4gPiBAQCAtMjIwMCw2ICsyMjAwLDggQEAgc3RydWN0IHVzYl9hdWRpb19xdWly
+a19mbGFnc190YWJsZSB7DQo+ID4gPiA+DQo+ID4gPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHVz
+Yl9hdWRpb19xdWlya19mbGFnc190YWJsZSBxdWlya19mbGFnc190YWJsZVtdID0gew0KPiA+ID4g
+PiAgCS8qIERldmljZSBhbmQgc3RyaW5nIGRlc2NyaXB0b3IgbWF0Y2hlcyAqLw0KPiA+ID4gPiAr
+CURFVklDRV9TVFJJTkdfRkxHKDB4MDVhYywgMHgxMTBiLCAiSktZIFRlY2hub2xvZ3kiLCAiUTJB
+IiwgLyogSktZIFRlY2hub2xvZ3kgUTJBICovDQo+ID4gPg0KPiA+ID4gSGVuY2UsIEkgZG9uJ3Qg
+dGhpbmsgaXQncyBuZWNlc3NhcnkgdG8gbWF0Y2ggIlEyQSIgaGVyZS4NCj4gPiA+DQo+ID4gPiBN
+ZWFud2hpbGUsIGluIGFueSBjYXNlLCB0aGUgY29tbWVudCBzaG91bGQgZGVzY3JpYmUgdGhlIFZJ
+RC9QSUQgY29uZmxpY3QNCj4gPiA+IGluc3RlYWQgb2YgcmVwZWF0aW5nIHRoZSBzdHJpbmcgZGVz
+Y3JpcHRvcihzKSBiZWluZyBtYXRjaGVkLCBhbmQgdGhlDQo+ID4gPiBzdHJpbmdzIHNob3VsZCBi
+cmVhayBpbnRvIGFub3RoZXIgbGluZS4NCj4gPg0KPiA+IE9LLCBUaGUgY29tbWVudHMgc2hvdWxk
+IGluY2x1ZGUgaW5mb3JtYXRpb24gYWJvdXQgYW55IGNvbmZsaWN0aW5nIHZpZCBhbmQgcGlkIGlu
+Zm9ybWF0aW9uLg0KPiA+DQo+ID4gPg0KPiA+ID4gU2VlIGhvdyBjb21taXQgYjEzMDMxY2ExMTJh
+ICgiQUxTQTogdXNiLWF1ZGlvOiBEZWNvbmZsaWN0IFZJRCBiZXR3ZWVuDQo+ID4gPiBGb2N1c3Jp
+dGUgTm92YXRpb24gJiBNVi1TSUxJQ09OIikgZGVzY3JpYmUgdGhlIGNvbmZsaWN0IGFuZCBhcnJh
+bmdlDQo+ID4gPiBsaW5lcy4NCj4gPiA+DQo+ID4gPiA+ICsJCSAgIFFVSVJLX0ZMQUdfRk9SQ0Vf
+SUZBQ0VfUkVTRVQgfCBRVUlSS19GTEFHX0lGQUNFX0RFTEFZKSwNCj4gPiA+DQo+ID4gPiBCYWQg
+aW5kZW50Lg0KPiA+IEFmdGVyIGNhcmVmdWwgaW5zcGVjdGlvbiwgdGhlIGluZGVudGF0aW9uIGlu
+IHF1aXJrLmMgYXBwZWFycyB0byBiZSBjb25zaXN0ZW50IHdpdGggcHJldmlvdXMgaW5kZW50YXRp
+b24gcHJhY3RpY2VzLg0KPiA+DQo+ID4gCURFVklDRV9GTEcoMHg0MTNjLCAweGE1MDYsIC8qIERl
+bGwgQUU1MTUgc291bmQgYmFyICovDQo+ID4gCQkgICBRVUlSS19GTEFHX0dFVF9TQU1QTEVfUkFU
+RSksDQo+ID4gCURFVklDRV9GTEcoMHg1MzRkLCAweDAwMjEsIC8qIE1hY3JvU2lsaWNvbiBNUzIx
+MDAvTVMyMTA2ICovDQo+ID4gCQkgICBRVUlSS19GTEFHX0FMSUdOX1RSQU5TRkVSKSwNCj4gPiAJ
+REVWSUNFX0ZMRygweDUzNGQsIDB4MjEwOSwgLyogTWFjcm9TaWxpY29uIE1TMjEwOSAqLw0KPiA+
+IAkJICAgUVVJUktfRkxBR19BTElHTl9UUkFOU0ZFUiksDQo+ID4gCURFVklDRV9GTEcoMHg4NGVm
+LCAweDAwODIsIC8qIEhvdG9uZSBBdWRpbyBQdWx6ZSBNaW5pICovDQo+ID4gCQkgICBRVUlSS19G
+TEFHX01JWEVSX1BMQVlCQUNLX0xJTkVBUl9WT0wgfCBRVUlSS19GTEFHX01JWEVSX0NBUFRVUkVf
+TElORUFSX1ZPTCksDQo+ID4NCj4gPiA+DQo+ID4gPiBUaGlzIGlzIHRoZSBmaXJzdCBERVZJQ0Vf
+U1RSSU5HX0ZMRygpIGl0ZW0sIHNvIHBsZWFzZSBkb24ndCBzZXQgYSBiYWQNCj4gPiA+IGV4YW1w
+bGUuIEkgd291bGQgcHJlZmVyOg0KPiA+ID4NCj4gPiA+IAlERVZJQ0VfU1RSSU5HX0ZMRygweDA1
+YWMsIDB4MTEwYiwgLyogVklEIGNvbmZsaWN0cyB3aXRoIEFwcGxlICovDQo+ID4gPiAJCQkgICJK
+S1kgVGVjaG5vbG9neSIsIE5VTEwgLyogUTJBICovLA0KPiA+ID4gCQkJICBRVUlSS19GTEFHX0ZP
+UkNFX0lGQUNFX1JFU0VUIHwgUVVJUktfRkxBR19JRkFDRV9ERUxBWSksDQo+ID4gPg0KPiA+IE9L
+77yMVGhpcyB3YXkgb2Ygd3JpdGluZyBpcyBiZXR0ZXIsIGJ1dCB0aGUgaW5kZW50YXRpb24gaXMg
+c2xpZ2h0bHkgZGlmZmVyZW50IGZyb20gdGhhdCBvZiB0aGUgcHJlZGVjZXNzb3JzLg0KPiA+ICBJ
+IHBlcnNvbmFsbHkgaG9wZSB0byBrZWVwIGl0IGNvbnNpc3RlbnQgd2l0aCB0aGUgcHJlZGVjZXNz
+b3JzLg0KPiANCj4gQWxpZ25tZW50IHNob3VsZCBtYXRjaCB0aGUgb3BlbiBwYXJlbnRoZXNpcy4g
+U2VlIFBBUkVOVEhFU0lTX0FMSUdOTUVOVCBpbg0KPiBzY3JpcHRzL2NoZWNrcGF0Y2gucGwuIEl0
+J3Mgbm90IGEgc3RyaWN0IHJlcXVpcmVtZW50IGJ1dCBpdCBtYWtlcyB0aGUNCj4gY29kZSBtb3Jl
+IHJlYWRhYmxlLiBTZWUgYWxzbyB0aGUgaW5kZW50YXRpb24gb2YgVkVORE9SX1NUUklOR19GTEco
+KS4NCg0KT0vvvIxJJ2xsIG1ha2Ugc29tZSBjaGFuZ2VzIGFuZCBhZGQ6DQpTdWdnZXN0ZWQgYnk6
+IFJvbmcgWmhhbmcgPGlAcm9uZy5tb2U+DQoNCg0KVGhhbmtzDQpMaWFucWluDQo=
