@@ -1,155 +1,241 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010062.outbound.protection.outlook.com [52.101.85.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57949373BF4
-	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 03:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784862576; cv=none; b=UAmkWAN6/LQ2A0vqYdTfcGScMCuHdsES66ewxgZxYUvPCbl6pOpjtTRY1dNhPh4tNjBj1BgqhyV7hxC1eHW4tqbK61JxgaAKqq7biIRYLaAhU4EtermfwB/g1O4CQ/k0F92vSoaGaU7sfZKIyIB66pqHH//ZRtsgEZ9UH+Q6gU8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784862576; c=relaxed/simple;
-	bh=e4E/1wsesUzDEcKweuN75x2BV7lbbYFWH1FkX6rBzh4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iNXWVtH8T7OSOrgq3l/HUaKSIaAEBXBTc9TP6TJhPwC3RttzQsYvz1SJnVp+8fH6XhyK4bHIv0km3hbpiQqq15MGuOdFEkncubA5KhhXeMnsUNtLQxjweVAUBHiqorj4A6Kana76ZQr23H/fJTIHOwWbx9RSKB1RwP6XV484t1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fP2x4Dr5; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A44532C937;
+	Fri, 24 Jul 2026 05:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784869564; cv=fail; b=LJYT1czKWP7JrknizAucYWJ1av7E05llIWxaE9swOpPdHQUv3EwLqdBM4J8oa4keyBeAMhawYo7fPq//2phF4a/hCwJfp5ROx37OMMIDR+od0dwLaOCgZOs0x8GmUX6LArrdC3muCuk6MOysvkRtTcbf3Wg6ew/tMRJXbiYt7Ds=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784869564; c=relaxed/simple;
+	bh=pwiqfcDCWCR1c177le4tCesHhxEjiiKORS1qk7GxFck=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=MyXL3cmzbjilFVoSvaRk8vYIsgIntBODSpCBLLISrBm+GTa0SMfxud+CXjanIsI59MvcCR/TBh17MkW5ivAVmYAzoHsqa2WsKsG10Kg7yjB/X1kAyJKTXHSiJhhp71eeprIEib/F4UOFh2vPMW6n6xR/ztSVdEcJMCyEVRWFQB0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=qbCKKz2a; arc=fail smtp.client-ip=52.101.85.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fP2x4Dr5"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8f186025973so17505926d6.0
-        for <linux-sound@vger.kernel.org>; Thu, 23 Jul 2026 20:09:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784862574; x=1785467374; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DZKTCXF/tmm1k6Q5PQprjlt9Nwn+IGAV+hY+3OBnNwY=;
-        b=fP2x4Dr5uK6cPZklrKhL3Xmb/it1oFGVGQ5awKBYptep2YhMWyoKZsiiaDkGCvGRCC
-         i4nVa7pZSWdvMcb1NyjZgkt6v9G+K/O3nsF+SgctegB8yqAJQ9sA9VVeTAZ7VQqy532g
-         Sdd8Lsr3U1ahACnHPMgBV1woTXaHHK0glltwb4j2SoBIeC83ksz7sK4Zy+xtWlHwRVgs
-         ix8soyLVBNdY+9F1dAUv/iQR+qwc9nt1xcShqZ624lXDkOnCLdtSv5KyhRtH2J2HrAw3
-         OzAPII/evjZsOezhpTXcd/g1icIHZwRC9tKzN39edoFRz2kBV4Y/+YYFLGdlWTf8TrXq
-         XWjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784862574; x=1785467374;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DZKTCXF/tmm1k6Q5PQprjlt9Nwn+IGAV+hY+3OBnNwY=;
-        b=QCVFYp/gZmdFiHM2+rsjSQZGITqjg8Nn4Yyo2+NSH6FpizukgX6VvMgiXxToD3Skb1
-         kR2EE8142oj+2fTcgA28MWwCj/VZ2znrSKryb/kPXb2qXnrRqoAXG41aqyT8ZWekj6CO
-         E0CoRh6LcvG2SZJH/EQPzm/9gyi6J1o+ovoRg9iEJZZzc8YCRcidDTfw7uhTqUipPpNC
-         6CERVm1WDXEWjY5dL27CQbZCWEfEv+QGuMkYJuZEL9mH7C3dh0epO+J8gWJWQIF8I+D9
-         Rn/PTBNlR7OIrdUR4lQd7cU4Bu1hJODFsKARYl2YO9DHNTi8g4ZNLOYA7mJIvoQZ4E/s
-         squg==
-X-Forwarded-Encrypted: i=1; AHgh+RqVZIOIAwIwG6JuHLKl+YhkelSkLfVdDrV+iZkTREopyQrFrT2g9+1hO9FrFDvQWYvSppQsuaSF6rdCtA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmXgI52ryCL8nhXj8z2sZxfMEONy7CzSfQW8yidIXFzGMfqdfl
-	GdbnGl2Utj2rn6f8pY1mVEqoi6ra6wDfhHtDcC1hz3QNiNPh8d6oeWr+
-X-Gm-Gg: AR+sD12v8nYxKT7iaH9nyUTidrAPhrnik0LZnj9FzBYzr1ojUJTirOZ7YriyNeHgCnC
-	fYPn4Qo31CJ5kNGemxhwKyLtXK3zExRQO4qF1x37jcFXK74hTDrcF8o4UhHUFWvX0Tn47wK/eFx
-	1Ea9vDCc7BejCFd4/PbAR4dBsE9w2LaULlpaG4f1eOiM9Gq4iBuFMlnAG/A84V89w8hn78BQVmN
-	Nm22Z+QI/4bFPNfdUNgOfAcpDb2nRQtF/kkWooN3HRqpgzzc/iGLcDjKh46KVaCyQJc9YZo8L4O
-	4+A68Gveyr0NVnGG7uj15ZNw0U9BJh/B6QJRJ+BA3/RyPLYsm0VRJG6h0ApAIVn25RXw5Vy2Sdk
-	8cyKXmSbz4dF9TY1NIsUcQwWvNv1YQBAskudb4aFWR82OiUlguiFw1Txx++iAwtRjmSELMHiQEw
-	gK8moXfHn6zfYR1kZLvZmZr3jNVdqCYoxFAtsYvXXKOQ==
-X-Received: by 2002:a05:6214:40d:b0:8dd:3b9a:ddc2 with SMTP id 6a1803df08f44-907ca3562eamr66625436d6.41.1784862574157;
-        Thu, 23 Jul 2026 20:09:34 -0700 (PDT)
-Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-907baa27361sm58833186d6.43.2026.07.23.20.09.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 20:09:33 -0700 (PDT)
-From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [BUG] ALSA: usb: 6fire: KASAN slab-use-after-free in dummy_timer
-Date: Thu, 23 Jul 2026 23:07:50 -0400
-Message-ID: <20260724030900.1984491-1-shuangpeng.kernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="qbCKKz2a"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GMaq29DqcOES40g+rxuqPQtDJQqiYY96c01F4YeT5nsbriclYjZZaLOOlwfOtpzKNCCgigZkaJwRv6MZVQusaE6nEAXhG7+/27SHsnis+iPhEasgDC0A4p6e/r32OJjnVzctdedafSaWWdMn+x4f17FgzgBmhBIcRR1KF9qQLH95a++hY6aOJYWW1QfDf+ozc+iaSWx4aoYnyvouQBmQ4FfD81jlB/cQhsKZVOINETc4yfgQizx6PfkAXe36611Y3hJLVPb3wtgpXGilxqNitY/U3nAPlHLl/Ld5BiK1uQN8kxjgpTBLXJzY2IKM4tu9cVmtDM9i9luODBLkDemKJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/We2fES3DvWZfOA0GaOmUB9kcX+Pood0ugmqxojMX1s=;
+ b=K1aA4gf8NKkOv9f8PqN9ZPorULBe7HVE+hup33RN/Z1BId4RapjnJLmjbJ6d153of2DwdS5qAWpm0wRZ77bmsqgxjV3bIJ5Va5hRS9YoZ+sjbzbG0RekdnGrq9zfH1WnIoXyjgu7ZfdP0xsPpFCesUdMTUy3s9uopmkDoHnNUqEkVwpW5HvmoV9W13lZupMn6ezTN98/ddgg/H+edMzrKoGrzUuXwQXxVNkTumi9F78E3aIbVH9VbxzoSWwYwco/UTeKT3eRlKXTzow3k62ymKvE0gbogtUWOnF41OMsOn+DcsQoBKx9abVIYDskTi1pTZ7cqtAAzXBF/D34UDvv9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/We2fES3DvWZfOA0GaOmUB9kcX+Pood0ugmqxojMX1s=;
+ b=qbCKKz2aXxzhKhsd925mKjh6O+A4im+1Kf4U+zM0VOa94P0Tg0F1lHnziRiY2lRltzno0rEr1jk+hMp4zoSdKHEwCdq15dle6Vm4dPCozfOm7Gw2yVEK9gJNhIx7LP2YmL+zp9tA6miGNczHO21LqYPa23XWCouuNfWobU8Yh30=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ CH1PPF989868826.namprd12.prod.outlook.com (2603:10b6:61f:fc00::61d) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
+ 2026 05:05:53 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%2]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
+ 05:05:53 +0000
+Message-ID: <53a757fb-c716-4f71-bb43-80a3e04a3b8f@amd.com>
+Date: Fri, 24 Jul 2026 10:35:22 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 14/36] ASoC: remove conditional return with no effect
+To: Sang-Heon Jeon <ekffu200098@gmail.com>, Julia.Lawall@inria.fr,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>
+Cc: cocci@inria.fr, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ sound-open-firmware@alsa-project.org,
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+References: <20260723184538.3888637-1-ekffu200098@gmail.com>
+ <20260723184538.3888637-15-ekffu200098@gmail.com>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <20260723184538.3888637-15-ekffu200098@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0045.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:279::11) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-Hi Kernel Maintainers,
-
-I hit the following report while testing current upstream kernel:
-
-KASAN: slab-use-after-free in dummy_timer
-
-on commit: fce2dfa773ced15f27dd27cd0b482a7473cdcf2a (2026-07-16)
-
-The reproducer and .config files are here.
-https://gist.github.com/shuangpengbai/a410bc05b4f22d1ba4ce7ef059043fea
-
-I'm happy to test debug patches or provide additional information.
-
-Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-
-[  400.891255][    C0] BUG: KASAN: slab-use-after-free in dummy_timer (drivers/usb/common/usb-otg-fsm.c:393)
-[  400.891273][    C0] Read of size 4 at addr ffff8881789bc20c by task kworker/0:2/773
-[  400.891276][    C0]
-[  400.891291][    C0] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[  400.891294][    C0] Workqueue: usb_hub_wq hub_event
-[  400.891299][    C0] Call Trace:
-[  400.891301][    C0]  <IRQ>
-[  400.891302][    C0]  dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
-[  400.891306][    C0]  print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
-[  400.891322][    C0]  kasan_report (mm/kasan/report.c:595)
-[  400.891330][    C0]  dummy_timer (drivers/usb/common/usb-otg-fsm.c:393)
-[  400.891397][    C0]  __hrtimer_run_queues (kernel/time/hrtimer.c:2032 kernel/time/hrtimer.c:2096)
-[  400.891403][    C0]  hrtimer_run_softirq (kernel/time/hrtimer.c:2113)
-[  400.891414][    C0]  handle_softirqs (kernel/softirq.c:622)
-[  400.891420][    C0]  __irq_exit_rcu (kernel/softirq.c:656 kernel/softirq.c:496 kernel/softirq.c:735)
-[  400.891423][    C0]  sysvec_apic_timer_interrupt (arch/x86/kernel/apic/apic.c:1062 arch/x86/kernel/apic/apic.c:1062)
-[  400.891427][    C0]  </IRQ>
-[  400.891428][    C0]  <TASK>
-[  400.891579][    C0]  really_probe (drivers/base/dd.c:644 drivers/base/dd.c:706)
-[  400.891582][    C0]  __driver_probe_device (drivers/base/dd.c:868)
-[  400.891585][    C0]  driver_probe_device (drivers/base/dd.c:898)
-[  400.891588][    C0]  __device_attach_driver (drivers/base/dd.c:1026)
-[  400.891593][    C0]  bus_for_each_drv (drivers/base/bus.c:500)
-[  400.891615][    C0]  __device_attach (drivers/base/dd.c:1098)
-[  400.891631][    C0]  device_initial_probe (drivers/base/dd.c:1153)
-[  400.891634][    C0]  bus_probe_device (drivers/base/bus.c:620)
-[  400.891637][    C0]  device_add (drivers/base/core.c:3772)
-[  400.891641][    C0]  usb_set_configuration (drivers/usb/core/message.c:2268)
-[  400.891647][    C0]  usb_generic_driver_probe (drivers/usb/core/generic.c:250)
-[  400.891651][    C0]  usb_probe_device (drivers/usb/core/driver.c:291)
-[  400.891653][    C0]  really_probe (drivers/base/dd.c:? drivers/base/dd.c:706)
-[  400.891656][    C0]  __driver_probe_device (drivers/base/dd.c:868)
-[  400.891663][    C0]  driver_probe_device (drivers/base/dd.c:898)
-[  400.891665][    C0]  __device_attach_driver (drivers/base/dd.c:1026)
-[  400.891671][    C0]  bus_for_each_drv (drivers/base/bus.c:500)
-[  400.891685][    C0]  __device_attach (drivers/base/dd.c:1098)
-[  400.891704][    C0]  device_initial_probe (drivers/base/dd.c:1153)
-[  400.891707][    C0]  bus_probe_device (drivers/base/bus.c:620)
-[  400.891710][    C0]  device_add (drivers/base/core.c:3772)
-[  400.891714][    C0]  usb_new_device (drivers/usb/core/hub.c:2695)
-[  400.891726][    C0]  hub_event (drivers/usb/core/hub.c:5567 drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 drivers/usb/core/hub.c:5953)
-[  400.891743][    C0]  process_scheduled_works (kernel/workqueue.c:3322 kernel/workqueue.c:3405)
-[  400.891748][    C0]  worker_thread (kernel/workqueue.c:3486)
-[  400.891756][    C0]  kthread (kernel/kthread.c:436)
-[  400.891764][    C0]  ret_from_fork (arch/x86/kernel/process.c:158)
-[  400.891790][    C0]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
-[  400.891795][    C0]  </TASK>
-[  400.891797][    C0] Freed by task 773 on cpu 0 at 400.890164s:
-[  400.891805][    C0]  kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
-[  400.891813][    C0]  kasan_save_free_info (mm/kasan/generic.c:584)
-[  400.891821][    C0]  __kasan_slab_free (mm/kasan/common.c:253 mm/kasan/common.c:285)
-[  400.891824][    C0]  kfree (./include/linux/kasan.h:235 mm/slub.c:2705 mm/slub.c:6405 mm/slub.c:6720)
-[  400.891827][    C0]  usb6fire_comm_destroy (sound/usb/6fire/comm.c:197)
-[  400.891830][    C0]  usb6fire_card_free (sound/usb/6fire/chip.c:65)
-[  400.891832][    C0]  release_card_device (sound/core/init.c:594 sound/core/init.c:153)
-[  400.891852][    C0]  kobject_put (lib/kobject.c:689 lib/kobject.c:720 ./include/linux/kref.h:65 lib/kobject.c:737)
-[  400.891855][    C0]  snd_card_free (sound/core/init.c:626 sound/core/init.c:658)
-[  400.891858][    C0]  usb6fire_chip_probe (sound/usb/6fire/chip.c:153)
-[  400.891860][    C0]  usb_probe_interface (drivers/usb/core/driver.c:396)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|CH1PPF989868826:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4d16d970-d60f-4a7f-d693-08dee9413c9c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|23010399003|1800799024|921020|22082099003|18002099003|4143699003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	YSv43cWBvKYvDaYm/mLR6UOqoRfLgrXlwE2v4bfev8ILYsreK8V9luI68cxM1jGI5Co1gSgVHzD5yzC1h3iNlAHB+mW/vr1YGMFGVHIsXOiGwhCd9gc1KGULtAXe9rmNFW0KkdB5qGc5qShfG7gYJSMmcY4E15pSl6TdOFyUBar/rkBp2L947bQW+E2QtiOizjtpykxmV/dntjiJRMY4dzkHwpzdVQspwyGszgYbEst5lG5Bei76M9ECeQa/BSQZceJGm9IqUlN/Mq40W3GbKfUCRQfSLfqMdafw6U0dQ+W8hNygKVPTFOrRhVgYLld+j6tb4QDrexcbeAl0+BU8CQhDGb2UxVKE6AK7U7kmgLlAo4PsiKCVUIWhDoD1YKhRiX2SJZuw7kA9qmzR2W9u4cNbfVLrX/EQTq/unFo617LC4n4ybeLljnx8z1CYpC+xM5QHAjeZbWQRgdICZYbqCekY6T5UlfkDJOpa+4V0FTWUo6S2qRkh+9kQ5pHzNpLqBtSLI2CI5LesNJUvwh3qsqxFA2hXjzY4PdV45cskr23OS+F0dFkFEPo0Fn+MgiTL7EINCefo0V0VkBR7lTS9eb5NJnuRtAxUntPRMCsqg/M8v+VTkujkJoUhuIrkgi0Yfdfs6V1smf3f+vtBrB2MnD7sl4cg6EpZ9rh6xPU/XM9GWafqGczRQ0vqx+ZMaj74l6OlmlVi+pGcFiELg8PHRA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(23010399003)(1800799024)(921020)(22082099003)(18002099003)(4143699003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QU1PTnVuN2c3ZUwyWVpJREdiUHRleW9LU0ZwdDNFQWRwQjFiR09MUmVNdmJ6?=
+ =?utf-8?B?ME1OYWZtU3FUZzNQcnZGMU14NmVveE1VQUdxY2RIK2x4K0RCajZlSHVPZ3Zt?=
+ =?utf-8?B?ckpzZHNyc0gyMk1iTlV1Vjl3MGpyVDF6NTA1QkNwbjR5ajF2TjdGVmFYVmRj?=
+ =?utf-8?B?T2NROTRlRFd1SnU3SGhCN2Y3Q2hjVjR2YjJzaEZGUDJnK00yRlNrOXNGZVEz?=
+ =?utf-8?B?UWQwcDJZaW1GYU1jZEVxN2dIcHYrSEN6a1JJSXVLODRycmpSZm5CeUIxVmwr?=
+ =?utf-8?B?Ykw1Yml6L3ZyU0xtaFNyb0ZLV002Q1ZCdUhtSnQ2OWNrYmVGS2JFOGRWeW1E?=
+ =?utf-8?B?YXM1SUYwK0tiTlZVVWxUSHVmUWtGYWlDaXR4VVlBU0ZTdFJVN2lrelE5ZVhp?=
+ =?utf-8?B?UHpFWjBqVWZHaG1WQ1kyeWNRZW9wUzlxanFCS0psUVdVWDVhVjNSME92NjF3?=
+ =?utf-8?B?ejZxVmwwL0taR2hXUHdWaWNxUlJiOWZnekIrcmQ3ekF0Wkh3Z21HdHJHSFlK?=
+ =?utf-8?B?UDRsR2hUWldndGFaT0VrUWJWUVcweWJnT3p6TVI2RkdOdUQ4SkI3V3dNbjNW?=
+ =?utf-8?B?S2J0R01GOHZ4YWptc3ZSMDg5aDExdC85a1o3YWYyYjcyM3RvU2U3YkVWRElG?=
+ =?utf-8?B?T2p6SlBwMkJKQStPQWhqS1R6dXZHS0ExR0NVQkxxNUxuZjQ5VHdoQ25YZisr?=
+ =?utf-8?B?M2o0ZWJUYnFGTWNFN2JuOUVFTVF2QnRyMVluaHg5SzdrWnAwV0JIcGt1UVBQ?=
+ =?utf-8?B?VFBOR2REL1l1R2pYdG12K3FKN1Q0N21rUmhBRXQ3Q0hMYlBZZHpRbFE0UWk5?=
+ =?utf-8?B?dzBrTUNKZ0MxczdMdHRaSWJFU3pYU3FHNXl1TWZiTDdvdzJnd3ovNDhRWXpj?=
+ =?utf-8?B?Z1ZHR1hDcUpOenBoZkt2OXpEc2grMFhvK2U1OVBzclIxNVZqeld5NSsyWTcz?=
+ =?utf-8?B?UnNmUzc4YTEzQ000U2IycGtsZWpxMi95UFFNVWdINDNuRGNUYmIramk2VkNB?=
+ =?utf-8?B?S0Z1RGhYajNBTnVMdXBCbVQzcW50SFNFNDkwbUdrVlA2QzgvL0hlYTVkY2tC?=
+ =?utf-8?B?cTdCQnVNVlhaY3g2emdwbzFDa3hWaitzaE1QZytmWGFZYlVUeW1JaXNFR3Jl?=
+ =?utf-8?B?SkJ2MERrd3VqeExJc21IY2JIdzlURXlnOTB5K215U2paRjBHRGJZS01yOGt4?=
+ =?utf-8?B?aXA2eEM0V2FQN0lCT2JDMG9vc2lWSTFvRmlWTnRZUnlKSUQ1UENrOU1iMlVJ?=
+ =?utf-8?B?bUNUd0hZcXY1WDMranpYNmU2U0RtUFhDQ1dVL0E3S1gxZDVTNzA2Q3drbEFq?=
+ =?utf-8?B?bEZaN2w5RlVKajRWcWN3N0ZlZmhGNEtCMTBFUjhQVXR6K0NUa3IyVUlhK0V6?=
+ =?utf-8?B?ek5lVGZ2VWorcXhjaGVUYzdHWnJZMHNlTjRwQ3ZVbDg4QzV0T0xYNHhiVGV2?=
+ =?utf-8?B?ZGJjR25QVlZxSWxraWF0cko5UzY4cmJZMk8vTDMxRUR4VlNVcm13YTZFaE95?=
+ =?utf-8?B?UkxWZFV2c2YvektUZ1BUdWlGNWNYQlFzb0NYNWtYbmxWYWVHYis2YlQvVUc0?=
+ =?utf-8?B?dzUrQVF1Z2UwNUhMTytWSXk1c3ZMd1VMbmVTSlZBTVllcjFwU3RFUmZsUyti?=
+ =?utf-8?B?dUY0dVdqN0dwYk9JZW12enFMb0JEeUpmTWJNMStGcmhBanhLZWRKaEJLUFJ6?=
+ =?utf-8?B?VzdhT2V4UFp3Y1Y5S0dFMHFUdTRrKzdPc1hBK2d4a2g4b1VWVURSUEdiR00x?=
+ =?utf-8?B?QUtEdHJjWGM5eXUyRk83NkpqL0ZXT1NUMHRrb3kxaWlHMDFjTWt4a3V2NTZP?=
+ =?utf-8?B?UWptOXdjY2JqVkJhd0R1NlhoU1RhZWxOZFpPR0xFV2JPVnU3bHRzSlIrRHVX?=
+ =?utf-8?B?ZlowRXRVSjg2VVlmaEpDWnpWem1jbkY0L0pMby9VZ291V0x6NUJaV0Y2eWJB?=
+ =?utf-8?B?VElyUUx3ZkdzZkpNeHJUTmtBMnJqRU5VVDdWTUk4Vjc2Rkh5bXMrS1l1U1ZY?=
+ =?utf-8?B?YlpTcUJrRnE3TERmcUtydEFiQkw4QUZEVHZxblFVSnVkWUxPUDBQNThyMm4r?=
+ =?utf-8?B?RnlLSjZnNG0rWHlsWVJVVEhoQzVjelRLd2dnblVkV3V5WkRLRnNpT3d6VEk4?=
+ =?utf-8?B?V1pLSDJQOWFBMVJvNTFWajJPRlBXcXFNTEZvWUp1cFR6WjRDYUg2Y0VYTC8w?=
+ =?utf-8?B?TnBiU09ub1pWbEtWVkJUdit3TjE4WnZGTmUzaXhsc3BrclowUkRPdFBndFNw?=
+ =?utf-8?B?bWRmZ3JLdDFLdTBsTDFpQ0RLSDlwbkRWVkloZ0pNK3RHSEpPRXc0RHJwZVJt?=
+ =?utf-8?B?VEgxcFhVcm5QVnQwK3RrRmIzK29taFRabG5GbENXOUZnYzVXZXFWUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d16d970-d60f-4a7f-d693-08dee9413c9c
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 05:05:53.6129
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yU7JnGtL4jLNEYq4jlancYrAtSWwNSfjD4VKxiWlyiRXZ57TndQjerd8aHGOzEVdGBBwisl4YzecvR2N5jnnPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF989868826
 
 
-Best,
-Shuangpeng
+
+On 7/24/26 00:15, Sang-Heon Jeon wrote:
+> [You don't often get email from ekffu200098@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> Both branches of the check return the same value, so the check has
+> no effect. Remove it and return the value directly.
+>
+> This is the result of running the Coccinelle script from
+> scripts/coccinelle/misc/cond_return_no_effect.cocci.
+Could you please separate the changes in to vendor specific patches?
+> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
+> ---
+>   sound/soc/amd/acp/acp-mach-common.c          | 11 +++--------
+>   sound/soc/intel/atom/sst-mfld-platform-pcm.c |  7 +------
+>   sound/soc/samsung/smdk_spdif.c               |  8 ++------
+>   sound/soc/sof/intel/hda-dsp.c                |  6 +-----
+>   4 files changed, 7 insertions(+), 25 deletions(-)
+>
+> diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
+> index ef784cca13f2..01a0aaa60246 100644
+> --- a/sound/soc/amd/acp/acp-mach-common.c
+> +++ b/sound/soc/amd/acp/acp-mach-common.c
+> @@ -938,15 +938,10 @@ static int acp_max98388_hw_params(struct snd_pcm_substream *substream,
+>          struct snd_soc_dai *codec_dai =
+>                          snd_soc_card_get_codec_dai(card,
+>                                                     MAX98388_CODEC_DAI);
+> -       int ret;
+>
+> -       ret = snd_soc_dai_set_fmt(codec_dai,
+> -                                 SND_SOC_DAIFMT_CBC_CFC | SND_SOC_DAIFMT_I2S |
+> -                                 SND_SOC_DAIFMT_NB_NF);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       return ret;
+> +       return snd_soc_dai_set_fmt(codec_dai,
+> +                                  SND_SOC_DAIFMT_CBC_CFC | SND_SOC_DAIFMT_I2S |
+> +                                  SND_SOC_DAIFMT_NB_NF);
+>   }
+>
+>   static const struct snd_soc_ops acp_max98388_ops = {
+> diff --git a/sound/soc/intel/atom/sst-mfld-platform-pcm.c b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
+> index 9ee4d9926e06..a4c8cbfba096 100644
+> --- a/sound/soc/intel/atom/sst-mfld-platform-pcm.c
+> +++ b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
+> @@ -236,12 +236,7 @@ static int sst_platform_alloc_stream(struct snd_pcm_substream *substream,
+>
+>          stream->stream_info.str_id = str_params.stream_id;
+>
+> -       ret_val = stream->ops->open(sst->dev, &str_params);
+> -       if (ret_val <= 0)
+> -               return ret_val;
+> -
+> -
+> -       return ret_val;
+> +       return stream->ops->open(sst->dev, &str_params);
+>   }
+>
+>   static void sst_period_elapsed(void *arg)
+> diff --git a/sound/soc/samsung/smdk_spdif.c b/sound/soc/samsung/smdk_spdif.c
+> index 2474eb619882..515e4dfc1432 100644
+> --- a/sound/soc/samsung/smdk_spdif.c
+> +++ b/sound/soc/samsung/smdk_spdif.c
+> @@ -130,12 +130,8 @@ static int smdk_hw_params(struct snd_pcm_substream *substream,
+>                  return ret;
+>
+>          /* Set S/PDIF uses internal source clock */
+> -       ret = snd_soc_dai_set_sysclk(cpu_dai, SND_SOC_SPDIF_INT_MCLK,
+> -                                       rclk_rate, SND_SOC_CLOCK_IN);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       return ret;
+> +       return snd_soc_dai_set_sysclk(cpu_dai, SND_SOC_SPDIF_INT_MCLK,
+> +                                     rclk_rate, SND_SOC_CLOCK_IN);
+>   }
+>
+>   static const struct snd_soc_ops smdk_spdif_ops = {
+> diff --git a/sound/soc/sof/intel/hda-dsp.c b/sound/soc/sof/intel/hda-dsp.c
+> index e9f092f082a1..b9b2bdff4ccb 100644
+> --- a/sound/soc/sof/intel/hda-dsp.c
+> +++ b/sound/soc/sof/intel/hda-dsp.c
+> @@ -1114,11 +1114,7 @@ static int hda_dsp_s5_quirk(struct snd_sof_dev *sdev)
+>          usleep_range(500, 1000);
+>
+>          /* Restore state for shutdown, back to reset */
+> -       ret = hda_dsp_ctrl_link_reset(sdev, true);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       return ret;
+> +       return hda_dsp_ctrl_link_reset(sdev, true);
+>   }
+>
+>   int hda_dsp_shutdown_dma_flush(struct snd_sof_dev *sdev)
+> --
+> 2.43.0
+>
+
