@@ -1,140 +1,255 @@
-Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012060.outbound.protection.outlook.com [52.101.66.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B1C367B6D;
-	Fri, 24 Jul 2026 19:18:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.0.218.230
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784920709; cv=none; b=ZXuJCdi40e5bjqxO7VGZpRUAMx4MK8AeZDIf2vB4VIMAa3PYh99cMg7URHVWEHSPdSfRe1e5jk3OW8k2W0Z5zyIA2KJcIMzUtuJwS1E2d7tOrknRdu2bqcQDcfiJzl/kD+fEX8Zx6F6LOUqD+fei/gRrjjdqFDAVXd1/4/SorzE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784920709; c=relaxed/simple;
-	bh=ixWNwLfVz61mzrBIXIEsXmzlE2Ha3tHFrKL8fyNJVQs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fN7s/XNqADd01a2YUy1m20ryWfT2boVkFF4BQ0mp9Kutz03DKFWOjG1JHXfFXAWihdULQhfftWy7jhaqlUcmudxVG9+TX7re6HjJT2LLTUtA/1Z3KfEKit99Rq1RlC06PqyoQGT9C/YgtA4bOT+HHTxl0z8t19boV82FXpidWY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=162.0.218.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
-Received: from MTA-08-4.privateemail.com (mta-08.privateemail.com [198.54.118.215])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by h7.fbrelay.privateemail.com (Postfix) with ESMTPSA id 4h6Hk30Zb4z2xHQ;
-	Fri, 24 Jul 2026 15:14:51 -0400 (EDT)
-Received: from mail.privateemail.com (K8S-PROD-WORKER-14 [87.215.145.39])
-	by mta-08.privateemail.com (Postfix) with ESMTPA id 4h6HjQ5F22z3hhTR;
-	Fri, 24 Jul 2026 15:14:18 -0400 (EDT)
-From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4242C31C567;
+	Fri, 24 Jul 2026 19:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784922347; cv=fail; b=D/vpGL8WC8jl/K0MJQ9U30RaBiw/wUQ+xdDaCrrcudZ8hFvih25jRAqnJUw/+8QFvRgnItFuxxtkdby2Oxj5ioqHgOlcI6/3UBveMS4QvDStwSRFc3Gb8sjvoydvVKPELfgYxw/1YnHpqJyWMe8XPE1kiewFRXQy29oK6OpUrRQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784922347; c=relaxed/simple;
+	bh=T7scPUik0N7aviWuCe5wdTvLDTavJr5ligzb97KwHrc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ruUXdtAu3LDXXCUOmWnElVGBF1pXfH7STEsH6rZ3TYlV6fACil9I/fS1XCBQVtIzyM3a1mB7g/RnH3x5ID+9xuk2pH2PbfZnNM24SsOHAqIKaWp13p+y2WCtS1VC0gWv/kuz9tv5p+y2s28UgEDT75LHqOpcCqkA/Qj28gQTgfk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=FrW4xmNK; arc=fail smtp.client-ip=52.101.66.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="FrW4xmNK"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M+in6fMr0tA1I2qFBGA0uecdqUaTzHl9rj0teoaTTGE86bCsCdj3CR1JIcyx4cJDn+sVfpOaC4Dr86IMiSWyA+Iq7WsK9yABC7AeFJzNMOfulWvGdaBrYI8gqW1EVTB/ucoeYuT3o3r5XSYnMWSdUJURCDMnLZt6A3E+ZVHmPunc3sjPe0RrZEhKF4jTkk/Z474ndWaxHLrlnmTsdQyVJYCCFhmvaMMiks3TxASEO4BGijj8co3dIpelNZb8GOKKtOC8J/7I2FikDXgBMmZ4pFvJepr1GYqgjxqYQmR2pFR03UO8Ub0iBnHCcWP267+5M8JWRVT4qlnfX5tqi/ikJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bU1n2dWhStFwjtlowyX9rnIR85/o2yN2xnnyYtSUXCo=;
+ b=hEJL3s4JQUkCz9eqpuOApZSsWOsvSHRxpMR9WtjhJ2vcAeukAlbc2w0A7pZrK/lrXt4uKcDalbwenOha9OWbLobmGGYGxXAHXJmpPXaGrFulaFOPOhVn17UHjf4MOXyqOxQy3iHI3l/DC6yIBfp+rlfK6oEpdC6CzJDxgaklPlD+CGGI/Ee95PCgFU9uAP1grRs7K/l8rNwx3EftVPnXEEqabZIi5UMovGA8JMaLpp0toA6H15x/55/aAybsf77uiczx7zuHJ6iIvnEQj4zmtMB+C8u/E/PzO7lEb6p5WBiShKmNq7AuCSEegOAbuYZrOTos3OAZAU2zATozBodTkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bU1n2dWhStFwjtlowyX9rnIR85/o2yN2xnnyYtSUXCo=;
+ b=FrW4xmNKcaIPUcMmtfuPy16KQR2HU6TP1W1c0YzNK8IS7Qy//0ZTpXOBj9ChPd9wffJcp/Sn1HaUu6QUKRfBjYhj1V5TizmOdsG5VdNF22E6v7a7o1ReOM4ZJGZfX2VkQBGE6TCSpQSA52CbvHUB5II4dae/2zCHiROkrPFwb2gztly+KeOV5nyhB0dijD9MC9rxMzA8HaEKeQ1wpbllbz2hfbS+OwH1nJLARrNI4xQWwGKns76YYt8wJk1BnVWqSi83OCSkjMrbckm029M3Y5PI9NgAWG/uEgi2YjU+6zagVeAChcmneC0WyunIe3NK/rVNZYhcVYoeSaj7cn7g5Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by DBBPR04MB7851.eurprd04.prod.outlook.com (2603:10a6:10:1e1::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.11; Fri, 24 Jul
+ 2026 19:45:42 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
+ 19:45:41 +0000
+Date: Fri, 24 Jul 2026 15:45:34 -0400
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/8] ASoC: SDCA: enable on DT platforms and add Qualcomm WCD9378 (Tambora) codec
-Date: Fri, 24 Jul 2026 21:14:06 +0200
-Message-ID: <20260724191406.7855-1-jorijnvdgraaf@catcrafts.net>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <06aef9a5-7e8e-4262-9b41-a9c43f588da9@oss.qualcomm.com>
-References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com> <20260723194045.49021-1-jorijnvdgraaf@catcrafts.net> <06aef9a5-7e8e-4262-9b41-a9c43f588da9@oss.qualcomm.com>
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: imx@lists.linux.dev
+Subject: Re: [PATCH v4 1/1] ASoC: dt-bindings: Convert eukrea-tlv320.txt to
+ yaml
+Message-ID: <amPA3hHmTQm42PP9@lizhi-Precision-Tower-5810>
+References: <20260515145205.1696584-1-Frank.Li@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260515145205.1696584-1-Frank.Li@oss.nxp.com>
+X-ClientProxiedBy: SA1P222CA0188.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c4::16) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DBBPR04MB7851:EE_
+X-MS-Office365-Filtering-Correlation-Id: be6f2e58-e224-42c0-f98c-08dee9bc24f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|1800799024|23010399003|376014|56012099006|11063799006|10067099003|4133799003|3023799007|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	qs+DM7DUHSog1EXeU65ngPGbkg/9CqrS/yI2IMKDy8ctXR4YdPcYcoYOiZsvWKYY/FZDWBajXOclR9l5L1IpSqzSB9sJOi7sR9mgKv09zsjUl5G9fkJM7ErQPj6GvOyk5MZy0ZS84VCP5a8jzOJbV8gw2W5Hx8HklOZZU82HaL7iBtqE7xdx2YeZE8RPtbLHEyvkIca4o3yuAMYKv2tMfuUQ8ENLz8a+Gqi0DJm8HWZh4niZ5wgRACldvtGKobBiXeeZUoV1/X3TJ0s+L4jX1xiKxqwlvDf0dtRldiJaTH6/tXQ/bVrXQda6CdFET0dUXjIcL8AYOl3B4FUkbyBRUN/52ngwbjPLfoQyVC5soewEhE4JWFO0ZLKox83Au7oZnpFUuCvgHu4pQqCw9QVu3DLEfnZslUSGASy1spRgVLzdWf62mywAfMAdIQpjBhorZ9XhhtwFgL2enGa8sjJLTI4T+O7byc2NB+wE9vHXo/hKvPuCT3ksCEPW0B8jQ63Y22ptADWPSirgiBFSsJjMm5asxTP8Ki6B0SXrTFdE+S0xr/p6N2bdHTE7+hSKUpBJ41tTWZmAixeYAEbYxxgH1haagMwiFD6OfWW6cpj8WTBJitxMUhcrSsEf58PBL5vU
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(1800799024)(23010399003)(376014)(56012099006)(11063799006)(10067099003)(4133799003)(3023799007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?aChao8pAf59+EAXjxMoHoK7ToMbpF18U5hV/45ts+uN8I2CaDhqbXRZtxwJ+?=
+ =?us-ascii?Q?yxEtNSWsPXZRzWJnMXE5Lh5915nAKwt192hyamkYnl4CF3vCg8staPndWJHo?=
+ =?us-ascii?Q?GyWyjSLCXb/uXleZp2c9nZfqrIcZg6O5uaxmoXFC0PLMMLF0cwbD0ZE8PTMg?=
+ =?us-ascii?Q?u/47ihSW+ZaRtRmj8iQBx+eo0liU5/lymcfWp65GiAIiFQfL0MBwyWQCVAIQ?=
+ =?us-ascii?Q?6KEZyVb/A0IZbQRWmMmzzqznXOFdKotqHLKg5LZQaZYTRn4xiDSfDsIBfyNe?=
+ =?us-ascii?Q?Sx4rg9bd9VPZUgJHe8ysTvJ/j3YWgyv9dWYjMQaQ8DJ7K5dSqB0fV9T8i9mx?=
+ =?us-ascii?Q?foRXFWLHHgl6bu6W6SamYU3X3BhbGXVySZjxAPiAYVdWCxtP3+pWFWpklnpC?=
+ =?us-ascii?Q?mT2CymbFn/w6sk9O2RJkkHvweow/B9Y5TOQ70B0tBO5i2XED+W9b/bC5Y/rb?=
+ =?us-ascii?Q?U1rh94oQkdwZOBErKtH7dkWFyrVGquf6GmgwbIPLNwi82FoMlYGcjumJ9gp7?=
+ =?us-ascii?Q?6jYsK13osMCUefWoGLgKa9cd/xUyTW+HJuxWtGZTr4EzuOn7NUHZi/tA2XGF?=
+ =?us-ascii?Q?euyUNPav8lH2Se2XzDCaxNelOHzzq+Q36AYnNEXGOQBzOwdpBO5aQ1rbX61S?=
+ =?us-ascii?Q?BN0iR+ntakiiNkLNEl1TWqwpgC1vWS9/CLPwxihNARnnR1GczqoOil3e5yqV?=
+ =?us-ascii?Q?tO/5OvSaAi0pmB4M4t2VHmIJ0GBD1f1XWaxYrrZ6nFyS44xxEXHDrGeLaKjn?=
+ =?us-ascii?Q?RdDl2E0cA7cj6QBpsvAttm/bOhtU0mVOAbrXenSFRs6mLGs8fLlI9KUi2pCq?=
+ =?us-ascii?Q?dOsQffjUuC4XLYWQJI7ksfgr/Fo2p48h2m/TFNyWtdqGQVOs9XxLpz3iaX4a?=
+ =?us-ascii?Q?VY6puVnr4BJEi6UInWe13VznAW5P8kdkkNrYuRFSfR4Z1x9jD6cvqOjtjrTh?=
+ =?us-ascii?Q?WNbOA4+p1Rm/1zLiz5R1/F3RUyPjEq2SA2ma3cUHq6Us2peF0zRNrHUQTo+T?=
+ =?us-ascii?Q?+kx+7D2HNLhScVwU52nBaixBrImX+sDsjFgPtC0RkkTPsz6rk9aFj8Xp81uE?=
+ =?us-ascii?Q?evNdZAOMrEDhh9tNjEVyS9I2Xa+NqVTVFbrrG0rpxcjfZhPdKKCxC6jjOCmm?=
+ =?us-ascii?Q?dsExKHWo8W6Qcuom8SwKhwE+HffJDlaWCGHVbAlSTBDLNGjJuq9IiVBYIK3n?=
+ =?us-ascii?Q?KpoDVz8qlUuMThUn4n+shqm73yOWCihlR8rg8aAtOzHMKVRkJCpvyJbnlvHP?=
+ =?us-ascii?Q?uaj1HvF23O6KYaVSF6h5jK4iQz82Akt7IEBJbu18nY4c3DS3kPoysQbhRTAY?=
+ =?us-ascii?Q?HCdNFJ6u0fZnygB8sIdfxS06Py7TgeBotE1QS3ex8Qam6ZKKDwvlX2lg62vs?=
+ =?us-ascii?Q?QBTE5R4FNcgLf8Pa37p9vc/f6QKVNxEb5reQrxJlEHkyD0BdE2hVW4XIgykP?=
+ =?us-ascii?Q?D1DIuaqVA0BrrZc3NdGzT5Wp6XS7pjEy/3dA40KC+RPjbaJ7kwNM/vOLcvVa?=
+ =?us-ascii?Q?PEiEnky6/nwZHvpaD1z3/saHy66HRyt8rhgGadoK62fJhxGpoJGCgg+lOrw4?=
+ =?us-ascii?Q?c/kdfA5lK4K8jsEhNAgf8sQcCjFxgxav8mcCKtIN6KVwJfGE2PaUtEX4BCXB?=
+ =?us-ascii?Q?L5j7BhTCa2GmdpMqtB1UKpXET+jIH6DuwklIjUrnBMaL1u55LzgFAGQLOqwz?=
+ =?us-ascii?Q?PqxOJHJowzi84nIEDwpjhaAGFMWHe1QVfpR3VZQP8J8N8PvWR3cEI2XooCKQ?=
+ =?us-ascii?Q?CY38aTUCVdoE2kU6SUWhnkOIqTTEKo21YLQD917xNyHbmotyA22r?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: be6f2e58-e224-42c0-f98c-08dee9bc24f7
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jul 2026 19:45:41.8649
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U0i/UfluUY1aECZIdC4xjr93GwNaErqYVKs0OK24wRuaeOzEJ554mhzRpbHjZHa1O+moFvmcM9My5k0nnYf3Ys/zDiivAqUM65PsVPZhDPM041Ty+GxK05LJ+meoK4IS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7851
 
-Hi Srini,
-
-On Fri, 24 Jul 2026 13:17:06 +0100, Srinivas Kandagatla wrote:
-> > Your probe already returns -ENODEV when qcom,compute-mode is absent;
-> > v2 of my mobile series will add the mirror check, so neither driver
-> > can bind the other's slaves regardless of probe order. If a single
-> > owner of the modalias is preferred instead, a small wcd9378-common
-> > stub dispatching on the property also works for me — your call.
-> [...]
-> We need single entry point, if not we will endup with two modalias. Yes
-> current RFC driver was only tested for compute.
-> I agree we should have a common so that we can leverage some code from
-> both modes.
-
-Single entry point it is — that replaces the mirror check I had queued
-above. My v2 will add the common stub instead: one sdw_driver owning
-the 0x0217/0x0110 ID table, probe dispatching on the DT mode
-properties (qcom,compute-mode -> compute, otherwise the mobile TX/RX
-paths), with the compute branch returning -ENODEV until your driver
-lands. Happy to shape the factoring to whatever slots into your v2
-best, and shared code can accumulate in the common module as it shows
-up.
-
-> That is expected on WCD codecs. only TX has CSR registers space.
-> RX can not read/write any of the codec register space.
-> However the soundwire SCP address space is accessible and expected to
-> set data ports for both tx and rx.
-
-Thanks, good to have that confirmed.
-
-> Thanks that would be nice, Also am thinking that we should just have
-> qcom,port-mapping for both modes and mark one of the device as
-> qcom,control-device which is tx in mobile case. That way we have some
-> level of clean bindings that overlap. But I will leave it up to you.
-
-Let's use your shape. The merged file then has a single
-qcom,port-mapping (still optional, as the wcd938x mappings are) on both
-slave nodes, and qcom,control-device marking the TX slave in the
-mobile presentation — the explicit flag takes over the TX/RX
-discrimination that the split property names provided in my v1, and it
-doubles as dispatch information for the common stub. Compute-only
-requirements (#sound-dai-cells on the slave nodes, and whatever else
-your v2 needs there) go behind if: qcom,compute-mode. I'll
-carry the merged file in my v2 so your v2 can drop patch 7.
-
-> Yes, This is definitely an useful experiment, I was trying something
-> similar with both tx and rx side on mobile mode, things got really
-> complex because the sdw stream has to be handled by rx codec where as tx
-> side will be handled by sdca side.. it was really messy.
-> [...]
-> I think you should continue to do the mobile mode driver as it was done
-> in v1 not think about sdca. Function setup on mobile mode are dynamic
-> user can set sys_usage based on usecase so the sdca functions will
-> change, this is not static anymore so its not really worth thinking of
-> sdca for mobile atm, but we could try to see if we can get some leverage
-> from sdca helpers.
+On Fri, May 15, 2026 at 10:52:03AM -0400, Frank.Li@oss.nxp.com wrote:
+> From: Frank Li <Frank.Li@nxp.com>
 >
-> Sorry for the noise i hope it was a worth experiment on mobile mode.
+> Convert eukrea-tlv320.txt to yaml format.
 
-No noise at all — it answered the RX-slave question and produced the
-coexistence data above, so it paid for itself. Agreed on the
-direction: mobile v2 stays the v1 approach, no SDCA; where a class
-helper fits the mobile driver internals I'll borrow rather than
-reinvent. I'll leave the sdca-mobile branch up, frozen at the RFC
-state, for reference.
+Mark brown:
 
-> Am really Sorry not sure how I missed that.
+	Can you help to pick up this one?, Rob already acked.
 
-No worries.
+Frank
 
-So, concretely: my v2 carries the common entry point, the merged
-binding as above, and the driver review items already queued from the
-v1 thread; on your side patch 7 goes away and the compute probe hooks
-into the stub. I'm spinning v2 next, so the merged binding will be
-on the list for your v2 to reference.
-
-Thanks,
-Jorijn
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> Change in v4
+> - add minimum and maximum for fsl,mux-int-port and fsl,mux-out-port.
+> change in v3
+> - add fsl,mux-int-port and fsl,mux-out-port to required
+> change in v2
+> - Add comments about "The AUDMUX port numbering should start at 1"
+>   v1: https://lore.kernel.org/linux-devicetree/CAEnQRZACes8EptdEgg0i0vzdcxgUJwZAfQHU0DEhMnXtA-g01Q@mail.gmail.com/
+> ---
+>  .../bindings/sound/eukrea,asoc-tlv320.yaml    | 61 +++++++++++++++++++
+>  .../bindings/sound/eukrea-tlv320.txt          | 26 --------
+>  2 files changed, 61 insertions(+), 26 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
+>
+> diff --git a/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+> new file mode 100644
+> index 0000000000000..24b793feb02df
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/eukrea,asoc-tlv320.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/eukrea,asoc-tlv320.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Audio complex for Eukrea boards with tlv320aic23 codec.
+> +
+> +maintainers:
+> +  - Frank Li <Frank.Li@nxp.com>
+> +
+> +properties:
+> +  compatible:
+> +    const: eukrea,asoc-tlv320
+> +
+> +  eukrea,model:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description:
+> +      The user-visible name of this sound complex.
+> +
+> +  ssi-controller:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description:
+> +      The phandle of the SSI controller.
+> +
+> +  fsl,mux-int-port:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      The internal port of the i.MX audio muxer (AUDMUX).
+> +      Note: The AUDMUX port numbering should start at 1, which is consistent with
+> +      hardware manual.
+> +    minimum: 1
+> +    maximum: 8
+> +
+> +  fsl,mux-ext-port:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      The external port of the i.MX audio muxer.
+> +      Note: The AUDMUX port numbering should start at 1, which is consistent with
+> +      hardware manual.
+> +    minimum: 1
+> +    maximum: 8
+> +
+> +required:
+> +  - compatible
+> +  - eukrea,model
+> +  - ssi-controller
+> +  - fsl,mux-int-port
+> +  - fsl,mux-ext-port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    sound {
+> +        compatible = "eukrea,asoc-tlv320";
+> +        eukrea,model = "imx51-eukrea-tlv320aic23";
+> +        ssi-controller = <&ssi2>;
+> +        fsl,mux-int-port = <2>;
+> +        fsl,mux-ext-port = <3>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt b/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
+> deleted file mode 100644
+> index 6dfa88c4dc1e8..0000000000000
+> --- a/Documentation/devicetree/bindings/sound/eukrea-tlv320.txt
+> +++ /dev/null
+> @@ -1,26 +0,0 @@
+> -Audio complex for Eukrea boards with tlv320aic23 codec.
+> -
+> -Required properties:
+> -
+> -  - compatible		: "eukrea,asoc-tlv320"
+> -
+> -  - eukrea,model	: The user-visible name of this sound complex.
+> -
+> -  - ssi-controller	: The phandle of the SSI controller.
+> -
+> -  - fsl,mux-int-port	: The internal port of the i.MX audio muxer (AUDMUX).
+> -
+> -  - fsl,mux-ext-port	: The external port of the i.MX audio muxer.
+> -
+> -Note: The AUDMUX port numbering should start at 1, which is consistent with
+> -hardware manual.
+> -
+> -Example:
+> -
+> -	sound {
+> -		compatible = "eukrea,asoc-tlv320";
+> -		eukrea,model = "imx51-eukrea-tlv320aic23";
+> -		ssi-controller = <&ssi2>;
+> -		fsl,mux-int-port = <2>;
+> -		fsl,mux-ext-port = <3>;
+> -	};
+> --
+> 2.43.0
+>
