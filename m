@@ -1,227 +1,310 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013052.outbound.protection.outlook.com [40.107.44.52])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E240417BCF;
-	Fri, 24 Jul 2026 12:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784895113; cv=fail; b=Q8tzrqjsqScORr5qXzRIfktynKJADYkKWrPjD96sD0p3RSEO3seW7+CIDuSzk/5OSRWN8tNoINVvQj9b2KQZFJ8bBXO7gIwZChb3E5eRziB7e/p4Q2V3QIkcU34uXJL+r/LkTb75avwMa6vx2vUDYyXC/uKxNTjowaPLHsbXYkI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784895113; c=relaxed/simple;
-	bh=KGjY9ln5wGbOuG0eiryJElRq9zqD4ypeHqkfC4edvc8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=qK2iPzinTwpjEjDHHOHDunXnMj6frY5Vj4+rsJY4ym32jbnlpw6M8Qm5ZPHGWLgK4M9t0m+bQjqgf+gPda+b93iM9QFXJ+5dG/dxvcxmRzMeuKB/TVM4QYP7t4+opEo9rPfdldkNaEVgsm2Bllx6okRap0e4hz4cMv7H3q02P20=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=exAN0o1K; arc=fail smtp.client-ip=40.107.44.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F5A429CC7
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 12:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784895435; cv=none; b=R3nsMMwjsIK8CbJiuA9WUv2SzQ6wvGoQuE+cMvyBHLzIhNg5OewRlCQGkRDlRbeyvNRJ2d3a5HG2cUUSgresV4YjbI1dI/F68VWCvjiLu3rsZJgbwLlGrlOd1PGdS8j2tDo0Y3w8oqUIE1trIhn6FKRuWp5fUS3ZlqSW9n6oSWw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784895435; c=relaxed/simple;
+	bh=WPwiJqExHTdjO20g/ADWAvcKz5CjWKZD4kv8WtBFk5s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kV9koiKRrcNkw59kE+Ffgn7QQK+CQkuT9iBc/iDDRMRZDuxf3Gh6y9Ju3bABf1NMWrwi+L7cPHwojnECFB0VITU3dcAxxV7XbiUEIvv8RMeO4Tg6HclyubUqQcOAn7Vfg4ookIbm4gLTKHlCUSxq2wn7y0IYJzVeJnqkvhUYsS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ks/s2ZbZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gYTRnpXl; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="exAN0o1K"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V76Km/A2anmuEwLfUAt9LK1p5bS4jgC0SQ7zdLOvaZKJsV6p2lwI2iR8iOsfCoLQfUYTLyBkwNIm27viaLjN+WIXin3AGniNoId+LOuNz6WHRQsbNv2ST/CfHPnxg1OkQlwjPbby4EnVb0/bViRyBIMGPAstxWGZDEKC8p6ETcxmg4GJVKNFXoOVfUwp5D37Rw0d7MaZ/Rmor+i3BEyohGlNzKC9Zh+rNdrop8tV5570Q2XVjCHX4U+BUrkNYNzNF2iFW1HuDCGysoz3GshuU8Qr/9XvG+byIc9FZrnzlE8LxjlDuYw8m3nrKRCfqiJNR9rP44cz9CV7ryPONG/WUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KGjY9ln5wGbOuG0eiryJElRq9zqD4ypeHqkfC4edvc8=;
- b=e4IgBtxbrYTq4RHkoiuMDYuFKOVl0+wXtFouGIdbNI/pVTPdt2Ga/IcAUR4P5rx8JJP6PiAQf9hICxrq/vo7WsQPJ3OTre2EU+FxuWNINVE4u3ErKdSrrarP0po2BQUcPTcw4Y6rUTf72mi91trLOpcty0OUl32o4P1KPWYIB9Xf7yMvUHDvW7Kk4xvSVe31uxnDR5rpYCrtELO2HXMZRuZ+LRfeGJemdsTJW3GoSKo6GBZOlf1+Z7v936yKN0tG8K/3nHCFPo12k62jzmLbUW9294aWLAnAerVWT0mFdYkgqNm40zwluVGMvpRMfBCMeNalTECEdNuxAw35Hpynow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KGjY9ln5wGbOuG0eiryJElRq9zqD4ypeHqkfC4edvc8=;
- b=exAN0o1KjTDVXOKlCLR0Jp/t6zE39EoNv+v25w5hFOM5ATdH0ojGcf14JXkz7HHKpJ1v3lDfK6h3X0VmPNOeP3Kg5qrReY6dSeC1+fx71/A7khB0rxMDYAY3ad7cKDcUPdd0ly+I+b+owo4IUdT7e1rIZmRySQi43prtNNAZPh79FEH4HKh7GjQZ0gc+7ainzNzPufMkXuDc18jPxJGSLo6R/tIA6sWZbCW6TB6vyn6F/0+hR3a6T94Y2yssfeKw8G+z6YJgCAevbwhMtvt36JvyhiAAAcuUJFkLiqQxyj6uNjjiDEgKSD3dcOZYH8W+agPAN6dZ9c7gKFROMmsm8A==
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
- by TYZPR06MB5930.apcprd06.prod.outlook.com (2603:1096:400:336::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Fri, 24 Jul
- 2026 12:11:45 +0000
-Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::8d51:58c7:42f3:ecc]) by TYUPR06MB6217.apcprd06.prod.outlook.com
- ([fe80::8d51:58c7:42f3:ecc%6]) with mapi id 15.21.0245.010; Fri, 24 Jul 2026
- 12:11:44 +0000
-From: =?utf-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>
-To: Rong Zhang <i@rong.moe>, "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>
-CC: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject:
- =?utf-8?B?562U5aSNOiDnrZTlpI06IFtQQVRDSF0gQUxTQTogdXNiLWF1ZGlvOiBBZGQg?=
- =?utf-8?B?aWZhY2UgcmVzZXQgYW5kIGRlbGF5IHF1aXJrIGZvciBKS1kgVGVjaG5vbG9n?=
- =?utf-8?Q?y_Q2A?=
-Thread-Topic:
- =?utf-8?B?562U5aSNOiBbUEFUQ0hdIEFMU0E6IHVzYi1hdWRpbzogQWRkIGlmYWNlIHJl?=
- =?utf-8?Q?set_and_delay_quirk_for_JKY_Technology_Q2A?=
-Thread-Index: Ad0bRhPoJJEBfya5Q7SBchl1mjk0TwAFrMMAAABG3KAAAZdSgAAAHsCQ
-Date: Fri, 24 Jul 2026 12:11:44 +0000
-Message-ID:
- <TYUPR06MB6217DF257393FF328C1602FAD2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References:
- <TYUPR06MB6217BD7BF1AE9B308295FFFCD2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-	 <2cb27fb80f6fbdbd3b72138ce2d33c878e4e8049.camel@rong.moe>
-	 <TYUPR06MB621767F631B7932FD6F3B079D2CF2@TYUPR06MB6217.apcprd06.prod.outlook.com>
- <0e84fcceb30e1af49f2450cdfa8f4c5aa552607c.camel@rong.moe>
-In-Reply-To: <0e84fcceb30e1af49f2450cdfa8f4c5aa552607c.camel@rong.moe>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|TYZPR06MB5930:EE_
-x-ms-office365-filtering-correlation-id: 3e6616c2-a169-4c8a-73ec-08dee97cba9b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|23010399003|42112799006|1800799024|18002099003|22082099003|38070700021|56012099006|11063799006|4143699003|10067099003;
-x-microsoft-antispam-message-info:
- dTgfdES74CzKyL1tlMmoto2s96LYK73jZiFchq/wxMg+iJvtk5XYDyoyySkQZVpl/KGttQmnjv7GmdYO2fjh8a45WDBfvHRuh8M/wmI9k0+jSb2osN1Ml1WxSn0wJkFXuijoIoBmznk9DC2FHZPphO/MsC0X9qHtBvtHy1SE6uKQYQ+n3q3NQUAzxPFoVOfSMfVm0Gub6clTfTLMD+wwmCp/Ef3yGgzYT112R3v3QLwj8/k3FWmNANoZR2cmSfzooG4LgXg82dPi0xOsLiQohPmhzrL08TOnW1TAuwPwhNsd1olRBvs6d56VLPLMYpVCkGxoMpfiueQCYZnDnJVameLijJUpn1tfg6l5ypzCi5drV1lsAP/fWAx0DnpRm8Ru8acEafM817bGnDoqcqydp3ZqAigfoHc5IoX3fJuAhwzfT3TY52NKeSJhH9hR89TuUCwCLuEObyZYlkpyqpnxKlHvXAMwZ+YsjQ6OJECWRyE7Bg0JUeP1gR38+85fyVp2E7CbZ5658kZLwnZ+5oWHvjIxXyUW0Xps77ncCg1/SCSyn8xjIKlcOm+OIzRy+5Mnp9XM2J7vLIZ8RJwPjNrzRiDJAgEylUNxkcGnBhq5y146V0q07XGXbMLfM5LHqLS7Di/jigZ+lpgwVZ23pTpyvYqIi0gASBW3LHt58M8T7ff7myr7o83isYA0rQuM2u1AsTAnyEjir3EhK7DlObsmn1BVX7aZyZBXg1h5Pc4Hoq0=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(42112799006)(1800799024)(18002099003)(22082099003)(38070700021)(56012099006)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ckJrbDZDT2N2THVGQW5LTU9BMUlld3VZQzRXa3NINENSYUdYZjFtUUQ4d1NP?=
- =?utf-8?B?OWZnc1AxYW1peFJacE5PL0ZBRS9JWndoZ2RqbUJrdHhrMjNtNnFLakdlMWJV?=
- =?utf-8?B?QmI1YzNrSkNRRjg1M1FxSFRJMlo0QUtUUkJ0SGE3OHBtci8zMkIrTDl4dXFa?=
- =?utf-8?B?UWZzeE5qY2szcFdZdHgvL1ZHSmpSMjJJNFlKbHBxOHBpNDEybnVmOWtpUXNz?=
- =?utf-8?B?L1RieGJKVHdidk1CVzhuK0hPaFlOdHdTR1c3ZFJPdHBhVnZDQmtvUCtSTjh0?=
- =?utf-8?B?N3hybzJNb1VKRXh4NDNDRVpNbFFzS2grQzhTNmVjL2pRYlRrTFI0MHRmbU9Z?=
- =?utf-8?B?MTA1RGt1aEVQbUpJQS9CMTJtRWF0SXNUZHIxVGFkTEJPSTNLdnFGMEJBRGUr?=
- =?utf-8?B?Uk9pL3hIbmg3TzhxUkFMUVJYSFNkcGpHSElEaFdtVEtTRDMyMmxGWk5nWStB?=
- =?utf-8?B?dUdhUTYxSUFteDdGcmlobDl2MTczNlpadmdXdGRHbmdZb2E0bXZBNmM2VjJp?=
- =?utf-8?B?K0g3aU4rcXBwUzZFTGlZTnVpeEVER2duai9EemFvbXVabjNxamRDc3ZEeUZh?=
- =?utf-8?B?NFp4cGVIMEhGc3NETC9uWjUwakpQbDc4RmhhR05Hcm1zM3FKM004OC9aQ1RN?=
- =?utf-8?B?MGNDazBuSDVhNDE5R1hXcS9Kc1ZBeDVJMy85cElFaE1PNDhYWnBrUVdoWU05?=
- =?utf-8?B?bTVMMFpyZG1LSlA1MHFBOHU3SWQvNWtmRWlHTGNvZ3NXYlNrdTQ5cnJCeENE?=
- =?utf-8?B?Q3ZpQmZpeEthT0haYXpXejlpaUZ5QWM4U3VkMmlOOWFqVGsveXpYYkJaUlZt?=
- =?utf-8?B?STloMkdMVFlTdUE5b3lMdzdqSFpuRW9lZldXOGVJV2hSTUJxcFZPTW1ZV2Ex?=
- =?utf-8?B?TENBY1ljT3RQSEJQeXJDc0NGQlYwYldqTWx2MUFVMlRIMnMvbjJ1OHlzajlh?=
- =?utf-8?B?dFVPTUp3dDZ2clJ3WkhDK3o2d25DVE56VlBtdWZUL2NBMEZNL3QwS20zVW5q?=
- =?utf-8?B?VEkvZEpCS0J1NDZSeFRSd3QybGZnUFpyR1RUQXBPWEVJbEdoWm1KWEZNNGRO?=
- =?utf-8?B?YWNXaTFlb1U3U25uZlN6ekNSZ3dqSjE2dVJZRDFKclJMWjF5VHV3OGVNRHJ0?=
- =?utf-8?B?OVc3TVY5aVQ5VWFLV0laMXVtYzFNZFBBdXAwTFlHZHZpdnA3MTBMRmUzQVI0?=
- =?utf-8?B?ekViYnFxRFdhTFoxVXpRL2pMbFExVVMzZldGQlc0NG9NM1BqMmQ3YXBvSkNI?=
- =?utf-8?B?K3lBTGxtbVV2S29JRVZLRmdiSnRmRUozVHBSZjFnUVphUnJKWUFmZXEzKzA4?=
- =?utf-8?B?SU53Tm9IbUpaRCtDV3dySHdjbDJYRlVSb2tUdjNPc3FDL3Y0R3hrZ1JudVg5?=
- =?utf-8?B?ZmdiUkxaWml0UHh6NzZ4WUhCTW5vbUZ6M0xVV2FlOURDdWhBRktFUjB4MExx?=
- =?utf-8?B?VHVsZ2U5V0ovdDAyQlJCQ0ZuZzlUeVhEajBuZlB1bFVSd0JWY01wYjN1a1lR?=
- =?utf-8?B?MkpCdDZJR3pBZU9JaE5kWlVHc1YrYlIwaEhxUHBoL3B1SW5ocnF3QThoL0VU?=
- =?utf-8?B?b21uTWZnWkovYWtGaGFKMTFlUUNMT2FkcGc4SnA5L2NVMk0wRk9KdGx0MTdL?=
- =?utf-8?B?b25tdGpqbmgyOHN4NEtzT3BMcDc3VXZlU1AxcWMxQXUyeElxM3c3cEVrY0xF?=
- =?utf-8?B?Zno2bzQyc2wremo4TXVFSzAyRWJia0lEVkhoZ1g0K1NLN0d3cFlJMWlyTVFN?=
- =?utf-8?B?ME5xV2c5ZHErQy85aVBsS3NHNlBPZ0NwSU5reEZOaFo3N0twcHY0OFFyNElC?=
- =?utf-8?B?bVpDM1BESFZ1YXVMaEQyaFc1RkV1WGRFY0ovR2dNeUFJaklpT0h3UHl6elBP?=
- =?utf-8?B?MllTZmIwOGxQWDZYZVhXaVpJd3BnR0VvWEJLcWV5VW5yNXFyWjgrQjZ2RnpE?=
- =?utf-8?B?cFdyMCtzL0NkKzc1SXExLzlBVzE4bm9qeFJjUzI2Z3FIMzVKR0ljdmtHc3Bi?=
- =?utf-8?B?QkQ3bFZOUHZ1a1BGV1pqWEJqQy9SWWR0Zk13T3pIUlJsOXZxOXUyc0Jtb0c4?=
- =?utf-8?B?ZDdNU3Q3dE5YZXBBdlFjR3JKaVNXNTFxbm9WUi9Vdm9OUksvZmZkc3JrVU5n?=
- =?utf-8?B?S25HWEFscFF3YlBSd2MzdFE0MXhnZDE2OWllYkt0UXNwZUV1M1pITlQ4NlRZ?=
- =?utf-8?B?Tkkzb1ZxMGZUYVRrQlBZSHVMZzlGSm5Ha1dVUTliZ2R6MEhGQkZEQktjdTlN?=
- =?utf-8?Q?k9Oz3fpCb6kGR2GYzn5xkBj6Zu4THVmYRMnQhE3PxI=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ks/s2ZbZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gYTRnpXl"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66OAESIi2853665
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 12:17:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FSWXtcS83AIi2knBSqKxmPr/gYdQSfFpx+mSI6DOVs0=; b=ks/s2ZbZ0EeYySQN
+	f84U+i1uzY+Sd84l9DmuTV7x4qDh9cPo4f3p9VGvBPaY3K9Zr76zRtXlAaGiE8kd
+	LamjMpiup98NaM6l+bL9souA2ShvjGhVMbHZpnX33EZ6OC96q6XRSgunIbqUcQ5E
+	aTVA1v8W71GrEzAbiRPR7uGcv0SdEUddX0j8zsFLHVFhc8HeoKv6wikTx7/XASow
+	j3D4ZrHsmNgAGPm/D+TeOjYo4Wbt7xXKVx7Dre35E2ga2eM3c4aPQf4wX09vlV1u
+	rKWhMk+IMoulx353T0w4fvEm/6KCd8tMo3RM+lS5VLq/+bQ4Vt9K54bozzhNrRqP
+	P2t/Fg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fktahtwh2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 12:17:09 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-51c26012cd0so5043971cf.0
+        for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 05:17:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784895429; x=1785500229; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FSWXtcS83AIi2knBSqKxmPr/gYdQSfFpx+mSI6DOVs0=;
+        b=gYTRnpXlSVyUH3nvB1fhPE8z63qOsnbNgjW5+xZu0JQCXyU8fXRFS6EAckIwFKsFbM
+         kSXyw2/cgvhrKgPmX2nJS6QmbWA87SSGkoC6WqH72oj3DQt6tmU+R6k998jbUnpl5B4C
+         uiGk7uWx8GjGh949ImPSN3BfnVKNQvYQfad6NUuAjhUfUrHavifsJb50mi9kxq5ORMIk
+         9nNUCUKDy/YBNLPnPGFNwpio3DgTnor3uG/5mTb2m9Sz7BwMHcZ+hYKR58bWNB7qriiw
+         L9qA8g8QFpVx4Gp4CUIqHuku0B1ZHwLh2TvCpm9G5ozUl05KeA+rKgH2qf8ifLjWP/Xl
+         O0tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784895429; x=1785500229;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FSWXtcS83AIi2knBSqKxmPr/gYdQSfFpx+mSI6DOVs0=;
+        b=EbfNJbprLMANRN9Pkv0W/rIRLV4q8YdL3tNKPIarBBp0GpcPrlHVF7wE0fLwkWsFDJ
+         V5Ts0Yy2NerdnqRjuSNH/KUp5+KiVpB6dJH8VHEZPW60xYIELRAz+4tgwYHToMLjRFKt
+         7KqGoi8rnAqPyx95yMnN1y1a7U8imwq6xbJrmFIzqBlvxHJxl515ND+s4GlAQbCxYOe/
+         yAtI7yrbbWs9Bb6JlPjS2dJnvUvO3jSNpBwkEBaXZgji3qKbucWc5WiOKpD5IpGwf0ol
+         BrEqlHQgEtyeqpSWXFElbSrENAfJxSU0qsN3ayjH5hPLEPwR1u2ep1i7oGmzEbIwtW1r
+         Yzlw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+icfKOJ8wVVL54IIWzViwLqPG5fNR6Qg4iClzB3DcXPVxEpjUJxbmFRBW7zELIyXWsNLYvAa1oqxjVg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0C6U7pn2EA/piI2dJRdkrQ/r28hMynronsHTWMlOxY3OcFB5l
+	BkXHod10m7JDVRnE66MEJ37cFqjnNHnGtojZhHiGR0UwleDYewYOKKACQoyZmIm+tNlv6ZT3vwz
+	YfqOvRH6nrEeuelrlbVDUl87MHTqPGW3M7qdbX6rzDJZuUtzIIE/Ss+Ini6YJOy7nlT2njcvDOQ
+	==
+X-Gm-Gg: AR+sD11oSm4/JdpNuX4OHoRop2JT1P6LCjnsNUEVHVjGXGpVdjzSkq/LJ7kfQ5GBs7q
+	6nUoxaDjX4hgECsS7FDAzEw2t7sFGs0Yjok+EO2bSsWyMJj7X6J/jJzdgo/GEWJ28Yup0jWelv/
+	XqWjjmgcuqZTR1awi7kPBvsyi+ZbUiGmRoSObxlum1AFsFvn++/fTIFLs4+CJs4hKHTGHI+V/Ow
+	nVNO+qqcq82kx+fRWfMsja4St+KQUvlN3gLpWbuNwQX/EtdhNhnjS5yO9QY/tqM20kCzsw7mRAx
+	qExRKEfwjMOvJNK1OrITr7LxggCF4F8V7Adw8I/4szxu3pbA5KLbdTgTkC3O8Cub438rpmzOnXk
+	yOGu1SHM3B6cAO/l2s2C/LImeTBs=
+X-Received: by 2002:ac8:5a4b:0:b0:527:69dd:5413 with SMTP id d75a77b69052e-5283dda9badmr68654461cf.5.1784895429185;
+        Fri, 24 Jul 2026 05:17:09 -0700 (PDT)
+X-Received: by 2002:ac8:5a4b:0:b0:527:69dd:5413 with SMTP id d75a77b69052e-5283dda9badmr68653941cf.5.1784895428673;
+        Fri, 24 Jul 2026 05:17:08 -0700 (PDT)
+Received: from [192.168.68.114] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47f85b9a60asm24387356f8f.3.2026.07.24.05.17.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2026 05:17:07 -0700 (PDT)
+Message-ID: <06aef9a5-7e8e-4262-9b41-a9c43f588da9@oss.qualcomm.com>
+Date: Fri, 24 Jul 2026 13:17:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e6616c2-a169-4c8a-73ec-08dee97cba9b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jul 2026 12:11:44.8503
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EDiEQDZdXvf6X5LtpsbPyHI6kfV57Dde5X3RMSEoZwzfkBooZXgj2r+8p1w3AnWmuZO6PLQ75Jx44FDX9CnE0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB5930
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/8] ASoC: SDCA: enable on DT platforms and add
+ Qualcomm WCD9378 (Tambora) codec
+To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Luca Weiss <luca.weiss@fairphone.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260723194045.49021-1-jorijnvdgraaf@catcrafts.net>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260723194045.49021-1-jorijnvdgraaf@catcrafts.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDExMSBTYWx0ZWRfXwGmx6VmdgaRp
+ jbrmw75WtpRwUfH+G/KhqvLJY+c6M2G4UJ0EX+ejyP3efRk4Zi0vwEJPzigWumdT2NZLrhwkmxN
+ 35WwUkwxmWkVpc0PaDHssZaxu30rSLk=
+X-Authority-Analysis: v=2.4 cv=TvrWQjXh c=1 sm=1 tr=0 ts=6a6357c5 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=GYSh3LzNAAAA:8 a=2FLSfOfDB4kTeDBI9AoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=lWcdFasyL5yHfcDTNXXo:22
+X-Proofpoint-GUID: A-6eorWRVYvLeAaLYgIvT9ETn6g0msUW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDExMSBTYWx0ZWRfXwTuAZpOBS8K4
+ z8slvT2grCEDXL26EpyUNpTT069fjFmPDJntBdN5Ji4gIlWliy3bS5dj6QgDdDBwLjzq2IIr8NO
+ Ia/g+k4ZZavx8FrpTeKefNFhnF9ugblL2NZO4ESv/+GjAFCvZIli+TXYXdSCvzH3cD/feqTcXDU
+ Pu6ERYLUKI/jc6AssA6NDVyp+VX+GTdV39J+Vk8J9Rl54wvkLeocgr8KtoepOzSemTYWaIG6F/M
+ n66qp4QTzqGG1zVTtu5THOyOWJXHwrQI56C/hf/WQQLvb0Mbj2nyS47ErgrorQoEAfqs65KIem/
+ vP3IbG3Eq1aOWeXzFVDZMrPMwsFTm3Xx7S16jWpqFIblzYuI4WIKOxngiN2csog8j9eIBNlXLnf
+ rKUwHNqRWe4zsNF+xk4gqSt7t3KJhhTXCHmFoC4n4gBGy6uGFPp3+8aU9WSMpvm90dP6Vjrd7s9
+ CJPjR64k4ABismpTEcg==
+X-Proofpoint-ORIG-GUID: A-6eorWRVYvLeAaLYgIvT9ETn6g0msUW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-24_02,2026-07-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607240111
 
-SGkgUm9uZzoNCg0KPiA+DQo+ID4gPg0KPiA+ID4gT24gRnJpLCAyMDI2LTA3LTI0IGF0IDA4OjI5
-ICswMDAwLCDog6Hov57li6Qgd3JvdGU6DQo+ID4gPiA+IFNldHRpbmcgdXAgdGhlIGludGVyZmFj
-ZSB3aGVuIHN1c3BlbmRlZC9yZXN1bWluZyBmYWlscyBvbiB0aGlzIGNhcmQuDQo+ID4gPiA+IEFk
-ZGluZyBhIHJlc2V0IGFuZCBkZWxheSBxdWlyayB3aWxsIGVsaW1pbmF0ZSB0aGlzIHByb2JsZW0u
-DQo+ID4gPiA+DQo+ID4gPiA+IE5vdGU6IFRoaXMgZGV2aWNlIG1pc3VzZXMgdGhlIEFwcGxlIFZJ
-RCAoMHgwNWFjKSAmIFBJRCAoMHgxMTBiKS4NCj4gPiA+DQo+ID4gPiBUaGUgZGV2aWNlJ3MgVklE
-IGNvbmZsaWN0cyB3aXRoIEFwcGxlJ3MsIGJ1dCB0aGVyZSBpcyBubyBQSUQgY29uZmxpY3QsDQo+
-ID4gPiByaWdodD8NCj4gPiBUaGUgVklEICYgUElEIGFyZSB0aGUgc2FtZSBhcyB0aG9zZSBvZiBB
-cHBsZSdzIG9mZmljaWFsIGRpZ2l0YWwgaGVhZHBob25lcy4NCj4gPiBUaGlzIGlzIHRoZSBWSUQg
-JiBQSUQgaW5mb3JtYXRpb24gb2YgZGlnaXRhbCBoZWFkcGhvbmVzIHB1cmNoYXNlZCBmcm9tIEFw
-cGxlOg0KPiA+DQo+ID4gWzIwOTQ2LjgyOTgwNV0gdXNiIDEtMTogTmV3IFVTQiBkZXZpY2UgZm91
-bmQsIGlkVmVuZG9yPTA1YWMsIGlkUHJvZHVjdD0xMTBiLCBiY2REZXZpY2U9MjYuODENCj4gPiBb
-MjA5NDYuODI5ODExXSB1c2IgMS0xOiBOZXcgVVNCIGRldmljZSBzdHJpbmdzOiBNZnI9MSwgUHJv
-ZHVjdD0yLCBTZXJpYWxOdW1iZXI9Mw0KPiA+IFsyMDk0Ni44Mjk4MTNdIHVzYiAxLTE6IFByb2R1
-Y3Q6IEVhclBvZHMNCj4gPiBbMjA5NDYuODI5ODE1XSB1c2IgMS0xOiBNYW51ZmFjdHVyZXI6IEFw
-cGxlLCBJbmMuDQo+ID4gWzIwOTQ2LjgyOTgxNl0gdXNiIDEtMTogU2VyaWFsTnVtYmVyOiBKQ1JG
-MFhRUUgxDQo+ID4gWzIwOTQ2LjgzMDExMV0gdXNiIDEtMTogdXNiX3Byb2JlX2RldmljZQ0KPiA+
-DQo+ID4gPg0KPiA+ID4gSWYgYSBtYW51ZmFjdHVyZXIgdXNlcyBvdGhlcidzIFZJRCwgaXQncyBh
-IFZJRCBjb25mbGljdC4gVGhlIGRldmljZQ0KPiA+ID4gZmFsbHMgaW50byB0aGlzIGNhdGVnb3J5
-Lg0KPiA+ID4NCj4gPiA+IElmIHRoZSBtYW51ZmFjdHVyZXIgdXNlcyB0aGUgc2FtZSBQSUQgYW1v
-bmcgZGlmZmVyZW50IHByb2R1Y3RzLCBpdCdzIGENCj4gPiA+IFBJRCBjb25mbGljdC4gSSBkb24n
-dCB0aGluayBpdCdzIHRoZSBjYXNlIG9mIHRoZSBkZXZpY2UsIHVubGVzcyBKS1kNCj4gPiA+IFRl
-Y2hub2xvZ3kgcmV1c2VzIFBJRCAweDExMGIgZm9yIHByb2R1Y3RzIG90aGVyIHRoYW4gUTJBLg0K
-PiA+DQo+ID4gVGhlIGRldmljZSdzIFZJRCAmIFBJRCBpbmZvcm1hdGlvbiBhcmUgZXhhY3RseSB0
-aGUgc2FtZSBhcyBBcHBsZSdzIG9mZmljaWFsIGluZm9ybWF0aW9uLg0KPiA+IE1pc3VzaW5nIEFw
-cGxlIGRpZ2l0YWwgaGVhZHBob25lcycgVklEIGFuZCBQSUQgaW5mb3JtYXRpb24NCj4gDQo+IEl0
-IGRvZXNuJ3QgbWF0dGVyIGF0IGFsbCB3aGV0aGVyIHRoZSBQSUQgaXMgdGhlIHNhbWUgYXMgb25l
-IG9mIEFwcGxlDQo+IHByb2R1Y3RzLg0KWWVzLCBBZ3JlZWQsIFBJRCBjYW5ub3QgcmVwcmVzZW50
-IHRoZSBtYW51ZmFjdHVyZXIuDQoNCg0KPiBCZXR3ZWVuIHR3byBkaWZmZXJlbnQgbWFudWZhY3R1
-cmVycyB0aGVyZSBpcyBvbmx5IGEgVklEIGNvbmZsaWN0LCBidXQgbm8NCj4gUElEIGNvbmZsaWN0
-LiBJdCBpcyBhIFBJRCBjb25mbGljdCAqb25seSBpZiogdHdvIGRpZmZlcmVudCBwcm9kdWN0cyBm
-cm9tDQo+ICpKS1kgVGVjaG5vbG9neSogc2hhcmUgdGhlIHNhbWUgUElELCBidXQgeW91IGhhdmVu
-J3Qgc2VlbiBhbm90aGVyIEpLWQ0KPiBUZWNobm9sb2d5IHByb2R1Y3Qgd2l0aCB0aGUgc2FtZSBQ
-SUQsIHJpZ2h0Pw0KWWVzLCB3ZSBoYXZlbid0IGVuY291bnRlcmVkIGl0IHlldC4NCg0KPiANCj4g
-Pg0KPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gdXNiIDEtMTogTmV3IFVTQiBkZXZpY2UgZm91bmQs
-IGlkVmVuZG9yPTA1YWMsIGlkUHJvZHVjdD0xMTBiDQo+ID4gPiA+IHVzYiAxLTE6IE5ldyBVU0Ig
-ZGV2aWNlIHN0cmluZ3M6IE1mcj0xLCBQcm9kdWN0PTIsIFNlcmlhbE51bWJlcj0zDQo+ID4gPiA+
-IHVzYiAxLTE6IFByb2R1Y3Q6IFEyQQ0KPiA+ID4gPiB1c2IgMS0xOiBNYW51ZmFjdHVyZXI6IEpL
-WSBUZWNobm9sb2d5DQo+ID4gPiA+IHVzYiAxLTE6IFNlcmlhbE51bWJlcjogMzMwMjcwRDIyNTEy
-MjUNCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9mZi1ieTogTGlhbnFpbiBIdSA8aHVsaWFucWlu
-QHZpdm8uY29tPg0KPiA+ID4gPiAtLS0NCj4gPiA+ID4gIHNvdW5kL3VzYi9xdWlya3MuYyB8IDIg
-KysNCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykNCj4gPiA+ID4NCj4g
-PiA+ID4gZGlmZiAtLWdpdCBhL3NvdW5kL3VzYi9xdWlya3MuYyBiL3NvdW5kL3VzYi9xdWlya3Mu
-Yw0KPiA+ID4gPiBpbmRleCAwZGU3YzlkOTQyNTkuLmFkMmNlMzg0ZTMyZCAxMDA2NDQNCj4gPiA+
-ID4gLS0tIGEvc291bmQvdXNiL3F1aXJrcy5jDQo+ID4gPiA+ICsrKyBiL3NvdW5kL3VzYi9xdWly
-a3MuYw0KPiA+ID4gPiBAQCAtMjIwMCw2ICsyMjAwLDggQEAgc3RydWN0IHVzYl9hdWRpb19xdWly
-a19mbGFnc190YWJsZSB7DQo+ID4gPiA+DQo+ID4gPiA+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHVz
-Yl9hdWRpb19xdWlya19mbGFnc190YWJsZSBxdWlya19mbGFnc190YWJsZVtdID0gew0KPiA+ID4g
-PiAgCS8qIERldmljZSBhbmQgc3RyaW5nIGRlc2NyaXB0b3IgbWF0Y2hlcyAqLw0KPiA+ID4gPiAr
-CURFVklDRV9TVFJJTkdfRkxHKDB4MDVhYywgMHgxMTBiLCAiSktZIFRlY2hub2xvZ3kiLCAiUTJB
-IiwgLyogSktZIFRlY2hub2xvZ3kgUTJBICovDQo+ID4gPg0KPiA+ID4gSGVuY2UsIEkgZG9uJ3Qg
-dGhpbmsgaXQncyBuZWNlc3NhcnkgdG8gbWF0Y2ggIlEyQSIgaGVyZS4NCj4gPiA+DQo+ID4gPiBN
-ZWFud2hpbGUsIGluIGFueSBjYXNlLCB0aGUgY29tbWVudCBzaG91bGQgZGVzY3JpYmUgdGhlIFZJ
-RC9QSUQgY29uZmxpY3QNCj4gPiA+IGluc3RlYWQgb2YgcmVwZWF0aW5nIHRoZSBzdHJpbmcgZGVz
-Y3JpcHRvcihzKSBiZWluZyBtYXRjaGVkLCBhbmQgdGhlDQo+ID4gPiBzdHJpbmdzIHNob3VsZCBi
-cmVhayBpbnRvIGFub3RoZXIgbGluZS4NCj4gPg0KPiA+IE9LLCBUaGUgY29tbWVudHMgc2hvdWxk
-IGluY2x1ZGUgaW5mb3JtYXRpb24gYWJvdXQgYW55IGNvbmZsaWN0aW5nIHZpZCBhbmQgcGlkIGlu
-Zm9ybWF0aW9uLg0KPiA+DQo+ID4gPg0KPiA+ID4gU2VlIGhvdyBjb21taXQgYjEzMDMxY2ExMTJh
-ICgiQUxTQTogdXNiLWF1ZGlvOiBEZWNvbmZsaWN0IFZJRCBiZXR3ZWVuDQo+ID4gPiBGb2N1c3Jp
-dGUgTm92YXRpb24gJiBNVi1TSUxJQ09OIikgZGVzY3JpYmUgdGhlIGNvbmZsaWN0IGFuZCBhcnJh
-bmdlDQo+ID4gPiBsaW5lcy4NCj4gPiA+DQo+ID4gPiA+ICsJCSAgIFFVSVJLX0ZMQUdfRk9SQ0Vf
-SUZBQ0VfUkVTRVQgfCBRVUlSS19GTEFHX0lGQUNFX0RFTEFZKSwNCj4gPiA+DQo+ID4gPiBCYWQg
-aW5kZW50Lg0KPiA+IEFmdGVyIGNhcmVmdWwgaW5zcGVjdGlvbiwgdGhlIGluZGVudGF0aW9uIGlu
-IHF1aXJrLmMgYXBwZWFycyB0byBiZSBjb25zaXN0ZW50IHdpdGggcHJldmlvdXMgaW5kZW50YXRp
-b24gcHJhY3RpY2VzLg0KPiA+DQo+ID4gCURFVklDRV9GTEcoMHg0MTNjLCAweGE1MDYsIC8qIERl
-bGwgQUU1MTUgc291bmQgYmFyICovDQo+ID4gCQkgICBRVUlSS19GTEFHX0dFVF9TQU1QTEVfUkFU
-RSksDQo+ID4gCURFVklDRV9GTEcoMHg1MzRkLCAweDAwMjEsIC8qIE1hY3JvU2lsaWNvbiBNUzIx
-MDAvTVMyMTA2ICovDQo+ID4gCQkgICBRVUlSS19GTEFHX0FMSUdOX1RSQU5TRkVSKSwNCj4gPiAJ
-REVWSUNFX0ZMRygweDUzNGQsIDB4MjEwOSwgLyogTWFjcm9TaWxpY29uIE1TMjEwOSAqLw0KPiA+
-IAkJICAgUVVJUktfRkxBR19BTElHTl9UUkFOU0ZFUiksDQo+ID4gCURFVklDRV9GTEcoMHg4NGVm
-LCAweDAwODIsIC8qIEhvdG9uZSBBdWRpbyBQdWx6ZSBNaW5pICovDQo+ID4gCQkgICBRVUlSS19G
-TEFHX01JWEVSX1BMQVlCQUNLX0xJTkVBUl9WT0wgfCBRVUlSS19GTEFHX01JWEVSX0NBUFRVUkVf
-TElORUFSX1ZPTCksDQo+ID4NCj4gPiA+DQo+ID4gPiBUaGlzIGlzIHRoZSBmaXJzdCBERVZJQ0Vf
-U1RSSU5HX0ZMRygpIGl0ZW0sIHNvIHBsZWFzZSBkb24ndCBzZXQgYSBiYWQNCj4gPiA+IGV4YW1w
-bGUuIEkgd291bGQgcHJlZmVyOg0KPiA+ID4NCj4gPiA+IAlERVZJQ0VfU1RSSU5HX0ZMRygweDA1
-YWMsIDB4MTEwYiwgLyogVklEIGNvbmZsaWN0cyB3aXRoIEFwcGxlICovDQo+ID4gPiAJCQkgICJK
-S1kgVGVjaG5vbG9neSIsIE5VTEwgLyogUTJBICovLA0KPiA+ID4gCQkJICBRVUlSS19GTEFHX0ZP
-UkNFX0lGQUNFX1JFU0VUIHwgUVVJUktfRkxBR19JRkFDRV9ERUxBWSksDQo+ID4gPg0KPiA+IE9L
-77yMVGhpcyB3YXkgb2Ygd3JpdGluZyBpcyBiZXR0ZXIsIGJ1dCB0aGUgaW5kZW50YXRpb24gaXMg
-c2xpZ2h0bHkgZGlmZmVyZW50IGZyb20gdGhhdCBvZiB0aGUgcHJlZGVjZXNzb3JzLg0KPiA+ICBJ
-IHBlcnNvbmFsbHkgaG9wZSB0byBrZWVwIGl0IGNvbnNpc3RlbnQgd2l0aCB0aGUgcHJlZGVjZXNz
-b3JzLg0KPiANCj4gQWxpZ25tZW50IHNob3VsZCBtYXRjaCB0aGUgb3BlbiBwYXJlbnRoZXNpcy4g
-U2VlIFBBUkVOVEhFU0lTX0FMSUdOTUVOVCBpbg0KPiBzY3JpcHRzL2NoZWNrcGF0Y2gucGwuIEl0
-J3Mgbm90IGEgc3RyaWN0IHJlcXVpcmVtZW50IGJ1dCBpdCBtYWtlcyB0aGUNCj4gY29kZSBtb3Jl
-IHJlYWRhYmxlLiBTZWUgYWxzbyB0aGUgaW5kZW50YXRpb24gb2YgVkVORE9SX1NUUklOR19GTEco
-KS4NCg0KT0vvvIxJJ2xsIG1ha2Ugc29tZSBjaGFuZ2VzIGFuZCBhZGQ6DQpTdWdnZXN0ZWQgYnk6
-IFJvbmcgWmhhbmcgPGlAcm9uZy5tb2U+DQoNCg0KVGhhbmtzDQpMaWFucWluDQo=
+On 7/23/26 8:40 PM, Jorijn van der Graaf wrote:
+> Hi Srini,
+> 
+> On Thu, 23 Jul 2026 00:42:10 +0100, Srinivas Kandagatla wrote:
+>> The most obvious follow-up is figuring out how the mobile-mode and
+>> compute-mode WCD9378 drivers coexist under one compatible.  Jorijn's
+> [...]
+>> tree without racing to bind the same slave.  I would like to line this
+>> uip with Jorijn as a follow-up to this series.
+> 
+> Happy to line this up. To ground the discussion I ported the series
+> onto my FP6 tree and have mobile-mode capture working end-to-end
+> through the class framework, including PipeWire in Plasma — findings
+> and a proposal below.
+Thanks Jorijn for trying out and confirming that capture works.
+
+> 
+> 1) Arbitration, near term
+> 
+> Your probe already returns -ENODEV when qcom,compute-mode is absent;
+> v2 of my mobile series will add the mirror check, so neither driver
+> can bind the other's slaves regardless of probe order. If a single
+> owner of the modalias is preferred instead, a small wcd9378-common
+> stub dispatching on the property also works for me — your call.
+> Either path can later sanity-check the fused mode the way the
+> downstream driver does (EFUSE_REG_29 PLATFORM_BLOWN, else
+> PLATFORM_CTL MODE) once register access is up.
+
+We need single entry point, if not we will endup with two modalias. Yes
+current RFC driver was only tested for compute.
+I agree we should have a common so that we can leverage some code from
+both modes.
+
+> 
+> One mobile-specific data point for the split: in mobile mode the SDCA
+> control space is only decoded on the TX slave. On the FP6, a paged
+> read of DEV_MANU_ID/DEV_PART_ID (0x40100060/0x40100068) via the TX
+> slave returns 0x0217/0x0110, while the same reads via the RX slave
+That is expected on WCD codecs. only TX has CSR registers space.
+RX can not read/write any of the codec register space.
+However the soundwire SCP address space is accessible and expected to
+set data ports for both tx and rx.
+
+> return zeros — with the RX slave's standard SCP DevID registers
+> reading fine. That matches the downstream driver, which creates its
+> only regmap on the TX device and drives the render dataports through
+> the RX slave. So for mobile RX playback the function control and its
+> dataports live on *different* slaves; a per-dataport slave mapping
+> (or similar) would be needed in the class framework for that. Capture
+> doesn't have this problem — the TX dataports sit on the control
+> slave, so no cross-slave mapping is needed there.
+> 
+> 2) Bindings — one file
+> 
+> Patch 7 adds the same new file as my series
+> (Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml), so
+> one of us should carry a merged version and the other drop it.
+> Suggestion: the mobile side keeps my v1's tx/rx split shape, with
+> the v2 changes already committed on my binding thread
+> (qcom,{tx,rx}-port-mapping staying optional, matching
+> qcom,wcd938x-sdw.yaml; qcom,{tx,rx}-channel-mapping dropped). The
+> compute side keeps your qcom,compute-mode if/then, extended to also
+> cover qcom,port-mapping and #sound-dai-cells. As posted, patch 7's mobile shape wouldn't
+> validate my mobile DTS: it defines a combined qcom,port-mapping but
+> the description references qcom,tx/rx-port-mapping, and
+> #sound-dai-cells is required unconditionally while the mobile DAIs
+> live on the top-level codec node. I'm happy to carry the merged file
+> in my v2 so your v2 can drop patch 7 — or the reverse, whichever you
+> prefer.
+Thanks that would be nice, Also am thinking that we should just have
+qcom,port-mapping for both modes and mark one of the device as
+qcom,control-device which is tx in mobile case. That way we have some
+level of clean bindings that overlap. But I will leave it up to you.
+
+
+> 
+> 3) Prototype findings on patches 1-6 (mobile capture, FP6)
+> 
+> What I ran: your 8 patches on my 7.1.2-based tree, plus a new
+> wcd9378-sdca-mobile codec registering its own sdw_driver for the TX
+> slave, static sdca_function_data for the SmartMic0 function
+> (IT11 -> OT10 on DP1, with PDE11 as the power domain), and hw_ops
+> doing the vendor bring-up
+> (micbias routing, bus-clock indication, a clock-stop hold; supplies
+> stay on the mobile top-level codec node, so hw_init has nothing to
+> do — that part of the design accommodates the mobile supply model
+> as-is). Capture works: the card binds, PDE11 reaches PS0 through the
+> DAPM supply widget, and a 1 kHz tone played from the speakers
+> captures at ~46% of full scale through the SDCA path. The bus-clock
+> indication in hw_ops is partly a stopgap: the core path discussed
+> with Pierre-Louis on my driver thread needs the qcom controller to
+> set prop.mclk_freq, and that patch is still on my list. The
+> prototype branch (your series + the mobile codec on a 7.1.2 base) is
+> at https://forgejo.catcrafts.net/Catcrafts/milos-linux, branch
+> sdca-mobile, if useful.
+Yes, This is definitely an useful experiment, I was trying something
+similar with both tx and rx side on mobile mode, things got really
+complex because the sdw stream has to be handled by rx codec where as tx
+side will be handled by sdca side.. it was really messy.
+
+> 
+> Findings:
+> 
+> a) PDM dataports. class_function_sdw_add_peripheral() derives the
+>    SoundWire stream/port config from the host-visible PCM params via
+>    snd_sdw_params_to_config(), but the WCD9378 mic dataports carry
+>    1-bit PDM on a single channel (the working mobile driver programs
+>    sconfig.bps = 1 and port ch_mask = BIT(0)). Result with the
+>    generic path: "bps not matching" from the qcom master and silence
+>    on the capture while the PDE sits happily in PS0. I prototyped
+>    optional per-dataport overrides in sdca_entity_iot
+>    (sdw_bps/sdw_ch_mask) consumed in add_peripheral, which fixed it;
+>    maybe DisCo has a proper home for this, but something is needed
+>    for PDM parts.
+> 
+> b) The IT33 micbias cache-vs-hardware workaround in your patch 8
+>    (drop cache + rewrite from pde_pre_pmu) ported directly to the
+>    mobile part's IT11; I carried it prophylactically and haven't yet
+>    isolated whether mobile strictly needs it. If it does turn out to
+>    be family behavior, it might argue for the class handling
+>    has_default controls on PDE power-up generically.
+> 
+> Userspace needed no changes beyond UCM: the class-driver card works
+> with a ControlExists conditional in the same profile (the stock
+> branch of the conditional is the unchanged stock sequence).
+> 
+> On interrupts: sdca_irq_allocate() got a valid IRQ out of the box on
+> my board via the bus irq domain; I haven't exercised actual SDCA
+> interrupt delivery (capture doesn't need it), so I can't yet say
+> whether the INTSTAT dispatch issue in your patch-8 comment reproduces
+> here.
+> 
+> Longer term: until the framework covers mobile end-to-end (the PDM
+> transport and the cross-slave RX question), my posted mobile series
+> stays the working mobile path — the v2 above is about the two
+> drivers coexisting cleanly in the meantime. Mobile capture converging
+> on the class framework looks realistic (my static tables came
+> straight from the posted mobile driver); I'll keep using the FP6 as
+> the mobile-mode test vehicle for the next revisions.
+> 
+
+I think you should continue to do the mobile mode driver as it was done
+in v1 not think about sdca. Function setup on mobile mode are dynamic
+user can set sys_usage based on usecase so the sdca functions will
+change, this is not static anymore so its not really worth thinking of
+sdca for mobile atm, but we could try to see if we can get some leverage
+from sdca helpers.
+
+Sorry for the noise i hope it was a worth experiment on mobile mode.
+
+> One dependency note for your platform posting: SDCA register access
+> on Qualcomm controllers needs the SCP address paging support now in
+> soundwire next, commit 999f80904763 ("soundwire: qcom: add SCP
+> address paging support").
+> 
+> One small nit: link [2] in the cover credits "Jorijn Rikhof" — the
+> surname is van der Graaf.
+
+Am really Sorry not sure how I missed that.
+
+
+--srini
+> 
+> Thanks,
+> Jorijn
+
