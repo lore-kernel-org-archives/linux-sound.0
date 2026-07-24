@@ -1,239 +1,600 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1EA43B4B7;
-	Fri, 24 Jul 2026 14:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C196F43CE69
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 14:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784902662; cv=none; b=SMN4pbwDe6NSF3yauSafS+WWSLq3jK1YfTdedtGEpHnC1Je7mvybUSlBOHXIqWD7p86b8ItmNwWNl7mA2Plj0F1oqxjiRXPlD3QLpes6ruoGe7Sp4JcwqfcZ3sJObaAOsSLZhQMNQ5xf9brnRpHu+6Twpk+lRLvlBGoTvFgnLFI=
+	t=1784903543; cv=none; b=ASOKdlh/cIkYdPuRdWmN4cM/d+lbySYYn5NCSNJSCmH4sXwI37cHVVHDUq/tGvjaGy9Vd3DICLIjuP+YuT73FNI6TNBnSJih7WgtUvMgOl9IwoX3nKtr5X32PQOjv1J1EGZ1Ur4ExL8jNYiH7xiVEjqaqr0cgjg+aw4fkOKMiiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784902662; c=relaxed/simple;
-	bh=o1Bhez6qyf0vI6dDip45ZKlBNsGfUzARPydzPVrup1Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cHOxDj39/jTqChZL57Em3hB1loG6BIFVOL1sVrp5oWGaN4ux9t6lFnRfvkTiSJ7nYTMndfb9oNOVuw5N9pfvQz5EBHUFGR4Gl9KerXpT91S1e9FikmaPVu6NyxnYo+emVb/bTWCzy7ex1+HzrF3ZrcQ9VUovYQh2V94Uo4ZHU+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OtQZss8e; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1784903543; c=relaxed/simple;
+	bh=OgcTe/nAVvxoURB67U2AukUlNiyk4tTEkZx5FR3F3Y0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rQlu8hx4z2ZtqudxBZGOiFblrRNIhfT8MaHgnv8zzcBvJo1/298zI7xNzpq0QG5X1/6mCkc8BKM5LHdbYXBYfHYt4HUPD/gkd/2VO1we/9wWY9BpNtt/3iSDuRZI6ye/wOxAfaQys6eAiAxSWbIw2T9t3PAxNkBbZQoStHUZECw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NjGEJtaX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DzuqDaFI; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OtQZss8e"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66ODbC9L3089374;
-	Fri, 24 Jul 2026 14:17:16 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NjGEJtaX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DzuqDaFI"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66ODbEua2710201
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 14:32:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=CXjD5M0e/Wr
-	v8YrUbZUegzsnwQ++lVeh8HIc5uUcP04=; b=OtQZss8eyfuMeEmOdBlPN70759i
-	2+xmH0d/QL71dpqgVDVwSyKPFJMmVTBJW1/ZjGy6bfEWQZNU7zCXIdd+7QW4khtD
-	iE422zrL+TB5e8kqiDtleVOB1TjIU4NtPxA2vr89W77gyFMMp80GmW1X2vg3nvoJ
-	vgo3xxhOpS8VAbraZRm3MDIQ9Mo9d7GHm+liZ7BV6MeOldc2UBvRAFsKm+oo3e1Y
-	/bODxiLhYI9qFQZInwp752PvzIEQ81GcV8E4F5IMp3gPYSnAEn5X1tbl/Fm601ZV
-	PYn7vkSX/ytbhBWRulD9LxdUfAd0Im09t0BZIcVnqMAjrzj6EEIwFb/VplQ==
-Received: from apblrppmta01.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fm8cggau9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Jul 2026 14:17:16 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 66OEHCmj016634;
-	Fri, 24 Jul 2026 14:17:12 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 4fm311dgjp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Jul 2026 14:17:12 +0000 (GMT)
-Received: from APBLRPPMTA01.qualcomm.com (APBLRPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 66OEHBTr016541;
-	Fri, 24 Jul 2026 14:17:11 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
-	by APBLRPPMTA01.qualcomm.com (PPS) with ESMTPS id 66OEHBjh016473
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Jul 2026 14:17:11 +0000 (GMT)
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
-	id 861F7C0D; Fri, 24 Jul 2026 19:47:10 +0530 (+0530)
-From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-To: Bartosz Golaszewski <brgl@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v6 4/5] dt-bindings: pinctrl: qcom,hawi-lpass-lpi-pinctrl: Add Hawi LPI pinctrl
-Date: Fri, 24 Jul 2026 19:47:07 +0530
-Message-Id: <20260724141708.2212057-5-prasad.kumpatla@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260724141708.2212057-1-prasad.kumpatla@oss.qualcomm.com>
-References: <20260724141708.2212057-1-prasad.kumpatla@oss.qualcomm.com>
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YpmrrYvfMqZGjA4fFxO5jszeZq/ZiP4Yr5FStrt8TyQ=; b=NjGEJtaX1P5NZzyY
+	Ew0gUnACP4yVPH8Wi8+b+dVrrB3f7QqsLMzT0QndyVkRmlGNDdkveqjnQ070EqLL
+	VShwehQQHcmW3b+ZjO/zjeeRmFb/ZJCgEa/JLyG9K5eiA6O2+iyCJbZogepRNq2k
+	LwPGptt60YO50vC7mTXwY+vWqXJ87PxzbruKESnyTKISc4HvI+DD1TDxH/PhcgRr
+	VA9P47mnrqReN3DdEfebvZCuPnwWUzWbBdWge0mgO2+2Zl4v86nR8h+mQ2k1Fvuh
+	2g1cIZORmW150f/g91tZIxpiWfttemmNTfbDvYrhVJSFy2J1MT82OdSl/Uq5ntSu
+	7oXwkw==
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com [209.85.221.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fm8cggcyw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 14:32:20 +0000 (GMT)
+Received: by mail-vk1-f200.google.com with SMTP id 71dfb90a1353d-5bfc75c9fbfso371371e0c.2
+        for <linux-sound@vger.kernel.org>; Fri, 24 Jul 2026 07:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784903540; x=1785508340; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YpmrrYvfMqZGjA4fFxO5jszeZq/ZiP4Yr5FStrt8TyQ=;
+        b=DzuqDaFIpz6XCuZkxjN1UApRJa5qZ2T9gZengVYrcJx5xYRkF3IPRiNsfUc2KmpFNg
+         5HroFgQqIB4dHPyhRsVoY0X2vafaF4Jyg56394ZXZB1WwWclaiAUXZ2616tlSBkniz3I
+         6O9dZ8hrY5gwi2L9fTCDJoOBmyWWofgHD+Gt9r+EM+tbEnTIhGM3sYTyCUdiRHkEI1hO
+         6RvO5/GBMJnVN3ngV42nxFRVZPAzZTZ8i0zGNQYzckzxa1sqYaNfU40pX/QLl9cXg9vr
+         p1vAul0saVCM1EuGdXpa8cfL0kgy2BYrCkhS4ccQYs5G43+AICUHLB2bVvPrKPFI4nrw
+         L+LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784903540; x=1785508340;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YpmrrYvfMqZGjA4fFxO5jszeZq/ZiP4Yr5FStrt8TyQ=;
+        b=k/2VxBhtazwA366gEG1puYq2UC+mM3hOqe5tmmjcCtmHcO2YfAn6ZTSaNpxoMlDPBv
+         hbZnj/zF9uSHQ7RJsC1ezBeQ9NuobtIEbEUM6XSgv2hA4AafFLZPfkO+KUZ1Ln4qrXH/
+         Z9uvPMdi5sYm2Ux+EDUNGj0inFEZI+7GZrXi47x56J/SNoMUDzrN7wPNHYuBkHi4hKPX
+         GjyTPl8QNrzYx2iRbXXEanVBiiuAcW7cwsmDg6ra0NuZe2wrJ6xS2PDt/e1RJ8Fc3cNp
+         085xzjwXFDWRvDmrV9BYsn1ueWzm9SFq37XrzlZb6FWYLbPtrEbVpurqGCI5dhfPW0Dh
+         9V8A==
+X-Forwarded-Encrypted: i=1; AHgh+RoAsjgPDMfvEkGiIjrujcc09/kX4i0nwrXHNZqjKXhExPiJ2/0cOc0C6zWKAeCgR1lqBf6h1HaJ8cXFaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+XqzF0t8U94U1iV3uhXYZF9CnSfDvdnWtksgFdgXvuZqloiBx
+	RLGu4zX/hCR79JnbQsOjqGOVc5+4sKzdngCrjc/o4hdxop0+7DUJCY/OgIwCHC/AUE8aQl9/Zxd
+	SS3yrVSJKplMk2BEA+nyVM9dV3hCMD/y7Ne2dYv3eMTIDi4KPIbnNuYCHGcVv+TB0mg==
+X-Gm-Gg: AR+sD12AlCF/9ztoLjUsqtFohHYK/ubTkM9jlRcuvqtA3KXJrjl13EXIk0E7QdJVEXm
+	HikVNDuqrfoC4hLiEuPQiRSOSdrrZ6oy3hS3+ugCq2e2hZ2493EgmyT9Gpny2km/Gt2Ho6ZZCa+
+	A80K34hbpukYKvfjVeBl/WmhILggWUjWRIBw115jmpnlHVg+rMKa93REtF63T1VbBCSFVOU2/Ae
+	CxddnXMlxjHRX8yh9T4tFCZlqBWkp7tZGTQCv3BrtYtLEln1lX5cdjEKUIRz5xg8wNbgBZborDn
+	JZJ2kHhPRDgBeyjeRTormDYMgX+zNawdjMDjZv2B4Tb+tT0SdSUC1EIfsCFfM0G0Pfkr5+lXRE/
+	FrKmySJAQxeq/LdvpxmFyPdgLJvw=
+X-Received: by 2002:a05:6122:3118:b0:5bd:71cf:e97e with SMTP id 71dfb90a1353d-5c2da0be0dbmr3558981e0c.5.1784903522170;
+        Fri, 24 Jul 2026 07:32:02 -0700 (PDT)
+X-Received: by 2002:a05:6122:3118:b0:5bd:71cf:e97e with SMTP id 71dfb90a1353d-5c2da0be0dbmr3557783e0c.5.1784903513587;
+        Fri, 24 Jul 2026 07:31:53 -0700 (PDT)
+Received: from [192.168.68.114] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47f85a2573csm23889185f8f.0.2026.07.24.07.31.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jul 2026 07:31:52 -0700 (PDT)
+Message-ID: <6d1870c1-7fff-4569-8de2-bb45b83cde25@oss.qualcomm.com>
+Date: Fri, 24 Jul 2026 15:31:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/8] ASoC: SDCA: enable on DT platforms and add
+ Qualcomm WCD9378 (Tambora) codec
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Maciej Strozek <mstrozek@opensource.cirrus.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, patches@opensource.cirrus.com,
+        linux-kernel@vger.kernel.org
+References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
+ <amHqO5pMFmKRNYTT@opensource.cirrus.com>
+ <87452472-0ca6-4ed5-a891-3a688598b5b3@oss.qualcomm.com>
+ <amNcM0AxYAe4bU95@opensource.cirrus.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <amNcM0AxYAe4bU95@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDEyOSBTYWx0ZWRfX6+kA0/sxdAf9
- jET8K2zquRt7Uc+LL/4KnHmQDMOTcA3Q6YKbyQ0FjTB6UcEbU0mLgeNhfFxhGXCEuxiBLa8KKM5
- BW7mglJCuBI/gqJbdO9CvVb8KA4C2Jv5RNVNHaPBgcvHdtU9JyFZ8PVIBg1rHNtc09UVRQbRH1U
- 6skgC82kHxHkl9922nhGmN52TVo8G2jcH9ojwFRwMdvrK7tpjzIQ9EPrEEbcDdSkr0EfeiTZMEL
- 7zH827ck9hMkF0jQ/Cwo03vvMvFzeITZqOkr6SJE6TEQipEGN3dQIekt31zL/2NO794qWs33Uec
- 5DPhcrrNtDvSFkA2Re6OqJ/ksQ9ohYerRiH17RUTtWS2hCE4AYSBPC8D4hdBvde6bjWSjMUCA1a
- jsMLXjH2qgcGc79k8UNbyrQt+3KDPLR6KhN6az+a7Ildvh+8r7pG+rEc/COpmRv9Au5TzvLeHCJ
- oLJsIiDjZ7oEmBIrWRw==
-X-Proofpoint-GUID: rwLd0Tdro6TjJwnqAGFIWvjTT5XRskmq
-X-Proofpoint-ORIG-GUID: rwLd0Tdro6TjJwnqAGFIWvjTT5XRskmq
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDEyOSBTYWx0ZWRfX56TMWIFz3I5p
- djYEx+/z02CWJIrAb8fQ/nYe8qRDydjNLUr2xzhzmEjoRHi1QIgPwwa6g3iLZ5gfkJYr3Ak0+IH
- qq+xy1dhN1NoWV8DtIdbeE7Ivh1R2h4=
-X-Authority-Analysis: v=2.4 cv=P9sKQCAu c=1 sm=1 tr=0 ts=6a6373ec cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_K5XuSEh1TEqbUxoQ0s3:22 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=bT5XQOCXPleopHcqzpYA:9 a=sptkURWiP4Gy88Gu7hUp:22
+X-Authority-Analysis: v=2.4 cv=JOMLdcKb c=1 sm=1 tr=0 ts=6a637774 cx=c_pps
+ a=wuOIiItHwq1biOnFUQQHKA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=4UEJ9L-Rt-jFuRBfBf4A:9 a=4jHrB3rgKdR5UX8P:21 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=XD7yVLdPMpWraOa8Un9W:22
+X-Proofpoint-ORIG-GUID: xlXQddztKMg3DCvsveHJ0yAStTtveu-g
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI0MDEzMSBTYWx0ZWRfXx3QkRpab1xNm
+ QsizCqfhcRY6eK2Pe1QFw201+VAikYo4uK96gv0Ydqes3xEx779sKj6xhEWehTfgwaG4DMcjSgh
+ POXl7zgPzelx/JdZnVSmQPcgUnrVYpQ=
+X-Proofpoint-GUID: xlXQddztKMg3DCvsveHJ0yAStTtveu-g
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI0MDEzMSBTYWx0ZWRfX6XHGsW9xJam0
+ OGhkUFUtfikMAu0+oLhn1iV4Ao1RHXxANbJ8a6F7uxZQBVHyUIqMdncSn+N3QLTq9JUzxXxHvdr
+ nYnK3HR0nf6RhLfpIhH2mgGDVJ3uuKRu9ah2kYm/OXFujTOtsKkYmDKneykZt2pAugdiu4165NW
+ 8niLX6JgoGYFYVWiQ5D7J1d0kPdJtf+SVmdFoZ75X11zU9FPLS16l1M/9plpSM8VErXfDdQ0qW/
+ qYwATgmjKX5JcIkX6uX6ym0EeyvZDtfAB1j0zCnUWlRxgM+oAhNhvC3spvlNwnZRhmLPd8AToS2
+ GqpMoe9jlS34t4r94Db6Vid8oWZjTQ9IxTKzZmM6VqO7I42BY7zZ4Ze/A9qfODt6w4pYS0f6cKx
+ QrM/gUmxJIPY9bRZjhAO8laKyr5aVGBmEoTsBPEcBuBDZ3av1WnRu+YstAgayU50T6IuPhuqfiF
+ g0nQB2/MlSBjfX0HU3w==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-07-24_03,2026-07-24_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 priorityscore=1501 phishscore=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607240129
+ phishscore=0 suspectscore=0 impostorscore=0 spamscore=0 bulkscore=0
+ clxscore=1015 adultscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607240131
 
-Add bindings for the pin controller in Low Power Audio SubSystem (LPASS)
-of Qualcomm Hawi SoC.
+On 7/24/26 1:36 PM, Charles Keepax wrote:
+> On Thu, Jul 23, 2026 at 02:24:19PM +0100, Srinivas Kandagatla wrote:
+>> Thanks Charles, for the feedback.
+>> On 7/23/26 11:17 AM, Charles Keepax wrote:
+>>> On Thu, Jul 23, 2026 at 12:42:10AM +0100, Srinivas Kandagatla wrote:
+>>>> The direction from that discussion was to let DT platforms reuse the
+>>>> same class/function auxiliary driver plumbing and have codec drivers
+>>>> supply the small amount of static function/entity metadata that DisCo
+>>>> would otherwise carry, plus hooks for device-specific bring-up.  This
+>>>> series is a first cut at that, with the Qualcomm WCD9378 ("Tambora")
+>>>> SDCA codec on the Glymur CRD as the first consumer. Static table that in
+>>>> part of this codec is generated from acpi tables.
+>>>
+>>> Fascinating, a shame I missed the discussion. Main question
+>>> I have is what was the reasoning behind using static tables
+>>> rather than just putting the data in device tree? All the core
+>>> code uses the generic firmware parsing function so should be
+>>> perfectly capable of parsing the data out of device tree. The
+>>> only bit that is missing is really the sdca_lookup_functions
+>>> bit you ifdef out, but updating that to also support DT should
+>>> be pretty simple.
+>> Two reasons
+>>
+>> 1. This is laptop platform primarily works on windows with proper acpi
+>> tables, These tables are directly derived for ACPI asl tables in
+>> windows. Ideally I want to use it the way it is supposed to work.
+> 
+> This is a little confusing, could we not just the ACPI in those
+> cases?
 
-The controller has 23 GPIOs (gpio0-gpio22) with functions including
-SoundWire, I2S, DMIC, VA I2S, ext_mclk1, slimbus and lpass_lpi_dbg_clk.
+On Qualcomm platforms, ACPI contains many vendor-specific PiP (Platform
+Integrated Peripherals) methods that don't follow standard conventions.
+This breaks ACPI compatibility on Linux. Consequently, Qualcomm-based
+laptops designed for Windows that are run on Linux have to use Device
+Trees for hardware description—a temporary solution until the ACPI
+implementation becomes standards-compliant.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
----
- .../pinctrl/qcom,hawi-lpass-lpi-pinctrl.yaml  | 109 ++++++++++++++++++
- 1 file changed, 109 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/pinctrl/qcom,hawi-lpass-lpi-pinctrl.yaml
+> 
+>> 2. replicating full Disco specs in DT is going to be challenge, Because
+>> DT describes hardware but not necessarily at a level of register init
+>> tables or to an extent where class drivers need it.
+>>
+>>> Looking through your presentation (thanks for linking that),
+>>> am I to guess this was mostly a device tree people didn't like
+>>> the stuff SDCA contains problem? I do see that some of the SDCA
+>>> stuff isn't an exact match for how Linux has traditionally liked
+>>> to handle DT but also really not sure I see any benefit to DT
+>>> and ACPI support being different.
+>>
+>> I think there is fine line on what can go into DT, some of the hardware
+>> init tables are big No No i guess, Power and other ACPI things are not
+>> something DT does.
+>>
+>> I will let DT maintainers comment on this.
+> 
+> Yeah agree be good to get the DT guys thoughts on this. It seems
+> like a misstep to me to insist that the SDCA spec implements a
+> completely different system of storing information for DT. SDCA
+> is what SDCA is now, and supporting two different parsers seems
+> like work no one needs when the one parser we have would work
+> fine for both.
+Am not sure I understood the two parser concern, what we are
+representing in the table is something that sdca core already does after
+parsing acpi tables. So we are reusing the same structures. Its like
+result of already parsed acpi tables.
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/qcom,hawi-lpass-lpi-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/qcom,hawi-lpass-lpi-pinctrl.yaml
-new file mode 100644
-index 000000000000..af68581750cf
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pinctrl/qcom,hawi-lpass-lpi-pinctrl.yaml
-@@ -0,0 +1,109 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pinctrl/qcom,hawi-lpass-lpi-pinctrl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Qualcomm Hawi SoC LPASS LPI TLMM
-+
-+maintainers:
-+  - Krzysztof Kozlowski <krzk@kernel.org>
-+  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-+  - Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-+
-+description:
-+  Top Level Mode Multiplexer pin controller in the Low Power Audio SubSystem
-+  (LPASS) Low Power Island (LPI) of Qualcomm Hawi SoC.
-+
-+properties:
-+  compatible:
-+    const: qcom,hawi-lpass-lpi-pinctrl
-+
-+  reg:
-+    items:
-+      - description: LPASS LPI TLMM Control and Status registers
-+
-+  clocks:
-+    items:
-+      - description: LPASS LPR(Low Power Resource) voting clock
-+      - description: LPASS Audio voting clock
-+
-+  clock-names:
-+    items:
-+      - const: lpr
-+      - const: audio
-+
-+patternProperties:
-+  "-state$":
-+    oneOf:
-+      - $ref: "#/$defs/qcom-hawi-lpass-state"
-+      - patternProperties:
-+          "-pins$":
-+            $ref: "#/$defs/qcom-hawi-lpass-state"
-+        additionalProperties: false
-+
-+$defs:
-+  qcom-hawi-lpass-state:
-+    type: object
-+    description:
-+      Pinctrl node's client devices use subnodes for desired pin configuration.
-+      Client device subnodes use below standard properties.
-+    $ref: qcom,lpass-lpi-common.yaml#/$defs/qcom-tlmm-state
-+    unevaluatedProperties: false
-+
-+    properties:
-+      pins:
-+        description:
-+          List of gpio pins affected by the properties specified in this
-+          subnode.
-+        items:
-+          pattern: "^gpio([0-9]|1[0-9]|2[0-2])$"
-+
-+      function:
-+        enum: [dmic1_clk, dmic1_data, dmic2_clk, dmic2_data, dmic3_clk,
-+               dmic3_data, dmic4_clk, dmic4_data, ext_mclk1_a, ext_mclk1_b,
-+               ext_mclk1_c, ext_mclk1_d, ext_mclk1_e, gpio, i2s0_clk,
-+               i2s0_data, i2s0_ws, i2s1_clk, i2s1_data, i2s1_ws, i2s2_clk,
-+               i2s2_data, i2s2_ws, i2s3_clk, i2s3_data, i2s3_ws,
-+               lpass_lpi_dbg_clk, qca_swr_clk, qca_swr_data, slimbus_clk,
-+               slimbus_data, swr_rx_clk, swr_rx_data, swr_tx_clk, swr_tx_clk1,
-+               swr_tx_data, va_i2s0_clk, va_i2s0_data, va_i2s0_ws,
-+               wsa2_swr_clk, wsa2_swr_data, wsa_swr_clk, wsa_swr_data]
-+        description:
-+          Specify the alternative function to be configured for the specified
-+          pins.
-+
-+allOf:
-+  - $ref: qcom,lpass-lpi-common.yaml#
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/sound/qcom,q6dsp-lpass-ports.h>
-+
-+    lpass_tlmm: pinctrl@7f60000 {
-+        compatible = "qcom,hawi-lpass-lpi-pinctrl";
-+        reg = <0x07f60000 0x20000>;
-+
-+        clocks = <&q6prmcc LPASS_HW_LPR_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>,
-+                 <&q6prmcc LPASS_HW_DCODEC_VOTE LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-+        clock-names = "lpr", "audio";
-+
-+        gpio-controller;
-+        #gpio-cells = <2>;
-+        gpio-ranges = <&lpass_tlmm 0 0 23>;
-+
-+        tx-swr-sleep-clk-state {
-+            pins = "gpio0";
-+            function = "swr_tx_clk";
-+            drive-strength = <2>;
-+            bias-pull-down;
-+        };
-+    };
--- 
-2.34.1
+I did try
+> 
+> That said I don't totally object to the idea of an option to
+> supply a static block of information as you are in the series. It
+> could be useful for transitional and work around situations. But
+> it doesn't seem like a good choice for SDCA on DT going forward,
+> it is basically going back to the board files that DT was saving
+> us from.
+
+Either we have this at driver level or at dt level, both of them have
+pros and cons.
+
+If we decide to go with dt, this how the dt entries will look like, this
+should give fair bit of idea to DT maintianers for discussion.
+
+soundwire@7630000 {
+    wcd9378c_sdw: audio-codec@0,3 {
+        compatible = "sdw20217011000";
+        reg = <0 3>;
+        #sound-dai-cells = <1>;
+
+        /*
+         * SDCA / compute-mode slave: this node owns the codec's
+         * supplies, mic-bias voltages and reset GPIO -- no
+         * separate top-level codec parent.  Existing binding.
+         */
+        qcom,compute-mode;
+        qcom,port-mapping = <2 2 3 4 5 6 7 8>;
+
+        reset-gpios = <&tlmm 191 GPIO_ACTIVE_LOW>;
+
+        vdd-buck-supply     = <&vreg_l15b_1p8>;
+        vdd-rxtx-supply     = <&vreg_l15b_1p8>;
+        vdd-io-supply       = <&vreg_l18b_1p2>;
+        vdd-mic-bias-supply = <&vreg_bob1>;
+
+        qcom,micbias1-microvolt = <1800000>;
+        qcom,micbias2-microvolt = <2750000>;
+        qcom,micbias3-microvolt = <1800000>;
+
+        /*
+         * ================================================
+         * NEW: SDCA function topology as a child node of the
+         * slave.  A DT walker (see caveat #1 above) picks
+         * this up during slave probe and hands the fwnode to
+         * find_sdca_entities()/find_sdca_clusters()/etc.
+         * ================================================
+         */
+        sdca-function-simple-jack@3 {
+            reg = <3>;
+            function-address = <3>;   /* mirrors ACPI _ADR[2:0] */
+
+            /* DisCo v2.1 in use */
+            mipi-sdw-sw-interface-revision = <0x00020001>;
+
+            /* Errata 01 Item 1: Reset_Function_Now timeout */
+            mipi-sdca-function-reset-max-delay = <100000>;
+
+            /*
+             * Entity 0 controls: FunctionSdcaVersion, Type,
+             * ManufacturerId, Id, Version, Status, Action,
+             * Device{Mfg,Part,Version,SdcaVersion}, ...
+             * 14 controls at selectors 1,4,5,6,7,8,9,A,10,
+             * 11,2C,2D,2E,2F.
+             */
+            mipi-sdca-control-list =
+                /bits/ 64 <0x0000F000000307F2>;
+
+            mipi-sdca-control-0x5-subproperties {  /* Type */
+                mipi-sdca-control-access-mode  = <0x5>; /* DC */
+                mipi-sdca-control-access-layer = <0x4>;
+                mipi-sdca-control-cn-list      =
+                    /bits/ 64 <0x1>;
+                mipi-sdca-control-dc-value = <0x08>;
+                /* 0x08 = SimpleJack */
+            };
+            /* ... 13 more Entity-0 control subnodes ... */
+
+            /* -- Entity index & cluster index (Table 9) ---- */
+
+            mipi-sdca-entity-id-list = <
+                0x01 0x02 0x03 0x04 0x07 0x08 0x09 0x0A
+                0x0B 0x0C 0x0D 0x0E 0x0F 0x10 0x11 0x12
+                0x13 0x15 0x16 0x17 0x18 0x19
+            >;
+
+            mipi-sdca-cluster-id-list = <0x1 0x2 0x3 0x5>;
+
+            /* -- Init table (Table 9 DsdBuffer) ------------ */
+            /*
+             * Format: repeating { u32 addr (LE), u8 val }.
+             * First 5 of 62 entries shown -- the full table
+             * is the QcSimpleJack.asl BUF0 transcribed:
+             */
+            mipi-sdca-function-initialization-table = [
+                F0 04 18 40  00
+                /* 0x401804F0 = 0x00  DIGITAL_PLATFORM_CTL */
+                6E 04 18 40  10
+                /* 0x4018046E = 0x10  DIGITAL_INTR_MODE    */
+                4D 00 00 00  01
+                /* 0x0000004D = 0x01  SCP_BUSCLOCK_BASE    */
+                62 00 00 00  02
+                /* 0x00000062 = 0x02  SCP_BUSCLOCK_SCALE   */
+                6A 01 18 40  80
+                /* 0x4018016A = 0x80  CP_DTOP_CTRL_14      */
+                /* ... 57 more entries ... */
+            ];
+
+            /* ============ Entity subnodes ================= */
+
+            /* -- 0x01: IT 41 (HPH render input) ------------ */
+            mipi-sdca-entity-id-0x1-subproperties {
+                mipi-sdca-entity-type   = <0x02>;      /* IT */
+                mipi-sdca-entity-label  = "IT 41";
+                mipi-sdca-terminal-type = <0x0191>;
+                /* 0x0191 = PDM RENDER STREAM */
+
+                mipi-sdca-terminal-clock-connection {
+                    /* Label-based reference, not phandle */
+                    mipi-sdca-entity-label = "CS 41";
+                };
+
+                /* Controls: 4 Usage, 8 Latency,
+                 *           0x10 ClusterIdx, 0x11 DP-sel */
+                mipi-sdca-control-list =
+                    /bits/ 64 <0x30110>;
+
+                mipi-sdca-control-0x4-subproperties {
+                    /* Usage: 7-tuple <usage, CBN, sample_rate,
+                     * width, full_scale, noise_floor, tag>,
+                     * all little-endian u32.  Here:
+                     *   HIFI, 48 kHz PCM, 16-bit.
+                     */
+                    mipi-sdca-control-access-mode  = <0x0>;
+                    mipi-sdca-control-access-layer = <0x4>;
+                    mipi-sdca-control-cn-list =
+                        /bits/ 64 <0x1>;
+                    mipi-sdca-control-range = [
+                        07 00 01 00                /* 7x1 */
+                        02 00 00 00
+                        D0 02 00 00
+                        80 BB 00 00                /* 48000 */
+                        10 00 00 00                /* 16 */
+                        00 00 00 00
+                        00 00 00 00
+                        00 00 00 00
+                    ];
+                };
+                /*
+                 * DataPort selector for IT 41 is a 16-col x
+                 * 4-row range where row-0 col-6 = 0x06 (DP6)
+                 * and everything else = 0xFFFFFFFF.  260 raw
+                 * bytes; omitted here.
+                 */
+            };
+
+            /* -- 0x02: CS 41 (48 kHz clock source) --------- */
+            mipi-sdca-entity-id-0x2-subproperties {
+                mipi-sdca-entity-type  = <0x0B>;       /* CS */
+                mipi-sdca-entity-label = "CS 41";
+                mipi-sdca-cs-type      = <0x0>;
+                mipi-sdca-control-list =
+                    /bits/ 64 <0x10000>;
+
+                mipi-sdca-control-0x10-subproperties {
+                    /* SampleRateIndex: idx 1 -> 48000 Hz */
+                    mipi-sdca-control-access-mode  = <0x5>;
+                    mipi-sdca-control-access-layer = <0x4>;
+                    mipi-sdca-control-cn-list =
+                        /bits/ 64 <0x1>;
+                    mipi-sdca-control-dc-value = <0x1>;
+                    mipi-sdca-control-range = [
+                        02 00 01 00
+                        01 00 00 00  80 BB 00 00
+                    ];
+                };
+            };
+
+            /* -- 0x03: MFPU 21 (multi-source via pin list) - */
+            mipi-sdca-entity-id-0x3-subproperties {
+                mipi-sdca-entity-type    = <0x22>;   /* MFPU */
+                mipi-sdca-entity-label   = "MFPU 21";
+                /* Input pins 1 and 2 wired */
+                mipi-sdca-input-pin-list =
+                    /bits/ 64 <0x6>;
+                mipi-sdca-control-list =
+                    /bits/ 64 <0x2>;
+
+                mipi-sdca-input-pin-1 {
+                    mipi-sdca-entity-label = "IT 41";
+                };
+                mipi-sdca-input-pin-2 {
+                    mipi-sdca-entity-label = "IT 131";
+                };
+
+                mipi-sdca-control-0x1-subproperties {
+                    /* Bypass = 1 */
+                    mipi-sdca-control-access-mode  = <0x5>;
+                    mipi-sdca-control-access-layer = <0x4>;
+                    mipi-sdca-control-cn-list =
+                        /bits/ 64 <0x1>;
+                    mipi-sdca-control-dc-value = <0x1>;
+                };
+            };
+
+            /* -- 0x07: SU 43 (selector, driven by GE 35) --- */
+            mipi-sdca-entity-id-0x7-subproperties {
+                mipi-sdca-entity-type    = <0x06>;     /* SU */
+                mipi-sdca-entity-label   = "SU 43";
+                mipi-sdca-input-pin-list =
+                    /bits/ 64 <0x2>;
+                mipi-sdca-control-list =
+                    /bits/ 64 <0x2>;
+
+                mipi-sdca-input-pin-1 {
+                    mipi-sdca-entity-label = "XU 42";
+                };
+
+                mipi-sdca-control-0x1-subproperties {
+                    mipi-sdca-control-access-mode  = <0x3>;
+                    /* RO, DEVICE layer -- GE writes it */
+                    mipi-sdca-control-access-layer = <0x10>;
+                    mipi-sdca-control-cn-list =
+                        /bits/ 64 <0x1>;
+                    mipi-sdca-control-range = [
+                        01 00 02 00
+                        00 00 00 00  01 00 00 00
+                    ];
+                };
+            };
+
+            /* -- 0x09: PDE 47 (HPH power domain) ----------- */
+            mipi-sdca-entity-id-0x9-subproperties {
+                mipi-sdca-entity-type  = <0x11>;      /* PDE */
+                mipi-sdca-entity-label = "PDE 47";
+
+                /* Managed IT/OT entity IDs */
+                mipi-sdca-powerdomain-managed-list = <0xA 0xB>;
+
+                /* Delay triplets: <from_ps, to_ps, us> */
+                mipi-sdca-powerdomain-transition-typical-delay =
+                    <3 0 30000>, <0 3 30000>;
+                mipi-sdca-powerdomain-transition-max-delay =
+                    <3 0 30000>, <0 3 30000>;
+
+                /*
+                 * Bits 1 (REQ_PS), 16 (ACTUAL_PS) plus bits
+                 * 48..53 for six pseudo-controls (0x30..0x35)
+                 * that only exist to anchor HPH OCP/CNP/SURGE
+                 * interrupt virqs.  WCD9378 quirk with no ASL
+                 * analogue; a real binding would model these
+                 * via a separate interrupt property, not by
+                 * inventing control selectors.
+                 */
+                mipi-sdca-control-list =
+                    /bits/ 64 <0x003F000000010002>;
+
+                mipi-sdca-control-0x1-subproperties {
+                    /* Requested_PS -- range PS0 or PS3 */
+                    mipi-sdca-control-access-mode  = <0x0>;
+                    mipi-sdca-control-access-layer = <0x4>;
+                    mipi-sdca-control-cn-list =
+                        /bits/ 64 <0x1>;
+                    mipi-sdca-control-range = [
+                        01 00 02 00
+                        00 00 00 00  03 00 00 00
+                    ];
+                };
+                /* Actual_PS (0x10 RO) + six 0x30..0x35 IRQ
+                 * anchor subnodes omitted */
+            };
+
+            /* -- 0x0A: OT 43 (Headphone jack, no controls) - */
+            mipi-sdca-entity-id-0xA-subproperties {
+                mipi-sdca-entity-type    = <0x03>;     /* OT */
+                mipi-sdca-entity-label   = "OT 43";
+                mipi-sdca-terminal-type  = <0x06C0>;
+                /* 0x06C0 = HEADPHONE JACK */
+                mipi-sdca-input-pin-list =
+                    /bits/ 64 <0x2>;
+                mipi-sdca-control-list = /bits/ 64 <0x0>;
+
+                mipi-sdca-input-pin-1 {
+                    mipi-sdca-entity-label = "IT 41";
+                };
+            };
+
+            /* -- 0x0C: GE 35 (jack detection group) -------- */
+            mipi-sdca-entity-id-0xC-subproperties {
+                mipi-sdca-entity-type  = <0x12>;       /* GE */
+                mipi-sdca-entity-label = "GE 35";
+                mipi-sdca-control-list = /bits/ 64 <0x6>;
+
+                /*
+                 * Table 18 packed blob:
+                 *   u8 mode_count
+                 *   per mode: u8 val, u8 ctrl_count
+                 *     per ctrl: u8 ent_id, u8 sel, u8 cn,
+                 *               u32 val (LE)
+                 *
+                 * The mode 0/1 entries route "unplugged" and
+                 * "unknown" to the same SU45 selector as
+                 * mode 4 (headphone) -- WCD9378 firmware
+                 * workaround, not a spec behaviour.
+                 */
+                mipi-sdca-ge-selectedmode-controls-affected = [
+                    04                            /* 4 modes */
+                    00 01  08 01 00  01 00 00 00 /* 0 -> SU45 */
+                    01 01  08 01 00  01 00 00 00 /* 1 -> SU45 */
+                    03 01  07 01 00  01 00 00 00 /* 3 -> SU43 */
+                    04 01  08 01 00  01 00 00 00 /* 4 -> SU45 */
+                ];
+
+                mipi-sdca-control-0x1-subproperties {
+                    /* SelectedMode: mode -> terminal-type
+                     * range, 2 cols x 4 rows */
+                    mipi-sdca-control-access-mode  = <0x0>;
+                    mipi-sdca-control-access-layer = <0x4>;
+                    mipi-sdca-control-cn-list =
+                        /bits/ 64 <0x1>;
+                    mipi-sdca-control-range = [
+                        02 00 04 00
+                        00 00 00 00  C0 06 00 00   /* unplug */
+                        01 00 00 00  C0 06 00 00   /* unknwn */
+                        03 00 00 00  D0 06 00 00   /* h-set  */
+                        04 00 00 00  C0 06 00 00   /* h-phon */
+                    ];
+                };
+                mipi-sdca-control-0x2-subproperties {
+                    /* DetectedMode -- RO, drives SDCA_4 IRQ */
+                    mipi-sdca-control-access-mode  = <0x3>;
+                    mipi-sdca-control-access-layer = <0x4>;
+                    mipi-sdca-control-cn-list =
+                        /bits/ 64 <0x1>;
+                    mipi-sdca-control-interrupt-position = <4>;
+                };
+            };
+
+            /* -- 0x11: FU 33 (mic feature unit, no ctrls) -- */
+            mipi-sdca-entity-id-0x11-subproperties {
+                mipi-sdca-entity-type    = <0x07>;     /* FU */
+                mipi-sdca-entity-label   = "FU 33";
+                mipi-sdca-input-pin-list =
+                    /bits/ 64 <0x2>;
+                mipi-sdca-control-list = /bits/ 64 <0x0>;
+
+                mipi-sdca-input-pin-1 {
+                    mipi-sdca-entity-label = "IT 33";
+                };
+            };
+
+            /*
+             * Remaining entities elided -- IT 131, IT 33,
+             * PDE 34, XU 42, SU 45, OT 45, CS {131,36,236},
+             * SU 35, XU 36, OT 36, MFPU 236, OT 236 -- all
+             * follow one of the shapes shown above.
+             */
+
+            /* -- Cluster 0x1: stereo HPH render ------------ */
+            mipi-sdca-cluster-id-0x1-subproperties {
+                mipi-sdca-channel-count = <2>;
+
+                mipi-sdca-channel-1-subproperties {
+                    mipi-sdca-cluster-channel-id      = <0x1>;
+                    mipi-sdca-cluster-channel-purpose = <0x1>;
+                    mipi-sdca-cluster-channel-relationship =
+                        <0x2>; /* Left */
+                };
+                mipi-sdca-channel-2-subproperties {
+                    mipi-sdca-cluster-channel-id      = <0x2>;
+                    mipi-sdca-cluster-channel-purpose = <0x1>;
+                    mipi-sdca-cluster-channel-relationship =
+                        <0x3>; /* Right */
+                };
+            };
+
+            /*
+             * Clusters 0x2 (mic mono), 0x3 (opt RX, 3ch) and
+             * 0x5 (opt TX mono) elided -- same shape.
+             */
+        };
+    };
+};
+
+> 
+> Thanks,
+> Charles
 
