@@ -1,113 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCBC392803;
-	Fri, 24 Jul 2026 21:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B05396D2E;
+	Fri, 24 Jul 2026 23:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784929717; cv=none; b=lmE59OT/cc2rq/lI2LdfzBtVYT4hzbls+hc/puzRBhJuGm5j3xEmP2kIvVItV5pC2Rbi4lxgGHbhKrDYEeTMrCN1eC8XOcA3xGjJrP+l+yZU9CCMN/DkacPClBgHbF7NqUdmEDbAb+4Nfiq1T1e5DIcnUFOO5ofjo7aK41epYhc=
+	t=1784934776; cv=none; b=LFno5E1+klucGvTvN6npyTkhINF5KHpt1uYy44yyUPMpFgn/0z7cCyhAOynz0I40QR+SxIUZ0FFdDRcGNvV121HNjua+uVEM1ridpEwCqFzpxRwVuzOmy36tqqV3BRUqyl5WOlVKKN3Z0Q9m3+NoHyF/lwiqY2sW/rF9dbHOLpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784929717; c=relaxed/simple;
-	bh=GTdZSgSwBlfAlIxva5M6ZU/kD9VYoe26BBxVBJ5WdPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f0dWPJXuJkkHlQ5NLOuD9Ax5Gho1OuqyiVb7t0nd5oWleu8UvKWZ0I9ZwliB4KZE49TmmB6QFpuZUZCvhsdQzWUJFHk39L78Jrb5jzWdYLl7N97uSjvi3jiv7Dfm4rIqq0HGBt3VlUk4FDbtEfdYIBkLNyeZ2WbbL7Xj7V2F1Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bhpTuvSZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784934776; c=relaxed/simple;
+	bh=ZcMetcRCMhpyEKaaMwCmYq1ySW2wlImESQd96oeuKwI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=gDV78Y9csiizVfCbGnWCz6erVt6oJ959DjI9sZyG3lgFr5eUtCgz/wR1nGkQq2PaALNPSeDdBeSFpFhzKOiVSskFTmEKutagyq80ItLSUn4973dmDBkj7YdA7c2bY0hAsyFblb2KIc6pTe6gTJe6af/PV0L8oTT2H4S67C+t5UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org; spf=pass smtp.mailfrom=postmarketos.org; dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b=fAktlbiq; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=postmarketos.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bhpTuvSZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A6FC1F000E9;
-	Fri, 24 Jul 2026 21:48:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784929705;
-	bh=GTdZSgSwBlfAlIxva5M6ZU/kD9VYoe26BBxVBJ5WdPE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=bhpTuvSZWBV7iq9keKc8+pixk18qLEuyMz3ZTlqKcB81KF/CnyeLGI6JSyvHGt9tA
-	 E+SxQVBXcXsXsZgtn3HAr+6nPULrU5HRAYu13tTfnL5ffRJr3w0sXxS3y6FSy3SRlS
-	 Qe3XQkADPgbjY9nioQHCBPR4pvKP4dL5d3HxM/ORX/63JYStNE+wqJy61XHcdbEpWF
-	 xaZAuoqTpynwYjXBJP4BY73AhLP471MMWjcWFGi91teQEabAfmboMZJJ2AI9mVl919
-	 5Vj52Ap+SYxCLa6sCvz56w/tCisRBng0kD6I+yiTKpyHAoJV1VexiywmsHK9mBuUsB
-	 8QLvkwcrgPftA==
-Date: Fri, 24 Jul 2026 14:48:22 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: Julia.Lawall@inria.fr, Alex Deucher <alexander.deucher@amd.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Andrew Lunn <andrew@lunn.ch>, Andrew
- Morton <akpm@linux-foundation.org>, Arkadiusz Kubalewski
- <arkadiusz.kubalewski@intel.com>, Borislav Petkov <bp@alien8.de>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Daniel Lezcano
- <daniel.lezcano@kernel.org>, David Airlie <airlied@gmail.com>, "David S.
- Miller" <davem@davemloft.net>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede
- <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, Heikki Krogerus
- <heikki.krogerus@linux.intel.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, Ilpo =?UTF-8?B?SsOkcnZpbmVu?=
- <ilpo.jarvinen@linux.intel.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Jaroslav Kysela <perex@perex.cz>, Jason
- Gunthorpe <jgg@ziepe.ca>, Jiri Pirko <jiri@resnulli.us>, "Joerg Roedel
- (AMD)" <joro@8bytes.org>, Johan Hovold <johan@kernel.org>, Jonathan Cameron
- <jic23@kernel.org>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Julian Anastasov <ja@ssi.bg>, Leon Romanovsky <leon@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Mark Brown
- <broonie@kernel.org>, "Martin K. Petersen" <martin.petersen@oracle.com>,
- Matthew Sakai <msakai@redhat.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>, Mike Rapoport <rppt@kernel.org>, Miri Korenblit
- <miriam.rachel.korenblit@intel.com>, Nicolas Palix <nicolas.palix@imag.fr>,
- Pablo Neira Ayuso <pablo@netfilter.org>, Paolo Abeni <pabeni@redhat.com>,
- Ping-Ke Shih <pkshih@realtek.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sebastian Reichel <sre@kernel.org>,
- Shuah Khan <shuah@kernel.org>, Simona Vetter <simona@ffwll.ch>, Simon
- Horman <horms@verge.net.au>, Stephen Boyd <sboyd@kernel.org>, Steve French
- <sfrench@samba.org>, Takashi Iwai <tiwai@suse.com>, Thomas Renninger
- <trenn@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>, Tony Luck
- <tony.luck@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Vadim
- Fedorenko <vadim.fedorenko@linux.dev>, Vinod Koul <vkoul@kernel.org>, Will
- Deacon <will@kernel.org>, Yazen Ghannam <Yazen.Ghannam@amd.com>,
- cocci@inria.fr, amd-gfx@lists.freedesktop.org, dmaengine@vger.kernel.org,
- dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
- iommu@lists.linux.dev, linux-cifs@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-s390@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
- lvs-devel@vger.kernel.org, netdev@vger.kernel.org,
- netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 00/36] treewide: remove conditional returns with no
- effect
-Message-ID: <20260724144822.6af8213f@kernel.org>
-In-Reply-To: <20260723184538.3888637-1-ekffu200098@gmail.com>
-References: <20260723184538.3888637-1-ekffu200098@gmail.com>
+	dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b="fAktlbiq"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
+	s=key1; t=1784934770;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZcMetcRCMhpyEKaaMwCmYq1ySW2wlImESQd96oeuKwI=;
+	b=fAktlbiqu6vf9JcuoiXmpAENEcpDBYo/jkiEiDYZ1EDVRNl/5qjuNpxw4I52qH8knfa1AB
+	AE/v4RXWMfYBJnhip7u25I6TlSommAOjZfuH1Pjj02XS9lCEj3b/pHo1h16v4TVkaIb9mL
+	gq8lniBzuzXj99AQmSTdjxXbRb+Hs+vLn01zDkJKAGsTCkJI9EVhIoMyBK0phYzxZRNdbB
+	djjsNs+8WiwCAEhTIQr5YzqZWzS50PsXqAnb8bRMrrfUjdYvoxlbzD96fbSggcf5QSFJZQ
+	ER04LPUUJm+T5ZMVYEnbEr/d+pQa4wYtjx6jYPZd2a4OG/RRf/ZCrhNiVT/hvw==
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Jul 2026 16:12:45 -0700
+Message-Id: <DK76KF9XU8YL.19M1BK57CQRPK@postmarketos.org>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] ASoC: soc-core: use the device tree card name as
+ long_name
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Clayton Craft" <craftyguy@postmarketos.org>
+To: "Val Packett" <val@packett.cool>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>
+References: <20260506041112.412871-2-val@packett.cool>
+In-Reply-To: <20260506041112.412871-2-val@packett.cool>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 24 Jul 2026 03:45:02 +0900 Sang-Heon Jeon wrote:
-> Patch 1 adds a Coccinelle script that matches the pattern, including
-> negation and constant-comparison variants. Where a local variable is
-> assigned right before the check, the assignment and the two returns
-> turn into a single return of the assigned expression.
+On Tue May 5, 2026 at 8:58 PM PDT, Val Packett wrote:
+> When setting the model property for the sound card on an OF/DT system,
+> the expectation is that that model name would be used in the UCM config
+> path lookup. However, the DT model name was only used as the "short"
+> name, which gets overriden by the "long" name during loading, and
+> the "long" name is automatically set based on DMI data if available.
+> As a result, adding an intermediate bootloader such as U-Boot which
+> provides DMI data on a device that didn't have it before would break
+> the UCM config loading by suddenly looking at the "wrong" path.
+>
+> Fix by assigning the DT model name to the long_name field as well.
+>
+> Signed-off-by: Val Packett <val@packett.cool>
+> ---
 
-Huh, I thought we already had such script. Various script children have
-been sending such "cleanups" in the past.
+Thanks for the patch! This fixed audio on my Google Pixel 3a, which booted =
+the
+7.1.3 kernel (on postmarketOS) via u-boot.
 
-> Patches 2-36 are generated by the script, with hand fixes to restore
-> unexpectedly removed comments and to fix the formatting checkpatch.pl
-> complained about.
+-Clayton
 
-Please post patches 4,7,8,9 as a separate series. Since you only CCed
-netdev on subset of the series patchwork thinks there are patches
-missing and doesn't kick off any CI.
+Tested-by: Clayton Craft <craftyguy@postmarketos.org>
