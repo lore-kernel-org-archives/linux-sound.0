@@ -1,86 +1,85 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AB71C84A0
-	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 14:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839051C2324
+	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 14:12:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785075111; cv=none; b=S5xFo6zwwZKn9sQo41BamlJts0E1uwhyLRZQmV70VPatpuLjXwbEQNvgzYJcz3WAnZZA5VlBuKJKDl6Cgs/My+q2Vt7zacWvSrHd727/+ckZ1N8KQUPRlPG/8Xrag+7WRQMAKA4f3L9O4FN7xkM7m31B8aXj1TIepRLXxgbeP4Q=
+	t=1785075135; cv=none; b=PYNK2esAi3A99Vw6+s/hO25cizTuf8p9ppjEdSzvPBVovlquuCt77D3rJGaccTH2jRdrnx7abQvv9lh22foV+YicDi9BFIY5Zais5yCHuEdsXww3AdPHLGtKS5wTP9prx/ZvRiGE9qCuJDJpbS+liLB8Hxhhp0kgq9iQk07G8C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785075111; c=relaxed/simple;
-	bh=m54qEh4b6Acdf9UZ35kVF5bqLaGmiZsB3rauzcV2bhQ=;
+	s=arc-20240116; t=1785075135; c=relaxed/simple;
+	bh=crkdUrKre+8cUkAefPpRm9lp4iKeV+hIqK2P7bCmcW8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NRc23GxBrjTC4E7bJhsDCagCHZXi2806tMqOh0388VsjmqyTlBZ19u0qQLrO+YbhZ82lc6OYhxerAF1WKWyzP32wPxrhD7A4BJunLWHHDyB1IyxWGc7VKlRzxRBIaqu5ap/4jP8hmAixDy6sLFSuCtc3R0D5aUyUQsjr/s/bTLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mOjBwLHs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E6qJbGu4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wViIkC/i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tV5KntA/; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=AUyin8hNPZtSnGYvOLuISaUNQUDkH770mLCu4mLXBggLCZ6d35waiCrEWEzszSHHeb73ms4d/Lyd6mVGs8ek+mgW9bcqvQKe4wj0w0BlY4E9t9b+NkXxS+m90GpbdRi/xqP+rBN+J5rc/YDnjDrtcWuEedxfikeEVi+VRIXM6IA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i3+edha2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tpuSp7/Z; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uLeLE5fK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BGum9G80; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mOjBwLHs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E6qJbGu4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wViIkC/i";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tV5KntA/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i3+edha2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tpuSp7/Z";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uLeLE5fK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BGum9G80"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A39A97D626;
-	Sun, 26 Jul 2026 14:11:33 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 98B347C3A9;
+	Sun, 26 Jul 2026 14:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785075097; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785075128; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZvYmnJFPdGRVzo4dHHeHG/tCrhQWmUfjNkCgIk34lE=;
-	b=mOjBwLHshWBzQsbAj6kjpiXfv52mRyFJW0RQm7KrH7MYGjl55JZv6QWQgYFVpFz2nESHab
-	zpISbLqV3BFfv/g5BP/Mrr4Iw7edqNT8zcUTIrm3WUsq/oOh3Edv+q9xaU1DoS8AxQCrS1
-	5boA7F0Db6+lJ9WkoyCyY765WgkStMc=
+	bh=mGB/eaVu7PLKY6oSEX/LsEs38kpCtP8/eSEdO16Rqe4=;
+	b=i3+edha2g2X6WbrbS3c0epy4tMtThBfiM9j+OYdEWSeR5najjibG1i/ZoFaUUKnJDwSDe5
+	FT3nwrYCz/+one84U/81f+Nt6xAcdj5faA5VBwlMhs++N+Ol7TkqwvBgl3jACtntplInXW
+	Difd+gAqmWkrQZmedCI46P8NgJ2/BJ0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785075097;
+	s=susede2_ed25519; t=1785075128;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZvYmnJFPdGRVzo4dHHeHG/tCrhQWmUfjNkCgIk34lE=;
-	b=E6qJbGu4w+g6smiYJaWePPl8zlEFFApPoBes/AgHLWWXtPvIZn/2BNgfIpa0UtQANl5a14
-	dHHEdGyi8/l3hmAw==
+	bh=mGB/eaVu7PLKY6oSEX/LsEs38kpCtP8/eSEdO16Rqe4=;
+	b=tpuSp7/ZZy/x1xVYjcd7celNLo1L79iTbddxD/sewNLG7MMfjBsb4EWod+/yIkghyH253N
+	NhgmnhLC/g0ES8CQ==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uLeLE5fK;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BGum9G80
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785075093; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785075124; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZvYmnJFPdGRVzo4dHHeHG/tCrhQWmUfjNkCgIk34lE=;
-	b=wViIkC/iqqx8hJdGI5fU/SeaQiFAWEBNQJg78MjjBG+mW1uv56csAXiOqz/lRL27PphS3I
-	zsGxNyWxI1VNzgBhkG+xLYMkDwH4fnngw2x/Lm0fv5ab2wqQIDjZpxZoOI50Jz7CGARAjC
-	YoU52AOzd4mjTMEH2STQfndmFzPEWXQ=
+	bh=mGB/eaVu7PLKY6oSEX/LsEs38kpCtP8/eSEdO16Rqe4=;
+	b=uLeLE5fKNkY8g7U5DMgXpfvPBrtAIexmg8xpTHX5nK7RYlUwN+XYRCILciJajA2Y8Kz4iV
+	33as8wEnEL6OugXVB2eqXMVnm5undSjjinIti5tpfsaicXw0v09+ZF0y6fDKTetKTb2o19
+	3UETNVi0HBhfnB+J23ESdyGbRKuvCq4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785075093;
+	s=susede2_ed25519; t=1785075124;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/ZvYmnJFPdGRVzo4dHHeHG/tCrhQWmUfjNkCgIk34lE=;
-	b=tV5KntA/j2ACYPDT0ozioJzTw6SJVJEnfTH/JGK4h3o/XoVmlZDcVactz5ilEtQ/AvCP/A
-	nYHMsj8P4GnoSyBw==
+	bh=mGB/eaVu7PLKY6oSEX/LsEs38kpCtP8/eSEdO16Rqe4=;
+	b=BGum9G809xhD69v4Q3iTP1CN0Bbq9/pMnl9K25HHWYSVm8CeDiatGM+AQeeGa2CBOE4FOE
+	unClmBZu51w8NNDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 70FDA779B9;
-	Sun, 26 Jul 2026 14:11:33 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6D817779B9;
+	Sun, 26 Jul 2026 14:12:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OhHfGZUVZmpPAQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 26 Jul 2026 14:11:33 +0000
-Date: Sun, 26 Jul 2026 16:11:32 +0200
-Message-ID: <87mrvdalij.wl-tiwai@suse.de>
+	id nBREGbQVZmrzAQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 26 Jul 2026 14:12:04 +0000
+Date: Sun, 26 Jul 2026 16:12:04 +0200
+Message-ID: <87ldaxalhn.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Gunal Seenivasagan <gunal2002@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Add quirk for Infinix INBOOK X3 Slim
-In-Reply-To: <20260726085715.229802-1-gunal2002@gmail.com>
-References: <87y0ey9of8.wl-tiwai@suse.de>
-	<20260726085715.229802-1-gunal2002@gmail.com>
+To: Norbert Szetei <norbert@doyensec.com>
+Cc: linux-sound@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: Re: [PATCH] ALSA: timer: Clear SNDRV_TIMER_IFLG_DEAD once the close completes
+In-Reply-To: <CA41AA48-75BF-45E9-A36D-3A5D2F124F60@doyensec.com>
+References: <CA41AA48-75BF-45E9-A36D-3A5D2F124F60@doyensec.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,72 +88,72 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
 X-Spam-Flag: NO
-X-Spam-Score: -3.30
+X-Spam-Score: -3.51
 X-Spam-Level: 
+X-Rspamd-Queue-Id: 98B347C3A9
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-On Sun, 26 Jul 2026 10:57:11 +0200,
-Gunal Seenivasagan wrote:
+On Sun, 26 Jul 2026 10:01:45 +0200,
+Norbert Szetei wrote:
 > 
-> The Infinix INBOOK X3 Slim (ALC269VB, subsystem 0x2782:0250) has its
-> internal speakers wired to pin 0x1b, but the BIOS pin configuration
-> table declares 0x1b as "no physical connection" (0x411111f0). It instead
-> declares pin 0x14 as the internal speaker, although nothing is connected
-> to 0x14.
+> snd_timer_close_locked() marks an instance with SNDRV_TIMER_IFLG_DEAD
+> and returns early when the flag is already set, but the flag is never
+> cleared again.  A completed close ends in remove_slave_links(), which
+> leaves timeri->timer NULL, so a second close is already harmless through
+> the timer == NULL path; the early return can only be reached by an
+> instance that was opened again in between.  For such an instance the
+> close unlinks nothing, so snd_timer_instance_free() frees an object that
+> is still on timer->open_list_head, still on snd_timer_master_list if it
+> was opened with a slave key, still owns any adopted slaves, and still
+> holds its timer and module references.
 > 
-> As a result the internal speakers are silent under Linux while the
-> headphone jack works correctly. The codec output path to 0x14 is fully
-> open (DAC assigned and streaming, mixer and pin unmuted, EAPD asserted),
-> so the failure is silent with no error reported. The speakers work under
-> Windows, where the vendor driver supplies its own pin table.
+> snd_seq_timer_open() reopens an instance exactly like that: it retries
+> its fallback open on the same object after a failure that has already
+> run snd_timer_close_locked() internally.  An unprivileged user with
+> access to /dev/snd/timer and /dev/snd/seq can force that failure, since
+> snd_timer_check_master() returns -EBUSY when a pending slave matches the
+> new master's (slave_class, slave_id) key and the target timer has
+> reached max_instances, and SNDRV_TIMER_IOCTL_SELECT with dev_class =
+> SNDRV_TIMER_CLASS_SLAVE keeps the caller-supplied dev_sclass, so a
+> sequencer queue's key can be forged.  The freed instance is afterwards
+> dereferenced by any further snd_timer_open() on that timer, by
+> snd_timer_check_slave(), and by /proc/asound/timers, which faults on the
+> stale ti->owner pointer.
 > 
-> Add a fixup that disables the unconnected pin 0x14 and declares pin
-> 0x1b as the internal speaker.
+> The flag only has to be visible while the close is in progress, which is
+> all its other users need.  Clear it in remove_slave_links(), under the
+> same timer->lock that sets it, once the instance is off every list.
 > 
-> Reusing the existing ALC269VC_FIXUP_INFINIX_Y4_MAX was tried first, since
-> it also remaps 0x1b to an internal speaker. It is not sufficient here: it
-> leaves 0x14 declared, so autoconfig finds two line_outs
-> 
->   line_outs=2 (0x14/0x1b/0x0/0x0/0x0) type:speaker
-> 
-> and binds the primary "Speaker" control to the unconnected pin 0x14 while
-> demoting the working speaker at 0x1b to "Bass Speaker". Audio is audible
-> that way, but the volume and mute controls a desktop actually uses end up
-> attached to a pin that is not wired to anything. Disabling 0x14 is what
-> produces a single correct Speaker output.
-> 
-> Verified on the affected machine: with the corrected pin
-> configuration the driver's autoconfig reports
-> 
->   line_outs=1 (0x1b/0x0/0x0/0x0/0x0) type:speaker
-> 
-> both channels play, headphone auto-mute switches correctly in both
-> directions, and audio survives codec runtime suspend (D3) and resume.
-> 
-> Signed-off-by: Gunal Seenivasagan <gunal2002@gmail.com>
-> ---
-> v2: No functional change. Corrected the author and Signed-off-by lines to
->     my full name, as requested by Takashi.
+> Fixes: da3039e91d1f ("ALSA: timer: Forcibly close timer instances at closing")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Norbert Szetei <norbert@doyensec.com>
 
 Applied now.  Thanks.
 
