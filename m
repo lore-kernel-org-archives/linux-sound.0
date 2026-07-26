@@ -1,88 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from wp23.hostingpalvelu.fi (wp23.hostingpalvelu.fi [31.217.193.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 421263D3D0E;
-	Sun, 26 Jul 2026 17:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA8E367F3A;
+	Sun, 26 Jul 2026 17:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.217.193.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785086544; cv=none; b=hoFHeDQZq5U37pKmXxKgYs6S7I0B0jUrRlptUWJncVJHCAAbSWkl6lM/Menui1TQ7NXaAiHGBQTepuzdfMxQAN532VU44cCIA5GsxlChs5HZi1N1H/6Iz5hZZGDVR97Puwm1WzMClfU9xbnzk+gMqIFteP+xXsxjJYoJualpLr4=
+	t=1785087539; cv=none; b=JbZA8z3W4mvHM1Zs3XpgtTn0n6K5D94xhtHeyimPugVVRKPgjxefz/3eQK0xZ71t70bxpqtYc1SihfoUY+dm4VjJwWomhuyWJRgTTx/m/PkugMObN/caqHSgIyE1Pii/jO2fuxughI1X3wffRxtbFG17i5d4DnJgfESiSof7vBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785086544; c=relaxed/simple;
-	bh=pTTA95gw3YO0si+WhRm+dNngxFM1b/mutpYw52jPbA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HchSjVS/OoFt5N/k4DESiqYHOmomDPsJksgpY276puqL+B3Eh8Ghx9XevYcsaurv9kxWhUud7OLJWZyQ+5uKZtRKd9hKfcade3b8nnz+u6Je1MVA7F5hgsZmL2XwVxqE/QZ+XMd7dU21MNSQLlpPx4apdyaA/78hO1SOq9ykQNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JgJ2eK91; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785087539; c=relaxed/simple;
+	bh=MXq3s6VJ9sBeiJj7GhM/ueov4grKJHzvgG7S52n4NXo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RiacOPPRIKs5CE1AiC9+jn+uAjpzUO3SZmsuwYLuXxCpL9KyvckTulSKaISj5i6dsZDvf3g2OspRohDD11vaixaO3x6rx3bYZEyyQ/91GUZcbT20+2loLlyTdVIpDHEtc6yaQ0lvKvjpsKrEgx3H1wo5BQVxwE4+xlQXnQ2t424=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com; spf=pass smtp.mailfrom=bitmer.com; dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b=o7q3q/zN; arc=none smtp.client-ip=31.217.193.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmer.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JgJ2eK91"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8851F1F000E9;
-	Sun, 26 Jul 2026 17:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785086540;
-	bh=pTTA95gw3YO0si+WhRm+dNngxFM1b/mutpYw52jPbA4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JgJ2eK91BqHg8Cjxv5ekCKZ57z+fZ3EUnL8rFxK4W+0BY6Vli3RhC/meBrxZlqqQ4
-	 jzwoyG2ECSg0LcY0Y35PNk9Rh3DvBglWci7FGRh8Op81ROnMu1eRcPsv6H+JA6CNG0
-	 hxA9LdHEPoiqlxlYaHpVtFt9iklHUbYyVC7qKlo1BrOYS01KemhEgR8uYGfy02Pv8z
-	 YssimzJxXSMTrC+Nf5MiLifxb7fV0hKcFz0jBk5wvkbibTZJgNz0pGWT3PseOfW0gv
-	 7ANU+K2dr8XlwFDaz4LNvk0LkAG7aR4sBtxqxGNIDf0cVkBQDqSrRrT98+kjldQHX7
-	 4IhB8mJfaN09Q==
-Date: Sun, 26 Jul 2026 18:22:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lee@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	mfd@lists.linux.dev, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 0/3] Add support for cs42l44
-Message-ID: <5ee2a6cd-b021-4221-b6da-4fe179104814@sirena.org.uk>
-References: <20260708140039.1993489-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b="o7q3q/zN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bitmer.com;
+	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Ayt1hpyTmKcZuBtLSjNcdkvNU84O6raRJ5f8Zr6LCV4=; b=o7q3q/zNRh+R5SLsnx++UdVeMM
+	5dvhiRLkHlRle8AJsK4OZMfqYbLBAZMLqYnFZxzLOOIt+/NSnW7ozFGcDGiYKEW2XtjQkGkz/vmNA
+	uPtkZCYC0WFUypKxMM/k1N+yAth1tWpYzrpbfoMyipZZ52iJRINCP2pAAGOIE26Mwwv75FrGxyum0
+	FpgP649fGinvRsCw8XdfLNFxOQ0FUfJKuJGpVKbVNkMYlONodET48F4otQ41RR+qhi2tUspKb7YJl
+	lN+uqkMILWg/v/+UpNe9/SV2aBX+xw4bnKbFUqWnuTfDgLdpbgIKITIdbiY75mSvHP/In4O06u9Qa
+	yfYmFETA==;
+Received: from [91.159.31.97] (port=33992 helo=[192.168.0.12])
+	by wp23.hostingpalvelu.fi with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+	(Exim 4.99.4)
+	(envelope-from <jarkko.nikula@bitmer.com>)
+	id 1wo2oP-00000008P9j-3edu;
+	Sun, 26 Jul 2026 20:38:53 +0300
+Message-ID: <987efe58-3867-4271-8356-e75ea2872511@bitmer.com>
+Date: Sun, 26 Jul 2026 20:38:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rgiNE/44NynmqA6X"
-Content-Disposition: inline
-In-Reply-To: <20260708140039.1993489-1-ckeepax@opensource.cirrus.com>
-X-Cookie: You might have mail.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 05/10] ASoC: ti: omap-abe-twl6040: Use dev_err_probe()
+ for error handling
+To: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>,
+ Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260716103911.77652-1-phucduc.bui@gmail.com>
+ <20260716103911.77652-6-phucduc.bui@gmail.com>
+Content-Language: en-US
+From: Jarkko Nikula <jarkko.nikula@bitmer.com>
+In-Reply-To: <20260716103911.77652-6-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - wp23.hostingpalvelu.fi
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - bitmer.com
+X-Get-Message-Sender-Via: wp23.hostingpalvelu.fi: authenticated_id: jarkko.nikula@bitmer.com
+X-Authenticated-Sender: wp23.hostingpalvelu.fi: jarkko.nikula@bitmer.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-
---rgiNE/44NynmqA6X
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 08, 2026 at 03:00:36PM +0100, Charles Keepax wrote:
-> This series add support for the cs42l44 to the cs42l43 driver.
->=20
-> I have based these patches on the series by Uwe from here:
->=20
-> https://lore.kernel.org/lkml/cover.1783507945.git.u.kleine-koenig@baylibr=
-e.com/
->=20
-> Since they both touch the device id arrays, does mean Uwe's series will
-> need to be merged before these but probably simpler this way round as
-> his series is a lot bigger.
-
-This doesn't apply, please resend whenver there is something it can be
-applied against.
-
---rgiNE/44NynmqA6X
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpmQkcACgkQJNaLcl1U
-h9ASAwf+MVPpdeRt3X4QUFkW0xVMLE4sAjnt9eUKWOjCJU/dBiZchbrDCwPWEwbO
-BIauQtdNDulDYt55+F3qvzR1XPPEVUNWrjKiANJzLc96YaZvUptAmFhc+dihhSy5
-4Fs1PM/TgYUKCejzcqQN4/dBBju+NFID50zmteBO+GqgHaQLLrdkv/WZ+bPNUr0y
-v4yeVX1aQ0rVGmtQEwejoklAFom6H5DHktE4Kar4alWcp9Z2/QsQUOqWFcCaUagO
-aUslOlAXXtz/lyUvRU5yTl2A4qGyes7wKdzt3PmiWMTrwCe+Bbcf3pbHQDtGRzwt
-VBvZDMt8xLyZCFTBJu/XiiuZsFx4rQ==
-=CQTL
------END PGP SIGNATURE-----
-
---rgiNE/44NynmqA6X--
+On 16/07/2026 1:39 pm, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>
+> Replace dev_err() with dev_err_probe() when reporting
+> devm_snd_soc_register_card() failures. This suppresses
+> unnecessary log messages for deferred probe errors.
+>
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>  sound/soc/ti/omap-abe-twl6040.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
