@@ -1,69 +1,77 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F8B1E5018
-	for <linux-sound@vger.kernel.org>; Sat, 25 Jul 2026 21:41:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A1B169AD2
+	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 01:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785015718; cv=none; b=qqu6WZIhtT7OgjxdnUSnV/7vzRqHagQY7sK6xoSuWDhMNk21D7pINZDQBXMX5FmqP/IlW1bBgK9RyRHUoaXrX0fYE8Mvl9k/qMzt8yrGEWSPaJTx+xrEPep2HtqzT5aDxAWTyFDoiy6j7Eg/DHVgpatUwuPzbYVa9FOJIbHSj90=
+	t=1785027926; cv=none; b=OJAdjW+TKnSH1HB6iSFYZojmcHo5vgVLO0kcqTHaU8hXKv0kkc2mWftz25n38wkHLfDhyMLi+XSNnXD4Ap2EuR1HL3GD6559gyLPmqUv527BHRTbR+BznHOjLKXiz5eyHJ3+7+Ma0OW7ZLpchdndBemtlQQRjKRo+17mo0z8NOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785015718; c=relaxed/simple;
-	bh=fr21CWuVE2v1jAz/j0IooOlEFfAJfH4Fvhn7nnBw3ys=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PUl8BJBhBW8lcvbNKJ4gdh+HBjdVJCNuKR1xRnuRrnPEVODD+xnlLpAP0nvg1sYtZwsccQeOtjigptBxxCiQNcbXtnoxouRyWBXfZuGQFI9e3Qifgk8/QrExUC5+h18Xc6RRynCs6XFPBL/kjZ5uvCGLFzsqROE30cMDLnL+tn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JKPeg445; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1785027926; c=relaxed/simple;
+	bh=P+yS06lHchG5siRz+mOw5xXexzbDxhJfSVKS22jmjZw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bFPn5ZSVXAEuVjW9qI56QJBbkK/1LUIHMjJMbn89Iv4UfJxm6+/Gjw4zIpAUDYjYvx7Fp6IQ6NWEqFEyjGSZH9jTgpjBNk65ezaLAvBcNdPHmMPrYOLPNykPtzLYGg6rOgXnK40cJ32b9ScJ8igshE5nWI8WZk/+bdvlLNRDxmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UGJpcV0I; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JKPeg445"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cad85b7b5aso2184265ad.1
-        for <linux-sound@vger.kernel.org>; Sat, 25 Jul 2026 14:41:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UGJpcV0I"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso2258045a91.1
+        for <linux-sound@vger.kernel.org>; Sat, 25 Jul 2026 18:05:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785015717; x=1785620517; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785027924; x=1785632724; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cHiJnX2J2VSkrsEQikSRQbUcMT3UqVzJFXhvsSFINN4=;
-        b=JKPeg4451+t73xPtLqz3HT5D3w4snVmlGDvt+be78z0B7JEv3kOtBAYNCfHC0eJlrM
-         tjsdZgJ/YINWtwKmB5UdjBB6m9c8hhKHEfkhRylXX+gpkho3v5RGG3wBhWy1ftPvifQ2
-         u8AdPy2eqSzm7PmwqOYvqFx7vKUJKR4TQBwAGM2y/2mljgEKrIjpAvWdntAQ6S/5Ppxu
-         P2pRoWVsoh0bwmwkIGPiWk8+NcynihnezibhXSgpMgwJesszxqjRQb3uEF1rKkgzsdk3
-         AkfHsUUbjEjf/JKW80vMfrKnpNhTrDtMV0a1ANLVX+3tYgrR5vt5xfzCGt9FlyATqGt6
-         mISQ==
+        bh=F/5LdFIg/LU7rFG3leYAHwWxQcBTNGDs6wAJLayt2JU=;
+        b=UGJpcV0IBLXeQODI2JQ6uWOqarsm0LUJywv7gMc0ACGkzwnZjkINw6hrUHTCh+kLzT
+         gWJWAGsqvjPDESTGrJJzSbg8+7Tz9KYjoEhoXl5ScOfZ+Y/yVgaU+VwigAMppSuUQInG
+         JPWusBPSI/U2SR2R6ba0kAl+hICGByxJMGwCC5uwbSDEssJdiXKiI3Ez9YMwiV1svIQE
+         Ag5GSNX7I3TcyyQ3kt7CvUJ0BMJ0g6bS1w+2hwuhZkrPm/Chepwb9svWS3vN+GxlPAoA
+         WQTLB7devcP9bcYJNie9gj0H/PmQgxegLFrau64qqUZGoXLDEsYz+79xmebARQlK49Vw
+         ykxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785015717; x=1785620517;
+        d=1e100.net; s=20251104; t=1785027924; x=1785632724;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cHiJnX2J2VSkrsEQikSRQbUcMT3UqVzJFXhvsSFINN4=;
-        b=TNU0uJbOBOwHVuknXfJi/0Vb7qfJRxuraRC9cShdB4cnr1L9eKtnrb82XJ+/YfjScH
-         9Ugha/0lhf3fkD3ipGIVMLe6xcF5zWfFf+GOY8nFQHXB1AkwS3UJP00RsCVLVPcwayha
-         Ggq8qRoRkjs7CMfcXkk/4saqtzAeGm/Smp8QY1LTGd9xqqQd9H+eE1K17YgAaiS/gkIO
-         H2Qzw8xpFop9IYiUs2aOQUdnbFn7xgUp3abRVxyw6EhtIBszY0CkAi9oOLBiLH1tffc7
-         H6lXNY8UCKoHXBOGmbK2FUty5DR6uapEx1dq4fpa9yQdo+TeMpTFrZK4r8YqtDf75esw
-         HE0g==
-X-Gm-Message-State: AOJu0Yw1k9Z0woAjHbScd5DXumf6gzUdFnT0e0cWMz2RfvUVKa4MbJ1b
-	304U5L4nqYdY0DdHkPkoseEVi0HNOkokNw7ioLwnlHFMtOlBf5c4ZhgK
-X-Gm-Gg: AR+sD12WFWkxf25uIFyRRS3vi8FSHv+AbdGNw/zzRteHEauuh/PiocYfaE6f/gPDKrN
-	B3oSLFGRakUsR8yOyaqRY3ZOIHxQ8din4QnIemxNGv1bj+/kZSpVxdIsM/BHwqc/3J4sn6+ThsX
-	y6QuBLSgUvRRir9SZTIH7YkEFGtCdyrIHz5jTOlPjl9RAGKxc6wAdACTyI/KIMCsLu085tjKWaS
-	VybXzMVhmqupTOg9UIRrtumfWWk4SWvj8OyvWIXse6DTc/1cbrVSvZ72kevY/5R0rFWw5OpGkAb
-	q2+IOpJI9l/gI3jr156iORdk2+CKdzLik2d80AqqDWgDAi5a+fTo3B8zOPTTW26sNRoxk5NGnR/
-	KQ9I0LfJyqrGNS7hiC9mq6WR17bbsvhAlNWmFrV8hN1evc/JJ72t6eznopMZLgkC7Rj5RsmV3u1
-	ITkOyuefsDhnQ=
-X-Received: by 2002:a17:903:1aae:b0:2cc:e7f3:d39e with SMTP id d9443c01a7336-2cfde683892mr42865435ad.2.1785015716870;
-        Sat, 25 Jul 2026 14:41:56 -0700 (PDT)
-Received: from marcos-linux ([2804:3d04:a1ae:f400:ecc:47ff:fee4:ed75])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc3e1255sm22614243eec.4.2026.07.25.14.41.54
+        bh=F/5LdFIg/LU7rFG3leYAHwWxQcBTNGDs6wAJLayt2JU=;
+        b=dBvecPuBbeuht4obBE6sf45Qo0vGc/fQfrErAP7m58IjoUUZNEWF2j9YDcdFAkKKF4
+         nLJThG6dOzgk6BBRMnia4szsgIo5cL8TWpbzBOCQMCK4gKQTLTWQ1LrK4CbhHJihi45v
+         UOP111jXj+YUfX9yvRc+uy+1BtNw/hyGuUKSom59rBnynMiA6ZGQs1m6DhKVWNjD7vLS
+         t/YTYy+t2OFfVLF22/LMG6YEXfzRNA6fY57i8EG5X3VX0EDg64KvfNutocEu1HXH6rWZ
+         h9EaxEOt03y+eSnb8HKc0/p1ZlNK3pDPYVwBIo0ZlK1Lsvl9KxnogUunAXQY+axVlHSG
+         RgnQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp6/RrLsYsCyHUYsOfDhmZ5AYW1pHZzb007YFwCYXW/LfbbrHtN+EkWUky7zB7NN6w5wT0b/XatX/gLKQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2f3lktsRy8ZmJ9nudu4XmJTgrWI96QTK2/0vzUYuShn2nUs7L
+	85f0FEZFBLBXlBDqHvgYQDJWEnLFnk9dYb0AL8KVnGOaKXjzlvwdHd1r
+X-Gm-Gg: AR+sD116tjFHmb185QW/FcijtsiqM2yFWvYfn1i026FBuNxGJAuDR7ZzvKB30SG1j2j
+	A8P6vd0eT1gx9EXnzO5CKoce6G9edS1wfy5A4mvBw1V5c5Q4L+3sIdJwosyCJo6pVnR+pLFtD74
+	gsaEebM845M3YkaNcCV80ebG3lwguEV/WfQNwqMtt4drdk3MnpBsfKg0yGt/5b7BAenikbtmeOc
+	yuCuqIpMHgRxldUc0AIBF6QXuyJbbsuyCoBsZXoVH5e501BDYcTOeh1S67F6YKakSBT7Inrm0Ci
+	wV4eLiX53MjEvuFPrz3mnIsIHYyu+656dJ/xLnqC5z/b6smWB7AxxKPJmM5ejGLlLWmW4PB19NC
+	UXtDlbz6xqaTPTd5SL+pSOD1QgzN5Ga3Yyfh125YkUCUVvmU2Ov8QWSNZUCIZ9aXadyMn0Qc3C3
+	1epqi6XxqZPRBvN/occGrEYXF02NEBSrrMITsgRU61Oixe8ZXVp+xb+zkzDguUPLXYxDj2o6iYN
+	p0Z
+X-Received: by 2002:a17:90b:1a91:b0:387:e0db:3faf with SMTP id 98e67ed59e1d1-38f298bcfc8mr3203455a91.40.1785027924060;
+        Sat, 25 Jul 2026 18:05:24 -0700 (PDT)
+Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:e2c2:1f24:32d5:9d51])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e0f4a039asm11821445c88.9.2026.07.25.18.05.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 14:41:56 -0700 (PDT)
-From: Marcos Paulo Medeiros <maarcospm1996@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	Marcos Paulo Medeiros <maarcospm1996@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5 AN515-46
-Date: Sat, 25 Jul 2026 18:41:31 -0300
-Message-ID: <20260725214131.25872-1-maarcospm1996@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Sat, 25 Jul 2026 18:05:23 -0700 (PDT)
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/7] ASoC: tlv320aic32x4: remove global header with platform data
+Date: Sat, 25 Jul 2026 18:05:11 -0700
+Message-ID: <20260726010519.117805-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -72,34 +80,124 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Acer Nitro 5 AN515-46 (SSID 1025:159e, Realtek ALC287) has a combo
-headset jack whose microphone does not work out of the box: the BIOS
-leaves pin 0x19 unconfigured, so no headset mic is created.
+Commit 69d5b62c4bde ("ASoC: codec: tlv320aic32x4: Drop aic32x4_pdata
+usage") removed support for platform data, but left a global header file
+with #defines and platform data structure.
 
-Apply ALC2XX_FIXUP_HEADSET_MIC, the same fixup already used by the
-sibling models AN515-57 (1025:1539) and AN517-55 (1025:1597), which
-makes the headset microphone work correctly.
+Move the contents to the driver-private header.
 
-Tested on an Acer Nitro 5 AN515-46 by overriding the model via a patch
-firmware with model=alc2xx-fixup-headset-mic.
-
-Signed-off-by: Marcos Paulo Medeiros <maarcospm1996@gmail.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/sound/tlv320aic32x4.h    | 43 --------------------------------
+ sound/soc/codecs/tlv320aic32x4.c |  5 +++-
+ sound/soc/codecs/tlv320aic32x4.h | 27 ++++++++++++++++++++
+ 3 files changed, 31 insertions(+), 44 deletions(-)
+ delete mode 100644 include/sound/tlv320aic32x4.h
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index b22564f92..7e735ff8b 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6862,6 +6862,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1025, 0x1539, "Acer Nitro 5 AN515-57", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC287_FIXUP_ACER_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1025, 0x159e, "Acer Nitro 5 AN515-46", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1025, 0x161f, "Acer S40-54", ALC256_FIXUP_ACER_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1025, 0x1640, "Acer Aspire A315-44P", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
+diff --git a/include/sound/tlv320aic32x4.h b/include/sound/tlv320aic32x4.h
+deleted file mode 100644
+index b779d671a995..000000000000
+--- a/include/sound/tlv320aic32x4.h
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * tlv320aic32x4.h  --  TLV320AIC32X4 Soc Audio driver platform data
+- *
+- * Copyright 2011 Vista Silicon S.L.
+- *
+- * Author: Javier Martin <javier.martin@vista-silicon.com>
+- */
+-
+-#ifndef _AIC32X4_PDATA_H
+-#define _AIC32X4_PDATA_H
+-
+-#define AIC32X4_PWR_MICBIAS_2075_LDOIN		0x00000001
+-#define AIC32X4_PWR_AVDD_DVDD_WEAK_DISABLE	0x00000002
+-#define AIC32X4_PWR_AIC32X4_LDO_ENABLE		0x00000004
+-#define AIC32X4_PWR_CMMODE_LDOIN_RANGE_18_36	0x00000008
+-#define AIC32X4_PWR_CMMODE_HP_LDOIN_POWERED	0x00000010
+-
+-#define AIC32X4_MICPGA_ROUTE_LMIC_IN2R_10K	0x00000001
+-#define AIC32X4_MICPGA_ROUTE_RMIC_IN1L_10K	0x00000002
+-
+-/* GPIO API */
+-#define AIC32X4_MFPX_DEFAULT_VALUE	0xff
+-
+-#define AIC32X4_MFP1_DIN_DISABLED	0
+-#define AIC32X4_MFP1_DIN_ENABLED	0x2
+-#define AIC32X4_MFP1_GPIO_IN		0x4
+-
+-#define AIC32X4_MFP2_GPIO_OUT_LOW	0x0
+-#define AIC32X4_MFP2_GPIO_OUT_HIGH	0x1
+-
+-#define AIC32X4_MFP_GPIO_ENABLED	0x4
+-
+-#define AIC32X4_MFP5_GPIO_DISABLED	0x0
+-#define AIC32X4_MFP5_GPIO_INPUT		0x8
+-#define AIC32X4_MFP5_GPIO_OUTPUT	0xc
+-#define AIC32X4_MFP5_GPIO_OUT_LOW	0x0
+-#define AIC32X4_MFP5_GPIO_OUT_HIGH	0x1
+-
+-struct aic32x4_setup_data {
+-	unsigned int gpio_func[5];
+-};
+-#endif
+diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320aic32x4.c
+index d85094557215..da582f2c940c 100644
+--- a/sound/soc/codecs/tlv320aic32x4.c
++++ b/sound/soc/codecs/tlv320aic32x4.c
+@@ -28,10 +28,13 @@
+ #include <sound/soc.h>
+ #include <sound/soc-dapm.h>
+ #include <sound/tlv.h>
+-#include <sound/tlv320aic32x4.h>
+ 
+ #include "tlv320aic32x4.h"
+ 
++struct aic32x4_setup_data {
++	unsigned int gpio_func[5];
++};
++
+ struct aic32x4_priv {
+ 	struct regmap *regmap;
+ 	u32 power_cfg;
+diff --git a/sound/soc/codecs/tlv320aic32x4.h b/sound/soc/codecs/tlv320aic32x4.h
+index f68a846ef61d..8eb9c6a4c99e 100644
+--- a/sound/soc/codecs/tlv320aic32x4.h
++++ b/sound/soc/codecs/tlv320aic32x4.h
+@@ -234,4 +234,31 @@ int aic32x4_register_clocks(struct device *dev, const char *mclk_name);
+ #define AIC32X4_MAX_CODEC_CLKIN_FREQ    110000000
+ #define AIC32X4_MAX_PLL_CLKIN		20000000
+ 
++#define AIC32X4_PWR_MICBIAS_2075_LDOIN		0x00000001
++#define AIC32X4_PWR_AVDD_DVDD_WEAK_DISABLE	0x00000002
++#define AIC32X4_PWR_AIC32X4_LDO_ENABLE		0x00000004
++#define AIC32X4_PWR_CMMODE_LDOIN_RANGE_18_36	0x00000008
++#define AIC32X4_PWR_CMMODE_HP_LDOIN_POWERED	0x00000010
++
++#define AIC32X4_MICPGA_ROUTE_LMIC_IN2R_10K	0x00000001
++#define AIC32X4_MICPGA_ROUTE_RMIC_IN1L_10K	0x00000002
++
++/* GPIO API */
++#define AIC32X4_MFPX_DEFAULT_VALUE	0xff
++
++#define AIC32X4_MFP1_DIN_DISABLED	0
++#define AIC32X4_MFP1_DIN_ENABLED	0x2
++#define AIC32X4_MFP1_GPIO_IN		0x4
++
++#define AIC32X4_MFP2_GPIO_OUT_LOW	0x0
++#define AIC32X4_MFP2_GPIO_OUT_HIGH	0x1
++
++#define AIC32X4_MFP_GPIO_ENABLED	0x4
++
++#define AIC32X4_MFP5_GPIO_DISABLED	0x0
++#define AIC32X4_MFP5_GPIO_INPUT		0x8
++#define AIC32X4_MFP5_GPIO_OUTPUT	0xc
++#define AIC32X4_MFP5_GPIO_OUT_LOW	0x0
++#define AIC32X4_MFP5_GPIO_OUT_HIGH	0x1
++
+ #endif				/* _TLV320AIC32X4_H */
 -- 
-2.53.0
+2.55.0.229.g6434b31f56-goog
 
