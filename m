@@ -1,62 +1,64 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A1B169AD2
-	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 01:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8801A308F0A
+	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 01:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785027926; cv=none; b=OJAdjW+TKnSH1HB6iSFYZojmcHo5vgVLO0kcqTHaU8hXKv0kkc2mWftz25n38wkHLfDhyMLi+XSNnXD4Ap2EuR1HL3GD6559gyLPmqUv527BHRTbR+BznHOjLKXiz5eyHJ3+7+Ma0OW7ZLpchdndBemtlQQRjKRo+17mo0z8NOk=
+	t=1785027927; cv=none; b=XWa0WTEMHSeO4dbftlgDgUu/5Pr6WE9sLMzsQ+sxVbJmfd99ySjP7VvhuHN4w+MprEtEgVQM1xpUFOCXu93IBeeUyWvsbkur72Dv7M0O9i83RJRzaSu4y+FipaoIY5bhuokjYfI3zXRyg/Ib1sOLxNkscP6UiEIs8MmoQDEjrNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785027926; c=relaxed/simple;
-	bh=P+yS06lHchG5siRz+mOw5xXexzbDxhJfSVKS22jmjZw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bFPn5ZSVXAEuVjW9qI56QJBbkK/1LUIHMjJMbn89Iv4UfJxm6+/Gjw4zIpAUDYjYvx7Fp6IQ6NWEqFEyjGSZH9jTgpjBNk65ezaLAvBcNdPHmMPrYOLPNykPtzLYGg6rOgXnK40cJ32b9ScJ8igshE5nWI8WZk/+bdvlLNRDxmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UGJpcV0I; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1785027927; c=relaxed/simple;
+	bh=HpyyYcHV0QDWre1HzQWkRCOo52HgZFRIEAsFIinut0E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=vCdtfZBGQGZNRtW7qesPxbs8ueB7o2Hauzpv2CsnQdBoX37YsJxGGx5lIh1o7dBa131Ma0V0wQuYnVO43xxMELWE85uvGj+p74/2ibeJUZ/UGZtaFexL5MLglzOOBJLB7D3lNxZY0+tFLMTsG5WD4tGuQWVkdw2yRU0zlwutJw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c7cMM+WO; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UGJpcV0I"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso2258045a91.1
-        for <linux-sound@vger.kernel.org>; Sat, 25 Jul 2026 18:05:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7cMM+WO"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cad8076b01so18026495ad.2
+        for <linux-sound@vger.kernel.org>; Sat, 25 Jul 2026 18:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785027924; x=1785632724; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=F/5LdFIg/LU7rFG3leYAHwWxQcBTNGDs6wAJLayt2JU=;
-        b=UGJpcV0IBLXeQODI2JQ6uWOqarsm0LUJywv7gMc0ACGkzwnZjkINw6hrUHTCh+kLzT
-         gWJWAGsqvjPDESTGrJJzSbg8+7Tz9KYjoEhoXl5ScOfZ+Y/yVgaU+VwigAMppSuUQInG
-         JPWusBPSI/U2SR2R6ba0kAl+hICGByxJMGwCC5uwbSDEssJdiXKiI3Ez9YMwiV1svIQE
-         Ag5GSNX7I3TcyyQ3kt7CvUJ0BMJ0g6bS1w+2hwuhZkrPm/Chepwb9svWS3vN+GxlPAoA
-         WQTLB7devcP9bcYJNie9gj0H/PmQgxegLFrau64qqUZGoXLDEsYz+79xmebARQlK49Vw
-         ykxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785027924; x=1785632724;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1785027926; x=1785632726; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=F/5LdFIg/LU7rFG3leYAHwWxQcBTNGDs6wAJLayt2JU=;
-        b=dBvecPuBbeuht4obBE6sf45Qo0vGc/fQfrErAP7m58IjoUUZNEWF2j9YDcdFAkKKF4
-         nLJThG6dOzgk6BBRMnia4szsgIo5cL8TWpbzBOCQMCK4gKQTLTWQ1LrK4CbhHJihi45v
-         UOP111jXj+YUfX9yvRc+uy+1BtNw/hyGuUKSom59rBnynMiA6ZGQs1m6DhKVWNjD7vLS
-         t/YTYy+t2OFfVLF22/LMG6YEXfzRNA6fY57i8EG5X3VX0EDg64KvfNutocEu1HXH6rWZ
-         h9EaxEOt03y+eSnb8HKc0/p1ZlNK3pDPYVwBIo0ZlK1Lsvl9KxnogUunAXQY+axVlHSG
-         RgnQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp6/RrLsYsCyHUYsOfDhmZ5AYW1pHZzb007YFwCYXW/LfbbrHtN+EkWUky7zB7NN6w5wT0b/XatX/gLKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2f3lktsRy8ZmJ9nudu4XmJTgrWI96QTK2/0vzUYuShn2nUs7L
-	85f0FEZFBLBXlBDqHvgYQDJWEnLFnk9dYb0AL8KVnGOaKXjzlvwdHd1r
-X-Gm-Gg: AR+sD116tjFHmb185QW/FcijtsiqM2yFWvYfn1i026FBuNxGJAuDR7ZzvKB30SG1j2j
-	A8P6vd0eT1gx9EXnzO5CKoce6G9edS1wfy5A4mvBw1V5c5Q4L+3sIdJwosyCJo6pVnR+pLFtD74
-	gsaEebM845M3YkaNcCV80ebG3lwguEV/WfQNwqMtt4drdk3MnpBsfKg0yGt/5b7BAenikbtmeOc
-	yuCuqIpMHgRxldUc0AIBF6QXuyJbbsuyCoBsZXoVH5e501BDYcTOeh1S67F6YKakSBT7Inrm0Ci
-	wV4eLiX53MjEvuFPrz3mnIsIHYyu+656dJ/xLnqC5z/b6smWB7AxxKPJmM5ejGLlLWmW4PB19NC
-	UXtDlbz6xqaTPTd5SL+pSOD1QgzN5Ga3Yyfh125YkUCUVvmU2Ov8QWSNZUCIZ9aXadyMn0Qc3C3
-	1epqi6XxqZPRBvN/occGrEYXF02NEBSrrMITsgRU61Oixe8ZXVp+xb+zkzDguUPLXYxDj2o6iYN
-	p0Z
-X-Received: by 2002:a17:90b:1a91:b0:387:e0db:3faf with SMTP id 98e67ed59e1d1-38f298bcfc8mr3203455a91.40.1785027924060;
-        Sat, 25 Jul 2026 18:05:24 -0700 (PDT)
+        bh=euSwC6dPZiFaZaIT4hWsH8I/nZDprva/hiP/N1htvPw=;
+        b=c7cMM+WOp5/nvf/V57wNGLhXOPj7H0tQV5lQ9FYEqFOtpBvlmXBvMGjnpUgxxk/eQq
+         X9SfvSuD5I6iziRBsk7SGHtR4XhvEQHGy5Cs/BQ8Du5Zz2xn9Obymcu0llzM+Ig9qqfD
+         azCoStoSIhFswlslv0JIKkb2lNtQBMtFwV+Uxf9wnrYRg4Mmx7SEUwRKIN7qYCt1p5ds
+         X6MNtIJUw+/FLtyfQE0RmUnV/HKaZlout5vEBQXY7bJkttYNm+g70IUjfIJD0S/r+JAM
+         cvMXC/KB+lNdsXC4dBfQ8udUs/qU/AWTWEayzp/DKaEBKGdWakifFisjZf/Mv8/QVAMx
+         1q9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785027926; x=1785632726;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=euSwC6dPZiFaZaIT4hWsH8I/nZDprva/hiP/N1htvPw=;
+        b=rkGgklT2mI5PUtgcKcULl49iX0/OohbYmzGSEKYdfFJ7FilqvnAjsaTuzrIx/Lmmj6
+         FyOhn53SKgTjeiWUSjT8LEnh5p8rXx8xYWWqbCpR9wPFptw0vagyzQSdZ2NktIBZ6utS
+         qpoCxBt2zUj/BbSyOYR+vLODAh0QqKZWn/8rK/rMJCL1EcYnD+f9Ac3Lfu2llN88NTFs
+         c4z/JHxqEL3j+zaI+GbfFn+/aFSuAdOnayR+dSBeR3PttyF2Ad6s5DCOCIZrwCV25sLZ
+         CphT+MGtBk/JDy689zXaDcPW2eGuMdA+B3HsxfpyT84V0lC56UX/IkpjbtkQhjjMY0b1
+         JyYQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9au6Ienx7o9JRXGA6Sw+uknWWSSpuPpByi2bLFPWxfr23OLrYL3BG5UhLSOHp4WRvPU2bkxoEmpBYHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbaHl4Wrqj19omYt0DLp2EDyWhz/Oo2BP/oHNriL/3woWS+CcB
+	nW2ATjXEcLv1Z87VDBhZDY/YFq/E8UyvNohF0/3Xm8oMlT4BUK7SsN+0
+X-Gm-Gg: AR+sD10f6IP/pvtfa45KqgCH6IixuzMIOeH7KfYNW8iyfqDULYlmVooRHxEda44Yss2
+	ie0bOffTHvJsYF6nZNVQ2Ah9WCOEX2tbWymAhPbWmuXDtndZaKflQTjApaghpbZBkHfo8B6N2GP
+	q+tlGfBEGqGklJ29Zv1X+Za7mifO4U39ub0n++GhZleQzBZydAwtdavrFnrZHE/aT1gXZiOc3vh
+	+z4/qu90vs0hwcXiZPFrKhHxR6f7jZItTS0EtQZMrv6Mr83VrttAzqmPfKC9HubyeQPhoNuos/U
+	Xzh2DExdEwxLSZJQSRGXTYFDe05OytxtiUu8dNEGvYhfztd1bUSFNQu1GPzpnw4gdASui+lrcJR
+	v7a2902bHYA+4clbpHYmioyrMl/AZeAPuVzSy3xcX9jgpFG1aJIrKbkfS5lf1HGd1elXs1JILKZ
+	eR8TwB+CWpPeD/yuPldPaimywwwxY+/wS9slXPD4Uc2CBjbW5uRGGIu04Ct8yf3qCvcyFjv1Aqj
+	W1U
+X-Received: by 2002:a17:90b:39a7:b0:38e:b400:a854 with SMTP id 98e67ed59e1d1-38f2977c44cmr3701463a91.37.1785027925744;
+        Sat, 25 Jul 2026 18:05:25 -0700 (PDT)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:e2c2:1f24:32d5:9d51])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e0f4a039asm11821445c88.9.2026.07.25.18.05.22
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e0f4a039asm11821445c88.9.2026.07.25.18.05.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 18:05:23 -0700 (PDT)
+        Sat, 25 Jul 2026 18:05:24 -0700 (PDT)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Shenghao Ding <shenghao-ding@ti.com>,
 	Kevin Lu <kevin-lu@ti.com>,
@@ -68,10 +70,12 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/7] ASoC: tlv320aic32x4: remove global header with platform data
-Date: Sat, 25 Jul 2026 18:05:11 -0700
-Message-ID: <20260726010519.117805-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 2/7] ASoC: tlv320aic32x4: do not allocate gpio config separately
+Date: Sat, 25 Jul 2026 18:05:12 -0700
+Message-ID: <20260726010519.117805-2-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
+In-Reply-To: <20260726010519.117805-1-dmitry.torokhov@gmail.com>
+References: <20260726010519.117805-1-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -80,124 +84,141 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 69d5b62c4bde ("ASoC: codec: tlv320aic32x4: Drop aic32x4_pdata
-usage") removed support for platform data, but left a global header file
-with #defines and platform data structure.
-
-Move the contents to the driver-private header.
+Now that the driver only works with device tree we do not need to
+keep GPIO config separate from the driver structure.
 
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- include/sound/tlv320aic32x4.h    | 43 --------------------------------
- sound/soc/codecs/tlv320aic32x4.c |  5 +++-
- sound/soc/codecs/tlv320aic32x4.h | 27 ++++++++++++++++++++
- 3 files changed, 31 insertions(+), 44 deletions(-)
- delete mode 100644 include/sound/tlv320aic32x4.h
+ sound/soc/codecs/tlv320aic32x4.c | 47 +++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 28 deletions(-)
 
-diff --git a/include/sound/tlv320aic32x4.h b/include/sound/tlv320aic32x4.h
-deleted file mode 100644
-index b779d671a995..000000000000
---- a/include/sound/tlv320aic32x4.h
-+++ /dev/null
-@@ -1,43 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * tlv320aic32x4.h  --  TLV320AIC32X4 Soc Audio driver platform data
-- *
-- * Copyright 2011 Vista Silicon S.L.
-- *
-- * Author: Javier Martin <javier.martin@vista-silicon.com>
-- */
--
--#ifndef _AIC32X4_PDATA_H
--#define _AIC32X4_PDATA_H
--
--#define AIC32X4_PWR_MICBIAS_2075_LDOIN		0x00000001
--#define AIC32X4_PWR_AVDD_DVDD_WEAK_DISABLE	0x00000002
--#define AIC32X4_PWR_AIC32X4_LDO_ENABLE		0x00000004
--#define AIC32X4_PWR_CMMODE_LDOIN_RANGE_18_36	0x00000008
--#define AIC32X4_PWR_CMMODE_HP_LDOIN_POWERED	0x00000010
--
--#define AIC32X4_MICPGA_ROUTE_LMIC_IN2R_10K	0x00000001
--#define AIC32X4_MICPGA_ROUTE_RMIC_IN1L_10K	0x00000002
--
--/* GPIO API */
--#define AIC32X4_MFPX_DEFAULT_VALUE	0xff
--
--#define AIC32X4_MFP1_DIN_DISABLED	0
--#define AIC32X4_MFP1_DIN_ENABLED	0x2
--#define AIC32X4_MFP1_GPIO_IN		0x4
--
--#define AIC32X4_MFP2_GPIO_OUT_LOW	0x0
--#define AIC32X4_MFP2_GPIO_OUT_HIGH	0x1
--
--#define AIC32X4_MFP_GPIO_ENABLED	0x4
--
--#define AIC32X4_MFP5_GPIO_DISABLED	0x0
--#define AIC32X4_MFP5_GPIO_INPUT		0x8
--#define AIC32X4_MFP5_GPIO_OUTPUT	0xc
--#define AIC32X4_MFP5_GPIO_OUT_LOW	0x0
--#define AIC32X4_MFP5_GPIO_OUT_HIGH	0x1
--
--struct aic32x4_setup_data {
--	unsigned int gpio_func[5];
--};
--#endif
 diff --git a/sound/soc/codecs/tlv320aic32x4.c b/sound/soc/codecs/tlv320aic32x4.c
-index d85094557215..da582f2c940c 100644
+index da582f2c940c..87b155599e94 100644
 --- a/sound/soc/codecs/tlv320aic32x4.c
 +++ b/sound/soc/codecs/tlv320aic32x4.c
-@@ -28,10 +28,13 @@
- #include <sound/soc.h>
- #include <sound/soc-dapm.h>
- #include <sound/tlv.h>
--#include <sound/tlv320aic32x4.h>
+@@ -31,10 +31,6 @@
  
  #include "tlv320aic32x4.h"
  
-+struct aic32x4_setup_data {
-+	unsigned int gpio_func[5];
-+};
-+
+-struct aic32x4_setup_data {
+-	unsigned int gpio_func[5];
+-};
+-
  struct aic32x4_priv {
  	struct regmap *regmap;
  	u32 power_cfg;
-diff --git a/sound/soc/codecs/tlv320aic32x4.h b/sound/soc/codecs/tlv320aic32x4.h
-index f68a846ef61d..8eb9c6a4c99e 100644
---- a/sound/soc/codecs/tlv320aic32x4.h
-+++ b/sound/soc/codecs/tlv320aic32x4.h
-@@ -234,4 +234,31 @@ int aic32x4_register_clocks(struct device *dev, const char *mclk_name);
- #define AIC32X4_MAX_CODEC_CLKIN_FREQ    110000000
- #define AIC32X4_MAX_PLL_CLKIN		20000000
+@@ -48,7 +44,8 @@ struct aic32x4_priv {
+ 	struct regulator *supply_dv;
+ 	struct regulator *supply_av;
  
-+#define AIC32X4_PWR_MICBIAS_2075_LDOIN		0x00000001
-+#define AIC32X4_PWR_AVDD_DVDD_WEAK_DISABLE	0x00000002
-+#define AIC32X4_PWR_AIC32X4_LDO_ENABLE		0x00000004
-+#define AIC32X4_PWR_CMMODE_LDOIN_RANGE_18_36	0x00000008
-+#define AIC32X4_PWR_CMMODE_HP_LDOIN_POWERED	0x00000010
+-	struct aic32x4_setup_data *setup;
++	unsigned int gpio_func[5];
 +
-+#define AIC32X4_MICPGA_ROUTE_LMIC_IN2R_10K	0x00000001
-+#define AIC32X4_MICPGA_ROUTE_RMIC_IN1L_10K	0x00000002
+ 	struct device *dev;
+ 	enum aic32x4_type type;
+ 
+@@ -959,41 +956,41 @@ static void aic32x4_setup_gpios(struct snd_soc_component *component)
+ 
+ 	/* setup GPIO functions */
+ 	/* MFP1 */
+-	if (aic32x4->setup->gpio_func[0] != AIC32X4_MFPX_DEFAULT_VALUE) {
++	if (aic32x4->gpio_func[0] != AIC32X4_MFPX_DEFAULT_VALUE) {
+ 		snd_soc_component_write(component, AIC32X4_DINCTL,
+-			  aic32x4->setup->gpio_func[0]);
++			  aic32x4->gpio_func[0]);
+ 		snd_soc_add_component_controls(component, aic32x4_mfp1,
+ 			ARRAY_SIZE(aic32x4_mfp1));
+ 	}
+ 
+ 	/* MFP2 */
+-	if (aic32x4->setup->gpio_func[1] != AIC32X4_MFPX_DEFAULT_VALUE) {
++	if (aic32x4->gpio_func[1] != AIC32X4_MFPX_DEFAULT_VALUE) {
+ 		snd_soc_component_write(component, AIC32X4_DOUTCTL,
+-			  aic32x4->setup->gpio_func[1]);
++			  aic32x4->gpio_func[1]);
+ 		snd_soc_add_component_controls(component, aic32x4_mfp2,
+ 			ARRAY_SIZE(aic32x4_mfp2));
+ 	}
+ 
+ 	/* MFP3 */
+-	if (aic32x4->setup->gpio_func[2] != AIC32X4_MFPX_DEFAULT_VALUE) {
++	if (aic32x4->gpio_func[2] != AIC32X4_MFPX_DEFAULT_VALUE) {
+ 		snd_soc_component_write(component, AIC32X4_SCLKCTL,
+-			  aic32x4->setup->gpio_func[2]);
++			  aic32x4->gpio_func[2]);
+ 		snd_soc_add_component_controls(component, aic32x4_mfp3,
+ 			ARRAY_SIZE(aic32x4_mfp3));
+ 	}
+ 
+ 	/* MFP4 */
+-	if (aic32x4->setup->gpio_func[3] != AIC32X4_MFPX_DEFAULT_VALUE) {
++	if (aic32x4->gpio_func[3] != AIC32X4_MFPX_DEFAULT_VALUE) {
+ 		snd_soc_component_write(component, AIC32X4_MISOCTL,
+-			  aic32x4->setup->gpio_func[3]);
++			  aic32x4->gpio_func[3]);
+ 		snd_soc_add_component_controls(component, aic32x4_mfp4,
+ 			ARRAY_SIZE(aic32x4_mfp4));
+ 	}
+ 
+ 	/* MFP5 */
+-	if (aic32x4->setup->gpio_func[4] != AIC32X4_MFPX_DEFAULT_VALUE) {
++	if (aic32x4->gpio_func[4] != AIC32X4_MFPX_DEFAULT_VALUE) {
+ 		snd_soc_component_write(component, AIC32X4_GPIOCTL,
+-			  aic32x4->setup->gpio_func[4]);
++			  aic32x4->gpio_func[4]);
+ 		snd_soc_add_component_controls(component, aic32x4_mfp5,
+ 			ARRAY_SIZE(aic32x4_mfp5));
+ 	}
+@@ -1016,8 +1013,7 @@ static int aic32x4_component_probe(struct snd_soc_component *component)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (aic32x4->setup)
+-		aic32x4_setup_gpios(component);
++	aic32x4_setup_gpios(component);
+ 
+ 	clk_set_parent(clocks[0].clk, clocks[1].clk);
+ 	clk_set_parent(clocks[2].clk, clocks[3].clk);
+@@ -1173,8 +1169,7 @@ static int aic32x4_tas2505_component_probe(struct snd_soc_component *component)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (aic32x4->setup)
+-		aic32x4_setup_gpios(component);
++	aic32x4_setup_gpios(component);
+ 
+ 	clk_set_parent(clocks[0].clk, clocks[1].clk);
+ 	clk_set_parent(clocks[2].clk, clocks[3].clk);
+@@ -1224,14 +1219,8 @@ static const struct snd_soc_component_driver soc_component_dev_aic32x4_tas2505 =
+ static int aic32x4_parse_dt(struct aic32x4_priv *aic32x4,
+ 		struct device_node *np)
+ {
+-	struct aic32x4_setup_data *aic32x4_setup;
+ 	int ret;
+ 
+-	aic32x4_setup = devm_kzalloc(aic32x4->dev, sizeof(*aic32x4_setup),
+-							GFP_KERNEL);
+-	if (!aic32x4_setup)
+-		return -ENOMEM;
+-
+ 	ret = of_property_match_string(np, "clock-names", "mclk");
+ 	if (ret < 0)
+ 		return -EINVAL;
+@@ -1248,9 +1237,11 @@ static int aic32x4_parse_dt(struct aic32x4_priv *aic32x4,
+ 		gpiod_set_consumer_name(aic32x4->rstn_gpio, "tlv320aic32x4_rstn");
+ 	}
+ 
+-	if (of_property_read_u32_array(np, "aic32x4-gpio-func",
+-				aic32x4_setup->gpio_func, 5) >= 0)
+-		aic32x4->setup = aic32x4_setup;
++	for (int i = 0; i < ARRAY_SIZE(aic32x4->gpio_func); i++)
++		aic32x4->gpio_func[i] = AIC32X4_MFPX_DEFAULT_VALUE;
++	of_property_read_u32_array(np, "aic32x4-gpio-func",
++				   aic32x4->gpio_func, ARRAY_SIZE(aic32x4->gpio_func));
 +
-+/* GPIO API */
-+#define AIC32X4_MFPX_DEFAULT_VALUE	0xff
-+
-+#define AIC32X4_MFP1_DIN_DISABLED	0
-+#define AIC32X4_MFP1_DIN_ENABLED	0x2
-+#define AIC32X4_MFP1_GPIO_IN		0x4
-+
-+#define AIC32X4_MFP2_GPIO_OUT_LOW	0x0
-+#define AIC32X4_MFP2_GPIO_OUT_HIGH	0x1
-+
-+#define AIC32X4_MFP_GPIO_ENABLED	0x4
-+
-+#define AIC32X4_MFP5_GPIO_DISABLED	0x0
-+#define AIC32X4_MFP5_GPIO_INPUT		0x8
-+#define AIC32X4_MFP5_GPIO_OUTPUT	0xc
-+#define AIC32X4_MFP5_GPIO_OUT_LOW	0x0
-+#define AIC32X4_MFP5_GPIO_OUT_HIGH	0x1
-+
- #endif				/* _TLV320AIC32X4_H */
+ 	return 0;
+ }
+ 
 -- 
 2.55.0.229.g6434b31f56-goog
 
