@@ -1,75 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from h7.fbrelay.privateemail.com (h7.fbrelay.privateemail.com [162.0.218.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D96D3346A8;
-	Sun, 26 Jul 2026 20:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D96275AEB;
+	Sun, 26 Jul 2026 21:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.0.218.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785099032; cv=none; b=VaipwrZBOoriD4NrfannjLYDE4yu2Ey6XIeWTEqTJV/FMFDY/aeR5SpQh1kHaij2PCoHtTERz9pC7+TAsXGl5gJTYbD/YzWsflDQtEFmNDH3Xu0d205h5mGZskD2RJqLNYXcw6/YjXdVAddhd4C7lPdTs11WGv6LT8slt4+LeHg=
+	t=1785100396; cv=none; b=MPqsCIrxsM35dO0VG9/8VIgHLDEqgjtBFmHAed52eGlhfIlXJOsXDmhgpkFdt66d57EmXDn1GZRNEBA4EhHsYvBLLsN0JGj9EnXH7Y9R5GngaGo69MgyINuKPuLYypi+W1gdoQP3cikWO/EAgueOXUiQ1ps01RgrN+pllSzfd/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785099032; c=relaxed/simple;
-	bh=3e8ybFzMuH/HJ0Ve+oX3AxqYvVPeb4SH0GjJoz5fi2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UvriZur0IMHLZKbI0CRXHyBGMG9a3pxWZdM1xyKMG7xgI9mzsrUJJ3t8Sc0l4MvmYxdFGdUORUuNDJFfqwk7Oj2q1eLDxuBKSyb8bD5jE3ChWKckrgPJPRzD7z87umdl6BxkXBBwCpCLRsQb/OUfmD+Y2QfW5jbeKQ42JoMv3ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=In5V3KSS; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="In5V3KSS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4611F000E9;
-	Sun, 26 Jul 2026 20:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785099031;
-	bh=HLpZYMENBNgPXFarYmWwn7VwAhRa9SmUHkcGWYZHpG8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=In5V3KSSLdWN4HHPW+I8bvUb7SeetiUPoS+vwnKYBb2rUiZOW6WdSPgD7lUHb2ay2
-	 aEV8ESrjf0zFLfFex/SkOqNEB0Vj752OA8tBNny/jl1XwEuHlMuT1eq1+pgtxqUNRV
-	 4RB4LYce8X4AXHS91Jl3DeTxLBsFytz0qCX4/dsHqKyDntQdurR5j7n9uLgpGXcu8/
-	 1nuAFjFRygNUHsQa9d64ooc+nT4MptG5vbo9oXzn3nbgFG/J8JsoyceViKUD7QG5kl
-	 K3FdMqec0+WZ5CNDX4q3SMVfQHRxBwc6CQKsoAX6wh7LYKIXkBrEyf5BnVloSBt/y5
-	 iBhv21g14JvFA==
-Date: Sun, 26 Jul 2026 22:50:26 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	"Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Doug Berger <opendmb@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Ulf Hansson <ulfh@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Srinivas Kandagatla <srini@kernel.org>, brgl@kernel.org, 
-	driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-pm@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	mfd@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/8] i2c: pxa-pci: use platform_device_set_fwnode()
-Message-ID: <amZzAGnHvXxS8CM8@zenone.zhora.eu>
-References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
- <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
+	s=arc-20240116; t=1785100396; c=relaxed/simple;
+	bh=OofGKcIUoFzEcRTCJuxNINtz3GSGF+vRAone6kQl29Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sOxrcYNxchlcyeamN4ogBGsfiUHJl72MjGh3HVvB+SnVI3Uv9qwGOAAn1QRhcBMGqHGt4EfaxeSRmj/L6msATwB8gyA2p2JEsU02rk/62gqv4zNHtZau42ofDtJapzgzpnh8mPkPkPTh8tPjg0SaIFGfQeLHG6faXZcRjAc8Z9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=162.0.218.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from MTA-15-3.privateemail.com (mta-15.privateemail.com [198.54.118.207])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by h7.fbrelay.privateemail.com (Postfix) with ESMTPSA id 4h7ZFb1Hg3z2x9s;
+	Sun, 26 Jul 2026 17:13:07 -0400 (EDT)
+Received: from mail.privateemail.com (K8S-PROD-WORKER-04 [87.215.145.39])
+	by mta-15.privateemail.com (Postfix) with ESMTPA id 4h7ZFC2jdxz3hhTB;
+	Sun, 26 Jul 2026 17:12:47 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: q6apm: keep the graph start count in sync with the DSP
+Date: Sun, 26 Jul 2026 23:12:26 +0200
+Message-ID: <20260726211226.94059-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Bartosz,
+q6apm_graph_start() increments start_count even when APM_CMD_GRAPH_START
+fails, leaving the graph counted as running while the DSP never started
+it. A later start - a retried prepare, or a resume after a failed start -
+then finds a non-zero count, skips the command and returns success with
+no data flowing.
 
-On Mon, Jul 20, 2026 at 11:24:49AM +0200, Bartosz Golaszewski wrote:
-> Prefer the higher-level platform_device_set_fwnode() over the
-> OF-specific platform_device_set_of_node() for dynamically allocated
-> platform devices.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Count the graph only once the DSP has accepted the start. The count then
+stays at zero for a graph that never started, so also stop decrementing
+below zero in q6apm_graph_stop(): the compressed free path stops
+unconditionally, and a negative count would make the next start skip the
+command in the same way.
 
-Acked-by: Andi Shyti <andi.shyti@kernel.org>
+Fixes: 5477518b8a0e ("ASoC: qdsp6: audioreach: add q6apm support")
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+---
+Found by inspection while working on MI2S clocking on the Fairphone
+(Gen. 6); I have not hit either path on hardware, so no stable Cc - say
+the word if you want one.
 
-Thanks,
-Andi
+One patch, because the start hunk alone would leave q6apm_dai_compr_free()
+able to take the count negative - a bisect hole. That call became
+unbalanced with 88b60bf047fd ("ASoC: q6dsp: q6apm-dai: Add open/free
+compress DAI callbacks"), but the counting logic is from the Fixes commit.
+A never-started graph is still torn down by APM_CMD_GRAPH_CLOSE.
+
+The guard is in the helper to keep the count in one place; the equivalent
+check in the compressed free path, as q6apm_dai_close() has it, works too.
+
+ sound/soc/qcom/qdsp6/q6apm.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
+index 641d6d243229..f167b9dae3fa 100644
+--- a/sound/soc/qcom/qdsp6/q6apm.c
++++ b/sound/soc/qcom/qdsp6/q6apm.c
+@@ -802,14 +802,17 @@ EXPORT_SYMBOL_GPL(q6apm_graph_prepare);
+ int q6apm_graph_start(struct q6apm_graph *graph)
+ {
+ 	struct audioreach_graph *ar_graph = graph->ar_graph;
+-	int ret = 0;
++	int ret;
+ 
+-	if (ar_graph->start_count == 0)
++	if (ar_graph->start_count == 0) {
+ 		ret = audioreach_graph_mgmt_cmd(ar_graph, APM_CMD_GRAPH_START);
++		if (ret)
++			return ret;
++	}
+ 
+ 	ar_graph->start_count++;
+ 
+-	return ret;
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(q6apm_graph_start);
+ 
+@@ -817,6 +820,9 @@ int q6apm_graph_stop(struct q6apm_graph *graph)
+ {
+ 	struct audioreach_graph *ar_graph = graph->ar_graph;
+ 
++	if (ar_graph->start_count == 0)
++		return 0;
++
+ 	if (--ar_graph->start_count > 0)
+ 		return 0;
+ 
+
+base-commit: 4c4a11fdf61ca56a08ea05635a1479b9bee666f4
+-- 
+2.55.0
+
