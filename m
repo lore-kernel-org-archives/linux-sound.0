@@ -1,82 +1,75 @@
-Received: from wp23.hostingpalvelu.fi (wp23.hostingpalvelu.fi [31.217.193.162])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B0C3DEAF6;
-	Sun, 26 Jul 2026 18:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.217.193.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D96D3346A8;
+	Sun, 26 Jul 2026 20:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785088814; cv=none; b=gApCAhOMMDhhjWTtp44H0OjqEN8FLzgYzNciNcgK+rHYy8Vquf0BYuhC5ogqJJRPhbzYMGwXmwL2O52l7AhMjWDeNP9YcGbRmTdQTd29qocaEWoxiJj3XQ2b+UUtWzawNuIwjzRvvGETTP5wtVLOm6u0+GHHkYWxNSkz4YDXTso=
+	t=1785099032; cv=none; b=VaipwrZBOoriD4NrfannjLYDE4yu2Ey6XIeWTEqTJV/FMFDY/aeR5SpQh1kHaij2PCoHtTERz9pC7+TAsXGl5gJTYbD/YzWsflDQtEFmNDH3Xu0d205h5mGZskD2RJqLNYXcw6/YjXdVAddhd4C7lPdTs11WGv6LT8slt4+LeHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785088814; c=relaxed/simple;
-	bh=tVKBu0gpgDXWfiW+57omA5cAQOKd7XQp02oAulWBFWE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KVLz76s39in2mYkV5NXZPIyWPbCkstO8QSu2BREWkj2L13H96OyCfMX+mN1GmTgU31olmwuGtF+0NP8/EYRVPAYOibapzSa/Bv6cdyfBvlmNJEdBjXQWihkxUrspzuxr/bDGa6MS27LAQeO+dlOtiRGMnomdIH5Q1nrTyNbquY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com; spf=pass smtp.mailfrom=bitmer.com; dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b=sppqTzIk; arc=none smtp.client-ip=31.217.193.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmer.com
+	s=arc-20240116; t=1785099032; c=relaxed/simple;
+	bh=3e8ybFzMuH/HJ0Ve+oX3AxqYvVPeb4SH0GjJoz5fi2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UvriZur0IMHLZKbI0CRXHyBGMG9a3pxWZdM1xyKMG7xgI9mzsrUJJ3t8Sc0l4MvmYxdFGdUORUuNDJFfqwk7Oj2q1eLDxuBKSyb8bD5jE3ChWKckrgPJPRzD7z87umdl6BxkXBBwCpCLRsQb/OUfmD+Y2QfW5jbeKQ42JoMv3ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=In5V3KSS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b="sppqTzIk"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bitmer.com;
-	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=jCDjGDSWHZ8w+rxNCIKGEKBL8u1SAKE5Py/Ctugufng=; b=sppqTzIkEq3n+rd5IRFrMuvZbf
-	lNukKLaw2L6/Eksg/qJEhPbDpCl7+KBapufWWQBBQYiSI51P3FUX8Rtsaa/YebcnBmLPsdVSifxsZ
-	Ygab1xVlhVk/flg3C0nnLOgs8HHHyp4R8oRdlJP0O0OLnP43WijVcwJ2wdueORmnG3oNLhDZQCUnX
-	au4bwwuOQchdtZTrZ5O8qZwk/bCQOFUCfvyJ6WzAP6VElwnQM+FKK5poRD4pJ/VooVpGQc5v2h7qX
-	C3aIEm3UaLcMLN0jKCG9ix9SB2bqVHbKQLQCo72iU16590Q9H/UdKIMdD82ULulmqLdVZTEKNZ/2G
-	U4Hh0oow==;
-Received: from [91.159.31.97] (port=52472 helo=[192.168.0.12])
-	by wp23.hostingpalvelu.fi with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.99.4)
-	(envelope-from <jarkko.nikula@bitmer.com>)
-	id 1wo2oG-00000008P6c-2R1S;
-	Sun, 26 Jul 2026 20:38:43 +0300
-Message-ID: <ca078c36-1692-4d54-9d21-99adb0abd072@bitmer.com>
-Date: Sun, 26 Jul 2026 20:38:38 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="In5V3KSS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A4611F000E9;
+	Sun, 26 Jul 2026 20:50:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785099031;
+	bh=HLpZYMENBNgPXFarYmWwn7VwAhRa9SmUHkcGWYZHpG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=In5V3KSSLdWN4HHPW+I8bvUb7SeetiUPoS+vwnKYBb2rUiZOW6WdSPgD7lUHb2ay2
+	 aEV8ESrjf0zFLfFex/SkOqNEB0Vj752OA8tBNny/jl1XwEuHlMuT1eq1+pgtxqUNRV
+	 4RB4LYce8X4AXHS91Jl3DeTxLBsFytz0qCX4/dsHqKyDntQdurR5j7n9uLgpGXcu8/
+	 1nuAFjFRygNUHsQa9d64ooc+nT4MptG5vbo9oXzn3nbgFG/J8JsoyceViKUD7QG5kl
+	 K3FdMqec0+WZ5CNDX4q3SMVfQHRxBwc6CQKsoAX6wh7LYKIXkBrEyf5BnVloSBt/y5
+	 iBhv21g14JvFA==
+Date: Sun, 26 Jul 2026 22:50:26 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Doug Berger <opendmb@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Srinivas Kandagatla <srini@kernel.org>, brgl@kernel.org, 
+	driver-core@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-pm@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	mfd@lists.linux.dev, linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 2/8] i2c: pxa-pci: use platform_device_set_fwnode()
+Message-ID: <amZzAGnHvXxS8CM8@zenone.zhora.eu>
+References: <20260720-pdev-set-fwnode-instead-of-of-node-v1-0-2dee93f42c54@oss.qualcomm.com>
+ <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/10] ASoC: ti: omap-abe-twl6040: Preserve error code
- and drop redundant log
-To: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>,
- Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20260716103911.77652-1-phucduc.bui@gmail.com>
- <20260716103911.77652-5-phucduc.bui@gmail.com>
-Content-Language: en-US
-From: Jarkko Nikula <jarkko.nikula@bitmer.com>
-In-Reply-To: <20260716103911.77652-5-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - wp23.hostingpalvelu.fi
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - bitmer.com
-X-Get-Message-Sender-Via: wp23.hostingpalvelu.fi: authenticated_id: jarkko.nikula@bitmer.com
-X-Authenticated-Sender: wp23.hostingpalvelu.fi: jarkko.nikula@bitmer.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260720-pdev-set-fwnode-instead-of-of-node-v1-2-2dee93f42c54@oss.qualcomm.com>
 
-On 16/07/2026 1:39 pm, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->
-> Return the original errors from the OF parsing helpers and remove the
-> redundant error messages, as the helpers already report failures.
->
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  sound/soc/ti/omap-abe-twl6040.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
-Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
+Hi Bartosz,
+
+On Mon, Jul 20, 2026 at 11:24:49AM +0200, Bartosz Golaszewski wrote:
+> Prefer the higher-level platform_device_set_fwnode() over the
+> OF-specific platform_device_set_of_node() for dynamically allocated
+> platform devices.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
+Acked-by: Andi Shyti <andi.shyti@kernel.org>
+
+Thanks,
+Andi
