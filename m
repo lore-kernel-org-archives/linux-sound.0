@@ -1,162 +1,139 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CF634B1A5
-	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 07:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AB437754C
+	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 07:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785049579; cv=none; b=pUP09Iml/jToFLeB2dllbx8A+dYD047XqcR7k24ilWhnHu7WwC/5bxj3+48p9RJU/8lZzNwaZf5ngQXZZNNMfBl8BvUJ6G0YKFjUNnKEfhOPL/7IEqmei6o6ALdDYJbWs3H6ul1KplWUeis5mCsx0P3kv8/Cs0lzj5okW6kSOVQ=
+	t=1785051906; cv=none; b=DRiE06i+z4EG8dNcNKtQIBJPYME1vEFTjezf7k0MvO2VGfcFdNcl2Uy0VDn/v78MzJypbulc4GhNpeoBdN8T/sAwWiZDi3eiB5rek0Z1j+rQtcB8QBcRZEWapl1Z7LnihVUzpyh6stdoW2oxyUyX8VWo61pjYMuFUAlUa5t8Z6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785049579; c=relaxed/simple;
-	bh=WXN1Ot3ReDVdrF2qj5vCKhMERtDBCSyBNWZ1M2+KyEA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JnKO3UFV42Z7TdXpnVA4ZR+yPwIycqMBm+pPJ751gT/gzXstTNt4urgMEir4kEBhzRV+zsOcWkVP1IMmlHmlq33dDj0XUwsRfBLDlg/NuUZ/JIHciP6rlPVzX41+KECBNM5O/MbaWOS5/eSa0nnk+B+FmQ8lJn25Ml1bvSZ/q5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Kzd7/hWN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=idSfu8vc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Kzd7/hWN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=idSfu8vc; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785051906; c=relaxed/simple;
+	bh=o4sS3pNcMrPIt5lAItdgt9pdc1g3KpcfFAAG3Ro9GY4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IIMNPWmwa7MGtf2l3Y/JsBmmyqFNH+nUJSK2TmVU92sLdPh5Uhh24e8jrOieyRWAgSWSgq1Poy8HVfXrkrPJlHYmwJbY62I/180+cLkG1IQo4fJ38A9h5Ek/PX8SyyiKrYWaihuJSUjWHISFSZnqkXlPto9thcwS/6Wf0e3W0Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=FlTQkO9J; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xbow.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Kzd7/hWN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="idSfu8vc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Kzd7/hWN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="idSfu8vc"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B33307D473;
-	Sun, 26 Jul 2026 07:06:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785049575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BQnAqtOTrZXH/7IOpdC5OV9/H4V2Z1K4ZhRr3v94vkg=;
-	b=Kzd7/hWNJh6NKgHyW3htcN5oJWpiQXsYqW075oN34lCc4jPbxNV2WtoQhev1VAB428cibx
-	lrkRnrYY170G8MPiT2o4mhnbVEepM5192OjeHhLWEab47mihf85mn2ksE/kWMw6jKgohTT
-	fl7BiSqsVRSIbCW+PGn9CkrDdYxSsdI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785049575;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BQnAqtOTrZXH/7IOpdC5OV9/H4V2Z1K4ZhRr3v94vkg=;
-	b=idSfu8vc8EYxd9O6Pis4fK2SEbWmrzcN8hNXVO3InqFks7zSP+mQahVQrPx2+Z1XngNO4q
-	kY1yEbt6bXHRENAQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785049575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BQnAqtOTrZXH/7IOpdC5OV9/H4V2Z1K4ZhRr3v94vkg=;
-	b=Kzd7/hWNJh6NKgHyW3htcN5oJWpiQXsYqW075oN34lCc4jPbxNV2WtoQhev1VAB428cibx
-	lrkRnrYY170G8MPiT2o4mhnbVEepM5192OjeHhLWEab47mihf85mn2ksE/kWMw6jKgohTT
-	fl7BiSqsVRSIbCW+PGn9CkrDdYxSsdI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785049575;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BQnAqtOTrZXH/7IOpdC5OV9/H4V2Z1K4ZhRr3v94vkg=;
-	b=idSfu8vc8EYxd9O6Pis4fK2SEbWmrzcN8hNXVO3InqFks7zSP+mQahVQrPx2+Z1XngNO4q
-	kY1yEbt6bXHRENAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6E411779B9;
-	Sun, 26 Jul 2026 07:06:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ivb0GOexZWqPAgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 26 Jul 2026 07:06:15 +0000
-Date: Sun, 26 Jul 2026 09:06:15 +0200
-Message-ID: <878q6yb57c.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Baul Lee <baul.lee@xbow.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="FlTQkO9J"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ca64c3ce5fso20883035ad.3
+        for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 00:45:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xbow.com; s=google; t=1785051905; x=1785656705; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QIOw3G9cR0WlaOF2E7R+FHWgkAS7O5dwSaIK4mjCqdc=;
+        b=FlTQkO9J0agDe7ZGq9c19K0PAjr75oNPEvmPR3BDLnXsGA9+/X9dlL3cdIM89cte0v
+         mOEhdexUD2YZCkaagxXJDKKg7X6yk16DxFWADSQ5D3CqgvE4MYU3Yuk7l5K3iH1qnb6/
+         Xnw4ds7iZkNRtghlxXv90/xO8uCHW9KT+hEFAlnNmabsTPC7k/cXU2ZYppnrGo4NWgED
+         pL84MpMLES1VFFx7dC7MkyreRAcwxGKASYMEFa6HiVBEtasswDZjto2+IAFXs9XBTtAm
+         vYp7nyff+/kj5YkJvhv3uHEWsyyLBZt75o0B6Y+5fE5EaYMyn/YOj/vUuhCUECSA7WCY
+         tgfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785051905; x=1785656705;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QIOw3G9cR0WlaOF2E7R+FHWgkAS7O5dwSaIK4mjCqdc=;
+        b=Md1BAmLVt7fyiVo/kZYLZVDEoTjkhpRNhI86wvjKBwkNOhl0VMjcBKldGzSM9vQD1H
+         xHtXcxNQcu55LRfvGQFFIlLuUDIrI2ImJhpngG6tTqCBWxrj5XxaKoCGqNDcl5V594KE
+         v6+RcQP3XTZJGAvFyMeMssnivAV/5cgBcjQxrZW8gSz3BrfEYeK8Rb4Fs0it5cKH0l2i
+         297zRVmAlPym3ALLLU3DfxUZBPZD0ilcwGCGASR73nC5gw7mN1e2WzXnLqqjYW62lsF3
+         bP612UXCBECG8R4ixZaoPbjePHliYUKDwxCws1UxDNPh6JCsZQAWNj/5rmb5UIjf7Yyf
+         w+uw==
+X-Gm-Message-State: AOJu0Yxo2KVkRZK5CiTOkxVTANN0tmsh1QZdECI/w7vg4Jr9tlJWcLFj
+	Gm/nsXOgcicl9vX1SxcH3zyEbjwvrPvILjLdpRWaZrkO9k07n+T97SKHVUhcqkhswaIv+mCdpDs
+	/UkreIjY=
+X-Gm-Gg: AR+sD10fGCWI8G3UKQc5TNoTmS4JLzEEf6UsIPVQf1DLXa1lMfwmcbR17X6M6toTfhJ
+	ZvJYhQZpL2pmSWv2bxk0U/dT5PYpttL1g/SSTzechJ7Xdn3IPYBDQVLc3J7n1eHuOCrAkNbIle/
+	3Piu/9e5mj6OfZBjFePsI4gWiLDQl0tfGqw6XYkdB8PlqYWH1MlbQsCP7iAfxYP2zJRRad8S7yC
+	wZ6T2uPtKg6mZmVXhbmYcDR9XT70aXJ240Zi1hPb5gznZWe6Pz1miu1pyL3s4zYC9jTRB/21S1D
+	UqWkMJ/C3CoVgc0VOeegdSMLpEt1xtRtqnIDaW7YTXka0avbEszTEcBx9JvI/FE+DiOWF11/Icf
+	6yBdRo0mx49fKIaG4txnlqxP+P8uRuUeZBhHuI74OmLR8RonClu+6TzGDctPj4zVTVDiQ73r0Ae
+	mfJsYSY/7oGPixs4rZAZ63kbQ7c4tRh00wg4SfrypynfnK0pKG6bhDpnG5mec3
+X-Received: by 2002:a17:903:17c8:b0:2ca:ea56:7a58 with SMTP id d9443c01a7336-2cfde851e69mr38145885ad.37.1785051904571;
+        Sun, 26 Jul 2026 00:45:04 -0700 (PDT)
+Received: from localhost.localdomain ([125.128.148.126])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7bc502sm17143375ad.54.2026.07.26.00.45.02
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 26 Jul 2026 00:45:04 -0700 (PDT)
+From: Baul Lee <baul.lee@xbow.com>
+To: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: tiwai@suse.com,
+	tiwai@suse.de,
 	perex@perex.cz,
-	tiwai@suse.com,
-	lina+kernel@asahilina.net,
+	clemens@ladisch.de,
 	federico.kirschbaum@xbow.com,
+	Baul Lee <baul.lee@xbow.com>,
 	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: fix stack info leak in RME Digiface status
-In-Reply-To: <20260726065020.46070-1-baul.lee@xbow.com>
-References: <20260726065020.46070-1-baul.lee@xbow.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+Subject: [PATCH v2] ALSA: usb-audio: fix OOB write in snd_usbmidi_akai_output()
+Date: Sun, 26 Jul 2026 16:45:00 +0900
+Message-ID: <20260726074500.50145-1-baul.lee@xbow.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260726052040.41315-1-baul.lee@xbow.com>
+References: <20260726052040.41315-1-baul.lee@xbow.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[kernel];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[xbow.com:email,suse.de:mid]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 26 Jul 2026 08:50:20 +0200,
-Baul Lee wrote:
-> 
-> snd_rme_digiface_read_status() reads a four-word status block from the
-> device into an uninitialised on-stack __le32 buf[4] and, whenever the
-> vendor control-IN transfer does not return a negative error, copies all
-> four words into the caller's status[].
-> 
-> snd_usb_ctl_msg() copies the full requested size back into the caller's
-> buffer regardless of how many bytes the data stage actually delivered:
-> 
-> 	buf = kmemdup(data, size, GFP_KERNEL);
-> 	err = usb_control_msg(dev, pipe, request, requesttype,
-> 			      value, index, buf, size, timeout);
-> 	memcpy(data, buf, size);
-> 
-> usb_control_msg() returns the transferred length on a short control-IN,
-> which is a non-negative value, and writes only that many bytes.  The
-> remainder of the copy back is the kmemdup()ed image of the caller's
-> buffer, so a device answering with a short data stage leaves the
-> trailing words of buf[] holding leftover kernel stack.  The only guard
-> in the caller is err < 0, so those words are stored into status[].
-> 
-> They then reach user space: snd_rme_digiface_get_status_val() selects a
-> 16-bit halfword of status[] per the control's reg/mask, and the eight
-> Digiface status controls together expose the whole 16-byte frame to an
-> unprivileged reader of /dev/snd/controlC*.
-> 
-> Zero-initialise the buffer so a short read yields zeros instead of stack
-> residue.  This mirrors snd_rme_get_status1(), which already clears its
-> output word before the same kind of vendor read.
-> 
-> Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
-> 
-> Fixes: 611a96f6acf2 ("ALSA: usb-audio: Add mixer quirk for RME Digiface USB")
-> Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
-> Reported-by: Baul Lee <baul.lee@xbow.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Baul Lee <baul.lee@xbow.com>
+snd_usbmidi_akai_output() computes its fill-loop bound
 
-Applied now.  Thanks.
+	buf_end = ep->max_transfer - MAX_AKAI_SYSEX_LEN - 1;
 
+as a signed int, so a small device-advertised bulk-OUT max_transfer
+makes buf_end negative.  The loop guard then compares the u32
+urb->transfer_buffer_length against that negative int: the usual
+arithmetic conversion turns buf_end into a large unsigned value, so the
+guard stays true and each iteration keeps appending SysEx framing and
+payload bytes past the end of the URB transfer buffer, which is only
+max_transfer bytes long.
 
-Takashi
+A USB device that advertises a tiny bulk-OUT endpoint can therefore
+trigger an attacker-length- and content-controlled heap out-of-bounds
+write when a process writes to the created /dev/snd/midiC*D* node.
+
+Return early when there is no room for even one SysEx, so the loop is
+never entered with a bound that would wrap.  The loop is the last
+statement of the function, so bailing out is equivalent to it not
+running.
+
+Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
+
+Fixes: 4434ade8c933 ("ALSA: usb-audio: add support for Akai MPD16")
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
+Reported-by: Baul Lee <baul.lee@xbow.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Baul Lee <baul.lee@xbow.com>
+---
+v2: use an explicit "buf_end <= 0" early return instead of casting the
+    loop guard to int, as suggested by Takashi Iwai. Verified with the
+    reproducer under KASAN on v7.2-rc4: without the patch the kernel
+    reports a slab-out-of-bounds write in snd_usbmidi_akai_output(),
+    with it the same run is clean.
+
+ sound/usb/midi.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/midi.c b/sound/usb/midi.c
+index d87e3f357cf7..f8996416c3be 100644
+--- a/sound/usb/midi.c
++++ b/sound/usb/midi.c
+@@ -797,6 +797,8 @@ static void snd_usbmidi_akai_output(struct snd_usb_midi_out_endpoint *ep,
+ 
+ 	msg = urb->transfer_buffer + urb->transfer_buffer_length;
+ 	buf_end = ep->max_transfer - MAX_AKAI_SYSEX_LEN - 1;
++	if (buf_end <= 0)
++		return;
+ 
+ 	/* only try adding more data when there's space for at least 1 SysEx */
+ 	while (urb->transfer_buffer_length < buf_end) {
+-- 
+2.50.1 (Apple Git-155)
+
