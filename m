@@ -1,160 +1,111 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390B72BEC52
-	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 09:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355E9389DE3;
+	Sun, 26 Jul 2026 11:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785056581; cv=none; b=SvCrecCjvUc9oylQc/fA0OId2PDxYMgotSqleugp9dpDaFIjOHA6FHRqY0kozAX9QAhjUvg+7EacTCbflbtUf5IKLEY1HP9wnayVkkklnhoteu1xFZSCAhgR8wzILR/pfOTpAFM6qFTlIS0D02JPE/Ys5BUObpK6HOgrWNF9+zY=
+	t=1785065276; cv=none; b=s2RzUPADYBp6/7cBjR7KObSqwReoe+GEFkLaaWrAFb3iFTKHwFKZVy60eK0TyUXLpBbdtBSwwTG5J8R9i1cuizcqVu+26UBVkAUx+yl7F6r1wTrpWK1kLf8QNqp6esyov2uneHh2g5z+fYCWh1Xlc3F19VDj5Ub+xN+JMSeaMFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785056581; c=relaxed/simple;
-	bh=L2Igs+4mV4+GcdZSYkYS5Hgq9N+1Am75fWqOGCbJyM8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sJ/4gOeSkXja+8qn7LJYR5MvzHQdDNvFA2lKmhs4SQ5buZSyENbAGVdrXA0cc18B3wDne7coPBFiNgCLaWUcuB3qlclj86p0QafZ7V+4LZjTVYl263grj/XXROSL62shWfF2rhiQAwohVUsl1CfwseojyekKrDyc2c+5W8eiikc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qvdoT9uI; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785065276; c=relaxed/simple;
+	bh=jaHNKK9FSc+/+TcckyoC2rB10RAILs/DFm7PXrvT5mg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LwPTFIe0OZTqS3RaBl7QXFtfEppEITUj5hTN6ee9MMTBh42PqSE3FXPiPQ38Rb4Zjcbuibv0PykxfUkz5W/f+qlOjSyJdT+GK1ziGmoQmyX87RKbsv5pSLjvigZfG3xTiAAaGyC+zNxaGOKFuWQve1l1DQXZwDXGSPvVazgtix4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=niEq7AYV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvdoT9uI"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c9aea40d799so872460a12.0
-        for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 02:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785056577; x=1785661377; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=X42qayrLWkd37VbCxwMOxjoYuIEHbZkiWI2Z233rOJw=;
-        b=qvdoT9uIocsPD/0EmbEwITd1dN+nYv17dtav1bKDbNfMTIMapBnUQC+p4/hiHmc2F1
-         XbMHnsCCPx1HUTSEOqItsVZ7yGujEQT3b0dk2Z/W/6B8uF4r4LGZMyBEJHI9wnY/RvHy
-         BsBAzfx0rXVut/Y3HwSxEl4aYeH16Aiytovl6HwLC60upX3NFkGJBbAWsv4gqa+02LiK
-         97lGB7Bw/efdrbY7sUtK2nOP7/J88qP7Pbs8yoBi8Z/c1Y23YL3rnbn/jQgsBUgF/qZw
-         y5mXwS5sLGndaV8uXyqHk7dbZc+0yuBg9MiuDME8SbaDex5S3M0fdlzZ6GgRymCGJUoV
-         br8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785056577; x=1785661377;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=X42qayrLWkd37VbCxwMOxjoYuIEHbZkiWI2Z233rOJw=;
-        b=dV78XO9ma16YyKM+zI6QFNtbj7abdOVoK+3Z5nIqLUhMiWvryn1xZbMnQFyJnPQhdZ
-         nsdwpPWqYCkpJM9Nl0rIKVQD5bKj2qpZ9WTF1WFAmmnEuQykc6h6+VQZmMycB0NrxmDD
-         fyXDZQM3UZU7wR2jPMrMWV5U4ECmmI3C76TkUjIcZTEeZ96Y/YBUAEhaq0g6NjvPVqdE
-         DRUQjjM4SRvsqnXAaVQZurRIAgcYAWEuLkOWE7ZfUiNlNvXqupXcsnO/p0U3kkD9Wo7L
-         LM0X5imHLZ0biNIrcBRdw4ypmcndda8eSqMcYgmT1iR/Zsph85ht2JRddi3o4W19rjqs
-         Xj6w==
-X-Gm-Message-State: AOJu0YypqQy+bFFYhyGQCAABbcVBSw/zIdC5pz8xu5lEGkXzJF/n8qN4
-	AOgOcnx850F84TJfugkbqFCth1fDiESCHWB8CLdJOt3Nieb3upb0zKOs
-X-Gm-Gg: AR+sD11AKjrSxbp0x+CmYYnpXrxuIwOP4tBu7UVDqaNrBqeioRQzbuYJr0oQ85PFI5h
-	Gk0JZYtUTQCHnshH+xpEpZOYRvw27A6vsaltvOpH6w3Xfw1Y7gSvGgOihuSRBXQl6LtCQi8siae
-	gtMInXBFXOCqOJXnNtvMckGeod+gu2r2LnnNCEAkeDNDi6ncLYtzkgtp+JqiZ/vinLYz+pwqiR8
-	lHG0MLuNCTzZudsJoMncv6TQ2fynKdVA7aPJQY0pavJE5aNNt4wP0SZ9e5whT6m/A7mXy3oS2Ft
-	PZ+5PjVkPEjB9u9lpn3VEjSOYScc1gOSH9rMdAzTeRSxN5joJmxd1dp0clpCtfH7RBmQhCD9E0V
-	GYDE0OedhXOaUoPzX/hVqLbBOwSEs+gMVWLme1w8lSXiMySmGXc5prTlk7dYezF8zt3xIN5+gFI
-	Y=
-X-Received: by 2002:a17:90b:3e47:b0:38e:4011:465f with SMTP id 98e67ed59e1d1-38f2960cd53mr4451101a91.23.1785056577417;
-        Sun, 26 Jul 2026 02:02:57 -0700 (PDT)
-Received: from fedora ([2401:4900:c8f3:48f4:c9f1:4935:9171:a431])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc413766sm19451986eec.8.2026.07.26.02.02.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 02:02:56 -0700 (PDT)
-From: Gunal Seenivasagan <gunal2002@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Gunal Seenivasagan <gunal2002@gmail.com>
-Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for Infinix INBOOK X3 Slim
-Date: Sun, 26 Jul 2026 14:27:11 +0530
-Message-ID: <20260726085715.229802-1-gunal2002@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <87y0ey9of8.wl-tiwai@suse.de>
-References: <87y0ey9of8.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="niEq7AYV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C1A1F00A3E;
+	Sun, 26 Jul 2026 11:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785065267;
+	bh=1Ak0olVKErvQmihBm29GT3ct6ovZqncBs8TSvo4e62k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=niEq7AYViaumq7D1gIuz7YYPUJmW2yU7jBX44E1mfkUNq4efagYAb0suCCCw3iHY5
+	 IzZdcuM8v8ExkyK4ir/wECkDrBw2kHhyZawouPZ2qSXE73eZbR13nLT+f+fb2Eh4SP
+	 BN1W6JEPj6EkT89hevRSC7GqDgs5zSRF/jwj1KtZhLDcsFqIet1W72WSu5VqEFtLvm
+	 DN7eJVsCXmWoYEmPVkg6H1KR6pYxyP1dDDHT8S6KktoO/P58nxRZ92I/6JLSpuO32I
+	 JWck+PRHlLDkqySzY9+SUiqV6e0ryZC3M0Ez7hqpYK5iwsspxqjNZ97wu2OKaQZvMa
+	 vXSuUnoVmwhBQ==
+Message-ID: <433f07d6-95e2-4bd6-860f-094e7d18e3de@kernel.org>
+Date: Sun, 26 Jul 2026 13:27:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: dt-bindings: fix spelling errors
+To: "shaikh.kamal" <shaikhkamal2012@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jack Yu <jack.yu@realtek.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260726055227.18123-1-shaikhkamal2012@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260726055227.18123-1-shaikhkamal2012@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The Infinix INBOOK X3 Slim (ALC269VB, subsystem 0x2782:0250) has its
-internal speakers wired to pin 0x1b, but the BIOS pin configuration
-table declares 0x1b as "no physical connection" (0x411111f0). It instead
-declares pin 0x14 as the internal speaker, although nothing is connected
-to 0x14.
+On 26/07/2026 07:52, shaikh.kamal wrote:
+> Fix spelling errors reported by codespell:
+> 
+>   susbsytem -> subsystem (amlogic,axg-sound-card, amlogic,gx-sound-card)
+>   vlaue     -> value     (realtek,rt1015)
+>   spped     -> speed     (st,sta32x)
+> 
+> No functional change.
+> 
+> Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
+> ---
 
-As a result the internal speakers are silent under Linux while the
-headphone jack works correctly. The codec output path to 0x14 is fully
-open (DAC assigned and streaming, mixer and pin unmuted, EAPD asserted),
-so the failure is silent with no error reported. The speakers work under
-Windows, where the vendor driver supplies its own pin table.
+Slow down. Same comments.
 
-Add a fixup that disables the unconnected pin 0x14 and declares pin
-0x1b as the internal speaker.
-
-Reusing the existing ALC269VC_FIXUP_INFINIX_Y4_MAX was tried first, since
-it also remaps 0x1b to an internal speaker. It is not sufficient here: it
-leaves 0x14 declared, so autoconfig finds two line_outs
-
-  line_outs=2 (0x14/0x1b/0x0/0x0/0x0) type:speaker
-
-and binds the primary "Speaker" control to the unconnected pin 0x14 while
-demoting the working speaker at 0x1b to "Bass Speaker". Audio is audible
-that way, but the volume and mute controls a desktop actually uses end up
-attached to a pin that is not wired to anything. Disabling 0x14 is what
-produces a single correct Speaker output.
-
-Verified on the affected machine: with the corrected pin
-configuration the driver's autoconfig reports
-
-  line_outs=1 (0x1b/0x0/0x0/0x0/0x0) type:speaker
-
-both channels play, headphone auto-mute switches correctly in both
-directions, and audio survives codec runtime suspend (D3) and resume.
-
-Signed-off-by: Gunal Seenivasagan <gunal2002@gmail.com>
----
-v2: No functional change. Corrected the author and Signed-off-by lines to
-    my full name, as requested by Takashi.
-
- sound/hda/codecs/realtek/alc269.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 379e1458f..d33904273 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3939,6 +3939,7 @@ enum {
- 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
- 	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
- 	ALC269VC_FIXUP_INFINIX_Y4_MAX,
-+	ALC269VB_FIXUP_INFINIX_INBOOK_X3_SLIM,
- 	ALC269VC_FIXUP_LUNNEN_GROUND_14,
- 	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
- 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
-@@ -4409,6 +4410,14 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
- 	},
-+	[ALC269VB_FIXUP_INFINIX_INBOOK_X3_SLIM] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x14, 0x411111f0 }, /* disable, not connected */
-+			{ 0x1b, 0x90170110 }, /* use as internal speaker */
-+			{ }
-+		},
-+	},
- 	[ALC269VC_FIXUP_LUNNEN_GROUND_14] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -8020,6 +8029,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
- 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
-+	SND_PCI_QUIRK(0x2782, 0x0250, "Infinix INBOOK X3 Slim", ALC269VB_FIXUP_INFINIX_INBOOK_X3_SLIM),
- 	SND_PCI_QUIRK(0x2782, 0x1407, "Positivo P15X", ALC269_FIXUP_POSITIVO_P15X_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x2782, 0x1409, "Positivo K116J", ALC269_FIXUP_POSITIVO_P15X_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x2782, 0x1701, "Infinix Y4 Max", ALC269VC_FIXUP_INFINIX_Y4_MAX),
--- 
-2.55.0
-
+Best regards,
+Krzysztof
