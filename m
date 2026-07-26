@@ -1,61 +1,61 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F49B13B7A3
-	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 05:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18EE213B7A3
+	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 05:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785042974; cv=none; b=XljQcTPk3nIVsCyw1BF2Et5FNE0nmyDLWLU1QiFcku+u0TnXE4XgDy39qww/HengY8ZUH4syi5CbEMOAH7w2VvJpZQABBUQhr3jsjwNXhRLa+Day8z3c66TCyLl1u9YuP99pBUE8qf9lRki7TgOLMTmEXxR7lMDsUDOjefuC9+A=
+	t=1785042999; cv=none; b=WuGJ2a+UvTZguJEU3I62UTDE1H0pZqk6HOpSi25CteAClI4g/IVDn+1bpXVKSdbM0EvdrBdaEIorIBc7U1n2Z5c5FiK+7WsLvwAhS99A5T7RzQ+bw1+93ox1LEQ6IY9uT1pqsYg1NIxmMEVeApnBVoLtzz18NRwwgD9tWheMlag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785042974; c=relaxed/simple;
-	bh=FSsKpjSjDS1jjsCPMaaxnqzvzutlum7BEe2Cs6H2UFs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mRPM2qkykZMXVJcX65QzVoBpVstxJICscg9xd9R3MftkKJc8KHIXelo3qPNnfZSSgU8Xl50pTqHWK/jQhcA3/I+g1md6kIhEX8Ly4WUjpmfCb2iYhmeqs6xtRN5XStb6JIZqfhBC9/0C5s9yhDc+R//H4HciuZW83wuslFiHtOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=WCT93ixt; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1785042999; c=relaxed/simple;
+	bh=qQw9JPEm96h7ALUc0SghAENmUNYOa4c6FVUiTYHLPnw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bD+rSNPF/ovT0hWfE9K4Xhhp9JbPUcZrSqMgsjuK2yItLFoIyaDtzvgk2CY0ueYjysoT+hrG4df6P8q4rKJNfFzT46qk8Ny9ERwPTDmSaNBxO7VOHBm0U+redzEahdcgcknEDJe0TVHyi9avLdogbJMhBfuWAtP9tnSOsIm8IZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=WFDJjNCy; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xbow.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="WCT93ixt"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso2372441a91.1
-        for <linux-sound@vger.kernel.org>; Sat, 25 Jul 2026 22:16:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="WFDJjNCy"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cca0c5799eso15523235ad.0
+        for <linux-sound@vger.kernel.org>; Sat, 25 Jul 2026 22:16:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xbow.com; s=google; t=1785042972; x=1785647772; darn=vger.kernel.org;
+        d=xbow.com; s=google; t=1785042997; x=1785647797; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MR44RvrBLwtM26YzEUTXBxK1nPlOeDDDz3ordz0nwuw=;
-        b=WCT93ixtmTdhq4iTP4gJvvbRMq40E4W+s+iaVMmQRJ+QQVX1pKI7kKhvlQDouke7va
-         z/RPpTZiMURfcXhc8J6rQ0TMvR7zZpfzBDUzymXbYWcQ1NHnufSPseQowX7RIIYu7y8h
-         WNMRw64j3yXoWXjS6FnDITGaod94179/iZFwG8CHX5KHc/bkXYIpUOr2OxV5Xz8fa8vT
-         5iXJ2fiu80R0pJZzg7mH59MZAdOzk1p8m16TfpFcg++lE1xxx8Oh+q8u0QhrcDZ8/F92
-         f8fn9fvxqMxxzpbG2vvcuHuNwd3F4Dsdc0PXHei11l2YK/e7HZrArsvMsGvI7aLpl6hg
-         g1Og==
+        bh=tzWhDyTff580ghlpgewRs7awFwMox1Cw1VJXwDERVqI=;
+        b=WFDJjNCyzcM30HiNfDCZeyARCvy2Nwb/yqQsWaF2JfY9sMop/6m2kfP6w0xYDay9cj
+         G+jYrI0FiVHnfUKW9PYMyv057mimcNm6W7qoadNy3NOyAZRFkvlf4+7PAjsiIZPdZ7jX
+         mjhOnwmZI0OGxUPeR0WlF7I+B1NL65Y15bMZ1RTzuEOCEngduXWyQZvmomuBvTAbexEq
+         2QgA7DsMF9/ov5xtRN5Bk6ePtWMPLSCdoHVyX2yGfrJbDHwnkhHbm/gM0haMIelmaThm
+         70qBExfT9IZBClGi1xbL4EvF2hwZvec62HSpk4C4aDQKBYU8hzodzhc4thr/nFZpYy3O
+         TZ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785042972; x=1785647772;
+        d=1e100.net; s=20251104; t=1785042997; x=1785647797;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MR44RvrBLwtM26YzEUTXBxK1nPlOeDDDz3ordz0nwuw=;
-        b=XSVJaCtnfQknptWWMPEaWW1hF4aPDCP3NVPcsrTaynFa1SC0Rnz8GDnESNMNe8vzEL
-         bJ+1tkMGAO9raNI1Uqc6uth6ThF2S6at+bknbLjsLkAz9AxZ/I8TCueDBziTAXFKFIg2
-         iwpPB+2K20217qiG4GK3J6sweb14qWKnLmfbD2JsGTBH3AjZoGwiqC18e8OfO/SvZxA6
-         OMl+PVTTc27qaa/piL/4t6uIM+5lVuybM2v1piKvg1K7I4Aech6cyMSidMJY2JQVJoDN
-         BEChco+str0McoqqGWO76dRGsMCyNakAs/jyS0KlKj0f897N1MiHe2g3f2wnxx1JKQic
-         5Z8A==
-X-Gm-Message-State: AOJu0Yx+ALCyAu+swU3KCD5BbfCWzgZu8vKZy3fFDPocSo85GgGAleZp
-	Sh/tWPKje6FsbEKTuxuL/4Gc8W83P1RCGQ9iflRlpo2Tpyu1zKOq2qol9C+h8gb0ilPzED4a7jU
-	X798Y8D8=
-X-Gm-Gg: AR+sD13GmCBazW7i5A+RhTy3F/WiW/2boVowgJ1fxDoDybU0gBnueY7kC/26SHS62cD
-	gkabr9DO8zTGJ+oDXRAPOw1S+WnIkWLBXwFLVTlxnYyAEfnkzeoobtmvn32sLk4J4AgOGwAOhaH
-	MAYBblrhUseoRCRjljZbMPk+y7Hj2XBkAv+ZbCimeoEXeTKJxDi7h6AdlWpaloQUaFt6bIN/Wn1
-	mYKyPVS+uBfyJUE2iAIO3QUB/rr3z4dhTvQeMUtJaUpbm3AFXlfbg2wyr9cxKURPwID5+sCMw9C
-	aoKL9K86uP7Z2WkzRlwcE92JtzoNm2dvPMwQc3AzRWkziNpSdDcp/DLdWqoUjsZNYuPL0hcFnKo
-	yfm5YMmuKQO6k43qi+06l3mOI6C5FxMWyBZnhFpQehrT0ErvJt/KHdFCKGNeOPf0Njfs52h7fFw
-	Pc8EGbBDWNxKcxOZ52rZus1mLkjb4Vty8A8SBLAXqW1BhfTQnw8GC/aJg+gU+c
-X-Received: by 2002:a17:90b:258e:b0:37f:9ce1:cda4 with SMTP id 98e67ed59e1d1-38f29641b23mr3989545a91.26.1785042972540;
-        Sat, 25 Jul 2026 22:16:12 -0700 (PDT)
+        bh=tzWhDyTff580ghlpgewRs7awFwMox1Cw1VJXwDERVqI=;
+        b=J0FGIoxgEzUZXcR2jTFXsYAw5Hheu7B7FsZgKtI8OvIbpivQnIWi4dSjXSJRorOMbb
+         4K3Xq+KU4xvtX1TJVCKaiGbF7X0AITwEHOFRu2aFtr6CQKmFDSIZHUVSd6eO09Pa402I
+         xbJgNIVc6TT//kR4ur/oJZbmukMcWcOLPXtZ4WJ4AYcwbU1TK3/K7GMdxjsgO6vVwBpb
+         u4hxiswEt8PBCqueQ5qrqUnt6jRmoM59Tz0j/Nphaan4cgUp6TocObM2rXAni5ZF99l5
+         vlmNXT1sV9Bz6jIsZlOBJJ3kRB5skDQRXs9rKxGoUSo3sD7/U3koKviIs0AvMBDnPrfm
+         Oecw==
+X-Gm-Message-State: AOJu0Yxex6VPRfQ7OXWzq3yQR/PrCXYwNmJ3tPLd9b/Iuff277pTkJ8z
+	AJPA+izYoTs1XqPxlWyH212kCfv+9LB2Lj5TS2DWc5wOQVpTk1tVgaaSNek1ecn6atALrWIZxz1
+	PjB9F2Vc=
+X-Gm-Gg: AR+sD13CPCukqQz7CFafpDJ2xVtXK4iqbsNmYaPM1xXGUT4L1VfYjRYLn7wcP6QJ3Lc
+	qxnQ3Y4+XREjubrlE4WpCZXussQs1plV2+jPzUOlTjC0u4Zylo7Q9CC4EgjSSg0OayS5/jSFf/p
+	vbqSyzoc45XwVsmcJqTUCOdEBM3NT0kBjKZMDniWCy+3xan+iS1pHcQW1EMfnqshtEE0aMINXld
+	ukTCxwww4crAj96lcY7peTvMjPKUM00zyHYsmr7bzldR21ksSjVuEhU6sxKU6WvAuRNSI+YEGLx
+	eUfAB94G012wiEqtoPrgrca1XYQP8K/v9plTlfdC+YUZKHVToWE9T92as51n06bZvfxVJmx+L6l
+	YzcCpDloUSTum3YF/7gWS3F41SvDfqxorxqeEGaMtZOi+2BQllC1SUqWdvjnYm2qbDOCEwSWz8/
+	DidAXqMQsTzLuTsTl13hiQrXB7AEh/kDMssquyUxO5Z42jrY5c6PUFev7/Ea74
+X-Received: by 2002:a17:903:2446:b0:2c9:97a8:afef with SMTP id d9443c01a7336-2cfde8673a4mr38550675ad.40.1785042997347;
+        Sat, 25 Jul 2026 22:16:37 -0700 (PDT)
 Received: from localhost.localdomain ([125.128.148.126])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f21759950sm1366693a91.0.2026.07.25.22.16.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde5c8337sm16912195ad.20.2026.07.25.22.16.35
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 25 Jul 2026 22:16:11 -0700 (PDT)
+        Sat, 25 Jul 2026 22:16:37 -0700 (PDT)
 From: Baul Lee <baul.lee@xbow.com>
 To: linux-sound@vger.kernel.org
 Cc: perex@perex.cz,
@@ -63,9 +63,9 @@ Cc: perex@perex.cz,
 	federico.kirschbaum@xbow.com,
 	Baul Lee <baul.lee@xbow.com>,
 	stable@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: fix use-after-free in ump_to_endpoint()
-Date: Sun, 26 Jul 2026 14:13:37 +0900
-Message-ID: <20260726051337.41124-1-baul.lee@xbow.com>
+Subject: [PATCH] ALSA: ump: fix double free of out_cvts on rawmidi error
+Date: Sun, 26 Jul 2026 14:16:33 +0900
+Message-ID: <20260726051633.41206-1-baul.lee@xbow.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -75,60 +75,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-create_midi2_ump() registers a card-owned snd_ump_endpoint and stores a
-back-pointer to its per-interface snd_usb_midi2_ump object in
-ump->private_data, but it never installs an ump->private_free hook and
-never clears that pointer.
+snd_ump_attach_legacy_rawmidi() allocates the legacy conversion array
+ump->out_cvts and, on the snd_rawmidi_new() error path, frees it with
+kfree() but leaves ump->out_cvts pointing at the freed memory.  When the
+endpoint is later torn down, snd_ump_endpoint_free() frees ump->out_cvts
+a second time, resulting in a double free.
 
-If a later step of snd_usb_midi_v2_create() fails, its error path calls
-free_all_midi2_umps(), which kfree()s the snd_usb_midi2_ump object while
-the already-registered endpoint keeps pointing at it.  The created
-/dev/snd/umpC*D* node stays exposed, so the first operation of any UMP
-open, ump_to_endpoint(), dereferences the dangling ump->private_data and
-reads rmidi->eps[dir] out of freed memory.
+The host snd-usb-audio driver attaches the legacy rawmidi for any USB
+MIDI 2.0 (UMP) device, so a device that makes snd_rawmidi_new() fail
+reaches this path on enumeration.
 
-A malicious USB MIDI 2.0 device that makes creation fail after the
-endpoint is registered can thus trigger a slab use-after-free read on a
-subsequent open of the UMP node.
-
-Clear the endpoint's back-pointer before freeing the object, and let
-ump_to_endpoint() tolerate a NULL private_data so the open/close/trigger
-callbacks fail cleanly (their callers already handle a NULL endpoint)
-instead of dereferencing a stale pointer.
+Clear ump->out_cvts after freeing it on the error path so it is not
+freed again during teardown.
 
 Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
 
-Fixes: ff49d1df79ae ("ALSA: usb-audio: USB MIDI 2.0 UMP support")
+Fixes: 33cd7630782d ("ALSA: ump: Export MIDI1 / UMP conversion helpers")
 Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
 Reported-by: Baul Lee <baul.lee@xbow.com>
 Cc: stable@vger.kernel.org
 Signed-off-by: Baul Lee <baul.lee@xbow.com>
 ---
- sound/usb/midi2.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ sound/core/ump.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/midi2.c b/sound/usb/midi2.c
-index 3ec633291772..83980fb83ac8 100644
---- a/sound/usb/midi2.c
-+++ b/sound/usb/midi2.c
-@@ -329,7 +329,7 @@ ump_to_endpoint(struct snd_ump_endpoint *ump, int dir)
- {
- 	struct snd_usb_midi2_ump *rmidi = ump->private_data;
- 
--	return rmidi->eps[dir];
-+	return rmidi ? rmidi->eps[dir] : NULL;
- }
- 
- /* ump open callback */
-@@ -685,6 +685,8 @@ static void free_all_midi2_umps(struct snd_usb_midi2_interface *umidi)
- 		rmidi = list_first_entry(&umidi->rawmidi_list,
- 					 struct snd_usb_midi2_ump, list);
- 		list_del(&rmidi->list);
-+		if (rmidi->ump)
-+			rmidi->ump->private_data = NULL;
- 		kfree(rmidi);
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index 70520c7ca293..632c13baf21e 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1365,6 +1365,7 @@ int snd_ump_attach_legacy_rawmidi(struct snd_ump_endpoint *ump,
+ 			      &rmidi);
+ 	if (err < 0) {
+ 		kfree(ump->out_cvts);
++		ump->out_cvts = NULL;
+ 		return err;
  	}
- }
+ 
 -- 
 2.50.1 (Apple Git-155)
 
