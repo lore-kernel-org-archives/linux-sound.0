@@ -1,171 +1,130 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13ECA34753B
-	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 07:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1534918A6CF
+	for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 08:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785052447; cv=none; b=fi1ekACMKJDdAU6dQBLbuoCPZCBtEoxo0n5IRcE0WeX/6MjBoTlFinp+Bm0BJU9qjW+J3Qc+uTQz5yC0veLnmG9/pPm2xTSgMvPz9o2pEHdqgdm8CfjRFKp1HjIx4E0InWMl4yymIP0OsIKangfmONHioO3cD9MTmhCge1rSZEM=
+	t=1785052923; cv=none; b=i23YOw+uuGbwGREOZHeC7WDDhSzDhMTCLCHcNgvbm4TOR9ewSvC91/4B7bzDcMcorTjuz8ycGT6SsFsgTH0AyxLiW/0WcgU36YLORSQoJJxjfrOPEC7Q+9EGEOjZ4z54+6IIVJHAycOW2AjLfSdK38bkFmp94j/vcVYCuGFWT80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785052447; c=relaxed/simple;
-	bh=9jE3erIb14OiiFoM9Hr8SmGHEP4XD5YKjOJXpmg35fU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mX9JpVpXljykHYPkNLBUopQ7ct5nAEbr3WiPKigmyJYb0HNsiWVFtdBiySamNAA4uNC25TJiLUUHLkp6NcZ2rS7O8ViO+nMzkhAB3Gg4y6xhcbhRIeNEBsMD5GoqaWTDFaKDj7Uv2N79yDWAMN8PzRbiXgq5HIhQ7TqZFk3aA/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=miKoUijF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=o0JZ5uts; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=toNxEKo7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VunJ1zpP; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785052923; c=relaxed/simple;
+	bh=CZg3tfVfU6vFX7ksaybHLxDTRxaigw6WuQHqPXJV9cw=;
+	h=From:Content-Type:Mime-Version:Date:Subject:Cc:To:Message-Id; b=edUGoQ4dfJtP9oDHW00wNHebT2bBz51srcZTE91fdxwjf8elABahF3KBuydjNhFrb7CAP7siDl81u/b6tK614DOqObLivJsHpxiPtDMRGUD5Uc/CSTJY93i0o2yeNCGo0o0AdeQqy3bbAqA+FWXlREx48Sc60MSUf4CciX+VMDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com; spf=pass smtp.mailfrom=doyensec.com; dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b=CTiIp0v9; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=doyensec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=doyensec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="miKoUijF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o0JZ5uts";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="toNxEKo7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VunJ1zpP"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DAEFA4F61;
-	Sun, 26 Jul 2026 07:54:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785052444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9xFRflfhQJSxtKfo/LxhCwvUV+rwG87rVlPwk2lBGE=;
-	b=miKoUijFDRhzKBAMDHVZEttpJFECU1t+31tBGT95TkzIXkJXJX2DKo3b/x3WdDGHByqY99
-	RRB9hIQ+7yiJCGDuxYT2zKzyU39PGHfq7JLJUfuGAmO8QbUzu8X+cpYxx/2k7YNDNBJKzz
-	K4inCaAq3abRPmUC1barhvor1QfthL8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785052444;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9xFRflfhQJSxtKfo/LxhCwvUV+rwG87rVlPwk2lBGE=;
-	b=o0JZ5utsTVDzhrxX8k3dhNNnoPaHh+R6WELmfOPxMcvtCmar9FmyJBHswK5pikm+2ps626
-	td0aHBJO3vtsd0Cw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=toNxEKo7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VunJ1zpP
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785052443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9xFRflfhQJSxtKfo/LxhCwvUV+rwG87rVlPwk2lBGE=;
-	b=toNxEKo7SdLPkrYgLt0rlK/P87cpR3ci9hJRUbcsMySXB64agch6vqMDuxI0cmqqvW+EjF
-	RfSTrpXvmLinHwiMK/8xlBUjvbuv4encAVeL6NVN/kBloH1UnWuwdhhyfNMN9Kr5M1ir+v
-	BIjGvUbcIbAPZRP7lBC3IQ7mQHFpFy4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785052443;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c9xFRflfhQJSxtKfo/LxhCwvUV+rwG87rVlPwk2lBGE=;
-	b=VunJ1zpPoGYQgHI7qLVVfSWeoxo4JkXmt9CJ+2rKESTcA2C4g9L2AzQdo2PjQqP3jUvg93
-	qNnMZAk9qFnnBqCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A953A779B9;
-	Sun, 26 Jul 2026 07:54:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id k69AJxu9ZWrGLAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 26 Jul 2026 07:54:03 +0000
-Date: Sun, 26 Jul 2026 09:54:03 +0200
-Message-ID: <87y0ey9of8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Gunal S <gunal2002@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for Infinix INBOOK X3 Slim
-In-Reply-To: <20260725140241.28524-1-gunal2002@gmail.com>
-References: <20260725140241.28524-1-gunal2002@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=doyensec.com header.i=@doyensec.com header.b="CTiIp0v9"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-69fab5a852cso2449883a12.0
+        for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 01:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=doyensec.com; s=google; t=1785052919; x=1785657719; darn=vger.kernel.org;
+        h=message-id:to:cc:subject:date:mime-version
+         :content-transfer-encoding:content-type:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QrhQ8oZKtoxbrQ3gHCQluy7mPK2e62qeBdhvjYYjz4w=;
+        b=CTiIp0v9wWxnEA9bzPEgwmG/lnYWDRRu8erg5r/ib1Rg4ND6HRgWFrCjr9Ddqz27az
+         V6OzhfrSaAjBsHVb+MRqw5XUgPEAaNDKQ85NUracAobqI2Zeu2vleX/HcG7LpYxHAmaH
+         yY1lyKW4IFfYpDQJ6hzdEDK8+xkL0KRQlFj7dlxxWl6vD+tDod1sUNN+Vnx3wh0uoQmu
+         6buMbqyIQmAQGtTUKQort2OhApMYn+LkSYoSvI6BUosw4oRQC9RZEshZz1VN/tLNTjl+
+         bbrKjp8PXu8uH+7DG2PLkLmTdrEaSNQ618hRcow4Z3CtzhNCGut8PzjFKxhHeqkncJYJ
+         nbLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785052919; x=1785657719;
+        h=message-id:to:cc:subject:date:mime-version
+         :content-transfer-encoding:content-type:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QrhQ8oZKtoxbrQ3gHCQluy7mPK2e62qeBdhvjYYjz4w=;
+        b=AKgkR+IwJ3iNCuNrjPZRejASR+tDEU+FSLMI5W2xBfq9evlnwvkqx1xE0pPLU7qRgE
+         b413cJzIpAOWwJp2wdNv+tP2EI+5Kx2fDkkA23UMjlQXpE2J2WNnxDQLFdi2IvqDrXiR
+         73p9gbMmy60ZYdEYgDjBEOWAmepEVl/IOfvehXixvk6Kl2WAvfVpVhAtHQuJuWpdiK1C
+         VPMn6iB6JowWrfs+rx2DhqnK9waY3JnzdMrV6n22+eGYK2NzPZ3KVu/X2GUQpwSPgFuo
+         +PRHhmuVrmtZEosYZwJYkzpbepHKwh6NX6oTCZayEgeJ63g03e/awOWOE4Agz7VKnWfu
+         7pyA==
+X-Gm-Message-State: AOJu0YzA2fXFBG8Dxjgvi3OXaaQCM18ECfDh8yYnzaVEjLcKKsC+MMhd
+	W+FKF6FQdcPWP9VPrw7wMi06u1BaWoCQn1HP1u2kwNz4gxHZSD/1xdqYu1mAQgoLV/BmWHyZz84
+	spvbHRN0=
+X-Gm-Gg: AR+sD11HVV7dh8vN27LY2hq9OxIeRu4mibuFgUYNsbkV3eu8138byXRxDR2QthBEoFd
+	9OM10MaHgSKxmbRNFCA6n2+VKEA1Dp4Mv0fpSXUaGd61L+g3DUOsTi2ckKKZsJAvuU309ozFhHo
+	WycKDX8xdSEzPJw2zYY78l1JxctgVxWTaQnXqyRQ44D8D/AMpbzIop2BnItMabUGuzJEW8uqf0s
+	inLu4ZoFQEFvhgHBL4pcYu3HYnjpcBWmFQ9dKzCnKRs9HPvLMB0Dbz9d02XAv/QsEo2tSkwrM1m
+	T9G/eOsEYANFZQlw6NzKU0i7KmWoWFQs9ovhprYlr78VR+0EG8058pH/VAz2BIJamFy4+OwhWvX
+	9TOn0XlCevvqJD4CkWJgwiqFKFkxdbb1/6mpk5sdbXHJoiaM1ZLhAQH2lw5om9plBaoZG2zJw8p
+	CFsgJxc2zjnY7uLwHibXg9/OdddXjOhRwl/y3BlrlssgweHCBz/kVu0YH3KG5c/Y40G9u976uAw
+	RGp0Ztvo4K5Bo9F/ngWRWtuacjyyoGw/6k4ZlgDuzhETtyOtJRFibk+kw==
+X-Received: by 2002:a17:907:26ca:b0:c1c:6f0c:86f3 with SMTP id a640c23a62f3a-c1f1e9f97bfmr166307766b.7.1785052918984;
+        Sun, 26 Jul 2026 01:01:58 -0700 (PDT)
+Received: from smtpclient.apple (83.10.16.193.ipv4.supernova.orange.pl. [83.10.16.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32ac8c4bsm524285266b.18.2026.07.26.01.01.56
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 26 Jul 2026 01:01:57 -0700 (PDT)
+From: Norbert Szetei <norbert@doyensec.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: DAEFA4F61
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
+Date: Sun, 26 Jul 2026 10:01:45 +0200
+Subject: [PATCH] ALSA: timer: Clear SNDRV_TIMER_IFLG_DEAD once the close
+ completes
+Cc: Takashi Iwai <tiwai@suse.de>,
+ Jaroslav Kysela <perex@perex.cz>
+To: linux-sound@vger.kernel.org
+Message-Id: <CA41AA48-75BF-45E9-A36D-3A5D2F124F60@doyensec.com>
+X-Mailer: Apple Mail (2.3826.700.81.1.4)
 
-On Sat, 25 Jul 2026 16:02:18 +0200,
-Gunal S wrote:
-> 
-> The Infinix INBOOK X3 Slim (ALC269VB, subsystem 0x2782:0250) has its
-> internal speakers wired to pin 0x1b, but the BIOS pin configuration
-> table declares 0x1b as "no physical connection" (0x411111f0). It instead
-> declares pin 0x14 as the internal speaker, although nothing is connected
-> to 0x14.
-> 
-> As a result the internal speakers are silent under Linux while the
-> headphone jack works correctly. The codec output path to 0x14 is fully
-> open (DAC assigned and streaming, mixer and pin unmuted, EAPD asserted),
-> so the failure is silent with no error reported. The speakers work under
-> Windows, where the vendor driver supplies its own pin table.
-> 
-> Add a fixup that disables the unconnected pin 0x14 and declares pin
-> 0x1b as the internal speaker.
-> 
-> Reusing the existing ALC269VC_FIXUP_INFINIX_Y4_MAX was tried first, since
-> it also remaps 0x1b to an internal speaker. It is not sufficient here: it
-> leaves 0x14 declared, so autoconfig finds two line_outs
-> 
->   line_outs=2 (0x14/0x1b/0x0/0x0/0x0) type:speaker
-> 
-> and binds the primary "Speaker" control to the unconnected pin 0x14 while
-> demoting the working speaker at 0x1b to "Bass Speaker". Audio is audible
-> that way, but the volume and mute controls a desktop actually uses end up
-> attached to a pin that is not wired to anything. Disabling 0x14 is what
-> produces a single correct Speaker output.
-> 
-> Verified on the affected machine: with the corrected pin
-> configuration the driver's autoconfig reports
-> 
->   line_outs=1 (0x1b/0x0/0x0/0x0/0x0) type:speaker
-> 
-> both channels play, headphone auto-mute switches correctly in both
-> directions, and audio survives codec runtime suspend (D3) and resume.
-> 
-> Signed-off-by: Gunal S <gunal2002@gmail.com>
+snd_timer_close_locked() marks an instance with SNDRV_TIMER_IFLG_DEAD
+and returns early when the flag is already set, but the flag is never
+cleared again.  A completed close ends in remove_slave_links(), which
+leaves timeri->timer NULL, so a second close is already harmless through
+the timer =3D=3D NULL path; the early return can only be reached by an
+instance that was opened again in between.  For such an instance the
+close unlinks nothing, so snd_timer_instance_free() frees an object that
+is still on timer->open_list_head, still on snd_timer_master_list if it
+was opened with a slave key, still owns any adopted slaves, and still
+holds its timer and module references.
 
-Could you use a full name for Signed-off-by (and From) line?
-Signed-off-by is a legal requirement, and we prefer a full real name
-shown there.
+snd_seq_timer_open() reopens an instance exactly like that: it retries
+its fallback open on the same object after a failure that has already
+run snd_timer_close_locked() internally.  An unprivileged user with
+access to /dev/snd/timer and /dev/snd/seq can force that failure, since
+snd_timer_check_master() returns -EBUSY when a pending slave matches the
+new master's (slave_class, slave_id) key and the target timer has
+reached max_instances, and SNDRV_TIMER_IOCTL_SELECT with dev_class =3D
+SNDRV_TIMER_CLASS_SLAVE keeps the caller-supplied dev_sclass, so a
+sequencer queue's key can be forged.  The freed instance is afterwards
+dereferenced by any further snd_timer_open() on that timer, by
+snd_timer_check_slave(), and by /proc/asound/timers, which faults on the
+stale ti->owner pointer.
 
+The flag only has to be visible while the close is in progress, which is
+all its other users need.  Clear it in remove_slave_links(), under the
+same timer->lock that sets it, once the instance is off every list.
 
-thanks,
-
-Takashi
+Fixes: da3039e91d1f ("ALSA: timer: Forcibly close timer instances at =
+closing")
+Cc: stable@vger.kernel.org
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Norbert Szetei <norbert@doyensec.com>
+---
+diff --git a/sound/core/timer.c b/sound/core/timer.c
+index 07ef127b29e1..9407954034cf 100644
+--- a/sound/core/timer.c
++++ b/sound/core/timer.c
+@@ -458,6 +458,8 @@ static void remove_slave_links(struct =
+snd_timer_instance *timeri,
+ 		list_del_init(&slave->ack_list);
+ 		list_del_init(&slave->active_list);
+ 	}
++	/* the close is done; a reopen must not see the mark */
++	timeri->flags &=3D ~SNDRV_TIMER_IFLG_DEAD;
+ }
+=20
+ /*
+--=20
+2.55.0=
