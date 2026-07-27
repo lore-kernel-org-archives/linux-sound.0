@@ -1,64 +1,64 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11E23F4104
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1D43EEADF
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785145383; cv=none; b=TsM4dwOWPreNkQituo8kUOSgfyr42PougGBUBzi9Aiaktp8NZUgzg4PjIBPh6CCBvNSh0PlEF4lo9nV2OOt1R7qCzOhHTg8tLhnDez0xv5lZjEJh6ZNZgOAA/qUNKx0MrFT33u110Ozk3MNjMXJ6lPq0kEry85KLFX9dMoFDdVs=
+	t=1785145389; cv=none; b=B/l1ubBMG6wyy7l1LoO5aRgfqfzND8dgsBkcgCdrQfKqmg0Hdz8lkZkeTWtg/iFFn0onssZ/H65i0uzTsVPiBEO8lSDVWJvb4DLP5B332JyQk2yTVBPaeFoUdGzdsumWgFpvdVCTgbN4fA3E2bCZuAKCIFFXNNo6yFafdJjRSa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785145383; c=relaxed/simple;
-	bh=CR/lpIz867Ge5SfVg0BgnctkBifwpEVSwmWaNcKvrvs=;
+	s=arc-20240116; t=1785145389; c=relaxed/simple;
+	bh=jJta1wP6Gxka/gvOOEwLo5cIEFpwWGZWGRX7SMxpNTs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u/AVS4Z7gcPF+6FqLS0XpI7ki0X/ag8mjEG9O8gYNCz538OtgbPkPGVndgqqyc/CqZXML5cL88TBoEo2GIHml7ymX5jCTJQojFEVZDO73IAvSG4hIQcHdnPHBDuSMpyER2WLNbKNeKZZe+gNrfhNy6T7TmPm1aBSya4O2TUloo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bSda0Q3q; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version; b=kr0idIaPdTOACeIiHvf65t1BjyipqYvSxeka79bgbBQwy8L+Vjq26gotTwM74iGY8SULr1K5CAPaRzlS6id6QKYykoVzKNIiULQ5DUimn92PpLngLwS3z0jOxPoW2490f6a6rR8dKjC0evisl3kCbk7pD699ItNwnvFLWB5XF1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p6zZWO4W; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bSda0Q3q"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84a4d8fd6ecso2441969b3a.1
-        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:42:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p6zZWO4W"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so1686341a91.2
+        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785145373; x=1785750173; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785145381; x=1785750181; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tK2T+D6HuV5arLji/rG4gtI0GorQ1z1dx7hf11H1P5k=;
-        b=bSda0Q3qT4RWQcMU1f2socxFPzSoCmRVoHMaQ8Icr2YvA0VWEe+BCd8XMvCJOMY+Xi
-         WUfnwQ7qcqvzPGaZxaqDxUwvjjhRmYfDn1Yynvi1PZ8LcF/OMKM3dkNXdioGGcxtjtCU
-         xh8oHs8vvSPy35xlc8gsqAXT3rQKDFaK5BYaB838zK3hwJXW7qC32SmMFLkSF64MUw4o
-         sdZSjfK5IsTmS/IVoVaEffg29duvi7LdtZO66za+3f4E2yEjZs9Di9kS5ECxa279CCYq
-         YNhoQmqyMAqpgLZmgJTiPaNZBg/9o4bz77i51qhjy02mv9aVwV7J7kUXP7dsqLqZ7poR
-         xMgQ==
+        bh=GJN91k1ihxweTvZ2euRdyyI5ivn2nMtlaxC9t7yRgHQ=;
+        b=p6zZWO4WFNSf4I29PAY/+16CueKGg7gFvNimi9yC37eoF9kXjRm3LZpGCqgfyw8MJt
+         iA2RqAh64rEduuLqD+f//zO5KOhm7mxkYlLTaZDyYm5xDNfTYbZ04bT7863hLK5c44ZN
+         Ws25fO+xjZOPQb1PItnKMGN680SKyRjJhJQpOYb6J1j1bHbQgpVjQi7sXzw9CkMg5ysd
+         OkgdyduulDT0vZJIZhBK1O2YI9rGmPuUnkfQLPTqEU7yLSp+S0hUHH7fMjafVlE4c4dH
+         IksYOPNenSB5I83E4gAbGg+/A9zTjDFDd/JgmWiLkjHpeKzHkzAlYis1CMgqPbCZnxqm
+         PWnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785145373; x=1785750173;
+        d=1e100.net; s=20251104; t=1785145381; x=1785750181;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tK2T+D6HuV5arLji/rG4gtI0GorQ1z1dx7hf11H1P5k=;
-        b=K1wf733vWs/p3IWAw0RatR4Hv0WmpVeKOw4ON+K4Aa+EJPdHqvH2ugZptEGTcuKX1q
-         2WbJcv2IQtUHqGUS6WDxPzR9/rVg219Qn2TOaNC8kbQ8P6EIQUvu+ICLsSMmTVhxXuEX
-         KcqIOHhuSenvMUer1BV7Sg4eDov6TJ21KlpJVJlRMj+YAc7kuv9za/a92VmjINSClWjm
-         29fiLifrGxTRBVRG+74E4cfI/vfW0LHeQ5MasmMb0Hcc2RrC9z9opBBBynWb2N/lUxur
-         1vXKgj9x3KnAZEfaoVaS+0rI4DIn8GM25f/qrp44DWPjVhRx+UtKYbxFQ/B4M1PQkuiE
-         IHZg==
-X-Forwarded-Encrypted: i=1; AHgh+RpHtJWQ/F/ocClsLOIi6voRHkd2HIlVD92XfPkEsaNaH5muBTnqyv7mknNi2gLoJhDpLqCuJ7n3wk1PqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydByuIC91SoScVRclF0X5LflfdFbdL0mqLnK8pHtdeBWUYjvtQ
-	dO91Osxu3SBybXYajtzOC704875FvCl5UYYjEDfGAnWTzjqQaehxIYWo
-X-Gm-Gg: AR+sD12Fga0+yHJCtn18smSfZfvNTEQB62oBxia1y1DnzvQKI8uvfI06iKEJp5GAR26
-	EkJ6PbBxQX3jCevcczl8MKQm+ipRe+p86AwF2tl8QgoiGhD9TGNKwZhbAN5igxuPr5kQGcrN0YQ
-	GvW8g+Gl/I98GmSY7/UzeiDRS77nN/oFbDIjvCIREQ6QazG5YWaPuu0W3I2jXx3MS4keI+1ItTn
-	rH5jb+MioYV91BmcIFl5muUcaMfr5oJBjtwjDYqCVr+TUaroYIK8M9kNun2gYdKP75qMb4hQd/5
-	okx7zcRu1uMDHFllCKeJgQtXlxfSyZ7wMBd0P2FjR9mDxxHU0nQJ8cY5nusUo/jlaI+xOk8T+ee
-	YCCHWRjqx6PwDxpdStPZ7CnJcpkyo5uXNOMEbfVdxTkoT68fIzWU2819T2yICqlIELyTobpt7ud
-	GrKxhxtZzfd0TUmtWkMgdIaGfurDsT6flL7TFEf6Er1xML3c6+G1nPYYtX8DShghVphDTR9qVQM
-	BX5NilTAKnG7Hl3NT19aA==
-X-Received: by 2002:a05:6a21:2d8a:b0:3c3:a3f4:5485 with SMTP id adf61e73a8af0-3c67d9b1dc7mr7512589637.6.1785145373092;
-        Mon, 27 Jul 2026 02:42:53 -0700 (PDT)
+        bh=GJN91k1ihxweTvZ2euRdyyI5ivn2nMtlaxC9t7yRgHQ=;
+        b=FM2ancJCB3MPsyp0b8Ji7+7ctgNVSWJiA1+S8yfizBGZy/l8bN/xwOlSsAPrz56+P6
+         AwQajH0zh2o17WnY9AfCmi03C8rrPbwNdesBoFCAhaz6S5kONt1wsTDD4QUTejVtxgk0
+         ed+Yq1BmOjAheSWBdGiN98PIoa67UHc9Iv/FxWahbpRn0CnNngdLGw4uzXOvrnbKtC3c
+         UPIF5gLCPFXhjH9Vu2LXpm1ybcq270lJZE96Ry24QELNfQle/jDNS/c7qVPGaAO5R7r7
+         +uX0w4HSlqpTCrJXGCtT67NOzRhp3pbPWCWfZSkNkECPe1lZ+l+AB/5xqZAWsYDBr43l
+         Gnqg==
+X-Forwarded-Encrypted: i=1; AHgh+RqYyT2KusnS0tYnXJz+IEv4PLMn0FX76hj44fPn8i1TRiNV2/eSLi9LVPROglbFuTCw5SuNgmoUDo59xA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiaFpZviiQ5PQ/OuYaLjcLLyXBoQzZGdLdv9FuA+1DSHjEnoHU
+	O/p/NL4CJeJug1qi1AQQ/i3SXn7+47mVj/vApWX4KBrcFq8OBw8112sB
+X-Gm-Gg: AR+sD12MWECgcwKwaWNRYTHW/BXiS3s9SbloyZZrTgkeQfNfdv0EAx0BCt54YrN1TtE
+	Eb+tZVrjNUuvDPC1wbFBZO2vYXHg8GIa5yxb99GJXa5lYFkY0ExRJQEd2zFTW7wYpH0e8a5E+kL
+	uFEIehPF/VVDsJsgbAdwcHzfDRSzY4wBssXMtwPAM6Ul+RH0bcQz4EWC9AzVcDvqHhJ9ui3MJGY
+	/pdAR5m98D6EfGLXvPnzu77wVX1zke/uY3CoBU9A1T/KQml/6JdUWlfR/7nz+qG2nWN5yUIGESG
+	FpGOEda+unJ6J2ITMOCOgdEjETpquXPjJa7Z6DmeqPf5H6NZmKA1eOKYj5JI1mumx10NK7dH5ko
+	Ub4nfzoDF9ZMD4x6QdMMet5AT75s1QaaMDeujQkMfXjPoADZOBgihIYStT4qIAN1D/24rIVjQ6G
+	aFHifD6Y829O7sOjO32pAWaVqdonyTbqPpMTZWXJ2m1510jKH5p/bR+1ecfutiJncJ6nDY1nZ72
+	PTXdRaXNU+myKNt0jY2Tw==
+X-Received: by 2002:a05:6a21:a346:b0:3b4:6026:6c5d with SMTP id adf61e73a8af0-3c67d9b40b6mr7806340637.5.1785145381283;
+        Mon, 27 Jul 2026 02:43:01 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbbb66b5ffesm2959018a12.19.2026.07.27.02.42.46
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbbb66b5ffesm2959018a12.19.2026.07.27.02.42.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 02:42:52 -0700 (PDT)
+        Mon, 27 Jul 2026 02:43:01 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -89,9 +89,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 05/26] ASoC: codecs: tas2783: Use guard() for mutex locks
-Date: Mon, 27 Jul 2026 16:40:25 +0700
-Message-ID: <20260727094046.23001-6-phucduc.bui@gmail.com>
+Subject: [PATCH v2 06/26] ASoC: codecs: tas5805m: Use guard() for mutex locks
+Date: Mon, 27 Jul 2026 16:40:26 +0700
+Message-ID: <20260727094046.23001-7-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260727094046.23001-1-phucduc.bui@gmail.com>
 References: <20260727094046.23001-1-phucduc.bui@gmail.com>
@@ -110,108 +110,112 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/tas2783-sdw.c | 60 ++++++++++++++++------------------
- 1 file changed, 29 insertions(+), 31 deletions(-)
+ sound/soc/codecs/tas5805m.c | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index db58c50e8a83..8ebed797acb5 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
+diff --git a/sound/soc/codecs/tas5805m.c b/sound/soc/codecs/tas5805m.c
+index bcc8cab8d667..f76e04b403b5 100644
+--- a/sound/soc/codecs/tas5805m.c
++++ b/sound/soc/codecs/tas5805m.c
 @@ -12,6 +12,7 @@
- // Author: Baojun Xu <baojun.xu@ti.com>
- // Author: Kevin Lu <kevin-lu@ti.com>
+ //
+ // It has been simplified a little and reworked for the 5.x ALSA SoC API.
  
 +#include <linux/cleanup.h>
- #include <linux/unaligned.h>
- #include <linux/crc32.h>
- #include <linux/efi.h>
-@@ -693,12 +694,12 @@ static s32 tas2783_update_calibdata(struct tas2783_prv *tas_dev)
- 		return 0;
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/kernel.h>
+@@ -230,10 +231,9 @@ static int tas5805m_vol_get(struct snd_kcontrol *kcontrol,
+ 	struct tas5805m_priv *tas5805m =
+ 		snd_soc_component_get_drvdata(component);
+ 
+-	mutex_lock(&tas5805m->lock);
++	guard(mutex)(&tas5805m->lock);
+ 	ucontrol->value.integer.value[0] = tas5805m->vol[0];
+ 	ucontrol->value.integer.value[1] = tas5805m->vol[1];
+-	mutex_unlock(&tas5805m->lock);
+ 
+ 	return 0;
+ }
+@@ -249,13 +249,12 @@ static int tas5805m_vol_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct tas5805m_priv *tas5805m =
+ 		snd_soc_component_get_drvdata(component);
+-	int ret = 0;
+ 
+ 	if (!(volume_is_valid(ucontrol->value.integer.value[0]) &&
+ 	      volume_is_valid(ucontrol->value.integer.value[1])))
+ 		return -EINVAL;
+ 
+-	mutex_lock(&tas5805m->lock);
++	guard(mutex)(&tas5805m->lock);
+ 	if (tas5805m->vol[0] != ucontrol->value.integer.value[0] ||
+ 	    tas5805m->vol[1] != ucontrol->value.integer.value[1]) {
+ 		tas5805m->vol[0] = ucontrol->value.integer.value[0];
+@@ -265,11 +264,10 @@ static int tas5805m_vol_put(struct snd_kcontrol *kcontrol,
+ 			tas5805m->is_powered);
+ 		if (tas5805m->is_powered)
+ 			tas5805m_refresh(tas5805m);
+-		ret = 1;
++		return 1;
+ 	}
+-	mutex_unlock(&tas5805m->lock);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static const struct snd_kcontrol_new tas5805m_snd_controls[] = {
+@@ -332,7 +330,7 @@ static void do_work(struct work_struct *work)
+ 
+ 	dev_dbg(&tas5805m->i2c->dev, "DSP startup\n");
+ 
+-	mutex_lock(&tas5805m->lock);
++	guard(mutex)(&tas5805m->lock);
+ 	/* We mustn't issue any I2C transactions until the I2S
+ 	 * clock is stable. Furthermore, we must allow a 5ms
+ 	 * delay after the first set of register writes to
+@@ -345,7 +343,6 @@ static void do_work(struct work_struct *work)
+ 
+ 	tas5805m->is_powered = true;
+ 	tas5805m_refresh(tas5805m);
+-	mutex_unlock(&tas5805m->lock);
+ }
+ 
+ static int tas5805m_dac_event(struct snd_soc_dapm_widget *w,
+@@ -362,7 +359,7 @@ static int tas5805m_dac_event(struct snd_soc_dapm_widget *w,
+ 		dev_dbg(component->dev, "DSP shutdown\n");
+ 		cancel_work_sync(&tas5805m->work);
+ 
+-		mutex_lock(&tas5805m->lock);
++		guard(mutex)(&tas5805m->lock);
+ 		if (tas5805m->is_powered) {
+ 			tas5805m->is_powered = false;
+ 
+@@ -379,7 +376,6 @@ static int tas5805m_dac_event(struct snd_soc_dapm_widget *w,
+ 
+ 			regmap_write(rm, REG_DEVICE_CTRL_2, DCTRL2_MODE_HIZ);
+ 		}
+-		mutex_unlock(&tas5805m->lock);
  	}
  
--	mutex_lock(&tas_dev->calib_lock);
--	ret = tas2783_validate_calibdata(tas_dev, tas_dev->cali_data.data,
--					 tas_dev->cali_data.read_sz);
--	if (!ret)
--		tas2783_set_calib_params_to_device(tas_dev, tmp_val);
--	mutex_unlock(&tas_dev->calib_lock);
-+	scoped_guard(mutex, &tas_dev->calib_lock) {
-+		ret = tas2783_validate_calibdata(tas_dev, tas_dev->cali_data.data,
-+						 tas_dev->cali_data.read_sz);
-+		if (!ret)
-+			tas2783_set_calib_params_to_device(tas_dev, tmp_val);
-+	}
- 
- 	return ret;
- }
-@@ -927,22 +928,23 @@ static s32 tas_sdw_hw_params(struct snd_pcm_substream *substream,
- 		dev_err(tas_dev->dev,
- 			"clear latch failed, err=%d", ret);
- 
--	mutex_lock(&tas_dev->pde_lock);
--	/*
--	 * Sometimes, there is error returned during power on.
--	 * So added retry logic to ensure power on so that
--	 * port prepare succeeds
--	 */
--	do {
--		ret = regmap_write(tas_dev->regmap,
--				   SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
--						TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
--						TAS2783_SDCA_POW_STATE_ON);
--		if (!ret)
--			break;
--		usleep_range(2000, 2200);
--	} while (retry--);
--	mutex_unlock(&tas_dev->pde_lock);
-+	scoped_guard(mutex, &tas_dev->pde_lock) {
-+		/*
-+		 * Sometimes, there is error returned during power on.
-+		 * So added retry logic to ensure power on so that
-+		 * port prepare succeeds
-+		 */
-+		do {
-+			ret = regmap_write(tas_dev->regmap,
-+					   SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
-+							TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
-+							TAS2783_SDCA_POW_STATE_ON);
-+			if (!ret)
-+				break;
-+			usleep_range(2000, 2200);
-+		} while (retry--);
-+	}
-+
- 	if (ret)
- 		return ret;
- 
-@@ -966,7 +968,6 @@ static s32 tas_sdw_hw_params(struct snd_pcm_substream *substream,
- static s32 tas_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
- 			       struct snd_soc_dai *dai)
- {
--	s32 ret;
- 	struct snd_soc_component *component = dai->component;
- 	struct tas2783_prv *tas_dev =
+ 	return 0;
+@@ -414,14 +410,13 @@ static int tas5805m_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 	struct tas5805m_priv *tas5805m =
  		snd_soc_component_get_drvdata(component);
-@@ -975,14 +976,11 @@ static s32 tas_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
  
- 	sdw_stream_remove_slave(tas_dev->sdw_peripheral, sdw_stream);
+-	mutex_lock(&tas5805m->lock);
++	guard(mutex)(&tas5805m->lock);
+ 	dev_dbg(component->dev, "set mute=%d (is_powered=%d)\n",
+ 		mute, tas5805m->is_powered);
  
--	mutex_lock(&tas_dev->pde_lock);
--	ret = regmap_write(tas_dev->regmap,
--			   SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
--					TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
--			   TAS2783_SDCA_POW_STATE_OFF);
--	mutex_unlock(&tas_dev->pde_lock);
--
--	return ret;
-+	guard(mutex)(&tas_dev->pde_lock);
-+	return regmap_write(tas_dev->regmap,
-+			    SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
-+					 TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
-+			    TAS2783_SDCA_POW_STATE_OFF);
+ 	tas5805m->is_muted = mute;
+ 	if (tas5805m->is_powered)
+ 		tas5805m_refresh(tas5805m);
+-	mutex_unlock(&tas5805m->lock);
+ 
+ 	return 0;
  }
- 
- static const struct snd_soc_dai_ops tas_dai_ops = {
 -- 
 2.43.0
 
