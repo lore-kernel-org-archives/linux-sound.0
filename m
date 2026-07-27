@@ -1,63 +1,63 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB59D3EAC71
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:32:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784DB3ED3D8
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785144761; cv=none; b=Ry90FYQ/qeYF1GAcr8USzdQ5SFvBcdQAipvQmQpbrDYh5LeZOY6R/oKyb+Y9buyuz2a8blYvZKnaH1qeeHtQJ/ee/jwJ8zmdyhxKogWn6bd7NqkxFrttpm1qqSuN2rSA/Vf1zoZYocx1rL8HNoJMVJ6GuGr9oEDh0VBWpcE4tQI=
+	t=1785144772; cv=none; b=DPp0llGYZolg8aXOnOewJ49e3mh4kxJpcqEpr1m7eQjRl9RhXyNNb22BRz61PEHrO2H8CShEvc3hqiRQ4kSkWjFpfVgrFc1CKJJ6BWoU0y0kPdDe0XGcIwYq+xEPcReOgQB1Bd+53ppID9o/bBkpEanSMjVUtGdAjeLHNXJbW9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785144761; c=relaxed/simple;
+	s=arc-20240116; t=1785144772; c=relaxed/simple;
 	bh=bC3WdLPmIryizyFVCpxJblIsGFp7sKD42r5yPP2ZpqE=;
-	h=Date:Message-ID:From:Subject:In-Reply-To:References:To:Cc; b=mqLlnGh4Z38aktWvrmX/Q4q/8SFQiW5Nfww7uv6Sc2yAXokEunJElCBqZKygeN3zTm5PI6L8JvXPrxitgY8A5NxN4zh3AMI5hQEjpnUBEHWR7E0jXqqgne1c3x9dNnd6UIazKG1zIuhSiK+0RqutHgOpI6u6N4cM94UEKKEesGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hUSxhBfU; arc=none smtp.client-ip=209.85.167.48
+	h=Date:Message-ID:From:Subject:In-Reply-To:References:To:Cc; b=lZ53dwT8W91C3NvAckIL4DKLk7V9DvZMNzTlK5K3aJKpoej7Lb1hJV+Ll7UxmgF54G+fGAiCqL1BJO33DZXTUVfOrvIw98yGeWLdrvAwhElbXQ8xXys5VFfA/QT3tmgCee5PA0j1Y+QDZOhtjlQYDrUijEaXlenBUk3lx01ECRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTejIiCv; arc=none smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hUSxhBfU"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aebd52488cso2853616e87.2
-        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:32:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTejIiCv"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39d4c864bfbso21013391fa.1
+        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785144758; x=1785749558; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785144768; x=1785749568; darn=vger.kernel.org;
         h=cc:to:references:in-reply-to:subject:from:message-id:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
         bh=AMZlrirgsRbEo18m/kUv9gZpV2LFxg99OP4vUAS4t8c=;
-        b=hUSxhBfUQcWSMba4JUL89TP+0oCmCramd8gr8y4VcUdwkQjSX/hvPDsaLoJv8LxXsK
-         0eD+k+VHELtFCSAr9wWuLpMlRBmqedeeScd5wUgfV9LYUAm9Qm3rzQmP8Mw/VRfiwb2n
-         Y1oUXrFzS33mbYYbL7caxXNyBePHZ2ZeGixswqcKdsZIyHyC1mgzUHb3LDPq/UyTMuAB
-         d2nUNDvTyrCuFXME+RuVS5klJCzjbUi4Nm/ZOmH/EWmUKWmpMye6Kh5fRuwvSRWTsJb3
-         FUk0Ti9ryTFnLIKjxSe//cZiOwjtfQgzennov8cb++Si2RtqfvL7XNMvj8MkuS6cpmPS
-         hImA==
+        b=fTejIiCvv6znorHCmzdIgh5WxQOvhtqfDN+RN/hYd4/+o8XGJe0WnQcqlzr/CXizI1
+         LJNIEQC505o6S4Y9mFnClFJVxmsTtFqXll7EMsLrv1v8LWVS476VdM0W+viJPHdpJGDx
+         fusHVgDMZEoPuMrgQBuf/KkEdVhkrLxFBXHiYKMCk/ANAbWUS06ezLSEtAWClS+ApA6r
+         AU5VMHk2K284LEIcHtdN6J1BHYPl0P5dtSF7oAgZNPat9DKjgKvbY9dGji/oWvBgkhgh
+         ffGdaL8uP56E0qIjaWqJgZdzHLkz+sIySQmcetEuwt+lGD/hpH8QKgUzy0hkjtS75S53
+         4RHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785144758; x=1785749558;
+        d=1e100.net; s=20251104; t=1785144768; x=1785749568;
         h=cc:to:references:in-reply-to:subject:from:message-id:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
         bh=AMZlrirgsRbEo18m/kUv9gZpV2LFxg99OP4vUAS4t8c=;
-        b=Ztagbrj/9OfxsmK2K+GeApWNo+cLwqj3OcJaoPGsDO9xZu7n9/aC022PB/JyukonWr
-         BPSBjrcql2mcsFaV96fhXH5ImXCM8HWNJ4JYm863tHA7lf3G8ZfxSU8o0c/2EK8gRXiG
-         SzRNr9Lbvj6I0g+bTkQAC6WfCm21pRR1oNkC+yNOOeMFjpfwmzgtedp4J5Gq659e5cn5
-         K55qlJzpGze4JiIbg52rAcxJH2PRdKqiRusyVuxyvi15slZtJOLJ1pGLdw9HzT5Davs7
-         9XLulefm+XFuYRidJR6/4vagMpSncR7WqsrlCVOHzG4vqagVrjKYEiIipHQ/8U5UbkfX
-         6hTw==
-X-Forwarded-Encrypted: i=1; AHgh+RplsJHzDlc/fmZMtGb8FMQwcarPlfe80YTRxqUzNT4emqkfO/UQ1A4Xw5IAMTxPIJy4kavzkq0ELbO1Qw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUg8uqPjDtpM2b+C7Bou+kcxP/xCbEVx4l0g3fdSINjTvR0dbH
-	KJM7zE531HGsOg/uCYaCoCfyMzfUmFkXLLcwct1vXStp2cFj5FyMDSet
-X-Gm-Gg: AR+sD10uz4g1BvWyZvsxtFh7jVNuL8/WCJ/PDVOChvSjKVYN4fa1IaHzenB8nMU59GQ
-	/21aEDwKvVYmsJnLL4xwx6JaFrc2cINygDruViMeFOgzQdVfP/G6E45jE+4Ho2iEIJ3RuWxSQsF
-	UcuGMD6JzuMApCouEjm/wtpbWnRH3FGwjNUhHGf4/4YJvnaBASeKCpozDGApqyrMuA14gjzZBJB
-	X/v8SI1D6wWDfMxraProH5O9p3K1P1RZ0gFAqWzGvh5GQKpEXrT+VIy91EZRAFxAds+b4HqD640
-	SBfgVYeQGL1LwdfCyCWSjrcL2TWE0hbau7pxemO/VO/Lq4pQ1dVtKKVUvuQHMcF1DV7HGUPQPUk
-	6k3mLXKvGClSF4f5Dl3vKMYvM0B5eu4gpN3hjNCP7+YSnyOY6b8CdW6jX2bO0lT9CbNABxfrXHQ
-	8=
-X-Received: by 2002:a05:6512:3d8e:b0:5ae:c926:fc18 with SMTP id 2adb3069b0e04-5b2c1b549fdmr1287385e87.38.1785144757581;
-        Mon, 27 Jul 2026 02:32:37 -0700 (PDT)
+        b=PX7L2HZ+jgjqdZS7T4IfysNzWgfdX+NSrSqCaGnhpHm72R6le7aOFRBNic+IVjcMw5
+         9iY7DSQx5XWJkzmgKXQn0op2iVe5C/HUZBi4d2B6Gb6C7o2fFWkeYUoi/ekBhmtgoNIY
+         phg2ZGOuG67eXscOoe46Usl+YgVeoCQ97hek+URCG1dT2iF+k+hJfPKQOchWGw+cFHqh
+         4AHGFkMi5LhZIr8CPhi2c2CZ/3xjmVPdvEADD8xjqIuPTi5n8TUm2YwQQfsccxVZPVVH
+         0NjjXe91KXzy1ZVyswj56qCs0CPv4rgjyuuKdT76ti8ftK+Luexksd8D6DqxBS/Hj+Ql
+         3tOA==
+X-Forwarded-Encrypted: i=1; AHgh+RpKKAVtT+JHBAoiODiaAxH8f+wjRjLpHQ+Dmtnc6yp+k+lsVEYK+/vHJN+edZ8UWOLmH3anJa84RWb2rg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDmVObbFUod4eoivOMYq0S2BU8c4QQF4oaRg/8mqXc0hRo5fzN
+	4CSF/1GvVWwN+TBF87NWd7LzikIGxEmvKHgwgQFjlURFnmIM2IWe1AvA
+X-Gm-Gg: AR+sD11Gs/t2NjjlN0ywjGlvW5mL9Ju30lf5dYDWS3BklJT1/U/+Y7seuKEBL5DvY24
+	VZgGN7dm9HEggdTijuSp4LIQSamQHIewz3yUNq3ys99cNW8iEhZ5oSeo4v6xF3U4d8DFyzO4UgF
+	Qj3vJypWq2tv9dZWlpKOY9MyzgF6PvokyDbUf4F0ggJc8hVHUNQthjgJaJs38sLcw343oZRAVOS
+	yW8Osf5+dnl05dX7sKj3nCneGEKHIQ2wXeMFr3dPKj1B3SXkkrTCLn4UhMK+qTjPrjFaQ1cZd8x
+	CGK6tsFBAzCaF30d98PdcACLw8er9HmNIbPssmWwH3LOq07i80hTHG5Fp4oLy4pZs7r0HEyZqGt
+	C8Dh0xJo1N4d3ZVi4jEo6ejHfT8mNKoWxV/hluKQYe+BPWplx+qI9n/2UIdw1nHsAtbM8xq1Bk4
+	Q=
+X-Received: by 2002:a05:651c:1a2c:b0:39b:894:b01d with SMTP id 38308e7fff4ca-39f2892e2cdmr9941981fa.41.1785144768284;
+        Mon, 27 Jul 2026 02:32:48 -0700 (PDT)
 Received: from localhost ([5.227.22.1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be1d84fesm1308646e87.47.2026.07.27.02.32.36
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39f2227201bsm11677431fa.42.2026.07.27.02.32.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 02:32:37 -0700 (PDT)
-Date: Mon, 27 Jul 2026 12:32:35 +0300
-Message-ID: <68c1cc6c645185a255acd0c6a73fac7d@gmail.com>
+        Mon, 27 Jul 2026 02:32:48 -0700 (PDT)
+Date: Mon, 27 Jul 2026 12:32:46 +0300
+Message-ID: <71a60288bd13a6cf450981e1d5d0dbec@gmail.com>
 From: Andrey Golovko <andrey.golovko@gmail.com>
 Subject: Re: ASoC: tas2783-sdw: calibration firmware not re-downloaded after s2idle resume (AMD ACP SoundWire, ASUS ProArt PX13)
 In-Reply-To: <13a5a03d-8263-443b-a6ba-84d954549b2b@amd.com>
