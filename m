@@ -1,44 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2044242D77D;
-	Mon, 27 Jul 2026 22:56:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DCF430300;
+	Mon, 27 Jul 2026 22:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785192970; cv=none; b=WlTa2KuGcBk7hAlLNIPg8/T6v/L5eAagmHR9ITyaBwL74JY55GacCtku5yVvIJOkfJSlKARMwuIWl4a09sBIgyxAnG+GmVMCsakoZifmR6IhqNfVKnCUIMZ3eyi1PYdpavKwfHcU2QyCIBrmZNjVt25PWGgX4TjsR4xEmzNt2ME=
+	t=1785192975; cv=none; b=FG/hw43JsRGFC+GKSBXKXhXoKTcyiizDL3D08g9YC4zQpdtE8R7L3FHQ/3vQsm19zuatjoftGdq4F4T1fg/lGxXp2gGY5Ak3Esxw69DcEFRAQhpyjcAGwQYeVCbWDgg9j1EsaQQSCPWAi2hGhOm4vkuPHIOjDSdkO7G9a1J3bLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785192970; c=relaxed/simple;
-	bh=DcPQTw13tQK3ryzKdiVRyyK7hVhT4+YGcsOmVocKA5w=;
+	s=arc-20240116; t=1785192975; c=relaxed/simple;
+	bh=bMc5qD10eMoVtyw/3+HZR7Zneg3DdDS7Uiuc5yxqBVo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ThNbWqTDvPrcm7WdlpQDJVlu9qqYdAhQWX8SgZnD9+SU+pycLIoXdKPrstL7BCXWDVlTOkRoFgm+RjaZh06cQCKkJedMM/xgplHZuTjGfVkE3bpByiFJcqRmkW02yUyM7ChvJ9zNhzMhbcXsrGg3yyLibYPeyOdTKrsLb831nCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W4Ex//7h; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=DtKn+OjSjZwKG4x8gVD1SuUQg0uFYPczOsZKfVWyfEXiHeZtGAvtyPU6Jvx0UFvwnIZLu+5Nz4QqMF7gFTkjWk01ZldwyOFdNKYWDT/xidutM1ED2zKRm41GWmspUQHhjhh6VxFVj+MISB4u/umvgbwxF7eTyG5tztIo8DQJTG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dj5OjC79; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W4Ex//7h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C521F00A3D;
-	Mon, 27 Jul 2026 22:56:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dj5OjC79"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 751511F00A3E;
+	Mon, 27 Jul 2026 22:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785192968;
-	bh=0qK6hd9wSWkwKvlj6HzXKj262cJHJ+hOZynNz6AuAdw=;
+	s=k20260515; t=1785192974;
+	bh=56861tHmuXQq23oXfnIkgJnWBTUaRueIgzC0WXUJG7I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=W4Ex//7hdLxqHaOPijGNSgOhWOwnvn0SCUSQw+t9PZrIHpecwkgjUlXjNSRSgDZsi
-	 9wjlrUGA5LKCgXU89foAVPXCi9b+PSlc9ZeMIn0ns9ZLzy4ayhh0CARiPAH/iEWMsT
-	 s6FpzL+dD+yjvUoIlkKddEUfuMP18f8S0mSzSq3TbAz2sE71ORHKYkIb732GKGPaFs
-	 4whKBxj6Ojh8J+N9s+UWvib3lp0rj7BPAhS+yybiwyZ808BQzcDr3it+FeYzubu79C
-	 2Z+UQ0A9roLQ2DowVaU4yGjmxWxgq/bSTBvW2xLCHi5Sy4+7yd6OnUmeb8XMSZy2ic
-	 NkCSHmU+OnafQ==
+	b=Dj5OjC79mZmDPKZbSOca0rjXMDm2w2m6qiWmOwJyvwUH3T/saLjkUX6lOF4ZbFoKz
+	 DbzP3v/ezfsU3g9EOz0TvrJhKcyvqUcQL0h3lDL4NwDtXh6Vfk7/fhjhqLD4t4T2AH
+	 30MH5XlriGCvtvAasjCkIgde7wUaTl0kxx711A8ZoBs7YN+XYOsAhBt8ffC0XVcTl8
+	 O/rZwuN0FhtGbElv2/CcTtFK7HvqGeXMW0RUYljrywXSuACrCvtQqWNwxwtnvC2i04
+	 ZCj1j/OFXsGFR0Cj7bjbTrKDjz1RDKIgne4x4vLyxczRB/fprxugg5CgsODJILau0i
+	 m5zCsIU5j1CnA==
 From: Mark Brown <broonie@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jack Yu <jack.yu@realtek.com>, 
- "shaikh.kamal" <shaikhkamal2012@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260726055227.18123-1-shaikhkamal2012@gmail.com>
-References: <20260726055227.18123-1-shaikhkamal2012@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: fix spelling errors
-Message-Id: <178508422325.10630.3401967100989878890.b4-ty@b4>
-Date: Sun, 26 Jul 2026 17:43:43 +0100
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ sound-open-firmware@alsa-project.org, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+In-Reply-To: <20260725160344.916838-1-ekffu200098@gmail.com>
+References: <20260725160344.916838-1-ekffu200098@gmail.com>
+Subject: Re: [PATCH v2 0/4] ASoC: remove conditional returns with no effect
+Message-Id: <178515774447.50339.17330301582299042365.b4-ty@b4>
+Date: Mon, 27 Jul 2026 14:09:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,20 +55,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1094; i=broonie@kernel.org;
- h=from:subject:message-id; bh=DcPQTw13tQK3ryzKdiVRyyK7hVhT4+YGcsOmVocKA5w=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqZ+IFGeNDPfR+IfnWCVE3tu5jjRoOYjUhNyQc+
- jP8xXmt6viJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamfiBQAKCRAk1otyXVSH
- 0KQsB/92hXJSSVmC8O0DhdZC9f58FPe0bLxlXGXY+VKjiJ8RoF+CmT1864HFeQV1okiJy7E62KX
- p/onddRikyUhPCasCSVERv834D0ixES2vh9rXdtYEHQw6UnDsn1ro298p5EIedU+ZmDH/Txi06d
- ZwFmPrhQc4YG3XHmWbERW4v6oK9twSYUQoRpI54ra6ns+Z7bR7PgM4xDiQt/aU9aOPFAwI7xFoN
- kPq4EWmCP6fhVj31W9YtuBcrbO2WPFWASClifIh/Fj7aa/cJdFJi1sXzkO6vj10ST1oUsBgphDt
- 8jQ9eLVoAhZ5kKM1Et3JyeIbK7PabvSQdDgmwkuaMpUwQg1P
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1772; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=bMc5qD10eMoVtyw/3+HZR7Zneg3DdDS7Uiuc5yxqBVo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqZ+IK8VuIvL/qvobEWZqQG6YsMr7av26ImCldq
+ oQTdaRjH/qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamfiCgAKCRAk1otyXVSH
+ 0CLuB/9Y5FuYF/p8ZHS7J4So51GgjFdf981O9zTmrp1HPxAtpNrqEXww4VKingKBut4bwpY5ftV
+ pMLVW/i37kXwZkZq4EDUvqD1HVnrramDv3VY3hxYXHvyd/EbTs6kHX6WMapQc5aTwflnFyXYLjw
+ v4uCf4kEuLdGmqboV4vtCTBVR1KfCsmiHRbRbI7C7XRH33ormMfjQQJ32CpRXrztRa0LSomPQ//
+ HI3T3FYiR0nHg5my0JdudxG/o8vZC1BhspAO5s/cmK7VjM1el3s2IhQyiJAY37ngGokmxycGPtA
+ BwBFF5Zcg7aUSzIXFBZrRwKfaUycqKvhTOK2UHjiVJBFaZfz
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, 26 Jul 2026 11:22:27 +0530, shaikh.kamal wrote:
-> ASoC: dt-bindings: fix spelling errors
+On Sun, 26 Jul 2026 01:03:39 +0900, Sang-Heon Jeon wrote:
+> ASoC: remove conditional returns with no effect
+> 
+> Hello,
+> 
+> This series removes conditional returns where both branches return
+> the same value, so the check has no effect. As suggested by Vijendar,
+> the ASoC patch of the treewide v1 series [1] is split per vendor and
+> posted separately.
+> 
+> [...]
 
 Applied to
 
@@ -69,8 +85,14 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: fix spelling errors
-      https://git.kernel.org/broonie/sound/c/7a047311de7f
+[1/4] ASoC: amd: acp: remove conditional return with no effect
+      https://git.kernel.org/broonie/asoc/c/3799a56da8f3
+[2/4] ASoC: Intel: atom: remove conditional return with no effect
+      https://git.kernel.org/broonie/asoc/c/52c095772962
+[3/4] ASoC: samsung: smdk_spdif: remove conditional return with no effect
+      https://git.kernel.org/broonie/asoc/c/cdb8b41357bb
+[4/4] ASoC: SOF: Intel: remove conditional return with no effect
+      https://git.kernel.org/broonie/asoc/c/619446b87c0e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
