@@ -1,192 +1,180 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D85B3BED33
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D54A3EFFC4
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785144806; cv=none; b=FYcLT3ohMqohkbKw3y2W0AMUhq8IWiA7OxBRiRFsGsKdnKk+Sobkujsrp4Z7ae9r52dL6rwoXpRlJSbaba6DTJO11UT0j4a9/lacp5ytHfTln1XHXbQxxI1028lrivAHLQJEuGeJ0MTkXONi+8mcaBOzByQsgUJJR+LKYSpeUqA=
+	t=1785145276; cv=none; b=gi9Yto2wOrPTFCxXzgHtn/DR68OujFaWwWsSpSmsoWGae3YtEjyV624UTBplXnVLbst66Z/+AlBUyGNy+Bw7eGETmWDGLFVuTN2l+gk89yvqb37XFD7YoukGN6/pPPi9pktD79TjPbr1BlHvJf+GbpP6lMS+boPAIZQ4z/wlQ6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785144806; c=relaxed/simple;
-	bh=GPQyzSacBfxZa7OHM74FL8HcQqggL8l1KIa6Je1ONDw=;
-	h=Date:Message-ID:From:Subject:To:Cc; b=DI/r1XDNMi0aZu5/hKUuDVB87unsmx1YJAroiKMYPvY+oIbo+ZlZHxpCxgFFOL78HSqQpeEHbAprAmGDPLS6QKUJT2jmWpRUu5B7KY01hI+Ae7beC2yP2oy+i0wsQmaFVDXjgX36EQ1rsW6ynZnTn3gCxOdrSuDU4QDVrIjAMV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hqj3sIg5; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1785145276; c=relaxed/simple;
+	bh=P82t4hqH9bxCjztX8C/u6zRR4k6YPsmf6rKxZvU5M/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JhWqOiXo7TkZ6jdckOuVdSl7bJGSGhwSXWxDVcg+XtC56LX4YjDBrMOVaImsbiUEQevBps0kRtYeb8kftDfqo1BrD3KJRT6jt3Uv1aKfnJzt1qG/eAeLGFEbDGRRg+Q9jbsVgnMzWpWPPgscJ0gKNYWwNFjABpGC7YH7kGlSmmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YYitDvK3; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hqj3sIg5"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39ca300db70so21555621fa.2
-        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:33:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YYitDvK3"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-ca2fad0ae38so1742736a12.3
+        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785144802; x=1785749602; darn=vger.kernel.org;
-        h=cc:to:subject:from:message-id:date:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=BGL9ApjNmqhcu6YB6bL9PVFDWC2YT7Q9eHXKTlT0TXI=;
-        b=hqj3sIg5cW7EjKxq4E6cJmEa/QrHJttNusOy5XNKhcoyW/DBptsWa+rYGjuKAdHBaT
-         wdK5S9IuCrNkvaxX+yiZO/ihw+tLaUona89FaqR4tVaxOLvDexryKAcuyq6y61KfFJ3U
-         KD+HQjr2+l3Lhk9Fz0jvKXboYJLxEczIHm8E33Qsxmm2Muf2J2lTglutwOxryT1LmN8F
-         kV1ysbqR3Y80yafvYExFfPIXboiuRajBfoh6wahN8GU/7gUGUDJqeDOMQkEedmZKUdBa
-         YJZET7qXIQGL1oFJgHM7RWCVohQzOmChv5t5pIy9Xjqt2TRM2NdqFgFTfr8QMdvsIe/b
-         6Fmg==
+        d=gmail.com; s=20251104; t=1785145275; x=1785750075; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=usBMdmKc7yvdA1I7rGndYQ8td9V+pDiaypFkdoj2mWY=;
+        b=YYitDvK35HbJzvJz3IHsxcCwEsR8h+3XtvFilExc8D4ir91wyyPPosPSmC8gaGeMnx
+         actlywdvmH4XtVa2x/OVpfPiTXosRgtdECj9YUtpyUSrVIWOPD1tKr/bqErRfZuHxZtT
+         BUitIVEJNjsmOmuwSeJ9TIqIf4SDvJ7Lr4saNxo9NbUgSJXhKOFbDb0wzRaflcxVVLhq
+         JGkdyj4uUE6YoUcGhDg+wbJ2c5OVWplVTQq+VQj3f5RX7WD9b+VM19EvcZW3OeczxqMw
+         utEFrfBtHWts1lzOmvty9c0a9rBGw6dXTaWgeiP8L5Gn9OWUoKj4H+kz9qaOHHPkKqEw
+         TusA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785144802; x=1785749602;
-        h=cc:to:subject:from:message-id:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BGL9ApjNmqhcu6YB6bL9PVFDWC2YT7Q9eHXKTlT0TXI=;
-        b=HtqhVWNXaqcD+ymIXRw+1OQJueOMRVGOo1u35iqmSO7JoW2Bxc/blNblZpn0Gz+wb4
-         pnPnxuxLW6X6rOufLFMItZbRgrKY4CyUf8Z61seDiGsp7x0mD0X90Rpq95s9Ax7z958r
-         +zl54PsT4glqYW2hibPSfndZY53YSUpNiLXjw1pPOECSEAAE5v9hj4Xz3uIUoGHPvru9
-         6jKAlg3PBr2kGnQYGZOzG6EhmtIUsdX4T6JN/7AFDbv6K3ECz0lK62d6JepaWqmaSwWG
-         Sv15kbuH3GKYy87DhFcZLPDY90rVtlEKmbD1SyDbTOGgUIefNvBrhEdGWGBO2sFQ+C4W
-         OZQQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrueo2Y/0fBMsxx/Wmw+vLRDUTnEq7unA1kFiTm2u1ssFJAGyWwQMkGr8e+JWG706Apn87b7Mw1CLoqYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyafDuPjhlRd1kHT8I2AvbB8CtxG/9x+BDruH49dOlccvfZM+x
-	CFyPrH9oGh8PwY/ikMgDtigOTXkoK/8AifFXg5dSndRn/T62U+kpRjl9cZW7yHz/rFfP/Q==
-X-Gm-Gg: AR+sD11x/+LiVQWlQAy80IdiYO/hyT1EzsPKnWKupSlBWI1oMt2RYUl/hxTNW2Tk0cH
-	31pz2UQ0Gvc3ZPqyop4d6v2nC84HvDdN42YY9fgvyTgsia4Yt7Xl8IwB5xaJVF0cWW28ceokgLR
-	6QeWguLjGH4YW0uhVZm1MtGpOmCpwNP//QcchaBCsRsQdXh7cI9krnYCvP1frX/J6N/+7wAibqH
-	sM9aq52708SyYrJQVEwJxXsu1q836NIGZ41CjON/y0+0NDWaRKhbQgBKgg6bcEH55kQxm16+5fl
-	ysZdiyvYiInH9GdGvuXdTzTWXhHhcQ3DvwbJpN6Q0a0/FMHdsm1pAYiRobsaDW44k6+2i80siXc
-	QDP6X4ltQlKP7+HT71nBYQCysjLC1TaM41oakG4kBAfXxnIloiCKK5sqC42YbhQjBa5tuBWF5CH
-	g=
-X-Received: by 2002:a05:6512:3e29:b0:5ae:b357:1d1a with SMTP id 2adb3069b0e04-5b2c1b206edmr1428851e87.8.1785144802097;
-        Mon, 27 Jul 2026 02:33:22 -0700 (PDT)
-Received: from localhost ([5.227.22.1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39f2224cac4sm12734981fa.32.2026.07.27.02.33.20
+        d=1e100.net; s=20251104; t=1785145275; x=1785750075;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=usBMdmKc7yvdA1I7rGndYQ8td9V+pDiaypFkdoj2mWY=;
+        b=sGglMEQaWu4W5KyAbrIrbUODozI0CxOuYnIj+5SHUDTHtP74CvxTrdTbVpbHKvYZh/
+         R4dfDgypp+geiAfEj8rVZhpPAAgnFZI3nKC4rfxpkWK4BNDKZ4E0B6k4Ca+sSlmtTXWO
+         qOaZvJjgixpIWJvnjUldsXCYIgt8YHR63XZ+WUiYJD7SslwWAP3QjoXzvCqQS1LOqJba
+         BYQUjmU/o52ZLkcIHuDuC0J4Irp1zC0xb2lh+2CnS/Kp54dSqf+Jh20RSzxsmMG2KCMk
+         Mminfe6Y2WFmM1HUQ2bxe4J1QGGXCAsq4zeuu64N/u/ySua+cv69C4UMdCT2KmKhiDsN
+         Qu3A==
+X-Forwarded-Encrypted: i=1; AHgh+RrvNVy6VB692z0a4u0eO/cxuqzhni7MZGPQhxGShzMGN+ehaG0s2OdKlKU1aalAdOeuJA4Ug5j87h8hTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7k3O8QhO0f80ZCvqTNUaRROow9+jC+GcOvghLcYL5BfXIZxKH
+	mMVD/wMTQUmFg+uXZznCJruQA4iIyNOaXyR3sqIrqBysDlEaat1Pq9gS
+X-Gm-Gg: AR+sD13iuzw+7YBZaUXffq4/Lui7UcfAar9Fgd4xCw4fahHm8cIXzZ6ulKNYQy3Ek/T
+	xLP+gWaJY/wIRxfrHNzY9MOtIt/AP+K8pf7GuZXuOpypCdgUIyaiaGcHIzs4mLVf7+Rccq6IhDW
+	0OUwZ3P6LDImunRWpCkuOutduauIj79VGl7GoUl6JHzsLCLEIcM7b3JCarxK53vPRuIy1MY9rAS
+	SVFwf2pRdw4o1rO7qsNh5CbdSKpIuFyn0ay6p4yrtThBLTZrpVJsAsaDne9jaF7nL+p5efygymo
+	Rk5Xe6NsaT6W3dU1teoPjyhODBVRUiwNG34hwcIyISsyyps/i3lcg43/HZdJQqNptyGkbx4Isbs
+	lNYzONYZ54cR6zOjqQMpu1eleuxGU8gh9aVacjDstg4oXVNwQcaqrJ8HCo/5/+9ht0YwoIfFdPy
+	cl6LN79NkgJ9jXQ25GxyQ8OpGB6vDPnZ5kdeiDULunD1inTobH4pEDcTavZFlFoLEhsR8qL+S1H
+	PPSeGU/+ohW1V0oORGU7w==
+X-Received: by 2002:a05:6a21:a49:b0:3bf:9c93:ac44 with SMTP id adf61e73a8af0-3c67dc48cd8mr6935875637.19.1785145274582;
+        Mon, 27 Jul 2026 02:41:14 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbbb66b5ffesm2959018a12.19.2026.07.27.02.41.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 02:33:21 -0700 (PDT)
-Date: Mon, 27 Jul 2026 12:33:20 +0300
-Message-ID: <b1bc21c8a403fe15e742b6a6ff30b27f@gmail.com>
-From: Andrey Golovko <andrey.golovko@gmail.com>
-Subject: ASoC: tas2783-sdw: port prepare never completes after S0i3, no audio and no error (AMD ACP7.0, ASUS ProArt PX13)
-To: Shenghao Ding <shenghao-ding@ti.com>,
-    Kevin Lu <kevin-lu@ti.com>,
-    Baojun Xu <baojun.xu@ti.com>,
-    Sen Wang <sen@ti.com>,
-    linux-sound@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>,
-    Liam Girdwood <lgirdwood@gmail.com>,
-    Vinod Koul <vkoul@kernel.org>,
-    Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-    Bard Liao <yung-chuan.liao@linux.intel.com>,
-    Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-    Mario Limonciello <superm1@kernel.org>,
-    Antoine Monnet <antoine@montane.tech>,
-    linux-kernel@vger.kernel.org
+        Mon, 27 Jul 2026 02:41:14 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	nuno.sa@analog.com,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>
+Cc: Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Linus Walleij <linusw@kernel.org>,
+	u.kleine-koenig@baylibre.com,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 00/26] ASoC: codecs: Use guard() for mutex & spin locks - part 3
+Date: Mon, 27 Jul 2026 16:40:20 +0700
+Message-ID: <20260727094046.23001-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-On an ASUS ProArt PX13 HN7306EAC (Ryzen AI MAX+ 395, AMD ACP rev 0x70,
-two TAS2783 at unique_id 0x8/0xB plus RT721 on SoundWire link 1), audio
-is silent after resume from s2idle whenever the platform actually reaches
-S0i3. Playback runs with no error whatsoever - no XRUN at first, no
-prepare failure, no bus error - and the speakers stay quiet until the PCM
-is fully torn down and recreated.
+Hi all,
 
-This is with v7.2-rc4 plus 5893013efabb ("ASoC: amd: ps: disable MSI on
-resume in ACP PCI driver"), which is what makes the peripherals re-attach
-at all on this board [1], and with a local fix that drops the stale
-tas2783 regcache on re-attach [2]. Both are necessary here; neither is
-sufficient.
+This series is the final part of the cleanup to convert ASoC codec
+drivers to use the guard() and scoped_guard() helpers for mutex and
+spinlock handling.
 
-I measured where the audio stops, and the answer is not where I expected.
+Compile-tested only.
 
-1. The ACP side is healthy
---------------------------
-I dumped the ACP registers that the driver programs (ring buffer address
-and size, FIFO address and size, DMA size, watermark, stream enable, plus
-the SoundWire manager block) during actual playback, once in the silent
-state after resume and once after the workaround restored audio.
+Changes in v2:
+ - Add Reviewed-by tag from Richard Fitzgerald.
+ - Add the missing `guard(mutex)` that was inadvertently omitted.
 
-72 of 78 registers are bit-identical. The only differences are
-ACP_EXTERNAL_INTR_CNTL (one extra bit, 0x10000 = PDM_DMA_INTR_MASK, i.e.
-the digital mics, unrelated to this stream) and the last immediate
-command/response pair on the bus.
+Best regards,
+Phuc
 
-That is expected: acp63_sdw_pcm_resume() reprograms the PTE, the ring
-buffer, the watermark and the DMA interrupt masks for every live
-substream on system resume. The ACP DMA configuration is restored
-correctly.
+bui duc phuc (26):
+  ASoC: codecs: sigmadsp: Use guard() for mutex locks
+  ASoC: codecs: sta350: Use guard() for mutex locks
+  ASoC: codecs: sta32x: Use guard() for mutex locks
+  ASoC: codecs: tas2781: Use guard() for mutex locks
+  ASoC: codecs: tas2783: Use guard() for mutex locks
+  ASoC: codecs: tas5805m: Use guard() for mutex locks
+  ASoC: codecs: tlv320dac33: Use guard() for mutex & spin locks
+  ASoC: codecs: tscs42xx: Use guard() for mutex locks
+  ASoC: codecs: tscs454: Use guard() for mutex locks
+  ASoC: codecs: twl6040: Use guard() for mutex locks
+  ASoC: codecs: wcd-mbhc: Use guard() for mutex locks
+  ASoC: codecs: wcd934x: Use guard() for mutex locks
+  ASoC: codecs: wcd937x: Use guard() for mutex locks
+  ASoC: codecs: wcd938x: Use guard() for mutex locks
+  ASoC: codecs: wcd939x: Use guard() for mutex locks
+  ASoC: codecs: wm0010: Use guard() for mutex & spin locks
+  ASoC: codecs: wm2000: Use guard() for mutex locks
+  ASoC: codecs: wm5102: Use guard() for mutex locks
+  ASoC: codecs: wm8731: Use guard() for mutex locks
+  ASoC: codecs: wm8903: Use guard() for mutex locks
+  ASoC: codecs: wm8958: Use guard() for mutex locks
+  ASoC: codecs: wm8962: Use guard() for mutex locks
+  ASoC: codecs: wm8994: Use guard() for mutex locks
+  ASoC: codecs: wm971x: Use guard() for mutex locks
+  ASoC: codecs: wm_adsp: Use guard() for mutex locks
+  ASoC: codecs: wsa88xx: Use guard() for mutex locks
 
-2. The DMA is running at the correct rate while silent
-------------------------------------------------------
-Sampling ACP_P1_AUDIO1_TX_LINEARPOSITIONCNTR every 500 ms during silent
-playback:
+ sound/soc/codecs/sigmadsp.c           |  17 ++--
+ sound/soc/codecs/sta32x.c             |  21 ++--
+ sound/soc/codecs/sta350.c             |  20 ++--
+ sound/soc/codecs/tas2781-comlib-i2c.c |   5 +-
+ sound/soc/codecs/tas2781-i2c.c        |  32 +++---
+ sound/soc/codecs/tas2783-sdw.c        |  60 ++++++-----
+ sound/soc/codecs/tas5805m.c           |  21 ++--
+ sound/soc/codecs/tlv320dac33.c        |  87 +++++++---------
+ sound/soc/codecs/tscs42xx.c           |  61 ++++-------
+ sound/soc/codecs/tscs454.c            | 107 ++++++++------------
+ sound/soc/codecs/twl6040.c            |   5 +-
+ sound/soc/codecs/wcd-mbhc-v2.c        | 140 ++++++++++++--------------
+ sound/soc/codecs/wcd934x.c            |  42 +++-----
+ sound/soc/codecs/wcd937x.c            |  25 ++---
+ sound/soc/codecs/wcd938x.c            |  22 ++--
+ sound/soc/codecs/wcd939x.c            |  20 ++--
+ sound/soc/codecs/wm0010.c             |  28 ++----
+ sound/soc/codecs/wm2000.c             |  28 ++----
+ sound/soc/codecs/wm5102.c             |  23 ++---
+ sound/soc/codecs/wm8731.c             |   9 +-
+ sound/soc/codecs/wm8903.c             |   9 +-
+ sound/soc/codecs/wm8958-dsp2.c        |  10 +-
+ sound/soc/codecs/wm8962.c             |  13 +--
+ sound/soc/codecs/wm8994.c             |  30 ++----
+ sound/soc/codecs/wm9712.c             |   5 +-
+ sound/soc/codecs/wm9713.c             |   5 +-
+ sound/soc/codecs/wm_adsp.c            |  77 +++++---------
+ sound/soc/codecs/wsa883x.c            |  11 +-
+ sound/soc/codecs/wsa884x.c            |  10 +-
+ 29 files changed, 369 insertions(+), 574 deletions(-)
 
-  0x000002FBF880  +96064
-  0x000002FD6F80  +96000
-  0x000002FEE6C0  +96064
-  0x000003005E00  +96064
-  0x00000301D500  +96000
+-- 
+2.43.0
 
-96000 bytes per 500 ms = 192000 B/s = 48000 Hz x 2 ch x 2 bytes, exactly
-nominal. The ACP is fetching the buffer and feeding the SoundWire FIFO
-the whole time the speakers are silent.
-
-3. The peripheral port never finishes preparing
------------------------------------------------
-Dumping /sys/kernel/debug/soundwire/master-0-1/sdw:*/registers during
-playback, silent state versus working state, the entire difference across
-all three peripherals is two registers - and it is the same register on
-both amplifiers:
-
-  DP1 0x104 (DPn_PrepareStatus):  silent = 0x3   working = 0x0
-
-with DPn_PrepareCtrl (0x105) = 0x3 and DPn_ChannelEn = 0x3 in both cases.
-(The third difference is SCP_Int1 on one amp, i.e. transient interrupt
-status.)
-
-Per the core's own reading of that register - "Poll for NOT_PREPARED==0"
-in sdw_prep_deprep_slave_ports() - a set bit means the channel is *not*
-prepared. So after the power gate both amps sit with both channels
-unprepared, indefinitely, while the manager streams data at them.
-
-4. Why nothing complains
-------------------------
-tas2783-sdw declares simple_ch_prep_sm, so the core skips its entire
-prepare block: it neither writes DPn_PrepareCtrl nor polls
-DPn_PrepareStatus. The driver writes DPn_PrepareCtrl itself from
-tas_port_prep() - as the comment there says, "TAS2783 requires explicit
-port prepare during playback stream setup even when simple_ch_prep_sm is
-enabled. Without this, the port fails to enter the prepared state
-resulting in no audio output" - but nobody ever checks whether the port
-actually reached the prepared state.
-
-The result is a completely silent failure: the stream is enabled, the DMA
-runs, the log is clean, and there is no sound.
-
-What restores it is a full teardown: hw_free (which de-prepares the port,
-writing DPn_PrepareCtrl = 0) followed by hw_params and a fresh prepare.
-Re-preparing without the de-prepare - which is what a plain userspace
-resume does - leaves DPn_PrepareStatus stuck. On this board I work around
-it by cycling the card profile after every resume, which forces that
-teardown.
-
-Questions
----------
- - Should TAS2783 declare simple_ch_prep_sm at all? The port evidently
-   does not prepare instantaneously, which is the premise of that
-   property; letting the core do its normal write-and-poll would at least
-   turn this into a visible error instead of silence.
- - If the property is correct, should tas_port_prep() poll
-   DPn_PrepareStatus after writing DPn_PrepareCtrl, mirroring what the
-   core does?
- - Either way: why does a fresh prepare not complete after the device has
-   lost power, when a de-prepare followed by a prepare does? If the amp
-   needs the port explicitly de-prepared before it will accept a new
-   prepare after a power cycle, that sequencing has to happen somewhere
-   on resume.
-
-Happy to test patches, dump additional registers, or run traces on this
-hardware.
-
-[1] https://lore.kernel.org/all/466a905d-8203-46d2-bfe4-a3b3f9b5d68b@montane.tech/
-[2] https://lore.kernel.org/all/bb5064629ada99fa5163621f72fbd27f@gmail.com/
-
-Thanks,
-Andrey
