@@ -1,33 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3314248B1;
-	Mon, 27 Jul 2026 16:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B1142BC25
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 16:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785170189; cv=none; b=YPGa7xPhQNZ+CuKoi12DurCnU4k1I48PYtZDzPzAdUKMEtI5BVl22UAY6SqWbxwcD4uKKSqdwQg3Yhc+kwksqcXVgALbHtyTSbJBVd8S+Sy7odWEn6fUoAud3/z3yzYkd5/KJUTkmiBmt4jYerHImgrkWZ3d1q+h1p8m1z8ZaNw=
+	t=1785170867; cv=none; b=Ib0jvuneLrkYY97t8T7J/M9UEhuX9ReU/dVt+3vDLqZCRzVZInyXdvUeACxsluczbkz0ral3Z0hqgXOHg5hwTMzxW65KThUGoMLGKQjWcLftoZsNH+wdaM6CzC35BNlQkt0wUBTavvEjy8UR+QY197BoIms2L4edGsbC6hcnFHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785170189; c=relaxed/simple;
-	bh=tRlFV30ja/8brImGjZrmJZ/1eEggANfYU0WYaHOaBsM=;
+	s=arc-20240116; t=1785170867; c=relaxed/simple;
+	bh=6osKRbk0uKsTETOujWjOr11uRimT0wpIsULkIpTqtc8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rWU65Mhvw4ogyWBMCJ6T6EKgMkzLg/djYPoFlMiMYtMZnwTS1y1qVM+wb1I3AwCRcEAxS760L6EiOv10ivQvRcdEtD+3/fkifRSbdBhQXDEzaq+BcASxoYkw8Zrvd/McZWdOL4X9wRM06ksyJPx1Ait9o+C1a18Zktnmnvw+ovg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DHC5di3D; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=H09VtSAsSlJawsYghEEnfPgBvbC5viTQDr13m8KyS4lVr5Bd8R2p4uYd8XPeSZMns3ZGOQrlhm5TIPfGPnJOtCgwSYVhsWB7d+T5LnhCen523ZVzfUvTv8mJyQzNyzrVH8DIYPJNuVrqtSfN4ncqb7j9krNU0xgGjqZ+fxFeGz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PrekofF6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=evxCjg+v; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DHC5di3D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC261F00A3E;
-	Mon, 27 Jul 2026 16:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785170188;
-	bh=NwZp8vrcS5zNu4NMBMc7+FtncQiyjKLq2JUaAvCeOIM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=DHC5di3D1bGlMzcG7F1Nm23rfd1M/xEorCZ2zg2aJ4kfE3Ia7aVAOoCnNfdnUCb7u
-	 xvwTiIyUUZMVxSba/az3+UtCgzeobMK2K7uUXfMy+Fe5hcQ2pWc7ZdVLkHoR2yG5dr
-	 QmlOUpofMIT5FjH1AIflWD/OKts1pPW03Q58+kqfANSl6mi8WsYfNjhTk59EMDBkvD
-	 +A7BkHY1tQUPXQOU5XBIHE34ro+EVSnjYsSebzp4lUxOkDyhdHMm3ZUzOIMDbfMHw5
-	 Pox+sEHGUSM1J/dSayDMcF7wZTwhgGGS6E5ymM+SFqBfPru1/PKFg3nrka9Er++OoM
-	 dcORIFdnznoYA==
-Message-ID: <06ead85a-59ef-4c1b-8bb6-8eee5c6a00bd@kernel.org>
-Date: Mon, 27 Jul 2026 18:36:19 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PrekofF6";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="evxCjg+v"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RDlflY033185
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 16:47:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	KUEgTvaKONdG8ocE/B3l4rVpV7LguUz/D1duATSW5RI=; b=PrekofF66EujB+DO
+	sMUbS77Y5iVX7muLi5svnPNCeFMdSyDx3kDoSKU/INZ8w4nl45VNwQxVYeQoq39C
+	l3LdtH+GxQP1kyNM9DVkjtiPG9U3VacLmOPFYlLpa7507CLhQEeZG3wGEFcTP4rh
+	f0tDNJw0mBroZwoNiDsOTvudwmyw5k6G/Zsl4NqOohZUk5CHVppV605t6DY+OZOL
+	8w2RU2Rg1CoQ0A2ZB3vKxp/ZikXbZdp8cDX02M4Y5RnMRlJJ6EBws2kmskK64sjk
+	lx/5FdeAcwdOsFQcbWqZzkaX/p3gkH8oDk1F7w21gQhIBBv0lI1OSn415fkQJB2o
+	ukynBw==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fp4c61y8b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 16:47:43 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-84865f326efso2978812b3a.0
+        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:47:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785170862; x=1785775662; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KUEgTvaKONdG8ocE/B3l4rVpV7LguUz/D1duATSW5RI=;
+        b=evxCjg+v/co3wJKCyHM2bBrxbc1KGJdpDkwjhPSoJi8Jp+xBcTbjQXSn7yy7qGaVa1
+         2h8omU7mtNt4IEg83VDyzq5u5w6v1pemraCK4OS1ZOFaF4RvxlKcLLTkN2I5Mk22cspj
+         vw0XcAfBsjE0D5IZBlkN1YcgMpQZBuFboR0AyPwqoyl167N8/Owa9yuzQ0UkgGnDHjf7
+         grcKdnZvxMMvB+fH8gLYhTiL3EbLn+4D/05nQQ6HgFAJfpbE+6+0SuTkkGQVqk7+TW/D
+         L+NmGoMsbkPrAWdvUMGGLvJr/I93NWX3q3blFdOg+RcEp6pg510fxL2Cdet12Nvhwpsj
+         Wesw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785170862; x=1785775662;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KUEgTvaKONdG8ocE/B3l4rVpV7LguUz/D1duATSW5RI=;
+        b=je15Oqn0kLBP7p2biSVIlaN2lGIqbaxVZmn3arAsmXZ96hpV1MB3R5TNgP9en2ldBo
+         8aVg6dIpqK9aHH6+LETwG+Qez6xddibP0UKHwHO8C/wGLKqG4B9CjuHoArsFyLtI/n3j
+         6awxzze2S0+ZWtEw6wNTxiviR0lfN4oZ3BuotBj8zXamntCBixitUtrDmLPrbZgH02qP
+         87G6gyl3g95QK1hPU3uAB6bcIdPpuBEr/13QyJcEq6n+vokkzpdXfWLUf9TWNMOXg+RO
+         eGyNkmTEJYABmrPNP7G6h/2jgXX+adizXEZoEBWu1ntjdDoNLLi/QXF/hPzWwRnvbcLY
+         Lxaw==
+X-Forwarded-Encrypted: i=1; AHgh+RqFCYTUQdLS6oBcVUDfu47C1QisrdmmrWioRczpDcnsDDbvnseUazP8LNwbt1R9zYhAb2YA1kWEx37TEw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDKpSEqZaPT8th65+2AzB/RY8Viyr7qDznvIuLiW/BzCHSBwsd
+	Vs65hbVGuhUbqBPvH3Wh/zJutj8fMk/I5hHAqUKtrEsjPxUnSszRizc11UqZffQBaKIiWGOcGuW
+	iLsB/02k6ErMHil+ORvJg0//8SnIGn86y+kUxYsUF9gkdhO5csSNcas5wr08suwt1Ew==
+X-Gm-Gg: AR+sD13RzofCt5PCM3apm1Z8Z+ySTVNDfnaxWLxjY57k1BX5WBPSHLDgAXi2ZhESD/N
+	YKhmiC27X9Sk5SqMUw/+aCKaDmip0BR+ZVFiGfYrMX0Ev3clcEiZ0c2MLDDxWq2OC3WDCAWrKmI
+	RbxLdEU3W5P/iYcl5KXfkCW/PyorrLlxauoCjw8LoiHIWtk3pKq+jZDZLaUDWuMqV3/3qn1Fedf
+	o6MrKGKSrApPsuHulp4ApdsrqSP9J/YOOIgvyYwURaWctd7adqNmoWV4QGgxozDxYqjbmyC6Lz5
+	JpfA2dpjLUmbtKiOuhPrFqocjkshOIDvxuqGLTDLzJ7Lxij+2KnHeBKTDYJJTWVqZaSirCwin0n
+	/kNaiHH4fGHrDBgzlKiSSWlnNHFJdjA==
+X-Received: by 2002:a05:6a00:1488:b0:848:3dae:66e2 with SMTP id d2e1a72fcca58-84e8d094ccemr184015b3a.26.1785170862493;
+        Mon, 27 Jul 2026 09:47:42 -0700 (PDT)
+X-Received: by 2002:a05:6a00:1488:b0:848:3dae:66e2 with SMTP id d2e1a72fcca58-84e8d094ccemr183986b3a.26.1785170862021;
+        Mon, 27 Jul 2026 09:47:42 -0700 (PDT)
+Received: from [192.168.1.3] ([106.212.244.189])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e5344e577sm3301603b3a.58.2026.07.27.09.47.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2026 09:47:41 -0700 (PDT)
+Message-ID: <8fcea280-02c1-4511-a51b-438254e0b8e8@oss.qualcomm.com>
+Date: Mon, 27 Jul 2026 22:17:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,187 +89,126 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] mm: Add unmap_mapping_file() helper
-To: =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>, Baoquan He <baoquan.he@linux.dev>,
- Pratyush Yadav <pratyush@kernel.org>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- Dave Young <ruirui.yang@linux.dev>, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
- kexec@lists.infradead.org, driver-core@lists.linux.dev
-References: <20260725210549.3716546-1-kwilczynski@kernel.org>
- <20260725210549.3716546-2-kwilczynski@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH v8 0/3] ASoC: qcom: qdsp6: Add MI2S clock control
+To: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260727151230.408122-1-mohammad.rafi.shaik@oss.qualcomm.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260725210549.3716546-2-kwilczynski@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+In-Reply-To: <20260727151230.408122-1-mohammad.rafi.shaik@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=eYQNubEH c=1 sm=1 tr=0 ts=6a678baf cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=yelsqLKVWbcqNe5dfEYUXw==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=goF0mpTvZGH6B-jPVEoA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDE1NSBTYWx0ZWRfX3ZTcs7RaPkB6
+ /6+rNo8p5CChjQUYik6DmgMsqemYHFGtrrHx7EGyrT5ijIvsVU9IgYW4DkzEkcrYEYrrhC5EkMS
+ wtahqewtlPxOrZcQe96s3ZmXz8FP1+Q=
+X-Proofpoint-ORIG-GUID: J4JNVUEsKFLM2hs1Qf3ckNn9AYTNbYXz
+X-Proofpoint-GUID: J4JNVUEsKFLM2hs1Qf3ckNn9AYTNbYXz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDE1NSBTYWx0ZWRfX+BZDNrSejipr
+ QrzNBvH1BzOGs74w69xl7IXMPS8nHwAxYqysqkVnjS6gBXiEOThnhG7enBSJyVYRdm5NCxTa7EN
+ qLuNozYib1DhIycsk02xrNhqiiKDWCUZtA6YZRshiUDwjWBq2NRBEP6FxI7oVzo9JmmCdbJhWzF
+ bPeD+ippm+vy/hHdEhySwoCdq+rqL9SLnf/UymNTRuHa/wueLcpp7WGCNXXZ6geZoZSfXMRN5b0
+ 49JY8jfhalXghJ4+y0njeN1fvXHOo9YCTxFX1TlCe2wKdntnQk6wy8yeSNXD3mLDjOiVcvM0MMe
+ eTahoTAagkZntC5gJX6hGpUEeC74Gqryi/DhHnS7B9hkR1XOLB39TYCglABwssC8TbhkN6KNSHV
+ M7m7HHrJjtgPgKVsXQT/WedL/KVrVaXXK68wBuE8CxI2djKNouxBtG36rhr5gZbqU14ztrkEnie
+ h7AG0yNFOhynXOIg8lA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-27_04,2026-07-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270155
 
-On 7/25/26 23:05, Krzysztof Wilczyński wrote:
-> Currently, unmap_mapping_pages() and unmap_mapping_range() unmap a
-> page offset window of an address_space, and code that removes a file,
-> such as kernfs_drain_open_files(), relies on them to unmap the pages
-> of a file that is going away.
+
+
+On 7/27/2026 8:42 PM, Mohammad Rafi Shaik wrote:
+> Add support for MI2S clock control within q6apm-lpass DAIs, including
+> handling of MCLK, BCLK via the DAI .set_sysclk callback. Each MI2S port
+> now retrieves its clock handles from the device tree, allowing per-port
+> clock configuration and proper enable/disable during startup and shutdown.
 > 
-> Files with f_mapping swapped to a shared address space at open time,
-> such as PCI resource files using iomem_get_mapping(), have their VMAs
-> attached to the shared mapping instead of the file's own inode mapping,
-> so unmapping the inode's address space cannot reach them, and they stay
-> live after the file is removed.  These VMAs can only be selected by the
-> struct file they were created through, which is recorded in
-> vma->vm_file.
+> On platforms such as Monaco and Lemans, third-party codecs are
+> hardware-wired to the SoC and do not always have an in-tree codec
+> driver to manage their clocks. For these designs, clock line
+> enablement must be driven from the platform side, and this
+> series provides the necessary support for that.
 > 
-> Thus, add unmap_mapping_file(), which walks the VMA interval tree of the
-> file's f_mapping under i_mmap_lock_read() and unmaps the pages of the
-> VMAs selected by should_zap_file_vma(), using the same per-VMA zap as
-> unmap_mapping_pages().  When f_mapping is the file's own inode mapping,
-> every VMA is zapped, as unmap_mapping_range() does today.  When f_mapping
-> was swapped, only the VMAs with vm_file set to that file are zapped, so
-> callers do not need to tell the two apart.
+> On QAIF-based platforms such as Shikra and Hawi, responsibility
+> for voting I2S MCLK and bit-clock has moved from the DSP to the
+> kernel. This series introduces the required device tree binding
+> support to represent and vote for these clocks from the kernel.
 > 
-> HugeTLB VMAs are skipped with a WARN_ON_ONCE(), as zapping those takes
-> i_mmap_rwsem for write in hugetlb_zap_begin() and would deadlock against
-> the read lock held over the walk.
+> Enhances the sc8280xp machine driver to set the boards spacific
+> configurations.
 > 
-> Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
 > ---
->  include/linux/mm.h |  2 ++
->  mm/memory.c        | 48 ++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 50 insertions(+)
+> Changes in v8:
+> - Fixed indentation, reported by Krzysztof.
+> - Resolved all sashiko comments.
+> - Link to v7: https://lore.kernel.org/all/20260724182446.1484894-1-mohammad.rafi.shaik@oss.qualcomm.com/
 > 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 485df9c2dbdd..e882a03eaddd 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -3183,6 +3183,7 @@ extern int fixup_user_fault(struct mm_struct *mm,
->  			    bool *unlocked);
->  void unmap_mapping_pages(struct address_space *mapping,
->  		pgoff_t start, pgoff_t nr, bool even_cows);
-> +void unmap_mapping_file(struct file *file);
->  void unmap_mapping_range(struct address_space *mapping,
->  		loff_t const holebegin, loff_t const holelen, int even_cows);
->  #else
-> @@ -3203,6 +3204,7 @@ static inline int fixup_user_fault(struct mm_struct *mm, unsigned long address,
->  }
->  static inline void unmap_mapping_pages(struct address_space *mapping,
->  		pgoff_t start, pgoff_t nr, bool even_cows) { }
-> +static inline void unmap_mapping_file(struct file *file) { }
->  static inline void unmap_mapping_range(struct address_space *mapping,
->  		loff_t const holebegin, loff_t const holelen, int even_cows) { }
->  #endif
-> diff --git a/mm/memory.c b/mm/memory.c
-> index ff338c2abe92..4a09d7b6aa6b 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -4423,6 +4423,54 @@ void unmap_mapping_pages(struct address_space *mapping, pgoff_t start,
->  }
->  EXPORT_SYMBOL_GPL(unmap_mapping_pages);
->  
-> +static inline bool should_zap_file_vma(struct file *file,
-> +				       struct vm_area_struct *vma)
-> +{
-> +	/* On the file's own inode mapping, zap every VMA */
-> +	if (file->f_mapping == file_inode(file)->i_mapping)
-> +		return true;
-> +
+> Changes in v7:
+> - Addressed review comments, reported by Krzysztof.
+> - Drop ECLK handling, which is not required.
+> - Link to v6: https://lore.kernel.org/all/20260720160226.1026440-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> Changes in v6:
+> - Addressed review comments, reported by Krzysztof.
+> - Resolved all sashiko comments.
+> - Link to v5: https://lore.kernel.org/all/20260714145250.2473461-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> Changes in v5:
+> - Addressed review comments, reported by Krzysztof.
+> - Resolved all sashiko comments.
+> - Link to v4: https://lore.kernel.org/all/20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> Changes in v4:
+> - Addressed review comments from Mark Brown.
+> - Resolved all sashiko comments.
+> - Link to v3: https://lore.kernel.org/all/20260706132009.1496321-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> Changes in v3:
+> - Addressed all review comments from Mark Brown.
+> - Fixed OF node reference handling, clock configuration, and sample-rate
+>    handling issues as suggested by Mark Brown.
+> - Added proper error checking for DAI configuration APIs as suggested by Mark Brown.
+> - Added SENARY DAI support alongside MI2S DAIs as suggested by Val Packett.
+> - Link to v2: https://lore.kernel.org/all/20260608023011.942228-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> 
+> Changes in v2:
+> - Added a detailed commit description to clearly explain the need for this change.
+> - Improved the machine driver based on Neil’s feedback.
+> - Link to v1: https://lore.kernel.org/all/20260309111300.2484262-1-mohammad.rafi.shaik@oss.qualcomm.com/
+> ---
+> Mohammad Rafi Shaik (3):
+>    ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document DAI subnode
+>    ASoC: qcom: q6apm-lpass-dais: Add MI2S clock control
+>    ASoC: qcom: sc8280xp: enhance machine driver for board-specific config
+> 
+>   .../bindings/sound/qcom,q6apm-lpass-dais.yaml |  50 ++++
+>   sound/soc/qcom/qdsp6/q6apm-lpass-dais.c       | 181 ++++++++++++-
+>   sound/soc/qcom/qdsp6/q6prm.h                  |   3 +
+>   sound/soc/qcom/sc8280xp.c                     | 240 ++++++++++++++++--
+>   4 files changed, 452 insertions(+), 22 deletions(-)
+> 
+> 
+> base-commit: c5e32e86ca02b003f86e095d379b38148999293d
 
-I assume Sashiko complain applies only when this function would be reuse in
-other context.
+Tested-by: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com> #SHIKRA-IQS
 
-But I wonder if that check is even required, shouldn't below check cover this
-already? I'd expect that "vma->vm_file == file" must always hold.
-
-> +	/* A swapped mapping also holds VMAs of unrelated files, zap only ours */
-> +	return vma->vm_file == file;
-> +}
-> +
-> +/**
-> + * unmap_mapping_file() - Unmap folios from all mmaps of a file.
-> + * @file: The file to unmap.
-> + *
-> + * Unmap the folios of @file from every process that has them mapped.
-> + *
-> + * If f_mapping is the file's own inode mapping, they are unmapped
-> + * from every VMA on that mapping, as unmap_mapping_range() would do.
-> + *
-> + * However, if f_mapping was swapped to a different address space at
-> + * open time, only the VMAs with vm_file set to @file are considered,
-> + * since that address space also holds mappings of unrelated files.
-> + *
-> + * Must not be used on HugeTLB files.  HugeTLB VMAs are skipped with
-> + * a warning.
-> + */
-> +void unmap_mapping_file(struct file *file)
-> +{
-> +	struct address_space *mapping = file->f_mapping;
-> +	struct vm_area_struct *vma;
-> +
-> +	i_mmap_lock_read(mapping);
-> +	if (unlikely(mapping_mapped(mapping))) {
-> +		vma_interval_tree_foreach(vma, &mapping->i_mmap, 0, ULONG_MAX) {
-
-Can we just use mapping_rmap_tree_foreach() here, similar to
-unmap_mapping_range_tree() ?
-
-> +			cond_resched();
-
-Why that? unmap_mapping_range() doesn't seem to require one so far.
-
--- 
-Cheers,
-
-David
