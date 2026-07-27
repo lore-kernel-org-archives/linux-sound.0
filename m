@@ -1,87 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB27140EB9D;
-	Mon, 27 Jul 2026 13:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251B0246770
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 13:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785159851; cv=none; b=Y8fXUzVPnNl2Thlihn6j7n7bF7xa6xEkqkgzxVaG9PgxrCO+NOaMyDcptCu1b2PKsYNfo1CwGlyejtftp3N/aTFS3WmNs2GBWGvKtpbFvXjZTeGgXBu4bTIN/ywMtv6IN4jOR2ZMxIQgHGn9XqXu7Ie9H++kdw4PTRCQQr6EywI=
+	t=1785160440; cv=none; b=bu9ng8+WkrpQuwisw3M55+Omu2Iz5XEzLTCbHx79WFghRUmoQnq4ItNaPSKCAVjrlyufhq5KP1TiCwA6y1Qj5wl/Q6Lo4BO4EEfBcMlbgCVNDY9cCsMF8qPAUyyZpji8Drd9Qa6y43bix94iFSgguQw1HIO9Aq+pqE6zL7xw6zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785159851; c=relaxed/simple;
-	bh=1jzQbjulhsqiH632N0TSLnRdOnK0j28MA16eGh/owSI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZPAhAWEznCDNpUjeq87W898xfn9o1kv280KC41MGbtsd0sUfR6RbGNIih7eWtKCBlVd7GbB3VdiiUJGUSRnt4itl8v9Y7GXZLh2HRpvrDW3LIzgkuFv/AimDHMuyp39/RBCiKEtpGmHmhqe/IPqigZBWmcRZrZ/GUO7hzp7Mtak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gHbqqo8K; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785160440; c=relaxed/simple;
+	bh=vUxGzwX6AezQt9nTPkcBlxkL/uNdLyFcvaE2cQUDAi4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GLJ5pusQkIlbB0d6leSzapnOtn9+JcKMjDAVRugLqymkVvniu48+jZ5fiq8vkLKQfgkCRQ71dpB311O7ESn6YV6lAmxgzfztDvuc/sku3PAKdrxjBKzOpLVKz2/xj3Kldkb7eySk+ILmElMnj95bh1cidhVkOgvP34na8c8a3hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VFurO3+V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FmFK9zkY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bwvIliIG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cHsP4PFt; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gHbqqo8K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 660BE1F000E9;
-	Mon, 27 Jul 2026 13:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785159850;
-	bh=jHg1RkRxU9N7CQY9HA/VQE3rNz756tFfYsgQ+RA4Nhg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gHbqqo8KFVTscj/KkiD2XkY8oJOD1tUG5Y4coFooiiruqMGfnVm9OweBgPSU+9JNt
-	 Zwik4kGsdnn+pwKh6W4WhmFP02aiKHcggvFfG6w4CdQtT07VZ6U9JjXVES6KWL0Qj1
-	 lHlb2FeVZdmhtxqT7d3YLwesdXiYeID5ynVAcynh0PlKY2/XLGX+tQPszDK4sjlz/Q
-	 xbwu2ukZyiA1jccP1lv+D7h8IbttmEYrkusMqv8/LVeYWsa8gd1V8KUsn5XIRgx53q
-	 OKBtG43CefZ/Vg7ZrqrEKfkZODTnCIxdwaGIlzvmhobn+wkEcRBqS1IbONCJg9Fs0p
-	 xceiGKMxxBbzQ==
-Date: Mon, 27 Jul 2026 14:44:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Andrey Golovko <andrey.golovko@gmail.com>
-Cc: Antoine Monnet <antoine@montane.tech>, linux-sound@vger.kernel.org,
-	shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
-	lgirdwood@gmail.com, Vijendar.Mukunda@amd.com, vkoul@kernel.org,
-	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VFurO3+V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FmFK9zkY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bwvIliIG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cHsP4PFt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D833D7C658;
+	Mon, 27 Jul 2026 13:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785160432; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GxHEeG3YQMn4blWguCEyzekrtbHLlE2MfYjY9XCqpe4=;
+	b=VFurO3+VxfwwrEjCTcSkBb/yc04h+HY1UMjCpjISdGppWXahMmuntymFC3qhp698jcKsFe
+	JAci8FXq47sjdc4uXuULo8ozSVuJV2v7J4/nv8CkHsss0TAkvXvAhuRJlrBlpGhqlTJMjL
+	WatqW2UlGxMY2gL6xIUWuuA/+pM+9iA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785160432;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GxHEeG3YQMn4blWguCEyzekrtbHLlE2MfYjY9XCqpe4=;
+	b=FmFK9zkYdpoW2GtOcDsbhtjERdDRir7wh5cU5NBVH/xDHDX3OEV8KX6jNLu68B88DcTl6j
+	mjTyRY9iUQWq+XBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785160427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GxHEeG3YQMn4blWguCEyzekrtbHLlE2MfYjY9XCqpe4=;
+	b=bwvIliIGQcFudjY6Ou4LOOM2o5xOd6CxPi+vcEtdI7RK4ol7pAJ2c2DIdq/VDAWs0VLGwq
+	Kd2cFLp84c3OuqZWqHyF2VtnSL0WeG3cEAy3ISitk0owx7SY/FeSG4o+P6dVla36zjZuSo
+	GpqLwYiWC7c2Zt3hMSl1+VgUEyxE0tw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785160427;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GxHEeG3YQMn4blWguCEyzekrtbHLlE2MfYjY9XCqpe4=;
+	b=cHsP4PFtL4DkrLRU6VTK07sqw33kBssSoWQmLa2CLcOPcan48elIEVFyQair1WABSotWho
+	mpoWo5Eyu6XY10DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 80B80779C1;
+	Mon, 27 Jul 2026 13:53:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id JJUpHutiZ2rxIQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 27 Jul 2026 13:53:47 +0000
+Date: Mon, 27 Jul 2026 15:53:47 +0200
+Message-ID: <87o6fs8ro4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jackie Dong <xy-jackie@139.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	zhangheng@kylinos.cn,
+	kailang@realtek.com,
+	damien.dagorn29@gmail.com,
+	sean@starlabs.systems,
+	chris.chiu@canonical.com,
+	huanglei@kylinos.cn,
+	dnaim@cachyos.org,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: ASoC: tas2783-sdw: calibration firmware not re-downloaded after
- s2idle resume (AMD ACP SoundWire, ASUS ProArt PX13)
-Message-ID: <faea53ee-9271-4ec4-b274-9225242d4b13@sirena.org.uk>
-References: <c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech>
- <2d59f17b67d3886a3085f0da8c8850f3@gmail.com>
+Subject: Re: [PATCH] ALSA:hda/realtek:ALC269 fixup for Legion 7 15ASH11 Mic Mute LED
+In-Reply-To: <20260727080048.13254-1-xy-jackie@139.com>
+References: <20260727080048.13254-1-xy-jackie@139.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pUQpR7hK8i6SgeCo"
-Content-Disposition: inline
-In-Reply-To: <2d59f17b67d3886a3085f0da8c8850f3@gmail.com>
-X-Cookie: It's OKAY -- I'm an INTELLECTUAL, too.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Flag: NO
+X-Spam-Score: 1.70
+X-Spam-Level: *
+X-Spamd-Result: default: False [1.70 / 50.00];
+	SEM_URIBL(3.50)[139.com:email];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_TO(0.00)[139.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kylinos.cn,realtek.com,gmail.com,starlabs.systems,canonical.com,cachyos.org,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+
+On Mon, 27 Jul 2026 10:00:48 +0200,
+Jackie Dong wrote:
+> 
+> Lenovo Legion 7 15ASH11 with AMD RYZEN AI MAX+ 392 (Strix Halo, ACP
+> 7.0) uses Realtek ALC287 series codec. Its audio subsystem adopts a 
+> hardware design similar to that of the Yoga Pro 7 15ASH11.
+> 
+> It shares PCI SSID 17aa:38f9 with Thinkbook 16P Gen5. 
+> Therefore, use HDA_CODEC_QUIRK to apply ALC287_FIXUP_LENOVO_YOGA_PRO7 
+> for identification.  
+> 
+> After added the HDA_CODEC_QUIRK quirk special for Lenovo Legion 7
+> 15ASH11, the mic mute LED works well.
+> 
+> Signed-off-by: Jackie Dong <xy-jackie@139.com>
+
+Applied now.  Thanks.
 
 
---pUQpR7hK8i6SgeCo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Jul 27, 2026 at 11:13:29AM +0300, Andrey Golovko wrote:
-
-> What does work here: drop the stale cache instead of syncing it, i.e.
-> regcache_drop_region(0, UINT_MAX) before tas_io_init() when the device
-> re-attaches uninitialized, so the following update_bits() calls read real
-> hardware. Side effect: user-set controls fall back to hardware defaults
-> after a resume, which seems the lesser evil versus a silent amp.
-
-That's buggy since it will throw away all the userspace configuration
-done through controls that map directly onto registers, without
-notifications too.  The suspend path should be bringing the driver down
-to idle and then that should be undone on resume.
-
---pUQpR7hK8i6SgeCo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpnYKUACgkQJNaLcl1U
-h9DRNwf9FGNDYbfx/26uKOy1N+3efj0P09ytTearbgakY85kVdn+CSKt5F/lQ4pw
-in7GYlWeb/loeN3yt1a1gQZWwVGQjEoa0ScMOiTg1+vb/gqOAILyiEBzehRN/rV7
-C9zguyH6vtCAjR/PoJv/CHleusj/U67lweiUwgZ7X+ijCao573Vjuuq8D7wMBWT+
-ylH/+v8iwMJT9yybExdbH18uUx6Hikx7+pBTqfFUNEb7yXSmIq2N0oEN5bItR9QU
-9awCRo4vqtrxJlEXupJZvtDgbvolIl5xOnRIe9RJKFedfbDpt0cBkhqMlW7usJHQ
-gnKGIgOUaSf9aja/16zMi++vCV7Ytw==
-=EB8Q
------END PGP SIGNATURE-----
-
---pUQpR7hK8i6SgeCo--
+Takashi
