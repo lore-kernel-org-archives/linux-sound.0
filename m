@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35793FE65F;
-	Mon, 27 Jul 2026 22:55:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E7142378F;
+	Mon, 27 Jul 2026 22:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785192909; cv=none; b=fzRROLgqUVG2KfQ5vf+/UsR5B/BkHDTDTaIL+Z5LoNwWYSy4ceMg6sfR+sPmla6RvlIU0oqfRbvD/cU6DkLVibrDQrPUmRlpVklBkYCHZ/C40pWXotQiPiRsZ4IvnJa9SUYaYGlkc8ADs8uLKwfSxkju1+++D8RIVylwJWfwrgI=
+	t=1785192925; cv=none; b=OcDPiKkclWmq41+sYJ6pZB4EMWNzUa2W5kauc0C9mG9JH3qJ/xv3EWgv0IElVipZtnntGwZOLUROSboBrIMRiy60AwdfUfaYAqlTiXLZ9q/dkdC7DsstbjvtuieQZYV3yG77Of3Oz8rAFwsxGgs5BYDPbV4ueCgChh9H5Nj7Slg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785192909; c=relaxed/simple;
-	bh=sEsBQ7OrcQr0EUeJExtF8+z5iUjPhUvZqZzIiG/2tGM=;
+	s=arc-20240116; t=1785192925; c=relaxed/simple;
+	bh=dF+l7H9/xo7CP+sc89qF3gu31aXJPEOXsCC/5xVVBRs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=B72c8TIqgd0xy7yAdJcOPLD1T9BA7d3+mYvjJ2/OnV65UmbazBKpEG0kbflvf0pl/ZFo8SgOpbIglcfghneNocKNbAajwbthHl81EBu2d0PbUurfJX9er00YjjZk09yG7qruYXF7qqQb4kM/dXjV8wVUQ2n8iRu0ZfsLSDS/jQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctZGkzTd; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=aenOw5Ed+XVuRroNFACqi5jwZEwXAqTUL+4ZjdEBI4O1FRN3MIyEcDszoEsxrVofr5wzbYU+v7f73ukLWx2TuFjradg07Tv+enI8QXp+ANBgORMcy5h/yCNMw6lNXgggGfB2C2ofmXs9QtzeWy+KyARfMc7Hro+c4iPqszx7FHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePNoKO1V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctZGkzTd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03DDD1F000E9;
-	Mon, 27 Jul 2026 22:55:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePNoKO1V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E9C1F000E9;
+	Mon, 27 Jul 2026 22:55:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785192908;
-	bh=R+0zo2sKEMbTOn867f8yUqajPeiSFMK0gWhNzhNsYPI=;
+	s=k20260515; t=1785192923;
+	bh=Ml2Zu8jlqturZUODdnVdE0AFH9m8EwSin6YBqTA6YpM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ctZGkzTdE7MMi/Ps7xla3bKKy3tzlev38pmGEUMEtbEtaSD/afjap5nY5BImh0Ogh
-	 ayfoZEnY0g4bIApQGOSwSqUC9WCMVHgCypHdRiHD7kpvBv9AMQ7pnmr/DPBwC8bBR5
-	 xC2OvpWNLnWYe4dz2NfOKF5eS5U3AzOmg5ZlRPa/8dIxPjlPJRflEDED3x9Bzit+kJ
-	 oVDKB1k3jYdSqhvJVOJQY1D0kbMvDL1qeViVpnvUvo500Pu8Q3EnfiY2yanBrT+1xL
-	 af+XmrfKVOOsNgJVDxurBs5tJRJ/rjdRdol8+HYBmRDDIynhD9JsM1LacI2+QYOFY+
-	 eiSvGIGhg3Hrw==
+	b=ePNoKO1VAcrN203clECACeMD0TTMapdGvlVtRqavj86B/puaWvxbkl7iaNrSQtkpt
+	 ap5cDO/L0qYbJUIRimHdR2vyrGbJreURTelmyiE2PJmplG1NlAootGZsx7O6RD8hP4
+	 0Jn0KIrFNHogPxuskyCtH2UhLULwPcIxunIe2iUisJADubN9wAlwiOCK7wOp5v4RrP
+	 ENqqmOpnbeMRD2UhM3QSBrbe8IPDl5M4+blNO3ozxVM3Bhldtm+F0JunpPiWGEgLQh
+	 auc+T7pHMGynyyUHZuZqUM0HrKfy3sW7CcGE0zJrF2IwmiX8j7MqXA+oxXdJ2NEfaJ
+	 9w6327FqW+QLw==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, shumingf@realtek.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260721143636.361814-1-ckeepax@opensource.cirrus.com>
-References: <20260721143636.361814-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v4 0/7] Fix races on creation of SDCA jack detection
-Message-Id: <178517447302.50339.1499803314056469107.b4-ty@b4>
-Date: Mon, 27 Jul 2026 18:47:53 +0100
+To: tiwai@suse.com, wangdich9700@163.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ wangdicheng <wangdicheng@kylinos.cn>
+In-Reply-To: <20260720081616.631413-1-wangdich9700@163.com>
+References: <20260720081616.631413-1-wangdich9700@163.com>
+Subject: Re: [PATCH] ASoC: tas2781: Use correct calibration data for
+ SINEGAIN2 register
+Message-Id: <178517451345.50339.4661294688450949714.b4-ty@b4>
+Date: Mon, 27 Jul 2026 18:48:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,28 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2146; i=broonie@kernel.org;
- h=from:subject:message-id; bh=sEsBQ7OrcQr0EUeJExtF8+z5iUjPhUvZqZzIiG/2tGM=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqZ+HKLXcdaSRmyIVCEEmxsRNxh2C30MxKYAKqw
- VtqRcvPg2qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamfhygAKCRAk1otyXVSH
- 0H+CB/91A+POnZNrCsLc0AokXXnK4Zu32nKA2J7m7iZBM6kC+48YkaRetkrEHpHPrAPDLqG/PYF
- wwAagcNA69i8nDW+8rHKMVWML4wUT3q9ym/2v4ha3ugFD/fQ4kJsaxnEnwn0FQ3/4ozvGaQ3NdU
- R8YkGVTuM2v3lfIhkwxwlPS0WrT8QcTNV3kGMVDCM4FpkOEdyyItCCJwjkOmVykOjOFHVQvLQXC
- XgURMMKOjilhAO1S2SwzD1js0qrPK+BA3dfVhPtLVnEQC3uFgwtwCCyb8J527cIi2uH7tsoarnZ
- y3cwSSbTcURlesDJJiYmq4LpbSuU0n0cxkeUNdgj/A6fae5q
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=dF+l7H9/xo7CP+sc89qF3gu31aXJPEOXsCC/5xVVBRs=;
+ b=kA0DAAoBJNaLcl1Uh9AByyZiAGpn4dnIC6sIUlQrXx6j8vOp3HmKilPrhqGD86Lg/GzqYUEJL
+ IkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqZ+HZAAoJECTWi3JdVIfQpiwH/2xO
+ PzC2lEvP7r6Kr/itHpv3DzfiRwfh4zjKZ8EVegnmhGZHlvzA52sOw61KJZ1oYST7V3X5e6g1Qdj
+ nj0WoaheGtSEqjVBOVeRWcce4lilkI8c/8AqGFuPPqVsXneiPgD3JG8IBC59m0NVim9vuRzaa3/
+ 0Hbs+idF0nmva7+6sPfNVKxAayjtEATAJQNxGtZ4PzVcadW4vBnXOOhQucXqi9QZtB0rH6gSMcX
+ iArtOBf6c9Z/R92xI9iffrTzEWdhnBw2BL6VfoqlV8XDovy/EfPz9eCNewrtoF87+ZdJiHuDUxc
+ rFsrYVvajaG6T2xUhrTZqTvKPy2BnXvBRXJ2hcg=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 21 Jul 2026 15:36:29 +0100, Charles Keepax wrote:
-> Fix races on creation of SDCA jack detection
-> 
-> Currently there exists a couple races that can result in the DAPM graph
-> coming up in a state that doesn't match the hardware with respect to
-> SDCA jack detection. This series fixes these up by adding a component
-> level fixup_controls helper into the asoc core and shuffling around the
-> IRQ requests from the SDCA side.
-> 
-> [...]
+On Mon, 20 Jul 2026 16:16:16 +0800, wangdich9700@163.com wrote:
+> ASoC: tas2781: Use correct calibration data for SINEGAIN2 register
 
 Applied to
 
@@ -75,20 +66,8 @@ Applied to
 
 Thanks!
 
-[1/7] ASoC: SDCA: Rename sdca_irq_allocate() to include devm
-      https://git.kernel.org/broonie/sound/c/4ecef577d1ce
-[2/7] ASoC: SDCA: Add sdca_irq_cleanup_late()
-      https://git.kernel.org/broonie/sound/c/f18e97fa7f12
-[3/7] ASoC: SDCA: Remove devm from primary IRQ cleanup
-      https://git.kernel.org/broonie/sound/c/0880082c27b6
-[4/7] ASoC: SDCA: Populate IRQ data earlier
-      https://git.kernel.org/broonie/sound/c/050406cbd676
-[5/7] ASoC: Add a component fixup_controls callback
-      https://git.kernel.org/broonie/sound/c/3e81e2fb2163
-[6/7] ASoC: SDCA: Switch to fixup_controls callback for IRQ registration
-      https://git.kernel.org/broonie/sound/c/b8f71f16134f
-[7/7] ASoC: SDCA: Move kcontrol search out of IRQ
-      https://git.kernel.org/broonie/sound/c/bf1b7821f853
+[1/1] ASoC: tas2781: Use correct calibration data for SINEGAIN2 register
+      https://git.kernel.org/broonie/sound/c/dd88cf6273de
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
