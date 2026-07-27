@@ -1,201 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA95A1F03DE;
-	Mon, 27 Jul 2026 09:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785144619; cv=fail; b=VwuvOQozS4pUKHajfHEd8diQoiD2rTTYDNPoqW0rKj7CcM6DDkCL1cdmp+KZZNNzteDAtaQ1rGXaKe0/h9sDhlsf9br+EIJgBNpH1vCnpX7cjP2vWarMfvmTWrdh+ef7b6ziFU9FOdbqsbN4aTuwP0S6RQa3WufQyT7N8b4JMvE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785144619; c=relaxed/simple;
-	bh=b3VUrjSMFkVK/NsIXVzEHkF2K13qyjk8HYv27CtxOuM=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=abfzlw6MCc52X5dYtDUzX4kWr1a0R1cbE0B+a+6jpZNHBj3aoOYDF8OTJqmAHLCRtpaDlixlsomSRIr70JeUTIT6Cgb3UxK7yosyp7inu8raEYiiYScuHFO1cJjcVApFgsMR5GVGPC5tuiHjUgZ8KrZG24WwcS9928TWh+3MQwE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1BP1d1Q; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB59D3EAC71
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785144761; cv=none; b=Ry90FYQ/qeYF1GAcr8USzdQ5SFvBcdQAipvQmQpbrDYh5LeZOY6R/oKyb+Y9buyuz2a8blYvZKnaH1qeeHtQJ/ee/jwJ8zmdyhxKogWn6bd7NqkxFrttpm1qqSuN2rSA/Vf1zoZYocx1rL8HNoJMVJ6GuGr9oEDh0VBWpcE4tQI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785144761; c=relaxed/simple;
+	bh=bC3WdLPmIryizyFVCpxJblIsGFp7sKD42r5yPP2ZpqE=;
+	h=Date:Message-ID:From:Subject:In-Reply-To:References:To:Cc; b=mqLlnGh4Z38aktWvrmX/Q4q/8SFQiW5Nfww7uv6Sc2yAXokEunJElCBqZKygeN3zTm5PI6L8JvXPrxitgY8A5NxN4zh3AMI5hQEjpnUBEHWR7E0jXqqgne1c3x9dNnd6UIazKG1zIuhSiK+0RqutHgOpI6u6N4cM94UEKKEesGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hUSxhBfU; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1BP1d1Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785144617; x=1816680617;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=b3VUrjSMFkVK/NsIXVzEHkF2K13qyjk8HYv27CtxOuM=;
-  b=R1BP1d1QRdmdY3Ya204K9SCJL1EK/1ygRSDm++BV01S99JFdow4WpkFN
-   wDoCxE6QPSWzo5s6PvFll4KOwEpoVe5JNhkkKI76t7ZD4dbe8MJn0Gu1I
-   9ZUXL1KgjuDOvOYDcr5/Uo1mSL/kEWStXJlSgzpIJ9nHihbAEUI0yMYcj
-   ts9+pIt/EIwB0zNUr3FqxJogAqXWc54eVzgCuo0S1ZdwgSw2mauYbkBE0
-   p5nnNxuqtmEEUY7d3u2KlgPFYm8leUCjX5YSFKxRet35HQ8FbYoi8bBHZ
-   F7wq8AJ1UymdfXArQRI+BGqeFsa4JUNHGkEjuUaffIcVxFt6dWz8sr+JH
-   Q==;
-X-CSE-ConnectionGUID: bOSTQOIAQlO2LqJfD7rReA==
-X-CSE-MsgGUID: XAV4VyY/ThiTJOkAG5oYHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="85720963"
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="85720963"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 02:30:16 -0700
-X-CSE-ConnectionGUID: owsf0wmeSvSV0MuiS7j3cg==
-X-CSE-MsgGUID: CpUONhpJQIqt4c2MnEvGGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="255431391"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 02:30:16 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 27 Jul 2026 02:30:15 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43 via Frontend Transport; Mon, 27 Jul 2026 02:30:15 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.43)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 27 Jul 2026 02:30:15 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ONadnSGw+8Sg7VjXOVGrDagSQfolHmLozfTEq//v37l+hehYufGbkk4BStzXNwQPJjEhO5FHr2wZpli/doro17lfgCDwuU0ulfZOva9r6w6puF8y34raQdk/S2xu9HPZwT0Ap48cUzEBQVZpclp2RglzkPqYPcGE1yS7rzOZH4rp49En+bMOJ2HsMN1k44PWgmmc4lz8x6b33Bu7Fi6Td8w4tEjDHrMvFQpXhyUuEOnQx9/VEwtp8TFNn0K3xdBr0jBJ2I0vciP696eI2dxj2ihCcbAUgTyGVb6W2veLPNzaShgJiUQ0tKEpIwIwLOl0MN91WQ19Tk8n6FVRYHnzqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=knG3KilFXu+OPy0iNCNxmjb0o/MVU0rEstM7TF5lQDs=;
- b=aYATo9gpANHsdOKgK3+c027FSU30KVDXesdnGtw8NDgmOXrmQ0PnPrluKIrvEsQriZwbewCZGxVEwERMFGSVoDIxmWIafk9vhw0PdZpbbnjysrevPzpxCGhUXpAoUtjxgkeaQ3ZwLBrcDUANexMP93eHtaaoRKMJ69FpKoI2S5T4R4Pva/GGBPjEKfT7a+5Nzx+O48cMu05vuoZD6rDIc1lZaM8M8TbRUg95zAfswuvweCrS/ufierhR3GYD808M0YVQrwZqT7MLOKtMX+7P4C/JvCjV5wUAS8HfYCSFHwo4J10SZLH4SX8v2XUPizbpOIz8D2lBgvkNGCoHI3/lqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
- by DSWPR11MB9930.namprd11.prod.outlook.com (2603:10b6:8:3a0::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
- 2026 09:30:14 +0000
-Received: from SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
- ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
- 09:30:13 +0000
-Message-ID: <65cc9293-b7fb-4604-a8cf-34f6181b8f22@intel.com>
-Date: Mon, 27 Jul 2026 11:30:08 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] ASoC: Intel: atom: remove conditional return with
- no effect
-To: Sang-Heon Jeon <ekffu200098@gmail.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Liam Girdwood
-	<liam.r.girdwood@linux.intel.com>, Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>, Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-References: <20260725160344.916838-1-ekffu200098@gmail.com>
- <20260725160344.916838-3-ekffu200098@gmail.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260725160344.916838-3-ekffu200098@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P251CA0009.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d2::20) To SA1PR11MB6967.namprd11.prod.outlook.com
- (2603:10b6:806:2bb::15)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hUSxhBfU"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aebd52488cso2853616e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:32:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785144758; x=1785749558; darn=vger.kernel.org;
+        h=cc:to:references:in-reply-to:subject:from:message-id:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=AMZlrirgsRbEo18m/kUv9gZpV2LFxg99OP4vUAS4t8c=;
+        b=hUSxhBfUQcWSMba4JUL89TP+0oCmCramd8gr8y4VcUdwkQjSX/hvPDsaLoJv8LxXsK
+         0eD+k+VHELtFCSAr9wWuLpMlRBmqedeeScd5wUgfV9LYUAm9Qm3rzQmP8Mw/VRfiwb2n
+         Y1oUXrFzS33mbYYbL7caxXNyBePHZ2ZeGixswqcKdsZIyHyC1mgzUHb3LDPq/UyTMuAB
+         d2nUNDvTyrCuFXME+RuVS5klJCzjbUi4Nm/ZOmH/EWmUKWmpMye6Kh5fRuwvSRWTsJb3
+         FUk0Ti9ryTFnLIKjxSe//cZiOwjtfQgzennov8cb++Si2RtqfvL7XNMvj8MkuS6cpmPS
+         hImA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785144758; x=1785749558;
+        h=cc:to:references:in-reply-to:subject:from:message-id:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AMZlrirgsRbEo18m/kUv9gZpV2LFxg99OP4vUAS4t8c=;
+        b=Ztagbrj/9OfxsmK2K+GeApWNo+cLwqj3OcJaoPGsDO9xZu7n9/aC022PB/JyukonWr
+         BPSBjrcql2mcsFaV96fhXH5ImXCM8HWNJ4JYm863tHA7lf3G8ZfxSU8o0c/2EK8gRXiG
+         SzRNr9Lbvj6I0g+bTkQAC6WfCm21pRR1oNkC+yNOOeMFjpfwmzgtedp4J5Gq659e5cn5
+         K55qlJzpGze4JiIbg52rAcxJH2PRdKqiRusyVuxyvi15slZtJOLJ1pGLdw9HzT5Davs7
+         9XLulefm+XFuYRidJR6/4vagMpSncR7WqsrlCVOHzG4vqagVrjKYEiIipHQ/8U5UbkfX
+         6hTw==
+X-Forwarded-Encrypted: i=1; AHgh+RplsJHzDlc/fmZMtGb8FMQwcarPlfe80YTRxqUzNT4emqkfO/UQ1A4Xw5IAMTxPIJy4kavzkq0ELbO1Qw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUg8uqPjDtpM2b+C7Bou+kcxP/xCbEVx4l0g3fdSINjTvR0dbH
+	KJM7zE531HGsOg/uCYaCoCfyMzfUmFkXLLcwct1vXStp2cFj5FyMDSet
+X-Gm-Gg: AR+sD10uz4g1BvWyZvsxtFh7jVNuL8/WCJ/PDVOChvSjKVYN4fa1IaHzenB8nMU59GQ
+	/21aEDwKvVYmsJnLL4xwx6JaFrc2cINygDruViMeFOgzQdVfP/G6E45jE+4Ho2iEIJ3RuWxSQsF
+	UcuGMD6JzuMApCouEjm/wtpbWnRH3FGwjNUhHGf4/4YJvnaBASeKCpozDGApqyrMuA14gjzZBJB
+	X/v8SI1D6wWDfMxraProH5O9p3K1P1RZ0gFAqWzGvh5GQKpEXrT+VIy91EZRAFxAds+b4HqD640
+	SBfgVYeQGL1LwdfCyCWSjrcL2TWE0hbau7pxemO/VO/Lq4pQ1dVtKKVUvuQHMcF1DV7HGUPQPUk
+	6k3mLXKvGClSF4f5Dl3vKMYvM0B5eu4gpN3hjNCP7+YSnyOY6b8CdW6jX2bO0lT9CbNABxfrXHQ
+	8=
+X-Received: by 2002:a05:6512:3d8e:b0:5ae:c926:fc18 with SMTP id 2adb3069b0e04-5b2c1b549fdmr1287385e87.38.1785144757581;
+        Mon, 27 Jul 2026 02:32:37 -0700 (PDT)
+Received: from localhost ([5.227.22.1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be1d84fesm1308646e87.47.2026.07.27.02.32.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 02:32:37 -0700 (PDT)
+Date: Mon, 27 Jul 2026 12:32:35 +0300
+Message-ID: <68c1cc6c645185a255acd0c6a73fac7d@gmail.com>
+From: Andrey Golovko <andrey.golovko@gmail.com>
+Subject: Re: ASoC: tas2783-sdw: calibration firmware not re-downloaded after s2idle resume (AMD ACP SoundWire, ASUS ProArt PX13)
+In-Reply-To: <13a5a03d-8263-443b-a6ba-84d954549b2b@amd.com>
+References: <c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech>
+    <13a5a03d-8263-443b-a6ba-84d954549b2b@amd.com>
+To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
+    Antoine Monnet <antoine@montane.tech>,
+    linux-sound@vger.kernel.org
+Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
+    broonie@kernel.org, lgirdwood@gmail.com,
+    vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
+    pierre-louis.bossart@linux.dev,
+    Mario Limonciello <superm1@kernel.org>,
+    linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|DSWPR11MB9930:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7aff0aee-c1eb-4908-5e9a-08deebc1a95c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|56012099006|11063799006|4143699003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: niWF7Or3bP4dbWCf6iO0RtSkeLherWTsLxYiHfXJFnmgpa7pntoa/9O3Qa7y2HHpGL4eZDlAOB51kfXNKFhvmyXDrYkMq14vTenO/dx8m9KUqi2pjlD6TLf+Ilr3BHy0sUfnakTNgjrMWtB3sJbt8phtbml101i/XtijBC8zDwmd0huc1iTFrTyDeyj07PBMUIU9DLzXBMLqoBvetCJzEaprPGoJRXxPHVOKvqqa5XZtG3D0j2TtkMIVGGnYoC56+1p4uUVbJWKr5lXx16Gfk16n3SyOZfTH61AH22P/o86GjuoNHiGK+aR/5ZmdR/eJ8zkP5wPNqqbYB5IMs+NDXVZDXW/b/CUpCnEFfglCByien97TiCTRoTCiaWcOeoLBcOn+5Qwl4/nS5pqR+ePTIFF95LyHqowOzGd2mmvlx0/8H40h9w/a3vcMhLOgiXbit1W0S/Wc7S2vceXiCqE703rbJvisFzEOuu0uHUvra+Es2WoIrAmwnK1/IgrlZ25sA+lyL3dgC5qvqhcqgAgBfG5qe4E8KMchtAJB7day8KIHOruMNg+t8cO+oKx7N91GXMKq+F5JlDkHRy9ukFZN5IWzUauLRCu9sCBM4VYYUoRUYDujFkgbYCY+5ixNOUQ/l3d8FTeFMDtkSddHHlNDfhaLLIkwq/KsSu4am7E41OY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(56012099006)(11063799006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z1VDQnVGZllkY2tZeHRMTUVKOXhEUjg1UnlZQTU3UkVpclUxR0tyUlB3WXhE?=
- =?utf-8?B?ZEhJdXdZSys4bFBYOUs4dm1OOVdxTzJlNnRndFBDeGpDaEJTdmZIWFZwRy9r?=
- =?utf-8?B?SW9rQkV6bm15VFFTclNnQUF1bzRNaVgwRlBrREVsRGQzb3dHZUZmRUczVDZZ?=
- =?utf-8?B?Skg2ZTV5YU0wNnYvNlhYcmFOclNuQTVOZHgvUGxIb3JBK3VFVDJON0JJZDkw?=
- =?utf-8?B?NXNzSzJjaWMxK3VuejlaQytWbzQrWDF5eU1lNFRSMXY1eVZJMTAxdUlRem1r?=
- =?utf-8?B?VUpSakFwWlZHY0tPQXNyREQ2RUpQM04wZTY0WUtEeTRBalphcjNTS0UvanRD?=
- =?utf-8?B?UVpVam9HamVUczJwM0dmT0F6b1RSUEFERUFpSnp4YlA4dThmcllOWHFOam9l?=
- =?utf-8?B?RUxCR0M1QmdsQ0dJVzczN0NvVWtGdEw5eGdJeWNjd1FCU1VCdzkyV25Ydm5Q?=
- =?utf-8?B?MjhYc1dJU3BRRUJtdUxISUM4dGQzbE5lY0NCUk5PdzRRR1Z3eEJPWUtYOEd5?=
- =?utf-8?B?YUpaem1ES3dIb1VIUVVYODRRV1RHemtjblJnZmlXRURMalFKSUU0SEtqMkFv?=
- =?utf-8?B?NVUvWi9PeHFNZmRrWGtuWXhCL2w1RWVwRTR1Q2VmNkt1NVZNUUdXS1VhQm5w?=
- =?utf-8?B?bUVoR1FUQTE2clZRQktqT3NIWGRjK2tzanZZRjh5RDlXTkhrYU12V3FyZHhn?=
- =?utf-8?B?aGtHL1QxaUpNMCtGa1dSTWxYWjF3cGZWeWhLb3pDeHlDWVBiRFRzVDgvRFYr?=
- =?utf-8?B?eDNJRC9teTZPYjhPeUVmd2F4aWo1NjBMbXlWTlhxalFZWmkyR0ZnWjR4ekpo?=
- =?utf-8?B?eXRpTUVrQlVDeDM3MWQ0bGNQczNjTXdGTmF3SGlGQjc3TWJmOHl3dkRUZGNz?=
- =?utf-8?B?VDhKY0JSWTFQcHFwREpPSWc5T21BZENHQTVpYWZnUGpFOWRSMndZcTB6bElo?=
- =?utf-8?B?NWpROE1TNVNhTUd2MjBBWU90MS83UzhlK2ZhN1l0amdTenNYMDFUdkxxbDEv?=
- =?utf-8?B?YlpRTU1TY2dFMW1xK0V0dUlBTzlxSGFJU0trQks4T001UTQzZ0U2ZzR5YU1o?=
- =?utf-8?B?dTZSR3BrMDNUOGV2TjN4eFc2Sm0ySnhSRDlBdFlUUG54eG9ETGNDZEhxYnlD?=
- =?utf-8?B?cGR0cHFnREZ6UThuZlc0SzQ2dzVVZVJXT3lOVzBScm9YakFxWC9taGhFdmQ2?=
- =?utf-8?B?V3kxM2JVV09DUzVkRmY3YU5IZDVLQ0YwQ3M1cHprajNaY3owVGRtdW9WNW5F?=
- =?utf-8?B?Y2hnaUF1bmg4NFBubUVWZXdYSXFSMXd1Zmh6MktwbjYxNFhxUCtoWXFzVXUv?=
- =?utf-8?B?SE5DeDNyTit1WWp1dGZuRGt5K3dKaURmczRUT1htSy82TTE5cEJ1VHFRelBs?=
- =?utf-8?B?MEt3NUE2bkhsSUdRR3lLV1VtQmovOXNQN1g1ZHZTNUZvZTYvYXlMcEI1NkJq?=
- =?utf-8?B?cEN6aG1UaDZSdTBnNUdvNFZKMm9pYUtkRktHVERSSFRDN3p5dkFCQVZHbGRE?=
- =?utf-8?B?cC9WcGd4bW00SWhTbU8xZWZuY0dVQTlCRFNJbGFqakRtUXFPR01sRE4zb3Zt?=
- =?utf-8?B?aml2bTNFNXV4a0ZWcHRIOEJGNmdOUUgvNjNiMzJ6SVlKL3Q5ZnJRVmF2eDlR?=
- =?utf-8?B?YWdhdTJtRlFybnlYTWxMQVBzcXNlU2dIVGpaLzhoOEg0bHV3SS90YWRuaVRZ?=
- =?utf-8?B?bGZDNm9CRi9BYmtaSm5adkp2N0VLeGpzSHNDNTVyejQwK1N1RUJjUkdLRGdl?=
- =?utf-8?B?QkwvWncyWGpldGpoWTQ2bGZQOFNIVWpRZmFYa013UCtOMmVOK1lMVDhBWW1E?=
- =?utf-8?B?aytWOTBWT2dWYmZnMVpwMjNrdUtpaTdwc0ZkZlZQbDdHQnUrTHBVeDUwUVZN?=
- =?utf-8?B?MzFETGh5VktsT1VkM0tVZjB3M0ZKT0Vsenk2d0gybmdxWnhQR3N5N0VQdVZ2?=
- =?utf-8?B?eUJxZDdZd01QTzR0anM1aG5oajMyc3dWN1RZcXlCV0U3L2RsY21MWlkxZTF5?=
- =?utf-8?B?L3VRTmFHaTRaem9QQWhLeFhvNXA4Z2VvK1QxSmNSaXArbWkvcVYzRThwT2do?=
- =?utf-8?B?VGM2Yk9YVnZSemRLT0hkR2YyVnJFSGVGWEpjVm80dkd5eHNGTjBVTEU4eVNu?=
- =?utf-8?B?bE52emlhQTJGV3MwbnQ5T3FFdEQ4aHY4UndGL0dHcDMwem5DQzNtYVU5cFRt?=
- =?utf-8?B?NHhjNUhMcFVqeFRCYUlZdFZuU2EySDdxcyt2cjFMMkJ2aks2dlAvUU9HZFpL?=
- =?utf-8?B?NlhpaDVDaHdUUkYxTDFCQzRHQXY4QlFKQ1puQVgwbU1QZlMzdGJuQkRiS2Yy?=
- =?utf-8?B?RldRNkFHSE8zU1lwZko3VCszY04xWWVHaFM3b29UdVlYcGtqaDB0NHE5NVdk?=
- =?utf-8?Q?xxxRvscDX1CfoK88=3D?=
-X-Exchange-RoutingPolicyChecked: booNyg5Fyc+BLlHSbtjxsnew3TZg9CxgcNlv9YMUU+jfni+mNQLZcgpCid4cnPTnlDwFD9k0WroaQhIpVfXRXqpGkl3o9Qo8y2gNzJHws0LwfxO6atS0UU6tsxY2FXM49aKamRQCuCNSo1RiFiyP0kA+aGJgK49JvCF+MA2yyL/ok7rkfl3Qq1gLhZatBqusO+Ttube9jTBaz6C7vNmIprhXjZfkc0bZrJ7/AAHLJNTMzRz9NG9JdW8OdKLyt/F9wa5Iq4thL/Bzvwwt4EpcQkrbhBpwopNy8Htu+PtvYR6d65lh8BbK6IXp0VWxtnkx554zsvPLe3/JCsUQyLHhmg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7aff0aee-c1eb-4908-5e9a-08deebc1a95c
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 09:30:13.7823
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dyB4wk0HScYoilH8gLgluhINoDFv6RYI+g9cMlHkvcsWlO6xuM3uEwnMGiH3YY9WNJd6puUeXxIYxDENMD0kCkc7D5lJNePgd2M+jFDz91o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR11MB9930
-X-OriginatorOrg: intel.com
 
-On 7/25/2026 6:03 PM, Sang-Heon Jeon wrote:
-> Both branches of the check return the same value, so the check has
-> no effect. Remove it and return the value directly.
-> 
-> This is the result of running the Coccinelle script from
-> scripts/coccinelle/misc/cond_return_no_effect.cocci.
-> 
-> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
-> ---
->   sound/soc/intel/atom/sst-mfld-platform-pcm.c | 7 +------
->   1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/sound/soc/intel/atom/sst-mfld-platform-pcm.c b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
-> index 9ee4d9926e06..a4c8cbfba096 100644
-> --- a/sound/soc/intel/atom/sst-mfld-platform-pcm.c
-> +++ b/sound/soc/intel/atom/sst-mfld-platform-pcm.c
-> @@ -236,12 +236,7 @@ static int sst_platform_alloc_stream(struct snd_pcm_substream *substream,
->   
->   	stream->stream_info.str_id = str_params.stream_id;
->   
-> -	ret_val = stream->ops->open(sst->dev, &str_params);
-> -	if (ret_val <= 0)
-> -		return ret_val;
-> -
-> -
-> -	return ret_val;
-> +	return stream->ops->open(sst->dev, &str_params);
->   }
->   
->   static void sst_period_elapsed(void *arg)
+Thanks for the quick response.
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> restoring the dma ring buffer reigsters, pte programming along with
+> re-enabling irq mask will be done in acp70_restore_sdw_dma_config()
+> function which will be invoked during resume sequence.
+
+You are right, and my earlier description of that part was wrong - I
+apologise. acp63_sdw_pcm_resume() is the SYSTEM_SLEEP resume callback and
+it does exactly that for every live substream, and it has been there
+since v7.2-rc1. My claim that the ring buffer registers are only
+programmed in hw_params was incorrect.
+
+I have since measured it on the hardware instead of reading code, and the
+measurements confirm your point: the ACP side is fine, and the audio is
+lost somewhere else entirely.
+
+Setup: ASUS ProArt PX13 HN7306EAC, ACP rev 0x70, two TAS2783 + RT721 on
+link 1, v7.2-rc4 plus 5893013efabb. One s2idle cycle of 147 s with 140 s
+of S0i3 residency, i.e. a real power gate. After resume the speakers are
+silent, with no error anywhere in the log.
+
+1) ACP registers during silent playback versus during working playback
+(after the card profile is cycled, which restores audio): I dumped ring
+buffer address/size, FIFO address/size, DMA size, watermark, stream
+enable and the SoundWire manager block - 72 of 78 registers are
+bit-identical. The only differences are ACP_EXTERNAL_INTR_CNTL, where the
+silent capture has the extra PDM_DMA_INTR_MASK bit because the mics
+happened to be open, and the last immediate command/response pair. So
+acp70_restore_sdw_dma_config() does its job.
+
+2) The DMA is running while silent. Sampling
+ACP_P1_AUDIO1_TX_LINEARPOSITIONCNTR every 500 ms:
+
+  +96064, +96000, +96064, +96064, +96000 bytes
+
+96000 bytes per 500 ms = 192000 B/s = 48 kHz x 2 ch x 2 bytes, exactly
+nominal. The ACP fetches the buffer and feeds the SoundWire FIFO for the
+entire time the speakers produce nothing.
+
+3) The difference is on the peripherals. Dumping
+/sys/kernel/debug/soundwire/master-0-1/sdw:*/registers during playback,
+silent versus working, the whole difference across all three peripherals
+is one register, on both amplifiers:
+
+  DP1 0x104 (DPn_PrepareStatus):  silent = 0x3   working = 0x0
+
+with DPn_PrepareCtrl = 0x3 and DPn_ChannelEn = 0x3 in both cases. Since a
+set bit there means "not prepared" (the core polls for NOT_PREPARED == 0
+in sdw_prep_deprep_slave_ports()), both amps sit with their port
+unprepared while the manager streams at them. Nothing notices, because
+tas2783-sdw declares simple_ch_prep_sm, so the core skips its
+write-and-poll and the codec's own tas_port_prep() writes
+DPn_PrepareCtrl without ever checking the status.
+
+I have sent the details of that part to the TI folks in a separate thread
+so as not to derail this one.
+
+I will file a Bugzilla ticket with the full dmesg (dyndbg enabled), the
+register dumps from both states and the DMA counter trace, and post the
+number here.
+
+One question while I have your attention: given that
+acp70_restore_sdw_dma_config() restores the DMA configuration on resume,
+is SNDRV_PCM_INFO_RESUME on the SoundWire DMA PCM intended? Intel does
+not set it for SoundWire, and with it userspace can issue TRIGGER_RESUME
+and skip prepare entirely. On this board that path leads to the silent
+state described above, though after these measurements I no longer think
+the flag is the root cause.
+
+Thanks,
+Andrey
