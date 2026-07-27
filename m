@@ -1,245 +1,148 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AFB48AE33;
-	Wed, 29 Jul 2026 13:23:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5A9470E88;
+	Wed, 29 Jul 2026 13:32:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785331400; cv=none; b=Hq1hF6hFyfYK+YRgyIrXMWE32LxIGFIzrSMOE5yNFpP6ODx8Ad08mfvfbyvXnUe6pgFKvIo2ygx6R1r7obSvaumTWws2Wdc0guaCMg7BtfZgQ8iifgJ83nSK3KJr36qchwnmT7+qT6dOiXsPxVry4tWXswNRZmXE34w3B4uQHPc=
+	t=1785331938; cv=none; b=KDTmyeYmnuO2Qe2p9jmBsIyVcCkmvYgg5Mvr07UejC6Y/gqcabTZfxX836EWNrnj8IFt4vQuj1dOjP5zoi9k4iTlH6oUHyxOWicePHlW2XqQwx3ZqUsJq+npwa+gTwCfT1orUm57pML/UpSMWwkaM+JP7w3i2LUoTKtxuFv04LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785331400; c=relaxed/simple;
-	bh=cm6Kqqnwtss89i2hbh0cuhLvvyLx2uHlmNp73i9wVQc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Rq75L8qh5817QPqiWKElE3J86C4qKZBK96+eOViQYQao03oYFsiDQGhx6j0YpaqfcRDMVwt6InRX5HySNGY4pI980AVyGg29hFH7ES1IYKxVQkAhPZk72Ygqt0PRck3zMyGc57H7Y/R147BxlgoqRx5jXfHC6k6Z9BC4mK2HItA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X249pq8x; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785331938; c=relaxed/simple;
+	bh=U0oMIU8K8WmgeLPAyFV6bjpgnTi8C1w/LC1AdtgPXpw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=l+C3oZZYxuBYTW1T8E956nWwO2QFVT/D6PNOgEPrpM/FtbEyZxu7oBhQ93BFp61+8LEhpaPqQ26FrgKSz1lmWC7NJCV3E9tKEkBURlRFmrXX02wDJNwxJwg8HG3eEBWCHTfHjINLuComTi/d3tYDcYbjzg+XatYvjU+gbMVLiUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QhSnNi23; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X249pq8x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C824E1F000E9;
-	Wed, 29 Jul 2026 13:23:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QhSnNi23"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 928501F000E9;
+	Wed, 29 Jul 2026 13:31:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785331398;
-	bh=sxzJ+faJZvkT4x85fLBm3HFdvbOfygPZbWj1RZ66evo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=X249pq8xjx8MjqnUwVMB6Qi35K1TbodNh3bPuEZwyJCiar5UCKubymB0w/+GyHupW
-	 ZYRg3zBrTTEcoJd8Ya9wMmC4xLrAqEi0uAH2qGwEY8I/JoN9c1hHA0T5Tt2kotfU/Y
-	 rxNe+TYA3nZ3SoS0AtB9br2+/NSfIaepWtkCiFEcjGYyakzwBsIX86/FIeen9G3MZj
-	 4o5IucXNeA+FaF3b+/he6jgloKdXHXVQucsebHlcp2ic7BqjquiZj+3vi5oKAh2fYr
-	 suYVl4ja//u9gx4nsLNME4dDWiojgA7SYUOc+5Zeq426NU4CswQ53+eYqZuytSRCtz
-	 1jAZ5xD1EsoPA==
-Message-ID: <6ed441b8-7148-43ef-9c9f-4bc30c468443@kernel.org>
-Date: Wed, 29 Jul 2026 15:23:06 +0200
+	s=k20260515; t=1785331923;
+	bh=yyFIEb9z3mB2PIPDau5MQ7dpD90tXnalh+HmIBwM0Nk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=QhSnNi23aTMVPnBHd3PPmBrhLSc19heT9KYS0ZHTsC3ONVxgLBei98oe3pPj2dRHq
+	 2WVqe8B2JnPib4yRNsudUB/8/Wpekohz78IYCFU5vCylzyxT7VOsiWrQeBr3XHbovi
+	 xmfJUb/j8ai29LfxDihIR4MoVqA2XcfJc7OCImcuGqbA8/egFgOL13ap6IyeDuS7Sz
+	 cHquFS6CTfKI3TD0LHARonOrS9MT22QkmDkBaf9iUm+L/spe7XGNIguuQZ77w4EP/P
+	 HJf6wFNOEAw+GLcx5oYeEGYxOVt8roPGXi8bNGds3D9iCxAPb7rWaFsYysVWAqrXJL
+	 LkDjMjAvfO6oA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
+ Aaron Ma <aaron.ma@canonical.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+ Hasun Park <hasunpark@gmail.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Kees Cook <kees@kernel.org>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ "Guilherme G. Piccoli" <gpiccoli@igalia.com>, 
+ James Ogletree <jogletre@opensource.cirrus.com>, 
+ Fred Treven <fred.treven@cirrus.com>, Ben Bright <ben.bright@cirrus.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Mac Chiang <mac.chiang@intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ patches@opensource.cirrus.com, Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>, 
+ linux-arm-msm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ imx@lists.linux.dev
+In-Reply-To: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
+References: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
+Subject: Re: [PATCH v2 0/6] ASoC: Use named initializers for
+ platform_device_id arrays
+Message-Id: <178519395804.552178.14635881416240705752.b4-ty@b4>
+Date: Tue, 28 Jul 2026 00:12:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 7/8] dt-bindings: sound: qcom: add Tambora WCD9378
- SDCA codec
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Maciej Strozek <mstrozek@opensource.cirrus.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, patches@opensource.cirrus.com,
- linux-kernel@vger.kernel.org
-References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com>
- <219d44e2-28ed-4c54-bd00-66e687a0ba48@kernel.org>
- <d0891f90-b69b-4b27-ad58-94c342ad9a6a@oss.qualcomm.com>
- <3c484a68-5db8-464f-992a-6c7584841a10@kernel.org>
- <0cb5a2dd-c49e-47e3-8cc5-ab2ffd397a32@oss.qualcomm.com>
- <ba147ca6-3788-4cbe-95c3-949ae73ee8f0@kernel.org>
- <54f1c3e5-0b84-44a6-a03c-3cd65792de9c@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <54f1c3e5-0b84-44a6-a03c-3cd65792de9c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2070; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=U0oMIU8K8WmgeLPAyFV6bjpgnTi8C1w/LC1AdtgPXpw=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqagDJWXeDjd5kHwd16ukfCKKPN0qkrdOoGH0my
+ SlAtyFDD2+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamoAyQAKCRAk1otyXVSH
+ 0CfkB/9FMb5uul97pj4GpuHcasO2XkfONSN4R0UJo6cou6C2FFmI8xWge1nLM+AqKOSumscn/Vn
+ Au2qfeSLhjcaKupnNJ75pHeM0y38rT7suCWzSLpXeQnFml/R5whX5H9mHp2V4htcPgRK1YFNak6
+ wYmqDa9+JWv+I97lnNIDba0EcUOfHzKtw5fpjvstHtZISkKTTX7rMRnUdgwAV3YPUaVH49Y7G/8
+ RKad+Se7bFLSn4vl1oXqboKS4pbWXZ8Vg1YSEOgTHEAAmX5tB49vzlkmGF83RwZrRldfTrzGkdS
+ rGzce5naN625a9ZxpW5A+2jRZ+WX6wGhL19C6+xi8sgQLUGN
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 29/07/2026 15:02, Srinivas Kandagatla wrote:
+On Mon, 20 Jul 2026 08:23:44 +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> ASoC: Use named initializers for platform_device_id arrays
 > 
+> Hello,
 > 
-> On 7/29/26 1:43 PM, Krzysztof Kozlowski wrote:
->> On 29/07/2026 14:36, Srinivas Kandagatla wrote:
->>> On 7/29/26 1:30 PM, Krzysztof Kozlowski wrote:
->>>> On 29/07/2026 14:17, Srinivas Kandagatla wrote:
->>>>> On 7/29/26 12:40 PM, Krzysztof Kozlowski wrote:
->>>>>> On 23/07/2026 01:42, Srinivas Kandagatla wrote:
->>>>>>> Describe the WCD9378 SDCA peripheral node (compatible sdw20217011000)
->>>>>>> driven by the wcd9378-sdca codec driver for headphone playback, headset
->>>>>>> mic capture and jack detection via the SimpleJack SDCA function type.
->>>>>>>
->>>>>>> WCD9378 codec can be wired up in 2 different modes.
->>>>>>> "mobile mode" on phone/tablet SoCs is enumerated as tx and rx device,
->>>>>>> each of which has dedicated control and data lines.
->>>>>>> "compute mode" on compute platforms such as Glymur is enumerated as
->>>>>>> single standard MIPI SDCA class device.
->>>>>>>
->>>>>>> Both modes share same Device ID, compatible; qcom,compute-mode selects
->>>>>>> which driver path is taken.  Supplies, reset GPIO and mic-bias voltages
->>>>>>> live on the SoundWire slave node in compute mode and are forbidden in
->>>>>>> mobile mode (owned by the top-level codec parent there).
->>>>>>>
->>>>>>> Assisted-by: Claude:claude-opus-4-7
->>>>>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->>>>>>> ---
->>>>>>>  .../bindings/sound/qcom,wcd9378-sdw.yaml      | 200 ++++++++++++++++++
->>>>>>>  1 file changed, 200 insertions(+)
->>>>>>>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
->>>>>>>
->>>>>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..2ed4ad92958e
->>>>>>> --- /dev/null
->>>>>>> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
->>>>>>> @@ -0,0 +1,200 @@
->>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>>>>> +%YAML 1.2
->>>>>>> +---
->>>>>>> +$id: http://devicetree.org/schemas/sound/qcom,wcd9378-sdw.yaml#
->>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>> +
->>>>>>> +title: Qualcomm SoundWire Slave devices on WCD9378
->>>>>>> +
->>>>>>> +maintainers:
->>>>>>> +  - Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
->>>>>>> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
->>>>>>> +
->>>>>>> +description: |
->>>>>>> +  The Qualcomm WCD9378 codec presents its SoundWire slave devices with
->>>>>>> +  class ID sdw20217011000 in both operating modes:
->>>>>>> +
->>>>>>> +    * mobile mode -- two slave instances sit on separate SoundWire
->>>>>>> +      masters carrying data only.  A separate top-level codec node
->>>>>>> +      owns the codec's supplies, mic-bias voltages and reset GPIO.
->>>>>>> +
->>>>>>> +    * SDCA / compute mode -- one aggregated slave sits on a multi-lane
->>>>>>> +      master and carries both control and data.  There is no separate
->>>>>>> +      top-level codec node, so the SoundWire slave node itself owns
->>>>>>> +      supplies, reset GPIO and mic-bias voltage configuration.  It is
->>>>>>> +      marked with qcom,compute-mode.
->>>>>>> +
->>>>>>> +  Codec drivers that match sdw20217011000 use qcom,compute-mode to
->>>>>>> +  decide which mode to serve; the presence or absence of this property
->>>>>>> +  also gates whether the supply and mic-bias properties on this node
->>>>>>> +  are required or forbidden.
->>>>>>> +
->>>>>>> +properties:
->>>>>>> +  compatible:
->>>>>>> +    const: sdw20217011000
->>>>>>> +
->>>>>>> +  reg:
->>>>>>> +    maxItems: 1
->>>>>>> +
->>>>>>> +  qcom,compute-mode:
->>>>>>> +    description: |
->>>>>>> +      Marks this SoundWire slave as the single aggregated slave that
->>>>>>> +      implements the codec in SDCA / compute mode.  Only present when
->>>>>>> +      the codec has no separate top-level codec parent; in that case
->>>>>>> +      this slave node also owns the codec's supplies, reset GPIO and
->>>>>>> +      mic-bias voltage configuration.  Absent in mobile mode.
->>>>>>
->>>>>> I doubt there is really "compute" or "mobile" mode, so you just wrote to
->>>>>> match use case, but that does not match hardware.
->>>>>>
->>>>> This is hardware fuse setting, its not just usecase based but it changes
->>>>> complete wcd9378 hardware topology, in mobile mode we have 2 soundwire
->>>>> devices representing tx and rx side of wcd9378 however in compute mode
->>>>> it only has one soundwire device dealing with both tx and rx. compute
->>>>> mode is sdca class compliant device.
->>>>>
->>>>>
->>>>>> I think there should be no separate top-level codec parent in the first
->>>>>> place, thus this property is not needed. You always list here all resources.
->>>>> There is no top level aggregated device when the codec is fused in
->>>>> compute mode.
->>>>
->>>> There should not be a top-level in either case. This was always Linux
->>>> driver limitation.
->>>
->>> That is not true, its clearly a hardware topology thing.
->>> Codec has two devices tx and rx, Only one of the device (tx) has access
->>> to CSR registers of the codec, so rx and tx are pretty much a single
->>> aggregate codec device which is why we have top-level representation of
->>> the aggregate device.
->>
->> So two devices, but not three. If TX has access to RX, it does not mean
->> there is third device. If there was a third device (that top level
->> thingy) you would have it here as well. You don't have, because it is
->> purely for Linux.
+> the objective of this series is still to prepare making struct
+> platform_device_id::driver_data an anonymous union. See
+> https://lore.kernel.org/all/cover.1780048925.git.u.kleine-koenig@baylibre.com/
+> for the details about that.
 > 
-> WCD codec is a single Codec IP Hardware block which contains two
-> soundwire interface devices. Effectively we have one aggregate device
-> representing codec which encompasses two soundwire devices.
+> [...]
 
-You have only two devices.
+Applied to
 
-> 
-> Third device is the only place where we could represent entire Codec
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-No, any of these devices could. The top-level is a fake being.
+Thanks!
 
-> rather than just soundwire interface devices of the codec.
-> 
-> Am not sure what is Linux specific here, its purely hardware topology.
+[1/6] ASoC: codecs: mt6357: Drop unused assignment of platform_device_id driver data
+      https://git.kernel.org/broonie/sound/c/c7a6909de856
+[2/6] ASoC: renesas: fsi: Drop platform probing metadata
+      https://git.kernel.org/broonie/sound/c/0ca8f65516a9
+[3/6] ASoC: amd: acp: Use named initializers for platform_device_id arrays
+      https://git.kernel.org/broonie/sound/c/2b26d06fd3d8
+[4/6] ASoC: amd: acp: Unify code style for platform_device_id array
+      https://git.kernel.org/broonie/sound/c/4bed1074db1e
+[5/6] ASoC: Use named initializers for platform_device_id arrays
+      https://git.kernel.org/broonie/sound/c/232725a0e386
+[6/6] ASOC: Unify code style for platform_device_id arrays
+      https://git.kernel.org/broonie/sound/c/e4dc03df1f71
 
-The Linux specific is because you needed a placeholder for power
-sequencing. It is not a pure hardware topology.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Otherwise, please point me on which/what hardware bus that top-level
-codec resides on if it represents hardware topology.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Best regards,
-Krzysztof
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
