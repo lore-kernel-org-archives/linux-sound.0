@@ -1,172 +1,140 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2064374A04
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 08:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DC137B00E;
+	Mon, 27 Jul 2026 08:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785140018; cv=none; b=QwwoIDpvVGxp93aszlgd04q3Va79HFNksEbgQSQ9DmVIaBGnspjEPwCnKxG0gccuor+MM8u9E7GCDUgertOORXJihNVI0+TmnBeve+6KxSx/f1JuCxD9bjnrk7EUzRzrF3jekCkWCBvoV275qQgK7CegupUxCf51O+0sgl/xXMI=
+	t=1785141041; cv=none; b=VKI5bW6DwjrdrPlLz+R1G58m3Jg+vjdxNOOKhEQ5z1ySQ+rhzzgh+DCSrN7sihfFjvfkO1DqECWSvcKw7oMJCCygguMXpTS8SNkAy/d/w9orowKIjpZqqHtdqo6dr9QbBSuToy2nyjc7rtB3y+PtStaEGaH7OwOPSLfIoPS/8jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785140018; c=relaxed/simple;
-	bh=4wmi0uwktBB60+gLClZTQrof539eNcHdK5yq44R5eMw=;
-	h=Date:Message-ID:From:Subject:In-Reply-To:References:To:Cc; b=Pq9Bpz1IjcKAyRF0bBv9BtRNmwGg9LMgKn/4QE29VzQG3/EDIK0SjbpFaKI1Nngc4YtVaQE42YQM89mC05Q43PSqQeL5MEfdaYUo+qoZMOd13yXvMv+eFzYLCv9tvAK297hg6syS4NL/3GxMxHZuGAb1J1e1+n+KEJJ+5jyBpew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YmDV/Izo; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785141041; c=relaxed/simple;
+	bh=qWnqu6VCUiwZWG189ixa/W9uGeC6PMG4tY9t7kvdnXI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=h8LKZ8EVsai8wMrYj/fT0xVSgPTrl6DOh04/nUgZtFoRkGUPmdEqBdwE+VdRVHNKYYPYr8u+qMLJeJGWgH7glJdNWS6Amw1ytL7A1XMPHxgDaVTsiau46edgGKidGiYhptvON8UGHYeJRIfP1yJhpgmVpJCTvFCOacKBXdHd9K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bn7dLIip; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YmDV/Izo"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b015b2d792so2559201e87.3
-        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 01:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785140011; x=1785744811; darn=vger.kernel.org;
-        h=cc:to:references:in-reply-to:subject:from:message-id:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=oCmkrdJ0HThAc945hm7QlIO5Boe0tZp2HaWTyRug7BE=;
-        b=YmDV/IzoodBvRngzuXH2h1kFQ6ivS6Jlj1oChy/soEIU/ZYYHnW3ldCoNDvFMUIHOq
-         3Npm8pBkTkJhqmlGNi14GOQgiDGyuBBRAAheD89iAWV8Hwv89iIjiz/VMz5Jo3iltVXG
-         qmEw6+VbPVF1BfOiMIaXner9C8qvggaM4bONHAHkitt76R65hT3vFeDZ4Mw+aIMQB9VI
-         qrHshoKDYufstkC1eXND4E1k3xY9htvtqOnx5Jxu/IxDAoWpgZIN4lx+MdEWCE+6DBFP
-         VqhfXDSEkjdMOLmpax0XDG1ive6udfAZ/SvyBx/V37SwAl9F+z+vJJEBEnz0FKb8cNjd
-         kDuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785140011; x=1785744811;
-        h=cc:to:references:in-reply-to:subject:from:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oCmkrdJ0HThAc945hm7QlIO5Boe0tZp2HaWTyRug7BE=;
-        b=iNZIn4JGnzqwkXSbCQ7TPhEMXd54rmZa7EreX49FXfwEJXR28KR7mWdT/0zGvT6kZN
-         N+/7KuAAJWnKRRrmqNpIPxAxTEUu1ygeYtQOLXbMYFUfrr3SmLveyYtKX8gOyppw9gSn
-         QFOMW3/9w8eG5vCDUBKcO9o3h/vgm476ksRGuCbt4p75XwIu1dx+5aqbLnbdSlh72WMQ
-         oXsiuIxV2t7/TkGCsliBkLIN2FHEwC07Yd8hT5WIRkm+uR0OlnfAQhREuuWkVxzMTwDK
-         q3lUVGyS3a0GBe2dvBiHh8ESXQ04PboJyGpy6v4OCAI9zVRMdfdSWPydKXmY7ArD0K1e
-         I1ag==
-X-Forwarded-Encrypted: i=1; AHgh+RpzBULPirUrGt5Q0MieFaKXmWSIZRwpAHD+3YfH5rQ2Oyv6c30o3bBKkxrPUgmlq4RP7PSh6rNIzcZI0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOoHwuu42Ht0Dy1LD7QpehReDtKyZU80Ye7CN7InOUGHssfy1w
-	MXbW2Uf2kytx+BcqehX0qPF2FHhRRkDjqlj2M9Ke+aXOYEsz4/C9CAYb
-X-Gm-Gg: AR+sD12JM2gbLmgn4SxR6qqTYU7ZTb5F+8lnQ8gIjFsu2GAZAqPnm7UvkFVOtZzYSWJ
-	BYS6vSZYf1GvGqsAJvNEmsHCm57MvRX49NclbWpQF/iSe8UI35P/QzqWezE2HLoLvyZFJ4DX21l
-	rhswHUQXyMjs68uPr2X2whVTVXGTCzXEUMQufAZ3zujmZ8T0DLY0jMmnODAmzltV1zoQd6mqyyT
-	nttqdhNEfdxK9ofB7yoFy7w25J9k1siRfavQ+X9xA08y9fUib9m2AJcwWu+0NZ4eRuxeyaLmUwP
-	7ShiXcuEIishOFLD/fWAeiXGwnWtx7BmjAEVKLPX2JSvw4SsvnBYX9ApOjA6Nj/Jrjkh9JJt2uF
-	5eq9GzgRvdboHzxfVYDGGYaM/FxyYoneKiWC4DnLdFGXehjmdGDNeiH9RmotKjDGYkUCTWcOKtB
-	Y=
-X-Received: by 2002:a05:6512:2346:b0:5b0:1879:1ba5 with SMTP id 2adb3069b0e04-5b2c1b4fb9fmr1144363e87.58.1785140011140;
-        Mon, 27 Jul 2026 01:13:31 -0700 (PDT)
-Received: from localhost ([5.227.22.1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be077b6asm1286549e87.15.2026.07.27.01.13.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 01:13:30 -0700 (PDT)
-Date: Mon, 27 Jul 2026 11:13:29 +0300
-Message-ID: <2d59f17b67d3886a3085f0da8c8850f3@gmail.com>
-From: Andrey Golovko <andrey.golovko@gmail.com>
-Subject: Re: ASoC: tas2783-sdw: calibration firmware not re-downloaded after s2idle resume (AMD ACP SoundWire, ASUS ProArt PX13)
-In-Reply-To: <c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech>
-References: <c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech>
-To: Antoine Monnet <antoine@montane.tech>, linux-sound@vger.kernel.org
-Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
-    broonie@kernel.org, lgirdwood@gmail.com, Vijendar.Mukunda@amd.com,
-    vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
-    pierre-louis.bossart@linux.dev, linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bn7dLIip"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785141039; x=1816677039;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=qWnqu6VCUiwZWG189ixa/W9uGeC6PMG4tY9t7kvdnXI=;
+  b=bn7dLIipZCNqvW289b61vT4b6u+LiCajh52WIL+tFfRrmJloKWtUXBG+
+   ZVDoonEWBjxGTWB+TpaP1dMgq905yih2+PZN8ueg2IgP/evaSIknEaQAL
+   sOKMLvBHqFYLDjGevHnwVch9P4Ys6B6dOm9LdKPySPt8mEYMMGnH2QoJC
+   aF5JBvyQDaYcJ0j4N4y7zOns8t8E4CNEzASqkc1P8xkX3THpp4bsMdc1r
+   4+3C/8LmINhYo2vRvUxZOSY6tooBcFJdahJfewgCAoBHpOnR3ol8IO/Kg
+   t6VRYs0MkffinszzXhu5i2/2b1QBE07PokaNo3Am7W/dJ1Y/8SCMhSsNn
+   Q==;
+X-CSE-ConnectionGUID: mgZgOQ5BQgGfhlx+0PVe4w==
+X-CSE-MsgGUID: I0V/57TmQ1qX9+TI9szaWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="85573917"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="85573917"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 01:30:34 -0700
+X-CSE-ConnectionGUID: zuBRshsISau4U4oJl9pq1g==
+X-CSE-MsgGUID: S6JnVra9Qs26laDkF7yO1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="259417611"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.197])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 01:30:04 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Jakub Kicinski <kuba@kernel.org>, Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: Julia.Lawall@inria.fr, Alex Deucher <alexander.deucher@amd.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Andrew Lunn <andrew@lunn.ch>, Andrew
+ Morton <akpm@linux-foundation.org>, Arkadiusz Kubalewski
+ <arkadiusz.kubalewski@intel.com>, Borislav Petkov <bp@alien8.de>,
+ Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>, Daniel Lezcano
+ <daniel.lezcano@kernel.org>, David Airlie <airlied@gmail.com>, "David S.
+ Miller" <davem@davemloft.net>, Dmitry Torokhov
+ <dmitry.torokhov@gmail.com>, Eric Dumazet <edumazet@google.com>, Florian
+ Westphal <fw@strlen.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, Ilpo =?utf-8?Q?J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jiri Pirko <jiri@resnulli.us>, "Joerg
+ Roedel
+ (AMD)" <joro@8bytes.org>, Johan Hovold <johan@kernel.org>, Jonathan Cameron
+ <jic23@kernel.org>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Julian Anastasov <ja@ssi.bg>, Leon Romanovsky <leon@kernel.org>, Liam
+ Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Mark Brown
+ <broonie@kernel.org>, "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Matthew Sakai <msakai@redhat.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, Michael
+ Turquette <mturquette@baylibre.com>, Mike Rapoport <rppt@kernel.org>, Miri
+ Korenblit <miriam.rachel.korenblit@intel.com>, Nicolas Palix
+ <nicolas.palix@imag.fr>, Pablo Neira Ayuso <pablo@netfilter.org>, Paolo
+ Abeni <pabeni@redhat.com>, Ping-Ke Shih <pkshih@realtek.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sebastian Reichel <sre@kernel.org>, Shuah Khan <shuah@kernel.org>, Simona
+ Vetter <simona@ffwll.ch>, Simon Horman <horms@verge.net.au>, Stephen Boyd
+ <sboyd@kernel.org>, Steve French <sfrench@samba.org>, Takashi Iwai
+ <tiwai@suse.com>, Thomas Renninger <trenn@suse.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Tony Luck <tony.luck@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, Vinod
+ Koul <vkoul@kernel.org>, Will
+ Deacon <will@kernel.org>, Yazen Ghannam <Yazen.Ghannam@amd.com>,
+ cocci@inria.fr, amd-gfx@lists.freedesktop.org, dmaengine@vger.kernel.org,
+ dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
+ iommu@lists.linux.dev, linux-cifs@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+ lvs-devel@vger.kernel.org, netdev@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 00/36] treewide: remove conditional returns with no effect
+In-Reply-To: <20260724144822.6af8213f@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260723184538.3888637-1-ekffu200098@gmail.com>
+ <20260724144822.6af8213f@kernel.org>
+Date: Mon, 27 Jul 2026 11:30:01 +0300
+Message-ID: <0ee1ef4aa7daa908bf28397ccc639c89b6aabd9c@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Hi Antoine,
+On Fri, 24 Jul 2026, Jakub Kicinski <kuba@kernel.org> wrote:
+> On Fri, 24 Jul 2026 03:45:02 +0900 Sang-Heon Jeon wrote:
+>> Patch 1 adds a Coccinelle script that matches the pattern, including
+>> negation and constant-comparison variants. Where a local variable is
+>> assigned right before the check, the assignment and the two returns
+>> turn into a single return of the assigned expression.
+>
+> Huh, I thought we already had such script. Various script children have
+> been sending such "cleanups" in the past.
 
-Same machine here (ASUS ProArt PX13 HN7306EAC, ACP rev 0x70, RT721 +
-2x TAS2783 on link 1).
+We did, and it was removed, I believe in 1a617a8475e8 ("coccinelle:
+misc: remove "complex return code" warnings"), because people just don't
+want this constant churn.
 
-First, the reason you never saw a re-download at all: on <= v7.2-rc3 the
-peripherals do not re-attach after s2idle, so tas_update_status() is
-never called with ATTACHED and nothing downstream of it can run. That is
-a separate ACP bug, fixed in v7.2-rc4 by
+It's perfectly fine to have the error case and happy day scenario
+separated.
 
-  5893013efabb ("ASoC: amd: ps: disable MSI on resume in ACP PCI driver")
 
-Details in my reply on your other thread [1].
+BR,
+Jani.
 
-With that fix in place, the firmware IS re-downloaded on every resume and
-the one-shot ->hw_init gate is not the blocker: tas_update_status() sets
-hw_init = false on UNATTACHED, so the ATTACHED transition re-runs
-tas_io_init() and request_firmware_nowait() as intended. I confirmed the
-download really happens over the wire with ftrace: ~81k calls to
-amd_sdw_send_cmd_get_resp() during a single resume, i.e. an honest full
-re-download of both amps, not a cached no-op.
 
-One trap worth naming, since it fooled me for a while: in the resume path
-printk timestamps make the download look impossible (32 KB in ~150 us,
-5 ns/byte), because sched_clock is not running yet that early. Do not
-trust the log deltas there - use ftrace.
-
-So the symptom you filed is real, but the mechanism is elsewhere. On this
-board, after a resume with genuine deep S0i3 residency (51 s of a 57 s
-sleep, per /sys/kernel/debug/amd_pmc/s0ix_stats), all three peripherals
-are Attached, the firmware is reloaded, every log line is clean - and the
-speakers are silent.
-
-Root cause #1: stale regmap cache
----------------------------------
-In tas_update_status(), on the UNATTACHED -> ATTACHED transition, the
-driver does:
-
-	regcache_cache_only(tas_dev->regmap, false);
-	regcache_sync(tas_dev->regmap);
-	/* then */
-	return tas_io_init(&slave->dev, slave);
-
-Two problems: the sync runs *before* tas_io_init(), which performs a
-software reset and thus wipes whatever was just written; and there is no
-regcache_mark_dirty(), so the sync is close to a no-op to begin with.
-The cache therefore survives the power cycle claiming that the DAPM
-power/unmute bits and the SDCA PDE entity are already at their target
-values. Every subsequent regmap_update_bits() - amp power-up from DAPM,
-PDE programming at stream start - sees "no change" and skips the write.
-The amplifier stays powered down and nothing in the log complains.
-
-Consistent with that: unbind/rebind of slave-tas2783 (fresh cache)
-restores sound immediately, while toggling mixer controls does not.
-
-What does not work as a fix: adding regcache_mark_dirty() + a real
-regcache_sync() after tas_io_init(). This regmap is SDW-MBQ
-(devm_regmap_init_sdw_mbq_cfg) with per-register mbq_size, and the cache
-also holds non-MBQ registers written during init, so regcache_sync()
-fails with -EINVAL on the first such register, and the failure then also
-breaks probe ("Update Slave status failed: -22"). A full sync is simply
-not usable for this regmap.
-
-What does work here: drop the stale cache instead of syncing it, i.e.
-regcache_drop_region(0, UINT_MAX) before tas_io_init() when the device
-re-attaches uninitialized, so the following update_bits() calls read real
-hardware. Side effect: user-set controls fall back to hardware defaults
-after a resume, which seems the lesser evil versus a silent amp.
-
-I will send this as a proper patch. Note for Mark/TI: it will be based on
-top of 0d6b2d6f93a6 ("ASoC: codecs: tas2783-sdw: Propagate
-regcache_sync() errors") currently in for-next, which touches the same
-two call sites.
-
-Root cause #2: ACP SoundWire DMA config not reprogrammed on recovery
---------------------------------------------------------------------
-Even with the cache fixed, sound only returns after the PCM is fully
-recreated (pactl profile off/on), not after a plain userspace resume.
-sound/soc/amd/ps/ps-sdw-dma.c advertises SNDRV_PCM_INFO_RESUME, so
-userspace issues TRIGGER_RESUME (or prepare without hw_params), while the
-ring-buffer registers (RINGBUFADDR/RINGBUFSIZE, watermark, IRQ masks) are
-only programmed in hw_params. The DMA is then started with unprogrammed
-registers: silence, followed by an XRUN. Intel does not set INFO_RESUME
-on SoundWire for exactly this reason.
-
-Dropping INFO_RESUME plus reprogramming the DMA config from .prepare
-still does not fully restore audio here, so something else is lost across
-the power gate on the ACP/manager side. I will post that part separately,
-with traces, addressed to the AMD folks - it does not belong in this
-codec thread.
-
-Happy to test patches on this hardware.
-
-[1] https://lore.kernel.org/all/466a905d-8203-46d2-bfe4-a3b3f9b5d68b@montane.tech/
-
-Thanks,
-Andrey
+-- 
+Jani Nikula, Intel
