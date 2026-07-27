@@ -1,76 +1,80 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784DB3ED3D8
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941F522ACEB
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785144772; cv=none; b=DPp0llGYZolg8aXOnOewJ49e3mh4kxJpcqEpr1m7eQjRl9RhXyNNb22BRz61PEHrO2H8CShEvc3hqiRQ4kSkWjFpfVgrFc1CKJJ6BWoU0y0kPdDe0XGcIwYq+xEPcReOgQB1Bd+53ppID9o/bBkpEanSMjVUtGdAjeLHNXJbW9Y=
+	t=1785144794; cv=none; b=fsvoGspjCkPyyw3ZEObiG7SG8OJe0R51GwCfW8OVYVJoPUOrUTJVQhzRNgPI1ywSUyzIwHlajYIG5iGFAQbJrZOHKLDlK8bnBGDRrHXkGF9WCt/s64pZ6hYqAIhTs6S2gLGuJRoAzVjzwSE5CzuWJB3ra+j5Z61Bdlq2gk0P1BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785144772; c=relaxed/simple;
-	bh=bC3WdLPmIryizyFVCpxJblIsGFp7sKD42r5yPP2ZpqE=;
-	h=Date:Message-ID:From:Subject:In-Reply-To:References:To:Cc; b=lZ53dwT8W91C3NvAckIL4DKLk7V9DvZMNzTlK5K3aJKpoej7Lb1hJV+Ll7UxmgF54G+fGAiCqL1BJO33DZXTUVfOrvIw98yGeWLdrvAwhElbXQ8xXys5VFfA/QT3tmgCee5PA0j1Y+QDZOhtjlQYDrUijEaXlenBUk3lx01ECRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fTejIiCv; arc=none smtp.client-ip=209.85.208.176
+	s=arc-20240116; t=1785144794; c=relaxed/simple;
+	bh=jAkwuocgr4DjE3Sy3ICIzClAeaQckhAtdHh23gWPdIE=;
+	h=Date:Message-ID:From:Subject:In-Reply-To:References:To:Cc; b=Ad7OEfleo7Sv6hJU2dznmZprpnsAt60pJDDKoJ3+BzzCIIdoY/zpZ2x1RFS3gECqI+pOdJae7wmLHctM7f4ckFVgvDcaTOTbnvZqkCdpCk5xu36SRzabUL12QGzxlthjlF9X7pgWhEQxPn48ZbPGg95Vw0RLfAfqmviMBVt/qQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AwocQxMp; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fTejIiCv"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39d4c864bfbso21013391fa.1
-        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:32:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwocQxMp"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b14d1f9315so2088874e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 02:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785144768; x=1785749568; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785144791; x=1785749591; darn=vger.kernel.org;
         h=cc:to:references:in-reply-to:subject:from:message-id:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=AMZlrirgsRbEo18m/kUv9gZpV2LFxg99OP4vUAS4t8c=;
-        b=fTejIiCvv6znorHCmzdIgh5WxQOvhtqfDN+RN/hYd4/+o8XGJe0WnQcqlzr/CXizI1
-         LJNIEQC505o6S4Y9mFnClFJVxmsTtFqXll7EMsLrv1v8LWVS476VdM0W+viJPHdpJGDx
-         fusHVgDMZEoPuMrgQBuf/KkEdVhkrLxFBXHiYKMCk/ANAbWUS06ezLSEtAWClS+ApA6r
-         AU5VMHk2K284LEIcHtdN6J1BHYPl0P5dtSF7oAgZNPat9DKjgKvbY9dGji/oWvBgkhgh
-         ffGdaL8uP56E0qIjaWqJgZdzHLkz+sIySQmcetEuwt+lGD/hpH8QKgUzy0hkjtS75S53
-         4RHw==
+        bh=Rn8B6xMEXDd0AWvNF791g+0BnuPh2NtuVGcs2Lh4PVI=;
+        b=AwocQxMpCr7fc2kKdkew7CKI79qP7LMO6mTAA+Ty++9f8K0CAKHSBbMW+DU8NdhwZZ
+         eDBNOKSqF5oCqVZLqWnX8KDcXsMLo/DwYtyxEUWND5TD9hKRM0HZY2pSpxGL5Zx1cWsP
+         ZDjEmmc/Yk2lXw/tqR5s5FW4/x//WhBxBQl93lGjb33o7X2fsoFpaLbiZHLPXtfMM+O3
+         igoAuF+yQ68X13KHoDndV3OJTJ0W5IGoQErtaHZAperTIl7Bjd+RGlHbQM63SSOMkFUy
+         hNVSgwVp69L3qIpjJJt8uxtLUgmjqivBKCFr2coFQOynOvavRPfuc4fJtg0Rtgo1s+LH
+         0lHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785144768; x=1785749568;
+        d=1e100.net; s=20251104; t=1785144791; x=1785749591;
         h=cc:to:references:in-reply-to:subject:from:message-id:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AMZlrirgsRbEo18m/kUv9gZpV2LFxg99OP4vUAS4t8c=;
-        b=PX7L2HZ+jgjqdZS7T4IfysNzWgfdX+NSrSqCaGnhpHm72R6le7aOFRBNic+IVjcMw5
-         9iY7DSQx5XWJkzmgKXQn0op2iVe5C/HUZBi4d2B6Gb6C7o2fFWkeYUoi/ekBhmtgoNIY
-         phg2ZGOuG67eXscOoe46Usl+YgVeoCQ97hek+URCG1dT2iF+k+hJfPKQOchWGw+cFHqh
-         4AHGFkMi5LhZIr8CPhi2c2CZ/3xjmVPdvEADD8xjqIuPTi5n8TUm2YwQQfsccxVZPVVH
-         0NjjXe91KXzy1ZVyswj56qCs0CPv4rgjyuuKdT76ti8ftK+Luexksd8D6DqxBS/Hj+Ql
-         3tOA==
-X-Forwarded-Encrypted: i=1; AHgh+RpKKAVtT+JHBAoiODiaAxH8f+wjRjLpHQ+Dmtnc6yp+k+lsVEYK+/vHJN+edZ8UWOLmH3anJa84RWb2rg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDmVObbFUod4eoivOMYq0S2BU8c4QQF4oaRg/8mqXc0hRo5fzN
-	4CSF/1GvVWwN+TBF87NWd7LzikIGxEmvKHgwgQFjlURFnmIM2IWe1AvA
-X-Gm-Gg: AR+sD11Gs/t2NjjlN0ywjGlvW5mL9Ju30lf5dYDWS3BklJT1/U/+Y7seuKEBL5DvY24
-	VZgGN7dm9HEggdTijuSp4LIQSamQHIewz3yUNq3ys99cNW8iEhZ5oSeo4v6xF3U4d8DFyzO4UgF
-	Qj3vJypWq2tv9dZWlpKOY9MyzgF6PvokyDbUf4F0ggJc8hVHUNQthjgJaJs38sLcw343oZRAVOS
-	yW8Osf5+dnl05dX7sKj3nCneGEKHIQ2wXeMFr3dPKj1B3SXkkrTCLn4UhMK+qTjPrjFaQ1cZd8x
-	CGK6tsFBAzCaF30d98PdcACLw8er9HmNIbPssmWwH3LOq07i80hTHG5Fp4oLy4pZs7r0HEyZqGt
-	C8Dh0xJo1N4d3ZVi4jEo6ejHfT8mNKoWxV/hluKQYe+BPWplx+qI9n/2UIdw1nHsAtbM8xq1Bk4
-	Q=
-X-Received: by 2002:a05:651c:1a2c:b0:39b:894:b01d with SMTP id 38308e7fff4ca-39f2892e2cdmr9941981fa.41.1785144768284;
-        Mon, 27 Jul 2026 02:32:48 -0700 (PDT)
+        bh=Rn8B6xMEXDd0AWvNF791g+0BnuPh2NtuVGcs2Lh4PVI=;
+        b=p1ZYbNAC26WVBUKTVcR6IYK2f/xznCVL5YkqYDQf78YLzZUOUM+AKe8zbL69768N5s
+         5vXS798qlV1404N/bpojcxZHvdeD+7ruW2ovJTYk7azLxZIG9RJJM0UqR84EMdeqd0YI
+         jHRJGW2UjJoMvCKz9cczuTJQKJWoSlyj5vJh5nSJ+aTB5L7g5/2Kh4sUOVZ4LkS40iYp
+         6MUJoSDvDp4TEmG5gnD5vmB4/wVC6yQNLQzgBOKTSO4g0x2HmJ+XxK2gFUFWSinhd9Z7
+         igLm17wxtJYItL1J1GtUTvJiOVyV/btf6WD3voypsP/f4dRWmOnrVcGFtEOvAPN3JgxC
+         8bow==
+X-Forwarded-Encrypted: i=1; AHgh+RrJh7Ds93a4GtNif8xMWbqSOwLIu2W6DS/2J8LWmsD50NoS1I2xp2RQq+gB+XOOdk+pfvLbfgklWdYpkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa/dqsrCyx7bWwLjPkpxRZKcoFyRvlZClllI9TDW5R6fx8stMZ
+	O7a6gFalMoyENhP+Y2hknJt+xx3bKbbgQdyGtnoXjIvCwc1eT7OaJSnY
+X-Gm-Gg: AR+sD12P5OGGccJSyeBcltqW7SDrpzWpy6G2BBt4mhMGnX/5d11Q99C9QGClTi5cM1P
+	JbtLqGyrcOQhuyAnoWPMtkV4FD4XSIiqxN9Lbeue8XIKq8GRdNLhudCQoem/qrQ3tqJ9B27YDjR
+	YI24ypjvRj4shsZUxXRRWBShU9MwQ8FV7cxVV5W/dBiJ1iHF0cNVDt/1PksTlMyPfdw8mikQpVa
+	Sa+x/Z8JFT6zbJaceCAwJphwx3qY8MEya8vzp/T8206lBaxNeBqWJmE59tk7ayrqBlSHBClfUhR
+	phMJ3ynEIBPP98xwZk8CiIK1k7+RWDS9X7pKC2lURTShTOJAeGPfs/w5IOBfua6GYPK2ojReQTT
+	TnNrEHrFjZ3Uzy1DUFFhQ0znxO+erRSNB0Ba8Xyru+OLmjBMtWBRdV0wy/Mvr+0JQ995NdlMptu
+	8=
+X-Received: by 2002:a05:6512:1108:b0:5ae:bce4:b696 with SMTP id 2adb3069b0e04-5b2cc229d94mr6424e87.15.1785144790393;
+        Mon, 27 Jul 2026 02:33:10 -0700 (PDT)
 Received: from localhost ([5.227.22.1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39f2227201bsm11677431fa.42.2026.07.27.02.32.47
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be203ed5sm1334025e87.77.2026.07.27.02.33.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 02:32:48 -0700 (PDT)
-Date: Mon, 27 Jul 2026 12:32:46 +0300
-Message-ID: <71a60288bd13a6cf450981e1d5d0dbec@gmail.com>
+        Mon, 27 Jul 2026 02:33:10 -0700 (PDT)
+Date: Mon, 27 Jul 2026 12:33:09 +0300
+Message-ID: <3e2751d1fb027bed0f09c88e5e56da8f@gmail.com>
 From: Andrey Golovko <andrey.golovko@gmail.com>
-Subject: Re: ASoC: tas2783-sdw: calibration firmware not re-downloaded after s2idle resume (AMD ACP SoundWire, ASUS ProArt PX13)
-In-Reply-To: <13a5a03d-8263-443b-a6ba-84d954549b2b@amd.com>
-References: <c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech>
-    <13a5a03d-8263-443b-a6ba-84d954549b2b@amd.com>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
+Subject: [PATCH v2] ASoC: tas2783-sdw: drop stale regcache on uninitialized
+ re-attach
+In-Reply-To: <bb5064629ada99fa5163621f72fbd27f@gmail.com>
+References: <bb5064629ada99fa5163621f72fbd27f@gmail.com>
+To: Shenghao Ding <shenghao-ding@ti.com>,
+    Kevin Lu <kevin-lu@ti.com>,
+    Baojun Xu <baojun.xu@ti.com>,
+    Sen Wang <sen@ti.com>,
+    Liam Girdwood <lgirdwood@gmail.com>,
+    Mark Brown <broonie@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+    Jaroslav Kysela <perex@perex.cz>,
+    Takashi Iwai <tiwai@suse.com>,
     Antoine Monnet <antoine@montane.tech>,
-    linux-sound@vger.kernel.org
-Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
-    broonie@kernel.org, lgirdwood@gmail.com,
-    vkoul@kernel.org, yung-chuan.liao@linux.intel.com,
-    pierre-louis.bossart@linux.dev,
-    Mario Limonciello <superm1@kernel.org>,
+    Pengpeng Hou <pengpeng@iscas.ac.cn>,
+    linux-sound@vger.kernel.org,
     linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -78,74 +82,108 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Thanks for the quick response.
+When the peripheral re-attaches after the SoundWire controller was
+power-gated during system suspend (s2idle reaching S0i3 on AMD ACP), the
+amplifier has lost all of its register and DSP state. tas_update_status()
+handles that by re-running tas_io_init(), which writes the device's
+TAS2783_SW_RESET register - a vendor register write that clears the
+device's register file and DSP state, not a SoundWire reset, so no
+re-enumeration is involved - and re-downloads the firmware. Before doing
+any of that, it syncs back a register cache that still holds the
+pre-suspend values.
 
-> restoring the dma ring buffer reigsters, pte programming along with
-> re-enabling irq mask will be done in acp70_restore_sdw_dma_config()
-> function which will be invoked during resume sequence.
+That sync is useless, since the reset immediately wipes whatever it
+wrote, and it leaves the cache claiming that the amplifier is already
+powered up and unmuted. Subsequent read-modify-write updates - DAPM
+amplifier power-up, SDCA PDE transitions at stream start - then see "no
+change" and skip the hardware write. Playback runs without a single
+error while the speakers stay silent. Unbinding and rebinding the driver
+restores audio, since probe starts from a fresh cache.
 
-You are right, and my earlier description of that part was wrong - I
-apologise. acp63_sdw_pcm_resume() is the SYSTEM_SLEEP resume callback and
-it does exactly that for every live substream, and it has been there
-since v7.2-rc1. My claim that the ring buffer registers are only
-programmed in hw_params was incorrect.
+Drop the cache instead of syncing it when an uninitialized device
+attaches, so that later accesses see the real hardware state.
 
-I have since measured it on the hardware instead of reading code, and the
-measurements confirm your point: the ACP side is fine, and the audio is
-lost somewhere else entirely.
+Reordering the sync after tas_io_init() and marking the cache dirty is
+not a workable alternative here: tas_regmap has no .writeable_reg, so
+the cache accepts every register up to .max_register, including ones for
+which tas2783_sdca_mbq_size() returns 0. regmap_sdw_mbq_size() rejects
+those with -EINVAL, so the replay fails on the first such register and
+takes initialization down with it.
 
-Setup: ASUS ProArt PX13 HN7306EAC, ACP rev 0x70, two TAS2783 + RT721 on
-link 1, v7.2-rc4 plus 5893013efabb. One s2idle cycle of 147 s with 140 s
-of S0i3 residency, i.e. a real power gate. After resume the speakers are
-silent, with no error anywhere in the log.
+Cached user settings fall back to hardware defaults across such a power
+loss, which seems clearly preferable to a silent amplifier - the device
+is being reset and its firmware reloaded at this point anyway.
 
-1) ACP registers during silent playback versus during working playback
-(after the card profile is cycled, which restores audio): I dumped ring
-buffer address/size, FIFO address/size, DMA size, watermark, stream
-enable and the SoundWire manager block - 72 of 78 registers are
-bit-identical. The only differences are ACP_EXTERNAL_INTR_CNTL, where the
-silent capture has the extra PDM_DMA_INTR_MASK bit because the mics
-happened to be open, and the last immediate command/response pair. So
-acp70_restore_sdw_dma_config() does its job.
+Tested on an ASUS ProArt PX13 HN7306EAC (AMD Strix Halo, ACP7.0, two
+TAS2783 amplifiers plus RT721 on SoundWire link 1): the speakers work
+after an s2idle resume with ~51 s of S0i3 residency, where previously
+they stayed silent despite a complete firmware re-download.
 
-2) The DMA is running while silent. Sampling
-ACP_P1_AUDIO1_TX_LINEARPOSITIONCNTR every 500 ms:
+Fixes: 4cc9bd8d7b32 ("ASoc: tas2783A: Add soundwire based codec driver")
+Reported-by: Antoine Monnet <antoine@montane.tech>
+Closes: https://lore.kernel.org/all/c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech/
+Signed-off-by: Andrey Golovko <andrey.golovko@gmail.com>
+---
+Changes since v1 (thanks Pierre-Louis for the review):
+ - describe the reset precisely: tas_io_init() writes the vendor
+   TAS2783_SW_RESET register, which is not a SoundWire reset and does
+   not trigger re-enumeration. 'soft reset' is gone from both the
+   commit message and the code comment.
+ - drop the vague 'MBQ backend' wording. The reason a sync is not
+   usable is concrete: tas_regmap has no .writeable_reg, so the cache
+   takes registers for which tas2783_sdca_mbq_size() returns 0, and
+   regmap_sdw_mbq_size() then returns -EINVAL for them.
+ - no functional change; the diff is the same modulo the comment.
 
-  +96064, +96000, +96064, +96064, +96000 bytes
+Based on broonie/sound for-next, on top of 0d6b2d6f93a6 ("ASoC: codecs:
+tas2783-sdw: Propagate regcache_sync() errors").
 
-96000 bytes per 500 ms = 192000 B/s = 48 kHz x 2 ch x 2 bytes, exactly
-nominal. The ACP fetches the buffer and feeds the SoundWire FIFO for the
-entire time the speakers produce nothing.
+ sound/soc/codecs/tas2783-sdw.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-3) The difference is on the peripherals. Dumping
-/sys/kernel/debug/soundwire/master-0-1/sdw:*/registers during playback,
-silent versus working, the whole difference across all three peripherals
-is one register, on both amplifiers:
+diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
+index db58c50e8a83..f96a53a08175 100644
+--- a/sound/soc/codecs/tas2783-sdw.c
++++ b/sound/soc/codecs/tas2783-sdw.c
+@@ -1216,7 +1216,6 @@ static s32 tas_update_status(struct sdw_slave *slave,
+ {
+ 	struct tas2783_prv *tas_dev = dev_get_drvdata(&slave->dev);
+ 	struct device *dev = &slave->dev;
+-	int ret;
+ 
+ 	dev_dbg(dev, "Peripheral status = %s",
+ 		status == SDW_SLAVE_UNATTACHED ? "unattached" :
+@@ -1232,14 +1231,23 @@ static s32 tas_update_status(struct sdw_slave *slave,
+ 	if (tas_dev->hw_init || tas_dev->status != SDW_SLAVE_ATTACHED)
+ 		return 0;
+ 
+-	/* updated the cache data to device */
+ 	regcache_cache_only(tas_dev->regmap, false);
+-	ret = regcache_sync(tas_dev->regmap);
+-	if (ret) {
+-		regcache_cache_only(tas_dev->regmap, true);
+-		regcache_mark_dirty(tas_dev->regmap);
+-		return ret;
+-	}
++
++	/*
++	 * The device is attaching uninitialized: either this is the first
++	 * attach, or it lost power (and with it all register and DSP state)
++	 * while the controller was power-gated during system suspend. The
++	 * cache still holds the pre-suspend values, and tas_io_init() below
++	 * resets the device via TAS2783_SW_RESET anyway, so syncing it back
++	 * is both useless and harmful: later read-modify-write updates would
++	 * compare against stale data and skip the hardware write.
++	 *
++	 * Drop the cache instead, so that subsequent accesses see the real
++	 * hardware state. Syncing after the reset is not an option either:
++	 * the cache accepts registers for which tas2783_sdca_mbq_size()
++	 * returns 0, and writing those back fails with -EINVAL.
++	 */
++	regcache_drop_region(tas_dev->regmap, 0, UINT_MAX);
+ 
+ 	/* perform I/O transfers required for Slave initialization */
+ 	return tas_io_init(&slave->dev, slave);
+-- 
+2.53.0
 
-  DP1 0x104 (DPn_PrepareStatus):  silent = 0x3   working = 0x0
-
-with DPn_PrepareCtrl = 0x3 and DPn_ChannelEn = 0x3 in both cases. Since a
-set bit there means "not prepared" (the core polls for NOT_PREPARED == 0
-in sdw_prep_deprep_slave_ports()), both amps sit with their port
-unprepared while the manager streams at them. Nothing notices, because
-tas2783-sdw declares simple_ch_prep_sm, so the core skips its
-write-and-poll and the codec's own tas_port_prep() writes
-DPn_PrepareCtrl without ever checking the status.
-
-I have sent the details of that part to the TI folks in a separate thread
-so as not to derail this one.
-
-I will file a Bugzilla ticket with the full dmesg (dyndbg enabled), the
-register dumps from both states and the DMA counter trace, and post the
-number here.
-
-One question while I have your attention: given that
-acp70_restore_sdw_dma_config() restores the DMA configuration on resume,
-is SNDRV_PCM_INFO_RESUME on the SoundWire DMA PCM intended? Intel does
-not set it for SoundWire, and with it userspace can issue TRIGGER_RESUME
-and skip prepare entirely. On this board that path leads to the silent
-state described above, though after these measurements I no longer think
-the flag is the root cause.
-
-Thanks,
-Andrey
