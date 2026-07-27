@@ -1,141 +1,164 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010037.outbound.protection.outlook.com [52.101.85.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911B73DCDA7
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 08:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785142126; cv=none; b=ts2azpvAvvxiBkKmbH0GXvxux5N77zZFZDkrYaH98MrkV6Te0LPPz46npvZ1rkYvrhtfJ8G/5f3fx9Vd1hrD/VQqICS6KwhkKBLam88OKEsFh6X84kJ1wQhGSdTdyTyaI2TJHeXLR/Z//8HV+m7O2NsgBB+unEx3frX6/RHw098=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785142126; c=relaxed/simple;
-	bh=SGwfYW81FxYNAiBeKWItdf2GfVXUFb7wXTN9n+YbMuo=;
-	h=Date:Message-ID:From:Subject:In-Reply-To:References:To:Cc; b=D4xa4H+favlsakg72OJBTPl8prvJFWRDyW2Gq1G5sD+UT+x3ZNTYwhlql4/eA3d8k3CugjGBjleEC8saWnB6g0ByPfXk/VvQzzG84xZwKoj2UIIuRCeicctefkq4obSDb3IsR63tpF2sIzXuEZKrxmAv9yBBjEfnhAOBG68v8a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bd4i5JTr; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C65B377A9F;
+	Mon, 27 Jul 2026 09:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785143116; cv=fail; b=qwGjDefLcMPJAA4B9C3+X+UjIpSD5V24DJ3L5rJFMRaHvUsUbx3fOZ35+VdjkaQ+421Mo7w7cAiIiHdPupzQNtwI1mAlxdX7oDJl4x7UShKilWpNmeYaPSu41T2L/ITQge+l6A/6+mNgW1L1V+XvBVFmknPWZz2zJ5TdAxpc7iA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785143116; c=relaxed/simple;
+	bh=3M+7xHDTh+MwICo1bKtPRS95eQ9vayxR0CcQzQADRl8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RsLdwZwJFQYHhPkRP9gMGE8ApK7GVxWbrxaP7vVUeW/hW6EC/h4/uxenmiM8aoDJCAKrxZYoHShoYsFIUONnBJtt7CcJaRjPOu/bMCUVrtoxdg4Wk20Al/5ge2TDNasH916Cau2tl09e0RhWAVZZzJJvTJH4SuKnsmawzqLXIuE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=TnFMMyiq; arc=fail smtp.client-ip=52.101.85.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bd4i5JTr"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5b0117dda13so2332076e87.0
-        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 01:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785142122; x=1785746922; darn=vger.kernel.org;
-        h=cc:to:references:in-reply-to:subject:from:message-id:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Ekyw2UUXFURS8L/UD+ZnROGbMPTa5zPXUVjONUoP1Z4=;
-        b=bd4i5JTriESQdMTFK8Slv6rffsgD1d8PVrZKhhxe4uYy/z+3u4uW+qKis/yBo4kPq0
-         DuyuMyxfVEu/xB2wsZBIO/Mtmw8XauVrC8BR16gF3D9Z0uzPGr+nW+6oW1g2PhVtY/GC
-         LetrhkrD2D8bghRMB+NUpgRTR37NZHge10WBuZcsDlNxVw9lY5nu2PQkOkzpkftUTAi5
-         spF2vHmduGoBisvIk5TQ8kJ+QcZv256IF3sptoYAFoCDm/otGiPed0VXC+NFfnDX6o2+
-         rwq6nuefA8Q+TWytRzbD7DNOvtJly5s1ZaRxcjB/tEhokF2qGlsAn2UYoQVt3DdE7hPH
-         TnuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785142122; x=1785746922;
-        h=cc:to:references:in-reply-to:subject:from:message-id:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ekyw2UUXFURS8L/UD+ZnROGbMPTa5zPXUVjONUoP1Z4=;
-        b=GVfQxwo1lGr4BDNIj22R44WOOjRI6kpTd4hf3svBSv69k4JPzTR8qPnc9zd5uDu7Rw
-         eUV48zC1dVj5iMENS1fEkMlD+cjXG4HIaW4XLCiRXaj7LrDSKpWvNu1zC483hofY4/g3
-         vbsFhJDt9hYlZx0AaYGOgasVBKB8aFt/jVOtXOdwzJyjMw1XSpEwblOnmqWQyeQyKYyT
-         I6FF5AMrWhHk7FKwL3T5oYj3oA514tV7ahyzGvkPBr/gcRFqnmUQjf9BmLCT8hew0m60
-         0PypmpO2kx0lxCIpoK973JbXi82k3uxG7vihvN8AKmyTV0XSewMIwzfR/sbm7lBISf0i
-         pSxw==
-X-Forwarded-Encrypted: i=1; AHgh+RqbHDB2ojeYQZopTU7O/nxpd3WcECMfAQ4s2mnzVveiMEj0s1Adav4mbHpRA/HzCHMfczW83dpFtKinbw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyT4VSDFSrkuMi/YD7+8Y7i/5DI9/wie5Xjq1vicwkBiWzktQQI
-	IrLDxvFrlwU8HqKH+KSvlJiWGNBq7g7rJLb7o2wcUO2iZAau5tK00e15
-X-Gm-Gg: AR+sD128h2KDL4JuwYMVLdMV0PeWRpMDhScJFvQEGUGIQ+npBqPKSGWnZYhs5U1OKVi
-	MCx6UgTH+bYUBdGRFvbIYeqWgSqfOgmRw+PE3JZS4rVhSqmdsRODI941mnKov1yaNPfVSuRE5ah
-	09+G7p5LJTnBRtqVczv3A+AN9uH6SOW6rXVcF1wAEv5fnIauDcDNRjUrPFYPZOLdJw4bt3/LYyH
-	eJrYOuNsQ7sloxiIimDuTLBiCYU0BazYjlKSxt6y1aFvZljCLM9kb1IJs0JhpAqQLNqP5/ICHhS
-	hz/Nt1b4PVTjF69+30MCvNLFqkDO0ZZdc11vbXibOrBoRyup9mX5fGg4uLXw1TsfUcREal0jy9S
-	m+rcmWhCJP2bip4+0Y7amnDPOqOEVQiCT/JjR5aB9JG8Fwux1DoT+GibUxOf9+puYvarO+NQYgP
-	w=
-X-Received: by 2002:a05:6512:3da9:b0:5ae:c43a:c18e with SMTP id 2adb3069b0e04-5b2c1affc4emr1391379e87.23.1785142122375;
-        Mon, 27 Jul 2026 01:48:42 -0700 (PDT)
-Received: from localhost ([5.227.22.1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be1f303csm1310668e87.65.2026.07.27.01.48.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 01:48:42 -0700 (PDT)
-Date: Mon, 27 Jul 2026 11:48:40 +0300
-Message-ID: <20b6c100ec50c0b9eb1dd31a338dbc9e@gmail.com>
-From: Andrey Golovko <andrey.golovko@gmail.com>
-Subject: Re: ASoC: tas2783-sdw: no stereo channel split for two mono amps -> mono output (AMD ACP SoundWire, ASUS ProArt PX13)
-In-Reply-To: <29e8c08b-9475-4aba-bce0-6d4a45a26d3b@gmail.com>
-References: <29e8c08b-9475-4aba-bce0-6d4a45a26d3b@gmail.com>
-To: Antoine Monnet <monnet.antoine@gmail.com>, linux-sound@vger.kernel.org
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
-    Kevin Lu <kevin-lu@ti.com>,
-    Baojun Xu <baojun.xu@ti.com>,
-    Sen Wang <sen@ti.com>,
-    Mark Brown <broonie@kernel.org>,
-    Liam Girdwood <lgirdwood@gmail.com>,
-    Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-    Vinod Koul <vkoul@kernel.org>,
-    Bard Liao <yung-chuan.liao@linux.intel.com>,
-    Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-    linux-kernel@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="TnFMMyiq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vKBZWmnVSstkPo30/gY441FiH/iFE2vF2/Gsd4NF9jFdFwPbDEoo4SYZ13W8WilwYj8SiuvStnCx81Iapq2dY261jk34jnoKqNs8QB3YrQfGSXVyKIyL7IgjjncwqOcwBNNrd6KWLL+upjl2MSU/00/mCyqml66F28pka+z2uZWt+BDDbh11TmRHgCrwUCq1i5pBMcleUkpjiYZY3QMsz21zfQK0AzK3aBwKer7UebfpfcWIvoofMxAjTnKeoZ9O5oEjbIimWlXLqMqlbQoDtowJ2XBGAwuvJkAzbctVu8L3M1h3Qwd4UKWv0N9SSldPVNuV5FRSNCIJTt+Or4gJxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3M+7xHDTh+MwICo1bKtPRS95eQ9vayxR0CcQzQADRl8=;
+ b=eVUWUZ5zy9LUZ61CDgNuvNJSShKyofdLssJY3xRG+V+EgRPCTw/CWDeK/A/IMPBLyb12o6GHuaKCBIZMp46PnwejR/Wns0cEZM3h6CZAbq8IDODhi/AMt/m+QuIfUOAjf/ZiPG5H1adG3fm7Tmaq235ovqHgGKYTEJvFaDYUbxTOY0Aani+LT/u8FpQXLVk5kRbp0Hwke2zAdcdGMkFR5ekzab90U6tSikMZ4cW7Ms51CHPFa9JVtG3pLOshs2w9MHXRAWGNSgIxCs8cTOexaU2jYIhgOZLJvVLyzluIau/0NivSGMSbUhPkYw9YzFcj+U7Tq1yv15sLA+MZUB4GYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3M+7xHDTh+MwICo1bKtPRS95eQ9vayxR0CcQzQADRl8=;
+ b=TnFMMyiqb6mXc3fvWsj0tcbluimGqoATtvY5QNNB3WP9p8zVwWARS8XkG2R1Lq7F/mvKn5pOP9oIRKD468A7evDJEg0xZs8DAtqm4Mcj3+l0U+fJNO6Ea5cmHzc2SgxCaZtrbB+6DPq5N/nZs2UI2Ui/rDhiClghJQrloo4uiQM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ DS0PR12MB7772.namprd12.prod.outlook.com (2603:10b6:8:138::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.245.13; Mon, 27 Jul 2026 09:05:12 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%2]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
+ 09:05:12 +0000
+Message-ID: <13a5a03d-8263-443b-a6ba-84d954549b2b@amd.com>
+Date: Mon, 27 Jul 2026 14:34:25 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: ASoC: tas2783-sdw: calibration firmware not re-downloaded after
+ s2idle resume (AMD ACP SoundWire, ASUS ProArt PX13)
+Content-Language: en-US
+To: Andrey Golovko <andrey.golovko@gmail.com>,
+ Antoine Monnet <antoine@montane.tech>, linux-sound@vger.kernel.org
+Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
+ broonie@kernel.org, lgirdwood@gmail.com, vkoul@kernel.org,
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ linux-kernel@vger.kernel.org,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+ Venkata prasad Potturu <venkataprasad.potturu@amd.com>
+References: <c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech>
+ <2d59f17b67d3886a3085f0da8c8850f3@gmail.com>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <2d59f17b67d3886a3085f0da8c8850f3@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN4PR01CA0061.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:26c::13) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|DS0PR12MB7772:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e6c9ea7-44aa-45de-7b18-08deebbe2a78
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|6133799003|11063799006|56012099006|5023799004|4143699003|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	LueJewoIcF+QXM/fLy3YMwlsKDtWvhWlULvsMxw9wYRhV7UAhqXsUfGFNERZGPpmgSeUWktE5qM/3fsq+VagVP8Geg6zxEoag+hQeS4AZ37e57rCJ8TZ69nqFveIDsbO9vLz7b1c0z9xU9lUO9dlmFi2RCcqZRo5rZDhslG6GIueJQjjOMWdsUdBkZHZKrrvLEGkRVW41UKjX53MK6NldiiuvRGYcdHw4IEWhpniiol+DOyRhdc/wzy0JJBu984DKXvlVgmNkKTncAFnX3JDhj2itv9fW5hVpdPsq13EM6oslrGY1NsxWasnJ5o2Bn2VGH0kE5Mc3ISoivIRjDL0hScBqWDvejRyiK1Po8gB2lvotieNwY9BkzEjQkAznU3w2tLTFGcxo0BATYWXxg2bN/5N9b4ptbN42+NM13JJl+wI/f0SV+IJCNejTnXh88WMazzUX+aZctf2xDhMri270bGcuXqBAlY0xaXN0AGUIvyRN7WWdr0+RfS3nHb+nrLaAW9KMAY3+j6yqJ2Pid+3A12mikNUaGa56nyp4fJY5qqlMsfrnhD68cJ0pHdhLWApyPQ+Kcx+JPGwzShIjp+N7r643Lg+gxdp4wT/46iEgiYyOAdS0CbGrBMRnG2gin+OfPMXvayc2GAd5+xzARzX/j8CWirZBifblJ+IJXgck2Y=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(6133799003)(11063799006)(56012099006)(5023799004)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eDNQYWlGUThDYjZ2aEVkWTl0Y0lzSitMam9jWWpScUZlREloWVpRTitXZmdG?=
+ =?utf-8?B?Z2p0dXcwZ25FZlgrWmk0TEFmUUlleFlhVWpnSkhob1ZZRFpjMEsyMVlBK3Mv?=
+ =?utf-8?B?VDFWdUErdytSeEVrSk1EVmdMOHY2UUs3RVUyckd4TWVLdE4wbloyYWhEYTNs?=
+ =?utf-8?B?QnpQMXBZc3dFbkppUEMwRFE1Rm9FZG1heU9WUU9yWTU5QWp3V3dIVm9WSFVL?=
+ =?utf-8?B?cVRSMUtuQ1hvdXBQamU5TTFxWEY1U1Y0cEdYd2hCa0NYTGJ2OUQxditXSFRH?=
+ =?utf-8?B?YW9SRmpma2wrN1RYU3pwZi91Z1g3bmFUUktsb1d5cm5jRHpuYjJpb3lMVnFi?=
+ =?utf-8?B?aTFySW82RGhRRDdKSDU0TFhjczlJdCtHakNTWURJZVBmSmpGTXFVMUV3Y1Ri?=
+ =?utf-8?B?eDd1SElhSmNsb1ltNGl3QndMajdwMDRIZStEcmxzbVdVdERrWWkzS0J3NTVP?=
+ =?utf-8?B?MHd0Z2xiRysvUEJBZW9TKzNTejNEVUk3YTRIZ3k3cEZpNUJNYnhEMFUwNlFt?=
+ =?utf-8?B?aG4zOE1PUU02TFhXMU9jZW5Xb2xBR3Zpd3duNU5UMkVDS3dsdW1pMXVGTENr?=
+ =?utf-8?B?NlFpWGlmdld3c3Vwc2hET2UvOFBNc3p6QldkYXAydDArMHh6Sk45a3F4cWZE?=
+ =?utf-8?B?WjZick5GVkoyMVhFYVhPOHFmZGJjaVdPOGI3K1JGc3ZDeXFieWYyTWEyYjRU?=
+ =?utf-8?B?SEhsR1JzM09FUDZsMFFkeFlUNmxrZ0M3VUlFTmZDVi90YzhhVHFBb1pHelpL?=
+ =?utf-8?B?OTIvckNMRmhEUGpDWGtoTEd2OTFEejhqdVYyZG5VYkt0dG1ldUVMYjdXeGZJ?=
+ =?utf-8?B?T29RTmtWVWVZdXU1MjMzbXY0K1VDWFVTQXR0V0J3Y2VleWZ0elF3eGNYSGFR?=
+ =?utf-8?B?U2JqT3hVNkcxWXlvcGZncmUrc2NranB3b0JoUUludEx5dFZCYlVtV3pROGdY?=
+ =?utf-8?B?dWwzNEtVVHVMNDZIRFlSNVNLZXBLMlBkVGl3bXBKTmtKRGlMbStOeUhlOGdi?=
+ =?utf-8?B?dnFmMlFWYTJ6RVlia1BIUmJPdE5BSGRNMGpZNDlhcGgvQzZ6UDY4c2FmOU1o?=
+ =?utf-8?B?NGUycDNSZmI2TzZ1bFJjMGlkRlFYZGxDQ0tUTHVqUFZ3OXFiVDZMNVBFbDBR?=
+ =?utf-8?B?VElyWHdPS1p6SFFJTXdtTGtSOHo2UDNyTTZMaWc5K25FRW1VNlMzdjRCalZL?=
+ =?utf-8?B?K3UwTjJweDB2M1BlWDBBeWNYZ3VrazZJT3ZCNldFMzVXT052cmt5d2NnZS9N?=
+ =?utf-8?B?ZnQwc1ZSR1NUbTEzVWtTYXd0SElkcnp6dkxrOGdFMy9saHdUbGdDWVFZTzZD?=
+ =?utf-8?B?NE5zZldlbldTdHEzZStpRURzclhsbjNhV3B4allIL3FXVXRQeXNKdXN1VjRC?=
+ =?utf-8?B?dUVlLzl0TnNLZFZHQzc5VnBNd216ZW9ZT3d1aGJQdExtUE1NeW02Sk1NR1hL?=
+ =?utf-8?B?ZzBJdGJnb3BQR0dtQ1hsSE10TU1aQzhaTlpaMnpJN0puMlg4NEw4dkZoc3Rm?=
+ =?utf-8?B?cU1wY0RleG5HT3k1bFlhcmRsZlNweEpMS2kwQlhYR1BLdWQ3OHRJRngvNlh6?=
+ =?utf-8?B?WUtibzB3ZXU2QnRxV2g4c3pXdUZIZHA5Ry9jelZ2alVWRjVHWkdUNW5FRFBI?=
+ =?utf-8?B?K21yMEE4RjM2dTgzV1l1emNqaENHYnVZRHJHNEc4YzZsVVBOTnlDQjZPOEMx?=
+ =?utf-8?B?RlVwZUxjSlQ3bU9DMVN4emhENjFzTDR0bjJGTHNyT2ZRZlBWQ3pRa0lERzM3?=
+ =?utf-8?B?OGtyNlY1KzgvYXpNRUJwWXFCRjJqNUFIZVJ2VWZOaFdwbkxVS0JMNDNtaDJt?=
+ =?utf-8?B?REtFSTYwWWxjd2ZkbStEeUx0a2tYMmRoL2NyWFdXMWpmYVUrWVp3SldaVkNm?=
+ =?utf-8?B?bXNwSXFYak5QbVlmRGxwR0xQZEU2NFJCcVNRNzBJRENvZm1Tc21RbDlvZGlP?=
+ =?utf-8?B?Q01YOFdUQlRwVVkyVEdVTFIzc3BYN0FESTFDTkI5TnFhMlp1bU9UUzEyMWwr?=
+ =?utf-8?B?aVlML2lwdGtVbHdPcEtPcDVsTTlibStXYnQvMXVlTnVXMEtOR1VpTmI5M25W?=
+ =?utf-8?B?Y2tid1BIZzQzcVhidkZrL0V5NS9aZ2x1WGpCMG9KNDA2ZkJtVkk5bXNwNWx2?=
+ =?utf-8?B?VHB1K0tBQWRwZnhvenRpa1g4N0pZOEJsSkRlRzM4OHkrNTNEd2FzWTkvWmh6?=
+ =?utf-8?B?YXNOTkJMdi90T0lsKzdzSFJhL3BkWEc2Nzg3VUFBUVkxWTZsNWdSQUNtQ0J1?=
+ =?utf-8?B?KzNMRWVLSjFmaVlGMER3aXFUSXk0d0cwOVFGOUZrN2pwK1pNWStySTBITXJ0?=
+ =?utf-8?B?SUhFS2xOU3Y5clZTTldwbFVzdWxBMWhCTVl2Z2QyV2d3V2FNTHRvQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e6c9ea7-44aa-45de-7b18-08deebbe2a78
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 09:05:12.5285
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9VlATC+At99auzoxt7CcUH1z8RXLwY0Tp83BDNRnWmgyRKe6OYHIA+zl30xS+97k1N/Leay2GK9fymWXftgkUQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7772
 
-Hi Antoine,
+On 27/07/26 13:43, Andrey Golovko wrote:
+> oot cause #2: ACP SoundWire DMA config not reprogrammed on recovery
+> --------------------------------------------------------------------
+> Even with the cache fixed, sound only returns after the PCM is fully
+> recreated (pactl profile off/on), not after a plain userspace resume.
+> sound/soc/amd/ps/ps-sdw-dma.c advertises SNDRV_PCM_INFO_RESUME, so
+> userspace issues TRIGGER_RESUME (or prepare without hw_params), while the
+> ring-buffer registers (RINGBUFADDR/RINGBUFSIZE, watermark, IRQ masks) are
+> only programmed in hw_params. The DMA is then started with unprogrammed
+> registers: silence, followed by an XRUN. Intel does not set INFO_RESUME
+> on SoundWire for exactly this reason.
+>
+> Dropping INFO_RESUME plus reprogramming the DMA config from .prepare
+> still does not fully restore audio here, so something else is lost across
+> the power gate on the ACP/manager side. I will post that part separately,
+> with traces, addressed to the AMD folks - it does not belong in this
+> codec thread.
+++ 
 
-Confirmed on a second machine: ASUS ProArt PX13 HN7306EAC (Ryzen AI MAX+
-395), Ubuntu 26.04, 7.2-rc4 based kernel, same two TAS2783 at unique_id
-0x8 / 0xB plus RT721 on SoundWire link 1.
+@Andrey  Golovko: restoring the dma ring buffer reigsters, pte programming along
+with
+re-enabling irq mask will be done in acp70_restore_sdw_dma_config() function
+which will
+be invoked during resume sequence.
 
-Rather than judging by ear, I used the per-amp mixer controls, which
-makes the result unambiguous. Both amps at full scale ('tas2783-1/-2 Amp
-Volume' = 20, 'Speaker Volume' = 200), all four 'Left/Right Spk[2]
-Switch' on:
+Could you please create Bugzilla ticket and attach dmesg logs?
 
-  speaker-test -Dpipewire -c2 -s1 (left channel only)
-    - audible
-    - 'tas2783-2 Speaker Volume' = 0  -> complete silence
-    - 'tas2783-1 Speaker Volume' = 0  -> no audible change
 
-  speaker-test -Dpipewire -c2 -s2 (right channel only)
-    - silent, with both amps unmuted at full scale
-
-So exactly your picture: one amp (tas2783-2) renders audio and it renders
-the *left* channel, the other amp contributes nothing, and the right
-channel is never reproduced. Both amps do load their own per-address
-blob here (1714-1-8.bin / 1714-1-B.bin, via the fallback naming path
-after the 0x-prefixed names miss), so this is not a case of the wrong
-configuration being downloaded.
-
-On the "proper mechanism" question: a good part of the plumbing already
-exists, and it does not need unique_id at all.
-
- - The machine layer already knows which amp is which. In
-   sound/soc/sdw_utils/soc_sdw_ti_amp.c, asoc_sdw_ti_spk_rtd_init() maps
-   the component name prefix to a speaker widget: tas2783-1 -> "Left
-   Spk", tas2783-2 -> "Right Spk", tas2783-3/-4 -> "Left/Right Spk2".
-   That is where the four 'Left/Right Spk[2] Switch' controls on this
-   board come from.
-
- - asoc_sdw_hw_params() (sound/soc/sdw_utils/soc_sdw_utils.c) fills
-   dai_link->ch_maps, but for playback it deliberately hands every codec
-   the full mask ("Identical data will be sent to all codecs in
-   playback"), leaving the per-amp channel selection to the amp itself.
-   acp-sdw-legacy-mach, which drives this board, uses both.
-
-So the driver could derive the channel from the same prefix index the
-DAPM routing already uses, or from its entry in dai_link->ch_maps,
-instead of hard-coding SoundWire addresses.
-
-Which raises the question for TI: on TAS2783 is the channel selection
-meant to come from the per-device .bin (in which case it is evidently
-not taking effect on this board), or is the driver expected to program a
-per-amp channel mask? Depending on the answer, either the firmware
-description or tas_sdw_hw_params() needs fixing - and in the latter case
-the amp's channel should come from the machine-level mapping rather than
-from unique_id, which as you say is board-specific.
-
-Happy to test patches on this hardware; I can also collect register
-dumps from both amps if that helps.
-
-Thanks,
-Andrey
