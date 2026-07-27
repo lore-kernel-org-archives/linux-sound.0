@@ -1,163 +1,110 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBF6F3BFE5B
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096E63DDDDD
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 09:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785143196; cv=none; b=WpSoedw4T878RnvxUD7mDqVpes1Amq5FUwc6K5bU2zClf/X6JrJ/Rusn+vG4hQrmsdXJzwun4hbDklHF6qmznjIqRDd2kIVYmh+XYMrFt//KqQ2LtlBnodu2/NHE6r/xF1ZSk+t+W71Ta9+hzHgqlSjA7wiXdpcHa6tR1NW/m1E=
+	t=1785143972; cv=none; b=e6nKEiu1Iz6Ogj54by/DED9moVt00SF98vJQsYOQRrlP7uBru44pBq3l6FZfS8Icn5sMz31chwOkxXQ05nS/vZjs/hclK8FlbqZoemmERoHQm4EUmqni6hlCbTNW3hzCum641l79nyfMnZ1bTYnS5Epu/WDHmDCPD/jVvpnNfPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785143196; c=relaxed/simple;
-	bh=uKTi0I84lzFUl/lmRkrVnGeLZroDvU+ZEm8r7W0X1N0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WzT7hrRdTIFh8uLOwWoshEO56p66zaKBekble3ruO7BJWeBVd5UkUxyKzqWG/IHLib6L1IMQB3kXufnZLnot2ISJTJKUQKJRwSnfzGP+d5y7i9HYutifSofGcmRPLpeaoakDVnUNASy4IlBs1AQPk6fhNBYUFVKAgZPwPJxZDYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fz82rXOj; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785143972; c=relaxed/simple;
+	bh=29SLJtFWgu7ALvVIFmqVM7ytQf5DvPxBKfa1ZnVerIU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=t90n+nNzJHXqk3IQGWIhU7CFCAokhQv2zNUqkUBdjXXEd7k+gF3lHW/CG2CS2PLgjJMKU6nH+3/OuRj0tkTwBWe7Wat9mkXQuPkdRkx9i+K1PjakOZSNpnlfPc8x267iAtZJ9j0PWdQ6JmZHLFPgZqhuX5gqm4gdKutIiHPsXLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=RV07lMUp; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fz82rXOj"
-Message-ID: <18763b90-1ae2-4c6d-a787-b39cccbee0ea@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785143190;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=apKAFmPJTpgSBScIjklW7z6GbFZ04hHcvsKfool2oSI=;
-	b=fz82rXOjWFTpIaEWAJ+fHN+hS1j3zgMHnnX34FW9aaQGefeRPZ1ZiW55pZ6OegpUEu3Qe/
-	BnxHVTosr6hweXaSLVDJPWeOLquCCoeq+snp2nUP0T0CnEaPRckR5B+lCPXgegkM43ZtZu
-	Ktkny6u0KjkTo4vvXism6LFlFYW9nRA=
-Date: Mon, 27 Jul 2026 11:06:08 +0200
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="RV07lMUp"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id C307C240101
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 11:19:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1785143961;
+	bh=e02G+UAzxZHsnCyPekSkBZLHCHZCED+tLQmm8H77/Hc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:From;
+	b=RV07lMUpQe6n4ueYIA1pfiIKhehTmpJ0FF1ttNHdH1toAfUYV0mUq2OE14Y4z5xKo
+	 0KORuaxbVO62x/NFuHoVZ6UGs2cCmAN/e0IlYexKHWLiaImAn7eUK/I87ub+qRKCi7
+	 uP5cbbO5W7pTa9B1couA4CUrw0kcA0U1Ihcqbdow5A2WYHOf94mr5ktAJZN8BSx2hJ
+	 RUtSUJUN4W9ubpx0iNv//ufCG4uDcxVz6fi6aMOAOucWezTxWALgU11K434uAEj4U1
+	 QLDxZXKcaxFOInWQgC8GC1P3llXJ3PcF4LGKhjd+iPrW5lFM6pTa85HrYaxEuBioPt
+	 8BFWvaQ2prkOw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4h7tMY1ztQz9rxF;
+	Mon, 27 Jul 2026 11:19:21 +0200 (CEST)
+From: Michael Diesen <michael.diesen@posteo.de>
+To: tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: [PATCH v2] ALSA: hda/realtek: Add quirk for HP Dragonfly Folio G3 2-in-1 (103c:8a05)
+Date: Mon, 27 Jul 2026 09:19:21 +0000
+Message-ID: <20260727091920.4634-1-michael.diesen@posteo.de>
+In-Reply-To: <874ii84j3p.wl-tiwai@suse.de>
+References: <874ii84j3p.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ASoC: tas2783-sdw: drop stale regcache on uninitialized
- re-attach
-To: Andrey Golovko <andrey.golovko@gmail.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Antoine Monnet <antoine@montane.tech>, Pengpeng Hou <pengpeng@iscas.ac.cn>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <bb5064629ada99fa5163621f72fbd27f@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <bb5064629ada99fa5163621f72fbd27f@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On 7/27/26 10:35, Andrey Golovko wrote:
-> When the peripheral re-attaches after the SoundWire controller was
-> power-gated during system suspend (s2idle reaching S0i3 on AMD ACP), the
-> amplifier has lost all of its register and DSP state. tas_update_status()
-> handles that by re-running tas_io_init(), which soft-resets the device
-> and re-downloads the firmware, but before doing so it syncs back a
-> register cache that still holds the pre-suspend values.
-> 
-> That sync is useless, since the soft reset immediately wipes whatever it
-> wrote, and it leaves the cache claiming that the amplifier is already
-> powered up and unmuted. Subsequent read-modify-write updates - DAPM
-> amplifier power-up, SDCA PDE transitions at stream start - then see "no
-> change" and skip the hardware write. Playback runs without a single
-> error while the speakers stay silent. Unbinding and rebinding the driver
-> restores audio, since probe starts from a fresh cache.
-> 
-> Drop the cache instead of syncing it when an uninitialized device
-> attaches, so that later accesses see the real hardware state.
-> regcache_mark_dirty() + regcache_sync() is not an option here: the cache
-> can also hold registers outside the SDCA MBQ map, written during the
-> init sequence, which the MBQ backend refuses to write back. The sync
-> then fails with -EINVAL and takes initialization down with it.
-> 
-> Cached user settings fall back to hardware defaults across such a power
-> loss, which seems clearly preferable to a silent amplifier - the device
-> is being reset and its firmware reloaded at this point anyway.
-> 
-> Tested on an ASUS ProArt PX13 HN7306EAC (AMD Strix Halo, ACP7.0, two
-> TAS2783 amplifiers plus RT721 on SoundWire link 1): the speakers work
-> after an s2idle resume with ~51 s of S0i3 residency, where previously
-> they stayed silent despite a complete firmware re-download.
-> 
-> Fixes: 4cc9bd8d7b32 ("ASoc: tas2783A: Add soundwire based codec driver")
-> Reported-by: Antoine Monnet <antoine@montane.tech>
-> Closes: https://lore.kernel.org/all/c66ae00a-e878-4af0-a05a-272e9574eaa5@montane.tech/
-> Signed-off-by: Andrey Golovko <andrey.golovko@gmail.com>
-> ---
-> Based on broonie/sound for-next (asoc-next), i.e. on top of
-> 0d6b2d6f93a6 ("ASoC: codecs: tas2783-sdw: Propagate regcache_sync()
-> errors"), which touches the same call site.
-> 
-> Tested on 7.2-rc4 plus the ACP MSI-on-resume fix 5893013efabb, which is
-> a prerequisite for the peripherals to re-attach at all on this board:
-> https://lore.kernel.org/all/466a905d-8203-46d2-bfe4-a3b3f9b5d68b@montane.tech/
-> 
->  sound/soc/codecs/tas2783-sdw.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-> index db58c50e8a83..e62470671951 100644
-> --- a/sound/soc/codecs/tas2783-sdw.c
-> +++ b/sound/soc/codecs/tas2783-sdw.c
-> @@ -1216,7 +1216,6 @@ static s32 tas_update_status(struct sdw_slave *slave,
->  {
->  	struct tas2783_prv *tas_dev = dev_get_drvdata(&slave->dev);
->  	struct device *dev = &slave->dev;
-> -	int ret;
->  
->  	dev_dbg(dev, "Peripheral status = %s",
->  		status == SDW_SLAVE_UNATTACHED ? "unattached" :
-> @@ -1232,14 +1231,23 @@ static s32 tas_update_status(struct sdw_slave *slave,
->  	if (tas_dev->hw_init || tas_dev->status != SDW_SLAVE_ATTACHED)
->  		return 0;
->  
-> -	/* updated the cache data to device */
->  	regcache_cache_only(tas_dev->regmap, false);
-> -	ret = regcache_sync(tas_dev->regmap);
-> -	if (ret) {
-> -		regcache_cache_only(tas_dev->regmap, true);
-> -		regcache_mark_dirty(tas_dev->regmap);
-> -		return ret;
-> -	}
+The HP Dragonfly Folio G3 2-in-1 also ships with PCI SSID 103c:8a05.
+On this unit the ALC245 codec reports subsystem id 103c:8a06 - the SSID
+that is already covered by commit 0a10faad5ca5 ("ALSA: hda/realtek: add
+quirk for HP Dragonfly Folio G3 2-in-1") - while the PCI SSID that
+SND_PCI_QUIRK matches against is 103c:8a05:
 
-Agree that this sequence didn't make sense, but you have a set of
-comments below that could be clearer.
+  snd_hda_codec_alc269 ehdaudio0D0: ALC245: picked fixup for PCI SSID 103c:8a05
+  cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: CS35L41 Bound - SSID: 103C8A06
 
-> +
-> +	/*
-> +	 * The device is attaching uninitialized: either this is the first
-> +	 * attach, or it lost power (and with it all register and DSP state)
-> +	 * while the controller was power-gated during system suspend. The
-> +	 * cache still holds the pre-suspend values, and tas_io_init() below
-> +	 * soft-resets the device anyway, so syncing it back is both useless
+The existing entry therefore never applies here, the four CS35L41
+amplifiers on SPI are not registered and the internal speakers stay
+silent.
 
-you may want to clarify what 'soft-reset' means. This isn't a SoundWire
-term, all forms of reset defined in the standard will require
-re-enumeration. Some devices from Cirrus Logic perform a 'device reset'
-and a second enumeration, if that was the case here then you could
-end-up in a boot loop.
+Add the same fixup that the 8a06 entry uses: the four amplifiers bind
+and the speaker mute LED (codec GPIO 0x04) works.
 
-> +	 * and harmful: later read-modify-write updates would compare against
-> +	 * stale data and skip the hardware write.
-> +	 *
-> +	 * Drop the cache instead, so that subsequent accesses see the real
-> +	 * hardware state. regcache_mark_dirty() + regcache_sync() cannot be
-> +	 * used here: the cache may hold registers outside the SDCA MBQ map,
-> +	 * which the MBQ backend refuses to write back.
+Signed-off-by: Michael Diesen <michael.diesen@posteo.de>
+---
+v2:
+ - Resend using git send-email. v1 was mangled by my mail client (tabs
+   converted to spaces, long context lines soft-wrapped) so it could not
+   be applied with git am. Sorry for the noise, and thanks for the
+   pointer - I tested this one by mailing it to myself and applying it
+   with git am before sending.
+ - Use ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED instead of plain
+   ALC245_FIXUP_CS35L41_SPI_4. In v1 I claimed this was a non-2-in-1 SKU
+   that does not need the LED handling. That was wrong: DMI reports the
+   machine as "HP Dragonfly Folio G3 2-in-1", i.e. the same model as the
+   8a06 entry, and the speaker mute LED stayed dark with plain SPI_4.
+ - Name the entry identically to the 8a06 one, as it is the same machine
+   with a different PCI SSID.
 
-Not following this comment, there's a single cache with specific
-registers tagged as requiring the MBQ-specific sequence with multiple
-ordered read/writes. it doesn't matter whether the registers are in the
-MBQ area and I don't know what the 'MBQ backend' refers to.
+On the mic-mute LED: alc285_fixup_hp_gpio_led() also drives GPIO 0x01 as
+mic-mute LED. That LED does not respond on this unit. Poking the codec
+GPIOs directly with hda-verb shows 0x04 toggling the speaker mute LED,
+while neither 0x01 nor 0x02 has any effect, so the mic-mute LED does not
+appear to be wired to the codec here. It does not work without the quirk
+either, so this is no regression, and it matches what the 8a06 entry
+already does - hence I kept the shared fixup instead of adding a new one.
 
-> +	 */
-> +	regcache_drop_region(tas_dev->regmap, 0, UINT_MAX);
->  
->  	/* perform I/O transfers required for Slave initialization */
->  	return tas_io_init(&slave->dev, slave);
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index b22564f..ec6724e 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7160,6 +7160,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x89da, "HP Spectre x360 14t-ea100", ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8a05, "HP Dragonfly Folio G3 2-in-1", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio G3 2-in-1", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a1b, "HP 255 15.6 inch G9 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+-- 
+2.54.0
 
