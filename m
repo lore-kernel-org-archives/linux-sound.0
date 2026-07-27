@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6F417A2EA;
-	Wed, 29 Jul 2026 13:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62CC48EBE8;
+	Wed, 29 Jul 2026 13:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785331953; cv=none; b=JtlxJ21oe7WVH0MzFzeRCTK5hz6wZItZ1Z+mW+WrTES2kcx9mEP+8xh17uVMj5FtTBLk98AAPvPHHz1SPyQqu9Hr9TCLzvBRJzY7yxp/fpxFgFNx1y8upIsq10zmBaVcElMtr69coZHaoYTbEpVeL9waozGqpAJmR5LwYM8G+QU=
+	t=1785331959; cv=none; b=JByK0mmpb+fNhhdQ6IKiOPkkaLyJHwb3kfIXu0DkVfqHz0sr+Ovyo35rH+0Qca1gK/GHtXwMPFvy7KGwRIwZ0htnHJyrguhLRZkU3GgwHzKqz+fhWoz2x1MtAKUYxBwOf5AxlWNbATiM13Y4DON8uWqpwG19l5mAkIOcXzZ+KpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785331953; c=relaxed/simple;
-	bh=H4PXMb6kzsC2lQeqAtOOPuzgDrOIRcalxIlDQnZ+/gc=;
+	s=arc-20240116; t=1785331959; c=relaxed/simple;
+	bh=ehPg15UIQDMT23cMFetMe/4/mF53Xt3xEu695f0jcKo=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OMi1oPOdyuQLTy61xAW3NBerMPl8/XbbNEbUcIqBg5JE9jx6PpWJj7A2G6BFRpagCZgse07TSYjfcLrF7PjMGlgdrRHt/OK3C6US1XtsBxYYzdfTUyuXM61bfYbtWwifhzVjXQKDqhx/mZog1HgHXnlg+/UBheLIT4SnLaw7hRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=df65KOgj; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=CdO8FF8i9HjaKpFpqniXBhECfR/b6KrmrnI//OcV3lTbfxE/uvJwHI7kzb1GpjbEudf6CZgtiHZYMqPk+QbWbfjYYzaa98mdVrp51C7ozRD8SsyeYHiCoaoGrKwEDeDXqohnryrByRx3HUqMzLrCxncgXehav9E62Oo6nDzC+bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4CIJSHY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="df65KOgj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65C561F000E9;
-	Wed, 29 Jul 2026 13:32:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4CIJSHY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209241F00A3E;
+	Wed, 29 Jul 2026 13:32:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785331939;
-	bh=J/Onbl8F/XNCjYT3JRdEGudvWR26qkOyF7fmg/LHukg=;
+	s=k20260515; t=1785331953;
+	bh=Qmx7IhS3iL9ANAlxyB0d2iE+Xzr2Iuj6ZNMH64+SOcg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=df65KOgjpnbcBR+sYBhExYtJviov9hYqQ2BVHnI0Cripnjll57L6eZFdsBrJKYnVi
-	 Ou3rHnIp++ZvPtSGJs60i0PElPY5FqMtbhMQGsCnH1nAXcR4RQhQRNgE7TDLWwUMBw
-	 fntvyTI+e+p+KiLTqLRHJRpj8nN6+U6feK2uU+at6l3DnL8z4uPw9e/RvgbBoASnpt
-	 2XIyl30SVTVc6b8dD7H00ef4JM4TULJjlLOH1Csy73jYBsHP2lxCjElrZrIQqvh8AU
-	 AdZ8IUZijv8VEAWXJFdX/5ExPMyRa9rMigP0Y+f7Aq3kqTJE3mzmVHTnzI8/E6fOe/
-	 QTt6KcoMXEsGQ==
+	b=N4CIJSHYi8KqFBTo9gG0J1oWI4ZIc4pu5shdzY7Sksi1ThJD9zPWbSok5ZK8YCVLD
+	 52u4gDAiA9JeVBIxrDsVSFNgOryK97T1G/BXqf5HB9K+QBV0fNCZc0AS+5iUvjkqRT
+	 svdDqyzsamwePjl53P9dM9v/QGFpB4f9t/RFVw5wquUbcI+cxA0dEzC5oqPwdbHIa7
+	 gawCpuKcD0otobldRSmeand1GMJzn/FSIjvHGRPSz0gAvUL/RXl7NB1PZgGSSqCz3m
+	 47Uapql4axZv5gPq6m97yAGCvBaCq5rL22o45JAiatairzlGpZZbOCqFGNhxTsqEZC
+	 3CoUWYd45ersQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- phucduc.bui@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20260720064131.75156-1-phucduc.bui@gmail.com>
-References: <20260720064131.75156-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH v3] ASoC: soc-generic-dmaengine: Handle DMA channel
- request failures correctly
-Message-Id: <178526393453.318884.2284982156120291222.b4-ty@b4>
-Date: Tue, 28 Jul 2026 19:38:54 +0100
+To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Jackie Dong <xy-jackie@139.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260727041452.16701-1-xy-jackie@139.com>
+References: <20260727041452.16701-1-xy-jackie@139.com>
+Subject: Re: [PATCH] ASoC: amd: acp: Add DMI quirk for Lenovo Legion 7
+ 15ASH11
+Message-Id: <178519406424.552178.7338247755893221669.b4-ty@b4>
+Date: Tue, 28 Jul 2026 00:14:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,29 +46,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1175; i=broonie@kernel.org;
- h=from:subject:message-id; bh=H4PXMb6kzsC2lQeqAtOOPuzgDrOIRcalxIlDQnZ+/gc=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqagDhbaASLRqEELYxVnAFlZI3vblBS4iAINV7f
- TSJMwKXUKCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamoA4QAKCRAk1otyXVSH
- 0FquB/9KGg0KEiV1NPc/lRG5daODePCXv2WmZwRfPNuhbDhXFBo9MsVjPS4ZMqqjAiRRZuBSgt+
- ZmkunsbPGK986421X4BdTcQ8PXZC6tb2uRnDeGTrNRwvUdhML4l/iIjR6lxUzyJ4JP08X1FQtq4
- ulVpi1IqWC79LIamAmdnBO+J1igav600yt0Fd1Hm9yUAK7brWSlTmzD5satuVGP96jf/eYRaSdo
- xKcHzdDRARvUKl4WqXdT5aoyYmDyZSf4y9ejThliHpuNv2YVvZc6AzhknIJeG6/XpeAxavSTFB+
- Axxu5wptvPT2JX0psxRBX9EehO5b5fErhMXFQ265nO9CsqnL
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1131; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ehPg15UIQDMT23cMFetMe/4/mF53Xt3xEu695f0jcKo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqagDvynefrQgaY1eLKx2/FEAcI/2+Sf6roUEdl
+ Vy168SwiaeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamoA7wAKCRAk1otyXVSH
+ 0LRcB/9OaHjJOWFpd/Mz5ukXYZT4ErWbjIONmF0h5dwTb1gynA/WDcB1DxQUc/3Yog3/6nBGTuY
+ gjfZgRxlRpVnWnnjU0sqn2AWgtIUpQAPt0uyelSPiC4NdQaOghjKgY/VYJrSN2e188TD21HqU56
+ KNTZaLYTNM7YU/NckC2m8N0nkQ3+X48kkfjFUsT5Ozjfxmany3IWhseIR75oqCvjILcZ7cA5qa7
+ RYKRZrS6C4xykofd2QCZ/tXBO8+DdF3ISNs7sFMpjLhNJSGPbaQcvrcchSQ/Q37oYm4y/nKOcOd
+ Sm9Ckhcc3Luxvqsmy35lFT4A7RYROA/j2XGexHNzPlqTo/Cy
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 20 Jul 2026 13:41:31 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: soc-generic-dmaengine: Handle DMA channel request failures correctly
+On Mon, 27 Jul 2026 12:14:51 +0800, Jackie Dong wrote:
+> ASoC: amd: acp: Add DMI quirk for Lenovo Legion 7 15ASH11
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/1] ASoC: soc-generic-dmaengine: Handle DMA channel request failures correctly
-      https://git.kernel.org/broonie/sound/c/9167f260477b
+[1/1] ASoC: amd: acp: Add DMI quirk for Lenovo Legion 7 15ASH11
+      https://git.kernel.org/broonie/sound/c/9ad4c2331d23
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
