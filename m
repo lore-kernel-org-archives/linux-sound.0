@@ -1,158 +1,195 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A043D41A4FE
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 13:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0239137AA9C
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 14:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785160494; cv=none; b=rsIZnn3S9scmajx1LN7f/Rl2k1wcHrtCpQ4pzPxyyCzWTWJlESp/wLKZW6x2MFs6oYsLzy1uuWN6DgrYs96JC2cJlI4ZGexWIVHU+AdszBxOx6tghm0xH8+ABq4X2w8tCIlJOqwGFyqOHzzpH+TJW1kNWTTpdllgtsYI8oGvalY=
+	t=1785161806; cv=none; b=j49NL3UPmpHYEOyp1x+UyqOL+wxEhtJS+QynpFTmhKz90HhlwoL7uGNzvoUtzl+73sWrIGhDueyBhs+Dq20mnYhyG1kXzmIMB0CoArbmV5mF6ZdBENtZes0vb/zCilrz0gEv0PgiC0TfEv5SvlkhUZL/ZWH+0uewwRRIIY0uIaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785160494; c=relaxed/simple;
-	bh=sFrrgUKzMof5B+VPmslO7WHXpevCcOnmBYYkSt2sv8w=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g6Xo4GS912XkQ8Dbq1hrnKFbZMdtPbNiWUmPy0kqVZrJWa8PbV0Qxz4El6lx0kRlKquLtvFNM7sDlj0CdvxWiNs7H7RExi+tb+Q7hAMCLRmtRjY/oSyoqJP5AJQ8Bob4XGPQxbYt+KdIaX9nMsV7lDsCtHhCfeTLi1OlJ5MuoSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KyHnHYOO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mTPAqLGp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0AwkG0t5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bPBV6Lcz; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785161806; c=relaxed/simple;
+	bh=JdZFQTAoyB0QDHV74U2TZ2nxKW2XF8TzhIiDGxi98dY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RuwHuMenXHXfwLF9RySHCyDFc9Jn3GUxkqBL2q6lf34P044TdgXPpQVm8AgbKkaN1pc9YIM7PYRxIt0frC0kv+N9RSAjfZb3DalbaUY84W1inZUlU1kWS3BU+ZlV70D71zaWsxx63TVJNW055lGGKk7Nhpwb11lj+Cv85x0aNnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mKXKCnG5; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KyHnHYOO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mTPAqLGp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0AwkG0t5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bPBV6Lcz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1813E7BD6F;
-	Mon, 27 Jul 2026 13:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785160486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mKXKCnG5"
+Message-ID: <c6b9b217-3678-42d8-8e01-7fdbf7c67c7a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785161798;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gSZm4u8vpcG2jH3ttpbaeJeRrcL1TQ4PCMa9vn3S2Q4=;
-	b=KyHnHYOOdkwQNL9drwkAT7LSD85O4rZA2zGfpjgbnjgBMKx/PgughuBwp+wgsv8os6sYik
-	adrmTFtD02L65/lbyISomI2yiipQmYv/pjpQa6l8u4Lo5l3CphfyfYOqTba/3tJgv3VFMz
-	eyZxb9eVh3d9DYy/P9KAQ4qjXsWjqno=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785160486;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gSZm4u8vpcG2jH3ttpbaeJeRrcL1TQ4PCMa9vn3S2Q4=;
-	b=mTPAqLGp4bAkz1VlaEuM/GsbuTNj0nHq1nUVVV5q4I0WApiDZAiPWCvlYgJ+ZXdG3QRRX7
-	L1OBMBlmrmaTiXCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785160482; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gSZm4u8vpcG2jH3ttpbaeJeRrcL1TQ4PCMa9vn3S2Q4=;
-	b=0AwkG0t5MLsUvIelFsyDOa3xNpYPAbYpuxgy9yPHmbRrGYbA2hzZURE/Hjftb9KfMTKY8R
-	9WUp5OHLtgjz+uWMT7i/4v22VG0dhN5yZscmZ2kGvMdMOgD84m1KQDwJxqaVllJCFPZX3k
-	OJikZb+uK9ODUduaYYUJK33d1gHQBck=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785160482;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gSZm4u8vpcG2jH3ttpbaeJeRrcL1TQ4PCMa9vn3S2Q4=;
-	b=bPBV6LczUAK48bGVm7HMFsx5eqt/g62mT/3Kmlk4EtGKSx4tYLZH95AC+R1fvW6FnVftMt
-	9JkkUWahsifgOwCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E77FE779C1;
-	Mon, 27 Jul 2026 13:54:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NQ7oNiFjZ2qwIgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 27 Jul 2026 13:54:41 +0000
-Date: Mon, 27 Jul 2026 15:54:41 +0200
-Message-ID: <87mrvc8rmm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Michael Diesen <michael.diesen@posteo.de>
-Cc: linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH v2] ALSA: hda/realtek: Add quirk for HP Dragonfly Folio G3 2-in-1 (103c:8a05)
-In-Reply-To: <20260727091920.4634-1-michael.diesen@posteo.de>
-References: <874ii84j3p.wl-tiwai@suse.de>
-	<20260727091920.4634-1-michael.diesen@posteo.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=UFW1bf10XWbfMwb7QeDtECBeLMZ6ovpLefW06suqMis=;
+	b=mKXKCnG5RbJOj25UQGVTtBMdmePuoe0Gf10/WU9z27+mfr8U/bjWMo3j2in7Q2wL4kFgfv
+	/jTnZ7mJ6WmzIjzejuxVG+zAPiWDAUvlAYWdtn+YqwfOlnAFRf0LLTcCgxhcVvPeNHfZ4r
+	7IRzE/H1nBGKRT/viYD2JXcB08aS21c=
+Date: Mon, 27 Jul 2026 16:08:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+MIME-Version: 1.0
+Subject: Re: ASoC: tas2783-sdw: port prepare never completes after S0i3, no
+ audio and no error (AMD ACP7.0, ASUS ProArt PX13)
+To: Andrey Golovko <andrey.golovko@gmail.com>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ linux-sound@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Mario Limonciello <superm1@kernel.org>, Antoine Monnet
+ <antoine@montane.tech>, linux-kernel@vger.kernel.org,
+ Niranjan H Y <niranjan.hy@ti.com>
+References: <b1bc21c8a403fe15e742b6a6ff30b27f@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <b1bc21c8a403fe15e742b6a6ff30b27f@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, 27 Jul 2026 11:19:21 +0200,
-Michael Diesen wrote:
+On 7/27/26 11:33, Andrey Golovko wrote:
+> Hi,
 > 
-> The HP Dragonfly Folio G3 2-in-1 also ships with PCI SSID 103c:8a05.
-> On this unit the ALC245 codec reports subsystem id 103c:8a06 - the SSID
-> that is already covered by commit 0a10faad5ca5 ("ALSA: hda/realtek: add
-> quirk for HP Dragonfly Folio G3 2-in-1") - while the PCI SSID that
-> SND_PCI_QUIRK matches against is 103c:8a05:
+> On an ASUS ProArt PX13 HN7306EAC (Ryzen AI MAX+ 395, AMD ACP rev 0x70,
+> two TAS2783 at unique_id 0x8/0xB plus RT721 on SoundWire link 1), audio
+> is silent after resume from s2idle whenever the platform actually reaches
+> S0i3. Playback runs with no error whatsoever - no XRUN at first, no
+> prepare failure, no bus error - and the speakers stay quiet until the PCM
+> is fully torn down and recreated.
 > 
->   snd_hda_codec_alc269 ehdaudio0D0: ALC245: picked fixup for PCI SSID 103c:8a05
->   cs35l41-hda spi1-CSC3551:00-cs35l41-hda.0: CS35L41 Bound - SSID: 103C8A06
+> This is with v7.2-rc4 plus 5893013efabb ("ASoC: amd: ps: disable MSI on
+> resume in ACP PCI driver"), which is what makes the peripherals re-attach
+> at all on this board [1], and with a local fix that drops the stale
+> tas2783 regcache on re-attach [2]. Both are necessary here; neither is
+> sufficient.
 > 
-> The existing entry therefore never applies here, the four CS35L41
-> amplifiers on SPI are not registered and the internal speakers stay
-> silent.
+> I measured where the audio stops, and the answer is not where I expected.
 > 
-> Add the same fixup that the 8a06 entry uses: the four amplifiers bind
-> and the speaker mute LED (codec GPIO 0x04) works.
+> 1. The ACP side is healthy
+> --------------------------
+> I dumped the ACP registers that the driver programs (ring buffer address
+> and size, FIFO address and size, DMA size, watermark, stream enable, plus
+> the SoundWire manager block) during actual playback, once in the silent
+> state after resume and once after the workaround restored audio.
 > 
-> Signed-off-by: Michael Diesen <michael.diesen@posteo.de>
-> ---
-> v2:
->  - Resend using git send-email. v1 was mangled by my mail client (tabs
->    converted to spaces, long context lines soft-wrapped) so it could not
->    be applied with git am. Sorry for the noise, and thanks for the
->    pointer - I tested this one by mailing it to myself and applying it
->    with git am before sending.
->  - Use ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED instead of plain
->    ALC245_FIXUP_CS35L41_SPI_4. In v1 I claimed this was a non-2-in-1 SKU
->    that does not need the LED handling. That was wrong: DMI reports the
->    machine as "HP Dragonfly Folio G3 2-in-1", i.e. the same model as the
->    8a06 entry, and the speaker mute LED stayed dark with plain SPI_4.
->  - Name the entry identically to the 8a06 one, as it is the same machine
->    with a different PCI SSID.
+> 72 of 78 registers are bit-identical. The only differences are
+> ACP_EXTERNAL_INTR_CNTL (one extra bit, 0x10000 = PDM_DMA_INTR_MASK, i.e.
+> the digital mics, unrelated to this stream) and the last immediate
+> command/response pair on the bus.
 > 
-> On the mic-mute LED: alc285_fixup_hp_gpio_led() also drives GPIO 0x01 as
-> mic-mute LED. That LED does not respond on this unit. Poking the codec
-> GPIOs directly with hda-verb shows 0x04 toggling the speaker mute LED,
-> while neither 0x01 nor 0x02 has any effect, so the mic-mute LED does not
-> appear to be wired to the codec here. It does not work without the quirk
-> either, so this is no regression, and it matches what the 8a06 entry
-> already does - hence I kept the shared fixup instead of adding a new one.
+> That is expected: acp63_sdw_pcm_resume() reprograms the PTE, the ring
+> buffer, the watermark and the DMA interrupt masks for every live
+> substream on system resume. The ACP DMA configuration is restored
+> correctly.
+> 
+> 2. The DMA is running at the correct rate while silent
+> ------------------------------------------------------
+> Sampling ACP_P1_AUDIO1_TX_LINEARPOSITIONCNTR every 500 ms during silent
+> playback:
+> 
+>   0x000002FBF880  +96064
+>   0x000002FD6F80  +96000
+>   0x000002FEE6C0  +96064
+>   0x000003005E00  +96064
+>   0x00000301D500  +96000
+> 
+> 96000 bytes per 500 ms = 192000 B/s = 48000 Hz x 2 ch x 2 bytes, exactly
+> nominal. The ACP is fetching the buffer and feeding the SoundWire FIFO
+> the whole time the speakers are silent.
+> 
+> 3. The peripheral port never finishes preparing
+> -----------------------------------------------
+> Dumping /sys/kernel/debug/soundwire/master-0-1/sdw:*/registers during
+> playback, silent state versus working state, the entire difference across
+> all three peripherals is two registers - and it is the same register on
+> both amplifiers:
+> 
+>   DP1 0x104 (DPn_PrepareStatus):  silent = 0x3   working = 0x0
+> 
+> with DPn_PrepareCtrl (0x105) = 0x3 and DPn_ChannelEn = 0x3 in both cases.
+> (The third difference is SCP_Int1 on one amp, i.e. transient interrupt
+> status.)
+> 
+> Per the core's own reading of that register - "Poll for NOT_PREPARED==0"
+> in sdw_prep_deprep_slave_ports() - a set bit means the channel is *not*
+> prepared. So after the power gate both amps sit with both channels
+> unprepared, indefinitely, while the manager streams data at them.
+> 
+> 4. Why nothing complains
+> ------------------------
+> tas2783-sdw declares simple_ch_prep_sm, so the core skips its entire
+> prepare block: it neither writes DPn_PrepareCtrl nor polls
+> DPn_PrepareStatus. The driver writes DPn_PrepareCtrl itself from
+> tas_port_prep() - as the comment there says, "TAS2783 requires explicit
+> port prepare during playback stream setup even when simple_ch_prep_sm is
+> enabled. Without this, the port fails to enter the prepared state
+> resulting in no audio output" - but nobody ever checks whether the port
+> actually reached the prepared state.
+> 
+> The result is a completely silent failure: the stream is enabled, the DMA
+> runs, the log is clean, and there is no sound.
+> 
+> What restores it is a full teardown: hw_free (which de-prepares the port,
+> writing DPn_PrepareCtrl = 0) followed by hw_params and a fresh prepare.
+> Re-preparing without the de-prepare - which is what a plain userspace
+> resume does - leaves DPn_PrepareStatus stuck. On this board I work around
+> it by cycling the card profile after every resume, which forces that
+> teardown.
 
-Thanks, applied now.
+Just to be clear: are you referring to a scenario where audio playback
+is on-going, the device does a system suspend during the audio playback
+due to a user request, and on resume audio is supposed to restart playing?
+
+That's not an easy capability to test/automate. When I worked with
+Intel, we had scripts to force a suspend-resume with aplay running in
+the background. They worked most of the time except when they didn't...
+
+> Questions
+> ---------
+>  - Should TAS2783 declare simple_ch_prep_sm at all? The port evidently
+>    does not prepare instantaneously, which is the premise of that
+>    property; letting the core do its normal write-and-poll would at least
+>    turn this into a visible error instead of silence.
+>  - If the property is correct, should tas_port_prep() poll
+>    DPn_PrepareStatus after writing DPn_PrepareCtrl, mirroring what the
+>    core does?
+
+It'd be surprising, these registers are typically updated quickly and if
+the sequence works for one playback it should work timing wise after resume.
+
+Anyways, adding Niranjan H Y who contributed the patch "ASoC: tas2783A:
+add explicit port prepare handling". The topic of this prepare bit was
+discussed in the thread "SoundWire: Allow Prepare command for
+Simplified_CP_SM" and we ended-up with the use of this port_prep
+callback. IIRC the use of the simple_ch_prep_sm was due to Windows/BIOS
+precedent.
+
+Note that there was a change in the full port-prepare programming
+sequence, we've since stopped using this interrupt due to other deadlock
+problems (see "soundwire: stream: Poll for DP prepare to avoid interrupt
+deadlock"). It could very well be that this driver can now use the full
+state machine, who knows.
+
+>  - Either way: why does a fresh prepare not complete after the device has
+>    lost power, when a de-prepare followed by a prepare does? If the amp
+>    needs the port explicitly de-prepared before it will accept a new
+>    prepare after a power cycle, that sequencing has to happen somewhere
+>    on resume.
+
+It could be that the use of the port_prep callback is restricted to the
+initial stream setup. I am not sure if that stream callback is invoked a
+second time after a suspend-resume cycle, this driver is the only one
+who makes use of that callback...
+
+Alternatively it could be that something else remains stuck and prevents
+the port prepare sequence from completing.
 
 
-Takashi
