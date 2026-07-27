@@ -1,177 +1,133 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010044.outbound.protection.outlook.com [52.101.61.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9617624A076;
-	Mon, 27 Jul 2026 04:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785127488; cv=fail; b=SJv5JtklTYlGEdXZFI0i1L0BRn/59E8OzmWm8igJFJBvHhjtK5OZGYZ4VTKchV6TE1DYYl58ex9TugbkvO3vfZ7Xt7uSZe9E3IC/e5lknq14q0DgHLu1yM6y45o+xsLA/XGa0GnQgWc1CiJqFEHCkGk42NPkDAz1IMUnnoaiP2g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785127488; c=relaxed/simple;
-	bh=ESz8tVPMkeJtUAKAdM/I/RQTSkV9fxtvUjDYJKZ/AIQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=n3KxTERAVCWlWJj2Bes1e63TRaBBbgI84QRMKWBUsv43a7xtOBSi9Q9pAeJBbLnDmtvMItLiG1QtAni6pK++Y6WVEAOP37ekBy8dnl53JfMP6sLvGx9bRS9pcB0Dc/JeAySu2bZV9sBNScGqvG7vENXLCHKUugSQWqFs76aIx2g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=h9KRTQrd; arc=fail smtp.client-ip=52.101.61.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DC83BFE26
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 05:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785130705; cv=none; b=mD8cSH8kN2P+zCKuFvxaoIVA6a9JsVoPn2FQr7VccDICxPZssETki5TkNvWkbhc1yNogGM8l4vixEErMbWo92LYQtYjRj5ep5CzdEN6noLkB2a5NMCnXpx+jOGfiPg6rm+HG1mo6ambbyieRw1hV5nJF+Vd9xMng22GavluuS7k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785130705; c=relaxed/simple;
+	bh=+vBXGL5Qmm1AuGKfOAsWPt3FJ0ZCDsiGjZ/nwsxEjgY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N6xLA+EQhG68CkWKvYjd4UWx+mqF0yiDs8iTWolVuDhC8H+FJr7jaIfYk+98Lpqdei8giBPQ+VQqNZgWquXdxSx0E1ZuZJPGMYuADsTke3RuEUfmF9Imin0VeHiXO8aNPEYRyBKHgkQEgNM+u1NEFkbBILc/E0tP4MpVWEBUdl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nG99ACrW; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="h9KRTQrd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tTMEcn5VR0hXnR6jynSChdrivE1zipemHqWKzQdTvdRVFt0qToctVMy6WvNWZ318p0fROp0Z12rgBvQ6vJbPXzV3jivln5jqKHwoqoQDX9pXS82u6ThXzEndwjHh7AnSe+u3Z7Qk3oG0nfoFv3S+YYzdMFwKcK5F2sAg7JL4wJBEohV2ztFpr1rezxrIWaRF8vn0mRUYcqtHtiIFNtEYlNThpZwojUJ93b3+wnSHAfBJdw6TQ+JnyGEn2tff0A8H4U+vflg6orqo0QApgyMpyNJXKqi3PwcPW7B34kQB9/8H/FD/82f34HXwjO3xYEl/zyjeusEP69pG5VX2TGJv+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TASwUBcfVw5/6tF3JfJxKGu6JBd/d86yyqvHePkHeg0=;
- b=EUT12zSYlxc0GEKARoifyhQBu0as7E0kOLd8rQt51UonoB82baclfAZHT9SRKzMa2viFz3NU4W0d+iZKaJL4MmBcH+QP/XP++kxLNWTPWjiPF5iq77zQXDmO468IeGIwGNC1aZh42qW8i0frd/EaC6NmlaLAk5pwWBCUehNppCt/JcyZtB4TSYlfTbkrJ34SygFDPX0RuJrT+oJmB1cdmz8leyslF6yjxaH65qj9YPnHKaXj0xR7AwupVhEnO8TBD/9cxh6fdWGJnXwL6oERkWpw18+NkTKkgMrYdEV7wnqHUPQammie9HqX/Hx3dW9jb7xJnJ4wqwe7U/kFxVF4kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TASwUBcfVw5/6tF3JfJxKGu6JBd/d86yyqvHePkHeg0=;
- b=h9KRTQrdHLYO5xLbZuH2EE3Z75PG3OUPLsXrWEr2nDyNxGscDEqys/QfIeo/deaA8QuaqFerDkgWIe29yak/qIKOAhXwFUwgfqpLmJekEgRyDn3GULejxl2tfQ+2tUoMcHv41YPGMX1tM7Y1dHUwEjdfzy6V9Z8rg6Kwkvb/du4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
- SAWPR12MB999268.namprd12.prod.outlook.com (2603:10b6:806:55d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Mon, 27 Jul
- 2026 04:44:44 +0000
-Received: from DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
- ([fe80::636:1b52:24ca:d7e5%2]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
- 04:44:44 +0000
-Message-ID: <f8ca1f18-ca74-4dce-8015-a99cb196b862@amd.com>
-Date: Mon, 27 Jul 2026 10:14:12 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] ASoC: amd: acp: remove conditional return with no
- effect
-To: Sang-Heon Jeon <ekffu200098@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-References: <20260725160344.916838-1-ekffu200098@gmail.com>
- <20260725160344.916838-2-ekffu200098@gmail.com>
-Content-Language: en-US
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20260725160344.916838-2-ekffu200098@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0051.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:ac::9) To CH1PR12MB9576.namprd12.prod.outlook.com
- (2603:10b6:610:2ad::14)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nG99ACrW"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so2243412a12.0
+        for <linux-sound@vger.kernel.org>; Sun, 26 Jul 2026 22:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785130703; x=1785735503; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fpWXph0J8fUQSdlw06rECtrYKyk7NejeUstbb2WBrtE=;
+        b=nG99ACrWqFiiYj7gumsVo6HlRJ6Bg/6Cco2CDALZsjak7bX3BRV6xFyz5eIgEuk0xP
+         dZPBZ5it0Wwk02c6gtA90sWTWTmVxv5pCnXXp/t2YYMJ3r2jJ4bnJlr0Hewo06yeEzvi
+         xLS+q7x4C9nejecaTk9ROHFM0n0KMQXJE5Jr/50nUqS7uSM7S4MNhlCXSbU3k0DuuON/
+         jv6+jgmeSDd2kDdcldi/feg12VRwJurVaeD3epmhK2DXSEDKwlfeD/OKfOIRv/hBb6c5
+         ipXiaxnBKZjw+kZjomJy5K24eJX+kTkmNpjQejCRkhLhY1zm4/BB3/n4qivJfAnJ7RBN
+         LLJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785130703; x=1785735503;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fpWXph0J8fUQSdlw06rECtrYKyk7NejeUstbb2WBrtE=;
+        b=YbLjXAOFu/sAjUSNa31PpzJYqaVT/kZKZyD+9QZR2i87qAu62/W34zHBcMeOJBxHGX
+         lVBsrbOa+1MfT7liwnYniYB4n7HlrV5Sx5RLsDuFWxnj6DnN/hyYHnRxKJasmXj5/k82
+         S0liPdTSX6wbqh50VyT/LAvlTttMPmU3EEOC7BskGur0/5NqJbSw/NYr4Y9IjrQq8HXx
+         OwoRL/bB+m7+AC/gl2wSsHmObAiLN58YQDJgSEDJZgB+ko3H1CJPJbSr5n50zKVoSdJf
+         7ok/aocLGAs0gkH3uycQAzMZpdRj/WApJgHAgaHLZ8syzYKn2WQ+43oITyt8ZUJPtMWX
+         91SA==
+X-Forwarded-Encrypted: i=1; AHgh+RrmEi1k1mNvZNZWmTO/hr/zum+N6pjoDK+w5UsCpou/GiHKp/IB009wyR197aEsBhWqq30B7iL/Q6Pj6Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz11Z+VHr/WWn2c1QeonnBhYPMBoD6UyNAutkasnpsEKpw5Paj2
+	qire9erylnKOfDhAZivBuRl020L0WcstyIV7didToy6cvJAfLkXZb+84QdMvENs=
+X-Gm-Gg: AR+sD13JgxdrEwbDy4EtzIQT+tAramzDna5LAR2KYR5ztIEqke1aH2WBa3K8cS/WcAg
+	1ujqv/at/+rfaC0sryWBcaJan9BZhoLlsRQCTQvJA8Rcg7KicnmEMVLqZBY87ThLEV8jklf+UlC
+	o6xN3dFkryuflecgrh+LkStjr01nshMPqEmX70ELBgd35+MRru+oWfOMmTQtmKoTFO34NWSx/n/
+	rFin56u0mPkkYpI4Srik9K6/V+R0uuYr1rHlw5QQuaKpHtDsPXdsfRvzlaaqLwWoqDsERT7MKeG
+	buX3hoYOUNAm0ti98kNvf7uBY29ChIB7odCcj6k6k0DSOnDc0K3M2Z3Oa1PQMSapbEutacvUnaC
+	skhzF2pr6w8g2hkIjkgIBB7NP8JnrhgWpvYJkOEUXOyjLTNuxPi+hamzCNZiKwi0Natd08buVSM
+	Q+X8WNrXEww0debwmew1wcD1jEl8A=
+X-Received: by 2002:a05:6a21:99a6:b0:3c6:3c5b:f32f with SMTP id adf61e73a8af0-3c67e0b93b9mr6666205637.51.1785130703323;
+        Sun, 26 Jul 2026 22:38:23 -0700 (PDT)
+Received: from t-rex ([2401:4900:adb6:bf0f:a138:df81:8865:91b0])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc548e29sm27967430eec.15.2026.07.26.22.38.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Jul 2026 22:38:22 -0700 (PDT)
+From: kr494167@gmail.com
+To: broonie@kernel.org,
+	lgirdwood@gmail.com
+Cc: stavinsky@gmail.com,
+	chen.wang@linux.dev,
+	inochiama@gmail.com,
+	linux-sound@vger.kernel.org,
+	sophgo@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Surendra Singh Chouhan <kr494167@gmail.com>
+Subject: [PATCH] ASoC: sophgo: return 1 on volume change in cv1800b_adc_volume_set()
+Date: Mon, 27 Jul 2026 11:08:04 +0530
+Message-ID: <20260727053804.25599-1-kr494167@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|SAWPR12MB999268:EE_
-X-MS-Office365-Filtering-Correlation-Id: 254e0053-f51b-427c-d007-08deeb99c6d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|18002099003|56012099006|4143699003|10067099003|22082099003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	m4Cpwyd/gsPuu3TXBjgr++YZMo+kG1Z7/4txVKYOUgvpVCmYS22f1wGrBi//HiI14pWPOMwgCHqv0nRhypO/UEAuf4t7qvhq6iFliWgWypGrMEKH6hwvOSRW91TNdTuHDg4MXHZa35YP9bU9/bfLxVanD2HyLQPdJCabb/3kzD5L3mssDIg5bXq3eufVajtATOdVooqeJDo85o/CK0feF1xpGBXpnenvMGPHxFFQf6Tf/I4nO1vQp8P2FMLyESd/M2JUbLfgeBj0GzAA1ccHpHMget/lNiAGYa5fyTlkXeJhksTC/Ncct7vo/bmzH8o4LWzVquc3ZIiOJ27/rGCHsV4+Sp8X61rm1MPJHBKWxbYQyYLMN9vw4G2kYzrRyW4i2n1Wqm1hbebPCaajvSDOCaIJ7xOtbpUl4M3hbPwYFBGiaaEkBdap/b2y26p7Gd4s09rxevuya1zxMZigSO0IsFmsNSAAY8uCFN/VLiG+V6mKnuFSrJKE837hsiw+2rRGgAab8IT5G4ooF2DR12cR3CjTyBF1zg2TQ8KMtgTQoVjZ4abPN3cViKWgQxlDpneFOP5RFoVZmeT0ugpwsKznWxBEgnEHY07LGuD7IxhY9NlTwi02/PAZdP5dY4wTj9oCvPmHfiHNZonDzLzXKlt3C3k7Glsp7zeUZ/8t+ktThfA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(18002099003)(56012099006)(4143699003)(10067099003)(22082099003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MEVlMmhubitqT2NBdWtKc1IvYWllVXE1ZU4rWHdTazdlWktvN1pxS01ST05V?=
- =?utf-8?B?bDlJU01KZmd2Z2p2RFgvcEVSWUl6RURZcmcwUkxDME8yd0hlalVLUlpsWHVS?=
- =?utf-8?B?WFNTZmRVMEJqcnJVd0FObEdJL21zOXZkUmFMLzEybDZiblk3OGVHWG5SWFNp?=
- =?utf-8?B?Zkd6VmUvV1M0Y1NieEU5ajM1YVFXbCtSenZ5NUNxZkQyVjVFamJaNElTTW1u?=
- =?utf-8?B?Q09CcmJweWxHTzUvaTRML1RGd0l5Q3RJYXVlWU13UUEwam84MEVvalNLVGsv?=
- =?utf-8?B?SnpaSldDVkR1QTVrc2d3STNVUlM1amU3V09QYW1qOWdFZ1g1U3c3M1QweFlZ?=
- =?utf-8?B?Y0NublZYRmE0V0ZaaGs2bEkzUWVZQXR3Ykd1bUltUlN3NVdDZ09UOGRIYVR4?=
- =?utf-8?B?RDErS0ZReCtSODI4U29DK0I1L2crNlIvbmZ2YkRzSGo5aWFma1lTeVRjK0l5?=
- =?utf-8?B?RnFpVWdZNlVuM0tlSm9yUWdjOGFKcXBvcEE5Y1RLZVlMbnFLQVdYMlVTTDVv?=
- =?utf-8?B?d2VPMnBoL3hmNU8xbTJYQ3hIb3lMSFdmeG16RHZDaVJsRFRKVXk5c2V2UmpW?=
- =?utf-8?B?bUpUbzFjKzJCU09RaEpsVVBIb3lZNGRXc3ZkKzFRMVlsM3VHa3hTanZVdS91?=
- =?utf-8?B?TWFaTDhTaTJydXBON1UvUnhyOHhDT0phOEpta3hpelRwTTZ2dEozcGVTbTJq?=
- =?utf-8?B?NnNtZDdMbFlZZTFKVlloUzBKMFlWZ2FUZkVjVjQ0bFpCelIxM1Q5ajR3c2dC?=
- =?utf-8?B?SXVaVHFkOFpHWFJQSUF6Tlo2MGkzcFNYMHJRclhFVjNpSFRWUDg5ZTVVdnRP?=
- =?utf-8?B?VU43UXhPb1ExSHNzcFd4UFZrZTlldS9IekFpVW1zU1hBQkNFRlhwcVUrTW1H?=
- =?utf-8?B?VWduczl3VThWT2JERmZBeUFHWHhJZkNOR2xuRFNEQVFrN1RuaXA2dmtOMXpW?=
- =?utf-8?B?aXN0SXdqb1dtQmV3MUd5aFpUV1lsMDVZS1BBdkdCWkpRc2NnczNtSURjTHRY?=
- =?utf-8?B?STVpZG5IOHVpd2pIZFJlcXEzOXU4WW90UTFmSmlGVEw5T0N0OU9RNkdhM3VE?=
- =?utf-8?B?eUtvV0NqQmZqM2sySlQ3dmtBV3lNSUQrS09ySDkvYnN0eTFJRFd4L3dtSTAw?=
- =?utf-8?B?ektSU3RaQXdjQjkvT2Z1dG0weERtRXREQkNGWTM2N09vbnRURTN3OXF1MXZG?=
- =?utf-8?B?K2RuMTcxazlaQTRQdTdCTkprbVp2dGRybVR4WUlXR2xFQlJIMlJrWmI3cmp2?=
- =?utf-8?B?NnhINU5CQU5nQmFWME5lcnE0K0pXb25vUzl4Uy9tZ3pIRDFoUUwwQWg1OUNR?=
- =?utf-8?B?aGpKUnY5RVkyWEFhUHJmSk9jMTYvVHJJUHgvb0tQOU9xUHJpak84K3JhTUNv?=
- =?utf-8?B?ZFRLT29meTlxY040UnVRQzhvRnJnN2RYM3B4QXVRZytEZXNaMTBHWGp3YWtO?=
- =?utf-8?B?MG8xRnBkY01SSGlHWFA2S2J1ZmgrdUlXbVRKSXk5a1p6Ylk1RUlXKzEyNDl0?=
- =?utf-8?B?OEdobllOVVRGTDVsZmk2WWZ2TVZiM2o2Ui9mUkwwYldyRktkRlFaQmxWUXpk?=
- =?utf-8?B?THFMbElYUHJzdW9zQkMvTU1WMm5nWEZGQm5aMEhxZWpDUnJCY29ERUdQZjJv?=
- =?utf-8?B?alNtQUwzbHZISHlqbk11UDhEd1VkWElRVUprU0ZHZkJpdmEwd0llcWpkdWFB?=
- =?utf-8?B?OUsyMU02TWZZQlB3MXAvMHB4R1YxbnFRTU1xaEF0a3F2OHhRNldHWmZ2UHpS?=
- =?utf-8?B?SW1QT1RrVFQ5dmJVNTErOEZzdzdDb2xkbE8yQmFYeXZ3ZGMva29WdmRxek1r?=
- =?utf-8?B?UU4xWlFTZmFXd1hKWjhVVFhNaVpIbVFhVnlGYWFTRzVKNVFvLytmR1NCb2lu?=
- =?utf-8?B?NUlpeTUvOGIvVC9ZYlloejZlTXhPS2dWR1BIWGwrRG85UE5vNTRZN2hleWxG?=
- =?utf-8?B?TnVIT1k1TWFPUTRjTHZTRlg1M0hHSktOd3VZdkFxaFdNOUhlek14U3VVODVr?=
- =?utf-8?B?ZmhtODRmT2ZSNkJ5V2hYWEJ1Tm1UU0JyaDRBdGxNbEFhWVFURVl0allKSjdT?=
- =?utf-8?B?dHUzRkkvbnlqUlJsSkQ5eVRxSTFKVW95Yjg3OGttUDJybXY1MTlFcHpTWWlD?=
- =?utf-8?B?SE4rb08wU3RTVlkrS2tYQk1jck9wemg4Z3FTOTZscS9SanV4amYzSGNLNytv?=
- =?utf-8?B?NW0vbGxseXcxWEhaRGlOSzBzQnNScHpsbHY3cUV2VlFBZVhwdm81azJ4TkVy?=
- =?utf-8?B?bWgrQkIxUkRVdGh3QTZOSlQ4REtNdzNabWR2UUVRUmRONTZFNHB0cERpMHUw?=
- =?utf-8?B?VEFBQ013QytobllNUnlodGpIOGQyY0ZWVGhXSDY3TGlZdWRGT0RYQT09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 254e0053-f51b-427c-d007-08deeb99c6d4
-X-MS-Exchange-CrossTenant-AuthSource: CH1PR12MB9576.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 04:44:43.9293
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9FiPbQ2/CRMFtUhTyC7wa2IH8YrDc0I09CAiGE6aRAIxTSQpVd+gsrqs+qLrRGMyg0bybyD1Pzm+X9BZd1gojg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAWPR12MB999268
+Content-Transfer-Encoding: 8bit
 
+From: Surendra Singh Chouhan <kr494167@gmail.com>
 
+cv1800b_adc_volume_set() serves as the .put callback for the "Internal
+I2S Capture Volume" control.
 
-On 7/25/26 21:33, Sang-Heon Jeon wrote:
-> [You don't often get email from ekffu200098@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> Both branches of the check return the same value, so the check has
-> no effect. Remove it and return the value directly.
->
-> This is the result of running the Coccinelle script from
-> scripts/coccinelle/misc/cond_return_no_effect.cocci.
->
-> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
-Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-> ---
->   sound/soc/amd/acp/acp-mach-common.c | 11 +++--------
->   1 file changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
-> index ef784cca13f2..01a0aaa60246 100644
-> --- a/sound/soc/amd/acp/acp-mach-common.c
-> +++ b/sound/soc/amd/acp/acp-mach-common.c
-> @@ -938,15 +938,10 @@ static int acp_max98388_hw_params(struct snd_pcm_substream *substream,
->          struct snd_soc_dai *codec_dai =
->                          snd_soc_card_get_codec_dai(card,
->                                                     MAX98388_CODEC_DAI);
-> -       int ret;
->
-> -       ret = snd_soc_dai_set_fmt(codec_dai,
-> -                                 SND_SOC_DAIFMT_CBC_CFC | SND_SOC_DAIFMT_I2S |
-> -                                 SND_SOC_DAIFMT_NB_NF);
-> -       if (ret < 0)
-> -               return ret;
-> -
-> -       return ret;
-> +       return snd_soc_dai_set_fmt(codec_dai,
-> +                                  SND_SOC_DAIFMT_CBC_CFC | SND_SOC_DAIFMT_I2S |
-> +                                  SND_SOC_DAIFMT_NB_NF);
->   }
->
->   static const struct snd_soc_ops acp_max98388_ops = {
-> --
-> 2.43.0
->
+ALSA mixer control callbacks must return 1 when the register value is
+modified, 0 if unchanged, or a negative error code on failure. Returning
+0 unconditionally causes ALSA core to assume the value was unchanged,
+suppressing SNDRV_CTL_EVENT_MASK_VALUE change notifications to userspace
+sound servers (e.g. PipeWire/PulseAudio).
+
+Fix this by comparing the new register value with the existing register
+value. If unchanged, return 0; otherwise, write the updated value and
+return 1.
+
+Fixes: 4cf8752a03e6 ("ASoC: sophgo: add CV1800B internal ADC codec driver")
+Signed-off-by: Surendra Singh Chouhan <kr494167@gmail.com>
+---
+ sound/soc/sophgo/cv1800b-sound-adc.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/sophgo/cv1800b-sound-adc.c b/sound/soc/sophgo/cv1800b-sound-adc.c
+index b66761156b99..bd93e261bdd1 100644
+--- a/sound/soc/sophgo/cv1800b-sound-adc.c
++++ b/sound/soc/sophgo/cv1800b-sound-adc.c
+@@ -251,16 +251,22 @@ static int cv1800b_adc_volume_set(struct snd_kcontrol *kcontrol,
+ 
+ 	u32 v_left = clamp_t(u32, ucontrol->value.integer.value[0], 0, 24);
+ 	u32 v_right = clamp_t(u32, ucontrol->value.integer.value[1], 0, 24);
+-	u32 val;
++	u32 val, old_val;
+ 
+ 	val = readl(priv->regs + CV1800B_RXADC_ANA0);
++	old_val = val;
++
+ 	val = u32_replace_bits(val, cv1800b_gains[v_left],
+ 			       REG_COMB_LEFT_VOLUME);
+ 	val = u32_replace_bits(val, cv1800b_gains[v_right],
+ 			       REG_COMB_RIGHT_VOLUME);
++
++	if (val == old_val)
++		return 0;
++
+ 	writel(val, priv->regs + CV1800B_RXADC_ANA0);
+ 
+-	return 0;
++	return 1;
+ }
+ 
+ static DECLARE_TLV_DB_SCALE(cv1800b_volume_tlv, 0, 200, 0);
+-- 
+2.55.0
 
