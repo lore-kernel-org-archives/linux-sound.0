@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37043CB55D;
-	Mon, 27 Jul 2026 22:54:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A25E3EAC71;
+	Mon, 27 Jul 2026 22:54:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785192885; cv=none; b=PfcmvMATu4OBRui9u1ZaFWN9zabJdjbmCGuiq4VXgy4XRmSWuMVGA4AaPhwgtU1QAQP3pX6HJDfP7wws2sHQVEgu0TowcyG0wxsaoGjNAEVlTyul101HXT0ZgZ1nu5S/RC2b8qcjLDNi4Gjnn8ZDk+yRlgG/dg2KwLIXnu9nOfQ=
+	t=1785192890; cv=none; b=JKPwL7bBbfg4avfWNKYZzB0/zTdj3tqhmEykexaFE8XpFFMeDjNNrqpaeHksDUGnxZygpml7SP1n5MIOh+yQEkNMAZ5r6ZVzvAzkqrRu5ERDuOyKA+A+imMlusS6q4UMdWM+NkuZhKhulgplzbIrlp2jpGA1HbvJBxg7Xipg/rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785192885; c=relaxed/simple;
-	bh=/fSFTuPeJsQEGNYswQfxedwObielxyrbrLTCNQoeMVo=;
+	s=arc-20240116; t=1785192890; c=relaxed/simple;
+	bh=69hDR+DY8ZeCV/rIqXH9gllORsldT9/k5hnIwqieRvU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=tBqzz+NgPHoEcm+GYW0Snvf/dQOaN8LJpfsjBOMG86EhhAsgtzco8+bpo1JZoGMYmdoWz9311f3XNoi7Nm1qjI1rgy4E10l2AQehjlq8RXVUwCb5sjtg7VIn5T4JnPKB8lwwSaVruq70GTOKDCoiyrJBtOWmO9iDFVxHdpIWPtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QQ/5Fs58; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=XXKx3LoFsknJNgQCyKj4yEZU5Hz4s5i7EzEbXP9OT08HKn51MO5GavOvXlfI0ZLuWdbbK7jhyYD2+0hYRROoBAaBObR+iQA9iqkdOM9TbaWIq0kCYs+uaR2Wy006JQwL4JGXI3BFkrWfu1S+0w7B0v9N3KNMpon7g1W08s2JiP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJwBbj9F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QQ/5Fs58"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DF2A1F00A3D;
-	Mon, 27 Jul 2026 22:54:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJwBbj9F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7D11F000E9;
+	Mon, 27 Jul 2026 22:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785192884;
-	bh=oYRrz3EUfyuEIWe072gbj5iAtWBhgpzHXzlRcgU03TA=;
+	s=k20260515; t=1785192889;
+	bh=RIniAWP8PYf9xS4bkvFeXlVjV+WdK8M7nevYPAXtPD4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=QQ/5Fs58tGgXOUAiugCne6fQ6ajPHho0oDzY+4mGXztHrDS/HOJbvVQvKb1hh+821
-	 J9kskZwfEA7Vk6aEnThmehtx6dRyD2VziXGuddn8jbQTxeEyTBoXuLfTuX4AwDAXRm
-	 HLThdb3gbXZWoCDcOcgmIDRShNcbvOxqDkr9t0qOEkrEyhT0nC2jytFDxRKwXxh2DN
-	 f87gINEpKYrXA5p8OR/MsYOJVvUiT1XmDjzB5ml7/O8898DwDakAGWOv0Q4qQZg0dp
-	 HquH3ideobgmoyNiHk2Jb0Ax5JxwmUt24vw6HKW09HHV0rYsauDKJoTuhkFLWs8p24
-	 wjQkLv40nRABw==
+	b=MJwBbj9FGT2UAy5LQWeZBtP9lsENNtCRVSVQ0wlZF/YgLN1jROOTxrnhLPzfK7jOm
+	 w3rI0cU6x9b2R71mbTO3DQgtn6qGugraALpS49B/utQnmfb0mDVoxSzzrWwn3YS8fd
+	 ZudZ8r9P8UVTXRNBQHsI6rT6bdZV6GTwIzdFtheP/Uw+Aob+1H6J7TEMrUBePM2/46
+	 3WSBXSksfBJJzKmS37E4CaN3Vql/lklbu4L4i+aWEDJ784Uic3dqdo1PbEFmsvdXPe
+	 7zRY54gVrO+4YHPS81eOo+dh//u/TPNnDCtJJYAUlcxvoEqY6HQ8eiuysltpwmO7fD
+	 7CaO4FfYcy+4w==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
  linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260724182446.1484894-1-mohammad.rafi.shaik@oss.qualcomm.com>
-References: <20260724182446.1484894-1-mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v7 0/3] ASoC: qcom: qdsp6: Add MI2S clock control
-Message-Id: <178508747839.10630.10650914663923353739.b4-ty@b4>
-Date: Sun, 26 Jul 2026 18:37:58 +0100
+ linux-kernel@vger.kernel.org, Frank.Li@oss.nxp.com
+Cc: imx@lists.linux.dev
+In-Reply-To: <20260515145205.1696584-1-Frank.Li@oss.nxp.com>
+References: <20260515145205.1696584-1-Frank.Li@oss.nxp.com>
+Subject: Re: [PATCH v4 1/1] ASoC: dt-bindings: Convert eukrea-tlv320.txt to
+ yaml
+Message-Id: <178515437896.50339.10065240640963936652.b4-ty@b4>
+Date: Mon, 27 Jul 2026 13:12:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,27 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1702; i=broonie@kernel.org;
- h=from:subject:message-id; bh=/fSFTuPeJsQEGNYswQfxedwObielxyrbrLTCNQoeMVo=;
- b=kA0DAAoBJNaLcl1Uh9AByyZiAGpn4bDIvaZsbiCzmTstvfryWilJRLHJvpxafBnPsoFLRyD6E
- IkBMwQAAQoAHRYhBK3maKpnVxi1n+Kf6iTWi3JdVIfQBQJqZ+GwAAoJECTWi3JdVIfQo3QH/RHr
- 8mCQ//GKJsNTE6ZrPWib+5v9w0UofYF/fUPjhT9ZM3nBs7Un5Y94JtGcO1t5WwY40fzurol7doQ
- TBy7g2Pg4mQ+DzPo6Ld3DkUihFq0uks4+WMbr9+sXdK3ccpAdIakRo0TOdDdn2pZYd2NQtAJ8SR
- sjWdaE01xauDID1Sx2Mt4nong2dw35qrkAWVfEGi99bu1e9hMEb5upr76xLuYCfAumAhuoIyG/3
- FPQ/GbwlvQGoKQX99sI+zeA9ntHotw1BpPpNQlr+5tmy/rGaYe4Bb3LgsLSSoMkqAe4nNBZ1MDi
- Tt5oxr5l6stoZZIe+10Em16VEJY2e1xbScnJXOg=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1130; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=69hDR+DY8ZeCV/rIqXH9gllORsldT9/k5hnIwqieRvU=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqZ+G2n76fQR9/PuurmNtjfxbSytVmjXRhX28jz
+ DEbFrIksRmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamfhtgAKCRAk1otyXVSH
+ 0CHTB/9liW+m8jwOHIn3sktDdFTy9PZIKWNTb8BB4f3BlxN9RetJBkqPpXWcKUpKEy4xRpSD9DC
+ b3W50XywHJIk+FLAEuFsfOMkAVTNPd7jc7Dm94LKhLic7yoDR3FDdCQsxrZ8GzY5biBIixwRexx
+ 3YubQ3XfitwQ3Rg2VpPriUUPI4AJOS7DIwBuoxZElJ/qzK1simqCoc9Qg/GNfOnroztMK2hZPay
+ 9/phIJzQbt3Y8ID/ZU+5dTX8lBAzwVbdUYNj186Lo0dl1Xo2XyZN2KQ5rb9Nz3kRGpPiXrHLL8e
+ y1i7xG1K+h5rjGxuLCAgPEI2+S1GDyhA0mzCgzd7KyUZlYBX
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 24 Jul 2026 23:54:43 +0530, Mohammad Rafi Shaik wrote:
-> ASoC: qcom: qdsp6: Add MI2S clock control
-> 
-> Add support for MI2S clock control within q6apm-lpass DAIs, including
-> handling of MCLK, BCLK via the DAI .set_sysclk callback. Each MI2S port
-> now retrieves its clock handles from the device tree, allowing per-port
-> clock configuration and proper enable/disable during startup and shutdown.
-> 
-> [...]
+On Fri, 15 May 2026 10:52:03 -0400, Frank.Li@oss.nxp.com wrote:
+> ASoC: dt-bindings: Convert eukrea-tlv320.txt to yaml
 
 Applied to
 
@@ -78,12 +69,8 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document DAI subnode
-      https://git.kernel.org/broonie/sound/c/54324f3973c8
-[2/3] ASoC: qcom: q6apm-lpass-dais: Add MI2S clock control
-      https://git.kernel.org/broonie/sound/c/cc8495c1d45a
-[3/3] ASoC: qcom: sc8280xp: enhance machine driver for board-specific config
-      https://git.kernel.org/broonie/sound/c/766f3f79c312
+[1/1] ASoC: dt-bindings: Convert eukrea-tlv320.txt to yaml
+      https://git.kernel.org/broonie/sound/c/78a9d1426416
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
