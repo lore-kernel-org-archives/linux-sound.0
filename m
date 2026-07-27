@@ -1,195 +1,202 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0239137AA9C
-	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 14:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861D241B8D9
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 15:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785161806; cv=none; b=j49NL3UPmpHYEOyp1x+UyqOL+wxEhtJS+QynpFTmhKz90HhlwoL7uGNzvoUtzl+73sWrIGhDueyBhs+Dq20mnYhyG1kXzmIMB0CoArbmV5mF6ZdBENtZes0vb/zCilrz0gEv0PgiC0TfEv5SvlkhUZL/ZWH+0uewwRRIIY0uIaU=
+	t=1785165170; cv=none; b=XM89djdRsWNbizptBjj4nP3fhShSO8uwE2/VV6zfmZX3cqdiFgjx4F93S+V+XlTh3VhDN+9Bpp1SY6XKphWYxtNeS3cZBO0IfIvjyyCA5p3UTkep0jEAOHsZO5JyM5uDpkqOTn9z+FXoCn1nhpv70rc3DyDKSOIu9eTgpvIH7yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785161806; c=relaxed/simple;
-	bh=JdZFQTAoyB0QDHV74U2TZ2nxKW2XF8TzhIiDGxi98dY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RuwHuMenXHXfwLF9RySHCyDFc9Jn3GUxkqBL2q6lf34P044TdgXPpQVm8AgbKkaN1pc9YIM7PYRxIt0frC0kv+N9RSAjfZb3DalbaUY84W1inZUlU1kWS3BU+ZlV70D71zaWsxx63TVJNW055lGGKk7Nhpwb11lj+Cv85x0aNnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mKXKCnG5; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785165170; c=relaxed/simple;
+	bh=X6GslZBw9WDYaLf90dc3c89oMdXy2p8giiAFf9HTeYg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Z4fLj2xRtI8PLVNoIQ4F3cTwHvOcn8P516ozdby3IOpcLsETc/8Y0qv/kpXBfoHWO/Tp7QYQrNOcLv3a6vFkkYKi1s9dHLottJ7m7DUbVr+OmNhUy9hDNPbfNjf4LMR1GyIl/aMgIRRI8MB4yvR0BHLsrENCuBMg5qNHtBW/1tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iURbuES1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Z+VQyThL; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mKXKCnG5"
-Message-ID: <c6b9b217-3678-42d8-8e01-7fdbf7c67c7a@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785161798;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UFW1bf10XWbfMwb7QeDtECBeLMZ6ovpLefW06suqMis=;
-	b=mKXKCnG5RbJOj25UQGVTtBMdmePuoe0Gf10/WU9z27+mfr8U/bjWMo3j2in7Q2wL4kFgfv
-	/jTnZ7mJ6WmzIjzejuxVG+zAPiWDAUvlAYWdtn+YqwfOlnAFRf0LLTcCgxhcVvPeNHfZ4r
-	7IRzE/H1nBGKRT/viYD2JXcB08aS21c=
-Date: Mon, 27 Jul 2026 16:08:36 +0200
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iURbuES1";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Z+VQyThL"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66RDlZJ14115070
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 15:12:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=2Zq+RFnkE+KGc27ny8j4uT
+	2d1IIiK4kFF7h4JELICCk=; b=iURbuES1tqksNnN3jy/AHNyE9RiFZkGTVMOoVV
+	wbbjyi8l2BlnA3JFMlpmrnqTYz1usSXtRWn7JwyLO1GvMAGpmNXQTSz5J/QwgD0E
+	vxA1QikwN1nh6DdmFDtT2LgGFCUfvSy2b2yrvV/L0t1OUXTxs9aYuhoNNzjF5cka
+	dTheLQ8S2IvIBUWPhxXPybz29Iz/KKp33ytaBc6UX/rsEH9W4D+HjYl3RicxW2mU
+	CJmzq4ToVU/pR9GXZQg4mQB0LiLxEjMlHgGFF0k9MaIf7LHy9JjREcud4Gsl5pgG
+	eN/pQvfeuLpM5ciA152pqERxWUBx+P/HwMA74uq0AEdC5sCA==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fp4mrsctf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 15:12:47 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cccfa32670so36608585ad.2
+        for <linux-sound@vger.kernel.org>; Mon, 27 Jul 2026 08:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785165166; x=1785769966; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2Zq+RFnkE+KGc27ny8j4uT2d1IIiK4kFF7h4JELICCk=;
+        b=Z+VQyThLvBd1RU9PX47bJCKK3mS8RIZPCnR56AkAmKdzNprihTKMSEW1+IotsOcXjW
+         +GKZLLHE5/Y/fxhkZLfRcPGGbmvC7qh7z3kFz5oZNm3H76ptPnmzTumemleFD20vH8bA
+         fi8qQ6+cTyrtVCb7MQT2ZaUbIETQ8nd4B3k8Opm6sPNnUSp43vm6st+g0rqoZ33iVh0q
+         S0h9DE2B8lrBwIEa8+GCg2BB4NG65KVMnXTcZFMVRDVi9GU8jKvRG2thsd7+f/Ep6SfR
+         p3aJrVhGHAqQBfqvL0LmQ59vCl554GqGZYOcXmXU4TD0e4p+5+9M1TGL1eMpK9CrG/M6
+         9g1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785165166; x=1785769966;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2Zq+RFnkE+KGc27ny8j4uT2d1IIiK4kFF7h4JELICCk=;
+        b=UphvA9JTbXrjLsv2TzjAd610k3PDxx3V0JosEUjlgr+Mo/XTXIWahNNPoqK78UaHf/
+         Wrttx95Ulnu9ztaI1LDQYdoErpptZVPR37mnYWPvxLlwgoAjISB0G7JqI28Sh9obOZRC
+         g/7nQC01eu9LXC64fE3KiVM7IAHXx3CeE1LC+tNXJnN10jtuY9vUkbP61d3jEaILFqJq
+         +EgWOTnF0rDAY6d9R0WN4SHbR9MGAtxVqP/YmM43W6yASazlZO1k++4Wff5Pguo8y0XT
+         YKlrthjVSWhXvTiNwskBaJdgytIQWly9KhWdI2xXkP/XrtLxfnr6nGgtlcTZkas730QF
+         tCug==
+X-Forwarded-Encrypted: i=1; AHgh+RqhkoS3+ne+p7inl4ozRK9T9hmXL5oBI0jRsPs1xRUB0olP+GNUQ1d4+e6BfkBwmGnQEafsm7EJBEYXyg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzL3VyzOYpTGDlQgk87DH7pS1h/PXg7zq7k8N/f/o0bCuBxKEUA
+	uHJ5JLpsUv8FaFjsVxz/Jg63Mxww5G4NPY69c/5IEgLwW4yXdU0cOsjQgGfHYHIAU0WW7r4dwIO
+	728xq4bd9BfYYbb7vz/Q2yIfAxlZHUxoOpfJBdKoBjYxAOzJMQv+qcHP/7MA2i592sw==
+X-Gm-Gg: AR+sD13f+0ceiNlam8VQ9H/qNZOvBS0JaQG/7FqecI+G31JLIlrXBu63Z/8DRlpyuKK
+	IaEURc7/uf51nN5XDitbBNKP3SODrNj2O7hCecXeJkgsTKTkRGBdD0blHNHYhbCO12t2PvuHO01
+	gK3L+8u4OlfVjMmklyAxLvYxXiZawjuvJHy18vwhaF+crhGMVdGBd0LPMhAoPMnN9xnWV0UjCfS
+	4vKbaycH5SkAtFY2ELxy9ShnqoVCX+nH8QDgMpsg8ibS24P2/+qnQEVEOuTwBJgPY5FZPQiU3V6
+	LTfZ/XfjjbUIox3qQcRIc6zHckIry4FIP+wvkpnHrarDFAgDTy9t89PHXkrN8qSWB+1toft93wi
+	eWauRAMxhvAhDpfTAX3Qr1vnF+e6uX/GGIHFd
+X-Received: by 2002:a17:90b:4405:b0:38e:7aa3:df25 with SMTP id 98e67ed59e1d1-38f29658c27mr8165956a91.43.1785165166105;
+        Mon, 27 Jul 2026 08:12:46 -0700 (PDT)
+X-Received: by 2002:a17:90b:4405:b0:38e:7aa3:df25 with SMTP id 98e67ed59e1d1-38f29658c27mr8165921a91.43.1785165165503;
+        Mon, 27 Jul 2026 08:12:45 -0700 (PDT)
+Received: from hu-mohs-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f1a759228sm2510133a91.1.2026.07.27.08.12.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 08:12:45 -0700 (PDT)
+From: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v8 0/3] ASoC: qcom: qdsp6: Add MI2S clock control
+Date: Mon, 27 Jul 2026 20:42:27 +0530
+Message-Id: <20260727151230.408122-1-mohammad.rafi.shaik@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: ASoC: tas2783-sdw: port prepare never completes after S0i3, no
- audio and no error (AMD ACP7.0, ASUS ProArt PX13)
-To: Andrey Golovko <andrey.golovko@gmail.com>,
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- linux-sound@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Mario Limonciello <superm1@kernel.org>, Antoine Monnet
- <antoine@montane.tech>, linux-kernel@vger.kernel.org,
- Niranjan H Y <niranjan.hy@ti.com>
-References: <b1bc21c8a403fe15e742b6a6ff30b27f@gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <b1bc21c8a403fe15e742b6a6ff30b27f@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI3MDE0MyBTYWx0ZWRfX6+y/WxUbfZEq
+ doyqlZM5gyq5rIUSOShk0Q1XaSPwVburZY9QQiIh2sxh+o89eZqnf8GZKsrEfU3UxkJulUYpPfD
+ nyX01QOnW2KoeVIr1afC6W0CEyJSyt4=
+X-Authority-Analysis: v=2.4 cv=UYBhjqSN c=1 sm=1 tr=0 ts=6a67756f cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=kcwWOOnH8nsvB6J9kCwA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-GUID: zy_0dw1unKLjvNglZkLg3jdl_Qo4AT5y
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI3MDE0MyBTYWx0ZWRfX+5lLSCF5zTgJ
+ hdjzxqt8WVVA+1Rlg2BdX5j/feiLLxjSqG4Is96cUCuEYyurQv/ehyKA9gatk9BzMVGAZOMEW6/
+ kXICZ3sTO37SYd3rEs1GSusdqy1gVD/a/41lrEyQA3IOzQhGcsz4ZPlIoIGgkHM1RRQ2p+9uExW
+ 2gm37u/kK+7dbGylZsYgaauaH2TeL1TAPoS6zKa6PI3qifwIUSyW/vBW2wI2PH0qS41d40NLT+3
+ yshWS3W/wmXbrJX/4IHwcEqH5QD329uqAmY69QPT4r0Rkpu99r23jiIl8SykfS4ZlwSfVbK5I0O
+ 9UlxIrCP53qKkJSFjpKDRIhR3QLbsp9+xKxJoGZ1WsIZsbRzxFRRk3XlyalzDwvchmRvx7OSNaB
+ UlnAri3aYUYm4Zr4bXiLHLlDML8FLgY7Zi8ThsbXEaCVBumDhec3twTTn2wrKuveWUQVc5cOYOj
+ 416XuBXsumwxO9pZMjg==
+X-Proofpoint-ORIG-GUID: zy_0dw1unKLjvNglZkLg3jdl_Qo4AT5y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-27_04,2026-07-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607270143
 
-On 7/27/26 11:33, Andrey Golovko wrote:
-> Hi,
-> 
-> On an ASUS ProArt PX13 HN7306EAC (Ryzen AI MAX+ 395, AMD ACP rev 0x70,
-> two TAS2783 at unique_id 0x8/0xB plus RT721 on SoundWire link 1), audio
-> is silent after resume from s2idle whenever the platform actually reaches
-> S0i3. Playback runs with no error whatsoever - no XRUN at first, no
-> prepare failure, no bus error - and the speakers stay quiet until the PCM
-> is fully torn down and recreated.
-> 
-> This is with v7.2-rc4 plus 5893013efabb ("ASoC: amd: ps: disable MSI on
-> resume in ACP PCI driver"), which is what makes the peripherals re-attach
-> at all on this board [1], and with a local fix that drops the stale
-> tas2783 regcache on re-attach [2]. Both are necessary here; neither is
-> sufficient.
-> 
-> I measured where the audio stops, and the answer is not where I expected.
-> 
-> 1. The ACP side is healthy
-> --------------------------
-> I dumped the ACP registers that the driver programs (ring buffer address
-> and size, FIFO address and size, DMA size, watermark, stream enable, plus
-> the SoundWire manager block) during actual playback, once in the silent
-> state after resume and once after the workaround restored audio.
-> 
-> 72 of 78 registers are bit-identical. The only differences are
-> ACP_EXTERNAL_INTR_CNTL (one extra bit, 0x10000 = PDM_DMA_INTR_MASK, i.e.
-> the digital mics, unrelated to this stream) and the last immediate
-> command/response pair on the bus.
-> 
-> That is expected: acp63_sdw_pcm_resume() reprograms the PTE, the ring
-> buffer, the watermark and the DMA interrupt masks for every live
-> substream on system resume. The ACP DMA configuration is restored
-> correctly.
-> 
-> 2. The DMA is running at the correct rate while silent
-> ------------------------------------------------------
-> Sampling ACP_P1_AUDIO1_TX_LINEARPOSITIONCNTR every 500 ms during silent
-> playback:
-> 
->   0x000002FBF880  +96064
->   0x000002FD6F80  +96000
->   0x000002FEE6C0  +96064
->   0x000003005E00  +96064
->   0x00000301D500  +96000
-> 
-> 96000 bytes per 500 ms = 192000 B/s = 48000 Hz x 2 ch x 2 bytes, exactly
-> nominal. The ACP is fetching the buffer and feeding the SoundWire FIFO
-> the whole time the speakers are silent.
-> 
-> 3. The peripheral port never finishes preparing
-> -----------------------------------------------
-> Dumping /sys/kernel/debug/soundwire/master-0-1/sdw:*/registers during
-> playback, silent state versus working state, the entire difference across
-> all three peripherals is two registers - and it is the same register on
-> both amplifiers:
-> 
->   DP1 0x104 (DPn_PrepareStatus):  silent = 0x3   working = 0x0
-> 
-> with DPn_PrepareCtrl (0x105) = 0x3 and DPn_ChannelEn = 0x3 in both cases.
-> (The third difference is SCP_Int1 on one amp, i.e. transient interrupt
-> status.)
-> 
-> Per the core's own reading of that register - "Poll for NOT_PREPARED==0"
-> in sdw_prep_deprep_slave_ports() - a set bit means the channel is *not*
-> prepared. So after the power gate both amps sit with both channels
-> unprepared, indefinitely, while the manager streams data at them.
-> 
-> 4. Why nothing complains
-> ------------------------
-> tas2783-sdw declares simple_ch_prep_sm, so the core skips its entire
-> prepare block: it neither writes DPn_PrepareCtrl nor polls
-> DPn_PrepareStatus. The driver writes DPn_PrepareCtrl itself from
-> tas_port_prep() - as the comment there says, "TAS2783 requires explicit
-> port prepare during playback stream setup even when simple_ch_prep_sm is
-> enabled. Without this, the port fails to enter the prepared state
-> resulting in no audio output" - but nobody ever checks whether the port
-> actually reached the prepared state.
-> 
-> The result is a completely silent failure: the stream is enabled, the DMA
-> runs, the log is clean, and there is no sound.
-> 
-> What restores it is a full teardown: hw_free (which de-prepares the port,
-> writing DPn_PrepareCtrl = 0) followed by hw_params and a fresh prepare.
-> Re-preparing without the de-prepare - which is what a plain userspace
-> resume does - leaves DPn_PrepareStatus stuck. On this board I work around
-> it by cycling the card profile after every resume, which forces that
-> teardown.
+Add support for MI2S clock control within q6apm-lpass DAIs, including
+handling of MCLK, BCLK via the DAI .set_sysclk callback. Each MI2S port
+now retrieves its clock handles from the device tree, allowing per-port
+clock configuration and proper enable/disable during startup and shutdown.
 
-Just to be clear: are you referring to a scenario where audio playback
-is on-going, the device does a system suspend during the audio playback
-due to a user request, and on resume audio is supposed to restart playing?
+On platforms such as Monaco and Lemans, third-party codecs are
+hardware-wired to the SoC and do not always have an in-tree codec
+driver to manage their clocks. For these designs, clock line
+enablement must be driven from the platform side, and this
+series provides the necessary support for that.
 
-That's not an easy capability to test/automate. When I worked with
-Intel, we had scripts to force a suspend-resume with aplay running in
-the background. They worked most of the time except when they didn't...
+On QAIF-based platforms such as Shikra and Hawi, responsibility
+for voting I2S MCLK and bit-clock has moved from the DSP to the
+kernel. This series introduces the required device tree binding
+support to represent and vote for these clocks from the kernel.
 
-> Questions
-> ---------
->  - Should TAS2783 declare simple_ch_prep_sm at all? The port evidently
->    does not prepare instantaneously, which is the premise of that
->    property; letting the core do its normal write-and-poll would at least
->    turn this into a visible error instead of silence.
->  - If the property is correct, should tas_port_prep() poll
->    DPn_PrepareStatus after writing DPn_PrepareCtrl, mirroring what the
->    core does?
+Enhances the sc8280xp machine driver to set the boards spacific
+configurations.
 
-It'd be surprising, these registers are typically updated quickly and if
-the sequence works for one playback it should work timing wise after resume.
+---
+Changes in v8:
+- Fixed indentation, reported by Krzysztof.
+- Resolved all sashiko comments.
+- Link to v7: https://lore.kernel.org/all/20260724182446.1484894-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
-Anyways, adding Niranjan H Y who contributed the patch "ASoC: tas2783A:
-add explicit port prepare handling". The topic of this prepare bit was
-discussed in the thread "SoundWire: Allow Prepare command for
-Simplified_CP_SM" and we ended-up with the use of this port_prep
-callback. IIRC the use of the simple_ch_prep_sm was due to Windows/BIOS
-precedent.
+Changes in v7:
+- Addressed review comments, reported by Krzysztof.
+- Drop ECLK handling, which is not required.
+- Link to v6: https://lore.kernel.org/all/20260720160226.1026440-1-mohammad.rafi.shaik@oss.qualcomm.com/ 
 
-Note that there was a change in the full port-prepare programming
-sequence, we've since stopped using this interrupt due to other deadlock
-problems (see "soundwire: stream: Poll for DP prepare to avoid interrupt
-deadlock"). It could very well be that this driver can now use the full
-state machine, who knows.
+Changes in v6:
+- Addressed review comments, reported by Krzysztof.
+- Resolved all sashiko comments.
+- Link to v5: https://lore.kernel.org/all/20260714145250.2473461-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
->  - Either way: why does a fresh prepare not complete after the device has
->    lost power, when a de-prepare followed by a prepare does? If the amp
->    needs the port explicitly de-prepared before it will accept a new
->    prepare after a power cycle, that sequencing has to happen somewhere
->    on resume.
+Changes in v5:
+- Addressed review comments, reported by Krzysztof.
+- Resolved all sashiko comments.
+- Link to v4: https://lore.kernel.org/all/20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
-It could be that the use of the port_prep callback is restricted to the
-initial stream setup. I am not sure if that stream callback is invoked a
-second time after a suspend-resume cycle, this driver is the only one
-who makes use of that callback...
+Changes in v4:
+- Addressed review comments from Mark Brown.
+- Resolved all sashiko comments.
+- Link to v3: https://lore.kernel.org/all/20260706132009.1496321-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
-Alternatively it could be that something else remains stuck and prevents
-the port prepare sequence from completing.
+Changes in v3:
+- Addressed all review comments from Mark Brown.
+- Fixed OF node reference handling, clock configuration, and sample-rate
+  handling issues as suggested by Mark Brown.
+- Added proper error checking for DAI configuration APIs as suggested by Mark Brown.
+- Added SENARY DAI support alongside MI2S DAIs as suggested by Val Packett.
+- Link to v2: https://lore.kernel.org/all/20260608023011.942228-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
+Changes in v2:
+- Added a detailed commit description to clearly explain the need for this change.
+- Improved the machine driver based on Neil’s feedback.
+- Link to v1: https://lore.kernel.org/all/20260309111300.2484262-1-mohammad.rafi.shaik@oss.qualcomm.com/
+---
+Mohammad Rafi Shaik (3):
+  ASoC: dt-bindings: qcom,q6apm-lpass-dais: Document DAI subnode
+  ASoC: qcom: q6apm-lpass-dais: Add MI2S clock control
+  ASoC: qcom: sc8280xp: enhance machine driver for board-specific config
+
+ .../bindings/sound/qcom,q6apm-lpass-dais.yaml |  50 ++++
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c       | 181 ++++++++++++-
+ sound/soc/qcom/qdsp6/q6prm.h                  |   3 +
+ sound/soc/qcom/sc8280xp.c                     | 240 ++++++++++++++++--
+ 4 files changed, 452 insertions(+), 22 deletions(-)
+
+
+base-commit: c5e32e86ca02b003f86e095d379b38148999293d
+-- 
+2.34.1
 
