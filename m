@@ -1,104 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from MTA-08-4.privateemail.com (mta-08-4.privateemail.com [198.54.122.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755E439CCFD;
-	Tue, 28 Jul 2026 17:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0D83A5995;
+	Tue, 28 Jul 2026 17:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.122.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785259717; cv=none; b=OsoVRDvmWHddaMGUmlzRI5GWToFz1TnLu5tjcdrQMe/VBtMusFtbDtvZ97xpiu73zhSazBui5E/aDQr8FzQ7M9h5+R6zMFB1XtT2a/IkdWwkIRkIFGvEEZmXDdVValBwVwAFuR5Lc0nHUOXNz19Dfvke8BDEuwXkW2+bPHsnFyk=
+	t=1785260172; cv=none; b=feMHLMsmo6ovxWwwpi+FNpQ7V0cLukSLze7SfI7Z9ZOWvkTCvajVyUEBw0Kb0BGUgbbJsRHQ+IzGa10CI5CAJDpfa1Xdw5LvAWH4qj01ZA675QNVjZ7gGxYzKTAfcaXH3ypD7o60UqlVAQcFP4bTLAls13FN2GI4xsJ45Ug9UPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785259717; c=relaxed/simple;
-	bh=d7IHnLeF88O84LYV+xP+a9UUxqsramW2fy6tBg47VCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KL++q3EJACjYYDW3R/jKBjnyjr6O9b+HnaiQA385JI3R2LjrmOeZ8dhYxj0Yvwx/IujVVmDFI+oaZED63IM/vTL9t6Iaet7QOxIcnGxR2hGrwM/U9YRqBbx0khMa29MZpGhEEM0JUYgt6wg11RnbUOLqDXZ20UPn+DI7izcV7VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aRlMelmn; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aRlMelmn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F3461F000E9;
-	Tue, 28 Jul 2026 17:28:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785259716;
-	bh=yWW3MGewi3htmwbZfkC5km15Wltd1/JLnEf+dmgErdE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aRlMelmndy0Rqyazb/PUuoNW4jGehI/41Hc9rmR/xAfMzvsxUj324Xg+vOYsYB31t
-	 RYAX+dc58czUdZYhWkJ5pJKy+HsZGCmZ044cG89F45cB5dkam/K5uvx8Y0mRexzqIp
-	 Pj3utnaIL3ldbU5kEleVDSrXqjATBwdpEsZzPK4MYmBClkhEWsAFZRdAMFvUolkMFI
-	 6psAb8WxAwSI3bEYYFlnePCz4h7oxHQ1RZ/wvIVNcV6V15VX0X0vHPuA5HZb9rT0d+
-	 Dkwwdi4JF9zuC2JRE3wc/pMVlAxRYm3p9Ddaurgt1dSJxyUgsFRJalhMEfKGXWgxRm
-	 Lcxn0DCJwQkuQ==
-Date: Tue, 28 Jul 2026 18:28:30 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, kancy2333@outlook.com,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	s=arc-20240116; t=1785260172; c=relaxed/simple;
+	bh=IEmoRKFeDKYkiQQtghpwXIx4o7APwngr6FjACS3Tsp0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sA9/dhjOwO6XJk+nL9YD8LQQBpeGyiaSdZmbSyhlinxzoxinthjLJvRQP9yLLJxs2U0hNCUejq5/vDBTiTUOzhforC9x90l55eVIIVFaA3uiADyUSZ29XpyBjNNcyWOSzZsG91rCO/dpN7kFu6RVMcyxX7dljODl8Ymf+4wV6vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.122.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from mail.privateemail.com (K8S-PROD-WORKER-04 [87.215.145.39])
+	by mta-08.privateemail.com (Postfix) with ESMTPA id 4h8jL1300Qz3hhTL;
+	Tue, 28 Jul 2026 13:35:53 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Srinivas Kandagatla <srini@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v3 3/3] ASoC: qcom: sc8280xp: add Ayaneo Pocket S2 card
- with special WSA channel mapping
-Message-ID: <69d28133-29d2-4b80-ae69-20117474d364@sirena.org.uk>
-References: <20260728-topic-sm8650-ayaneo-pocket-s2-wsa2-fix-v3-0-b29f44720178@linaro.org>
- <20260728-topic-sm8650-ayaneo-pocket-s2-wsa2-fix-v3-3-b29f44720178@linaro.org>
+Subject: [PATCH v2 1/2] soundwire: qcom: set the bus mclk_freq property
+Date: Tue, 28 Jul 2026 19:35:41 +0200
+Message-ID: <20260728173542.61146-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="J0xETubsF8VHYlQy"
-Content-Disposition: inline
-In-Reply-To: <20260728-topic-sm8650-ayaneo-pocket-s2-wsa2-fix-v3-3-b29f44720178@linaro.org>
-X-Cookie: Stop me, before I kill again!
+Content-Transfer-Encoding: 8bit
 
+sdw_slave_get_scale_index() needs bus->prop.mclk_freq to compute the
+SCP bus-clock base and scale register values, and fails with "no bus
+MCLK" when it is unset. The qcom controller never set it, so slave
+initialization cannot program the clock registers on this bus: it
+would fail outright for an SDCA-class slave, and a slave driver
+declaring clock_reg_supported hits the same error. The pending WCD9378
+codec driver hand-rolls these writes as a workaround, following its
+downstream counterpart.
 
---J0xETubsF8VHYlQy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Report the controller clock, letting the core derive the same values
+the hand-rolled writes program: 19.2 MHz base and the scale matching
+the bus clock (half the double rate).
 
-On Tue, Jul 28, 2026 at 10:46:45AM +0200, Neil Armstrong wrote:
-> The WSA Speakers are connected on the WSA2 interface, but the
-> WSA and WSA2 links are handled as a single dai and DSP interface, so
-> we need to specify the channel mapping of the Ayaneo Pocket S2 for the
-> WSA dai in order to have functional playback and avoid DSP errors.
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+Tested-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+---
+v2: no code change; added Srinivas's Tested-by/Reviewed-by.
+v1: https://lore.kernel.org/all/20260727162741.68081-1-jorijnvdgraaf@catcrafts.net/
 
-> Let's add a special entry for the Ayaneo Pocket S2 adding a prepare
-> callback in order to set the proper channel mapping.
+This is the soundwire side of the plan from the WCD9378 v1 review
+discussion [1]; the codec's v2 will set prop.clock_reg_supported and
+delete its hand-rolled base/scale writes, relying on this property.
+Patch 2 is the helper extension requested in that thread.
 
-> +static int ayaneo_ps2_snd_prepare(struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +	unsigned int channels = substream->runtime->channels;
-> +
-> +	if (cpu_dai->id != WSA_CODEC_DMA_RX_0)
-> +		return 0;
-> +
-> +	if (channels != 2)
-> +		return -EINVAL;
+Validated on the Fairphone 6 (SM7635, WCD9378): with the hand-rolled
+writes deleted, the core reports "Configured bus base 1, scale 2,
+mclk 19200000, curr_freq 9600000" for both slaves at enumeration, the
+codec's SDCA sequencer powers up on those values, and capture works,
+across reboots.
 
-Do we need some constraints somewhere (perhaps it's already taken care
-of and I didn't notice)?
+No behavior change for existing devices: without a class_id or
+clock_reg_supported, sdw_slave_set_frequency() returns before reading
+mclk_freq.
 
---J0xETubsF8VHYlQy
-Content-Type: application/pgp-signature; name="signature.asc"
+[1] https://lore.kernel.org/all/20260707151329.67858-1-jorijnvdgraaf@catcrafts.net/
 
------BEGIN PGP SIGNATURE-----
+ drivers/soundwire/qcom.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpo5r0ACgkQJNaLcl1U
-h9ApEwf/cMtCjuOeRWOP9jWg2lvfirrItfAoU6URYMUzcUIFA09zxOg+Lx4HBOTJ
-aoxrTGbmDTNRBcvMrDt4UjeoNTs0RGPUveJrZ5uSes5H4KF24n3TCjsQmCf+trEC
-I83Xty1Izca0t5p01078i8GYnesbuIDbWsl0D/1gM0IWBv7FPwJqAQuf6O8k4lex
-sPepmfQis/plWGA57UlBb0tZk2Q1sVTx2hM2txpWZ/20ZG+AtPSc3IqlSyLUN+KZ
-0h+reN2im2Wc7Dik1zXWf5EYagZqSlEXkYPK8ySDR8P7O32VGewuiu/cU1igNi7w
-NXOewCVmvBkN5ba2BedUfERW1LqXdg==
-=sSMk
------END PGP SIGNATURE-----
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index 3562802f4204..55678a30cd4a 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -1633,6 +1633,7 @@ static int qcom_swrm_probe(struct platform_device *pdev)
+ 
+ 	prop = &ctrl->bus.prop;
+ 	prop->max_clk_freq = DEFAULT_CLK_FREQ;
++	prop->mclk_freq = DEFAULT_CLK_FREQ;
+ 	prop->num_clk_gears = 0;
+ 	prop->num_clk_freq = MAX_FREQ_NUM;
+ 	prop->clk_freq = &qcom_swrm_freq_tbl[0];
 
---J0xETubsF8VHYlQy--
+base-commit: 6409292ab5f7d1a60a6f8948bd6dcd8633c36dfe
+-- 
+2.55.0
+
