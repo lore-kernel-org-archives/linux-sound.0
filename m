@@ -1,200 +1,361 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazolkn19010074.outbound.protection.outlook.com [52.103.66.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB893446C5;
-	Tue, 28 Jul 2026 14:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.66.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785248866; cv=fail; b=lv0JQkLrqjgCuQYLrHLiVGqb0sRQpnBZoQCd6RbuprlSY1SPCGAbEUvmo4BdFkeUJLc9fqIrUlmrmL+AvWMs50XVS4KnaqeMDZZOLUINlXrE6o8SNKQera2dpe3L1hR8WYKyU0sfkheChelDtufpG//sUpvmhKi+eQHrRarE7wA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785248866; c=relaxed/simple;
-	bh=32aau/G2/6CYLir1hPtZ/1dVyyfllR/LkYsNLdi/P1U=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=RC1X2RwZjKnYsjZTWCMSkmFDVNvtW9QgdTcXOVEt8fSmRchDXMjK6GKiWW2roMSAuELBT7FtBXuCnEUyrgZXne7OnSq01NfReeeg4s/BRHLoHN+aV98esYXtCstCE5xBlAPpVVg0QfCafk/erB92refeEQzbq2ErbBa5vkFRgQg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=MtE6WkDC; arc=fail smtp.client-ip=52.103.66.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="MtE6WkDC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kvBekhmJwYrN/jUYH/N40IiKA9O4e8z2dnhIyXUPJMKoSRm8bh6+9MMUKWg/VvVwxwhD8G7FIwBui9wL9uUR+8cV73+vBEEl6P39V9WI/mFCnyYc/hWeLv0jH8Akm1sduU3QNDacx9E5tuPJlSkXlEKKXbIGbMbcgh0QMOAwxr5n/+XlMceL9xd94JMeA9rI6RBEAIP2mo+OJIWL3TOUEOoygyV3v3EV+Owf/wJwXubiyYL37sHgE7jTcx9xtGeZij3JGAXGCtERKVYiKICwQpBggb9D2Z8B0+krzRWBOG4TTH0w0iVFw8oQnsVoib0UMWu7hnNu9Kugx291lXX7Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6nMUca0YbMZYZ8G9F8CpqIwl23cbh5ceAGsAOT0yHFE=;
- b=NKsXFoUt77f4jhc4Nt+xzDijFJuRYb2vX44ehzwFdoDjZs1nhuPNtPa9/obhyIftOwLsWa2RJibUDzEmRY2awqoVplRL2bG7tRAoNwoZw2NmrSGUrkgtEmrBG5nhUbvo/PcfmH4yJQwX9ZC8i1QVs858bZaZs0JELksHLT3QOYawbYazzta5tFPQkKhMrNvE6/gD/qm6zXvIQGqFDEUGzlaYzCf1TH6fTjFi98E148ckNwmEjkz97NPzC+HSacp77guHyHfoR0j27tk74+iR5E/HIf4aGZc2XJXnnafpjLHuvmk+N90nTmI1eJRbCYyVIeCz2Bv47VPHicx+F62Lbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6nMUca0YbMZYZ8G9F8CpqIwl23cbh5ceAGsAOT0yHFE=;
- b=MtE6WkDC3jFRkf+slLWvVg48n7E5+Xyvq+8/1vm7trefbVW8u14wa9uBaKYo2B8SxNgC6lGfx54KkDs37TBElCn83EMn2YGzRWAg80MThvcQjtRVyLEoDFkIp4OU2CxWlfYk4nu20heJm/TcWazZhMaU87YGox1v0dINlsUGOD77lqWh+K7WmRSKrwYeMXm4ZvbnVMTACk1UGexfCbzn71FLTRRa+aHmMCEZwrkv6AnaGeoUUyONzfTFyDHFYRAwP4DR6BBe4z/qct8UcaSTS3XunKeGXu8K6vqrrF92KYrQOq6yD3Mlb5C3qDHjqJXpiX27IewxOEtD3PU7Qj60QA==
-Received: from OS3PR01MB8827.jpnprd01.prod.outlook.com (2603:1096:604:153::9)
- by TY7PR01MB14890.jpnprd01.prod.outlook.com (2603:1096:405:257::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Tue, 28 Jul
- 2026 14:27:42 +0000
-Received: from OS3PR01MB8827.jpnprd01.prod.outlook.com
- ([fe80::4bc9:630:cec7:d11f]) by OS3PR01MB8827.jpnprd01.prod.outlook.com
- ([fe80::4bc9:630:cec7:d11f%6]) with mapi id 15.21.0270.009; Tue, 28 Jul 2026
- 14:27:42 +0000
-Message-ID:
- <OS3PR01MB8827AC846F82A406D22E3FB7DECB2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
-Date: Tue, 28 Jul 2026 22:27:35 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: usb-audio: add IFB_SILENCE_ON_EMPTY quirk for
- Behringer Flow 8
-To: Gordon Chen <chengordon326@gmail.com>, linux-sound@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
- linux-kernel@vger.kernel.org
-References: <20260526072906.90106-1-chengordon326@gmail.com>
-Content-Language: en-US
-From: Mark Shi <liaronce@hotmail.com>
-In-Reply-To: <20260526072906.90106-1-chengordon326@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2P153CA0033.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:190::21) To OS3PR01MB8827.jpnprd01.prod.outlook.com
- (2603:1096:604:153::9)
-X-Microsoft-Original-Message-ID:
- <3d2721f9-9904-42c1-8095-21457a8c7b5f@hotmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B914734FE
+	for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 14:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785250769; cv=none; b=MY/6Z1ObsEA5y05Qj5LZv3QzIdXK1YLT+fzxW5isoy6BmcIicgLdFv/lakJJBNtRbIYhnXGEIsylpU17QT6o4Gj9HXEbRmFulQf0d+pzr5l8gn60f2qAfE5bjj48E+DsIKNtqN6I59GpSsMEZCcReVXFoco55PboiG6jcaRKsfQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785250769; c=relaxed/simple;
+	bh=AAsIzM06UMv13t0/NK0q+1Uol6xaO74vWwa1J2XaGIY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ETrjhLZciF+MKdRFNnT3fyjEZZbUSk8bUj6wnnpUAWMghLKtHlw7KhTopH8SQgcf8OFI7lKd5YaAO9OEovy/Ljg1rOkDMfuiF0u43uebCCdlbzukzKXo0dCM7BlNhFv+VUUSjGFOeM4DhYmy1zpHv9UTJAk5tqiGuVT1VEqfZcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-6a0f261aeb6so4319333eaf.3
+        for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 07:59:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785250763; x=1785855563;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zOn/yg4op/Dbm8IAHVQc6EfBdxxP9a6baTQhLDmv9Mg=;
+        b=dzzoGVCQeZ/RpEPjaXbDvdu/+9YjMnpBtNqnlS5HhteMDbDR27jcQnvfjjcMq+sOkf
+         CE8KnWg8bYFnOKDUczPTb1ko4CQA99Ao2f+k/CLcpu7PKVgL3W5UIDusFhC4SBkIrP+3
+         qORDU4M7sPAVoyC6uFluN9dKjh6ucog8w0CGRdI7XSgoHmg7pauGInqcJ+NEAQFqnNz9
+         W/srkzRmWTW4NlN/yH4C20rmEfwmczan76HG5wdeJrIsH+iNiVI35ABC7iV8cPCyZ1xB
+         szn+g5VqVF3kH97kdG3CC3X/XV8vzpp459SPPbAu1kVLQLVBXW6PAFAZms85alx+ktzi
+         kasw==
+X-Forwarded-Encrypted: i=1; AHgh+RoejG5H6iaqB6ZNx4M9RUPDEHTWGdlPbxitQFlWDHJYUrAxbnlD7BhdxczA7GVFPC5kuJZEORyABJfh3A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYZu6TLEgwr8oMIU+4eVPf/f+2wSfoj0kpxs6z9i0eUdISfYMR
+	XI98OYfKm9bOuXeqxA4asJ9f3PziBTFTjyVjvba/RJnqrEWxSL00Qxi39csUZojpqDuO92X6W0j
+	GQTMnv0Rey/YlDTDf4BlH6/9bSpTs2GRoFnXSSNIw+W09hBmrZ1RAw6mputU=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8827:EE_|TY7PR01MB14890:EE_
-X-MS-Office365-Filtering-Correlation-Id: e245f8b8-8867-46f6-a128-08deecb4615d
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|15080799012|24021099003|5072599009|25010399006|41001999006|23021999003|6090799003|37011999003|8022599003|19110799012|8060799015|440099028|3412199025|3071699003;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MXFLRDU4YzE5dS8vTExDbFMvS3VQV2xnT1dvSWJkeFlMblZhdU1RN0pueVNQ?=
- =?utf-8?B?c21ZM3ZFcFNHaUYvRHhmOUJtVWVEV2hsbUVESHB1c0duSUs1V1NkbFBheFBk?=
- =?utf-8?B?NUNSYmZFczRlaTA0ZXg2SG9pKzhtMDYybVlNWVdCNDFPWmlua2JLa0Q4YlE4?=
- =?utf-8?B?b1JCY3FvczlDRW5VMUpxblp3Qnc0cDl6RDJwdStlT2R2bk41NVN1LzBFcG5s?=
- =?utf-8?B?NUdHdlZPeWlxYmYwQ0pSb29leFd3aWlXZkhEZTFPQVdTNFBqTUU0RGUwZXVk?=
- =?utf-8?B?RU0vSFZCL1BuTjVCdmlKZnlvbHZtWEk2ZklldlBTdEd2NVJUUmUvd0RkZnUr?=
- =?utf-8?B?SWV1QnlnMXV3TldXd0N1S0tlOFliSFdoRmpEcHRpUXl4Y2hYc1VCRWh3N3hS?=
- =?utf-8?B?aml3MjJUc1Njd283TTE3TU5FRTg5YzZULzlFampmMlFKak5zaU9Zc2pCSW1k?=
- =?utf-8?B?ZkJta090bVBzUkFpYzBvZS8vOUJ2ZS9uTWsxYUdsUk9wN05jWXZ2V21XbUtw?=
- =?utf-8?B?SlBMb3RkMEFIZW1JSklTVFhqZ0hQajQ3RmU4THN2enQrOGZRTU1xZkFKbXJX?=
- =?utf-8?B?OFhpemFzaDdWSXhZbklQdGJiZUVsYk56UnQvU3doYW16bHRtYWs5Nmg1VEM2?=
- =?utf-8?B?ckYxbE9ITis5TkliaDk1YTczL0ZrTXd4RjBMOHdsaFhINGJybGlVQXN3cGcy?=
- =?utf-8?B?dk80U3BkSE9CelNDWmdhWDVwa0o5cVlCV0VFN2U1VVVTcStsSC9uek14Z3pt?=
- =?utf-8?B?TkpMejNKdkN6d2dTeWUzNTNTV0I3blFUa3owam1yNkNtYUQxUU5DMXg5UURP?=
- =?utf-8?B?T0FMc3RwRHVoZU1FVEhPcGRPQVVxMGgrQnhXNGVoVUgxdHRFVElNYzQwcm96?=
- =?utf-8?B?Sk9KSGErYnpoVzlxSlcxV1VCQXk1SnNiYkxqUFlrbXRoYVpsdG9UQzRBSFNR?=
- =?utf-8?B?RzFFVFRNMVhac0hLQmgvRVFtTGdQOUw0ZUhZWWpZYlYzSHR6K1VMSnQzS2R5?=
- =?utf-8?B?VGVYa3QwTkRKY3RPVHJjdWpLVzB0eUlRMnM2Z1BBdGdIVkJRSnhsNnVPa0dR?=
- =?utf-8?B?OS9RTDNqdUFqU2kxVTNVWTZlM2dYOTR3b3FBbG41bTJ3dlMzSWFQdDZSSmx5?=
- =?utf-8?B?eDJFNXd1bjNrN3gybm9RbGlobkh3K3hrODB1TlhTQnlpSTdQM3JnYU5STnEy?=
- =?utf-8?B?eGRFRStCbW5iUzJTeG9OSFdSMThRVXRsSUxxT0dFaDVVTWtmNFVpMGswT25k?=
- =?utf-8?B?aGdkZVpvZmQ2RmFCMUFteTJDZ2E2S1RTUmRSSFNTSDh1eFZzZzhGT1BERmVJ?=
- =?utf-8?B?R1FCMG5ZcDl1NXMwQnozQ3dQdjlQNVNjQS9QdFhlOEtDL0ttQkZmVC9qbGkr?=
- =?utf-8?B?S01ZQjRhOWlrNWc9PQ==?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bk9JMjN5bzlpMm03SVZucnk3OTFLTmZkK2VudC9pQmhQWDFNSEQ5T2FLYWRv?=
- =?utf-8?B?cTNZTzVrU2FIQWcwQ0FIT29BcXBUOWFUdnh2d0xCSjRaRmxOSENHV1BUck0x?=
- =?utf-8?B?aVE5K2gyVlBjY0NuMkU2NHZBTjd6KzcrRUpGNldpMzlhWUJJd0ZlaE4vQWxJ?=
- =?utf-8?B?TyttS0xmWFpHWFJnY3R6cTFWM1pjQmliMFVTVjRjSXQ2dk9ScEtObk1yOTJE?=
- =?utf-8?B?TEtDVWc2anZBZVZmMmtmWXEyMnBWdmdpaUtBbzhXN1I4NnJUREVaM2owOVFx?=
- =?utf-8?B?RXZyZy9zZTJOZnhKZjhqNTVKTzl5VldlTWgwSFd6U2kwV01hQWVROUFlRjdu?=
- =?utf-8?B?Qm5paVFISHFkVW5BT2ZHdFgwaW5QWFkzY2NGVno4WU40cmd2ZzdwVUZCb2Fk?=
- =?utf-8?B?YXhqMTJHTUxEbDVVNUNmVVNSU2FCWldQV1FVZ0sxSnNqZVNsOW9RSXpqU0Zz?=
- =?utf-8?B?YkRpdGorMlFFN2pYMWJQT25TN0ozeWJrZ0FsaUYzalFMeXlDQ0VYUGttQnFP?=
- =?utf-8?B?cjE2ZTRsaitRQkw0Q2p6NmZZeUZsblhSdFZHVVdFcnRJZUtoZUJwMXRFak14?=
- =?utf-8?B?ZmR0bHNhdWtpU1lKZzVFbDFUYkpnelpuaUJCNWJPaWVHWThpb2wxR3J4TU1L?=
- =?utf-8?B?TS8xc2l0aVREZnEyVzVCc1UrVDNXRG9lUjgxS0M1c2NWeXdpaU5wQWh6SlYw?=
- =?utf-8?B?aHlyTjZJaFlvM21YUVJ2ZGNHeWpwaXdiK0tEd1lBeVVVeEpVY3gxZTJjY2xS?=
- =?utf-8?B?MFF2c3N1TE1uZ0hBcVU0d0xzU3QxbzJUWlZDdXE2cmNqdEdDMXhHb2lmNFZt?=
- =?utf-8?B?czFxM0hWOTJ3VXZkeFh2bVZGN3MxdkJMTWhtK05PTnEzYkFtZ0cvK2ttRFhj?=
- =?utf-8?B?a3Jrc2N6MTM4ems0R2tUK1VaRHJmb2JuOWpKS2NXOXFkVFRpUlR1U1hZWllB?=
- =?utf-8?B?bU9JMStLWE4xNmZoemMyNzdzeVNGWHJHY0RjWmlySWVzcGovU0xyakdYMmpy?=
- =?utf-8?B?cUdqekxGN1g5dWRIRzNxSXNRSHhBcVNBMHppajdQdnIyN1VMcThDRmRBbS91?=
- =?utf-8?B?MTcxTlNvcXpOSEFRWkRHWGkzNHByNnEvbnNERUl5ZXo5bzd2NUNmdGlSNWxG?=
- =?utf-8?B?OW9mR2hvTnpBTDFaWXNXTWVBU3dGblhmVDZObVRXNUFuRDYwVkhoL1RlS1Zy?=
- =?utf-8?B?TmU4NExmMVpRKzlLWXBFZi9rRG8wVjR4WDZySkpKdjZxRXY3WDRoZW1ENnhJ?=
- =?utf-8?B?V3VJd1hqa3JidmJSQ0pYdmU2bXBLSC9WOW1HZEM5TUh0Yyt3VERWZUZ5S3d3?=
- =?utf-8?B?R2F3Nk1qUkMrQzZBaDQvRVBUdUhjWHlCVlcrcnNjTHdGWGR5MFBMNW9BZC9p?=
- =?utf-8?B?M1RNZTYvMGhtdnUyZWpQZmRwNjJKUEhSb3hmUjU5elVaRUxqc01BUERvV3Na?=
- =?utf-8?B?NXdrS2l2S2dYSkhIOGt6QnQrM3RSY0VQL0t4Vm5MSlRyZEIydjdkbi9DWU5J?=
- =?utf-8?B?bVlvazVSdXQ5b09zVklwaDFLWkovSkNZT21UcG0vR0U1RHRrTmVWRzBLVnAy?=
- =?utf-8?B?QVdOWmptSndOUjlvckU3dFJiazZsekdxdGt4NHQwTnhTOGYzWVVQbFk2cDJU?=
- =?utf-8?B?Uk9Gd2U1T3g4UWg2SUIvdDlnS0FLb1ZhMHUrYmtjRXdBQ3lDOXBGWUZyQ0J3?=
- =?utf-8?B?RlljVW45MkdqSGNWSXFsM2FLSnhlY2N0bTBmdHM5MTdBeGF2VHE5eExTam9U?=
- =?utf-8?B?UWp2WlBaeUVmZnNubGM2cWo5YUdMQS9URW5URXd3Mk9OdHhLZ21uNUdjSEh4?=
- =?utf-8?B?WkdzeXdSUzM5Rmh6UWR5b0w2Y2QwcVQ1QWhEY1U5ZmN4U0pjbXZaSVhTaXZy?=
- =?utf-8?Q?MemXqdpJ+LLCK?=
-X-OriginatorOrg: sct-15-20-9412-3-msonline-outlook-b83fc.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: e245f8b8-8867-46f6-a128-08deecb4615d
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8827.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2026 14:27:42.5082
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB14890
+X-Received: by 2002:a05:6820:168d:b0:6a3:77e0:84b with SMTP id
+ 006d021491bc7-6ac96db54c1mr1422802eaf.60.1785250763495; Tue, 28 Jul 2026
+ 07:59:23 -0700 (PDT)
+Date: Tue, 28 Jul 2026 07:59:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a68c3cb.e3659fcc.2a40b8.0014.GAE@google.com>
+Subject: [syzbot] [sound?] KASAN: invalid-free in snd_rawmidi_free
+From: syzbot <syzbot+b6cab840e6a85641c7ad@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Gordon,
+Hello,
 
-在 2026/5/26 15:29, Gordon Chen 写道:
-> The Behringer Flow 8 (1397:050c) is an 8-channel USB mixer that
-> declares OUT EP 0x01 with implicit feedback from capture EP 0x81 via
-> its UAC2 endpoint companion descriptor. After 5-35 minutes of
-> continuous playback, the device occasionally returns a capture URB in
-> which every iso_frame_desc has a non-zero status (-EXDEV bursts,
-> visible as rate-limited "frame N active: -18" lines in dmesg from
-> pcm.c).
->
-> In that case snd_usb_handle_sync_urb() at endpoint.c counts bytes==0
-> and falls into the early "skip empty packets" return originally added
-> for M-Audio Fast Track Ultra. As a result the playback EP loses its
-> sole IFB-driven feeder and the OUT ring starves permanently: hw_ptr
-> stops advancing while substream state remains RUNNING. Only USB
-> re-enumeration recovers.
->
-> Three independent ftrace captures (taken at the moment of stall via a
-> userspace watchdog) consistently show:
->
->    - 60-70 capture URB completions in the 70ms window before the marker
->    - 0 retire_playback_urb / queue_pending_output_urbs /
->      snd_usb_endpoint_implicit_feedback_sink calls
->    - every usb_submit_urb in the window comes from
->      snd_complete_urb+0x64e (capture self-resubmit), none from the
->      queue_pending_output_urbs path
->
-> Add a new opt-in quirk QUIRK_FLAG_IFB_SILENCE_ON_EMPTY: when set, the
-> early return is skipped and we fall through to enqueue a packet_info
-> whose packet_size[i] are all 0 (the existing loop already maps
-> status!=0 packets to size 0). prepare_outbound_urb then emits a
-> silence packet, the OUT ring keeps moving, and the device rides
-> through the glitch.
->
-> The default behaviour (early return) is preserved for all existing
-> devices including M-Audio Fast Track Ultra. Only Flow 8 opts in here.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Gordon Chen <chengordon326@gmail.com>
->
-Device: Mechrevo WUJIE14Pro A-7BC4U
-CPU: AMD Ryzen 7 7840HS (Codename "Phoenix")
-Firmware Version: T140_PHX_V20
-Firmware Release Date: 2024.1.8
-Kernel version: 7.1.4
+syzbot found the following issue on:
 
-In Linux kernel 7.1.4, I found that my laptop couldn't wake up from S3 
-suspend; I had to hold down the power button to force a shutdown and 
-then restart it.
+HEAD commit:    48a5a7ab8d6a Merge tag 'v7.2-rc4-smb3-client-fixes' of git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10edc499580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=20c9876b0f77b546
+dashboard link: https://syzkaller.appspot.com/bug?extid=b6cab840e6a85641c7ad
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-Using `git bisect`, I discovered that if I revert this patch, the laptop 
-resumes from S3 normally.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Best Regards,
-Mark Shi
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-48a5a7ab.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/cca5551ec121/vmlinux-48a5a7ab.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/30b6e710a3ae/bzImage-48a5a7ab.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b6cab840e6a85641c7ad@syzkaller.appspotmail.com
+
+FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 1
+CPU: 0 UID: 0 PID: 5324 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ fail_dump lib/fault-inject.c:73 [inline]
+ should_fail_ex+0x40c/0x560 lib/fault-inject.c:174
+ should_failslab+0xa8/0x100 mm/failslab.c:46
+ slab_pre_alloc_hook mm/slub.c:4567 [inline]
+ slab_alloc_node mm/slub.c:4925 [inline]
+ __kmalloc_cache_noprof+0xa8/0x660 mm/slub.c:5511
+ _kmalloc_noprof include/linux/slab.h:969 [inline]
+ _kzalloc_noprof include/linux/slab.h:1290 [inline]
+ snd_rawmidi_new+0x92/0x140 sound/core/rawmidi.c:1894
+ snd_ump_attach_legacy_rawmidi+0x44e/0x8c0 sound/core/ump.c:1363
+ f_midi2_create_card drivers/usb/gadget/function/f_midi2.c:1605 [inline]
+ f_midi2_bind+0x11c5/0x2c40 drivers/usb/gadget/function/f_midi2.c:1948
+ usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:383
+ bus_add_driver+0x345/0x670 drivers/base/bus.c:763
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7aaef9de99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7aafe09fe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f7aaf225fa0 RCX: 00007f7aaef9de99
+RDX: 000000000000000b RSI: 0000200000000940 RDI: 000000000000000a
+RBP: 00007f7aafe0a050 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
+R13: 00007f7aaf226038 R14: 00007f7aaf225fa0 R15: 00007ffdb2f50ea8
+ </TASK>
+==================================================================
+BUG: KASAN: double-free in snd_rawmidi_free+0x3cb/0x420 sound/core/rawmidi.c:1934
+Free of addr ffff8880342b6000 by task syz.0.0/5324
+
+CPU: 0 UID: 0 PID: 5324 Comm: syz.0.0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report_invalid_free+0xea/0x110 mm/kasan/report.c:557
+ check_slab_allocation mm/kasan/common.c:-1 [inline]
+ __kasan_slab_pre_free+0x104/0x120 mm/kasan/common.c:261
+ kasan_slab_pre_free include/linux/kasan.h:199 [inline]
+ slab_free_hook mm/slub.c:2650 [inline]
+ slab_free mm/slub.c:6405 [inline]
+ kfree+0x173/0x640 mm/slub.c:6720
+ snd_rawmidi_free+0x3cb/0x420 sound/core/rawmidi.c:1934
+ snd_rawmidi_dev_free+0x38/0x50 sound/core/rawmidi.c:1945
+ __snd_device_free sound/core/device.c:76 [inline]
+ snd_device_free_all+0x2c7/0x7a0 sound/core/device.c:233
+ snd_card_do_free sound/core/init.c:592 [inline]
+ release_card_device+0x75/0x1b0 sound/core/init.c:153
+ device_release+0xc4/0x1f0 drivers/base/core.c:-1
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x222/0x550 lib/kobject.c:737
+ f_midi2_free_card drivers/usb/gadget/function/f_midi2.c:1516 [inline]
+ f_midi2_create_card drivers/usb/gadget/function/f_midi2.c:1623 [inline]
+ f_midi2_bind+0x1441/0x2c40 drivers/usb/gadget/function/f_midi2.c:1948
+ usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:383
+ bus_add_driver+0x345/0x670 drivers/base/bus.c:763
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7aaef9de99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7aafe09fe8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f7aaf225fa0 RCX: 00007f7aaef9de99
+RDX: 000000000000000b RSI: 0000200000000940 RDI: 000000000000000a
+RBP: 00007f7aafe0a050 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
+R13: 00007f7aaf226038 R14: 00007f7aaf225fa0 R15: 00007ffdb2f50ea8
+ </TASK>
+
+Allocated by task 5324:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x32d/0x660 mm/slub.c:5515
+ _kmalloc_noprof include/linux/slab.h:969 [inline]
+ _kzalloc_noprof include/linux/slab.h:1290 [inline]
+ snd_ump_attach_legacy_rawmidi+0xb3/0x8c0 sound/core/ump.c:1355
+ f_midi2_create_card drivers/usb/gadget/function/f_midi2.c:1605 [inline]
+ f_midi2_bind+0x11c5/0x2c40 drivers/usb/gadget/function/f_midi2.c:1948
+ usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:383
+ bus_add_driver+0x345/0x670 drivers/base/bus.c:763
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5324:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2705 [inline]
+ slab_free mm/slub.c:6405 [inline]
+ kfree+0x1c5/0x640 mm/slub.c:6720
+ snd_ump_attach_legacy_rawmidi+0x4c3/0x8c0 sound/core/ump.c:1367
+ f_midi2_create_card drivers/usb/gadget/function/f_midi2.c:1605 [inline]
+ f_midi2_bind+0x11c5/0x2c40 drivers/usb/gadget/function/f_midi2.c:1948
+ usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:383
+ bus_add_driver+0x345/0x670 drivers/base/bus.c:763
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff8880342b6000
+ which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 0 bytes inside of
+ 4096-byte region [ffff8880342b6000, ffff8880342b7000)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x342b0
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x4fff00000000040(head|node=1|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 04fff00000000040 ffff88801b042140 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000800040004 00000000f5000000 0000000000000000
+head: 04fff00000000040 ffff88801b042140 dead000000000100 dead000000000122
+head: 0000000000000000 0000000800040004 00000000f5000000 0000000000000000
+head: 04fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 22281528312, free_ts 22268577245
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0x21fa/0x2270 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3294 [inline]
+ allocate_slab+0x79/0x5e0 mm/slub.c:3408
+ new_slab mm/slub.c:3454 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7338
+ refill_sheaf mm/slub.c:2832 [inline]
+ __pcs_replace_empty_main+0x2bf/0x6b0 mm/slub.c:4703
+ alloc_from_pcs mm/slub.c:4801 [inline]
+ slab_alloc_node mm/slub.c:4933 [inline]
+ __kmalloc_cache_noprof+0x3a7/0x660 mm/slub.c:5511
+ _kmalloc_noprof include/linux/slab.h:969 [inline]
+ _kzalloc_noprof include/linux/slab.h:1290 [inline]
+ kobject_uevent_env+0x289/0x9e0 lib/kobject_uevent.c:543
+ device_add+0x544/0xb80 drivers/base/core.c:3738
+ __video_register_device+0x3bd7/0x4a90 drivers/media/v4l2-core/v4l2-dev.c:1081
+ video_register_device include/media/v4l2-dev.h:390 [inline]
+ vivid_create_devnodes+0x1f7c/0x2c60 drivers/media/test-drivers/vivid/vivid-core.c:1679
+ vivid_create_instance drivers/media/test-drivers/vivid/vivid-core.c:2042 [inline]
+ vivid_probe+0x5038/0x70c0 drivers/media/test-drivers/vivid/vivid-core.c:2095
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1439
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+page last free pid 1 tgid 1 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ __free_pages_prepare mm/page_alloc.c:1406 [inline]
+ __free_frozen_pages+0xc1e/0xd10 mm/page_alloc.c:2950
+ __slab_free+0x274/0x2c0 mm/slub.c:5767
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4612 [inline]
+ slab_alloc_node mm/slub.c:4945 [inline]
+ __kmalloc_cache_noprof+0x2ab/0x660 mm/slub.c:5511
+ _kmalloc_noprof include/linux/slab.h:969 [inline]
+ _kzalloc_noprof include/linux/slab.h:1290 [inline]
+ media_devnode_create+0x60/0x380 drivers/media/mc/mc-entity.c:1550
+ video_register_media_controller drivers/media/v4l2-core/v4l2-dev.c:881 [inline]
+ __video_register_device+0x4160/0x4a90 drivers/media/v4l2-core/v4l2-dev.c:1094
+ video_register_device include/media/v4l2-dev.h:390 [inline]
+ vivid_create_devnodes+0x12cb/0x2c60 drivers/media/test-drivers/vivid/vivid-core.c:1632
+ vivid_create_instance drivers/media/test-drivers/vivid/vivid-core.c:2042 [inline]
+ vivid_probe+0x5038/0x70c0 drivers/media/test-drivers/vivid/vivid-core.c:2095
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1439
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:383
+
+Memory state around the buggy address:
+ ffff8880342b5f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff8880342b5f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff8880342b6000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff8880342b6080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8880342b6100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
