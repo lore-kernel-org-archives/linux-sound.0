@@ -1,179 +1,190 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BC03AFCF2;
-	Tue, 28 Jul 2026 11:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDAE42A7AE
+	for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 11:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785237208; cv=none; b=gWawGzv3G6W/rXC98y/ormpSCG9J17HVJFhllQhyHzELzeLD1TP+XYmj/xSmt5KDuGuVXOMu9e2JRNFB2NsEVDFEk9fWBTtTlm6G3JUbz4bg72RMaOIxU/qK7YfCs5/Llzovw7kfvk8KZ4hq+2jfRoAbr0HGgUH/8sY2dHVy1EI=
+	t=1785238883; cv=none; b=NW983rLhd/2vKrMgCR3RjBgR9gQ5u4EZcfmEdJIA1FXI+VhNqwep6wzZfhgWZgxftSqM6yTwxWWSQ6WEfK7APXTA3LiQfxl0pAbHRyGmze5UyQwUlcXoe9Owq24M+V5RJTDVPISlgLxkfWXD5cKWAJS4oKsvSKOKx1rWOU2sHBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785237208; c=relaxed/simple;
-	bh=lxOUkPO0fq5kxVLwj3IV8lysqT8tedERYiUjZuxCadQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=kaBKwj7i6XkRS7/6U/FA4PEjZ0KJ57qCGiuWJ8CiXQFsmeFLCXECYdcccR3f0b5NGkQfV8xnqkq8z9tNaevimkPR/NwKfcs1HYD4ebcsQsPGoXA1QQi5Xj+wJi1akppkrXv/dtym8m5y/IGq/PKCitllmhi98WDLid/Krq071bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 54ad23388a7511f1aa26b74ffac11d73-20260728
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:65e48d34-2607-43f8-88e2-e17efd427165,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:4b42a763543144a1a4041ec5f099e43c,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 54ad23388a7511f1aa26b74ffac11d73-20260728
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1939808054; Tue, 28 Jul 2026 19:13:16 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	kees@kernel.org,
-	chengordon326@gmail.com,
-	jussi@sonarnerd.net,
-	hulianqin@vivo.com,
-	i@rong.moe,
-	g@b4.vu,
-	cryolitia@uniontech.com,
-	pav@iki.fi
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH v3] ALSA: usb-audio: Fix boot-time audio stuttering for USB Audio device
-Date: Tue, 28 Jul 2026 19:13:09 +0800
-Message-Id: <20260728111309.1271834-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1785238883; c=relaxed/simple;
+	bh=OT2U5Q2c9q6HMp4kMFq2rSEyqIMynlP2ctX7MuoUtY0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tWwY/tQRsQCAlK9oRb6jqYU627KUMvFK5Hxkchzb12BCoKcsUZ9ikcEX+4jglxeyNE5+/IPE1BAlnxqfeFf+zq2keeHxyFQNty3mPr6ivrmwlzaeM2rMUl9V7Zqr75Na76fVo5O3+0Ev4nFgZoKpBFqIx+Pw+2MbzexVdPyjYWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fmLDQxpl; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=PzHhvIB1; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fmLDQxpl";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PzHhvIB1"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66SBHIVv2367295
+	for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 11:41:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UMR7gg44y/TvQkxJ51qp3xdXbug60H7pn+vHkh3PgPQ=; b=fmLDQxplM1lOU5zE
+	XQqGH9I3Os2iAbxXzBzfd250Ih8BXCJiqFV6NqEZd0lF3FTR8u3Xu+HtDAZ6W6zT
+	I9ZaM8+C23wrerenRSKske4iZzjbVqJMPC4jlfzRWHAxKEcUFevKyoP9IyHyT7yx
+	56r2buP+WBuLA6dqP8LK6yW9rOSadfLA9c7hOw9VzOlVCyowwhg9YQfD+GxZi+LG
+	gGrzfhz1F5/If37aO0+c44+wgo1oL1h14qOrRBgpvqqtxlyj22TlCQ8K1cAfZx30
+	Vk51cevpJ8GjT2564C0y1Bigrdc7EruYlV16ZhG7/6LuG/7DqZMKmMB7P44jVnfe
+	4rDhBw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fpbp8c3vh-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 11:41:18 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c0f0a0760so85632581cf.2
+        for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 04:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785238877; x=1785843677; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UMR7gg44y/TvQkxJ51qp3xdXbug60H7pn+vHkh3PgPQ=;
+        b=PzHhvIB1dKcjyjKB5/NrF2iUxCYtVxf3aQUmSYII9FjPKOlXHJxV7VXlZ9f9tm87g9
+         VzhaVYlCBXQT/KRpkLuCrsDIWKJuzbbHa6p8viRGl7y+/rKnE15fNX04ks5ZJ3sucAfA
+         SBdKc16C0+ckvZ3UrvrSL4qnxXV/MzfR8fOCj+HxS4m1QnHp95dk4qYjsMraeiPIwQ5y
+         ePSqATa979nknxthKEZzn1wgS9aZ8zhEX3VYU9ONXwMssEGW/jM4UauD52qYzIN2C3Vo
+         zp2CRGxPP5/YtapTOoMXOrneIshY1ftTY9a9RUbXZxkQNRsL6U4abKR0R6fKGgc+pbDQ
+         QB/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785238877; x=1785843677;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UMR7gg44y/TvQkxJ51qp3xdXbug60H7pn+vHkh3PgPQ=;
+        b=D3pdNericK6gGrPStfcl9LVDKsMJy45W+qWAH8Ga9BO5NAV3SrWDEQKt1dTM1Zhk9E
+         OpaOb4ISRzX8DBfL0d34hKd7wmCVyiURIrXzYln2Hj1zWp7E8JLag8cV+23UPR6kUJqe
+         TnAtiEyeiefx9JSfmEdFSSiZtIcKGsA7tp2u9su0lHqVm+C3We3MmCn0ZK9D6sipTeSJ
+         V5RD4hj7y2YvjzGVQoadFKxX45JSVyrnFlCowLzNnQOnFqo80vJkGHSv51TQ2njg1vBB
+         Lzl0zuiqCeVUbBHX5mK7RViyBI6e1sPr4VprlggZejvHlV2gvx5RF9p/BR2JIlw2j77u
+         nyWw==
+X-Forwarded-Encrypted: i=1; AHgh+RoPljWxtUZAjbsBau1vQd9DwwIeZQb7EarrFMksspbYfJLfA39KiD2xbN/9Owxg7JRNiOzUipXa87qUNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzMVqR0ofhyWN9Ko4FAdg51DAc2Tk0T6MAyhqbO9YQX8gkXxo5D
+	MbdZUwCU/I+MH645k6mNAN38+TsTwWqks9IU3LLzYt6nFu+y+SZrdGdzliDf4RRXWzuO/TDmR+Q
+	PfpepyrwlnTpYuFyu8BcfbZAg379j4097TTOtGKyh/TyYjFnWhVSHzjEAcD85IoU6YQ==
+X-Gm-Gg: AR+sD13lFW+9R4O5YJ5rsV6L89pXxcagSU3YfqcVJ1asimdMT1ODIyQGaeAbd49ky+P
+	02B4ZydqttUTW9p9BFo3ywC0yGa+6xW2Tl/1KQiIT2mqi3XE11uke/j596qaaFkIeIkBjyOpkpO
+	+4r+vwAAxLu7SL9zmJ7fjO0SvKef7nj9V35f42KTRYSdCB3ImnyKUjsCY1a80mr4f8xLLhQ9EFl
+	pFa9Cwo4lWNdSIM8nRqfPwK+tT7o6nwNJLCBjpZcgA3IiuysMb2qfG6on4CvJxS7bgdJCHFnaL/
+	Bve7zyiqz3kV/jHwhFqmyJeJzTDSfMUYeTRhpOwYnaSnre8tPtfe3lZ3xhYEAV/j/i3feFvsacJ
+	+rEpfyYd9uDnQ/WIFhgjZZSABvUg=
+X-Received: by 2002:ac8:5704:0:b0:51c:7b11:419f with SMTP id d75a77b69052e-529d7252c4dmr15344021cf.76.1785238877496;
+        Tue, 28 Jul 2026 04:41:17 -0700 (PDT)
+X-Received: by 2002:ac8:5704:0:b0:51c:7b11:419f with SMTP id d75a77b69052e-529d7252c4dmr15343601cf.76.1785238877018;
+        Tue, 28 Jul 2026 04:41:17 -0700 (PDT)
+Received: from [192.168.68.112] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-69fb5843580sm3879325a12.25.2026.07.28.04.41.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jul 2026 04:41:15 -0700 (PDT)
+Message-ID: <543b5e46-9b11-4749-aa57-2839866773e6@oss.qualcomm.com>
+Date: Tue, 28 Jul 2026 12:41:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] soundwire: qcom: set the bus mclk_freq property
+To: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+        Vinod Koul <vkoul@kernel.org>,
+        Bard Liao <yung-chuan.liao@linux.intel.com>,
+        Srinivas Kandagatla <srini@kernel.org>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Luca Weiss <luca.weiss@fairphone.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260727162741.68081-1-jorijnvdgraaf@catcrafts.net>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260727162741.68081-1-jorijnvdgraaf@catcrafts.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI4MDEwMyBTYWx0ZWRfX8BcTj+Vz+dxT
+ lMMbUuU/DoYs2vmShrgNTOz4TyPqBNRjnXgOxQROmv8sNtjI9bYQFIcPbo58af7o/F8VJ0QmwSw
+ Rb7u/RWZYo5E8hHSDy3JybAevVpYutc=
+X-Proofpoint-GUID: zLufSTcaEpdJx8kkNDsLqzyMVRZ5Z5c9
+X-Proofpoint-ORIG-GUID: zLufSTcaEpdJx8kkNDsLqzyMVRZ5Z5c9
+X-Authority-Analysis: v=2.4 cv=KLJqylFo c=1 sm=1 tr=0 ts=6a68955e cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=VwQbUJbxAAAA:8 a=GYSh3LzNAAAA:8 a=EUspDBNiAAAA:8 a=h_oqePV9Fa_cmV4Db1gA:9
+ a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22 a=lWcdFasyL5yHfcDTNXXo:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI4MDEwMyBTYWx0ZWRfX7j0rhN3SFdW/
+ Lr1zTFtm/oKPlfS4w3zFw4mk+XgypFE5kkRsJ4CdkTcMXTbD/l5hwpah7otT3WE/Oy3UAhPtOx2
+ jnJUEZe33HZx3AnmoJcYzCpIZXH1lllgutG2AT4/XACniQWXghC94LmbXTRHns/XFOoVbON0mU0
+ coozhuwU8hUgAv/9ckHKKL3aGKXOWyiiZh8D4g5LlWjIgXyqY3i2iUY46DMjW32OGixA88h5NaG
+ woL+WyOKtwK3auuiR15ibF06QtMC/m00GzdfTISKWorGIHhlroIYbpoQX+AI1Mh2x4MB7Ubq2Ot
+ jJBn+FcW0FCbyjxEOeOD79iN0C6uFFNlHESh95H1BzbtFuFY7Xpv3UeRr/Iol4ghOyvPIRHeIwa
+ EQZsI+qWhi9+cMg2HnJUYBc/tiuO31SWnUL4f9LvAYJKe1Bnj1PbuKPHyPUk60x8i/hyivdmjWU
+ AokQLUl90Tq+sQvUi4A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-28_03,2026-07-28_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607280103
 
-This USB Audio device (0x1e0b:0xd01e) exhibits audio stuttering
-during boot when playing audio. Once the system is fully booted,
-playback is normal.
+On 7/27/26 5:27 PM, Jorijn van der Graaf wrote:
+> sdw_slave_get_scale_index() needs bus->prop.mclk_freq to compute the
+> SCP bus-clock base and scale register values, and fails with "no bus
+> MCLK" when it is unset. The qcom controller never set it, so slave
+> initialization cannot program the clock registers on this bus: it
+> would fail outright for an SDCA-class slave, and a slave driver
+> declaring clock_reg_supported hits the same error. The pending WCD9378
+> codec driver hand-rolls these writes as a workaround, following its
+> downstream counterpart.
+> 
+> Report the controller clock, letting the core derive the same values
+> the hand-rolled writes program: 19.2 MHz base and the scale matching
+> the bus clock (half the double rate).
+> 
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+> ---
+Tested-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-The device reports its isochronous endpoints with the Asynchronous
-sync type (bmAttributes = 0x03), which causes the driver to
-calculate nurbs = min(max_urbs, ...) = 3, providing only ~16ms
-of buffering. During boot, the higher system scheduling jitter
-(e.g., from init scripts, device enumeration, and driver probing)
-can exceed this buffer depth, causing audible stuttering.
+--srini
 
-This patch adds a device-specific quirk (QUIRK_FLAG_PLAYBACK_URB_FIXUP)
-that applies two changes for this device:
-1. Forces nurbs to MAX_URBS (12), providing sufficient buffering
-2. Sets URB_ISO_ASAP flag for more consistent xHCI scheduling
-
-Both changes are required together for stable boot-time playback:
-- The larger buffer absorbs scheduling jitter during boot
-- URB_ISO_ASAP ensures consistent URB submission timing, preventing
-  the xHCI scheduler from introducing variable delays
-
-Test methodology:
-- Without patch: reboot and play audio → stuttering audible in all
-  tests (reproduced consistently across multiple attempts)
-- With nurbs=8 only: occasional minor stuttering observed after
-  multiple tests (insufficient buffer depth)
-- With full patch (nurbs=12 + URB_ISO_ASAP): reboot and play audio
-  → no stuttering observed (tested in 10+ reboot cycles without
-  reproducing the issue)
-
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/usb/endpoint.c | 7 ++++++-
- sound/usb/quirks.c   | 3 +++
- sound/usb/usbaudio.h | 8 ++++++++
- 3 files changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index 24cd7692bd01..54aeac7d087b 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -1232,7 +1232,10 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
- 		/* try to use enough URBs to contain an entire ALSA buffer */
- 		max_urbs = min((unsigned) MAX_URBS,
- 				MAX_QUEUE * packs_per_ms / urb_packs);
--		ep->nurbs = min(max_urbs, urbs_per_period * ep->cur_buffer_periods);
-+		if (chip->quirk_flags & QUIRK_FLAG_PLAYBACK_URB_FIXUP)
-+			ep->nurbs = MAX_URBS;
-+		else
-+			ep->nurbs = min(max_urbs, urbs_per_period * ep->cur_buffer_periods);
- 	}
- 
- 	/* allocate and initialize data urbs */
-@@ -1256,6 +1259,8 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
- 			goto out_of_memory;
- 		u->urb->pipe = ep->pipe;
- 		u->urb->transfer_flags = URB_NO_TRANSFER_DMA_MAP;
-+		if (chip->quirk_flags & QUIRK_FLAG_PLAYBACK_URB_FIXUP)
-+			u->urb->transfer_flags |= URB_ISO_ASAP;
- 		u->urb->interval = 1 << ep->datainterval;
- 		u->urb->context = u;
- 		u->urb->complete = snd_complete_urb;
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 40aa40fccb46..2b4e665564d2 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2422,6 +2422,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
-+	DEVICE_FLG(0x1e0b, 0xd01e, /* Generic USB Audio Device */
-+		   QUIRK_FLAG_PLAYBACK_URB_FIXUP),
- 	DEVICE_FLG(0x1ff7, 0x0f81, /* SC13A Webcam */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x2040, 0x7200, /* Hauppauge HVR-950Q */
-@@ -2631,6 +2633,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
- 	QUIRK_STRING_ENTRY(MIXER_CAPTURE_LINEAR_VOL),
- 	QUIRK_STRING_ENTRY(IFB_SILENCE_ON_EMPTY),
- 	QUIRK_STRING_ENTRY(MIXER_GET_CUR_BROKEN),
-+	QUIRK_STRING_ENTRY(PLAYBACK_URB_FIXUP),
- 	NULL
- };
- 
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index e26f9092417e..dc1d0c8c9c80 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -254,6 +254,12 @@ extern bool snd_usb_skip_validation;
-  *  check being non-fatal and only disabling GET_CUR instead of the whole mixer.
-  *  The current volume will then be provided by the internal cache that stores
-  *  the last set volume
-+ * QUIRK_FLAG_PLAYBACK_URB_FIXUP
-+ *  Set URB_ISO_ASAP flag for isochronous URBs and force nurbs to MAX_URBS.
-+ *  This is needed for devices that exhibit boot-time audio stuttering due
-+ *  to insufficient buffer depth combined with xHCI scheduling variability.
-+ *  The larger buffer (MAX_URBS = 12, ~64ms) absorbs system scheduling
-+ *  jitter during boot, while URB_ISO_ASAP ensures consistent xHCI scheduling.
-  */
- 
- enum {
-@@ -288,6 +294,7 @@ enum {
- 	QUIRK_TYPE_MIXER_CAPTURE_LINEAR_VOL	= 28,
- 	QUIRK_TYPE_IFB_SILENCE_ON_EMPTY		= 29,
- 	QUIRK_TYPE_MIXER_GET_CUR_BROKEN		= 30,
-+	QUIRK_TYPE_PLAYBACK_URB_FIXUP		= 31,
- /* Please also edit snd_usb_audio_quirk_flag_names */
- };
- 
-@@ -324,5 +331,6 @@ enum {
- #define QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL	QUIRK_FLAG(MIXER_CAPTURE_LINEAR_VOL)
- #define QUIRK_FLAG_IFB_SILENCE_ON_EMPTY		QUIRK_FLAG(IFB_SILENCE_ON_EMPTY)
- #define QUIRK_FLAG_MIXER_GET_CUR_BROKEN		QUIRK_FLAG(MIXER_GET_CUR_BROKEN)
-+#define QUIRK_FLAG_PLAYBACK_URB_FIXUP		QUIRK_FLAG(PLAYBACK_URB_FIXUP)
- 
- #endif /* __USBAUDIO_H */
--- 
-2.25.1
+> This is the soundwire side of the plan from the WCD9378 v1 review
+> discussion [1]; the codec's v2 will set prop.clock_reg_supported and
+> delete its hand-rolled base/scale writes, relying on this property.
+> Patch 2 is the helper extension requested in that thread.
+> 
+> Validated on the Fairphone 6 (SM7635, WCD9378): with the hand-rolled
+> writes deleted, the core reports "Configured bus base 1, scale 2,
+> mclk 19200000, curr_freq 9600000" for both slaves at enumeration, the
+> codec's SDCA sequencer powers up on those values, and capture works,
+> across reboots.
+> 
+> No behavior change for existing devices: without a class_id or
+> clock_reg_supported, sdw_slave_set_frequency() returns before reading
+> mclk_freq.
+> 
+> [1] https://lore.kernel.org/all/20260707151329.67858-1-jorijnvdgraaf@catcrafts.net/
+> 
+>  drivers/soundwire/qcom.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+> index 3562802f4204..55678a30cd4a 100644
+> --- a/drivers/soundwire/qcom.c
+> +++ b/drivers/soundwire/qcom.c
+> @@ -1633,6 +1633,7 @@ static int qcom_swrm_probe(struct platform_device *pdev)
+>  
+>  	prop = &ctrl->bus.prop;
+>  	prop->max_clk_freq = DEFAULT_CLK_FREQ;
+> +	prop->mclk_freq = DEFAULT_CLK_FREQ;
+>  	prop->num_clk_gears = 0;
+>  	prop->num_clk_freq = MAX_FREQ_NUM;
+>  	prop->clk_freq = &qcom_swrm_freq_tbl[0];
+> 
+> base-commit: 6409292ab5f7d1a60a6f8948bd6dcd8633c36dfe
 
