@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4F43AC0FB;
-	Tue, 28 Jul 2026 12:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0777A438022;
+	Tue, 28 Jul 2026 12:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785242813; cv=none; b=otp7iaTP4gchj/q2TsWKPXyQOoYppmzRwWrDGYIwiN9lRkcm7blnyl7UBrCFvWZYO+x2Y8Tz5Vvfw0fvDtOxnR9lKgyunBLb0F1Iy2gAZBLrXGxzBT9znB7bH5T87DiWwXtX+ms3qTGbYFWdhE7DJ9kLy+1poe4xtiGX7d/iB7k=
+	t=1785242814; cv=none; b=rUa7Bv0VlLY/rAUxtb6Ypxh7trao0aVlpEzYIVsRL4SfC3TLYoy0kwmZXTHQXew18XKS9FWzFO4u0nCUvY0X676xhBh1Xzkn5YA/ALEk5lZMNtKYW23wbJNw/tKK1PQKb3vukT5T8vmH4c3YxD0dRXGrXTwjwlSutjJ8tOrtdDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785242813; c=relaxed/simple;
-	bh=GhaaISLu9se2V7j9HHcfY0NxH9yD2vNBGeuqhlSHDaQ=;
+	s=arc-20240116; t=1785242814; c=relaxed/simple;
+	bh=CJG9Xk3bR3b4I8UpYAaBpZEwK2e7XFKpXIV2rxPoY2Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SHXdzwtYS2V9Ql3djZef3yQdBGg4cYkD4SfeNO8CuIRYU4F+x/+j5K+E/6SoTR6MpI3dfEv17B4pEP6uXC4KONIUlEnMhQ8aKxQVs3rZUqgoza8Ji1eIq4ib8E+alQESnI7xSC9wnOVtwXR6TQMguD+5PzFpEbFAHBbQC2CXJGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lMsvx9JA; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version:Content-Type; b=iEglu0XbyDUZZKeFGAt3nMBKZDPu8dj/vIhBU/Rhs2JCTFKige+GC5QU4qsHnzXLs8Tw1yhBF5zRqxKWeAsitLsZslWUQsmyvkl/6N+tC8QtOviTnd7gB/7ZeWb5S4xojLAs7p9PUpPgDrCHuUxjTcatfWxR3FHm6csegz+q3a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6Br8YFq; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMsvx9JA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6Br8YFq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785242812; x=1816778812;
+  t=1785242813; x=1816778813;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=GhaaISLu9se2V7j9HHcfY0NxH9yD2vNBGeuqhlSHDaQ=;
-  b=lMsvx9JAmpFh3n1IBD0TYZuCQxEdnnPFZFQLDMyorROWI7Jy4uM8Pjus
-   8sKmvlhBwl8h3VKZ+V9NRq1R6AXbQXC0EVb7FRamcOc/1/SnrsAycLs5p
-   eshhwVR4hiYg9lS65RaEURT1R+65aIqjQYahs36vmGgLo0WLPWn/zBQCP
-   lvvmYVHLxKuM83qvT3XNSvbSyhJHxt79GWPCseL9NFFp60zVoeM2+PAQm
-   LOnCvborT39BfipUp2My/iqiXPV98j540jSMagJdEtx4roI18t2cZFQeF
-   Xy+iQot4AfhQc9FDTI8oqTqMnPUzEdwt+vVK0z8NZav+ci0Swx69GG9bc
-   g==;
-X-CSE-ConnectionGUID: Cpvwjsj3TTO42FBOsgGhzw==
-X-CSE-MsgGUID: 1WQPLgqGSiGQtjX5nLOa8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="88361244"
+  bh=CJG9Xk3bR3b4I8UpYAaBpZEwK2e7XFKpXIV2rxPoY2Q=;
+  b=Q6Br8YFq76Njs+JoTfvl22waEcbLC52VN7Hj7dfxzMVaBlCQcMvYbbiA
+   vwkMg4/as/Mnet88aCBbiu6k/b2Y/X+HI0DcAKLP2Exzhbmg2zLRIahEq
+   m1PbTn3x1HU854Psr/r1Hvb9+SD+B5J891Ss88gx5ofBN0m3bUWM1Gcol
+   uCpMY7QMSdFgEtKXDOIhgT6qZ8L9A6ML59vt6RYatD1mYkmaPOZH0SKVn
+   NNYHKaI8VgZlQSzb/qPbrJFNJfVYK3NlkOM8JxPVG8TP8hZ5nNZeDKsTr
+   4aYqacBbVqS6Mc8GOFUOGqlG97Y/tmuWJM1LsbtOhZVOb/cTofnTvl7I1
+   w==;
+X-CSE-ConnectionGUID: 0kP44KkLSE6Xbs2hF4QWLw==
+X-CSE-MsgGUID: oGwUJPk/RQC2TjFosbv9uQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="88361250"
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="88361244"
+   d="scan'208";a="88361250"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 05:46:51 -0700
-X-CSE-ConnectionGUID: uJqH1JtNT1Wsqpwl0IQmWw==
-X-CSE-MsgGUID: +3GSlokdS722d3YObK9C8g==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 05:46:53 -0700
+X-CSE-ConnectionGUID: DzpqiWdhRS+ktz9krQUhRA==
+X-CSE-MsgGUID: w0T2IdjjQQCCjJrZmeIE0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="264695495"
+   d="scan'208";a="264695508"
 Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 05:46:49 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 05:46:51 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -51,9 +51,9 @@ Cc: vinod.koul@linaro.org,
 	pierre-louis.bossart@linux.dev,
 	peter.ujfalusi@linux.intel.com,
 	bard.liao@intel.com
-Subject: [PATCH RESEND 1/5] soundwire: cadence_master: add BRA_NumBytes[8] support
-Date: Tue, 28 Jul 2026 20:46:35 +0800
-Message-ID: <20260728124639.1484973-2-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH RESEND 2/5] soundwire: Add bra_block_alignment property support
+Date: Tue, 28 Jul 2026 20:46:36 +0800
+Message-ID: <20260728124639.1484973-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260728124639.1484973-1-yung-chuan.liao@linux.intel.com>
 References: <20260728124639.1484973-1-yung-chuan.liao@linux.intel.com>
@@ -66,92 +66,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The header[0] bit definitions are:
-Header[0] bits 7 – 6: BRA_HeaderType
-Header[0] bits 5 – 2: BRA_DeviceAddress[3:0]
-Header[0] bit 1 BRA_Opcode 1 => Write, 0 => Read
-Header[0] bit 0 BRA_NumBytes[8]
-And the header[1] indicates the BRA_NumBytes[7:0]. The existing code
-doesn't handle BRA_NumBytes[8] therefore the maximum BRA number of a
-frame is limited to 255.
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-Fixes: fe8a9cf75c1e ("soundwire: pass sdw_bpt_section to cdns BPT helpers")
+Add a property to struct sdw_slave_prop equivalent to the Disco
+property "mipi-sdw-bra-mode-block-alignment".
+
+The SoundWire Disco specification defines this as:
+
+"The data payload size for this BRA Mode shall be an integer
+multiple of the value of this Property."
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Co-developed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- drivers/soundwire/cadence_master.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ drivers/soundwire/mipi_disco.c | 3 +++
+ include/linux/soundwire/sdw.h  | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/soundwire/cadence_master.c b/drivers/soundwire/cadence_master.c
-index b8b62735c893..99414e71428b 100644
---- a/drivers/soundwire/cadence_master.c
-+++ b/drivers/soundwire/cadence_master.c
-@@ -2359,7 +2359,9 @@ int sdw_cdns_prepare_write_dma_buffer(u8 dev_num, struct sdw_bpt_section *sec, i
- 		p_data = sec[i].buf;
+diff --git a/drivers/soundwire/mipi_disco.c b/drivers/soundwire/mipi_disco.c
+index c69b78cd0b62..b122bd1e7321 100644
+--- a/drivers/soundwire/mipi_disco.c
++++ b/drivers/soundwire/mipi_disco.c
+@@ -471,6 +471,9 @@ int sdw_slave_read_prop(struct sdw_slave *slave)
+ 	device_property_read_u32(dev, "mipi-sdw-sdca-interrupt-register-list",
+ 				 &prop->sdca_interrupt_register_list);
  
- 		while (section_size >= data_per_frame) {
--			header[1] = data_per_frame;
-+			header[0] &= ~BIT(0);
-+			header[0] |= (data_per_frame >> 8) & BIT(0);
-+			header[1] = data_per_frame & 0xFF;
- 			header[2] = start_register >> 24 & 0xFF;
- 			header[3] = start_register >> 16 & 0xFF;
- 			header[4] = start_register >> 8 & 0xFF;
-@@ -2385,7 +2387,9 @@ int sdw_cdns_prepare_write_dma_buffer(u8 dev_num, struct sdw_bpt_section *sec, i
- 		}
++	device_property_read_u32(dev, "mipi-sdw-bra-mode-block-alignment",
++				 &prop->bra_block_alignment);
++
+ 	prop->commit_register_supported = mipi_device_property_read_bool(dev,
+ 			"mipi-sdw-commit-register-supported");
  
- 		if (section_size) {
--			header[1] = section_size;
-+			header[0] &= ~BIT(0);
-+			header[0] |= (section_size >> 8) & BIT(0);
-+			header[1] = section_size & 0xFF;
- 			header[2] = start_register >> 24 & 0xFF;
- 			header[3] = start_register >> 16 & 0xFF;
- 			header[4] = start_register >> 8 & 0xFF;
-@@ -2436,7 +2440,9 @@ int sdw_cdns_prepare_read_dma_buffer(u8 dev_num, struct sdw_bpt_section *sec, in
- 		start_register = sec[i].addr;
- 		data_size = sec[i].len;
- 		while (data_size >= data_per_frame) {
--			header[1] = data_per_frame;
-+			header[0] &= ~BIT(0);
-+			header[0] |= (data_per_frame >> 8) & BIT(0);
-+			header[1] = data_per_frame & 0xFF;
- 			header[2] = start_register >> 24 & 0xFF;
- 			header[3] = start_register >> 16 & 0xFF;
- 			header[4] = start_register >> 8 & 0xFF;
-@@ -2460,7 +2466,9 @@ int sdw_cdns_prepare_read_dma_buffer(u8 dev_num, struct sdw_bpt_section *sec, in
- 		}
- 
- 		if (data_size) {
--			header[1] = data_size;
-+			header[0] &= ~BIT(0);
-+			header[0] |= (data_size >> 8) & BIT(0);
-+			header[1] = data_size & 0xFF;
- 			header[2] = start_register >> 24 & 0xFF;
- 			header[3] = start_register >> 16 & 0xFF;
- 			header[4] = start_register >> 8 & 0xFF;
-@@ -2483,7 +2491,9 @@ int sdw_cdns_prepare_read_dma_buffer(u8 dev_num, struct sdw_bpt_section *sec, in
- 	/* Add fake frame */
- 	header[0] &= ~GENMASK(7, 6);	/* Set inactive flag in BPT/BRA frame heade */
- 	while (fake_size >= data_per_frame) {
--		header[1] = data_per_frame;
-+		header[0] &= ~BIT(0);
-+		header[0] |= (data_per_frame >> 8) & BIT(0);
-+		header[1] = data_per_frame & 0xFF;
- 		ret = sdw_cdns_prepare_read_pd0_buffer(header, SDW_CDNS_BRA_HDR, p_dma_buffer,
- 						       dma_buffer_size, &dma_data_written,
- 						       counter);
-@@ -2499,7 +2509,9 @@ int sdw_cdns_prepare_read_dma_buffer(u8 dev_num, struct sdw_bpt_section *sec, in
- 	}
- 
- 	if (fake_size) {
--		header[1] = fake_size;
-+		header[0] &= ~BIT(0);
-+		header[0] |= (fake_size >> 8) & BIT(0);
-+		header[1] = fake_size & 0xFF;
- 		ret = sdw_cdns_prepare_read_pd0_buffer(header, SDW_CDNS_BRA_HDR, p_dma_buffer,
- 						       dma_buffer_size, &dma_data_written,
- 						       counter);
+diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
+index b484784e2690..7e27e8bdb64a 100644
+--- a/include/linux/soundwire/sdw.h
++++ b/include/linux/soundwire/sdw.h
+@@ -365,6 +365,8 @@ struct sdw_dpn_prop {
+  * @commit_register_supported: is PCP_Commit register supported
+  * @scp_int1_mask: SCP_INT1_MASK desired settings
+  * @lane_maps: Lane mapping for the slave, only valid if lane_control_support is set
++ * @bra_block_alignment: If non-zero the length of data in a BRA frame must be
++ *			 a multiple of this number of bytes.
+  * @clock_reg_supported: the Peripheral implements the clock base and scale
+  * registers introduced with the SoundWire 1.2 specification. SDCA devices
+  * do not need to set this boolean property as the registers are required.
+@@ -395,6 +397,7 @@ struct sdw_slave_prop {
+ 	u8 commit_register_supported;
+ 	u8 scp_int1_mask;
+ 	u8 lane_maps[SDW_MAX_LANES];
++	u32 bra_block_alignment;
+ 	bool clock_reg_supported;
+ 	bool use_domain_irq;
+ };
 -- 
 2.43.0
 
