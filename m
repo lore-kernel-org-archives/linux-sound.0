@@ -1,119 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97303B52EE;
-	Wed, 29 Jul 2026 19:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689063CB562
+	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 22:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785353905; cv=none; b=bZH70V8t0mile/STY2tzSYbBBbk9Nri/2Rt7rr2JcIocuW+SFUKIjdpypJoqMjbr05/8xgy5lVddhQokCL9AA4h0QNrdWwNSWCg3OqsFAdhPKSnxf+s1G+ZOCiqj1MKHTOdhges3Noh56ney/TBW88fgzcQIFTy+7frWoDsriKs=
+	t=1785363960; cv=none; b=DTha67FJWhzYTGcB2XznCqa6u0xY7y1hkAYCRYXMP8KfXApOVHz4RkHFvOv6NslHimOggA1CN6gFpgyA/ycMrwi/0qnBjtQ9mzqyW3FHZCgy92yHLxRP1uiJ2YMRGeZOt4Xgeqeb+4FkZezITn0YvljBxCydZ/tFFlT/BZ7w5uA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785353905; c=relaxed/simple;
-	bh=S6SwjapL6Sr9/IbJ7rrZAYnSKNf3afhv0TwIlTG9IBc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GrscAJ16fwLqv85xms0sXdQvQazMcYWnnxt33AHug8q0dFdzEmk8IWKCTLzpb2WZhO8hpzVB+wdb+wPZnoaXprCkGVxvTtCT4etFer1ogqTy3LmCVKzDmwkIz5Yuhtd7HVZwwIJNjfM1bqoL2Dc4PpznhivieEMDexMNugvErtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RN5YFKKy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785363960; c=relaxed/simple;
+	bh=CBJBpHzSvMnkJYNrlP8VQjxy3ANxpIzdrHEU0Ekg6I0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nkIEd/9IE+Hcs+QJoiyIyYMRK7nxsk/gfJlWb06ITBL91TkydtPUqFrReeKq05GaDwV4SY51cH57UqS2uLkKmBEEH2QcA72JFBJ4/rpkcyaJyd02nAiab3wKyIvpOvhVh9A6LToeT34zDS+3s2sLb78/8wGdMxLwDpGRpOuWnRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KSchgv/z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RN5YFKKy"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 90E99C2BCF7;
-	Wed, 29 Jul 2026 19:38:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785353904;
-	bh=S6SwjapL6Sr9/IbJ7rrZAYnSKNf3afhv0TwIlTG9IBc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=RN5YFKKyBSnn/Jr8l+jnUvKy6TXi7G/HgW4e3XDGAdTPHp3NaUO5O8nvlt8lUWRWs
-	 3lU9cwMhNPRN5qq8DXxR0d2DyF8ZLywWGVzPXvyDsNHJecdx0MyOYz1/Rdh7qPodGf
-	 R2h3wJ2m5RnUXJ6L1GKYTik5Rm/yByyMDQYPrQjsDfZS5YRs90BDE0RsPa8RWb5YVJ
-	 6u2/joru4wDsvQoAP91997EgMtRMEvCIt5w+ArrujbKvDFqNbq71VeeSGVijIxIgVw
-	 QDrNM3daUTFe79z/X5sfXq9Yp5Isa1S2Pze70Wnq/IPyIoRcrAc3PoKp+ALnHkBf5j
-	 gfus2poMYwFZw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 715E7C54F5C;
-	Wed, 29 Jul 2026 19:38:24 +0000 (UTC)
-From: =?utf-8?q?Dawid_Wro=CC=81bel_via_B4_Relay?= <devnull+me.dawidwrobel.com@kernel.org>
-Date: Wed, 29 Jul 2026 21:38:13 +0200
-Subject: [PATCH 2/2] ASoC: codecs: lpass-wsa-macro: Fix enum kcontrol
- accesses
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KSchgv/z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F02C1F000E9;
+	Wed, 29 Jul 2026 22:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785363959;
+	bh=QJLNHoKpyp196W+QERRL/qc76LnOUjCBegrFWtcxcqg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KSchgv/zmwy4iidXi1/P2Ne1okHR3828XN6lmLoRl9H5RVDU/odyI0Ip7lRhUf1NM
+	 kJbD8OCqMT1ODB6a846fD9b7P7ytJRi9nO480YDFtxSat3uqpPXBUi6sQQag+fAnHs
+	 iWIT9lJyp38f6yFQ2hd1HyWbL1GBJePwDGcGo6b3ehR7H+0D7gYapGEGcbMdtYvi2C
+	 8lDmHb1ahbk/abzi6HgcYpYHJWfbLiTYKT2lryc5GHRn6Aslyk0c7xmCkQIMg+6I8R
+	 Rh8lI+r2iOJr/0kIvlfXSIFtHOYfpRlhFs87kRJCtWLxMAiAHsKwomKKIzt1iR/0ZS
+	 5wke1tjLAfQIA==
+Date: Wed, 29 Jul 2026 23:25:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shumingf@realtek.com
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
+	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
+	derek.fang@realtek.com
+Subject: Re: [PATCH] ASoC: rt722: reset codec to fix abnormal sound
+Message-ID: <950e515e-0d5c-44c7-bc14-d9bdbe841182@sirena.org.uk>
+References: <20260728090111.3676617-1-shumingf@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260729-worktree-lpass-tx-macro-enum-fix-v1-2-0cf02c681332@dawidwrobel.com>
-References: <20260729-worktree-lpass-tx-macro-enum-fix-v1-0-0cf02c681332@dawidwrobel.com>
-In-Reply-To: <20260729-worktree-lpass-tx-macro-enum-fix-v1-0-0cf02c681332@dawidwrobel.com>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Dawid_Wro=CC=81bel?= <me@dawidwrobel.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1974; i=me@dawidwrobel.com;
- h=from:subject:message-id;
- bh=8Yk0u1wDnW2l7FgMe28BRHKq1O/VXudd7zwK2CDuI+E=;
- b=owGbwMvMwCV2qrTGfeXVd28ZT6slMWRlha1f8+9Y1M9bkx3iBSck8DQovol7mz5hv23w/2qxq
- em3BDJCOkpZGMS4GGTFFFn00oL2WAW//P7uxe9wmDmsTCBDGLg4BWAiyVkMfwV5mTOE9l9+7bBN
- 5ahhzttP823awi6b5Phri+w626K2vouRYXfQhK2ecyqq/Y9O3r2r98X8b8ZCnO1imekbLp/sdng
- 0hxkA
-X-Developer-Key: i=me@dawidwrobel.com; a=openpgp;
- fpr=B64A778E0E64049A70C831C8B7B81FA12B282A92
-X-Endpoint-Received: by B4 Relay for me@dawidwrobel.com/default with
- auth_id=901
-X-Original-From: =?utf-8?q?Dawid_Wro=CC=81bel?= <me@dawidwrobel.com>
-Reply-To: me@dawidwrobel.com
-
-From: Dawid Wróbel <me@dawidwrobel.com>
-
-The "EAR SPKR PA Gain" control is enumerated, but
-wsa_macro_ear_spkr_pa_gain_get() and _put() access its value
-through ucontrol->value.integer.value[0] (a long) instead of
-ucontrol->value.enumerated.item[0] (an unsigned int).
-
-This same pattern was fixed in the sibling drivers by
-commit bcfe5f76cc40 ("ASoC: codecs: rx-macro: fix accessing array
-out of bounds for enum type") and
-commit 0ea5eff7c606 ("ASoC: codecs: va-macro: fix accessing array
-out of bounds for enum type"), but wsa-macro was missed.
-
-On 64-bit kernels built with CONFIG_SND_CTL_DEBUG, the elem value
-sanity check catches the 4 bytes written past the enumerated item
-and every read of this control fails with -EINVAL (access overflow).
-
-Fixes: 809bcbcecebf ("ASoC: codecs: lpass-wsa-macro: Add support to WSA Macro")
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Dawid Wróbel <me@dawidwrobel.com>
----
- sound/soc/codecs/lpass-wsa-macro.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index 5ad0448af649..c88d13c0770b 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -2064,7 +2064,7 @@ static int wsa_macro_ear_spkr_pa_gain_get(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
- 
--	ucontrol->value.integer.value[0] = wsa->ear_spkr_gain;
-+	ucontrol->value.enumerated.item[0] = wsa->ear_spkr_gain;
- 
- 	return 0;
- }
-@@ -2075,7 +2075,7 @@ static int wsa_macro_ear_spkr_pa_gain_put(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct wsa_macro *wsa = snd_soc_component_get_drvdata(component);
- 
--	wsa->ear_spkr_gain =  ucontrol->value.integer.value[0];
-+	wsa->ear_spkr_gain =  ucontrol->value.enumerated.item[0];
- 
- 	return 0;
- }
-
--- 
-2.55.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rvnZOZoLRZeB9kXR"
+Content-Disposition: inline
+In-Reply-To: <20260728090111.3676617-1-shumingf@realtek.com>
+X-Cookie: Captain's Log, star date 21:34.5...
 
 
+--rvnZOZoLRZeB9kXR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 28, 2026 at 05:01:11PM +0800, shumingf@realtek.com wrote:
+
+> The audio output may become abnormal after a warm reboot from Windows.
+> Reset the codec once during hardware initialization to restore it to a kn=
+own
+> state and prevent the issue.
+
+> @@ -1888,6 +1899,9 @@ int rt722_sdca_io_init(struct device *dev, struct s=
+dw_slave *slave)
+>  	rt722->hw_vid =3D (val & 0x0f00) >> 8;
+>  	dev_dbg(&slave->dev, "%s hw_vid=3D0x%x\n", __func__, rt722->hw_vid);
+> =20
+> +	if (!rt722->first_hw_init)
+> +		rt722_sdca_reset(rt722);
+> +
+>  	rt722_sdca_dmic_preset(rt722);
+>  	rt722_sdca_amp_preset(rt722);
+>  	rt722_sdca_jack_preset(rt722);
+
+Slirhgly separate issue but you probably need a _jack_init() after the
+reset - your other devices do that, I think there's some races there.
+
+--rvnZOZoLRZeB9kXR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpqffIACgkQJNaLcl1U
+h9DdaAf/cQfAvyxD/bzEpIfH/NA/7lH2D7Q2mAQYB/PigJozgD1vMdC2Bx2Y+hN+
+o65h24xfT8m03kiEd9xuHbmVb9Njy6eGCHb3IfQ3m0UG8W0sxIgMGY/zaR+jzYvw
+Y1ecLpSbqsNbwY/aRpElvWJo5aqK2SXCIksCme1ItdFSHpWMoCbXM70zrmV8iRlC
+1TBsMvQxAclh0G0P4Q7l0xkINSYybbIVWs4EGusFsQcxUM1Fm8q3lHM3vkGom0ll
+uCmn6bgzMJXbVcY1tJyPJpY+19Owf+cw4GEV6i+1+xh++09G4KJM+XAXt0jZaKx+
+Kqt3v70xYZhrBB1sGjyq6z70W3WjbA==
+=Qjc0
+-----END PGP SIGNATURE-----
+
+--rvnZOZoLRZeB9kXR--
