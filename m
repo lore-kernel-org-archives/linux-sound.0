@@ -1,69 +1,45 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MTA-15-3.privateemail.com (MTA-15-3.privateemail.com [198.54.122.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9BF41DEE0
-	for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 22:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BA6125A0;
+	Wed, 29 Jul 2026 00:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.122.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785277368; cv=none; b=qI0KCWckFcOM+KtkQk6k9QBc8A/tNBuT2VFGt1bPU9xJTS4Yl8YhrdfF/kn526xPWpnAz2+k1AXCqJTnYI1pfoX51CRhJLdWfhE2AanM8jXKu8h9b8jK0jG0tM9z13dfed1HkNJaQD3Q9bK5MDKw29lCiOFCCLoHAQL8/G8AMXY=
+	t=1785283649; cv=none; b=Vl2sopz+MI5addLc2w52uRdU6dOP0h65LvLK30ud+Vu3DpY/pyzJnB4/m82It+Cg+VAIUvjzhG9+6tWgw9x6l4gxbTTb2Y716ajpBRXT5Ng+U1fxx6jqa2ZVk5RGFrbjLqi5nGgVL8l6BJplEcnKgDY2E/j9C57dpTIAc2fJ6vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785277368; c=relaxed/simple;
-	bh=rTn4CE5PZ1Ab4oR4xQ7GMX1koTAWw84oQCP3eU41dko=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S5N3aSUpot/u2iHkB7L6C+zZ7GKByHfcTJCQdbZGoWGx/iQqNBZTbweVOdr8AV3TJmuCoptbcCXDGyydxMcBIJXrKwrCCY5/SRSn4I3IJ4KqhsX8mA7EkCKiSd8QEj9NmhzhMdhXsOjn0AUt7Umq8H9BJq8y51yckKqDQ2kAz7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qyA5hrXi; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qyA5hrXi"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5b013aa02b2so1656944e87.0
-        for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 15:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785277365; x=1785882165; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UNHt91EwyxjpUNicV0LVE8eKrSS/noXw9SS9l+jds1o=;
-        b=qyA5hrXiYUGj/aLNwJlgjHsZ5FQKa0hQU4IDqwSvxqNwQjYxNuy5HcP3tyPKkvR+Ft
-         dgWTyPwhsRWVHfOlrjkAv1lOaa6n1Ztu5Mi2+8CvhXiYLfFUE0eAKBGddsXYgr3ZSb54
-         sIh4H0PWacrLZ0WvmSxQ1x7opcafCfjX3uOMdqvT2MXd9XnHKUM8/o9yV7NjmBytsTz3
-         oq7qAK3soa/0UNOr3mUz3B8kXfKJ8UaB03EOuQOiaHQKZU2OiAEJ9HS6zOnnKLVz0o3b
-         75a0PaBxhtQZywrOI4izAdMS9MIvFhpEEjkVFyCT8iZZHaiWIiwyydePuAW78XeLpu7K
-         xjrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785277365; x=1785882165;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UNHt91EwyxjpUNicV0LVE8eKrSS/noXw9SS9l+jds1o=;
-        b=Gmy3pa7RfPe+fVX3mcfx3ApMow8Un/6JvHzOf/Wc+2A0Pd0CQfhfdLhww6b9mZ1UYG
-         0yTTl5RMn6Dhx+tENeDG20v3mJNpWIdvAYb6Mjaez3sjLyodUWfuwS5L7CD7btO4hHOB
-         /2p1dU1SPyyTvAi3cBYIBRWl8/D03fKkG/zG/Ad4TI+6g4nEMfUHVeBgWqEF1URVN1y3
-         Z0Mk9aKgbjCKUzgg9o4jbZOG0wPJ4C1E2pzDA1ngADuqAcl/AC5Jb4rHOz56ndEp3ZIk
-         j5RE57J2/OFEwqT2oROfa+piGchiZinKwDGyTBvWEAfgC3X03DwEYNGs1Y9meQdx6NtA
-         XkoQ==
-X-Gm-Message-State: AOJu0YxdJmNYkOxjYPCwT8lq4NUO89ybqnr16pZ2+vTuBuTFr6VdkI+R
-	muBzq2To+T3X5zWpihknzagswSVUitAznAwOVaGM9KG+WwMXVBh/mL0THfYbFlL+SwR3ow==
-X-Gm-Gg: AR+sD11n/lFdU6k0WjLn+hE40cl9wIRs2un8MKUdx/fCetl86lsvAqXjdtRfon9FpLK
-	4cldbpuczDvUprW0yJF+JFZghb7xT38DbsVMRMAPEzyULdQ198gtdV9O8GNBr+oX68C3MAB3yCi
-	yKXQoTM7isaBbjpuEL2VaYCc0OuXK4o0amuvx2vGItulUVEYT5pfxiDxQblwvIWKHPt9m8Bdf+l
-	+TPnD1HvJ5ljsGaboqqOdY1s+P4ahWPUaMdE9MtqOjI3XccxLOGAyLgT4EgjPawvfnywYPqKs8Q
-	7cpn/3Z9yx+vi4Zvj2IphJ/OEVAGat19mRIs81VHxo4upQKe3d8knLiJL860ccxaOTLw6e45FrN
-	5NR+ORjew7mDbbQKhtRi8DiLOMrITbxvGRKzuLP4GU+LjtrjDSCQgHF49e05qNDHRjWklbrCMTp
-	VNHaaBQxlFr8A/bsBwCpRyDD1VeSrJrFmKzJDkFVxHWqAro/qhM6SO8jtcy9iBF5vAAdwY/g0=
-X-Received: by 2002:a05:6512:64a4:b0:5ae:ba20:9772 with SMTP id 2adb3069b0e04-5b2d0251f3fmr857799e87.23.1785277364639;
-        Tue, 28 Jul 2026 15:22:44 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2d7697241sm69188e87.1.2026.07.28.15.22.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 15:22:44 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: Add GET_SAMPLE_RATE quirk for C-Media CM6206
-Date: Wed, 29 Jul 2026 03:22:39 +0500
-Message-ID: <20260728222239.62749-1-mikhail.v.gavrilov@gmail.com>
+	s=arc-20240116; t=1785283649; c=relaxed/simple;
+	bh=OrMIx5BfzWzyD3KgobcsmG4ljO1ic5UV98bJAhI+06s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lFiXo9n5A0uDbfyg3+34KKMTjvnRlF69kkTTcG9KWMnoR/0Ci9en/wy5VElHZazK4E0BC5x2K7Wq/i6l+UbvGdEZPmY7oC9zoTLqM3Rpr2TfAHpbNMsg7T/24EwNClbf9Sfd24/7Ez7gy+vt3O0ffCS8It46jgLIQQ1qRVgLWLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.122.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from mail.privateemail.com (K8S-PROD-WORKER-09 [87.215.145.39])
+	by mta-15.privateemail.com (Postfix) with ESMTPA id 4h8t1F4ZRWz3hhTM;
+	Tue, 28 Jul 2026 20:06:57 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: Mark Brown <broonie@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Julian Braha <julianbraha@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+	Ravi Hothi <ravi.hothi@oss.qualcomm.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] ASoC: codecs: add the Qualcomm WCD9378 audio codec
+Date: Wed, 29 Jul 2026 02:06:47 +0200
+Message-ID: <20260729000649.263426-1-jorijnvdgraaf@catcrafts.net>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -73,48 +49,91 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The C-Media CM6206 (0d8c:0102) truncates the three-byte sample rate it
-returns for UAC_GET_CUR to its two low bytes.  After the rate has been
-set to 96000 (0x017700) the device reports back 30464 (0x007700).
+This series adds bindings and a codec driver for the Qualcomm WCD9378,
+found on SM7635 boards such as the Fairphone 6. The chip pairs a
+WCD937x-compatible analog core with SDCA function blocks whose built-in
+sequencers handle the analog power-up/down; all control registers,
+analog core included, sit in a 32-bit paged SDCA control address space
+behind the TX SoundWire slave.
 
-At probe time the driver initializes every altsetting to its maximum
-rate, so altsetting 5 is set to 96000 and the warning appears on each
-plug-in, before anything has opened the device:
+The driver implements the TX/capture paths (three ADCs fed from four
+analog microphone inputs, three mic bias supplies) and is modeled on
+wcd937x, reusing the wcd-common helpers. RX/playback, MBHC and the
+SmartAMP function are follow-up work. Register sequences come from the
+GPL downstream wcd9378 driver in Qualcomm's audio-kernel-ar tree; the
+chip has no public datasheet.
 
-  usb 3-1.3: 1:5 Set sample rate 96000, clock 0
-  usb 3-1.3: current rate 30464 is different from the runtime rate 96000
+The slave binding is now a single file covering both presentations of
+the chip: the two-slave mobile wiring this driver handles, and the
+aggregated single-slave SDCA mode of compute platforms, targeted by
+Srinivas's pending SDCA class series. Agreed with Srinivas in that
+series' review so it can drop its own binding file and the two drivers
+can share the SoundWire ID table:
+https://lore.kernel.org/all/06aef9a5-7e8e-4262-9b41-a9c43f588da9@oss.qualcomm.com/
 
-That altsetting is the one parse_audio_format_rates_v1() already fixes
-up for this chip, so this affects every CM6206.
+Two dependencies outside this series, both routed through the
+soundwire tree:
 
-Only the read-back is broken, the rate itself is applied: a 1 kHz sine
-rendered at 96 kHz is recovered at 1000.2 Hz, and a silent fallback to
-48000 would have been reported as 0x00bb80 rather than as the low half
-of the requested rate.
+- the paged register map needs the Qualcomm controller's SCP address
+  paging support, already applied there as commit 999f80904763
+  ("soundwire: qcom: add SCP address paging support"). Any order works;
+  capture just needs both to land.
 
-Add a QUIRK_FLAG_GET_SAMPLE_RATE entry for the device so the read-back
-is skipped.  Setting the same flag through the quirk_flags module
-parameter makes the warning disappear while the 96000 init still
-happens.
+- v2 has the SoundWire core program the codec's bus-clock base/scale
+  registers (prop.clock_reg_supported) instead of hand-rolling the
+  writes, following Pierre-Louis's v1 review. On Qualcomm controllers
+  the core can only do that once the bus declares its clock:
+  https://lore.kernel.org/linux-sound/20260728173542.61146-1-jorijnvdgraaf@catcrafts.net/
+  Ordering matters for this one: with this series but without that
+  patch, slave initialization on Qualcomm buses fails at enumeration
+  ("no bus MCLK") and the codec binds with its bus-clock registers
+  unprogrammed, i.e. dead capture; it needs to land first or together
+  with this.
 
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+Tested on the Fairphone 6 (SM7635) together with the two soundwire
+patches above: handset mic capture through the LPASS TX macro at
+48 kHz across reboots, including UCM-driven use by PipeWire in a
+Plasma Mobile session. The board DTS follows once these bindings are
+accepted.
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 0de7c9d94259..18d252de19ec 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2342,6 +2342,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x0d8c, 0x0014, /* C-Media */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-+	DEVICE_FLG(0x0d8c, 0x0102, /* C-Media CM6206 */
-+		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x0e0b, 0xfa01, /* Feaulle Rainbow */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
- 	DEVICE_FLG(0x0ecb, 0x205c, /* JBL Quantum610 Wireless */
+v2:
+- the micbias4-requirement patch is squashed into the binding patch
+  (Krzysztof)
+- one slave binding for both chip presentations (see above), with
+  qcom,{tx,rx}-port-mapping replaced by qcom,port-mapping plus a
+  qcom,control-device flag, the channel-mapping properties dropped,
+  and the codec example trimmed per Rob's review
+- driver: single entry point declining qcom,compute-mode nodes;
+  bus-clock and runtime-PM rework from Pierre-Louis's review; Kconfig
+  style fixes from Julian Braha's review; sashiko-bot's tx_mode_put
+  and mutex_destroy items
+- rebased; per-patch changelogs have the details
+v1: https://lore.kernel.org/linux-sound/20260706192229.144137-1-jorijnvdgraaf@catcrafts.net/
+
+Jorijn van der Graaf (2):
+  ASoC: dt-bindings: add the Qualcomm WCD9378 audio codec
+  ASoC: codecs: wcd9378: add TX/capture codec driver
+
+ .../bindings/sound/qcom,wcd9378-codec.yaml    |   54 +
+ .../bindings/sound/qcom,wcd9378-sdw.yaml      |  182 +++
+ .../bindings/sound/qcom,wcd937x.yaml          |    1 +
+ .../bindings/sound/qcom,wcd938x.yaml          |    1 +
+ .../bindings/sound/qcom,wcd939x.yaml          |    1 +
+ .../bindings/sound/qcom,wcd93xx-common.yaml   |    1 -
+ sound/soc/codecs/Kconfig                      |   19 +
+ sound/soc/codecs/Makefile                     |    7 +
+ sound/soc/codecs/wcd9378-sdw.c                |  441 ++++++
+ sound/soc/codecs/wcd9378.c                    | 1366 +++++++++++++++++
+ sound/soc/codecs/wcd9378.h                    |  244 +++
+ 11 files changed, 2316 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-codec.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+ create mode 100644 sound/soc/codecs/wcd9378-sdw.c
+ create mode 100644 sound/soc/codecs/wcd9378.c
+ create mode 100644 sound/soc/codecs/wcd9378.h
+
+
+base-commit: eeb306184b615ab6c6008126bc1fe0080b8e94f9
 -- 
 2.55.0
 
