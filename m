@@ -1,256 +1,82 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D44447CC61
-	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 14:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AE032E141;
+	Wed, 29 Jul 2026 15:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785336267; cv=none; b=ja5MJit7cKWRUlDlWkQ9i/MdC0AXwi4D7DCAC9NVRw/+ciZeQsatlArc1CLd3vTl2CFXHdcC6GnrQydpH7kcW0FI7CsPVm4v6xIILmkumQjop1odNhhB/bleybyAXoxwnM78dpKKmrop9mYIKRi4PTt5AeA/+Cgbkf23yyqyOwg=
+	t=1785338188; cv=none; b=JxsE2vYa5kMpqbR1NnjdOVpllsaG5okRVHtvOlpYqa+uhHFCEMScyjv8328e92KpNxIDHXp2j3vWSsfG0RqSSNyH1TQSoUx3azaCeLKvTU6WNwYfXMweiMejHs7pANjo6inBOlIiD7lSPkrV5N4hdI/Z2inhhaSw5kvoJ7Xp0Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785336267; c=relaxed/simple;
-	bh=41eORP/CnSTrvy94UtirU1MBs0oTobYhAF56gTsxXS0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R3/mbyQHL4HlWZn6zyLTvLXmlF8imqLqTR9UdIRND23SXD4lSkLtIQVLjERAhWuRWD5kd1dvyZzO8lx3VOKXp/AQ1wBVQCwgjIWD/tORdI9Nv5+uY17aF7H6l0tTWjdBMsMevNfcIR2BEanvkofFajax7tKfyqMcAycXy2Rb3OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DoYF461R; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pAYmkRkC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QftwY280; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WqGyVeFb; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785338188; c=relaxed/simple;
+	bh=NVqzGzmGmCUDTJHN7jcuNK0ECTNPe1G1FPpBY2/IwF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WJYS68jawt4fRYPPLqW5Rf+FkJP8pMvL70ja+jeRYq6Yi4ZkKPPbSf1sXWKfQ/DhXERaf69B8N9ZzDf5bOFB0SDEzDLfI2JhqthQxh+g8qFuQ4b9FFmzaPTd2gjmNXm1wu9iIW2He0ILaobXl1UYMLiRjELw6BuOr7BJGBl3oVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gk7JWc5F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DoYF461R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pAYmkRkC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QftwY280";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WqGyVeFb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F1F837B182;
-	Wed, 29 Jul 2026 14:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785336253; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mo5k21iAOiX8HcMW7IH20r0grz5eSm2f7V/DI/osFUM=;
-	b=DoYF461R7BdYYy3LEjlen/oDsxNdeamvBPLggNus0Zll/feyqBoD2oKW0V71xCA0/YWFX4
-	JP1DIeyZrPYj2yNrAzKzE1MsrjPJzECpWwP9HOaJxn8Ph/fL1/4Zxew2Hm7LTo05Svo9Wn
-	FDRvYnHoRnyh3IltvTYSiBRWDPf5XGk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785336253;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mo5k21iAOiX8HcMW7IH20r0grz5eSm2f7V/DI/osFUM=;
-	b=pAYmkRkCS23av3UCvVurV+j695uIhk3RZqMUkKf1K2QtWF/A4G44mrABDo55rm7GXaU9sE
-	nlpc4N07DHPf8gDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785336248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mo5k21iAOiX8HcMW7IH20r0grz5eSm2f7V/DI/osFUM=;
-	b=QftwY280pJnW1ONKoabxjd54dTQYkcLUaMPlH/ImaxKmAVlg9cIzNuC5VBRIZC3LizT+zW
-	QmrbH/87aFDICE/R++ZL+EYBQLw2lwmzts5V5ka4HWTtbLdJS4Csdk4lYBFhB8WukN1Vsh
-	GXCHa1yay+U+AoAjVTD1MegfkTiw3b8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785336248;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mo5k21iAOiX8HcMW7IH20r0grz5eSm2f7V/DI/osFUM=;
-	b=WqGyVeFbxoxnIwnwjfPweHmoBUw9XsWSUjWdr740pjnDypF99fFbVEoeZoa9qru7N4X3Xf
-	zm2CBqrjxjGY9kBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C2ED7779A1;
-	Wed, 29 Jul 2026 14:44:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QhwGLrgRamoQRgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 29 Jul 2026 14:44:08 +0000
-Date: Wed, 29 Jul 2026 16:44:08 +0200
-Message-ID: <87a4r95007.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Shi <liaronce@hotmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Gordon Chen <chengordon326@gmail.com>,
-	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: add IFB_SILENCE_ON_EMPTY quirk for Behringer Flow 8
-In-Reply-To: <OS3PR01MB88275E7D7BCF41FE0689E701DECA2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
-References: <20260526072906.90106-1-chengordon326@gmail.com>
-	<OS3PR01MB8827AC846F82A406D22E3FB7DECB2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
-	<87bjbr6tth.wl-tiwai@suse.de>
-	<OS3PR01MB8827BF7068BF30726C2C8A1BDECB2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
-	<875x1z6q0t.wl-tiwai@suse.de>
-	<OS3PR01MB88275E7D7BCF41FE0689E701DECA2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gk7JWc5F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640C11F000E9;
+	Wed, 29 Jul 2026 15:16:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785338186;
+	bh=incL/I4BrkXqsxP5DOXxPiMFd5yjeXLE6E6CNQG60v8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Gk7JWc5Fy6J008FZPqY1jodwjlZZPBXoBKr/2QL9ODrar/0jGx84LB1gWNh69DOKX
+	 XiMHlv9/lj7lG0M+HrblUlvLmPV1rZumQeVGSfhW+p/PDJC7C1vIPbOAuxSVAS1Mf8
+	 fyI7CQfZxh5Mut/xZLywIMMyyRaHnZpBJaLSh9+ctJ/mASa/OwEbktyjEga40d1JkI
+	 ZOYZzuEPgD/nN6HLwsB/lOdMQsCw2Vz0fXgvrgeN3KqL37djmoIzli0pv+t4tDxiHP
+	 QYmORAElvWWoG8x+C1aRHkTrpGWRF5RZ6kvpBRB+r40Z3HWPlozC05UjEgk9KF1tPF
+	 35GS/aC9W8o+w==
+Date: Wed, 29 Jul 2026 16:16:22 +0100
+From: Mark Brown <broonie@kernel.org>
+To: phucduc.bui@gmail.com
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: soc-generic-dmaengine: report DMA channel request
+ failures more clearly
+Message-ID: <7a49d38f-4e71-48c5-bc15-6d449cfa4c7c@sirena.org.uk>
+References: <20260716080428.57979-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-2022-JP
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,hotmail.com];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[hotmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,vger.kernel.org,perex.cz];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-
-On Wed, 29 Jul 2026 16:28:23 +0200,
-Mark Shi wrote:
-> 
-> 
-> Hi Takashi,
-> 
->     On Tue, 28 Jul 2026 17:46:05 +0200,
->     Mark Shi wrote:
->     
->         Hi Takashi,
->         
->         在 2026/7/28 23:02, Takashi Iwai 写道:
->         
->             On Tue, 28 Jul 2026 16:27:35 +0200,
->             Mark Shi wrote:
->             
->                 Hi Gordon,
->                 
->                 在 2026/5/26 15:29, Gordon Chen 写道:
->                 
->                     The Behringer Flow 8 (1397:050c) is an 8-channel USB mixer that
->                     declares OUT EP 0x01 with implicit feedback from capture EP 0x81 via
->                     its UAC2 endpoint companion descriptor. After 5-35 minutes of
->                     continuous playback, the device occasionally returns a capture URB in
->                     which every iso_frame_desc has a non-zero status (-EXDEV bursts,
->                     visible as rate-limited "frame N active: -18" lines in dmesg from
->                     pcm.c).
->                     
->                     In that case snd_usb_handle_sync_urb() at endpoint.c counts bytes==0
->                     and falls into the early "skip empty packets" return originally added
->                     for M-Audio Fast Track Ultra. As a result the playback EP loses its
->                     sole IFB-driven feeder and the OUT ring starves permanently: hw_ptr
->                     stops advancing while substream state remains RUNNING. Only USB
->                     re-enumeration recovers.
->                     
->                     Three independent ftrace captures (taken at the moment of stall via a
->                     userspace watchdog) consistently show:
->                     
->                         - 60-70 capture URB completions in the 70ms window before the marker
->                         - 0 retire_playback_urb / queue_pending_output_urbs /
->                           snd_usb_endpoint_implicit_feedback_sink calls
->                         - every usb_submit_urb in the window comes from
->                           snd_complete_urb+0x64e (capture self-resubmit), none from the
->                           queue_pending_output_urbs path
->                     
->                     Add a new opt-in quirk QUIRK_FLAG_IFB_SILENCE_ON_EMPTY: when set, the
->                     early return is skipped and we fall through to enqueue a packet_info
->                     whose packet_size[i] are all 0 (the existing loop already maps
->                     status!=0 packets to size 0). prepare_outbound_urb then emits a
->                     silence packet, the OUT ring keeps moving, and the device rides
->                     through the glitch.
->                     
->                     The default behaviour (early return) is preserved for all existing
->                     devices including M-Audio Fast Track Ultra. Only Flow 8 opts in here.
->                     
->                     Cc: stable@vger.kernel.org
->                     Signed-off-by: Gordon Chen <chengordon326@gmail.com>
-> 
->                 Device: Mechrevo WUJIE14Pro A-7BC4U
->                 CPU: AMD Ryzen 7 7840HS (Codename "Phoenix")
->                 Firmware Version: T140_PHX_V20
->                 Firmware Release Date: 2024.1.8
->                 Kernel version: 7.1.4
->                 
->                 In Linux kernel 7.1.4, I found that my laptop couldn't wake up from S3
->                 suspend; I had to hold down the power button to force a shutdown and
->                 then restart it.
->                 
->                 Using `git bisect`, I discovered that if I revert this patch, the
->                 laptop resumes from S3 normally.
->                 
->             Do you have this USB-audio device (Behringer Flow 8 with USB ID
->             1397:050c)?  The commit must be harmless unless you have this device.
->             That is, if you don't have this device, it's likely a false-positive
->             bisection result.
-> 
->             thanks,
->             
->             Takashi
->             
->         I don't have that device, but I partially reverted the code in that
->         section, and it went back to normal.
->         
->     Hmm, that's odd.
->     
->     Could you put a debug print what value does ep->chip->quirk_flags
->     have on your device?
-> 
->     thanks,
->     
->     Takashi
->     
-> I added `usb_audio_info`, compiled and booted, but `dmesg | grep "quirk_flags"
-> ` returned no output.
-
-Then something wrong in your test :)
-
-Put another debug print at another place like the probe function, in
-order to verify whether the patched driver is really loaded, too.
-And, make sure that you're running the exactly patched kernel.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Dvyn6X8w2tpUbzwG"
+Content-Disposition: inline
+In-Reply-To: <20260716080428.57979-1-phucduc.bui@gmail.com>
+X-Cookie: There's no future in time travel.
 
 
-Takashi
+--Dvyn6X8w2tpUbzwG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> 
-> ---
-> 
-> diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-> index 24cd7692bd01..12759afacf3e 100644
-> --- a/sound/usb/endpoint.c
-> +++ b/sound/usb/endpoint.c
-> @@ -1788,9 +1788,11 @@ static void snd_usb_handle_sync_urb(struct
-> snd_usb_endpoint *ep,
->           * QUIRK_FLAG_IFB_SILENCE_ON_EMPTY to fall through and enqueue a
->           * packet_info with size 0 packets, so playback emits silence
->           * and the OUT ring keeps moving.
->           */
-> -        if (bytes == 0 && !(ep->chip->quirk_flags &
-> QUIRK_FLAG_IFB_SILENCE_ON_EMPTY))
-> +        // if (bytes == 0 && !(ep->chip->quirk_flags &
-> QUIRK_FLAG_IFB_SILENCE_ON_EMPTY))
-> +        usb_audio_info(ep->chip, "quirk_flags = %d\n", ep->chip->
-> quirk_flags);
-> +        if (bytes == 0)
->              return;
->  
->          spin_lock_irqsave(&ep->lock, flags);
->          if (ep->next_packet_queued >= ARRAY_SIZE(ep->next_packet)) {
-> 
-> --
-> 
-> -- 
-> Best Regards,
-> Mark Shi
-> 
+On Thu, Jul 16, 2026 at 03:04:28PM +0700, phucduc.bui@gmail.com wrote:
+
+> +			if (device_property_match_string(dev, "dma-names", name) >= 0)
+> +				dev_warn(dev, "dma-names has '%s' but request failed (%ld)\n",
+> +					 name, PTR_ERR(chan));
+> +
+
+This is going to generate warnings for unidirectional PCMs, if we don't
+pass a name for a direction then a default will be provided and we'll
+try to look it up even if it shouldn't exist.
+
+--Dvyn6X8w2tpUbzwG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpqGUYACgkQJNaLcl1U
+h9B1Hgf/bWXfVKSaE5JBoA3j+PG64cTla3/nYrx8RrjUC/e6gRUFm4d8KTu59+ma
+MxCbJ7G6eApFECriuYrXl5gJzVANYYCOEDENkvhrwDa6OXd8gW116AZwPwUUjhau
+K8v2iS6HVK2Y/UAbRiJsoy/EILKYuX4kovkHhyrJQN0BTSnoFbZa9kLI7N+Ec53+
+pQok6L4TlalPYWzyw6zlSQca98TD6YmHdWJHv9SF8O6ZDqCod8lTadiq/Pk8D8z9
+4U8AGCJgprx5FYkblNxRFszN3//O9wzYZkYXsQOwLG8XnF9CiUut6xLyegZi2MRG
+UqzdcsWYBvjqDQ0BgWMBjQc0A1uelg==
+=Mp9g
+-----END PGP SIGNATURE-----
+
+--Dvyn6X8w2tpUbzwG--
