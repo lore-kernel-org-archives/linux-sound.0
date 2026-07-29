@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7965427732;
-	Wed, 29 Jul 2026 11:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892614772A6;
+	Wed, 29 Jul 2026 11:42:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785325235; cv=none; b=c+WFmx95wZ2RfX1/G9+J6JZMtcqIUAore3fn5QdIqoWmuZYTAABc7iUJTGTN3q4qIac7BhHeo6kD1e+qU/J15sU6rBX54zErtlYMtSr2OPFnzHAYhdVgh1D/akw+JsXDrwMPeEBuep0e7G9P9dCRW6Rgxed/mCBA2UaHOTHae6o=
+	t=1785325331; cv=none; b=aAq1U+CGZYOytBaDrPAL0N+35FsV9kCBAIrKqCIwHcwpFUwKCZ4ayfrK8FtUgJYiP5F/tfml3G2IH8oQ36vvtIC2maYA+MyYJcbVU9CHJEtB2uKwEt1p4jtk4ztjy86HlvVbkJIkpCEdF94gfL/ga/+tWBxGT0iA/zkYV/Yi3HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785325235; c=relaxed/simple;
-	bh=VM3h0RywmyUIUsx6KslBy8ZIWCU7iukzdNJEx5aJCO8=;
+	s=arc-20240116; t=1785325331; c=relaxed/simple;
+	bh=6hB/q9Y2sR4PUKGaVsrJU6rbtN/onGHwx02BgLrihnQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KnR6FS4cGpyQeWDG4bvEPdbXTHfVzPRjCrVWp1Ib4UFQNx64N1tY48FVDu+zUjtP+7N2AiwWDIgBWLVlnYNbEmDPvHsBBiAF1mXBBcDOUyYT9Z2G2APdh0JFiqMZFEW8GhHUSRi04YDDE0zzHInySFq4hRrcG9JbQ6RqmZJLqoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TSL96bqB; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=TWhnA2ujgBLrr0QjqSkbBs6rMQ3NtZDrCEzGr2h+23celD2KUm0NETrxMSfRYDYbj1FHFd1ynqJjdt2RtoTkM+YscGBzTVK4Ps6tQMnnpDmAI2RyjcZfYVCveuE9ua4vfmZBuOYJI6yiJCtv6IfYaZkjtbTnrFakyvmMNEbz+r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVQnaNiA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSL96bqB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90CD01F000E9;
-	Wed, 29 Jul 2026 11:40:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVQnaNiA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4C41F000E9;
+	Wed, 29 Jul 2026 11:41:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785325232;
-	bh=gd9feqrDoNJUw6NO1CcIvNjiMFzuYqKGLrbTqWwnmUo=;
+	s=k20260515; t=1785325330;
+	bh=xHg0SOLDtQCWaGstHBgfK3i8N8/cHf6NYyxxP1x1d2Q=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TSL96bqBO6eCqo9wVjtdiQbfFabsERoK2wduUtmXWLOsuHDBFS/4DQW/WD36iCYiR
-	 +7XdNvV8COROTSZhN3UcDmQP4XnPH5UfrmXzAQdo1un2oiZ+SMeno05aCSYZlviT1n
-	 rLyqWGiuNvKVdDc5SwgNb6abiloLq1k8GvQra78e6UMgTLdU9L21eBLCyfBD6notnY
-	 qkBPUYrrQ2qvSvXlP3mmKOPI88aXxUerEAhChwSedmFZvVQ8/P/1NpD1PLZA1bel6/
-	 fFDjgTW29OX82QUPupe9GqEAu7BhasX2+POLqwlCnk0gB/f1N7HMOj6S3xJ8QlWUJ8
-	 iFe9ckVX0NQaw==
-Message-ID: <219d44e2-28ed-4c54-bd00-66e687a0ba48@kernel.org>
-Date: Wed, 29 Jul 2026 13:40:22 +0200
+	b=aVQnaNiA+3xTNhvqg1R9d44GvEIpmKLq8jtxhpuqfLYx52IVb5FkCbTjCKUJMHhPU
+	 P5qfocEoGpkP1F1vWjM+NgNIVsI82jiE8hExlByYuT0bkjYwbB/nhqVLpmgXrzYehV
+	 qw8oJs/I8ezM70eCH5yWCOBWMH2EXQ4gIACUwusaPBRydiX0a3d+oBIl18V38eGpaM
+	 0g1OgbNuwSPz0hzLIJmRbYZ+++ek25xF/FcsZaShYUnrclJhqtvNn+m9FeUNd7DfUg
+	 IpPTnuEfsNNN+YjIEuGQn+A73U8MRMOprwftsUqXasBpnf7fp14y2IXXkWfwbM1nbR
+	 O4Iu+0vH8Mffw==
+Message-ID: <cedd89d4-28ec-4a86-99ab-249637d81736@kernel.org>
+Date: Wed, 29 Jul 2026 13:41:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,16 +35,16 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 7/8] dt-bindings: sound: qcom: add Tambora WCD9378
- SDCA codec
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+Subject: Re: [RFC PATCH 0/8] ASoC: SDCA: enable on DT platforms and add
+ Qualcomm WCD9378 (Tambora) codec
+To: Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
  Maciej Strozek <mstrozek@opensource.cirrus.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
  Richard Fitzgerald <rf@opensource.cirrus.com>,
  Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
@@ -52,7 +52,7 @@ Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
  devicetree@vger.kernel.org, patches@opensource.cirrus.com,
  linux-kernel@vger.kernel.org
 References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com>
+ <amHqO5pMFmKRNYTT@opensource.cirrus.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -98,90 +98,49 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <amHqO5pMFmKRNYTT@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/07/2026 01:42, Srinivas Kandagatla wrote:
-> Describe the WCD9378 SDCA peripheral node (compatible sdw20217011000)
-> driven by the wcd9378-sdca codec driver for headphone playback, headset
-> mic capture and jack detection via the SimpleJack SDCA function type.
+On 23/07/2026 12:17, Charles Keepax wrote:
+> On Thu, Jul 23, 2026 at 12:42:10AM +0100, Srinivas Kandagatla wrote:
+>> At Linux Plumbers 2025 in the Devicetree MC I raised the "SDCA and the
+>> classic ACPI-DT problem" [1]: MIPI SDCA is built around ACPI/DisCo
+>> firmware descriptors, and the in-tree ASoC SDCA framework
+>> (sound/soc/sdca/) enumerates functions, entities, controls and PDEs by
+>> walking those tables. On ARM64 DT platforms there is no DisCo, so the
+>> framework is unreachable and sdca codecs will not be able to use the
+>> generic sdca drivers and duplicating.
+>>
+>> The direction from that discussion was to let DT platforms reuse the
+>> same class/function auxiliary driver plumbing and have codec drivers
+>> supply the small amount of static function/entity metadata that DisCo
+>> would otherwise carry, plus hooks for device-specific bring-up.  This
+>> series is a first cut at that, with the Qualcomm WCD9378 ("Tambora")
+>> SDCA codec on the Glymur CRD as the first consumer. Static table that in
+>> part of this codec is generated from acpi tables.
 > 
-> WCD9378 codec can be wired up in 2 different modes.
-> "mobile mode" on phone/tablet SoCs is enumerated as tx and rx device,
-> each of which has dedicated control and data lines.
-> "compute mode" on compute platforms such as Glymur is enumerated as
-> single standard MIPI SDCA class device.
+> Fascinating, a shame I missed the discussion. Main question
+> I have is what was the reasoning behind using static tables
+> rather than just putting the data in device tree? All the core
+> code uses the generic firmware parsing function so should be
+> perfectly capable of parsing the data out of device tree. The
+> only bit that is missing is really the sdca_lookup_functions
+> bit you ifdef out, but updating that to also support DT should
+> be pretty simple.
 > 
-> Both modes share same Device ID, compatible; qcom,compute-mode selects
-> which driver path is taken.  Supplies, reset GPIO and mic-bias voltages
-> live on the SoundWire slave node in compute mode and are forbidden in
-> mobile mode (owned by the top-level codec parent there).
-> 
-> Assisted-by: Claude:claude-opus-4-7
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> ---
->  .../bindings/sound/qcom,wcd9378-sdw.yaml      | 200 ++++++++++++++++++
->  1 file changed, 200 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
-> new file mode 100644
-> index 000000000000..2ed4ad92958e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
-> @@ -0,0 +1,200 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/qcom,wcd9378-sdw.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm SoundWire Slave devices on WCD9378
-> +
-> +maintainers:
-> +  - Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
-> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-> +
-> +description: |
-> +  The Qualcomm WCD9378 codec presents its SoundWire slave devices with
-> +  class ID sdw20217011000 in both operating modes:
-> +
-> +    * mobile mode -- two slave instances sit on separate SoundWire
-> +      masters carrying data only.  A separate top-level codec node
-> +      owns the codec's supplies, mic-bias voltages and reset GPIO.
-> +
-> +    * SDCA / compute mode -- one aggregated slave sits on a multi-lane
-> +      master and carries both control and data.  There is no separate
-> +      top-level codec node, so the SoundWire slave node itself owns
-> +      supplies, reset GPIO and mic-bias voltage configuration.  It is
-> +      marked with qcom,compute-mode.
-> +
-> +  Codec drivers that match sdw20217011000 use qcom,compute-mode to
-> +  decide which mode to serve; the presence or absence of this property
-> +  also gates whether the supply and mic-bias properties on this node
-> +  are required or forbidden.
-> +
-> +properties:
-> +  compatible:
-> +    const: sdw20217011000
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  qcom,compute-mode:
-> +    description: |
-> +      Marks this SoundWire slave as the single aggregated slave that
-> +      implements the codec in SDCA / compute mode.  Only present when
-> +      the codec has no separate top-level codec parent; in that case
-> +      this slave node also owns the codec's supplies, reset GPIO and
-> +      mic-bias voltage configuration.  Absent in mobile mode.
+> Looking through your presentation (thanks for linking that),
+> am I to guess this was mostly a device tree people didn't like
+> the stuff SDCA contains problem? I do see that some of the SDCA
+> stuff isn't an exact match for how Linux has traditionally liked
+> to handle DT but also really not sure I see any benefit to DT
+> and ACPI support being different.
 
-I doubt there is really "compute" or "mobile" mode, so you just wrote to
-match use case, but that does not match hardware.
+We do not describe in DT properties which are implied/deducible from the
+compatible, because it is redundant and we do not like redundancy.
 
-I think there should be no separate top-level codec parent in the first
-place, thus this property is not needed. You always list here all resources.
+The device is WCD9378 as defined by compatible, thus all or most of SDCA
+properties do not belong to DT.
 
 Best regards,
 Krzysztof
