@@ -1,49 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0DD4052D7;
-	Wed, 29 Jul 2026 16:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8534CA28D
+	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 16:37:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785343054; cv=none; b=e2dWc2DlSM0pkWiQQMRC0sSwe6yY7VatlMYr9UmrVhQh38UX6/aCfA0BExNmJajkRpWbNNqa/lXerebjQ3Xk98lIPBmLk0RDKWlFae8vAGv1tSb/ZS6z85y39tBYEOVRVvgNN2YAUt/qFigwAJIKlZWtxURgnvHptTjqXOHcBh4=
+	t=1785343060; cv=none; b=ZZPpjdpkLvq2AoQtBfX0kFJaE4FYPlLm2VGVbNswYq4JSkdA9zQt9nLkKIW9JTiWKyoviP/jAo4szYNkaD/B8DkLY1WvSnhVCxJc/JFh4zHnbRYPt94JPBWpwcUgPCw7w7pOfnbkUdq8U5HKFeq+QWhU2PPOpU+iRHGvsEch/YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785343054; c=relaxed/simple;
-	bh=aSuOPXzJQ56G8k3sth1czQJJm4/utQakt15/0Fh/C2M=;
+	s=arc-20240116; t=1785343060; c=relaxed/simple;
+	bh=7G9RBrNZPnId9ZrdjikI/MDofqqUpHk8dwoyivZGaP0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oSRCZ/JWSsXZBDvv5Y1nEoruqjFsUDmalmCIbL3fvJMY70W/qQRHZmGaJsay2O7rGOd4iz/gOyo9SG3rptNi7KGh3yHpYZu8daY25qUUOc2uFmKKWCzPjWEIpjGeYqCb/POG2K9hEW8+ULXirA4cKJNAY63eTvayiLgFC/bsDUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVXP+5Tc; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=p4l2U0SZsPe9EIzX+1x4AZ4lHtGyQPLMA/e6DS10QXFhJJdimaroc0DSzgXTiWOynEmihIapXFckdkPWEYm08bH8pCGxPwXU1V/ExKGG2fqPbViWcyWdE7KJoOYYeInxFy2ZR+jfp+lN08cmAuSBKJJ5SrQ6Yj1enudFr9gm/R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCuN/i+O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVXP+5Tc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6E0F1F000E9;
-	Wed, 29 Jul 2026 16:37:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCuN/i+O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 210331F000E9;
+	Wed, 29 Jul 2026 16:37:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785343053;
-	bh=bdm/4il38IN1nKJeSh1Dv315qQqaUsufDNjASuCwRh8=;
+	s=k20260515; t=1785343059;
+	bh=nmFWpe5sw4kezasrGIZMd93oHFRy/Oz5dpOJTCIbjbs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=aVXP+5TcRctt7b5DFU1VxU7S+stOIg8c/uRTbzt72HJm+K5+veaMpNDXeAnl8YVJu
-	 3gcz77/440+7/AP2ZeqZcxyAQDMT/lU598vkVZaHo3awWYmbykde7c6xhd3esaOnJ4
-	 NDPATFOCVbaiQH6Lud3wn4p11kLceT/Lj76KN4P1Uvtzf4OFmi7MVakLymCoYzUi8g
-	 GF7gcSy0GSe5rNsdGy8UGeju8W/c49fvuHZKfBwiGLKO4jav4/KMPfwAPBRh1ZETQA
-	 Ap1YqJ3M72XU7MZNiFKnvx2sOzbWj6r4j8Qw0pk+IFEJh01eLMsEnsEntjceuQ7FhU
-	 U0MNttEJLd//A==
+	b=nCuN/i+OaEQIxuywtbn0N1onQrcI0DEJk6QvjQ5BqLHTf+utovCc+4TQZp/+s6uGc
+	 zHwxIQVNaDpTt99zKccDwRQ7ayVcGKMKY0Cv0hpm+Yvvkf9YvlU7WlB9NCtplM6ZM6
+	 dbTC7fXr6tES/CcUC1XGyqy4MEdQ0ayLTKsBVU06+8YDQ3ZFnYn9YzUC09nSfiwCJF
+	 lPpuudBQk57g/HVLoZvbx6Pkcf3UlviQ69HeW/F1+bVYtBgbYlrIU0DNp2/Ihh0EMk
+	 lnvPYOsFUG4LZsYYSTdga/vQu5TjCLUR0YWU2EuwF6vH2AHD7GBpjVEAEIGLw24t7+
+	 9WFHJEwHU0tEA==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@kernel.org>, 
- phucduc.bui@gmail.com
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Chen Ni <nichen@iscas.ac.cn>, Marcus Cooper <codekipper@gmail.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, Danilo Krummrich <dakr@kernel.org>, 
- u.kleine-koenig@baylibre.com, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20260715095525.40668-1-phucduc.bui@gmail.com>
-References: <20260715095525.40668-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH 0/6] ASoC: sunxi: Simplify error handling
-Message-Id: <178533547523.172652.1817134697531789671.b4-ty@b4>
-Date: Wed, 29 Jul 2026 15:31:15 +0100
+To: Jarkko Nikula <jarkko.nikula@bitmer.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Sen Wang <sen@ti.com>, Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87ldb5i0do.wl-kuninori.morimoto.gx@renesas.com>
+References: <87ldb5i0do.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/3] ASoC: ti: preparation for Card capsuling
+Message-Id: <178533670225.172652.9359583296193828737.b4-ty@b4>
+Date: Wed, 29 Jul 2026 15:51:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,18 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
 
-On Wed, 15 Jul 2026 16:55:19 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: sunxi: Simplify error handling
+On Tue, 21 Jul 2026 01:42:43 +0000, Kuninori Morimoto wrote:
+> ASoC: ti: preparation for Card capsuling
 > 
-> From: bui duc phuc <phucduc.bui@gmail.com>
+> Hi TI developers
 > 
-> Hi all,
-> 
-> This series improves probe error handling in the sunxi ASoC drivers.
-> It replaces suitable probe error paths with dev_err_probe() to
-> simplify the code and handle deferred probe errors consistently.
-> It also removes redundant error messages where the called helpers
-> already report failures, avoiding duplicate log messages.
+> I will post Card capsuling patch.
+> To makes its review easy, tidyup its drivers to reduce
+> un-related diff as preparation.
+> No functional change, but is preparation for cleanup driver.
 > 
 > [...]
 
@@ -75,18 +65,12 @@ Applied to
 
 Thanks!
 
-[1/6] ASoC: sunxi: sun4i-codec: Use dev_err_probe() for probe error handling
-      https://git.kernel.org/broonie/sound/c/a8023598f3ae
-[2/6] ASoC: sunxi: sun4i-codec: Drop redundant error messages
-      https://git.kernel.org/broonie/sound/c/de6bda2088e4
-[3/6] ASoC: sunxi: sun4i-i2s: Use dev_err_probe() for probe error handling
-      https://git.kernel.org/broonie/sound/c/3e2262df8460
-[4/6] ASoC: sunxi: sun4i-spdif: Use dev_err_probe() for probe error handling
-      https://git.kernel.org/broonie/sound/c/ac95bdb98246
-[5/6] ASoC: sunxi: sun50i-codec-analog: Improve probe error handling
-      https://git.kernel.org/broonie/sound/c/76a770c30bcd
-[6/6] ASoC: sunxi: sun8i-codec-analog: Improve probe error handling
-      https://git.kernel.org/broonie/sound/c/bb0d825c8ad9
+[1/3] ASoC: ti: omap-hdmi: remove unused *card
+      https://git.kernel.org/broonie/sound/c/9af2c1d4f847
+[2/3] ASoC: ti: tidyup not to use *card on rx51_soc_probe()
+      https://git.kernel.org/broonie/sound/c/4bd2afcdc837
+[3/3] ASoC: ti: ams-delta: use &pdev->dev instead of card->dev
+      https://git.kernel.org/broonie/sound/c/3596abbd7bb3
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
