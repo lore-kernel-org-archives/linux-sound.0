@@ -1,252 +1,152 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azolkn19011037.outbound.protection.outlook.com [52.103.12.37])
+Received: from ixit.cz (ixit.cz [185.100.197.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2563839CCFD;
-	Wed, 29 Jul 2026 17:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.12.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785347312; cv=fail; b=HOyedOPpenaM/nWOCzOhxNzt9UjrKsT4/7PDKeT/xX4GIGfj+uSKxsomZ4j87JapXItj2PgnzC39U963Lx71miZGI1yz996M2ty9kwZ57iy9qKUeQhNcso6hkT/sc6DCO6W1Ys1eQUkQL++HzcmKqFIysi6AfMBqTXvN6EIKTIM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785347312; c=relaxed/simple;
-	bh=KOAdxVLoSd242yOLaIzJU3uC628pp5IMByULyye9Mj0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RHmrZ/Zcx9f9yt1Q46+nFtck8AuHhXsUTKzArVv63kmLfYbQiShTF6NIN80a7Px+XTOBtAGy0Qfz3u7dUFGmRc2KVR2+9MXB5BxepZhCtiyOlWlHZJjtyzf8A6ndxv+fvKToB0q4ynHl+FCaYIH/aLf6bZ+LMPAOzZeIgh7XwQA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it; spf=pass smtp.mailfrom=outlook.it; dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b=HPRojKGA; arc=fail smtp.client-ip=52.103.12.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC77486620;
+	Wed, 29 Jul 2026 18:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785349376; cv=none; b=WdeT/RDcmM/rQtsawD1Ez1fhZK/UJ5pATCOeQMiKubNODuYjpGOz7JwnxztX4PiOEW+wYW7ypNuc2GXv8DN1xo2ANNFbPdE4+hF0a5Z2jxjZr6BpmG3RqZAb6UtKGOESJGWeXmj4HkIaidyGrnuHBVnw0qpQGevIS/q2p/gDB5g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785349376; c=relaxed/simple;
+	bh=rDWejifrk12ZaVO+yIvkGdMax1Zy6L+1nkcejV1xP8o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h8aj1aO18PTf+59gzCHvwPXkrVaYlPGkreOlL3gA/Uog+AQ560eri7azJwyaCHWeVDheBaYkGwgXn/LqY908M6fqmWaaY/N1ljJnUFEFgVeJ8D4FRY5G4D3gIegKwP9tqLo5wS3cFOS/CvsqB92pZJNQQm9m4HoYa5cHgY7cZhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=yH4mHFiV; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b="HPRojKGA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lJV2aeufinO6fjRXoU0Ymhn1hHTTThmGgSt9yXyLLwQUY1jImO6QenhmfJP8DzmLJKFkUmKM0hAwRwVK0qdRLt3MnXNvawuYS5lxrvMnfLz2U2uOSikacj2EyR3l8AxZ6/BkvM+QcRNGmcWkTZOnVaj4mcUizao/BGIiq17RdpOeem3Whk8iubfyCcO/fL6CWR5R0/aa7xq7HFXLUz4P96fXg798c97NXOgPbrV+dmwimM3QE4KFpr19PAwMvYaDS7MlQHTa80+enq57PZCEhEFryu7nEKne47QBsbQLBt7y4sQf8XvDp+psCObSdQdYA+MEFgb/SYQYkBMr28JdHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y1ILbV09Nq0eQ7TMgn4wXI7kuC4flLrOZzxXno/jhDA=;
- b=E7b1k1+9Umccwqv5KXWFDzJI5OQslQfj0JgvSXMAxQQHNczLKb0T37m9QktELG+rdslC9m43NXkI7a93ntt+Lvexyrak/2PMLazVjHZLTOeMMxkxi/yIkNdxDvDaxYDvRoARdRfu0Pr9N/SGMWRitn5W0HVKGDY4x4c0b3yiuPnBVxusN8t68pOZ+L3REjvrR14BvZ3yGXCrprGKfMdT6uiuzreWv65cEUh5fMcOEaLziupR7lf2ek/5NmKOE6zERahsgURsSyDCDQFqYbz1elfIIrG5tAZol+SREX54qWTyj7IV9VY3jYGawLDgcM1rp4XRLMGZWtUdjV18qs3x1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y1ILbV09Nq0eQ7TMgn4wXI7kuC4flLrOZzxXno/jhDA=;
- b=HPRojKGAGJR/WuBqzjGTvS2cQsEfldRRsYK6SWgxel/gLq80iHD7hgpIrwt5USWsJ+3S6cM+fWVnrgdLvTQDWDdcGLpWDkPLP6LnjO5qv3Nxt0utdFbInC3qzgkr4B5YRMX7LpxnlPRw7F4w3E5G6o22lFOsT4FklcJEXq4NjnT4L1c52U4lJ+nYGh+PW6AZ4PMtuMZruq4AyxvRUMxnAHUp2xSeFziamTp27v/AAsPXomLMeR2cTIdCJa0uYizyDpgfCaQdQ7cxdvD8XzXW5rjwCOxfTnRET/tDVNCGD9/kXj41LcJ/mXf1TNzjP82zB9tkrRWOmvntYF5rR+P8Rg==
-Received: from DS7PR19MB7724.namprd19.prod.outlook.com (2603:10b6:8:d9::20) by
- CY8PR19MB7667.namprd19.prod.outlook.com (2603:10b6:930:77::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.270.12; Wed, 29 Jul 2026 17:48:27 +0000
-Received: from DS7PR19MB7724.namprd19.prod.outlook.com
- ([fe80::70de:3c05:ac62:7f86]) by DS7PR19MB7724.namprd19.prod.outlook.com
- ([fe80::70de:3c05:ac62:7f86%5]) with mapi id 15.21.0270.009; Wed, 29 Jul 2026
- 17:48:26 +0000
-From: Marco Giunta <marco_giunta@outlook.it>
-To: mapengyu@gmail.com
-Cc: broonie@kernel.org,
-	hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	imitoy@imitoy.top,
-	lenb@kernel.org,
-	lgirdwood@gmail.com,
-	linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	marco_giunta@outlook.it,
-	munzirtaha@gmail.com,
-	nadim@symbolic.software,
-	perex@perex.cz,
-	platform-driver-x86@vger.kernel.org,
-	rafael@kernel.org,
-	tiwai@suse.com,
-	wangweidong.a@awinic.com,
-	yakov.till@gmail.com
-Subject: Re: [PATCH v2 3/3] ALSA: hda/realtek: enable AW88399 on Lenovo Legion Pro
-Date: Wed, 29 Jul 2026 19:48:14 +0200
-Message-ID:
- <DS7PR19MB7724B08C9CEA36A4A71C06C1FCCA2@DS7PR19MB7724.namprd19.prod.outlook.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <CALSz7m1iW_hZbkL56+OMLXm5wE2s+ytxT_oGEU+DHyvYEMx8jQ@mail.gmail.com>
-References: <CALSz7m1iW_hZbkL56+OMLXm5wE2s+ytxT_oGEU+DHyvYEMx8jQ@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MI1P293CA0012.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:290:2::10) To DS7PR19MB7724.namprd19.prod.outlook.com
- (2603:10b6:8:d9::20)
-X-Microsoft-Original-Message-ID:
- <20260729174814.85411-1-marco_giunta@outlook.it>
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="yH4mHFiV"
+Received: from [192.168.1.182] (ip-62-24-73-79.bb.vodafone.cz [62.24.73.79])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 75ACA534026B;
+	Wed, 29 Jul 2026 20:22:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1785349363;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=+UzzBPByKV2xoKLVXU1Mt93Z2ZeBFEJ7upQV1CrUXDo=;
+	b=yH4mHFiV6aSCxW9UALzkhVUrECFpwLUTWHnJ+VbQoWRyQNHo/n0tDJ+3mtEAI4jECscKtO
+	BLpiCd4icnPPthR4cZT0eZHeZU0eI7NpJ3nBpw+gvsmikRO4cY0hUpb5/gRjjOdHVl86wV
+	eMTSHMoG/D1DKyO7d/WhXHRDEopLRGQ=
+Message-ID: <1348b108-1034-4ab0-a967-972a9456151d@ixit.cz>
+Date: Wed, 29 Jul 2026 20:22:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR19MB7724:EE_|CY8PR19MB7667:EE_
-X-MS-Office365-Filtering-Correlation-Id: d52c134c-d4f4-4adb-2002-08deed99974f
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|15080799012|25010399006|4140399003|5072599009|51005399006|41001999006|55001999006|24021099003|8060799015|19110799012|440099028|3412199025|40105399003|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?1IqXuY2/CGq0TWiIDMZDuEZDHgvlKcG1S+Gb7rigdPRdFE8Lg+WkvrsKccJP?=
- =?us-ascii?Q?m21xC29oRYG3fT56CzsNyA3C4wUgt4TE6CsRuaN2aTiAiWXI9W6gzNtjmC2j?=
- =?us-ascii?Q?9D32mVDottcQRNUrVkb/63NEVH9A8mBVX9tGvH1vNfsPHqRs6QREaUmWmKVQ?=
- =?us-ascii?Q?YmNHZiMSRXpQz9CaMP1EPRuQV9+nsk3qetacIb+nrSc55wq6mfT5EFiaLLv4?=
- =?us-ascii?Q?0ejvlENDujJDP06I6oK9t00xzjV4VCeEz/Etd6o0rr5nlq0Ro6OqPNRvh3lG?=
- =?us-ascii?Q?Dsoam02jR8u1ru6ZsemQnFog2yK2k/scoKSK/AoKIYLKUAJQM9qyO3VlAM0Y?=
- =?us-ascii?Q?sKsJo+VEn3DOmZjVWFmZBJr4AFGDu5zo7Qc6gn87BRia3hc07aikarDdziS9?=
- =?us-ascii?Q?0r5KtkhSqMOC6OO7R+vT+K2COacaRNiXONvAx+S7PVCv5J4Ap7rOeU7yrlpn?=
- =?us-ascii?Q?ThEW6v9yKLIdB/GNIyqRZgMfSVHXiwac7B06r3BTtBlociH0lxHDc7OcGpcq?=
- =?us-ascii?Q?ou6N3VRHuJ2ZIU+EUNxQMcPJsUL2WV01r5XRLSS669i/UIG7NWXWZWPUD8ry?=
- =?us-ascii?Q?exyKR/PbM7CaNQMdURWVaJR/Vq1+zf6cBm4D50CEP9vsovxd/DSbzlShOXKn?=
- =?us-ascii?Q?EDZ3U2v+ktD0RKa+v38/3hdcQ8j0msAe52lWDPN4roYhI81BbYy2TGsifQSC?=
- =?us-ascii?Q?tZ9UTk+bBS8hM++MeQFEiWFEJHlsGcs+XKk8Qf3VECcD9pLKDIIRdYUJFBt5?=
- =?us-ascii?Q?P+dolBiJkcIfTTBi+N5znomaIHd1X8YuNn8unL8noQJvC11hzX6qCuw3SMr6?=
- =?us-ascii?Q?wWHQ094ZCzYSHJx0k15uqEgfaih0IrlaDoqzUG36eEz7RlIGmbjvIq2OCDP1?=
- =?us-ascii?Q?BY2kLtMF+uTELyoDmzBUd9Zw3meZlJCbv2fcDysrwSEr+cigwgAiA7tnBHDZ?=
- =?us-ascii?Q?SECkh6sjA3odjKItS4iN0y0kZePXG98A2LS0sgd1o/m9jp4TkfsZyYoqkTCy?=
- =?us-ascii?Q?cxaQwF7JpsS0gtr/TQLAkUHkWw=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?wCZPQIAkQf+LmYTYMqFB5U8ZL+PChYm292Qa1YhgaP+vP1liojUW0cTr3Zq7?=
- =?us-ascii?Q?/sxKeR8IGe0NojIICW3TytuvgSASBz0y94R8eiIpnxxDIhR/EYhBvoEiFxeU?=
- =?us-ascii?Q?pZH1RBosB3rKMnVzhjAWrth+Wp0LyjyhPNveyQIVxHEGt/YVAFQ7WHFiHSXl?=
- =?us-ascii?Q?mD+DKHB/u2tIVO9R66r1cLvTVPDP4ZEnrTlJdpVTnjwudyEqzDMoxzQlEW37?=
- =?us-ascii?Q?wgxLn0KH5IACM9lPx5c608w8OJS8rUVngdA9O921wfTAfJ6QdNqp2dPyAZUQ?=
- =?us-ascii?Q?taEM/zcu0i968UvGCTL/N9a4fb44Ra+dRm/hLYracbOAdc6c8yyUVNLnI/ah?=
- =?us-ascii?Q?F1iteHR/6Ucr+7zGv2TEcNm2c12Uqq/vlMOqEFEbcLP4UTjtjtuME1242a2a?=
- =?us-ascii?Q?qpS+A7DFdqax3SCR4zz/j5VMqMPNoaM5wmM3wrte0OJ93dZW0jpjA6HMsvsK?=
- =?us-ascii?Q?GQZAk7wfoASI1fkT9t32YXDppQexT7txuKtKCxDLWxArlE2+ni2/pem+FlN6?=
- =?us-ascii?Q?iV1/a/gEbVAHKu68EcSnQhEcOksnglIfE0zKomKWPICkCeoMvwrrUt1aCohs?=
- =?us-ascii?Q?oUntCuZvll0ODY1mtj2IWgUO4wrhWiOChhnLzsHd5ZdL5m6WiAdSC0gYRMzX?=
- =?us-ascii?Q?owERrzIR6FY045KjentDZa8m7MJB9745DKox4o/sfJoenveDywIKiEzjUyZL?=
- =?us-ascii?Q?64GbZFWCbNy8CBBxONYxBoS9U8fiJqejgUu3Rwzb7pAZXI+DwL7OL6G3AgFs?=
- =?us-ascii?Q?KkdBzvSBVvI8AAP0WUag1AieVL4lf+60ZR6kc95xhik2fbZCXIggjLT6dWl+?=
- =?us-ascii?Q?7YcNrdKlYlmatApr3vNAyAoVeEdq7oafPZUEXPltEvMTEf+tRtpFjBPBQkmx?=
- =?us-ascii?Q?e9ryApHjvn6mA1BtbwLOs4p9njbuR9sOEIYBEjMYD/XqgIxeZxbs8pj4fGxK?=
- =?us-ascii?Q?+d7q45R8/P8tF5gagVRGsl6V2Flx+ocMn9htvq+tHf4aDAxKQ1uIH8VYJXch?=
- =?us-ascii?Q?87NshvrwdLXpPZvl+dPMOt0J5tt4P6xHA0A5CgN531QrvNxLRzSTbSPovZl1?=
- =?us-ascii?Q?TPdxT7W3StNsAlbi9HIEfiwsMF32+Ej5KHncYA4/ibq0TxJHXIxXkp+YsIsG?=
- =?us-ascii?Q?U2Qq9x9wbwsCokpbFKwaNRBYqHo6kjvU1HMaC87IW4azD4t7LttzAoykS7sF?=
- =?us-ascii?Q?FQTSCCYCwPCFwdCJcjlIKbSC38rBB5SMBLDRWczoasgw4OQMrjAtH2Eok38F?=
- =?us-ascii?Q?1oY1FBSkMdupKYlXEt+kahgSUpasBDstWYDp1c2BIOlKYX/pYhgj9TL3C5Zk?=
- =?us-ascii?Q?13+Un+FuP/U562tjsB1r1w8b2WYJo4OXXY5chFEDFrruWckYP8dQYxGEAti8?=
- =?us-ascii?Q?gNFy9qvhq1mecXxesZXnszjOBe450XKwJ/q/E94bTzWKTx8i50SPGtJNCo3P?=
- =?us-ascii?Q?y4lqsCVGfC4=3D?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: d52c134c-d4f4-4adb-2002-08deed99974f
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR19MB7724.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2026 17:48:26.6159
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR19MB7667
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 5/6] ASoC: cs35l36: Implement set_tdm_slot to program
+ RX slot register
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ David Rhodes <drhodes@opensource.cirrus.com>,
+ Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20260705-pixel3-audio-v1-0-3b66f33859f1@ixit.cz>
+ <20260705-pixel3-audio-v1-5-3b66f33859f1@ixit.cz>
+ <aktsvw1IrM7ctTxg@opensource.cirrus.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <aktsvw1IrM7ctTxg@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Aaron,
+On 06/07/2026 10:52, Charles Keepax wrote:
+> On Sun, Jul 05, 2026 at 10:06:55PM +0200, David Heidelberg via B4 Relay wrote:
+>> From: David Heidelberg <david@ixit.cz>
+>>
+>> Program ASP_RX1_SLOT with the first set bit of rx_mask so the
+>> amplifier listens on the correct TDM slot when configured by
+>> machine drivers.
+>>
+>> Assisted-by: Claude:claude-4.6-opus
+>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>> ---
+>> +static int cs35l36_set_tdm_slot(struct snd_soc_dai *dai,
+>> +				    unsigned int tx_mask, unsigned int rx_mask,
+>> +				    int slots, int slot_width)
+>> +{
+>> +	struct cs35l36_private *cs35l36 =
+>> +			snd_soc_component_get_drvdata(dai->component);
+>> +
+>> +	if (rx_mask)
+>> +		regmap_update_bits(cs35l36->regmap, CS35L36_ASP_RX1_SLOT,
+>> +				   CS35L36_ASP_RX1_SLOT_MASK,
+>> +				   ffs(rx_mask) - 1);
+> 
+> It is more normal for the masks to specify the slot number rather
+> than the bit number, it would probably be nicer to stick with
+> that convention even though it will complicate the code here a
+> little.
 
-Thanks for looking at this. I think there are some misunderstandings
-I'd like to address.
+Thank you, is there one of the cs*l* series which implements in similar fashion 
+as requested?
 
-Regarding default DAC routing and the R9000P codec dump
-in bugzilla 218329#c31: that user is running a stock kernel,
-without this patch series applied; indeed, they have no
-snd_hda_scodec_aw88399 module loaded, and their dmesg shows:
+Thanks
+David
 
-  ALC287: picked fixup  for PCI SSID 17aa:38bb
+> 
+> Thanks,
+> Charles
 
-This is the Yoga S780-14.5 Air quirk (ALC287_FIXUP_TAS2781_I2C)
-firing by mistake, because the R9000P shares PCI SSID 17aa:38bb
-with that model (one of our R9000P testers independently confirmed this
-by providing their lspci output).
-That quirk is chained to several other, and in particular it ultimately
-calls the function alc285_fixup_thinkpad_x1_gen7, which does:
+-- 
+David Heidelberg
 
-    static const hda_nid_t conn[] = { 0x02, 0x03 }; /* exclude 0x06 */
-    static const hda_nid_t preferred_pairs[] = {
-		0x14, 0x02, 0x17, 0x03, 0x21, 0x03, 0
-	};
-
-The HDA_CODEC_QUIRK entries in this patch exist precisely to prevent
-that collision, matching on codec SSID instead of PCI SSID.
-The "0x03*" in that bugzilla codec dump, therefore, comes from the
-wrong quirk's override, not the hardware default,
-which instead is 0x17->0x06, as can also be seen on the other Legions.
-
-Regarding the DAC 0x02 override for pin 0x17: this is necessary
-in order to fix broken volume controls. The fact that this override
-achieves this goal has been confirmed by every tester
-across all three supported models.
-Indeed, before adding this override, earlier versions of the patch
-required alsa-ucm-conf workarounds to make volume controls work at all.
-Without it and the rest of the patch as-is, the woofers turn on, but
-speaker volume is always 0 or 100% irrespective of OS volume controls.
-
-Three independent lines of evidence support this being
-the correct DAC rerouting:
-
-1. The official Lenovo Windows driver selects DAC 0x02
-   for both 0x14 and 0x17, as can be confirmed by performing a
-   realtek codec dump on a stock Windows install.
-
-2. Multiple existing quirks in alc269.c perform the same override on
-   laptops (Lenovo or otherwise) with similar sound architectures,
-   with comments explicitly stating that this is done to fix
-   volume controls, and therefore implying that this is a common issue
-   on laptops with realtek chips from this family.
-   Some examples of these quirks and comments include:
-   * alc274_fixup_hp_aio_bind_dacs:
-     "avoid DAC 0x06 for speaker switch 0x17; it has no volume
-     control"
-     "The speaker is routed to the Node 0x06 by a mistake, thus the
-     speaker's volume can't be adjusted"
-   * alc289_fixup_asus_ga401:
-     "avoid DAC 0x06 for bass speaker 0x17; it has no volume
-     control"
-   * alc287_fixup_yoga9_14iap7_bass_spk_pin:
-     "Avoid DAC 0x06 and 0x08, as they have no volume controls"
-     "Prefer both speakerbar (0x14) and bass speakers (0x17) connected
-     to DAC 0x02."
-   * alc285_fixup_hp_spectre_x360_eb1:
-     "share DAC [0x02 among 0x14 and 0x17] to have unified volume control"
-   * alc285_fixup_thinkpad_x1_gen7 itself:
-     "DAC3 (NID 0x06) -> Unused, due to the lack of volume amp"
-
-   In particular, many of these quirks share a single DAC between
-   tweeters and woofers (typically 0x02 and 0x14/0x17) without issue.
-
-3. All testers confirmed working volume control with DAC 0x02 rerouting
-   on SSIDs 3906/3907, 3927/3928, and 3938/3939. Without an override of
-   the default 0x06 routing, instead, woofer volume is either 0 or 100%
-   regardless of OS volume levels.
-
-In light of these points, an override away from 0x06 is absolutely needed
-on these machines, and preferentially towards DAC 0x02.
-
-Regarding DAC 0x03 and 4-channel playback: a 4.0 surround profile is not
-meaningful on this hardware regardless of DAC assignment.
-Indeed, selecting a 4.0 profile results in one pair of L/R channels
-(either front or rear) being silent; no DAC configuration makes
-all four channels work. I verified this empirically with both
-0x17->0x02 and 0x17->0x03 (as well as no override), so in this sense
-which DAC override is used is actually completely irrelevant.
-The correct audio profile for this hardware is analog stereo (2.0),
-which works perfectly with the DAC 0x02 override, and makes front and rear
-channels sound the same and work correctly when using speaker-test -c 4.
-More generally, the tweeters and woofers reproduce the same stereo signal,
-and don't actually represent separate channels in a true surround setup.
-That the 4.0 profiles are exposed at all is an artifact of the HDA parser,
-not a consequence of this patch's DAC override.
-
-Regarding pin 0x1d: it's true that, in practice,
-leaving the hardware default 0x40600001 untouched won't change
-anything meaningful for this node, which is essentially
-already disabled for all practical purposes. The override to
-0x411111f0 matches the Windows driver's pin configuration, which,
-as can be seen from a realtek codec dump from the official driver,
-performs this pincfg override anyway.
-I'm happy to drop this line if a maintainer considers it redundant.
-
-Happy to answer further questions, and thanks again for looking at this.
-
-Best regards,
-Marco
