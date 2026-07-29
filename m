@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8534CA28D
-	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 16:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2D64963CE;
+	Wed, 29 Jul 2026 16:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785343060; cv=none; b=ZZPpjdpkLvq2AoQtBfX0kFJaE4FYPlLm2VGVbNswYq4JSkdA9zQt9nLkKIW9JTiWKyoviP/jAo4szYNkaD/B8DkLY1WvSnhVCxJc/JFh4zHnbRYPt94JPBWpwcUgPCw7w7pOfnbkUdq8U5HKFeq+QWhU2PPOpU+iRHGvsEch/YE=
+	t=1785343064; cv=none; b=bS9hkENrU20h8dyUxRMaDL+QAxMySyQdlo0mxR72z8cvmQAldde6vjTi06/4irWuPDwlLJpNBkJeN1GlnCICwsI7tzpaeReBLVkiMc3eMiEIwMVO1cMoeYt1qp1XpnxDAg+AUOEHVw11qR0JB47C+Kzbk8ejfJKlyt8ZOUJX97U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785343060; c=relaxed/simple;
-	bh=7G9RBrNZPnId9ZrdjikI/MDofqqUpHk8dwoyivZGaP0=;
+	s=arc-20240116; t=1785343064; c=relaxed/simple;
+	bh=w+LY+at3i1wtP5freBQv64xCeTkh+8ycBGr6lvULLpk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=p4l2U0SZsPe9EIzX+1x4AZ4lHtGyQPLMA/e6DS10QXFhJJdimaroc0DSzgXTiWOynEmihIapXFckdkPWEYm08bH8pCGxPwXU1V/ExKGG2fqPbViWcyWdE7KJoOYYeInxFy2ZR+jfp+lN08cmAuSBKJJ5SrQ6Yj1enudFr9gm/R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCuN/i+O; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=H+exxMoicWhyoNfWD78oY6WmwJf45l6k/Ot286q8nka4wYy5srSTR9YsndL196D2/cHiEC9G98wqkmkBbd44zm5MTBljN1NF355g5j0HRFpYxgrEcBnNdyDOw+G2jRBUf6Q2KblrpqI3Tg5gFCYKYzAw9bVsZPssmr4nK85MbVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=clVU+2MQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCuN/i+O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 210331F000E9;
-	Wed, 29 Jul 2026 16:37:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="clVU+2MQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 812301F000E9;
+	Wed, 29 Jul 2026 16:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785343059;
-	bh=nmFWpe5sw4kezasrGIZMd93oHFRy/Oz5dpOJTCIbjbs=;
+	s=k20260515; t=1785343062;
+	bh=+HCM0kX9dT01jkiSkFQppEmfi0MQQnG5asMyMvfSwCM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=nCuN/i+OaEQIxuywtbn0N1onQrcI0DEJk6QvjQ5BqLHTf+utovCc+4TQZp/+s6uGc
-	 zHwxIQVNaDpTt99zKccDwRQ7ayVcGKMKY0Cv0hpm+Yvvkf9YvlU7WlB9NCtplM6ZM6
-	 dbTC7fXr6tES/CcUC1XGyqy4MEdQ0ayLTKsBVU06+8YDQ3ZFnYn9YzUC09nSfiwCJF
-	 lPpuudBQk57g/HVLoZvbx6Pkcf3UlviQ69HeW/F1+bVYtBgbYlrIU0DNp2/Ihh0EMk
-	 lnvPYOsFUG4LZsYYSTdga/vQu5TjCLUR0YWU2EuwF6vH2AHD7GBpjVEAEIGLw24t7+
-	 9WFHJEwHU0tEA==
+	b=clVU+2MQIhFjgHCTdaYhVd87PvHZH+X4RHevgpJt1ptJkrY80zXMeGzY6mDJwcUqy
+	 rjfSPSoFS3kYZDFjRN+V4RmA6kAowSMaiZyRctitnUdwX6KwmHIl/Nwqq0Z7SxDMnV
+	 wWOhOyPihETxrK5FaA4NQiM1rj6Tr5Xm/rfT9Hz5Cu2ThOtLsHEDATa7gOf2ENrAcU
+	 b/V+3OrZaOH2Yprv5eU3FPDgyB7JGu64sVYiYXhbqGaNyH3pMNfU08QyZ1ghksBnwA
+	 fL3Ij4YycjW1thu4PPrgtmw2vDQKqrzxI2/IXFzwzp28oW7i1J8STxMYQrvmgtZY6V
+	 /F9mdTzR1Ye/Q==
 From: Mark Brown <broonie@kernel.org>
-To: Jarkko Nikula <jarkko.nikula@bitmer.com>, 
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
- Sen Wang <sen@ti.com>, Takashi Iwai <tiwai@suse.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87ldb5i0do.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ldb5i0do.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 0/3] ASoC: ti: preparation for Card capsuling
-Message-Id: <178533670225.172652.9359583296193828737.b4-ty@b4>
-Date: Wed, 29 Jul 2026 15:51:42 +0100
+To: Fabio Estevam <festevam@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260727185814.2599488-1-festevam@gmail.com>
+References: <20260727185814.2599488-1-festevam@gmail.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: realtek,rt5640: Make interrupts
+ optional
+Message-Id: <178533341943.172652.9595574921790565444.b4-ty@b4>
+Date: Wed, 29 Jul 2026 14:56:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,30 +47,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
 
-On Tue, 21 Jul 2026 01:42:43 +0000, Kuninori Morimoto wrote:
-> ASoC: ti: preparation for Card capsuling
-> 
-> Hi TI developers
-> 
-> I will post Card capsuling patch.
-> To makes its review easy, tidyup its drivers to reduce
-> un-related diff as preparation.
-> No functional change, but is preparation for cleanup driver.
-> 
-> [...]
+On Mon, 27 Jul 2026 15:58:14 -0300, Fabio Estevam wrote:
+> ASoC: dt-bindings: realtek,rt5640: Make interrupts optional
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
 
 Thanks!
 
-[1/3] ASoC: ti: omap-hdmi: remove unused *card
-      https://git.kernel.org/broonie/sound/c/9af2c1d4f847
-[2/3] ASoC: ti: tidyup not to use *card on rx51_soc_probe()
-      https://git.kernel.org/broonie/sound/c/4bd2afcdc837
-[3/3] ASoC: ti: ams-delta: use &pdev->dev instead of card->dev
-      https://git.kernel.org/broonie/sound/c/3596abbd7bb3
+[1/1] ASoC: dt-bindings: realtek,rt5640: Make interrupts optional
+      https://git.kernel.org/broonie/sound/c/537601771adb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
