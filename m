@@ -1,114 +1,78 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835691531E8
-	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 00:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB56F1F78E6;
+	Wed, 29 Jul 2026 01:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785284635; cv=none; b=OIaVGVq1QVGQ/5CeNYucskgCIfKQO1jqAf29Lm7hYZCnRMBpz/LDxJhTRD96XOGC7k3j5oryJhijdNBnteLX9VKwFwN5C0s3AB6H4pgmOaxvwKlCqBfXp9Newq/yo7SzjFnMNEVY9teKIPPId+VOv/xgUKRMJ1/srPQEw9He2RE=
+	t=1785287988; cv=none; b=jCfPuhumtsxnxWpSSEF5LwQzjkQrOCkPkuZg+UwOQXSr+UTMrMrzBy0q0sxWOOL8p80krmX198iZsFHQ61U4vjlBmzFBOORlUEqYQl9WoE/LeIAwqO2fW0tcGi4pBO2Tmt7KFG7NZqKfS+FBEWRYWwMhh+BHfQ8UHlt4+c+nbV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785284635; c=relaxed/simple;
-	bh=BQwtZ4wkF5S0F7WfVDgfzAEyK6GgwhFfBcFMZaGmqPA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sJ6VL2RF3gGkaO0KVIyN0Ray4x7+XMHidKdGNMUUqxxshU5+HWRWDaCayMyN+kAUmAVHEaM3xh3czrBwkIsw5mmtoxm4XUc/+bt6iKGqUWwmywdA7GNfiDgtdpjyTYbEqGq7fBhfPVj+4LPSKaqax1hxU3ahjYnhIDFEKqCParE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rLrXUw52; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785287988; c=relaxed/simple;
+	bh=kGVCA+LdfMd/DvqQ3PWeq7IiQWOwo82dVb/60TDLHYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AuiqoqkApHJc9wcDUJAQCWS4cvAP2SqZ6bNv9UVsxVQ5R5/qJuGwUWBVqK8zH3+JNJ2LhDz7HkeoZhzjKMvdW4WMFD2nXmFcgtMn6KTP8Vm9Zap6/n1CNsPaAf/aDWdKGgclbyGDu5b7ArSReDcTG+wjeIyFkpExHvTFAnM1Jws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyKg3ltq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rLrXUw52"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ca7c1176317so284070a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 28 Jul 2026 17:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785284634; x=1785889434; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LrVoGn4sblzpENqt/97YSRnRGJ1nhNOn2U1+M+l6hfk=;
-        b=rLrXUw524At0XXkjG78WQYByrRmgSBDkLlS4PVsW9uyfbtI65ieRWrp9KMXQAlQE9V
-         60nqZl2rkELUN0Ncpgx0Z84bYa+mmwFeUhXW8KSDE9uEV0IyX3xuo/88QzH++zz7v2R4
-         RpYathRlRcCOk2l94+URnzsYOKyAMaNpRQNeFzi5f5kZrExTORd1auxG559JzVOEWdUH
-         UVCmS7X49pyh0NJB4e+gTxZAPV3t7CoQ1WpuihSFikQDH9hDufYstO3VyMIV9TaFWKau
-         24IJJjghmL8CwB+1MPBF8rCdTDFuhNqLY1dLltSPNW1EQUDUCkiqeAdME0P/tO+FRcA6
-         GGyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785284634; x=1785889434;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LrVoGn4sblzpENqt/97YSRnRGJ1nhNOn2U1+M+l6hfk=;
-        b=DKk9uI62qxxr05dC1e79m3k992yduwWy+rLzWowny7UQGlgvxbLmAYNjQdoRSyQNmg
-         dYqz+864xCtg2IySgUcwY9FIKPVeFhgXQUKufVBUgefkOZJ1FU0n2jfo955FqzMAHVZs
-         g0e39iUKbQOBFO7WpeMgRMfuctc7YpEQUd1OsWgT24bt8GtlCx8EhGs2/hODMcKrC6Lb
-         1XVNec/7VyalZD7zN8Hlf6ApNx0eoORONXm6h2ow+SDApD9ZGFRJXGQEMHedNq+FPvAM
-         YdCETpYNDQeVCEU38W7hs4sgVrT7ElCPvtKukn0XgQ/usCmxsoN/rihGhgPzRRWLyEv0
-         iKVg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpd1OBocHBUJ7dM1NI5eMUF38kvGiPdhEgDSowDech0nDea5E3kzAVzSNDjb+sj26r+rbDRajdeQqWq0Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywbr/25k0E2VKpH6deyzffNHtoEwJMrpOfM2azeJ/+fnGNY8eop
-	QvMbyRzVkUAjrNfZlBQ1edCe5IRW23+ge42pKMAkBrYtm68HRwMPbfhu
-X-Gm-Gg: AR+sD13fM4SSagidmR2m219lNUxFKZess1UiJWBdHv0JXZYNf6JbezS6Uq9GzulI6Md
-	Qbf4SjtsUr6xtCk00N0Fyp29pTy7ZWBGtOvNmDs5xverKd3OTMrFCD3chL+cnFMBN86hhFTPBvu
-	2qoVLuI3lYw6OFr1Y4YhYYnCGY5rpkfbyLzGrIVl081JhYqCLQ5PSFNOcgPRBaBs6a8A+49zzvo
-	vGexiuM0MjooXrf7Z6aU792lSLlnudzF1Lcz0sfFJGD/UwKIOY8mJPZz/q68qHC3WaMuIzhGFpl
-	78m5J8EjAvgEMjx2cNJfOQ3jS6cO4shXqcJy96sm7NBSe5P3bDcBD0XW11EsQWWKcXRrbgo//a+
-	wbCrmr/Y6TvCs7ezziV7YmggdiHr3FuqYvzEgKFuGENq9Uzf6RDaSG5bqFj7V6hQr0X0/tn+JuT
-	9SvJFQ2dXMngjsT5W+2wqUpFGX5sW3pON6zAs/mRlv93dfm1XhQSUHxIO+Pz9radMjEgbcFCCK9
-	JjIH7zXkPK6SDtok4dNgDwLyXe1C7grJho88LlLKyxk
-X-Received: by 2002:a05:6a21:3381:b0:3c0:b766:74f4 with SMTP id adf61e73a8af0-3c8ba484354mr5970148637.31.1785284633878;
-        Tue, 28 Jul 2026 17:23:53 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:4684:f08f:7d61:c1d3])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504db2c4csm3015068eec.28.2026.07.28.17.23.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 17:23:53 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: kees@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+b6cab840e6a85641c7ad@syzkaller.appspotmail.com
-Subject: [PATCH] ALSA: ump: Fix double-free of ump->out_cvts on legacy rawmidi attach failure
-Date: Wed, 29 Jul 2026 05:53:33 +0530
-Message-ID: <20260729002333.11525-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyKg3ltq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7DCD1F000E9;
+	Wed, 29 Jul 2026 01:19:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785287987;
+	bh=ATMYrAwVujA9rTlR4Jzs4dT+nbSqGZK7ev3BrwlqI4s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XyKg3ltqLIDAAI5/osueEcrWjJfA8fKD6d06slFM9bwudXOLYTLcB8snDJYZCZstM
+	 Ycz0rmtJjUGGK9EWAezlzQ5RfQzRjGbLbE++JWE5zlmQRWsPQqed8xT0/NKfSA6YH2
+	 seXIaovj5Rx82tpc/b6fmByzPEcNt22ouiKz0cIQtHFSkgynNoR5Nwyn7iEN5kSdqh
+	 QAwpU5Chtd36dVnc1vNQDBMUy2FRDvTvNDJWJ2Me9qLOEGJ44MA4DG98HZGdikAa60
+	 abBGIe31o3KBYYGxrwTc0gYS4ALv5LtjG3Ow/Nxh9cOpmfEjdidzZGOTTmizEGbb/C
+	 CUx3UjT7UnMbQ==
+Date: Wed, 29 Jul 2026 01:19:44 +0000
+From: Yixun Lan <dlan@kernel.org>
+To: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jinmei Wei <weijinmei@linux.spacemit.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-sound@vger.kernel.org, linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/3] riscv: dts: spacemit: k3: add i2s0-i2s5 nodes
+Message-ID: <20260729011944-GKE76518@kernel.org>
+References: <20260721-kx-i2s-dts-v1-0-d22cb6cfaab5@linux.spacemit.com>
+ <20260721-kx-i2s-dts-v1-3-d22cb6cfaab5@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260721-kx-i2s-dts-v1-3-d22cb6cfaab5@linux.spacemit.com>
 
-If snd_rawmidi_new() fails inside snd_ump_attach_legacy_rawmidi(), the
-error path frees ump->out_cvts but leaves the pointer dangling. Since
-ump->out_cvts is a field of the long-lived struct snd_ump_endpoint
-(not the rawmidi device that failed to be created), it gets freed a
-second time later during normal endpoint teardown, in
-snd_ump_endpoint_free(), invoked via snd_rawmidi_free()'s
-private_free callback when the sound card is released. This results
-in a KASAN double-free/invalid-free.
+Hi Troy,
+On 19:35 Tue 21 Jul     , Troy Mitchell wrote:
+> Add the six SSPA-based I2S controller nodes for the K3 SoC.
+> 
+> i2s0 and i2s2-i2s5 each have a dedicated per-controller sysclk
+> divider, so they use the published 7-clock layout (sysclk, bclk, bus,
+> func, sysclk_div, c_sysclk, c_bclk).
+> 
+> i2s1 uses 6 clocks (sysclk, bclk, bus, func, c_sysclk, c_bclk) because
+> its sysclk is driven directly by a DDN (ISCCR0) and has no separate
+> divider stage.
+> 
+> Signed-off-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
 
-Clear ump->out_cvts to NULL after freeing it on the error path, so
-the later unconditional kfree() in snd_ump_endpoint_free() becomes a
-harmless no-op.
+Reviewed-by: Yixun Lan <dlan@kernel.org>
+> ---
+>  arch/riscv/boot/dts/spacemit/k3.dtsi | 119 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 119 insertions(+)
+> 
 
-Reported-by: syzbot+b6cab840e6a85641c7ad@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b6cab840e6a85641c7ad
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
- sound/core/ump.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/core/ump.c b/sound/core/ump.c
-index 70520c7ca293..632c13baf21e 100644
---- a/sound/core/ump.c
-+++ b/sound/core/ump.c
-@@ -1365,6 +1365,7 @@ int snd_ump_attach_legacy_rawmidi(struct snd_ump_endpoint *ump,
- 			      &rmidi);
- 	if (err < 0) {
- 		kfree(ump->out_cvts);
-+		ump->out_cvts = NULL;
- 		return err;
- 	}
- 
 -- 
-2.43.0
-
+Yixun Lan (dlan)
