@@ -1,80 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from MTA-08-4.privateemail.com (mta-08-4.privateemail.com [198.54.122.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2D64963CE;
-	Wed, 29 Jul 2026 16:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF1534216C;
+	Wed, 29 Jul 2026 17:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.122.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785343064; cv=none; b=bS9hkENrU20h8dyUxRMaDL+QAxMySyQdlo0mxR72z8cvmQAldde6vjTi06/4irWuPDwlLJpNBkJeN1GlnCICwsI7tzpaeReBLVkiMc3eMiEIwMVO1cMoeYt1qp1XpnxDAg+AUOEHVw11qR0JB47C+Kzbk8ejfJKlyt8ZOUJX97U=
+	t=1785345830; cv=none; b=TFGMqNENU8jGGwYHnybLDFsqYMrSr9vNkFRsnoDj9fO4kR1nTx+dDXSGdTI2uNYm6KMOlPBnve+QSwcZ1zo1T8iVmKvqRKJ/yaf4sBNZUpcxSX3bj9Dg1xJBlChbIcrxJaRfgYfzu7wIfGv8565h4nu7YIwz0Hm6E8sKSpM1cL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785343064; c=relaxed/simple;
-	bh=w+LY+at3i1wtP5freBQv64xCeTkh+8ycBGr6lvULLpk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=H+exxMoicWhyoNfWD78oY6WmwJf45l6k/Ot286q8nka4wYy5srSTR9YsndL196D2/cHiEC9G98wqkmkBbd44zm5MTBljN1NF355g5j0HRFpYxgrEcBnNdyDOw+G2jRBUf6Q2KblrpqI3Tg5gFCYKYzAw9bVsZPssmr4nK85MbVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=clVU+2MQ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="clVU+2MQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 812301F000E9;
-	Wed, 29 Jul 2026 16:37:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785343062;
-	bh=+HCM0kX9dT01jkiSkFQppEmfi0MQQnG5asMyMvfSwCM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=clVU+2MQIhFjgHCTdaYhVd87PvHZH+X4RHevgpJt1ptJkrY80zXMeGzY6mDJwcUqy
-	 rjfSPSoFS3kYZDFjRN+V4RmA6kAowSMaiZyRctitnUdwX6KwmHIl/Nwqq0Z7SxDMnV
-	 wWOhOyPihETxrK5FaA4NQiM1rj6Tr5Xm/rfT9Hz5Cu2ThOtLsHEDATa7gOf2ENrAcU
-	 b/V+3OrZaOH2Yprv5eU3FPDgyB7JGu64sVYiYXhbqGaNyH3pMNfU08QyZ1ghksBnwA
-	 fL3Ij4YycjW1thu4PPrgtmw2vDQKqrzxI2/IXFzwzp28oW7i1J8STxMYQrvmgtZY6V
-	 /F9mdTzR1Ye/Q==
-From: Mark Brown <broonie@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260727185814.2599488-1-festevam@gmail.com>
-References: <20260727185814.2599488-1-festevam@gmail.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: realtek,rt5640: Make interrupts
- optional
-Message-Id: <178533341943.172652.9595574921790565444.b4-ty@b4>
-Date: Wed, 29 Jul 2026 14:56:59 +0100
+	s=arc-20240116; t=1785345830; c=relaxed/simple;
+	bh=ZhLMvacTOrHBow+sxLM+A0As0oYsRxeOKlzy39KpUQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GN0TmNbnmHIYD5e726hkCjJsIH5SolUv6l6Hl1htZ5ltDcvkUC5qlCGQQjexHukpMlz9dMGhqn1UMq3tzUY/ZUyRFEEihtnRYnWol2c7xxl0NFuPI78R9hyWycwUcsnBQzL93l+3mFOLdgFXO8HiIkt9euoNNymq8vToYiV/qjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net; spf=pass smtp.mailfrom=catcrafts.net; arc=none smtp.client-ip=198.54.122.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=catcrafts.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=catcrafts.net
+Received: from mail.privateemail.com (K8S-PROD-WORKER-03 [87.215.145.39])
+	by mta-08.privateemail.com (Postfix) with ESMTPA id 4h9K164ljCz3hhTM;
+	Wed, 29 Jul 2026 13:23:22 -0400 (EDT)
+From: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 7/8] dt-bindings: sound: qcom: add Tambora WCD9378 SDCA codec
+Date: Wed, 29 Jul 2026 19:23:08 +0200
+Message-ID: <20260729172308.43573-1-jorijnvdgraaf@catcrafts.net>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <6a901a72-fbcf-4478-b798-e5f234c5e9d8@kernel.org>
+References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com> <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com> <219d44e2-28ed-4c54-bd00-66e687a0ba48@kernel.org> <d0891f90-b69b-4b27-ad58-94c342ad9a6a@oss.qualcomm.com> <3c484a68-5db8-464f-992a-6c7584841a10@kernel.org> <0cb5a2dd-c49e-47e3-8cc5-ab2ffd397a32@oss.qualcomm.com> <ba147ca6-3788-4cbe-95c3-949ae73ee8f0@kernel.org> <54f1c3e5-0b84-44a6-a03c-3cd65792de9c@oss.qualcomm.com> <6ed441b8-7148-43ef-9c9f-4bc30c468443@kernel.org> <b123882c-c51f-44b3-9004-bc1c4242af81@oss.qualcomm.com> <6a901a72-fbcf-4478-b798-e5f234c5e9d8@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Jul 2026 15:58:14 -0300, Fabio Estevam wrote:
-> ASoC: dt-bindings: realtek,rt5640: Make interrupts optional
+On 7/29/26 4:04 PM, Krzysztof Kozlowski wrote:
+> All this should be part of TX.
 
-Applied to
+I have prototyped this with my mobile-mode wcd9378 driver for the
+FP6. For the paths my driver implements (TX/capture), the following
+works:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+- the TX slave node owns reset-gpios, the supplies and the mic-bias
+  voltages; the RX slave is referenced from the TX node by phandle;
+- like the wsa883x/wsa8840 speaker amps (powerdown GPIO and supplies
+  on the slave node), the TX slave driver does the supply/reset
+  bring-up itself from its probe, and both slaves then enumerate
+  normally;
+- the ASoC component and DAIs register on the TX slave device; the
+  aggregation is TX-over-RX instead of a third device over both.
 
-Thanks!
+Verified on the FP6 across two boots: both slaves enumerate, the card
+registers, and handset-mic capture passes the same kind of 1 kHz
+speaker-to-mic round-trip check used to validate [1]. However RX playback and
+MBHC are not implemented in my driver in either shape, so I cannot
+speak to those paths.
 
-[1/1] ASoC: dt-bindings: realtek,rt5640: Make interrupts optional
-      https://git.kernel.org/broonie/sound/c/537601771adb
+Since, as agreed with Srinivas, [1] already carries this binding:
+whatever shape is decided here, I would like to respin [1] to match
+rather than have the two threads resolve differently.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+[1] https://lore.kernel.org/all/20260729000649.263426-1-jorijnvdgraaf@catcrafts.net/
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Prototype: commit 7b720141754b, the top commit of
+https://forgejo.catcrafts.net/Catcrafts/milos-linux/src/branch/wcd9378-parentless-proto
+(milos v7.1.2 integration tree; the parentless conversion is that one
+commit on top of the posted v2 driver).
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Jorijn
