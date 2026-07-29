@@ -1,134 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8745833A6E9;
-	Thu, 30 Jul 2026 11:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4D13DA5C1;
+	Thu, 30 Jul 2026 11:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785410591; cv=none; b=YOML002dl77mWc7WJ2KDzxEVI0LspblrYDXQCLZ22Ald1e5wUqY2GLX4cZoKZ+4A81XSXLWGjpYVHrQg7BP+l6OiKLyRcWfrqOAy9UMWQiYV41SbyL++AWmd32ly1zaFYKsi+rH0eHvpUfHS2dZ5mMT54K2T2P5uZDDAfI5wh9I=
+	t=1785410690; cv=none; b=MFC035uUuJqO03Ov4lMntOVC3ZgV2IHfZQYVgjmL5oAYoNGGhWjXTnuqIx2sNoOU/nwhOXVvrNdqiH869t4b/0eyIPxR3DrU0iDXzW19CVIwuisTRCs5BFotng68Zju1CT3LrR6vvxVBYmJWtUdCFGx7yvDUzbupgy7Ea0qbV04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785410591; c=relaxed/simple;
-	bh=zzRYmisyqqYyJCmjGp5EB4x2yS3D8pL5ExRDwJkhsI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ob1lk7EQoPB6IWgtiKQJZ9LCfDAwLen7Ve4wqhJNjUok0NIP5TK63jkFQw7e0tli5I2/gzSDqniQ+IlNwNjO/UUpuzfOjkbPucOduqQ7B+qf0btWrNjtZKaj04SZ0OcbPSxoyupu0qPpQZ5mTZIwUHaq6Eyvpv6gQ0oYlFoNW3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOlnJjni; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785410690; c=relaxed/simple;
+	bh=cYFbK6JbmBbwY7ZW2IECz8Rn0iwIIlNHVat6eNIgVKw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PXTGdMvB7BSnmZwIY7BAAHOCbGiOY1HX/7Q9io/7HIvIDhhXAQM/z1X+FQALgcRb2wdSeBzl0OEm07Wqy1+m4BUqIZ5Xn5Pro3OXhQsPnIb5d7NQOcR2RJzJDVjwZhCfeRUg/6xLPpv4+2Y/1jsr2Sd57yhtEfcEgDeQptdvdew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ef9HY2rC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOlnJjni"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785410589; x=1816946589;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=zzRYmisyqqYyJCmjGp5EB4x2yS3D8pL5ExRDwJkhsI0=;
-  b=bOlnJjni7jpNUdzIQBOvojJkvh1zq2SSKhxuRhlfG+Ub7sxxJ8a6rdWU
-   2t/xK2a58/imjjhv+6rlc7aj7CLBiI4Yr9A/+baYlg48kIWBRvYrEBwSF
-   rFxXeDHWqXX3rpDwnWrkb2zJBQ4X9UQ1w65VYmocxv/sU6UDEhs78lYu1
-   WOLcAMfYeVh+SYSVs0aEIIXN/YffnPz3fS3UEuF/sQWJCZqYc7YNcsXE8
-   qNp2+HG+LT0xaezXACf5+eg+UiPkQI1I/J7zzrtLL+fjrtAf48arbi1Bv
-   CrXk2MX4sPvR2thOfVGyPrD87yRAP60V4tQHvik/3bLAgHSEbiOkyoufC
-   w==;
-X-CSE-ConnectionGUID: Jv0QhcOjSKOtfT30OqLCJQ==
-X-CSE-MsgGUID: ISQYo26cRsOj7A+E1A4zRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86064366"
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="86064366"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 04:23:08 -0700
-X-CSE-ConnectionGUID: qc5gURjnQXmYa/FQAqK/nQ==
-X-CSE-MsgGUID: utmTLGbUQK+ZF4iq6VF77g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="257599630"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 04:23:07 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: ipc4-pcm: Continue the pipeline trigger in case of IPC timeout
-Date: Thu, 30 Jul 2026 14:23:43 +0300
-Message-ID: <20260730112343.26687-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ef9HY2rC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A42E21F000E9;
+	Thu, 30 Jul 2026 11:24:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785410686;
+	bh=LVHWZvePVBLXjM9MPn3NlL7GgsLFfAvDE8L3DbsP3yg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Ef9HY2rCjsm/msVt4ofQ7cVNumr2Jh/kYhQgkJkfpUzsyFh2btVUxIzD3BOz+TE4E
+	 90IKtAQW6iZFKf2Otct7fWULPlVh9N5cNPn1vnIZ8OFS308vZpLwhjMi1U9y3j7g9g
+	 0LIjjwOKYoRNqIDlQ9321F2+7CWmcJ3tXVtoAg3BWk1uHZprU4HEjQjniIhFgA17dm
+	 uoGN12rD6oz+dMtGtwN0SrytYXLOnivfZ+c796VaNqWOfOGLa6op45NKpUlQbsvxLd
+	 Vs+u2Kv2K+M3maXNGowGp2VmJ2KvG8Yf/V2CzyJ1KWiydBztzNBb/VOAfGUam0hPvV
+	 N7eVEOdjCtPWA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, phucduc.bui@gmail.com
+Cc: linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260720074044.87528-1-phucduc.bui@gmail.com>
+References: <20260720074044.87528-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 0/4] ASoC: stm: Drop redundant error message
+Message-Id: <178536726558.512962.11305528912668407095.b4-ty@b4>
+Date: Thu, 30 Jul 2026 00:21:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
 
-Ignore IPC errors for pipeline state change if the firmware state is
-crashed or the IPC has timed out.
+On Mon, 20 Jul 2026 14:40:39 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: stm: Drop redundant error message
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> This series removes redundant error messages across multiple STM32 ASoC
+> drivers. Since core functions already log failures internally, dropping
+> these explicit dev_err() blocks prevents duplicate log messages and
+> cleans up the code.
+> Compile-tested only.
+> 
+> [...]
 
-If the firmware has crashed the kernel still needs to go through the state
-changes to reset its internal to be able to correctly work the next time
-the DSP is booted up.
+Applied to
 
-The case with IPC timeout is a bit more problematic, but it has been
-rootcaused to be the result of system scheduling blockage and the firmware
-did actually received and handled the message, but the reply handling got
-blocked by issues outside of the SOF stack.
-So far the best way to handle this is to continue with setting the state.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Fixes: c40aad7c81e5 ("ASoC: SOF: ipc4-pcm: Workaround for crashed firmware on system suspend")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
----
- sound/soc/sof/ipc4-pcm.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+Thanks!
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index fc3ead77e5ea..5929ecf6642e 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -528,7 +528,19 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
- 	ret = sof_ipc4_set_multi_pipeline_state(sdev, SOF_IPC4_PIPE_PAUSED, trigger_list);
- 	if (ret < 0) {
- 		spcm_err(spcm, substream->stream, "failed to pause all pipelines\n");
--		goto free;
-+		/*
-+		 * workaround: if the firmware is crashed or the IPC timed out
-+		 * while setting the pipeline state we must ignore the error
-+		 * code and proceed to set adjust the local pipeline states.
-+		 *
-+		 * If the firmware is crashed we will not send IPC messages
-+		 * and we are going to see errors printed, but the state of the
-+		 * widgets will be correct for the next boot.
-+		 */
-+		if (sdev->fw_state != SOF_FW_CRASHED && ret != -ETIMEDOUT)
-+			goto free;
-+
-+		ret = 0;
- 	}
- 
- 	/* update PAUSED state for all pipelines just triggered */
-@@ -560,14 +572,15 @@ static int sof_ipc4_trigger_pipelines(struct snd_soc_component *component,
- 			 "failed to set final state %d for all pipelines\n",
- 			 state);
- 		/*
--		 * workaround: if the firmware is crashed while setting the
--		 * pipelines to reset state we must ignore the error code and
--		 * reset it to 0.
--		 * Since the firmware is crashed we will not send IPC messages
-+		 * workaround: if the firmware is crashed or the IPC timed out
-+		 * while setting the pipeline state we must ignore the error
-+		 * code and proceed to set adjust the local pipeline states.
-+		 *
-+		 * If the firmware is crashed we will not send IPC messages
- 		 * and we are going to see errors printed, but the state of the
- 		 * widgets will be correct for the next boot.
- 		 */
--		if (sdev->fw_state != SOF_FW_CRASHED || state != SOF_IPC4_PIPE_RESET)
-+		if (sdev->fw_state != SOF_FW_CRASHED && ret != -ETIMEDOUT)
- 			goto free;
- 
- 		ret = 0;
--- 
-2.55.0
+[1/4] ASoC: stm: stm32_adfsdm: Drop redundant error message
+      https://git.kernel.org/broonie/sound/c/30df43c14050
+[2/4] ASoC: stm: stm32_i2s: Drop redundant error messages
+      https://git.kernel.org/broonie/sound/c/a6cdfb623094
+[3/4] ASoC: stm: stm32_sai_sub: Drop redundant error messages
+      https://git.kernel.org/broonie/sound/c/e502adb1cdd6
+[4/4] ASoC: stm: stm32_spdifrx: Drop redundant error messages
+      https://git.kernel.org/broonie/sound/c/94495c842711
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
