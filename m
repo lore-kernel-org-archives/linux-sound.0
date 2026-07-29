@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2839E47D44E
-	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 10:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7ED2466AF7
+	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 10:57:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785322638; cv=none; b=HmAtxN1mEO7P/W/uRlkoQiJTnVIvmTGl+kSaftduu158ZOW44YEnppnpbRWKDUU0HGIoI68y/ZYd2fRvPBYv0dOcLUP27yKfWgkxV8Q+d2hnioIlrCUOEc8a4aQJjWAXnsVvxZftNK/D6Q4GYgGnWpV4/HMUPa1z8KOQ7rOeS6Y=
+	t=1785322639; cv=none; b=Hqz+7XzJGLUfug+eePvSO3/4S5t37BtYd0xj1hebHDE4cdXZt+4EgtAWrkPZz5+PkUK+UWHT5kjmHiZmCXcas62avRQUFJE4SJSnznLhg0D0xJQE5TR8wGhwioMI9Z96s0xISsEMCDPtbWOVWJfR7a/GQylhngu8c++DB79h7zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785322638; c=relaxed/simple;
-	bh=M3UZWr6C5Oj5mkoGd8VGU+mp1OxP8AISHHQXfqhmGVo=;
+	s=arc-20240116; t=1785322639; c=relaxed/simple;
+	bh=FcIAjEcBu917QLFP2+1nHGAZRf5Jg5sKSfQC8WkuErQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=V9ZYNY06B1sbHUpSQRJgOarmgJv0SUt6p4EILplJJyk+MpLot/1H9+GVbPFYPWQNhLXDEYZQhQIEmIieIIGp+AFy24gJiyLF/DZxv8Zx4EhYn6dWiSrPq1H6DIaRSCMggSb6/uge1D971KKltaMk794um9iHNXi7WE9XrCnnCt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BnzUUtE3; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=QQASXMju+EzbhGGbA/9a8BvbzSuDkGSSA7TFmZJORbHaLl5d9xAbVy2us8z/T5elCKfDNqrv0Q6sEj1M+5DC62YJ6HJwpj/o/LDnYEo6c76EFvcRUOjP9QmniFPZ0cUUobDFBCUX1JdrmifVF5MiI0lzMfTGccBg1XOVDkrh/Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a+RCPde6; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BnzUUtE3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a+RCPde6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785322636; x=1816858636;
+  t=1785322638; x=1816858638;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=M3UZWr6C5Oj5mkoGd8VGU+mp1OxP8AISHHQXfqhmGVo=;
-  b=BnzUUtE31Sl/R7mILYGt/5qvNerCWqkLffxYnsa/cyhqG3igB2rkhK1w
-   xsnLOOOOb5gc1E2dS2Jilq14kiloPBUOL71iwc3in9660zEAp/d+Ocpcm
-   uGSHtGjkIg12utO+1H43xyMBH4cSfNz5GxcSR1Y56b709NHhkutFV9qM0
-   CR+i8l+RYfeBsioE+mj5N+2aSyB0hISry25iRCELgt4/bjIFtvd32G+82
-   FjQ68pAnEc018MWxuQpib82bpS+xOrPWVs/gDroSecThKV6cOXvuMtDrO
-   csDYSUa1KOekZlFGFeymTzXUa4Mnpok6nm1UuDcK8YiU2btNyszo1g6rV
+  bh=FcIAjEcBu917QLFP2+1nHGAZRf5Jg5sKSfQC8WkuErQ=;
+  b=a+RCPde6NgLp9ou9C0G0+W5yfn9C0Ua2zXAYByUsYIii+kJwDX4OAOTt
+   ZUkK4VuxNXwLfcyzCg01qS/4plNymL6aoOn6MDDcdlz21+0KYTbUDYZ/S
+   xXBp8da9qo8V+SVUAAarY054EwpK/6w1HGlyHqA0b7f3MxY4hGBKRF7g/
+   HlUNJTiFWcuzJIgfxzMLfWH+lz7zGPNp0KNpoddrylYoKGbTUy44p7Pai
+   ywN8ROkJhawGNIlhfRab+8jhc7op+JbhdOu0SfgPPCW/mN3BwNXmlXwzg
+   lqU7LauyOtEdvf1Gn/hhLlFiDmps9OkaHRc6kSJfxQpvt96LaIivM8AX+
    A==;
-X-CSE-ConnectionGUID: WNqspE0LRd+LxF/46Wmz6A==
-X-CSE-MsgGUID: MMQ8HkMyTWqQHrzfQ+oRfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96583834"
+X-CSE-ConnectionGUID: 7LG0doBvSjST793tHda31Q==
+X-CSE-MsgGUID: IbdUnUxvQauFZVaryXkurA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96583839"
 X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="96583834"
+   d="scan'208";a="96583839"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 03:57:16 -0700
-X-CSE-ConnectionGUID: Md9HB3S1QY244n7ug6nEtQ==
-X-CSE-MsgGUID: mlnY5rxgR6yVMDKJH/0sYA==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 03:57:18 -0700
+X-CSE-ConnectionGUID: 4U3OxROPRTu2zdApSbpH1w==
+X-CSE-MsgGUID: nNdm+jiySMeOEpmM5wLNSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,192,1779174000"; 
-   d="scan'208";a="255675929"
+   d="scan'208";a="255675951"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Jul 2026 03:57:14 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 29 Jul 2026 03:57:16 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -51,9 +51,9 @@ Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	andriy.shevchenko@linux.intel.com,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 2/8] ASoC: Intel: catpt: Drop redundant else-if
-Date: Wed, 29 Jul 2026 13:00:51 +0200
-Message-Id: <20260729110057.342447-3-cezary.rojewski@intel.com>
+Subject: [PATCH 3/8] ASoC: Intel: catpt: Drop redundant signature argument
+Date: Wed, 29 Jul 2026 13:00:52 +0200
+Message-Id: <20260729110057.342447-4-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260729110057.342447-1-cezary.rojewski@intel.com>
 References: <20260729110057.342447-1-cezary.rojewski@intel.com>
@@ -65,31 +65,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the preceding if-statement ends with return,
-there is no need for else-if.
+Initial design assumed the mechanism could be reused for loading
+external modules with signatures differing from the Intel's constant. No
+users with such characteristics ever appeared rendering the 'signature'
+argument useless.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/catpt/loader.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/intel/catpt/loader.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
-index 880f62896997..79742dceef53 100644
+index 79742dceef53..775781489ded 100644
 --- a/sound/soc/intel/catpt/loader.c
 +++ b/sound/soc/intel/catpt/loader.c
-@@ -652,10 +652,10 @@ int catpt_boot_firmware(struct catpt_dev *cdev, bool restore)
- 	if (!ret) {
- 		dev_err(cdev->dev, "firmware ready timeout\n");
- 		return -ETIMEDOUT;
-+	}
- 	/* Wake up does not mean FW is ready, an exception could occur. */
--	} else if (!cdev->ipc.ready) {
-+	if (!cdev->ipc.ready)
- 		return -EREMOTEIO;
--	}
+@@ -569,8 +569,7 @@ static int catpt_load_firmware(struct catpt_dev *cdev,
+ }
  
- 	/* update sram pg & clock once done booting */
- 	catpt_dsp_update_srampge(cdev, &cdev->dram, cdev->spec->dram_mask);
+ static int catpt_load_image(struct catpt_dev *cdev, struct dma_chan *chan,
+-			    const char *name, const char *signature,
+-			    bool restore)
++			    const char *name, bool restore)
+ {
+ 	struct catpt_fw_hdr *fw;
+ 	struct firmware *img;
+@@ -583,7 +582,7 @@ static int catpt_load_image(struct catpt_dev *cdev, struct dma_chan *chan,
+ 		return ret;
+ 
+ 	fw = (struct catpt_fw_hdr *)img->data;
+-	if (strncmp(fw->signature, signature, FW_SIGNATURE_SIZE)) {
++	if (strncmp(fw->signature, FW_SIGNATURE, FW_SIGNATURE_SIZE)) {
+ 		dev_err(cdev->dev, "firmware signature mismatch\n");
+ 		ret = -EINVAL;
+ 		goto release_fw;
+@@ -617,8 +616,7 @@ static int catpt_load_images(struct catpt_dev *cdev, bool restore)
+ 	if (IS_ERR(chan))
+ 		return PTR_ERR(chan);
+ 
+-	ret = catpt_load_image(cdev, chan, cdev->spec->fw_name,
+-			       FW_SIGNATURE, restore);
++	ret = catpt_load_image(cdev, chan, cdev->spec->fw_name, restore);
+ 	if (ret)
+ 		goto release_dma_chan;
+ 
 -- 
 2.34.1
 
