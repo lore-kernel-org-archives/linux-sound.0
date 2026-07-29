@@ -1,136 +1,271 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F014921B7
-	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 13:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CFA4ADD8A;
+	Wed, 29 Jul 2026 14:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785333512; cv=none; b=Khu83mxwYcXc9npRLu1XUfJRVNnahj8BlE6DXhdnmW5CW8b4NJAvXVJbdIgwjP6cSJ9ChG4fPfZTFqd70Y+Dc137tAiRvUf/AiOm6pytz8zuLiFouye71nGULNmAYXcO8E71YsHab5qtSAqb01x1IEN+YrL1NuYrw+KVtYQUbgk=
+	t=1785333898; cv=none; b=oEJY7nUqAw4LYV3FO1RMppOJUIB+h7ybgaCkRfOvN7nAYnzuCvimmVpad06uxgyPpNYYTnfk9CjNtk5ryJXLlTRe0swbR15O2/uMDfIOhMrId1ZgkoraKJPDTJ/Q07lqlTM5ESpz/SlBoJLewzd1/4+rSgS1FclFZmlpSc2VY0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785333512; c=relaxed/simple;
-	bh=YjNFQzTQhwL6V00wLmDFU3YBaChZBq529dvKp9UOIMA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TuF4VGdhBMRURlc5gCI7e5tM5UoEqySWNx+tvMbbxOD2IfcA6BZ9XsvhYXuqonyuRVWLXPAB0LLNTBjtU2QrNJJ5IwnwYjePU9/nwm2yoC3x0rcgi7Kteqi/DTCmya2cDfzHNenQtr2wUXnQp6/BM+bZjIpG+N1V64bCcitnpZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IWtMwgcG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lgalo5Hu; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oaAt6LN0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YQ9DuZbT; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785333898; c=relaxed/simple;
+	bh=1a0C9cke4e+5+Kzv29V9S2eVJYfsQkgbvXtAF8XmeNg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tc9n4jCEvpwnanKvs1L/JcJO4uGVlp/KP593xtfO/lYlbjpdbDdyJ+7MBQgOP3k9j0rm+ZdghkEx8jFOUpNvsFaNX6jKgnfxJblXXCc+x1KO5JmVUNi1p+zw9TwpwtniLALUNM2DqY7ZaGoIhnG7OCASlnpTyEqWMw6CpTaEtkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QguFoiyB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IWtMwgcG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lgalo5Hu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oaAt6LN0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YQ9DuZbT"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AC9337B806;
-	Wed, 29 Jul 2026 13:58:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785333500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DsI2MST9B4hlCI+O195lfswO/o1LOYgdD/vzi5OmKLg=;
-	b=IWtMwgcGarfVoKP5yRtBPM86QHlafbpLyitVRU4NgRRtzWsmTH0mKcrzEc1jcKj36Egyrp
-	RodBQlGVMbifCQrGJOGunkHitQH+KMQ6sQRewxR2K4tlYtJcZRQbMVVZw3N3utOu6kD4WR
-	VfavR1betBkZBW4dXsHunxi4azuOyk8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785333500;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DsI2MST9B4hlCI+O195lfswO/o1LOYgdD/vzi5OmKLg=;
-	b=lgalo5Hu+vEgzZs21pc5+li8rLXXS91Rle6gQ+b6oV7T9CgPbBB8iojHMhT2/iDR/Gf6Cs
-	Knh0ZPI+AuD/B0Bg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785333496; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DsI2MST9B4hlCI+O195lfswO/o1LOYgdD/vzi5OmKLg=;
-	b=oaAt6LN0vDGt//jYdDJ/zklacgBndBX2iInAFlxIw+9xZHcwhBQp7M3l2e+7sCvFqYwPzk
-	BtrIAe8jRFxkwsdInJ4P82kpkb1POR8sHQdFm/mA1CKNS2Va4BoA3dYWNkzsK+qZkOz70P
-	3g0Db5X8lRWWPJB9dwwHYvltrnDpyts=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785333496;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DsI2MST9B4hlCI+O195lfswO/o1LOYgdD/vzi5OmKLg=;
-	b=YQ9DuZbTDP/9XurBQ1wCrUahfg6pSaxYeuWbR1ZnbPh17/tsMyrI9/q61TWhkaHvKXMKfu
-	r5R4Nqj6pHAHg9Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 86F3F779A1;
-	Wed, 29 Jul 2026 13:58:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RXxSH/gGamq0GAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 29 Jul 2026 13:58:16 +0000
-Date: Wed, 29 Jul 2026 15:58:16 +0200
-Message-ID: <87fr11524n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/intel: Add Star Lite Mk II/III to power_save_denylist
-In-Reply-To: <20260729125544.539067-1-zhangheng@kylinos.cn>
-References: <20260729125544.539067-1-zhangheng@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QguFoiyB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8370D1F000E9;
+	Wed, 29 Jul 2026 14:04:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785333897;
+	bh=vGx4CqWtQi4SS5X8k2wA0qclMwzASCjnk7HhucnvH8A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=QguFoiyBjuVW58s63p3VZlBPWJl14pCtkcFAHK6ICYvDy8K+O5SPUvOjAmVB4AzJc
+	 JzjODFG5pWXN84Zt8vDnC8MA5RD99mKCX39JJfEeBWeV0DqJBZDYnDCfPm3oO/O9fM
+	 uP+1j5J/e0Jgfq0e16kQ/MntMxdMyr3FG52pyiV6sb4DKnCCHie49xckZPyDDmXPTi
+	 mqDWTVvXaTxT9y5KaWSlgjHzVpxSoeo03vcNscfoEIfrOd0A3t8cuokUL2H6iWUHrx
+	 JNY/bjz86VBf4Nucqh75iI37eXavc9p7Clsr6mXH/PrETcQJH+SjOfkSj1bh+5dfpD
+	 pOa+SWpTgY9vw==
+Message-ID: <6a901a72-fbcf-4478-b798-e5f234c5e9d8@kernel.org>
+Date: Wed, 29 Jul 2026 16:04:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 7/8] dt-bindings: sound: qcom: add Tambora WCD9378
+ SDCA codec
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Maciej Strozek <mstrozek@opensource.cirrus.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, patches@opensource.cirrus.com,
+ linux-kernel@vger.kernel.org
+References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20260722234221.884765-8-srinivas.kandagatla@oss.qualcomm.com>
+ <219d44e2-28ed-4c54-bd00-66e687a0ba48@kernel.org>
+ <d0891f90-b69b-4b27-ad58-94c342ad9a6a@oss.qualcomm.com>
+ <3c484a68-5db8-464f-992a-6c7584841a10@kernel.org>
+ <0cb5a2dd-c49e-47e3-8cc5-ab2ffd397a32@oss.qualcomm.com>
+ <ba147ca6-3788-4cbe-95c3-949ae73ee8f0@kernel.org>
+ <54f1c3e5-0b84-44a6-a03c-3cd65792de9c@oss.qualcomm.com>
+ <6ed441b8-7148-43ef-9c9f-4bc30c468443@kernel.org>
+ <b123882c-c51f-44b3-9004-bc1c4242af81@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <b123882c-c51f-44b3-9004-bc1c4242af81@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 29 Jul 2026 14:55:44 +0200,
-Zhang Heng wrote:
+On 29/07/2026 15:34, Srinivas Kandagatla wrote:
 > 
-> The Star Lite Mk II (0x10ec, 0x111e) exhibits a pop sound
-> when the speakers are used after a period of inactivity.
 > 
-> This can be resolved by disabling the HDA power save feature
-> via "options snd-hda-intel power_save=0". Add the device to
-> the power_save_denylist to apply this workaround automatically.
+> On 7/29/26 2:23 PM, Krzysztof Kozlowski wrote:
+>> On 29/07/2026 15:02, Srinivas Kandagatla wrote:
+>>>
+>>>
+>>> On 7/29/26 1:43 PM, Krzysztof Kozlowski wrote:
+>>>> On 29/07/2026 14:36, Srinivas Kandagatla wrote:
+>>>>> On 7/29/26 1:30 PM, Krzysztof Kozlowski wrote:
+>>>>>> On 29/07/2026 14:17, Srinivas Kandagatla wrote:
+>>>>>>> On 7/29/26 12:40 PM, Krzysztof Kozlowski wrote:
+>>>>>>>> On 23/07/2026 01:42, Srinivas Kandagatla wrote:
+>>>>>>>>> Describe the WCD9378 SDCA peripheral node (compatible sdw20217011000)
+>>>>>>>>> driven by the wcd9378-sdca codec driver for headphone playback, headset
+>>>>>>>>> mic capture and jack detection via the SimpleJack SDCA function type.
+>>>>>>>>>
+>>>>>>>>> WCD9378 codec can be wired up in 2 different modes.
+>>>>>>>>> "mobile mode" on phone/tablet SoCs is enumerated as tx and rx device,
+>>>>>>>>> each of which has dedicated control and data lines.
+>>>>>>>>> "compute mode" on compute platforms such as Glymur is enumerated as
+>>>>>>>>> single standard MIPI SDCA class device.
+>>>>>>>>>
+>>>>>>>>> Both modes share same Device ID, compatible; qcom,compute-mode selects
+>>>>>>>>> which driver path is taken.  Supplies, reset GPIO and mic-bias voltages
+>>>>>>>>> live on the SoundWire slave node in compute mode and are forbidden in
+>>>>>>>>> mobile mode (owned by the top-level codec parent there).
+>>>>>>>>>
+>>>>>>>>> Assisted-by: Claude:claude-opus-4-7
+>>>>>>>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>>>>>>>> ---
+>>>>>>>>>  .../bindings/sound/qcom,wcd9378-sdw.yaml      | 200 ++++++++++++++++++
+>>>>>>>>>  1 file changed, 200 insertions(+)
+>>>>>>>>>  create mode 100644 Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+>>>>>>>>>
+>>>>>>>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+>>>>>>>>> new file mode 100644
+>>>>>>>>> index 000000000000..2ed4ad92958e
+>>>>>>>>> --- /dev/null
+>>>>>>>>> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd9378-sdw.yaml
+>>>>>>>>> @@ -0,0 +1,200 @@
+>>>>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>>>>>>> +%YAML 1.2
+>>>>>>>>> +---
+>>>>>>>>> +$id: http://devicetree.org/schemas/sound/qcom,wcd9378-sdw.yaml#
+>>>>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>>>>>>> +
+>>>>>>>>> +title: Qualcomm SoundWire Slave devices on WCD9378
+>>>>>>>>> +
+>>>>>>>>> +maintainers:
+>>>>>>>>> +  - Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>
+>>>>>>>>> +  - Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+>>>>>>>>> +
+>>>>>>>>> +description: |
+>>>>>>>>> +  The Qualcomm WCD9378 codec presents its SoundWire slave devices with
+>>>>>>>>> +  class ID sdw20217011000 in both operating modes:
+>>>>>>>>> +
+>>>>>>>>> +    * mobile mode -- two slave instances sit on separate SoundWire
+>>>>>>>>> +      masters carrying data only.  A separate top-level codec node
+>>>>>>>>> +      owns the codec's supplies, mic-bias voltages and reset GPIO.
+>>>>>>>>> +
+>>>>>>>>> +    * SDCA / compute mode -- one aggregated slave sits on a multi-lane
+>>>>>>>>> +      master and carries both control and data.  There is no separate
+>>>>>>>>> +      top-level codec node, so the SoundWire slave node itself owns
+>>>>>>>>> +      supplies, reset GPIO and mic-bias voltage configuration.  It is
+>>>>>>>>> +      marked with qcom,compute-mode.
+>>>>>>>>> +
+>>>>>>>>> +  Codec drivers that match sdw20217011000 use qcom,compute-mode to
+>>>>>>>>> +  decide which mode to serve; the presence or absence of this property
+>>>>>>>>> +  also gates whether the supply and mic-bias properties on this node
+>>>>>>>>> +  are required or forbidden.
+>>>>>>>>> +
+>>>>>>>>> +properties:
+>>>>>>>>> +  compatible:
+>>>>>>>>> +    const: sdw20217011000
+>>>>>>>>> +
+>>>>>>>>> +  reg:
+>>>>>>>>> +    maxItems: 1
+>>>>>>>>> +
+>>>>>>>>> +  qcom,compute-mode:
+>>>>>>>>> +    description: |
+>>>>>>>>> +      Marks this SoundWire slave as the single aggregated slave that
+>>>>>>>>> +      implements the codec in SDCA / compute mode.  Only present when
+>>>>>>>>> +      the codec has no separate top-level codec parent; in that case
+>>>>>>>>> +      this slave node also owns the codec's supplies, reset GPIO and
+>>>>>>>>> +      mic-bias voltage configuration.  Absent in mobile mode.
+>>>>>>>>
+>>>>>>>> I doubt there is really "compute" or "mobile" mode, so you just wrote to
+>>>>>>>> match use case, but that does not match hardware.
+>>>>>>>>
+>>>>>>> This is hardware fuse setting, its not just usecase based but it changes
+>>>>>>> complete wcd9378 hardware topology, in mobile mode we have 2 soundwire
+>>>>>>> devices representing tx and rx side of wcd9378 however in compute mode
+>>>>>>> it only has one soundwire device dealing with both tx and rx. compute
+>>>>>>> mode is sdca class compliant device.
+>>>>>>>
+>>>>>>>
+>>>>>>>> I think there should be no separate top-level codec parent in the first
+>>>>>>>> place, thus this property is not needed. You always list here all resources.
+>>>>>>> There is no top level aggregated device when the codec is fused in
+>>>>>>> compute mode.
+>>>>>>
+>>>>>> There should not be a top-level in either case. This was always Linux
+>>>>>> driver limitation.
+>>>>>
+>>>>> That is not true, its clearly a hardware topology thing.
+>>>>> Codec has two devices tx and rx, Only one of the device (tx) has access
+>>>>> to CSR registers of the codec, so rx and tx are pretty much a single
+>>>>> aggregate codec device which is why we have top-level representation of
+>>>>> the aggregate device.
+>>>>
+>>>> So two devices, but not three. If TX has access to RX, it does not mean
+>>>> there is third device. If there was a third device (that top level
+>>>> thingy) you would have it here as well. You don't have, because it is
+>>>> purely for Linux.
+>>>
+>>> WCD codec is a single Codec IP Hardware block which contains two
+>>> soundwire interface devices. Effectively we have one aggregate device
+>>> representing codec which encompasses two soundwire devices.
+>>
+>> You have only two devices.
+>>
+>>>
+>>> Third device is the only place where we could represent entire Codec
+>>
+>> No, any of these devices could. The top-level is a fake being.
+>>
+>>> rather than just soundwire interface devices of the codec.
+>>>
+>>> Am not sure what is Linux specific here, its purely hardware topology.
+>>
+>> The Linux specific is because you needed a placeholder for power
+>> sequencing. It is not a pure hardware topology.
 > 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206623
-> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> Not just power sequencing we have
+> 
+> 1.  tx and rx register read/write interactions happen as part of this
+> device ex: reading and writing rx blocks inside codec needs to go via tx
+> device.
+> 2. connecting/interacting TX and rx processing blocks ex: mbhc
+> 3. power and codec internal clock management
 
-Is the problem verified with the latest kernel?  The report above
-looks very old, and it's not sure whether the problem really persists
-or not.
+All this should be part of TX. You cannot use argument that you moved
+some logic outside as reason why you need to move that logic. That's
+circular.
 
-In general, the power-save deny-list is a kind of last resort.
-Usually the pop noise problem could be resolved in the codec driver
-side.
+> 
+> 
+>>
+>> Otherwise, please point me on which/what hardware bus that top-level
+>> codec resides on if it represents hardware topology.
+> 
+> Its external codec to the SoC.
 
+No, that's irrelevant. On which external bus does it sit? I2C devices
+sit on I2C bus. Do you see them in top-level?
 
-thanks,
-
-Takashi
+Best regards,
+Krzysztof
