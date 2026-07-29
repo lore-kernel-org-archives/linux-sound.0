@@ -1,155 +1,144 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB9935DA43
-	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 06:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5803A35C180;
+	Wed, 29 Jul 2026 06:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785306817; cv=none; b=Mpz5BWcExD6WD7mCUuJPupcQNJCHRW9M4jzWfvC74vnJK+QG9PRappZQCql6EkLuTuAFgjXStBHdW4a1cIfm9aJLBJEtUMjYTeGlJfM5U9sd2g1zpvlhgrGM8+tfqqSP0t5BqAUlr0i2SVYcrO8N+I3r3FkZu4yKAQRo2z91KDY=
+	t=1785307095; cv=none; b=RapZR1WMhprmMEXTwrThEBXSJhP1hR1AgcvfEJLJAjfEJv3PgrwUDNck7UIeh1kz2r7YwZ/j2nrzR/7WGY5Z4WCl28CFQ3laeCYy9CsAM2HWzEV+CjxZiuUpernXbNKsppUoG5SySY8EUSskqQGWdrKYTW89ZS8nDTBdAZYJqOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785306817; c=relaxed/simple;
-	bh=o3mvfMYPPpr7IOIBUg8HebXEWEJ5XbfbsV9De+yGR4M=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KOkXdvVsyeFH7OjcBBqk82yQYb6yTQRhh34MNQ0eQb7xRIbOfbpw8AxHrIUYBEuDebyueiq6upr5QZYag86D5lx1itWHY/f0jN1eXbj/e5VO8lGoAKOqSzpv7IhO4LWodUtLSBjBhADx8TL3ZYhCYPT2qUNFRIBSQK8D/LV29gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JR9UEudb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=turELo9u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TbyXl3L0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AsL5B6v+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JR9UEudb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="turELo9u";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TbyXl3L0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AsL5B6v+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E2E143E0F;
-	Wed, 29 Jul 2026 06:33:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785306810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IhZhbPWaqyVHuLuo9UIH8OEh/qH07mAaSSdUm971jZw=;
-	b=JR9UEudb8Gh94alYwm1axO51mC/7eId94pbCD1PZZbQPi1fLangsdNpS9o3zY2BCWhkFSM
-	BAWrW2+80hA7YaV2ueoShEg6+1p5CBcO4Grhy/p1Lnlp2gwsuUXZBm5P9BBzI8D+6+3dkH
-	36GYOicERCFEdv4CQIwmsB/V+1pUsbY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785306810;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IhZhbPWaqyVHuLuo9UIH8OEh/qH07mAaSSdUm971jZw=;
-	b=turELo9uN4KHUay4Re8g0WF7goodpxqlRgdCm5MwNtBnXLSJ6174QI76S4xLREO+Mj3O9o
-	VZy4GXOZOr620bAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TbyXl3L0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AsL5B6v+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785306805; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IhZhbPWaqyVHuLuo9UIH8OEh/qH07mAaSSdUm971jZw=;
-	b=TbyXl3L0qO2hQHAc++u73cbnEYTAX13QRTjjH1yas5+Ns25gbKygt07S3B3CuTk2zwGo2d
-	n0tXUAKFHfj/jrGKcVWf384ph1/crCCBvwJCn6fWQprBF6ji5pTv6gpeUxbyc4POo6Dnxg
-	w3uE/HX5XOwwfivKm2hWmHJdIThUBv4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785306805;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IhZhbPWaqyVHuLuo9UIH8OEh/qH07mAaSSdUm971jZw=;
-	b=AsL5B6v+irOKtil+fdafmWIbhi1gDs37mslWyFpbQGTthWk1I6aZynDuNiTDdwxq2MksOH
-	rrfYryt5g/1ydFBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC619779A1;
-	Wed, 29 Jul 2026 06:33:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Q77LKLWeaWrGXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 29 Jul 2026 06:33:25 +0000
-Date: Wed, 29 Jul 2026 08:33:25 +0200
-Message-ID: <87mrva5mq2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kees@kernel.org,
-	linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1785307095; c=relaxed/simple;
+	bh=v8hq821xa1P3+Auz71mRHrh5XyVx74m2EWjap6LpTEg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MAsf/8YelN/54Yl8qeDCTmeGAqNT5DceZmTYkzqT6R3NiOdbpMo+clriTdkUV7KqtoM6Gj0nNPKt4EiiwKj/erniJQH/opXzLQbqvjp62OgZMVEvqXb2zVcEtNs4f9RHKgAbuX09G8ySUSwLUwV4HoypTUcnMDFC6wNgFag9ta8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 0ebc9f0e8b1811f1aa26b74ffac11d73-20260729
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:2b175301-63cf-4c33-839a-cbe79e9d5e97,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:06616def195ab83187e08c29e005ba55,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|136|850|865|898,TC:nil,Content:0|15|
+	50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,
+	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 0ebc9f0e8b1811f1aa26b74ffac11d73-20260729
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 193097255; Wed, 29 Jul 2026 14:38:06 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+b6cab840e6a85641c7ad@syzkaller.appspotmail.com
-Subject: Re: [PATCH] ALSA: ump: Fix double-free of ump->out_cvts on legacy rawmidi attach failure
-In-Reply-To: <20260729002333.11525-1-kartikey406@gmail.com>
-References: <20260729002333.11525-1-kartikey406@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	songxiebing@kylinos.cn
+Subject: [PATCH] ALSA: hda/realtek: add missing error checks in alc269 init/shutdown
+Date: Wed, 29 Jul 2026 14:38:03 +0800
+Message-Id: <20260729063803.1453980-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: E2E143E0F
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[b6cab840e6a85641c7ad];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,syzkaller.appspot.com:url,appspotmail.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 29 Jul 2026 02:23:33 +0200,
-Deepanshu Kartikey wrote:
-> 
-> If snd_rawmidi_new() fails inside snd_ump_attach_legacy_rawmidi(), the
-> error path frees ump->out_cvts but leaves the pointer dangling. Since
-> ump->out_cvts is a field of the long-lived struct snd_ump_endpoint
-> (not the rawmidi device that failed to be created), it gets freed a
-> second time later during normal endpoint teardown, in
-> snd_ump_endpoint_free(), invoked via snd_rawmidi_free()'s
-> private_free callback when the sound card is released. This results
-> in a KASAN double-free/invalid-free.
-> 
-> Clear ump->out_cvts to NULL after freeing it on the error path, so
-> the later unconditional kfree() in snd_ump_endpoint_free() becomes a
-> harmless no-op.
-> 
-> Reported-by: syzbot+b6cab840e6a85641c7ad@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b6cab840e6a85641c7ad
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+From: Bob Song <songxiebing@kylinos.cn>
 
-The very same fix has been already merged in commit
-70c977815af0d997feb2d0c5d284d55689bf7051 on sound git tree.
+alc_read_coef_idx() and alc_read_coefex_idx() can return -1 on error
+via snd_hda_codec_read(). Several init and shutdown functions save these
+return values and later write them back to hardware registers without
+checking for errors, potentially corrupting COEF register state on a
+read failure.
 
+Add error checks in:
+- alc282_init() and alc282_shutup(): check coef78 before write-back
+- alc285_hp_init(): check coef38/coef0d/coef36 before update, check
+  val before write-back, and break polling loop on error
+- alc294_hp_init(): break polling loop on read error
 
-thanks,
+Also add a missing NULL check for codec->bus->pci in alc269_probe()
+before dereferencing it, consistent with the existing checks in the
+same function.
 
-Takashi
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+ sound/hda/codecs/realtek/alc269.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 379e1458f4ac..d751e39529a2 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -296,7 +296,8 @@ static void alc282_init(struct hda_codec *codec)
+ 		msleep(100);
+ 
+ 	/* Headphone capless set to normal mode */
+-	alc_write_coef_idx(codec, 0x78, coef78);
++	if (coef78 != -1)
++		alc_write_coef_idx(codec, 0x78, coef78);
+ }
+ 
+ static void alc282_shutup(struct hda_codec *codec)
+@@ -333,7 +334,8 @@ static void alc282_shutup(struct hda_codec *codec)
+ 
+ 	alc_auto_setup_eapd(codec, false);
+ 	alc_shutup_pins(codec);
+-	alc_write_coef_idx(codec, 0x78, coef78);
++	if (coef78 != -1)
++		alc_write_coef_idx(codec, 0x78, coef78);
+ }
+ 
+ static const struct coef_fw alc283_coefs[] = {
+@@ -585,15 +587,19 @@ static void alc285_hp_init(struct hda_codec *codec)
+ 
+ 	alc_write_coefex_idx(codec, 0x58, 0x00, 0xf888); /* HP depop procedure start */
+ 	val = alc_read_coefex_idx(codec, 0x58, 0x00);
+-	for (i = 0; i < 20 && val & 0x8000; i++) {
++	for (i = 0; i < 20 && val != -1 && val & 0x8000; i++) {
+ 		msleep(50);
+ 		val = alc_read_coefex_idx(codec, 0x58, 0x00);
+ 	} /* Wait for depop procedure finish  */
+ 
+-	alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
+-	alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
+-	alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
+-	alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
++	if (val != -1)
++		alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
++	if (coef38 != -1)
++		alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
++	if (coef0d != -1)
++		alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
++	if (coef36 != -1)
++		alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
+ 
+ 	msleep(50);
+ 	alc_update_coef_idx(codec, 0x4a, 1<<15, 0);
+@@ -858,7 +864,7 @@ static void alc294_hp_init(struct hda_codec *codec)
+ 
+ 	/* Wait for depop procedure finish  */
+ 	val = alc_read_coefex_idx(codec, 0x58, 0x01);
+-	for (i = 0; i < 20 && val & 0x0080; i++) {
++	for (i = 0; i < 20 && val != -1 && val & 0x0080; i++) {
+ 		msleep(50);
+ 		val = alc_read_coefex_idx(codec, 0x58, 0x01);
+ 	}
+@@ -8843,6 +8849,7 @@ static int alc269_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 		spec->init_hook = alc256_init;
+ 		spec->gen.mixer_nid = 0; /* ALC256 does not have any loopback mixer path */
+ 		if (codec->core.vendor_id == 0x10ec0236 &&
++		    codec->bus->pci &&
+ 		    codec->bus->pci->vendor != PCI_VENDOR_ID_AMD)
+ 			spec->en_3kpull_low = false;
+ 		break;
+-- 
+2.25.1
+
