@@ -1,85 +1,97 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D2F3542F6
-	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 06:32:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF30035C180
+	for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 06:32:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785306735; cv=none; b=LuFLraMVzfPt3zCjp0aS1jdvKybSctio2S5t0YmWlgoMg8Z3p+DHNgmW7rwswKwxgFI9lGzLdK5Zgiq5Y5NzLOFy6OWzMXLv1Cc1GfOneaH11wMq+wuZ7zgXAe8D40NCCZ21nXkE6XoCjUdGO5ynbSOXoVWygC4HN36wnR1vw1Y=
+	t=1785306770; cv=none; b=ase+KRW/1Icjre7WtLHccSYceE+VadokCq85gh2nqSZLiWpu9VV/LekR95fWfFkVNgkjAVw1GyX6JUj5mlKThMgyoUUykIWkd80QgGri2yQ8BV/tChF6+WrE+JXqdo+VErpICoHHfwNAueRoItzi3fgK48FOoWD20IDV+snrwUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785306735; c=relaxed/simple;
-	bh=vkLTe+ItTxddXEWTgdf3uhcRRoZZE2nJ9dY655wF2vE=;
+	s=arc-20240116; t=1785306770; c=relaxed/simple;
+	bh=V8I5Hw6cyqX+hAj/a2n5rB1kHSkM7YoxjWdxKxxOVeU=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hGvvvY8AKrEr4VlVu2UKko7Ru9Otk7FTgDGk/oK576i37eU8D0m0IqmtVAHbC/1r08WUeR3JZM/MrGuhcWwbyaYsxQR40u8nA/JBniOcMtEylt2twc/olbD1mW/PuCzZKjGpRoZCX0E5t/NeZdxHmOVk3UvKB96eOhpQNlghRiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RYCTJZz9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gXJboa46; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2PBR3C+z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=y+ospbXp; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=P+9bsImopa/+nIAMNnkJHY3IvThaRYH8hrX6N5aEk4tYTOHek08n7ksI3yBspNKnZfTgloLAYnDpYS30H3QJfWe8b8eFFiqQwyKzJoeKh56F9IRlVfWFNj4d9FQzezFgXZ6bByIA3Nf0eKcdCl4bP+HaJul3yln+6oTc2V6SxbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RKquqlv4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Siebpzlh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uIIPM9Uy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oJuG9u5j; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RYCTJZz9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gXJboa46";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2PBR3C+z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="y+ospbXp"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RKquqlv4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Siebpzlh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uIIPM9Uy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oJuG9u5j"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B7FFC3E0F;
-	Wed, 29 Jul 2026 06:32:03 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BF5723E23;
+	Wed, 29 Jul 2026 06:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785306727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785306763; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eyaDvRvSyF+qgBqcXecAs8EbMJNmqc/1svvsCcFgCcs=;
-	b=RYCTJZz9OYSdkN0qfddGTC2sCIX8JXTQWOHLsi0V7Z0S/FSC62+0LDImXu8IwMpiXXI6vR
-	9vW1zYeJ3Rl+kuyStT6bPXe3Y4coH506orhjV3h1M6VHcdWtB9HwU42SQfzFYfIR18RKTE
-	FkCOD3oYgOQucApC+nekXwF+uZZm0ak=
+	bh=l8eE/jXjkxerPQinDcWUVztpMiST6rkmpUGVPS1OXNI=;
+	b=RKquqlv4DzIPFvMqwxQxw0qbX1+JbNKkKUmc3C9yQt7GxGI6QXZwX6CH9lbXcfb6aW+gAB
+	yxDW6KPKt0WeC6UQca78Mtr7hR4jiD9CQGFoFcinDVz4uQmniG5brqQYfhNO2PCXQJsWI9
+	IplYtgVHqulacymu9PfCrAohWQVAR+4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785306727;
+	s=susede2_ed25519; t=1785306763;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eyaDvRvSyF+qgBqcXecAs8EbMJNmqc/1svvsCcFgCcs=;
-	b=gXJboa46EmTkH4UW/10vDbyzRy9ATWnE1vm5/Q/MPbQLqneXRZ+1GokvF4O0w6PV+7vC7q
-	G1cvazpHpTik9AAQ==
+	bh=l8eE/jXjkxerPQinDcWUVztpMiST6rkmpUGVPS1OXNI=;
+	b=Siebpzlh0cmoFlhIDGJ2uaOHU3LKr7OsvRW927uO7QIr84r0Tu6+JJl5XUHEBHQzUJirc9
+	AB5hH7Lh2a0jU8Dw==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uIIPM9Uy;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oJuG9u5j
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785306723; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785306758; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eyaDvRvSyF+qgBqcXecAs8EbMJNmqc/1svvsCcFgCcs=;
-	b=2PBR3C+zr/zzF+zH/Al28YSd5+vOXZeaRRRqg9oPBOKPTzu6Vmgde8ManTMa6aQ49uCiKX
-	n26iBUFLCop/K2uS00SOaKJpPSNxCP5lAEAcDd7dIA/3jVkosiW2F+LfkbT0uGs+IQTEu4
-	DWTElu0mxUTSzcAcaNyAILO/qL70ysk=
+	bh=l8eE/jXjkxerPQinDcWUVztpMiST6rkmpUGVPS1OXNI=;
+	b=uIIPM9UyPAWRdSuiOUdvluJOPmzESR+r5ePj5pzU7CY9C/l7x0q2Mv2T+nugZE/Fj7TIJM
+	+OVKUMn+yzphBdqm9C9JQTS9lCN4DA2Z+7HC1EHwPwBh8UC+qVi3hlQZ71IqOLTQ9Xx/R7
+	tgKAfnHdm6fQWdqzrmhKWEk5iqAsJeU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785306723;
+	s=susede2_ed25519; t=1785306758;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eyaDvRvSyF+qgBqcXecAs8EbMJNmqc/1svvsCcFgCcs=;
-	b=y+ospbXpd++OwL43kAA8DhvhTBpix/RrGmNHZWwc6k5EjnTyfL0YlYztXexikxTDAFKn3X
-	c9LLUmnKb/6TwmDQ==
+	bh=l8eE/jXjkxerPQinDcWUVztpMiST6rkmpUGVPS1OXNI=;
+	b=oJuG9u5jWg2demHqw0d/CrQkxUgW3IZlt7PO2l6OLt5D6JANZYQdriUWEDAjM9z3f+tpHA
+	9BRz5neyup0SaVCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83AF7779A1;
-	Wed, 29 Jul 2026 06:32:03 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 72A94779A1;
+	Wed, 29 Jul 2026 06:32:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oXvxHmOeaWreXAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 29 Jul 2026 06:32:03 +0000
-Date: Wed, 29 Jul 2026 08:32:03 +0200
-Message-ID: <87pl065msc.wl-tiwai@suse.de>
+	id Mku9GoaeaWoQXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 29 Jul 2026 06:32:38 +0000
+Date: Wed, 29 Jul 2026 08:32:38 +0200
+Message-ID: <87o6fq5mrd.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: =?ISO-8859-1?Q?Andr=E9?= Pragosa <pragosa512@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Kailang Yang <kailang@realtek.com>,
+	Damien Dagorn <damien.dagorn29@gmail.com>,
+	Sean Rhodes <sean@starlabs.systems>,
+	Chris Chiu <chris.chiu@canonical.com>,
+	Lei Huang <huanglei@kylinos.cn>,
+	Eric Naim <dnaim@cachyos.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add GET_SAMPLE_RATE quirk for C-Media CM6206
-In-Reply-To: <20260728222239.62749-1-mikhail.v.gavrilov@gmail.com>
-References: <20260728222239.62749-1-mikhail.v.gavrilov@gmail.com>
+Subject: Re: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP Victus 16-e0xxx (MB 88ED)
+In-Reply-To: <20260728221129.14680-2-pragosa512@gmail.com>
+References: <20260728221129.14680-2-pragosa512@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,63 +99,61 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.80
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.01
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-1.80 / 50.00];
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: BF5723E23
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,kylinos.cn,realtek.com,gmail.com,starlabs.systems,canonical.com,cachyos.org,vger.kernel.org];
 	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Wed, 29 Jul 2026 00:22:39 +0200,
-Mikhail Gavrilov wrote:
+On Wed, 29 Jul 2026 00:11:25 +0200,
+André Pragosa wrote:
 > 
-> The C-Media CM6206 (0d8c:0102) truncates the three-byte sample rate it
-> returns for UAC_GET_CUR to its two low bytes.  After the rate has been
-> set to 96000 (0x017700) the device reports back 30464 (0x007700).
+> Add subsystem ID 103c:88ed to the existing HP Victus 16-e0xxx
+> mute LED quirk list.
 > 
-> At probe time the driver initializes every altsetting to its maximum
-> rate, so altsetting 5 is set to 96000 and the warning appears on each
-> plug-in, before anything has opened the device:
+> The HP Victus 16-e0xxx with subsystem ID 103c:88ed uses the same
+> mute LED coefficient configuration as the already supported
+> 103c:88eb variant.
 > 
->   usb 3-1.3: 1:5 Set sample rate 96000, clock 0
->   usb 3-1.3: current rate 30464 is different from the runtime rate 96000
+> The mute LED was verified by manually toggling coefficient index
+> 0x0b (bit 3) using hda-verb. After adding the quirk, the LED is
+> registered as hda::mute and follows the audio mute state.
 > 
-> That altsetting is the one parse_audio_format_rates_v1() already fixes
-> up for this chip, so this affects every CM6206.
-> 
-> Only the read-back is broken, the rate itself is applied: a 1 kHz sine
-> rendered at 96 kHz is recovered at 1000.2 Hz, and a silent fallback to
-> 48000 would have been reported as 0x00bb80 rather than as the low half
-> of the requested rate.
-> 
-> Add a QUIRK_FLAG_GET_SAMPLE_RATE entry for the device so the read-back
-> is skipped.  Setting the same flag through the quirk_flags module
-> parameter makes the warning disappear while the 96000 init still
-> happens.
-> 
-> Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+> Signed-off-by: André Pragosa <pragosa512@gmail.com>
 
-Thanks, applied now.
+Applied now.  Thanks.
 
 
 Takashi
