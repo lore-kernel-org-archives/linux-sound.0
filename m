@@ -1,64 +1,64 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE0B414A1F
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 09:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79984417355
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 09:54:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785405274; cv=none; b=Ot8t9YLdKEVuzxR2dpEW4xp2mbP5Rwk/AT7wvfvbr+6TEzjL4wE1DzWWsqgILlC/pxIDfp81+c5nqfDL5z8FCUOq5ucDT5VTY3vhPPqIRp9GdAm17UwXtETciApnk7MmOPRgyxIYfTbhZn4LImLxeBA8ocS9vsw5NdqtEQ0UuR0=
+	t=1785405282; cv=none; b=DpkmCbsdq1wZ5qMWFhtDvG8h0rlqTaRjbt+zpwk925u8AfTCv+zGCvezBDUxsVllU0cejsESzle+D6qJmoc2F8ag4QRCC7Cmj9XEZVc+4OH7c78odylrargXmHsJqVniYqslYx+cU+2oiM/15FJMm39xb2k2tgHHJ6ckkBssgQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785405274; c=relaxed/simple;
-	bh=4asQp7CItf/QY0ZvkUxBMA4VK7DMZY+asRZD8/vwN50=;
+	s=arc-20240116; t=1785405282; c=relaxed/simple;
+	bh=/gXKMbBuIe/nzXJIZ380fTPEnD4T8QBEcymvrfjUGLE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PfpaTuAqQdSW0c3p7cSX14bArP08BtqTvNubKkqQFmc2YvLeCOlThkV4/GMOHdqKJ+mZ478ZjKRwC5CD6eh2s7hWWL0ErG1AQ0TvkxRX6qO0YcYXVUkYWrW/izBBTLz253XEWP8Dd1eEDLjmzi2PzP++ilJDY8RUCAoreIHzhH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D1iKdcfo; arc=none smtp.client-ip=209.85.214.181
+	 MIME-Version; b=G/VRm3RKSVAI5wbznGDPhlA7lJN0hV9SVH+DVSzlKOHAkXe8F6mg2U+qF9Y2IRGnsx7WEc6Z8Bx6wWzVn7OqpOWRgCms/lxExVzLy2WDcXchZA7Ncb+QQd2VIefPsMYonharGKgA7eWSKSHTVxQCcL297e5EnpUysFwCK4gXh8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QwGlULbE; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D1iKdcfo"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cc891373e0so22263415ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 02:54:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QwGlULbE"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2d01663d816so17249415ad.1
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 02:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785405273; x=1786010073; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785405281; x=1786010081; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NzbglvDmSneSyaYqeAknPVGwIe7A9QQH6F0QvdDo8X8=;
-        b=D1iKdcfoQhDkIOqqgx6AAhPqPVLU9SWnmhh1D5Gy4wYUbfgHIkvyBdfmP65Pwt4Sq/
-         fPKhJ8dDmruHPNtQgfIMK1ljia9/0XmmquuEAepgyIqGS+RyvBd048oaIUw7BgR8fDHs
-         +DZc9s4TkYc4jA5znkcOxY5+IGZdfrtFwvyoWjst4kHmdszp07pxeqZjbttm48gweHvp
-         hBoRUIydkWt/Z0LbcKo1hmbu56FZXnUkocNeWmkfSrVghyvddmpmHMXeVTQ/vSeQecq3
-         bD9i3Yv/jBQJO7em9sNsCnsYmLHCXlgRMPQbqwmYnNSE5vvNzkJZuN4rugTxeIg+28Ql
-         5KUA==
+        bh=+lKz/SlGwXmAhLGWuO3fxWgDmJoMay2AdJkxbT6UZVs=;
+        b=QwGlULbEBRFVWxJ/QCwFNnyrYxNaPqBUJv2H7lGH9DEQaccUjTX05JSSsKMiTcN/pT
+         HGHJGv4PTw4kRmwr0F4g1aoKwBKIg16qLULniWc06TRJjdx7nKTaeswDw0ro+o3Nf9Ca
+         /FebpKF7OcpaAOE+k7nSMUeuh2WoBUGyotJwcMp2jACfTHVDDZaK6w5+q0T4DAydQq8K
+         MhgzfSGbckjlDB4LTKRhbOGzJT9/+e5Sn8A8kLLTyciS0sQY4KifLYl5O4FPyiM+L4oU
+         qsnS1/sBLG6+91NWZdz8r7tvnul40K8kbaQ6pZzPwta97lm1mNSsmibbAXSu6Hm4+wS4
+         gfPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785405273; x=1786010073;
+        d=1e100.net; s=20251104; t=1785405281; x=1786010081;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NzbglvDmSneSyaYqeAknPVGwIe7A9QQH6F0QvdDo8X8=;
-        b=INL8Rm/oNBxH0E0mzT81euG+9WlFFmHGSjALrG1POO2ATh4mrjqqrVhrsYNifeo+pJ
-         sLFwKKWSHkruod4D0K8A7yeXWpmW3zsyUnh9v9/9UYNCePGzsjD7VPy1addd8JVvncmZ
-         dhVMnNCzor8YKpO0//UPpgQ4j4PaC5DZxt9lVvaFVwUGGPSnUbhHsHY3jYaT2rzESADb
-         MN5SODCM6YabQdrEH1UrKXKu8+d5+2nxSok95tgTCsqzWNihZH/oLFKdZFyHpdVSWi76
-         ++Y3IL+qqXXTBq73Yr00P4nErBijQuysu2pADPQU7DE3TDOBcLG+pYaOiWVIbh6CE9VZ
-         K+rQ==
-X-Gm-Message-State: AOJu0YwEzuYNd2518LcRTrgsh++IU4J4FrZSLTmd6qyjCCg7/aemXOZe
-	Uj8SIiXTyoLA02rHowtGmMZ6uiyxhnhKTBz62ITLZE/YmDD7AiZDtOdv
-X-Gm-Gg: AR+sD114VUf3JeFc7B+BvqTNPZFSlhEGzOKPXmTri3xziDY/8tu+SqLxc/85WDV+3G1
-	j1AQD+9iuYVClUhFPaB5Cr56wbTvvAUfzrkX6MWJBUyaUIyZU7j17JhMWdarpoyaxFEkJrHHZqI
-	JpCzWHy5Mn5faQivc5vGm5Jgc8DkuoHKZ3tRfIJt2UVWX6/YcPPIwu7G7M3YQPiJtWvdZJZQY5W
-	zUxz2kn3CFPgzttLJVN117VRJ6BJPlwZWfE1gSN0kpYvVNJuoW4d8DxXAj8J1pl2W0GfRYipfeV
-	5hImOkHcRwhlZokvH5nfBOwUbF1dZrpAaBPwvbva2u4DFuoMZXOasuNMvazq/rc7GXwmni+kBlM
-	Cx9wmo6ubSceFUkvB0PCHgCLAhpfGxab9LOJbPNCaV45slWU0Q6kxAiq6D8RlXDMOzP1/7daMkz
-	mDNoJWiLPwfgJgWZMYSp0VQin25FgwsCU92xXy/pfC1/jYmsK9UAQF/Wbj07iXYB5l8MDlDrWa9
-	YbXalLTod9DM18O4KvIcfBi8dXZNcvRLouyP/P4gIv4JnvDSprRIQybU4+t02rr0FfPpjFdcT7V
-	9AbR
-X-Received: by 2002:a17:902:d98e:b0:2c9:d539:61e7 with SMTP id d9443c01a7336-2d035c729edmr17691485ad.19.1785405273203;
-        Thu, 30 Jul 2026 02:54:33 -0700 (PDT)
+        bh=+lKz/SlGwXmAhLGWuO3fxWgDmJoMay2AdJkxbT6UZVs=;
+        b=cIKNFPgLJR1Am9paeAFeeyF2YoafKPqwCYuArV8CLb/eirtmgM3jKeqGxc+dfUkxtr
+         YDEqIvdycj+Albd4M3JgmAXMB9RZwDZyhZttLIqVDEvaUl0xjJtwWfa7jkNnUS7KWD4z
+         TrapOM0jyiQpn1DJXA/3yamuAVo2FH6B6xZA+mxKnvWOfq38e6gXnCNRxZbqo14my/hJ
+         dxOLPxWkhHnKrdS1rFhnV9Znb7NrY9hQw063KlEdNJmYQp7JPlxDXpNg5OJUfKm5p9lq
+         QQrL6pAL/IFTbKnp9dkWCGIqda899ujuql6mqJk3GA6Y6+8fdyeTt4ligCIIpCrhDmK0
+         iiqA==
+X-Gm-Message-State: AOJu0YzQm2y7RauBTBmwMTjylE7nyrQLnOrUEyNnmFWz2XXEoAlOeXea
+	jVLIsaLnwlqKksNoi0owH7qlUObT0HjV4enle8ejbc7DeRRn9siK64fV
+X-Gm-Gg: AR+sD13yuE64I135qYG6BexslNQydbwmcSt710w1ksjFATjmWBzEwV8XDwLNgt23RiV
+	l0FT1JsIlnucphf7fgqaeH+VKuMUc5pIoTzwemg30jQoMeIx41wJyAi4PK/RiMKrymk+HvIh5NT
+	rk4I4d4n+DCc8gtsHU4pIpaZcUiuup6luvhVZhXeOLjRn9NCIk3ZXK1gr83cakl4e+aA4LWFMhB
+	vI2kiKgvfaSct8y3bRb7m/+cM7oaoT+tkWRpenhYV7PDd8GdoEKc6UTl8OJOqHjDpZL2pnIBz8B
+	2MpklBd7hrOuBVYTuV5H6CNSSdmlQzxFWb1niM0qHwupgKiAuj6R+ocALppfrdcQAsmvLzyZfxs
+	FMhqrD+7QSxQhA3r/FZPDGN8pX9lGYmL18d9Mi1VLeFlH0QYDyjkonLViAYEbDFLORFvrI09WRU
+	md7iPQxgkJTZlYpjeEndwt/EOGCk+DZF9ywnt6rOEAVbijPPHsbb0lS21bWGPXvMWEgzVeNyZ+E
+	XIEz5hC0hKC+aczk5FxnS/CNjJ5scvXAx7CbA/NEaM0BrP92Ya2n/f3dUeDWQ41U/+PjEEXkk6c
+	XwR6
+X-Received: by 2002:a17:902:c943:b0:2c9:97a7:f544 with SMTP id d9443c01a7336-2d035cfc878mr18082985ad.42.1785405280827;
+        Thu, 30 Jul 2026 02:54:40 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022c2dfb1sm23982345ad.72.2026.07.30.02.54.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022c2dfb1sm23982345ad.72.2026.07.30.02.54.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 02:54:32 -0700 (PDT)
+        Thu, 30 Jul 2026 02:54:40 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Tim Bird <tim.bird@sony.com>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -68,9 +68,9 @@ To: Tim Bird <tim.bird@sony.com>,
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/4] ASoC: spear: spdif_in: Switch to snd_soc_dai_dma_data_set_capture()
-Date: Thu, 30 Jul 2026 16:54:05 +0700
-Message-ID: <20260730095407.33894-3-phucduc.bui@gmail.com>
+Subject: [PATCH 3/4] ASoC: spear: spdif_in: Move DAI probe callback to snd_soc_dai_ops
+Date: Thu, 30 Jul 2026 16:54:06 +0700
+Message-ID: <20260730095407.33894-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260730095407.33894-1-phucduc.bui@gmail.com>
 References: <20260730095407.33894-1-phucduc.bui@gmail.com>
@@ -84,10 +84,10 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Replace the legacy direct access to dai->capture_dma_data with
-snd_soc_dai_dma_data_set_capture().
-The capture_dma_data field no longer exists in struct snd_soc_dai,
-making the previous implementation incompatible with current ASoC APIs.
+The .probe callback is no longer part of struct snd_soc_dai_driver
+and is now provided through struct snd_soc_dai_ops.
+Move spdif_in_dai_probe() accordingly so the driver follows the current
+ASoC API and builds correctly on modern kernels.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
@@ -95,18 +95,23 @@ Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sound/soc/spear/spdif_in.c b/sound/soc/spear/spdif_in.c
-index bbe016ed030e..d571055bfc6b 100644
+index d571055bfc6b..dd1e176193af 100644
 --- a/sound/soc/spear/spdif_in.c
 +++ b/sound/soc/spear/spdif_in.c
-@@ -55,7 +55,7 @@ static int spdif_in_dai_probe(struct snd_soc_dai *dai)
- 	struct spdif_in_dev *host = snd_soc_dai_get_drvdata(dai);
+@@ -150,12 +150,12 @@ static int spdif_in_trigger(struct snd_pcm_substream *substream, int cmd,
  
- 	host->dma_params_rx.filter_data = &host->dma_params;
--	dai->capture_dma_data = &host->dma_params_rx;
-+	snd_soc_dai_dma_data_set_capture(dai, &host->dma_params_rx);
+ static const struct snd_soc_dai_ops spdif_in_dai_ops = {
+ 	.shutdown	= spdif_in_shutdown,
++	.probe = spdif_in_dai_probe,
+ 	.trigger	= spdif_in_trigger,
+ 	.hw_params	= spdif_in_hw_params,
+ };
  
- 	return 0;
- }
+ static struct snd_soc_dai_driver spdif_in_dai = {
+-	.probe = spdif_in_dai_probe,
+ 	.capture = {
+ 		.channels_min = 2,
+ 		.channels_max = 2,
 -- 
 2.43.0
 
