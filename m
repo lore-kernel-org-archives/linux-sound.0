@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035DA3C379F
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1202636B93A
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 13:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785416127; cv=none; b=YDQ63yJDCctGkrGCiQPxZ3jRUj1eKnA4sf//aCOBwZ9+bhqtOFuU+3Njhsf/WrKFQLbF2HGaC9UrGXlwYNMqBJ6vDybCS2rgDFKCftXqlGClx/NFEzkVwd7FHrCQe/xITfJ9gXwnvLQ06bvyrB1iZV7N3C+qdcQww/IZPxV1hVk=
+	t=1785416653; cv=none; b=WzimCyC6wIg38XG0Z0NGo4CqQ/IlmJra7V+jSeHI2vtYsZBN0wHjf45gumdbBWBz9LYUIzOvjvS8U5GGZFft/8UwXQmNm+I1+eHMgkGT5nWdo03C2d4OOe+vvag3P1j0sDzHiD1k4E5jeNr1jf+/Cqek32FXQeg4PivVkrWXOts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785416127; c=relaxed/simple;
-	bh=a3qUt2WrCGfYf/wfZG1y7SAHoPqF3BIHqYVl4NoCUT8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=axsKkFTl1+O7uoYbfE627OhmGaZ0rhj5wf8Y5t3SW+kWGe/nzFxiEkt/qcDmOrtA2krxARGxvbtkXOkxf7lTour0lLdWSrVFxGKUAkEVQvUDeMJBPS86YYX6IsHgDlYEuzpZHNhh7vl9icTs+qJdO76pzHr0G3TZb7APxr/+QVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5yIoe+J; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1785416653; c=relaxed/simple;
+	bh=6e93yu283vCLr+DYHaaZVzDGsildqQuCremdHgvvQK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mVZrfp6HLrqcRhcCA7nXy+9Q/yaILmiEDc6JorKAVgD/EJ9NA1UosoRrpQBnG+8laeEDLAKce6uRrWaghdNL8K6mqJduJN0ynPDMMt2V3t+2aWQTdSlXOkLFAQquw9SmdH4IYSzFal2IzWI+eymNNZXhO0v/eGtLB+HwZPfCmtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmheWKO+; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5yIoe+J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmheWKO+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785416126; x=1816952126;
+  t=1785416653; x=1816952653;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=a3qUt2WrCGfYf/wfZG1y7SAHoPqF3BIHqYVl4NoCUT8=;
-  b=b5yIoe+JLywU5lAFZLSmSOKpvTBNQyr7uvabDrq+Zw9iN/QtVjbo5FDG
-   gElWOjc+7QbXLofssFgkwoWolIuNn2oOMRvxMUJ6xYEhrHAnI9jaKCGjE
-   I6AG35neQs3RXiNxrKFUiGWFvCDJX0na0XtbsNznDSPVVeJiuUYcLydm3
-   ZF+552o/ZX2JiohPD+LWc2tD6GRE+qcrIjAadOAkQaujo05/EcNSKbXyX
-   S50Sp+OY0yr615QfRIimWr6KAA2n2y/6DX5lXkd5wAj4nDNoRQGyUYSRO
-   KV+7Xcd6ZWL/BF8TfWnwiYbio0BICaQ1mFI8ICjM9oeMoATnz2yoC1WvT
+  bh=6e93yu283vCLr+DYHaaZVzDGsildqQuCremdHgvvQK8=;
+  b=nmheWKO+LjvXbRzZ4RoOc7egVXAlaslZCuw5NRmSOAwXDe7vcgnDswKI
+   0uNtENuUxkXS6vAOimZAmdIeYBL/Fg/C0ohBQLkKGaunAnFFrL3l9C6vw
+   UdOyyKx9d2tMlxlMKefINowQ/qk/NpS5d3VDZXCYoW3Z38zMepMyTYJM0
+   1ymBd2BFs2fANJNcy8lyC4RKdvXE7swzpXLHwiXjQaNLUU0zh9JA8fbq8
+   g7tNKCs9eLhTmkbeIZzZp5LLTUxIc9sKWcQZqx3ccwfrx0AIniPuNXNqR
+   c2yB7RmGAjBeLEpLFVe5RCdsl31h7iNsYez2cily+puGsOE8tYa8s+Pgh
    Q==;
-X-CSE-ConnectionGUID: 2kOCtCwSTJScychthtK0tA==
-X-CSE-MsgGUID: TepFkZuuTxGwTUcvMS8eMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86049425"
+X-CSE-ConnectionGUID: Yvrm3fcBTHGmS+PXJaKPUw==
+X-CSE-MsgGUID: YkWd2hSXTk6j1ZxjM074Yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86112416"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="86049425"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:55:26 -0700
-X-CSE-ConnectionGUID: GosvunivQAytYDWvb1nTLw==
-X-CSE-MsgGUID: CMXVkh8nQo6csr0UEqUbUQ==
+   d="scan'208";a="86112416"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 06:04:12 -0700
+X-CSE-ConnectionGUID: nMnHlhVFSeiBlpoqT6kP+g==
+X-CSE-MsgGUID: rKkvECv7RESrzxajBg3lXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="284872225"
+   d="scan'208";a="264099736"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:55:23 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 06:04:09 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
-	seppo.ingalsuo@linux.intel.com
-Subject: [PATCH] ASoC: dapm: Add encoder and decoder widget types to kcontrol handling
-Date: Thu, 30 Jul 2026 15:56:00 +0300
-Message-ID: <20260730125600.6491-1-peter.ujfalusi@linux.intel.com>
+	pierre-louis.bossart@linux.dev,
+	yuhsuan@google.com
+Subject: [PATCH] ASoC: SOF: Use high-priority workqueue for PCM period elapsed
+Date: Thu, 30 Jul 2026 16:04:45 +0300
+Message-ID: <20260730130445.8277-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,69 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+From: Yu-Hsuan Hsu <yuhsuan@google.com>
 
-This patch fixes the issue where encoder or decoder widget
-types are assigned kcontrols in a topology but get ignored.
-The controls were parsed successfully but were not registered
-as ALSA kcontrols.
+The snd_sof_pcm_period_elapsed function currently schedules work on the
+system-wide workqueue. This can lead to potential delays or jitter in
+audio processing if the system workqueue is busy with other tasks.
 
-In dapm_create_or_share_kcontrol() the snd_soc_dapm_encoder
-and the snd_soc_dapm_decoder are added to the switch statement
-to be handled similarly as e.g. the snd_soc_dapm_effect for
-assigning a proper long control name.
+To improve real-time performance and ensure timely processing of PCM
+periods, we can use the system_highpri_wq instead of the default work
+queue.
 
-In dapm_widget_show_component() the snd_soc_dapm_encoder and
-the snd_soc_dapm_decoder are added to switch statement to let
-them to be shown in the debugfs power state output.
+In performance testing, this change significantly reduced the observed
+scheduling delays. For instance, under load(stressapptest -M 15000 -m
+60), the maximum delay dropped from 9ms on the system workqueue to 5ms
+on the dedicated high-priority workqueue.
 
-In snd_soc_dapm_new_widgets() the  snd_soc_dapm_encoder and the
-snd_soc_dapm_decoder are added to same switch case handling as
-e.g. snd_soc_dapm_effect to be registered with dapm_new_pga().
-The previous operation with default in the switch statement
-silently ignored them. Note: Despite the function name, the
-dapm_new_pga() is generic utility that calls
-dapm_create_or_share_kcontrol() for each kcontrol of the widget.
-
-Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Suggested-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Signed-off-by: Yu-Hsuan Hsu <yuhsuan@google.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/soc-dapm.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ sound/soc/sof/pcm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 4ad126bd4f70..c98e917cc911 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -1203,6 +1203,8 @@ static int dapm_create_or_share_kcontrol(struct snd_soc_dapm_widget *w,
- 			case snd_soc_dapm_pga:
- 			case snd_soc_dapm_effect:
- 			case snd_soc_dapm_out_drv:
-+			case snd_soc_dapm_encoder:
-+			case snd_soc_dapm_decoder:
- 				wname_in_long_name = true;
- 				kcname_in_long_name = true;
- 				break;
-@@ -2785,6 +2787,8 @@ static ssize_t dapm_widget_show_component(struct snd_soc_component *component,
- 		case snd_soc_dapm_pga:
- 		case snd_soc_dapm_effect:
- 		case snd_soc_dapm_out_drv:
-+		case snd_soc_dapm_encoder:
-+		case snd_soc_dapm_decoder:
- 		case snd_soc_dapm_mixer:
- 		case snd_soc_dapm_mixer_named_ctl:
- 		case snd_soc_dapm_supply:
-@@ -3367,6 +3371,8 @@ int snd_soc_dapm_new_widgets(struct snd_soc_card *card)
- 		case snd_soc_dapm_pga:
- 		case snd_soc_dapm_effect:
- 		case snd_soc_dapm_out_drv:
-+		case snd_soc_dapm_encoder:
-+		case snd_soc_dapm_decoder:
- 			dapm_new_pga(w);
- 			break;
- 		case snd_soc_dapm_dai_link:
+diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
+index b2071edeaea6..f748d072109a 100644
+--- a/sound/soc/sof/pcm.c
++++ b/sound/soc/sof/pcm.c
+@@ -62,7 +62,7 @@ void snd_sof_pcm_period_elapsed(struct snd_pcm_substream *substream)
+ 	 * To avoid sending IPC before the previous IPC is handled, we
+ 	 * schedule delayed work here to call the snd_pcm_period_elapsed().
+ 	 */
+-	schedule_work(&spcm->stream[substream->stream].period_elapsed_work);
++	queue_work(system_highpri_wq, &spcm->stream[substream->stream].period_elapsed_work);
+ }
+ EXPORT_SYMBOL(snd_sof_pcm_period_elapsed);
+ 
 -- 
 2.55.0
 
