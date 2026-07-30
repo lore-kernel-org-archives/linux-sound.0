@@ -1,169 +1,105 @@
-Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D6B2BD11
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 00:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B80322DB7;
+	Thu, 30 Jul 2026 00:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785370167; cv=none; b=JdUi3TxVIN+BVI+V1xH8eO+6fW50eMEQKdIT1bzPg/YliO3gXwS84EdrLURnY+qakhG8srz3ZTOXlVZwCGGsEKfG9dtzQOna2YBgRmoTQ4GsRQramcPYO2lzOyRWQPL5agusA94OZ7e7Bm3wbK6LJVtky6K/YmQgeJIumvR8ZR8=
+	t=1785370941; cv=none; b=WqdiUILQ2ppCldcdQG1n+dChxliKFNPVnpjyAWiqIIKU4OJ73iz2fuU/LKODojt9JVVjA66pl5oS8hpErRX2fZALuyCxM9OAUuCggNzZmjmzaVhar0gxkhYsqngWfMne8uxI5Y1zaXqUskrnaJGZdbE2aFPsH5f0NLEes0o3LQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785370167; c=relaxed/simple;
-	bh=UVQUev70Ee3bLuNlrd830030ia8rWfgGv4ZjThqZXJs=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=pw+RjdCrMLGjZO46ycJcUJ2CSSACvb7YKNDywYL58Ors9yRdAbjAFjAE9htryZ9F9r8Amp9Ocd6YNyc2OkL7qL999CixGP5IDTfnSBMVnIYHCBryw01mkoi0/1GiUVclnPWfm6RclFhJnqnKcCYvy2DNHpOHMQd8wVA2nOpBIYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-4ab7bb257bbso1082212b6e.0
-        for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 17:09:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785370164; x=1785974964;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=l0eFkImV5eXXEbNmd+NdAEIIwGVFVJChvLPXlzW8568=;
-        b=AM1sr4kXU3P2c7168N7pXYBbQLsRg5oSoul70B1BWmRtD414yga6zmYTOwSw94MLX9
-         kLRePIp6LFSfXaYHX4awvxltE9Ov3sK3rRiNZ/dKKE5A8fGXhVzsi/soFszvB0MPXG6Z
-         RVv3riPFiUlh/W3q5iObSuRX1gMePp3S02ojX6aMLpqwoN3X9XEdVYXPOEtzqsS51Ay8
-         91tvTOfeLtUFE1pNhFhQx0ZeeGW2nSydATWrCCe3s1ivVmht7b7IRFhOCqk62kbZD7/Y
-         p7mVYRhL08bK6wE9po1J73eaD3dsSYOcXrRoAsW/mnkxYQEnIZudgYbSfJwhWaCssYR5
-         SV4Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoW5hSfVHo5B9/XTR3yweVboCDs5RQcBMBOl6JOA6O1rNF7JF/5LwPURM1ZJtbiH68weEj6hrHJsUJR6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWOvRs0GIVtxdlbXUBhf9VqWOSqcA8csnJmsJ0R/O8r2js0Ags
-	e5KkNzDrrieCNe4EElM68EgDY7i/zRvwFre9HXipmYaO+FVF7ubmjfJGDLWQ2+3df6lwfKl5Dw3
-	iW9NwLah19g7T4pEWAEEtdYCHp0buGrWj1650hnfAPr5OPeI1GYMtuzrnJ0w=
+	s=arc-20240116; t=1785370941; c=relaxed/simple;
+	bh=MHaYM5WU/xBjLZguI5+23qBqiNxJLjcHE3vL8ArU3wY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cfabt7RJQh2EdnGz0NPWsLYny2qV/5kiQYvD/jy4Yu0d0W1O0WEpvMqmeimMk+9ri3fAO5BUwG+2JpHoUHcnjH9uaPb/RQNFsJi8f9ZU4gYZO9zNy6sqWKXYvVHZD9xvQ1IM6bQY+BCvdTh194eBivYQN2gqGTWJK6+3FCQIvYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dTpR1zgN; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dTpR1zgN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96F771F000E9;
+	Thu, 30 Jul 2026 00:22:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785370934;
+	bh=VXdI7aMO0+VEvuGKwK9rEwLt5ITWmKrv1He2xJ+uhj4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dTpR1zgNR0fqW0ja0xGqtf5c7a59t7Y8byz7SC/T3napFb7xktgkiULLsIXBzPcvK
+	 bnicQgET5J7KoR6RyjAzdQobHGe/2zGRUB7lDwGou3X+usJsIEcMn4a0knUmDpxPET
+	 JS19bOPD4KHstKZxLakv4V6BrY1cVdHXAgRTJjj8aUab8H4we4WkjeWdY7EGfXVx0l
+	 9A04Na0aMk8cSuEnnJwC7PNuU/95uUkN0JlMmVSJMlIgNjChX7Rzr7Gbu4AT7mKSFT
+	 Xf/a+DVKS77cN4lKRtorQmF/gAncniPIIoQIif1HEOIqWl/jkd2uS7ivNn3QM2xzdn
+	 zM1AzqfJbk9Yg==
+Date: Thu, 30 Jul 2026 01:22:08 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v6 0/5] Subject: [PATCH v6 0/7] ASoC: qcom and pinctrl:
+ add LPASS LPR voting and Hawi LPASS LPI support
+Message-ID: <bb6a9164-6dd2-4d11-a9cd-a2ae7ab43949@sirena.org.uk>
+References: <20260724141708.2212057-1-prasad.kumpatla@oss.qualcomm.com>
+ <CAMRc=MfU=u7tH2r19H9Ex9uEDAb1V3Fanzi2EuqzB+iohPQkog@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1a08:b0:495:db98:cd70 with SMTP id
- 5614622812f47-4ad8797db35mr373707b6e.35.1785370164515; Wed, 29 Jul 2026
- 17:09:24 -0700 (PDT)
-Date: Wed, 29 Jul 2026 17:09:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6a9634.57649fcc.360844.000b.GAE@google.com>
-Subject: [syzbot] [sound?] possible deadlock in snd_rawmidi_kernel_open
-From: syzbot <syzbot+d10d58fc99caa0489796@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    4235cb24ec1e Merge tag 'vfs-7.2-rc5.fixes' of git://git.ke..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13f66449580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=d10d58fc99caa0489796
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-4235cb24.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0220bd6b47b0/vmlinux-4235cb24.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b7fcbec12504/bzImage-4235cb24.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d10d58fc99caa0489796@syzkaller.appspotmail.com
-
-============================================
-WARNING: possible recursive locking detected
-syzkaller #0 Tainted: G             L     
---------------------------------------------
-syz.5.2143/13505 is trying to acquire lock:
-ffff88802becc160 (&rmidi->open_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
-ffff88802becc160 (&rmidi->open_mutex){+.+.}-{4:4}, at: snd_rawmidi_kernel_open+0xa4/0x190 sound/core/rawmidi.c:422
-
-but task is already holding lock:
-ffff888057f60960 (&rmidi->open_mutex){+.+.}-{4:4}, at: snd_rawmidi_open+0x296/0xba0 sound/core/rawmidi.c:467
-
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(&rmidi->open_mutex);
-  lock(&rmidi->open_mutex);
-
- *** DEADLOCK ***
-
- May be due to missing lock nesting notation
-
-2 locks held by syz.5.2143/13505:
- #0: ffff888057f60960 (&rmidi->open_mutex){+.+.}-{4:4}, at: snd_rawmidi_open+0x296/0xba0 sound/core/rawmidi.c:467
- #1: ffff88802becc460 (&ump->open_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
- #1: ffff88802becc460 (&ump->open_mutex){+.+.}-{4:4}, at: snd_ump_legacy_open+0x120/0x4e0 sound/core/ump.c:1153
-
-stack backtrace:
-CPU: 3 UID: 0 PID: 13505 Comm: syz.5.2143 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_deadlock_bug.cold+0xbd/0xca kernel/locking/lockdep.c:3041
- check_deadlock kernel/locking/lockdep.c:3093 [inline]
- validate_chain kernel/locking/lockdep.c:3895 [inline]
- __lock_acquire+0x1256/0x1a40 kernel/locking/lockdep.c:5237
- lock_acquire kernel/locking/lockdep.c:5868 [inline]
- lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
- __mutex_lock_common kernel/locking/mutex.c:646 [inline]
- __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
- class_mutex_constructor include/linux/mutex.h:253 [inline]
- snd_rawmidi_kernel_open+0xa4/0x190 sound/core/rawmidi.c:422
- snd_ump_legacy_open+0x367/0x4e0 sound/core/ump.c:1160
- open_substream+0x480/0x970 sound/core/rawmidi.c:348
- rawmidi_open_priv+0x595/0x6f0 sound/core/rawmidi.c:397
- snd_rawmidi_open+0x4c9/0xba0 sound/core/rawmidi.c:485
- soundcore_open+0x2e3/0x5a0 sound/sound_core.c:594
- chrdev_open+0x234/0x6a0 fs/char_dev.c:411
- do_dentry_open+0x6ab/0x14d0 fs/open.c:947
- vfs_open+0x82/0x3f0 fs/open.c:1052
- do_open fs/namei.c:4700 [inline]
- path_openat+0x2873/0x4280 fs/namei.c:4863
- do_file_open+0x20e/0x430 fs/namei.c:4892
- do_sys_openat2+0x10f/0x1e0 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x12d/0x210 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fcac935e6ce
-Code: 08 0f 85 a5 a8 ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 80 00 00 00 00 48 83 ec 08
-RSP: 002b:00007fcaca1f0b28 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007fcaca1f16c0 RCX: 00007fcac935e6ce
-RDX: 0000000000000002 RSI: 00007fcaca1f0c00 RDI: ffffffffffffff9c
-RBP: 00007fcaca1f0c00 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: cccccccccccccccd
-R13: 00007fcac9626038 R14: 00007fcac9625fa0 R15: 00007ffed37eca28
- </TASK>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="y5ZitO3eG7NJF12K"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MfU=u7tH2r19H9Ex9uEDAb1V3Fanzi2EuqzB+iohPQkog@mail.gmail.com>
+X-Cookie: Captain's Log, star date 21:34.5...
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+--y5ZitO3eG7NJF12K
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+On Fri, Jul 24, 2026 at 07:32:55AM -0700, Bartosz Golaszewski wrote:
+> On Fri, 24 Jul 2026 16:17:03 +0200, Prasad Kumpatla
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+> > The intended merge strategy is:
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+> >   1. Merge the dt-bindings patch adding LPASS_HW_LPR_VOTE to
+> >      qcom,q6dsp-lpass-ports.h.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+> >   2. After the header update is merged, the remaining ASoC and
+> >      pinctrl patches may be merged through their respective
+> >      subsystem trees.
 
-If you want to undo deduplication, reply with:
-#syz undup
+> Do you really want to wait an entire additional cycle for a one-liner to first
+> get upstream? I mean: I don't mind it but it's a weird strategy.
+
+I presume the thought is to put it on a shared branch, but that gets
+problematic if I create that branch because the ASoC driver has
+dependencies on whatever is in the huge pile of stuff that's already
+going through ASoC so it'd pull in my entire history.  I suppose I could
+do the tag, merge it into my branch then apply the ASoC driver?
+
+I've complained previously about how unmanagable all these
+interdependent qcom things are, now this adds cross tree issues!
+
+--y5ZitO3eG7NJF12K
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpqmS8ACgkQJNaLcl1U
+h9B7MQgAgm6hK4vAkMntaBcwPRR8rsOum/KanN05OaB96ft/sKZNLYZHimpODf7I
+lKl4jwUXl7ZE/eF2d8UN1QrEbIx/kLtUYSz48uL7fEFH9bMPSIYkKYu5mKGQvn9p
+2YLWuJnLhEexcQh8sKkVHxCwFNRnttLeXRvaZHrDcg8sHP+h4C3svYFJJq/OojjV
+ypZlcV10+0uSsu5g/+ECOqNoj0l3HYlPIPxGvKGCAac60wN8mIoXWbs3J9SuFaAK
+KMvniNeKaxFjyCbK8eE9OX09wpndayTwpCA0WFMtfEOC+53zWOwuLIvAwHTqipAU
+DBQXIApzYuD49t4nv/h3M8kiAsqDWQ==
+=5Jb6
+-----END PGP SIGNATURE-----
+
+--y5ZitO3eG7NJF12K--
