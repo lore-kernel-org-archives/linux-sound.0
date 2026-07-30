@@ -1,170 +1,248 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C694307A2;
-	Thu, 30 Jul 2026 13:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785416783; cv=fail; b=ZHbsYLWDO3ymdkQnriK1SIIft/ZJBFFksreL1Wc0RUkdZvMkl8UVKp3d/32LynFMInE/KE9lfY4oj34bLOrO7G/z0XAL0Eb58gh171XB4/P1aJLk0/se4EQEfa+yXUkSPN/sYimbi/6sdYvlR2go+nhq4iQ5ot2L6yprADemBI0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785416783; c=relaxed/simple;
-	bh=DlMHwNdSm7SgWG7W7S4J9LBdO3I2rWVyPrLKiahI2Dc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qwUTpN3CviOPxPZ/4sNf5k/vJquiEmnnmKqGH3lJ0ZprN8BQV/nI2WS1bJNRbjX1QfxOMMBMbrX8d5uffmucJehB03amUWskpVMVYIhG4hPGWuRptvVddge9m4872UJOEm0rtSCA7wXjoqFkGAfT+d5bTx6YU2iZtSKacGNAN+k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=jkbZ8LWO; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=wdHFSooF; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C5037CD2A
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 13:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785417227; cv=none; b=ODDkcndRFPYqAiR8CEY6vmkapLBTDMmkI7OYGhGH75Ijye/jZ0Fq7aMaKzIr4HFBfc2V4B0JTqRBPGkrgMoY4c+gIo7EmIQ0ZksRNWU0LrfzDShAlQtCL/PcTfKrGR2ci2e2AsbUL9ozPJG/1Wbfj3eoMS7/onTLiBbShoE10Zc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785417227; c=relaxed/simple;
+	bh=GPzGz8GGJ2GXofD9g+zf5Aw9lbYeHp8GH9rGaR4Y1Yw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W9AMYz3pRVQvoc3DzuPUN/W/0W0IMtGmCf/nK2s6PksYIULJD/Tdk7atyY64T4uZASP2eSnBWOSzK+g9mWGhXneFYSFJf8iZGTNKv5bqcBC/VhPKis1+6gNeUFqQnYwSksArKGAkhKal7WB0yT5pMEpn4eFWhN6McH2UyxIL9r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dMBW9fsS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2VTPJriW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DUFHbV9M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wmUsDQe4; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="jkbZ8LWO";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="wdHFSooF"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66UCnWVS1392844;
-	Thu, 30 Jul 2026 08:06:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=6rNkukZXinQ/HUpO
-	QSAEmGS1SD/TJmF/9Jbn+ivozS8=; b=jkbZ8LWOeSoMbWaFehXBmffU8/QNH2J3
-	Bp7Ylst+MQgrt83VQ1vctNoKzs5MD1wR+zyRlSggK8+/q9E/4+rQcnsXOlPDOc6P
-	M0bj+cWIFfFKurEPb1zjmRLzBvJiz4DKdJtufnHGnquCIsusYmUYKE+DzsaTnt/e
-	hc/owwhvrl/hrPsp0cViq/62xuBFE4rSHoz6RLeLgY3/2BDiJXIeBaWWZh6BOkl8
-	hQ42kd/i55hQjMrKnHjWRuHTtm5qEnqdbfID10/6bdOI+n8HYn7ckgp6/Ln8oZ26
-	AWTAbMr0UY5CorgzG8gDKXzRpNg94hGa/cM5g2JwpElBY7cPJ8uSkg==
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021137.outbound.protection.outlook.com [40.107.208.137])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fr6y580t1-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 30 Jul 2026 08:06:13 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VwH0z5zCMvPxrsAgI56st5L/nQJZ0WKEmkT/oZO6VKUMlTeGJE/UTrr0au/h/5eRaNRUg/KC5l4BOadcwzy1gwTXBq1XA38evMeQYg6AXdJRkfJoZgQIPg1EPi3esr3+BOCb4VVxIhmBkxNqfJBVjMC2DvM0wCBTGtA0Abz4xCgT20NpLn7QhquPuZ/GpLLE5vAozq5sjKWB18OpE12MiRCLNqm1seLG6xhkoDQA8aAoEwJT3s+ADcx2g6zn4rGS+S4hH8VwtPw7ami573o/UtFHss7ja0JZlttGryzpwUZUqwv49h07fG85Xtkdiv/iGXdQj4oIiwGT2WlxKj0M4w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6rNkukZXinQ/HUpOQSAEmGS1SD/TJmF/9Jbn+ivozS8=;
- b=Ox8pSMPJx+MCh8Y2XqvjIFzrRKfkzBr+Edvnml5cavs1QyGvb0cR8/tkYWOEqlmX91qcomsI1ynMB2G+idtOxkbvKFDQneVdERAUZinxB8XWCLkUiJQVTrhMQCXoYsEVDhGvouz2Ti0UTs96oCgbWVvsVr43eYweOEYRsg4DNs+1hdGyD32uNnJcjV5TNM1CEnlKztVXDy0MFrGdI7QFrBY0nndczYBtNLxUwEKu971m4+JqmC70iMo24rBAJ/VNT/RXnWgAr1XZfP4qE86Xiyq3yIKCaXypR25Ts4ag9VhOroGtabxedAiYASt6LecB2J+C9uObQoje5VFO/taUIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6rNkukZXinQ/HUpOQSAEmGS1SD/TJmF/9Jbn+ivozS8=;
- b=wdHFSooFM6mdynFFPOLa3N1rXZrutHVK8aat2ekvuBvSMHH7GHgrGxOFCFfka2JXimE+CSq+5GH5filICDxX3pc0QWfai+bKHlae4Imru3ryVcwJHoEot4x1KgyspOa1jECX+TI+NgQAQ4yiNU4S+Vkwi0cNK5afXv8kcTtvBGk=
-Received: from BL1PR13CA0230.namprd13.prod.outlook.com (2603:10b6:208:2bf::25)
- by SJ4PPF60DD8B772.namprd19.prod.outlook.com (2603:10b6:a0f:fc02::a26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.13; Thu, 30 Jul
- 2026 13:06:09 +0000
-Received: from BL02EPF0001A103.namprd05.prod.outlook.com
- (2603:10b6:208:2bf:cafe::97) by BL1PR13CA0230.outlook.office365.com
- (2603:10b6:208:2bf::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8 via Frontend Transport; Thu, 30
- Jul 2026 13:06:08 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL02EPF0001A103.mail.protection.outlook.com (10.167.241.133) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
- via Frontend Transport; Thu, 30 Jul 2026 13:06:07 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 37A6D406542;
-	Thu, 30 Jul 2026 13:06:06 +0000 (UTC)
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 28A1782024C;
-	Thu, 30 Jul 2026 13:06:06 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: broonie@kernel.org
-Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
-        pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: [PATCH] ASoC: SDCA: Add missing stub for sdca_fdl_free_state()
-Date: Thu, 30 Jul 2026 14:06:02 +0100
-Message-ID: <20260730130602.3747053-1-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dMBW9fsS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2VTPJriW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DUFHbV9M";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wmUsDQe4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 33B257DA06;
+	Thu, 30 Jul 2026 13:13:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785417219; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=66SNv5xkVfRLatH/3WrYs2VvzD7EVGXlxWAFshz6tPE=;
+	b=dMBW9fsSFKfISVmqZ0jA8oJm7/h7wlr/vAIt808Eivt1Sory7hwdvj4TNDsLdQR5mkqsis
+	lN/AkHyf21s58Srgmdml37ht7FkjrnVfAeLyaoJEd8N13tYEZbXpVavBQDkgpipKplnc4e
+	gJzE/yFpk83G/HX6onjiMbTn36jooQw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785417219;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=66SNv5xkVfRLatH/3WrYs2VvzD7EVGXlxWAFshz6tPE=;
+	b=2VTPJriW2ywOcqVeoy33KOvURRV9pk0XjsmS7vPCWKLqvJmIIkB3+eGBNw7OolT51zpxEL
+	kLzK6g/Ul4BV/jBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785417215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=66SNv5xkVfRLatH/3WrYs2VvzD7EVGXlxWAFshz6tPE=;
+	b=DUFHbV9MXcIrMz/Tf1AtZjeLhJCXBBrFExnDYLPsbCJOIkrIb6NQf/5r2/hXO66uyCaN08
+	u+/vjrEJJ3DqVcfFM/1Twao/QbPy2WCXluimzF0daKXR2Aiq6f5qd1//88LqCozswWX/wB
+	wSlaoz8fcetKoqauHw6l4JmKB73TdLQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785417215;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=66SNv5xkVfRLatH/3WrYs2VvzD7EVGXlxWAFshz6tPE=;
+	b=wmUsDQe4HEDMBzN8+MyMArqTzKmSzOiE91evvPI9WtKi7QbwP3eesadMChnaT7LlXNboI7
+	lojtb14ZajBhvOCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02BE3779CC;
+	Thu, 30 Jul 2026 13:13:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OWQCO/5Na2qWVQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 30 Jul 2026 13:13:34 +0000
+Date: Thu, 30 Jul 2026 15:13:34 +0200
+Message-ID: <877bmc39j5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Shi <liaronce@hotmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Gordon Chen <chengordon326@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: add IFB_SILENCE_ON_EMPTY quirk for Behringer Flow 8
+In-Reply-To: <OS3PR01MB882785126324D216CD667577DEC92@OS3PR01MB8827.jpnprd01.prod.outlook.com>
+References: <20260526072906.90106-1-chengordon326@gmail.com>
+	<OS3PR01MB8827AC846F82A406D22E3FB7DECB2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
+	<87bjbr6tth.wl-tiwai@suse.de>
+	<OS3PR01MB8827BF7068BF30726C2C8A1BDECB2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
+	<875x1z6q0t.wl-tiwai@suse.de>
+	<OS3PR01MB88275E7D7BCF41FE0689E701DECA2@OS3PR01MB8827.jpnprd01.prod.outlook.com>
+	<87a4r95007.wl-tiwai@suse.de>
+	<OS3PR01MB882785126324D216CD667577DEC92@OS3PR01MB8827.jpnprd01.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A103:EE_|SJ4PPF60DD8B772:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: bfe23f36-27f8-4062-3998-08deee3b51e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700016|23010399003|61400799027|18002099003|16102099003|10067099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	b6dxB3rVdSJJjH5HmF7BVsgY4WzBHYyFPYgbFbrZsxBs3CLzxJULH/efhvRDs1+Sa722tk3eRxwE7/2+tPCYDVlOawF8dMDmbgrE4PNvc1tv4HvASwwwK9Dovnr1VDY0hrdG7D+U4sYRZJoVBi1SUUQrJ2obvHy90bKsg/nK3XjS1J9bFwgf8JZBhC6sIV0c3LVhXhVIgzEZTMRfwaxK8YeCKxvh29CTTqrL1OtSupT2Ox0ZduFTy2UDO72u2EeNiYb7ieJN+Wduo0t33n1FH5G6xsXr2caV0Xmqe8UJgrY1VbkjlqVvS1aHKQ21P3Hf21j7Kd/hGANgIB6byj/ZDUf09NTUMw3taWI91llKlM3Vi4haZQaeeppeSiaEc3AyP54CFkHY2U0r+LO7gnxLpRrBZBR7jCd2U2qYx+BsfptIKc14PRZUPj4edr/+FxhRrDTlON5Z4QX9eQVz6K8Za3C5EZPqzMQLZxNU3xzIl9eVzCgx+1cjOc5+g/LJiq5qJg1ly0iaM1poF4KX4Xc20bpsErStHFzYGQNTD7yR6R21J55Qa8sOyfvZJhAkb6hSLalkQwOuwLQM4neuW986ULdpGkCIgg/Dfq17Mxv/9vBsRzJx3cQTIlvxoYR1LHjpm+E62Gtd5NtylKcmNkNv8EHL/gJzw6dgNVLHdsf+abjgTmhKI7P8PSrgXLrmcJ+j/VSezF5oBBzJP6S/yyKbcQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(23010399003)(61400799027)(18002099003)(16102099003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	OvK1bQ/TxKNRr+dcNFtohH94+9dnfRozdzhXcitVgdv2ISfRyWFPWhFD6eUaOVZr+pGlEzEN+2S3rcYI8yTn3z2LaEif33pFOpoJIFPrN3GyfiXieQTYrhfjSwFV0ulqDdP1Wigoi/yD+6iEh826+A8cVcZjXDnd154OdRd53d18wNaux4V9fStDYHBCezoko8VQKnQLjZQYBV+8rNTA/7H5otR3bSErfNERv5nigQMNp8AQJqC7tHhDHMAk3QSer6niBZGPDhxwD1Hm/Cg4dBAEa1v68r+BHow6zOIJq8X+1mfZz2dpEJdcx6o9YoT+2bacm/yko3KAP0v4b44eP6zBQ04mWkwyk0RtN70115Xw/E7n6wogE7zwrlGPTr1thQoUex0o35UxhGGI/3e8bnjlu9XEVi28ag5sK/ysOhSk/SxcXYcrpzXUL4qEkH5b
-X-Exchange-RoutingPolicyChecked:
-	KncqooGCEDGimV/WQoJ97c4qkS0exkXuvVAfISWsAwuWjykzPCp0Pr7DeCmk/PH/RxnC+TQHX2NwPRTNPkb5wfKZPFzWAz+sYRWwRzcxa5N2gPtWXk0R59qKflfFJMcIAyBv02xrvUc342fNTgHP8Z/yZFw+KuaJM6LbAnuorM8lXzhQxBn3/HuzLehAq90JhsFXmOdchBx8xwPNSRst8KhxSGmsREOPo0UCNjB//S2UTjeZIsyQRBFsIqkuJHurtd8WcpcophzHYRrgFaMoRmac/HINAbsN9ilHV7CrMQZDWNqzPYxYW3/oVFXnPyaeFkZkJM72ZiKtIui+h8dHuQ==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jul 2026 13:06:07.5846
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfe23f36-27f8-4062-3998-08deee3b51e9
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL02EPF0001A103.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ4PPF60DD8B772
-X-Proofpoint-GUID: GL5enzdY-eeN4e7jYWDJRAAMb72nBo1o
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMwMDA5OSBTYWx0ZWRfXxceFJxhDSBUh
- p8fBwQGqe1ZmFBtrMi4uWi4dEvGC0x9ifzsC46N9k63YGJu26jWL01LHgLx2fs/i0KXQhBVNjn+
- 02ATpGmNSHiGUKiXhXxZ9UdR4J/IvbrutwHaZr+Pi8Givezx5xW1wO4dhHOXZhoZvqg2KpPcy8C
- Qegb/Ibvm0cs4cj37MxwIws593/oUEsLD3MxPhjJIxPdbrnbXdiETW4R2XWrTpgwt/viNY2k/Ha
- H8mWKamCfoUb2KnzHP9wU/7LWlVXv9MFB3edxzEQdfNlZZPglIwW8ylI8xVa/RLzIVMGF68yDZb
- rwkCJWkVHq2IP/QWDQH+/1kfbi8HYPZZYpgLiEH9foeP54NZV9Snz2mb0WeFw9GOelYjCAiRWsF
- OEIn8Fkk/Z0c/zsVvL6HQLi8zq+OhefjuvbJhQ8UJk7vI/vuslfpj+Y5d88306YzN7aS+jHJX0M
- yFV3uzOrOjNAFmziDoQ==
-X-Authority-Analysis: v=2.4 cv=Zact8MVA c=1 sm=1 tr=0 ts=6a6b4c45 cx=c_pps
- a=hxVrj3tyWKw8/06b28h1JA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=w1d2syhTAAAA:8 a=XQIjbqt0cXQhyFH8yRMA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMwMDA5OSBTYWx0ZWRfX4DnjLSszWWEs
- OUKa+JDNGKDR+tejyz/riVQ/84Eq3l0YegFlF1lZbgLjq1aljQB9rS8EcgMLv8LesDyftk1xwOn
- ABovd8HVcOJgTURZ7En2gaGx4W0tPlI=
-X-Proofpoint-ORIG-GUID: GL5enzdY-eeN4e7jYWDJRAAMb72nBo1o
-X-Proofpoint-Spam-Reason: safe
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,hotmail.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[hotmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,gmail.com,vger.kernel.org,perex.cz];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-There should be a stub for sdca_fdl_free_state() for the case FDL
-support isn't built into the kernel. Add the missing stub.
+On Thu, 30 Jul 2026 14:33:44 +0200,
+Mark Shi wrote:
+> 
+> Hi Takashi,
+> 
+> > On Wed, 29 Jul 2026 16:28:23 +0200,
+> > Mark Shi wrote:
+> >> 
+> >> Hi Takashi,
+> >> 
+> >>      On Tue, 28 Jul 2026 17:46:05 +0200,
+> >>      Mark Shi wrote:
+> >>               Hi Takashi,
+> >>                   在 2026/7/28 23:02, Takashi Iwai 写道:
+> >>                       On Tue, 28 Jul 2026 16:27:35 +0200,
+> >>              Mark Shi wrote:
+> >>                               Hi Gordon,
+> >>                                   在 2026/5/26 15:29, Gordon Chen
+> >> 写道:
+> >>                                       The Behringer Flow 8
+> >> (1397:050c) is an 8-channel USB mixer that
+> >>                      declares OUT EP 0x01 with implicit feedback from capture EP 0x81 via
+> >>                      its UAC2 endpoint companion descriptor. After 5-35 minutes of
+> >>                      continuous playback, the device occasionally returns a capture URB in
+> >>                      which every iso_frame_desc has a non-zero status (-EXDEV bursts,
+> >>                      visible as rate-limited "frame N active: -18" lines in dmesg from
+> >>                      pcm.c).
+> >>                                           In that case
+> >> snd_usb_handle_sync_urb() at endpoint.c counts bytes==0
+> >>                      and falls into the early "skip empty packets" return originally added
+> >>                      for M-Audio Fast Track Ultra. As a result the playback EP loses its
+> >>                      sole IFB-driven feeder and the OUT ring starves permanently: hw_ptr
+> >>                      stops advancing while substream state remains RUNNING. Only USB
+> >>                      re-enumeration recovers.
+> >>                                           Three independent ftrace
+> >> captures (taken at the moment of stall via a
+> >>                      userspace watchdog) consistently show:
+> >>                                               - 60-70 capture URB
+> >> completions in the 70ms window before the marker
+> >>                          - 0 retire_playback_urb / queue_pending_output_urbs /
+> >>                            snd_usb_endpoint_implicit_feedback_sink calls
+> >>                          - every usb_submit_urb in the window comes from
+> >>                            snd_complete_urb+0x64e (capture self-resubmit), none from the
+> >>                            queue_pending_output_urbs path
+> >>                                           Add a new opt-in quirk
+> >> QUIRK_FLAG_IFB_SILENCE_ON_EMPTY: when set, the
+> >>                      early return is skipped and we fall through to enqueue a packet_info
+> >>                      whose packet_size[i] are all 0 (the existing loop already maps
+> >>                      status!=0 packets to size 0). prepare_outbound_urb then emits a
+> >>                      silence packet, the OUT ring keeps moving, and the device rides
+> >>                      through the glitch.
+> >>                                           The default behaviour
+> >> (early return) is preserved for all existing
+> >>                      devices including M-Audio Fast Track Ultra. Only Flow 8 opts in here.
+> >>                                           Cc:
+> >> stable@vger.kernel.org
+> >>                      Signed-off-by: Gordon Chen <chengordon326@gmail.com>
+> >> 
+> >>                  Device: Mechrevo WUJIE14Pro A-7BC4U
+> >>                  CPU: AMD Ryzen 7 7840HS (Codename "Phoenix")
+> >>                  Firmware Version: T140_PHX_V20
+> >>                  Firmware Release Date: 2024.1.8
+> >>                  Kernel version: 7.1.4
+> >>                                   In Linux kernel 7.1.4, I found
+> >> that my laptop couldn't wake up from S3
+> >>                  suspend; I had to hold down the power button to force a shutdown and
+> >>                  then restart it.
+> >>                                   Using `git bisect`, I discovered
+> >> that if I revert this patch, the
+> >>                  laptop resumes from S3 normally.
+> >>                               Do you have this USB-audio device
+> >> (Behringer Flow 8 with USB ID
+> >>              1397:050c)?  The commit must be harmless unless you have this device.
+> >>              That is, if you don't have this device, it's likely a false-positive
+> >>              bisection result.
+> >> 
+> >>              thanks,
+> >>                           Takashi
+> >>                       I don't have that device, but I partially
+> >> reverted the code in that
+> >>          section, and it went back to normal.
+> >>               Hmm, that's odd.
+> >>           Could you put a debug print what value does
+> >> ep->chip->quirk_flags
+> >>      have on your device?
+> >> 
+> >>      thanks,
+> >>           Takashi
+> >>      I added `usb_audio_info`, compiled and booted, but `dmesg |
+> >> grep "quirk_flags"
+> >> ` returned no output.
+> > Then something wrong in your test :)
+> > 
+> > Put another debug print at another place like the probe function, in
+> > order to verify whether the patched driver is really loaded, too.
+> > And, make sure that you're running the exactly patched kernel.
+> > 
+> > 
+> > Takashi
+> 
+> 
+> I used the `printk` function to retrieve the `quirk_flags` for the
+> current function. Here is the output:
+> 
+> ```
+> 
+> [   23.225719] snd-usb-audio: quirk_flags = 0x100800
+> 
 
-Fixes: 0880082c27b6 ("ASoC: SDCA: Remove devm from primary IRQ cleanup")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202607291304.FE3mOcJF-lkp@intel.com/
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- include/sound/sdca_fdl.h | 4 ++++
- 1 file changed, 4 insertions(+)
+And what about ep->chip->quirk_flags at the place in question?  Does
+it show the very same value?
 
-diff --git a/include/sound/sdca_fdl.h b/include/sound/sdca_fdl.h
-index dc33927b82bde..bc3600cdd2ec8 100644
---- a/include/sound/sdca_fdl.h
-+++ b/include/sound/sdca_fdl.h
-@@ -83,6 +83,10 @@ static inline int sdca_fdl_alloc_state(struct sdca_interrupt *interrupt)
- 	return 0;
- }
- 
-+static inline void sdca_fdl_free_state(struct sdca_interrupt *interrupt)
-+{
-+}
-+
- static inline int sdca_fdl_process(struct sdca_interrupt *interrupt)
- {
- 	return 0;
--- 
-2.47.3
+The value 0x100800 means that your device has the quirk bit 11
+(QUIRK_TYPE_IFACE_DELAY) and bit 20 (QUIRK_TYPE_FORCE_IFACE_RESET),
+and they have nothing to do with the commit you're testing.
 
+
+thanks,
+
+Takashi
