@@ -1,132 +1,250 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B86358368
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 08:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DA03B0ACC;
+	Thu, 30 Jul 2026 08:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785399358; cv=none; b=K6RL37oXW/b1wLQX96o7bOK9ku5qjLVPzBFnZMaaX7Qz4eNuwI0U/2MnE4AVbyd+KxkaQQaZgJB17rLJWJua1ftW34Bci+NELcU1fWLbVuZYfRyi1VdfoQMyDYhUsA8YHxbzRicifxqxcesD5j24er/JiBrrZY+FOKh4vrwmW18=
+	t=1785399808; cv=none; b=fGkIlq1ukmbF7NNKGs1Bmk0eXvKDLyDtlinv62JmblYqaMMkrofqvbg/Jdc2x/VVZoTSkCsMqKFLjBgwFAWImjNEj3sep4ZBZMlJKx7Wnfv2N5TeUcreOYSr2DO3q9N1MeWKTqdCPmvU3iXhmJvjd2JJ7dyAi9N9FsvZUkj/ZHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785399358; c=relaxed/simple;
-	bh=NCaMVi+u/ij6I8n+r2mlZNCkXs9L5hMwZgBY+f5AGaA=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=MBarGz6+7v4aETiovqvvRH3u0dTGMxuHhDAI6Mptkz+NiqyV/Ys5/3HzxiKDozUcpscjNXzoT2IO6RGDKyIExdTRYyXGg13b8+uSVhU2EXN6GKYmISq/nVMxnrSQNuzbOvunbeYciQI+nP+ErkoLq9+m/b1Pw/x7n5+nEnWiYAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zmCKzMfJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zsb+mdvk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vtikB2EO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TswRBxuG; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785399808; c=relaxed/simple;
+	bh=PGeqRL8MbYd2VKM/uNesfGRoGFDvJceYesz0K0xRdKw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tB6DjM7e6xJ5FHxmYdiQerAP/u/7m5wRBO7T91ZOBQ4+FcwPtmKcXFERxZvLW4SlyzlBX4ukcwaiCJYvyEbGOwEseiHXOZ5Ru/C0pU4hyXm2hngE0GLxJaNRUBI3MBoREidklTO8DkmtC7JjTJQ2Uj+Dkgkb/tTuju0q2mjN7dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dha0F2uH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zmCKzMfJ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zsb+mdvk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vtikB2EO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TswRBxuG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1A0303ED8;
-	Thu, 30 Jul 2026 08:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785399343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PDfGiQmjKlXdhE/8uUHFAieVCcD3gdrWJCCUOkTPAwY=;
-	b=zmCKzMfJRidZA5scDm8vZKBFzPh6YJthTTVJGwoZ8PlHTl1ggSasMRFNNneLB2FBVQKftZ
-	vPDREmoWtJKJaSyA+LnRU0G0PbndAfZAApxXzCQxquSaUWl+vAAWbAiXbB/RVdMBeHmKhZ
-	Z4RFUsFcDEgB0FOVKs+5Zdjqm3UQdE4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785399343;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PDfGiQmjKlXdhE/8uUHFAieVCcD3gdrWJCCUOkTPAwY=;
-	b=zsb+mdvkS9q79E+HDRfPEzFczcGWt82zG4LCbEEyXvHDm2f2c2N1HIUHWujHhQZ071gtd1
-	0lbQv8sb2D105TDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=vtikB2EO;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=TswRBxuG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785399339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PDfGiQmjKlXdhE/8uUHFAieVCcD3gdrWJCCUOkTPAwY=;
-	b=vtikB2EONJsm6adutoVzSpBXPujsvzxoFLfyo9D51h2YQUbWWDP7yYoGjJnNBJWPTOkOR2
-	NDi3OhfflsoM3s/hyNGs7hg5XvO+5/1kWk/XfezIf8EsVyUUP9AvtrC+rFtRxTbfBe6eqQ
-	dN+Z36HatxFIO0zMkKQD7RAOx8FU0+k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785399339;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PDfGiQmjKlXdhE/8uUHFAieVCcD3gdrWJCCUOkTPAwY=;
-	b=TswRBxuGUaN0FOEOh5p0fy1A8atO8s/eTNkJ5MihM7eopFip9vXV8he4VR7gn3vRyBXQ9E
-	a/ckqQunvvHSLyBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E5016779CD;
-	Thu, 30 Jul 2026 08:15:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rNN9NioIa2pWLAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 30 Jul 2026 08:15:38 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 0/2] ALSA: hda: Clean up jack name helpers
-Date: Thu, 30 Jul 2026 10:15:32 +0200
-Message-ID: <20260730081537.320686-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dha0F2uH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A0061F000E9;
+	Thu, 30 Jul 2026 08:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785399807;
+	bh=yNnkodnVzSlZXSO/UwXnKiX/1FHyOcbnvHyWtcjIaHs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Dha0F2uHJjBI8ozpAttF6VGOnFKi5ONE6v7CaGZ8oayuwX3B/M3sAvCtsddp7CMjD
+	 pZDi6tsF5sZ+jvCTS5sW/fiCUnc8GqsmvlgUj459039yOuVWfaIkanXg42vBJe6Ds7
+	 bgodgbA0uMZ4Hvo2Z0toh3LsAHSU2aIKCNOznO43PXcPEQRVEObERVf33nP8HHoh86
+	 4Wylo/lHHshCbj24VdQIoP3cNpF2e9QgkZmRIcZZMDNEMYc6GwMlDbmcD9EKaFotC6
+	 U9e2AtiYKNAWdiRMtPQb5LWKFaWgsVSNpmAGv3jNEArs7wcP487KOLavSQdZ59M1mm
+	 Dx/sLB4en+kOQ==
+Date: Thu, 30 Jul 2026 09:23:06 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tejun Heo <tj@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Bjorn Helgaas <helgaas@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
+	Baoquan He <baoquan.he@linux.dev>, Pratyush Yadav <pratyush@kernel.org>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Dave Young <ruirui.yang@linux.dev>, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, kexec@lists.infradead.org, 
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] mm: Add unmap_mapping_file() helper
+Message-ID: <amsDgehckDyv9BPg@lucifer>
+References: <20260725210549.3716546-1-kwilczynski@kernel.org>
+ <20260725210549.3716546-2-kwilczynski@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 1A0303ED8
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+In-Reply-To: <20260725210549.3716546-2-kwilczynski@kernel.org>
 
-A couple of cleanup patches for HD-audio jack name helper functions
-and callers.  Here simply dropping the useless code.
+On Sat, Jul 25, 2026 at 09:05:47PM +0000, Krzysztof Wilczyński wrote:
+> Currently, unmap_mapping_pages() and unmap_mapping_range() unmap a
+> page offset window of an address_space, and code that removes a file,
+> such as kernfs_drain_open_files(), relies on them to unmap the pages
+> of a file that is going away.
+>
+> Files with f_mapping swapped to a shared address space at open time,
+> such as PCI resource files using iomem_get_mapping(), have their VMAs
+> attached to the shared mapping instead of the file's own inode mapping,
+> so unmapping the inode's address space cannot reach them, and they stay
+> live after the file is removed.  These VMAs can only be selected by the
+> struct file they were created through, which is recorded in
+> vma->vm_file.
 
+I'm confused about what the issue is here.
 
-Takashi
+- file->f_mapping is swapped out at f_ops->open time -> shared mapping
+- Mapping here gets you folios that have folio->mapping == iomem_inode's
+  mapping
+- /dev/port goes away and...?
 
-===
+Is it that /dev/port going away then potentially zaps stuff it shouldn't or
+doesn't zap what it should?
 
-Takashi Iwai (2):
-  ALSA: hda: Drop unneeded calculation of index at get_jack_mode_name()
-  ALSA: hda: Drop index handling from snd_hda_get_pin_label()
+Be good to clarify all this and add a specific example also.
 
- sound/hda/codecs/generic.c         | 19 +--------
- sound/hda/common/auto_parser.c     | 66 +++++-------------------------
- sound/hda/common/hda_auto_parser.h |  2 +-
- sound/hda/common/jack.c            |  2 +-
- 4 files changed, 14 insertions(+), 75 deletions(-)
+>
+> Thus, add unmap_mapping_file(), which walks the VMA interval tree of the
 
--- 
-2.55.0
+Now mapping interval tree, been renamed as per David.
 
+> file's f_mapping under i_mmap_lock_read() and unmaps the pages of the
+> VMAs selected by should_zap_file_vma(), using the same per-VMA zap as
+> unmap_mapping_pages().  When f_mapping is the file's own inode mapping,
+> every VMA is zapped, as unmap_mapping_range() does today.  When f_mapping
+> was swapped, only the VMAs with vm_file set to that file are zapped, so
+> callers do not need to tell the two apart.
+
+This is really confusing, so I think serious levels of clarity are needed
+here.
+
+Also is this intended to replace kernfs
+
+>
+> HugeTLB VMAs are skipped with a WARN_ON_ONCE(), as zapping those takes
+> i_mmap_rwsem for write in hugetlb_zap_begin() and would deadlock against
+> the read lock held over the walk.
+
+This kind of insane 'swapping' would never happen on such mappings anyway
+right?
+
+>
+> Signed-off-by: Krzysztof Wilczyński <kwilczynski@kernel.org>
+> ---
+>  include/linux/mm.h |  2 ++
+>  mm/memory.c        | 48 ++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 50 insertions(+)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 485df9c2dbdd..e882a03eaddd 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -3183,6 +3183,7 @@ extern int fixup_user_fault(struct mm_struct *mm,
+>  			    bool *unlocked);
+>  void unmap_mapping_pages(struct address_space *mapping,
+>  		pgoff_t start, pgoff_t nr, bool even_cows);
+> +void unmap_mapping_file(struct file *file);
+>  void unmap_mapping_range(struct address_space *mapping,
+>  		loff_t const holebegin, loff_t const holelen, int even_cows);
+>  #else
+> @@ -3203,6 +3204,7 @@ static inline int fixup_user_fault(struct mm_struct *mm, unsigned long address,
+>  }
+>  static inline void unmap_mapping_pages(struct address_space *mapping,
+>  		pgoff_t start, pgoff_t nr, bool even_cows) { }
+> +static inline void unmap_mapping_file(struct file *file) { }
+>  static inline void unmap_mapping_range(struct address_space *mapping,
+>  		loff_t const holebegin, loff_t const holelen, int even_cows) { }
+>  #endif
+> diff --git a/mm/memory.c b/mm/memory.c
+> index ff338c2abe92..4a09d7b6aa6b 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -4423,6 +4423,54 @@ void unmap_mapping_pages(struct address_space *mapping, pgoff_t start,
+>  }
+>  EXPORT_SYMBOL_GPL(unmap_mapping_pages);
+>
+> +static inline bool should_zap_file_vma(struct file *file,
+
+s/inline//
+
+> +				       struct vm_area_struct *vma)
+> +{
+> +	/* On the file's own inode mapping, zap every VMA */
+> +	if (file->f_mapping == file_inode(file)->i_mapping)
+> +		return true;
+> +
+> +	/* A swapped mapping also holds VMAs of unrelated files, zap only ours */
+
+I'd be careful about saying 'swapped' here :) for obvious confusion in mm
+reasons.
+
+But I'd actually explain clearly that file->f_mapping can be changed at
+f_ops->open time and thus
+
+> +	return vma->vm_file == file;
+> +}
+> +
+> +/**
+> + * unmap_mapping_file() - Unmap folios from all mmaps of a file.
+> + * @file: The file to unmap.
+> + *
+> + * Unmap the folios of @file from every process that has them mapped.
+> + *
+> + * If f_mapping is the file's own inode mapping, they are unmapped
+> + * from every VMA on that mapping, as unmap_mapping_range() would do.
+> + *
+> + * However, if f_mapping was swapped to a different address space at
+
+Same comment on swapped...
+
+> + * open time, only the VMAs with vm_file set to @file are considered,
+> + * since that address space also holds mappings of unrelated files.
+> + *
+> + * Must not be used on HugeTLB files.  HugeTLB VMAs are skipped with
+> + * a warning.
+
+Couldn't you just catch this at the top with the gloriously named
+is_file_hugepages()?
+
+	if (WARN_ON_ONCE(is_file_hugepages(file)))
+		return;
+
+I'm not sure who's supposed to call this though, if it's literally anybody
+including core mm that might want to unmap a hugetlbfs file maybe you'd
+just take the write lock in this cae?
+
+But probably better to be conservative first I guess.
+
+> + */
+> +void unmap_mapping_file(struct file *file)
+> +{
+> +	struct address_space *mapping = file->f_mapping;
+> +	struct vm_area_struct *vma;
+> +
+> +	i_mmap_lock_read(mapping);
+> +	if (unlikely(mapping_mapped(mapping))) {
+
+(nitty)
+
+I kinda hate mapping_mapped(mapping) as a thing, should have commented
+about that on that patch, but then again what could it be :) naming is hard.
+
+Anyway be nicer as a guard clause I think e.g.:
+
+	i_mmap_lock_read(mapping);
+	if (likely(!mapping_mapped(mapping)))
+		goto out;
+
+	...
+
+out:
+	i_mmap_unlock_read(mapping);
+
+> +		vma_interval_tree_foreach(vma, &mapping->i_mmap, 0, ULONG_MAX) {
+
+As David mentions this is now renamed to mapping_rmap_tree_foreach().
+
+> +			cond_resched();
+> +
+> +			if (!should_zap_file_vma(file, vma))
+> +				continue;
+> +			/* Zapping HugeTLB VMAs needs i_mmap_rwsem held for write */
+
+See above about file check.
+
+> +			if (WARN_ON_ONCE(is_vm_hugetlb_page(vma)))
+
+> +				continue;
+> +			zap_vma(vma);
+> +		}
+> +	}
+> +	i_mmap_unlock_read(mapping);
+> +}
+> +
+>  /**
+>   * unmap_mapping_range - unmap the portion of all mmaps in the specified
+>   * address_space corresponding to the specified byte range in the underlying
+> --
+> 2.55.0
+>
+
+Thanks, Lorenzo
