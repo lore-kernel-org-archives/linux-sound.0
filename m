@@ -1,50 +1,51 @@
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDBE3672B0;
-	Thu, 30 Jul 2026 01:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3398613A244;
+	Thu, 30 Jul 2026 01:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785376410; cv=none; b=BYoHU0rcS/uoTRpfPrgCK9YDQIHqvHBo5Ivaj+hLEeI8e4tb0junQvdbreSgtiXbfuJFARSWueSiyrsE1RHjDCV1aWWHFwmhTI6QlvioBi689buY6KSUWR4DHveZl3ytJaRNpwI13w52GAbP5x8tHq6+SVrJGX2mI8S4KYmCpI4=
+	t=1785376411; cv=none; b=PcrbQwfPPVEuq5uSsroyGliQI+rvQEgG+AjvrA7MyCuY7oa2NzvUu5rpAJWs21CGcZ6PKFR8mHImdknL9PqckR70c2E8pZ+eC03Fe30EfPfDnrnRfwoKVgOMrn9S9J55FjguGNqugWoOHlIaOOwJlbfFNqiYlEd8DpOxSFJTrWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785376410; c=relaxed/simple;
-	bh=pQOYoMfARKMTC0Hqgh4WdGF1EbZK7Ss9OGWGp67ROSc=;
+	s=arc-20240116; t=1785376411; c=relaxed/simple;
+	bh=fHRboZTeLLKrDfQ5zDVZc3PqbpnjfA3kTqjm8CQoqIM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UTJcdOGk2mQ0XsckXp0IogMnO4t458l2pglg7MYXfwWkfiR4oAaasTbIBf0UdzFz+gXafyeoW6Nb0J+SbSm5Z8SvnaWi9li6HePVOSsTdG+H7OlHZJEJWicOKGyI4ekGlNsvF3dBSettYoYepRawGQO0D9WGHyz6N5u7GJWHTIA=
+	 MIME-Version; b=oqV4y+PGqBLFqNFULnQTBcwJVC5ZP0m+xu7CLYusz3eHPX4yaADApjhCrB71p8DKDIIbdT8cJ1Ebb5nT8tPxG6gThWphVjeWkFFthVFU4oQfQG5S4dIggTgGyzrUzl2CaRXo/olCcEsn6BH2lpR8GNZVb7c5UMpOnI3XWqY39fw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 71f26fee8bb911f1aa26b74ffac11d73-20260730
+X-UUID: 739a3d688bb911f1aa26b74ffac11d73-20260730
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:727244c2-049a-456a-befc-8890e673e06a,IP:0,U
+X-CID-O-INFO: VERSION:1.3.12,REQID:7efe174a-e608-40a8-a717-d1e9d23b9b45,IP:0,U
 	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:b8ccb4c4db6194ce043c15b0c9370386,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|136|850|865|898,TC:nil,Content
-	:0|15|50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,
-	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:64e1ac736924e939a31c08211ec6958a,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|865|898,TC:nil,Content:0|1
+	5|50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
+	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 71f26fee8bb911f1aa26b74ffac11d73-20260730
+X-UUID: 739a3d688bb911f1aa26b74ffac11d73-20260730
 X-User: songxiebing@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <songxiebing@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 2138287560; Thu, 30 Jul 2026 09:53:22 +0800
+	with ESMTP id 99432698; Thu, 30 Jul 2026 09:53:24 +0800
 From: songxiebing <songxiebing@kylinos.cn>
 To: tiwai@suse.com,
 	perex@perex.cz
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	songxiebing@kylinos.cn
-Subject: [PATCH v2] ALSA: hda/realtek: add missing error checks for COEF index reads in alc269
-Date: Thu, 30 Jul 2026 09:53:01 +0800
-Message-Id: <20260730015302.253008-1-songxiebing@kylinos.cn>
+Subject: [PATCH v2] ALSA: hda/realtek: add missing NULL check for codec->bus->pci
+Date: Thu, 30 Jul 2026 09:53:02 +0800
+Message-Id: <20260730015302.253008-2-songxiebing@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260729063803.1453980-1-songxiebing@kylinos.cn>
+In-Reply-To: <20260730015302.253008-1-songxiebing@kylinos.cn>
 References: <20260729063803.1453980-1-songxiebing@kylinos.cn>
+ <20260730015302.253008-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,17 +56,9 @@ Content-Transfer-Encoding: 8bit
 
 From: Bob Song <songxiebing@kylinos.cn>
 
-alc_read_coef_idx() and alc_read_coefex_idx() can return -1 on error
-via snd_hda_codec_read(). Several codec initialization and shutdown
-functions save these return values and later write them back to
-hardware registers without checking for errors, potentially corrupting
-COEF register state on a read failure.
-
-Add error checks in:
-- alc282_init() and alc282_shutup(): check coef78 before write-back
-- alc285_hp_init(): check coef38/coef0d/coef36 before update, check
-  val before write-back, and break polling loop on error
-- alc294_hp_init(): break polling loop on read error
+In alc269_probe(), codec->bus->pci is dereferenced without a NULL check
+for the ALC236 vendor ID case. Add the missing check, consistent with
+the existing pattern used elsewhere in the same function.
 
 Signed-off-by: Bob Song <songxiebing@kylinos.cn>
 ---
@@ -73,67 +66,21 @@ v2:
  - Separate processing of return values from reading COEF and
 null pointer detection for device.
 ---
- sound/hda/codecs/realtek/alc269.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 379e1458f4ac..4645793b64ac 100644
+index 4645793b64ac..d751e39529a2 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -296,7 +296,8 @@ static void alc282_init(struct hda_codec *codec)
- 		msleep(100);
- 
- 	/* Headphone capless set to normal mode */
--	alc_write_coef_idx(codec, 0x78, coef78);
-+	if (coef78 != -1)
-+		alc_write_coef_idx(codec, 0x78, coef78);
- }
- 
- static void alc282_shutup(struct hda_codec *codec)
-@@ -333,7 +334,8 @@ static void alc282_shutup(struct hda_codec *codec)
- 
- 	alc_auto_setup_eapd(codec, false);
- 	alc_shutup_pins(codec);
--	alc_write_coef_idx(codec, 0x78, coef78);
-+	if (coef78 != -1)
-+		alc_write_coef_idx(codec, 0x78, coef78);
- }
- 
- static const struct coef_fw alc283_coefs[] = {
-@@ -585,15 +587,19 @@ static void alc285_hp_init(struct hda_codec *codec)
- 
- 	alc_write_coefex_idx(codec, 0x58, 0x00, 0xf888); /* HP depop procedure start */
- 	val = alc_read_coefex_idx(codec, 0x58, 0x00);
--	for (i = 0; i < 20 && val & 0x8000; i++) {
-+	for (i = 0; i < 20 && val != -1 && val & 0x8000; i++) {
- 		msleep(50);
- 		val = alc_read_coefex_idx(codec, 0x58, 0x00);
- 	} /* Wait for depop procedure finish  */
- 
--	alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
--	alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
--	alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
--	alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
-+	if (val != -1)
-+		alc_write_coefex_idx(codec, 0x58, 0x00, val); /* write back the result */
-+	if (coef38 != -1)
-+		alc_update_coef_idx(codec, 0x38, 1<<4, coef38);
-+	if (coef0d != -1)
-+		alc_update_coef_idx(codec, 0x0d, 0x110, coef0d);
-+	if (coef36 != -1)
-+		alc_update_coef_idx(codec, 0x36, 3<<13, coef36);
- 
- 	msleep(50);
- 	alc_update_coef_idx(codec, 0x4a, 1<<15, 0);
-@@ -858,7 +864,7 @@ static void alc294_hp_init(struct hda_codec *codec)
- 
- 	/* Wait for depop procedure finish  */
- 	val = alc_read_coefex_idx(codec, 0x58, 0x01);
--	for (i = 0; i < 20 && val & 0x0080; i++) {
-+	for (i = 0; i < 20 && val != -1 && val & 0x0080; i++) {
- 		msleep(50);
- 		val = alc_read_coefex_idx(codec, 0x58, 0x01);
- 	}
+@@ -8849,6 +8849,7 @@ static int alc269_probe(struct hda_codec *codec, const struct hda_device_id *id)
+ 		spec->init_hook = alc256_init;
+ 		spec->gen.mixer_nid = 0; /* ALC256 does not have any loopback mixer path */
+ 		if (codec->core.vendor_id == 0x10ec0236 &&
++		    codec->bus->pci &&
+ 		    codec->bus->pci->vendor != PCI_VENDOR_ID_AMD)
+ 			spec->en_3kpull_low = false;
+ 		break;
 -- 
 2.25.1
 
