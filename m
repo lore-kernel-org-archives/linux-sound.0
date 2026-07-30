@@ -1,157 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A3B31F990;
-	Thu, 30 Jul 2026 08:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F3B3C2BB0
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 08:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785399862; cv=none; b=uIEkysgaNRa7eW5Zrh/3gb0lVOrcs74ISjctd0S8Fsbfyupz3pzv4ZTebWyYYlqbzu9x/B/g1HyL9f8EDHlJHL33LIDYHAOazosEg/k6rfLzxujxKREnd4s+9V55JfH8FWW/ApVYaDC2kZrtUHuOz9vecokRmDMRyjluHxmW1nM=
+	t=1785401127; cv=none; b=IiTUqUPHJhjcqr1MYtOwWtdZDw9w/I1ttXCITXk3qDDyaKfzXPpp0cT4Lam33mduv7fzAmlaIE5JO2c8NMTWkfIBvtGRSIEVJZvC8KEFzkji9P/QYPG3sSlSuGdoEiPEfD8vITEjJm0iUzZ+mD8ptq8SVRyejnExksibHuy6K5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785399862; c=relaxed/simple;
-	bh=mPkyEzGy4nzPfbLXduTY8moq3y4EYaSZcpWZjw3q2Yw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WVHpmtsyxvZyWIvQQ/4sJ5+FQyLHtsGSlkD9bLOV7LHg2XXtxhctD6aeAiuKYcEElZecyzWnD+MfXDNTDcPYqk+uR+J9CEHQJKlw7jG/pH8r2gVxvc4S+idtLRY3LNu+7vD9VgkPJonea1qpZz9ITrGeRw41WROTYCEiJSpaqc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChBSdYm3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785401127; c=relaxed/simple;
+	bh=C3BxZXE4tq+5jQFeBFqQsJeBAW4FffAWI1w5BEKdF4A=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=ZE4eLOM/3j8CMOfeM+RN34EeXhMfCDxao52jl7ZGTE/N2Su53IXSEugqzD3pvYv+fWPmhK9c0Wb53yG5dASXpwhaOXz9NJrN5Ip0xv9A/ev0zOkW0mvaqoOTnIWAom2MZUHC0WlXTEVK4j9JUoQVPLwsaV+x3fMvScQuEJ9y7pI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RzfdiHer; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CeTXUrWI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ign/GMks; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iCEus2Ef; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChBSdYm3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EDFE1F000E9;
-	Thu, 30 Jul 2026 08:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785399861;
-	bh=VXQZIQoVKxftmgxSpsfIIxOpHqOtOFC0MrEElaZfb68=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ChBSdYm3VX7ZR8sCoLMTJcd3DQNuh7j0CXjLFvbLn+a+u1rJQcv051pGJ3Gh7onak
-	 EjI4HcBfmFntcRanNhQ7fX1sACnhGJlyFu7xRwX8y13yNrOrxknwpaS7HbyRjgDZCR
-	 EuIX5Czn+o72EjyfAMLyCKqWXb8M6Tn17jc7Lk2j7QaObnD42gQxrLhW+tl4HnaZNK
-	 6v7pTRi0VcQDJFd1/QJDvwH7CdFCl8nCBLqt7cuow2NyHpCW/yWFM1i+MVQTBZBxrv
-	 EgWn5f/ieaBn+l6gNk0KXMinAIZqPDl/bhZHxtyME403gUTL3pBcp5S9lWsO64aazr
-	 DXS5f/gwAp32w==
-Date: Thu, 30 Jul 2026 09:24:00 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Tejun Heo <tj@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, "Liam R . Howlett" <liam@infradead.org>, 
-	Baoquan He <baoquan.he@linux.dev>, Pratyush Yadav <pratyush@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Dave Young <ruirui.yang@linux.dev>, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, linux-sound@vger.kernel.org, kexec@lists.infradead.org, 
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v2 0/3] mm,kernfs,proc: Unmap mmaps of removed files via
- file->f_mapping
-Message-ID: <amsJ_T3qTJ-TJcwk@lucifer>
-References: <20260725210549.3716546-1-kwilczynski@kernel.org>
- <20260725143737.daa698b50289257fbaa9c6f1@linux-foundation.org>
- <20260726001049.GA2219014@rocinante>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RzfdiHer";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CeTXUrWI";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ign/GMks";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iCEus2Ef"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D6A63EF7;
+	Thu, 30 Jul 2026 08:45:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785401120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+d2rkzVMgD/JPort4j/E6hRzYdO44VAiQmC2RLeMkXI=;
+	b=RzfdiHerPiARlfgmOsUHKEzEPQh6+kZPlImiuKBc2VnBHm5lWRM5c0TcAv0Ejtv8vbp8DY
+	f7euqzrn6NotYhrrRqeSy9puLXTyTZLpyfO65zL0DAa1YIDNKBjI2l3C55cEraUkYyyfJt
+	4mOESxnlwEnaiT0ijMy3Gko1aQsMRMc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785401120;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+d2rkzVMgD/JPort4j/E6hRzYdO44VAiQmC2RLeMkXI=;
+	b=CeTXUrWII0OQt4Mci55Y3VtMeENtDzPNrLewFKLM39sCSp9etjhL2JrcEFkxPpECwa3F2g
+	tZP4IOIoki9UZlBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785401116; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+d2rkzVMgD/JPort4j/E6hRzYdO44VAiQmC2RLeMkXI=;
+	b=Ign/GMksahwL47G07MjRBZXOU4m/2X5oWhGq7AsrAqijT+9BE83xZUkoHxWvkatm6s1e6j
+	gpv0iFH4u/BvFccssSuWRjVqMmf/g6GTiHp/oRK/jIbXJ14bzW04lYECI+QjE3Fqlt8PhP
+	a4CO7sYyG1RW9dGQ3Fpf4qyGh5HVbZ8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785401116;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=+d2rkzVMgD/JPort4j/E6hRzYdO44VAiQmC2RLeMkXI=;
+	b=iCEus2EfH8c6fdIU/2sqB38sEWpRekYwRrfP+gqldQQfhWgBo61fOrpdWeA9/IqyXP5zYE
+	t5sGz7gwpHUvFQDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 19F90779CC;
+	Thu, 30 Jul 2026 08:45:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VoYwBRwPa2qeSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 30 Jul 2026 08:45:16 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH 0/2] ALSA: hda: Clean up jack name helpers
+Date: Thu, 30 Jul 2026 10:44:31 +0200
+Message-ID: <20260730084513.327992-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260726001049.GA2219014@rocinante>
+X-Spamd-Result: default: False [-2.63 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-0.999];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	NEURAL_HAM_SHORT(-0.03)[-0.139];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -2.63
+X-Spam-Level: 
 
-On Sun, Jul 26, 2026 at 10:22:52AM +0900, Krzysztof Wilczyński wrote:
-> Hello,
->
-> > > The PCI resource files in sysfs and the /proc/bus/pci device files swap
-> > > their f_mapping to the shared iomem address space at open time, so that
-> > > revoke_iomem() can unmap userspace mappings when a driver claims a
-> > > region, see commit 636b21b50152 ("PCI: Revoke mappings like devmem").
-> > >
-> > > Their VMAs are therefore attached to the shared address space, which
-> > > neither removal path reaches: kernfs_drain_open_files() unmaps the
-> > > sysfs inode's own mapping, which contains none of them, and
-> > > proc_entry_rundown() does not unmap anything at all.
-> > >
-> > > As a result, userspace mappings of PCI BARs survive device removal,
-> > > and also survive a BAR resize on the sysfs side, keeping stale PTEs
-> > > into physical address space that the kernel may have reassigned since.
-> > > A mapping made before the device is removed still returns the previous
-> > > register value after the device has been released, through both
-> > > interfaces.
-> >
-> > Thanks.  Can we please have full description of the userspace-visible
-> > effects of this?
->
-> Definitely.  From the PCI side, to put this into perspective:
->
-> Without this series, a process that maps a BAR keeps a fully working
-> mapping after the device is removed or its VFs torn down.  The same
-> applies when a BAR is resized, as the resize removes and recreates the
-> resource groups.  Nothing faults, so the process cannot tell the device
-> has gone.  A read returns the register contents as they were, because
-> removal clears Bus Master but leaves Memory Space Enable set, so the
-> device still decodes its BARs, and, as these attributes are writable,
-> a write is still accepted and reaches it.  Those addresses are released
-> on removal and can be assigned to another device, which a BAR resize
-> does explicitly, and the mapping then reaches whatever occupies them.
->
-> On the sysfs side this most likely has been a regression as the
-> kernfs_drain_open_files() unmapped these mappings correctly until
-> commit 636b21b50152 ("PCI: Revoke mappings like devmem") swapped
-> f_mapping to the shared iomem address space, after which the drain
-> walked an interval tree the VMAs were no longer on.  The procfs side
-> never unmapped anything, so there the behaviour is new.
->
-> A read here returns another device's register contents, and as read to
-> clear registers are common, it can also acknowledge an interrupt or clear
-> an error the owning driver has not seen.  A write can be worse, as an
-> offset that was a control register on the old device may be a doorbell,
-> a reset bit or a DMA descriptor address on the new one.
->
-> With this series the mapping is torn down as part of the removal, and
-> the next access raises SIGBUS, so userspace gets an error instead of
-> silently reading stale or unrelated registers.  Both interfaces behave
-> the same way afterwards.
->
-> Tested on 7.2-rc1 with and without the series applied.  In each case
-> the file is mmap'd, the device is removed while the mapping is held,
-> and the mapping is then accessed:
->
->   - sysfs resource read after removal:
->        before: returns 0x18140241, the value read before the removal
->        after:  SIGBUS
->
->    - sysfs resource written after removal:
->        before: the write is accepted and reads back 0x00000000
->        after:  SIGBUS on the write
->
->    - sysfs resource mmap, fd closed, then read after removal:
->        before: returns 0x18140241
->        after:  SIGBUS
->
->    - sysfs resource mmap, moved with mremap and split with munmap, then forked, both read after removal:
->        before: parent and child both return 0x18140241
->        after:  SIGBUS in both
->
->    - two sysfs resources of different devices mmap, one device removed, both read:
->        before: neither is unmapped, both return their values
->        after:  the removed device raises SIGBUS, the other still returns 0x48140240
->
->    - /proc/bus/pci used to mmap resource, read after removal:
->        before: returns 0x18140241
->        after:  SIGBUS
->
-> I hope this helps!
->
-> > AI review might have found a few things:
-> > 	https://sashiko.dev/#/patchset/20260725210549.3716546-1-kwilczynski@kernel.org
->
-> I have seen the reviews.  Will reply to each.
->
-> Thank you!
->
-> 	Krzysztof
+[ resent as the previous submission went wrong; apologies if you already
+  received this ]
 
-Thanks for the details, be good to put this concisely in the cover
-letter/relevant commit messages on respin.
+A couple of cleanup patches for HD-audio jack name helper functions
+and callers.  Here simply dropping the useless code.
 
-Cheers, Lorenzo
+
+Takashi
+
+===
+
+Takashi Iwai (2):
+  ALSA: hda: Drop unneeded calculation of index at get_jack_mode_name()
+  ALSA: hda: Drop index handling from snd_hda_get_pin_label()
+
+ sound/hda/codecs/generic.c         | 19 +--------
+ sound/hda/common/auto_parser.c     | 66 +++++-------------------------
+ sound/hda/common/hda_auto_parser.h |  2 +-
+ sound/hda/common/jack.c            |  2 +-
+ 4 files changed, 14 insertions(+), 75 deletions(-)
+
+-- 
+2.55.0
+
