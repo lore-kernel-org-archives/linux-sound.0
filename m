@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D39A53C1979
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:16:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B5F2CCB9
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:16:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785413819; cv=none; b=TamSXqzxAQGlbtFIs0Jhg1IL5u5H5kcs4xNilnPsnjRyJeQeaSuhKvX/N1g8H/HZCvwBqKCb3Th8RU+McNe31EGloTHiHBg9FqKVO9o9oXKHAQxJuNjDH13xBPIijyLsYWJGB4IA6Q2DrXMLM0kkbulAFOS5pr5/hhIbxT8Mr0I=
+	t=1785413821; cv=none; b=b3ttTxS66H7Qnh3CJ9osNyUuP4Ih1SFH5KHFcOA6RyzTsI3IvVk2U7UDQ3MpIp6S+AVpWgHKPWQwEbDs5gmW9DSQCXykJLb5xtQvZRw9FyRLY14bhLbHPg7vqUsKuh/3l9qi+RsYNkaoE6QTLbt2kAgKJiCLb5wpASg7NDIahfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785413819; c=relaxed/simple;
-	bh=qH/wWSzwVVJDN4Qp7RcnhyLby5ln2Zroz0TB1NzRaok=;
+	s=arc-20240116; t=1785413821; c=relaxed/simple;
+	bh=my6Qf7gdtyw/MvKBvHxDvwn6A9ffiTpmk1/qxTCHd6A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tdbr6yGAUUGpBK1Fmx6iDYp8rpGBd8SeMVQCclJHG7vtLRqX14Em5dn/Rv9AZdgV96FO67nvVMWXysJR6ELx0p5oos/4R0gpGzHcEpJ39HAGDKSy7RWcj0Vw9oQTbB9MzIDWmunjR4ZZ3JfQD5JOW8w7ciBUEZGtgDPAX7RNazQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bxGNKoRM; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=FSRCO9I92uKQzfLYd7dB/ofcF5LuK3nVqgBqslhBtuJLAevr1FJOKE4MRyUpjnG/r9HBgNyKg0PVKL7OcfkKC1sz/YDXS68Nei+uQHjPAJtdA64TnKK4j15bX/IshpqdM+kDKUJ2J5E2Jou+nc+975VEoLZbvRuyE7h9detXluM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5GOmmil; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bxGNKoRM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5GOmmil"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785413817; x=1816949817;
+  t=1785413820; x=1816949820;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qH/wWSzwVVJDN4Qp7RcnhyLby5ln2Zroz0TB1NzRaok=;
-  b=bxGNKoRMykTpGAIp+euknOXua59yo0R2ERHD5L/Soz0N+24zox4jaBj8
-   FFyWOVyo+R3jqs26+ajOTMeNXWRKUPTwRVdM3sRcsGuINg/sAi34Yq6Nu
-   NB7y1gZLrvAIa04RuU9IDTKHnrSykxo1GkDq8I31dtEWI9Lwfd+F+Ly49
-   d4XLiQJav/hjzOm+xc/R8Ux99TLU3NiByf8fhdN9LuN9KazgLuATaz+S7
-   /p+RrwxntBtnoOPUQmqNx78CooxdTznU6bwkrMjf+omOlp/203aQeUhAp
-   YBufpiJNE9DHNd9uMG4xdaK6+tvzAvGY98lpKAqLgfb5xO6p83JfQF1qa
-   g==;
-X-CSE-ConnectionGUID: P/sz0JZ1SVe1V/qWl41EDw==
-X-CSE-MsgGUID: c8pbjMUxTw6i2jdN3UImEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97187661"
+  bh=my6Qf7gdtyw/MvKBvHxDvwn6A9ffiTpmk1/qxTCHd6A=;
+  b=l5GOmmilRzJVkyApI5ZNtVejzzM5CN65oCuhyfxHaZOXB892Cn7PmZ3M
+   pEZcIuVGK+ZHeTD05GvPTQ3uD40QpLwtJQfz4P+5R+jNPsgX03Cy/4Xdr
+   zPevjgcJJk82vLM4DJIkCYgBQ9hz66fg6KkVO3WdfabDm4C7vpbxvnP8H
+   ltOKiJ7NH79jHYO8VMLnVEXyIKGUOkb9LkgBazgYnvn/8ZBF+2+am08xN
+   944SWHMChF9Bzx3cG7Y3m3wJQwqlZslqFxxvJR+UXeqBk3NzqetZCqW+M
+   yVN+bUHhRIlaVhf0aFGShdBsk3v7L1eubdrzv3bwBB3w+5/+ghvnE0Y6S
+   w==;
+X-CSE-ConnectionGUID: zM3Es7OmR32N8lB8zas/fA==
+X-CSE-MsgGUID: 4Q47x1FSRImfTtq7mCkrQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="97187666"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="97187661"
+   d="scan'208";a="97187666"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:16:57 -0700
-X-CSE-ConnectionGUID: b36JtX0/QAGbCpr5csKBTA==
-X-CSE-MsgGUID: 2uOIKQeQQH+xeZJS+VLO6A==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:16:59 -0700
+X-CSE-ConnectionGUID: BXaoRfq2SpCYli6zYAcf+g==
+X-CSE-MsgGUID: BoT+KZgESEmke3lmk0vUkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="259711254"
+   d="scan'208";a="259711259"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:16:55 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:16:58 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com
-Subject: [PATCH 1/3] ASoC: SOF: ipc4-topology: Store the params change between input/output of a module
-Date: Thu, 30 Jul 2026 15:17:27 +0300
-Message-ID: <20260730121729.18673-2-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 2/3] ASoC: SOF: ipc4-topology: Correct the process module's output lookup
+Date: Thu, 30 Jul 2026 15:17:28 +0300
+Message-ID: <20260730121729.18673-3-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260730121729.18673-1-peter.ujfalusi@linux.intel.com>
 References: <20260730121729.18673-1-peter.ujfalusi@linux.intel.com>
@@ -65,115 +65,127 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Based on the input and output formats we can evaluate what param might be
-changed by the module instance.
-If there is a difference between the input rate/channels/format and the
-output  rate/channels/format it means that the module can change one or
-multiple of the params.
+The process module can change different parameters in the audio path and
+this change has to be properly evaluated and applied.
 
-Store this information during init for later use.
+In case of playback we are converting from multiple input formats to a
+single format (or just passing through without change), the output format
+lookup must be based on the input format.
+
+In case of capture, we are converting from a single input format to a
+format which is to be passed to the FE, we need to use the input parameters
+and the FE parameters to be able to find the correct format:
+for those parameters that are modified by the module instance we need to
+use the FE parameter while for the rest we use the input parameters.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/ipc4-topology.c | 41 +++++++++++++++++++++++++++++++++++
- sound/soc/sof/ipc4-topology.h |  3 +++
- 2 files changed, 44 insertions(+)
+ sound/soc/sof/ipc4-topology.c | 66 +++++++++++++++++++++++++----------
+ 1 file changed, 47 insertions(+), 19 deletions(-)
 
 diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 8ac7dde32f77..df002e69d2a7 100644
+index df002e69d2a7..6f9f5325a50b 100644
 --- a/sound/soc/sof/ipc4-topology.c
 +++ b/sound/soc/sof/ipc4-topology.c
-@@ -406,6 +406,39 @@ sof_ipc4_get_input_pin_audio_fmt(struct snd_sof_widget *swidget, int pin_index)
- 	return NULL;
- }
+@@ -2863,39 +2863,69 @@ static int sof_ipc4_prepare_process_module(struct snd_sof_widget *swidget,
+ 	if (available_fmt->num_output_formats) {
+ 		struct sof_ipc4_audio_format *in_fmt;
+ 		struct sof_ipc4_pin_format *pin_fmt;
+-		u32 out_ref_rate, out_ref_channels;
+-		int out_ref_valid_bits, out_ref_type;
++		u32 ref_rate, ref_channels;
++		int ref_valid_bits, ref_type;
  
-+static void
-+sof_ipc4_evaluate_params_change(struct sof_ipc4_available_audio_format *available_fmt)
-+{
-+	struct sof_ipc4_audio_format *fmt;
-+	u32 in_rate, in_channels, in_valid_bits;
-+	u32 out_rate, out_channels, out_valid_bits;
-+	u32 changed_params = 0;
-+	int i, j;
+ 		if (available_fmt->num_input_formats) {
++			/*
++			 * The process module can change parameters and their operation
++			 * depends on the direction:
++			 * Playback: typically they have single output format. This is
++			 *	     to 'force' the conversion from input to output.
++			 *	     Use the input format as reference since the single
++			 *	     format is going to be picked.
++			 * Capture: typically they have multiple output formats to
++			 *	    convert from dai (input) to FE (output) parameters.
++			 *          Use the input format as base and replace the param
++			 *	    which is changed by the module with the FE parameter
++			 *	    Reason: we can have module which changes the
++			 *	            parameters in path, we cannot use the full
++			 *		    FE param set for the module output lookup.
++			 */
+ 			in_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
+ 
+-			out_ref_rate = in_fmt->sampling_frequency;
+-			out_ref_channels =
++			ref_rate = in_fmt->sampling_frequency;
++			ref_channels =
+ 				SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
+-			out_ref_valid_bits =
++			ref_valid_bits =
+ 				SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
+-			out_ref_type = sof_ipc4_fmt_cfg_to_type(in_fmt->fmt_cfg);
++			ref_type = sof_ipc4_fmt_cfg_to_type(in_fmt->fmt_cfg);
+ 		} else {
+ 			/* for modules without input formats, use FE params as reference */
+-			out_ref_rate = params_rate(fe_params);
+-			out_ref_channels = params_channels(fe_params);
++			ref_rate = params_rate(fe_params);
++			ref_channels = params_channels(fe_params);
+ 			ret = sof_ipc4_get_sample_type(sdev, fe_params);
+ 			if (ret < 0)
+ 				return ret;
+-			out_ref_type = (u32)ret;
++			ref_type = (u32)ret;
+ 
+-			out_ref_valid_bits = sof_ipc4_get_valid_bits(sdev, fe_params);
+-			if (out_ref_valid_bits < 0)
+-				return out_ref_valid_bits;
++			ref_valid_bits = sof_ipc4_get_valid_bits(sdev, fe_params);
++			if (ref_valid_bits < 0)
++				return ref_valid_bits;
+ 		}
+ 
++		if (dir == SNDRV_PCM_STREAM_CAPTURE) {
++			if (available_fmt->changed_params & BIT(SNDRV_PCM_HW_PARAM_RATE))
++				ref_rate = params_rate(fe_params);
++			if (available_fmt->changed_params & BIT(SNDRV_PCM_HW_PARAM_CHANNELS))
++				ref_channels = params_channels(fe_params);
++			if (available_fmt->changed_params & BIT(SNDRV_PCM_HW_PARAM_FORMAT)) {
++				ref_valid_bits = sof_ipc4_get_valid_bits(sdev, fe_params);
++				if (ref_valid_bits < 0)
++					return ref_valid_bits;
 +
-+	for (i = 0; i < available_fmt->num_input_formats; i++) {
-+		fmt = &available_fmt->input_pin_fmts[i].audio_fmt;
-+		in_rate = fmt->sampling_frequency;
-+		in_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
-+		in_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
-+
-+		for (j = 0; j < available_fmt->num_output_formats; j++) {
-+			fmt = &available_fmt->output_pin_fmts[j].audio_fmt;
-+			out_rate = fmt->sampling_frequency;
-+			out_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
-+			out_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
-+
-+			if (in_rate != out_rate)
-+				changed_params |= BIT(SNDRV_PCM_HW_PARAM_RATE);
-+			if (in_channels != out_channels)
-+				changed_params |= BIT(SNDRV_PCM_HW_PARAM_CHANNELS);
-+			if (in_valid_bits != out_valid_bits)
-+				changed_params |= BIT(SNDRV_PCM_HW_PARAM_FORMAT);
++				ref_type = sof_ipc4_get_sample_type(sdev, fe_params);
++				if (ref_type < 0)
++					return ref_type;
++			}
 +		}
-+	}
-+
-+	available_fmt->changed_params = changed_params;
-+}
-+
- /**
-  * sof_ipc4_get_audio_fmt - get available audio formats from swidget->tuples
-  * @scomp: pointer to pointer to SOC component
-@@ -497,6 +530,8 @@ static int sof_ipc4_get_audio_fmt(struct snd_soc_component *scomp,
- 					  available_fmt->num_output_formats);
- 	}
+ 		output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
+ 								  &process->base_config,
+ 								  available_fmt,
+-								  out_ref_rate,
+-								  out_ref_channels,
+-								  out_ref_valid_bits,
+-								  out_ref_type);
++								  ref_rate,
++								  ref_channels,
++								  ref_valid_bits,
++								  ref_type);
+ 		if (output_fmt_index < 0)
+ 			return output_fmt_index;
  
-+	sof_ipc4_evaluate_params_change(available_fmt);
-+
- 	return 0;
- 
- err_out:
-@@ -661,6 +696,9 @@ static int sof_ipc4_widget_setup_pcm(struct snd_sof_widget *swidget)
- 	if (ret)
- 		goto free_copier;
- 
-+	/* Copier can only change format */
-+	available_fmt->changed_params &= BIT(SNDRV_PCM_HW_PARAM_FORMAT);
-+
- 	/*
- 	 * This callback is used by host copier and module-to-module copier,
- 	 * and only host copier needs to set gtw_cfg.
-@@ -789,6 +827,9 @@ static int sof_ipc4_widget_setup_comp_dai(struct snd_sof_widget *swidget)
- 	if (ret)
- 		goto free_copier;
- 
-+	/* Copier can only change format */
-+	available_fmt->changed_params &= BIT(SNDRV_PCM_HW_PARAM_FORMAT);
-+
- 	ret = sof_update_ipc_object(scomp, &node_type,
- 				    SOF_COPIER_TOKENS, swidget->tuples,
- 				    swidget->num_tuples, sizeof(node_type), 1);
-diff --git a/sound/soc/sof/ipc4-topology.h b/sound/soc/sof/ipc4-topology.h
-index 54bf0236a127..c9fe9f2e4083 100644
---- a/sound/soc/sof/ipc4-topology.h
-+++ b/sound/soc/sof/ipc4-topology.h
-@@ -197,12 +197,15 @@ struct sof_ipc4_pin_format {
-  * @input_pin_fmts: Available input pin formats
-  * @num_input_formats: Number of input pin formats
-  * @num_output_formats: Number of output pin formats
-+ * @changed_params: Mask of changed params by the module instance between it's
-+ *		    input and output formts (rate, channels, depth)
-  */
- struct sof_ipc4_available_audio_format {
- 	struct sof_ipc4_pin_format *output_pin_fmts;
- 	struct sof_ipc4_pin_format *input_pin_fmts;
- 	u32 num_input_formats;
- 	u32 num_output_formats;
-+	u32 changed_params;
- };
- 
- /**
+@@ -2909,9 +2939,7 @@ static int sof_ipc4_prepare_process_module(struct snd_sof_widget *swidget,
+ 			/* modify the pipeline params with the output format */
+ 			ret = sof_ipc4_update_hw_params(sdev, pipeline_params,
+ 							&process->output_format,
+-							BIT(SNDRV_PCM_HW_PARAM_FORMAT) |
+-							BIT(SNDRV_PCM_HW_PARAM_CHANNELS) |
+-							BIT(SNDRV_PCM_HW_PARAM_RATE));
++							available_fmt->changed_params);
+ 			if (ret)
+ 				return ret;
+ 		}
 -- 
 2.55.0
 
