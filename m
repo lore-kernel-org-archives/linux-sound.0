@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2AFD4248A1
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15AE042BEA7
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785414128; cv=none; b=oKvQXTBzHNv7s8kKIHvZQnrLgJby16PhHeF0HRTJeFBQ+1k3R0A8wBSpoYw2Xba0MkUuRCwZJE+Qd/Ks/CKKwC80akEMqwuvpl9HdR9cK5TS24xJ4MJQUcl4DtAlWVip0F9JbuLZ+fGSoyJO5UQvPrg92p9YOGlUqw05f2XHQy0=
+	t=1785414504; cv=none; b=Vqs9lf0S2RaMbK+ofeSlMW+NNQ1Y0mxys2leaybhHVmI0GwNUcu6Kf4aUZjpNp0sWcdkMF7fsTFaUthcKK+LkIopnSATOsTbheGbtvGgShUOFsIEdsQA3xbmk/LExfqS2BjUha6r4PFBTrp+D7SuIDoK1BA2tbx0/rdH0+kho1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785414128; c=relaxed/simple;
-	bh=bMd9mBzbdF63/uaW1og2/oaK/1yNCv1lBDC+xN0Tozk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m8pLqL56WpdvktvihDW5lkmOOfRQHNt9uSaGyyYa8hqi+FJ79ac11rkusDNtxzZ5Q5B1F4/9WHptZcAcMVr4B6zCJvHAAfFWuRSNDIIwvCMCyF65kpIQjegCLkEnKmC+uhxV6q12G+f5gp0g3t3M2i5V/PG9hvLP9s9ejBOE+vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TArwJ8pq; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1785414504; c=relaxed/simple;
+	bh=usu13PtzzHHrD2UIMboxKhty9IP29CgqxgDowDaP7j4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CLuNN3/iSeTKKkbBVSUjNUZ67XvcLKCKLhkdCEP+7prvxLPmeaZ+yS8GGnGHx4sseOW0xIeZSN0gYQ5mG+Ld0VM6zI9vV2pgP9mOibVXQMpQN66tDdVzz7Ei3K4WL+kfoIG2FcZ+rKmL7hUoV8qhKiuQOzdqrjC3Z82/1E3SlUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AhpQofkQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TArwJ8pq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AhpQofkQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785414126; x=1816950126;
+  t=1785414503; x=1816950503;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=bMd9mBzbdF63/uaW1og2/oaK/1yNCv1lBDC+xN0Tozk=;
-  b=TArwJ8pqn4BbEIh6+PTE4pJ8uG/i/LXRtTujsmLEbxgRsnaD3/zYL3wY
-   /U1BZ86viK2WIXFwjFoLPBElToXpF3/UpsoQHLiEiIk0+5DU3bpfTDxJn
-   R/Ah5/l0/j3OMTWExfoiKPp/m8ZZVHv4JfuBaEENCxWWBMzAMXeZp9fTy
-   bWppXuvlU6hMiPISc3FPEu2uKhms3S1cQOXzWExrh9P1/SsIqG6j/vaJf
-   7GBPxbUZEfW0cSLNDuN3XjQEVolZyH7EaLxvtyj1PN/Qi9M389y3YY1IN
-   msB/qsYXNLSsa8w2VMyUEvTWOOeDJkFWlz3sbyCWAgrHiRc1EzTtHv3Sx
-   Q==;
-X-CSE-ConnectionGUID: eXz+i9kGRUOr6gX1Bx/eGg==
-X-CSE-MsgGUID: tE4dMvH0Q3Sp+l4DZCZ1TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="89712013"
+  bh=usu13PtzzHHrD2UIMboxKhty9IP29CgqxgDowDaP7j4=;
+  b=AhpQofkQIYJIMWYeRTTKibFF+mqsE3SupTmaJ/lTiXzVnrZexbJTWV34
+   Nft2AJCg9c0C2nhEtsrb+tB/nYcczz+fOg3NDzJ/gr7S8uvRRkS6zxDch
+   3kBEH2B/5EJdLaQdrkGmARhshnLGpbFNPRl9HoZIa/J/fN/tklj/x0wxX
+   RdAVWoMAAYVNRwdrhBrOB90I5Gkxsj0sYiy7JoRdPdJXd40qphk1ztcPK
+   hA0oSkw5Dh7Bx1fttxZ4wYYeo+YswYNYG2Gmw+xWcahh+H6Vs/dZ+ND+5
+   nVVHlO/drH7T2Olt1HfGELY6vATaC4PQ9bQqFX4zH82I1vd3zPug6zuN2
+   g==;
+X-CSE-ConnectionGUID: X97+h3auRvOJ33Su+t7L9w==
+X-CSE-MsgGUID: HjLwCkEvTE2E6sRn3pK0IA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="85158386"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="89712013"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:22:05 -0700
-X-CSE-ConnectionGUID: xKfwf8xOSa+3fbnWvirPFA==
-X-CSE-MsgGUID: EXnUVPV2SgychvyIis2SJA==
+   d="scan'208";a="85158386"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:28:22 -0700
+X-CSE-ConnectionGUID: ZpwfKHr6TV+7HOC0l1dM9A==
+X-CSE-MsgGUID: uio1a6XuSjO1IaQIMtxLSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="264095195"
+   d="scan'208";a="265340635"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:22:05 -0700
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:28:20 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
 	kai.vehmanen@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev
-Subject: [PATCH] ASoC: SOF: Intel: hda-stream: clear hstream->running flag in hw_params
-Date: Thu, 30 Jul 2026 15:22:41 +0300
-Message-ID: <20260730122241.30541-1-peter.ujfalusi@linux.intel.com>
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com
+Subject: [PATCH 0/2] ASoC: SOF: Intel: hda/mtl: Handle powered on DSP on boot 
+Date: Thu, 30 Jul 2026 15:28:55 +0300
+Message-ID: <20260730122857.5294-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,33 +62,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-During hw_params call we make sure that the host DMA is stopped but the
-hstream->running flag is not explicitly cleared at the same time.
+Hi,
 
-If the host DMA fails to stop during previous use then the flag is left
-set and on next start the host DMA will be left disabled since the
-trigger:STOP will skip the DMA enable.
+It is expected that the DSP is in power down state when the firmware boot
+is attempted.
+If the DSP for any reason was left powered up then the DSP boot will
+fail since the ROM boot sequence might not be able to run.
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/sof/intel/hda-stream.c | 3 +++
- 1 file changed, 3 insertions(+)
+Make sure that the DSP is off before proceeding to boot it up.
 
-diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
-index 0778002e2bd6..c95230487a1b 100644
---- a/sound/soc/sof/intel/hda-stream.c
-+++ b/sound/soc/sof/intel/hda-stream.c
-@@ -613,6 +613,9 @@ int hda_dsp_stream_hw_params(struct snd_sof_dev *sdev,
- 		return ret;
- 	}
- 
-+	/* Host DMA is not running */
-+	hstream->running = false;
-+
- 	snd_sof_dsp_update_bits(sdev, HDA_DSP_HDA_BAR,
- 				sd_offset + SOF_HDA_ADSP_REG_SD_STS,
- 				SOF_HDA_CL_DMA_SD_INT_MASK,
+We have seen reports that for some undetermined reasons the DSP was on
+during system boot and this caused firmware boot failure as the DSP
+cannot be booted up - it was already in booted up state.
+
+Regards,
+Peter
+--
+Peter Ujfalusi (2):
+  ASoC: SOF: Intel: hda: Power down DSP if it is left enabled in
+    pre_fw_run()
+  ASoC: SOF: Intel: mtl: Power down DSP if it is left enabled in
+    pre_fw_run()
+
+ sound/soc/sof/intel/hda.c | 14 ++++++++++++++
+ sound/soc/sof/intel/mtl.c | 23 +++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+
 -- 
 2.55.0
 
