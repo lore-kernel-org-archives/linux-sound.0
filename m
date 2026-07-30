@@ -1,108 +1,133 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C2035C6BE
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 03:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785382549; cv=none; b=CvXapsWBEvVKTyjker2nL5mlGG1Q+D6iGIyhakWxryg3FhUMHT+VNJGz9HJdgZEplA+IS+RmS63EXcAlw3XIaFTVTvvwy20Ih08vNlSNVZhIncwQ9G/gwYRZS+CMMDX5VcHoSAaknCQcPAIBHAIE4HwqORSBftOB7m8AbJgAhV4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785382549; c=relaxed/simple;
-	bh=IkOnKm5up7VqWGqGWKIzYr9mmCHH8apjNEhkFVYvMKo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nS+8Sicprc4IXlP+3TCXUWY2+QkV0VrkEnt19ciQ5EJRNTmo0NqBdC1kx3rI2UfX4pGcgKidrvlBOzPiIdK//I9wqRc4LrdDPtFP6NBIPBryUi8XAy8h2J8Y5wNlPoWAf8gz3mrqoYfX61f6oX62q+FV2f3hS/ayFdcei5grjrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JdAA51M/; arc=none smtp.client-ip=209.85.217.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDE222A7F0
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 04:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785385211; cv=pass; b=Aq6EtbXqItZcNcSA24ItQqQ1pd7K5RY0ypplZ40fneeQXl3JpJ+E8Whh7FuXmO93skXAlYpRFr/V22ZYHY3ZtY7dsefJ+/YtRKdvf4aw6lJK7ybAWKC/ug+oGpQuSIlBUnZViaI0+OYLvHy+YjGLgDYEemIfo1IAZvnMBD+UPtw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785385211; c=relaxed/simple;
+	bh=W+yqcwq0zff+HAKrCQbRx8KF/mvjP0Kp/J1fb4ikRTU=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=aeyOGOklK1sYAsQGQoiyKYt5y2LyRAybdCNEWxjTqqLUjuz9HjtKCUolACIet7WHXxtRRWvRMA0M66fdDnEoLTwqXQ1cGAu9tTzSqV7EJ1//30MWBe789jy6XhmXCV4mzY4LHwSRZ0vpkAnGyDyfBswERAjrs2mW8VFj1+6HuM4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CMFsfaOA; arc=pass smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JdAA51M/"
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-74d55dac06eso843674137.3
-        for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 20:35:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CMFsfaOA"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38cfcb507a3so139984a91.0
+        for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 21:20:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785385210; cv=none;
+        d=google.com; s=arc-20260327;
+        b=c3RbliJEUhxswGB1Itg4tEthxXUvMhjtVVvQ7qA2u9EZDGEeyX6dQxnYxrWPp0RRhi
+         QDUpbB/sQ2nvV59O1W0Y5SihFI7lBvKWNOkbCUfYTbxivVhlOF+5uZBZqN3CrpFyrIWu
+         LbHx/pp/LfE+ybhcGduF1BSI5iclga2iQh8JvR75ZYmBxvphflmqwMaM0M9fqlOO167U
+         3v6EoOg4gfxP+GInS8x+lFEDfiYaWUB/IrgIrMC2g/8J/9xT6JQEHO7/Vjne/zCMkwux
+         ielpMvWmklGn74E6nsNG4v3ZV4oHtpGimzPEkSyjLIb5lQOcx5XGjnxeaKBHGvQ44Y93
+         ia7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=azv2+HA7vkhRDpwslh4d7gUmm4xOpVdOQXO9Gfi01QQ=;
+        fh=KNb6RJXowCM04WgCv/nN3QHkXvqGhKXTYKB/Jcp2WqE=;
+        b=YUV08d/Q0caK1loggOYc9c08zKZiU0qAycXtAiLaqcOzl7KpXuMxcuV0olellA1a0k
+         D2MGmo71cu3UbTsu4TwGqSQG7djQasM4HtpMEfX/WI4tqCpIhfGH39CHAyQUZhW863Y3
+         AzQIpu+xbrIWBI0WSF2W7846gmb+rCb6ZnWQJmCe8QWtpVSIBAMVuSnAu04X8+CAOyXM
+         5FOciWbwI3ELrZVNqem3maozzQHh7N2LGhySxEEodatYrXkSyRK6qmdzszbMn5pGXZm5
+         u3pu1l9xeANSnwzd89xvrWOSAlgqALnp1N0WOwcUSqSbmG8C+MWpXkWlqKX0GoBzF0au
+         PZgA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785382547; x=1785987347; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NzRWZ3nrAUmrX9lQvSGQ+xKQuGR+rbxnQB7vEZ+GpeY=;
-        b=JdAA51M/ccuaMMyun0+qRddKt8bf2Cz/QDFBX7ZO1UcSRVRxUEFX+ettxPkh2peed2
-         IcKbrGt41RlGTAMTobQKmcj9tZhTEDx6bgulqfl4a/Pk1WYL9Kg0cv3YR0BeApGrZ5+A
-         TDxoWI0yce6Fhp5A0vwQ7c9KcTYzM6FsQmS3DkOaPu0Llc54hIJEQDreDY6TGM+EkQDt
-         gWOnaW6/4IViE2ltKzltxDgOPxpi56EblcHM7ExnKv916qVcUVutVdcrnD7Akcb0MeBl
-         1XT0DUCdlN9h2bxxc/u1j8xKyYeT8Rb8qBeU33HrNnP4gTchdRHRCz2+7QBVbj8GQR4U
-         A3Fw==
+        d=gmail.com; s=20251104; t=1785385210; x=1785990010; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=azv2+HA7vkhRDpwslh4d7gUmm4xOpVdOQXO9Gfi01QQ=;
+        b=CMFsfaOASyaazbnHEN6hvEemA/1HP9DupQmZ26z9qpucOWk3sjtXwUd99YqYmwy1q4
+         acNl8D4inZyhrd8N1LB6YZUORfS2p1n+AD8PiYJLgxd3jNIjJcOjRco0G2xW1OSnGwcV
+         Wx/3Sywl7pzt2v45LWflv73kkaL4yktH+RFcSfGHss4HqMTzVCCfrxPkjZDpmJQ6Z03X
+         HpIAVSo8rUdC+yOeYkker83AOhSbMoyDPw1CkmxwePqNmLhehq7GImjJKcRtGVTI52oB
+         0VZKCd6YS1PuynAC+2Au6FQffRpuZKug7DqXhj/yWnHAxL8wCzQcqpO56Kk6Lh5o2tIn
+         m1/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785382547; x=1785987347;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NzRWZ3nrAUmrX9lQvSGQ+xKQuGR+rbxnQB7vEZ+GpeY=;
-        b=gFvuPGTIQAxUSS1pcC87f7vGh1EbU9hGAm4kRQHs8EcgEPYO9hPDVzSUkRa74gkxJI
-         xbYInwuNMeYPCyCp2GMlQqgO/u1lQ1Pr0Gut6ItWbrypHPKI/ER3xh6IvS3jbXxteTzw
-         d8v4lpI4wypMyVx1h1+5sjUR4X/pSDa95IHan3XYA5ufKex4MkBMAbJULu+SlIF8ypZR
-         TU2yEYqdmoCmdM90b7/8ZFVGJLrazdSOkMYK6oJ9FTT3KqMIZdVbvKDynyCtP83Hkp2F
-         ulCvln9IQ6SLwPfpxtJ1mJ2ywWuKplFXgZ0GndRWvr5CMJOtZ7bioOVW0OeCoP5w5tcV
-         qBsg==
-X-Gm-Message-State: AOJu0YwcEjCdDJq7KKakvV7sxYeDoERc22CADbNs0LRm4HdkC8fMEXY9
-	/aTor3Ur9sdNe17NEAR/YGTseABRe0tjX7G34ONunXK65DQrmEfHecHo
-X-Gm-Gg: AR+sD12LcvoM4kRxHjEOekRKCsE1yYWW0bMrKurFC/9h6wgMBzdXgAaoh+VT9iJ2KAU
-	mhmAX6370CjcuHp6IWw1PiDJvLng6zQw6IDgmfuejtjVLpeWbYeg+LNA+wcnBTlgxzkMmUSYhij
-	fjvMRRd+EIViQQQpuudzA+IIyKLt1CsLHLF7LFDOqEGF83/3ln/2u1QN9k3kU4YwA5Eye+gkojn
-	QfQJYO1I7fHG20iuNJuTf/13IgdTRqxx+qiqSb9HJEPZA9GoV4P1Dza9+k/ZHTsj3naaBw9mP5x
-	o4vZnBJeWb2FAKx2q5BkfYFs9Civ5dot3f1c9fyBbqccWcmkheOnKSYOuj8iLTfSfNdi/h5w1WI
-	3CP2M4hj/1OCSrySRqryyGvoIdmpJ6X4WxiV7KW7lmZJakZmNsrc9JwxnY78fNPI0unU+cmN+mr
-	/DL7KUBiehKScttiNo5cOyfMbXpIqsSH/jdIQHttKie+PdXZAsmBRs5T5DMFgxP5I=
-X-Received: by 2002:a05:6102:510a:b0:752:757a:96f0 with SMTP id ada2fe7eead31-7574dcc63cemr367859137.3.1785382547511;
-        Wed, 29 Jul 2026 20:35:47 -0700 (PDT)
-Received: from localhost ([181.63.26.13])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-75759ea29c4sm365027137.6.2026.07.29.20.35.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 20:35:47 -0700 (PDT)
-From: Mauricio Orozco <mauoro3@gmail.com>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	maudob@live.com
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS VivoBook M515DA/X515DAP
-Date: Wed, 29 Jul 2026 22:34:55 -0500
-Message-ID: <20260730033506.8958-1-mauoro3@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1785385210; x=1785990010;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=azv2+HA7vkhRDpwslh4d7gUmm4xOpVdOQXO9Gfi01QQ=;
+        b=mG0BB80qTzE0FdZMXRNQnaQsgz8we+e51RQYz8r4c6BRD8y10pTvxNGCXOfjX2NYWk
+         hTAkRByLO87HO7iMnnnS1ObFZg74qzCmvcgbHS+4ab43RlSOqbi1RyIoEE/C0owwEskd
+         PPKIWGkILba6+lFXENlUhI8VNoIiZe9P119r83oYtK98LZ39W/5HL4o9xEwz0Tjcy6Rr
+         qvoUODlEXLK+oyy/wx1ztTUVfGihNYbf9TaqEKYE13S2j+5CXMFdFgaSNjFAp99NJHkW
+         Cj29/zcj3BaPyh/6z61LtVek234myq8HvUKEeDTbz+lM1P7VS8VGAjoe/74HuSIRuSS9
+         vYwQ==
+X-Gm-Message-State: AOJu0YxwzNJGtdeNuR10mlRb2xjXMz4olFW8APMbKcHUguOyjNUExepS
+	Ezt3aMhEMilwhEZjBh5X6alYl7Rmjb8+GoeCEasl8KXO3mc51sZigQ8tAQWytOksI58F3ojtBOH
+	3F4+cOFAG5aLglX/m7i3Z6d25aZoZ1Rs=
+X-Gm-Gg: AR+sD13ZMCenfoSpu+tDf/AMK/wdsT3lS+jIMQTei1hqj6kCICSvpJ/fj2xFQWmLmfY
+	juU4snjmYAci47/MGWa/1aSPmOvXcjr4meT4GVrRTKIB0SiOuTe5iobi09OSEjCDs7lAEz5WJUM
+	ts292vG99S2idix1Ft7bEQfzITxerr9vNiuJXMx1jRB+7HTLt/u/IQLkk6VijhwEjOyeIKA2a9k
+	DmpLN0/FtsIEFEOZIWBfLHhGutyJMIhYEpG1BB1H0+ADtwN8efbywXlHDfabejtQfDi+PceKiuM
+	y6Z0RdYACZthlo3jkdIGwjJEn1Osmpeijb9S+v8eVeCL
+X-Received: by 2002:a17:90b:2e04:b0:38e:55ec:e436 with SMTP id
+ 98e67ed59e1d1-38f9bb23ecdmr1365956a91.0.1785385209772; Wed, 29 Jul 2026
+ 21:20:09 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 29 Jul 2026 21:20:09 -0700
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 29 Jul 2026 21:18:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: =?UTF-8?B?67mb64KY64qU7Zmp7IaM?= <safenine@gmail.com>
+Date: Wed, 29 Jul 2026 21:20:09 -0700
+X-Gm-Features: AUfX_my_2cSJP_W0LxyEvwFDN5YpJmJ7RkwiALrPM0irGvGVciJFCjmk9aUmTgg
+Message-ID: <CAJ79ZrGy5F0LwQ=xZBmZi+MnTybiATPg2FGbS-7NaMWvb_6syQ@mail.gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add quirk for LG Gram 17ZD90R-EX79K
+To: tiwai@suse.de
+Cc: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mauricio Orozco <maudob@live.com>
+From: Jabong Koo <safenine@gmail.com>
 
-The ASUS VivoBook M515DA/X515DAP (subsystem ID 1043:1e3e)
-requires the ALC256_FIXUP_ASUS_MIC_NO_PRESENCE fixup to
-enable the internal microphone.
+The internal speakers on the LG Gram 17ZD90R-EX79K remain silent,
+while headphone output works normally.
 
-Without this quirk, the internal microphone captures only
-silence under Linux, while it works correctly under Windows.
+The machine uses a Realtek ALC298 codec with PCI subsystem ID
+1854:048b. Existing LG Gram subsystem IDs 1854:0488, 1854:0489 and
+1854:048a use ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS, but 1854:048b is
+missing from the quirk table.
 
-The fix has been verified on real hardware.
-Tested on an ASUS VivoBook M515DA/X515DAP running Linux Mint
-22.3 with Ubuntu HWE kernel 7.0.0-28.
+Add the matching quirk for subsystem ID 1854:048b.
 
-Signed-off-by: Mauricio Orozco <maudob@live.com>
+Tested successfully on Ubuntu HWE kernels 6.17.0-41-generic and
+7.0.0-28-generic.
+
+Signed-off-by: Jabong Koo <safenine@gmail.com>
 ---
  sound/hda/codecs/realtek/alc269.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 218b897a5df4..80a66a4f03f6 100644
+diff --git a/sound/hda/codecs/realtek/alc269.c
+b/sound/hda/codecs/realtek/alc269.c
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7632,6 +7632,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1264, "ASUS UM5606KA", ALC294_FIXUP_BASS_SPEAKER_15),
- 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e10, "ASUS VivoBook X507UAR", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0x1043, 0x1e3e, "ASUS VivoBook M515DA/X515DAP", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
- 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e1f, "ASUS Vivobook 15 X1504VAP", ALC2XX_FIXUP_HEADSET_MIC),
+@@ -7752,6 +7752,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1854, 0x0488, "LG gram 16 (16Z90R)",
+ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x1854, 0x0489, "LG gram 16 (16Z90R-A)",
+ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x1854, 0x048a, "LG gram 17 (17ZD90R)",
+ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
++	SND_PCI_QUIRK(0x1854, 0x048b, "LG gram 17 (17ZD90R-EX79K)",
+ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x1854, 0x05bf, "LG gram 17ZD90S",
+ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x1854, 0x05c0, "LG gram 16Z90S",
+ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
+ 	SND_PCI_QUIRK(0x1854, 0x05c1, "LG gram 14Z90S",
+ALC298_FIXUP_SAMSUNG_AMP_V2_4_AMPS),
 -- 
 2.43.0
-
