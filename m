@@ -1,79 +1,125 @@
-Received: from mail-m19731103.qiye.163.com (mail-m19731103.qiye.163.com [220.197.31.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED8D375AB1;
-	Thu, 30 Jul 2026 02:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.103
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785378750; cv=none; b=gBPCyCr5gx5cRvAgkJ8hdrduJp5M3gnbR0rOv0XTh/EDR6GY8XxUSjLBvlGJvHAmPzwFVe9ky8nbEMT+HGJO6RBMkPBkjzqdDHhrahytj1DcppnoPkRmFbv1VIMvsDQ4lpMhpWdPNIiHOCDk313U+5yYT1of6eKN4x1VYOzUeNk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785378750; c=relaxed/simple;
-	bh=/flVKQbZtpQG401sEThXgolbj3JNkHvYqtLuL1P3CAg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E6zWjbe59KBr4xuygQKYSKPmBVm4rGZLqGoWdUdv+n+V7dRHdAZshdWFHHwcfGbuzwMOydOlCFKHhp+he6u/m37Gt3NA6Rn8a7mLLAoDwxe97rZlBsqCKTwzv96fPgJq4trTwWiuqb62wB/QSR+edvOgm7I2vK5CSamdap06oUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=Qgfcbm9+; arc=none smtp.client-ip=220.197.31.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94A235E950
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 02:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785379541; cv=pass; b=p0uzpb+zEIp+v4uMb8dJGU3j2FAoFC51sh8EtgfkPzcb2hDS4xwf+bMMrhzLQxfWEEJ3eZ9hwHTsrZU1Qe+4gLaAa2/06Tf/BefWjd6+7/ZgVUDFt3eGzpP3a3wovcMGBuKXjIs5jzzbqDANRhRfsjaiNo82uKnhV53zeVBbS10=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785379541; c=relaxed/simple;
+	bh=kRArQHYjNIM/tb3Bh3o6NO8/9PpQ5oRwZh4ZjJKawz8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cJE8RYX6KDTXSD7V/Pa69lQRO4GtuT55zRBdJ1IX0rtWbiht6hZ1/0jB8rHcsn+C/+u5MvCJWgPvey5PbyZdwqdotVexLZ0IF6qogGytCMGzV48dHYcDCshIUV8NF9XrgXG80BN6sYoMuRAF7tn95FgjS/6gt0b+pqtZ3JpGxrc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuwVQ00/; arc=pass smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="Qgfcbm9+"
-Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 48194907b;
-	Thu, 30 Jul 2026 10:27:02 +0800 (GMT+08:00)
-From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-To: krzk@kernel.org
-Cc: broonie@kernel.org,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	drake@endlessm.com,
-	hongyang.zhao@thundersoft.com,
-	katsuhiro@katsuster.net,
-	konrad.dybcio@oss.qualcomm.com,
-	krzk+dt@kernel.org,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	matteomartelli3@gmail.com,
-	perex@perex.cz,
-	robh@kernel.org,
-	rosh@debian.org,
-	tiwai@suse.com,
-	zhoubinbin@loongson.cn
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: es8316: Add regulator supplies
-Date: Thu, 30 Jul 2026 10:26:50 +0800
-Message-ID: <20260730022650.39057-1-hongyang.zhao@thundersoft.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260724-pastel-brainy-cat-eede15@quoll>
-References: <20260724-pastel-brainy-cat-eede15@quoll>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuwVQ00/"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cace91f112so19282615ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 29 Jul 2026 19:45:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785379540; cv=none;
+        d=google.com; s=arc-20260327;
+        b=j1xUOJsk7x+WAEnj9pzLXYQJw8xYG3+knoGiFpf0juo75ctcaujyglKNxrP7wxgM+d
+         c3fx9ybwk0btgtmYBV37yGbeu2aeDFtHJPF6ztXKjBVJsTuwqyeZWvltz0Uh02EFYSwK
+         gWRp4QSqkg99vvAH74E0r3N18g11oOJj49P6kzywAAqxflKm1Qd45PoJG+j3k0iyWARd
+         nGgD8oGaS3zUcDEkvvAXjyA13mlBG/aqZGKTSOmc8EPVdEU55uTVNQa9Wg3MA1KjXd/i
+         pFykyRnvPmotda0clTKmewhN1/w5L9bVMDBEykO8Wd82m6e5U7p0qXedojlrkb8Uf8a0
+         L0TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uzAsR/idHenwBSxzwkgn005nJFfaNaoVoja/AStNgb0=;
+        fh=GQxMh7ZSKJRa8qYjcEI92fLZ+pi5npUdIgsL5hOUbws=;
+        b=hmthR0RBt6vM2VXy8//njzvH4kCDvSzUa4nrKArrt61qOVfqLEuIqQJiMtxJYJKwfX
+         mG/UfxRcTCnb/KquIl/xIYrLriW1OUFDSpjtDAG/a7yRa2kkRERzfYM8dc4CwgPof62J
+         P1YNxctKWU7VDJmmEzHZFZuqyy1VSL5LqF3hAlQ+/m3dvD/VkVgGDP54+52uoVJMeXHT
+         +0D6rwz4cBl8dmyx3SFEvadcZSC8ATRiSb4PnV5Ua+ReEoov5HUaLBcicHF2d5t/a50R
+         Xb2z5tKw0TBCwuqkXDr5+Y+eawCnw+JoaW/GJlAEXwfXzukO+rY7kOK5n9sWOR5rn4dq
+         taOw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785379540; x=1785984340; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uzAsR/idHenwBSxzwkgn005nJFfaNaoVoja/AStNgb0=;
+        b=UuwVQ00//mPfUeqzPvcQlgrnm/6LNknWgJdPen/iMdioWq3GmqEo+vccajDvsd5Yw+
+         nfGDSgvj6+hrq6N9PHos0xB05GbKENdCceRiDmJIhBgDCpOUEEEmLtMJB9TNB2igfNpM
+         GMrLT3Rc3a8GIFDIk0QPh8fcauTvsZ4qhZrviN0fvJgSoi6WYr1ZPhR2iKYG5oRnq+T0
+         PXXwzhk7v94c6BM4yAo8scpMtbB5l56ogALPSrVaxTKb56NWQGYVfB9tq9gXNo3K2DRZ
+         qdUjFUX5UrL+14hyxt8OBNs39aXrWgPQOpJlIwr0xIphatYWUcGdV5FQ/ozdv7r61Fsp
+         /NWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785379540; x=1785984340;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=uzAsR/idHenwBSxzwkgn005nJFfaNaoVoja/AStNgb0=;
+        b=OwepExUpfB0Ofm3aBn2Te7U2fK9Zhv0wu2MKNbrhagoXK3XqcdwL30UKOGRkswDqKI
+         lqZZWNUieB00t7M4C9ig8FXAn+ssJANuHu5mks9pWSatQeB3QL1TSltt6au/NPV8sich
+         /l7WhYtTnfk4l5OH6fRxpNlW2IUro8YO0Ct7f9Vk32MaPX7bKdwEOKMz6DekBTaR9nuC
+         7wfLeOVmkdYeli0o11B1CqJzI1dOcjksNCt3NVXIH5HAQ58PnCfpmIsqueJCZXjnUb37
+         ejBwXl8kWlDaIuOp9go3PhPUALhgbKTNiSqlOKnK9YwLtJ8chDQKm3hE3yNAB7RUNuBX
+         X1Ww==
+X-Forwarded-Encrypted: i=1; AHgh+RrYIsUZK/sBQ8xKvJMAnvqnfeqlnNDgM0q7ejrb38Gyy4Ok4rWYHcRoOapxPuZHvVe/V/dokGKBkjAbig==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxL8pzKyqBzdF8KwgIuvfr5O5Q6qiSNf5UWDUjUI+3dLMaYzwNn
+	QFm7Bg6sZ0UqoJaR0jYVQMbhZzsED6CEkkZBdulai02BKdyg0t3CSmThpPFXywqRhA1abAkErQo
+	l6E6A8Bjjix5VyBr0nlluxLo3Q7hKrJs=
+X-Gm-Gg: AR+sD12HEjwCsdGu69CDX6pYTVGCRwtnWwiGK7mqV+09wA/iZxTIg2/Z5XWyKGvgUNX
+	iGf0QvJNH8ogJ2Zc8iZTQwJcm5e6lunmIQMgSrSiW+wWEInUTjRDIophjklTNRYcx1dhfm8FShO
+	HSb9XGWUPb+U4mQiXKBq8Vpmf0HDNrmWxojLIEjahZrlYRsnLHkDVbZXFiQzYCEhzp2QnfCWi9g
+	fNNTaEwAxU0gPIJfqwnbbypaA6eOu3ogrohaazvpJz+XTJvnerWyuHRklQ08DzntiyKw8cmM3V/
+	jmsRyjKCgtKLj1t0NWDZvIDFfaJkuxjhk+FLki8GLZyZ2j1WGaRn4bR7Dp6joWbNdduavhxvW/k
+	84xUMLuVeNf229hh+fGVOulXHypUyfWXkKTVoPfFW82MKGEsC0ynupWj1
+X-Received: by 2002:a17:902:e551:b0:2c7:ebfb:618f with SMTP id
+ d9443c01a7336-2d035c4b525mr9152555ad.14.1785379539888; Wed, 29 Jul 2026
+ 19:45:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9fb0d8be6609d5kunm91e5fa1f3feca9
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSUNPVkxISEtIQ0hKThhKGVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
-	lOS1VKS0tVSkJLQlkG
-DKIM-Signature: a=rsa-sha256;
-	b=Qgfcbm9+CtkUUP/8Z713ndELcz+uWbQ4w1hGNegOwls4bcNAG5LQ6gnpFERo+Dds/hDTR476WcHyi7KK/21JAHjiexjaZSrvhdAE5KPI8N7vwLm++LcdCoKv09feppeMjNQzzFttEPD566fdHfFQIllhdUiT/amsSBagfZJ5F0w=; s=default; c=relaxed/relaxed; d=thundersoft.com; v=1;
-	bh=/flVKQbZtpQG401sEThXgolbj3JNkHvYqtLuL1P3CAg=;
-	h=date:mime-version:subject:message-id:from;
+References: <20260716080428.57979-1-phucduc.bui@gmail.com> <7a49d38f-4e71-48c5-bc15-6d449cfa4c7c@sirena.org.uk>
+In-Reply-To: <7a49d38f-4e71-48c5-bc15-6d449cfa4c7c@sirena.org.uk>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Thu, 30 Jul 2026 09:45:28 +0700
+X-Gm-Features: AUfX_mz0tgPl30mvdu0uDVESsMyn2wpcTC08XqzKNftlZAvnSAWlsirav7xfr_4
+Message-ID: <CAABR9nFZhuz4dsMoy_wk_tf4CS1SDAyfaJHba=vbhfJyLJT=pw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: soc-generic-dmaengine: report DMA channel request
+ failures more clearly
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks for the review!
+Hi Mark,
 
-On Thu, Jul 23, 2026 at 03:54:29PM +0800, Hongyang Zhao wrote:
-> > The ES8316 has separate AVDD, CPVDD, DVDD and PVDD supply inputs
+Thank you for you review.
+
+> > +                     if (device_property_match_string(dev, "dma-names", name) >= 0)
+> > +                             dev_warn(dev, "dma-names has '%s' but request failed (%ld)\n",
+> > +                                      name, PTR_ERR(chan));
+> > +
 >
-> But you also add them to ES8311 and ES8323, without any explanation
-> here.
+> This is going to generate warnings for unidirectional PCMs, if we don't
+> pass a name for a direction then a default will be provided and we'll
+> try to look it up even if it shouldn't exist.
 
-I checked the datasheet. The ES8311 and ES8323 family have different
-supply inputs, while this series only implements regulator support for
-ES8316. I will restrict AVDD, CPVDD, DVDD and PVDD to the everest,es8316
-compatible in v2.
+In my understanding device_property_match_string() will return a
+negative error code
+if the missing direction's default name isn't listed in "dma-names".
+Since dev_warn() only triggers on >=0, it shouldn't produce false warnings for
+unidirectional PCMs.
+I may be missing something here. Could you help clarify if there's a
+specific case
+where this would still trigger?
 
-Thanks,
-Hongyang
+I had already sent v3 before seeing your review.
+https://lore.kernel.org/all/20260720064131.75156-1-phucduc.bui@gmail.com/
+If my understanding is incorrect, I'll address this in the next revision.
+
+Best regards,
+Phuc
