@@ -1,59 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8961B3B4EA5;
-	Thu, 30 Jul 2026 08:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038242571B8
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 09:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785401921; cv=none; b=ZMBSmR6mcFjee6ImskohKPsx7FCcBY0zmaqgr990xr41lu8XxB3bglhyWSpvCmUP4ItVI7H704iaq6LLeiFqZgZiIx9gwbA6tJQKkUumwTGiZfaqTqMlyqSKs3z6+AuqZ8H0N/eV6ak30PwZMmgEUhntAew6B36zgVlJ4EpUPIM=
+	t=1785402009; cv=none; b=KIVxu7ZEGJsBjjfoBF8CDqeULF2QKYMjiHOkmRgcPMJYaliNYkcegQbcBH9g20Mh4PQA4oig8YwdYkoowYLTEuqgSFZTTkwDpngdVCUGZBU/PYuOCukYCI3uHuMZkdunkUff+H/FO0kRAI1MhyU5yrcQTbYOetp/z044cHQkZOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785401921; c=relaxed/simple;
-	bh=3kJPsOEKbz+FFSfvEJQNeyfVV8bpdR2Q2Cxeg9WBEdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YRQmjKtoFer5VZWatwzsOLomEaAcO5ouRnkPI9pzbW1meUHmbkMDCTrrIbR0Kf+Y+IUgKXBcxqu3HZ2vRlW8c4P+KutJc+SOpxWFExyvfp4PbkxB2InSMT/vJ6E812TLBu0SjLCj4BazN5NV0o0T+Ba4uDWO9erG+zQgJ4NDrXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mixDEZJm; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785402009; c=relaxed/simple;
+	bh=hy3ZuSka8tQX3sUa3GyoQzLxtjJsVJjZWCtGvb35XCk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jnRwN2ft7u64lickE83BdXpUmJkCtjRh174ptia+/IiBCJXX8onvXCfoCN6YrFvGlS1Qt2181hqXMAQhV43N6fV4L93YsNLPtpRaL9wKo8Kwqf8+b51QXNz7ahxe5WKuhFme4140Ss8sGzpd8tTSlMCP9jxmW0BrPLYw+XTSz/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=JgvLIPCv; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mixDEZJm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785401920; x=1816937920;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3kJPsOEKbz+FFSfvEJQNeyfVV8bpdR2Q2Cxeg9WBEdo=;
-  b=mixDEZJmxBuZqnQcfZ9Vsro+JvNvQMJ/KuaxpyAkT0ScQsDAYtBEn+Xk
-   I/B+PBJ0Q8Emg9/YrkbGfkeE0kFEGC56gIIN8GhQVopqiokO4avvKJH7k
-   pweAyvONz1X2P4qTynUhH+rAQKcPpzdyB9K2ciyvEoVG8b0t5iY/36jV0
-   HLRuEAQRgKObBd/4xpuHlRSt2ejBb7xEJFPmO1teo3t+XlI8B628KWKh9
-   MbhabGimJzQvNT0r5toJI3rdQB3QTyEPlWeBIcirHOjaOFuHTqK98bbkt
-   LKt7KX7k3n0KrMGKbBjcg/ojEz2semYkraHDSG/lVXojxw26z3tUxdTSO
-   Q==;
-X-CSE-ConnectionGUID: 1Mawn5wqRXemR67DNJ16jg==
-X-CSE-MsgGUID: gSLCBosdTdecvP7VXpZmZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96601938"
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="96601938"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 01:58:39 -0700
-X-CSE-ConnectionGUID: rvuyYdTQQfyPc55Lc5JP0g==
-X-CSE-MsgGUID: zzYymCpqRWWhLFNr9s/8Kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="257565833"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 01:58:37 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: sof-audio: Fix error path in sof_widget_setup_unlocked()
-Date: Thu, 30 Jul 2026 11:59:14 +0300
-Message-ID: <20260730085914.27546-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="JgvLIPCv"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 66U8xfKJ31066089, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1785401981; bh=xUQKPIADDgQZBcdmQX8lfNbarSw1LgMpin5TgQ1n+Ns=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=JgvLIPCvK9oGZCT9BA+hnsvq8oqI2zjUgohtjxPhiuGxdTamqAg7J5MK9KdcX9jzo
+	 Wd9lb49suEYnDsJYK6LrilBZkViaCe0vY8RE+4D6vsS9JGs9Z/XOgQcBYQHj3vIAB9
+	 q3dqj761S9wJCCligpyOjbRCdh+V8HPX5Qn+Rkuru/7jncWB+mNPU3uhnnWKa3ADJn
+	 At1CvwNGLgwcBAbTt99YhcGqCsnGsIdOzs1osOmYYP3zfVS5ggaSnfHRezIECEGWNh
+	 Aa2sMxvB3clMGFPH8nwAhWHrtQepx9YyNfk7Cg9K7/LUZ4bDMgJLKgFAwALDvVGesp
+	 zZ3wwxwc8fSrw==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 66U8xfKJ31066089
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 30 Jul 2026 16:59:41 +0800
+Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 30 Jul 2026 16:59:41 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Thu, 30 Jul 2026 16:59:41 +0800
+Received: from sw-server.localdomain (172.24.54.4) by
+ RTKEXHMBS06.realtek.com.tw (10.21.1.56) with Microsoft SMTP Server id
+ 15.2.2562.17 via Frontend Transport; Thu, 30 Jul 2026 16:59:41 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH v2] ASoC: rt722: reset codec to fix abnormal sound
+Date: Thu, 30 Jul 2026 16:59:38 +0800
+Message-ID: <20260730085938.3920122-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,63 +57,91 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-If either tplg_ops->dai_config or widget_kcontrol_setup fail during widget
-setup we would double decrement the use_count of the widget because the
-sof_widget_free_unlocked() would be called twice, similarly the core_put
-would be invoked twice as well.
+From: Shuming Fan <shumingf@realtek.com>
 
-Since the use_count and core_put() is handled within the widget_free
-function we need to return without falling through the pipe_widget_free
-label.
+The audio output may become abnormal after a warm reboot from Windows.
+Reset the codec once during hardware initialization to restore it to a known
+state and prevent the issue.
+BugLink: https://github.com/thesofproject/linux/issues/5845
 
-The fixes tag is picked to the last change around this part of the code
-which is adequately old enough for backporting purposes.
-
-Link: https://github.com/thesofproject/sof/issues/10826
-Fixes: 31ed8da1c8e5 ("ASoC: SOF: sof-audio: Modify logic for enabling/disabling topology cores")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
- sound/soc/sof/sof-audio.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ sound/soc/codecs/rt722-sdca-sdw.c |  4 ++++
+ sound/soc/codecs/rt722-sdca.c     | 17 +++++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/sound/soc/sof/sof-audio.c b/sound/soc/sof/sof-audio.c
-index acf56607bc9c..24614e506019 100644
---- a/sound/soc/sof/sof-audio.c
-+++ b/sound/soc/sof/sof-audio.c
-@@ -146,7 +146,6 @@ static int sof_widget_setup_unlocked(struct snd_sof_dev *sdev,
- {
- 	const struct sof_ipc_tplg_ops *tplg_ops = sof_ipc_get_ops(sdev, tplg);
- 	struct snd_sof_pipeline *spipe = swidget->spipe;
--	bool use_count_decremented = false;
- 	int ret;
- 	int i;
- 
-@@ -225,9 +224,10 @@ static int sof_widget_setup_unlocked(struct snd_sof_dev *sdev,
- 	return 0;
- 
- widget_free:
--	/* widget use_count will be decremented by sof_widget_free() */
-+	/* widget use_count and core_put handled by sof_widget_free() */
- 	sof_widget_free_unlocked(sdev, swidget);
--	use_count_decremented = true;
-+	return ret;
-+
- pipe_widget_free:
- 	if (swidget->id != snd_soc_dapm_scheduler) {
- 		sof_widget_free_unlocked(sdev, swidget->spipe->pipe_widget);
-@@ -242,8 +242,7 @@ static int sof_widget_setup_unlocked(struct snd_sof_dev *sdev,
- 		}
+diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
+index 05e8e23f1f43..5bc9aed58d14 100644
+--- a/sound/soc/codecs/rt722-sdca-sdw.c
++++ b/sound/soc/codecs/rt722-sdca-sdw.c
+@@ -114,6 +114,7 @@ static int rt722_sdca_mbq_size(struct device *dev, unsigned int reg)
+ 	case 0x2000090 ... 0x2000094:
+ 	case 0x20000b1:
+ 	case 0x20000b4:
++	case 0x3010000:
+ 	case 0x3110000:
+ 	case 0x5300000 ... 0x5300300:
+ 	case 0x5400002:
+@@ -197,15 +198,18 @@ static bool rt722_sdca_volatile_register(struct device *dev, unsigned int reg)
+ 	case 0x2000007:
+ 	case 0x200000d:
+ 	case 0x2000019:
++	case 0x200001a:
+ 	case 0x2000020:
+ 	case 0x2000030:
+ 	case 0x2000046:
+ 	case 0x2000067:
+ 	case 0x2000084:
+ 	case 0x2000086:
++	case 0x3010000:
+ 	case 0x3110000:
+ 	case 0x5800003:
+ 	case 0x5810000:
++	case 0x6100008:
+ 	case 0x44011000 ... 0x440115ff:
+ 	case 0x44012000:
+ 	case 0x44012021:
+diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
+index decf9407ab6d..27bb0eb1ece7 100644
+--- a/sound/soc/codecs/rt722-sdca.c
++++ b/sound/soc/codecs/rt722-sdca.c
+@@ -1851,6 +1851,17 @@ static void rt722_sdca_jack_preset(struct rt722_sdca_priv *rt722)
  	}
- use_count_dec:
--	if (!use_count_decremented)
--		swidget->use_count--;
-+	swidget->use_count--;
- 
- 	return ret;
  }
+ 
++static void rt722_sdca_reset(struct rt722_sdca_priv *rt722)
++{
++	rt722_sdca_index_update_bits(rt722, RT722_VENDOR_REG,
++		RT722_LDO1_CTL, RT722_HIDDEN_REG_SW_RESET,
++		RT722_HIDDEN_REG_SW_RESET);
++	rt722_sdca_index_update_bits(rt722, RT722_VENDOR_HDA_CTL,
++		RT722_HDA_LEGACY_RESET_CTL, 0x1, 0x1);
++	if (rt722->hw_vid == RT722_VA)
++		rt722_sdca_index_write(rt722, RT722_VENDOR_REG, RT722_LDO1_CTL, 0xb091);
++}
++
+ int rt722_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ {
+ 	struct rt722_sdca_priv *rt722 = dev_get_drvdata(dev);
+@@ -1888,10 +1899,16 @@ int rt722_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ 	rt722->hw_vid = (val & 0x0f00) >> 8;
+ 	dev_dbg(&slave->dev, "%s hw_vid=0x%x\n", __func__, rt722->hw_vid);
+ 
++	if (!rt722->first_hw_init)
++		rt722_sdca_reset(rt722);
++
+ 	rt722_sdca_dmic_preset(rt722);
+ 	rt722_sdca_amp_preset(rt722);
+ 	rt722_sdca_jack_preset(rt722);
+ 
++	if (rt722->hs_jack && (!rt722->first_hw_init))
++		rt722_sdca_jack_init(rt722);
++
+ 	if (rt722->first_hw_init) {
+ 		regcache_cache_bypass(rt722->regmap, false);
+ 		regcache_mark_dirty(rt722->regmap);
 -- 
-2.55.0
+2.54.0
 
