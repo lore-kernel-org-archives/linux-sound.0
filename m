@@ -1,63 +1,79 @@
-Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
+Received: from mail-m19731103.qiye.163.com (mail-m19731103.qiye.163.com [220.197.31.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD82367B68;
-	Thu, 30 Jul 2026 02:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED8D375AB1;
+	Thu, 30 Jul 2026 02:32:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785378285; cv=none; b=syzFH2ePLLB2uxsq41CXZ2FQfeUUgoYi/L9uku9PktK17CChvZlpcy9ZScI0bxZ8jk4NXln/WmMulimVH6wEnryPsS5aazQkUsdjzLFFleyYZAncbI8yNx6oRdHqJNJk4/9s74EYkXWLhwrjM0N+7s2LJiXOreKcVVhxh6nRYC0=
+	t=1785378750; cv=none; b=gBPCyCr5gx5cRvAgkJ8hdrduJp5M3gnbR0rOv0XTh/EDR6GY8XxUSjLBvlGJvHAmPzwFVe9ky8nbEMT+HGJO6RBMkPBkjzqdDHhrahytj1DcppnoPkRmFbv1VIMvsDQ4lpMhpWdPNIiHOCDk313U+5yYT1of6eKN4x1VYOzUeNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785378285; c=relaxed/simple;
-	bh=faQGHyzsqOboMyGKSXdPzb5LA7GJgulr+Q/mJtOt/5I=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Im4BEpImLUpoVNKlEhTm0nds9WWAAC/SePKnkoHdfYazUqA5c3kvggbt0p5hb6lQJaT3gL7NqJNG++mM03BNlhS0uOxF5gYK+UpmfH4/10Smt2tW0H9ydE6/t9sAeBrTQCB1Fv+F/u0B0CNnh380n65QbPxLt9tbvyJZYameT5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=R8hWTNgY; arc=none smtp.client-ip=79.135.106.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1785378750; c=relaxed/simple;
+	bh=/flVKQbZtpQG401sEThXgolbj3JNkHvYqtLuL1P3CAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=E6zWjbe59KBr4xuygQKYSKPmBVm4rGZLqGoWdUdv+n+V7dRHdAZshdWFHHwcfGbuzwMOydOlCFKHhp+he6u/m37Gt3NA6Rn8a7mLLAoDwxe97rZlBsqCKTwzv96fPgJq4trTwWiuqb62wB/QSR+edvOgm7I2vK5CSamdap06oUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=Qgfcbm9+; arc=none smtp.client-ip=220.197.31.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="R8hWTNgY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1785378272; x=1785637472;
-	bh=faQGHyzsqOboMyGKSXdPzb5LA7GJgulr+Q/mJtOt/5I=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=R8hWTNgY4o5V2ugRjgcRGOiMxZyywm9BYcMOdu1w89fAw60rwk5WE29BANpwZb43F
-	 +kfRMgQUjW5B4xQawbdm0ZVQx9rRekLiIdBd6VU/rWJAZglkXRg5jUpwMJP3LIRSd9
-	 FaHwa1lxYYWe6sD7duAgVyVySi/x4fDlyKVhBNhfwT3/fYMXQdqRR4Oj9ABx5q8/0d
-	 1xyxEesD1SikADLXTT6wKvRWx2aCnEk05aq/oK6UvFNHGnWxsXMrcgeQYLTU3oR8vJ
-	 pCYoplnIdj8dxGmSF3j2Sa0XrSxDjItC4jKkrvxOaqPSTJfTo+WtXhXECrRn09BmPR
-	 qjLD5/CnQyd6A==
-Date: Thu, 30 Jul 2026 02:24:27 +0000
-To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-From: Esteban Urrutia <esteuwu@proton.me>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: qcom: sc8280xp: Add support for SM8475
-Message-ID: <32d3c172-8210-4553-8dad-9b1b5d7fee5b@proton.me>
-In-Reply-To: <667133b5-10c9-4007-b5db-27e553dd5034@oss.qualcomm.com>
-References: <20260729-sm8475-asoc-v1-0-3edad8aa7628@proton.me> <20260729-sm8475-asoc-v1-2-3edad8aa7628@proton.me> <667133b5-10c9-4007-b5db-27e553dd5034@oss.qualcomm.com>
-Feedback-ID: 147889766:user:proton
-X-Pm-Message-ID: bace4fb72e50feb96fc72ccd2cd4ea6d6bba9f26
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="Qgfcbm9+"
+Received: from tsdl-HP-EliteDesk-880-G6-Tower-PC.. (unknown [36.129.139.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 48194907b;
+	Thu, 30 Jul 2026 10:27:02 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+To: krzk@kernel.org
+Cc: broonie@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	drake@endlessm.com,
+	hongyang.zhao@thundersoft.com,
+	katsuhiro@katsuster.net,
+	konrad.dybcio@oss.qualcomm.com,
+	krzk+dt@kernel.org,
+	lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	matteomartelli3@gmail.com,
+	perex@perex.cz,
+	robh@kernel.org,
+	rosh@debian.org,
+	tiwai@suse.com,
+	zhoubinbin@loongson.cn
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: es8316: Add regulator supplies
+Date: Thu, 30 Jul 2026 10:26:50 +0800
+Message-ID: <20260730022650.39057-1-hongyang.zhao@thundersoft.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260724-pastel-brainy-cat-eede15@quoll>
+References: <20260724-pastel-brainy-cat-eede15@quoll>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9fb0d8be6609d5kunm91e5fa1f3feca9
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSUNPVkxISEtIQ0hKThhKGVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVCQk
+	lOS1VKS0tVSkJLQlkG
+DKIM-Signature: a=rsa-sha256;
+	b=Qgfcbm9+CtkUUP/8Z713ndELcz+uWbQ4w1hGNegOwls4bcNAG5LQ6gnpFERo+Dds/hDTR476WcHyi7KK/21JAHjiexjaZSrvhdAE5KPI8N7vwLm++LcdCoKv09feppeMjNQzzFttEPD566fdHfFQIllhdUiT/amsSBagfZJ5F0w=; s=default; c=relaxed/relaxed; d=thundersoft.com; v=1;
+	bh=/flVKQbZtpQG401sEThXgolbj3JNkHvYqtLuL1P3CAg=;
+	h=date:mime-version:subject:message-id:from;
 
-On 7/29/26 7:11 PM, Srinivas Kandagatla wrote:
-> Patch itself looks sane to me, but the commit log needs bit more love.
-> Its too short and does not explain what this is platform is supporting.
->=20
->=20
-> Once fixed.
->=20
-> Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Thanks for the review!
 
-Will fix in v2, thanks.
+On Thu, Jul 23, 2026 at 03:54:29PM +0800, Hongyang Zhao wrote:
+> > The ES8316 has separate AVDD, CPVDD, DVDD and PVDD supply inputs
+>
+> But you also add them to ES8311 and ES8323, without any explanation
+> here.
 
-Regards,
-Esteban
+I checked the datasheet. The ES8311 and ES8323 family have different
+supply inputs, while this series only implements regulator support for
+ES8316. I will restrict AVDD, CPVDD, DVDD and PVDD to the everest,es8316
+compatible in v2.
 
+Thanks,
+Hongyang
