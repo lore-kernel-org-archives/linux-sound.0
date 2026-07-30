@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5A533F5A0
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802963976BB
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785415871; cv=none; b=Q4Y3yZ3qCCY7huBsuXItLAttEYlCsIhUM46UEzIDNDPnQf5de9RKtz2acTsPCndvAAcpgMMv7CpoEbveJKQIthcq031kcpo0iYQRLMkAGdOnPoIseirEIieiQ9W0T1AY/zLYLgsOWytJU9fXDael9+n+anu6qye/xUTc+mBmn20=
+	t=1785415879; cv=none; b=mTIavlk0whFx3M1qB9+zBWM1tLVvckTJZFwO/XXMVeDlagoDioN29BSOr6iJIMh6bJzgWsTR1iZaMtQRNCchk21Iq6irpS8BbzPERc/xXGY4mAYtX6W65NTH7xgvV1NOBmDJTVRo3878HWK72uNkAYfdlXOhJjq0mSDnDDp8/Xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785415871; c=relaxed/simple;
-	bh=41kOxf/iPvvEaKkSuRWcWy0j+OSp1xgTg6/v6luzu0o=;
+	s=arc-20240116; t=1785415879; c=relaxed/simple;
+	bh=5HVLMpuF3lBbGfawHvS/HUh/V54Nubz9fajeKF2BFEY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T3aS1DzXtjILsvN8RXq1bCzfnMJ5JCGGi0oZ6cr58b3s608L2Rbg6qq0zJOolIlU0S8Kb+/CcIIB6LKq/aPbdi/ETnAzciyo140/HjUg/0GktKzoITHx9JPa+kFcErG48JjpnJOvoc6as49nIXpIVWUFVNf2B9/geo3XEYKH5gQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNdTAPWs; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=u6jQ/n6p4hIdQrOBiIXZgoiqD6IWNCb0b30hVF0C3TyqS1BmRhsMRYP7bIMPYshzhIjPGoh259O4LbwCDN+R1EW0ur4YZ8F0Wl7gcEOrDgh3r045MrKdcrx8uqL3pEeyb+6FryxJf6UxTtU2QueW/ASpeTx0jNxCUyCNqZ/jwZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XHN2LVIg; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNdTAPWs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XHN2LVIg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785415864; x=1816951864;
+  t=1785415870; x=1816951870;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=41kOxf/iPvvEaKkSuRWcWy0j+OSp1xgTg6/v6luzu0o=;
-  b=lNdTAPWsNtmiVJ0ddv1T0H1DN3BXvxBzTJAMwe1ljiq0W5r3uVOY0nDy
-   jIcar3A/CN9Q3U7R4ci7OQ6g+vJAWSNlaECYoidg1+1DlLYn0oaxz1oD1
-   K9a5iHULh+2sxlf1NTnTl1UDlu0dGFktDDY375o8LPMogm/9f4UC6Cfeh
-   YM5VuhMHRXYF05Sv0YhhSfCzdlt6dV/YG81lRS1M/cr5utzwcr++nLfHi
-   vCWtxQbP7a3IV3QEggwa1dCD/jWi8TmBr+6FofYzxud971Imw2JLC8smU
-   f22AGbAvnLS54bgr7J89UCO+qQfwqFs1NltgiggUYalwyh7jvZlqM2SDp
-   w==;
-X-CSE-ConnectionGUID: 6zq86x/PS5enFxdEK+GjBA==
-X-CSE-MsgGUID: gnRE3atvSFeIghucdBsoog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="103439264"
+  bh=5HVLMpuF3lBbGfawHvS/HUh/V54Nubz9fajeKF2BFEY=;
+  b=XHN2LVIgIQkn9XhcUtkws5dEMpw+hw14SsznevtzODG448VF3ynAez8Q
+   CyDk4N7Yu+7VRtFIDmmUtbrcFdadwVNLxhmA8AvIzMzvQ4WyI8KcY2hdz
+   yT20+Mee7ejSybYn/qIJ+ES0qCggMDaETbWuVrpzr2PK8DzZqTF/bDZDF
+   scybS3h72Xd3VTRp7QY4rZotIaWPKGAwBz5f9LxloSC+a3KHQa5nGBBNP
+   wtD+T7z5W/IwSvkfs46pmygqa74hHzbchnqR3mg8CqzYKCTXOCk/bcb3f
+   YjVbXuT3Vc45gMTcZJ/2NTh3P41NpbLctCDbvZmJws7ZoFDdqrnDnwsu6
+   Q==;
+X-CSE-ConnectionGUID: lN4q/5HhTmGZasLE9laHiQ==
+X-CSE-MsgGUID: eOljitb4SOe89L0KW0gxaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="103439274"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="103439264"
+   d="scan'208";a="103439274"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:50:58 -0700
-X-CSE-ConnectionGUID: +rSXfk8bT7ypLWn35HV0mA==
-X-CSE-MsgGUID: lPKXhiQOR/awa07SeVA8Zw==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:51:03 -0700
+X-CSE-ConnectionGUID: nLdGoABETViD6j3pMlDLCw==
+X-CSE-MsgGUID: K29u0+HoSZGUlAoZpr5SkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="283638670"
+   d="scan'208";a="283638691"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:50:56 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:51:00 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com
-Subject: [PATCH 1/4] ASoC: SOF: Intel: hda: Fold mlink enumeration into hda_dsp_ctrl_init_chip()
-Date: Thu, 30 Jul 2026 15:51:27 +0300
-Message-ID: <20260730125130.29887-2-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 3/4] ASoC: SOF: Intel: hda: Remove unused hda_bus_ml_put_all()
+Date: Thu, 30 Jul 2026 15:51:29 +0300
+Message-ID: <20260730125130.29887-4-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260730125130.29887-1-peter.ujfalusi@linux.intel.com>
 References: <20260730125130.29887-1-peter.ujfalusi@linux.intel.com>
@@ -65,79 +65,62 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the hda_bus_ml_init() call from hda_init_caps() into
-hda_dsp_ctrl_init_chip(), right after the HDA controller reset has
-been de-asserted and unsolicited responses have been accepted.
-
-hda_dsp_ctrl_init_chip() already calls hda_bus_ml_reset_losidv() at
-the end of its sequence to clear the stream-to-link mapping. On first
-boot this call was a no-op because the multi-link list had not yet
-been populated: hda_bus_ml_init() only runs later in hda_init_caps().
-Enumerating the links inside init_chip() makes the LOSIDV reset
-effective on first boot as well, without adding a second reset call
-from the probe path.
-
-hda_bus_ml_init() now returns early when the hlink_list is already
-populated, so the subsequent invocations from the D3 resume path
-(hda_resume() -> hda_dsp_ctrl_init_chip(false)) are no-ops.
+The helper became unused after probe no longer drops all non-alt
+links, so remove the dead API and implementation.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 ---
- sound/soc/sof/intel/hda-ctrl.c  | 8 ++++++++
- sound/soc/sof/intel/hda-mlink.c | 4 ++++
- sound/soc/sof/intel/hda.c       | 2 --
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ include/sound/hda-mlink.h       |  2 --
+ sound/soc/sof/intel/hda-mlink.c | 13 -------------
+ 2 files changed, 15 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-ctrl.c b/sound/soc/sof/intel/hda-ctrl.c
-index 8332d4bda558..a9ead78d3fcb 100644
---- a/sound/soc/sof/intel/hda-ctrl.c
-+++ b/sound/soc/sof/intel/hda-ctrl.c
-@@ -223,6 +223,14 @@ int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev, bool detect_codec)
- 	/* Accept unsolicited responses */
- 	snd_hdac_chip_updatel(bus, GCTL, AZX_GCTL_UNSOL, AZX_GCTL_UNSOL);
+diff --git a/include/sound/hda-mlink.h b/include/sound/hda-mlink.h
+index fed69998c93f..d9789b048c61 100644
+--- a/include/sound/hda-mlink.h
++++ b/include/sound/hda-mlink.h
+@@ -49,7 +49,6 @@ int hdac_bus_eml_sdw_set_lsdiid(struct hdac_bus *bus, int sublink, int dev_num);
+ int hdac_bus_eml_sdw_map_stream_ch(struct hdac_bus *bus, int sublink, int y,
+ 				   int channel_mask, int stream_id, int dir);
  
-+	/* Perform a one-time enumeration of the Multi-Link capability */
-+	ret = hda_bus_ml_init(bus);
-+	if (ret < 0) {
-+		dev_err(sdev->dev, "%s: failed to enumerate multi-links\n",
-+			__func__);
-+		goto err;
-+	}
-+
- 	if (detect_codec)
- 		hda_codec_detect_mask(sdev);
+-void hda_bus_ml_put_all(struct hdac_bus *bus);
+ void hda_bus_ml_reset_losidv(struct hdac_bus *bus);
+ int hda_bus_ml_resume(struct hdac_bus *bus);
+ int hda_bus_ml_suspend(struct hdac_bus *bus);
+@@ -169,7 +168,6 @@ hdac_bus_eml_sdw_map_stream_ch(struct hdac_bus *bus, int sublink, int y,
+ 	return 0;
+ }
  
+-static inline void hda_bus_ml_put_all(struct hdac_bus *bus) { }
+ static inline void hda_bus_ml_reset_losidv(struct hdac_bus *bus) { }
+ static inline int hda_bus_ml_resume(struct hdac_bus *bus) { return 0; }
+ static inline int hda_bus_ml_suspend(struct hdac_bus *bus) { return 0; }
 diff --git a/sound/soc/sof/intel/hda-mlink.c b/sound/soc/sof/intel/hda-mlink.c
-index 92314e3b568a..ca8551befdb5 100644
+index ca8551befdb5..e0107cbd06e6 100644
 --- a/sound/soc/sof/intel/hda-mlink.c
 +++ b/sound/soc/sof/intel/hda-mlink.c
-@@ -432,6 +432,10 @@ int hda_bus_ml_init(struct hdac_bus *bus)
- 	if (!bus->mlcap)
- 		return 0;
+@@ -884,19 +884,6 @@ int hdac_bus_eml_sdw_map_stream_ch(struct hdac_bus *bus, int sublink, int y,
+ 	return 0;
+ } EXPORT_SYMBOL_NS(hdac_bus_eml_sdw_map_stream_ch, "SND_SOC_SOF_HDA_MLINK");
  
-+	/* Enumeration is a one time operation, skip if already done */
-+	if (!list_empty(&bus->hlink_list))
-+		return 0;
-+
- 	link_count = readl(bus->mlcap + AZX_REG_ML_MLCD) + 1;
- 
- 	dev_dbg(bus->dev, "HDAudio Multi-Link count: %d\n", link_count);
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index dc85903b8d46..26db0e46b827 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -625,8 +625,6 @@ static int hda_init_caps(struct snd_sof_dev *sdev)
- 		return ret;
- 	}
- 
--	hda_bus_ml_init(bus);
+-void hda_bus_ml_put_all(struct hdac_bus *bus)
+-{
+-	struct hdac_ext_link *hlink;
 -
- 	/* Skip SoundWire if it is not supported */
- 	if (!(interface_mask & BIT(SOF_DAI_INTEL_ALH)))
- 		goto skip_soundwire;
+-	list_for_each_entry(hlink, &bus->hlink_list, list) {
+-		struct hdac_ext2_link *h2link = hdac_ext_link_to_ext2(hlink);
+-
+-		if (!h2link->alt)
+-			snd_hdac_ext_bus_link_put(bus, hlink);
+-	}
+-}
+-EXPORT_SYMBOL_NS(hda_bus_ml_put_all, "SND_SOC_SOF_HDA_MLINK");
+-
+ void hda_bus_ml_reset_losidv(struct hdac_bus *bus)
+ {
+ 	struct hdac_ext_link *hlink;
 -- 
 2.55.0
 
