@@ -1,40 +1,32 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F161B33F5B1;
-	Thu, 30 Jul 2026 02:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7DE3750D6;
+	Thu, 30 Jul 2026 02:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785377434; cv=none; b=ZDrOgtnapqmVS8Pbhu7HvUSEwF+PRhwSSvZuMUylULBFgT75F3JPe7uJzuuMNGdjjeEdL0LbUikNKnaJJdBT55MD5qTYSGhY9z0bAL33GCAeGMuZnWMkcewGpjRTntvIV1PDtnZytfqoDC6o0I8KlYEBQdkTrWzn5oTIDbzX394=
+	t=1785377817; cv=none; b=L4ERgNiRcqkAWl9Uuc3L/vcXDXVbt4nvOvlGs9dOWMdtXEBxM5H0opfqN1J2CTWwd4t74uJb+1hE97ZBT+O3f2f2AUYIUDZSqRxP2lU7Eh+kHPkshKyASbrjq/k+IbYdxHSPbO4DpMDuxHUXvPgKWlBmhcDPEvFFBOwq2fv/W4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785377434; c=relaxed/simple;
-	bh=kP6BL9iCgQNZ7Jnn8KQ+qI+imlnTuErFxsM46RuxhDM=;
+	s=arc-20240116; t=1785377817; c=relaxed/simple;
+	bh=noX+bN3J0pjKRkKyW6fRqzeuFaSLEUlHd13SOlY3Ins=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L542Oefax1T6kc0lWI78ut5JqiOgPo1zfg6PuVQqDnxQMCd8TtA8NYslSuYHZ3Wv9UOyTlqXOVr3Fv6dBf3zYt+ppKXrwFD5O8hx0JIwtnj+ATBKDTwvRwLwDgozMmtvee+fFMoOdEv9q4wuT90rg/640g0QZrMbYVizoosskD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: d17e6b0a8bbb11f1aa26b74ffac11d73-20260730
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:cee6afe9-654f-4bd9-be19-02a35081e612,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:701d4bf66c524f08a6cfa1d5d88a5a8c,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|817|865|898,TC:nil,Conte
-	nt:-10|-8|-5|15|50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC
-	:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d17e6b0a8bbb11f1aa26b74ffac11d73-20260730
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 424524517; Thu, 30 Jul 2026 10:10:21 +0800
-Message-ID: <8cdd574a-e4f0-498d-891f-31105a79f940@kylinos.cn>
-Date: Thu, 30 Jul 2026 10:10:18 +0800
+	 In-Reply-To:Content-Type; b=SPQmtmWe7L9DuPAlZf4j7oQ2V0GuTvzGW/02QXOXilj6/5w3wdLPlnSpXD3pCYoM9X8bZNCVPbC7G56rI+kVmjsN3dzJ89rgEbFGJGNM9MVgLmemvvSZUwP2CI+LkEGcL09Q+MBnIjRrkIHIAqC2DOwQuZ0L0kVA9B4mBGi9iOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=N8/TjPnD; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="N8/TjPnD"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1785377802; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=xPoFIGiYUCKLZFN+jxU/2X7f3pXNHpcSbDxEep7GaNM=;
+	b=N8/TjPnDvS9T/KWMhdFn4IZ0yaxsbf7SN4stTuIhEP9GRYCQ2LxeQd88tre576S7XwYwE0Yxt5G+L7Gwpnac5+n9jX+wfCGDf7yepqVZtlQoV1oziLjfJTmCeMPMttu/TukMJJ7KZ6jNsFf3unMhWnezNDS1ZBgSptkARg77HeM=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R461e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=baolin.wang@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X83cT-N_1785377801;
+Received: from 30.74.144.124(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0X83cT-N_1785377801 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 30 Jul 2026 10:16:42 +0800
+Message-ID: <0a244759-4524-4e4e-9aa8-cd73eda2ccf9@linux.alibaba.com>
+Date: Thu, 30 Jul 2026 10:16:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,33 +34,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/intel: Add Star Lite Mk II/III to
- power_save_denylist
-To: Takashi Iwai <tiwai@suse.de>
-Cc: tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260729125544.539067-1-zhangheng@kylinos.cn>
- <87fr11524n.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <87fr11524n.wl-tiwai@suse.de>
+Subject: Re: [PATCH 1/2] ASoC: sprd: sprd-mcdt: Drop redundant error messages
+To: phucduc.bui@gmail.com, Liam Girdwood <lgirdwood@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Orson Zhai <orsonzhai@gmail.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260729073532.56468-1-phucduc.bui@gmail.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20260729073532.56468-1-phucduc.bui@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
-> Is the problem verified with the latest kernel?  The report above
-> looks very old, and it's not sure whether the problem really persists
-> or not.
+
+On 7/29/26 3:35 PM, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> In general, the power-save deny-list is a kind of last resort.
-> Usually the pop noise problem could be resolved in the codec driver
-> side.
+> The called functions already log failures where appropriate. Return the
+> original error directly and avoid duplicate error messages.
+> 
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
 
-Based on the SSID of the sound card, I have not seen any relevant fix,
-so the problem likely still exists in the latest kernel. I agree with
-your point, but most current driver fixes address pop noise during
-power-on/off or playback; I have not found any similar fix for capture
-(recording) pops. It appears that many users default to the `power_save`
-workaround – I also previously disabled power-saving mode to mitigate
-the issue. For future encounters with similar recording pop noise,
-I will try alternative solutions rather than relying solely on
-`power_save`.
+LGTM.
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+
+>   sound/soc/sprd/sprd-mcdt.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/sprd/sprd-mcdt.c b/sound/soc/sprd/sprd-mcdt.c
+> index 5f3a2a7bce31..d9a7bbd6c0b6 100644
+> --- a/sound/soc/sprd/sprd-mcdt.c
+> +++ b/sound/soc/sprd/sprd-mcdt.c
+> @@ -931,10 +931,8 @@ static int sprd_mcdt_probe(struct platform_device *pdev)
+>   
+>   	ret = devm_request_irq(&pdev->dev, irq, sprd_mcdt_irq_handler,
+>   			       0, "sprd-mcdt", mcdt);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Failed to request MCDT IRQ\n");
+> +	if (ret)
+>   		return ret;
+> -	}
+>   
+>   	sprd_mcdt_init_chans(mcdt, res);
+>   
+
