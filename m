@@ -1,422 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980D83A1D07
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:51:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035DA3C379F
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785415880; cv=none; b=F+NNsvejO+YGE6+OBb6ddHK41HonMgqayP5Y0lAprafvVPQUghPgbXUinovMCLzI9h4d5Bp93Bmdm9iqL7eUmVcZpeBZXrNLOvt7njOIC/lMeqbuYtBdnMi1F8O9BRFDSHKwh+kMcW2Ltr7v8cvPcl1v+zmAjLkpV4fwuzIJxyw=
+	t=1785416127; cv=none; b=YDQ63yJDCctGkrGCiQPxZ3jRUj1eKnA4sf//aCOBwZ9+bhqtOFuU+3Njhsf/WrKFQLbF2HGaC9UrGXlwYNMqBJ6vDybCS2rgDFKCftXqlGClx/NFEzkVwd7FHrCQe/xITfJ9gXwnvLQ06bvyrB1iZV7N3C+qdcQww/IZPxV1hVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785415880; c=relaxed/simple;
-	bh=LqRwiVOXQAJgl+KAo9oWdv6hpOleDAlPE1B4Fq+SmZY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G9XGqPqR8sUChNIZAkYboJ2WuVfzeerGSWye/UFvueQa2PWqi1/QiouBaLhDF3VCSYrIW18bh79EJapqy381kVsYoXnBTd5VrGy/xA2rEbboXhwFm+0OJgJFQ00YTI52WL4TAlBwh3T2GHF3OtPt61/xHpxrRaI2xbizpnrMr9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpZBIhrc; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1785416127; c=relaxed/simple;
+	bh=a3qUt2WrCGfYf/wfZG1y7SAHoPqF3BIHqYVl4NoCUT8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=axsKkFTl1+O7uoYbfE627OhmGaZ0rhj5wf8Y5t3SW+kWGe/nzFxiEkt/qcDmOrtA2krxARGxvbtkXOkxf7lTour0lLdWSrVFxGKUAkEVQvUDeMJBPS86YYX6IsHgDlYEuzpZHNhh7vl9icTs+qJdO76pzHr0G3TZb7APxr/+QVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b5yIoe+J; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpZBIhrc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b5yIoe+J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785415873; x=1816951873;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LqRwiVOXQAJgl+KAo9oWdv6hpOleDAlPE1B4Fq+SmZY=;
-  b=gpZBIhrcAFr/DWDSqfWhFmp57XtBm/joREubT6wZjeQLQp2KRaafzsKL
-   98rbHcKCPsLHY533QIAuzxF4kJcb9mUBkIUX4vTZUcexT6DSjjL7eXVMs
-   KpBLw3OgKkmuPubE3UzXBdiHr/41BwZ5NqWXmZxPrfhQciPgMxQLo1ad4
-   YKttWfF3XXBode4MRZ3oEjNWlkUU3AoWFc+zTTtslOyejh1iEqx3sPYyS
-   j2mbSm6N4oVIS+0thg+L1LRLySIrG9TW2QvjV3m+zYA0nr5wWWoszc0lZ
-   uZUXzLYM9QWLOlkcHHcyWlP6dx6Osupsl943lItuMwNJHqrkW9EYtsOEI
-   A==;
-X-CSE-ConnectionGUID: IrU53Vl6Qm+jblDM6cFDlQ==
-X-CSE-MsgGUID: Ll+V8DXpRmeMZ554l9fJ2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="103439283"
+  t=1785416126; x=1816952126;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a3qUt2WrCGfYf/wfZG1y7SAHoPqF3BIHqYVl4NoCUT8=;
+  b=b5yIoe+JLywU5lAFZLSmSOKpvTBNQyr7uvabDrq+Zw9iN/QtVjbo5FDG
+   gElWOjc+7QbXLofssFgkwoWolIuNn2oOMRvxMUJ6xYEhrHAnI9jaKCGjE
+   I6AG35neQs3RXiNxrKFUiGWFvCDJX0na0XtbsNznDSPVVeJiuUYcLydm3
+   ZF+552o/ZX2JiohPD+LWc2tD6GRE+qcrIjAadOAkQaujo05/EcNSKbXyX
+   S50Sp+OY0yr615QfRIimWr6KAA2n2y/6DX5lXkd5wAj4nDNoRQGyUYSRO
+   KV+7Xcd6ZWL/BF8TfWnwiYbio0BICaQ1mFI8ICjM9oeMoATnz2yoC1WvT
+   Q==;
+X-CSE-ConnectionGUID: 2kOCtCwSTJScychthtK0tA==
+X-CSE-MsgGUID: TepFkZuuTxGwTUcvMS8eMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86049425"
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="103439283"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:51:06 -0700
-X-CSE-ConnectionGUID: 18//SAl5TTytBnxaPr8g0g==
-X-CSE-MsgGUID: Tl6QeYojTo+4xLghZ+Aybw==
+   d="scan'208";a="86049425"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:55:26 -0700
+X-CSE-ConnectionGUID: GosvunivQAytYDWvb1nTLw==
+X-CSE-MsgGUID: CMXVkh8nQo6csr0UEqUbUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="283638698"
+   d="scan'208";a="284872225"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:51:03 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:55:23 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
 Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com
-Subject: [PATCH 4/4] ASoC: SOF: Intel: hda: Avoid ACE2+ link DMA stream allocation hazards
-Date: Thu, 30 Jul 2026 15:51:30 +0300
-Message-ID: <20260730125130.29887-5-peter.ujfalusi@linux.intel.com>
+	seppo.ingalsuo@linux.intel.com
+Subject: [PATCH] ASoC: dapm: Add encoder and decoder widget types to kcontrol handling
+Date: Thu, 30 Jul 2026 15:56:00 +0300
+Message-ID: <20260730125600.6491-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260730125130.29887-1-peter.ujfalusi@linux.intel.com>
-References: <20260730125130.29887-1-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On ACE2+ platforms the link DMA stream allocator must avoid two
-hardware errata in mlink-capable systems:
+From: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 
-- Concurrent (cross-direction) hazard: when SoundWire shares a physical
-  link DMA stream index with HDaudio, iDisp or UAOL across the two
-  directions, the LLP and timestamp values for the affected stream are
-  wrong. SSP and DMIC are not affected because every DMA request from
-  those links carries one sample block.
+This patch fixes the issue where encoder or decoder widget
+types are assigned kcontrols in a topology but get ignored.
+The controls were parsed successfully but were not registered
+as ALSA kcontrols.
 
-- Sequential (playback only) hazard: once a HDaudio or iDisp link has
-  used a playback stream index, that index cannot drive any non
-  HDA/iDisp link in the same direction until the next controller
-  reset (CRST#).
+In dapm_create_or_share_kcontrol() the snd_soc_dapm_encoder
+and the snd_soc_dapm_decoder are added to the switch statement
+to be handled similarly as e.g. the snd_soc_dapm_effect for
+assigning a proper long control name.
 
-Track the active link type per direction in two masks (one for SoundWire,
-one for HDA/iDisp/UAOL) and the persistent set of playback stream
-indices touched by HDA/iDisp in a third mask. The link DMA allocator
-skips streams that would violate either rule. Streams are released from
-the active masks when the stream is released; all masks are cleared in
-hda_dsp_ctrl_init_chip() because the CRST# performed there clears the
-hardware state as well.
+In dapm_widget_show_component() the snd_soc_dapm_encoder and
+the snd_soc_dapm_decoder are added to switch statement to let
+them to be shown in the debugfs power state output.
 
-A new helper hda_bus_ml_link_get_type() returns the link type from the
-existing extended link descriptor so the SOF allocator can tell
-SoundWire, HDA/iDisp and UAOL apart without duplicating the parsing.
+In snd_soc_dapm_new_widgets() the  snd_soc_dapm_encoder and the
+snd_soc_dapm_decoder are added to same switch case handling as
+e.g. snd_soc_dapm_effect to be registered with dapm_new_pga().
+The previous operation with default in the switch statement
+silently ignored them. Note: Despite the function name, the
+dapm_new_pga() is generic utility that calls
+dapm_create_or_share_kcontrol() for each kcontrol of the widget.
 
-The implementation is generic. On platforms older than ACE2 every link
-is reported as HDA, only the sequential mask is ever set and it has no
-effect because no other link types are present, so behavior is
-unchanged.
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Signed-off-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- include/sound/hda-mlink.h         | 21 +++++++++
- sound/soc/sof/intel/hda-ctrl.c    | 11 +++++
- sound/soc/sof/intel/hda-dai-ops.c | 76 ++++++++++++++++++++++++++++---
- sound/soc/sof/intel/hda-dai.c     |  2 +-
- sound/soc/sof/intel/hda-mlink.c   | 18 ++++++++
- sound/soc/sof/intel/hda.h         | 26 ++++++++++-
- 6 files changed, 146 insertions(+), 8 deletions(-)
+ sound/soc/soc-dapm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/sound/hda-mlink.h b/include/sound/hda-mlink.h
-index d9789b048c61..ba35f03576b9 100644
---- a/include/sound/hda-mlink.h
-+++ b/include/sound/hda-mlink.h
-@@ -9,6 +9,22 @@
- struct hdac_bus;
- struct hdac_ext_link;
- 
-+/**
-+ * enum hda_bus_ml_link_type - mlink link type, used by SOF link DMA
-+ *	allocator constraints (see struct sof_intel_hda_dev).
-+ *
-+ * @HDA_BUS_ML_LINK_HDA:  non-alt link, i.e. HDA codec or iDisp
-+ * @HDA_BUS_ML_LINK_SDW:  alt link, SoundWire
-+ * @HDA_BUS_ML_LINK_UAOL: alt link, USB Audio Offload
-+ * @HDA_BUS_ML_LINK_OTHER: alt link, SSP or DMIC
-+ */
-+enum hda_bus_ml_link_type {
-+	HDA_BUS_ML_LINK_HDA,
-+	HDA_BUS_ML_LINK_SDW,
-+	HDA_BUS_ML_LINK_UAOL,
-+	HDA_BUS_ML_LINK_OTHER,
-+};
-+
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA_MLINK)
- 
- int hda_bus_ml_init(struct hdac_bus *bus);
-@@ -53,6 +69,8 @@ void hda_bus_ml_reset_losidv(struct hdac_bus *bus);
- int hda_bus_ml_resume(struct hdac_bus *bus);
- int hda_bus_ml_suspend(struct hdac_bus *bus);
- 
-+enum hda_bus_ml_link_type hda_bus_ml_link_get_type(struct hdac_ext_link *hlink);
-+
- struct hdac_ext_link *hdac_bus_eml_ssp_get_hlink(struct hdac_bus *bus);
- struct hdac_ext_link *hdac_bus_eml_dmic_get_hlink(struct hdac_bus *bus);
- struct hdac_ext_link *hdac_bus_eml_sdw_get_hlink(struct hdac_bus *bus);
-@@ -172,6 +190,9 @@ static inline void hda_bus_ml_reset_losidv(struct hdac_bus *bus) { }
- static inline int hda_bus_ml_resume(struct hdac_bus *bus) { return 0; }
- static inline int hda_bus_ml_suspend(struct hdac_bus *bus) { return 0; }
- 
-+static inline enum hda_bus_ml_link_type
-+hda_bus_ml_link_get_type(struct hdac_ext_link *hlink) { return HDA_BUS_ML_LINK_HDA; }
-+
- static inline struct hdac_ext_link *
- hdac_bus_eml_ssp_get_hlink(struct hdac_bus *bus) { return NULL; }
- 
-diff --git a/sound/soc/sof/intel/hda-ctrl.c b/sound/soc/sof/intel/hda-ctrl.c
-index a9ead78d3fcb..aeb34310eebd 100644
---- a/sound/soc/sof/intel/hda-ctrl.c
-+++ b/sound/soc/sof/intel/hda-ctrl.c
-@@ -186,6 +186,7 @@ EXPORT_SYMBOL_NS(hda_dsp_ctrl_clock_power_gating, "SND_SOC_SOF_INTEL_HDA_COMMON"
- int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev, bool detect_codec)
- {
- 	struct hdac_bus *bus = sof_to_bus(sdev);
-+	struct sof_intel_hda_dev *sof_hda = bus_to_sof_hda(bus);
- 	struct hdac_stream *stream;
- 	int sd_offset, ret = 0;
- 	u32 gctl;
-@@ -193,6 +194,16 @@ int hda_dsp_ctrl_init_chip(struct snd_sof_dev *sdev, bool detect_codec)
- 	if (bus->chip_init)
- 		return 0;
- 
-+	/*
-+	 * The controller reset clears the ACE2+ link DMA stream allocation
-+	 * constraints; reset the masks to reflect this.
-+	 */
-+	memset(sof_hda->link_dma_active_sdw_mask, 0,
-+	       sizeof(sof_hda->link_dma_active_sdw_mask));
-+	memset(sof_hda->link_dma_active_multi_mask, 0,
-+	       sizeof(sof_hda->link_dma_active_multi_mask));
-+	sof_hda->link_dma_out_hda_used_mask = 0;
-+
- 	hda_codec_set_codec_wakeup(sdev, true);
- 
- 	hda_dsp_ctrl_misc_clock_gating(sdev, false);
-diff --git a/sound/soc/sof/intel/hda-dai-ops.c b/sound/soc/sof/intel/hda-dai-ops.c
-index b2c559559962..f0be42048db3 100644
---- a/sound/soc/sof/intel/hda-dai-ops.c
-+++ b/sound/soc/sof/intel/hda-dai-ops.c
-@@ -20,7 +20,7 @@
- /* These ops are only applicable for the HDA DAI's in their current form */
- #if IS_ENABLED(CONFIG_SND_SOC_SOF_HDA_LINK)
- /*
-- * This function checks if the host dma channel corresponding
-+ * This function checks if the host DMA stream corresponding
-  * to the link DMA stream_tag argument is assigned to one
-  * of the FEs connected to the BE DAI.
-  */
-@@ -42,23 +42,53 @@ static bool hda_check_fes(struct snd_soc_pcm_runtime *rtd,
- }
- 
- static struct hdac_ext_stream *
--hda_link_stream_assign(struct hdac_bus *bus, struct snd_pcm_substream *substream)
-+hda_link_stream_assign(struct hdac_bus *bus, struct snd_pcm_substream *substream,
-+		       enum hda_bus_ml_link_type link_type)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct sof_intel_hda_dev *sof_hda = bus_to_sof_hda(bus);
- 	struct sof_intel_hda_stream *hda_stream;
- 	const struct sof_intel_dsp_desc *chip;
- 	struct snd_sof_dev *sdev;
- 	struct hdac_ext_stream *res = NULL;
- 	struct hdac_stream *hstream = NULL;
--
- 	int stream_dir = substream->stream;
-+	bool is_multi = link_type == HDA_BUS_ML_LINK_HDA || link_type == HDA_BUS_ML_LINK_UAOL;
-+	bool is_play = stream_dir == SNDRV_PCM_STREAM_PLAYBACK;
-+	bool is_sdw = link_type == HDA_BUS_ML_LINK_SDW;
-+	bool is_hda = link_type == HDA_BUS_ML_LINK_HDA;
-+	u32 concur_block_mask = 0;
-+	u32 seq_block_mask = 0;
-+	unsigned int stream_idx;
- 
- 	if (!bus->ppcap) {
- 		dev_err(bus->dev, "stream type not supported\n");
- 		return NULL;
- 	}
- 
-+	/*
-+	 * On ACE2+ the link DMA stream allocator must avoid two HW errata,
-+	 * see the comment on struct sof_intel_hda_dev.
-+	 *
-+	 * - Concurrent cross-direction: SoundWire conflicts with HDA, iDisp
-+	 *   and UAOL on the same physical stream index; SSP and DMIC are safe.
-+	 * - Sequential playback: a stream index previously used by an HDA/iDisp
-+	 *   link cannot drive any non-HDA/iDisp link in the same direction
-+	 *   until the next controller reset.
-+	 *
-+	 * The masks are protected by bus->reg_lock; sample them inside the
-+	 * lock together with the stream walk to keep the decision atomic
-+	 * with concurrent allocations and releases.
-+	 */
- 	guard(spinlock_irq)(&bus->reg_lock);
-+
-+	if (is_sdw)
-+		concur_block_mask = sof_hda->link_dma_active_multi_mask[!stream_dir];
-+	else if (is_multi)
-+		concur_block_mask = sof_hda->link_dma_active_sdw_mask[!stream_dir];
-+	if (is_play && !is_hda)
-+		seq_block_mask = sof_hda->link_dma_out_hda_used_mask;
-+
- 	list_for_each_entry(hstream, &bus->stream_list, list) {
- 		struct hdac_ext_stream *hext_stream =
- 			stream_to_hdac_ext_stream(hstream);
-@@ -69,6 +99,12 @@ hda_link_stream_assign(struct hdac_bus *bus, struct snd_pcm_substream *substream
- 		sdev = hda_stream->sdev;
- 		chip = get_chip_info(sdev->pdata);
- 
-+		stream_idx = hstream->stream_tag - 1;
-+
-+		/* skip streams blocked by the ACE2+ allocator constraints */
-+		if ((concur_block_mask | seq_block_mask) & BIT(stream_idx))
-+			continue;
-+
- 		/* check if link is available */
- 		if (!hext_stream->link_locked) {
- 			/*
-@@ -95,7 +131,7 @@ hda_link_stream_assign(struct hdac_bus *bus, struct snd_pcm_substream *substream
- 
- 				/*
- 				 * This must be a hostless stream.
--				 * So reserve the host DMA channel.
-+				 * So reserve the host DMA stream.
- 				 */
- 				hda_stream->host_reserved = 1;
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index 4ad126bd4f70..c98e917cc911 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -1203,6 +1203,8 @@ static int dapm_create_or_share_kcontrol(struct snd_soc_dapm_widget *w,
+ 			case snd_soc_dapm_pga:
+ 			case snd_soc_dapm_effect:
+ 			case snd_soc_dapm_out_drv:
++			case snd_soc_dapm_encoder:
++			case snd_soc_dapm_decoder:
+ 				wname_in_long_name = true;
+ 				kcname_in_long_name = true;
  				break;
-@@ -109,6 +145,16 @@ hda_link_stream_assign(struct hdac_bus *bus, struct snd_pcm_substream *substream
- 
- 		res->link_locked = 1;
- 		res->link_substream = substream;
-+
-+		stream_idx = res->hstream.stream_tag - 1;
-+		if (is_sdw)
-+			sof_hda->link_dma_active_sdw_mask[stream_dir] |= BIT(stream_idx);
-+		else if (is_multi)
-+			sof_hda->link_dma_active_multi_mask[stream_dir] |= BIT(stream_idx);
-+
-+		/* persistent OUT HDA/iDisp shadow, cleared only on CRST# */
-+		if (is_hda && is_play)
-+			sof_hda->link_dma_out_hda_used_mask |= BIT(stream_idx);
- 	}
- 
- 	return res;
-@@ -143,11 +189,13 @@ static struct hdac_ext_stream *hda_ipc4_get_hext_stream(struct snd_sof_dev *sdev
- 
- static struct hdac_ext_stream *hda_assign_hext_stream(struct snd_sof_dev *sdev,
- 						      struct snd_soc_dai *cpu_dai,
--						      struct snd_pcm_substream *substream)
-+						      struct snd_pcm_substream *substream,
-+						      struct hdac_ext_link *hlink)
- {
- 	struct hdac_ext_stream *hext_stream;
-+	enum hda_bus_ml_link_type link_type = hda_bus_ml_link_get_type(hlink);
- 
--	hext_stream = hda_link_stream_assign(sof_to_bus(sdev), substream);
-+	hext_stream = hda_link_stream_assign(sof_to_bus(sdev), substream, link_type);
- 	if (!hext_stream)
- 		return NULL;
- 
-@@ -160,6 +208,22 @@ static void hda_release_hext_stream(struct snd_sof_dev *sdev, struct snd_soc_dai
- 				    struct snd_pcm_substream *substream)
- {
- 	struct hdac_ext_stream *hext_stream = hda_get_hext_stream(sdev, cpu_dai, substream);
-+	struct sof_intel_hda_dev *sof_hda = sdev->pdata->hw_pdata;
-+	struct hdac_bus *bus = sof_to_bus(sdev);
-+	int dir = substream->stream;
-+	unsigned int stream_idx = hext_stream->hstream.stream_tag - 1;
-+
-+	/*
-+	 * Drop the stream index from the per-direction active concurrency masks.
-+	 * The two masks are mutually exclusive for a given stream/direction
-+	 * (and a stream of the SSP/DMIC kind appears in neither), so a blind
-+	 * clear of both is safe and lets us avoid having to remember the
-+	 * link type at allocation time.
-+	 */
-+	scoped_guard(spinlock_irq, &bus->reg_lock) {
-+		sof_hda->link_dma_active_sdw_mask[dir] &= ~BIT(stream_idx);
-+		sof_hda->link_dma_active_multi_mask[dir] &= ~BIT(stream_idx);
-+	}
- 
- 	snd_soc_dai_set_dma_data(cpu_dai, substream, NULL);
- 	snd_hdac_ext_stream_release(hext_stream, HDAC_EXT_STREAM_TYPE_LINK);
-diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
-index 15faedeec16d..bb44d4f8a4da 100644
---- a/sound/soc/sof/intel/hda-dai.c
-+++ b/sound/soc/sof/intel/hda-dai.c
-@@ -188,7 +188,7 @@ static int hda_link_dma_hw_params(struct snd_pcm_substream *substream,
- 
- 	if (!hext_stream) {
- 		if (ops->assign_hext_stream)
--			hext_stream = ops->assign_hext_stream(sdev, cpu_dai, substream);
-+			hext_stream = ops->assign_hext_stream(sdev, cpu_dai, substream, hlink);
- 	}
- 
- 	if (!hext_stream)
-diff --git a/sound/soc/sof/intel/hda-mlink.c b/sound/soc/sof/intel/hda-mlink.c
-index e0107cbd06e6..6f02fb5b70ce 100644
---- a/sound/soc/sof/intel/hda-mlink.c
-+++ b/sound/soc/sof/intel/hda-mlink.c
-@@ -894,6 +894,24 @@ void hda_bus_ml_reset_losidv(struct hdac_bus *bus)
- }
- EXPORT_SYMBOL_NS(hda_bus_ml_reset_losidv, "SND_SOC_SOF_HDA_MLINK");
- 
-+enum hda_bus_ml_link_type hda_bus_ml_link_get_type(struct hdac_ext_link *hlink)
-+{
-+	struct hdac_ext2_link *h2link = hdac_ext_link_to_ext2(hlink);
-+
-+	if (!h2link->alt)
-+		return HDA_BUS_ML_LINK_HDA;
-+
-+	switch (h2link->elid) {
-+	case AZX_REG_ML_LEPTR_ID_SDW:
-+		return HDA_BUS_ML_LINK_SDW;
-+	case AZX_REG_ML_LEPTR_ID_INTEL_UAOL:
-+		return HDA_BUS_ML_LINK_UAOL;
-+	default:
-+		return HDA_BUS_ML_LINK_OTHER;
-+	}
-+}
-+EXPORT_SYMBOL_NS(hda_bus_ml_link_get_type, "SND_SOC_SOF_HDA_MLINK");
-+
- int hda_bus_ml_resume(struct hdac_bus *bus)
- {
- 	struct hdac_ext_link *hlink;
-diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-index 799e49539b4a..1609589929a1 100644
---- a/sound/soc/sof/intel/hda.h
-+++ b/sound/soc/sof/intel/hda.h
-@@ -523,6 +523,29 @@ struct sof_intel_hda_dev {
- 	/* the maximum number of streams (playback + capture) supported */
- 	u32 stream_max;
- 
-+	/*
-+	 * ACE2+ link DMA stream allocation constraints (stream index =
-+	 * stream_tag - 1, shared between input and output directions). All
-+	 * masks are cleared by hda_dsp_ctrl_init_chip() on controller reset
-+	 * (CRST#).
-+	 *
-+	 * - Concurrent (cross-direction) constraint: a SoundWire stream and
-+	 *   a HDA/iDisp/UAOL stream cannot share a physical stream index
-+	 *   across directions, the resulting LLP/timestamp values are wrong.
-+	 *   link_dma_active_sdw_mask and link_dma_active_multi_mask
-+	 *   (indexed by SNDRV_PCM_STREAM_*) track currently allocated
-+	 *   streams per direction in each of the conflicting groups; SSP
-+	 *   and DMIC do not participate. Bits are cleared on stream release.
-+	 *
-+	 * - Sequential (playback only) constraint: once a HDA/iDisp link
-+	 *   has used a playback stream index, that index cannot drive a
-+	 *   non-HDA/iDisp link in the same direction until the next CRST#.
-+	 *   link_dma_out_hda_used_mask records this.
-+	 */
-+	u32 link_dma_active_sdw_mask[SNDRV_PCM_STREAM_LAST + 1];
-+	u32 link_dma_active_multi_mask[SNDRV_PCM_STREAM_LAST + 1];
-+	u32 link_dma_out_hda_used_mask;
-+
- 	/* PM related */
- 	bool l1_disabled;/* is DMI link L1 disabled? */
- 
-@@ -1031,7 +1054,8 @@ struct hda_dai_widget_dma_ops {
- 						   struct snd_pcm_substream *substream);
- 	struct hdac_ext_stream *(*assign_hext_stream)(struct snd_sof_dev *sdev,
- 						      struct snd_soc_dai *cpu_dai,
--						      struct snd_pcm_substream *substream);
-+						      struct snd_pcm_substream *substream,
-+						      struct hdac_ext_link *hlink);
- 	void (*release_hext_stream)(struct snd_sof_dev *sdev, struct snd_soc_dai *cpu_dai,
- 				    struct snd_pcm_substream *substream);
- 	void (*setup_hext_stream)(struct snd_sof_dev *sdev, struct hdac_ext_stream *hext_stream,
+@@ -2785,6 +2787,8 @@ static ssize_t dapm_widget_show_component(struct snd_soc_component *component,
+ 		case snd_soc_dapm_pga:
+ 		case snd_soc_dapm_effect:
+ 		case snd_soc_dapm_out_drv:
++		case snd_soc_dapm_encoder:
++		case snd_soc_dapm_decoder:
+ 		case snd_soc_dapm_mixer:
+ 		case snd_soc_dapm_mixer_named_ctl:
+ 		case snd_soc_dapm_supply:
+@@ -3367,6 +3371,8 @@ int snd_soc_dapm_new_widgets(struct snd_soc_card *card)
+ 		case snd_soc_dapm_pga:
+ 		case snd_soc_dapm_effect:
+ 		case snd_soc_dapm_out_drv:
++		case snd_soc_dapm_encoder:
++		case snd_soc_dapm_decoder:
+ 			dapm_new_pga(w);
+ 			break;
+ 		case snd_soc_dapm_dai_link:
 -- 
 2.55.0
 
