@@ -1,80 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964B14766A8;
-	Thu, 30 Jul 2026 23:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBE025B0AF
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 23:37:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785453679; cv=none; b=aomg3zObKQ16frQf/2AyzBalo6GKISxGeQeHf6Dejq25ivl48zcCKBRbdCPEv3G6YnRVkJRgGqgIMhMk90/vIawwWG0rHSs5C+StWFlr20Loo5fnIi6s2L4vIDX16d205Ul0AGvJerDJiJKB10UKtA+YQ/kPu6szjU6uaVwSHEc=
+	t=1785454626; cv=none; b=E5KWWSFGA7myaer+gRmbzN4wUibs/muyBBS4Bf44sGXRrk35SxM+QHNP2TBSXBF98BlJlf0lbIupk/AKHqp09191uBI4gR+1ygQ4dCv8w40eR3NYBcSqra6HQHCVnAPF6tZa4c1CdRCAHeXwU1vu2p1nbiQrWVTdNHMzDSUs//I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785453679; c=relaxed/simple;
-	bh=UWv9aO6Ltl53+gNrcXHmibVEU6RwbY8BZ0HA+GF9Ro8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=C5bmiHriWIpADIcXudtKn7ATeCA38PLhKhwZ3WSRJkrecdSfudhXbdz/8kBKt8TgAC1UE/RofBdBoE7Q3GoJ2KASx/xivLjl0N1lQCOl1GhwQQaNKwi7y3mhNw/lrB2xS5UszZARqAa5RXeU1/EbQtbSTFJyc6T4flSLhWjaPR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ro4EwhtM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785454626; c=relaxed/simple;
+	bh=deIKCt17iFdNWC9qoZK357cYymrUBIP/qli12WLqnbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lRYAG/ufR+GCx8CJnudSGIPXq0FBZtNGVu36jcuCGJEAXMkavvO6jHGL+9ekLRxuK5t+VTVv2bxIh8D0aWNvPz38G1xc/+xboP/v7n5nvnhW15pU8qvLd99SSgbsjQd/0kALBf7nOkDfiQtNhJFxyCSU6Ux/CmwFhQgQuXgBsxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F/gfdm2q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ro4EwhtM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07E61F000E9;
-	Thu, 30 Jul 2026 23:21:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F/gfdm2q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D5771F000E9;
+	Thu, 30 Jul 2026 23:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785453678;
-	bh=nnkYsDKBh6+z8y/O7CyvuiMiHf8n9xKBJ8Nn5YjUWSY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Ro4EwhtMUp0QMg6o42tZeo9WHfPJNwKSRfAub7cSv6oCE9khjUcgRpSG40k6eCbVe
-	 7Ho6gfit2owh1GOSFIHYbpOo5FrxCMihdrNjTJwzwpS3FOxNTxQTu05J1pqKg+/eDh
-	 SV7FBnru40RgG2769Xj4T5QNY5zEvj+1IaG+3zLhr8WA3Cwm1FC7dMcieiQJvD+wHd
-	 YoAFlAGC+c5c+O1b1wAr22nyjl+E9oeleYzT+1j0bloUdBKjR4s14vxZzZZ8TzECt9
-	 H47SAcRI69neIgdLFuLXlSwJMtmnj/LrLD52CxblMVvlFEusVGXs2Gs52FhPjP2FeE
-	 TZ42mm5XJ4uJA==
+	s=k20260515; t=1785454624;
+	bh=F90BVI7LBOYQvLEGK9gzZgpY8yRevawHJDMkuI+msPU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=F/gfdm2q7IW+84FRTQ/scrxoNtf1HgrS2y5tqQzdfKCRqa7yYxJsRxMxAsKMMiiE9
+	 zBYmO91ZzHGbuF+dMd9VU9j3tboJKtXnEE55y09FzO5BEg5pEuML0jTkDoG1rTJOQ6
+	 rWXkGKYxNsvnm2s5xAZ88+w45A3cIJAc02S28/N67W/mKkR9F7LEqfHwHExKcSu9wm
+	 XVZ/Fmziz/aoV52nyVbBmtjmfOOjmb5uZik+Y0hz1nr33pSLeWqbILbLmOjxheWAwT
+	 c6FoYFDWIlAg0fTZSFVUWVG1qj+RuglrnGiEVoIcl/jBr8KPdrt8klSOYP1z+1zNPQ
+	 SEGLz5Of31EFA==
+Date: Fri, 31 Jul 2026 00:37:00 +0100
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- liam.r.girdwood@intel.com, stable@vger.kernel.org
-In-Reply-To: <20260730054822.5913-1-peter.ujfalusi@linux.intel.com>
-References: <20260730054822.5913-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Refresh copier IPC payload
- before widget setup
-Message-Id: <178543892863.343356.875041647435692561.b4-ty@b4>
-Date: Thu, 30 Jul 2026 20:15:28 +0100
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev, jyri.sarha@linux.intel.com
+Subject: Re: [PATCH 4/6] ASoC: SOF: ipc4-topology: Add payload to pipeline
+ create messages
+Message-ID: <13cce21a-d750-46a4-8072-7a40863ca04c@sirena.org.uk>
+References: <20260730104141.14817-1-peter.ujfalusi@linux.intel.com>
+ <20260730104141.14817-5-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nFh89dfvhnNN9tDt"
+Content-Disposition: inline
+In-Reply-To: <20260730104141.14817-5-peter.ujfalusi@linux.intel.com>
+X-Cookie: In specially marked packages only.
 
-On Thu, 30 Jul 2026 08:48:22 +0300, Peter Ujfalusi wrote:
-> ASoC: SOF: ipc4-topology: Refresh copier IPC payload before widget setup
 
-Applied to
+--nFh89dfvhnNN9tDt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+On Thu, Jul 30, 2026 at 01:41:39PM +0300, Peter Ujfalusi wrote:
 
-Thanks!
+> +	/*
+> +	 * If this is not a Data Processing module instance, add the
+> +	 * required heap sizes to the sum of all module instances belonging
+> +	 * to the same pipeline, and find the maximum stack requirement
+> +	 * among all module instances belonging to the same pipeline.
+> +	 */
+> +	if (swidget->comp_domain != SOF_COMP_DOMAIN_DP) {
 
-[1/1] ASoC: SOF: ipc4-topology: Refresh copier IPC payload before widget setup
-      https://git.kernel.org/broonie/sound/c/0c0e418dbcf0
+Does this DTRT if the comp_domain was read from the manifest?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> +static void sof_ipc4_widget_pipe_ext_obj_memory_data(struct snd_sof_dev *sdev,
+> +						     struct snd_sof_widget *swidget,
+> +						     u32 *payload, u32 *ext_pos,
+> +						     struct sof_ipc4_glb_pipe_ext_object **hdr)
+> +{
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> +	mem_data->domain_id = swidget->domain_id;
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Do we need SOF_COMP_EXT_TOKENS in pipeline_token_list to parse the
+domain ID?
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+--nFh89dfvhnNN9tDt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Mark
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpr4BwACgkQJNaLcl1U
+h9DyLAf9E2eodQBQPtSWpp/oQeX66mKXY9Miuz5trwlH8ULc/aDqCZr2ldZNAyw+
+/nbjIw6qj/6AgTMSPMQ2AKav4oScFLHYL3VJz00dNm2TPJJ2oSkoQZvUsoO1kk2m
+tnpNEBkUaIgvfGZuCM7axtiyO+tDa+nrifiPxb8mLWRNU7gGekB+1gYjPx4BgbzZ
+INhwDq2GgnuF0JRzbaGWM8JNdYx/0qQljcfZkjVpZN25WhiCs5WJhYsaj9ug8C2W
+MPbs45jyBC+IDIHQ3zvwsVSdUmd5t+EZFvi6zO4rGEFvzbJExTw6f2C8XB09GkJl
+CD0JLBzOlMcRJzQiqvj+1d6s/jq70A==
+=o/zx
+-----END PGP SIGNATURE-----
+
+--nFh89dfvhnNN9tDt--
