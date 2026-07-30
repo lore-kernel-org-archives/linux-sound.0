@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DEC3A83BF;
-	Thu, 30 Jul 2026 22:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E083B6C1E;
+	Thu, 30 Jul 2026 22:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785451922; cv=none; b=izgnVIWGu1siX+WRTX0MG7XFmR6P3t1fORDZFofwc1M7RGgwbpy5kQ3aW+v0DgT3MF/8g5Qd3vwDUC0jgiZ+yHdnzt5R9ZvDSWbhPqk3HYnK6AoqH9+daTjuP7OjdWZPNhtY5VkqQH+2ZSR0Ahn8iYe5gNP9Xm8ve/IO5yTg6ZQ=
+	t=1785452119; cv=none; b=G0SIQQUhSTrrVTDcTC+sWSHeNf0CwoKzvthbp8ntehRKu8lghvkYGwHJHLzD4jqK3WT/57G5K2zcUtcmgvfA62Aj7/gc4Tpx14UOIIMUsDaDMB45MMYd0vSyUWX81J1PykEZOsZ0WsItn22K7itGb7QcEev6LdiYQldfTdfzT6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785451922; c=relaxed/simple;
-	bh=TYRbN4fFLN3mtfgwIfEq5/qI5/6LEyAMIn4WFIux+O8=;
+	s=arc-20240116; t=1785452119; c=relaxed/simple;
+	bh=9+dzL1lfdELc64z30DFpqf8koJ3+Few0YN/M+bKcERU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PkJTbUivKpINkRyDbyt1F8uqsjna9D8a9E+ZqGnA4W/oDBDlUw4/HaoeMQWTb4fBIl+4zfuKV8s2EOT4nNzo90YXpoL+bcD10ZLbH6HHk4VkYM6PkPsQ2BDD+22rUP86kmH4Idym69qcBUVt6uXA0hT3ERZTNxFrC4G57PYv/v8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DvBQJfUk; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=pvjNy5NGTbBEzrYaoiMVV2IsJE63mKYeaEpSk4DIVvZnaRQfwBSZEkF8VttVvDnksFnv6CmRYhuLYB7v0L5CevtcQdq9Y14b/iLPQD6CbB/wYcLHvdZ2/b3cEM8Akw2GZEm1/1xrb0GslfwBz2T6mhWECjeBbK1/bF89NIPd7pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jj0d29U4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DvBQJfUk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91BBA1F000E9;
-	Thu, 30 Jul 2026 22:51:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jj0d29U4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7912E1F000E9;
+	Thu, 30 Jul 2026 22:55:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785451920;
-	bh=QZLKsuWseBiTqeWD2kxHNjOltfDm4lmKoUuAbHhZzbY=;
+	s=k20260515; t=1785452118;
+	bh=8n6EZsu6zxAP8hs+Er60xjQBLbhJq/AwGa+qOiGSm9o=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=DvBQJfUkAEGNO0vdhaHDgPgWdzeuKA59S1dNafNlHAFIkRxMC1iuc5synK8W5HXQq
-	 bjEx5VOvB+zBZ/1aG1qC+cwAAAR6k2IXotDQhIwplnhP28Z/R6iuidkEE3IRfewD2p
-	 yByqxOqBS+wabtGxfeBd8BdoOnCHrnyCC8diNvnSUJ4RSQrPvuEhwVW7Lv2+/8zDGZ
-	 5uKlGduWd/IxEPJvliTYlE8dxaQ+fuipLTx4kjPqpn916NT/2ddHyIZWLKQ9qv64Ch
-	 OsGsxutp1FqU8i0m47HBSL2UhuRYo+lZb04V0zCIJn6uN8AtL7AQ9Ir9rRe5x4sPgh
-	 /bg9BkL9dL0/w==
-Message-ID: <27f61470-349a-4166-aac9-64f33f1b9dc7@kernel.org>
-Date: Thu, 30 Jul 2026 23:51:55 +0100
+	b=jj0d29U48RyU7uU6uFtekFtpZcNTVxIgH7/pml9vxIKxwE3F46aQcV0FGxijiaeq0
+	 jlXAR7WJa6e78WcPlV0ZeOUp7IJZ+fZbIutoCVfUvxdkNuJeVE2FuTBshrbzQkk6Vs
+	 yVvkEBhp181cjEVGf7A080RIK6d9bUJtbH0SsoSquFGJGs7eZXZDRg628FdGg4hFak
+	 mlg91EOcuoGIRGRZ0d3yfdibc5wRLV0qbBd848WuirVSwCdtQAw4Mz9quB+8FTRsqQ
+	 nMzz1pr4Akve3WjOZhu6oXSsC1mFE/XHxBjma9vcAA3eTa4ahB5KylE+FO+2DEQZDH
+	 RBhp09GeL/wug==
+Message-ID: <58fa6d76-b61f-4f8c-8b89-56fe103495ce@kernel.org>
+Date: Thu, 30 Jul 2026 23:55:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 07/15] ASoC: qdsp6: q6afe: add internal mi2s support
+Subject: Re: [PATCH v6 08/15] ASoC: qdsp6: q6afe-dai: add internal mi2s
+ support
 To: Richard Acayan <mailingradian@gmail.com>,
  Srinivas Kandagatla <srini@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
  Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -53,10 +54,10 @@ Cc: Nickolay Goppen <setotau@mainlining.org>,
  Charles Keepax <ckeepax@opensource.cirrus.com>,
  Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 References: <20260730174353.108023-1-mailingradian@gmail.com>
- <20260730174353.108023-8-mailingradian@gmail.com>
+ <20260730174353.108023-9-mailingradian@gmail.com>
 Content-Language: en-US
 From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20260730174353.108023-8-mailingradian@gmail.com>
+In-Reply-To: <20260730174353.108023-9-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -64,99 +65,97 @@ Content-Transfer-Encoding: 7bit
 
 On 7/30/26 6:43 PM, Richard Acayan wrote:
 > The bindings for LPI MI2S ports, originally exclusive to q6apm, can be
-> used for internal MI2S ports on q6afe. Add the port mappings for
-> internal MI2S, found on the Snapdragon 660 internal sound card.
+> used for internal MI2S ports on q6afe. Add the internal MI2S ports found
+> on the SDM660 internal sound card using the LPI MI2S bindings.
 > 
 > Signed-off-by: Richard Acayan <mailingradian@gmail.com>
 > ---
-lgtm,
 
 Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
 --srini
 
->  sound/soc/qcom/qdsp6/q6afe.c | 56 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
+>  sound/soc/qcom/qdsp6/q6afe-dai.c | 48 ++++++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
 > 
-> diff --git a/sound/soc/qcom/qdsp6/q6afe.c b/sound/soc/qcom/qdsp6/q6afe.c
-> index 40237267fda0..1d68a80e8e0c 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe.c
-> @@ -132,6 +132,20 @@
->  #define AFE_PORT_ID_QUINARY_MI2S_TX	    0x1017
->  #define AFE_PORT_ID_SENARY_MI2S_RX          0x1018
->  #define AFE_PORT_ID_SENARY_MI2S_TX          0x1019
-> +#define AFE_PORT_ID_INT0_MI2S_RX	    0x102e
-> +#define AFE_PORT_ID_INT0_MI2S_TX	    0x102f
-> +#define AFE_PORT_ID_INT1_MI2S_RX	    0x1030
-> +#define AFE_PORT_ID_INT1_MI2S_TX	    0x1031
-> +#define AFE_PORT_ID_INT2_MI2S_RX	    0x1032
-> +#define AFE_PORT_ID_INT2_MI2S_TX	    0x1033
-> +#define AFE_PORT_ID_INT3_MI2S_RX	    0x1034
-> +#define AFE_PORT_ID_INT3_MI2S_TX	    0x1035
-> +#define AFE_PORT_ID_INT4_MI2S_RX	    0x1036
-> +#define AFE_PORT_ID_INT4_MI2S_TX	    0x1037
-> +#define AFE_PORT_ID_INT5_MI2S_RX	    0x1038
-> +#define AFE_PORT_ID_INT5_MI2S_TX	    0x1039
-> +#define AFE_PORT_ID_INT6_MI2S_RX	    0x103a
-> +#define AFE_PORT_ID_INT6_MI2S_TX	    0x103b
+> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
+> index a0d21034a626..920345609d2c 100644
+> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
+> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
+> @@ -412,6 +412,8 @@ static int q6afe_dai_prepare(struct snd_pcm_substream *substream,
+>  	case SENARY_MI2S_RX ... SENARY_MI2S_TX:
+>  	case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
+>  	case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
+> +	case LPI_MI2S_RX_0 ... LPI_MI2S_TX_4:
+> +	case LPI_MI2S_RX_5 ... LPI_MI2S_TX_6:
+>  		rc = q6afe_i2s_port_prepare(dai_data->port[dai->id],
+>  			       &dai_data->port_config[dai->id].i2s_cfg);
+>  		if (rc < 0) {
+> @@ -665,6 +667,21 @@ static const struct snd_soc_dapm_route q6afe_dapm_routes[] = {
 >  
->  /* Start of the range of port IDs for TDM devices. */
->  #define AFE_PORT_ID_TDM_PORT_RANGE_START	0x9000
-> @@ -931,6 +945,34 @@ static struct afe_port_map port_maps[AFE_PORT_MAX] = {
->  	[RX_CODEC_DMA_RX_7] = { AFE_PORT_ID_RX_CODEC_DMA_RX_7,
->  				RX_CODEC_DMA_RX_7, 1, 1},
->  	[USB_RX] = { AFE_PORT_ID_USB_RX, USB_RX, 1, 1},
-> +	[LPI_MI2S_RX_0] = { AFE_PORT_ID_INT0_MI2S_RX,
-> +				LPI_MI2S_RX_0, 1, 1},
-> +	[LPI_MI2S_TX_0] = { AFE_PORT_ID_INT0_MI2S_TX,
-> +				LPI_MI2S_TX_0, 0, 1},
-> +	[LPI_MI2S_RX_1] = { AFE_PORT_ID_INT1_MI2S_RX,
-> +				LPI_MI2S_RX_1, 1, 1},
-> +	[LPI_MI2S_TX_1] = { AFE_PORT_ID_INT1_MI2S_TX,
-> +				LPI_MI2S_TX_1, 0, 1},
-> +	[LPI_MI2S_RX_2] = { AFE_PORT_ID_INT2_MI2S_RX,
-> +				LPI_MI2S_RX_2, 1, 1},
-> +	[LPI_MI2S_TX_2] = { AFE_PORT_ID_INT2_MI2S_TX,
-> +				LPI_MI2S_TX_2, 0, 1},
-> +	[LPI_MI2S_RX_3] = { AFE_PORT_ID_INT3_MI2S_RX,
-> +				LPI_MI2S_RX_3, 1, 1},
-> +	[LPI_MI2S_TX_3] = { AFE_PORT_ID_INT3_MI2S_TX,
-> +				LPI_MI2S_TX_3, 0, 1},
-> +	[LPI_MI2S_RX_4] = { AFE_PORT_ID_INT4_MI2S_RX,
-> +				LPI_MI2S_RX_4, 1, 1},
-> +	[LPI_MI2S_TX_4] = { AFE_PORT_ID_INT4_MI2S_TX,
-> +				LPI_MI2S_TX_4, 0, 1},
-> +	[LPI_MI2S_RX_5] = { AFE_PORT_ID_INT5_MI2S_RX,
-> +				LPI_MI2S_RX_5, 1, 1},
-> +	[LPI_MI2S_TX_5] = { AFE_PORT_ID_INT5_MI2S_TX,
-> +				LPI_MI2S_TX_5, 0, 1},
-> +	[LPI_MI2S_RX_6] = { AFE_PORT_ID_INT6_MI2S_RX,
-> +				LPI_MI2S_RX_6, 1, 1},
-> +	[LPI_MI2S_TX_6] = { AFE_PORT_ID_INT6_MI2S_TX,
-> +				LPI_MI2S_TX_6, 0, 1},
+>  	/* USB playback AFE port receives data for playback, hence use the RX port */
+>  	{"USB Playback", NULL, "USB_RX"},
+> +
+> +	{"LPI RX0 MI2S Playback", NULL, "LPI_MI2S_RX_0"},
+> +	{"LPI_MI2S_TX_0", NULL, "LPI TX0 MI2S Capture"},
+> +	{"LPI RX1 MI2S Playback", NULL, "LPI_MI2S_RX_1"},
+> +	{"LPI_MI2S_TX_1", NULL, "LPI TX1 MI2S Capture"},
+> +	{"LPI RX2 MI2S Playback", NULL, "LPI_MI2S_RX_2"},
+> +	{"LPI_MI2S_TX_2", NULL, "LPI TX2 MI2S Capture"},
+> +	{"LPI RX3 MI2S Playback", NULL, "LPI_MI2S_RX_3"},
+> +	{"LPI_MI2S_TX_3", NULL, "LPI TX3 MI2S Capture"},
+> +	{"LPI RX4 MI2S Playback", NULL, "LPI_MI2S_RX_4"},
+> +	{"LPI_MI2S_TX_4", NULL, "LPI TX4 MI2S Capture"},
+> +	{"LPI RX5 MI2S Playback", NULL, "LPI_MI2S_RX_5"},
+> +	{"LPI_MI2S_TX_5", NULL, "LPI TX5 MI2S Capture"},
+> +	{"LPI RX6 MI2S Playback", NULL, "LPI_MI2S_RX_6"},
+> +	{"LPI_MI2S_TX_6", NULL, "LPI TX6 MI2S Capture"},
 >  };
 >  
->  static void q6afe_port_free(struct kref *ref)
-> @@ -1785,6 +1827,20 @@ struct q6afe_port *q6afe_port_get_from_id(struct device *dev, int id)
->  	case AFE_PORT_ID_QUINARY_MI2S_TX:
->  	case AFE_PORT_ID_SENARY_MI2S_RX:
->  	case AFE_PORT_ID_SENARY_MI2S_TX:
-> +	case AFE_PORT_ID_INT0_MI2S_RX:
-> +	case AFE_PORT_ID_INT0_MI2S_TX:
-> +	case AFE_PORT_ID_INT1_MI2S_RX:
-> +	case AFE_PORT_ID_INT1_MI2S_TX:
-> +	case AFE_PORT_ID_INT2_MI2S_RX:
-> +	case AFE_PORT_ID_INT2_MI2S_TX:
-> +	case AFE_PORT_ID_INT3_MI2S_RX:
-> +	case AFE_PORT_ID_INT3_MI2S_TX:
-> +	case AFE_PORT_ID_INT4_MI2S_RX:
-> +	case AFE_PORT_ID_INT4_MI2S_TX:
-> +	case AFE_PORT_ID_INT5_MI2S_RX:
-> +	case AFE_PORT_ID_INT5_MI2S_TX:
-> +	case AFE_PORT_ID_INT6_MI2S_RX:
-> +	case AFE_PORT_ID_INT6_MI2S_TX:
->  		cfg_type = AFE_PARAM_ID_I2S_CONFIG;
->  		break;
->  	case AFE_PORT_ID_PRIMARY_TDM_RX ... AFE_PORT_ID_QUINARY_TDM_TX_7:
+>  static int msm_dai_q6_dai_probe(struct snd_soc_dai *dai)
+> @@ -1011,6 +1028,35 @@ static const struct snd_soc_dapm_widget q6afe_dai_widgets[] = {
+>  		0, SND_SOC_NOPM, 0, 0),
+>  
+>  	SND_SOC_DAPM_AIF_IN("USB_RX", NULL, 0, SND_SOC_NOPM, 0, 0),
+> +
+> +	SND_SOC_DAPM_AIF_IN("LPI_MI2S_RX_0", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_OUT("LPI_MI2S_TX_0", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_IN("LPI_MI2S_RX_1", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_OUT("LPI_MI2S_TX_1", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_IN("LPI_MI2S_RX_2", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_OUT("LPI_MI2S_TX_2", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_IN("LPI_MI2S_RX_3", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_OUT("LPI_MI2S_TX_3", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_IN("LPI_MI2S_RX_4", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_OUT("LPI_MI2S_TX_4", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_IN("LPI_MI2S_RX_5", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_OUT("LPI_MI2S_TX_5", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_IN("LPI_MI2S_RX_6", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+> +	SND_SOC_DAPM_AIF_OUT("LPI_MI2S_TX_6", NULL,
+> +		0, SND_SOC_NOPM, 0, 0),
+>  };
+>  
+>  static const struct snd_soc_component_driver q6afe_dai_component = {
+> @@ -1045,6 +1091,8 @@ static void of_q6afe_parse_dai_data(struct device *dev,
+>  		case SENARY_MI2S_RX ... SENARY_MI2S_TX:
+>  		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
+>  		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
+> +		case LPI_MI2S_RX_0 ... LPI_MI2S_TX_4:
+> +		case LPI_MI2S_RX_5 ... LPI_MI2S_TX_6:
+>  			priv = &data->priv[id];
+>  			ret = of_property_read_variable_u32_array(node,
+>  							"qcom,sd-lines",
 
