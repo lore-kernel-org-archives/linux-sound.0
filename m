@@ -1,64 +1,64 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79984417355
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 09:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EC7417D60
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 09:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785405282; cv=none; b=DpkmCbsdq1wZ5qMWFhtDvG8h0rlqTaRjbt+zpwk925u8AfTCv+zGCvezBDUxsVllU0cejsESzle+D6qJmoc2F8ag4QRCC7Cmj9XEZVc+4OH7c78odylrargXmHsJqVniYqslYx+cU+2oiM/15FJMm39xb2k2tgHHJ6ckkBssgQA=
+	t=1785405287; cv=none; b=s5bN+zTXfY1SI9CjMaw1tpIf+0buwToVdtrY2qsNWp5ti3HO+3GDBkk3p1riwx1/wUeIZkMGM9QxfOQ6Q8LwBusCZWPFE3VNdwIryt37Cz7BOcyIX3f92nKhHQRWD83knT5VydLFB4nhnhr7pOARYqnHK3rV75pMZ2/ti/8N0P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785405282; c=relaxed/simple;
-	bh=/gXKMbBuIe/nzXJIZ380fTPEnD4T8QBEcymvrfjUGLE=;
+	s=arc-20240116; t=1785405287; c=relaxed/simple;
+	bh=HCK3DHzzTS5ZoxKILNZkRTEwr07OI7YEoYg+8ShD6qs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=G/VRm3RKSVAI5wbznGDPhlA7lJN0hV9SVH+DVSzlKOHAkXe8F6mg2U+qF9Y2IRGnsx7WEc6Z8Bx6wWzVn7OqpOWRgCms/lxExVzLy2WDcXchZA7Ncb+QQd2VIefPsMYonharGKgA7eWSKSHTVxQCcL297e5EnpUysFwCK4gXh8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QwGlULbE; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=E+Y2HrvwL16UK7j7MXdxv3PbH4N02VBPywJxA5sPC3MTrjveTHGfk5ocpCsZBhcyu3tavQEC/DeMA1epZ/AE/Cc2Z5aJ7RbHvw9HUJsc/dqS8c3o8asvsjpVvzIYfJguj7SzozmekFmsC7SGdHcRDflORAV0aSWOrkPES7A42pY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N4P8LNqB; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QwGlULbE"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2d01663d816so17249415ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 02:54:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N4P8LNqB"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ceaf8a1265so24473895ad.2
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 02:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785405281; x=1786010081; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785405286; x=1786010086; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+lKz/SlGwXmAhLGWuO3fxWgDmJoMay2AdJkxbT6UZVs=;
-        b=QwGlULbEBRFVWxJ/QCwFNnyrYxNaPqBUJv2H7lGH9DEQaccUjTX05JSSsKMiTcN/pT
-         HGHJGv4PTw4kRmwr0F4g1aoKwBKIg16qLULniWc06TRJjdx7nKTaeswDw0ro+o3Nf9Ca
-         /FebpKF7OcpaAOE+k7nSMUeuh2WoBUGyotJwcMp2jACfTHVDDZaK6w5+q0T4DAydQq8K
-         MhgzfSGbckjlDB4LTKRhbOGzJT9/+e5Sn8A8kLLTyciS0sQY4KifLYl5O4FPyiM+L4oU
-         qsnS1/sBLG6+91NWZdz8r7tvnul40K8kbaQ6pZzPwta97lm1mNSsmibbAXSu6Hm4+wS4
-         gfPA==
+        bh=71R1GLYuIWI1vsOmM0wELvCd5dATq5UzCDfvq0UQp10=;
+        b=N4P8LNqB3Z6oMA09FfCWoWnhjIM5Wz4l0cl0QxTIhLfDS9UtwlEHHu6edDzR6NKlz0
+         ZQik5gODYdjtEgwXzfw387cg94fvprLfi+PczqaBk0WXC9Y8466l50khHg9qyleIUyc9
+         Ub3VU+hJSS+08LCgth1AECKJVNK6AyhMfwpNQkTaFXWgqmmhscK7dhEAnf44QEf37JX/
+         7NDM6ztHlQMbiqVRlB7qJYldHmY1uXQfKnZgKlcWuP7HGjiuyW29Tv0+OnnAkYjx5Js6
+         GTEjrf1KhQyLSL+AXbivZCJM3OLlevfOZbyL1jym5vqZQsyqNx6N+vUw1X5fqDTruj6G
+         ubhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785405281; x=1786010081;
+        d=1e100.net; s=20251104; t=1785405286; x=1786010086;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+lKz/SlGwXmAhLGWuO3fxWgDmJoMay2AdJkxbT6UZVs=;
-        b=cIKNFPgLJR1Am9paeAFeeyF2YoafKPqwCYuArV8CLb/eirtmgM3jKeqGxc+dfUkxtr
-         YDEqIvdycj+Albd4M3JgmAXMB9RZwDZyhZttLIqVDEvaUl0xjJtwWfa7jkNnUS7KWD4z
-         TrapOM0jyiQpn1DJXA/3yamuAVo2FH6B6xZA+mxKnvWOfq38e6gXnCNRxZbqo14my/hJ
-         dxOLPxWkhHnKrdS1rFhnV9Znb7NrY9hQw063KlEdNJmYQp7JPlxDXpNg5OJUfKm5p9lq
-         QQrL6pAL/IFTbKnp9dkWCGIqda899ujuql6mqJk3GA6Y6+8fdyeTt4ligCIIpCrhDmK0
-         iiqA==
-X-Gm-Message-State: AOJu0YzQm2y7RauBTBmwMTjylE7nyrQLnOrUEyNnmFWz2XXEoAlOeXea
-	jVLIsaLnwlqKksNoi0owH7qlUObT0HjV4enle8ejbc7DeRRn9siK64fV
-X-Gm-Gg: AR+sD13yuE64I135qYG6BexslNQydbwmcSt710w1ksjFATjmWBzEwV8XDwLNgt23RiV
-	l0FT1JsIlnucphf7fgqaeH+VKuMUc5pIoTzwemg30jQoMeIx41wJyAi4PK/RiMKrymk+HvIh5NT
-	rk4I4d4n+DCc8gtsHU4pIpaZcUiuup6luvhVZhXeOLjRn9NCIk3ZXK1gr83cakl4e+aA4LWFMhB
-	vI2kiKgvfaSct8y3bRb7m/+cM7oaoT+tkWRpenhYV7PDd8GdoEKc6UTl8OJOqHjDpZL2pnIBz8B
-	2MpklBd7hrOuBVYTuV5H6CNSSdmlQzxFWb1niM0qHwupgKiAuj6R+ocALppfrdcQAsmvLzyZfxs
-	FMhqrD+7QSxQhA3r/FZPDGN8pX9lGYmL18d9Mi1VLeFlH0QYDyjkonLViAYEbDFLORFvrI09WRU
-	md7iPQxgkJTZlYpjeEndwt/EOGCk+DZF9ywnt6rOEAVbijPPHsbb0lS21bWGPXvMWEgzVeNyZ+E
-	XIEz5hC0hKC+aczk5FxnS/CNjJ5scvXAx7CbA/NEaM0BrP92Ya2n/f3dUeDWQ41U/+PjEEXkk6c
-	XwR6
-X-Received: by 2002:a17:902:c943:b0:2c9:97a7:f544 with SMTP id d9443c01a7336-2d035cfc878mr18082985ad.42.1785405280827;
-        Thu, 30 Jul 2026 02:54:40 -0700 (PDT)
+        bh=71R1GLYuIWI1vsOmM0wELvCd5dATq5UzCDfvq0UQp10=;
+        b=GXIravVV0kXgkfq1DgwovzLaRTYnv/rbZKXtEIL4GOGUgdD1TT4efq0EVJ/3NGrOLM
+         uhyl5i1MlChYJNAslvguGbOX6zc3Utv5Rj1eUCTeuzqPLnsI4oyLdCLNPEbhy5TpVAcd
+         3//wgZnDxbDsvC0RIWeu7gNNW0eLKOd1n6Dh5ynxKR2ejwqNX7SAb+oEZj+JwHUNeyXZ
+         oAvrt3xOTPigzoKnktBIDUUjFx2yYpp8wNAG0L/LbABVdTT8Rn9zomsSsu8kBknVsOeV
+         s/lSlmUMvKBdhXhwCOJJqgUt1xHWBzA02NEVAUFq/zJum9lM5zbxSsfF4mwa7eVUHfFo
+         lvrQ==
+X-Gm-Message-State: AOJu0YxPiz09eDA3CQjPUitEkWBbHJ8pysB08bzsCD+TJvTJ0JyWhXS4
+	SMfXXZrCXHxtIKcri8BJqwwCwxcmJJKSJ0PBkyNTEuAj9ESQN1+cVls3
+X-Gm-Gg: AR+sD12pQdRKoyXOBBfz2DlGBD4TP0/9Bah3YGxIJt14Csa84yf7IXLb5lvzSggkFXP
+	T2//NY58aMvRc0y34sdm3vya7MlLOxYN2sRSDvOnn3VdBoWvaDkh/KiLMDPr6UmV7GNFjH4A90+
+	8J/wd7T8lV/DbFQBd6ZiHFSg/kVbEf1R64SD8XHJ/uOcjVhd7QSyVDvhrGWsZU3+F2u+nyYQdwv
+	XaEvbR78dJLmppihfi7Egh0HBJQIcQmfJQek1ih3n/wTCOvZ44WzO5kAHlioMR6u7Q0zhkwmE/f
+	dl24Dgj9a3nhNCDSw2PppmXVZUv2A7ZH9go/fsm7nRksLxVK0Goe3HVuDtUTnBQkLy0ZN4VqRqu
+	4tzB+FUp4575IgFWR/ViLUMveBaWiNM/kd+h1eB2sddjw3r8TcClKCpgDngVlwTCsYsPBX03CzU
+	yXOlrLhJH0sf9QclvcOBAvnBMx78GhBxSZxRTlt0fhgwY/zTyoMZwkSKNfGGRAH44u7TGYpOruG
+	lkogHxn0YnPpWPA3NIOq9yf3wzR7uVilmV31867GTKewa8AbpXdUJUquBE81gMOA6JJrYsiJtqf
+	nn3Z
+X-Received: by 2002:a17:902:cf4b:b0:2cf:ba10:6d6 with SMTP id d9443c01a7336-2d035bedd89mr18879235ad.4.1785405285918;
+        Thu, 30 Jul 2026 02:54:45 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022c2dfb1sm23982345ad.72.2026.07.30.02.54.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022c2dfb1sm23982345ad.72.2026.07.30.02.54.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 02:54:40 -0700 (PDT)
+        Thu, 30 Jul 2026 02:54:45 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Tim Bird <tim.bird@sony.com>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -68,9 +68,9 @@ To: Tim Bird <tim.bird@sony.com>,
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 3/4] ASoC: spear: spdif_in: Move DAI probe callback to snd_soc_dai_ops
-Date: Thu, 30 Jul 2026 16:54:06 +0700
-Message-ID: <20260730095407.33894-4-phucduc.bui@gmail.com>
+Subject: [PATCH 4/4] ASoC: spear: spdif_out: Move DAI probe callback to snd_soc_dai_ops
+Date: Thu, 30 Jul 2026 16:54:07 +0700
+Message-ID: <20260730095407.33894-5-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260730095407.33894-1-phucduc.bui@gmail.com>
 References: <20260730095407.33894-1-phucduc.bui@gmail.com>
@@ -86,32 +86,34 @@ From: bui duc phuc <phucduc.bui@gmail.com>
 
 The .probe callback is no longer part of struct snd_soc_dai_driver
 and is now provided through struct snd_soc_dai_ops.
-Move spdif_in_dai_probe() accordingly so the driver follows the current
+Move spdif_soc_dai_probe() accordingly so the driver follows the current
 ASoC API and builds correctly on modern kernels.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/spear/spdif_in.c | 2 +-
+ sound/soc/spear/spdif_out.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/spear/spdif_in.c b/sound/soc/spear/spdif_in.c
-index d571055bfc6b..dd1e176193af 100644
---- a/sound/soc/spear/spdif_in.c
-+++ b/sound/soc/spear/spdif_in.c
-@@ -150,12 +150,12 @@ static int spdif_in_trigger(struct snd_pcm_substream *substream, int cmd,
+diff --git a/sound/soc/spear/spdif_out.c b/sound/soc/spear/spdif_out.c
+index c06f09c646a8..01dc2cef7448 100644
+--- a/sound/soc/spear/spdif_out.c
++++ b/sound/soc/spear/spdif_out.c
+@@ -249,6 +249,7 @@ static int spdif_soc_dai_probe(struct snd_soc_dai *dai)
+ }
  
- static const struct snd_soc_dai_ops spdif_in_dai_ops = {
- 	.shutdown	= spdif_in_shutdown,
-+	.probe = spdif_in_dai_probe,
- 	.trigger	= spdif_in_trigger,
- 	.hw_params	= spdif_in_hw_params,
+ static const struct snd_soc_dai_ops spdif_out_dai_ops = {
++	.probe = spdif_soc_dai_probe,
+ 	.mute_stream	= spdif_mute,
+ 	.startup	= spdif_out_startup,
+ 	.shutdown	= spdif_out_shutdown,
+@@ -266,7 +267,6 @@ static struct snd_soc_dai_driver spdif_out_dai = {
+ 				 SNDRV_PCM_RATE_192000),
+ 		.formats = SNDRV_PCM_FMTBIT_S16_LE,
+ 	},
+-	.probe = spdif_soc_dai_probe,
+ 	.ops = &spdif_out_dai_ops,
  };
  
- static struct snd_soc_dai_driver spdif_in_dai = {
--	.probe = spdif_in_dai_probe,
- 	.capture = {
- 		.channels_min = 2,
- 		.channels_max = 2,
 -- 
 2.43.0
 
