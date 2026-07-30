@@ -1,50 +1,59 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288C53AFB18;
-	Thu, 30 Jul 2026 12:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F1F3AFB0B
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 12:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785415175; cv=none; b=X7k3CF4UGtfNTm5RUz4Fu27p+f8PoMckWVtz22o4EJW8GYcT+g+3Q6DF0vng9YueUD6IS3GOOztnvU+jjj3dLwtBdYPmmSBgnxvjeU+0f8OpSedN6YyiYSPV9KkCmM8HDUcBKRpPz9rc2gU0P80OTN2EpeJ31pGRnuiX6Y1UdGU=
+	t=1785415868; cv=none; b=jiri/bii33pJGVbAGxfNnymJvExso26HaQ4F/J/0MZKGCp+0eyoThqkxH4v06XW4ZZASUwYURmPkmlX6e5eRm+y0n3dxOSmta/0y38F6CiDDjSRRpOVxL6Yc94WPrVt1s27WEs2BFWIhvZWg0ioAZUvk179I7p2VZn8TAq8ajsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785415175; c=relaxed/simple;
-	bh=aUaPtIN1r+dvdUnqn2gyRkHo+fAz0iq0Jq2UFl0uhlY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=II5LxieZ4MlMlbdpD1/iCHt0Ojl5V9JCoVuYPkXyUwufp5tb+1HivLi4Ns81OqSor0gBX4lrwQg2pV4AoYUcvmJ2J3t7XnPAEu6A+B2yvJFt9m6lo2i71oqHMzFzHNDL8VFQ4tUI8qKtaFRwSncKxRJAKbsXZXBZszeKyPzH384=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b23f51488c1311f1aa26b74ffac11d73-20260730
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:0705a898-5d99-4c31-b4e6-c60b0e6b40b8,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:2e45bc478e4099f4dffc578e46fa6839,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|865|898,TC:nil,Content:0|1
-	5|50,EDM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
-	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b23f51488c1311f1aa26b74ffac11d73-20260730
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 489119193; Thu, 30 Jul 2026 20:39:24 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: broonie@kernel.org
-Cc: cuerdoslinux@proton.me,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH v2] ASoC: amd: yc: Add DMI quirk for HP Victus Laptop 16-e1xxx
-Date: Thu, 30 Jul 2026 20:39:20 +0800
-Message-Id: <20260730123920.104525-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <0a9f07ef-cae2-4344-98be-fd14108c9455@sirena.org.uk>
-References: <0a9f07ef-cae2-4344-98be-fd14108c9455@sirena.org.uk>
+	s=arc-20240116; t=1785415868; c=relaxed/simple;
+	bh=+CznYHuYlpsACqzymZnUgA5sqcpbrlcDGxhAuJ9F1QA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uo8tXqI5VaeBjzSNCQtD1YUfevAZWutSRI/R+IuQTDy+fV/R/khim4bcJ1UWCFGl7bDmzY89J3TVb4DV9tLcMrqLaS/tLU+SsS5LpxYvLtG/V+q2jTu7NyMx2O12lLWrOPYEjEfeYhY4n6SSPJ360KYBTPkPhMBAQEH79c8m0So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MqOcKlLy; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MqOcKlLy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785415862; x=1816951862;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+CznYHuYlpsACqzymZnUgA5sqcpbrlcDGxhAuJ9F1QA=;
+  b=MqOcKlLyM7SjVBPu0sZ95kxqr58jmJJ5PpY9YUFojkAfFUBx2QIsksen
+   uWDXHAS29DVjSWTpWQtwCf9uj9R1oONmBBPgTq0dkhPycT9y3rxOimbMO
+   vJD1AqJ/qUddGfHaYkG/auHsWOyk7fC72usANBhWOpsMf8B1zuU3q+IK+
+   CrjrD5wn4NACxR6+dWKEwMl598H+6ZZqHqsBRH5NtdZKvtIhZEL5BnVDY
+   zIcKRVri3JP7v62OKKHND8xEiBvLqtbsLEdNr8/0CpWXtDmGFclqIGB57
+   BvlcH2Hb12rQjhfLEQKuBEJuIqYY5tE6l97kmkp9FrHw+ltCsGjm/m9yU
+   A==;
+X-CSE-ConnectionGUID: 2W1ajVlETBGSiANMPIrLYA==
+X-CSE-MsgGUID: ZafRWKEzSgSC1e6fbUiHXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="103439259"
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="103439259"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:50:56 -0700
+X-CSE-ConnectionGUID: YfMImIaIQDi4eUxN+IDllw==
+X-CSE-MsgGUID: sdyJ66P4SRCR7bNeXDbing==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="283638666"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.79])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:50:53 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com
+Subject: [PATCH 0/4] ASoC: SOF: Intel: Handle ACE2+ link DMA allocation restrictions
+Date: Thu, 30 Jul 2026 15:51:26 +0300
+Message-ID: <20260730125130.29887-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,39 +62,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add DMI quirk to enable ACP6x sound card for HP Victus by HP Laptop
-16-e1xxx, which fixes microphone not working issue.
+Hi,
 
-Without this quirk, the DMIC on acp6x device is not properly enabled,
-causing the microphone to not work.
+We have seen cases when the delay reporting unexpectedly behaves incorrectly,
+counters are not counting in hardware registers under seemingly random
+conditions.
+It turned out that there are few cases that the driver must handle in order
+to make sure that LLP, PPLC counters are working correctly: 
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=218926
-Link: https://github.com/CuerdOS/linux-kernel-nhs/commit/b29ba27a0ed672664071b4b345e63b62a419d31d
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
-Reported-by: CuerdOS Dev Team <cuerdoslinux@proton.me>
-Signed-off-by: CuerdOS Dev Team <cuerdoslinux@proton.me>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+- non-alt links must not be reset during probe
+- Concurrent (cross-direction) hazard: when SoundWire shares a physical
+  link DMA stream index with HDaudio, iDisp or UAOL across the two
+  directions, the LLP and timestamp values for the affected stream are
+  wrong. SSP and DMIC are not affected because every DMA request from
+  those links carries one sample block.
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 8b6119931a4d..1b03a17f4daa 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -724,6 +724,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "8E35"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Victus by HP Laptop 16-e1xxx"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+- Sequential (playback only) hazard: once a HDaudio or iDisp link has
+  used a playback stream index, that index cannot drive any non
+  HDA/iDisp link in the same direction until the next controller
+  reset (CRST#).
+
+For users the impact was not visible as the link counter issue only affected
+the delay reporting which already have defensive path to filter out
+incorrect delays and the DSP caused delay for normal PCMs are negligible to
+cause A/V sync issues for example.
+
+Regards,
+Peter
+--
+Peter Ujfalusi (4):
+  ASoC: SOF: Intel: hda: Fold mlink enumeration into
+    hda_dsp_ctrl_init_chip()
+  ASoC: SOF: Intel: hda: Keep non-alt mlinks powered at probe on ACE2+
+  ASoC: SOF: Intel: hda: Remove unused hda_bus_ml_put_all()
+  ASoC: SOF: Intel: hda: Avoid ACE2+ link DMA stream allocation hazards
+
+ include/sound/hda-mlink.h         | 23 +++++++++-
+ sound/soc/sof/intel/hda-ctrl.c    | 19 ++++++++
+ sound/soc/sof/intel/hda-dai-ops.c | 76 ++++++++++++++++++++++++++++---
+ sound/soc/sof/intel/hda-dai.c     |  2 +-
+ sound/soc/sof/intel/hda-mlink.c   | 35 ++++++++------
+ sound/soc/sof/intel/hda.c         |  4 --
+ sound/soc/sof/intel/hda.h         | 26 ++++++++++-
+ 7 files changed, 158 insertions(+), 27 deletions(-)
+
 -- 
-2.25.1
+2.55.0
 
