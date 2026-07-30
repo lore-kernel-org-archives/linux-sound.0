@@ -1,153 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587993B2D0F
-	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 11:49:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFF1404BE8;
+	Thu, 30 Jul 2026 11:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785412171; cv=none; b=cSQ0pz3BmRGG9lsfoDacFzf37yoO/bRL5/6l1+NipsFpKNFG821xvtN4FkHKWMbFG2AuIurkxzdn+etH4BR4wUQXfYrfD65JMY4iWKU5vDN30OSxYGoUapwQdyR8nsS6dhF8JMRTGJAlfj/hdSvyWutfJTBLQe5TnWf8XARjcTY=
+	t=1785412569; cv=none; b=J9yvAVSwjz5GI5HijrtSPQhpDlrNXkIgMKD+xwv5AGYjBMY/jqjfyipmPqIiYh20lWH2LJZCOQxxAZKIC3B+1WHx0EmevVEFjc+NWsoVINsoYWEYUM6xYTGbk4hHiZYEwTtSPDlTeni9seoNgNl2Q9Jk7rqOJwXPHLj//54qFF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785412171; c=relaxed/simple;
-	bh=tQgEFoWEDwU1tBV8GE9KKNQIF7LuO7LuSoo9qD8l3jE=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=Vjo+UYGbaCD6Yn3c5V9LNTpkN/dZ+vIMnj0kQkr9kkcI2OCLRu/CYPP2dfzJvVjMSYWEBUsxED/0wzjQs3bx+H5nU4m9lfuIZB5oyh1DVzbBNZW8tYs3eGwfHswrT4veVKi7N0Hepg1Xkyl4/bubPeBPMx4aynDsv241/f3uBb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VozFUVJt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785412569; c=relaxed/simple;
+	bh=pWWaV4L2WQLV8lswXNeL6Djig5CWGG9Ths2HqYhhniU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nEvCflZCEm7FCUUrLOlt0FimDr96cYAUMn44wzMKQ9AQg5XUraEiYiWP3OqSE+ArGhAlcHFUSObiwEk/B8xQVOLL0g1V/cm4zdwTGk3G6fukZe6qaP1dYlt8NwACRP/nyMNPYRmdEaqGN/w9zsRmTTI+RE2X8NKFVF3ZUtFj6/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l2p6XA/2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VozFUVJt"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CED831F000E9;
-	Thu, 30 Jul 2026 11:49:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l2p6XA/2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E2B1F00A3A;
+	Thu, 30 Jul 2026 11:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785412167;
-	bh=6rJUZ55UWvdhuzi08N6I9RHhNArh51Ca6xpsNqxxw+0=;
-	h=From:To:Cc:Subject:Date;
-	b=VozFUVJtmqmyq+LXzx9VarPhPJVkhJc2kf1LDx2lPrntuCGZGzw93WW4HZD69tXrm
-	 a7uVsi2LahNOecnZfHbERVN6WUTrqbFR/E8dwUYKPwdJfV0TTgw+QhMirM5OPN1I49
-	 VYK76ZJKB/DluEXizBfaCJEL40oenHPD5hh+cFYyJOU+NQ25sSw6kQJ+3VGisIcWZn
-	 KD8xyeyUrJASWgxKERHEDB6BQmeByNzENGZEdXsuNGFKIv0NEYvnnGEe6Me5EP0LzR
-	 iFtpEqKoIbd3mCxe8d4WJoC5k/wqThAtl+ToDihd2Bnq97KIw3e+v0Bv8LJvNIh+Hg
-	 l0YWkpuNU23xA==
-Message-ID: <036cc4fbb2a3c0ffc45ac4373f6f5c9e@kernel.org>
+	s=k20260515; t=1785412568;
+	bh=DVZNDGpx2fF7ZIE+o5dbaYPa66WPrFHS8f0qW3kHd9g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l2p6XA/25synrlFjSzD316VNKsb7kaJO8SkX3Y5cHDAbrHDvXEm5UGtWEs9erhrXh
+	 OoCC7USjpo358Ejh65YBkmOjCsqB0bIinSYykaj9E1s1VtFl75uuMq77cCKuUzgDoi
+	 ABWqj5IGeSLd4Itm3/Qovrh/YJLLd609s7futEo2CdZXLbkuzO/Tt125uljqJFuuFC
+	 ajTRIa1Ep+h2KSG72pqOWALd1WAvqfCowrW5OKGbLYdhpjHQHEAhw/lwP4bvt7P9Nm
+	 UAzepT3aTY95lAkROXDbIRi56AJLVA/gAiKQdJ+S53bSltI0QBklQzKBz+16PFXFbf
+	 A/SPPIPlSkIMw==
+Date: Thu, 30 Jul 2026 12:56:03 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.2-rc5
-Date: Thu, 30 Jul 2026 12:49:18 +0100
+To: me@dawidwrobel.com
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ASoC: codecs: lpass-tx-macro: Fix enum kcontrol
+ accesses
+Message-ID: <e9b81e2d-a140-452c-950e-2cf299d7aef7@sirena.org.uk>
+References: <20260730-worktree-lpass-tx-macro-enum-fix-v2-0-6d091c736116@dawidwrobel.com>
+ <20260730-worktree-lpass-tx-macro-enum-fix-v2-1-6d091c736116@dawidwrobel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8KUNt4IWGcLLWBMz"
+Content-Disposition: inline
+In-Reply-To: <20260730-worktree-lpass-tx-macro-enum-fix-v2-1-6d091c736116@dawidwrobel.com>
+X-Cookie: In specially marked packages only.
 
-The following changes since commit f5098b6bae761e346ebcd9da7f95622c04733cff:
 
-  Linux 7.2-rc5 (2026-07-26 14:45:48 -0700)
+--8KUNt4IWGcLLWBMz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-are available in the Git repository at:
+On Thu, Jul 30, 2026 at 12:58:12PM +0200, Dawid Wro=CC=81bel via B4 Relay w=
+rote:
+>   snd-sm8250 sound: control 2:0:0:DEC0 MODE:0: access overflow
+>=20
+> Fixes: c39667ddcfc5 ("ASoC: codecs: lpass-tx-macro: add support for lpass=
+ tx macro")
+> Assisted-by: Claude:claude-fable-5
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dawid Wro=CC=81bel <me@dawidwrobel.com>
+> ---
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc5
+You had tags for this and patch 2 on v1, what happened with them?
 
-for you to fetch changes up to d0ecbedd6a70f2fe768d46de740265dc8a4424e3:
+--8KUNt4IWGcLLWBMz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  ASoC: rt722: reset codec to fix abnormal sound (2026-07-29 23:27:37 +0100)
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-ASoC: Fixes for v7.2
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmprO9IACgkQJNaLcl1U
+h9CXlAf/SohBD6rv7Le3Eto/QfkfWNKUh8iS88MvStNPKfiNUy3+iUFUro9AAyGx
+jGQSJoGPwPAlpGBm0C7RUyZjTlYPJ2LggXnTUC+Vile1oYzfwTvOa3X/FsKsRIJh
+FdNp0z5ZQVFZxnA2GS+qVa6CmHdY8dVCYoPPvAPjlAyGqafPokg9uIb3RWQszG7j
+k3oTm2j7eY23Q9bmuD0RgEeHXfnDMTAnVW8LTBPK08sNhW6+woNsWWFaYA2m43X/
+e90G29wPEq8QnmbtqmampNUVoeMyo8hJ2mT8JuZHAJtstrIZ32Q2lKA+6ycetmsW
++ZAqRr1fa2wt1kmWke4sdjy8/jiTDQ==
+=BFhX
+-----END PGP SIGNATURE-----
 
-This is a relatively large set of updates, the biggest batch of things
-is Charles' fixes for the SDCA code which have been through a number of
-iterations on the list and deal with a bunch of issues that have been
-seen as we get more real world usage of SDCA.  We also have the usual
-device specific fix and quirk traffic that we tend to see, there's a
-small pile of fixes for the tas2562 driver since I saw some bugs while
-reviewing fixes sent by Haidar Lee but it's nothing too remarkable.
-
-----------------------------------------------------------------
-Balamurugan C (1):
-      ASoC: Intel: soc-acpi: Add entry for sof_rt5682 in NVL match table.
-
-Charles Keepax (11):
-      ASoC: SDCA: Correct pointer passed to devm_acpi_table_put
-      ASoC: SDCA: Always free firmware in FDL path
-      ASoC: SDCA: Make UMP message size check more robust
-      ASoC: SDCA: Ensure that Control Range is large enough for header
-      ASoC: SDCA: Rename sdca_irq_allocate() to include devm
-      ASoC: SDCA: Add sdca_irq_cleanup_late()
-      ASoC: SDCA: Remove devm from primary IRQ cleanup
-      ASoC: SDCA: Populate IRQ data earlier
-      ASoC: Add a component fixup_controls callback
-      ASoC: SDCA: Switch to fixup_controls callback for IRQ registration
-      ASoC: SDCA: Move kcontrol search out of IRQ
-
-Fabio Estevam (1):
-      ASoC: dt-bindings: realtek,rt5640: Make interrupts optional
-
-Haidar Lee (2):
-      ASoC: tas2562: fix DVC coefficient write order
-      ASoC: tas2562: fix broken entries in the volume lookup table
-
-Jackie Dong (1):
-      ASoC: amd: acp: Add DMI quirk for Lenovo Legion 7 15ASH11
-
-Jorn Baayen (1):
-      ASoC: amd: yc: Add DMI quirk for Acer Aspire AG14-22P
-
-Mark Brown (8):
-      ASoC: tas2562: fix Digital Volume Control
-      ASoC: tas2562: Validate values for volume writes
-      ASoC: tas2562: Fix event generation for volume control
-      ASoC: tas2562: Fix default digital volume
-      ASoC: tas2562: Volume setting fixes
-      ASoC: fsl: fix m2m_init error path cleanup in fsl_asrc and fsl_easrc
-      ASoC: Series of SDCA bug fixes
-      ASoC: Fix races on creation of SDCA jack detection
-
-Shengjiu Wang (2):
-      ASoC: fsl_asrc: fix m2m_init error path to use goto instead of bare return
-      ASoC: fsl_easrc: fix m2m_init error path to use goto instead of bare return
-
-Shuming Fan (1):
-      ASoC: rt722: reset codec to fix abnormal sound
-
-Surendra Singh Chouhan (1):
-      ASoC: sophgo: return 1 on volume change in cv1800b_adc_volume_set()
-
-Uday Khare (2):
-      ASoC: max98095: fix missing IS_ERR() before PTR_ERR() on mclk lookup
-      ASoC: max98090: fix missing IS_ERR() before PTR_ERR() on mclk lookup
-
-Zhang Heng (1):
-      ASoC: amd: yc: Add DMI quirk for ASUS EXPERTBOOK PM1403CDA
-
-wangdicheng (1):
-      ASoC: tas2781: Use correct calibration data for SINEGAIN2 register
-
-郑鸿源 (1):
-      ASoC: amd: yc: Add MSI Crosshair A16 HX D7WFKG to quirk table
-
- .../devicetree/bindings/sound/realtek,rt5640.yaml  |   1 -
- include/sound/sdca_fdl.h                           |   2 +
- include/sound/sdca_interrupts.h                    |  14 +-
- include/sound/sdca_jack.h                          |   3 +
- include/sound/soc-component.h                      |   2 +
- sound/soc/amd/acp-config.c                         |   7 +
- sound/soc/amd/yc/acp6x-mach.c                      |  22 +++
- sound/soc/codecs/max98090.c                        |   5 +-
- sound/soc/codecs/max98095.c                        |   5 +-
- sound/soc/codecs/rt722-sdca-sdw.c                  |   4 +
- sound/soc/codecs/rt722-sdca.c                      |  14 ++
- sound/soc/codecs/tas2562.c                         |  46 ++++--
- sound/soc/codecs/tas2781-i2c.c                     |   4 +-
- sound/soc/fsl/fsl_asrc.c                           |   2 +-
- sound/soc/fsl/fsl_easrc.c                          |   2 +-
- sound/soc/intel/common/soc-acpi-intel-nvl-match.c  |  13 ++
- sound/soc/sdca/sdca_class.c                        |   4 +-
- sound/soc/sdca/sdca_class_function.c               |   6 +-
- sound/soc/sdca/sdca_device.c                       |   2 +-
- sound/soc/sdca/sdca_fdl.c                          |  18 ++-
- sound/soc/sdca/sdca_functions.c                    |   2 +
- sound/soc/sdca/sdca_interrupts.c                   | 174 ++++++++++++---------
- sound/soc/sdca/sdca_jack.c                         |  88 ++++++-----
- sound/soc/sdca/sdca_ump.c                          |   4 +-
- sound/soc/soc-component.c                          |  10 ++
- sound/soc/soc-core.c                               |   5 +
- sound/soc/sophgo/cv1800b-sound-adc.c               |  10 +-
- 27 files changed, 319 insertions(+), 150 deletions(-)
+--8KUNt4IWGcLLWBMz--
