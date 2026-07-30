@@ -1,122 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E3F401A16;
-	Thu, 30 Jul 2026 10:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3875B401A0A;
+	Thu, 30 Jul 2026 11:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785409110; cv=none; b=l7aD2T+KDZwwYHWMIL1Z90WPd2A/GSOwIbyh3DdoGJgc2PGGtS4O8LyaeGaKSSrosxgDnNc/A/Mmvq7cPYtamDtShVY5ww7nNyK6AAlRvvZNipOSDaPeK/ZURh+WlKvkqxr6m6au8cZ/u+94I813H71Nk6YKMt3kQh3rOq6PZzM=
+	t=1785410051; cv=none; b=SF2q7pjDS5Cosfl9VkhJWYnU3t+DzpcFXP6ge8/8rZQdVYSGpYau+pwDW3pEXvKBemU2C5/Z3EkesTJn3uNzXS9CDNSmyBSSS/sroQJhWchXr6J0v9rkvuD4G4gMbYsPfPse35Xfw/jgsJNBC0zja73pcwBKKuMfBCs9syk9bco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785409110; c=relaxed/simple;
-	bh=iTGKh3qJTv05HwFp4yuRyl+k5oBstsAsKczJ8IdbacE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=REYcwUu3l+ybkI82xnHPMNUwM3XQiltb0zl+TkBW5fD1P7TE50M4KTcr7Op4mfNN57TEI1/DwsM1SVr0ZTaej2DKMCMZRtem2buXHlDFvW8XL5h6nAB4aAJiZLgp4bG4QJ4RF1lYPIZMoPxrUYmC8DDk4cgISkgXEX4LvaOaiPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k8Z/A6m3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785410051; c=relaxed/simple;
+	bh=aDK+j8XJyQ+NxoaiQj1ynGi5u8hm7rE5yDZJUhXEiHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SpTp/wJHsNjjtIaLaN2Zhp2ol52lv4acQCzxke+LGizI3cpvGtoiQr9NQh0TVO+VOveJXWP7LvYF5VluTyx9XDuijnhLrNXZjaoQ2q38QaIJfOt29JUtZh3xHPc2JhVQGuQcC2OllzaibyrNqhu/iBIn523jBzbnb/LxY7DRmEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqwNccvy; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k8Z/A6m3"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6B416C2BCF4;
-	Thu, 30 Jul 2026 10:58:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785409110;
-	bh=iTGKh3qJTv05HwFp4yuRyl+k5oBstsAsKczJ8IdbacE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=k8Z/A6m38tyYStMd2L8r1IG7LMtiy8m04CX8zXV9TPqrAUn/jnlky88mANhtgR7uT
-	 H/b0rqGbh0sEaBqhrz9iqJM3H2s/Tz+Iq4YaMAmhKLidRLnAOjudOePv9QowQCp9rs
-	 4P+aPHICAEmsl+TUrTujZ72btEei7shch9VAeIgdyxYF2m92XL/SAqSzzKq/7FR3aP
-	 1BRdeWze5pLVfs0iOIUmhCxny/8/xvQG4yVKdfgEG+S3ZdSGvUJUZgqYmw/t6I9sN4
-	 P/MFI2BXlIYWWwZdO/8BO3OPzIvzmKlYuIEStyVwnxRZwffV6yeZ6dM4V4G42uqNZy
-	 Y8XaibrwDB0CQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C494C55160;
-	Thu, 30 Jul 2026 10:58:30 +0000 (UTC)
-From: =?utf-8?q?Dawid_Wro=CC=81bel_via_B4_Relay?= <devnull+me.dawidwrobel.com@kernel.org>
-Date: Thu, 30 Jul 2026 12:58:12 +0200
-Subject: [PATCH v2 1/2] ASoC: codecs: lpass-tx-macro: Fix enum kcontrol
- accesses
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqwNccvy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785410050; x=1816946050;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=aDK+j8XJyQ+NxoaiQj1ynGi5u8hm7rE5yDZJUhXEiHM=;
+  b=aqwNccvy0cRTNkCJTdvQEfvj0qAasjCMpRPXt4HoZ2GDZbOIs+yaxjUI
+   A8aI9qw+K8GwtJ+KGfurU2djpakvIzAc95q+bVgpUT3DzbneLD1giVzvH
+   x4ZZeLa5gB1GlmXNMKA4mL2xa/C716aZ3+JXgvEpb8sifLgwDGfhMYMMl
+   iBAQRSVxgrWjGpLUXoVgQPqb4Eez7DqlZ4boUbdXzqpBIYQprbEpNd2pI
+   QTkGfJFtZVTvQnBCki33VQeKjHd1Y+l+sj40cCBoU7tOlHNlo4xvM4M3j
+   LDM63miVAIRwJCBq2c4DJqC8QtwLfqqxvdIKbWBYDCXwDm0ysfIT7f16N
+   A==;
+X-CSE-ConnectionGUID: WjGut+CMRLadnM1MBqW37A==
+X-CSE-MsgGUID: D6Bwed4vSreH0aag7BL7Rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86217412"
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="86217412"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 04:14:10 -0700
+X-CSE-ConnectionGUID: tbnmdVztQ3C8mNA0tNW9xw==
+X-CSE-MsgGUID: gi3GbssISru9tL87yBp+GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="298483030"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.79]) ([10.245.246.79])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 04:14:04 -0700
+Message-ID: <c1ea2842-8c27-4b2c-a0ec-e8d06bd182cd@linux.intel.com>
+Date: Thu, 30 Jul 2026 14:14:41 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/6] ASoC: Use named initializers for
+ platform_device_id arrays
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: James Ogletree <jogletre@opensource.cirrus.com>,
+ Fred Treven <fred.treven@cirrus.com>, Ben Bright <ben.bright@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Maciej Strozek <mstrozek@opensource.cirrus.com>,
+ Mac Chiang <mac.chiang@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Kees Cook <kees@kernel.org>, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1784528081.git.u.kleine-koenig@baylibre.com>
+ <a76e26aa4edb901b4bea684919463b2243dd8d9d.1784528081.git.u.kleine-koenig@baylibre.com>
+Content-Language: en-US
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+In-Reply-To: <a76e26aa4edb901b4bea684919463b2243dd8d9d.1784528081.git.u.kleine-koenig@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260730-worktree-lpass-tx-macro-enum-fix-v2-1-6d091c736116@dawidwrobel.com>
-References: <20260730-worktree-lpass-tx-macro-enum-fix-v2-0-6d091c736116@dawidwrobel.com>
-In-Reply-To: <20260730-worktree-lpass-tx-macro-enum-fix-v2-0-6d091c736116@dawidwrobel.com>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?Dawid_Wro=CC=81bel?= <me@dawidwrobel.com>, stable@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2105; i=me@dawidwrobel.com;
- h=from:subject:message-id;
- bh=n2x7Js4vs9WYUIakIr6jIXsI33SztntSYQRmpHUNyak=;
- b=owGbwMvMwCV2qrTGfeXVd28ZT6slMWRl64VWHfzT8rPTr+lNvK2v17+ak2d3x//hf/9JOdRmx
- +w3a/WjOkpZGMS4GGTFFFn00oL2WAW//P7uxe9wmDmsTCBDGLg4BWAi3+4y/A8v3941p05q9iae
- Lt16zja5yyF33Iv29OgsOLAoe6/grEuMDAvOXvbple8O91ZarKvp9aBNf/o/0SjOF3GZblq+3Oc
- Y+QE=
-X-Developer-Key: i=me@dawidwrobel.com; a=openpgp;
- fpr=B64A778E0E64049A70C831C8B7B81FA12B282A92
-X-Endpoint-Received: by B4 Relay for me@dawidwrobel.com/default with
- auth_id=901
-X-Original-From: =?utf-8?q?Dawid_Wro=CC=81bel?= <me@dawidwrobel.com>
-Reply-To: me@dawidwrobel.com
 
-From: Dawid Wróbel <me@dawidwrobel.com>
 
-The "DEC0 MODE" to "DEC7 MODE" controls are enumerated, but
-tx_macro_dec_mode_get() and tx_macro_dec_mode_put() access their
-value through ucontrol->value.integer.value[0] (a long) instead of
-ucontrol->value.enumerated.item[0] (an unsigned int).
 
-This same pattern was fixed in the sibling drivers by
-commit bcfe5f76cc40 ("ASoC: codecs: rx-macro: fix accessing array
-out of bounds for enum type") and
-commit 0ea5eff7c606 ("ASoC: codecs: va-macro: fix accessing array
-out of bounds for enum type"), but tx-macro was missed.
+On 20/07/2026 09:23, Uwe Kleine-König (The Capable Hub) wrote:
+> Named initializers are better readable and more robust to changes of the
+> struct definition. This robustness is relevant for a planned change to
+> struct platform_device_id replacing .driver_data by an anonymous union.
+> 
+> While touching these arrays unify spacing and usage of commas.
+> 
+> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 
-On 64-bit kernels built with CONFIG_SND_CTL_DEBUG, the elem value
-sanity check catches the 4 bytes written past the enumerated item
-and every read of these controls fails with -EINVAL:
+Reviewed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-  snd-sm8250 sound: control 2:0:0:DEC0 MODE:0: access overflow
-
-Fixes: c39667ddcfc5 ("ASoC: codecs: lpass-tx-macro: add support for lpass tx macro")
-Assisted-by: Claude:claude-fable-5
-Cc: stable@vger.kernel.org
-Signed-off-by: Dawid Wróbel <me@dawidwrobel.com>
----
- sound/soc/codecs/lpass-tx-macro.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
-index f7d168f557dd..0cbf50647ff5 100644
---- a/sound/soc/codecs/lpass-tx-macro.c
-+++ b/sound/soc/codecs/lpass-tx-macro.c
-@@ -1075,7 +1075,7 @@ static int tx_macro_dec_mode_get(struct snd_kcontrol *kcontrol,
- 	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
- 	int path = e->shift_l;
- 
--	ucontrol->value.integer.value[0] = tx->dec_mode[path];
-+	ucontrol->value.enumerated.item[0] = tx->dec_mode[path];
- 
- 	return 0;
- }
-@@ -1084,7 +1084,7 @@ static int tx_macro_dec_mode_put(struct snd_kcontrol *kcontrol,
- 				 struct snd_ctl_elem_value *ucontrol)
- {
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
--	int value = ucontrol->value.integer.value[0];
-+	int value = ucontrol->value.enumerated.item[0];
- 	struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
- 	int path = e->shift_l;
- 	struct tx_macro *tx = snd_soc_component_get_drvdata(component);
+> ---
+>  sound/soc/codecs/cs40l50-codec.c | 4 ++--
+>  sound/soc/codecs/cs42l43.c       | 4 ++--
+>  sound/soc/intel/boards/sof_sdw.c | 4 ++--
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/cs40l50-codec.c b/sound/soc/codecs/cs40l50-codec.c
+> index aa629ef53db4..676367163067 100644
+> --- a/sound/soc/codecs/cs40l50-codec.c
+> +++ b/sound/soc/codecs/cs40l50-codec.c
+> @@ -288,8 +288,8 @@ static int cs40l50_codec_driver_probe(struct platform_device *pdev)
+>  }
+>  
+>  static const struct platform_device_id cs40l50_id[] = {
+> -	{ "cs40l50-codec", },
+> -	{}
+> +	{ .name = "cs40l50-codec" },
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(platform, cs40l50_id);
+>  
+> diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+> index 47308cd870fb..1b817e1a6ea5 100644
+> --- a/sound/soc/codecs/cs42l43.c
+> +++ b/sound/soc/codecs/cs42l43.c
+> @@ -2935,8 +2935,8 @@ static const struct dev_pm_ops cs42l43_codec_pm_ops = {
+>  };
+>  
+>  static const struct platform_device_id cs42l43_codec_id_table[] = {
+> -	{ "cs42l43-codec", },
+> -	{}
+> +	{ .name = "cs42l43-codec" },
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(platform, cs42l43_codec_id_table);
+>  
+> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+> index 1013e07052a3..346a7b59d8e3 100644
+> --- a/sound/soc/intel/boards/sof_sdw.c
+> +++ b/sound/soc/intel/boards/sof_sdw.c
+> @@ -1542,8 +1542,8 @@ static void mc_remove(struct platform_device *pdev)
+>  }
+>  
+>  static const struct platform_device_id mc_id_table[] = {
+> -	{ "sof_sdw", },
+> -	{}
+> +	{ .name = "sof_sdw" },
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(platform, mc_id_table);
+>  
 
 -- 
-2.55.0
-
+Péter
 
