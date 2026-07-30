@@ -1,94 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097B941228D;
-	Thu, 30 Jul 2026 11:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE1339B4A3
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 11:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785410700; cv=none; b=REcW0XeZ/SHLTASgsr7LwR3ksF2JQJE0wGWOfPgNZZLz2styCUlcnjyRC1h/bjCvGbADug5DRhorcMWYMg/UcrwYNQ+QidMYeXOKehzPo1Ma6okMr6qqmdI4ylp/L9gWzNO1RGrs4WMezL31cl3daDnoBEloo0nxKUdZ0ZdkH8s=
+	t=1785411487; cv=none; b=W36kf1fImjVOW6OUXgs7qUg+zNpi9XJaWfWUi36tpEpoe/H7X0529UWhQG0ibbyXpxqzqVgC+Z0fwC5yVIcy+JjsybLe6bBs9ZhxkAXgSm5r7AfsdkZprCL6CENVE/BkxxXorVZtj2XfZ+Ko88mNIFKxeDeyGbyLb3lsALGXieE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785410700; c=relaxed/simple;
-	bh=ThjFbz2St7jBJklYKS3R8Yu4EDv+ErJLcvkT2uYA13I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MC8Xh0uD61pxK2f8kXhF62YxOJ4nEVuXeexuArufP+AoFkDcn7rrEgcp2pBiNdJc7v9DUZUhi1+xYP9+EWlJhg6uCfdZ0jAmwyoPFuFw7mK0XPpOOhg/sVv9pMdBvU7tjZCqn7WGLu155HO8hLS8aCYYVWXWgCBwhemXFtPOdx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SUhql3J8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785411487; c=relaxed/simple;
+	bh=V7OWRjin0cgiOYtCoB6GXiQjClXbT2S/XjK0Vy8bIHA=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J/dXJZ+5zPdQCIfDFhQAyqki4xrxveu2u+qRn7HP/Y9IhHFqHiH7Z6Zd+YFEzJxpzRsEXZSxeIpX14IQ+m8NrPkB7eu3fEXYnf5LMiEm/TZjkTYV6x3rEOzr9ZNA0+99puloPbmucVhr2auhyHp1JqaZHQKf9odCC/VDAGI5Z5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kl6Wu9rg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SUhql3J8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36C4B1F000E9;
-	Thu, 30 Jul 2026 11:24:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kl6Wu9rg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B9A31F000E9
+	for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 11:38:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785410697;
-	bh=dt+FXGWFIEzgO+ClMjt9YfPcV9DOi/u02A48Tw/3Mm8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=SUhql3J8fBBBn6L607bRdoYzNN2sUdLGdrrWbzt0zntMztCwDk1C0ZP59jtXD+D3K
-	 WZsficsVFKmounEhXIrPy6wg+sZWTEM50/qg+nAvwLlauaTtmhXPLVkzpk7B2zgTcn
-	 a0oxMGcExjCITTPcfoEBQQFfnl8uonfvdV+8VXKfRGRHIF1irDeShaWJYYQnnjw7eI
-	 7QbetxWpWDM4qYHXu8ZHhehvKZHbafTJzRxzizLaGpFKuWmT0xeV4oKNt0PHEyvIOH
-	 PmUnb+WdCpH13DR9SSmZJgSpclKhOPMnt7gxx9YEUZaNei03boeote5eKsRmR2WaHa
-	 kdlnLjn5xNBzA==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260726010519.117805-1-dmitry.torokhov@gmail.com>
-References: <20260726010519.117805-1-dmitry.torokhov@gmail.com>
-Subject: Re: [PATCH 1/7] ASoC: tlv320aic32x4: remove global header with
- platform data
-Message-Id: <178536708832.512962.16989517096972593686.b4-ty@b4>
-Date: Thu, 30 Jul 2026 00:18:08 +0100
+	s=k20260515; t=1785411486;
+	bh=pQ8afElaPZYIadu7W056AAzxSCoB/beP+M9RAOwsZi0=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Kl6Wu9rgUBAxBWaM96E3JtmKCI04Gb4dAUeG3mZc6e9TaMTg8A1l8eGfNBbHpAcHn
+	 U76wJnBBxeugP4PMILlsr4hos7t4c/xjruUw53I9Wi3jTZ9TQZzt+7Ds1KO40gV199
+	 0EIB96Y8AR73Q0GCq3SZeMy6WdTsfEr1Xya6Lh0p877SM2kmMqwYdbZl9zMkHBEgtj
+	 YaLtNGUdgQn3z4N7pqT0JruU3eSuyrqEcTZo399NjEn/f5qfOM9qy/PPeaVdeuRGTL
+	 dFd1knW0A1GBfnf/NvcoQ0MDB3DsuJLUowkJBM7I0vBTIZPQSgdfPva+HBWL7RWqAG
+	 YAxaLNnBWp57g==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5b29599b81cso2481730e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 04:38:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrmrR/55tL5nSk37XtQp74qoBDn3XsQWAXlmCj+ZY5Aw9XhWIMG1uKnecCu4GXxXpBPihZUtAPZOZp6Jw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw70la9UGDyRv7tJlh35vgz3uyeUP5WukfWI1VHWbKmmBLriKsm
+	AQdLNXR1EHw6kLdM+UeBjbcaciUeV0i4gq5PkT1aRJurdsuFjy6+O4po/1IYKFrHfyK41usoZSN
+	qjsAEYWAK22i4LKzJ8MTAoTRQAb7aQUe/jUBVs+wsKQ==
+X-Received: by 2002:a05:6512:6894:20b0:5b0:ceb2:194b with SMTP id
+ 2adb3069b0e04-5b2db36f116mr269174e87.36.1785411484885; Thu, 30 Jul 2026
+ 04:38:04 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 30 Jul 2026 04:38:03 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 30 Jul 2026 04:38:03 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <bb6a9164-6dd2-4d11-a9cd-a2ae7ab43949@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
+References: <20260724141708.2212057-1-prasad.kumpatla@oss.qualcomm.com>
+ <CAMRc=MfU=u7tH2r19H9Ex9uEDAb1V3Fanzi2EuqzB+iohPQkog@mail.gmail.com> <bb6a9164-6dd2-4d11-a9cd-a2ae7ab43949@sirena.org.uk>
+Date: Thu, 30 Jul 2026 04:38:03 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MeQRn6dSZ8KM1VGg_7sqqS7p3XjNXm-ohhU6Jm4hVJvVg@mail.gmail.com>
+X-Gm-Features: AUfX_mw7XKDuIJBUfTFbP1hi1hz1AjkBP2S645XyXXNZE8slKUswvBnRqke5P2w
+Message-ID: <CAMRc=MeQRn6dSZ8KM1VGg_7sqqS7p3XjNXm-ohhU6Jm4hVJvVg@mail.gmail.com>
+Subject: Re: [PATCH v6 0/5] Subject: [PATCH v6 0/7] ASoC: qcom and pinctrl:
+ add LPASS LPR voting and Hawi LPASS LPI support
+To: Mark Brown <broonie@kernel.org>
+Cc: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Bjorn Andersson <andersson@kernel.org>, Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+	Takashi Iwai <tiwai@suse.com>, Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 25 Jul 2026 18:05:11 -0700, Dmitry Torokhov wrote:
-> ASoC: tlv320aic32x4: remove global header with platform data
+On Thu, 30 Jul 2026 02:22:08 +0200, Mark Brown <broonie@kernel.org> said:
+> On Fri, Jul 24, 2026 at 07:32:55AM -0700, Bartosz Golaszewski wrote:
+>> On Fri, 24 Jul 2026 16:17:03 +0200, Prasad Kumpatla
+>
+>> > The intended merge strategy is:
+>
+>> >   1. Merge the dt-bindings patch adding LPASS_HW_LPR_VOTE to
+>> >      qcom,q6dsp-lpass-ports.h.
+>
+>> >   2. After the header update is merged, the remaining ASoC and
+>> >      pinctrl patches may be merged through their respective
+>> >      subsystem trees.
+>
+>> Do you really want to wait an entire additional cycle for a one-liner to first
+>> get upstream? I mean: I don't mind it but it's a weird strategy.
+>
+> I presume the thought is to put it on a shared branch, but that gets
+> problematic if I create that branch because the ASoC driver has
+> dependencies on whatever is in the huge pile of stuff that's already
+> going through ASoC so it'd pull in my entire history.  I suppose I could
+> do the tag, merge it into my branch then apply the ASoC driver?
+>
 
-Applied to
+Sure.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Thanks!
-
-[1/7] ASoC: tlv320aic32x4: remove global header with platform data
-      https://git.kernel.org/broonie/sound/c/3906ea776a08
-[2/7] ASoC: tlv320aic32x4: do not allocate gpio config separately
-      https://git.kernel.org/broonie/sound/c/5143ae134636
-[3/7] ASoC: tlv320aic32x4: consolidate programming functions
-      https://git.kernel.org/broonie/sound/c/4ef61518b03d
-[4/7] ASoC: tlv320aic32x4: move regmap_config into i2c and spi drivers
-      https://git.kernel.org/broonie/sound/c/2ba6a4dba620
-[5/7] ASoC: tlv320aic32x4: do not make clocks bulk data static
-      https://git.kernel.org/broonie/sound/c/dfefa7dc25ee
-[6/7] ASoC: tlv320aic32x4: factor out rate configuration helper
-      https://git.kernel.org/broonie/sound/c/e86ba7c5f24f
-[7/7] ASoC: tlv320aic32x4: clean up driver code formatting and logging
-      https://git.kernel.org/broonie/sound/c/c3ac0aa6c310
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Bartosz
