@@ -1,46 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EA51917FB;
-	Fri, 31 Jul 2026 23:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB363CCFCC;
+	Fri, 31 Jul 2026 23:15:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785539700; cv=none; b=C1y4gRU/cNUCXmjbUwASmsxlQcz41Houc3Oo6fmHMVxX0RGT2bHYrPEsrYlXlf9y1si5i1Mr2PVC0DOPSs6iYzG/vIAWmpRij57vWpsdDgSEVAWmHawwCcT6pMJDdXTQx0amhSx1aHOT6BOeDq3o/WzfYkCtLaDv9vw+69gqPUM=
+	t=1785539733; cv=none; b=mRb4k3u+quRsKWhF+qWCHFqmi43kYgCcn9ydOp3g24PKCSauKPWOn475/zCbYFtxYWwamuT9OhIiuAfWND8ckji0J3qaB39rVBsA/RlIniVqDU8AtGoH0WUm3rPCnz26KIf7BfZQebAabMxfSC2ZApxMzKnDVyPFI1rv+jFx0Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785539700; c=relaxed/simple;
-	bh=MDfZ9qBtboCe6lN9z8woFOBItAhGdfquNHFSHAT2NIw=;
+	s=arc-20240116; t=1785539733; c=relaxed/simple;
+	bh=TSMZEaEBC5bAbFnGz3ZldPgNXjB4NwPWqqi+5A4czZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DV2B0sTE9LEsYkUTtTYbOg5JEL0uFuHMktA3Vmo/1ySrgSl3fdnGSQdSRq9GMCplmMSMZs2tkrIQq6UpX/1Np8PXrtndwvFQaLYdY1oMkVgAJ3u4mBOC81l9Det80pbzgPpR5XKMSp/FY31cgDoDEFqT0NpHyEaLAlJRBLw5Jys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5zXUbes; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4ZBLtLZgbQm0VcufrRdahY2qOF4jyH1D1NZ8vw7k/n0QElNMETTkMX7DeC4GxUkME/RY4S3RYkC5eKvNfwipQsjlv4ALStnYbaes1wdZ2HCowY9pnyf8r8g52InStiON8nyqXC3H1QWVdsOI4gbx5dLW3DG429b9D+KW+BfICI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cIdxCJOW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5zXUbes"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7EF1F00AC4;
-	Fri, 31 Jul 2026 23:14:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cIdxCJOW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA441F00AC4;
+	Fri, 31 Jul 2026 23:15:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785539698;
-	bh=MDfZ9qBtboCe6lN9z8woFOBItAhGdfquNHFSHAT2NIw=;
+	s=k20260515; t=1785539732;
+	bh=TSMZEaEBC5bAbFnGz3ZldPgNXjB4NwPWqqi+5A4czZo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T5zXUbes6xTSwuN3uIncauszleI25G1WCGpBrzjZxiXz3yKCdwHZNN8oDjVD3dqRG
-	 aVhYl1nvtgP7AGZT0NIcrmHkMCMzXXQXbi4k2J928Ztc13hsuIUv/4SIqbg9eb+l4B
-	 cA/GjFzl/tk5IwrDu1RhS4VxzniYfrfhnTTK2lJpawXAIG84f33Nr9uEdJ327u7xrv
-	 9lwZTLvQUql7Dibwk/ima27ZZxIBPzdsEtfDFuV6Bie3KCbC7tf/a1tG9vWCjzVgtw
-	 TDDJQaICrXIPXCZN+76BbQ0+QWAKEEUL5STHgn+zWvH33WM2bVLVvx5Oq1odLrI6U9
-	 vJExFfAsLgx9Q==
-Date: Sat, 1 Aug 2026 00:14:54 +0100
+	b=cIdxCJOWW/3nnVP5HfncHyLhAfDLn1s7aAhAkW1sDONrcsTsiOJYglaTHdKnD3pD/
+	 TtEUMgxVRn6PVHCWufFzjOD2gVovir5O/i//NK+aHS8BjqoCKcnVvlwYjECvZ9cqjx
+	 eONUh/jJgjFYQ4znI/5i8KoYfbfMbAkX6/H6bFwqPwKMaMblQN5zzTG0Yj41x1NWVL
+	 7SlFSKnsbLWEu4U44z77vLZN41R8flmDwOesFPqYQDEjlE6CeFmasF6qtMfHOk3QDM
+	 nSiba6sVNPwxUWcY/2sYb9nFYoVxQEoHpmIxJSi6fg3Ap8qThC3tG7Si3+9DYoIJ+n
+	 qTWTB0rCUWf7A==
+Date: Sat, 1 Aug 2026 00:15:28 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
 Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Add MDSP carveout memory-region support for Q6 APM
- on Shikra
-Message-ID: <97cab297-ef92-48dd-8331-71aac0b51538@sirena.org.uk>
-References: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] ASoC: qcom: q6apm-dai: add carveout SCM assignment
+ for mDSP buffers
+Message-ID: <f83d3fd5-6f15-49f2-952b-17697d56749a@sirena.org.uk>
+References: <20260618112810.2009847-1-ajay.nandam@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,26 +45,27 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x42DWl2VUrKQeSc1"
+	protocol="application/pgp-signature"; boundary="lBx69BHZi+IpUCDM"
 Content-Disposition: inline
-In-Reply-To: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
+In-Reply-To: <20260618112810.2009847-1-ajay.nandam@oss.qualcomm.com>
 X-Cookie: No shirt, no shoes, no service.
 
 
---x42DWl2VUrKQeSc1
+--lBx69BHZi+IpUCDM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Jun 18, 2026 at 05:05:07PM +0530, Ajay Kumar Nandam wrote:
-> Unlike most Qualcomm targets where audio runs on the ADSP, the Shikra
-> target runs its audio use cases on the MDSP. The MDSP operates in an S2
-> (stage-2) protected/secured memory context, so any buffer shared with
-> it must reside in a dedicated carveout that is SCM-assigned to the
-> MDSP's VMID before use. Without this assignment the MDSP cannot access
-> the buffers and APM communication between APSS and MDSP fails.
+On Thu, Jun 18, 2026 at 04:58:10PM +0530, Ajay Kumar Nandam wrote:
+> On targets like Shikra where audio processing runs on the mDSP
+> (modem DSP) instead of the ADSP, the DSP operates with stage-2
+> secured memory. Unlike ADSP platforms where SMMU-mapped system RAM
+> is directly accessible, mDSP cannot access buffers unless they are
+> explicitly SCM-assigned to the appropriate VMIDs. This requires
+> allocating PCM DMA buffers from reserved carveout regions and
+> performing SCM assignment to grant both HLOS and the mDSP shared
+> RW access.
 
 > Depends-on: https://lore.kernel.org/all/20260609064038.492641-1-ajay.nandam@oss.qualcomm.com/
-> Depends-on: https://lore.kernel.org/all/20260618112810.2009847-1-ajay.nandam@oss.qualcomm.com/
 
 Please resend when the dependencies have been applied, I'm spending far
 too much time repeatedly checking if any of these things can be applied.
@@ -79,19 +77,19 @@ I do frequently catch up on my mail on flights or while otherwise
 travelling so this is even more pressing for me than just being about
 making things a bit easier to read.
 
---x42DWl2VUrKQeSc1
+--lBx69BHZi+IpUCDM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptLG0ACgkQJNaLcl1U
-h9A3ogf8DQXX93sqkg38MBJw6oQNaYAgMMOmOedxMSBOQec841kbNJ+wgNC/v1IS
-6r6ZSOTsD0JoKfpzB0r42dGCucGnKtY428tWtvQusQjG7nik52dzTIkZ+0/oJjbV
-SsRGAUwfSdDmUH5bBEIh0zPRjsHagPQjh4+1WjJNCqpGiNjrgHN8Xy7OIqPxXVQC
-GGpztK8xroqvUmWPmAG4si3jaao6yx3Gy4vkbYnPqxOdgRxcYEmTes6yC05ay5mk
-n6I2N9L4q6LtakpLsxE+b01QYlnv7UAz128M83LShj41UR1YPNB2A2Mst+OiKQ/o
-iSzg+ivDPZ31r+o8gicM5YENQwVE0A==
-=gT9z
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptLI8ACgkQJNaLcl1U
+h9DbWQf+PfnOx+NXnBboLetKS1FHu6DzJpcWlXdmhhopcpg6ij6/T9W5YhskISs3
+xeQC4qVSRSZKvjUai85dx1AKYjR8SuVog4gMKk6yZqnH4dJhUOpQ1Hb+JWS46MFD
+cISrWVjaqn73ipfEloUMIv50Km6dDu0GVYzK0DuYtZoX08YYW8Nbx3buhEcc/ymn
+npFvRpMNzCm56yDyUj3lAWHVoynfP8SAUVSOoZzeFDNx+iyAXd++xzVErWWoFWXu
+/n2yca9WjFleSIYyTzq5+QcxbL1ZcNRGCy8uQpXng3tB0GiMNR2SXdpEtgISFd4S
+hrPwjjqdXikHrNmSir+x3BaLt1Dj1A==
+=r/72
 -----END PGP SIGNATURE-----
 
---x42DWl2VUrKQeSc1--
+--lBx69BHZi+IpUCDM--
