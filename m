@@ -1,95 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB363CCFCC;
-	Fri, 31 Jul 2026 23:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333BB3612CF;
+	Fri, 31 Jul 2026 23:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785539733; cv=none; b=mRb4k3u+quRsKWhF+qWCHFqmi43kYgCcn9ydOp3g24PKCSauKPWOn475/zCbYFtxYWwamuT9OhIiuAfWND8ckji0J3qaB39rVBsA/RlIniVqDU8AtGoH0WUm3rPCnz26KIf7BfZQebAabMxfSC2ZApxMzKnDVyPFI1rv+jFx0Xs=
+	t=1785539907; cv=none; b=kuoj+PXXl/WZ57AAfFnJMYM+Awn8cOIGmXgXHo2W/MF3i9Vq2EtNRMHbj3Q9Ql7ApkiBzGDhG1vAOE3olv2Y2OZcNGtMfK1sSUOujJg39MM+XA49s8HgXxqpdwqxdLC79GYaD0T+EL5kIIaEpZwiW+Do75xPaQWV17e5JPOhGAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785539733; c=relaxed/simple;
-	bh=TSMZEaEBC5bAbFnGz3ZldPgNXjB4NwPWqqi+5A4czZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b4ZBLtLZgbQm0VcufrRdahY2qOF4jyH1D1NZ8vw7k/n0QElNMETTkMX7DeC4GxUkME/RY4S3RYkC5eKvNfwipQsjlv4ALStnYbaes1wdZ2HCowY9pnyf8r8g52InStiON8nyqXC3H1QWVdsOI4gbx5dLW3DG429b9D+KW+BfICI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cIdxCJOW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785539907; c=relaxed/simple;
+	bh=WxcKp3uO9lWh1lfVnj7LgT/9DA9Xq2kbR05HkDQHduo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=YZSFWlvP+F9XNJmdfYbGLbLEbvmp5XbjmS+M8oIjgcsOKAHyBR9kukB+Poz9/2D8sLgnhWqs+Pbt369wxhgE1iiEB2KyyZxXCGGMBRnRTkzLob2sdoplKcjfa8Xf6oXr1rDBuR2ztvgfDCXGWnzxZsHT07mir8ih5ztIizNL9ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YTIENEGN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cIdxCJOW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA441F00AC4;
-	Fri, 31 Jul 2026 23:15:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YTIENEGN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C8001F00AC4;
+	Fri, 31 Jul 2026 23:18:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785539732;
-	bh=TSMZEaEBC5bAbFnGz3ZldPgNXjB4NwPWqqi+5A4czZo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cIdxCJOWW/3nnVP5HfncHyLhAfDLn1s7aAhAkW1sDONrcsTsiOJYglaTHdKnD3pD/
-	 TtEUMgxVRn6PVHCWufFzjOD2gVovir5O/i//NK+aHS8BjqoCKcnVvlwYjECvZ9cqjx
-	 eONUh/jJgjFYQ4znI/5i8KoYfbfMbAkX6/H6bFwqPwKMaMblQN5zzTG0Yj41x1NWVL
-	 7SlFSKnsbLWEu4U44z77vLZN41R8flmDwOesFPqYQDEjlE6CeFmasF6qtMfHOk3QDM
-	 nSiba6sVNPwxUWcY/2sYb9nFYoVxQEoHpmIxJSi6fg3Ap8qThC3tG7Si3+9DYoIJ+n
-	 qTWTB0rCUWf7A==
-Date: Sat, 1 Aug 2026 00:15:28 +0100
+	s=k20260515; t=1785539905;
+	bh=2RILj0IYUJa4ReyU1U1yVJZmRq9nY72PSBjjNu2f8yA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=YTIENEGNWgb7oK29WWMqexesLXRBQGu8jgMHoqB3SLiQi8TXJ3KgWsSTNnZXg7mIw
+	 pCENsziD0xUA53UqvKja4KLBLmQ/AXKr9DVzHD63oNqwlFnRpTEyknRhD2QEBzGShO
+	 22X029asmiblrDutkBEBv/GhNnFWxB+ohAn/OF56QXxJKYPXBf+QMl3j4tx6zF+ko0
+	 bg9yS0Gtf0fcwGWBbaGuYFMzhFNvakOmzNk3GB8s66HfnBDnXq3K72wzrce4k7/gef
+	 anJHwp07Nip78XUyJqz7Ap8nFvwWRhFOhHUSC8PL1Xgwv2r2GyA+tTK40pO+P84MwI
+	 fiDFIhygMeazw==
 From: Mark Brown <broonie@kernel.org>
-To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] ASoC: qcom: q6apm-dai: add carveout SCM assignment
- for mDSP buffers
-Message-ID: <f83d3fd5-6f15-49f2-952b-17697d56749a@sirena.org.uk>
-References: <20260618112810.2009847-1-ajay.nandam@oss.qualcomm.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20260730130602.3747053-1-ckeepax@opensource.cirrus.com>
+References: <20260730130602.3747053-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: SDCA: Add missing stub for sdca_fdl_free_state()
+Message-Id: <178551584062.353541.8191460147730240670.b4-ty@b4>
+Date: Fri, 31 Jul 2026 17:37:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lBx69BHZi+IpUCDM"
-Content-Disposition: inline
-In-Reply-To: <20260618112810.2009847-1-ajay.nandam@oss.qualcomm.com>
-X-Cookie: No shirt, no shoes, no service.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1128; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=WxcKp3uO9lWh1lfVnj7LgT/9DA9Xq2kbR05HkDQHduo=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqbS0/kIwx1Azn/OJlZK9DF0T8xMOv36yhxCwEd
+ 7XIul1sifeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCam0tPwAKCRAk1otyXVSH
+ 0MSSB/9rk8Sr0HZD91/CKwGTkvapPd7gLIq8mGpZ2z8MFhISGaGydG0MPIgc0VHaX26jrEd6Zje
+ oYTYDu8c8FO3wqEb+KFr4sHuyZZZ5fqHoeFMx8NZjSe/e5aNXpjwrVXLe0OafcYS/9RMRFi/so6
+ CHj7Y0Pux2GmedDEGM0p7hFrlrt318wIiYoPrxORxfqNXxa6y44pzclI0oDSUHJqZGMCzkt8QQK
+ TPu517jI7T9po6/Ek+aT237jaGg6ExUQwFBo/VvQYvifWKFH+TQasE96OECvBuaOybDhuyX+k5G
+ ApP4h3gK35yyau8jobg2EtGXNwiH3Uk4o+blrvztsRQNkmV1
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 30 Jul 2026 14:06:02 +0100, Charles Keepax wrote:
+> ASoC: SDCA: Add missing stub for sdca_fdl_free_state()
 
---lBx69BHZi+IpUCDM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Thu, Jun 18, 2026 at 04:58:10PM +0530, Ajay Kumar Nandam wrote:
-> On targets like Shikra where audio processing runs on the mDSP
-> (modem DSP) instead of the ADSP, the DSP operates with stage-2
-> secured memory. Unlike ADSP platforms where SMMU-mapped system RAM
-> is directly accessible, mDSP cannot access buffers unless they are
-> explicitly SCM-assigned to the appropriate VMIDs. This requires
-> allocating PCM DMA buffers from reserved carveout regions and
-> performing SCM assignment to grant both HLOS and the mDSP shared
-> RW access.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-> Depends-on: https://lore.kernel.org/all/20260609064038.492641-1-ajay.nandam@oss.qualcomm.com/
+Thanks!
 
-Please resend when the dependencies have been applied, I'm spending far
-too much time repeatedly checking if any of these things can be applied.
+[1/1] ASoC: SDCA: Add missing stub for sdca_fdl_free_state()
+      https://git.kernel.org/broonie/sound/c/f6970d8535a9
 
-Please include human readable descriptions of things like commits and
-issues being discussed in e-mail in your mails, this makes them much
-easier for humans to read especially when they have no internet access.
-I do frequently catch up on my mail on flights or while otherwise
-travelling so this is even more pressing for me than just being about
-making things a bit easier to read.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---lBx69BHZi+IpUCDM
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptLI8ACgkQJNaLcl1U
-h9DbWQf+PfnOx+NXnBboLetKS1FHu6DzJpcWlXdmhhopcpg6ij6/T9W5YhskISs3
-xeQC4qVSRSZKvjUai85dx1AKYjR8SuVog4gMKk6yZqnH4dJhUOpQ1Hb+JWS46MFD
-cISrWVjaqn73ipfEloUMIv50Km6dDu0GVYzK0DuYtZoX08YYW8Nbx3buhEcc/ymn
-npFvRpMNzCm56yDyUj3lAWHVoynfP8SAUVSOoZzeFDNx+iyAXd++xzVErWWoFWXu
-/n2yca9WjFleSIYyTzq5+QcxbL1ZcNRGCy8uQpXng3tB0GiMNR2SXdpEtgISFd4S
-hrPwjjqdXikHrNmSir+x3BaLt1Dj1A==
-=r/72
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---lBx69BHZi+IpUCDM--
+Thanks,
+Mark
+
