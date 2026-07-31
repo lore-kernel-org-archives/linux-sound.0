@@ -1,122 +1,112 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF1E41A50A
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 12:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B063D5C2A;
+	Fri, 31 Jul 2026 12:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785500416; cv=none; b=JlMya+obMZq9Bn4aDJXsLWFWgAeXmODHnmsdfaUlfAfd9O3feO/AeBizZOq6oAOuey+yCcWqFS+TDEDrSohTLxKYwvUykYiI9Ls8L7/AqMIpJKlHfqu0AZl5pWYFnoXAv436HriNZiTcF4pMKEii+2dn6yZhNWwzz4rQL7R+33k=
+	t=1785500973; cv=none; b=X+p1rykTg2/38Xuq6a0d615hpC4wE6MTdTAz0V6l0rWFlSaK8mYxJoPrWXkRw3AmkSQsZ5iTgfOdDo91jPnmUFfG11bo+PpvTQE4GRvTCH4IoarShy0BLTf020QQ7RRgEXTxSHTo7abs5fjHC6sN405whHPpg6O5bRfwFXRED4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785500416; c=relaxed/simple;
-	bh=7HfCg0dTq+0MusMuc1cIC67rJQtjUQ7T2vpANkjH6OM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rBBfSnxANjWhy6TOlohQPeRGWMs/07+UrI3oPlj2rwdHPlUf6WtcdMffoiYi0Njojidiyr+fU50p0FO7TOkPCAgHXNmhRkgXlRl//tvsJ0FdYDt0E4YY5WRKYU45j9q1mzmiHqtfxF2Mty3CUxLMiIQcanV1H1uUzq+kw44n7Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pMuRz6IC; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785500973; c=relaxed/simple;
+	bh=fcTNybD60hHHX2uRQ0TiAaWsqkVT5xGWvUUpxuHYEJ4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qQXe+vJOLCpsIvsRDSxn0v7SYUXHjbFXd+FPWkz/EK8xba2nXzrWWsiw50Bz8sgt7a2lPVrK0m2S7ry2nc6YXJmwg/ImhVuNWXgYcpndH0Owl1BCT3k8oFzAgYEUyN/VkwM/cgUi4U8LM+dzvFIk/QCxb40sZ4skHGCiJQ1kBQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JoxRIE4S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pMuRz6IC"
-Message-ID: <d8e791ba-ed68-4c42-8ce6-fecf7af4c699@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785500411;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VlAuk46rfYul/RocxmhwintES2QB3paeSeu9QANKL5g=;
-	b=pMuRz6ICmgaUVb2L3izBwFN06FGbPYCV74BUUrFHF4mprgbrT587MhiDhdXdjDZ0nBW345
-	Oa+WP2c27VOZjhU0Ruiwv6jvrUKHR22wjZNu7TsKmTlSSYMbqfhNFntzPvKmGyqery6rOS
-	2Q/hOkXeLYQlbWRFZpnAJg0o7GRsJdo=
-Date: Fri, 31 Jul 2026 14:19:55 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JoxRIE4S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CB51F000E9;
+	Fri, 31 Jul 2026 12:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785500971;
+	bh=eT8FQf3PxqRsPOImv7z6foKRzZimedLgLDX/bPt86xg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=JoxRIE4S93zPVijJCmh1VAJ9CjnVZAs5nMdR8opOwLR8T+kuHPIApxaOZOeYRJPEG
+	 KlPH4zY4WRM8qCQ8VtkOG6r9QiJhttABLgRgf4kX0Rep6BFCc/XYsgSYFvfnORG74N
+	 hhDOkR/ZJGKAYVWhQ82tOZeu1VLg3q1Q5sjlRzfIY0NUSMgLzqA4LUTQzjoZWKahJE
+	 thDM5i0FqwAY+2NLnEPBPlhS5wfFnp0hLElfqklFLhLqvde7fIMLCd6jGzJnTFRuSB
+	 FJnJdpEo95GHQlEHMpB5jSyBZ5KGN9PQbe46ZZ/2K6YkkruCiuxqdWg1pPbvO/3RXB
+	 iswMN1ZEzclig==
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: kancy2333@outlook.com, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, 
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260728-topic-sm8650-ayaneo-pocket-s2-wsa2-fix-v3-0-b29f44720178@linaro.org>
+References: <20260728-topic-sm8650-ayaneo-pocket-s2-wsa2-fix-v3-0-b29f44720178@linaro.org>
+Subject: Re: [PATCH v3 0/3] ASoC: qcom: audioreach: support WSA speakers
+ only on WSA2
+Message-Id: <178550094533.136247.8108653420741029312.b4-ty@b4>
+Date: Fri, 31 Jul 2026 13:29:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ASoC: SOF: Use high-priority workqueue for PCM period
- elapsed
-To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- lgirdwood@gmail.com, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
- yung-chuan.liao@linux.intel.com, yuhsuan@google.com
-References: <20260730130445.8277-1-peter.ujfalusi@linux.intel.com>
- <c1ed5264-9a03-4436-b17c-8c1f59289b5e@linux.dev>
- <f51125d2-b961-4224-81d0-86e622c00ace@linux.intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <f51125d2-b961-4224-81d0-86e622c00ace@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1729; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=fcTNybD60hHHX2uRQ0TiAaWsqkVT5xGWvUUpxuHYEJ4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqbJUn0uttozTmqjmRUjYG2vVApeHToC71qSqDm
+ hqZWSKskI2JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCamyVJwAKCRAk1otyXVSH
+ 0NBkB/9Dd9EHUC0zJ25vNdFv/cUap6IUkcnmHyodT5qtb7blF4iKzk7iR4lNhEbPtKCskYixxfe
+ cRd0UWU2ddLDs9g/t1y8Ljm25RdVl3cxOVJMGGydOaSqrupb4VsmSTk3GVdPU6kxAPSbb3+2JYd
+ WUCyCXa3GznspNNR5BUXLcF76JC0NVgAuWueXs1X61wAvEylMytUnarSeFLm+ruGTPvesA0k5cF
+ 4ZJdX+vuApOt9cPL9aYQCcEzIJPjR/P9NZt/Z2eAw4hoV9r8eLDema+gGEyYuinteJRH6v0PjIc
+ pmtB+GzRSOcIuty/0EtcTLreVkNO3NTpQkMlCA4VBlsHCW2Z
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 7/31/26 11:31, Péter Ujfalusi wrote:
+On Tue, 28 Jul 2026 10:46:42 +0200, Neil Armstrong wrote:
+> ASoC: qcom: audioreach: support WSA speakers only on WSA2
 > 
+> The Qualcom SM8650 based Ayaneo Pocket S2 gaming device has a set
+> of 2 WSA speakers connected on the WSA2 lines.
 > 
-> On 31/07/2026 12:20, Pierre-Louis Bossart wrote:
->> On 7/30/26 15:04, Peter Ujfalusi wrote:
->>> From: Yu-Hsuan Hsu <yuhsuan@google.com>
->>>
->>> The snd_sof_pcm_period_elapsed function currently schedules work on the
->>> system-wide workqueue. This can lead to potential delays or jitter in
->>> audio processing if the system workqueue is busy with other tasks.
->>>
->>> To improve real-time performance and ensure timely processing of PCM
->>> periods, we can use the system_highpri_wq instead of the default work
->>> queue.
->>>
->>> In performance testing, this change significantly reduced the observed
->>> scheduling delays. For instance, under load(stressapptest -M 15000 -m
->>> 60), the maximum delay dropped from 9ms on the system workqueue to 5ms
->>> on the dedicated high-priority workqueue.
->>>
->>> Suggested-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
->>> Signed-off-by: Yu-Hsuan Hsu <yuhsuan@google.com>
->>> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
->>> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
->>> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
->>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
->>
->> Sounds good but should this higher priority queue be used for other
->> things as well?
->>
->> e.g.
->>
->> period-elapsed for compressed streams:
->> schedule_work(&spcm->stream[cstream->direction].period_elapsed_work);
->>
->> and the SoundWire interrupt handling with additional workqueues:
->> schedule_work(&amd_manager->amd_sdw_irq_thread);
->> schedule_work(&amd_manager->amd_sdw_work);
->> schedule_work(&cdns->work);
+> But the Audioreach DSP only handles WSA2 in pair with the WSA
+> interface by using the upper bits of the active_channels_mask
+> for WSA2 and the lower bits for WSA:
 > 
-> we also have:
-> sound/soc/sof/core.c:           schedule_work(&sdev->probe_work);
-> sound/soc/sof/intel/ptl.c:      schedule_work(&hdev->mic_privacy.work);
-> 
->> Not sure what the rules are to define what's high-priority and what's
->> not... It could be that different systems have different requirements...
-> 
-> I think the 'rule' is that what is time critical and what can tolerate a
-> bit of a delay. The PCM period is time critical while the others are not
-> that much, that includes the compress elapsed, it is not that real-time
-> as the PCM.
-> 
-> But fair point, I will check if anything else would needs to be higher
-> priority than what they are.
+> [...]
 
-My point is that this change isn't bad in itself, but maybe some systems
-don't care and have other subsystems (graphics, networking, etc) that
-should be given preferred access to the high-priority queue.
+Applied to
 
-Same for the SoundWire workqueues, one could argue that the command
-protocol overhead is significant for all the device initialization and
-firmware download. Using the higher priority queue could reduce the
-initial 'cold latency' for interactive sounds in a busy system.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Going back to the PCM stuff, the period_elapsed stuff is also not that
-relevant with timer-based scheduling which relies on snd_pcm_delay().
+Thanks!
 
-Could it be that the level of priority should be configurable (Kconfig,
-sysfs, kernel parameter) to let distros pick what they need?
+[1/3] ASoC: qcom: audioreach: compute active channel maps from channel_map
+      https://git.kernel.org/broonie/misc/c/c663014e452d
+[2/3] ASoC: dt-bindings: qcom,sm8250: Add Ayaneo Pocket S2 sound card
+      https://git.kernel.org/broonie/misc/c/b7b0a445ace2
+[3/3] ASoC: qcom: sc8280xp: add Ayaneo Pocket S2 card with special WSA channel mapping
+      https://git.kernel.org/broonie/misc/c/968d38918ae8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
