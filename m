@@ -1,65 +1,65 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E59345CCA
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD98345EAB
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785467447; cv=none; b=WM/APz/BbbJfxHP7TIDt71KELBB2Sgyj8Ggcax4K1hl9PEMLOmiCbu+Y3zq1yAX3dSpH+gGl+u8diDPN5E8OB0fXjqNtc7ngh8gVQcF2CuDZeo5KSTi6zMZRraK6EJZeLBh9Nl6A9GTtowPW7MF4Dl2JfM2lNW24S3eLiVJl+8Q=
+	t=1785467456; cv=none; b=ilX68byQMF6Yb1vbZF4ERa+WygRUu2zB2Z+b63lA22g36S2SiZOftgnQH+3qzh/l3ODQKAJBJcJNywPIzqwpEP65RgsrAFEzzDGwz0Y/TEDPmTyQg0rk7GlEOphmRCHDT1lWNcpN1Jk9Y0N9XhBKxp2a6j7ZV9e/Sd6a0tryaNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785467447; c=relaxed/simple;
-	bh=4P3qOSBkZIQJD0dP/avNyHuYesAgPsaLhYxvXxAmErk=;
+	s=arc-20240116; t=1785467456; c=relaxed/simple;
+	bh=nZGVKfdU4GqxPhxmWCUGDD6Nc/KNfAjP7JAS+KPicHo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QwmJPrMuhYeSSw68pin/deD0hBadM8SoZseNfef2sn18EUShMA5GAUAmPFcjDiwyeiNY9vva1YSRO+8kqlRaIYwY81gxtI2fdqQhgC9WiSGo9So1dibqOSaPYpBTCmEJMB6kNoc9mfpt1MAG0tmaBqIcYe0lAkDdgRDw8i5W148=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UEUeqjqe; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=M9YJe2IO/hIKUVRJ54Yu2AN+VsZpQ0to85KcXwmyA2YmRqDupgc5OtYdRAqSL4TxgX6IPzIHqLzM3kbjr5zk6NfJOeYEyRrFCmGmWGr3tBVcP1juk+5SHr2llwDonslqOug6hNaYbRqPZuG0vz8GGqG6GDXuTeuySWLrboWwLas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BT96qPxW; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UEUeqjqe"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ce7d2adef4so6803355ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:10:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BT96qPxW"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cfbbdfa60bso4108965ad.3
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:10:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785467445; x=1786072245; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785467454; x=1786072254; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HMaTaVppxtdBT/aFQQkrTJ9dhpXa6DmRNwQ/jLrNZ78=;
-        b=UEUeqjqeXQUePY1R48GiQWWFHa1cm3YdDrSuozkPPZzj/viQ/DYhN40IZ5LFEEVQ+U
-         MbncjIWrcJFWdG6c7UiKvE3bwNlJx7vWKvkAzrJe2zYE03Hc4xvPc3HHv1S+TFOIHXvK
-         Op31P1qNFc0NQSFkVRIVPI35WY39VKFxemfDx4hF1Z6fkn1hT+xITrA94wHUdKSwh3Ov
-         haQbCIdWalHFtnjAx+pwfIV4N5lF/aLcImFhamU0DHv/KAg4mhnPBXh5PSNS8O6dTTqE
-         wJcgR3rkRxX+nyDi+mHefC0mzmZ/kWm2qfIRp2FmkvvkuhaUL29jI7l486jZhRyhnFMd
-         4PTQ==
+        bh=2URIyRhsqdkSXLbHXTDfJ+qkOeAaYtVPXldxW4D65fM=;
+        b=BT96qPxW+IMcR1wxh387UjpnJrgMTHKPy73qmBtQW+FtXKHqm/hZzIrqV9RUHaCB1g
+         dllLRsHSPDizKVG249V8xrL+temdtrxBt+YkXf5H0wPiMz3h9BKE4Fs5EG2pQkC0kilI
+         gqY7CdbuuaiCnKljUoeplqnySweGvUMr/e1efSz4IuBiYuwdCnPpOunZu461by2KKePD
+         u+CHiCyBMQDufMvvjVWv33IKvYc/8qbDJkc14zN0126rxC2xF8aKRb1yLbNPElZ4vY8x
+         JdOp0PphW6MFltIy+v7AZzVVei6Zpqrwh0Zdl66LyngbhAfEltCpPdFDlh3YO0vwzOOH
+         Ldig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785467445; x=1786072245;
+        d=1e100.net; s=20251104; t=1785467454; x=1786072254;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HMaTaVppxtdBT/aFQQkrTJ9dhpXa6DmRNwQ/jLrNZ78=;
-        b=qNIhaSWJ5y2QqP3lRgrczPTNCs/NEMU5cZUX1tz9oIQUcmDt1oPgtFv1cyikjP4ueF
-         l/Svot2Csk7zdX5X6XGgcN2M/eqwZRmpZuqGfXAEv6PYHN4iZY25CW/eLA79K2SZ4kAZ
-         G7sYEjyH3GpSBLwIBWQt23vEFajyIOmwGYqCNf7CzGRqRWafmtCdIk9DSTpv35MKoJH5
-         NGN92n86Gfl6yhHHYALcufty7chqUTLejybmz6B+pIBADjvXXOFn9zfLjDkj/MwVp3Nc
-         XVYJDPky+xzjONyaNJTu4fZWeAAOBQtK9eIqXdkbcUJRfLuc9QvSWaW4jDDlgQONHsYJ
-         0pUA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq615AXQN4xv3CW8Mc7d22YBHZREvtNehi1Ajtkre8maT1p3SVxcbECzH3Drzb2dO7qJkaNiLiLIf/17w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAE4Lg0RJlp2OjJ2lXGMOxzImrjZOz6ZslD+LRwHRlDHxwhpzA
-	n3nG9jJY9LrTETLuALkiYqVUZ5TdsjgwQQ8EF2INW6VosAH3wIxoUEUL
-X-Gm-Gg: AR+sD10vZLEEoDfGIAaor3pIh7Dzw4t7zn8XEMryWXAD7d0ufXFIuPQ5MrClVn/zmqX
-	jk9/JA2Wk/k48tLRBhD7IA5MjaX91jrx21ZF+Pi9fNCHj8Ru5A3hxjGWjrfbZ5WvpF5EkmGRzWT
-	WNRAODumU4F+DGxMe9v6YFfPQ6AQxnNY8yyYkFeTwWZKt72DZVORTGmTrMjILyzNaTz1ktfgN7B
-	XOHPpv9W7MYE9TvVStUidIlir3bH9IRax/yjwEpWWbIBciru0l8swcWI30cAAcJ/YdA3JrGDLFi
-	E/amf4WaJS561E+utRTFPZgARwUsiLg/to06J88YhOAIrOj4QghGJ2Tad19eU+XG+yaiOR2Ngwx
-	RlN60ejpKr67PTkbIYcHUw9ysYSf6YkawZQ9zbGkKi3PmHYVeCiOCJ5vFQzQ1htERQVh9+IrSNU
-	+uFyOAsDMcf24TB6Em+1+5+cwVOvRZZgpm99ykcN6LcXoOYToOLbvsN74G975Xj/FuCmuHq5r5A
-	KNsbJ6ZpGvMAZ+z3p2g4DJtuzgUglRWTCLWVB7f2dc5IgT7M8uHxSvxtYZSkOKEiNm+oCe55Bll
-	sqvR
-X-Received: by 2002:a17:902:d491:b0:2cc:77f3:a934 with SMTP id d9443c01a7336-2d046f20b76mr4877715ad.46.1785467444852;
-        Thu, 30 Jul 2026 20:10:44 -0700 (PDT)
+        bh=2URIyRhsqdkSXLbHXTDfJ+qkOeAaYtVPXldxW4D65fM=;
+        b=kKqNIST3Y/YR4+/ZT+pwf1fZlbwQ9agclvYryxMWC4MmE1UPsErNKpFIE/L7bxpAZW
+         ZPIaiog7E7fXvwI2Mx4p9rB271F5fF8zFBQowY+DiWkEdWcA7Nwz6s7dWf7UL4JVaPJn
+         JduIJkaHZXjbTrwY0etFmyiuI9HHbeEpCNo6FMZdIk2U/IbWp9rdOYhLCjtEYmoS9/c3
+         da8//jpsSRW555UOeR0jBUkag7laI474FDcS/Y8MqjZzCjAKsejKDazAMwdmSw76gvMg
+         ybkJ2FYaYJGMaJLJjxOeVJwWljRP6oZehtnjkLwjtgwb3hUPhnXs8qDBTtYwooA+uX1t
+         jRxw==
+X-Forwarded-Encrypted: i=1; AHgh+RoN7sVkTkcGpWfWfTogmt8W/I/h+ZCrMJvb6L4g5xxNb3gwtB7PRs94UAYaGWblmmyTArn/u232pcYXYQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIyAZTnpRE+3W8lWJwcoDMR/cIi1ufy1t2jkszTT0RSaQeUk88
+	MNfpmoKzzillljDEi1lPLx6Gzes1YLm1btEqXTF/ALMGZIU+KDUA2Dkl
+X-Gm-Gg: AR+sD11BMywoJsgBj2BKwa2Xj6yRnsEnHPgFFVgH2AWDOgLvfBOKd/tCRfZKoZLGJW0
+	tnULYqU7gpSRS+fTWOUeL+gdIGPvJypjIyTtp8DGS4GviQkqt+ZMHwdLObayg39SAeJqXxYM1EA
+	VZB9iSyL3lgURA1oUtrTEQaOBMEX6P3EdDL3G+/lS3TDiAl0GehAcTmmgjvO14RuMTPLksPjq3f
+	HI0vfvYevOQXZ0HTEYfjw9dr6qTH2OAlBkkk44onrie8ailxh8Koa4zbltd1TeCJXS2w6hcb10d
+	rgBnqovTHrrIdP7IO+BJjQ5HtLG3HVKPts++sIyVx0ZK6U0yjLB201ZMCLntzA4FbGrY5w8kxl8
+	JFW7ymsIdAJ/0uKd/bqQ4mPyMLQX4XH0ReKMugycC1I8KC0xIGu89z0uH21kGNFLO5aQEbmDPxx
+	kPK6Sbd3CG7WUGNcGseaz8G4naz4zmF8TZ+2xorZQo9ZlQCsWX1wVru8eum+7evJpnBQcmuH/tg
+	le2FyiHopIne4K1AtxpbLUPG0rFXNb8+3mKKrjz08nbq8d5FKsqfSNensVwQxHublw7ho520Eao
+	9SjK
+X-Received: by 2002:a17:902:f603:b0:2c9:e846:a57e with SMTP id d9443c01a7336-2d046ae584bmr4953925ad.0.1785467453334;
+        Thu, 30 Jul 2026 20:10:53 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.10.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.10.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 20:10:44 -0700 (PDT)
+        Thu, 30 Jul 2026 20:10:53 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -91,9 +91,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 07/26] ASoC: codecs: tlv320dac33: Use guard() for mutex & spin locks
-Date: Fri, 31 Jul 2026 10:06:29 +0700
-Message-ID: <20260731030648.8706-8-phucduc.bui@gmail.com>
+Subject: [PATCH v3 08/26] ASoC: codecs: tscs42xx: Use guard() for mutex locks
+Date: Fri, 31 Jul 2026 10:06:30 +0700
+Message-ID: <20260731030648.8706-9-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260731030648.8706-1-phucduc.bui@gmail.com>
 References: <20260731030648.8706-1-phucduc.bui@gmail.com>
@@ -107,277 +107,193 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex & spin locks.
+Clean up the code using guard() for mutex locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/tlv320dac33.c | 87 ++++++++++++++--------------------
- 1 file changed, 36 insertions(+), 51 deletions(-)
+ sound/soc/codecs/tscs42xx.c | 61 ++++++++++++-------------------------
+ 1 file changed, 19 insertions(+), 42 deletions(-)
 
-diff --git a/sound/soc/codecs/tlv320dac33.c b/sound/soc/codecs/tlv320dac33.c
-index 223c49dfc450..9bd2ddd8dacd 100644
---- a/sound/soc/codecs/tlv320dac33.c
-+++ b/sound/soc/codecs/tlv320dac33.c
-@@ -7,6 +7,7 @@
-  * Copyright:   (C) 2009 Nokia Corporation
-  */
- 
-+#include <linux/cleanup.h>
+diff --git a/sound/soc/codecs/tscs42xx.c b/sound/soc/codecs/tscs42xx.c
+index dba581857920..02082ef790b4 100644
+--- a/sound/soc/codecs/tscs42xx.c
++++ b/sound/soc/codecs/tscs42xx.c
+@@ -12,6 +12,7 @@
  #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/init.h>
-@@ -236,13 +237,10 @@ static int dac33_write_locked(struct snd_soc_component *component, unsigned int
- 			      unsigned int value)
- {
- 	struct tlv320dac33_priv *dac33 = snd_soc_component_get_drvdata(component);
--	int ret;
+ #include <linux/delay.h>
+ #include <linux/mutex.h>
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <sound/tlv.h>
+ #include <sound/pcm_params.h>
+@@ -210,25 +211,21 @@ static int power_up_audio_plls(struct snd_soc_component *component)
+ 		return ret;
+ 	}
  
--	mutex_lock(&dac33->mutex);
--	ret = dac33_write(component, reg, value);
--	mutex_unlock(&dac33->mutex);
-+	guard(mutex)(&dac33->mutex);
+-	mutex_lock(&tscs42xx->pll_lock);
++	guard(mutex)(&tscs42xx->pll_lock);
  
--	return ret;
-+	return dac33_write(component, reg, value);
- }
- 
- #define DAC33_I2C_ADDR_AUTOINC	0x80
-@@ -365,13 +363,13 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
- 	struct tlv320dac33_priv *dac33 = snd_soc_component_get_drvdata(component);
- 	int ret = 0;
- 
--	mutex_lock(&dac33->mutex);
-+	guard(mutex)(&dac33->mutex);
- 
- 	/* Safety check */
- 	if (unlikely(power == dac33->chip_power)) {
- 		dev_dbg(component->dev, "Trying to set the same power state: %s\n",
- 			power ? "ON" : "OFF");
+ 	ret = snd_soc_component_update_bits(component, R_PLLCTL1C, mask, val);
+ 	if (ret < 0) {
+ 		dev_err(component->dev, "Failed to turn PLL on (%d)\n", ret);
 -		goto exit;
 +		return ret;
  	}
  
- 	if (power) {
-@@ -380,7 +378,7 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
- 		if (ret != 0) {
- 			dev_err(component->dev,
- 				"Failed to enable supplies: %d\n", ret);
--			goto exit;
-+			return ret;
- 		}
- 
- 		if (dac33->reset_gpiod) {
-@@ -388,7 +386,7 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
- 			if (ret < 0) {
- 				dev_err(&dac33->i2c->dev,
- 					"Failed to set reset GPIO: %d\n", ret);
--				goto exit;
-+				return ret;
- 			}
- 		}
- 
-@@ -400,7 +398,7 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
- 			if (ret < 0) {
- 				dev_err(&dac33->i2c->dev,
- 					"Failed to set reset GPIO: %d\n", ret);
--				goto exit;
-+				return ret;
- 			}
- 		}
- 
-@@ -409,14 +407,12 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
- 		if (ret != 0) {
- 			dev_err(component->dev,
- 				"Failed to disable supplies: %d\n", ret);
--			goto exit;
-+			return ret;
- 		}
- 
- 		dac33->chip_power = 0;
+ 	if (!plls_locked(component)) {
+ 		dev_err(component->dev, "Failed to lock plls\n");
+ 		ret = -ENOMSG;
+-		goto exit;
++		return ret;
  	}
  
+-	ret = 0;
 -exit:
--	mutex_unlock(&dac33->mutex);
- 	return ret;
+-	mutex_unlock(&tscs42xx->pll_lock);
+-
+-	return ret;
++	return 0;
  }
  
-@@ -659,7 +655,6 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
- {
- 	struct snd_soc_component *component = dac33->component;
- 	unsigned int delay;
--	unsigned long flags;
+ static int power_down_audio_plls(struct snd_soc_component *component)
+@@ -236,28 +233,24 @@ static int power_down_audio_plls(struct snd_soc_component *component)
+ 	struct tscs42xx *tscs42xx = snd_soc_component_get_drvdata(component);
+ 	int ret;
  
- 	switch (dac33->fifo_mode) {
- 	case DAC33_FIFO_MODE1:
-@@ -667,10 +662,10 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
- 			DAC33_THRREG(dac33->nsample));
+-	mutex_lock(&tscs42xx->pll_lock);
++	guard(mutex)(&tscs42xx->pll_lock);
  
- 		/* Take the timestamps */
--		spin_lock_irqsave(&dac33->lock, flags);
--		dac33->t_stamp2 = ktime_to_us(ktime_get());
--		dac33->t_stamp1 = dac33->t_stamp2;
--		spin_unlock_irqrestore(&dac33->lock, flags);
-+		scoped_guard(spinlock_irqsave, &dac33->lock) {
-+			dac33->t_stamp2 = ktime_to_us(ktime_get());
-+			dac33->t_stamp1 = dac33->t_stamp2;
-+		}
- 
- 		dac33_write16(component, DAC33_PREFILL_MSB,
- 				DAC33_THRREG(dac33->alarm_threshold));
-@@ -682,11 +677,11 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
- 		break;
- 	case DAC33_FIFO_MODE7:
- 		/* Take the timestamp */
--		spin_lock_irqsave(&dac33->lock, flags);
--		dac33->t_stamp1 = ktime_to_us(ktime_get());
--		/* Move back the timestamp with drain time */
--		dac33->t_stamp1 -= dac33->mode7_us_to_lthr;
--		spin_unlock_irqrestore(&dac33->lock, flags);
-+		scoped_guard(spinlock_irqsave, &dac33->lock) {
-+			dac33->t_stamp1 = ktime_to_us(ktime_get());
-+			/* Move back the timestamp with drain time */
-+			dac33->t_stamp1 -= dac33->mode7_us_to_lthr;
-+		}
- 
- 		dac33_write16(component, DAC33_PREFILL_MSB,
- 				DAC33_THRREG(DAC33_MODE7_MARGIN));
-@@ -704,14 +699,12 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
- static inline void dac33_playback_handler(struct tlv320dac33_priv *dac33)
- {
- 	struct snd_soc_component *component = dac33->component;
--	unsigned long flags;
- 
- 	switch (dac33->fifo_mode) {
- 	case DAC33_FIFO_MODE1:
- 		/* Take the timestamp */
--		spin_lock_irqsave(&dac33->lock, flags);
--		dac33->t_stamp2 = ktime_to_us(ktime_get());
--		spin_unlock_irqrestore(&dac33->lock, flags);
-+		scoped_guard(spinlock_irqsave, &dac33->lock)
-+			dac33->t_stamp2 = ktime_to_us(ktime_get());
- 
- 		dac33_write16(component, DAC33_NSAMPLE_MSB,
- 				DAC33_THRREG(dac33->nsample));
-@@ -735,7 +728,7 @@ static void dac33_work(struct work_struct *work)
- 	dac33 = container_of(work, struct tlv320dac33_priv, work);
- 	component = dac33->component;
- 
--	mutex_lock(&dac33->mutex);
-+	guard(mutex)(&dac33->mutex);
- 	switch (dac33->state) {
- 	case DAC33_PREFILL:
- 		dac33->state = DAC33_PLAYBACK;
-@@ -757,18 +750,15 @@ static void dac33_work(struct work_struct *work)
- 		dac33_write(component, DAC33_FIFO_CTRL_A, reg);
- 		break;
+ 	ret = snd_soc_component_update_bits(component, R_PLLCTL1C,
+ 			RM_PLLCTL1C_PDB_PLL1,
+ 			RV_PLLCTL1C_PDB_PLL1_DISABLE);
+ 	if (ret < 0) {
+ 		dev_err(component->dev, "Failed to turn PLL off (%d)\n", ret);
+-		goto exit;
++		return ret;
  	}
--	mutex_unlock(&dac33->mutex);
+ 	ret = snd_soc_component_update_bits(component, R_PLLCTL1C,
+ 			RM_PLLCTL1C_PDB_PLL2,
+ 			RV_PLLCTL1C_PDB_PLL2_DISABLE);
+ 	if (ret < 0) {
+ 		dev_err(component->dev, "Failed to turn PLL off (%d)\n", ret);
+-		goto exit;
++		return ret;
+ 	}
+ 
+-	ret = 0;
+-exit:
+-	mutex_unlock(&tscs42xx->pll_lock);
+-
+-	return ret;
++	return 0;
  }
  
- static irqreturn_t dac33_interrupt_handler(int irq, void *dev)
- {
- 	struct snd_soc_component *component = dev;
- 	struct tlv320dac33_priv *dac33 = snd_soc_component_get_drvdata(component);
--	unsigned long flags;
+ static int coeff_ram_get(struct snd_kcontrol *kcontrol,
+@@ -269,13 +262,11 @@ static int coeff_ram_get(struct snd_kcontrol *kcontrol,
+ 		(struct coeff_ram_ctl *)kcontrol->private_value;
+ 	struct soc_bytes_ext *params = &ctl->bytes_ext;
  
--	spin_lock_irqsave(&dac33->lock, flags);
--	dac33->t_stamp1 = ktime_to_us(ktime_get());
--	spin_unlock_irqrestore(&dac33->lock, flags);
-+	scoped_guard(spinlock_irqsave, &dac33->lock)
-+		dac33->t_stamp1 = ktime_to_us(ktime_get());
+-	mutex_lock(&tscs42xx->coeff_ram_lock);
++	guard(mutex)(&tscs42xx->coeff_ram_lock);
  
- 	/* Do not schedule the workqueue in Mode7 */
- 	if (dac33->fifo_mode != DAC33_FIFO_MODE7)
-@@ -902,14 +892,13 @@ static int dac33_prepare_chip(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
+ 	memcpy(ucontrol->value.bytes.data,
+ 		&tscs42xx->coeff_ram[ctl->addr * COEFF_SIZE], params->max);
  
--	mutex_lock(&dac33->mutex);
-+	guard(mutex)(&dac33->mutex);
- 
- 	if (!dac33->chip_power) {
- 		/*
- 		 * Chip is not powered yet.
- 		 * Do the init in the dac33_set_bias_level later.
- 		 */
--		mutex_unlock(&dac33->mutex);
- 		return 0;
- 	}
- 
-@@ -1053,8 +1042,6 @@ static int dac33_prepare_chip(struct snd_pcm_substream *substream,
- 		break;
- 	}
- 
--	mutex_unlock(&dac33->mutex);
+-	mutex_unlock(&tscs42xx->coeff_ram_lock);
 -
  	return 0;
  }
  
-@@ -1156,21 +1143,20 @@ static snd_pcm_sframes_t dac33_dai_delay(
- 	unsigned int time_delta, uthr;
- 	int samples_out, samples_in, samples;
- 	snd_pcm_sframes_t delay = 0;
--	unsigned long flags;
+@@ -290,14 +281,14 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
+ 	unsigned int coeff_cnt = params->max / COEFF_SIZE;
+ 	int ret;
  
- 	switch (dac33->fifo_mode) {
- 	case DAC33_FIFO_BYPASS:
- 		break;
- 	case DAC33_FIFO_MODE1:
--		spin_lock_irqsave(&dac33->lock, flags);
--		t0 = dac33->t_stamp1;
--		t1 = dac33->t_stamp2;
--		spin_unlock_irqrestore(&dac33->lock, flags);
-+		scoped_guard(spinlock_irqsave, &dac33->lock) {
-+			t0 = dac33->t_stamp1;
-+			t1 = dac33->t_stamp2;
-+		}
- 		t_now = ktime_to_us(ktime_get());
+-	mutex_lock(&tscs42xx->coeff_ram_lock);
++	guard(mutex)(&tscs42xx->coeff_ram_lock);
  
- 		/* We have not started to fill the FIFO yet, delay is 0 */
- 		if (!t1)
--			goto out;
-+			return 0;
+ 	tscs42xx->coeff_ram_synced = false;
  
- 		if (t0 > t1) {
- 			/*
-@@ -1230,23 +1216,22 @@ static snd_pcm_sframes_t dac33_dai_delay(
+ 	memcpy(&tscs42xx->coeff_ram[ctl->addr * COEFF_SIZE],
+ 		ucontrol->value.bytes.data, params->max);
+ 
+-	mutex_lock(&tscs42xx->pll_lock);
++	guard(mutex)(&tscs42xx->pll_lock);
+ 
+ 	if (plls_locked(component)) {
+ 		ret = write_coeff_ram(component, tscs42xx->coeff_ram,
+@@ -305,18 +296,12 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
+ 		if (ret < 0) {
+ 			dev_err(component->dev,
+ 				"Failed to flush coeff ram cache (%d)\n", ret);
+-			goto exit;
++			return ret;
  		}
- 		break;
- 	case DAC33_FIFO_MODE7:
--		spin_lock_irqsave(&dac33->lock, flags);
--		t0 = dac33->t_stamp1;
--		uthr = dac33->uthr;
--		spin_unlock_irqrestore(&dac33->lock, flags);
-+		scoped_guard(spinlock_irqsave, &dac33->lock) {
-+			t0 = dac33->t_stamp1;
-+			uthr = dac33->uthr;
-+		}
- 		t_now = ktime_to_us(ktime_get());
- 
- 		/* We have not started to fill the FIFO yet, delay is 0 */
- 		if (!t0)
--			goto out;
-+			return 0;
- 
- 		if (t_now <= t0) {
- 			/*
- 			 * Either the timestamps are messed or equal. Report
- 			 * maximum delay
- 			 */
--			delay = uthr;
--			goto out;
-+			return uthr;
- 		}
- 
- 		time_delta = t_now - t0;
-@@ -1287,7 +1272,7 @@ static snd_pcm_sframes_t dac33_dai_delay(
- 							dac33->fifo_mode);
- 		break;
+ 		tscs42xx->coeff_ram_synced = true;
  	}
--out:
-+
- 	return delay;
+ 
+-	ret = 0;
+-exit:
+-	mutex_unlock(&tscs42xx->pll_lock);
+-
+-	mutex_unlock(&tscs42xx->coeff_ram_lock);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ /* Input L Capture Route */
+@@ -385,21 +370,17 @@ static int dac_event(struct snd_soc_dapm_widget *w,
+ 	struct tscs42xx *tscs42xx = snd_soc_component_get_drvdata(component);
+ 	int ret;
+ 
+-	mutex_lock(&tscs42xx->coeff_ram_lock);
++	guard(mutex)(&tscs42xx->coeff_ram_lock);
+ 
+ 	if (!tscs42xx->coeff_ram_synced) {
+ 		ret = write_coeff_ram(component, tscs42xx->coeff_ram, 0x00,
+ 			COEFF_RAM_COEFF_COUNT);
+ 		if (ret < 0)
+-			goto exit;
++			return ret;
+ 		tscs42xx->coeff_ram_synced = true;
+ 	}
+ 
+-	ret = 0;
+-exit:
+-	mutex_unlock(&tscs42xx->coeff_ram_lock);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ static const struct snd_soc_dapm_widget tscs42xx_dapm_widgets[] = {
+@@ -926,12 +907,10 @@ static int setup_sample_rate(struct snd_soc_component *component,
+ 		return ret;
+ 	}
+ 
+-	mutex_lock(&tscs42xx->audio_params_lock);
++	guard(mutex)(&tscs42xx->audio_params_lock);
+ 
+ 	tscs42xx->samplerate = rate;
+ 
+-	mutex_unlock(&tscs42xx->audio_params_lock);
+-
+ 	return 0;
+ }
+ 
+@@ -1253,12 +1232,10 @@ static int tscs42xx_set_dai_bclk_ratio(struct snd_soc_dai *codec_dai,
+ 		return ret;
+ 	}
+ 
+-	mutex_lock(&tscs42xx->audio_params_lock);
++	guard(mutex)(&tscs42xx->audio_params_lock);
+ 
+ 	tscs42xx->bclk_ratio = ratio;
+ 
+-	mutex_unlock(&tscs42xx->audio_params_lock);
+-
+ 	return 0;
  }
  
 -- 
