@@ -1,65 +1,65 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CE733F59C
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3A43446A7
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785467406; cv=none; b=Uwl07ZWhFmThBPWVy9ZDsnpVtvWHv8KfW7LajrFebVf9nHe36bUW0ZmqGWpFIv+RBAUx+CrCaoNpYkjYN4UHEe9sJ54xTzLAZcoWAvx02yIvTSErUjAcD11PWQl0/ce3Ed+Jl8wMuw8r0GJvgvGDajkreieaxzD/qY3xr3XLEnI=
+	t=1785467415; cv=none; b=npRxKjEbTQ8PsXT9JeFEOsKu7k/FbHC8CJuQ3uk6t87oGJFHHsfSMV+PzI+b8ue30NH7s1Ci5V2fyL8BF7JCyNot6yxCLQ5mf/PfB9AiFXAjkose7bRzg3PAl2SOJlVjAQzVaHKiA8r41PwepGsNX27+fPAm2USEpXZYqoe1SUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785467406; c=relaxed/simple;
-	bh=GEVBslxyQTjWkaD769j6sBltZvw/8KgoyK2Jx23lHrQ=;
+	s=arc-20240116; t=1785467415; c=relaxed/simple;
+	bh=zFW9Mx0ZXn7hF454QrxJfQtGJ47S/hYdOGWLyBiXIRg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZPrUnBHZ4Hqe/XGwdHdrxJbZFrG4pEgFskOkNMkrtEC7xf0y6KzT3oTjktefuwNrP9nzAhhpcEF8M2jvWGeMAoXTMQJb8WhGUpztMMIux031eNEHVHWBbwOYLf+BZ7BYO7uDzIYPp+MQloL6H+bKzzpLlPlSIqTvrqgRulYOgUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sM4iE/Up; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=sqTCQaQ/hUegbSHhRHBJCPz/jVD38S+uOcSI31ts25UxgimNOQ9IUifbWxIKA/eC1NDhpDYtij+h8Z/CPoYrKhFMbDk7I1/9IKSjCmSyzHLCowGeT7KV1Ev+KkBe0tMfxudcuAea8bGc85FbYWSd9bXfTaJ1F4JpMlcPj5af5Z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k0mcTgVm; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sM4iE/Up"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cf27856f9cso4982705ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:10:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k0mcTgVm"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cf52d15d88so4001835ad.2
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785467404; x=1786072204; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785467413; x=1786072213; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LJuHQA4AENaPcuIoY4pYQA3muOxiEnEKnbdN4NwUjpY=;
-        b=sM4iE/UpA94cEu/JjcVFFLeHx/zmNzoTyaeL7f/doZag8G5MwgsGoFM+KyecfU7cYI
-         MFygHl/gDnyLh1+F58L1hQqoMdC3e9kvrVcaq1TBPKhSDRddr1+W9fiDrySXVWElCSVU
-         qGPLPVbNVenReKAVCjGArMOb4Y1cGxNia/Evwmkc7nd5mud/IpJyCyv8GOcX2d27xkup
-         uVseoWFb3H0CqiUSxP9pk0+ia3gvXUd6TGpJ3sxofcRe6yoz7/G4SidVYDrNgOvEw1Hd
-         nwDWUto9mDSK4ZNYh1+jzcNCzBIxjmFOIpyBWtdGGhPxd5FRDSDhmtisxNY9x54BGpxP
-         P2vQ==
+        bh=Sk8Pesmwy74AH7VxeJg8H8U9dR5/4hjKm/qPKsN7J90=;
+        b=k0mcTgVmart+zf2BqCt4W7qO6jtcRZhtiyAW8WfCS9gXKW75p7mntI3xuvHE4JlXnW
+         goRuN+n9LEqBFtoqb440vonEbNO5pfO2GD9j//cFHH1u6rPB3eyHPkeVPJZTIm9NW7Rh
+         EJVPMyH8ELjlscDQn0CeMhhVlKOg0fObUsZ4fXX4OKN8ZfMZ8hGuz0pvo8V1KNbTfGx5
+         FisDMLdul/LV3obBIs3KxhEDzgQU8rLb7K87hGhUmeAyBMEqMK+wufCISiKfAPvrNOFq
+         GaQj725DJ4YpL4wDJH6syR660oH2qBxwdD+yUcX7uzY4QCFZ44mwbnV/sEq0UgVj/L84
+         F2BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785467404; x=1786072204;
+        d=1e100.net; s=20251104; t=1785467413; x=1786072213;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LJuHQA4AENaPcuIoY4pYQA3muOxiEnEKnbdN4NwUjpY=;
-        b=bHrNqXRPHkqGPPbe+NeuVduB9kDICJP3MxL7jMjCEu6ImvFaEBMwhtBRWK8+2/fCDm
-         woZkLGRwa3Cz1/m5UthcS3mCvJXA/aZM08ttM0KGKd1H9ur9B9BWa8bbfFT7jBTeMmMq
-         2ESsCB7LAdmkoHBR9ovN8sAwFPL1yteogf80qI6XLGvDNKD9+6toaAGvj+y+lBex0oxB
-         j1kpE3yetdsi/UaqGMtcqqQqEONEooOTrHxRHHSBLjvknBD9oqr6S5zPd6NJIHq5H+Ej
-         xMV6m0a3jGH5OCvV6mV5aAT0BWNdwKgX4tImFBvpFLCJl61u01VE3D0u4GxkjZeGIoD/
-         U5iQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqsYeYFtkU35g4oG8bI16X0NFhoBuZQYd7Vs8ytfUfPQ43i0roW4J1xWl/qHE0EedRIDJ/p9qpJ3UA0JA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCwW8DCPT2f/utREOrPaJWMDZayfX12lzgcJUm6evs7S6e/eJz
-	kz0Ee//Shf6velC5kDjZZa5g6tNokv+wpz9k9eLHgsgNTnKQAIof7vDU
-X-Gm-Gg: AR+sD127KnHBuk7kLcxKS+RX5eZoj4eOe7ayNb3/7VMPtd/QHw/DNl02goWyPLwJZg/
-	3aQ8U46vBsx4t2++tyO2yutPqqpkQl6B07UbZ7Ke8BHayR0iwq0EPIAiChKEGT3pAGgRJrwmqQC
-	CXJ9qLwm2IZr+c1DA756dlKHr6xF63lMjxWdb7fTC52owGI9mr104CUVu++mRvK/iJsgi3S8FiB
-	+e6piQO7ZoJ9O0hnZj5J9hzzw5jxOOu6+uUq6hwFUdaFH1yA73skRnK/x5LBxfZfOroltAx1jyT
-	dRDUWbeM40B6rxSasZ6VYrfI1O5I/XDY/VD6CUMInPHPBWym4bm88yo983gg2uk3l8feXBdgZ3p
-	X++Sg/uJgerjtNgmPFx+85N7clUSwmxfqslVQKTWEnO1h7AwU4P/jHTvpw9cc1mf3LT/gNb4gcd
-	ue3FpdDVWGgNL9mwvjD4V7BZ8ISE8NtlCWw+fxS1/qswb2c2Cb//jvccIoOdG6AU6vgVrld5AW3
-	ILm18Ux64aIHcVDRAdR1Xc/LESzg3pySfUWNZBjHOMXnYDzofyFn/FOBg3nCbVkpAKv2jJ7IAsb
-	Jydt
-X-Received: by 2002:a17:902:e5ca:b0:2cf:b6b5:9cce with SMTP id d9443c01a7336-2d046ec87d3mr4546725ad.46.1785467404334;
-        Thu, 30 Jul 2026 20:10:04 -0700 (PDT)
+        bh=Sk8Pesmwy74AH7VxeJg8H8U9dR5/4hjKm/qPKsN7J90=;
+        b=InEN39idnKCrQgXqkVFTR/utNaTRdx2Zl3k1xvKCuDmNlK5BV+kwjSLeMkb9AYgMka
+         tILI1O4O5hOsOPghAaYr5JTQniu7DOiVDwKC3EkbTadBpXO0ksPb43J4zqFSUM+kiWWn
+         1O4OG2e4KEpOt29QKSXyOtdIjE+bMJX0gjp7MfocvLYt0fCax+uNhGA+AtWIhG8goixy
+         Jdr7eBmKjP0LJsIw0YtOODJLPhgcHXKdzxdL6Vi6qkDvPFgOGns7/G9mPb76EcXG/gmq
+         o3slJoWTGBrCCwDWNSsaZeumu2tovaTy5UysYufatUxzri49Ff4Ru7W7vetWlxCrYQWz
+         U44g==
+X-Forwarded-Encrypted: i=1; AHgh+RqX3fBWk9eZVpjEh2oy6VZBWtvAcd2/BcmhhIHEsO7NsFQO/2hhiJPnIcwHXgZvHOQp04wyNhlLikczdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYQP6S3xjYw+DdEgj9vfWx2eF1CdZxKgyjlSmSDDTFumv+Uua0
+	mYvZ/JKjnuVwRoHj2ovLV8v6hqt0VYw8qIespiBZy0P2v3KOei6jvn5U
+X-Gm-Gg: AR+sD134/Syanx8GBMiPzMiPBH5LoP21seLr00ZBhHaA9HuGapuMH6Tycg6G0ShWLDt
+	FoVisy9Iml5WlWfHj9ydWJRc+kjxlAHQn7V/IZqmQb8jMFxq+axzYEyDUt+WrOkbCLQGw/PP+SB
+	Buhob2wfGx2btC6yF+Pe3y5d9OmyF89zGE/KKQ67w26wvnGFiO/zIiOy+Uymyqzw6F6T3kggWSn
+	hsvj7OV0Ip/CQ0HW68IBBN7gfYbDv2ouitav8odGL38s0ep9MalaN+Zgns0izDfhVPM4eP0+pzt
+	SZQjnj/DWB2n2XEUbJsm7KgMdVZgCu1yGdaJIHkaRuk4Ep5uKEev3X2rzS4aMzuzy2HHrtfM1hJ
+	VniVDUH2EYhp5rUWLYEebLM2tu96YUR02oe6ouTwtuOqbzrc54w6c9b5ZwYBqiQkF5pg9oCJk+J
+	fUG2sdLoUJR+ox0K6NYw8R8ZOzYJ+RkvrMB/MLd9TDJJDBk4qyEt807gnuRJUzcobSdSWv7/SSk
+	krEX7HrLRXT1BBpvXMmFsgdS5O4ALDpa1tVR/ZvxoUhBDgtHV+Rw3+ysFhetwFD0psMfNE/r7sx
+	5dO8
+X-Received: by 2002:a17:902:dace:b0:2ca:1b97:70c5 with SMTP id d9443c01a7336-2d046d6f43cmr5259425ad.4.1785467413330;
+        Thu, 30 Jul 2026 20:10:13 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.09.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.10.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 20:10:04 -0700 (PDT)
+        Thu, 30 Jul 2026 20:10:13 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -91,9 +91,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 02/26] ASoC: codecs: sta350: Use guard() for mutex locks
-Date: Fri, 31 Jul 2026 10:06:24 +0700
-Message-ID: <20260731030648.8706-3-phucduc.bui@gmail.com>
+Subject: [PATCH v3 03/26] ASoC: codecs: sta32x: Use guard() for mutex locks
+Date: Fri, 31 Jul 2026 10:06:25 +0700
+Message-ID: <20260731030648.8706-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260731030648.8706-1-phucduc.bui@gmail.com>
 References: <20260731030648.8706-1-phucduc.bui@gmail.com>
@@ -112,63 +112,64 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/sta350.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ sound/soc/codecs/sta32x.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/sound/soc/codecs/sta350.c b/sound/soc/codecs/sta350.c
-index 99c7f7ac807b..2ba35076732b 100644
---- a/sound/soc/codecs/sta350.c
-+++ b/sound/soc/codecs/sta350.c
-@@ -16,6 +16,7 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ":%s:%d: " fmt, __func__, __LINE__
- 
-+#include <linux/cleanup.h>
+diff --git a/sound/soc/codecs/sta32x.c b/sound/soc/codecs/sta32x.c
+index 652c6e3a9e63..d6de739212f9 100644
+--- a/sound/soc/codecs/sta32x.c
++++ b/sound/soc/codecs/sta32x.c
+@@ -17,6 +17,7 @@
  #include <linux/module.h>
  #include <linux/moduleparam.h>
  #include <linux/init.h>
-@@ -306,9 +307,9 @@ static int sta350_coefficient_get(struct snd_kcontrol *kcontrol,
++#include <linux/cleanup.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/pm.h>
+@@ -269,9 +270,9 @@ static int sta32x_coefficient_get(struct snd_kcontrol *kcontrol,
  	int numcoef = kcontrol->private_value >> 16;
  	int index = kcontrol->private_value & 0xffff;
  	unsigned int cfud, val;
 -	int i, ret = 0;
 +	int i;
  
--	mutex_lock(&sta350->coeff_lock);
-+	guard(mutex)(&sta350->coeff_lock);
+-	mutex_lock(&sta32x->coeff_lock);
++	guard(mutex)(&sta32x->coeff_lock);
  
- 	/* preserve reserved bits in STA350_CFUD */
- 	regmap_read(sta350->regmap, STA350_CFUD, &cfud);
-@@ -320,24 +321,19 @@ static int sta350_coefficient_get(struct snd_kcontrol *kcontrol,
- 	regmap_write(sta350->regmap, STA350_CFUD, cfud);
+ 	/* preserve reserved bits in STA32X_CFUD */
+ 	regmap_read(sta32x->regmap, STA32X_CFUD, &cfud);
+@@ -283,24 +284,20 @@ static int sta32x_coefficient_get(struct snd_kcontrol *kcontrol,
+ 	regmap_write(sta32x->regmap, STA32X_CFUD, cfud);
  
- 	regmap_write(sta350->regmap, STA350_CFADDR2, index);
+ 	regmap_write(sta32x->regmap, STA32X_CFADDR2, index);
 -	if (numcoef == 1) {
 +	if (numcoef == 1)
- 		regmap_write(sta350->regmap, STA350_CFUD, cfud | 0x04);
+ 		regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x04);
 -	} else if (numcoef == 5) {
 +	else if (numcoef == 5)
- 		regmap_write(sta350->regmap, STA350_CFUD, cfud | 0x08);
+ 		regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x08);
 -	} else {
 -		ret = -EINVAL;
 -		goto exit_unlock;
 -	}
 +	else
 +		return -EINVAL;
++
  
  	for (i = 0; i < 3 * numcoef; i++) {
- 		regmap_read(sta350->regmap, STA350_B1CF1 + i, &val);
+ 		regmap_read(sta32x->regmap, STA32X_B1CF1 + i, &val);
  		ucontrol->value.bytes.data[i] = val;
  	}
  
 -exit_unlock:
--	mutex_unlock(&sta350->coeff_lock);
+-	mutex_unlock(&sta32x->coeff_lock);
 -
 -	return ret;
 +	return 0;
  }
  
- static int sta350_coefficient_put(struct snd_kcontrol *kcontrol,
+ static int sta32x_coefficient_put(struct snd_kcontrol *kcontrol,
 -- 
 2.43.0
 
