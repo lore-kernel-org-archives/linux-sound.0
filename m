@@ -1,80 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF463CE0AE;
-	Fri, 31 Jul 2026 11:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF1E41A50A
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 12:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785498377; cv=none; b=GZE4Kqu8d0PA1N0QS74vMmu1/mp9iG/0HRoJYOG6kmmqYLx3b+h+GvDWRhML27N74j1mt0SVxSgC/vjwTIV8TszY0A2GQmtaQ/saLEJ2FbDLu8MmaLZSEujtT90+hRoHQK9AuiPa9DSEZwzOVE0Qc7XkJp3ujzGzkxhTFV1SH+c=
+	t=1785500416; cv=none; b=JlMya+obMZq9Bn4aDJXsLWFWgAeXmODHnmsdfaUlfAfd9O3feO/AeBizZOq6oAOuey+yCcWqFS+TDEDrSohTLxKYwvUykYiI9Ls8L7/AqMIpJKlHfqu0AZl5pWYFnoXAv436HriNZiTcF4pMKEii+2dn6yZhNWwzz4rQL7R+33k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785498377; c=relaxed/simple;
-	bh=5CVk8e8y9Dy+9uvbGMxumiV8mp6Am8zTynb+N+9fPEk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uI+dqH+6SYFvaf7+QQO2lsWI3fvZxjAjyHrih+29L1oOnqYckJ30k7IORL1XHHa3CHzQKfoiCqT9HwnZwpwGkMwU0c61dFLcWVWtUexLlz4JXKLEhp8wCdEDAw4llx7PxapL0Jv/sllGo8IDEBWruObxuzZA22s0aELV6pnlP7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AVXDQ7qy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785500416; c=relaxed/simple;
+	bh=7HfCg0dTq+0MusMuc1cIC67rJQtjUQ7T2vpANkjH6OM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rBBfSnxANjWhy6TOlohQPeRGWMs/07+UrI3oPlj2rwdHPlUf6WtcdMffoiYi0Njojidiyr+fU50p0FO7TOkPCAgHXNmhRkgXlRl//tvsJ0FdYDt0E4YY5WRKYU45j9q1mzmiHqtfxF2Mty3CUxLMiIQcanV1H1uUzq+kw44n7Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pMuRz6IC; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AVXDQ7qy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38C281F000E9;
-	Fri, 31 Jul 2026 11:46:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785498376;
-	bh=cYwkvveGzOvaHWVmOm2EmMojIcsTsK3ORSt0rxXVUQQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=AVXDQ7qy7KiqWA/vOmHZUmaUuvLeElo4IsBVBeuj/hYix9aVHv79YfYewn94THSD0
-	 Ublt4s9fTtpGneofw7qsT9mI+3Q0TBUt8XSzhL6NGvRi+ctwGDNu5ZYFQA/jeYPPUh
-	 /S4MICeuCVl/E+T4YTlMRJh3D+OMP9VzJRCzVHHw+cStiwiWClBrSKVlhDmQxsWG0n
-	 dvF+2PTk1bDSzzYbzIlEuQk5uLiXO9itJ6xZZh1PajeiDbsUNIpFgbw4qI7KIw+6Sf
-	 XJy7PF+pW8JtVaoSMXKlc3eU4Uka1jI0T9u6VFe6L/Yb3lIEXVWVmCaSB6mLUrYzJQ
-	 CLaYpueYGT6aA==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
- stable@vger.kernel.org
-In-Reply-To: <20260730071724.22296-1-peter.ujfalusi@linux.intel.com>
-References: <20260730071724.22296-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: topology: Use acpi mach from the machine
- driver
-Message-Id: <178545000052.556383.1793438238658443429.b4-ty@b4>
-Date: Thu, 30 Jul 2026 23:20:00 +0100
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pMuRz6IC"
+Message-ID: <d8e791ba-ed68-4c42-8ce6-fecf7af4c699@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785500411;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VlAuk46rfYul/RocxmhwintES2QB3paeSeu9QANKL5g=;
+	b=pMuRz6ICmgaUVb2L3izBwFN06FGbPYCV74BUUrFHF4mprgbrT587MhiDhdXdjDZ0nBW345
+	Oa+WP2c27VOZjhU0Ruiwv6jvrUKHR22wjZNu7TsKmTlSSYMbqfhNFntzPvKmGyqery6rOS
+	2Q/hOkXeLYQlbWRFZpnAJg0o7GRsJdo=
+Date: Fri, 31 Jul 2026 14:19:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
+Subject: Re: [PATCH] ASoC: SOF: Use high-priority workqueue for PCM period
+ elapsed
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+ lgirdwood@gmail.com, broonie@kernel.org
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, yuhsuan@google.com
+References: <20260730130445.8277-1-peter.ujfalusi@linux.intel.com>
+ <c1ed5264-9a03-4436-b17c-8c1f59289b5e@linux.dev>
+ <f51125d2-b961-4224-81d0-86e622c00ace@linux.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <f51125d2-b961-4224-81d0-86e622c00ace@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 30 Jul 2026 10:17:24 +0300, Peter Ujfalusi wrote:
-> ASoC: SOF: topology: Use acpi mach from the machine driver
+On 7/31/26 11:31, Péter Ujfalusi wrote:
+> 
+> 
+> On 31/07/2026 12:20, Pierre-Louis Bossart wrote:
+>> On 7/30/26 15:04, Peter Ujfalusi wrote:
+>>> From: Yu-Hsuan Hsu <yuhsuan@google.com>
+>>>
+>>> The snd_sof_pcm_period_elapsed function currently schedules work on the
+>>> system-wide workqueue. This can lead to potential delays or jitter in
+>>> audio processing if the system workqueue is busy with other tasks.
+>>>
+>>> To improve real-time performance and ensure timely processing of PCM
+>>> periods, we can use the system_highpri_wq instead of the default work
+>>> queue.
+>>>
+>>> In performance testing, this change significantly reduced the observed
+>>> scheduling delays. For instance, under load(stressapptest -M 15000 -m
+>>> 60), the maximum delay dropped from 9ms on the system workqueue to 5ms
+>>> on the dedicated high-priority workqueue.
+>>>
+>>> Suggested-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+>>> Signed-off-by: Yu-Hsuan Hsu <yuhsuan@google.com>
+>>> Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>>> Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+>>> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+>>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>>
+>> Sounds good but should this higher priority queue be used for other
+>> things as well?
+>>
+>> e.g.
+>>
+>> period-elapsed for compressed streams:
+>> schedule_work(&spcm->stream[cstream->direction].period_elapsed_work);
+>>
+>> and the SoundWire interrupt handling with additional workqueues:
+>> schedule_work(&amd_manager->amd_sdw_irq_thread);
+>> schedule_work(&amd_manager->amd_sdw_work);
+>> schedule_work(&cdns->work);
+> 
+> we also have:
+> sound/soc/sof/core.c:           schedule_work(&sdev->probe_work);
+> sound/soc/sof/intel/ptl.c:      schedule_work(&hdev->mic_privacy.work);
+> 
+>> Not sure what the rules are to define what's high-priority and what's
+>> not... It could be that different systems have different requirements...
+> 
+> I think the 'rule' is that what is time critical and what can tolerate a
+> bit of a delay. The PCM period is time critical while the others are not
+> that much, that includes the compress elapsed, it is not that real-time
+> as the PCM.
+> 
+> But fair point, I will check if anything else would needs to be higher
+> priority than what they are.
 
-Applied to
+My point is that this change isn't bad in itself, but maybe some systems
+don't care and have other subsystems (graphics, networking, etc) that
+should be given preferred access to the high-priority queue.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+Same for the SoundWire workqueues, one could argue that the command
+protocol overhead is significant for all the device initialization and
+firmware download. Using the higher priority queue could reduce the
+initial 'cold latency' for interactive sounds in a busy system.
 
-Thanks!
+Going back to the PCM stuff, the period_elapsed stuff is also not that
+relevant with timer-based scheduling which relies on snd_pcm_delay().
 
-[1/1] ASoC: SOF: topology: Use acpi mach from the machine driver
-      https://git.kernel.org/broonie/sound/c/ae63720dd7c3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Could it be that the level of priority should be configurable (Kconfig,
+sysfs, kernel parameter) to let distros pick what they need?
