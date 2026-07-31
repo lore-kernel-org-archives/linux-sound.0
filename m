@@ -1,89 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDCB2E7BD3
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 20:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BBAB368D55
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 20:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785529931; cv=none; b=qr6DMvynyl5uGwjpRJELVmseA1GqI+X6/ScYIb2v7bAFrUv0bnt/kWNLYQJ+yLUeMN+q6/MLUTa0UYi0Ve/bmIQ+el+zSnJT8gd0oOpljOdVV6CZvEeeTaejg8hq+K/A4DqA5oYZBD/D0oz77rQRxX0UxuPpjZHJnEn0u0Zqbrw=
+	t=1785531032; cv=none; b=i+zzCOjjaO+iRwp/C2hPaslCdTIrrl908gx5aJCwkFC1jDjbCGYT6n9A8rtMfHnrS55ibzK9QsRJGm2D8eI/pREKMdOTooDvTJS/b5mvWWUXCyD2JhGlV30fvG8alHUZkO1V22HjHYCXqgk/NnbXZkKwm3Ki8AJ9HH9jOZ/+RoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785529931; c=relaxed/simple;
-	bh=g4WBim8Xvjyj5yLxLOn0cHOKyxc3FnnPD9rooOpBF5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQcVclzenXt5wnzJD9+hytZl+pWB8qR8qgxuu5Ca9nyDYTXczkXbToQA6xP4UWKcqURlfFU3JeA88T0xw7P7YQ/kb+912hOEs482Frdq0LxUae9n7L5GL5j2NEHUQ9UWtJV6XXVx5+tvczlaHOD+/C+gwL1pbEa5r3GpqJBhuR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ei0/MF08; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785531032; c=relaxed/simple;
+	bh=YGtjts5yrFgv89OIosMQ4+/WGxPs6DZ/x1eLh1I6W1M=;
+	h=Date:Message-ID:From:To:Cc:Subject; b=GWCAs3Shz9gpNa/7Q4AxueIPUZ6LBWiZSynss7K6cgy98l0YoaD3w42482NWW3uC3hziDSq7xf2J3ED6L/A2cWRM8I0K8Cc8fsq95ZvSfeT8nTFBohngf7HyTNsIYrVc6yPa8u9llH/TWCP0/OTm3kL4BSTveyRXfixBJhcJzpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=evrOTff+; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ei0/MF08"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0B6D1F00AC4;
-	Fri, 31 Jul 2026 20:32:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785529930;
-	bh=9/whu6H9Z/BilNgbOHATl3kyOICSvpsn0fgMNRCj7Aw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ei0/MF08QPUG53ll9BHI34v5xqwXtBmLZWhIGE8J9Qxn3EF3pjbG6mD2l202GpcOU
-	 A6alvn2CorIe4BEii3SoRyFBAUyoJFNpYJXzRuAsP83K2ZX7aYiJPrD5tUpgzxYtWB
-	 QC3ru0yyRRXV3QW782GbBdg6/uVqfjG3ziMcUuLnOxJWzZgmPg++ZD2u8guNY4vHQm
-	 /LSu0mps85dqknphALm9NwuZd6DGuvntZSpwXIfEWaDIqw+ua9BzE/xFbwmoenc5Qy
-	 speIj3+WlMG0qU2354GuCD0X6Yg0iW/Cen7uHYdhqTwHSQL6l0A7wL4C/s4zD/w35R
-	 e9MVIJmDTA83g==
-Date: Fri, 31 Jul 2026 21:32:07 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 2/4] ASoC: renesas: enable COMPILE_TEST for PCM SH7760
-Message-ID: <b7dbea39-5137-4d97-96dd-2d4e08423dd0@sirena.org.uk>
-References: <87jyqbswp0.wl-kuninori.morimoto.gx@renesas.com>
- <87h5lfswog.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="evrOTff+"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 16748240027
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 22:50:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1785531029;
+	bh=5H4FK0d3NNRSWUW4GHC1PIqT1kYtINtcnEEC7YLJBeE=;
+	h=Date:Message-ID:From:To:Cc:Subject:From;
+	b=evrOTff+cuL6K09MR+L//eHo8UUm+FyWD6wwc7DkroW22Idcf4d5ff1Q/gOHGUrDh
+	 eXPEe6t3CrXCPIAd7nErLdSixCYVoRK+j/POHLdJFhB+olkpN7DtLSQmL04/rBjj47
+	 ga/Ryxy/edB86L9FCwdCqc/6Nz04yGBOfyT1eeg+CWD3on/XDlWq9y87o/tAnXRmAK
+	 WqGcT8JvGsWVz3VohJq50UKzhIvP2MATr2P1DLSkdoUt5AbEJW9xMbyxz+ZI4Uvbdc
+	 v2MGCFEWbAFUGJR/XgOaDV+cAXszEyrJaJ+tZY+93KoufOBa7XBrd5V5DLrKAK+PPM
+	 jCoaazvpobjUw==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4hBdW83V41z9rxD;
+	Fri, 31 Jul 2026 22:50:28 +0200 (CEST)
+Date: Fri, 31 Jul 2026 20:50:28 +0000
+Message-ID: <4391ca99e19df478490aacfcde6e5ca4@posteo.de>
+From: Michael Diesen <michael.diesen@posteo.de>
+To: stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Subject: Please apply bed0c8084044 to 7.1.y and 6.18.y
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zKXpZdxHdI+l7m0O"
-Content-Disposition: inline
-In-Reply-To: <87h5lfswog.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: No shirt, no shoes, no service.
 
+Hi,
 
---zKXpZdxHdI+l7m0O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+please consider picking up the following mainline commit for the 7.1.y
+and 6.18.y stable trees:
 
-On Fri, Jul 31, 2026 at 02:46:39AM +0000, Kuninori Morimoto wrote:
-> PCM SH7760 is not compiled with COMPILE_TEST, and there is no defconfig
-> which selects it. So it is easy to be overlooked for compile test and/or
-> ASoC updating.
->=20
-> Let's enable COMPILE_TEST when it was for SuperH / SH-Mobile
+  bed0c8084044 ("ALSA: hda/realtek: Add quirk for HP Dragonfly Folio G3
+  2-in-1 (103c:8a05)")
 
->  config SND_SOC_PCM_SH7760
->  	tristate "SoC Audio support for Renesas SH7760"
-> -	depends on CPU_SUBTYPE_SH7760 && SH_DMABRG
-> +	depends on SUPERH || ARCH_RENESAS
-> +	depends on (CPU_SUBTYPE_SH7760 && SH_DMABRG) || COMPILE_TEST
->  	help
->  	  Enable this option for SH7760 AC97/I2S audio support.
+I forgot to add a Cc: stable tag when I submitted it.
 
-The DMA driver includes asm/dmabrg.h which only seems to exist on SH?
+It is a single-line quirk table entry adding PCI SSID 103c:8a05. Without
+it the four CS35L41 amplifiers on this machine are never registered and
+the internal speakers stay completely silent. The affected units are
+shipping, and the change cannot affect any other hardware.
 
---zKXpZdxHdI+l7m0O
-Content-Type: application/pgp-signature; name="signature.asc"
+The commit applies cleanly to both trees.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptBkYACgkQJNaLcl1U
-h9AqKAf/TedgeoV89pZdJDJ46+931WaI/KB96/h/kJcwNuI+GHRX9xlY7ltR/mj/
-Mb7eTm6YVdq5514i06JWtx2RKJzMBr4CDlFTBeu8LwF4+hsBS9uSH4RTk3FG9jcY
-hsjayK5ava7BR0Xd6kSH1HIaIjsT54LOxA1TSIg2GUPlgZBkg5YnKTJghiURBbRH
-VkW9eBMm5lfkSwZYekv0rnEq8p6ZIQF4RU0zPNR9yhLmqJ6BPoECFk9FjR2OE+tq
-zYzwdoZBvecweKieCexT+eHoXbqlSgalgszqJN874l9MSrE4QwDQlT785n1na1mE
-S3WcfLnt3w8gvFfvPd+mDu1BHaLnEg==
-=fsSy
------END PGP SIGNATURE-----
-
---zKXpZdxHdI+l7m0O--
+Thanks,
+Michael
