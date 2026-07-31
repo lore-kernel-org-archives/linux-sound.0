@@ -1,88 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1217D32F76D
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 20:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D4F48989E;
+	Fri, 31 Jul 2026 20:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785528437; cv=none; b=NSSgEfuD1g1BfGnxNvneh7SChfH+IzYngueP26cHcYgNTQhl9y7Ocq5ZIgOJ5H1BKgM11wr/QtTQTqdXgpKfat5zKzivo6fmZXRqKBSnHvB2SihwcmcXTdm/JuhGKDTzYQ5MpVNZmPhZFcqV8jXTCBpQKSHW0oJ4fI/oVR/oWAk=
+	t=1785528523; cv=none; b=Lo+1CxEB95E4/nE3NKdTTtjgSU42NJxPy2bHg+efphS/cVfyYXpkdNhEC20jdEeQBiifkitzIahh9MU7vRQZ5F5yIjSevAStKqbNuYvCGYaQkt3VgfwdEMJwvtjYOVTZxizMEwq0119kxKhav4XV/VFluH5sF3je2i559gflcoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785528437; c=relaxed/simple;
-	bh=1he6KgrHdojFgunxp0pp1XInrTa/sPDQxo+qWZxUn0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EOpmt+c0wLpgvLyi39EwtJBdanngF2SHiQ7koCjW/KiDvjnRE+1ZoQ71WbuKxbOVuH6GDGUXLCu3ME131F5lrU4OiaMvk0twSQciu6GBpKCwu+z6htervjZ2uyGgeM0keisLefgd1FIQ6Cw5AQ/gYZDiyCslmWrPcK1k35A6cbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7qG7uti; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785528523; c=relaxed/simple;
+	bh=OmNZZJUpkX7C5FtQfN1zkS/k5Xe6AF+/t8Sz4WQ63V8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PR9bAbpkrIL5u77Wt6vSArqW3irx6dmwD2xe3VtNv43t5d5DJCzVLKeEqpAv4AwtQ4ce+EdQ+EKWMX35xOfUQCVZ2UH4qG7qm+NWYOvQ7c8TFFu3N++5UYP3wrQr49XwY0TimiSzTAoILYnObFA/aTWg1nz9pbtyZVFYQjDGJ/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQ/li6B7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7qG7uti"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F46E1F00AC4;
-	Fri, 31 Jul 2026 20:07:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQ/li6B7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFEC11F00AC4;
+	Fri, 31 Jul 2026 20:08:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785528435;
-	bh=cX2CbKe5Jn7Xqd4EwfiNwaaHcrCsnI4Wa5ACgDSAuHA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O7qG7uti3WnAcmtJE4uJkWaqv7XppolUDYsQS5Zoq6QKG8zUc3sT/nQZWaU9hHxiA
-	 g2IzORqNMsuvjjpI41i3Np5rIbbpny5I+CUpo9Ol99iQNbTkQiHNHrxMsQiDeB0B9r
-	 JWkENTkUgsIagz+RFj/l/kd9UOhEmHES/yD6yFNu47ZQ/YCYZNTSKIN1vNzlqAW5m3
-	 zkWGvfiWdMpCsj4Sa0vcyYAdY9+d0B5wNpgmnTSHwam5KaE6ba1dGuP2NcRBkfv4v6
-	 jHjkl321oQpVC/xhjoqsKTT5Bp4PifJZkAkr/Ud42rNGnWhkIzeJ4DggKP9CGUQ6dg
-	 lyMUMzmsZakhw==
-Date: Fri, 31 Jul 2026 21:07:11 +0100
+	s=k20260515; t=1785528519;
+	bh=32dtsrmI1ro+bAyzPRDFOGbwl/0Yr21GgaaDwaKeQp4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=VQ/li6B7kgNVBfeCcMuP0zFWi2bS24FiA//1fmzYVI2z5OPhDOmJTnXrbKs5hhvtn
+	 LZ/dVMHXtzyDIh6y2mFk/CuSO7yYQ/eL7Aa+XfcIZ50o98zfCfCfwA15TueucHcLDB
+	 g5x+JQUsGtNRZjQNJQQOnyXrddeaTRD05ncJHVtkygjjBI5Ckn+/QU9uNesS05PVwF
+	 BbvecA0fvtpfHdVPeEoXNusWmVGtMpm9PBDNezX0eLXR4LGt0CVDA4fy34TKss3PxO
+	 TosiP6su8qjMKUHMa73f9ngue0ENlRgetFxkeakfeH61j5rn1PuU14564O8vFyJY4A
+	 mdEzk01bsfZgQ==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/4] ASoC: renesas: enable COMPILE_TEST for Migo-R / SIU
-Message-ID: <819c2b3f-ccda-4bb6-beb4-4f17af81b651@sirena.org.uk>
-References: <87jyqbswp0.wl-kuninori.morimoto.gx@renesas.com>
- <87ik5vswok.wl-kuninori.morimoto.gx@renesas.com>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Andrey Golovko <andrey.golovko@gmail.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Antoine Monnet <antoine@montane.tech>, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <3e2751d1fb027bed0f09c88e5e56da8f@gmail.com>
+References: <3e2751d1fb027bed0f09c88e5e56da8f@gmail.com>
+Subject: Re: [PATCH v2] ASoC: tas2783-sdw: drop stale regcache on
+ uninitialized re-attach
+Message-Id: <178550971605.353541.7399708585037800981.b4-ty@b4>
+Date: Fri, 31 Jul 2026 15:55:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r68qD0RSwnqdcS8V"
-Content-Disposition: inline
-In-Reply-To: <87ik5vswok.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: No shirt, no shoes, no service.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1150; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=OmNZZJUpkX7C5FtQfN1zkS/k5Xe6AF+/t8Sz4WQ63V8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqbQDDB+ZwCog74nXvNbrc9sXyvUd9pvWL5PZHH
+ oCwGLj2/EyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCam0AwwAKCRAk1otyXVSH
+ 0LNaB/9QjYDlg00Je9EnlZppN3YpWBtOGPnLyI+6dkg9OP+svxzMQvjZm6yoLgVwNhv5CTftoWz
+ x52CLmfJCZBgUnKHe/p9gkHgaqLTVZayEdxRTIJYzoTyzXVrMcA+wlIrNC9hJrKOLSRe3fpJSXQ
+ 5VVeT1/hn1ldCm+nM7pK0/AN1oa4/tTqSG/7SMVh6y27Z1vPGqQ2LcB8QqLtlPNKeS+bQiSOUTV
+ SlpTTG4pQdjTifYNmld9rwkx6/aLddAGf74PGJY0X15lAG02qrVyXfU2OVHULmKeZ9bx9JCzUoC
+ ViKcuMF8Am4jBzIDRHI96XerO2PZjKG9ohTqf0JgsVA8Suzz
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Mon, 27 Jul 2026 12:33:09 +0300, Andrey Golovko wrote:
+> ASoC: tas2783-sdw: drop stale regcache on uninitialized re-attach
 
---r68qD0RSwnqdcS8V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Fri, Jul 31, 2026 at 02:46:35AM +0000, Kuninori Morimoto wrote:
-> Migo-R / SIU are not compiled with COMPILE_TEST, and there is no defconfig
-> which selects them. So it is easy to be overlooked for compile test and/or
-> ASoC updating.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
->  config SND_SIU_MIGOR
->  	tristate "SIU sound support on Migo-R"
-> -	depends on SH_MIGOR && I2C && DMADEVICES
-> +	depends on SUPERH || ARCH_RENESAS
-> +	depends on (SH_MIGOR && SH_DMAE) || COMPILE_TEST
->  	select SND_SOC_SH4_SIU
->  	select SND_SOC_WM8978
->  	help
+Thanks!
 
-Doesn't this continue to need I2C for the CODEC, that's selected so
-won't have it's own dependencies enforced?
+[1/1] ASoC: tas2783-sdw: drop stale regcache on uninitialized re-attach
+      https://git.kernel.org/broonie/sound/c/b627da430357
 
---r68qD0RSwnqdcS8V
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptAG8ACgkQJNaLcl1U
-h9DQVAf9HlTS2jMlVJS4/XuOsPQyW0EQShwyEDcZV3E3fUR+DOVKaDMUNH5QhezU
-kBVDx1qbHq8XXwFXk60LnfM4N8eEV76+4hzkL5OEmj/SuWKQkgFpvrkKzCXzM2Vq
-qXG9XKtHXadEKnGsTrePBkdfZ22cj5ST6zpn4wb8wtO+VGtN6cguXaEvuwrIxK9t
-JXvMd7HewM6NmsRtCkdtfvRg1SuRJ9VAAFeqkdD4DfACsbcHY3fA9ar52XQBegqr
-kbnWKUy5OVAKzX7lAHadQhJ53nZJKGDCsPZc25FrU/JuCDJOHK4oE/2yHOOgLvr4
-4B888twgRcl98m7k3a13hOfUZZVurA==
-=CSh3
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---r68qD0RSwnqdcS8V--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
