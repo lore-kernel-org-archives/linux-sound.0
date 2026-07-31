@@ -1,50 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D811DFFB;
-	Mon,  3 Aug 2026 12:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3713CC303;
+	Mon,  3 Aug 2026 12:06:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785758756; cv=none; b=mbNr2KFI+f9f8OtbUVZ70u2oflvyNtrOYrwjgHx20hQ4ITFCeRnp5tGRsXE8jbN2Fr1ZNHUyQSGe7qkdC5KpwoUlInE7dFxY9wfweMe7wJKXVUICanAPU0Zfb3vQhPJnAuUt6wDSy2UivUM9i/yCiodJo3ezwqQ+dMkznRQkJ2w=
+	t=1785758762; cv=none; b=dKzk+60RHQp2dCtPVY6iBlxEGULGK2jVNSqFHky2BTNLw+QUk+vuNHWCWQ0AMLx82UpebXdFLejOPwQvtlgx1w1iMZNfWAjrhXvr1dVB7xYCur7SzY3RFv7woePQvi7TrsgyIhV1gVDk68ZqLsBrZ1RIpy7FynFPGeuhTuZ0d0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785758756; c=relaxed/simple;
-	bh=o9BDYjroSfvjw6WE8VUTd6Zi89w2LPG+xHYD8KX3P9I=;
+	s=arc-20240116; t=1785758762; c=relaxed/simple;
+	bh=NOkfcwhah5Tc5nl/puwyxLPKON9/6gv429dToMq54l0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Xj47M/HtmEvY1BUvgkhsa3Aivb6w/ImOAPlLMSJ2zc7ilJIfdf2XBf2Ce2nQygS/RcVrlWz28T/U8pBar5w8JOJAgpTD1zfU7LyctDZQzfGjJdtkbFiYngOfJiB6PkI9bPEeUcSxRER30psab9uJscS2U/6Q4vNyKZa2QAaceHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Si7N9zre; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=MJi7pUi01Ht6ozM55iziFQ465pdFVoN+7hLkyFFgYmaLq1e45Ibg7QBO68yEKDMAVWVUKb70Vz53inJsuvX1mqlQiYHXr9GdAkUD5/Hgv8IyaqYsyK+7jgSw8tmrvzp6ss4/ZCY0wn2CkTJCLib3nwWO/szO8D+VaQe40MgxDcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I65pIwPv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Si7N9zre"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B932B1F00A3A;
-	Mon,  3 Aug 2026 12:05:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I65pIwPv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD3011F00A3A;
+	Mon,  3 Aug 2026 12:05:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785758754;
-	bh=9JDu+Y0kXE0cIuki0Jpsoq3K8xv49qjhQ8yZxe90Y28=;
+	s=k20260515; t=1785758760;
+	bh=lVNNmNCK9bOZXlldcs8wej7MUpa3YkHOc63Al30zsZY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Si7N9zreIbejL2eQ7ytQI2m5sEypUc+eozaAqI+LJbcuypCS0HfBIUJ80yt/FqVWB
-	 cdoyUzwn6GKIvWGlBReJFpTe+xKtt/NhFVNsxHnVP/62in7JVAaOkmh6N3tjOX42Y+
-	 vMpHevScEROoptD7JyDMPif93BiWNo2Q+io5cmgyXqaYWIC5XRASnSsx4FR3UMCZ4c
-	 S1zI+QUq12tiUISY7vKWIiGRRhLwX6ZmUGIzbcQsaVb7oWwa6BWFzT6wbXjeaZKhFU
-	 8nIVpcz7IMxLTlF13ss0gpy0ICFPm1JGU8t3mQ1jURGY478oSQcpvq7H5J16AGWGiP
-	 dkyNrZdeBdJxA==
+	b=I65pIwPvMM3hQ/brfaRqeyLsSnVl0YQE1VAVc339frn1ekQ2rtqi7+JcwrlRjTNty
+	 iyHmW2lvrZTdErIqEtzGh/VT+HJKF8VBGe59k4e+LBrmgEMQUw7YBrQRQL/278f7Ua
+	 FPAL62zBTB85z3CvcLCvzXcD2IMuXKbja4XEw18LoOl1HQGibsenTf87Co254j7mRL
+	 HU3jGbQYncB6hHrdzSmsfh8JITrGThFvGWIo/izyb5k4Bgot2aScpqRUNNdC/H50um
+	 Lc8GPftShIgdm2H9Ee/jRvU0saQSc+liYe74l8fHGYAi9/3uLc+D21piNyv4tgnqco
+	 wwsAszOkyvgnA==
 From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, Linus Walleij <linusw@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
- Srinivas Kandagatla <srini@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
  Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
- linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20260724141708.2212057-1-prasad.kumpatla@oss.qualcomm.com>
-References: <20260724141708.2212057-1-prasad.kumpatla@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v6 0/5] Subject: [PATCH v6 0/7] ASoC: qcom and
- pinctrl: add LPASS LPR voting and Hawi LPASS LPI support
-Message-Id: <178553935171.353541.12577645858362068543.b4-ty@b4>
-Date: Sat, 01 Aug 2026 00:09:11 +0100
+Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260715115220.3093799-1-prasad.kumpatla@oss.qualcomm.com>
+References: <20260715115220.3093799-1-prasad.kumpatla@oss.qualcomm.com>
+Subject: Re: [PATCH v4 0/2] Add support for the Qualcomm WSA885X Stereo
+ smart speaker amplifier
+Message-Id: <178554011146.353541.6801919941766825573.b4-ty@b4>
+Date: Sat, 01 Aug 2026 00:21:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,28 +51,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1809; i=broonie@kernel.org;
- h=from:subject:message-id; bh=o9BDYjroSfvjw6WE8VUTd6Zi89w2LPG+xHYD8KX3P9I=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqcIQewSTDm+2N9X7G/ueL8x+82BXIH2i/PCrwF
- 1v6fdKeFLKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanCEHgAKCRAk1otyXVSH
- 0HDGB/0RSBIfyTLGmxlApye6wypM9TQMVo/vsLP8Mp7edZ5SsfmNk6a3yitankVnffKNo+OV+Lt
- 9rA5RvyxS7vDs6COymAyUmvYR3GqENdg0TQk9gW/+Q6byKgDDIRnNOY5CfVGcS8rb2FK0oRJB3B
- vh0eainnp/f4nqwaww4seIxWoB4Pa7EHNro1TwREMvXxMTrvDCBf29lq9bPsMs4yAXp/jPZcL2e
- RQjlXgZH+xJQD6/tXfymdRVh8zN4WPtAFoVz9+Fb5doS3bwdhxlhFEa8sTvHHOygSvAS/WOAHP6
- KmsjN6tXT7OV5XeLdTuQGO/Kj2m+44Vpy7kxPkWXIHQDcIE5
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1673; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=NOkfcwhah5Tc5nl/puwyxLPKON9/6gv429dToMq54l0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqcIQksiDUuCOj4XMT9LHCe07qxOTJ4X3upVRT4
+ pKOaj2dvyqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanCEJAAKCRAk1otyXVSH
+ 0GjlB/4n92jd1sg4H1kwjZE97NSriHFSj+7KhQKJG1sStlNglwxpV+7jy3Qt+as1zgJlWwYe/pj
+ r1sJ0lU5OW1I2BLE1xfG6OXAB46NYu3SkAJmLl6ghEEI8G9MZoCuL6bvV7/FJA1x4Dna7/OLO2e
+ MYknAVsgBZw9mPzcEL4nihSitloJ7hWVp6RBTYsC49zAukA4GsKGbimNxN92XV1wcGz2nMYvBPw
+ kFHhU/maH3XV9WCKl59qitlObelcyKdWb7MApBR8v/OO5KP1lfcd5KdsdKzSrrjC9qVlu0KkrFw
+ aMFOs1JOkwzPcu+c8jtvNtgwB8WSSsFk3wAnsmwXHW5CoErv
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 24 Jul 2026 19:47:03 +0530, Prasad Kumpatla wrote:
-> Subject: [PATCH v6 0/7] ASoC: qcom and pinctrl: add LPASS LPR voting and Hawi LPASS LPI support
+On Wed, 15 Jul 2026 17:22:18 +0530, Prasad Kumpatla wrote:
+> Add support for the Qualcomm WSA885X Stereo smart speaker amplifier
 > 
-> This series adds support for LPASS low-power resource (LPR) voting
-> through PRM and introduces LPASS LPI TLMM pinctrl support for newer
-> platforms such as Hawi.
+> The series first documents the WSA885X devicetree binding,
+> including supplies, GPIOs, Interrupt and battery configuration.
 > 
-> On such platforms, LPASS requires LPR resource voting via PRM to keep
-> the subsystem active. This is handled by adding a new clock ID and
-> support for PARAM_ID_RSC_CPU_LPR in q6prm.
+> It then adds the ASoC codec driver with register programming, serial
+> interface setup, clock handling, mute and gain control, reset handling,
+> interrupt support, runtime TDM slot-count configuration, and stream-time
+> power-state sequencing.
 > 
 > [...]
 
@@ -85,12 +82,10 @@ Applied to
 
 Thanks!
 
-[1/5] ASoC: dt-bindings: qcom: add LPASS LPR vote clock ID
-      https://git.kernel.org/broonie/sound/c/cdba62ff7413
-[2/5] ASoC: qcom: qdsp6: Increase Q6DSP_MAX_CLK_ID for LPASS LPR vote clock
-      https://git.kernel.org/broonie/sound/c/037826ea448d
-[3/5] ASoC: qcom: q6prm: add support for LPASS LPR resource voting
-      https://git.kernel.org/broonie/sound/c/42cc644e071c
+[1/2] ASoC: dt-bindings: qcom,wsa8855: add Qualcomm WSA8855 speaker amplifier
+      https://git.kernel.org/broonie/sound/c/9151afc31402
+[2/2] ASoC: codecs: add Qualcomm WSA885X codec driver
+      https://git.kernel.org/broonie/sound/c/1d0368c9873c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
