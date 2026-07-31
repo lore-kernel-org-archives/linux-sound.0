@@ -1,65 +1,65 @@
 Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651D03403F1
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:10:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E59345CCA
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785467438; cv=none; b=PNRzI16PeD2hcu0H3Wh9edUytlE4zDlkem9wkccML5MyYHFw2wQaLT4mQldKXcjPreF07HYyzbAO4iNY9sEnelbTdjJpfh1jJtHCC5BlBpQwoiPrSkmVxya6JfPVAvyRTvC88svOTHyRW9f6zX/Z+9LTAfHKffGS9x33U/I1R+I=
+	t=1785467447; cv=none; b=WM/APz/BbbJfxHP7TIDt71KELBB2Sgyj8Ggcax4K1hl9PEMLOmiCbu+Y3zq1yAX3dSpH+gGl+u8diDPN5E8OB0fXjqNtc7ngh8gVQcF2CuDZeo5KSTi6zMZRraK6EJZeLBh9Nl6A9GTtowPW7MF4Dl2JfM2lNW24S3eLiVJl+8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785467438; c=relaxed/simple;
-	bh=jJta1wP6Gxka/gvOOEwLo5cIEFpwWGZWGRX7SMxpNTs=;
+	s=arc-20240116; t=1785467447; c=relaxed/simple;
+	bh=4P3qOSBkZIQJD0dP/avNyHuYesAgPsaLhYxvXxAmErk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YRH6uIEcXu4qsAGHYGv7v0yW1Xb/tZj6VyxDXu0DjExYcDiHX658tNMZXxtv/nlSXCAsyRs1PlPNLN6kcmBnwiukCZIHmEm/hACxP1QsJZi7iJq0gZL7bicqqIHCNc4gU9hZi9YihIs2uI8o8OkqMv0r4RfpLONFh762NjkqQEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ct4IBZNu; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=QwmJPrMuhYeSSw68pin/deD0hBadM8SoZseNfef2sn18EUShMA5GAUAmPFcjDiwyeiNY9vva1YSRO+8kqlRaIYwY81gxtI2fdqQhgC9WiSGo9So1dibqOSaPYpBTCmEJMB6kNoc9mfpt1MAG0tmaBqIcYe0lAkDdgRDw8i5W148=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UEUeqjqe; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ct4IBZNu"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cfff5f88dbso5035505ad.3
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:10:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UEUeqjqe"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2ce7d2adef4so6803355ad.3
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:10:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785467437; x=1786072237; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785467445; x=1786072245; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GJN91k1ihxweTvZ2euRdyyI5ivn2nMtlaxC9t7yRgHQ=;
-        b=ct4IBZNueNkKk5K1g5s150TxSvoR5qT3WoT/PK6u1maF36nu4sM3vydJaGPdDhMfu4
-         Q+1Q7dafZFDY3iNxllQ5e+dIvKH+wDIgRb84G6mxdac78qvJj0WxEdgqkE9QAT5PCLku
-         eknBZx25xR9Dm0VFdHhymfOotDFGVTEf5KHvMxsTWJ6suCYnQZqn26aZ8RVbouVGhCNf
-         C+Kr2iVilI3pWDW/ASzTmh8tsO1Ku+4kwgYG3B89P8evDzEfwu7ma6PdeFwGg8Hfdtc/
-         g8RvMnaCUYFtRFJEVqq2b7TmBZBKAg1lpHplmi3Fa2E03r+She2gJhbqrPuFdcZiyXU4
-         XoSQ==
+        bh=HMaTaVppxtdBT/aFQQkrTJ9dhpXa6DmRNwQ/jLrNZ78=;
+        b=UEUeqjqeXQUePY1R48GiQWWFHa1cm3YdDrSuozkPPZzj/viQ/DYhN40IZ5LFEEVQ+U
+         MbncjIWrcJFWdG6c7UiKvE3bwNlJx7vWKvkAzrJe2zYE03Hc4xvPc3HHv1S+TFOIHXvK
+         Op31P1qNFc0NQSFkVRIVPI35WY39VKFxemfDx4hF1Z6fkn1hT+xITrA94wHUdKSwh3Ov
+         haQbCIdWalHFtnjAx+pwfIV4N5lF/aLcImFhamU0DHv/KAg4mhnPBXh5PSNS8O6dTTqE
+         wJcgR3rkRxX+nyDi+mHefC0mzmZ/kWm2qfIRp2FmkvvkuhaUL29jI7l486jZhRyhnFMd
+         4PTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785467437; x=1786072237;
+        d=1e100.net; s=20251104; t=1785467445; x=1786072245;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GJN91k1ihxweTvZ2euRdyyI5ivn2nMtlaxC9t7yRgHQ=;
-        b=AU9om1ptW1D3hxT+UbFTW50PPMrQgfGv7HOAj/1zxCWKNAjTJFcHCCAo1J+siBq8CO
-         xUl5aU8HkQmzLjkxr5EJGtHzc/mw6RWyfCOYZQH94NLB+mskNLXPPvg0Pa6K1unPXIy1
-         IVmbT9WZQ3/gXa+/qDFZygIG9fx4m88PtX9G5aAhVPUDFO0Oq9xqsgEb1nBuITH8Jo47
-         3WnOjwytK/GC9kCONoexaW3X2fih5eCgLvNjOuN3KCUbO9nlsWyqV+QVcLriXFyfIlkK
-         maga2454fN090AB9pLgy1zLWu1PKxdCibc/snYEMyknpfsaVr2zQwt3/C1JwU/yC/QeE
-         EWig==
-X-Forwarded-Encrypted: i=1; AHgh+RpA2Bv59dxbii+5sYjWtxaXF0+w0EsTL2HkEotMcY57iNZkdYylp6duTy5GEFGMZ1+NptwDPojlSkKXww==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzwyv1bcw6dlYLIThIDtxyqDK0C3NxP8Ys5fzbUniEIpNFVgGQC
-	6Hfuja6QVCRFUQ38uHD2EpLjeR6LaxsASrtcaozTeM2UWbD0d36vt6lv
-X-Gm-Gg: AR+sD11qrYhj/KU3/PUF/+CYVsEWlDNjsoW7IQMylM12iMmj8JGES3AFOB65xvWnstk
-	MAfkiP921ZGOwkWyr8cxpNkOakrx6fwN/MYOShBJIjlkGkNVCOqD1w8KmlonIeRHnpTTMrDTAO8
-	kFBOWd+p57mhyGrnHSMahm92P0fAVXq27Idf75R1/y1c6li7zRqG1LbcAzmlAFkRuBn1cyK82g7
-	dadyUo9Tu4HiDnThy10Gm10PsSYBdf2U10euWA1j/WbqudQbbvS1BWPnxlgru6sR/0s0WkSwn2Q
-	S2jUuouM++LRSagVW2dqkXzNLD0MYlm/y9NsFUuMJumXXy/SxjRKcbZQWwEFhLEd/9IHjut/4jk
-	Wmo4/Ghst+IQpVV3wBwgNxM9t1bYPkBnmsqFLpQpSt8gxNJK0QghU+ElpnNbckXoRIzQZkYz9A/
-	rGbB1PkTB5AcOnNJxlxhqdAK8wj4kmGSkq0h1Pb5jY3dYgPoYH93xOmymb8cQCnpUlDNzyOvjgT
-	Nt7sEo+IV6CeVIhUzN6w13wWXd/uCfv8rnKEv1f29fqgrImddm5FVqcdVqDVEKWUYTW9D6MFwq5
-	uhFxhqTZ/3yVSE8=
-X-Received: by 2002:a17:903:2b07:b0:2c9:cf41:adf9 with SMTP id d9443c01a7336-2d046ecdafemr5179845ad.47.1785467436860;
-        Thu, 30 Jul 2026 20:10:36 -0700 (PDT)
+        bh=HMaTaVppxtdBT/aFQQkrTJ9dhpXa6DmRNwQ/jLrNZ78=;
+        b=qNIhaSWJ5y2QqP3lRgrczPTNCs/NEMU5cZUX1tz9oIQUcmDt1oPgtFv1cyikjP4ueF
+         l/Svot2Csk7zdX5X6XGgcN2M/eqwZRmpZuqGfXAEv6PYHN4iZY25CW/eLA79K2SZ4kAZ
+         G7sYEjyH3GpSBLwIBWQt23vEFajyIOmwGYqCNf7CzGRqRWafmtCdIk9DSTpv35MKoJH5
+         NGN92n86Gfl6yhHHYALcufty7chqUTLejybmz6B+pIBADjvXXOFn9zfLjDkj/MwVp3Nc
+         XVYJDPky+xzjONyaNJTu4fZWeAAOBQtK9eIqXdkbcUJRfLuc9QvSWaW4jDDlgQONHsYJ
+         0pUA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq615AXQN4xv3CW8Mc7d22YBHZREvtNehi1Ajtkre8maT1p3SVxcbECzH3Drzb2dO7qJkaNiLiLIf/17w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAE4Lg0RJlp2OjJ2lXGMOxzImrjZOz6ZslD+LRwHRlDHxwhpzA
+	n3nG9jJY9LrTETLuALkiYqVUZ5TdsjgwQQ8EF2INW6VosAH3wIxoUEUL
+X-Gm-Gg: AR+sD10vZLEEoDfGIAaor3pIh7Dzw4t7zn8XEMryWXAD7d0ufXFIuPQ5MrClVn/zmqX
+	jk9/JA2Wk/k48tLRBhD7IA5MjaX91jrx21ZF+Pi9fNCHj8Ru5A3hxjGWjrfbZ5WvpF5EkmGRzWT
+	WNRAODumU4F+DGxMe9v6YFfPQ6AQxnNY8yyYkFeTwWZKt72DZVORTGmTrMjILyzNaTz1ktfgN7B
+	XOHPpv9W7MYE9TvVStUidIlir3bH9IRax/yjwEpWWbIBciru0l8swcWI30cAAcJ/YdA3JrGDLFi
+	E/amf4WaJS561E+utRTFPZgARwUsiLg/to06J88YhOAIrOj4QghGJ2Tad19eU+XG+yaiOR2Ngwx
+	RlN60ejpKr67PTkbIYcHUw9ysYSf6YkawZQ9zbGkKi3PmHYVeCiOCJ5vFQzQ1htERQVh9+IrSNU
+	+uFyOAsDMcf24TB6Em+1+5+cwVOvRZZgpm99ykcN6LcXoOYToOLbvsN74G975Xj/FuCmuHq5r5A
+	KNsbJ6ZpGvMAZ+z3p2g4DJtuzgUglRWTCLWVB7f2dc5IgT7M8uHxSvxtYZSkOKEiNm+oCe55Bll
+	sqvR
+X-Received: by 2002:a17:902:d491:b0:2cc:77f3:a934 with SMTP id d9443c01a7336-2d046f20b76mr4877715ad.46.1785467444852;
+        Thu, 30 Jul 2026 20:10:44 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.10.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.10.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 20:10:36 -0700 (PDT)
+        Thu, 30 Jul 2026 20:10:44 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -91,9 +91,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 06/26] ASoC: codecs: tas5805m: Use guard() for mutex locks
-Date: Fri, 31 Jul 2026 10:06:28 +0700
-Message-ID: <20260731030648.8706-7-phucduc.bui@gmail.com>
+Subject: [PATCH v3 07/26] ASoC: codecs: tlv320dac33: Use guard() for mutex & spin locks
+Date: Fri, 31 Jul 2026 10:06:29 +0700
+Message-ID: <20260731030648.8706-8-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260731030648.8706-1-phucduc.bui@gmail.com>
 References: <20260731030648.8706-1-phucduc.bui@gmail.com>
@@ -107,117 +107,279 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Clean up the code using guard() for mutex locks.
+Clean up the code using guard() for mutex & spin locks.
 Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/tas5805m.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ sound/soc/codecs/tlv320dac33.c | 87 ++++++++++++++--------------------
+ 1 file changed, 36 insertions(+), 51 deletions(-)
 
-diff --git a/sound/soc/codecs/tas5805m.c b/sound/soc/codecs/tas5805m.c
-index bcc8cab8d667..f76e04b403b5 100644
---- a/sound/soc/codecs/tas5805m.c
-+++ b/sound/soc/codecs/tas5805m.c
-@@ -12,6 +12,7 @@
- //
- // It has been simplified a little and reworked for the 5.x ALSA SoC API.
+diff --git a/sound/soc/codecs/tlv320dac33.c b/sound/soc/codecs/tlv320dac33.c
+index 223c49dfc450..9bd2ddd8dacd 100644
+--- a/sound/soc/codecs/tlv320dac33.c
++++ b/sound/soc/codecs/tlv320dac33.c
+@@ -7,6 +7,7 @@
+  * Copyright:   (C) 2009 Nokia Corporation
+  */
  
 +#include <linux/cleanup.h>
  #include <linux/module.h>
  #include <linux/moduleparam.h>
- #include <linux/kernel.h>
-@@ -230,10 +231,9 @@ static int tas5805m_vol_get(struct snd_kcontrol *kcontrol,
- 	struct tas5805m_priv *tas5805m =
- 		snd_soc_component_get_drvdata(component);
+ #include <linux/init.h>
+@@ -236,13 +237,10 @@ static int dac33_write_locked(struct snd_soc_component *component, unsigned int
+ 			      unsigned int value)
+ {
+ 	struct tlv320dac33_priv *dac33 = snd_soc_component_get_drvdata(component);
+-	int ret;
  
--	mutex_lock(&tas5805m->lock);
-+	guard(mutex)(&tas5805m->lock);
- 	ucontrol->value.integer.value[0] = tas5805m->vol[0];
- 	ucontrol->value.integer.value[1] = tas5805m->vol[1];
--	mutex_unlock(&tas5805m->lock);
- 
- 	return 0;
- }
-@@ -249,13 +249,12 @@ static int tas5805m_vol_put(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct tas5805m_priv *tas5805m =
- 		snd_soc_component_get_drvdata(component);
--	int ret = 0;
- 
- 	if (!(volume_is_valid(ucontrol->value.integer.value[0]) &&
- 	      volume_is_valid(ucontrol->value.integer.value[1])))
- 		return -EINVAL;
- 
--	mutex_lock(&tas5805m->lock);
-+	guard(mutex)(&tas5805m->lock);
- 	if (tas5805m->vol[0] != ucontrol->value.integer.value[0] ||
- 	    tas5805m->vol[1] != ucontrol->value.integer.value[1]) {
- 		tas5805m->vol[0] = ucontrol->value.integer.value[0];
-@@ -265,11 +264,10 @@ static int tas5805m_vol_put(struct snd_kcontrol *kcontrol,
- 			tas5805m->is_powered);
- 		if (tas5805m->is_powered)
- 			tas5805m_refresh(tas5805m);
--		ret = 1;
-+		return 1;
- 	}
--	mutex_unlock(&tas5805m->lock);
+-	mutex_lock(&dac33->mutex);
+-	ret = dac33_write(component, reg, value);
+-	mutex_unlock(&dac33->mutex);
++	guard(mutex)(&dac33->mutex);
  
 -	return ret;
-+	return 0;
++	return dac33_write(component, reg, value);
  }
  
- static const struct snd_kcontrol_new tas5805m_snd_controls[] = {
-@@ -332,7 +330,7 @@ static void do_work(struct work_struct *work)
+ #define DAC33_I2C_ADDR_AUTOINC	0x80
+@@ -365,13 +363,13 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
+ 	struct tlv320dac33_priv *dac33 = snd_soc_component_get_drvdata(component);
+ 	int ret = 0;
  
- 	dev_dbg(&tas5805m->i2c->dev, "DSP startup\n");
+-	mutex_lock(&dac33->mutex);
++	guard(mutex)(&dac33->mutex);
  
--	mutex_lock(&tas5805m->lock);
-+	guard(mutex)(&tas5805m->lock);
- 	/* We mustn't issue any I2C transactions until the I2S
- 	 * clock is stable. Furthermore, we must allow a 5ms
- 	 * delay after the first set of register writes to
-@@ -345,7 +343,6 @@ static void do_work(struct work_struct *work)
- 
- 	tas5805m->is_powered = true;
- 	tas5805m_refresh(tas5805m);
--	mutex_unlock(&tas5805m->lock);
- }
- 
- static int tas5805m_dac_event(struct snd_soc_dapm_widget *w,
-@@ -362,7 +359,7 @@ static int tas5805m_dac_event(struct snd_soc_dapm_widget *w,
- 		dev_dbg(component->dev, "DSP shutdown\n");
- 		cancel_work_sync(&tas5805m->work);
- 
--		mutex_lock(&tas5805m->lock);
-+		guard(mutex)(&tas5805m->lock);
- 		if (tas5805m->is_powered) {
- 			tas5805m->is_powered = false;
- 
-@@ -379,7 +376,6 @@ static int tas5805m_dac_event(struct snd_soc_dapm_widget *w,
- 
- 			regmap_write(rm, REG_DEVICE_CTRL_2, DCTRL2_MODE_HIZ);
- 		}
--		mutex_unlock(&tas5805m->lock);
+ 	/* Safety check */
+ 	if (unlikely(power == dac33->chip_power)) {
+ 		dev_dbg(component->dev, "Trying to set the same power state: %s\n",
+ 			power ? "ON" : "OFF");
+-		goto exit;
++		return ret;
  	}
  
- 	return 0;
-@@ -414,14 +410,13 @@ static int tas5805m_mute(struct snd_soc_dai *dai, int mute, int direction)
- 	struct tas5805m_priv *tas5805m =
- 		snd_soc_component_get_drvdata(component);
+ 	if (power) {
+@@ -380,7 +378,7 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
+ 		if (ret != 0) {
+ 			dev_err(component->dev,
+ 				"Failed to enable supplies: %d\n", ret);
+-			goto exit;
++			return ret;
+ 		}
  
--	mutex_lock(&tas5805m->lock);
-+	guard(mutex)(&tas5805m->lock);
- 	dev_dbg(component->dev, "set mute=%d (is_powered=%d)\n",
- 		mute, tas5805m->is_powered);
+ 		if (dac33->reset_gpiod) {
+@@ -388,7 +386,7 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
+ 			if (ret < 0) {
+ 				dev_err(&dac33->i2c->dev,
+ 					"Failed to set reset GPIO: %d\n", ret);
+-				goto exit;
++				return ret;
+ 			}
+ 		}
  
- 	tas5805m->is_muted = mute;
- 	if (tas5805m->is_powered)
- 		tas5805m_refresh(tas5805m);
--	mutex_unlock(&tas5805m->lock);
+@@ -400,7 +398,7 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
+ 			if (ret < 0) {
+ 				dev_err(&dac33->i2c->dev,
+ 					"Failed to set reset GPIO: %d\n", ret);
+-				goto exit;
++				return ret;
+ 			}
+ 		}
  
+@@ -409,14 +407,12 @@ static int dac33_hard_power(struct snd_soc_component *component, int power)
+ 		if (ret != 0) {
+ 			dev_err(component->dev,
+ 				"Failed to disable supplies: %d\n", ret);
+-			goto exit;
++			return ret;
+ 		}
+ 
+ 		dac33->chip_power = 0;
+ 	}
+ 
+-exit:
+-	mutex_unlock(&dac33->mutex);
+ 	return ret;
+ }
+ 
+@@ -659,7 +655,6 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
+ {
+ 	struct snd_soc_component *component = dac33->component;
+ 	unsigned int delay;
+-	unsigned long flags;
+ 
+ 	switch (dac33->fifo_mode) {
+ 	case DAC33_FIFO_MODE1:
+@@ -667,10 +662,10 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
+ 			DAC33_THRREG(dac33->nsample));
+ 
+ 		/* Take the timestamps */
+-		spin_lock_irqsave(&dac33->lock, flags);
+-		dac33->t_stamp2 = ktime_to_us(ktime_get());
+-		dac33->t_stamp1 = dac33->t_stamp2;
+-		spin_unlock_irqrestore(&dac33->lock, flags);
++		scoped_guard(spinlock_irqsave, &dac33->lock) {
++			dac33->t_stamp2 = ktime_to_us(ktime_get());
++			dac33->t_stamp1 = dac33->t_stamp2;
++		}
+ 
+ 		dac33_write16(component, DAC33_PREFILL_MSB,
+ 				DAC33_THRREG(dac33->alarm_threshold));
+@@ -682,11 +677,11 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
+ 		break;
+ 	case DAC33_FIFO_MODE7:
+ 		/* Take the timestamp */
+-		spin_lock_irqsave(&dac33->lock, flags);
+-		dac33->t_stamp1 = ktime_to_us(ktime_get());
+-		/* Move back the timestamp with drain time */
+-		dac33->t_stamp1 -= dac33->mode7_us_to_lthr;
+-		spin_unlock_irqrestore(&dac33->lock, flags);
++		scoped_guard(spinlock_irqsave, &dac33->lock) {
++			dac33->t_stamp1 = ktime_to_us(ktime_get());
++			/* Move back the timestamp with drain time */
++			dac33->t_stamp1 -= dac33->mode7_us_to_lthr;
++		}
+ 
+ 		dac33_write16(component, DAC33_PREFILL_MSB,
+ 				DAC33_THRREG(DAC33_MODE7_MARGIN));
+@@ -704,14 +699,12 @@ static inline void dac33_prefill_handler(struct tlv320dac33_priv *dac33)
+ static inline void dac33_playback_handler(struct tlv320dac33_priv *dac33)
+ {
+ 	struct snd_soc_component *component = dac33->component;
+-	unsigned long flags;
+ 
+ 	switch (dac33->fifo_mode) {
+ 	case DAC33_FIFO_MODE1:
+ 		/* Take the timestamp */
+-		spin_lock_irqsave(&dac33->lock, flags);
+-		dac33->t_stamp2 = ktime_to_us(ktime_get());
+-		spin_unlock_irqrestore(&dac33->lock, flags);
++		scoped_guard(spinlock_irqsave, &dac33->lock)
++			dac33->t_stamp2 = ktime_to_us(ktime_get());
+ 
+ 		dac33_write16(component, DAC33_NSAMPLE_MSB,
+ 				DAC33_THRREG(dac33->nsample));
+@@ -735,7 +728,7 @@ static void dac33_work(struct work_struct *work)
+ 	dac33 = container_of(work, struct tlv320dac33_priv, work);
+ 	component = dac33->component;
+ 
+-	mutex_lock(&dac33->mutex);
++	guard(mutex)(&dac33->mutex);
+ 	switch (dac33->state) {
+ 	case DAC33_PREFILL:
+ 		dac33->state = DAC33_PLAYBACK;
+@@ -757,18 +750,15 @@ static void dac33_work(struct work_struct *work)
+ 		dac33_write(component, DAC33_FIFO_CTRL_A, reg);
+ 		break;
+ 	}
+-	mutex_unlock(&dac33->mutex);
+ }
+ 
+ static irqreturn_t dac33_interrupt_handler(int irq, void *dev)
+ {
+ 	struct snd_soc_component *component = dev;
+ 	struct tlv320dac33_priv *dac33 = snd_soc_component_get_drvdata(component);
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&dac33->lock, flags);
+-	dac33->t_stamp1 = ktime_to_us(ktime_get());
+-	spin_unlock_irqrestore(&dac33->lock, flags);
++	scoped_guard(spinlock_irqsave, &dac33->lock)
++		dac33->t_stamp1 = ktime_to_us(ktime_get());
+ 
+ 	/* Do not schedule the workqueue in Mode7 */
+ 	if (dac33->fifo_mode != DAC33_FIFO_MODE7)
+@@ -902,14 +892,13 @@ static int dac33_prepare_chip(struct snd_pcm_substream *substream,
+ 		return -EINVAL;
+ 	}
+ 
+-	mutex_lock(&dac33->mutex);
++	guard(mutex)(&dac33->mutex);
+ 
+ 	if (!dac33->chip_power) {
+ 		/*
+ 		 * Chip is not powered yet.
+ 		 * Do the init in the dac33_set_bias_level later.
+ 		 */
+-		mutex_unlock(&dac33->mutex);
+ 		return 0;
+ 	}
+ 
+@@ -1053,8 +1042,6 @@ static int dac33_prepare_chip(struct snd_pcm_substream *substream,
+ 		break;
+ 	}
+ 
+-	mutex_unlock(&dac33->mutex);
+-
  	return 0;
  }
+ 
+@@ -1156,21 +1143,20 @@ static snd_pcm_sframes_t dac33_dai_delay(
+ 	unsigned int time_delta, uthr;
+ 	int samples_out, samples_in, samples;
+ 	snd_pcm_sframes_t delay = 0;
+-	unsigned long flags;
+ 
+ 	switch (dac33->fifo_mode) {
+ 	case DAC33_FIFO_BYPASS:
+ 		break;
+ 	case DAC33_FIFO_MODE1:
+-		spin_lock_irqsave(&dac33->lock, flags);
+-		t0 = dac33->t_stamp1;
+-		t1 = dac33->t_stamp2;
+-		spin_unlock_irqrestore(&dac33->lock, flags);
++		scoped_guard(spinlock_irqsave, &dac33->lock) {
++			t0 = dac33->t_stamp1;
++			t1 = dac33->t_stamp2;
++		}
+ 		t_now = ktime_to_us(ktime_get());
+ 
+ 		/* We have not started to fill the FIFO yet, delay is 0 */
+ 		if (!t1)
+-			goto out;
++			return 0;
+ 
+ 		if (t0 > t1) {
+ 			/*
+@@ -1230,23 +1216,22 @@ static snd_pcm_sframes_t dac33_dai_delay(
+ 		}
+ 		break;
+ 	case DAC33_FIFO_MODE7:
+-		spin_lock_irqsave(&dac33->lock, flags);
+-		t0 = dac33->t_stamp1;
+-		uthr = dac33->uthr;
+-		spin_unlock_irqrestore(&dac33->lock, flags);
++		scoped_guard(spinlock_irqsave, &dac33->lock) {
++			t0 = dac33->t_stamp1;
++			uthr = dac33->uthr;
++		}
+ 		t_now = ktime_to_us(ktime_get());
+ 
+ 		/* We have not started to fill the FIFO yet, delay is 0 */
+ 		if (!t0)
+-			goto out;
++			return 0;
+ 
+ 		if (t_now <= t0) {
+ 			/*
+ 			 * Either the timestamps are messed or equal. Report
+ 			 * maximum delay
+ 			 */
+-			delay = uthr;
+-			goto out;
++			return uthr;
+ 		}
+ 
+ 		time_delta = t_now - t0;
+@@ -1287,7 +1272,7 @@ static snd_pcm_sframes_t dac33_dai_delay(
+ 							dac33->fifo_mode);
+ 		break;
+ 	}
+-out:
++
+ 	return delay;
+ }
+ 
 -- 
 2.43.0
 
