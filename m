@@ -1,155 +1,146 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9640A489873
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 06:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68D53563D4
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 06:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785480044; cv=none; b=rtKND2VCgOOLZvESIkm28snzX5+aymPaHsDHoxK4eBmukaL3oqE/n1L8+7HWhTitwtRiOLVq/5u/iCfX3G+xD56hud6+Z79TT/HMy2/SOwZL8SRxFBB5cAbk2AUJs0lqv1xqJyjx4VU0JQiDtwBzJYTxWVxOZBOFxWrnGx4nRVE=
+	t=1785480223; cv=none; b=H+llsjmo1CYfHXDQbowOBO75NT6Gwj0keZH1hk0ooKW1qF0DJH8xIT/K4adAoLy0cOz9tHHpyoqstVNl580jJr+wpWl7deLlK9RfZ/AA0bAQXKz7xMKPJvMgnf5ewrLpxcGihuRy1P3wWIjg3TZ7A7YFwqtO/FIKHsBYKadk+cI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785480044; c=relaxed/simple;
-	bh=BWgC5UgPCaeNjoS/T/ON/haiA498AVslPzFKx3refOw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oYWQ2PeL3U3DmTGriLptrKc2TCgUZKH75JVSM64trCwq5uzZ84B21mC/flfILXtLfmpJqSezR9ZhlzSBjc/gLGo7YIowftfIdUh9dvDsw86UKq4SqdmzXrjJw604Jug0pUsnM/TTOkobqfPMoErXZax1evQixfziuaT1ObrTMMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TFohkBj3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YjwUXseX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Gf2FIjXA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rJfMP2d3; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785480223; c=relaxed/simple;
+	bh=wZOA0IgwJWHpsMo28k9D0svhMc/Vu63KzPVgQDVllOc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=lJNRhIlSj2VjzHvz80vJuEQfGY2uy1/ss7wPcZq15sUbqqwhsG4Lpv3UOVGPfSnUIjfNfINo8TSG2SPupSxzgxkGpygiKpc/G4GhJ1ato+E9PhOt0IdURY0judV1HB6+6ent0gkStH1WxfolyL6a8z+r6LJ/Cb7p+xnE/KUC6ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJG5VbIP; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TFohkBj3";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YjwUXseX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Gf2FIjXA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rJfMP2d3"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6A33D7DDF3;
-	Fri, 31 Jul 2026 06:40:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785480037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=itJjti+59e8HASZL0LRRl98pYeXPJxxOcd5KLMN+qJM=;
-	b=TFohkBj38Zz1gB4LnCgK0GunSQlVI+aOdVIzJA2VG/e+Ime+EsJ0BzGIVtUcHLAH58dVO4
-	2b6Zfosem8h3OoGxFxqTFPNrz5LisEKFeMI8Jhov6KI8+idcofAup7nbltOl45mVLVS7sl
-	BWHXR5cAutRJe+x+sbCo1qucr9GoFKE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785480037;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=itJjti+59e8HASZL0LRRl98pYeXPJxxOcd5KLMN+qJM=;
-	b=YjwUXseXfuBWwSwW8huElavhnB6kOJoFTIcbJ+bd9630C7FgZ8814h6WoYrHVrF7NyjpRM
-	7a7CNYOnwFGx39BA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Gf2FIjXA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rJfMP2d3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785480033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=itJjti+59e8HASZL0LRRl98pYeXPJxxOcd5KLMN+qJM=;
-	b=Gf2FIjXASY/IFIvcvpTkmrfXRac6hYQKWbCIYTxW0NWGjdRQ/F6s8xP3D80qma4QWwNf9r
-	oOcvzwuvabRWVKNdTmFCruMXZyMLLgabgPZDJmNuHRGAGResoTLwtMjF/uQ4mlyQUzzmZZ
-	0WLwbiKhpHWEFQcoP98K7tpheqhl4vk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785480033;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=itJjti+59e8HASZL0LRRl98pYeXPJxxOcd5KLMN+qJM=;
-	b=rJfMP2d3bEyH7RQCChyMCVRwUTokBtVbjjx8HOTMcBmmmxpRLIbJpFmJK/NWo7atc/4FzJ
-	tFI1v7nDpl/vBCCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CB0B779B0;
-	Fri, 31 Jul 2026 06:40:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id VIZyEWFDbGoSMQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 31 Jul 2026 06:40:33 +0000
-Date: Fri, 31 Jul 2026 08:40:32 +0200
-Message-ID: <87bjbn1x27.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Ian Bridges <icb@fastmail.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: Add hda_append_suffix() local helper
-In-Reply-To: <amuQK0k9uIalPCxA@dev>
-References: <20260730161518.641254-1-tiwai@suse.de>
-	<amuQK0k9uIalPCxA@dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJG5VbIP"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-472326ca506so407057f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 23:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785480220; x=1786085020; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Q+Ji5J8LTGbxypsqRCu69yH+HVZ9BprDmcay4dgGIBI=;
+        b=IJG5VbIPCCkZHbmMYQTQzO4EHU8pzps9jXr5aX3FcOIiYI0DaX7Fr/Fb/fmk98tuMY
+         P0B5YeonNficNZZmqf3LMEgKPTBWbaBlm8hSWxqYbukXynHW7S7cN4fUrrfMadjihOWc
+         zJlWg6Aa79DfG2VB1yxLeYf0L5ftnLiFlJmulrvdCN2alYQIH0IcRv3kGYcKuu4twhj3
+         thKjBQryqc4beRFIrSG8cRCto/kxKYi3gAwKzd5IwHSeb++2qheFxJP++bj9STh46s1e
+         N6h7Ne6zGehrJYusDaC/XvOwvJ0FGadlutek1R5ZciLAZX7r1c+aZZ5nmnYVznZ+LXTk
+         pE3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785480220; x=1786085020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Q+Ji5J8LTGbxypsqRCu69yH+HVZ9BprDmcay4dgGIBI=;
+        b=HwNMhE0uSCBEs/VAZrGeLm8QGoG96/QMbxR4ExnjtfUWQmKNPbV2is01VLKGEOWDl5
+         oMMWTGTeHmFd7q6ItSJRu5FZfMTUuwa9j3njH0eEa2iD9QxtiNaGJhRi/JdBucAPsJX2
+         o7HpjM9xCRtM+wFv2JUCw4h5Ei7vH96mQ8IvIUflJTgQhRXSEuJQyyjNgLwAZtFSikay
+         otcOyXKcQvK+atVUHBFSLdXpKLL+qWE2i8MrCq0LR4J8S2Dwo3SLDoED9/hCMBk2w6G6
+         4lYoiekceGpr1ZD8Eplk3tD5Vs2Rl3mDkmjJYTxxv2R6TpYv92nYlu6gvDlP+VxfpgQr
+         QkWQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rpf3PFkzMvu7DwSh/eDlbJF5yB84Jtz/KmXaCEw7/0Yq8XEzRKixik4Iy0eW/xZV6qhWTcDbwE2ALFAIA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4YesWKezE9O8hhLd+ZT5mSuqDvZX75MQ2T+YL1sJlwEIG3M1H
+	86rIQA3fjDcMmV0yCrWrHfv2e/SataYatX+9Vsd72saYlpuJ4oOtZ8wF
+X-Gm-Gg: AR+sD13T+J4vpRKE/vuxTyETTO3Vrns/jyVGck5LtivNp2N8SK9hndzAKslQSuByaoV
+	MYNxFgnj5hvXRoCAV2PHuBOKVFvWvPa/iaPntw4e5vkvWlZZpj731vhvodHQXIuln+CYytP2khG
+	EmMaeRvWYO6kQeA5sYG3+qn4EK8w4tUQERTRJzxoRuQEHB+Lu0vzrBxNlc9JE/7ANPUqADJ/ZZc
+	ed9CGSpgT5ijty4MkweHkltVaKeYYMR62XZWp8LxerKp6oOgT5PLbY27IhM+VPPfuS8MzL/IHci
+	wgNVeInoO6lR7RNLsC81DQdmtIx+IrbOVoaWii0BsIXF62LPt+XbAnTXKm+E3XBm+crd65q2BlB
+	lfgcXUSArPvzzvOMJVVeyWQzJNyy2TamOIqHr05Ws+eJQRxgdntE7p8AS3JV0zSdsa93qmNn0PJ
+	wzQItQvstJlOB/xPrs96mbbIL6YESuvIRsyBnGXGwAxgim3IMjT29EiCPth77bXlsUelGLiEYS1
+	i5/wvNWpunY767rszeSqXzc2MOoVQZgjkUIxMyqa+237lml7IbVmg==
+X-Received: by 2002:a05:6000:2309:b0:47f:9404:5185 with SMTP id ffacd0b85a97d-47fd2ac976cmr2008837f8f.24.1785480219703;
+        Thu, 30 Jul 2026 23:43:39 -0700 (PDT)
+Received: from Ansuel-XPS24.localdomain (host-87-11-254-126.retail.telecomitalia.it. [87.11.254.126])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-47fd41cfdc6sm1372488f8f.8.2026.07.30.23.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 23:43:38 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cyril Chao <Cyril.Chao@mediatek.com>,
+	Darren Ye <darren.ye@mediatek.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Rosen Penev <rosenp@gmail.com>,
+	bui duc phuc <phucduc.bui@gmail.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v4 0/4] ASoC: Add support for Airoha AN7581
+Date: Fri, 31 Jul 2026 08:43:20 +0200
+Message-ID: <20260731064326.2284228-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 6A33D7DDF3
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 30 Jul 2026 19:55:55 +0200,
-Ian Bridges wrote:
-> 
-> On Thu, Jul 30, 2026 at 06:14:03PM +0200, Takashi Iwai wrote:
-> > As strlcat() shall be deprecated in future, provide an alternative
-> > just for a simple purpose -- append a suffix string to the given
-> > string buffer -- and use it at appropriate places.  The code isn't
-> > really efficient, but we don't ask for speed here, so let it be.
-> 
-> The patch was tested as follows:
->  - Applied on today's for-next (f817bac425c5) on top of the two jack
->  name cleanup patches. W=1 build of sound/hda/, no new warnings.
-> 
->  - A userspace harness compared hda_append_suffix() against
->  both the kernel strlcat() and the strncat() form in jack.c,
->  exhaustively over buffer sizes, fill levels and suffix
->  lengths, comparing every byte of the buffer. All cases
->  were byte identical, including truncation.
-> 
->  - A QEMU boot with intel-hda and hda-duplex, comparing the PCM
->  stream names, the codec proc dump and the full control
->  element list between base and patched kernels. The captures
->  were byte identical.
-> 
-> Ian
-> 
-> Reviewed-by: Ian Bridges <icb@fastmail.org>
-> Tested-by: Ian Bridges <icb@fastmail.org>
+Add all the patch and documentation to support Airoha AN7581
+sound driver.
 
-Thanks for checking.  Applied now to for-next branch.
+The card follows similar implementation with Mediatek with
+the codec present on i2c but with a simplified implementation
+register wise and additional frequency supported.
 
+Changes v4:
+- Improve Documentation YAML
+- Move IRQ regmap to mtk_base_afe_irq
+- Use mutex for user tracking in ETDM
+- Register IRQ after memif allocation
+- Address suggestion from bot
+Changes v3:
+- Major fix to the ETDM code
+- Add duplex support
+- Improve Kconfig setup
+- Rework and improve YAML schema
+Changes v2:
+- Fix wrong edit in MAINTAINERS file
 
-Takashi
+Christian Marangi (4):
+  ASoC: dt-bindings: Add Airoha AN7581 AFE Sound card
+  ASoC: dt-bindings: Add Airoha AN7581 AFE with WM8960 Codec schema
+  ASoC: mediatek: common: permit to provide dedicated regmap for irq
+  ASoC: airoha: Add AFE and machine driver for Airoha AN7581
+
+ .../bindings/sound/airoha,an7581-afe.yaml     |  41 ++
+ .../bindings/sound/airoha,an7581-wm8960.yaml  |  71 +++
+ MAINTAINERS                                   |   8 +
+ sound/soc/mediatek/Kconfig                    |  27 +-
+ sound/soc/mediatek/Makefile                   |   1 +
+ sound/soc/mediatek/an7581/Makefile            |   9 +
+ sound/soc/mediatek/an7581/an7581-afe-common.h |  50 ++
+ sound/soc/mediatek/an7581/an7581-afe-pcm.c    | 529 ++++++++++++++++++
+ sound/soc/mediatek/an7581/an7581-dai-etdm.c   | 458 +++++++++++++++
+ sound/soc/mediatek/an7581/an7581-reg.h        | 114 ++++
+ sound/soc/mediatek/an7581/an7581-wm8960.c     | 161 ++++++
+ sound/soc/mediatek/common/mtk-afe-fe-dai.c    |  14 +-
+ sound/soc/mediatek/common/mtk-base-afe.h      |   2 +
+ 13 files changed, 1479 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
+ create mode 100644 sound/soc/mediatek/an7581/Makefile
+ create mode 100644 sound/soc/mediatek/an7581/an7581-afe-common.h
+ create mode 100644 sound/soc/mediatek/an7581/an7581-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/an7581/an7581-dai-etdm.c
+ create mode 100644 sound/soc/mediatek/an7581/an7581-reg.h
+ create mode 100644 sound/soc/mediatek/an7581/an7581-wm8960.c
+
+-- 
+2.53.0
+
