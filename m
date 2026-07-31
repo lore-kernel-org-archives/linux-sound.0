@@ -1,170 +1,769 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA0935C698;
-	Fri, 31 Jul 2026 08:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FB63D953C;
+	Fri, 31 Jul 2026 08:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785486746; cv=fail; b=TADSDNpYRnWCB5vm5LkDDV/5n+KLg4RXgrDHvKaj0cYZR38Oyi9VOhP08/wdOPRb8ZSGvv7HILwnCw1fyJdFoNU2e2Gs6P0sGQvyAkQy8std+xLpkB338bHrLhiMTQzvJ95b4LLkO3ZHXnJGxBJey83eMEsmKSvfBNrSyRFw8/U=
+	t=1785487205; cv=fail; b=LNcd3emMJRLojZ3vCA2hbE54TDXKcBU/w4cbhlKMHochRZwaR30t35UaZqAKpvB0jnBHxC488nAFAeY1f1rPWar0xlcsMmHfGPvr2v2yqcMtjY/I8Tr0MubGG/JVQ20umvOO2f3mUpsk8JL5S1atxsO2qWhDOC//vJ1MVCqCtWk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785486746; c=relaxed/simple;
-	bh=+bAVUPbq8I+hjohB/iR21njOeA+aomWyXo84pd63pxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jOIcrxiBzAj8QHPxydDzQUlzI26GG4OscpznyWCNBiEHSbfqfYyOJ0933If0RD8naLhYfJe0tyfVETtvbrfAmL/GkqSK5H1dpbtkg5R2yTjDWev66eKeVsi4YE4k1R7p7+/AdkHzeKOk+DowdEGF4yg33OVR39RbWnRBTcwms4s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PpXNOVAe; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=WYK5CWp2; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1785487205; c=relaxed/simple;
+	bh=jd50DQc/t98TdSp0XvvX7uZSQ62hXTi2n1T7+ADp6EU=;
+	h=Message-ID:Date:Subject:To:References:CC:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qsi3XsEHoRMj4eapAZp8ktlFU7dIKjH2WWJCKP2FklSitUoSfj3c/5e4pMdqz0SRW7ZNXrxJNFT7mw8dyx+yQV5l8ZG1O5GdMcrWinY7q/a+4yQY5EPGv2/pfwfXgzrW4CP+pPb/v1Z36NzTAhvq66T2kbLI3O7vNJ1X3PiqnA0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XhCOewrt; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PpXNOVAe";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="WYK5CWp2"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66V85u3m421333;
-	Fri, 31 Jul 2026 03:32:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=ZVwK2N7yNhVOXzsBTgKGTM/VyUUbnO3ePQdE/1RVw4U=; b=
-	PpXNOVAefqQWO2K6DZ+6/DfVKdc7F3HimG+pHgRxZV9wFP6M8g4v4dB0jcSCzBKL
-	0Pp1+CRMV5QabopV9EAGPcfCcjN3Y2pwOBblEoTf1x7dzmZqn7OrpBpY2y2Le1V+
-	BBxGk/aN5fYE0WGktQeqw3/PYv+7WFPD00aZZdE4dVtJYmsrp4M3McmAn/MPxDjy
-	AepmbZSSXzm0vu0Emxn90ZXnPnu2qvRr8IXYOa7McWbHI6xGcCdkW1utk4rHIQwK
-	QaBEnBar9rdO9ks3CeLK5zLKpOXoiEfX9i6SuOIQQr8dUwyj15YkUIiXGNApeLSv
-	QbxvVbX83M4SaZ93aH9coA==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020075.outbound.protection.outlook.com [52.101.193.75])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4frqvur0sg-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 31 Jul 2026 03:32:12 -0500 (CDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XhCOewrt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785487201; x=1817023201;
+  h=message-id:date:subject:to:references:cc:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=jd50DQc/t98TdSp0XvvX7uZSQ62hXTi2n1T7+ADp6EU=;
+  b=XhCOewrtONcfhkN6FvkGY7xX0BNWOa/S4LouHvGXmDo62/glKdjhPSES
+   N1220Xtw0cseIslt5Y5alJP2FfAHzDtvyuIenTxbsVgncKWFscOFLdnM5
+   AUYfLlHTPvJ9RuYMCassdwKT3eVxYZ0nJ/W84C4a3oJruJm+HVUduzpPK
+   UtFWKqjZByFOBLfOFwCpdNKpcqTmgocnhUWygmGs5KI0+hYPVIcqx54zU
+   I3sk3E3zN6/eGlGWaWSZugtYKlKqQ85m0AzPptgFeS5Y+bPhZGu80AXzi
+   r8heFWuynx6IsNyVOKDJPpzmhIH3R9OUSR+UAWS9WGu2EtLRJZZGYH5o0
+   w==;
+X-CSE-ConnectionGUID: pR9bC0+iTYmliTfv7kqhNw==
+X-CSE-MsgGUID: r3TLManJRZaKyTg5snGBKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="97267711"
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="97267711"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 01:39:56 -0700
+X-CSE-ConnectionGUID: Ptfha/MwQR6Ij8NFeSaYEg==
+X-CSE-MsgGUID: BxUbmLBnS8yFISkNwz1JIQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="259282819"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 01:39:55 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 31 Jul 2026 01:39:55 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Fri, 31 Jul 2026 01:39:55 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.22)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Fri, 31 Jul 2026 01:39:55 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j7M2JFuGUJTSHFGdZx8iVwSv350xT34ozqEr2xOncbSWhMenq4RBk7h5Pqi6OYhtP5dnpXutZZBpduYp9FHmNzANL/Xi26HYUE3S1a/iMxqbdD8igPEmYWIY6XyHgBr7mc6jo7i8NfRMo1hXQUBQWAhOMLhuXhNTaqrl10VV++7FXBybLLApoKxwYChodPxJj/JNbl+FS6bsG/qqsEz7MBQ7T1FPMVKr9vL/xVK9LcFCVdHK2w20Djw79IC6yO39DLvsudJ8B/LI4Pvf3cuVbXzrVLw3i4gNqPOeaSXVwdzjvwlEyvZzgTgjAM+foPQ197DszUHD+s2m/N2V5HHBTA==
+ b=hhkLKn/4nAw1buBua1ioUz3KtNgdwyvw8KM9GGzbHpvN+JMQ5RcJkkUsS2yyelFNt5hYQ9lrDbRaYevk9/I56xZcZ/nDlTRkIL/qqquNXjRW2n7gZVwwWy48NDqn27BGIv1sDizyV+0bVYxPAD+XUcWjjiE3xqxvtunQ/816PhXg2Xfil5Qm6++vyxaMjf5DXWyoM1JNLlODI/DQNrZj2dabLJQ+ueZTRLNjCV4QZnd9nKAIP81CSeFM/it+f1FYQ9VLZh/iHpR+1/GRqTbDknWjaechplr3W1XUpvkYW55Y3+XbKXXfRyQp2aus/CCUWuOXLR3EA/Nb0JJ87U3Oeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZVwK2N7yNhVOXzsBTgKGTM/VyUUbnO3ePQdE/1RVw4U=;
- b=COM2xOBjfJjQt7BuQwGVIxZVYGLd+jRYeOYpRbMArmmpyyaGiSVicLzRyrIXhO2JyRj/e7ynnGZRzO/JTNcj0l1+VY2Wez2eDfeHVtVIYM7Uqeb46oadJDFQpduJm1jNqwJ4Gtw0ZPOhdwyjMxUzmKT7vB8hvClY1riN8D9TlHzczsNDrkxYEl9pVZWcYB8Zfli14YSunqWYa/arhyv6LZ7LFecsDWy4AH65x78yajrOPgc9OZR1aeemcVDqy78wAIlh019IMHWkYNP7/Ogv2KJLpe+/adlzn/rrIlpPWulbCNqLwwNyF/WKRLN9ksmE6RKXkDGrl6iAR2OFaknkmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZVwK2N7yNhVOXzsBTgKGTM/VyUUbnO3ePQdE/1RVw4U=;
- b=WYK5CWp2j4+Y9uibYXPrxPU/VRlf9U1xv9ocqwn7Gjo4eQFwhCG84QSiNPxJ90lkP5VAiwhLaGqWUnF/K6nOInYlzXapUd8UHRFvV0Pye1eN+Lf1ij78TuSd2dK3gLgPnm2t99p9UUduWCjFGS2T1IlrTGTeOp7+p9OMpzv4rGs=
-Received: from BN1PR13CA0014.namprd13.prod.outlook.com (2603:10b6:408:e2::19)
- by CH3PR19MB8326.namprd19.prod.outlook.com (2603:10b6:610:1cb::22) with
+ bh=lKdvpX9jIcKvdlsCPR8ChGhOQWNeF9QopX/bCDIHqJM=;
+ b=USAb1UfiIEcN8dJ7LCuap1Rtz3Q3U5pK1fxKznCTIOoytezNxPZ2egw73qq/KE8sBXopWsmpbJyLmIkdjGzNF+q8ysFnFvA8sXK8gAmJFlzctLND1c63xSI0161N9g2XA1RqmuMiIh3JqjAwvYZ39GKm60Xguyhzt/6VUrEvkczAT5Rqt6Igs7tAO49X/c6b4kqRY9Ne6naPJcZfRlD0bnBR1YfcfK7r7XF4VV3Ni4ESwvZQ08SqFX5JJ3RQLh/WixHwVQK5vXIlxHjQ4hopgVNL8QTriv4UqL7bzXWHdEOmTtliJRBfj04/ztoq0ISQr/9h9MvBWxW5X3c3nW4yLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com (2603:10b6:806:2bb::15)
+ by DS7PR11MB7692.namprd11.prod.outlook.com (2603:10b6:8:ef::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.16; Fri, 31 Jul
- 2026 08:32:06 +0000
-Received: from BN1PEPF00004681.namprd03.prod.outlook.com
- (2603:10b6:408:e2:cafe::7f) by BN1PR13CA0014.outlook.office365.com
- (2603:10b6:408:e2::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.10 via Frontend Transport; Fri,
- 31 Jul 2026 08:32:05 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BN1PEPF00004681.mail.protection.outlook.com (10.167.243.87) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
- via Frontend Transport; Fri, 31 Jul 2026 08:32:05 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id E7662406541;
-	Fri, 31 Jul 2026 08:32:03 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id DA8BE82025A;
-	Fri, 31 Jul 2026 08:32:03 +0000 (UTC)
-Date: Fri, 31 Jul 2026 09:32:02 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Mark Brown <broonie@kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>
-Subject: Re: linux-next: Tree for Jul 30 (sound/soc/sdca/)
-Message-ID: <amxdgg7mKgy8/uwg@opensource.cirrus.com>
-References: <amtnlbQl2KLongvo@sirena.org.uk>
- <ae2d6aa5-1093-4ec1-ab29-ac9af791fb5d@infradead.org>
+ 2026 08:39:52 +0000
+Received: from SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4]) by SA1PR11MB6967.namprd11.prod.outlook.com
+ ([fe80::36a9:3aca:a63e:c8f4%3]) with mapi id 15.21.0270.012; Fri, 31 Jul 2026
+ 08:39:52 +0000
+Message-ID: <c1ac7957-dcfc-42b6-bb24-9aa76f9c334a@intel.com>
+Date: Fri, 31 Jul 2026 10:39:44 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] ASoC: airoha: Add AFE and machine driver for
+ Airoha AN7581
+To: Christian Marangi <ansuelsmth@gmail.com>
+References: <20260731064326.2284228-1-ansuelsmth@gmail.com>
+ <20260731064326.2284228-5-ansuelsmth@gmail.com>
+Content-Language: en-US
+CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+	"AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, Cyril Chao <Cyril.Chao@mediatek.com>,
+	Darren Ye <darren.ye@mediatek.com>, Daniel Golle <daniel@makrotopia.org>,
+	Rosen Penev <rosenp@gmail.com>, bui duc phuc <phucduc.bui@gmail.com>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <20260731064326.2284228-5-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VIUP296CA0040.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:800:34d::18) To SA1PR11MB6967.namprd11.prod.outlook.com
+ (2603:10b6:806:2bb::15)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae2d6aa5-1093-4ec1-ab29-ac9af791fb5d@infradead.org>
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004681:EE_|CH3PR19MB8326:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a6789f7-fe0e-4a5a-9f49-08deeede33e5
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6967:EE_|DS7PR11MB7692:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d1ba1ad-0b89-4570-a279-08deeedf49e4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|82310400026|61400799027|23010399003|13003099007|56012099006|11063799006|4143699003|10067099003|16102099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	atW+hcohkPyaO+FvkK3XKTPhIiqIZk9VAMoPFZYkVii+PEpqVVKHJsMYth+Pjq10JsIb1Eo53okQbcar0poRiL8ZhWfEnTCg8QRn/SbyK1VWF1se2DjpU38IETUVvN8abQUVnoasGfu44MUkF1hIX+ANgwYR7sbBQk23EyvOzWcS4STG17+3xdthSXsrawe93HF+hbX+6W8iMqEf9Yhks+04F25ypHYN2whwfzXn6b+U9ynSvzwSb7EQcQ9KztoJkG93UiECGaKfX2ezmGXv3vrH06OWyauu5oUnInwJwmjB71CVBQ43bAIx/1jjJRooDga8SbVxXT/BFBD3xKeIahZc8USZV2SAYWfVHlarBFI8SDsOZhNPNKeOGzgFABh1b1gphAzXr9MVT92NTDF9hzCBkZBgg0SzqZdz0xwvGk3ouDmU+3XdelotHQt7Kg5q/AmB9HUAqvVH3XiLQzs5R75+cGZuKgWB/I0fTX0l98a3M+NRk0pQUYijibURuhfNnfoH2x9uWHYFm1mSaeBTbWs3fy6NPKHfEyWpauCzdq4RIgYlEibthL09rhdHXtRldH+edLpdIe4w6EvZ7mzGtv07tgH6mnHa2ez7LSSObNYErgS5V0bhO9XOn7H37onXVN1GwmkN64qoCvFWhMC5ZYyaaxV60rgEYI6QWM1QWMANxMgZI8Q9Mj+hWU5h5reJNtqCuif+Pu4/29aZraCIAQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(61400799027)(23010399003)(13003099007)(56012099006)(11063799006)(4143699003)(10067099003)(16102099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|7416014|1800799024|366016|56012099006|11063799006|4143699003|6133799003|7136999003|10067099003|22082099003|18002099003|11062099010;
+X-Microsoft-Antispam-Message-Info: q5uvCLhF9tcbKZppz3lWpFOunEE8CzBx+Pt2N3q3+2v6bkPUj8mv3rWWevj5F8jx6XDf4h8vEG1N8a7oZ22dw10cIx9Vgkdq2LKQ17pZRG5+W+uRHvy2Ko31z93pGj3m4rETYchs4SzEvZov8wFV0Uek4Hit9XsKEEw43kCpWnkyMpxzFuudA6SeIDvLouFvhXNYaOzvvzwL92qLlVggG1iZ1N5OI2YZswWgCSqxh4oN5wIiMDV10XTc9CD5F66pLnx0061Lw8x90VkDen9LXgemEYFgJQe2KxaVpvqh6cVd9F9S1McLj2Y8zbw2TpHEYj8Cyq3ndVnPp++jp9z5+j3L/PGVRjJqHkW0Px5cjR+e96ppoGFZm5m03YYLMnGAnNDHsILMmFPXma1erka0s8zpDH8zWjqs6k4VzjDqRWQAGlgwQLDT8VmqlvDQ5dektuBE94lXj/Rw5Ni7K4RZ9hDn8tdlD8uFPH/tbIqavAyn4wKuG29sSxB0vEhiwsSEj6+lO2HYGyerxnu+RmtYtcdr+ZKRl1SnVEc/kosZ62vxit67ynxP0v8McEVIqyOkUWdWKod2mCjn/lmVIoPKPUkOTz7zqOf+YPEi7qqE2e5/v80ttYlCpKL/pNHBlhcxLuLW5zFSnXXNC2I+pjjWRaV09cBOC4YARX0KGjAdQfw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6967.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(1800799024)(366016)(56012099006)(11063799006)(4143699003)(6133799003)(7136999003)(10067099003)(22082099003)(18002099003)(11062099010);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	L6AJOVd8731hQwYPqZVsLUMdORRUbohCWY/xECprCcoFTXnLnBmgOIK1D9muH6oZ/rBMBwTpY65IeK8mmKLxJLEYBnFxni00pf4yXZdfZBj+AcCjFsVgY4fG3kAvzSb6MhV/VsVqV8/zTIU276HTxh845I5hIZzDOSKUj19hJ5iQ0RxwyjdRfl5kj0qf2c788WL7FvtiB3GLIKxNm1xQ9/U9tJlfgMm3PJcOou6ASKzMwIVqbIqhklGjEewFQK/S56Dld5u/iwOR1InHju3uTc65rs1ftkschqMHF52VAyBedgMTu2l0cV7sHRiCYvszpSWBOzXbIVjgPlBqfhRawQ6GVBLP/i9xIjOPRuNnmAaVczGahB6oOUl1RhnA0lRvRp1ajLM5ITGAOmADMf1sT5M/WUs1DNd+dBp1VTPVU7FERsHH6Mrd7pGWng1UhfIi
-X-Exchange-RoutingPolicyChecked:
-	WfOaXr1SprKRGEbOUenxnUTpgu/20sj/3YgPU83bOjNKwZDINmjVtMHOQz7e7bMKM7Yo/caNqLt7Y95LcoisVbIjWf53+BhWjnfPtgp5Hp4JRbGMsP/8rvYwldts94oCx4ixqTKH937aY8XSPycTHoftYp2TjtXfnzvkr8Usz33JqK54j1fzu34HTKOsrM1mxlJMmaj1WfEg+n2o8K9TQdDUS37DVuaQJQH2nnbSOM5WIWRNtdYBRfqLkS5cbKk/ff0bJeUYMVEwUVmAMV+yEowtYxiW23zPtpJqqJr+ZGlWL4P/6RyuNvIOPilddoQ/kk/cNtj+30ip+10LBgq88g==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 08:32:05.1894
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a6789f7-fe0e-4a5a-9f49-08deeede33e5
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cHhUUWNiSmQyc2Nvd2h5SkdhNTFrdW9XUGRsSWcwQWIvc0dSTnVvQytWMGR2?=
+ =?utf-8?B?cVVsRGdpYmpoNEJIUHM3dkNSUW00MXBRcHp0UzdIWlFTQ3RtN2FDdFZGdkdH?=
+ =?utf-8?B?dEg3b0FvT1paWmNZc0RaZjltWE5UL0c4Y3FGYnByZjVITStkQTRGSDBHSkk3?=
+ =?utf-8?B?ZGVNbkNtUkhPTG9qNE5BQXpWUlJRNEN5RXRFZUtKQ3EwRWVjTERZTE5FS1di?=
+ =?utf-8?B?YlVUb2hDR1QzS050eE1ERHdkbm5MQkk5dnhjUzR6LzhYY2dQQWZBUzZaUS8y?=
+ =?utf-8?B?L0luV3VvZ0ZhakVpUGNlYlF1NDkwVlJSQ1NiUUsvaVpyMUhVTXR6c3lGRUN0?=
+ =?utf-8?B?d2FWUHJVbWVGd3d4N2RFZXNFVENuMjA1NmxnV2lkbEpXVkQ2TUE3U21zRWgr?=
+ =?utf-8?B?T29YRGxab1Q5ZGx4ckhVYlBheUhwNGlZQktab1p2Mis2THE4dmVEQkRNdGQ2?=
+ =?utf-8?B?cCt4ZXl4VGFjbWR6eURsbG5KWjhFelRrU2tvdHJDNDJqTCtTaStkcFZBTll3?=
+ =?utf-8?B?WmhmQ3ViMk9WbjdSakNDVElRRzl2cEFneGkyVmJJQzQ2aTEzZmhUclgwWmts?=
+ =?utf-8?B?OGozbDZUSGNrR0QreU0vRkxERjArT3hTNDlWYnRHU1ZrM0tPSEgzRENDeHdQ?=
+ =?utf-8?B?bUJqWUxnQWxTai82ZnhjU1VhWWNDLzM2VmlaV2h5YlFKZmZyVzIvbXNzVGh1?=
+ =?utf-8?B?dzc1RWdaM1AwQ21HYUVCaVBvdXB5SUlqRWRlaXVORWhCTndyNHdhZDljaDYz?=
+ =?utf-8?B?NzBHYmZXS1RjVFVPOFp5ZVlObUJvdnhXVnh5TXgwa3lGemNiVGJkNlpmOHBn?=
+ =?utf-8?B?Vzc5cWV6dVdad3FSbzhrL2dpbWxTa2U5b2U3U1IrOXNNRjFkTFY0VDR2M0Ni?=
+ =?utf-8?B?NVRzYW9GTmJuSVdyRjN1bnBwVmRFNk44TjdJMnFHbGRRYk91aU82S0JNbUc2?=
+ =?utf-8?B?UW56L0kxaGdUYllaTG1tRTNWeFd1dE10M3VSM1lqbXo0ZENWdFVEYlFpWmNR?=
+ =?utf-8?B?QXNQS3ZmYW92VTF6YS92SHVxSkFuQzV3ZDVQbkZ3Mk9GU3pSdzVFdTIwQ2Mz?=
+ =?utf-8?B?bVAzaVpzTjhPS0FUa1NFOFZjeEZZUC84ZnY1azBLZnZTajhGOFRKZkJHblN4?=
+ =?utf-8?B?NnRDdTU1UWc1OEZwWG00dWUveTQ2dW05aDNCa0VUSVFGajNUS3g2WUlyZk5n?=
+ =?utf-8?B?cFdTRnphRWVrbmhCMS8yK2txWFYzb01vZC9LOUExUnpDSWEzbnc4S2d6Y1oz?=
+ =?utf-8?B?VlZEUjJEWml4bkRBVlNzZ1VwME8xRnJzc0t2a3BQZG5mVUZVT0J5SmxTSVZ5?=
+ =?utf-8?B?aERXbU5VUUF6dTNDVk9xdG9meXBKdkJaVnJVYUY3V1hCZ3AyeEFmNHo5YzUz?=
+ =?utf-8?B?a3J5NWRJdTRqeGdqNExjekUzdk5mMVNhR2dxeGlabThzT3dmOHFBbGF4Um1N?=
+ =?utf-8?B?bEdYSkI3dCsyekdXUEsreXlJSDdza00wUmpSSldJWjJyUTlBWjRsYktETFhL?=
+ =?utf-8?B?OTJ0elhpcmNTTjd2OHFWRlVtTmRyTTRzZTVWOCtWZ25IYVZpNVJwY2FZbzZv?=
+ =?utf-8?B?V1pZQVFPNGdMSFQ2ZDhaTUpmVVBvVHMvTEJocU82K2tpT21vV1pyYlZ4RzlW?=
+ =?utf-8?B?L3JuZzBDODUyMkl1OGtnOUYrUkxUZ3BpVkxFc1lVRG9sQkpNWFgwZ0JIUmty?=
+ =?utf-8?B?dVBHcDdXOVpQWEo4UnZiOVF4R1E1L1ZuczdzT3h2V09RUHZINWlybU8rTUYx?=
+ =?utf-8?B?WE9IaldydDlrYjltVDJVZENUVXc5Sk9ZdkJxc3BHQzhVakx0NmlDenJvMEVO?=
+ =?utf-8?B?VHJkT09lRHp1VzRuWjhLVjZDVi9lS295NHJNVkQrS3hVcE9EeEhXTWlQU0dz?=
+ =?utf-8?B?ZlJjNUxoY0k2elE5L0ptbStHUmdzZ2xLRmdscC9mV0JVQnVGcXQ0MVRJMTlZ?=
+ =?utf-8?B?VmlvWHpIUFZDTTlDa3g4S2VicW1BM0tja1pOZDJPNkJOZytQeU05emFLYWFL?=
+ =?utf-8?B?VHFvb2RPZ0t1Rk1mVTFJNXBXb1RnNWFGUUpzN0dsdGx2eDloUjRuWDhSMFNJ?=
+ =?utf-8?B?VXlTOHBOM0prVHN1NWF1akxYZnM4WWtGSGloRTZmMTVrMnZad3B6MW1Xaklw?=
+ =?utf-8?B?djVMVnVxNks3dzd1QTdEZExVMUZJQktDK0JrdXZFWCsrZEpVU0N0UlY5ei8v?=
+ =?utf-8?B?bzFtWmh3SnEzSytvRGE5VjBoNUZKaCtqMVYzcGhFUFFSR20waXdiR1FzYjIy?=
+ =?utf-8?B?dVFpZlJON0JOTVQvUUgwaitTWG9RWHM1Nk9IWjFEZXdyK2VickwveWVJeW9x?=
+ =?utf-8?B?VGd4ZXNhVGF2SWpxOFFjOWtDcUVTdkp2NitEdmhrdHpKSnFaNWlMc2dCMzVw?=
+ =?utf-8?Q?mxEQNqIoxPTtRXgk=3D?=
+X-Exchange-RoutingPolicyChecked: NOrdX0x8WC7ZlaATB3jn6wkjE9IOpm/licYE5icqadsuoooPEUcd5hCVajvSFoArYT/sfESMO4QKMNxffK7Nf+16EPg0QI6SJROWYPwNNA/fKGAdqCcuPcByFthS+eAQ+NbaHNq8OW5tWG3445dO7j2jjpBHRGXa6y56y/s4GldDO1wc6DVJDN5a8n/KLSw+0rpUMhnP1YIN64h3ocic9zlPdV4lhETHN5e30ID0izsHBcojoZKnEeDIK8+z01FFe4m3o1gbUbad5okQPI8GBq+Ahnew6Z2J2ZCT1gOewLeqVsPhqeH+wSBn8johRf0o/LliADJ2jYrKTk14c5CD7Q==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d1ba1ad-0b89-4570-a279-08deeedf49e4
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6967.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN1PEPF00004681.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR19MB8326
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA2MSBTYWx0ZWRfXw7Vw648dbK4k
- 38pUbgyY1vJdkW6Gsc9aXReO8TSE3aVUAM4UNK38Qy5kDBxVWPdnrsHt/+GCXg0o7GuaQBmC4uP
- p0VRqmUQUdC4wqU6Clcp/u40J37wA76DCEZLTGOavaz7tPDmZjFVOCFfVlSricohFUjYCjZtEGD
- DhEZoQRkHQcgRjRJwc3w3c243Oq0bWNwQFhfwbertKMHavNbD5LqXuhooy/NcdRLyqjyo1RQvbH
- 2qCtX8ZHGa+YPo/EUaMSX7TowJJMc7YFEMn0O0W10u1ENAw55PJbBaFar85YpTDCuos2zFUaGH4
- ysgr53mPEwnxC1Vix93W2/VTw44S/DCSM9GlkTVWAoxoOHXyvIetvu+sG/WvKZybClB41ceFCJU
- BDsVTemacvD4CBQMFJfy+awX/P4BthlMO4lkzKhSHPzGY/YCLfCmAgaULskbFUlVjfV1IAQnQEQ
- V39YEhLD+OgiCtJakgw==
-X-Authority-Analysis: v=2.4 cv=NcTWEWD4 c=1 sm=1 tr=0 ts=6a6c5d8c cx=c_pps
- a=dTGz0tuhMYfsSU3NwIzouA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=PuMvXuilpeCuq_aAP20A:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: mlPL6BpGiJwR7YoiD2LYevrQiuCDpJHy
-X-Proofpoint-GUID: mlPL6BpGiJwR7YoiD2LYevrQiuCDpJHy
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA2MSBTYWx0ZWRfX9RxmesUADmGZ
- Un/qo944PzxXKOlT44P5wtAcT23AMeiy+h9Dnepo5e3f9WYVYGrjvz5M3ckR1j1hMVNVdUKaM2D
- ykKFA1WTFPWnGkOusYrT60XoGlWx3WQ=
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jul 2026 08:39:52.0498
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8APrZNe48PVwMwDGQ4lDHmUamX+AiMZwVyx5GaKmshylfgkz1lFgrNHo/6O28dkCnZHqsJGPlbPNFKc1JzjrHHW186VopHTlZ8DGoqUAZSU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7692
+X-OriginatorOrg: intel.com
 
-On Thu, Jul 30, 2026 at 02:40:14PM -0700, Randy Dunlap wrote:
-> On 7/30/26 8:02 AM, Mark Brown wrote:
-> > Hi all,
-> > 
-> > Changes since 20260729:
-> > 
+On 7/31/2026 8:43 AM, Christian Marangi wrote:
+> Add support for the Sound system present on Airoha AN7581 SoC. This is
+> based on the mediatek AFE drivers.
 > 
-> When # CONFIG_SND_SOC_SDCA_FDL is not set:
-> 
-> ../sound/soc/sdca/sdca_interrupts.c: In function ‘sdca_irq_populate_early’:
-> ../sound/soc/sdca/sdca_interrupts.c:471:56: error: ‘sdca_fdl_free_state’ undeclared (first use in this function); did you mean ‘sdca_jack_free_state’?
->   471 |                                 interrupt->free_priv = sdca_fdl_free_state;
->       |                                                        ^~~~~~~~~~~~~~~~~~~
->       |                                                        sdca_jack_free_state
+> Also add the machine driver to create an actual sound card for the AFE.
 
-Yeah apologies about that, all my bad. A fix is available here:
+...
 
-https://lore.kernel.org/linux-sound/20260730130602.3747053-1-ckeepax@opensource.cirrus.com/T/#u
+> --- /dev/null
+> +++ b/sound/soc/mediatek/an7581/an7581-afe-common.h
+> @@ -0,0 +1,50 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * an7581-afe-common.h  --  Airoha AN7581 audio driver definitions
+> + */
+> +
+> +#ifndef _AN7581_AFE_COMMON_H_
+> +#define _AN7581_AFE_COMMON_H_
+> +
+> +#include <linux/atomic.h>
+> +#include <sound/soc.h>
+> +#include <linux/list.h>
+> +#include <linux/regmap.h>
 
-Thanks,
-Charles
+Sort these, linux/ comes before sound/.
+
+> +#include "../../mediatek/common/mtk-base-afe.h"
+> +
+> +enum {
+> +	AN7581_MEMIF_DL1,
+> +	AN7581_MEMIF_UL1,
+> +	AN7581_MEMIF_NUM,
+> +	AN7581_DAI_ETDM = AN7581_MEMIF_NUM,
+> +	AN7581_DAI_NUM,
+> +};
+> +
+> +enum {
+> +	AN7581_IRQ_0,
+> +	AN7581_IRQ_1,
+> +	AN7581_IRQ_NUM,
+> +};
+> +
+> +struct an7581_memif_irq_desc {
+> +	u8 irq;
+> +	u32 status_bit;
+> +	u32 clear_reg;
+> +};
+> +
+> +struct an7581_afe_private {
+> +	unsigned int users;
+> +	/* protect concurrent ETDM user tracking */
+> +	struct mutex user_lock;
+> +
+> +	/* dai */
+> +	void *dai_priv[AN7581_DAI_NUM];
+
+The comment is redundant.
+
+> +};
+> +
+> +unsigned int an7581_afe_rate_transform(struct device *dev,
+> +				       unsigned int rate);
+> +
+> +/* dai register */
+> +int an7581_dai_etdm_register(struct mtk_base_afe *afe);
+
+Ditto.
+
+> +
+> +#endif
+
+...
+
+> +unsigned int an7581_afe_rate_transform(struct device *dev, unsigned int rate)
+> +{
+> +	switch (rate) {
+> +	case 7350:
+> +		return ARH_AFE_RATE_7K;
+> +	case 8000:
+> +		return ARH_AFE_RATE_8K;
+> +	case 11025:
+> +		return ARH_AFE_RATE_11K;
+> +	case 12000:
+> +		return ARH_AFE_RATE_12K;
+> +	case 14700:
+> +		return ARH_AFE_RATE_14K;
+> +	case 16000:
+> +		return ARH_AFE_RATE_16K;
+> +	case 22050:
+> +		return ARH_AFE_RATE_22K;
+> +	case 24000:
+> +		return ARH_AFE_RATE_24K;
+> +	case 29400:
+> +		return ARH_AFE_RATE_29K;
+> +	case 32000:
+> +		return ARH_AFE_RATE_32K;
+> +	case 44100:
+> +		return ARH_AFE_RATE_44K;
+> +	case 48000:
+> +		return ARH_AFE_RATE_48K;
+> +	case 88200:
+> +		return ARH_AFE_RATE_88K;
+> +	case 96000:
+> +		return ARH_AFE_RATE_96K;
+> +	case 176400:
+> +		return ARH_AFE_RATE_176K;
+> +	case 192000:
+> +		return ARH_AFE_RATE_192K;
+> +	case 352800:
+> +		return ARH_AFE_RATE_352K;
+> +	case 384000:
+> +		return ARH_AFE_RATE_384K;
+> +	default:
+> +		dev_warn(dev, "%s(), rate %u invalid, using %d!!!\n",
+> +			 __func__, rate, ARH_AFE_RATE_48K);
+
+Three '!', really? :)
+
+> +		return ARH_AFE_RATE_48K;
+> +	}
+> +}
+
+> +static const struct snd_pcm_hardware an7581_afe_hardware = {
+> +	.info = SNDRV_PCM_INFO_MMAP |
+> +		SNDRV_PCM_INFO_INTERLEAVED |
+> +		SNDRV_PCM_INFO_MMAP_VALID,
+> +	.formats = SNDRV_PCM_FMTBIT_S16_LE |
+> +		   SNDRV_PCM_FMTBIT_S24_LE |
+> +		   SNDRV_PCM_FMTBIT_S32_LE,
+> +	.period_bytes_min = 512,
+> +	.period_bytes_max = 128 * 1024,
+> +	.periods_min = 2,
+> +	.periods_max = 256,
+> +	.buffer_bytes_max = 256 * 1024,
+> +	.fifo_size = 0,
+
+static takes care of this unless you want to explicitly state the 
+fifo_size must be 0 - in such case comment is necessary, otherwise drop 
+the assignment.
+
+> +};
+> +
+> +static int an7581_memif_fs(struct snd_pcm_substream *substream,
+> +			   unsigned int rate)
+
+For the entire file - char limit is 100, there is no reason not to 
+utilize it.
+
+> +{
+> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+> +	struct snd_soc_component *component = snd_soc_rtdcom_lookup(rtd, AFE_PCM_NAME);
+> +	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
+> +
+> +	return an7581_afe_rate_transform(afe->dev, rate);
+> +}
+> +
+> +static int an7581_irq_fs(struct snd_pcm_substream *substream,
+> +			 unsigned int rate)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+> +	struct snd_soc_component *component = snd_soc_rtdcom_lookup(rtd, AFE_PCM_NAME);
+> +	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
+> +
+> +	return an7581_afe_rate_transform(afe->dev, rate);
+> +}
+
+These two functions seem to be identical.
+
+> +
+> +static int an7581_afe_fe_startup(struct snd_pcm_substream *substream,
+> +				 struct snd_soc_dai *dai)
+> +{
+> +	struct snd_pcm_runtime *runtime = substream->runtime;
+> +	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+> +	int ret;
+> +
+> +	ret = mtk_afe_fe_startup(substream, dai);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
+> +		ret = snd_pcm_hw_constraint_minmax(runtime,
+> +						   SNDRV_PCM_HW_PARAM_PERIOD_SIZE,
+> +						   0x2000, UINT_MAX);
+> +		if (ret < 0)
+> +			dev_err(afe->dev, "hw_constraint_minmax failed\n");
+> +	}
+> +
+> +	return ret;
+
+mtk_afe_fe_startup() acquires irq via mtk_dynamic_irq_acquire(). Do we 
+need to unwind the process if snd_pcm_hw_constraint_minmax() fails?
+
+> +}
+
+...
+
+> +static int an7581_afe_pcm_dev_probe(struct platform_device *pdev)
+> +{
+> +	struct an7581_afe_private *afe_priv;
+> +	struct reset_control *reset;
+> +	struct mtk_base_afe *afe;
+> +	struct device *dev;
+> +	int i, irq_id, ret;
+> +	void *base;
+> +
+> +	afe = devm_kzalloc(&pdev->dev, sizeof(*afe), GFP_KERNEL);
+> +	if (!afe)
+> +		return -ENOMEM;
+> +	platform_set_drvdata(pdev, afe);
+
+Typically drvdata is assigned last, one we know probe() is successful. 
+Is there some specific reason why you assign the pointer immediately?
+> +
+> +	afe->platform_priv = devm_kzalloc(&pdev->dev, sizeof(*afe_priv),
+> +					  GFP_KERNEL);
+> +	if (!afe->platform_priv)
+> +		return -ENOMEM;
+
+Especially when the memory allocation is still ongoing..
+
+> +
+> +	afe_priv = afe->platform_priv;
+> +	mutex_init(&afe_priv->user_lock);
+> +	afe->dev = &pdev->dev;
+> +	dev = afe->dev;
+> +
+> +	reset = devm_reset_control_get_exclusive(dev, NULL);
+> +	if (IS_ERR(reset))
+> +		return PTR_ERR(reset);
+> +
+> +	/* Global reset I2S */
+> +	reset_control_assert(reset);
+> +	usleep_range(10, 20);
+> +	reset_control_deassert(reset);
+> +
+> +	afe->base_addr = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(afe->base_addr))
+> +		return PTR_ERR(afe->base_addr);
+> +
+> +	base = devm_platform_ioremap_resource(pdev, 1);
+> +	if (IS_ERR(base))
+> +		return PTR_ERR(base);
+> +
+> +	ret = devm_pm_runtime_enable(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	afe->regmap = devm_regmap_init_mmio(&pdev->dev, afe->base_addr,
+> +					    &an7581_afe_regmap_config);
+> +	if (IS_ERR(afe->regmap))
+> +		return PTR_ERR(afe->regmap);
+> +
+> +	mutex_init(&afe->irq_alloc_lock);
+> +
+> +	/* irq initialize */
+> +	afe->irqs_size = AN7581_IRQ_NUM;
+> +	afe->irqs = devm_kcalloc(dev, afe->irqs_size, sizeof(*afe->irqs),
+> +				 GFP_KERNEL);
+> +	if (!afe->irqs)
+> +		return -ENOMEM;
+
+If the size is known upfront, I'd just move all the allocations to the top.
+
+> +
+> +	for (i = 0; i < afe->irqs_size; i++)
+> +		afe->irqs[i].irq_data = &irq_data[i];
+> +
+> +	afe->irqs[AN7581_IRQ_0].regmap = afe->regmap;
+> +	afe->irqs[AN7581_IRQ_1].regmap = devm_regmap_init_mmio(&pdev->dev, base,
+> +							       &an7581_afe_irq1_regmap_config);
+> +	if (IS_ERR(afe->irqs[AN7581_IRQ_1].regmap))
+> +		return PTR_ERR(afe->irqs[AN7581_IRQ_1].regmap);
+> +
+> +	/* request irq */
+> +	irq_id = platform_get_irq(pdev, 0);
+> +	if (irq_id < 0)
+> +		return irq_id;
+> +
+> +	/* init memif */
+> +	afe->memif_size = AN7581_MEMIF_NUM;
+> +	afe->memif = devm_kcalloc(dev, afe->memif_size, sizeof(*afe->memif),
+> +				  GFP_KERNEL);
+> +	if (!afe->memif)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < afe->memif_size; i++) {
+> +		int sel_irq = an7581_memif_irq_descs[i].irq;
+> +
+> +		afe->memif[i].data = &memif_data[i];
+> +		afe->memif[i].irq_usage = sel_irq;
+> +		afe->memif[i].const_irq = 1;
+> +		afe->irqs[sel_irq].irq_occupyed = true;
+> +	}
+> +
+> +	/* init sub_dais */
+> +	INIT_LIST_HEAD(&afe->sub_dais);
+> +
+> +	ret = devm_request_irq(dev, irq_id, an7581_afe_irq_handler,
+> +			       IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to request irq for asys-isr\n");
+> +
+> +	for (i = 0; i < ARRAY_SIZE(dai_register_cbs); i++) {
+> +		ret = dai_register_cbs[i](afe);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "DAI register failed, i: %d\n", i);
+> +	}
+> +
+> +	/* init dai_driver and component_driver */
+> +	ret = mtk_afe_combine_sub_dai(afe);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "mtk_afe_combine_sub_dai fail\n");
+> +
+> +	afe->mtk_afe_hardware = &an7581_afe_hardware;
+> +	afe->memif_fs = an7581_memif_fs;
+> +	afe->irq_fs = an7581_irq_fs;
+> +
+> +	/* register component */
+> +	ret = devm_snd_soc_register_component(&pdev->dev,
+> +					      &mtk_afe_pcm_platform,
+> +					      NULL, 0);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Cannot register AFE component\n");
+> +
+> +	ret = devm_snd_soc_register_component(afe->dev,
+> +					      &an7581_afe_pcm_dai_component,
+> +					      afe->dai_drivers,
+> +					      afe->num_dai_drivers);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Cannot register PCM DAI component\n");
+> +
+> +	return 0;
+> +}
+
+...
+
+> +/* dai ops */
+> +static int mtk_dai_etdm_startup(struct snd_pcm_substream *substream,
+> +				struct snd_soc_dai *dai)
+> +{
+> +	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+> +	struct an7581_afe_private *afe_priv = afe->platform_priv;
+> +
+> +	regmap_set_bits(afe->regmap, AFE_DAC_CON0,
+> +			BIT(AFE_AFE_ENABLE_SHIFT));
+> +
+> +	mutex_lock(&afe_priv->user_lock);
+
+I'd suggest to switch to guards, see cleanup.h.
+
+> +	afe_priv->users++;
+> +	mutex_unlock(&afe_priv->user_lock);
+> +
+> +	return 0;
+
+Why skip the return code of regmap_set_bits()?
+
+> +}
+> +
+> +static void mtk_dai_etdm_shutdown(struct snd_pcm_substream *substream,
+> +				  struct snd_soc_dai *dai)
+> +{
+> +	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+> +	struct an7581_afe_private *afe_priv = afe->platform_priv;
+> +
+> +	mutex_lock(&afe_priv->user_lock);
+> +	afe_priv->users--;
+> +	if (!afe_priv->users)
+> +		regmap_clear_bits(afe->regmap, AFE_DAC_CON0,
+> +				  BIT(AFE_AFE_ENABLE_SHIFT));
+> +	mutex_unlock(&afe_priv->user_lock);
+
+Well, here we clear bits in locked state whereas above they're set 
+unlocked. Typically such inconsistency translates to an issue.
+
+> +}
+> +
+> +static unsigned int get_etdm_ch_fixup(unsigned int channels)
+> +{
+> +	if (channels > 16)
+> +		return 24;
+> +	else if (channels > 8)
+> +		return 16;
+> +	else if (channels > 4)
+> +		return 8;
+> +	else if (channels > 2)
+> +		return 4;
+> +	else
+> +		return 2;
+
+Refactor, not a single 'else-if' is needed here as well as 'else'.
+If a preceding if-statement ends with 'return' there is no elsing anything.
+
+> +}
+> +
+> +static int mtk_dai_etdm_config(struct mtk_base_afe *afe,
+> +			       struct snd_pcm_hw_params *params,
+> +			       struct snd_soc_dai *dai,
+> +			       int stream)
+> +{
+> +	struct an7581_afe_private *afe_priv = afe->platform_priv;
+> +	struct mtk_dai_etdm_priv *etdm_data = afe_priv->dai_priv[dai->id];
+> +	unsigned int rate = params_rate(params);
+> +	unsigned int etdm_rate = an7581_etdm_rate_transform(afe->dev, rate);
+> +	unsigned int channels = params_channels(params);
+> +	unsigned int bit_width = params_width(params);
+> +	unsigned int wlen = get_etdm_wlen(bit_width);
+
+All the format variables are used once or twice. I'd drop them. Right 
+now you have 11 (!) locals on the stack.
+
+> +	unsigned int val = 0, val1 = 0;
+> +	unsigned int mask = 0, mask1 = 0;
+> +
+> +	dev_dbg(afe->dev, "%s(), stream %d, rate %u, bitwidth %u\n",
+> +		__func__, stream, rate, bit_width);
+> +
+> +	/* CON0 */
+> +	mask |= ETDM_SLAVE_MODE;
+> +	if (etdm_data->slave_mode)
+> +		val |= ETDM_SLAVE_MODE;
+> +	mask |= ETDM_BIT_LEN;
+> +	val |= FIELD_PREP(ETDM_BIT_LEN, bit_width - 1);
+> +	mask |= ETDM_WRD_LEN;
+> +	val |= FIELD_PREP(ETDM_WRD_LEN, wlen - 1);
+> +	mask |= ETDM_FMT;
+> +	val |= FIELD_PREP(ETDM_FMT, etdm_data->format);
+> +	mask |= ETDM_CH_NUM;
+> +	val |= FIELD_PREP(ETDM_CH_NUM, get_etdm_ch_fixup(channels) - 1);
+
+I'd group 'mask' and 'val' together, easier to follow. These do not seem 
+intertwined.
+
+> +
+> +	/* CON1 */
+> +	mask1 |= EDTM_LRCK_AUTO_MODE;
+> +	val1 |= EDTM_LRCK_AUTO_MODE;
+> +	mask1 |= EDTM_CKEN_SEL;
+> +	val1 |= EDTM_CKEN_SEL;
+> +	mask1 |= EDTM_LRCK_AUTO_OFF;
+> +	val1 |= EDTM_LRCK_AUTO_OFF;
+> +	mask1 |= EDTM_INITIAL_POINT;
+> +	val1 |= FIELD_PREP(EDTM_INITIAL_POINT, 14);
+> +	mask1 |= EDTM_INITIAL_COUNT;
+> +	val1 |= FIELD_PREP(EDTM_INITIAL_COUNT, 14);
+
+Ditto.
+
+> +
+> +	switch (stream) {
+> +	case SNDRV_PCM_STREAM_PLAYBACK:
+> +		/* set ETDM_OUT1_CON0 */
+> +		regmap_update_bits(afe->regmap, ETDM_OUT1_CON0, mask, val);
+> +
+> +		mask1 |= EDTM_DIRECT_INPUT_MASTER_BCK;
+> +		val1 |= EDTM_DIRECT_INPUT_MASTER_BCK;
+> +
+> +		/* set ETDM_OUT1_CON1 */
+> +		regmap_update_bits(afe->regmap, ETDM_OUT1_CON1, mask1, val1);
+> +
+> +		/* set ETDM_OUT1_CON4 */
+> +		regmap_update_bits(afe->regmap, ETDM_OUT1_CON4, OUT_SEL_FS,
+> +				   FIELD_PREP(OUT_SEL_FS, etdm_rate));
+> +
+> +		regmap_update_bits(afe->irqs[AN7581_IRQ_0].regmap,
+> +				   afe->irqs[AN7581_IRQ_0].irq_data->irq_en_reg,
+> +				   AFE_IRQ_EN_SEL, AFE_IRQ_EN_SEL_I2SOUT);
+> +		break;
+> +	case SNDRV_PCM_STREAM_CAPTURE:
+> +		/* set ETDM_IN1_CON0 */
+> +		regmap_update_bits(afe->regmap, ETDM_IN1_CON0, mask, val);
+> +
+> +		/* set ETDM_IN1_CON1 */
+> +		regmap_update_bits(afe->regmap, ETDM_IN1_CON1, mask1, val1);
+> +
+> +		/* set ETDM_IN1_CON3 */
+
+All the comments found in this function do not explain anything. Drop them.
+
+> +		regmap_update_bits(afe->regmap, ETDM_IN1_CON3, IN_SEL_FS,
+> +				   FIELD_PREP(IN_SEL_FS, etdm_rate));
+> +
+> +		regmap_update_bits(afe->irqs[AN7581_IRQ_1].regmap,
+> +				   afe->irqs[AN7581_IRQ_1].irq_data->irq_en_reg,
+> +				   AFE_IRQ_EN_SEL, AFE_IRQ_EN_SEL_I2SIN);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int mtk_dai_etdm_hw_params(struct snd_pcm_substream *substream,
+> +				  struct snd_pcm_hw_params *params,
+> +				  struct snd_soc_dai *dai)
+> +{
+> +	unsigned int rate = params_rate(params);
+> +	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+> +
+> +	regmap_update_bits(afe->regmap, ETDM_COWORK_CON0,
+> +			   EDTM_IN1_SLAVE_SEL,
+> +			   EDTM_IN1_SLAVE_FROM_ETDMIN1_SLAVE);
+> +	regmap_update_bits(afe->regmap, ETDM_COWORK_CON0,
+> +			   EDTM_OUT1_SLAVE_SEL,
+> +			   EDTM_OUT1_SLAVE_FROM_ETDMOUT1_SLAVE);
+> +	regmap_update_bits(afe->regmap, ETDM_COWORK_CON1,
+> +			   EDTM_IN1_SDATA0_SEL,
+> +			   EDTM_IN1_SDATA0_FROM_PAD);
+> +
+> +	switch (rate) {
+> +	case 7350:
+> +	case 8000:
+> +	case 11025:
+> +	case 12000:
+> +	case 14700:
+> +	case 16000:
+> +	case 22050:
+> +	case 24000:
+> +	case 29400:
+> +	case 32000:
+> +	case 44100:
+> +	case 48000:
+> +	case 88200:
+> +	case 96000:
+> +	case 176400:
+> +	case 192000:
+> +	case 352800:
+> +	case 384000:
+> +		mtk_dai_etdm_config(afe, params, dai, substream->stream);
+> +		return 0;
+
+Again, skipping return code of the main procedure. I'd avoid blind 
+'return 0'.
+
+> +	default:
+> +		dev_err(afe->dev,
+> +			"Sample rate %d invalid\n",
+> +			rate);
+> +		return -EINVAL;
+> +	}
+> +}
+
+...
+
+> +static int mtk_dai_etdm_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+> +{
+> +	struct mtk_base_afe *afe = snd_soc_dai_get_drvdata(dai);
+> +	struct an7581_afe_private *afe_priv = afe->platform_priv;
+> +	struct mtk_dai_etdm_priv *etdm_data;
+> +	void *priv_data;
+> +
+> +	switch (dai->id) {
+> +	case AN7581_DAI_ETDM:
+> +		break;
+> +	default:
+> +		dev_warn(afe->dev, "%s(), id %d not support\n",
+> +			 __func__, dai->id);
+
+s/support/supported/
+
+Though this entire check looks weird. Why should set_fmt() care about 
+DAI's ID? Such check shall be done once, early with the rest of the 
+runtime doing just the important stuff.
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	priv_data = devm_kzalloc(afe->dev, sizeof(struct mtk_dai_etdm_priv),
+> +				 GFP_KERNEL);
+> +	if (!priv_data)
+> +		return -ENOMEM;
+> +
+> +	afe_priv->dai_priv[dai->id] = priv_data;
+> +	etdm_data = afe_priv->dai_priv[dai->id];
+> +
+> +	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+> +	case SND_SOC_DAIFMT_I2S:
+> +		etdm_data->format = MTK_DAI_ETDM_FORMAT_I2S;
+> +		break;
+> +	case SND_SOC_DAIFMT_DSP_A:
+> +		etdm_data->format = MTK_DAI_ETDM_FORMAT_DSPA;
+> +		break;
+> +	case SND_SOC_DAIFMT_DSP_B:
+> +		etdm_data->format = MTK_DAI_ETDM_FORMAT_DSPB;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+
+Please waterfall the points to all the functions/files. I can do another 
+round once this batch is addressed or explained first.
+
+Kind regards,
+Czarek
