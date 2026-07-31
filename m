@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251473C8C55
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 23:18:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529D545A28B;
+	Fri, 31 Jul 2026 23:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785539920; cv=none; b=CXJAKEXiOfeFDxhLjY2D40iEyUYEnD0TAZOSz4/H2VlKqpuWS5z/7syuHbSWawztP/i04gDPk95nYi524WNsPjmgnmuNweR6jBMcZg9+GU3IyWnbk17Q2snIz0vCJ8vUvbvdVU/Kf4ZZFRmSJLO03rykKE2IqmPPMd0HW26m/p4=
+	t=1785539924; cv=none; b=qBW+GuTeU4Eo5UT6KZO2syV87HVUgHyTXc/lnxDvUFz4yuK5sBpMafQ+TJevelWPr6o0fuEKMeguhkC5oHQptMVRgGIbXxTV65GLhFHKDqbC7/cUudiyFhwwGV2eWeAYaUbeVYP6SYJrj4HpBRAWgPZ8Vnuh2VzMnX2JBZ+391o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785539920; c=relaxed/simple;
-	bh=uhYcsUThrcI/Z67ZT0sIsNAkAG6i55wTH/oyO9YHTnQ=;
+	s=arc-20240116; t=1785539924; c=relaxed/simple;
+	bh=ouhI8Bu0VNy36bWHtW9fIvBU6k0xqBCknk/8pb5OXe0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Xw3jUPjJMI75Ae2TVn3oYMEQZO5dNARQdaRyyfoW2SJDvWfHKM/85bIJyRJW6ffJjo6wbD+LsnMuvsL8MdvMGlVXG2BbyFeCQ8aaJq+Yb2WmfvOL4N345WPtV8aLpW0PunU/fJsg69vaSyJez783s25X4VmTh25C2lTgOOl6UwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cV6Nqc58; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=bkrUInLaMpbHFla4Y2nFHQ3B01BNe8WpSlUHkIdMSZW5fNFHze2LBTF2setYr2K96Pf3ttBBUlJ0ufMwrvrZugb+YYcC9nFHCfE9Zl+GRb3fmWopqlWYK3nZmSrTN950mtvq0mQduppd38bNthIKv0/CmBQp9lL7ymY/KfgR1BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WnNFyNsx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cV6Nqc58"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 842221F00AC4;
-	Fri, 31 Jul 2026 23:18:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WnNFyNsx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDA261F00ACA;
+	Fri, 31 Jul 2026 23:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785539918;
-	bh=InrF+jK1CLNZG29mZWn3VZDeFJ8Kod5bb9Px1VMv+Qo=;
+	s=k20260515; t=1785539923;
+	bh=My0RDPjdUFtnVRzItkdLIM5hSNIeE9jCXi1b8cFUUl8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=cV6Nqc58cxWEtPk6PWiNEihd8nGCcm1Goc/gd/80n90U2WSRuQCToXeSOGDoQq0b4
-	 ei46Kd0PvHAxRrOolrapR8cr2/ylglogn+9zNg3UL7X7SdRRXh/WKXNFuMedSEDS2u
-	 B6viQf7MCMTkLrbwx9mNmPOZbwM21an+QTGBGzEFkoFJybYhMhIxF9NYOVEEpUiqKp
-	 rLY2qGdXyjfb5O+6gv7sBqS/17YEUo/zkEBfQKcc2eIDQuf6AFjKGfIwLveBBBdloa
-	 cW9TrFNGm1XEPWSLiKtcvzzIpyyZM0ckJYytMsfY06M5izyKPOIEHyJ9m94DhUjsVA
-	 pvWp73zVjOuPw==
+	b=WnNFyNsxuxHsIs3QIHHMRbfuLAXageIMx5WAnE8OPBypqr24s/71gkRmC4ksM62c9
+	 RU6hUoMtN86kZEfEkvPOSQVB1FoDTXoWC6Bdc4EdGiF3CUgN4YBcsUGOtflopenGdX
+	 QxjzWbF33JFOEvR1iNoKeOP6oZYBsf84zjFlMAlcBwrbbMnmN/YY7jADGhydZCBGNJ
+	 1RA2fCai0CkrG/3LuLSDaDkZZXCZ4WZO15vNg64+D/C30T8Ef8n0qZ/gB5YUhdWDnE
+	 eiWMhIeo5t6dkZ54Cz8vY9Ku62BJbS16GyAGlBMDEK1E7zPKIYDXxysyo2tb+kJ9sR
+	 PLhZbz+ME9S+g==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev
-In-Reply-To: <20260730122241.30541-1-peter.ujfalusi@linux.intel.com>
-References: <20260730122241.30541-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: Intel: hda-stream: clear hstream->running
- flag in hw_params
-Message-Id: <178551277514.353541.4440952303055643933.b4-ty@b4>
-Date: Fri, 31 Jul 2026 16:46:15 +0100
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, zhangyi@everest-semi.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260731151826.961912-1-ckeepax@opensource.cirrus.com>
+References: <20260731151826.961912-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: es9356: Remove unused headers
+Message-Id: <178551909055.353541.6452745689117942338.b4-ty@b4>
+Date: Fri, 31 Jul 2026 18:31:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1160; i=broonie@kernel.org;
- h=from:subject:message-id; bh=uhYcsUThrcI/Z67ZT0sIsNAkAG6i55wTH/oyO9YHTnQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqbS1Mwr31Bc2MhtVFO4pIvQ7lT/X+D8V/bFxTt
- rWy39rI2kaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCam0tTAAKCRAk1otyXVSH
- 0PKgB/9KY2/qsj3AgPKlMfBxmh+aRp4TXW/YX5VC7udSZw3JXUD3pni6ImdLGChiyYIV9nAOG/1
- EmPBH3YYeA79jtB+lZ7Yw9cPTpBksI4tgLh+Ys/bwo7zp0j2/W2fOKgXTqeAElSMnuzPB00A9n/
- H4PAmxyh5pXU3CAKKtcrqTECVuHpXWlJVi7Wtdud6tPS0DkdvriLsJO5TMVdgLcPb4EIetSvPe3
- cet+KO/yq17TMAvG452iZe6Pmqaw5agM4KAIULcAqomuCwripO0Y4IA08qXDxr4oAYIQTs0hn5Q
- RVKWCwk8udA5P0Zx9OU6Q6K46BaRJEaHQt2MuOxrue94tPDC
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1090; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ouhI8Bu0VNy36bWHtW9fIvBU6k0xqBCknk/8pb5OXe0=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqbS1Q8IxHdjSOqYML30PElHdoUI+9Cv6pm0lnk
+ gEolP/SxsOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCam0tUAAKCRAk1otyXVSH
+ 0HHkB/0Zv2KbOvw4yfNgEw9VsGItLNCI/oaOkDAOODu0/aJcixxDWJXJyXqvajCfFkhepCPhrdN
+ rrUBGGFs3HY6sAVAFLie1EolkMDOAFJc7rrr0CXwibVXEeu3gjK7+KjkEI70InIurYfZYYbWtPa
+ 5MH5i169YTTPWSjtuuVG6N6TgJpljeoKwp5wKilmPWdj/rzafX7NXwA4CKw4bOdK12UgvAZ6biC
+ ehNMrVAr9IjS8PlTMyPoRr/0aVedWQ4MUCG9cCXjG4J5YX06eXoUZaG96jUGnygePRn0x8DGwdu
+ mjehSShJp+A1vTpVlH/zOWHPnlFfC5DnxRXWUqpLC0XCw4XU
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 30 Jul 2026 15:22:41 +0300, Peter Ujfalusi wrote:
-> ASoC: SOF: Intel: hda-stream: clear hstream->running flag in hw_params
+On Fri, 31 Jul 2026 16:18:26 +0100, Charles Keepax wrote:
+> ASoC: es9356: Remove unused headers
 
 Applied to
 
@@ -66,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Intel: hda-stream: clear hstream->running flag in hw_params
-      https://git.kernel.org/broonie/sound/c/dc15652b92a8
+[1/1] ASoC: es9356: Remove unused headers
+      https://git.kernel.org/broonie/sound/c/8338deeb8fc2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
