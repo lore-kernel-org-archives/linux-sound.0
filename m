@@ -1,123 +1,126 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2383B47F3
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 10:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785492987; cv=none; b=X+864zqotPccfFrx3d291aFuJVNR15B0WmN9gZM/RrhywdOpPQGuMoYvcv0KSmZfOly0N4WlcQr9wz7V3mjEAUs62J7xgmVEA4QTIKQIfjWZYL2G7VlmMywtPkcuq6PooDLOOMq2KVmn5do2AU6kM/EXZBbnyUtOrEnZu1Zg2fs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785492987; c=relaxed/simple;
-	bh=tIZl0SczIAIEGn6ulaKByJ4cIgNcPn8uPvyKgIjiEDc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cSSHkm+65+21jpRMRPvrWvbBGaUBzRVHQp7GMvxYiL+sHVJ6Zh+1izjXtv4gzNY3oXBXRgdddTHXO3ouG8Oa/VZXlfOuFe4dGTRJfooZpaQoCmbeGbtXwKzl5tOwTlaWiWSEbDxMMKIdhar9t0X6CzWYbb6aGVJs2pkCSwnteqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bsrcDyWn; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60FA3FB075
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 10:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785493196; cv=pass; b=RpDM4LLX2b7bpPZCC3OBHb2jdO62tPgVwgnMD1j1lNvOIeLziOcT7hCWOLLOl8n9S6cG7Zy6Xa6alDbM+nJmzIWabN+iwbE+fEBn4A4zi7qjtT/QJVMBN9Vfs7R6cgsT/yhC9Tqjd2tsYPCyFW8qDXNM2C/HGIEmMIFhHTBkZUc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785493196; c=relaxed/simple;
+	bh=VtshzBCb2KjKA11YGS6bsR7f2qGbXQoLS2YE7NaD6Pc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cL64/y5l6s+byZ1PfYU9ed730E5IwLwZ7S5rVAvDmqdDfzz+0y0j2OguIKVNMT/ETnuCQxFCucbGafhnzFsMyWVLBxJP7wt/xW08pGEHup11cPdN/cdVOKCS+IM1LaN2oWCbrDp99lurk5/YCvAzCqtif3pEEKFqA0fHhpbOuWI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KC0xiEDd; arc=pass smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bsrcDyWn"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38e3617ba36so893041a91.3
-        for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:16:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KC0xiEDd"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8423f236418so717696b3a.1
+        for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:19:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785493181; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ctlo4Ki9I8x43ItNyPVV1DHZ29f3pdO923uLRDAj5LpxD4d7PVtADtPIcR+NpFQ+ta
+         BgMg+KP+LgDARm9DNUkU8nPhCnpOAqEWCpwMO2fIBojAOzVe+7wLCTBJLoxluw5k9GI/
+         O7VSXiISY0IKX6QR1l6Op06HK5ySUxFyhnKESd/lrOlxGfWYbMbp7GDnvMlsGeFsvCmA
+         i82hOkuDEeiyCnAsuA1deYqWwT90ftTXsKBdjRp8GrskHzYFq0od6pFGL08/NPe9aBNA
+         pz09p1/opusL99pQk/LKwwUMSxG5kWMlHSyFmKTsNF0UZl5ib5e3Wxp+rGA3R33eBIXV
+         VVBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=TQwy1Ukj0VK04ebNpFs+B5E8b/zHhQKir61AcZcrp2M=;
+        fh=LCJ0GVClpNSjD2TmYSy7UcTWMVTGNpi85Ke5l2Xf9JQ=;
+        b=RUo4epFFDjSbdgLKi28k+uSjobIoSJ0qb53GNcs2DXxPcxxtsy0ePnNEPIbDLpolYy
+         Igl/rvdFJRRjZa/YST9nrqRS4cmGf4ObyDTcoodpae5ThZ6bqPUZMWeds9OyRDQvHnR6
+         NMS1MVQ6H/OiyLij/Y994Es0Ax3kFSXlyFTMNf1bCu4fC5mLZ0LVZG5Mk9e+F+u3aiR4
+         d3SMeB5AhCLu31F3Pqb5dTpUz9xMvicFln1tRB4BQN6TKb8dQeVx1UcNI9/ebmJFzfQF
+         6I/tOdZAScpLnXR2jkBFOi8GF5srGLF9agRB2QuPwby7s3H5cnc2W0G0q7G3S8qFoJaL
+         LbNA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785492972; x=1786097772; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VAZMksOYurF3tSXLo/jShDOr9iNsQwZ9titE58N+ejE=;
-        b=bsrcDyWnFB7QMJ8pAiJ+Rj+/PNpfhnN3j9oTePeL+L6LgUml9MpoOQDRWRtf0SsiiF
-         yiA+/p2Fx0o+pJFQLgb5ebi1S5oGOlclGGPejPPyi9fICrg5gVICZYOR7IxgP0dv+YI6
-         NPUfMYCILy9zI5RyDjhrILFPIQu1Mxs0+yFWXwnDjC8w1X6tnApcB4u4Kfbp/8QjALnU
-         HbE1aumDfT+ib1Jo8j8/lXtFE/tGUpzMGPasbNvy+p86mCNUcMI/kWctshVPUj1YN+lC
-         4/qzRzt3bmMf3wbVmK5iOYzs28Ca8rXQ6MXIdBIY71HXuVgFRCCjqrB6xC9jpF3WUiwR
-         fmJg==
+        d=gmail.com; s=20251104; t=1785493181; x=1786097981; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TQwy1Ukj0VK04ebNpFs+B5E8b/zHhQKir61AcZcrp2M=;
+        b=KC0xiEDdnPifMnTCsMVT5pEg/4tDwAvSpGZQmUbIBWV5K+TCEdKhkchIeHGi7qM/wa
+         QjLj8YsaSQu5ks2ZhEaCNS7UUylJHcutmhevdHoFsFnnjVlajvtVsNb5UaekimnuNNid
+         eTznb3QrUvo0+pqy4euFCA7m55P11n3qgJOqbBZYivIT5/498Zqh/MmsGadE32cjo46g
+         WxCJbCvhI1toHiYKFnaVwRXcuQ3pKSeF8hCAEqOoVbaDhhcqtVS1oK9v6eEGeS7nPWlD
+         xW1pOcDavUWeOameX6SCXluyiNMzZ5FzVgcAH7BlevdxV0Xnev8PYE4xWRGnDxx0QYLH
+         llXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785492972; x=1786097772;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VAZMksOYurF3tSXLo/jShDOr9iNsQwZ9titE58N+ejE=;
-        b=SHsglTy1STx704gcT3enJCWlhH0qTsAnibu9+LhNz/i2OAJkybWCbnc2LZfjLVaaV5
-         SXxkkoTh8lME7NYuT2o5MwlTBfqcp3WtzI54aHG9WvuuXSsiX7oxm9E34bpH9HarvGzX
-         XH/okdix0fEvZ3z1dsACN6bWmYt4tJcnjy98luKTEbI/VviH6PAUSQwQnrnEIUGhbRXK
-         CKZZDrHpS/RGsXfVytW3b2ImQ2KUDKvn9dJwRc/02w+CpguAUhoN3MUU3JIn4+9OyO7e
-         9bGT9XNm9RXUUXxdjweVn6yZFguoYXxPcndz47LerjMhJm8k+uAlP53A/9lsJ1rrHv7Z
-         wa/g==
-X-Forwarded-Encrypted: i=1; AHgh+RrP864Bzl/S6kk6IV+GDDHiaoow9YDVNWmZY+ylI+aS5cPduiVFSw6KOQEx78xSOXV/etYAwtogX0vGkQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYyPUj2IwSpUa5Q9fp/p9VbnZ0uPA1fT9yaJJJG+ix2lH7hOnP
-	6KGWP2vff8eh8HsgCcWPmEd5v5jtlPxAmu7IzRks2AtvXQtNEngYAgCA
-X-Gm-Gg: AR+sD10dQVQkwtB258LFngsmIjyT2tn6FnYWUxzfu+z3vJhPQbCFZaKtpvULjLaTX76
-	wi1Gr5YCtovRbJ/Ezh20pNAB7L6ZDFkvIyNE5ke+0odXjl0hJd9Aq+rc4a1Ks/d/SHsJXXz09Je
-	+QTO7FgKjE60F1FGXPTF4Y0beY1zND8747pQUHcD/ENxWi10PGXZ8nYkUhmRLPrwSRLXtd4M/5z
-	uFev0xm9bvSLiAS4h18Cr1DjeR/07E+PDupz5QA3PxmGFwCVEsrmXvNKhFzxKZKOVvIWoaQIHeI
-	PyY9S0t0O8nqpgGAZz2mVicxW4hEy0bDq/mfl9E6Mx84zpdVpk0EAwMYs2sJLuKsimr9mSKr0x6
-	i8zqgb09lGef08gz9rSWZWg+yWahrVkibDeuGJJ3KG9EZ9gCoEb164nY1N8Wpjz4gPKQN521zUg
-	nTWlwSTRr7KFo7PMLaM4IAFVJLH4ZBmVGpXVRGERUfSm+EgV8UKex0x8jOThIzDukxq7AW6maiJ
-	hsWBqZmwDM+yFj86PLB5ZCBEhAndzruk8M3neMJ2l5JEnfJZx1AOFTgFgWz69gky+E0ABiCNm0O
-	mXWh
-X-Received: by 2002:a17:90b:4cce:b0:381:cef1:11bb with SMTP id 98e67ed59e1d1-38fb13e74femr1383086a91.22.1785492972150;
-        Fri, 31 Jul 2026 03:16:12 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38fb2ce28c7sm509733a91.16.2026.07.31.03.16.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 03:16:11 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Yixun Lan <dlan@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Goko Mell <goku.sonxin626@gmail.com>,
-	Jinmei Wei <weijinmei@linux.spacemit.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/2] ASoC: spacemit: init *dp to NULL before error paths
-Date: Fri, 31 Jul 2026 17:15:39 +0700
-Message-ID: <20260731101539.36290-2-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260731101539.36290-1-phucduc.bui@gmail.com>
-References: <20260731101539.36290-1-phucduc.bui@gmail.com>
+        d=1e100.net; s=20251104; t=1785493181; x=1786097981;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=TQwy1Ukj0VK04ebNpFs+B5E8b/zHhQKir61AcZcrp2M=;
+        b=EQ6DFrTePOUyS6Gjb8M0CPMYsuFP5/vH89d9BJWyHcC4HNgeJc0jr1Ta1tpFsJb7P9
+         V92Y839RbXlk/J3uexYO6ykw4Axo+bAtTOcJT9Sh/WwXq1ZjKdCf4u5sdFToB347Wpom
+         24LIuYlQqhUtzHeJZvr5QXBeClc14FIovqw+VrjiNo6eH7Rm3lwhRG3XW/CZIkYsgVo3
+         jlxMMbGovls0yzVjKdvjDyouRv/Knl+kZsSiC1Zaq+lAmZQc/6nSVSKYCJV4hLy80w/n
+         F1ZPNKbGwDyrxXwEjSEcEiT2QzLMC+57+Jn6j+dLKa+Vlvv8gHgFmO+xpXq2HNMXUt+H
+         8w4Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rq36gQs7/BIwIb/IrCPzj8ATymbrbS9V7RdMo4PzipBqUfWrgqDPs/JeKGnZQcHyTC2byiXILgK7la7fA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YweBXJljFcucUzsa++5qfpCoNAsS5yZ6t4SzBF9H5xc0akFfSbd
+	dDYlR4eDjgTGPV5BaG8w+tO0fl0p53R2GpnxHIEOidV8KCHAYl615Zu4teSY9I8w5knXStIEJbo
+	7tRTERoNbGmLcrfXqzUr3i2GfmRwCArU=
+X-Gm-Gg: AR+sD13kqr6XXQJlbsbaO7PZntY3oS3TNhZb0X0EOW3bbKdqiwdBF9qDEpBlEC7nEFu
+	5QkvJiRPa6IPw4xIKrOySU1T0aIApsmhvCaT02EiEPjZ5MfmjV1kPzYz2AFmiALvfX/RtRNNTIM
+	8o7U+PnnzjPCWYL2d3541qBPDQKT7z+BctB0oJ0DESqe7RISW2+G4kInpWvG96U6z0FvT00sbsa
+	vs4xwSQFtAav+7QJEDK9rSK1nodP+wDPz4npqsv9vmeeAgLd2iQ7J3ocW29Aprutpd4iFpwilDT
+	psaZ1Qoukr8mk75bVhmUSdpYBf/sohmWfKXoVVbzmIwAYnRWiBm6UBHFKS+IT1IXATLPeL7MZrK
+	Dwh3Knr/WD7VGEqXH5MAFjUjc2cGt8ixaoAl26FBknUyFOZV1UkkstSN9
+X-Received: by 2002:a05:6a00:600a:b0:84e:3a6b:499e with SMTP id
+ d2e1a72fcca58-84ed73051b1mr1248797b3a.78.1785493181600; Fri, 31 Jul 2026
+ 03:19:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260731030648.8706-1-phucduc.bui@gmail.com> <25cef535-ec13-4fcd-9f50-66c67cc64d6f@intel.com>
+In-Reply-To: <25cef535-ec13-4fcd-9f50-66c67cc64d6f@intel.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Fri, 31 Jul 2026 17:19:30 +0700
+X-Gm-Features: AUfX_mwJ16jB_br5_HxDIl4yPOFtz5xsYqf3WCt_W0mE_Ha0unDmTuR4z_KdD0k
+Message-ID: <CAABR9nHJ9oc2TfXaypsC7kAoktO4GW1gM=merno__YurNv-=DQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/26] ASoC: codecs: Use guard() for mutex & spin locks
+ - part 3
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Linus Walleij <linusw@kernel.org>, 
+	u.kleine-koenig@baylibre.com, Thorsten Blum <thorsten.blum@linux.dev>, 
+	Kees Cook <kees@kernel.org>, Chen Ni <nichen@iscas.ac.cn>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, 
+	Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+Hi Cezary,
 
-spacemit_i2s_init_dai() takes an optional output parameter dp, but only
-assigns *dp on the success path. If devm_kmemdup() fails, *dp is left
-untouched.
-The current caller does check the return value before using dp, so this
-isn't an active bug. Still, initialize *dp to NULL upfront as a defensive
-measure, consistent with how core helpers like _snd_pcm_new() handle
-their optional output parameters.
+Thanks for the suggestion.
+>
+> I wonder if --patience would make a better job of showing diffs for the
+> patches with larger scope_guard()s.  It's kind of spaghetti right now.
+>
+> For the series:
+>
+> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/spacemit/k1_i2s.c | 3 +++
- 1 file changed, 3 insertions(+)
+I've updated my Git diff settings to use the --patience algorithm, as
+you suggested, and regenerated the patches.
+Hopefully the diffs are easier to review now.
 
-diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-index 64510c9a1a89..23037fa4233c 100644
---- a/sound/soc/spacemit/k1_i2s.c
-+++ b/sound/soc/spacemit/k1_i2s.c
-@@ -382,6 +382,9 @@ static int spacemit_i2s_init_dai(struct spacemit_i2s_dev *i2s,
- 	struct property *dma_names;
- 	const char *dma_name;
- 
-+	if (dp)
-+		*dp = NULL;
-+
- 	of_property_for_each_string(node, "dma-names", dma_names, dma_name) {
- 		if (!strcmp(dma_name, "tx"))
- 			i2s->has_playback = true;
--- 
-2.43.0
-
+Best regards,
+Phuc
