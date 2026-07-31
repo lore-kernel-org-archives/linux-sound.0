@@ -1,39 +1,39 @@
-Received: from mail-106119.protonmail.ch (mail-106119.protonmail.ch [79.135.106.119])
+Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513C333F591
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 02:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667143254BD
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785466133; cv=none; b=SitEN48pAd8jPomAhshkg8fef+bXj2bH3360AVnngbeOZVmyX4ddh0/YRyhyo5s5jj7oe462CN3p4rR6dFLA9BiHhTZAoLUqxRk6Q0w4JqyeN/VuCMIu/23e+fvx/+U4pPRvcsjXt+54O703e9/B4/4JJlzxEd3UeaPwKhSDfUI=
+	t=1785467115; cv=none; b=hmj8tZBa9f5fr17jYpQIinikQ66LB1yXMJEXnQnwJD/uMI1yg4+7vEvDSBsYXYZLSz1MU6YFDA6ClB5jUzgmOHTTpwpm4zaDkq9JaeAZ4iHXlAPnQocmmqgR+toTceaKYpt06gaQd9RPaBZ/b7/wLd4lHo1oLk8Fu+IRFdICQhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785466133; c=relaxed/simple;
-	bh=cWIqsDI6ItM40PgQivUkwXWzgGzdaRgv2L3O+XStlrg=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=fMRLqV+1s4y9ZTytBkme/sXuL2FsAwZZsoz3GyzaEes40D/dnozk8q0oyaQYZMTbDFYTZ2O02X+yxeMH0H7zaIwO5dnUOby7+nWAYaY1ityxoi4Lm6OmfiTqGJjpKXVUhmuij12Ll35jTAaVa08ZVTykp2vWcB9PDPbNQWg27yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=RzSHrJ7S; arc=none smtp.client-ip=79.135.106.119
+	s=arc-20240116; t=1785467115; c=relaxed/simple;
+	bh=QDIVMbJDPrczWed3fDYojJstEX2BLZkSSwrSyzgwhhs=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Opfn+6hdxPpkm6pBHeWt1FZbbkLkW7DfZgllka9BfntJlwYy0AI6p+ah2jF2ifHRcZ0tNWZ9nWLxafYYEbMeQhqgHgC8uVvKJHXn4CZGtlmM98K2Zkk8mMDE5UWneNjymg0LrwnUS+SmigyvXESv/FciE6ddzEnqW4Bkysxn7Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=M8vS93Z7; arc=none smtp.client-ip=79.135.106.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="RzSHrJ7S"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="M8vS93Z7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1785466128; x=1785725328;
-	bh=FSK6Y4nEDOteYNwI4g8zDLQzMh/+mLKzkzIsc9a7TLI=;
+	s=protonmail; t=1785467104; x=1785726304;
+	bh=pX0qMZmiz/VS00YS+zsFDAwswv893ltPETfnnqrDHbQ=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=RzSHrJ7Ss7Mik7aFedFjamzvGeL8IqNTXaPEEJuKxgyQhP9kgP4Ntv0nPNohwkl2K
-	 Ib9kInEUmmb4LyQ2N/D0kGPQYuOHf116rB3jQ6DYmMurDg1OaDEGvzULt6CH1fpA3D
-	 6EochFPcC/YjP53K9+Iwx5MHGkQN116Bm58q8XcpPoRubMOHQif2/UIVAwJ0CXk+AA
-	 9JyzddwMdcqSBarlaj8nNmLQlSm87bdYIM0w3OtySW1OBfHMJsSHOdqL928yq7tgzO
-	 a0z/Z8/7OqSv93+M+G/B+gI8KakD4R+BrYIJ7yzf8PXgnGy1RpDReLdaqPzWFqOLTb
-	 XorDZtY7tm3Tw==
-Date: Fri, 31 Jul 2026 02:48:44 +0000
+	b=M8vS93Z7m1x32qe8tBsYfw3JHO/u53TSDwM47Q4mPWotChFK8dE2q5l90Ag8Vn/Ea
+	 k9+JbNnXfm1THDNDtfNGtLuHacE02IPPHPRwLb5RmrS/TX6gFz8idrox4s5fp05IlK
+	 s1l/zmktpGUzK/B0CY9F/2sxEzMe/MF/BzhZCXNrtWoQO2sxaVM6uKb9eKEBLBTvdj
+	 +rAD4tig8usi7SGhCw9FX5rtJjsRJULjNorCr4lEhkzmKz4/F1Q9vR1psQ8ySlCfnZ
+	 5vuHxraihYvEL6mrUlJBj51/Pft1mr08+DfJIoU05vJfBeFQog20S+oX1CqHUKA/Wr
+	 sE7n/rotn3C+w==
+Date: Fri, 31 Jul 2026 03:04:58 +0000
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 From: Brian van den Berg <faxuser@proton.me>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Antheas Kapenekakis <lkml@antheas.dev>, Brian van den Berg <faxuser@proton.me>
-Subject: [PATCH v2] ALSA: usb-audio: Add quirk for Logitech PRO X 2 LIGHTSPEED
-Message-ID: <20260731024831.31966-1-faxuser@proton.me>
+Subject: [PATCH v3] ALSA: usb-audio: Add quirk for Logitech PRO X 2 LIGHTSPEED
+Message-ID: <20260731030447.36012-1-faxuser@proton.me>
 Feedback-ID: 57639451:user:proton
-X-Pm-Message-ID: 29f5d96fdebc2cdcb1222171fbcb0eafd926fb04
+X-Pm-Message-ID: 8fe686912a290c3406e7dd14bc0059e76da61046
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,11 +79,43 @@ Changes in v2:
 - Commmit message missed the version I compiled and tested it on.
 - I forgot to add v2 to the patch.
 ---
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .clippy.toml       | 21 ---------------------
+ sound/usb/quirks.c |  2 ++
+ 2 files changed, 2 insertions(+), 21 deletions(-)
+ delete mode 100644 .clippy.toml
 
+diff --git a/.clippy.toml b/.clippy.toml
+deleted file mode 100644
+index b0a78cc8be20..000000000000
+--- a/.clippy.toml
++++ /dev/null
+@@ -1,21 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-
+-msrv =3D "1.85.0"
+-
+-check-private-items =3D true
+-
+-disallowed-macros =3D [
+-    # The `clippy::dbg_macro` lint only works with `std::dbg!`, thus we si=
+mulate
+-    # it here, see: https://github.com/rust-lang/rust-clippy/issues/11303.
+-    { path =3D "kernel::dbg", reason =3D "the `dbg!` macro is intended as =
+a debugging tool", allow-invalid =3D true },
+-]
+-
+-[[disallowed-methods]]
+-path =3D "core::ffi::CStr::as_ptr"
+-replacement =3D "kernel::prelude::CStrExt::as_char_ptr"
+-reason =3D "kernel's `char` is always unsigned, use `as_char_ptr` instead"
+-
+-[[disallowed-methods]]
+-path =3D "core::ffi::CStr::from_ptr"
+-replacement =3D "kernel::prelude::CStrExt::from_char_ptr"
+-reason =3D "kernel's `char` is always unsigned, use `from_char_ptr` instea=
+d"
 diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 0de7c9d94259..e038b5ccbcba 100644
+index 0de7c9d94259..3bd66094863d 100644
 --- a/sound/usb/quirks.c
 +++ b/sound/usb/quirks.c
 @@ -2251,6 +2251,8 @@ static const struct usb_audio_quirk_flags_table quirk=
@@ -91,7 +123,7 @@ _flags_table[] =3D {
  =09DEVICE_FLG(0x046d, 0x0a8f, /* Logitech H390 headset */
  =09=09   QUIRK_FLAG_CTL_MSG_DELAY_1M |
  =09=09   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
-+=09DEVICE_FLG(0x046d, 0x0af7 /* Logitech PRO X 2 LIGHTSPEED */
++=09DEVICE_FLG(0x046d, 0x0af7, /* Logitech PRO X 2 LIGHTSPEED */
 +=09=09   QUIRK_FLAG_MIXER_GET_CUR_BROKEN),
  =09DEVICE_FLG(0x0499, 0x1506, /* Yamaha THR5 */
  =09=09   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
