@@ -1,65 +1,65 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DD5345CCA
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575573403F1
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785467466; cv=none; b=YOsLSD4aNfg83cWowTI1Tin3oBCnhUSL19OElylhtDZH5GAwS8iGEK5GxxRU2q3b0BzMlIKFCcEx9P8N8bx3viNq1nLtqhEJRpDjlPazqetEU86PC4PLNhAsGOhsgzssOnsCjS/Yl/S0hD3SRQ3hbgluORkdkPeZQjgtawjtiwU=
+	t=1785467475; cv=none; b=QAq/xYkbonPTYupsBjw+vAPuTQt3J4JM+cC+k+S9WZ9CcpgmsdT1FKW6cxgdrmzEiHX+qmkbUf87hekIg+z58oKFkphxHjRApSTH8PlSxlWqOI4y5sz/K6B0kzTYAl1M05EFqXsEwfVu9rGhJ8+//NH3oLMk2pNSOV1idrAK610=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785467466; c=relaxed/simple;
-	bh=tQignsy0Uqf27H/ST9+cDOhKM7ywT6SKO99/+Fa+egA=;
+	s=arc-20240116; t=1785467475; c=relaxed/simple;
+	bh=NTv0dA4h7p0NtOycmpwSiKJMd8uSAN1UAwPHu17+jvE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AKMeChgZ26FCNLPjoFdT6DchTJw4AZ90fKYO3Xw+i+posWAj/0D499pnVjcEvCHnqqHim5OFUdK35SpEpgiZNPPVoMbVWGLSIGjkXTKNkZ6PTzxyQOKlgbDWXv/g6QNR6x8pJNawNEBThWQI0TLwi62iZzh2yCrKA/oA7qjs44Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOTIVmYV; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=Ev6VrcoyFftYpcUFnjPT4dMUR51ywSx1bmak66w3uBgqIz41Cnns43fNgef5a8IjqjZxfBMjk99LoR2+EBPq6YS0EX9hSN+C9K6P3RY/+aVYX2C9Hv2PPreCf3JBKOTRGsgKCLaHQ5nfjAMAlG/0Y8yl55lrDJ4q+Tf7Z3+ZAg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TV3mGzYX; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOTIVmYV"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2d0407aedd6so4890975ad.0
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:11:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TV3mGzYX"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2caced6038eso3862215ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:11:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785467464; x=1786072264; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785467474; x=1786072274; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ipgET18nqnZuvZuo94ljzJ78lvwUk1zejtWxurs02pM=;
-        b=LOTIVmYVYvkyPwQC8Hulg+FdnuAlNe0sYu47FbHXF+p7vkplW7dCjvEnHbWrGKnnPe
-         H8Lf8MQa1N9f0b9q2b0V7uFLzdbCZWyX6jzFL9ow1MZ/nJNQF9X7/3wG8k/rPIkZcoPO
-         4wAOKUA21TYZLPFeWGjK/4ZeY035TWeh0jDrFnTSDAdbGMP/BmdMRYU06iGTw1o/XSiX
-         U5YbOsjK4cEXVehXcfD1VWg1IwQ9qqg+JbqRpvlHM/BgVkBNFR91OzCkXPExtcQV15B4
-         iny+b4lzGvOy5D3/cCBi/7exQvFHcfytQ06gsEMHt88gZ8zjWZtZjkNKdkhv0wnkakLa
-         OYfg==
+        bh=K9raJfp3OtJus9yMmtP+CvXPkqSwzVFDSD0PnOwRCW0=;
+        b=TV3mGzYXaQ/Mr3HskUSm0d6QTTni3cAp8yP9OmLoeyywp8qsgiRIQ1C7UbLsQuoMEW
+         dEfauHPJTGnqeEO19kh0W+/daeWgorgWpv6gZkQVCkhK+pSBDNRJHVQ8pt0KpKxd+wSl
+         ECftUMwjmqSWVcErgAjdTd3p6HGJgfELLgEJisCAdxtd1eg7HEtEQM+cZLyk3LDPNl1j
+         uPmA754LkFixd/yFUWsrGOThKlcBusqs3bFYe3bcWGPUAVIa8hND0tHoHYwQHPGgmoH6
+         Y9zaTUe6dkpLjIYzkIRXOVUJQvjPbqR1ZpjOHrUq1S9qOZqd7v//ZjbBBDAnYUX2qTn0
+         wogw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785467464; x=1786072264;
+        d=1e100.net; s=20251104; t=1785467474; x=1786072274;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ipgET18nqnZuvZuo94ljzJ78lvwUk1zejtWxurs02pM=;
-        b=sXDFGR/1yWew90M2jeqg2Eu7rbxv52yMe8avgFbcmJFPUxcm7zWHQMl+B6eUFUryrx
-         eH3WSxnHPGvsYYqCcxmLrT/8Z6Uq/WRCOaETz0q6bc8S+Oh1St6oIgCW31SAwODzsiJH
-         ktn2xwrU+y44E5x/d7DdUkEj1nfixJiXhmVibX3CVwDiKSfSnH0xxQ6LshSXl/w1/rmF
-         Zsn64JoT0qzt1YXFqnLrrhMX6jCDm6AP6HSxPnx87DRJlscq5sxOCIg4xdkIM8dwITXG
-         Aj++g0jfgjUncDGumwNAZN9ATmJJ3nV1nXnOsxI09oXYmkVuZGER20CZgYhSEK/Hw5hc
-         l6jA==
-X-Forwarded-Encrypted: i=1; AHgh+RpLvggLiGEeOJAGeieKtRE+L8GPXfAltoizYDK76nok7Q2TqILvCr8TzA3OKNe1Tm4+ZuXwaE1Pl7pRVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqWXPeAl/CTOTvIcwzqe0CaklWpo+i8gcngFHH5rSAdPMFaqrz
-	aF5ZDvhn7RauWbDohV6u/x6jzmbVkis2pw8GTqlbRHrPqju96LH7R088
-X-Gm-Gg: AR+sD13AFqSsRxdkdzTAzyo7R2fq0gQ0zoh8jmJfGOf/x22LMby8Teg8uf+C9nDFFpQ
-	0Imu3Idyvn3z9Uc8s6jHqCumQUlDR/5hLXP1Lg2CG9fe5k8Ov3535FXPfCCae4htBsyEnY6mOXH
-	7DlTGhjW7yTB4k07cPG0HRqyElbWz8N9ugLQheuHkQJDAH/IU8i17Chm+TPcXn10pf+pyFbsnRT
-	+hM0/8AjDG6sKhPpDX/IjZv73vz5xpwnCfPQNgpPnRDRUfttwLUp812BBdncvAcWqjeZRInOaEb
-	LSycwSlqBOLBGg2HZLgGk35mSpiE0w9JTpQ1O0guQp3Xu9bDPskOlscAVKM9jJ1JLrYj+XpkXtc
-	8HsnU3uIyJvCHOhv4A791ud5QboB+H0B9i5d+55bPd11du69wOpS95XrQGsEKRwTjtfaZ1SDD6J
-	tNIAEKFVTMZnwLm4MrTscgqVaJ2TjaOSCXGCXM4RSrx3FA/vOAoqslgzwX7zjYDBL2f3GbSA7AM
-	ydEZRxzEdZvC87V/XC3cZ05yrah/65+9cnZC+eWE2WcocnrqR8KgMY1HDbA5ccB+rz+1bl6Gt1r
-	o+6Cvg==
-X-Received: by 2002:a17:903:38d0:b0:2ca:62e:cc4f with SMTP id d9443c01a7336-2d046e7de3bmr4666735ad.23.1785467463947;
-        Thu, 30 Jul 2026 20:11:03 -0700 (PDT)
+        bh=K9raJfp3OtJus9yMmtP+CvXPkqSwzVFDSD0PnOwRCW0=;
+        b=Uc/kGqn4E2QBuVfbyifQkJjD6EV7CP3KWG/cbpmK6kfT7rLQvqNMLnRzt4b3O6mCoc
+         fR7ScV5ifD/+kTEXq+RYrnU4PeF4OhvlXoOrffwtQdwdcdNr++Xir9mncJ4/Hf3IKLqs
+         fBQvy/wZoZHwyA4NnVGShX0lt42vGK9W+Df0T2Qqp1q4u5RYL5AuayNNL1fB/Qplbtep
+         2QKGgmXbSgVIBm72BHa3oOFkQp4NdiA7Xw5pDhomkQSHLIyXXydYhTL2S10RjyIXubSu
+         4nZ/hfQeg0pZF63/z/I3pYnF2ik1Hdvi/V8G4wJr+2Q4hymLGx1yORjLaqHsdcTdmQkV
+         5+Sw==
+X-Forwarded-Encrypted: i=1; AHgh+RodJjxqqWIfx0oGjbGUr0+IVi8FQI9dFknfHflZ2j8XqRTPM6oHsCcUVupmWRewliu/vm6OVRRM0+nbxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzICFni+Fo482cIOvCAwU4shhSLCTl23mO3NK0LSGmyqFtsD96I
+	HAe9pCYXVPGZ8RDUtcx+ibBez5kQxwVSzdfZuZNt0KeJL9lmSKY8TVvc
+X-Gm-Gg: AR+sD12/uD9ouMQJ/Sc4oYCL8fC1X36KsamvDN/Bh1Kcfb0Sbcl4zRivUwZdDtOUAX2
+	Qg3RLgavmJ2u3HZkzBqv625N/ZcOcCiENSuDQ3pWozIDz1xqwDTg/rfqpcz0NetjzB6wFT7Ql+Q
+	mFTwIvc75A6v0LCEnG952kxfYZs1VS2viiFvm+2wwxLCRZRvaavCM3q/QqxIQNLnzFmmBS6dMRU
+	NV6EzzCze7Hj/1YdxWpoe4L/W/CaYdXM5DAe6S+rg4VWGvDSBPpy2oRJ5VpNGPMkkEwzMB8P9XV
+	J/1Nf6XKXanemUfhP+lsN/Cg3UUiSHloCWa8mfRMnbpVNLdvkWd/vlQDbrqCzZYOQr9kTmzvReC
+	7euOrw7s+T9FjdJDJJE4//wgESX7uwXAvWsSZu61VFcUkEqjGHh1ycoJ0dP+WFfkTjRZRbQTr4N
+	7aLTUNCgx6ORwjKuVH2DG/H1HNN3D5pnN+JmTU/Ma0ruLS5XziHu7W/aHtsHQLqJLUmAOCBwodL
+	pufdFQc/3giCfCMU68/neJKP9TQfI+ZoDoqF9bxrcVwvYghadyYhVqaAI6aWRgabnZnjg9kNTie
+	Vtls
+X-Received: by 2002:a17:902:f550:b0:2cf:41ba:96c2 with SMTP id d9443c01a7336-2d048331471mr1124385ad.12.1785467473676;
+        Thu, 30 Jul 2026 20:11:13 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.10.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.11.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 20:11:02 -0700 (PDT)
+        Thu, 30 Jul 2026 20:11:12 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -91,9 +91,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 09/26] ASoC: codecs: tscs454: Use guard() for mutex locks
-Date: Fri, 31 Jul 2026 10:06:31 +0700
-Message-ID: <20260731030648.8706-10-phucduc.bui@gmail.com>
+Subject: [PATCH v3 10/26] ASoC: codecs: twl6040: Use guard() for mutex locks
+Date: Fri, 31 Jul 2026 10:06:32 +0700
+Message-ID: <20260731030648.8706-11-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260731030648.8706-1-phucduc.bui@gmail.com>
 References: <20260731030648.8706-1-phucduc.bui@gmail.com>
@@ -112,237 +112,39 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/tscs454.c | 107 +++++++++++++++----------------------
- 1 file changed, 42 insertions(+), 65 deletions(-)
+ sound/soc/codecs/twl6040.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/tscs454.c b/sound/soc/codecs/tscs454.c
-index aad394937ce6..b70c9d931e1e 100644
---- a/sound/soc/codecs/tscs454.c
-+++ b/sound/soc/codecs/tscs454.c
-@@ -4,6 +4,7 @@
- // Author: Steven Eckhoff <steven.eckhoff.opensource@gmail.com>
- 
- #include <linux/kernel.h>
+diff --git a/sound/soc/codecs/twl6040.c b/sound/soc/codecs/twl6040.c
+index e10c51092a35..650836f9615f 100644
+--- a/sound/soc/codecs/twl6040.c
++++ b/sound/soc/codecs/twl6040.c
+@@ -8,6 +8,7 @@
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
 +#include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/device.h>
- #include <linux/regmap.h>
-@@ -329,12 +330,10 @@ static int coeff_ram_get(struct snd_kcontrol *kcontrol,
- 		return -EINVAL;
- 	}
+ #include <linux/delay.h>
+ #include <linux/pm.h>
+ #include <linux/platform_device.h>
+@@ -273,7 +274,7 @@ static void twl6040_hs_jack_report(struct snd_soc_component *component,
+ 	struct twl6040_data *priv = snd_soc_component_get_drvdata(component);
+ 	int status;
  
--	mutex_lock(coeff_ram_lock);
+-	mutex_lock(&priv->mutex);
++	guard(mutex)(&priv->mutex);
+ 
+ 	/* Sync status */
+ 	status = twl6040_read(component, TWL6040_REG_STATUS);
+@@ -281,8 +282,6 @@ static void twl6040_hs_jack_report(struct snd_soc_component *component,
+ 		snd_soc_jack_report(jack, report, report);
+ 	else
+ 		snd_soc_jack_report(jack, 0, report);
 -
--	memcpy(ucontrol->value.bytes.data,
--		&coeff_ram[ctl->addr * COEFF_SIZE], params->max);
--
--	mutex_unlock(coeff_ram_lock);
-+	scoped_guard(mutex, coeff_ram_lock) {
-+		memcpy(ucontrol->value.bytes.data,
-+		       &coeff_ram[ctl->addr * COEFF_SIZE], params->max);
-+	}
- 
- 	return 0;
- }
-@@ -428,15 +427,15 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
- 		return -EINVAL;
- 	}
- 
--	mutex_lock(coeff_ram_lock);
-+	guard(mutex)(coeff_ram_lock);
- 
- 	*coeff_ram_synced = false;
- 
- 	memcpy(&coeff_ram[ctl->addr * COEFF_SIZE],
- 		ucontrol->value.bytes.data, params->max);
- 
--	mutex_lock(&tscs454->pll1.lock);
--	mutex_lock(&tscs454->pll2.lock);
-+	guard(mutex)(&tscs454->pll1.lock);
-+	guard(mutex)(&tscs454->pll2.lock);
- 
- 	val = snd_soc_component_read(component, R_PLLSTAT);
- 	if (val) { /* PLLs locked */
-@@ -446,18 +445,12 @@ static int coeff_ram_put(struct snd_kcontrol *kcontrol,
- 		if (ret < 0) {
- 			dev_err(component->dev,
- 				"Failed to flush coeff ram cache (%d)\n", ret);
--			goto exit;
-+			return ret;
- 		}
- 		*coeff_ram_synced = true;
- 	}
- 
--	ret = 0;
--exit:
--	mutex_unlock(&tscs454->pll2.lock);
--	mutex_unlock(&tscs454->pll1.lock);
--	mutex_unlock(coeff_ram_lock);
--
--	return ret;
-+	return 0;
+-	mutex_unlock(&priv->mutex);
  }
  
- static inline int coeff_ram_sync(struct snd_soc_component *component,
-@@ -465,41 +458,35 @@ static inline int coeff_ram_sync(struct snd_soc_component *component,
- {
- 	int ret;
- 
--	mutex_lock(&tscs454->dac_ram.lock);
--	if (!tscs454->dac_ram.synced) {
--		ret = write_coeff_ram(component, tscs454->dac_ram.cache,
--				R_DACCRS, R_DACCRADD, R_DACCRWDL,
--				0x00, COEFF_RAM_COEFF_COUNT);
--		if (ret < 0) {
--			mutex_unlock(&tscs454->dac_ram.lock);
--			return ret;
-+	scoped_guard(mutex, &tscs454->dac_ram.lock) {
-+		if (!tscs454->dac_ram.synced) {
-+			ret = write_coeff_ram(component, tscs454->dac_ram.cache,
-+					      R_DACCRS, R_DACCRADD, R_DACCRWDL,
-+					      0x00, COEFF_RAM_COEFF_COUNT);
-+			if (ret < 0)
-+				return ret;
- 		}
- 	}
--	mutex_unlock(&tscs454->dac_ram.lock);
- 
--	mutex_lock(&tscs454->spk_ram.lock);
--	if (!tscs454->spk_ram.synced) {
--		ret = write_coeff_ram(component, tscs454->spk_ram.cache,
--				R_SPKCRS, R_SPKCRADD, R_SPKCRWDL,
--				0x00, COEFF_RAM_COEFF_COUNT);
--		if (ret < 0) {
--			mutex_unlock(&tscs454->spk_ram.lock);
--			return ret;
-+	scoped_guard(mutex, &tscs454->spk_ram.lock) {
-+		if (!tscs454->spk_ram.synced) {
-+			ret = write_coeff_ram(component, tscs454->spk_ram.cache,
-+					      R_SPKCRS, R_SPKCRADD, R_SPKCRWDL,
-+					      0x00, COEFF_RAM_COEFF_COUNT);
-+			if (ret < 0)
-+				return ret;
- 		}
- 	}
--	mutex_unlock(&tscs454->spk_ram.lock);
- 
--	mutex_lock(&tscs454->sub_ram.lock);
--	if (!tscs454->sub_ram.synced) {
--		ret = write_coeff_ram(component, tscs454->sub_ram.cache,
--				R_SUBCRS, R_SUBCRADD, R_SUBCRWDL,
--				0x00, COEFF_RAM_COEFF_COUNT);
--		if (ret < 0) {
--			mutex_unlock(&tscs454->sub_ram.lock);
--			return ret;
-+	scoped_guard(mutex, &tscs454->sub_ram.lock) {
-+		if (!tscs454->sub_ram.synced) {
-+			ret = write_coeff_ram(component, tscs454->sub_ram.cache,
-+					      R_SUBCRS, R_SUBCRADD, R_SUBCRWDL,
-+					      0x00, COEFF_RAM_COEFF_COUNT);
-+			if (ret < 0)
-+				return ret;
- 		}
- 	}
--	mutex_unlock(&tscs454->sub_ram.lock);
- 
- 	return 0;
- }
-@@ -658,16 +645,14 @@ static int set_sysclk(struct snd_soc_component *component)
- 
- static inline void reserve_pll(struct pll *pll)
- {
--	mutex_lock(&pll->lock);
-+	guard(mutex)(&pll->lock);
- 	pll->users++;
--	mutex_unlock(&pll->lock);
- }
- 
- static inline void free_pll(struct pll *pll)
- {
--	mutex_lock(&pll->lock);
-+	guard(mutex)(&pll->lock);
- 	pll->users--;
--	mutex_unlock(&pll->lock);
- }
- 
- static int pll_connected(struct snd_soc_dapm_widget *source,
-@@ -679,15 +664,13 @@ static int pll_connected(struct snd_soc_dapm_widget *source,
- 	int users;
- 
- 	if (strstr(source->name, "PLL 1")) {
--		mutex_lock(&tscs454->pll1.lock);
--		users = tscs454->pll1.users;
--		mutex_unlock(&tscs454->pll1.lock);
-+		scoped_guard(mutex, &tscs454->pll1.lock)
-+			users = tscs454->pll1.users;
- 		dev_dbg(component->dev, "%s(): PLL 1 users = %d\n", __func__,
- 				users);
- 	} else {
--		mutex_lock(&tscs454->pll2.lock);
--		users = tscs454->pll2.users;
--		mutex_unlock(&tscs454->pll2.lock);
-+		scoped_guard(mutex, &tscs454->pll2.lock)
-+			users = tscs454->pll2.users;
- 		dev_dbg(component->dev, "%s(): PLL 2 users = %d\n", __func__,
- 				users);
- 	}
-@@ -806,7 +789,7 @@ static inline int aif_free(struct snd_soc_component *component,
- {
- 	struct tscs454 *tscs454 = snd_soc_component_get_drvdata(component);
- 
--	mutex_lock(&tscs454->aifs_status_lock);
-+	guard(mutex)(&tscs454->aifs_status_lock);
- 
- 	dev_dbg(component->dev, "%s(): aif %d\n", __func__, aif->id);
- 
-@@ -829,8 +812,6 @@ static inline int aif_free(struct snd_soc_component *component,
- 		free_pll(tscs454->internal_rate.pll);
- 	}
- 
--	mutex_unlock(&tscs454->aifs_status_lock);
--
- 	return 0;
- }
- 
-@@ -3174,7 +3155,7 @@ static int tscs454_hw_params(struct snd_pcm_substream *substream,
- 	unsigned int val;
- 	int ret;
- 
--	mutex_lock(&tscs454->aifs_status_lock);
-+	guard(mutex)(&tscs454->aifs_status_lock);
- 
- 	dev_dbg(component->dev, "%s(): aif %d fs = %u\n", __func__,
- 			aif->id, fs);
-@@ -3207,14 +3188,14 @@ static int tscs454_hw_params(struct snd_pcm_substream *substream,
- 	ret = set_aif_fs(component, aif->id, fs);
- 	if (ret < 0) {
- 		dev_err(component->dev, "Failed to set aif fs (%d)\n", ret);
--		goto exit;
-+		return ret;
- 	}
- 
- 	ret = set_aif_sample_format(component, params_format(params), aif->id);
- 	if (ret < 0) {
- 		dev_err(component->dev,
- 				"Failed to set aif sample format (%d)\n", ret);
--		goto exit;
-+		return ret;
- 	}
- 
- 	set_aif_status_active(&tscs454->aifs_status, aif->id,
-@@ -3223,11 +3204,7 @@ static int tscs454_hw_params(struct snd_pcm_substream *substream,
- 	dev_dbg(component->dev, "Set aif %d active. Streams status is 0x%x\n",
- 		aif->id, tscs454->aifs_status.streams);
- 
--	ret = 0;
--exit:
--	mutex_unlock(&tscs454->aifs_status_lock);
--
--	return ret;
-+	return 0;
- }
- 
- static int tscs454_hw_free(struct snd_pcm_substream *substream,
+ void twl6040_hs_jack_detect(struct snd_soc_component *component,
 -- 
 2.43.0
 
