@@ -1,113 +1,114 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E7E430CCF
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 13:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785502920; cv=pass; b=PdZWKXcpqc68V2NUkqb+n8Ee9jaZh/wDooJugnAwCgPM/+OCAQ72z0gpU8ooGt+dImOlLRBMuAncrQV6H8OBDiuM3jwyOb9T/GOySIGbuR3eyTw31rH7T17Fqn4xL3dY6P5FajdLAjEr/V72jfiEfEjdRj967w4C46kdQgXXCIo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785502920; c=relaxed/simple;
-	bh=mzx8ttNHwzLuXtlRamVskvehDWhjT1KJsIf5grSlgNQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T2zMoPIcSot8p0kz7b1RCfvkVi4UC/TQlBb90SXYndcBpEwC9gU2tQfkLcV1Wg8aWTatSD3lE0xMpO02ZYTXQlpZrwGp6fI2gZTrBuIeTS9KKuobrvkL5jmBKIbXorUhYwy06tf2fMheGBgdUGNIsHcQbr5icG4hncWyeAJT5ZI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=stiKuKu2; arc=pass smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4469142901A
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 13:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785502984; cv=none; b=FjarYgk8MT/5BC+qvgjMi+ouiDYObo4cHRKT/7bbjAoEwqZnBzEeQU1fPbEX1geJ9fvQiG7B01hSqNiQIgpzBxxgkqzn3LxPbpLqGgGqi4VW3bKoY8NNTfwoSzRBGVZWfSZo39n4PC42gXwXrVqMSeGU+1yrLhR6D0D0LPSEXfE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785502984; c=relaxed/simple;
+	bh=fvxWj7s2TA1t3H+XycZc4setJVZcCLhIpXIICbUZ1mk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PS8tYHNsmqPyhV7ZL5Gczk6wSv56NPROOJcCSQDUExB0iWf+NwDIrLaysYhFgbfJ/fAs9gGJWjHUJIamFP5fDdDI7d2rp06SxA89i7HjL1YvVdNHGsW5HCp+hukCz0HEUeEm3Io0E5zzjvMgSRmeT9ugsI/nz7b32JNSH9yGGpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GY7Tb7Wg; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="stiKuKu2"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-80cebd41372so13729357b3.3
-        for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 06:01:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785502918; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DdOff3MG6B9yOqn1CrNyR3ar1TYyNuTolebRsBVlkpv1e2k+rat0jIRmeRSDLJMuPy
-         qmuoalm8KtI5znNA45+4+1gzT3Z3cEywryA943ZldfexPl6H4SN87tOGH2Yjs50JTPuj
-         HnNi9Jmwrp7yXcyQLIeHJDeBZZ0NfYnjPLxSUcQ2YlC43lIqhh5KLPJ44JagWUuI7k2G
-         9EKi2XGzNRHnclE9f7NeAsaSzYAHFib4635bKfGaWWWfkf4QoX+LCZ0JXzq4bljcT6Xw
-         iY9b4jzVE5SGRn7X/PdcKIvMbQ/v67IGGzIPCYzv9vRdoInjRoDAyVMnekc8UVFLf2Eh
-         W67w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=mzx8ttNHwzLuXtlRamVskvehDWhjT1KJsIf5grSlgNQ=;
-        fh=YblHzFqwReSA3ahni9mjeQZrgjmy2V64G/FnLxb1bnI=;
-        b=NEYOzr2dMdCL5VvPExPt8EM/hx0b2O+q4pLHc69CFeg3dLQy1F6QWrV0Ea1yWFsUZ5
-         Od+DZDgRwW4JVzD84rQoM7/rrEzICq8S2+uiYWBhZl+YDVdbCLyoi5hR7iCo0NWQ8Iu3
-         s/DMTvsPXXoFaexFZCebxyxWE6G5somJHGa6YExkAyDTh0q3wo3/wHJ1Z0y4blF1Eb5P
-         X5u38AhiNxYmsp6lUfqhMibEDtdey4yQBbIZvooF6+KJk03USbPE3IzkVNV4f0OpJrL3
-         O05Ft/RKbp5jqLybGPYRHeY8+uwtGUKivORLhcis5OrR2ODoeAG0qCPRW7YVDBZmLdDw
-         v6jg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GY7Tb7Wg"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f96c5b722so593246f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 06:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785502918; x=1786107718; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mzx8ttNHwzLuXtlRamVskvehDWhjT1KJsIf5grSlgNQ=;
-        b=stiKuKu2S08Z712BV3J+ja80Bo/OPVR6YpGtDKOUZOs/OymlyHy6Eusn3x3I6rVQsn
-         jMiww6C3bQLoVMsLhKYLV49IAm3ljVbE43+2ImcWb9hTfAacKZZt+wzcOvZKzExVAMG5
-         eKtE4mwZH3IHuAwjDununUWaOV87dBMXNmHi6nIlEiIHEUU2iiE7++NyXP3c1OUUSqIP
-         KJ/+H2CS2ktc70sXDRAXrYXb8zNVByyIKjyHboMI2ulb1J05cj49OU7A71De1/7kgdxD
-         Of2RvG7b2YLijgzZFJLpuONoUNYp9+MaVjzEdMJ+k34UVDGIV2IiMC5P0UN9aC7IKW/u
-         EIWg==
+        d=gmail.com; s=20251104; t=1785502981; x=1786107781; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EoT6cbwtaNt05d9mZzBDNn6WcbuL1l70BDWmwPieEXw=;
+        b=GY7Tb7WgU9DUZkFHDHSgVZvwTQRYHwSH1IRXefY52EMF1gziarrXR0hCmx1HgKAE17
+         KDNQGKPVO5IyZik0Uj55C0xNaY5XJLCJUZLYXOrUwol9BO/qHTd41gs8dWPYb27A4vGZ
+         qw9Yp24ifcfg43xs4rlE6i3Zjowa7rks+FESrcs5I8PjC8gfojhwWCz6Bd3swQ4WeF67
+         hA6YKbSuzkEh7Ni+gd9/K08ogqPd21M1at4XM0IV5YvpnlvEoi4/kcSBa8l0pGVS+m2f
+         SDhVhVJHDzQ3pqeASTgPiV1Jkxd6z3uIBU/n27YT1hYoNqvUmkrv2LLrwVez8mbgmvhj
+         Mkhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785502918; x=1786107718;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=mzx8ttNHwzLuXtlRamVskvehDWhjT1KJsIf5grSlgNQ=;
-        b=Tp5Mrn/4u0uhmqeWY2+UcNfoPmmQdqzkHRMe2Gza/xlcPAlTdhpCiJeiAg+C11hupK
-         k0kC4gzPXFuqRlEh3ZAW3dmh0abG+ELGXD/HmBnKH7RHuoni5PllXeYpBlKsvTQx+RUm
-         1OlGldjWeoYAYt2Y1QU7FwB/BWuPFkQMzB2aFXnrMepJ/oNs63hJdVaiuRGhPwi7wia4
-         vJ5CRdfN8jA/JlIM/zp0bnnzJ0KtN6A/nc5jAYB4KdvpR/27Md8Z1o/iDb5hUBItyaZ8
-         1IViJZctkAaYYkEolJZQyTTkluhkB+X+pbrGWiVgCnkkXax/yfkfkdEa0tuQmdI7DD75
-         gtng==
-X-Gm-Message-State: AOJu0YwAS1ZUiBzEtFyDTP+cvKaOIslNRu2UXfdm6+WXKLzoWKqLyCPf
-	DLuERPCyLaUaLHiarMn57cfpbnkI6csoll1utTabnOZjCVkGbm7O+vAw5BgZIf2W7iuxXxgqFxI
-	MPHvqPCd4HeF+JCcW25KN3dPL26wo1v9dKLT7TEKJBA==
-X-Gm-Gg: AR+sD12LgqvsHhQGQflRhsYljo1sT1T4vmMUybCsPwYnqjavbsuXhO6leblf39GvFmJ
-	g/6JwjTam18JdQejnQm+SoTthy/nSAGt2tyrLGAcQewsP9SHw9glK5gcEUi4fRSZiBXeZKAzOE/
-	4/JzVDYyl36BDpNNhtI/xnIb+ZJpXnvSbydtOEkFmJ0mHLrH0mjmDhMi0Q7YBia9cFcHqcKNMdA
-	AZdZIxDvrciex2lKAh3VvFA3q/KmRSwCmo36UQ2X8qrVRV5giW9tLsxx9fwbIKbqBid8Z5kgq64
-	MXOp1+7J9zV3Z0zC0TXeqYmejpgQ4sHEAMBJ8+87zyJc8kcZ9ZtYMmDa
-X-Received: by 2002:a05:690c:a4c1:10b0:81f:3969:4abb with SMTP id
- 00721157ae682-81fce354342mr10275127b3.29.1785502917671; Fri, 31 Jul 2026
- 06:01:57 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785502981; x=1786107781;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EoT6cbwtaNt05d9mZzBDNn6WcbuL1l70BDWmwPieEXw=;
+        b=ps9MG8zMuuOFZbjOhyMG97/Sv1Mh7T0BrpkbTdN9jBX5vLO2R8wtVQCYxBBVHrSmBN
+         TvRPD9Emwwd79+3cUpUquxOBiUR5M37D3LV1rWSYnpiKpwh9whygAJPIBvly1T9gMOGq
+         1uX+5dJnwGHISU4BHA614Unjvz+zMv5oFIfeWhkB19rCY11e5ENbiEZw2bd6hp7liSqj
+         BC5e7NZtc6FeUuyvL8UUx+pFAtgpFSEZ5AJJBZEteYM3/nqpP44hA4qCZo217RFNAulh
+         LiuywHDD4nYQXMdJ1681/RuH99roxGMr0KejIvioqqfLLB3c8WhScWiEFOS1b9fzq3NO
+         dvnQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpUDXPyOT+s+edgW8fqrQes88533j8YafFt0GDO6G7X/FNQustK/Qpk1Tt1qCWlq5iZDiWt0Ftsh74OFw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPiTJqptWvej6LfFll8lFpWUR41qLDOHD76w1Nkaio2trL1kWd
+	GmgsdJNP+uPkHSBuFu+/vr6dy5U4wxDz1LvVwE7aHUzYPuc6+27rC8lKe+4ROUeamqqAmQ==
+X-Gm-Gg: AR+sD12dVN9IRQAtprH0QFiqBMNaz7R8qjK4yqiOjPfK89JYUMs3NQhtgnJQnyqGEEd
+	TCHSLyyAIoFnt8OVvLuWdwXDCbpnwnjqZY2glZS8k6GxR9m6ENhf2A9DJbK4qzakjJ5yGJdlFp+
+	zelMJXwvKKSl9dBxwB2G33ZTXy7AQ9lut5Vrv7zcpEvGLSyGq27z5aqO0p3oKESpBz6XuJvIitb
+	+7Pass8fVgmBdQA3Yp2RV1AFQwJ2X7doGqC4Ye7kCaDPLdFbtaMhPMefXURo5qQAVNrPlhY0WuM
+	W8N3hWygL/ptSlG1Pwmfc0myC5U15GWWWaniPwC2Es7qDStkO8sLF/p+n6jEpm9iW1eRNPk/JwN
+	ikjRmAiorIfb39YBF0pHLgfDcWcB81jMD/Wcj1OiPsAzYXsWAmCQAbN3lBHfQNmu0g1+LAo2jfD
+	w6UL9U9KXMa+ruw947DwejO0tOgQ8t1308S79BbExyPhjWEU6cD54j9zQvXiRFQhj97W80ybY=
+X-Received: by 2002:a05:6000:2401:b0:475:f0c2:5afe with SMTP id ffacd0b85a97d-47fd2b653f1mr4644885f8f.52.1785502981033;
+        Fri, 31 Jul 2026 06:03:01 -0700 (PDT)
+Received: from cachyos-riky.home ([158.47.229.10])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd4562a38sm4399879f8f.21.2026.07.31.06.02.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jul 2026 06:03:00 -0700 (PDT)
+From: Riccardo Squarcialupi <rikysquarcia@gmail.com>
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: patches@opensource.cirrus.com,
+	linux-sound@vger.kernel.org
+Subject: Missing CS35L57 tuning firmware for Samsung Galaxy Book6 Pro (SSID 144dc910)
+Date: Fri, 31 Jul 2026 15:02:39 +0200
+Message-ID: <20260731130239.204280-1-rikysquarcia@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260713071544.35722-1-kunjinkao.jp@gmail.com>
- <cf0a24a9-40f1-4669-b616-9e244c1e7876@linux.dev> <CAMTmk-2mGbujBgBBPVtwKxgF7OQJAoS4kK160mrMgazARrV38A@mail.gmail.com>
- <CAMTmk-1rJ+iTfQCvi4kLFBE7Z9T=n2P2xaRDem7P8qAx29PHHw@mail.gmail.com>
-In-Reply-To: <CAMTmk-1rJ+iTfQCvi4kLFBE7Z9T=n2P2xaRDem7P8qAx29PHHw@mail.gmail.com>
-From: chang wu <kunjinkao.jp@gmail.com>
-Date: Fri, 31 Jul 2026 21:01:46 +0800
-X-Gm-Features: AUfX_myQ9QzsMybNkyBrv053TUlgpty42yH1leDyC6o6NRQOn1woQqrAz7L9Vh0
-Message-ID: <CAMTmk-3kqehCZZuHmndw1LhmpOO3XJg5BKg=pkXmgUefTzaHeQ@mail.gmail.com>
-Subject: Re: [PATCH] soundwire: stream: validate slave port against DisCo port bitmap
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Vinod Koul <vkoul@kernel.org>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hello,
 
-v2 has been posted here:
+I'm running Linux on a Samsung Galaxy Book6 Pro (model NP944XJG-KG4IT,
+Core Ultra 7 356H / Panther Lake). The two onboard CS35L57 speaker amps
+come up with no tuning firmware, so they run the fallback path with no
+calibration and no excursion protection:
 
-https://lore.kernel.org/all/20260731123415.34070-1-kunjinkao.jp@gmail.com/
+	cs35l56 sdw:0:1:01fa:3557:01: Cirrus Logic CS35L57 Rev B2 OTP1 fw:4.2.1 (patched=0)
+	cs35l56 sdw:0:1:01fa:3557:01: FIRMWARE_MISSING
+	cs35l56 sdw:0:1:01fa:3557:01: Calibration disabled due to missing firmware controls
 
-The updated patch was reviewed and merged into the thesofproject/linux
-topic/sof-dev branch as commit 54c1da4:
+Details:
+- System subsystem ID: 144dc910 (Subsystem: Samsung Electronics Co Ltd
+  Device [144d:c910], from lspci -vnn -s 00:1f.3)
+- Two CS35L57 Rev B2 amps on SoundWire, at sdw:0:1 and sdw:0:2
+- Filenames the driver requests and does not find in linux-firmware:
+	cirrus/cs35l57-b2-dsp1-misc-144dc910.wmfw
+	cirrus/cs35l57-b2-dsp1-misc-144dc910-l1u0.bin
+	cirrus/cs35l57-b2-dsp1-misc-144dc910-l2u1.bin
 
-https://github.com/thesofproject/linux/pull/5849
+I found a matching Windows driver package for this laptop (Samsung's
+audio driver, containing the tuning files for this exact SSID) and
+confirmed locally that installing those files under the above names
+fixes calibration - both amps now report "Calibration applied". So the
+correct tuning data exists and matches this SSID, it's just not in
+linux-firmware.
 
-SOF CI was temporarily unavailable, but Bard manually tested the final
-patch on SoundWire hardware. The patch also carries the Reviewed-by
-tags from Bard Liao and Charles Keepax.
+Since these files are OEM-specific and I don't hold the licensing
+rights to redistribute them, I understand I can't submit them myself.
+Could Cirrus reach out to Samsung for permission to publish the
+tuning firmware for SSID 144dc910 (Galaxy Book6 Pro NP944XJG) to
+linux-firmware, the way it's been done for other OEM laptops in the
+cirrus/ directory?
+
+Happy to provide more diagnostics (full dmesg, ACPI tables, etc.) if
+useful.
 
 Thanks,
-Eric
+Riccardo Squarcialupi
