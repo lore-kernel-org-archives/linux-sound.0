@@ -1,53 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E803B637A;
-	Fri, 31 Jul 2026 23:06:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EA51917FB;
+	Fri, 31 Jul 2026 23:14:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785539218; cv=none; b=qiYSgdeXBU6x0If/P7BEcyisYPODBqB10luTiSxbGWd2wt7YzTbcWr9AwghTzJBujngqZFLADskelb/V894krxOLWKdCKc7tgp7vX8hXUCtu7R5z5cj/FebQ9gUseXTHt+1rQ7JsEjFE1LBejjpGnkKsLR7MELm73+W9tA32xqg=
+	t=1785539700; cv=none; b=C1y4gRU/cNUCXmjbUwASmsxlQcz41Houc3Oo6fmHMVxX0RGT2bHYrPEsrYlXlf9y1si5i1Mr2PVC0DOPSs6iYzG/vIAWmpRij57vWpsdDgSEVAWmHawwCcT6pMJDdXTQx0amhSx1aHOT6BOeDq3o/WzfYkCtLaDv9vw+69gqPUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785539218; c=relaxed/simple;
-	bh=eT9wEG+wlg01KSfVbVwYO2+wQaciKcdobN5JzoNsKe0=;
+	s=arc-20240116; t=1785539700; c=relaxed/simple;
+	bh=MDfZ9qBtboCe6lN9z8woFOBItAhGdfquNHFSHAT2NIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f7MQvUO2wNZQb4LjP0jy7SSir1L9TnCWahbPnzM4Lkhbnq6+08+yuPMPJCx48+bdmpby0a919cbIopkhl4vKoGISh4WCQAmPDnfuMUtslhTLisMnxhwCOzb+/Nwl/UHj9ETwKGcJVI75WOuhFFg6N+rrBeOKbB1q8eAEv1/S1uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZNjgZOE; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=DV2B0sTE9LEsYkUTtTYbOg5JEL0uFuHMktA3Vmo/1ySrgSl3fdnGSQdSRq9GMCplmMSMZs2tkrIQq6UpX/1Np8PXrtndwvFQaLYdY1oMkVgAJ3u4mBOC81l9Det80pbzgPpR5XKMSp/FY31cgDoDEFqT0NpHyEaLAlJRBLw5Jys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5zXUbes; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZNjgZOE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D14F01F00AC4;
-	Fri, 31 Jul 2026 23:06:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5zXUbes"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A7EF1F00AC4;
+	Fri, 31 Jul 2026 23:14:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785539217;
-	bh=B9XeoQvFkPIpFpAT3jzschAT0IMexWzU9+5RBV9qxiM=;
+	s=k20260515; t=1785539698;
+	bh=MDfZ9qBtboCe6lN9z8woFOBItAhGdfquNHFSHAT2NIw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YZNjgZOEZ3hb5Eintm7xc/lNuFSIS5cRlhwZrxj8nRoCQEdjOL93+5vBFmcd8F52u
-	 OyKMFZEwL+jbqkaPGhXAci/ISFA+iLzr23G/nV37ewDVRs6kcQpTHj2f61zciuylad
-	 ZxgImbcJvfBLXGkONiy1jkabArvhBHfIuRKielnYuMwAP6tTiIshJJw6CWfHFkzwlu
-	 gQyhMo0I+7ZdxfyFjQ7/jrpsirRbNA3nwt5T60Z1lxSoSjvidgjwKWwqLcMaJFzZ/S
-	 Uhisy7q96Mpv+BkigEgwzNoyNWUneBj+JUXxAVRx4SG8y1Fv/HGWzTTmrz4MVg7IrG
-	 /P8tnImmJ5how==
-Date: Sat, 1 Aug 2026 00:06:51 +0100
+	b=T5zXUbes6xTSwuN3uIncauszleI25G1WCGpBrzjZxiXz3yKCdwHZNN8oDjVD3dqRG
+	 aVhYl1nvtgP7AGZT0NIcrmHkMCMzXXQXbi4k2J928Ztc13hsuIUv/4SIqbg9eb+l4B
+	 cA/GjFzl/tk5IwrDu1RhS4VxzniYfrfhnTTK2lJpawXAIG84f33Nr9uEdJ327u7xrv
+	 9lwZTLvQUql7Dibwk/ima27ZZxIBPzdsEtfDFuV6Bie3KCbC7tf/a1tG9vWCjzVgtw
+	 TDDJQaICrXIPXCZN+76BbQ0+QWAKEEUL5STHgn+zWvH33WM2bVLVvx5Oq1odLrI6U9
+	 vJExFfAsLgx9Q==
+Date: Sat, 1 Aug 2026 00:14:54 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v6 0/5] Subject: [PATCH v6 0/7] ASoC: qcom and pinctrl:
- add LPASS LPR voting and Hawi LPASS LPI support
-Message-ID: <05da6b3f-6643-476e-961f-4fa7b35f6eac@sirena.org.uk>
-References: <20260724141708.2212057-1-prasad.kumpatla@oss.qualcomm.com>
- <CAMRc=MfU=u7tH2r19H9Ex9uEDAb1V3Fanzi2EuqzB+iohPQkog@mail.gmail.com>
- <bb6a9164-6dd2-4d11-a9cd-a2ae7ab43949@sirena.org.uk>
- <CAMRc=MeQRn6dSZ8KM1VGg_7sqqS7p3XjNXm-ohhU6Jm4hVJvVg@mail.gmail.com>
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add MDSP carveout memory-region support for Q6 APM
+ on Shikra
+Message-ID: <97cab297-ef92-48dd-8331-71aac0b51538@sirena.org.uk>
+References: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,48 +48,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Rfg6HKZDtZPrMepR"
+	protocol="application/pgp-signature"; boundary="x42DWl2VUrKQeSc1"
 Content-Disposition: inline
-In-Reply-To: <CAMRc=MeQRn6dSZ8KM1VGg_7sqqS7p3XjNXm-ohhU6Jm4hVJvVg@mail.gmail.com>
+In-Reply-To: <20260618113509.2025881-1-ajay.nandam@oss.qualcomm.com>
 X-Cookie: No shirt, no shoes, no service.
 
 
---Rfg6HKZDtZPrMepR
+--x42DWl2VUrKQeSc1
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Jul 30, 2026 at 04:38:03AM -0700, Bartosz Golaszewski wrote:
-> On Thu, 30 Jul 2026 02:22:08 +0200, Mark Brown <broonie@kernel.org> said:
+On Thu, Jun 18, 2026 at 05:05:07PM +0530, Ajay Kumar Nandam wrote:
+> Unlike most Qualcomm targets where audio runs on the ADSP, the Shikra
+> target runs its audio use cases on the MDSP. The MDSP operates in an S2
+> (stage-2) protected/secured memory context, so any buffer shared with
+> it must reside in a dedicated carveout that is SCM-assigned to the
+> MDSP's VMID before use. Without this assignment the MDSP cannot access
+> the buffers and APM communication between APSS and MDSP fails.
 
-> > I presume the thought is to put it on a shared branch, but that gets
-> > problematic if I create that branch because the ASoC driver has
-> > dependencies on whatever is in the huge pile of stuff that's already
-> > going through ASoC so it'd pull in my entire history.  I suppose I could
-> > do the tag, merge it into my branch then apply the ASoC driver?
+> Depends-on: https://lore.kernel.org/all/20260609064038.492641-1-ajay.nandam@oss.qualcomm.com/
+> Depends-on: https://lore.kernel.org/all/20260618112810.2009847-1-ajay.nandam@oss.qualcomm.com/
 
-> Sure.
+Please resend when the dependencies have been applied, I'm spending far
+too much time repeatedly checking if any of these things can be applied.
 
-> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Please include human readable descriptions of things like commits and
+issues being discussed in e-mail in your mails, this makes them much
+easier for humans to read especially when they have no internet access.
+I do frequently catch up on my mail on flights or while otherwise
+travelling so this is even more pressing for me than just being about
+making things a bit easier to read.
 
-Actually it looks like the header patch is part of whatever mess of
-dependencies there is here so there's not much chance of a useful shared
-branch.  I'm just going to give up and apply the ASoC bits for now, I'd
-suggest just putting a raw number in the pinctrl driver for now then
-fixing it up after the merge window or something.
-
---Rfg6HKZDtZPrMepR
+--x42DWl2VUrKQeSc1
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptKooACgkQJNaLcl1U
-h9C/1Qf8DMLIIed/pLBpF+RBOnM1biKw+YaXtKJUl704kUYLG0uP+xMJ2g7TkF9x
-o22hQFx8TKs43zcUGUMhu38qL/kW9YI/L88wVb9y9eY5Ifvnf3m3TKqK7yjwfa+w
-Fh4fuWl4XZfCm1A7VGLpDQrt6yRrCNJGgPfg51vnke0k2ymKtQkcQjwN3wupoDv/
-BToV0Z9jMMSv9TynnQjGKGoU2X9I3LMJBNCMNFU/smUyN2Uasw96EEbRwqco0VWX
-NY4XiumOFV6rL1PPMs+Jn8p9E0lNhNtr9dIC5DWdKEEf0C9QtK+DrhAeUPHBy/yC
-ereCM80g2woDJ91THDwJFj73SIGqSw==
-=c1Wp
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptLG0ACgkQJNaLcl1U
+h9A3ogf8DQXX93sqkg38MBJw6oQNaYAgMMOmOedxMSBOQec841kbNJ+wgNC/v1IS
+6r6ZSOTsD0JoKfpzB0r42dGCucGnKtY428tWtvQusQjG7nik52dzTIkZ+0/oJjbV
+SsRGAUwfSdDmUH5bBEIh0zPRjsHagPQjh4+1WjJNCqpGiNjrgHN8Xy7OIqPxXVQC
+GGpztK8xroqvUmWPmAG4si3jaao6yx3Gy4vkbYnPqxOdgRxcYEmTes6yC05ay5mk
+n6I2N9L4q6LtakpLsxE+b01QYlnv7UAz128M83LShj41UR1YPNB2A2Mst+OiKQ/o
+iSzg+ivDPZ31r+o8gicM5YENQwVE0A==
+=gT9z
 -----END PGP SIGNATURE-----
 
---Rfg6HKZDtZPrMepR--
+--x42DWl2VUrKQeSc1--
