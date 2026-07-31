@@ -1,39 +1,39 @@
-Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
+Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A8725B0A3
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 02:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B28133939F;
+	Fri, 31 Jul 2026 02:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785465224; cv=none; b=rflxRpjDt7dDy4+jlRV5bxfJCImn/aJCZjfqDxL5ajQG2Q6C0gSPP3UJFU4CrzLnk7vtCb4fmzPeG/kP7s4Dh25x5C44wDpNYm1MJrZzM130kVdmOuVKPPyWPEUto7fZ3pGJqhCSCp7pQWEU4fxH2jaqabACjR5zpNvotEO0zjU=
+	t=1785465828; cv=none; b=TYc4ZK46zsGkCvRBKGKDwodGAgRcDor/c7tJpXqTlfuepelMFxu5Vx/BpqQP02+dFldYTh3GtiLoCGbojwJolOMeSAoMDUfrgSDpIIW8gH6lnUCqJaOOYXOlD/eDUNZ3LYBnuNhFIJy66m+MsLOmfkuhbCZ1ltsWdujKKUDPDRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785465224; c=relaxed/simple;
-	bh=7Z2GEnnawKZYxIFs3zFhkh42b0aAZapO9ecZWQohvvc=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SJz7pLOjxqhC4NpQaTvf0JsIiqQFsexbIPDnuoPm6iIeQ8gSXoEj5vVqVLDksNkcFUu3DzbFdNGRheRc/Xr2rpCcYEcH5Tduy8pZz0N90UVeW8VADfaV8r2BLtgbHSSjr1JVPM7XGwbd4OA9v+PZu79270X67QH0DgMX53dhrVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=icKz5P1h; arc=none smtp.client-ip=109.224.244.116
+	s=arc-20240116; t=1785465828; c=relaxed/simple;
+	bh=woJeAwQCKDYZW9YeG7Gp/2gqnpBz2zUUc3sEcQxt3Yk=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=d/649Vk+0lgrhHGlgFVNb+AYsoKuY/zzyv4neOGGy81CgqH4Bq0Ptr5i+AC5LrdYn348Prm50LxjWEHcUFkacMPX+lDQIAivWzPEyUSUctsIkyIKnP4vmEeDJYkaG9HNrj9lCLgpfEapkEEo9iY0GgkFLhA8MlP4IJ4gyySZM/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=CbTJi+Vu; arc=none smtp.client-ip=79.135.106.29
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="icKz5P1h"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="CbTJi+Vu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1785465217; x=1785724417;
-	bh=L7/jYe59NXPzACSBEsE53x2q2qa8qaj2G11iRT3CbYA=;
+	s=protonmail; t=1785465816; x=1785725016;
+	bh=MmDjFAZavSECpBheRa/juMlBrSOIjWp8rpsakhB6dG0=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=icKz5P1h7nW9H+inDxaV0soP7UyZAQNL5OnxJUI72YGTaMAAMWI72+hqtPMphIkhj
-	 1DH8m2C2FP8btzkFOP90or13EL2BL9VEO3SyJkldBK3lP1/zf7pj12wv5VqsNxdva0
-	 aiEnuFhApHJYiYo2H/2MlbsF/5TWw97egwoPkU0fqzWDe/FW1LuitHJsm48n5Vw+Sq
-	 XsTW8qTkhpS8ptwAsj3uJFhpARZylPBYeD8weIEae6pGFOWbBG1f75ELCQhiNL3Fzc
-	 INYzBq6A3aw8v3jm0CbWAOKDimyuGFxzIubc6th8dwHlWtDn4D4U3FH3S28xEyJwI+
-	 zXUzDY7S3lFHQ==
-Date: Fri, 31 Jul 2026 02:33:32 +0000
+	b=CbTJi+Vuo/u2Vj0i7wcVz3MGCty6MfQSBHHV7PYej2FHTb5bgReWIlziTM2pFEF7c
+	 UM46bfNY75HZPTAAPVxs3j2TPGsV+1HHTARizbU1nyte6mhIuIJ/HLhOlIDAKZpqt8
+	 IXbeo4IZ/nkZdyXZO7YVmpnr6uTJFx/kZJBgifcvzyliJcgNW3f5pqNPztqR0+CFUm
+	 6zkQ+/2jUQ0XVlmPuUF1TWxJEDfAqbnvEhO62ivYg5Sft1uPch05wjliAXaadmNnDl
+	 s1xHvL9MiHe/q4V391xYmsrFBJYRtgCm3Sr15YYhc7D3L4s5G/gif1zZpb4ABqbL7p
+	 wcxYLlvpviS6g==
+Date: Fri, 31 Jul 2026 02:43:31 +0000
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 From: Brian van den Berg <faxuser@proton.me>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Antheas Kapenekakis <lkml@antheas.dev>, Brian van den Berg <faxuser@proton.me>
 Subject: [PATCH v1] ALSA: usb-audio: Add quirk for Logitech PRO X 2 LIGHTSPEED
-Message-ID: <20260731023307.28510-1-faxuser@proton.me>
+Message-ID: <20260731024315.31451-1-faxuser@proton.me>
 Feedback-ID: 57639451:user:proton
-X-Pm-Message-ID: 3bcda2a556bd1191bb8a04469979b80c5f867dbb
+X-Pm-Message-ID: 851699cd0886fb54571d840e497e18162cfb1fb5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,7 +53,7 @@ considers the mixer to be sticky and unnecessarily disables the mixer.
 Add QUIRK_FLAG_MIXER_GET_CUR_BROKEN for Logitech PRO X 2 LIGHTSPEED
 (046d:0af7) to address this.
 
-Compiled and tested on
+Compiled and tested on 7.2-rc5
 
 Signed-off-by: Brian van den Berg <faxuser@proton.me>
 ---
@@ -79,10 +79,10 @@ put/input6
  1 file changed, 2 insertions(+)
 
 diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 31cbe383ae65..ff8adcf76a7b 100644
+index 0de7c9d94259..e038b5ccbcba 100644
 --- a/sound/usb/quirks.c
 +++ b/sound/usb/quirks.c
-@@ -2249,6 +2249,8 @@ static const struct usb_audio_quirk_flags_table quirk=
+@@ -2251,6 +2251,8 @@ static const struct usb_audio_quirk_flags_table quirk=
 _flags_table[] =3D {
  =09DEVICE_FLG(0x046d, 0x0a8f, /* Logitech H390 headset */
  =09=09   QUIRK_FLAG_CTL_MSG_DELAY_1M |
@@ -93,7 +93,7 @@ _flags_table[] =3D {
  =09=09   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
  =09DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
 
-base-commit: e7ae89a0c97ce2b68b0983cd01eda67cf373517d
+base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
 --=20
 2.55.0
 
