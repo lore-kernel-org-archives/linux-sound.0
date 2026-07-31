@@ -1,63 +1,65 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CBE33F59C
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274BA33F59C
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785467389; cv=none; b=EbS4EthweY+TWu0uUEeAbrXfCADEoSjef9f93S1NHygvTaIwnX//UfAyuS8Bch4eUwjTUyBtPVctPXRN4eqaW+10SkfoZDvtD+HgN7aGlJ3iGTDc1LP+QG2wdKqv51dVTTfyLunDanpKWzUu3KGh5WsgTD7jaDkEUMRD5F2Crvs=
+	t=1785467398; cv=none; b=FaPLiiQ2tLv8Yl51yd5D8Dy3I09J8ehHHHiJ2x79c6zRMh+y5WUztXY7PTy5borCPoT0kUYEqbiRM+Ld64rJ1i2rrSON4/w1u3mPQTLECTTee7fMcsr53E6iDJaRUTW/Gp2MhQZbEqLmPxwA24KfNsXBgTuWLtvRnvI2i3Ne4gI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785467389; c=relaxed/simple;
-	bh=vpN2A9O4qvdLlonbqA/XuQfb1LuR+j9NwgCpSS8HwG4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lp8NnrVz5bxCTQJhNQFKvjJ6H2ye4+VwDFPjjocUUXdWzKabUTRzSXXAgk4WUC7cMYfJPhFoIy1KHc+zXJgmeTW8IO5JsCDCitcrQ+IIkVVZ4y/FTMYddK2gN1JOuV7YENdeg6bUsOJcM+BtNZhKrxlM2rU/D+DJSi8nFiQIZM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hWjErBa0; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1785467398; c=relaxed/simple;
+	bh=Fa/+gfQ3SzEgi11qWxA09O6FM4GPY4YkSzC3+KOzEZU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=InGFwjvm8PyqvaEfSmT2K07Cl92y65SwwhMQlBiDEJhh1jgHqUQOb7Q/RrVuJr4RmcQfJ+6jiLC3Lx1qIFDIynzsKZg0eNCZMwvfxx/dUoD3eUgNOFWtUPep8Ebl/VnkS4bPH2LJeuY0uXEQ7dp3WGEM5flmdtDTYfG6gG3/Un4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mKImLUzR; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hWjErBa0"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cacb8416a1so4997325ad.1
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:09:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKImLUzR"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cacf197759so6664865ad.2
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785467387; x=1786072187; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VhQaA520jqTXeiP2LZVSUznr51jV47iUF83rucdWFWI=;
-        b=hWjErBa0cN0hNYrMwQCy9hSOiJrf3aeplVAehNb3EJxyJrHF+imX7U3IdxgwOh0rbb
-         XrqH4HLRxH6hQZweIRjAw6hTrtBHPVAQdAkDTR2ESc3yXU6b/FjQG/nuRPMp4wmi8NxU
-         LqsUxNwDEmVDp/316JR6ha+5s46s616SQfQvMG1qSBViHZPvDh3/npbim7b2qyrZa3cs
-         6JPpiVzCE4MAbas1v4o1xmijpnS5CLN8m4zAsdbQNZ8hvb8ASNVTUzwUR1WPWEubgR8c
-         s/KYklSMtj8lRwlozC2TjfkJPeVS+8263bPseNvrUnJn7ajfg+RLNrioAIirZOQBeRJ1
-         U2xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785467387; x=1786072187;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1785467396; x=1786072196; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VhQaA520jqTXeiP2LZVSUznr51jV47iUF83rucdWFWI=;
-        b=P8wHKxVJNgyZTdjJytz8Ey/xTK6g4VofGiK6icFgzF0B4vrEIDNznIzFwM1IrLjQ0e
-         s4ab7gLQmsLHIr3eWxEewKJxnkb0+sWbwK0jWr+5EZd+IOjg1JbbIkv9bKe7/4T65LGA
-         7x/h7tuq2+glv1F8/eLDqHUE4DUqKk647kcZk7IFnOcQa/VQefwft2TnivUZJd5zDTDY
-         lvaM4F/P5SiPlhcoHbPvOT9Qk6cMdrYUrbMHGF3z4QXthNUtGwKowcUdcMnEL2nqlVz3
-         /1fAm2D/W6Xcav9c6GRN0Cs2gGB5omXWDdPCSAWTIIg9+4zLbHqZgmZ/hB1rwUI32Nq4
-         MJKg==
-X-Forwarded-Encrypted: i=1; AHgh+RqpXTj/ViyWn1C7WOLdijqE04pIpS1kKgJYoFd3L/7DPrNyG2mWo+5fs411nrGnVdCV5r+7f7QDUYPM/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVUnsKdGLZEVzRIpHKf4UNYi4Kbf8Ll5Jtmnp9BgNLkRFF3z6S
-	g96hnIsfTE5DIlUddvLxYUcNv3Nu3I8x+kcIZ2/R3MG/OvBUJIJhKW30mudlXA==
-X-Gm-Gg: AR+sD1173sL5S6WWhqrPiR8Q1VTqcrDHZ5UcmDJqU8J89ywq4gh37nFvSFza/aRpbZh
-	TpEhT5j513zu4xoksH1rgDWwCTK7Q0FidZ9SVibD712SYunSrhpNTe/GFsrnm+gLCj4gRkT8DRQ
-	yhzQrMmGKX9lSvRq0hbDEDzGIDsbwJl/EDPfmlR46OHly/Cecd9Sf/Xra4xBsktTgZCC8P+VU6i
-	WaQlMDfTOrJqES2NC4z7Qebw5f4wVKvgQ1A/O63ZTau1Vx2t5AyHBBqxNOc3qIHVe7g+cCZvKv1
-	xF85jBDFLUUod3tmj0ivcauGB46A01/q5J0m6YxdITPRk79nLtlERr4aa7kKnyEoi1ytIquoDXM
-	ToUhmHfD8aGnpX6wN52A4ZdBtOeIS2CZfnTbH+8CXLlyrIg1kUAKmzZPkFwiXSb9G1MDKaUcS/i
-	Qq0LC7jw1/zrgA51YlSe0rtenAvmePH8Hwuh6Mb5zov3AoF+BZsuLjB2QdHoExCJlPeS5+dthBf
-	vEYpjF3P69AukwPgsPi5uRnLyDDPKSukkJU22+AVchb76xzBZalz93GPTXJ1+CNfbeBKP2NCalr
-	ap8o
-X-Received: by 2002:a17:903:1a43:b0:2ce:e747:c5d4 with SMTP id d9443c01a7336-2d046edfb62mr4291015ad.46.1785467387450;
-        Thu, 30 Jul 2026 20:09:47 -0700 (PDT)
+        bh=aWHLEKCAQ5mV1sF9yyFHSMFUTDOduAtPgNwQ5RGsXm4=;
+        b=mKImLUzRxA0uk5pfsvrn65IkfNC4eMvwIEAHmsI4R/oe/Ua0cxKnveDg842iyAaNlF
+         OEsFPZTg03LBFnpOjOl2CYH5Wq8yqyZ61dmNAsVLh7Z9rwUEm9zMIDi7izq+JGX3G2tb
+         VheIeTmp4mXJ0SWMxvKNGxTr+4zEdbn5FaZdw+qSUa/zaxqJStujebnNOwHwz4hzMq5q
+         mY2th90vf32SWHkDLKnY4s/NEYQPISTYw4zo/Ca804UL2ADVgIY0at4sMHZsQAYgVjU2
+         cjJINxI7ejPTr9eoC4iyS3GqAiI7Gw+PRfuTB/kygn5HwYVTGjuO27fLz/EyaxGnV0C+
+         Yckw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785467396; x=1786072196;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aWHLEKCAQ5mV1sF9yyFHSMFUTDOduAtPgNwQ5RGsXm4=;
+        b=dDHU0OgZl8tKDReq+elmDjkIDhCZ5+wB8yoauce/wJHuRmr8njxRn5NZSQYeCiXRuZ
+         hXzV4SosLyPLpLVZgjfYGx6MtDMXa8SLyDbDApv6TzTBqXVbIpyB8xR6trWU+sohn/5/
+         DAMGShAXXDEiYtOuEj0U0AZkA9BwK2kiZu9XfxetT7xWPHfvPriCjRhRco5EfgdYARvk
+         HyHII8QyYRs+aUjLBciQ/ZIizMHlTb36gvSGSjoun1Tav0SytZvKj3b7RKoWPKz5yFPy
+         vn61S8a8uPMhtwioq0LzCiI1zhXpscmqBiWZPunQfOw+4ZVAyguE4Sq4642c2nTVwVDj
+         Mzxg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq5Uj7XPXIgVO2xV+DmIV9U+yMp6N3A75Ga1tsqpCGj/vg6AfmdPuDAWzndRk/mlpOW0vEwa2wHhiJ0tA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwePxrpsT04MSQhxpwk+5ouA9ksldWYhTBGU35CprXVmxn0sbGJ
+	ylc7W5z4DrBuPvc0c9v0Zl9MOg3iUK6jLTcA8uMmJMqPQoJi9qDg49Ud
+X-Gm-Gg: AR+sD102z2ye3gTl3Mku49B494Ax2k/56bgNVSWXlWrpNIhdPzHEiJUp0YCOYeb0q48
+	YcAf3aJ6/WgtmIwG0hiRDcRoH5tPJEquL2CWq5TRxqdnHCAlwp2LhDOlcfRNfkMNYe3u8r8cD0d
+	N1sQJwEKFgYfm0yFWR6h+zEfNdo0FpcwwJ08DAqGLl0Y3MpXa7ZZJWf0izGaPIAXtVPOrQkVR96
+	6RDwdAnnJFTrD9buGfLfpAP42tI3icmfzFliGnexWcSmyY7+ybFUUAPf1Kf83rzCkD9v8dZczg+
+	MccRNK0teOY26mGxF4BOtySo0aH3fSyJwu7xCrJh1S2Jsnx52PhmdJD4qUwEXK6RvjQRjxLTp+S
+	00iqwo28LWD9Vm8g7Qznbug7uXP5nIIEboXEyhDvsxdNsZgE38wsQMfAhendeIG0BhvINV2MFHT
+	A3i7mkXJ+AmKQadpIcPzzFLqwPkE6B+eHNiq228AUXMMbMGjOZd8JEn9b4Q26S0vdQuvtEaVuDw
+	WvBRp/XCioC79HfxiwplhfkIIyv5+tDG6pUJ9xCH69d7L+OiQtHQvo94GHxmYaJ2W2xoBdLqlOC
+	LOOGhf8mMGEoN19L
+X-Received: by 2002:a17:902:c94a:b0:2bf:dd0:c8b1 with SMTP id d9443c01a7336-2d046b34b50mr4660025ad.0.1785467396392;
+        Thu, 30 Jul 2026 20:09:56 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.09.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.09.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 20:09:47 -0700 (PDT)
+        Thu, 30 Jul 2026 20:09:56 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -89,10 +91,12 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 00/26] ASoC: codecs: Use guard() for mutex & spin locks - part 3
-Date: Fri, 31 Jul 2026 10:06:22 +0700
-Message-ID: <20260731030648.8706-1-phucduc.bui@gmail.com>
+Subject: [PATCH v3 01/26] ASoC: codecs: sigmadsp: Use guard() for mutex locks
+Date: Fri, 31 Jul 2026 10:06:23 +0700
+Message-ID: <20260731030648.8706-2-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260731030648.8706-1-phucduc.bui@gmail.com>
+References: <20260731030648.8706-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -103,83 +107,77 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hi all,
+Clean up the code using guard() for mutex locks.
+Merely code refactoring, and no behavior change.
 
-This series is the final part of the cleanup to convert ASoC codec
-drivers to use the guard() and scoped_guard() helpers for mutex and
-spinlock handling.
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+---
+ sound/soc/codecs/sigmadsp.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-Compile-tested only.
-
-Changes in v3:
- - Remove redundant comments per Cezary Rojewski's review.
- - Add Reviewed-by tag from Richard Fitzgerald.
-Changes in v2:
- - Add Reviewed-by tag from Richard Fitzgerald.
- - Add the missing `guard(mutex)` that was inadvertently omitted.
-
-Best regards,
-Phuc
-
-bui duc phuc (26):
-  ASoC: codecs: sigmadsp: Use guard() for mutex locks
-  ASoC: codecs: sta350: Use guard() for mutex locks
-  ASoC: codecs: sta32x: Use guard() for mutex locks
-  ASoC: codecs: tas2781: Use guard() for mutex locks
-  ASoC: codecs: tas2783: Use guard() for mutex locks
-  ASoC: codecs: tas5805m: Use guard() for mutex locks
-  ASoC: codecs: tlv320dac33: Use guard() for mutex & spin locks
-  ASoC: codecs: tscs42xx: Use guard() for mutex locks
-  ASoC: codecs: tscs454: Use guard() for mutex locks
-  ASoC: codecs: twl6040: Use guard() for mutex locks
-  ASoC: codecs: wcd-mbhc: Use guard() for mutex locks
-  ASoC: codecs: wcd934x: Use guard() for mutex locks
-  ASoC: codecs: wcd937x: Use guard() for mutex locks
-  ASoC: codecs: wcd938x: Use guard() for mutex locks
-  ASoC: codecs: wcd939x: Use guard() for mutex locks
-  ASoC: codecs: wm0010: Use guard() for mutex & spin locks
-  ASoC: codecs: wm2000: Use guard() for mutex locks
-  ASoC: codecs: wm5102: Use guard() for mutex locks
-  ASoC: codecs: wm8731: Use guard() for mutex locks
-  ASoC: codecs: wm8903: Use guard() for mutex locks
-  ASoC: codecs: wm8958: Use guard() for mutex locks
-  ASoC: codecs: wm8962: Use guard() for mutex locks
-  ASoC: codecs: wm8994: Use guard() for mutex locks
-  ASoC: codecs: wm971x: Use guard() for mutex locks
-  ASoC: codecs: wm_adsp: Use guard() for mutex locks
-  ASoC: codecs: wsa88xx: Use guard() for mutex locks
-
- sound/soc/codecs/sigmadsp.c           |  17 ++--
- sound/soc/codecs/sta32x.c             |  21 ++--
- sound/soc/codecs/sta350.c             |  20 ++--
- sound/soc/codecs/tas2781-comlib-i2c.c |   5 +-
- sound/soc/codecs/tas2781-i2c.c        |  33 +++---
- sound/soc/codecs/tas2783-sdw.c        |  60 ++++++-----
- sound/soc/codecs/tas5805m.c           |  21 ++--
- sound/soc/codecs/tlv320dac33.c        |  87 +++++++---------
- sound/soc/codecs/tscs42xx.c           |  61 ++++-------
- sound/soc/codecs/tscs454.c            | 107 ++++++++------------
- sound/soc/codecs/twl6040.c            |   5 +-
- sound/soc/codecs/wcd-mbhc-v2.c        | 140 ++++++++++++--------------
- sound/soc/codecs/wcd934x.c            |  42 +++-----
- sound/soc/codecs/wcd937x.c            |  25 ++---
- sound/soc/codecs/wcd938x.c            |  22 ++--
- sound/soc/codecs/wcd939x.c            |  20 ++--
- sound/soc/codecs/wm0010.c             |  28 ++----
- sound/soc/codecs/wm2000.c             |  28 ++----
- sound/soc/codecs/wm5102.c             |  23 ++---
- sound/soc/codecs/wm8731.c             |   9 +-
- sound/soc/codecs/wm8903.c             |   9 +-
- sound/soc/codecs/wm8958-dsp2.c        |  10 +-
- sound/soc/codecs/wm8962.c             |  13 +--
- sound/soc/codecs/wm8994.c             |  30 ++----
- sound/soc/codecs/wm9712.c             |   5 +-
- sound/soc/codecs/wm9713.c             |   5 +-
- sound/soc/codecs/wm_adsp.c            |  77 +++++---------
- sound/soc/codecs/wsa883x.c            |  11 +-
- sound/soc/codecs/wsa884x.c            |  10 +-
- 29 files changed, 369 insertions(+), 575 deletions(-)
-
+diff --git a/sound/soc/codecs/sigmadsp.c b/sound/soc/codecs/sigmadsp.c
+index 2e08fde3989c..b7dbeb237447 100644
+--- a/sound/soc/codecs/sigmadsp.c
++++ b/sound/soc/codecs/sigmadsp.c
+@@ -5,6 +5,7 @@
+  * Copyright 2009-2014 Analog Devices Inc.
+  */
+ 
++#include <linux/cleanup.h>
+ #include <linux/crc32.h>
+ #include <linux/firmware.h>
+ #include <linux/kernel.h>
+@@ -135,7 +136,7 @@ static int sigmadsp_ctrl_put(struct snd_kcontrol *kcontrol,
+ 	uint8_t *data;
+ 	int ret = 0;
+ 
+-	mutex_lock(&sigmadsp->lock);
++	guard(mutex)(&sigmadsp->lock);
+ 
+ 	data = ucontrol->value.bytes.data;
+ 
+@@ -148,8 +149,6 @@ static int sigmadsp_ctrl_put(struct snd_kcontrol *kcontrol,
+ 			ctrl->cached = true;
+ 	}
+ 
+-	mutex_unlock(&sigmadsp->lock);
+-
+ 	return ret;
+ }
+ 
+@@ -160,7 +159,7 @@ static int sigmadsp_ctrl_get(struct snd_kcontrol *kcontrol,
+ 	struct sigmadsp *sigmadsp = snd_kcontrol_chip(kcontrol);
+ 	int ret = 0;
+ 
+-	mutex_lock(&sigmadsp->lock);
++	guard(mutex)(&sigmadsp->lock);
+ 
+ 	if (!ctrl->cached) {
+ 		ret = sigmadsp_read(sigmadsp, ctrl->addr, ctrl->cache,
+@@ -174,8 +173,6 @@ static int sigmadsp_ctrl_get(struct snd_kcontrol *kcontrol,
+ 			ctrl->num_bytes);
+ 	}
+ 
+-	mutex_unlock(&sigmadsp->lock);
+-
+ 	return ret;
+ }
+ 
+@@ -677,10 +674,10 @@ static void sigmadsp_activate_ctrl(struct sigmadsp *sigmadsp,
+ 		return;
+ 	changed = snd_ctl_activate_id(card, &ctrl->kcontrol->id, active);
+ 	if (active && changed > 0) {
+-		mutex_lock(&sigmadsp->lock);
+-		if (ctrl->cached)
+-			sigmadsp_ctrl_write(sigmadsp, ctrl, ctrl->cache);
+-		mutex_unlock(&sigmadsp->lock);
++		scoped_guard(mutex, &sigmadsp->lock) {
++			if (ctrl->cached)
++				sigmadsp_ctrl_write(sigmadsp, ctrl, ctrl->cache);
++		}
+ 	}
+ }
+ 
 -- 
 2.43.0
 
