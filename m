@@ -1,65 +1,65 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274BA33F59C
-	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CE733F59C
+	for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 03:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785467398; cv=none; b=FaPLiiQ2tLv8Yl51yd5D8Dy3I09J8ehHHHiJ2x79c6zRMh+y5WUztXY7PTy5borCPoT0kUYEqbiRM+Ld64rJ1i2rrSON4/w1u3mPQTLECTTee7fMcsr53E6iDJaRUTW/Gp2MhQZbEqLmPxwA24KfNsXBgTuWLtvRnvI2i3Ne4gI=
+	t=1785467406; cv=none; b=Uwl07ZWhFmThBPWVy9ZDsnpVtvWHv8KfW7LajrFebVf9nHe36bUW0ZmqGWpFIv+RBAUx+CrCaoNpYkjYN4UHEe9sJ54xTzLAZcoWAvx02yIvTSErUjAcD11PWQl0/ce3Ed+Jl8wMuw8r0GJvgvGDajkreieaxzD/qY3xr3XLEnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785467398; c=relaxed/simple;
-	bh=Fa/+gfQ3SzEgi11qWxA09O6FM4GPY4YkSzC3+KOzEZU=;
+	s=arc-20240116; t=1785467406; c=relaxed/simple;
+	bh=GEVBslxyQTjWkaD769j6sBltZvw/8KgoyK2Jx23lHrQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=InGFwjvm8PyqvaEfSmT2K07Cl92y65SwwhMQlBiDEJhh1jgHqUQOb7Q/RrVuJr4RmcQfJ+6jiLC3Lx1qIFDIynzsKZg0eNCZMwvfxx/dUoD3eUgNOFWtUPep8Ebl/VnkS4bPH2LJeuY0uXEQ7dp3WGEM5flmdtDTYfG6gG3/Un4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mKImLUzR; arc=none smtp.client-ip=209.85.214.181
+	 MIME-Version; b=ZPrUnBHZ4Hqe/XGwdHdrxJbZFrG4pEgFskOkNMkrtEC7xf0y6KzT3oTjktefuwNrP9nzAhhpcEF8M2jvWGeMAoXTMQJb8WhGUpztMMIux031eNEHVHWBbwOYLf+BZ7BYO7uDzIYPp+MQloL6H+bKzzpLlPlSIqTvrqgRulYOgUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sM4iE/Up; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mKImLUzR"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cacf197759so6664865ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:09:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sM4iE/Up"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cf27856f9cso4982705ad.2
+        for <linux-sound@vger.kernel.org>; Thu, 30 Jul 2026 20:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785467396; x=1786072196; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785467404; x=1786072204; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aWHLEKCAQ5mV1sF9yyFHSMFUTDOduAtPgNwQ5RGsXm4=;
-        b=mKImLUzRxA0uk5pfsvrn65IkfNC4eMvwIEAHmsI4R/oe/Ua0cxKnveDg842iyAaNlF
-         OEsFPZTg03LBFnpOjOl2CYH5Wq8yqyZ61dmNAsVLh7Z9rwUEm9zMIDi7izq+JGX3G2tb
-         VheIeTmp4mXJ0SWMxvKNGxTr+4zEdbn5FaZdw+qSUa/zaxqJStujebnNOwHwz4hzMq5q
-         mY2th90vf32SWHkDLKnY4s/NEYQPISTYw4zo/Ca804UL2ADVgIY0at4sMHZsQAYgVjU2
-         cjJINxI7ejPTr9eoC4iyS3GqAiI7Gw+PRfuTB/kygn5HwYVTGjuO27fLz/EyaxGnV0C+
-         Yckw==
+        bh=LJuHQA4AENaPcuIoY4pYQA3muOxiEnEKnbdN4NwUjpY=;
+        b=sM4iE/UpA94cEu/JjcVFFLeHx/zmNzoTyaeL7f/doZag8G5MwgsGoFM+KyecfU7cYI
+         MFygHl/gDnyLh1+F58L1hQqoMdC3e9kvrVcaq1TBPKhSDRddr1+W9fiDrySXVWElCSVU
+         qGPLPVbNVenReKAVCjGArMOb4Y1cGxNia/Evwmkc7nd5mud/IpJyCyv8GOcX2d27xkup
+         uVseoWFb3H0CqiUSxP9pk0+ia3gvXUd6TGpJ3sxofcRe6yoz7/G4SidVYDrNgOvEw1Hd
+         nwDWUto9mDSK4ZNYh1+jzcNCzBIxjmFOIpyBWtdGGhPxd5FRDSDhmtisxNY9x54BGpxP
+         P2vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785467396; x=1786072196;
+        d=1e100.net; s=20251104; t=1785467404; x=1786072204;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aWHLEKCAQ5mV1sF9yyFHSMFUTDOduAtPgNwQ5RGsXm4=;
-        b=dDHU0OgZl8tKDReq+elmDjkIDhCZ5+wB8yoauce/wJHuRmr8njxRn5NZSQYeCiXRuZ
-         hXzV4SosLyPLpLVZgjfYGx6MtDMXa8SLyDbDApv6TzTBqXVbIpyB8xR6trWU+sohn/5/
-         DAMGShAXXDEiYtOuEj0U0AZkA9BwK2kiZu9XfxetT7xWPHfvPriCjRhRco5EfgdYARvk
-         HyHII8QyYRs+aUjLBciQ/ZIizMHlTb36gvSGSjoun1Tav0SytZvKj3b7RKoWPKz5yFPy
-         vn61S8a8uPMhtwioq0LzCiI1zhXpscmqBiWZPunQfOw+4ZVAyguE4Sq4642c2nTVwVDj
-         Mzxg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5Uj7XPXIgVO2xV+DmIV9U+yMp6N3A75Ga1tsqpCGj/vg6AfmdPuDAWzndRk/mlpOW0vEwa2wHhiJ0tA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwePxrpsT04MSQhxpwk+5ouA9ksldWYhTBGU35CprXVmxn0sbGJ
-	ylc7W5z4DrBuPvc0c9v0Zl9MOg3iUK6jLTcA8uMmJMqPQoJi9qDg49Ud
-X-Gm-Gg: AR+sD102z2ye3gTl3Mku49B494Ax2k/56bgNVSWXlWrpNIhdPzHEiJUp0YCOYeb0q48
-	YcAf3aJ6/WgtmIwG0hiRDcRoH5tPJEquL2CWq5TRxqdnHCAlwp2LhDOlcfRNfkMNYe3u8r8cD0d
-	N1sQJwEKFgYfm0yFWR6h+zEfNdo0FpcwwJ08DAqGLl0Y3MpXa7ZZJWf0izGaPIAXtVPOrQkVR96
-	6RDwdAnnJFTrD9buGfLfpAP42tI3icmfzFliGnexWcSmyY7+ybFUUAPf1Kf83rzCkD9v8dZczg+
-	MccRNK0teOY26mGxF4BOtySo0aH3fSyJwu7xCrJh1S2Jsnx52PhmdJD4qUwEXK6RvjQRjxLTp+S
-	00iqwo28LWD9Vm8g7Qznbug7uXP5nIIEboXEyhDvsxdNsZgE38wsQMfAhendeIG0BhvINV2MFHT
-	A3i7mkXJ+AmKQadpIcPzzFLqwPkE6B+eHNiq228AUXMMbMGjOZd8JEn9b4Q26S0vdQuvtEaVuDw
-	WvBRp/XCioC79HfxiwplhfkIIyv5+tDG6pUJ9xCH69d7L+OiQtHQvo94GHxmYaJ2W2xoBdLqlOC
-	LOOGhf8mMGEoN19L
-X-Received: by 2002:a17:902:c94a:b0:2bf:dd0:c8b1 with SMTP id d9443c01a7336-2d046b34b50mr4660025ad.0.1785467396392;
-        Thu, 30 Jul 2026 20:09:56 -0700 (PDT)
+        bh=LJuHQA4AENaPcuIoY4pYQA3muOxiEnEKnbdN4NwUjpY=;
+        b=bHrNqXRPHkqGPPbe+NeuVduB9kDICJP3MxL7jMjCEu6ImvFaEBMwhtBRWK8+2/fCDm
+         woZkLGRwa3Cz1/m5UthcS3mCvJXA/aZM08ttM0KGKd1H9ur9B9BWa8bbfFT7jBTeMmMq
+         2ESsCB7LAdmkoHBR9ovN8sAwFPL1yteogf80qI6XLGvDNKD9+6toaAGvj+y+lBex0oxB
+         j1kpE3yetdsi/UaqGMtcqqQqEONEooOTrHxRHHSBLjvknBD9oqr6S5zPd6NJIHq5H+Ej
+         xMV6m0a3jGH5OCvV6mV5aAT0BWNdwKgX4tImFBvpFLCJl61u01VE3D0u4GxkjZeGIoD/
+         U5iQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqsYeYFtkU35g4oG8bI16X0NFhoBuZQYd7Vs8ytfUfPQ43i0roW4J1xWl/qHE0EedRIDJ/p9qpJ3UA0JA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCwW8DCPT2f/utREOrPaJWMDZayfX12lzgcJUm6evs7S6e/eJz
+	kz0Ee//Shf6velC5kDjZZa5g6tNokv+wpz9k9eLHgsgNTnKQAIof7vDU
+X-Gm-Gg: AR+sD127KnHBuk7kLcxKS+RX5eZoj4eOe7ayNb3/7VMPtd/QHw/DNl02goWyPLwJZg/
+	3aQ8U46vBsx4t2++tyO2yutPqqpkQl6B07UbZ7Ke8BHayR0iwq0EPIAiChKEGT3pAGgRJrwmqQC
+	CXJ9qLwm2IZr+c1DA756dlKHr6xF63lMjxWdb7fTC52owGI9mr104CUVu++mRvK/iJsgi3S8FiB
+	+e6piQO7ZoJ9O0hnZj5J9hzzw5jxOOu6+uUq6hwFUdaFH1yA73skRnK/x5LBxfZfOroltAx1jyT
+	dRDUWbeM40B6rxSasZ6VYrfI1O5I/XDY/VD6CUMInPHPBWym4bm88yo983gg2uk3l8feXBdgZ3p
+	X++Sg/uJgerjtNgmPFx+85N7clUSwmxfqslVQKTWEnO1h7AwU4P/jHTvpw9cc1mf3LT/gNb4gcd
+	ue3FpdDVWGgNL9mwvjD4V7BZ8ISE8NtlCWw+fxS1/qswb2c2Cb//jvccIoOdG6AU6vgVrld5AW3
+	ILm18Ux64aIHcVDRAdR1Xc/LESzg3pySfUWNZBjHOMXnYDzofyFn/FOBg3nCbVkpAKv2jJ7IAsb
+	Jydt
+X-Received: by 2002:a17:902:e5ca:b0:2cf:b6b5:9cce with SMTP id d9443c01a7336-2d046ec87d3mr4546725ad.46.1785467404334;
+        Thu, 30 Jul 2026 20:10:04 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.09.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d047ae9f31sm737595ad.60.2026.07.30.20.09.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 20:09:56 -0700 (PDT)
+        Thu, 30 Jul 2026 20:10:04 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -91,9 +91,9 @@ Cc: Baojun Xu <baojun.xu@ti.com>,
 	linux-sound@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 01/26] ASoC: codecs: sigmadsp: Use guard() for mutex locks
-Date: Fri, 31 Jul 2026 10:06:23 +0700
-Message-ID: <20260731030648.8706-2-phucduc.bui@gmail.com>
+Subject: [PATCH v3 02/26] ASoC: codecs: sta350: Use guard() for mutex locks
+Date: Fri, 31 Jul 2026 10:06:24 +0700
+Message-ID: <20260731030648.8706-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260731030648.8706-1-phucduc.bui@gmail.com>
 References: <20260731030648.8706-1-phucduc.bui@gmail.com>
@@ -112,72 +112,63 @@ Merely code refactoring, and no behavior change.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/codecs/sigmadsp.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ sound/soc/codecs/sta350.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
 
-diff --git a/sound/soc/codecs/sigmadsp.c b/sound/soc/codecs/sigmadsp.c
-index 2e08fde3989c..b7dbeb237447 100644
---- a/sound/soc/codecs/sigmadsp.c
-+++ b/sound/soc/codecs/sigmadsp.c
-@@ -5,6 +5,7 @@
-  * Copyright 2009-2014 Analog Devices Inc.
-  */
+diff --git a/sound/soc/codecs/sta350.c b/sound/soc/codecs/sta350.c
+index 99c7f7ac807b..2ba35076732b 100644
+--- a/sound/soc/codecs/sta350.c
++++ b/sound/soc/codecs/sta350.c
+@@ -16,6 +16,7 @@
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ":%s:%d: " fmt, __func__, __LINE__
  
 +#include <linux/cleanup.h>
- #include <linux/crc32.h>
- #include <linux/firmware.h>
- #include <linux/kernel.h>
-@@ -135,7 +136,7 @@ static int sigmadsp_ctrl_put(struct snd_kcontrol *kcontrol,
- 	uint8_t *data;
- 	int ret = 0;
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+ #include <linux/init.h>
+@@ -306,9 +307,9 @@ static int sta350_coefficient_get(struct snd_kcontrol *kcontrol,
+ 	int numcoef = kcontrol->private_value >> 16;
+ 	int index = kcontrol->private_value & 0xffff;
+ 	unsigned int cfud, val;
+-	int i, ret = 0;
++	int i;
  
--	mutex_lock(&sigmadsp->lock);
-+	guard(mutex)(&sigmadsp->lock);
+-	mutex_lock(&sta350->coeff_lock);
++	guard(mutex)(&sta350->coeff_lock);
  
- 	data = ucontrol->value.bytes.data;
+ 	/* preserve reserved bits in STA350_CFUD */
+ 	regmap_read(sta350->regmap, STA350_CFUD, &cfud);
+@@ -320,24 +321,19 @@ static int sta350_coefficient_get(struct snd_kcontrol *kcontrol,
+ 	regmap_write(sta350->regmap, STA350_CFUD, cfud);
  
-@@ -148,8 +149,6 @@ static int sigmadsp_ctrl_put(struct snd_kcontrol *kcontrol,
- 			ctrl->cached = true;
+ 	regmap_write(sta350->regmap, STA350_CFADDR2, index);
+-	if (numcoef == 1) {
++	if (numcoef == 1)
+ 		regmap_write(sta350->regmap, STA350_CFUD, cfud | 0x04);
+-	} else if (numcoef == 5) {
++	else if (numcoef == 5)
+ 		regmap_write(sta350->regmap, STA350_CFUD, cfud | 0x08);
+-	} else {
+-		ret = -EINVAL;
+-		goto exit_unlock;
+-	}
++	else
++		return -EINVAL;
+ 
+ 	for (i = 0; i < 3 * numcoef; i++) {
+ 		regmap_read(sta350->regmap, STA350_B1CF1 + i, &val);
+ 		ucontrol->value.bytes.data[i] = val;
  	}
  
--	mutex_unlock(&sigmadsp->lock);
+-exit_unlock:
+-	mutex_unlock(&sta350->coeff_lock);
 -
- 	return ret;
+-	return ret;
++	return 0;
  }
  
-@@ -160,7 +159,7 @@ static int sigmadsp_ctrl_get(struct snd_kcontrol *kcontrol,
- 	struct sigmadsp *sigmadsp = snd_kcontrol_chip(kcontrol);
- 	int ret = 0;
- 
--	mutex_lock(&sigmadsp->lock);
-+	guard(mutex)(&sigmadsp->lock);
- 
- 	if (!ctrl->cached) {
- 		ret = sigmadsp_read(sigmadsp, ctrl->addr, ctrl->cache,
-@@ -174,8 +173,6 @@ static int sigmadsp_ctrl_get(struct snd_kcontrol *kcontrol,
- 			ctrl->num_bytes);
- 	}
- 
--	mutex_unlock(&sigmadsp->lock);
--
- 	return ret;
- }
- 
-@@ -677,10 +674,10 @@ static void sigmadsp_activate_ctrl(struct sigmadsp *sigmadsp,
- 		return;
- 	changed = snd_ctl_activate_id(card, &ctrl->kcontrol->id, active);
- 	if (active && changed > 0) {
--		mutex_lock(&sigmadsp->lock);
--		if (ctrl->cached)
--			sigmadsp_ctrl_write(sigmadsp, ctrl, ctrl->cache);
--		mutex_unlock(&sigmadsp->lock);
-+		scoped_guard(mutex, &sigmadsp->lock) {
-+			if (ctrl->cached)
-+				sigmadsp_ctrl_write(sigmadsp, ctrl, ctrl->cache);
-+		}
- 	}
- }
- 
+ static int sta350_coefficient_put(struct snd_kcontrol *kcontrol,
 -- 
 2.43.0
 
