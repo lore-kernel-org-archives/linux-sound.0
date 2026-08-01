@@ -1,312 +1,203 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazolkn19010001.outbound.protection.outlook.com [52.103.2.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7CF2745E
-	for <linux-sound@vger.kernel.org>; Sat,  1 Aug 2026 16:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D423E3BB124;
+	Sat,  1 Aug 2026 18:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.2.1
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785602644; cv=pass; b=KTQMaae6N+1UsIfSkJcrQ3Br4DgQciprcaHZxQVDypVxge1zagiZoheRjXAjglYq8cX13GMIj3cPWu95lt8K0b539QMLvqdRR/FS14wdaDNPzkMpZv0G5O3YeeIraO8ArJ451ZpsYJT7I+MmZY8CXQnVyy8Q+ksn34zwpP+XiSs=
+	t=1785609274; cv=fail; b=PxX0ud7+iUG7Z5CkSjBslCpjzaQGxhu3q4rQf84lcrWIDFRbazD3rx+g7iMycA8SI1/VzcPzPoPkNl8x/qaMVv/pOhmQ4geH6twBuYGzYFKG8SpKuyHWMQW3D+Eg8SAosO9pGV0PE5u1XZfWCZQViFTZXRSOjjqe2mBgA/U3A6M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785602644; c=relaxed/simple;
-	bh=mb+MLEyYbechHzf9yXuW+BauxiMY2UxZ27g8S2KdGCs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Et/f985soXVlMWlUrL9sZccBeZKeFCMgZKsgt+vjGw/wXbmvvGschQqoeJ1Grhwqt6Vs5aFpnpQmPthRmq5ZuS8QGADE1Mu7xnWgMHGYsXox3hnVY8f3/dTBdqAmKTCPq3Nx7Jbb5d3xVVPAri3+OFJVBmdYl2LZ5qT0/YB0fWU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHiKzMUd; arc=pass smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785609274; c=relaxed/simple;
+	bh=ksh28k1r6Kx1DCSFAdQfbUEpkBFAi1qsgRHOa1vP6A8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XjmpliHvoPGypm2IMAFrvydYyqXY2VdsNGff0tScOJzYgnujv+hW2W3AC6APzuMSkDhpqZY1X9bBGPf+gReYeV6EgipcYn4I9pqLSyYc5U8XaXvW+aOOXzg5obCF8qT8stIh2Z5ciXKowfKiubawPd3OhCJ/4Wt+qSLgNul32KM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it; spf=pass smtp.mailfrom=outlook.it; dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b=TUeeQnIc; arc=fail smtp.client-ip=52.103.2.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHiKzMUd"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8484f229529so1711211b3a.2
-        for <linux-sound@vger.kernel.org>; Sat, 01 Aug 2026 09:44:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785602642; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NFFyAyEATT8cCX2QM1k5XfMWMCMR2zu9eamijJ+v5GiGsq+ljCGDYYMx+Qt3Gzmo//
-         3IgILCe3Ja0xj9ZYdIDz6s2V4jFMj0JNDsJjy8r5BPOz4p+/H0Yy5yRYQnxN8DS2eN/a
-         rvDRHFEidxabe8H5EdStdTE+6fMS1b3/MjbQWW2t63ZeVJGzV83ZSTjJOXmAAB19c9KU
-         rRF5cfNNcfKpPLsLhapzEawMgp+bA37So1fGVYVBaajif7OLcbyqA20a1kGddUemCDhR
-         rNjnktbsTU7KEy4z1dpPTIiPe0VtZc6iwDVfiOdHMHCVv/9OpFmKQYzAs3p4BTbbd5x5
-         tl2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AH26ZuWNq+ujPPrkDwHkB0FudhrCBpUpPTCu61uR7KM=;
-        fh=zYMfwBmyf4MVnQ05uL5ONtQvTDU+scFYZ781IUghjpo=;
-        b=rZrW3G11AyRV0HTVOf8aRL1CfUBSoCu1ycAK2+LK1ncQLTe+6i4yVUyuGhphU8V6wA
-         fsstHdnd3S4zo8SLx1OJ79xHqvvgSBeV00YtU8xrP2MP5orzwOCj2YoGBnkKkcbX1Tru
-         pmqV9OSqJGzyJa9QX2xWChctjYvIcUKw/DcPPBC+MaG5puNuo3gaUgZRnyc0DV9EJikF
-         8Cbqta5sb+ZXocdXK3P73b/hC+IjWU46Wl8ruXovJnshUMedQIaBxxz4HmqfUfFLopji
-         RsQUxa/nif6QFR6tkUtmk6kmx47ituFLsirJ1b3UBB4osEBvPhjS8Ff2WiZXGHsRS4DI
-         ZhQA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785602642; x=1786207442; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AH26ZuWNq+ujPPrkDwHkB0FudhrCBpUpPTCu61uR7KM=;
-        b=QHiKzMUdyY6GQ2q3d7b55DDiwi+m/vnpMN9r/DOxZnW0SzxZfvb4Qodrus/X+nBx72
-         2FtsE+GDpYYgrRKVzWan2dmveXQAblWwFr45pwYCs9vWQ5yPpYJkD0eAtC7ty4nAJJFP
-         KTK3GBwVSaYCcuVKLTxW2wTYqUnXEJ9JnD92VMw74cih8fdY1DMv32fXuP7cSQitTpaZ
-         +Iu9iLFGFMbj0esM+WpJVFrvOBnBjy8SDO9VwxEL3RDhkdVK53ZfNDZTwS8f+jodJJsd
-         C5C0QDZrsZCQYc+kactBSy/XxlDiXCCgI4RTZcJPfI4Einaz/AkV3tTWTJcUhdqq01i7
-         jR0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785602642; x=1786207442;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AH26ZuWNq+ujPPrkDwHkB0FudhrCBpUpPTCu61uR7KM=;
-        b=F8EZ3dzr61S4Rgd5DEZ1t6EIEummAWRuXEzwf9jRh5p9AQoZpH/mpVxTMeG9uW88HQ
-         PpTnq1/VIb58UxFmkI7wfOkQkq15o4U8okGYq80SXL0V049r+C51G23vAdSVnefZmDpm
-         tLnKE8YGZuBU7b85UNHL2g9zI9zXGaZ5Dh4w4D0c6UfoWmxtwDagNQObcWCNgIADBX4n
-         0haNnGoGfZXNzdLARS4O/3i22ozvTV17yqRYen9AKqahH+2dvG3NBFzzdGk4IManaVBp
-         wQsBtYvf0baTbdidM6BhLZVlipYVo05vJY8KdxU8b9ehtIiAUy1+ESBp+0Q5hi4PP1wu
-         YRNw==
-X-Forwarded-Encrypted: i=1; AHgh+RoPWHYILaOikRt1kiozkOFnhfz4PhcC4RykCcCMHUENh3qTaXwxAqaVxvFYwJuILFxYJFV7FRK1sndhmQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBcQv36IcyMoYHgPh2mhxKvtV9FNF/2kFTn4iKiUypP4GqcBmq
-	Dw6z/RnEiYGehmqzg7qYfZh4xVmI1xDKO4FVu5H4wJQZdqNyJRKbkizTEUPpAFL0spE6nWfcLQf
-	OTQjz/x+ar5RMNfPBY+4umuE+gwD7KXg=
-X-Gm-Gg: AR+sD11yFZTBzwx6/6oKrfe3QstZZElFwvAuqIHOrZ0mKfySj0vKOrwYEv+YzLQYWUV
-	5p1VmH5INEUULfltzpi7a7/wd8B74vj2T52UzA/ilzip6ZlBhXDRayJQdFj60/Y7CmS/MFq5euU
-	4TiscrBrZuMlUn/GENVC6pyDd5VCqq4aS73UQnCyqYSgvUr2Xhj0KxPmaERvMK68k7DG8pbOSO0
-	mQ3UfCk+ZOWU0a7TuqYWtapL+XcE3olM+cLUqF3tHLrtMzQJlEi0JsfO2Y8DoaXNZROeqPL/vLc
-	/vvvS8UImJCV12hzRxYjiboPy79uSMUWuhDoMnp3B4dHi+fsKGpxug==
-X-Received: by 2002:a05:6a00:4518:b0:848:2f74:d8d9 with SMTP id
- d2e1a72fcca58-84ee494acebmr3137898b3a.74.1785602642067; Sat, 01 Aug 2026
- 09:44:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b="TUeeQnIc"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gSNcOiB5P60dCui4CJ/uEbejfjcPZzQRC31DBs7h3pe+hvGL6v6W0WB0huK/XUrv/J8d/HKVh09Ng2c5n97WeOkGQQGg8phlWa+nPBvuz+FhXl4+sFieQv9IU/Tt7j6c9/RELJJm3bATkX5dz7MQDS1VfuAlgXy1sHd0LqjAkgtYwhgi9dmSLZF4bFSN0Ks0v3FjpDBhGaGOjs+MKh/ZkRQ95+Z1b8llqbNc9XW0Tinu3g+v9Nke4/IyVSGBVjmzZY2n896XQJBpGXgBCUb/FUNw7yYFshoQd4LYevtzrXZ1xZ+Km5UeABxNOJlKe2yP/dw7JDK65PjDc9/NZKp6dQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/jscnSh14m8zG+HChtsLsUDzkQMdN2gWRIaw78xM7Bs=;
+ b=gGNw3BUB1NFrvPxVoJN3/IA6YCeMO0VKIPKD/pKFvM78+b5QFpeAGU7lc3KXWMSpxfpr4nxDkJlLOU1kfCPX/xS6ZWsyp/YuI1Awv0siXM8JeEh9dK8nXCb3rQ6M9EAx4LZscXLcD0FJNtuBHlQFyPQj1ZkHskxvwU67tGgovFl4iDGyA9X8yGytsuWxkiAdUACbZ4cTX2yRbPX6kzb5AGhx9DkQqcV6UjkIM5xv0ZkU0WligTWUy1ZRztew0ze982dICbb7qV1eHsl7ssyN9/suFgO6GdRFCmW7/CZ33sEaqhrWYyYYtiLLxbRCAHUyQI72+ev8r/Sa3uGEptIfyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/jscnSh14m8zG+HChtsLsUDzkQMdN2gWRIaw78xM7Bs=;
+ b=TUeeQnIcJSq7ocxzAL0c++5GAcGLtbAkWc7TpT7RVo97kGsmN45PQ3Ig1rawilTzYt2tSpRuTocGu4YG4ijs/E+8hR8MMFY62onxisKIxmTKh1kMSZU8VeqeNM9vkxV4FUPnWmswZ5KMk2lqdcAnglSt97nGzJYrlhSRBDTRXYUrgThgNZ6GzdVHmQoLazJkTGmr2Qja2A2KX3nEZeH57g9pzT39ZdZgFb/aBOr+MBTCUN9KTmUfKYJn6PUeRZFFwfxqnGOpTAUunst7hTUyA5sDVKCHFjw8C0UvKsYzYSfclV/88jGoX2R5BsrmErmqQysuE/VgXLRO+TlfChZtwA==
+Received: from DS7PR19MB7724.namprd19.prod.outlook.com (2603:10b6:8:d9::20) by
+ BL4PR19MB8879.namprd19.prod.outlook.com (2603:10b6:208:5aa::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.16; Sat, 1 Aug
+ 2026 18:34:30 +0000
+Received: from DS7PR19MB7724.namprd19.prod.outlook.com
+ ([fe80::70de:3c05:ac62:7f86]) by DS7PR19MB7724.namprd19.prod.outlook.com
+ ([fe80::70de:3c05:ac62:7f86%5]) with mapi id 15.21.0270.016; Sat, 1 Aug 2026
+ 18:34:30 +0000
+From: Marco Giunta <marco_giunta@outlook.it>
+To: mapengyu@gmail.com
+Cc: damien.dagorn29@gmail.com,
+	kailang@realtek.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	marco_giunta@outlook.it,
+	perex@perex.cz,
+	songxiebing@kylinos.cn,
+	tiwai@suse.com,
+	zhangheng@kylinos.cn
+Subject: Re: [PATCH 1/3] ALSA: hda/realtek: Use AW88399 I2C fixup chain on Legion machines
+Date: Sat,  1 Aug 2026 20:34:18 +0200
+Message-ID:
+ <IA1PR19MB7712F02961FF50333D5055B5FCD72@IA1PR19MB7712.namprd19.prod.outlook.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <CALSz7m1PvKUrYvdXfQdA01gfZPh=1eW+1n6HTkxzmk4azn6CHQ@mail.gmail.com>
+References: <CALSz7m1PvKUrYvdXfQdA01gfZPh=1eW+1n6HTkxzmk4azn6CHQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MI2P293CA0015.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:45::9) To IA1PR19MB7712.namprd19.prod.outlook.com
+ (2603:10b6:208:3db::7)
+X-Microsoft-Original-Message-ID:
+ <20260801183418.23067-1-marco_giunta@outlook.it>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260801060630.2768318-1-mapengyu@gmail.com> <DS7PR19MB77249992FF86019C7B2B52BEFCD72@DS7PR19MB7724.namprd19.prod.outlook.com>
-In-Reply-To: <DS7PR19MB77249992FF86019C7B2B52BEFCD72@DS7PR19MB7724.namprd19.prod.outlook.com>
-From: Pengyu Ma <mapengyu@gmail.com>
-Date: Sun, 2 Aug 2026 00:43:50 +0800
-X-Gm-Features: AUfX_mwhe2hPBQ2SOLyyHozY_ZKc49DggbLT9k1YRNhERqeTl3RFhjVjl80NHXI
-Message-ID: <CALSz7m1PvKUrYvdXfQdA01gfZPh=1eW+1n6HTkxzmk4azn6CHQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ALSA: hda/realtek: Use AW88399 I2C fixup chain on
- Legion machines
-To: Marco Giunta <marco_giunta@outlook.it>
-Cc: damien.dagorn29@gmail.com, kailang@realtek.com, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	songxiebing@kylinos.cn, tiwai@suse.com, zhangheng@kylinos.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR19MB7724:EE_|BL4PR19MB8879:EE_
+X-MS-Office365-Filtering-Correlation-Id: f40ece37-7bf2-403f-668b-08deeffb8501
+X-MS-Exchange-SLBlob-MailProps:
+	+bEufbke4JdvqmTQng7ItjpfaCLJSA3utaJpJo4ESnYCRomGYHzvs+RnlD0sW3OGsuabfbXxdaEDomzOWZqRNereOInJLUWuDpyjHIW1kM6gbTOD8jn19q5yHPkkqCb1sqnhyNur88y90tR0CgCpjV92aC5yW1BJw1yl6eMsiSJyCL2Btp3pknRohWZiK+5WNzwAfFJ98JMTMCPBp7s/nIfj6OycoRCX3d2WlwYZsY7hXkfFH+1dEIDSEVWf/QE3w+XPseFhT/lHkMFxZx4n+Pdol1GNNx65G8pQ3q116wq3P7C8rhxhipBFQ6afkubnUHkCDJE/MIiE0cjD4B7ZFCMzq2EQeVoTUlNCEdWGTAMvtBTPTvwEQ9HLT0CKeP3YeULFunbWy2HEG98Fw+kE9uXSiTLxuHwS6P/5Y3G4EZdrtJawBib/Tllmy/FMQZJlGsn28F4k0R0bj3BVEL8JJdzc/DrJdQcuZRTWyQm040DXr8Us8JqaFhJyMuXeF3w5Hj3BFCz4UEph7c/AglzcGtimNzqSq1vQC8FKIdSuKeaCQbMJYweYpI/nYNs2Eo7rWm6f1XDCdnxCLopMb1hemm+MoWFwtrDYHbOCjOLKm9udegdIikait9FbaOS3HPlBsJF9XJZDxX7R6ng2gj6a0flQ1nI3Gvobk7tfnqiHW6GaaY0ZMS+fRBdLrposxAj5QQH0FM/nwsXf8e6q82vZdahTKFbvJ4oWLrxwY6auZ+/d94pYllW2E9kP4epi9ux6uWk0OC5lkYnu9+fEU2WIOg==
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|25010399006|5072599009|51005399006|15080799012|24021099003|23021999003|55001999006|8060799015|19110799012|3412199025|440099028|40105399003|2607281247196008|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Mxd975+xnX7KXVGxmLncubNVAR7SY7m0LAU4dbA3eroYxBZKmwUsADdCDcKj?=
+ =?us-ascii?Q?i1jKrI6a1upReoEuoihAInN0TyU7LyYG3EyjIdC+tvBYetlmm7uaJqtaF28v?=
+ =?us-ascii?Q?h0BWQhNLQgGgb0svS18Kuh+6+DiH1qbYoYLx69Okzdc8tGMDiPnePMT/kUrb?=
+ =?us-ascii?Q?7Z7uRVvU10YBt8sjfrwgid7Twmz0cCF8FvJgPV4Kbp0hFZi8f6gxmxbucnAm?=
+ =?us-ascii?Q?9Jm+gh3vjdnXsUzubY1UKmo6b8xuwdFpj5YS+JGwc2ZEi2pJAfon6xZisvwa?=
+ =?us-ascii?Q?uVDQoF7AzkyE2XOcAdfHzPAmDUtEJSB2Yn2cfkcs8UriMvfFvAGuxwbajkQS?=
+ =?us-ascii?Q?YltQ6LLK2UxsSAJAaeCnefkwlE7Cqk+LXUIqsYPg1HrrDFQ9XJWtpUSB7GY7?=
+ =?us-ascii?Q?GtRq2+8p9ZILrxy8hmd4YooFTzxuflRzfqdYZ+gqJ7zB7i22nM24buh9pDiv?=
+ =?us-ascii?Q?BShZ3DGYf8oVje2AfEoWh6kpnb1BMRz8dC0qt/yzhvpkCmfx+r8yep9GrVc/?=
+ =?us-ascii?Q?vxpnQ30ttjP1oGQ0gZDg/Vutogb3nsjnOKs7zwzmkpPT1Gmo3xXcm+z+KrJb?=
+ =?us-ascii?Q?m5PUkr0OqReg9hvAXqqXI/aiVf5wcUjOB1ve+ODoag6w7DWPB8A5eKSxAYpQ?=
+ =?us-ascii?Q?IXTQ9tLh37gpxVSzCDS5Kp944ts01knrHnPzNMIBMpUrjQccEqW6ddhKr+tW?=
+ =?us-ascii?Q?5mKp65PgkncokTrNKVBZ+xHXzWkIlHcX11hal9YXjoiKqtvC1ClSodrK28ux?=
+ =?us-ascii?Q?+YK4bYl4igLPg+Vg3B7TQ+LkrjJpUpdfKaxd/iwWnkHWA0Su6JL5Yztp+Qaj?=
+ =?us-ascii?Q?Tx0FxzvJ7uD635MKdrPEOd3MbAf7ULJ/CjZvzBPLFFfRXJMq8owd4fh53GHk?=
+ =?us-ascii?Q?bDlSic8VuUIhavoyVnA6MOyuGx3uU/STpmFxlM7O6Kb/cZIv8KD54FyD1fJA?=
+ =?us-ascii?Q?zeB4sQShN+Flg9g4Hyz8my/npY/YRAmQCjqM4/lpttjygl1Gf8AmS9LKAvl8?=
+ =?us-ascii?Q?+3wy?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?OYLgci0whh7j9WoZ+4wCY19i1j9AQgOkHOBxv0NCi94SfEHJkbxdz/N/BTTB?=
+ =?us-ascii?Q?q3+LmiRzxL/b19NOGDp1y9tLVZzw3sDF2b//2xewuS/7jiHM8VesXUonPN2/?=
+ =?us-ascii?Q?XBL9Ydkth5NuNAqzU6QCJIhCelaN6JRHCAKyej41LiF+Rbu4AQmNQKR1/dk2?=
+ =?us-ascii?Q?Z4kLWMf9GpgnlnVKCheLDsQE8mFZ9WGmHOoUrctYXHVQs+b1UgKYlKNZJSA5?=
+ =?us-ascii?Q?CGKTQ05XpZM7x3jV+ratjBmyLZJMWJj4BE8vnWlcAuMwYJdUT1eU7H7pwiDs?=
+ =?us-ascii?Q?eXCu+NmJodV7IM4igtPCuQzVqx6PN4CUR6trg62e9cebu2p1FDx/oOTP7EO9?=
+ =?us-ascii?Q?p1cd9RMmnujyclLWJdNRrX/aH44/aLhm7xo/JHZ+Dk7MwoXBSkSW2nVOlqWc?=
+ =?us-ascii?Q?CA9Fgdg/QLAgrBPjF9MDA+uZQ7J8BNESAsj7YXkulQaGAAX/guvnoVhC//Jo?=
+ =?us-ascii?Q?BAtKJ/gIXUdSWbHoUATy7hNFRCcg4nzAUN5Pet2xVml1a378a3H2iFv+OBvZ?=
+ =?us-ascii?Q?nETiGlFgdyZoD+La/bMOnImtaq3e3AqQtwLzODBZZ2S1IvD58WjgASNEDitu?=
+ =?us-ascii?Q?KD4Xd64XwmqENRz1RWoNDXSxbiBQEMaBJE/CFfHRXkA2grarCUKAe8Fuxv4m?=
+ =?us-ascii?Q?BhAdInqeRfcAC4dKLo3u2CLGxOMhTh5SUdr1t2S2lsxKeBP4f/vzZJ0PQQl6?=
+ =?us-ascii?Q?ml11OANzRH7wtahzNqT9FsbqjS+g7Bp8TyfTA3JwjNyZhdonF7tkLr21c370?=
+ =?us-ascii?Q?O7IriAkKorCMPHrjge9VE+Lo59AGc8zoY1Q1SFFrVUyA25kALFo6r9zqZbYq?=
+ =?us-ascii?Q?z2ZgDjhB+P2CdDscLeQRxsevEzQpc3dNwMnGh2bm4WogvcPsZ6K7yTdmnS0G?=
+ =?us-ascii?Q?/P7TsetrZvPrvMGYEYRtoiA7bTHLw2syfDDWJRgdI6uC8u91QkAXogsSNq1+?=
+ =?us-ascii?Q?lpMkK+th6qlev8mIo8cdj686oi3g0v7NIZe//OqhpQPB2YnzsatG2fH1sw2Y?=
+ =?us-ascii?Q?Yc88GZKcHw3GUU+SZAmTApgl1Y3jpnlghBjP9+WI75VcwbTAl7XeRLi+C+47?=
+ =?us-ascii?Q?4lJF29nX+9sZKzW3ripLau+gIdmygDgZOlRnHgAwVyUlW2dQH7Un0y5S7nRk?=
+ =?us-ascii?Q?01a1ZwMCcCSfROeIxBeVYIYTDwiLYKCC3z6ZgjK/cEsFTbfV0y0Ydd+rabgs?=
+ =?us-ascii?Q?VJw3gXQpCBt+4IBdayqzA9jk9ybQcG9hzulUuP/9bH/hDOEJE0QcXJwSgxf0?=
+ =?us-ascii?Q?7waykZqesf/i8Ferc0KBKQ/puHF9X/kjqyfhNKZEsbYWVGT/iI/P5EQBQm97?=
+ =?us-ascii?Q?S8b96ni8qa7PPwzJFZNghQZhi6X2ux5KtC2oBBGk4bUrBTzyH9W00yZn3VhB?=
+ =?us-ascii?Q?0yWPIjI8pHeASfR0ziVpvppXUASJBxGSrVp6WXv/Lrj+o8zQbnU+dSsvcOE+?=
+ =?us-ascii?Q?d1slhfXx1xU=3D?=
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: f40ece37-7bf2-403f-668b-08deeffb8501
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR19MB7712.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2026 18:34:30.5085
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR19MB8879
 
-On Sat, Aug 1, 2026 at 8:56=E2=80=AFPM Marco Giunta <marco_giunta@outlook.i=
-t> wrote:
->
-> Hi Aaron,
->
-> I have serious concerns about this series. I addressed some of the
-> points below in my previous reply to your review of my v2 patch 3,
-> but I will reiterate them here for the benefit of everyone else.
->
-> * Patch 1: Default DAC routing
->
-> > Retain the existing Lenovo routing
->
-> Previously, you stated that the default 0x17->0x03 routing didn't need
-> to be changed, but this is NOT the default on these Legions, and in fact
-> I think this is just a misunderstanding based on the R9000P.
-> That laptop shares the PCI SSID 17aa:38bb with the Yoga S780 entry,
-> which chains through to alc285_fixup_thinkpad_x1_gen7 and sets:
->
->     static const hda_nid_t preferred_pairs[] =3D {
->         0x14, 0x02, 0x17, 0x03, 0x21, 0x03, 0
->     };
->
-> This is the Yoga/ThinkPad routing, not the Legion's. The actual
-> hardware default for pin 0x17 on all known Legion models is DAC 0x06.
-> This can be readily verified on a Legion model that boots without the PCI
-> SSID collision, and I can personally attest it's the default on my
-> Pro 7 16AFR10H (codec SSID 17aa:3938).
-> The HDA_CODEC_QUIRK entries in the current code exist precisely
-> to prevent this collision by matching on codec SSID instead of
-> PCI SSID. It's not impossible that some hardware revisions already have
-> the 0x17->0x02 rerouting, but even if such laptops exist,
-> on all tested hardware the default routing is the incorrect 0x17->0x06.
->
-> Also, your series calls alc285_fixup_thinkpad_x1_gen7 via
-> ALC287_FIXUP_LENOVO_XPAD_HEADSET_JACK, so the fact that volume controls
-> work at all under your patch is a consequence of the fact that you, too,
-> override the default routing (but with 0x17->0x03, which is the DAC
-> usually reserved for headphones on these realtek codecs).
->
-> In general, not having a DAC override for pin 0x17 WILL break volume
-> controls on all supported Legion models. DAC 0x06 has no volume amplifier=
-;
-> without the override, users get binary 0/100% volume.
-> That the 0x17->0x02 fix works and is indeed needed has been verified by
-> every tester across all three supported models, confirmed by the Windows
-> driver codec dump which selects DAC 0x02 for both 0x14 and 0x17, and is
-> consistent with dozens of existing alc269.c entries which perform
-> the same override (with comments clearly stating that this is done to fix
-> broken volume controls). Also, many of these quirks share a single DAC
-> between tweeters and woofers (typically 0x02 for both 0x14 and 0x17)
-> without issue, meaning the currently accepted solution doesn't appear
-> to be particularly problematic.
->
+Hi Aaron,
 
-DAC 0x03 is intentional. The hardware-default DAC 0x06 has no Amp-Out
-volume control, while 0x03 has the same volume amplifier as 0x02 and
-provides a separate stereo converter for the bottom pair. In 2-channel
-mode, 0x02 and 0x03 both receive FL/FR. In 4-channel mode, generic HDA
-assigns FL/FR to 0x02 and channels 3/4 to 0x03.
+With the added context from your reply, I did some more testing of
+your patches on my Pro 7 16AFR10H and I can confirm issues 2-4:
 
-Your quirk forcing 0x17 to 0x02 breaks FL/FR in 4-channel mode.
+* With the current upstream code, plugging in a headset locks
+  the mic to the headset input and marks the internal mic as
+  unavailable/disconnected. Your mic fix resolves this; internal
+  mic remains selectable and functional with a headset plugged in.
 
-> Regarding the 0x1d pincfg override: I don't disagree that in practice
-> this makes no difference, and I'm happy to have it removed if a maintaine=
-r
-> asks. This line was simply added to ensure we match exactly the pincfg of
-> the official Windows driver.
->
-> * Patch 1, 2 and 3: architectural concerns
->
-> ALC287_FIXUP_AW88399_I2C_2 is the base fixup that registers the
-> AW88399 amplifiers, by binding to the i2c devices created by the SMI
-> driver. It should remain generic and applicable to any machine using this
-> chip. Stuffing Legion-specific behavior (suppress_auto_mic, headset mode,
-> jack renaming, channel maps) directly into this function means any future
-> non-Legion machine using AW88399 inherits all of it.
->
-> The current design intentionally separates the two new quirks:
-> ALC287_FIXUP_AW88399_I2C_2 handles generic amp registration,
-> while ALC287_FIXUP_LENOVO_LEGION_AW88399 chains to it and adds
-> model-specific fixups. This is the same pattern used e.g. by the CS35L41
-> driver quirks, which have a generic cs35l41_fixup_i2c_two and separate
-> per-vendor fixup entries that chain to it.
->
-> Additionally, replacing a single self-contained ~20-line function with
-> a chain of three separate fixup entries
-> (ALC287_FIXUP_AW88399_LIMIT_INT_MIC_BOOST ->
-> ALC287_FIXUP_AW88399_HEADSET_MIC ->
-> ALC287_FIXUP_LENOVO_XPAD_HEADSET_JACK), each with its own chains,
-> makes the code harder to follow, forcing a reader to chase through the
-> fixup array to understand what the chain does. There's no code reuse
-> benefit either, since these new chained entries aren't individually
-> shared with other devices.
->
-> Patch 1 also removes the "alc287-lenovo-legion-aw88399" entry from
-> alc269_fixup_models[]. This entry allows users to force the Legion fixup
-> via the model=3D module boot parameter, which makes testing the new drive=
-r
-> much easier on new Legion models that may need it. Without it, users of
-> unsupported models have no way to easily verify whether our driver
-> applies to their hardware, and are instead forced to recompile the kernel=
-.
->
-> * Patch 2: quad channel maps
->
-> I tested both patches on my 16AFR10H with music playback.
->
-> * With a 2.0 profile: both patches work correctly; tweeters and woofers
->  play together as expected.
-> * With a 4.0 profile and my patch: music is fully silent (both tweeters
->   and woofers).
-> * With a 4.0 profile and your patch: music plays through the
->   tweeters only, woofers silent.
-> This is technically an improvement over full silence, but it reproduces
-> the exact broken state that motivated this entire driver effort: weak,
-> tinny audio from tweeters with no bass.
->
+* Headset inline buttons (play/pause) work with your patches but not
+  with the current code.
 
-4.0 test used ordinary stereo music. That source contains
-only FL/FR; the bottom pair is assigned channels 3/4, which remain
-silent without upmixing.
-Please test with `speaker-test -c4`.
+As for issue 5, it's true that the "SKU not ready" warning is caused
+by the 0x1d pincfg override, which, though harmless in practice,
+I'm happy to drop.
 
-> Even if the mapping were inverted so that only woofers played under 4.0,
-> it would still be wrong; bass-only audio without tweeters is equally as
-> broken.
->
-> In general, the only meaningful configuration for this hardware is stereo
-> 2.0, where tweeters and woofers play the same signal together.
-> There is no useful way to split them into separate channels, because
-> they are not separate channels -- they are frequency-divided reproduction=
-s
-> of the same stereo signal. The bogus 4.0 profiles are an artifact of the
-> HDA parser, to be suppressed at userspace level via alsa-ucm-conf
-> (or simply ignored in practice), not by adding channel maps at the
-> realtek quirk-level. As such, I'm not convinced this patch is needed
-> in practice.
->
-> Also, as far as I can tell, there is no upstream precedent for mapping
-> a laptop's tweeter/woofer pairs as 4.0 surround channels.
->
-> * Patch 3: headphone jack rename
->
-> These laptops don't have docks. Renaming "Headphone Jack" to
-> "Dock Headphone Jack" is semantically incorrect, and I'm not convinced
-> the Thinkpad precedent applies here.
-> Regarding the need for this change, if there is a GNOME prompt issue
-> on plug events, that should be addressed at the userspace level, not by
-> giving hardware a misleading name.
-> More generally, I'm not sure I understand what problem is being solved
-> by this patch, as no Legion user has ever reported any issue
-> related to headphones and mic switching. I can also personally attest no
-> such issues on my Fedora 44 KDE install on the 16AFR10H.
->
+These are real issues that I missed because my testing focused on speaker
+output and basic internal mic functionality, not headset behavior
+specifically. Apologies for that, and thank you for catching them.
 
-The root cause is the physical combo jack produces both logical
-headphone and headset-mic presence signals.
-So it should be renamed.
+That said, I still believe the correct approach is to add these further
+fixes to the existing Legion-specific chain rather than the generic
+AW88399 function. Would you be open to preserving:
 
-> * Summary
->
-> This series modifies a well-tested and necessary DAC override,
-> adds surround channel maps for hardware that isn't surround,
-> renames a jack to work around a quirk specific to one desktop environment=
-,
-> and mixes generic and model-specific fixups in ways that will affect
-> future devices, while making the code harder to read and to test on
-> new devices.
-> None of these changes have been tested by the testers who validated
-> the current code.
->
-> Based on data from our github repo, I can attest that the current
-> fixup chain has likely been used by at least ~250 people in the last
-> ~4 months across multiple kernel versions (from 6.19.10 to present)
-> and distros (Fedora, Arch, Cachy, Debian, Ubuntu, Nobara),
-> with no reports of mic switching or headset detection issues, instead
-> reporting that the 0x17->0x02 override was able to remove the need for
-> the alsa-ucm-conf workaround that was previously used to fix broken
-> volume controls on this hardware. As such, I am a bit surprised by this
-> patch series, and I admit I'm probably misunderstanding something or
-> missing some important context.
->
-> If the suppress_auto_mic and headset mode changes address a real mic or
-> headset issue on these Legions which I'm currently misunderstanding
-> and didn't happen to hear about previously, I'm happy to have them
-> incorporated as a separate patch on top of the existing fixup chain,
-> while preserving the crucial DAC 0x02 override needed for working
-> volume controls. But I'd first like to better understand what problem
-> they solve, as no Legion user has reported mic switching or
-> headset detection issues.
->
-> May I ask, on what Legion model (with what codec SSID) did you test
-> these changes? Is there a bug report thread I may read to get
-> more context?
+	[ALC287_FIXUP_LENOVO_LEGION_AW88399] = {
+		.type = HDA_FIXUP_FUNC,
+		.v.func = alc287_fixup_legion_16iax10h_aw88399,
+		.chained = true,
+		.chain_id = ALC287_FIXUP_AW88399_I2C_2,
+	},
 
-Tested on 0x17aa3906
-Analyzed alsa-info on 0x17aa3928.
+where alc287_fixup_legion_aw88399 now includes the DAC override,
+mic boost limit, suppress_auto_mic, and headset mode setup in one
+self-contained function? This preserves the generic/model-specific
+separation while incorporating the new fixes.
+More generally, I'd appreciate your thoughts on my comments on the
+series' architecture, as this affects how any combined fix is structured.
 
-The issues on current for-next branch are:
-1, The 4.0 output is broken, no FL/FR. 4 speakers are visible on laptop.
-2, when plugin headset, the mic is lock in headset mic, no switch to
-Internal Mic.
-3, when plugin headset with quirk of HEADSET, switch to Internal Mic,
-but the input device is not valid.
-4, Headset button is no response.
-5, dmesg report "SKU not ready 0x411111f0"
+Regarding the DAC routing: I understand 0x03 also has a volume amplifier,
+but 0x02 matches the Windows driver configuration and is the established
+pattern in alc269.c for this exact codec and pin. I still don't see a
+practical benefit to routing 0x17 to 0x03 instead.
 
-Aaron
+Regarding 4.0 channel maps: I remain unconvinced this is useful.
+Even with speaker-test -c 4, all it achieves is the ability to play
+tweeters and woofers independently, which no real-world content or
+use case requires. The correct profile is stereo 2.0 with both driver
+types playing together.
 
->
-> Best regards,
-> Marco
+Regarding the jack rename: I understand the symptom: GNOME prompts the
+user to choose between headphone and headset on every plug event.
+I don't see this on KDE, which suggests it may be a
+desktop-environment-specific behavior rather than a kernel issue.
+Is there a reason this can't be handled at userspace level, rather than by
+renaming the kernel control to something semantically incorrect for
+hardware without a dock? Alternatively, can we find a different solution,
+or more simply a different name?
+
+I'm open to collaborating (e.g. with a Tested-by tag) on a v2 that
+combines your headset/mic fixes with the existing DAC and
+architectural approach. Would that work for you?
+
+Best regards,
+Marco
