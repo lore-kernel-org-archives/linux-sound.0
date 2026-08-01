@@ -1,136 +1,152 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055BF3A1A26
-	for <linux-sound@vger.kernel.org>; Sat,  1 Aug 2026 06:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695A848989F
+	for <linux-sound@vger.kernel.org>; Sat,  1 Aug 2026 07:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785564429; cv=none; b=conlA28DbpGx+SydIQUF+8s8oKy5nUw85pZy4AT1OOimQcFBr9NF1IC7c0ajpwTX6xNC2zfCocY9wT0SwvfOEZJBHhjtZsLYkwQFCP6sCgZ+qE5eDbrVKDLU9kUI/Oo1VBH6Xm95TBC1+oWGZNpSSlNXzQsKk+OWxM5oCyzatFM=
+	t=1785569594; cv=none; b=Bv/gi8eftTiqNyZ13fFk0Gir3KCTOK5klzNvZqV5ol7bPBm/7XoUefnAVZrVbeZ8D5NMQAIdcb370HvWjXzpWZ44ry7CCegVmTYE1sPl4W4pgWUz7emL8iEuk/2a/BIbLAUj1K1pNbgYiXCXyO1dgHFpOA8XmIiaz3stNMdPgeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785564429; c=relaxed/simple;
-	bh=IHo604GjEFu2C0i4DOUpP6NtZKA9wAW+t4+Q/9HZoMk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=inHB27sVTTW+wUP2CHQmutU6VGSVT64LnFzPIRRp9jz3gzEcYmTtM9GwyHxHG/CCZPSp60R2FJXxoLTvqPwWTm28SGDa5udTSpczrzKlLdlc7Fp8IX2RwxEJxk9egrTU3Gz9ULbxsi/4bUT09t8Irla+vzbOzLW6uIljoRg6AcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pRXkxEsJ; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785569594; c=relaxed/simple;
+	bh=i2OsbGNh7busLZujNnZjk0EfI9pBuKtoE2LGOCTQMTY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bl7aDA4SiIQW5atUJBGhbFvVVET+n293Mu7CDIeuNa7QVe/0EiAQLPI+GE5Rd0IzjGXVMqNl0Mt+7BjJ3tCl94EW3ndccxxj5kH9NCXLGpYzBh6huP9RF389I9krPg+r/FVHbUpVoIrYDFbqbSs3zENNIvQoPMwrijzwAig5Rds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R56IfNCh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UqiSNjgx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q9d9JspA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=f6jo340p; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pRXkxEsJ"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-455ee8f529dso359003fac.1
-        for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 23:07:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785564427; x=1786169227; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hY1VNQWMZbcTYVOzkOemBoCdeDcj66ehp8AMGX233Z8=;
-        b=pRXkxEsJwjFQEf+AZ9+dX1urVKH3C2/6mpDHb17GnxZAD95/ySY8vIy/NVZCLJF9N5
-         DzNjGFZpomyj8gdhab3r0VlWtIjef4TGrniFDab0bgsIeWIsDQ9FDDC2GDNhIufP5381
-         z/bGbWRLQuzKfpisb8HnB4baYfiq0/4yzJo1GDlg4hutfMGMD9Cl8xuEM5A5OC+v6i+K
-         NeuaRkbr8LENIsGdhSeZS1Wal8S+L2CkYPG+DQY3sCi1NhA7nGyCdZPkK4jwfEMvxQjF
-         GoYeAbpHVeB+iuqJMzSIPwcuW/CLCgPlMDiElkkmybeBYYU/Cd4PQYy9Se8xnpRqneYb
-         kD6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785564427; x=1786169227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hY1VNQWMZbcTYVOzkOemBoCdeDcj66ehp8AMGX233Z8=;
-        b=NXPhH/k6y71cnj53RVdVvJZUBEnHKEPWV8TpQdZ0SvSQphXWGhsdSEJufY7iwKTpCC
-         j/LsHz04hlmcukTzpqtyyFz9+3bQ0Si+oWkhIg4l30XBq7mYObvgKNiJww/A88vhpR2n
-         mxPtsIfMoZDEnCQ5+vxHAnEo5ozguQlnPc9JJgyw+eUWST3r1XHL/Afbnfzt2xszUhVR
-         rC0BumETJ+IiQQIwhbM7oPQL4cEFWEV0vW11xcDq6AUrW4xxA2B+JUvgHops3XGOPUlO
-         jPtVYurs8UpGZfIFcWKChbxDr8Z8wb4H7mhjKH5gDs4s6jyHxUSd1pMQIaxFe6LfuWXf
-         XQmA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqcd9ug2Yo/I5qHko98CCPT4kJUcYOXqxUdmAZEpUUuU95ABiVAgAeaNgnCQSb9hfxgw+Q0FUyJAeBpDg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzE4i/yXZeFq1zgjopRejzDt/7A7skKjZmaY1CzFSu4ubi6xdSH
-	/xy8AQ3NYE76290lvJ9XqG/sdGZubshU6/eFJ9F9o7DoySAX5+pLO7Mn
-X-Gm-Gg: AR+sD136D6crjtnGhr6Ct/vQvApFAdZ+C+LDhli2StLf+gOBIrxJvQuWNoa18KOmdp9
-	1MSgZFOxezJ5qluaQWd9MsuGk9eTIzmu5QQ0OQYjljwkViFcrYkvS2DG6pzrXoImSujkf114PjG
-	MfTFcrmNlqbXmDtfQZuMa/BIvIm0n5tRSDvTTK3cM2L9z12bXP6/MoChnoyfkSE/KDv104yhtnN
-	cJCOQHZaX6xCaYFqH/iEwhxsoyze7HJx4eo2DiDOZuRmYtuHddOw+M9iiZDmNmVZAtN0/SNY6Eb
-	xhRk+e4deRGYr+0loltYATx7Npjgrv+tJlzCwWdvV4QiY9yQ2QLJ3dkYTVAQ3mRHKVuOAYo8MGp
-	XgfYcPIbRJnrN3zKoq6nlLGJ+tzLmDu9dc7Kqg8hHrs2mPxEPFhejqcsSUJ5/fcAHUie7xQ35WC
-	0RVGcz6MdG2+urGPlWf6AvdZL9zKZMH1n9pGKDavaAFCnKeUypfEZfvXYRARHlH5ZnnRLmy3jtS
-	E6xF01gRVmTqfCMLw==
-X-Received: by 2002:a05:6871:a86d:b0:447:7605:ed4f with SMTP id 586e51a60fabf-459057af577mr5369428fac.6.1785564426687;
-        Fri, 31 Jul 2026 23:07:06 -0700 (PDT)
-Received: from u-ThinkPad-X1-Extreme-Gen-4i ([192.3.12.183])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-458f664d812sm3473404fac.9.2026.07.31.23.07.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 23:07:06 -0700 (PDT)
-From: Aaron Ma <mapengyu@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Zhang Heng <zhangheng@kylinos.cn>,
-	Kailang Yang <kailang@realtek.com>,
-	Damien Dagorn <damien.dagorn29@gmail.com>,
-	Aaron Ma <mapengyu@gmail.com>,
-	Bob Song <songxiebing@kylinos.cn>,
-	marco_giunta@outlook.it
-Subject: [PATCH 3/3] ALSA: hda/realtek: Rename headphone jack kcontrol on Legion machines
-Date: Sat,  1 Aug 2026 14:06:30 +0800
-Message-ID: <20260801060630.2768318-3-mapengyu@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260801060630.2768318-1-mapengyu@gmail.com>
-References: <20260801060630.2768318-1-mapengyu@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R56IfNCh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UqiSNjgx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q9d9JspA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f6jo340p"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 497BA4368;
+	Sat,  1 Aug 2026 07:33:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785569587; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zc1Sza81blDIPIFfOAma4hMYgzUu+YlG+380s2zb52o=;
+	b=R56IfNCh3TDp4fMTbbRQ2vh217yfdqzr3GUYUX2HWlpo/fK5IVKd8TdnCWndVi/IghRxCN
+	avlTtDTnLh4xuKXzR0zAAhT4oYaTW5QNvw8b3lp2fMv70nAcVnObl1LPZwgIn4cXihzi/G
+	MPzS88KIMj078nbdRsMq6reYbvefOew=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785569587;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zc1Sza81blDIPIFfOAma4hMYgzUu+YlG+380s2zb52o=;
+	b=UqiSNjgxJ8hw+XuURvRXxFMEIp8Wquxtkaf0xzuboMPwnj1XrFp8YgxpPgLrkqWd88rH6C
+	V40svqWe6OhSM2DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785569583; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zc1Sza81blDIPIFfOAma4hMYgzUu+YlG+380s2zb52o=;
+	b=q9d9JspAJEYhZfYIBdKTEfN4w06rbuwCfUQ70AzCCxO/GFo4sygpqNUq6gKMOHmv1z/A2+
+	FWusz1qPWDxRWxMynD5SW+s+/3Xk53AMffFLMEbzGYEk62F6d3qZMMTAtll2glGcmWztNC
+	/Gnc9qeawklu/B6k90uX8wqYvQKQIWo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785569583;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zc1Sza81blDIPIFfOAma4hMYgzUu+YlG+380s2zb52o=;
+	b=f6jo340pEqjWYQUwqy7hCeaQLbkYqO3L2HlPUS8LKej8WvbOFacw4DxG7LVijScO52H9Se
+	A0lVaMnTG/XWyGCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0EFEC779BF;
+	Sat,  1 Aug 2026 07:33:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id A5fcAS+hbWoMOQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 01 Aug 2026 07:33:03 +0000
+Date: Sat, 01 Aug 2026 09:33:02 +0200
+Message-ID: <8733wycn2p.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Yu-Hsuan Hsu <yuhsuan@chromium.org>
+Cc: linux-kernel@vger.kernel.org,	Jaroslav Kysela <perex@perex.cz>,	Takashi
+ Iwai <tiwai@suse.com>,	=?ISO-8859-1?Q?C=E1ssio?= Gabriel
+ <cassiogabrielcontato@gmail.com>,	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: aloop: Fix spinlock deadlock in loopback_hrtimer_stop()
+In-Reply-To: <20260731074255.1513402-1-yuhsuan@chromium.org>
+References: <20260731074255.1513402-1-yuhsuan@chromium.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,perex.cz,suse.com,gmail.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-The Lenovo Legion machines pairing an ALC287 codec with two AW88399
-smart amplifiers report the headphone and headset functions in the
-same jack group. With a kcontrol named "Headphone Jack", GNOME
-treats them as two candidate devices of one port group and prompts
-the user to choose between them on every plug event.
+On Fri, 31 Jul 2026 09:39:35 +0200,
+Yu-Hsuan Hsu wrote:
+> 
+> In loopback_hrtimer_stop(), calling hrtimer_cancel() while holding
+> cable->lock triggers an AB-BA spinlock deadlock if the hrtimer softirq
+> is executing concurrently on another CPU:
+> 
+> 1) CPU A runs loopback_trigger(STOP), acquires spin_lock(&cable->lock),
+>    and calls hrtimer_cancel(). Since hrtimer_cancel() is synchronous,
+>    it spins waiting for the executing callback to complete before
+>    returning.
+> 2) CPU B executes loopback_hrtimer_function(), which immediately tries
+>    to acquire spin_lock(&cable->lock).
+> 
+> This mutual dependency leads to a CPU hard lockup and NMI watchdog
+> panic when multiple streams start and stop concurrently with small
+> period sizes.
+> 
+> Replace hrtimer_cancel() in loopback_hrtimer_stop() with the non-blocking
+> hrtimer_try_to_cancel(), matching the behavior of jiffies timers
+> (timer_delete vs timer_delete_sync). If try_to_cancel returns -1
+> because the handler is running, CPU A releases cable->lock cleanly.
+> When the running handler subsequently acquires cable->lock, it observes
+> that the stream is no longer in running state (cleared by trigger STOP)
+> and terminates without re-arming the timer. Synchronous hrtimer_cancel()
+> remains preserved in loopback_hrtimer_stop_sync() where cable->lock is
+> not held.
+> 
+> Fixes: bf08a5f698dc ("ALSA: aloop: Add 'hrtimer' option to timer_source")
+> Signed-off-by: Yu-Hsuan Hsu <yuhsuan@chromium.org>
 
-Rename the control to "Dock Headphone Jack", following the ThinkPad
-naming convention, so the jack is presented as a distinct port and no
-selection dialog appears.
+While I find it's fine to change like this, I wonder whether you
+really hit a CPU deadlock.  Or it's just hypothetical?
 
-Signed-off-by: Aaron Ma <mapengyu@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 42fcdfe54225a..83bb74c94b785 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3280,15 +3280,26 @@ static const struct snd_pcm_chmap_elem aw88399_pcm_quad_chmaps[] = {
- static void aw88399_fixup_i2c_two(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
- {
- 	struct alc_spec *spec = cdc->spec;
-+	struct snd_ctl_elem_id id = {
-+		.iface = SNDRV_CTL_ELEM_IFACE_CARD,
-+	};
-+	struct snd_kcontrol *kctl;
- 
- 	if (action == HDA_FIXUP_ACT_PRE_PROBE)
- 		spec->gen.suppress_auto_mic = 1;
- 
- 	comp_generic_fixup(cdc, action, "i2c", "AWDZ8399", "-%s:00-aw88399-hda.%d", 2);
- 	/* the second speaker pair is full-range rear, not LFE */
--	if (action == HDA_FIXUP_ACT_BUILD)
-+	if (action == HDA_FIXUP_ACT_BUILD) {
- 		spec->gen.pcm_rec[0]->stream[SNDRV_PCM_STREAM_PLAYBACK].chmap =
- 			aw88399_pcm_quad_chmaps;
-+
-+		strscpy(id.name, "Headphone Jack", sizeof(id.name));
-+		kctl = snd_ctl_find_id(cdc->card, &id);
-+		if (kctl)
-+			snd_ctl_rename(cdc->card, kctl,
-+				       "Dock Headphone Jack");
-+	}
- }
- 
- static void cs35l41_fixup_i2c_two(struct hda_codec *cdc, const struct hda_fixup *fix, int action)
--- 
-2.53.0
+thanks,
 
+Takashi
