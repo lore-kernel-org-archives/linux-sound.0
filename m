@@ -1,90 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529D545A28B;
-	Fri, 31 Jul 2026 23:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FAC221F2F;
+	Sat,  1 Aug 2026 00:05:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785539924; cv=none; b=qBW+GuTeU4Eo5UT6KZO2syV87HVUgHyTXc/lnxDvUFz4yuK5sBpMafQ+TJevelWPr6o0fuEKMeguhkC5oHQptMVRgGIbXxTV65GLhFHKDqbC7/cUudiyFhwwGV2eWeAYaUbeVYP6SYJrj4HpBRAWgPZ8Vnuh2VzMnX2JBZ+391o=
+	t=1785542721; cv=none; b=iChnadun6ZgqOpGH+C9oJxTg8YPUPQLusZ47VQYnKa3qtbaC+pVvWzv9IFn27rx1c1XYQSZl9zRpwNFxIun7jVaNL3mBUHWdjgRTqCwisQ/8sxVYgFSfx4ZXZc4p4RCS2DSRU4R+AbQtpoeLDvA0612W8z+s4zEH9fFBOujvVYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785539924; c=relaxed/simple;
-	bh=ouhI8Bu0VNy36bWHtW9fIvBU6k0xqBCknk/8pb5OXe0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bkrUInLaMpbHFla4Y2nFHQ3B01BNe8WpSlUHkIdMSZW5fNFHze2LBTF2setYr2K96Pf3ttBBUlJ0ufMwrvrZugb+YYcC9nFHCfE9Zl+GRb3fmWopqlWYK3nZmSrTN950mtvq0mQduppd38bNthIKv0/CmBQp9lL7ymY/KfgR1BM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WnNFyNsx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785542721; c=relaxed/simple;
+	bh=dmqkXcFu1oQ4/zFvKbg+j72YjaeaqfVkH0vGBu/4jsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sAxWlKhrdJsJWP6LeQNitkrtJjQT47o2hl9/6xxg/3xTgW9xgLMKcYyHLko1e8rHR7gnKAgZPCYTpKsBWMzNr4xnr1wH2Alt0b0lfbVYnP3Skv2+0+e3TaHVYhZBiqxXYEdwwYEv/8z0fyTmgzZPILLxGR6dWIe3650gmI9b0qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jfKd4LfS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WnNFyNsx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDA261F00ACA;
-	Fri, 31 Jul 2026 23:18:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jfKd4LfS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 341641F00AC4;
+	Sat,  1 Aug 2026 00:05:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785539923;
-	bh=My0RDPjdUFtnVRzItkdLIM5hSNIeE9jCXi1b8cFUUl8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WnNFyNsxuxHsIs3QIHHMRbfuLAXageIMx5WAnE8OPBypqr24s/71gkRmC4ksM62c9
-	 RU6hUoMtN86kZEfEkvPOSQVB1FoDTXoWC6Bdc4EdGiF3CUgN4YBcsUGOtflopenGdX
-	 QxjzWbF33JFOEvR1iNoKeOP6oZYBsf84zjFlMAlcBwrbbMnmN/YY7jADGhydZCBGNJ
-	 1RA2fCai0CkrG/3LuLSDaDkZZXCZ4WZO15vNg64+D/C30T8Ef8n0qZ/gB5YUhdWDnE
-	 eiWMhIeo5t6dkZ54Cz8vY9Ku62BJbS16GyAGlBMDEK1E7zPKIYDXxysyo2tb+kJ9sR
-	 PLhZbz+ME9S+g==
+	s=k20260515; t=1785542720;
+	bh=knOgyuuxNshljdeTzMnmFZIQCsHXGrVxEQ+afmQqD6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jfKd4LfSU38kImp0obzSsw4GkY4CE8G2Ni2T0DE3LnDCeeAucjC6jiO1FS4/9SzCQ
+	 rFECLYnyMK6sUeI/lvJIBm7udJD+4EEp5pmJBXMQ3mEyGDySA9SEN74RbdsbAta+yk
+	 9Rig8cc4DL/eH0JHm1XozmpXNdpLztlY2CzgeWuy0/7O9igtZk1DtW0mv9FybP+kNg
+	 goVwA5uT4XIhDekjPBvUQtRcXdj3AHrM45kZvngE2gMniRRhY3yV6uwirCSyeAEA7F
+	 +KWHqZLAkIV+4jRVXeHZ0OrHanj1NlHErfj/mYHrKb+oDDzcwcVDD/f59c1ooTRIqm
+	 OvW6FqBXGmmSg==
+Date: Sat, 1 Aug 2026 01:05:15 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, zhangyi@everest-semi.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260731151826.961912-1-ckeepax@opensource.cirrus.com>
-References: <20260731151826.961912-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: es9356: Remove unused headers
-Message-Id: <178551909055.353541.6452745689117942338.b4-ty@b4>
-Date: Fri, 31 Jul 2026 18:31:30 +0100
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/7] ASoC: qcom: add AudioReach TDM backend support
+Message-ID: <275c15b9-8a46-4e55-aff4-9e0aeb01b730@sirena.org.uk>
+References: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1090; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ouhI8Bu0VNy36bWHtW9fIvBU6k0xqBCknk/8pb5OXe0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqbS1Q8IxHdjSOqYML30PElHdoUI+9Cv6pm0lnk
- gEolP/SxsOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCam0tUAAKCRAk1otyXVSH
- 0HHkB/0Zv2KbOvw4yfNgEw9VsGItLNCI/oaOkDAOODu0/aJcixxDWJXJyXqvajCfFkhepCPhrdN
- rrUBGGFs3HY6sAVAFLie1EolkMDOAFJc7rrr0CXwibVXEeu3gjK7+KjkEI70InIurYfZYYbWtPa
- 5MH5i169YTTPWSjtuuVG6N6TgJpljeoKwp5wKilmPWdj/rzafX7NXwA4CKw4bOdK12UgvAZ6biC
- ehNMrVAr9IjS8PlTMyPoRr/0aVedWQ4MUCG9cCXjG4J5YX06eXoUZaG96jUGnygePRn0x8DGwdu
- mjehSShJp+A1vTpVlH/zOWHPnlFfC5DnxRXWUqpLC0XCw4XU
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8yEe3BsDYJYQgFpx"
+Content-Disposition: inline
+In-Reply-To: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
+X-Cookie: No shirt, no shoes, no service.
 
-On Fri, 31 Jul 2026 16:18:26 +0100, Charles Keepax wrote:
-> ASoC: es9356: Remove unused headers
 
-Applied to
+--8yEe3BsDYJYQgFpx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+On Sun, Jul 12, 2026 at 07:11:03PM +0530, Prasad Kumpatla wrote:
+> Add AudioReach support for LPASS Audio IF based TDM backends and wire it
+> up for the sc8280xp machine driver.
 
-Thanks!
+> This series depends on:
+> 	- https://lore.kernel.org/all/20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com/
 
-[1/1] ASoC: es9356: Remove unused headers
-      https://git.kernel.org/broonie/sound/c/8338deeb8fc2
+Please resend this once there are enough dependencies in to allow it to
+be applied.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Please include human readable descriptions of things like commits and
+issues being discussed in e-mail in your mails, this makes them much
+easier for humans to read especially when they have no internet access.
+I do frequently catch up on my mail on flights or while otherwise
+travelling so this is even more pressing for me than just being about
+making things a bit easier to read.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--8yEe3BsDYJYQgFpx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptODoACgkQJNaLcl1U
+h9A7zgf/QUdlzqpziYKVotZ0qJvYdkQOkEKLCckXltxjWlAXNU6G93MkeiIGiIro
+1jq6JHyX5OfzZa4XnGyn7V5OZ27Q36IQ+iR5QwWJ1qbvvzvHVbfKYXEEACvI1jpZ
+x8ZsNKlt5u/JEscUAI8Fr1xt/bu3JypFQ9Cyiwpw09pERizkL0EfxpyepAhQVFY0
+xfwKGuMW5hPdCHK3K27RUZHYnSOc1WDBoO4rPbPwa7n0u5sQwg96gKJswICDW+zh
+fVqudlhv2F6nYe6He5WsbKKIKwHohyCCNIUU2oMQM08q8TUr9MXRnbZbxbC2rgLK
+02oBeLNVv/wHHYbgqSssEds9YLvYLQ==
+=QFzh
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--8yEe3BsDYJYQgFpx--
