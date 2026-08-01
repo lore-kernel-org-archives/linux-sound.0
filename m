@@ -1,139 +1,120 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B642937C90A
-	for <linux-sound@vger.kernel.org>; Sat,  1 Aug 2026 00:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49323911AA
+	for <linux-sound@vger.kernel.org>; Sat,  1 Aug 2026 00:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785545602; cv=pass; b=M/+SS10HkxjQNQR6y+yPyeJWM7zwOotkEjzmV1pwv8rF9JN1QZWxJmZVRI/wRoq6TPpKIcvMNXc6LfWjhQI9wS1Z25NvWcQkag8i6kuoeipxwhh52nPgk1of30acflBxqUxv72LrZtETuBoaaN+IMkGvKX0oKo3/A3ty3fuXry8=
+	t=1785545854; cv=pass; b=XlShyeg2N92vzNAPqKlouL11Ca6rycjSJ9T3bJmTwgVpiD7iv1e6WN1XnZSRAXWTrPv44nAaCIszpqQLZLCpkwZXLxKSCdKrJKvwUzfz+/OBZNCRovZI5Hz6W+5n3Rjd5vEHDT7ii/Gb+SPb0F+/mNALw/2tUepL+AcWPRjmgMY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785545602; c=relaxed/simple;
-	bh=oUtQAxx6vL2RIVbyoqogaZhDTUmqZrpIVWk2UV+lzdU=;
+	s=arc-20240116; t=1785545854; c=relaxed/simple;
+	bh=IHweUxDnEngruqjGLe4YpsaI9l8qQnUX+kb5iT7UgM4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ef3btfxUyTkXQAghdFAqqquUZyzkmwnVdrLLo/AZZatKYeVeNedItjHPRo5pr/57TqC8Q/9ovyTqd1lpYWATCDcw6g2/h/+YDs76hx+hHThPda/YOLBNpPqxUz4zHSv0DPDHJCG9iw9n6qKpGOQ4yL525cjwQNhHAIXv1TqJmw4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VwTrq+Uj; arc=pass smtp.client-ip=209.85.214.179
+	 To:Cc:Content-Type; b=t4X0xoxQQKtPfOROpbkgGTnsydzlL8uzP7d+mqn9KmJn0Q1LfdTU85bL0M3EKjgyPeWdCh/K1bLDjPkFR07K3dH+gHrMQJe4rtzrrAZZQrxrNIBPjXFtFGawA7yMEXQMamiPhVwYrP1L/SD7/ufxaTKQZczThrzBVq5Y3GsDQ7M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OG79CtLv; arc=pass smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VwTrq+Uj"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cca0c5799eso13936025ad.0
-        for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 17:53:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785545600; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OG79CtLv"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c167aa9500dso208126666b.3
+        for <linux-sound@vger.kernel.org>; Fri, 31 Jul 2026 17:57:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785545851; cv=none;
         d=google.com; s=arc-20260327;
-        b=PIngIYjyB6Zk3o9L3Aou1QSJjsGmYazYO0J5YSzIMZrtju44cgpsLD1wsi+1Jawwfx
-         dtuBH0cCovX3PWPc2UZU21Oj8Xg/JVyDfl53zq+wBfA5yevN44DbAbYnfxacY2YDjC4b
-         7IIBD48CrV0ZKW7Sa4Sf2GZ4jzBRwBE1sBEcf4pI6BRzKDitJRj2bWOeZ9hJmjachSeW
-         g73ze6JQiMGlBXWefyhB2dENlv1J/SIP+x9cvWJ3yMRJigMgVSP9q9tnjiqvK0MPmur2
-         afQc8wEoF5UJL3AugLXHKQMA0HXWIqjCqeLDQwYR3C/xt+EJerwUZeCQX5ngiigF4COx
-         7jFA==
+        b=r20XIcMqjGh9qcvdNl+EWhfkXzXwbysI6B44td6DA07TJVPBPQP9GWk8NeaZOEDwI6
+         iEUfOePcWeoLkv1mM2w4Ss/W8uBO8VqHlugUVPe0RfhiHPku/IonzTgHumpteg3bDskE
+         kLrED9vhxzqjheraQV9WpvajEDXnV6aW1HzBde+msOKqggQZSiiXHaIzTGvA/EzVR2FI
+         vWzRihdvYKqmHj5Q/1B6Eu7wAgDnqMHgWz8hX+6CwFWL7N7OS2pgG6JuQWsFOdpVihOx
+         Etiuwv8DiQrbCzvUDE1m0Cg4zsVtV9BtWIkH7fw3f92gkU8JrHc1nHyhSIXV44/ulWAp
+         1iPw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=9EbJUymF7+UOw1oFRaGsp9zLy3iD3uXFjgMX3OKjlgg=;
-        fh=YG+je7lX6aKoMFwFX6Uh9R4pwFZgGffjwZhSBEJtCYI=;
-        b=OYuLfhhWb/pSZ7kqdl/Wc3CUAp2hOUjVSFxWGKpDxZFPCauP30kusd0sP9eQk/Npax
-         Fz3mdiboaZ4K0v6//78OR4YZXQPe4zVqcem4h3sa/t/tAsaZmSqnZlu3GagENLfKJpvu
-         eCnQAiszJaeXI9D1lNodgHSvJyRtg+whpEB7SWto09C8LflLuaTE6E5RqGKuqNDrfsm/
-         tmGAuY73v6C4qAufZFBh/449wb7tZxAGj4CMTrbGfNS8xxQV0HT6gMk3G3KJj53DnpYn
-         F03r0MxmLp87ALfGkAdGrAq36+V+1P+XpOxWwg1eEqbuLX4OvFGinyx2LhUq0OBhjMq9
-         unbw==;
+        bh=IHweUxDnEngruqjGLe4YpsaI9l8qQnUX+kb5iT7UgM4=;
+        fh=ESdjAOdIfOEnm9PpyOIzEvSkCL31yhBx8UdaJj8cfLA=;
+        b=Au2dOEp2nqNzpTXF0MC7Szn1Co/kNB9ThzqA0OEjMpPohzK/kJiWAgV9rEU3XULvn9
+         zC5XFa7BdqqXz+ACf6asCKqTgHoTv8uWbVa4QCvOLM2+syLAbmxnFbPOIFvcOgZZyIBP
+         P0+oMAQ135GmSiQF2P7+lz2O5Mwy101uwuTHUIWUoqnmizZ1iTaaY+6SzDyYV5gbJpKO
+         DnMp108+LaHY3RnkNGTjrJ9aHuO6b0rQP5nd1tMvYOnZKK1N6MC5iwy3GXs4EklM3Trb
+         KS/IxXMD8kkEhjNJJHsMlzAGr64nQBrFKa6YYWQQWK+hjAA6SpIjBJ/xSuLfbip5/sTD
+         ms4Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785545600; x=1786150400; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785545851; x=1786150651; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9EbJUymF7+UOw1oFRaGsp9zLy3iD3uXFjgMX3OKjlgg=;
-        b=VwTrq+Uj7gcyFQu7TTFyCCQbn9pROiOS1jSAEyPZeOrZgT0q20qFnMAYYYEEdR/aZJ
-         QbAlW0V4+kjzyLTCJpOccJMOGMDhjcLR+L7/XQb1K2uhs9KYSX+AJ2nkosdOSfTtRxAy
-         vEkoXGa8Jclb4lrmu/BbyZPLwdx7EZ2zDsBjqs7x2CKTX3wCnPJpyeyo7wexLSENSPGG
-         NnJWCuLcQpZ2/tOlgLvJhlutvWvgjCzW0mbna06pcH3qRgAXF5FLeue10MNX/nverAi4
-         pKCy2BetY6tuBsgyEvA+QaPgv5shzk7UybtZqHhE48DKdSivlk4l+4OntQD+jBV9vfgI
-         b7eA==
+        bh=IHweUxDnEngruqjGLe4YpsaI9l8qQnUX+kb5iT7UgM4=;
+        b=OG79CtLvTsd9kaagJMbxh1ypR9pYeqtjHrDF2dA3iEWX3Uy6mDYkvUv0+OzuZaPFvH
+         Q7TN+rhjutt0PZ9fWgUNhS+Eh0EMdt/p4VCRXuCgtMTUd7HoRquww81m1NDpA47i9iEB
+         xSWs3timrHpBALT5r/KarFQ29N8c5rgNQlEIrgBfgkE5eTk8s37wATUWRbLVOpZ7yxPt
+         K+KfeLPMQcN/5forqk17xhpECp5FxOUJldlzE8nL32Qo1pD6I756c6Eoo7iEiodAHBfm
+         +rUNq9MDR3XzPlBWmwPWOQkDDaGNfVOaRo4gR1u0vZWclwncD6b5ybZt+HO6MJNsOyGR
+         dFbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785545600; x=1786150400;
+        d=1e100.net; s=20251104; t=1785545851; x=1786150651;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=9EbJUymF7+UOw1oFRaGsp9zLy3iD3uXFjgMX3OKjlgg=;
-        b=OWkm00wzooTYmGvgI25y8tYjNTMTINk9PXyxazHE6nKMVORge7jqvrHTXNHEEa8qfF
-         ttTkZH4n1t40+KmprKiFvSM+dUCMKWblVA25azNQZ2RNyasCDNGjPC9eJZUHfJbUXIJ+
-         G2Q2xRPXWzhqNyHQsd5ajLUSSbCFjNhuPdX0AWfbltSX99igzhsGLN1Nng3j8u2uamZl
-         g2GUGXMizpH6YADWQCABB5ve/aNwD1kYKknWZTR/g5b4YUmJSnTsWZ2sO23zEKXuDmUG
-         y9XrddBOvlhCZbeqxmN9ro+xnKTS/RrgWcxU43FyNHC72dPwN7pX4Ki2E5DYH91FsdeZ
-         WQzA==
-X-Forwarded-Encrypted: i=1; AHgh+RqBfEjWr0fqQqaNbKJkoWL1e7tqnORG8Ohc+m/L1JkMt24f+VHytqc4yWalGzvcMR4RQFFgrHyerHJGjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrKxi1rilCXUEyeo9O2kYYq6FEO5xQYljzbSuM1QBV1NcaRIMx
-	cRvSE28cpikcE/DnWMaL4gqchPgiuhbzTMfG5oG6JkO9F4BSCdS6frO+/CRblsfPfvupgih6t+h
-	couUpUgy5pfTxPA6AwIKzPzbSbawlBAU=
-X-Gm-Gg: AR+sD13AGAUUBhZyguFApnQnV5Dif8k10mQQ+Ubn50OhuD9AK/tbv0fTTD6RFFoRDei
-	IcFAG0hm0FlHN+hYcvw059SLNsas6c9EGvN0fk7EtBLo1nUjJXGYN1Jc9geiE1OvpcFC/MV6PGz
-	FkDOiA+T6zHCkqOUSXA6sgAdIqW6WnKGg0qM5diNlDbRo2+KldBus6T6B5HGADjT1FeMIrmT8Wp
-	4Dvcmyeefg8CnhtwwuPA2r22uXeAr6aG+q5ic/GUiqqIdq2cM7OrIzTGS5hohOiuG+e4vDL9rmR
-	m5la89EkPmp+lfWKVuaSW7k8A9A0wun5s6jkw58orSLyzd1Uo5dDxLxUfTGboDzGxA9MaqjfJKK
-	lyimmZAz/uPGkB3JTDm7JNh/9KHXd/zKjK+7EVEjCgF54WVibQbTMKCI9NJGkPm5J+P3Hdhjj12
-	BeboKdcZ7deFB2oio=
-X-Received: by 2002:a17:902:d541:b0:2c9:97a8:aff1 with SMTP id
- d9443c01a7336-2d0523f6632mr17715015ad.42.1785545600095; Fri, 31 Jul 2026
- 17:53:20 -0700 (PDT)
+        bh=IHweUxDnEngruqjGLe4YpsaI9l8qQnUX+kb5iT7UgM4=;
+        b=igTalONNqgAEXI7b5M2MU+lTkKDsaTH1p12KQ78CpR/scV1AEThl1f0aI5/GX+AqA1
+         dqn5hid2agAm0Supb7/xRAL1krfbPqVoBkfxr6Pa54fGTYeizSVKHY/LSIlGkdMSgnQQ
+         uyhRSVu1iP2vu9QV625XIHUVXk0xKK8IEJ/mysyRafBtSmRuNFeFEtpwQcX8W9QDGIuJ
+         hjxIB06VHghHchLBIO0+JK+YYtW0F/5sHuhtgaweNWcR8a4DykNjUOCdgyVTIf36H4bn
+         giaC9mDQG6/IuG0RFaSP+a5FF9tLd22aM97dWyHWIaPvbEZH+Sz6kuTK4p6P/8L4URLe
+         PLBg==
+X-Forwarded-Encrypted: i=1; AHgh+RphG+2hI5qnT7xhDqciYwUq2kyf3G8gI7455NHTXPZA0eDjenvSaOzkAz+q+kJn+nKi/v0+rwG3aYsa3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm3Tws1TroEb2BW/VQwDbI6FPNSL8mCJ4q66bFcRdQxIVAr3u/
+	iYlbPJfLfLtVRmAc01hDCgj84fgods21mynYuTEwiuV0Yby+ZfusBn7qWMgchHW8E5YQi8tzx60
+	e1nPpF4taDXL2O1LoopFdIrlFseYYS2w=
+X-Gm-Gg: AR+sD13vV5iBaDNPjlMpi1Hvqp+KPKHqieWiw9SJXLTtm177beFYcTCZe9YXMD5RKCh
+	bQzaB7Ii3jnV/d0ApdNSsxmyRhrL23yRSSWobiv+4kGJH8GAt2luHUysfHsW10ZQBBybBDB+vwO
+	RbFttR4JEmiM8FgJhuqTA4/GS8+fzbO/ITsLkxtbWpHEfCIE8B4aJkSgS9kM2SgoKH7IpL8cV4y
+	1gWSK68FRv943gkeMS0qeU221pKbOGuAEj5yRBL5MyAi5kJrX5xVeQYYAD3a3h5IYGfXFDY9wxR
+	zoi3r4/LupDUmv1N61j3cYWKek0QWmNf1FM6OhIo3e1wAZy54HtCDn4Di5udz620J2BPXeIO8TY
+	7EKAisWyVDOh+3OBW2agtt7BjEVreqQZw9mt6QbcBgOIIlExUhss95i2vG9Ff3+KVXQjuCaUHr0
+	nNdI1GoeVidhcKAHbdv+dhpTiyCdfOnWnQgxfnxg==
+X-Received: by 2002:a17:906:7947:b0:c1a:5d49:f99d with SMTP id
+ a640c23a62f3a-c1fe7ecaf36mr97140766b.7.1785545850680; Fri, 31 Jul 2026
+ 17:57:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260609013107.5995-1-phucduc.bui@gmail.com> <d5ebcd52-580b-40bc-81dc-0a9b403e8392@sirena.org.uk>
-In-Reply-To: <d5ebcd52-580b-40bc-81dc-0a9b403e8392@sirena.org.uk>
+References: <20260731030648.8706-1-phucduc.bui@gmail.com> <20260731030648.8706-12-phucduc.bui@gmail.com>
+ <ee9bddef-0918-4036-9c8e-8b0d4af7f5bd@sirena.org.uk>
+In-Reply-To: <ee9bddef-0918-4036-9c8e-8b0d4af7f5bd@sirena.org.uk>
 From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Sat, 1 Aug 2026 07:53:09 +0700
-X-Gm-Features: AUfX_mwpBiIC-LAm7DPPHKlIG_sYNWPv02mGlSPv-uPLw52OHrWaev-lmAvMvpU
-Message-ID: <CAABR9nEKCtmkt1H+qe5UAf42MncOpEqX+pZ-AySTSBQ5Q3URTg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] ASoC: renesas: fsi: Fix system hang by adding
- SPU clock
+Date: Sat, 1 Aug 2026 07:57:17 +0700
+X-Gm-Features: AUfX_mypbAhFBcdwt9PJ9n9jAqYAyvhlmQ7Q5VvvhQOXU-dnCttanK2OffHgnDs
+Message-ID: <CAABR9nGQvyeLsG-u3o6dH_R68SUvZMAX1Avsg50ySEd-5KGXAQ@mail.gmail.com>
+Subject: Re: [PATCH v3 11/26] ASoC: codecs: wcd-mbhc: Use guard() for mutex locks
 To: Mark Brown <broonie@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, Shenghao Ding <shenghao-ding@ti.com>, 
+	Kevin Lu <kevin-lu@ti.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Linus Walleij <linusw@kernel.org>, 
+	u.kleine-koenig@baylibre.com, Thorsten Blum <thorsten.blum@linux.dev>, 
+	Kees Cook <kees@kernel.org>, Chen Ni <nichen@iscas.ac.cn>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Mark,
 
-> This doesn't apply against current code, please check and resend.
+Thank you for your review.
 
-Oh, I think I already sent a v6,
+> This replacing dropping a lock with taking a lock which will both take
+> the lock twice and deadlock.
 
-https://lore.kernel.org/all/20260609113836.45079-1-phucduc.bui@gmail.com/
-
-and most of the series has already been applied for 7.2:
-
-[01/11] ASoC: dt-bindings: renesas,fsi: add support multiple clocks
-        https://git.kernel.org/broonie/sound/c/955fecff55c3
-[03/11] ASoC: renesas: fsi: Fix trigger stop ordering
-        https://git.kernel.org/broonie/sound/c/859efe92b0bc
-[04/11] ASoC: renesas: fsi: Move fsi_stream_is_working()
-        https://git.kernel.org/broonie/sound/c/c9e05e2fa089
-[05/11] ASoC: renesas: fsi: Fix register access from in-flight IRQ
-after shutdown
-        https://git.kernel.org/broonie/sound/c/e813df3ef529
-[06/11] ASoC: renesas: fsi: Move fsi_clk_init()
-        https://git.kernel.org/broonie/sound/c/cfa1466e6dfd
-[07/11] ASoC: renesas: fsi: Use devm_clk_get_optional() for optional clocks
-        https://git.kernel.org/broonie/sound/c/5fb4660ce59b
-[08/11] ASoC: renesas: fsi: refactor clock initialization
-        https://git.kernel.org/broonie/sound/c/2330e0b49f14
-[09/11] ASoC: renesas: fsi: Add SPU clock support
-        https://git.kernel.org/broonie/sound/c/39033b278f9c
-[10/11] ASoC: renesas: fsi: add fsi_clk_prepare/unprepare()
-        https://git.kernel.org/broonie/sound/c/05e1ebfeb726
-[11/11] ASoC: renesas: fsi: Add SPU clock control in hw_startup/shutdown
-        https://git.kernel.org/broonie/sound/c/26deeee42f4f
-
-Only patch 2 is still pending, and Geert is planning to apply it for 7.3.
-Could you please check again?
+Sorry about the mistake. I'll fix it and send a new revision.
 
 Best regards,
 Phuc
