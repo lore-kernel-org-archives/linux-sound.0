@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FAC221F2F;
-	Sat,  1 Aug 2026 00:05:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816E329408;
+	Sat,  1 Aug 2026 00:07:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785542721; cv=none; b=iChnadun6ZgqOpGH+C9oJxTg8YPUPQLusZ47VQYnKa3qtbaC+pVvWzv9IFn27rx1c1XYQSZl9zRpwNFxIun7jVaNL3mBUHWdjgRTqCwisQ/8sxVYgFSfx4ZXZc4p4RCS2DSRU4R+AbQtpoeLDvA0612W8z+s4zEH9fFBOujvVYk=
+	t=1785542852; cv=none; b=XC9iTLZCDLf4sQ8qmeppLfCowaiOGuQZdSpbBjH/t2di3xXG3u0J08gGiijrIyUBVW4MmwFrMgj5ZgyjVwc3G3xnPP+mGuEYHFVOsCjmc3tuvImlUn1rfcUeVaVzNAXrlpLglj/Us8ZCgIo6kCVOPFmybISgWOSkRVlBHOZZk5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785542721; c=relaxed/simple;
-	bh=dmqkXcFu1oQ4/zFvKbg+j72YjaeaqfVkH0vGBu/4jsI=;
+	s=arc-20240116; t=1785542852; c=relaxed/simple;
+	bh=dtBLcvebt7+AMSIrmX/C9+e1pmg8hKfA+BeXh0Esni4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sAxWlKhrdJsJWP6LeQNitkrtJjQT47o2hl9/6xxg/3xTgW9xgLMKcYyHLko1e8rHR7gnKAgZPCYTpKsBWMzNr4xnr1wH2Alt0b0lfbVYnP3Skv2+0+e3TaHVYhZBiqxXYEdwwYEv/8z0fyTmgzZPILLxGR6dWIe3650gmI9b0qU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jfKd4LfS; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=McSpXpL0ZQSGygib77E/azGdsYBLw6WzmZ1zkHLXwDKU/YIZP1isk6ueXYs+pYbDaSBOQgTRE0nwwwZLYWeVZsQEsAbFKqcy86Pm0TtZYZTR+Dm39enNXTGlgk0Kt2OU9nXCvrdvwTCie9Xl8I46nbdLe+j+90VD7OeOxWVsOyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NaddJwsa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jfKd4LfS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 341641F00AC4;
-	Sat,  1 Aug 2026 00:05:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NaddJwsa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92F221F00AC4;
+	Sat,  1 Aug 2026 00:07:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785542720;
-	bh=knOgyuuxNshljdeTzMnmFZIQCsHXGrVxEQ+afmQqD6k=;
+	s=k20260515; t=1785542851;
+	bh=dtBLcvebt7+AMSIrmX/C9+e1pmg8hKfA+BeXh0Esni4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jfKd4LfSU38kImp0obzSsw4GkY4CE8G2Ni2T0DE3LnDCeeAucjC6jiO1FS4/9SzCQ
-	 rFECLYnyMK6sUeI/lvJIBm7udJD+4EEp5pmJBXMQ3mEyGDySA9SEN74RbdsbAta+yk
-	 9Rig8cc4DL/eH0JHm1XozmpXNdpLztlY2CzgeWuy0/7O9igtZk1DtW0mv9FybP+kNg
-	 goVwA5uT4XIhDekjPBvUQtRcXdj3AHrM45kZvngE2gMniRRhY3yV6uwirCSyeAEA7F
-	 +KWHqZLAkIV+4jRVXeHZ0OrHanj1NlHErfj/mYHrKb+oDDzcwcVDD/f59c1ooTRIqm
-	 OvW6FqBXGmmSg==
-Date: Sat, 1 Aug 2026 01:05:15 +0100
+	b=NaddJwsaCaNclRKwsA5xHHSv0rJWpcI2XL+fqA+hCwfgFUPD+zrv03rDkjULv6e0x
+	 GJ3pWWcJ8RcUpOucX1MJqQhSyK5/WbWQme4PeyruF4TM7PvZkUkmsQAJxBFXr9lDEi
+	 jT0lb9d5VD3H3Hl4GjOHLOngklqN5llAF1bWlRCoZyuK4hDexdCB8w0w56Y74IVUCe
+	 /iymo465PYFgzpHycDzQ78ZS4C3ZDzCn5V7OFNibzYqaseESsbQiRLZCOYaJmhoAFD
+	 8g8wFcUN9IjxgbBx5udbggo1IRXcNH1J0wd/uMQKKSRzgl03so2DTZ4pYts/xMdHLk
+	 NeopselyNGl6w==
+Date: Sat, 1 Aug 2026 01:07:26 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
+To: phucduc.bui@gmail.com
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/7] ASoC: qcom: add AudioReach TDM backend support
-Message-ID: <275c15b9-8a46-4e55-aff4-9e0aeb01b730@sirena.org.uk>
-References: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
+Subject: Re: [PATCH v5 00/11] ASoC: renesas: fsi: Fix system hang by adding
+ SPU clock
+Message-ID: <d5ebcd52-580b-40bc-81dc-0a9b403e8392@sirena.org.uk>
+References: <20260609013107.5995-1-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,46 +49,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8yEe3BsDYJYQgFpx"
+	protocol="application/pgp-signature"; boundary="kun40GI+jRDZGgy7"
 Content-Disposition: inline
-In-Reply-To: <20260712134110.3306763-1-prasad.kumpatla@oss.qualcomm.com>
+In-Reply-To: <20260609013107.5995-1-phucduc.bui@gmail.com>
 X-Cookie: No shirt, no shoes, no service.
 
 
---8yEe3BsDYJYQgFpx
+--kun40GI+jRDZGgy7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jul 12, 2026 at 07:11:03PM +0530, Prasad Kumpatla wrote:
-> Add AudioReach support for LPASS Audio IF based TDM backends and wire it
-> up for the sc8280xp machine driver.
+On Tue, Jun 09, 2026 at 08:30:56AM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>=20
+> Hi all,
+>=20
+> The FSI on r8a7740 requires the SPU clock to be enabled before accessing
+> its internal registers. Without it, register accesses may hang the system
+> even when the FSI functional clock is enabled.
 
-> This series depends on:
-> 	- https://lore.kernel.org/all/20260711125740.3083236-1-mohammad.rafi.shaik@oss.qualcomm.com/
+This doesn't apply against current code, please check and resend.
 
-Please resend this once there are enough dependencies in to allow it to
-be applied.
-
-Please include human readable descriptions of things like commits and
-issues being discussed in e-mail in your mails, this makes them much
-easier for humans to read especially when they have no internet access.
-I do frequently catch up on my mail on flights or while otherwise
-travelling so this is even more pressing for me than just being about
-making things a bit easier to read.
-
---8yEe3BsDYJYQgFpx
+--kun40GI+jRDZGgy7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptODoACgkQJNaLcl1U
-h9A7zgf/QUdlzqpziYKVotZ0qJvYdkQOkEKLCckXltxjWlAXNU6G93MkeiIGiIro
-1jq6JHyX5OfzZa4XnGyn7V5OZ27Q36IQ+iR5QwWJ1qbvvzvHVbfKYXEEACvI1jpZ
-x8ZsNKlt5u/JEscUAI8Fr1xt/bu3JypFQ9Cyiwpw09pERizkL0EfxpyepAhQVFY0
-xfwKGuMW5hPdCHK3K27RUZHYnSOc1WDBoO4rPbPwa7n0u5sQwg96gKJswICDW+zh
-fVqudlhv2F6nYe6He5WsbKKIKwHohyCCNIUU2oMQM08q8TUr9MXRnbZbxbC2rgLK
-02oBeLNVv/wHHYbgqSssEds9YLvYLQ==
-=QFzh
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmptOL0ACgkQJNaLcl1U
+h9D9Bgf+LSzbL0bMrGV4kHVEn7DlDlKRGVm+E99HOeaOP8wfSRd1NLvgG84P+wca
+WDR7Bu5czBeeos2M1XTOOVmhOZ0J58umVudaPLH+XsdHymE7nDVlIfJ9s1GQlKxg
+RTY61Yzc1oVGKDtrbn7+wKYFhUIMcysqMk1CIdtM/pneu+mJRDDzBpgua/mAp0+5
+3jRpRiesXcWBtE9sPik6vZvFzXsHBeO93CsWs/w5G20bWDuI2n/pmlDKVBcGO7Sx
+mIgl2knudaJI6EytkurgUq2lk/9MvzYl7gSCKipoJwUHi/KRbu3O1qBXal5s0CFs
+l1bwfytVWUVxEb8x7E94/N6FcVYRxw==
+=Do9N
 -----END PGP SIGNATURE-----
 
---8yEe3BsDYJYQgFpx--
+--kun40GI+jRDZGgy7--
