@@ -1,46 +1,78 @@
-Received: from mx-out-01.sud-ouest2.org (mx-out-01.sud-ouest2.org [87.98.220.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0562D5C68;
-	Sun,  2 Aug 2026 19:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.98.220.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1D633ADA7
+	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 20:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785700631; cv=none; b=B8CH+XdRe9qgSDBATHmHGdoGm7Swcp54lawG2EPXtjW58mGgpalyU6RU34N9vvvYJjzBQ7P9UhIypequ8LRuv5kMCrBwrGagj8fYl65+5PTb4SoPmOsqnFsw5KA6U/wILs+SzK8g9OXtLb6fSxP+itCSRf1y4vv5mVuPCemwxPs=
+	t=1785703776; cv=none; b=n/XFNeXVHTaLAcbpi8mB9tnYMwsYdbG+NeeIhWmsKagisDOcbcIhn5bpiFSSbpJb6FLvIJEroUV5elkcuaij0rQKjdfdUPFf4+qBh42ZYWsMlHvXA2CRl4H8QUk0BAb1kavr6xXw1sOZjgfiQ3p7luY/RpeZy4+dRpyVGq73jsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785700631; c=relaxed/simple;
-	bh=ghKkXp5tf0l1qY3Hy0loXlmXI8CZXJVXMIkB1oasIgw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CJTLM3vByu3QsVHcXdqxzqsgqYNdBFy3j4N56baTu4xSdT6WkSbNR0sa34SbNfXhijInghdfOv57R4OVN/gXanXMJZVN4z70/8eoExdSa9lRBiUemH7pkgyLBnLggpO0BBof3Q2LO5w+fmCb9rFbrK5BUT+bjUTuvnJxDykOe5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jeremiez.net; spf=pass smtp.mailfrom=jeremiez.net; dkim=pass (2048-bit key) header.d=jeremiez.net header.i=@jeremiez.net header.b=ZuzVs/NO; arc=none smtp.client-ip=87.98.220.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jeremiez.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jeremiez.net
+	s=arc-20240116; t=1785703776; c=relaxed/simple;
+	bh=SIU3uxg+81Qix19XaEAi511t2VV4O46Np3YYRpFJ8YU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TNxChv18r2Leo3dqttLuwg11sme0vZzgMDxb7aEwaeyMbHnTHKxIyitj77ey1Rkn4N9fKf6/eLuFpt7YNZu8K4LvFgGEZ9BvYTCx1sZ42j9qOe0qY3HW6PY/V/w4x0FqKuVWUBkllsS4eBdGR8knmrpqq2FW6nRe8qpVDMZksO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LU5KLKjD; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jeremiez.net header.i=@jeremiez.net header.b="ZuzVs/NO"
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx-out-01.sud-ouest2.org 6D26629F4DC
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=jeremiez.net; s=dkim;
-	t=1785700118; bh=ghKkXp5tf0l1qY3Hy0loXlmXI8CZXJVXMIkB1oasIgw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZuzVs/NOJN73yBqqa1WGvwW8Zf+nTwCLeysUushNyoCcfcKVd+VuE1se3Ua5pfVLl
-	 WBRg2/7E2u5rtNHP+PerShJPTD14qLaKXuLjMM0Loob4vYQZE6LK7KBW0WGFNT0s9k
-	 2IXSoNcsfbLrma8iukcrqp6nwIpLfO3LvtKKwXyH8mmnm4lZb6D4md90dR2lNHBWi7
-	 GHw7tw/X/4q91+AUm7dd8BOO9sCfKVowWeP5hhuSsB5VkDRPCHeazdHcVRtUIL6+xY
-	 Ctli1E3siT2bOtEepdjNo955qxkSOUHnZ5h56vu8fwA5T1Rw5xkDD4A3dqL2YzNTkk
-	 Z4z/AD7dAfAqw==
-Received: by mx-out-01.sud-ouest2.org (Postfix, from userid 112)
-	id 6D26629F4DC; Sun,  2 Aug 2026 21:48:38 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.sud-ouest2.org (Postfix) with ESMTP id CB695190088;
-	Sun,  2 Aug 2026 21:48:37 +0200 (CEST)
-Received: from mail.sud-ouest2.org ([127.0.0.1])
-	by localhost (mail.sud-ouest2.org [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id vpjfVcZHVFWn; Sun,  2 Aug 2026 21:48:36 +0200 (CEST)
-From: Jeremie Pardou <jrmi@jeremiez.net>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Enable jack detection on Minisforum AI X1 Pro
-Date: Sun,  2 Aug 2026 21:48:32 +0200
-Message-ID: <20260802194832.49393-1-jrmi@jeremiez.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LU5KLKjD"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47fd4531020so1524670f8f.3
+        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 13:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785703771; x=1786308571; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1yt9KqOK03lS3Tt7yaRxdMddOAz2E77gX/5PtdarMJk=;
+        b=LU5KLKjDXjSwSFcBHaAUa0/mWhswICbjyDadYfHIjJIFT2JjxyPii2DkKSuUEir2zt
+         6kgRSwZ4mmkcS2tx90R4sRiHiggwsChRqsPmUNnn3YDhngL5CBod7HAXchjvZ869BD1M
+         iYgYctagLf++02+68J7y80IqHYwxCSEyiIbU6Ewqzt7IJqwLpA5VkJEV4sbLRWvdGg5+
+         pPlQt+7dRXid+lMkmXeo6OVvFDorcJ+DngqzpO5/6ozvwYYHX6fneXFPOSfD2HCFtr1U
+         XPmRzhluYbmJ88gwPjpeZOijeQQdEKPxerrbp3vREHaIhfc6e3UIO9ukUsoI+TF2oZS/
+         ARnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785703771; x=1786308571;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1yt9KqOK03lS3Tt7yaRxdMddOAz2E77gX/5PtdarMJk=;
+        b=ZEQ9kVvMIs+pRDY7quJGizKPMIu+pnHr1QXWa8DmUykejz09+tlupcqi0G0T+ijGJk
+         U6uxYamzDyXQcuCkgQMdnSLgxd7bE9vEYL1T8OPlh7gSwjXQk/0GHA5vnegmGiBmPtOi
+         P+Ge/cFXJg2fcCDwNyamFfhs49uwC1p1BakeB6rMQqPVmrsNy/CKiUbT2lyBfBMUhnzb
+         qEriwRci/1NWiHY4wUNqwJl16ocy3E2x1zXkOPvYoN85eJYRGu/uPwR+mIFhb6vlxYfn
+         COgWXpDNH7yymmCGe6vDKjdo+k3d6POLCKHQnoBk3SqipqOl5K9fg5m8KY54Um/qNwzT
+         Uwiw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7bQsVa+iAM6e6yKimMoIhW0oG62Y++6yckOIbptST3sGLpeRxRsxmkqSfzanm/+4CJ6tSxghamZ9NeQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAaDmEcR/sVGLXq5nSrNDc/UW/dD4REr3mjkAOIJhp+kfsMjHp
+	PToEKdOTpjlIPONbltAuO3xPFTJrF0FerLASWe/tMdasguyQZW8dHdKH
+X-Gm-Gg: AR+sD12LZdydZjuCCaX65Y94+fYSQimWxwn3Pwf0Kx4+Z52H6l6S85JFcptrppiijrT
+	d1yeAqADXINKIofo9t/VxiQy725Rm3SvPGzQ3X5IOMu4kTlntVj4rwd9JFX6D8DEgwJr7faS1kk
+	h7AB47H49wtfusYn8BNHtDcNm1lo+/G7o7Tg/Q2xwuBMjyv1ROc5xZIH4a5/yYOOpppcsC+NBCy
+	9ty7+kd2Y1km7CrbEi11pvJ1EMShxcNzEo/5UBgccB46MUNGqF4B7Muc73N/UI1xHQoW3bpUwt6
+	3T4mi1gRdnb9CUjvRhOM233frtnQDwjUXhxIOIqVGmKnGaAka+AlE9vhadU6KFTYdl1NnVRh6Jg
+	8ELCpLRll2pQBn4Zh+/twRlZ4bTq4grsFXrwVSIGXV2Yqa1hWR6ECuq4dc+Qx3AampdEtWqhyvE
+	mqbVrWFf3HR2OrOSuehuMjVnS/nn9s+e9IqdgRx3CDox/eKI/T/rsejg/WgZFmY0As/n2Yd6MGH
+	SXXopmlip5II8EY8XTdiNCvNi+5ga/xd5SnmO+lgAsM5J1j4ukuAbccUKudXbI=
+X-Received: by 2002:a05:6000:46cf:b0:47f:973b:71c8 with SMTP id ffacd0b85a97d-47fd72b086cmr11898803f8f.21.1785703771486;
+        Sun, 02 Aug 2026 13:49:31 -0700 (PDT)
+Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd458adc9sm28066662f8f.27.2026.08.02.13.49.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 13:49:31 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: ckeepax@opensource.cirrus.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	arnd@arndb.de,
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH] ALSA: ASoC: fix unmet dependency for SND_SOC_DB1200
+Date: Sun,  2 Aug 2026 21:49:28 +0100
+Message-ID: <20260802204928.608173-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,68 +81,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The firmware of the Minisforum AI X1 Pro leaves the headphone jack detector
-reset bit asserted on its ALC245 codec. As a result, pin sense on NID 0x21
-always reports the jack as absent.
+SND_SOC_DB1200 selects SND_SOC_WM8731_I2C without ensuring its
+dependency, I2C is enabled. This causes an unmet dependency when
+SND_SOC_DB1200 is enabled without I2C.
 
-Clear only the Reset HP JD bit during codec initialization. Preserve the
-remaining coefficient bits. This makes pin sense and the generic HDA
-auto-mute logic work normally. Apply the fixup at INIT to also reapply the
-setting after codec reinitialization and resume.
+Let's add a dependency on I2C, as similar options in this subsystem do.
 
-Tested on a Minisforum AI X1 Pro with codec 0x10ec0245 and subsystem
-0x1f4cb020 using Ubuntu 26.04 kernel 7.0.0-28-generic.
+This unmet dependency was found by kconfirm, a static analysis tool for
+Kconfig.
 
-Signed-off-by: Jeremie Pardou <jrmi@jeremiez.net>
+Fixes: 9dc15f81baf2 ("ASoC: wm8731: Factor out the I2C and SPI bus code into separate modules")
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ sound/soc/au1x/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 48a2e7f2e..e21cd8b2b 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -1392,6 +1392,15 @@ static void alc245_fixup_hp_gpio_led(struct hda_codec *codec,
- 	alc_fixup_hp_gpio_led(codec, action, 0, 0x04);
- }
+diff --git a/sound/soc/au1x/Kconfig b/sound/soc/au1x/Kconfig
+index a7630897bc0b..e8986da24d64 100644
+--- a/sound/soc/au1x/Kconfig
++++ b/sound/soc/au1x/Kconfig
+@@ -55,6 +55,7 @@ config SND_SOC_DB1000
  
-+static void alc245_fixup_minisforum_jack_detect(struct hda_codec *codec,
-+						const struct hda_fixup *fix,
-+						int action)
-+{
-+	if (action == HDA_FIXUP_ACT_INIT)
-+		/* Clear Reset HP JD while preserving the other coefficient bits. */
-+		alc_update_coef_idx(codec, 0x4a, BIT(15), 0);
-+}
-+
- /* turn on/off mic-mute LED per capture hook via VREF change */
- static int vref_micmute_led_set(struct led_classdev *led_cdev,
- 				enum led_brightness brightness)
-@@ -4197,6 +4206,7 @@ enum {
- 	ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318,
- 	ALC256_FIXUP_CHROME_BOOK,
- 	ALC245_FIXUP_CLEVO_NOISY_MIC,
-+	ALC245_FIXUP_MINISFORUM_JACK_DETECT,
- 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
- 	ALC233_FIXUP_MEDION_MTL_SPK,
- 	ALC233_FIXUP_STARLABS_STARFIGHTER,
-@@ -6729,6 +6739,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
- 	},
-+	[ALC245_FIXUP_MINISFORUM_JACK_DETECT] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc245_fixup_minisforum_jack_detect,
-+	},
- 	[ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -8067,6 +8081,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1e50, 0x7038, "Positivo DN140", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1ee7, 0x2081, "HONOR MRB-XXX M1020", ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO),
-+	SND_PCI_QUIRK(0x1f4c, 0xb020, "Minisforum AI X1 Pro",
-+		      ALC245_FIXUP_MINISFORUM_JACK_DETECT),
- 	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
- 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ config SND_SOC_DB1200
+ 	tristate "DB1200/DB1300/DB1550 Audio support"
++	depends on I2C
+ 	depends on SND_SOC_AU1XPSC
+ 	select SND_SOC_AU1XPSC_AC97
+ 	select SND_SOC_AC97_CODEC
+-- 
+2.55.0
+
