@@ -1,209 +1,163 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600C93C3F52
-	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 15:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785686284; cv=none; b=qb++7UiA6ZY5KfwNRi0hNBF+E8jl+46pLMIMIllnl6iyVw+95FJRawhBVnldTTDP/jHCZ1LR2G5FmFLIKGM7SC/+0yzoRNhhxfUheUz9hY0kmvBlS6MdF/yDBPFhtEgg23fzC4htVUpbQKulT9elWDWEgAN3oyG3GkpglWGyqqA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785686284; c=relaxed/simple;
-	bh=80w1bxo8HofkFPGSDfAoE3yryphRApzOjIm1Zbovhls=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O34nmfB2t3sM+wZ6DCJeqOm3N2+8OiXKMJtX9lYC58E9V3Wg6R9KLDtRvnspI3Dy+NZmL8tLHx0F2wugjFqDNTfAc6FpQZe3O87Ar8t8wZ+on9JhuXJ9o/UjXP7qTGpRjwPywb4yzGqOrtBChrWMugOiQWvQ+D6xpvFxYiLmo0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernel.srl; spf=pass smtp.mailfrom=kernel.srl; dkim=pass (2048-bit key) header.d=kernel.srl header.i=@kernel.srl header.b=a9X1UVbV; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernel.srl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.srl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4E62E7657
+	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 17:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785690303; cv=pass; b=bnSSgE3FSvNrAStwBu192SYRq7MU4cEbkS4xfq8sM60ouhUr8XItQguySMDh+3SkJ5YcJljNBzE8wKQoONBiyfkuTO1eej3ZHB9kik4hoEHiApHiNZvFdl9sEHDtLsNqGi3nfZ+76ohBOA2HW1thVSUeMyD82aMIrdZ91KB4CO8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785690303; c=relaxed/simple;
+	bh=BgPCwKAUzTDerVq4uWfPtExzIIVJazRkSMk+aPiXeA0=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=ZxgY+zAxKDI7M4cGBr1CY2QIz7quCt1YxXXFIAQy0NLZLznDth6riLzJ1F6X/p5UPU6JGK+j/iHrvKLIbLjC+Q9rlfqp01v3OSx4aFZA+Wc27mdylZgSK/l2WCOB88OcfSATdTtAJohTj0FkYGP6UJvaCTciFbHOVF1ZsQGZ0HM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qcb6J3lT; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.srl header.i=@kernel.srl header.b="a9X1UVbV"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47de0093c42so1768722f8f.3
-        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 08:57:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qcb6J3lT"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c15bf5000so10680711cf.3
+        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 10:05:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785690301; cv=none;
+        d=google.com; s=arc-20260327;
+        b=h0a3LPN4JLNDpJifDD7Hgjd+zgQRf2rWkUZhZLwmDK6Asq6qGOLKMeJfRPZxBwkWXh
+         9W9NNcubhAGwHkNqJFK6Q02cQT7TgdIDewR+Ia6Gm7J8gDbdLn4pDOzi/LgI3jW13/UD
+         s2X3m/Jv7e4YWOVb1DB5a4j9O38w16WmQArOz7r2Z/ghs4f7YRKu5v9xtGyEb1n+zopC
+         Vp5v3+wndvqS9kt23AiM1f7i+Ziz1K33lCWjeYPhaIBZN86wYXjBeaSRVBvjlFGKiddk
+         ETrqjG7VtU9a2TrCkP/qbgS67oEmyvUKbsBfVmET8QtqBv83WKAq03SP9Fv9ThvMzjjF
+         JzdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date
+         :mime-version:from:dkim-signature;
+        bh=+da4BobdZx9vrCJR2X8ridQP5FKqasRzDK+ikQ6NAaM=;
+        fh=5TioDRFO7ovtfWveTjubbs0gggxuwh0JTadV9lo06bI=;
+        b=eyrBMCMfGvegvuQ5YyG1KsdNOHt10eRtlb9cQqlAf6869itsEtojXFaUXd6ooWwUGf
+         XNDQ/DMCaTUaiIFMzUgl1ukbb5lW7gADM3hj+9YLONsE9f29b+qS4PuIjCPYZtw+J0Fb
+         ZeAMt6fGpLkJBBXlSshRV0EWUCCfG9wxqaI5Y30Iz1x3a4buZ2LrQ8MiHkZeluod5fzb
+         YxPEMCZRXYbOF7+C5eq+jM6+BH7bhXvmC3KuKJa6EPUPapkcrNPutd8kEfeiP8elJ3+B
+         TlZSu2DodXJ+Zu/7F+o11v2enSVqyoL0toilEV/8qNYy/H8f1Ow9xeqLmskXY4PlJr1a
+         Q6GQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel.srl; s=google; t=1785686270; x=1786291070; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UVESwNZjyXM8r67+UALyxxpGt7Z0/q+uIrVNmZe3MzE=;
-        b=a9X1UVbVt67Y9Q5M1NJ9nTOCJyHF7uPZzrSmJv4jN/5dG2iDT8zcIIMRvMBs8VCcYi
-         mWe2LkCKgSyE2he4em54tCx8SkVOWnLxOObXYF5mY76BrwFLJ8Qt4vnYWfC2pvXHKpnb
-         y3wvD1LvXffof4o+QGmzk8haqYhmkLYsPYAf6yLSZBDmfyu4Z+BIqxD7PRpYo472I/xi
-         yxJ8P06S9h+E90Os4MHhZNAmQCjo2416FYENAcO5UCdnMATWVjlWFeNr8akSd6RRkgeY
-         6XHX+XK1Nvm8+hkbglI/FUTTD91kAWx2y6Mp085AGIlOQa5qGxwKc26nyJK8/a0gixuy
-         1Ovg==
+        d=gmail.com; s=20251104; t=1785690301; x=1786295101; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:mime-version:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+da4BobdZx9vrCJR2X8ridQP5FKqasRzDK+ikQ6NAaM=;
+        b=Qcb6J3lTW95zwlYYwL4H6ShOjFF2LcDyQhYPg8YHkY5T8WI7HQacu5pOjgYyDAh6Lf
+         D32WOazJqww+l/9Wp0p4W+didgkFnMlRrFyDYq61qE4vaJj+MMano4lKMuao5YqxDtKH
+         WUpGtzqwrJZzfz3SVA8mQOhl/6EE2NjrkqyOMULaYTJ7e2d+0+zR1lhGLXwZ56OLHQ2x
+         yAvHxTzsFj6zsZ03vyC5dV2bAPK9nNqdfLs91oQIgaz2Smsj834ZLHOzJjE3Crx5NXIK
+         N7fIgAzi3WQLRCIoXpJm06tDVgfFh/BY++ZhoYQ6CvEpPt/LZ4HxrmY53NQ0y280vRF+
+         xJWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785686270; x=1786291070;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UVESwNZjyXM8r67+UALyxxpGt7Z0/q+uIrVNmZe3MzE=;
-        b=n4DcgjDM8OG3QT1+vRkYGXbjUaa38TLonAnQrRfNAdyCscv8vtSsHuqwQTuX+UpNGw
-         cBrRye2uwcvBKPOM7NulcpTrE0YU4knf4/L7EwfJ9JX6C2TFpdKuU+bq3iqC5vM4fGBz
-         gme/gzByyo2FvuOO67QFH7qQWTXNBKtzYF6kH1z2915xm8TGG08Gndz57mMjA8vmkE8z
-         cRgR9rNRc3Jn5NmhJZZipXwXVrKtM2BHngiDefZ6erGeqfe4jec0qB+R3ALYAMMxHsis
-         8gAh7YLtcwJukFo0gexoY3FHPD/YH9rdpKGcUawD7FSzTm3ja82uDW/k+Tfa6RcUrNLo
-         3Rxg==
-X-Forwarded-Encrypted: i=1; AHgh+RqXPNmoyhxw2MYAAln1HlWzzKTYnV5283oi7q/D+RYBVcqWRyhWiNAKezwqWro5FJGwigShYuEMAyGfJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yycz1w8serZIsMoSDZ+JmBU3c1GuTYn+DgERGw7hZz97c8iHrRi
-	JqsVXMrlq4ee7kPwzBNK1aR6oMphqKzXWzlcQmtDVQ4TxsF+FEPRBmPI1YUqF9gSVbo=
-X-Gm-Gg: AR+sD12BYV81sAzlu3otLe1lDZib3is38tHp72zghj4mQ/pG1Te4hp7bikw30pN1ibx
-	+YpJEi2tYHjaa8VxDiNKUFghYSmC7bw46Rng58AJVRwMl59mziRfqsy2PF7vwrm6QWahAL6NCma
-	0N1HFzPUZn+3F3e7oNc++tJKOf2enYezVCP7cTU1Ff9O9NpHSl6vZZ0wVUNYLSFdl4saakQ/DeQ
-	mqpUfQ51e5tEHgHTMNTaIyiTyM7q3HPnt3Qj0O/qlKfztBGn0+iwOwNqMLiuXqieyYAVxZ5v7/b
-	wr0gbrviLY2e8ZzeBv4cTWiqnP/ME3FE6wsCwceaTEnpDwXhhlMyMRskBV6+MC85mHc2hxp4MdF
-	z8QWxJCuO+x8iSKFyGh9GU7o0JfcqgMsHX+nyM7p/EPCZtRvLmtQYVdADakZJpqy6ZXDr0yrShl
-	00EZjk8TJHhRIKVF4MNXIMJwODj3SCrC5HFRbhlmM9lGDYZ3p8xm7swsVx92Cyp3DjYo65AvOjz
-	VftS5S1HqXvDd9/HuaKFXl4mJ/v6YJlihm2HbwInJ6f6mXACGmi/9j2smO/dAe0w7Op1wmqX7BN
-	KGOUTNaekd0fGrnBan7qEi/8bxmbP3lp0+R74Xo2ZWXpChauigmtVQL611K1qxsGGJmLiAEGP3b
-	opbdY6iIRR33QbacOd2r48PSNO6nPXv11xfWvrxdn//EjCb6uhg==
-X-Received: by 2002:adf:e010:0:10b0:47f:9464:86cc with SMTP id ffacd0b85a97d-47fd72a00b3mr13260881f8f.2.1785686269763;
-        Sun, 02 Aug 2026 08:57:49 -0700 (PDT)
-Received: from KITT.minareto (host-95-230-187-130.business.telecomitalia.it. [95.230.187.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6d7sm25487093f8f.19.2026.08.02.08.57.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 08:57:49 -0700 (PDT)
-From: Cristian La Spina <cristian.laspina@kernel.srl>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Cristian La Spina <cristian.laspina@kernel.srl>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: soc-acpi-intel-ptl-match: add cs42l43_cs35l57_l0 support
-Date: Sun,  2 Aug 2026 17:57:39 +0200
-Message-ID: <20260802155741.202067-1-cristian.laspina@kernel.srl>
-X-Mailer: git-send-email 2.52.0
+        d=1e100.net; s=20251104; t=1785690301; x=1786295101;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:mime-version:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=+da4BobdZx9vrCJR2X8ridQP5FKqasRzDK+ikQ6NAaM=;
+        b=or5iCgldEMPFcYRhZryjLmpN2JFNussJQJNg2YrXBsGgnwUHmZo+LppHqaDsqB6EYl
+         LnT8peFlrhwSnrPQu0uNxRINwhdN31Fsf3XBWOdio6Li4C20xyW74iUON3NxXTlGNa4N
+         nnEvXQPFhlyt8v4F8yWXQs4/dNwmVHxQ35P0TszPqio1/3/3VOaLl+e2nl6VqZ5nhOng
+         o1XPshgSRMMUIbwio8LHw+rZN0eFuSwZhob5EvbaGBjlrrgYI1MVbVfWSQ1MolSe9whZ
+         A5nMOsThI6iv6ldBm8mxiXPA23ljdwIBNYaZPfbrsNhXMVe1TUDIhnUqAsdHr19Fjr0C
+         XCiA==
+X-Gm-Message-State: AOJu0YxpT8GiNQ+2qJ2sKELfz9WTMzatcx9l9Tv5fAsaB2TysBNGq7J1
+	uIIK/2hT90XrSci4trZ3DTUmPjJEtDl+m2+StLc9KtOjO7Wk89gghhXbCs4Ee81O5vT7YZXvCCG
+	ZJ8PsD9JU8z7tb0XbE1YS5axU2aKAhtyJjC2d
+X-Gm-Gg: AR+sD10WV+QnADkgYEvnMiD/kbYhQCkR2nOD/bYIh2MkUngDIqC18ptSX/VHhxAhrIy
+	tpskInqJvfR4iPShPRaeECeK147PaU9adBzFwmTxkXr/eA9xp6aBM1JlIw0vZ/vAilxpQZ6tSuG
+	yGZBUOTIKXAKimp8rH6bJuj3WXiVN46OoW2D1OMgUrWh8Dy6F+csGsyi8q/k1cAml/5J+aoXxo4
+	UoHPQA3U/bgOIOqvQS1SHdNJxOQHzRgeWG6hHHQxwQiX5A4dBR3RWKgKxB4mcW/Q8XCY9fNVmXD
+	vkMkz4vorl5wvNvpN9/QVRzReSZBKo01ZwjvVq1Tg/p6UwjNOGS7jCpM
+X-Received: by 2002:a05:622a:38a:b0:528:22:8c61 with SMTP id
+ d75a77b69052e-52b567f58a1mr130042341cf.38.1785690301109; Sun, 02 Aug 2026
+ 10:05:01 -0700 (PDT)
+Received: from 874647158048 named unknown by gmailapi.google.com with
+ HTTPREST; Sun, 2 Aug 2026 10:05:00 -0700
+Received: from 874647158048 named unknown by gmailapi.google.com with
+ HTTPREST; Sun, 2 Aug 2026 10:05:00 -0700
+From: ramirosanes@gmail.com
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Sun, 2 Aug 2026 10:05:00 -0700
+X-Gm-Features: AUfX_mz_2SLYxyGsNHtAsTPsNPbQ11ZWfXacDsnAGa6iPlfCGq1p1RgvJh46X9k
+Message-ID: <CALch4NKfxs=GWpru1ncAXYbzD9Kh8-Bm2quif5vzb2nPo6Hnbw@mail.gmail.com>
+Subject: [BUG] snd-ctl-led: computed LED state never propagated to audio-mute
+ trigger (SOF + ALC245, HP Spectre x360 14-ef2xxx)
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de, perex@perex.cz
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Lenovo Yoga 9 2-in-1 14IPH11 puts its CS42L43 codec and both CS35L57
-amplifiers on SoundWire link 0, as described by its DSDT:
+Hi,
 
-  sdw:0:0:01fa:4243:01     CS42L43  jack, microphones, two tweeters
-  sdw:0:0:01fa:3557:01:0   CS35L57  left woofer
-  sdw:0:0:01fa:3557:01:1   CS35L57  right woofer
+I'd like to report a bug in the mute-LED handling on an HP Spectre x360
+2-in-1 14-ef2xxx (SSID 103c:8ba2, ALC245 over SOF / sof-hda-dsp).
 
-The existing cs42l43 entries describe machines that spread the same
-chips over links 2 and 3, so this laptop matches nothing at all and no
-card is created: speakers, headphone jack and microphones are all
-silent, leaving HDMI as the only output.
+Kernel: 6.18.41 (Arch linux-lts) and also reproduced on 7.1.5-arch1.
+BIOS: HP F.09 (07/29/2025).
 
-Add a match for that layout. The codec drives the two tweeters through
-its own amplifiers while the CS35L57 drive the woofers, so all three
-speaker endpoints have to share a single aggregation group. With
-separate groups each device asks for a DAI link named
-"SDW0-Playback-SmartAmp" and the second registration fails with
--EEXIST. cs42l43_amp_spkagg_endpoints already places the codec at group
-position 0, so the two amplifiers take positions 1 and 2, following the
-numbered series used for multi-amplifier groups elsewhere.
+Symptom: the keyboard mute and micmute LEDs never react to mixer mute
+changes. Investigating the chain end to end, every link works except the
+final propagation from snd-ctl-led to the LED trigger:
 
-The matching topology is proposed at
-https://github.com/thesofproject/sof/pull/11053
+1) The codec fixup is picked at boot:
+     snd_hda_codec_alc269 ehdaudio0D0: ALC245: picked fixup  for PCI
+SSID 103c:8ba2
+   (note the fixup name prints empty =E2=80=94 possibly a separate cosmetic=
+ issue).
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Cristian La Spina <cristian.laspina@kernel.srl>
----
- .../intel/common/soc-acpi-intel-ptl-match.c   | 58 +++++++++++++++++++
- 1 file changed, 58 insertions(+)
+2) The LED class devices exist and drive the correct hardware. Writing
+   /sys/class/leds/hda::mute/brightness toggles COEF 0x0b bits 2-3
+   (0x8 on / 0x4 off) on the codec, and hda::micmute/brightness toggles
+   GPIO 0x04 with inverted polarity =E2=80=94 verified by reading the codec=
+ back
+   with hda-verb after each write. Driving those same registers from
+   userspace lights the physical LEDs, so the register programming of the
+   fixup matches the hardware (this is what
+   ALC245_FIXUP_HP_X360_MUTE_LEDS programs).
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 756bbf82a..2d2bdc832 100644
---- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -92,6 +92,20 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
- 	.group_id = 1,
- };
- 
-+static const struct snd_soc_acpi_endpoint spk_1_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 1,
-+	.group_id = 1,
-+};
-+
-+static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
-+	.num = 0,
-+	.aggregated = 1,
-+	.group_position = 2,
-+	.group_id = 1,
-+};
-+
- static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
- 	/* Jack Endpoint */
- 	{
-@@ -184,6 +198,35 @@ static const struct snd_soc_acpi_adr_device cs35l56_2_lr_adr[] = {
- 	}
- };
- 
-+/*
-+ * Lenovo Yoga 9 2-in-1 14IPH11: the CS42L43 codec and both CS35L57 amplifiers
-+ * are on SoundWire link 0, as described by the DSDT. The codec drives the two
-+ * tweeters through its own amplifiers, the CS35L57 drive the woofers, so all
-+ * three speaker endpoints must share one aggregation group: otherwise each
-+ * device asks for a DAI link named "SDW0-Playback-SmartAmp" and the second
-+ * registration fails with -EEXIST.
-+ */
-+static const struct snd_soc_acpi_adr_device cs42l43_cs35l57_0_adr[] = {
-+	{
-+		.adr = 0x00003001FA424301ull,
-+		.num_endpoints = ARRAY_SIZE(cs42l43_amp_spkagg_endpoints),
-+		.endpoints = cs42l43_amp_spkagg_endpoints,
-+		.name_prefix = "cs42l43"
-+	},
-+	{
-+		.adr = 0x00003001FA355701ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_1_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+	{
-+		.adr = 0x00003101FA355701ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_2_endpoint,
-+		.name_prefix = "AMP2"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
- 	{
- 		.adr = 0x000030025D071101ull,
-@@ -301,6 +344,15 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group2_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_link_adr ptl_cs42l43_cs35l57_l0[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l43_cs35l57_0_adr),
-+		.adr_d = cs42l43_cs35l57_0_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr ptl_cs42l43_agg_l3_cs35l56_l2[] = {
- 	{
- 		.mask = BIT(3),
-@@ -510,6 +562,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l2.tplg",
- 		.get_function_tplg_files = sof_sdw_get_tplg_files,
- 	},
-+	{
-+		.link_mask = BIT(0),
-+		.links = ptl_cs42l43_cs35l57_l0,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-ptl-cs42l43-l0.tplg",
-+	},
- 	{
- 		.link_mask = BIT(2) | BIT(3),
- 		.links = ptl_cs42l43_agg_l3_cs35l56_l2,
--- 
-2.52.0
+3) snd-ctl-led has the right controls attached automatically:
+     /sys/class/sound/ctl-led/speaker/card0/list -> 10  ('Master
+Playback Switch')
+     /sys/class/sound/ctl-led/mic/card0/list     -> 42 7 ('Dmic0
+Capture Switch', 'Capture Switch')
+   and both are in mode "follow-mute".
 
+4) Muting works at the control level (both via amixer and via
+   PipeWire, which does toggle the hardware switches), and snd-ctl-led
+   computes the LED state correctly:
+     /sys/class/sound/ctl-led/speaker/brightness reads 0 unmuted, 1 muted.
+
+5) BUT the LED class devices never change:
+     amixer -c0 sset Master mute
+     cat /sys/class/sound/ctl-led/speaker/brightness  -> 1
+     cat /sys/class/leds/hda::mute/brightness         -> 0   (stays 0 forev=
+er)
+   The audio-mute trigger is active on the cdev ([audio-mute] in its
+   trigger list), yet the computed state from snd-ctl-led is never pushed
+   to it. Same behaviour for the mic LED.
+
+So: fixup picked, cdevs functional, controls attached, control events
+flowing, ctl-led computing the right value on sysfs read =E2=80=94 but the
+notification path that should fire ledtrig_audio never runs on this
+SOF+ALC245 combination.
+
+A userspace workaround (daemon following PulseAudio/PipeWire mute events
+and writing the codec registers directly) works fine, which further
+confirms the hardware side is healthy.
+
+One more data point: with the previous BIOS (HP F.05) the fixup was not
+picked at all (no hda::mute/hda::micmute cdevs were created), so the
+codec SSID exposure seems to have changed between BIOS versions; on F.09
+the quirk matching works and only the trigger propagation is broken.
+
+Happy to test patches or provide any additional debugging output.
+
+Thanks,
+Ramiro Sanes
