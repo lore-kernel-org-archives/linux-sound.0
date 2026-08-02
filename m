@@ -1,80 +1,81 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15CC25B09C
-	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 14:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600C93C3F52
+	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 15:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785682147; cv=none; b=Q4znz68KAEgeO8y7MqB92ID/BTmOSsOFI9mzwgrvfYLiofJDsMYNn81hEiULnm/prH6qHrXozAVgwF8ma5dcrhtw60oIJ2P+rvD2Kp6zAN0aODQPkm9i/8WJdQuy1D5v9AsHX8zb3YEpYYYzFABvMnGKo3MEd/RwLRHfn/KsLmQ=
+	t=1785686284; cv=none; b=qb++7UiA6ZY5KfwNRi0hNBF+E8jl+46pLMIMIllnl6iyVw+95FJRawhBVnldTTDP/jHCZ1LR2G5FmFLIKGM7SC/+0yzoRNhhxfUheUz9hY0kmvBlS6MdF/yDBPFhtEgg23fzC4htVUpbQKulT9elWDWEgAN3oyG3GkpglWGyqqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785682147; c=relaxed/simple;
-	bh=ngj4b8n2tyTE5tYCn196ZFhAf6O+AMCj14WGjH2lwX4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CUyyFGlKK38IAYQzkA2nNPZB5FVg/Mk3Z44CTjb5P5eS3nF2mrD2OINGkcegyZXs5z2OOoTVnPk28P66CKn0p5M6Y8kuR6OIcKUqicNXgDyhb9bW724WdnQaQqFAfkmGr2HhFvs4gTq/0PqVOGF/v8vXKdcras9fmTKQp+iH2Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=inIUcUWd; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785686284; c=relaxed/simple;
+	bh=80w1bxo8HofkFPGSDfAoE3yryphRApzOjIm1Zbovhls=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O34nmfB2t3sM+wZ6DCJeqOm3N2+8OiXKMJtX9lYC58E9V3Wg6R9KLDtRvnspI3Dy+NZmL8tLHx0F2wugjFqDNTfAc6FpQZe3O87Ar8t8wZ+on9JhuXJ9o/UjXP7qTGpRjwPywb4yzGqOrtBChrWMugOiQWvQ+D6xpvFxYiLmo0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernel.srl; spf=pass smtp.mailfrom=kernel.srl; dkim=pass (2048-bit key) header.d=kernel.srl header.i=@kernel.srl header.b=a9X1UVbV; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernel.srl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.srl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="inIUcUWd"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954dff6536so8634895e9.0
-        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 07:49:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.srl header.i=@kernel.srl header.b="a9X1UVbV"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47de0093c42so1768722f8f.3
+        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 08:57:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785682144; x=1786286944; darn=vger.kernel.org;
+        d=kernel.srl; s=google; t=1785686270; x=1786291070; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G89zE9K0cJl3MiaghXF7pZIuJbVf+x+jpLd1Z0Q4ABc=;
-        b=inIUcUWdCzTdSXlms0aOUmt7c7M6TqKTwa4m2d3enjbMQ8Geul6fBVFuIHvXr2lpCl
-         V+TPu/81Mvebrlork2UeVOl6H29gtagtbOdvQpSDoSbgF6mwAXNMTFABzefuPC01X7SN
-         aJ3btiP+gojEec11/DZkkZXUzq+dGcan17d773xvk05ggebmew3p4sa52bMfN4Xvwjtx
-         66ooc6Isf4LG66dniHqKAF7Tkt9lfXS7hdqVjXLyZVt+WjJJtZOg3Zfv4EDlQN7OuWeE
-         MBnO7MlZLSlCc2ZiYlV5XWb6YuNieEy4HBRyOCesWHLuoydoh4veZ4inAOhXA7chSu8z
-         2VRA==
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UVESwNZjyXM8r67+UALyxxpGt7Z0/q+uIrVNmZe3MzE=;
+        b=a9X1UVbVt67Y9Q5M1NJ9nTOCJyHF7uPZzrSmJv4jN/5dG2iDT8zcIIMRvMBs8VCcYi
+         mWe2LkCKgSyE2he4em54tCx8SkVOWnLxOObXYF5mY76BrwFLJ8Qt4vnYWfC2pvXHKpnb
+         y3wvD1LvXffof4o+QGmzk8haqYhmkLYsPYAf6yLSZBDmfyu4Z+BIqxD7PRpYo472I/xi
+         yxJ8P06S9h+E90Os4MHhZNAmQCjo2416FYENAcO5UCdnMATWVjlWFeNr8akSd6RRkgeY
+         6XHX+XK1Nvm8+hkbglI/FUTTD91kAWx2y6Mp085AGIlOQa5qGxwKc26nyJK8/a0gixuy
+         1Ovg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785682144; x=1786286944;
+        d=1e100.net; s=20251104; t=1785686270; x=1786291070;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=G89zE9K0cJl3MiaghXF7pZIuJbVf+x+jpLd1Z0Q4ABc=;
-        b=bzT9rAsjbEB5p9y8S/zJ4p+yJ7RmJ1covrZ9bjl98kcEYDLa6tKUH2xA37GEA/pm8I
-         H+vaATR5/qf5CdR0mtjuTC3EAWma7jT8aBi9Yj8MpkC5v+etp9U6wIouNZFygNvDbAu6
-         UF4MY6c2BxGcgq7UUzg+JaH2c0a2pIxdU14+ay7paz4tHYdjrfHZtMcTcWDPIKr2/psk
-         Fi4S/Wni4wOnpFpDslelZbvyY1ZHbcuSzUrBI2yU7azOOIWw6014SjqKjXtNdKTLQA+3
-         TvD1uw/sV5d+TpFRezZeTMgDBUIZZFXbUZCNeDOX3RXPrCcZvDQ/07FPfOiCCZF2lpvL
-         G/tA==
-X-Forwarded-Encrypted: i=1; AHgh+RrOKDZmmjw8QeuH25ywIBlOi9TT+R6SLPJcOu+14BoB0jJxleIvIyT3UREZG2g4PBkimsJfK/jE5dmB8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWKCAdcigSAWarTuTwKTNU5D6qLMfH8ck+Ml+qFXno/yTp0lGg
-	v0y3fMff+c2aZa5qATRaSWUPgKHB+4fydRGHpVcoe/PWEQ7nNlABOaFb
-X-Gm-Gg: AR+sD11P8kJLJtgy3ErdYonnJAvnH1gn3snt1ZfxkZNUycUrqPrAvhBG+5V8/+EgUD0
-	wH2FlG1Y6VC61JP781zJn1MDUnSJDtwF0wo98a418f9FkH8B1YDeTGgrJmHGNlf+Y8CNSrY8vH8
-	ZT5jlgvNhK5HHl6+GQCorFIeRZpQjsjtWbkoxzRrUzumxKLQTzaSJbrRyupyWjtKJ9PrUBzDCdh
-	YtDv0OHfQ9+HROe5YWtxFEjPqh/J9v8RvXlMaZnXqBoCr59miU70UlRIGxSimakfIj/kZ3fe4vT
-	jLZioz0wgxo635BfX/2YaG1+Tz8gEK67u8w8CNJmuL3dv5FFWRL1CMCLpIRbYjaaGoOSlCx3F5i
-	3y+yoltITqoPWAa/HItea3GhqdX2aUpaIoLNlwRDSrMnE2SShMnqvxWEN7XgwEn6uHqBFKNZc+e
-	O8HtqMd8E/aQI+wBoIHibbUSXuixShiL4l96UaZQ95qdGfteKw4xZX9WTt6vXLmDfxlRltJU/oO
-	2HiQaVGftYUvdYCoSqNFm6pylPVllxjMg3BVMJ0szCYwkovx3us
-X-Received: by 2002:a05:600c:19cf:b0:493:bb29:af40 with SMTP id 5b1f17b1804b1-4980c674808mr124471625e9.14.1785682143958;
-        Sun, 02 Aug 2026 07:49:03 -0700 (PDT)
-Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd45a1abfsm23844189f8f.37.2026.08.02.07.49.01
+        bh=UVESwNZjyXM8r67+UALyxxpGt7Z0/q+uIrVNmZe3MzE=;
+        b=n4DcgjDM8OG3QT1+vRkYGXbjUaa38TLonAnQrRfNAdyCscv8vtSsHuqwQTuX+UpNGw
+         cBrRye2uwcvBKPOM7NulcpTrE0YU4knf4/L7EwfJ9JX6C2TFpdKuU+bq3iqC5vM4fGBz
+         gme/gzByyo2FvuOO67QFH7qQWTXNBKtzYF6kH1z2915xm8TGG08Gndz57mMjA8vmkE8z
+         cRgR9rNRc3Jn5NmhJZZipXwXVrKtM2BHngiDefZ6erGeqfe4jec0qB+R3ALYAMMxHsis
+         8gAh7YLtcwJukFo0gexoY3FHPD/YH9rdpKGcUawD7FSzTm3ja82uDW/k+Tfa6RcUrNLo
+         3Rxg==
+X-Forwarded-Encrypted: i=1; AHgh+RqXPNmoyhxw2MYAAln1HlWzzKTYnV5283oi7q/D+RYBVcqWRyhWiNAKezwqWro5FJGwigShYuEMAyGfJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yycz1w8serZIsMoSDZ+JmBU3c1GuTYn+DgERGw7hZz97c8iHrRi
+	JqsVXMrlq4ee7kPwzBNK1aR6oMphqKzXWzlcQmtDVQ4TxsF+FEPRBmPI1YUqF9gSVbo=
+X-Gm-Gg: AR+sD12BYV81sAzlu3otLe1lDZib3is38tHp72zghj4mQ/pG1Te4hp7bikw30pN1ibx
+	+YpJEi2tYHjaa8VxDiNKUFghYSmC7bw46Rng58AJVRwMl59mziRfqsy2PF7vwrm6QWahAL6NCma
+	0N1HFzPUZn+3F3e7oNc++tJKOf2enYezVCP7cTU1Ff9O9NpHSl6vZZ0wVUNYLSFdl4saakQ/DeQ
+	mqpUfQ51e5tEHgHTMNTaIyiTyM7q3HPnt3Qj0O/qlKfztBGn0+iwOwNqMLiuXqieyYAVxZ5v7/b
+	wr0gbrviLY2e8ZzeBv4cTWiqnP/ME3FE6wsCwceaTEnpDwXhhlMyMRskBV6+MC85mHc2hxp4MdF
+	z8QWxJCuO+x8iSKFyGh9GU7o0JfcqgMsHX+nyM7p/EPCZtRvLmtQYVdADakZJpqy6ZXDr0yrShl
+	00EZjk8TJHhRIKVF4MNXIMJwODj3SCrC5HFRbhlmM9lGDYZ3p8xm7swsVx92Cyp3DjYo65AvOjz
+	VftS5S1HqXvDd9/HuaKFXl4mJ/v6YJlihm2HbwInJ6f6mXACGmi/9j2smO/dAe0w7Op1wmqX7BN
+	KGOUTNaekd0fGrnBan7qEi/8bxmbP3lp0+R74Xo2ZWXpChauigmtVQL611K1qxsGGJmLiAEGP3b
+	opbdY6iIRR33QbacOd2r48PSNO6nPXv11xfWvrxdn//EjCb6uhg==
+X-Received: by 2002:adf:e010:0:10b0:47f:9464:86cc with SMTP id ffacd0b85a97d-47fd72a00b3mr13260881f8f.2.1785686269763;
+        Sun, 02 Aug 2026 08:57:49 -0700 (PDT)
+Received: from KITT.minareto (host-95-230-187-130.business.telecomitalia.it. [95.230.187.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6d7sm25487093f8f.19.2026.08.02.08.57.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 07:49:03 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-From: Julian Braha <julianbraha@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: arnd@arndb.de,
-	rosenp@gmail.com,
-	chancel.liu@nxp.com,
-	jonsmirl@gmail.com,
+        Sun, 02 Aug 2026 08:57:49 -0700 (PDT)
+From: Cristian La Spina <cristian.laspina@kernel.srl>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Cristian La Spina <cristian.laspina@kernel.srl>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Julian Braha <julianbraha@gmail.com>
-Subject: [PATCH] ASoC: fix unmet dependencies on PPC_BESTCOMM and SND_SOC_AC97_BUS
-Date: Sun,  2 Aug 2026 15:48:55 +0100
-Message-ID: <20260802144855.3596995-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: Intel: soc-acpi-intel-ptl-match: add cs42l43_cs35l57_l0 support
+Date: Sun,  2 Aug 2026 17:57:39 +0200
+Message-ID: <20260802155741.202067-1-cristian.laspina@kernel.srl>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,54 +84,126 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-SND_MPC52xx_SOC_PCM030 and SND_MPC52xx_SOC_EFIKA both select
-SND_SOC_MPC5200_AC97 without ensuring that its dependency on PPC_BESTCOMM is
-met. This causes unmet dependencies such as:
+The Lenovo Yoga 9 2-in-1 14IPH11 puts its CS42L43 codec and both CS35L57
+amplifiers on SoundWire link 0, as described by its DSDT:
 
-WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
-  Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_BESTCOMM [=n]
-  Selected by [m]:
-  - SND_MPC52xx_SOC_PCM030 [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_MPC5200_SIMPLE [=y]
+  sdw:0:0:01fa:4243:01     CS42L43  jack, microphones, two tweeters
+  sdw:0:0:01fa:3557:01:0   CS35L57  left woofer
+  sdw:0:0:01fa:3557:01:1   CS35L57  right woofer
 
-SND_MPC52xx_SOC_EFIKA also selects SND_SOC_STAC9766 without ensuring its
-dependency on SND_SOC_AC97_BUS is met.
+The existing cs42l43 entries describe machines that spread the same
+chips over links 2 and 3, so this laptop matches nothing at all and no
+card is created: speakers, headphone jack and microphones are all
+silent, leaving HDMI as the only output.
 
-Let's resolve all 3 unmet dependencies by adding the dependencies on
-PPC_BESTCOMM where needed, and selecting SND_SOC_AC97_BUS as other, similar
-options in this subsystem do.
+Add a match for that layout. The codec drives the two tweeters through
+its own amplifiers while the CS35L57 drive the woofers, so all three
+speaker endpoints have to share a single aggregation group. With
+separate groups each device asks for a DAI link named
+"SDW0-Playback-SmartAmp" and the second registration fails with
+-EEXIST. cs42l43_amp_spkagg_endpoints already places the codec at group
+position 0, so the two amplifiers take positions 1 and 2, following the
+numbered series used for multi-amplifier groups elsewhere.
 
-These unmet dependency bugs were detected by kconfirm, a static analysis tool
-for Kconfig.
+The matching topology is proposed at
+https://github.com/thesofproject/sof/pull/11053
 
-Fixes: a9262c4fd404 ("ASoC: Support for AC97 on Phytec pmc030 base board.")
-Fixes: 6ffee43ecf8b ("ASoC: Fabric bindings for STAC9766 on the Efika")
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Cristian La Spina <cristian.laspina@kernel.srl>
 ---
- sound/soc/fsl/Kconfig | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 58 +++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
-diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
-index 8ae59c094878..a5d7cf534391 100644
---- a/sound/soc/fsl/Kconfig
-+++ b/sound/soc/fsl/Kconfig
-@@ -243,7 +243,7 @@ config SND_SOC_MPC5200_AC97
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index 756bbf82a..2d2bdc832 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -92,6 +92,20 @@ static const struct snd_soc_acpi_endpoint spk_r_endpoint = {
+ 	.group_id = 1,
+ };
  
- config SND_MPC52xx_SOC_PCM030
- 	tristate "SoC AC97 Audio support for Phytec pcm030 and WM9712"
--	depends on PPC_MPC5200_SIMPLE
-+	depends on PPC_BESTCOMM
- 	select SND_SOC_MPC5200_AC97
- 	select SND_SOC_WM9712
- 	help
-@@ -253,6 +253,8 @@ config SND_MPC52xx_SOC_PCM030
- config SND_MPC52xx_SOC_EFIKA
- 	tristate "SoC AC97 Audio support for bbplan Efika and STAC9766"
- 	depends on PPC_EFIKA
-+	depends on PPC_BESTCOMM
-+	select SND_SOC_AC97_BUS
- 	select SND_SOC_MPC5200_AC97
- 	select SND_SOC_STAC9766
- 	help
++static const struct snd_soc_acpi_endpoint spk_1_endpoint = {
++	.num = 0,
++	.aggregated = 1,
++	.group_position = 1,
++	.group_id = 1,
++};
++
++static const struct snd_soc_acpi_endpoint spk_2_endpoint = {
++	.num = 0,
++	.aggregated = 1,
++	.group_position = 2,
++	.group_id = 1,
++};
++
+ static const struct snd_soc_acpi_endpoint jack_dmic_endpoints[] = {
+ 	/* Jack Endpoint */
+ 	{
+@@ -184,6 +198,35 @@ static const struct snd_soc_acpi_adr_device cs35l56_2_lr_adr[] = {
+ 	}
+ };
+ 
++/*
++ * Lenovo Yoga 9 2-in-1 14IPH11: the CS42L43 codec and both CS35L57 amplifiers
++ * are on SoundWire link 0, as described by the DSDT. The codec drives the two
++ * tweeters through its own amplifiers, the CS35L57 drive the woofers, so all
++ * three speaker endpoints must share one aggregation group: otherwise each
++ * device asks for a DAI link named "SDW0-Playback-SmartAmp" and the second
++ * registration fails with -EEXIST.
++ */
++static const struct snd_soc_acpi_adr_device cs42l43_cs35l57_0_adr[] = {
++	{
++		.adr = 0x00003001FA424301ull,
++		.num_endpoints = ARRAY_SIZE(cs42l43_amp_spkagg_endpoints),
++		.endpoints = cs42l43_amp_spkagg_endpoints,
++		.name_prefix = "cs42l43"
++	},
++	{
++		.adr = 0x00003001FA355701ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_1_endpoint,
++		.name_prefix = "AMP1"
++	},
++	{
++		.adr = 0x00003101FA355701ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_2_endpoint,
++		.name_prefix = "AMP2"
++	}
++};
++
+ static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
+ 	{
+ 		.adr = 0x000030025D071101ull,
+@@ -301,6 +344,15 @@ static const struct snd_soc_acpi_adr_device rt1320_3_group2_adr[] = {
+ 	}
+ };
+ 
++static const struct snd_soc_acpi_link_adr ptl_cs42l43_cs35l57_l0[] = {
++	{
++		.mask = BIT(0),
++		.num_adr = ARRAY_SIZE(cs42l43_cs35l57_0_adr),
++		.adr_d = cs42l43_cs35l57_0_adr,
++	},
++	{}
++};
++
+ static const struct snd_soc_acpi_link_adr ptl_cs42l43_agg_l3_cs35l56_l2[] = {
+ 	{
+ 		.mask = BIT(3),
+@@ -510,6 +562,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l2.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(0),
++		.links = ptl_cs42l43_cs35l57_l0,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-cs42l43-l0.tplg",
++	},
+ 	{
+ 		.link_mask = BIT(2) | BIT(3),
+ 		.links = ptl_cs42l43_agg_l3_cs35l56_l2,
 -- 
-2.55.0
+2.52.0
 
