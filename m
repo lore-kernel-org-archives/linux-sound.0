@@ -1,163 +1,116 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx-out-01.sud-ouest2.org (mx-out-01.sud-ouest2.org [87.98.220.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4E62E7657
-	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 17:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785690303; cv=pass; b=bnSSgE3FSvNrAStwBu192SYRq7MU4cEbkS4xfq8sM60ouhUr8XItQguySMDh+3SkJ5YcJljNBzE8wKQoONBiyfkuTO1eej3ZHB9kik4hoEHiApHiNZvFdl9sEHDtLsNqGi3nfZ+76ohBOA2HW1thVSUeMyD82aMIrdZ91KB4CO8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785690303; c=relaxed/simple;
-	bh=BgPCwKAUzTDerVq4uWfPtExzIIVJazRkSMk+aPiXeA0=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=ZxgY+zAxKDI7M4cGBr1CY2QIz7quCt1YxXXFIAQy0NLZLznDth6riLzJ1F6X/p5UPU6JGK+j/iHrvKLIbLjC+Q9rlfqp01v3OSx4aFZA+Wc27mdylZgSK/l2WCOB88OcfSATdTtAJohTj0FkYGP6UJvaCTciFbHOVF1ZsQGZ0HM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qcb6J3lT; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0562D5C68;
+	Sun,  2 Aug 2026 19:57:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.98.220.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785700631; cv=none; b=B8CH+XdRe9qgSDBATHmHGdoGm7Swcp54lawG2EPXtjW58mGgpalyU6RU34N9vvvYJjzBQ7P9UhIypequ8LRuv5kMCrBwrGagj8fYl65+5PTb4SoPmOsqnFsw5KA6U/wILs+SzK8g9OXtLb6fSxP+itCSRf1y4vv5mVuPCemwxPs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785700631; c=relaxed/simple;
+	bh=ghKkXp5tf0l1qY3Hy0loXlmXI8CZXJVXMIkB1oasIgw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CJTLM3vByu3QsVHcXdqxzqsgqYNdBFy3j4N56baTu4xSdT6WkSbNR0sa34SbNfXhijInghdfOv57R4OVN/gXanXMJZVN4z70/8eoExdSa9lRBiUemH7pkgyLBnLggpO0BBof3Q2LO5w+fmCb9rFbrK5BUT+bjUTuvnJxDykOe5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jeremiez.net; spf=pass smtp.mailfrom=jeremiez.net; dkim=pass (2048-bit key) header.d=jeremiez.net header.i=@jeremiez.net header.b=ZuzVs/NO; arc=none smtp.client-ip=87.98.220.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jeremiez.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jeremiez.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qcb6J3lT"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c15bf5000so10680711cf.3
-        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 10:05:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785690301; cv=none;
-        d=google.com; s=arc-20260327;
-        b=h0a3LPN4JLNDpJifDD7Hgjd+zgQRf2rWkUZhZLwmDK6Asq6qGOLKMeJfRPZxBwkWXh
-         9W9NNcubhAGwHkNqJFK6Q02cQT7TgdIDewR+Ia6Gm7J8gDbdLn4pDOzi/LgI3jW13/UD
-         s2X3m/Jv7e4YWOVb1DB5a4j9O38w16WmQArOz7r2Z/ghs4f7YRKu5v9xtGyEb1n+zopC
-         Vp5v3+wndvqS9kt23AiM1f7i+Ziz1K33lCWjeYPhaIBZN86wYXjBeaSRVBvjlFGKiddk
-         ETrqjG7VtU9a2TrCkP/qbgS67oEmyvUKbsBfVmET8QtqBv83WKAq03SP9Fv9ThvMzjjF
-         JzdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date
-         :mime-version:from:dkim-signature;
-        bh=+da4BobdZx9vrCJR2X8ridQP5FKqasRzDK+ikQ6NAaM=;
-        fh=5TioDRFO7ovtfWveTjubbs0gggxuwh0JTadV9lo06bI=;
-        b=eyrBMCMfGvegvuQ5YyG1KsdNOHt10eRtlb9cQqlAf6869itsEtojXFaUXd6ooWwUGf
-         XNDQ/DMCaTUaiIFMzUgl1ukbb5lW7gADM3hj+9YLONsE9f29b+qS4PuIjCPYZtw+J0Fb
-         ZeAMt6fGpLkJBBXlSshRV0EWUCCfG9wxqaI5Y30Iz1x3a4buZ2LrQ8MiHkZeluod5fzb
-         YxPEMCZRXYbOF7+C5eq+jM6+BH7bhXvmC3KuKJa6EPUPapkcrNPutd8kEfeiP8elJ3+B
-         TlZSu2DodXJ+Zu/7F+o11v2enSVqyoL0toilEV/8qNYy/H8f1Ow9xeqLmskXY4PlJr1a
-         Q6GQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785690301; x=1786295101; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:mime-version:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+da4BobdZx9vrCJR2X8ridQP5FKqasRzDK+ikQ6NAaM=;
-        b=Qcb6J3lTW95zwlYYwL4H6ShOjFF2LcDyQhYPg8YHkY5T8WI7HQacu5pOjgYyDAh6Lf
-         D32WOazJqww+l/9Wp0p4W+didgkFnMlRrFyDYq61qE4vaJj+MMano4lKMuao5YqxDtKH
-         WUpGtzqwrJZzfz3SVA8mQOhl/6EE2NjrkqyOMULaYTJ7e2d+0+zR1lhGLXwZ56OLHQ2x
-         yAvHxTzsFj6zsZ03vyC5dV2bAPK9nNqdfLs91oQIgaz2Smsj834ZLHOzJjE3Crx5NXIK
-         N7fIgAzi3WQLRCIoXpJm06tDVgfFh/BY++ZhoYQ6CvEpPt/LZ4HxrmY53NQ0y280vRF+
-         xJWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785690301; x=1786295101;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:mime-version:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=+da4BobdZx9vrCJR2X8ridQP5FKqasRzDK+ikQ6NAaM=;
-        b=or5iCgldEMPFcYRhZryjLmpN2JFNussJQJNg2YrXBsGgnwUHmZo+LppHqaDsqB6EYl
-         LnT8peFlrhwSnrPQu0uNxRINwhdN31Fsf3XBWOdio6Li4C20xyW74iUON3NxXTlGNa4N
-         nnEvXQPFhlyt8v4F8yWXQs4/dNwmVHxQ35P0TszPqio1/3/3VOaLl+e2nl6VqZ5nhOng
-         o1XPshgSRMMUIbwio8LHw+rZN0eFuSwZhob5EvbaGBjlrrgYI1MVbVfWSQ1MolSe9whZ
-         A5nMOsThI6iv6ldBm8mxiXPA23ljdwIBNYaZPfbrsNhXMVe1TUDIhnUqAsdHr19Fjr0C
-         XCiA==
-X-Gm-Message-State: AOJu0YxpT8GiNQ+2qJ2sKELfz9WTMzatcx9l9Tv5fAsaB2TysBNGq7J1
-	uIIK/2hT90XrSci4trZ3DTUmPjJEtDl+m2+StLc9KtOjO7Wk89gghhXbCs4Ee81O5vT7YZXvCCG
-	ZJ8PsD9JU8z7tb0XbE1YS5axU2aKAhtyJjC2d
-X-Gm-Gg: AR+sD10WV+QnADkgYEvnMiD/kbYhQCkR2nOD/bYIh2MkUngDIqC18ptSX/VHhxAhrIy
-	tpskInqJvfR4iPShPRaeECeK147PaU9adBzFwmTxkXr/eA9xp6aBM1JlIw0vZ/vAilxpQZ6tSuG
-	yGZBUOTIKXAKimp8rH6bJuj3WXiVN46OoW2D1OMgUrWh8Dy6F+csGsyi8q/k1cAml/5J+aoXxo4
-	UoHPQA3U/bgOIOqvQS1SHdNJxOQHzRgeWG6hHHQxwQiX5A4dBR3RWKgKxB4mcW/Q8XCY9fNVmXD
-	vkMkz4vorl5wvNvpN9/QVRzReSZBKo01ZwjvVq1Tg/p6UwjNOGS7jCpM
-X-Received: by 2002:a05:622a:38a:b0:528:22:8c61 with SMTP id
- d75a77b69052e-52b567f58a1mr130042341cf.38.1785690301109; Sun, 02 Aug 2026
- 10:05:01 -0700 (PDT)
-Received: from 874647158048 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 2 Aug 2026 10:05:00 -0700
-Received: from 874647158048 named unknown by gmailapi.google.com with
- HTTPREST; Sun, 2 Aug 2026 10:05:00 -0700
-From: ramirosanes@gmail.com
+	dkim=pass (2048-bit key) header.d=jeremiez.net header.i=@jeremiez.net header.b="ZuzVs/NO"
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx-out-01.sud-ouest2.org 6D26629F4DC
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=jeremiez.net; s=dkim;
+	t=1785700118; bh=ghKkXp5tf0l1qY3Hy0loXlmXI8CZXJVXMIkB1oasIgw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZuzVs/NOJN73yBqqa1WGvwW8Zf+nTwCLeysUushNyoCcfcKVd+VuE1se3Ua5pfVLl
+	 WBRg2/7E2u5rtNHP+PerShJPTD14qLaKXuLjMM0Loob4vYQZE6LK7KBW0WGFNT0s9k
+	 2IXSoNcsfbLrma8iukcrqp6nwIpLfO3LvtKKwXyH8mmnm4lZb6D4md90dR2lNHBWi7
+	 GHw7tw/X/4q91+AUm7dd8BOO9sCfKVowWeP5hhuSsB5VkDRPCHeazdHcVRtUIL6+xY
+	 Ctli1E3siT2bOtEepdjNo955qxkSOUHnZ5h56vu8fwA5T1Rw5xkDD4A3dqL2YzNTkk
+	 Z4z/AD7dAfAqw==
+Received: by mx-out-01.sud-ouest2.org (Postfix, from userid 112)
+	id 6D26629F4DC; Sun,  2 Aug 2026 21:48:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.sud-ouest2.org (Postfix) with ESMTP id CB695190088;
+	Sun,  2 Aug 2026 21:48:37 +0200 (CEST)
+Received: from mail.sud-ouest2.org ([127.0.0.1])
+	by localhost (mail.sud-ouest2.org [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id vpjfVcZHVFWn; Sun,  2 Aug 2026 21:48:36 +0200 (CEST)
+From: Jeremie Pardou <jrmi@jeremiez.net>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda/realtek: Enable jack detection on Minisforum AI X1 Pro
+Date: Sun,  2 Aug 2026 21:48:32 +0200
+Message-ID: <20260802194832.49393-1-jrmi@jeremiez.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sun, 2 Aug 2026 10:05:00 -0700
-X-Gm-Features: AUfX_mz_2SLYxyGsNHtAsTPsNPbQ11ZWfXacDsnAGa6iPlfCGq1p1RgvJh46X9k
-Message-ID: <CALch4NKfxs=GWpru1ncAXYbzD9Kh8-Bm2quif5vzb2nPo6Hnbw@mail.gmail.com>
-Subject: [BUG] snd-ctl-led: computed LED state never propagated to audio-mute
- trigger (SOF + ALC245, HP Spectre x360 14-ef2xxx)
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de, perex@perex.cz
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The firmware of the Minisforum AI X1 Pro leaves the headphone jack detector
+reset bit asserted on its ALC245 codec. As a result, pin sense on NID 0x21
+always reports the jack as absent.
 
-I'd like to report a bug in the mute-LED handling on an HP Spectre x360
-2-in-1 14-ef2xxx (SSID 103c:8ba2, ALC245 over SOF / sof-hda-dsp).
+Clear only the Reset HP JD bit during codec initialization. Preserve the
+remaining coefficient bits. This makes pin sense and the generic HDA
+auto-mute logic work normally. Apply the fixup at INIT to also reapply the
+setting after codec reinitialization and resume.
 
-Kernel: 6.18.41 (Arch linux-lts) and also reproduced on 7.1.5-arch1.
-BIOS: HP F.09 (07/29/2025).
+Tested on a Minisforum AI X1 Pro with codec 0x10ec0245 and subsystem
+0x1f4cb020 using Ubuntu 26.04 kernel 7.0.0-28-generic.
 
-Symptom: the keyboard mute and micmute LEDs never react to mixer mute
-changes. Investigating the chain end to end, every link works except the
-final propagation from snd-ctl-led to the LED trigger:
+Signed-off-by: Jeremie Pardou <jrmi@jeremiez.net>
+---
+ sound/hda/codecs/realtek/alc269.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-1) The codec fixup is picked at boot:
-     snd_hda_codec_alc269 ehdaudio0D0: ALC245: picked fixup  for PCI
-SSID 103c:8ba2
-   (note the fixup name prints empty =E2=80=94 possibly a separate cosmetic=
- issue).
-
-2) The LED class devices exist and drive the correct hardware. Writing
-   /sys/class/leds/hda::mute/brightness toggles COEF 0x0b bits 2-3
-   (0x8 on / 0x4 off) on the codec, and hda::micmute/brightness toggles
-   GPIO 0x04 with inverted polarity =E2=80=94 verified by reading the codec=
- back
-   with hda-verb after each write. Driving those same registers from
-   userspace lights the physical LEDs, so the register programming of the
-   fixup matches the hardware (this is what
-   ALC245_FIXUP_HP_X360_MUTE_LEDS programs).
-
-3) snd-ctl-led has the right controls attached automatically:
-     /sys/class/sound/ctl-led/speaker/card0/list -> 10  ('Master
-Playback Switch')
-     /sys/class/sound/ctl-led/mic/card0/list     -> 42 7 ('Dmic0
-Capture Switch', 'Capture Switch')
-   and both are in mode "follow-mute".
-
-4) Muting works at the control level (both via amixer and via
-   PipeWire, which does toggle the hardware switches), and snd-ctl-led
-   computes the LED state correctly:
-     /sys/class/sound/ctl-led/speaker/brightness reads 0 unmuted, 1 muted.
-
-5) BUT the LED class devices never change:
-     amixer -c0 sset Master mute
-     cat /sys/class/sound/ctl-led/speaker/brightness  -> 1
-     cat /sys/class/leds/hda::mute/brightness         -> 0   (stays 0 forev=
-er)
-   The audio-mute trigger is active on the cdev ([audio-mute] in its
-   trigger list), yet the computed state from snd-ctl-led is never pushed
-   to it. Same behaviour for the mic LED.
-
-So: fixup picked, cdevs functional, controls attached, control events
-flowing, ctl-led computing the right value on sysfs read =E2=80=94 but the
-notification path that should fire ledtrig_audio never runs on this
-SOF+ALC245 combination.
-
-A userspace workaround (daemon following PulseAudio/PipeWire mute events
-and writing the codec registers directly) works fine, which further
-confirms the hardware side is healthy.
-
-One more data point: with the previous BIOS (HP F.05) the fixup was not
-picked at all (no hda::mute/hda::micmute cdevs were created), so the
-codec SSID exposure seems to have changed between BIOS versions; on F.09
-the quirk matching works and only the trigger propagation is broken.
-
-Happy to test patches or provide any additional debugging output.
-
-Thanks,
-Ramiro Sanes
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 48a2e7f2e..e21cd8b2b 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -1392,6 +1392,15 @@ static void alc245_fixup_hp_gpio_led(struct hda_codec *codec,
+ 	alc_fixup_hp_gpio_led(codec, action, 0, 0x04);
+ }
+ 
++static void alc245_fixup_minisforum_jack_detect(struct hda_codec *codec,
++						const struct hda_fixup *fix,
++						int action)
++{
++	if (action == HDA_FIXUP_ACT_INIT)
++		/* Clear Reset HP JD while preserving the other coefficient bits. */
++		alc_update_coef_idx(codec, 0x4a, BIT(15), 0);
++}
++
+ /* turn on/off mic-mute LED per capture hook via VREF change */
+ static int vref_micmute_led_set(struct led_classdev *led_cdev,
+ 				enum led_brightness brightness)
+@@ -4197,6 +4206,7 @@ enum {
+ 	ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318,
+ 	ALC256_FIXUP_CHROME_BOOK,
+ 	ALC245_FIXUP_CLEVO_NOISY_MIC,
++	ALC245_FIXUP_MINISFORUM_JACK_DETECT,
+ 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
+ 	ALC233_FIXUP_MEDION_MTL_SPK,
+ 	ALC233_FIXUP_STARLABS_STARFIGHTER,
+@@ -6729,6 +6739,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE,
+ 	},
++	[ALC245_FIXUP_MINISFORUM_JACK_DETECT] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc245_fixup_minisforum_jack_detect,
++	},
+ 	[ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -8067,6 +8081,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1e50, 0x7038, "Positivo DN140", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x1ee7, 0x2078, "HONOR BRB-X M1010", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1ee7, 0x2081, "HONOR MRB-XXX M1020", ALC256_FIXUP_HONOR_MRB_XXX_M1020_AUDIO),
++	SND_PCI_QUIRK(0x1f4c, 0xb020, "Minisforum AI X1 Pro",
++		      ALC245_FIXUP_MINISFORUM_JACK_DETECT),
+ 	SND_PCI_QUIRK(0x1f4c, 0xe001, "Minisforum V3 (SE)", ALC245_FIXUP_BASS_HP_DAC),
+ 	SND_PCI_QUIRK(0x1f66, 0x0105, "Ayaneo Portable Game Player", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x2014, 0x800a, "Positivo ARN50", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
