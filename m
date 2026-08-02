@@ -1,147 +1,136 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F6C3B83FE
-	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 13:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785679121; cv=pass; b=egNSJuYrfooy9dh1pjJuu1nZA8tlFB2OvH2gChaiw8EFHGDBjCRYi5JvtPQzdRt+dEzzuBOX7Dk1ca31J3lHCuMk8azOYddj9iImKj9iKbCiykFbBTbOfQz5NfhNm3x+eM9B8R+H0CLmwGSAfohA9uoJ/E4YTUB7/KcfzbtOlVw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785679121; c=relaxed/simple;
-	bh=mt2hje9W7ssBp5KJ6MJtkOk/mvftQneiLd8BjtEKtJ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Irshif9aRsYXSUAZNKUzcuOzGr7M5VsqAUos165cdruEFHkYNNp5tXv0S04qDSdRmSxGefGhTW4nCFWRfp/q/kvPWkW1pI9i5MaIzUwhv2MAle6COtKk1a/rfg5L1L+vB6YM+VKJaZDD15bkKAUwubPLKLLSRq9KvmsQuyVTkrs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ecZa1r6u; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15CC25B09C
+	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 14:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785682147; cv=none; b=Q4znz68KAEgeO8y7MqB92ID/BTmOSsOFI9mzwgrvfYLiofJDsMYNn81hEiULnm/prH6qHrXozAVgwF8ma5dcrhtw60oIJ2P+rvD2Kp6zAN0aODQPkm9i/8WJdQuy1D5v9AsHX8zb3YEpYYYzFABvMnGKo3MEd/RwLRHfn/KsLmQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785682147; c=relaxed/simple;
+	bh=ngj4b8n2tyTE5tYCn196ZFhAf6O+AMCj14WGjH2lwX4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CUyyFGlKK38IAYQzkA2nNPZB5FVg/Mk3Z44CTjb5P5eS3nF2mrD2OINGkcegyZXs5z2OOoTVnPk28P66CKn0p5M6Y8kuR6OIcKUqicNXgDyhb9bW724WdnQaQqFAfkmGr2HhFvs4gTq/0PqVOGF/v8vXKdcras9fmTKQp+iH2Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=inIUcUWd; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ecZa1r6u"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51c16ac21acso15453541cf.0
-        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 06:58:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785679117; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kPd55n9Q1oMy4UAAfDSDOsWzRlSdMAVT2Zl5d6j3hfWwqqSC9QepWjyxut4CC5YFko
-         U1gPUYdSh6zYrufxJ+OHI3eq+M+rk61xgW8Yj1Z2XhfwWFVEbK246HSwUj7gRHiBcfmL
-         XUprOjftJyWG0L1mo1lupfV323Jtqp3Zdq4VF4mCgQyFsBaxBRII+xCzaBjekhC5T0uE
-         VJDp752CroyDjTe9lM/VoaxPFiOF2XBgVDqGrkjRF32B6q36tCFkHnW5RUhtpWWgu8Mg
-         sixsabITDcEkcnt6wbNJ9EUzaDErwBTXpA8MxSxxMV4M03hgqgx/iGnxoKbG6MJRy35G
-         FQIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=p8VfjImXvp+P0j8zuvXRVoWtL2mhC1hJAfHYPdA8WrU=;
-        fh=7J93b4Fy1Ktw0fegDDpMhph0SuqZdSWbeuYOBZy4nJ0=;
-        b=spGxYSd6bWv3ibKp9bAw0hxEfXY18qJTCEw2WjTiiI50nZaH1srtwJjsPmDlFkuMlt
-         nNoC49MQRqndnZuqSl6ADYuoBzTfew8G2yUGoWxIlYEzmK9pYB1UYzkca+7ByRdi0EwP
-         iIjoPjsxzhglaIXa+t8i7u8xoLyHpwfrSL03MW/1Cmv/s8DK3v2jeFFCk0cQ7Ueh/jnZ
-         dGwGk6JS0mva3QJmDTOkiQ314PvdlSvXqIIeB7JuaSxBiayAMZkDEZNmpH+Fi7JyGdDa
-         CPlM2Fit5cYyUcKg46KOY2QUnwHw5+kdbPgQ+9x2hdvAu1BEXs5hgHOF6nlhCBsH60Ja
-         fiEg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="inIUcUWd"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954dff6536so8634895e9.0
+        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 07:49:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1785679117; x=1786283917; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=p8VfjImXvp+P0j8zuvXRVoWtL2mhC1hJAfHYPdA8WrU=;
-        b=ecZa1r6uYd2iJeY3QeDZlAKKaKWuhwM7LnWwlHvS4z0k7mLp6Qhbh+urm5ofe7JfdF
-         Avu3jLUrCOP+TEfw/6UuXuqxwMCgAmuVMKxAd2hIrGLZZJ6fAiDm6tcyEKAwcvZLhs+a
-         IMDUmqc1fu4P/R8PKfo8kxWVUjJ/qze2RLTnc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785679117; x=1786283917;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1785682144; x=1786286944; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=p8VfjImXvp+P0j8zuvXRVoWtL2mhC1hJAfHYPdA8WrU=;
-        b=NP5Ne5FnKN/sY7jJ1uhNDq/Dj7BSLavvEEVZlDMoS2wI00RitJBSOUVrLv1emtZcCT
-         tpHfPxHk4tbcNzM5OGJNOt9lIDVG0DJX2DTeRS+d3R4biCUXAxwDNZ7lo8kUaLyissNf
-         P1Dnj0s6cVz891cO04+7EySNZyKHRIlkNCAaWHWwKamRzdjNwNUCIIpJBSPtHz1oMbNr
-         lKq+XLDFlxFd7ZL4xaQEoyB5ruF7FOaN0uT1tysAMSDpxQK7P27htu0B68LYtlQ4fOwu
-         k6tNevifwMVjmyYw58lmVW7CX/kGvmxhgW5J6bIcxmxjnq81T76k0kzGLEzsw+YX4lt7
-         dSRQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoSJVwN5RFddQyaiocbZ5miAPThRPtchlN5aPtySChGhud5sLsx3eM5YinR+mMzUKkJHc0uKI5TglCiGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy67D+LflxqDRezYGO/WsxdawWW32C1I9qBbr50v8IOTFu035t9
-	KSTslwJNh7mzDSAN/sF+CI/hv8suogplaUlYPf6G0Mi5qa5O3NOC6hNBCmvbZahauNp/ukweTIg
-	8DbS2xwNJ6Lvuph4/XXMmJa2cRZzxEcA/x4jbHc5x
-X-Gm-Gg: AR+sD13/wLjwpV7LyPx0hgaAZNkgoNHsY7ZzQehjnWxAyrhsHtpQGLKQN0mnSZsXXhb
-	7EJe+YZJMYkUCMqAIwqfitLmRv0uzxPu16BE3sh2kggaH0DH/xU5YftxOw4Xi1pB3aXVZyuCiee
-	ezRL6fFn0Xe3hPxPCnkhrTC7F094vTg/LgkbJ6fyDm+K++/zguIFAgXwPn1C098r8l84hrXZq8V
-	E+bvQUMNMNbNvjblo9lD3psB8/AK78FgdvM0ot6UBZCRsb5Vep18nrQENnTo5qSOQC4u8Lzd/8i
-	nZwTZmT9FPzG70xHjOP3epaJvV0wglP69fmZxzl/DuX4bew=
-X-Received: by 2002:a05:622a:489b:b0:517:9c91:6246 with SMTP id
- d75a77b69052e-52b567dd3c2mr146717171cf.44.1785679117290; Sun, 02 Aug 2026
- 06:58:37 -0700 (PDT)
+        bh=G89zE9K0cJl3MiaghXF7pZIuJbVf+x+jpLd1Z0Q4ABc=;
+        b=inIUcUWdCzTdSXlms0aOUmt7c7M6TqKTwa4m2d3enjbMQ8Geul6fBVFuIHvXr2lpCl
+         V+TPu/81Mvebrlork2UeVOl6H29gtagtbOdvQpSDoSbgF6mwAXNMTFABzefuPC01X7SN
+         aJ3btiP+gojEec11/DZkkZXUzq+dGcan17d773xvk05ggebmew3p4sa52bMfN4Xvwjtx
+         66ooc6Isf4LG66dniHqKAF7Tkt9lfXS7hdqVjXLyZVt+WjJJtZOg3Zfv4EDlQN7OuWeE
+         MBnO7MlZLSlCc2ZiYlV5XWb6YuNieEy4HBRyOCesWHLuoydoh4veZ4inAOhXA7chSu8z
+         2VRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785682144; x=1786286944;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G89zE9K0cJl3MiaghXF7pZIuJbVf+x+jpLd1Z0Q4ABc=;
+        b=bzT9rAsjbEB5p9y8S/zJ4p+yJ7RmJ1covrZ9bjl98kcEYDLa6tKUH2xA37GEA/pm8I
+         H+vaATR5/qf5CdR0mtjuTC3EAWma7jT8aBi9Yj8MpkC5v+etp9U6wIouNZFygNvDbAu6
+         UF4MY6c2BxGcgq7UUzg+JaH2c0a2pIxdU14+ay7paz4tHYdjrfHZtMcTcWDPIKr2/psk
+         Fi4S/Wni4wOnpFpDslelZbvyY1ZHbcuSzUrBI2yU7azOOIWw6014SjqKjXtNdKTLQA+3
+         TvD1uw/sV5d+TpFRezZeTMgDBUIZZFXbUZCNeDOX3RXPrCcZvDQ/07FPfOiCCZF2lpvL
+         G/tA==
+X-Forwarded-Encrypted: i=1; AHgh+RrOKDZmmjw8QeuH25ywIBlOi9TT+R6SLPJcOu+14BoB0jJxleIvIyT3UREZG2g4PBkimsJfK/jE5dmB8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWKCAdcigSAWarTuTwKTNU5D6qLMfH8ck+Ml+qFXno/yTp0lGg
+	v0y3fMff+c2aZa5qATRaSWUPgKHB+4fydRGHpVcoe/PWEQ7nNlABOaFb
+X-Gm-Gg: AR+sD11P8kJLJtgy3ErdYonnJAvnH1gn3snt1ZfxkZNUycUrqPrAvhBG+5V8/+EgUD0
+	wH2FlG1Y6VC61JP781zJn1MDUnSJDtwF0wo98a418f9FkH8B1YDeTGgrJmHGNlf+Y8CNSrY8vH8
+	ZT5jlgvNhK5HHl6+GQCorFIeRZpQjsjtWbkoxzRrUzumxKLQTzaSJbrRyupyWjtKJ9PrUBzDCdh
+	YtDv0OHfQ9+HROe5YWtxFEjPqh/J9v8RvXlMaZnXqBoCr59miU70UlRIGxSimakfIj/kZ3fe4vT
+	jLZioz0wgxo635BfX/2YaG1+Tz8gEK67u8w8CNJmuL3dv5FFWRL1CMCLpIRbYjaaGoOSlCx3F5i
+	3y+yoltITqoPWAa/HItea3GhqdX2aUpaIoLNlwRDSrMnE2SShMnqvxWEN7XgwEn6uHqBFKNZc+e
+	O8HtqMd8E/aQI+wBoIHibbUSXuixShiL4l96UaZQ95qdGfteKw4xZX9WTt6vXLmDfxlRltJU/oO
+	2HiQaVGftYUvdYCoSqNFm6pylPVllxjMg3BVMJ0szCYwkovx3us
+X-Received: by 2002:a05:600c:19cf:b0:493:bb29:af40 with SMTP id 5b1f17b1804b1-4980c674808mr124471625e9.14.1785682143958;
+        Sun, 02 Aug 2026 07:49:03 -0700 (PDT)
+Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd45a1abfsm23844189f8f.37.2026.08.02.07.49.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 07:49:03 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: arnd@arndb.de,
+	rosenp@gmail.com,
+	chancel.liu@nxp.com,
+	jonsmirl@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH] ASoC: fix unmet dependencies on PPC_BESTCOMM and SND_SOC_AC97_BUS
+Date: Sun,  2 Aug 2026 15:48:55 +0100
+Message-ID: <20260802144855.3596995-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260731074255.1513402-1-yuhsuan@chromium.org> <8733wycn2p.wl-tiwai@suse.de>
-In-Reply-To: <8733wycn2p.wl-tiwai@suse.de>
-From: Yu-Hsuan Hsu <yuhsuan@chromium.org>
-Date: Sun, 2 Aug 2026 21:58:26 +0800
-X-Gm-Features: AUfX_mxIqfjxlZngG7yIPny-MZFBzrARiG088agzLhRTIkmbT8pHU76oVrbjIqE
-Message-ID: <CAGvk5PoFzm3FyMhyDgqbVKQWC7j4EXh65W2j29L7BWw8xCO1MQ@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: aloop: Fix spinlock deadlock in loopback_hrtimer_stop()
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, =?UTF-8?Q?C=C3=A1ssio_Gabriel?= <cassiogabrielcontato@gmail.com>, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Takashi,
+SND_MPC52xx_SOC_PCM030 and SND_MPC52xx_SOC_EFIKA both select
+SND_SOC_MPC5200_AC97 without ensuring that its dependency on PPC_BESTCOMM is
+met. This causes unmet dependencies such as:
 
-Thanks. I actually encountered a CPU deadlock during the aloop stress
-test. (Resent as plain text.)
+WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
+  Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_BESTCOMM [=n]
+  Selected by [m]:
+  - SND_MPC52xx_SOC_PCM030 [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_MPC5200_SIMPLE [=y]
 
-Best,
-Yu-Hsuan
+SND_MPC52xx_SOC_EFIKA also selects SND_SOC_STAC9766 without ensuring its
+dependency on SND_SOC_AC97_BUS is met.
 
-Takashi Iwai <tiwai@suse.de> =E6=96=BC 2026=E5=B9=B48=E6=9C=881=E6=97=A5=E9=
-=80=B1=E5=85=AD =E4=B8=8B=E5=8D=883:33=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Fri, 31 Jul 2026 09:39:35 +0200,
-> Yu-Hsuan Hsu wrote:
-> >
-> > In loopback_hrtimer_stop(), calling hrtimer_cancel() while holding
-> > cable->lock triggers an AB-BA spinlock deadlock if the hrtimer softirq
-> > is executing concurrently on another CPU:
-> >
-> > 1) CPU A runs loopback_trigger(STOP), acquires spin_lock(&cable->lock),
-> >    and calls hrtimer_cancel(). Since hrtimer_cancel() is synchronous,
-> >    it spins waiting for the executing callback to complete before
-> >    returning.
-> > 2) CPU B executes loopback_hrtimer_function(), which immediately tries
-> >    to acquire spin_lock(&cable->lock).
-> >
-> > This mutual dependency leads to a CPU hard lockup and NMI watchdog
-> > panic when multiple streams start and stop concurrently with small
-> > period sizes.
-> >
-> > Replace hrtimer_cancel() in loopback_hrtimer_stop() with the non-blocki=
-ng
-> > hrtimer_try_to_cancel(), matching the behavior of jiffies timers
-> > (timer_delete vs timer_delete_sync). If try_to_cancel returns -1
-> > because the handler is running, CPU A releases cable->lock cleanly.
-> > When the running handler subsequently acquires cable->lock, it observes
-> > that the stream is no longer in running state (cleared by trigger STOP)
-> > and terminates without re-arming the timer. Synchronous hrtimer_cancel(=
-)
-> > remains preserved in loopback_hrtimer_stop_sync() where cable->lock is
-> > not held.
-> >
-> > Fixes: bf08a5f698dc ("ALSA: aloop: Add 'hrtimer' option to timer_source=
-")
-> > Signed-off-by: Yu-Hsuan Hsu <yuhsuan@chromium.org>
->
-> While I find it's fine to change like this, I wonder whether you
-> really hit a CPU deadlock.  Or it's just hypothetical?
->
->
-> thanks,
->
-> Takashi
+Let's resolve all 3 unmet dependencies by adding the dependencies on
+PPC_BESTCOMM where needed, and selecting SND_SOC_AC97_BUS as other, similar
+options in this subsystem do.
+
+These unmet dependency bugs were detected by kconfirm, a static analysis tool
+for Kconfig.
+
+Fixes: a9262c4fd404 ("ASoC: Support for AC97 on Phytec pmc030 base board.")
+Fixes: 6ffee43ecf8b ("ASoC: Fabric bindings for STAC9766 on the Efika")
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+ sound/soc/fsl/Kconfig | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
+index 8ae59c094878..a5d7cf534391 100644
+--- a/sound/soc/fsl/Kconfig
++++ b/sound/soc/fsl/Kconfig
+@@ -243,7 +243,7 @@ config SND_SOC_MPC5200_AC97
+ 
+ config SND_MPC52xx_SOC_PCM030
+ 	tristate "SoC AC97 Audio support for Phytec pcm030 and WM9712"
+-	depends on PPC_MPC5200_SIMPLE
++	depends on PPC_BESTCOMM
+ 	select SND_SOC_MPC5200_AC97
+ 	select SND_SOC_WM9712
+ 	help
+@@ -253,6 +253,8 @@ config SND_MPC52xx_SOC_PCM030
+ config SND_MPC52xx_SOC_EFIKA
+ 	tristate "SoC AC97 Audio support for bbplan Efika and STAC9766"
+ 	depends on PPC_EFIKA
++	depends on PPC_BESTCOMM
++	select SND_SOC_AC97_BUS
+ 	select SND_SOC_MPC5200_AC97
+ 	select SND_SOC_STAC9766
+ 	help
+-- 
+2.55.0
+
