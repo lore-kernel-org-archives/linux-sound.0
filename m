@@ -1,87 +1,87 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A361C396B70
-	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 13:08:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAD734A78E
+	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 13:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785676124; cv=none; b=LHIqcdbWA0dUHsw+d9FTQHPkaTGJwuiQ4CO8vvMmU84wXJqTQJjCxAFpE7YBDPPspd7jjvPqXvWeWQudOak8ZkiLmdINMhs5GRbGkgSITzgl6bWitAvfBpoNxL4dRPpXcwLgP3xVrzJTORGsc6Eq76UIis7R81EaN1HEzA+/pNs=
+	t=1785677423; cv=none; b=Hb/AtZBEDbRf/kbKid0PaP9XCvSYgYJxOPzsDHqlXeBHUpW6lwTnmdrndHOTJd0fkvXmEpQU8Ctvxg3mL0gaH6OWtyMxnQqFuW7AxhTeK/D7GyIM3R5MMPXB4kNFZ2NY2mcMC1Cl5FjL93GSUSw97voxdyW/0G+UmlbzCx5CLvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785676124; c=relaxed/simple;
-	bh=Zjr/GgkfQN8HSlBsnDUe5c06WaWL49Nm33OUy/WRiT8=;
+	s=arc-20240116; t=1785677423; c=relaxed/simple;
+	bh=6+MsTxqLn3+j1CNnnq7//8dYOGO2DnYXhvIoC/Ul9lI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gp6ANPZ/CgA1IqFznXbzv0O6nOUCHJvCtJOes6Z0SVtFiKM6K7etIW2oSauJ28CECMIyDJJ/U3FvLYh85U3nUVGbUyQfKATb9z7w9ZRwC/4GGjjj2VoQXa7asgg4UL4AXim/12ZJDocCv09chf0RsH3gB54A/YlsPxrEr9bg/5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=msWveZee; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VkvMHkWI; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=b38zuvgv41KAj01gX5YXFkR3BAZDNWnbXhd/StdxtIZE5tJsOz9ndaignNJx8yB27VDpm1BSJakcdduCJQ3WA/m7BIp1qwX2kNE2vjBI10p7B3a2nq9spq90QEk5Z6RzjMTBsHEWpGrJo+kT0u+FY/30EXNI6Yi7T+qA+5wVwAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AJek9/6i; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LkN9pVOU; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="msWveZee";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VkvMHkWI"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 672B6elp1506336
-	for <linux-sound@vger.kernel.org>; Sun, 2 Aug 2026 13:08:41 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AJek9/6i";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LkN9pVOU"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 672B6qA51791424
+	for <linux-sound@vger.kernel.org>; Sun, 2 Aug 2026 13:30:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tzTlSswQ+tryVfPWA7dtL2qCpFKJCmXOg6f/dfXV+1U=; b=msWveZeeBOmevEEl
-	3Qxgw9QqSsnoiPZYLFrAHsscSg8Y2oNOqCrfEpoamkM7s/YRIouQc4PQ17SQDQvU
-	FtBFsX27tCD3hmfHEAkwCxKFUU2ikf1kS0T5yythTfKNf2PYKrDxnEWiDkoMbWRe
-	hPUZn8JopYtuCSt7peBqsZn0L8UK8UMTVHO019GeTnN/aoSHoCuWYALoWjLJcJhU
-	jGLSmF+BdYdSEfvsdiOH9TNsH86F7LW7dT4raBQOYz1pyPF1wjKvcNVxLshWpngp
-	f36vx84ysR1Sl72bbEbzRfVAQJ+Ido0vARdYQdKI4dcnZqEYq43kGoojvsXG+qn6
-	pQOZ1A==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fs8u9av2q-1
+	BH01Edhq/ypeap0BG3p414W44OzHwtPMsqAEhHXxmkw=; b=AJek9/6iqVZvx/Bm
+	cPQhMoV78fr4rY2+r0+SjBgKb7ErfWC/EgzBVYUNEnwd+W2aP7pMBBbinn19o5pR
+	AF3LjtMxXawtKeqyK/BGOMj2CyUmmfW07zSgOEF0c7a83Tlci244B5EPZiqbieFs
+	Fr2/MhDRVHcmFiKi7H0otfsJHV/dGzTr89OY7Hnv4+BNGRNJI7YuN2V4VUOJjb86
+	8SNeenjNEwwt/Rfrmh1scLMrtrem3HdjfwqAN9oXACEhqq/O/mDnnkbRKVXNbTWM
+	uFlRiVwdSVvQWL2yOJeJun7NaBHbLHF0x6I9QzJ8SPafumPXbu9MEjhTPIYDxjSJ
+	PN9zdA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fs8tx2xkp-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 13:08:41 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-5283fa0656dso40560901cf.1
-        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 06:08:41 -0700 (PDT)
+	for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 13:30:20 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-8ef8249f73fso47055276d6.0
+        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 06:30:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1785676121; x=1786280921; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1785677420; x=1786282220; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tzTlSswQ+tryVfPWA7dtL2qCpFKJCmXOg6f/dfXV+1U=;
-        b=VkvMHkWI+Gw33HRuOyHYtimn4Tffq5hm15SF8rfxGHBMRNvh6lUyiGEWcjTARKfpyH
-         RW0etXmOet5pAokw5VqV/9n3wpnnmWePDnX2BHF89XLpOhGn1BBXsxc4EFSzwF4J5Zzi
-         8rBcMfDgk/ZTTZ+7QeT70b1OmRBoRGO9aYDsEsGae4cqqiw2No0AiWjjMcYJO0ZJLP/A
-         qMIMo6VqjTr0YgkqFsN+aPVh5tJ5Cj3WwJu+4VSf3WtgeJ+pKnHDoYUuz/ZrkqUFn3RA
-         YX2A0VpAI82nvq8bAua4vdQl0n4Pfxsp/H+W0P8ve+9slu0fPtFjfRD2g21tcZ9kc51U
-         oMWQ==
+        bh=BH01Edhq/ypeap0BG3p414W44OzHwtPMsqAEhHXxmkw=;
+        b=LkN9pVOUvstzQuP2MEQ06GcLP3WBx3kKXeEIlbg+kXyQyoYAtiaORBhyRp02H5cCJN
+         8EE8rYH8l4s2uTYMdccwB9IM+CCm1Cya1JNnoV/e0G/94Cplyv9K0IgZ5F+uA4e+8vHq
+         f66c7tVgZQFAR6SpEVSg1AW7j8rX4qL+iwIsaotuUvpUPLBk+QTBaQ6vLkeTHYs8GO8D
+         4QsDGTrP/vvbwrqPZ6ia6ovpkqjoJcngVXw86p7kG3r/HKghV/Mc5tXIMIf/lP5QqWt+
+         WUQF7rnlejKM9XHmFLaOccrD/K1xDkos6PbXpOXREOmmW0EULJ3rBaL5SyZKAoLmOdaz
+         /QcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785676121; x=1786280921;
+        d=1e100.net; s=20251104; t=1785677420; x=1786282220;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tzTlSswQ+tryVfPWA7dtL2qCpFKJCmXOg6f/dfXV+1U=;
-        b=pjLaFO/V9AJ7I5ERvG4y8+NDwU0lqiTUgTeIOvTgwcNIJgOiHDihhNnPOD/2W7//Tq
-         wgRfFyrk6X30Lh+rs4SusdNJwrxNsBuJ8+yl279Hm4sptwbou3LouEzNezDIzsWKsWvU
-         vq4wp6W+N4nYNKTsIYrGRnm7ujE3PkZWdsNDS+N7hRrqrPdkI2x2LEju6rHzAVtEczLs
-         AZFMNZ+A3YflNtc5Rul8uoWTqpMb/KKBA+ILDf0kC5fEQbQmu2lIsDR68wnsYZ65q7p5
-         1cL6a/1KFo+dgAxSN+tW8uAXQ2yGILCrIXGOrDFChRgQg1ctoIP/BAaLKCTQU0k3hBlz
-         6QeQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro16rZkY/I0TMmuk8iixRWlEaEK15ISCXMXt3etRW4U59qxGBtrzHbrgsJNpvIJknK/y277ohNYLqSwIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/n8i9XXsWNdGDBMkDNXtZvcxp2gpscE3ojCK7FaINZC1BkMxA
-	G5jG2tSbpB2ynrtbByTtPphiL/Tco0YgNbiCFyAMHX7U4a/54Rf4pNJRD7x11nfBVn14TciSs4a
-	tM4XISXwv5vT1dCI1Ve5BOJOQKyEKkhbOPBfJAfXdGajM3vStzuHhteTdS0gc91iBug==
-X-Gm-Gg: AR+sD109yGKUu3clCRZxqrvNcN7U/K/uUvoZk+GYC2Eh2fpz2AU/aRYTREIc8VzRiP3
-	GHjjABQ16131D4Yl3zE6sxSjmc0zaG9V+Obd01PgF3ZspIuxyIA9VXMHdNZev5QHzmX4JUu2u4j
-	p5WMW+eogv5zKBGqIF51U+6PocBaUQ2xCgi0mdyFXv50rOtO47x0P2N4fqyW2WZenAlMQCf9CUd
-	zK5VGExFmaaB6qw88G0UdJqyBFfyi+JZtqGkW6AwVFmLbbUDIrNEGCTYhTB47LTdPkkbtXdCvbB
-	VjNB8MAhlT0rdoqH30v/WxUr/T4nhN80KTWHLJnm/u3iKh0Klv7c6uAV6SqFfm+HBNxfgJYLoYA
-	akB6dqUY3/8qQl7GAQ1g+FOsd62g=
-X-Received: by 2002:ac8:5cc3:0:b0:51c:291:82eb with SMTP id d75a77b69052e-52b4c5877a4mr155031581cf.14.1785676120898;
-        Sun, 02 Aug 2026 06:08:40 -0700 (PDT)
-X-Received: by 2002:ac8:5cc3:0:b0:51c:291:82eb with SMTP id d75a77b69052e-52b4c5877a4mr155030951cf.14.1785676120464;
-        Sun, 02 Aug 2026 06:08:40 -0700 (PDT)
+        bh=BH01Edhq/ypeap0BG3p414W44OzHwtPMsqAEhHXxmkw=;
+        b=X5EOzjuwvM8S5omEM0yPvZ9pynG6S/fK22Tn5rn9WuAd9D5MXbz40SySgoSxYmj8zA
+         GLktOMNLkJwdB23sYAMKVpEVbZXf2UtfSTgiqPP7Hcj0l7KQJD3FtRagen1LBSfPJA0I
+         bwNbyBbNNf7x46AeEakooc/wV/DdYpMT00WsRMj85Dks8ylI9yT+cTEJU5BuelSMG+kw
+         eQb0EFyvwDLywvTLCLzIfNE8SJA/0yVmLJW9msOUqjHFYNu89aDhA+uDoLBMWGcx+f+y
+         tbHMNF46MH6Dk32jfnVXgXfncPxLjbZgkUlP9Tg/7L51mgDl/7aMNSfujbfnZ4YyNjys
+         1bFQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpojcMshlxpbqXluTgqFxJtJeuS9J5hFCQ3RKHohLYGNPtc/yimpVYsBCzp3YcfoEJiogdgnFvyzB5DBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwXLiaPE1rD+KfAFyzsS0QspvuC5ZRmsMrFcHheL/cTfcwUfvL
+	7fomJ3HefTPOPnDjM+TnZD+OO/C//0JjYetdKZ0+8OPS8b115injPXRx12DuBZMe3llaS/u5y2X
+	k0N1Msb0dC3J3GOIhZ+Hz0ppW3X5DrKIaOYU6fAo4zxXNx5jdSG2ZXa67zDqFeW14Fw==
+X-Gm-Gg: AR+sD10cByuOeBoz9nkPlfDekDIuPrgojz19ocz6MSynb2qQ5vJzz9+RAt25XLYMqZz
+	2UyLfHMLsPXG3DnpfjvkyYQLRcYlMhcdFOUmUtdNMpCZdJef73v+idmnDii/jQasE6xb7yjdmtq
+	K2rO8N5uwMYsMeEC4Av3qyLk3WvFya+syCxk5rWOJU3lmDLMe8zjbQl4Fdd4Kf3it0J8xzKzUqn
+	Hn/kgA28kiAzMIbIRcWou5K/qz374e5E/Fvt2FO/RoGtORrx4ymkiV6+C/3a5vzZLHE4PD6ZsCX
+	hN+Kl0OB6jflvbDQyDIdWwV7eqchwvRTLnqHRKmKiFuCVZHd9+edrXVQqI/1bYdqewKNUGIq7XE
+	9lBQ0ijKno9yfKOCNjnfQIxlXuyk=
+X-Received: by 2002:a05:622a:230a:b0:51c:8571:1ccc with SMTP id d75a77b69052e-52b567f2645mr142671831cf.41.1785677420040;
+        Sun, 02 Aug 2026 06:30:20 -0700 (PDT)
+X-Received: by 2002:a05:622a:230a:b0:51c:8571:1ccc with SMTP id d75a77b69052e-52b567f2645mr142670611cf.41.1785677419490;
+        Sun, 02 Aug 2026 06:30:19 -0700 (PDT)
 Received: from [192.168.68.104] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49807b9441csm132440315e9.4.2026.08.02.06.08.38
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49808690ffbsm157118855e9.10.2026.08.02.06.30.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Aug 2026 06:08:38 -0700 (PDT)
-Message-ID: <192088d6-a50f-4eaa-9aeb-41db6d2a2126@oss.qualcomm.com>
-Date: Sun, 2 Aug 2026 14:08:37 +0100
+        Sun, 02 Aug 2026 06:30:18 -0700 (PDT)
+Message-ID: <f24e2ad7-520a-4a19-9ebc-5771703de22d@oss.qualcomm.com>
+Date: Sun, 2 Aug 2026 14:30:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,8 +89,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/7] ASoC: qcom: q6apm-lpass-dais: add TDM DAI
- operations
+Subject: Re: [PATCH v5 3/7] dt-bindings: sound: qcom,q6dsp-lpass-ports: add
+ Audio IF clocks
 To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
         Srinivas Kandagatla <srini@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -102,153 +102,102 @@ To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20260801054610.4047089-1-prasad.kumpatla@oss.qualcomm.com>
- <20260801054610.4047089-3-prasad.kumpatla@oss.qualcomm.com>
+ <20260801054610.4047089-4-prasad.kumpatla@oss.qualcomm.com>
 Content-Language: en-US
 From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-In-Reply-To: <20260801054610.4047089-3-prasad.kumpatla@oss.qualcomm.com>
+In-Reply-To: <20260801054610.4047089-4-prasad.kumpatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 3TRWGuJVywmxB4yuzs_M5AiomAQZCRNf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODAyMDExNSBTYWx0ZWRfX/jTypI54jNMb
- xH7jqadNvvs69qzkEi+35Y/pDqA0bTiKwFSXAG2aZbF84q0HwNCHpd1URI2h4FlyLd8QZtpUnBd
- qh4Wxo3tBeUIz8ZMO9Q7H7rDMWg1E+dmPd4Wy4Tq4lXK+d7CBb3u4lsaZMV0JkKVxlMkONYK8U0
- IveJ0VQSKJrcr79fWKX/IlRfxtu6uZB/kFnKuzY9crNop9OUXSGbVRbR7ePX+VsY/F2r4/w0ac+
- VzCMl+UVbRzn915sBCef31Eyn8M7jJjBNtmeK/jUztLshvYfBNxmuYHyQDmu1llNS8ZDZYoWDLJ
- fzN7TUIKrgs48lB8k9ihM8/ks2yXf4FyDiXVODZJlqHQBcLdpFkDD0Mn4XZWwcTQFyD0RY/rEgu
- +xD3syhio7BfcTSODIC20DV5loCl18mMedLYwABE7rhWCFnk+SzdmlGrQcHu3QZ9EjvS3ZG0BMC
- TlqGkps9SfLAm0u6M7g==
-X-Authority-Analysis: v=2.4 cv=LsCiDHdc c=1 sm=1 tr=0 ts=6a6f4159 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODAyMDExOCBTYWx0ZWRfX0vofdsltRFy0
+ weEAXjbMd00LbpepfzshZCNHuS4y6fbo3UDJk6j1ZTQW9pXUgU5lYUfH9bNHXMBrABdnuWwDyf4
+ lBSRKomYkb4b0Tl/kRZh49Vgx1wD8PMCMr4sroRq2Ko5uxxkRaGBAPej9Q73luUonUg/epj0Ztu
+ z3bfBrAg5Bgas0mAVz4RoGsgDozx34F1Ru5I7fkrJfVg67hQTeixntYu6RWQ1Kq1dHsPB93wMYw
+ s7r1HsZ+yjFF94+4fQydAEvs3d1LrYGgojTBlUa+WGkW6Y0IVwgRPUIDj+IGgDRl1lspWcve4i+
+ W/70TK1vR98fQaL57QN50+MTVAInvBGKjQYIVtger+HGibd9CEWKjPFIgfez6N0U4RSUg8DnDmg
+ LqDLkpzRF1aoJjjZbAlLlg0RvfLzzgG9xPi1J12GLVj4Q2ymjeINCYY4z5WPfF1mUmMLAGq47zj
+ CzCRx4KMq9w5caesUaA==
+X-Proofpoint-GUID: afhNPMKCGCKZATWAzrL9MNHUVKxMccU4
+X-Authority-Analysis: v=2.4 cv=T9C8ifKQ c=1 sm=1 tr=0 ts=6a6f466c cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
  a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=VHJlbi77fKg4ZXaQ5xoA:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODAyMDExNSBTYWx0ZWRfX821DEL6TN8gc
- HkgvRfxH6JvJNbmgXNmIcfFjImJGpdbpYE0s5NP2TmQy8izsONxx+vPlxI78Ehz/9+We/nD8vhJ
- 3VR8Q2O/8Gg5GC4hE1LCqDhc1wJouJM=
-X-Proofpoint-ORIG-GUID: 3TRWGuJVywmxB4yuzs_M5AiomAQZCRNf
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=EUspDBNiAAAA:8 a=S0i2IUftuXgoZizot94A:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODAyMDExOCBTYWx0ZWRfX9LE+qnriQKAa
+ ngtUiQDrhXGd6Mrx6tO9wpeR1d03Rgg1IglwAd7TMijmLeTp2wtuWX9DU51RKUX9ufjkP4ksIBP
+ 6hL/Uf8zPkK8sTtlLJrWezhk1fQQoOU=
+X-Proofpoint-ORIG-GUID: afhNPMKCGCKZATWAzrL9MNHUVKxMccU4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-08-02_04,2026-07-30_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 impostorscore=0 phishscore=0 spamscore=0 adultscore=0
- clxscore=1015 malwarescore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608020115
+ phishscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 adultscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608020118
 
 On 8/1/26 6:46 AM, Prasad Kumpatla wrote:
-> Add TDM DAI operations to q6apm-lpass-dais so AudioReach TDM
-> backends can be configured through the normal ASoC hw_params and DAI
-> setup flow.
+> Add the LPASS Audio IF clock IDs used by newer backend interfaces.
 > 
-> The TDM set_tdm_slot() callback validates the supported slot width and
-> slot count, stores the active slot mask in the AudioReach module
-> configuration, and leaves existing DMA, I2S and HDMI paths unchanged.
-> 
-> Reuse the existing LPASS child-clock handling for TDM nodes as well as
-> MI2S nodes, since TDM backends also request optional backend clocks
-> through the machine driver set_sysclk() path.
+> Platforms using Audio IF module backends request the interface bit
+> clocks through q6prm. Add the Audio IF IBIT and EBIT IDs to the binding
+> header so these clocks can be referenced from device trees.
 > 
 > Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 > ---
-lgtm,
 
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+
+>  .../sound/qcom,q6dsp-lpass-ports.h            | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+> index 7b553a73bc92..fbcf1ef9ce22 100644
+> --- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+> +++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+> @@ -233,6 +233,35 @@
+>  /* Clock ID for RX CORE MCLK2 2X  MCLK */
+>  #define LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK	70
+>  
+> +#define LPASS_CLK_ID_INTF0_IBIT		71
+Patch itself looks fine for me,
+But the naming seems to be bit odd and misleading,  what does INTF mean
+is it QAIF or some other Interface.
+
+Please prefix the interface name something like
+LPASS_CLK_ID_QAIF_IF0_EBIT or LPASS_CLK_ID_TDM_IF0_EBIT.. etc.
 
 --srini
->  sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 60 +++++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-> index e68e8b000e07..e204fd59e512 100644
-> --- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-> +++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
-> @@ -358,6 +358,53 @@ static int q6i2s_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
->  	return 0;
->  }
->  
-> +static int q6tdm_set_tdm_slot(struct snd_soc_dai *dai,
-> +			      unsigned int tx_mask,
-> +			      unsigned int rx_mask,
-> +			      int slots, int slot_width)
-> +{
-> +	struct q6apm_lpass_dai_data *dai_data = dev_get_drvdata(dai->dev);
-> +	struct audioreach_module_config *cfg = &dai_data->module_config[dai->id];
-> +	unsigned int cap_mask, slot_mask;
+
+> +#define LPASS_CLK_ID_INTF0_EBIT		72
+> +#define LPASS_CLK_ID_INTF1_IBIT		73
+> +#define LPASS_CLK_ID_INTF1_EBIT		74
+> +#define LPASS_CLK_ID_INTF2_IBIT		75
+> +#define LPASS_CLK_ID_INTF2_EBIT		76
+> +#define LPASS_CLK_ID_INTF3_IBIT		77
+> +#define LPASS_CLK_ID_INTF3_EBIT		78
+> +#define LPASS_CLK_ID_INTF4_IBIT		79
+> +#define LPASS_CLK_ID_INTF4_EBIT		80
+> +#define LPASS_CLK_ID_INTF5_IBIT		81
+> +#define LPASS_CLK_ID_INTF5_EBIT		82
+> +#define LPASS_CLK_ID_INTF6_IBIT		83
+> +#define LPASS_CLK_ID_INTF6_EBIT		84
+> +#define LPASS_CLK_ID_INTF7_IBIT		85
+> +#define LPASS_CLK_ID_INTF7_EBIT		86
+> +#define LPASS_CLK_ID_INTF8_IBIT		87
+> +#define LPASS_CLK_ID_INTF8_EBIT		88
+> +#define LPASS_CLK_ID_INTF9_IBIT		89
+> +#define LPASS_CLK_ID_INTF9_EBIT		90
+> +#define LPASS_CLK_ID_INTF10_IBIT	91
+> +#define LPASS_CLK_ID_INTF10_EBIT	92
+> +#define LPASS_CLK_ID_INTF11_IBIT	93
+> +#define LPASS_CLK_ID_INTF11_EBIT	94
+> +#define LPASS_CLK_ID_INTF12_IBIT	95
+> +#define LPASS_CLK_ID_INTF12_EBIT	96
+> +#define LPASS_CLK_ID_VA_INTF0_IBIT	97
+> +#define LPASS_CLK_ID_VA_INTF0_EBIT	98
 > +
-> +	if (slot_width != 16 && slot_width != 32) {
-> +		dev_err(dai->dev, "%s: invalid slot_width %d\n", __func__, slot_width);
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (slots) {
-> +	case 2:
-> +	case 4:
-> +	case 8:
-> +	case 16:
-> +		cap_mask = GENMASK(slots - 1, 0);
-> +		break;
-> +	default:
-> +		dev_err(dai->dev, "%s: invalid slots %d\n", __func__, slots);
-> +		return -EINVAL;
-> +	}
-> +
-> +	switch (dai->id) {
-> +	case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
-> +		slot_mask = (dai->id & 0x1) ? tx_mask : rx_mask;
-> +		if (slot_mask & ~cap_mask) {
-> +			dev_err(dai->dev, "%s: invalid slot mask 0x%x for %d slots\n",
-> +				__func__, slot_mask, slots);
-> +			return -EINVAL;
-> +		}
-> +
-> +		cfg->nslots_per_frame = slots;
-> +		cfg->slot_width = slot_width;
-> +		cfg->slot_mask = slot_mask;
-> +		break;
-> +	default:
-> +		dev_err(dai->dev, "%s: invalid dai id 0x%x\n", __func__, dai->id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const struct snd_soc_dai_ops q6dma_ops = {
->  	.prepare	= q6apm_lpass_dai_prepare,
->  	.startup	= q6apm_lpass_dai_startup,
-> @@ -387,6 +434,17 @@ static const struct snd_soc_dai_ops q6hdmi_ops = {
->  	.trigger	= q6apm_lpass_dai_trigger,
->  };
->  
-> +static const struct snd_soc_dai_ops q6tdm_ops = {
-> +	.prepare	= q6apm_lpass_dai_prepare,
-> +	.startup	= q6apm_lpass_dai_startup,
-> +	.shutdown	= q6i2s_lpass_dai_shutdown,
-> +	.set_tdm_slot	= q6tdm_set_tdm_slot,
-> +	.hw_params	= q6dma_hw_params,
-> +	.set_fmt	= q6i2s_set_fmt,
-> +	.set_sysclk	= q6i2s_set_sysclk,
-> +	.trigger	= q6apm_lpass_dai_trigger,
-> +};
-> +
->  static const struct snd_soc_component_driver q6apm_lpass_dai_component = {
->  	.name = "q6apm-be-dai-component",
->  	.of_xlate_dai_name = q6dsp_audio_ports_of_xlate_dai_name,
-> @@ -415,6 +473,7 @@ static int of_q6apm_parse_dai_data(struct device *dev,
->  		case PRIMARY_MI2S_RX ... QUATERNARY_MI2S_TX:
->  		case QUINARY_MI2S_RX ... QUINARY_MI2S_TX:
->  		case SENARY_MI2S_RX ... SENARY_MI2S_TX:
-> +		case PRIMARY_TDM_RX_0 ... QUINARY_TDM_TX_7:
->  			priv = &data->priv[id];
->  			priv->mclk = of_clk_get_by_name(node, "mclk");
->  			if (IS_ERR(priv->mclk)) {
-> @@ -479,6 +538,7 @@ static int q6apm_lpass_dai_dev_probe(struct platform_device *pdev)
->  	cfg.q6i2s_ops = &q6i2s_ops;
->  	cfg.q6dma_ops = &q6dma_ops;
->  	cfg.q6hdmi_ops = &q6hdmi_ops;
-> +	cfg.q6tdm_ops = &q6tdm_ops;
->  	dais = q6dsp_audio_ports_set_config(dev, &cfg, &num_dais);
->  
->  	return devm_snd_soc_register_component(dev, &q6apm_lpass_dai_component, dais, num_dais);
+>  #define LPASS_HW_AVTIMER_VOTE		101
+>  #define LPASS_HW_MACRO_VOTE		102
+>  #define LPASS_HW_DCODEC_VOTE		103
 
