@@ -1,161 +1,133 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CB237BE6E
-	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 21:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785705266; cv=pass; b=uaKPzVElBgwDU9viR2M8dQhwUb8pR2Dp6bLgDk4eV528wcqmc3456lgUojcg8z9vwtAEY/qzfSJ8nHIOq4dHf29jnlHVJzjNqtYMufXf0e6O2Ny166W/pT9C2kNIcqwZq1Nq0PCq3siIk+5rT80119UpsIebLJ8rVIsr4fROnVg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785705266; c=relaxed/simple;
-	bh=ClnXJw1IIDgTQaz4hKslq9Wh1GPTBlNs1n2LRp1eiEk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OFHtg2tVTC/Rp5j00bA+3Sf4aMEcS05An3exR1Y5W4TflzD3rr2prxppMzWeaDw0Y9K8wMoOTEVVRUMoGq13pcl4mkUet08uTBPBou9UvjdbS0iwrkbEYPjP9OKxiGSH7bsn3ItNsvS4r+C3QblesmeIYRpoY1nU8UFxKHuVVfw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K54wkZm2; arc=pass smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DFF265CA8
+	for <linux-sound@vger.kernel.org>; Sun,  2 Aug 2026 22:17:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785709051; cv=none; b=Sc4Kn+sejDYogxJCsyUyXUYgTVS8nT9Zjt7DtZqTYFIfp6AosHI01iSuQ0fVAMr6IjcA+mCacTbRsd9fO21jsaxr1TOKdsD4Jt2sDRmQsrl9j2mj1cKOMn/HYvzTqUbIjlzNDnSw0UHPYWffbp930y4x2PnLc8yeRcDI0DzGBXE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785709051; c=relaxed/simple;
+	bh=T8GIVGVx3IVGy3cz7RX/iIVlyqRH0fdXuqZLWkXg95I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y5qKK8cJBc9vnnvjF/w39yoqBm4VaEw9H63GCLJHn8FPALNvJ8DG0m/BrEwH2NB33IEgKpftc9SWLPXEzGJUjvASpVuooUk967n/f8t1vjBUf0yFvtWLy7LYQ/RcUbEaV32t/tdnObQVdIJZ6vJ5K9tWFIpU+OeBBA4mkJ3X91I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=l30D97X0; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K54wkZm2"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6a051904222so4001985a12.2
-        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 14:14:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785705253; cv=none;
-        d=google.com; s=arc-20260327;
-        b=q1/jAmYCqb9UJjv/WP0EMvEMM1rZKeIx7GOvQpbetB3217EhVBaJjXMAZ61OdLNv77
-         Y8jyzqs2bEi9gLaNRiHmXRGJszQKoypxq4yJ8pTQHSUGPHjKvbXeCOGPD/UGiIwNrSON
-         vSrJqk3DJXTjSka+svMxEZjqT3nP9VlJyIF+cqiD3EKGWbWBMlonlCexdkwk8OQmxJus
-         n7x91J9AAXMC+zpdA8VnG8SYJrNrqVUTjDz+mndzZYdC28GR86TCl+l8Em5M4HPwjP3J
-         uQnvEwg4cruS82u88eKRR9uwQkHiZvuU7RoZRBTDaXBKxysrP6FkepnprEO25ZX7p6Eb
-         wdsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Nx9/5keTn5v/FJqZWNoc+rj0zkaqnFJoHQnxU9qEglI=;
-        fh=gIUpj4FH2NyHqEcng2LlvBV67zIOcotmePzpSUZsCdM=;
-        b=IW63fiuHt/3vHEc/OhN7fPrHEAWXHGhUyik6jlAkcyolKcEZjloddUaqMcM72Z3Rcz
-         BDaqTJRZXXIkhxp43ZYx5Yq+MupCzP5BpRdtjWI19fw69efqv16ZaOvn+u03IVZu5H30
-         evKe2IXPWIFnpd5hO6ELWftfhUWPN5mGQPXxBrEObFGS3BlNygHovVWUUJo1uzuiCSjt
-         BJYY9qmpDnd6qYCoqS+rmQO6uUuzQF28wWOuHXYKNzUvPu31eEaU8vAx6KyN2GmJ9Aiy
-         jcVzrY/3W51Ocs5bLmVJ3mYBimwBYtbuizr+ouU6zksqQBSeMIb34D3/6hgSJp2p6cgN
-         cLuQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="l30D97X0"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47f703a9d05so1602454f8f.0
+        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 15:17:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785705253; x=1786310053; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=baylibre.com; s=google; t=1785709048; x=1786313848; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Nx9/5keTn5v/FJqZWNoc+rj0zkaqnFJoHQnxU9qEglI=;
-        b=K54wkZm2Ju1dtEpZ06qeIcxHrGx7RWH/bAkzua7vJ46py5MzgW/5Lp9qvM+h1sIcmv
-         nu7wCsQb0q67uD34uN/YkoWdkzRMDuEAGoMzmTqu6Esb8ds2Cep4zrWiMF7+OlcaLHzb
-         XEEeta66u9dx2aEt6VtH95CFRFKZKVYE7ds2sSfC6uykW+OUxbuwVFTfZ6BB6hgJZ8V+
-         vUj7PA3rLwX9DwsC+4hp9tvSd4SckOZul7n3PGdAmDKeo9zg8MryIa93/s4/ijmEHP+Y
-         Oc941BxE+4PFla+/OU4zoXC+cXu5U1HFMjy2lIWnxz+p6BJ9DZ4tL+PtfJF5B/Np+/bV
-         Lvtw==
+        bh=6bsPGvzNC3Iop4WsfghniduLra8GHqGeExlE9Ii45fI=;
+        b=l30D97X0haxplDJA1LQczHII77xXxIut2oUbt5aPYMTZ+cNYgj5AD3f6h+CjF2kS9M
+         ME5VilM82USaF0Kc7kgaPRVwy+IhJgbLylvhiBu3k7s5SQss20MZqTGXwIcsKNrtfe9r
+         tOfESoOpFErqibVvLhQZQi+5gWmFpA3roEh1D4kCxlk38fvV5zXevDQiPI+i4dCxTCRh
+         +s97HbuKcFi3JLXCeVDWyNsYtLc8Y1kS6IBOX2ucWxzuvw0Bi5YYR+yYf2hYvOXZXjqn
+         LfMe0R3KlIVeilGv2nFVxr3JF4IOapSkEL4VuIt2vAeo0WDpjEAKKQ0SAb9hqpf899bx
+         uiJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785705253; x=1786310053;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1785709048; x=1786313848;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Nx9/5keTn5v/FJqZWNoc+rj0zkaqnFJoHQnxU9qEglI=;
-        b=GzjikfqAOr7oz5kFNAg4zv5HD2i/hs4fQTGudSPFlwJ8ZqsqDSYWWKYEm7IL4SHI/K
-         /aLnE2OklFLb1ELWotPuy2pA71vmOO0MZUiTkflaan1n5DZxU6BJQqK+cGwRIjIFVMJ1
-         Lhxcq1dlvKFowhVSon239yuIJlTwFwQL+phnlZrFUs436RLHPSUrGPTAVKwFiL2Le5ff
-         JIheLRqLrtcjcYyL6v+uKMaBkR6iPbmSrK/uH/r9yhTC0Kw0TUWYPUiVJsCBOmxKsQHC
-         w2P3iunglhhMklnrQYLVa37creFJbM+XXfmv3JfcVC0JLJxw53w/i1N5i7Qgjodu5f8c
-         GbwA==
-X-Forwarded-Encrypted: i=1; AHgh+RrTAsQSzbV5EO5vrejlD6JmooPXy1S7TbFyuDUdsJW8JzuxFCWVejrZwkAnIpgpwBHynX1ASc5swK80SA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY4Xg5xPKhGI8gh9qyPvJMgf9MY747fBvAPqMBbMCtQYt1W3SG
-	yC9Q4ARLtf5L5WHouB77MBx+Dka7BbAG9prI0IFYtol8ob/mHpdOJo9ME3RN4i35fKdekScBLmy
-	KOL+oaPuSxZXKTYTVYPx2wtG/azJv6cA=
-X-Gm-Gg: AR+sD136mLnYm+Pm4D744UIApZqrwNGeGhmEyijNPtUYoWgBWV3DrfPpKv8LsCnUSsG
-	H0adIjcXUaWBavQU6UJ0sq0hALZeXK6ArLzhdB5IKDFl63Lewh1poXv3XYgPOMe0q2V9Rl/XCfc
-	AqnvvniOicvoNpTLy4Wq7LuVuioJtek+IB6PGfF6ccF3DRUB6xvADqoPFKnAqETwfrJcstjAO93
-	SI5sUj/ToCAvu9yIpxNJ7kN0kDY675n684xrhea1W1TigAzNh3MsWNHcd1aHpW8Cz0BaXO+i7Gc
-	Wagd2hGd4Zfz4lcrs8/u+d0muVrLK4dnwK8I+ZUYprWn5PjWZ3GQjiNQQaxM+ypvhYEGWQTs+LW
-	46jXniXboTJlO34OKZ7yP9nLKKZ1LcxDn9W9M7r2bG9Rm5z9GjwYW+xeLUbJ6TVKlIyNF3ZNsf6
-	jaIPhGQkEGM8mknzIIhO1y++Yh60SqGjKskUXn06zaskI+1WOMdvy6CII=
-X-Received: by 2002:a05:6402:1f11:b0:6a0:f1d5:de8f with SMTP id
- 4fb4d7f45d1cf-6a0f1d5df5emr1220029a12.14.1785705252904; Sun, 02 Aug 2026
- 14:14:12 -0700 (PDT)
+        bh=6bsPGvzNC3Iop4WsfghniduLra8GHqGeExlE9Ii45fI=;
+        b=Xf1BpW/sa4/4MjEbFnDGgynrTEz2CbxLnzBavALf/N3QEPaBYXqSfvVwx4e0OxvicO
+         OPNCD+MP1XBQ/ZMCj7h5NYiHh+DcSShV4IrIOmDsDR+Phj8VyRPWO2AbnYfKtCNdPOiy
+         7rhXhBXDKCm2J1J1U7xwwG9AnkdHgJHdQRxO66aCuBNOUgImW1NqxtvEauJEjyAXTqNh
+         pPufIqYkH3BIqdqHeTSrSySZs4oWTwnqEuVCtk3y7ou7fEgV8l/XLXKuwBjN+omUWe43
+         js6Tnmzc1vHH75avakG7voGZ0rpXWjZ3znRNqojHwQaYCh12HhXoLavJsla2W1ZPBmuh
+         tOPw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpg+lWt2tk8VFlO1V9l01BfeQNlE0+MEWUWGRGc7RrQFr3GAj0xotohSOd1inZxPrWCsfMgjSWNvp2vWA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxecmxEqv2khi0pcLupFFajoRpvohkiJ80DKY6xTLr2NK8bJe0F
+	2DdAGmBBn6RDa60dqCd1PTFjkvTZu9N1hnrpqfOWE7vYi5wJJ6YVG96XcgIYbe8OEBQ=
+X-Gm-Gg: AR+sD12uofy924OsD/K7vO4gZenA7kbtljwIii9EZ2lsqH3u3wA/NB96VzZRbKX4xqA
+	PU29BGtt3xkU7DhD5WE+CP4xJK+1rBYUo7VKlCqETjXaf4ydRjTlI98y6NkNw7lp8ie3koJ/VHU
+	IgwQB4QF/BhBd7U37B/JyqTbRvWG3xgVi/71gk0+yq4h0T2GHtEsFqkDgNUWZhjLmGhGBBL/ez3
+	CpsM2l3rUFYHUFveuVawABNIvlEzrM6hDxbeI21y+hyQKMUJu4jURHPPz7HKYrk/CdylsTPMXZi
+	7B8fsB2XZxU34POXc3k9JNg2uVkxAID/iYN8Xdne9NhXUguB3jzCqq6P4zFzhOJEMHG7R6lGrhh
+	X14v5l9FfjAk7pYCPvgUZNJyl3pWwkMNIa7dj9UwBKzPi6hUNm9IIWISisXCt26I/jXX7z8ppdH
+	GJurLZjENlBwoaKsbopBkQ6PVAajQDAI7tlIOdXiNlzRTBCjVmeymrVmpTWt8oZFYdHA==
+X-Received: by 2002:a7b:cd93:0:b0:495:3de8:33a6 with SMTP id 5b1f17b1804b1-4980c65ed1bmr126447945e9.16.1785709047703;
+        Sun, 02 Aug 2026 15:17:27 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49807b5f0c3sm155072855e9.5.2026.08.02.15.17.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 15:17:26 -0700 (PDT)
+Date: Mon, 3 Aug 2026 00:17:24 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: David Heidelberg <david@ixit.cz>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, phone-devel@vger.kernel.org
+Subject: Re: [PATCH RFC 2/3] ASoC: codecs: tfa98xx: add driver for TFA2
+ amplifiers
+Message-ID: <am_BahJARF9z0P0u@monoceros>
+References: <20260802-tfa98xx-upstream-v1-0-4dd55cdd658a@ixit.cz>
+ <20260802-tfa98xx-upstream-v1-2-4dd55cdd658a@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260802144855.3596995-1-julianbraha@gmail.com>
-In-Reply-To: <20260802144855.3596995-1-julianbraha@gmail.com>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Sun, 2 Aug 2026 14:14:01 -0700
-X-Gm-Features: AUfX_myOgpXKaj3ugPIYZrtPGZqW4GVxxbL5hXkt0FPYH6KwQHaTbc2VE8GM7rw
-Message-ID: <CAKxU2N9HkStUEo+iTa6xc2BJGe6KE==vARDdHPEhRH9yKOMLuw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fix unmet dependencies on PPC_BESTCOMM and SND_SOC_AC97_BUS
-To: Julian Braha <julianbraha@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	arnd@arndb.de, chancel.liu@nxp.com, jonsmirl@gmail.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="eissgc2t76naakqg"
+Content-Disposition: inline
+In-Reply-To: <20260802-tfa98xx-upstream-v1-2-4dd55cdd658a@ixit.cz>
 
-On Sun, Aug 2, 2026 at 7:49=E2=80=AFAM Julian Braha <julianbraha@gmail.com>=
- wrote:
->
-> SND_MPC52xx_SOC_PCM030 and SND_MPC52xx_SOC_EFIKA both select
-> SND_SOC_MPC5200_AC97 without ensuring that its dependency on PPC_BESTCOMM=
- is
-> met. This causes unmet dependencies such as:
->
-> WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
->   Depends on [n]: SOUND [=3Dm] && SND [=3Dm] && SND_SOC [=3Dm] && SND_POW=
-ERPC_SOC [=3Dm] && PPC_BESTCOMM [=3Dn]
->   Selected by [m]:
->   - SND_MPC52xx_SOC_PCM030 [=3Dm] && SOUND [=3Dm] && SND [=3Dm] && SND_SO=
-C [=3Dm] && SND_POWERPC_SOC [=3Dm] && PPC_MPC5200_SIMPLE [=3Dy]
->
-> SND_MPC52xx_SOC_EFIKA also selects SND_SOC_STAC9766 without ensuring its
-> dependency on SND_SOC_AC97_BUS is met.
->
-> Let's resolve all 3 unmet dependencies by adding the dependencies on
-> PPC_BESTCOMM where needed, and selecting SND_SOC_AC97_BUS as other, simil=
-ar
-> options in this subsystem do.
->
-> These unmet dependency bugs were detected by kconfirm, a static analysis =
-tool
-> for Kconfig.
->
-> Fixes: a9262c4fd404 ("ASoC: Support for AC97 on Phytec pmc030 base board.=
-")
-> Fixes: 6ffee43ecf8b ("ASoC: Fabric bindings for STAC9766 on the Efika")
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
-> ---
->  sound/soc/fsl/Kconfig | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
-> index 8ae59c094878..a5d7cf534391 100644
-> --- a/sound/soc/fsl/Kconfig
-> +++ b/sound/soc/fsl/Kconfig
-> @@ -243,7 +243,7 @@ config SND_SOC_MPC5200_AC97
->
->  config SND_MPC52xx_SOC_PCM030
->         tristate "SoC AC97 Audio support for Phytec pcm030 and WM9712"
-> -       depends on PPC_MPC5200_SIMPLE
-> +       depends on PPC_BESTCOMM
->         select SND_SOC_MPC5200_AC97
->         select SND_SOC_WM9712
->         help
-> @@ -253,6 +253,8 @@ config SND_MPC52xx_SOC_PCM030
->  config SND_MPC52xx_SOC_EFIKA
->         tristate "SoC AC97 Audio support for bbplan Efika and STAC9766"
->         depends on PPC_EFIKA
-> +       depends on PPC_BESTCOMM
-does this really depend on PPC_BESTCOMM?
-> +       select SND_SOC_AC97_BUS
->         select SND_SOC_MPC5200_AC97
->         select SND_SOC_STAC9766
->         help
-> --
-> 2.55.0
->
+
+--eissgc2t76naakqg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH RFC 2/3] ASoC: codecs: tfa98xx: add driver for TFA2
+ amplifiers
+MIME-Version: 1.0
+
+Hello,
+
+On Sun, Aug 02, 2026 at 02:42:41PM +0200, David Heidelberg wrote:
+> +#include <linux/i2c.h>
+> +#include <linux/mod_devicetable.h>
+
+Please don't include <linux/mod_devicetable.h>, that is going away soon.
+Also <linux/i2c.h> already provides i2c_device_id and of_device_id
+(ie. the two structures that used to be defined in
+<linux/mod_devicetable.h> that you're using), so just drop the #include
+for <mod_devicetable.h>.
+
+> [...]
+> +static const struct i2c_device_id tfa98xx_i2c_id[] = {
+> +	{ "tfa9894", (kernel_ulong_t)&tfa9894_chip },
+
+Please make this
+
+	{ .name = "tfa9894", .driver_data = (kernel_ulong_t)&tfa9894_chip },
+
+Best regards
+Uwe
+
+--eissgc2t76naakqg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpvwfEACgkQj4D7WH0S
+/k5ofAf/fcXOQAhsDuQI1vXZjfYD+Nu2PG5sMkw/QbLri499oQfMbAfRG0JWATEF
+QlWrFmVUB03381JLDXyXWtkO5evnjkldLr3bqGY7QevsfpxmOHDV9zLomJjfAqyL
+RmIcbr5btKIh2FZJRZslqHYoKiG7SeNZJLyxeYU4lW8vZcohMMRHlPGSCEC7RoNI
+sJdx+JMXR+ZHBOuwOrObZDxREbyQwdSnxD1gEEwmXEcpb0rZUWVIEZKXNekbV2XN
+izdCJ/P/vwPVNl7yrZLjlzfD6t2AFmYBYIq4kLKM1vrAd8gxMcxwTQH+XKnFNaWC
+RZQ+MsjqlG8Lw4wj970ztO4ky/yXFQ==
+=/KIq
+-----END PGP SIGNATURE-----
+
+--eissgc2t76naakqg--
