@@ -1,185 +1,112 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC7239DBE5
-	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 07:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE8538F629
+	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 07:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785742124; cv=none; b=XWzn5LCe21z0xCOQUP0EXmQjFR8ZYI1VhnZe33meNfEtZyOy9+5a6RBX8zaJgjOkt1d+SHxgoC2KnCyrlTrXJys+ngfqHopKvkHvtElAjOkqLu2VMcdAFxZDCUFe+ynqQyXHlY+9YooNfXJCNVYulZPLO9z67uvtt5w0uJJV7uY=
+	t=1785742469; cv=none; b=FdBlHThcop5hXoJURQ+/y34i4iD/GK3kZsdk5BIpNNwsWYfEciGSo/UfOjT9FCZTjKmnIa9gLdmXbfQPAT37Ltzk6FMsuGNpaF6JAiWpu3P6N0yCt+gjBLcgx2ZBmdX2tV3yPJpO1xSBHHzQ/02fHF5Uv6a3MGJB9xb7uejqmY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785742124; c=relaxed/simple;
-	bh=Avz4tewrEczHHV64vLLoNWzwzZzeFo9mRyRSLgF/JFg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pl2jsb66mBn3k8yh9vgU2sfOSwjqp9hBLhhQupDqivGUz8zB/+DiAU/KBYhYz8LoERjOHTsuKZGKB+WnV7NG2AahPU4rYmlkXGxakZbG9Wb7vYWT2m+1K2fVLNpyVYAohPTZ3nfwEGo+b7arlg/CJfaPesWPndvwm0X75AjfsrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QNGoYESX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B8JYec0R; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zz8ouTZM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=umsA548n; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785742469; c=relaxed/simple;
+	bh=33s6yhLucYMAE2N9t0wyfYGQKp5Yx+BMQFGHVkoLSOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UlhixHlRtfxi/+N9gLlXuQD4+8pnwjVUWIthL8PrwXu1ahtk+rfrP97XKOpoDRNJwy2oTHRUInnCbqkWMp23MF0wpCjd6pct2B4xaTzLQUaJ8HHTdipvS6GmdvIuDl6rbqu1GE4lwRQCJBscF8773p9IP8tMCLte7mSMdCQ/VfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QtcFcAQL; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QNGoYESX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B8JYec0R";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zz8ouTZM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="umsA548n"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 80AEE4652;
-	Mon,  3 Aug 2026 07:28:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785742117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A3zvVrOJsOBc77ljYAzQZWZFZw1u2N3xZdlgUGs5cJ0=;
-	b=QNGoYESXxUR292e+54uB4QxPPa+NnuDH7tiMKBBH5UQo96ruI0O87t0aU1MMKUkUhisxuR
-	LvGaTqqmI3KGP+JE0pn8QcHR8MCoN0SWmRXwIUTGEa916Iz+dDwrnbkLiOxDZmCCapcETt
-	Z6HPrjIXXD1dww5y6lM/qqBiXqKK7JY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785742117;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A3zvVrOJsOBc77ljYAzQZWZFZw1u2N3xZdlgUGs5cJ0=;
-	b=B8JYec0RSMMO+5QRBelpqwxmE8hkOKzjbjE8rDivExwAEOSplvYv9OPUQu+7vkEIPVXlmU
-	N/4JnXE+oB/TYcDg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zz8ouTZM;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=umsA548n
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785742113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A3zvVrOJsOBc77ljYAzQZWZFZw1u2N3xZdlgUGs5cJ0=;
-	b=zz8ouTZMzur3gV2ELXdmKrO7p40qHwaGJ1TmP4Y+e3DKlP9q99KYEzDjCCQ+eQ6thpUTJf
-	JaIEqF8EepV2LmdkP2nSr9IZRN2FQ06s6WNNj+NIAg45/G/i5qsHh5LN2WayQ6L/B89Txe
-	ZtXQULmjJWgHQhy3Mu+bhYF5gX8Dp3Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785742113;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A3zvVrOJsOBc77ljYAzQZWZFZw1u2N3xZdlgUGs5cJ0=;
-	b=umsA548nix7THHDkfO2NFjyqhXyY4q+4S/0wN/KGEet3SEWReTjPLtF4Omlp9uL1MW77hb
-	qKYly7izGnhtqzDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 389D6779A1;
-	Mon,  3 Aug 2026 07:28:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id w7CsDCFDcGoYJAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 03 Aug 2026 07:28:33 +0000
-Date: Mon, 03 Aug 2026 09:28:32 +0200
-Message-ID: <87v79racin.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Eric Naim <dnaim@cachyos.org>
-Cc: Sean Rhodes <sean@starlabs.systems>,
-	linux-kernel@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Zhang Heng <zhangheng@kylinos.cn>,
-	Kailang Yang <kailang@realtek.com>,
-	Damien Dagorn <damien.dagorn29@gmail.com>,
-	Chris Chiu <chris.chiu@canonical.com>,
-	Lei Huang <huanglei@kylinos.cn>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Limit Star Labs internal mic boost
-In-Reply-To: <9291ae0c-a36d-4443-9304-8f1a5eca5118@cachyos.org>
-References: <be87292613b24150d6321adac102b4b25d00e9e6.1785532385.git.sean@starlabs.systems>
-	<74989ff6-1f15-428a-8620-a5101d3f19f1@cachyos.org>
-	<9291ae0c-a36d-4443-9304-8f1a5eca5118@cachyos.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QtcFcAQL"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84830c774a0so2906216b3a.1
+        for <linux-sound@vger.kernel.org>; Mon, 03 Aug 2026 00:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785742468; x=1786347268; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wS4teYo3wuHiEoDKbPYxioZSZwZYOwoqE7Pv/fw4Cwo=;
+        b=QtcFcAQLs18zwgQqesPPG6aQcmqHILj1shl/v19RIsEPEag4/eFjG9lZ66C86AMWO9
+         oHDdl2j5IGq62NY4mbBKxp1ZjNHcKjFG6jHzmatemZoVUEvBUmh4F14BjzaY/RWR03ti
+         AHl40qOYsF96iRftdRtcTTcGH7UjnZ3+W/cet4wzf5h3P+KQ3k6K5hYfn3/uusZuWzIH
+         lIvfMo4xdvH8KnqraHifU78by2x+SaGzdiffO0Qwh0dbkr2/dTN2mwJzAajVqJ7JazeH
+         3PckZDHlTnsdIUTI+PElhw9J/CyLP5DLkL+RhzClt7gwPjNnFJzfiFrIrHv/FzWAhHyN
+         BPfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785742468; x=1786347268;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wS4teYo3wuHiEoDKbPYxioZSZwZYOwoqE7Pv/fw4Cwo=;
+        b=p3viE88h4G66jJ5dKcbXjIjMO0x/Iwgh6EHYJG+AjZ9ObxEazs5+swbT76vMpg1hVp
+         mqdtu3eoNJ93eM302rmzYtxnyWeccx8W7sQ7iBZ+Ii236zOuo3GNReYkS3xjHPmkar6J
+         irBD5T1RKz3GhiY+7oM18njmCjTxyzjw9pWwSE3k5duS9M2sNO9DwHwubZvpKQc/yMn3
+         8sDrt/pIHR/XIEfmxPU74rlDHDVEdJx7+LgdIZI7xPA1SEVd8pgTJiR14S9SKvQ5dP7U
+         FMj6O5E9SyvrJt7dNhH8uJaSfWnryNcjMRSwItDfZ/Vl4oK1d6CRWC3yZJ0AwpWmciM4
+         LwVA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqa4taf1PlW5DWnF4wIJLO607helNJEB89xa8e6/sQFKl2NDaaf1sNykrCiid+hrZv9OwTlp9mmzl+OAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEnI2us1+MNxgz6k+EULQasNRmxIyjARMdEDnTMUeU1tU2aQ6j
+	49BQv6MH5ok9L7TCEQdElxtMOi46YAqDvtsBcPHbPEGglsE1ACBue2SU
+X-Gm-Gg: AR+sD13r3UA7typ3uJTzzT3eTz9DjJ/+Wa7G0I8+tgWh3UvLVG9WZkl1isSy29Zy8V7
+	M4sWCQSogFthhuR4H//WrqbkSe4JPMgSl7mBkc/5Cvb1z1SKxGvAjcuZxCt2G3C2kHBz07iuiMX
+	RSWUjHOrVvx2tuNPQ3RsN8ws8EqrD99B+hd0mEmhXmVsXrUBBiURs7T4Iszzr0vLeajXyQOxTKc
+	xY3bFunB8RAedOSM2nNR9L1UZvLtkn3iAKK+/l9UpJngDdagDw1UBtZLm00X1vYE8CoU/oOQcPV
+	U6n/D3e1HTD3F4vFFubesJM1hT9rx1ZYjK3NJwDqWzsxYKn1o4NTdYSR1Kr5TiF480YAvu06EAD
+	AhXLnpqxPUjfQLXKeEGE2AAGaDVDcSFlQG5BN+462pH2zO6kYUfIhfllLnII4FE+cqVpbxVq8lz
+	C2tZki293ivnDSnB4+tdz0VPJhQ0o68pQJ/a3/9J1LZZLcWVnZ5Fm4W51OyPnnPGOvK9xo3/6JS
+	ewyWmrplnkxyZA7nJzNbuTlyvLM
+X-Received: by 2002:a05:6a00:328c:b0:845:e8b5:8c49 with SMTP id d2e1a72fcca58-84ee479afbamr7756583b3a.10.1785742467630;
+        Mon, 03 Aug 2026 00:34:27 -0700 (PDT)
+Received: from [172.20.10.2] (114-137-58-248.emome-ip.hinet.net. [114.137.58.248])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edbd31639sm3320470b3a.9.2026.08.03.00.34.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Aug 2026 00:34:27 -0700 (PDT)
+Message-ID: <8af09a82-3d0f-bdf7-5a78-32e2de53c108@gmail.com>
+Date: Mon, 3 Aug 2026 15:34:22 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,starlabs.systems:email,suse.de:mid,suse.de:dkim];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[starlabs.systems,vger.kernel.org,perex.cz,suse.com,kylinos.cn,realtek.com,gmail.com,canonical.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,starlabs.systems:email,suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Score: -2.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 80AEE4652
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-
-On Mon, 03 Aug 2026 09:24:00 +0200,
-Eric Naim wrote:
-> 
-> On 8/3/26 2:12 PM, Eric Naim wrote:
-> > Hi Sean,
-> > 
-> > On 8/1/26 4:13 AM, Sean Rhodes wrote:
-> >> The 30 dB internal mic boost is too high for laptops, especially with fans. Limit Star Labs internal mic boost to 10 dB.
-> >>
-> >> Signed-off-by: Sean Rhodes <sean@starlabs.systems>
-> >> ---
-> >>  sound/hda/codecs/realtek/alc269.c | 6 ++++++
-> >>  1 file changed, 6 insertions(+)
-> >>
-> >> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> >> index 379e1458f4ac..42756a3f3f8e 100644
-> >> --- a/sound/hda/codecs/realtek/alc269.c
-> >> +++ b/sound/hda/codecs/realtek/alc269.c
-> >> @@ -4188,6 +4188,7 @@ enum {
-> >>  	ALC245_FIXUP_CLEVO_NOISY_MIC,
-> >>  	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
-> >>  	ALC233_FIXUP_MEDION_MTL_SPK,
-> >> +	ALC269_FIXUP_STARLABS_LIMIT_INT_MIC_BOOST,
-> >>  	ALC233_FIXUP_STARLABS_STARFIGHTER,
-> >>  	ALC294_FIXUP_BASS_SPEAKER_15,
-> >>  	ALC283_FIXUP_DELL_HP_RESUME,
-> >> @@ -6725,6 +6726,10 @@ static const struct hda_fixup alc269_fixups[] = {
-> >>  			{ }
-> >>  		},
-> >>  	},
-> >> +	[ALC269_FIXUP_STARLABS_LIMIT_INT_MIC_BOOST] = {
-> >> +		.type = HDA_FIXUP_FUNC,
-> >> +		.v.func = alc269_fixup_limit_int_mic_boost,
-> >> +	},
-> > 
-> > I guess the reason you're creating a new quirk is because the existing
-> > ALC269_FIXUP_LIMIT_INT_MIC_BOOST is chained to ALC269_FIXUP_THINKPAD_ACPI.
-> > This makes the quirk identical to ALC269_FIXUP_THINKPAD_ACPI. Would it be
-> 
->                     s/ALC269_FIXUP_THINKPAD_ACPI/ALC233_FIXUP_INTEL_NUC8_BOOST
-> 
-> > worth reworking the existing ALC_269_FIXUP_LIMIT_INT_MIC_BOOST to not be
-> > chained and then create a new ALC269_FIXUP_THINKPAD_LIMIT (or similar) for
-> > whichever devices that need it?
-
-A good point. If you come up with a new change, try to make a patch on
-top of the latest sound git tree for-next branch.
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v6 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
+ amplifier
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>, Neo Chang <YLCHANG2@nuvoton.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, krzk+dt@kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ alsa-devel@alsa-project.org, kchsu0@nuvoton.com, sjlin0@nuvoton.com
+References: <20260708093506.895481-1-YLCHANG2@nuvoton.com>
+ <20260708093506.895481-3-YLCHANG2@nuvoton.com>
+ <a5139285-2017-4c94-92f2-f87fbef6fa6a@sirena.org.uk>
+From: YLCHANG2 <neo.chang70@gmail.com>
+In-Reply-To: <a5139285-2017-4c94-92f2-f87fbef6fa6a@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-thanks,
-
-Takashi
+On 7/9/26 03:11, Mark Brown wrote:
+> On Wed, Jul 08, 2026 at 05:35:06PM +0800, Neo Chang wrote:
+>> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
+>> stereo 30W+30W smart amplifier with an integrated low-latency
+>> Advanced Audio DSP.
+>> +static int nau8360_dsp_chan_kcs_setup(struct snd_soc_component *cp,
+>> +       const char *fw_name, int dsp_addr)
+>> +       ret = request_firmware_nowait(THIS_MODULE, true,
+>> +               fw_name, dev, GFP_KERNEL, ctx, nau8360_dsp_fw_cb);
+> This gets run every resume but there's no cleanup so if for some reason
+> we get suspend/resumes running back to back and the firmware load
+> doesn't complete, or the driver gets removed while the firmware loads
+> are pending during normal probe, nothing cancels the firmware loads and
+> they might end up completing.  Both suspend and remove should clean up
+> anything that's pending.
+Got it. We will add a completion mechanism in v7 to ensure the firmware 
+load finishes.
+>
+> There's a bunch of issues reported by Sashiko:
+>
+>     https://sashiko.dev/#/patchset/20260708093506.895481-1-YLCHANG2%40nuvoton.com
+>
+> some of which looked valid.
+We will review the report from Sashiko and fix the issues in v7 as well.
