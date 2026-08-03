@@ -1,143 +1,235 @@
-Received: from SY2PR01CU004.outbound.protection.outlook.com (mail-australiaeastazon11021137.outbound.protection.outlook.com [40.107.39.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B60F416854;
-	Mon,  3 Aug 2026 13:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.39.137
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785764999; cv=fail; b=Fo7TA9iMTjIFcDjeYmWj8YEynI+Af/SVgFENK+y7slniSzhR2beADpAf0AMWPbKWJUs9Rv5jjoW1vF3hJb8eWnF1oYMuaZj+ttYl4vN3TrFMVzjSKiUFzyoJutu/0X2Ym+cq28jfg6QSaPrapPaWXkuVfgBRRcaK3ANryZl37xk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785764999; c=relaxed/simple;
-	bh=u3QHobRoDSAkG6pByl7TDemMqQ0/XEZmB+ZUoR0qiWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=qCVhIWhMhdzuv7wbEQBitKdeE6/m6TU5CQphcOnaMo6wUcq8XPwYd/gyzzWIrYgNha6pffNzauESHx7Zta2yw9TkNqZBYS/BwCu6GLLonlA1r78pHhNtTUv8CvLUPKFWwet1iuEn6vZ27pFa4U/db3nemm534k7Tor6ITnVBMr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=heitbaum.com; spf=pass smtp.mailfrom=heitbaum.com; arc=fail smtp.client-ip=40.107.39.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=heitbaum.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heitbaum.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BHGYKaFZIlAupZJrmviekc5rWA5KG3e/Hu5xzPFVy8Rh6y9EbTdGuqkNBxL4PS6OYy+CKSj/U9kgHlLFKuC39uErJtXmEGFKW4dRehoqTGxRCPufJEsf7AAbB1c5yYME9AQBtwnAcuzV1yVTSqMHxYRZCNJGkF49JGvDWPqwSgZN2NUAwW6srioCW/yuU19OouiikJcCb0z7pnqtEQxGMln2BobY28/ECj+O8ie9hm8EjuSTo1T7QA//IlOeen7tIzyOm7n9EJ/sDA80Tdvv8k93VpLHY83dXzoWChEufN/5xJWCYIzQFMZhKlJuMoP0qBpMGDJtSnNo04Qe5iR2JQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=64pk5TMnYlGu0ENBzw0D3+iPNKpdUWnPfv1Jewq3u98=;
- b=kQ9OKz/tV6Izwc45/EZj9dE0h43jB80QLPsZixXmNriA09uswhoyQSvgIsfSP7udZ4dKk3wGrwgjhVkEePzpnLLNnJzEZ1+9pIwlZdKWoITStNnhLUr+jMVWTzcUImbaht7voC9LSwDA/tl4sC9kxG1fYxkMHvoLwhfA2eKZk07//r03+CtlvLv214Zolnp5jpKqEULfyPY/fHzeP0EiFfHPWj0onrL4g9+xMMPugegzsp6xMiTtD5E9F1eRDPmxPAagmY5XiX5BtXVIwVqdSlFinQImDB3P2LEzpmLmtA5vVeIU2B+L/+L7LfJSMC3SmYrRUJjhG36inep1SMd/Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=heitbaum.com; dmarc=pass action=none header.from=heitbaum.com;
- dkim=pass header.d=heitbaum.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=heitbaum.com;
-Received: from SY8P282MB4907.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:25c::10)
- by ME4P282MB0870.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:9b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Mon, 3 Aug
- 2026 13:49:53 +0000
-Received: from SY8P282MB4907.AUSP282.PROD.OUTLOOK.COM
- ([fe80::f1b5:3901:d12c:e9ae]) by SY8P282MB4907.AUSP282.PROD.OUTLOOK.COM
- ([fe80::f1b5:3901:d12c:e9ae%5]) with mapi id 15.21.0270.016; Mon, 3 Aug 2026
- 13:49:52 +0000
-Date: Mon, 3 Aug 2026 13:49:38 +0000
-From: Rudi Heitbaum <rudi@heitbaum.com>
-To: lgirdwood@gmail.com, broonie@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	rudi@heitbaum.com
-Subject: [PATCH] ASoC: rt5645: Make the Kconfig symbol user selectable
-Message-ID: <anCcciWmO6QOLTsl@5e001e58230e>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: MEWP282CA0145.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:220:1d5::12) To SY8P282MB4907.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:25c::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4183955CF
+	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 13:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785765422; cv=none; b=SRYvDNBmAVg7fS9q685sqAdTE6kOiuxDEEtRRhZM9Jr1FG9B4voqbdELzYTZNjOUY3f5dg4+JAnNpisL4TBQAuoBYO6P0tolLbHHsJWpHaMRC3paFBKHNuHAmXsIefZmh3fwvblmBDKZ2+0NpvBDa8FDHsbu9Y26fst3xTe+JoA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785765422; c=relaxed/simple;
+	bh=JEnj9YEDwUELc9ckUJABg6tErAKXACY3kWLjY9xrkIo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=flIwYHKslGAQvfKZaBPdpKiJbd8nF/uXrB3BKFN6vRmA/CHD8v6qmlAafJh8/ack+qRM8KmJ9lk3md7zqeH7LdiG8wP1X2x6Cs1ONnUt5Z3vKKahpw9ipNig2jr3zcQyeUi2Rrx1nRoo7CqgQo+2AvD6p/nc4mcobe2Uz8/+Hlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XC57oX8Z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/pOnVIDd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ETxcsZ4b; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VWN9xz1A; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XC57oX8Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/pOnVIDd";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ETxcsZ4b";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VWN9xz1A"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AA0ED3E08;
+	Mon,  3 Aug 2026 13:56:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785765414; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Re1tKK9V99KqbrP+BIEzaOuo1P0UqZbTKJqmY+TCX5U=;
+	b=XC57oX8Z8dVsYkeXI3xnRW4bZAAELNcPAblh+HY7xL3S8pmjgSxm83c3AGURfDaS+ajx0A
+	yxKo/RQRV+ImZ8jobDqHQkRzcJDhuTVwvRqIqsSSHIbsKZTybQwZHs3Z0JkQ+TvF04r4rw
+	P00Ubk2QaDeQ7efA5PYTUWBn9jHFVLc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785765414;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Re1tKK9V99KqbrP+BIEzaOuo1P0UqZbTKJqmY+TCX5U=;
+	b=/pOnVIDdWjYHzSoJUc9B8VIoI055WWf0+rtsLqLL4wCPJIGDxbIUHP3PUZH+R2sWs4fwuh
+	YpP7uqpaSh5NT2BQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ETxcsZ4b;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=VWN9xz1A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1785765410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Re1tKK9V99KqbrP+BIEzaOuo1P0UqZbTKJqmY+TCX5U=;
+	b=ETxcsZ4bD7CL0OjHglYygdhp+hW/zku6Ua/25zq0LTUs1kFsYWEXKT19O7TqSoMkaLwvSt
+	mQLM/+0YbfTcTGkCVaZI4Mld3LOW+m/zSYJ6p6uuSbM9SZtOnI+KWw8Ra50On3Y1m8VF6i
+	daOtz/pc0BR8HfGAuGKFRDP0VnFj1O4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1785765410;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=Re1tKK9V99KqbrP+BIEzaOuo1P0UqZbTKJqmY+TCX5U=;
+	b=VWN9xz1AWyq0LskplyE38XCtYApd6BG8pSY/QdmreZWlHP57QzqNUotGFUnQYqEOEGzWLd
+	5EBY04kyiUQZEkCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7399F779A1;
+	Mon,  3 Aug 2026 13:56:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ufTxGiKecGriIwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 03 Aug 2026 13:56:50 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: sdw_utils: Use auto-cleanup for put_device()
+Date: Mon,  3 Aug 2026 15:56:12 +0200
+Message-ID: <20260803135648.917760-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SY8P282MB4907:EE_|ME4P282MB0870:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc67dcdc-2b40-4d59-0f52-08def16617a4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|18002099003|5023799004|56012099006|10067099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	R02sa0vFe+aif1pYUm9aKRfO2P6f9Tv6PCvDaXuwDHlRWrRdZCcjc6ZKxFMViU51Aem+83Honfn45Jrdo47VGaRAkikfPNG8rvwKfV2FprHyES9lvs8kpVc/KZhY7aN4AKXxqvUHt7Stqa9pKW0K+AcAYU2qNeGQyuXC1Y2p0usmHomSrhEYyJKRJwtuUBOwkY53ZAkX24Fa3IHnI5BfxhR+WHQfWqbLtneywfCkfbaU9n9aYRbykhHSrSwsrUA7domOPxsSoexeIiFUNfBDb+FFlOJcz4m8bXmQdCaGq+1pIg+gD5ujGP3dCS6ny0u4tXA85O6G8CEu+L1ROoIZajPh24/pUTJ2rswTnKyoJyqdQ4HknRddut37Zl44dJiSWk8s5H5goYj1Cwf+c+I7NPr2A+O1rCPxkRpzwKrqiuo/CyNPu7PI9FVxz1jejEShLDJ7ja6dKB2teLfk6wwauJzAO3sjhL8ZnDF5ktyYN4BU/2wVYeiiyRxn0DPz+8Y9TmKRLC5XUBaqlLZvHdQ8q3J60/vDU93sqVZWVYGcouYCtfPqraSHjxGPnnMJ14cOa8T+18ETyQ+w7IVORkDUmHj/1lPZEyDFAfLE2TcOwLyQL43OPIGce5xa3k+rwsB/ARcSZb3D7JlICZB3oGBmfMo+BLgTj+nsWQGt2FB2F/o=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SY8P282MB4907.AUSP282.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(18002099003)(5023799004)(56012099006)(10067099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SsczUB9/zcrU9oP1btXZe2ULP/IzTwc+8jzuO2ppeTkgizpUErcJ3XVEH26K?=
- =?us-ascii?Q?yG179uzAZWDfFkDXK48OBZE86myzAnQYm18PVQvSxfnjUgRsLT42kiIS68qw?=
- =?us-ascii?Q?zMb+8sn4XwRZP7FudJmlwqERIWiK5Kl6ecPpdU/Kqm+9zezHSSgXpI878ehI?=
- =?us-ascii?Q?n7LZZuynDa3MkgSgg5/+jGCBvZdGOzJGbPdtwUkWPkKYS3y9SVJRRwcBDii/?=
- =?us-ascii?Q?pJRsDpDxxLY1vtdEzxzDC3JeUIkEUI9xHZMeWMZjn1jPJ1YIqhV1mj9nwD5f?=
- =?us-ascii?Q?eqgTljR6rYvNo3zOs/UwE8Aa69OSkaS+NTARXuHi/UwlHOOHttaJ7getzrKd?=
- =?us-ascii?Q?nisP8IbF8iSaZ+sAVZJQXM6h1+P9jGpnGBNMhvChuwq8bOwJWQeRP0y2vsOl?=
- =?us-ascii?Q?u8tn5sRKEi05zxA/ccALairXj7x93Hnqb2mtB0oxMZOQlY3lve9+XH7CImXq?=
- =?us-ascii?Q?unkOCprMpsoJL0dJeRpfCLfPMj8zITfENTvR6cj1+e04LGAGvdXiIuS7cd7M?=
- =?us-ascii?Q?OJ+cOwwq2QeQc/+PqFZ2V720rStPMlYXNSiCM3GcZbGZ6n6Rbvl0vp6MpzwF?=
- =?us-ascii?Q?6WirnZ8KQoPEIY2jQkHpoMF9qCMwV8hfuZUa5ipPRhV3USMhZ1Y47OrPf0d6?=
- =?us-ascii?Q?l4LNwAb97sUJpHrPzfUkRCCZhfiTZC+vb4sZ1jldE5VaMmUi5AZJQVU9wJw7?=
- =?us-ascii?Q?SgR4HILWLBB7Jw3QHvT1fTx1bGO0r/NpB93GLfu3TgxPv3t8iSE3WXT9S8GK?=
- =?us-ascii?Q?tCKIDuwl7Ik4He8G2Kw+r+ZIofS6JaDFIjg7IKaolY6XaJyUqRNRsOu1/uTe?=
- =?us-ascii?Q?1Dh1t97OQHljXGadyYIO9U4hOwrM15VVq1iNdM5WBOHcJg6A4BJ8++0/yEDs?=
- =?us-ascii?Q?Fi8if4wxjtpp0NrylV8cH+90KGG5BlGV1DY/IeE1D43WMY/goNhFD8MUZL+t?=
- =?us-ascii?Q?rrk7JnsgaipJmyNaLw5P0EptH3iTqgxFyQ0DsfJUqbbB/CRsOOgxtN4pj7QC?=
- =?us-ascii?Q?Gez5dRPSDb+YiuC6cVZJb0MZV9Pm+0TyjMGgRnW16uGWdlZXT/mM25lELzYd?=
- =?us-ascii?Q?camp9nLGrkI7Xf+8xZAC6yMKQiZx7UqH8sLlnj8dYjDF/HY+qIb7SK1xxyea?=
- =?us-ascii?Q?ADwG8oxBfL68gflxj68hfxA1W2YDg6jWsQWMhpKgl2M+sP5Xi3D92vFuQxxY?=
- =?us-ascii?Q?i8UMx9DyBnWpSIlB8o8rAgqTo4ilxceE9WNbuv3SHmUs/m+0bmcjj3u5Y+Wq?=
- =?us-ascii?Q?8q/qT+P7o9IclHvJwOQN0BfSvjijMHZrWxP1eKWxSJL/MwxE0o3zIknxjfo8?=
- =?us-ascii?Q?/mJfwioRhN50+SagZYYSk28n5j3AeKbpaojQcby4XGna5CtUXiymbNF678+3?=
- =?us-ascii?Q?8hy2XorZ5w/hObaecJrxQ7kQKojwX/+RCYnAJ3U996N9NNvsKwC27RH2DVAH?=
- =?us-ascii?Q?EWJycazjsTPzw+qDYjqZOCb+LQsWUUQ70jMZJESSVZhsakNW3HuRz98SjSxO?=
- =?us-ascii?Q?fSIsV/nM6wVF0BD8oJJFmUHuM/CocI9zP2rmlq7+S6nmtWGS2O8GBQl2znxR?=
- =?us-ascii?Q?3GhMM8fnMHzYKOMkkZAv3NEpfhvXM+nSdMjvc1UMs+GmoRfeY6qm0itZtSl9?=
- =?us-ascii?Q?F2/fexb5Yw3PXzfNYwMrcXfQqJn82OxBK+flX9KYc9tYFppmBlt8FbTkAYqz?=
- =?us-ascii?Q?d6X1C6F3nMxsOiAvjZbf3/zomE+yN//QB6mlQ08A0SaE2gLp?=
-X-OriginatorOrg: heitbaum.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc67dcdc-2b40-4d59-0f52-08def16617a4
-X-MS-Exchange-CrossTenant-AuthSource: SY8P282MB4907.AUSP282.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2026 13:49:52.0066
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 35ffebb5-7282-4da6-8519-efab29b0108e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nqb4mM/3N1U8gxUniw157VkWeO735HmfBBMqm8NageCqIszDVj7DRzi5hT83GJUl3w4JCawdzcizBSN2yZH5Jw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ME4P282MB0870
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,suse.de:dkim];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[4];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: AA0ED3E08
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-SND_SOC_RT5645 has no prompt, so it can only be turned on by a machine
-driver that selects it. Every such driver is x86, MediaTek or Rockchip,
-which leaves the codec unreachable on any other platform.
+A temporary refcount management of a struct device can be done
+gracefully with __clean(put_device) for avoiding potential leaks.
 
-The part has a devicetree binding of its own,
-Documentation/devicetree/bindings/sound/realtek,rt5645.yaml, and nothing
-in the driver is machine specific, so a board that describes it with
-simple-audio-card or audio-graph-card should be able to build it. Today
-there is no configuration in which that is possible.
+No functional change but just a code cleanup.
 
-Give the symbol a prompt, matching SND_SOC_RT5640 immediately above it.
-The machine drivers that select it are unaffected.
-
-Signed-off-by: Rudi Heitbaum <rudi@heitbaum.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/sdw_utils/soc_sdw_utils.c | 36 ++++++++++-------------------
+ 1 file changed, 12 insertions(+), 24 deletions(-)
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 252f683be3c1..d43475a63ac2 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -1856,7 +1856,7 @@ config SND_SOC_RT5640
- 	depends on I2C
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index d4074309fa81..8a07ba2a29e5 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -1818,9 +1818,7 @@ static int is_sdca_aux_dev_present(struct device *dev,
+ 				   int adr_index)
+ {
+ 	struct sdw_slave *slave;
+-	struct device *sdw_dev;
+ 	const char *sdw_codec_name;
+-	int ret = 0;
+ 	int i;
  
- config SND_SOC_RT5645
--	tristate
-+	tristate "Realtek RT5645/RT5650 Codec"
- 	depends on I2C
+ 	if (!aux_codec_name)
+@@ -1830,7 +1828,8 @@ static int is_sdca_aux_dev_present(struct device *dev,
+ 	if (!sdw_codec_name)
+ 		return -ENOMEM;
  
- config SND_SOC_RT5651
+-	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, sdw_codec_name);
++	struct device *sdw_dev __free(put_device) =
++		bus_find_device_by_name(&sdw_bus_type, NULL, sdw_codec_name);
+ 	if (!sdw_dev) {
+ 		dev_err(dev, "codec %s not found\n", sdw_codec_name);
+ 		return -EINVAL;
+@@ -1840,24 +1839,19 @@ static int is_sdca_aux_dev_present(struct device *dev,
+ 
+ 	if (!slave->sdca_data.interface_revision) {
+ 		dev_warn(dev, "No SDCA properties, assuming aux '%s' present\n", aux_codec_name);
+-		ret = 1;
+-		goto put_dev;
++		return 1;
+ 	}
+ 
+ 	for (i = 0; i < slave->sdca_data.num_functions; i++) {
+ 		const char *fname = slave->sdca_data.function[i].name;
+ 
+-		if (fname && strstr(aux_codec_name, fname)) {
+-			ret = 1;
+-			goto put_dev;
+-		}
++		if (fname && strstr(aux_codec_name, fname))
++			return 1;
+ 	}
+ 
+ 	dev_dbg(dev, "SDCA function for aux '%s' NOT FOUND on slave, skipping\n", aux_codec_name);
+ 
+-put_dev:
+-	put_device(sdw_dev);
+-	return ret;
++	return 0;
+ }
+ 
+ int asoc_sdw_count_sdw_endpoints(struct snd_soc_card *card,
+@@ -1957,9 +1951,8 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 	const struct snd_soc_acpi_endpoint *adr_end;
+ 	const struct asoc_sdw_dai_info *dai_info;
+ 	struct sdw_slave *slave;
+-	struct device *sdw_dev;
+ 	const char *sdw_codec_name;
+-	int ret, i;
++	int i;
+ 
+ 	adr_end = &adr_dev->endpoints[end_index];
+ 	dai_info = &codec_info->dais[adr_end->num];
+@@ -1968,7 +1961,8 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 	if (!sdw_codec_name)
+ 		return -ENOMEM;
+ 
+-	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, sdw_codec_name);
++	struct device *sdw_dev __free(put_device) =
++		bus_find_device_by_name(&sdw_bus_type, NULL, sdw_codec_name);
+ 	if (!sdw_dev) {
+ 		dev_err(dev, "codec %s not found\n", sdw_codec_name);
+ 		return -EINVAL;
+@@ -1979,8 +1973,7 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 	/* Make sure BIOS provides SDCA properties */
+ 	if (!slave->sdca_data.interface_revision) {
+ 		dev_warn(&slave->dev, "SDCA properties not found in the BIOS\n");
+-		ret = 1;
+-		goto put_device;
++		return 1;
+ 	}
+ 
+ 	for (i = 0; i < slave->sdca_data.num_functions; i++) {
+@@ -1989,8 +1982,7 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 		if (dai_type == dai_info->dai_type) {
+ 			dev_dbg(&slave->dev, "DAI type %d sdca function %s found\n",
+ 				dai_type, slave->sdca_data.function[i].name);
+-			ret = 1;
+-			goto put_device;
++			return 1;
+ 		}
+ 	}
+ 
+@@ -1998,11 +1990,7 @@ static int is_sdca_endpoint_present(struct device *dev,
+ 		"SDCA device function for DAI type %d not supported, skip endpoint\n",
+ 		dai_info->dai_type);
+ 
+-	ret = 0;
+-
+-put_device:
+-	put_device(sdw_dev);
+-	return ret;
++	return 0;
+ }
+ 
+ int asoc_sdw_parse_sdw_endpoints(struct device *dev,
 -- 
-2.53.0
+2.55.0
 
