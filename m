@@ -1,88 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991F0416869
-	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 14:01:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6ACE2931D4
+	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 14:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785765680; cv=none; b=elul2LHDAvHC6/bs5+GqiG6/YxTC8fTdjB0angkuK7fv64pbsWl4I+A/o6cmkqoNHPCcvY7P9KGdAUHwFtHzSP8NGLwY8sK5WywRz/X3YL1A0ffpdfDFaTV7RbdWWxyoYCBRc2UuDAenq4Z0MB6HN9RFM5eIjT0n70BJOrG96jQ=
+	t=1785765686; cv=none; b=j01BvSw8/BEC7MFDwz2IJRQhthi8EDpl0CMzEiDbKfbo+BF8aDh9x5SOSKqvESDVb2VrSFF3vRCzDKiiG3QrgizRiBgwlssDZ8Z3Hb61zzVeFOOLs8c3YAccLIJKN7MoR9kxR7ay3XsRieCOn+ijHQrgchlGrE2JpTQlHVNdlh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785765680; c=relaxed/simple;
-	bh=1ExWyJ+dZZi4S3kQPgaJ68Ye+A1DvgbJ7HL4EvkMcAw=;
+	s=arc-20240116; t=1785765686; c=relaxed/simple;
+	bh=fk650vqkGqqky9mfepd4hNSr9UwtH7jSgyGLIO/iqII=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oPLrhP/rfODFdRkrfbU3R1TbHYJRIIee5O3OwITqVpTvt0bR/G9i158HVIfMwnomc9Y8lw+1KGKAF0DmFcmZxNh9T/8u5/6vidSaB8LbQzF73dbGsnJw7MMqDsBawwvrN61yrxS/Wbwylz6XM21fRi34B6P80wWK2T6078jffXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TZN+kiPq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=21k0cSln; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iAu6BhgN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vluhJR2d; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=u7LkTIEaqnYvAh+dncbUNeLU/5fKWpLCIYhHfbrb2RCD3EWhYGe1nv5KPKWSwOGjsMe+zQAgIANpQMt9TBMkg6uvQInX2hXgu9EnPeWxlHvNozgn7xieXj0WLSqwr6Z5GXCekFSwghDxAMpnmfK7JulmgnrxHB8LI8yNjV0PbNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uZbSgNIk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aJF0+ghq; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1yntK+6W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PPn/iVMU; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TZN+kiPq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="21k0cSln";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iAu6BhgN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vluhJR2d"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uZbSgNIk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aJF0+ghq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1yntK+6W";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PPn/iVMU"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7B1C57F150;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A64137F158;
 	Mon,  3 Aug 2026 14:01:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1785765667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uC0nH62z09fJaip0k33gin2pp7w0b3RxzpvXFtei7Ug=;
-	b=TZN+kiPqCyNcHvAmiKcGZEC83SIUA+LFw8NJdT//hUzJk0K6I+mYZkbU8AJGaekP3PC/bI
-	2EzujOeTKbYnVIBNZ5sr5yQ+5GhPVs7KZe8BzM2b3cQEypsMm/UX4vPK5yhYUFA9IRYzGN
-	3D5I4aY3899RUxrKXIYT5LoGvvUaTjE=
+	bh=y08lCWvAwtjdJZdGi81xLOUH1/Eg9I/TAkaWaiNnV+A=;
+	b=uZbSgNIkyuqk/VZBdkFZbry3SskN3Br5B6K4h+hDDmLZuvbUJ6BzbupPgFMVHvqq+i2zjy
+	caQ4LX8fTai79EhFx5epz6qQsomJGoJ56ebuOsEohnlxPo/w8tYs9ak7fpXeXIEhfreB3n
+	aUgmjbdFazjAeEGeWiBnJyASB4+r8Wo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1785765667;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uC0nH62z09fJaip0k33gin2pp7w0b3RxzpvXFtei7Ug=;
-	b=21k0cSlntsvC96P/zRgjPg2ES4tseCqSI/xM0UJ5axPM8Qm5cBUvR13bTmzXnAda48bk64
-	Rp1R/WkhZVZlKXCQ==
+	bh=y08lCWvAwtjdJZdGi81xLOUH1/Eg9I/TAkaWaiNnV+A=;
+	b=aJF0+ghqEPrACKDaezHr/I46rsuQrkEvSNLlLN+XLQp6+xQCmdfUzhUujqSb8v9FiIgYlj
+	nBHvyr45MYBdp6CA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1yntK+6W;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="PPn/iVMU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1785765663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uC0nH62z09fJaip0k33gin2pp7w0b3RxzpvXFtei7Ug=;
-	b=iAu6BhgNaV9R+hRdeKLsoS+I54/2uvt3axSBca2psPe/4wk8rnhH8X3JGVpYQv9o5TRLLf
-	aWLbTpGutgYZK4ZlXTRNy17s1q1dqS5r+nIKlkJQ8WhMhcjKdRus0vMtIubKFghouoa7T8
-	mlZpAQDfOPYBbT24/c+K8KIh63hskTA=
+	bh=y08lCWvAwtjdJZdGi81xLOUH1/Eg9I/TAkaWaiNnV+A=;
+	b=1yntK+6Wd6aSoKAOg3cnRQEjU+ZUqVqcbRptVjYwxwh3uu9OrJe1/4g1ZknpPoqmjGjjN+
+	gGzOmL8VjpqxUdwln9tcnJOOuTpr3/BB75miSVRgkCEDLLzUTWyO8zC/VIRNqR/tgfOj/8
+	DquAVG0J/F2b7GlsdSNFDRWdczwdlzQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1785765663;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uC0nH62z09fJaip0k33gin2pp7w0b3RxzpvXFtei7Ug=;
-	b=vluhJR2dvGsrVHZrV+ETf4LWRjnWhgQvb6LVI0zUBSgF5UZaj5YMh/UNLVyJhttw9c2OmU
-	4EABdLQqk8gnYkDg==
+	bh=y08lCWvAwtjdJZdGi81xLOUH1/Eg9I/TAkaWaiNnV+A=;
+	b=PPn/iVMUCxMCFV+pVstx6NSfKAPbHSeOq4xlaSJ2at2qNky3rdpeLfZA83SbUYz24iYxN+
+	Zo3S+hnzQoU8c5BA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 395BD779C1;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7CEE0779D3;
 	Mon,  3 Aug 2026 14:01:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MFDNDB+fcGpJKAAAD6G6ig
+	id sLlLHR+fcGpJKAAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Mon, 03 Aug 2026 14:01:03 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>
-Subject: [PATCH 2/3] ALSA: hda: tas2781: Use auto-cleanup for put_device()
-Date: Mon,  3 Aug 2026 16:00:52 +0200
-Message-ID: <20260803140100.919071-2-tiwai@suse.de>
+	patches@opensource.cirrus.com
+Subject: [PATCH 3/3] ALSA: hda: cs35l41: Use auto-cleanup for put_device()
+Date: Mon,  3 Aug 2026 16:00:53 +0200
+Message-ID: <20260803140100.919071-3-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260803140100.919071-1-tiwai@suse.de>
 References: <20260803140100.919071-1-tiwai@suse.de>
@@ -93,120 +91,86 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	URIBL_BLOCKED(0.00)[ti.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	RCVD_TLS_ALL(0.00)[]
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,suse.de:dkim];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Score: -3.01
 X-Spam-Level: 
+X-Rspamd-Queue-Id: A64137F158
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
 A temporary refcount management of a struct device can be done
 gracefully with __clean(put_device) for avoiding potential leaks.
 
 No functional change but just a code cleanup.
 
-Cc: Shenghao Ding <shenghao-ding@ti.com>
-Cc: Kevin Lu <kevin-lu@ti.com>
-Cc: Baojun Xu <baojun.xu@ti.com>
-Cc: Sen Wang <sen@ti.com>
+Cc: patches@opensource.cirrus.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 6 ++----
- sound/hda/codecs/side-codecs/tas2781_hda_spi.c | 9 ++++-----
- 2 files changed, 6 insertions(+), 9 deletions(-)
+ sound/hda/codecs/side-codecs/cs35l41_hda.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-index 624db967f17b..6c502c34e015 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
-@@ -88,7 +88,6 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda.c b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+index c8eba0638ada..62296be45c55 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda.c
+@@ -1915,7 +1915,6 @@ int cs35l41_hda_parse_acpi(struct cs35l41_hda *cs35l41, struct device *physdev,
+ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, int id)
  {
- 	struct gpio_desc *speaker_id;
  	struct acpi_device *adev;
 -	struct device *physdev;
- 	LIST_HEAD(resources);
+ 	struct spi_device *spi;
  	const char *sub;
- 	uint32_t subid;
-@@ -101,7 +100,8 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
- 		return -ENODEV;
+ 	int ret;
+@@ -1927,7 +1926,8 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
  	}
  
+ 	cs35l41->dacpi = adev;
 -	physdev = get_device(acpi_get_first_physical_node(adev));
 +	struct device *physdev __free(put_device) =
 +		get_device(acpi_get_first_physical_node(adev));
- 	ret = acpi_dev_get_resources(adev, &resources, tas2781_get_i2c_res, p);
- 	if (ret < 0) {
- 		dev_err(p->dev, "Failed to get ACPI resource.\n");
-@@ -151,14 +151,12 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
- end_2563:
- 	acpi_dev_free_resource_list(&resources);
- 	strscpy(p->dev_name, hid, sizeof(p->dev_name));
--	put_device(physdev);
- 	acpi_dev_put(adev);
- 
- 	return 0;
- 
- err:
- 	dev_err(p->dev, "read acpi error, ret: %d\n", ret);
--	put_device(physdev);
- 	acpi_dev_put(adev);
- 
- 	return ret;
-diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-index 271c56a79c32..d3b2a746e1a7 100644
---- a/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-+++ b/sound/hda/codecs/side-codecs/tas2781_hda_spi.c
-@@ -328,7 +328,6 @@ static int tas2781_read_acpi(struct tas2781_hda *tas_hda,
- {
- 	struct tasdevice_priv *p = tas_hda->priv;
- 	struct acpi_device *adev;
--	struct device *physdev;
- 	u32 values[HDA_MAX_COMPONENTS];
- 	const char *property;
- 	size_t nval;
-@@ -341,7 +340,9 @@ static int tas2781_read_acpi(struct tas2781_hda *tas_hda,
- 	}
- 
- 	strscpy(p->dev_name, hid, sizeof(p->dev_name));
--	physdev = get_device(acpi_get_first_physical_node(adev));
-+
-+	struct device *physdev __free(put_device) =
-+		get_device(acpi_get_first_physical_node(adev));
- 	acpi_dev_put(adev);
- 	if (!physdev)
+ 	if (!physdev) {
+ 		acpi_dev_put(adev);
  		return -ENODEV;
-@@ -381,13 +382,11 @@ static int tas2781_read_acpi(struct tas2781_hda *tas_hda,
- 			goto err;
- 		}
+@@ -1945,13 +1945,9 @@ static int cs35l41_hda_read_acpi(struct cs35l41_hda *cs35l41, const char *hid, i
  	}
--	put_device(physdev);
  
- 	return 0;
-+
- err:
- 	dev_err(p->dev, "read acpi error, ret: %d\n", ret);
+ 	ret = cs35l41_hda_parse_acpi(cs35l41, physdev, id);
+-	if (ret) {
+-		put_device(physdev);
++	if (ret)
+ 		return ret;
+-	}
+ out:
 -	put_device(physdev);
 -
- 	return ret;
- }
- 
+ 	cs35l41->bypass_fw = false;
+ 	if (cs35l41->control_bus == SPI) {
+ 		spi = to_spi_device(cs35l41->dev);
 -- 
 2.55.0
 
