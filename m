@@ -1,130 +1,74 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830A139A7EF;
-	Mon,  3 Aug 2026 06:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584AA495E5;
+	Mon,  3 Aug 2026 06:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785739136; cv=none; b=nUrlJMQQirzZTAZmAmwBRHmEpmGZAasgN8G9G58BsOitEwh+z4z6KWSG/JiB7NExltEgg951uJ3f09IAsy7/iJlr8Jpvxs/ws0fMc5PmhmdIkzgDvklYZ271zZpnEsnZLGKEkyiBqcW+0fSXc8NkkOIcghqCe5kuj6Tts4AamJM=
+	t=1785740143; cv=none; b=bGGI1prucuuiOykVa6gSVhe+VJWl9KshCQ431xzF7z4xlI1kSWsow3v1SH9zb7JshglTNisRq5ZhLatvd9K7FeyoDeTSNnR4MdWu7RKY321BEDhn4kR5pIFUbEELOIpX3wC3OgPiOnig4owCHCJU43BAO75pc+07r1cj22bz6So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785739136; c=relaxed/simple;
-	bh=q35bOU8mh36hFOFvLRmtEm/JGsq1F+dnyd20DlJQLtg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 In-Reply-To:References; b=pbYJESEsKkG8d7ND7opJtJDP89X+ff9WHZUrr2C6sGL9r/wcBGQx1lLreaZEPBTcqVK9yZB0/Tb+4p44dVorA/cuSaivjjvBLm+/lDVmINApgsC9QDLhWfCdDaK0ENKPb3/7E7Gl/iOCAboCygADCSIdQAcnPe9BgrbQ/XNsiZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=BLdZw6Gk; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	s=arc-20240116; t=1785740143; c=relaxed/simple;
+	bh=da9r3/X29xVRhzzo6XGWlccoevkGxMlYFjGTtlUDSFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b0moXVQArM+HLKdOGuJ/6crYKyFlrbaJexXnmROQxej7qF6koExxeVFTH4dNkMGTqMeawEgrfPoNtC6A04Ihq7+EZCKOxjrcTiHwkz/j23475eueKXP570N0xXK8nicqkFzrkq4X/hJJ7hXlYX5ZRtsx523OZImnr3abuuIgqBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M9Dj7qMx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="BLdZw6Gk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1785739122;
-	bh=Cyf/k/y8sYcnNGGfb5GcBuEuO/FaLLsXj8kGmuu9NXg=;
-	h=Mime-Version:Date:Message-Id:Subject:From:To;
-	b=BLdZw6GkKPttdnD6YfiM52KopBX+cfiEmd98a8bGxb9dZ7CqMs4OARnCye4X1kTBr
-	 DgH4mypfTORrc8OzilwrRhlcdyJpiXnBzoS7dAyKYtxEHuMvnE6x9VdVgyEcegu3Kf
-	 oeep0L2JCj9ABlXdUDPM5XJJuk9cPFnknToDg72I=
-X-QQ-mid: zesmtpgz6t1785739117ta0f49f04
-X-QQ-Originating-IP: kyQ/fgpCqoV7CFbJ4ul1NfqxMDWHXTEhy1TPJdL1y5U=
-Received: from = ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 03 Aug 2026 14:38:35 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3503827160041228308
-EX-QQ-RecipientCnt: 14
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M9Dj7qMx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 043711F000E9;
+	Mon,  3 Aug 2026 06:55:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785740142;
+	bh=0bPdVfAtocz9IJuP4lWPc9+AnBop7s4nhEuFhT6VnJo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=M9Dj7qMxbhs9Fo4BnCZp2LhB2xTUJNEMEK2A1WKeqhC8EIFF02YR7xXFnnEvOXn6u
+	 Dqbs5zG89lfenbQV/7NtA+UGOE01NWjQvwlt89iQKSTBQuCHoLd8j0xocBbtJtentZ
+	 DlVIS56SsLOjjq6j6G81KyX8bOraVcLfB/oJs4dE7iEYzqP8wupMMHeYHy9Sy+8S1I
+	 f849PiLW/EyPVRw92zo72gK3hsoPnRakW7Pn8b7ALVtNOih+Dk3uC8Q0kOvTVSkjGk
+	 zF1bv2ZOWwxCaapMYi04isP3+pPDWphzihsOFdpvaM+P4RpoIf4prjD+iWp7vmQoat
+	 ovNOGZ117xdpQ==
+Date: Mon, 3 Aug 2026 08:55:37 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Christian Marangi <ansuelsmth@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Cyril Chao <Cyril.Chao@mediatek.com>, Darren Ye <darren.ye@mediatek.com>, 
+	Daniel Golle <daniel@makrotopia.org>, Rosen Penev <rosenp@gmail.com>, 
+	bui duc phuc <phucduc.bui@gmail.com>, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v4 2/4] ASoC: dt-bindings: Add Airoha AN7581 AFE with
+ WM8960 Codec schema
+Message-ID: <20260803-faithful-ruby-bumblebee-17ddfc@quoll>
+References: <20260731064326.2284228-1-ansuelsmth@gmail.com>
+ <20260731064326.2284228-3-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=a949f4f959a9e9c73ede8a4278dba00f3ef3605053293f1a8c4444af32a1;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Sun, 02 Aug 2026 23:38:33 -0700
-Message-Id: <DKF3ONLMSCC7.23CTHB22RU044@linux.spacemit.com>
-Cc: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>, "Goko Mell"
- <goku.sonxin626@gmail.com>, "Jinmei Wei" <weijinmei@linux.spacemit.com>,
- "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>,
- <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>,
- <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] ASoC: spacemit: init *dp to NULL before error paths
-From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
-To: "Bui Duc Phuc" <phucduc.bui@gmail.com>, "Yixun Lan" <dlan@kernel.org>,
- "Takashi Iwai" <tiwai@suse.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Liam Girdwood" <lgirdwood@gmail.com>
-In-Reply-To: <CAABR9nG=s78=5_tGSieN7hdCQOMNzJKdzJo5cx2bMfgAvJM+aw@mail.gmail.com>
-References: <20260731101539.36290-1-phucduc.bui@gmail.com>
-	<20260731101539.36290-2-phucduc.bui@gmail.com>
-	<DKEYE4CK1DUW.1PQ03VOZZT9TH@linux.spacemit.com>
-	<CAABR9nEqZG1Vywb2CkoLVgqoLVPKqfYt01t3dF=WTu9qJSS=bw@mail.gmail.com>
-	<CAABR9nG=s78=5_tGSieN7hdCQOMNzJKdzJo5cx2bMfgAvJM+aw@mail.gmail.com>
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MuUXDqQetHVqT6U9HwP+7PVW+6BRdBxuGhP6ePJR3dVLUdUWPkbUWFB4
-	HDUlfC46/RntD/FrlFP6FC6pFrQ7P2VVhtjrChMbxBJzhLW9khdTYWCAGliYhvTqNmrsIJi
-	xzbbFW2NSo5p61htLFLoPeG4imgqD/TLeXOyOQqpNZqf8Sbq9pGrCECg2Sdoka1dYP8O4Tp
-	B0z3YUMbxz1hnaLfA5g8tubzNhb0fucn/9Oz2g8qaRHNj5PuBiZ/LUZWVCG/tSZdKzVAglr
-	//2dIXxD/RdVvU9NixfRFuf2sMbMNvqpuvYgVPo2oCARIMpksBNCcYHoLorXDDHYm8eRD9U
-	QWSFVn1mkr3f5Fe7EyGWk3nwRcjPJ3xCbch1YgR7Czgs5QSetwziYFAuSC1YX3n6qBlKd33
-	8fYUojSvAWMoAnA20dyqj4l9mmb0bWgh2+SpMRsArX6h4XcqMOgtUs+z5PwwP/bsjiIM3bk
-	e4yolQgW7EJZFGjd3imLY3dwRIIyttpTtNw4VhUdxB7rdHUrw9HNqAa1gHgR4Q002MOKpkX
-	EtH34gUdc1rqCevXfJGqZ+e3J9FoenM/8kXeowVNAVJRKYnA+7EdlDS6CEF+Sv2a2Si7O05
-	ZVbr27Xw3bkn/zfTMzFK6Xss8EktWzMvJCpQj8yjdsBl6jl2IC3RlOJfTREhbyYl46SSnwU
-	Hnbezklv+t2M30hj+ZkEOrweFuVLWXBRwGuPIr70vpq+slKilusmlWfN/sh2klCTrFUOv9i
-	Y36YAtVn3/b+t07tTEkK3+V4DP1J23Pp/qDgRlZrVksI7+PUw9sL/2sPgmNjNCbddttHZaM
-	eOLB423kbAB/cuGBhN73iAfSjrS/pnW9wg8OpiD3tWl/pac/edwzO3Lwn3MSLdG+osT3yx/
-	abHhHRwjEWhEdLeId7r7vmordOF2aV1eRsT0Eh8g874oFcLR920DbJSrk5/d+HIfkebVDGb
-	PBamtxi0WcAlL7yF8VDN7k5JM10TSFruEV8QyOEhjrL8DNQNDn1o6JjAFrUvElCAU3Ga161
-	kbISlhcKywa/FMnRyRaHSQ6myeY/ZuHfw6xypg0KSt957wOVEAphKJUg1Pie7sKkM0SZg5j
-	DF88K2Me7b4TWYLui/oZAwMogDlglqScZAQ3yoOJRf10LFYmFuf+uFB+CCEfkJd+7gEO5R6
-	kpuU
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260731064326.2284228-3-ansuelsmth@gmail.com>
 
---a949f4f959a9e9c73ede8a4278dba00f3ef3605053293f1a8c4444af32a1
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Fri, Jul 31, 2026 at 08:43:22AM +0200, Christian Marangi wrote:
+> Add DT schema for Airoha AN7581 Sound Card with the specific WM8960 i2c Codec
+> and AFE as platform driver.
 
-> However, unlike the Rockchip driver, spacemit_i2s_dai already has most
-> of the playback
-> and capture capabilities initialized statically. As a result,
-> spacemit_i2s_init_dai() ends up
-> assigning the same values again, for example channels_min, channels_max,
-> rates,
-> and formats, which seems redundant.
->
-> If you think that makes sense, I can either remove those redundant
-> assignments,
-> or make it follow the Rockchip approach by keeping the static
-> spacemit_i2s_dai
-> minimal and initializing those fields only in spacemit_i2s_init_dai().
+You have unwrapped commit msg and should drop references to platform
+driver.
 
-Nice catch. Please follow the Rockchip approach: keep the static
-spacemit_i2s_dai minimal and initialize the playback and capture fields
-conditionally in spacemit_i2s_init_dai().
+> 
+> This gives example on how to define and connect the AFE driver with the
+> WM8960 for full functionality.
 
-Simply removing the assignments from spacemit_i2s_init_dai() would leave
-channels_min nonzero for both directions in the static template.
-snd_soc_dai_stream_valid() treats a direction with a nonzero channels_min
-as supported, so the driver would continue advertising capture even for
-a device with only a "tx" DMA. The binding permits such a configuration.
+This is not necessary. You desribe here hardware, not example.
 
-Please preserve rate_min and rate_max when moving the capability fields,
-and send this change as a separate patch.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-                                            - Troy
+Best regards,
+Krzysztof
 
---a949f4f959a9e9c73ede8a4278dba00f3ef3605053293f1a8c4444af32a1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCanA3aQ0caUB0cm95LXku
-b3JnAAoJEJgJ74D5MzQv1GoA/RVsXEtyqcJ8RIszmDUsvLd9IgXmmHhzlEIWkd7W
-P8riAQDkDsHlnhNzz31IA1D0iHM2d+mqgfvD61Dyns2CnOZ3Bw==
-=zb68
------END PGP SIGNATURE-----
-
---a949f4f959a9e9c73ede8a4278dba00f3ef3605053293f1a8c4444af32a1--
