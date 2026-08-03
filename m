@@ -1,119 +1,656 @@
-Received: from us-smtp-delivery-172.mimecast.com (us-smtp-delivery-172.mimecast.com [170.10.129.172])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110C8313540
-	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 22:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B80345EA7
+	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 22:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785794936; cv=none; b=GeypjPcmRteA/60ynVuCn9UfhAsqMo1hFVGrcGPAbfAcnZJGOweSGv7Lgk96zdoY9giIc2sqUaHhFKDL0EiQfp+i9/DFJcT+t6X5u1IIcZolPo2qighN463yw5iceXt14SaT3mIunYpn8Q8F6lrFVHSR0H7rxhbUXQW26qvG304=
+	t=1785797932; cv=none; b=JR4JT4JU4VXBY3z73gvzdNSiGwKillc2JHRCWBP2+hZnL30X27TKr9+IjEwU1P9fvHb/6KSQqvd3xy1vbrfRnjemG9VihYHIJf98yGzGjEZ21K8i5H35PpbbMJfNgLBl7/P7id65/mC6vtJQJshh7RDDXD3jQcn19C1dNHFKp6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785794936; c=relaxed/simple;
-	bh=TiU02b5gKkTCFd79C4eUw3kyNmlCNT5Dz4GxTxqYR/I=;
-	h=From:Date:Subject:MIME-Version:Message-ID:To:CC:Content-Type; b=guz6R6IMpjXk2fc91FaN0LgGm8EUFByheZYN7CLJcf4zcxJTV5aGEAdu3JNXDPUVgN/NWQ8D60bMC8nV9h5lHIDfapHwCwuUjWsc4DgoolakW6qINHYgesllgSFziLG/iBNsLk3NJquLNHfeLCfMpP0WZM5VpDlwya5eS1OxU8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com; spf=pass smtp.mailfrom=valvesoftware.com; dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b=OmKpXdpD; arc=none smtp.client-ip=170.10.129.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valvesoftware.com
+	s=arc-20240116; t=1785797932; c=relaxed/simple;
+	bh=MwaBeILMzOQPQgRvX14fWAYwAz/xN+d2m9Dn07dpqY0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NsFW4WJTcn7S6G5g95nQ2JD0mDHohFWU1EkMTHX2K7KFGDv9bXAFVJ1DNef2p/o075OedCxgauUDgatxsUSMFVWW7Hzlz4F7klcAE1LMK/PPmFqRkN8H8ah2D0viIfWi5V9ewZs4Bgv96+ZcIARumLNrjJOJBfMRc/GT3k+dxhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hTfQ20Cd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=djX5h9Pg; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b="OmKpXdpD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valvesoftware.com;
-	s=mc20150811; t=1785794932;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=9t+ZmcdRd8nJy6P7t7lAVcxI3+oM1G1piy0yBitKP+0=;
-	b=OmKpXdpDjSewKwZtnvuvcMb1yYB7D8zhhfo0P7h5N8APG4M8/vTXm1ZQj7iZTQKDJP/Zt7
-	u8F2Pb/wWeB5/G3KWFf6Zacz62BEvTeCqlYyl+DUAtBZATMVnf1e4CSFAPyz5gH6vnDC+D
-	818CH+hCPBfzC0QKXJ+ZeJbzbw5LYPg=
-Received: from smtp-01-tuk3.valvesoftware.com
- (smtp-01-tuk3.valvesoftware.com [208.64.203.181]) by relay.mimecast.com
- with ESMTP with STARTTLS (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384)
- id us-mta-643-6weU-CqJPSGFttFrC27BuA-1; Mon, 03 Aug 2026 18:08:50 -0400
-X-MC-Unique: 6weU-CqJPSGFttFrC27BuA-1
-X-Mimecast-MFC-AGG-ID: 6weU-CqJPSGFttFrC27BuA_1785794929
-Received: from antispam.valve.org ([172.16.1.107])
-	by smtp-01-tuk3.valvesoftware.com with esmtp (Exim 4.97)
-	(envelope-from <arunr@valvesoftware.com>)
-	id 1wr0q1-0000000BT9W-2hti;
-	Mon, 03 Aug 2026 15:08:49 -0700
-Received: from antispam.valve.org (127.0.0.1) id he48n20171st; Mon, 3 Aug 2026 15:08:49 -0700 (envelope-from <arunr@valvesoftware.com>)
-Received: from mail2.valvemail.org ([172.16.144.23])
-	by antispam.valve.org ([172.16.1.107]) (SonicWall 10.0.15.7233)
-	with ESMTP id o202608032208490051981-5; Mon, 03 Aug 2026 15:08:49 -0700
-Received: from [172.18.17.18] (172.18.17.18) by mail2.valvemail.org
- (172.16.144.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 3 Aug
- 2026 15:08:49 -0700
-From: Arun Raghavan <arunr@valvesoftware.com>
-Date: Mon, 3 Aug 2026 15:07:52 -0700
-Subject: [PATCH] ALSA: hda/core: Log stream DMA errors on interrupt
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hTfQ20Cd";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="djX5h9Pg"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 673LJ53N1546641
+	for <linux-sound@vger.kernel.org>; Mon, 3 Aug 2026 22:58:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vkkI7n/JHOAXjb++hU4c7bFggjLKRsUtuKU1w4OPaqE=; b=hTfQ20CdZdXd4pjX
+	GDkFqXZeC5aUJalNI95H5vEJP/is/0Yo92uyUNmO/Box338oxtq7dzLjJPrxr7EN
+	3hhOR9cnsNi4blU3AfbkLWjW+7rFf0Se+gz7QCj2lfjQNsIGa1dAqc27w3KQZRdD
+	owgKrNMZ4be/j4G5vTL2TWQLwEDO3DihNJWebZnTuCw2jWmqcI4eTZapPn2QK1jG
+	MkN3tJkVEisWOpYUTKEdWxPfcwi8BYeCi5czNrYI0vR3F6CUl7BO1uXTjsmv/+Ba
+	vgjy4t/dXnF48kODAhToFKjUY+Pme4XC+IZk5oW3x5pZGbT0NzbgctXWdf0nc0J1
+	3fnSOw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fu2sygauv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 03 Aug 2026 22:58:49 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c1a9764f0so40981251cf.1
+        for <linux-sound@vger.kernel.org>; Mon, 03 Aug 2026 15:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785797928; x=1786402728; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vkkI7n/JHOAXjb++hU4c7bFggjLKRsUtuKU1w4OPaqE=;
+        b=djX5h9Pgdpj3wz8P02XGOysPCsc46pnZxUPaqQZKcJq+A1WcW7N70xlI/4kFKVrcUM
+         vX1aCfbt5xCvUqELtNzP5DGuT/9GMsRrRaAC8GkIwhehrhAAhXcIF/37FLlj31shNBLW
+         uOvKDFZ6m6U+c7dRwn4vJJUPbSWNKutjyI5u2rq/EsNA39aTyYJlMWUmPhDcQHfO+Ioc
+         c8qw9geGNKp7fvO4QijQEEmTcnoe77W00wYtrwOeH8iqxpm/G3aAArSz2WHXpVyL5uzH
+         TVMhP+TaUrSilOYo2AY4wowj0GTGCpFcSmvfeAXVl4/JmkSEvAaeakgzDMUpztkvmeVx
+         aVLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785797928; x=1786402728;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vkkI7n/JHOAXjb++hU4c7bFggjLKRsUtuKU1w4OPaqE=;
+        b=cmV/oegzeZunKa7kygaiyxL8yJmSFa712RbJrCyJUKXKXTWVf492J3XdcgFbbPTgpd
+         XWCgivHqkEX/0JhdKMJbcsim29SfON9TDx4/nz4B+zkltAH01JulBV4132mEV2SSCBuw
+         spiNErAQB629mzeb7h5SyCY8j+pwJ43wjV1UsUmBI5qBS8AhLh4enY41+03x5uYlsOPo
+         LVFEE2+sE1eJwhNC36nFrRURcMJ2AX3BJJXYP64KFaE1Bypv9IaDcg7APNliK9DWrnIF
+         aCwWZhxfyzSIbk3OiM+VxCDboYmX5f+x3J0Lbv2JA1yHvOFOFew6U4SHIuXEYKy2orJ3
+         ljfQ==
+X-Gm-Message-State: AOJu0YyNzzezPz9Xm6Oa9MsHxHcVFrrkZ5jObtMIh+5PlOVM/PyVgFfZ
+	apUcx7tIY2+aUzootJFJfDmv1ar5MajugKMBlBziKJlo8TpWfpkD9gDkU3ZMtItwvfrvASmALaJ
+	LK+CZ1lortERIVYhlnkvLLHe83yhzCpGS8zN9WacoYQpTz+84VduVz7uiUyqAR5CKzA==
+X-Gm-Gg: AR+sD1210r/23zUXd7N6ZLAdWtHjMb068RKsvjYCWOmQbnwQGeDMuQWuxZMfctFa28A
+	cUztfXCycIUr7JAjAlEd0jEVai2v7q4f9E8T7EB5O7BigFBIYQLZHRWuKebp7CXmJJxeMkHxoJN
+	eRx4CUlfzRrpW+qE8x93b8pDgOI08Dg9u/0wy4WvvnIFyZdrghc3gwuEjp2e3VODV/A2tN+fXWA
+	Q5JgQ7BSVj1g4OZ8Jo7rN3WHNZFd1x8jUHD2ATG2mDg2bRpA43qojrjrj1hRAoQ0gjdjKzm4Hps
+	Rz5XhwF5V7uNOV+W3uiSw3Ywh3hpFLRN/kLRZJA8E9UzOt1Hy6FXGGs7/CldZJgRIaLfn7yyhgI
+	Ky/y9skal0MYvmsHHffRUNpDNUPM=
+X-Received: by 2002:ac8:58c7:0:b0:528:399a:8f81 with SMTP id d75a77b69052e-52b56753536mr223083931cf.23.1785797928339;
+        Mon, 03 Aug 2026 15:58:48 -0700 (PDT)
+X-Received: by 2002:ac8:58c7:0:b0:528:399a:8f81 with SMTP id d75a77b69052e-52b56753536mr223083671cf.23.1785797927835;
+        Mon, 03 Aug 2026 15:58:47 -0700 (PDT)
+Received: from [192.168.68.107] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49949fdf392sm55492155e9.11.2026.08.03.15.58.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Aug 2026 15:58:46 -0700 (PDT)
+Message-ID: <8c8021f5-5aa8-41ac-bf61-a878e95624ed@oss.qualcomm.com>
+Date: Mon, 3 Aug 2026 23:58:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <20260803-master-v1-1-9bcedb736978@valvesoftware.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDCwNj3dzE4pLUIl0Ti0Rjs2SzVHODVAMloOKCotS0zAqwQdGxtbUADfe
- VRFgAAAA=
-X-Change-ID: 20260803-master-48a36c6e70e0
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Arun
- Raghavan <arunr@valvesoftware.com>, Arun Raghavan <arun@arunraghavan.net>
-X-Mailer: b4 0.14.3
-X-ClientProxiedBy: mail2.valvemail.org (172.16.144.23) To mail2.valvemail.org
- (172.16.144.23)
-X-Mlf-DSE-Version: 7580
-X-Mlf-Rules-Version: s20260801042314; ds20230628172248;
-	di20260728152631; ri20160318003319; fs20260803155810
-X-Mlf-Smartnet-Version: 20210917223710
-X-Mlf-Envelope-From: arunr@valvesoftware.com
-X-Mlf-Version: 10.0.15.7233
-X-Mlf-License: BSV_C_AP_T_R
-X-Mlf-UniqueId: o202608032208490051981
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: c5GJYfbkzK0nO1CGOrvWA0aBrFks10cvA7E3IlzvzC4_1785794929
-X-Mimecast-Originator: valvesoftware.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/7] ASoC: qcom: qdsp6: add topology-driven Audio IF
+ support
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260803195624.3606352-1-prasad.kumpatla@oss.qualcomm.com>
+ <20260803195624.3606352-2-prasad.kumpatla@oss.qualcomm.com>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260803195624.3606352-2-prasad.kumpatla@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=TIh1jVla c=1 sm=1 tr=0 ts=6a711d29 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=ZoUlpd-nNIYPgo-y8iwA:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODAzMDIwMSBTYWx0ZWRfX0a9iq3v3tOLA
+ 80leAhHDlr0LZ5iQ54sJjVve8yUJaTMubalmsbPNMiCszX8G+8V18ustJnjdj73tEXfmtrqheRU
+ 7g0hKorPU+LphilW963QD9mFiFJFikA=
+X-Proofpoint-ORIG-GUID: 89iaK25hJWWfxF-wC0p4WVDXSoOoaM68
+X-Proofpoint-GUID: 89iaK25hJWWfxF-wC0p4WVDXSoOoaM68
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODAzMDIwMSBTYWx0ZWRfXwH9+yY6M2i3H
+ PWm5DLmNzA67gD9VsGt41UXLT6cpVlwOgmUodD4t6eBVPiL1ZhNjVUE+Rg3FdVVUsyc06w2KzPz
+ lZBw1Q8JfoE4z1LWWOWDcib6u+IyeF+lYyIKBHEBRV6PdvlSO7g+/k/QMt+PRSVbYRvAXogw4KR
+ 4qYzDFRAiFZBeBl6gXL4VGJa5DMq1J75Qq+nKf/E0yxX1hIbpm+A6LuevW3M+f+MpJvvnAZiG6S
+ +5UEIH1mElIxjdmwSVy2DyCn9QJOk9uySeH5Y+EkF0x3gBOx03I17xfgjt3tv1V1Q5n3nI30Ao9
+ ciN7fL1tjPlV3GhnL8wHhwjy/3RXld8yhUeDAuqsdXv4UKZWTkqD52idc1/qtAFzcG+mIr7/JJM
+ ro8+ofbGIBXFIAIWEp05nTqRcdMPl3marcX1DhkhtpHlS3bthCPKC2VxNG4TRW90TybiJCP5319
+ GcgrS02Z16trv1nh6Mw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-03_05,2026-08-03_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 phishscore=0 malwarescore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608030201
 
-The stream descriptor status register reports FIFO and descriptor
-errors, but these are currently cleared silently along with the rest
-of the interrupt status. Log them, rate-limited, so DMA problems are
-visible instead of only manifesting as audible glitches.
+On 8/3/26 8:56 PM, Prasad Kumpatla wrote:
+> Add topology parsing and media-format programming for Audio IF source and
+> sink modules.
+> 
+> Add the Audio IF module IDs, the required topology tokens, and a dedicated
+> topology loader that stores the parsed interface configuration in the
+> AudioReach module state. Also add the Audio IF media-format path that
+> sends the interface configuration, hardware endpoint media format, and
+> frame-duration parameters for Audio IF modules.
+> 
+> This keeps the serial-interface configuration topology-driven while still
+> allowing the machine driver to provide runtime slot and media format
+> settings. The same Audio IF path can then be reused for TDM, PCM, and I2S
+> style backends.
+> 
+> The new UAPI tokens (AR_TKN_U16_MODULE_SYNC_SRC=262 through
+> AR_TKN_U8_MODULE_INV_EXT_BIT_CLK=276) are added, together with the value
+> defines used by the sync source, sync mode, data delay, interface mode,
+> bit clock type, and polarity tokens.
+> 
+> MODULE_ID_AUDIO_IF_SINK (0x0700117C) and MODULE_ID_AUDIO_IF_SOURCE
+> (0x0700117D) are introduced in this patch.
+> 
+> This Module is validated on Hawi and Shikra platforms.
+> 
+> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
 
-Observed on some AMD GPU HDMI audio controllers under specific low power
-circumstances.
+Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-Signed-off-by: Arun Raghavan <arunr@valvesoftware.com>
-Cc: Arun Raghavan <arun@arunraghavan.net>
----
- sound/hda/core/controller.c | 5 +++++
- 1 file changed, 5 insertions(+)
+--srini
 
-diff --git a/sound/hda/core/controller.c b/sound/hda/core/controller.c
-index 69e11d62bbfa..5f1d2c132cec 100644
---- a/sound/hda/core/controller.c
-+++ b/sound/hda/core/controller.c
-@@ -682,6 +682,11 @@ int snd_hdac_bus_handle_stream_irq(struct hdac_bus *bu=
-s, unsigned int status,
- =09=09=09sd_status =3D snd_hdac_stream_readb(azx_dev, SD_STS);
- =09=09=09snd_hdac_stream_writeb(azx_dev, SD_STS, SD_INT_MASK);
- =09=09=09handled |=3D 1 << azx_dev->index;
-+=09=09=09if (sd_status & (SD_INT_FIFO_ERR | SD_INT_DESC_ERR)) {
-+=09=09=09=09dev_warn_ratelimited(bus->dev,
-+=09=09=09=09=09=09"stream %u dma error: 0x%02x\n",
-+=09=09=09=09=09=09azx_dev->index, sd_status);
-+=09=09=09}
- =09=09=09if ((!azx_dev->substream && !azx_dev->cstream) ||
- =09=09=09    !azx_dev->running || !(sd_status & SD_INT_COMPLETE))
- =09=09=09=09continue;
 
----
-base-commit: 848acc8ffe1b7cd5f1bf427b93069becfebc2c9d
-change-id: 20260803-master-48a36c6e70e0
-
-Best regards,
---=20
-Arun Raghavan <arunr@valvesoftware.com>
+> ---
+>  include/uapi/sound/snd_ar_tokens.h |  93 ++++++++++++++++++++++++++
+>  sound/soc/qcom/qdsp6/audioreach.c  |  93 ++++++++++++++++++++++++++
+>  sound/soc/qcom/qdsp6/audioreach.h  |  90 +++++++++++++++++++++++++
+>  sound/soc/qcom/qdsp6/topology.c    | 103 +++++++++++++++++++++++++++++
+>  4 files changed, 379 insertions(+)
+> 
+> diff --git a/include/uapi/sound/snd_ar_tokens.h b/include/uapi/sound/snd_ar_tokens.h
+> index 6b8102eaa121..1700e3f5cb64 100644
+> --- a/include/uapi/sound/snd_ar_tokens.h
+> +++ b/include/uapi/sound/snd_ar_tokens.h
+> @@ -168,6 +168,60 @@ enum ar_event_types {
+>   *						LOG_WAIT = 0,
+>   *						LOG_IMMEDIATELY = 1
+>   *
+> + * %AR_TKN_U16_MODULE_SYNC_SRC:			Frame sync source
+> + *						AR_AUDIO_IF_SYNC_SRC_EXTERNAL = 0,
+> + *						AR_AUDIO_IF_SYNC_SRC_INTERNAL = 1
+> + *
+> + * %AR_TKN_U16_MODULE_CTRL_DATA_OUT_ENABLE:	Enable data-out tri-state control
+> + *						AR_AUDIO_IF_CTRL_DATA_OE_DISABLE = 0,
+> + *						AR_AUDIO_IF_CTRL_DATA_OE_ENABLE = 1
+> + *
+> + * %AR_TKN_U32_MODULE_SLOT_MASK:			Active TDM slot bitmask
+> + *
+> + * %AR_TKN_U16_MODULE_NSLOTS_PER_FRAME:		Number of slots per TDM frame
+> + *
+> + * %AR_TKN_U16_MODULE_SLOT_WIDTH:		Slot width in bits (16 or 32)
+> + *
+> + * %AR_TKN_U16_MODULE_SYNC_MODE:			Frame sync mode
+> + *						AR_AUDIO_IF_FRAME_SYNC_MODE_SHORT = 0,
+> + *						AR_AUDIO_IF_FRAME_SYNC_MODE_ONE_SLOT = 1,
+> + *						AR_AUDIO_IF_FRAME_SYNC_MODE_LONG = 2
+> + *
+> + * %AR_TKN_U16_MODULE_CTRL_INVERT_SYNC_PULSE:	Invert frame sync pulse polarity
+> + *						AR_AUDIO_IF_SYNC_NORMAL = 0,
+> + *						AR_AUDIO_IF_SYNC_INVERTED = 1
+> + *
+> + * %AR_TKN_U16_MODULE_CTRL_SYNC_DATA_DELAY:	Data delay relative to frame sync
+> + *						AR_AUDIO_IF_DATA_DELAY_NONE = 0,
+> + *						AR_AUDIO_IF_DATA_DELAY_1_CYCLE = 1,
+> + *						AR_AUDIO_IF_DATA_DELAY_2_CYCLE = 2
+> + *
+> + * %AR_TKN_U16_MODULE_INTF_MODE:			Audio IF interface mode
+> + *						AR_AUDIO_IF_INTF_MODE_TDM = 0,
+> + *						AR_AUDIO_IF_INTF_MODE_PCM = 1,
+> + *						AR_AUDIO_IF_INTF_MODE_I2S = 2
+> + *
+> + * %AR_TKN_U16_MODULE_QAIF_TYPE:			QAIF hardware port type index
+> + *						AR_AUDIO_IF_QAIF = 0,
+> + *						AR_AUDIO_IF_QAIF_VA = 1
+> + *
+> + * %AR_TKN_U32_MODULE_ACTIVE_LANE_MASK:		Active lane bitmask for multi-lane
+> + *
+> + * %AR_TKN_U32_MODULE_FRAME_SYNC_RATE:		Frame sync rate in Hz
+> + *
+> + * %AR_TKN_U16_MODULE_BIT_CLK_TYPE:		Bit clock type
+> + *						AR_AUDIO_IF_BIT_CLK_INTERNAL = 0,
+> + *						AR_AUDIO_IF_BIT_CLK_EXTERNAL = 1,
+> + *						AR_AUDIO_IF_BIT_CLK_SKIP = 2
+> + *
+> + * %AR_TKN_U8_MODULE_INV_INT_BIT_CLK:		Invert internal bit clock
+> + *						AR_AUDIO_IF_CLK_NORMAL = 0,
+> + *						AR_AUDIO_IF_CLK_INVERTED = 1
+> + *
+> + * %AR_TKN_U8_MODULE_INV_EXT_BIT_CLK:		Invert external bit clock
+> + *						AR_AUDIO_IF_CLK_NORMAL = 0,
+> + *						AR_AUDIO_IF_CLK_INVERTED = 1
+> + *
+>   * %AR_TKN_DAI_INDEX:				dai index
+>   *
+>   */
+> @@ -240,6 +294,45 @@ enum ar_event_types {
+>  #define AR_TKN_U32_MODULE_LOG_TAP_POINT_ID	260
+>  #define AR_TKN_U32_MODULE_LOG_MODE		261
+>  
+> +#define AR_TKN_U16_MODULE_SYNC_SRC		262
+> +#define AR_TKN_U16_MODULE_CTRL_DATA_OUT_ENABLE	263
+> +#define AR_TKN_U32_MODULE_SLOT_MASK		264
+> +#define AR_TKN_U16_MODULE_NSLOTS_PER_FRAME	265
+> +#define AR_TKN_U16_MODULE_SLOT_WIDTH		266
+> +#define AR_TKN_U16_MODULE_SYNC_MODE		267
+> +#define AR_TKN_U16_MODULE_CTRL_INVERT_SYNC_PULSE	268
+> +#define AR_TKN_U16_MODULE_CTRL_SYNC_DATA_DELAY	269
+> +#define AR_TKN_U16_MODULE_INTF_MODE		270
+> +#define AR_TKN_U16_MODULE_QAIF_TYPE		271
+> +#define AR_TKN_U32_MODULE_ACTIVE_LANE_MASK	272
+> +#define AR_TKN_U32_MODULE_FRAME_SYNC_RATE	273
+> +#define AR_TKN_U16_MODULE_BIT_CLK_TYPE		274
+> +#define AR_TKN_U8_MODULE_INV_INT_BIT_CLK	275
+> +#define AR_TKN_U8_MODULE_INV_EXT_BIT_CLK	276
+> +
+> +#define AR_AUDIO_IF_SYNC_SRC_EXTERNAL		0
+> +#define AR_AUDIO_IF_SYNC_SRC_INTERNAL		1
+> +#define AR_AUDIO_IF_CTRL_DATA_OE_DISABLE	0
+> +#define AR_AUDIO_IF_CTRL_DATA_OE_ENABLE		1
+> +#define AR_AUDIO_IF_INTF_MODE_TDM		0
+> +#define AR_AUDIO_IF_INTF_MODE_PCM		1
+> +#define AR_AUDIO_IF_INTF_MODE_I2S		2
+> +#define AR_AUDIO_IF_QAIF			0
+> +#define AR_AUDIO_IF_QAIF_VA			1
+> +#define AR_AUDIO_IF_FRAME_SYNC_MODE_SHORT	0
+> +#define AR_AUDIO_IF_FRAME_SYNC_MODE_ONE_SLOT	1
+> +#define AR_AUDIO_IF_FRAME_SYNC_MODE_LONG	2
+> +#define AR_AUDIO_IF_SYNC_NORMAL			0
+> +#define AR_AUDIO_IF_SYNC_INVERTED		1
+> +#define AR_AUDIO_IF_DATA_DELAY_NONE		0
+> +#define AR_AUDIO_IF_DATA_DELAY_1_CYCLE		1
+> +#define AR_AUDIO_IF_DATA_DELAY_2_CYCLE		2
+> +#define AR_AUDIO_IF_BIT_CLK_INTERNAL		0
+> +#define AR_AUDIO_IF_BIT_CLK_EXTERNAL		1
+> +#define AR_AUDIO_IF_BIT_CLK_SKIP		2
+> +#define AR_AUDIO_IF_CLK_NORMAL			0
+> +#define AR_AUDIO_IF_CLK_INVERTED		1
+> +
+>  #define SND_SOC_AR_TPLG_MODULE_CFG_TYPE 0x01001006
+>  struct audioreach_module_priv_data {
+>  	__le32 size;	/* size in bytes of the array, including all elements */
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.c b/sound/soc/qcom/qdsp6/audioreach.c
+> index e6e9eb2e85aa..6a11f2932ba5 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.c
+> +++ b/sound/soc/qcom/qdsp6/audioreach.c
+> @@ -152,6 +152,13 @@ struct apm_i2s_module_intf_cfg {
+>  
+>  #define APM_I2S_INTF_CFG_PSIZE ALIGN(sizeof(struct apm_i2s_module_intf_cfg), 8)
+>  
+> +struct apm_audio_if_module_intf_cfg {
+> +	struct apm_module_param_data param_data;
+> +	struct param_id_audio_if_intf_cfg cfg;
+> +} __packed;
+> +
+> +#define APM_AUDIO_IF_INTF_CFG_PSIZE ALIGN(sizeof(struct apm_audio_if_module_intf_cfg), 8)
+> +
+>  struct apm_module_hw_ep_mf_cfg {
+>  	struct apm_module_param_data param_data;
+>  	struct param_id_hw_ep_mf mf;
+> @@ -168,6 +175,13 @@ struct apm_module_frame_size_factor_cfg {
+>  
+>  #define APM_FS_CFG_PSIZE ALIGN(sizeof(struct apm_module_frame_size_factor_cfg), 8)
+>  
+> +struct apm_module_hw_ep_frame_duration_cfg {
+> +	struct apm_module_param_data param_data;
+> +	struct param_id_hw_ep_frame_duration frame_duration;
+> +} __packed;
+> +
+> +#define APM_HW_EP_FRAME_DURATION_PSIZE ALIGN(sizeof(struct apm_module_hw_ep_frame_duration_cfg), 8)
+> +
+>  struct apm_module_hw_ep_power_mode_cfg {
+>  	struct apm_module_param_data param_data;
+>  	struct param_id_hw_ep_power_mode_cfg power_mode;
+> @@ -1042,6 +1056,81 @@ static int audioreach_i2s_set_media_format(struct q6apm_graph *graph,
+>  	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
+>  }
+>  
+> +static int audioreach_audio_if_set_media_format(struct q6apm_graph *graph,
+> +						const struct audioreach_module *module,
+> +						const struct audioreach_module_config *cfg)
+> +{
+> +	struct apm_module_hw_ep_frame_duration_cfg *fd_cfg;
+> +	struct apm_module_param_data *param_data;
+> +	struct apm_audio_if_module_intf_cfg *intf_cfg;
+> +	struct apm_module_hw_ep_mf_cfg *hw_cfg;
+> +	int ic_sz = APM_AUDIO_IF_INTF_CFG_PSIZE;
+> +	int ep_sz = APM_HW_EP_CFG_PSIZE;
+> +	int fd_sz = APM_HW_EP_FRAME_DURATION_PSIZE;
+> +	int size = ic_sz + ep_sz + fd_sz;
+> +	u32 slot_mask = cfg->slot_mask ? cfg->slot_mask : module->slot_mask;
+> +	u16 nslots_per_frame = cfg->nslots_per_frame ?
+> +				 (u16)cfg->nslots_per_frame : module->nslots_per_frame;
+> +	u16 slot_width = cfg->slot_width ? (u16)cfg->slot_width : module->slot_width;
+> +	void *p;
+> +
+> +	struct gpr_pkt *pkt __free(kfree) = audioreach_alloc_apm_cmd_pkt(size, APM_CMD_SET_CFG, 0);
+> +	if (IS_ERR(pkt))
+> +		return PTR_ERR(pkt);
+> +
+> +	p = (void *)pkt + GPR_HDR_SIZE + APM_CMD_HDR_SIZE;
+> +	intf_cfg = p;
+> +
+> +	param_data = &intf_cfg->param_data;
+> +	param_data->module_instance_id = module->instance_id;
+> +	param_data->error_code = 0;
+> +	param_data->param_id = PARAM_ID_AUDIO_IF_INTF_CFG;
+> +	param_data->param_size = ic_sz - APM_MODULE_PARAM_DATA_SIZE;
+> +	intf_cfg->cfg.qaif_type = module->qaif_type;
+> +	intf_cfg->cfg.intf_idx = (u16)module->hw_interface_idx;
+> +	intf_cfg->cfg.intf_mode = module->intf_mode;
+> +	intf_cfg->cfg.ctrl_data_out_enable = module->ctrl_data_out_enable;
+> +	intf_cfg->cfg.active_slot_mask = slot_mask;
+> +	intf_cfg->cfg.nslots_per_frame = nslots_per_frame;
+> +	intf_cfg->cfg.slot_width = slot_width;
+> +	intf_cfg->cfg.active_lane_mask = module->active_lane_mask;
+> +	intf_cfg->cfg.frame_sync_rate = module->frame_sync_rate;
+> +	intf_cfg->cfg.frame_sync_src = module->sync_src;
+> +	intf_cfg->cfg.frame_sync_mode = module->sync_mode;
+> +	intf_cfg->cfg.invert_frame_sync_pulse = module->ctrl_invert_sync_pulse;
+> +	intf_cfg->cfg.frame_sync_data_delay = module->ctrl_sync_data_delay;
+> +	intf_cfg->cfg.bit_clk_type = module->bit_clk_type;
+> +	intf_cfg->cfg.inv_int_bit_clk = module->inv_int_bit_clk;
+> +	intf_cfg->cfg.inv_ext_bit_clk = module->inv_ext_bit_clk;
+> +
+> +	p += ic_sz;
+> +	hw_cfg = p;
+> +	param_data = &hw_cfg->param_data;
+> +	param_data->module_instance_id = module->instance_id;
+> +	param_data->error_code = 0;
+> +	param_data->param_id = PARAM_ID_HW_EP_MF_CFG;
+> +	param_data->param_size = ep_sz - APM_MODULE_PARAM_DATA_SIZE;
+> +
+> +	hw_cfg->mf.sample_rate = cfg->sample_rate;
+> +	hw_cfg->mf.bit_width = cfg->bit_width;
+> +	hw_cfg->mf.num_channels = cfg->num_channels;
+> +	hw_cfg->mf.data_format = module->data_format;
+> +
+> +	p += ep_sz;
+> +	fd_cfg = p;
+> +	param_data = &fd_cfg->param_data;
+> +	param_data->module_instance_id = module->instance_id;
+> +	param_data->error_code = 0;
+> +	param_data->param_id = PARAM_ID_HW_EP_FRAME_DURATION;
+> +	param_data->param_size = fd_sz - APM_MODULE_PARAM_DATA_SIZE;
+> +	fd_cfg->frame_duration.frame_duration_in_us = AUDIO_IF_FRAME_DURATION_US;
+> +	fd_cfg->frame_duration.allow_frame_duration_normalization = AUDIO_IF_FRAME_DURATION_NORMALIZATION_ENABLE;
+> +	fd_cfg->frame_duration.min_normalized_frame_dur_us = AUDIO_IF_FRAME_DURATION_MIN_US;
+> +	fd_cfg->frame_duration.max_normalized_frame_dur_us = AUDIO_IF_FRAME_DURATION_MAX_US;
+> +
+> +	return q6apm_send_cmd_sync(graph->apm, pkt, 0);
+> +}
+> +
+>  static int audioreach_logging_set_media_format(struct q6apm_graph *graph,
+>  					       const struct audioreach_module *module)
+>  {
+> @@ -1411,6 +1500,10 @@ int audioreach_set_media_format(struct q6apm_graph *graph,
+>  		if (!rc)
+>  			rc = audioreach_module_enable(graph, module, true);
+>  		break;
+> +	case MODULE_ID_AUDIO_IF_SOURCE:
+> +	case MODULE_ID_AUDIO_IF_SINK:
+> +		rc = audioreach_audio_if_set_media_format(graph, module, cfg);
+> +		break;
+>  
+>  	default:
+>  		rc = 0;
+> diff --git a/sound/soc/qcom/qdsp6/audioreach.h b/sound/soc/qcom/qdsp6/audioreach.h
+> index 62a2fd79bbcb..35541b2d8c99 100644
+> --- a/sound/soc/qcom/qdsp6/audioreach.h
+> +++ b/sound/soc/qcom/qdsp6/audioreach.h
+> @@ -36,6 +36,8 @@ struct q6apm_graph;
+>  #define MODULE_ID_SPEAKER_PROTECTION	0x070010E2
+>  #define MODULE_ID_SPEAKER_PROTECTION_VI	0x070010E3
+>  #define MODULE_ID_OPUS_DEC		0x07001174
+> +#define MODULE_ID_AUDIO_IF_SINK		0x0700117C
+> +#define MODULE_ID_AUDIO_IF_SOURCE	0x0700117D
+>  
+>  #define APM_CMD_GET_SPF_STATE		0x01001021
+>  #define APM_CMD_RSP_GET_SPF_STATE	0x02001007
+> @@ -544,6 +546,74 @@ struct param_id_i2s_intf_cfg {
+>  #define PORT_ID_I2S_OUPUT		1
+>  #define I2S_STACK_SIZE			2048
+>  
+> +#define PARAM_ID_AUDIO_IF_INTF_CFG	0x08001B11
+> +
+> +/*
+> + * struct param_id_audio_if_intf_cfg - Audio interface configuration
+> + * @qaif_type: Audio interface type (e.g. QAIF, QAIF_VA)
+> + * @intf_idx: Interface instance index
+> + * @intf_mode: Interface operating mode (TDM/PCM/I2S)
+> + * @ctrl_data_out_enable: Enable sharing of data-out signal with other masters
+> + * @active_slot_mask: Bitmask indicating active slots
+> + * @nslots_per_frame: Number of slots per audio frame
+> + * @slot_width: Width of each slot in bits
+> + * @active_lane_mask: Bitmask of active data lanes
+> + * @frame_sync_rate: Frame sync rate in Hz
+> + * @frame_sync_src: Frame sync source selection
+> + * @frame_sync_mode: Frame sync mode configuration
+> + * @invert_frame_sync_pulse: Invert frame sync polarity when set
+> + * @frame_sync_data_delay: Data delay from frame sync in bit clocks
+> + * @bit_clk_type: Bit clock type (internal / external)
+> + * @inv_int_bit_clk: Invert internal bit clock when set
+> + * @inv_ext_bit_clk: Invert external bit clock when set
+> + *
+> + * This structure defines configuration parameters for the Qualcomm
+> + * Audio Interface (QAIF) block. It is used to program interface
+> + * characteristics such as slot configuration, clocking and frame
+> + * synchronization behaviour.
+> + */
+> +struct param_id_audio_if_intf_cfg {
+> +	uint16_t qaif_type;
+> +	uint16_t intf_idx;
+> +	uint16_t intf_mode;
+> +	uint16_t ctrl_data_out_enable;
+> +	uint32_t active_slot_mask;
+> +	uint16_t nslots_per_frame;
+> +	uint16_t slot_width;
+> +	uint32_t active_lane_mask;
+> +	uint32_t frame_sync_rate;
+> +	uint16_t frame_sync_src;
+> +	uint16_t frame_sync_mode;
+> +	uint16_t invert_frame_sync_pulse;
+> +	uint16_t frame_sync_data_delay;
+> +	uint16_t bit_clk_type;
+> +	uint8_t inv_int_bit_clk;
+> +	uint8_t inv_ext_bit_clk;
+> +} __packed;
+> +
+> +#define PARAM_ID_HW_EP_FRAME_DURATION	0x08001B2F
+> +#define AUDIO_IF_FRAME_DURATION_US			1000
+> +#define AUDIO_IF_FRAME_DURATION_NORMALIZATION_ENABLE	1
+> +#define AUDIO_IF_FRAME_DURATION_MIN_US			1
+> +#define AUDIO_IF_FRAME_DURATION_MAX_US			100000
+> +
+> +/**
+> + * struct param_id_hw_ep_frame_duration - Hardware endpoint frame duration
+> + * @frame_duration_in_us: Frame duration in microseconds.
+> + * @allow_frame_duration_normalization: Permit SPF to normalize frame duration.
+> + * @min_normalized_frame_dur_us: Minimum normalized frame duration in microseconds.
+> + * @max_normalized_frame_dur_us: Maximum normalized frame duration in microseconds.
+> + *
+> + * This structure configures the frame duration for the Audio IF hardware
+> + * endpoint and, when enabled, the allowed normalization range.
+> + */
+> +struct param_id_hw_ep_frame_duration {
+> +	uint32_t frame_duration_in_us;
+> +	uint32_t allow_frame_duration_normalization;
+> +	uint32_t min_normalized_frame_dur_us;
+> +	uint32_t max_normalized_frame_dur_us;
+> +} __packed;
+> +
+>  #define PARAM_ID_DISPLAY_PORT_INTF_CFG		0x08001154
+>  
+>  struct param_id_display_port_intf_cfg {
+> @@ -877,6 +947,23 @@ struct audioreach_module {
+>  	uint32_t data_format;
+>  	uint32_t hw_interface_type;
+>  
+> +	/* Audio IF module (TDM/PCM/I2S) */
+> +	u32 slot_mask;
+> +	u32 active_lane_mask;
+> +	u32 frame_sync_rate;
+> +	u16 qaif_type;
+> +	u16 sync_src;
+> +	u16 ctrl_data_out_enable;
+> +	u16 nslots_per_frame;
+> +	u16 slot_width;
+> +	u16 intf_mode;
+> +	u16 sync_mode;
+> +	u16 ctrl_invert_sync_pulse;
+> +	u16 ctrl_sync_data_delay;
+> +	u16 bit_clk_type;
+> +	u8 inv_int_bit_clk;
+> +	u8 inv_ext_bit_clk;
+> +
+>  	/* PCM module specific */
+>  	uint32_t interleave_type;
+>  
+> @@ -907,6 +994,9 @@ struct audioreach_module_config {
+>  	u32	channel_allocation;
+>  	u32	sd_line_mask;
+>  	int	fmt;
+> +	u32	slot_mask;
+> +	u16	nslots_per_frame;
+> +	u16	slot_width;
+>  	struct snd_codec codec;
+>  	u8 channel_map[AR_PCM_MAX_NUM_CHANNEL];
+>  };
+> diff --git a/sound/soc/qcom/qdsp6/topology.c b/sound/soc/qcom/qdsp6/topology.c
+> index 1f69fba6de26..54661bcb006c 100644
+> --- a/sound/soc/qcom/qdsp6/topology.c
+> +++ b/sound/soc/qcom/qdsp6/topology.c
+> @@ -753,6 +753,103 @@ static int audioreach_widget_i2s_module_load(struct audioreach_module *mod,
+>  	return 0;
+>  }
+>  
+> +static int audioreach_widget_audio_if_module_load(struct audioreach_module *mod,
+> +						  const struct snd_soc_tplg_vendor_array *mod_array)
+> +{
+> +	const struct snd_soc_tplg_vendor_value_elem *mod_elem;
+> +	int tkn_count = 0;
+> +	u32 val;
+> +
+> +	mod_elem = mod_array->value;
+> +
+> +	while (tkn_count < le32_to_cpu(mod_array->num_elems)) {
+> +		val = le32_to_cpu(mod_elem->value);
+> +		switch (le32_to_cpu(mod_elem->token)) {
+> +		case AR_TKN_U32_MODULE_HW_IF_IDX:
+> +			mod->hw_interface_idx = val;
+> +			break;
+> +		case AR_TKN_U32_MODULE_FMT_DATA:
+> +			mod->data_format = val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_SYNC_SRC:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->sync_src = (u16)val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_CTRL_DATA_OUT_ENABLE:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->ctrl_data_out_enable = (u16)val;
+> +			break;
+> +		case AR_TKN_U32_MODULE_SLOT_MASK:
+> +			mod->slot_mask = val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_NSLOTS_PER_FRAME:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->nslots_per_frame = (u16)val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_SLOT_WIDTH:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->slot_width = (u16)val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_INTF_MODE:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->intf_mode = (u16)val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_SYNC_MODE:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->sync_mode = (u16)val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_CTRL_INVERT_SYNC_PULSE:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->ctrl_invert_sync_pulse = (u16)val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_CTRL_SYNC_DATA_DELAY:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->ctrl_sync_data_delay = (u16)val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_QAIF_TYPE:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->qaif_type = (u16)val;
+> +			break;
+> +		case AR_TKN_U32_MODULE_ACTIVE_LANE_MASK:
+> +			mod->active_lane_mask = val;
+> +			break;
+> +		case AR_TKN_U32_MODULE_FRAME_SYNC_RATE:
+> +			mod->frame_sync_rate = val;
+> +			break;
+> +		case AR_TKN_U16_MODULE_BIT_CLK_TYPE:
+> +			if (val > U16_MAX)
+> +				return -EINVAL;
+> +			mod->bit_clk_type = (u16)val;
+> +			break;
+> +		case AR_TKN_U8_MODULE_INV_INT_BIT_CLK:
+> +			if (val > U8_MAX)
+> +				return -EINVAL;
+> +			mod->inv_int_bit_clk = (u8)val;
+> +			break;
+> +		case AR_TKN_U8_MODULE_INV_EXT_BIT_CLK:
+> +			if (val > U8_MAX)
+> +				return -EINVAL;
+> +			mod->inv_ext_bit_clk = (u8)val;
+> +			break;
+> +		default:
+> +			break;
+> +		}
+> +		tkn_count++;
+> +		mod_elem++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int audioreach_widget_dp_module_load(struct audioreach_module *mod,
+>  					    const struct snd_soc_tplg_vendor_array *mod_array)
+>  {
+> @@ -806,6 +903,12 @@ static int audioreach_widget_load_buffer(struct snd_soc_component *component,
+>  	case MODULE_ID_I2S_SOURCE:
+>  		audioreach_widget_i2s_module_load(mod, mod_array);
+>  		break;
+> +	case MODULE_ID_AUDIO_IF_SINK:
+> +	case MODULE_ID_AUDIO_IF_SOURCE:
+> +		ret = audioreach_widget_audio_if_module_load(mod, mod_array);
+> +		if (ret)
+> +			return ret;
+> +		break;
+>  	case MODULE_ID_DISPLAY_PORT_SINK:
+>  		audioreach_widget_dp_module_load(mod, mod_array);
+>  		break;
 
