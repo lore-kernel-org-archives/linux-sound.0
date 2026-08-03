@@ -1,140 +1,121 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDA323BD1B;
-	Mon,  3 Aug 2026 02:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785724245; cv=none; b=Yb5L90cvQmBNLns6KIDFMF0apC8C3YI4aOY98IJdy/K8V1bVb0Bw3BRgXxdBwHQzaDyxphnC9+M2FQMvTd2lI8GHi0G6jWQwpfFcUG3ViHacjYazWstBT64fTsqhJyncphKvUYahF4CPYry4p+c2udIARgp8B4Zkcr8TyVgk9L8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785724245; c=relaxed/simple;
-	bh=dFufYCbCTFpjoDYzjAiyshbG9ugy5oAi9IlFUnYfpTc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=XxmHNM076vS+79StaZePMaODmBS4RkeLGGqd1sTZtNSIKqQ27+E2lP+u/F1OHkHu7UBmE5ChY+SpjlAbXua8peCRPmBxHxSOK8QkIzzP83P89eOjrXaVKzQ4x6Vncf6W0KRVPxkIK5dVOAntwGhWIZaB7sDsN94KD5C14KrGSQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=gn1t6pm7; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5EA30DEB8
+	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 02:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785724555; cv=pass; b=hhlqPWweBr9eQwXNhpqgAGselwZatj7k/mu0XVHDduY9Tvx+ENJZjf3oqG/c1dzGPe3fp3uMnV9MBYGaKcLo3v+Fk1I+LUvPSEEWydz80OkLIMFdkVQKYM+uplRiSKfmpT8AksMztXbqTEutMjJXmaIYWfDeum7udwoYZ5xQUeA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785724555; c=relaxed/simple;
+	bh=FT/SQG/c6khD5vBSeA1TiFee31N1OJzxfIx2oyjBE9g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tb6paEvEdMCyLRcExWl2ncv6dm/U9tnphOXxUDYcfQZ4f/FdufqoDiDu84I0t/1vcIQV6GiApdwbsKwufkVFIDzpxqs7SQyytPRaQbWaJajh8jk+WkIbbadsu4tyasCaRLOZAoHs+bdSR9zDV3pZy/UazXKerSjfc5OihCINihk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UaBI2fkI; arc=pass smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="gn1t6pm7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1785724216;
-	bh=VHxV9t8YiiS63VYfe+5FgSlLpbL8CZ/gf+KB/A1f4zk=;
-	h=Mime-Version:Date:Message-Id:From:To:Subject;
-	b=gn1t6pm7CM40vvbh4xckp2ODekNl0vsBrfElAghAIM2zzEVtfTq/6xApxBS2nlfrB
-	 yuJfzgwQOonEeE2pEUG2IlPBMLtcUpJAnCd26a8w7GBFDCBc0dbekIYaHeqqnrDGbn
-	 BCqHMS3Xlee66acxAfHcoi8wkcsnlcvuaYq3FQWY=
-X-QQ-mid: zesmtpgz4t1785724211tfe1ca16a
-X-QQ-Originating-IP: kZcIIQPw8yJ2Ij6Xeff5lr9tzuCK2zUjxQmqPijcBAs=
-Received: from = ( [120.237.158.181])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 03 Aug 2026 10:30:10 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7980296911698113881
-EX-QQ-RecipientCnt: 14
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UaBI2fkI"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-38759bcd877so2460982a91.2
+        for <linux-sound@vger.kernel.org>; Sun, 02 Aug 2026 19:35:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785724554; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AYe/9RvaoTQWFkUdU8QNuwDZntQUkh8UkWVm2Nj0xTadmHGY6egtk3EWgizjCdothi
+         EExFhP3KqE9R0bTqqkHqbUtHk6pg9H5++p4w0gGNMVNdMmZxjq4rnK/LV6Q9B5NHpCy6
+         lcCosSYVmoDFIrNMcd4EJkp8A2dRJhqTK8mN8ry2DwH++HD2TiFC4TJWPCunZZmvY5cX
+         ZfJWARvUBiV9mu7EGqxAMfrcA7lIs84YvmiF6Qkqh2mchuwtVq4YQ2fSPmDqJYJHMBwl
+         xXCVig8lCfBt0doA+QaToZA9SIVi3jdGBLdMrCq16byaxh/W9/3DlaL0LkN7QTKmhnuN
+         6C7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=FT/SQG/c6khD5vBSeA1TiFee31N1OJzxfIx2oyjBE9g=;
+        fh=qtrkRvmxC1R3ZxqOtKDicbdIsHPtbQUZOxSd0b52h4M=;
+        b=kgXbjzcaa3LAd5RvTb5cIuNvf2uuqNTpq3rB6swT+y2uX+LRGODpEOHfiVvoxL9Eqk
+         tGh092+T8rhDFlSj7Bbf/VYTqPkGToJQSFqRS2jovNez45aOxaSrW6JL0VsSeDia/V3Q
+         4RiGUBicKD9aQ5s1v0V/7RqDwAYDJIZrEw5MjdLFpQU9X7y1H2/la6K0/z8J2qRL2wVu
+         xMT9xcw/IvrETsf5GXJI1/BBCdWiK3cbFPb0twhoPqdggsZIw7OrF/D/NSOq3ChJglR0
+         F3zn49cCFxESHCBaRyHl6+T/NS5UZCMaCaPZV3m38SP3nrHOG5Ygn+JpfssAaGBdd3xj
+         ZpJA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785724554; x=1786329354; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FT/SQG/c6khD5vBSeA1TiFee31N1OJzxfIx2oyjBE9g=;
+        b=UaBI2fkI9PAnYrb8ELGuxGx+xE4Wx5TKEttRR0LMdpVyp+Ff1RmKzqGvHkGdRQkeme
+         58uXE36F56Smz0xqwKcPMUqsL1jRSU6GczaqL8ByqV8NEkeEL9IShK6E3hXaCqcJGrA/
+         //idk5Wwm/TEbO5xf11l9h9lo2RCtL1gPvamyhCyAxa5orvfKbnMNn6DiIJfLYjQorqZ
+         p65ia6T+m7evz2HGJZ37pRLyO68fXtrkHcuF8t9ypUyShKMQggF5kyORH2tCNWZnx7xb
+         oqBCeNytkNKCJSVUhrzWRoisFsbn54sSMmMbpld5qwcL0Eb+STxcfHhBkt3HdvA7FoqS
+         KrCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785724554; x=1786329354;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FT/SQG/c6khD5vBSeA1TiFee31N1OJzxfIx2oyjBE9g=;
+        b=aiqUrIy9qHMYvpO2cXmTLtb12/gYC6r3X5AyX+KKC2x925KTN+64SA7lgPfGX/NZDm
+         3x1JOaTbihkQTagDscw6wNEOqoXQRVCWkELcc1cYw++gMPC05dm6MAYa6FKufOshu6Ek
+         wqS8+uRUjl3J6v6Ftto0WPvMZ50OM+jGUtaPSYK6QY2MXw560ZxzD4gk7tancEdXzQWp
+         2Al8aqGjaQlTpM1DD433qTBWWc5AHYhWyrLbD6tigAz/J99RdXVdRRti2QPYq85FBq+g
+         dhYQUDFnjEF5R8B4pXlG/8/hMd3IBrRcZnyzKf/IPzWn4AB1ghC44CAtBIsWGPRBpOXP
+         dt7A==
+X-Forwarded-Encrypted: i=1; AHgh+Rr6Z8g1KGtqsbb44tB42Q1yVhceCiJQbVRkDw9ghx6g86NO/EmhuDlWtQhPSuEfR31uEBFqNpPtdKI6TQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8cSdFeMRi80RfagdJQhW+HMO5pctl/Zrpxw4Tb1UrtnthOS68
+	2MdvOoK0eqCDKSMeZTAf79ejCBaZ5lAhR/4pdXyXlQufFbdeAbK0n5bvou553kYWrTZzFPryplP
+	nCEkzcD6WuJEMi9R3udWiwgZk7n7VQNI=
+X-Gm-Gg: AR+sD13iCHaRBi6ZW6mYtDi6jHdSVVIQ2D/xJmUMZFIhY2vDGYEXA4SRk4k6dm4wM7c
+	yq4Sr+whNMIEo2EKtBqwRN+V7y6WKZgQ7Ne0Gxa9NmBwVDZ2ecNqTmJxVsJIxVofeH6bm3386Of
+	OdEgQP/6OJq8+y2HhG4HrxEisetGfpXEVJ+2VmH3E+gEqtvrnnEUcw/5lVjKnMxRoRYGLWipKLj
+	2f0BFGTMRTyQOlfbp0FAql3Kx1K4i7VIcNtL7+8fXtttxBKzwjdcluVgeN7LL/AEAjtcWUSjyVK
+	Rbm4iZNZqBGQvLJ8e3Yakh2QMc/7pl5Dod2Sp6UIP6mRwgA2U8Q1caqTA5+7/VTz1tQ6aV308hJ
+	Tpzj4DrSiOPB+UnD2IBwMfoExjUxvb5TkriMr1l8AkF3iN4cSNm8OB3ZV
+X-Received: by 2002:a17:90b:1b46:b0:387:e0bb:5803 with SMTP id
+ 98e67ed59e1d1-38fbc5c330amr6603426a91.42.1785724553803; Sun, 02 Aug 2026
+ 19:35:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=bf64bd363e0e8996a0a5ca0feb58c7dceb1ae0c90bcd07b3717d13d5a465;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Sun, 02 Aug 2026 19:30:08 -0700
-Message-Id: <DKEYEG48XLAC.4J8YYSOVORZ8@linux.spacemit.com>
-From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
-To: <phucduc.bui@gmail.com>, "Yixun Lan" <dlan@kernel.org>, "Takashi Iwai"
- <tiwai@suse.com>, "Mark Brown" <broonie@kernel.org>, "Jaroslav Kysela"
- <perex@perex.cz>, "Liam Girdwood" <lgirdwood@gmail.com>
-Cc: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>, "Goko Mell"
- <goku.sonxin626@gmail.com>, "Jinmei Wei" <weijinmei@linux.spacemit.com>,
- "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>,
- <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>,
- <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] ASoC: spacemit: Drop redundant error messages
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260731101539.36290-1-phucduc.bui@gmail.com>
-In-Reply-To: <20260731101539.36290-1-phucduc.bui@gmail.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: MhJ5K6/MvAhh5H67xPcYXcQ1B4dNgtxDfcR7DDg8iqU5+qgh1Diyv8gC
-	EedrHe2S278Ffht/xdUZ3OfhXg6KEZILXZNC/UDgfVZpja32m818XYKUVYzBxII0dXs1+/6
-	rtgl8zoohJ2oSwTq6SAeLynM9LW+g+GGIwMG1WpNWxLhCzOhn2MtuHG1PbQz3Uv2iyrBodC
-	zot2Rg+MApJsxndjWexzdwXIMgiwtN4//l1B2/tdwPuTXd6i3yjUnxOwc+eJNQGiPUZtTRP
-	aHe+lcpBQ/5QrfLF8BgaUg3DnGSwGSweB9PMuCkihnGuT/+z6kHYLe5MuORztu3Rtrx9AIH
-	RfxKs/zs1d/LrCvhvGN7K6EQAQUFH+XgI9ZcBsimuMXE96Q8eAyWxB3ra/+a8hsRtn3sly4
-	JgZS70KWcJbVo/baO4FifCN7WK9CCn0mvw+tKalhNHgqhFXBYDbaEoex26pZGOiakSMvEJG
-	e9z3gl8plk64bdgMY3nnJ+fa4VogXU9KyhT/00iAkqMzu5qnpMZ6vnup5NZ1Sb48arKGlfh
-	rrfftXGIJ/szqUYW3BM+cesy5B7a5LVfvtYwYyk+t7Hixf6GelET/sfKearmT2LQxyVZDkr
-	uYdZBfN+sneCKXRIHryz2Ab9DobNuGlVp5zPIF2W0qska8MOaI8qjzr/xVf0EPdqdlbfi1f
-	vImaRxZYqmXn+IWemCOtdeNBvwCInUF3wqr0oX8gGGdsi6yn9Tkz8Z3/eHj8YP1x7jHoJse
-	Coww/1Ijrw0swcsPcC5ZtCXJgwksCq0SiOgMl7kgM8rlIwspD36c2vWT+o7r+WAaLhZX+LH
-	Xj2kvEkn87Jj1GNSMs+FVzUQEGGPDnHDXyptap0SmsT9ynVMEnR9cr/EBJ1s5L9WYFnwkYP
-	wHZDDlxHVV0U9y/KEQZQRp2+8xm+UJLlZJi9/XsaEeNkJvwc5mHZPwRPC2K0bgKn4IuJvqi
-	fFmpJ3pLUvgcObprQwyujwjSvb6ZidhdV026bXit4AH+FGpu/LFNXQ87tQwp2aAD2aLJGgD
-	MQ0kaqo4BC/eGaSBNsrm9lkWfhvQxMi1WDuocaWAi3MMhjM2chcls9kPg+cwyI1oYFAIzOA
-	599m/0ZDBPFG/QUckkZ+rQ=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+References: <20260731030648.8706-1-phucduc.bui@gmail.com> <20260731030648.8706-12-phucduc.bui@gmail.com>
+ <ee9bddef-0918-4036-9c8e-8b0d4af7f5bd@sirena.org.uk> <CAABR9nGQvyeLsG-u3o6dH_R68SUvZMAX1Avsg50ySEd-5KGXAQ@mail.gmail.com>
+In-Reply-To: <CAABR9nGQvyeLsG-u3o6dH_R68SUvZMAX1Avsg50ySEd-5KGXAQ@mail.gmail.com>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Mon, 3 Aug 2026 09:35:40 +0700
+X-Gm-Features: AUfX_mxCr5f69Dc8Q7kZP98PKX9HAmDgy9j742jJo8FPn74L5u4MMLL4_h-_T20
+Message-ID: <CAABR9nED-25XHUNDbucLHJy-=RNcxa+VsiSC6NcXSXJFFOvngw@mail.gmail.com>
+Subject: Re: [PATCH v3 11/26] ASoC: codecs: wcd-mbhc: Use guard() for mutex locks
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, nuno.sa@analog.com, Shenghao Ding <shenghao-ding@ti.com>, 
+	Kevin Lu <kevin-lu@ti.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+	Steven Eckhoff <steven.eckhoff.opensource@gmail.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Charles Keepax <ckeepax@opensource.cirrus.com>, Linus Walleij <linusw@kernel.org>, 
+	u.kleine-koenig@baylibre.com, Thorsten Blum <thorsten.blum@linux.dev>, 
+	Kees Cook <kees@kernel.org>, Chen Ni <nichen@iscas.ac.cn>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, Pengpeng Hou <pengpeng@iscas.ac.cn>, 
+	patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
---bf64bd363e0e8996a0a5ca0feb58c7dceb1ae0c90bcd07b3717d13d5a465
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Hi Mark,
 
-On Fri Jul 31, 2026 at 3:15 AM PDT, phucduc.bui wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->
-> The called functions already log failures where appropriate. Return the
-> original error directly and avoid duplicate error messages.
->
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  sound/soc/spacemit/k1_i2s.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/sound/soc/spacemit/k1_i2s.c b/sound/soc/spacemit/k1_i2s.c
-> index cd461f2aa756..64510c9a1a89 100644
-> --- a/sound/soc/spacemit/k1_i2s.c
-> +++ b/sound/soc/spacemit/k1_i2s.c
-> @@ -478,7 +478,7 @@ static int spacemit_i2s_probe(struct platform_device =
-*pdev)
-> =20
->  	i2s->base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &res);
->  	if (IS_ERR(i2s->base))
-> -		return dev_err_probe(i2s->dev, PTR_ERR(i2s->base), "failed to map regi=
-sters\n");
-> +		return PTR_ERR(i2s->base);
-> =20
->  	i2s->reset =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
->  	if (IS_ERR(i2s->reset))
-> @@ -495,7 +495,7 @@ static int spacemit_i2s_probe(struct platform_device =
-*pdev)
->  					      &spacemit_i2s_component,
->  					      dai, 1);
->  	if (ret)
-> -		return dev_err_probe(i2s->dev, ret, "failed to register component");
-> +		return ret;
-> =20
->  	return devm_snd_dmaengine_pcm_register(&pdev->dev, &spacemit_dmaengine_=
-pcm_config, 0);
->  }
-Reviewed-by: Troy Mitchell <troy.mitchell@linux.spacemit.com>
+After looking into this more carefully, I've decided to drop this patch.
 
+My original intention was to keep the mutex_unlock()/mutex_lock() pair
+in wcd_cancel_hs_detect_plug().
+However, this function is also called from other places, and I'm not
+confident that keeping
+the manual mutex operations there would work correctly if those
+callers use guard() or scoped_guard().
 
---=20
-Troy Mitchell
-
-
---bf64bd363e0e8996a0a5ca0feb58c7dceb1ae0c90bcd07b3717d13d5a465
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCam/9MA0caUB0cm95LXku
-b3JnAAoJEJgJ74D5MzQvAxQA/2DYCuc67ctUxgO1VADuU8NdphBXB5/3GDya8AM5
-p+GmAQDtiqRFSDixu2qu42rj/vId1THpHiepPIVvYmqVFAwCCg==
-=ZzYU
------END PGP SIGNATURE-----
-
---bf64bd363e0e8996a0a5ca0feb58c7dceb1ae0c90bcd07b3717d13d5a465--
+Best regards,
+Phuc
