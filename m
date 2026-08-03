@@ -1,41 +1,41 @@
 Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C7E3B058B;
-	Mon,  3 Aug 2026 09:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2533BA22C;
+	Mon,  3 Aug 2026 09:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785748288; cv=none; b=KvTnbhmUaSdcpyB9n1pbys0QA2AWfvHNDKV1mjUVC7ZJFVGETZvzdrY+ecRbWvC0k7edIMM5taRDDDqLOaXx4OOEbYa9X5BX3oqxkLpe35uBRFw1fzAl48/2eTVxaU/ch+W9qfxEN99XEmAHqeEFF8Fgputu0rcXRMozdGUjtaA=
+	t=1785748292; cv=none; b=Y3Fj8NQY/ce2WYWte/p0d2WsYvwsuOu8KLYH/LURg+rZpOJi1AqSXaUOnxYSrxNTyh0YrMPjKgEN6k+KMJ6XzPVRA4k2JcLFSfIl41c5S6dnov3/z1rq4IOPJDpn+6btY2WaNUp7Q9TiOf6a705YdruVTjZEn2wF2J9hz1AdJxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785748288; c=relaxed/simple;
-	bh=1RNI+wcDYvIOMI37hOH2m8FSKSzYAKfrKVw511iqkRw=;
+	s=arc-20240116; t=1785748292; c=relaxed/simple;
+	bh=r03wrB23T1aCx4BpnU27LMl1mHWTYE4U9K0CCk0ywl8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ayf53zJnoXoM+gcAurGDgO5UgMj1EboG7FBl6NV4Mev79FLqDxQV1qBpa5E31tou1Ko5R6GFHaAQi/LZjRpj1/ylhjPvH04U2q3iUjmTdoXWQSLi4j7SS/yQpgfUoCRKE1DGba1QxR3kQoikEgjOpWRvgvWI9vF2YZViOPDnOVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=H7wQD4wQ; arc=none smtp.client-ip=202.61.224.105
+	 MIME-Version; b=Yy27e2riC9OSR7VvlFMO2nuB2JxJzm1kej2xqnPg638At2RCZolD1tRD/thp6qRzNRNgSq+6MPXeaE+UlXXgXQq7AtVdcmvkIQeBFiVDfUHJyPPhMhXxEj73BrE6XRoBozQ491XAnoWBQaIxiknxZpCMRY5X514/6iL1JmkCwA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=lW6E5qpM; arc=none smtp.client-ip=202.61.224.105
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="H7wQD4wQ"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CD03F28055C;
-	Mon,  3 Aug 2026 11:11:21 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="lW6E5qpM"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E086A2815C6;
+	Mon,  3 Aug 2026 11:11:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
-	t=1785748284; h=from:subject:date:message-id:to:cc:mime-version:
+	t=1785748288; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=AWv5ePhR0k5yGLXcc7npvot6xniBkWURd44Nuy7WecA=;
-	b=H7wQD4wQXv1z3kqLm9h1g0mg0NCedfWNPXHiXw6YitE6y90xaK+wy8HgrE6sqly8qRqjfw
-	8YG8y4bxRY6sm4Xx7BWuHOaEjhpMZlNqE8zZJWbghJurj8pAMLyEpO+e2pnnx47ED540qK
-	mvTK0ieiMOTjiRUP9nBGHAI4A5RDubVsR32qLnl9vBTFvk50CFcPKz0ojUKxcVvTKn5+Cm
-	xWK4mwjPracsJU8jBE0d22ZOdtdHE6ijB2HXF/37PsQvcKlx3v3MWvRDQGHBTF7uOBhoP8
-	advusOEaLdF+pbeJJod+o7K2WydWUCUHSHGt1ibYEIa246079vCfgqCf+/dYZQ==
+	bh=pZyuNNoMG6O3M9WDsgKg1HdmDFehs6uPjf3f9kpvGAA=;
+	b=lW6E5qpMXROXiu7X94FX3mC+OYe67FRRHLK1GrkG7q7HAzqiWMsv10P/v3uNOHcEjvnOcL
+	5ftqCY58dnkj78ECc7RKD7kb2b1xSWpFlhpAd9/FUNqQCbLWoO6YOmtYd2ZVJU3jlqR7iu
+	p7k8ykQ+02+1nxuDvxIFlb09EjV4aAjyBAuSByJRhUrnYzJQ09tsJ+t5eWorkZ5PIhGNOC
+	TxNx7D4XrI6YcfdVGBTmZR1dBmurchyaJob/uWuBSzsDE+OzEDbcvfQpsIeh4LknQUpPPA
+	Xl/sggVmioQ5oTKtP4klPYjRH3yK8AhIQV5E4hG9X+1ioEi5n+8ggaj04MARdw==
 From: Eric Naim <dnaim@cachyos.org>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
 Cc: Eric Naim <dnaim@cachyos.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/9] ALSA: hda/realtek: Remove ALC294_FIXUP_CS35L41_I2C_2
-Date: Mon,  3 Aug 2026 16:10:50 +0700
-Message-ID: <20260803091102.107570-2-dnaim@cachyos.org>
+Subject: [PATCH 2/9] ALSA: hda/realtek: Add ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST quirk
+Date: Mon,  3 Aug 2026 16:10:51 +0700
+Message-ID: <20260803091102.107570-3-dnaim@cachyos.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260803091102.107570-1-dnaim@cachyos.org>
 References: <20260803091102.107570-1-dnaim@cachyos.org>
@@ -48,56 +48,81 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-ALC294_FIXUP_CS35L41_I2C_2 is exactly the same as
-ALC287_FIXUP_CS35L41_I2C_2, so remove the former and move existing
-devices that previously used ALC294_FIXUP_CS35L41_I2C_2 to
-ALC287_FIXUP_CS35L41_I2C_2.
+Add ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST, identical to
+ALC269_FIXUP_LIMIT_INT_MIC_BOOST.
+
+This prepares for removing the chain from
+ALC269_FIXUP_LIMIT_INT_MIC_BOOST.
 
 Signed-off-by: Eric Naim <dnaim@cachyos.org>
 ---
- sound/hda/codecs/realtek/alc269.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index e9b0f3aa9776..f44996869059 100644
+index f44996869059..2efa984a2193 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4232,7 +4232,6 @@ enum {
- 	ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD,
- 	ALC2XX_FIXUP_HEADSET_MIC,
- 	ALC289_FIXUP_DELL_CS35L41_SPI_2,
--	ALC294_FIXUP_CS35L41_I2C_2,
- 	ALC256_FIXUP_ACER_SFG16_MICMUTE_LED,
- 	ALC256_FIXUP_HEADPHONE_AMP_VOL,
- 	ALC245_FIXUP_HP_SPECTRE_X360_EU0XXX,
-@@ -6730,10 +6729,6 @@ static const struct hda_fixup alc269_fixups[] = {
+@@ -3975,6 +3975,7 @@ enum {
+ 	ALC271_FIXUP_HP_GATE_MIC_JACK_E1_572,
+ 	ALC269_FIXUP_ACER_AC700,
+ 	ALC269_FIXUP_LIMIT_INT_MIC_BOOST,
++	ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST,
+ 	ALC269VB_FIXUP_ASUS_ZENBOOK,
+ 	ALC269VB_FIXUP_ASUS_ZENBOOK_UX31A,
+ 	ALC269VB_FIXUP_ASUS_MIC_NO_PRESENCE,
+@@ -4774,6 +4775,12 @@ static const struct hda_fixup alc269_fixups[] = {
  		.chained = true,
- 		.chain_id = ALC289_FIXUP_DUAL_SPK
+ 		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
  	},
--	[ALC294_FIXUP_CS35L41_I2C_2] = {
--		.type = HDA_FIXUP_FUNC,
--		.v.func = cs35l41_fixup_i2c_two,
--	},
- 	[ALC256_FIXUP_ACER_SFG16_MICMUTE_LED] = {
++	[ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc269_fixup_limit_int_mic_boost,
++		.chained = true,
++		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
++	},
+ 	[ALC269VB_FIXUP_ASUS_ZENBOOK] = {
  		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc256_fixup_acer_sfg16_micmute_led,
-@@ -7671,7 +7666,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1863, "ASUS UX6404VI/VV", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1881, "ASUS Zephyrus S/M", ALC294_FIXUP_ASUS_GX502_PINS),
- 	SND_PCI_QUIRK(0x1043, 0x18b1, "Asus MJ401TA", ALC256_FIXUP_ASUS_HEADSET_MIC),
--	SND_PCI_QUIRK(0x1043, 0x18d3, "ASUS UM3504DA", ALC294_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x18d3, "ASUS UM3504DA", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x18f1, "Asus FX505DT", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x194e, "ASUS UX563FD", ALC294_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x1970, "ASUS UX550VE", ALC289_FIXUP_ASUS_GA401),
-@@ -7682,7 +7677,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x19f4, "ASUS UM3405GA", ALC294_FIXUP_ASUS_I2C_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x1a13, "Asus G73Jw", ALC269_FIXUP_ASUS_G73JW),
- 	SND_PCI_QUIRK(0x1043, 0x1a63, "ASUS UX3405MA", ALC294_FIXUP_ASUS_SPI_HEADSET_MIC),
--	SND_PCI_QUIRK(0x1043, 0x1a83, "ASUS UM5302LA", ALC294_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x1a83, "ASUS UM5302LA", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1a8e, "ASUS G712LWS", ALC294_FIXUP_LENOVO_MIC_LOCATION),
- 	SND_PCI_QUIRK(0x1043, 0x1a8f, "ASUS UX582ZS", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1b11, "ASUS UX431DA", ALC294_FIXUP_ASUS_COEF_1B),
+ 		.v.func = alc269_fixup_limit_int_mic_boost,
+@@ -7930,7 +7937,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x2211, "Thinkpad W541", ALC292_FIXUP_TPT440_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2212, "Thinkpad T440", ALC292_FIXUP_TPT440_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2214, "Thinkpad X240", ALC292_FIXUP_TPT440_DOCK),
+-	SND_PCI_QUIRK(0x17aa, 0x2215, "Thinkpad", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
++	SND_PCI_QUIRK(0x17aa, 0x2215, "Thinkpad", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x2218, "Thinkpad X1 Carbon 2nd", ALC292_FIXUP_TPT440_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2223, "ThinkPad T550", ALC292_FIXUP_TPT440_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2226, "ThinkPad X250", ALC292_FIXUP_TPT440_DOCK),
+@@ -7946,7 +7953,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x224b, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x224c, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x224d, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+-	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
++	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x2288, "Thinkpad X390", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
+ 	SND_PCI_QUIRK(0x17aa, 0x22be, "Thinkpad X1 Carbon 8th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
+@@ -8102,10 +8109,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x3bf8, "Quanta FL1", ALC269_FIXUP_PCM_44K),
+-	SND_PCI_QUIRK(0x17aa, 0x5013, "Thinkpad", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
++	SND_PCI_QUIRK(0x17aa, 0x5013, "Thinkpad", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x501a, "Thinkpad", ALC283_FIXUP_INT_MIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x501e, "Thinkpad L440", ALC292_FIXUP_TPT440_DOCK),
+-	SND_PCI_QUIRK(0x17aa, 0x5026, "Thinkpad", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
++	SND_PCI_QUIRK(0x17aa, 0x5026, "Thinkpad", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x5034, "Thinkpad T450", ALC292_FIXUP_TPT440_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x5036, "Thinkpad T450s", ALC292_FIXUP_TPT440_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x503c, "Thinkpad L450", ALC292_FIXUP_TPT440_DOCK),
+@@ -8118,7 +8125,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x505f, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x5062, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x508b, "Thinkpad X12 Gen 1", ALC287_FIXUP_LEGION_15IMHG05_SPEAKERS),
+-	SND_PCI_QUIRK(0x17aa, 0x5109, "Thinkpad", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
++	SND_PCI_QUIRK(0x17aa, 0x5109, "Thinkpad", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x511e, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x511f, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x9e54, "LENOVO NB", ALC269_FIXUP_LENOVO_EAPD),
 -- 
 2.55.0
