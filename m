@@ -1,88 +1,89 @@
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D224D459AC6;
-	Tue,  4 Aug 2026 17:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1FF45FFD1
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 17:37:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785864948; cv=none; b=RCFK2oUKw0aTq0JLdIyNZQmvX+ORniskXJV+jv2AWrrcloB4qxrtZKlCkzs8RWWgSRlDdv7TrYhxN856vng/gHlRNf3JHWjI4z1qgkvPsQHc7ICI4dyLksQrEjHmMNb1VeF4mjgwpgTmWFFo0MdkAUsTZHh6pEfR+8NvOxTS2N4=
+	t=1785865034; cv=none; b=oG5A5NU4P8mP37VoxO6WpI7i7vEc0M5i+V39onq4JWbmUjTN1LslGXRKdZFbB/EtzjCmZkitGeRGmYgBIJQEISTtCN3irTyZcA0GlNNnpRigdmNLHKNO7UHlBDaF9ckSGkdMr7tFYq0T08O3D1hik0D5Ny56KwvJk0MXKrO7Iy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785864948; c=relaxed/simple;
-	bh=C0H58rqW+NSgxQmrENxcl7tvy1wGdmaMFIn7L2uZrig=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rHCjK9LhKoMR8zdRdN2mX6lru30g1382uNXb7SXJTCFfJZCCNRKD6rxIcIcgrGZkJIFHIETNybecylEonPS6nudynYe1X+fGbQCU6JZMyRMDK5fnU37+TJS1YTxVrCh66OPaQ1Ztjkf6Jf5buIZ/rkZEeUPAxQir1XkWUHNVlkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=a49zBhs0; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	s=arc-20240116; t=1785865034; c=relaxed/simple;
+	bh=PqPTthO7IwzwDK8gKW5uKqVbRXFpaMF1x8p42/29x7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rRVyXCqkL3YtaPy/5aWb2+dp6ZlMwQUnfIAJxaJLdqj6GWmmPqxsUVQED9W6dh9T/M6bJDmja2kqjvcShGDStRmU68NlFjXpGkFoDiD0cGqYnwpKaGBEyazeH79No0nwSVb7Vkr265Moo0DNnv8L6g/J4+2JlF1/SROTXci6yK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofh1Q4qD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="a49zBhs0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=UPUBmQlv5teqhxKd0ZQtI7v5rLM99/5ueqGNHI0o2x4=; t=1785864946; x=1787074546; 
-	b=a49zBhs0Xthjj2va1H/xnBx5V/afXWskQnOL5odordNhPPAAraEjMrJtzIxpp0rIOdtvheoWcgI
-	p1uSY82bBbUQb+NIYpDGVcEKs79NLyWy93V/iixMFKUZWzEd+leoxS1Ay3+HdwYnDeB3FLlw3BFv5
-	MsyW4L/5FHs+bqXEDPzZoqZWMa9YaAJhb3io+bcWhjMcNs7/OiWwzQL/RUMKiDuYHPTcnBXsKIFFB
-	WayXU1dAm/FxDQ4vmqU/0TLCpXzHTFH8IkbHKK3lzl9JW+r4GhqLJzqybzV9k8xXz7dW53Li7JYG5
-	HqZuwoboXzqcKBAJs22XI8G5xXf664ahsVKw==;
-Date: Tue, 4 Aug 2026 19:35:42 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: phucduc.bui@gmail.com
-Cc: Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Jarkko Nikula <jarkko.nikula@bitmer.com>,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH 08/10] ASoC: ti: omap-twl4030: Return the original error
- code
-Message-ID: <20260804193542.3a83d4c3@kemnade.info>
-In-Reply-To: <20260714120042.491712-9-phucduc.bui@gmail.com>
-References: <20260714120042.491712-1-phucduc.bui@gmail.com>
-	<20260714120042.491712-9-phucduc.bui@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofh1Q4qD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B591F1F000E9;
+	Tue,  4 Aug 2026 17:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785865033;
+	bh=VUPa0fr8mu1CREWm/AaKCqdFb2LGwl5zp1Yo1iEKPNg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ofh1Q4qD4aVdq6jjPgq7q7JD6z1bPc7Q0qeuJvZQspWRWkQPSqhod/J+4DECFMCmx
+	 QnT2bfUxwiZCMut4ZaVCGUXj32n8o3LO26GNNhV+G0vEiPZ1ZT7/sxGomLf+P6DpRl
+	 hq/wW46lbeCDbtKuG90Jt42eyCPTf5WzfXgOcboCnGWMJErQ6uNHXZG5/BEmEY0ta/
+	 q8A0+rqqzLJvQHD0upzW2+DEbS+wDbkMamwOk0cA96ASw2NuBOjCs1zAq1yKmFJltl
+	 unGsZRyGu4/MHw8njP+ZOMAHSHXisk0Lde6TCiUn49ktXNLHa4zlZnBrKNaTDfnI8b
+	 oAg6YE1gDptVg==
+Date: Tue, 4 Aug 2026 18:37:09 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Rosin <peda@lysator.liu.se>, Takashi Iwai <tiwai@suse.com>,
+	=?iso-8859-1?Q?=22Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?= <u.kleine-koenig@baylibre.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 23/44] ASoC: codecs: max*: use .auto_selectable_formats
+Message-ID: <8ea031ca-92af-4b51-9993-c0f34c85bddc@sirena.org.uk>
+References: <87cxvyyazi.wl-kuninori.morimoto.gx@renesas.com>
+ <87fr0uwwb2.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IBUoa1jW9WdR82cH"
+Content-Disposition: inline
+In-Reply-To: <87fr0uwwb2.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Biz is better.
 
-On Tue, 14 Jul 2026 19:00:40 +0700
-phucduc.bui@gmail.com wrote:
 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Return the error from snd_soc_of_parse_card_name() directly and drop
-> the redundant error message since the helper already logs the failure.
-> 
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> ---
->  sound/soc/ti/omap-twl4030.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/sound/soc/ti/omap-twl4030.c b/sound/soc/ti/omap-twl4030.c
-> index 4d80f8a7a947..2a80e44035d7 100644
-> --- a/sound/soc/ti/omap-twl4030.c
-> +++ b/sound/soc/ti/omap-twl4030.c
-> @@ -253,10 +253,9 @@ static int omap_twl4030_probe(struct platform_device *pdev)
->  		struct device_node *dai_node;
->  		struct property *prop;
->  
-> -		if (snd_soc_of_parse_card_name(card, "ti,model")) {
-> -			dev_err(&pdev->dev, "Card name is not provided\n");
-> -			return -ENODEV;
-> -		}
-> +		ret = snd_soc_of_parse_card_name(card, "ti,model");
-> +		if (ret)
-> +			return ret;
->
-The error message seems that is wants to catch a non-existant property. 
-snd_soc_of_parse_card_name() seems to ignore that error. Which is then
-really catched by devm_snd_soc_register_card(). It would be good to
-point out the error explicitely, so probably printing that error message
-on if (!card->name)
+--IBUoa1jW9WdR82cH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Regards,
-Andreas
+On Tue, Aug 04, 2026 at 12:42:26AM +0000, Kuninori Morimoto wrote:
+> We can use .auto_selectable_formats. Let's adds it.
+
+> +static const u64 max9860_selectable_formats =
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
+> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
+> +	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
+> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
+> +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
+> +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
+> +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
+
+This has the same issue the Apple controller had where not all clock
+inversion setups are supported with all formats, I2S style and DSP style
+are different with DSP only supporting normal frame.
+
+--IBUoa1jW9WdR82cH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpyI0QACgkQJNaLcl1U
+h9AUdAf+J8XhDUdvMNCXPD8VsHKQgVLlDxOBANPydGCL6YqxOP9i3dvrUfwVfenj
+KWiczFcCTso0H+pab0sF3UAmvueLJVRtlLnIdfOx2guzSGaJXJqrLb4KoBPN0CmP
+59YgGr7NmXlYJvvXve3Yy1l1EbUHkA0iCjO6AU8uK7N2og1lbCqUgV9gHOELc6LZ
+RbacSCX/OjlBcvNuiJd7N4YpZdDxtmIzgBp50iMttvOkYa0Yh2lgsOYnScjSf1qU
+t/AXZpomcX8QAgPQlebToJ9lMMR14cHBoQUZNAuE6i+O5eWjke6/rRNA0ZNbFxf4
+ztbIqnRZESogv32Jn2FXe+EjjqYPYw==
+=BWEw
+-----END PGP SIGNATURE-----
+
+--IBUoa1jW9WdR82cH--
