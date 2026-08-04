@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDBF470435;
-	Tue,  4 Aug 2026 15:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B594756AC
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 16:05:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785859127; cv=none; b=U/JUIVf8PnRBIyMy6WbrxCoIwiA8Aq4ABsnKCpNQ0LSruzc82dnJZ6C9/NafEwCD7kjde6lYA6zDQ3CfDqPkYBGY9+H5OZQbqXm1sSTVFDGGygGce/bfVD8z3J5q8+/AXGHasN/8i73MJfZpk6VLBXtr84CI/vSystRoWxhU8cc=
+	t=1785859521; cv=none; b=IEnqh8rYAYJM0N26H2hK2+kI/huuUDty//3gFPGduF2syLPpuBLvY3zaIhedD60ms7LzNHirL8FObLVcLnHrPt50XGyQmMGJoEox17lIKDar4KkT+L8PvtkEv0dThnyqomU5UKR91tXBQTZkVpbzJ+DWH0xP082etF1/aYQ0xRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785859127; c=relaxed/simple;
-	bh=Uj+hqmUGSDBh3V5sSr8hvpvP2lfDmrKY/nrjhfGjB5I=;
+	s=arc-20240116; t=1785859521; c=relaxed/simple;
+	bh=QqOvZ9LltYbgDT/ws3cVSCdmzsba8fl+vSNqPXxNF6o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iLva5MZdJwlKvwvEe7oDYhY/6KumfhG4ZvD4jnTXWBX9gfb+lBeOF+ZpAUToL8Zk0yTRH+Egz3oHj4m8H+1kp4YsP6UYrzv0yUZfjkLaRtCET+KPUrzupKcc1bzBtVtVBzgmX3IEqbsrOjY5zLUlArzuMwwGYyvvbp6tDfjqmrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSk39xSB; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yj4Fp8w4En2LEphFnqVrpidoEB75+t1qruSjYhA7XGbgZ07X9u2WXSOu/YFg4Rf/50RQ+xJ9RzwuHMe7SdwtviwnBWHNqNtdwpsbXV2mvVGgdqpiwM+wSe2QRxt/I22W69q5jsh83eXlcfR6Ycevciq0ib31yfCTPMtwYGwFUBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONPcCjlz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSk39xSB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5F2E1F00A3A;
-	Tue,  4 Aug 2026 15:58:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONPcCjlz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FDDE1F00A3A;
+	Tue,  4 Aug 2026 16:05:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785859123;
-	bh=BPuTDH8BEneJyLhanFOACvP5cUhQGXzhtwpAlvQiPRw=;
+	s=k20260515; t=1785859519;
+	bh=vbOdgI8/oCDXIZQ4Rp5DK1v1AGEZMqYLG/2x+mdZg3A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RSk39xSBIJnLq/lTw7yoicTJ2+iY2XJ1bhHUB3W1sUbJoqo4MBQ9DdmwyQRop2khs
-	 zsHqz5Fy9UKGzIEBIilBXglOlsBC8F7b9E236shPE9OE3r12tlXlapDb57bGG246fp
-	 axNj7ixqaOIJo3tL0fE98C320FM1scosF5T8/f0LrG7f3P+gyRLiJfv/WHhblnwcRo
-	 wLzZlDvX0Uv5h4WcOfpmLwS49Hm3gYkRBFSyP2fTfL9YEubK0sRMl9ZnSnUVFfs7+6
-	 R+qcbfMe95pNT/bjO+jUK1L7RPggOxeGLm7fg/Fny1uPyCVql4PQs1yvLtqXrb1g5z
-	 WAlrDcFPQEjPA==
-Date: Tue, 4 Aug 2026 16:58:38 +0100
+	b=ONPcCjlzMYA8jZApyqNSI3cjRiqKDoSf//PjHDRCMdUKEW+CFmOC4ZQa1cWuIFMsq
+	 QSWWSCSMHswiVIM9HgAJEUpYSwsiwCgP67Un+jTeu5rM4Mm9TKbrhiXQdBcdwLvkKl
+	 fEdG9z/DOq1tn5nPsEzZjkb3AC4iti/mea5CV/G6oQ1NN39Inq6KNkOYKlabN46a68
+	 xo4ZSItpOboDoabrLbnBQugcFNuBM6IJiy1cODj1zWZ7iKODTBMrnQA3oi8hKofsgr
+	 Geis9SpFHrV/mUSKy0J/b3QaIbwqAAKSg8yEkyn5pgYeTkmw+J3AyicuSfXyrJrvAr
+	 7yOYWSWKcitnA==
+Date: Tue, 4 Aug 2026 17:05:14 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
-	krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v7 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
- amplifier
-Message-ID: <479efa04-2c02-4b5d-8fdd-e3d4c6e49c4f@sirena.org.uk>
-References: <20260804032951.1069901-1-YLCHANG2@nuvoton.com>
- <20260804032951.1069901-3-YLCHANG2@nuvoton.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: shumingf@realtek.com, lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	lars@metafoo.de, flove@realtek.com, oder_chiou@realtek.com,
+	jack.yu@realtek.com, derek.fang@realtek.com,
+	pierre-louis.bossart@linux.dev
+Subject: Re: [PATCH v5] ASoC: rt766: add RT766/RT767 SDCA driver
+Message-ID: <45c3d0ab-1136-42f5-b722-eedd499a4bfe@sirena.org.uk>
+References: <20260804104828.557228-1-shumingf@realtek.com>
+ <2fd91870-51d8-4604-a281-36b6c234d737@sirena.org.uk>
+ <anILbp5sytyR7rGz@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,123 +45,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XTeMuZ7doSQ6INCv"
+	protocol="application/pgp-signature"; boundary="SXcOEZ4mhVvUeJXV"
 Content-Disposition: inline
-In-Reply-To: <20260804032951.1069901-3-YLCHANG2@nuvoton.com>
+In-Reply-To: <anILbp5sytyR7rGz@opensource.cirrus.com>
 X-Cookie: Biz is better.
 
 
---XTeMuZ7doSQ6INCv
-Content-Type: text/plain; charset=us-ascii
+--SXcOEZ4mhVvUeJXV
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 04, 2026 at 11:29:51AM +0800, Neo Chang wrote:
-> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
-> stereo 30W+30W smart amplifier with an integrated low-latency
-> Advanced Audio DSP.
+On Tue, Aug 04, 2026 at 04:55:26PM +0100, Charles Keepax wrote:
+> On Tue, Aug 04, 2026 at 04:01:44PM +0100, Mark Brown wrote:
 
-> +
-> +#include <linux/delay.h>
-> +#include <linux/firmware.h>
-> +#include <linux/init.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <sound/soc.h>
-> +
-> +#include "nau8360-dsp.h"
-> +#include "nau8360.h"
+> > /build/stage/linux/sound/soc/codecs/rt766-sdca.c:240:41: error: implici=
+t declaration of function =E2=80=98sdca_irq_cleanup_late=E2=80=99; did you =
+mean =E2=80=98sdca_irq_cleanup=E2=80=99? [-Wimplicit-function-declaration]
+> >   240 |                                         sdca_irq_cleanup_late(d=
+ev, function, info);
+> >       |                                         ^~~~~~~~~~~~~~~~~~~~~
+> >       |                                         sdca_irq_cleanup
 
-You use bitfield.h so a direct include would be safer.
+> I think this might just be a topic branches thing, those functions
+> were introduced by my recent series which should be in your tree:
 
-> +static int nau8360_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
-> +{
+Or it's missing includes?
 
-> +		break;
-> +	case SND_SOC_DAIFMT_LEFT_J:
-> +		ctrl_val = NAU8360_FRAME_START_H2L | NAU8360_RX_OFFSET_LEFT;
-> +		ctrl1_val = NAU8360_TX_OFFSET_LEFT;
-> +		break;
-> +	case SND_SOC_DAIFMT_RIGHT_J:
-> +		ctrl_val = NAU8360_FRAME_START_H2L | NAU8360_RX_OFFSET_RIGHT;
-> +		ctrl1_val = NAU8360_TX_OFFSET_RIGHT;
-> +		break;
+> https://lore.kernel.org/linux-sound/178517447302.50339.149980331405646910=
+7.b4-ty@b4/
 
-NAU8360_RX_OFFSET_LEFT and NAU8360_RX_OFFSET_RIGHT are defined
-identically, presumably at least one of them is wrong and certainly one
-of the above cases is.
+Please include human readable descriptions of things like commits and
+issues being discussed in e-mail in your mails, this makes them much
+easier for humans to read especially when they have no internet access.
+I do frequently catch up on my mail on flights or while otherwise
+travelling so this is even more pressing for me than just being about
+making things a bit easier to read.
 
-> +static int nau8360_set_sysclk(struct snd_soc_component *cp,
-> +	int clk_id, int source, unsigned int freq, int dir)
-> +{
-> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-> +	struct device *dev = nau8360->dev;
-> +	static const char * const idtab[] = { "DIG", "ANA", "Internal" };
-> +	static const char * const srctab[] = { "MCLK", "PLL", "HIRC48M", "BCLK" };
-> +	int ret;
-> +
-> +	if (dir == SND_SOC_CLOCK_OUT) {
-> +		dev_dbg(dev, "sysclk: freq %d (out)", freq);
-> +		return nau8360_set_sysclk_output(nau8360, freq);
-> +	}
-> +
-> +	switch (clk_id) {
-> +	case NAU8360_CLK_ID_INT:
-
-Usually we don't have a lot of fine grained control of the internal
-clock dividers of the device, things are a lot easier when the device
-just figures out what it needs based on it's input clocks.
-
-> +static int __maybe_unused nau8360_resume(struct snd_soc_component *component)
-> +{
-> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
-> +	struct regmap *regmap = nau8360->regmap;
-> +	int ret;
-> +
-> +	/* disable Sense at standby */
-> +	snd_soc_dapm_disable_pin(nau8360->dapm, "Sense");
-> +	snd_soc_dapm_sync(nau8360->dapm);
-> +
-> +	ret = nau8360_dsp_setup(component);
-> +
-> +	regcache_cache_only(regmap, false);
-
-We start the DSP with the device in cache only mode - that seems odd?
-
-> +static struct snd_soc_dai_driver nau8360_dai = {
-> +	.name = NAU8360_CODEC_DAI,
-> +	.playback = {
-> +		.stream_name = "Playback",
-> +		.channels_min = 1,
-> +		.channels_max = 4,
-> +		.rates = NAU8360_RATES,
-> +		.formats = NAU8360_FORMATS,
-> +	},
-> +	.capture = {
-> +		.stream_name = "Capture",
-> +		.channels_min = 1,
-> +		.channels_max = 8,
-> +		.rates = NAU8360_RATES,
-> +		.formats = NAU8360_FORMATS,
-> +	},
-> +	.ops = &nau8360_dai_ops,
-> +};
-
-Do you need symmetric_rates, the hw_params looks to program the same
-registers for both direction?
-
---XTeMuZ7doSQ6INCv
+--SXcOEZ4mhVvUeJXV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpyDC4ACgkQJNaLcl1U
-h9AahQf9F5kK6n9yrZew7//ocl7ez/1yPjOehgMQ2zHFn1Bqjb3f7ACqmhu5fxXL
-z1EtIsw8T6KHAsRgh0z3JWFPqqFsHyKE5ahsEaNH3l4rssxIblKASLjmLud5PC2R
-6B95uhA5uZOO7tzwQ5uHynnte1R8i5YoeW8PXToTYcZSYkg09WTtGlCxWvUsoVMZ
-gjEj1IjtbEDTg8iNa0npAf/lDMssfePe69UOpB1A3Ls63W1CIvf0F5On97tJGk95
-v/QAOh3u9nM0FbQ2G7HfXnuKQWMNUL30g+1+hRix3HG1QnO+ICZd9uOzwmExvYF7
-gzjoNvlZIe2get3PoOZGi93KrNQGEA==
-=kmsg
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpyDboACgkQJNaLcl1U
+h9CuUwf/aRhLpBtHBWx3v4xIkbFZUMGL7gO+urQXXiXs2CrrBijV9T+jOiNwu+z5
+olnK0QOc0GqlaSqzcfSdGVNoE6MKKy5yaxKYY7Rfz6Zti49Xf3ZhJyEuU+GLnzX6
+IacaNxeAvK3oAo8VzFvrqf/pcbNCMOipkQnH9DMVuCpkjprKbWqYZ1VUbZKeTRv9
+2ML7mvo3o46yo57oHhVh0E53K4XD0amob+TOP/CSG96Dha8Laltk1BBaGzhZPrgZ
+VrtfWUXatKUme25DPhjUXbFBK91kjwRl0JsdAoj4QtEZ+fd8/IwRTN+NMs1ZUUUp
+yCIcRw4ava81MalKwbZbi4HlszR3mw==
+=wHgG
 -----END PGP SIGNATURE-----
 
---XTeMuZ7doSQ6INCv--
+--SXcOEZ4mhVvUeJXV--
