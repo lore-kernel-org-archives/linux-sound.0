@@ -1,204 +1,396 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011044.outbound.protection.outlook.com [52.101.125.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F74F38BF8D
-	for <linux-sound@vger.kernel.org>; Mon,  3 Aug 2026 23:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785799107; cv=none; b=oxSCvwhN1jGfwWP0sCO1xGTXs7Bpz38rT1HvNybavBrfx/qgvCiwsJQXYznNONY1QyfO6cEwpRkQCYoP6ki8pPupjjLwq1znxWGzXsZHW/KRazXlH/IFr/AzwShHm4V5actGHWgJx7EKfPYDPEl5+s1bhxA/V1vH5sfcVwAejBE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785799107; c=relaxed/simple;
-	bh=1Bi8dYj6PJP8SCx08LdhS5uel3E7MINzk2ww5QBKnvE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a/KIWTqm/VoT4LnehLmm7L5yrsXgkjtll1bHpL/B8MYy5p4VOSsc4NenAst5JJqkxitFMycZdSG6aPahXsZF3ofggziPVzLHRkQ/ah0roke1c0NJhMXRcZaN4lNz6iir/okYymUdWuNE29RrXi3ZOjUeAZimhcRD110xL5+OQ2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Alt4LJ4d; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4544636A033
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 00:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785804010; cv=fail; b=HlbOa8fAoXmYf8H8SgjqC6DDQwxHstTB1se0Ys7U4T8v/aiUza65vlSSCLsum+9NAwwZNJEk1F5IK9VQRMHv5IR1xDanmzgndH5Z1QeRxv7Tkw2WJnjR/K7bHv/AgceXSHyJkgsojbRFUzp09Edm0q7fMB/XnepBTGRXIWrzDkc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785804010; c=relaxed/simple;
+	bh=Vvm4pT9zEfxnFrcKSvKq9GaaESYmr78TP+B1fppolIE=;
+	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=EA7daDf18sHqKKogOpV28ZpBpd0ZXErAed4McKVlHzl4uF+5oe6gbmdIUA4z8i8KGDWEq8+U8rf2ODac4M4UiTaQf6x0Bxm9v8lAR3akhW/be8cjyQICEPLhpEnT8kp4eIMSvY8eaz5jfyDsIVtTTZBL5BToi+QIdWG5FIORB1Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=gZuqHXEE; arc=fail smtp.client-ip=52.101.125.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Alt4LJ4d"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cea3004256so43879345ad.0
-        for <linux-sound@vger.kernel.org>; Mon, 03 Aug 2026 16:18:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785799106; x=1786403906; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pNy0UkHqJf4wD9Q7SUQtnbzuWP3YB4RBFtxq12jMuKE=;
-        b=Alt4LJ4d/i4F9QpBO595DuyYKeFdCwLeSTfu2PVBbo0E4PweRUsdIVqtPCA64E9KcB
-         a0wTUkk9Rj0udOjcDhXbbHSxw+wlgGd2jEJsXij8Y0WmEIUG3dZofvFw8tHcuPhDxKJB
-         O55i+pftJspwbIAE6bmnu+s18l7iWFL4cA07i7lx1Ray4/Rml8MWpm7IVXWMt+75ViLW
-         fr3JjnPHQUw27VbY4++cwoFsYkYaCC3GLh7Y13M7tT9bIAa1x7CLFf11hlpvux7didoC
-         9W3cPPuftaZrN2C280yA8kII2FTaNDTVu5i75b+Q9y+O+PqS12AJDr2xLaSxLLCPR2xR
-         rM8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785799106; x=1786403906;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pNy0UkHqJf4wD9Q7SUQtnbzuWP3YB4RBFtxq12jMuKE=;
-        b=XHgdevy3xRdauHe5LutNRD8uMnZrZ1SpspgAyY3laji4A4TY7+40msBhL1eh3Y/aTi
-         KGjR62oK00qdB9Dd3itaBy2it0E9Il/xBxxvkweXTI2Y4glcdvGdsegyyKa+XH42xOGj
-         0hwnzkpgp92rtN+B7njA3K0V5lMqdRJVSp2ZQONHg1a/1h7ZPOlmX54I3fNK1db4hJgz
-         MZAzeZJdqbrtBQ2Q08XhXgx1KbJeAl+luBompNDzefEbHCayTSQK9nEcyQpbaHx3IDFo
-         S+b66DIr0rOP+CE05JpdCOJVXbzHMkdsePlAcD87oNOCPaZGvB2s1mXmOi99Y8LThxlg
-         s80A==
-X-Gm-Message-State: AOJu0YzSlzPAFUwxn2aiqS6I6LbAULnsjfr6I0rzXsY3DIqfd7xiwpsW
-	miYQ9K/S1esgxjJ2n5uoctNKTrQG9JkymWec4Cc2BRs249GN2ICtC8GmA1mdBw==
-X-Gm-Gg: AR+sD12SXSOAqRo6rlllnsA18y/56PtyeZU2011KJNylbr6vYqAjFMAS1qRJmY0UT36
-	a1v5JT7BbXJV7BVGrV0Xp9UJ0KIDXbs0yA2ILgWuNS7u3wi38AI8rEsbBwktxacDJvnSBEwnIgU
-	mSq7vAWPMA+bemUjxi82WN2EX1WVbKV9VHft5P22D857bOUXceyioOqvKV//wrBR3I1VgrrhsBS
-	bIL02iIwhUEyFmk+3I80x7ykXAIYT0sfzgDZxl0q282WhhmGVzbOCXzI7L6AXBtnS8UXcRdezGh
-	+UcPeHlcJ8I9BMSiLiN9eAd4IveW0jueSkvOLwWkyieN+X5mrMMQaXuB3KnJXBXup3zjM7/15OW
-	E/N34N2y44o13MBm/Us5+n2I4nnor9wpQG7pcnatB/iIb9DcxVNZr7Wo72Pu18Ob25wwx6eVgkW
-	1a1CRJKlJ8uXJ1cI9WrGMBgNz5hPDndy41i8q1WmXPabcfB61a/dgU1vEscYi+ePj8ab0BxpqRA
-	FZ3WCw1EyXCxF0G9FHuCzcAHmgd3uSYJx6eu4nBZcdyD4WBevEHaa8ieh9Lc8PXLhomjoQarITy
-	khiatQrO2T7bse9paNXC9GCoyCUrD7o9ugSb4w==
-X-Received: by 2002:a17:903:37ce:b0:2ca:1479:d9dc with SMTP id d9443c01a7336-2d05221d3bbmr113140515ad.12.1785799105666;
-        Mon, 03 Aug 2026 16:18:25 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04aea0f8asm43349705ad.35.2026.08.03.16.18.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 16:18:24 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/ZYNQ ARCHITECTURE),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ASoC: xilinx: replace OF with device handlers
-Date: Mon,  3 Aug 2026 16:18:23 -0700
-Message-ID: <20260803231823.95147-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="gZuqHXEE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PEqz9UxTw/+3Ax9M0XAdVRfQVPauJ+xK1uXjDN6go6t/6cD5dUJBfSXG8CaDCOCaD2Rc7+FPYAxTtR6Ne+JLQhMO2MqLcmCaKQcJj5EdU2GNmmSeyv9iSy9o0NNJdKQnUgVM+Z4u5Rftmu/9vShbirmGENhlzM7PTAgra7Bl8cMsctIVene6bLKPwqUqfv4OMkH3C+0r7ldGhyjq5OAS16rCg6ShaPxWGLrzwUKb+eLb1IAiKVIdFSw+DoifH+irnRyDVD5svAHkKtWZFgKodjB20LpBnKxC3SgXmtFh8kGAF1EpXhWDJLOonarakyigc+5P9Ba4jhjeb2C7+vAveg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DbBz2t+wit2FsPx+mnc4eNGVbrpMPfO6MNrEoiV1F8k=;
+ b=C18MclmmmNdYg5xQ4jWANRIm5ql1xXyvdiv8Kp0KN6FBWCfV3Qbgbj1xy7y39UiY/hG/wY2uX2OCSnMRHc3Rfjsyj7PaZvI6+fvUiNobmqHTMIDa2DKX7seGLNK4Tp7ORapIYlA9ewLzEh0z/v5yOTgItUqrPDurLeNrKG1B74MMf3zBZTI6Zqm2hwmZKjife5vPc86lCWSAcjrje4LF1KlU19h0qwRJAGpCsvwaoqRooZfp+zgcNBlza5g8hem2W4SpXIZZSz0RUphqOh6+WSptsuitme2FjurRGZxWjzAfgl6GzzHgBhcynd7HQwFXkbVBoMj+Lcbe5mEWcOvocA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DbBz2t+wit2FsPx+mnc4eNGVbrpMPfO6MNrEoiV1F8k=;
+ b=gZuqHXEE+XtEqmgxihCpc8L20k13xapaeth5EvGvBVpqUlQNGFOkefGaUuCobLALy2QnByr0d66WZS21BfYoXetjRsza4aTSKk99kUBVJ3+vUGSIq2Hyho3xa4I+MGwMu+2h4Qu5FRbime6SCiZW6W6Ym9pn0qP8ZmuQv2jOZeQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYRPR01MB15651.jpnprd01.prod.outlook.com (2603:1096:405:285::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Tue, 4 Aug
+ 2026 00:40:04 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0270.017; Tue, 4 Aug 2026
+ 00:40:02 +0000
+Message-ID: <87cxvyyazi.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 00/44] ASoC: codec: use .auto_selectable_formats
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 4 Aug 2026 00:40:01 +0000
+X-ClientProxiedBy: TY4PR01CA0033.jpnprd01.prod.outlook.com
+ (2603:1096:405:2bd::14) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYRPR01MB15651:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35f91dba-3c8c-4089-fd1f-08def1c0eb16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|23010399003|38350700014|18002099003|11063799006|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	XwEzq+/Hr2/RsuRP0QzvO09O1m5iWypla6bQfKqKfplyUIadMZ++zHMmDdNr7Ig7PuYxi8a1lJZrz2mDyqFyyC3Lh1PeP/qMR9O5LMkt/VmHCwmCQNwMZAACxHAQzj2WXTOCu8CQrQfApvkml5VKww5nP/5Ci5I9bllHhZZB+fPF5Zem14fikXhxjRsQn2zwqvaJGjfRcW/joKRAMl7ddDgG8G56J6YPyURd0o+3ZQjFEZ3CcDdCVirH5BJz5PrgP3o8hztAaGlaoDriV7O165+OCEzJsabxkxwrS/2n082Epzn8y2wgn/zhAJZ8Y1Z3+57xTpn99qoftjbM/w4p9B7pDA3sDO3mmLy4/iYPJA38WsbCfS52X6s6xCMVbEsCYwhE2F6q3pbOEKVPMv2w2feFMYE80l/1Tn9l03kKWwJWqd/zcjEC6mmxVjLwiLVEJGZKeR8I7vJUFx+Mn+4bTkh15YqodDjHQJ28j/Bvydy+v5VGgqgTIzJpByVe7DACXmaDpuSUsV59tC7+XKzhFJtOSCzaCNIOh9WJxopYa9WmoXVt+cAQMnjh1690WMrqUnYtw+1yHrdfAXjdVdNHWfq4A3MYVF8Io9SMAxstaxdGaO34McetrNIh0qmotVrIvCG6uhM5kxOX5DkBQjZFX/6knVfzeYGJhB/XuuV0bEoUYAZAoOEXGoOvyyIojI0Cm97cS3uwRe7BQ5jTStwnot5NIabLqu0OYNCpdLPtEtw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(23010399003)(38350700014)(18002099003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?u0Yfr1w6EcvFRwsdDtO5BEMMj1dp3/4r8UY8zu5BjQ+Vza28TgAVnSBysIjY?=
+ =?us-ascii?Q?k1lDxjFIlYtzgFlg4xBQbxLEY8H75llcWCLCNu1Z/3tRqGsK0KoMXRBnjvWE?=
+ =?us-ascii?Q?R2cKdQ1wKgcjlkX+A0M01+QTNfenCJ23awjtZiN/eloN27g+A+SRyAHR25F1?=
+ =?us-ascii?Q?E0ZVUdNpJ8LMrJaXWR1xfJELpDnKg/5NIiK4Im/XYJB8zAGYvDlcS4VMiRiZ?=
+ =?us-ascii?Q?W46/I4YDz+Z2wNKHNdIemXbqd7wNaUsK1CkZscvh6xfI2Kvjby0ZvIt+GjKw?=
+ =?us-ascii?Q?5lCLkoFFJqMV9xeCYtFDjimERE++JsSVgmy17SYGJ7efWbqAyaFckKPbwNaE?=
+ =?us-ascii?Q?GxDDMGHhYUT5W7Ieb35mhSP2cgPW016XYBQxfnJF3ve65xmC6eQGqNwWRRJL?=
+ =?us-ascii?Q?5d29veJmNNvwMVgLjAxELcd9BYJG+2gYQNWv5Z2RaM2cARrlCAuDFXsNoXlv?=
+ =?us-ascii?Q?H3ELNPoEf4pZZ6hpRKdYLtdXaRDjfuviDpM9RmQ/BPtTZEDJnQabsHHNuD6d?=
+ =?us-ascii?Q?esmQBXNdtip3R52brTEv9tUYk8GEVOe6E5jZyHXvoKY4JRczjEu3P7cpAqMx?=
+ =?us-ascii?Q?w1uUyGsG01SO97fU5MogP96ucWgIJnhvsp2ZEUTKR8YW2kaiBY44KVBIjBag?=
+ =?us-ascii?Q?32+lsFwz/zcX8nzeUlG07T6PyTQlpwht8T+BwHnjmAm5tUMRQpzl/BBOdklF?=
+ =?us-ascii?Q?82uggvlR3Q6iVbammzrDSGWtAMMwo8tLwG1ucNB1scTOpaf8ns9EoW3PfKz4?=
+ =?us-ascii?Q?2ivHzYVr9dnON4x3OERlgQUXFRNA+XdBCTEqZZhlQQnZ1u1ddfpM4mrCyIC1?=
+ =?us-ascii?Q?jzzYwg/yj0jPUpvz9o6D9MmeKNb35cQtI19EdbmKsdPoKKgVmzdinFHPWg/R?=
+ =?us-ascii?Q?pfrYDilbIVlCupR2+US4F+JEyEqQidgNBjpJVbdQrur8+jnb5Pvcaap0cdXW?=
+ =?us-ascii?Q?8lr7sRCFe9XuNPxc2KUCaGeNNd3HENZcVZM7vomd+HxEqpEf4yXdm6jAwQHs?=
+ =?us-ascii?Q?InM063My7hoMJPiuoMxpqIo85bDbtXcEAySBQRPyvKmEkeZ/LuSKXqofaVlu?=
+ =?us-ascii?Q?TddzrArW3lN2JSVUOyrBw1h9F9FWhPHtx1KTwFId87x7I6/ySCmP/dF0fLUH?=
+ =?us-ascii?Q?QZFx01Mbk6KdhcFAGwW8KVh/Se304Ktm7/9+MVw+DDwvoTt8X/AKD7ZPCqgy?=
+ =?us-ascii?Q?ZILpOSN1M7uZyDc/0J0xqZntY8aYbBDrYHlEGfoQM7ef+FTBX7Z7x5jNoxrt?=
+ =?us-ascii?Q?rhD1MH/Cxb3aLKgp3Fi8pIfkdioVVI2qpt+nonUvmQB/1cOXpwHembfE3ph9?=
+ =?us-ascii?Q?Z6j4rn3DC30SGxS3Mcm8/qSltQvQcH+R+Bo8huB33GrPulDnVFHRmplNhBvi?=
+ =?us-ascii?Q?1nfWNnQpDtr3mjzZYm/ZXQ0VlEnehdpGTizA/DFpaBv0KVogMQkuwK0rNJUw?=
+ =?us-ascii?Q?lHkrsH1xCph4EjqkjGnZGmrrsL3U75TuPcWiiN/dLL+3beGy7VDdE9oBtWTB?=
+ =?us-ascii?Q?X3I9OTbB3i5zAQTDzdlr9193Mvc1138rW/wTPvfxESuqf9yPqvKJAgsJpKxN?=
+ =?us-ascii?Q?uMdPHT3FKNpoJ7FvRRJ58Wnyyaq6LX1WlNvS1ZJ3gai8IxM4zdQipXZbZnMx?=
+ =?us-ascii?Q?olKK1d7F2byLw7Lx9qjM9KBlcdIOeqB5j0DJy+QY9hGb0xUbgqITy5fTqztr?=
+ =?us-ascii?Q?Dd/rgcvzbGq+DllzyRTnewagInb8+epI08KphK5fmFQ6ULFgrrqVhjXNfcf4?=
+ =?us-ascii?Q?mL+rcMt8YVSNjmfHeGcMx1DAwFsBNnA4BbQk4PTpCvFvA3n9KKCd?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35f91dba-3c8c-4089-fd1f-08def1c0eb16
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 00:40:02.1012
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qwZ4IzVXmL1D8ZKV3RhrSUhmqbnDEyd7NRVQWqr+0sNLc5pG+7EX8QlAV4SyEs0wn+kZf9VAqyN+ZXX0K5ENBwSuPJho4tT7RFz1rnfUQuK0MZb208UVfzRP3OChuiyH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15651
 
-All of these usages of OF handlers use the node from the
-platform_device. Use the device member to simplify slightly.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- sound/soc/xilinx/xlnx_formatter_pcm.c |  2 --
- sound/soc/xilinx/xlnx_i2s.c           | 12 +++++-------
- sound/soc/xilinx/xlnx_spdif.c         |  8 +++-----
- 3 files changed, 8 insertions(+), 14 deletions(-)
+Hi Mark, all
 
-diff --git a/sound/soc/xilinx/xlnx_formatter_pcm.c b/sound/soc/xilinx/xlnx_formatter_pcm.c
-index 8f7a76758535..55b5b473d85f 100644
---- a/sound/soc/xilinx/xlnx_formatter_pcm.c
-+++ b/sound/soc/xilinx/xlnx_formatter_pcm.c
-@@ -9,8 +9,6 @@
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of_address.h>
--#include <linux/of_irq.h>
- #include <linux/sizes.h>
- 
- #include <sound/asoundef.h>
-diff --git a/sound/soc/xilinx/xlnx_i2s.c b/sound/soc/xilinx/xlnx_i2s.c
-index 0676da122edd..273258125497 100644
---- a/sound/soc/xilinx/xlnx_i2s.c
-+++ b/sound/soc/xilinx/xlnx_i2s.c
-@@ -9,9 +9,8 @@
- 
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of.h>
--#include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
- 
-@@ -174,7 +173,6 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
- 	int ret;
- 	u32 format;
- 	struct device *dev = &pdev->dev;
--	struct device_node *node = dev->of_node;
- 
- 	drv_data = devm_kzalloc(&pdev->dev, sizeof(*drv_data), GFP_KERNEL);
- 	if (!drv_data)
-@@ -184,13 +182,13 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
- 	if (IS_ERR(drv_data->base))
- 		return PTR_ERR(drv_data->base);
- 
--	ret = of_property_read_u32(node, "xlnx,num-channels", &drv_data->channels);
-+	ret = device_property_read_u32(dev, "xlnx,num-channels", &drv_data->channels);
- 	if (ret < 0)
- 		return dev_err_probe(dev, ret, "cannot get supported channels\n");
- 
- 	drv_data->channels *= 2;
- 
--	ret = of_property_read_u32(node, "xlnx,dwidth", &drv_data->data_width);
-+	ret = device_property_read_u32(dev, "xlnx,dwidth", &drv_data->data_width);
- 	if (ret < 0)
- 		return dev_err_probe(dev, ret, "cannot get data width\n");
- 
-@@ -205,7 +203,7 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
- 		return -EINVAL;
- 	}
- 
--	if (of_device_is_compatible(node, "xlnx,i2s-transmitter-1.0")) {
-+	if (device_is_compatible(dev, "xlnx,i2s-transmitter-1.0")) {
- 		drv_data->dai_drv.name = "xlnx_i2s_playback";
- 		drv_data->dai_drv.playback.stream_name = "Playback";
- 		drv_data->dai_drv.playback.formats = format;
-@@ -213,7 +211,7 @@ static int xlnx_i2s_probe(struct platform_device *pdev)
- 		drv_data->dai_drv.playback.channels_max = drv_data->channels;
- 		drv_data->dai_drv.playback.rates	= SNDRV_PCM_RATE_8000_192000;
- 		drv_data->dai_drv.ops = &xlnx_i2s_dai_ops;
--	} else if (of_device_is_compatible(node, "xlnx,i2s-receiver-1.0")) {
-+	} else if (device_is_compatible(dev, "xlnx,i2s-receiver-1.0")) {
- 		drv_data->dai_drv.name = "xlnx_i2s_capture";
- 		drv_data->dai_drv.capture.stream_name = "Capture";
- 		drv_data->dai_drv.capture.formats = format;
-diff --git a/sound/soc/xilinx/xlnx_spdif.c b/sound/soc/xilinx/xlnx_spdif.c
-index ae05818ba064..a70ca6beb646 100644
---- a/sound/soc/xilinx/xlnx_spdif.c
-+++ b/sound/soc/xilinx/xlnx_spdif.c
-@@ -10,8 +10,7 @@
- #include <linux/clk.h>
- #include <linux/io.h>
- #include <linux/module.h>
--#include <linux/of.h>
--#include <linux/of_platform.h>
-+#include <linux/property.h>
- #include <linux/platform_device.h>
- #include <sound/pcm_params.h>
- #include <sound/soc.h>
-@@ -242,7 +241,6 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
- 	struct spdif_dev_data *ctx;
- 
- 	struct device *dev = &pdev->dev;
--	struct device_node *node = dev->of_node;
- 
- 	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
- 	if (!ctx)
-@@ -257,7 +255,7 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
- 	if (IS_ERR(ctx->base))
- 		return PTR_ERR(ctx->base);
- 
--	ret = of_property_read_u32(node, "xlnx,spdif-mode", &ctx->mode);
-+	ret = device_property_read_u32(dev, "xlnx,spdif-mode", &ctx->mode);
- 	if (ret < 0)
- 		return dev_err_probe(dev, ret, "cannot get SPDIF mode\n");
- 
-@@ -278,7 +276,7 @@ static int xlnx_spdif_probe(struct platform_device *pdev)
- 		dai_drv = &xlnx_spdif_rx_dai;
- 	}
- 
--	ret = of_property_read_u32(node, "xlnx,aud_clk_i", &ctx->aclk);
-+	ret = device_property_read_u32(dev, "xlnx,aud_clk_i", &ctx->aclk);
- 	if (ret < 0)
- 		return dev_err_probe(dev, ret, "cannot get aud_clk_i value\n");
- 
+This is Step2 of "use .auto_selectable_formats" patch-set
+
+o: done
+x: this patch-set
+
+	[o] Step1: ASoC: a to b
+	[x] Step2: ASoC: codec: ...
+	[ ] Step3: ASoC: d to r
+	[ ] Step4: ASoC: r to x
+
+Current ASoC supports snd_soc_daifmt_parse_format() which can specify DAI
+format by "dai-format" property from DT.
+But strictly speaking, it is SW settings, so doesn't match to DT's policy.
+
+Current ASoC is supporting auto format select via
+snd_soc_dai_ops :: .auto_selectable_formats.
+But the user is very few today.
+
+DT doesn't need to specify the DAI format via "dai-format", if both CPU
+and Codec drivers were supporting .auto_selectable_formats. It will be
+automatically selected from .auto_selectable_formats.
+
+One note is that auto select might not find best format on some CPU/Codec
+combination. So "dai-format" is necessary anyway.
+
+
+Kuninori Morimoto (44):
+  ASoC: codecs: 88pm860x: use .auto_selectable_formats
+  ASoC: codecs: ad1*: use .auto_selectable_formats
+  ASoC: codecs: ab8500: use .auto_selectable_formats
+  ASoC: codecs: adau*: use .auto_selectable_formats
+  ASoC: codecs: adav80x: use .auto_selectable_formats
+  ASoC: codecs: ak4*: use .auto_selectable_formats
+  ASoC: codecs: ak5*: use .auto_selectable_formats
+  ASoC: codecs: alc56*: use .auto_selectable_formats
+  ASoC: codecs: arizona: use .auto_selectable_formats
+  ASoC: codecs: cpcap: use .auto_selectable_formats
+  ASoC: codecs: cros_ec_codec: use .auto_selectable_formats
+  ASoC: codecs: cs35l*: use .auto_selectable_formats
+  ASoC: codecs: cs42*: use .auto_selectable_formats
+  ASoC: codecs: cs5*: use .auto_selectable_formats
+  ASoC: codecs: cx2072x: use .auto_selectable_formats
+  ASoC: codecs: da*: use .auto_selectable_formats
+  ASoC: codecs: es*: use .auto_selectable_formats
+  ASoC: codecs: inno_rk3036: use .auto_selectable_formats
+  ASoC: codecs: isabelle: use .auto_selectable_formats
+  ASoC: codecs: lm49453: use .auto_selectable_formats
+  ASoC: codecs: lochnagar-sc: use .auto_selectable_formats
+  ASoC: codecs: madera: use .auto_selectable_formats
+  ASoC: codecs: max*: use .auto_selectable_formats
+  ASoC: codecs: mc13783: use .auto_selectable_formats
+  ASoC: codecs: ml26124: use .auto_selectable_formats
+  ASoC: codecs: nau*: use .auto_selectable_formats
+  ASoC: codecs: ntp8*: use .auto_selectable_formats
+  ASoC: codecs: rk33*: use .auto_selectable_formats
+  ASoC: codecs: rtq912*: use .auto_selectable_formats
+  ASoC: codecs: rt*: use .auto_selectable_formats
+  ASoC: codecs: sgtl5000: use .auto_selectable_formats
+  ASoC: codecs: si476x: use .auto_selectable_formats
+  ASoC: codecs: sma130*: use .auto_selectable_formats
+  ASoC: codecs: src4xxx: use .auto_selectable_formats
+  ASoC: codecs: ssm*: use .auto_selectable_formats
+  ASoC: codecs: sta*: use .auto_selectable_formats
+  ASoC: codecs: tas*: use .auto_selectable_formats
+  ASoC: codecs: tfa9879: use .auto_selectable_formats
+  ASoC: codecs: tlv320*: use .auto_selectable_formats
+  ASoC: codecs: tscs454: use .auto_selectable_formats
+  ASoC: codecs: twl4030: use .auto_selectable_formats
+  ASoC: codecs: uda13*: use .auto_selectable_formats
+  ASoC: codecs: wm*: use .auto_selectable_formats
+  ASoC: codecs: zl38060: use .auto_selectable_formats
+
+ sound/soc/codecs/88pm860x-codec.c |  6 ++++++
+ sound/soc/codecs/ab8500-codec.c   | 13 +++++++++++++
+ sound/soc/codecs/ad1836.c         |  6 ++++++
+ sound/soc/codecs/ad193x.c         | 10 ++++++++++
+ sound/soc/codecs/adau1372.c       | 12 ++++++++++++
+ sound/soc/codecs/adau1373.c       | 12 ++++++++++++
+ sound/soc/codecs/adau1701.c       | 11 +++++++++++
+ sound/soc/codecs/adau17x1.c       | 13 +++++++++++++
+ sound/soc/codecs/adau1977.c       | 13 +++++++++++++
+ sound/soc/codecs/adau7118.c       | 12 ++++++++++++
+ sound/soc/codecs/adav80x.c        |  8 ++++++++
+ sound/soc/codecs/ak4104.c         |  7 +++++++
+ sound/soc/codecs/ak4118.c         |  7 +++++++
+ sound/soc/codecs/ak4458.c         |  9 +++++++++
+ sound/soc/codecs/ak4535.c         |  6 ++++++
+ sound/soc/codecs/ak4642.c         |  6 ++++++
+ sound/soc/codecs/ak4671.c         |  7 +++++++
+ sound/soc/codecs/ak5386.c         |  6 ++++++
+ sound/soc/codecs/ak5558.c         |  7 +++++++
+ sound/soc/codecs/alc5623.c        | 11 +++++++++++
+ sound/soc/codecs/alc5632.c        | 13 +++++++++++++
+ sound/soc/codecs/arizona.c        | 12 ++++++++++++
+ sound/soc/codecs/cpcap.c          | 15 +++++++++++++++
+ sound/soc/codecs/cros_ec_codec.c  |  8 ++++++++
+ sound/soc/codecs/cs35l33.c        |  6 ++++++
+ sound/soc/codecs/cs35l35.c        |  8 ++++++++
+ sound/soc/codecs/cs35l36.c        | 12 ++++++++++++
+ sound/soc/codecs/cs35l41.c        | 10 ++++++++++
+ sound/soc/codecs/cs35l45.c        | 10 ++++++++++
+ sound/soc/codecs/cs35l56.c        | 10 ++++++++++
+ sound/soc/codecs/cs40l50-codec.c  |  9 +++++++++
+ sound/soc/codecs/cs4234.c         |  9 +++++++++
+ sound/soc/codecs/cs4265.c         |  7 +++++++
+ sound/soc/codecs/cs4270.c         |  6 ++++++
+ sound/soc/codecs/cs4271.c         |  6 ++++++
+ sound/soc/codecs/cs42l42.c        |  9 +++++++++
+ sound/soc/codecs/cs42l43.c        | 12 ++++++++++++
+ sound/soc/codecs/cs42l51.c        |  7 +++++++
+ sound/soc/codecs/cs42l52.c        | 13 +++++++++++++
+ sound/soc/codecs/cs42l56.c        |  8 ++++++++
+ sound/soc/codecs/cs42l73.c        |  7 +++++++
+ sound/soc/codecs/cs42l84.c        |  6 ++++++
+ sound/soc/codecs/cs42xx8.c        |  8 ++++++++
+ sound/soc/codecs/cs43130.c        | 14 ++++++++++++++
+ sound/soc/codecs/cs4341.c         |  8 ++++++++
+ sound/soc/codecs/cs4349.c         |  7 +++++++
+ sound/soc/codecs/cs48l32.c        | 12 ++++++++++++
+ sound/soc/codecs/cs530x.c         |  9 +++++++++
+ sound/soc/codecs/cs53l30.c        |  8 ++++++++
+ sound/soc/codecs/cx2072x.c        | 12 ++++++++++++
+ sound/soc/codecs/da7210.c         |  7 +++++++
+ sound/soc/codecs/da7218.c         | 12 ++++++++++++
+ sound/soc/codecs/da7219.c         | 12 ++++++++++++
+ sound/soc/codecs/da732x.c         | 17 +++++++++++++++++
+ sound/soc/codecs/da9055.c         |  8 ++++++++
+ sound/soc/codecs/es7134.c         |  6 ++++++
+ sound/soc/codecs/es7241.c         |  7 +++++++
+ sound/soc/codecs/es8311.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/es8316.c         |  9 +++++++++
+ sound/soc/codecs/es8323.c         | 13 +++++++++++++
+ sound/soc/codecs/es8326.c         |  9 +++++++++
+ sound/soc/codecs/es8328.c         |  7 +++++++
+ sound/soc/codecs/es8375.c         | 12 ++++++++++++
+ sound/soc/codecs/es8389.c         |  9 +++++++++
+ sound/soc/codecs/inno_rk3036.c    | 12 ++++++++++++
+ sound/soc/codecs/isabelle.c       | 13 +++++++++++++
+ sound/soc/codecs/lm49453.c        | 15 +++++++++++++++
+ sound/soc/codecs/lochnagar-sc.c   |  8 ++++++++
+ sound/soc/codecs/madera.c         | 12 ++++++++++++
+ sound/soc/codecs/max98088.c       | 12 ++++++++++++
+ sound/soc/codecs/max98090.c       | 12 ++++++++++++
+ sound/soc/codecs/max98095.c       | 14 ++++++++++++++
+ sound/soc/codecs/max98371.c       |  7 +++++++
+ sound/soc/codecs/max98373-i2c.c   | 10 ++++++++++
+ sound/soc/codecs/max98388.c       | 10 ++++++++++
+ sound/soc/codecs/max98390.c       | 10 ++++++++++
+ sound/soc/codecs/max98396.c       | 12 ++++++++++++
+ sound/soc/codecs/max9850.c        | 11 +++++++++++
+ sound/soc/codecs/max98520.c       | 10 ++++++++++
+ sound/soc/codecs/max9860.c        | 12 ++++++++++++
+ sound/soc/codecs/max9867.c        | 10 ++++++++++
+ sound/soc/codecs/max98925.c       |  8 ++++++++
+ sound/soc/codecs/max98926.c       |  8 ++++++++
+ sound/soc/codecs/max98927.c       | 10 ++++++++++
+ sound/soc/codecs/mc13783.c        | 12 ++++++++++++
+ sound/soc/codecs/ml26124.c        |  6 ++++++
+ sound/soc/codecs/nau8325.c        | 11 +++++++++++
+ sound/soc/codecs/nau8540.c        | 11 +++++++++++
+ sound/soc/codecs/nau8810.c        | 12 ++++++++++++
+ sound/soc/codecs/nau8821.c        | 11 +++++++++++
+ sound/soc/codecs/nau8822.c        | 12 ++++++++++++
+ sound/soc/codecs/nau8824.c        | 11 +++++++++++
+ sound/soc/codecs/nau8825.c        | 11 +++++++++++
+ sound/soc/codecs/ntp8835.c        |  7 +++++++
+ sound/soc/codecs/ntp8918.c        |  7 +++++++
+ sound/soc/codecs/rk3308_codec.c   | 11 +++++++++++
+ sound/soc/codecs/rk3328_codec.c   |  9 +++++++++
+ sound/soc/codecs/rt1011.c         | 10 ++++++++++
+ sound/soc/codecs/rt1015.c         | 10 ++++++++++
+ sound/soc/codecs/rt1016.c         | 10 ++++++++++
+ sound/soc/codecs/rt1019.c         | 10 ++++++++++
+ sound/soc/codecs/rt1305.c         | 10 ++++++++++
+ sound/soc/codecs/rt1308.c         | 10 ++++++++++
+ sound/soc/codecs/rt1318.c         | 10 ++++++++++
+ sound/soc/codecs/rt274.c          |  8 ++++++++
+ sound/soc/codecs/rt286.c          |  8 ++++++++
+ sound/soc/codecs/rt298.c          |  8 ++++++++
+ sound/soc/codecs/rt5514.c         | 12 ++++++++++++
+ sound/soc/codecs/rt5616.c         | 10 ++++++++++
+ sound/soc/codecs/rt5631.c         | 10 ++++++++++
+ sound/soc/codecs/rt5640.c         | 10 ++++++++++
+ sound/soc/codecs/rt5645.c         | 10 ++++++++++
+ sound/soc/codecs/rt5651.c         | 10 ++++++++++
+ sound/soc/codecs/rt5659.c         | 10 ++++++++++
+ sound/soc/codecs/rt5660.c         | 10 ++++++++++
+ sound/soc/codecs/rt5663.c         | 10 ++++++++++
+ sound/soc/codecs/rt5665.c         | 10 ++++++++++
+ sound/soc/codecs/rt5668.c         | 14 ++++++++++++++
+ sound/soc/codecs/rt5670.c         | 10 ++++++++++
+ sound/soc/codecs/rt5677.c         | 10 ++++++++++
+ sound/soc/codecs/rt5682.c         | 14 ++++++++++++++
+ sound/soc/codecs/rt5682s.c        | 14 ++++++++++++++
+ sound/soc/codecs/rt9120.c         |  9 +++++++++
+ sound/soc/codecs/rt9123.c         |  9 +++++++++
+ sound/soc/codecs/rtq9124.c        |  9 +++++++++
+ sound/soc/codecs/rtq9128.c        |  9 +++++++++
+ sound/soc/codecs/sgtl5000.c       | 11 +++++++++++
+ sound/soc/codecs/si476x.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/sma1303.c        | 13 +++++++++++++
+ sound/soc/codecs/sma1307.c        | 13 +++++++++++++
+ sound/soc/codecs/src4xxx.c        |  8 ++++++++
+ sound/soc/codecs/ssm2518.c        | 13 +++++++++++++
+ sound/soc/codecs/ssm2602.c        | 13 +++++++++++++
+ sound/soc/codecs/ssm3515.c        | 10 ++++++++++
+ sound/soc/codecs/ssm4567.c        | 13 +++++++++++++
+ sound/soc/codecs/sta32x.c         |  9 +++++++++
+ sound/soc/codecs/sta350.c         |  9 +++++++++
+ sound/soc/codecs/sta529.c         |  7 +++++++
+ sound/soc/codecs/tas2552.c        | 14 ++++++++++++++
+ sound/soc/codecs/tas2562.c        | 10 ++++++++++
+ sound/soc/codecs/tas2764.c        | 12 ++++++++++++
+ sound/soc/codecs/tas2770.c        | 12 ++++++++++++
+ sound/soc/codecs/tas2780.c        | 10 ++++++++++
+ sound/soc/codecs/tas5086.c        |  7 +++++++
+ sound/soc/codecs/tas571x.c        |  7 +++++++
+ sound/soc/codecs/tas5720.c        |  9 +++++++++
+ sound/soc/codecs/tas6424.c        |  9 +++++++++
+ sound/soc/codecs/tfa9879.c        |  9 +++++++++
+ sound/soc/codecs/tlv320adc3xxx.c  | 14 ++++++++++++++
+ sound/soc/codecs/tlv320adcx140.c  | 12 ++++++++++++
+ sound/soc/codecs/tlv320aic23.c    |  9 +++++++++
+ sound/soc/codecs/tlv320aic26.c    |  8 ++++++++
+ sound/soc/codecs/tlv320aic31xx.c  | 11 +++++++++++
+ sound/soc/codecs/tlv320aic32x4.c  |  8 ++++++++
+ sound/soc/codecs/tlv320aic3x.c    | 14 ++++++++++++++
+ sound/soc/codecs/tlv320dac33.c    |  8 ++++++++
+ sound/soc/codecs/tscs454.c        | 15 +++++++++++++++
+ sound/soc/codecs/twl4030.c        | 12 ++++++++++++
+ sound/soc/codecs/uda1334.c        |  6 ++++++
+ sound/soc/codecs/uda1342.c        |  7 +++++++
+ sound/soc/codecs/uda1380.c        | 11 +++++++++++
+ sound/soc/codecs/wm2200.c         | 10 ++++++++++
+ sound/soc/codecs/wm5100.c         | 10 ++++++++++
+ sound/soc/codecs/wm8350.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8400.c         |  9 +++++++++
+ sound/soc/codecs/wm8510.c         | 12 ++++++++++++
+ sound/soc/codecs/wm8523.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8524.c         |  6 ++++++
+ sound/soc/codecs/wm8580.c         | 15 +++++++++++++++
+ sound/soc/codecs/wm8711.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8728.c         |  9 +++++++++
+ sound/soc/codecs/wm8731.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8737.c         | 11 +++++++++++
+ sound/soc/codecs/wm8741.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8750.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8753.c         | 20 ++++++++++++++++++++
+ sound/soc/codecs/wm8770.c         | 11 +++++++++++
+ sound/soc/codecs/wm8776.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8804.c         | 15 ++++++++++++++-
+ sound/soc/codecs/wm8900.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm8903.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm8904.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm8940.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8955.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm8960.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8961.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm8962.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8971.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8974.c         | 12 ++++++++++++
+ sound/soc/codecs/wm8978.c         | 12 ++++++++++++
+ sound/soc/codecs/wm8983.c         | 12 ++++++++++++
+ sound/soc/codecs/wm8985.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm8988.c         | 13 +++++++++++++
+ sound/soc/codecs/wm8990.c         |  9 +++++++++
+ sound/soc/codecs/wm8991.c         |  9 +++++++++
+ sound/soc/codecs/wm8993.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm8994.c         | 20 ++++++++++++++++++++
+ sound/soc/codecs/wm8995.c         | 20 ++++++++++++++++++++
+ sound/soc/codecs/wm8996.c         | 12 ++++++++++++
+ sound/soc/codecs/wm9081.c         | 18 ++++++++++++++++++
+ sound/soc/codecs/wm9713.c         | 13 +++++++++++++
+ sound/soc/codecs/zl38060.c        |  6 ++++++
+ 202 files changed, 2173 insertions(+), 1 deletion(-)
+
 -- 
-2.55.0
+2.53.0
 
