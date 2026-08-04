@@ -1,149 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5EB1624D5;
-	Tue,  4 Aug 2026 06:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E443F86F8;
+	Tue,  4 Aug 2026 06:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785824437; cv=none; b=vDLtDIQMTAFDZ9t9TOvCU+VOfNUmn4GWGBDrhx2K+RALHuVibnCVpmi1yvnhBa/vefBdcj5iUxw+b5tz8iB1XY6aJr+XDrkLydUst/jd6y61G9OmUd7t0fl8VxgOQvOLls8W3DIr4fX2BvLxfuLKVq8vg8BkyOghq2tEQWXXM1k=
+	t=1785825597; cv=none; b=XcfVbiHJ9FWfiOKlcdt58oh0VjZwGEo6c2VoREb9HicaOTi0ihB4PJlOb4aXJvFx9HBX8E7erpIpYOnO5TJ0QABipxs8+Sy5j374zEAKC9EOZsqz+TeNFLCTQ3AFioqSADL2eTSnYlpYbD1ntldpG160CH0ExhRbaxZifDPaybU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785824437; c=relaxed/simple;
-	bh=ZzeAKODnW8IOwyoDWov5sR4aYq573MA0RgeySpICalc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KNoA7DGX7KNapRb9b4N5PptdXV3JIU9bxrbWccXrgQfi8r/mx5UUdWgyNY0rb6ejYn8Zya71moEj2wuupoheTG2cLBZWMo2Rox/zDGLwBPVJLlT1QsSXdaY9cFPQ/h/iyeE/hkYZfF7LkIY0kEnKfYsCQ6w7udGmIpTMRZpNJ9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mx8ObDqD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785825597; c=relaxed/simple;
+	bh=8YPwB/ilrgq2Fo4ZejWnAQgW0JiHVrFzi0thZ417Ilk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 In-Reply-To:References; b=Qd/Zbui1Aq7lDznr3UMJAcUgoYEtePK4I+EwvvZ9JUtCMTCmfrRA8ohjfAMM3nwqnkOkTfu9ZXgC3088r3Ihe4S/VbBJ7q4OAjxClmydKg93M/Xcn1MSgluQL29knoCqzQJ1yv0Oz2fyQlkT7nhLfJBtJKPMEozbszhPbeBXmcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=sYvhd31T; arc=none smtp.client-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mx8ObDqD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A41E1F000E9;
-	Tue,  4 Aug 2026 06:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785824436;
-	bh=pFKC3geRueQvqrrHFSkmXufOJ4DirhefGSjUrtFWLZc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mx8ObDqDku2JvIJdoEFcjeQW5NfytXsc4q2v5e1MTOyRE2SBS6AYq4ehyPkLFI9fc
-	 RDLMt7o12NpIIcf4xeLnZB+mTOKSVkR0Tc7730Ih/a8Z2qTaUAXUXdW3uZLquK5D6I
-	 GX5r/dxvisF2Bbn3xK+/Z+XWMYd+Ct3Xw7eSRu4J13YXG3HU2Dv/buuxEc7SCCFxi1
-	 Cz0O3QnSXk/F3+e2uc4TMGJ9sTtQnBW1DYgh1cVduDLxG2tg7vUpiykunR8Z4VTava
-	 4ulCpEua1v5YMkN1sZAjI0miywj109GjH58aLgqgytHVaxO/XrsOG7PQvF4aMLj5YE
-	 b+5IlR5hQAGZA==
-Message-ID: <8c5f0e53-2515-4744-ac6a-a4c94f2ae2b8@kernel.org>
-Date: Tue, 4 Aug 2026 08:20:29 +0200
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="sYvhd31T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1785825589;
+	bh=LTq95m4NZXUv56aybCVzoaczk2vxOrA0Jv2yXEWtSSY=;
+	h=Mime-Version:Date:Message-Id:Subject:From:To;
+	b=sYvhd31TgYnMKQJpLLUlA+1VccY8F5ejrRGrvvOfPB58K69dgsC9VfqYNs//E18Eb
+	 zkOFaqrqucpCHyM+28Q9PS309oA854/Jj2lUiCtIyQeSendw1FDVgf1QtlAghHf4Zb
+	 rz7MrfBvrBXxEUmaoLfV4639dZb5kUiBONTn/82o=
+X-QQ-mid: esmtpsz20t1785825583t9654d158
+X-QQ-Originating-IP: mRnntLrRUGnKaEWnui5APgcJXpIUBJXfl5KWk4O1viY=
+Received: from = ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 04 Aug 2026 14:39:41 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 16990820903706416116
+EX-QQ-RecipientCnt: 14
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: renesas,r9a09g047-sound: Document
- audio_clkout clock-frequency
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
- biju.das.jz@bp.renesas.com, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- John Madieu <john.madieu.xa@bp.renesas.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260803132828.3249424-1-tommaso.merciai.xr@bp.renesas.com>
- <20260803132828.3249424-2-tommaso.merciai.xr@bp.renesas.com>
- <44c150f6-b04e-4515-ba71-63780c56c38d@kernel.org>
- <anDNtrL-eL6VUD94@tom-desktop>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <anDNtrL-eL6VUD94@tom-desktop>
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=61ecdfd0fe19057f00ac6f6f76c3e71ea0f2054d2589209ef8ab808b217a;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Mon, 03 Aug 2026 23:39:39 -0700
+Message-Id: <DKFYC1MGUCF0.1AQF42KLZZ0XL@linux.spacemit.com>
+Cc: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>, "Goko Mell"
+ <goku.sonxin626@gmail.com>, "Jinmei Wei" <weijinmei@linux.spacemit.com>,
+ "Kuninori Morimoto" <kuninori.morimoto.gx@renesas.com>,
+ <linux-riscv@lists.infradead.org>, <spacemit@lists.linux.dev>,
+ <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: spacemit: Remove redundant DAI field
+ initialization
+From: "Troy Mitchell" <troy.mitchell@linux.spacemit.com>
+To: "Bui Duc Phuc" <phucduc.bui@gmail.com>, "Yixun Lan" <dlan@kernel.org>,
+ "Takashi Iwai" <tiwai@suse.com>, "Mark Brown" <broonie@kernel.org>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Liam Girdwood" <lgirdwood@gmail.com>
+In-Reply-To: <20260804043036.22065-1-phucduc.bui@gmail.com>
+References: <20260804043036.22065-1-phucduc.bui@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NMergOTTAZKxyd9cDLCRVVofEru43iwjl5BWjZLTXuXpLLKLQjCXNELu
+	UscLO41BS0vwZeyvhb9zmZRSTdDvPLIcOyUnOto9arA3zsGCrxB0DBNpubkCe5T2ziMczN4
+	awD2sl1Otolmw3Vfg0w7VFNy3nzUdZ6yfBweu0WiG6Dlkujo/WQXqK+gqQQTU7eXM/1emPe
+	dVpO8hjWsza3R6bHXnTWADVWfwzESmw2IQpLDFb2jAh8qYuEIZv1D6mmHn2gfGBHl7X+HLn
+	5e5Dmmc3vS/woiQANysw1LPrVlAoonFyQsr26srwkbcwz9opD8MoG6KN68Os7LqoMKY2GqW
+	kUng32mjymgCvJWsxPC43aoH+xrcJPx3tEAGSzuzd6Ay5+qGdwTjDCQLuvGvDaKEzyQ0LWR
+	Ncyam0EMlFIJEgrlNc7WHH9AtzfbVoAwpTNzw+xbQ0ERIsMr4iWVKTdY99QyG5YvFvtCDyH
+	JlHixvPHUNnPjW+9bmzVAYTsUll4LNsEmUl++3a/KiNsTxJXLa17egsmAsnq6oO9ncYGMlE
+	Uh5Tp8vZPKmK5LF8J7jcCYVCskuoxbweauryZ4Na8XFjfere/1qpWm9hn8n4eTeBAcC49cO
+	uWtCvsL9LgL1kfhb7cwYHXnmE9xNWa0pmPjKOkLqIPbLOJMbijlQiP9z0wPaSr1s7iiqq1d
+	+B+rtxYvacqFrPhsuhiHNQYH+TOjL6pkwPASTIO3yIjSL6QNz5jpSQmqZEe1MGEwepu2+Mz
+	9Ua7RmS+UNRhk+PLnvqufNjb8FyLsvpNgRl5e9Z1tFy96iu7NX5oWbta8mFtd9dBmVmLwLD
+	BikL9pJ/pnLydnpbtiTsuGCNHYMbVZu8yFteK8d/aS5iTQPlvOODQ6dgH2HRnTdaiTiYRss
+	y8UI2zyqPL+gpYsh+oeLnpLOJx9HXtlHVWt0uUW8w33SqFQxR+tSQB7XRF6OW2QNmoaULoc
+	Muxx+kQujTP1DMCctOgeA607E2F79Eq/2HyTcHCWnKTVZnXNpgLZzz+1kK9synNRNXHi/6Z
+	5p2L29P5Cgc+FviDpvcQgcZxmsEKl60/XBk9HYU7AndjlzZfPcjILyi2zJBNFqK7tPOfSxq
+	0FsAO5ZXMyS0Y9bMBC3O9+cLKA+i+rI4I9ZtXKlvnUQ
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-QQ-RECHKSPAM: 0
+
+--61ecdfd0fe19057f00ac6f6f76c3e71ea0f2054d2589209ef8ab808b217a
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 03/08/2026 19:19, Tommaso Merciai wrote:
-> Hi Krzysztof,
-> Thanks for your review.
-> 
-> On Mon, Aug 03, 2026 at 03:32:48PM +0200, Krzysztof Kozlowski wrote:
->> On 03/08/2026 15:28, Tommaso Merciai wrote:
->>> r9a09g047e57-smarc.dts set clock-frequency for the audio_clkout output,
->>> but the binding never declared it, so dtbs_check fails:
->>>
->>>   sound@13c00000 (renesas,r9a09g047-sound): Unevaluated properties
->>>   are not allowed ('clock-frequency' was unexpected)
->>
->> Maybe the DTS is wrong, because property was rejected? Did you check
->> this? You cannot document ABI post-factum if it was rejected.
->>
->>
->>>
->>> clock-cells is fixed to 0, so only a single audio_clkout applies.
->>>
->>> Fixes: a86fd3c20218 ("ASoC: dt-bindings: sound: Add DT binding for RZ/G3E sound")
->>> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
->>> ---
->>>  .../devicetree/bindings/sound/renesas,r9a09g047-sound.yaml     | 3 +++
->>>  1 file changed, 3 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
->>> index d7fa16554698..6e2b2c93b4b7 100644
->>> --- a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
->>> +++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
->>> @@ -42,6 +42,9 @@ properties:
->>>    "#clock-cells":
->>>      const: 0
->>>  
->>> +  clock-frequency:
->>> +    description: for audio_clkout
->>
->> Incomplete, missing type/ref, constraints.
-> 
-> renesas,r9a09g047-sound is handled by sound/soc/renesas/rcar/core.c [1],
-> and "clock-frequency" is read by rsnd_adg_get_clkout() [2]. The same
-> property is already documented for R-Car in
-> Documentation/devicetree/bindings/sound/renesas,rsnd.yaml [3].
+> spacemit_i2s_init_dai() already initializes the playback and capture
+> fields after duplicating the static DAI template with devm_kmemdup().
+> Remove the duplicated initializers from the static template and keep
+> all field initialization in spacemit_i2s_init_dai().
 
-But was the property rejected? I am repeating myself...
+The code change is functionally correct, but the commit message currently
+describes it only as removing redundant initialization. It also changes
+which stream directions ASoC considers valid.
 
-Best regards,
-Krzysztof
+> @@ -354,22 +354,6 @@ static const struct snd_soc_dai_ops spacemit_i2s_dai=
+_ops =3D {
+> =20
+>  static struct snd_soc_dai_driver spacemit_i2s_dai =3D {
+>  	.ops =3D &spacemit_i2s_dai_ops,
+> -	.playback =3D {
+> -		.channels_min =3D 1,
+> -		.channels_max =3D 2,
+> -		.rates =3D SPACEMIT_PCM_RATES,
+> -		.rate_min =3D SNDRV_PCM_RATE_8000,
+> -		.rate_max =3D SNDRV_PCM_RATE_48000,
+> -		.formats =3D SPACEMIT_PCM_FORMATS,
+> -	},
+> -	.capture =3D {
+> -		.channels_min =3D 1,
+> -		.channels_max =3D 2,
+> -		.rates =3D SPACEMIT_PCM_RATES,
+> -		.rate_min =3D SNDRV_PCM_RATE_8000,
+> -		.rate_max =3D SNDRV_PCM_RATE_48000,
+> -		.formats =3D SPACEMIT_PCM_FORMATS,
+> -	},
+>  	.symmetric_rate =3D 1,
+>  };
+
+With the current static initialization, channels_min is nonzero for both
+directions before dma-names is examined. snd_soc_dai_stream_valid()
+therefore considers capture valid even when the device only provides a
+"tx" DMA channel, which is permitted by the binding. The DMAengine PCM
+code may then create a capture substream without an RX DMA channel and
+fail during PCM creation.
+
+> [...]
+>
+> @@ -399,6 +383,8 @@ static int spacemit_i2s_init_dai(struct spacemit_i2s_=
+dev *i2s,
+>  		dai->playback.channels_min =3D 1;
+>  		dai->playback.channels_max =3D 2;
+>  		dai->playback.rates =3D SPACEMIT_PCM_RATES;
+> +		dai->playback.rate_min =3D SNDRV_PCM_RATE_8000;
+> +		dai->playback.rate_max =3D SNDRV_PCM_RATE_48000;
+>  		dai->playback.formats =3D SPACEMIT_PCM_FORMATS;
+> =20
+>  		i2s->playback_dma_data.addr_width =3D DMA_SLAVE_BUSWIDTH_2_BYTES;
+>
+> [...]
+>
+> @@ -411,6 +397,8 @@ static int spacemit_i2s_init_dai(struct spacemit_i2s_=
+dev *i2s,
+>  		dai->capture.channels_min =3D 1;
+>  		dai->capture.channels_max =3D 2;
+>  		dai->capture.rates =3D SPACEMIT_PCM_RATES;
+> +		dai->capture.rate_min =3D SNDRV_PCM_RATE_8000;
+> +		dai->capture.rate_max =3D SNDRV_PCM_RATE_48000;
+>  		dai->capture.formats =3D SPACEMIT_PCM_FORMATS;
+> =20
+>  		i2s->capture_dma_data.addr_width =3D DMA_SLAVE_BUSWIDTH_2_BYTES;
+
+Initializing these fields conditionally preserves the existing
+capabilities for devices with both "tx" and "rx" DMA channels, while
+correctly disabling directions without a corresponding DMA channel. The
+added rate_min and rate_max assignments also preserve the existing rate
+constraints.
+
+Please update the subject and commit message to describe this functional
+fix rather than only the removal of redundant initialization. A possible
+subject is:
+
+  ASoC: spacemit: advertise only DMA-backed DAI streams
+
+Since the issue was introduced with the original driver, please also add:
+
+  Fixes: fce217449075 ("ASoC: spacemit: add i2s support for K1 SoC")
+
+                                            - Troy
+
+--61ecdfd0fe19057f00ac6f6f76c3e71ea0f2054d2589209ef8ab808b217a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCanGJKw0caUB0cm95LXku
+b3JnAAoJEJgJ74D5MzQvrYMBAMbOjR8cB3gZnCCwoFuogtbhkkXZKuHUVOalvNnO
+xLXaAP9cyjXtTVuRiipuj1Wc5jAjZomGvTqPv1ctpbtf1xqFBA==
+=BzH6
+-----END PGP SIGNATURE-----
+
+--61ecdfd0fe19057f00ac6f6f76c3e71ea0f2054d2589209ef8ab808b217a--
