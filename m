@@ -1,42 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001DA41A900;
-	Wed,  5 Aug 2026 10:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0DE3E5EFE
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 10:23:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785925429; cv=none; b=IHnKOcPHiRpLRhb22eCJJ1aPv97ns0X74NGy6jUt5Mvk4Ev8YzvmZDQUW7sZ1fnLQf3Oj0Rf7g69W3uOqOzODAOFFlGnLVLOpJrS2vWHp32Iv4oqRyfwt+JP3LMi4jFNU9BlWQO4qqJ6kjLthNcB2eIPBI5k7ZmpDMffaHM1o1Q=
+	t=1785925431; cv=none; b=XraRYDEqBicTeuptPIR39xBFgevbvBeBllSzjGD1k/jDiAy9dQ0JmwrzBLnmIdU1rIkDp+8IM/OVw0df2RZoeCPqJXpXeUWXSG3/RK4sVtOiTxNL5A/f/eKUfgYb2tLSsJ8VG+Mfwv8X63jdsko8GNxyvxsiIUySq7wr6BAVTBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785925429; c=relaxed/simple;
-	bh=iyP35T+dhY/KGk9oEUROcXnRXuRKFAxv49U7VP1vmdc=;
+	s=arc-20240116; t=1785925431; c=relaxed/simple;
+	bh=KvcD8qlhnQ3Kv1rKTON5cPvnwd1a51byGlQrHTDGmKU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d1h6IKgsDYk62Hym34XoPI9a5pJFGHbDeZWAfjIn6P0EROsMNBZYlTuir460B/np8Hu6IGgtR7bJFAv2/QD2aPYE9j7CfkFU3fr2k4gPl4X3VbBoQArLFUdNGwBEyMakCi8AapCdE6zUrHEZ88v1KkriLMiX9v4hPcF9ZQEBGww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fd8mcH8r; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=YF76jOk9SPV0P47TkBlPtVhJNxLDV3Xyc1GMf9g1LRxHQi02ezh1gz5+qY9KlsFHpWduWir7E0isEAQ+mWeHZVwMj2HB5ge3dGKbj4t6AUB3u0aWwjFABingyBJ5Ql8y6PNZnITE3RiowRaMeP6cyFy/B+MbAk3djp6vTZUJtjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLb/bmP9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fd8mcH8r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB8021F000E9;
-	Wed,  5 Aug 2026 10:23:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLb/bmP9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 045AD1F00A3A;
+	Wed,  5 Aug 2026 10:23:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785925425;
-	bh=lHu7nUoKAcszBoQg8ltjHjQ4D9lctd02DJ/hqPfKriU=;
+	s=k20260515; t=1785925429;
+	bh=KfQSM0yh2drzhBERl12xBQZym1QIcQR3eg6Nn/wPQwE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fd8mcH8r8AddVPKSaH4YxveKpsxOR8dGJEZ1s10vErEvIo+8BUkqJP+n6EiRlMevI
-	 2XmBI+AGKZznow85/1ssXA1mhdU2czUsVRAKN5EgO+mFSWSYSEA4gh+vEySkCL7kb+
-	 c1hecK8xpbnsvlIZvX5RRKiAm7snJsV3LbFnkLD5iTmecv4d4z049diWkcoz9KulCs
-	 Ai5Xt39JnTGUB0QtrM+DHnNIU7YwPkpR66YhvQS3sQhng0NhJ/HXYxlmt2LI17cygP
-	 oOiN4tCk4J5dWE0smaumZccTKggjHgWy/+pG/xbwsaORzDaeA/4EtPqNpxzaoktNSy
-	 AWKxy3980V6aw==
+	b=NLb/bmP9xDXct5xUjKC4yvDJdRc+tWA+YJcQQBP2S9/eCtTlBKeTvsZQHjeZxR9yL
+	 W4G0OHgRqHqwzcICjTm5DnhIkcfkjUmp6n7JCbbST9jwjiWI7gdZLxKmPbo5qGXKYm
+	 2Db6KNJ5Me83ZxZ/XkqOE1kOWUVZGu7SYJ38T6QA7JmfhqWUMKJgJ54S2IxJnWnhim
+	 /AZdQs9fIyb6YV0WUPUJ8PMuQ2kFoLPlkq1Ig+EUVd+dd46bW1lhErHL4nEqndqoW1
+	 jVODA+bgsDY9hJ/ocL8AMR8b06MWg6ZQUYAJkBc4KZ6GbqeeiFqQe3Ru/ArS2+wn4Q
+	 ftoCJa0TtTQpw==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Michal Simek <michal.simek@amd.com>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260803231823.95147-1-rosenp@gmail.com>
-References: <20260803231823.95147-1-rosenp@gmail.com>
-Subject: Re: [PATCH] ASoC: xilinx: replace OF with device handlers
-Message-Id: <178587305577.111355.14781935298630433831.b4-ty@b4>
-Date: Tue, 04 Aug 2026 20:50:55 +0100
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: tiwai@suse.de, 13916275206@139.com, perex@perex.cz, lgirdwood@gmail.com, 
+ linux-sound@vger.kernel.org, baojun.xu@ti.com, k-lu@ti.com
+In-Reply-To: <20260804111433.1148-1-shenghao-ding@ti.com>
+References: <20260804111433.1148-1-shenghao-ding@ti.com>
+Subject: Re: [PATCH v2] ASoC: tas2781: add capture_profile_id field and
+ update the tuning_switch function
+Message-Id: <178587174123.111355.17874416357790440059.b4-ty@b4>
+Date: Tue, 04 Aug 2026 20:29:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,8 +46,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.16-dev
 
-On Mon, 03 Aug 2026 16:18:23 -0700, Rosen Penev wrote:
-> ASoC: xilinx: replace OF with device handlers
+On Tue, 04 Aug 2026 19:14:33 +0800, Shenghao Ding wrote:
+> ASoC: tas2781: add capture_profile_id field and update the tuning_switch function
 
 Applied to
 
@@ -56,8 +55,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: xilinx: replace OF with device handlers
-      https://git.kernel.org/broonie/sound/c/99ddfbba9e71
+[1/1] ASoC: tas2781: add capture_profile_id field and update the tuning_switch function
+      https://git.kernel.org/broonie/sound/c/431c15610d01
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
