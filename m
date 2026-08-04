@@ -1,79 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-172.mimecast.com (us-smtp-delivery-172.mimecast.com [170.10.129.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A6E3F8881
-	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 17:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF622495522
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 17:42:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785865259; cv=none; b=CG5NXXOhYy/5SslKie8vus4Oi8ieJ/ilthRJ+qKqifJY9syBRy7RTgTSITc2SO1sIOEqwvemnU6ltLjME56RW+AWvLTAeeWF8Amoq7oeGEeK9FYfmoPl4O5DKsuYgKqJqUdm7khUHVayIrBWhs4ZiJGl1NnPx1XVxAxn/ruJd4E=
+	t=1785865345; cv=none; b=r5PP2UCXfKdpu1HV4Dyv9N1HwFoWJ2GSLEYvbe79t++P/ZeJO3rFex9HmvAfzA0++Ms4E40lnHZAAOym8WPvpHncRootsXjr6i1w3xNXRjT6wgZwplJd2byXAKQEIkMCTdBaDkk/Vi36Y5XhOrZHPqGwO4hYQSOYnuX/txo/m4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785865259; c=relaxed/simple;
-	bh=EMp959vjWRqwJcZWymBsZxxa5xFeEMA69r7m/5M1DrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jox5GyLnkRT7dSW0beG0qSGMEyB7NJkxY1MZ2YU0HRXuZ+qcmhkPVSJuFIl3hd6xkSygn9asGWsr4S4CE9ZAKsgeRD0Ku3zBbNcSGIA65pEHOprJWTygeJXJGhzjOuftwQ5/anwBgAsOF/1/XMm3Y/C9Ylz20X0mOWXKco4R5zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpv8kd78; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785865345; c=relaxed/simple;
+	bh=x0jPiCfPSqlgZnS4eBVx+A1nrWrzJXpm1zta4007ut4=;
+	h=MIME-Version:Date:Message-ID:CC:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=N8Ld2QfgATDCUsSPycjYAFlwnk++5Ues9jVdn/IovnRL74alkDtgIe2Ri87EnqMKDRK3XGcDPgfNHlSOiAT+gkNYRAg/Ttft8zIFvcuVwJDxZLh7EFnXzTtu1T9qcU1oWgpok5a6oF6B2LjaXASvJyjFC8BOV73PFFXk+PV4ZJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com; spf=pass smtp.mailfrom=valvesoftware.com; dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b=T/XwyAeW; arc=none smtp.client-ip=170.10.129.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=valvesoftware.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valvesoftware.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpv8kd78"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12DBA1F000E9;
-	Tue,  4 Aug 2026 17:40:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785865257;
-	bh=EMp959vjWRqwJcZWymBsZxxa5xFeEMA69r7m/5M1DrI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bpv8kd784m9wyX4ATaQP8GrU/DIJbmseOIasfyYVzI5grcFHwBwLy+wqzC9IkUKK3
-	 hBDGSxG1j2lgeSJEYsEbXjH0F9QJZQu1iPQSRyJyCo4UN2r3guNLNwya3ycLENBgIi
-	 GnJeqicjh5NIF27W7EKApEh9K3jBOPRTwwX7mXLFtw8LOHLZ5Uy6L8rYqECn/m74yd
-	 dOU7h4ET7x4VkUg5el0yEoyzzKQ1zgDHlbgLwab6VmYwum0Zaf7bNEUuGMfmUxZYZO
-	 QDLq63/0+z5SVMJA34RHu7gPzBjKQQ026/P1tROKN5KeYtyVeCEzzTA9tbSozQqvDx
-	 O12u4JpiLfpxg==
-Date: Tue, 4 Aug 2026 18:40:53 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>,
-	=?iso-8859-1?Q?=22Uwe_Kleine-K=F6nig_=28The_Capable_Hub=29=22?= <u.kleine-koenig@baylibre.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 43/44] ASoC: codecs: wm*: use .auto_selectable_formats
-Message-ID: <5a891fd0-7ce8-40be-9317-8bcfbd5c1e5c@sirena.org.uk>
-References: <87cxvyyazi.wl-kuninori.morimoto.gx@renesas.com>
- <87mrv2vhnq.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (1024-bit key) header.d=valvesoftware.com header.i=@valvesoftware.com header.b="T/XwyAeW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valvesoftware.com;
+	s=mc20150811; t=1785865341;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X1+f1SRXwQR+hV/xRmU2nSPocNbZYNyw3TwCfXkirFc=;
+	b=T/XwyAeW93o+wAEYLTXCYTrzOi7m5fwvHuK6dPKfjAeWxO7O3P1jmJ7mbEV9BlZymPkC6y
+	jzreIBYac+OjMVb/je4QDPg0blfKWdtwYs2dGRB6oC1xbBrSXYZ5074gwpDf9kKIMvg0BV
+	X4albjryaYMv3WHplandE1ysZDtEMqw=
+Received: from smtp-01-tuk3.valvesoftware.com
+ (smtp-01-tuk3.valvesoftware.com [208.64.203.181]) by relay.mimecast.com
+ with ESMTP with STARTTLS (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384)
+ id us-mta-569-ex-z62EUOy6pKVcUyVdddw-1; Tue, 04 Aug 2026 13:42:19 -0400
+X-MC-Unique: ex-z62EUOy6pKVcUyVdddw-1
+X-Mimecast-MFC-AGG-ID: ex-z62EUOy6pKVcUyVdddw_1785865338
+Received: from antispam.valve.org ([172.16.1.107])
+	by smtp-01-tuk3.valvesoftware.com with esmtp (Exim 4.97)
+	(envelope-from <arunr@valvesoftware.com>)
+	id 1wrJ9e-0000000FWWa-18Dc;
+	Tue, 04 Aug 2026 10:42:18 -0700
+Received: from antispam.valve.org (127.0.0.1) id he8i7k0171sd; Tue, 4 Aug 2026 10:42:18 -0700 (envelope-from <arunr@valvesoftware.com>)
+Received: from mail2.valvemail.org ([172.16.144.23])
+	by antispam.valve.org ([172.16.1.107]) (SonicWall 10.0.15.7233)
+	with ESMTP id o202608041742180003750-5; Tue, 04 Aug 2026 10:42:18 -0700
+Received: from localhost (172.18.17.18) by mail2.valvemail.org (172.16.144.23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 4 Aug
+ 2026 10:42:17 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="basWlAYacBYPvOFk"
-Content-Disposition: inline
-In-Reply-To: <87mrv2vhnq.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: Biz is better.
+Date: Tue, 4 Aug 2026 10:42:17 -0700
+Message-ID: <DKGCFDZL0ZPJ.WU7CLZ8ZJKOI@valvesoftware.com>
+CC: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Arun
+ Raghavan" <arun@arunraghavan.net>
+Subject: Re: [External Mail] Re: [PATCH] ALSA: hda/core: Log stream DMA
+ errors on interrupt
+From: Arun Raghavan <arunr@valvesoftware.com>
+To: Takashi Iwai <tiwai@suse.de>, Arun Raghavan <arunr@valvesoftware.com>
+X-Mailer: aerc 0.21.0
+References: <20260803-master-v1-1-9bcedb736978@valvesoftware.com>
+ <87tspai11y.wl-tiwai@suse.de>
+In-Reply-To: <87tspai11y.wl-tiwai@suse.de>
+X-ClientProxiedBy: mail2.valvemail.org (172.16.144.23) To mail2.valvemail.org
+ (172.16.144.23)
+X-Mlf-DSE-Version: 7580
+X-Mlf-Rules-Version: s20260801042314; ds20230628172248;
+	di20260728152631; ri20160318003319; fs20260804163420
+X-Mlf-Smartnet-Version: 20210917223710
+X-Mlf-Envelope-From: arunr@valvesoftware.com
+X-Mlf-Version: 10.0.15.7233
+X-Mlf-License: BSV_C_AP_T_R
+X-Mlf-UniqueId: o202608041742180003750
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: cKxMDhtzTjWFFawRODVzGOlpVXBSG3BX1H2vpVSE7gM_1785865338
+X-Mimecast-Originator: valvesoftware.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
+On Tue Aug 4, 2026 at 4:21 AM PDT, Takashi Iwai wrote:
+> On Tue, 04 Aug 2026 00:07:52 +0200,
+> Arun Raghavan wrote:
+>>=20
+>> The stream descriptor status register reports FIFO and descriptor
+>> errors, but these are currently cleared silently along with the rest
+>> of the interrupt status. Log them, rate-limited, so DMA problems are
+>> visible instead of only manifesting as audible glitches.
+>>=20
+>> Observed on some AMD GPU HDMI audio controllers under specific low power
+>> circumstances.
+>>=20
+>> Signed-off-by: Arun Raghavan <arunr@valvesoftware.com>
+>> Cc: Arun Raghavan <arun@arunraghavan.net>
+>
+> Applied now to for-next branch.
+>
+> It's interesting at which situation you get the error bit and which
+> one.  If it can be used *reliably* for catching a streaming error, the
+> driver could notify XRUN or error appropriately, too.
 
---basWlAYacBYPvOFk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Ah, I should have mentioned that in the commit message. The error bit
+that was signalled was SD_INT_FIFO_ERR -- the status byte was read as
+(SD_STS_FIFO_READY | SD_INT_FIFO_ERR).
 
-On Tue, Aug 04, 2026 at 12:44:09AM +0000, Kuninori Morimoto wrote:
-> We can use .auto_selectable_formats. Let's adds it.
+We are still working on pinning down the precise cause in this case, but
+it seems to be related to issues in some specific setups during lower
+frequency memory clock transitions. The error manifests as a short
+dropout caused by what appears to be a stall or missed transfer. The
+frequency of dropouts varies from several per minute to one every few
+minutes.
 
-wm8580, wm8962 and wm8974 don't allow all combinations of frame type and
-clock inversions so have the same issue as the Apple controller.
+In such a case, the existence of XRUNs might be good to know further up
+the stack, though it isn't clear that there is much that userspace can
+autonomously do to mitigate the it.
 
---basWlAYacBYPvOFk
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers,
+Arun
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpyJCQACgkQJNaLcl1U
-h9AdzAf/YPDHft/z89XL+RXI5I0rk76t7EJ9zKOrmbeK+j3uBXZVy8TOE7KX75kk
-xqULVqeCK7WGHkX1qJRDd8ZrdS65la3fcHCaOe5XOTEywaAIz/Rxrjzp+v9SwCON
-8iO6BS2rntvdKdvCTRafTdVD/0+qZ11K8WIYty3Bo/+vi667EtEdM8abDK++tlEm
-tNZWEhedY/sFlw97bbdS3eS/Ib4Y4sWUYKm2PN8stomMxckUUaQs4X8PUN/AM48a
-R04K59qNVT3Q4hSXo/oHjo7WWU+M9P8Or6lSmXChR1KmZF0dB231ESy1cx53mfI7
-+6qjftp1JgA4eYVcQCxBhHcSjz/e/A==
-=2MR4
------END PGP SIGNATURE-----
-
---basWlAYacBYPvOFk--
