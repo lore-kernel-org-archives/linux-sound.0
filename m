@@ -1,36 +1,36 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C51442B3A;
-	Tue,  4 Aug 2026 09:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FFC376A08;
+	Tue,  4 Aug 2026 09:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785837532; cv=none; b=dUk2XeyzN1k5mRrmrfg3wCOf3sIgpKTLsryJ+8pcDtDa20z2Li1xP0KI3+BDd0LFqEqA1a/YlQhaVC4438brr3W5Xhn73rlVCfLA8HYzIsAnBEjAgTY+kPIJclnxRBlts0gfXHZ5eA1uqoMHEPnJ3KZN1LaxpCtUkhh23uPSTcw=
+	t=1785837594; cv=none; b=gKN0ZOZBOhJC0DhmShsEcoilNctI0P8sW/uJ5YSYbQG/gow4jBIgmfoT/m8mvrC1twoBOnsm/0+R4v4H+Ofo0XsSekmdY8eLj2ZaNICI/48vSCDlgjjxbMx3l7sAQxP90pdpSksXvhLGW2Id8NAAUZch6dEtd6aFgpZ9zjnPK5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785837532; c=relaxed/simple;
-	bh=M+TmsBRqsaotdKV4MNUk+HSU3vtmsjAJ6Gh3p9iXGUE=;
+	s=arc-20240116; t=1785837594; c=relaxed/simple;
+	bh=I4nKQIqakEl4AcAWcfhShCFtxF29eBoBD9yQFCgcxqY=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Hb1vdIVbsaRV/XUnJwz1qGfz/QK3kp3asdei3FEidNZ0e5duE1kLcD83pah6EGk8bLXRsUS8j/Dzi9+sI8MiUknE77B9V6lHCQw4Zj6x95XnJOKNMHXTFbsVnfrubgqfAOZCBx3/e2MbOTWhJlyb3aDDWwYlM2BxZLftA8mIQRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=TBU2k3NU; arc=none smtp.client-ip=54.254.200.128
+	 References:In-Reply-To; b=XM3LnK2t7KGXPawQLFsZy5VksqgBqKWTePrcEDxMhditrMy+nlrt7qohbS/y10AmK65WdkFjY1sWy2cjaIeXlPe16oHicvgKN2t/0u6UhQ6Z9tYuFmRt0v+LkAp9Q3jr8KAre7vTi+vMnr/BSoLczpXV8IbVRlyHqh0SVOu9hNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=mlWF6xmh; arc=none smtp.client-ip=54.204.34.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="TBU2k3NU"
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="mlWF6xmh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
-	s=mxsw2412; t=1785837518;
-	bh=eASxnIu27cM4kSePkHRjBYViS2jgTwYuVb5LZLVqwAk=;
+	s=mxsw2412; t=1785837585;
+	bh=Ysd0un+5gtGIkkj7N0nhvFD98XFxC6uJDNPImhDLpDg=;
 	h=Mime-Version:Date:Message-Id:Subject:From:To;
-	b=TBU2k3NUgLy+eyesQmCKcnSBN/aG1Vw+5af0C4EbvVWqvsPNejbYZMK+J6khJ31xy
-	 nlEFNPx1rWf8phhGEy+UjmWqPnGOy0YDjTwrgd5dMos2cg20y6O0DHY6zrxqPuVlbd
-	 yzPwPsFAFCMjspA5xyGB4eQWj5vRdt30qJyEoZYc=
-X-QQ-mid: zesmtpgz8t1785837514tb710e2bc
-X-QQ-Originating-IP: gOdDl/GieSB+p1OcvJg/0pTe9PzCnvv0wn9y3EHVhAc=
+	b=mlWF6xmhnRWukAYagY9PwlryZ3sz/cvKxVAWNKylrBXmq0ojiLAPBgDqGG0mLxRgl
+	 KIVn3y/EODSOuzhzL9iECh1HPK0avKH4FAF5Sazc4efYWjtrgOAl9SQaTwWT5c47OG
+	 HHypbN/IeVvSjopiUvZa70e/yYrNMt6juycRa9u0=
+X-QQ-mid: zesmtpsz6t1785837580t822d7ccb
+X-QQ-Originating-IP: /deDCG4cZbZ/zIhBmDDPRVENV3b+dlp0f/0Nmm7NpCw=
 Received: from = ( [120.237.158.181])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 04 Aug 2026 17:58:32 +0800 (CST)
+	id ; Tue, 04 Aug 2026 17:59:38 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 8218745806127972950
+X-BIZMAIL-ID: 11623012881500782239
 EX-QQ-RecipientCnt: 13
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -39,10 +39,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Type: multipart/signed;
- boundary=8a808a06b4a953b5d20dec0ffee61d2775fd30a9d99a11e1a9dc7451dbff;
+ boundary=0cb53cc854d56efd7aaf92f0490d3586ec96bc93b77b8c725886ac6337f3;
  micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 04 Aug 2026 02:58:30 -0700
-Message-Id: <DKG2KAJX4WFA.O51VPZ9PSCH9@linux.spacemit.com>
+Date: Tue, 04 Aug 2026 02:59:36 -0700
+Message-Id: <DKG2L4V8Q2EU.1W5VODY60D6D7@linux.spacemit.com>
 Cc: "Yixun Lan" <dlan@kernel.org>, "Takashi Iwai" <tiwai@suse.com>, "Mark
  Brown" <broonie@kernel.org>, "Jaroslav Kysela" <perex@perex.cz>, "Liam
  Girdwood" <lgirdwood@gmail.com>, "Goko Mell" <goku.sonxin626@gmail.com>,
@@ -60,28 +60,29 @@ References: <20260804043036.22065-1-phucduc.bui@gmail.com>
 In-Reply-To: <CAABR9nFn0XW3CzAEncVkVKd65yBUEmquxjag6ybf_-NRf6mA8A@mail.gmail.com>
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: OQEfmBmUqqJ6hwUK9SI9hqTOK1GcRfmMaQPuGoQR1Txv1x0Asj6lJ1P5
-	sTTtKjLjzmrMj//ymXPkA8kuPKnkIvVB+rplCkFAYQGmJJhXhVw5zPviDcBU3Tm2btggw/D
-	TyG4bMzYcVnmDct7PnFyHIuloUiNxsCMEmjK5WHp+yrCOSPdskJ6JfKbTG+clIpMra0nkT6
-	CYABtm/w5SdxNYNYRuGyx5GhC7ZOTfeChUajATn8WdsI1Zy8s5CwS5WigSvxaUfidijUdIp
-	S5JMZoSMFIHd3nZGh+Rz9so1YpWCjpRjiny33JjFriX56CjsemRQHrrqoFttRoJhvSOuJ3s
-	mmvLu4qTDf2/Z+pxB9RttgjcmnWInWzP9aiN2ueRUsaK6Vwj0HrY7U6l9N0AWOzST6VWXQw
-	E2cwCCk9LGBZJs2Prd5cLOxhqT1MgNHGPskOdoo10Ku8lGdtZZtfahXpARBZJnev0We/DdS
-	h+NrH8QEYMYQpcNJCsaMBsu8HLh8jg7T0sUyQes3wnlRmuAMP7sVne/Hk9ml6hz8o6Hju7A
-	wzNtR8gM7kolH4G1uT0rdT7I4R7z57AlAaxT60UiCTZqr3I0bbLbG9knSYG7vEFM7EbkqjP
-	0JtPWqecDj/LrUlZaoGfNCqUacUCo90IPqmmd2uQSJPZ79FN16CUdW4cQjc8WuWZaAeZeBX
-	Hb+xo8MAqX+4iPit5iXBdzxAym2j3elgUWMop2C6s28s4w92yKSQtTSrC60/lyoYQ7VlMG6
-	mOwJSAUZaIQ5Ux1qLkfNwo3kG1gbasNQ8r5BAzfFSKpPTk6hJRxE1sJ39IU2hIVpiAHZEej
-	/abAZhAfgF4UUzwiFUCzaAWhiuwTq/m+ZApZ1vGUXlMbXLzIImwkdG8bFg2uCulOy3Fn1Gr
-	5TEQ7pJeP1M6ahyH81dYKAT9Xq83MQhzM/pH9Bg6bjrT7l1AxxvRYnoiprkcUIrJSvHAohu
-	/SHbrsP/205hqbCksherLJB1Ogv2lznDwwEGac4RRXmm51blt4kIg7i4IOHqVipxHTQHrIb
-	kNLUPO7W3EqXqS20lG9wjq6xjBRN4Z7+4ci5grybYrtFW68+roEZBN39fCgwUgynofGpR55
-	xkD4PCYpTYaWOIIi2WGeRA=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+Feedback-ID: zesmtpsz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NfGQECF1EzMaHtIWUW+i4t/cJyKGyMJKsST0FnN6c7I25AP2cXYxpo8X
+	2AYPJXbdzJsH02rXQ98RvXtaOMAylnB9+6HmHNMX+XZI2lOnUEUTR8KK9fpuHOwrd6hjMiw
+	8X5+BPFC8z8oLwBiW6AKoWqeup5S79jkbWitKXf28NidTfliP9vNHkVBhcamD1dBGRjOFTp
+	wMysaHKm+6/y0gu+BhizbcwSyaGJaAQua4Xl1+/+uUX24G/fc03IbE2zqHtjqkYuT/KDcJb
+	NEtDaJzK7FPrvSy03/0IqFaJ9GKWhho56g8CRC+B27GwPDVwHULozQGgmQWn+3pBObyscq7
+	KxWxyPKMDRas3SrZntYAi4Z+nda2L1gFbNe5IUBFPam2Aqh1GnVyZbWntUgt05xMqFW9PDz
+	j5cSHPRnat0GvUWeV83USvAmvcEQ9BVM+EAFb2NYqcCvB2PzRi0L9sgStfQa3/zxLc2+Rgd
+	FKGjFwtRb6X+4V67y1wVRgaAO8ia8D957TYu/Bx/nKfh3y0g+RFKFI12YcpUdcEPMEvhRgT
+	SUqTYxP/E/s6eZ8IBjOlVqNveeIqdqyzCb/TSObTDtir9vS+/Aowz4k3k5RpxTS40Bzjn5a
+	lg4C1YPnGtzGguhnSIuiRJhG9FxyOwtxJaHpFkcRZty9cmRWhVct1V/7ZwfaHWuen2aXHaf
+	gft9ShXthmHtnpNVMd0n1o3RYpkawgyM766RtH+tqsQ1ItNm3aw6jomrJcMMLvkJ9Du0eU1
+	ma2AICoMToOZfcqnc4qju9ADHBw3iahRsWBVd+TxlvOprG0E5Fd6TS7P9Gj72bZRKN2Jj1o
+	+jFUPl0dj2RXw8BKTHSEbsMQyw7EF9p7ciJnVV+6JNYyJeoZsyJ4i/R4Uqd0mrrQaL7usXz
+	7aCqYBz7APxJF/aFA+b//kam4R1i5yfdO9wlRChNVgmc5A8OyIcwm7KLOsztvIU8xLrWMLQ
+	rK0yly1rfd/uc02yekSDCXOiZb4tQyNDSJXSGHDSD1KNFCxwVh2d0JgvsNZ9L7ndf55s0MB
+	r4YaSxZTDWknm5taCcz6RiFOW/xNy3kJrer9MXCY74vzr+Rz3RdoJRJZ5PX33Qrq2c2E1eZ
+	UDAm83XcaTFE+4aBBOejZLQKyUMGpGW+cBR3Hx5Mr+b9PIS0Eq9TMeaa9uwaPSyqkuKLnVf
+	LorHkbTi+AM6g4k=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
 X-QQ-RECHKSPAM: 0
 
---8a808a06b4a953b5d20dec0ffee61d2775fd30a9d99a11e1a9dc7451dbff
+--0cb53cc854d56efd7aaf92f0490d3586ec96bc93b77b8c725886ac6337f3
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 
@@ -117,15 +118,15 @@ direction for a tx-only node.
 
                                             - Troy
 
---8a808a06b4a953b5d20dec0ffee61d2775fd30a9d99a11e1a9dc7451dbff
+--0cb53cc854d56efd7aaf92f0490d3586ec96bc93b77b8c725886ac6337f3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCanG3xg0caUB0cm95LXku
-b3JnAAoJEJgJ74D5MzQv3rsA/2enFw0bQFhdVHzqRfjGAS8XMICv20KQTtx7sWDo
-HgV6AQCJZ2ce17LUExbaXiGqo5RUP6KShzKJeeVv+oVziPH8DQ==
-=AgpX
+iIMEABYKACsWIQSL4Ay2cExaPXAQcU2YCe+A+TM0LwUCanG4CA0caUB0cm95LXku
+b3JnAAoJEJgJ74D5MzQvmhgA/iKim769XKKzBMQSQN0e0WT8cDcERmf6hZVpFc2P
+GucAAQCL7rMgg02LAyIJm55KkoPR7IBfAkfgUjclm5YznSGKCg==
+=QizS
 -----END PGP SIGNATURE-----
 
---8a808a06b4a953b5d20dec0ffee61d2775fd30a9d99a11e1a9dc7451dbff--
+--0cb53cc854d56efd7aaf92f0490d3586ec96bc93b77b8c725886ac6337f3--
