@@ -1,73 +1,74 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439193502A7
-	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 12:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10255350A18
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 12:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785846980; cv=none; b=KPO8TVWDLltrP70kJOpGX9OzJSrU9o9KTpRXnhH6J2If1B4rdwXde3bq8dT3cc/Hf+LM8BwLhc1OqEJGcDbChZbezIqvSiDRVMizOA9728qIQjVfabDKhaB8TSYFj6T6KnkyKW/Rx8Sp+6KkyJ+qRGWBYhzpCgIsvTISF3wgvhc=
+	t=1785846991; cv=none; b=a7bT63AaCdi4g1beqQuxs3gUNz2ce7C3B80uhb5HP5y7Sf/Hb4nf0wpyotdPAVkUs8EzRritj/jEU4ce/mpfDmAJGJH0BOpSKCSjJjJAWZPpWevqArQ/nx+jBNh1maglYeMQh5yHMLZ6D6RyMDMUaE4y74ae3d8HcWvdhKtqb94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785846980; c=relaxed/simple;
-	bh=oHaM34hp+B9wAo6Y7dFZXtCxJZUfh5bqm1Nuxuql9Zk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sL2yUeUNtxQAwqjG723CjCNIMXW5WGzIKolJ4p3pq4Bqy2v9wR9yZDwFsSZWUH3tkqrYISd4syQxGmhYf5m2W3bSKhdueo0gaRtqMUwLBO5wC2D/ZDuppc/XmRSXuuQwkhQ8hoWYuMExn8/FoC8EH3UHrhsyBDN8Nih1fSOejqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=haNHaKdR; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1785846991; c=relaxed/simple;
+	bh=qdKlKt8kJjdbNrzJ/8qfOj944+aR/pnvQRy8cOYbRtg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D6AHDYG7pH0Zj2haTQwV0c7ltXEe2WOGzNUKgv6Nj7TkLwBDhRvKPcBeGFJ2vbrhft5Wpn7vT3S2NhfQJntoGQ49FXR1YWkfN4AYXjIe7Oq1rPbkrQDvtxIeZ+SSl+OmGkJ5Ip+/7i1IopghXgrQnDUVwES8BUoz9BHUxY8xBlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=FR4M3N/i; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xbow.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="haNHaKdR"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8453427d3f4so4925514b3a.3
-        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 05:36:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="FR4M3N/i"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84830c774a0so4338918b3a.1
+        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 05:36:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xbow.com; s=google; t=1785846978; x=1786451778; darn=vger.kernel.org;
+        d=xbow.com; s=google; t=1785846989; x=1786451789; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ACp9n2o3Ordwb2znUSpgKmVNWolGQJeT8LdRSV1/Gjs=;
-        b=haNHaKdRvadfIfFLC6UbmprU1LvMKpyi/cHhEHtQSDoetWSl76L6oJwNN2ZOS6rvQf
-         E0kMwPRQhw4xlr7PUmIfEpkulxpynCVg9Va9ZHrVFapprymRpgKxf+AUNnqlNSyEi6V+
-         pgyja77egGtcmz/TUxdlPW9GTlqM41fnPECt7PDV2bbLMmwcKHPc6Y9+gW/YyCqRB7Ix
-         wLp0wLVVFPNuOuSFMjaLmwSfEJGfpvX2IMMWyRgsH+m+IAABT8T1dm/+Tz0n478ib4FS
-         alTiYP/pfCWU7Zk1kISbxzw1aG0tNbvEaOui632mn5Q5hDFQ0Q8i8YGokGFLCTW/13wI
-         LO0w==
+        bh=Dj+8Zmnm9THrVgODI37CW20tmyKBnrbsYCd2US+H4fo=;
+        b=FR4M3N/irA5d0UbJrk6Ml8EOKz6KbMjP2KoPeHq4AFRUyBfvPW88oVV9o72PN9gYdT
+         O0BfAxayQVS2RszHz7S+DBnUA+Gq2W9A/JDen8LYF5yELB77Y43kZCiA7wBnwu8Mjdx6
+         TbI9OS05FW2bDp3P85u1MpXGf9LPFMCQNa42aY2J1pt1Tu0Ic6OvBFDsG8U/pyfpB3g6
+         28gUp0Rn2sa5+HqysKa0Ybk+EMrJj14sjVBPtBFgf4IfqRYp3ICNYojoddTovQKYUCgz
+         FS9v6xiBzFP0RcmEqJBh5wCrOqp9Vwa/IjjFXQ8FnwlsVpFKbis9d9e3mGO5U3HCnxFl
+         oHZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785846978; x=1786451778;
+        d=1e100.net; s=20251104; t=1785846989; x=1786451789;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ACp9n2o3Ordwb2znUSpgKmVNWolGQJeT8LdRSV1/Gjs=;
-        b=J8c1bXuqjyjdhIqiXzZ/obAaY8CTg8pOyCZJBdP5jQKiO0TiPaHY6OimhMZnlwT3Uh
-         bbJMil/SSNJeGSZ3hSNUvd8rOC/6KikuyV1qs/y1sqQD3Sdoum+5HfJva8gjprnJ8fBW
-         wJqqz7VY25OjCrU+V4FZm6cnuBYc42svlcz+3rLQN5xww5SPPbRvhPGZ0ldA3S/kKeT3
-         RXqcPPEiIf4p97gdBpd8v5zLflETuYCBrR5KPkBXWtS1fw5qCuRRnukz89IuKT/h68hF
-         hPJJltuy2LLsOT4z81l1EaaDbbxw6MeWlbL79PncMbOwBGTzAHh+dHJ+qL/mlO8zuPvS
-         3AEQ==
-X-Gm-Message-State: AOJu0YyUMbqcWyY+TcWXuV28/2TaITW/fGKq3udzHoMCfgIAJRGUVYYD
-	yqAnNQjZin3krpZgzqOEY1QVT1C5eDw89OeEYdj/CNn/EGKpy/8YpoDGow2YDxlmy5g=
-X-Gm-Gg: AR+sD10+rw8bAO9UEnidvgtUqplSV29DSccD6xU1Bq+3YGPqJJTB1e+6isTBG4x7V+0
-	iyhz62sUhDdEIBgw+RP8WSI0M0Nhax8XGOh58xqzBgp43idXRwrkPlFVe3llTfHaWamm3n39N4Y
-	wDkB/jZI57Ox68oYa0NJlUtqM48nvLGGx9jFFpiUFmaAD17zeaSHdbTXx0JZjQSnRcyKUcj3KwO
-	w7tfkDXgchlHtk3xcYbSqo8GF3QpKSV0W+VUt+Dyecia4r5Aan9qtd6oDdgtJ56pLPsxu7wvQcW
-	06Job1ChyMp4bRW3WOnTl7FuvLqg5aceXDTqNG9M00glqcDcxp4t4O7XSsPLnSvqQNW90M5eLVB
-	L9y7Glb4RWYnXZWJhYyS1NvvjFRZCKQ59MrKlmvOO2taKPlpSYkqcz8V3x+SZxLaMV4zmrNy+u0
-	tcITsw/9Hz6pqrb2ffaRwCRb2cnS8cvRFXWRrMzOMSetRlyMO5M+4tSm6Jz7zCLhSpSoxJ4tTnQ
-	Toiyu7ZwIStd8kuK8pNa4ukluYQt/lVdWNLDJA=
-X-Received: by 2002:a05:6a00:4652:b0:848:2f7a:2e5c with SMTP id d2e1a72fcca58-84ee499eab3mr12628434b3a.75.1785846978444;
-        Tue, 04 Aug 2026 05:36:18 -0700 (PDT)
+        bh=Dj+8Zmnm9THrVgODI37CW20tmyKBnrbsYCd2US+H4fo=;
+        b=KG/gZoZQ8yNppecyJ40sRAkYDBfOKUbLKNpwlU9v4u9WB1ByQFtbhRC3cyuU1PcA11
+         GaHYEKJ5zvaBPuf2Yiv4SZ/HzsC3hCFFE+72D6LyLgYnzumgva99b8s+VCgsE1EZSzV1
+         Po0Lk645hpd7HcPJzDq+kDod7A4tc99vro4/pZ/2JVe4NQ/ymSKATiSU+AFDn9xc+Dqd
+         tBFRrUQurpE1yFsnEF/B+t9831Ef2+GtCGZM470X1wWYsdcMByYtbR8WP6sz9jTYZnH0
+         lMOMefref6fGKO4J0ITcjtZv4h9yC41tXrvzlKA+n8xqzMvHiUPoCKppKKAbHIL+h5BS
+         p5HQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoPnivwsz0yCVWBJetZEpvKRfcRZYk++ZWTHTS9Ri2lMxbaHDp7vLjbTWqlFFn+y2jTdObm2pqFE1Ip1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIMszB9dyiwUaWWT4lFWWL4BTTITURIalgaGnWsmy19zuDAoFS
+	ls6rUqvZfExo/do0GZrZbWizhjjD2Dcwczz5YypYA6glj0zID6dy/XmA/sPCz2NB9HY=
+X-Gm-Gg: AR+sD11JBrXbrN2BY6IxwgWOpR6/76owygpM8ay0a4yrHGcEsND8FkZihY/hryjb/sU
+	YX3klXatxBaN7Wkhc2BKDx38LrSX5nPae/l02wrKuop2jWTRNT33ICUEJfPKZJsw6O17H6hmeNI
+	VRZkFeU2GGhSH7wZqH3eRxSshPywJAj7I+Y4CtNH014pmmzxVTkxW8zuDys9LzJ9dk00q9YHWAw
+	VSmlbhJVt+Trgc35LO7oK6jbdHtuy26gKtFmG1xx2D9rOUeW8Z6VWAUP6psKI9STFnjMIXEHwrn
+	XK/iEVwTxB6AZ5+8RZ1yqLbHo7QVsiqaGbiU9oQt/uLU1TG+EI9ap8+0MA5tbSpFiaRiB3n0FCn
+	Nvyi0pxjIGOyWmi7k/R0GCNvqEGa1b1AIqec79OeT1vNxKQRxyJ2mXUeGCRO4Dx6uQSEZcqGbxy
+	f4/GE8Ta9qQkW+pPYPzHvvRRx3L7gNjhlHVm2vW9dQD2ErYvdfGEubrWlIS323tb20X9pyVRZ6v
+	P4qPf6o+R7tRawuweFghaxg/eJg7qjFV0D0hfI=
+X-Received: by 2002:a05:6a00:1910:b0:848:425a:4e31 with SMTP id d2e1a72fcca58-84ee47e7b44mr13086355b3a.24.1785846989298;
+        Tue, 04 Aug 2026 05:36:29 -0700 (PDT)
 Received: from Mac.lan ([125.128.148.126])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edbe593basm5086345b3a.21.2026.08.04.05.36.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edc2d7b97sm5216205b3a.43.2026.08.04.05.36.27
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 04 Aug 2026 05:36:17 -0700 (PDT)
+        Tue, 04 Aug 2026 05:36:28 -0700 (PDT)
 From: Baul Lee <baul.lee@xbow.com>
-To: g@b4.vu,
-	perex@perex.cz,
+To: perex@perex.cz,
 	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+Cc: ramiserifpersia@gmail.com,
+	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	federico.kirschbaum@xbow.com,
 	stable@vger.kernel.org,
 	Baul Lee <baul.lee@xbow.com>
-Subject: [PATCH] ALSA: FCP: fix OOB write in fcp_meter_ctl_get()
-Date: Tue,  4 Aug 2026 21:36:11 +0900
-Message-ID: <20260804123611.91715-1-baul.lee@xbow.com>
+Subject: [PATCH] ALSA: us144mkii: re-anchor capture URBs on resubmission
+Date: Tue,  4 Aug 2026 21:36:25 +0900
+Message-ID: <20260804123625.91769-1-baul.lee@xbow.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,109 +78,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fcp_ioctl_set_meter_map() bounds the user-supplied Level Meter map size
-by the driver's own limit of 255
+capture_urb_complete() resubmits each capture URB without anchoring it:
 
-	if (map.map_size < 1 || map.map_size > 255 ||
-	    map.meter_slots < 1 || map.meter_slots > 255)
-		return -EINVAL;
+	usb_get_urb(urb);
+	ret = usb_submit_urb(urb, GFP_ATOMIC);
 
-and passes it to fcp_add_new_ctl() as the control's channel count, where
-it is stored as elem->channels.
+Anchoring is a property of a submission, not of the URB.  The giveback
+path calls usb_unanchor_urb() before urb->complete(), so an URB
+resubmitted from its own completion handler is off the anchor.  The
+capture URBs are anchored once, at stream start, so from the first
+completion onward tascam->capture_anchor is empty.
 
-Every control read writes into struct snd_ctl_elem_value, whose integer
-array is declared long value[128], so the limit is 128, not 255.
-fcp_meter_ctl_get() stores one 64-bit word per channel into that array
-with no bound of its own:
+tascam_free_urbs(), tascam_disconnect(), tascam_suspend() and the
+stop-work path all call usb_kill_anchored_urbs(&tascam->capture_anchor)
+to reap the capture URBs before anything is freed.  With the anchor empty
+those calls return immediately and the URBs stay queued on the host
+controller.
 
-	for (i = 0; i < elem->channels; i++) {
-		int idx = private->meter_level_map[i];
-		int value = idx < 0 ? 0 : le32_to_cpu(resp[idx]);
+tascam_free_urbs() then returns the capture transfer buffers with
+usb_free_coherent(), and snd_card_free() releases the snd_card
+allocation that embeds tascam (card->private_data).  The controller
+completes the queued URBs afterwards, writing device-supplied data into
+the freed transfer buffer, and capture_urb_complete() dereferences the
+freed driver object.
 
-		ucontrol->value.integer.value[i] = value;
-	}
+KASAN on 7.2.0-rc5 (arm64):
 
-snd_ctl_elem_read_user() serves that object from
-memdup_user(_control, sizeof(*control)), 1224 bytes on LP64 out of
-kmalloc-2048.  offsetof(struct snd_ctl_elem_value, value) is 72, so
-element i is written at byte 72 + 8 * i and element 144 already lands
-past the allocation.  At map_size 255 the last store ends at byte 2112,
-888 bytes past the object and 64 bytes into the adjacent slab object.
-The stored words come from the device and meter_level_map[] selects
-which word lands in which slot, so extent and contents are both
-controlled.
+  BUG: KASAN: slab-use-after-free in dummy_timer
+  Write of size 512 at addr ffff000015b62000
+   __asan_memcpy
+   dummy_timer
+   hrtimer_run_softirq
+  Allocated by task 64:
+   usb_alloc_coherent
+   tascam_alloc_urbs
+   tascam_probe
+  Freed by task 170:
+   usb_free_coherent
+   tascam_free_urbs
+   tascam_disconnect
+   usb_unbind_interface
 
-The core does not catch this.  snd_ctl_check_elem_info() is reached only
-from __snd_ctl_elem_info(), which snd_ctl_elem_read() calls under
-CONFIG_SND_CTL_DEBUG; without that option snd_ctl_skip_validation() is a
-compile-time true.  __snd_ctl_add_replace() validates kcontrol->count and
-never inspects elem->channels.
+  BUG: KASAN: slab-use-after-free in capture_urb_complete
+  Read of size 4 at addr ffff0000170ee878
+  Freed by task 170:
+   release_card_device
+   snd_card_free
+   tascam_disconnect
 
-Installing an oversized map needs CAP_SYS_RAWIO, but the control outlives
-the hwdep descriptor that created it, so the out-of-bounds stores are
-issued by any process able to read controls on /dev/snd/controlC0.
+Restore the usb_anchor_urb() between the reference count bump and the
+resubmission.  That also makes the handler's usb_unanchor_urb() failure
+arm meaningful again and restores usb_kill_anchored_urbs() as a barrier
+on the disconnect, suspend and stop-work paths.
 
-KASAN on 7.2.0-rc5 (arm64), triggered by an unprivileged control read:
-
-  BUG: KASAN: slab-out-of-bounds in fcp_meter_ctl_get
-  Write of size 8 at addr ffff000017af04c8 by task fcp_trigger/185
-   __asan_store8
-   fcp_meter_ctl_get
-   snd_ctl_elem_read
-   snd_ctl_ioctl
-  Allocated by task 185:
-   memdup_user
-   snd_ctl_ioctl
-  The buggy address is located 0 bytes to the right of
-   allocated 1224-byte region [ffff000017af0000, ffff000017af04c8)
-
-Bound the map size by the ABI limit rather than by 255, and bound the
-store loop at the sink so it cannot run past the value array whatever
-elem->channels holds.
+The anchoring was removed on the premise that the URB is already anchored
+from the initial submission, which does not hold once the first giveback
+has run.
 
 Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
 
-Fixes: 46757a3e7d50 ("ALSA: FCP: Add Focusrite Control Protocol driver")
+Fixes: 5cff1529a2f9 ("ALSA: us144mkii: capture_urb_complete: redundant usb_anchor_urb corrupts anchor list on each resubmission")
 Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
 Reported-by: Baul Lee <baul.lee@xbow.com>
 Cc: stable@vger.kernel.org
 Signed-off-by: Baul Lee <baul.lee@xbow.com>
 ---
-diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
-index 6f5dcd35e1d4..2bf572c6fdc4 100644
---- a/sound/usb/fcp.c
-+++ b/sound/usb/fcp.c
-@@ -129,6 +129,10 @@ struct fcp_data {
- 
- #define FCP_SEGMENT_APP_GOLD 0
- 
-+#define FCP_MAX_METER_MAP_SIZE \
-+	(sizeof_field(struct snd_ctl_elem_value, value.integer.value) / \
-+	 sizeof(long))
-+
- /* Forward declarations */
- static int fcp_init(struct usb_mixer_interface *mixer,
- 		    void *step0_resp, void *step2_resp);
-@@ -410,6 +414,9 @@ static int fcp_meter_ctl_get(struct snd_kcontrol *kctl,
- 	if (err < 0)
- 		return err;
- 
-+	if (WARN_ON_ONCE(elem->channels > FCP_MAX_METER_MAP_SIZE))
-+		return -EINVAL;
-+
- 	/* copy & translate from resp[] using meter_level_map[] */
- 	for (i = 0; i < elem->channels; i++) {
- 		int idx = private->meter_level_map[i];
-@@ -636,7 +643,8 @@ static int fcp_ioctl_set_meter_map(struct usb_mixer_interface *mixer,
+ sound/usb/usx2y/us144mkii_capture.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/usb/usx2y/us144mkii_capture.c b/sound/usb/usx2y/us144mkii_capture.c
+index fa01da98151a..d7cdf9e0f685 100644
+--- a/sound/usb/usx2y/us144mkii_capture.c
++++ b/sound/usb/usx2y/us144mkii_capture.c
+@@ -302,6 +302,7 @@ void capture_urb_complete(struct urb *urb)
  	}
  
- 	/* Validate the map size */
--	if (map.map_size < 1 || map.map_size > 255 ||
-+	if (map.map_size < 1 ||
-+	    map.map_size > FCP_MAX_METER_MAP_SIZE ||
- 	    map.meter_slots < 1 || map.meter_slots > 255)
- 		return -EINVAL;
- 
+ 	usb_get_urb(urb);
++	usb_anchor_urb(urb, &tascam->capture_anchor);
+ 	ret = usb_submit_urb(urb, GFP_ATOMIC);
+ 	if (ret < 0) {
+ 		dev_err_ratelimited(tascam->card->dev,
 -- 
 2.50.1 (Apple Git-155)
 
