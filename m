@@ -1,151 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8754749F7
-	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 16:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AF34BC02B;
+	Tue,  4 Aug 2026 17:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785859761; cv=none; b=iiMKEXdC2BcN5gLj9kLfw/oAv6tI77dYe7GI8E4kDaFw6ZDFTHeBdF+vQgC7m5Dbq8+n51uld0SjdLbXy9ggPQeUYg0BnOTwljsGDwdjTImn4FmvMyN3z/w5ad5pct5Q/0ya6Mf8u2v1mYj7HamBySGgWvFJsTHz0ca8+2C+3XQ=
+	t=1785864456; cv=none; b=mmTqunpe63uoNDx+d4tUTYhoEfdlHnVZg7g9SU1JFUH1ad4OdyU/oYBKYUKNIw3AQUJik9qGFJWnqwWa3h9EWJ9J4wdpHqtoKZhKnCVnSQl5dteE3biiv1HSV3NZsJvPZ5iJ6lAW3Hkr002WKM/Tjbk6KgFfdUNYp5DAwonfsHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785859761; c=relaxed/simple;
-	bh=grg1M9SsiPjIWqWtDqtY+0imSuXT/YTzcFs5EzRAaAo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VkCPzB9EkU9UkDrT2QZbhLDnEyiBNYs4ML/xVxvLFvjn0tPfi9QabI9UOTCuE664rocNo+kQWX99gNruFxqp91X7u8GdzSgW4TstCzo86cfownKzCArMeo7n6rd1pGZJInOvrrR3JrszJ/Tfa+I/FQhHoOGpv6a+g02O2tBPyZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z4fKl3Ru; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dADBRlfK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zOhvukRn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Gc01x/kG; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1785864456; c=relaxed/simple;
+	bh=qyL/5x3Ox5XUKT5QVUlAMNQIMDxvdyUejXmVLdlCDUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SXSIKMRKO1i91vpdl6lNz/REg9eGGCDyEC8gAvJ00HfPPbsUT/JHZ1aXTCfg2Wu+Ub/ekClzjOrnbtSykpP6vQEAIfvzEok/b1icVWx8RUssENjbkt4LtQbSK7cgB/d+zUTtJEHV60aHBgyKvOexLm8QWcx8rxU0uzEXt/bgF2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=E997o615; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z4fKl3Ru";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dADBRlfK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zOhvukRn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gc01x/kG"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 71F317F73F;
-	Tue,  4 Aug 2026 16:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785859753; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sp2tkMA9cDc3k5l2njTk/d0CkgJUdfWY+HV22J2PV/8=;
-	b=z4fKl3RuR8KRxRUBW/+vsGkf1hewsVQ4UGG5qLtn+Hnk17Yuf0cedcljzvv5PVIMTIG1Ql
-	AdB4E3K+p9JgaIYEQUwuzYDxcPV7w+87909xIFZ6O/emV49SOiYgiPaOGjnoLRTneS1Ymt
-	yxb6gmVDWzhIgsDB7JZviQFht76o8qk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785859753;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sp2tkMA9cDc3k5l2njTk/d0CkgJUdfWY+HV22J2PV/8=;
-	b=dADBRlfKzw85ZEOX4rrnkDfs5YuxzsA6OA+Tc1lOeaPOhglOceMKcWWS6b0jWI3xql9yJQ
-	ujU8+UoCBsF6UYAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=zOhvukRn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Gc01x/kG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785859749; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sp2tkMA9cDc3k5l2njTk/d0CkgJUdfWY+HV22J2PV/8=;
-	b=zOhvukRnK6WltJy+5hSwYUR7kmxpBIzzO20WcpYB2644uCZYf05GPAZf1WW2Mcy0NWCMWr
-	eYEQGFXoNNDrgcw3jWoTTLzNeDTGgSTgXgAe/lPhb9/JeCRdxV2eN71tvXTpYL9OXAPMv9
-	GfukgIj5jadtFhsrWcQGVKXpq3hlkGE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785859749;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sp2tkMA9cDc3k5l2njTk/d0CkgJUdfWY+HV22J2PV/8=;
-	b=Gc01x/kGxe2U291rmJr2Tw44P4SBkn0Wjwtr0JtbuoX1J13yhU+AAiydEobCNRRbTZ21yM
-	IyCZukgFexVjDZCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18F20779BB;
-	Tue,  4 Aug 2026 16:09:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id T6jWBKUOcmp3KwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 04 Aug 2026 16:09:09 +0000
-Date: Tue, 04 Aug 2026 18:09:08 +0200
-Message-ID: <8733wtj2aj.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jackie Dong <xy-jackie@139.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	zhangheng@kylinos.cn,
-	kailang@realtek.com,
-	damien.dagorn29@gmail.com,
-	sean@starlabs.systems,
-	chris.chiu@canonical.com,
-	huanglei@kylinos.cn,
-	dnaim@cachyos.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA:hda/realtek:ALC269 fixup for Yoga/Legion Mic noise
-In-Reply-To: <20260804123637.21001-1-xy-jackie@139.com>
-References: <20260804123637.21001-1-xy-jackie@139.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="E997o615"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description;
+	bh=Fq+sDujD4P6pQWOyHjShxqRFFnBlL2GQ+cPVDEnwW/U=; t=1785864453; x=1787074053; 
+	b=E997o615uof3Kfdl/PaFJ6EYJojToxNmaX9BBNvM/DSQy/W7W79aRkVlqMJORkMQXIeUbXD99Vn
+	KihvZdDqMTEjym5+xs9s01g3EOdKbgO3mPX/Q4+xcIZ9RQ2JYXshjTXg3p5UTrtij+On0dgMynFek
+	yUs8h1tos/ZvtRq7X46t6xamGMMQ6zYuWn5iowKspe0pX3KthE1nl7wy8fC8mGNQmwz2cSC+doyEH
+	DaVj97jGpeTFYsHlHbJjOwdBWL+mQGPZkKhm+FNTg6/9VMAR5U7T1Ui0S34xBs6Dt2GPU2GQBtdAs
+	1sqGtwTZg4HR4v9rjfogNRtBnHwPsad84jbQ==;
+Date: Tue, 4 Aug 2026 19:27:16 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: phucduc.bui@gmail.com
+Cc: Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Jarkko Nikula <jarkko.nikula@bitmer.com>,
+ linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [PATCH 09/10] ASoC: ti: omap-twl4030: Use dev_err_probe() for
+ error handling
+Message-ID: <20260804192716.50d277b4@kemnade.info>
+In-Reply-To: <20260714120042.491712-10-phucduc.bui@gmail.com>
+References: <20260714120042.491712-1-phucduc.bui@gmail.com>
+	<20260714120042.491712-10-phucduc.bui@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [1.79 / 50.00];
-	SEM_URIBL(3.50)[139.com:email];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
-	MX_GOOD(-0.01)[];
-	R_DKIM_ALLOW(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[139.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,kylinos.cn,realtek.com,gmail.com,starlabs.systems,canonical.com,cachyos.org,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Spamd-Bar: +
-X-Rspamd-Queue-Id: 71F317F73F
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: 1.79
-X-Spam-Level: *
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Transfer-Encoding: 7bit
 
-On Tue, 04 Aug 2026 14:36:37 +0200,
-Jackie Dong wrote:
+On Tue, 14 Jul 2026 19:00:41 +0700
+phucduc.bui@gmail.com wrote:
+
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> Lenovo Yoga Pro 7 15ASH11 and Legion 7 15ASH11 use the same audio
-> subsystem implementation and support only analog microphone.
+> Replace dev_err() with dev_err_probe() when reporting
+> devm_snd_soc_register_card() failures. This suppresses
+> unnecessary log messages for deferred probe errors.
 > 
-> Limit Amp-In Vals to 0x00 and 0x01 for the internal microphone to reduce
-> recording noise. Values 0x02 and 0x03 introduce significant noise on
-> them.
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+
+Reviewed-by: Andreas Kemnade <andreas@kemnade.info>
+
+> ---
+>  sound/soc/ti/omap-twl4030.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> Signed-off-by: Jackie Dong <xy-jackie@139.com>
+> diff --git a/sound/soc/ti/omap-twl4030.c b/sound/soc/ti/omap-twl4030.c
+> index 2a80e44035d7..576f4d3615e8 100644
+> --- a/sound/soc/ti/omap-twl4030.c
+> +++ b/sound/soc/ti/omap-twl4030.c
+> @@ -306,11 +306,9 @@ static int omap_twl4030_probe(struct platform_device *pdev)
+>  
+>  	snd_soc_card_set_drvdata(card, priv);
+>  	ret = devm_snd_soc_register_card(&pdev->dev, card);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "devm_snd_soc_register_card() failed: %d\n",
+> -			ret);
+> -		return ret;
+> -	}
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "devm_snd_soc_register_card() failed\n");
+>  
+>  	return 0;
+>  }
 
-Applied to for-next branch now.  Thanks.
-
-
-Takashi
