@@ -1,220 +1,107 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013002.outbound.protection.outlook.com [40.107.159.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734763EFFC3;
-	Tue,  4 Aug 2026 14:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785854450; cv=fail; b=IuW3bo4ajP+Nkq8sYfGmvyapoD43ayIaAvDeb5W4Pug9AUb8JJnn59psNYEJcJX228Qz1tPdMDiaotp8y6S2SfsRm5y7lgiEIhSLN2H4tU5VIjXXADNX5JYSFPMupTa7TM8eGUKWASWq8Ax2yZk6anbg/p+1s2PRxow6cBq5BKQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785854450; c=relaxed/simple;
-	bh=GqMV/Pe0jhKSagon0DUyiu+fjt/ZbdMWXPBRezH9llI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=MFCae3XIZAn4RgyrYRYLo9dWZVY5uNPZXXdTLWnhN72R3Ilkvy+fVhuYkxg5pN+jMlmfiv6t6DvbMF+M2PGRmIy3C+iY57SFCj2w7/laIlE+xP6yDRFlzbfL8/qI2OFi52y7UP4+QAJoffzdsjdIAlWHPtFubB8+dwcftUjv8u8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=CHoA6MXJ; arc=fail smtp.client-ip=40.107.159.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFB0530C37C
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 15:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785855710; cv=none; b=DH3VHayUb7JtvStW57JoOb9t7pcXDLV39epT9RZQYfFg2g1gx8sRJ3BcCaqe8hM1VFmTgGydH1X0hvZ85AVwgNcYvLHf7q+URTAIsoFkycgjopS6z46K9sbkKshwQ6YZYPVhB6Xgy1HWIBVd5Mea5Qyq5Y1ccyXA46FKesyvoKc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785855710; c=relaxed/simple;
+	bh=cOWnCO/nW8/dwYEizGfJY7Bc02Nx4H/olS1ToIQBGFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U0uQtNIGIGn0x3TZ9QxenjNho8JwS9vajIXPkBNJZpiXyfxYPP0ju9SzFsJ5+utd3ZJdMcvc58b9KdKL6SXEy/fEA1hkv+hGTIX4AeiMCpYOkI8aoP2WI/JaXBZHuUGk2leB5z+v4l0vJYLcab2zuzn+FJre6HA6rTRVVmsn6+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocRfABL0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="CHoA6MXJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZWapcZhhzB8q4UfarUnJx5E5br78crv46dcQF+f3LoLiCijkGLMkVU/bonpe26VYW9viC2KR1+dMPqCpXcm/yhTTkFn8tqIsEzj5bmlgvhnhDXTNkFFDeG2j090MNsDQYDD4S7xngAgQcHHbazf1h78Y02YaI0PaXzPX9ZEFplQYM0dzgs0WmAOKSwg9EXvbsVYn1ENu3BvEPHCqC6pe6CIqB5bsBG0RcMz3N6y3Vfeibep74ciI4jzIJkbUxENHDHqJ7LDHJmZ5vROz/4P/bUjVaw55xI+dRoh6rN3nwZ/oHanWmF+FJHYCVSUgU3OleeaqC5Q9W2YnNLckVFkvdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pjezfk97upb+vMXO5jG3JgUwHEgob8xp+hsatpAVAWM=;
- b=K3rEqDFz2deYippxoLyWqf1CjP0RZABbmfzzw5STfVMSmrz3X28eDJj7TvJqXED1/tbPwGxyjpJTss2lQDrmZvsKLZmqkwFsqgTJNtEAEWIoJNG4nDowCCwGXBEfA1zFJ0SOhup72OzgB+rA8gCpzzEPWtLn96XN3hOyszSM1nKOi8VDIOApD8P3lKGvQyeSwKVfXPo+ivttwSxFs/sIUjc7juDSQb6RlFEcRvOfmB/sKGJFilhTKK14SKheWH72K0GotnHmSOvmCOAa3YCYLuxYgYeEeqf/omZ0koZqbFHuOMB5qTBI+lOATaSM/WEwcOo8yI6FgrND331IzP02ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pjezfk97upb+vMXO5jG3JgUwHEgob8xp+hsatpAVAWM=;
- b=CHoA6MXJdfssgyQyM0rUuWw7Kfk4rL7T+ExP0wPrctVuYe/wPjxPVSKPJrNFeZ+4+T7Bxamk58vSruX3ZwUGGg1HSEGDCCNFhVo10v6sS6S2ce4vncANxrfDpGfkjvl/ZnzrDJruFoB2v1wOgPWmp76Uln1Sw3LScYYbnkeNoquZ149udyl0Eu/Lf1ziVF0TfpCR958w/0wE8rCsRxzyTkr19yVJpHXdjGdke2x2WSvNgNGMIsLi1fxGApYXW31GfyW8S78eROfCgMrx9HIUWZPJt80SGqBGDRUDGjqZCb0yk0Ahz3KpGSh/Gx9MGVACcZkGSdLsFEbg42vRhZ7m8Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by GV1PR04MB10920.eurprd04.prod.outlook.com (2603:10a6:150:208::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Tue, 4 Aug
- 2026 14:40:43 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0270.017; Tue, 4 Aug 2026
- 14:40:43 +0000
-Date: Tue, 4 Aug 2026 09:40:33 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: shengjiu.wang@oss.nxp.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	shawnguo@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
-	nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linuxppc-dev@lists.ozlabs.org,
-	Shengjiu Wang <shengjiu.wang@nxp.com>
-Subject: Re: [PATCH v3 2/5] ASoC: dt-bindings: fsl,easrc: add ports binding
- for multiple conversion paths
-Message-ID: <anH54bIKJe3TIR-n@SMW015318>
-References: <20260804100218.49587-1-shengjiu.wang@oss.nxp.com>
- <20260804100218.49587-3-shengjiu.wang@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804100218.49587-3-shengjiu.wang@oss.nxp.com>
-X-ClientProxiedBy: SN7P222CA0010.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::33) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocRfABL0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67BF71F000E9;
+	Tue,  4 Aug 2026 15:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785855709;
+	bh=EhoFFt9IooFKN73pSCayBG5bDZeZmsuwXEONRqQLJHM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ocRfABL0eoiuvPXPgQ/gk1hhmqz56kfdXfpjdZ8pDXfypH2H+03AGkzuLnArJiMF0
+	 JcjW1XejfPNbaYEOtkIS6pdMubppl5WsygPzKXRJW3R481iwxB3YJtohWotOs40SPx
+	 JikaPngmRv3TbPc4ydRrFCsWY10sFwMMDjbISSZwCNXMmRJ6kMrQ1y/6Zsflupb4Uh
+	 5sSIl3sYW0KI9lvQdzSfCa2pa8OrofUtH/a/Usgtd+Ke75+AFAI4zvsiEbEWg5RWrY
+	 qbjkCL46X3xvQJAx0ztrFYnGDVx6VLjDd16CYtUjjlt/bY74k6O1BlTdTQokSoUibE
+	 MLg4lXCn4obew==
+Date: Tue, 4 Aug 2026 16:01:44 +0100
+From: Mark Brown <broonie@kernel.org>
+To: shumingf@realtek.com
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, lars@metafoo.de,
+	flove@realtek.com, oder_chiou@realtek.com, jack.yu@realtek.com,
+	derek.fang@realtek.com, pierre-louis.bossart@linux.dev,
+	ckeepax@opensource.cirrus.com
+Subject: Re: [PATCH v5] ASoC: rt766: add RT766/RT767 SDCA driver
+Message-ID: <2fd91870-51d8-4604-a281-36b6c234d737@sirena.org.uk>
+References: <20260804104828.557228-1-shumingf@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV1PR04MB10920:EE_
-X-MS-Office365-Filtering-Correlation-Id: 01f7a7d0-0a45-4448-44f6-08def2365cdd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|19092799006|23010399003|18002099003|22082099003|3023799007|10067099003|11063799006|4143699003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	WpXuKCSiZpOGogCk0fY8pWfDZr6j6R8B9Fymj+ZawzSMtMkapWMfeT4Vr9AU2940lIHERhjK20EsSkN8HkilhxfUeFLzdxGiEQD2kosEAGRiApFu6tMy2py1n2zwSvgukRac5OKCiMLalzYW8WZcfsiA0E3uVfhRvmHC0t76JItoPNAhuAJjaUlEX+u09cHm1xUVa64GLB08r2DNQsydFWvz7GYAn0q35z+ktb/oLEFS5vDo6Nqg48lCt1co4qWkHOnbtjbutaeeBPxOt/X1ZrupBcHI+ZVBYpmvSUUuMCBHWaOqez/ftZT1JhwOWFJDDIxPGiCWslXsR53Za6H4dhhqEAU2CcTWdu1/Vkhaw2cenwFwiCUqAOCVFMVDtulacoW+NoO6W0T0SUuZmxyckxxAqQ8oiUnHr01sp2A4vaeucxgz5BfKyG3kLVBjDAEFP0lDcueOYRlFBwDBQLM4oObjGll4XUpIeC9TZIlXFOFM+cE0OYgQ+B9dnO4A+98fG6QT9HSdxbcPmXs02Auj72/NIzXqFREgqs4vUpJIvk2RzqgDjFQarVY+GnjsIZrm2tZgCUzSvmFk3h+wxsPbaI+yG89CgCXFkuaOvh2ywpbYYj30/KSEKyyytckqCovRC7dppg4+z2SUk64yuA2zPSMl8IdfY9bNa8+APZZv5G8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(19092799006)(23010399003)(18002099003)(22082099003)(3023799007)(10067099003)(11063799006)(4143699003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SmpuC8MlRtA2cAHcdMH0c1+iDAdbzvB+BNpqkIK+TVYiCPC0kRtK+HBvVGZv?=
- =?us-ascii?Q?CsyxVdhS1kmjPQQLopEr7FlSio3JUNdKTdm4bOYnmQ3BOTJicMpu6qVdryhr?=
- =?us-ascii?Q?expO5jPyyVezZgQ4QcD2H8WKEd58a1iwUdViw6s3oWSU8kbna6EIi7c8UHSC?=
- =?us-ascii?Q?NxodhRW65pS7S4P4vQ4fUk3XWKGZOXUSuhz05RgBASPkwDhaxAfwvFHflFOI?=
- =?us-ascii?Q?Fyyha2upf2TPaQUraXHIdl25sxSbMAFGjJwnXPnejGDUF25+Vus5t+HJDLEy?=
- =?us-ascii?Q?/xZBU259AeUbzey5G6FES6UigeUQPWiRwGiQvjpJW+fzT6AneR3GGKB1ezOA?=
- =?us-ascii?Q?dGbZJiITSb7KEFrh0kEYaNE9d3JHzDfNftSKDxTvMLfm5npGldeR560Ly8nS?=
- =?us-ascii?Q?Sk7uWrnbRe5BukOwxLnF/c7aGzLkQHHkfop1MuZ6031gSicLZTaVE2SXaW1K?=
- =?us-ascii?Q?1XwRJ5wh4KRKxKh73ksYfSwZTkFiY6Tb+JuG6OxAy0yjUD6M7CL6RoqR32fn?=
- =?us-ascii?Q?fTWbYHHHD/hIvq5DVczvQ2BRqrChmANaX0ZMWuBogByOT2XDQHm/e63e4+9E?=
- =?us-ascii?Q?CBcjh12oisAFZ62Pa2cQJDcz4dv3ZGEJGGaMmIF4xGoL4CWoqSL5x2J+GAJd?=
- =?us-ascii?Q?bzuaUFLTSwUjBFgvSoTTBLGJeydAIdMdn4F5KLh3EBWplixeXYgPiS3aayWZ?=
- =?us-ascii?Q?RasAJDJi9DdycFv0U3qod2Z8MR9/8dB8gZscTDGrnU8XugoFvJPiJ32Jv3Id?=
- =?us-ascii?Q?IcfrItUTjzh9Uf1tMPwYQMW01OrGpWVo+ShWNQpZhxMTSG9CYF9k5Spg2X6/?=
- =?us-ascii?Q?nZLJ2vPhB7BwaKghyENpZRgEP5giWuz8J/Kxi064Sf6wACc7lq5ciAAr4ELx?=
- =?us-ascii?Q?Be4ICcyIodYS25uKJq1h4Osw1LTXJK6um9CCPPgLbv5FKm6kkBChUaF6yJqC?=
- =?us-ascii?Q?5b4g1WaIDNzgK1t2GzleqirTcs/NYBnVtYiBH5pqCqS79Gsl9jPckCG0Nroj?=
- =?us-ascii?Q?rGk0a8lfiFCxqGJBAVTbCGi7LbkDT8aNX0D6rCGq2sA/fmpEF/etnxgqJ6PS?=
- =?us-ascii?Q?qEWYFd4MyaKytVYe3bmuPHNhWJ5i+SxXaDNzZyB1ED4DEhDM5FFOxPsCmBV3?=
- =?us-ascii?Q?NM2VOpYgI+j+fEKsBpITmLEMDoXpp0Oi7pSMqtomUcfAi0a9UwGYZP39aLc5?=
- =?us-ascii?Q?79ayD88aDolc8uuBNftQQjaqvhM8KdaF1RJmktxF1Rf0iIbhG/DL4RwzPlas?=
- =?us-ascii?Q?5GbkfBSFuIAbxkrrnsVYc2qBpASe/LN1/ntLgcf1tQO84x6ozcV8VohJU3nb?=
- =?us-ascii?Q?krS0aVVsia874qvS5O9WzlAU3EsDtUwq/rEEOdhgkhZAurbXDmG9r6mNkxhu?=
- =?us-ascii?Q?JKccdDWcvlrH7R5/ueWqiOII2RGVBuUpeP1naAeG5Uj/Qu/2ghDSE4cTXVkG?=
- =?us-ascii?Q?ha40I1x6FMxawgLfoukmB6WaJ+Xtewk649tNv8Jako8ZeDb0+5Mh7FouFm1K?=
- =?us-ascii?Q?bqeQVhDFZxK/ZYtn5Y/9wECe1Tf1hAq5Jm82O625qSLxeM7K8eqwz/ziAYBv?=
- =?us-ascii?Q?bOq1UBDjqf9AKA2ZjYd2ikEjSJSI+Apg1pIaqgrgTQEwFWEKB6GTkPtQ544w?=
- =?us-ascii?Q?A7x6yybnM7A2UwvHmn0ORCNUrQ3JjNGcI+c9D9s4uBJ3BMSDqEIWlH+dXT54?=
- =?us-ascii?Q?VT4ZGgPzsFSy+u6R9Y1ugOgoFHFayTTgXByJ8aPHxTrxNhqZFoF/GGFPUd5L?=
- =?us-ascii?Q?mEbtMrmPDyaeejakY6RQCFOO09clnS1U7HPYFdklE2NzvfItWSJQ?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01f7a7d0-0a45-4448-44f6-08def2365cdd
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 14:40:43.6243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q1xtWq7nE8uHhPmTlodVvqiEehzxIgFz/nGoAol0GVfWT8Namznwge1zjAxIThdoI82+ZtN4ymjxzre6n/5ZT5jkMDMLSYY/94H53w9+XUzPOlGbXItGfc8LoR6Q9O5Z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB10920
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YPNiJMwxd9QLzhqp"
+Content-Disposition: inline
+In-Reply-To: <20260804104828.557228-1-shumingf@realtek.com>
+X-Cookie: Biz is better.
 
-On Tue, Aug 04, 2026 at 06:02:15PM +0800, shengjiu.wang@oss.nxp.com wrote:
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
->
-> The i.MX EASRC hardware supports up to four conversion contexts
-> (A, B, C, D). Add a ports container property to the binding to allow
-> each independent conversion path to be represented as an individual
-> audio-graph port:
->
->   port@0 -- conversion path 0
->   port@1 -- conversion path 1
->   port@2 -- conversion path 2
->   port@3 -- conversion path 3
->
-> Each sub-port references audio-graph-port.yaml and follows the standard
-> audio-graph binding conventions. Contexts are allocated dynamically at
-> stream open time; each active stream direction (playback or capture) on
-> a port consumes one hardware context.
->
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+--YPNiJMwxd9QLzhqp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->  .../devicetree/bindings/sound/fsl,easrc.yaml  | 45 +++++++++++++++++++
->  1 file changed, 45 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,easrc.yaml b/Documentation/devicetree/bindings/sound/fsl,easrc.yaml
-> index d5727f8bfb0b..a53ec4f6f1c0 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,easrc.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,easrc.yaml
-> @@ -55,6 +55,14 @@ properties:
->        - const: imx/easrc/easrc-imx8mn.bin
->      description: The coefficient table for the filters
->
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +    patternProperties:
-> +      "^port@[0-3]$":
-> +        $ref: audio-graph-port.yaml#
-> +        unevaluatedProperties: false
-> +        description: port for an independent conversion path
-> +
->    fsl,asrc-rate:
->      $ref: /schemas/types.yaml#/definitions/uint32
->      minimum: 8000
-> @@ -106,4 +114,41 @@ examples:
->          firmware-name = "imx/easrc/easrc-imx8mn.bin";
->          fsl,asrc-rate = <8000>;
->          fsl,asrc-format = <2>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +                playback-only;
-> +                endpoint {
-> +                    remote-endpoint = <&fe00_ep>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +                playback-only;
-> +                endpoint {
-> +                    remote-endpoint = <&fe01_ep>;
-> +                };
-> +            };
-> +
-> +            port@2 {
-> +                reg = <2>;
-> +                capture-only;
-> +                endpoint {
-> +                    remote-endpoint = <&fe02_ep>;
-> +                };
-> +            };
-> +
-> +            port@3 {
-> +                reg = <3>;
-> +                capture-only;
-> +                endpoint {
-> +                    remote-endpoint = <&fe03_ep>;
-> +                };
-> +            };
-> +        };
->      };
-> --
-> 2.34.1
->
->
+On Tue, Aug 04, 2026 at 06:48:28PM +0800, shumingf@realtek.com wrote:
+> From: Shuming Fan <shumingf@realtek.com>
+>=20
+> This patch adds the initial SDCA multi-function codec driver for the RT76=
+6 and RT767.
+
+This breaks the build:
+
+/build/stage/linux/sound/soc/codecs/rt766-sdca.c: In function =E2=80=98rt76=
+6_sdca_irq_ct
+l=E2=80=99:
+/build/stage/linux/sound/soc/codecs/rt766-sdca.c:240:41: error: implicit de=
+claration of function =E2=80=98sdca_irq_cleanup_late=E2=80=99; did you mean=
+ =E2=80=98sdca_irq_cleanup=E2=80=99? [-Wimplicit-function-declaration]
+  240 |                                         sdca_irq_cleanup_late(dev, =
+function, info);
+      |                                         ^~~~~~~~~~~~~~~~~~~~~
+      |                                         sdca_irq_cleanup
+/build/stage/linux/sound/soc/codecs/rt766-sdca.c: In function =E2=80=98rt76=
+6_sdca_probe=E2=80=99:
+/build/stage/linux/sound/soc/codecs/rt766-sdca.c:858:35: error: implicit de=
+claration of function =E2=80=98devm_sdca_irq_allocate=E2=80=99; did you mea=
+n =E2=80=98sdca_irq_allocate=E2=80=99? [-Wimplicit-function-declaration]
+  858 |                 rt766->irq_info =3D devm_sdca_irq_allocate(dev, rt7=
+66->regmap, rt766->slave->irq);
+      |                                   ^~~~~~~~~~~~~~~~~~~~~~
+      |                                   sdca_irq_allocate
+/build/stage/linux/sound/soc/codecs/rt766-sdca.c:858:33: error: assignment =
+to =E2=80=98struct sdca_interrupt_info *=E2=80=99 from =E2=80=98int=E2=80=
+=99 makes pointer from integer without a cast [-Wint-conversion]
+  858 |                 rt766->irq_info =3D devm_sdca_irq_allocate(dev, rt7=
+66->regmap, rt766->slave->irq);
+      |                                 ^
+
+
+--YPNiJMwxd9QLzhqp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpx/tgACgkQJNaLcl1U
+h9DF2wf8D8e1acCNX2SNZz9Q6N0ns0i+fbSrfIQqxACbfyDyVkT37CwlRuR8MdEK
+dC1IT45dRYwnBSBNyIenVIsLyr42ggqSJiZuYDFORGB3O+xp//zPuSr8gQZaHFBG
+eszn3QR9+qjwgXICLe80FB7xaDS3cdnuJR9zdTsPbFtQ50TUt7nS3z7A5UhgoJBL
+lKnC40RPsqnHWuOlmvpZyGD7tV4gcp+92XbmBREfO1/Tbkd8yifQhTkecQixnykk
+LE+MVNSwkEqCDkvg4V6Zu4z+oZfs7Y5wKQ0sSbredIn0Rqbl7EDY0Rmjrk0WomVa
+OYFiM7XE3D3akrHYTBRHx3UuFRDxQg==
+=Cjdc
+-----END PGP SIGNATURE-----
+
+--YPNiJMwxd9QLzhqp--
