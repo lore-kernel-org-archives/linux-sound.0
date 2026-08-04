@@ -1,43 +1,43 @@
-Received: from mail-244121.protonmail.ch (mail-244121.protonmail.ch [109.224.244.121])
+Received: from mail-43102.protonmail.ch (mail-43102.protonmail.ch [185.70.43.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20E141E6A8;
-	Tue,  4 Aug 2026 22:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADD642EEB8;
+	Tue,  4 Aug 2026 22:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785884389; cv=none; b=YgoeAGG72dyw++gjil4cebV2GAVSD9tNndWALD8YLDmaeqV9x2bkOjuMeg3wytzSCIuq3juGYKiS9C4HGzRu28OpbRetGEtSMYzXUBY/YANvaT/xlYv8PFvlICWw94jZeDJIxKfwogSS7ZacmVettSkVuMnma4KryOHeFLAIzOY=
+	t=1785884390; cv=none; b=odCRhx3cTWj9HfRW8Drdg6GL7hVOMHLHf2nHlUKknjKcTREnq01DxrldzycolkXf9iwj6zU10wX5kB8IFt5d5rV2VdtWx143/R3P3DhXKeGeeuagBkuDt89GS8CgFU0RepENRTScz+YLQTzMzqV0xioG6LiYplonlIfesAqzm2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785884389; c=relaxed/simple;
-	bh=t8d4uKou6G+tMLFCmjLjpyA4UZfkG1yzPZEN5enrpjQ=;
+	s=arc-20240116; t=1785884390; c=relaxed/simple;
+	bh=FcbSU32HWtanz0g3Aaz6ifgzIzsGFmbIrtF4/I8f284=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qk/YZpmwXbswGOEUNJ9XlhbC4YRocaHqEP7qK3KpE1N7UqT8zYrdIApqftnq34V9Tw4tdMeTTfPuiLBkfBCNOdWYWWA12DPQt0eNcCla8DEHWUL+LUKdS2olUiOAsNQfPCxZU5uTJb+UDteb4n/YvaS8KAkn+f20t2L11os6r3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=hL4WtNaG; arc=none smtp.client-ip=109.224.244.121
+	 MIME-Version:Content-Type; b=E2Bv23c9jcoFrM7t9fv8B2fOZ/wwz2P82rGJxL9O+3o2jeR7YkTg4URgJL2Eext4uF8bY2oD9dKvPa6Sm7Py1sSxHvRmOsMGMP1pWevBbWDH+nSohkMcxcK/LT7fK8iVO0LneuBJk3YrSP2AvMXhluhZrzUz4aOHG0cdQy8EQWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=r+tIFsbl; arc=none smtp.client-ip=185.70.43.102
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="hL4WtNaG"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="r+tIFsbl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1785884378; x=1786143578;
-	bh=h0ldZ3M4T+Y2V2+nIOJQnksyEUH6FXCznnKgGiPZ0Kc=;
+	s=protonmail3; t=1785884386; x=1786143586;
+	bh=yfolc3ZlNCq8gEtauC/hqP00hwhlIABG8aeAys6n9gs=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=hL4WtNaGuL/SpMeCJaWul1pEepO3q4MPmRHHno8lt5j4gSgjh5pdpy/GWqOAenx2u
-	 LHXyMB0uae2jrEr3EWkTQiA7Chn+P/3IuqgmQHq2niV9nD3yMLB4AIyV70fe3zgQuh
-	 eHDUWGoRsDDF9rriNZ+tjEy/2EEVHMPorR2HRUSVIdP2TxVVdFDVNPeMJBARgLKGpC
-	 LPowvmc42Fw5sSN98vdF3EYulx7MMNnDIYHEwcvt5T+tOXU/fe3JJIoecq/Kyli9IU
-	 XfoC2PR2WU2/4oN9UB5DcHj4gjG4LQzw6nbLv93sUYOfr3+Rr/gICMcygbkf4VOtMP
-	 be4/l35xA1WtQ==
-Date: Tue, 04 Aug 2026 22:59:34 +0000
+	b=r+tIFsbl7FvRsX/vgPgPKQA5bgjdjMmkBrOT1nK4oq1C1ESSGip5eQ5FYHeLQ3602
+	 k3MANwzUxl5etx2yzFKXmckgAeWI6DvtrPONJJw6vF2pynitvLdxSl5i053cbuhUYs
+	 nQUcu1MLchk6uZwwGfRpKxfTRNN9WoyhndY3Pd0DEUnH3PBPbny5u/U+fMMht4u5er
+	 vG+FtyqNWUNNTGJI+chdgpEKbLi2kJtu0blCQFkYn6r8pB9t3iXzJRTN6SnIapj2wt
+	 ey3JhnuOcETd9vRhzQnCjz61cu5KRiaP1UU7Vnv3Qku7hSiMgYfweLmc1RZO3TXt7f
+	 LgKC4veP31m7Q==
+Date: Tue, 04 Aug 2026 22:59:42 +0000
 To: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Oder Chiou <oder_chiou@realtek.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Daniel Baluta <daniel.baluta@nxp.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 From: Sergey Lebedev <lsa.uz@pm.me>
 Cc: linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] ASoC: sdw_utils: skip endpoints of a peripheral that is not on the bus
-Message-ID: <20260804225853.31585-3-lsa.uz@pm.me>
+Subject: [PATCH 3/3] ASoC: SOF: Intel: hda: duplicate _ADR entries share one amp index
+Message-ID: <20260804225853.31585-4-lsa.uz@pm.me>
 In-Reply-To: <20260804225853.31585-1-lsa.uz@pm.me>
 References: <20260804225853.31585-1-lsa.uz@pm.me>
 Feedback-ID: 113843758:user:proton
-X-Pm-Message-ID: eb3d61e3ec59c6436c2c263369dd81862a8c3319
+X-Pm-Message-ID: ae50e10455b4ff3fa86e218e5b40f6248c74a87d
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,117 +47,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-asoc_sdw_parse_sdw_endpoints() builds DAI links for every endpoint of
-every _ADR entry the firmware declares. If a declared peripheral never
-enumerates, its links are still created and later fail to prepare, which
-takes the whole link down rather than degrading it:
+find_acpi_adr_device() assigns each amplifier a name prefix carrying an
+index ("rt1320-1", "rt1320-2", or Left/Right) and advances that index
+once per _ADR entry. Firmware that describes one physical part with two
+_ADR entries therefore consumes two indices for one device.
 
-  sof_sdw sof_sdw: ASoC: error at snd_soc_link_startup on
-    SDW0-Playback-SmartAmp: -61
+The Microsoft Surface Pro 11 (Intel) does exactly that. Link 0 carries:
 
-The Microsoft Surface Pro 11 (Intel) declares one physical RT1320 twice,
-as two _ADR entries on link 0 differing only in SDCA class id:
+  SWRA  _ADR 0x000030025D132000   SDCA class 0
+  SWRB  _ADR 0x000030025D132001   SDCA class 1
 
-  SWRA  _ADR 0x000030025D132000   class 0
-  SWRB  _ADR 0x000030025D132001   class 1
+identical but for the class id: same link, same manufacturer, part and
+version, same unique id 0. The part reports class 1, so SWRB is the one
+that enumerates and SWRA never attaches on any boot or firmware version
+tested.
 
-Same link, same manufacturer, part and version, same unique id 0. The
-part reports class 1, so only SWRB enumerates. SWRA is a phantom and
-stays UNATTACHED across every boot and every firmware version tested,
-including the November 2025 bundle.
+Both still reach this function, so SWRA takes index 1 and the real
+amplifier is named "rt1320-2". Its controls appear as "rt1320-2 OT23 L/R
+Switch". The stock sof-soundwire UCM profile expects the first
+amplifier, so it enables switches on a device that is not present, and
+the speakers stay silent while everything else reports success.
 
-The existing is_sdca_endpoint_present() check cannot filter it out.
-Setting aside that it is gated on a non-zero class id and the phantom is
-the class-0 entry, the deeper problem is that the BIOS describes both
-entries identically: each declares the same two SDCA functions, so the
-check matches for either. Bus presence is what distinguishes them, so
-test that.
+Compare entries that differ only in class id and give the later one the
+earlier one's name prefix, jumping past the amplifier-index increment so
+a repeated description consumes one index rather than several.
 
-The check is by nature a runtime one, and its correctness depends on the
-peripheral having enumerated by the time the card probes. That holds
-here: the real device is Attached and the phantom has no device number
-at all whenever this runs. It is a weaker property than the surrounding
-BIOS-driven checks, and a suggestion for something stronger would be
-welcome, but the firmware offers nothing else to key on.
+Testing the peripheral's attach status instead does not work here, and
+was tried: at machine-select time neither entry has attached yet, so a
+status test finds both unattached, no amplifier is matched at all, and
+the card falls back to the HDMI-only HDA machine driver. Comparing
+addresses needs no runtime state.
 
 Signed-off-by: Sergey Lebedev <lsa.uz@pm.me>
 ---
- sound/soc/sdw_utils/soc_sdw_utils.c | 46 +++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ sound/soc/sof/intel/hda.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_=
-sdw_utils.c
-index d8db8fc53..12ca4bdd4 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -1909,6 +1909,46 @@ int asoc_sdw_get_dai_type(u32 type)
- }
- EXPORT_SYMBOL_NS(asoc_sdw_get_dai_type, "SND_SOC_SDW_UTILS");
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index 4dbba9186..1d60a8caa 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -1245,6 +1245,22 @@ static struct snd_soc_acpi_adr_device *find_acpi_adr=
+_device(struct device *dev,
+ =09=09=09((u64)(sdw_device->id.sdw_version & 0xF) << 44) |
+ =09=09=09((u64)(sdw_device->bus->link_id & 0xF) << 48);
 =20
-+/*
-+ * Some firmware describes one physical peripheral with two _ADR entries t=
-hat
-+ * differ only in SDCA class id, on the same link and with the same unique=
- id.
-+ * Only the entry whose class id matches the part ever enumerates; the oth=
-er is
-+ * a phantom. Building DAI links for it fails the whole link rather than
-+ * degrading it, so the endpoints have to be skipped.
-+ *
-+ * This cannot be decided from the BIOS description: on the machine that
-+ * prompted this, both entries declare an identical set of SDCA functions,=
- so
-+ * is_sdca_endpoint_present() below matches for either. Bus presence is th=
-e only
-+ * thing that distinguishes them.
-+ */
-+static bool is_peripheral_attached(struct device *dev,
-+=09=09=09=09   const struct snd_soc_acpi_link_adr *adr_link,
-+=09=09=09=09   int adr_index)
-+{
-+=09const char *sdw_codec_name;
-+=09struct device *sdw_dev;
-+=09struct sdw_slave *slave;
-+=09bool attached;
++=09/*
++=09 * Firmware may describe a single physical part with more than one _ADR
++=09 * entry, differing only in SDCA class id. Those entries are the same
++=09 * device: they must share a name prefix, and only the first of them ma=
+y
++=09 * consume an amp index. Otherwise the part that actually enumerates is
++=09 * named as though it were the second amplifier, and UCM profiles
++=09 * written for the first one address a device that is not there.
++=09 */
++=09for (j =3D 0; j < index; j++) {
++=09=09if ((adr_dev[j].adr & ~SDW_CLASS_ID_MASK) =3D=3D
++=09=09    (adr_dev[index].adr & ~SDW_CLASS_ID_MASK)) {
++=09=09=09adr_dev[index].name_prefix =3D adr_dev[j].name_prefix;
++=09=09=09goto done_name_prefix;
++=09=09}
++=09}
 +
-+=09sdw_codec_name =3D _asoc_sdw_get_codec_name(dev, adr_link, adr_index);
-+=09if (!sdw_codec_name)
-+=09=09return true;
-+
-+=09sdw_dev =3D bus_find_device_by_name(&sdw_bus_type, NULL, sdw_codec_name=
-);
-+=09if (!sdw_dev)
-+=09=09return true;
-+
-+=09slave =3D dev_to_sdw_dev(sdw_dev);
-+=09attached =3D slave->status !=3D SDW_SLAVE_UNATTACHED;
-+=09if (!attached)
-+=09=09dev_dbg(dev, "%s not present on the bus, skipping its endpoints\n",
-+=09=09=09sdw_codec_name);
-+
-+=09put_device(sdw_dev);
-+
-+=09return attached;
-+}
-+
- /**
-  * is_sdca_endpoint_present - Check if an SDCA endpoint is present on the =
-SDW peripheral
-  * @dev: Device pointer
-@@ -2065,6 +2105,12 @@ int asoc_sdw_parse_sdw_endpoints(struct snd_soc_card=
- *card,
- =09=09=09=09dai_info =3D &codec_info->dais[adr_end->num];
- =09=09=09=09soc_dai =3D asoc_sdw_find_dailink(soc_dais, adr_end);
-=20
-+=09=09=09=09/* skip a peripheral that is not on the bus at all */
-+=09=09=09=09if (!is_peripheral_attached(dev, adr_link, i)) {
-+=09=09=09=09=09(*num_devs)--;
-+=09=09=09=09=09continue;
-+=09=09=09=09}
-+
- =09=09=09=09/*
- =09=09=09=09 * quirk should have higher priority than the sdca properties
- =09=09=09=09 * in the BIOS. We can't always check the DAI quirk because we
+ =09if (!codec_info_list[i].is_amp) {
+ =09=09/* For non-amp codecs, get name_prefix from codec_info_list[] */
+ =09=09adr_dev[index].name_prefix =3D devm_kasprintf(dev, GFP_KERNEL, "%s",=
+ name_prefix);
 --=20
 2.50.1 (Apple Git-155)
 
