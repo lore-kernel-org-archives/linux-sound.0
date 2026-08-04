@@ -1,116 +1,111 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9EB4248DC
-	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 07:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3C742C4E8
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 07:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785827717; cv=none; b=aqYBnU1SpvfJApFc/nkr/H30cvSAmEfIj66VUGzmaegxtr2UyenGsHdVWt/H4cYUlO3Oz2tMgSWC4I89F4e5/Z9qk5mg/pxOLOWEblr3Fc2xHTTYXNSDOCFfyjvWgbcpSzasod3Pay/SDqHa+4+obasDBEFfimvNWv5dqUH8U8s=
+	t=1785827853; cv=none; b=kX1m3+jCrvOPEl2/KeBejYzkqfUt26WH3eirifIcJT6yBs1jM628iyfYgaWNSZ7FGCneMP11PHfQks9BJYKbt5c+2vFcc0HJpifZcETSfRQDEpIoLBEe3AO8IkcZ2sNbNDiuIFAkQxuwx5enNdb/qFnTaASkZ3ma3w/z/LlqMZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785827717; c=relaxed/simple;
-	bh=En5JIyCBi5re4kDTDhikKbFTpnbZcU7Y7O/dS4net+Y=;
+	s=arc-20240116; t=1785827853; c=relaxed/simple;
+	bh=AR+rClDi+44W8PdxcQM1L2dchoFiNrLzRIsqOdlIcxY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bWMuKhw7qAbUNT0RS1C8Q5l9WKFH2rD2e/q5BrVUb2jrb13PkhXVCu61phEsmabIeNiYEmKCvzonBfGvmzmRW+Yfb6EmVRsYtiAYUeGO/AYpC4OJAMpQwK2wKMLjkmDToUQ8jqJ6wx5X0yY9ynIHXPIIKwfVVsq8+MQjuKEerZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
+	 To:Cc:Content-Type; b=scvcbKMak+ms4ODbdNdRGOrs+lgOSMadsBd+qmI/9IqVHu9VaoLljc7jSfNXe7xbb80edU9DtoFnNwCxOv/tuvkRZygfGLET33tIbV48Hg1kXoNfGh3osFWFs8nqLJBQ3qiibqCgV2CK4qyQQCqKiVTD/P3xz9vRrIgm2QjcUI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5c27e38ee18so2442734e0c.1
-        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 00:15:15 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5bfbbe5220dso364078e0c.1
+        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 00:17:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785827714; x=1786432514;
+        d=1e100.net; s=20251104; t=1785827850; x=1786432650;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=BAW6xuCFOcp/POVOPiZ6lw4M3RrPPkp7LBnSgPXQNZE=;
-        b=MLRXHyPGhuyYb8cRI64XaenPh2CV0ERvTlycwkyzdQSgQoJJtbo3vUzrNdk41dsmYR
-         2SvX0YUfM0nkfOA44kn6VHYrgiTe1IzSzbzJW2fZq48PBKg/h9JaUv62fQhw7UDD4W0U
-         fbHfXL3MsS06b0g86oRiIssW42BpFl8IW/wrQAmDiwT/s4HAe7eTrXkDXTRveIP+ydD3
-         FbbO7Iu3Dpam9wkI8YlJKhjnMrDhiRJ6JavZueH35s9z/84sw1SjVegZFI0UZJNEkMz9
-         HmUHs485setg5ByaddJXeJKaGri3U5z08ss+CLqT3/kKAXSSd0JW+M5XnS0IwCg8dae1
-         23Xw==
-X-Forwarded-Encrypted: i=1; AHgh+RrJTF6eigmwOLKAJOc2Q6mhetW7nlw9G5fyIuIbi78g1xowWE2Nvw19/6lxJUrsDKFaOgbLtDBbb+lGjg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YypEsUhoGyJnZ37BV+qWOJ8fMcd+vMSIWUKhujIhmVpnCX9ssqW
-	bZMAXkaGV5X9M8P6WbU4C52FZPhdmPimom3+9lAaGYVM07R8DZoTnVypaJXLe1X7
-X-Gm-Gg: AR+sD10IMWnDGVG8epVwReHBhnj0kmvkNIggedvYv/wW3IHVHsGM0hIhAoAKFue+tta
-	D5L9+mE/Vf/ReGTmzHRGEddX+MTY7ZstkgLt4V3FnA9HwIlPLs8fn0weyE7K81FDC5QMKZBAWaV
-	++mEjZGjb94EIs4QDY+7qPtkN7v5F66IAi1WZ0ZWA5/1MNvcjXuAVL2RY5eMzC5WYLKFb0dIJof
-	I3m8SAwBT1DlYaozPiCmWmkwfc3al6QbGwJWDO9VCYTm4Ij1Q7BxcDVT00ce6fASybhvEg4isAQ
-	pTpEh4JH7T7fStCo7IXZnZa2EMMyfoF/Psjxc4WyJWmu3swfjE6ympIRfNWbcffuO+faz8iC+LK
-	BnAqtUnNDNImfQf32JfVjDydD4h9MUxkKLvxIDEGkTG75mFEW973XWOyfrdKYHNzb/YgbjjWpdU
-	zE05oMrmY+JOluCESdtoLXV7wQ5qrlIKSP2PINfRK0oPSsVp12j9wG0VFDYIVuVAdLFsCH7hLTK
-	4xUJ76UqqE0Wcb3vHDCrGgEUc5ShA==
-X-Received: by 2002:a05:6122:45a7:b0:5c1:47db:cfcb with SMTP id 71dfb90a1353d-5c38772e182mr4630980e0c.4.1785827714470;
-        Tue, 04 Aug 2026 00:15:14 -0700 (PDT)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c3d01eab3asm37849e0c.0.2026.08.04.00.15.13
+        bh=9QaVWHqdbaHxJymge1QHJLI8YxtJ974S/kpxpp3uip0=;
+        b=LZI4xUnvCrcrsZXrSGKdj6fZ8p+lvWHNOMTZsLsILqy+x8Gt7bmaWFThPq3jAwceEG
+         UAQh7YCuNGQVV7rTebyy2b4LvsXtmvNOUinQ1AySg4n8A/G4YsAf0xG1zjcAWHJl83fW
+         qdEyJ8AwEBqu4qAG61KDVSERl79I4P57CvDa5MAwO0j2X8ieqYO7ZW5LWLTwoBf+e4XU
+         dF6TgWficrrF+oLlLDC9EQGA14T5gT0iPcFlRSkUSKWWmA1YyDi6CnYO4utEViEryd+e
+         GmtjFaD8oB9E5qRs/7unDF52SpC1GgRkX2WvJ2OzSBPIqS4Wd1UV0NKJoluEgm8z4yoE
+         RjNQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrDxLHZ8YMi7Mp+XI9pyQp08Wd51wiyfZjzHHFtabWl7Ei1M+BE0glD/eILcNgyvLwFvOxV5RzJdBcbbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTRUlp/nQm9DqRGilsD00Ae/yLBeKXuq2mObKcfRz9JTV4MCbt
+	da56YVBuS1xxjfzamHn6/ZRD+ScakOplmo09J6j8CFOwHTxq4DYQnxWTfYUhpgbL
+X-Gm-Gg: AR+sD10wYsQ2fkxzRpgHD6JwXe7hoHdg7Qsva/Z2owAwP+P6HtY+qVpfvZ0MWLOgMsO
+	inFO8fqrwedvlhiSvGVV1lyVq47UOFY+of2mbKBsnLOTk/g65qLanu03+R65MppACc0pv+F7gFR
+	+ixOwxB/9/Op88t9wq8PjTsYo42Z+xVJKkgOP/Ohp14H+WSJaNayd33eB3OOdPB/4FBNHtg3FJP
+	wA/9ws2QNtvbXdEzwll2SLtl7sBHNNBgVA9OK/VXGC8H8tUifHArW4rizfUEMtzGq9emK+6cUq8
+	gzgZiYb9ne4q7lmIMyGSfFf2H5c0C8YttKeJf0IYFDlYCe0Fm4Yc0/G/5LiySn8dHvASD3zoOfB
+	a+vIALJMNDDrANgl/ipS0GVXWL7eRb5potxKnEzVzMvBNphaJgqp2GAxGMYQkPB8numJGJ0e2bK
+	Ow0ab1fXuC7P8DUGn0kTbbxsF0+6bbmTXqC0ZeIRiQ4t5YeINep/UPzNTCzPAAfNRCkzB55Frgl
+	ThCOtMLCl0TjgIxwsQdc/Tifw==
+X-Received: by 2002:a05:6122:6602:b0:5bd:b0a7:47e7 with SMTP id 71dfb90a1353d-5c3c3b749e6mr925344e0c.3.1785827850325;
+        Tue, 04 Aug 2026 00:17:30 -0700 (PDT)
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com. [209.85.217.48])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c3d08b1e05sm21822e0c.11.2026.08.04.00.17.29
         for <linux-sound@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Aug 2026 00:15:14 -0700 (PDT)
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5bfc5b77c02so3096788e0c.0
-        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 00:15:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpjpRHY4SApMVxvIvuBynb8K1LDRLuE0/pXEWXRekdWU/r9pdV9H2TsDNhUi6QzHiaBigzhQOXTNioSDw==@vger.kernel.org
-X-Received: by 2002:a05:6122:6d06:b0:5bf:bb2c:1328 with SMTP id
- 71dfb90a1353d-5c3b3802351mr1936417e0c.3.1785827713776; Tue, 04 Aug 2026
- 00:15:13 -0700 (PDT)
+        Tue, 04 Aug 2026 00:17:30 -0700 (PDT)
+Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7377dde7bc6so395783137.0
+        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 00:17:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrqKmw7YeQFxIVe1IzfUbfQ062IAVedg07EIxGrkVRaKiwA3h2KW8zYZ9czzrmCofJLi2yenjNTC7vHTw==@vger.kernel.org
+X-Received: by 2002:a05:6102:6311:10b0:745:4670:42fd with SMTP id
+ ada2fe7eead31-75f7692562cmr648867137.20.1785827849793; Tue, 04 Aug 2026
+ 00:17:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87zez4rmrq.wl-kuninori.morimoto.gx@renesas.com>
- <87wlu8rmr3.wl-kuninori.morimoto.gx@renesas.com> <c474b067-e549-4d51-be21-4337cb8de184@sirena.org.uk>
- <87jyq6vgyd.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87jyq6vgyd.wl-kuninori.morimoto.gx@renesas.com>
+References: <87zez4rmrq.wl-kuninori.morimoto.gx@renesas.com> <87v79srmqx.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87v79srmqx.wl-kuninori.morimoto.gx@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 4 Aug 2026 09:15:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWxRASq-jwryP4prDMAQuYEBSYpPNY2iw8GbQUKh-P2ww@mail.gmail.com>
-X-Gm-Features: AUfX_mxRHC-uqjF24qFeTEXuEmQ45bSshehVmnozBsmWiJbWPNhp1JZXn_G-nJ8
-Message-ID: <CAMuHMdWxRASq-jwryP4prDMAQuYEBSYpPNY2iw8GbQUKh-P2ww@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] ASoC: renesas: enable COMPILE_TEST for PCM SH7760
+Date: Tue, 4 Aug 2026 09:17:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUbNyR17yEBd3j8Uxr4yXYp6ryjzSynrNJ2ncpZARXNYw@mail.gmail.com>
+X-Gm-Features: AUfX_mzRnNKFH45GXbl0DGVj0vcTLIJaytPw-Ya-8ltGiTeNTwsrSeFMCn-wAXs
+Message-ID: <CAMuHMdUbNyR17yEBd3j8Uxr4yXYp6ryjzSynrNJ2ncpZARXNYw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] ASoC: renesas: enable COMPILE_TEST for AC97 SH7760
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Mark Brown <broonie@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Morimoto-san,
 
-On Tue, 4 Aug 2026 at 02:59, Kuninori Morimoto
+On Mon, 3 Aug 2026 at 03:55, Kuninori Morimoto
 <kuninori.morimoto.gx@renesas.com> wrote:
-> > > PCM SH7760 is not compiled with COMPILE_TEST, and there is no defconfig
-> > > which selects it. So it is easy to be overlooked for compile test and/or
-> > > ASoC updating.
+> AC97 SH7760 is not compiled with COMPILE_TEST, and there is no defconfig
+> which selects it. So it is easy to be overlooked for compile test and/or
+> ASoC updating.
+>
+> Let's enable COMPILE_TEST when it was for SuperH / SH-Mobile
+>
+> Then, remove #error which hinder for compile test.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 Thanks for your patch!
 
-> >
-> > > -   depends on CPU_SUBTYPE_SH7760 && SH_DMABRG
-> > > +   depends on SUPERH || ARCH_SHMOBILE
+> --- a/sound/soc/renesas/Kconfig
+> +++ b/sound/soc/renesas/Kconfig
+> @@ -63,7 +63,8 @@ config SND_SOC_RZ
+>
+>  config SND_SH7760_AC97
+>         tristate "SH7760 AC97 sound support"
+> -       depends on CPU_SUBTYPE_SH7760 && SND_SOC_PCM_SH7760
+> +       depends on SUPERH || ARCH_SHMOBILE
 
 You can drop the ARCH_SHMOBILE part, as it is a subset of SUPERH
 (if ARCH_SHMOBILE is enabled, SUPERH is enabled, too).
 
-> > > +   depends on (CPU_SUBTYPE_SH7760 && SH_DMABRG) || COMPILE_TEST
+> +       depends on (CPU_SUBTYPE_SH7760 && SND_SOC_PCM_SH7760) || COMPILE_TEST
 
-You can drop the CPU_SUBTYPE_SH7760 part, as SH_DMABRG depends on
-CPU_SUBTYPE_SH7760.
+You can drop the CPU_SUBTYPE_SH7760 part, as SND_SOC_PCM_SH7760
+depends on CPU_SUBTYPE_SH7760.
 
-> > SH_DMABRG looks like an actual dependency, there's custom IRQ request
-> > and free functions which don't have stubs.
->
-> Ah...
-> SH_DMABRG itself is depends on CPU_SUBTYPE_SH7760.
-> So I think it should be "select" instead of "depends",
-> like below.
->
->         depends on SUPERH || ARCH_SHMOBILE
->         depends on CPU_SUBTYPE_SH7760 || COMPILE_TEST
->         select SH_DMABRG
-
-1. "depends on SH_DMABRG" should be fine, as SH_DMABRG is a
-    user-visible symbol,
-2. SH_DMABRG depends on CPU_SUBTYPE_SH7760, so you cannot just select
-    it without enabling compile-testing for SH_DMABRG first.
+>         select SND_SOC_SH4_HAC
+>         select SND_SOC_AC97_CODEC
+>         help
 
 Gr{oetje,eeting}s,
 
