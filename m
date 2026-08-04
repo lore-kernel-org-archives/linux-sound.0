@@ -1,58 +1,64 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011024.outbound.protection.outlook.com [40.107.74.24])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011007.outbound.protection.outlook.com [40.107.74.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D519037F8A1
-	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 00:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1302337F326
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 00:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785804093; cv=fail; b=Y+8AIXX65LBs0IWIa5e9D7glVaqU4t7cZ4aNWJ2vAeMZeeHepwg2Er5hDB5KK9eYgDcaEPFy6sDIZGbJrcTa3DdH1CqizQPX+ZflJjWtxbE6bpYC7rQwJ0eCtv8jY/1rg9Gf3T5qGPd1l4ZcRHfMIHzlTbILCiXymIJ0NRkge7k=
+	t=1785804102; cv=fail; b=kkCfx1ktUdxleTqgo74tT4qdAIDfQVx28zh/ep8JUbiCDFXyfqteCV+v5rBEWWtPqV+gzvTQLFJNFSt60NRVj1I3Pr05MDq1lONPFU9NGdDZxt32TP7FN5ehmnuXcbqHCqO10038oLIAyCIpN7pEOF9iltOUXI+z+FH4PbdYBAc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785804093; c=relaxed/simple;
-	bh=r8zvwbRspiG2hUL+ZsGiLCQYVKiVG00Ac5eHFrvwNRw=;
+	s=arc-20240116; t=1785804102; c=relaxed/simple;
+	bh=MdRQhNl4giwH2PcDllVuc/FOlOIjyheJVNO8rvbex5Y=;
 	h=Message-ID:To:Cc:From:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=cIz0TZmZKH6FkIlULlOlS4LpTm+S/Rs6C24p88k/aP2O9BaBF+IEljrkQ/h2a+DBZaE/ZMYG98ju1FoeB4dKYtE1Yj9Jc0wSQu+ewuHXUkTeOZE+QThTaEnMQ7Zv0M9x+f+43WTsOVpT/WSRKkc1DumPkLI32rIi7PY4LMKTQH0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=JD8MXlvX; arc=fail smtp.client-ip=40.107.74.24
+	 Date:MIME-Version; b=B0hw2TU2tyhJDijhd3iMRAgKZo+3rlPObUJxrRa5BPC4o2qDpAdLVXapsRRW+0Kj8m5qWA487/bEcUJGwkOSwH5rBPAQDNzzqABvh04p/oF6TlH2jwWGyZ9AZN7JSukSr9b+2YuVws6XqGq1CHe6CGsoo4imYZIwt3Xl9+J5VFc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=kkPBvnjA; arc=fail smtp.client-ip=40.107.74.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="JD8MXlvX"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="kkPBvnjA"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mFDBafkhfZU7MdO0KsPOuBhJr9Fs8v83fbP4k6OSaG+ih80kr2glZ1bvVs3ERrUt4bCHuyFMxzG4/r4oMJxk329j/Hk4YkPv1KWRjzqM5814GzMDnDZgLAOlbEs9DPbSkMqztFHTyBNKxjYC3n1vsA45iVj7Z46qwiS7kCD+pa9GTeS5ECOsOF+6AguXEJ+dBeaQshsdg9DdGTWLOxIFbgHpqd/RaKL8OoVKcTTzJsSoUZnJApQzft+mHl7x3FvRRljQP+7ZZ3rTfXAPoGM1OOM50sRCHH0Nv1X1CfoLIs0xouKW5mPAPoccF8s9jLXHnDI1kXTV8YBE5KsLRvLRUg==
+ b=FgvRdo+Ia0gNRtZq4p4gA7dDcgtf1iOZ7PQTX5UagxRMP6KLnimg+AowQtujLKnRiM/7i5Wrys47EJVOVv6VgIo6JKQYFFgF4aCT4HzXkiO6epUqd1/ognb+rDdZ/OIZ6xVktBtUOheQx9VtfbHRchMunEd2aYAXyvnFUhfwqOMORj6xU1R7CZVXUoX0Z9jPj3gH0Jt0g6HZ/b298c7M/Bo8BqMlh/O90XgvIqTw2Qs2dghREjNr438I2iaOby8B1nGhy7SoZbck1l1RNnbfyXcyUSdB4jngg38cczz8kf2Vp17VYaSjJiXCnLcpKCUqlDjN86egr44pPYEAgyapQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6uAUbrHSrY+voWqYuRAs1Yi7KUW6ULC1QMzUsXOFdiA=;
- b=xu57yO/q1XkN+Q+MeW52fr6vea5TE3Dlq9HXg1C1yFH/4d97DnTqrno6qewLE242Y2rVxmgGmY2T2euJ2XoTbfGuqYAMMDa+Z0D1Ak21civSCq6Mvw9NM6s97Qm1St2c4q5dZQp7DJn4zHp1xtUE0pTeG0UE31t/tVmk9KyLBRZgK+5iMCxEu+LQNQIIrsZUTF+AnBXnMnFj+d6GxLDskNvZAeaw0J1xuTNBKV6SKfQHJ4WTTb9DTSDqxEIZW8jNE5Znvjz3NnEVcBxTR6lQ7OgGg+mEhJxQ79XpwG3d2MxQmPyBPGsHzIElqq3OvVnq2d701rK9zL2TbhGgpbVeNg==
+ bh=uzTf7Qdu/uoxLLVc2VGS4vdcP+x9oClzAedZujygHmQ=;
+ b=mJjXFwaeOerJnxlnI6f9AlLiAwDx/T6zTICo0hnFt71oAnfKJ0UjmQ3wuTaTYMjgWJ9fxsGIWb0j97FlMrTQo1EQumJDMefBhnl45isVIr9ABPNGrdAEgMRb/2E0kU23ukZfKMZwVuykQmha4Vsq+D/QQGkStWQnK1cLn7zj6z+tWMAU4Yrd4MtXbcRdkDx8nH0LPi1ahJixTyDIA4etydcf14bC27ddUfgSSIeaQJqf0tJ3ljbtCX7Ka3CipbjQS1g5hyzuL5/AFhGG9K3IWdEWzDkzMuvbgygJWVXORJ8GLQllECc6k1d9NvzKlxuUbomTHYv9z2yMu4jNoLEwUA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6uAUbrHSrY+voWqYuRAs1Yi7KUW6ULC1QMzUsXOFdiA=;
- b=JD8MXlvXmiZQtg1GVTfVrxSladLq7EqcvfGEcKahAINpgi8xwDinsUzOdLDhsCpfKrxOfwuL00crs3GYMue/ZDDD5GQbNBfPKKi2qxMFqbFg9VAjkHmu/N3wLqHhX+vrNCZdeMvPgkFOQGD1ocRRTNqnvctMxhk8//XxSMz0lE4=
+ bh=uzTf7Qdu/uoxLLVc2VGS4vdcP+x9oClzAedZujygHmQ=;
+ b=kkPBvnjA+xPboOpw9EzRbfwX17et4yDIGfaX+GjKkY7+8W2KbMgMQ6fXoF4O3Wt5iLjcLu4K4aRipXYJZorDTUN4BHa6hiBWEZNi+HcFABiC6xu77VdfkjLB3FbCHOa/Lvu7nhGIsD1a7JgfU/9hLwjKYSHaGrTyXECNEpiKCOA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
  by TYRPR01MB15651.jpnprd01.prod.outlook.com (2603:1096:405:285::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Tue, 4 Aug
- 2026 00:41:29 +0000
+ 2026 00:41:33 +0000
 Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
  ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0270.017; Tue, 4 Aug 2026
- 00:41:29 +0000
-Message-ID: <87v79qwwcn.wl-kuninori.morimoto.gx@renesas.com>
-To: David Rhodes <david.rhodes@cirrus.com>, Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Richard Fitzgerald <rf@opensource.cirrus.com>, Takashi Iwai <tiwai@suse.com>
+ 00:41:33 +0000
+Message-ID: <87tspawwci.wl-kuninori.morimoto.gx@renesas.com>
+To: Ben Bright <ben.bright@cirrus.com>, David Rhodes
+ <david.rhodes@cirrus.com>, Fred Treven <fred.treven@cirrus.com>, James
+ Ogletree <jogletre@opensource.cirrus.com>, Jaroslav Kysela
+ <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, =?ISO-8859-2?Q?=22Martin_Povi=B9er=22?=
+ <povik+lin@cutebit.org>, Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 12/44] ASoC: codecs: cs35l*: use .auto_selectable_formats
+Subject: [PATCH 13/44] ASoC: codecs: cs42*: use .auto_selectable_formats
 In-Reply-To: <87cxvyyazi.wl-kuninori.morimoto.gx@renesas.com>
 References: <87cxvyyazi.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 4 Aug 2026 00:41:29 +0000
-X-ClientProxiedBy: TY4PR01CA0002.jpnprd01.prod.outlook.com
- (2603:1096:405:26e::19) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+Date: Tue, 4 Aug 2026 00:41:33 +0000
+X-ClientProxiedBy: TY4P286CA0045.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:36e::12) To TY3PR01MB11797.jpnprd01.prod.outlook.com
  (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -62,231 +68,515 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYRPR01MB15651:EE_
-X-MS-Office365-Filtering-Correlation-Id: f057a2d4-6b42-4525-dcbf-08def1c11f6d
+X-MS-Office365-Filtering-Correlation-Id: 96de6c67-c1af-41ba-9d84-08def1c1221c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|23010399003|38350700014|18002099003|22082099003|11063799006|56012099006|10067099003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|7416014|23010399003|921020|38350700014|18002099003|22082099003|11063799006|56012099006|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	5+Q7jzueBNTCawrJY8K+w2rvWiSQ7xRNRrO37B1S2EmPBLE+c7C6kHUGKp+cKFLHc+RYLDI0yp7ipvak/Uvr6LZ5pdDLjUgI6U4tGpsJa4L2jqzU5VmN+8TJ+FVtdm6ytxkrjztBoaV042KPkKGFWTsVYUnOIeKvDJwnIGq09CEzybr4fHk60ys7A8cT6yhtJRHsYM9JvUhpDi1dECquE4/pGdU4xzumhQ0D9XytfZ2JK8qMqT5ZXI7ieqUo3NEZ0M6WJSDQy7CZ37MQBipiidd3O7VTprTLjT/VJ+uxPYp6feHly8ARNcmH4YAa61AX8j6Teu40MNw8nt7tk/YKXo0/NQxBhK8DgTk+Le3AEWuMjZy4z179k9iEp3YmzC1t7/67+Xz1KOQHoUKT8ObISMjjfddLIQk5kA2EMLUG63D9jiCjQECdumkZGLaHwIBESYoOdtGayrakJZdyKo458OcSdOv66jPrHzdid2cU1DC8TUKzK8v40uP7fWSpvLU/7d03/Odg2vxJ3mDERr2KEhMpeDY/v7azhAEipRwQ0jBlWQL1P0PwluMmREedu3kjGJ2B/MSFGb5A2MVAYpiblthXN5T9k0/NTXy1waZUbGiPOj5fHD+BOgXCDNEKo4g8Ryiuzfq3P5aU1npzkJrwvHr1q68ABwS1lzoyRpVNxNeevOSZdd+zOapJnJpu3+aW6IsmiIazMgdCOHAmhbzmPNefAZc4i3RaXUMvVSICu38=
+	VV15FzS1auIXsdzhM45wIMCVqJ5MXPhoAiBRPmJQmzV4h2iO4+daOLh5aca5rTTLojPU/n8KXmpDTrITpDCbEL5GKKv1dO0Mg+fwWCwN4sJRb9/LALes7V1VPUxUn2/WBsNWSPyGmbrr1lkCFhZHSQlsRvvqgUySoyd5m2q4+PDMt+OMWCD2SCxt094lDU4q7Ls6xcvOfP01M9kxjeusB0t892lIu4K9RGVGMMYzHdxdKV8FSeSnjuFcxEbI/2dB9L+hppYxe3Ufi6m9yNGzbMOO46Mr+ARaa2d2B4NcRFDaBALjttnaKHIh9MjcVHTLBSGGi0T7mdVXEsuW/L30e9SV9m4Ve+izeioyCS0pL3HjgYt4cGbSm9lkpnkZYtqgWV1mW7gsBGaEHaQR1hN4fjL3W0l6sVnbzeGMqPjoCbh70eVMB6/uJvGHa5zXOHRAEsOYxoM5cgmfNju/TnmxplIrMohM4PzvQgiFmBuTF8xRWNU7P09C4uyX0Pdghf3PPfSPc4Aj3kHvqmdRE9A/XEZ1bmOR1gfnN3f/oOyKNc9ztKcT13jMLv5iqniH+7VC5cA+YJnRWGuL+jy0k91aGMwHuyR5sKt1jhuB3qoV+XPi2JXjg4TUtyLgCHwRGaocM6v+Qef6Ie0zqcybym8Xm6soIMYTZVxtPQUxWgBvRTR3cnOO6/iR1g9Omw391KFNVL2pFfhk4tobJwKRQdQyORtPC0Gt5U84U9VZt5LUWxs=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(23010399003)(38350700014)(18002099003)(22082099003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(23010399003)(921020)(38350700014)(18002099003)(22082099003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?I2bsbSiRAn3ACooiHpwMx0K2SID8MWIt4FElwFRyhdXi4Gpz9CDrGXjGq5Wr?=
- =?us-ascii?Q?BNjGmOO6cNud4cMW7rcv7B7xsNZ0/IkIOs+gWsv0QlJO0Hc6SZCnwln4MN8S?=
- =?us-ascii?Q?RNzvRJwWuJaPQrT7uy4o4QX6ogCn8V2GckMclJV7g55nJtsfuBM89ciaT4ra?=
- =?us-ascii?Q?uLLOcdNNx7595q0VOnzXRQF0bIjhC+2qe6WQlQrSUxg1BhYR7WaX3dHWMR+V?=
- =?us-ascii?Q?02oAHu7R5S7JB3fJ9HLyJOArfGWgZo4xgKyVVeV4+0/FHt9+xH+9rkOCB/Ld?=
- =?us-ascii?Q?IBxV3moVP6uCXpiv5i9R4u44eaQer2YLAw2HjhvDHObmJW+i1U8N5COCuwxB?=
- =?us-ascii?Q?zMYhZBFPw63F58LMlPL0lNFskE6lRiYkzn81mOyH+xdOCKvet8hANRdy1QWS?=
- =?us-ascii?Q?cK3TFwegyzRD6VikXnQ61CZHaEsjP9RBSMQkOoHphz666FtPi6LAxm4nrbXO?=
- =?us-ascii?Q?Os8oE5z7SJOQfKqe1CM4LnIyiOQJp823ZUP7Mx7+qezzWSlDq0qxUoweEgCt?=
- =?us-ascii?Q?/ro31NT7euORvmnnOQLhyBGL52jBGAIyP+JF79ohYPa3Ob+E9uhV7Siwlx/E?=
- =?us-ascii?Q?uY9Z+/ZFySoBxVW/oGwXlnilFU/S0wywh/ZJN6BEAAcDOfWVdjlLrqxEd+GA?=
- =?us-ascii?Q?aqqYfbEpCdJ5e5nZ/AgFFmtvMGaRSv7BigyVfT9loU4gmVpM9ANUs14zihwW?=
- =?us-ascii?Q?xtYWoUCI/wzkZVh+6Olh/CAw1LmcMUdVkbwvx7Kf3sZlK7lefSIggx2fV9XB?=
- =?us-ascii?Q?zeidnvaByCL/vEKHx8fp45PmQV8kIlYfkhMOJQajA/9nFauDSv0xcY5e6YlF?=
- =?us-ascii?Q?qoGF4mb2eREpL5JketaSJ2yNDQwHX5uZmjFzNF+n2Yo/U0QZhgDRXzsZRsCU?=
- =?us-ascii?Q?mfgiSksA3N4cU7yH+pGoW2g0KalSS48aM+x/VZvOb2jpKrakfeT7v4z3GwNe?=
- =?us-ascii?Q?kAl/6WAF2mvYm4A8FjKjiueCneBDgrACr96veYHqH7JOFf2amp2q/V+5wI36?=
- =?us-ascii?Q?VOA2woWzm8XzfMvcqg4/EQNjks7m4BVIgaGOY/cinKS7UaZj97gFxex6jAN4?=
- =?us-ascii?Q?xa3n2FwxfdOKfFXUvI18kU0ydfX6TMxiIC0W5z1yVaD7ukrdsSbsFzGJozxq?=
- =?us-ascii?Q?8kIGysMnb2XTXNzha9+j7qcABKgQ20Aek+laqjgvtv2HyJ+jYfsA/Wog+dU8?=
- =?us-ascii?Q?t/75Ppp3KVutFETOpv97waTKlJWbgitKbZFE3+Sy3n7QFedPf0WpceTWStvy?=
- =?us-ascii?Q?vR9nYEjxxagEEVucAFFY9jpnzsD32hJq5SEpjfKpIMbrhVobOioGtuh3jJ7O?=
- =?us-ascii?Q?xhSY9n+yifcwxqgsYP7zASLOW6OzKY2GzN/0g4SPhIOVGtexBKCGVujH9qre?=
- =?us-ascii?Q?GSnLI2p/8Uy1d98urYZaSH2U1pX33ESHE8OfhViwr2AObrlv+cmx23CXF6MA?=
- =?us-ascii?Q?g2bMMb65wU6JLrMUe/zffGlgrcBF4yhgMnZro1EvCGnCRrAt5u2P/RKJip2r?=
- =?us-ascii?Q?bk7+1yDY88gU0FWl2vMjwEJ1TbOUWW/2/FSU7/LGRdIpj6qXBoY6s7ArfQyJ?=
- =?us-ascii?Q?qtJqKHN9k8XMzYrGSCEiWpgOwkisBHSGQEBAMTAx8/5g+AfhOWdhrjCU6Juk?=
- =?us-ascii?Q?AVdEHqz5THtQT5CSevhJ8GhpoExnPJdy5RtesmvqhYXDys5J/oGuzvzADFwI?=
- =?us-ascii?Q?mRYjBtMccdVIkSN+cs5qCVPGaIO+uKyG+hyF70mvFWRrE1CkweWov49ACsm3?=
- =?us-ascii?Q?vv3oXzbMAomc3jFvdJo9+P8Wb1WnNsCJzHmL444jPtGhgJHwFTv0?=
+	=?us-ascii?Q?/RKSTzW2TKMG7pU4HU8ybSmxRwIwAFGvvixIrWBDn3TynU9dcL7B5v1kd2nJ?=
+ =?us-ascii?Q?zfnvI700ur72A5HZ+ChX/L9slBWjFw4SlByZPhZ2Y9OQMQff0x44vXmK90Pr?=
+ =?us-ascii?Q?HTsDM/LlSnTEWAP6H7/yupevznUBmulJHHwzm6gFJvXrHkkliL2iKPwQo/6G?=
+ =?us-ascii?Q?7m2xtYa7CaQEf4JPqa/X7H2+mfTtb6iZHybXBwl7y0VnUwKqPFXWv1RcO/a8?=
+ =?us-ascii?Q?F1j5ZvUW7dN4X/tMKcO8QAlx4sC1RppEI+eQbVOGTjzIS0sEjlhIWMhLYJiF?=
+ =?us-ascii?Q?0i43DEv16Iu8LsT3YykbXao8b0vc93yibeKuX212x8XIRiG9lAUabarj3FrD?=
+ =?us-ascii?Q?YhvjLrpCaGIIfkBPlXtlY9BtE/2zrQ/a1fcJCJnzPdG0s/oCwXMeU4L9z9Tt?=
+ =?us-ascii?Q?OmW5+IQe2WDSPckOjK0HKMmVeO31P0NabQELB2bkOKLhtDbfXiQdu3wwOB4m?=
+ =?us-ascii?Q?3ByCeYHf+ugLj5RfnbqqHId5V0KbJ77t86lMJHakkK10CfDO9VyUoHHUtnxW?=
+ =?us-ascii?Q?LBLOfjCAIqOcB7+RsPrHAP6N9Q08QDy9e2pvRuSI1BMGvTipsz+PmJzwjkUC?=
+ =?us-ascii?Q?jcUBJCpDJ0oja/bKluHJX69Mm+BT6ZBgAxEQgf69BzcjyD9uvGLerwu8e0C2?=
+ =?us-ascii?Q?DCe8v845vTPCBcBQUhCEtizGtU5t03VFbuuCzujk1ZoqxQF0tpfYacLhe9R0?=
+ =?us-ascii?Q?d60tqrO2IPsXGdvDEE//040wos+oJSwysc2uxyuC+bGfuj+lxFDSPvjvo46E?=
+ =?us-ascii?Q?XSYEMVmoDx8nkxSWPu0YjPTLGfbY8DZLRnWHN3s/Ko1dU+2B7g0vyMeAHzLZ?=
+ =?us-ascii?Q?b1rAAIKzUXOkEqdaImCL9qP6gIHYeLJmKS1yilito9QRIyLtKZEKi1UWb6td?=
+ =?us-ascii?Q?xQeGkR3+ZXSet8KD5okKpJTuGPCoOcZD2HbLKSWGA0OLDJzL2yhHyFiEbcxb?=
+ =?us-ascii?Q?VknHP0JCCpPCiDt19r/O6gOw6L68QkHbGGzdOVet+qxmF3XlCc1s/v3creV5?=
+ =?us-ascii?Q?QX4sYgnkippupMStRWQ9LcW+uHgtJXV5KJzOBzscFlzMWcRkcY8N3TY3doyY?=
+ =?us-ascii?Q?zGFcOVH5/5Fogo1qQ2VQrr1Xn/Na+Kt57gTb8Z1ipNr9ekKFtsJRvbzoLbjq?=
+ =?us-ascii?Q?BZxHyaZNVNcIe3gdryEWqcHlw2oC/a5QPb5JGBY7iRtAn99SyjxW7Y/zteJm?=
+ =?us-ascii?Q?5ND0QErl8uqd1KOzHtMIehO+br4gR2q8rDH/l+0l8I0vo0H5t2oOXhWXhqSG?=
+ =?us-ascii?Q?yV/P17Qq31uT8z4H/bsCRzkza9IFyQH2Z72BfEzl1r/XLLYeLIVFLUscwTfQ?=
+ =?us-ascii?Q?xnd3JW1St6GI8jx62rg6ITjdYG3+0clhMAaxcM9LcR5NYFPJmse/Pf6wXK9V?=
+ =?us-ascii?Q?HITRPwg7bBWOU5vIDu3E+09NjB+XDjKiMAWXvnfJ88MeUdm2eDBtJCrnqgTC?=
+ =?us-ascii?Q?mVNRPUz80Cw8bJJafasN4LJ+WzEg9H5tucQR/BUIlK4sa/oZWtBqWcYDcsnt?=
+ =?us-ascii?Q?UyhaEbV1q4f96JnoJXv4SuczLl7UsY7WcFahEHD+KuWfESTWS47i6zhqqIJe?=
+ =?us-ascii?Q?Nn/Eie51jhtzMLsX+Ih3c5LBEDbog4OfpAnAU9k8FWUxSguzrNXxuYtqWjmJ?=
+ =?us-ascii?Q?/t52BCxloTCQH7vAMAPTMVlf7sCQ9Ek5WQWfihhdeL0dgy5eISRA4VFpimch?=
+ =?us-ascii?Q?yzydicwT2MrfnQ1RbMP9FE38P79FV113+JN/VuD1hLApTXxd+Q/vCWe8Pnvk?=
+ =?us-ascii?Q?d5tZlrLjDrLWcIC9hmxreD4szLFwRIeB6braIhAJF/RBgBK5ygzM?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f057a2d4-6b42-4525-dcbf-08def1c11f6d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96de6c67-c1af-41ba-9d84-08def1c1221c
 X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 00:41:29.2727
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2026 00:41:33.8135
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m+7eAKQjZpHPkiVrJxDPXDOc1ZhT65CjPpLWhxa9Lccch4S6PFXZCImId9iH5EsIjqC3QCeNnp8kGbnzQLSlh5Bs1a4wm3VbgdNGJc8AnvrRW+DI5jN8+0y/TtlWrd52
+X-MS-Exchange-CrossTenant-UserPrincipalName: mKkjnv6nTjxh39jwLlpZGt8LoNNAoysWA6g3lxjsaPVxKsfVzyGjth8zD1tZl+qhcghWyplmc+FdE00xd41qGmn2qXFslaMhLZ+vuKHEZmBH6KHmiAWjxQosuHXFGa5L
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15651
 
 We can use .auto_selectable_formats. Let's adds it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/codecs/cs35l33.c |  6 ++++++
- sound/soc/codecs/cs35l35.c |  8 ++++++++
- sound/soc/codecs/cs35l36.c | 12 ++++++++++++
- sound/soc/codecs/cs35l41.c | 10 ++++++++++
- sound/soc/codecs/cs35l45.c | 10 ++++++++++
- sound/soc/codecs/cs35l56.c | 10 ++++++++++
- 6 files changed, 56 insertions(+)
+ sound/soc/codecs/cs40l50-codec.c |  9 +++++++++
+ sound/soc/codecs/cs4234.c        |  9 +++++++++
+ sound/soc/codecs/cs4265.c        |  7 +++++++
+ sound/soc/codecs/cs4270.c        |  6 ++++++
+ sound/soc/codecs/cs4271.c        |  6 ++++++
+ sound/soc/codecs/cs42l42.c       |  9 +++++++++
+ sound/soc/codecs/cs42l43.c       | 12 ++++++++++++
+ sound/soc/codecs/cs42l51.c       |  7 +++++++
+ sound/soc/codecs/cs42l52.c       | 13 +++++++++++++
+ sound/soc/codecs/cs42l56.c       |  8 ++++++++
+ sound/soc/codecs/cs42l73.c       |  7 +++++++
+ sound/soc/codecs/cs42l84.c       |  6 ++++++
+ sound/soc/codecs/cs42xx8.c       |  8 ++++++++
+ sound/soc/codecs/cs43130.c       | 14 ++++++++++++++
+ sound/soc/codecs/cs4341.c        |  8 ++++++++
+ sound/soc/codecs/cs4349.c        |  7 +++++++
+ sound/soc/codecs/cs48l32.c       | 12 ++++++++++++
+ 17 files changed, 148 insertions(+)
 
-diff --git a/sound/soc/codecs/cs35l33.c b/sound/soc/codecs/cs35l33.c
-index e217da124549a..d0f9231f5e442 100644
---- a/sound/soc/codecs/cs35l33.c
-+++ b/sound/soc/codecs/cs35l33.c
-@@ -663,12 +663,18 @@ static int cs35l33_component_set_sysclk(struct snd_soc_component *component,
+diff --git a/sound/soc/codecs/cs40l50-codec.c b/sound/soc/codecs/cs40l50-codec.c
+index 6763671630676..698aa59194f4b 100644
+--- a/sound/soc/codecs/cs40l50-codec.c
++++ b/sound/soc/codecs/cs40l50-codec.c
+@@ -233,10 +233,19 @@ static int cs40l50_set_dai_bclk_ratio(struct snd_soc_dai *dai, unsigned int rati
  	return 0;
  }
  
-+static const u64 cs35l33_selectable_formats =
++static const u64 cs40l50_selectable_formats =
 +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
++
+ static const struct snd_soc_dai_ops cs40l50_dai_ops = {
+ 	.set_fmt = cs40l50_set_dai_fmt,
+ 	.set_bclk_ratio = cs40l50_set_dai_bclk_ratio,
+ 	.hw_params = cs40l50_hw_params,
++	.auto_selectable_formats = &cs40l50_selectable_formats,
++	.num_auto_selectable_formats = 1,
+ };
+ 
+ static struct snd_soc_dai_driver cs40l50_dai[] = {
+diff --git a/sound/soc/codecs/cs4234.c b/sound/soc/codecs/cs4234.c
+index a889fbd519a86..a6ead1ee37081 100644
+--- a/sound/soc/codecs/cs4234.c
++++ b/sound/soc/codecs/cs4234.c
+@@ -560,11 +560,20 @@ static int cs4234_dai_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask
+ 	return 0;
+ }
+ 
++static const u64 cs4234_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF;
++
+ static const struct snd_soc_dai_ops cs4234_dai_ops = {
+ 	.set_fmt	= cs4234_dai_set_fmt,
+ 	.hw_params	= cs4234_dai_hw_params,
+ 	.startup	= cs4234_dai_startup,
+ 	.set_tdm_slot	= cs4234_dai_set_tdm_slot,
++	.auto_selectable_formats	= &cs4234_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ static struct snd_soc_dai_driver cs4234_dai[] = {
+diff --git a/sound/soc/codecs/cs4265.c b/sound/soc/codecs/cs4265.c
+index 286d5ca298541..019f7333e75fd 100644
+--- a/sound/soc/codecs/cs4265.c
++++ b/sound/soc/codecs/cs4265.c
+@@ -495,11 +495,18 @@ static int cs4265_set_bias_level(struct snd_soc_component *component,
+ 			SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_U24_LE | \
+ 			SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_U32_LE)
+ 
++static const u64 cs4265_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
++
+ static const struct snd_soc_dai_ops cs4265_ops = {
+ 	.hw_params	= cs4265_pcm_hw_params,
+ 	.mute_stream	= cs4265_mute,
+ 	.set_fmt	= cs4265_set_fmt,
+ 	.set_sysclk	= cs4265_set_sysclk,
++	.auto_selectable_formats	= &cs4265_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
+ };
+ 
+diff --git a/sound/soc/codecs/cs4270.c b/sound/soc/codecs/cs4270.c
+index 47b2f903a32c4..aa3bbb9519451 100644
+--- a/sound/soc/codecs/cs4270.c
++++ b/sound/soc/codecs/cs4270.c
+@@ -456,11 +456,17 @@ static const struct snd_kcontrol_new cs4270_snd_controls[] = {
+ 		snd_soc_get_volsw, cs4270_soc_put_mute),
+ };
+ 
++static const u64 cs4270_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
++
+ static const struct snd_soc_dai_ops cs4270_dai_ops = {
+ 	.hw_params	= cs4270_hw_params,
+ 	.set_sysclk	= cs4270_set_dai_sysclk,
+ 	.set_fmt	= cs4270_set_dai_fmt,
+ 	.mute_stream	= cs4270_dai_mute,
++	.auto_selectable_formats	= &cs4270_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
+ };
+ 
+diff --git a/sound/soc/codecs/cs4271.c b/sound/soc/codecs/cs4271.c
+index d8cdd37e9112b..398d8c24a9ce2 100644
+--- a/sound/soc/codecs/cs4271.c
++++ b/sound/soc/codecs/cs4271.c
+@@ -455,11 +455,17 @@ static const struct snd_kcontrol_new cs4271_snd_controls[] = {
+ 		7, 1, 1),
+ };
+ 
++static const u64 cs4271_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
++
+ static const struct snd_soc_dai_ops cs4271_dai_ops = {
+ 	.hw_params	= cs4271_hw_params,
+ 	.set_sysclk	= cs4271_set_dai_sysclk,
+ 	.set_fmt	= cs4271_set_dai_fmt,
+ 	.mute_stream	= cs4271_mute_stream,
++	.auto_selectable_formats	= &cs4271_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ static struct snd_soc_dai_driver cs4271_dai = {
+diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
+index fadf688606014..9e40c03ada4e8 100644
+--- a/sound/soc/codecs/cs42l42.c
++++ b/sound/soc/codecs/cs42l42.c
+@@ -1122,6 +1122,13 @@ EXPORT_SYMBOL_NS_GPL(cs42l42_mute_stream, "SND_SOC_CS42L42_CORE");
+ 			 SNDRV_PCM_FMTBIT_S24_LE |\
+ 			 SNDRV_PCM_FMTBIT_S32_LE)
+ 
++static const u64 cs42l42_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
++
+ static const struct snd_soc_dai_ops cs42l42_ops = {
+ 	.startup	= cs42l42_dai_startup,
+ 	.hw_params	= cs42l42_pcm_hw_params,
+@@ -1129,6 +1136,8 @@ static const struct snd_soc_dai_ops cs42l42_ops = {
+ 	.set_sysclk	= cs42l42_set_sysclk,
+ 	.set_bclk_ratio	= cs42l42_set_bclk_ratio,
+ 	.mute_stream	= cs42l42_mute_stream,
++	.auto_selectable_formats	= &cs42l42_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ struct snd_soc_dai_driver cs42l42_dai = {
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 1b817e1a6ea5e..b6238f89c789c 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -671,6 +671,16 @@ static int cs42l43_dai_remove(struct snd_soc_dai *dai)
+ 	return 0;
+ }
+ 
++static const u64 cs42l43_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
++
+ static const struct snd_soc_dai_ops cs42l43_asp_ops = {
+ 	.probe		= cs42l43_dai_probe,
+ 	.remove		= cs42l43_dai_remove,
+@@ -678,6 +688,8 @@ static const struct snd_soc_dai_ops cs42l43_asp_ops = {
+ 	.hw_params	= cs42l43_asp_hw_params,
+ 	.set_fmt	= cs42l43_asp_set_fmt,
+ 	.set_tdm_slot	= cs42l43_asp_set_tdm_slot,
++	.auto_selectable_formats	= &cs42l43_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ static int cs42l43_sdw_hw_params(struct snd_pcm_substream *substream,
+diff --git a/sound/soc/codecs/cs42l51.c b/sound/soc/codecs/cs42l51.c
+index 0519affe0ed8d..4b964c7133982 100644
+--- a/sound/soc/codecs/cs42l51.c
++++ b/sound/soc/codecs/cs42l51.c
+@@ -533,11 +533,18 @@ static int cs42l51_of_xlate_dai_id(struct snd_soc_component *component,
+ 	return 0;
+ }
+ 
++static const u64 cs42l51_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
++
+ static const struct snd_soc_dai_ops cs42l51_dai_ops = {
+ 	.hw_params      = cs42l51_hw_params,
+ 	.set_sysclk     = cs42l51_set_dai_sysclk,
+ 	.set_fmt        = cs42l51_set_dai_fmt,
+ 	.mute_stream    = cs42l51_dai_mute,
++	.auto_selectable_formats	= &cs42l51_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
+ };
+ 
+diff --git a/sound/soc/codecs/cs42l52.c b/sound/soc/codecs/cs42l52.c
+index 9d6bcfbbf0b20..10760816a5f91 100644
+--- a/sound/soc/codecs/cs42l52.c
++++ b/sound/soc/codecs/cs42l52.c
+@@ -883,11 +883,24 @@ static int cs42l52_set_bias_level(struct snd_soc_component *component,
+ 			SNDRV_PCM_FMTBIT_S20_3LE | SNDRV_PCM_FMTBIT_U20_3LE | \
+ 			SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_U24_LE)
+ 
++static const u64 cs42l52_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
++
+ static const struct snd_soc_dai_ops cs42l52_ops = {
+ 	.hw_params	= cs42l52_pcm_hw_params,
+ 	.mute_stream	= cs42l52_mute,
+ 	.set_fmt	= cs42l52_set_fmt,
+ 	.set_sysclk	= cs42l52_set_sysclk,
++	.auto_selectable_formats	= &cs42l52_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
+ };
+ 
+diff --git a/sound/soc/codecs/cs42l56.c b/sound/soc/codecs/cs42l56.c
+index 4d9a22a1029c6..9c6448ebb2cf3 100644
+--- a/sound/soc/codecs/cs42l56.c
++++ b/sound/soc/codecs/cs42l56.c
+@@ -960,11 +960,19 @@ static int cs42l56_set_bias_level(struct snd_soc_component *component,
+ 			SNDRV_PCM_FMTBIT_S32_LE)
+ 
+ 
++static const u64 cs42l56_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF;
++
+ static const struct snd_soc_dai_ops cs42l56_ops = {
+ 	.hw_params	= cs42l56_pcm_hw_params,
+ 	.mute_stream	= cs42l56_mute,
+ 	.set_fmt	= cs42l56_set_dai_fmt,
+ 	.set_sysclk	= cs42l56_set_sysclk,
++	.auto_selectable_formats	= &cs42l56_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
+ };
+ 
+diff --git a/sound/soc/codecs/cs42l73.c b/sound/soc/codecs/cs42l73.c
+index 6ddc6549492af..72076ccf4570e 100644
+--- a/sound/soc/codecs/cs42l73.c
++++ b/sound/soc/codecs/cs42l73.c
+@@ -1163,12 +1163,19 @@ static int cs42l73_pcm_startup(struct snd_pcm_substream *substream,
+ #define CS42L73_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S20_3LE |\
+ 	SNDRV_PCM_FMTBIT_S24_LE)
+ 
++static const u64 cs42l73_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B;
++
+ static const struct snd_soc_dai_ops cs42l73_ops = {
+ 	.startup = cs42l73_pcm_startup,
+ 	.hw_params = cs42l73_pcm_hw_params,
+ 	.set_fmt = cs42l73_set_dai_fmt,
+ 	.set_sysclk = cs42l73_set_sysclk,
+ 	.set_tristate = cs42l73_set_tristate,
++	.auto_selectable_formats = &cs42l73_selectable_formats,
++	.num_auto_selectable_formats = 1,
+ };
+ 
+ static struct snd_soc_dai_driver cs42l73_dai[] = {
+diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
+index 36533a13319d4..b14775eaccf64 100644
+--- a/sound/soc/codecs/cs42l84.c
++++ b/sound/soc/codecs/cs42l84.c
+@@ -663,11 +663,17 @@ static int cs42l84_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
+ 	return 0;
+ }
+ 
++static const u64 cs42l84_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
++
+ static const struct snd_soc_dai_ops cs42l84_ops = {
+ 	.hw_params	= cs42l84_pcm_hw_params,
+ 	.set_fmt	= cs42l84_set_dai_fmt,
+ 	.set_sysclk	= cs42l84_set_sysclk,
+ 	.mute_stream	= cs42l84_mute_stream,
++	.auto_selectable_formats	= &cs42l84_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ #define CS42L84_FORMATS (SNDRV_PCM_FMTBIT_S16_LE |\
+diff --git a/sound/soc/codecs/cs42xx8.c b/sound/soc/codecs/cs42xx8.c
+index 5b689549c74ed..fb9f4aff6bd84 100644
+--- a/sound/soc/codecs/cs42xx8.c
++++ b/sound/soc/codecs/cs42xx8.c
+@@ -393,12 +393,20 @@ static int cs42xx8_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 	return 0;
+ }
+ 
++static const u64 cs42xx8_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
 +	SND_SOC_POSSIBLE_DAIFMT_DSP_A;
 +
- static const struct snd_soc_dai_ops cs35l33_ops = {
- 	.startup = cs35l33_pcm_startup,
- 	.set_tristate = cs35l33_set_tristate,
- 	.set_fmt = cs35l33_set_dai_fmt,
- 	.hw_params = cs35l33_pcm_hw_params,
- 	.set_tdm_slot = cs35l33_set_tdm_slot,
-+	.auto_selectable_formats = &cs35l33_selectable_formats,
-+	.num_auto_selectable_formats = 1,
+ static const struct snd_soc_dai_ops cs42xx8_dai_ops = {
+ 	.set_fmt	= cs42xx8_set_dai_fmt,
+ 	.set_sysclk	= cs42xx8_set_dai_sysclk,
+ 	.hw_params	= cs42xx8_hw_params,
+ 	.hw_free	= cs42xx8_hw_free,
+ 	.mute_stream	= cs42xx8_mute,
++	.auto_selectable_formats	= &cs42xx8_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
  };
  
- static struct snd_soc_dai_driver cs35l33_dai = {
-diff --git a/sound/soc/codecs/cs35l35.c b/sound/soc/codecs/cs35l35.c
-index b2439ec3c19fb..f4f844cafd68d 100644
---- a/sound/soc/codecs/cs35l35.c
-+++ b/sound/soc/codecs/cs35l35.c
-@@ -657,17 +657,25 @@ static int cs35l35_dai_set_sysclk(struct snd_soc_dai *dai,
+diff --git a/sound/soc/codecs/cs43130.c b/sound/soc/codecs/cs43130.c
+index 48d88dad4ceb0..7bbb2e83a1ffc 100644
+--- a/sound/soc/codecs/cs43130.c
++++ b/sound/soc/codecs/cs43130.c
+@@ -1609,12 +1609,24 @@ static int cs43130_set_sysclk(struct snd_soc_dai *codec_dai,
  	return 0;
  }
  
-+static const u64 cs35l35_selectable_formats =
++static const u64 cs43130_selectable_formats =
 +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_PDM;
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
 +
- static const struct snd_soc_dai_ops cs35l35_ops = {
- 	.startup = cs35l35_pcm_startup,
- 	.set_fmt = cs35l35_set_dai_fmt,
- 	.hw_params = cs35l35_hw_params,
- 	.set_sysclk = cs35l35_dai_set_sysclk,
-+	.auto_selectable_formats = &cs35l35_selectable_formats,
-+	.num_auto_selectable_formats = 1,
- };
- 
- static const struct snd_soc_dai_ops cs35l35_pdm_ops = {
- 	.startup = cs35l35_pdm_startup,
- 	.set_fmt = cs35l35_set_dai_fmt,
- 	.hw_params = cs35l35_hw_params,
-+	.auto_selectable_formats	= &cs35l35_selectable_formats,
+ static const struct snd_soc_dai_ops cs43130_pcm_ops = {
+ 	.startup	= cs43130_pcm_startup,
+ 	.hw_params	= cs43130_hw_params,
+ 	.hw_free	= cs43130_hw_free,
+ 	.set_sysclk	= cs43130_set_sysclk,
+ 	.set_fmt	= cs43130_pcm_set_fmt,
++	.auto_selectable_formats	= &cs43130_selectable_formats,
 +	.num_auto_selectable_formats	= 1,
  };
  
- static struct snd_soc_dai_driver cs35l35_dai[] = {
-diff --git a/sound/soc/codecs/cs35l36.c b/sound/soc/codecs/cs35l36.c
-index 89645327945f1..170588be4dbe3 100644
---- a/sound/soc/codecs/cs35l36.c
-+++ b/sound/soc/codecs/cs35l36.c
-@@ -947,10 +947,22 @@ static const struct cs35l36_pll_config *cs35l36_get_clk_config(
- 	return NULL;
- }
- 
-+static const u64 cs35l36_selectable_formats =
-+	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-+	SND_SOC_POSSIBLE_DAIFMT_GATED	|
-+	SND_SOC_POSSIBLE_DAIFMT_CONT	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-+
- static const struct snd_soc_dai_ops cs35l36_ops = {
- 	.set_fmt = cs35l36_set_dai_fmt,
- 	.hw_params = cs35l36_pcm_hw_params,
- 	.set_sysclk = cs35l36_dai_set_sysclk,
-+	.auto_selectable_formats = &cs35l36_selectable_formats,
-+	.num_auto_selectable_formats = 1,
- };
- 
- #define CS35L36_RATES (		    \
-diff --git a/sound/soc/codecs/cs35l41.c b/sound/soc/codecs/cs35l41.c
-index b2a076706c796..d286025183f46 100644
---- a/sound/soc/codecs/cs35l41.c
-+++ b/sound/soc/codecs/cs35l41.c
-@@ -953,11 +953,21 @@ static void cs35l41_component_remove(struct snd_soc_component *component)
- 	wm_adsp2_component_remove(&cs35l41->dsp, component);
- }
- 
-+static const u64 cs35l41_selectable_formats =
-+	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-+
- static const struct snd_soc_dai_ops cs35l41_ops = {
- 	.set_fmt = cs35l41_set_dai_fmt,
- 	.hw_params = cs35l41_pcm_hw_params,
- 	.set_sysclk = cs35l41_dai_set_sysclk,
- 	.set_channel_map = cs35l41_set_channel_map,
-+	.auto_selectable_formats = &cs35l41_selectable_formats,
-+	.num_auto_selectable_formats = 1,
- };
- 
- #define CS35L41_RATES (		    \
-diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
-index a032bb23b4ac7..25a9eb916fa39 100644
---- a/sound/soc/codecs/cs35l45.c
-+++ b/sound/soc/codecs/cs35l45.c
-@@ -846,12 +846,22 @@ static int cs35l45_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
- 	return 0;
- }
- 
-+static const u64 cs35l45_selectable_formats =
-+	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-+
- static const struct snd_soc_dai_ops cs35l45_asp_dai_ops = {
- 	.set_fmt = cs35l45_asp_set_fmt,
- 	.hw_params = cs35l45_asp_hw_params,
- 	.set_tdm_slot = cs35l45_asp_set_tdm_slot,
- 	.set_sysclk = cs35l45_asp_set_sysclk,
- 	.mute_stream = cs35l45_mute_stream,
-+	.auto_selectable_formats	= &cs35l45_selectable_formats,
+ static const struct snd_soc_dai_ops cs43130_dop_ops = {
+@@ -1623,6 +1635,8 @@ static const struct snd_soc_dai_ops cs43130_dop_ops = {
+ 	.hw_free	= cs43130_hw_free,
+ 	.set_sysclk	= cs43130_set_sysclk,
+ 	.set_fmt	= cs43130_pcm_set_fmt,
++	.auto_selectable_formats	= &cs43130_selectable_formats,
 +	.num_auto_selectable_formats	= 1,
  };
  
- static struct snd_soc_dai_driver cs35l45_dai[] = {
-diff --git a/sound/soc/codecs/cs35l56.c b/sound/soc/codecs/cs35l56.c
-index 0b7b080939a18..ec3b6621dc614 100644
---- a/sound/soc/codecs/cs35l56.c
-+++ b/sound/soc/codecs/cs35l56.c
-@@ -603,12 +603,22 @@ static int cs35l56_asp_dai_set_sysclk(struct snd_soc_dai *dai,
+ static const struct snd_soc_dai_ops cs43130_dsd_ops = {
+diff --git a/sound/soc/codecs/cs4341.c b/sound/soc/codecs/cs4341.c
+index a44e6b3c298e7..74544c58a4159 100644
+--- a/sound/soc/codecs/cs4341.c
++++ b/sound/soc/codecs/cs4341.c
+@@ -171,10 +171,18 @@ static const struct snd_kcontrol_new cs4341_controls[] = {
+ 	SOC_SINGLE("Popguard Transient Switch", CS4341_REG_MODE2, 1, 1, 0),
+ };
+ 
++static const u64 cs4341_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF;
++
+ static const struct snd_soc_dai_ops cs4341_dai_ops = {
+ 	.set_fmt	= cs4341_set_fmt,
+ 	.hw_params	= cs4341_hw_params,
+ 	.mute_stream	= cs4341_mute,
++	.auto_selectable_formats	= &cs4341_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
+ };
+ 
+diff --git a/sound/soc/codecs/cs4349.c b/sound/soc/codecs/cs4349.c
+index 9a7f701757174..7ed89c1388f0a 100644
+--- a/sound/soc/codecs/cs4349.c
++++ b/sound/soc/codecs/cs4349.c
+@@ -228,10 +228,17 @@ static const struct snd_soc_dapm_route cs4349_routes[] = {
+ 
+ #define CS4349_PCM_RATES SNDRV_PCM_RATE_8000_192000
+ 
++static const u64 cs4349_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
++
+ static const struct snd_soc_dai_ops cs4349_dai_ops = {
+ 	.hw_params	= cs4349_pcm_hw_params,
+ 	.set_fmt	= cs4349_set_dai_fmt,
+ 	.mute_stream	= cs4349_mute,
++	.auto_selectable_formats	= &cs4349_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ 	.no_capture_mute = 1,
+ };
+ 
+diff --git a/sound/soc/codecs/cs48l32.c b/sound/soc/codecs/cs48l32.c
+index a9967771124e5..6ebf35572c93f 100644
+--- a/sound/soc/codecs/cs48l32.c
++++ b/sound/soc/codecs/cs48l32.c
+@@ -2361,6 +2361,16 @@ static int cs48l32_set_tdm_slot(struct snd_soc_dai *dai, unsigned int tx_mask,
  	return 0;
  }
  
-+static const u64 cs35l56_selectable_formats =
++static const u64 cs48l32_selectable_formats =
 +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
 +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
 +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
 +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
 +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
 +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
 +
- static const struct snd_soc_dai_ops cs35l56_ops = {
- 	.probe = cs35l56_asp_dai_probe,
- 	.set_fmt = cs35l56_asp_dai_set_fmt,
- 	.set_tdm_slot = cs35l56_asp_dai_set_tdm_slot,
- 	.hw_params = cs35l56_asp_dai_hw_params,
- 	.set_sysclk = cs35l56_asp_dai_set_sysclk,
-+	.auto_selectable_formats = &cs35l56_selectable_formats,
+ static const struct snd_soc_dai_ops cs48l32_dai_ops = {
+ 	.probe = &cs48l32_asp_dai_probe,
+ 	.startup = &cs48l32_startup,
+@@ -2368,6 +2378,8 @@ static const struct snd_soc_dai_ops cs48l32_dai_ops = {
+ 	.set_tdm_slot = &cs48l32_set_tdm_slot,
+ 	.hw_params = &cs48l32_hw_params,
+ 	.set_sysclk = &cs48l32_dai_set_sysclk,
++	.auto_selectable_formats = &cs48l32_selectable_formats,
 +	.num_auto_selectable_formats = 1,
  };
  
- static void cs35l56_sdw_dai_shutdown(struct snd_pcm_substream *substream,
+ static int cs48l32_sysclk_ev(struct snd_soc_dapm_widget *w,
 -- 
 2.53.0
 
