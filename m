@@ -1,88 +1,103 @@
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3AF34BC02B;
-	Tue,  4 Aug 2026 17:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B634F35028D
+	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 17:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785864456; cv=none; b=mmTqunpe63uoNDx+d4tUTYhoEfdlHnVZg7g9SU1JFUH1ad4OdyU/oYBKYUKNIw3AQUJik9qGFJWnqwWa3h9EWJ9J4wdpHqtoKZhKnCVnSQl5dteE3biiv1HSV3NZsJvPZ5iJ6lAW3Hkr002WKM/Tjbk6KgFfdUNYp5DAwonfsHU=
+	t=1785864631; cv=none; b=GRf8aZQZYl6QC2cTCSMRIBxR6y0g5GHzZ/Oo0/0Bx+BkDAVcrLf7AY7iB3GXbfcxgYYh4ENcoB1E3Cb50ylAOFpBa3iiXpORvYDNtYsb3viG6CEFzaADPAQpoR8JVvjTws11l94DNnIDH574Cjv2mDV6xXsxS0mWOUNdMF5MxkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785864456; c=relaxed/simple;
-	bh=qyL/5x3Ox5XUKT5QVUlAMNQIMDxvdyUejXmVLdlCDUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SXSIKMRKO1i91vpdl6lNz/REg9eGGCDyEC8gAvJ00HfPPbsUT/JHZ1aXTCfg2Wu+Ub/ekClzjOrnbtSykpP6vQEAIfvzEok/b1icVWx8RUssENjbkt4LtQbSK7cgB/d+zUTtJEHV60aHBgyKvOexLm8QWcx8rxU0uzEXt/bgF2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=E997o615; arc=none smtp.client-ip=178.238.236.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	s=arc-20240116; t=1785864631; c=relaxed/simple;
+	bh=/SGV1h62CUzjjmwKuzpBB8jsx5abPwpWHydpfYl0Sp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GzGgvtw6zURaJPwo/FahMichEYGXQDkPrPPUOKG4nKhy7fsYddfNA/U7kmNA0LAbQfIZ8O4MoHXvprk6mId7X9TNJDluuJ5An89DcadI9S3WH/ZOBpEwYXTqpnM+gCDKOGiefrh4TdS7yN9RAjkUoFTMziMF+W/S1vfTmXokKn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oem+Tz4H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="E997o615"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=Fq+sDujD4P6pQWOyHjShxqRFFnBlL2GQ+cPVDEnwW/U=; t=1785864453; x=1787074053; 
-	b=E997o615uof3Kfdl/PaFJ6EYJojToxNmaX9BBNvM/DSQy/W7W79aRkVlqMJORkMQXIeUbXD99Vn
-	KihvZdDqMTEjym5+xs9s01g3EOdKbgO3mPX/Q4+xcIZ9RQ2JYXshjTXg3p5UTrtij+On0dgMynFek
-	yUs8h1tos/ZvtRq7X46t6xamGMMQ6zYuWn5iowKspe0pX3KthE1nl7wy8fC8mGNQmwz2cSC+doyEH
-	DaVj97jGpeTFYsHlHbJjOwdBWL+mQGPZkKhm+FNTg6/9VMAR5U7T1Ui0S34xBs6Dt2GPU2GQBtdAs
-	1sqGtwTZg4HR4v9rjfogNRtBnHwPsad84jbQ==;
-Date: Tue, 4 Aug 2026 19:27:16 +0200
-From: Andreas Kemnade <andreas@kemnade.info>
-To: phucduc.bui@gmail.com
-Cc: Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, Jarkko Nikula <jarkko.nikula@bitmer.com>,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH 09/10] ASoC: ti: omap-twl4030: Use dev_err_probe() for
- error handling
-Message-ID: <20260804192716.50d277b4@kemnade.info>
-In-Reply-To: <20260714120042.491712-10-phucduc.bui@gmail.com>
-References: <20260714120042.491712-1-phucduc.bui@gmail.com>
-	<20260714120042.491712-10-phucduc.bui@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oem+Tz4H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAFB01F000E9;
+	Tue,  4 Aug 2026 17:30:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785864630;
+	bh=YZ3jCTpr8tl5cS+KRQobIsxJAnHuvCX2jn3WudYJd4E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oem+Tz4HBWAk0nlsvrN29rdOGpIcpVdOVvsjFgUtXXmJkSzR1ov2ENGmMYB7GSjt8
+	 yDVjSkCBOmj04zAuX6UJTXmGKdUGQjOA2GOV5fXzbKg0WItOToUBR3WVq0uaCCJ9R2
+	 HsYXpjxsOzLbW0DXohPqpBfdfykSUHYXK1IosFvulSvgP4R8fGNvwv+06Kf3p4hq7M
+	 0I+0BgtSHT+8OyRXL3hwRO2OCdKiLmHH3Y5LM9yQ3r2t7Vl9ZPOkclFhoCfUESl1Bb
+	 t8ob1A3PqZbc2XTFp+4rMYur8lmfYComMpC7e02yZl7mDrHOPFiav4mftyLqT/m9qg
+	 Fw3rUJOLqD5oA==
+Date: Tue, 4 Aug 2026 18:30:26 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 12/44] ASoC: codecs: cs35l*: use .auto_selectable_formats
+Message-ID: <d1ca94f2-d104-47e1-85c1-abbd9ccbd50b@sirena.org.uk>
+References: <87cxvyyazi.wl-kuninori.morimoto.gx@renesas.com>
+ <87v79qwwcn.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jQY7u+h6yaeNwfUt"
+Content-Disposition: inline
+In-Reply-To: <87v79qwwcn.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Biz is better.
 
-On Tue, 14 Jul 2026 19:00:41 +0700
-phucduc.bui@gmail.com wrote:
 
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> Replace dev_err() with dev_err_probe() when reporting
-> devm_snd_soc_register_card() failures. This suppresses
-> unnecessary log messages for deferred probe errors.
-> 
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+--jQY7u+h6yaeNwfUt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Andreas Kemnade <andreas@kemnade.info>
+On Tue, Aug 04, 2026 at 12:41:29AM +0000, Kuninori Morimoto wrote:
+> We can use .auto_selectable_formats. Let's adds it.
+>=20
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-> ---
->  sound/soc/ti/omap-twl4030.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/sound/soc/ti/omap-twl4030.c b/sound/soc/ti/omap-twl4030.c
-> index 2a80e44035d7..576f4d3615e8 100644
-> --- a/sound/soc/ti/omap-twl4030.c
-> +++ b/sound/soc/ti/omap-twl4030.c
-> @@ -306,11 +306,9 @@ static int omap_twl4030_probe(struct platform_device *pdev)
->  
->  	snd_soc_card_set_drvdata(card, priv);
->  	ret = devm_snd_soc_register_card(&pdev->dev, card);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "devm_snd_soc_register_card() failed: %d\n",
-> -			ret);
-> -		return ret;
-> -	}
-> +	if (ret)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "devm_snd_soc_register_card() failed\n");
->  
->  	return 0;
->  }
+> +static const u64 cs35l35_selectable_formats =3D
+> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
+> +	SND_SOC_POSSIBLE_DAIFMT_PDM;
+> +
+>  static const struct snd_soc_dai_ops cs35l35_ops =3D {
+>  	.startup =3D cs35l35_pcm_startup,
+>  	.set_fmt =3D cs35l35_set_dai_fmt,
+>  	.hw_params =3D cs35l35_hw_params,
+>  	.set_sysclk =3D cs35l35_dai_set_sysclk,
+> +	.auto_selectable_formats =3D &cs35l35_selectable_formats,
+> +	.num_auto_selectable_formats =3D 1,
+>  };
 
+>  static const struct snd_soc_dai_ops cs35l35_pdm_ops =3D {
+>  	.startup =3D cs35l35_pdm_startup,
+>  	.set_fmt =3D cs35l35_set_dai_fmt,
+>  	.hw_params =3D cs35l35_hw_params,
+> +	.auto_selectable_formats	=3D &cs35l35_selectable_formats,
+> +	.num_auto_selectable_formats	=3D 1,
+>  };
+
+This looks off, are you sure the _pdm_ops ought to support I2S?  I
+suspect the other ops is really an I2S only one too.
+
+--jQY7u+h6yaeNwfUt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpyIbEACgkQJNaLcl1U
+h9DOkgf9GXVgHVhVim6wf7w2dDSyILtQOKcrCbMu5id3M55gUrMruwQwGBY5rVJL
+Tm86Niz8lKdczWQ65Qo/UoDo99y0VRStcCLZ+SqzzMzyfBo0hlfoLq3LNBMQ169/
+JSSObLnGwQtRKGbIbvXasesV6pvyTd8hcPcN8CXvwpgSIQrk+MW3HBFlSbqcFdil
+Q4y72ONzZS+TV64PNEBaheZPfKKlJQ0mAgu/Tja2psLFdga3JJTY2oumWKitQIzN
+rghzXLlusZ7H3p/Gcx52oYO0u0KnPuTHDuDUsrtvgc3usD8OMGT4X0suWAaBNF25
+r+bvyQkl6LRDOWJLyVsx6niubca7ng==
+=5FdI
+-----END PGP SIGNATURE-----
+
+--jQY7u+h6yaeNwfUt--
