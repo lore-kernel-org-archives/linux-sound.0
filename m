@@ -1,88 +1,87 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A3A3E49EB
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 07:30:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5723E4C8D
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 07:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785915049; cv=none; b=XsOadj05Ty74sUrfrEYlsAQwyHnX3fj82wXuWT/nDsmusv6FM3s9Nw+dQI5HNs0zYC5mgkbtWJrkZGxjYbGnfY0+x3Cbsm46b0aAq/v9qeOAtbfFgKPxxW1QmIW/qdolx3m8Zqoyl1FsaG+lk2so/AEdv9KVO4CgnnQRrNkP8ac=
+	t=1785915243; cv=none; b=mQc4QNGtNt3Qc30ef72d6Vv0G22fl3boVtYtKDj0aKn2k74Bq6qMpXtCop34OPK1qwjqueo80zsszXqL8GTPle3V5N2WC+ShUeOxnXF0gNlK0Y8TannGnpnBzY3mdKJViaJ67F9Ap38asW1iUiOsw/6bhldQ2Y1Rct8WTxe0h6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785915049; c=relaxed/simple;
-	bh=WnqEqrdW07q2e/QUo0fztWds+1Q1BZI+V9K/DpDRSLc=;
+	s=arc-20240116; t=1785915243; c=relaxed/simple;
+	bh=+gJTN6mi8M37nZVklJrSI8HoEMpYYyCXD6qAEQScjfA=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RC7Heg9KKhlH9x6/6mIa4WIHMmN7XnspxHkeZjhMZL/gcfyjyFwkswpTeq+UXqoVOCNXOReyK24+1MVDxLM0+/ORwufrX3bwyyuokUswWwKdo58Ltj0RFTkwprEyuA/EQ42sk154TkcFE6DKgbew52Bw7haGeFYjeh3b8naEsyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DhRTtnvR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oGOzzNY4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nInUPaal; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=i0CKfbTd; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=Sa7Lqhwlso3h19yoxuJDl4kPqXNXEK+hjTyDANLzfITbRQSfz1xuvKiuuWM3O2ARITKYt7QJW/Ec9Uu5vDQaQPRmcQqa77MPAG6u2CM7U77lTc1OftsZKzI2FWePIfOPhjNyh2O43V2hqKS4qkZpVqfbHQN43DS+xBKyzgjtjHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=o+kZgXDJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HtOFglVj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BXZMYuJ5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gzkewCDk; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DhRTtnvR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oGOzzNY4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nInUPaal";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="i0CKfbTd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="o+kZgXDJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HtOFglVj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BXZMYuJ5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gzkewCDk"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9E0137FC25;
-	Wed,  5 Aug 2026 07:30:38 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 17E707FB86;
+	Wed,  5 Aug 2026 07:33:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785915042; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785915236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a3jyPXx6CzYfSrIK6EQLlmYMm6UceLM3t5fE5akEh1A=;
-	b=DhRTtnvReaNwE4kEZ4CjrQCQTsgqv/RH97U1YVShbL129Pe2sfPsMSE/ENfa9fspxvAg/s
-	eWTx/FY5QdECHFZ4iOkqd2oHc/03Jnq4eYtQ+cEFwdLK0t1j+GRMUFrLKmaW6LuhaxGQ0H
-	/Ln9NP8CPGdXQgD3JRyGEnP7HIKGkDY=
+	bh=b4xVtkXgLYGk+LHt8B0/Yu5mUHGsKTFANxlSlQBbwfw=;
+	b=o+kZgXDJbbbpN6Xs0J5Qyt8g+pK0R+IVmYO2yQjURsq4vdsUcQB74MhaOZROtNhSiYQ9Gq
+	1QCwUgSFlQK1gV/OqrPi34IOkw7GQMDcUPy/CN3lxawtOSSY4eBDQfwJeSBT/yY+qMuKcY
+	igCSJkuDaFJOHYuR4ICHBj53xZBNxjI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785915042;
+	s=susede2_ed25519; t=1785915236;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a3jyPXx6CzYfSrIK6EQLlmYMm6UceLM3t5fE5akEh1A=;
-	b=oGOzzNY4W016hwN2Nmee1UgL2AyeSly550PIaFw8jspXMMajrZpgLDtSz/7+nMljEmxlbV
-	rqZAWHkJd6vdjBBw==
+	bh=b4xVtkXgLYGk+LHt8B0/Yu5mUHGsKTFANxlSlQBbwfw=;
+	b=HtOFglVjUX0sz9wuO3nRNN2PXq20elMFhuT9lcb1koglQNbDAOxL3fYR0VG6KcIC1DdaKy
+	KfccW1aPuhsEpkCA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nInUPaal;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=i0CKfbTd
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785915038; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1785915232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a3jyPXx6CzYfSrIK6EQLlmYMm6UceLM3t5fE5akEh1A=;
-	b=nInUPaalEOuDCsek713VLa95IwqFfWqYn/0ESGiDMoaOLFlQS9AaXHG2hKz1I2iVOZD5/6
-	ELZvLhdR4imiuQASwKjsTS3IzRDtMPMjzAj5FJtkhLyVMPRqQGVapNjPht8UJo+MLZzp3T
-	NoUahUXr5MhnQVisJrPE7nVI8Be6mq8=
+	bh=b4xVtkXgLYGk+LHt8B0/Yu5mUHGsKTFANxlSlQBbwfw=;
+	b=BXZMYuJ5xbdADpsWSayQ8nZhZ8RzOUspvENhutx3jmtYGJrpuLwkbsmtqghe2BP6fB46N3
+	sxXXq8zafbZjRgJmZTcXf31ySa7+7st7gAuMPPgNGPWCzUoulYfufngAkn5rg1zTFIh5HZ
+	n0Fvt6UmBaceFIAHbqxLZF2xO2DSOms=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785915038;
+	s=susede2_ed25519; t=1785915232;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a3jyPXx6CzYfSrIK6EQLlmYMm6UceLM3t5fE5akEh1A=;
-	b=i0CKfbTd6MwsgwvzXeOS76jIbO+MAQmtHTaz3pkgynJyD+/WeLw0cXcQ1iM8LOTn+lJwyX
-	q1bTEllRNLX3gVBQ==
+	bh=b4xVtkXgLYGk+LHt8B0/Yu5mUHGsKTFANxlSlQBbwfw=;
+	b=gzkewCDkCT2L/5Fn+WIwODVK9pQi1VGLFzGEk5vWbqIjCM6Bj5Jxq6zpw0Yqgzshf3HJqw
+	3t8dEhA+OpOSM6Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A676779C2;
-	Wed,  5 Aug 2026 07:30:38 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B4507779B6;
+	Wed,  5 Aug 2026 07:33:51 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Dc+qF57mcmrmPgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 05 Aug 2026 07:30:38 +0000
-Date: Wed, 05 Aug 2026 09:30:37 +0200
-Message-ID: <87pkzxgh2a.wl-tiwai@suse.de>
+	id Liy4Kl/ncmpbQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 05 Aug 2026 07:33:51 +0000
+Date: Wed, 05 Aug 2026 09:33:51 +0200
+Message-ID: <87mrv1ggww.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Baul Lee <baul.lee@xbow.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v6 1/2] ALSA: control: tidy up whitespaces
-In-Reply-To: <20260720103505.1860399-1-mstrozek@opensource.cirrus.com>
-References: <20260720103505.1860399-1-mstrozek@opensource.cirrus.com>
+	federico.kirschbaum@xbow.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: 6fire: bound the MIDI event length from the device
+In-Reply-To: <20260805013423.38175-1-baul.lee@xbow.com>
+References: <20260805013423.38175-1-baul.lee@xbow.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,50 +90,88 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Score: -3.29
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.29 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	NEURAL_HAM_SHORT(-0.19)[-0.969];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cirrus.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9E0137FC25
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[xbow.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On Mon, 20 Jul 2026 12:35:04 +0200,
-Maciej Strozek wrote:
+On Wed, 05 Aug 2026 03:34:23 +0200,
+Baul Lee wrote:
 > 
-> Clean up trailing whitespace in preparation for the card components
-> changes.
+> usb6fire_comm_receiver_handler() forwards a MIDI event using a length
+> byte the device supplies, with no bound and no check that the transfer
+> delivered that many bytes:
 > 
-> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-> ---
-> added in v3, no changes since then
+> 	if (!urb->status) {
+> 		if (rt->receiver_buffer[0] == 0x10) /* midi in event */
+> 			if (midi_rt)
+> 				midi_rt->in_received(midi_rt,
+> 						rt->receiver_buffer + 2,
+> 						rt->receiver_buffer[1]);
+> 	}
+> 
+> receiver_buffer is a 64-byte kzalloc() buffer (COMM_RECEIVER_BUFSIZE), so
+> only 62 bytes follow the two-byte header.  receiver_buffer[1] is a u8 the
+> device chooses, so a device that answers with 0x10 and a length of 0xFF
+> makes snd_rawmidi_receive() read 255 bytes starting two bytes into a
+> 64-byte object.  The bytes past the buffer are handed to userspace
+> through the rawmidi read path.
+> 
+> urb->actual_length is not consulted either, so a short transfer leaves
+> both the type byte and the length byte at their previous values and the
+> handler acts on stale data.
+> 
+> The receiver URB is submitted from usb6fire_comm_init() at probe, so the
+> read happens on plug with no user action; forwarding to userspace also
+> needs a MIDI input substream open, since usb6fire_midi_in_received()
+> only calls snd_rawmidi_receive() when rt->in is set.
+> 
+> KASAN on 7.2.0-rc5 (arm64), single packet from an emulated device:
+> 
+>   BUG: KASAN: slab-out-of-bounds in snd_rawmidi_receive
+>   Read of size 255 at addr ffff000009f64682 by task bash/183
+>    __asan_memcpy
+>    snd_rawmidi_receive
+>    usb6fire_midi_in_received [snd_usb_6fire]
+>    usb6fire_comm_receiver_handler [snd_usb_6fire]
+>   Allocated by task 11:
+>    usb6fire_comm_init [snd_usb_6fire]
+>    usb6fire_chip_probe [snd_usb_6fire]
+>   The buggy address is located 2 bytes inside of
+>    allocated 64-byte region [ffff000009f64680, ffff000009f646c0)
+> 
+> Reject the event when the length exceeds the bytes that follow the
+> header, and require the transfer to have delivered the header plus that
+> many bytes.  The receiver URB is submitted with a 64-byte
+> transfer_buffer_length, so a genuine device cannot deliver an event
+> longer than those 62 bytes and nothing valid is dropped.
+> 
+> Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
+> 
+> Fixes: c6d43ba816d1 ("ALSA: usb/6fire - Driver for TerraTec DMX 6Fire USB")
+> Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
+> Reported-by: Baul Lee <baul.lee@xbow.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Baul Lee <baul.lee@xbow.com>
 
-Now I applied both to for-next branch.
-Please submit the corresponding alsa-lib update (either alsa-devel ML
-or github PR).
+Applied to for-next branch now.  Thanks.
 
-
-thanks,
 
 Takashi
