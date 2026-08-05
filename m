@@ -1,46 +1,46 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD1E40D563;
-	Wed,  5 Aug 2026 09:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2C7418A4B;
+	Wed,  5 Aug 2026 09:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785923550; cv=fail; b=OJcK/MB9qfXYWJMgdSzLfd3J92zklGWwJ62r1YOEnPvZHfULL25QTNmOpTh9OyKLHiXm5bUsihVJz8P+MWR6q6LtOZlxaftlHuhdrY3HSj9oweou+TaZ5NWh5dSAZpRKqtZuflfn4THXNaRsyHPZ/uA+C8hNL3FJyBu2ZE/gP6M=
+	t=1785923824; cv=fail; b=A671nAGgWGchuH05CIN65PkPZEU7iTiyNNtIiHzLhtaQM5kZf+AfdAJ3szXzJnCkxUJaxDz+Ap0fH7JdbTddNOhJw+XPZGLdZTRvus5cIVoNBa5UECgo4DFosqn6nTxuca0+EG0K1eJu1cCvKk7NH/ErnZOo/9HWuXFpVJdvx9U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785923550; c=relaxed/simple;
-	bh=jFbPcDDQtfnHHPLBt1Cgr7IE7DrJ/e6lLSGzDFQt9Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PtMaEOfzX1XLL1/CEJ/wHcGrdfQuo8moCdNQ5hVmpWqLhY/dOzHBQmkgUsU2tEVVaaB1ER80npdgJvcbsUdvOPeT/8nNdtDygkZFNBlMS+L60uY1xkhRcJX9OZPbZDBxy4vgkonTz9RQ5NSKhHuxWnBadQFMeWipoO8JAmZjMKA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=RxZhTgeK; dkim=fail (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=QBrIkCqb reason="signature verification failed"; arc=fail smtp.client-ip=67.231.152.168
+	s=arc-20240116; t=1785923824; c=relaxed/simple;
+	bh=yVsbKVKMX2kJtFLAo1wo91hXJtA4+tfqF7XYuHYtnw0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RmAsw68WxYvDFpQu2mOhmT+nMGL2SWIVHFLfgaelLILaJv26SVfAQffFDvLvjXPQbaxR+hHrvRxDF9WqF72EKyfq3ChCo1H1x76YFRGh13lT6kUW+zkfpP5flw2m2lGkhAoeQG5EwUtJHpvO6kWwXwMp6UpFVWVXg/Vc4EzO/IM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dh/uEOqp; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=SBEsioT6; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="RxZhTgeK";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="QBrIkCqb"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67558qwX2591634;
-	Wed, 5 Aug 2026 04:52:22 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dh/uEOqp";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="SBEsioT6"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 674HY9x02306777;
+	Wed, 5 Aug 2026 04:56:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=PUmh3pPmCBIwSm1uc51ct6Y0mfq3k4w8gK4ThMMDTqc=; b=
-	RxZhTgeKGiGCDs9m7sWjhwSBmqAeQTvhThW7cPtbAn5cxhmeMSIe8Xzyj9tqyTh4
-	8sZLuPoQnTKqsxN9siwEP1frY9FLO64I88l1i1En9N3QwtXEKIN0ugPocYOkw5tn
-	GGBnPl9phYaq64DQbIH/O5XIWzcKNKGLalItF8REGeoZ0GCsEuVaqwwZ6FICLAJF
-	Svcuv5fSdTNarSehVEBP2J9BwTjdgNF5VvH+XRY9VPRJgj+g8CCoRWFBbCT0pmpN
-	2ESL12SVf46SEKxaWcc5RQh3TIKfOR2UmS/pcuRgwT4hFhPK2Y9xL9jdFmVi8FGL
-	cHvCs3vvKP+LLbcVWHjPSw==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020111.outbound.protection.outlook.com [52.101.193.111])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fsd7h5h2a-1
+	PODMain02222019; bh=zVuc2W/QQgxkgxpfDTJBJzL4Ke52RYjZZf5HdsVTPqg=; b=
+	dh/uEOqpVEkapQ+T4ltm3luaYqFnrdjuwAn5SFOnwq2S7Vuo2Br+j2qGBW99DF+G
+	uQGsOyDT1Qt4QH9hGhZwyCmoFrbTNwqdRZcd3iXv0Xdjyy3tZhdwolUR8ttyNbNU
+	VF3EChzh6FEBFRFjG4CM93u+Grno4oYB8Cea0olpIjjXR1ph5QheLK99vFueUUnq
+	XBIi6SHV4/N1vJs0sFDPIDEAtj3nO8nDLRphPEFNZ3mcJUmYXTRwhru8ZOB77Qr3
+	JmOLvEgGFWIMNOLWdDEFtR/EmbRwKIxNojrFQyzBzaKTMSCXlvhGvcxwYipiwknb
+	YVoUN8W5ET1y/y0liivWDw==
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11022099.outbound.protection.outlook.com [40.107.209.99])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fse6vnf67-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 05 Aug 2026 04:52:22 -0500 (CDT)
+	Wed, 05 Aug 2026 04:56:56 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eWNeHlXHOn3Ryj1S7YNWtv0qi2Ke7gk7HKwNVbkEzqZj9OCLOWCNrl8XCgLAIA0fql3YVbJvQW+ML02GFUepjVccLXcG2YqR1QJiqUbeUTVI6u//A5Izibff0SL/yJ5ddCy3ZLBzU+9sLUazLnf917SzrI/wcwYr3tOSHsuLGN6k/8j3GiSqsk9rXFr0IrDJdrtt9KyoZ+Ng15oOxQw/qIANosHoU6q3Qy+rzS34/zr7AtF7jy8BWnfD9uzE/hAI6zr2NoWLwFxk84rcHabybXONBnTrTFIz733495IGZ60Y25l+G5k1M2S2e+zRlKgcLmF7qWGKCfQQ+ooRjiWYMQ==
+ b=kpO/U7voIP8T8KdKS18tU9RACKU1B9MJVwmgtXJc/7lHVONR/ccrEnX9nJH4T6ZYj393TfboGEz24i6bhDMGFdPZI3C1FXL2s7ofImY1jjyi6c90a3j7qsyV0mR6p2DxXQmqPOapEWOWF71EchjRaHsN1354J5sd0J99RNg6kPQmIaYsN53K36F+IkNTBo/JaU0tLMzd25WkxbU4zfCy9GrSw5yg8wkhnCQ7xEs/ilawK3hA/hZuqQYEkmxE0U5XYfUECPoZjSvqfhBBRtT0ileNkQSDAMfPp3aFbnCcBMoVl8d5DmbHbkZOkehqgxh+HgHwcMukvqWUrzaUhnJ9HA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PA13qUohLrUpHxlqR9F13OLmdtglnotWhAXzuIpcCO8=;
- b=O+BsaQjpcF8k+KcV7mOjPWHGOznLgRo66T/6Mv83dJf5YYeD7WwdiHZTPweRrW4C+YzQAChclyo7YrEwgy8erfal12z0UWGYK4/i2mSa9IGKw6nPOnJWh8Md5bkhbwmOz3O6/TxPjSZHFotIGbZBW1fFf0PHTdsU61XurIID5+f7qoto4hijZ119BJStbhBaXSzEduWAm8h6dGeeclp4agdmacAuQQcI6YuiahFrvC4FaE2T9H5ySdOz9mDzNDErLLjXdHS3JHFOT6hv+bJguXpgnszPeqCGbDrBxLpAGv/AdTSkAbQzC6HotOjsQC4RNg7B1hGcXYNecL0eqfC/Dw==
+ bh=zVuc2W/QQgxkgxpfDTJBJzL4Ke52RYjZZf5HdsVTPqg=;
+ b=AO74N0wtkdCXFApcNOeITw5adHbszpf9qYL41hitstlwIJ15wRI6LGqzvWLQV3JZ7nY0PSSpWWyzCDp1hGRuP+BR+QCTc7sst4nRZCZUAY+8Sn8umYl5HjBpNqYy+TGQNBAJbVDf10FhTVqUF5HrtrWypunuCNN9sLU8kbRVgBEHpx1a7KGQL1Ulhz5fwmhX4I0p3M/P2yoXI2yx/u+QzJLhS+AP38Ha4CKNCyRUz+tURgN+zAzAyNAJGmqvogJDTz2vHDZgv7cxyljOqD0VK4H9/NDDnBeOoRKbTbGYnawlAylbfmebAxGV2Q9tj1eWWMM5J88v/Jrbz8DAGqiSnA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,154 +49,187 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PA13qUohLrUpHxlqR9F13OLmdtglnotWhAXzuIpcCO8=;
- b=QBrIkCqb/NXre0U7ebvlAT22z4syohWKDJIqbHiFrt2stuo+ZOyg2kC8M5us/9ZbRhrA+ssmsKkfyyKurOCS+fgOSM1f4RCL9yZKfkL1mVFn8+M1PwBerRPrllvNvMs2xo0Ga3p+C1kKNV4W9CdcixfdWGSoo/yEIr9AtwbLwM0=
-Received: from BLAPR05CA0001.namprd05.prod.outlook.com (2603:10b6:208:36e::6)
- by PH7PR19MB6459.namprd19.prod.outlook.com (2603:10b6:510:1fd::17) with
+ bh=zVuc2W/QQgxkgxpfDTJBJzL4Ke52RYjZZf5HdsVTPqg=;
+ b=SBEsioT6mt/jIkpD4IHZ2QTkzA3dywDU2TtXiOUuGqElaEAXlLVVGkVXuIPby30c+i8EvBi1ZJmpapWcB/KxHJOoYELVkNTF/pt1LdqVRyXi+pucysprcq4ppdCShQU943Vi4PTZGL7m6mu6PwLOXC6ynL5LJeaoDF+zT67Eey8=
+Received: from CH2PR08CA0013.namprd08.prod.outlook.com (2603:10b6:610:5a::23)
+ by LV3PR19MB8229.namprd19.prod.outlook.com (2603:10b6:408:199::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Wed, 5 Aug
- 2026 09:52:17 +0000
-Received: from BL02EPF00029928.namprd02.prod.outlook.com
- (2603:10b6:208:36e:cafe::61) by BLAPR05CA0001.outlook.office365.com
- (2603:10b6:208:36e::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.4 via Frontend Transport; Wed, 5
- Aug 2026 09:52:17 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Wed, 5 Aug
+ 2026 09:56:53 +0000
+Received: from DS2PEPF00003443.namprd04.prod.outlook.com
+ (2603:10b6:610:5a:cafe::65) by CH2PR08CA0013.outlook.office365.com
+ (2603:10b6:610:5a::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.270.20 via Frontend Transport; Wed, 5
+ Aug 2026 09:56:52 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- BL02EPF00029928.mail.protection.outlook.com (10.167.249.53) with Microsoft
+ DS2PEPF00003443.mail.protection.outlook.com (10.167.17.70) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
- via Frontend Transport; Wed, 5 Aug 2026 09:52:16 +0000
+ via Frontend Transport; Wed, 5 Aug 2026 09:56:52 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3C844406544;
-	Wed,  5 Aug 2026 09:52:16 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 238A282025A;
-	Wed,  5 Aug 2026 09:52:16 +0000 (UTC)
-Date: Wed, 5 Aug 2026 10:52:15 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Vlad Karpovich <vkarpovi@opensource.cirrus.com>,
-        Paul Handrigan <Paul.Handrigan@cirrus.com>,
-        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: cs35l41/cs35l45/cs4265: sort the reg_defaults
- tables
-Message-ID: <anMHz34y6GMNbLcT@opensource.cirrus.com>
-References: <20260805082413.26174-1-peter.ujfalusi@linux.intel.com>
- <c8aac762-c1a7-44ab-afff-72610cabe341@linux.dev>
- <b5631801-2904-48e3-b4f7-9ad6009c1198@opensource.cirrus.com>
- <96c0cebf-3ec3-4136-b010-32187ff8c870@linux.intel.com>
- <anMBeeNG1fDpFHzN@opensource.cirrus.com>
- <81391ad1-1097-43ca-8729-ae01c00db3b2@opensource.cirrus.com>
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 0F5E0406544;
+	Wed,  5 Aug 2026 09:56:51 +0000 (UTC)
+Received: from [198.90.208.11] (ediswws06.ad.cirrus.com [198.90.208.11])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id E7C5B82025A;
+	Wed,  5 Aug 2026 09:56:50 +0000 (UTC)
+Message-ID: <ffa045f4-dfb1-4ec8-b9f5-ce2205e83fb5@opensource.cirrus.com>
+Date: Wed, 5 Aug 2026 10:56:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] ASoC: cs35l41/cs35l45/cs4265: sort the reg_defaults
+ tables
+To: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
+        Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        Vlad Karpovich <vkarpovi@opensource.cirrus.com>,
+        Paul Handrigan <Paul.Handrigan@cirrus.com>,
+        patches@opensource.cirrus.com, linux-sound@vger.kernel.org,
+        stable@vger.kernel.org
+References: <20260805082413.26174-1-peter.ujfalusi@linux.intel.com>
+ <c8aac762-c1a7-44ab-afff-72610cabe341@linux.dev>
+ <b5631801-2904-48e3-b4f7-9ad6009c1198@opensource.cirrus.com>
+ <96c0cebf-3ec3-4136-b010-32187ff8c870@linux.intel.com>
+ <anMBeeNG1fDpFHzN@opensource.cirrus.com>
+ <81391ad1-1097-43ca-8729-ae01c00db3b2@opensource.cirrus.com>
+ <4c407a93-7cb6-4a44-a7b6-4d972e714b4e@linux.intel.com>
+Content-Language: en-GB
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <4c407a93-7cb6-4a44-a7b6-4d972e714b4e@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <81391ad1-1097-43ca-8729-ae01c00db3b2@opensource.cirrus.com>
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00029928:EE_|PH7PR19MB6459:EE_
-X-MS-Office365-Filtering-Correlation-Id: f5e679ee-00d8-412e-1ad8-08def2d73c01
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003443:EE_|LV3PR19MB8229:EE_
+X-MS-Office365-Filtering-Correlation-Id: 543993c4-55f0-44a9-f146-08def2d7e010
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|23010399003|36860700016|61400799027|22082099003|16102099003|18002099003|56012099006|10067099003|11063799006|4143699003;
+	BCL:0;ARA:13230040|36860700016|23010399003|82310400026|376014|61400799027|16102099003|22082099003|18002099003|11063799006|56012099006|5023799004|4143699003|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	cuCpy5q2jsm77PMDPOsKkdp7WQv7i77ohFygvo2m6X/fTloEa6glvDWRrlePAveDNxKg7mpTmCbKoskY1IslSTxUHl5q7rtduCltYUnzTG28HNziGHLGbCtLX7EA2bPnSpPFq2/J2v+54YeGeRhQ6KXGzY8wQJ+TVKKGgy0k/StoHkIWjzdKfDpB76SH56p35GgEz2uN77MDUNbRD2qYBlJKM4XQt0QBE13ko5LjDIrXebhC2hrTiZexqe1JuNyxDnJV1OwDO07QsRVL09vQk2lq8goRgNpgkIJxag90umwpZHfwUHEb8b0XG6e2/XXUEOCvU5zsiSuqTtlnkuhL9oMk+u5iwE6mVngwOAYIWEfejn7eulL69XHjAeuhj9GiL5GxEIhpfTlR1/Qjei4EtbKdNYb2vNSjFfZ+x7j/tXL5bWejUcuWsV/6vil8q4JlgX4cIoUNqBTF8ufgpPVd9NCasVEzsb3eyN6n0S5xx4YJDZKjsTVeQQu0Ri6zX06v5SH4uG01AnZh2QEuj9Cu2+yWqpUbil2BXVR6USuBpAY+BtDsajB85xfrTt8/WJ9RsdaiGOWuN1ztwHUtptjxUGDvMx6m6ZTpzIw2WZSerYv4eAtCFS0/NOQGvRv6V9P88awGp/4/ILZ3NXD14JlHz7XOuDyKwE8sqcPSR32+Cxm0dfNT+Z5rr36VWm623vVdpNiCPfKc/ZMKRnUB19CtcQ==
+	fq8Xgi68DJFlB9DamBU9hrPMvTHreQbYxGM0MqEbXc/7FlGnCcvfefAl34V6i7IOj0R3p9sU+x+eA+gYST0qRflVTh2vCwBEsaztlKbapUsi2e+t09Ke7eJYGxMBbRZpf4z4nS8XO/1kFosWQNEIDfPrhWkpdN1s71MvQHZETd/AK0S0xj4No3Y3RDJuFbpW/ze31DgiWfRkCLmdNGO1wSl+4VtmRZmJrpzmjnntFDB2e8QpfjYLmy4tk1Sns3vTa2hecl1OdrFayv2NzaMQyz/XcVufikpQ/w94hyguFJyHMRf9esy4PL/rpUSzEEcGvxewPpCtAtQmz6KaKGPVN2xa3lTSe2RFEmMuQQbtm3en47APtcSlearNedWgCp1DfYCTuISnXOh7MHcfudc1s3b0g+Q7kFZ9pmAeHu777okBgrsHin9S63tJEnNMkHPX+vFgQJnfv5agq7Vhy//xdKcBIdoS0bPSQk6M5+zbpkwfAVlpDNZHV4xLcAgep7y5nBDWuT/3MwJNJa0TmN6OYIDAFjodwzxGX1ngI522rI5VZDX0jiyxTHIHz4QaNug8h8BOMo8tB3yJDStOmlkSoXAT0/j01SG5wIZqLWpukHDhKY7clmVecPC9qRHAUZZrcdAQuoskP6CbmRKQ73gQHtn40MTiyZ8rcpMfXu2MsSPT4qDnQkGtvzydPeaL9N4YmmN8rPEg9SKlirjtnicnsg==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(23010399003)(36860700016)(61400799027)(22082099003)(16102099003)(18002099003)(56012099006)(10067099003)(11063799006)(4143699003);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(82310400026)(376014)(61400799027)(16102099003)(22082099003)(18002099003)(11063799006)(56012099006)(5023799004)(4143699003)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	zIq5yTTGOcQX5uT3kdHOixZJVX7Vfg9Unv/dtMhlAyfBk8RDWzgh54uM+E48OxFvqkDhdIFsfoZSEBlaga89BwhKBWwfezIN0SwV/24arfOBPrIpTO+pJdTxwINNgcKQbqn5yQOJuU9iQDzLK15lCgat628NIvCiN3KV5hxjinlkFJDyuiwqoQAAdkHxWWXSjMFtMspeThQkuPOfPhQ7tRzmhk+RFZl2pihXfVgHoGseUtBGV0ZK8gCZr+39O0idPp36bjYOZpo4BZ01gcfkx+BPh2UaVyRWQ5YM4jet+qsGTcsTiBkSG0kanZd6x1Ndy9aP5wm3tibnOPrNie66U7swUUQmIzluY/gMgY9WFlYXMv/ZlRr/lpZ0hIt+pPxdlPR0hukQKHEIXA1+Kp9qd/x/KhcGvvkcRy4vArSaddmefSZDpya5s5tX7DJ+N1en
+	7Ltzkt2Pnrs0oIWgslKs+ZBO1srQfQu1hlDPYznfVoRdAa4Y3SFQs6/93IZKORGZUnL52cE49GsH+xm0rzB8OM1lPNOYdj1C4uZkhsRVyG1EtpvfiqSp1SIOQjzhAIv7nVX4jmb/py/ZVgi7lQe2C7hVFaeKgTEveZo9tV75Diimy72J0uhvw90akWlP9vVgPszsbBg6L883NoobayDpA6NV36Jlqn0pXsBQEAlu1W+e5FAuLsrYDJeCSft8ITcvTJlSUQJ7s2i0Mtxn3IoO4AvkBxUmHbKNEue4Ala07EN2WbNApFZhBiLMo/wX/1s3D/11Fh2ffelLynG7lBtT9cb2KkP/KTXFoo6MEc9lsZ5D1Ppd0yS6ja8gE3yk6q9CRqEj6qLDqbJ5zPJpa3yjP+ikqHDSCmdpay1wuK89yQwId6RR1u/wzcEdea1VF9Hb
 X-Exchange-RoutingPolicyChecked:
-	KsCtlvslKkdN37o2/MoX8wImcDeePC1T8hkmolrE2xfO84710IxmFunTjqfZNpKxr+gq+e5dApPFzhOpq5nHeKdcz4BxFitQtZF4573qv7+6uHZ/NDk7l2iEUEuA3jNrjGQ5FlhjxhlbCAfUTlljWCBrNGnv9h5x53bOSzAI0GmCpLStYzHxQb+hU6A5yfY8W/tw5XW8ptRJT1rYIUqNEpVatjGVF1Lfr6qYjOHm0MQhkwpLp+vdtJItV7gyfktblM2w8pW7O6+8n/pnz/XNsuSdWHkWQ6JA1mJL96Yg+BZBinhIHdOLmSwol70RPSsqeUILA0JwN5yy+BQjKv2o4w==
+	QtjIocgQ44QjpK1HGvwYj4f+JkaEph2LdrvBL0Fo7pHf/egFQ5RDPkMUVk4KjT6ZVUO/lSpKGpsuDESuE2ytkGfpoexPKDmPV9ZG9aSJ1XY5J4NdwMRNQY0EFpq7AdF+nYHIQUuDOkpeblCzQ/nYcISED6Nh9gcm0kwT6cBk6/aCvh+DjwKGUg+vwnXP36xDM0b6uyZR7ed3DBlmsBduLHtuA1I4rtUot6akbhrQkjoa2MwSxUEaN7BKdfruhg3Ht3+BtJ9Gew0qppxs8rFD7WInjNih61b9V1LAvkDcAsgmgVSxi5rU3wNcEw/J55+bi/vWciG/WlHIIM5SVUSQlA==
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 09:52:16.9733
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 09:56:52.1520
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5e679ee-00d8-412e-1ad8-08def2d73c01
+X-MS-Exchange-CrossTenant-Network-Message-Id: 543993c4-55f0-44a9-f146-08def2d7e010
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL02EPF00029928.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS2PEPF00003443.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6459
-X-Authority-Analysis: v=2.4 cv=ZK/nX37b c=1 sm=1 tr=0 ts=6a7307d6 cx=c_pps
- a=ZUDVJbHKkZYoAWA4fONUdg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR19MB8229
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDA3OCBTYWx0ZWRfX5LrAEUxZv0j8
+ VXOtTQTzQHxo+i1vvwHGFd1WeiGrIwrTfwkDhsbZt7nsIN5jqgmmtDckh98QFLIjto7CI0IQwVn
+ LYoFCHLihCzAyfn74mpOyrrJCyOlUiY=
+X-Proofpoint-GUID: qR_HmNmevjqPTUFt8IoW49OpbFTdkFch
+X-Proofpoint-ORIG-GUID: qR_HmNmevjqPTUFt8IoW49OpbFTdkFch
+X-Authority-Analysis: v=2.4 cv=N+MZ0W9B c=1 sm=1 tr=0 ts=6a7308e8 cx=c_pps
+ a=TyCWzW9CAQ5Ogo61w8w6wA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=8nJEP1OIZ-IA:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=mGg3SG0tE1E6V9n-nRsA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
-X-Proofpoint-GUID: QKzEaV2dCEwcj9m2z7BIfoj-XHsG7aV8
-X-Proofpoint-ORIG-GUID: QKzEaV2dCEwcj9m2z7BIfoj-XHsG7aV8
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDA3OCBTYWx0ZWRfX+vBfAg1EMImR
- 7mJOMe/4U/Sqw0DuwaYhMvk7sdBXCH1H29kpiAEijhTF89vOLdKK0zugScp2j4F9BJSvRa5I/n7
- U4GnzHBrr6Nk+0fCJ2DiDp7gj1G7jxzVfrAy7DtwqZAGZdSiAZmT3oTX+H06GUa+jn0Qv8XHbsN
- 4ESsUNCBRELM5HvUve7E+LznfSMpOdyjfqkwcx22ahMN68ya/sAvqtxUkIysA0oJW6NZjXoRAQV
- 2vxPBBdAH+Xs/JGL3O4oQJnlhxkZsZXjVM6RYC8wyYrNGaBwmJ92yo0gliAENrwMUBnn/HFVcED
- Pa0S5JLyENQqgZGM/Ao9dbiJcb07i3mqJ0lSTkQoIdXAC9GJ9rHnMmveqhRsPqTDFjKU371EQ9s
- dyU/GFB2XrPXZ7NKGcjiFBzd5mOTetDIoe8vneb4rPQK8Zj5ibFkp6GYhaagl7F0vGFLgvvd06i
- kFelCXJYiFaI2/a0PQw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDA3OCBTYWx0ZWRfXxlg3064PVW1/
- URkGqzr0lMH5Rl/SEPt4sVeIrJk+f9cqZs+cokk/LuoHrYBkDBY2tCLA5q6/zT0oiiPrGr4wK3j
- 8HqOx822OVifsxqNKGujid4kytc/s5I=
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=bh8BFq48CNL9zBbSfrgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDA3OCBTYWx0ZWRfX2N8h/I+5D5si
+ YsfQacVMwKjD/e7TNV6fgeL3A1Lsn5ZGWJuQSmjNVTit+8iRSY6E7Rh2SyVFt6tA5+4PSfXqvor
+ yastG7VwEpU6cIgvNsCoFwquxsYlCKtSc7HpaCgmfbS3oBrBGE6HIRijKHJj0bzriaLx8dV/qb9
+ OShPcLHq7uY6Ap/IwIPGKIdZNKcjOZdjDL8rnbc0elOTJX8q/ojg+XhSdXiDRfPCIk5DyBXwmXW
+ w1/FGHwU78RaUuH85Gz37nXJRLSp79xFfdcco/OSXqvFId22Yiu1A3UWXbGblpZc+n5VtfcQKcn
+ FjnsLC/NFoursQovCcg8oiulbN284yr9PdN0W69PVnZyVCwqgJSTfuT5KVeUMkY42yTASSJ+rYD
+ vu9h5rLuJVzXZOdkIGXRvuJmYv+8jU1BMAemDx66SSDiqxffES0s7pAeK6JgFUs48p6YIYjhtXj
+ /UuN180IR9RkEvUwIbQ==
 X-Proofpoint-Spam-Reason: safe
 
-On Wed, Aug 05, 2026 at 10:38:24AM +0100, Richard Fitzgerald wrote:
-> On 05/08/2026 10:25 am, Charles Keepax wrote:
-> > On Wed, Aug 05, 2026 at 12:10:10PM +0300, P�ter Ujfalusi wrote:
-> > > On 05/08/2026 12:00, Richard Fitzgerald wrote:
-> > > > > > Found by an audit of all reg_defaults tables under sound/, the SoundWire
-> > > > > > codec drivers are fixed by a separate series.
-> > > > > 
-> > > > > Wow. Would it make sense to have a regmap helper to double-check the
-> > > > > addresses are indeed in-order in those reg_default tables?
-> > > > > I am not sure how this requirement can be enforced by just inspection, a
-> > > > > warning would help detect this sort of issues on more platforms.
-> > > > > 
-> > > > It does seem probable that anything that relies on people just
-> > > > remembering to keep a large table sorted is prone to breaking,
-> > > > especially if the addresses are provided by named constant instead of
-> > > > a list of hardcoded numbers.
-> > > > 
-> > > > Should regmap check the table when the regmap is first created?
-> > > > As it has to search the table during normal use anyway, one extra walk
-> > > > when the regmap is created probably isn't a serious overhead.
-> > > 
-> > > But it will be done for _all_ devices which uses regmap on boot, small
-> > > things do add up, see my reply to Pierre-Louis.
-> > 
-> > Indeed, if we were to add some sort of auto-checker it should
-> > be guarded behind something like perhaps a Kconfig option or the
-> > DEBUG define.
-> > 
-> > Thanks,
-> > Charles
+On 05/08/2026 10:52 am, Péter Ujfalusi wrote:
 > 
-> regcache_init() already walks the defaults table checking the stride
 > 
-> 	for (i = 0; i < config->num_reg_defaults; i++)
-> 		if (config->reg_defaults[i].reg % map->reg_stride)
-> 			return -EINVAL;
+> On 05/08/2026 12:38, Richard Fitzgerald wrote:
+>> On 05/08/2026 10:25 am, Charles Keepax wrote:
+>>> On Wed, Aug 05, 2026 at 12:10:10PM +0300, Péter Ujfalusi wrote:
+>>>> On 05/08/2026 12:00, Richard Fitzgerald wrote:
+>>>>>>> Found by an audit of all reg_defaults tables under sound/, the
+>>>>>>> SoundWire
+>>>>>>> codec drivers are fixed by a separate series.
+>>>>>>
+>>>>>> Wow. Would it make sense to have a regmap helper to double-check the
+>>>>>> addresses are indeed in-order in those reg_default tables?
+>>>>>> I am not sure how this requirement can be enforced by just
+>>>>>> inspection, a
+>>>>>> warning would help detect this sort of issues on more platforms.
+>>>>>>
+>>>>> It does seem probable that anything that relies on people just
+>>>>> remembering to keep a large table sorted is prone to breaking,
+>>>>> especially if the addresses are provided by named constant instead of
+>>>>> a list of hardcoded numbers.
+>>>>>
+>>>>> Should regmap check the table when the regmap is first created?
+>>>>> As it has to search the table during normal use anyway, one extra walk
+>>>>> when the regmap is created probably isn't a serious overhead.
+>>>>
+>>>> But it will be done for _all_ devices which uses regmap on boot, small
+>>>> things do add up, see my reply to Pierre-Louis.
+>>>
+>>> Indeed, if we were to add some sort of auto-checker it should
+>>> be guarded behind something like perhaps a Kconfig option or the
+>>> DEBUG define.
+>>>
+>>> Thanks,
+>>> Charles
+>>
+>> regcache_init() already walks the defaults table checking the stride
+>>
+>>      for (i = 0; i < config->num_reg_defaults; i++)
+>>          if (config->reg_defaults[i].reg % map->reg_stride)
+>>              return -EINVAL;
+>>
+>> so checking that each entry is larger than previous is trivial extra
+>> overhead. I think most regmaps are cached.
 > 
-> so checking that each entry is larger than previous is trivial extra
-> overhead. I think most regmaps are cached.
+> Right, I think this should work:
+> 
+> diff --git a/drivers/base/regmap/regcache.c b/drivers/base/regmap/regcache.c
+> index aa8f2efed779..ce4b11d8a758 100644
+> --- a/drivers/base/regmap/regcache.c
+> +++ b/drivers/base/regmap/regcache.c
+> @@ -123,6 +123,7 @@ static void regcache_hw_exit(struct regmap *map)
+>   
+>   int regcache_init(struct regmap *map, const struct regmap_config *config)
+>   {
+> +	bool sort_defaults = false;
+>   	int count = 0;
+>   	int ret;
+>   	int i;
+> @@ -149,10 +150,15 @@ int regcache_init(struct regmap *map, const struct regmap_config *config)
+>   		return -EINVAL;
+>   	}
+>   
+> -	for (i = 0; i < config->num_reg_defaults; i++)
+> +	for (i = 0; i < config->num_reg_defaults; i++) {
+>   		if (config->reg_defaults[i].reg % map->reg_stride)
+>   			return -EINVAL;
+>   
+> +		if (i && config->reg_defaults[i - 1].reg >
 
-Hmm... in that case perhaps we should. Also if the regmap isn't
-cached then the defaults don't really serve any purpose so should
-cover all the cases that matter I think.
+You could test the stride of defaults[0] first before the loop, and
+start the loop at i = 1. Then on each loop you can test [i] against
+[i - 1] without the need to check i != 0 every time.
 
-Thanks,
-Charles
+I don't think we need to sort them. Just fail, so that an unsorted table
+must be fixed.
+
