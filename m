@@ -1,189 +1,120 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF04185B48
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 01:38:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785893890; cv=none; b=nTli68bCJB0OOBlgUUbke31Yr/IKskMPmRUV4W5wDunofhLfX98dr9mwJs9tHjlUjdlfGeNt+37dVh8iiv9a4OzhzQ8buxCi0XPOAoK+EA0iYOp01Y6nkUE9UfMsZ7vtzeul4qrwWSZ3xuWNctDLdkqhaK3VDwZrnTuFLuYGjpU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785893890; c=relaxed/simple;
-	bh=5dXT5zFZx7tyIqtr8lCYyvpmc29kkA7AFdIpp4VU9Co=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KLlQugnDUAxfS/DrK0pa9LWuF31KzqfqfzSK4ou9Y2aVguGdUqGesOAX2JHGJY4BvNi+e0pLcDMBvpYFRxbkRGRadyWuo83LLSU/uQWOOT24aJoOlsAU/ajZjEmOigMrQiDjUkXhtJnqjq5w/tt1dbEgsmsG+BkKAuBKY0aRdOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=gKF1N7Kv; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xbow.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171E13C4547
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 03:24:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785900273; cv=pass; b=r1xBl131A6HYQ2ueT2sFUQBD75FjbxAalKA9WjCC0EPwky/fqgLdq6HD84txg8ev4VgNZxLCqnTYARA0ZKv67crz6pKlWDLbG1U/unFSlEUYvp0XxP2Wtgn8tt7oLp9/cgFaJMhTa1GFXwf/9T+9Q4794cXPd7EQ2yrG23fcuQc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785900273; c=relaxed/simple;
+	bh=kzHUs4aFlrfw29jj/2OPq7Ny3j2bosxRBn0wvjn9Hpk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=untOqmWKuIAYqlQ6PbKCRbqdlvX4O6v+QrALMQQB17kHdVpFXcbouHb4tttTvvcBENME4aTaK47BwMMbgvthlpZlNztCBB9gXH48rgwtLHh0P04ssYRtAi6rMMPUX1aFfFecJA4JR3vOQhOl9opU1Tj8yuyWpNa8JR7OBDp3/wc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AyRttAO6; arc=pass smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="gKF1N7Kv"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38dfe910e9dso403659a91.3
-        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 18:38:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AyRttAO6"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-848595b338cso648964b3a.0
+        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 20:24:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785900267; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Bf/LE0FphEKrlRrnvY7KORRr0ZeCFcZalD0LiXW+aFrXzmjP/VLpY2HNGDM5/hGiKt
+         PE49p3QSVFAjbyN1QD0y3CmL1ZCri5ciGH8arGA6Z9js1dm6YCvH3k2XZ3RYFciD/jji
+         1zUYQAKqi2+B/8X9HZV6KOefvmihAwy9E0yYtAvJB1fUhRRh+urW4QPjEZRlrbR9dBEv
+         7PpzvQDEPKRfxQHEtbGKsLc4H+Cfh8THwoefSTHYdFdYk3x8jvNQQ7R5Z3vMW4TWwaha
+         +P6PNOnTlOkxhvaj5tbLZQo8KctcmWw142fdcuMKNZ/F/xHsNm+5wceV40+ud7Hitq9x
+         gKBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=kzHUs4aFlrfw29jj/2OPq7Ny3j2bosxRBn0wvjn9Hpk=;
+        fh=iVLfIy22R+Q6PJdva0wTTa0dxbMOj/g4Oxt72+FZxbo=;
+        b=cua/XQ83UCKi2JwDmUinoNuh+v/LDDiy9WYravfULeqosBWDA52U+vuufqAOU5gU51
+         aTCOIw8wVHk5hRXYIQ7ZJG6O6OajqjbwXDqLegN00/eZhvYniEENPGaqxSlJQKAwzeZC
+         QAjiKWAQ2XB17TG+++rKvyxx/f/unjLD563hrAafB/mkbY9zEuqhZ20CN11Egv9sJL7A
+         jcNI7/nd3Kn5mLfxHJf09KiGHTSWHYEjZjTqpLmW3UlVjCVByQ1z7ckkVpz6veQT5Uh6
+         x4D3FqoZ2QQ/Yl09jVIFCr0Debxtb0ijDfke0bNzICzFSLfxkuNQsslVJ+yO8dK2Mf1h
+         Psnw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xbow.com; s=google; t=1785893888; x=1786498688; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=s299Fhs4WKIhYcduu+EnoSm6nbyI7RdT+IYT+hOsyoo=;
-        b=gKF1N7Kve+UKY0aNGgxbC24f5W0j8aoUL/zDlxZkCiiS4G9iV5otPX/6+ADzDISK0V
-         z/TzyeMUGhDqTvsxPrOW1x2LSkhluOUB89hCohLHbYG2aRHHR275fEr0hHtXk5+xA4KQ
-         nCmitoLUUK4qpybqG/oCOKTxQlOPoogqvpO7yMpcfDmIY4jBMvMWxmvGzAjZTF4AYRSB
-         cG2XmyMaDZEvX2CRJIhSmDVw0FbEBrsy2RoT3OvcJ3m2x6QqXWEjfn8w2XxsA9xXq6sa
-         DyOf47HFDGLLvt1p0lx9kcsnytXjhVY9RP9gLzYd5puDetRSFp8NS/Khtq6TZ994aUFD
-         NlhA==
+        d=gmail.com; s=20251104; t=1785900267; x=1786505067; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kzHUs4aFlrfw29jj/2OPq7Ny3j2bosxRBn0wvjn9Hpk=;
+        b=AyRttAO6e4gndq0MVbbLHU8Ks6ZRK95Vw+FMrYpXYSbxtGpM17KMrlKONRbXtryPM8
+         2EcIfVcfJ2jVV8d9TIosMfnvgou1tybWRM/ZSwfijFbnnoEU8rC5iARtVxOJKiTcdvFx
+         U3sYpIR2WXTx28KoKxoCcLwkbRwfmTRmeRmylxBLJEYqm5oEDqq9WVTbMerVzEvy5uct
+         QsQ9ZBD69SIYYVxKrTKNkj1xDkrXJujcRagIWNOvOhxZVjnODkpVFkqPhm+NBIP4XvB+
+         jCKOzCZLv5x+ERN6KoWVz3JmyPjZ/qZ+yBKbCi4S8pLSLqgSbJKOowjo5sop8C7/bW6R
+         o0JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785893888; x=1786498688;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=s299Fhs4WKIhYcduu+EnoSm6nbyI7RdT+IYT+hOsyoo=;
-        b=EXyS15Qb2lsrO8BSwElEd0pOKbRD7IgydVPQyJLJ9ed4UIPaWKwx8XyBTUT5HLFqTa
-         WkEIpphjm2E360SydglqfUNEPTmYhj4qcn5ccOFoslOhxY0MLGluxsSVyEWAXyBieOG/
-         UHC8wHs2Efo4ao5++nXWOJW2jxWINKsqXoXYoVt20owB4cJNu1lnxUWkZhFQltXPjVdM
-         WdHu48Od/kWRN7V5oo9MLrIDaY7lwu//anpBgNe/81qw5Nb9WIVQmz+Y29zEMs58cFB/
-         A8ZmS/jjCQpHjra8+GxaJLswisrABqJVJmSAo+iGaoiTkeD99Uil008D4ChIMeQHoCUE
-         5s+w==
-X-Gm-Message-State: AOJu0YwqRoIMxYn8nkqmn7qk8kse7vkMj6x4sMSZ43oj3FLYZ/jZy/Ez
-	tAZwqaYMV1nx8nLqxswJgUIuzQF5gWucuSbhJ0d1rwTCR1tSbjxjptmHVb/rUomkz1E=
-X-Gm-Gg: AR+sD12upw6jTOInPAspEuK1SApt9kGXWSQks6i5mo/EowWBak4+q6H0J9KSmOz1w8g
-	Kl0hb2jU+Lza14ObZbgWqy3W2iCwKq2w/Q1DhQ/GAtyhHhNFtu1rUP3aOPOF7LP1tHTYbshJ8cl
-	2qxt7rOZs0JAa5wSbuFj9Ggv7mHVnRssBVANl3nfJVGqqXMiJtMVLgiDGneFd3rk+f3t6E3Mr9Q
-	dhmoe7BvQfuHC91Pc8/KG3PyV4Fy8/Wu7TDo31vKmUwhQl7riNakBlYIif1WD+XCeoTMcmj2zEI
-	eYGK5JW2cEUjMhZzJV2JpDPlpONPM6qcHkFzINgTPltpnVIktB7y4BgZbL8MYkTJAk5QHANPGV5
-	4WdJ2MKM5JXplXmvtZ1TFdr+rZjiDFhF6v1+ZJABD8mzSSpqPwBD3MNkVRtnNiTBoQLHkqC3gBI
-	8dnlnFkoPxzFMFns8iJf07nHI6cBTC4UZiRUcOUYcp4+X1JOwNJW3jrrgQ2L53G3rA3ViTP6/Rp
-	FgwLrFzV73YAtoTa+DKO+cqPp+z
-X-Received: by 2002:a17:90b:5112:b0:38e:542:6485 with SMTP id 98e67ed59e1d1-3903c5919c4mr3048226a91.12.1785893888394;
-        Tue, 04 Aug 2026 18:38:08 -0700 (PDT)
-Received: from Mac.lan ([125.128.148.126])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39039179b07sm1138157a91.5.2026.08.04.18.38.06
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 04 Aug 2026 18:38:08 -0700 (PDT)
-From: Baul Lee <baul.lee@xbow.com>
-To: g@b4.vu,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	federico.kirschbaum@xbow.com,
-	stable@vger.kernel.org,
-	Baul Lee <baul.lee@xbow.com>
-Subject: [PATCH] ALSA: FCP: do not copy out an uninitialised init response
-Date: Wed,  5 Aug 2026 10:38:04 +0900
-Message-ID: <20260805013804.38839-1-baul.lee@xbow.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20251104; t=1785900267; x=1786505067;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=kzHUs4aFlrfw29jj/2OPq7Ny3j2bosxRBn0wvjn9Hpk=;
+        b=okqCq7+BDXakYgdfginsDvGwvit/5yLv3obdP4bxC9gyw0kimmWqyWMvUKLZix6h1G
+         KNbhwdQKN1bqoIvP++OwfpbgYuRWn42bM+kcSKWHuvGsJuyF+jDw1rNShUfPnoiMrrgW
+         YFK7449KmuXD5eBJtLfOxn9dqRvyNm4RLpUzMM9ZrvVDDVt21GO8ecEedgUDCpzANxaz
+         JpihVWtLod5d3sHc1a3v6eq9oYrdJ+8GeSwfj1PoOpfNNRcWywut3X+irnWiRTrYiCQo
+         CmwrOwzrPLQX7kH+pOScabk5kWgQ5eBKeGensC4UNUk2QbhS96j6rE/XqBCOUM6GwqIu
+         dnlg==
+X-Forwarded-Encrypted: i=1; AHgh+RotG7+60V9BC4/0GbasaQ9ISELY4zntikoxZJvfuYIL3RIad57CGUuzs5ovCMBlN0SkFEQpJfc8w64fuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9QzLwfKIcwLBTsTDaLsPLogkqARsjlGs6OCIllkRlgaXm65D/
+	Ha8ng47o9jPk9dynKm2VaflJ+wrERanlmWIcy/C2K/HTFu1LppYZ0SFiPTUE6u9rp3mwOhKdQQa
+	XtaVceMEpVkeua5yq1uLhFhXYlckQJgw=
+X-Gm-Gg: AR+sD121j3UD0cKhIxGyESJwE8eL4rQZcqk9XDvfrUW9ZKt/25MbvOKYBcV5IGna9Te
+	3nRIbHmpSLm2XA2/64xvof/3/sEqqRagft9JWqU0JEn1/Th/Z4v/PZ2q98Xrt5rZpm5FNhDZGT+
+	XSO/ulcm6iXJ2rsZE5Bp4Myw03qh1Ct9KkAKb4DRHd4MlueYi+LAdrDQTvjESEyOW9F1ylvIIKl
+	Q0k1qUwlR9G9FfcW4BUuTLgNQun1kAaZwLxVhu/KlU3u0ylXZKx2ZtP6gIKTVriWRVs8pUt9kw5
+	kKxioghHBPqZ2j+DINLwf4yuRNvodL/YOq46sln+MvFBNKkVp2Wa5lgnDUobqGZ/2TS5dZQTfYX
+	Z3pD1WTnIS1dt/scPi9pN5fYPXh+GJlVsj1nEJgbagYSBWIw4MfIqepBJ
+X-Received: by 2002:a05:6a00:c95:b0:845:3033:6cb7 with SMTP id
+ d2e1a72fcca58-84f2dfc8ec7mr2949970b3a.9.1785900266722; Tue, 04 Aug 2026
+ 20:24:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260714120042.491712-1-phucduc.bui@gmail.com>
+ <20260714120042.491712-9-phucduc.bui@gmail.com> <20260804193542.3a83d4c3@kemnade.info>
+In-Reply-To: <20260804193542.3a83d4c3@kemnade.info>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Wed, 5 Aug 2026 10:24:13 +0700
+X-Gm-Features: AUfX_mzxWGTQnXbJqsCTv5UKdmfzTCF4sry8IO68g78FicqfF5OshtP5CK9wMR0
+Message-ID: <CAABR9nFc-7HnB_4FKXGaRzA=SuGCy1dT=vWUn+Sjq62BqLT7WQ@mail.gmail.com>
+Subject: Re: [PATCH 08/10] ASoC: ti: omap-twl4030: Return the original error code
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Jarkko Nikula <jarkko.nikula@bitmer.com>, linux-omap@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-fcp_ioctl_init() allocates its response buffer with kmalloc() and copies
-the whole buffer back to userspace:
+Hi Andreas,
 
-	buf_size = init.step0_resp_size + init.step2_resp_size;
+Thanks for the review.
 
-	void *resp __free(kfree) =
-		kmalloc(buf_size, GFP_KERNEL);
-	...
-	if (copy_to_user(arg->resp, resp, buf_size))
-		return -EFAULT;
+> The error message seems that is wants to catch a non-existant property.
+> snd_soc_of_parse_card_name() seems to ignore that error. Which is then
+> really catched by devm_snd_soc_register_card(). It would be good to
+> point out the error explicitely, so probably printing that error message
+> on if (!card->name)
+>
 
-Nothing clears the buffer, and the only writer of its leading
-step0_resp_size bytes is the step-0 control transfer:
+You're right, I can't be sure what the original author's intent was here.
+But as you pointed out, we do need to also check for if (!card->name),
+since snd_soc_of_parse_card_name() silently ignores a missing property
+and only returns an error for other cases.
 
-	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0),
-		FCP_USB_REQ_STEP0,
-		USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
-		0, private->bInterfaceNumber,
-		step0_resp, private->step0_resp_size);
-	if (err < 0)
-		return err;
+This patch has already been merged, so I'll send a separate patch
+to address this.
 
-usb_fill_control_urb() does not set URB_SHORT_NOT_OK, so a short or
-zero-length data stage completes with status 0 and snd_usb_ctl_msg()
-returns a small actual_length.  The only check is err < 0, so a short
-transfer is accepted as success.
-
-snd_usb_ctl_msg() copies the full size back unconditionally:
-
-	buf = kmemdup(data, size, GFP_KERNEL);
-	...
-	memcpy(data, buf, size);
-
-Bytes the device never wrote are therefore restored into resp unchanged
-and copied to userspace.  step0_resp_size and step2_resp_size are each
-validated only to 1..255, so the caller also picks the slab cache, from
-kmalloc-8 up to kmalloc-512.
-
-On 7.2.0-rc5 (arm64), device answering step 0 with a zero-length data
-stage, s0 = s2 = 255:
-
-  # init_on_alloc off, no spray
-  step0 window [0,255): nonzero=94/255
-  000: 00 80 60 06 00 00 ff ff 18 00 00 00 57 01 ea 01
-  010: 08 78 22 13 00 00 ff ff a8 c4 5f 80 00 80 ff ff
-
-  # same kernel, kmalloc-512 pre-seeded with an 8-byte tag
-  step0 window [0,255): nonzero=219/255  tagbytes=232
-
-  # identical run, init_on_alloc=1
-  step0 window [0,255): nonzero=0/255  tagbytes=0
-
-  # all three runs
-  step2 window [255,510): device words matched=62/62
-
-a8 c4 5f 80 00 80 ff ff is the little-endian kernel text address
-ffff8000805fc4a8.  The step-2 window is unaffected, so the disclosure is
-exactly the step-0 region.
-
-Zero the buffer, and require the step-0 transfer to deliver the full
-step0_resp_size bytes so a short data stage is reported as an error.
-
-Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
-
-Fixes: 46757a3e7d50 ("ALSA: FCP: Add Focusrite Control Protocol driver")
-Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
-Reported-by: Baul Lee <baul.lee@xbow.com>
-Cc: stable@vger.kernel.org
-Signed-off-by: Baul Lee <baul.lee@xbow.com>
----
- sound/usb/fcp.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
-index 6f5dcd35e1d4..8f52a3dc9ec3 100644
---- a/sound/usb/fcp.c
-+++ b/sound/usb/fcp.c
-@@ -483,13 +483,13 @@ static int fcp_ioctl_init(struct usb_mixer_interface *mixer,
- 		return -EINVAL;
- 
- 	/* Allocate response buffer */
- 	buf_size = init.step0_resp_size + init.step2_resp_size;
- 
- 	void *resp __free(kfree) =
--		kmalloc(buf_size, GFP_KERNEL);
-+		kzalloc(buf_size, GFP_KERNEL);
- 	if (!resp)
- 		return -ENOMEM;
- 
- 	private->step0_resp_size = init.step0_resp_size;
- 	private->step2_resp_size = init.step2_resp_size;
- 	private->init1_opcode = init.init1_opcode;
-@@ -1019,12 +1019,14 @@ static int fcp_init(struct usb_mixer_interface *mixer,
- 		FCP_USB_REQ_STEP0,
- 		USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
- 		0, private->bInterfaceNumber,
- 		step0_resp, private->step0_resp_size);
- 	if (err < 0)
- 		return err;
-+	if (err != private->step0_resp_size)
-+		return -EIO;
- 
- 	err = fcp_init_notify(mixer);
- 	if (err < 0)
- 		return err;
- 
- 	private->seq = 0;
--- 
-2.50.1 (Apple Git-155)
-
+Best regards,
+Phuc
