@@ -1,135 +1,178 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azolkn19010027.outbound.protection.outlook.com [52.103.23.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8A3E3E3DBD
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 07:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785916554; cv=none; b=q7kA90XQvmJNbh7gEX3aksuckypBss1h/Q8JR0FZUXlTQfBm7b6I6djXQi908dKjWY8IV9v2PofmvJavHrb12Azf+JvT/AaIjEzYbkkgO/FImnVI/HGaJsh4/Vcbl4LfJAAUBKSWMsl+1gW/l07BCpBZm4/0EJ+a+rAJNb5xv6U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785916554; c=relaxed/simple;
-	bh=m1v76Ag+Fp0S33OQgA4ftyBRk7je3Dir+slUcySG738=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sxORuXhawWm+Sn2X2OClYIFgg1/FyhNtXdvmbvtFTaJYczbX40HY8Q2+FcJGUV/UZXAjyFf65AnkDhBgYbIi90bnd0VwT2ufmVD+xgCnHlrBHiXbWRySBnJ5EMsLK7WymjZsxcgvrFAaR2fIPqFCKz9kD0d7AFPMn/s55DuX2Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RMkMhijZ; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC44A3EE1DC;
+	Wed,  5 Aug 2026 08:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.23.27
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785917445; cv=fail; b=csqQ/itdwKYmuA48IAIxn0N1ZwrqHz6UTCL7nHtfpdMBUZPgY1ROax63IzeQhPK/BTzzJ07CdJasMt/ZsAL9IIdgo19eKdqrWQKMQuCK/CgbJRlX2MO930GKecTmHE24DB90akFWNUgk93MeDXGY3jPeJRBBJtGXyA+WxZDvq0w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785917445; c=relaxed/simple;
+	bh=i9GDcS04PNc1Bebf8eL5l17mVVVH+qsAJSyfnhhE/XU=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=sDPcITE1qAGoLWCRA+vu7AjSmSzxT1PB7qCKNdcqUlBeoNZevOBAXvwTTakDISY/WAapkx1nJl7kdhV2ZPPSS638s8NpaTZljudv2TN0Rdy7Av4uhKDRrNIcCPWOm3QEOjy7nW8Ler+BeXl7axDfaPLZXRMFN61s4UE6l0CU620=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it; spf=pass smtp.mailfrom=outlook.it; dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b=ZuFUHXCw; arc=fail smtp.client-ip=52.103.23.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RMkMhijZ"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2d004f135b1so8985615ad.3
-        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 00:55:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785916550; x=1786521350; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=buENsts9eXYr+cMpEnOHpWKy852zqVxsMr2A9kbxY60=;
-        b=RMkMhijZEiFlDLAN78e4cR9+YpzmBXjFa5AOnUXvYf3EcqBBGzvYMbNtHSpx15V3dB
-         kFbKL6+2bCHSabewtkS8Plj9CrZtZaCxPlc70gGNdalI2hcJDOIP8QeckL7yNYOOVwg5
-         qLzQqqJgeU1FMEnXVVIQOOwb39pclo83WJNKhzPd9sdmX2rvWPyXYrR1n9oFIN+qLAEE
-         F/PX6OOaEVKnZRHhAWI4LGdQX3x3e3G6G29tfPaJTsx9rGsiQKO3eIXgsX5I4Zh1kqzn
-         omfSogxvEx70jd2hvPQ09L/1L8qPt147oWnogaqGpNj5pBAw5IAW97IDgK2TKjMAaaNY
-         RgFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785916550; x=1786521350;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=buENsts9eXYr+cMpEnOHpWKy852zqVxsMr2A9kbxY60=;
-        b=JL5rzy5UzQjj1oziXinPRaflm7ZDeiESBNs3EHGCyLYsi++/6+ze+vEe9A9u+wetmW
-         HHqDDf6r/8kpCDGdkSA2mU9FctbkVHpOnYMtUZ/xr1qM29ZmsZb7tLwteOGDgafrgVnl
-         NMZYk6rqHZBvqufNiD7Ll8bxpPvcEmReLbVyzqSUOjQPjyRhBgiKaOKNMwwZL5+7Lw48
-         eDlxWSDK9EB4hJ8WK4Rj13ohQk3ZRRrb/uiEZz7sj1tl5lDSmpJ4zxxG7r2g42EpzpVT
-         e45njHU9ug9qpzYorFjP1Ci9KxtAoALBE+NjZlwea1O/UHszkRj5lWu1VI52LLBVmCIk
-         Lhyw==
-X-Forwarded-Encrypted: i=1; AHgh+RoAg3oZmF3apeWhCKHt5+CeIMxcS/asp1pIA3G8p2paI3b6d0W2mJ5wZfh1FurTV5uwf3T74yweJD8tXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ3t3icegoTZsPB8lRuSz64A8MIWGzVWatGRtmTn6nhzOxAnmo
-	JZP+uSRY0vKJPnWG0Xcis3rpuRPDfAJ0nD4Gil2S7WK5Tn5RkXIFbQKA
-X-Gm-Gg: AR+sD10JAMZCiG6pohvFSNsiS1z/8Tg6AfqvSp3vtcaPsGaTX6Srh7voCLJR93eQ+U3
-	p3iysbuNXnOvugr5pe68xV3F3McdjPD0J6HaKiCD6X+heQika2+T2P5RYVR0L32VwqME9pvslxF
-	t0He8kr1W0q8oNULU3guL91cBKg2bdP5fMVXTbyPYau8kOFQg5sRKgY+7C+D8w44wAruPylvTy7
-	P4v8EpbGw5wfqbP+pDe/JzsASAzJipNN0YnZsvJ2DLakjNA/22g+o4ypYLHQa2df/LM1b3kZ3bh
-	1f9YQUe2QO73W9AtmGkfA956BjXwMR+ZeSRpu0KcYHKz1veGmFbfOhKUnsnEt+YJVWkajh8E8Au
-	G/IdOq/3g8UNRP914O52SKmSyru3Gwidgmh2gMeecjvLRg0yzs3ZhCeH29bGoeCFhZBJzMRe1yN
-	4GEkQRtIIx992eZGkIHAoncI4q6bSArQi38ohHyYbEwzEokmaP6VDXtIYRIlb/VvIz0Aerd6xht
-	xIjgCl3c8Pa0GezvbtGMw/YQwJE0MCMWM6y0f59oMFwY1VY
-X-Received: by 2002:a17:903:2d1:b0:2cc:90aa:8787 with SMTP id d9443c01a7336-2d0ca7b54e0mr60337695ad.6.1785916549922;
-        Wed, 05 Aug 2026 00:55:49 -0700 (PDT)
-Received: from [127.0.1.1] (211-23-39-77.hinet-ip.hinet.net. [211.23.39.77])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0a9f8fc8csm15721095ad.15.2026.08.05.00.55.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 00:55:49 -0700 (PDT)
-From: LiangCheng Wang <zaq14760@gmail.com>
-Date: Wed, 05 Aug 2026 15:55:43 +0800
-Subject: [PATCH] ASoC: fsl-asoc-card: defer probe when the CPU DAI device
- is not ready
+	dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b="ZuFUHXCw"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=p0CGAzTTU1LDt3AkW85j+znETZsubTWMeggj68WUmEUEWX1YLAPY/9+q46OswbKXQnS/CZKlI5jhn5+DcTzmCMaGwbCfviBnLkdFtcKPtiCW9cW+yoEpdR5hN4bBZgIFp3N2XRW7c5RNobX0XjXp/rTU4B4i8+X5lbNjDNbXHapSvZVnkucmDnkkpVqstDUQ05IayWgJMzemfRFwcLOYssV4v7gCJdK6bTbcpOLirSLql8iCFXHJsm35mmkH1F/ZHgGbRPEHp1/i9+8SU7c/uDj947TBi2FTmrUvf02i0vXjypIl2/cY+M+N58i74QyOOctSSqtFkUl4kWtPrexvHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8g3AbkNyDPg1CjG7p9DKxeGlNXrRZkHp66rT/A/pZk4=;
+ b=CbWO/nyqX3AhJ6czgIj3UqjbL0xpRQ8BgpUJgHHLehFnywPKUlTMHwSLp9zce6rUIDS+EDW5Jx2LE4W7ZjbEI3YG2G1kEiNW/VaFFXweQIPzYJOyK8j95T2VDhbRFFDiwmjDfQLzyZ6sL8vcFeiNlwVnn8tTXx8SKUYE0N0dY2JmrDOtE9Gm/pZZr9Kvxu2iICimJLGUV0aA0MFe1WyJ/tWrbZU3IiNigvHfLUdSHhzF9+sc2RiCvS3xKo4oj+IKPY1TDlgxZsdEINf6Cmyr8Yi8MryXlcpoHX3G6HKYd1hhG67VNas084TY92efkNWyD85sIFJ4PdOztJUyRCCIJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8g3AbkNyDPg1CjG7p9DKxeGlNXrRZkHp66rT/A/pZk4=;
+ b=ZuFUHXCwLkwib2EdzEc4qvDZ8oYjm2533q+CCS9FipZ+1smeiN1WhsUMGi0t2KEUkADqzhBDCPn0wqSaOt43rNOC5Uu58nEJUeaPNUu/hJINMtcuDIIeqqSpOK8lGV/FLnkAFphfZoapLTMdIVfWJ9MB78P6Bl+lBB79OoWrbmI81AU0eljcnZtPz/HWefYrLe4zHWdA72wx0DWXqZuurHLb6XKRUTtO4MlzCE5nXNc9SQjGTV7VRNbtfYkTr/t4hmLcVcqnf7Z1pVJnS1Tz2Lh29a/NlaFE1wMgv9nWLsfViBpVTKGWPTMwQ1r66YCnY7ZOVDIkaKKxBpFVzWQAmA==
+Received: from DS7PR19MB7724.namprd19.prod.outlook.com (2603:10b6:8:d9::20) by
+ PH8PR19MB7760.namprd19.prod.outlook.com (2603:10b6:510:25c::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.270.17; Wed, 5 Aug 2026 08:10:29 +0000
+Received: from DS7PR19MB7724.namprd19.prod.outlook.com
+ ([fe80::70de:3c05:ac62:7f86]) by DS7PR19MB7724.namprd19.prod.outlook.com
+ ([fe80::70de:3c05:ac62:7f86%5]) with mapi id 15.21.0270.017; Wed, 5 Aug 2026
+ 08:10:28 +0000
+From: Marco Giunta <marco_giunta@outlook.it>
+To: Takashi Iwai <tiwai@suse.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Marco Giunta <marco_giunta@outlook.it>
+Subject: [PATCH] ALSA: hda/realtek: enable AW88399 on Lenovo Legion R9000P  ADR10H
+Date: Wed,  5 Aug 2026 10:10:17 +0200
+Message-ID:
+ <DS7PR19MB7724EE8DED946545C55717C1FCD32@DS7PR19MB7724.namprd19.prod.outlook.com>
+X-Mailer: git-send-email 2.55.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MI2P293CA0002.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:45::17) To DS7PR19MB7724.namprd19.prod.outlook.com
+ (2603:10b6:8:d9::20)
+X-Microsoft-Original-Message-ID:
+ <20260805081017.23199-1-marco_giunta@outlook.it>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260805-fsl-asoc-defer-cpu-dai-v1-1-43f7f538e384@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAH7scmoC/x3MSQqAMAxA0atI1gbqUKeriIvaphoQlQZFkN7d4
- vIt/n9BKDAJDNkLgW4WPvaEIs/ArmZfCNklQ6nKRnVKo5cNjRwWHXkKaM8LnWHsZ11T13rtVAU
- pPgN5fv7xOMX4AcLdSt1oAAAA
-X-Change-ID: 20260805-fsl-asoc-defer-cpu-dai-9b54e87f5d03
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: Mark Brown <broonie@linaro.org>, linux-sound@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Wig Cheng <onlywig@gmail.com>, LiangCheng Wang <zaq14760@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785916546; l=1593;
- i=zaq14760@gmail.com; h=from:subject:message-id;
- bh=m1v76Ag+Fp0S33OQgA4ftyBRk7je3Dir+slUcySG738=;
- b=MsFHsJDqkEdPoHI6b3SB9AdaBRM1iziM7cEjo6ZAz/pZg6LSeBVgxuR9qdTF4W1PUTZX61fIg
- nLAnfBL/cC9B8OweVgjJiqWzLAO9HbmVJbj2KAUV1m8dM98x8K5/g64
-X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
- pk=5IaLhzvMqasgGPT47dsa8HEpfb0/Dv2BZC0TzSLj6E0=
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR19MB7724:EE_|PH8PR19MB7760:EE_
+X-MS-Office365-Filtering-Correlation-Id: c50335d9-f523-44b5-5393-08def2c902e4
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|5062599005|51005399006|8060799015|19110799012|5072599009|24021099003|15080799012|55001999006|23021999003|25010399006|40105399003|2607281247196008|440099028|3412199025|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?P9jwGmF3xnjWIS0TKyw1gJ+5Wh0BhoXqx6HgcbbSr1aPzf2YenFvn4K7ouSv?=
+ =?us-ascii?Q?OkexeiDQGyUCCPC0x5mTpIMen8Rv1hcdOiDA6Cio1Ecw10BQ1MWi0MvU+tf9?=
+ =?us-ascii?Q?SX/XmdQKMk5Ga8d/KfymTltbB8e2HQ9CVWnpesEzCsQHnDpnAo4PmMcHTMBN?=
+ =?us-ascii?Q?yCcsjmSpx3Y7canKEoXJmwY1eu72/kMjw8LCz63U1ctErszTTaUDBX0YfCvG?=
+ =?us-ascii?Q?vMggqiph8DoNDoO0cZ4WGQVWv2evgvtmTgPUFCDISmOZvKgqWI9p0JC3cHb9?=
+ =?us-ascii?Q?dlPuM0+QC53WC9GNJiezDudbR5bz9983mIXEfBoiKPi4c6jioUhKB93yGLKA?=
+ =?us-ascii?Q?fjzET7h51jij7g/dWT1MQhmhAyFWqAZIC+fVbFikp8ptJfgqqafaz6piIcl1?=
+ =?us-ascii?Q?hdB71km5VizXgHvgXn3z9TzdjjrD6DRaHD8rjPbz+q2Fmk5X14vT3zHwqBgl?=
+ =?us-ascii?Q?w84q3k/Z5Veny9IgTsC/nyivdLO9RzQeraTelrMuxL/0J/UM3/VCGgviJk4d?=
+ =?us-ascii?Q?/n3qGPfs+QyKcjbcnId57iKDGeebsA0w4hVdyHQVM/ORFL0/mXwS5YtatqWN?=
+ =?us-ascii?Q?Y6gLcJ/SvGE/eCYriZq2pjZ4dQ/FFFWOiLH2cSsED5iGzzI/h9Gxgu2XIveD?=
+ =?us-ascii?Q?d2XMUtn9R4O4Wki90vaGxwXjT5gDHarZCPxVfzUsYhhCybTD8GSxh0WNBMYx?=
+ =?us-ascii?Q?f1oTw4uI4kB+4483C7q9xtEGbWpvvp6HNKM8Amu6m+ZrTi2AmTJv66rI7eVq?=
+ =?us-ascii?Q?vZGqzZwO7A29fauG2gMHHtQhjIVVwuGV/bDhc+r7gUt9bqOSGaEpTTTQEqCq?=
+ =?us-ascii?Q?VanaAPqKCgi/YYsCrGR+QzrbUTPDzWPsZGitv821DSXEDj39c8FYPvQShIr2?=
+ =?us-ascii?Q?vlCCWOOe2aNuYnfpayCS9sibL/tvDGD92kKp7Q8bQok4e/UPP+tLy3rz4UCd?=
+ =?us-ascii?Q?EEFW0luMtDmZ7EmrbdKX3zoe3zlwl3mo0Ohfj6hQe+yQuS389VyqBzDRZTpD?=
+ =?us-ascii?Q?tIpD8K0g4zHRsThy7tDY+0wHrw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3mywGu59s/+J7TGKTgYb/iGdOM1iue342ArHKi+RBaDzsAr86mjt+tyhmjYf?=
+ =?us-ascii?Q?rLL/gcvhZN87acEUqPd5Ut/8QEidzfpfhDK03jui6AoyGYb3nxPYJPHjTSHS?=
+ =?us-ascii?Q?F0juDyU4rzVqeEWdjS5XX9mVUBG3pMMXYVpEsSbcQP6HilqbrKNKBPY5Eg/W?=
+ =?us-ascii?Q?GduoohooFF7+rNN0TRjQBz/EgCCWkwv1Tb8vBfX7r6iBXz5fTtroQBYDbU9A?=
+ =?us-ascii?Q?Dm4WAzMhhPadbHm32YBfk0c10Ex3tPZpOf0CzSe/1v6rCiKPaVOicRxVR1VC?=
+ =?us-ascii?Q?G5dOpmriHDYeJmKUf+cAgGpBfSPDRkF3cyIZ8FNtDrBynTXCfzD+wuiMmhEm?=
+ =?us-ascii?Q?pNMFN3WyMxBnTlZVNdGW6riY0dFM91ErHFBJbdTfvomX0W0qN8zGml5pym17?=
+ =?us-ascii?Q?9Lm1pOY1nLkdXkWnzH0go7EN0PRcLZPD8sSObPFdAl82wrCdBiVHa0FXC+3F?=
+ =?us-ascii?Q?Io9HFBhFFJfxnuxNkE181AhLXHZJzcTbhoBVKymkPVY7gHZiNswAN1R6z1z+?=
+ =?us-ascii?Q?ROeLIBgp92cVQry2azIE58y+TTV5Xrakuj5H43V4kbS1rk5eV58QNZAXx8/H?=
+ =?us-ascii?Q?pnuzpbC0D2wj7Q7HvS/GN2Y5UzPqsALEpzJfoqoHngvOty9TFM3H0gjYJqgK?=
+ =?us-ascii?Q?ksoQ4wjKRwj+DHa+KfhmCmpaLlCsqS7n6xUuRQzarIcN10qONJAu8Gv/1jhi?=
+ =?us-ascii?Q?KQVu+TwaPQFinLDX2+Md9IgzBhiePg7Jb4Mag5naw/I3itAbcJFwyKWn7UsI?=
+ =?us-ascii?Q?LclLYYPWJog9g2VmXDoNgNKnBH3lvGcw1RGPFbp1BhnFt2VK8ihrXpqAeA4v?=
+ =?us-ascii?Q?TPhPxJXLDCaG7QWDEgCC1Vb6T6lEQGiHhB5rq4M7tpnLfZrZIH/5w/rYuJw3?=
+ =?us-ascii?Q?9/zCmV0Tgkh4HYrya+7rtkZwfrrRqdqMLKmmoFMLZLR1l+PJrbm2ZKWf2sxR?=
+ =?us-ascii?Q?CIoOm9GkOxpWjXDPNF9KU8mDtW+QoOyhbBLXlGwUJ0nRDCxju85ZpE/x2xJE?=
+ =?us-ascii?Q?eqcEAYsMkZ+83DyvFcCR7a7bWeapttaVZwoNQMPxESrKjVUpKVcKSI+NfqUD?=
+ =?us-ascii?Q?mX2Rda7l9sb92vvFCz8NE9sub9wdnW7pVup1AFIWXqC+dBVVbQH9kQ9229Hp?=
+ =?us-ascii?Q?xhpdvWGBMCkCv1QekxkUBXLqb70GnVjiMVkfs92kPDZWGBwUK4LGsZIiWgFo?=
+ =?us-ascii?Q?GIc/r5Jul1EE0tFOnAeYEkU3SDpFg1owBtWUNEPtUvcHEtuTWgzalqWUGmZf?=
+ =?us-ascii?Q?V04WuBwIfVXS5WioMBkKODmmfXAP6YNAFt3b280iYk1IEAp7F0J9HPrzC3op?=
+ =?us-ascii?Q?D92r2QBocPmTJgLjTY54bs5TXOVG4d2KqcLdOx//3SjC004TEl0QPIX+iDNi?=
+ =?us-ascii?Q?1sfJXj+xNTZJfuIWPmYY7INXlKMOvrlW7JevFNkaJOz9bPUDP7kZotcDQSu+?=
+ =?us-ascii?Q?yxGSZhizw/0=3D?=
+X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: c50335d9-f523-44b5-5393-08def2c902e4
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR19MB7724.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 08:10:28.7665
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR19MB7760
 
-fsl_asoc_card_probe() hard-fails with -EINVAL when the CPU DAI (SAI)
-platform device is not found. Like the codec, the CPU DAI may just be
-probed later than the machine driver; the order is not guaranteed and
-varies across kernel versions, so a permanent -EINVAL leaves the card
-unregistered with no analog playback or capture.
+Add codec SSID entries for the Lenovo Legion R9000P ADR10H (83RV),
+which uses the same ALC287 + AW88399 smart amplifier configuration
+as the existing supported Legion models.
 
-Defer probe instead, mirroring commit e396dec46c56 ("ASoC:
-fsl-asoc-card: Defer probe when fail to find codec device").
+DSDT inspection confirms identical AWDZ8399 ACPI device layout with
+reversed I2C addresses (0x35 before 0x34). Register dumps show the
+same BSTS behavior as the other Legions. Both the channel swap and
+BSTS bypass quirks apply.
 
-Tested on i.MX8MP with an ALC5672 on SAI3: the card that failed to
-register on v6.18 now comes up during boot.
+Codec SSIDs (Lenovo vendor ID 0x17aa):
 
-Fixes: 708b4351f08c ("ASoC: fsl: Add Freescale Generic ASoC Sound Card with ASRC support")
-Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+* 0x3936: Legion R9000P ADR10H (AMD)
+* 0x3937: Legion R9000P ADR10H (AMD)
+
+Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
 ---
- sound/soc/fsl/fsl-asoc-card.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/hda/codecs/realtek/alc269.c          | 2 ++
+ sound/hda/codecs/side-codecs/aw88399_hda.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/sound/soc/fsl/fsl-asoc-card.c b/sound/soc/fsl/fsl-asoc-card.c
-index 709543308fe9e9dc508a791b7125e5f467182cee..eff46666c8add604d0edbf9537ee2d275813c1b7 100644
---- a/sound/soc/fsl/fsl-asoc-card.c
-+++ b/sound/soc/fsl/fsl-asoc-card.c
-@@ -728,8 +728,8 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
- 
- 	cpu_pdev = of_find_device_by_node(cpu_np);
- 	if (!cpu_pdev) {
--		dev_err(&pdev->dev, "failed to find CPU DAI device\n");
--		ret = -EINVAL;
-+		ret = dev_err_probe(&pdev->dev, -EPROBE_DEFER,
-+				    "failed to find CPU DAI device\n");
- 		goto fail;
- 	}
- 
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index bd1958bcf698..c6c72aa7af45 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8094,6 +8094,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TXNW2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3929, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x392b, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
++	HDA_CODEC_QUIRK(0x17aa, 0x3936, "Legion R9000P ADR10H", ALC287_FIXUP_LENOVO_LEGION_AW88399),
++	HDA_CODEC_QUIRK(0x17aa, 0x3937, "Legion R9000P ADR10H", ALC287_FIXUP_LENOVO_LEGION_AW88399),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3938, "Legion Pro 7 16AFR10H", ALC287_FIXUP_LENOVO_LEGION_AW88399),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3939, "Legion Pro 7 16AFR10H", ALC287_FIXUP_LENOVO_LEGION_AW88399),
+ 	SND_PCI_QUIRK(0x17aa, 0x393e, "Lenovo ThinkBook 14 G8+ IPH", ALC287_FIXUP_LENOVO_XPAD_HEADSET_JACK),
+diff --git a/sound/hda/codecs/side-codecs/aw88399_hda.c b/sound/hda/codecs/side-codecs/aw88399_hda.c
+index 5175d341ecbe..11cef4923024 100644
+--- a/sound/hda/codecs/side-codecs/aw88399_hda.c
++++ b/sound/hda/codecs/side-codecs/aw88399_hda.c
+@@ -186,6 +186,8 @@ static const struct aw88399_prop_model aw88399_prop_model_table[] = {
+ 	{ "17AA3907", aw88399_apply_legion_quirks },
+ 	{ "17AA3927", aw88399_apply_legion_quirks },
+ 	{ "17AA3928", aw88399_apply_legion_quirks },
++	{ "17AA3936", aw88399_apply_legion_quirks },
++	{ "17AA3937", aw88399_apply_legion_quirks },
+ 	{ "17AA3938", aw88399_apply_legion_quirks },
+ 	{ "17AA3939", aw88399_apply_legion_quirks },
+ 	{ }
 
----
-base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
-change-id: 20260805-fsl-asoc-defer-cpu-dai-9b54e87f5d03
-
-Best regards,
+base-commit: a65204f76e8d30676c4199bfc6638ae1d217196f
 -- 
-LiangCheng Wang <zaq14760@gmail.com>
+2.55.0
 
