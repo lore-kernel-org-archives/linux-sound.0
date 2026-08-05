@@ -1,209 +1,213 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010064.outbound.protection.outlook.com [52.101.229.64])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2744447815;
-	Wed,  5 Aug 2026 11:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1834570F1;
+	Wed,  5 Aug 2026 12:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785930980; cv=fail; b=VUUay10FsiZHBurFbr9cGVkanjsGaDAQUzfjCNjFS42l/PvT6zoFYIvkVLd3PRrmWq2146oiFRKDiPmVqlUZWY1DqBllLBpDiXpRuQtpMCovRdXQ9ANVFKtdY4TPZP1ov4upB5/cGVKHX0BLN8ClanBSH7eo8IhJqAnvl7v++lI=
+	t=1785931324; cv=fail; b=T+QhXyJeW7deNUeNjoeKjSXc3SynYOEsio6/rLI7t7bO7rKj1m3E9NS7KO5oHQkYPsGn0irYcbYeWwNBehpfvLmFhrA5WDuOO/o2QKaAt+gv5VqP5zViEntTPPViC12mlTMfBsbVDismraeQ8dSWiet9Om755mZ9yDGiXUkVon0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785930980; c=relaxed/simple;
-	bh=FRY8dsLB8u7PGcmMbQnEHmM+hlAU6oLDhPrgU+iP6cc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=BE93BF9dMVxrzC8qbX80bHJblFMmM1Bf9w/FQpHdw2LIHY1zq6JUV9yN7knNkZ0ZyQ+BIQnMw7lwoPzHPWRCQYutqpUWghvzP73PAsQ4U3aRhzW82B2ZMWKoQLcwoQDg7x1Rcw2+kJng9Apd8gq4xikEDr56rbYA0jG8zRVmp18=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=g/6RnSAl; arc=fail smtp.client-ip=52.101.229.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	s=arc-20240116; t=1785931324; c=relaxed/simple;
+	bh=4HbDp6rdJX1KEWBLznxGSe98erG4MsNU5pEHU3ws4Sw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iJfqhebBA3nv9l2JvmI43Xn8uhxr9bVAXkJ6bHWoN1ptAjDw7JTmSnL25NK56sStwzFtv00teb2KaMofEjyKNSCU2oEXZe5EE4mZZ28TbE/zxAr6MfqyEhWq5tqATPOUAflo/Qvzt5heoL0W08GWw8KNNcdhh/QhT9bcmq8K/xQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=P1q195c3; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=DAvX8V+z; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="g/6RnSAl"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="P1q195c3";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="DAvX8V+z"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 674NPT0F2014368;
+	Wed, 5 Aug 2026 07:01:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=BFZtt7aYJTW+OUuE
+	5z36L9L6cOIvViMktNJijxUhQyM=; b=P1q195c3PYp/AiLdBTzUmIPk9P0fP3t0
+	m78+sFOpmCWqKnjkQ92FzCRMvaxnfIyZ/vFmzg8QcbuGCH9q+LemIS1vha7nOXRJ
+	JtJ7LLprZlwXzd+gFCAjjGQM3pJ10k/AQHX/ReTdsFo1w9zG6b40offMN3he7V5f
+	BZXOsoDWEV5do+YwqltsSjkW+n+9tR80q98DfjoEnUf0CDYRawE7TdcK6SZRbSdr
+	sON417fvDxl+Cl7fykFuCahtJEufGPVwmKDYhKF5xagIGYirPl8NhdWQE1WC+wPo
+	4ifPX2TgJRN/c3/bBve9Gmv3WCAtmy38xQkscyDpMUYbdbe1AkcNjQ==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021136.outbound.protection.outlook.com [40.107.208.136])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fsd7h5my9-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 05 Aug 2026 07:01:33 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nFM33tZih79uq7obK+YerTzTen3FQbcSH8gTQwDnLW8Fbxc6rQO+Hzn7c/IQCgID/i0BMH7cw9KDRdiU1F/XX71mn9Kvvik8XL0dM2n1A+KCItJC1gmpCdmKRm87pn9H5++dEL19/RrEHvG3t0dr9OvLb6A+qKMKLkyOCbK1iJqkME07f503bOJbyo/bP/G4jcC3rsR7F967Ept8m4ii7KW1JCOMNJvEG1yWRAGDTmhVVz7VbYwkKxgyOkpgkXD4he8mzVZwX8MqS4rFZB9h7iQTDrdxxD4shQyZyKY4n3HOTama/BLpmDyGn+U9VaTJVSLz9DopDfPgqZjm30kcQA==
+ b=eVWMWM6naM96S/rl9fVn1xcNoK7HsrHR2U8u10QIaHs23O0ayy4rohODCP9HEGXMKsGk4Cb2UP3xZrFZewVo0hSuFRZE0aerrVU+9jbAA43bODOKMW/pM6HVql3zfmzRdHkuA54ONhNprcjY0DRGz+tyfNZpKPQHx8eGkiHjzNh+EI7kj1sJLQXD3luR9eZmueZtrqDy5KkXHhuHNWWs03+QlG35p7t1CvvTVFCTmgb7GGrGPhZQCk+8aOWbSWHEf3NUIGxxVnzGdU4TLlthLKtuQhsx+IXbUdsftZHyAe6cGO6Q+0dUYxip5JWXXdXAwAniX5WyUXgUYMQtQpL3Cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CUyBlb4Y9hTcG80FRldzN2cQRiKlwv5sZ4QJGnQ1MFY=;
- b=BrJ6QebYH9A/m0XzGeD+amjjWmEnKbAFJmadjz6ZcM0P7A8yzPJ+sOC2oomPHdGHGmJQ9zd1J4R1qtdrzHJ0Kntw0ppSJOOtTeoXDipU1VMcxu4kTWS6+Imk43Va7WWZEgqcNag+MeDmFTDkdudGl/3ezFa16u5BZcvTPuo3AWDDQTX3cskOBKSTmOn2sxwgiJyuFkrq5k8eN+hvkk693X1ugtYVfwNGrVXPrCXDcN1fO51ot7fFL0B3gl6hmXRox5Agm68n520QWyzjJ3vaLUlFhIGpZmDJIujHhk+13cL0GwCkT/5MzfE+ksvBKfFHGbTkFfkyiSz+0LJ1BXYvQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
+ bh=BFZtt7aYJTW+OUuE5z36L9L6cOIvViMktNJijxUhQyM=;
+ b=xEzxNyTNHF//QMwW72RAPoEY/5qhZ9Di2kR4niXWDGbhlq1zbmkXLHvXLSZOWDHcJA8kLwcXxms2kqozJrKN94L6txCfZn1MHu8UsPqyZs6GsDWgXbjwHGlf+K+fPJzkgxp+ie68V4JKsXLx9WaKBFgMLErpv4Ie/wJZO2j30rbaLxArm6Ys6qyWBx1j8kt+7w2YQZQfBwjQ99LJEz6CBvH/UAL9BFw3zIs03Kx10WbEDfV0Jnn5vtYczg4zg+pMwoCF6eRlbsci+FSFnzo2/Wh2Nn50N0ufV2tfr7C/GaieDYZ96lVyIMcMROfWAiJ0hf4UsuC5fow5+rry9jkdzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CUyBlb4Y9hTcG80FRldzN2cQRiKlwv5sZ4QJGnQ1MFY=;
- b=g/6RnSAlEeE75K8xynpXxyZZShLfNffBzK6oY6fvtt6qhtn0Ts0W0NcI5w3ORUHg5Cgw12XO1QXpUZfDM7v17ikS+IOoSCNTrLVv/z48O3vI/tp6gcKWsVWm2teiibUO22wDmIfsnTF4+9x5uWPqmNpzWAN0VdaJ5wOsznat9v4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com (2603:1096:405:18d::7)
- by TYWPR01MB10536.jpnprd01.prod.outlook.com (2603:1096:400:29f::6) with
+ bh=BFZtt7aYJTW+OUuE5z36L9L6cOIvViMktNJijxUhQyM=;
+ b=DAvX8V+zMEvBP17JPukZnB8IGfbCfYd6mYNDpd+xB4ADWOYD/Kg1ST0M5xdZxqO/A77DoJ4h7+olptvyvl4HtptRvQn+B4mv6DOhKqihJn1ZdKPyF1vD4WmSE3gsQpZ6qlJpeeE1tdiZakNY4MRKJ4kRkE5J/gkl/PyHnWFAYnU=
+Received: from CH0PR04CA0022.namprd04.prod.outlook.com (2603:10b6:610:76::27)
+ by SA1PR19MB6790.namprd19.prod.outlook.com (2603:10b6:806:24d::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Wed, 5 Aug
- 2026 11:56:14 +0000
-Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com
- ([fe80::2f5b:8560:48ed:3828]) by TYRPR01MB13588.jpnprd01.prod.outlook.com
- ([fe80::2f5b:8560:48ed:3828%4]) with mapi id 15.21.0292.015; Wed, 5 Aug 2026
- 11:56:14 +0000
-Date: Wed, 5 Aug 2026 13:55:45 +0200
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	John Madieu <john.madieu.xa@bp.renesas.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: renesas,r9a09g047-sound: Document
- audio_clkout clock-frequency
-Message-ID: <anMkwfGAW5fBSAEf@tom-desktop>
-References: <20260803132828.3249424-1-tommaso.merciai.xr@bp.renesas.com>
- <20260803132828.3249424-2-tommaso.merciai.xr@bp.renesas.com>
- <44c150f6-b04e-4515-ba71-63780c56c38d@kernel.org>
- <anDNtrL-eL6VUD94@tom-desktop>
- <8c5f0e53-2515-4744-ac6a-a4c94f2ae2b8@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c5f0e53-2515-4744-ac6a-a4c94f2ae2b8@kernel.org>
-X-ClientProxiedBy: FR5P281CA0059.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f0::13) To TYRPR01MB13588.jpnprd01.prod.outlook.com
- (2603:1096:405:18d::7)
+ 2026 12:01:15 +0000
+Received: from CH2PEPF0000009B.namprd02.prod.outlook.com
+ (2603:10b6:610:76:cafe::1b) by CH0PR04CA0022.outlook.office365.com
+ (2603:10b6:610:76::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.19 via Frontend Transport; Wed, 5
+ Aug 2026 12:01:15 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ CH2PEPF0000009B.mail.protection.outlook.com (10.167.244.23) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
+ via Frontend Transport; Wed, 5 Aug 2026 12:01:14 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id C3152406544;
+	Wed,  5 Aug 2026 12:01:12 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id A719E82025A;
+	Wed,  5 Aug 2026 12:01:12 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: lee@kernel.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        patches@opensource.cirrus.com, mfd@lists.linux.dev
+Subject: [PATCH] mfd: cs42l43: Fix regmap defaults ordering
+Date: Wed,  5 Aug 2026 13:01:09 +0100
+Message-ID: <20260805120109.4024451-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYRPR01MB13588:EE_|TYWPR01MB10536:EE_
-X-MS-Office365-Filtering-Correlation-Id: b332f6d1-fe5c-474e-a014-08def2e88c62
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000009B:EE_|SA1PR19MB6790:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 4e2efd73-2a68-4d02-eef1-08def2e93fc5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|23010399003|366016|1800799024|38350700014|10067099003|11063799006|5023799004|56012099006|4143699003|18002099003|22082099003|3023799007;
+	BCL:0;ARA:13230040|36860700016|82310400026|376014|23010399003|61400799027|16102099003|18002099003|11063799006|56012099006|10067099003;
 X-Microsoft-Antispam-Message-Info:
-	YYEPDqsjjaQyf2pqXKbMBvN77OKRgY3msyPs/gVziO4HB8RaBCKdOK3vvNKPLL3Qu3Su5mOi48dDvlxJcmkJaiJmvmENO/TGzdiPVBqHSBY1iQXrx4RFdFWioTCIsXcsNB7CmbUk1CfNKld4/b34iDoGdYf4NjG510KPiyW19jSa8V7/B1DVKPmaTlaHNFTB4ZBCj2bo8xVhImXEj8SGxquATVcghIY6TS2ST+f/w/SPlfxDg0zSk7Xb1fhPvZyfWx7y7/lc2wg+X1VSjpPC8+5jPYjnh3WWhP4Y9XkI6helwsxPeCJXCoa2GbdY7PNGw3RpJb9L2XbLASoQjihiUFX5l5QLhIzfhenAzrSD6zx/aAYwm4cm7eBKvUCHxL31q+TFDx1qyZpFiZojeT5PVrnS44rpqeTtI+R6dJEElHEUuOQnQwTlPz4HoX+PftSU9Q1Xntn14FIzYV7r/XMcpPBYw38FdRaSpEaZYByFFFuUVPWkmGawLb3NyHXwJ9NuRYzORSwClQc8JEibGoAuUQ9oyp74RCoO+oiQB5GZpUhCgHJTHsQQLUYdb/0Vq4b/vzGKkZmn/YivQ2GhiBMz74NpiIy98C/2w2+m2NdsWKeOlUyjBGbNfrZUMSCzHNKMAdezna5eHvJTNSDHshTtmHmt7cMGiNF25SJNBncjsYb2dDkR4iizIyHP6m+Il8QW2LDkzLXPv3Lkc/sAVbVUcTOaSm0B1gT08Z0Ypv6KUKk=
+	HU0/64t8jZReGr3ekPNIymkcNQTVKJ/pmqGD+wt+yKPyAMImBiHQv+0TemxsaxrERaAftTvUrIVzj1UOZyT58E+EikHY+LgAIJkPDaljvYGqfTWcO/+HFS7x9OqGAOcu3Be7VIv8UZUt8kgubWciQgn0pbJBODhp1kOLx3259y38GNR0IuEboQ9Ta8Tj1eGR17LmbBaK+kTBh73GBi+Abpu7vWrIaylH5lMitWbjq+/jNuwCCtoLcBrGecOByaICppH6tpnzHa68/CpkYnnZCwbU+GILsESZPBWDZsZLbsPORHWHpxkS5fytvQB7Zec0oTSAuqMINpk6OfY4uB37I0BWPklO3qOR2GhW/jYhgh4AQEyy1s1zQbOihTRFzGm/8hLMZ1wthFW8b1xhsPH50H7clvH4RWmWj6RJ5/tW+Kst9QEwOcK6iV78ldsysCUCtGsntYxllLQLbEfofxmMtpVaaE+Nqx0s/OoQ8aF+g39IXbRJKXIiJcHmDgjYmbTwHdYCQilQdLmNrZ40lLyc+y19cFnwik8c9dumpYE3WnOGGVchVeKZ9Pp81Cun38zxk1YTyEdahWKlFBpMzwy5zNH/Kwl6Gapb6uQ2zJJWveBoiHKzCoIS2LvE9rN9h4sZZGIW4AyPvOE/x3O095zWK2d6eWhoNBA3NaPGP+UgWwcs0KeL8e+mXNOZ4GP0GWmNqS81xGzXB/x4c4gzvWbqhA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB13588.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(23010399003)(366016)(1800799024)(38350700014)(10067099003)(11063799006)(5023799004)(56012099006)(4143699003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(23010399003)(61400799027)(16102099003)(18002099003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OLcGnUE4GqbXFWg71XW3gBm6JutQxhwjn52j+HupwoSatw1Nrbvl2IaaYu+A?=
- =?us-ascii?Q?Oml4ErJk7ME9hvBbECQ0SRRwTXvipHEybb1BXZaqruDLqpJTO4OFubdefZDP?=
- =?us-ascii?Q?qPxU7eY60U/yiKtP8OErRos+DHX1aGy7mmi1B2wM7gbtLoSJr4Jc+nX447Al?=
- =?us-ascii?Q?VgWrk3uUE2K6msbZX5GJMJPSfhbfJ1895yZ7bSIZeZaTpFaU4cLiMMyST4bD?=
- =?us-ascii?Q?7fy1rDkC6s2ooINSWnlqCOI8qLwIpdy6xaIhdHLQ2E1k5G0xhzjzHDzVMZx8?=
- =?us-ascii?Q?XJBBPXVzdr0SMNYgRa1VK1gZWH5JN8+/AQooIOXQvHWbvAFb5VAakGQozmY2?=
- =?us-ascii?Q?pEv62vul6whgXo7JjoaKbB5RU3mf98BZCj0fiYgDaK87vUrJ8OaavNmRP4p1?=
- =?us-ascii?Q?zoLL5F+F7DPeZkiwt1io2wmNFrtmwGVWoEOAGj6rYYnG4iNTBKrsNKrglCK5?=
- =?us-ascii?Q?aIFXVro7W0zDn73uZZWPhODHm+TaXmbImsWBfJNBW956qCYJQdgO53XKiL7x?=
- =?us-ascii?Q?sJn8gVncRhFVNyAc6KrZiYjiebkbGLyI44oPQwNo346tFsBU3dZap3U0tITS?=
- =?us-ascii?Q?vfN1eOwig1DKWxig2FIApzB+WhZ4eA6Cl0mfZYBSU9QJn57iz7BjyBvuRBip?=
- =?us-ascii?Q?FqAbS7AkUSstt9c6rFmRjVZaF/kLII9zgG3QVGDmzRTQu73GvmctxArHq1EI?=
- =?us-ascii?Q?VuhJbNiznuETZ9Tv9XbrPkEoy2UFJejSHJvvHZKUM0uJYIE1ERdL/sPz48dP?=
- =?us-ascii?Q?VkCibmYCDfJbM32afhMxIMhuPXwtojezMsDEgO5hXJHscCIXC/5k4EE+f2Tm?=
- =?us-ascii?Q?iSgkBmGyJrN7ND8VQOQsMP5J7F+hfh2cqMVNQ6FoLP2ZAr0IUoPw0Io+ByjB?=
- =?us-ascii?Q?71zbcRQoWSHWok9rmVmTwLKm8gxzcAN0CAlPqFs5PxI8FVQVn5hB5MlcKOnk?=
- =?us-ascii?Q?SQeBk+oaozDzNrrSrOaTUWBarNiWeoaNp1gLoxCw/ScrwZl4ccAE9Z+yYIXp?=
- =?us-ascii?Q?CUP/4heisjWQ30SD5thrJ7DhkqlaRW7nbFgf2ojsFQ6ZHdeqvg1FgNNnjsqq?=
- =?us-ascii?Q?zFzPw5xaAMKbvmaUYV3MTDSR4wA36AZdDSNedJfX6iu9IZ5RLTzVuZst7YF/?=
- =?us-ascii?Q?zFpQ2KNEV8kPfh26pcGHP/sNU+q+9QO+Y+owdKYZWeGkh6pQvJ/fpRUt/BFt?=
- =?us-ascii?Q?ajkeVdzWe/OnQ2ipQq3jAXDAM9K9tCp6063GZ9x4JnAJjCcxM6qS0uSkG39y?=
- =?us-ascii?Q?4M3FDn/h3hiOUFQKaKklJ4lYjB0Qte6nsVunhgz5s293Q7qlT3b7R4Z3qd8d?=
- =?us-ascii?Q?kgtf1vOIncOUj8UivIMhSEmsHzwrM/bfU2a3fnljMBpULdIy7v2KrPTVEWyV?=
- =?us-ascii?Q?Y2x+GweVn6SSZqMdTMOtEMzjFKzcusNvTz7TFLWZI+OQO4kUG/y5I1EWaqrY?=
- =?us-ascii?Q?BG3TvLtyNLq75AgoEEmO/7RNG5QZU/dXxmcNizIU/zcXIfw9P0aQTwyP0CCe?=
- =?us-ascii?Q?0qV5YDmUidVMz1I16OmZkIglaU4B9a+d93+g88D4flJFiqjYygsaCuWN6tl5?=
- =?us-ascii?Q?a6EBLR9cnvM+yxil3wTNoWUV/oIZPdWaauQBaKh5yNtm9zWCmSXgqWm++rMT?=
- =?us-ascii?Q?nDqzNId5jQDPBBrkFOwy5Z70lQxKsC/YU16Gjz0HkKc6IzQLHt2yxOdcMfrq?=
- =?us-ascii?Q?n5tpYU3/vhYH55LxT53KRHA+vnfEhNMgIcCoUkQLaeLeoRsfxWHiDLkmscJ8?=
- =?us-ascii?Q?XxE8AJP5DwRNX6TRAzStl0Ab+N5C0Y5tgfzjqr4CIu0cMdN/wnUn?=
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b332f6d1-fe5c-474e-a014-08def2e88c62
-X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB13588.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 11:56:13.8345
+	/6r4dL/trI6Fzd7QtMRRiIhijeITv0b1vBdFRPOXO8V9rSK+kthfua35e52c4IjI4jgCX78yU47JzlhotD9ewcXl1OaEASykYfDIyvekNF2FFVEFWgtHwKZTUNt7IdiVXsGgUPSmFBYlpkl0kI2Y4AR7IKLDTi6SXQ/RujoFc1c8nuY/ujb+8O4AlCiPyAD6bW7lndfbS1hRh1YsIX5cZeZR1u+ZzR++BDDFBHHO/aRDqQaWR0N6+qgQKbFDG+Vic8D8c6nNzCn3/y080KHZHIHh25u6E48puXB8MAQHiA0/rY1zWmY9+iCRMgvquiTZLFZrj6ArmiasvZYCDIP16gFlLN9y44NpiYYXm+j4hO02Sb0BB742nRMITBWuMU2nNxdJVuzrCd56ghfwwriqsKCqTMkVLkS9yBcSZXqnD/cxJJ4dkxbm69eE1XkB9bnF
+X-Exchange-RoutingPolicyChecked:
+	P+vzSDnd2jyU1k+zxk5/+9l/G73FAMaTXyyK5AEKGnHyvF6EIf2wi+lg0v0Q4NjRphJx3IUL37+L/F+crkaVCS1PxHe+bttBtZ1KujxoPRNU4A8eag+D5ekQ7QuJscryL5rGE/nNCKynz2HikCqxAGNDHRZfuTy+/M1QRMXO4t8uzxTC35Kx3NEC07zmaQDcdgzfvUq+wzAaeAAM5lz1RF5rcL/5VW4k0EK1UQKX3ks4XlyooI63ipASCxTFiTo+DVMCOMY2tCGqPfyToZFmKLLd74GJA992AGnTzMwgThoI5k16KsOnK/l2SHWj6Zp864rrv4tReWk0AmU/d3Nghw==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 12:01:14.2115
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fPlRyEPTvcHrATknza9m3CIdtpf36QtURIQDrpa0Q4Z9Cn8F1Z1s4vcoKo3EVnnTYnM9pWbWeU9DIx1qVvsn2cpDxb7/KhzToMp78pOeNk/JkPXz+LvFJRY0eMlybHEK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10536
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e2efd73-2a68-4d02-eef1-08def2e93fc5
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000009B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB6790
+X-Authority-Analysis: v=2.4 cv=ZK/nX37b c=1 sm=1 tr=0 ts=6a73261d cx=c_pps
+ a=peeJaRLe+dxo5n1sA3bZUg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=w1d2syhTAAAA:8 a=gWieM2piWHysNEegxn8A:9
+X-Proofpoint-GUID: 1BOie0BuhQ3-SvDxM5lt2l8XbVN9z5FY
+X-Proofpoint-ORIG-GUID: 1BOie0BuhQ3-SvDxM5lt2l8XbVN9z5FY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDA5NiBTYWx0ZWRfX3CMQ0F0s3mcN
+ KKsvxP/f1cvi63BJDaPHlryIjMjJ3EvGsFIC/pE2EcchAlsHY08XlrCnURtSAWSGvAV+P3A7eWN
+ wv1VLfxNVGfRNk0KoJR84/g9QopgNQB9IMKEOoojn3edN5567BdV/qPmuQ0HEoYArIGqlfcXGDy
+ 4Cl319+T2Ud78RdNte6s/ZxUCByJ3ovhJa9eNRwqGHRFQxKvHDlX1zmcUCJ2nyhcA1Vocmk6V8x
+ hDUYGDu/ZdPuRz21tWGl7P6sq1vfC7ssLTZRTZWluROvtxFnPAA5uZGc+jyyAnUY5ZZfFsoiN9q
+ ti4OjJPeMqKh+oAQo8dpT9LkPjB2gSkF8vaJjQBs2LVMdamq0y9N9JvFSb+9XwOIHfIeahBEk8F
+ 0TAvSSG2hrptOVN7r2xqElTCo12QRab1pewLhC6VNGgGeXHF8/eBxIs1+jm4IdVe6Rpuf7T9HRi
+ PLOIzzEx9NN6Ul+hGFA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDA5NiBTYWx0ZWRfX0GF2Kdmy7+BC
+ q+e+TCb3ilZbKTJHSJ6YpX4uoIzMvNmaPeE0RIOAZ8OJ+IfSDDlPfjV56l7S7xs3oxriz+U/qTW
+ C+0k+q/8xrkE+am9icG+E51UeK1o51A=
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, Aug 04, 2026 at 08:20:29AM +0200, Krzysztof Kozlowski wrote:
-> On 03/08/2026 19:19, Tommaso Merciai wrote:
-> > Hi Krzysztof,
-> > Thanks for your review.
-> > 
-> > On Mon, Aug 03, 2026 at 03:32:48PM +0200, Krzysztof Kozlowski wrote:
-> >> On 03/08/2026 15:28, Tommaso Merciai wrote:
-> >>> r9a09g047e57-smarc.dts set clock-frequency for the audio_clkout output,
-> >>> but the binding never declared it, so dtbs_check fails:
-> >>>
-> >>>   sound@13c00000 (renesas,r9a09g047-sound): Unevaluated properties
-> >>>   are not allowed ('clock-frequency' was unexpected)
-> >>
-> >> Maybe the DTS is wrong, because property was rejected? Did you check
-> >> this? You cannot document ABI post-factum if it was rejected.
-> >>
-> >>
-> >>>
-> >>> clock-cells is fixed to 0, so only a single audio_clkout applies.
-> >>>
-> >>> Fixes: a86fd3c20218 ("ASoC: dt-bindings: sound: Add DT binding for RZ/G3E sound")
-> >>> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> >>> ---
-> >>>  .../devicetree/bindings/sound/renesas,r9a09g047-sound.yaml     | 3 +++
-> >>>  1 file changed, 3 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> >>> index d7fa16554698..6e2b2c93b4b7 100644
-> >>> --- a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> >>> +++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> >>> @@ -42,6 +42,9 @@ properties:
-> >>>    "#clock-cells":
-> >>>      const: 0
-> >>>  
-> >>> +  clock-frequency:
-> >>> +    description: for audio_clkout
-> >>
-> >> Incomplete, missing type/ref, constraints.
-> > 
-> > renesas,r9a09g047-sound is handled by sound/soc/renesas/rcar/core.c [1],
-> > and "clock-frequency" is read by rsnd_adg_get_clkout() [2]. The same
-> > property is already documented for R-Car in
-> > Documentation/devicetree/bindings/sound/renesas,rsnd.yaml [3].
-> 
-> But was the property rejected? I am repeating myself...
+The regmap defaults should be ordered as binary search is done on the
+array. A few registers were added in the wrong places, move these to be
+in register address order.
 
-Looking into this further, I found that you already asked to drop this
-property during the v5 review [1].
+Fixes: a6fe20d67dc7 ("mfd: cs42l43: Add support for the B variant")
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ drivers/mfd/cs42l43.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Thanks for pointing it out.
+diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
+index 33479ddd539a6..4212ebcca60b5 100644
+--- a/drivers/mfd/cs42l43.c
++++ b/drivers/mfd/cs42l43.c
+@@ -115,14 +115,14 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
+ 	{ CS42L43_DECIM_HPF_WNF_CTRL2,			0x00000001 },
+ 	{ CS42L43_DECIM_HPF_WNF_CTRL3,			0x00000001 },
+ 	{ CS42L43_DECIM_HPF_WNF_CTRL4,			0x00000001 },
+-	{ CS42L43B_DECIM_HPF_WNF_CTRL5,			0x00000001 },
+-	{ CS42L43B_DECIM_HPF_WNF_CTRL6,			0x00000001 },
+ 	{ CS42L43_DMIC_PDM_CTRL,			0x00000000 },
+ 	{ CS42L43_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
+ 	{ CS42L43_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
+ 	{ CS42L43B_DECIM_VOL_CTRL_CH1_CH2,		0x20122012 },
+ 	{ CS42L43B_DECIM_VOL_CTRL_CH3_CH4,		0x20122012 },
+ 	{ CS42L43B_DECIM_VOL_CTRL_CH5_CH6,		0x20122012 },
++	{ CS42L43B_DECIM_HPF_WNF_CTRL5,			0x00000001 },
++	{ CS42L43B_DECIM_HPF_WNF_CTRL6,			0x00000001 },
+ 	{ CS42L43_INTP_VOLUME_CTRL1,			0x00000180 },
+ 	{ CS42L43_INTP_VOLUME_CTRL2,			0x00000180 },
+ 	{ CS42L43_AMP1_2_VOL_RAMP,			0x00000022 },
+@@ -160,10 +160,10 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
+ 	{ CS42L43_SWIRE_DP2_CH2_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP3_CH1_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP3_CH2_INPUT,			0x00000000 },
+-	{ CS42L43B_SWIRE_DP3_CH3_INPUT,			0x00000000 },
+-	{ CS42L43B_SWIRE_DP3_CH4_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP4_CH1_INPUT,			0x00000000 },
+ 	{ CS42L43_SWIRE_DP4_CH2_INPUT,			0x00000000 },
++	{ CS42L43B_SWIRE_DP3_CH3_INPUT,			0x00000000 },
++	{ CS42L43B_SWIRE_DP3_CH4_INPUT,			0x00000000 },
+ 	{ CS42L43B_SWIRE_DP4_CH3_INPUT,			0x00000000 },
+ 	{ CS42L43B_SWIRE_DP4_CH4_INPUT,			0x00000000 },
+ 	{ CS42L43_ASRC_INT1_INPUT1,			0x00000000 },
+@@ -178,14 +178,10 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
+ 	{ CS42L43_ISRC1INT2_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC1DEC1_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC1DEC2_INPUT1,			0x00000000 },
+-	{ CS42L43B_ISRC1DEC3_INPUT1,			0x00000000 },
+-	{ CS42L43B_ISRC1DEC4_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2INT1_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2INT2_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2DEC1_INPUT1,			0x00000000 },
+ 	{ CS42L43_ISRC2DEC2_INPUT1,			0x00000000 },
+-	{ CS42L43B_ISRC2DEC3_INPUT1,			0x00000000 },
+-	{ CS42L43B_ISRC2DEC4_INPUT1,			0x00000000 },
+ 	{ CS42L43_EQ1MIX_INPUT1,			0x00800000 },
+ 	{ CS42L43_EQ1MIX_INPUT2,			0x00800000 },
+ 	{ CS42L43_EQ1MIX_INPUT3,			0x00800000 },
+@@ -212,6 +208,10 @@ const struct reg_default cs42l43_reg_default[CS42L43_N_DEFAULTS] = {
+ 	{ CS42L43_AMP4MIX_INPUT2,			0x00800000 },
+ 	{ CS42L43_AMP4MIX_INPUT3,			0x00800000 },
+ 	{ CS42L43_AMP4MIX_INPUT4,			0x00800000 },
++	{ CS42L43B_ISRC1DEC3_INPUT1,			0x00000000 },
++	{ CS42L43B_ISRC1DEC4_INPUT1,			0x00000000 },
++	{ CS42L43B_ISRC2DEC3_INPUT1,			0x00000000 },
++	{ CS42L43B_ISRC2DEC4_INPUT1,			0x00000000 },
+ 	{ CS42L43_ASRC_INT_ENABLES,			0x00000100 },
+ 	{ CS42L43_ASRC_DEC_ENABLES,			0x00000100 },
+ 	{ CS42L43_PDNCNTL,				0x00000000 },
+-- 
+2.47.3
 
-For context: the sound module contains an audio clock generator (ADG) which
-generates an output clock from the external audio clocks and outputs it in
-to the AUDIO_CLKOUT pin, that mostly supply master clock to codec.
-
-"clock-frequency" is array of the possible rates provided by
-AUDIO_CLKOUT to the codec master clock.
-Based on the playback rate it will request either 44.1kHz or 48kHz.
-
-I will drop "clock-frequency" property from r9a09g047e57-smarc.dts, where
-AUDIO_CLKOUT output pin is not wired.
-
-But for boards that populates AUDIO_CLKOUT we need this property,
-Could you suggest how to model this properly?
-
-Thanks for your time.
-
-[1] https://lore.kernel.org/all/20260417-energetic-practical-frigatebird-5b93ad@quoll/
-
-Kind regards,
-Tommaso
-
-> 
-> Best regards,
-> Krzysztof
