@@ -1,46 +1,46 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C9B4582EF;
-	Wed,  5 Aug 2026 12:42:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87E646C825;
+	Wed,  5 Aug 2026 12:42:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785933752; cv=fail; b=R2tznKX+/IDm2ikz28NqG/+go85zmxvwfWvffvZqQ/stWIw3mduoDwHKydmDZkCovErwTqVJVqELh6IN8L2XgWRqwG4O43sP24TDeFywnbpo8vcw/GLjNCuH3q6TGxE1w3pADBZVsKqnZq5q9yQuhx/+koC7PQVz5D3FggXk6S0=
+	t=1785933753; cv=fail; b=chf1d0NS3vLWIBS9Lnehag8jn5QWI6m8IJmIO5MrzFabvvg8mZf6tsJ6Fr4PQ5BdTjxtYbYedbukDnVqeIlKR0Ryg9LtVCjnkDlsz1+yOW3U0ZhogQVQcFhvx9rupZ4EsolIZOoIdXuQCjIqAi7ydZ3V1B6QezMuN4P9KrNl+R4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785933752; c=relaxed/simple;
-	bh=DP+n9usiBXip5rVmhScm0KdfxHTtauFNDm805pI6y5w=;
+	s=arc-20240116; t=1785933753; c=relaxed/simple;
+	bh=u3TVJbx578qyCg7RbtEKoo8LZCM2WsNX43wBYQjeZh4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YuQ+om5/Qqw2ZHR0tepj7r1nJxr3v8TzQATs8AEI0Hykd8Ek40RKSfEuzOBbpsi6Qx7Hc/3A6iJxg6S3DROqnTPEkD9BSrePbossoBaiV94RmyDbt2kSGlAJC+WsAUIMOym5t0xZuVmumP8bUSx5YDTHJyHtVhbNtRUg6NCOoZg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FTigfY7H; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=qzROD3pE; arc=fail smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=g7Zyf1v/yaGluuqjDx02oeZAxopmlKeyJHph0Pj7iYysmB7lNDjbrraIHOMb5JEtUslTw7HfUcvQCkpmszBLdseaz9tI9kN6jZRXfJHL3D/kdoz9yWTuHkMRgeS4ce/AnsvVEewK8xPNA56N1+LckztXiOiePX+rb8Vq+nvGrR0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WcHeti6B; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=c1zWrf9s; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FTigfY7H";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="qzROD3pE"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WcHeti6B";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="c1zWrf9s"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67558q6d2591634;
-	Wed, 5 Aug 2026 07:42:17 -0500
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 674NPT2Y2014368;
+	Wed, 5 Aug 2026 07:42:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=m+gyEeEz69X0jwC97Q1n+yBolFz4Cz/T2S7wFf1J45A=; b=
-	FTigfY7HCIZFMzLc8MybGRhlPLmPzyUlWQCEFJ2wr+Wwt0ASxxwi/tXDdmQiCh3q
-	KAXfRlQ0AcWIkoYwp9zGbqjF67JN9EARO24T92v1qn9MV/ID+3BjJVV0XjMVYXMl
-	ZMzeUHLg6/BogBFDTs/2zV/28GA3p5ukQ9snWbMN2kzrpPvi6zecrCxdcrxCMfnK
-	JIsHDf6nhUxjfXe+RATnOBZ5v0dQCvPNrjoJOhddWSIfC0GvZifYNvWZv18ysTEs
-	BbjL5SrbuJe1aF6x72jNqmXSk3r5CMNl/zgpzBMMpomjMQCUhTeJ0z8tllX2ZAdC
-	YaGffXF6Sb+G8eSXuelqsg==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020124.outbound.protection.outlook.com [52.101.193.124])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fsd7h5pe2-1
+	PODMain02222019; bh=ywX8j1dbYT+DSRjoWs//H8scQXfNbsk55xp9+UyciKQ=; b=
+	WcHeti6BKHWgYgb/2YOdVOfFyAE2/0h21B40PmWL94bLgCkULjo5oXHbs/8ED21e
+	KcShSs6URBKYgrAn1pT+l+ZxqXqhBHZ1jo8LtK+sqgq0mfLJKWSeEQ8wnEM57OeN
+	5WONnHWjbMuJO1ps8L1wKuYhNv0ne9vI+t42LektVEW5GV3v7JmtzVGQSPwc6F+w
+	9Jzm1kZd238m2gaCM54E4cedgO1RP/2Lu0K7/CrKTjbjgpqt31GU2TxSy9nSFnvH
+	0jCggR+8jm5kVFPvlETY8qy7AwMpYiDxt6kQUXIKSRVjgHg/NxtmIhcm8PyoIKgS
+	3Cb+HQurg6aHFqjk7Yt1Zg==
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11022133.outbound.protection.outlook.com [40.107.200.133])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fsd7h5pe1-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
 	Wed, 05 Aug 2026 07:42:16 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TQ35LwQcZvpU8YdYzrErQsDyQ1GeJ5C3HfA/qZvQ8+g9pfjeGub5EaK1+aJhgJnh5iP/oWc0YCPYb/JkMeSsBrtbQ/5FT50fHfPs5yPfqWpjF/Ph9xuMaotnsUgMxFWPZUqSdtCDUzRpkCVKrrRV8RczMJ27vsOMrsGhikXljcH8VyLsPO9UVZA6CKT9WVWMgScibaIl4+/sM13Oq8/GqOGqKKJz0+CmopKBQsmlWD57/LEHCz/WD4QMpGpMVUcL3Day3xZHRv+PmVTtlq2jKjXUAZNQGcEXJ5wMsk+pDorjODx71UTbyDx1M2p8Yz3JciS3Hk5fcLW640btHelijA==
+ b=Qf3Yp/TOBvMHhyjO7MB1secDgxA5LfvfBJbrIef+xSuc0bAVyjD4EU8/0o0DCFhqV+BwiIbzieFSj7vB3YfJVrbFPK4HTAFmxGh8HA57WEeXj1nBdR4cpNPNqRFWqIfTEJIpY/yYpCS1Z6+F7iDWpo6n5hD0D/L9D9AYqDSgZvgz4EobxViG2XPY6UPeBF3pkGeKqoA63KzVpqvwbUUfYl7zgfLD4HsjMEyrUOagdV6rFQ7/PWMEILB2IzNM8o/Zn7c8mipifhaAtp8kahBrit2xP0A2DGWulbYGCFvlGlea6C6uPusHKZppjPNJTwrGXjLOE82G0wrPZpwAHpDi6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m+gyEeEz69X0jwC97Q1n+yBolFz4Cz/T2S7wFf1J45A=;
- b=Uydlvln0j89P29INlM7HQtjdzfzQK82tJPs+LcdBiud+0UYJOVxCXC77Ma4XzoqDU3rUs/tIP5cGVGSAbRdXxhQPjm5cTS3X47xppSmJzkMqbs16bRinVERTZCfzFZWdcrOkKaVAmC9kiF1DmRkfNu3nkV0HMfOC4xzRBKhmbAYZ1lcI2qzMyuCSHSTt+wgCsxW9uSkWKTSDHHQrGDqRPZBGW9Wen7NFaHD05d8sbXajr+dH0X6WF4juCv9p32P81mRrsjIID3xl2wtw2KQZFW9vWL+J1WoyiK/coxicYCAFfQVwH1WyIeYVolYi8A0M6Ui+3oQ+YheXSxFxPjAZUg==
+ bh=ywX8j1dbYT+DSRjoWs//H8scQXfNbsk55xp9+UyciKQ=;
+ b=ED2nA0Te8ranIs7NqwcvaJIirDjsk9DqYHdA7K89uKlu7U2rEIcFc8HcyKfFhYCAitgGaCxMlhgw2rvPK+N+O+T1KjB8hZ0gE6ONiJqrfnBg0xpzYZKrsSYQwVmTs0ke9tUzNjGGVxVnG0RTycUotmY6j4cUR2498hKMGnTDGGbwQSdAsgoYmAk9QdiKlA/OE96o3B4RDiPge3qgVa5ziv8BSJ+EbcmtVZRTENmXPepfh7Ye8BTcwyi7awxjoXmF0ccut64h6CHiiKAGqbQxZUEJ3d90dfxkxk+GPTpP+B9iJkXBXUeTvDw6AgbVefe5eUIAt5+O0i2bTAQ5+4GVSg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 84.19.233.75) smtp.rcpttodomain=cirrus.com
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -49,17 +49,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m+gyEeEz69X0jwC97Q1n+yBolFz4Cz/T2S7wFf1J45A=;
- b=qzROD3pEnyy99lb2kPpkA3rZj02qfFcuwR/nem8E7uAcg8ge3sg1hjom30IayOLI1u4nuY4QOjvPvnZ9vdzl1yBYqHljXYtpjpWT4IqO0UGbQiCp3FfFtBbg1a5UHI6Yayrodf2Bz8fIPe7FvHvDeQzT8GzjOLcUFpmL01Dp/6M=
-Received: from CY5PR22CA0100.namprd22.prod.outlook.com (2603:10b6:930:65::28)
- by PH3PPFD6D301256.namprd19.prod.outlook.com (2603:10b6:518:1::c54) with
+ bh=ywX8j1dbYT+DSRjoWs//H8scQXfNbsk55xp9+UyciKQ=;
+ b=c1zWrf9sdJgie+Odcd/RRu5Kn92N4axQwAC3ACpYijsakvkfAseOlU5tRB+fUrWI1KbpmNhLRm0FaxaP4gmH87BVoGE0mBSoqEBzRWUbfa6wAuWNR79bfK4QayCF1YW4mgWrInSGZIEglz/ovqOILguy/uj2CxpcyyVpdCl7+x8=
+Received: from BN9PR03CA0972.namprd03.prod.outlook.com (2603:10b6:408:109::17)
+ by SA1PR19MB4973.namprd19.prod.outlook.com (2603:10b6:806:1a0::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Wed, 5 Aug
- 2026 12:42:12 +0000
-Received: from CY4PEPF0000EE34.namprd05.prod.outlook.com
- (2603:10b6:930:65:cafe::54) by CY5PR22CA0100.outlook.office365.com
- (2603:10b6:930:65::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.16 via Frontend Transport; Wed, 5
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.16; Wed, 5 Aug
+ 2026 12:42:11 +0000
+Received: from BN3PEPF0000B074.namprd04.prod.outlook.com
+ (2603:10b6:408:109:cafe::77) by BN9PR03CA0972.outlook.office365.com
+ (2603:10b6:408:109::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.19 via Frontend Transport; Wed, 5
  Aug 2026 12:42:11 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
@@ -67,14 +67,14 @@ X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CY4PEPF0000EE34.mail.protection.outlook.com (10.167.242.40) with Microsoft
+ BN3PEPF0000B074.mail.protection.outlook.com (10.167.243.119) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
- via Frontend Transport; Wed, 5 Aug 2026 12:42:11 +0000
+ via Frontend Transport; Wed, 5 Aug 2026 12:42:10 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 8AFA7406552;
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 90F18406553;
 	Wed,  5 Aug 2026 12:42:09 +0000 (UTC)
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7420A822544;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7EA5E822545;
 	Wed,  5 Aug 2026 12:42:09 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: broonie@kernel.org
@@ -84,9 +84,9 @@ Cc: lgirdwood@gmail.com, yung-chuan.liao@linux.intel.com,
         oder_chiou@realtek.com, shumingf@realtek.com,
         linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
         patches@opensource.cirrus.com
-Subject: [PATCH 3/8] ASoC: SDCA: Move HID registration to IRQ time
-Date: Wed,  5 Aug 2026 13:42:00 +0100
-Message-ID: <20260805124205.4152543-4-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 5/8] ASoC: SDCA: Update HID DisCo parsing
+Date: Wed,  5 Aug 2026 13:42:02 +0100
+Message-ID: <20260805124205.4152543-6-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260805124205.4152543-1-ckeepax@opensource.cirrus.com>
 References: <20260805124205.4152543-1-ckeepax@opensource.cirrus.com>
@@ -99,362 +99,236 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE34:EE_|PH3PPFD6D301256:EE_
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B074:EE_|SA1PR19MB4973:EE_
 Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 7207f022-ca92-4b78-0e77-08def2eef82e
+X-MS-Office365-Filtering-Correlation-Id: 908d3613-e7c7-47a5-9ecc-08def2eef80c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|23010399003|376014|7416014|61400799027|82310400026|6133799003|56012099006|10067099003|11063799006|16102099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|7416014|376014|61400799027|36860700016|82310400026|23010399003|11063799006|6133799003|10067099003|16102099003|18002099003|56012099006|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	xWIf5zGshy1VLuaqJY32visw73iWqVurUI9+NIL/Pp0C27umB5rm6VKMk/mFAwAWm03kPtqJ4SFx2DdP6+o5rFiIv+/7Tt8WWLegMHlTxYR1V4ULZ4mrbqaQH5GrS0Mh25pbHwTVwwRDcbm/CFM/WtukZYl9L8c6G65npy3Yebm777V7PAZ7jnkchuFZphivVGqaBlpWcwji0wosbEwAjMo43saLuDAGV2L0vcayMzJ/phPbeGQ/I8aTtG+/UIkp5CL6IVVERXm99u23lBBneAVd1s0KJs7fElRtqUuOHOwhVDBZ+arzISqrCDI2rtSmK8KASwKqK/qcnJERCMU1qdiZTGSvcY/KCPx2hUVsywUUT01RL21Sy8sWUOS8B5SDi/kYPGtSgqJZCorEhI/PGYIlkHNn649MlJf7LCf7GKly92xuPqBzFvQC3cNIJDaql+IGolGGBWKqvacJg0g1TzALFS8aUdCMR9IT+gsJ4mluIhuiaCUV9wqWUIa/AUROPTxN3mffhJoZWiXq6HeWIYwJuWDrHlMGrMClVkyVIFPkk7ZJtPEAzjDxLZRXctDDRlhxNSiP2k4XYxNiytcKrMd1yMSZvMCxJwChR2UO/NUSypSnETt2TbDfL4mzkD3jMFT5aEyGamwzcEebY2hHrvbhuWaNiImmRLkJjB+aXwzPYPoBG1flDO6mYPZGmCkN9R5XywHnNTKUjERiRUmVgQ==
+	6Tks+ccHsnxyxZQYai1glKNJQkkLhYtSHEPvlsEDgUkGoNfUB09aotQ7XDgKBc2H3p2pXL1cGQeVRCmAJ+Idu57n0pYyAcliCWNDsrEOLtrUffOTNoKu3vdpZ6VWJEkfOVXAQZ7+U9rTpjjJTwPrLyqzzR+MNazrATFvoADJ+f2gsWyqOrcwyRVzQGSqAr3oPQJ8QiaOI6JEie7kGLt2Wg5dh3HJoY8oj3ylkTFkqaQZrzbZBiIfOk64uw9wp9dKuYOEKsTAeLMqqCUTmVsRpQc3uYzXx/953AzDzamLoaUqU3JFjq1zMMMoIf1nqo7wvhPf9e1vcLW3VBiaB6dAM9BCUBHYTL41ipkSI6LCMxazpvPGgt8J15h+DjW61Jc6Nxi6jlpBDWq3K/jygzPvhlO8eJ4jet9WDYwNDsdcpFoFr4VCm/GfdqZLbJBpRTymwy9Z2djlVF928/khAOD5h+PSJaXqG7rN7dLSTHC4KFkn3F79bhSFMbPuEKo4WeLxnFuEJBqqk1v0/2A2Fv05GFyV30Pv/Dg2xuqcNmzeO0vYINWj0lttcPiurZuXkVHyHvX3xySwAPLf/RWfC91K2hs2syPgiY4udjbvC3NA6SgNbasoyJWeqlCkSKlfd3SZP/b7EJNNqGNgvITE/M0TZ4Agy7zM4FX/IDc3ltJp7yIG5fzhl0JjbwdmLyl0U814e4CvxDKSAo0DhgMLCIUFZA==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(7416014)(61400799027)(82310400026)(6133799003)(56012099006)(10067099003)(11063799006)(16102099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(61400799027)(36860700016)(82310400026)(23010399003)(11063799006)(6133799003)(10067099003)(16102099003)(18002099003)(56012099006)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	77s/6uqXLCl/N/fd89cF1XLQ21yKXN7RcnfeqL6f53fsz6xYFi53iYK3mhOqKKouDG3I9zorDV/9EVTPrD0nQLuzqT2Ma14XSrr9wVQEs5V3R3FrLYn85t52RfmDpUAnldmzhfPkMFGudIHG28IUnzt1mzvQt9a/Uut9ji4tJWhDMCNo/q1GUSFmKEcJWJ37R7WQKqDfWWfAKu0oGRJ+djslAfC6WNAzlBTVAD/7X77uMHJNFr0pLGcJ58qhFwRSRDkBlw3m54/vKFUQVk6iJQZohSUONZXPbvN1MkgWpeyU0Qw1BqSfm0WiVfMY/MRfT8iaTy8tCk9hMT7lrQ03pg4EIIoP+by15XPt8eCMF3dzESNWo+5aVK+F8nKMbsDJC+uuzTRud7b+rLE1TsvGVtnK3+BPZgno8VeaTdiFrymyg7y5WZo2gBt+MH8qkj+e
+	m8XSAfI3CQqN6GrRQmH9xrISD73AUGVBzhyWBjYpF/YSIKBR58VdTr23dO2t3647riNW7Y52J7rWXsa3/j7hDYsOO/RAG6GOax/fxM8gCANuWrk8dX17CpaIsMZi+DETL6zySWm4uCt252UIgS1ICpN2wTt8WFfrnZsOeHntQ009R/EXypfNp6rJnrXvRHeS6XTIioEu8y1T3dHcPpv7VfCRGP6xxM2VznUKdyAyCe1iNNWh2WKZ+xt/WhB/zJraQmTkW8Y9jR/lVD6Sce/P27+Gejn2b1SgAFmRuokaNNR3ICs+GL1FDmA+zc1mQZjNY2HNUpnegdHgo6iLHXkWXsjCbYK2PKYVcyMdOPC3P+0/k8b0Xjbo8XqUDlc+J6QW5T/sCl4JUnEqCML7GxME/RwZqtJ3MFCGjhT0wPb9WaH31r+i2Qp67DJtAO6RA03w
 X-Exchange-RoutingPolicyChecked:
-	ENhCJe5VPJ1X3RzmmOwysdhrhMFvS7vvh3sdCxriXcr4dKUEak0/qXu0zbsz4tqC8rV/lGRC7wJzTUz05I/Z8pgdFvnxar8XxhPJ9z2lTyLmuxJQMd1ge8u5Cqbcn5GfBlazalWYeOIPlKqortQCaGqVyQlbWJZn2HhWvwCT8aLqBQTX1jIs8n+sRLR8s1TGa+HaQkV7dyj7M3BNHT+HYrLNMyRbiBQaHwAAT8EbR2NSj1e2O2MCPcMFiaBoOx/rUgIApNtGY5aHHrujeIJFJH/aF6mS27/eLiuaB9saAswW9yFQQ8rOj7+hCGVXtmsMlFo1RLuQQJ7LepbdZbMYuw==
+	SfMdK4Np270HKPOcu3B/zORf5C8Pi5cBpFan6gDAwRcAYrtHxmnd+a6nghy+gmmp5ie6fjDwTfY6tdCxE6MHdCIfyNSwRY7MIPx3p63FwRRmbyaCf099Y4dod7kGLvIPTzfGyXWd65dPeP/6kI4wktghjNXNfsgGBK24xhf3rebuivn0JsYxRACJ7sxrVSL/jbOSFzHyw/Sjc3wOvkD6pKWFN5Fjv0zGNJVWaMAe+pYUKbYHX24QlhErfdCeST2nixhi7YldK9Ds2yCzNROkTlzsC93EwUoVW8XapGwQwk2Sgt/RSVVwrTRxQ1R5VpFPUOY/Dsbr5waaYXYrgM0h7w==
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 12:42:11.0183
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 12:42:10.8765
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7207f022-ca92-4b78-0e77-08def2eef82e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 908d3613-e7c7-47a5-9ecc-08def2eef80c
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CY4PEPF0000EE34.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN3PEPF0000B074.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFD6D301256
-X-Authority-Analysis: v=2.4 cv=ZK/nX37b c=1 sm=1 tr=0 ts=6a732fa9 cx=c_pps
- a=gCYXggIpC+w3u2dojYR5Vg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB4973
+X-Authority-Analysis: v=2.4 cv=ZK/nX37b c=1 sm=1 tr=0 ts=6a732fa8 cx=c_pps
+ a=zIlxSkAlgAN8/7mUobs3rA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=w1d2syhTAAAA:8 a=wyvOC-j1VmNzcFmTlIYA:9 a=O8hF6Hzn-FEA:10
-X-Proofpoint-GUID: iwJNTFqxe2RrIhkt52z-6ysCbhxkjCH7
-X-Proofpoint-ORIG-GUID: iwJNTFqxe2RrIhkt52z-6ysCbhxkjCH7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDEwMiBTYWx0ZWRfX89ZaXj4lf6Bv
- RWhn/6z25t6z2qAfHnXOv33n5DiLseRIp2ILSpFSY7DpaztNQuLW/GmX0HG9qYNJl+oPxab3XXe
- xhXmOb02VHl6auLtsqpRK8gNCWYJg77LFFNqy+FmSvM7160uTIKJSiXCIOl2z7/lQnt0nX54VB6
- Xr4ZQVdwAETR0spfHxi3oj6Pvhei2dt6AP6GHynmrSNDr9xgACvBBMHDiz8+/W/NzUBv+ob4ZBa
- Ixd/c+rPB1Qq5fWYmMcjXiWxfTgrL88d2AbhHtes9wgJwx5u0IcyzaAd61ALVGPSpvLPeNxLi28
- vpejxQqioGNzc+16Q5MrH+O1xwJDgvSr4tJAtxMCbbGl92DFxloyK87SKZ/8jg9ENo92Qeuo4yP
- DxFYXPGQvyvM7U7oI9nuZtwFatVEgpd0AR43m6JtK42e35lqDIZFKI+/FXXCAR8Io0oA8nKZE5h
- F8a6TNW/SvBx6EHANpw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDEwMiBTYWx0ZWRfX+zQQRci6EuVl
- aDisqcE1QFnCKlzIFO9hV+mCg5enmh4xQkwt+KqEEk7z2NoqSRwPzEdNi/ZWmJA7b2LeDJw62LV
- RzJy78W7vmsId67YHclSmJVJ3SVfbtg=
+ a=w1d2syhTAAAA:8 a=-1BAiDLmoNLMV61lCjoA:9
+X-Proofpoint-GUID: -q3Mw8-gqa4QS-Pwp_bv0j8ORUZrUpxv
+X-Proofpoint-ORIG-GUID: -q3Mw8-gqa4QS-Pwp_bv0j8ORUZrUpxv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDEwMiBTYWx0ZWRfX6l+iSmUBbwN+
+ 280IBrIsbrAoGnLtH6mGCofIUXGBpM+DXbcQ6XWM+4pLuEHsE+ZmMoZGbJALxb8d+ozRdJMwS+A
+ SNjmupNwooJhpY1Ejs61t8QmAalwZFGTuukl4hFsZegKnC2zJl+6J8pcusddm4GN8qOH/ypaA7p
+ lc2ybkZW0DTNlDvCF3fLpdJ5Vo9jFTIlwO4NN6kehYa+Az/vJL92k5HPZnEoXCehcMlCEZQv/Ho
+ TLpdxWas8v8rZ3RSWHJVZTiUq8B6YzKJfhf10FBG3djaIFF6kn1Kcy/OBg0eQBSVj9pz4QZa2GA
+ ofZBWTeyYwnE502mxX/2CPxINdJ1HvaYF91Zn425KHjQI00a3WXLI0jIrWgJownBOCGYeVrR5eJ
+ nn1eaz6Wq7anolPO9iOD6DUfA+BgwqlWg6eDz9zwH+LvtkpFUHarFlIkUfWxwclsuX3yyBwGRc6
+ nCOS2yB0h2QC1Yce9WA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDEwMiBTYWx0ZWRfX/ZKxWgG40TJ4
+ aC6TTmWWyleMPvUBIU/O6t0qUGLrdAo5kNzTY9HYoDofiOBcKb/BpMPVELh4Kxlf+QMA5ee3W7D
+ 3sKuHxdwFOY21sPmtJpNoEykgF+gWUw=
 X-Proofpoint-Spam-Reason: safe
 
-Currently, the SDCA code registers the HID device whilst parsing
-the DisCo information. This necessitates storing the HID device
-in the DisCo structs, which are intended to only store the parsed
-DisCo. Having the HID device registered so early in the process
-also causes some issues with cleaning up.
-
-Update the code to register the HID device as the IRQs are handled,
-this alleviates the previous concerns and brings the support inline
-with the other SDCA event handling.
-
-As part of this move the naming for the SDCA HID is also updated,
-it saves some complexity around the passing of the SoundWire device
-to include this in this patch. Update to using the dev_name for
-the phys, which is more consistent with other HID users, and use
-the actual function name/address for the HID name itself.
+Add more error checking on the parsing of the HID DisCo and bring
+the code more inline with the rest of the DisCo parsing.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/sdca_function.h    |  2 --
- include/sound/sdca_hid.h         |  6 ++----
- sound/soc/codecs/rt766-sdca.c    | 22 +++++++++++++++++++---
- sound/soc/codecs/rt766-sdca.h    |  2 ++
- sound/soc/sdca/sdca_functions.c  | 24 ++++++------------------
- sound/soc/sdca/sdca_hid.c        | 21 ++++++++++-----------
- sound/soc/sdca/sdca_interrupts.c |  4 ++++
- 7 files changed, 43 insertions(+), 38 deletions(-)
+ sound/soc/sdca/sdca_functions.c | 119 ++++++++++++++++++++------------
+ 1 file changed, 74 insertions(+), 45 deletions(-)
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index fb931ae735a27..35799a9771454 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -1116,7 +1116,6 @@ struct sdca_entity_ge {
- 
- /**
-  * struct sdca_entity_hide - information specific to HIDE Entities
-- * @hid: HID device structure
-  * @num_hidtx_ids: number of HIDTx Report ID
-  * @num_hidrx_ids: number of HIDRx Report ID
-  * @hidtx_ids: HIDTx Report ID
-@@ -1131,7 +1130,6 @@ struct sdca_entity_ge {
-  * @hid_desc: HID descriptor for the HIDE Entity
-  */
- struct sdca_entity_hide {
--	struct hid_device *hid;
- 	unsigned int *hidtx_ids;
- 	unsigned int *hidrx_ids;
- 	int num_hidtx_ids;
-diff --git a/include/sound/sdca_hid.h b/include/sound/sdca_hid.h
-index 18bebbe428c9f..83d1c7768133b 100644
---- a/include/sound/sdca_hid.h
-+++ b/include/sound/sdca_hid.h
-@@ -16,14 +16,12 @@ struct sdca_interrupt;
- 
- #if IS_ENABLED(CONFIG_SND_SOC_SDCA_HID)
- 
--int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
--			struct sdca_entity *entity);
-+int sdca_add_hid_device(struct sdca_interrupt *interrupt);
- int sdca_hid_process_report(struct sdca_interrupt *interrupt);
- 
- #else
- 
--static inline int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
--				      struct sdca_entity *entity)
-+static inline int sdca_add_hid_device(struct sdca_interrupt *interrupt)
- {
- 	return 0;
- }
-diff --git a/sound/soc/codecs/rt766-sdca.c b/sound/soc/codecs/rt766-sdca.c
-index 4c5acd950d70f..54ed0c42fba2f 100644
---- a/sound/soc/codecs/rt766-sdca.c
-+++ b/sound/soc/codecs/rt766-sdca.c
-@@ -22,6 +22,7 @@
- #include <sound/sdca.h>
- #include <sound/sdca_asoc.h>
- #include <sound/sdca_function.h>
-+#include <sound/sdca_hid.h>
- #include <sound/sdca_regmap.h>
- #include <sound/sdca_interrupts.h>
- #include <linux/slab.h>
-@@ -33,7 +34,6 @@
- static int rt766_sdca_btn_detect(struct sdca_interrupt *interrupt)
- {
- 	struct rt766_sdca_priv *rt766 = interrupt->priv;
--	struct sdca_entity *ent_hid = interrupt->entity;
- 	unsigned char *buf = NULL;
- 	unsigned int offset, owner, length;
- 	unsigned int det_mode, idx, val;
-@@ -85,8 +85,8 @@ static int rt766_sdca_btn_detect(struct sdca_interrupt *interrupt)
- 			buf[idx] = val & 0xff;
- 		}
- 
--		if (ent_hid)
--			hid_input_report(ent_hid->hide.hid, HID_INPUT_REPORT,
-+		if (rt766->hid)
-+			hid_input_report(rt766->hid, HID_INPUT_REPORT,
- 				buf, length, 1);
- 	}
- 
-@@ -191,6 +191,13 @@ static irqreturn_t rt766_sdca_irq_jd_handler(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+static void rt766_sdca_destroy_hid_device(struct sdca_interrupt *interrupt)
-+{
-+	struct rt766_sdca_priv *rt766 = interrupt->priv;
-+
-+	hid_destroy_device(rt766->hid);
-+}
-+
- static int rt766_sdca_irq_ctl(struct rt766_sdca_priv *rt766,
- 							  struct sdca_function_data *function,
- 							  struct snd_soc_component *component,
-@@ -231,6 +238,15 @@ static int rt766_sdca_irq_ctl(struct rt766_sdca_priv *rt766,
- 				if (ret)
- 					return ret;
- 
-+				if (handler == rt766_sdca_irq_btn_handler) {
-+					ret = sdca_add_hid_device(interrupt);
-+					if (ret)
-+						return ret;
-+
-+					interrupt->free_priv = rt766_sdca_destroy_hid_device;
-+					rt766->hid = interrupt->priv;
-+				}
-+
- 				interrupt->priv = rt766;
- 				ret = sdca_irq_request(dev, info, irq, interrupt->name,
- 								handler, interrupt);
-diff --git a/sound/soc/codecs/rt766-sdca.h b/sound/soc/codecs/rt766-sdca.h
-index 5acdb83a42fb8..de4064007eb9b 100644
---- a/sound/soc/codecs/rt766-sdca.h
-+++ b/sound/soc/codecs/rt766-sdca.h
-@@ -8,6 +8,7 @@
- #ifndef __RT766_H__
- #define __RT766_H__
- 
-+#include <linux/hid.h>
- #include <linux/pm.h>
- #include <linux/regmap.h>
- #include <linux/soundwire/sdw.h>
-@@ -41,6 +42,7 @@ struct  rt766_sdca_priv {
- 	struct sdca_function_data *sa_func_data;
- 	struct sdca_function_data *hid_func_data;
- 	struct sdca_interrupt_info *irq_info;
-+	struct hid_device *hid;
- };
- 
- /* vendor registers */
 diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index cdf1e68d60ac5..e9b449b670332 100644
+index e49acfe49e289..1196cc09389ae 100644
 --- a/sound/soc/sdca/sdca_functions.c
 +++ b/sound/soc/sdca/sdca_functions.c
-@@ -18,7 +18,6 @@
- #include <linux/types.h>
- #include <sound/sdca.h>
- #include <sound/sdca_function.h>
--#include <sound/sdca_hid.h>
+@@ -7,6 +7,7 @@
+  */
  
- /*
-  * Should be long enough to encompass all the MIPI DisCo properties.
-@@ -1366,8 +1365,7 @@ static int find_sdca_entity_ge(struct device *dev,
- }
- 
- static int
--find_sdca_entity_hide(struct device *dev, struct sdw_slave *sdw,
--		      struct fwnode_handle *function_node,
-+find_sdca_entity_hide(struct device *dev, struct fwnode_handle *function_node,
- 		      struct fwnode_handle *entity_node, struct sdca_entity *entity)
+ #include <linux/acpi.h>
++#include <linux/array_size.h>
+ #include <linux/byteorder/generic.h>
+ #include <linux/cleanup.h>
+ #include <linux/device.h>
+@@ -1369,59 +1370,71 @@ static int find_sdca_entity_hide(struct device *dev,
+ 				 struct sdca_entity *entity)
  {
  	struct sdca_entity_hide *hide = &entity->hide;
-@@ -1440,13 +1438,6 @@ find_sdca_entity_hide(struct device *dev, struct sdw_slave *sdw,
- 			hide->hid_report_desc = report_desc;
- 			fwnode_property_read_u8_array(function_node, "mipi-sdca-report-descriptor",
- 						      report_desc, nval);
--
--			/* add HID device */
--			ret = sdca_add_hid_device(dev, sdw, entity);
--			if (ret) {
--				dev_err(dev, "%pfwP: failed to add HID device: %d\n", entity_node, ret);
--				return ret;
--			}
- 		}
+-	unsigned int delay, *af_list = hide->af_number_list;
+-	int nval, ret;
++	int num_reports, ret;
++	unsigned int delay;
+ 
+ 	ret = fwnode_property_read_u32(entity_node,
+-				       "mipi-sdca-RxUMP-ownership-transition-max-delay", &delay);
++				       "mipi-sdca-RxUMP-ownership-transition-max-delay",
++				       &delay);
+ 	if (!ret)
+ 		hide->max_delay = delay;
+ 
+-	nval = fwnode_property_count_u32(entity_node, "mipi-sdca-HIDTx-supported-report-ids");
+-	if (nval > 0) {
+-		hide->num_hidtx_ids = nval;
++	num_reports = fwnode_property_count_u32(entity_node,
++						"mipi-sdca-HIDTx-supported-report-ids");
++	if (num_reports < 0 && num_reports != -EINVAL) {
++		dev_err(dev, "%pfwP: failed to read hid tx ids: %d\n",
++			entity_node, num_reports);
++		return num_reports;
++	} else if (num_reports > 0) {
++		hide->num_hidtx_ids = num_reports;
+ 		hide->hidtx_ids = devm_kcalloc(dev, hide->num_hidtx_ids,
+ 					       sizeof(*hide->hidtx_ids), GFP_KERNEL);
+ 		if (!hide->hidtx_ids)
+ 			return -ENOMEM;
+ 
+-		ret = fwnode_property_read_u32_array(entity_node,
+-						     "mipi-sdca-HIDTx-supported-report-ids",
+-						     hide->hidtx_ids,
+-						     hide->num_hidtx_ids);
+-		if (ret < 0)
+-			return ret;
++		fwnode_property_read_u32_array(entity_node,
++					       "mipi-sdca-HIDTx-supported-report-ids",
++					       hide->hidtx_ids, hide->num_hidtx_ids);
  	}
  
-@@ -1475,8 +1466,7 @@ static int find_sdca_entity_xu(struct device *dev,
- 	return 0;
- }
+-	nval = fwnode_property_count_u32(entity_node, "mipi-sdca-HIDRx-supported-report-ids");
+-	if (nval > 0) {
+-		hide->num_hidrx_ids = nval;
++	num_reports = fwnode_property_count_u32(entity_node,
++						"mipi-sdca-HIDRx-supported-report-ids");
++	if (num_reports < 0 && num_reports != -EINVAL) {
++		dev_err(dev, "%pfwP: failed to read hid rx ids: %d\n",
++			entity_node, num_reports);
++		return num_reports;
++	} else if (num_reports > 0) {
++		hide->num_hidrx_ids = num_reports;
+ 		hide->hidrx_ids = devm_kcalloc(dev, hide->num_hidrx_ids,
+ 					       sizeof(*hide->hidrx_ids), GFP_KERNEL);
+ 		if (!hide->hidrx_ids)
+ 			return -ENOMEM;
  
--static int find_sdca_entity(struct device *dev, struct sdw_slave *sdw,
--			    struct sdca_function_data *function,
-+static int find_sdca_entity(struct device *dev, struct sdca_function_data *function,
- 			    struct fwnode_handle *function_node,
- 			    struct fwnode_handle *entity_node,
- 			    struct sdca_entity *entity)
-@@ -1528,8 +1518,7 @@ static int find_sdca_entity(struct device *dev, struct sdw_slave *sdw,
- 		ret = find_sdca_entity_ge(dev, entity_node, entity);
- 		break;
- 	case SDCA_ENTITY_TYPE_HIDE:
--		ret = find_sdca_entity_hide(dev, sdw, function_node,
--					    entity_node, entity);
-+		ret = find_sdca_entity_hide(dev, function_node, entity_node, entity);
- 		break;
- 	default:
- 		break;
-@@ -1544,8 +1533,7 @@ static int find_sdca_entity(struct device *dev, struct sdw_slave *sdw,
- 	return 0;
- }
- 
--static int find_sdca_entities(struct device *dev, struct sdw_slave *sdw,
--			      struct fwnode_handle *function_node,
-+static int find_sdca_entities(struct device *dev, struct fwnode_handle *function_node,
- 			      struct sdca_function_data *function)
- {
- 	struct sdca_entity *entities;
-@@ -1596,7 +1584,7 @@ static int find_sdca_entities(struct device *dev, struct sdw_slave *sdw,
- 			return -EINVAL;
- 		}
- 
--		ret = find_sdca_entity(dev, sdw, function, function_node,
-+		ret = find_sdca_entity(dev, function, function_node,
- 				       entity_node, &entities[i]);
- 		fwnode_handle_put(entity_node);
- 		if (ret)
-@@ -2214,7 +2202,7 @@ int sdca_parse_function(struct device *dev, struct sdw_slave *sdw,
- 	if (ret)
- 		return ret;
- 
--	ret = find_sdca_entities(dev, sdw, node, function);
-+	ret = find_sdca_entities(dev, node, function);
- 	if (ret)
- 		return ret;
- 
-diff --git a/sound/soc/sdca/sdca_hid.c b/sound/soc/sdca/sdca_hid.c
-index abbd56a3d2971..ea511c6f9798e 100644
---- a/sound/soc/sdca/sdca_hid.c
-+++ b/sound/soc/sdca/sdca_hid.c
-@@ -14,6 +14,7 @@
- #include <linux/module.h>
- #include <linux/property.h>
- #include <linux/soundwire/sdw.h>
-+#include <linux/string.h>
- #include <linux/types.h>
- #include <sound/sdca.h>
- #include <sound/sdca_function.h>
-@@ -85,10 +86,11 @@ static const struct hid_ll_driver sdw_hid_driver = {
- 	.raw_request = sdwhid_raw_request,
- };
- 
--int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
--			struct sdca_entity *entity)
-+int sdca_add_hid_device(struct sdca_interrupt *interrupt)
- {
--	struct sdw_bus *bus = sdw->bus;
-+	struct device *dev = interrupt->dev;
-+	struct sdca_function_data *function = interrupt->function;
-+	struct sdca_entity *entity = interrupt->entity;
- 	struct hid_device *hid;
- 	int ret;
- 
-@@ -102,12 +104,9 @@ int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
- 	hid->bus = BUS_SDW;
- 	hid->version = le16_to_cpu(entity->hide.hid_desc.bcdHID);
- 
--	snprintf(hid->name, sizeof(hid->name),
--		 "HID sdw:%01x:%01x:%04x:%04x:%02x",
--		 bus->controller_id, bus->link_id, sdw->id.mfg_id,
--		 sdw->id.part_id, sdw->id.class_id);
--
--	snprintf(hid->phys, sizeof(hid->phys), "%s", dev->bus->name);
-+	strscpy(hid->phys, dev_name(dev));
-+	snprintf(hid->name, sizeof(hid->name), "SDCA %s:%02x",
-+		 function->desc->name, function->desc->adr);
- 
- 	hid->driver_data = entity;
- 
-@@ -118,7 +117,7 @@ int sdca_add_hid_device(struct device *dev, struct sdw_slave *sdw,
- 		return ret;
+-		ret = fwnode_property_read_u32_array(entity_node,
+-						     "mipi-sdca-HIDRx-supported-report-ids",
+-						     hide->hidrx_ids,
+-						     hide->num_hidrx_ids);
+-		if (ret < 0)
+-			return ret;
++		fwnode_property_read_u32_array(entity_node,
++					       "mipi-sdca-HIDRx-supported-report-ids",
++					       hide->hidrx_ids, hide->num_hidrx_ids);
  	}
  
--	entity->hide.hid = hid;
-+	interrupt->priv = hid;
+-	nval = fwnode_property_count_u32(entity_node, "mipi-sdca-hide-related-audio-function-list");
+-	if (nval <= 0) {
++	/*
++	 * FIXME: This should probably link to the actual sdca_function_data pointer,
++	 * but updating to do so should probably wait until we have a user.
++	 */
++	num_reports = fwnode_property_count_u32(entity_node,
++						"mipi-sdca-hide-related-audio-function-list");
++	if (num_reports <= 0) {
+ 		dev_err(dev, "%pfwP: audio function numbers list missing: %d\n",
+-			entity_node, nval);
++			entity_node, num_reports);
+ 		return -EINVAL;
+-	} else if (nval > SDCA_MAX_FUNCTION_COUNT) {
+-		dev_err(dev, "%pfwP: maximum number of audio function exceeded\n", entity_node);
++	} else if (num_reports > ARRAY_SIZE(hide->af_number_list)) {
++		dev_err(dev, "%pfwP: maximum number of audio function exceeded\n",
++			entity_node);
+ 		return -EINVAL;
+ 	}
+ 
+-	hide->hide_reside_function_num = nval;
++	hide->hide_reside_function_num = num_reports;
+ 	fwnode_property_read_u32_array(entity_node,
+-				       "mipi-sdca-hide-related-audio-function-list", af_list, nval);
++				       "mipi-sdca-hide-related-audio-function-list",
++				       hide->af_number_list, num_reports);
  
  	return 0;
  }
-@@ -133,7 +132,7 @@ EXPORT_SYMBOL_NS(sdca_add_hid_device, "SND_SOC_SDCA");
- int sdca_hid_process_report(struct sdca_interrupt *interrupt)
+@@ -2152,29 +2165,45 @@ static int find_sdca_filesets(struct device *dev, struct sdw_slave *sdw,
+ static int find_sdca_hid(struct device *dev, struct fwnode_handle *function_node,
+ 			 struct sdca_function_data *function)
  {
- 	struct device *dev = interrupt->dev;
--	struct hid_device *hid = interrupt->entity->hide.hid;
-+	struct hid_device *hid = interrupt->priv;
- 	void *val __free(kfree) = NULL;
- 	int len, ret;
+-	int nval;
++	int num_desc;
  
-diff --git a/sound/soc/sdca/sdca_interrupts.c b/sound/soc/sdca/sdca_interrupts.c
-index 42fbd3af8a754..71037189a057c 100644
---- a/sound/soc/sdca/sdca_interrupts.c
-+++ b/sound/soc/sdca/sdca_interrupts.c
-@@ -487,6 +487,10 @@ int sdca_irq_populate_early(struct device *dev, struct regmap *regmap,
- 				}
- 				break;
- 			case SDCA_CTL_TYPE_S(HIDE, HIDTX_CURRENTOWNER):
-+				ret = sdca_add_hid_device(interrupt);
-+				if (ret)
-+					return ret;
+-	nval = fwnode_property_count_u8(function_node, "mipi-sdca-hid-descriptor");
+-	if (nval)
+-		fwnode_property_read_u8_array(function_node, "mipi-sdca-hid-descriptor",
+-					      (u8 *)&function->hid.desc, nval);
++	num_desc = fwnode_property_count_u8(function_node, "mipi-sdca-hid-descriptor");
++	if (!num_desc) {
++		return 0;
++	} else if (num_desc < 0) {
++		dev_err(dev, "%pfwP: failed to read hid descriptor: %d\n",
++			function_node, num_desc);
++		return num_desc;
++	} else if (num_desc > sizeof(function->hid.desc)) {
++		dev_err(dev, "%pfwP: hid descriptor too large: %d\n",
++			function_node, num_desc);
++		return -EINVAL;
++	}
+ 
+-	if (function->hid.desc.bNumDescriptors) {
+-		nval = fwnode_property_count_u8(function_node, "mipi-sdca-report-descriptor");
+-		if (nval) {
+-			unsigned char *report_desc;
++	fwnode_property_read_u8_array(function_node, "mipi-sdca-hid-descriptor",
++				      (u8 *)&function->hid.desc, num_desc);
+ 
+-			report_desc = devm_kzalloc(dev, nval, GFP_KERNEL);
+-			if (!report_desc)
+-				return -ENOMEM;
++	if (!function->hid.desc.bNumDescriptors)
++		return 0;
+ 
+-			function->hid.report_desc = report_desc;
+-			fwnode_property_read_u8_array(function_node,
+-						      "mipi-sdca-report-descriptor",
+-						      report_desc, nval);
+-		}
++	num_desc = fwnode_property_count_u8(function_node, "mipi-sdca-report-descriptor");
++	if (num_desc <= 0) {
++		dev_err(dev, "%pfwP: failed to read report descriptor: %d\n",
++			function_node, num_desc);
 +
- 				interrupt->handler = hid_handler;
- 				break;
- 			default:
++		if (!num_desc)
++			return -EINVAL;
++
++		return num_desc;
+ 	}
+ 
++	function->hid.report_desc = devm_kzalloc(dev, num_desc, GFP_KERNEL);
++	if (!function->hid.report_desc)
++		return -ENOMEM;
++
++	fwnode_property_read_u8_array(function_node, "mipi-sdca-report-descriptor",
++				      function->hid.report_desc, num_desc);
++
+ 	return 0;
+ }
+ 
 -- 
 2.47.3
 
