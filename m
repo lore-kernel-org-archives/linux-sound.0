@@ -1,128 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7903942BE87
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 11:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4678242B331;
+	Wed,  5 Aug 2026 11:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785927607; cv=none; b=d+SeQXxUBK9ITWqzXbvBOkWbXKVDamVCNv7mtovumMuwg3HcD+lN3NJlWglggtoT7ERWWhZMS6bB/a75xSnszc4VFv99z6T7V94wHyJq/mgwaeQEzPq357aTFkAxQdQJnAd3yTSMAN5inyTwBotTEfPzeJUSQSmS0X7iJQT68jY=
+	t=1785929121; cv=none; b=tFTVuknHmkH4xLGftkSj1/UM+Gymslndu0nnQx4SkZmMFc6AHrzdLEgOtfnkU0DTnHhXFxuavLIV3heygEXc/tw3XhZwlC8ZhsBU1Ky9ZlSSv1YRPfwbiCwOqmy1PSrx/lX0u/ZwAjWN4+EquC/AZ2uhJcDRS1tXdDxpu5/ADLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785927607; c=relaxed/simple;
-	bh=Ca0cMJvQt7sKa8u06a5udJIf1vR4H+tCViHwBjHrypw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=fdA8PF7jGdA12IowF1n1S1VJrwnRfjNgXsty543CEKVO6Hy0xDm0Y05hCXEvkRjhXA8GaW5L2zAetXyjgEkqV93uTSjK9JtAqxDPmLv9GK9uukOe+/WTCxJRdJM9qmznahNJUj5L/pRUxBmMajMJYn+XTBx++1O9CquFUV9W/KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWFrSaCS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785929121; c=relaxed/simple;
+	bh=u8T2KJlRmfViBB0JWYPqN+GnpLzZTe+MLCp5VYkJBT4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mNZIqqXr1FSCEyl+gmVO5iaN/geJxmnTYhly4yBgpBap+kQv/gNNIbynq4JMkn52hkRESnoU1qh8k87druUqvjJTzluuH9jNnITcmGn5D2Qf0ljWevStwzJKTvZm5cELXEzOTs48019NojwX8qXGEOZbq9PshNckwUUZsIzUUEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EWSBt8xo; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWFrSaCS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E15901F000E9;
-	Wed,  5 Aug 2026 10:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785927599;
-	bh=s4UODaJtCw9kVdMxXpipdgz6imOVOUmY6QEdU4IBIBY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=oWFrSaCS+DUbCayXrV5IlN4fSKWh8ZGKqhYmzM907V92yntO9IfeUOPA3o7s0hmQ2
-	 w/7/AI0kfTBCG5ewSOEX2xGf3mwnaAc4KhweM78NaGG4c/AJv843g4qSv1TYqTjYpG
-	 ibdBLioF+bAYhoVWTDJkc8egSyhZT1IXWObZNqkKUBes4QiWBFy8lniVs8ngp9DjVu
-	 lWGTO8uXle7leonN93UcBH6MeRJdJWkqGlkv3sK5oJUKDn61mEA9mtGkDtD0VSALXH
-	 6rN6vZ009ahvgTblk8pJc8qVzMqp5gJ5EYuYOVFnBt/2xm1HT3MbGumH8Kx8ASk+3v
-	 UEFeTg9Xm0gfA==
-From: Mark Brown <broonie@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Fabio Estevam <festevam@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Nicolin Chen <nicoleotsuka@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Shengjiu Wang <shengjiu.wang@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- Xiubo Li <Xiubo.Lee@gmail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87y0f2rz8l.wl-kuninori.morimoto.gx@renesas.com>
-References: <87y0f2rz8l.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v5 00/12] ASoC: add and use new
- snd_soc_register_component()
-Message-Id: <178588681809.111355.8167772739798393167.b4-ty@b4>
-Date: Wed, 05 Aug 2026 00:40:18 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWSBt8xo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785929118; x=1817465118;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=u8T2KJlRmfViBB0JWYPqN+GnpLzZTe+MLCp5VYkJBT4=;
+  b=EWSBt8xovYgH58smtmGz7zFmL79jzs1xDFQ2W18QxY2PIO6ACQp9GhJS
+   JstMj/abLewptKwRVR5lwY6uuHhZaapP1Cf/stZDfx3arAhmy5NIVMwL0
+   nh3rGw6YFcn/HWzMsSXD20SB4O+Iqq//7ra9jT+6ldIZPe4TRPVzGXjPI
+   L4Hlfd2ZytZGxYgJfd8Tdm8DdBYpl13Vu4BTFLQOoSFwHnG8cO9L2fcUh
+   0K9sMYYas1oA1M0mJyvj0kQgaZflf9mdiMbVnTlkMLYv4qY0yleQOk6cI
+   n+o3zwnNIIleSzOcqr/ckPgDrqfrO4MjZZwtYkq821u4gj5v4ULJHFMwA
+   A==;
+X-CSE-ConnectionGUID: Nkok5jeBRFKfgNDi5n6ZMA==
+X-CSE-MsgGUID: Y0YVXpHRT9a55ZuAh96ZvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="85475661"
+X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
+   d="scan'208";a="85475661"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 04:25:17 -0700
+X-CSE-ConnectionGUID: RfK/XcB5QTW9GF7Kwa1HBg==
+X-CSE-MsgGUID: Tnzs3S2NQPyrW3fSvvJp7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
+   d="scan'208";a="285154820"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO [10.245.246.218]) ([10.245.246.218])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 04:25:14 -0700
+Message-ID: <272f965d-4265-4467-9cd0-20259e107eff@linux.intel.com>
+Date: Wed, 5 Aug 2026 14:25:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2742; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Ca0cMJvQt7sKa8u06a5udJIf1vR4H+tCViHwBjHrypw=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqcxerzsgLdVTLomjPPPk7jQc5Mg6+wXdBuU/uq
- A7NzP2qiYiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanMXqwAKCRAk1otyXVSH
- 0OLOB/9rVyqVHum3vWtx2f9u1LqztIaJio3t2/UNxmdJmpd5KrBqTlO87O9XbIphO+52/bnCCjG
- ShnIC/RnMDiRnjB0COLbAF9SjDYmmD0dDhH29QTrtidk8dr4ZtJ+uGGekgHlz8p2U/buDi5pfIC
- uTPC5NTKMHhZEE8zIYwuuvfPieXMHWGEUk1F9Jz5GZir9NxN/5KsYIkcwSLlNAxMlcHcIQeJ0Sp
- vdc0QFw0vJRjm3JbM+vbPuzsQT0tk/ArkH7dMLP47XsH6Ev53sjUVlYGMDY1ht+hRr2hurkpa2a
- CTCDFWJ5ESnZ8jzpRMbr/wMj6/SzOtmysJIG1JIqinYDqb8N
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] ASoC: cs35l41/cs35l45/cs4265: sort the reg_defaults
+ tables
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Vlad Karpovich <vkarpovi@opensource.cirrus.com>,
+ Paul Handrigan <Paul.Handrigan@cirrus.com>, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, stable@vger.kernel.org
+References: <20260805082413.26174-1-peter.ujfalusi@linux.intel.com>
+ <c8aac762-c1a7-44ab-afff-72610cabe341@linux.dev>
+ <b5631801-2904-48e3-b4f7-9ad6009c1198@opensource.cirrus.com>
+ <96c0cebf-3ec3-4136-b010-32187ff8c870@linux.intel.com>
+ <anMBeeNG1fDpFHzN@opensource.cirrus.com>
+ <81391ad1-1097-43ca-8729-ae01c00db3b2@opensource.cirrus.com>
+ <4c407a93-7cb6-4a44-a7b6-4d972e714b4e@linux.intel.com>
+ <ffa045f4-dfb1-4ec8-b9f5-ce2205e83fb5@opensource.cirrus.com>
+ <5d84444a-c472-4881-9432-e0dbe5610696@linux.intel.com>
+ <anMMIH29hLtOH3kX@opensource.cirrus.com>
+ <9eadca12-1968-49cc-8704-bb6f37dccb95@linux.intel.com>
+ <2585c2ec-1146-4a48-9169-274449d1bbda@opensource.cirrus.com>
+From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
+Content-Language: en-US
+In-Reply-To: <2585c2ec-1146-4a48-9169-274449d1bbda@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 23 Jul 2026 06:34:03 +0000, Kuninori Morimoto wrote:
-> ASoC: add and use new snd_soc_register_component()
+
+
+On 05/08/2026 13:36, Richard Fitzgerald wrote:
+> On 05/08/2026 11:17 am, Péter Ujfalusi wrote:
+>>
+>>
+>> On 05/08/2026 13:10, Charles Keepax wrote:
+>>>>> I don't think we need to sort them. Just fail, so that an unsorted
+>>>>> table
+>>>>> must be fixed.
+>>>>
+>>>> That would be a big regression all around the place, ordering w/ the
+>>>> debug message if developer is interested is much better.
+>>>
+>>> I think I would come down between the two of you. I definitely
+>>> agree with Richard on don't sort them, just encourages drivers to
+>>> be wrong. But I also agree with you, don't hard fail. I would
+>>> vote for just print an error message and carry on. That way no
+>>> regressions, but also a nice big warning message to let people
+>>> know what is wrong when they see problems.
+>>
+>> I usually try to avoid alarming/annoying users with error messages, on
+>> the other hand I agree that w/o some pressure, these will never be
+>> corrected at root either ;)
+>>
+>> On the yet another hand, if the regcache have means to fix this, it
+>> might be put into use as well.
+>> A dev_warn at max to get attention or info level perhaps and fixing it
+>> up?
+>>
+> I asked Codex (GPT5) to search for all reg_default tables with out-of
+> order entries or duplicate entries, looking only at those assigned to
+> struct regmap_config.reg_defaults (some reg_defaults tables are used for
+> patching - those are allowed to be out-of-order).
 > 
-> Hi
+> It came up with this:
 > 
-> Current component has component->name. But snd_soc_register_component()
-> user can't setup it, because component itself is alloced in that function.
+> Restricting results to tables referenced by struct
+> regmap_config.reg_defaults, 39 files violate the rule:
+
+and some of these have duplicate addresses with different default values.
+
+I can send more fixes while I'm at this for the clear cases, for Cirrus,
+Realtek and TI I have sent few patches.
+
 > 
-> [...]
+>   drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c
+>   drivers/leds/leds-lp50xx.c
+>   drivers/mfd/cs42l43.c
+>   drivers/platform/mellanox/mlx-platform.c
+>   drivers/power/supply/bq25980_charger.c
+>   sound/soc/codecs/ad1836.c
+>   sound/soc/codecs/adau1373.c
+>   sound/soc/codecs/adau1761.c
+>   sound/soc/codecs/adau1781.c
+>   sound/soc/codecs/cs35l41-lib.c
+>   sound/soc/codecs/cs35l45-tables.c
+>   sound/soc/codecs/cs4265.c
+>   sound/soc/codecs/cx2072x.c
+>   sound/soc/codecs/lm49453.c
+>   sound/soc/codecs/max9860.c
+>   sound/soc/codecs/ml26124.c
+>   sound/soc/codecs/msm8916-wcd-analog.c
+>   sound/soc/codecs/pcm512x.c
+>   sound/soc/codecs/pm4125-sdw.c
+>   sound/soc/codecs/rt1019.c
+>   sound/soc/codecs/rt1318.c
+>   sound/soc/codecs/rt274.c
+>   sound/soc/codecs/rt286.c
+>   sound/soc/codecs/rt298.c
+>   sound/soc/codecs/rt700-sdw.h
+>   sound/soc/codecs/rt711-sdw.h
+>   sound/soc/codecs/rt715-sdw.h
+>   sound/soc/codecs/sgtl5000.c
+>   sound/soc/codecs/sti-sas.c
+>   sound/soc/codecs/tas2552.c
+>   sound/soc/codecs/tas2764.c
+>   sound/soc/codecs/tas2780.c
+>   sound/soc/codecs/tas675x.c
+>   sound/soc/codecs/wm8996.c
+>   sound/soc/fsl/fsl_easrc.c
+>   sound/soc/tegra/tegra210_admaif.c
+>   sound/soc/tegra/tegra210_i2s.c
+>   sound/soc/tegra/tegra210_mbdrc.c
+>   sound/soc/tegra/tegra210_mixer.c
+> 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
-
-Thanks!
-
-[01/12] ASoC: soc-component: move soc_component_field_shift()
-        https://git.kernel.org/broonie/sound/c/23b64e9b9ba2
-[02/12] ASoC: soc-component: add snd_soc_component_alloc()
-        https://git.kernel.org/broonie/sound/c/de182d84b3a7
-[03/12] ASoC: soc-component: add snd_soc_register_component_{c/d}()
-        https://git.kernel.org/broonie/sound/c/3e53dc96a007
-[04/12] ASoC: soc-component: add snd_soc_component_{set_}name()
-        https://git.kernel.org/broonie/sound/c/f6cfdd246c25
-[05/12] ASoC: soc-component: add snd_soc_component_{set/to}_priv()
-        https://git.kernel.org/broonie/sound/c/d99690513a9a
-[06/12] ASoC: intel: avs: use snd_soc_register_component()
-        https://git.kernel.org/broonie/sound/c/6105b0c10c57
-[07/12] ASoC: intel: avs: probes: use snd_soc_register_component()
-        https://git.kernel.org/broonie/sound/c/825521664559
-[08/12] ASoC: intel: catpt: pcm: use snd_soc_register_component()
-        https://git.kernel.org/broonie/sound/c/c8eaeedcace3
-[09/12] ASoC: soc-generic-dmaengine-pcm: use snd_soc_register_component()
-        https://git.kernel.org/broonie/sound/c/695cc675f0d5
-[10/12] ASoC: soc-topology-test: use snd_soc_register_component()
-        https://git.kernel.org/broonie/sound/c/10c062304d2d
-[11/12] ASoC: soc-core: makes snd_soc_component_initialize() / snd_soc_add_component() local
-        https://git.kernel.org/broonie/sound/c/7050ee33c2db
-[12/12] ASoC: soc-core: remove dev from soc_component_initialize()
-        https://git.kernel.org/broonie/sound/c/157936199385
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+Péter
 
