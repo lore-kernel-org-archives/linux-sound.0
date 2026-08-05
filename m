@@ -1,60 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900F645FFA0;
-	Wed,  5 Aug 2026 12:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFC3459AD0
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 12:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785932938; cv=none; b=ELVLuT35StvJ6HuQi69pIajIC/nGKlsodsWlm//lP/ynqJfCnSIPHPr+AuNnc+ih3mfHPRX0xWJBpLe+2FVdf3AQWzR5o9rSFuKIyYWTeWWxGeR1slfy4gqorBww4ntbxIX7BP4foUCiKlOq3is78dWwRxnvpf4p9CQkJlsC8ok=
+	t=1785932984; cv=none; b=VD/KwnZ4dV0q78ARFO4sgA1UzL1LKzGzg9MygIErXFmfoaK9aWqNjP+7sdRlKsnnm9PAG0IcZ1UTBDzGEh15WCZybY2+XCr+DwAjO4beS35I3TF8C53V9THnMW6j4NmKXiD3BeUBZJSWOq271hnCbhLsSBD/368xQ0R7yytsz5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785932938; c=relaxed/simple;
-	bh=dMwHyV6rY35D/kcPEwSIFnPLaybDP98Pr9sZ7vVYoyE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C+j7EgBSiGOKuFDFkFca4JTcTM6JJavZ6VAvlj4jrCTCL8QfA/G6Ttr/5w55j5quhi3IAGVE22cBN95eqg579r0ErxpNPaboeAXpofkxHOTqji8B5g6EEKVgoISuOvuTf4jOy4X1pUJd20sM/WHuvXtyFsRTGZVmAy6nbbCc7fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J406/MED; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785932984; c=relaxed/simple;
+	bh=y55/OyCDh5ZlzV27SkFVh8Fl4aSApKxqeB+wfMJJCCQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ToVbjW4N4qHGPrwQZdyxtscOWVNTQv69ghdY+eu2/tLe/0LmkjkQfOm+2denZwT5SY+N1Xlo81iUIADUkIZckBPPvTBsFRjwihHe4yKEUAcw57ENkghaeCJfCuxR353rvdFl3kVchnZa8RuNivlfeP6seIgcQ4140YHU0EwqTZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZDwD6syW; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J406/MED"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785932938; x=1817468938;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dMwHyV6rY35D/kcPEwSIFnPLaybDP98Pr9sZ7vVYoyE=;
-  b=J406/MEDRZHJMWm84kXETBQYW5pVkUxqMphjzWwoF5zzo3wx/0f+Qfdi
-   IfrbbsLnmaSB+SWp7fnOkQpOOXdVwckjYbmXgNHQ3F4xVZ5WikfYv20Xz
-   wkcm2lER0T8R5udmlMcpyFihB+WTRthtXDdinWC7KKSFkfB6eym5+/3GF
-   GRJG9781kO4DSAuwdNKka6YKgt7YYqAROYpWWSq7i9KwzLscWJtVoZzvk
-   Pn+QUhj3wNTpb1BsKaME5+lD9guljrUm0druPqZV/GsKzmKy++lKayhOY
-   Bb715nLeFMIPnK0PdfjdYUM4FY2vOCBAj+D2HDnU/BDjX8uSACmaj7FeW
-   Q==;
-X-CSE-ConnectionGUID: E7OWmZ/5R92iAWbhQc8QPg==
-X-CSE-MsgGUID: sema92p3Tp62yVX6oKIjHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86706871"
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="86706871"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 05:27:44 -0700
-X-CSE-ConnectionGUID: p7iFQu4FSDqJYeieNNJc4Q==
-X-CSE-MsgGUID: TtTQEeaqQTaXPa77mqDz8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="285165317"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.218])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 05:27:42 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>
-Cc: linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 4/4] ASoC: sti-sas: sort the register default table
-Date: Wed,  5 Aug 2026 15:28:11 +0300
-Message-ID: <20260805122811.13713-5-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260805122811.13713-1-peter.ujfalusi@linux.intel.com>
-References: <20260805122811.13713-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZDwD6syW"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15ca7a7ca9so98030166b.0
+        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 05:29:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785932981; x=1786537781; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lGJqx7LCm3Dt0D0CWAACoV3qrQxlMdog8+6/YRy2R7s=;
+        b=ZDwD6syWZkDhL+NDByz8RG5oTzMxOrjKlw/Ajx1rvpibT03ctpN/DyRSWWx14hhPZU
+         Q3t/sVXQo7uLOWvF4gfQD0+cgMMLXrge6B3X3jIDUEuLgNDSj4KVWbm019qSweMGdyXg
+         TSioQH8LRrt3fW5X4QS8uqVBssd1DIMJTMuKGzYmkUrre/lKRIYSFZkpk3Av0aJtDdqU
+         mgYl2nGP1zJyi6M7XIKIIN9l8y1OcOeEFnNVSB6AdHA+hkm0+owOa/xoyg01rRRyPrRF
+         rtbu9SLyfL/3BXb192/SG87ocuTdg5IyLa0k0ljb3FPtsZImYr36nYRUzZNhoHKWC+4E
+         uMJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785932981; x=1786537781;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lGJqx7LCm3Dt0D0CWAACoV3qrQxlMdog8+6/YRy2R7s=;
+        b=GJWpz5rrRmS2K0VcLa8a5pJWXyGo4bc3qi2FD2ypT27x94Yl0b+ZHhyBQYUs/fuke8
+         0+ZIeSMsP2OEWqm1S1L8dSShvtgPxMCvmggy3gw6nCj7fb9T8uY1cZS8Ngo7pEmSkfE0
+         AMaqTJ+Gy1s3Q38Zz7McbgomfvOuuSANTS/4kNBxWsEU2F7wJDwJdmze49o6SVvtG2kr
+         cKVvUrOXK3Npp5ZuyqDfE1riiyxGPa1V5eUjxmw5XutDQD5FIfar4XzKDMghgwtEV027
+         QjTwGW0jzzQxBZKjaCLJNSyR9BCxdTkt0jeDOgPTaj7GeYh+D32NkyGHexKXia2QLWQy
+         lVug==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+zQpgxxeGcKkQ0esZ9YMbln9CNugOZm7J8p1O71uB4lZQNa7grQu7RBCX/yRsPM+KzoB65LALjsRm6g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7QWNa5UBHv7mj/BIF8bwn5RZQqG3HVAkag1KZ2OTKYq/ZZQj8
+	9NIwK8RZxlNaAj4jOV/H1ERNUH+pFMJw7S72YM6HY1DPiWM048R4/zzQTw4f5Ejb
+X-Gm-Gg: AR+sD12elM+uPucmfCS8X8luyuT+S3psfopIybNFoRvYLO9fvKfBFFT+Wv1vUYWfjh4
+	THjtnsSm1FN4YHJv0IqJq5+PsJR6g4Y2b+SEnJEFem07Cg5ItHt3APK/aYx5vR0f3vW7BOh93lv
+	JaQP0xVr7qlSCqA4YrhTJonLGKAlPX/40cQAM4tdT7vz6R/b2uc0thTLV5Ypx8eHVt8Vm4dSXAF
+	kQYEsLoZrAFMj8hrE41ql3BADlSwC04asshG5w+mwsVpJ/XSYTFjKSYT47dw7XgZ1TJP+QmReyw
+	eTRCN2cRoVl0cYvgRPGgnHRPirq0AZGyow7QIsXCMrOobjk/yY6FaxOZI9MiHOfSh40RcGCDPY2
+	rq2VH5Mv7i7rvEZXhY76uLON6+6sfrpKckLvhcf6IwAoZurj9ZnymXT7yUkAPOqLZNTETNmi8yc
+	Rc3DXwcWBw9muQbYfH0yQYfkt6yVYporo7bVmu4KLTrRLxPZgEncTHFhfvg5/PmTtt6gGOL0WNV
+	Opl1pgnZjLBIder8Z+yEwawu8/+NGrbPKqhkOqAft/f6yrk9OZ6HYJrqe9q/t7SVP8w0CkxdVio
+	Sjs=
+X-Received: by 2002:a17:907:934d:b0:c12:9b98:209e with SMTP id a640c23a62f3a-c2039c6806fmr275676766b.23.1785932980885;
+        Wed, 05 Aug 2026 05:29:40 -0700 (PDT)
+Received: from lc-hp-pavilion-dv15.local (93-46-49-60.ip106.fastwebnet.it. [93.46.49.60])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2036227ddfsm105787266b.10.2026.08.05.05.29.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2026 05:29:40 -0700 (PDT)
+From: Luca Castaldini <luca.castaldini96@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Luca Castaldini <luca.castaldini96@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Add mute LED support for HP Pavilion 15-eh2xxx
+Date: Wed,  5 Aug 2026 14:29:07 +0200
+Message-ID: <20260805122907.52302-1-luca.castaldini96@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,39 +76,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-reg_defaults must be sorted by ascending register address, as
-regcache_lookup_reg() locates entries in it with bsearch().  See commit
-fd80df352ba1 ("regcache: Add support for sorting defaults arrays").
+Add the subsystem ID 103c:8a0e to the ALC287 HP GPIO LED quirk
+table so the mute LED follows the speaker mute state.
 
-STIH407_AUDIO_DAC_CTRL (0xa8) is listed before
-STIH407_AUDIO_GLUE_CTRL (0xa4), which makes the latter unreachable.
-regcache_reg_needs_sync() then cannot compare it against its default and
-reports that a sync is needed, so it is written to the device on every
-regcache_sync() even when it was never touched.
+Tested on HP Pavilion Laptop 15-eh2xxx with ALC287 codec.
+The mute LED now follows the speaker mute state.
 
-Sort the table by register address.
-
-Fixes: 165a57a3df02 ("ASoC: sti-sas: clean legacy in sti-sas")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Luca Castaldini <luca.castaldini96@gmail.com>
 ---
- sound/soc/codecs/sti-sas.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/codecs/sti-sas.c b/sound/soc/codecs/sti-sas.c
-index 4ab15be69f3a..b7eaf4795d8b 100644
---- a/sound/soc/codecs/sti-sas.c
-+++ b/sound/soc/codecs/sti-sas.c
-@@ -44,8 +44,8 @@ enum {
- };
- 
- static const struct reg_default stih407_sas_reg_defaults[] = {
--	{ STIH407_AUDIO_DAC_CTRL, 0x000000000 },
- 	{ STIH407_AUDIO_GLUE_CTRL, 0x00000040 },
-+	{ STIH407_AUDIO_DAC_CTRL, 0x000000000 },
- };
- 
- struct sti_dac_audio {
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index f267437c9698..5ad105a89d85 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6489,6 +6489,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x89d3, "HP EliteBook 645 G9 (MB 89D2)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8a0e, "HP Pavilion Laptop 15-eh2xxx", ALC287_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8a26, "HP Victus 16-d1xxx (MB 8A26)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
 -- 
-2.55.0
+2.43.0
 
