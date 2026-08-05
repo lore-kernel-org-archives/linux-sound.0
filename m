@@ -1,45 +1,45 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9466747FB0C;
-	Wed,  5 Aug 2026 15:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2133747F2FF;
+	Wed,  5 Aug 2026 16:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785945084; cv=fail; b=Lof3uCo1EdoEiLsq3dU9mV1lHOYWWlxbVDuYmc1/uInq4xTD9dha3NuCccuW9xKS6YbLgmqg+Odya9Bq5zT0+oUZSeWETjkWZSxQ1FL2RHyE3w77jBSZDDhBPynZqta+5yiJghclVRtcuj+4vwRSoArr815wJBCzpdBRyxD9vyw=
+	t=1785945897; cv=fail; b=fOx01WJx6gRtZ1iQuBZRePi6XnTitTObxyyDpOEMNRdVuQ75kHEZEmLnQhpqEnjWHvKbEJ5jfjIWd7Pr8VoeLmz/prHvCl8hAI2VtSdQGxOGgypptdjm+4CVScd7fz3Asn6zsFC6LyZP6RO4ULsxQRsgeViRVaeJpByJB4faCec=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785945084; c=relaxed/simple;
-	bh=kEut90RvMNBu9qbm0DWNbMSA4AlCilkkFyaFTvJzZm8=;
+	s=arc-20240116; t=1785945897; c=relaxed/simple;
+	bh=+g/qgSYIR8qg0fRRwW9Bpjl6AI+wqeiUM6nyYkPjUKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P43W2aSA+fSXz5se005jx8Dk1bCc1ZJE15cPE4FpSfvTBEDwkRhCd9oPxbrqez19GwLku2m+9/vy8kz/cJIcvTe4NOdotAnH9ZMctZ5lHLNDQslzSeAD7eh53pTY6R+Ma/q5yt4+0V2YJ/l+BRgxKuJFb6xl+k3A8GLgpXNU2rw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Brvd4GlB; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=jCRTjt69; arc=fail smtp.client-ip=67.231.152.168
+	 Content-Type:Content-Disposition:In-Reply-To; b=mmjS+eh/tcEDQ9j1RgaNLgUGli72lkRu1A/677w3j+Ww5gZGwpe7nZYFZtG4MilQlYmKtn1qkHBCSeGTtLYZGySWpXNB3h9QMpfStYl04pDHpqTftqnhAkb58mknb5mekJmmZUvUlyc9vs+BEVwVzmMNQKBBIr4xR062R3yMMZk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=q0wWbgN/; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=ZJzgRe8J; arc=fail smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Brvd4GlB";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="jCRTjt69"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 675EMRu03530089;
-	Wed, 5 Aug 2026 10:51:00 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="q0wWbgN/";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="ZJzgRe8J"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 675EOSLr160386;
+	Wed, 5 Aug 2026 11:04:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=gt27k3BD5RtZ2+VX5F
-	Vfj44RxBpDQqRmS9//JDVGYpA=; b=Brvd4GlBTCK/HNlc16CpPJjseqOft+mXqS
-	dPDO/wIRyHotwTI7MM7VVtvvBgGGmXg/5NcDlgsfwWrvjXGqRK0oYD8DDdv68UFu
-	9djSXjQy3M71pEg6UYCYa0kvL4EZeHLOHGkXBtLJirooPZKHFW4z1uVUDN6R6HLU
-	1fjxmxEq64nAdK/QMmtCmxLKaEo/MdVcax9tV/Igfp1vAOEk34ueOou12SLrzK+0
-	YrPEc5JNWNSnO7GomY8h1HN+7pch0Avpp1csoOwRZIuN8ak5a4ZN7Nz4ylvHSMXa
-	40BwwKCk/jVvs519DzkE1xb8JZGLl3P8ZBcgrFF47WA0skFfONXQ==
-Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020079.outbound.protection.outlook.com [52.101.56.79])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fsd7h63bb-1
+	:references:subject:to; s=PODMain02222019; bh=pUEkCC4BZKTyxkJt4z
+	6V9xfIEKIKLniDgJCk6bfU8Rc=; b=q0wWbgN/tfX7K9R0Dzajve+VAX4akjibwR
+	ib5oFTHxUbA1M8jZB3vklX0WXpKoMP2l7HdzgoeF9Et0tSYYVFybL2aPlS1lydng
+	kFwSfMHhV2steIFwHcgnCkbDDw80Sna4+YfDEC3RXZUewGweMFyK7PfHbvx3pi+Z
+	fYxR9mVjL+y3T81xXBmWFuJmd1qT3knUzAzvz+WgL8/WtvALQ3V5vJC6pBGgbC7+
+	+2LzBpaperuKhroSfctTaH8ePe9sgsNqevkoFI6lrr8GqGpK5eDMLruERU2ACfxO
+	58OLu1AVJtNA+t428yxLP6WNO3hmk/UwK/omlhvP9s5z904ut9gQ==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020125.outbound.protection.outlook.com [52.101.201.125])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fse6vp37c-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 05 Aug 2026 10:50:59 -0500 (CDT)
+	Wed, 05 Aug 2026 11:04:34 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wFDgwBNRZHeRC7h6ExUfBa8VwZsCx3lb/a8QpicSLE9uZFMZGFrAP64HWp6i/Ol+YFPasH3ZAunytFW1/MbDOGQ0nn+CGV2c0iPrG55snq7BjcgDZDxae8u8d6chf7K9LhQCoIawwGweAfNTBJHqm0ELUrSiKIyCDRopCmXKbGdG0b4L/MOR6iqFrE0vZtCtPTa1AnQ6Hwwo4pgOLfPsI+/7pbQ7YqtHDITJUyWHBWtE9bDFQbyZvzobNfA+nwju4dtHlLX4xMazJNW3+OO9bLkqNsWl+G6L44VG4q9f/7fponImnJOqnnWvlzNo3sAsCj5qG/LKc/FZgPUl9Osfog==
+ b=tLm8LevbsNHono1NeV8ogyvlCYK5jmS7abBY1Vla1SkytAOmoS0+fHZCkB/Zmb14nqBDz1aE3iKCxeEs2PLfEdyIDqP0KWElX2PZW/pY2/0cU6u9Y8O090ACSzdV8BB8n6+53qPWD7YM74FecF7T2gKzaymgJmx22JF1AMvJBEFMlkWVLDjennq2UNhLxYV4TuNxBfWb0R6+Gaj4Wn+sva7CJN/GTw+ETFrC/42wFoKISCzp71xw51KNPnPMhaUvY98iQzEIULq6DFLRQEHEIYzNpb0XjMTR7/y/ThXWkP20thvPigYuul8Bg0R8hA+7kIT0hdZTmI1ZHqUJg2TE+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gt27k3BD5RtZ2+VX5FVfj44RxBpDQqRmS9//JDVGYpA=;
- b=k/uMEnQo/bNnaep7qv0IaaNZnNUpTZ6OzgmF6itvdVQ7zruQwvvjBQc3BrCSKQv12x53/zZLD2tKGlUhaVWEzhw0JnQUxR77LmKStuXxXw1VW9KBKxUFSvAvUVE3NuMS9tTALS1X2Y57pgxuWh0M0JqB+9ZQaXx9wfGSBUyfWexp3ZB6Dhp3vuQ9ozMXD8D1fhd+1RbjUboX2qYOY7iJtLPaSOyPhqGjkBqWC5XdvoJvezbHJeWwAgnycEjJFEv5qd3lN753YW0Zx6RiU/nt0n3XjNXXHX1Bg52Peq0FsMbmciQ+u0gTMTTN8B++28VRIp3Wq+PdNG0u1yhl0Zp21w==
+ bh=pUEkCC4BZKTyxkJt4z6V9xfIEKIKLniDgJCk6bfU8Rc=;
+ b=Z1vTh3HGrGpw7EA462bYvJf+pf4bhIbjrLiSGli8E9PrKH44k1Ddrv7vbFpL7dUuJj++1RS3PKTv9HUKHq8e5+aLGZsjulbpMRoH96LqvLhSUL5H8l88Q6EUKKQrTK7nJ/oBBXKFBbb33U9LIzAd7wFDfj2eWTShGODtynnFaLGtq8uXZ7gWqKfpQrn9MImUOKl+g/TSuk5LcTjJAHm2hix2VSgH5h6jcjE1U+KhOn7JPfqSwDmHkMy/ZJy8btJupFg+GNGF2jKvDsApo1gjZnYX6nMDdR6tSeSAavxMsJWrfp9ycDLD7H4fyLi2EP7FBCjXwUdLrfReLvD+iXIrZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 84.19.233.75) smtp.rcpttodomain=catcrafts.net
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -48,34 +48,34 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gt27k3BD5RtZ2+VX5FVfj44RxBpDQqRmS9//JDVGYpA=;
- b=jCRTjt69+0P7hrUYU8x8rAdQ5mS5aNkxq4gYGR8SFhfIlGQVdkSCZd2KCnCBkqxz/e8DhJ22dYRu5hWXIyCa5JPWgCHL9D+YWNY1V0K5izczLCD1cc80ywF10F9K85s7KzcspaXsno0iLQSLey5VPGCCo2zEyeTkHo1Ap2vlUhI=
-Received: from DS7P220CA0073.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:259::7) by
- PH8PR19MB6974.namprd19.prod.outlook.com (2603:10b6:510:22a::16) with
+ bh=pUEkCC4BZKTyxkJt4z6V9xfIEKIKLniDgJCk6bfU8Rc=;
+ b=ZJzgRe8J/94/EPqIBsOS/gSRM/brHGAvb9DyOJelRd9RlIANDnbkIx9NufBpLAPWsH1LdDi9ZO3y26MdSGC9vfUT7oFg+1yssmMMoVeTP2MBvb5g8kLCtitrmC06Mwlypgi4ne+CibZ311XduFxUjluKhxE9AhJLsHDdsaL1NQU=
+Received: from PH8PR07CA0015.namprd07.prod.outlook.com (2603:10b6:510:2cd::20)
+ by SN7PR19MB7336.namprd19.prod.outlook.com (2603:10b6:806:340::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Wed, 5 Aug
- 2026 15:50:54 +0000
-Received: from DS1PEPF00017090.namprd03.prod.outlook.com
- (2603:10b6:8:259:cafe::16) by DS7P220CA0073.outlook.office365.com
- (2603:10b6:8:259::7) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 16:04:29 +0000
+Received: from SN1PEPF000397AF.namprd05.prod.outlook.com
+ (2603:10b6:510:2cd:cafe::4d) by PH8PR07CA0015.outlook.office365.com
+ (2603:10b6:510:2cd::20) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.16 via Frontend Transport; Wed, 5
- Aug 2026 15:50:49 +0000
+ Aug 2026 16:04:29 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS1PEPF00017090.mail.protection.outlook.com (10.167.17.132) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
- via Frontend Transport; Wed, 5 Aug 2026 15:50:48 +0000
+ SN1PEPF000397AF.mail.protection.outlook.com (10.167.248.53) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
+ via Frontend Transport; Wed, 5 Aug 2026 16:04:28 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 971B840654B;
-	Wed,  5 Aug 2026 15:50:47 +0000 (UTC)
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 54180406544;
+	Wed,  5 Aug 2026 16:04:27 +0000 (UTC)
 Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7118F82024C;
-	Wed,  5 Aug 2026 15:50:47 +0000 (UTC)
-Date: Wed, 5 Aug 2026 16:50:46 +0100
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 37A8082024C;
+	Wed,  5 Aug 2026 16:04:27 +0000 (UTC)
+Date: Wed, 5 Aug 2026 17:04:26 +0100
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -92,10 +92,11 @@ Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
         linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, patches@opensource.cirrus.com,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 4/8] ASoC: SDCA: add PDE pre/post-pmu hooks to hw_ops
-Message-ID: <anNb1uNUO87Zmv74@opensource.cirrus.com>
+Subject: Re: [RFC PATCH 8/8] ASoC: codecs: add Qualcomm Tambora (WCD9378)
+ SDCA codec
+Message-ID: <anNfCj2e5kPZhaK0@opensource.cirrus.com>
 References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260722234221.884765-5-srinivas.kandagatla@oss.qualcomm.com>
+ <20260722234221.884765-9-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -104,190 +105,137 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722234221.884765-5-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260722234221.884765-9-srinivas.kandagatla@oss.qualcomm.com>
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017090:EE_|PH8PR19MB6974:EE_
-X-MS-Office365-Filtering-Correlation-Id: da39e73b-999b-46ae-3299-08def30951f8
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397AF:EE_|SN7PR19MB7336:EE_
+X-MS-Office365-Filtering-Correlation-Id: 67612533-d637-4419-d808-08def30b3ab1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|23010399003|61400799027|36860700016|6133799003|22082099003|16102099003|18002099003|11063799006|56012099006|10067099003|4143699003;
+	BCL:0;ARA:13230040|376014|30052699003|36860700016|82310400026|23010399003|61400799027|7416014|5023799004|4143699003|56012099006|11063799006|10067099003|18002099003|3023799007|22082099003|6133799003|16102099003;
 X-Microsoft-Antispam-Message-Info:
-	RD79RlwKRFvr2x5uz8KypNSM6H6Ld7aQPpVUksOd6bkRJTC867WwnasCqLIO0D0rTj/k8JHkRJ08/Pmnj6KEmAI4wOVll/Zyx1OFdQriGigh99KAwUlUPTUaTv2JJRUMCkKhYpst1Qc9Iwmk6GndRC5Jg/sDNhB44WEc1oS7nev3sRkgiEpAyUAN3gILlk1Ju+bMPujAhy9RpZIYckLl+4KUhbnx+M1aDJQPUIwt7XFM7H2zGPInv2WQ6oEsqSivII6eMnux072V4VDD07F83RmJiHcYK1kEVhQSEKQhsvWU1y2MtYJdG1qBQ7Brn59tMxDHSRA5gAmHQi10T0zuCs0Ih8RSNV1/vQq5M/cmd2ztGTJSmdI9viskKjzLABORgsxfQNLNIzEnC91h56Z1bNuUvPQY72Dr/4aUeXwPUEpcG2G3EF66Pv3EeiGA771ewkmlX1Jn6EQL2HvMsurlwme/7XbWMcUTK+dIgvToIUaL+ex0Q51+Gu562ZcV/mxytV2HgzEgV+/HBj2TLZHaYllUHKSO5CVieSJJHbPo42GNw6T+xKTAb4qLQerenYumPsGURL9vqFRmPX0jnvKZukkKy7skcB9uLIZ6pMgUpnm73NUqKlAgNmh4ZS8dR8RpC6+u1/3GjbPLvLTm9B/JnB70QVFO0R+qYKOshE1PGMtjFeVcC8UXJXXmjrk6QmXL
+	PMp2wVJSIYYwKSVw/tU/IRjAzcBdHyZAgCHBuSzOkHGSQ9DA9W5Cz9c8d+nPNUScc0uN+VlHcEPkMB6g16AZiOJNlxnkdl3Tuwc6DgWWfFcNtCZaXJLtegts7mEXyKsBsXAZ0waaywVS3fH5H43RomtWRznzvuFs7Ob7Fw/g625Y5FVTqSAmc9svZrtq1MJlvvdoVbalOcT13YTTF4s3e3U4BGXFcLl/FUFv6o15KrcTUkAFcA/j2Tz0UgstoKGn36WWbMiIDddiQ1MTajJTtVVtD+PX5Xg4lT/KYRx+XgxdcFD2mGosD58O4JXY2oc0lwx11xydg4eilriSIAYCug56lj/8YvgWC7q3+BkrS65zExSTXD2Y4FjDAdoBFxnQGzXzQM2pNiIwWThsI6SR++bbxy9jvtZx2zzJdOU/N3Nf4T1eYwLBTIl6S8bQc1jhwIJYjcV1oBgY5lLK7DGnqOVnvxeAEeML90t2IsJXSZ6i+Q0DzeLOv6xORdlkVqNM9ErpkPDmPgJ461kKRH40zd8/jAyfeuQKspONzk+CvwnXLy7ggUCDT9UBSwMel15P8fkkzbIloKHuMuw1IfG8UZlqJJ9YkLxHReHR/4bVnB789cNVribmN2GTt4mQ9vrSj0qkwW2XPZMO4qjwMEXZmDwlQcpveBD+RSmdJsoBp3RZKCVK+0WeuJkXZC/ON+oZajbZiyn3ytnpGqi/OSWThg==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(23010399003)(61400799027)(36860700016)(6133799003)(22082099003)(16102099003)(18002099003)(11063799006)(56012099006)(10067099003)(4143699003);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(30052699003)(36860700016)(82310400026)(23010399003)(61400799027)(7416014)(5023799004)(4143699003)(56012099006)(11063799006)(10067099003)(18002099003)(3023799007)(22082099003)(6133799003)(16102099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	I+Qs98yZjRhDWTFVN8cvCFazroLdpqO7rq/Gu/Bc7b2tvSmV7XKOYoc+uRcd1T2hMk+Wv4pLsp1nR9yJOocdroPtScZ7n8Q51HOiDVSDzGYgn9weKXoj+hGV8XNj0atKdYWHe/Z1jMkX7a8e92YPxhUaenRxx71YJkzJzjq4h8a0rySOyLnUENXFhU0NcR4nT2SDSkyoEkvG0+XxtHWo+53tk8mdFHvD4P0P0CGQo8Hq5Lc3HFXK6SVgiLGXfgaBdnye6xFWq1iKzuvSWw8VFI/TIn4l+YYcLyIwvz2QcQatVIin9wIgF0dZmnSxFX8R1sxY3tLSnpF6691ov3610j3WWEiEq439j4ThqIzIKssKXaVIHIc3fUANCZzPYbBjALWaAHoUWjtIgZi18Z9elmp7W06t+7BTxrQ+ONb3KWk+KfkCtwKe+CPnOsF1mHW+
+	gUku8sFg5LI3c/4Kxq2WscYDmP9pA8gpcbiDeZyL2+LZEKkDZJinpHwJJnLd6awNb8vSvNTTc/n1q6JNac4eJO57yc12ZkBK7Bedei9Xpz6i6TdrOc1noAtyk967sCLOxWJjtm+kyapP3FiTPa6UL7tYNzI+YaBRGLfVI66fC9wjcg7aI0yZ5/NgYlmlya/5Z2V6OWDN2tJctrZHmoxdb/SmY085CHl9oP+OwnL9qpCy1Z9NJ9R5FmL26k3MTpDL8BayNfuhUZhhnyhKD/YYI25VlI/8dzr3fDn5Wfckr3CfQve33y+3Vo9ab/HdwI4sKcudSEvt0ZNPt4i4lPTnvT+46xT2HHs176y5HV05B/i2rH+rN7JX4LTEQ1Zt0LB+SY1gVghVBZ7knC57dbhjgSCz+NyPzuNKl0W6aoAFgD38A2fxPmpyTtpP8s7G1qZl
 X-Exchange-RoutingPolicyChecked:
-	q5SAhzMzSoq3EiicDgio+WG6vtFovQOFJeDB9edplTMuxwnQyZ9uVG7CQTQGhE0FsYb0FUpah7dmE51/0Kj+0URjZuOtHrQhrBtTbkXsec7tGe6gFAizGA0i+magwPyNUaL/2YmNnUjvjOGfvp0aSR6cQG2dv/s37kmGUjqTElDJZeeXQJ0DzqI+q8ve3goBnciVvcdw6lO6KM5/soeTvtn4/v6Dvq+gT1z8aKJrNbAUlyuFPqM6dGCyhkQ4v5MliZi6KxThhBpMBSkA38pfqgHKuoqmGZW2+DkBUlqaHeS48AEH5bvFGIPbFLKCNcEu4qq0Faou8+iadrVkahWFog==
+	hwB4VbxgPDRKXsJaU8wyrl4ks+fpSMCeJ4e2ro5ITegY/XNWVmqvt+qIbz9Nu8zT9Pp3HypoUEtJrzimgAY5Ko/H5N7jz2xD0v6eehJTFp3O2iPOU2r6wgtT+gcDWjIhr6vEeOdK3v1prf4GMHUmmEjo5WHyu3/IA+QMQDbcmxG92B6YyOL9/MaAAOJctjuQV7iUSDcKQwX+bQ/A2C/FyLYkqwWJsJ2y9pf3ZZA1ilpA6HcdRIeEHqhTZaG9kn4xR42x1T35QRjn2rULBIafi/Nv8c938e6gv6s8orQJc94Xq+Pw1l/oXRpx0FCrarYscM35n2kbaCATM411ju2+xQ==
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 15:50:48.6147
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 16:04:28.5331
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: da39e73b-999b-46ae-3299-08def30951f8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 67612533-d637-4419-d808-08def30b3ab1
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS1PEPF00017090.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF000397AF.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR19MB6974
-X-Authority-Analysis: v=2.4 cv=ZK/nX37b c=1 sm=1 tr=0 ts=6a735be3 cx=c_pps
- a=kNb0EPoEURSSyKZUeQUlVQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR19MB7336
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDEzMCBTYWx0ZWRfX9nga6FjOWWUx
+ FKIO3zovY86p3zYKkzrzGTmafZXKKnTlfofO3OkIzKIUQ3v4rAKSdrQ9Ivvn3IrIbkMnzKwzmMn
+ 75h0f5Y6eaM1McVey9DM3WNQ33qDfDc=
+X-Proofpoint-GUID: sdwTGOkEaJfgqz2Y1tg58DJ5YdRyCaTy
+X-Proofpoint-ORIG-GUID: sdwTGOkEaJfgqz2Y1tg58DJ5YdRyCaTy
+X-Authority-Analysis: v=2.4 cv=N+MZ0W9B c=1 sm=1 tr=0 ts=6a735f12 cx=c_pps
+ a=kB/eTyLYv2HckPafvHZuPw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=EUspDBNiAAAA:8 a=6-0cdJtF18ODVkxtCagA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: S-_y3hXGwOwlYNUgYLG7j_AnmrXTv1OG
-X-Proofpoint-ORIG-GUID: S-_y3hXGwOwlYNUgYLG7j_AnmrXTv1OG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDEyOCBTYWx0ZWRfX7zdiOeD1iIeV
- BdKhfifGU6w6Pf6oEAGWUaQqv3w0U8blFPMa0xmea/KjTl7+XcvMLnFCoXnpm9woOIDxOjOoUbE
- Q1WACgZrsdwMuvF6mII8rrJPgnn1FK/3AGNaLl22OmxiE7lBXiCqQtHBdQoeilSzX6cgGdtNgA7
- Entt0JBLm5lStIazhJqGnXYO5t2cFNt9KtoUWj3Fdagp1wwYS+rRlOf0E7AxyCzAhKW3mW5mUIR
- vbWWxWoURnrwkM5RhZrdvJQApcSjBjSmiNmBBLTBaCvkRWooxmo+d6j03/zD6vFgeUmYfTdNxZl
- ZLoiSxSaaFFkGhvPtqiSV7QqEQS+GH8uJLjKemOv0YgtmeXy5HREEuYEb48aiQsS4L4rFbaR9WW
- 7dR7qIDWsl5d3ajwSh6Ke7KfTPiweXDXO8fX8CscD4Ywp02kaFl8KTx01zb1fFOvrbTKqa4niJO
- qj9vv2g4/3rxvF06TOA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDEyOCBTYWx0ZWRfX/O6ngBvxDwqx
- s206D536Q6HkmmVml5wqmxUPJ2regor14rxerd9bUvbgAGXwRoLXIl+VSY3a2FluZfoZTy6tsea
- NLqEoxBgyT3qnPawvRvXu35gq2uzr0M=
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=EUspDBNiAAAA:8 a=CV8L17ol1Tayo9yUOJMA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDEzMCBTYWx0ZWRfX7cA17JZV0fdx
+ Slo8rYRw+ab3RcUkgMm4fQak85ABN7/gHjGyvRtJpssbL1p555xwNyQboYnFk1OqI7OJwsbNlef
+ LzMvwLVavUaghP8ehc9tGgc5VuNu1asIcACixm2UGCbnnNe6838IovHvI3lJkmhrh0KWCKnhGop
+ pVeZWezfkvfkA1uU7jlZJWiZnPbj+63nrKZzLI4n0rjDBQWwGOu7wC5vTkr2UX0l23TWqiHgZm0
+ s641+uiEjcvmreG8bBIstosbCC3cMKFuklf9yjkzy3cxCvrE1ZgXIAsjE/MZHDcJfuvcv8H7NH9
+ BzmWByRuWeMDpKkW9CB0JvV/0rQVqXyPtDYXeH6NRkPJmGUAly1kvx35seTUgwtVG1V/ypIW/FG
+ l4POXI/9IEHvXlCS9Uyt7EyAbO1yWpH+Y4MguXfGZkvG1PwSXvYVU3zH768mKXPeoTa3+v0JyWL
+ l++cfR5sq2gb1FgpLyA==
 X-Proofpoint-Spam-Reason: safe
 
-On Thu, Jul 23, 2026 at 12:42:14AM +0100, Srinivas Kandagatla wrote:
-> Add pde_pre_pmu and pde_post_pmu callbacks to struct sdca_class_hw_ops
-> so codec drivers can hook into DAPM PDE power-domain transitions.
+On Thu, Jul 23, 2026 at 12:42:18AM +0100, Srinivas Kandagatla wrote:
+> Add support for the Qualcomm Tambora (WCD9378) headset codec in SDCA
+> mode over SoundWire.
 > 
-> pde_pre_pmu is called before REQUESTED_PS=PS0 is written, allowing
-> the driver to stage state (e.g. IT_USAGE, MIC_BIAS) that must be valid
-> before the PDE sequencer runs.
-> 
-> pde_post_pmu is called after REQUESTED_PS=PS0 and before ACTUAL_PS
-> polling begins, allowing the driver to commit pending writes (e.g.
-> FU mute/volume via SCP_COMMIT) that the sequencer needs to see.
-> 
-> Both callbacks receive function_id and entity_id so the driver can act
-> selectively per power domain.
+> WCD9378 ("Tambora") is a low-power stereo audio codec used across
+> Qualcomm mobile and compute platforms.  It integrates a headphone
+> amplifier, mono earpiece output, three analogue microphone inputs
+> with independent programmable mic-bias supplies, jack and button
+> detection, and SoundWire dataports for both playback and capture.
 > 
 > Assisted-by: Claude:claude-opus-4-7
 > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 > ---
->  sound/soc/sdca/sdca_asoc.c  | 33 ++++++++++++++++++++++++++++++++-
->  sound/soc/sdca/sdca_class.h | 11 +++++++++++
->  2 files changed, 43 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
-> index ac688cd62970..795498b9a314 100644
-> --- a/sound/soc/sdca/sdca_asoc.c
-> +++ b/sound/soc/sdca/sdca_asoc.c
-> @@ -32,6 +32,7 @@
->  #include <sound/soc-dai.h>
->  #include <sound/soc-dapm.h>
->  #include <sound/tlv.h>
-> +#include "sdca_class.h"
-
-I really don't like accessing the class code from here, bit of a
-layering violation.
-
-> @@ -432,6 +433,8 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
->  {
->  	struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
->  	struct sdca_entity *entity = widget->priv;
-> +	struct sdca_class_drv *core;
-> +	unsigned int fn;
->  	int from, to;
->  	int ret;
->  
-> @@ -439,6 +442,19 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
->  		return -EIO;
->  
->  	switch (event) {
-> +	case SND_SOC_DAPM_PRE_PMU:
-> +		core = dev_get_drvdata(component->dev->parent);
-
-This is probably not a good way to do this. Ideally we don't want
-to assume the class driver structure above this code, we have
-users and are likely to for a while, that are doing more custom
-stuff. I suspect we need to change what is stored in the
-widget->priv to give us access to the bits we need.
-
-> +		if (core && core->hw_ops && core->hw_ops->pde_pre_pmu) {
-> +			fn = SDW_SDCA_CTL_FUNC(widget->reg);
-> +			ret = core->hw_ops->pde_pre_pmu(core->sdw,
-> +							component->regmap, fn,
-> +							SDW_SDCA_CTL_ENT(widget->reg));
-> +			if (ret)
-> +				dev_warn(component->dev,
-> +					 "%s: pde_pre_pmu failed: %d\n",
-> +					 entity->label, ret);
-> +		}
-> +		return 0;
->  	case SND_SOC_DAPM_POST_PMD:
->  		from = widget->on_val;
->  		to = widget->off_val;
-> @@ -451,6 +467,20 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
->  		return 0;
->  	}
->  
-> +	if (event == SND_SOC_DAPM_POST_PMU) {
-> +		core = dev_get_drvdata(component->dev->parent);
-> +		if (core && core->hw_ops && core->hw_ops->pde_post_pmu) {
-> +			fn = SDW_SDCA_CTL_FUNC(widget->reg);
-> +			ret = core->hw_ops->pde_post_pmu(core->sdw,
-> +							 component->regmap, fn,
-> +							 SDW_SDCA_CTL_ENT(widget->reg));
-> +			if (ret)
-> +				dev_warn(component->dev,
-> +					 "%s: pde_post_pmu failed: %d\n",
-> +					 entity->label, ret);
-> +		}
-> +	}
-
-Can't we just include this in the switch?
-
+> +	if (entity_id == WCD9378_PDE34_ENTITY_ID) {
+> +		unsigned int mic_bias = SDW_SDCA_CTL(function_id,
+> +						     WCD9378_IT33_ENTITY_ID,
+> +						     WCD9378_IT33_MICBIAS_SEL, 0);
 > +
->  	ret = sdca_asoc_pde_poll_actual_ps(component->dev, component->regmap,
->  					   SDW_SDCA_CTL_FUNC(widget->reg),
->  					   SDW_SDCA_CTL_ENT(widget->reg),
-> @@ -502,7 +532,8 @@ static int entity_parse_pde(struct device *dev,
->  	(*widget)->mask = GENMASK(control->nbits - 1, 0);
->  	(*widget)->on_val = SDCA_PDE_PS0;
->  	(*widget)->off_val = SDCA_PDE_PS3;
-> -	(*widget)->event_flags = SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD;
-> +	(*widget)->event_flags = SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
-> +				 SND_SOC_DAPM_POST_PMD;
->  	(*widget)->event = entity_pde_event;
->  	(*widget)->priv = entity;
->  	(*widget)++;
-> diff --git a/sound/soc/sdca/sdca_class.h b/sound/soc/sdca/sdca_class.h
-> index 74db9d4ce4a2..1278159ea61b 100644
-> --- a/sound/soc/sdca/sdca_class.h
-> +++ b/sound/soc/sdca/sdca_class.h
-> @@ -29,6 +29,13 @@ struct sdca_function_data;
->   *             an array of struct sdca_function_data and stores the number
->   *             of entries in @num (must be > 0 and <= SDCA_MAX_FUNCTION_COUNT).
->   *             May be NULL.
-> + * @pde_pre_pmu: called before DAPM writes REQUESTED_PS=PS0; use to
-> + *             prepare device state that must be valid before the PDE
-> + *             sequencer runs (e.g. IT_USAGE); may be NULL
-> + * @pde_post_pmu: called after DAPM writes REQUESTED_PS=PS0 and before
-> + *             ACTUAL_PS polling begins; use to commit pending register
-> + *             writes (e.g. FUNCTION_ACTION) on devices that require an
-> + *             explicit commit trigger for PDE power-up; may be NULL
->   *
->   * Codec-specific SoundWire drivers pass a pointer to this struct to
->   * sdca_class_probe() from their sdw_driver.probe.  Codec-specific
-> @@ -39,6 +46,10 @@ struct sdca_function_data;
->  struct sdca_class_hw_ops {
->  	int  (*hw_init)(struct sdw_slave *slave);
->  	struct sdca_function_data *(*get_function_data)(unsigned int *num);
-> +	int  (*pde_pre_pmu)(struct sdw_slave *slave, struct regmap *regmap,
-> +			    unsigned int function_id, unsigned int entity_id);
-> +	int  (*pde_post_pmu)(struct sdw_slave *slave, struct regmap *regmap,
-> +			     unsigned int function_id, unsigned int entity_id);
+> +		regcache_drop_region(regmap, mic_bias, mic_bias);
+> +		ret = regmap_write(regmap, mic_bias, ctrl_it33_micbias_vals[0]);
+> +		if (ret)
+> +			dev_err(&slave->dev, "IT33 MIC_BIAS: %d\n", ret);
+> +	} else if (entity_id == WCD9378_PDE47_ENTITY_ID) {
+> +		/* Announce commit-group count for the FU42 writes in pde_post_pmu. */
+> +		ret = regmap_write(core->dev_regmap,
+> +				   WCD9378_ENT0_COMMIT_GROUP_COUNT_ADDR,
+> +				   WCD9378_ENT0_COMMIT_GROUP_COUNT_TWO);
+> +		if (ret)
+> +			dev_err(&slave->dev, "Commit_Group_Count: %d\n", ret);
+> +
+> +		/* Let the master's WR FIFO drain before PDE47_REQ_PS=0. */
+> +		usleep_range(2000, 2500);
 
-Yeah this needs a little thought, the top two are directly class
-driver things, but the bottom two are used by the lower layers.
-We may need to do something like split these ops into two sets.
+Feels a bit odd using these callbacks for commit groups, really
+that is a thing that should be implemented more generically. That
+is a pretty serious task, so I can probably look past this as
+vendor specific thing for now. I guess my only points would be
+can you live without the commit groups and just use the current
+values? And if not, are you prepared that there is a good chance
+this gets missed when someone does implement commit groups and
+this breaks.
+
+> +	/*
+> +	 * Unmute FU42 CH1/CH2 and stage 0 dB volume via the _CN (NEXT) alias
+> +	 * so all four staged writes activate together on the SCP_COMMIT
+> +	 * below.  Writes go to the vendor slave regmap because FU42
+> +	 * addresses are outside the SDCA class regmap's routing.
+> +	 */
+> +	ret = regmap_write(core->dev_regmap, WCD9378_FU42_MUTE_CH1_ADDR,
+> +			   WCD9378_FU42_MUTE_UNMUTE);
+> +	if (ret)
+> +		dev_err(&slave->dev, "FU42 MUTE_CH1: %d\n", ret);
+> +
+> +	ret = regmap_write(core->dev_regmap, WCD9378_FU42_MUTE_CH2_ADDR,
+> +			   WCD9378_FU42_MUTE_UNMUTE);
+> +	if (ret)
+> +		dev_err(&slave->dev, "FU42 MUTE_CH2: %d\n", ret);
+> +
+> +	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH1_MSB_ADDR,
+> +			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
+> +	if (ret)
+> +		dev_err(&slave->dev, "FU42 CH1_MSB: %d\n", ret);
+> +	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH1_LSB_ADDR,
+> +			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
+> +	if (ret)
+> +		dev_err(&slave->dev, "FU42 CH1_LSB: %d\n", ret);
+> +	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH2_MSB_ADDR,
+> +			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
+> +	if (ret)
+> +		dev_err(&slave->dev, "FU42 CH2_MSB: %d\n", ret);
+> +	ret = regmap_write(core->dev_regmap, WCD9378_FU42_CH_VOL_CH2_LSB_ADDR,
+> +			   WCD9378_FU42_CH_VOL_UNITY_BYTE);
+> +	if (ret)
+> +		dev_err(&slave->dev, "FU42 CH2_LSB: %d\n", ret);
+
+These should all really be part of the function regmap they are
+function controls. Also would mean you have the MBQ so you don't
+need to do two writes per register. I assume, with the commit
+group stuff, these are writing the next value rather than the
+current? But nothing here updates the functions regmap for the
+new values, is it ok that those two get out of sync? Or do we
+not define these controls at the function level?
 
 Thanks,
 Charles
