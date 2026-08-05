@@ -1,131 +1,89 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from out-181.mta1.migadu.com (mta1.migadu.com [37.59.57.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEABA3EAC68
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 08:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB96331A57
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 08:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.59.57.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785918952; cv=none; b=oCGxOj9cQXku/qo6GObsHhcaBfdzWdS6uuV63Qu1S8TPe0Y4s3iMj7rk8nLf6va0sS9ZRMHiJzJ++qC4HnGkGdhGh8FZDJBXI7ydYxQ1tl4cER67j/aQUnoYBD0A67SfBvZQ1en+hNiyYN27P9GoJSrUVACbxko8mMTDCuhhHUQ=
+	t=1785919285; cv=none; b=tfRyLXYFpLq69dMQErZKoXvtKmkfn5MZ6xlcye/2dk9BcBcW71OgbMpE19CM/sjKslfPMSkfppVPoHZ6JUbUc9LuIjpFj1Oc0t/hK6UN8YYXoBePeB6WytZh+cqBuV/69rotAWB12UKXb7eomUXn+tPFrq5JcPH8PA6MLnWqUCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785918952; c=relaxed/simple;
-	bh=j2JcVIWF2DCSav0Ug1suruejedxpEDdjenq32JMcrlA=;
+	s=arc-20240116; t=1785919285; c=relaxed/simple;
+	bh=S38Ei+c21Lm+0Gv285ItkWpB1UcixQyvnhryTnK1jY8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IwSvt3G+VtWkwCp7gMCzb+45Px45P5lZ6emA0zb22Fyv7XZfda+m1Pvu0MschcIH/z6MB22HRJAJevUMZCM5aFj/vZ1wZjWI+KXd79EvmES0unQZYoLTHCII1avBnUDPQirCnpH7jkwHL4OMOM3gNtrZxYs9bS1pba6ePdRJFSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=V1qx9siG; arc=none smtp.client-ip=91.218.175.171
+	 In-Reply-To:Content-Type; b=r0aRmV+dg9izwNWIsuKj79hg2CFJui/cwMo8pjw3zA2DE4qnOduDGT7nPMWPdLTzPGT2V94QfOIdAncsbn8ev4uaYy1L0RSLlTFr/9kkQhoYaV6SoqgOzzjK/Z1QXivUKVTpyjrvliFhb5yOqzMPtBj77wT2YUiq5BS5Fj7CEZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PGeWpUZ+; arc=none smtp.client-ip=37.59.57.117
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="V1qx9siG"
-Message-ID: <467504ea-c111-4149-9d37-62d55b2b83a9@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PGeWpUZ+"
+Message-ID: <c8aac762-c1a7-44ab-afff-72610cabe341@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785918947;
+	t=1785919271;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=vtWh/wuD5wPZtszNWlAcU3OMmRWbcJlKGhaJqa7AFSk=;
-	b=V1qx9siGy+9fwYEHCfMsqUqwoQrXsfPbun/HFVfgBddp+xOL1TWlY7c7sT/GED+x6l3Xb8
-	Q9sbqBtM1B39G5EBHbrtVjnqiZT8yC+nnaHedpsGg9fX+Z8T/rhYwtit08v0X63xPyZ33c
-	xVKW+/CPaYTng41tCTyPTAY361f/fnY=
-Date: Wed, 5 Aug 2026 10:33:34 +0200
+	bh=IRXZcIXeXDWkdhDpN3QIMXR/hfQIQzwwbsAJ/HYacrU=;
+	b=PGeWpUZ+NvGD6QbTsGgBeXEekMXLTlL+cl4bodUSfPyUKfd0ZpmcC65uBGF59BBKl2DqcQ
+	X1Q5TveqW4Uqb8ZV0V8yQfD+s/hOgUrH+eF1noLz3IEdzhdqBE0XEy/gaPGj57DJnvGN3I
+	MRsFFObmkbldVSQ3TB2UVZ/c4fe7Rfk=
+Date: Wed, 5 Aug 2026 10:40:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] ASoC: SOF: Intel: hda: duplicate _ADR entries share
- one amp index
-To: Sergey Lebedev <lsa.uz@pm.me>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Oder Chiou <oder_chiou@realtek.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org,
- linux-kernel@vger.kernel.org
-References: <20260804225853.31585-1-lsa.uz@pm.me>
- <20260804225853.31585-4-lsa.uz@pm.me>
+Subject: Re: [PATCH 0/3] ASoC: cs35l41/cs35l45/cs4265: sort the reg_defaults
+ tables
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Vlad Karpovich <vkarpovi@opensource.cirrus.com>,
+ Paul Handrigan <Paul.Handrigan@cirrus.com>, patches@opensource.cirrus.com,
+ linux-sound@vger.kernel.org, stable@vger.kernel.org
+References: <20260805082413.26174-1-peter.ujfalusi@linux.intel.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20260804225853.31585-4-lsa.uz@pm.me>
+In-Reply-To: <20260805082413.26174-1-peter.ujfalusi@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 8/5/26 00:59, Sergey Lebedev wrote:
-> find_acpi_adr_device() assigns each amplifier a name prefix carrying an
-> index ("rt1320-1", "rt1320-2", or Left/Right) and advances that index
-> once per _ADR entry. Firmware that describes one physical part with two
-> _ADR entries therefore consumes two indices for one device.
-> 
-> The Microsoft Surface Pro 11 (Intel) does exactly that. Link 0 carries:
-> 
->   SWRA  _ADR 0x000030025D132000   SDCA class 0
->   SWRB  _ADR 0x000030025D132001   SDCA class 1
-> 
-> identical but for the class id: same link, same manufacturer, part and
-> version, same unique id 0. The part reports class 1, so SWRB is the one
-> that enumerates and SWRA never attaches on any boot or firmware version
-> tested.
-> 
-> Both still reach this function, so SWRA takes index 1 and the real
-> amplifier is named "rt1320-2". Its controls appear as "rt1320-2 OT23 L/R
-> Switch". The stock sof-soundwire UCM profile expects the first
-> amplifier, so it enables switches on a device that is not present, and
-> the speakers stay silent while everything else reports success.
-> 
-> Compare entries that differ only in class id and give the later one the
-> earlier one's name prefix, jumping past the amplifier-index increment so
-> a repeated description consumes one index rather than several.
-> 
-> Testing the peripheral's attach status instead does not work here, and
-> was tried: at machine-select time neither entry has attached yet, so a
-> status test finds both unattached, no amplifier is matched at all, and
-> the card falls back to the HDMI-only HDA machine driver. Comparing
-> addresses needs no runtime state.
 
-yeah but that means two methods to detect the presence of this ghost
-device...
-
+> reg_defaults must be sorted by ascending register address as
+> regcache_lookup_reg() locates the entries in it with bsearch(), see commit
+> fd80df352ba1 ("regcache: Add support for sorting defaults arrays").
 > 
-> Signed-off-by: Sergey Lebedev <lsa.uz@pm.me>
-> ---
->  sound/soc/sof/intel/hda.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+> These three tables have entries which are out of order, so the binary search
+> does not find part of them.  For those registers regcache_reg_needs_sync()
+> cannot compare the cached value against the default and reports that a sync
+> is needed, so they are written to the device on every regcache_sync() even
+> when they were never touched.
 > 
-> diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-> index 4dbba9186..1d60a8caa 100644
-> --- a/sound/soc/sof/intel/hda.c
-> +++ b/sound/soc/sof/intel/hda.c
-> @@ -1245,6 +1245,22 @@ static struct snd_soc_acpi_adr_device *find_acpi_adr_device(struct device *dev,
->  			((u64)(sdw_device->id.sdw_version & 0xF) << 44) |
->  			((u64)(sdw_device->bus->link_id & 0xF) << 48);
->  
-> +	/*
-> +	 * Firmware may describe a single physical part with more than one _ADR
-> +	 * entry, differing only in SDCA class id. Those entries are the same
-> +	 * device: they must share a name prefix, and only the first of them may
-> +	 * consume an amp index. Otherwise the part that actually enumerates is
-> +	 * named as though it were the second amplifier, and UCM profiles
-> +	 * written for the first one address a device that is not there.
-> +	 */
-> +	for (j = 0; j < index; j++) {
-> +		if ((adr_dev[j].adr & ~SDW_CLASS_ID_MASK) ==
-> +		    (adr_dev[index].adr & ~SDW_CLASS_ID_MASK)) {
-> +			adr_dev[index].name_prefix = adr_dev[j].name_prefix;
-> +			goto done_name_prefix;
-> +		}
-> +	}
-> +
+> The patches only reorder the existing entries, the text of every entry is
+> kept verbatim and no default value is changed.  Each table was verified by
+> evaluating the register addresses and replaying lib/bsearch.c on them.
+> 
+> Entries not reachable by the binary search, per table:
+> 
+>   cs35l41_reg           2 (of 47)
+>   cs35l45_defaults     36 (of 73)
+>   cs4265_reg_defaults   3 (of 16)
+> 
+> For cs35l45 this is nearly half of the table: the DSP1_RX*_RATE and
+> DSP1_TX*_RATE registers sit in the middle of it while their addresses are
+> far above everything else, which cuts the search off from the whole
+> 0x4c40 - 0xf010 range.
+> 
+> Found by an audit of all reg_defaults tables under sound/, the SoundWire
+> codec drivers are fixed by a separate series.
 
-The DMI quirk removes the need for the two patches that detect the
-presence of the ghost device through two different mechanisms.
-
-Can you try with a DMI quirk and let us know if this is good enough?
-
+Wow. Would it make sense to have a regmap helper to double-check the
+addresses are indeed in-order in those reg_default tables?
+I am not sure how this requirement can be enforced by just inspection, a
+warning would help detect this sort of issues on more platforms.
 
