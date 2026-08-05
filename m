@@ -1,85 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24533472F66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306F1476065
 	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 13:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785938007; cv=none; b=hSWTUNng7s/2RU/aCoeND3o3tmE4pSn9oeZciAbUWoNEcJY3mool/HdqJirZzgdjvOXu3PynxkMjZxggniK+bZvLsvRtZdnh76+MOhmoRjSNM76eWvZra1d3SmEy7lc37XCjMwcYlTRL1JtmVaYMLKGAXGO9L8cut8zSHca92rI=
+	t=1785938008; cv=none; b=g2jR80WcZ8GzSCVQ8bQ/L1lDgCicvKe9FrNSE3WcfjY9ONrIwvyv+LrgV0NYfxhTunvstB9v0rOYWBmi/nHs/WLuD/nrqq8oF3I1Q4wfazWSdzydfwNAuYZJzHrCn4dS4TYwmpZdVeU73/8YNLKuplMoNE+dKSR1eAbwflt6WfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785938007; c=relaxed/simple;
-	bh=WYfMQhrmoFbIn8s+hpdKRzrQ4H0gsImjrWMEGk/Msas=;
+	s=arc-20240116; t=1785938008; c=relaxed/simple;
+	bh=1xHkeiljXW7ZhtUUtExQgorKTFG0T2j6+qs/k/6d8eE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QKI+J5DEw9naLp15yNdXplv6f6BoJdTccpvWfHYXhNPpLLp851oVTsz6iq/VQMXgM1zE4bS5ALG6mKlRtHSpkmFjDdNMtJtNc+0DlkpqmmzPbvMITHeHFoX4PY9S92PaPawbMJbkCLit1RkmQRngMcJJrnO0tpSgqPl2Pt4Jomk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lxDiCPR5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EOj2XY+2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E+bP0QeF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nRHB8KWw; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=mMsnuYSxshF3GJeKBBcJ+enKllT7sCNV3DjTH1X2S/ug5XzoxJ2qx2xQ0ngE3BunNmJ7hpG1q44aA/RCe9Qtc3NFZNwnbW8sPwpFFmrZvRu+apDQzeDp0S3/XdxsCdAvzbx9Sx1GdOoPRMF7z1y31+Pa0ZMicI2YYB8ulyE55QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Husp9qeU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1OjvfIYF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WVKDn03Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lv4N+ByW; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lxDiCPR5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EOj2XY+2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E+bP0QeF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nRHB8KWw"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Husp9qeU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1OjvfIYF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WVKDn03Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lv4N+ByW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 91CC33E02;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9BDC87F10E;
 	Wed,  5 Aug 2026 13:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1785937996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iABmszcpMb3HdaGAEwAh1/Rpua8ipbJ4yEPyVQZSddw=;
-	b=lxDiCPR5s+vRpdxjGUO5gwP6TEdUk0/Uok9otdb0OJT+lTATGreEgt3jErDw/thYKrN7/e
-	4QzU4iG4OP7RrTqyo//6J6Jrk4m/l/wzDmHIccKsP9TK7Zq5VZ/AI9G5YXdLLSlT6QeDcx
-	eJBJXdnfmiOhKmTr36JbRKeYihUA2BQ=
+	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
+	b=Husp9qeUevHPFQsGghb5ykfxuZSqdQr0hFGl6q3DKu5e78L7oOboki5/3O8EpMA8Iy51BK
+	zEb2w5TgapNyGWobh7UsWOlcnDxmWu+mycIcAHzP44ZcXMPjRaq8GkirJJguSiHc+a5m12
+	EIAk9gUqf6Z6mUJuD0zGfdBA+irUfmw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1785937996;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iABmszcpMb3HdaGAEwAh1/Rpua8ipbJ4yEPyVQZSddw=;
-	b=EOj2XY+2LU4pHJrZY7OgTTvsowGj0CPD1gpGdPQSBicNTB3YVIXNIs/Y+CQN6GIv9zummy
-	hItp+fapb6YDfcCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
+	b=1OjvfIYFiMKxOIATc6fmlgTdGZQmk02Sw7uZJ9ocmizaZQGqaS5nh73HdiR7kMOGyLvpzx
+	Y7k9v0/KkMLS5JDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WVKDn03Q;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Lv4N+ByW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1785937992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iABmszcpMb3HdaGAEwAh1/Rpua8ipbJ4yEPyVQZSddw=;
-	b=E+bP0QeF6lvvq3v322/8tGmK4wUBdqqBR0ZTdO/vjHFv8J3QON2rx182pyJMIYPLJN7ajV
-	AGaq2R2h4RFWHLlKHmzFBZyx6u8cXf8PnPBS/WqrpxFo+/ZAXwn/NldzTTLLd6O9dTOcSj
-	W1Dm+Us/mjKBkoL+2RLmx01cWUHa0MU=
+	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
+	b=WVKDn03QkzY16nSo/X3MIbmurNLChiv34aXu2AtmXqo06NqvwIjcsT6vUJOYiPaFToLjTm
+	fxFJjexvW3VGoNIJMQcGxTucrsTEAWv/OLO85iRsgdiPHDxkUx82IwddUh9DotyUCoswaD
+	v3MDWsgBWrFAjCmKZhGb6nyuz412OqY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1785937992;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=iABmszcpMb3HdaGAEwAh1/Rpua8ipbJ4yEPyVQZSddw=;
-	b=nRHB8KWwf1BEFP7Ogx/Q7rsHUstn6DV464RSaaHy2XY6IR0EkaPKgoRP1phZcUjPvVNd4h
-	fk+ftaDCDPq7lhBw==
+	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
+	b=Lv4N+ByWIaGnU38Fo6jjY8CLM2VHpjQWOQ6xTsb8Y0kf+XvgDBYZJg2sWvkpYb00MZLxHl
+	BhXkSd+UG5b79PAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C46F077A04;
-	Wed,  5 Aug 2026 13:52:59 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65E4677A07;
+	Wed,  5 Aug 2026 13:53:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id oG/QLjtAc2ouSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 05 Aug 2026 13:52:59 +0000
+	id wI+7FzxAc2ouSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 05 Aug 2026 13:53:00 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 27/31] ASoC: Intel: catpt: Use auto-cleanup for firmware loading
-Date: Wed,  5 Aug 2026 15:52:28 +0200
-Message-ID: <20260805135247.670693-28-tiwai@suse.de>
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Subject: [PATCH 30/31] ASoC: SDCA: Use auto-cleanup for firmware loading
+Date: Wed,  5 Aug 2026 15:52:31 +0200
+Message-ID: <20260805135247.670693-31-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260805135247.670693-1-tiwai@suse.de>
 References: <20260805135247.670693-1-tiwai@suse.de>
@@ -90,83 +94,89 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,intel.com:email];
+	FROM_HAS_DN(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,cirrus.com:email,intel.com:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Score: -3.01
 X-Spam-Level: 
+X-Rspamd-Queue-Id: 9BDC87F10E
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
 Simplify the code to manage the firmware loading with __free(firmware)
 auto-cleanup.
 
 Only the code refactoring, no functional changes.
 
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/intel/catpt/loader.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ sound/soc/sdca/sdca_fdl.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
-index e7ba9e1e60ae..724cbe337db4 100644
---- a/sound/soc/intel/catpt/loader.c
-+++ b/sound/soc/intel/catpt/loader.c
-@@ -568,27 +568,24 @@ static int catpt_request_load_firmware(struct catpt_dev *cdev, struct dma_chan *
- 				       const char *name, bool restore)
+diff --git a/sound/soc/sdca/sdca_fdl.c b/sound/soc/sdca/sdca_fdl.c
+index dbe572336f8c..150e36ed24bc 100644
+--- a/sound/soc/sdca/sdca_fdl.c
++++ b/sound/soc/sdca/sdca_fdl.c
+@@ -195,7 +195,6 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
  {
- 	struct catpt_fw_hdr *fw;
--	struct firmware *img;
- 	dma_addr_t paddr;
- 	void *vaddr;
- 	int ret;
+ 	struct device *dev = interrupt->dev;
+ 	struct sdca_fdl_data *fdl_data = &interrupt->function->fdl_data;
+-	const struct firmware *firmware = NULL;
+ 	struct acpi_sw_file *swf = NULL, *tmp;
+ 	struct sdca_fdl_file *fdl_file;
+ 	char *disk_filename;
+@@ -230,6 +229,7 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
  
--	ret = request_firmware((const struct firmware **)&img, name, cdev->dev);
-+	const struct firmware *img __free(firmware) = NULL;
-+	ret = request_firmware(&img, name, cdev->dev);
- 	if (ret)
- 		return ret;
+ 	dev_dbg(dev, "FDL disk filename: %s\n", disk_filename);
  
- 	fw = (struct catpt_fw_hdr *)img->data;
- 	if (strncmp(fw->signature, FW_SIGNATURE, FW_SIGNATURE_SIZE)) {
- 		dev_err(cdev->dev, "firmware signature mismatch\n");
--		ret = -EINVAL;
--		goto release_fw;
-+		return -EINVAL;
++	const struct firmware *firmware __free(firmware) = NULL;
+ 	ret = firmware_request_nowarn(&firmware, disk_filename, dev);
+ 	kfree(disk_filename);
+ 	if (ret) {
+@@ -258,8 +258,7 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
+ 
+ 	if (!swf) {
+ 		dev_err(dev, "failed to locate SWF\n");
+-		ret = -ENOENT;
+-		goto error;
++		return -ENOENT;
  	}
  
- 	vaddr = dma_alloc_coherent(cdev->dev, img->size, &paddr, GFP_KERNEL);
--	if (!vaddr) {
--		ret = -ENOMEM;
--		goto release_fw;
--	}
-+	if (!vaddr)
-+		return -ENOMEM;
- 
- 	memcpy(vaddr, img->data, img->size);
- 	fw = (struct catpt_fw_hdr *)vaddr;
-@@ -598,8 +595,6 @@ static int catpt_request_load_firmware(struct catpt_dev *cdev, struct dma_chan *
- 		ret = catpt_load_firmware(cdev, chan, paddr, fw);
- 
- 	dma_free_coherent(cdev->dev, img->size, vaddr, paddr);
--release_fw:
--	release_firmware(img);
+ 	dev_info(dev, "loading SWF: %x-%x-%x\n",
+@@ -271,9 +270,6 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
+ 				     SDCA_CTL_XU_FDL_MESSAGEOFFSET, fdl_file->fdl_offset,
+ 				     SDCA_CTL_XU_FDL_MESSAGELENGTH, swf->data,
+ 				     swf->file_length - offsetof(struct acpi_sw_file, data));
+-
+-error:
+-	release_firmware(firmware);
  	return ret;
  }
  
