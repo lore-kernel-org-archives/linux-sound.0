@@ -1,167 +1,169 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011030.outbound.protection.outlook.com [52.101.125.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5AF35C687
-	for <linux-sound@vger.kernel.org>; Tue,  4 Aug 2026 23:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE032737E0
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 00:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.30
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785885371; cv=pass; b=Nk4ksBA7h30ePLRSXCCR/p2AaFroHt2ugRIIea7NXz277BFCXQxRAXcVXdVxh8ssKlI1JisQIs2biFXmygms45EI74ce+xZAGrziQRRyrPxP9IlmNFJRVajCKLpbYQ2BE46ZtMiExcAkiwFTQ/gUjS7NYaPqD/431NcNKG8g9N0=
+	t=1785888557; cv=fail; b=KBGyMUEVYdMV+Kc8jnLL8QK0RjzFESWCLpO7KVPapku6/b2YIsQp2FWSsjN6AuEW3jykMDHpqKEbNjfRyC6/vJ6nd1Yv3nGIczApZcm4YMtgJ51PZtG78eX8wW6eeLM0vb1GFQv0dKlr5xmTtvbEZpERfJkD7TtgZtqrtLU8O7U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785885371; c=relaxed/simple;
-	bh=A8npEZNmBstqfidfrhI5j2Vn8uVvTgrWaiDnZQTm0AA=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=E/iBefvlwp90kS7XMCv+WEKVaZ0ev9beUnqB2QUXwiHGBOXEi2est20l+upYQxyhTtFU0vUZahOCEPmMknvYn7DwSElqpXlVgZtxSOm1eeazac4/dpoCPrEHlGpaRPZlSGhfhUkovs0np2Cihwx5Fv0S6Gnw8/rnsqG9Cx9fICg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jybEwZTb; arc=pass smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785888557; c=relaxed/simple;
+	bh=mWywsy5HSH4M6EDmsrpGsYb2UFGkgwLLy60tcy8rnb0=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=sgoXApOs0Ecq0u9uKBaTPpCIxXNJrdsX8EJVDgBHtKohNjRG0gEBv9B+b7IwX/8HCcFEYPfAGTkVT5KfDwEIW2za1VZeNGJgWCHMKH6RHVEAAe8bEWFJFEbMXTQ5a73f/UxaifxTvSqp4FonZuz7AwMn3aFcoNirT6mQRRk7Rcg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=oWv9Em1P; arc=fail smtp.client-ip=52.101.125.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jybEwZTb"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6984169c126so208434a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 16:16:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785885368; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sgH7uTdZ+dOg7V+G6By+sOE9uLQAP6w3HU+GT4DEWdc6eVSiJzvPkA8LwiiNIhjIYc
-         Dcevd87iRC3dkPjknQofMYcRn40hk+k1auVPiDoGljgbhIcTQb+lPmE6rMn4yaeN+aia
-         9EIHYoP2dOLjnkNTi4fRq4BUTyNB8yEa/DDrTa8ICcLYwpHO+fAQR5MCmTE+r2PWMQhB
-         Ppsn5oTvjvtmPfgjQCQSVeU7SzwxqAUFFOTiNi8No5CWaNHYhW2qR0R5xHVT8vNKwcPt
-         +R64/3rRgWViUjlUgGmnr9EEYEEplj3DUs3vKlS2vokNQ89esTGxIQ+XaGp2VZIF34de
-         zF6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=MF/kRTZirTozSrid61voE1vCZSfiREj1o+UV4EGe7kU=;
-        fh=as0RKDD+fiaXY4YDNdBk6vOP3zUZaQ8btkrhg7iUBLs=;
-        b=POEL6/fLkdJy7ie7TURG5nRcKMk4dCHLtAyBe0LvfLBCpESaUAea1WF8zeLj1TTmcz
-         eP3FlyNLI0h5miB9WQwY/ocBqJBHSVRCH5YYqIgU8xIfwGO+tw5CXwc/UT2yCAD8MqoX
-         MKD9CEi/wBAs9gmhNFoV4aCfLr94foRVyxrUZlCsdVT6hBX3B4y6JUc0mn1V49Uxi8uB
-         IHzRcT9bRO+FgcQlFLSuJJTp4LiLoK9QJcS7AstcvcVC0YNj+1pClQWLX0Z18kfeqhAx
-         grcOTGHIhjSYr3s24c15nLEXZpx/6Wyd84XiArXZyA/oh48BHX7iR7T28QxQXZoK8ZHR
-         M88A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785885368; x=1786490168; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MF/kRTZirTozSrid61voE1vCZSfiREj1o+UV4EGe7kU=;
-        b=jybEwZTbp1q0B+g8sk8/WxxThXm9UCKo1rfigCymMb62l0jWuQUaSACEy/Fp1CfICG
-         Jv1e4CYP3KPPQS3/Gdvw8nNSCGa04gEts5jJnhMhBQ0qD6RJia6E4weHItPkrEoF4p7m
-         IWVUKZUfuoBYdtFlg2zS8CjQL0rjHRLa33gKdsXIg2OPykruvq+r6xcZc0m9WQyzkBdW
-         4yhkk9jW1nUo8SAiDziokf/Gk/KtWpNrFhZOtWJiex9O1Bcve+a8ho27ijM8OjGuB5dP
-         NPj/g62coXng4cIM+aNcVqwKdQft++y24OVUtl4RAbY5FwHTEJKtlDYMt/EEmP8zN4eq
-         ziaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785885368; x=1786490168;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MF/kRTZirTozSrid61voE1vCZSfiREj1o+UV4EGe7kU=;
-        b=d88AcNv09R4AxRfW/7Kgs2Q7UdEQPgCwfEqpWG8ESmRAIgWU5q0DQ2XuhQN0Vo+OrI
-         4Son5NcstddCXHHFzE30p/1e8egLKXelz/RLFI5mVFwO8stPSu8eLMMKFRDvskhEY2Wm
-         wqmft0VxqqsQSg1kZrCqwwxo3TLWshAcSqfPfsY8yGSherRD/mVBpj/JW2sYtXuNWCMp
-         LTHKW/6ZCsIWgilEdLeKDkZhRg/29b8c6Do8+tUwpIb9k/mtjXMx1VNrbHRQmyc5UNQL
-         yFCxkTMF8mG8ROJiQNF11wt2qyt0sEVXuie9PsF9LoFL8uNb0iAwpmhcf0pvz5drwkeQ
-         gwUg==
-X-Gm-Message-State: AOJu0YwTAuvYz8BNf4IkH0/JsxTRiZG9CdQ9TrdDCZGwnsRvsdsQ+Pc+
-	6Pfg9yC+9ES9WYCABCE8n8UCtBUdWZOwzYQx993RfjIEtZC8EQDcbKPwmBSjRJ18qW9DRuYzAOd
-	VsrcUS+YLbu66Dq3rRCHbQuXxFVZ0669hR8YE
-X-Gm-Gg: AR+sD13GIODVdYwETJilumBtv553syu3O0kYzKVLXFvUEUsAJSyyeHrP4exuqo6oXZ7
-	bij/EFjt9G1PO4U8vhwPqk7Kg/cC0rD3DsFi2hQF/FUXHArrODkgjo/wCRk/YileZR5OItmCMGu
-	0T0IM9ktla7M1SCjyCgv0qo5CQTnAFkf+NIxxUmT0T7fXRzdTxjRb6KpSZLNIECpo+whZ/jzdlq
-	pS0UwbtYdT10kblmZAfo9ih3af9Sy9P5t2aDV3aZeK4PAuUhTQo4iu7Am6Ig9NA++wBqjnKudfg
-	nBp1fSPvuCyBuwgnp1KUDRxG4VnbenE6So/FPnjCGwdMFFOEwmvtuoUYHsmgKqNNMmxcpyd9l60
-	rR5A7CHEVhuWntC1tLmBucPcPYLoB1QuoUipTGfQd+6e8j4Cyp2jwapG+Mi3L1cY+nrVI7VnOPn
-	ctNEw5AyE3TVoAFzEMy01CBu9Ik7wVX5Q/TTJbhBML8qDyiFLlmp6C4wA=
-X-Received: by 2002:a05:6402:2714:b0:69e:8ad:515f with SMTP id
- 4fb4d7f45d1cf-6a14f0c508emr1198311a12.6.1785885368015; Tue, 04 Aug 2026
- 16:16:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="oWv9Em1P"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PEQl0/DJB4pEcqNQm/1CoY0nAOc1/jWhBs292TKlfJnmskOzx1pESumSKQYWFa+T1y9I530GD3WdPyphT7h9RA317eLJUvJBYRpTIS2E0wK+H0Hl9UJGdjhmYScBCa42dBFs7n/tQcEMgQGm+e/rDsA7jtKNur6N7EgNPWrFFAqWxuZPnVCcvrUv+sHJ+0g3TQo7wQMvVm7IGmw5TP6W9/rNoEgLoZ5Qg++/9lKrP6LZDAB2659F6Jr+mIFK3n0skiTvC09YFsLLAFo5yBdZsNdG6iIqGPaXJLdtJbIpRTW8s0dHP1yiFfbGdCVsCEdgOChOLOJdRntpQj/Gdeo+RA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eplozSBWmI6YDvivPCMmVcgWIYVT/2XAm17cITLZ6ks=;
+ b=QKbZh92VqY6Z6AKyqpPieSYBvqa2c91hQtiBtzvIn/c+6pYKZ6S1mtFidn6Hc5XT+Tba4LeaVIeh4Y7kvp4QJK+mL5mNNjKbcVnweZKLeIgnx3CIc+YJM7tEyLiRkbF+MGTmUbwJOcTAFJ0oDvRgE1gmX5SbjO3INvUODrgM6nSs8UfwcpkAoaiIIq3uC3Z8Dw5LVG90L5L+RCEwwLxza3/QPXZy6MwVJ0JOE1rrnkb+3rVMp4+lQsEoBaw7D9+ijuC6Su0VeIUy0iCcUCiaHaTZBrFXrDUpF3Q50GTyszDwrr2Z2Jy0tupneQf6nOpuV6cE3YCZDlQQ4OjyIfWrMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eplozSBWmI6YDvivPCMmVcgWIYVT/2XAm17cITLZ6ks=;
+ b=oWv9Em1Pg29ulmvxh+ciLjmiTONmNVrRDhmkEWnaSYb7HnCYo2DPAh0bIQeaaXAwzOHTgPQBiuyl7SMLfc8d6DsDpZNFrxrPU62EgGKuBRjSFjbG++2A46bMXdE4F5wbUVrqB43jhqlyNzpXgKrLE4/N72GpvMZvvNcvdsloQAc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
+ by TYCPR01MB6639.jpnprd01.prod.outlook.com (2603:1096:400:9c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Wed, 5 Aug
+ 2026 00:09:06 +0000
+Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
+ ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0292.015; Wed, 5 Aug 2026
+ 00:09:06 +0000
+Message-ID: <87h5l9v36n.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] ASoC: renesas: enable COMPILE_TEST for PCM SH7760
+In-Reply-To: <CAMuHMdWxRASq-jwryP4prDMAQuYEBSYpPNY2iw8GbQUKh-P2ww@mail.gmail.com>
+References: <87zez4rmrq.wl-kuninori.morimoto.gx@renesas.com>
+	<87wlu8rmr3.wl-kuninori.morimoto.gx@renesas.com>
+	<c474b067-e549-4d51-be21-4337cb8de184@sirena.org.uk>
+	<87jyq6vgyd.wl-kuninori.morimoto.gx@renesas.com>
+	<CAMuHMdWxRASq-jwryP4prDMAQuYEBSYpPNY2iw8GbQUKh-P2ww@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 5 Aug 2026 00:09:06 +0000
+X-ClientProxiedBy: TYCP286CA0088.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b3::20) To TY3PR01MB11797.jpnprd01.prod.outlook.com
+ (2603:1096:400:373::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Hezekiah Depp <hezdepp@gmail.com>
-Date: Tue, 4 Aug 2026 19:15:31 -0400
-X-Gm-Features: AUfX_myCga71LEpd5uCkGFvYpRpu7w5JUhNHOldPYwakKxswC73_w2XopZeeOes
-Message-ID: <CAHWVfF23RPFJ=k-2p-LraTT8RwQWDSZy1cHHZOhvif2g5=AvOA@mail.gmail.com>
-Subject: ALC294: Internal speaker + 3.5mm jack fix for ASUS UX6404VI/VV (1043:1863)
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com, perex@perex.cz
-Content-Type: text/plain; charset="UTF-8"
-
-On my Asus Zenbook Pro 14 OLED (UX6404VI, ALC294, subsystem ID
-1043:1863), the headphones jack was completely silent and the internal
-speakers would mute themselves after ~2 seconds of audio playback.
-Setting bit 10 (0x0400) of undocumented Realtek vendor coefficient
-0x1b on NID 0x20 solves both problems by enabling analog output (and
-apparently keeping the HDA link bit-clock running which Claude thinks
-is why the amps of the internal speakers mute themselves ~2 seconds
-into playback, but I don't fully understand that part myself, but
-setting the bit makes the speakers work correctly throughout
-continuous playback).
-
-Just to be clear, the issue with this audio chip is with this
-undocumented bit. Everything in standard HDA space is good, pin 0x21
-config, EAPD, amp mutes, DAC routing and SOF gains are all correct,
-and it stays silent with SOF bypassed via snd_intel_dspcfg
-dsp_driver=1 and raw speaker-test. It is also not a recent regression,
-I tested on kernal 6.18-lts without any luck.
-
-I found this bit by capturing the COEF registers as Linux sets them as
-a baseline, rebooting to Windows, while playing audio off the working
-headphones jack I BSODed the system with NotMyFault (a clean restart
-without a BSOD would clear the bits), warm-booted from there into
-Linux with `snd_hda_intel probe_only=1` to prevent Linux from changing
-the COEF registers, diffed the registers with the Linux ones as a
-baseline, and played with setting them manually until I found the
-minimum change needed to produce audio. On a clean boot, turning this
-one bit on fixes the audio and turning it off breaks it again. I was
-originally trying to fix only the audio jack (had given up on internal
-speakers long ago), but I found after fixing it that the same bit also
-fixes the internal speakers as well.
-
-I set this up to run at boot, and now my audio system works:
-```
-BIT=0x0400
-IDX=0x1b
-C=""
-for h in /dev/snd/hwC*D*; do
-  n="${h##*hwC}"; card="${n%%D*}"; dev="${n##*D}"
-  if grep -qi '0x10ec' "/proc/asound/card$card/codec#$dev"
-2>/dev/null; then C="$h"; break; fi
-done
-[ -z "$C" ] && { echo "alc294-hp-fix: no Realtek codec found" >&2; exit 1; }
-hda-verb "$C" 0x20 SET_COEF_INDEX $IDX >/dev/null 2>&1
-cur=$(hda-verb "$C" 0x20 GET_PROC_COEF 0 2>/dev/null | grep -oE
-'0x[0-9a-f]+$' | tail -1)
-[ -z "$cur" ] && { echo "alc294-hp-fix: could not read COEF $IDX" >&2; exit 1; }
-new=$(printf '0x%04x' $(( cur | BIT )))
-hda-verb "$C" 0x20 SET_COEF_INDEX $IDX >/dev/null 2>&1
-hda-verb "$C" 0x20 SET_PROC_COEF $new >/dev/null 2>&1
-hda-verb "$C" 0x20 SET_COEF_INDEX $IDX >/dev/null 2>&1
-chk=$(hda-verb "$C" 0x20 GET_PROC_COEF 0 2>/dev/null | grep -oE
-'0x[0-9a-f]+$' | tail -1)
-```
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB6639:EE_
+X-MS-Office365-Filtering-Correlation-Id: 717caa59-dbbb-4fdd-34c3-08def285c3ef
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|6133799003|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	zreyF0rfbvWm+5a74ieoQDbRFfhaYcx7vqydg5htjkENiwgOi99caPqb4DXwGf9H/ZKM2ORWphkqW39nu9JbtkgOSE3hksZ5r97J+gUOGkLETsb3TB3LvZdfW9nOyBRXmGov/MdxR5TJaZwD1YO3JWcm0ay1eP4JcfAQkMYrUDN7AoTQ5YFavmOxKUtEJD0bqr3QhIuU+OK3Dx8fpgDLFJlRnY8T9eXmExPAR0NBZdm9hZpTtMcM0Vk9u1dSKELhJHaxjlen1qbrDVaqFF9cx5xoVGTrHeHCjNugFFF5EizpQpcZE+Tk79MzEoCHiBhNYorSM2UO/O3TlnpHxzKlKESXWqzToVTxgqC/2osQLHIy3XUpR+vCJmIWhT6vsPliEdEZC59wQ2SIQsK8wtx8cpcqlvw1MY4qkQTeh2MrveJ2FOdIKwLCzeuJ43saFEye/bOSBAZIU9gzVP6dw6hEkhxcBiWkpU/KdgLxfIxVz0EisDMfYYL4uVeB7CNyckvr8OeDtMVi1PSnKpLCKwSmNFWWWT4DyBYZkzDeg4501UC7r4xhBfr4tmLyWtPp145W7pBFLnczotcQ+Yb75AzRATzr6rFnyWwexrGGzMSW8SBlXGFLKISUhxy9OwbgbYqEr1yp3s92i243RDvudz4uAegn5XM/w0YomgMm5bB2QeaPfIv5uA4kqjyxqC/5IS9UKGMwZqfDKM/3tLArJ5vhFniqlQ8+t1hM5Y4qB1DoEk8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(6133799003)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jzGW7skoYqcAqL96w2w+8cxrE57U+nWnXk9Ou3srBTgI9bKE5/lvhxmzQDCy?=
+ =?us-ascii?Q?X9E4IBjB2EdA10yu4UOQr/Voey6GEl2jn9+L0k0mTLIl2mQJOSjoYzxUC0o5?=
+ =?us-ascii?Q?jcPA8gqlqIIj4Sq9piNscNHT8wLvXlhXPUScdH8GpYQ8QTmKqgcfTTlRLq3c?=
+ =?us-ascii?Q?Ks7URukBpZuw6vdxlKGVBIU2qC2hoMl3V25l+bPZtXfM08WvKILgYtvpECLZ?=
+ =?us-ascii?Q?syJvRzdHNE0hPix5nFZr5M5peXhZGJQc2ApDL0SjQC9XRYFOZP9Q1VSL2/s4?=
+ =?us-ascii?Q?XMvd4lkMXVIvKZ+gPXAj5ihW8/mwDQ+KyLEmn28EMgMgt4yfA6cwd3sNMKl4?=
+ =?us-ascii?Q?4zHlhofmnt8oFAroL9MPjqHG98gUCHi9J/zdpzPz+nxEUhYPQa2MN0lsNvUJ?=
+ =?us-ascii?Q?ipffiblniGobQGz+jJCUnv/OYt92CoTgzMauf09i1gkgo5IDZomIopysDyaf?=
+ =?us-ascii?Q?aLQCLOMjbRenYA8m2ISJIst2ydcS5iebH8GXy+Z8gKaByHvfjr3MhCXnBxP5?=
+ =?us-ascii?Q?vTXPcChX3Er3fmZb0I51Obd5qVlbuvU1B9TDv6WRleJFSCaiiMoReoeDNlKE?=
+ =?us-ascii?Q?vXEPSX/gQI+qTBlzrmo8wkE0Gh9liKkggRPUruB8HKihyc0P7jAICBkYI7IH?=
+ =?us-ascii?Q?y46oeZ2v+8hRtGMuukAmoaV8ZGZN5eW92gP2ADS9aErP+GyeOWvbbfJOg1z2?=
+ =?us-ascii?Q?KCxBd/L/c287+LJgkFRUbVDvQxOoThk0gOPit/x8EWm+C4N7U6R08gU0hXNB?=
+ =?us-ascii?Q?urLmLjgJaifRrN/S3k9j7gtZlxFFgIGWYnLOTpATxGaHTwh3zuryVhg28GXu?=
+ =?us-ascii?Q?bZT5w95Me0r1LK1VY/lfBCN6CLgEslH0cOalsPWo8fX2BKHCrztSVBtrpkBD?=
+ =?us-ascii?Q?7hYrP7xYJ4YZZi8KMBa54Vm+jEJMk2AZNl7S13bSj4+rwtJ9Q19f7IYr0zqR?=
+ =?us-ascii?Q?2qrqZZ+puWOtEoN63Zs2GvM9WJkeVfZDmIxhTvOeyw8G6+CVnBtQe3o+RDCV?=
+ =?us-ascii?Q?j8eaTNUjD/QOOSh2l1GcbTmKKuv8u5da9FZGisO6j98nRCOP22+dJ4jGwvXy?=
+ =?us-ascii?Q?rYw8bzBmIy2ebY6KBHPPt9t41Cs/XoWT28NjBj3aS2J30ySRsXjUJLGP6wtU?=
+ =?us-ascii?Q?5LrlDadZCj/wQN9z34tDH1uCOCcM6whlopBT8gS1EcNgFeVQ1A+aduIYcNGe?=
+ =?us-ascii?Q?2vqtlllIHULAUE482keuhfES3p/tFXGr3SDOkP2J4UgHOAGpBLu85pxtzBxR?=
+ =?us-ascii?Q?3oXuLeQodrEnJ8Nrl1MZ658r3DvSG+7l8UbwRn/bxtOsTvPIYVfFe9CR3iwv?=
+ =?us-ascii?Q?Zo3ioHobW3q/ghSbaDg52ZLSm25vQumxewqoPxmIHt99grErF8IaNTTJ06Ma?=
+ =?us-ascii?Q?ElpvQWrEMyqarYtMho6YEys/XWQLnVn3adsu6uZ45jd1b8sLsB8KzXowfMHa?=
+ =?us-ascii?Q?InKdcAAKGxi5GIfxc146jx7WQqtLPDXRLiD2CgQmOyBiTl6tr9psyQuEUuDn?=
+ =?us-ascii?Q?pSDGOETUD1ieRF0gcTbv0f09XVhYTu4iBZ7kmVNpm06BU2DI4nQmmojOIvgk?=
+ =?us-ascii?Q?nvwHoATZFlg8u1MhVNluVGdbNsCi6IZjxfiNbsOnmCKPo2eGGzGDxR/YnTnV?=
+ =?us-ascii?Q?F2CLr19nmQsZrG0vsijNntYkoByziWtcTuJU6f2emz3uyW3oLSCwjhGu2QM/?=
+ =?us-ascii?Q?NvHjVv4E288xS+DdRjRv8LBs/BC2X20Z1Y2L9ajg5WREYc2G4SEW2cFKbaoD?=
+ =?us-ascii?Q?V2lvkH0F9CtafFHMMFolHc5zxBi7zuU=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 717caa59-dbbb-4fdd-34c3-08def285c3ef
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 00:09:06.7239
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DLKI0lQhnCfJ9Rd2GEyxpJGjTyN87jJe+bjZ/FN4jzGcCif27vQahQhA9/Uyew1n00NiHl6WElvrbYM9oeR4japqpLVyOqcmlkKRAzm/2GFZ9bKewpiH8VvyIobRccNj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6639
 
 
-Hardware:
-  Model:        ASUS Zenbook Pro 14 OLED UX6404VI (board UX6404VI)
-  BIOS:         UX6404VI.304, 11/02/2023
-  Codec:        Realtek ALC294
-                Vendor Id     0x10ec0294
-                Subsystem Id  0x10431863
-                Revision Id   0x100004
-  Controller:   Intel Raptor Lake-P/U/H cAVS [8086:51ca] rev 01 (0000:00:1f.3)
-  Amps:         2x Cirrus Logic CS35L41 on SPI
-(spi1-CSC3551:00-cs35l41-hda.0/.1)
-  Driver:       SOF, sof-audio-pci-intel-tgl
-                machine driver  skl_hda_dsp_generic
-                firmware        sof-rpl.ri
-                topology        sof-hda-generic-4ch.tplg
-  Kernel:       7.1.5-arch1-2 (x86_64), Arch Linux
+Hi Geert
 
-This is my first time reporting a bug in this method and my
-understanding of most of this is vague, if I need to send anything
-else let me know.
+Thank you for your review
 
-Thanks,
-Hezekiah Depp
+> > > > -   depends on CPU_SUBTYPE_SH7760 && SH_DMABRG
+> > > > +   depends on SUPERH || ARCH_SHMOBILE
+> 
+> You can drop the ARCH_SHMOBILE part, as it is a subset of SUPERH
+> (if ARCH_SHMOBILE is enabled, SUPERH is enabled, too).
+
+Will do
+
+> > > SH_DMABRG looks like an actual dependency, there's custom IRQ request
+> > > and free functions which don't have stubs.
+> >
+> > Ah...
+> > SH_DMABRG itself is depends on CPU_SUBTYPE_SH7760.
+> > So I think it should be "select" instead of "depends",
+> > like below.
+> >
+> >         depends on SUPERH || ARCH_SHMOBILE
+> >         depends on CPU_SUBTYPE_SH7760 || COMPILE_TEST
+> >         select SH_DMABRG
+> 
+> 1. "depends on SH_DMABRG" should be fine, as SH_DMABRG is a
+>     user-visible symbol,
+> 2. SH_DMABRG depends on CPU_SUBTYPE_SH7760, so you cannot just select
+>     it without enabling compile-testing for SH_DMABRG first.
+
+Do we need to use "depends" for it ?
+
+SH_DMABRG is indeed defined as user-visible, but is needed only for Sound
+(and/or USB ?). It is specific/necessary feature, not generic feature.
+
+In this case, it should be selected automatically if Sound (and/or USB) was
+selected, IMO. In such case, we can compile with COMPILE_TEST ?
+
+Thank you for your help !!
+
+Best regards
+---
+Kuninori Morimoto
