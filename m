@@ -1,237 +1,270 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011003.outbound.protection.outlook.com [40.107.130.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0BF29B766;
-	Wed,  5 Aug 2026 16:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6024363094;
+	Wed,  5 Aug 2026 17:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.3
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785949077; cv=pass; b=q+P1BVf81eV8zoloBoyJhgEkwmQj89T6tIzdNXYEM/IQ3OcCs7L7dB2ylIoLAfFC+zuGuwEhQZQnx6k3DluACkiyckkPRV0PiSEeGKQmN2+DsJd6lyaGSdlvTmUFtRAKLFkS9pcQ63s/hn8FHbzQH7a+qxdXUc1Axn6V56coqQI=
+	t=1785949586; cv=fail; b=Ln/tnu3GJodJJr8bOoGj2IvUgTlU9vCQybGKra33wW6keh0EiFPUDuy8EXGgEtYQqfT9OfSMEbC5tVact/mgIbKMLLc7qIjCnCU0UejjWqJcorqjRkLRtTXpfYPY0Ers183YqDIfV2j4Rq8ZN71wG8sV/afLgkrAp5BE3pQufD0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785949077; c=relaxed/simple;
-	bh=8NQ29wjCC9L71j5eKfSqdyu/PkGUF7bOEwzO7a/zp6Y=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=uWbqUAqxXLbSV7m3C1U1vELg/w2nAVEArNqAmKXa4BQjKyZCb+t1Acwce5z2wk3T4Hh8tmcpCGKVwkT9rwRq2QIEAaP5TxRRzC2aNdNA2KRDpqzEGJbjTxnpKCmQwk0fonVGVyu1Ofo9s/h+Q2lBsNrfX0P/iFkBEbaFNGFOUkY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=E6j9Euh3; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	s=arc-20240116; t=1785949586; c=relaxed/simple;
+	bh=+3mUYtHis9O1iMqQ2Q9uH/EJ3xg5r1NmJ5Q3z8fxCV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KWK9o58QXWeFFmtgV6tl3+itavaXyN6n7VLeIz+ImvoOiFU8+ikj5ymgeynVi4ovhdp4HP4TUize4yudW/c3g8KDhFqjqiyqyMi5kvb3NCMqx1vs/SIye+snRQ+xiVenm2D3LQe5V39OokRChgciEgukorelO0NwGV18Mx4/hcg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=RdSseoVe; arc=fail smtp.client-ip=40.107.130.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="E6j9Euh3"
-ARC-Seal: i=1; a=rsa-sha256; t=1785949054; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=SJDCn9cNcUAC9lsgUEvzEyJErgt6iYTzgP091hcH5vbZtc8pON/gWw5v6wbgYnYjJaTzxyCw9qKJR5tnqv8ok+vTGq8fZnaLXA60NH7M9t6iw4dOl6mtGbj8Ld492u6XONLREr7IcqYtkSw7B+CjwiY353Deg/qETqMQ8lTDsaQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1785949054; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=0uLsWnJu+JcibYSuN75rYXqYmZVDWtpD12S6tsj5Cuk=; 
-	b=UgM3NoMgBgZXZo8a5RfO8CAk3dBRs+Wnr6PVXnD2QQppkNMLOxifYDaaYPb6tNCZB81od0K2aKcOrEu/zHJj0nRa9hOs4+52+qM8dcN6u7QDm74tVSgBeESab2vPDGLhABP9N5ExpGuO6kj5aLb4uZ9cHE/iaqLP3nHl5PyM3Eo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785949053;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=0uLsWnJu+JcibYSuN75rYXqYmZVDWtpD12S6tsj5Cuk=;
-	b=E6j9Euh3dkx83XPnZvYkR/yoC+CZlfvxMgplp6KjNtb2lFS1uUcHOeyMq3jX+kKy
-	krqYUlUw1PElvRhsMcmDsWv07+uDzfFhvquPmfpiCcOrx9maYLpnA/RWIKVpXkXd1VE
-	nf+r4t+NlFf5ezpxZwh2eCs8Guz8J1mzohP6rFakUFJnScqjHEN8ZkLqD87McgVK5WD
-	isdwWe7PxNoFhwnRZb3+/mjPGX1C4jnQ51USa6JaCvmErL4WU29m8JKrWvz/6Bb8X8h
-	D4El30Wnc0fkQlY7uyJUtqpbZtlzGpLOSQbYtJiELiOhDSo2cv9v7J0K5kbNAB4V4WI
-	ENR4Ks1qwg==
-Received: by mx.zohomail.com with SMTPS id 1785949051023149.6918404629472;
-	Wed, 5 Aug 2026 09:57:31 -0700 (PDT)
-Message-ID: <e95256d8255802c78f0529faa4ffcf4fe0c4e05a.camel@rong.moe>
-Subject: Re: [PATCH 3/3] ALSA: usb-audio: Do not expose sticky mixers
-From: Rong Zhang <i@rong.moe>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Michal Pecio <michal.pecio@gmail.com>, Jaroslav Kysela
- <perex@perex.cz>,  Takashi Iwai <tiwai@suse.com>, Icenowy Zheng
- <uwu@icenowy.me>, linux-sound@vger.kernel.org, 	linux-kernel@vger.kernel.org
-In-Reply-To: <877bm4fuqs.wl-tiwai@suse.de>
-References: <20260411-uac-sticky-mixer-v1-0-29d62717befd@rong.moe>
-		<20260411-uac-sticky-mixer-v1-3-29d62717befd@rong.moe>
-		<20260804235515.7346606e.michal.pecio@gmail.com>
-		<a0bef09ac7160721f0826c16107082b5f5d12e74.camel@rong.moe>
-	 <877bm4fuqs.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 06 Aug 2026 00:52:22 +0800
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="RdSseoVe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GldxGlMkEDM/6Xh/5dZxJAGgn4EKcwFbDQ/q5kbHWOAQ9YjFlNN5XMGqQblATszsFpfXOwKiOedS6BDmtYr7lRW5DufIyUB3ceKAENmUjxFP7a9wD5r8LxVZkZqV41wwa4lryK5C4H6eBbPUmtWHuxFErOO0+7eJMx9Js/bHtvRJYZH377hOz0s+vlIBZ9EPZ6UeiuGu135IJh50Cl4vrVDmCcEdcqK2+bf3Dg4NXgyeVj1+Zc37QeVjAIplbruL/GXHHd289cAbDY+nBilRFMtWuUvFuDPsK+QiDx9Vkj8nYW0PeTwvl522c65SF8gDMPkdj0PRFArH+TvGvdeTEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ywyXEIwWxG+qAZwRuspdGRjEEFimti+ky1oQFF9/aW4=;
+ b=B618j5kOxVuQK5wTOxy89iped5aUWytsxtRwtz5BTJRKrs0EBW8z0t7R+7pzaICz0yrQDhATDpVtbnZzD9zMHHNEVMWAaP3Kyr2PodrzmCcO1nnn/rIQrxWM5Aqt7XBZRmGY/VTSoM04N/H/OEU4xE5Hlq2rkdwxb4viuiADRbIp3ULFzphMZ+Rc37ZOkt+XNSfnVoAMjWlA2oJULR1/qdY+pkN9vclw78o7TCF8Sl/ohzGqYD2DQg6fjr4O9iwPgBODsDAkyHjLx2NtP18FmPG3lnie4AQfc+ulybVtqW/u5zOQNWD6+Eu4df4NI+RtMiK+W7S0rp9DDzRG/kychw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ywyXEIwWxG+qAZwRuspdGRjEEFimti+ky1oQFF9/aW4=;
+ b=RdSseoVekO3CNA6vBXDt1u0EPDwjUEgt/LgzMCZkn+C4H2vPvWzg2VTQO9BvSQka8P/Zuqgmii0COGBRR3U8hzStjIqizD9zf1mTMHnTBHEgw0GXj2pKI9fMtLM+vFXwl/MYsS8ZINzD5OK7a4BtQ/cfsCosmvD3kNKlptEhSDNizeX4HWw6TPvGfPBNWaQTl4j7o9AMjeR0KuZZo5mP7QCiLOrbGDgWUsYNopY5HcRZhBfDrj+3adEPv2rrFfVe1dPRtqS2XULouEYDli1z5M2hjPjwn+ABv4jPG1Zv+VoxLbkbhg9Anu85P5+KuPF0LsEaUVqC4mrNTAydoIQUqg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by PA1PR04MB10442.eurprd04.prod.outlook.com (2603:10a6:102:44a::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Wed, 5 Aug
+ 2026 17:06:21 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0292.018; Wed, 5 Aug 2026
+ 17:06:21 +0000
+Date: Wed, 5 Aug 2026 12:06:10 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	Frank.Li@nxp.com, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, shawnguo@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com,
+	nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linuxppc-dev@lists.ozlabs.org,
+	Shengjiu Wang <shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v3 1/5] ASoC: dt-bindings: fsl,imx-asrc: update port
+ binding to support multiple paths
+Message-ID: <anNtgkZYhoWsSRr6@SMW015318>
+References: <20260804100218.49587-1-shengjiu.wang@oss.nxp.com>
+ <20260804100218.49587-2-shengjiu.wang@oss.nxp.com>
+ <anH5i7y3JkB1moee@SMW015318>
+ <CAA+D8ANCoc5qOUvTQPRNkvrfqAY3n6x_fbfUveP8Sfv+SL1NVw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA+D8ANCoc5qOUvTQPRNkvrfqAY3n6x_fbfUveP8Sfv+SL1NVw@mail.gmail.com>
+X-ClientProxiedBy: PH7PR17CA0015.namprd17.prod.outlook.com
+ (2603:10b6:510:324::26) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-10 
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PA1PR04MB10442:EE_
+X-MS-Office365-Filtering-Correlation-Id: f4e3eaf5-a267-4bb6-224e-08def313df63
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|19092799006|376014|23010399003|22082099003|18002099003|4143699003|56012099006|11063799006|3023799007|6133799003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	WQeKr76JRykxd6Qqf+SvZur07Oo7DBtYrgczBd/WJBrZBVQEJG8LllW16LJdsPNEQe3/Oin/Z97Jct6TWwcl+f9sGkdWvCUS1ImHBdZ4cS9zD9//qynUC/wK3WFHzYCuHZsfPD/ns5aOW54k8euzB4yvFYG+pD+5jgloPPgF1DvMdob2oRd4wolX8xXpV9ebk+nJfyPOHn5QR8p0kr23dJzOdN+vyo6pVBOIg7l1It6dxba+wjs4BJDzyaVjyYeG8jUrZRamevtcSN5lpx9mztcP78jUltUlHPAO2IAU9JYHdMOhiqM95jVPeahgcH/TFp64OHsEM7ffSB0j4UwI3NyXGaUarFhNFHpiEZYt2FH4dsiydz2Cx1NoOelT5YZxe6w6dFhK/zhQiLfLncC0BsynIjtPf2tibmwUKI8FQLid5anijQz8MNR2OsZMVlqx/0BsV36hFmraLlosujxeiZ95ITe+ccZ760L5Mv+KRK7+jah6edOD2XK9/Qy7/44SyVIXtIvt5CWa51X+Ymv3Qsi8M4/bdqMFZzoM6QecE4SxG5THc7N9vdMNpVfHaTvJ2YrOFsmy6H4rIZXP4ecqinbcwhRKch6uqNSZVufUBH+X3/s4bKzD6mQYqPSJjSNGcXnOq54JQrdX7uFNaF5cneAoXmVH64+OoM7riraXS24=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(19092799006)(376014)(23010399003)(22082099003)(18002099003)(4143699003)(56012099006)(11063799006)(3023799007)(6133799003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L0JDcHZ5S1gvbnBQS2t0aXJkaTQrRzAxS2sxT2hTOUQ3OWRINzZpSTZ4Wno0?=
+ =?utf-8?B?SlNoSnhkQ0xtZ0tUQmZwMTN0ZkVzYkVkUTRWQmVTNTV6L3BOYzV5djRVaW5r?=
+ =?utf-8?B?b0tQajdnRHlOczBsejJrc0Z0NERDUmpjNXNHU3ltUzlFSjJQOXFaMEY3dFRo?=
+ =?utf-8?B?S2hCNmhQdHprdDYwcXRHa2tDR1M4VURxTTFJVmZCMjlUZWEzU3k3MWJVSzZL?=
+ =?utf-8?B?M2xtODRXdkc2VndGdHRUSjg2WVZkYUhMMkRNcCs0bFVXb05ZUWR6M2hRQnls?=
+ =?utf-8?B?cnRiRk93N2lzTkNkWHhpc1ZUOXFxZWMrblJBWUZaK3lvRVMxZXJTRnZqNGlR?=
+ =?utf-8?B?ZWQ0bWNqbDBqWTkyY1EwWGVjY0hsVEpHRnd5NHh3dVc3VGd3N3NIOFZhTHJp?=
+ =?utf-8?B?b1VIUHk1VmEvTExONkZkODNiem41WHMzUHFaN05JY0dsbEZkaFduOGk3L2JD?=
+ =?utf-8?B?TmlpQTNwZCtYU0N4SGVIODJLRnVOMFVqNVRKYU5Xc0ZZSTVjYTk4aTJJZDU5?=
+ =?utf-8?B?UkpPSUxySkt5MUNvRWJidStJYWEreTBKczZjeUNBNTdZSGtNQ0R5YXhkUUk0?=
+ =?utf-8?B?Nmsvdm5XK2twNFJkRktscnNoQXpDdFJNTEpVMkc0VlFnT1ZvRDI4ZE4xeUNG?=
+ =?utf-8?B?RDVXb2F4LzQxcjBCMExIZEpDUWIyQ1J4TmtxTSt0VDRCZkIrR3lJUS9WYkJV?=
+ =?utf-8?B?SURyanBGU1VlVVl2RjNldE41UTZUYUZlTjVvZjJqZjQ4VXM4RG1LZjVQRXI2?=
+ =?utf-8?B?c2Q0citoMkNZZ2FBNEVaN1RYZkQ4YlMxSkF5RTNMSTU3WjQ3blZZRHRYa1ZX?=
+ =?utf-8?B?dzJtRTkzMnpMU3F2SmR1ZmZLYjZiWXpLV1ptV0Q1eEdJY1Z3TTFwQUN4RmpS?=
+ =?utf-8?B?d2lUT3lPK2VndTZMLzZPM1ZQMVFDbmQyUW05c0E3RitvL2ZaMVVCQWp0ZVEx?=
+ =?utf-8?B?ZXVDcGtObVNyWkVNSGJuK0J4MkJUcWJNeG1LODQvWlhsOGZUZkxDTHFQS2da?=
+ =?utf-8?B?UlF4LzhNTk90QVp1UE9ZRXBGRDJoUXl5ZHFpSENqNzVMUVJrUG5sVVUxNFEx?=
+ =?utf-8?B?WllaU2VKcTJES01SWkVmamh1eDBUbG04TDNFM20rQTdsK2trUUhseHI4Y3dk?=
+ =?utf-8?B?elNHU2UwOGwySVVpd21vMHVJK0JlRG81RmNOdHRxSkFhUDNsT1B3Y0NSY0lH?=
+ =?utf-8?B?VEUvN2hYajJENVBZcytGdWtZTXVGY0VycEFvanJyTGJBbFNGcWlqVk9Hdnp6?=
+ =?utf-8?B?VDgrR1ovdWNlbFN2T1pXTGNQRWN2Y09ZTmNiLzU4c1FwMTlFUk90V0EvSGdX?=
+ =?utf-8?B?SG1LZDV2L0Rqa0k4bzNxckxQaS9QV1d4eDkrYmc3L0Jub2p1SHNCOWM1c1Fw?=
+ =?utf-8?B?OGMvL1BDZFlxajFOZWhFZXVqbE5zdlFndi83VzhWKzRvWFNwTldZclFZOEVR?=
+ =?utf-8?B?NU5FS2RwVDRjbWlhbE1VUmxFQlJhYWJoQVJ1TDV3WTB0WWhYVHF2QmltemFL?=
+ =?utf-8?B?WmkvTUZBMmFaeFBFQXAvUTllRWd3czQ4NTlyNC80UVRQQWhwUjJIZHl6Z0tw?=
+ =?utf-8?B?bXplbUVKTnNnSGxOT1NOZis0QXRRRWxkTEtKS2YzUUNRVzQrQmpsMHQ3ZUkv?=
+ =?utf-8?B?SXd3UWppU0VDSFpMSXpaRlRnYXlTcFhxQVI3NDVtc28wNGFQL3h1RmtEREZo?=
+ =?utf-8?B?VUVvTUN2Wkt6S3F2N3o1V1NXaXUzYkk5ZlJ6OEU4a3Q4RERvN25FQnU1dWNn?=
+ =?utf-8?B?V25rKzBWdVQ2V3p6cjJzS1FCeXl5VzduenZKZjNReExEUExHUnEwb1N2a0g1?=
+ =?utf-8?B?Qm9vdTZSQWtMWXUyRGdCcVV3Z2plMi84VU5zZVNGa1htc3pNL1FHNkpCWW5W?=
+ =?utf-8?B?dDFmeVJyVGtZWHpJTmxuajVKbjJOQ1RuWUtBMzU0QUh0aURrZ1o3ejBOWE1I?=
+ =?utf-8?B?YlBqeU9iRUh3OFpSRzZkaSs2UFF6SmVucjFGK0pKcy94QUVITm50ZGdTUVdM?=
+ =?utf-8?B?dk5LTzVHaTZHRDdUais2V0JJVjJIUThGeTcxa2ljNDNVVnFMQjc0RkFITUlP?=
+ =?utf-8?B?QkpLSFVZaGszMXZzTnRHOHdUMVkzRnJuQ0Z1ZGNxZFpOUUY4cG4yM3RiZ1N1?=
+ =?utf-8?B?WlREQkJUYWFqWG5aQzgvbFpKL1hRQ2Y1U2RnQmxGWVgzMUg4K0JaY2NuQWxL?=
+ =?utf-8?B?RldiSlp3d2hnUHBtUnlDL2tUOUZTNXhxSGJUZEtaL0plaUY5dCtXOGF3SCt0?=
+ =?utf-8?B?NVphNU0xMHhkRGZ6S1Q2bHBlWk9NUDdyV0pFZlpUQ2tQVEhSTFpzZGd5cEpG?=
+ =?utf-8?B?NFB4UGxMeGpSNFZGK20yZGcyNUduWDVwVytwd0dvbmhJMSs5U29WRzdpdGJz?=
+ =?utf-8?Q?uAUxjaOVqV/tcPcYo4s+Iki8WVY+k4MwWyyi1?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4e3eaf5-a267-4bb6-224e-08def313df63
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 17:06:21.4378
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HfT7TMcoRYsiEvRx4Qazn5JfwCpxVU3t3QDN0aZIssOeVyLRTGuj1ksyZ9oZtHr24hpQRMfRG87J/t5oYCjoGYzB574SesahY3Q4PqvqBwAuNfWdQ+iNvEIvtarNW+IM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10442
 
-Hi Takashi,
+On Wed, Aug 05, 2026 at 02:57:59PM +0800, Shengjiu Wang wrote:
+> On Tue, Aug 4, 2026 at 10:39 PM Frank Li <Frank.li@oss.nxp.com> wrote:
+> >
+> > On Tue, Aug 04, 2026 at 06:02:14PM +0800, shengjiu.wang@oss.nxp.com wrote:
+> > > From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > >
+> > > The i.MX ASRC hardware supports up to three conversion pairs (A, B, C).
+> > > The existing binding exposed only a single generic audio-graph port,
+> > > which cannot represent independent conversion paths when multiple pairs
+> > > are in use simultaneously.
+> > >
+> > > Add a ports container that enumerates up to three sub-ports, each
+> > > representing an independent conversion path:
+> > >   port@0 -- conversion path 0
+> > >   port@1 -- conversion path 1
+> > >   port@2 -- conversion path 2
+> > >
+> > > Each sub-port references audio-graph-port.yaml as before. Hardware pairs
+> > > are allocated dynamically at stream open time; each active stream
+> > > direction (playback or capture) on a port consumes one hardware pair.
+> > >
+> > > For backwards compatibility, keep the old single port property but mark
+> > > it deprecated. A schema constraint (not: required: [port, ports]) ensures
+> > > that both forms cannot be used at the same time. The binding example is
+> > > updated to show the preferred ports form.
+> > >
+> > > No existing upstream DTS file for fsl,imx-asrc uses the previously
+> > > documented single 'port' node, so this change does not break any
+> > > in-tree device tree.
+> >
+> > if no existing upstream DTS file use it, you can direct replace with ports
+>
+> That is to avoid any downstream use of the 'port', so not directly replace it.
 
-Thanks for your opinion.
+Does downstream strictly run DTB_CHECK ?
 
-On Wed, 2026-08-05 at 17:32 +0200, Takashi Iwai wrote:
-> On Wed, 05 Aug 2026 16:32:00 +0200,
-> Rong Zhang wrote:
-> >=20
-> > Hi Michal,
-> >=20
-> > Thanks for the report.
-> >=20
-> > On Tue, 2026-08-04 at 23:55 +0200, Michal Pecio wrote:
-> > > On Sat, 11 Apr 2026 01:49:04 +0800, Rong Zhang wrote:
-> > > > Some devices' mixers are sticky, which accept SET_CUR but do absolu=
-tely
-> > > > nothing. Registering these mixers confuses userspace and results in
-> > > > ineffective volume control.
-> > > >=20
-> > > > Check if a mixer is sticky by setting the volume to the maximum or
-> > > > minimum value and checking for effectiveness afterward. Prevent the
-> > > > mixer from being registered if it turns out to be sticky.
-> > > >=20
-> > > > Quirky device sample:
-> > > >=20
-> > > >   usb 7-1: New USB device found, idVendor=3D0e0b, idProduct=3Dfa01,=
- bcdDevice=3D 1.00
-> > > >   usb 7-1: New USB device strings: Mfr=3D1, Product=3D2, SerialNumb=
-er=3D3
-> > > >   usb 7-1: Product: Feaulle Rainbow
-> > > >   usb 7-1: Manufacturer: Generic
-> > > >   usb 7-1: SerialNumber: 20210726905926
-> > > >   (Mic Capture Volume)
-> > > >=20
-> > > > Signed-off-by: Rong Zhang <i@rong.moe>
-> > >=20
-> > > This appears to break (yet another) device, as reported below.
-> > > Not 100% sure because both affected users ran away to -lts and
-> > > appear to be of the "won't compile kernel patches" variety.
-> > >=20
-> > > https://bbs.archlinux.org/viewtopic.php?id=3D314220
-> >=20
-> > Let me quote some words below:
-> >=20
-> > > After updating, my headset output was halved (or so) despite the same=
- mixer levels and sounds weird/bassy/distorted during fading audio. Previou=
-sly my volume was set to 25%, but now i need 40-50% for the same volume, an=
-d the quality seems worse.
-> > >=20
-> >=20
-> > The new 100% still maps to the original 100% as the sticky check sets t=
-he
-> > mixer value to max before bailing out. IOW, it won't result in always-
-> > halved physical volume.
-> >=20
-> > If the dB reporting is correct, both a hardware mixer and a soft mixer
-> > should map to similar physical volume on the same device. That is, volu=
-me
-> > other than 100% behaving differently usually implies broken dB reportin=
-g.
-> > So the difference in volume mapping isn't really an issue caused by sof=
-t
-> > mixer. Instead, it exposes yet another device quirk.
-> >=20
-> > Distortion at low volume is a side effect of soft mixers on some device=
-s.
-> > Usually it's hardly audible. I guess the SteelSeries Arctis Nova 5 uses=
- a
-> > poorly-performed lossy 2.4GHz codec, making the distortion worse.
-> >=20
-> > >=20
-> > > [...]
-> > >=20
-> > > Broken kernel output:
-> > >=20
-> > > Jul 09 17:06:05 <HOSTNAME> kernel: usb 3-1: Product: SteelSeries Arct=
-is Nova 5
-> > > Jul 09 17:06:05 <HOSTNAME> kernel: usb 3-1: Manufacturer: SteelSeries
-> > > Jul 09 17:06:05 <HOSTNAME> kernel: hid-generic 0003:1038:2232.0008: h=
-iddev99,hidraw7: USB HID v1.11 Device [SteelSeries SteelSeries Arctis Nova =
-5] on usb-0000:13:00.3-1/input3
-> > > Jul 09 17:06:05 <HOSTNAME> kernel: input: SteelSeries SteelSeries Arc=
-tis Nova 5 as /devices/pci0000:00/0000:00:08.1/0000:13:00.3/usb3/3-1/3-1:1.=
-4/0003:1038:2232.0009/input/input12
-> > > Jul 09 17:06:06 <HOSTNAME> kernel: hid-generic 0003:1038:2232.0009: i=
-nput,hidraw8: USB HID v1.11 Device [SteelSeries SteelSeries Arctis Nova 5] =
-on usb-0000:13:00.3-1/input4
-> > > Jul 09 17:06:06 <HOSTNAME> kernel: hid-generic 0003:1038:2232.000A: h=
-iddev100,hidraw9: USB HID v1.11 Device [SteelSeries SteelSeries Arctis Nova=
- 5] on usb-0000:13:00.3-1/input5
-> > > Jul 09 17:06:07 <HOSTNAME> kernel: usb 3-1: 9:0: sticky mixer values =
-(-19712/0/256 =3D> 0), disabling
-> > > Jul 09 17:06:07 <HOSTNAME> kernel: usb 3-1: 10:0: sticky mixer values=
- (-21248/0/256 =3D> 0), disabling
-> >=20
-> > With the kmsg dump, as well as the user confirming that the UAC mixer
-> > responds to SET_CUR, I can confirm the device has broken GET_CUR mixers
-> > instead of sticky ones.
-> >=20
-> > I will submit a patch to add QUIRK_FLAG_MIXER_GET_CUR_BROKEN for the
-> > device, so that the UAC mixer can be reenabled.
-> >=20
-> > >=20
-> > > My $.02 - was there no way to deal with this in userspace,
-> > > or to make it opt-in rather than opt-out?
-> >=20
-> > While userspace can ignore hardware mixers via some configurations, the
-> > current opt-out model is really about:
-> >=20
-> >    When we can't distinguish between both, will the extra advantages of
-> >    exposing a broken GET_CUR mixer outweigh the disadvantages of exposi=
-ng
-> >    a sticky one?
-> >=20
-> > My answer is no.
-> >=20
-> > A sticky hardware mixer breaks volume control completely. If a user
-> > doesn't know how to tell the audio stack to ignore it, it will be a
-> > terrible out-of-box experience.
-> >=20
-> > In contrast, exposing a broken GET_CUR mixer is more like an optimizati=
-on
-> > for slightly better volume control quality (if the mixer is otherwise
-> > implemented properly) compared to a soft mixer.
-> >=20
-> > Other than the unfortunate combination with lossy codecs, usually the
-> > distortion caused by a soft mixer is only audible on a device with high
-> > gain, but such a device should also come with a gain control knob anywa=
-y
-> > -- the user really should use the knob to tune the volume.
-> >=20
-> > Thanks,
-> > Rong
->=20
-> Well, this is getting more troublesome than expected, as it seems;
-> there have been a few more bug reports, too (I forgot places), and I'm
-> afraid that the tendency will remain.
->=20
-> My impression is that Windows drivers don't care about the GET_CUR, so
-> often the device firmware doesn't treat it at all.  If that's the
-> case, it'd be also fine just to take the given mixer value as-is.
-> OTOH, if we want to be more strict, keeping the high default is also
-> logical -- which is our current behavior.  That is, there is no
-> perfect answer to this, and it purely depends on our decision.
+Frank
 
-My decision was based on a frequent phenomenon that many PipeWire users
-mistakenly select the "Digital Stereo (IEC958)" profile instead of the
-"Analog Stereo" one when the UAC device really produces analog output,
-simply because they have a wrong belief that "digital is better than
-analog." Selecting the former bypasses hardware mixers in the hardware
-and forces the use of soft mixer. If their ears can't tell the difference
-between the two profile, keeping the high default and falling back
-userspace soft mixer is probably a fair choice for broken GET_CUR mixers
-without prior knowledge.
-
->=20
-> At least, for 7.3 kernel, I'll keep the current code and take
-> BROKEN_GET_CUR quirks for the reported devices.  But if the reports
-> keeping flooding, we'd have to reconsider.  Let's see.
-
-Agreed. If it eventually turns out to be a rabbit hole, converting the
-check failure action into a pure warning might be a better choice.
-
-Thanks,
-Rong
-
->=20
->=20
-> thanks,
->=20
-> Takashi
+>
+> best regards
+> Shengjiu Wang
+>
+> >
+> > Frank
+> >
+> > >
+> > > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > > ---
+> > >  .../bindings/sound/fsl,imx-asrc.yaml          | 45 ++++++++++++++++---
+> > >  1 file changed, 40 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml b/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml
+> > > index 608defc93c1e..67d2826eef3f 100644
+> > > --- a/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml
+> > > +++ b/Documentation/devicetree/bindings/sound/fsl,imx-asrc.yaml
+> > > @@ -78,9 +78,19 @@ properties:
+> > >    power-domains:
+> > >      maxItems: 1
+> > >
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +    patternProperties:
+> > > +      "^port@[0-2]$":
+> > > +        $ref: audio-graph-port.yaml#
+> > > +        unevaluatedProperties: false
+> > > +        description: port for an independent conversion path
+> > > +
+> > >    port:
+> > >      $ref: audio-graph-port.yaml#
+> > >      unevaluatedProperties: false
+> > > +    deprecated: true
+> > > +    description: deprecated, use ports instead
+> > >
+> > >    fsl,asrc-rate:
+> > >      $ref: /schemas/types.yaml#/definitions/uint32
+> > > @@ -125,6 +135,10 @@ required:
+> > >    - fsl,asrc-width
+> > >
+> > >  allOf:
+> > > +  - not:
+> > > +      required:
+> > > +        - port
+> > > +        - ports
+> > >    - $ref: dai-common.yaml#
+> > >    - if:
+> > >        properties:
+> > > @@ -180,11 +194,32 @@ examples:
+> > >          fsl,asrc-rate = <48000>;
+> > >          fsl,asrc-width = <16>;
+> > >
+> > > -        port {
+> > > -            playback-only;
+> > > +        ports {
+> > > +            #address-cells = <1>;
+> > > +            #size-cells = <0>;
+> > > +
+> > > +            port@0 {
+> > > +                reg = <0>;
+> > > +                playback-only;
+> > > +                endpoint {
+> > > +                    remote-endpoint = <&fe00_ep>;
+> > > +                };
+> > > +            };
+> > > +
+> > > +            port@1 {
+> > > +                reg = <1>;
+> > > +                capture-only;
+> > > +                endpoint {
+> > > +                    remote-endpoint = <&fe01_ep>;
+> > > +                };
+> > > +            };
+> > >
+> > > -            asrc_endpoint: endpoint {
+> > > -                remote-endpoint = <&fe00_ep>;
+> > > +            port@2 {
+> > > +                reg = <2>;
+> > > +                capture-only;
+> > > +                endpoint {
+> > > +                    remote-endpoint = <&fe02_ep>;
+> > > +                };
+> > >              };
+> > > -       };
+> > > +        };
+> > >      };
+> > > --
+> > > 2.34.1
+> > >
+> > >
