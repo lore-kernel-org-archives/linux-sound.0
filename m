@@ -1,89 +1,90 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306F1476065
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8A6473C83
 	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 13:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785938008; cv=none; b=g2jR80WcZ8GzSCVQ8bQ/L1lDgCicvKe9FrNSE3WcfjY9ONrIwvyv+LrgV0NYfxhTunvstB9v0rOYWBmi/nHs/WLuD/nrqq8oF3I1Q4wfazWSdzydfwNAuYZJzHrCn4dS4TYwmpZdVeU73/8YNLKuplMoNE+dKSR1eAbwflt6WfM=
+	t=1785938008; cv=none; b=JnArJt3/ZEIhDLUor45DmbR1WfSwUTmhkl9g80owMlpG/q+vJhLZ8nxEuFyjtRp0/sP1WgSRSKJkPYgN/QvFk8FI7vOyIrftTHhf+j3WFe68KCcWv4/UQu9SThFhn7a2qnFQ/o6izB89yCa85u80Q457Zqdz5U/JXTvXWQ8Iqjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785938008; c=relaxed/simple;
-	bh=1xHkeiljXW7ZhtUUtExQgorKTFG0T2j6+qs/k/6d8eE=;
+	bh=UvaE/P1H0e1QIbXjQina9c8PvTRl0kHeeudR8fBrSh8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mMsnuYSxshF3GJeKBBcJ+enKllT7sCNV3DjTH1X2S/ug5XzoxJ2qx2xQ0ngE3BunNmJ7hpG1q44aA/RCe9Qtc3NFZNwnbW8sPwpFFmrZvRu+apDQzeDp0S3/XdxsCdAvzbx9Sx1GdOoPRMF7z1y31+Pa0ZMicI2YYB8ulyE55QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Husp9qeU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1OjvfIYF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WVKDn03Q; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Lv4N+ByW; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=AFAXJ5wjYjHuG5LnRbmWf7wdpGYkUWWYDvN1ZaZ4WagyqNDn7vNP19T8yOSMPfhxQTWx4iAgF0BmkvUKoDxi50G7AryyONHnNyOdfr7PK7oZNRX6m8S0tw9zDRy+iDnuWWqhui0wuB/zcMIN7iCEv9HCWvr5sYgb5YWoE0pX/LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KDc+1S5a; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r5+cEd+0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z09rfLWB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BrqP88GR; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Husp9qeU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1OjvfIYF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WVKDn03Q";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Lv4N+ByW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KDc+1S5a";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r5+cEd+0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z09rfLWB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BrqP88GR"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9BDC87F10E;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9F9F97F10F;
 	Wed,  5 Aug 2026 13:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1785937996; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
-	b=Husp9qeUevHPFQsGghb5ykfxuZSqdQr0hFGl6q3DKu5e78L7oOboki5/3O8EpMA8Iy51BK
-	zEb2w5TgapNyGWobh7UsWOlcnDxmWu+mycIcAHzP44ZcXMPjRaq8GkirJJguSiHc+a5m12
-	EIAk9gUqf6Z6mUJuD0zGfdBA+irUfmw=
+	bh=X1I7S0sgcUk5MHyDTC+nGjZPmuRmJpRmNfRG3gDRyNE=;
+	b=KDc+1S5awpat58E4aNtz2Cg8U19mpv0PNglELtnKmOsYIU+tWifAE8rrI7Mh7OOtDBp41B
+	ZE6HW4uZoZa/rYr4GK/PlDCYMQ04ftrz5QZlU+7LRpkmwJMIN6ObyLyy3JzGbZJPlMleog
+	TBfxZls4w4iT76NXQ0lcVaduZW4Bl4k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1785937996;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
-	b=1OjvfIYFiMKxOIATc6fmlgTdGZQmk02Sw7uZJ9ocmizaZQGqaS5nh73HdiR7kMOGyLvpzx
-	Y7k9v0/KkMLS5JDA==
+	bh=X1I7S0sgcUk5MHyDTC+nGjZPmuRmJpRmNfRG3gDRyNE=;
+	b=r5+cEd+0J6lUw/J6wecVYOb2G42iiEw8nPejS0EjHUpu2/q+kz2UaaV0loV7rQrGq5chJG
+	jNQ+oUXqKVCPpfBA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WVKDn03Q;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Lv4N+ByW
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1785937992; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
-	b=WVKDn03QkzY16nSo/X3MIbmurNLChiv34aXu2AtmXqo06NqvwIjcsT6vUJOYiPaFToLjTm
-	fxFJjexvW3VGoNIJMQcGxTucrsTEAWv/OLO85iRsgdiPHDxkUx82IwddUh9DotyUCoswaD
-	v3MDWsgBWrFAjCmKZhGb6nyuz412OqY=
+	bh=X1I7S0sgcUk5MHyDTC+nGjZPmuRmJpRmNfRG3gDRyNE=;
+	b=Z09rfLWBO8k7IUwOYgXuliDopqjNUvtcFr6OKVyNAWu9Wyy4RBvFdUd8MuHzN1r6iVTala
+	3Pqv6xP3gKTBGONmKk4DU59/fLmX0TAzLgt2EtwaF80UBN9p6p9Sr1ESjbvdMhVS23C3Oo
+	UoSbkGzGsA7/Fx9xf+ZFE2dNHImplCQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1785937992;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MQLqpEKsw3yvtXFK1OQBSrdxN5VqSLi6xz8MdJH7h5E=;
-	b=Lv4N+ByWIaGnU38Fo6jjY8CLM2VHpjQWOQ6xTsb8Y0kf+XvgDBYZJg2sWvkpYb00MZLxHl
-	BhXkSd+UG5b79PAQ==
+	bh=X1I7S0sgcUk5MHyDTC+nGjZPmuRmJpRmNfRG3gDRyNE=;
+	b=BrqP88GRK0Fw1IXq2OzEwripkKMGGUFDo5XYNllD/UurskieLEFE36eei+g0XBvBoxKuAj
+	nXY5DTZxhp4gUrAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 65E4677A07;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F12F77A08;
 	Wed,  5 Aug 2026 13:53:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wI+7FzxAc2ouSQAAD6G6ig
+	id oMGlJTxAc2ouSQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Wed, 05 Aug 2026 13:53:00 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Maciej Strozek <mstrozek@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Subject: [PATCH 30/31] ASoC: SDCA: Use auto-cleanup for firmware loading
-Date: Wed,  5 Aug 2026 15:52:31 +0200
-Message-ID: <20260805135247.670693-31-tiwai@suse.de>
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 31/31] ASoC: SOF: Use auto-cleanup for firmware loading
+Date: Wed,  5 Aug 2026 15:52:32 +0200
+Message-ID: <20260805135247.670693-32-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260805135247.670693-1-tiwai@suse.de>
 References: <20260805135247.670693-1-tiwai@suse.de>
@@ -94,92 +95,189 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spam-Score: -2.80
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.de:email,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,cirrus.com:email,intel.com:email];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 9BDC87F10E
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,linux.intel.com,nxp.com,linux.dev,amd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,intel.com:email,linux.dev:email,nxp.com:email,imap1.dmz-prg2.suse.org:helo,amd.com:email];
+	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
 
 Simplify the code to manage the firmware loading with __free(firmware)
-auto-cleanup.
+and __free(kfree) auto-cleanups for the firmware data and the temporary
+string or array.
 
 Only the code refactoring, no functional changes.
 
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Maciej Strozek <mstrozek@opensource.cirrus.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
 Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/sdca/sdca_fdl.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ sound/soc/sof/fw-file-profile.c | 19 +++++++------------
+ sound/soc/sof/topology.c        | 20 ++++++--------------
+ 2 files changed, 13 insertions(+), 26 deletions(-)
 
-diff --git a/sound/soc/sdca/sdca_fdl.c b/sound/soc/sdca/sdca_fdl.c
-index dbe572336f8c..150e36ed24bc 100644
---- a/sound/soc/sdca/sdca_fdl.c
-+++ b/sound/soc/sdca/sdca_fdl.c
-@@ -195,7 +195,6 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
+diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+index 76bde2e0be1d..fcd57f04ca36 100644
+--- a/sound/soc/sof/fw-file-profile.c
++++ b/sound/soc/sof/fw-file-profile.c
+@@ -16,20 +16,19 @@ static int sof_test_firmware_file(struct device *dev,
+ 				  enum sof_ipc_type *ipc_type_to_adjust)
  {
- 	struct device *dev = interrupt->dev;
- 	struct sdca_fdl_data *fdl_data = &interrupt->function->fdl_data;
--	const struct firmware *firmware = NULL;
- 	struct acpi_sw_file *swf = NULL, *tmp;
- 	struct sdca_fdl_file *fdl_file;
- 	char *disk_filename;
-@@ -230,6 +229,7 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
+ 	enum sof_ipc_type fw_ipc_type;
+-	const struct firmware *fw;
+-	const char *fw_filename;
+ 	const u32 *magic;
+ 	int ret;
  
- 	dev_dbg(dev, "FDL disk filename: %s\n", disk_filename);
+-	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
+-				profile->fw_name);
++	const char *fw_filename __free(kfree) =
++		kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
++			  profile->fw_name);
+ 	if (!fw_filename)
+ 		return -ENOMEM;
  
-+	const struct firmware *firmware __free(firmware) = NULL;
- 	ret = firmware_request_nowarn(&firmware, disk_filename, dev);
- 	kfree(disk_filename);
- 	if (ret) {
-@@ -258,8 +258,7 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
- 
- 	if (!swf) {
- 		dev_err(dev, "failed to locate SWF\n");
--		ret = -ENOENT;
--		goto error;
-+		return -ENOENT;
++	const struct firmware *fw __free(firmware) = NULL;
+ 	ret = firmware_request_nowarn(&fw, fw_filename, dev);
+ 	if (ret < 0) {
+ 		dev_dbg(dev, "Failed to open firmware file: %s\n", fw_filename);
+-		kfree(fw_filename);
+ 		return ret;
  	}
  
- 	dev_info(dev, "loading SWF: %x-%x-%x\n",
-@@ -271,9 +270,6 @@ static int fdl_load_file(struct sdca_interrupt *interrupt,
- 				     SDCA_CTL_XU_FDL_MESSAGEOFFSET, fdl_file->fdl_offset,
- 				     SDCA_CTL_XU_FDL_MESSAGELENGTH, swf->data,
- 				     swf->file_length - offsetof(struct acpi_sw_file, data));
--
--error:
--	release_firmware(firmware);
- 	return ret;
+@@ -44,8 +43,7 @@ static int sof_test_firmware_file(struct device *dev,
+ 		break;
+ 	default:
+ 		dev_err(dev, "Invalid firmware magic: %#x\n", *magic);
+-		ret = -EINVAL;
+-		goto out;
++		return -EINVAL;
+ 	}
+ 
+ 	if (ipc_type_to_adjust) {
+@@ -54,13 +52,10 @@ static int sof_test_firmware_file(struct device *dev,
+ 		dev_err(dev,
+ 			"ipc type mismatch between %s and expected: %d vs %d\n",
+ 			fw_filename, fw_ipc_type, profile->ipc_type);
+-		ret = -EINVAL;
++		return -EINVAL;
+ 	}
+-out:
+-	release_firmware(fw);
+-	kfree(fw_filename);
+ 
+-	return ret;
++	return 0;
  }
  
+ static int sof_test_topology_file(struct device *dev,
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 6fd69ba11c41..820513bb2577 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -2506,13 +2506,12 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
+ 	struct snd_sof_pdata *sof_pdata = sdev->pdata;
+ 	const char *tplg_filename_prefix = sof_pdata->tplg_filename_prefix;
+-	const struct firmware *fw;
+-	const char **tplg_files;
+ 	int tplg_cnt = 0;
+ 	int ret;
+ 	int i;
+ 
+-	tplg_files = kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
++	const char **tplg_files __free(kfree) =
++		kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
+ 	if (!tplg_files)
+ 		return -ENOMEM;
+ 
+@@ -2538,10 +2537,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 								       tplg_filename_prefix,
+ 								       &tplg_files,
+ 								       no_fallback);
+-		if (tplg_cnt < 0) {
+-			kfree(tplg_files);
++		if (tplg_cnt < 0)
+ 			return tplg_cnt;
+-		}
+ 	}
+ 
+ 	/*
+@@ -2552,8 +2549,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		if (strstr(file, "dummy")) {
+ 			dev_err(scomp->dev,
+ 				"Function topology is required, please upgrade sof-firmware\n");
+-
+-			kfree(tplg_files);
+ 			return -EINVAL;
+ 		}
+ 		tplg_files[0] = file;
+@@ -2568,6 +2563,7 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		if (tplg_files[0] != file)
+ 			dev_info(scomp->dev, "loading topology %d: %s\n", i, tplg_files[i]);
+ 
++		const struct firmware *fw __free(firmware) = NULL;
+ 		ret = request_firmware(&fw, tplg_files[i], scomp->dev);
+ 		if (ret < 0) {
+ 			/*
+@@ -2586,8 +2582,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		else
+ 			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
+ 
+-		release_firmware(fw);
+-
+ 		if (ret < 0) {
+ 			dev_err(scomp->dev, "tplg %s component load failed %d\n",
+ 				tplg_files[i], ret);
+@@ -2606,6 +2600,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 			goto out;
+ 		}
+ 		dev_info(scomp->dev, "loading feature topology %d: %s\n", i, feature_topology);
++
++		const struct firmware *fw __free(firmware) = NULL;
+ 		ret = request_firmware(&fw, feature_topology, scomp->dev);
+ 		if (ret < 0) {
+ 			/*
+@@ -2630,8 +2626,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		else
+ 			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
+ 
+-		release_firmware(fw);
+-
+ 		if (ret < 0) {
+ 			dev_err(scomp->dev, "feature tplg %s component load failed %d\n",
+ 				feature_topologies[i], ret);
+@@ -2650,8 +2644,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 	if (ret >= 0 && sdev->led_present)
+ 		ret = snd_ctl_led_request();
+ 
+-	kfree(tplg_files);
+-
+ 	return ret;
+ }
+ EXPORT_SYMBOL(snd_sof_load_topology);
 -- 
 2.55.0
 
