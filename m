@@ -1,128 +1,89 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67E8351C0C
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 14:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785938947; cv=pass; b=f+RpbYQMMtSucVh6CenyTXANDGOKHiPUgtjlNdEWM0aez4RhvMD6pRTZJBu+sPsKE/lZ0QUxUJY39uFzgCBwqAqx/GMgTUl/qrMPKaD5rQjy82n8YGLI/zDwrWZPrYDWrTAba3WPibq+9lx5554hGVQJJPrGuhWwSZcPxn0XQ8U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785938947; c=relaxed/simple;
-	bh=xemyfSPp9pwMFX19YwknZw26xsatniLD0Lp8dnh1cZQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XFn6WeznxeLh1yTImzkppwCZjnyY5MtFuGK6KPuOwnEn1gIA5xsQiKjfgvt44LQIQTI/Y5qt1e6K9E6hwCoRabWEtcvT5Q8A+ba/3TsAi1x+AxGRMOr06XqIyIBKNAtrZ0+aeeTk7hdMHw8eJHuwrkAxxR9YSKTLwEeH1M/YfBw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZUOfbXw; arc=pass smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C15361970
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 14:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785939416; cv=none; b=LIwX0Ol02dkYC5zlvKNhrbUzhZtsD1dAfh/q+VTlLNl2YvlCwrEEolN5e6YBDYdeY/rvPKGYHX3bx5sttbmyMby/vJOAi6APp8yC9wLN5haZqdj4ppnXBx8zVlbDP1Yw8fmYN8siMCmPpnzL2MIY2QLjpSvlMyF/0WuopAD+nMA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785939416; c=relaxed/simple;
+	bh=kcV6jPewegMif4twk1SLt/L8+AhfJpyDIQlFkgXxNfE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gUxLNzKkjXVyZRYtdkEmBoRwfdK7fEA4AAjFNG15OA7OBuAC7+u3A0o8yj9gUwcPDhIa5uJvQBoLoFq+fUwXkm8grgl/v9iXYv/aGTeGGH3gzm6t2xqvApmTNZkVOmRbJ44yCm4vOEV5ylQ5qnkIxPO2X+ezscDKQQXVZ4HwQaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYfdLWiV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZUOfbXw"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ceaf8a1265so16330255ad.2
-        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 07:09:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785938943; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VnfZKsAlPHJ9EHCCZfPJVa6V7qkU/jjwiDnFRRKX4p8AXdwaX+/zkN25RgC3wVmpNt
-         YU8Z0SvJlH+l2L3eJAZ9QI7EuxFip3uj/p9DH4PaworeB1h3m7YeDUEXkB79bVAXdYSZ
-         sgr4c2KjsPu6ZrgbKIdCcifsz+e8qRFdxrdePxK77K8Zqkzl0IGN/ig+dAh2TQfyRxg0
-         bsx0GxfnkZ935rXZB1mE9Lx6TtJvN8OEcBo3wtrzIzYPG8hVyqNPHCKkdCBQTsSCBV5B
-         Vk/S9aSw5ggW+2gEWUyR2FpFqWCCHlIQkIknomGn4NxCc6I5hmhEr1VaB3kLjpU7v2Zm
-         GZtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xemyfSPp9pwMFX19YwknZw26xsatniLD0Lp8dnh1cZQ=;
-        fh=WlHEFU5FfxDUFGDNS0r9117D7P5XkXjSpMR+aYhAa/Y=;
-        b=LTPXUeNL2cJryTblcvoYVlXZH/COXUvncUQT4iZ1pXN7KTtBmaZwVtn//rWGl4DlrC
-         +pxfW5psKGc4p6MeDDGYwHaEiG4tLGyX2zdj906Dp4CIyMBoaUim12ZIiRqgTmtgH2v5
-         BF7a1cjuhvXkqaSpIbN7efUogyGe7WgUHcIDHbf1P+TWcVfIXYqpISFdhQ5aHN2DDsmg
-         Ksw9QSGsCCx1KJIeoKRI2KiVCmJgJMa5rSHO78wkUoR4mEwVwW58EGvpMOxrvZ6SrM10
-         CZ7D2YV+Pyxtj55cJmTBxtcyJ4ZNj7UjJcN3XZEGbIAP0kd71pgnNFisNh0FNmXzKlRz
-         7hBQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785938943; x=1786543743; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xemyfSPp9pwMFX19YwknZw26xsatniLD0Lp8dnh1cZQ=;
-        b=EZUOfbXwkyHaFXGNu2LftpHR/B0Vh/IiCqnOAymgXdrPaQ5mp4n2TNm7nhKnX/UtGK
-         P5aBV+y2ZFFeTdKtdF5XDYveKHLFbgySk1hsaY6kByxgz4mTOSqp49SkwHd2DA8rmZ+d
-         y779n94u5+K3YvJg2oIRSaQyd2kk07gMy33t4KmSuz/eWn8fXbUfSPpIVqo0aC49fVOH
-         Rl0bi8K3/hvj/bS2rq13UWQBdoAuKmx3XohB1dlC59HVDHLWVyHEqwlBxC7ZICyYdTaG
-         n80aeIANYjX24OepiMV8QuprYoa/2MGYS7UUb504mjq5N562krRQKQ0IlNcSKJ0UAMC8
-         A54A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785938943; x=1786543743;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=xemyfSPp9pwMFX19YwknZw26xsatniLD0Lp8dnh1cZQ=;
-        b=fwYvmlOiT/lC91kIo1Z5rBPeeJv3qqVPk1hgOdOEChtnNueMxk0PVzoqHpXsTyRsC8
-         TZifaPJGnkFQrFb64MQodssAzpY1dZSvz+I4NJ8x5BciDYK02pL+ix5rLufQqeXCxw2S
-         d/oziKtNJpELyRAPJFJ5IgKvOIpoL9jZrSsuZ0QKyugB1ckAZ5ocoQ3iT4rbrGQeXL9y
-         uRcQLvXCSg/h4NHZOQwJzCvoPwZElmce6093XdfJA2PdQRaQ3N+t0PP2X2Vpt131Utez
-         DsbaNtiKqrafDMOJExJQhrnik2dFkmkNp9qGNkHf+1BZxRovyZkuLRsD78rnZF9WI1yF
-         /UYA==
-X-Forwarded-Encrypted: i=1; AHgh+RpowJbOxjbiNUXU3ooAtj1KZQoz+cV6qgMz4xow3PLd6jPq/zowRI0i+jtAd1aBL56My+6h2gjr5gyhug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqD01nuh8k2egGslSD9S/QPd66FlTKxkIgMfE8nVYLXYQrrfn5
-	YiCsstR+qpgzNBiyJPL0iR7d+mWVVU0SV83N+j9qPTSQe5YOb5y4AZNacBiH9tkNEc20K97a3k1
-	Fm96dsH1dKV7Jfettc+aLu+NlFEBhBUA=
-X-Gm-Gg: AR+sD10YTQpZzN8YYLMFds6SSrv9LpcXkQrQy5TsTCWHxOjjj6+LDUrGjtPGRZOzuAc
-	y8fSR46XG+8eUzlUkwumj3fNIZ0Qr9W90kXFaHBMvKSZ1OuVzq3G4j2tOirBa/YB2C9ATn8khMv
-	JdMGFaLzClgEG/sVjyKiscV9q5Bfw/pRzWyzA88tjkiJC2y+TzPjyXBIM6av+kkNlJAGAV5tK/1
-	kAHnWV5xSGXoDCriHw9IezgbVkTvSFkPfbquZ8osQpkiD+ubRLYg2XAMjDn3epdV4ZI0Rx0Fvfp
-	0aUcuWEhBAofL3IkVh9HZBm/JTUipOsPAR13EFdYVBJXAXk5WP9onqWGv2FoyG2wTRtOU1ePJ4/
-	Cv3PtijjQ5NaLW2CMGE73n8/N37VNV9Ncqx4fgTMiZQ8j2EOAR7PmcFyTqFB2tgUDBIBjS8WE2H
-	lF7qflxrayU5Yh1+0=
-X-Received: by 2002:a17:903:1a10:b0:2cc:f5b8:4c2e with SMTP id
- d9443c01a7336-2d0ca767b88mr93568555ad.9.1785938943593; Wed, 05 Aug 2026
- 07:09:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYfdLWiV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7B911F000E9;
+	Wed,  5 Aug 2026 14:16:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785939413;
+	bh=CslVSymHET2F6bVvQgs5sOqmbPxrOJ52Rmz/Fif8VdI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=dYfdLWiVUh+iU9RbC3ybWWyZmZ3QeGbur9yXQWP484ORbjHM+VaBOJgcdgwYE6Oya
+	 N3goa69x+hQX79YEht+wuaF/PaWS1lXPXa411mCyzQiSoTrLPd+eFmjkxfyYDlVxjq
+	 mzXR4R6Eio13VnDG6OIQBYVANHrm/v1smbM94uhTgmF1hxvsFLkwNri6a5XDIJKg1A
+	 /tFCZehD4IcKs34gXP8cElovvNd6ek3JPHa2yNLRj7LHyUTHcDkVZiujVZJth9yg6A
+	 0gd8yAHN+Dq+ZXtSEWTTwcIjJmmW6obxaxSvteBWcKEqwavCQWUXfxSgCxSu+goTMj
+	 pBJjmQnYxF6AQ==
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20260805064435.429654-1-cezary.rojewski@intel.com>
+References: <20260805064435.429654-1-cezary.rojewski@intel.com>
+Subject: Re: [PATCH] ASoC: Intel: Remove obsolete UAPI headers
+Message-Id: <178593004188.199927.2607174785025136857.b4-ty@b4>
+Date: Wed, 05 Aug 2026 12:40:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260714120042.491712-1-phucduc.bui@gmail.com> <99bc4c85-5f5e-42bc-8799-eaa7ef5d1257@intel.com>
-In-Reply-To: <99bc4c85-5f5e-42bc-8799-eaa7ef5d1257@intel.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Wed, 5 Aug 2026 21:08:52 +0700
-X-Gm-Features: AUfX_mzOqWTlDFK-96ZrRtf69s7sJAXD3xbqxGluQl2H8caDAyUMbDoCuVVOjKc
-Message-ID: <CAABR9nE2-BTBNDrkAxd0Jg9RYwe48wfFynRQMwK55D7J1WeZSQ@mail.gmail.com>
-Subject: Re: [PATCH 00/10] ASoC: ti: Improve probe error handling
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jarkko Nikula <jarkko.nikula@bitmer.com>, linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1103; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=kcV6jPewegMif4twk1SLt/L8+AhfJpyDIQlFkgXxNfE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqc0XTOLZp5hhlZD71W13tZs/kfNpZ13i0J5qSF
+ pDC+PnlkkOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanNF0wAKCRAk1otyXVSH
+ 0LaxB/4yJakoQq3lOTmZ8FLbMOUPMEay77/7iL1ih3yvass557jYdt6btv1DYUzB+Mcwr92GCnt
+ izigCgn0PVv05DnahcFfvl0EvcltIn7vVYY+Q9St8iqnaqhq/pl43yiOewuo4t8eDeMkpRx9eh3
+ aae5i9o9CjN2lj6jFqRS7gISBh4lgCRCOseMX//TJxLop5TnkMNaGcu10wbP1+1FU6SgvBx9oZy
+ /wLra8GLnXDPMjS6QYohcnwDCXWOX+gSCk0ndnuQYlbVrDaQsLD+BiBtZxY32pAFVi0iJvL4uGf
+ gwSmS2wu7m6/7MofCmKo3R68issX5lC1vPrC94v1diwoZHqK
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Hi Cezary,
+On Wed, 05 Aug 2026 08:44:35 +0200, Cezary Rojewski wrote:
+> ASoC: Intel: Remove obsolete UAPI headers
 
-Thanks for the feedback.
+Applied to
 
->
-> Which obviously you do not but the impression is there nonetheless.
->
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-There's no way I could hide anything from the reviewers anyway. :)
+Thanks!
 
+[1/1] ASoC: Intel: Remove obsolete UAPI headers
+      https://git.kernel.org/broonie/sound/c/c53cb1f46be5
 
-> If there are no dependencies between the 1) and 2), have all patches
-> belonging to 1) lead the series before any 2)s pop up.
->
-> Right now you have three outstanding patches in the middle of the set
-> that clearly differentiate from "Use dev_err_probe() for error handling"
-> pattern like if you are about to hide something.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-From the earlier guard/scoped_guard series for Intel, I learned that you
-prefer grouping patches by topic rather than mixing different kinds of
-changes together.
-I'm not sure whether other maintainers feel the same way, or would
-rather prioritize what's more convenient for the developer preparing
-the series.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Thanks again for the suggestion. I'll keep it in mind for future patch series.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Best regards,
-Phuc
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
