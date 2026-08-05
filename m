@@ -1,182 +1,588 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF49340A6F
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 06:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F213DDDAB
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 06:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785911781; cv=none; b=rm2DUIc/9eV9k3NpVuKkhBnYGM8xyj7VIK/ouOjFet0c8SKwCBtVf546iH8Zo2pr8LGWTLjnouXMFZb5WF4o8iKkEkdjwupHXWMk1kWAnS4z636kZU0jwwK9yRkzxplD34VyutPviYSRExAVY3/w535jRLz1UeitO3Z1pq94NWE=
+	t=1785912020; cv=none; b=eFhLH17Z5tR9H36iZ6BW9tM6XYb1maYH2m8ElJn0TCcfLyuAhpfSPTC2GDlxHDL5dk8UsHhJI1h1QYF+Q1GMmGyncqHuhZeApAovxw/y4WNYbnO/nSDzVFaVR44HRcKlOvnWOLKcnNOcUoVOV/8NY5mMmc0+J32ul7OqdEjQK7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785911781; c=relaxed/simple;
-	bh=52egO2uR6QROqzSCN0wZSK0KPAnShyTrA4YdSfd3s60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bvQZkWUbN0Ox65HP06lWaHm853fOXoEOguzavwhhKWMW9OcP2oKmr4UEfAfrxYaq4a5DV7pn2mquQYy3N8A85/x70yDT3V21hnXYj5mQfHYcCrVdXe61+2Y3JP3NkVf3SxWtbRcAHsAf7F3xiL0qtNSc7vxiST9zCE2xpD4nE0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OIvhiEAI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GbE9P/vO; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1785912020; c=relaxed/simple;
+	bh=sqXih4RsxzYIpZWTPxb1HzDhx4XoK2ygZPqVjf47pXM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qssoRU/4aSFsel8PFzYB/D3vnMrTS9OoWTb5wHVF+NiV1K/mi9cj4/MO2W6wsvgNQ6EMrL6jGSZsTo4wXn1QXh5mZhSRShWvuDUotLtxABgQ0lkEMRb392DmQpflh08+9WjHx6bvIQ1cYBwNfElS7Kimpnj51CqKr7/AEwjvl6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSnIFAoH; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OIvhiEAI";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GbE9P/vO"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6755l7D31731919
-	for <linux-sound@vger.kernel.org>; Wed, 5 Aug 2026 06:36:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4hDJxZk+v8/RtvW8Qv9o/0m9zTJWoPN2O+84UE2RIt8=; b=OIvhiEAIO/wMDvUk
-	fQFQcffiErY5wNE0gC5Gx9MmhrH6ZLUtp6gZfYX9Yk9+dxItooFNNWX1Sj6dHYIH
-	IOU2zfpx/2j2okoTK1xPoNNTlRu0QehJ3vCuP+satAGGh6UoJwWMv4bGqCUihMKy
-	Bx9v5zTN4koowe7ZcUEQYAbIxCXBPlf/3wz//vRmym9mRCgxarmmL3FbdNEQFdpy
-	QccblBuav88aNjWqAv+nzVAYhNygubPSfthw2JV9BwgxiORqF8IOUxH9+bkR5WOh
-	Nk4X/RYEQg/sanJqu1wpK7tTJm/huHIjGP+uf/n+WyAhTeoQXtcKBCSotNJkdJ9U
-	3ARV7A==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fugmgm91r-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 06:36:17 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-92e53b8a302so73572085a.1
-        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 23:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1785911776; x=1786516576; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4hDJxZk+v8/RtvW8Qv9o/0m9zTJWoPN2O+84UE2RIt8=;
-        b=GbE9P/vOP9E5GZAg4PjlpXR3JCXlF5EjkO6Q1f4QeJUA9DJ/O6Zn5S/kFuY3pzzbjQ
-         KrpRvcMgWYojgVJDsJE+Njyo81AnE9l7+hTYLBcStVGQFRZp1+D4j/V4kqKrv4U6O/JI
-         OMq3rNK+xjfrRKDWgjAB7/jxLdN9OHf/yavUVK4VAJa9dBDhsUvz+E5Mxw7dHM3AxbKh
-         LOYz3ftNSZrk+kI0Z6LAtH2tZtRdjmucrZIk65YiDWz/qnoLwQSLRfSL0re1TfyPUSqg
-         iB5k0XxyHM3dXjWwNPXs029xEGZ4iG9pU3Fra6T3x11hajdpTvmuHzfrFqa9BLHXkD5n
-         Cpew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785911776; x=1786516576;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4hDJxZk+v8/RtvW8Qv9o/0m9zTJWoPN2O+84UE2RIt8=;
-        b=Z/KMke9eszxWSimhbERH8qIPgQS+DgO389+UvVVKyp/j5oWZsn4RASC9y0ij/dNwCC
-         t7mx9MOgZV6vUqgU4klIJEFi3PT4LCBz8IGfWrIcQq+hnHrlYTJG5C/yoK9LpTOxzRGW
-         gYS5f5m6R7gP3wQARndJ5/l5h9zVF2TC0w8WvOFzDGjzvUSp3wTVkf5pDZIUY4ysilgu
-         rtFem9bT/r8ouwdNFxF8e299pviPjVXtCuiMdkZeLkIlpoWwHEyAys4vkMxzHj/fW8Mp
-         P47vay30odc1Y7lk5NTeRMhzhpe9CpAJzwEmZgk6wfPYWAMV/TVWZdEh18v6Zc88duqB
-         eoZA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2Gae2iRfSyT/GnB61lBzCbtYcHmarqjElJXfgzpHhRmCHFnsg3VvY8dJ6O3gW1kpdmg8gMHDYAOkvcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBnAq7POBMFsID1lFYQDzP0B8Co5NFS0yqugzTwgcyhgAk8blI
-	X6fiQR18mkdvHM8Txp2WbqpZhS0a+Sf/6pfnkXM9pxucovFe4D+BfXyTHmA7GGf++0b0pwfIL2T
-	eBMm+olFfs1lXE7nIe2hQfY4tzog1yKI47Ihwl/zkVATeGpPejl7mFnkGnkfUOXOKmQ==
-X-Gm-Gg: AR+sD12P67FGRj7DBsIClfcNJiL/ScAkEKuKcAqedgd+iYNwqpmPdZx+CXqAe/mL2TC
-	9ELtuZGN5gkeMEZbVVL5iqE47twbqwKi2u1YuJy0WY/NtUa6c9BQkoW06021JGmcP1M+pRM0ZfI
-	J+hRd1bSxrhAadZeP5Gt2s5tmC43oMoFmbSesECkJsbHMTXN4PqZ1ZVXOQebVLypQz00iQSDpqd
-	MBkpqh8aJeAMD6Z9rd0gO+qObJCVeInL+9MTD0tNyEyND2qIJN/bZiX3qyYTTX5+hFFx2TZ+0cU
-	upoz98qJo2JD+VClnwu/0DO7xmUyfYcgHlFjs+5WDcRV8nd7PXk/VPm2H5OSmSAOW+ta+X8Htr3
-	H9QHB39Q4wXfxjSwgpGSEOrfOn4eu0g==
-X-Received: by 2002:a05:622a:8c:b0:519:fca2:346a with SMTP id d75a77b69052e-52ce610775fmr40114201cf.23.1785911776409;
-        Tue, 04 Aug 2026 23:36:16 -0700 (PDT)
-X-Received: by 2002:a05:622a:8c:b0:519:fca2:346a with SMTP id d75a77b69052e-52ce610775fmr40113921cf.23.1785911775923;
-        Tue, 04 Aug 2026 23:36:15 -0700 (PDT)
-Received: from [192.168.1.110] ([178.197.219.214])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fec23ec2fsm6226035f8f.29.2026.08.04.23.36.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Aug 2026 23:36:14 -0700 (PDT)
-Message-ID: <14fd0c6e-4f35-4916-b6a3-b5ebc293c56c@oss.qualcomm.com>
-Date: Wed, 5 Aug 2026 08:36:12 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSnIFAoH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785912018; x=1817448018;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=sqXih4RsxzYIpZWTPxb1HzDhx4XoK2ygZPqVjf47pXM=;
+  b=KSnIFAoHTeLQX94A57nk+T7MjQX8L5u34t4gR5RTjuw2qdljUoGeHfXP
+   K0sES/9t8gTMDjsEH1/k5izd4VKssLunxypmGHTgFwEM3c05GYrv63KQy
+   Yp3O8T/TyFb2Jd+r9HlBhCuTnDUfPSsBvFvXV+iuRnj9VbkXVJJ6FtA05
+   futlYf2ka9+T0q8pbbYoLGo+/89age4QebFlrVBU5vkuzDorQ4gHqrLVl
+   snZaZuoTV+t18b8xwY5YWEmJnweonq0bxY3cdtKCCJkEO7dLvdFEDsjc1
+   3FXhAO+I7HgfQWRgw3Bs8pOhelmck7rmBIFMlRgYyIR4+KNQP5FvjMj5g
+   w==;
+X-CSE-ConnectionGUID: MwqdqlVpTS+zAUuXWUJGEg==
+X-CSE-MsgGUID: pyuWxtKVQbSzT9URdD7TnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86592023"
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="86592023"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 23:40:17 -0700
+X-CSE-ConnectionGUID: QzoCLYY8SUWARxEElNEE8A==
+X-CSE-MsgGUID: ZY/vj2hkSOyH5hSfER5Etw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="285092539"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Aug 2026 23:40:06 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH] ASoC: Intel: Remove obsolete UAPI headers
+Date: Wed,  5 Aug 2026 08:44:35 +0200
+Message-Id: <20260805064435.429654-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/7] dt-bindings: sound: qcom,q6dsp-lpass-ports: add
- Audio IF clocks
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-        Rob Herring <robh@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org,
-        linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-References: <20260804070307.117119-1-prasad.kumpatla@oss.qualcomm.com>
- <20260804070307.117119-4-prasad.kumpatla@oss.qualcomm.com>
- <20260804201645.GA1781336-robh@kernel.org>
- <8e362b9f-c19e-477b-b01a-74597858edfd@oss.qualcomm.com>
- <b814a4be-7c20-45e4-8abd-5e67a6a3b5a1@kernel.org>
- <7089bf29-acdd-49c4-a32e-82e266019910@oss.qualcomm.com>
- <8f29cb9e-04c9-4048-bb11-854a2d90627e@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <8f29cb9e-04c9-4048-bb11-854a2d90627e@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDA1MCBTYWx0ZWRfX4ZbzbdIfzaLz
- Q++BLrnY54aWdSeJJOOLh3JHDegyscy2AtH1s6wRHcNw8ZODuKHsplWiU+qP45W32nRM08cuiNn
- 94I5Gx0QNqbRMX6ia0lRiJnEH85Y37p+1RnCbK9uWDSXez+niIvdXWrsddcKzCM3MLw1b73kLNw
- cvnZaeuHg8984LPxF2hp2bYTO5yc4PEYJbJmdQDuxVGicSQYo67oMWZlX5pkD25noLwY8gGcP8p
- 6y/5ePR37Jr1+zIF4OEUYrT0oUj1p83Jmm9C+R1erk0G8jz6dKfvhP1AgFFR5ChS8cHYRZMSZ2k
- z75owNcX7w+hJkSHZQnygt0xCldz60RPb1BcqAMuGlbia9gdFpp9Aou4xCwdYN8gAXCsDT6y9Bm
- TYbhW6AVteHqMbSlWea/6KaJT6GTemp3b+m/5PqBYMh/u81ogYLWqTDI9CVpM3zHdUz46GJjLOh
- 4x8CEyMIGLAjG3H12tg==
-X-Proofpoint-GUID: HcoQnL45r2IdVk9At4bZ8ffjyfq6BI8v
-X-Proofpoint-ORIG-GUID: HcoQnL45r2IdVk9At4bZ8ffjyfq6BI8v
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDA1MCBTYWx0ZWRfX29KiaXg+E0Vs
- 0qood/qkiwZrHtroO7Ut9ViAuKwa+1zCllpPSwMbQctmyNw4adz91D6AxDxWsBqfchyfEod16di
- 7SGCR8t5/gqi+mcDAACxLIgpw1QnHuU=
-X-Authority-Analysis: v=2.4 cv=XYC5Co55 c=1 sm=1 tr=0 ts=6a72d9e1 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=+bKQE0WJfmhK2875HamI0Q==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=vQhtWTqkcnNfwhkucCQA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-05_02,2026-08-04_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0
- clxscore=1015 bulkscore=0 impostorscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608050050
+Content-Transfer-Encoding: 8bit
 
-On 05/08/2026 08:33, Krzysztof Kozlowski wrote:
-> On 05/08/2026 08:29, Prasad Kumpatla wrote:
->>
->> On 8/5/2026 11:40 AM, Krzysztof Kozlowski wrote:
->>> On 05/08/2026 06:40, Prasad Kumpatla wrote:
->>>> On 8/5/2026 1:46 AM, Rob Herring wrote:
->>>>>>    #define LPASS_CLK_ID_RX_CORE_MCLK2_2X_MCLK	70
->>>>>>    
->>>>>> +#define LAPSS_CLK_ID_QAIF_IF0_IBIT		71
->>>>> LPASS_ as saskiho points out.
->>>> Hi Rob,
->>>>
->>>> Thanks for catching this. The change has already picked, so I'll send a
->>>> follow-up patch to correct the typo.
->>> You received several sashiko (6!) replies immediately after sending yet
->>> you did not respond to them leading to Mark picking up this patchset.
->>
->> Hi Krzysztof,
->>
->> Thanks for pointing that out, and apologies for not following up on the
->> reported typo sooner. I had noted the issue, but unfortunately did not send
->> the fix before the series was applied. I'll send a follow-up patch to correct the typo.
->>
->> Thanks to you and Sasikho for catching it.
-> 
-> It is not about a fix. It is about replying that you have Sashiko
-> reports with valid statements!
-> 
-> And what about give (!!!) other comments beside that typo? Are you going
+Both target Intel's skylake-driver, previously found in sound/soc/intel
+which has been removed few years ago and succeeded by the avs-driver.
 
-Typo... what about "five" other comments?
+snd_sst_tokens.h is succeeded by uapi/sound/intel/avs/tokens.h
+skl-tplg-interface.h to the best of my knowledge has no users. Its types
+are reflected in sound/soc/intel/avs/messages.h and are not intended for
+public use.  Closest public equivalent would be the firmware's
+processing modules but in such case a user has to compile against
+Intel's AudioDSP headers, not Linux ones.
 
-> to ignore just all of them?
-> 
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+---
+ include/uapi/sound/skl-tplg-interface.h | 168 ------------
+ include/uapi/sound/snd_sst_tokens.h     | 324 ------------------------
+ 2 files changed, 492 deletions(-)
+ delete mode 100644 include/uapi/sound/skl-tplg-interface.h
+ delete mode 100644 include/uapi/sound/snd_sst_tokens.h
 
+diff --git a/include/uapi/sound/skl-tplg-interface.h b/include/uapi/sound/skl-tplg-interface.h
+deleted file mode 100644
+index 940c4269322b..000000000000
+--- a/include/uapi/sound/skl-tplg-interface.h
++++ /dev/null
+@@ -1,168 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+-/*
+- * skl-tplg-interface.h - Intel DSP FW private data interface
+- *
+- * Copyright (C) 2015 Intel Corp
+- * Author: Jeeja KP <jeeja.kp@intel.com>
+- *	    Nilofer, Samreen <samreen.nilofer@intel.com>
+- */
+-
+-#ifndef __HDA_TPLG_INTERFACE_H__
+-#define __HDA_TPLG_INTERFACE_H__
+-
+-#include <linux/types.h>
+-
+-/*
+- * Default types range from 0~12. type can range from 0 to 0xff
+- * SST types start at higher to avoid any overlapping in future
+- */
+-#define SKL_CONTROL_TYPE_BYTE_TLV	0x100
+-#define SKL_CONTROL_TYPE_MIC_SELECT	0x102
+-#define SKL_CONTROL_TYPE_MULTI_IO_SELECT	0x103
+-#define SKL_CONTROL_TYPE_MULTI_IO_SELECT_DMIC	0x104
+-
+-#define HDA_SST_CFG_MAX	900 /* size of copier cfg*/
+-#define MAX_IN_QUEUE 8
+-#define MAX_OUT_QUEUE 8
+-
+-#define SKL_UUID_STR_SZ 40
+-/* Event types goes here */
+-/* Reserve event type 0 for no event handlers */
+-enum skl_event_types {
+-	SKL_EVENT_NONE = 0,
+-	SKL_MIXER_EVENT,
+-	SKL_MUX_EVENT,
+-	SKL_VMIXER_EVENT,
+-	SKL_PGA_EVENT
+-};
+-
+-/**
+- * enum skl_ch_cfg - channel configuration
+- *
+- * @SKL_CH_CFG_MONO:	One channel only
+- * @SKL_CH_CFG_STEREO:	L & R
+- * @SKL_CH_CFG_2_1:	L, R & LFE
+- * @SKL_CH_CFG_3_0:	L, C & R
+- * @SKL_CH_CFG_3_1:	L, C, R & LFE
+- * @SKL_CH_CFG_QUATRO:	L, R, Ls & Rs
+- * @SKL_CH_CFG_4_0:	L, C, R & Cs
+- * @SKL_CH_CFG_5_0:	L, C, R, Ls & Rs
+- * @SKL_CH_CFG_5_1:	L, C, R, Ls, Rs & LFE
+- * @SKL_CH_CFG_DUAL_MONO: One channel replicated in two
+- * @SKL_CH_CFG_I2S_DUAL_STEREO_0: Stereo(L,R) in 4 slots, 1st stream:[ L, R, -, - ]
+- * @SKL_CH_CFG_I2S_DUAL_STEREO_1: Stereo(L,R) in 4 slots, 2nd stream:[ -, -, L, R ]
+- * @SKL_CH_CFG_INVALID:	Invalid
+- */
+-enum skl_ch_cfg {
+-	SKL_CH_CFG_MONO = 0,
+-	SKL_CH_CFG_STEREO = 1,
+-	SKL_CH_CFG_2_1 = 2,
+-	SKL_CH_CFG_3_0 = 3,
+-	SKL_CH_CFG_3_1 = 4,
+-	SKL_CH_CFG_QUATRO = 5,
+-	SKL_CH_CFG_4_0 = 6,
+-	SKL_CH_CFG_5_0 = 7,
+-	SKL_CH_CFG_5_1 = 8,
+-	SKL_CH_CFG_DUAL_MONO = 9,
+-	SKL_CH_CFG_I2S_DUAL_STEREO_0 = 10,
+-	SKL_CH_CFG_I2S_DUAL_STEREO_1 = 11,
+-	SKL_CH_CFG_7_1 = 12,
+-	SKL_CH_CFG_4_CHANNEL = SKL_CH_CFG_7_1,
+-	SKL_CH_CFG_INVALID
+-};
+-
+-enum skl_module_type {
+-	SKL_MODULE_TYPE_MIXER = 0,
+-	SKL_MODULE_TYPE_COPIER,
+-	SKL_MODULE_TYPE_UPDWMIX,
+-	SKL_MODULE_TYPE_SRCINT,
+-	SKL_MODULE_TYPE_ALGO,
+-	SKL_MODULE_TYPE_BASE_OUTFMT,
+-	SKL_MODULE_TYPE_KPB,
+-	SKL_MODULE_TYPE_MIC_SELECT,
+-};
+-
+-enum skl_core_affinity {
+-	SKL_AFFINITY_CORE_0 = 0,
+-	SKL_AFFINITY_CORE_1,
+-	SKL_AFFINITY_CORE_MAX
+-};
+-
+-enum skl_pipe_conn_type {
+-	SKL_PIPE_CONN_TYPE_NONE = 0,
+-	SKL_PIPE_CONN_TYPE_FE,
+-	SKL_PIPE_CONN_TYPE_BE
+-};
+-
+-enum skl_hw_conn_type {
+-	SKL_CONN_NONE = 0,
+-	SKL_CONN_SOURCE = 1,
+-	SKL_CONN_SINK = 2
+-};
+-
+-enum skl_dev_type {
+-	SKL_DEVICE_BT = 0x0,
+-	SKL_DEVICE_DMIC = 0x1,
+-	SKL_DEVICE_I2S = 0x2,
+-	SKL_DEVICE_SLIMBUS = 0x3,
+-	SKL_DEVICE_HDALINK = 0x4,
+-	SKL_DEVICE_HDAHOST = 0x5,
+-	SKL_DEVICE_NONE
+-};
+-
+-/**
+- * enum skl_interleaving - interleaving style
+- *
+- * @SKL_INTERLEAVING_PER_CHANNEL: [s1_ch1...s1_chN,...,sM_ch1...sM_chN]
+- * @SKL_INTERLEAVING_PER_SAMPLE: [s1_ch1...sM_ch1,...,s1_chN...sM_chN]
+- */
+-enum skl_interleaving {
+-	SKL_INTERLEAVING_PER_CHANNEL = 0,
+-	SKL_INTERLEAVING_PER_SAMPLE = 1,
+-};
+-
+-enum skl_sample_type {
+-	SKL_SAMPLE_TYPE_INT_MSB = 0,
+-	SKL_SAMPLE_TYPE_INT_LSB = 1,
+-	SKL_SAMPLE_TYPE_INT_SIGNED = 2,
+-	SKL_SAMPLE_TYPE_INT_UNSIGNED = 3,
+-	SKL_SAMPLE_TYPE_FLOAT = 4
+-};
+-
+-enum module_pin_type {
+-	/* All pins of the module takes same PCM inputs or outputs
+-	* e.g. mixout
+-	*/
+-	SKL_PIN_TYPE_HOMOGENEOUS,
+-	/* All pins of the module takes different PCM inputs or outputs
+-	* e.g mux
+-	*/
+-	SKL_PIN_TYPE_HETEROGENEOUS,
+-};
+-
+-enum skl_module_param_type {
+-	SKL_PARAM_DEFAULT = 0,
+-	SKL_PARAM_INIT,
+-	SKL_PARAM_SET,
+-	SKL_PARAM_BIND
+-};
+-
+-struct skl_dfw_algo_data {
+-	__u32 set_params:2;
+-	__u32 rsvd:30;
+-	__u32 param_id;
+-	__u32 max;
+-	char params[];
+-} __packed;
+-
+-enum skl_tkn_dir {
+-	SKL_DIR_IN,
+-	SKL_DIR_OUT
+-};
+-
+-enum skl_tuple_type {
+-	SKL_TYPE_TUPLE,
+-	SKL_TYPE_DATA
+-};
+-
+-#endif
+diff --git a/include/uapi/sound/snd_sst_tokens.h b/include/uapi/sound/snd_sst_tokens.h
+deleted file mode 100644
+index defeb0c6ed20..000000000000
+--- a/include/uapi/sound/snd_sst_tokens.h
++++ /dev/null
+@@ -1,324 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+-/*
+- * snd_sst_tokens.h - Intel SST tokens definition
+- *
+- * Copyright (C) 2016 Intel Corp
+- * Author: Shreyas NC <shreyas.nc@intel.com>
+- */
+-#ifndef __SND_SST_TOKENS_H__
+-#define __SND_SST_TOKENS_H__
+-
+-/**
+- * %SKL_TKN_UUID:               Module UUID
+- *
+- * %SKL_TKN_U8_BLOCK_TYPE:      Type of the private data block.Can be:
+- *                              tuples, bytes, short and words
+- *
+- * %SKL_TKN_U8_IN_PIN_TYPE:     Input pin type,
+- *                              homogenous=0, heterogenous=1
+- *
+- * %SKL_TKN_U8_OUT_PIN_TYPE:    Output pin type,
+- *                              homogenous=0, heterogenous=1
+- * %SKL_TKN_U8_DYN_IN_PIN:      Configure Input pin dynamically
+- *                              if true
+- *
+- * %SKL_TKN_U8_DYN_OUT_PIN:     Configure Output pin dynamically
+- *                              if true
+- *
+- * %SKL_TKN_U8_IN_QUEUE_COUNT:  Store the number of Input pins
+- *
+- * %SKL_TKN_U8_OUT_QUEUE_COUNT: Store the number of Output pins
+- *
+- * %SKL_TKN_U8_TIME_SLOT:       TDM slot number
+- *
+- * %SKL_TKN_U8_CORE_ID:         Stores module affinity value.Can take
+- *                              the values:
+- *                              SKL_AFFINITY_CORE_0 = 0,
+- *                              SKL_AFFINITY_CORE_1,
+- *                              SKL_AFFINITY_CORE_MAX
+- *
+- * %SKL_TKN_U8_MOD_TYPE:        Module type value.
+- *
+- * %SKL_TKN_U8_CONN_TYPE:       Module connection type can be a FE,
+- *                              BE or NONE as defined :
+- *                              SKL_PIPE_CONN_TYPE_NONE = 0,
+- *                              SKL_PIPE_CONN_TYPE_FE = 1 (HOST_DMA)
+- *                              SKL_PIPE_CONN_TYPE_BE = 2 (LINK_DMA)
+- *
+- * %SKL_TKN_U8_DEV_TYPE:        Type of device to which the module is
+- *                              connected
+- *                              Can take the values:
+- *                              SKL_DEVICE_BT = 0x0,
+- *                              SKL_DEVICE_DMIC = 0x1,
+- *                              SKL_DEVICE_I2S = 0x2,
+- *                              SKL_DEVICE_SLIMBUS = 0x3,
+- *                              SKL_DEVICE_HDALINK = 0x4,
+- *                              SKL_DEVICE_HDAHOST = 0x5,
+- *                              SKL_DEVICE_NONE
+- *
+- * %SKL_TKN_U8_HW_CONN_TYPE:    Connection type of the HW to which the
+- *                              module is connected
+- *                              SKL_CONN_NONE = 0,
+- *                              SKL_CONN_SOURCE = 1,
+- *                              SKL_CONN_SINK = 2
+- *
+- * %SKL_TKN_U16_PIN_INST_ID:    Stores the pin instance id
+- *
+- * %SKL_TKN_U16_MOD_INST_ID:    Stores the mdule instance id
+- *
+- * %SKL_TKN_U32_MAX_MCPS:       Module max mcps value
+- *
+- * %SKL_TKN_U32_MEM_PAGES:      Module resource pages
+- *
+- * %SKL_TKN_U32_OBS:            Stores Output Buffer size
+- *
+- * %SKL_TKN_U32_IBS:            Stores input buffer size
+- *
+- * %SKL_TKN_U32_VBUS_ID:        Module VBUS_ID. PDM=0, SSP0=0,
+- *                              SSP1=1,SSP2=2,
+- *                              SSP3=3, SSP4=4,
+- *                              SSP5=5, SSP6=6,INVALID
+- *
+- * %SKL_TKN_U32_PARAMS_FIXUP:   Module Params fixup mask
+- * %SKL_TKN_U32_CONVERTER:      Module params converter mask
+- * %SKL_TKN_U32_PIPE_ID:        Stores the pipe id
+- *
+- * %SKL_TKN_U32_PIPE_CONN_TYPE: Type of the token to which the pipe is
+- *                              connected to. It can be
+- *                              SKL_PIPE_CONN_TYPE_NONE = 0,
+- *                              SKL_PIPE_CONN_TYPE_FE = 1 (HOST_DMA),
+- *                              SKL_PIPE_CONN_TYPE_BE = 2 (LINK_DMA),
+- *
+- * %SKL_TKN_U32_PIPE_PRIORITY:  Pipe priority value
+- * %SKL_TKN_U32_PIPE_MEM_PGS:   Pipe resource pages
+- *
+- * %SKL_TKN_U32_DIR_PIN_COUNT:  Value for the direction to set input/output
+- *                              formats and the pin count.
+- *                              The first 4 bits have the direction
+- *                              value and the next 4 have
+- *                              the pin count value.
+- *                              SKL_DIR_IN = 0, SKL_DIR_OUT = 1.
+- *                              The input and output formats
+- *                              share the same set of tokens
+- *                              with the distinction between input
+- *                              and output made by reading direction
+- *                              token.
+- *
+- * %SKL_TKN_U32_FMT_CH:         Supported channel count
+- *
+- * %SKL_TKN_U32_FMT_FREQ:       Supported frequency/sample rate
+- *
+- * %SKL_TKN_U32_FMT_BIT_DEPTH:  Supported container size
+- *
+- * %SKL_TKN_U32_FMT_SAMPLE_SIZE:Number of samples in the container
+- *
+- * %SKL_TKN_U32_FMT_CH_CONFIG:  Supported channel configurations for the
+- *                              input/output.
+- *
+- * %SKL_TKN_U32_FMT_INTERLEAVE: Interleaving style which can be per
+- *                              channel or per sample. The values can be :
+- *                              SKL_INTERLEAVING_PER_CHANNEL = 0,
+- *                              SKL_INTERLEAVING_PER_SAMPLE = 1,
+- *
+- * %SKL_TKN_U32_FMT_SAMPLE_TYPE:
+- *                              Specifies the sample type. Can take the
+- *                              values: SKL_SAMPLE_TYPE_INT_MSB = 0,
+- *                              SKL_SAMPLE_TYPE_INT_LSB = 1,
+- *                              SKL_SAMPLE_TYPE_INT_SIGNED = 2,
+- *                              SKL_SAMPLE_TYPE_INT_UNSIGNED = 3,
+- *                              SKL_SAMPLE_TYPE_FLOAT = 4
+- *
+- * %SKL_TKN_U32_CH_MAP:         Channel map values
+- * %SKL_TKN_U32_MOD_SET_PARAMS: It can take these values:
+- *                              SKL_PARAM_DEFAULT, SKL_PARAM_INIT,
+- *                              SKL_PARAM_SET, SKL_PARAM_BIND
+- *
+- * %SKL_TKN_U32_MOD_PARAM_ID:   ID of the module params
+- *
+- * %SKL_TKN_U32_CAPS_SET_PARAMS:
+- *                              Set params value
+- *
+- * %SKL_TKN_U32_CAPS_PARAMS_ID: Params ID
+- *
+- * %SKL_TKN_U32_CAPS_SIZE:      Caps size
+- *
+- * %SKL_TKN_U32_PROC_DOMAIN:    Specify processing domain
+- *
+- * %SKL_TKN_U32_LIB_COUNT:      Specifies the number of libraries
+- *
+- * %SKL_TKN_STR_LIB_NAME:       Specifies the library name
+- *
+- * %SKL_TKN_U32_PMODE:		Specifies the power mode for pipe
+- *
+- * %SKL_TKL_U32_D0I3_CAPS:	Specifies the D0i3 capability for module
+- *
+- * %SKL_TKN_U32_DMA_BUF_SIZE:	DMA buffer size in millisec
+- *
+- * %SKL_TKN_U32_PIPE_DIR:       Specifies pipe direction. Can be
+- *                              playback/capture.
+- *
+- * %SKL_TKN_U32_NUM_CONFIGS:    Number of pipe configs
+- *
+- * %SKL_TKN_U32_PATH_MEM_PGS:   Size of memory (in pages) required for pipeline
+- *                              and its data
+- *
+- * %SKL_TKN_U32_PIPE_CONFIG_ID: Config id for the modules in the pipe
+- *                              and PCM params supported by that pipe
+- *                              config. This is used as index to fill
+- *                              up the pipe config and module config
+- *                              structure.
+- *
+- * %SKL_TKN_U32_CFG_FREQ:
+- * %SKL_TKN_U8_CFG_CHAN:
+- * %SKL_TKN_U8_CFG_BPS:         PCM params (freq, channels, bits per sample)
+- *                              supported for each of the pipe configs.
+- *
+- * %SKL_TKN_CFG_MOD_RES_ID:     Module's resource index for each of the
+- *                              pipe config
+- *
+- * %SKL_TKN_CFG_MOD_FMT_ID:     Module's interface index for each of the
+- *                              pipe config
+- *
+- * %SKL_TKN_U8_NUM_MOD:         Number of modules in the manifest
+- *
+- * %SKL_TKN_MM_U8_MOD_IDX:      Current index of the module in the manifest
+- *
+- * %SKL_TKN_MM_U8_NUM_RES:      Number of resources for the module
+- *
+- * %SKL_TKN_MM_U8_NUM_INTF:     Number of interfaces for the module
+- *
+- * %SKL_TKN_MM_U32_RES_ID:      Resource index for the resource info to
+- *                              be filled into.
+- *                              A module can support multiple resource
+- *                              configuration and is represnted as a
+- *                              resource table. This index is used to
+- *                              fill information into appropriate index.
+- *
+- * %SKL_TKN_MM_U32_CPS:         DSP cycles per second
+- *
+- * %SKL_TKN_MM_U32_DMA_SIZE:    Allocated buffer size for gateway DMA
+- *
+- * %SKL_TKN_MM_U32_CPC:         DSP cycles allocated per frame
+- *
+- * %SKL_TKN_MM_U32_RES_PIN_ID:  Resource pin index in the module
+- *
+- * %SKL_TKN_MM_U32_INTF_PIN_ID: Interface index in the module
+- *
+- * %SKL_TKN_MM_U32_PIN_BUF:     Buffer size of the module pin
+- *
+- * %SKL_TKN_MM_U32_FMT_ID:      Format index for each of the interface/
+- *                              format information to be filled into.
+- *
+- * %SKL_TKN_MM_U32_NUM_IN_FMT:  Number of input formats
+- * %SKL_TKN_MM_U32_NUM_OUT_FMT: Number of output formats
+- *
+- * %SKL_TKN_U32_ASTATE_IDX:     Table Index for the A-State entry to be filled
+- *                              with kcps and clock source
+- *
+- * %SKL_TKN_U32_ASTATE_COUNT:   Number of valid entries in A-State table
+- *
+- * %SKL_TKN_U32_ASTATE_KCPS:    Specifies the core load threshold (in kilo
+- *                              cycles per second) below which DSP is clocked
+- *                              from source specified by clock source.
+- *
+- * %SKL_TKN_U32_ASTATE_CLK_SRC: Clock source for A-State entry
+- *
+- * %SKL_TKN_U32_FMT_CFG_IDX:    Format config index
+- *
+- * module_id and loadable flags dont have tokens as these values will be
+- * read from the DSP FW manifest
+- *
+- * Tokens defined can be used either in the manifest or widget private data.
+- *
+- * SKL_TKN_MM is used as a suffix for all tokens that represent
+- * module data in the manifest.
+- */
+-enum SKL_TKNS {
+-	SKL_TKN_UUID = 1,
+-	SKL_TKN_U8_NUM_BLOCKS,
+-	SKL_TKN_U8_BLOCK_TYPE,
+-	SKL_TKN_U8_IN_PIN_TYPE,
+-	SKL_TKN_U8_OUT_PIN_TYPE,
+-	SKL_TKN_U8_DYN_IN_PIN,
+-	SKL_TKN_U8_DYN_OUT_PIN,
+-	SKL_TKN_U8_IN_QUEUE_COUNT,
+-	SKL_TKN_U8_OUT_QUEUE_COUNT,
+-	SKL_TKN_U8_TIME_SLOT,
+-	SKL_TKN_U8_CORE_ID,
+-	SKL_TKN_U8_MOD_TYPE,
+-	SKL_TKN_U8_CONN_TYPE,
+-	SKL_TKN_U8_DEV_TYPE,
+-	SKL_TKN_U8_HW_CONN_TYPE,
+-	SKL_TKN_U16_MOD_INST_ID,
+-	SKL_TKN_U16_BLOCK_SIZE,
+-	SKL_TKN_U32_MAX_MCPS,
+-	SKL_TKN_U32_MEM_PAGES,
+-	SKL_TKN_U32_OBS,
+-	SKL_TKN_U32_IBS,
+-	SKL_TKN_U32_VBUS_ID,
+-	SKL_TKN_U32_PARAMS_FIXUP,
+-	SKL_TKN_U32_CONVERTER,
+-	SKL_TKN_U32_PIPE_ID,
+-	SKL_TKN_U32_PIPE_CONN_TYPE,
+-	SKL_TKN_U32_PIPE_PRIORITY,
+-	SKL_TKN_U32_PIPE_MEM_PGS,
+-	SKL_TKN_U32_DIR_PIN_COUNT,
+-	SKL_TKN_U32_FMT_CH,
+-	SKL_TKN_U32_FMT_FREQ,
+-	SKL_TKN_U32_FMT_BIT_DEPTH,
+-	SKL_TKN_U32_FMT_SAMPLE_SIZE,
+-	SKL_TKN_U32_FMT_CH_CONFIG,
+-	SKL_TKN_U32_FMT_INTERLEAVE,
+-	SKL_TKN_U32_FMT_SAMPLE_TYPE,
+-	SKL_TKN_U32_FMT_CH_MAP,
+-	SKL_TKN_U32_PIN_MOD_ID,
+-	SKL_TKN_U32_PIN_INST_ID,
+-	SKL_TKN_U32_MOD_SET_PARAMS,
+-	SKL_TKN_U32_MOD_PARAM_ID,
+-	SKL_TKN_U32_CAPS_SET_PARAMS,
+-	SKL_TKN_U32_CAPS_PARAMS_ID,
+-	SKL_TKN_U32_CAPS_SIZE,
+-	SKL_TKN_U32_PROC_DOMAIN,
+-	SKL_TKN_U32_LIB_COUNT,
+-	SKL_TKN_STR_LIB_NAME,
+-	SKL_TKN_U32_PMODE,
+-	SKL_TKL_U32_D0I3_CAPS, /* Typo added at v4.10 */
+-	SKL_TKN_U32_D0I3_CAPS = SKL_TKL_U32_D0I3_CAPS,
+-	SKL_TKN_U32_DMA_BUF_SIZE,
+-
+-	SKL_TKN_U32_PIPE_DIRECTION,
+-	SKL_TKN_U32_PIPE_CONFIG_ID,
+-	SKL_TKN_U32_NUM_CONFIGS,
+-	SKL_TKN_U32_PATH_MEM_PGS,
+-
+-	SKL_TKN_U32_CFG_FREQ,
+-	SKL_TKN_U8_CFG_CHAN,
+-	SKL_TKN_U8_CFG_BPS,
+-	SKL_TKN_CFG_MOD_RES_ID,
+-	SKL_TKN_CFG_MOD_FMT_ID,
+-	SKL_TKN_U8_NUM_MOD,
+-
+-	SKL_TKN_MM_U8_MOD_IDX,
+-	SKL_TKN_MM_U8_NUM_RES,
+-	SKL_TKN_MM_U8_NUM_INTF,
+-	SKL_TKN_MM_U32_RES_ID,
+-	SKL_TKN_MM_U32_CPS,
+-	SKL_TKN_MM_U32_DMA_SIZE,
+-	SKL_TKN_MM_U32_CPC,
+-	SKL_TKN_MM_U32_RES_PIN_ID,
+-	SKL_TKN_MM_U32_INTF_PIN_ID,
+-	SKL_TKN_MM_U32_PIN_BUF,
+-	SKL_TKN_MM_U32_FMT_ID,
+-	SKL_TKN_MM_U32_NUM_IN_FMT,
+-	SKL_TKN_MM_U32_NUM_OUT_FMT,
+-
+-	SKL_TKN_U32_ASTATE_IDX,
+-	SKL_TKN_U32_ASTATE_COUNT,
+-	SKL_TKN_U32_ASTATE_KCPS,
+-	SKL_TKN_U32_ASTATE_CLK_SRC,
+-
+-	SKL_TKN_U32_FMT_CFG_IDX = 96,
+-	SKL_TKN_MAX = SKL_TKN_U32_FMT_CFG_IDX,
+-};
+-
+-#endif
+-- 
+2.34.1
 
-
-Best regards,
-Krzysztof
