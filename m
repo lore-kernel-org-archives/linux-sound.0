@@ -1,45 +1,45 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AFF3E6399;
-	Wed,  5 Aug 2026 15:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9466747FB0C;
+	Wed,  5 Aug 2026 15:51:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785944746; cv=fail; b=FH9ioM8Q1XW8vgmpi7x0fP4wJDiBCpDhmxEV7pagIif3rINglpu5Li3MchFkFYm7CswSLMk1qk6SHM6f7HmO8Jq2nJPcb657S4DrrLsxi+ft2FQoUtDU0gZO+w60xSqkRyAcHToU+cxEuUz5y7A/Ch9QSm9o0en9pZQQN64Xpzg=
+	t=1785945084; cv=fail; b=Lof3uCo1EdoEiLsq3dU9mV1lHOYWWlxbVDuYmc1/uInq4xTD9dha3NuCccuW9xKS6YbLgmqg+Odya9Bq5zT0+oUZSeWETjkWZSxQ1FL2RHyE3w77jBSZDDhBPynZqta+5yiJghclVRtcuj+4vwRSoArr815wJBCzpdBRyxD9vyw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785944746; c=relaxed/simple;
-	bh=jyRrydchslfLWNLHZcxqP/WcfWa3ZueZXAPRYXOszkU=;
+	s=arc-20240116; t=1785945084; c=relaxed/simple;
+	bh=kEut90RvMNBu9qbm0DWNbMSA4AlCilkkFyaFTvJzZm8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jNUKOkuhftoJuvpMYwy4+KnGTtFlvHTo+g48evykwkZQPd35+TEP4LuqyEUvBdfz0HdjkUGzT79gOehWJZL+jLqpq2Zusns9Tpun4k5+xTG8d9W740HY2P3t6NIJSIKjEtMjnIgX6ZThllcD4tKIjdeoVYFg+Y9IL0yjwvt4V00=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=YEBKe9DY; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=l6Js50QQ; arc=fail smtp.client-ip=67.231.149.25
+	 Content-Type:Content-Disposition:In-Reply-To; b=P43W2aSA+fSXz5se005jx8Dk1bCc1ZJE15cPE4FpSfvTBEDwkRhCd9oPxbrqez19GwLku2m+9/vy8kz/cJIcvTe4NOdotAnH9ZMctZ5lHLNDQslzSeAD7eh53pTY6R+Ma/q5yt4+0V2YJ/l+BRgxKuJFb6xl+k3A8GLgpXNU2rw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Brvd4GlB; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=jCRTjt69; arc=fail smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="YEBKe9DY";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="l6Js50QQ"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 675EOLTe160173;
-	Wed, 5 Aug 2026 10:45:19 -0500
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Brvd4GlB";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="jCRTjt69"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 675EMRu03530089;
+	Wed, 5 Aug 2026 10:51:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=rQDDurDcjSYje2dU06
-	5n2RYMW28rRY4jp7X2UNEp6Wc=; b=YEBKe9DYWZZVRumSqpxnKy6zwJwEvjq8p0
-	wfxz8RRjuDVh4XPX/nl4nOAItse+Lz3yGe1/9hauifQzYdUfcxZuyTEqKdAjrUIP
-	XUiyQNuxl/VzB16NVx8mA+Zf9iMNc0CQq4MgjmsSUgSUWKKE9Ie+0WjMAlA5jzij
-	4wbTpch1TKDsX6B/6yvSxt8ex9KRvW0fEs8QlBmy7eQfelCOvCerxZSy6+nXY/LB
-	bp1Lp8FabfSPc/fZs6wDEvotwnto1svl+8l35ktqct0BgfbAPqiSr+Nf8pm8jan6
-	xzR/wkazJDEE/mn4Em8EBXdmHZpspVPPCiYOYA/czfMfQTxPuf2Q==
-Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020083.outbound.protection.outlook.com [52.101.85.83])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4fse6vp21q-1
+	:references:subject:to; s=PODMain02222019; bh=gt27k3BD5RtZ2+VX5F
+	Vfj44RxBpDQqRmS9//JDVGYpA=; b=Brvd4GlBTCK/HNlc16CpPJjseqOft+mXqS
+	dPDO/wIRyHotwTI7MM7VVtvvBgGGmXg/5NcDlgsfwWrvjXGqRK0oYD8DDdv68UFu
+	9djSXjQy3M71pEg6UYCYa0kvL4EZeHLOHGkXBtLJirooPZKHFW4z1uVUDN6R6HLU
+	1fjxmxEq64nAdK/QMmtCmxLKaEo/MdVcax9tV/Igfp1vAOEk34ueOou12SLrzK+0
+	YrPEc5JNWNSnO7GomY8h1HN+7pch0Avpp1csoOwRZIuN8ak5a4ZN7Nz4ylvHSMXa
+	40BwwKCk/jVvs519DzkE1xb8JZGLl3P8ZBcgrFF47WA0skFfONXQ==
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11020079.outbound.protection.outlook.com [52.101.56.79])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fsd7h63bb-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 05 Aug 2026 10:45:18 -0500 (CDT)
+	Wed, 05 Aug 2026 10:50:59 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DG2x4KtOFuZQESv99kLO2e5EIPLWmYtcW/vH+I6KFOdbgAGDRkctJPvN67j+o+yfRtD+f+Tz0DQ+z8vgp2AGOx0GGieEqP/4bHNjgh/Of1GlnFbbSkaUNv+H7Ut/06yHUEt7SWZzWBd5l44U4AuzndjlvwqRnE9Z3xyw1wxvOug3dKO9yAbGY2/NrPv//NgLlGaZzQNGeJ0OnMUYVHD2aIJhvXCZQTq4PUTDfa66+T1VSfOI8aT5rzaMEhjgJ5B77nDE9UxfdMRA4k/8FfBzmpYMDS31rbJsS6YrM87B3PY2YtGgBIQr3H2Qzs36hZBOlzyHbiDWRiw0q7R9wRyniA==
+ b=wFDgwBNRZHeRC7h6ExUfBa8VwZsCx3lb/a8QpicSLE9uZFMZGFrAP64HWp6i/Ol+YFPasH3ZAunytFW1/MbDOGQ0nn+CGV2c0iPrG55snq7BjcgDZDxae8u8d6chf7K9LhQCoIawwGweAfNTBJHqm0ELUrSiKIyCDRopCmXKbGdG0b4L/MOR6iqFrE0vZtCtPTa1AnQ6Hwwo4pgOLfPsI+/7pbQ7YqtHDITJUyWHBWtE9bDFQbyZvzobNfA+nwju4dtHlLX4xMazJNW3+OO9bLkqNsWl+G6L44VG4q9f/7fponImnJOqnnWvlzNo3sAsCj5qG/LKc/FZgPUl9Osfog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rQDDurDcjSYje2dU065n2RYMW28rRY4jp7X2UNEp6Wc=;
- b=uhNmqrxncwjRbQKYIhI/Bre+2k1VUyJ/Mc/T/ph0idKfsk2QeIZmTX8H/izAbA6IeoZRKKONZBhCRx0+1aY334u8NIXsUwytwWqrbeucysLGxx0civYF0DzbWgesjinGXhtmo4mwqZysUl8sJjsXTBhJzxn5+LIyKtgoq6ACAKr8Ab5v0vVZHnUYyGzy6FAVjv4taq+rJGYPoUgV202td2zYifsyDOlRNWsYbS36Mnu+b/65Oep/PQp5K/qiCeqQ8W+X6+EwRP1WXq8zavfNvcadXm566XRf4xzHAtdbBsKhM/SP5VkRfYyYcet5jwuck/W7nbLT7lne7mIAZ1H9xw==
+ bh=gt27k3BD5RtZ2+VX5FVfj44RxBpDQqRmS9//JDVGYpA=;
+ b=k/uMEnQo/bNnaep7qv0IaaNZnNUpTZ6OzgmF6itvdVQ7zruQwvvjBQc3BrCSKQv12x53/zZLD2tKGlUhaVWEzhw0JnQUxR77LmKStuXxXw1VW9KBKxUFSvAvUVE3NuMS9tTALS1X2Y57pgxuWh0M0JqB+9ZQaXx9wfGSBUyfWexp3ZB6Dhp3vuQ9ozMXD8D1fhd+1RbjUboX2qYOY7iJtLPaSOyPhqGjkBqWC5XdvoJvezbHJeWwAgnycEjJFEv5qd3lN753YW0Zx6RiU/nt0n3XjNXXHX1Bg52Peq0FsMbmciQ+u0gTMTTN8B++28VRIp3Wq+PdNG0u1yhl0Zp21w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 84.19.233.75) smtp.rcpttodomain=catcrafts.net
  smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
@@ -48,33 +48,34 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rQDDurDcjSYje2dU065n2RYMW28rRY4jp7X2UNEp6Wc=;
- b=l6Js50QQoURL2Ldo6XSr2Mp1DDkNZsKbK+CBkTCPp2mUJrQ2Q/3p/YJp/m9fjKTjN9evUGyHh16Ts8xA6yVbC5aG1cFi7OMZecx+a13AWjLRjAoch4wZw/4saKnxBJuy9tS6SCWkEiZ8TIGagzBPfoo8FB27WKPtciQSqXzPZtw=
-Received: from DS7P220CA0081.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:259::6) by
- CO1PR19MB4903.namprd19.prod.outlook.com (2603:10b6:303:d7::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.292.19; Wed, 5 Aug 2026 15:45:15 +0000
-Received: from DS1PEPF00017099.namprd05.prod.outlook.com
- (2603:10b6:8:259:cafe::41) by DS7P220CA0081.outlook.office365.com
- (2603:10b6:8:259::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.19 via Frontend Transport; Wed, 5
- Aug 2026 15:45:14 +0000
+ bh=gt27k3BD5RtZ2+VX5FVfj44RxBpDQqRmS9//JDVGYpA=;
+ b=jCRTjt69+0P7hrUYU8x8rAdQ5mS5aNkxq4gYGR8SFhfIlGQVdkSCZd2KCnCBkqxz/e8DhJ22dYRu5hWXIyCa5JPWgCHL9D+YWNY1V0K5izczLCD1cc80ywF10F9K85s7KzcspaXsno0iLQSLey5VPGCCo2zEyeTkHo1Ap2vlUhI=
+Received: from DS7P220CA0073.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:259::7) by
+ PH8PR19MB6974.namprd19.prod.outlook.com (2603:10b6:510:22a::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.17; Wed, 5 Aug
+ 2026 15:50:54 +0000
+Received: from DS1PEPF00017090.namprd03.prod.outlook.com
+ (2603:10b6:8:259:cafe::16) by DS7P220CA0073.outlook.office365.com
+ (2603:10b6:8:259::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.16 via Frontend Transport; Wed, 5
+ Aug 2026 15:50:49 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
  smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
 Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DS1PEPF00017099.mail.protection.outlook.com (10.167.18.103) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.8
- via Frontend Transport; Wed, 5 Aug 2026 15:45:14 +0000
+ DS1PEPF00017090.mail.protection.outlook.com (10.167.17.132) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
+ via Frontend Transport; Wed, 5 Aug 2026 15:50:48 +0000
 Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 1321E406544;
-	Wed,  5 Aug 2026 15:45:13 +0000 (UTC)
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 971B840654B;
+	Wed,  5 Aug 2026 15:50:47 +0000 (UTC)
 Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id EC49782024C;
-	Wed,  5 Aug 2026 15:45:12 +0000 (UTC)
-Date: Wed, 5 Aug 2026 16:45:11 +0100
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 7118F82024C;
+	Wed,  5 Aug 2026 15:50:47 +0000 (UTC)
+Date: Wed, 5 Aug 2026 16:50:46 +0100
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -91,11 +92,10 @@ Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
         linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, patches@opensource.cirrus.com,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 3/8] ASoC: SDCA: expose class helpers with hw_ops for
- non-DisCo platforms
-Message-ID: <anNah2Suf+Qb1rPL@opensource.cirrus.com>
+Subject: Re: [RFC PATCH 4/8] ASoC: SDCA: add PDE pre/post-pmu hooks to hw_ops
+Message-ID: <anNb1uNUO87Zmv74@opensource.cirrus.com>
 References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
- <20260722234221.884765-4-srinivas.kandagatla@oss.qualcomm.com>
+ <20260722234221.884765-5-srinivas.kandagatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -104,175 +104,190 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722234221.884765-4-srinivas.kandagatla@oss.qualcomm.com>
+In-Reply-To: <20260722234221.884765-5-srinivas.kandagatla@oss.qualcomm.com>
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017099:EE_|CO1PR19MB4903:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7d082f4d-a726-4385-3cd7-08def3088a98
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017090:EE_|PH8PR19MB6974:EE_
+X-MS-Office365-Filtering-Correlation-Id: da39e73b-999b-46ae-3299-08def30951f8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|82310400026|36860700016|61400799027|376014|7416014|18002099003|16102099003|22082099003|11063799006|4143699003|6133799003|10067099003|56012099006;
+	BCL:0;ARA:13230040|82310400026|376014|7416014|23010399003|61400799027|36860700016|6133799003|22082099003|16102099003|18002099003|11063799006|56012099006|10067099003|4143699003;
 X-Microsoft-Antispam-Message-Info:
-	CDb0hyg5e0Gkevgb/8ArxOm4gpNKtCeA+sB6A2JpkZTArQpiBNelMCpPm1JcXkgk5/KRrTzh1Pis8cbBXAT0jnoga/kr7Zbe7ELvPZrALk6Qlrh0K5ZQpIasA0n//TfGRKsKrCd9LlGV6LRI1bQojGjHWhUymIJZA5izPPltIEBMh+t/1mJTmYkFPqWdR2pWipHgICfwvwTkZaH4QurQ4ds3BgjvMDx3wFWI3mD7WfxSZYP2zLcYFaKDhVgOGT6bRKY8sfjfnrk8Gaou6Fr8uS+qDGyedZmIIafI+0hB/24vxxSdaaPNupj4+Ed5vPQNDQxQuaOr4z8nePKmSDOp9CaqMliQXDK2kcG1iw/tV6D6w79WaxkOT8o02l4AJKCVaVQhF2qLOCJT3fFKe8lvKDv6t+uyzJostwqVW8EyDYmqwBtqXwVWTy+zy2blA4zu47MzaXQ1km3syGjIM2ourSWE7Ph/EbzzlmaT4Dx4blSB6hEcMJnK3Vd7ROPVGf5TMT2vMAQHwIfKov0RtSekUOqW+vHc3nC9cOZFkPmssJwyBvRnzXsyBF4OZ/ke/KcIwuCl+cVdQpo5qsiPPQvpy41qH9UaFF4FI/WFnqxzxzMX0mdQhe0zIDjxohxQDGa6ytB1EK5+3K/LrOSpu8z9iTYwLLT60x079ChY8o4NvIz8iZxE/QE9PZgwCRuVFmzvrVkV5yoGL58O5wYUTQCxPg==
+	RD79RlwKRFvr2x5uz8KypNSM6H6Ld7aQPpVUksOd6bkRJTC867WwnasCqLIO0D0rTj/k8JHkRJ08/Pmnj6KEmAI4wOVll/Zyx1OFdQriGigh99KAwUlUPTUaTv2JJRUMCkKhYpst1Qc9Iwmk6GndRC5Jg/sDNhB44WEc1oS7nev3sRkgiEpAyUAN3gILlk1Ju+bMPujAhy9RpZIYckLl+4KUhbnx+M1aDJQPUIwt7XFM7H2zGPInv2WQ6oEsqSivII6eMnux072V4VDD07F83RmJiHcYK1kEVhQSEKQhsvWU1y2MtYJdG1qBQ7Brn59tMxDHSRA5gAmHQi10T0zuCs0Ih8RSNV1/vQq5M/cmd2ztGTJSmdI9viskKjzLABORgsxfQNLNIzEnC91h56Z1bNuUvPQY72Dr/4aUeXwPUEpcG2G3EF66Pv3EeiGA771ewkmlX1Jn6EQL2HvMsurlwme/7XbWMcUTK+dIgvToIUaL+ex0Q51+Gu562ZcV/mxytV2HgzEgV+/HBj2TLZHaYllUHKSO5CVieSJJHbPo42GNw6T+xKTAb4qLQerenYumPsGURL9vqFRmPX0jnvKZukkKy7skcB9uLIZ6pMgUpnm73NUqKlAgNmh4ZS8dR8RpC6+u1/3GjbPLvLTm9B/JnB70QVFO0R+qYKOshE1PGMtjFeVcC8UXJXXmjrk6QmXL
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(36860700016)(61400799027)(376014)(7416014)(18002099003)(16102099003)(22082099003)(11063799006)(4143699003)(6133799003)(10067099003)(56012099006);DIR:OUT;SFP:1102;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(23010399003)(61400799027)(36860700016)(6133799003)(22082099003)(16102099003)(18002099003)(11063799006)(56012099006)(10067099003)(4143699003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	MMToeJoWWHOXjNsAh2PNGfPCWcjUQvKZQNZ8CCjkPXACbQoqD1BiZDoWID1kHt+d5st23TuU2quqelvXKr9v2PpF+TtuCiLqEC3NiIr78sTi3eXNrIyYnqpd63AdgZKh5i6fDBcYieZ2OsOadOinjjBwGe/KQ+eouvuEkXGBBYq6z5UWH6s+w86GhNs0PLCopcj6FoZ5shcmKh0VVcbV0P+9dd/NesT+4O8xw5ojMZwoWTPxcBhiZoBJaE0sMHbndpJPeIw6VtV7q7bdqo+GW2nLsEHd9IX5Z8VEFLfbMFyx/kx6YGeIMspWP46c4YRVvS9TTb+m3j/JHjF9aJkT6Pcq97M4/i9LkBF/2E1iWtZqMrArX+zgtiyS/DgyGOfgNBDT77+0OnKg/9cKyG1PHDxSb4nTgHZuy+HiJs0hLJS+Med97XtVsfHN/VmkSPZi
+	I+Qs98yZjRhDWTFVN8cvCFazroLdpqO7rq/Gu/Bc7b2tvSmV7XKOYoc+uRcd1T2hMk+Wv4pLsp1nR9yJOocdroPtScZ7n8Q51HOiDVSDzGYgn9weKXoj+hGV8XNj0atKdYWHe/Z1jMkX7a8e92YPxhUaenRxx71YJkzJzjq4h8a0rySOyLnUENXFhU0NcR4nT2SDSkyoEkvG0+XxtHWo+53tk8mdFHvD4P0P0CGQo8Hq5Lc3HFXK6SVgiLGXfgaBdnye6xFWq1iKzuvSWw8VFI/TIn4l+YYcLyIwvz2QcQatVIin9wIgF0dZmnSxFX8R1sxY3tLSnpF6691ov3610j3WWEiEq439j4ThqIzIKssKXaVIHIc3fUANCZzPYbBjALWaAHoUWjtIgZi18Z9elmp7W06t+7BTxrQ+ONb3KWk+KfkCtwKe+CPnOsF1mHW+
 X-Exchange-RoutingPolicyChecked:
-	ANE8VPX/sx04W9V+18vQFMJFx4T113OC+Xyfpw+oZ1mYHioqY2H+cwg4Xlg1K0AasKSMhJ5y9wg06vahb3jQcqje9rwAZ5/crLe9ycVQAyN5x75/y5QQpd7p5mF6tqwuhGtKTqNceADS0GWy2xkvZ7gV3Fw+DBSXP5k69pE+yuEdaxKD4VZ+mpUHEsr7qUooGRgMycSDCLP5r2STNrUJK2H0pBo+O6g2dwSOfRt+dhHieNDY8aAxOukA8Eqyt3/b4+EZNNLRbNKkjvJWX/YmxTvw9m6oRlzoWO8GVsQMYCN7q3vmChIpTCTzOGkf9VL++VogBpG8xfwnDUz5rTM/UA==
+	q5SAhzMzSoq3EiicDgio+WG6vtFovQOFJeDB9edplTMuxwnQyZ9uVG7CQTQGhE0FsYb0FUpah7dmE51/0Kj+0URjZuOtHrQhrBtTbkXsec7tGe6gFAizGA0i+magwPyNUaL/2YmNnUjvjOGfvp0aSR6cQG2dv/s37kmGUjqTElDJZeeXQJ0DzqI+q8ve3goBnciVvcdw6lO6KM5/soeTvtn4/v6Dvq+gT1z8aKJrNbAUlyuFPqM6dGCyhkQ4v5MliZi6KxThhBpMBSkA38pfqgHKuoqmGZW2+DkBUlqaHeS48AEH5bvFGIPbFLKCNcEu4qq0Faou8+iadrVkahWFog==
 X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 15:45:14.1237
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 15:50:48.6147
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d082f4d-a726-4385-3cd7-08def3088a98
+X-MS-Exchange-CrossTenant-Network-Message-Id: da39e73b-999b-46ae-3299-08def30951f8
 X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS1PEPF00017099.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DS1PEPF00017090.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR19MB4903
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDEyOCBTYWx0ZWRfX4t0Z6NnRHJMr
- U7p2AD27swz/DUG9m9M0o07qAVrw/Cu+UxytzMl48JvSf+ZLK0hIzlVI403lYmGrIhz6MsufLPh
- ilKcV/stt5B+xrKls9fZ4mlXChaV13g=
-X-Proofpoint-GUID: K_so4pKevRg_JpMLSUY8nnAU_nIX3hQz
-X-Proofpoint-ORIG-GUID: K_so4pKevRg_JpMLSUY8nnAU_nIX3hQz
-X-Authority-Analysis: v=2.4 cv=N+MZ0W9B c=1 sm=1 tr=0 ts=6a735a8e cx=c_pps
- a=anORMkbxiaoIRYctk5qcAw==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR19MB6974
+X-Authority-Analysis: v=2.4 cv=ZK/nX37b c=1 sm=1 tr=0 ts=6a735be3 cx=c_pps
+ a=kNb0EPoEURSSyKZUeQUlVQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
  a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
  a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=EUspDBNiAAAA:8 a=x6KTGziLudCiZeGc2SwA:9 a=CjuIK1q_8ugA:10 a=O8hF6Hzn-FEA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDEyOCBTYWx0ZWRfX4CZA5QwIqj6O
- Ld8/W4F06r1rUga9Z4jcNSpQzQXCzkOEy9vh2gIQx0zYpsYhaH64xQBXaGhYoS8r4wksGs8LATi
- 4hjxCAO2Cw2K5ymANeHP+ksT9uhHqd22xvbAlOn+4JcXEIxvIkRR/2HW3PyR+iiIGBde4YhU9E8
- oKBhe2p44GTjSj9pQ+OOcbt6dQnLLeuE4T1ByXcj59VAbTarrRP2K85vIU5pzBNJXJaxpL7p/Yh
- RaM3TKI6LtQRPpTCgSw20LlB0REuBzvDwqzsp9quQXcVFSI9+j7CS/xbK5umgLIA/JNtUYLU+8z
- T9WUVTTHIMnBvfwepllpledp75uPECmEutf2zJ12xemnLIsAdxHkgITDAczlvvWLYS7kv8d85pg
- TeYVnEGQ/DYhZNcsA4PQCHOc8Yzf71ynsJ2USSwSX6kJR6F24UJv6nfb4gSFM+dSOQzMy4jAj5j
- f78CEedybghvWODC8TQ==
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=EUspDBNiAAAA:8 a=6-0cdJtF18ODVkxtCagA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-GUID: S-_y3hXGwOwlYNUgYLG7j_AnmrXTv1OG
+X-Proofpoint-ORIG-GUID: S-_y3hXGwOwlYNUgYLG7j_AnmrXTv1OG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDEyOCBTYWx0ZWRfX7zdiOeD1iIeV
+ BdKhfifGU6w6Pf6oEAGWUaQqv3w0U8blFPMa0xmea/KjTl7+XcvMLnFCoXnpm9woOIDxOjOoUbE
+ Q1WACgZrsdwMuvF6mII8rrJPgnn1FK/3AGNaLl22OmxiE7lBXiCqQtHBdQoeilSzX6cgGdtNgA7
+ Entt0JBLm5lStIazhJqGnXYO5t2cFNt9KtoUWj3Fdagp1wwYS+rRlOf0E7AxyCzAhKW3mW5mUIR
+ vbWWxWoURnrwkM5RhZrdvJQApcSjBjSmiNmBBLTBaCvkRWooxmo+d6j03/zD6vFgeUmYfTdNxZl
+ ZLoiSxSaaFFkGhvPtqiSV7QqEQS+GH8uJLjKemOv0YgtmeXy5HREEuYEb48aiQsS4L4rFbaR9WW
+ 7dR7qIDWsl5d3ajwSh6Ke7KfTPiweXDXO8fX8CscD4Ywp02kaFl8KTx01zb1fFOvrbTKqa4niJO
+ qj9vv2g4/3rxvF06TOA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDEyOCBTYWx0ZWRfX/O6ngBvxDwqx
+ s206D536Q6HkmmVml5wqmxUPJ2regor14rxerd9bUvbgAGXwRoLXIl+VSY3a2FluZfoZTy6tsea
+ NLqEoxBgyT3qnPawvRvXu35gq2uzr0M=
 X-Proofpoint-Spam-Reason: safe
 
-On Thu, Jul 23, 2026 at 12:42:13AM +0100, Srinivas Kandagatla wrote:
-> On ARM/DT platforms without ACPI/DisCo, sdca_lookup_functions() is a
-> no-op and num_functions stays 0.  Introduce struct sdca_class_hw_ops
-> with hw_init and get_function_data callbacks so codec drivers can
-> supply pre-populated sdca_function_data and toggle supplies/reset at
-> probe time.
+On Thu, Jul 23, 2026 at 12:42:14AM +0100, Srinivas Kandagatla wrote:
+> Add pde_pre_pmu and pde_post_pmu callbacks to struct sdca_class_hw_ops
+> so codec drivers can hook into DAPM PDE power-domain transitions.
 > 
-> Convert the class SoundWire probe into an exported library helper
-> sdca_class_probe(sdw, hw_ops) and export sdca_class_read_prop() and
-> sdca_class_pm_ops.  Codec-specific SoundWire drivers can register their
-> own sdw_driver and call these helpers from their probe.  The built-in
-> class_sdw_driver stays for generic SDCA parts that need no per-device
-> quirks (hw_ops = NULL).
+> pde_pre_pmu is called before REQUESTED_PS=PS0 is written, allowing
+> the driver to stage state (e.g. IT_USAGE, MIC_BIAS) that must be valid
+> before the PDE sequencer runs.
 > 
-> For non-DisCo boots, the class helper injects the driver-supplied
-> function descriptors into sdca_device_data so sdca_dev_register_functions()
-> can create the auxiliary devices, and the auxiliary function driver uses
-> get_function_data() as a fallback source of per-entity data when the
-> firmware node is absent.
+> pde_post_pmu is called after REQUESTED_PS=PS0 and before ACTUAL_PS
+> polling begins, allowing the driver to commit pending writes (e.g.
+> FU mute/volume via SCP_COMMIT) that the sequencer needs to see.
+> 
+> Both callbacks receive function_id and entity_id so the driver can act
+> selectively per power domain.
 > 
 > Assisted-by: Claude:claude-opus-4-7
 > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 > ---
-> -static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id)
-> +/**
-> + * sdca_class_probe - SDCA class SoundWire slave probe helper
-> + * @sdw: SoundWire slave
-> + * @hw_ops: optional device-specific hw_ops (may be NULL for pure-generic
-> + *          SDCA parts that need no quirks)
-> + *
-> + * Exported so codec-specific SoundWire drivers can call this from their
-> + * own sdw_driver.probe.  For codecs with quirks, pass the codec's
-> + * sdca_class_hw_ops so hw_init, DT function injection, and PDE hooks
-> + * are wired up.  For pure-generic SDCA parts (used by the built-in
-> + * class_sdw_driver in this file), pass NULL.
-> + */
-> +int sdca_class_probe(struct sdw_slave *sdw,
-> +		     const struct sdca_class_hw_ops *hw_ops)
+>  sound/soc/sdca/sdca_asoc.c  | 33 ++++++++++++++++++++++++++++++++-
+>  sound/soc/sdca/sdca_class.h | 11 +++++++++++
+>  2 files changed, 43 insertions(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/sdca/sdca_asoc.c b/sound/soc/sdca/sdca_asoc.c
+> index ac688cd62970..795498b9a314 100644
+> --- a/sound/soc/sdca/sdca_asoc.c
+> +++ b/sound/soc/sdca/sdca_asoc.c
+> @@ -32,6 +32,7 @@
+>  #include <sound/soc-dai.h>
+>  #include <sound/soc-dapm.h>
+>  #include <sound/tlv.h>
+> +#include "sdca_class.h"
 
-If we end up going down this route quite tempted to pass the
-hw_ops through the driver_data in the sdw_device_id. But not
-totally certain on that.
+I really don't like accessing the class code from here, bit of a
+layering violation.
 
+> @@ -432,6 +433,8 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
 >  {
->  	struct device *dev = &sdw->dev;
-> +	struct sdca_device_data *data = &sdw->sdca_data;
->  	struct regmap_config *dev_config;
->  	struct sdca_class_drv *drv;
+>  	struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
+>  	struct sdca_entity *entity = widget->priv;
+> +	struct sdca_class_drv *core;
+> +	unsigned int fn;
+>  	int from, to;
 >  	int ret;
-> @@ -156,11 +179,47 @@ static int class_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *id
 >  
->  	drv->dev = dev;
->  	drv->sdw = sdw;
-> +	drv->hw_ops = hw_ops;
->  	mutex_init(&drv->regmap_lock);
->  	mutex_init(&drv->init_lock);
+> @@ -439,6 +442,19 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
+>  		return -EIO;
 >  
->  	dev_set_drvdata(drv->dev, drv);
->  
-> +	/*
-> +	 * On ARM platforms without ACPI/DisCo tables, sdca_lookup_functions()
-> +	 * is a no-op and num_functions stays 0. Inject the function descriptors
-> +	 * from the device-specific static data so sdca_dev_register_functions()
-> +	 * can create the auxiliary devices.
-> +	 */
-> +	if (data->num_functions == 0 && hw_ops && hw_ops->get_function_data) {
-> +		struct sdca_function_data *fdata;
-> +		unsigned int num = 0;
-> +		unsigned int i;
-> +
-> +		fdata = hw_ops->get_function_data(&num);
-> +		if (!fdata || num == 0 || num > SDCA_MAX_FUNCTION_COUNT)
-> +			return -EINVAL;
-> +
-> +		for (i = 0; i < num; i++) {
-> +			if (!fdata[i].desc)
-> +				return -EINVAL;
-> +			data->function[i].type = fdata[i].desc->type;
-> +			data->function[i].adr  = fdata[i].desc->adr;
-> +			data->function[i].name = fdata[i].desc->name;
-> +			data->function[i].node = NULL;
+>  	switch (event) {
+> +	case SND_SOC_DAPM_PRE_PMU:
+> +		core = dev_get_drvdata(component->dev->parent);
 
-Probably simpler to just populate this directly from your drivers
-probe function, seems odd to call this in both the class and the
-function drivers, limits how it has to work.
+This is probably not a good way to do this. Ideally we don't want
+to assume the class driver structure above this code, we have
+users and are likely to for a while, that are doing more custom
+stuff. I suspect we need to change what is stored in the
+widget->priv to give us access to the bits we need.
 
-> -	ret = sdca_parse_function(dev, core->sdw, drv->function);
-> -	if (ret)
-> -		return ret;
-> +	if (drv->function->desc->node) {
-> +		ret = sdca_parse_function(dev, core->sdw, drv->function);
-> +		if (ret)
-> +			return ret;
-> +	} else if (core->hw_ops && core->hw_ops->get_function_data) {
-> +		/*
-> +		 * No DisCo/ACPI firmware node available (e.g. DT/ARM platform).
-> +		 * Use pre-populated static function data supplied by the
-> +		 * device-specific hw_ops instead of sdca_parse_function().
-> +		 * The callback returns an array of function_data entries;
-> +		 * pick the one matching this auxdev's function type.
-> +		 */
-> +		struct sdca_function_data *fdata;
-> +		unsigned int num = 0;
-> +		unsigned int i;
-> +
-> +		fdata = core->hw_ops->get_function_data(&num);
-> +		if (!fdata || num == 0)
-> +			return -EINVAL;
-> +
-> +		for (i = 0; i < num; i++) {
-> +			if (fdata[i].desc &&
-> +			    fdata[i].desc->type == sdev->function.desc->type) {
-> +				*drv->function = fdata[i];
-> +				drv->function->desc = sdev->function.desc;
-> +				break;
-> +			}
+> +		if (core && core->hw_ops && core->hw_ops->pde_pre_pmu) {
+> +			fn = SDW_SDCA_CTL_FUNC(widget->reg);
+> +			ret = core->hw_ops->pde_pre_pmu(core->sdw,
+> +							component->regmap, fn,
+> +							SDW_SDCA_CTL_ENT(widget->reg));
+> +			if (ret)
+> +				dev_warn(component->dev,
+> +					 "%s: pde_pre_pmu failed: %d\n",
+> +					 entity->label, ret);
 > +		}
+> +		return 0;
+>  	case SND_SOC_DAPM_POST_PMD:
+>  		from = widget->on_val;
+>  		to = widget->off_val;
+> @@ -451,6 +467,20 @@ static int entity_pde_event(struct snd_soc_dapm_widget *widget,
+>  		return 0;
+>  	}
+>  
+> +	if (event == SND_SOC_DAPM_POST_PMU) {
+> +		core = dev_get_drvdata(component->dev->parent);
+> +		if (core && core->hw_ops && core->hw_ops->pde_post_pmu) {
+> +			fn = SDW_SDCA_CTL_FUNC(widget->reg);
+> +			ret = core->hw_ops->pde_post_pmu(core->sdw,
+> +							 component->regmap, fn,
+> +							 SDW_SDCA_CTL_ENT(widget->reg));
+> +			if (ret)
+> +				dev_warn(component->dev,
+> +					 "%s: pde_post_pmu failed: %d\n",
+> +					 entity->label, ret);
+> +		}
+> +	}
 
-Would be much nicer to have the callback directly populate the
-function data, similar to how sdca_parse_function works.
+Can't we just include this in the switch?
+
+> +
+>  	ret = sdca_asoc_pde_poll_actual_ps(component->dev, component->regmap,
+>  					   SDW_SDCA_CTL_FUNC(widget->reg),
+>  					   SDW_SDCA_CTL_ENT(widget->reg),
+> @@ -502,7 +532,8 @@ static int entity_parse_pde(struct device *dev,
+>  	(*widget)->mask = GENMASK(control->nbits - 1, 0);
+>  	(*widget)->on_val = SDCA_PDE_PS0;
+>  	(*widget)->off_val = SDCA_PDE_PS3;
+> -	(*widget)->event_flags = SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_POST_PMD;
+> +	(*widget)->event_flags = SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU |
+> +				 SND_SOC_DAPM_POST_PMD;
+>  	(*widget)->event = entity_pde_event;
+>  	(*widget)->priv = entity;
+>  	(*widget)++;
+> diff --git a/sound/soc/sdca/sdca_class.h b/sound/soc/sdca/sdca_class.h
+> index 74db9d4ce4a2..1278159ea61b 100644
+> --- a/sound/soc/sdca/sdca_class.h
+> +++ b/sound/soc/sdca/sdca_class.h
+> @@ -29,6 +29,13 @@ struct sdca_function_data;
+>   *             an array of struct sdca_function_data and stores the number
+>   *             of entries in @num (must be > 0 and <= SDCA_MAX_FUNCTION_COUNT).
+>   *             May be NULL.
+> + * @pde_pre_pmu: called before DAPM writes REQUESTED_PS=PS0; use to
+> + *             prepare device state that must be valid before the PDE
+> + *             sequencer runs (e.g. IT_USAGE); may be NULL
+> + * @pde_post_pmu: called after DAPM writes REQUESTED_PS=PS0 and before
+> + *             ACTUAL_PS polling begins; use to commit pending register
+> + *             writes (e.g. FUNCTION_ACTION) on devices that require an
+> + *             explicit commit trigger for PDE power-up; may be NULL
+>   *
+>   * Codec-specific SoundWire drivers pass a pointer to this struct to
+>   * sdca_class_probe() from their sdw_driver.probe.  Codec-specific
+> @@ -39,6 +46,10 @@ struct sdca_function_data;
+>  struct sdca_class_hw_ops {
+>  	int  (*hw_init)(struct sdw_slave *slave);
+>  	struct sdca_function_data *(*get_function_data)(unsigned int *num);
+> +	int  (*pde_pre_pmu)(struct sdw_slave *slave, struct regmap *regmap,
+> +			    unsigned int function_id, unsigned int entity_id);
+> +	int  (*pde_post_pmu)(struct sdw_slave *slave, struct regmap *regmap,
+> +			     unsigned int function_id, unsigned int entity_id);
+
+Yeah this needs a little thought, the top two are directly class
+driver things, but the bottom two are used by the lower layers.
+We may need to do something like split these ops into two sets.
 
 Thanks,
 Charles
