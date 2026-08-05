@@ -1,169 +1,201 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011030.outbound.protection.outlook.com [52.101.125.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE032737E0
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 00:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.30
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785888557; cv=fail; b=KBGyMUEVYdMV+Kc8jnLL8QK0RjzFESWCLpO7KVPapku6/b2YIsQp2FWSsjN6AuEW3jykMDHpqKEbNjfRyC6/vJ6nd1Yv3nGIczApZcm4YMtgJ51PZtG78eX8wW6eeLM0vb1GFQv0dKlr5xmTtvbEZpERfJkD7TtgZtqrtLU8O7U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785888557; c=relaxed/simple;
-	bh=mWywsy5HSH4M6EDmsrpGsYb2UFGkgwLLy60tcy8rnb0=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=sgoXApOs0Ecq0u9uKBaTPpCIxXNJrdsX8EJVDgBHtKohNjRG0gEBv9B+b7IwX/8HCcFEYPfAGTkVT5KfDwEIW2za1VZeNGJgWCHMKH6RHVEAAe8bEWFJFEbMXTQ5a73f/UxaifxTvSqp4FonZuz7AwMn3aFcoNirT6mQRRk7Rcg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=oWv9Em1P; arc=fail smtp.client-ip=52.101.125.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="oWv9Em1P"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PEQl0/DJB4pEcqNQm/1CoY0nAOc1/jWhBs292TKlfJnmskOzx1pESumSKQYWFa+T1y9I530GD3WdPyphT7h9RA317eLJUvJBYRpTIS2E0wK+H0Hl9UJGdjhmYScBCa42dBFs7n/tQcEMgQGm+e/rDsA7jtKNur6N7EgNPWrFFAqWxuZPnVCcvrUv+sHJ+0g3TQo7wQMvVm7IGmw5TP6W9/rNoEgLoZ5Qg++/9lKrP6LZDAB2659F6Jr+mIFK3n0skiTvC09YFsLLAFo5yBdZsNdG6iIqGPaXJLdtJbIpRTW8s0dHP1yiFfbGdCVsCEdgOChOLOJdRntpQj/Gdeo+RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eplozSBWmI6YDvivPCMmVcgWIYVT/2XAm17cITLZ6ks=;
- b=QKbZh92VqY6Z6AKyqpPieSYBvqa2c91hQtiBtzvIn/c+6pYKZ6S1mtFidn6Hc5XT+Tba4LeaVIeh4Y7kvp4QJK+mL5mNNjKbcVnweZKLeIgnx3CIc+YJM7tEyLiRkbF+MGTmUbwJOcTAFJ0oDvRgE1gmX5SbjO3INvUODrgM6nSs8UfwcpkAoaiIIq3uC3Z8Dw5LVG90L5L+RCEwwLxza3/QPXZy6MwVJ0JOE1rrnkb+3rVMp4+lQsEoBaw7D9+ijuC6Su0VeIUy0iCcUCiaHaTZBrFXrDUpF3Q50GTyszDwrr2Z2Jy0tupneQf6nOpuV6cE3YCZDlQQ4OjyIfWrMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eplozSBWmI6YDvivPCMmVcgWIYVT/2XAm17cITLZ6ks=;
- b=oWv9Em1Pg29ulmvxh+ciLjmiTONmNVrRDhmkEWnaSYb7HnCYo2DPAh0bIQeaaXAwzOHTgPQBiuyl7SMLfc8d6DsDpZNFrxrPU62EgGKuBRjSFjbG++2A46bMXdE4F5wbUVrqB43jhqlyNzpXgKrLE4/N72GpvMZvvNcvdsloQAc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com (2603:1096:400:373::8)
- by TYCPR01MB6639.jpnprd01.prod.outlook.com (2603:1096:400:9c::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.16; Wed, 5 Aug
- 2026 00:09:06 +0000
-Received: from TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383]) by TY3PR01MB11797.jpnprd01.prod.outlook.com
- ([fe80::1868:c915:c230:a383%4]) with mapi id 15.21.0292.015; Wed, 5 Aug 2026
- 00:09:06 +0000
-Message-ID: <87h5l9v36n.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] ASoC: renesas: enable COMPILE_TEST for PCM SH7760
-In-Reply-To: <CAMuHMdWxRASq-jwryP4prDMAQuYEBSYpPNY2iw8GbQUKh-P2ww@mail.gmail.com>
-References: <87zez4rmrq.wl-kuninori.morimoto.gx@renesas.com>
-	<87wlu8rmr3.wl-kuninori.morimoto.gx@renesas.com>
-	<c474b067-e549-4d51-be21-4337cb8de184@sirena.org.uk>
-	<87jyq6vgyd.wl-kuninori.morimoto.gx@renesas.com>
-	<CAMuHMdWxRASq-jwryP4prDMAQuYEBSYpPNY2iw8GbQUKh-P2ww@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 5 Aug 2026 00:09:06 +0000
-X-ClientProxiedBy: TYCP286CA0088.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b3::20) To TY3PR01MB11797.jpnprd01.prod.outlook.com
- (2603:1096:400:373::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E15B31C567
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 00:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785888746; cv=none; b=VFQt/jCLI3rDA2NbHWzCW7eEVInE4OnLZWv7cGgOmQTAGY1nN6cK4eVkz8/vRI8zmHtZqjL1jcqtt2Fu51llOIqipHsRXzX1OkRQo+WQWjnpSIAz8HUMepMrYy6VQTWI9yzPpTl1umNSW2D0qMlb1qUskVL3rvoeYF2XbC1HAOs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785888746; c=relaxed/simple;
+	bh=iKQFq2awJhVx5dnO3MmIrLu9lHB12oARtMLZDm/CJzI=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=RplwmfF7PpTy7aCZQWyzxQLO9vzgOKBtJEJZ+ytGA/j1pIGLmz4r++GamCuIa7UQnW+uVsFb8R8M3LxPxvNZGpxpP2w2zXfDuKR5uplQ9msg6oe3qpKRi/QHR0CmqFgUF0bCbupHJ4ayxZGLVQfNDvDktfcGiAGWbj3jhNPtfJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7f18aff8226so472401a34.2
+        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 17:12:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785888743; x=1786493543;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XeSTomcLxdr/GN0kMzMRKTQzqOUyqtThUPsCFcfh+L8=;
+        b=qgxO6HhvM20gkmTGmt7e0VCBnkMVY3VXZOPOCdXiQ7/mYWiWXs6utTFGRF1BCsqqa3
+         NobuqQTXovfCHQrRUACWpEC6zMuNlZdeC3rh25FNzE1PHNiPyF/BZZGBibnzFcWuPDvg
+         /hvzfoi266a0Do6Y+DHVRIuu1QJFXi3BkwFfzhcnMYmLavTt3z0Keddjv9MkwR2TR66S
+         l/iuh2dkgBO500x+M0eciBj4S1xEK0+CTFdpnVnCkkQVCQRKsVtkhcmE7FUT3j25frDf
+         4ddsImxCZCDwlBM+cU3oi/+NH+Qer1aADGmRk+/v+aoxUJYvXo+GiiBRSo0QKQhIyjPg
+         XQvQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpYGqoJqR8JXs9V7e5SyL9X+hEJsvBsf74xdiIYz7+CAcIKjGiNs1tkvLIWbo9+WEZlW6enCl5CBtlL0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxC2xUFJH0w7oRdBwns8GkBWaURzYMaH7mV1BenTWbW/wNrGRZA
+	y25qzSdmVk97vmSG/tUIG70YFC8rJlZAWH5OBBbof6mHsqLXAsWt8kXDFtkU/mBu4Bk0BsHMsZO
+	HAdchJrnsEU0oMixYwVLcSwuoxTScspaz9EugbMHIPuwdFatho2e/pgcPIVs=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB11797:EE_|TYCPR01MB6639:EE_
-X-MS-Office365-Filtering-Correlation-Id: 717caa59-dbbb-4fdd-34c3-08def285c3ef
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|6133799003|56012099006|11063799006|4143699003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	zreyF0rfbvWm+5a74ieoQDbRFfhaYcx7vqydg5htjkENiwgOi99caPqb4DXwGf9H/ZKM2ORWphkqW39nu9JbtkgOSE3hksZ5r97J+gUOGkLETsb3TB3LvZdfW9nOyBRXmGov/MdxR5TJaZwD1YO3JWcm0ay1eP4JcfAQkMYrUDN7AoTQ5YFavmOxKUtEJD0bqr3QhIuU+OK3Dx8fpgDLFJlRnY8T9eXmExPAR0NBZdm9hZpTtMcM0Vk9u1dSKELhJHaxjlen1qbrDVaqFF9cx5xoVGTrHeHCjNugFFF5EizpQpcZE+Tk79MzEoCHiBhNYorSM2UO/O3TlnpHxzKlKESXWqzToVTxgqC/2osQLHIy3XUpR+vCJmIWhT6vsPliEdEZC59wQ2SIQsK8wtx8cpcqlvw1MY4qkQTeh2MrveJ2FOdIKwLCzeuJ43saFEye/bOSBAZIU9gzVP6dw6hEkhxcBiWkpU/KdgLxfIxVz0EisDMfYYL4uVeB7CNyckvr8OeDtMVi1PSnKpLCKwSmNFWWWT4DyBYZkzDeg4501UC7r4xhBfr4tmLyWtPp145W7pBFLnczotcQ+Yb75AzRATzr6rFnyWwexrGGzMSW8SBlXGFLKISUhxy9OwbgbYqEr1yp3s92i243RDvudz4uAegn5XM/w0YomgMm5bB2QeaPfIv5uA4kqjyxqC/5IS9UKGMwZqfDKM/3tLArJ5vhFniqlQ8+t1hM5Y4qB1DoEk8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11797.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(6133799003)(56012099006)(11063799006)(4143699003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jzGW7skoYqcAqL96w2w+8cxrE57U+nWnXk9Ou3srBTgI9bKE5/lvhxmzQDCy?=
- =?us-ascii?Q?X9E4IBjB2EdA10yu4UOQr/Voey6GEl2jn9+L0k0mTLIl2mQJOSjoYzxUC0o5?=
- =?us-ascii?Q?jcPA8gqlqIIj4Sq9piNscNHT8wLvXlhXPUScdH8GpYQ8QTmKqgcfTTlRLq3c?=
- =?us-ascii?Q?Ks7URukBpZuw6vdxlKGVBIU2qC2hoMl3V25l+bPZtXfM08WvKILgYtvpECLZ?=
- =?us-ascii?Q?syJvRzdHNE0hPix5nFZr5M5peXhZGJQc2ApDL0SjQC9XRYFOZP9Q1VSL2/s4?=
- =?us-ascii?Q?XMvd4lkMXVIvKZ+gPXAj5ihW8/mwDQ+KyLEmn28EMgMgt4yfA6cwd3sNMKl4?=
- =?us-ascii?Q?4zHlhofmnt8oFAroL9MPjqHG98gUCHi9J/zdpzPz+nxEUhYPQa2MN0lsNvUJ?=
- =?us-ascii?Q?ipffiblniGobQGz+jJCUnv/OYt92CoTgzMauf09i1gkgo5IDZomIopysDyaf?=
- =?us-ascii?Q?aLQCLOMjbRenYA8m2ISJIst2ydcS5iebH8GXy+Z8gKaByHvfjr3MhCXnBxP5?=
- =?us-ascii?Q?vTXPcChX3Er3fmZb0I51Obd5qVlbuvU1B9TDv6WRleJFSCaiiMoReoeDNlKE?=
- =?us-ascii?Q?vXEPSX/gQI+qTBlzrmo8wkE0Gh9liKkggRPUruB8HKihyc0P7jAICBkYI7IH?=
- =?us-ascii?Q?y46oeZ2v+8hRtGMuukAmoaV8ZGZN5eW92gP2ADS9aErP+GyeOWvbbfJOg1z2?=
- =?us-ascii?Q?KCxBd/L/c287+LJgkFRUbVDvQxOoThk0gOPit/x8EWm+C4N7U6R08gU0hXNB?=
- =?us-ascii?Q?urLmLjgJaifRrN/S3k9j7gtZlxFFgIGWYnLOTpATxGaHTwh3zuryVhg28GXu?=
- =?us-ascii?Q?bZT5w95Me0r1LK1VY/lfBCN6CLgEslH0cOalsPWo8fX2BKHCrztSVBtrpkBD?=
- =?us-ascii?Q?7hYrP7xYJ4YZZi8KMBa54Vm+jEJMk2AZNl7S13bSj4+rwtJ9Q19f7IYr0zqR?=
- =?us-ascii?Q?2qrqZZ+puWOtEoN63Zs2GvM9WJkeVfZDmIxhTvOeyw8G6+CVnBtQe3o+RDCV?=
- =?us-ascii?Q?j8eaTNUjD/QOOSh2l1GcbTmKKuv8u5da9FZGisO6j98nRCOP22+dJ4jGwvXy?=
- =?us-ascii?Q?rYw8bzBmIy2ebY6KBHPPt9t41Cs/XoWT28NjBj3aS2J30ySRsXjUJLGP6wtU?=
- =?us-ascii?Q?5LrlDadZCj/wQN9z34tDH1uCOCcM6whlopBT8gS1EcNgFeVQ1A+aduIYcNGe?=
- =?us-ascii?Q?2vqtlllIHULAUE482keuhfES3p/tFXGr3SDOkP2J4UgHOAGpBLu85pxtzBxR?=
- =?us-ascii?Q?3oXuLeQodrEnJ8Nrl1MZ658r3DvSG+7l8UbwRn/bxtOsTvPIYVfFe9CR3iwv?=
- =?us-ascii?Q?Zo3ioHobW3q/ghSbaDg52ZLSm25vQumxewqoPxmIHt99grErF8IaNTTJ06Ma?=
- =?us-ascii?Q?ElpvQWrEMyqarYtMho6YEys/XWQLnVn3adsu6uZ45jd1b8sLsB8KzXowfMHa?=
- =?us-ascii?Q?InKdcAAKGxi5GIfxc146jx7WQqtLPDXRLiD2CgQmOyBiTl6tr9psyQuEUuDn?=
- =?us-ascii?Q?pSDGOETUD1ieRF0gcTbv0f09XVhYTu4iBZ7kmVNpm06BU2DI4nQmmojOIvgk?=
- =?us-ascii?Q?nvwHoATZFlg8u1MhVNluVGdbNsCi6IZjxfiNbsOnmCKPo2eGGzGDxR/YnTnV?=
- =?us-ascii?Q?F2CLr19nmQsZrG0vsijNntYkoByziWtcTuJU6f2emz3uyW3oLSCwjhGu2QM/?=
- =?us-ascii?Q?NvHjVv4E288xS+DdRjRv8LBs/BC2X20Z1Y2L9ajg5WREYc2G4SEW2cFKbaoD?=
- =?us-ascii?Q?V2lvkH0F9CtafFHMMFolHc5zxBi7zuU=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 717caa59-dbbb-4fdd-34c3-08def285c3ef
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11797.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 00:09:06.7239
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DLKI0lQhnCfJ9Rd2GEyxpJGjTyN87jJe+bjZ/FN4jzGcCif27vQahQhA9/Uyew1n00NiHl6WElvrbYM9oeR4japqpLVyOqcmlkKRAzm/2GFZ9bKewpiH8VvyIobRccNj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6639
+X-Received: by 2002:a05:6820:2916:b0:6ac:aa4c:5d93 with SMTP id
+ 006d021491bc7-6ae97038ea5mr1665644eaf.36.1785888743381; Tue, 04 Aug 2026
+ 17:12:23 -0700 (PDT)
+Date: Tue, 04 Aug 2026 17:12:23 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a727fe7.13623e66.bdc14.003c.GAE@google.com>
+Subject: [syzbot] [sound?] KASAN: use-after-free Read in release_card_device
+From: syzbot <syzbot+7061d72c26b7daebe2b4@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    0131b508c0e2 Merge tag 'ntfs-for-7.2-rc6' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=109f4c9e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
+dashboard link: https://syzkaller.appspot.com/bug?extid=7061d72c26b7daebe2b4
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/237b6b227f6e/disk-0131b508.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/90a5294c2a5d/vmlinux-0131b508.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/54d17924c110/bzImage-0131b508.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7061d72c26b7daebe2b4@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: use-after-free in snd_card_do_free sound/core/init.c:604 [inline]
+BUG: KASAN: use-after-free in release_card_device+0x17d/0x1a0 sound/core/init.c:153
+Read of size 1 at addr ffff88814a70c909 by task syz.5.630/8206
+
+CPU: 0 UID: 0 PID: 8206 Comm: syz.5.630 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ snd_card_do_free sound/core/init.c:604 [inline]
+ release_card_device+0x17d/0x1a0 sound/core/init.c:153
+ device_release+0xd2/0x270 drivers/base/core.c:2636
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x1f7/0x640 lib/kobject.c:737
+ put_device+0x1f/0x30 drivers/base/core.c:3880
+ snd_card_file_remove+0x38f/0x560 sound/core/init.c:1125
+ snd_pcm_oss_release+0x217/0x300 sound/core/oss/pcm_oss.c:2596
+ __fput+0x3ff/0xb50 fs/file_table.c:512
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x951/0x2ae0 kernel/exit.c:1009
+ do_group_exit+0xd5/0x2a0 kernel/exit.c:1152
+ get_signal+0x1ec7/0x21e0 kernel/signal.c:3046
+ arch_do_signal_or_restart+0x91/0x7e0 arch/x86/kernel/signal.c:337
+ __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
+ exit_to_user_mode_loop+0x139/0x6f0 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+ do_syscall_64+0x666/0x870 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f883d59e019
+Code: Unable to access opcode bytes at 0x7f883d59dfef.
+RSP: 002b:00007f883e4a40e8 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+RAX: fffffffffffffe00 RBX: 00007f883d825fa8 RCX: 00007f883d59e019
+RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007f883d825fa8
+RBP: 00007f883d825fa0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f883d826038 R14: 00007fff416628d0 R15: 00007fff416629b8
+ </TASK>
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x14a70c
+flags: 0x57ff00000000000(node=1|zone=2|lastcpupid=0x7ff)
+raw: 057ff00000000000 ffff8880b8541800 ffff8880b8541800 0000000000000000
+raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as freed
+page last allocated via order 2, migratetype Unmovable, gfp_mask 0x40dc0(GFP_KERNEL|__GFP_ZERO|__GFP_COMP), pid 1, tgid 1 (swapper/0), ts 17137786410, free_ts 237675753363
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0xf48/0x3530 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x299/0x2dc0 mm/page_alloc.c:5304
+ alloc_pages_mpol+0x1fb/0x540 mm/mempolicy.c:2490
+ ___kmalloc_large_node+0xe5/0x120 mm/slub.c:5274
+ __kmalloc_large_node_noprof+0x1c/0x70 mm/slub.c:5305
+ __do_kmalloc_node mm/slub.c:5322 [inline]
+ __kmalloc_node_track_caller_noprof+0x5ac/0x830 mm/slub.c:5471
+ alloc_dr drivers/base/devres.c:141 [inline]
+ __devres_alloc_node+0x6e/0x1e0 drivers/base/devres.c:189
+ snd_devm_card_new+0x9d/0x190 sound/core/init.c:235
+ loopback_probe+0x140/0x11a0 sound/drivers/aloop.c:1805
+ platform_probe+0x106/0x1d0 drivers/base/platform.c:1439
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+page last free pid 8220 tgid 8219 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ __free_pages_prepare mm/page_alloc.c:1406 [inline]
+ __free_frozen_pages+0x79f/0x1090 mm/page_alloc.c:2950
+ free_node drivers/base/devres.c:50 [inline]
+ release_nodes+0xc3/0x120 drivers/base/devres.c:547
+ devres_release_all+0x112/0x180 drivers/base/devres.c:576
+ device_unbind_cleanup+0x81/0x270 drivers/base/dd.c:597
+ __device_release_driver drivers/base/dd.c:1354 [inline]
+ device_release_driver_internal+0x4c4/0x620 drivers/base/dd.c:1372
+ unbind_store+0xf8/0x110 drivers/base/bus.c:244
+ drv_attr_store+0x74/0xb0 drivers/base/bus.c:125
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff88814a70c800: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff88814a70c880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+>ffff88814a70c900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+                      ^
+ ffff88814a70c980: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+ ffff88814a70ca00: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+==================================================================
 
 
-Hi Geert
-
-Thank you for your review
-
-> > > > -   depends on CPU_SUBTYPE_SH7760 && SH_DMABRG
-> > > > +   depends on SUPERH || ARCH_SHMOBILE
-> 
-> You can drop the ARCH_SHMOBILE part, as it is a subset of SUPERH
-> (if ARCH_SHMOBILE is enabled, SUPERH is enabled, too).
-
-Will do
-
-> > > SH_DMABRG looks like an actual dependency, there's custom IRQ request
-> > > and free functions which don't have stubs.
-> >
-> > Ah...
-> > SH_DMABRG itself is depends on CPU_SUBTYPE_SH7760.
-> > So I think it should be "select" instead of "depends",
-> > like below.
-> >
-> >         depends on SUPERH || ARCH_SHMOBILE
-> >         depends on CPU_SUBTYPE_SH7760 || COMPILE_TEST
-> >         select SH_DMABRG
-> 
-> 1. "depends on SH_DMABRG" should be fine, as SH_DMABRG is a
->     user-visible symbol,
-> 2. SH_DMABRG depends on CPU_SUBTYPE_SH7760, so you cannot just select
->     it without enabling compile-testing for SH_DMABRG first.
-
-Do we need to use "depends" for it ?
-
-SH_DMABRG is indeed defined as user-visible, but is needed only for Sound
-(and/or USB ?). It is specific/necessary feature, not generic feature.
-
-In this case, it should be selected automatically if Sound (and/or USB) was
-selected, IMO. In such case, we can compile with COMPILE_TEST ?
-
-Thank you for your help !!
-
-Best regards
 ---
-Kuninori Morimoto
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
