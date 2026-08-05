@@ -1,112 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8F13E6DD0;
-	Wed,  5 Aug 2026 08:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DFF48988B
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 08:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785918229; cv=none; b=rdqkbW67bSKqHoF8kxHhkHSpWVz4lIcewOJvBeBJzuPtnDTDEEtdBXgdboA/7dxQxxjYJUPCM6Z5WmP9Uq0QChjE6RPiEhjM7q4YGHCaSSdTWbV/AYzIq+BrSe2wFpZD4A+XiwFMrKLgRxC6VBxHktImD/ocWxOzBW3mLGdvJ7g=
+	t=1785918946; cv=none; b=B1RabDt9m20le252iONloppb+vSWtLCr+tH1NfQlgoXljnzPfyaXzxjicVPiW9fNrvvWUEzK+TCeG/cK3LrIlBxeZoYGZcDTOdo8haSsjiDCf8HLiTWTw7FSsRHSxcY0pWxyKTkDmMXlO3eHbrSnUSx2iCRNr0DFTcYyzhv47vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785918229; c=relaxed/simple;
-	bh=hQ3cw4emNnteLE19TOThWujLZvo5ond+8EBwoMyl/3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bZ3HqmRLzkhFGko+bKx03xtmJS1MhDxsnJoTqA+IAEsBT8h+9likXY0++DlUzVOkzMlvL1R65aXxDHBCwqx+xzJC5KpexERE6ADpG+M+otXU6buvkK6AnDJuyo5I0M27hJl8lfuhmy3IDQP9wn4iYc31s1PsNPNZbMhD+PRlKs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g6jBbByC; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785918946; c=relaxed/simple;
+	bh=0iwNrntQRr0m1Yb2cigO1f7CW9Jav1eJvZsnXZIo5Y0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UXZQ5tVrn+SA1O8uLIlenwcqiXbVnPmSbYutGxzrsPva6KLvzcOUDScJewnoBCp7izeO/xihI7VxM4t33QKTjQ1WlLvY/HDlcKsKL1Sd1uNMRCYni+QNmq3ZK17Dr4YvPiSL6i8HlfnisNm3kUbVD3ZkXdz6UAUEAvv8Rv21A6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=U/bq9SWZ; arc=none smtp.client-ip=91.218.175.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g6jBbByC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785918227; x=1817454227;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=hQ3cw4emNnteLE19TOThWujLZvo5ond+8EBwoMyl/3g=;
-  b=g6jBbByCiRCcnjrsO/i6XM+8L0gb/bJ3Al1bOmPFQ07VjSmo+ZnrxXUe
-   qtmOC7Lm8wW4GaSapeT2APoLUiuPqKLqWR1Mib3usvHtXTzushFtNOrS/
-   QFUdIoOO0IhfyBMyGHBSaTTJxO4TkZwfH71cV8mV+TasqpmHwKqS72Fdm
-   Qylb5I3x2s4VSWEUExAir6XHsrYdwC6omeMXLOClzts2Ongrsba5b+18R
-   NeBiI847gvw8GVFhcMTm9p5+J+t7iKipRIXEYuaQFPMmH5b0Z3SUJnzE/
-   sSJbxPfkEAyETSLpTNl6ysIDb+oT503e+zQBz9x8ajEQxTl8pqZr3beGX
-   w==;
-X-CSE-ConnectionGUID: 2IsMJ1p7T/eyoVSZt8uJ2w==
-X-CSE-MsgGUID: kCdcBQ0HQ5+weeHD3gna3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="90299700"
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="90299700"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 01:23:47 -0700
-X-CSE-ConnectionGUID: vQ2jNeSGR4GvLv8hlon+Sg==
-X-CSE-MsgGUID: Dytvy/29TFCzRX5oQE4QiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="258399590"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.246.218])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 01:23:44 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Vlad Karpovich <vkarpovi@opensource.cirrus.com>,
-	Paul Handrigan <Paul.Handrigan@cirrus.com>,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: cs4265: sort the register default table
-Date: Wed,  5 Aug 2026 11:24:13 +0300
-Message-ID: <20260805082413.26174-4-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260805082413.26174-1-peter.ujfalusi@linux.intel.com>
-References: <20260805082413.26174-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="U/bq9SWZ"
+Message-ID: <7be50891-3861-418d-8237-5340a80b9159@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785918942;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5a3jSqezqxUEfUjeil0WyOPqkfR0LR47HkZsyhi4CoQ=;
+	b=U/bq9SWZjoiYeGXR0cpRWGTRtXUuan+X46GVABOXE4TnHc7jxHDnK5R/29EwZvD/7oeviw
+	Fgy7p+sNWIAUQ5oni36AcTRhm0mssa3U8rJ8ndYUW5atQTuwFKifzblWF3wiiN0mbYRc/9
+	Tc1c4idptIAqxdeg3xS8UZ/9S3rGrTY=
+Date: Wed, 5 Aug 2026 10:22:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 2/3] ASoC: sdw_utils: skip endpoints of a peripheral that
+ is not on the bus
+To: "Liao, Bard" <bard.liao@intel.com>, Sergey Lebedev <lsa.uz@pm.me>,
+ Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Oder Chiou <oder_chiou@realtek.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "sound-open-firmware@alsa-project.org"
+ <sound-open-firmware@alsa-project.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260804225853.31585-1-lsa.uz@pm.me>
+ <20260804225853.31585-3-lsa.uz@pm.me>
+ <SJ2PR11MB84240C52AC5C4DB36B92AACCFFD32@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <SJ2PR11MB84240C52AC5C4DB36B92AACCFFD32@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-reg_defaults must be sorted by ascending register address, as
-regcache_lookup_reg() locates entries in it with bsearch().  See commit
-fd80df352ba1 ("regcache: Add support for sorting defaults arrays").
 
-cs4265_reg_defaults[] lists CS4265_INT_MASK (0x0e),
-CS4265_STATUS_MODE_MSB (0x0f) and CS4265_STATUS_MODE_LSB (0x10) after
-CS4265_SPDIF_CTL1 (0x11) and CS4265_SPDIF_CTL2 (0x12), so the binary search
-does not find those three entries.  regcache_reg_needs_sync() then cannot
-compare them against their default and reports that a sync is needed, so
-they are written to the device on every regcache_sync() even when they were
-never touched.
+>> asoc_sdw_parse_sdw_endpoints() builds DAI links for every endpoint of
+>> every _ADR entry the firmware declares. If a declared peripheral never
+>> enumerates, its links are still created and later fail to prepare, which
+>> takes the whole link down rather than degrading it:
+>>
+>>   sof_sdw sof_sdw: ASoC: error at snd_soc_link_startup on
+>>     SDW0-Playback-SmartAmp: -61
+>>
+>> The Microsoft Surface Pro 11 (Intel) declares one physical RT1320 twice,
+>> as two _ADR entries on link 0 differing only in SDCA class id:
+>>
+>>   SWRA  _ADR 0x000030025D132000   class 0
+>>   SWRB  _ADR 0x000030025D132001   class 1
+>>
+>> Same link, same manufacturer, part and version, same unique id 0. The
+>> part reports class 1, so only SWRB enumerates. SWRA is a phantom and
+>> stays UNATTACHED across every boot and every firmware version tested,
+>> including the November 2025 bundle.
+> 
+> Why not just remove SWRA from the BIOS?
 
-Sort the table by register address.
+Or add a quirk in drivers/soundwire/dmi-quirks.c to skip this SWRA
+device entirely, this has been the direction so far to ignore 'ghost'
+devices.
 
-Fixes: fb6f806967f6 ("ASoC: Add support for the CS4265 CODEC")
-Cc: stable@vger.kernel.org
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/codecs/cs4265.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/cs4265.c b/sound/soc/codecs/cs4265.c
-index 286d5ca29854..0b7d6826f4e9 100644
---- a/sound/soc/codecs/cs4265.c
-+++ b/sound/soc/codecs/cs4265.c
-@@ -46,11 +46,11 @@ static const struct reg_default cs4265_reg_defaults[] = {
- 	{ CS4265_DAC_CHA_VOL, 0x00 },
- 	{ CS4265_DAC_CHB_VOL, 0x00 },
- 	{ CS4265_DAC_CTL2, 0xC0 },
--	{ CS4265_SPDIF_CTL1, 0x00 },
--	{ CS4265_SPDIF_CTL2, 0x00 },
- 	{ CS4265_INT_MASK, 0x00 },
- 	{ CS4265_STATUS_MODE_MSB, 0x00 },
- 	{ CS4265_STATUS_MODE_LSB, 0x00 },
-+	{ CS4265_SPDIF_CTL1, 0x00 },
-+	{ CS4265_SPDIF_CTL2, 0x00 },
- };
- 
- static bool cs4265_readable_register(struct device *dev, unsigned int reg)
--- 
-2.55.0
+It's much safer IMHO than trying to detect if a device is physically
+present or not.
 
