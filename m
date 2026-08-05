@@ -1,61 +1,61 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED519255F28
-	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 01:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB45261B70
+	for <linux-sound@vger.kernel.org>; Wed,  5 Aug 2026 01:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785893687; cv=none; b=A1d/Ttd7rRY+0HATAe7qzP3ugRT4+KMzY8m5GMVk3Nxzwuq7086yplzUewHMG7PGQRrjMix405iyJn9TJlw6hcUZl2LUkQ3IsQjZrNLiR6HcKvhG4nS5DIh3ZprPhf7RhvHG3qWzDb/d9iR9KfJbx2s7okzjHS6bRiJ5doyGDVs=
+	t=1785893691; cv=none; b=Li4JTGSwmS9/yw0fYjItgPE7JeiXgamc0EKB0UIu3EpLsElwu+d4lwLIhOEPJvDKkMZvE/zwiWe628UXO61C6ULM+cyGX+Yxl4OHEvzv3hx5OCcIgbeOE/5YWaPwL+oM9a0ngFL8MBngkaQnrd/wivS76nGmJNB46jprETognCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785893687; c=relaxed/simple;
-	bh=6ggo468VqCJiBEAW/CY4gRyFscERZZi0d+FSNRqo7fM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sjAVjmt4BY/fixB7OODOp5cZvGDRS+hDMg1MQ0YLL/LTmJkSGHfmY5b0x+JLwJ/B/eYbsXcHvuw1/YOo52U+m3SJvxsV9dG8mnImPFa7CdmYAk5Kfl72TTidmboeKj7pvBJ4NiZLtbBFGbI375URzhVmxWAJGTQ+aGG6mGYA1V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=f5IG8uNz; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1785893691; c=relaxed/simple;
+	bh=AJuzXvTVkuXVly2Y8ZK0t17Th3ASi5G8hg6K20mj+/c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M1bFjOvxldOny6JjD3V3WDhVKXC4aheewNGEcvML7qFy9S95Bei+HYzSHHx9uGcy0Fk6ydBgedSoBtRBj8izfHU4YI0fykZCUDew9bZLQ+olC/m0sDY7NdZKGoW2BOea0Vqn/DOUPSN86Dn2X9hl9WdoYCxWeQMIplR6Ztl4sK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com; spf=pass smtp.mailfrom=xbow.com; dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b=Xh721U6Q; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xbow.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xbow.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="f5IG8uNz"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38e42560ebcso367067a91.1
-        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 18:34:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=xbow.com header.i=@xbow.com header.b="Xh721U6Q"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cacf197759so7183155ad.2
+        for <linux-sound@vger.kernel.org>; Tue, 04 Aug 2026 18:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xbow.com; s=google; t=1785893685; x=1786498485; darn=vger.kernel.org;
+        d=xbow.com; s=google; t=1785893690; x=1786498490; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4cYrPAdGr78t7YkoLwcMiDz4Rg7VzdKjNoh6ElfleWU=;
-        b=f5IG8uNzFilA+bx40PllHgen6xCmvCxpPtA5YGpIpz0e/ltOqlvTkHxL2IO35l0Gwb
-         ICLo0tlLQ0zJEuiliXsoX9dYAChX9rZDREoueg/RBIGkanujl+uKZrC3wXVwbrDKv/Ua
-         oUpeMJF5dwLHmyc8cbHyenvtqBv+7viuTB2UCqy++MzV7H70CHMD6d7CGngZ8N8fmIHU
-         f2PoOWaxVfbwOmklUTxI24901jJp0Y7VKAR/sK2sP5CN4N4zeHPu7Jzak2E+ISJW2AJD
-         HudQPn7ALTxL//rdvXHIeLMcTQDz7F6G5qTOhcXxthZigqla24PMVMaK0NYsD2b/AE7t
-         zafw==
+        bh=M89P75fJt691dQNC6UtNzIeiGuPM9Yb1WIZo+b/oH0A=;
+        b=Xh721U6QTkDYXqkQYdBEn/9y6371RZZ/S+iVtFl6oVmQqoDwgEwDqZ7fV+Dx2W/9Ha
+         QTGOLKBdpFRzoavZdnvPoifYWSqAS2VPulTkNUDvogs8TPfgcGQSJpdoDd8HaEuoUN8s
+         TKpaZhJMY417qvTe3GxtTyxXLxli69btVL6yPHknLqfqkrHhYbOieN2sUz5W7Dd2h6Ds
+         9DfJ0VIqsgQ8C2CVHMMYyetSmOs4P4REiEni31rqwdRv8JbbJmRx29S0Wa0T4YraQjRj
+         CdlDWJIrURgV/hTxSWmb0HuMvZn6VCOug2YNsNdtYwvHFPJW50lKIf2SQcBFe3OJCCbb
+         OZ5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785893685; x=1786498485;
+        d=1e100.net; s=20251104; t=1785893690; x=1786498490;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4cYrPAdGr78t7YkoLwcMiDz4Rg7VzdKjNoh6ElfleWU=;
-        b=ho5/t0ArM8KuDTvzDL53igsqkMKDCi0UxC9P1N4EeXr4SdvEU3hn2hjyooRCzzL+yg
-         hLpQBat9aqjKS6zpcBmwzumlcmKbGaK9u8pPShKb5V3cD++rBqD/KgRSz2NEhOLWOPHo
-         wlXK9mxJBsfRgK8ep21tT4M+oCUQh7VxSwQjhJNkmi6Bse1TDk97vYvTDzUDGb2ZkBHa
-         B6QUGXiuDsgD+XoSV2EKWzf+sCUrYcpXxza1oYfc+Ik87sTRAtjaT+oVz4YxDsS0UXOa
-         M2jLunrwQHnshoEj3zfqWt+yrlI/AuQWJ0nCng+4LjF0OB/yyRZQjP/4djGhxzdG5QGH
-         s4dA==
-X-Gm-Message-State: AOJu0Yzw+vqlz/dR72/wsi8FiB+1G7YkKDWWvWet/w/wS/T1SXz599Eq
-	RbasBRTFR+IUbqQ0uuNUxsLbgHzU9CGp00kLQ4xG3MTpi7GllOUXGO5fD+4JSO31RYg=
-X-Gm-Gg: AR+sD103FCiuWmLSrVXvl/n2jL3mwXYQKnFliQjuo/R3oZACCa6mag/veWLxjvmKDL/
-	46gg8u/iwQhEW4RXnb3s1tVcuvtI/ZKY9lldxFseCZYAxvpHkbT/aaYbpyCLc6IEFqp6bAfeYh1
-	2p8LlJ7SdkSPyqzYjtnwV/I5r0OGMiUIKaCIKSV6Gcn/riP3XhuYZEqIr5aP+rjbiC54pWsMDUR
-	ZVG94T0fKQn4PZ04PEv/5yiwZTqAuU447ND7UmIgH1ifstSp26sakDGLjBRDwgVJwU7JpxF74H1
-	cmYyvQsTZvtxMxwj6YtboWaImjjTU9bIe3n3edm7F7ANg0dJiayfT94wJSDuYON7M51L4T+dq8J
-	Oh6AC+RL4mtq02ac2caNVl+5C95HbrquCuQ0ZizUnedDfBCk5xcGGtedKzIj/32tnOGuh9axg1B
-	4kRJCuq7Tz0VvKm+xAEfR7UIyMya8igd93Di228jkQ8NBDC5l8BdiEZZHeEPpFKA+g4ScVqR87C
-	G20VAAItf/FERCIlK4uNFIzeq/VBhdhuCcAqkM=
-X-Received: by 2002:a17:90b:5823:b0:38e:485c:ebd3 with SMTP id 98e67ed59e1d1-3903c5b727cmr3065888a91.15.1785893685187;
-        Tue, 04 Aug 2026 18:34:45 -0700 (PDT)
+        bh=M89P75fJt691dQNC6UtNzIeiGuPM9Yb1WIZo+b/oH0A=;
+        b=NbXKfRgtgAOW0XqdoCTe7roBYpGcna7TkW3x+EgYQff8HU+4zfnrc9csq/TEpb3KUs
+         WNOjPXOaTCqbbLh4a5YW40D9s/ZeOa+0Q0+/x52cQ4cdwqhgH7nJ/auYTUeAwfzWmoQf
+         NUVtJnJ6jZgP6Wh/x/at2ez4eWY2M4mISOWXky6xhlVuZ4fh87XZG0XdPZss7PuIvJMY
+         HjvMjKbPYVLS/NzPN4qwO6pmOh9CkqSskwmdfnPTNRksx0hqGSFXK1sOqtQFs13rWdjM
+         hmwoXfwbKz85UmDSnJPpO2h7MwdkDOOjcPlBxC/pwVd6NSUgfy0KYczWpDdd9cSXK+Wo
+         qvRg==
+X-Gm-Message-State: AOJu0YwZ7qrC3L288BmQnkMDWtW32+Sc/YIRIt/vbUL5ItZC5UeYLTxn
+	4doNa8M7BqSSzKrC+5iTSxhZ81ZvA6HYpzHPoTLzrI/+jTGV2GPZwAPibhjCQPHA89s=
+X-Gm-Gg: AR+sD11q8OSZ5jbBGugFMomRRtvTIBroP5RPadAhGpDI506PMUwgPBFSPYPJYV0qEp4
+	sKWcimfIdCVmmb+uzLwTWhxBpqC9vWsLN4Bt+H0p53tEatEBKJOboIM1J0CL+IdBR8FysEEgpab
+	kg/2HHXBcJkxiDkNq0547IH0NWl6JBrdhyjzHlVKXySWpRTuEajQJnZYQi5hf49un8xeE1bM9JJ
+	snHGaqOT22n1xwuMKFmWgYZR7orNX5KnAC9GIGuMaqnHKkOY16Kn52NEtW5HvYKMixRaA/7goHm
+	E4+gDZFnAZCcsZI+yP/w1y0M0Fe8ePIyNisiODGBbFHziwr7+4lIK+nD1rrPJjPHuIGv5VSuinH
+	TAlN/hgSjarfrKvFbuFbHVO1xkoXAUGBjYY072jK20Z7a1uHk945iha2gVnorkQwjbvKr9YVFkQ
+	eyrxDk3NEkm1oNcAOmCUCOLF8eXJMd3AWThQlkBt3qmGHU7QdTxljuKtkdcZT/TGcq5GlU517rn
+	SgbzuR8M0AC5nOIe+HDkOo2hwH0
+X-Received: by 2002:a17:903:19e6:b0:2cf:b23d:77f with SMTP id d9443c01a7336-2d0ca984ba6mr36054965ad.20.1785893689963;
+        Tue, 04 Aug 2026 18:34:49 -0700 (PDT)
 Received: from Mac.lan ([125.128.148.126])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3903d2f9807sm545246a91.1.2026.08.04.18.34.43
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0aa4b9bbasm13275535ad.60.2026.08.04.18.34.47
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 04 Aug 2026 18:34:44 -0700 (PDT)
+        Tue, 04 Aug 2026 18:34:49 -0700 (PDT)
 From: Baul Lee <baul.lee@xbow.com>
 To: perex@perex.cz,
 	tiwai@suse.com
@@ -64,9 +64,9 @@ Cc: linux-sound@vger.kernel.org,
 	federico.kirschbaum@xbow.com,
 	stable@vger.kernel.org,
 	Baul Lee <baul.lee@xbow.com>
-Subject: [PATCH] ALSA: usb-audio: fix OOB write on Type II inbound URBs
-Date: Wed,  5 Aug 2026 10:34:41 +0900
-Message-ID: <20260805013441.38245-1-baul.lee@xbow.com>
+Subject: [PATCH] ALSA: usx2y: bound the hwdep mmap fault offset
+Date: Wed,  5 Aug 2026 10:34:45 +0900
+Message-ID: <20260805013445.38283-1-baul.lee@xbow.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -76,105 +76,98 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-data_ep_set_params() sizes each URB transfer buffer before it adds the
-Format Type II transfer delimiter:
+snd_us428ctls_vm_fault() turns the faulting page offset into a kernel
+address with no bound of any kind:
 
-	u->packets = urb_packs;
-	u->buffer_size = maxsize * u->packets;
+	offset = vmf->pgoff << PAGE_SHIFT;
+	vaddr = (char *)(...)->us428ctls_sharedmem + offset;
+	page = virt_to_page(vaddr);
+	get_page(page);
+	vmf->page = page;
 
-	if (fmt->fmt_type == UAC_FORMAT_TYPE_II)
-		u->packets++; /* for transfer delimiter */
-	u->urb = usb_alloc_urb(u->packets, GFP_KERNEL);
+	return 0;
 
-buffer_size is computed from the pre-increment packet count and never
-recomputed, so for a Type II endpoint the buffer is one packet short of
-the packet count the URB is built with.
+snd_us428ctls_mmap() checks only the length of the mapping, never the
+offset, and us428ctls_sharedmem is a single page from
+alloc_pages_exact().  For a character device file_mmap_size_max()
+returns ULONG_MAX, so the mm layer imposes no ceiling either.  Every page
+offset above zero resolves to a struct page outside the object, and the
+handler installs it into the caller's address space read-write; the vma
+is not marked read-only.
 
-prepare_inbound_urb() then lays out one iso frame per packet and never
-consults buffer_size:
+The caller picks the page frame with a single mmap() argument and gets
+read-write access to a page of kernel memory it does not own; an offset
+that lands in an unpopulated vmemmap region oopses instead.
 
-	offs = 0;
-	for (i = 0; i < urb_ctx->packets; i++) {
-		urb->iso_frame_desc[i].offset = offs;
-		urb->iso_frame_desc[i].length = ep->curpacksize;
-		offs += ep->curpacksize;
-	}
+A process that can open the hwdep node of an attached US-X2Y reaches
+this after loading the FPGA image through the same node; no capability
+check is involved.
 
-	urb->transfer_buffer_length = offs;
-	urb->number_of_packets = urb_ctx->packets;
+On 7.2.0-rc5 (arm64), mmap() with a large offset:
 
-The last descriptor therefore points one packet past the end of the
-transfer buffer, where the host controller writes device data on every
-inbound transfer.  prepare_silent_urb() and prepare_playback_urb() bound
-their fill loops by ctx->buffer_size, so only capture is affected.
+  Unable to handle kernel paging request at virtual address fffffdffc45d5ac8
+  pc : snd_us428ctls_vm_fault+0x68/0x140 [snd_usb_usx2y]
+  Call trace:
+   snd_us428ctls_vm_fault+0x68/0x140 [snd_usb_usx2y]
+   __do_fault
+   __handle_mm_fault
+   handle_mm_fault
+   el0_da
 
-fmt_type comes from the device's audio streaming descriptors, so any
-device advertising a Type II capture format hits this once userspace sets
-hw_params on the stream.
-
-KASAN on 7.2.0-rc5 (arm64) with a dummy_hcd/raw-gadget device, one report
-per inbound transfer:
-
-  BUG: KASAN: slab-out-of-bounds in dummy_timer
-  Write of size 64 at addr ffff0000186171c0 by task cons02/166
-   __asan_memcpy
-   dummy_timer
-   hrtimer_run_softirq
-  Allocated by task 166:
-   usb_alloc_coherent
-   snd_usb_endpoint_set_params
-  The buggy address is located 0 bytes to the right of
-   allocated 64-byte region [ffff000018617180, ffff0000186171c0)
-
-Compute buffer_size after the delimiter packet has been accounted for,
-and bound the fill loop by buffer_size, as prepare_silent_urb() already
-does on the outbound side.  This grows every Type II URB allocation by
-one maxsize packet.
+Reject any offset outside the shared region.  The pcm hwdep handler in
+usx2yhwdeppcm.c computes its address the same way and needs the same
+bound.
 
 Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
 
-Fixes: 8fdff6a319e7 ("ALSA: snd-usb: implement new endpoint streaming model")
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
 Reported-by: Baul Lee <baul.lee@xbow.com>
 Cc: stable@vger.kernel.org
 Signed-off-by: Baul Lee <baul.lee@xbow.com>
 ---
- sound/usb/endpoint.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ sound/usb/usx2y/usX2Yhwdep.c   | 2 ++
+ sound/usb/usx2y/usx2yhwdeppcm.c | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index dca06ba1c67e..a1d449f2a342 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -385,13 +385,15 @@ static int prepare_inbound_urb(struct snd_usb_endpoint *ep,
- 	case SND_USB_ENDPOINT_TYPE_DATA:
- 		offs = 0;
- 		for (i = 0; i < urb_ctx->packets; i++) {
-+			if (offs + ep->curpacksize > urb_ctx->buffer_size)
-+				break;
- 			urb->iso_frame_desc[i].offset = offs;
- 			urb->iso_frame_desc[i].length = ep->curpacksize;
- 			offs += ep->curpacksize;
- 		}
+diff --git a/sound/usb/usx2y/usX2Yhwdep.c b/sound/usb/usx2y/usX2Yhwdep.c
+index 4d7925184826..7f153a2fcdd8 100644
+--- a/sound/usb/usx2y/usX2Yhwdep.c
++++ b/sound/usb/usx2y/usX2Yhwdep.c
+@@ -22,12 +22,14 @@ static vm_fault_t snd_us428ctls_vm_fault(struct vm_fault *vmf)
+ {
+ 	unsigned long offset;
+ 	struct page *page;
+ 	void *vaddr;
  
- 		urb->transfer_buffer_length = offs;
--		urb->number_of_packets = urb_ctx->packets;
-+		urb->number_of_packets = i;
- 		break;
+ 	offset = vmf->pgoff << PAGE_SHIFT;
++	if (offset >= US428_SHAREDMEM_PAGES)
++		return VM_FAULT_SIGBUS;
+ 	vaddr = (char *)((struct usx2ydev *)vmf->vma->vm_private_data)->us428ctls_sharedmem + offset;
+ 	page = virt_to_page(vaddr);
+ 	get_page(page);
+ 	vmf->page = page;
  
- 	case SND_USB_ENDPOINT_TYPE_SYNC:
-@@ -1243,10 +1245,10 @@ static int data_ep_set_params(struct snd_usb_endpoint *ep)
- 		u->index = i;
- 		u->ep = ep;
- 		u->packets = urb_packs;
--		u->buffer_size = maxsize * u->packets;
+ 	return 0;
+diff --git a/sound/usb/usx2y/usx2yhwdeppcm.c b/sound/usb/usx2y/usx2yhwdeppcm.c
+index 7c90214485d9..f1d5b4b797ad 100644
+--- a/sound/usb/usx2y/usx2yhwdeppcm.c
++++ b/sound/usb/usx2y/usx2yhwdeppcm.c
+@@ -669,12 +669,14 @@ static void snd_usx2y_hwdep_pcm_vm_close(struct vm_area_struct *area)
+ static vm_fault_t snd_usx2y_hwdep_pcm_vm_fault(struct vm_fault *vmf)
+ {
+ 	unsigned long offset;
+ 	void *vaddr;
  
- 		if (fmt->fmt_type == UAC_FORMAT_TYPE_II)
- 			u->packets++; /* for transfer delimiter */
-+		u->buffer_size = maxsize * u->packets;
- 		u->urb = usb_alloc_urb(u->packets, GFP_KERNEL);
- 		if (!u->urb)
- 			goto out_of_memory;
+ 	offset = vmf->pgoff << PAGE_SHIFT;
++	if (offset >= USX2Y_HWDEP_PCM_PAGES)
++		return VM_FAULT_SIGBUS;
+ 	vaddr = (char *)((struct usx2ydev *)vmf->vma->vm_private_data)->hwdep_pcm_shm + offset;
+ 	vmf->page = virt_to_page(vaddr);
+ 	get_page(vmf->page);
+ 	return 0;
+ }
+ 
 -- 
 2.50.1 (Apple Git-155)
 
