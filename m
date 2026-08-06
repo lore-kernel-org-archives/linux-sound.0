@@ -1,91 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E461F313527;
-	Thu,  6 Aug 2026 06:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E0523E33D
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 07:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785997837; cv=none; b=GtUf0TOlIzEl2D6Yx9WQ7zf7o6eze3dbNNvkHBEXpymFoShjET+SRl2XTOJBjTJKptukuUDrpho6M5djD5fpbkELDy+vT4HjmIxHS4PE7SbNtvxl1VpcdEm9nZO2Zzy3bfnuYhRYim0BQDoyWxPfOfQEmXrvu0uIOi2aE0z4Oms=
+	t=1786001852; cv=none; b=KwqFSryLf+sPVlN5cabpSKgI5mmBn56vGHlOHxLTO4uciXMiBoSwD1K6JbVDfV4hCN6Qm1sZnnzBnr+elm6EXWdChZ22fooUwh/F+ljNFhOVUZ3hhzhfIDOuFrt2iEBPubm9LS4jjaXxmlAA1/BYd/It7iLYr3babrnFPXWUfF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785997837; c=relaxed/simple;
-	bh=gu0j4P1S8BGBYL7kDpYC8baA1hCkn2cek71QsIu+N2o=;
+	s=arc-20240116; t=1786001852; c=relaxed/simple;
+	bh=gpj4cuOC6tw70YyavU7rzy+pICpZkSaHbKh7tHEyDyc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZupF+MGXXQdFVlVWUOHUJyafxYqLxqu/yRdZL+Tiqn3Cr09JxL5HBSSAxZGO/fkaEHmJQt5xtLD++JrPC0r+5a0izOKWuNhkfhIUirS7bWgZQI/zZtKH2/NwhzeiR+9qmMbQ4aOC3UyXKdhhkMXcrg3psiPHTKh4JFUjUIH08zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rcs1a8SF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qSq0M/eH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D80uTPqQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hRhnRokZ; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=Ay5DG3lFd+zdWFMzWs51TsSV4P2gxOXO71n+Y5pH57+1JEljYoecIpUSwSXeqxdkuRfbZgzVofQprtVFG4bzIdcLUbYko26Gnrn3fLhXbpLLHo7ZkUpedbwmHllntnm5qJU4a0gOQyFHmjjjevnfF0lKGuhI25jfs5Pl5tCojIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1N+8mAaY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cCJHrV8S; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kIsIgoiu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mHtJWzN0; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rcs1a8SF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qSq0M/eH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D80uTPqQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hRhnRokZ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1N+8mAaY";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cCJHrV8S";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kIsIgoiu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mHtJWzN0"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 98A277FEC8;
-	Thu,  6 Aug 2026 06:30:25 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B03E93DF6;
+	Thu,  6 Aug 2026 07:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785997829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786001838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W23MHmvzFMqqt8UoBZ9vpGTDQq6vioVFXj8GOFTGB7M=;
-	b=rcs1a8SFHqOmQk0UBSskuuFQEE94D8I7+C5sQHvyhXeSSPL2hlitV17LuApCK5lTbDoCzA
-	/HWHHXNdPm+/oLytjEPCWcJ6gNKV+wKqYGnEiNFqOtCefIYCDLwfMplO8ZxZ7WphDBWwo0
-	1k3vrhwODar+VvEWv/ynfvU1uRVBCMs=
+	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
+	b=1N+8mAaYAWGD4NLFH162VR5YlmMBIHCYJUagjMANFrpyVm1H2G6XeYtEZU5HGUJzpfiXY1
+	aDXA1TuUt4EKzN6q6Inzd3QkWGPptuFOvqPIuNB34xihCE1BZ7osC67ubHqdyyPp52zcak
+	fFoyRU4QQenGn9uPjTjzd4U+9hdd8uA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785997829;
+	s=susede2_ed25519; t=1786001838;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W23MHmvzFMqqt8UoBZ9vpGTDQq6vioVFXj8GOFTGB7M=;
-	b=qSq0M/eHYLTQg0SelBwrpHpOsa2tCjnYkMVwJKvPuFBNrPN8IgDnYaQwkqjimFKLAtwHJQ
-	jpSGq5By7SyicdAw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
+	b=cCJHrV8SpDJOsezWT92c+XuUK9/FIB8ezBdsGQ2S3bKvs0JBJzH+cfkcv5nGHYmrERrNJd
+	nwXhQWNyPpTT4zBQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785997825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786001834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W23MHmvzFMqqt8UoBZ9vpGTDQq6vioVFXj8GOFTGB7M=;
-	b=D80uTPqQSYA7sqQQTEQdd6VjA7OLILrsLvkDhNdIvzWC87Rn7FROD/Y+OGjfiANW0zBXNp
-	YEvjmzYvuD5/VwGaUgKIzqsrxvhubhkZ9NX37txvUkuAmz3+Gi0ZZJclLW9YtWcGVqS+td
-	0r0KHdiWF1jEr57PeaN94BWFdpTutEw=
+	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
+	b=kIsIgoiup1rvTjwuYeVgMkD1S2UmFirFXN9Pe2g/h5qxn7nYsJQqTRKafrFVBVmoyhORdy
+	vq0ZKHSNi9Yrx65SqUq5YEn3U7dijd6mglLAvXbmHE1t/QtT0gYpNHZFwaXD7AndEOp2Lv
+	tJgegFYkxMvOLBYDwzZGSllRyrl6+fY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785997825;
+	s=susede2_ed25519; t=1786001834;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=W23MHmvzFMqqt8UoBZ9vpGTDQq6vioVFXj8GOFTGB7M=;
-	b=hRhnRokZZp9RZPMeDWOAEK2iwuudG+pmHHn0/yr7BRHBy5H+kuTzocCBJ7uYb7d/Mn/+z+
-	Mi5ohcUSIOsbmIAw==
+	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
+	b=mHtJWzN0vo4ak7teLxvUl+yMNw++ZjpA0/18+6NZNKp9NqStXkHWsH3jmMSnWenSV8Rsje
+	sKhW+zYaLboT8JCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5A1CA779B6;
-	Thu,  6 Aug 2026 06:30:25 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 826A4779B6;
+	Thu,  6 Aug 2026 07:37:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Pl+kFAEqdGqIdgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 06:30:25 +0000
-Date: Thu, 06 Aug 2026 08:30:24 +0200
-Message-ID: <87zeyzep6n.wl-tiwai@suse.de>
+	id XDAIHqo5dGpjOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 07:37:14 +0000
+Date: Thu, 06 Aug 2026 09:37:14 +0200
+Message-ID: <87wlu3em39.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Arun Raghavan <arunr@valvesoftware.com>
+To: Mark Brown <broonie@kernel.org>
 Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	"Arun Raghavan" <arun@arunraghavan.net>
-Subject: Re: [External Mail] Re: [PATCH] ALSA: hda/core: Log stream DMA errors on interrupt
-In-Reply-To: <DKHB6RQ5IKR0.K989KLA76JRV@valvesoftware.com>
-References: <20260803-master-v1-1-9bcedb736978@valvesoftware.com>
-	<87tspai11y.wl-tiwai@suse.de>
-	<DKGCFDZL0ZPJ.WU7CLZ8ZJKOI@valvesoftware.com>
-	<87wlu5hhpv.wl-tiwai@suse.de>
-	<DKHB6RQ5IKR0.K989KLA76JRV@valvesoftware.com>
+	linux-sound@vger.kernel.org,
+	Oder Chiou <oder_chiou@realtek.com>
+Subject: Re: [PATCH 13/31] ASoC: rt1320-sdw: Use auto-cleanup for firmware loading
+In-Reply-To: <bed1131f-59a4-4da7-994a-d1d5a6728603@sirena.org.uk>
+References: <20260805135247.670693-1-tiwai@suse.de>
+	<20260805135247.670693-14-tiwai@suse.de>
+	<bed1131f-59a4-4da7-994a-d1d5a6728603@sirena.org.uk>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,183 +89,173 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
 X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.993];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[valvesoftware.com:email,arunraghavan.net:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,realtek.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-On Wed, 05 Aug 2026 22:56:40 +0200,
-Arun Raghavan wrote:
+On Thu, 06 Aug 2026 00:56:23 +0200,
+Mark Brown wrote:
 > 
-> On Tue Aug 4, 2026 at 11:18 AM PDT, Takashi Iwai wrote:
-> > On Tue, 04 Aug 2026 19:42:17 +0200,
-> > Arun Raghavan wrote:
-> >> 
-> >> On Tue Aug 4, 2026 at 4:21 AM PDT, Takashi Iwai wrote:
-> >> > On Tue, 04 Aug 2026 00:07:52 +0200,
-> >> > Arun Raghavan wrote:
-> >> >> 
-> >> >> The stream descriptor status register reports FIFO and descriptor
-> >> >> errors, but these are currently cleared silently along with the rest
-> >> >> of the interrupt status. Log them, rate-limited, so DMA problems are
-> >> >> visible instead of only manifesting as audible glitches.
-> >> >> 
-> >> >> Observed on some AMD GPU HDMI audio controllers under specific low power
-> >> >> circumstances.
-> >> >> 
-> >> >> Signed-off-by: Arun Raghavan <arunr@valvesoftware.com>
-> >> >> Cc: Arun Raghavan <arun@arunraghavan.net>
-> >> >
-> >> > Applied now to for-next branch.
-> >> >
-> >> > It's interesting at which situation you get the error bit and which
-> >> > one.  If it can be used *reliably* for catching a streaming error, the
-> >> > driver could notify XRUN or error appropriately, too.
-> >> 
-> >> Ah, I should have mentioned that in the commit message. The error bit
-> >> that was signalled was SD_INT_FIFO_ERR -- the status byte was read as
-> >> (SD_STS_FIFO_READY | SD_INT_FIFO_ERR).
-> >> 
-> >> We are still working on pinning down the precise cause in this case, but
-> >> it seems to be related to issues in some specific setups during lower
-> >> frequency memory clock transitions. The error manifests as a short
-> >> dropout caused by what appears to be a stall or missed transfer. The
-> >> frequency of dropouts varies from several per minute to one every few
-> >> minutes.
-> >> 
-> >> In such a case, the existence of XRUNs might be good to know further up
-> >> the stack, though it isn't clear that there is much that userspace can
-> >> autonomously do to mitigate the it.
-> >
-> > When we do stop the stream as XRUN and notifies to user-space, usually
-> > it tries to recover / restart -- something like below.
-> >
-> > But it's hard to judge whether we should do this, or it can lead
-> > rather to misbehavior.  We need experiments.
-> >
-> >
-> > thanks,
-> >
-> > Takashi
-> >
-> > -- 8< --
-> > diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-> > index aa994d6e6d35..615e48ecb009 100644
-> > --- a/include/sound/hdaudio.h
-> > +++ b/include/sound/hdaudio.h
-> > @@ -412,7 +412,9 @@ void snd_hdac_bus_link_power(struct hdac_device *hdev, bool enable);
-> >  void snd_hdac_bus_update_rirb(struct hdac_bus *bus);
-> >  int snd_hdac_bus_handle_stream_irq(struct hdac_bus *bus, unsigned int status,
-> >  				    void (*ack)(struct hdac_bus *,
-> > -						struct hdac_stream *));
-> > +						struct hdac_stream *),
-> > +				    void (*error)(struct hdac_bus *,
-> > +						  struct hdac_stream *));
-> >  
-> >  int snd_hdac_bus_alloc_stream_pages(struct hdac_bus *bus);
-> >  void snd_hdac_bus_free_stream_pages(struct hdac_bus *bus);
-> > diff --git a/sound/hda/common/controller.c b/sound/hda/common/controller.c
-> > index afec5c5546ec..329854c9fe92 100644
-> > --- a/sound/hda/common/controller.c
-> > +++ b/sound/hda/common/controller.c
-> > @@ -1058,6 +1058,15 @@ static void stream_update(struct hdac_bus *bus, struct hdac_stream *s)
+> On Wed, Aug 05, 2026 at 03:52:14PM +0200, Takashi Iwai wrote:
+> > Simplify the code to manage the firmware loading with __free(firmware)
+> > auto-cleanup.
+> > 
+> > Only the code refactoring, no functional changes.
+> 
+> > @@ -2170,6 +2164,7 @@ struct rt1320_dspfwheader {
+> >  		goto _exit_;
 > >  	}
-> >  }
 > >  
-> > +static void stream_error(struct hdac_bus *bus, struct hdac_stream *s)
-> > +{
-> > +	struct azx_dev *azx_dev = stream_to_azx_dev(s);
-> > +
-> > +	spin_unlock(&bus->reg_lock);
-> > +	snd_pcm_stop_xrun(azx_stream(azx_dev)->substream);
-> > +	spin_lock(&bus->reg_lock);
-> > +}
-> > +
-> >  irqreturn_t azx_interrupt(int irq, void *dev_id)
-> >  {
-> >  	struct azx *chip = dev_id;
-> > @@ -1082,7 +1091,8 @@ irqreturn_t azx_interrupt(int irq, void *dev_id)
-> >  
-> >  		handled = true;
-> >  		active = false;
-> > -		if (snd_hdac_bus_handle_stream_irq(bus, status, stream_update))
-> > +		if (snd_hdac_bus_handle_stream_irq(bus, status, stream_update,
-> > +						   stream_error))
-> >  			active = true;
-> >  
-> >  		status = azx_readb(chip, RIRBSTS);
-> > diff --git a/sound/hda/core/controller.c b/sound/hda/core/controller.c
-> > index 78855ac357c6..67bb74c618bf 100644
-> > --- a/sound/hda/core/controller.c
-> > +++ b/sound/hda/core/controller.c
-> > @@ -676,8 +676,10 @@ EXPORT_SYMBOL_GPL(snd_hdac_bus_stop_chip);
-> >   * Returns the bits of handled streams, or zero if no stream is handled.
-> >   */
-> >  int snd_hdac_bus_handle_stream_irq(struct hdac_bus *bus, unsigned int status,
-> > -				    void (*ack)(struct hdac_bus *,
-> > -						struct hdac_stream *))
-> > +				   void (*ack)(struct hdac_bus *,
-> > +					       struct hdac_stream *),
-> > +				   void (*error)(struct hdac_bus *,
-> > +						 struct hdac_stream *))
-> >  {
-> >  	struct hdac_stream *azx_dev;
-> >  	u8 sd_status;
-> > @@ -692,6 +694,8 @@ int snd_hdac_bus_handle_stream_irq(struct hdac_bus *bus, unsigned int status,
-> >  				dev_warn_ratelimited(bus->dev,
-> >  						"stream %u dma error: 0x%02x\n",
-> >  						azx_dev->index, sd_status);
-> > +				if (error)
-> > +					error(bus, azx_dev);
-> >  			}
-> >  			if ((!azx_dev->substream && !azx_dev->cstream) ||
-> >  			    !azx_dev->running || !(sd_status & SD_INT_COMPLETE))
-> > diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-> > index 1a53856c2ffb..6a5a6e526c2c 100644
-> > --- a/sound/soc/intel/avs/core.c
-> > +++ b/sound/soc/intel/avs/core.c
-> > @@ -270,7 +270,8 @@ static irqreturn_t avs_hda_interrupt(struct hdac_bus *bus)
-> >  	u32 status;
-> >  
-> >  	status = snd_hdac_chip_readl(bus, INTSTS);
-> > -	if (snd_hdac_bus_handle_stream_irq(bus, status, hdac_update_stream))
-> > +	if (snd_hdac_bus_handle_stream_irq(bus, status, hdac_update_stream,
-> > +					   NULL))
-> >  		ret = IRQ_HANDLED;
-> >  
-> >  	spin_lock_irq(&bus->reg_lock);
+> > +	const struct firmware *fw __free(firmware) = NULL;
+> >  	request_firmware(&fw, filename, dev);
+> >  	if (fw) {
+> >  		fwheader = (struct rt1320_dspfwheader *)fw->data;
 > 
-> This did work to surface the errors to userspace as XRUNs.
-> 
-> Of course, because this is an actual error in the transfer between the
-> CPU and controller, it does not help mitigate the actual problem itself.
+> There's a goto further up that jumps over this which clang warns about,
+> this will break the build.  Landmines like that are why cleanup.h warns
+> about mixing it with goto.
 
-So what's the best option for users if this happens?
-That is, what happens if we don't restart the stream?  Is it a
-temporary fail-out and the hardware recovers / resync by itself while
-streaming further?  If so and it's short, it might be better to leave
-it as is.  OTOH, if it's a fatal error that needs some manual
-recovery, a notification to user-space for recovery is required (if
-any).
+That's an issue because I moved the declaration of the variable fw;
+if it's left at the beginning of the function as it was, it should
+work fine, like the patch below.  The same applied to the error for
+wm2000.
+
+If this is OK, I'll submit v2 series with the fixes for rt1320-sdw and
+wm2000.
 
 
 thanks,
 
 Takashi
+
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v2 13/31] ASoC: rt1320-sdw: Use auto-cleanup for firmware
+ loading
+
+Simplify the code to manage the firmware loading with __free(firmware)
+auto-cleanup.
+
+Only the code refactoring, no functional changes.
+
+Cc: Oder Chiou <oder_chiou@realtek.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+v1->v2: keep the firmware declaration at the beginning of the function
+  to co-live with gotos
+
+ sound/soc/codecs/rt1320-sdw.c | 17 +++++------------
+ 1 file changed, 5 insertions(+), 12 deletions(-)
+
+diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
+index 3a5eebcfefdd..8d2d6697a502 100644
+--- a/sound/soc/codecs/rt1320-sdw.c
++++ b/sound/soc/codecs/rt1320-sdw.c
+@@ -1786,7 +1786,7 @@ static int rt1320_r0_cali_put(struct snd_kcontrol *kcontrol,
+ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+ {
+ 	struct sdw_slave *slave = rt1320->sdw_slave;
+-	const struct firmware *patch;
++	const struct firmware *patch __free(firmware) = NULL;
+ 	const char *filename;
+ 	unsigned int addr, val, min_addr, max_addr;
+ 	const unsigned char *ptr;
+@@ -1840,17 +1840,15 @@ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+ 
+ 				if (addr > max_addr || addr < min_addr) {
+ 					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
+-					goto _exit_;
++					return;
+ 				}
+ 				if (val > 0xff) {
+ 					dev_err(&slave->dev, "%s: the value 0x%x is wrong", __func__, val);
+-					goto _exit_;
++					return;
+ 				}
+ 				regmap_write(rt1320->regmap, addr, val);
+ 			}
+ 		}
+-_exit_:
+-		release_firmware(patch);
+ 	}
+ }
+ 
+@@ -1924,7 +1922,7 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 	struct device *dev = &rt1320->sdw_slave->dev;
+ 	static const char func_tag[] = "FUNC";
+ 	static const char xu_tag[] = "XU";
+-	const struct firmware *rae_fw = NULL;
++	const struct firmware *rae_fw __free(firmware) = NULL;
+ 	unsigned int fw_offset;
+ 	unsigned char *fw_data;
+ 	unsigned char *param_data;
+@@ -1977,7 +1975,6 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 			}
+ 			if (!retry && !(value & 0x40)) {
+ 				dev_err(dev, "%s: RAE is not ready to load\n", __func__);
+-				release_firmware(rae_fw);
+ 				return -ETIMEDOUT;
+ 			}
+ 			break;
+@@ -1998,7 +1995,6 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 			}
+ 			if (!retry && !(value & 0x40)) {
+ 				dev_err(dev, "%s: RAE is not ready to load\n", __func__);
+-				release_firmware(rae_fw);
+ 				return -ETIMEDOUT;
+ 			}
+ 			break;
+@@ -2057,7 +2053,6 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
+ 		}
+ 
+ 		regcache_cache_bypass(rt1320->regmap, false);
+-		release_firmware(rae_fw);
+ 
+ 	} else {
+ 		dev_err(dev, "%s: Failed to load %s firmware\n", __func__, rae_filename);
+@@ -2124,7 +2119,7 @@ struct rt1320_dspfwheader {
+ 	struct rt1320_dspfwheader *fwheader;
+ 	struct rt1320_imageinfo *ptr_img;
+ 	struct sdw_bpt_section sec[10];
+-	const struct firmware *fw = NULL;
++	const struct firmware *fw __free(firmware) = NULL;
+ 	unsigned char *fw_data;
+ 	bool dev_fw_match = false;
+ 	static const char hdr_sig[] = "AFX";
+@@ -2178,7 +2173,6 @@ struct rt1320_dspfwheader {
+ 
+ 		if (fwheader->sync != 0x0a1c5679) {
+ 			dev_err(dev, "%s: FW sync error\n", __func__);
+-			release_firmware(fw);
+ 			goto _exit_;
+ 		}
+ 
+@@ -2256,7 +2250,6 @@ struct rt1320_dspfwheader {
+ 		}
+ 
+ 		regcache_cache_bypass(rt1320->regmap, false);
+-		release_firmware(fw);
+ 
+ 		if (!dev_fw_match) {
+ 			dev_err(dev, "%s: FW file doesn't match to device\n", __func__);
+-- 
+2.55.0
+
