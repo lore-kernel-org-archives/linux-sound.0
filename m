@@ -1,158 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B86470E8C;
-	Thu,  6 Aug 2026 14:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 116833B19A9
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786027337; cv=none; b=FKaIsTVn+DQisZwsVh5NpALuxz5SGhTDsQeZjhLo2tUn5/kTlcdCnlchSL+wMbuWUcQFLMuPKm/YurXtmUDV3MLQhnt0ukpIva7eHEDadavarFNOvnR5qrFeV3jE8wdU7WolJglZVpx6jzSXGjaKoQP1m3Ls7YTaB7LWOZMMcvA=
+	t=1786028350; cv=none; b=UbbUS5DoFEpPzJAc4I0IL4XKlEFci1LnVY8gzg2UtHdAbUoooxuGhknqcKTLYIrhIWGprx9wl+REbyI8L++AVgTE/NcwD//H0OYqKCfjiRL6nfsm0k+mxoYP719RqpJt8gtRxMLcTuS/L/8c0zxtH/5Xa1VMHPvLMZWjKak7QdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786027337; c=relaxed/simple;
-	bh=7qPtf+dB83YTFh0o6ZSXj4jJr/gA9nOPdArEdRH9Lz8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImRP0ihazHwPAQxrYNNPjgudQccvlK4AvoT1hqIcyJEvCnSjXZW29IwIkoI6I0iW3XpfbC4fxsTBMSz5JeYFhN+3cxRXVG8UWWkJVfA57Js0L6f5XflsYYZdDBL00jXXRigwrMI6ChgJmC/p4sPKjvwXLgsAdQU7jY26IQ/Hl60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ShjpXVaW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786028350; c=relaxed/simple;
+	bh=lodbG47Jdyfwe3HviPus+WatmxgS+W1XeQIdm0mkiZs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VAMpii072vDxljcpZvI3jjp/iorw3P2TrTzDchxZeMz9eANzLCwoNdMh2C2n8YjzLfngcKvCSrZhikT/4aTSq3fmP+kq8AS2W61ZpTwFKHpJoLLmRs1qFBfUXo34D7JJkBlRlPW1trfN5QGEH1V40cgWlgvjK5J34swZ3uXi/zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xmp4VCCl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CtAQFgUv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tyOM8ggU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sXAvb8A9; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ShjpXVaW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FF861F000E9;
-	Thu,  6 Aug 2026 14:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786027335;
-	bh=fOR/7ZIZFzT7PizU/ULMAdcAyu4l6xZI1kylL9/mhA4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ShjpXVaWhyWMwozYwsvB127NkAEoKCpxqkDFoj+m/78O4DN2PKv3kxu/w5Ds7ozw+
-	 5useUrM58DH3OI71ToGxv0wFOXJomeZE9VZq7EGDzPHUyH9MN6qqUPe72k4NREbvDg
-	 OLM+DMz44iq+uanT5XYUa/B3mbiZ+H4l/Dl4rzSpZYkwulnwkP7NSg4eq0/t+WWV80
-	 WgVvSEUQtBQI+Ssb//Z52k8vaRIlLbySTBTWb5da+MMORVxnlPyazstqNJcLr688XK
-	 sVPxqpHlRokiCsUPG+JT72vZK9gcP9tb41xbceplLfGZQT0bcMDzJzIxXIwU0yUpLV
-	 b3UBFpqgOIPHg==
-Date: Thu, 6 Aug 2026 15:42:10 +0100
-From: Lee Jones <lee@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	mfd@lists.linux.dev, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 3/3] mfd: cs42l43: Add support for new cs42l44 variant
-Message-ID: <20260806144210.GQ2869284@google.com>
-References: <20260708140039.1993489-1-ckeepax@opensource.cirrus.com>
- <20260708140039.1993489-4-ckeepax@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xmp4VCCl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CtAQFgUv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tyOM8ggU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sXAvb8A9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D25C5800F2;
+	Thu,  6 Aug 2026 14:58:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786028343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WsUfzM89j8BDKave/yzMiXadUAqkb5eeZ2czNZOJVok=;
+	b=xmp4VCCl7FXTZmeT1VimWV/jLIxH5xlCFvN78yZmLXNWyo7RRFGsNgnyRQQ55PkiIwgeIL
+	I/Qx2ywYQlDc+LGbHocu1b1BPApu2o4wIw4ohJLZEQHDzy3OzuHPVO3Mp1FkobeoIObbke
+	Xb20w0vz47r4+kzQsSvwKSp/p70M1Ro=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786028343;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WsUfzM89j8BDKave/yzMiXadUAqkb5eeZ2czNZOJVok=;
+	b=CtAQFgUvhcSJigNRARCuWVZsCvZyu8+ptTBHta6VC+uSrLbpYv96HX4JoafCXj8iEdw2a9
+	RXe32dhN8S+Pu+CQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tyOM8ggU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sXAvb8A9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786028338; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WsUfzM89j8BDKave/yzMiXadUAqkb5eeZ2czNZOJVok=;
+	b=tyOM8ggU3y21Bfsy4sMLLhb6OhUms6cU7WciCgIRnkJHSz72o1p86f5YO6cL3m4rV+Kf0M
+	St8TwL+06zcY21JhOYdt68xMP3JpvlhZ203Grkgui4k6DgbY4stcuBCWE14KHoewHMUW8l
+	RLkUoqaLqWXtYod48cyMhujrdUEGqCQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786028338;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WsUfzM89j8BDKave/yzMiXadUAqkb5eeZ2czNZOJVok=;
+	b=sXAvb8A9TXTjV/k86Q0g56gqZehthKiE2GDZ+KE0NRpxOJiwUzt969NAZ3iye2s9amkHdf
+	oeEV25zmE5jCqOAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ACE24779B6;
+	Thu,  6 Aug 2026 14:58:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id snH5KDKhdGqodQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:58:58 +0000
+Date: Thu, 06 Aug 2026 16:58:58 +0200
+Message-ID: <87ldajcn2l.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: ankirin <ankirin4@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable speaker on Xiaomi Notebook Pro 15 (1d72:1709)
+In-Reply-To: <20260806141815.40527-1-ankirin4@gmail.com>
+References: <20260806141815.40527-1-ankirin4@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260708140039.1993489-4-ckeepax@opensource.cirrus.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: D25C5800F2
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-On Wed, 08 Jul 2026, Charles Keepax wrote:
-
-> The cs42l44 is a cost optimised variant of cs42l43b. Add basic support
-> for this new device.
+On Thu, 06 Aug 2026 16:18:15 +0200,
+ankirin wrote:
 > 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
->  drivers/mfd/cs42l43-i2c.c        |  2 ++
->  drivers/mfd/cs42l43-sdw.c        |  1 +
->  drivers/mfd/cs42l43.c            | 18 ++++++++++++------
->  include/linux/mfd/cs42l43-regs.h |  1 +
->  4 files changed, 16 insertions(+), 6 deletions(-)
-
-Doesn't apply anymore, sorry.  Please rebase.
-
-> diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
-> index bd9752d2cfc34..1af878c7a20b4 100644
-> --- a/drivers/mfd/cs42l43-i2c.c
-> +++ b/drivers/mfd/cs42l43-i2c.c
-> @@ -59,6 +59,7 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
->  static const struct of_device_id cs42l43_of_match[] = {
->  	{ .compatible = "cirrus,cs42l43", .data = (void *)CS42L43_DEVID_VAL },
->  	{ .compatible = "cirrus,cs42l43b", .data = (void *)CS42L43B_DEVID_VAL },
-> +	{ .compatible = "cirrus,cs42l44", .data = (void *)CS42L43B_DEVID_VAL },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, cs42l43_of_match);
-> @@ -68,6 +69,7 @@ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
->  static const struct acpi_device_id cs42l43_acpi_match[] = {
->  	{ .id = "CSC4243", .driver_data = CS42L43_DEVID_VAL },
->  	{ .id = "CSC2A3B", .driver_data = CS42L43B_DEVID_VAL },
-> +	{ .id = "CSC4244", .driver_data = CS42L43B_DEVID_VAL },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(acpi, cs42l43_acpi_match);
-> diff --git a/drivers/mfd/cs42l43-sdw.c b/drivers/mfd/cs42l43-sdw.c
-> index 6ccfdcd3f6698..81dd19df53685 100644
-> --- a/drivers/mfd/cs42l43-sdw.c
-> +++ b/drivers/mfd/cs42l43-sdw.c
-> @@ -184,6 +184,7 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
->  static const struct sdw_device_id cs42l43_sdw_id[] = {
->  	SDW_SLAVE_ENTRY(0x01FA, 0x4243, (void *)CS42L43_DEVID_VAL),
->  	SDW_SLAVE_ENTRY(0x01FA, 0x2A3B, (void *)CS42L43B_DEVID_VAL),
-> +	SDW_SLAVE_ENTRY(0x01FA, 0x4244, (void *)CS42L43B_DEVID_VAL),
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(sdw, cs42l43_sdw_id);
-> diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
-> index 33479ddd539a6..d6027fa4de705 100644
-> --- a/drivers/mfd/cs42l43.c
-> +++ b/drivers/mfd/cs42l43.c
-> @@ -959,6 +959,7 @@ static void cs42l43_boot_work(struct work_struct *work)
->  {
->  	struct cs42l43 *cs42l43 = container_of(work, struct cs42l43, boot_work);
->  	unsigned int devid, revid, otp;
-> +	bool valid_id;
->  	int ret;
->  
->  	ret = cs42l43_wait_for_attach(cs42l43);
-> @@ -973,19 +974,24 @@ static void cs42l43_boot_work(struct work_struct *work)
->  
->  	switch (devid) {
->  	case CS42L43_DEVID_VAL:
-> +		valid_id = (cs42l43->variant_id == CS42L43_DEVID_VAL);
-> +		break;
->  	case CS42L43B_DEVID_VAL:
-> -		if (devid != cs42l43->variant_id) {
-> -			dev_err(cs42l43->dev,
-> -				"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
-> -				devid, cs42l43->variant_id);
-> -			goto err;
-> -		}
-> +	case CS42L44_DEVID_VAL:
-> +		valid_id = (cs42l43->variant_id == CS42L43B_DEVID_VAL);
->  		break;
->  	default:
->  		dev_err(cs42l43->dev, "Unrecognised devid: 0x%06x\n", devid);
->  		goto err;
->  	}
->  
-> +	if (!valid_id) {
-> +		dev_err(cs42l43->dev,
-> +			"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
-> +			devid, cs42l43->variant_id);
-> +		goto err;
-> +	}
-> +
->  	ret = regmap_read(cs42l43->regmap, CS42L43_REVID, &revid);
->  	if (ret) {
->  		dev_err(cs42l43->dev, "Failed to read rev: %d\n", ret);
-> diff --git a/include/linux/mfd/cs42l43-regs.h b/include/linux/mfd/cs42l43-regs.h
-> index 68831f113589d..4c00ceae8b461 100644
-> --- a/include/linux/mfd/cs42l43-regs.h
-> +++ b/include/linux/mfd/cs42l43-regs.h
-> @@ -1183,6 +1183,7 @@
->  
->  /* CS42L43B VARIANT REGISTERS */
->  #define CS42L43B_DEVID_VAL					0x0042A43B
-> +#define CS42L44_DEVID_VAL					0x00042A44
->  
->  #define CS42L43B_DECIM_VOL_CTRL_CH1_CH2				0x00008280
->  #define CS42L43B_DECIM_VOL_CTRL_CH3_CH4				0x00008284
-> -- 
-> 2.47.3
+> The Xiaomi Notebook Pro 15 (subsystem 1d72:1709, Realtek ALC256)
+> silences its internal speaker on Linux: the codec sets coefficient
+> register 0x10 to 0x0220 (bit 9 set) on boot and after S3 resume.
 > 
+> This is the same mechanism already supported for the Xiaomi Mi
+> Laptop Pro 15 (1d72:1905) via ALC256_FIXUP_XIAOMI_PRO15_RESUME,
+> which clears the stuck coef bit on every codec init. Add the
+> missing 1d72:1709 SSID entry to the quirk table.
+> 
+> Verified on this board: with bit 9 cleared (coef 0x10 = 0x0020),
+> the internal speaker outputs normally, including across
+> suspend/resume.
+> 
+> Signed-off-by: ankirin <ankirin4@gmail.com>
 
--- 
-Lee Jones
+The Signed-off-by is a legal requirement, hence it needs to be with a
+real name (or a known identity).  Please resubmit with the correction.
+
+
+thanks,
+
+Takashi
