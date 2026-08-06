@@ -1,192 +1,91 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C4430568D
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 13:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972E233D51A;
+	Thu,  6 Aug 2026 13:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786022328; cv=none; b=ha19Xj/nMiBBqepA277ql+1GBqh8DfXALmEFlCLh29i5IV7v+R4YvJdUgVskZo82cT0EVI8Gt5GX4Dn24JA2qJIYS8ll9g5TzPtRJLvICwls148D/CLEQiOYH8AjUJgjDfAXIngA6TAxYULdVzwGN1efHpK7ZFjJZy+neZYFIS0=
+	t=1786022897; cv=none; b=oys/XeEI00W0sGK1Yt0Y8yTE4uCjPU27WBhnoc8Z5Q/J5uoBstvzAMoRXFD6Bw2iqMqElYHGs/re/fW2ecnQv4e7OYkjpcZxOmieFfBaQZAKlyarvh9Aex3b41x5Gd7kjkV/wYDDmJgHKaiQJymlRX2QLaex2uhozkSkRBdcT40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786022328; c=relaxed/simple;
-	bh=/QW7gA0Kjfu4beTTRgEpHxt4hHSoQKUdHuaZrbNBp+4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TVGeI5Y9K+CA+Gu4+PLYYUTFQ03+GjFcLQ049kpJUpuVGSO3CenfxhR4n+0HqS5uhOur3PsmbUy6CAbXcdqunz6JX7J9caSOkpxDB9ImAZ9fyS5bPzMJIRTu/UhHPu9nLdoABRbi89Fb9fLmXl5QVxgQxL5mJS6Lkn1d+WywS5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PXT4nQNy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yndxVbqk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M/6nNdph; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3E8tn0sV; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786022897; c=relaxed/simple;
+	bh=bHoLgRIX4uJMgNXZakvmrgcI3UlPg6IAuGgCxOK5ulE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Jxk4zG+D1pn1Tt3ovTCpf13P4AOnog4fq3R0FozMXheKQwdOBKyxBxgcrOhIm1VilStW6J9iXOg1hdcLwOs7jo90bziAkp5wpFZ6z2H+wgfSzvf9ICCErbCewMjxKlfPi4DLs0MofLj+FkWJR5lNt5eZNINXsRTK493NnzemDtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oq4vxNJp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PXT4nQNy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yndxVbqk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M/6nNdph";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3E8tn0sV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B84DA3E04;
-	Thu,  6 Aug 2026 13:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786022310; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/67Z4NiBH93rLEDlLGIUkLqX2a//2vJ0OqJHaD4iFjg=;
-	b=PXT4nQNyGoHxFQIkDM6RR3ksIx8QLTX6y5+1Q+jGuQacB7FGNab4OqmmcnNVpJEUqieRlX
-	lP7esxehTRI2XjV+sN+5c8x3vVchESOf1cz0wvUqPzBSsh7q+0ZSdv4+OwkfOR4e+VdoOD
-	9PDspdKExXvL9ztvAopsEtniExOREEM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786022310;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/67Z4NiBH93rLEDlLGIUkLqX2a//2vJ0OqJHaD4iFjg=;
-	b=yndxVbqkxPMXeYQVdAWI5dKMEv+Yba+RbwGXSdTdPmQErkuSQQE4GMR/+sVx7NZRCnIOP6
-	kTkSWmHF9Fiw4zDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="M/6nNdph";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3E8tn0sV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786022306; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/67Z4NiBH93rLEDlLGIUkLqX2a//2vJ0OqJHaD4iFjg=;
-	b=M/6nNdphWusXCcqjv0t0I2tCd+gqB5TyYTkcpJtCW48U+/doZ8pS1+j8HET4eowAaLMIpf
-	/EqWXG5bxcDVbpdjnn29I21P5Y1Mus2LUI6beY4p9bYZP9R44n5q5ZHjUrEnbMko377+d2
-	vLiOSre34LmD4/9GrAE2msEy1XEFhIY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786022306;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/67Z4NiBH93rLEDlLGIUkLqX2a//2vJ0OqJHaD4iFjg=;
-	b=3E8tn0sVJpOWlqk4CkIdcNdYruVgWR7BI8KvhYZDjVQIhZ4Fq2ITpKrrDqLHrYFiEueGdi
-	vvp/CzFuV+5DjhBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6EA3A779B6;
-	Thu,  6 Aug 2026 13:18:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id MQxaGaKJdGoWEQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 13:18:26 +0000
-Date: Thu, 06 Aug 2026 15:18:26 +0200
-Message-ID: <871pcbe6al.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Mark Brown <broonie@kernel.org>,
-	linux-sound@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 31/31] ASoC: SOF: Use auto-cleanup for firmware loading
-In-Reply-To: <c603df64-4f9b-4759-bc6b-ce4fbca4b499@linux.intel.com>
-References: <20260805135247.670693-1-tiwai@suse.de>
-	<20260805135247.670693-32-tiwai@suse.de>
-	<a06c0cde-e321-4fa6-9743-23bf9826edf6@linux.intel.com>
-	<874ih7e9mb.wl-tiwai@suse.de>
-	<c603df64-4f9b-4759-bc6b-ce4fbca4b499@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oq4vxNJp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A721F000E9;
+	Thu,  6 Aug 2026 13:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786022893;
+	bh=BzC7RBvLpJs4LgfD1aZEsYgRk1243hTH7xXhTASd7Lc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Oq4vxNJpyZGVFRQHbr/HUFzSJZ1L50kXT6orn+PdUppxcGRbLStlioxWcXmyn2WjH
+	 uTZGOKSzcJwgaP2iYAZnzKx+MvB+A9/lH57AhtIQgujUDG2J4bRLpGAIRwiRtETr3u
+	 tB2hGnTXouzQQNYten/5kRJfrQuwZwEjjNDBuNZd7uQ3A3uXQ1AqloyVipeKhaUZM+
+	 cKU0LLXvKz9W1BsXKPrAJD6V/SeJ9aQVbj9v4yCwunmMs100xujwn4iPDUnZucBUp+
+	 y5qHVL4CtQ7cKMObMfG+0ObCWOHBZ0PUFgCYVif0TCKnv9VWsw3JEChKRkHVllWwo4
+	 FhSWdYIJo4dVA==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <20260805131942.45729-1-ckeepax@opensource.cirrus.com>
+References: <20260805131942.45729-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH RESEND] ASoC: dt-bindings: cirrus,cs42l43: Add CS42L44
+ variant
+Message-Id: <178601959048.110757.885964324537782155.b4-ty@b4>
+Date: Thu, 06 Aug 2026 13:33:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: B84DA3E04
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,kernel.org,vger.kernel.org,gmail.com,linux.intel.com,nxp.com,linux.dev,amd.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1128; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=bHoLgRIX4uJMgNXZakvmrgcI3UlPg6IAuGgCxOK5ulE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqdIvrcDq64/8otPORSVPjvOdjEAeJQhJoS05jI
+ PJxOmE06wqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanSL6wAKCRAk1otyXVSH
+ 0GSHB/wNFO5VaTu8w1OAP+2WtXECEpTYUUY7qA/5j3RB5inwC+EVNSk2fwKg/edbUuSBxCKq5yW
+ rMQRPnRWn6K/Mivol9e2n7fF5+BGUI227R/AJHlJGjuPDO34S7JaU87xbvBPJyuCEB/stEr0NtU
+ mHRtb+aJSDWt7MddY6f9X1+qXQA1TW2tKiegA45RJDYFXkejBu9KKSzf85vGFI9aprEbFqVVQHl
+ n+ag1ETUoeYR1N7Z1J/TkqcCqdgfkvUtKDBX9avjF6/05fzDy/zJMco2tJ00WN0x4/0MkGudWGv
+ IU5DlBfrDA3GkTIpfFtmGPtlh94xU6KEqKvVnqURQlXEucyy
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 06 Aug 2026 15:04:33 +0200,
-Péter Ujfalusi wrote:
-> 
-> 
-> 
-> On 06/08/2026 15:06, Takashi Iwai wrote:
-> >>> -	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
-> >>> -				profile->fw_name);
-> >>> +	const char *fw_filename __free(kfree) =
-> >>> +		kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
-> >>> +			  profile->fw_name);
-> >>>  	if (!fw_filename)
-> >>>  		return -ENOMEM;
-> >>>  
-> >>> +	const struct firmware *fw __free(firmware) = NULL;
-> >>
-> >> can we keep this at the head of the function?
-> > 
-> > We can, but for the auto-cleaned stuff, it's rather recommended to put
-> > the declaration at the position that actually starts using it.  Then
-> > you can avoid the unnecessary handling of the auto-cleanup.
-> 
-> The only mention I have seen is the header and it does say that one
-> should avoid having the declaration and allocation split _if_ the
-> pointer is not initialzied, or do it in one line.
-> 
-> Where it will get a bit blurry is when you have
-> {
-> const struct firmware *fw __free(firmware) = NULL;
-> 
-> ...
-> ret = something_which_might_fail();
-> if (ret)
-> 	goto out;
-> 
-> ret = request_firmware();
-> }
-> 
-> out:
-> ...
+On Wed, 05 Aug 2026 14:19:42 +0100, Charles Keepax wrote:
+> ASoC: dt-bindings: cirrus,cs42l43: Add CS42L44 variant
 
-Yes, and we hits this in a couple patches in this series, and the
-workaround is to declare at the beginning.
-(One can say that moving the declaration *is* helpful to catch such a
-corner case :)
+Applied to
 
-> > (I don't find whether it's mentioned, though; the documentation about
-> > the auto-cleanup isn't well organized yet, unfortunately...)
-> 
-> OK, let's leave it as it is, my ack and tested tag still stands ;)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
 Thanks!
 
+[1/1] ASoC: dt-bindings: cirrus,cs42l43: Add CS42L44 variant
+      https://git.kernel.org/broonie/sound/c/d4c669890ed0
 
-Takashi
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
