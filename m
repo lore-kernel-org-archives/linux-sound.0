@@ -1,81 +1,35 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C43C3859CB
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 05:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2200C30FF08;
+	Thu,  6 Aug 2026 06:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785995997; cv=none; b=dZsFlE/wpHkOi0xV+uDE37PAaq7hE5EeMfouAj04YRPNrUQsO547bpoMUwgIdiTWsOS+G1EZlDDK+EkNU6Lg0SxZxzGeyveJo7/6FjT27GTtSjqKZUSz2gfhMjipfgM2ennLJkt6i+UtmotMK1CPAKoRdfROcE4sP8Pi+C2r2uQ=
+	t=1785996361; cv=none; b=CD/E0Azb/pMyAI1sVRN5NPyYK95G5uOIyNHot9Fv7OWBFmO8mzDgiv7/z0ZeIVikeRvUdNM+vVGKAR6dUFtKDrivWgUyPzP+WyX9vQ7QcJhlqTd8BHxaS+KFJPlArSC9YdxhF/CEARUFsBbttN5TZXC11eClZ6yfV8ZhOqZ9+l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785995997; c=relaxed/simple;
-	bh=38sJWD51bvqFyIMrBEEym7OBm84GpTOLm6gU3EN0vbo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uw2okuFfqW6tCZnuSgHiewytWf6NmwefKDl3ECM5htcXrpFe9JDgRUBoWwIuuLzDw44sX4u5T3qVkNjOF+jARskGfLsbqFQ8BNPNTJyMFNKF4zwM9LVDVI8Qo3Jx1ftNgbNG/keBbndX4otTACi4Md8VJxoDElJ4t3/75t826GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Un3MvipF; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785996361; c=relaxed/simple;
+	bh=7Jy76+/tvbVo05J4sqwocfbNxzFnGXo8WBA4w86kuuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LP3z+guAExovpvoUkw6ZbwjFAqTHN2BgE+fEhA7GAuHHhlayv7ywW8WZPxbrepmzzsFn8JFEbueoEMVDwUf/Zn13SFHWr22IV1xz3hpt9VTRahUphS/2zLqfj9dNwQO0NVt8YUIboywxSkMcCRpC6TOlIATiYnd64MYIYovhO/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=W6ljugTR; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Un3MvipF"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84874b52eabso2593346b3a.0
-        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 22:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785995995; x=1786600795; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+uV3a1ZMt20KcdVnxB2/Ay1vWKrYrKnEXInPtGHfWRI=;
-        b=Un3MvipF+2z4hNKfWx45+NprlEKmrsXoaAd7c1+sO2yHJcH/VTrv+MUtsVgeCZHiv2
-         7qy2tx+yquu3C09ik1odlpP/34Sj1mXeANjEM8xcLFGIJi05Quj0Qj7uJ6SRSOT8ezyy
-         IMqjVNuOCcEHGvRLcPZEn7nsT+fGznz17lGazA+m2xO/VRwOB5Hs+z8TsGQRV5wVD6F5
-         Exhg76sZfYnQG1yaN3WZIoFBuyVkdFWLH0xTqBk93AzccoD5QPE9KaZvmZVODZDvzI11
-         Idm/czj1v60xiWvzPEoEPwaxd/WuiTHnVvkuyvvA3Yf2dfJu710C0LUvBwG3ttOoCILe
-         YuSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785995995; x=1786600795;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+uV3a1ZMt20KcdVnxB2/Ay1vWKrYrKnEXInPtGHfWRI=;
-        b=d6u29bhn9mHq9FskcchtUrMntADBcNWfT6XVqbBo0PwxlwNuDu8lwziftceKS6igYc
-         eOefPZx3dg6DwlaxI413idDsLAexqjAFg7QDXIc9YOwU62lAogriorRw3q5+97t9nhZi
-         6RTR6jiT/BqWEu6DF/v55wcO+276uORHbVw7R2W0AIJHFG/wddQUjxum2BbfLfs/2FGx
-         omnNZri7MoI3C4oWntu558zXjXwLjkZx8yoB496j0skwwVpNffo7Y1H6Zgd1inTjMCEj
-         WUcEww2dxh0g7WIaUwxk4zaAr8YEJ+wUm0s3NG1pjRi8p25vPvRMubVf5waQ+Z/X/oIm
-         tD4A==
-X-Forwarded-Encrypted: i=1; AHgh+Rqwhb/UChMc8Ol14nHoG9JDvKeSqjQrIQrr+ie+QC0joGeEn0pL+tPLSn36Bnc/k4AGEXKeK5TcAhIwkQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCp8zYj+ZMnyomSMcuClUfP3vf/Io1kVE2oMIT/JVQa9/5y0GI
-	Zgz8sqBrgSZK8K0wSkU6OIslDOg6OEL07neAk2DQRYlnVDojfb7NDTpm
-X-Gm-Gg: AR+sD10KcUs4m/g90Q+xem/SJf4U6JkXZ92SYJ+5v9ZK0H1sOfX22w60eE86iqu+167
-	EoHGEFfh6qOkZq3e79961D7fegImWYtl26L2VcHw3C2c6DHxjwEKiz7RndoVYm4p69nk51fPhHX
-	ImOp782aD8lOhhNLE4iwSlTPekqWLsca1cXtqqfs4Lk0vJHUxx3vUWFaULGGwdgwXp51bK5giaC
-	qAKUX1MIXxwZW4ECfIT02FzMiktC/H1/VTmO1Vg+HWliBVd8WExkOAQg/Xyh2t7KPojVAAQk0oP
-	wRs970Zz7+GUPkPYz8WICt2xSoDJ0W4PxILfs90trZGgUetQkieGULfPR032tAJI58oFMaM30ha
-	+jHa6T9VLGv0G3/p75T/9MET40BqhBsn6X1jMZl4cYKx4bGSLR7V21Hk+ISA1u5h3UQeuDuopWV
-	BdduOvSje3UsBIBisPmOWpiciMmxx/UIswYBeJPp1orU+JFPoWN98QPrV6MN3j01dZb0s8rUxDs
-	L6n3REqOkWZFUjiJCi7mNgaU7x3+d29Is7DAxXyvP4o1KToqFMheqGJaQ53llbrWXlB225F468Y
-	uzzt
-X-Received: by 2002:a05:6a00:88c:b0:845:3914:f039 with SMTP id d2e1a72fcca58-84f2dff687amr13631507b3a.26.1785995995648;
-        Wed, 05 Aug 2026 22:59:55 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f45ab011bsm633993b3a.41.2026.08.05.22.59.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 22:59:55 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="W6ljugTR"
+Received: from LAPTOP-99KJFSET (unknown [36.153.54.46])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 48fb94a1e;
+	Thu, 6 Aug 2026 14:05:54 +0800 (GMT+08:00)
+From: Hongyan Xu <getshell@seu.edu.cn>
+To: Srinivas Kandagatla <srini@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
 	linux-sound@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH] ASoC: Intel: KMB: Propagate -EPROBE_DEFER from IRQ lookup
-Date: Thu,  6 Aug 2026 12:59:37 +0700
-Message-ID: <20260806055937.24600-1-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-arm-msm@vger.kernel.org,
+	jianhao.xu@seu.edu.cn,
+	Hongyan Xu <getshell@seu.edu.cn>
+Subject: [PATCH] soc: qcom: apr: clean up failed service registrations
+Date: Thu,  6 Aug 2026 14:05:40 +0800
+Message-ID: <20260806060541.820-1-getshell@seu.edu.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,31 +37,119 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9fd5ad929903a1kunm5d97831428930d
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCTEsaVh4aHhkZSU1IHUNLTVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKTkhVTk9VT01ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+	xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=W6ljugTRiDwUwwNMy0YNlkXxT3Eny0Oy/U4LAYr7BOcrXZWv2EsGLRB9qKaVdiwDNuVA9ghheZ0MOcRC/pI3Z8K6ABd8jByjtZpHEgtE6ZNUkzGhk+GWZ2WB7aA3d6fEOVSsZ4soAGlJcG6SrzGLJBc0M66Ig3DEXxxY6y0NTb4=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=vbvnEWDJpsJyWbAxQ0Srw0uA8bU/056MQ8UQvijqeSg=;
+	h=date:mime-version:subject:message-id:from;
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+apr_add_device() publishes a service in svcs_idr before parsing the
+optional protection domain and registering the device. If device
+registration fails, put_device() frees the apr_device while its service
+remains in the IDR. A received packet can then dereference that stale
+entry. The property error path also leaves the service and allocation
+behind.
 
-Return -EPROBE_DEFER from platform_get_irq_optional() so the driver is
-re-probed when the interrupt resource becomes available instead of
-continuing probe without an IRQ.
+Split device_register() into device_initialize() and device_add() so every
+pre-registration error can safely drop the device reference. Remove the
+service from the IDR on all failures after publication, then drain the RX
+workqueue before dropping the device reference. This prevents an in-flight
+lookup from outliving the device.
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Fixes: 6adba21eb434 ("soc: qcom: Add APR bus driver")
+Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
 ---
- sound/soc/intel/keembay/kmb_platform.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/soc/qcom/apr.c | 44 +++++++++++++++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 16 deletions(-)
 
-diff --git a/sound/soc/intel/keembay/kmb_platform.c b/sound/soc/intel/keembay/kmb_platform.c
-index 6659e8060ef3..48f132f01878 100644
---- a/sound/soc/intel/keembay/kmb_platform.c
-+++ b/sound/soc/intel/keembay/kmb_platform.c
-@@ -873,6 +873,8 @@ static int kmb_plat_dai_probe(struct platform_device *pdev)
+diff --git a/drivers/soc/qcom/apr.c b/drivers/soc/qcom/apr.c
+index ea7f83916d8d..d72628ac09f1 100644
+--- a/drivers/soc/qcom/apr.c
++++ b/drivers/soc/qcom/apr.c
+@@ -434,31 +434,35 @@ static int apr_add_device(struct device *dev, struct device_node *np,
+ 	if (np)
+ 		snprintf(adev->name, APR_NAME_SIZE, "%pOFn", np);
  
- 	if (kmb_i2s->use_pio) {
- 		irq = platform_get_irq_optional(pdev, 0);
-+		if (irq == -EPROBE_DEFER)
-+			return irq;
- 		if (irq > 0) {
- 			ret = devm_request_irq(dev, irq, kmb_i2s_irq_handler, 0,
- 					       pdev->name, kmb_i2s);
++	adev->dev.bus = &aprbus;
++	adev->dev.parent = dev;
++	adev->dev.of_node = np;
++	adev->dev.release = apr_dev_release;
++	adev->dev.driver = NULL;
++	device_initialize(&adev->dev);
++
+ 	switch (apr->type) {
+ 	case PR_TYPE_APR:
+-		dev_set_name(&adev->dev, "aprsvc:%s:%x:%x", adev->name,
+-			     domain_id, svc_id);
++		ret = dev_set_name(&adev->dev, "aprsvc:%s:%x:%x", adev->name,
++				   domain_id, svc_id);
+ 		break;
+ 	case PR_TYPE_GPR:
+-		dev_set_name(&adev->dev, "gprsvc:%s:%x:%x", adev->name,
+-			     domain_id, svc_id);
++		ret = dev_set_name(&adev->dev, "gprsvc:%s:%x:%x", adev->name,
++				   domain_id, svc_id);
+ 		break;
+ 	default:
++		ret = -EINVAL;
+ 		break;
+ 	}
+-
+-	adev->dev.bus = &aprbus;
+-	adev->dev.parent = dev;
+-	adev->dev.of_node = np;
+-	adev->dev.release = apr_dev_release;
+-	adev->dev.driver = NULL;
++	if (ret)
++		goto out_put_device;
+ 
+ 	spin_lock(&apr->svcs_lock);
+ 	ret = idr_alloc(&apr->svcs_idr, svc, svc_id, svc_id + 1, GFP_ATOMIC);
+ 	spin_unlock(&apr->svcs_lock);
+ 	if (ret < 0) {
+ 		dev_err(dev, "idr_alloc failed: %d\n", ret);
+-		goto out;
++		goto out_put_device;
+ 	}
+ 
+ 	/* Protection domain is optional, it does not exist on older platforms */
+@@ -466,18 +470,26 @@ static int apr_add_device(struct device *dev, struct device_node *np,
+ 					    1, &adev->service_path);
+ 	if (ret < 0 && ret != -EINVAL) {
+ 		dev_err(dev, "Failed to read second value of qcom,protection-domain\n");
+-		goto out;
++		goto out_remove_idr;
+ 	}
+ 
+ 	dev_info(dev, "Adding APR/GPR dev: %s\n", dev_name(&adev->dev));
+ 
+-	ret = device_register(&adev->dev);
++	ret = device_add(&adev->dev);
+ 	if (ret) {
+-		dev_err(dev, "device_register failed: %d\n", ret);
+-		put_device(&adev->dev);
++		dev_err(dev, "device_add failed: %d\n", ret);
++		goto out_remove_idr;
+ 	}
+ 
+-out:
++	return 0;
++
++out_remove_idr:
++	spin_lock(&apr->svcs_lock);
++	idr_remove(&apr->svcs_idr, svc_id);
++	spin_unlock(&apr->svcs_lock);
++	flush_workqueue(apr->rxwq);
++out_put_device:
++	put_device(&adev->dev);
+ 	return ret;
+ }
+ 
 -- 
-2.43.0
+2.50.1.windows.1
 
