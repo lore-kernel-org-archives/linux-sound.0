@@ -1,86 +1,85 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E0523E33D
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 07:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB323B27DA
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 07:38:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786001852; cv=none; b=KwqFSryLf+sPVlN5cabpSKgI5mmBn56vGHlOHxLTO4uciXMiBoSwD1K6JbVDfV4hCN6Qm1sZnnzBnr+elm6EXWdChZ22fooUwh/F+ljNFhOVUZ3hhzhfIDOuFrt2iEBPubm9LS4jjaXxmlAA1/BYd/It7iLYr3babrnFPXWUfF4=
+	t=1786001904; cv=none; b=TT6jKwp7NgCXO/NuLamDQcn8Js5VQvgOfgvbfFRL/ECB41oU/D5ROwhhY8KKOEt8R2iMinMPKJ+HbZk5UTauBOVijpIu9LVpbfOckWrPpUC72HJKqsv2/SXPLffa/roc+b1izZ81ianDngITR0FlQsW2z6rgeiAW0TcpXgP3z+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786001852; c=relaxed/simple;
-	bh=gpj4cuOC6tw70YyavU7rzy+pICpZkSaHbKh7tHEyDyc=;
+	s=arc-20240116; t=1786001904; c=relaxed/simple;
+	bh=pexHzGmjr9P1Z00chtDt7ITmeSs9FIHOebuEW2eaNYo=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ay5DG3lFd+zdWFMzWs51TsSV4P2gxOXO71n+Y5pH57+1JEljYoecIpUSwSXeqxdkuRfbZgzVofQprtVFG4bzIdcLUbYko26Gnrn3fLhXbpLLHo7ZkUpedbwmHllntnm5qJU4a0gOQyFHmjjjevnfF0lKGuhI25jfs5Pl5tCojIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1N+8mAaY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cCJHrV8S; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kIsIgoiu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mHtJWzN0; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=TmwFEZW5TBhEdAU5V29YegOxuPENIZdlqQqClkXzvgX440+wKEc0tRooa5Ohn5trilmdpGP/cqc0y2bscKb3y118Fk/bvOPSN7gOYaOUbiP0kp1Yh1nLqA6gke7hyUb/TqhEa22aQ9fvi6mgiqgWRJZSyoZ9YaMv3LeP3ud1MsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xRqRpGH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3ufc+uJ5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AqYfRNXu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bQ+TG0LX; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1N+8mAaY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cCJHrV8S";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kIsIgoiu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mHtJWzN0"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xRqRpGH0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3ufc+uJ5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AqYfRNXu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bQ+TG0LX"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B03E93DF6;
-	Thu,  6 Aug 2026 07:37:14 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B96B83E05;
+	Thu,  6 Aug 2026 07:38:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786001838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786001896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
-	b=1N+8mAaYAWGD4NLFH162VR5YlmMBIHCYJUagjMANFrpyVm1H2G6XeYtEZU5HGUJzpfiXY1
-	aDXA1TuUt4EKzN6q6Inzd3QkWGPptuFOvqPIuNB34xihCE1BZ7osC67ubHqdyyPp52zcak
-	fFoyRU4QQenGn9uPjTjzd4U+9hdd8uA=
+	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
+	b=xRqRpGH0kis1Uv4llLEr8DXAfxsvp4ys+SdAURO9RBzTnasem4CVjoXVjFUp4uzqNjgh0o
+	K9uoKrY97ag/zgfwXJp6zSggl5iGpe75ajK3bzNx5UyDfhrsVFSsh75A1hUNkF4nvGH110
+	ld1VLIdxCGOR9he5HgTkdqqso+7Ms18=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786001838;
+	s=susede2_ed25519; t=1786001896;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
-	b=cCJHrV8SpDJOsezWT92c+XuUK9/FIB8ezBdsGQ2S3bKvs0JBJzH+cfkcv5nGHYmrERrNJd
-	nwXhQWNyPpTT4zBQ==
+	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
+	b=3ufc+uJ5vD5HSPv1WCsrSr7biUPt0VIaRvrOxExnwftDVooYc5WzYm744PhpMAd33kkhEu
+	ZbRAB7Lkm1Il4hDg==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786001834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786001892; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
-	b=kIsIgoiup1rvTjwuYeVgMkD1S2UmFirFXN9Pe2g/h5qxn7nYsJQqTRKafrFVBVmoyhORdy
-	vq0ZKHSNi9Yrx65SqUq5YEn3U7dijd6mglLAvXbmHE1t/QtT0gYpNHZFwaXD7AndEOp2Lv
-	tJgegFYkxMvOLBYDwzZGSllRyrl6+fY=
+	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
+	b=AqYfRNXuZobZBjC4wIE/kSJVdkPQ5jGgThjs1SUO0QMWx+f27qWL/E82n9EdoLyHFx0Nty
+	kLJ2qg8nhaGMmhx9tSHyKAN+81dvABSoDTIrZvTi5DfYGI4VyL7TWOF8teyY0RrSqHyHId
+	UdFI5z32tC18bW59vFLpla0+6cz+K+w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786001834;
+	s=susede2_ed25519; t=1786001892;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VedTbqq/4Ox4h7vG/j5S4pJJoqKliMJsVfLYJZ3CgdM=;
-	b=mHtJWzN0vo4ak7teLxvUl+yMNw++ZjpA0/18+6NZNKp9NqStXkHWsH3jmMSnWenSV8Rsje
-	sKhW+zYaLboT8JCA==
+	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
+	b=bQ+TG0LXtIaW1Tx4CK+t+My3X1LQPXLV9q68Il8/utNpvW5QTllOGDXqSgOf4Mo89H7KPE
+	4N2CNcmCMS3ZvGBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 826A4779B6;
-	Thu,  6 Aug 2026 07:37:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96D88779B6;
+	Thu,  6 Aug 2026 07:38:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XDAIHqo5dGpjOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 07:37:14 +0000
-Date: Thu, 06 Aug 2026 09:37:14 +0200
-Message-ID: <87wlu3em39.wl-tiwai@suse.de>
+	id JRChI+Q5dGo0PAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 07:38:12 +0000
+Date: Thu, 06 Aug 2026 09:38:12 +0200
+Message-ID: <87v79nem1n.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: Re: [PATCH 13/31] ASoC: rt1320-sdw: Use auto-cleanup for firmware loading
-In-Reply-To: <bed1131f-59a4-4da7-994a-d1d5a6728603@sirena.org.uk>
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 23/31] ASoC: wm2000: Use auto-cleanup for firmware loading
+In-Reply-To: <81424cdc-58a7-46b3-9d38-d516ae160070@sirena.org.uk>
 References: <20260805135247.670693-1-tiwai@suse.de>
-	<20260805135247.670693-14-tiwai@suse.de>
-	<bed1131f-59a4-4da7-994a-d1d5a6728603@sirena.org.uk>
+	<20260805135247.670693-24-tiwai@suse.de>
+	<81424cdc-58a7-46b3-9d38-d516ae160070@sirena.org.uk>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -103,43 +102,35 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_THREE(0.00)[3];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,realtek.com:email,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
 X-Spam-Score: -3.30
 X-Spam-Level: 
 
-On Thu, 06 Aug 2026 00:56:23 +0200,
+On Thu, 06 Aug 2026 01:16:10 +0200,
 Mark Brown wrote:
 > 
-> On Wed, Aug 05, 2026 at 03:52:14PM +0200, Takashi Iwai wrote:
+> On Wed, Aug 05, 2026 at 03:52:24PM +0200, Takashi Iwai wrote:
 > > Simplify the code to manage the firmware loading with __free(firmware)
 > > auto-cleanup.
-> > 
-> > Only the code refactoring, no functional changes.
 > 
-> > @@ -2170,6 +2164,7 @@ struct rt1320_dspfwheader {
-> >  		goto _exit_;
+> >  	for (i = 0; i < WM2000_NUM_SUPPLIES; i++)
+> > @@ -876,6 +875,7 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
+> >  			filename = pdata->download_file;
 > >  	}
 > >  
 > > +	const struct firmware *fw __free(firmware) = NULL;
-> >  	request_firmware(&fw, filename, dev);
-> >  	if (fw) {
-> >  		fwheader = (struct rt1320_dspfwheader *)fw->data;
+> >  	ret = request_firmware(&fw, filename, &i2c->dev);
+> >  	if (ret != 0) {
+> >  		dev_err(&i2c->dev, "Failed to acquire ANC data: %d\n", ret);
 > 
-> There's a goto further up that jumps over this which clang warns about,
-> this will break the build.  Landmines like that are why cleanup.h warns
-> about mixing it with goto.
+> Same goto issue here.
 
-That's an issue because I moved the declaration of the variable fw;
-if it's left at the beginning of the function as it was, it should
-work fine, like the patch below.  The same applied to the error for
-wm2000.
-
-If this is OK, I'll submit v2 series with the fixes for rt1320-sdw and
-wm2000.
+Right, and the workaround is to keep the declaration at the beginning
+of the function.
 
 
 thanks,
@@ -148,114 +139,51 @@ Takashi
 
 -- 8< --
 From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 13/31] ASoC: rt1320-sdw: Use auto-cleanup for firmware
- loading
+Subject: [PATCH v2 23/31] ASoC: wm2000: Use auto-cleanup for firmware loading
 
 Simplify the code to manage the firmware loading with __free(firmware)
 auto-cleanup.
 
 Only the code refactoring, no functional changes.
 
-Cc: Oder Chiou <oder_chiou@realtek.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
-v1->v2: keep the firmware declaration at the beginning of the function
-  to co-live with gotos
+ sound/soc/codecs/wm2000.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
- sound/soc/codecs/rt1320-sdw.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
-
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 3a5eebcfefdd..8d2d6697a502 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -1786,7 +1786,7 @@ static int rt1320_r0_cali_put(struct snd_kcontrol *kcontrol,
- static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
- {
- 	struct sdw_slave *slave = rt1320->sdw_slave;
--	const struct firmware *patch;
-+	const struct firmware *patch __free(firmware) = NULL;
+diff --git a/sound/soc/codecs/wm2000.c b/sound/soc/codecs/wm2000.c
+index 897b0acac5f3..41c8cfb346c6 100644
+--- a/sound/soc/codecs/wm2000.c
++++ b/sound/soc/codecs/wm2000.c
+@@ -796,7 +796,7 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
+ 	struct wm2000_priv *wm2000;
+ 	struct wm2000_platform_data *pdata;
  	const char *filename;
- 	unsigned int addr, val, min_addr, max_addr;
- 	const unsigned char *ptr;
-@@ -1840,17 +1840,15 @@ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
- 
- 				if (addr > max_addr || addr < min_addr) {
- 					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
--					goto _exit_;
-+					return;
- 				}
- 				if (val > 0xff) {
- 					dev_err(&slave->dev, "%s: the value 0x%x is wrong", __func__, val);
--					goto _exit_;
-+					return;
- 				}
- 				regmap_write(rt1320->regmap, addr, val);
- 			}
- 		}
--_exit_:
--		release_firmware(patch);
- 	}
- }
- 
-@@ -1924,7 +1922,7 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
- 	struct device *dev = &rt1320->sdw_slave->dev;
- 	static const char func_tag[] = "FUNC";
- 	static const char xu_tag[] = "XU";
--	const struct firmware *rae_fw = NULL;
-+	const struct firmware *rae_fw __free(firmware) = NULL;
- 	unsigned int fw_offset;
- 	unsigned char *fw_data;
- 	unsigned char *param_data;
-@@ -1977,7 +1975,6 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
- 			}
- 			if (!retry && !(value & 0x40)) {
- 				dev_err(dev, "%s: RAE is not ready to load\n", __func__);
--				release_firmware(rae_fw);
- 				return -ETIMEDOUT;
- 			}
- 			break;
-@@ -1998,7 +1995,6 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
- 			}
- 			if (!retry && !(value & 0x40)) {
- 				dev_err(dev, "%s: RAE is not ready to load\n", __func__);
--				release_firmware(rae_fw);
- 				return -ETIMEDOUT;
- 			}
- 			break;
-@@ -2057,7 +2053,6 @@ static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
- 		}
- 
- 		regcache_cache_bypass(rt1320->regmap, false);
--		release_firmware(rae_fw);
- 
- 	} else {
- 		dev_err(dev, "%s: Failed to load %s firmware\n", __func__, rae_filename);
-@@ -2124,7 +2119,7 @@ struct rt1320_dspfwheader {
- 	struct rt1320_dspfwheader *fwheader;
- 	struct rt1320_imageinfo *ptr_img;
- 	struct sdw_bpt_section sec[10];
 -	const struct firmware *fw = NULL;
 +	const struct firmware *fw __free(firmware) = NULL;
- 	unsigned char *fw_data;
- 	bool dev_fw_match = false;
- 	static const char hdr_sig[] = "AFX";
-@@ -2178,7 +2173,6 @@ struct rt1320_dspfwheader {
+ 	int ret, i;
+ 	unsigned int reg;
+ 	u16 id;
+@@ -814,7 +814,7 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
+ 		ret = PTR_ERR(wm2000->regmap);
+ 		dev_err(&i2c->dev, "Failed to allocate register map: %d\n",
+ 			ret);
+-		goto out;
++		return ret;
+ 	}
  
- 		if (fwheader->sync != 0x0a1c5679) {
- 			dev_err(dev, "%s: FW sync error\n", __func__);
--			release_firmware(fw);
- 			goto _exit_;
- 		}
+ 	for (i = 0; i < WM2000_NUM_SUPPLIES; i++)
+@@ -908,9 +908,6 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
  
-@@ -2256,7 +2250,6 @@ struct rt1320_dspfwheader {
- 		}
+ err_supplies:
+ 	regulator_bulk_disable(WM2000_NUM_SUPPLIES, wm2000->supplies);
+-
+-out:
+-	release_firmware(fw);
+ 	return ret;
+ }
  
- 		regcache_cache_bypass(rt1320->regmap, false);
--		release_firmware(fw);
- 
- 		if (!dev_fw_match) {
- 			dev_err(dev, "%s: FW file doesn't match to device\n", __func__);
 -- 
 2.55.0
+
 
