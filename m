@@ -1,174 +1,238 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3294C77D1;
-	Thu,  6 Aug 2026 19:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9EBA3D4123
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 20:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786043241; cv=none; b=XA7yYFuFFFAEYu+M0Hx8Op5xzSjBE853LviW5VeC6mOdihp8C5/MkwcD4iGoZJDTYzhg1X08+eibzaJrd2b1lxxvYLrKpn8SNzHBsszDAXZE88ougZ8Uiw5GlrjAMDegtnknNtNSlAOQq/+Ht0AyCNKjYseQiijCorVYbUvVkdc=
+	t=1786048238; cv=none; b=QUdt6xGuycGDY7enh4TsXJEIklNNDuoiZUuqjJJZH7KG5zXImG7mi8lsXZcwJz/HS02Gg45sPPUMAyEfw6OXbNeqHT0Vvq7rJaSwztLxNZwb1+o4FEbUuQASDpnDI283X2n9MocJ+vMIIQqf/o2OLzDi9NjLLZ+mw2nXIjJAPjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786043241; c=relaxed/simple;
-	bh=WXcm2Yb5I04oLe14dcXdrEPwOR8hGoCD+QeGAqYfYQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AEHc1hF25SowMbEOHH1pCtzo+9NhhXR8eZdjexjXEJITmo4nkfXlmFAGt1iIzc8D9d8ucOiSMcc8J+ZsgNaH6p36PVOAfJwd1Bn33oFKpmet3FB1qRxL7dTgXvVPFzmpP7Ah/od8cky199kShTwnh3+V41NlwUo//i2daPkIZe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=nA1aUYEN; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1786048238; c=relaxed/simple;
+	bh=w/EzEifUvdN0AE/FvrFlNDS4l3dTlCKYoOuhZ5JK+WE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vj9syOL0yCF86lFnE3hH+yFkfxfVz98u0P3bKpEAVNuNwPv3aoe4+tELqtAQojEXhkxJPqTZeq9KnHr7txcy4BWHWAWV/ke2csaHTtN111/aQcqF0s7iTb2Hm2iJNtUnXIVNZA0WlX4vEJNn5Mt0nspzF89pXjUqGqHwRx7sWis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Kmt/IKSG; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nA1aUYEN"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 676Ftr4v4168306;
-	Thu, 6 Aug 2026 19:06:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=85JNUC8SyfLYyGobZYpdZmxyQGF0qjVqbjDUd/Wkets=; b=
-	nA1aUYENomsR9p7hfDkQr6KalTZrWQW8NET0IkudX6kxW006ofYrtz87Qku7QfJU
-	1lbtfpVmJ42Q3AQE1tcbOw0dHj5dJSylYxq+m2+YcyLW9melEp/Zo40HFGHB54iG
-	OcTwtR+niQLcarL+4OWP5kUShgYJOMrLwxEqqSkY7Lj2zjgD/sgtw+C5rg7PDGAH
-	Gv3g1ppfRFvZh8DYeUX2gV+upEZO5qZ40tc03kMw1uUKshv2LOqjagJ3HbvFdCxa
-	5hBpF9vOLZ/60dXew31tSvX4uLcqli6uolj+khGTMmHGGzK/4pK/rJL+YY5xBUHb
-	pPRuZrwRVaPtUZ7W/V2+uA==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fs8ugpqtf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Aug 2026 19:06:26 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 676J0b6k024663;
-	Thu, 6 Aug 2026 19:06:25 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4fs78w56e3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Aug 2026 19:06:25 +0000 (GMT)
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 676J6LgY011247;
-	Thu, 6 Aug 2026 19:06:24 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4fs78w56b9-3;
-	Thu, 06 Aug 2026 19:06:24 +0000 (GMT)
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: Julia.Lawall@inria.fr, Alex Deucher <alexander.deucher@amd.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jiri Pirko <jiri@resnulli.us>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
-        Johan Hovold <johan@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Julian Anastasov <ja@ssi.bg>, Leon Romanovsky <leon@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>, Matthew Sakai <msakai@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>, Ping-Ke Shih <pkshih@realtek.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sebastian Reichel <sre@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Simona Vetter <simona@ffwll.ch>, Simon Horman <horms@verge.net.au>,
-        Stephen Boyd <sboyd@kernel.org>, Steve French <sfrench@samba.org>,
-        Takashi Iwai <tiwai@suse.com>, Thomas Renninger <trenn@suse.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tony Luck <tony.luck@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
-        Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-        Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
-        Yazen Ghannam <Yazen.Ghannam@amd.com>,
-        Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>, cocci@inria.fr,
-        amd-gfx@lists.freedesktop.org, dmaengine@vger.kernel.org,
-        dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-        iommu@lists.linux.dev, linux-cifs@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, lvs-devel@vger.kernel.org,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        nouveau@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-Subject: Re: (subset) [PATCH 00/36] treewide: remove conditional returns with no effect
-Date: Thu,  6 Aug 2026 15:06:08 -0400
-Message-ID: <178589207129.336697.9870225893827541543.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260723184538.3888637-1-ekffu200098@gmail.com>
-References: <20260723184538.3888637-1-ekffu200098@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Kmt/IKSG"
+Message-ID: <39194f6b-2613-42a3-a857-702889add03d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1786048224;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4M4tshjnY+NbzJNHIH4D0nMsKDMYo+ZXA30pBwlxGPo=;
+	b=Kmt/IKSGK/J29s93N9GfRCGi6MNylnjW6minUPlR+dHFemI/YXgu25ZmqD9gHJTHqOjbGc
+	OflcESYGhNq+mUiaKaMLdA/NcPg75bwFkoZ7prg0Qtxjqe40F1itgUISAzo8IBTr5RC9oP
+	D+mfKtw0D8o05uF2gLMXMjsHWU7e+ME=
+Date: Thu, 6 Aug 2026 22:30:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-06_02,2026-08-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0
- phishscore=0 mlxlogscore=672 suspectscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2608060149
-X-Proofpoint-ORIG-GUID: XGMDaQGIFMb57T6Q2yvPQTQQt2debxfq
-X-Authority-Analysis: v=2.4 cv=XqnK/1F9 c=1 sm=1 tr=0 ts=6a74db32 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=VwQbUJbxAAAA:8
- a=Br-j9HdbvUlrMjNZj6IA:9 a=QEXdDO2ut3YA:10 a=5yU3S35YU4bGjq-dph-N:22
- a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:13510
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA2MDE0OSBTYWx0ZWRfX6uIK9jT+2Jev
- rYS5Xc6Wjv9hMYRtyD0NY9wioUhY1o9ts8S44XrOIykROIC2fMM+q3H5rjkub44bNgkLDQ3tnSe
- fkx9LiuU0Ioed9eVzRB8PP2qYuZIVaHGDH9Vr333gSb2ZgsHD92v
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA2MDE0OSBTYWx0ZWRfX43FUiflrVixJ
- FNgAKsr+fsfl0ktZltC3fvW6MVFcRQRy/oySHj8nQQDMOHwfS94QLWHrXArK3j62D1c6aNzQrnl
- 2DtOuGbPQocnjuSCI1ny1WWYx/7jkkjlcfyl+lp7TEesEfkx307+KuCZo0OgIxbIwfa72MWD4em
- tn6/hMd/QXx6zH3wP5OlhrMzlp2qKgIxJlelAMfUWIkruyj4hnvKzGUkqPoF4QRZ71As9I8pV2j
- DMm/cMIaHufC6lXcsuKfUk0yiqWTx1Zr8LtQAR498eW34hEj3pAMHucta0+1CKmEnv9EN7lkU/M
- FG7jgW8yHOjl2TgueMJFzovO4heKYSqjW47oC3CHVujyZPMUqifsWdUKFoxdhd+EKhXdCEJL9b0
- LGCES5HP/CdGIqj2UaaWymZGJVFVJ4RBD/aEk7/710HO5x59Z+gVx3LZGgty2YUYCbgJE7oGTWH
- QPXliDM2eYx5QgvaSSBlrfWn/1V9lBD33lbCDCaI=
-X-Proofpoint-GUID: XGMDaQGIFMb57T6Q2yvPQTQQt2debxfq
+Subject: Re: [BUG] ASoC: tas2783-sdw: every amp on the link selects the same
+ channel, so a two-amp board plays mono
+To: Robin Everaars <robineveraars@pm.me>, shenghao-ding@ti.com,
+ kevin-lu@ti.com, baojun.xu@ti.com, niranjan.hy@ti.com, broonie@kernel.org,
+ lgirdwood@gmail.com, linux-sound@vger.kernel.org
+Cc: ckeepax@opensource.cirrus.com, mstrozek@opensource.cirrus.com,
+ yung-chuan.liao@linux.intel.com, vkoul@kernel.org, Vijendar.Mukunda@amd.com,
+ peter.ujfalusi@linux.intel.com, sen@ti.com, nealstarkie@gmail.com,
+ bjuraszewski@gmail.com, andrey.golovko@gmail.com,
+ linux-kernel@vger.kernel.org
+References: <20260805183517.8665-1-robineveraars@pm.me>
+ <02f2cd9c-519c-4154-be58-9065f34c6001@linux.dev>
+ <20260806184353.112230-1-robineveraars@pm.me>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20260806184353.112230-1-robineveraars@pm.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 24 Jul 2026 03:45:02 +0900, Sang-Heon Jeon wrote:
-
-> While reading mm/memblock, I found a conditional return where both
-> branches return the same value:
+On 8/6/26 20:43, Robin Everaars wrote:
+>> you mentioned a two-amp board but the wording seems to describe 4 amps?
 > 
-> 	err = do_something();
-> 	if (err)
-> 		return err;
-> 	return err;
+> Two amps: an ASUS ProArt PX13 HN7306EAC with two TAS2783 plus an
+> rt721-sdca on one link. Every number in the report came from those two.
+> The four-amp wording leaked in from my patch, which keys off the
+> name_prefix suffix and also handles -3 and -4. I have no such board, so
+> that half was an untested guess and should not have been described as
+> fact.
 > 
-> [...]
+>> Also not sure what mapping you are referring to, I looked up the code
+>> and couldn't connect the dots between the last sentence and the code.
+> 
+> Because there are no dots to connect. I meant
+> asoc_sdw_ti_spk_rtd_init() (soc_sdw_ti_amp.c:52-79), which picks a
+> speaker name from the suffix, -1 "Left Spk", -2 "Right Spk", -3
+> "Left Spk2", -4 "Right Spk2", and adds a DAPM route per amp. That names
+> widgets and programs nothing in the amp, so "matching the mapping"
+> claimed far more than the code does. My description was also wrong in
+> detail: I wrote "Left Spk
+> " for -3 where the code says "Left Spk2".
 
-Applied to 7.3/scsi-queue, thanks!
+ok.
 
-[30/36] scsi: mpt3sas: remove conditional return with no effect
-        https://git.kernel.org/mkp/scsi/c/c79f9bf2d87f
+> The assignment rests on measurement instead. Muting each amp in turn and
+> scoring the acoustic result puts amp 1 at the left speaker and amp 2 at
+> the right on this board.
+> 
+>> This may work but that isn't the intended role of the PPU (Posture
+>> Processing Unit).
+>> In theory the same posture number should be given to both amps, and
+>> they shall modify their input to output mapping accordingly.
+> 
+> Taken. Two things follow that I would like your view on, because the
+> driver already writes that control.
+> 
+> tas2783_init_seq[0] sets PostureNumber unconditionally on every amp that
+> probes (tas2783-sdw.c:306 in v7.1.5, :308 in mainline):
+> 
+>   REG_SEQ0(SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU21, 0x10, 0x00), 0x01)
+> 
+> while tas2783.h:87 calls selector 0x10 TAS2783_SDCA_CTL_UDMPU_CLUSTER,
+> i.e. UDMPU ClusterIndex (sdca_function.h:425), against a PPU21 entity
+> where 0x10 is PostureNumber (sdca_function.h:528). reg_default lists the
+> same register as 0x0
+>  (tas2783-sdw.c:276). So my patch made an existing
+> unconditional write per-amp, trusting the local define's name.
+> 
+> 1. Should init_seq[0] write PostureNumber at all, and if so is 0x01 right
+>    for a device that does not yet know its posture?
 
--- 
-Martin K. Petersen
+The PostureNumber is just an index in a Posture Table, if the posture
+isn't known there's probably a default. The value for postures is not
+defined in the spec, it depends on every OEM and BIOS vendor but would
+have to be generated by the codec vendor.
+
+> 2. For one shared posture number to give stereo, each amp must know which
+>    speaker it is. Where from, on a board like this? The ACPI carries no
+>    parseable SDCA function description for either amp ("function type
+>    only supported as DisCo constant"), so sa_func_data stays NULL, no
+>    Channel Cluster table is parsed and tas_io_init() takes the
+>    regmap_multi_reg_write() branch (tas2783-sdw.c:1174-1179). Nothing
+>    distinguishes the two amps, so one posture number gives both the same
+>    mapping, which is the mono I measured. Broken platform firmware with
+>    nothing for the driver to do but say so, or a driver fallback keyed on
+>    something else?
+
+No. Posture is a generalized concept of orientation (landscape v.
+portrait modes), this was introduced to deal with flexible shapes where
+a laptop may be used as a tablet or in 'tent' mode.
+
+The knowledge of where speakers are is a prerequisite for the Posture
+selection. Note that the mapping from channels to speakers is not
+necessarily a selection, there could be processing/mixing.
+
+>> For aggregated amps (which is the case here), the spec also says the
+>> PostureNu
+> mber register needs to be dual-ranked for synchronous changes
+>> but that part isn't managed by the SoundWire/SDCA core just yet.
+> 
+> That sent me to the bus, where the dual-ranked handling already exists:
+> the core writes p_rt->ch_mask to SDW_DPN_CHANNELEN_B0 or _B1 by
+> bus->params.next_bank (stream.c:329-339), and tas_port_prep() already
+> forwards the same mask to DPN_PrepareCtrl (tas2783-sdw.c:1239).
+
+No, dual-ranked registers are not the same thing as banked registers
+used for transport dynamic changes.
+
+> Today nothing uses it per amp. snd_sdw_params_to_config() hands every
+> peripheral GENMASK(ch_count - 1, 0) (include/sound/sdw.h:46) and
+> tas_sdw_hw_params() never overrides it (tas2783-sdw.c:940), so both amps
+> enable both channels. rt1308-sdw.c:559 and max98373-sdw.c:541 override it
+> from a per-device rx_mask via .set_tdm_slot, and
+> asoc_sdw_cs_spk_feedback_rtd_init() (soc_sdw_cs_amp.c:94-106) already
+> assigns per-amp masks inside sdw_utils. tas2783 has neither: no
+> .set_tdm_slot in tas_dai_ops (:978), and soc_sdw_ti_amp.c never calls it.
+
+The assumption is indeed that all channels are provided to the amp. The
+amp has to either select or process what it sends to the output, each
+amp is supposed to do something different.
+
+> I built that and measured it, with the PPU
+> 21 patch removed so the result
+> was attributable. One boot, control first, dB over the noise floor:
+> 
+>   configuration              left      right     imbalance
+>   shipped, PPU21 per amp     +70.5     +69.7     +0.9 dB
+>   ch_mask per amp            +71.3     +71.1     +0.2 dB
+> 
+> For reference the unpatched driver scores +0.4 dB on the right channel,
+> i.e. silence. PostureNumber stayed 0x01 on BOTH amps throughout, since a
+> fresh probe re-runs init_seq against a regmap whose cached default is
+> 0x0. So the amp renders whatever arrives on its enabled DP1 channel,
+> PPU21 does not need a two-channel cluster at IT21, and nothing has to
+> write PostureNumber per amp.
+> 
+> One catch, and it is why I have not posted a patch. The mask VALUE is not
+> what selects the channel. sdw_compute_slave_ports() advances the payload
+> block offset by bps * hweight32(ch_mask) as a running sum over
+> slave_rt_list, resetting it only for a slave that took every channel,
+> which it calls mirror mode (generic_bandwidt
+> h_allocation.c:44-84). I
+> tested that with a module parameter that inverts the assignment:
+> 
+>   amp 1   amp 2   LEFT only, mic L / mic R
+>   0x1     0x2     4282 / 289
+>   0x2     0x1     4615 / 799
+> 
+> The kernel log confirms the masks inverted; the audio did not change. So
+> what fixes mono is a ONE-channel mask per amp, which stops the mirror-mode
+> reset and puts the amps at consecutive offsets. Which channel each lands
+> on follows its position in slave_rt_list, i.e. codec order in the DAI
+> link.
+> 
+> That leaves a machine driver no way to say "this peripheral renders the
+> right channel". It can only give each amp one channel and rely on codec
+> order matching the speakers. Here it does, tas2783-1 is the left speaker
+> and is first, which is exactly why the mask looked like it was working.
+> Reverse the enumeration and the speakers swap with nothing in the mask
+> able to correct it.
+
+My understanding is that firmware is supposed to know which amp is
+which, and provide different settings.
+
+> Is that positional behaviour intended, and is the missing
+> channel-to-peripheral binding a core gap? It look
+> s like the same class of
+> thing as the dual-ranked PostureNumber. If it is intended, then
+> .set_tdm_slot in tas2783 plus the assignment in soc_sdw_ti_amp.c is a
+> complete fix for boards whose codec order matches their speakers and I
+> will post it. If not, the fix belongs deeper than this codec and I would
+> rather not paper over it.
+> 
+> Either way the reported behaviour stands: on a two-amp board with no
+> DisCo data every amp renders the same channel, and no control in the
+> driver can change it. The PPU21 patch stays a local workaround on my own
+> machine and I am not proposing it upstream.
+
+I am not sure how each amp can know how to behave is there's no DisCo
+data at all...
+
+Maybe the mapping is implicit and defined by the Unique Number
+
+I am not sure though how that Unique Number maps to the -1 and -2 suffix
+
+sdw:0:1:0102:0000:01:8   TAS2783, device_number 3, slave-tas2783
+sdw:0:1:0102:0000:01:b   TAS2783, device_number 2, slave-tas2783
+
+which one is left and which one is right?
+
+> Last question, since the PPU came up: this laptop is a convertible with
+> real postures. Should PostureNumber be driven by the fold state the
+> tablet-mode switch already reports, rather than written once at init?
+
+See explanation above, the PostureNumber is supposed to be dynamic based
+on orientation, etc. This is NOT static channel selection, the output
+can be a selection or processing of the input channel.
+
+That said, we are missing a link between the sensors subsystems and ALSA
+to determine that postureNumber, so take my explanations with a grain of
+salt, there's currently no way to automagically update the posture number.
