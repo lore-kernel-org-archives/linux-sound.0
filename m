@@ -1,189 +1,57 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB323B27DA
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 07:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2A03EDAC6;
+	Thu,  6 Aug 2026 08:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786001904; cv=none; b=TT6jKwp7NgCXO/NuLamDQcn8Js5VQvgOfgvbfFRL/ECB41oU/D5ROwhhY8KKOEt8R2iMinMPKJ+HbZk5UTauBOVijpIu9LVpbfOckWrPpUC72HJKqsv2/SXPLffa/roc+b1izZ81ianDngITR0FlQsW2z6rgeiAW0TcpXgP3z+w=
+	t=1786005091; cv=none; b=U6BZSl61/QhKnpGBnDMlBrwU7sSroGahlQgeE0RcM9zmBTBLOTvant5hTSGpQbD6epo6GGTjq/jXluJQX7ceegR7Pf0cxzI+66ZVV57pCtai5d8ri2juohOUXVPneLgE3vGGg54lysGLvw8ohs71eWwthuLNDRqZIp0tGe8gJ40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786001904; c=relaxed/simple;
-	bh=pexHzGmjr9P1Z00chtDt7ITmeSs9FIHOebuEW2eaNYo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TmwFEZW5TBhEdAU5V29YegOxuPENIZdlqQqClkXzvgX440+wKEc0tRooa5Ohn5trilmdpGP/cqc0y2bscKb3y118Fk/bvOPSN7gOYaOUbiP0kp1Yh1nLqA6gke7hyUb/TqhEa22aQ9fvi6mgiqgWRJZSyoZ9YaMv3LeP3ud1MsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xRqRpGH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3ufc+uJ5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AqYfRNXu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bQ+TG0LX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786005091; c=relaxed/simple;
+	bh=hR9y3kjnJSY/EQF/jWBk4nSlh9tnQUzwFda4TlNeXa0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hHGNh+2yUuJpE+XvyPAM1jc0bYXiQS+N/0eFlfrAzdWH5fiw+iAmgLQerPIWGVLUU/uH/XpHiITNb4Vz/FJZG4nizkI9c0XOQxbZt7ducZicuIXhn5oded/eQlJcPc4ORiNoOuXB0hV+QRw2QDcfL0sLuFzY1AIEdth60tZJlzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FbrQc/NV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xRqRpGH0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3ufc+uJ5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AqYfRNXu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bQ+TG0LX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B96B83E05;
-	Thu,  6 Aug 2026 07:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786001896; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
-	b=xRqRpGH0kis1Uv4llLEr8DXAfxsvp4ys+SdAURO9RBzTnasem4CVjoXVjFUp4uzqNjgh0o
-	K9uoKrY97ag/zgfwXJp6zSggl5iGpe75ajK3bzNx5UyDfhrsVFSsh75A1hUNkF4nvGH110
-	ld1VLIdxCGOR9he5HgTkdqqso+7Ms18=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786001896;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
-	b=3ufc+uJ5vD5HSPv1WCsrSr7biUPt0VIaRvrOxExnwftDVooYc5WzYm744PhpMAd33kkhEu
-	ZbRAB7Lkm1Il4hDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786001892; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
-	b=AqYfRNXuZobZBjC4wIE/kSJVdkPQ5jGgThjs1SUO0QMWx+f27qWL/E82n9EdoLyHFx0Nty
-	kLJ2qg8nhaGMmhx9tSHyKAN+81dvABSoDTIrZvTi5DfYGI4VyL7TWOF8teyY0RrSqHyHId
-	UdFI5z32tC18bW59vFLpla0+6cz+K+w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786001892;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0/LUhYReOWE4HnuFiZqHDLh5zbXoo1NozQ3NZkfEtRE=;
-	b=bQ+TG0LXtIaW1Tx4CK+t+My3X1LQPXLV9q68Il8/utNpvW5QTllOGDXqSgOf4Mo89H7KPE
-	4N2CNcmCMS3ZvGBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96D88779B6;
-	Thu,  6 Aug 2026 07:38:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JRChI+Q5dGo0PAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 07:38:12 +0000
-Date: Thu, 06 Aug 2026 09:38:12 +0200
-Message-ID: <87v79nem1n.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 23/31] ASoC: wm2000: Use auto-cleanup for firmware loading
-In-Reply-To: <81424cdc-58a7-46b3-9d38-d516ae160070@sirena.org.uk>
-References: <20260805135247.670693-1-tiwai@suse.de>
-	<20260805135247.670693-24-tiwai@suse.de>
-	<81424cdc-58a7-46b3-9d38-d516ae160070@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FbrQc/NV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 822CF1F000E9;
+	Thu,  6 Aug 2026 08:31:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786005090;
+	bh=K4meOA1xj+0MK9N9zhI8DtOKiXZIYu6sg3zPCX32dEk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FbrQc/NV52knX825yhChINJxVmkCf91HKSzQ2T8h2/sEjytWa4vtYVyf6L9ezECGR
+	 Si1CHlt7B3fI2vp6+HFl+mSxiVJdkX2aGmnzMNdyLs4hLk9j6zfnUgiQIE0XsAnrrz
+	 KtesarGgHL4YLUq3YG7k9pxhTHxIEQ9l7dCKZkYNnT7MwhnGJ5Pc/515SgbZ4Fb6Ys
+	 5wvkbGu6p6VL7GulozC1Vs+HyYFlZRv+pL3b8Yw/enuhfFZeUqCrpFqQ5iTtcWPfJL
+	 tGbxCYbVxVq1pOOiDRWayJXR6WUj/mHGZpVjpLXRjQi32c9O6op2j4Sh8z44NSfgsV
+	 UMxu5Cf8KDeEg==
+Date: Thu, 6 Aug 2026 14:01:26 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, broonie@kernel.org, tiwai@suse.de,
+	linux-kernel@vger.kernel.org, pierre-louis.bossart@linux.dev,
+	peter.ujfalusi@linux.intel.com, bard.liao@intel.com
+Subject: Re: [PATCH] ASoC/soundwire: Intel: reset the PCMSyCM registers in
+ hda_sdw_bpt_close
+Message-ID: <anRGXtlGxd5GXQjy@vaman>
+References: <20260730012518.2180906-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260730012518.2180906-1-yung-chuan.liao@linux.intel.com>
 
-On Thu, 06 Aug 2026 01:16:10 +0200,
-Mark Brown wrote:
-> 
-> On Wed, Aug 05, 2026 at 03:52:24PM +0200, Takashi Iwai wrote:
-> > Simplify the code to manage the firmware loading with __free(firmware)
-> > auto-cleanup.
-> 
-> >  	for (i = 0; i < WM2000_NUM_SUPPLIES; i++)
-> > @@ -876,6 +875,7 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
-> >  			filename = pdata->download_file;
-> >  	}
-> >  
-> > +	const struct firmware *fw __free(firmware) = NULL;
-> >  	ret = request_firmware(&fw, filename, &i2c->dev);
-> >  	if (ret != 0) {
-> >  		dev_err(&i2c->dev, "Failed to acquire ANC data: %d\n", ret);
-> 
-> Same goto issue here.
+On 30-07-26, 09:25, Bard Liao wrote:
+> Resetting the PCMSyCM registers is required for Intel SoundWire stream. The
+> same procedure is done in sdw_hda_dai_hw_params() for the normal
+> SoundWire stream, too.
 
-Right, and the workaround is to keep the declaration at the beginning
-of the function.
+Acked-by: Vinod Koul <vkoul@kernel.org>
 
-
-thanks,
-
-Takashi
-
--- 8< --
-From: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2 23/31] ASoC: wm2000: Use auto-cleanup for firmware loading
-
-Simplify the code to manage the firmware loading with __free(firmware)
-auto-cleanup.
-
-Only the code refactoring, no functional changes.
-
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/soc/codecs/wm2000.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/sound/soc/codecs/wm2000.c b/sound/soc/codecs/wm2000.c
-index 897b0acac5f3..41c8cfb346c6 100644
---- a/sound/soc/codecs/wm2000.c
-+++ b/sound/soc/codecs/wm2000.c
-@@ -796,7 +796,7 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
- 	struct wm2000_priv *wm2000;
- 	struct wm2000_platform_data *pdata;
- 	const char *filename;
--	const struct firmware *fw = NULL;
-+	const struct firmware *fw __free(firmware) = NULL;
- 	int ret, i;
- 	unsigned int reg;
- 	u16 id;
-@@ -814,7 +814,7 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
- 		ret = PTR_ERR(wm2000->regmap);
- 		dev_err(&i2c->dev, "Failed to allocate register map: %d\n",
- 			ret);
--		goto out;
-+		return ret;
- 	}
- 
- 	for (i = 0; i < WM2000_NUM_SUPPLIES; i++)
-@@ -908,9 +908,6 @@ static int wm2000_i2c_probe(struct i2c_client *i2c)
- 
- err_supplies:
- 	regulator_bulk_disable(WM2000_NUM_SUPPLIES, wm2000->supplies);
--
--out:
--	release_firmware(fw);
- 	return ret;
- }
- 
 -- 
-2.55.0
-
-
+~Vinod
