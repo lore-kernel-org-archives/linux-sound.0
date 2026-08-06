@@ -1,65 +1,65 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E7A390C8C
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 05:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5D038B15B
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 05:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785993780; cv=none; b=jYpsnQZbL/ujOlwvh+e9/JZFVr3JV2+ulrbR8REqBIEJ8aBjM4uUK2mfdTFOkootIqlcGAbmN0998c3VUx1u3bJMW0VyHJ1UMLbMv2SX8H1MWY4DsYVGFiZtioy51YPxpjSEQv+cqTjCRBnWJ/ef64zNiLyixvplOP8j7BmBGkA=
+	t=1785993785; cv=none; b=sl0ZlsAl65Na40ja2ajphG0wvsm2JlcT3eQZVrEp4srnt4BlTkEyS06XhMybUNyt2ZNp258ZMz9miewD9fkLy9RqI9PfTZUZfHWoRoWo1vqRTO6E2YrysNURQ6i2NP9Tnbtv2+hg8PfXwod1uGodyNqmUZOEjwoR5Hyh7+z6T0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785993780; c=relaxed/simple;
-	bh=KAAr5zoIJwlBk/iLdsACy777/GugcNzG+D87af2gC3c=;
+	s=arc-20240116; t=1785993785; c=relaxed/simple;
+	bh=AdAcsu+F2nHo0B9JO6GhlAQMeLvpoicLvleufnIkTJY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fulTw7vQmyCZzgozKp7nwmBYSFG86ih7Cw2PfnupZfV0vOGczi1qtntx/ZjK0xI6o8461B0qkBHHuvSnbFsr7hgVVsmZHbs1GrMDgBr+FKiOA8+BvLT7+tRUd/ANKyHY6Wzmc0i4zIXST8Au5zM91IcXCnQzKLrsoj8P6S2z0Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TANfSXfc; arc=none smtp.client-ip=209.85.210.172
+	 MIME-Version; b=iNBW8OeuYGnurssV1dtxmtVQTCgD72Mig0spQfo+vKix7Va1uSOvNtJ/rIuXu2Q0fFbGrEWrvrblWQn/8/QyiCG/01dUFxFReQ/p87qbLWA27ITPu/CiLt2SpTo6Nn5emHpjVgMRpKGYi4IsyYYEHHoxFyIUC+Q8wjHX+Fv6aj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AqjvNoS3; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TANfSXfc"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-848593533cbso631481b3a.3
-        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 22:22:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AqjvNoS3"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8486672f03cso2196790b3a.0
+        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 22:23:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785993779; x=1786598579; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785993783; x=1786598583; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3tvFFAh4lS3mG6cJ5ZjUOGQHSvP38stbFXiDSwTmBNI=;
-        b=TANfSXfcpZzhnoaGE5vkiJTALtupjfrMBFddrBh60m76NyuO8epnHbF9SV//L5o3mC
-         OrBLrQGZgB2v84T0yLYHaV+IPEXNG/hnvAv9GBDvney3kvvpDEo94a0cP/O5gia2BzbJ
-         P6cQ/3OM8a+Rl//OgXYmCJp0aho/ILIWQr2A+N7emFBQpVmU5B/zX9hnU3+SsiYBo4GL
-         7RaS70XpN+O4kyroVTY7E1u5wx0ho7ir8c6LT0Qs6Jx4ivue6nMCZT7mnbwnI7DVxat6
-         c6TI76Z2CPT7riai2EllHXM2HPh5xRvTGqQ9tBDAPFFgEh1u71Bv2HKc9p86451PH3bI
-         65Sw==
+        bh=GBK+k3DpjSm3fu5kk5NiqqkKTtgyJPYe4ia8RdreH3g=;
+        b=AqjvNoS3w090ki1APhxW6BBC+09w3LIs7CQCwyOWMo3Euy0AVsh0y7LK+/zoRwC5ZA
+         PQrLTRS4TwQh+1u7iukp3Xdqo8wZMbTNyZJ/YDATxUMSlLJSOWiY4/to+BUPb5gh5V4R
+         zcVLyzMs2ZoKSeL5H3H4FlDE27304tXWy/j9AY/cGDmvaNzVwhrLJfMcam/OsCsz9PB3
+         9X4OlNbGieF/rNaEtlJbK67IOSwVsP4duBTRWt2HubB7wfVDNE7QJq3HkEbU2rJmUlVn
+         9LGvmPF0Puiu7XE1kJrlhCV+2XXsfF0FoBZTxnvGbA7Ui7syLNTHO4qEPx99TV6EmmlX
+         Hd6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785993779; x=1786598579;
+        d=1e100.net; s=20251104; t=1785993783; x=1786598583;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3tvFFAh4lS3mG6cJ5ZjUOGQHSvP38stbFXiDSwTmBNI=;
-        b=gFAseoRVY8HdJbCrBOV/HpwGj8ZU0WFsVQJ78p02JvNoMNyCk13+Dlj/MQ59aM3mm5
-         KUkIrJ/hgzz7VTwOpiLrMACpDthPFBPDj8mxPKf+6MPRWRG2opkR8kyswXsowO/9Qsh4
-         Q8ucQBbHFxjhTyEd8fLRIOPBTs3ggaYxu8DteVEvX5PimGqM3zSCXkk2lrz+AlAerC4L
-         fV9Rb8zkpt1xxebgQmh6sSrU+92e0uHbR5gOTeMPqyIUdtGGFGiXVzvOsPX4NHuWqrBd
-         q3B8nDkczPtiFdOcE4M11dg0wzNqwRV/1kxCS0wTfqz3t12qdLI3z6TQuFRAaRdz/hD9
-         meBQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpvpUmWyrPHL1ThJZLe4Imnyj4DkbaCC50q3xs5XhorXw6zsZAytW/QcIkNmSIeCi5o9ccYZGt3paGRSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7Y1L+EdkemTxVJ5mJHePLvhuQZHIf7RiETc0eJPOdIvwhzs5m
-	MaQvCmgzdwjGBHHPpJzAuibQms9IoLFeux3V2V9ugeyq+yTGrNAziHnL
-X-Gm-Gg: AR+sD13rQFTYqG5uiKFhbOiLqnnB3In1w4MeeoD4g1HhQ99eVIvOr/JG2L/I/0G8wgU
-	gpHRRb1bWdHTU4sy5fvEf/fuvP5RemmVmm5oaFpqK6UMDt8Z7lkdNgUSXJ/IAVG8NJmL6qXlt8/
-	3mPPjHnMxL77X/rx4+/Xi+N1fW/HS+KptLcY9wCg7WWnfbcXlYEx1wVWu3w4+kGaSDqLng/XKEv
-	my7iq2BSdmMMJAtDXRMISZtedU5BGPcQqiLRHEOU5KtrD0aDwSLp94RV02u9OFXWbV6W2dqqIF0
-	oJwLtbHDmhVkkv74hk08LRTZ6/vJ39zU/c+9zXonE0b3VNP9T05Yi9gHaAb7DRoNoja2cyJTghI
-	NpJHsziIy2gm4S9Sco8RDI1q6tPw0LcRSXrWPV6oesa67NPYeXnx+HLNU4jCL9GBhugjBFo938q
-	dm31bemqvtk88x1GtVV3izazWLbCeeSnBK5UgIX/MqgZjGpP2qcrpVXByHrPijwPQZej9nN4L+/
-	PB1rOE47eNjiqO5jPAGfUVGo+bZkFIbwfbyZZHgj0pQ+6ZpyBkTtEt4Cy3QvX9u2Doi7p4AkdxQ
-	thId
-X-Received: by 2002:a05:6a00:1310:b0:848:8027:cac with SMTP id d2e1a72fcca58-84f2e04d03fmr13506845b3a.23.1785993778592;
-        Wed, 05 Aug 2026 22:22:58 -0700 (PDT)
+        bh=GBK+k3DpjSm3fu5kk5NiqqkKTtgyJPYe4ia8RdreH3g=;
+        b=lZJEHK4drb4tadI78KRVl/LkdakLRooMYOQxnWAe7P2znFA+pOAvflZZHnwZ1vDzlm
+         yWY9eHqgWPBdeO0xuyxn9t/nR/+YmfdVv+bHUjDxtEvmFI26a4b8Ywk/ALtikccF1Eti
+         LIUU7lRE/F5uTrjT8j0aXNZpWqTntbYr1EMojaszrj3VLD95WatQANtz9KCn56UOeafc
+         GbpLGvHRQcos+lJ3uJlaSOAwp9DI1103Yn6ok4KYLJX/la8ZAwSHCCGkVd6K1p1bKeS6
+         3REGYLVjy4iH+/gc338b8DeOz8c9Z/jdiz6+J3X9u/WDLIR367jsmXiSELNxi9rkncuZ
+         dFiA==
+X-Forwarded-Encrypted: i=1; AHgh+RoKaJz5PqS98XGf4NRRGRy+3vcblXNd8lNazOdmGpIttPnyTNxU5/OIBx51Fz0H8PLiT+6gGFcDOe/k2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkoHXIw9quSDSohinrqrYH8kgyfpSIzfa8t8+OtiKRBIqJ1eiR
+	1xXppcqWQCq//ZAUwiMATa/CQE4XYIzHTAPnD2knC9epsWo0eIZ/DEm4vj3MbA==
+X-Gm-Gg: AR+sD102+46HwxwB6XiN7NhlqUNNdHX31NQj7QEgn20pN3kemk/dVvD+Wqhmmu7sRbY
+	w5rwvv+lkUs/LV307BEv5C3hwp9OFp2pBYAcZXIinP7yvfYYKQP5Mg4HgcmbX4DBJKA/o4CCMMO
+	KlpIvnlsHFPBnIGvLSKC3bqc9zCQX5cLYJiPJqV6me4v4jp+DvoKRgqd2cByAOChFXn3LRc6d+8
+	rx9c8V4dhTSAvlxso6UjwpRqEUFjwqniC8aAq8G+yFJ+wEFQtkLTY6cHL153YI++X9b1R+zbu5Y
+	+nUAIMCeQJ+IYyJJU8lunSzYht+MOKUxkNH1DFNTbCOyKLzY1LqNG1QLU3Q5+IkpnJg4M6+I+ps
+	5vaqzBKB8kFK7R8u0m1ZmfDflqBXDbQYCFJeMj9bK90n8CudXUEMdFp7Bc5Kp6py3Tgk8zNzqT0
+	4ZD/2kdNX2qOtfBykpKndBRUpQaoU3f0Tey/bpLxladX1A+OG/a8+PYkhOqAEKlmBr2ZIULlxhn
+	hmttp1B0vEbUg9/ZuBqsSqWtFLn/G4GierNZ01Uhylwbt2GDtsOxlsAbA/QHOfci0/1yr8duRS5
+	+gWz7k/KdfuqLAnp
+X-Received: by 2002:a05:6a00:c81:b0:845:cdc1:a803 with SMTP id d2e1a72fcca58-84f2dfc4763mr13549981b3a.11.1785993783204;
+        Wed, 05 Aug 2026 22:23:03 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f45bc9cffsm554279b3a.59.2026.08.05.22.22.55
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f45bc9cffsm554279b3a.59.2026.08.05.22.22.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 22:22:58 -0700 (PDT)
+        Wed, 05 Aug 2026 22:23:02 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
@@ -73,9 +73,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 11/14] ASoC: rockchip: rockchip_sai: Propagate -EPROBE_DEFER from IRQ lookup
-Date: Thu,  6 Aug 2026 12:21:33 +0700
-Message-ID: <20260806052136.21034-12-phucduc.bui@gmail.com>
+Subject: [PATCH 12/14] ASoC: rockchip: rockchip_sai: Return the original error code
+Date: Thu,  6 Aug 2026 12:21:34 +0700
+Message-ID: <20260806052136.21034-13-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260806052136.21034-1-phucduc.bui@gmail.com>
 References: <20260806052136.21034-1-phucduc.bui@gmail.com>
@@ -89,28 +89,37 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Return -EPROBE_DEFER from platform_get_irq_optional() so the driver is
-re-probed when the interrupt resource becomes available instead of
-continuing probe without an IRQ.
+Return the original error code directly and drop the redundant error
+message since the called function already reports the failure.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/rockchip/rockchip_sai.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/rockchip/rockchip_sai.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/sound/soc/rockchip/rockchip_sai.c b/sound/soc/rockchip/rockchip_sai.c
-index 585e89f61f0d..522b4f4f6a7a 100644
+index 522b4f4f6a7a..1fdec12a0d4e 100644
 --- a/sound/soc/rockchip/rockchip_sai.c
 +++ b/sound/soc/rockchip/rockchip_sai.c
-@@ -1428,6 +1428,8 @@ static int rockchip_sai_probe(struct platform_device *pdev)
- 				     "Failed to initialize regmap\n");
- 
- 	irq = platform_get_irq_optional(pdev, 0);
-+	if (irq == -EPROBE_DEFER)
-+		return irq;
- 	if (irq > 0) {
+@@ -1434,8 +1434,7 @@ static int rockchip_sai_probe(struct platform_device *pdev)
  		ret = devm_request_irq(&pdev->dev, irq, rockchip_sai_isr,
  				       IRQF_SHARED, node->name, sai);
+ 		if (ret)
+-			return dev_err_probe(&pdev->dev, ret,
+-					     "Failed to request irq %d\n", irq);
++			return ret;
+ 	} else {
+ 		dev_dbg(&pdev->dev, "Asked for an IRQ but got %d\n", irq);
+ 	}
+@@ -1458,7 +1457,7 @@ static int rockchip_sai_probe(struct platform_device *pdev)
+ 
+ 	ret = rockchip_sai_parse_paths(sai, node);
+ 	if (ret)
+-		return dev_err_probe(&pdev->dev, ret, "Failed to parse paths\n");
++		return ret;
+ 
+ 	/*
+ 	 * From here on, all register accesses need to be wrapped in
 -- 
 2.43.0
 
