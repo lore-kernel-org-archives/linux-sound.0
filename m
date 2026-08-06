@@ -1,122 +1,163 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4573390C85
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 05:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785993794; cv=none; b=bnwgLxzJH32Bg8SEa5lq8jui/yr27e4AX/lG4ePXy6ETwhCwZzT5Y9jgnERxIYisAh5pFREhoowhxY1Vpw118+QexUsgjjyjAqjns1TigIGXKIMyQxkmijGg24aRfx9CMqG4ATB1loaOmJfJHNRicYoxKS4JxXuB8Ur691QOC8M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785993794; c=relaxed/simple;
-	bh=sSXF3ao+JS2PxAoloNsB354hf3yu0bleah103QwAXjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tqO0bt2rC7dzv7SNXDdXNRQ19ddBewDafGXgU+nlmKVNZrpawSrmVSVAX7o23fq/y6XKYx7X7lPZ5VeR+y51LwbPZZ+E+EyydB/9bUw4vSHgBUR+QNcEIsMqGSMeK8TJgTaNW2eqzodBe3pxUOylIsZPFMNB5g2F8Zz8RpVITB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lnp0iEUN; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA4838E8A4
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 05:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785994092; cv=pass; b=UToD9LD81cCdXcUSoHPpiFGqOIUlKlZgsd+WFnSdsuXiXmF5vDc0xSaHjzBJ4+HMySh6/hpkOUM/Lmke9sAxi4W4MbCPqGXdueCsNkLS6l6xwJznxe0zyoTr8EhCBx2LqP8Jt6CANFSLHcDKnut1rOEtpyrNy4T/l37kcSyvzvE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785994092; c=relaxed/simple;
+	bh=eQ+aEV/7pu/3GaCoFwag/RdEt/0S2Jc3568qzh4F/UQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CEbB2BMqBnf8VrSs12LFuyYP9JTg7Ik8g16PcqtCb4vV9swqrvDh3gj817mzawrgvgn5YRwOts6I7X1ykY54DFX8OytzLD3xRCo9bfM0sAUnieD+zGAuaSCMN2u3Eb2FESFl2J6C65lNjg+4+4lGDTtlShhCkdYsMPP81F15jDE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SFkhIWct; arc=pass smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lnp0iEUN"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-848743155bcso902409b3a.0
-        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 22:23:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SFkhIWct"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2caced6038eso6806775ad.0
+        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 22:28:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785994086; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jrn0xC9H9aIva3NPdtfkzas5hsgYpOEX2qVU13nHJt98u3Qeibc8TDZ9HayW9T08kv
+         Ov5KJH6QzR6JXUvDbmmASC5wUTkISsU1UZyGGgWHDpjwj8ceQENtpfqpn3YlrigmwhAH
+         PTJruiAY415rf/2wTPG1S+f88JJH+G00ueTThKE/EjKPFAHTDo4dpXceybClKq10hApq
+         AAGnt1wkv68bS9sxYVoBznvQDP77Nk5aScnRXu+uUBRfYZgM0zgOKqJMOt7GCOFqbUH8
+         0ljXfpFF+pqxknroPXReSeqGNgLxvwVzysvU8IU9u43DFv7JmslNUPmyGdIMz43c9FEX
+         xclA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5/chxC2eDdGa6xrgCohNp7hs/WOpE04paX2N4M4f+KM=;
+        fh=bddB6esDO2pQxw9BIUk8ZQ9BgCYt5ltN8ShJZjZoqlU=;
+        b=DGeZsOm58SM4jcYCwlsi/DzqGwCyCXqaS3ZKgnC4/p0VEUgxGCj+BqhpVOigXew/EW
+         535L6ubgUMRpp6RsBPYbKsz7EqzhQ3TIoxFWPuw/6p1u8po3LObrZtEjUhHV7pzVFapT
+         nYjnW8SdcpDVkxcNgu56CbigtZIbsS8E99hB7fUy/gOJ7yWSLKT3ef3zT0ne9CXIoLpZ
+         HEEyRagtcHDfmWcs7g5G0+IcsPJjyCAks7/8+qZyINak/KxUEIGOkmQ0zofr2tuRIpEI
+         fHJKXepmrl6y8ZYQ8QnB4R1xXAE03rxNdw7GBsR8ldDFUcaLNjEB1bDyJl8GQ11dyKhr
+         ZM1A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785993792; x=1786598592; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rju6HFe/S+MJe8cf6yB0HBsbdDH7a0Yg40XL1i/Z1yY=;
-        b=lnp0iEUNcwv5RkyyqZQt9BkmcSBquzQ4oj7ZWd/JUtTnruKiyHV0K1rQXqf/APh1xJ
-         5X2jlg04j69SqWVw9OnKsUeWxB5+2xeMHePeemK1uNSse6MpGyJ/pvkFY4jHYZMI8Cso
-         hLlQ+CII3bDM/NEfbVQs5ZAYH2iYSIfAsQ1ZeU81/XjdalNaHakBUDXkaFl9Z4/CpN59
-         r6S/99vKFXFmZgxj9WURY6LDtVmoOvIt+P/BhLtPuOg7iwb2xlCoOqjEEGbwlQOs9EoU
-         +8zNjhD09gVKooy+Et06nlb/cH5yDPQQmn/12dp83ibnjO0MovPbvL8RMbwm3r3l0xYO
-         2bjg==
+        d=gmail.com; s=20251104; t=1785994086; x=1786598886; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5/chxC2eDdGa6xrgCohNp7hs/WOpE04paX2N4M4f+KM=;
+        b=SFkhIWctl6AMl+XMhiyiRjSQiVZuYa6fIc012iOUhcYGp/J8lfkiaC5/8OKU6mNGVg
+         FfHrapp7wDvoYnAo3glm3wVqL7VkpH9IfAzwypBatMRjpMiZsoOcvOc/Bvu86xk1EnOg
+         KZF3JCQjZrL1VKQf6K1MN/qnFvPIIIUTodctl5+pDFbGT7CjLMJxKqEfhL5CbXmD8P1A
+         pmjo3Xs9u20fX+1B4KqoRFtaEXianCzFMERV8sgNUBOTudJCjEPoaFsIJZxoEGgHZTpy
+         wvcFr6TJjMtEju9XDiGaP36qe4EUNNe5+OYpAHy0m8HBo4UIU+92KCnrAVqNrJ5o+0jN
+         o6Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785993792; x=1786598592;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rju6HFe/S+MJe8cf6yB0HBsbdDH7a0Yg40XL1i/Z1yY=;
-        b=VIZW9mMC8P/PyjYsEkgDkCtDsWotIev1eKW8dmQ35FxPscncNgycFmTj9MBVHcUeLg
-         BhusrQFtbkE+z5gHR03aUpAbRPb+rJJaUCR4O370C6rcwFbGkK1LNdif5V2p3Cf+sRfJ
-         ts+SlMynoKFioiBLawOFoIQ9Fma0Bm6JnuNHfrrFRdWhbOt+Sh2VG4S96nyUBnGR/N4R
-         O58bDVWPBy4Jfq9L7jZ8JmzinbkakA3Yv043iUqmTA4Q0CppUXUScEctuzbM6/FZBerS
-         +uOx+oR8mdf/RbH9KjyatbPm+NMKDZSmQbCxSzE0TCXvXbPqYL0zII8O7dcUVN3yigrn
-         FRzA==
-X-Forwarded-Encrypted: i=1; AHgh+RoDVCH5Ym7UejU5+aKXn0E7kSww23mw/IpLpv6W5jX/BC7jfwFRB1rkAB60OKe8/XFPMDHw3yMSiS4vfA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxckUe3x3Mjeat5ocV4Fon2anngxcdZt82Ixaf+u4+Pr6AOCpQ0
-	4C97isopAg7jRgQGuJBnb4nzmJ+1htBg75+H9OqWjX7SkYaQUT/AZS1Z
-X-Gm-Gg: AR+sD10/kAxdSlPjenbf4JdFdM1gkzIImETHa1KqS1fI3d3P5szmhUlnjIk8B8ke6vO
-	7XMgcI6tsqe/+zN25yGptHcGP03kCESO98dkxjOYmJ3LFWs9XqZwf2x3uVRjeGl+y1Vm+5nSJb6
-	s5pxB32+iXyuY5AYi9obFPHMTT9DQ+2LrRej35zAwMhbjY6vjaEtRfJV7o9THV0T8awpbXjymCg
-	HxYzii9hbe2F9ONt5YdBAVWYonskOi/RX8ogtBum+FsAvDWNz5i4CrK9pNIFiZ8aEy3qcUGs3/G
-	qF65RwfNhH2QBp/D0DBvifXkGNlHkarkhQanlVSXDv2Nx1/7Z46AIgkX9QZhh4QbX7HinzUM3U/
-	tJqSzBl58fxIUVGKJ7G2vmzre/LVg83KRalhsmb/p/DWRsPd10zPmIJag74SQxyylLvopI76gAm
-	A8oD9c/aIKIMfJQV4oOAeMg2vlcOMHbgUUIjpl08V4FS5ztuFDPEPyF9yYOldSP+kd1b3OFNRXU
-	S3cXb6OZyn4k7VkuvAuoiNfDdgYCas4p2boFVsYrjgy3GnGrOHlexz7bKTj0nj1i0Ux0kK4ac/6
-	dLKs
-X-Received: by 2002:a05:6a00:2e1a:b0:848:42a7:1854 with SMTP id d2e1a72fcca58-84f2e0c9c90mr12879556b3a.39.1785993792226;
-        Wed, 05 Aug 2026 22:23:12 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f45bc9cffsm554279b3a.59.2026.08.05.22.23.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 22:23:11 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	linux-rockchip@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 14/14] ASoC: rockchip: spdif: Return the original error code
-Date: Thu,  6 Aug 2026 12:21:36 +0700
-Message-ID: <20260806052136.21034-15-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260806052136.21034-1-phucduc.bui@gmail.com>
-References: <20260806052136.21034-1-phucduc.bui@gmail.com>
+        d=1e100.net; s=20251104; t=1785994086; x=1786598886;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5/chxC2eDdGa6xrgCohNp7hs/WOpE04paX2N4M4f+KM=;
+        b=DtQDPms8KpOlxZVcymgnT39JUYDNrEO2BNCMz7kKiBjgj9RagyUHQDV/qnH28rJOSJ
+         hi4PY9q/evQ4gmL9oBmM3ad7vnqW16WLl5Euniiae7uzZ0RtYu+XZuES9qNZuXrQCaOs
+         NtydJu1W7Ym36c6jEp2bmiMb1yQrdbUiLY6LCJJY10trQVX6yakH+pTT8B3W+v8E30VD
+         N4MWDipFtcjiryWgs+qFAZiY5tyqUyV5cDsYoBS9deFSgYJBBvGlVNllPfPFU+P71LZn
+         R2qvKv18MIu6SeW8U8wCfqDOeSzmZHnlFiHKCPvD/DXbnNX3y/oj/7p4mZ0cvu92KTIw
+         8oTQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqogYL3/uG5gTGuJJE4LZMHSwh02YPSu6jzndtc3+X5X6hI1j4U8vRHrM4pzeK2wIvlo4mByaNdnseVjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDn6d4d2N0P6VzW1Obcjt6/iOqoj8kG3Th5LatBObnqXOsjlhT
+	WrrUaPw+9vgG8aE5HcpZ9G/NeF/lSyWnhjogApzlcLdLVVAp5XNNShBv55LeFtuRM1z77yxevJq
+	i56uUYCes3alH5weHX0HfUwNw4HX4Neo=
+X-Gm-Gg: AR+sD12KgOvgvKnQxndyErVoYhWXO1dvou3lQwU+UFusmoeByq0RRTD0sr7VAHpe2Ww
+	fozL10WlsHAW6FDtZbTbrZGR2fi/u3smy0AaE3fzJZf3XML+7EhYfD8ckjMqnCVOsvNfMPhbgJI
+	9yqNjR24rdV0g6KM2QzTIX5dqSMbeC696bRnNe1lJknsTXcq8phjQsEp+WvnyMwh6s9+4Hfqin2
+	kGxP84g6wJ4wHo98UkYVwfAa1cMUBiHODGF4Y9VAp/BDJEd/PDvLMHecn1XXBMF+Af6/ljqDzJC
+	GL8ZvuRLDKFgPgqIne3JYeOCh+V1tfwUtWT8qSIHnZ/8
+X-Received: by 2002:a17:903:228b:b0:2ca:eff:ff58 with SMTP id
+ d9443c01a7336-2d0f710991amr9793645ad.15.1785994085793; Wed, 05 Aug 2026
+ 22:28:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260804100218.49587-1-shengjiu.wang@oss.nxp.com>
+ <20260804100218.49587-2-shengjiu.wang@oss.nxp.com> <anH5i7y3JkB1moee@SMW015318>
+ <CAA+D8ANCoc5qOUvTQPRNkvrfqAY3n6x_fbfUveP8Sfv+SL1NVw@mail.gmail.com> <anNtgkZYhoWsSRr6@SMW015318>
+In-Reply-To: <anNtgkZYhoWsSRr6@SMW015318>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Thu, 6 Aug 2026 13:27:51 +0800
+X-Gm-Features: AUfX_myhLzhOuWWyjCG9X66ATeLQftPHIJVdiIW_bTxwa_fBiVstKxt6vFHm5B8
+Message-ID: <CAA+D8APMT2eSgrc37n_YZ4PsDZ-_8h4gHsyhADGGYDpTob_g+Q@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] ASoC: dt-bindings: fsl,imx-asrc: update port
+ binding to support multiple paths
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
+	shawnguo@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
+	perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org, 
+	Shengjiu Wang <shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+On Thu, Aug 6, 2026 at 1:06=E2=80=AFAM Frank Li <Frank.li@oss.nxp.com> wrot=
+e:
+>
+> On Wed, Aug 05, 2026 at 02:57:59PM +0800, Shengjiu Wang wrote:
+> > On Tue, Aug 4, 2026 at 10:39=E2=80=AFPM Frank Li <Frank.li@oss.nxp.com>=
+ wrote:
+> > >
+> > > On Tue, Aug 04, 2026 at 06:02:14PM +0800, shengjiu.wang@oss.nxp.com w=
+rote:
+> > > > From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > > >
+> > > > The i.MX ASRC hardware supports up to three conversion pairs (A, B,=
+ C).
+> > > > The existing binding exposed only a single generic audio-graph port=
+,
+> > > > which cannot represent independent conversion paths when multiple p=
+airs
+> > > > are in use simultaneously.
+> > > >
+> > > > Add a ports container that enumerates up to three sub-ports, each
+> > > > representing an independent conversion path:
+> > > >   port@0 -- conversion path 0
+> > > >   port@1 -- conversion path 1
+> > > >   port@2 -- conversion path 2
+> > > >
+> > > > Each sub-port references audio-graph-port.yaml as before. Hardware =
+pairs
+> > > > are allocated dynamically at stream open time; each active stream
+> > > > direction (playback or capture) on a port consumes one hardware pai=
+r.
+> > > >
+> > > > For backwards compatibility, keep the old single port property but =
+mark
+> > > > it deprecated. A schema constraint (not: required: [port, ports]) e=
+nsures
+> > > > that both forms cannot be used at the same time. The binding exampl=
+e is
+> > > > updated to show the preferred ports form.
+> > > >
+> > > > No existing upstream DTS file for fsl,imx-asrc uses the previously
+> > > > documented single 'port' node, so this change does not break any
+> > > > in-tree device tree.
+> > >
+> > > if no existing upstream DTS file use it, you can direct replace with =
+ports
+> >
+> > That is to avoid any downstream use of the 'port', so not directly repl=
+ace it.
+>
+> Does downstream strictly run DTB_CHECK ?
 
-Return the original error code directly and drop the redundant error
-message since the called function already reports the failure.
+I don't know if anyone downstream uses the 'port' or not.  so keep it
+in this file but
+mark it is as deprecated to avoid any impact of this change (add 'ports')
 
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
----
- sound/soc/rockchip/rockchip_spdif.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/rockchip/rockchip_spdif.c b/sound/soc/rockchip/rockchip_spdif.c
-index 7f15bc7f8f35..2d53efd5dd2e 100644
---- a/sound/soc/rockchip/rockchip_spdif.c
-+++ b/sound/soc/rockchip/rockchip_spdif.c
-@@ -396,13 +396,13 @@ static int rk_spdif_probe(struct platform_device *pdev)
- 
- 	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
- 	if (ret)
--		return dev_err_probe(&pdev->dev, ret, "Could not register PCM\n");
-+		return ret;
- 
- 	ret = devm_snd_soc_register_component(&pdev->dev,
- 					      &rk_spdif_component,
- 					      &rk_spdif_dai, 1);
- 	if (ret)
--		return dev_err_probe(&pdev->dev, ret, "Could not register DAI\n");
-+		return ret;
- 
- 	return 0;
- }
--- 
-2.43.0
-
+Best regards
+Shengjiu Wang
