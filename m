@@ -1,86 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529C43B27C1
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FF43AEB5F
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024839; cv=none; b=rdC081XweutnY60rL4yZnDgKpd0eIH3Am6afOuWzS2tGUHSgvFYCQE+LqlYGzhO2jO1Eg/Gxhg+vVMDMJmbSNMiJzPsdiD/4CxVORRcoE+F5woO687VEl6NDo1JdRpFB7g53Zq0rgg8KpKcBG9EpKJXMvJiwc0HYriG5J+j+XTg=
+	t=1786024839; cv=none; b=R2EIs3t3DVQVhmDmtRZS9kXaT69ra47Z80J6b5tu73IdzD0eqtY4e6XDSk0xanbMiqrDXJaHcaOdyx164wwSdkQ6+VN3D+zphNmgC7KzryqI4JU3bsmm4wUKCjmAoXFH4O+hBJQ0yTvYyt9Fu4SMyWTEHK+6U5VJEBntXmh/B+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786024839; c=relaxed/simple;
-	bh=uGYjzmG+V8yA7s8dR8XxVfaYThmf/80RDDLfzRJKFeQ=;
+	bh=8QsXvt+45eDu6gLjESlvFfmNQxj8kG5gXtcn1gniM0A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YUIr5p1w8NQDlPeT+2T39fQVXOiGCaveXMY0Sg0c0n60Qms4pqtRrLMovqO0ML8kwT4C+y5dgnqRph3KwbDx1OqrzsRKzBAk7FBVyxtCf20TLk++rKOz8L9LhLWUX6zwKetaAnceWG8+uJrSkjtLEhHKD0FuTsI3EjJBQY79+yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HfwrXetu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F2mVkNmD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ljlogezu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r+uV3k3G; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=cOGK5vJvjt2xjs0wFN1cZT7kUjek7gL6jM0L5gts8K9aSX1wBwf/UUr8QPlWRuLOuNreLBVuPKfRMV/jfNNwwWEvm0JjAVk2Q8TnAVBcLqqPFFAlV/Zb5CFODH4kLem+Qd0gWCRM2NzNtWF/Kmpw1fsoU3P2o7SsFVACnC2olv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CxX7nwnR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jrCqxDkS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dwoxtgkp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Z+szQVyK; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HfwrXetu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F2mVkNmD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ljlogezu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r+uV3k3G"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CxX7nwnR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jrCqxDkS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dwoxtgkp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Z+szQVyK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0503A800D5;
-	Thu,  6 Aug 2026 14:00:27 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D06D8800DD;
+	Thu,  6 Aug 2026 14:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zgdxdx+aiOui4KOYlt/Fsb4xpkL9XOAL7nc/ysLhI6g=;
-	b=HfwrXetuQAtRbeA2o3vtvhV7N7b/iZnUx56/sHE75GdJojmWp4dLIgDQlV90qTFus9Ugcv
-	N+hF4zzibT6EoTPgqHtFcXHZNfKR4ELHLiZ/UPr4L3DumB57Rq15Hoqe8+IQalL0AuSntd
-	9/+4kts0k+nYtZXycx/8RVYKJWl6CBA=
+	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
+	b=CxX7nwnRchC7dsrF/cqU60nevU4LXAHtgLiJ9N6n8RT0cU2VAODL2irGQuska6SNd2R24P
+	JMMzOjD00dfDUeTJET6wEoJ39ukLoE2wBjiqFDDGE6o8BtxspMBc4KsD9zM/wdR58kDkYy
+	zUJJxjjm7T8j+yme0OLByBy4s7KHBuw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024831;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zgdxdx+aiOui4KOYlt/Fsb4xpkL9XOAL7nc/ysLhI6g=;
-	b=F2mVkNmDxoMj/k94Vg7BfEuqlrioEq7W0HY2H7TYYxvNLNjPA9uBq4/0GmwtmPJYg0q1Cq
-	900nmAkgJ8L/gHAg==
+	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
+	b=jrCqxDkSqOssNE0nHN/+s5BoUvx4UtFqsqio1J4PoTaYbjCx/hYNkM89wvgBwgGaLIetB7
+	PKsAG8EC4kU0tZCg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ljlogezu;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=r+uV3k3G
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786024827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786024826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zgdxdx+aiOui4KOYlt/Fsb4xpkL9XOAL7nc/ysLhI6g=;
-	b=LjlogezuhdwbOp0nrAZfEFvilkuVWCleEpoTRHK9pxHVQUY/wZx/dNsvoBGBbSUcmAC9Uj
-	vpSRtkXnqe4dfxZznR6GZnD28OmMGgKcFGjlYDTYyP8TQMJxBlLRByQbmyaRGIODNKT3Rk
-	+OJUGiy3ZBRPzvHKfGPDGh6CgPiHaO0=
+	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
+	b=Dwoxtgkp93dZA5kBgnWhQuhorS8U00jhjKlMKtV3NoJtx2EIRJ0c1ukXTTyNNkbX1Ktv4Z
+	3wCwfKB1mnx9oVJBDRKNmBvnqTD08raA/PYWVlgfXhSW6TtC0bSwYbQvXbNPlBvEBGHF+y
+	6k64jrWApEGBfzqiggb8qbDZhhWgUwo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786024827;
+	s=susede2_ed25519; t=1786024826;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zgdxdx+aiOui4KOYlt/Fsb4xpkL9XOAL7nc/ysLhI6g=;
-	b=r+uV3k3GFQQ4pXXNtOi6CES7m4S4mGakdXhhQAVRJ8DJpbphtrujQ5KjM1gwf78wJyQNLS
-	lUZ7pwsvV31HzvCg==
+	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
+	b=Z+szQVyKPtLfIKtziQQz6fWTrpUr6fSBaxEXb9j7OC8G5l4mnbvcifu0b4KdgfwUEcDSDn
+	DcuF8Hour0Bv9eBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BFA8977A25;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 446A877A23;
 	Thu,  6 Aug 2026 14:00:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IIchLW+TdGqbOwAAD6G6ig
+	id OLwQD2+TdGqbOwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:15 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v2 26/31] ASoC: Intel: avs: Use auto-cleanup for firmware loading
-Date: Thu,  6 Aug 2026 15:59:58 +0200
-Message-ID: <20260806140006.1412298-27-tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH v2 24/31] ASoC: zl38060: Use auto-cleanup for firmware loading
+Date: Thu,  6 Aug 2026 15:59:56 +0200
+Message-ID: <20260806140006.1412298-25-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
 References: <20260806140006.1412298-1-tiwai@suse.de>
@@ -91,69 +89,78 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 0503A800D5
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email];
-	ARC_NA(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+	RCVD_TLS_ALL(0.00)[]
 
 Simplify the code to manage the firmware loading with __free(firmware)
 auto-cleanup.
 
 Only the code refactoring, no functional changes.
 
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>
-Acked-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/intel/avs/topology.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/codecs/zl38060.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
-index 9033f683393c..673ac31f2fea 100644
---- a/sound/soc/intel/avs/topology.c
-+++ b/sound/soc/intel/avs/topology.c
-@@ -2222,7 +2222,7 @@ struct avs_tplg *avs_tplg_new(struct snd_soc_component *comp)
- 
- int avs_load_topology(struct snd_soc_component *comp, const char *filename)
+diff --git a/sound/soc/codecs/zl38060.c b/sound/soc/codecs/zl38060.c
+index 7de4014e626d..894b8eb42e39 100644
+--- a/sound/soc/codecs/zl38060.c
++++ b/sound/soc/codecs/zl38060.c
+@@ -162,7 +162,7 @@ static int zl38_fw_send_xaddr(struct regmap *regmap, const void *data)
+ static int zl38_load_firmware(struct device *dev, struct regmap *regmap)
  {
+ 	const struct ihex_binrec *rec;
 -	const struct firmware *fw;
 +	const struct firmware *fw __free(firmware) = NULL;
- 	int ret;
+ 	u32 addr;
+ 	u16 len;
+ 	int err;
+@@ -180,7 +180,7 @@ static int zl38_load_firmware(struct device *dev, struct regmap *regmap)
+ 		return err;
+ 	err = zl38_fw_enter_boot_mode(regmap);
+ 	if (err)
+-		goto out;
++		return err;
+ 	rec = (const struct ihex_binrec *)fw->data;
+ 	while (rec) {
+ 		addr = be32_to_cpu(rec->addr);
+@@ -195,15 +195,12 @@ static int zl38_load_firmware(struct device *dev, struct regmap *regmap)
+ 			err = -EINVAL;
+ 		}
+ 		if (err)
+-			goto out;
++			return err;
+ 		/* next ! */
+ 		rec = ihex_next_binrec(rec);
+ 	}
+-	err = zl38_fw_go(regmap);
  
- 	ret = request_firmware(&fw, filename, comp->dev);
-@@ -2235,7 +2235,6 @@ int avs_load_topology(struct snd_soc_component *comp, const char *filename)
- 	if (ret < 0)
- 		dev_err(comp->dev, "load topology \"%s\" failed: %d\n", filename, ret);
- 
+-out:
 -	release_firmware(fw);
- 	return ret;
+-	return err;
++	return zl38_fw_go(regmap);
  }
+ 
  
 -- 
 2.55.0
