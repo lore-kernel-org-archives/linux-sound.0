@@ -1,115 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F363F3277
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 11:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40963115AF
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 11:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786016978; cv=none; b=SEZ6jvXkNOXGhXJrKScicqBMnxsa++QHVL9+L4J2QbU9W9deAsZV/b6KAUdHLb4Ol90wEvJ75GfBlajtyZZKwodFkYIOg4Y2PUpse2HrSkXHYdtMwNrNY9Up2FLdTq/RUNneOreMN45c6VhpOEEh2RsvsJzfDkEegxoNz56Dz/4=
+	t=1786017172; cv=none; b=r6g3dXiHUtmicMihH6Jw3W2KoMUc2qnJU/mgmwRj7acG8OYJqbGteMvFU+G58AA5Q8QewFDuy+X+VZJQvr/hg0qD4NYQWApNBMmN9OPlqcfj5npxeQKTLFY1UzEcHHm6O+GriwyCZSzCQJ2Ri+NBAxVSIioMJL86204PPl1+4Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786016978; c=relaxed/simple;
-	bh=/XkgsjRjoYk1np3ff3dGW03R0+MiJS/WNX3DIVVg75Q=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=av1daEWSf+bHL7s5L4h1QG70xMS23GpsKD5na9+uD5W4zLpWvf6ydbZxwjoGLYZAFQ05GCkRFzTg4whkIbnY5ElDN8HV7sD/DE4kS6za8R2d/yvye1arkztdGlzTsR0/J7SjyUSAh7PMxtFGVnx9AHw1IUO+S/HK9ApXV+I7TO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NYFv9uAp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786017172; c=relaxed/simple;
+	bh=8xznKKfftYwRF6p9iZm/mkP+qT4GtDtUBJfNbSafCrk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hQd+xli2/u3Aotk5n+bk4wy6t6sAlja1SAv2TV8V8S+iFuiMlH/FHOm5hBCER9zmujlbJlriJeU9LSw5MYah7nKAeGtzNwBNxmnq/W3IBewHlplMKUbU1TtlYqNmuvt9Rpqy0f01YO3e77InOiV/eq0+b0OD/fgjLBJMoGQzhII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YGdgrmy+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NYFv9uAp"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 63C801F000E9;
-	Thu,  6 Aug 2026 11:49:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YGdgrmy+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0FC91F00A3D;
+	Thu,  6 Aug 2026 11:52:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786016973;
-	bh=M1QM8PzIzcPMjE7kwflyMtKkaeSv4taEsNGbvr2voZ4=;
-	h=From:To:Cc:Subject:Date;
-	b=NYFv9uApCGS9XiuunnAD/hul+OrnVbuL2tIKzDSpNCV5X5nyTx1/woS/BJUfk2tCl
-	 egx1Ev8o49BZK6HNsZwN+6oPbLEbB2dpxwWfg3MlMc9Cjn4wI7YkgzFR3MiJUt8AbZ
-	 v3/y+/9vaJOtRQAp+nYyKtMzt6CDUTk9RC7caGnuKgUIJB8NgPSbkTSFwJzzfZhXd1
-	 TUADO3jyzzclH89Xl99U0MijG4DRXIs0Pud6bIdjUPVmY0Jx1GkCEHm7ijYq2/URcs
-	 BWvkFEmZ50+qhQbievNPFlqu7LUe8L/pMk8AwPn1Xif1th1i/b3QBEkGFjlD2l2JMg
-	 E+2zqjLZR+AGQ==
-Message-ID: <2f848fd70985d9c1bbee65eb39a99b4f@kernel.org>
+	s=k20260515; t=1786017171;
+	bh=citqT/AFZi0q9iKZcSG4zvjsUiMmX4AgF6kMtzpFpTU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YGdgrmy+w3SAM6AU7nRwBQBqgRh/P2Ft3oGklHx77NaAyHbSEJ9z7cobgiSsiDwcW
+	 u5JUXJtdTHAtXsY2R3dKj4mjqqu4lCUn6AgijbpVMZ24wbutNUEXyZ/8dwi6ev+56/
+	 8PJ5GFYu123ccuWEnT5dCQvOKbCZR0lFsz1R5xoga50uHgrK6sBlBu8JcFY3R1LAQ0
+	 2iQIN2vfOM+bWc0iJ2qNuBmYNV6T20xqaFjH9s6TxNubz3mn2+lmwuTyGis0jpL4Hu
+	 rKmVFu9QSSsFPtcsU6GUPiMXVonxLRdX71yjd6ImiS8sTfjL6KFvdbsfXzbQuhGQI8
+	 mUCyfcv8KKWcQ==
+Date: Thu, 6 Aug 2026 12:52:48 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.2-rc6
-Date: Thu, 06 Aug 2026 12:49:27 +0100
+Cc: linux-sound@vger.kernel.org, Oder Chiou <oder_chiou@realtek.com>
+Subject: Re: [PATCH 13/31] ASoC: rt1320-sdw: Use auto-cleanup for firmware
+ loading
+Message-ID: <0552108d-13f0-4ae5-b620-a49f5295e9d4@sirena.org.uk>
+References: <20260805135247.670693-1-tiwai@suse.de>
+ <20260805135247.670693-14-tiwai@suse.de>
+ <bed1131f-59a4-4da7-994a-d1d5a6728603@sirena.org.uk>
+ <87wlu3em39.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZTX3418R44FO1beC"
+Content-Disposition: inline
+In-Reply-To: <87wlu3em39.wl-tiwai@suse.de>
+X-Cookie: Brain fried -- Core dumped
 
-The following changes since commit 075b74841bd0065a3bda3440873c747938e69b68:
 
-  Linux 7.2-rc6 (2026-08-02 16:24:24 -0700)
+--ZTX3418R44FO1beC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-are available in the Git repository at:
+On Thu, Aug 06, 2026 at 09:37:14AM +0200, Takashi Iwai wrote:
+> Mark Brown wrote:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc6
+> > There's a goto further up that jumps over this which clang warns about,
+> > this will break the build.  Landmines like that are why cleanup.h warns
+> > about mixing it with goto.
 
-for you to fetch changes up to 33c5aaf693d3fb78f6b8a9658939b72b7638243d:
+> That's an issue because I moved the declaration of the variable fw;
+> if it's left at the beginning of the function as it was, it should
+> work fine, like the patch below.  The same applied to the error for
+> wm2000.
 
-  ASoC: cs35l41/cs35l45/cs4265: sort the reg_defaults tables (2026-08-05 13:34:37 +0100)
+Yes, it's fine when the declaration is at the beginning IIRC (though not
+ideal stylistically) - the warning is generated when a goto jumps over a
+declaration.
 
-----------------------------------------------------------------
-ASoC: Fixes for v7.2
+--ZTX3418R44FO1beC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-A moderately large set of fixes, but mostly unremarkable:
+-----BEGIN PGP SIGNATURE-----
 
- - A series of robustness fixes for the SOF code that came from testing.
- - Fixes for user visible issues with some of the Qualcomm controls.
- - Fixes to the register default tables in Cirrus drivers which ensure
-   correcy syncing on resume.  This is a wider problem which will be
-   fixed with a regmap core change but I'd already applied these, the
-   rest of the fixes will come in the merge window.
- - Making the existing RT645 driver user selectable so it can be used
-   with more machines.
- - Quite a few new AMD laptop quirks.
- - A MAINTAINERS update for SpacemiT.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp0dY8ACgkQJNaLcl1U
+h9C6yQf+OMoRXkIq2PP1l3mVKOKAqkpHdj2ktUx0hTYSRlFhB+FViNrzHoYRWCPj
+UKfH+BE49GfbPW8EWO/tSuY0795s5+ySq0WU0kEGpoJI5DMWCCDYMymu4BghI2yw
+O1tlWyIhOd2/PGxffwElPOcR1Cp3nvmptBXK2MwssiH6DlYOWqYEW2kZcpuP3pjy
+Jt/0s6bSWJi3YNJNFyPCd76JN0dRCluMBOsSUGSSz471FBjkqBSWwNy4cj/jvFgt
+exm+pkgd6f+jcSyBIXv7NtRV7rHZMbH11bQQz1lI6ilOLikEhcx/wanS6X4bptCY
+9YQDDT+uqijgYrEqO7SJjwvG9WfrNA==
+=daLm
+-----END PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Bard Liao (2):
-      ASoC: SOF: topology: Use acpi mach from the machine driver
-      ASoC/soundwire: Intel: reset the PCMSyCM registers in hda_sdw_bpt_close
-
-Dawid Wróbel (2):
-      ASoC: codecs: lpass-tx-macro: Fix enum kcontrol accesses
-      ASoC: codecs: lpass-wsa-macro: Fix enum kcontrol accesses
-
-Mark Brown (2):
-      ASoC: codecs: lpass-{tx,wsa}-macro: fix enum kcontrol accesses
-      ASoC: cs35l41/cs35l45/cs4265: sort the reg_defaults tables
-
-Peter Ujfalusi (6):
-      ASoC: SOF: ipc4-topology: Refresh copier IPC payload before widget setup
-      ASoC: SOF: sof-audio: Fix error path in sof_widget_setup_unlocked()
-      ASoC: SOF: ipc4-pcm: Continue the pipeline trigger in case of IPC timeout
-      ASoC: cs35l41: sort the register default table
-      ASoC: cs35l45: sort the register default table
-      ASoC: cs4265: sort the register default table
-
-Rudi Heitbaum (1):
-      ASoC: rt5645: Make the Kconfig symbol user selectable
-
-Troy Mitchell (1):
-      MAINTAINERS: add SpacemiT K1/K3 I2S entry
-
-Zhang Heng (3):
-      ASoC: amd: yc: Add DMI quirk for HP Victus Laptop 16-e1xxx
-      ASoC: amd: yc: Add DMI quirk for Xiaomi RedmiBook 16 2025
-      ASoC: amd: yc: Add DMI quirk for MSI Raider A18 HX A7VHG
-
- MAINTAINERS                                        |  6 ++++
- drivers/soundwire/intel_ace2x.c                    |  4 ++-
- include/sound/hda-sdw-bpt.h                        |  5 ++--
- sound/soc/amd/yc/acp6x-mach.c                      | 22 ++++++++++++++-
- sound/soc/codecs/Kconfig                           |  2 +-
- sound/soc/codecs/cs35l41-lib.c                     |  2 +-
- sound/soc/codecs/cs35l45-tables.c                  | 32 ++++++++++-----------
- sound/soc/codecs/cs4265.c                          |  4 +--
- sound/soc/codecs/lpass-tx-macro.c                  |  4 +--
- sound/soc/codecs/lpass-wsa-macro.c                 |  8 +++---
- sound/soc/intel/common/sof-function-topology-lib.c |  7 ++++-
- sound/soc/sof/intel/hda-sdw-bpt.c                  | 31 ++++++++++++++++++--
- sound/soc/sof/ipc4-pcm.c                           | 25 ++++++++++++----
- sound/soc/sof/ipc4-topology.c                      | 33 ++++++++++++++++++++++
- sound/soc/sof/sof-audio.c                          |  9 +++---
- 15 files changed, 149 insertions(+), 45 deletions(-)
+--ZTX3418R44FO1beC--
