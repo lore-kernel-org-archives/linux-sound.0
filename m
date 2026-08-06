@@ -1,85 +1,87 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D821A28150F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AEA24E4C6
 	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024837; cv=none; b=PBfRuxQ22Jtgb++bVczj0dMFMtoYP1XCv/9PUqqEkZrVKCeTwm3yvnCbdVhT+DVQcKbbSbY2/1iQKvvGWvzVQxf8NCM8m5ffOsc5SFWVmKS6Ajppr+hauFVEXaD1BapGxRxOqNJl1yOt2supPOTX4YJGJIYxwgTVtN+Cq7GyMYY=
+	t=1786024837; cv=none; b=BamsYbRFqOrGPsv+TtzzOOSXKkgDXyN4bJ6ZthpDvzy7x13EM7zSqhHTfBi4+B0ca5lfyxkznq+Op4VAFPlchS67sYDvgNQJATg0CDJZ7N2/skJ+uBwZrzKQn0BC9fRkoE02Lp98iolyyZ4wZwAtI/jLg9ZlGtdrwT+NKuZIaiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786024837; c=relaxed/simple;
-	bh=GYxBl0/XhEc2Al397BN/c15Vpc9rFQGP5S3f0AZmrEA=;
+	bh=IPVDAGH+L3vyHQEAKGWXYVCmOBFTwkV8ehRo7TVKyF0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gczj66pSthtG6k8N+MibEFUzlqxaIbxC7bxRZKzjdgAdwWB3Wbc45CyPDJ9DrelM1s8c/sRoL4XkVs/hCJwICNnTdKPBb3Ue2dPqkaWyrHuhJWf/FFs3Ugq0eCt0NnZFSiDH6OJZ6YcPX5749bqrGcR3H9N/4U0vUYj8uG7+tjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XKzQGpkR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LntH3rOA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oQzs9C6J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=coMNKyEe; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=mPG5i5wlFCHkoh/CxE/zqSbEB1ixH9fZpZpFnGVdD/Ujsml0uyExASRgpaqRmOpVnyvGFM1MG1rREKZhAGfSb2NwHklp+5UKCtfDizN7pA1VcAf+wIs25OgU2ucFRlYc5CQ/JOilQwNxEH5Oxwiy3JQooSQ06Qd3rcqXu7B/GR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f8D/WSpS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AqHZqJgh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gB7trYWB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9eQzOkqW; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XKzQGpkR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LntH3rOA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oQzs9C6J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="coMNKyEe"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f8D/WSpS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AqHZqJgh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gB7trYWB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9eQzOkqW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DD1D03E1B;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E2F403E22;
 	Thu,  6 Aug 2026 14:00:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMcv5V5U3fMRzx1WM3mn6CRmpveaFUPEpcEQIR+HDE=;
-	b=XKzQGpkRVLd1P0WzkrvpW9kwsA4jV5S8ebJTOzPBovSMCtIwFc8UvW69QXJhStoaUNRzKl
-	fUrljeqNejmeUTsts7BpOO0+WBeqrT1N6wvij79aaGzJDE9HXfEzUQVnBwhXPFMxbu+0y/
-	RzNnAUl5kYsIt1fUIJy+vGiRpYyIJ2g=
+	bh=8CLjtLRANBtO6bwfS2LghNkx4/As4E12O4nySzYfyR0=;
+	b=f8D/WSpSCOlNHZH5XHjzwSf7POhrKMzpC1mQpwLyMg0ViQLdwJGKJHW+jH45JXs/B2fSgL
+	RjEXuzUxNphEUrQz6RQDFRMQGGk/aC5ykrGJ4zFwx9PExH35QI1+EACr5lFszcZKNUL5xV
+	McBkzRE+vycLXcLNhydVzG0uBskRQIo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024830;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMcv5V5U3fMRzx1WM3mn6CRmpveaFUPEpcEQIR+HDE=;
-	b=LntH3rOAPcegWWNNnW3EoR3ZhN4/DbfQ+FISZ+iYGTcUy1d5ttBVZU7QtYWEssPopa70q3
-	CSAz1dhYsdGx2RBg==
+	bh=8CLjtLRANBtO6bwfS2LghNkx4/As4E12O4nySzYfyR0=;
+	b=AqHZqJghsPXxOCEhdjuB30RqCV6tPX4JbdGGM3XoEtf9YigvDMxyQkbaEVZDwSU7fSvBWN
+	R0z7MYRPEDtLB3AA==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gB7trYWB;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9eQzOkqW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMcv5V5U3fMRzx1WM3mn6CRmpveaFUPEpcEQIR+HDE=;
-	b=oQzs9C6J7DFT6VGUOa9VQrRGDWMI/vxaZWABbFzUV10bUhvuti8VYq5Qj50w64qE4Dx0Ox
-	zEAzkjIRIOVcZwHAvUltg5QlZTbUd9F1zGWH3hMa85IRumfdfIIkoBULU13HUI6M54Fy46
-	OHmmvF/z08KQkEEEm4snL/DUSIRaijg=
+	bh=8CLjtLRANBtO6bwfS2LghNkx4/As4E12O4nySzYfyR0=;
+	b=gB7trYWB8+1fGk6oe0d+T7DvloxrUmPl4/FdFVmY2k4R5koov/QUN9Y9u6klW7+gtfs64O
+	gwrgideB7klTd25URYQC1Z5WDMdK14KKp0HcZWT8hsdDjTo/lOa2VkAJfnSO3ehcQIlsw4
+	g4vfy2IjNj2AMSGfPk3ly/vL2/aFjng=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024825;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMcv5V5U3fMRzx1WM3mn6CRmpveaFUPEpcEQIR+HDE=;
-	b=coMNKyEesj5kWHFpoe66T1dr13HSJ3fQGpcoZjjXGD18gBJ4TWbH7Rzs3vZM6r0NdV0z74
-	bUVUSN5+7PH80wBw==
+	bh=8CLjtLRANBtO6bwfS2LghNkx4/As4E12O4nySzYfyR0=;
+	b=9eQzOkqWWxXLMs6LULuqgd2PCj7XPlRH2gVG5eCx4RqQ+IO79GgOdijv1lNwAygVs0sEbo
+	+zMYk8fK1H2xNTBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CF4E779FB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 79FE2779FD;
 	Thu,  6 Aug 2026 14:00:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qJA8DW2TdGqbOwAAD6G6ig
+	id wPk4HG2TdGqbOwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:13 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: [PATCH v2 16/31] ASoC: rt722-sdca: Use auto-cleanup for firmware loading
-Date: Thu,  6 Aug 2026 15:59:48 +0200
-Message-ID: <20260806140006.1412298-17-tiwai@suse.de>
+	Lars-Peter Clausen <lars@metafoo.de>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
+Subject: [PATCH v2 17/31] ASoC: sigmadsp: se auto-cleanup for firmware loading
+Date: Thu,  6 Aug 2026 15:59:49 +0200
+Message-ID: <20260806140006.1412298-18-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
 References: <20260806140006.1412298-1-tiwai@suse.de>
@@ -89,91 +91,106 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: E2F403E22
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,realtek.com:email,suse.de:mid,suse.de:email];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,metafoo.de:email,analog.com:email,suse.de:mid,suse.de:email,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
 
 Simplify the code to manage the firmware loading with __free(firmware)
-auto-cleanup, as well as the firmware file name being released with
-__free(kfree).
+auto-cleanup.
 
-Only the code refactoring, no functional changes.
-
-Cc: Oder Chiou <oder_chiou@realtek.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Nuno Sá <nuno.sa@analog.com>
+Acked-by: Nuno Sá <nuno.sa@analog.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/rt722-sdca.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ sound/soc/codecs/sigmadsp.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
-index 27bb0eb1ece7..4cbe9e909585 100644
---- a/sound/soc/codecs/rt722-sdca.c
-+++ b/sound/soc/codecs/rt722-sdca.c
-@@ -352,8 +352,6 @@ static int rt722_cae_load(struct rt722_sdca_priv *rt722)
- 	static const char func_tag[] = "FUNC";
- 	static const char xu_tag[] = "XU";
- 	const char *dmi_vendor, *dmi_product, *dmi_sku;
--	char *cae_filename;
--	const struct firmware *cae_fw = NULL;
- 	unsigned int cae_st_spk, cae_st_hp, cae_st_mic;
- 	unsigned int func, value;
- 	unsigned int combined_val;
-@@ -385,7 +383,8 @@ static int rt722_cae_load(struct rt722_sdca_priv *rt722)
- 	space = strchr(dmi_sku, ' ');
- 	s_len = space ? space - dmi_sku : strlen(dmi_sku);
+diff --git a/sound/soc/codecs/sigmadsp.c b/sound/soc/codecs/sigmadsp.c
+index b7dbeb237447..4ecbbac93258 100644
+--- a/sound/soc/codecs/sigmadsp.c
++++ b/sound/soc/codecs/sigmadsp.c
+@@ -484,7 +484,7 @@ static void devm_sigmadsp_release(struct device *dev, void *res)
+ static int sigmadsp_firmware_load(struct sigmadsp *sigmadsp, const char *name)
+ {
+ 	const struct sigma_firmware_header *ssfw_head;
+-	const struct firmware *fw;
++	const struct firmware *fw __free(firmware) = NULL;
+ 	int ret;
+ 	u32 crc;
  
--	cae_filename = kasprintf(GFP_KERNEL,
-+	char *cae_filename __free(kfree) =
-+		kasprintf(GFP_KERNEL,
- 				 "realtek/rt722/rt722_RAE_%.*s_%.*s_%.*s.dat",
- 				 v_len, dmi_vendor,
- 				 p_len, dmi_product,
-@@ -399,8 +398,8 @@ static int rt722_cae_load(struct rt722_sdca_priv *rt722)
- 	regmap_write(rt722->regmap, RT722_MIC_CAE_PARAM39, 0x5f);
- 	usleep_range(50000, 60000);
+@@ -492,7 +492,7 @@ static int sigmadsp_firmware_load(struct sigmadsp *sigmadsp, const char *name)
+ 	ret = request_firmware(&fw, name, sigmadsp->dev);
+ 	if (ret) {
+ 		pr_debug("%s: request_firmware() failed with %i\n", __func__, ret);
+-		goto done;
++		return ret;
+ 	}
  
-+	const struct firmware *cae_fw __free(firmware) = NULL;
- 	request_firmware(&cae_fw, cae_filename, dev);
--	kfree(cae_filename);
- 	if (!cae_fw) {
- 		dev_err(dev, "%s: Failed to load CAE firmware\n", __func__);
- 		return -ENOENT;
-@@ -555,7 +554,6 @@ static int rt722_cae_load(struct rt722_sdca_priv *rt722)
- 	regcache_cache_bypass(rt722->regmap, false);
- 	rt722->cae_update_done = 1;
- 	dev_dbg(dev, "%s: CAE FW update done.\n", __func__);
--	release_firmware(cae_fw);
- 	return 0;
+ 	/* then verify the header */
+@@ -506,13 +506,13 @@ static int sigmadsp_firmware_load(struct sigmadsp *sigmadsp, const char *name)
+ 	 */
+ 	if (fw->size < sizeof(*ssfw_head) || fw->size >= 0x4000000) {
+ 		dev_err(sigmadsp->dev, "Failed to load firmware: Invalid size\n");
+-		goto done;
++		return -EINVAL;
+ 	}
  
- verify_abort:
-@@ -565,7 +563,6 @@ static int rt722_cae_load(struct rt722_sdca_priv *rt722)
- out_release:
- 	rt722_sdca_index_update_bits(rt722, RT722_VENDOR_REG,
- 			RT722_MISC_CTRL1, 0x8000, 0x0000);
--	release_firmware(cae_fw);
- 	dev_err(dev, "%s: CAE FW update aborted (ret=%d).\n", __func__, ret);
+ 	ssfw_head = (void *)fw->data;
+ 	if (memcmp(ssfw_head->magic, SIGMA_MAGIC, ARRAY_SIZE(ssfw_head->magic))) {
+ 		dev_err(sigmadsp->dev, "Failed to load firmware: Invalid magic\n");
+-		goto done;
++		return -EINVAL;
+ 	}
+ 
+ 	crc = crc32(0, fw->data + sizeof(*ssfw_head),
+@@ -521,7 +521,7 @@ static int sigmadsp_firmware_load(struct sigmadsp *sigmadsp, const char *name)
+ 	if (crc != le32_to_cpu(ssfw_head->crc)) {
+ 		dev_err(sigmadsp->dev, "Failed to load firmware: Wrong crc checksum: expected %x got %x\n",
+ 			le32_to_cpu(ssfw_head->crc), crc);
+-		goto done;
++		return -EINVAL;
+ 	}
+ 
+ 	switch (ssfw_head->version) {
+@@ -542,9 +542,6 @@ static int sigmadsp_firmware_load(struct sigmadsp *sigmadsp, const char *name)
+ 	if (ret)
+ 		sigmadsp_firmware_release(sigmadsp);
+ 
+-done:
+-	release_firmware(fw);
+-
  	return ret;
  }
+ 
 -- 
 2.55.0
 
