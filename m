@@ -1,91 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972E233D51A;
-	Thu,  6 Aug 2026 13:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2463955FA
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 13:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786022897; cv=none; b=oys/XeEI00W0sGK1Yt0Y8yTE4uCjPU27WBhnoc8Z5Q/J5uoBstvzAMoRXFD6Bw2iqMqElYHGs/re/fW2ecnQv4e7OYkjpcZxOmieFfBaQZAKlyarvh9Aex3b41x5Gd7kjkV/wYDDmJgHKaiQJymlRX2QLaex2uhozkSkRBdcT40=
+	t=1786024139; cv=none; b=AJkt6VInHnLEaLKokFlb5FOmD/qp1lRk71I1o+6n6wWD9of2972YwU5vAEia8iXKw3ugLjaJo9A5pJiFw6ctmXrImpVfpoknkTz5lbjLkMSrXdrCbEeQUVVK21+yDGSfNnwP4FQcvjfelkimKjynK8sYGY/0hbTj0KUnCisS0NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786022897; c=relaxed/simple;
-	bh=bHoLgRIX4uJMgNXZakvmrgcI3UlPg6IAuGgCxOK5ulE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Jxk4zG+D1pn1Tt3ovTCpf13P4AOnog4fq3R0FozMXheKQwdOBKyxBxgcrOhIm1VilStW6J9iXOg1hdcLwOs7jo90bziAkp5wpFZ6z2H+wgfSzvf9ICCErbCewMjxKlfPi4DLs0MofLj+FkWJR5lNt5eZNINXsRTK493NnzemDtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oq4vxNJp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786024139; c=relaxed/simple;
+	bh=UC7fDPgI5cTdTdSeS4WdJw9Gh9YJ8+ldq1dJmS5cP34=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GV9+W6ZNhehtZ3tW4JJQzU/m1ZC2dSVbFEoJyY28+wA9I57stW5IYR++vE/N1kEP/VNnLMiz6kqDaSSIb0Z2ONO6XvhnooxEE0bOnT/Monmv4tdOYlB3Cq6gSvK8lmfwUF1NHa+HWuEVszI6vhfPfTfgnQJgTMyN+kz8R+Qka34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DKhltufI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CJigHpvV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c8ksj8no; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1RQaR9Er; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oq4vxNJp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A721F000E9;
-	Thu,  6 Aug 2026 13:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786022893;
-	bh=BzC7RBvLpJs4LgfD1aZEsYgRk1243hTH7xXhTASd7Lc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Oq4vxNJpyZGVFRQHbr/HUFzSJZ1L50kXT6orn+PdUppxcGRbLStlioxWcXmyn2WjH
-	 uTZGOKSzcJwgaP2iYAZnzKx+MvB+A9/lH57AhtIQgujUDG2J4bRLpGAIRwiRtETr3u
-	 tB2hGnTXouzQQNYten/5kRJfrQuwZwEjjNDBuNZd7uQ3A3uXQ1AqloyVipeKhaUZM+
-	 cKU0LLXvKz9W1BsXKPrAJD6V/SeJ9aQVbj9v4yCwunmMs100xujwn4iPDUnZucBUp+
-	 y5qHVL4CtQ7cKMObMfG+0ObCWOHBZ0PUFgCYVif0TCKnv9VWsw3JEChKRkHVllWwo4
-	 FhSWdYIJo4dVA==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-In-Reply-To: <20260805131942.45729-1-ckeepax@opensource.cirrus.com>
-References: <20260805131942.45729-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH RESEND] ASoC: dt-bindings: cirrus,cs42l43: Add CS42L44
- variant
-Message-Id: <178601959048.110757.885964324537782155.b4-ty@b4>
-Date: Thu, 06 Aug 2026 13:33:10 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DKhltufI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CJigHpvV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c8ksj8no";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1RQaR9Er"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D3CCF800C2;
+	Thu,  6 Aug 2026 13:48:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786024127; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8WywXhZa/OitV/VDXTJXu4k0JTdD/5VS/ws3s7kSq5c=;
+	b=DKhltufIfBkEScqUM6dQobvxjmv4sLvyFCVo9e9tdAp2tfyByK/CFQbQ8g/5NczQj0Mb/9
+	zh7Ze6Ww3qGlPbruuv5xtMgF+IdKBLzVbVaojjY3MKcKU/dptoVsOG+4n/eiW/aTI+brdo
+	WN1ET8EmJH4CbXKq3ztb4BqVe4z4AoY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786024127;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8WywXhZa/OitV/VDXTJXu4k0JTdD/5VS/ws3s7kSq5c=;
+	b=CJigHpvVIAwz3wBMKU0r/m/xfF03z0cpyBRPVcmorkK8JVAmv/jZiwLR0e6ORft4r59Z46
+	qNDSY1vz14+1+bDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786024122; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8WywXhZa/OitV/VDXTJXu4k0JTdD/5VS/ws3s7kSq5c=;
+	b=c8ksj8nosbzx4p8FwpUExtvwyMAyCQQCU1mG1wiTGvHheSLxSQlEEBpr5TRRrB+LddSSas
+	9uZORrWgPz/hxMLBb2sGhRjIuhzdZwahnP71P8QsNI1Bt83Os0d1wd3e9gZcgGTEt/kSg6
+	hBTB/9fYKc6c0ptew9cnTxtgReAP7Eg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786024122;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8WywXhZa/OitV/VDXTJXu4k0JTdD/5VS/ws3s7kSq5c=;
+	b=1RQaR9ErsNE7n6MxTTReaDLp8cJJZizDUersV9QIK7j7oSjFWmalbt9oN0VU+KN7SJk4Yu
+	tgJGdw9akD/PYFDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9EA60779B6;
+	Thu,  6 Aug 2026 13:48:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YPk6JbqQdGr8MAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 13:48:42 +0000
+Date: Thu, 06 Aug 2026 15:48:42 +0200
+Message-ID: <87v79ncqbp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	Oder Chiou <oder_chiou@realtek.com>
+Subject: Re: [PATCH 13/31] ASoC: rt1320-sdw: Use auto-cleanup for firmware loading
+In-Reply-To: <0552108d-13f0-4ae5-b620-a49f5295e9d4@sirena.org.uk>
+References: <20260805135247.670693-1-tiwai@suse.de>
+	<20260805135247.670693-14-tiwai@suse.de>
+	<bed1131f-59a4-4da7-994a-d1d5a6728603@sirena.org.uk>
+	<87wlu3em39.wl-tiwai@suse.de>
+	<0552108d-13f0-4ae5-b620-a49f5295e9d4@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1128; i=broonie@kernel.org;
- h=from:subject:message-id; bh=bHoLgRIX4uJMgNXZakvmrgcI3UlPg6IAuGgCxOK5ulE=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqdIvrcDq64/8otPORSVPjvOdjEAeJQhJoS05jI
- PJxOmE06wqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanSL6wAKCRAk1otyXVSH
- 0GSHB/wNFO5VaTu8w1OAP+2WtXECEpTYUUY7qA/5j3RB5inwC+EVNSk2fwKg/edbUuSBxCKq5yW
- rMQRPnRWn6K/Mivol9e2n7fF5+BGUI227R/AJHlJGjuPDO34S7JaU87xbvBPJyuCEB/stEr0NtU
- mHRtb+aJSDWt7MddY6f9X1+qXQA1TW2tKiegA45RJDYFXkejBu9KKSzf85vGFI9aprEbFqVVQHl
- n+ag1ETUoeYR1N7Z1J/TkqcCqdgfkvUtKDBX9avjF6/05fzDy/zJMco2tJ00WN0x4/0MkGudWGv
- IU5DlBfrDA3GkTIpfFtmGPtlh94xU6KEqKvVnqURQlXEucyy
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-On Wed, 05 Aug 2026 14:19:42 +0100, Charles Keepax wrote:
-> ASoC: dt-bindings: cirrus,cs42l43: Add CS42L44 variant
+On Thu, 06 Aug 2026 13:52:48 +0200,
+Mark Brown wrote:
+> 
+> On Thu, Aug 06, 2026 at 09:37:14AM +0200, Takashi Iwai wrote:
+> > Mark Brown wrote:
+> 
+> > > There's a goto further up that jumps over this which clang warns about,
+> > > this will break the build.  Landmines like that are why cleanup.h warns
+> > > about mixing it with goto.
+> 
+> > That's an issue because I moved the declaration of the variable fw;
+> > if it's left at the beginning of the function as it was, it should
+> > work fine, like the patch below.  The same applied to the error for
+> > wm2000.
+> 
+> Yes, it's fine when the declaration is at the beginning IIRC (though not
+> ideal stylistically) - the warning is generated when a goto jumps over a
+> declaration.
 
-Applied to
+OK, I'm going to submit v2 series.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Thanks!
+thanks,
 
-[1/1] ASoC: dt-bindings: cirrus,cs42l43: Add CS42L44 variant
-      https://git.kernel.org/broonie/sound/c/d4c669890ed0
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
