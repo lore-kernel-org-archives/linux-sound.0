@@ -1,176 +1,264 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazolkn19011060.outbound.protection.outlook.com [52.103.14.60])
+Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821992E06EF;
-	Thu,  6 Aug 2026 18:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.14.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786039452; cv=fail; b=jfU5B/yuzbM/UL2x9wR5rvLm1MajqhSE7VjxK2qH4C+UVXZ/9YDmY1RF+GccFsNIWVHJmAkgABhvnzX97Y8fwXO79WGHoVqR7Jqivgg1aUIxayegh7f9Jdma8WxZe3RnuByTEWAlcN6jGbaLE1PIR2plhUlRKvoNhR5jbU6fSss=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786039452; c=relaxed/simple;
-	bh=u8d6tEj4aTWi+ZVFVFJKUd214YtITqpmGHl86aRHWjE=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=N5VStAxHsONCc2jNAVbGJaIeocSeou4e69lTatZWrYW7bZcko75whxs/LpUWXG3GEPd4TBxfdGyIsvdMFi088ulTu8Wy5e+0i3CGL+G4A9dk9pQHHc7NBVnHjvU9KXHn0rVEK8x73qHUp6c0dtkuojujxV/etZ6guiKEdWCinJ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it; spf=pass smtp.mailfrom=outlook.it; dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b=oy50HHBz; arc=fail smtp.client-ip=52.103.14.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A413A7584
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 18:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786041856; cv=none; b=pYa1nVIseierpBWMriLNTT/p7wp8/N/XQwB9C/WQ8SKfKZQ3L58XmCkU9TAPf3Qmj4nSlbvnfwS0qDRjxSk7zQp45vTjovUWqoOonX/dx/fwxD1O0+/QWe2s13KSEnNKJPMpKIKMxkOkPEqBr1tkYWDpqYC9n/a1CCSX6ot0PwA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786041856; c=relaxed/simple;
+	bh=06sQnqd3tmjY+4o3Dne1sgdzFQ9zCYGuDtAfLAeHW7E=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TIp9VgTRblGld557x13eD38TpknlvsV0wyp8N/k4D1airXNZUDJixt+EZ5omYxnzNhPhLIAvFWWoENC/MTScCs5scgkU1kSqcdfI+Mo4X/4dPdHTDbA5Wv0KpDrMLuo/T5l6OuV0JQ9l4i3OaKF/Te8khbw6rUAVcyNbjztJ/NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=QKxunHMW; arc=none smtp.client-ip=109.224.244.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=OUTLOOK.IT header.i=@OUTLOOK.IT header.b="oy50HHBz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WB3Ytbwlon1cImfiELEkVp8k74PWyCcWx6WdqwgyURZ+mxjwOwC3U7mku/NjFNDD9UXmZcRCyzxoHFbs0IYb0L0Du0ILsKPuqD+aI9zE9rZ9s5nAv7DXHGP7y8FNcOGvCjVqlH8HB2AFbM9OpvBQ8KM6Z7di5j5NkNrf956eAGTLhLJyj75V7sk0+5UVA13H8WKc5g7pWZ8czyDmibZDSTGGHZ7D5BKGM+uVDa+eAut6w8ez3IJ5j1Txx5E8mK6PVV2WagJhsW1xRHgr0/D2GiSgvCuma4HMrweXhTeGybReJVssrXxNs37k1wM6LG+4ex2csHxE5me0ZjdcNcnnAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CsRvXHjXtDh46wKg5+kuFzJRdgp2ecY1cgNwrSsQ3+4=;
- b=yXqs2W1eggt2PSkJy9oSyFwLlHc59LKPgjqGtmOCPGvnOwYPY0EZa9dJtnpDEbGOYokBdJTmUnzvD/a6KFgcStlfIMoKpBmKdVWbw6AX+DbRzRqONd9OJ4yFKWgkCdgs6SJH8GsN6PT5AgpJM6+ivyUw3tn/tzHalh7IprSdF8jmEfm3iHAHnTN5FoHohwcjAcOhZOGq+LhzQA1W7qOxmgU8YfvpDVCPTEW9mA6u/jg2mzOiLSXFO17AS+zaCgAY3qBZ+9SkLXIoSs5tGi3Iu0ta0BTDNSgcESyb7tP9yRMIDTj+b9cgbOV4AAwaTBkYUrcXL0bRUQGkrg1L3FdWdQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=OUTLOOK.IT;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CsRvXHjXtDh46wKg5+kuFzJRdgp2ecY1cgNwrSsQ3+4=;
- b=oy50HHBzBFrh/qfWpPNr8yyyfe5ghmxpbMfDXkYiqltLVRluVzkkbv4CS6Bp10ByWrogY3oWJ0kBfIbApp6o3Lr4MO9shDMXHMAAXDrElSN8HTESjnLB7R4MW66occpWLJoIK3pP9K97qAb6e8bSc2Z23+vTFXJFZkoAD/Y8/xRPG7Rsjv9PAoVDEz3W8+SuY4UnnI71WWwL8xdvbPndYo9SKXIK59vyWZ5BBh85T9u7vRK1/MCAVOnPt0wUqWRJODdjyF36+hVAX0iX+qkSxfaJka0PlhWHQOBgRPgb9iQtwUKPoszdiEwjGmQ0XzlwJu9L0zhask0ViIcV4gHKxg==
-Received: from IA1PR19MB7712.namprd19.prod.outlook.com (2603:10b6:208:3db::7)
- by SA1PR19MB7110.namprd19.prod.outlook.com (2603:10b6:806:2b8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.19; Thu, 6 Aug
- 2026 18:04:05 +0000
-Received: from IA1PR19MB7712.namprd19.prod.outlook.com
- ([fe80::3e3c:51e1:5e00:be4b]) by IA1PR19MB7712.namprd19.prod.outlook.com
- ([fe80::3e3c:51e1:5e00:be4b%5]) with mapi id 15.21.0292.018; Thu, 6 Aug 2026
- 18:04:05 +0000
-From: Marco Giunta <marco_giunta@outlook.it>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Marco Giunta <marco_giunta@outlook.it>
-Subject: [PATCH] ALSA: hda/realtek: enable headset buttons on Lenovo Yoga Pro 7 14ASP10
-Date: Thu,  6 Aug 2026 20:03:52 +0200
-Message-ID:
- <IA1PR19MB77127DE4BC25300BAD284E30FCD22@IA1PR19MB7712.namprd19.prod.outlook.com>
-X-Mailer: git-send-email 2.55.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MI0P293CA0003.ITAP293.PROD.OUTLOOK.COM
- (2603:10a6:290:44::9) To IA1PR19MB7712.namprd19.prod.outlook.com
- (2603:10b6:208:3db::7)
-X-Microsoft-Original-Message-ID:
- <20260806180352.6013-1-marco_giunta@outlook.it>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="QKxunHMW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1786041845; x=1786301045;
+	bh=n8U9uH1upctZK8ovvXv1N4j1S/cn2X2ZeP1T3MaELtQ=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=QKxunHMWxu94FwPbf1Da33/hH6Q9X1EED4aEFnDr3W4x3J8B9Iyu8JWNSTligG/WF
+	 PNz+TDSV4MtyTlmH00sfyaXbzdVh+i37FZYYdMwHU3EX7fi9Gm5M5IcOd/VfgZyqry
+	 Z/6qzDSzzW2JAArNfovsmyaMxsElQaCQLWa+NBFONaqs5bRXSIirqsB8AN1hyvBM08
+	 BDj1f3Piargf0lH3HKVCA8U3pVzTS0nbrWZ070wjQBXcQaJpxvrv/V8t3Cvn2/ut2l
+	 1LnsyEGHA70QVZUIqdmUwUSsPKgIYbYylptgKDZwwRKENYKfpjdmUmtVJWshZvIVll
+	 pA5D7h8OQmYcg==
+Date: Thu, 06 Aug 2026 18:43:57 +0000
+To: pierre-louis.bossart@linux.dev, shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, niranjan.hy@ti.com, broonie@kernel.org, lgirdwood@gmail.com, linux-sound@vger.kernel.org
+From: Robin Everaars <robineveraars@pm.me>
+Cc: ckeepax@opensource.cirrus.com, mstrozek@opensource.cirrus.com, yung-chuan.liao@linux.intel.com, vkoul@kernel.org, Vijendar.Mukunda@amd.com, peter.ujfalusi@linux.intel.com, sen@ti.com, nealstarkie@gmail.com, bjuraszewski@gmail.com, andrey.golovko@gmail.com, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] ASoC: tas2783-sdw: every amp on the link selects the same channel, so a two-amp board plays mono
+Message-ID: <20260806184353.112230-1-robineveraars@pm.me>
+In-Reply-To: <02f2cd9c-519c-4154-be58-9065f34c6001@linux.dev>
+References: <20260805183517.8665-1-robineveraars@pm.me> <02f2cd9c-519c-4154-be58-9065f34c6001@linux.dev>
+Feedback-ID: 201127006:user:proton
+X-Pm-Message-ID: d13dc9d76510a6ddaf856127f4bcd7d09880d0d5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR19MB7712:EE_|SA1PR19MB7110:EE_
-X-MS-Office365-Filtering-Correlation-Id: f46711a7-c3e3-408f-85f1-08def3e51a06
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|23021999003|15080799012|25010399006|5072599009|51005399006|24021099003|55001999006|8060799015|5062599005|19110799012|440099028|3412199025|40105399003|2607281247196008|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iPRJ4rw46BNR6vQE/rlY7KjXN6WXoHDRZHXDv2LDYaabFbZESS8DeRi1S3FF?=
- =?us-ascii?Q?T9e4SQHcd6glblypzRbWuN0ifCAhLCySi0GM50Ru2BCDI8Btq6/5Vj6x4oVR?=
- =?us-ascii?Q?IKWZWEhXf/pEByGUB7qVTV9PxIoPbbcp12e3GEDt2RDyTGCdIke+Iimhx8OU?=
- =?us-ascii?Q?6tcl78l3S/qTfSIIiGplt0xppLBGWP9J+uuG2W5JLCXj7HDX6eoOM2WHhjsU?=
- =?us-ascii?Q?SNDTTsImfpFhuer0XPkHoIlksdPQJrhEhzLpteiQoBcr2jquLiJzSTng+VyY?=
- =?us-ascii?Q?voaCkq+Ae55swfAmFvtf/t/gJrC8jpmq1u4ROuV5x7IYrnuRu+gaEOjmMdRg?=
- =?us-ascii?Q?NmNSSk9JOBBjiBYhn+fKjHgIxGzknsVU2+iEq8bgGke7UcqHWKa/53uP+8jz?=
- =?us-ascii?Q?VmoHjV42KLowCNLbW2AUgSveE+vRW19Ce+S5ZEZloAZ843NuRK3J82PbYLxo?=
- =?us-ascii?Q?3ycRh+RgnRwYj+5jjhhzQiTD1Okkn6MGPPafeIz2yTU1S+9oJg2f9DEUVW/A?=
- =?us-ascii?Q?niV2u6N85iGxMORhF8o1rxODh6rZi8S8t6/FGaQPBkI/RQ12jQPqpcslwnRk?=
- =?us-ascii?Q?IDDJa8cyeTu5SohoHRwApIol0fpOgUusaf3j9hrc7WjckpnybDL3FfZlFtrN?=
- =?us-ascii?Q?5bjRan4A+eS9VeqPiUR6tZi97uiNkRR9ASGfEK8UXEnIE6bqlu6aNEPHUNH+?=
- =?us-ascii?Q?QWssEDrqHf1J4KHQY1ryxQ0emp/KRygEilz6J5iF/j4udyhkdmJfKBaBY3a0?=
- =?us-ascii?Q?bVRgebuKBRRSwHl1LsgWWEJmH2Fp0caLpZkXYGgKGqpl58ziu9y+hRlSYerx?=
- =?us-ascii?Q?Cvd4eBSzlwvxNCv/9/2Xfo4miTN3ZcYw/lsgJ0+pVIDWOPLBO7M29RY/7bSI?=
- =?us-ascii?Q?4ju3soWMFQx2daZEABiIqtEKmsMwQDPxMByrMvQwZeq9bgOA+HHHb41cv+c5?=
- =?us-ascii?Q?sBqUoEcUHt67F200e+kSoFoNYltRd+eidtYPaOhTO/Mcdwq0bkC13NRupKQt?=
- =?us-ascii?Q?ImVeTgUvt9iDZvM0uDDFV1hEHA=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?a8l7e1ElnmTN42CtRd3QmQsdLESrNlhc1slB1za7ZmnjBj0OS+5+8wwU8yG7?=
- =?us-ascii?Q?j4QyGPejMrw26OcAiKN5DPQs5l50DP8YOY88JuhD3xKx9f4wU8uRJNpfxFXk?=
- =?us-ascii?Q?N5zMDIskYYooOKCNNODJe8RT0E3y/1Cy2lKgmv4gREzGse3ezowXd0+UtVPS?=
- =?us-ascii?Q?MQl95U7E3x2rWo4cHmRWLMpdbSqKniB8w/NTUG4InGu8I1kPKt3dfgFtdWVS?=
- =?us-ascii?Q?ycmm+VRheSKjdTb6fUF7L6OGDbEb/iikdXgKe1Hn+rTQPDQtpXIyUTxkaOGJ?=
- =?us-ascii?Q?/1MB68Bk6c5+tnSVjIlnSX+yJHvxsMYXPyg7Djx8gnQihC+UI3WvQd+a+39Q?=
- =?us-ascii?Q?M2/tXa1qtoGTxSM/0CYtBjdagLMDxkHtRpUdYZ3OBrSQbfJgkwyRiA7BpG2m?=
- =?us-ascii?Q?TvhbVj4UionxrhAxcbFBgbMzB1q9emQS1yUn81JjmjxbETrn2U5MqZcQzmPH?=
- =?us-ascii?Q?UylSU1SXVc8IcUPGa71lvOSchJ4eellWvUlN4aH/Is3d8MHlllSwiVlLh9OR?=
- =?us-ascii?Q?xwwR026/XFfOvr0V8t72DzrwRAr2MLBMMthc5CgHyjvJ8ehZMJwSd1h41ZkP?=
- =?us-ascii?Q?gszMUskkGm3RGLlAqgI7Duz5kh4um7wyPMWxFdYaUtGRbLEYIlk9n3w416nR?=
- =?us-ascii?Q?Gio8BYrd/QB5rJ2BaxdsdlL+7uJReXOQ9a3xVmF+oFqHXtWtlFRQiRgMojDY?=
- =?us-ascii?Q?UR58nWTee3hxP6yflfPMlYutr46SeyKAIv1rErjgnk+Xnx9s/ZN+PWvTIZUw?=
- =?us-ascii?Q?workq9MqLea8GIVpIlQK0w4cq9pAWYl0MA/UQxuTaZ2GiOIScH/qgC+obctt?=
- =?us-ascii?Q?9M6GobekxUlwVFjFqxdB4PZrPZsnfFjFehXbT/W2BNEgtdZxFw0MPaNpPvtl?=
- =?us-ascii?Q?ZA3C8wWym210FoKi7v38mQhd1a7vqQ8BMw/3feB2CxnHPfQw4+tk82if/C2G?=
- =?us-ascii?Q?C3eOU0jUC2/gG3gn47p0b+DzUvPQwhhcAtZONeR6AcHp7LSTiqPcTE+pcYXY?=
- =?us-ascii?Q?7pTucnUVD2pMWqQHeK4sTXGmCjj4ccGJhjPjQhNU8BpONiBHQKqglH1LrPMh?=
- =?us-ascii?Q?psFsXKG5CYCymXDIgPerlD5w2/JH165MgRsAzmH6OrAobKsarRNMmFJLcJ8o?=
- =?us-ascii?Q?c+r/ETkVhZlAe6VK6tnrDbc6R9seYQETL0BSBJoQ/G6eTIHvOxtH4k4Q8rHJ?=
- =?us-ascii?Q?ac4akHWFYPOKRWi4OUCEK/MRjybOb097Jvt0ybVO6IoampeeWP49vxaDZfMH?=
- =?us-ascii?Q?MnR3wx5715FngKD0nzGdbOZQOnkU8DeQF4mERRjyfwZJrDfqBmOT7eJhIGzp?=
- =?us-ascii?Q?KSCZSWgBchB0friLG0bvu/md2iA3vSgbcGaoCtHlslBRTnu3mqZdBF+3SitT?=
- =?us-ascii?Q?Co2l+Qq/6ZDu2SLaNGXU1FcqL9CaUC6GgyrF9y9HHfwB5khulKhZy3ksNqZr?=
- =?us-ascii?Q?snXxgg0yS30=3D?=
-X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: f46711a7-c3e3-408f-85f1-08def3e51a06
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR19MB7712.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Aug 2026 18:04:05.2161
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR19MB7110
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------9fd334f49cfcc35ab5c4177acda9b2dab6d41665c988b97b17ea6bc1ae5f4920"; charset=utf-8
 
-Inline headset buttons (play/pause, volume up/down) are unresponsive on
-the Lenovo Yoga Pro 7 14ASP10. Enable headset jack handling by chaining
-alc_fixup_headset_jack to the existing bass speaker fixup for this model.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------9fd334f49cfcc35ab5c4177acda9b2dab6d41665c988b97b17ea6bc1ae5f4920
+Content-Type: multipart/mixed;
+ boundary=929886f5b899007a84e89b58745efeb84ca6d623acbe7cf75c86d88f7c3b
+From: Robin Everaars <robineveraars@pm.me>
+To: pierre-louis.bossart@linux.dev,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	niranjan.hy@ti.com,
+	broonie@kernel.org,
+	lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org
+Cc: ckeepax@opensource.cirrus.com,
+	mstrozek@opensource.cirrus.com,
+	yung-chuan.liao@linux.intel.com,
+	vkoul@kernel.org,
+	Vijendar.Mukunda@amd.com,
+	peter.ujfalusi@linux.intel.com,
+	sen@ti.com,
+	nealstarkie@gmail.com,
+	bjuraszewski@gmail.com,
+	andrey.golovko@gmail.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] ASoC: tas2783-sdw: every amp on the link selects the same channel, so a two-amp board plays mono
+Date: Thu,  6 Aug 2026 20:43:53 +0200
+Message-ID: <20260806184353.112230-1-robineveraars@pm.me>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <02f2cd9c-519c-4154-be58-9065f34c6001@linux.dev>
+References: <20260805183517.8665-1-robineveraars@pm.me> <02f2cd9c-519c-4154-be58-9065f34c6001@linux.dev>
+MIME-Version: 1.0
 
-Signed-off-by: Marco Giunta <marco_giunta@outlook.it>
----
- sound/hda/codecs/realtek/alc269.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+--929886f5b899007a84e89b58745efeb84ca6d623acbe7cf75c86d88f7c3b
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index a6cfea43d88d..c4982d5fa42b 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4288,6 +4288,7 @@ enum {
- 	ALC274_FIXUP_HP_VERBS,
- 	ALC287_FIXUP_AW88399_I2C_2,
- 	ALC287_FIXUP_LENOVO_LEGION_AW88399,
-+	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -6991,6 +6992,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC287_FIXUP_AW88399_I2C_2,
- 	},
-+	[ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc_fixup_headset_jack,
-+		.chained = true,
-+		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN,
-+	},
- };
- 
- static const struct hda_quirk alc269_fixup_tbl[] = {
-@@ -8086,7 +8093,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
- 	HDA_CODEC_QUIRK(0x17aa, 0x3906, "Legion Pro 7i 16IAX10H / Y9000P IAX10", ALC287_FIXUP_LENOVO_LEGION_AW88399),
- 	HDA_CODEC_QUIRK(0x17aa, 0x3907, "Legion Pro 7i 16IAX10H / Y9000P IAX10", ALC287_FIXUP_LENOVO_LEGION_AW88399),
--	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET),
- 	SND_PCI_QUIRK(0x17aa, 0x3911, "Lenovo Yoga Pro 7 14IAH10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3912, "Lenovo Xiaoxin 14 GT", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
+> you mentioned a two-amp board but the wording seems to describe 4 amps?
 
-base-commit: 872c7960832b6a620b62b9fa127635c714c7a356
--- 
-2.55.0
+Two amps: an ASUS ProArt PX13 HN7306EAC with two TAS2783 plus an
+rt721-sdca on one link. Every number in the report came from those two.
+The four-amp wording leaked in from my patch, which keys off the
+name_prefix suffix and also handles -3 and -4. I have no such board, so
+that half was an untested guess and should not have been described as
+fact.
+
+> Also not sure what mapping you are referring to, I looked up the code
+> and couldn't connect the dots between the last sentence and the code.
+
+Because there are no dots to connect. I meant
+asoc_sdw_ti_spk_rtd_init() (soc_sdw_ti_amp.c:52-79), which picks a
+speaker name from the suffix, -1 "Left Spk", -2 "Right Spk", -3
+"Left Spk2", -4 "Right Spk2", and adds a DAPM route per amp. That names
+widgets and programs nothing in the amp, so "matching the mapping"
+claimed far more than the code does. My description was also wrong in
+detail: I wrote "Left Spk
+" for -3 where the code says "Left Spk2".
+
+The assignment rests on measurement instead. Muting each amp in turn and
+scoring the acoustic result puts amp 1 at the left speaker and amp 2 at
+the right on this board.
+
+> This may work but that isn't the intended role of the PPU (Posture
+> Processing Unit).
+> In theory the same posture number should be given to both amps, and
+> they shall modify their input to output mapping accordingly.
+
+Taken. Two things follow that I would like your view on, because the
+driver already writes that control.
+
+tas2783_init_seq[0] sets PostureNumber unconditionally on every amp that
+probes (tas2783-sdw.c:306 in v7.1.5, :308 in mainline):
+
+  REG_SEQ0(SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU21, 0x10, 0x00), 0x01)
+
+while tas2783.h:87 calls selector 0x10 TAS2783_SDCA_CTL_UDMPU_CLUSTER,
+i.e. UDMPU ClusterIndex (sdca_function.h:425), against a PPU21 entity
+where 0x10 is PostureNumber (sdca_function.h:528). reg_default lists the
+same register as 0x0
+ (tas2783-sdw.c:276). So my patch made an existing
+unconditional write per-amp, trusting the local define's name.
+
+1. Should init_seq[0] write PostureNumber at all, and if so is 0x01 right
+   for a device that does not yet know its posture?
+
+2. For one shared posture number to give stereo, each amp must know which
+   speaker it is. Where from, on a board like this? The ACPI carries no
+   parseable SDCA function description for either amp ("function type
+   only supported as DisCo constant"), so sa_func_data stays NULL, no
+   Channel Cluster table is parsed and tas_io_init() takes the
+   regmap_multi_reg_write() branch (tas2783-sdw.c:1174-1179). Nothing
+   distinguishes the two amps, so one posture number gives both the same
+   mapping, which is the mono I measured. Broken platform firmware with
+   nothing for the driver to do but say so, or a driver fallback keyed on
+   something else?
+
+> For aggregated amps (which is the case here), the spec also says the
+> PostureNu
+mber register needs to be dual-ranked for synchronous changes
+> but that part isn't managed by the SoundWire/SDCA core just yet.
+
+That sent me to the bus, where the dual-ranked handling already exists:
+the core writes p_rt->ch_mask to SDW_DPN_CHANNELEN_B0 or _B1 by
+bus->params.next_bank (stream.c:329-339), and tas_port_prep() already
+forwards the same mask to DPN_PrepareCtrl (tas2783-sdw.c:1239).
+
+Today nothing uses it per amp. snd_sdw_params_to_config() hands every
+peripheral GENMASK(ch_count - 1, 0) (include/sound/sdw.h:46) and
+tas_sdw_hw_params() never overrides it (tas2783-sdw.c:940), so both amps
+enable both channels. rt1308-sdw.c:559 and max98373-sdw.c:541 override it
+from a per-device rx_mask via .set_tdm_slot, and
+asoc_sdw_cs_spk_feedback_rtd_init() (soc_sdw_cs_amp.c:94-106) already
+assigns per-amp masks inside sdw_utils. tas2783 has neither: no
+.set_tdm_slot in tas_dai_ops (:978), and soc_sdw_ti_amp.c never calls it.
+
+I built that and measured it, with the PPU
+21 patch removed so the result
+was attributable. One boot, control first, dB over the noise floor:
+
+  configuration              left      right     imbalance
+  shipped, PPU21 per amp     +70.5     +69.7     +0.9 dB
+  ch_mask per amp            +71.3     +71.1     +0.2 dB
+
+For reference the unpatched driver scores +0.4 dB on the right channel,
+i.e. silence. PostureNumber stayed 0x01 on BOTH amps throughout, since a
+fresh probe re-runs init_seq against a regmap whose cached default is
+0x0. So the amp renders whatever arrives on its enabled DP1 channel,
+PPU21 does not need a two-channel cluster at IT21, and nothing has to
+write PostureNumber per amp.
+
+One catch, and it is why I have not posted a patch. The mask VALUE is not
+what selects the channel. sdw_compute_slave_ports() advances the payload
+block offset by bps * hweight32(ch_mask) as a running sum over
+slave_rt_list, resetting it only for a slave that took every channel,
+which it calls mirror mode (generic_bandwidt
+h_allocation.c:44-84). I
+tested that with a module parameter that inverts the assignment:
+
+  amp 1   amp 2   LEFT only, mic L / mic R
+  0x1     0x2     4282 / 289
+  0x2     0x1     4615 / 799
+
+The kernel log confirms the masks inverted; the audio did not change. So
+what fixes mono is a ONE-channel mask per amp, which stops the mirror-mode
+reset and puts the amps at consecutive offsets. Which channel each lands
+on follows its position in slave_rt_list, i.e. codec order in the DAI
+link.
+
+That leaves a machine driver no way to say "this peripheral renders the
+right channel". It can only give each amp one channel and rely on codec
+order matching the speakers. Here it does, tas2783-1 is the left speaker
+and is first, which is exactly why the mask looked like it was working.
+Reverse the enumeration and the speakers swap with nothing in the mask
+able to correct it.
+
+Is that positional behaviour intended, and is the missing
+channel-to-peripheral binding a core gap? It look
+s like the same class of
+thing as the dual-ranked PostureNumber. If it is intended, then
+.set_tdm_slot in tas2783 plus the assignment in soc_sdw_ti_amp.c is a
+complete fix for boards whose codec order matches their speakers and I
+will post it. If not, the fix belongs deeper than this codec and I would
+rather not paper over it.
+
+Either way the reported behaviour stands: on a two-amp board with no
+DisCo data every amp renders the same channel, and no control in the
+driver can change it. The PPU21 patch stays a local workaround on my own
+machine and I am not proposing it upstream.
+
+Last question, since the PPU came up: this laptop is a convertible with
+real postures. Should PostureNumber be driven by the fold state the
+tablet-mode switch already reports, rather than written once at init?
+
+--929886f5b899007a84e89b58745efeb84ca6d623acbe7cf75c86d88f7c3b
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
+ 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
+Content-Type: application/pgp-keys; filename="publickey -
+ robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
+ robineveraars@pm.me - 0x8B6BA132.asc"
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
+ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
+dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
+bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
+Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
+UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
+eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
+akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
+SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
+UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
+MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
+QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
+SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
+RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
+Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
+LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
+--929886f5b899007a84e89b58745efeb84ca6d623acbe7cf75c86d88f7c3b--
+
+--------9fd334f49cfcc35ab5c4177acda9b2dab6d41665c988b97b17ea6bc1ae5f4920
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wqsEARYIAF0Fgmp01e0JEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmf8n1AmMaWpDB/+qfOiv68tFiEEi2uhMrb2XujF
+nFjLHcV/a8sGGooAAKVTAQD2mO5xtJqCSSYWMHTPTCrqEcmJME5bga/l9VfR
+3jRbiQD+KR9GwQT0cnK+XgQAAmHqAgugI3R3DIsrLhFjYc8xhgY=
+=3LfP
+-----END PGP SIGNATURE-----
+
+
+--------9fd334f49cfcc35ab5c4177acda9b2dab6d41665c988b97b17ea6bc1ae5f4920--
 
