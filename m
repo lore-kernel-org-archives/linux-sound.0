@@ -1,93 +1,105 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31EF92DCBF8
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 08:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6463741F5DE;
+	Thu,  6 Aug 2026 08:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786006079; cv=none; b=QYYdLaihZG1TBqSNSAw/Bp6uLpJras5SSvSLtl/xxMaGm4xDvgIN2R/m8oColBSr7VwYOGd2Wf2nIneQP7hL13le00CsxbMgu5ANAKCwY+G86WlR7CbgZ+h7hjzAAU/Ti15uHb88qZCt6ieQawfH+f0rLD/3e3F1O1a4pIKdxUU=
+	t=1786006157; cv=none; b=YXiafBJShVxdnkQc1KDMZWOWWwAlUoXWrFjXqT26MoEw746DMYBO9dVi8Pm20LUsU64dVJ90nSLv5guoSwI1HJTpYfvqEHEjbyrV1oJ4zdXfYkLMbjRj7yApMJbON5gcz0eQL3L7Faim1/R49Lx0kphz6MxEfrApgRD5YWx5QHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786006079; c=relaxed/simple;
-	bh=/RwhpA1pEfHvcUpqYW8j0Xx5phHch4j7bhmE4lNLuY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Wx5TiqrOxKB4n3FAdnuQ4mSbO3I7zlwZg5tlnrxak2MpxfnFezmscRRI9bjCQ/ZwbFH0QwskAr1FwrluThPGj0wNdzjthFOHG3I9bn0Qd/Q5d/QjOcle+S15SwPT+AprxvmRsNsFrbR5POIZwirHc12upTBkQTN45v1HMNUcQnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=G6GD3Wdz; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1786006157; c=relaxed/simple;
+	bh=PSqhwNhgk0w3pRkAn7OksH/I0Bm/DIJZHaLdHbJBmkw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I+H3F4dpmcGz5cmhCaLCx97s3aBtDK5zE8yTAtFcB05Af97tunb1kqXTqFvo7OgJd/5JC1AuVAlJa8QUKWug72z3d2CMdriqnGm04Yc3vfIuvNG+CHWNyi7YyVVjSqFiRd5XeDEXYsAqlI6rXDWPLEEayqjLykbXunfrdCvMKtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=UBuYtiSC; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="G6GD3Wdz"
-Message-ID: <02f2cd9c-519c-4154-be58-9065f34c6001@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1786006075;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7tbZ6AzJPVKp62uoxqJCimSi6CiBIXlts7NZivKGmIM=;
-	b=G6GD3WdzTaorOOk/MCfbrG2oxf7f0fwBwh/E/gp52lMTe63SsDpVVT4qeQmLS20CZdVt3Q
-	kxWqyn6JYUp//lnCeXKjHcaHMnL1XO18gc0deN62MUY5uCi20TCBexs+0gsCmVN5O1p42a
-	hSAcoQhxa3dG+9OiZnIXMLQrsOLX7XQ=
-Date: Thu, 6 Aug 2026 10:47:49 +0200
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="UBuYtiSC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1786006143;
+	bh=bfQFI9UE0BG7PqkJJvCr5MnjWC2ExUuD2Mv5wNUydPI=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=UBuYtiSCEfdyEV5oExVkyk/bnSufiOQOO4+YiRxAtZTB5SUq5NDFoxoaaFuC76vtO
+	 qT4E4YzcUNK3KuDW11C2w/O5CXoKv9smG7A1akSCJB07vZIUW+EGoKVsYe6hFSX2RQ
+	 YMT2q7QdxuXxBWqfJ97T5xqUMG4otdbozC5A9Lf4=
+X-QQ-mid: esmtpgz10t1786006138t64a578e1
+X-QQ-Originating-IP: ZumO0C5vAZaw+kCchQzXeTEgVEoSMl6W5wDM4tLlYmc=
+Received: from uniontech.com ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 06 Aug 2026 16:48:56 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 16807416105596679994
+EX-QQ-RecipientCnt: 13
+From: Yichong Chen <chenyichong@uniontech.com>
+To: gregkh@linuxfoundation.org
+Cc: rafael@kernel.org,
+	dakr@kernel.org,
+	djakov@kernel.org,
+	quic_mdtipton@quicinc.com,
+	vkoul@kernel.org,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Yichong Chen <chenyichong@uniontech.com>
+Subject: [PATCH v2 0/3] debugfs: make debugfs_create_str() read-only
+Date: Thu,  6 Aug 2026 16:48:51 +0800
+Message-Id: <20260806084854.1019789-1-chenyichong@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [BUG] ASoC: tas2783-sdw: every amp on the link selects the same
- channel, so a two-amp board plays mono
-To: Robin Everaars <robineveraars@pm.me>, Shenghao Ding
- <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Niranjan H Y <niranjan.hy@ti.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- linux-sound@vger.kernel.org
-References: <20260805183517.8665-1-robineveraars@pm.me>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Content-Language: en-US
-In-Reply-To: <20260805183517.8665-1-robineveraars@pm.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: Mutteg8H72qD3kGRBgYJJUWo27iY/7qJGUuzamSUayOLgs8lufDSoFBB
+	iwRyjoetvF0Zb8LnZYdBHNeyj4hsbCy/JWWBWMv704urvQRYTPkxiM5VOrPtP+IfBcd6hRy
+	oK6n49qJWlSEdeedUXlE3bTfj7Q0EU9/nCRphuQnAzVXzLY44ALOF5EFkxH3hH7GcOQ0a0y
+	pc9ig4Ner7XD+73dHCc5J7UFI99wL88zhOL4kaHDKefroPICRHeYYfOWqqpNIa3h5NUIMpS
+	MDzT469glMfLFwB1eHsXAOnIg3JrT9L7OYaFu2dhxXdOUwHkZjV5f86KJqVmOrCschVc3d2
+	+75qOdnhzvW2EX/KdkUV2U6XZPCPK9yQkoQAoneogUPxDGJkXRbwTAmGB5cyYtz6n/5T+T+
+	gUNcFYUimCHHu5o/2NhRdjtkDJsgvb/35rhyBGfWKqE85E34OgWPAvZF/qEWgQ0cVOnLcDF
+	uJpEI3lssBNIgElDFxNNwUutvBHC7LAikl8Yptoo5S9kmqg3AzvXoy4N82fX0EIa/d4Rqhz
+	5lIVcOsEsMV3rRxhd6Jak5/0g0NDArq4FpbH1A6c3x5W9tQgdo6qMSHt43gWDG0a0VcqFEx
+	VYyiMoVS2lhK8iI3wZdL4qKCRWHS+fQOtZWt1hGFeEkZJ0dR4pxEEQIPqXSDKBci4ohPAGJ
+	6D89UNRhnOIdJSgtkWRg+repuk2j49Te5iU1xkLqQXosgHuxoEcJUFgBBdFPXStwGz5USj8
+	9RmC+lYdmev5kqyxRtS3CPugzLjQSxAFzMc5YgbJsXsmStZyuxjWivriF3AP5u3JCMnC/TH
+	EXcQZjULCzlS7ePbtUFmSkEyL0J30r7H9i+pUSwAPfNl+Y5O4wHLh/bl2lTQNu0A5Qcw/s6
+	VEymCQ4qVhu167uqc1eBAQmezk7DxbRLlHgxMA68K1h5I4U1zpNIEZLpS6/ffx09dLHDPp1
+	IPJCL8qsP4XIRZOBJYOgy/YzRwN7ssLTOLTSUBcBA1Q24I2RUCNZEKwvuJ2uuSu6/XXZX9d
+	kHme+C1So2uwvNF4i9gk6tV5rMrjk=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
+debugfs_create_str() currently supports writable files through a generic
+string replacement helper.  Concurrent writers can race in that helper.
 
-> Confirmed fix, measured on this hardware
-> ========================================
-> 
-> Writing PPU21 selector 0x10 per amp does fix it. I derive the value from
-> component->name_prefix, so tas2783-1 and -3 get 0x01 (Left) and -2 and -4
-> get 0x04 (Right), matching the mapping asoc_sdw_ti_spk_rtd_init() already
-> applies in sound/soc/sdw_utils/soc_sdw_ti_amp.c.
+Instead of adding more locking to the generic debugfs string code, convert
+the existing writable in-tree users to local file operations first, then make
+debugfs_create_str() read-only and refuse modes with write permission bits.
 
-you mentioned a two-amp board but the wording seems to describe 4 amps?
-Also not sure what mapping you are referring to, I looked up the code
-and couldn't connect the dots between the last sentence and the code.
+Changes since v1:
+- Follow Greg's suggestion to avoid adding locking to the generic
+  debugfs_create_str() write path.
+- Convert the existing writable in-tree users to local file operations.
+- Make debugfs_create_str() read-only and refuse writable modes.
+- Split the change into a 3-patch series.
 
-> Acoustic result on the same measurement rig as above, right channel only:
-> 
->   before   +0.4 dB over the noise floor, i.e. silence
->   after   +70.7 dB, and the left/right imbalance is 0.3 dB
-> 
-> It also survives an s2idle cycle, which matters here: a driver re-bind re-
-> runs tas2783_init_seq and would put 0x01 back, so the value has to be re-
-> asserted rather than written once. I do it from the POST_PMU path for that
-> reason.
+Yichong Chen (3):
+  interconnect: debugfs: replace writable string helper
+  soundwire: debugfs: replace writable string helper
+  debugfs: make debugfs_create_str() read-only
 
-This may work but that isn't the intended role of the PPU (Posture
-Processing Unit). The spec says
+ drivers/interconnect/debugfs-client.c | 75 ++++++++++++++++++++-----
+ drivers/soundwire/debugfs.c           | 56 ++++++++++++++++--
+ fs/debugfs/file.c                     | 81 ++++-----------------------
+ 3 files changed, 124 insertions(+), 88 deletions(-)
 
-"
-PostureNumber (PPU)
-This Control is provided in the PPU for selecting the pre-defined
-mapping between input Channels and output
-Channels and applying any Posture-related processing.
-"
-
-In theory the *same* posture number should be given to both amps, and
-they shall modify their input to output mapping accordingly.
-
-For aggregated amps (which is the case here), the spec also says the
-PostureNumber register needs to be dual-ranked for synchronous changes
-but that part isn't managed by the SoundWire/SDCA core just yet.
-
-
+-- 
+2.51.0
