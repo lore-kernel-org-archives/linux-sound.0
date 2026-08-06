@@ -1,93 +1,69 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29813B27D6
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D76033938E
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024843; cv=none; b=aJuJ4HpflNF7cbitaAXhEnR4bcmzAvv0UnKimeFCr0MktsRjwgb8Eflb6vVKXvX7sQvcF6c9hLHtJbyhH0R2ouncYwo45nsgoxuv7upMCalkbzslnZrpXled+67MrC7U/+EYajdvCGTOm8CfViw5xDNKFKWQOGgkGnNbnHNhI50=
+	t=1786025908; cv=none; b=ObWBqanaGTMN/Cp7VgHZy7cCL4Az9Qjvf4u6s3xBEjmjQA5SQT86z3q/C/FW8Le65/g4zyH1uRjd8HlVV/v5+iiTihvjJU1IrFHzc2hKP6PqWM0+fh4IXfH34CtppiRbs5bcER6l1RaeFufkTMhCxkP08YRct9dGQB13Vmps5cY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024843; c=relaxed/simple;
-	bh=3cx156hewspun5xeCrsboBPMqI5O+kf+c0FsQm5Jqdk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uwakzA+2WHmfvFq+VinAqa6A7aHTbpIYE4jcQj75TBXOP/Y7TqI5SWuAYmPi8ui//anP4/vvRA0BybPsmGW/e3fLEGH6E8bfn3JS0oWHvFHO3ssLiiuUQ/5mGtw47e+fClLH7Bv/cVH4zwMI+L6GfPA3YTg3ROg5GLlBgSiknYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dU+Htoei; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KXVu+oQ0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ihrB0O4J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Khn7w1Wx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786025908; c=relaxed/simple;
+	bh=5IB3apJ5mTNG78JxnYAc4Vhd50d2SAHpTuIVYKEGMME=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A5tsK+tZmNc/rgPMoyBQA6w8FdRAyPPIZwLIAtxWIZYd7eSV639gYtaDP5Bvisx6ZgB5zBrVlHuUUEZPKc/IV+2TbHRdqdk3ZLFOH7T8NpQCI6H6kR7PBTiwIjk82jISQpi4Y9e5Li62EtTMpn8IZX4r6b00yKPrBiDgU5AdDBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MxjZrwzx; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dU+Htoei";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KXVu+oQ0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ihrB0O4J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Khn7w1Wx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C2BE800E2;
-	Thu,  6 Aug 2026 14:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786024831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
-	b=dU+Htoeiz7/jwkoWHB3+IPsHf/jUT/QWhSmHFof2jezFgPBaVpJro3gUdtSz8JDR2Fqhp5
-	pCA/nBMX9Tq2XQtDJysP0SATmLl3tIBUOgTRrP8dLROO+pGCeT6lfZQepck9C1tzAekMeG
-	nxq7ZeldUQs6SSOdsjVIIAoXTlGhJHg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786024831;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
-	b=KXVu+oQ0hh9KXDI2x+1EDW8lVfsu5VWCx73UbCwDvGn8K8OVwT3IVjW2Wgh1kDMYfJPURS
-	D9SLIyfrPepN6fDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786024827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
-	b=ihrB0O4JNZ7Y/dmJLD+bMejbHzQo8voaQRQSwAIVILoYfyRu2mSvlfIU/+3FjCXUCqv2t2
-	VFjfw6uV3E/TBokhLM2psiPW69n1iUTlBAbw6RTE7zjASHYe+8QjnmKPVMhRdD+UsOgDmo
-	PlP7MSA0oZEU4JLW3TGU/z3SVhQsPv0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786024827;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
-	b=Khn7w1WxNfgXMX8xtreVYZK6bGpVbrUE8gFJ4mMyIKDj8qOw9TrbV+BeC0gzjnZCLeRUOJ
-	/ni7WLvc5Gybu7CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A7BE77A2A;
-	Thu,  6 Aug 2026 14:00:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kFcsAHGTdGqbOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:17 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Subject: [PATCH v2 31/31] ASoC: SOF: Use auto-cleanup for firmware loading
-Date: Thu,  6 Aug 2026 16:00:03 +0200
-Message-ID: <20260806140006.1412298-32-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MxjZrwzx"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38759bcd877so2402148a91.2
+        for <linux-sound@vger.kernel.org>; Thu, 06 Aug 2026 07:18:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786025906; x=1786630706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Z/J94ndUcSa8/fzWrR5UWTi8+iEtkdEMZkZiFQhYOhk=;
+        b=MxjZrwzxlHmLanYsF0aYngE7s8TWaYqXdk0zR7qizXUii2a0ohwTDyxMj4J5YkcV+S
+         /DewfWdh45uA73hcp/zJEwM5eQSAW+ti7osAABMo8HY8/KJNLMRqCGQYS5CIIFVdB0RS
+         vgLY42p+Wjj7LR4a0KDPwEX4Wtc7iu2+Hm74Vb+oL9qAjHSGNql/pBKr3Lfx2Toe1+gv
+         Q+JrY5Tj8R69J1HoLjV0RYS16p1QeJPm6fsq2OB7eOKTnqCrkP33VZsuRVDcd///pYYC
+         mjPsoGTTIzaOhiRxeArolfdTS+lpCIXUq7fsnsenhYVc7co1Ml3Zf2cYu5ioDQzgeuc0
+         zwsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786025906; x=1786630706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Z/J94ndUcSa8/fzWrR5UWTi8+iEtkdEMZkZiFQhYOhk=;
+        b=MPfkzUHhpQiKio4GRocU5qjaM0HZYYvjZDqJrq59TRYSQIoMEQ9z3tRtd3SzujtnoE
+         h2KuI6wo8aiMt2KGXuGNiUu0IH6F+rDbsT+gDMY+XuUEyVYaNFvNfE/JtSPfMAu6W2mC
+         bXyWJ8Z/svuWGXfN4WsHjGVrVsxO2S95B/N1Yafjh3VXNxnh4dih2JwCWuHjujNh/5E4
+         P16wxfUqO0HTeGd5LfLfIiIpYfRfmhcdnfvdt1Ecaj72tRcRW4Mb9VDTlS3L3FnAvAJx
+         h5kAD7Yz7d7WvczwloRk0E/tc0QpMK+32kDyFbgXHG+vNntsKPSGF1ItghkovcLe5ZrX
+         jp7A==
+X-Gm-Message-State: AOJu0YzprQM7OXnIotOkikPnfpC4sfBh5W3qfrR935SChYSFeoaBWf3M
+	lC01iyZF3Laf1+kxwSOn4Gzy+z2yNRL8dkfDvuHKtpNcpiGvcXO6E70DYytlDqT69x4Aam+y
+X-Gm-Gg: AR+sD12+AQwFWcqi0QQ96hGjoWrLee4HMF7mmzmHgrZZGbkZr0X5nvOFO4cBbl0sipn
+	ofa+arahXmWlxwpwhPeHZd5HBUWGfUSxm0Jn1+g2SB9Ri/nazbYK9+jBGZASITfkj5iNUdvPSZD
+	c60zdCBrJ1+ze0a/7ID6XPG/zGuVhvS9c6ZxiTHEyCK8amuqW8Wcb4FK/VEcHcCIBUbOR0EBSma
+	WEXj6gFErPVRdzZjowqNnq2wQBlcxhZUsv4OjfsFZsXtvoaFiNxJSOfgNz7cgDoqjCYUgOf3yyQ
+	txExWQDHFK4nFt175Ag684/3PWZa+cRaAbXQpLnAGOpOFJjQjG2InNy7gZdXXDOATNERlpWXWrg
+	Dg7aZY2ttPnVjUJmDR+WdnC7OH4fkTxDsx2SwkKqCp76ERniBhMktF+yWuHkUFBAlkLpnT9Lhe4
+	d3eyJqdii+PTIGMnuHZGStGvAFj0vvoX0yRAfL5XFQEop/oT7fxCpK
+X-Received: by 2002:a17:90b:4b87:b0:38e:7a05:9c0a with SMTP id 98e67ed59e1d1-3903c5c0fedmr13075467a91.18.1786025906278;
+        Thu, 06 Aug 2026 07:18:26 -0700 (PDT)
+Received: from ankirin ([112.47.201.67])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3903f5ab5d3sm2712467a91.2.2026.08.06.07.18.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 07:18:25 -0700 (PDT)
+From: ankirin <ankirin4@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: alsa-devel@alsa-project.org,
+	tiwai@suse.de,
+	ankirin <ankirin4@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Enable speaker on Xiaomi Notebook Pro 15 (1d72:1709)
+Date: Thu,  6 Aug 2026 22:18:15 +0800
+Message-ID: <20260806141815.40527-1-ankirin4@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
-References: <20260806140006.1412298-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -95,191 +71,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,linux.intel.com,nxp.com,linux.dev,amd.com];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,amd.com:email,linux.dev:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLyn1jrxitrdqefws7q17npsmc)];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
 
-Simplify the code to manage the firmware loading with __free(firmware)
-and __free(kfree) auto-cleanups for the firmware data and the temporary
-string or array.
+The Xiaomi Notebook Pro 15 (subsystem 1d72:1709, Realtek ALC256)
+silences its internal speaker on Linux: the codec sets coefficient
+register 0x10 to 0x0220 (bit 9 set) on boot and after S3 resume.
 
-Only the code refactoring, no functional changes.
+This is the same mechanism already supported for the Xiaomi Mi
+Laptop Pro 15 (1d72:1905) via ALC256_FIXUP_XIAOMI_PRO15_RESUME,
+which clears the stuck coef bit on every codec init. Add the
+missing 1d72:1709 SSID entry to the quirk table.
 
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: Daniel Baluta <daniel.baluta@nxp.com>
-Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Tested-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Verified on this board: with bit 9 cleared (coef 0x10 = 0x0020),
+the internal speaker outputs normally, including across
+suspend/resume.
+
+Signed-off-by: ankirin <ankirin4@gmail.com>
 ---
- sound/soc/sof/fw-file-profile.c | 19 +++++++------------
- sound/soc/sof/topology.c        | 20 ++++++--------------
- 2 files changed, 13 insertions(+), 26 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
-index 76bde2e0be1d..fcd57f04ca36 100644
---- a/sound/soc/sof/fw-file-profile.c
-+++ b/sound/soc/sof/fw-file-profile.c
-@@ -16,20 +16,19 @@ static int sof_test_firmware_file(struct device *dev,
- 				  enum sof_ipc_type *ipc_type_to_adjust)
- {
- 	enum sof_ipc_type fw_ipc_type;
--	const struct firmware *fw;
--	const char *fw_filename;
- 	const u32 *magic;
- 	int ret;
- 
--	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
--				profile->fw_name);
-+	const char *fw_filename __free(kfree) =
-+		kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
-+			  profile->fw_name);
- 	if (!fw_filename)
- 		return -ENOMEM;
- 
-+	const struct firmware *fw __free(firmware) = NULL;
- 	ret = firmware_request_nowarn(&fw, fw_filename, dev);
- 	if (ret < 0) {
- 		dev_dbg(dev, "Failed to open firmware file: %s\n", fw_filename);
--		kfree(fw_filename);
- 		return ret;
- 	}
- 
-@@ -44,8 +43,7 @@ static int sof_test_firmware_file(struct device *dev,
- 		break;
- 	default:
- 		dev_err(dev, "Invalid firmware magic: %#x\n", *magic);
--		ret = -EINVAL;
--		goto out;
-+		return -EINVAL;
- 	}
- 
- 	if (ipc_type_to_adjust) {
-@@ -54,13 +52,10 @@ static int sof_test_firmware_file(struct device *dev,
- 		dev_err(dev,
- 			"ipc type mismatch between %s and expected: %d vs %d\n",
- 			fw_filename, fw_ipc_type, profile->ipc_type);
--		ret = -EINVAL;
-+		return -EINVAL;
- 	}
--out:
--	release_firmware(fw);
--	kfree(fw_filename);
- 
--	return ret;
-+	return 0;
- }
- 
- static int sof_test_topology_file(struct device *dev,
-diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-index 6fd69ba11c41..820513bb2577 100644
---- a/sound/soc/sof/topology.c
-+++ b/sound/soc/sof/topology.c
-@@ -2506,13 +2506,12 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
- 	struct snd_sof_pdata *sof_pdata = sdev->pdata;
- 	const char *tplg_filename_prefix = sof_pdata->tplg_filename_prefix;
--	const struct firmware *fw;
--	const char **tplg_files;
- 	int tplg_cnt = 0;
- 	int ret;
- 	int i;
- 
--	tplg_files = kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
-+	const char **tplg_files __free(kfree) =
-+		kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
- 	if (!tplg_files)
- 		return -ENOMEM;
- 
-@@ -2538,10 +2537,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 								       tplg_filename_prefix,
- 								       &tplg_files,
- 								       no_fallback);
--		if (tplg_cnt < 0) {
--			kfree(tplg_files);
-+		if (tplg_cnt < 0)
- 			return tplg_cnt;
--		}
- 	}
- 
- 	/*
-@@ -2552,8 +2549,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 		if (strstr(file, "dummy")) {
- 			dev_err(scomp->dev,
- 				"Function topology is required, please upgrade sof-firmware\n");
--
--			kfree(tplg_files);
- 			return -EINVAL;
- 		}
- 		tplg_files[0] = file;
-@@ -2568,6 +2563,7 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 		if (tplg_files[0] != file)
- 			dev_info(scomp->dev, "loading topology %d: %s\n", i, tplg_files[i]);
- 
-+		const struct firmware *fw __free(firmware) = NULL;
- 		ret = request_firmware(&fw, tplg_files[i], scomp->dev);
- 		if (ret < 0) {
- 			/*
-@@ -2586,8 +2582,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 		else
- 			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
- 
--		release_firmware(fw);
--
- 		if (ret < 0) {
- 			dev_err(scomp->dev, "tplg %s component load failed %d\n",
- 				tplg_files[i], ret);
-@@ -2606,6 +2600,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 			goto out;
- 		}
- 		dev_info(scomp->dev, "loading feature topology %d: %s\n", i, feature_topology);
-+
-+		const struct firmware *fw __free(firmware) = NULL;
- 		ret = request_firmware(&fw, feature_topology, scomp->dev);
- 		if (ret < 0) {
- 			/*
-@@ -2630,8 +2626,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 		else
- 			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
- 
--		release_firmware(fw);
--
- 		if (ret < 0) {
- 			dev_err(scomp->dev, "feature tplg %s component load failed %d\n",
- 				feature_topologies[i], ret);
-@@ -2650,8 +2644,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
- 	if (ret >= 0 && sdev->led_present)
- 		ret = snd_ctl_led_request();
- 
--	kfree(tplg_files);
--
- 	return ret;
- }
- EXPORT_SYMBOL(snd_sof_load_topology);
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index bd53507..084e814 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8168,6 +8168,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
+ 	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1d72, 0x1709, "Xiaomi Notebook Pro 15", ALC256_FIXUP_XIAOMI_PRO15_RESUME),
+ 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1905, "Xiaomi Mi Laptop Pro 15", ALC256_FIXUP_XIAOMI_PRO15_RESUME),
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
 -- 
 2.55.0
 
