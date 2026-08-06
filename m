@@ -1,85 +1,90 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305993DA5C5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29813B27D6
 	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024843; cv=none; b=QBFZlsPp7l6PiL0aqMSNAEtt2v5GIbHICZK3DKjnT+eZzEka9KzTbURWBmN95dkXx5BdGzn3UFT2snrGOcmmw8AOcu4IhK7izTIHHESOlVWCweAu7S3Z3jZn9K0+4qGa2vbMW5nPm8b8MuQWtK+OYGj1DLx9wEA5nB2jkJ76JWk=
+	t=1786024843; cv=none; b=aJuJ4HpflNF7cbitaAXhEnR4bcmzAvv0UnKimeFCr0MktsRjwgb8Eflb6vVKXvX7sQvcF6c9hLHtJbyhH0R2ouncYwo45nsgoxuv7upMCalkbzslnZrpXled+67MrC7U/+EYajdvCGTOm8CfViw5xDNKFKWQOGgkGnNbnHNhI50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786024843; c=relaxed/simple;
-	bh=Y2C/qLp3tiqcz5iIWsplQYaLRfsK0AV6pzN/iMqnsas=;
+	bh=3cx156hewspun5xeCrsboBPMqI5O+kf+c0FsQm5Jqdk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=obHG+MPY4KAoA0a2XOeoopDtoMARvc7hJnh2yLKtPlGs5W5cJJLw/toI/0DJEvxztJn1dnI5PANY1NIPjBj2l4DUE5qVlDeKcgdh1oSC5GYddzXYgc1fiyhY90NV96UpDBg2JmGpId8+mVWPWQUF67NN250zbwf4JBypxITnVh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S6lFHfth; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kVeDilAh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jdG2v4fd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0MHv4ZCE; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=uwakzA+2WHmfvFq+VinAqa6A7aHTbpIYE4jcQj75TBXOP/Y7TqI5SWuAYmPi8ui//anP4/vvRA0BybPsmGW/e3fLEGH6E8bfn3JS0oWHvFHO3ssLiiuUQ/5mGtw47e+fClLH7Bv/cVH4zwMI+L6GfPA3YTg3ROg5GLlBgSiknYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dU+Htoei; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KXVu+oQ0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ihrB0O4J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Khn7w1Wx; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S6lFHfth";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kVeDilAh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jdG2v4fd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0MHv4ZCE"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dU+Htoei";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KXVu+oQ0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ihrB0O4J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Khn7w1Wx"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C568E3E27;
-	Thu,  6 Aug 2026 14:00:26 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C2BE800E2;
+	Thu,  6 Aug 2026 14:00:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YZUYUsVGEGWac5Zs8oRaiIDrlGlJukdSs5YKlpOXLqY=;
-	b=S6lFHfthW6246d1n07uYl+wzFSI5g7m8NIAbbVamW0xvM3ciXQ7pZHbG0IbArl1UgDBL7u
-	rLyHIJhEAhZyFoghQ3vbJI5etAxhC1zmclDvaCRtNhbGsUERZzC34IrDes4yWwlHMDhBrm
-	p09ND16ZeVLH6GgsL4IdumtlOBWbctU=
+	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
+	b=dU+Htoeiz7/jwkoWHB3+IPsHf/jUT/QWhSmHFof2jezFgPBaVpJro3gUdtSz8JDR2Fqhp5
+	pCA/nBMX9Tq2XQtDJysP0SATmLl3tIBUOgTRrP8dLROO+pGCeT6lfZQepck9C1tzAekMeG
+	nxq7ZeldUQs6SSOdsjVIIAoXTlGhJHg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024831;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YZUYUsVGEGWac5Zs8oRaiIDrlGlJukdSs5YKlpOXLqY=;
-	b=kVeDilAhQ7H8F8RJyFwWEHNIdezn86atFb6MO46dKd133wIxJPzJf72L4I3qK9pqyupefC
-	oHNP9sFCNmj60nCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jdG2v4fd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0MHv4ZCE
+	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
+	b=KXVu+oQ0hh9KXDI2x+1EDW8lVfsu5VWCx73UbCwDvGn8K8OVwT3IVjW2Wgh1kDMYfJPURS
+	D9SLIyfrPepN6fDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786024826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786024827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YZUYUsVGEGWac5Zs8oRaiIDrlGlJukdSs5YKlpOXLqY=;
-	b=jdG2v4fdLU0GqFDWdWaDsEjSRYOSoMLDIcNlXqg3lFyplRIydSdbHM1PIGfidgTPjdCmwH
-	UVKO7C3R5XSi6L/+HHKQ8cfc5MIPDIvKcnk1vgGg0pUdExxHdFh02AABwH/6hr0e7oDfOR
-	GWA7FciG+b4wijrnRKP/Y7pDNgsJPFo=
+	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
+	b=ihrB0O4JNZ7Y/dmJLD+bMejbHzQo8voaQRQSwAIVILoYfyRu2mSvlfIU/+3FjCXUCqv2t2
+	VFjfw6uV3E/TBokhLM2psiPW69n1iUTlBAbw6RTE7zjASHYe+8QjnmKPVMhRdD+UsOgDmo
+	PlP7MSA0oZEU4JLW3TGU/z3SVhQsPv0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786024826;
+	s=susede2_ed25519; t=1786024827;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YZUYUsVGEGWac5Zs8oRaiIDrlGlJukdSs5YKlpOXLqY=;
-	b=0MHv4ZCERr1puc/KWRci07En4DaKd1KawSHqA7uUe3UgmTqVmV0mL2i9eDfUDgexZW+jqS
-	ATrs7rmMpbY9gXCA==
+	bh=OeOvjkji/CV+cqPJPpdUg3oMDFe52mAaMpMdZL7cfvI=;
+	b=Khn7w1WxNfgXMX8xtreVYZK6bGpVbrUE8gFJ4mMyIKDj8qOw9TrbV+BeC0gzjnZCLeRUOJ
+	/ni7WLvc5Gybu7CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C99F477A21;
-	Thu,  6 Aug 2026 14:00:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A7BE77A2A;
+	Thu,  6 Aug 2026 14:00:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eCYAL26TdGqbOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:14 +0000
+	id kFcsAHGTdGqbOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:17 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-Subject: [PATCH v2 22/31] ASoC: wm0010: Use auto-cleanup for firmware loading
-Date: Thu,  6 Aug 2026 15:59:54 +0200
-Message-ID: <20260806140006.1412298-23-tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Subject: [PATCH v2 31/31] ASoC: SOF: Use auto-cleanup for firmware loading
+Date: Thu,  6 Aug 2026 16:00:03 +0200
+Message-ID: <20260806140006.1412298-32-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
 References: <20260806140006.1412298-1-tiwai@suse.de>
@@ -90,219 +95,191 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.01
+X-Spam-Score: -2.80
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: C568E3E27
-X-Spamd-Result: default: False [-3.01 / 50.00];
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.997];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:email,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com,linux.intel.com,nxp.com,linux.dev,amd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,amd.com:email,linux.dev:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLyn1jrxitrdqefws7q17npsmc)];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
 
 Simplify the code to manage the firmware loading with __free(firmware)
-auto-cleanup.
+and __free(kfree) auto-cleanups for the firmware data and the temporary
+string or array.
 
 Only the code refactoring, no functional changes.
 
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: Daniel Baluta <daniel.baluta@nxp.com>
+Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Tested-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/wm0010.c | 58 ++++++++++++++-------------------------
- 1 file changed, 21 insertions(+), 37 deletions(-)
+ sound/soc/sof/fw-file-profile.c | 19 +++++++------------
+ sound/soc/sof/topology.c        | 20 ++++++--------------
+ 2 files changed, 13 insertions(+), 26 deletions(-)
 
-diff --git a/sound/soc/codecs/wm0010.c b/sound/soc/codecs/wm0010.c
-index 58c0c601ee6c..c44abffe9b56 100644
---- a/sound/soc/codecs/wm0010.c
-+++ b/sound/soc/codecs/wm0010.c
-@@ -333,7 +333,6 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 	struct wm0010_boot_xfer *xfer;
- 	int ret;
- 	DECLARE_COMPLETION_ONSTACK(done);
--	const struct firmware *fw;
- 	const struct dfw_binrec *rec;
- 	const struct dfw_inforec *inforec;
- 	u64 *img;
-@@ -342,6 +341,7 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 
- 	INIT_LIST_HEAD(&xfer_list);
- 
-+	const struct firmware *fw __free(firmware) = NULL;
- 	ret = request_firmware(&fw, name, component->dev);
- 	if (ret != 0) {
- 		dev_err(component->dev, "Failed to request application(%s): %d\n",
-@@ -360,16 +360,14 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 	/* First record should be INFO */
- 	if (rec->command != DFW_CMD_INFO) {
- 		dev_err(component->dev, "First record not INFO\r\n");
--		ret = -EINVAL;
--		goto abort;
-+		return -EINVAL;
- 	}
- 
- 	if (inforec->info_version != INFO_VERSION) {
- 		dev_err(component->dev,
- 			"Unsupported version (%02d) of INFO record\r\n",
- 			inforec->info_version);
--		ret = -EINVAL;
--		goto abort;
-+		return -EINVAL;
- 	}
- 
- 	dev_dbg(component->dev, "Version v%02d INFO record found\r\n",
-@@ -378,8 +376,7 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 	/* Check it's a DSP file */
- 	if (dsp != DEVICE_ID_WM0010) {
- 		dev_err(component->dev, "Not a WM0010 firmware file.\r\n");
--		ret = -EINVAL;
--		goto abort;
-+		return -EINVAL;
- 	}
- 
- 	/* Skip the info record as we don't need to send it */
-@@ -404,14 +401,14 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 		out = kzalloc(len, GFP_KERNEL | GFP_DMA);
- 		if (!out) {
- 			ret = -ENOMEM;
--			goto abort1;
-+			goto abort;
- 		}
- 		xfer->t.rx_buf = out;
- 
- 		img = kzalloc(len, GFP_KERNEL | GFP_DMA);
- 		if (!img) {
- 			ret = -ENOMEM;
--			goto abort1;
-+			goto abort;
- 		}
- 		xfer->t.tx_buf = img;
- 
-@@ -449,13 +446,13 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 		ret = spi_async(spi, &xfer->m);
- 		if (ret != 0) {
- 			dev_err(component->dev, "Write failed: %d\n", ret);
--			goto abort1;
-+			goto abort;
- 		}
- 
- 		if (wm0010->boot_failed) {
- 			dev_dbg(component->dev, "Boot fail!\n");
- 			ret = -EINVAL;
--			goto abort1;
-+			goto abort;
- 		}
- 	}
- 
-@@ -463,7 +460,7 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 
- 	ret = 0;
- 
--abort1:
-+abort:
- 	while (!list_empty(&xfer_list)) {
- 		xfer = list_first_entry(&xfer_list, struct wm0010_boot_xfer,
- 					list);
-@@ -473,8 +470,6 @@ static int wm0010_firmware_load(const char *name, struct snd_soc_component *comp
- 		kfree(xfer);
- 	}
- 
--abort:
--	release_firmware(fw);
- 	return ret;
- }
- 
-@@ -482,14 +477,12 @@ static int wm0010_stage2_load(struct snd_soc_component *component)
+diff --git a/sound/soc/sof/fw-file-profile.c b/sound/soc/sof/fw-file-profile.c
+index 76bde2e0be1d..fcd57f04ca36 100644
+--- a/sound/soc/sof/fw-file-profile.c
++++ b/sound/soc/sof/fw-file-profile.c
+@@ -16,20 +16,19 @@ static int sof_test_firmware_file(struct device *dev,
+ 				  enum sof_ipc_type *ipc_type_to_adjust)
  {
- 	struct spi_device *spi = to_spi_device(component->dev);
- 	struct wm0010_priv *wm0010 = snd_soc_component_get_drvdata(component);
+ 	enum sof_ipc_type fw_ipc_type;
 -	const struct firmware *fw;
- 	struct spi_message m;
- 	struct spi_transfer t;
--	u32 *img;
--	u8 *out;
- 	int i;
- 	int ret = 0;
+-	const char *fw_filename;
+ 	const u32 *magic;
+ 	int ret;
+ 
+-	fw_filename = kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
+-				profile->fw_name);
++	const char *fw_filename __free(kfree) =
++		kasprintf(GFP_KERNEL, "%s/%s", profile->fw_path,
++			  profile->fw_name);
+ 	if (!fw_filename)
+ 		return -ENOMEM;
  
 +	const struct firmware *fw __free(firmware) = NULL;
- 	ret = request_firmware(&fw, "wm0010_stage2.bin", component->dev);
- 	if (ret != 0) {
- 		dev_err(component->dev, "Failed to request stage2 loader: %d\n",
-@@ -500,17 +493,15 @@ static int wm0010_stage2_load(struct snd_soc_component *component)
- 	dev_dbg(component->dev, "Downloading %zu byte stage 2 loader\n", fw->size);
- 
- 	/* Copy to local buffer first as vmalloc causes problems for dma */
--	img = kmemdup(&fw->data[0], fw->size, GFP_KERNEL | GFP_DMA);
--	if (!img) {
--		ret = -ENOMEM;
--		goto abort2;
--	}
-+	u32 *img __free(kfree) =
-+		kmemdup(&fw->data[0], fw->size, GFP_KERNEL | GFP_DMA);
-+	if (!img)
-+		return -ENOMEM;
- 
--	out = kzalloc(fw->size, GFP_KERNEL | GFP_DMA);
--	if (!out) {
--		ret = -ENOMEM;
--		goto abort1;
--	}
-+	u8 *out __free(kfree) =
-+		kzalloc(fw->size, GFP_KERNEL | GFP_DMA);
-+	if (!out)
-+		return -ENOMEM;
- 
- 	spi_message_init(&m);
- 	memset(&t, 0, sizeof(t));
-@@ -527,7 +518,7 @@ static int wm0010_stage2_load(struct snd_soc_component *component)
- 	ret = spi_sync(spi, &m);
- 	if (ret != 0) {
- 		dev_err(component->dev, "Initial download failed: %d\n", ret);
--		goto abort;
-+		return ret;
+ 	ret = firmware_request_nowarn(&fw, fw_filename, dev);
+ 	if (ret < 0) {
+ 		dev_dbg(dev, "Failed to open firmware file: %s\n", fw_filename);
+-		kfree(fw_filename);
+ 		return ret;
  	}
  
- 	/* Look for errors from the boot ROM */
-@@ -536,18 +527,11 @@ static int wm0010_stage2_load(struct snd_soc_component *component)
- 			dev_err(component->dev, "Boot ROM error: %x in %d\n",
- 				out[i], i);
- 			wm0010_mark_boot_failure(wm0010);
--			ret = -EBUSY;
--			goto abort;
-+			return -EBUSY;
- 		}
+@@ -44,8 +43,7 @@ static int sof_test_firmware_file(struct device *dev,
+ 		break;
+ 	default:
+ 		dev_err(dev, "Invalid firmware magic: %#x\n", *magic);
+-		ret = -EINVAL;
+-		goto out;
++		return -EINVAL;
  	}
--abort:
--	kfree(out);
--abort1:
--	kfree(img);
--abort2:
+ 
+ 	if (ipc_type_to_adjust) {
+@@ -54,13 +52,10 @@ static int sof_test_firmware_file(struct device *dev,
+ 		dev_err(dev,
+ 			"ipc type mismatch between %s and expected: %d vs %d\n",
+ 			fw_filename, fw_ipc_type, profile->ipc_type);
+-		ret = -EINVAL;
++		return -EINVAL;
+ 	}
+-out:
 -	release_firmware(fw);
+-	kfree(fw_filename);
  
 -	return ret;
 +	return 0;
  }
  
- static int wm0010_boot(struct snd_soc_component *component)
+ static int sof_test_topology_file(struct device *dev,
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 6fd69ba11c41..820513bb2577 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -2506,13 +2506,12 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
+ 	struct snd_sof_pdata *sof_pdata = sdev->pdata;
+ 	const char *tplg_filename_prefix = sof_pdata->tplg_filename_prefix;
+-	const struct firmware *fw;
+-	const char **tplg_files;
+ 	int tplg_cnt = 0;
+ 	int ret;
+ 	int i;
+ 
+-	tplg_files = kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
++	const char **tplg_files __free(kfree) =
++		kcalloc(scomp->card->num_links, sizeof(char *), GFP_KERNEL);
+ 	if (!tplg_files)
+ 		return -ENOMEM;
+ 
+@@ -2538,10 +2537,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 								       tplg_filename_prefix,
+ 								       &tplg_files,
+ 								       no_fallback);
+-		if (tplg_cnt < 0) {
+-			kfree(tplg_files);
++		if (tplg_cnt < 0)
+ 			return tplg_cnt;
+-		}
+ 	}
+ 
+ 	/*
+@@ -2552,8 +2549,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		if (strstr(file, "dummy")) {
+ 			dev_err(scomp->dev,
+ 				"Function topology is required, please upgrade sof-firmware\n");
+-
+-			kfree(tplg_files);
+ 			return -EINVAL;
+ 		}
+ 		tplg_files[0] = file;
+@@ -2568,6 +2563,7 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		if (tplg_files[0] != file)
+ 			dev_info(scomp->dev, "loading topology %d: %s\n", i, tplg_files[i]);
+ 
++		const struct firmware *fw __free(firmware) = NULL;
+ 		ret = request_firmware(&fw, tplg_files[i], scomp->dev);
+ 		if (ret < 0) {
+ 			/*
+@@ -2586,8 +2582,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		else
+ 			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
+ 
+-		release_firmware(fw);
+-
+ 		if (ret < 0) {
+ 			dev_err(scomp->dev, "tplg %s component load failed %d\n",
+ 				tplg_files[i], ret);
+@@ -2606,6 +2600,8 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 			goto out;
+ 		}
+ 		dev_info(scomp->dev, "loading feature topology %d: %s\n", i, feature_topology);
++
++		const struct firmware *fw __free(firmware) = NULL;
+ 		ret = request_firmware(&fw, feature_topology, scomp->dev);
+ 		if (ret < 0) {
+ 			/*
+@@ -2630,8 +2626,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 		else
+ 			ret = snd_soc_tplg_component_load(scomp, &sof_tplg_ops, fw);
+ 
+-		release_firmware(fw);
+-
+ 		if (ret < 0) {
+ 			dev_err(scomp->dev, "feature tplg %s component load failed %d\n",
+ 				feature_topologies[i], ret);
+@@ -2650,8 +2644,6 @@ int snd_sof_load_topology(struct snd_soc_component *scomp, const char *file)
+ 	if (ret >= 0 && sdev->led_present)
+ 		ret = snd_ctl_led_request();
+ 
+-	kfree(tplg_files);
+-
+ 	return ret;
+ }
+ EXPORT_SYMBOL(snd_sof_load_topology);
 -- 
 2.55.0
 
