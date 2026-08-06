@@ -1,84 +1,84 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FF43AEB5F
-	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312663DA7DF
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024839; cv=none; b=R2EIs3t3DVQVhmDmtRZS9kXaT69ra47Z80J6b5tu73IdzD0eqtY4e6XDSk0xanbMiqrDXJaHcaOdyx164wwSdkQ6+VN3D+zphNmgC7KzryqI4JU3bsmm4wUKCjmAoXFH4O+hBJQ0yTvYyt9Fu4SMyWTEHK+6U5VJEBntXmh/B+4=
+	t=1786024842; cv=none; b=aMRzXiaOOOPGV5O/ARqwEDsD8lHnoPUK0f3W9GQLD91Oiw1hzM8LdRAkLZy7dP9h2BPrug0RkONS9vi8x+9nFVR6a3UesH3xFWm7UrasX7e/hRQskIUxSlJSzg5wXMUREizwnFPFlbR+yNAFqyr071IML9qYctYK4c9M1YfXr/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024839; c=relaxed/simple;
-	bh=8QsXvt+45eDu6gLjESlvFfmNQxj8kG5gXtcn1gniM0A=;
+	s=arc-20240116; t=1786024842; c=relaxed/simple;
+	bh=bnTUhT33frgDJhUiZJLHLkw98Xlzu6s3rj+fr9RbX5Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cOGK5vJvjt2xjs0wFN1cZT7kUjek7gL6jM0L5gts8K9aSX1wBwf/UUr8QPlWRuLOuNreLBVuPKfRMV/jfNNwwWEvm0JjAVk2Q8TnAVBcLqqPFFAlV/Zb5CFODH4kLem+Qd0gWCRM2NzNtWF/Kmpw1fsoU3P2o7SsFVACnC2olv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CxX7nwnR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=jrCqxDkS; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dwoxtgkp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Z+szQVyK; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=FNwxgaeR3dFVP5U3Ju9uBL7JbqOIb/4TuRVAct6aDSFPM13gDoQOe4udU4lmXT3qRp3sfET2PD2kmwBfnpMx5w6QNhtqT7bplic+nqhEW3saqJVMYEkqQlbRXqhrO8cpGdJE6aPrY61QFMaXcoA8++xmXoZcR4kY+7P2a89Mgps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Yp6evPPc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XrtNSu/1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gjbsoYMq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EyXZJPLc; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CxX7nwnR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jrCqxDkS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dwoxtgkp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Z+szQVyK"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Yp6evPPc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XrtNSu/1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gjbsoYMq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EyXZJPLc"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D06D8800DD;
-	Thu,  6 Aug 2026 14:00:26 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 17E5A800E1;
+	Thu,  6 Aug 2026 14:00:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
-	b=CxX7nwnRchC7dsrF/cqU60nevU4LXAHtgLiJ9N6n8RT0cU2VAODL2irGQuska6SNd2R24P
-	JMMzOjD00dfDUeTJET6wEoJ39ukLoE2wBjiqFDDGE6o8BtxspMBc4KsD9zM/wdR58kDkYy
-	zUJJxjjm7T8j+yme0OLByBy4s7KHBuw=
+	bh=ZOjua0OdSLzmZx4yjj3ISQz4EQ1MytlJlwFxqB8mgUM=;
+	b=Yp6evPPcUnfEyWalDA8EUSVke4qTfKFGPc7NICeBD9sMVWHevGOvxw/k8iAqdGjKxB0XM7
+	uBXa6UJq5xvHFxEcLF+KydSandITPYx4IRjkJMStSLDT9DbNgLEUQtUbjfY7XO4bIXvlSc
+	mJVpsA1XbD3W231L+v/xXY4fUSKtJSk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024831;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
-	b=jrCqxDkSqOssNE0nHN/+s5BoUvx4UtFqsqio1J4PoTaYbjCx/hYNkM89wvgBwgGaLIetB7
-	PKsAG8EC4kU0tZCg==
+	bh=ZOjua0OdSLzmZx4yjj3ISQz4EQ1MytlJlwFxqB8mgUM=;
+	b=XrtNSu/1niEj83ZNKhj3Lb17n4SCZxCAPcs2PnPrkqsEgWbTEZLeJwqC4uNJeRmpjTssOT
+	VQecBxgOuRtx5ABg==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786024826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786024827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
-	b=Dwoxtgkp93dZA5kBgnWhQuhorS8U00jhjKlMKtV3NoJtx2EIRJ0c1ukXTTyNNkbX1Ktv4Z
-	3wCwfKB1mnx9oVJBDRKNmBvnqTD08raA/PYWVlgfXhSW6TtC0bSwYbQvXbNPlBvEBGHF+y
-	6k64jrWApEGBfzqiggb8qbDZhhWgUwo=
+	bh=ZOjua0OdSLzmZx4yjj3ISQz4EQ1MytlJlwFxqB8mgUM=;
+	b=gjbsoYMqY1r7HC113ZMtLutO4nukFqunJ2wmHfJNcVvgtj50ZUhtLoPOCekPDZ/XrlC1tv
+	lmmTQrSuNSSWR0wj0WdkTweFmTnH6WcaqXxqHLzldwz2pAIXfG+g02isyTA4hxMLR7sHHm
+	IVyJUnPzXMHU5474s+8DUAZPLCom9Kc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786024826;
+	s=susede2_ed25519; t=1786024827;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7PwsqDCRnICNmyZHun/1duzR67DILDCLop2t6bTMvKA=;
-	b=Z+szQVyKPtLfIKtziQQz6fWTrpUr6fSBaxEXb9j7OC8G5l4mnbvcifu0b4KdgfwUEcDSDn
-	DcuF8Hour0Bv9eBA==
+	bh=ZOjua0OdSLzmZx4yjj3ISQz4EQ1MytlJlwFxqB8mgUM=;
+	b=EyXZJPLcHBAWjFNiJCpbIlCGpApKij03KFtiC6n3CNVCYf0zckLSE56n0R/TqPeKU72gk8
+	lY5uwcBGyqejXNBg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 446A877A23;
-	Thu,  6 Aug 2026 14:00:15 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7576077A28;
+	Thu,  6 Aug 2026 14:00:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OLwQD2+TdGqbOwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:15 +0000
+	id aJvhGnCTdGqbOwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:16 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org
-Subject: [PATCH v2 24/31] ASoC: zl38060: Use auto-cleanup for firmware loading
-Date: Thu,  6 Aug 2026 15:59:56 +0200
-Message-ID: <20260806140006.1412298-25-tiwai@suse.de>
+Subject: [PATCH v2 29/31] ASoC: renesas: Use auto-cleanup for firmware loading
+Date: Thu,  6 Aug 2026 16:00:01 +0200
+Message-ID: <20260806140006.1412298-30-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
 References: <20260806140006.1412298-1-tiwai@suse.de>
@@ -119,49 +119,38 @@ Only the code refactoring, no functional changes.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/zl38060.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ sound/soc/renesas/siu_dai.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/zl38060.c b/sound/soc/codecs/zl38060.c
-index 7de4014e626d..894b8eb42e39 100644
---- a/sound/soc/codecs/zl38060.c
-+++ b/sound/soc/codecs/zl38060.c
-@@ -162,7 +162,7 @@ static int zl38_fw_send_xaddr(struct regmap *regmap, const void *data)
- static int zl38_load_firmware(struct device *dev, struct regmap *regmap)
+diff --git a/sound/soc/renesas/siu_dai.c b/sound/soc/renesas/siu_dai.c
+index 039b1264d90d..85dee9025710 100644
+--- a/sound/soc/renesas/siu_dai.c
++++ b/sound/soc/renesas/siu_dai.c
+@@ -715,7 +715,6 @@ static struct snd_soc_dai_driver siu_i2s_dai = {
+ 
+ static int siu_probe(struct platform_device *pdev)
  {
- 	const struct ihex_binrec *rec;
--	const struct firmware *fw;
-+	const struct firmware *fw __free(firmware) = NULL;
- 	u32 addr;
- 	u16 len;
- 	int err;
-@@ -180,7 +180,7 @@ static int zl38_load_firmware(struct device *dev, struct regmap *regmap)
- 		return err;
- 	err = zl38_fw_enter_boot_mode(regmap);
- 	if (err)
--		goto out;
-+		return err;
- 	rec = (const struct ihex_binrec *)fw->data;
- 	while (rec) {
- 		addr = be32_to_cpu(rec->addr);
-@@ -195,15 +195,12 @@ static int zl38_load_firmware(struct device *dev, struct regmap *regmap)
- 			err = -EINVAL;
- 		}
- 		if (err)
--			goto out;
-+			return err;
- 		/* next ! */
- 		rec = ihex_next_binrec(rec);
- 	}
--	err = zl38_fw_go(regmap);
+-	const struct firmware *fw_entry;
+ 	struct resource *res, *region;
+ 	struct siu_info *info;
+ 	int ret;
+@@ -726,6 +725,7 @@ static int siu_probe(struct platform_device *pdev)
+ 	siu_i2s_data = info;
+ 	info->dev = &pdev->dev;
  
--out:
--	release_firmware(fw);
--	return err;
-+	return zl38_fw_go(regmap);
- }
++	const struct firmware *fw_entry __free(firmware) = NULL;
+ 	ret = request_firmware(&fw_entry, "siu_spb.bin", &pdev->dev);
+ 	if (ret)
+ 		return ret;
+@@ -736,8 +736,6 @@ static int siu_probe(struct platform_device *pdev)
+ 	 */
+ 	memcpy(&info->fw, fw_entry->data, fw_entry->size);
  
- 
+-	release_firmware(fw_entry);
+-
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!res)
+ 		return -ENODEV;
 -- 
 2.55.0
 
