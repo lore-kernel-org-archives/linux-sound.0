@@ -1,86 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FEA30E0D6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C24379C35
 	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024837; cv=none; b=OFUKAUEu3h6xnWfCrBsMPI5wl754aLRevBS3KbcY4WYtXrBNVD3vmesapd6lsf7vBg0bx2lKnGrmibJmS2I7l+SCAgAmpZbEngLPCXGtl3Ddqjchhg1MTRGs/mPd7/vvnRgMfpL9I0csy2dPalGbkI1eOBOCgZ2/nSsSxDVCq6U=
+	t=1786024838; cv=none; b=q25CiC/XPvgLkYvqsYYXV4Pl7sAR9uKbIc2Ds8Y7gFdaIJYhELNqNguG7iCijLC/+HmW8vPSrw0Vte836vYCk3EcbOoQODXbNArxUSE5ThMkPLzZ1ly9tlzzqbDmNbrPYT84aX/vEgdpTzglDgLmtML1jRuv0wN7yfDiKADTDLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024837; c=relaxed/simple;
-	bh=Bu1ghSCPHI5Zpr21WAs4ahvZres8/CU7go3RBIrzhaU=;
+	s=arc-20240116; t=1786024838; c=relaxed/simple;
+	bh=9mEVZJj8qmak6NWKNJTkYhrk9QlgoCaphA/65qvRnrI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P1I2sqOhYRAWn9Y9QNF5bX0djQYiMgMiA5K5n/eUPtVhn8OFqfYctAuoS49hX8eLlbo/InXkSkhzCZfjmJ3QLkmHHVmV/7FQR3KCcN6ajuASHRO7vfGcmrmY+qpWApiqeZJJINnyq4zJjA73KfLluHCyP6z8mgykcwdLp9H7LgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IMvzKDw6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JQ01nc5/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X1WMuXJn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KVm7Uxzn; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=NiIjuNu+XDKEXg0hg29JHryL+ke5Pr8unNOT45a+PoGmN7rw/60YiYcI2bqCMwsIlh0kGOHq9oPB1Rw52Rs6N8ZQgbOejVmm6742pLrl280kTxcBAnx//F6txb/ZMpXjzTv6i49hHZ87gyTCaju/WScPv+PhyrL6bgRFNWSjd1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=UJ2Rvmij; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JBX2wY/u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k7CXG8og; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8+De3D8N; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IMvzKDw6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JQ01nc5/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X1WMuXJn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KVm7Uxzn"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UJ2Rvmij";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JBX2wY/u";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k7CXG8og";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8+De3D8N"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CF3CC800D2;
-	Thu,  6 Aug 2026 14:00:25 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 903203E25;
+	Thu,  6 Aug 2026 14:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NVY9Z+vs7piGW/Bbbssix+RHmrUJrbKHw9kH3kp1WiI=;
-	b=IMvzKDw6hK8I1khe9OAa+2HFwKE4MlOrahAvklUeq4hsVqiBHqGVStueEayjC5Q07vUSlr
-	PfScis0Cs+wxqwgt8ANXC+WniLBQ5U5wjvTCutlU0VhCgQKz5oU7GozCUobiGao1siC2ug
-	cueNTp5TGu4hPqJi0PKCHoLtsx3QjZM=
+	bh=uiv+kL2bT58WSmjg6HPRH0XzgREM5dG6nMPzO3pz1XY=;
+	b=UJ2RvmijmgXfyv/WM7z8LJ2KtJT+ScevBXMHO+0YNdH+MBLuBwjFDFQnQO7lZOwGdGEMh6
+	PIpgFsbUFhE2W298LaAOUuPSYnO9wnNobvhPPfjSuUbrRocH3FuWU8MiwNnAYtO8xCJmuT
+	WAsIRlFC2yuKDBZbw7W/nXt6HrUuTrA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024830;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NVY9Z+vs7piGW/Bbbssix+RHmrUJrbKHw9kH3kp1WiI=;
-	b=JQ01nc5/ed67Wq4gffX+Hs+BHUDrXGjVQ+BIEayMVlEXOocBxwWqXt1MYdY5RxHVKS1J24
-	a6GmCgT7Na90LYDA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=X1WMuXJn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=KVm7Uxzn
+	bh=uiv+kL2bT58WSmjg6HPRH0XzgREM5dG6nMPzO3pz1XY=;
+	b=JBX2wY/u9gDE60jyWYWehguvMRgHpzvJIpz8DmwuCCDYQSWhnZXqB1I0wNFICWbjiQArFV
+	X3w0u7ANY0lhWqBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=k7CXG8og;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8+De3D8N
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786024825; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786024826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NVY9Z+vs7piGW/Bbbssix+RHmrUJrbKHw9kH3kp1WiI=;
-	b=X1WMuXJnvDSMIDj9yjJZI5qwevH1C3pOm/CDiJztG1Wa22Xbc24ZY1mS6GiMLHUZhahUok
-	RJmk3hKXMXIN4bE7/IN+wmZjzg6evK3iaJwnCPdix0eWOKIt0okCcsuafY+ZaCdJRUNl82
-	+gRBDxtr3WwPq60c3uXq98MzJYyUG1I=
+	bh=uiv+kL2bT58WSmjg6HPRH0XzgREM5dG6nMPzO3pz1XY=;
+	b=k7CXG8ogUsFZiiVf7z78srxpbonp7urBxzwTETQEyWJ56Dv9R74P5uyvMRGwSYRB9HjYKM
+	CmB+CgJzVPON6HW8bEHg8SfEuUE2oAnrNIY1E8uF/zgExUl1dyyhkGN5Y4mRObJDwq0Xx8
+	Lfw2kQbVydnPbIDSggYogVepZVMCJb0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786024825;
+	s=susede2_ed25519; t=1786024826;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NVY9Z+vs7piGW/Bbbssix+RHmrUJrbKHw9kH3kp1WiI=;
-	b=KVm7Uxzn9TYEMOLMsXFzjADzV+ka+ieO7VIXJ8Iea5ornXAUfzKqC5tupArjPMA11rBIeG
-	eye4z2GEaELj1PAA==
+	bh=uiv+kL2bT58WSmjg6HPRH0XzgREM5dG6nMPzO3pz1XY=;
+	b=8+De3D8NnPFgEEuUI5T7oP5hiKERmow1emR5sdoVrpJECO64CSz/WE70BSERAwJhdRlozG
+	Bar354O7j5xmEMDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09078779F7;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EC5BE77A1E;
 	Thu,  6 Aug 2026 14:00:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0CSNAG2TdGqbOwAAD6G6ig
+	id qO85OG2TdGqbOwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:13 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
 Cc: linux-sound@vger.kernel.org,
-	Oder Chiou <oder_chiou@realtek.com>
-Subject: [PATCH v2 15/31] ASoC: rt5677: Use auto-cleanup for firmware loading
-Date: Thu,  6 Aug 2026 15:59:47 +0200
-Message-ID: <20260806140006.1412298-16-tiwai@suse.de>
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>
+Subject: [PATCH v2 19/31] ASoC: tas2781: Use auto-cleanup for firmware loading
+Date: Thu,  6 Aug 2026 15:59:51 +0200
+Message-ID: <20260806140006.1412298-20-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
 References: <20260806140006.1412298-1-tiwai@suse.de>
@@ -94,9 +97,9 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Score: -3.01
 X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: CF3CC800D2
+X-Rspamd-Queue-Id: 903203E25
 X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
@@ -104,7 +107,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,realtek.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:email,suse.de:dkim];
 	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -117,7 +120,7 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_FIVE(0.00)[6];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
@@ -127,41 +130,127 @@ auto-cleanup.
 
 Only the code refactoring, no functional changes.
 
-Cc: Oder Chiou <oder_chiou@realtek.com>
+Cc: Shenghao Ding <shenghao-ding@ti.com>
+Cc: Kevin Lu <kevin-lu@ti.com>
+Cc: Baojun Xu <baojun.xu@ti.com>
+Cc: Sen Wang <sen@ti.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/rt5677.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ sound/soc/codecs/tas2781-fmwlib.c | 45 +++++++++++--------------------
+ 1 file changed, 15 insertions(+), 30 deletions(-)
 
-diff --git a/sound/soc/codecs/rt5677.c b/sound/soc/codecs/rt5677.c
-index 3e4d1dbce740..4757017cc83d 100644
---- a/sound/soc/codecs/rt5677.c
-+++ b/sound/soc/codecs/rt5677.c
-@@ -849,11 +849,11 @@ static int rt5677_parse_and_load_dsp(struct rt5677_priv *rt5677, const u8 *buf,
- 
- static int rt5677_load_dsp_from_file(struct rt5677_priv *rt5677)
+diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
+index 11d1c2ac865b..df30abfb3b6b 100644
+--- a/sound/soc/codecs/tas2781-fmwlib.c
++++ b/sound/soc/codecs/tas2781-fmwlib.c
+@@ -2243,7 +2243,7 @@ int tas2781_load_calibration(void *context, char *file_name,
  {
--	const struct firmware *fwp;
- 	struct device *dev = rt5677->component->dev;
--	int ret = 0;
-+	int ret;
- 
- 	/* Load dsp firmware from rt5677_elf_vad file */
-+	const struct firmware *fwp __free(firmware) = NULL;
- 	ret = request_firmware(&fwp, "rt5677_elf_vad", dev);
+ 	struct tasdevice_priv *tas_priv = (struct tasdevice_priv *)context;
+ 	struct tasdevice *tasdev = &(tas_priv->tasdevice[i]);
+-	const struct firmware *fw_entry = NULL;
++	const struct firmware *fw_entry __free(firmware) = NULL;
+ 	struct tasdevice_fw *tas_fmw;
+ 	struct firmware fmw;
+ 	int offset = 0;
+@@ -2253,60 +2253,50 @@ int tas2781_load_calibration(void *context, char *file_name,
  	if (ret) {
- 		dev_err(dev, "Request rt5677_elf_vad failed %d\n", ret);
-@@ -861,9 +861,7 @@ static int rt5677_load_dsp_from_file(struct rt5677_priv *rt5677)
+ 		dev_err(tas_priv->dev, "%s: Request firmware %s failed\n",
+ 			__func__, file_name);
+-		goto out;
++		return ret;
  	}
- 	dev_info(dev, "Requested rt5677_elf_vad (%zu)\n", fwp->size);
  
--	ret = rt5677_parse_and_load_dsp(rt5677, fwp->data, fwp->size);
--	release_firmware(fwp);
+ 	if (!fw_entry->size) {
+ 		dev_err(tas_priv->dev, "%s: file read error: size = %lu\n",
+ 			__func__, (unsigned long)fw_entry->size);
+-		ret = -EINVAL;
+-		goto out;
++		return -EINVAL;
+ 	}
+ 	fmw.size = fw_entry->size;
+ 	fmw.data = fw_entry->data;
+ 
+ 	tas_fmw = tasdev->cali_data_fmw = kzalloc_obj(struct tasdevice_fw);
+-	if (!tasdev->cali_data_fmw) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
++	if (!tasdev->cali_data_fmw)
++		return -ENOMEM;
++
+ 	tas_fmw->dev = tas_priv->dev;
+ 	offset = fw_parse_header(tas_priv, tas_fmw, &fmw, offset);
+ 	if (offset == -EINVAL) {
+ 		dev_err(tas_priv->dev, "fw_parse_header EXIT!\n");
+-		ret = offset;
+-		goto out;
++		return -EINVAL;
+ 	}
+ 	offset = fw_parse_variable_hdr_cal(tas_priv, tas_fmw, &fmw, offset);
+ 	if (offset == -EINVAL) {
+ 		dev_err(tas_priv->dev,
+ 			"%s: fw_parse_variable_header_cal EXIT!\n", __func__);
+-		ret = offset;
+-		goto out;
++		return -EINVAL;
+ 	}
+ 	offset = fw_parse_program_data(tas_priv, tas_fmw, &fmw, offset);
+ 	if (offset < 0) {
+ 		dev_err(tas_priv->dev, "fw_parse_program_data EXIT!\n");
+-		ret = offset;
+-		goto out;
++		return offset;
+ 	}
+ 	offset = fw_parse_configuration_data(tas_priv, tas_fmw, &fmw, offset);
+ 	if (offset < 0) {
+ 		dev_err(tas_priv->dev, "fw_parse_configuration_data EXIT!\n");
+-		ret = offset;
+-		goto out;
++		return offset;
+ 	}
+ 	offset = fw_parse_calibration_data(tas_priv, tas_fmw, &fmw, offset);
+ 	if (offset < 0) {
+ 		dev_err(tas_priv->dev, "fw_parse_calibration_data EXIT!\n");
+-		ret = offset;
+-		goto out;
++		return offset;
+ 	}
+ 
+-out:
+-	release_firmware(fw_entry);
+-
 -	return ret;
-+	return rt5677_parse_and_load_dsp(rt5677, fwp->data, fwp->size);
++	return 0;
  }
+ EXPORT_SYMBOL_NS_GPL(tas2781_load_calibration, "SND_SOC_TAS2781_FMWLIB");
  
- static int rt5677_set_dsp_vad(struct snd_soc_component *component, bool on)
+@@ -2399,7 +2389,7 @@ static int tasdevice_dspfw_ready(const struct firmware *fmw,
+ int tasdevice_dsp_parser(void *context)
+ {
+ 	struct tasdevice_priv *tas_priv = (struct tasdevice_priv *)context;
+-	const struct firmware *fw_entry;
++	const struct firmware *fw_entry __free(firmware) = NULL;
+ 	int ret;
+ 
+ 	ret = request_firmware(&fw_entry, tas_priv->coef_binaryname,
+@@ -2407,15 +2397,10 @@ int tasdevice_dsp_parser(void *context)
+ 	if (ret) {
+ 		dev_err(tas_priv->dev, "%s: load %s error\n", __func__,
+ 			tas_priv->coef_binaryname);
+-		goto out;
++		return ret;
+ 	}
+ 
+-	ret = tasdevice_dspfw_ready(fw_entry, tas_priv);
+-	release_firmware(fw_entry);
+-	fw_entry = NULL;
+-
+-out:
+-	return ret;
++	return tasdevice_dspfw_ready(fw_entry, tas_priv);
+ }
+ EXPORT_SYMBOL_NS_GPL(tasdevice_dsp_parser, "SND_SOC_TAS2781_FMWLIB");
+ 
 -- 
 2.55.0
 
