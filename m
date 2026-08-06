@@ -1,106 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528463290C7;
-	Thu,  6 Aug 2026 11:16:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE3F471D06;
+	Thu,  6 Aug 2026 11:41:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786015020; cv=none; b=BXA61RggRFRX5vYXExHAkEFMtTdsvY7XQOvLerX4XKw7Wmeg4OeCVJ3liWUUnhBrbK/PEcZn3ywYXcuVz3ThhuwQawXXxqPE/so78NNz9jZ3WJveCLSe+SS0XKDyBTaAE5PYbbbYiQh1icsaO6Xpt04IomYp65Tm4lkkvCZDAuE=
+	t=1786016489; cv=none; b=n9SMQHjsSsgornFWeh05a3M3NIxkkwBhyK4O8MSuXHBm0muZFgouzpkIikhTKXXHiVWA8I89ZSMacZfx90NL/+ZbHea7xH/H7kFMmzwn9vgyt4Ys2KuxVn8xBdP0NDXL/EY1qr5peMFFkXDMm6c8vuFPrsZuzM1rnrPR+g5+jy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786015020; c=relaxed/simple;
-	bh=gk9mkUkPPPpTCUoE99h5PJY26gd6OjPOpFFkIbQuA6I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=TZKXTbfC5DTRme3QmNn0llcr5pq+azkMRzzvOdDNLgE4v0T4xImYpPsI1ojBn7d4oinzhH1fEpGa6f+ZHCoAtIdaKXPWolPT2wYVQRmn03Vzydr1DSisVM3rdlPP+Rg7HrLdzfz9ONlBD6RjrOD1q7QvX96A2/Ltd5938378NKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZUsE0XwL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786016489; c=relaxed/simple;
+	bh=Flo/uHX4QUjlM708gbPqM09Zj+zFE5pjBISZkGdM9xE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=COsJM9H3LLZhpXEbuf2Ae4/+V4UWnK9dXTlG9MfpY5c2L0ZTPuihUcS7aq2Acrr8iy2IXRJ3qfNfawNa/mqg4kLmFpbl1Nu8Eoo0Gm/AslWi2UCCYi9/f5M+1TDv+0VJkVA+x+Wcgk45lGF6Cl0ihmwz4kjE6bobwNbnK8BMz9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nglPgRSq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZUsE0XwL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A081F000E9;
-	Thu,  6 Aug 2026 11:16:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nglPgRSq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225CE1F000E9;
+	Thu,  6 Aug 2026 11:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786015019;
-	bh=4uZYy4uoQQQTYTc9PDk7/+KtDsazcFwqPRWRopqQJe4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ZUsE0XwLhcc063EFE/AHCLrW+3204RcBSPflh99QWcw9RCalopKz/XMYgKCHIuUhq
-	 a9MW4Ncpo94gH+6xcJRQtqUwEB9xxIrmACGKqMx231UjKjLEqKUulgrfyzzqS6Sx9C
-	 HrQDG1KxT9bJbLFM30T0nnlhM6s8N133kG7KJg+XJmlbFQ9P1FNVOL9OkiK7p6C7n/
-	 C/jcTPehiLjhcOBMYoPOQBhyWwD36w2Pkxnr7XFTdYA6j4zEoJzVAh3d7EHO68YUzF
-	 NtK1wZc0iL5DSJcfeQ+P5LGK803ugjqj2nWuJxwYqofOa2wkyuLIfuocrkLU3oN6tj
-	 xV0B4fxyDkPSQ==
+	s=k20260515; t=1786016485;
+	bh=Flo/uHX4QUjlM708gbPqM09Zj+zFE5pjBISZkGdM9xE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nglPgRSqENZvFj3z1QCGSioSvVIpiqrBxeCoFlH74qebIBnM2r5cOPUWa798zYaOg
+	 XyBXSPqc7wXWsnIGh465ZHQgspNEfzWCGZfEmafsIV17/lF1l0jhMf2fV8MQA/Pr2o
+	 sTj2rcjtuTuSaWrMCTr9Wqo6bRfXZmXE3+gt03fNhlC7YhWrBmTuYyh+8f4N1y/Raq
+	 t9O1GyWAFhf5ElUpPiqFOyGZ5AMjbnuTtOhpK32hfuDt0v4i0vgc4YrgITYVssw7Sb
+	 Ec4W51QPG90CMdybu/q76CXNNrwwxwixc8g6tOciyBVWgdxm31lCBKP8tI3u6ztI8Y
+	 7jTdw9AOlXlCA==
+Date: Thu, 6 Aug 2026 12:41:20 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Jakub Kicinski <kuba@kernel.org>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260805144434.1290261-1-ivo.g.dimitrov.75@gmail.com>
-References: <20260805144434.1290261-1-ivo.g.dimitrov.75@gmail.com>
-Subject: Re: [PATCH 0/2] ASoC: cpcap: Use standard ASoC DAI link
- configuration for voice
-Message-Id: <178597298068.199927.11644339559553747903.b4-ty@b4>
-Date: Thu, 06 Aug 2026 00:36:20 +0100
+To: YLCHANG2 <neo.chang70@gmail.com>
+Cc: Neo Chang <YLCHANG2@nuvoton.com>, lgirdwood@gmail.com, perex@perex.cz,
+	robh@kernel.org, krzk+dt@kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
+	kchsu0@nuvoton.com, sjlin0@nuvoton.com
+Subject: Re: [PATCH v7 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
+ amplifier
+Message-ID: <24312caa-d38f-48ae-a137-63eac9f7d58b@sirena.org.uk>
+References: <20260804032951.1069901-1-YLCHANG2@nuvoton.com>
+ <20260804032951.1069901-3-YLCHANG2@nuvoton.com>
+ <479efa04-2c02-4b5d-8fdd-e3d4c6e49c4f@sirena.org.uk>
+ <7691eac8-5798-c1b5-5ffd-19c780b69a3f@gmail.com>
+ <fe60dbe2-0626-4d52-8be3-62445a35ddaf@sirena.org.uk>
+ <4bde20c7-2496-8122-7e0c-4fd986a59232@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1799; i=broonie@kernel.org;
- h=from:subject:message-id; bh=gk9mkUkPPPpTCUoE99h5PJY26gd6OjPOpFFkIbQuA6I=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqdG0nS1ONt8CaZVk0iYV/Xv+o3Ofzx1BPbjC8d
- qdVaF4NibaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanRtJwAKCRAk1otyXVSH
- 0ARFB/90cMaFIVicGPvRMLuaEAYlC7e7je01/EqVnMmYKQ2c37oIsR8mahcSv/5LiKD0DYJtKUe
- BcVpi95AL+H7iGNfJq0pXNWntAcVaH3/ZuEXZL3TcAlmh/siXrIkW6dCrWqqjBxrAoYTHkk+R6R
- OL1rNaE7ky/5KLPTA5EMilU5Hvx7DZPArdsa9gzJ7uG1CDb3OG4vYbg/gIOWay4SQ1JW1hdSxDR
- x3KGMunED49/pVGtE5gde6r72RQ+Q4yW8KlhN+6vubSdwNHnjSgmqIY4977eCg5ry2qOwHhb+5a
- ussai+8RHSSqUn1/X5oCpJ0kHIRB5Vr80ekBX72Zf0yW52hc
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6m+pV/bZ58Xr9IBk"
+Content-Disposition: inline
+In-Reply-To: <4bde20c7-2496-8122-7e0c-4fd986a59232@gmail.com>
+X-Cookie: Brain fried -- Core dumped
 
-On Wed, 05 Aug 2026 17:44:32 +0300, Ivaylo Dimitrov wrote:
-> ASoC: cpcap: Use standard ASoC DAI link configuration for voice
-> 
-> This series removes the modem-specific voice call support implementation
-> from the cpcap codec driver and moves the DAI configuration towards the
-> standard ASoC DAI link configuration model.
-> 
-> The previous implementation added a cpcap-specific .set_tdm_slot()
-> callback and relied on a client driver to locate and configure the codec
-> DAI directly using snd_soc_dai_set_*() APIs. This couples the codec
-> driver to a particular client implementation and bypasses the normal ASoC
-> configuration flow.
-> 
-> [...]
 
-Applied to
+--6m+pV/bZ58Xr9IBk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+On Thu, Aug 06, 2026 at 11:27:43AM +0800, YLCHANG2 wrote:
+> On 8/5/26 18:30, Mark Brown wrote:
 
-Thanks!
+> In the v8 patch, I will remove all fine-grained clock divider configurations
+> from nau8360_dsp_hw_clk and nau8360_dig_sys_clk,
+> leaving them to only handle source switching.
+> Is this approach acceptable?
 
-[1/2] ASoC: cpcap: Remove modem-specific voice call support
-      https://git.kernel.org/broonie/sound/c/24fb36c1936b
-[2/2] soc: codecs: cpcap: set voice DAI format as specified in DT
-      https://git.kernel.org/broonie/sound/c/26a92a696897
+Yes, the concern was the fine grained dividers.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--6m+pV/bZ58Xr9IBk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp0ct8ACgkQJNaLcl1U
+h9D7dAf/fNB/oCN7chAia30DfMPgccSts/Pd2aNA+/KjjZK+mpYPJNNEx3k9VLXt
+C5C9RDUgVsA6PVwnMHSTjgCur77ADP5IZ9gs2zMmoV1iF+WynxQUQXgNNjXwJdGc
+CK7LAJli4PxJCf83uKcciqTQOWKYANRQfn04yMKthQ6RrP6W/SpM4Yrzfzz88igH
+PV/5+Ymzijn9sASLn3Ik4y9ufaT01Pt4mAlAGBTwxsVlMT+5QdNhEqR6H5VTW+NT
+ZGXs/q3klie3jYnlfKE4EnpuoiF/r28LEalr8whWwfEDsyKv0jcIiG6sqJD5S2qu
+W07nHoDhYWEMzRji88RpJqCOxVgDHw==
+=drsC
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--6m+pV/bZ58Xr9IBk--
