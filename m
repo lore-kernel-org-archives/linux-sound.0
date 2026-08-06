@@ -1,49 +1,81 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01EA223DFF;
-	Thu,  6 Aug 2026 05:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C43C3859CB
+	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 05:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785995129; cv=none; b=IkIeVQX2IZqKLRuIq1axWp46ESd07kQb+hYwiTM6HQRu5HVwJwz5Idu4OmLLmdbMATDzGvsnAELKhZTNsxVLw5dY3AgqbaNy//tGMCb8rLmIJWHY8fCoeVW1vCZpo7v+Hhbf6VWNVM/zYZWio1A3qkjsohbYwqhbS+W86OnKIZo=
+	t=1785995997; cv=none; b=dZsFlE/wpHkOi0xV+uDE37PAaq7hE5EeMfouAj04YRPNrUQsO547bpoMUwgIdiTWsOS+G1EZlDDK+EkNU6Lg0SxZxzGeyveJo7/6FjT27GTtSjqKZUSz2gfhMjipfgM2ennLJkt6i+UtmotMK1CPAKoRdfROcE4sP8Pi+C2r2uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785995129; c=relaxed/simple;
-	bh=yDToM9y6i6hlQzoIuEQifYdRV8+bW9mONCzuC88L3eo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MFSXS0RCnsygLCoRjeCCEG6e9gLY35q/uVqCVimiKpjQrGrAxtKL/EjALK90H3/wPHAkgmydSGBeoc+wf7ic7MdNuaYe57xKpKltpuYO0YjWekI+3/vH+P9dxe6GDYr+baIfQUSn7RHM9/t7vRt2aSgVIkYfl743RLNOnzrz0bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: febf4500915911f1aa26b74ffac11d73-20260806
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:da0bc538-7585-4e7f-a43f-002fcebe1795,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:ffb091623c1389d8fdfd2fc92e62e774,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|865|898,TC:nil,Content:0|1
-	5|50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
-	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: febf4500915911f1aa26b74ffac11d73-20260806
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1730286744; Thu, 06 Aug 2026 13:45:13 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH 2/2] ALSA: hda/realtek: Merge duplicate quirk entries for ASUS UM6702RA/RC
-Date: Thu,  6 Aug 2026 13:45:05 +0800
-Message-Id: <20260806054505.43717-2-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260806054505.43717-1-zhangheng@kylinos.cn>
-References: <20260806054505.43717-1-zhangheng@kylinos.cn>
+	s=arc-20240116; t=1785995997; c=relaxed/simple;
+	bh=38sJWD51bvqFyIMrBEEym7OBm84GpTOLm6gU3EN0vbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uw2okuFfqW6tCZnuSgHiewytWf6NmwefKDl3ECM5htcXrpFe9JDgRUBoWwIuuLzDw44sX4u5T3qVkNjOF+jARskGfLsbqFQ8BNPNTJyMFNKF4zwM9LVDVI8Qo3Jx1ftNgbNG/keBbndX4otTACi4Md8VJxoDElJ4t3/75t826GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Un3MvipF; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Un3MvipF"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84874b52eabso2593346b3a.0
+        for <linux-sound@vger.kernel.org>; Wed, 05 Aug 2026 22:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785995995; x=1786600795; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+uV3a1ZMt20KcdVnxB2/Ay1vWKrYrKnEXInPtGHfWRI=;
+        b=Un3MvipF+2z4hNKfWx45+NprlEKmrsXoaAd7c1+sO2yHJcH/VTrv+MUtsVgeCZHiv2
+         7qy2tx+yquu3C09ik1odlpP/34Sj1mXeANjEM8xcLFGIJi05Quj0Qj7uJ6SRSOT8ezyy
+         IMqjVNuOCcEHGvRLcPZEn7nsT+fGznz17lGazA+m2xO/VRwOB5Hs+z8TsGQRV5wVD6F5
+         Exhg76sZfYnQG1yaN3WZIoFBuyVkdFWLH0xTqBk93AzccoD5QPE9KaZvmZVODZDvzI11
+         Idm/czj1v60xiWvzPEoEPwaxd/WuiTHnVvkuyvvA3Yf2dfJu710C0LUvBwG3ttOoCILe
+         YuSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785995995; x=1786600795;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+uV3a1ZMt20KcdVnxB2/Ay1vWKrYrKnEXInPtGHfWRI=;
+        b=d6u29bhn9mHq9FskcchtUrMntADBcNWfT6XVqbBo0PwxlwNuDu8lwziftceKS6igYc
+         eOefPZx3dg6DwlaxI413idDsLAexqjAFg7QDXIc9YOwU62lAogriorRw3q5+97t9nhZi
+         6RTR6jiT/BqWEu6DF/v55wcO+276uORHbVw7R2W0AIJHFG/wddQUjxum2BbfLfs/2FGx
+         omnNZri7MoI3C4oWntu558zXjXwLjkZx8yoB496j0skwwVpNffo7Y1H6Zgd1inTjMCEj
+         WUcEww2dxh0g7WIaUwxk4zaAr8YEJ+wUm0s3NG1pjRi8p25vPvRMubVf5waQ+Z/X/oIm
+         tD4A==
+X-Forwarded-Encrypted: i=1; AHgh+Rqwhb/UChMc8Ol14nHoG9JDvKeSqjQrIQrr+ie+QC0joGeEn0pL+tPLSn36Bnc/k4AGEXKeK5TcAhIwkQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCp8zYj+ZMnyomSMcuClUfP3vf/Io1kVE2oMIT/JVQa9/5y0GI
+	Zgz8sqBrgSZK8K0wSkU6OIslDOg6OEL07neAk2DQRYlnVDojfb7NDTpm
+X-Gm-Gg: AR+sD10KcUs4m/g90Q+xem/SJf4U6JkXZ92SYJ+5v9ZK0H1sOfX22w60eE86iqu+167
+	EoHGEFfh6qOkZq3e79961D7fegImWYtl26L2VcHw3C2c6DHxjwEKiz7RndoVYm4p69nk51fPhHX
+	ImOp782aD8lOhhNLE4iwSlTPekqWLsca1cXtqqfs4Lk0vJHUxx3vUWFaULGGwdgwXp51bK5giaC
+	qAKUX1MIXxwZW4ECfIT02FzMiktC/H1/VTmO1Vg+HWliBVd8WExkOAQg/Xyh2t7KPojVAAQk0oP
+	wRs970Zz7+GUPkPYz8WICt2xSoDJ0W4PxILfs90trZGgUetQkieGULfPR032tAJI58oFMaM30ha
+	+jHa6T9VLGv0G3/p75T/9MET40BqhBsn6X1jMZl4cYKx4bGSLR7V21Hk+ISA1u5h3UQeuDuopWV
+	BdduOvSje3UsBIBisPmOWpiciMmxx/UIswYBeJPp1orU+JFPoWN98QPrV6MN3j01dZb0s8rUxDs
+	L6n3REqOkWZFUjiJCi7mNgaU7x3+d29Is7DAxXyvP4o1KToqFMheqGJaQ53llbrWXlB225F468Y
+	uzzt
+X-Received: by 2002:a05:6a00:88c:b0:845:3914:f039 with SMTP id d2e1a72fcca58-84f2dff687amr13631507b3a.26.1785995995648;
+        Wed, 05 Aug 2026 22:59:55 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f45ab011bsm633993b3a.41.2026.08.05.22.59.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2026 22:59:55 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH] ASoC: Intel: KMB: Propagate -EPROBE_DEFER from IRQ lookup
+Date: Thu,  6 Aug 2026 12:59:37 +0700
+Message-ID: <20260806055937.24600-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,38 +84,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The ASUS UM6702RA/RC (subsystem 0x1043:0x1ee2) currently has two
-duplicate quirk entries: one using HDA_CODEC_QUIRK with
-ALC285_FIXUP_ASUS_I2C_SPEAKER2_TO_DAC1, and another using
-SND_PCI_QUIRK with ALC287_FIXUP_CS35L41_I2C_2.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Since these entries cover the same machine, the duplicate is redundant
-and should be merged. The correct fixup to keep is
-ALC285_FIXUP_ASUS_I2C_SPEAKER2_TO_DAC1, as it additionally addresses
-the issue where the volume cannot be adjusted properly.
+Return -EPROBE_DEFER from platform_get_irq_optional() so the driver is
+re-probed when the interrupt resource becomes available instead of
+continuing probe without an IRQ.
 
-Merge the two entries into a single SND_PCI_QUIRK entry with the
-appropriate fixup.
-
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/hda/codecs/realtek/alc269.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/intel/keembay/kmb_platform.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 774148acb8fa..04aa974d5869 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7698,8 +7698,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1e93, "ASUS ExpertBook B9403CVAR", ALC294_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x1eb3, "ASUS Ally RC72LA", ALC287_FIXUP_ASUS_ALLY_X),
- 	SND_PCI_QUIRK(0x1043, 0x1ed3, "ASUS HN7306W", ALC287_FIXUP_CS35L41_I2C_2),
--	HDA_CODEC_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC285_FIXUP_ASUS_I2C_SPEAKER2_TO_DAC1),
--	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC285_FIXUP_ASUS_I2C_SPEAKER2_TO_DAC1),
- 	SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1f11, "ASUS Zephyrus G14", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1f12, "ASUS UM5302", ALC287_FIXUP_CS35L41_I2C_2),
+diff --git a/sound/soc/intel/keembay/kmb_platform.c b/sound/soc/intel/keembay/kmb_platform.c
+index 6659e8060ef3..48f132f01878 100644
+--- a/sound/soc/intel/keembay/kmb_platform.c
++++ b/sound/soc/intel/keembay/kmb_platform.c
+@@ -873,6 +873,8 @@ static int kmb_plat_dai_probe(struct platform_device *pdev)
+ 
+ 	if (kmb_i2s->use_pio) {
+ 		irq = platform_get_irq_optional(pdev, 0);
++		if (irq == -EPROBE_DEFER)
++			return irq;
+ 		if (irq > 0) {
+ 			ret = devm_request_irq(dev, irq, kmb_i2s_irq_handler, 0,
+ 					       pdev->name, kmb_i2s);
 -- 
-2.25.1
+2.43.0
 
