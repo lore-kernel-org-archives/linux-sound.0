@@ -1,86 +1,85 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47083374E55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706A333ADAC
 	for <linux-sound@vger.kernel.org>; Thu,  6 Aug 2026 14:00:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024829; cv=none; b=SQ5kWO0nCNMLrC+2y/+ufAR/mOJHOw6OMO2e/iDwmnDCBVA0SSOCsb9GpbhEFmbXDfWjVhqgihDD+f+5oHUcnTWRFGUWasKBi5nr+yWRT/d1jIJ8E/aIM0jTfnw7nSu1C19Fv2eCdxYWeVuescl1JqldeeXKnNLVl70TcUNblys=
+	t=1786024830; cv=none; b=Gp0uOq8K0VcnAa5Nm9EKuGKbglakxU5axL9g0V5m9VVLpd3atTEPZILbPXjnmptGXARrpxoF6JEW7m199KpE06HNFbVb01qK7c92cqFnGUbKEo0sfmazX4WELVHIuqZnNiEOD8vgpEVUmcAM+dVwWOblhEl/aTSVgtMYCB1rKGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024829; c=relaxed/simple;
-	bh=WVs7CYtmve25x69d27AOPhH/S6cVg1pKxShn+HK9u9Y=;
+	s=arc-20240116; t=1786024830; c=relaxed/simple;
+	bh=014VIVlUweb8WByuc3EfBW7Qukln1yt6o9jx4loicH4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l8Ua7kh/Fo/yAYLDJ/D+NDXSezbb1eIkWgz8s6X3db/xR4G8gxi4egPA0/6L1nVcmSYsOtzGC9k5oS52XRL3oevSUD5XPw/61Q7exVvCnp60t1paP4Q2evLZf+idKoqDMSX6+kAJbI21PeNc4Qka4lh1lycjSfsjHkqd2EhhD1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jlle4njD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J5jqunoL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2RnY1Nxw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dX+hheQG; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=Zm3XHUUNQBCxNkqCNuIHvk8qMoEdv0uIJEtvpvhfKGtL6S8PF0qxhd7w/cJ2+DWyKR6cIJ0YvyK2wpdeVkXuvlAZwfVNNU3cYsdph7JaPsgZ9eR9WvXwoliVmeICjS2mVe7OmjL50pZdcAAoYGm1qeNPBa8hQ6ZExIW1s+XktNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LEdP5MR3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QtPLyeY6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VljRUW9G; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1QCgVIU9; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jlle4njD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J5jqunoL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2RnY1Nxw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dX+hheQG"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LEdP5MR3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QtPLyeY6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VljRUW9G";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1QCgVIU9"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 499F33E16;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8590E3E30;
 	Thu,  6 Aug 2026 14:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024822; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LuO+MUy+1uRzX1DRrOuzF9dgijdfPNPED5OCI3l40Yc=;
-	b=jlle4njDmTuZLI2uwLBEbJU3j1zEcx76o13pT7L2J4p+2f4iaCU9vo0ZT2xfSrAhQEekhN
-	Nt8z5o3eq27R56oDTaYPP2yVplLX98LFltk8HLDPLSkK/OKfqCUnhOXxKXZ/vDD74MZ5Yo
-	M51hRltm59KBc4LGMq0rZFiD7SPvfDg=
+	bh=VVG9gMSB15PR+Z+MPLJCj5kew9dO3fghcT0SRrZekx0=;
+	b=LEdP5MR3Mjmj3G/nlwkz47clUvqnwewM+GrLcWYo+3UC09KoCnkYOuwKJEgq84GYnVW8Gx
+	guHCOQ14f1cwYP3lZAcYdTlfrm9a59N5vc8C0UkmafqgWRYUhULeIea4efkQc3WoyVwky5
+	LRRVnS0bCxawAKxFDR41XedEitkVd54=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024822;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LuO+MUy+1uRzX1DRrOuzF9dgijdfPNPED5OCI3l40Yc=;
-	b=J5jqunoL5O4wOI/iGVMAEi9lz2tYdhrFG5Zg4WJ/Or0Y3uBbknnlsa7xYA/GN7ClpjCBbE
-	1vByr/I2CKDJv8CQ==
+	bh=VVG9gMSB15PR+Z+MPLJCj5kew9dO3fghcT0SRrZekx0=;
+	b=QtPLyeY64ByExov6Bny+g0xdzVq6k1RNYnpZJ7I4f1yKbQ6tw6sUdvR/RnZ9FA9shcF5FJ
+	W90ntFMlzSCjuMCA==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2RnY1Nxw;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=dX+hheQG
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VljRUW9G;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=1QCgVIU9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786024818; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LuO+MUy+1uRzX1DRrOuzF9dgijdfPNPED5OCI3l40Yc=;
-	b=2RnY1Nxw8fpGxlDdh0L2jLUlTFyFZz2+OmKMWQna1vt++IQ/ymUcJ8iX4QjbK/J5lo39MN
-	TKYaGY5EhJdt4KvMwMZeVCVQj79yv/HNptQWcl+H+q19tgmGZrbVjfHdmKRGDQqvU6LZ77
-	V1d9YRXIcI8gyxsVPpufwSg/1ZZAhQ8=
+	bh=VVG9gMSB15PR+Z+MPLJCj5kew9dO3fghcT0SRrZekx0=;
+	b=VljRUW9GpAeZ41JRQjc9CArjKgd4vkbMPotnq7tjAYYSWsnfEntdLD5ziXcpBQmbaNsUCN
+	zd2cstZtyK9pfO4rbBe9qnfALftzq4fS0zueEBZtRXcTadNS5DwG7kDwPWRtCubI4rpEI+
+	f1rupw4eDe2m51cjMp0Yr9UjrHxgfew=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786024818;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LuO+MUy+1uRzX1DRrOuzF9dgijdfPNPED5OCI3l40Yc=;
-	b=dX+hheQGnMHVtGpBrzyoRbHMa0NNr6lxUxoeHwKnyGKms+Fcd0wLJy3GhfihahVj8HoPx6
-	R1QxZktuDe/oNnCw==
+	bh=VVG9gMSB15PR+Z+MPLJCj5kew9dO3fghcT0SRrZekx0=;
+	b=1QCgVIU9vboeClahqIAuwQVxsUyoJJbQrhl4AKfKThG1HfV0TIYxR+B9iDUVjRYP45eIaE
+	ad1xCSMm1xTKrqBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 25232779EB;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 91D0E779ED;
 	Thu,  6 Aug 2026 14:00:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 4EOOB2uTdGqbOwAAD6G6ig
+	id IGeYIWuTdGqbOwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Thu, 06 Aug 2026 14:00:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Nick Li <nick.li@foursemi.com>
-Subject: [PATCH v2 07/31] ASoC: fs-amp-lib: Use auto-cleanup for firmware loading
-Date: Thu,  6 Aug 2026 15:59:39 +0200
-Message-ID: <20260806140006.1412298-8-tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Subject: [PATCH v2 09/31] ASoC: max98390: Use auto-cleanup for firmware loading
+Date: Thu,  6 Aug 2026 15:59:41 +0200
+Message-ID: <20260806140006.1412298-10-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
 References: <20260806140006.1412298-1-tiwai@suse.de>
@@ -94,7 +93,7 @@ Content-Transfer-Encoding: 8bit
 X-Spam-Score: -3.01
 X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 499F33E16
+X-Rspamd-Queue-Id: 8590E3E30
 X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -104,20 +103,20 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:email,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
@@ -127,33 +126,73 @@ auto-cleanup.
 
 Only the code refactoring, no functional changes.
 
-Cc: Nick Li <nick.li@foursemi.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/fs-amp-lib.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ sound/soc/codecs/max98390.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/codecs/fs-amp-lib.c b/sound/soc/codecs/fs-amp-lib.c
-index c8f56617e370..a562c72fc524 100644
---- a/sound/soc/codecs/fs-amp-lib.c
-+++ b/sound/soc/codecs/fs-amp-lib.c
-@@ -221,7 +221,7 @@ static void fs_print_firmware_info(struct fs_amp_lib *amp_lib)
+diff --git a/sound/soc/codecs/max98390.c b/sound/soc/codecs/max98390.c
+index 66309e87fdbd..2295fc057c71 100644
+--- a/sound/soc/codecs/max98390.c
++++ b/sound/soc/codecs/max98390.c
+@@ -788,7 +788,6 @@ static int max98390_dsm_init(struct snd_soc_component *component)
+ 	const char *vendor, *product;
+ 	struct max98390_priv *max98390 =
+ 		snd_soc_component_get_drvdata(component);
+-	const struct firmware *fw;
+ 	char *dsm_param;
  
- int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name)
- {
--	const struct firmware *cont;
-+	const struct firmware *cont __free(firmware) = NULL;
- 	struct fs_fwm_header *hdr;
- 	int ret;
+ 	vendor = dmi_get_system_info(DMI_SYS_VENDOR);
+@@ -805,6 +804,8 @@ static int max98390_dsm_init(struct snd_soc_component *component)
+ 		snprintf(filename, sizeof(filename), "%s",
+ 			max98390->dsm_param_name);
+ 	}
++
++	const struct firmware *fw __free(firmware) = NULL;
+ 	ret = request_firmware(&fw, filename, component->dev);
+ 	if (ret) {
+ 		ret = request_firmware(&fw, "dsm_param.bin", component->dev);
+@@ -812,7 +813,7 @@ static int max98390_dsm_init(struct snd_soc_component *component)
+ 			ret = request_firmware(&fw, "dsmparam.bin",
+ 				component->dev);
+ 			if (ret)
+-				goto err;
++				return ret;
+ 		}
+ 	}
  
-@@ -237,7 +237,6 @@ int fs_amp_load_firmware(struct fs_amp_lib *amp_lib, const char *name)
- 	dev_info(amp_lib->dev, "Loading %s - size: %zu\n", name, cont->size);
+@@ -822,8 +823,7 @@ static int max98390_dsm_init(struct snd_soc_component *component)
+ 	if (fw->size < MAX98390_DSM_PARAM_MIN_SIZE) {
+ 		dev_err(component->dev,
+ 			"param fw is invalid.\n");
+-		ret = -EINVAL;
+-		goto err_alloc;
++		return -EINVAL;
+ 	}
+ 	dsm_param = (char *)fw->data;
+ 	param_start_addr = (dsm_param[0] & 0xff) | (dsm_param[1] & 0xff) << 8;
+@@ -833,8 +833,7 @@ static int max98390_dsm_init(struct snd_soc_component *component)
+ 		fw->size < param_size + MAX98390_DSM_PAYLOAD_OFFSET) {
+ 		dev_err(component->dev,
+ 			"param fw is invalid.\n");
+-		ret = -EINVAL;
+-		goto err_alloc;
++		return -EINVAL;
+ 	}
+ 	regmap_write(max98390->regmap, MAX98390_R203A_AMP_EN, 0x80);
+ 	dsm_param += MAX98390_DSM_PAYLOAD_OFFSET;
+@@ -842,10 +841,7 @@ static int max98390_dsm_init(struct snd_soc_component *component)
+ 		dsm_param, param_size);
+ 	regmap_write(max98390->regmap, MAX98390_R23E1_DSP_GLOBAL_EN, 0x01);
  
- 	hdr = devm_kmemdup(amp_lib->dev, cont->data, cont->size, GFP_KERNEL);
--	release_firmware(cont);
- 	if (!hdr)
- 		return -ENOMEM;
+-err_alloc:
+-	release_firmware(fw);
+-err:
+-	return ret;
++	return 0;
+ }
  
+ static void max98390_init_regs(struct snd_soc_component *component)
 -- 
 2.55.0
 
