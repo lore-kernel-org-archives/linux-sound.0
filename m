@@ -1,64 +1,64 @@
 Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58123C37AF
-	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 11:42:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F7A3446C0
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 11:42:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786102967; cv=none; b=MOtExlbT7q0MIlRcW5igAv6tcsTCp3GV9Bsv/zHd/NJnmSZGILK1YlaRkI0Lnx2yyCP99j8sjAbkF4TQHlYMfVAMF97M6LSfVfdgrOE0slwxZVy1/ucme6Mghj37PRuFQ13H8NkLmBSTNmaAqOC8X7/aBhPTnajuua9loojyh1E=
+	t=1786102970; cv=none; b=WvXhbbObTt5atkK2rJnzK82m5m9g2lmDf6mzQv1xEpT+2H90i7I70515o9pRFuWeimgjPTO+5kSVkKpshJngWfbfs8dwkjCG8ulNo3AK9GQ79Tg8/dEJE0ADrxin1/G4jiqLY42/UvxC/gEFx1L1lb9EPjlsQrKKQ3Jz7by45MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786102967; c=relaxed/simple;
-	bh=ztgsF4xlC+/UgNtfKPXec9lw/Y0/M4oYUL4+7ifjbZU=;
+	s=arc-20240116; t=1786102970; c=relaxed/simple;
+	bh=6vnc70YAJ6OLk1J5alGQJ847XnOiFkHduNWP2sl7tdI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XO3Ag6f5kDU1ksScL/bg65imdHgoQiGXbeOquCb5IUR00CHMtZoHwIvRTATo7ofjyApwP3HrUDrydYxo8WXKZkF77tvu6Wp7KLIFH9tz7XxtSbPdqy0WoRnkA2/kI6I32EEncd23/geblr4hAn7hWJKf9oggAztWPwnnHp4BK+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DcTY/WU9; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=Oa+cNO5rpBdwhKrOV2qc/kB0X2svsoUHKZyCcKVvjH8/+IyX5tm+s146BVAYexQpnHA6bGf7/ztGplJIcVOwbd5If4WEwxooCcZXNtoFVaE2EcHub/DNqExahWL68bf3XXTVQSfMahB18M2DMBFO+uR+yPAneuM1HlKm+nqIyEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IDirJw0Q; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DcTY/WU9"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc97653887so38118495ad.1
-        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 04:42:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IDirJw0Q"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ce98cb8165so23026425ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 04:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786102953; x=1786707753; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786102960; x=1786707760; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XFU29Mt+4RJ+9zZZmPn+2wKzh7skI+zFObgTR2DLrqc=;
-        b=DcTY/WU9FUkk66U0jvqwGrtXduGttJAAQa/egpEVYRAeuLU4YEnxHzAFRkPFma2ygf
-         b06cJpXjqLuMtb6QBg4RJJJADxwgKohTL1RKW1BzimL+vPryBCQMw3GtpguJqDvwi9Lk
-         aActrR6lYy8vIWlQYacj6tSy7vTO+HVnwNYvFhh1FpjY9nVQc6vZkTs9sjdJRSFB4lLa
-         SAZij0knLzE/0cIeFon1ES8zJbYI9xPVdFY4Rjdx4JmadvKSj5GtYD6uS+HlaHqq/mmW
-         FQd6jDR1jzJRAlQsaOR8Fvq8sXvXH6CNs/dj8vkd89QhOabFGnQPQcm2vcqhGZCzNUrI
-         e0SQ==
+        bh=Z1KI6aLTxpK9OyfSdZpf8ALQPnrnsIJtqqHlV920g9A=;
+        b=IDirJw0QVCfsqiJJche1uiEG/btukFbvJiDq7LLpM+wWZQS+a60MZy8op5kd42mRDH
+         G53psNggZsTqLlJFiCvkkVQugVHQcSj/g74lSFgEW+mYh9pS0HRPOWIGGjyBFN2q2J0i
+         jC4ceJYNxUvgRbOAM82cy6HWrCqg+yr4K5W+P9135DXiIRJLR3vgKSSRA/HzNih9K9IP
+         O1eP5XKUmyvsnry8uSfAcMxtYkpKV7WmaEQ8DFfX/5HmGjRrRx06QZigSi2uPgm3uen0
+         gFbTiYq5K/37xY2E+2gnTK6umQh8Nw3UTnlFs7fn1glvpV+xlcS4prHR/5El+Ri/GG7C
+         bJeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786102953; x=1786707753;
+        d=1e100.net; s=20251104; t=1786102960; x=1786707760;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XFU29Mt+4RJ+9zZZmPn+2wKzh7skI+zFObgTR2DLrqc=;
-        b=l0h5DnLRaI4coXq0eXqJEbF9ohFqXZ6vOr7y8OzI8sDzu0WvcTP86B3VHwj9S2rtiS
-         CDacMD2TL09SFlT0/5eAOypSTH6vbWgrg8/qXoLfS0L/sBWvHlafD41EPyFgyXqRK5FC
-         ejhmlgRLEQosOTxVzKxOQsj/lhjwqHtwv0wEc3KqKKXQLY1ng+mQ3g+p/ZPe5liVcmgX
-         r+3s4Oi9JfCL1qRI785SuWhWHra/CM1XrKEPQ8z01UH27czi7vxp8Uyi8EoWrgTsOUb2
-         f/a53dcwhwCdmKLwGLSgE0f9zfdrPJwfui8asBE2b7xFib/XUdoAdm0Y27/uvQdpkOH1
-         Z4oA==
-X-Forwarded-Encrypted: i=1; AHgh+RqPP7zkfqd0DUMT3cm6qsDB37N2oq38aP2VScaldZQTZ7BNraiaChwHTEjwFeJy+PsPVodAGTCa09Uh9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKCLqJjx1Ca79daq0JmLVO/Z4gzFYHrRsHnCLHE/hGDhI2pJw+
-	ry7rcS/oNlpAgAKGDwYxtrBWg3ipgc74BAbcnI5nkW3qHFw8crEPxhVt
-X-Gm-Gg: AR+sD115Mx39kg238n7m6479h2PkBKxj8LuMdoKJ1NngOoiHM4bfEY1mWbTOchUBjLy
-	fzC73B3RA34hYv49kdF4+cy+4/lR8lPjPDXgzVNY5RUeocYK/VCcIg+AkcJiGl41hXFCrAags1g
-	+oObXJvKCa2VRDfmBD8dItUhU7uSsalKYZA2f0P9dM/5tVTSyMV9fqDcV9/FkGCZHOcGJkwT7XF
-	20dL/c2AhoJT0sMawEvPHV5ZUfCQzCRMKlNdEzOqb5nDvxEToMVqMKThApyDmrG5h7qnkNhqEbU
-	QOk6rEFBjlGg3QYkRM5IdLpbvDHNSDdwNA5bwWZEu9bbat8P5BZf1Gsls2zrYjFotxGo0xPIW9Z
-	xOE6gA0NFqdxTcMRXV+pBFm3aOlKx5xCgZ9zheMW5L2pg7cWlu9Ld2PXruAYDktovTyuErDkVGI
-	vIpTnoHxRtTz6Du/cwQzpXsHB93cmrQFcfHBiBEpgTor/klaV8JpcqfOly+ggdbKAPSAeLzGUyk
-	EZERvchm1M=
-X-Received: by 2002:a17:902:cccf:b0:2d0:cc92:f7b8 with SMTP id d9443c01a7336-2d0cc9302a7mr259995675ad.2.1786102953464;
-        Fri, 07 Aug 2026 04:42:33 -0700 (PDT)
+        bh=Z1KI6aLTxpK9OyfSdZpf8ALQPnrnsIJtqqHlV920g9A=;
+        b=Pgt9m9q+EZxIZIYmqSDFng30b/IlYEibTNLJgCdvcGc3STm+TZVIyTe+13qwPCMRrr
+         5n6y2g/ghAU7Vo9IX1vXBmNCE16f1AbqPa18uMUAKcSGK7FSV3YS+fLPbNyPyLXZxRFa
+         Di+XielZUNHYXvRJO/x8IaP6YAxhhB+pH2SJkDfbQ/YLMEtzxg8XIQh9MpsE3fz5+cih
+         VPxGgYGFZNnk3MjjdKbCMWZcNASAM5NygPrCfm5ZE50xB145WZ/dVxM3yGDgAd/yVtOW
+         qV6scwFD9bUZxW2MGSFP7wEElYSHNbj25ksdsfgCNpxfQrejRpe6OK6zUfoI+HuPWBov
+         TYmA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpr6RbvL/NJ3S8GBL+JTMZCNBj2qkwQ5L6A+osDwG5TmY4g7LMog7uJ1VifdWxeTfPycVY2nXJBAeVOKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCedyExBeVl48h/xbDQ4JSsSCP83GKRTQad7B/wusqjRWYUFQw
+	C+OWF30RQ9n+IedkB9IS4Qj3g+9N+dwjGy3DZgmiGqd16eDCojz6TXLx
+X-Gm-Gg: AR+sD10fhWBtLtg9Kntrlj68JCdpc8rrVsSSY+/TusvqLFd1216W+l2zyppCfvkjPLt
+	uu2L3M8c7wUeqCGL2MJHA4ZuzVvwxrMLX1liN6QfdHRlI8vb8G6OqOXmqeHK5PX+o6xiEc+pJn2
+	QAsYSaLQJtVoTwMW1rLuDRu0sZDJyLUU6c7uuD19vcfvSuZdSf85PLXtX7lHz3u+TETtlwd0Ze8
+	v5+bTKHKD4zNb3BgO7LE9WV6ngETFQb1VmHDKv01zgx7buFbEavKFVH9f5dBw3mFcM1mi28lR9m
+	mEwUZaCy8lnopVB22H1s6FjbCQ2Wn4PtIumahzhdWENWMkCJGpEcXPlDeCN+h2qyXeGfLqtCOWr
+	nTFmMQB+PXe+JRFeDHoiNi3Vv+E1EBkaliLawQu29ASLVDBZcyvB30slqAIUkoDSwrEQ/i4BiBx
+	HbyK9YfXKFOjmJcMDB8NXJ8EqyUu9YSBP0VArnOHN8pQsUHlzVqzqzKD5j+l5uar4+4A7nYb7He
+	YuL9c4+aJI=
+X-Received: by 2002:a17:903:3885:b0:2cf:af20:4254 with SMTP id d9443c01a7336-2d0f1c0dc3dmr168401505ad.10.1786102959690;
+        Fri, 07 Aug 2026 04:42:39 -0700 (PDT)
 Received: from localhost.localdomain ([72.255.58.127])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be86d3fcsm6930508eec.4.2026.08.07.04.42.27
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be86d3fcsm6930508eec.4.2026.08.07.04.42.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 04:42:33 -0700 (PDT)
+        Fri, 07 Aug 2026 04:42:39 -0700 (PDT)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
@@ -67,9 +67,9 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH 6/7] ALSA: hiface: replace strlcat() with scnprintf()
-Date: Fri,  7 Aug 2026 11:41:38 +0000
-Message-ID: <20260807114139.1661-7-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH 7/7] ALSA: usb-audio: replace strlcat() in longname construction
+Date: Fri,  7 Aug 2026 11:41:39 +0000
+Message-ID: <20260807114139.1661-8-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260807114139.1661-1-mahad.ibrahim.dev@gmail.com>
 References: <20260807114139.1661-1-mahad.ibrahim.dev@gmail.com>
@@ -81,43 +81,92 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-card->longname was built with two strlcat() calls, one copying
-card->shortname and one appending " at ". The return value of the
-second gave the offset that usb_make_path() writes at.
+card->longname was assembled from a chain of strlcat() calls covering
+the vendor or manufacturer name, the short name, the USB path and the
+speed suffix. The return value of one of them was reused as the
+offset for usb_make_path().
 
-card->longname is empty here. snd_card_new() allocates struct
-snd_card with kzalloc() and nothing writes longname before this
-point, so the first strlcat() is really a copy and the two calls
-collapse into one scnprintf().
+Keep the current length in len and write each piece at that offset,
+with scnprintf() where a format is involved and strscpy() for the
+plain speed suffixes. len is taken again after strim(), which
+shortens the string in place, and again after usb_make_path(), which
+writes into the buffer directly. Both would otherwise leave the
+offset pointing at the wrong byte.
 
-len now counts the characters actually written rather than the
-characters requested, so the bounds check below it is always true and
-usb_make_path() is reached even when the name was truncated. In that
-case it is given a size of one and writes only the NUL terminator
-that scnprintf() already placed there, so longname does not change.
-Truncation cannot happen in practice anyway: shortname is 32 bytes
-and longname is 80.
+As in the hiface conversion, len now counts characters written rather
+than requested, so the bounds check before usb_make_path() is always
+true; in the truncated case it writes only the NUL terminator that is
+already there. The strings produced for every combination of vendor,
+manufacturer, short name and link speed are byte for byte the same as
+before.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- sound/usb/hiface/chip.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/usb/card.c | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/sound/usb/hiface/chip.c b/sound/usb/hiface/chip.c
-index bce28f683666..d217fe64eabd 100644
---- a/sound/usb/hiface/chip.c
-+++ b/sound/usb/hiface/chip.c
-@@ -70,8 +70,8 @@ static int hiface_chip_create(struct usb_interface *intf,
- 	else
- 		strscpy(card->shortname, "M2Tech generic audio", sizeof(card->shortname));
+diff --git a/sound/usb/card.c b/sound/usb/card.c
+index 24112e491779..3c15a6862046 100644
+--- a/sound/usb/card.c
++++ b/sound/usb/card.c
+@@ -651,7 +651,7 @@ static void usb_audio_make_longname(struct usb_device *dev,
+ 	struct snd_card *card = chip->card;
+ 	const struct usb_audio_device_name *preset;
+ 	const char *s = NULL;
+-	int len;
++	int len = 0;
+ 
+ 	preset = lookup_device_name(chip->usb_id);
+ 
+@@ -675,32 +675,39 @@ static void usb_audio_make_longname(struct usb_device *dev,
+ 
+ 	if (*card->longname) {
+ 		strim(card->longname);
++		len = strlen(card->longname);
+ 		if (*card->longname)
+-			strlcat(card->longname, " ", sizeof(card->longname));
++			len += scnprintf(card->longname + len,
++					 sizeof(card->longname) - len, " ");
+ 	}
  
 -	strlcat(card->longname, card->shortname, sizeof(card->longname));
+-
 -	len = strlcat(card->longname, " at ", sizeof(card->longname));
-+	len = scnprintf(card->longname, sizeof(card->longname), "%s at ",
-+			card->shortname);
++	len += scnprintf(card->longname + len, sizeof(card->longname) - len,
++			 "%s at ", card->shortname);
+ 
  	if (len < sizeof(card->longname))
- 		usb_make_path(device, card->longname + len,
- 			      sizeof(card->longname) - len);
+ 		usb_make_path(dev, card->longname + len, sizeof(card->longname) - len);
+ 
++	len = strlen(card->longname);
+ 	switch (snd_usb_get_speed(dev)) {
+ 	case USB_SPEED_LOW:
+-		strlcat(card->longname, ", low speed", sizeof(card->longname));
++		strscpy(card->longname + len, ", low speed",
++			sizeof(card->longname) - len);
+ 		break;
+ 	case USB_SPEED_FULL:
+-		strlcat(card->longname, ", full speed", sizeof(card->longname));
++		strscpy(card->longname + len, ", full speed",
++			sizeof(card->longname) - len);
+ 		break;
+ 	case USB_SPEED_HIGH:
+-		strlcat(card->longname, ", high speed", sizeof(card->longname));
++		strscpy(card->longname + len, ", high speed",
++			sizeof(card->longname) - len);
+ 		break;
+ 	case USB_SPEED_SUPER:
+-		strlcat(card->longname, ", super speed", sizeof(card->longname));
++		strscpy(card->longname + len, ", super speed",
++			sizeof(card->longname) - len);
+ 		break;
+ 	case USB_SPEED_SUPER_PLUS:
+-		strlcat(card->longname, ", super speed plus", sizeof(card->longname));
++		strscpy(card->longname + len, ", super speed plus",
++			sizeof(card->longname) - len);
+ 		break;
+ 	default:
+ 		break;
 -- 
 2.54.0
 
