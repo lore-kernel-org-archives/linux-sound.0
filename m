@@ -1,162 +1,147 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013003.outbound.protection.outlook.com [52.101.72.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F603932C2;
-	Fri,  7 Aug 2026 07:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.3
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786086952; cv=fail; b=HuAO4hIo7n8W17w3s6t6KWoTInW6mL1Sklpp7wON4Zo2X0o83qSJ6AV+bZCnn2LkhIsLma1ZG5uQS63i/kwizkikbHcR5e/mXPIzMycB2AVd2HX+zjG/YX8tSMr8zKxn1/kodG9imqBfBPSa2FjYIj0cnVMRpZpf09RUSFbIuQY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786086952; c=relaxed/simple;
-	bh=DLNkMeOTE6a0aWTwIZ4dVW6SsiK8IcYAp1TcPYUCz1I=;
-	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=T05yD59RFpEB+S71x8eKDAn3+cdMExV/wCjeTvjRlUG5WUt8f/nHqQgmfOGrYW7iL0LXZxa6/4nRaDT6rHjdwNZ+/5JjXiqAjDIHTWYwbxutVirHopEgqTWZ4Cukg5kXkoBV/ktDSLupn5gU6P2pwEbq9LMOSWNTnkfU+7sOj14=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=gGp+q6E1; arc=fail smtp.client-ip=52.101.72.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B361838DC4A
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 08:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786091680; cv=none; b=rDnSimMQXMAivDFn22HHdjvqAPuqLkOwLdIrC0HX4HYzklwtj35uZ2xAz1lJPmgeGgIQXmez/XAebgvtlIqIUeQzkzy+iTSBhNA/AFwV/HUms4K/3NZtCD6U306dcLuWLznx18D/zfw033RUt+mkXThSEvTP2blKZF/lPfMfDn8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786091680; c=relaxed/simple;
+	bh=4b7Xkxhn7stAwg++71q/1YEukbmWmJXHCZMhJzZvUvI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=asJ9s4RZ7qcM75/qHna9w3rL1eYQy16znH4vKxqAaYdDUj5v3hZrqPZz2USleyBTAEFjwT4uO1jOhUdNm7p3YMLCnfZj4cYzgb0ulaSCDxBYM9wtB0g8TodD4MQCS8QMcUJtXDsQNdIW4VspBVvsQ0wJwa9aZEGyGwfw8qrITfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SOaq3IJy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8HHa/V93; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=k79mFJGM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gN2MZoTR; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="gGp+q6E1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dSk7UOt7Fb2KyLgLaom85DOZlNPJgGThfNnKkz7+8hlynFd4EpPKEMt9ST2J5fN/1ahOT+Wv7S6p4eDuIJnIRQrcIn84OonHCu4y4L5qTrk7lC+gZDnc6tVj12tAXMDXtEyRt9Lf5gGjLq+EJFXDxE7uqB+kk6uzys3Vkidgxir0JEk6R6Pdw/u56bYAoPb6mBhSHWFMffJY+YlIxmEv3TOwwDCedH5OMvnDEPbdIzunf3iroKZXNOjjYaPdWKZ/nf0qaGaARnZFfSFJIfsNfvCugm2z3kqX/Ht1GqKpiwGUZ/B4a+G3XRMY3ls3qwMynD2iofX/1pawdTo4WV/4IA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T1mkhYu8b7Ydfeg37IauQHZDhCbntur7SLAvSAgt3OY=;
- b=f0bxdndT4oiofGHNV2B3CwqJ0gHEFNnfnSwxUmnqKqPFqrcISiq/tRnl2Osfzf+ZbUyR+UxsoQTsjrtPTLbKdLOHwE8u5w+sWplno2R0jG73mf8uL6052aj0kBNGNqLVm1eAqKVp0p6SxhjrCjveAET/KpX2t1VsTD5EP4y0BJFp024v6ql9gzyygrVR01afyIeOyZZcAaem/VEMnqpL7h32yiVU2vmIRbhSpBe5OwXj066t+jXSivManF2duTZbr+reUyB+Qx7LzZCz40qm4TNrHzygERrI7HJDCv+6JaoqwGbY0dVdzb4pDLwQNIgVbaU/cKlhtK55grLK47X+aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T1mkhYu8b7Ydfeg37IauQHZDhCbntur7SLAvSAgt3OY=;
- b=gGp+q6E11VUkcEWlKIaO4QpnXujjQbvwRNq8+Lq6L85RrSKqcUzo0eFbNFbsx4/VhmiOPm6cdf5GjvOiTMpBFE2qpG3Ljz7LXtE7/re4peJ+aNqUXMfKPQ/bUB5g1x3ribMaK8kGo9eUeEEQlYm8zV1bb3xz3wVlUNi9zkO3gzNvcGJpe4E7RmnTuLA0UeAvjBYww29aSSAa2mGLMazaduS7mvSie3DpCTBBt5REylwZUSj19n2LN/63bFVb2Dj4unxHO3bxCTqd3A2VpcFAxGKMjjH78DRd7MiQxn0xkl+dAaSI4dmxSGBsQYzUsnOdBW4t/eUp2tTQIdu2ReA8Qw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com (2603:10a6:102:2b6::17)
- by PAXPR04MB9124.eurprd04.prod.outlook.com (2603:10a6:102:22f::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.23; Fri, 7 Aug
- 2026 07:15:47 +0000
-Received: from PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa]) by PAXPR04MB9351.eurprd04.prod.outlook.com
- ([fe80::1058:a430:52c1:5aa%6]) with mapi id 15.21.0292.022; Fri, 7 Aug 2026
- 07:15:47 +0000
-From: shengjiu.wang@oss.nxp.com
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org,
-	Frank.Li@nxp.com,
-	phucduc.bui@gmail.com
-Subject: [PATCH] ASoC: fsl_easrc: fix missing return on success in runtime_resume
-Date: Fri,  7 Aug 2026 15:22:02 +0800
-Message-Id: <20260807072202.380021-1-shengjiu.wang@oss.nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: JH0PR01CA0023.apcprd01.prod.exchangelabs.com
- (2603:1096:990:5a::17) To PAXPR04MB9351.eurprd04.prod.outlook.com
- (2603:10a6:102:2b6::17)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SOaq3IJy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8HHa/V93";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="k79mFJGM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gN2MZoTR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 328B73DFE;
+	Fri,  7 Aug 2026 08:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786091667; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7zwynrkanq6CALRlKv+wZnaVd4mBPG+z/zBxCWSr8KA=;
+	b=SOaq3IJy+XMVV1xWSW8VTsncDQDnmueXab3h8+SQUmOHKt91m3YbtpMN5Gy3dF+jC24F7G
+	VI7CskiO3Pa8hKLtZpvLyvOz/7clHQyz/sql+rfB27cLpQOWxAxJmoKCJgMt+266J5xK79
+	Ny7WoRPgMM/YoJnQ46PtFh1Hgmw2dJw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786091667;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7zwynrkanq6CALRlKv+wZnaVd4mBPG+z/zBxCWSr8KA=;
+	b=8HHa/V93Web28f9gxbvY3l0NbQmt7k+dWF2kqiduBPLEEtl89FpflHM9k2UzzsLsfVU7TC
+	oF3H4JarLhkHecCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=k79mFJGM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gN2MZoTR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786091663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7zwynrkanq6CALRlKv+wZnaVd4mBPG+z/zBxCWSr8KA=;
+	b=k79mFJGMIJdPcrqoKuZr4Uxd6psZZViRseaTEell8gS4/Zf8hhCTC15uh9Nv9oy9FAieFq
+	TMVfJb7ygIgK4zV5WBZqPoxFn3mwdoSE30oJT/YnENJFsjasFnLYS1U+WEgRlctdDASsDv
+	DGNtCoVL2/VAT7VH/vC/AIlk/N139D0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786091663;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=7zwynrkanq6CALRlKv+wZnaVd4mBPG+z/zBxCWSr8KA=;
+	b=gN2MZoTRoL/ZZmpl4rr8gMC4XHbt0E4+4yjK/mGgxlU/8iTqS+DKSL1/q9IDvjECtjcpNy
+	Yyc1QP6BQhRaKRCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 190C7779B6;
+	Fri,  7 Aug 2026 08:34:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0WPaBI+YdWpKUgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 07 Aug 2026 08:34:23 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Fix sticky mixer regressions on M-Audio Fast Track Ultra
+Date: Fri,  7 Aug 2026 10:34:16 +0200
+Message-ID: <20260807083418.1712585-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9351:EE_|PAXPR04MB9124:EE_
-X-MS-Office365-Filtering-Correlation-Id: 303e717d-516c-46e0-e226-08def453b3d2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|19092799006|23010399003|56012099006|18002099003|10067099003|11063799006|921020;
-X-Microsoft-Antispam-Message-Info:
-	dolCw6sFEUoINzO3kwv0s+BgZ3H0aguu6N+koJVcobdEgA68B3C9XZbvfMkkGl2SS7tkiJH3mFm2SKFPqUp7/p3p7HIFkYjeV7ppwt+QolA4Ccg0dJa5WnEkSpmCcRyFhwAHmql6eVuIGiTQiR9GGyhnbqKaBNrBBHQpZ8oAImOTLG3CBUg4aAmTpxKgbsmhIhUIRQM2gGPZQRMPZSIXNEjqNkonk+y88OC8K8oRt0advSh4XVGI8Mny07UQRCjpSNdtKUUEaY7EvhAsqRKQiM3M/Fk3YpUTSNI8g9UYDcqzBJPs32S5KjmlTqqluuOWJ33d42gmqJe0iLAAMtiuSHdRX7wCATVB25Na1BeDzOzXEMh/99Q73YBur1/A8XzpLvrgRTS8DL+hpVLetcuj/R54SewtsPhWURHDawIQEPoioIOB5x1lIIoTkcvVS5DkQrjzk7ug8txv6EOZKPq68dOUGPseY1hwmRmJfflaNBZnjpBGEwu1MsOHu6IVf2INhs5a9VvTw6kDSsBDfuFskRwQ2ew0Lk/p5Mvm4dX6HnAX0147cIENXRugh4uJDxppMH/2CzAqD/4cHOcrB3+pp3WBTRfO74vC+Q3pIFerwem5QxNBJL/LGhKHiKFAkX811o4PlzZqwkHZMpap/LULzByYDRoJkayYJjrrSNp5HYXWMi3ItAerRAllu3z3cQTw/OFg9KWoXxQUAV+EzwC6jw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9351.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(19092799006)(23010399003)(56012099006)(18002099003)(10067099003)(11063799006)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oEmVxx/G5JqVR93/ZIjfg7TCSYOGBcBhSvsIq9XsAhGhrJfvO27m223um0Ao?=
- =?us-ascii?Q?VgG5gtPyO01S4BrdBDGDY3pPIpbwq4Zu4rPNT3VOyT+hXwkJmczd4TvG+7qC?=
- =?us-ascii?Q?x2lKnmtxe1BldhB50t0nbpak3pJGalvmnM0IlQGvFB06JgeEVolry7i2+rpN?=
- =?us-ascii?Q?FIlJWBqQY/5CzuiWZEY193lpDCSKGdI9Le/ubMNOvMjpIEiSnAcWWwN8Tcg3?=
- =?us-ascii?Q?KL1cE0uzV5Do3VbSTCdD/kQmx1IWq+kkjdLptyTMViFJ0fCN8k93vDevjbIU?=
- =?us-ascii?Q?Py4SvhCfHafwCi10npZJwKOfq1YO6dtyLkWU/Wi5pJodbBEqwC6/wo7ht5KG?=
- =?us-ascii?Q?y9mbOXLVEUojHJGpwzK7wwJdgh4Hk3OHrFn2GOYP3B9o2ENj5hVU2jGUPePW?=
- =?us-ascii?Q?IuBOnfeNt0VKqLCx7qiCqxgzbPghCvOFKeAaE8KgtK36/N1UHL22ZNFt3DK1?=
- =?us-ascii?Q?veN9rUJ/JoK5xgkSzjBFkSxuhBE62g7HMVFqNWfHc0iUiC5pScDVJCfWZi/p?=
- =?us-ascii?Q?vxlTEDDjrJ3XzHpFJaGeK/tpt9v0WyRAUv4EnJIgUfPXzvlu9Zt5TnBPzt61?=
- =?us-ascii?Q?9lV76VekO+7iGKcKvy/xKlVjCKVO/FSUz+zXLPiPTs+/sNucscA0tdhfy63o?=
- =?us-ascii?Q?cHPUE5zhavhTEMEFi5k2bYE6L0gZPeCZhCcAY6Z1VmJGek92tPNJzK6HuIFT?=
- =?us-ascii?Q?mTSKMNhE9EC1FZKfw1uNB+pDN/+8scrlMqVcmUkSUeJCId03tILg5238WV2r?=
- =?us-ascii?Q?OUAOXZ5srBVGXInxMsJupE0pLxf2xqGcgCn7ZLv5KHeWA7I+ibc3mgUkuD6u?=
- =?us-ascii?Q?xPIKPZjgvxW4FHf/X7PGjrT8zvtSLftvpIorf1N/a0ksZL2OAThya5qemrHU?=
- =?us-ascii?Q?S2u3ociBzGJ34qvLsUkw4Co0wqvrLwdP5/hdYtvyLX1Xz/AkK/YRYW6pTXbv?=
- =?us-ascii?Q?gCYU564/jdhlMI0feZxNDX5EQBrBu9bMOsgu4PH8z6RgQe+QEveVXZv8QQ43?=
- =?us-ascii?Q?QbOA7rgL+2a3rag8bcFQJSoCIbbOfCq56+lrJfBGP5kT68IRVGUCy4pEmrQJ?=
- =?us-ascii?Q?n4hU9/G6fRLPASaBVstxLyftnwIHj/xlK80NKuEMDvCkhYzvq7S2onL8H/9L?=
- =?us-ascii?Q?2bYASqsdnhqY40yr3tqS2SGAuD2BEvYO3sxGFipXufB8WXw4EE0wT131M3YE?=
- =?us-ascii?Q?IsM2KR1WW0fLK6MrA5ZD1v7DUSZRzwafkwQGOcEpUCxhYDqP7Nci5+4zhiHu?=
- =?us-ascii?Q?gwOA/no6IgdYf6ojZ2QIu9oItS5NsLTySqOYYlgGMgrzCkRm6Zd+nQJBDTKZ?=
- =?us-ascii?Q?Y7YWUUHGg7l0oL+J50lf5N7J9eBdNBf6uf+JPB7ZUIeIRwtW5Tj9g5kVdNjf?=
- =?us-ascii?Q?2BlnW9H3/t5y2AfctzLNWAaBO7265ksIaC8Re2cjz6GqjEB0B6kBGhSE0GLc?=
- =?us-ascii?Q?gdbI2NYoVi0TTKsA0VU8STZ5pglos1saroaawH170NaVD4y9aiDbXcn7jmEw?=
- =?us-ascii?Q?t3V1ETKPpeNZphgl+58e28J3PndkzGf01N2vL3T8FDi+u6Ur6Hbp2YhHhkT0?=
- =?us-ascii?Q?GKAcGArgaz3JMiIj9uLM+fHEPT2jv9qsjeRsRkvA8GQVbNQhkFncHd1W/Qlv?=
- =?us-ascii?Q?9/ogphASPspmf0DmiueHPlAee7B+JnSHpXw8Vn2DvtyYB4MjL+4GDttRusI7?=
- =?us-ascii?Q?utd7gGsY9wTMTx37XJDEaaaRqfOZobvQVS81unEb7RduZcYdeb6Uz/1MJYlJ?=
- =?us-ascii?Q?Wd6Q+OTY1GyrDZgExl4OwamsEsG4nOQGeXR3rBls3tYsHPtvoevM?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 303e717d-516c-46e0-e226-08def453b3d2
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9351.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 07:15:47.5614
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: INfS5A7WGcAxeYpg2v8i9dTmf/UXXg1PX6+Y77bYrB5PHV77PadHobn5A4OtO4a9TnSN2Zh618E6RI8oQ1RALPYV8JlJMd2bUPt5lk8Xjw6wlnPQafMTv1Re+6A/fCyc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9124
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:email,suse.de:mid,suse.de:dkim];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 328B73DFE
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+The recent fix for sticky mixer volumes caused regressions of M-audio
+Fast Track Ultra device, where the mixer state is kept to the default
+value.
 
-Commit 48d84310be60 ("ASoC: fsl_easrc: Use guard() for spin locks")
-refactored fsl_easrc_runtime_resume() but accidentally dropped the
-early return on the success path.  The original code had a skip_load
-label followed by "return 0"; that label was removed during cleanup
-but the corresponding success return was lost too.
+Add the quirk entries to tolerate the broken mixer behavior.  As the
+device is known to work in the implicit feedback mode, explicitly
+enable the implicit feedback mode, too.
 
-As a result, every successful resume falls through into the
-disable_mem_clk error path and calls clk_disable_unprepare() on a
-clock that is still in use, leading to an unbalanced clock disable.
+Since there are two FTU models that are almost identical, both entries
+are added in this patch (0763:2080 and 0763:2081).
 
-Restore the missing "return 0" before the disable_mem_clk error label.
-
-Fixes: 48d84310be60 ("ASoC: fsl_easrc: Use guard() for spin locks")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Fixes: 86aa1ea1f15c ("ALSA: usb-audio: Do not expose sticky mixers")
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1273166
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/fsl/fsl_easrc.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/quirks.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/soc/fsl/fsl_easrc.c b/sound/soc/fsl/fsl_easrc.c
-index 17d85d484358..2ac062083782 100644
---- a/sound/soc/fsl/fsl_easrc.c
-+++ b/sound/soc/fsl/fsl_easrc.c
-@@ -2425,6 +2425,7 @@ static int fsl_easrc_runtime_resume(struct device *dev)
- 			goto disable_mem_clk;
- 	}
- 
-+	return 0;
- disable_mem_clk:
- 	clk_disable_unprepare(easrc->mem_clk);
- 	return ret;
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index c90c89200baf..90ca39dbed18 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2327,6 +2327,10 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x0763, 0x2031, /* M-Audio Fast Track C600 */
+ 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
++	DEVICE_FLG(0x0763, 0x2080, /* M-Audio Fast Track Ultra */
++		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
++	DEVICE_FLG(0x0763, 0x2081, /* M-Audio Fast Track Ultra */
++		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x07fd, 0x000b, /* MOTU M Series 2nd hardware revision */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+ 	DEVICE_FLG(0x08bb, 0x2702, /* LineX FM Transmitter */
 -- 
-2.34.1
+2.55.0
 
