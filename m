@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640C24052B0
-	for <linux-sound@vger.kernel.org>; Sat,  8 Aug 2026 12:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52872E7F3E;
+	Sat,  8 Aug 2026 12:49:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786193363; cv=none; b=MatUiR4SfwLQmKK72ojA+iWw5drIFJmNUv1cn/pYWfg5NpJBFRRPb9TrKBIflxWf3rI8bmLmBxVEJnW2jgw+4yr5PBSrB5JaxLxIzkADXhyPk7m2Hih9l1SBkz420KGGtr4jLB7coPPMHk8hUvt6VYwcyMuVPUQvrjIfoptZnNY=
+	t=1786193370; cv=none; b=MzPdVU/uv6q9LiG61lnMsfcSfp5+Guf2eqlbT1tGLi1J0chwjEfMganCocT7/fE4k22Fp6+qjp0AEbul2IbOWSoyFofri6zNjFJBXvxn7TG2m9oVq/f/6crMThz76qWlmjWjTJ54PLl7PPcs0Fkiwqc7hOH3fHmQ82ykxyZiNHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786193363; c=relaxed/simple;
-	bh=EZE5NF1/oLJYew3ZFz1+J0y8IZk14boT16IgtuW47iE=;
+	s=arc-20240116; t=1786193370; c=relaxed/simple;
+	bh=wW+964WrOZXMIYKyQCkoXUuuKIhO9GYFJy8q/qz9JLQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=pt2NvYPFEYwbmSmbMyrVhr8KYH9m8XJIFjBbPdp/9nruv46rhPYAt6Q7cKKnEFqqhVNP390clGpClQ5zlw6uFMEdBTmehhrnFE7x5Gjd0e5c3eaC7SrTQqeSYhvf95rV8QWdGdH6wbN/gF1W/96vYiF9bBY3132itNxNUzw74Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JQQJUnKA; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=AVeHtAgEE0yEcin6ckYvxgtD2CnRg9YNcjh2yi5DJEcAFC6mf3IIs49ENdaSSWWSROhrc5j8rhCvDjGWU2g8y31B3P3PkZe7HNLXFJStaoZ1qPy2QHdsKfx1Gv55Fatz0EQJ+iFFVQODTDsiApAf4BTTTP5PvETweIy2isNm9iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHutJrxb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JQQJUnKA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C2F81F000E9;
-	Sat,  8 Aug 2026 12:49:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHutJrxb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58C4A1F00A3A;
+	Sat,  8 Aug 2026 12:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786193354;
-	bh=yzTPvBS9qWbSzLT4930U7TEuBTEg77R+VPcGQYmpA1k=;
+	s=k20260515; t=1786193357;
+	bh=M5ZPoAEIUHwbjWWW2JLT0aI6rFuqGWleMIbJljKspOw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=JQQJUnKALVPFz1zjyD2Bq7ZtxHXIrkQFsAy/S7QKAURZKWYhOAbOcvV/OU87jZa3C
-	 swFPNQwM8nQPmb1wPcy6yblsb7zwo/k8jnWTceufz3G917wIi65lkP7DHe1aWmIje5
-	 uRDjs3fmw2gF+BMOOEFAtFIzvgIhlGHsxV7YGzsqaQHS6xtIllcfYFpjZ66445r+iM
-	 fQvrY9qLLrEVj0kNvmf+eBbwaOzzBzTHYGtXp2hXbHyNw6XI8RTOxRdTNeh9pSbdeJ
-	 YIMtngmpLAFzvy7NrF9jrgxWdIL+WbXbmkqT5iU2rBdRajzF6SyP4glJpAdDoOeCuh
-	 8Qu5uaixFgZOA==
+	b=MHutJrxbWvZPUAIYTnFOIvGopUHg1pFBDr88Wvdx3Yk+sDNXYQo6Qtideh2tCN5LB
+	 /C/qOF80xVIy5CdmniRw8P4WI3pIpnlw7sWOA9Dp99xjJfz6y/whnUKT5a9fgpKPxX
+	 3PgXCx2NdidwvpUQxg/aRTk8ks5KlpeM5b3H7kbGD6zMVcqv8lAWkQewGvOnclcwJl
+	 HkdguCxfMhcRQskzUwbH7r73Hzqk5G2fbzImYZupTAEF98euQKEYKJtpYdiMkZA2QL
+	 yxQS5z4K6ek4jHBJNbcewNpVEJObpndETV/AatQFmSNsEQbRSPvLy3Z6gqgi9J2znM
+	 if1S2rZJr7QBg==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <877bm2vjjn.wl-kuninori.morimoto.gx@renesas.com>
-References: <877bm2vjjn.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: (subset) [PATCH v2 00/44] ASoC: codec: use
- .auto_selectable_formats
-Message-Id: <178611734857.279158.4751447893496466430.b4-ty@b4>
-Date: Fri, 07 Aug 2026 16:42:28 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, stable@vger.kernel.org
+In-Reply-To: <20260805122811.13713-1-peter.ujfalusi@linux.intel.com>
+References: <20260805122811.13713-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC: codec drivers: sort the reg_defaults tables
+Message-Id: <178611478037.279158.4736277980772221276.b4-ty@b4>
+Date: Fri, 07 Aug 2026 15:59:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,15 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
 
-On Fri, 07 Aug 2026 00:52:28 +0000, Kuninori Morimoto wrote:
-> ASoC: codec: use .auto_selectable_formats
+On Wed, 05 Aug 2026 15:28:07 +0300, Peter Ujfalusi wrote:
+> ASoC: codec drivers: sort the reg_defaults tables
 > 
-> Hi Mark, all
-> 
-> This is v2 of Step2 of "use .auto_selectable_formats" patch-set
-> 
-> o: done
-> x: this patch-set
+> reg_defaults must be sorted by ascending register address, since
+> regcache_lookup_reg() locates entries in it with bsearch().  When a table is
+> not sorted, bsearch() cannot find the entries which follow a descending step,
+> so regcache_reg_needs_sync() falls back to reporting that a sync is needed for
+> them.  Those registers are then written to the device on every regcache_sync()
+> even when they were never touched.
 > 
 > [...]
 
@@ -63,16 +64,14 @@ Applied to
 
 Thanks!
 
-[02/44] ASoC: codecs: ad1*: use .auto_selectable_formats
-        https://git.kernel.org/broonie/sound/c/b8c7c3723e26
-[05/44] ASoC: codecs: adav80x: use .auto_selectable_formats
-        https://git.kernel.org/broonie/sound/c/1cea95823792
-[11/44] ASoC: codecs: cros_ec_codec: use .auto_selectable_formats
-        https://git.kernel.org/broonie/sound/c/31dbeb6d8869
-[21/44] ASoC: codecs: lochnagar-sc: use .auto_selectable_formats
-        https://git.kernel.org/broonie/sound/c/8042806427c4
-[22/44] ASoC: codecs: madera: use .auto_selectable_formats
-        https://git.kernel.org/broonie/sound/c/0aec3e83e3dc
+[1/4] ASoC: ml26124: sort the register default table
+      https://git.kernel.org/broonie/sound/c/d4d0e6e2355a
+[2/4] ASoC: cx2072x: sort the register default table
+      https://git.kernel.org/broonie/sound/c/b927853f7007
+[3/4] ASoC: max9860: sort the register default table
+      https://git.kernel.org/broonie/sound/c/5c4cf173b7eb
+[4/4] ASoC: sti-sas: sort the register default table
+      https://git.kernel.org/broonie/sound/c/bbd73fb224ca
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
