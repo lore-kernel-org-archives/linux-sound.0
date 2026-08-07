@@ -1,138 +1,152 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C2E2E7162
-	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 18:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D8B231C91
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 20:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786126718; cv=none; b=o6jWI5AI8n8KQAXFrFbM/lvy+jd2j2bILLTKNh+v5PWw4Q9YPAe3JQk8ygMwBdaleQ67+zTkOIhpyQjJF8uNYRhsRa7Uzka1f26TCxVwpafgO4c0rOgfsRhj5xWeSzGuwU5KMh3xYHMda4xSge4EUQdrzh1bl1tmQ8AInUkfH8c=
+	t=1786133389; cv=none; b=qXaN3x3LyR5mi3uTx+i8aOV/twUEgED0FgnmVWvy1z5oY6pmuf9pdnh2SFXNvmWlItdEIL1GMi2Ncq4yEgmriObiMu0jQjVgY2hSE+Idae5i9e3GP7oJHTHehh9BYxMknXBrLTBPTlhdHBLFeLJzBukFmQlSfyqhccgHU6l1DEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786126718; c=relaxed/simple;
-	bh=DV+zqIFYlOmpnmE8EbMa0YOlo0BKdFFdBbIyhOLKxmY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZPbZIF0vJWQiKYsBNKmu0cyDz6tkLg3BCRK218DmfPc59/V73H0aM+dpLkosVQnjOGiepcbPr51eFMUrzvVYN+OSzAOMkFLAKwioeRuwf+iMkS6CgLCP1U5428Jy5wbXqzeyt7Q7sFyBSJobFfSN+e8Qs5oMgP9UtBph19jkVv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DXIp4PLQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r6mg3y13; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QnsMhB4f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e/uGbYbU; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786133389; c=relaxed/simple;
+	bh=9dIk58uS5ckvPTahHh2YJlbcL1xicsLTV4wPLHzPmIc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=kwBQo82FLrcurSAsyohowNa6RL9UD6GWXghOSW0ToFzeTNQWnHnl36QvRtwc0mCCfj6RU4ZPUByuCLr6NIzeQYhVbeWD5/Lhr9zabs7LaLYdync6Btp3uld4Uhz9d4PSSKZcsDQAWSSkxgNbSZzSa6guoOQGuopi7U8MiAx6SyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITC59Cjy; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DXIp4PLQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r6mg3y13";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QnsMhB4f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e/uGbYbU"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7D23D3E21;
-	Fri,  7 Aug 2026 18:18:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786126711; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LkaFdg888pmDV7eVT/eML+uhFpEyHdTZNUpwSUysIkY=;
-	b=DXIp4PLQZlL8co+cfsPxcer8xvfEmKJV71oRxeDNaasu0STfywZv7l2M6gE79k1SHKxWWc
-	2oOwQX5g225JuSOu5gjlEdMTD053S+7D4NjiEwTHrwb7zDkhWXJOG+AgER3rOAbPrEtpkd
-	Tm9k+OFrh9INkJrbUePOoIJwK3IoeRQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786126711;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LkaFdg888pmDV7eVT/eML+uhFpEyHdTZNUpwSUysIkY=;
-	b=r6mg3y13EU+xIFfRoruruOpylEfyAk7tkTClH/d4EqfdEtqe+/5/mTEcZli6Zl2Y0TLjdw
-	QOqp01VbW24RN9Bg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=QnsMhB4f;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="e/uGbYbU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786126707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LkaFdg888pmDV7eVT/eML+uhFpEyHdTZNUpwSUysIkY=;
-	b=QnsMhB4fEYAbGpmvoskK3juqKD6wofB/BfC3astM/XsI1cqIvP1VQDriqJRRSVkw12Vrk2
-	a2kI68DsYJkI7OEFFFHR2piPrL+0QW2r9+PhrfVU01mR/huJeQUSd5LRg4HpY7tLyvV6b5
-	BiLecycp5uXsZa1kwKJMxLMu6LI2uEk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786126707;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LkaFdg888pmDV7eVT/eML+uhFpEyHdTZNUpwSUysIkY=;
-	b=e/uGbYbUXAq7jsNZbrf8ILUL8lJi2wGpyy3bd0htXFGrBk4ZGiJkLIbE/Ec+atekOrxcoH
-	QG7W5NFtVsacj4AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 59759779B6;
-	Fri,  7 Aug 2026 18:18:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id PkOnFHMhdmo0BgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 07 Aug 2026 18:18:27 +0000
-Date: Fri, 07 Aug 2026 20:18:26 +0200
-Message-ID: <8733wpbxql.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Garrett Blackmon <garrett@blackmon.dev>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix speakers on ASUS ROG Zephyrus G14 GA403UM
-In-Reply-To: <20260807150708.33785-1-garrett@blackmon.dev>
-References: <20260807150708.33785-1-garrett@blackmon.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITC59Cjy"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so30852495e9.1
+        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 13:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786133384; x=1786738184; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UwiprwcAyxMLPiS+Zlnnnd/A5JsVvfq/t6i9xPF3mio=;
+        b=ITC59Cjy8CfWaXooqMT+vNon313N3WzJqMvYoVAhOBk/18jbs70SS6wrmsBCELe+YL
+         O/gwy8rXx4TK9ilyFAsU/PabWOKDjl+eR/+b4Hirj9snAVA1uU1nBYpFbUyxUl6fUMMg
+         CLd4k5F/ur4CT4P15SGHq22Rx74BLZwxOBJ98pfD3pfSVMp4HhiPC/88eXL4vRynE+ZA
+         zkDupS+DRwZLEzf+yYNNqATDpyLrg8uEMjYbZnC/uKzfl9hBqAiNVflyIBwWXDn2Khb+
+         67qmqcxv3zNatUm5murq2H+v2gjF3AwHjoo8JsJbIcG7bf8H8R63XMVvvrJyOqzkMQjF
+         YU5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786133384; x=1786738184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=UwiprwcAyxMLPiS+Zlnnnd/A5JsVvfq/t6i9xPF3mio=;
+        b=qJagh6/yvG9i3OupNVNpew7UWgdPA/9kivtT/xtf5Yvuf+odp2q+LotnfX09qpI7oj
+         XGLXqQcuMCRN09rRC3bItn1cObzuZYSk3fhXKO8R9frO/xvsQ86f2BDTgBQITS8M7LQ/
+         Q0uD25kccyW9puoykkDMvxAair5SYiSJsPNxOxAiOO3CY5Cgg0xjexBaLslpfIs0Mey0
+         NIcnq6GWRl9rgI63Ga3Je+RxMmhMYaX6YZH2MTFh+qE5NgAv1sEDxp5uZyiayjxJKQzo
+         hBD1BiGGazU95p6wFq8ZiqtJp/uRfor3YPB9sW7o7j1qKA2ePtgxVdjI/oL/DUkk+ocB
+         D6NA==
+X-Forwarded-Encrypted: i=1; AHgh+RodKTgLc670EShlzhZU7iXSCKJBunRpHL+DwJYtcAv04VGWexFcp58/96FSzNNfRNkon1Iygjw2MgxSnQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWjyNZeV6KxC+Nk2GVZtBEGe0uKU5+OdYtxcsQDHrra5gmzjPk
+	TPvw5cpRqRZ0nbsQYPAetiXcBf+cbr7Xoj3W0gJx7yqrveUAycupUM0K
+X-Gm-Gg: AR+sD119QS0VWvWfTu2lr592Uy660rKw/xbTfImc/Mc+42r8oBBqN8cmWrmdex1oQ6M
+	RoHBJZih0wbXLEIDdOwU1/8yNR0wgLu8LWuZwbftv3YFX9nO/mZLd6GTVQMe0umyzeyk+ca1RFf
+	9v2PfINXHrSHDRmcfQAf6vUGBlZwxAjulrnDPs1S3Ft6yG6MsGRV0smfYRB+vaMHU0c/7utAfhm
+	5uVmxv3f5ot73J6n24meMvWXnpwZotdu/ZXsfnqlGcyCk/XYSvas5ePnjNF/98bCltLEXYYNAbV
+	PDopxZs/ET6X2LbRwCbBTbmU8G7myHoi5Cj/ccVf5ASYwAlR58RUgydNpIMkK3d1DyZdh3k40jX
+	tztiqXehbkVqF/DX+tw1Z8kCeEPwFAkzwyZaumJOY++5CpM32B4XXjv56o+Dtzd9tAX8bquG7M4
+	1tHrYY9EMCDjp3F8T3eQ/Q6jc6HZ2dlaN8/F8fQAQ9pI0XRTFQRN73NXL5T9NyL+0ZC3/CUG/hv
+	AUzgBT7Ll2NLqq8faLVdBu/ORnNiBXBnddld1Vy9r6LSipmPEQrAA==
+X-Received: by 2002:a05:600c:b95:b0:495:5858:8101 with SMTP id 5b1f17b1804b1-4996199186fmr27697705e9.15.1786133384176;
+        Fri, 07 Aug 2026 13:09:44 -0700 (PDT)
+Received: from Ansuel-XPS24.localdomain (host-87-19-255-168.retail.telecomitalia.it. [87.19.255.168])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-4995919df87sm124815635e9.6.2026.08.07.13.09.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 13:09:43 -0700 (PDT)
+From: Christian Marangi <ansuelsmth@gmail.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Cyril Chao <Cyril.Chao@mediatek.com>,
+	Darren Ye <darren.ye@mediatek.com>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Rosen Penev <rosenp@gmail.com>,
+	bui duc phuc <phucduc.bui@gmail.com>,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH v5 0/4] ASoC: Add support for Airoha AN7581
+Date: Fri,  7 Aug 2026 22:09:30 +0200
+Message-ID: <20260807200936.201827-1-ansuelsmth@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 7D23D3E21
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 07 Aug 2026 17:07:08 +0200,
-Garrett Blackmon wrote:
-> 
-> The GA403UM (SSID 1043:1044) uses the same ALC285 codec + dual CS35L56
-> I2C amplifier topology as the GA403U and GA403W variants, which already
-> have quirk entries (1043:1b13, 1043:1024). Without the quirk, the
-> woofers sit on a separate DAC from the tweeters, so the hardware volume
-> control only scales part of the speaker system and the headset
-> microphone pins are not configured.
-> 
-> Apply the existing ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC fixup to the
-> GA403UM as well.
-> 
-> Signed-off-by: Garrett Blackmon <garrett@blackmon.dev>
+Add all the patch and documentation to support Airoha AN7581
+sound driver.
 
-Applied to for-next branch now.  Thanks.
+The card follows similar implementation with Mediatek with
+the codec present on i2c but with a simplified implementation
+register wise and additional frequency supported.
 
+Changes v5:
+- Address comments from bot
+- Better handle concurrent irq status bit
+- Protect enable etdm
+- Add Review tag for documentation patch
+- Address formal comments from Cezary
+Changes v4:
+- Improve Documentation YAML
+- Move IRQ regmap to mtk_base_afe_irq
+- Use mutex for user tracking in ETDM
+- Register IRQ after memif allocation
+- Address suggestion from bot
+Changes v3:
+- Major fix to the ETDM code
+- Add duplex support
+- Improve Kconfig setup
+- Rework and improve YAML schema
+Changes v2:
+- Fix wrong edit in MAINTAINERS file
 
-Takashi
+Christian Marangi (4):
+  ASoC: dt-bindings: Add Airoha AN7581 AFE Sound card
+  ASoC: dt-bindings: Add Airoha AN7581 AFE with WM8960 Codec schema
+  ASoC: mediatek: common: permit to provide dedicated regmap for irq
+  ASoC: airoha: Add AFE and machine driver for Airoha AN7581
+
+ .../bindings/sound/airoha,an7581-afe.yaml     |  41 ++
+ .../bindings/sound/airoha,an7581-wm8960.yaml  |  71 +++
+ MAINTAINERS                                   |   8 +
+ sound/soc/mediatek/Kconfig                    |  27 +-
+ sound/soc/mediatek/Makefile                   |   1 +
+ sound/soc/mediatek/an7581/Makefile            |   9 +
+ sound/soc/mediatek/an7581/an7581-afe-common.h |  49 ++
+ sound/soc/mediatek/an7581/an7581-afe-pcm.c    | 517 ++++++++++++++++++
+ sound/soc/mediatek/an7581/an7581-dai-etdm.c   | 433 +++++++++++++++
+ sound/soc/mediatek/an7581/an7581-reg.h        | 114 ++++
+ sound/soc/mediatek/an7581/an7581-wm8960.c     | 161 ++++++
+ sound/soc/mediatek/common/mtk-afe-fe-dai.c    |  14 +-
+ sound/soc/mediatek/common/mtk-base-afe.h      |   2 +
+ 13 files changed, 1441 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/airoha,an7581-afe.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/airoha,an7581-wm8960.yaml
+ create mode 100644 sound/soc/mediatek/an7581/Makefile
+ create mode 100644 sound/soc/mediatek/an7581/an7581-afe-common.h
+ create mode 100644 sound/soc/mediatek/an7581/an7581-afe-pcm.c
+ create mode 100644 sound/soc/mediatek/an7581/an7581-dai-etdm.c
+ create mode 100644 sound/soc/mediatek/an7581/an7581-reg.h
+ create mode 100644 sound/soc/mediatek/an7581/an7581-wm8960.c
+
+-- 
+2.53.0
+
