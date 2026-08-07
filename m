@@ -1,157 +1,307 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294A4137923
-	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 08:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786092905; cv=fail; b=T5z1x3p4jqnlL7d7OBr/46l6e3w9seHfIOTVOWL57Zd5+10wGn/PMMnPhJs/H/kEgbhp6i+77jYSJpdysjLOtCxl9YFQsBJNvhbYROmMKbv4bKta7pKaqjPFs8kuaUkjKzzX8e6nyD6qi20GrvLqizBRlTfxZK4nYVKPn8wnnuo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786092905; c=relaxed/simple;
-	bh=xscPNtPW7joZn6OUBEiluBsOUMYUlcTis/hMJI4JPAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WZaHEUmq2QOAAr0wKV7y9/nv4OCKP/aa5rD0rDJ+YIhPH1uh0N5GoXFQmBYNwgfaMP0bG9ktvLOwy+CJAnkK9TfKbr/Ic7EfZC8NIljd/F8hAoRM5TfUb5XE5GBx6ylnulyAZQlxqHCqcriRVrR2F9bw9jkMIBRIhhBUz9WCPfo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=mfC65tRt; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=GqcU/ADs; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265D23F23BB
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 09:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786093864; cv=none; b=MGSVSq/VPIoEgqETpR6limlKph030M/83mt1YROHOH1oodQNts1YPJa3O29yMgEHtBfhu+5xM/zQSZDpJIWNN6R2pq7o2ze8G9DYijQ1TNypi+XlZWkLEqTeOh6aFyRts4H/2xExEbXfW+s9y+qmDuxsqrF4Ip5lu6y3L9hZ+V4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786093864; c=relaxed/simple;
+	bh=iiYbVgd5Uoqfl+NamwpSM0ZeNswgLK/g8fBYwK58fYw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P7obMxe0ufPOIe1Lj1+T0NkITQ8/HIlnDj0rRrSWXueppmFJnmGQOafioANWMLVTDJIsbU8h4kyq7U/0gD4Qs72BcCDg11hkvAt3Ox4woL9MrhBHOAMIeC+xqJGPuuRU5X9kAAHkQXO4AhRsSB1WIcfG1F3fXikLPKYcngZSJw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XMeE4l+m; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="mfC65tRt";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="GqcU/ADs"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6775XFmH3308977;
-	Fri, 7 Aug 2026 03:54:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=E15pqkCnaXipFrA2H6
-	ZDoA7Mebis8QdEU1YEE/GUJYI=; b=mfC65tRtl2IcmYOfeHvqAHs2DcVEBwn3Ju
-	AVYjZxxMF131px8/P7cgZOaDq61M4yJJ8ByDQjn/l2lTy2ju+rdJC3JNN1ZoFiz+
-	6yj8+7eQJorSUbVXMxdk7hYDsXiQXWiMCKSGjtUT/xGeICxroVviK1h2PQ8/H1m5
-	DWHKnRPwEMY1i3+dQe3BkU2Ik2FzxvRrCi1QN9JgrDeJaAPWcBcEI61rBy34Bj6v
-	G99avxue6WU/M2gaBpVWuGuIaqTxaOradbn+OsD6NAJYHdV4tbaEuYybatU9lZlj
-	Q8KtQasEgtgTgGgPcXMjWlafIebssgYlRztZIZv+X4FKbB/hNPMw==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11020118.outbound.protection.outlook.com [40.93.198.118])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4fvxu61a2t-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 07 Aug 2026 03:54:39 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vwzFxuexVi82UBfoc2ZT0Md0x9E/JhOWWeaECdEwdYdQ/x4p8FMmhWptQR0i+jPn3gqpzCkDNoBQXHTdYWb13awOf3qSU1HQjFLV2XoJNT+vTnGS8bGSAzGhseNSWr7LXhrld+Mq374R2rtNJeoPmRml2KEpakA/0ml1+y+ba4Mp8HvTtEANGa4VK7z3HEG2xRET0Yna28BFYa/tAChW0cruyhEjZzTr3OAIp94KN8/NKpOzuC+AgDieq+N4FfHB1Lfo1wO570t3VohVkgzEe2Iq70rpxZMrrmq0hImcN5nkQi5B7bjg1NJ4M/XAICx/jyRQMe7gIK1KQpIPEtS3pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=E15pqkCnaXipFrA2H6ZDoA7Mebis8QdEU1YEE/GUJYI=;
- b=cI+FRzQMuXyiIxWiHf/XYlGH0aN+CNg9VPNHEQaPdZbvbZEv7bkwpQNptQjpZsY9ULdnnV1s/0DYuNqGbukOHhq0n5EDtOA6zDJiZ4eXGScA/sh5ntQxuFfot8itzowFaEtAHbM/wdFIeIXqScjRmT5uOXHT+TGb0BDnXDgNWQQvIlpKUfJZWbS5Fo9SEuqLyeENGL2QZHt7SQbKGhZXK/EKao0fKOGUUvUkwT99iGhMzuGiWv7EAgwq3emhpAfuYyG2zfI+JfK+hRQQXvmUekGYBGQjjlcv//4l7oGzVrFpnilxDw/SomOCoJJeZZFs8ROeyaZFPhQ/TlZNIPvfMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=gmail.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XMeE4l+m"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so2423504a91.2
+        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 02:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E15pqkCnaXipFrA2H6ZDoA7Mebis8QdEU1YEE/GUJYI=;
- b=GqcU/ADsqrqo8Hv7ZF8PWxLHm9G6YeoxdzFdRUgjpcsTkxogQ6tTM+ZZNwyMSeU7pccclXm5r4kh4ev/Vqb9dsl9PkfjxMINp32GG40Sp6J1K14gsAWODZXrzRbKV7xRNMA7Yh0clZ0Hu0P/NfC6XXX3XUGhYjZNjvk3ebLrpBU=
-Received: from BL1PR13CA0417.namprd13.prod.outlook.com (2603:10b6:208:2c2::32)
- by CY8PR19MB7155.namprd19.prod.outlook.com (2603:10b6:930:51::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.23; Fri, 7 Aug
- 2026 08:54:36 +0000
-Received: from MN1PEPF0000F0DE.namprd04.prod.outlook.com
- (2603:10b6:208:2c2:cafe::85) by BL1PR13CA0417.outlook.office365.com
- (2603:10b6:208:2c2::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.8 via Frontend Transport; Fri, 7
- Aug 2026 08:54:35 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MN1PEPF0000F0DE.mail.protection.outlook.com (10.167.242.36) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.6
- via Frontend Transport; Fri, 7 Aug 2026 08:54:35 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 48CDD406544;
-	Fri,  7 Aug 2026 08:54:34 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 3467E82025A;
-	Fri,  7 Aug 2026 08:54:34 +0000 (UTC)
-Date: Fri, 7 Aug 2026 09:54:33 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 22/44] ASoC: codecs: madera: use
- .auto_selectable_formats
-Message-ID: <anWdST1pWPUPvEKe@opensource.cirrus.com>
-References: <877bm2vjjn.wl-kuninori.morimoto.gx@renesas.com>
- <87bjbeu4uq.wl-kuninori.morimoto.gx@renesas.com>
+        d=gmail.com; s=20251104; t=1786093860; x=1786698660; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vG0U+8Qk1yyxGPH+pjVoMTlUBau5DlBVYfocH1JZGYw=;
+        b=XMeE4l+mANndpqGvjkCc3JhXCKfNk5KYQG3VaVqOk/umENoSfiKCOcT1KseUCCxgPj
+         UyWV+yXEV0jm187v7JbMCLBiVT53ckmgImezSnQW8zBhHTjUX5AwPDKdW9URJhWzGk0c
+         0XP51dG+aLhH8VYni6+gqxTZEeen8CY3+vO4KfGJyX2AsHE7tVlsU4Bm63I5Y6UlHXOe
+         qZPdTqNFAW/K841Jl8R7wPUktGul906d+zcmFnjOIBJPMcH9uthNrIdtjfqjEaPLJwgc
+         QyjvdhoE/6WteHT9toRFs/VEct92slbtAxj4bSplDzx1N9mol2e08+UdW+XUowxagtXf
+         9OQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786093860; x=1786698660;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vG0U+8Qk1yyxGPH+pjVoMTlUBau5DlBVYfocH1JZGYw=;
+        b=XVeuENWvosvrackBj/Gj30yPW10vCxDeW7LsGjcuQYQep+rnAijeTX7C3tI2tX8/PK
+         UQnvj+mGlWMhFoTs3odCl4UnlTwAH3E8qGAM2Hp7Z8jozOjh5TVa7uv8fGWsMiH4p3KI
+         5uiQGXCx/OR2i1AIVM2X3EKXThFYMAfTFLj0rCBCoDtu4X/gPpnT0hNrDqCalMa6sdcM
+         UuD5RgybmWX9wdcd89mreU0CFCwexbeaE77MsghIxFkKr1truvN/kNnug/piE6k3EA5t
+         M4CxUAhLU+5GIgGa6IYIm1W4REOM8dBGwdCv+mkJOlzO4x+gL2ZwoDzwDfdI5ge9Wag0
+         LyHQ==
+X-Gm-Message-State: AOJu0Yz6WpDX7DM9cBODEhvENZM6PerchKOtPFBZV7kqXGlbjfwAMxm8
+	EZUrDC0JWqd2NtJBuBybhRt90O1jdTYF788iefJi5VX3qNqa1xFnocKx/sWjBPOj
+X-Gm-Gg: AR+sD119Em/AB2QC69GctLWV4/ZwN0tPJlrIVkMbajErXwlgPtrRppMPhXiK4q3M7ra
+	4vEXtEoQh8IMA+z5YzAv2eyCgVneRW+w6r9bd/sdMp0uTRFz2F9J4UFRVGjhAqpT5iVXI3lJaaI
+	MXyI3qpehrA81Rs181oolaciPsvgKcW5+4CoP7uQLAboGbmA461BxbBm/2usQMF+5qpH3SeZOvy
+	49W1HbR7Bb4odU1FPZql8KVeC+3Ry9et/0MT6XIx7JGTx0SyHrSY4qnWqaY1lYgePQsv14vcwtA
+	8Y3JTdZNFGd5rl+6hz1I+Kv+gzDwkzpiOHZmTFdY4ITOklHqBxZheTkX7mj37j1QAPlIDbij607
+	oAgdopzEgpgjcS78Bce+rBgcx91s12bu7XyMwDGAPfuyARDsCjPU748KF5j8NNc4GoD5ymQ4JEt
+	8nwmqEsAFhr5/1bYapV72gWoElszvCBKfRnTxWVIN0MVQTMQ==
+X-Received: by 2002:a17:90b:590e:b0:38e:6a44:671b with SMTP id 98e67ed59e1d1-3909d301d9cmr8750694a91.0.1786093859527;
+        Fri, 07 Aug 2026 02:10:59 -0700 (PDT)
+Received: from qby-laptop ([2a13:edc0:18:16f::a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3925fd957cesm1740317a91.6.2026.08.07.02.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 02:10:58 -0700 (PDT)
+From: Mingyou Chen <qby140326@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	linux-kernel@vger.kernel.org
+Subject: [REGRESSION / HELP] sound/soc/amd: No sound after suspend/resume on RPL (merged into YC driver)
+Date: Fri,  7 Aug 2026 17:10:46 +0800
+Message-ID: <20260807091047.9264-1-qby140326@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bjbeu4uq.wl-kuninori.morimoto.gx@renesas.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DE:EE_|CY8PR19MB7155:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56f07111-c858-4cdd-abd5-08def461816f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700016|23010399003|61400799027|82310400026|16102099003|18002099003|22082099003|10067099003|11063799006|56012099006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	UZY7gqSLqnzDm8ZXiieUoVUCpW2oP+BXi3hLYp/GJkys7IkG3UPeFMdU0p+nlxkWBXkW3/ubVvrNNyJldx5upPG4ZYT39+rGskq7CR9PHIK1jMcc8HjBI7U1zvbwyYZIjAdH43v2ORbVwwUfo9O8R9JxsuLT43q7NeHW6MO7vniEQKh8iIuRSyDu2MMBnqQ0CioWsPRFNeL+aKEdub80hkMcKRRricx3jtscliDq7P6qYZnH7zrBNIbwqOJMJ2YUbJEzB4FZ1Wj0x3OwfArxWAj6y7jet3H+/xzt9IEkGalHJQriqD3DuhTowgJinyt084Ph6VM1Chhu0VoUxwuGI/RlCT0Z06vKxbXhn1A9AtCrnEJSfj4GVsb8C9SaZ9dVkubDNQ2QBxUuEgPw2Jp2UJI2W2LYfOoXHDCea9UMw6yvlDwSzoZPFtkmjL2Ydigv97pduUUo5iV5Smai0z+/YNWUnMbbLZZ9VG4XfrVaeDFraB/NY78fLXNoTM/AV3vfoTZjXamWAHs+ueIJT+VM8vIdgJyC9oKWSuktuk3Ca1MGkbJQ4mKVbn75Z1o0rF9g5wEnY9cfFQIDjFPYjrA/ryvor7Laf8xHHhRO1CuKhCBGkIxFQI/LXe3ZOt9ad9B/v6BvVgUAa+WN2gRjPFmkwmY5zGoki99MqP3mSdxfv7H96VI7F1FVcqcewu4I5sRrKBpXNg7/lKlEgP+tade+Ug==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(23010399003)(61400799027)(82310400026)(16102099003)(18002099003)(22082099003)(10067099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	fyd5U1w0PbxpYJL0UtEs541wHArZ6o7N7p68TdW0BWiNuPJPz9TrksYnSsfp+/f/nvFqs/mMBvLK8mMxW/JpTAaucywnTp7S6HqENHaA3T3CsR0ZatMArZxy8cmHjjkdcFr5RfW+GCIDxUVp0nv7rKrM+Arg8ATZZe/vqYbiEPXsoX/gKM4eR9809aKcuxQn+AutFmu2/MR9nXn0ZHGx4roSmB8uF+5vJ02m0tQn8yqB18266zxRcqxH8Wc9Uktt2Acuzsd1VrDKgVeiQeFvlrfd1joJZZFSERZuVbo5DG7wvfod4qVLC+dPjkQlrhkHQXpnu1wpOBgB9O4GVhVfV3BolK2gyovjRgkEE9xdk/Cm+xF/gb1Jc0YbCdgW6cV27qivVKx/XRGzh1wPcfijdpRIJFgGH/OAZiBjoEMxhyX5llz2BxUeEvsLWF9xYCVF
-X-Exchange-RoutingPolicyChecked:
-	BtlAa44zcwFY3qpF8mSyG0GEvy0QvZxLWs9hyZetNWduEUjbcEVHiGbAy6fBAJqzv8I3HMm7kl/Ovm7iRVABLqAjKyf+Rhr64BRHCnN7CrYOxd6r73TSyEiqQw2LSjnAWrqHiTcOZ/VS/zrp4nEtESGsS+uEiaLQhZ42s4E7jgNpF1QZ/6mB+I1UQmk7LFsV8L5sBNg0dlk6xT6h8HLDF2faaEoOVGNsWQFJN6iKfkCCax3jiOj+fLNBAvkiYolUAz2bFGtdfE6+HLMW+kipMXLOWFIdf/iVPrKeKd9l8NRCXW7wZQ0kjKbQTnoRbYUk+5TkzLkljnehDnrSAd449A==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2026 08:54:35.1713
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56f07111-c858-4cdd-abd5-08def461816f
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MN1PEPF0000F0DE.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR19MB7155
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDA2NiBTYWx0ZWRfXyVdenSHZCRlG
- /RmlOZQu6tsWWy+Yis8z4iHDSkMDEBUtEG2Vg8+MN3GDhqiGWp4hOqp6MkO4d1LtGUkgPRLRX/L
- CI4YpY5dx/LdWe2kN02xYYjeOb/9F5cZRxlF7vi9PnmxNDlIV2XGOWP7Rz7C2hK6+eniRGxn5wa
- m5IRTAuflZ7w/+PhMxJ+Ev31Fhy2t9t1Ap7st2eRtDYBLXr4R71R3De6VhQ/xAC4/mARCbm3qFB
- MSbWH6tYo9Vjo3Kq8QywsoNAGOuPvp+Ph5rUjA4MLCXQ3/2l7zmQRCEc4KHQGq+dURHsZM4Uh73
- kyO/aqoubMOPLCpO7sy72yjzItWo+sLFOOnDsZxknyjcNnsQatmj1d8h/HzVNqsM8ZBKtEM1Owp
- HBKG8Sh6h8O3HEIlEgNkDCSyvPj9S92u+3jc6BtxgA4+usZlGCYP4vdZ+wHbbqW4vxvBtctDGzR
- xtvcEKLciI8tFVA6M1g==
-X-Proofpoint-GUID: LdzQdFsbnJN1SNz9NH6iJJzuLrYSJxfZ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDA2NiBTYWx0ZWRfX2EJeZuV+84OO
- etIraSOfCvwM5RPyVn69jIwVwOboU+MFNczNau9L3x58l0AM9nCa2+eeJry6qdPVlFgL+aenRsH
- B1UucUE4mHuTmuykZkAyrXM8qA9ClqA=
-X-Authority-Analysis: v=2.4 cv=V/5NF+ni c=1 sm=1 tr=0 ts=6a759d4f cx=c_pps
- a=LryC7IEqKcSdoWktnkYnkA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=yC-0_ovQAAAA:8 a=w1d2syhTAAAA:8 a=fCYEM5yUJuOXIdsSaJ8A:9 a=CjuIK1q_8ugA:10
- a=Ha9PRq4w45QA:10
-X-Proofpoint-ORIG-GUID: LdzQdFsbnJN1SNz9NH6iJJzuLrYSJxfZ
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 07, 2026 at 12:55:09AM +0000, Kuninori Morimoto wrote:
-> We can use .auto_selectable_formats. Let's adds it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
+Hi maintainers,
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+I am writing to seek help/report an issue regarding audio losing functional=
+ity after suspend/resume.
 
-Thanks,
-Charles
+Previously, I merged the acp6x RPL support into the YC driver in commit:
+df4148a5a3cf ASoC: Add DMIC support for the AMD RPL platform
+
+Audio output works normally on fresh boot.
+After triggering suspend (s2idle) and resuming the system, audio stops work=
+ing completely.
+
+[dmesg Log]
+[    6.142953] calling  rn_acp_driver_init+0x0/0xff0 [snd_rn_pci_acp3x] @ 9=
+12
+[    6.144924] initcall rn_acp_driver_init+0x0/0xff0 [snd_rn_pci_acp3x] ret=
+urned 0 after 1213 usecs
+[    6.253716] calling  snd_amd_acp_pci_driver_init+0x0/0xff0 [snd_acp_pci]=
+ @ 912
+[    6.253744] initcall snd_amd_acp_pci_driver_init+0x0/0xff0 [snd_acp_pci]=
+ returned 0 after 23 usecs
+[    6.300683] calling  hda_bus_init+0x0/0xff0 [snd_hda_core] @ 907
+[    6.300707] initcall hda_bus_init+0x0/0xff0 [snd_hda_core] returned 0 af=
+ter 13 usecs
+[    6.322903] calling  azx_driver_init+0x0/0xff0 [snd_hda_intel] @ 907
+[    6.323030] snd_hda_intel 0000:01:00.1: enabling device (0000 -> 0002)
+[    6.323128] snd_hda_intel 0000:01:00.1: Disabling MSI
+[    6.323135] snd_hda_intel 0000:01:00.1: Handle vga_switcheroo audio clie=
+nt
+[    6.323250] snd_hda_intel 0000:07:00.1: enabling device (0000 -> 0002)
+[    6.323300] snd_hda_intel 0000:07:00.1: Handle vga_switcheroo audio clie=
+nt
+[    6.323341] snd_hda_intel 0000:07:00.6: enabling device (0000 -> 0002)
+[    6.323390] initcall azx_driver_init+0x0/0xff0 [snd_hda_intel] returned =
+0 after 480 usecs
+[    6.332088] calling  generichdmi_driver_init+0x0/0xff0 [snd_hda_codec_hd=
+mi] @ 1078
+[    6.332109] initcall generichdmi_driver_init+0x0/0xff0 [snd_hda_codec_hd=
+mi] returned 0 after 13 usecs
+[    6.334872] calling  nvhdmi_driver_init+0x0/0xff0 [snd_hda_codec_nvhdmi]=
+ @ 1079
+[    6.335493] calling  atihdmi_driver_init+0x0/0xff0 [snd_hda_codec_atihdm=
+i] @ 941
+[    6.336448] snd_hda_intel 0000:07:00.1: bound 0000:07:00.0 (ops amdgpu_d=
+m_audio_component_bind_ops [amdgpu])
+[    6.337487] initcall atihdmi_driver_init+0x0/0xff0 [snd_hda_codec_atihdm=
+i] returned 0 after 1889 usecs
+[    6.339335] calling  generic_driver_init+0x0/0xff0 [snd_hda_codec_generi=
+c] @ 1081
+[    6.339358] initcall generic_driver_init+0x0/0xff0 [snd_hda_codec_generi=
+c] returned 0 after 17 usecs
+[    6.341222] initcall nvhdmi_driver_init+0x0/0xff0 [snd_hda_codec_nvhdmi]=
+ returned 0 after 993 usecs
+[    6.343098] calling  conexant_driver_init+0x0/0xff0 [snd_hda_codec_conex=
+ant] @ 948
+[    6.343118] snd_hda_codec_conexant hdaudioC2D0: SN6140: BIOS auto-probin=
+g.
+[    6.343542] snd_hda_codec_conexant hdaudioC2D0: SN6140: picked fixup  fo=
+r codec SSID 17aa:0000
+[    6.343605] snd_hda_codec_conexant hdaudioC2D0: autoconfig for SN6140: l=
+ine_outs=3D1 (0x17/0x0/0x0/0x0/0x0) type:speaker
+[    6.343609] snd_hda_codec_conexant hdaudioC2D0:    speaker_outs=3D0 (0x0=
+/0x0/0x0/0x0/0x0)
+[    6.343611] snd_hda_codec_conexant hdaudioC2D0:    hp_outs=3D1 (0x16/0x0=
+/0x0/0x0/0x0)
+[    6.343613] snd_hda_codec_conexant hdaudioC2D0:    mono: mono_out=3D0x0
+[    6.343614] snd_hda_codec_conexant hdaudioC2D0:    inputs:
+[    6.343615] snd_hda_codec_conexant hdaudioC2D0:      Mic=3D0x19
+[    6.347674] initcall conexant_driver_init+0x0/0xff0 [snd_hda_codec_conex=
+ant] returned 0 after 652 usecs
+[    6.526509] probe of acp_yc_pdm_dma.0 returned 0 after 26 usecs
+[    6.526512] acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
+[    6.526734] probe of acp_yc_mach.0 returned 0 after 246 usecs
+[   16.054575] snd_hda_intel 0000:01:00.1: calling  nv_msi_ht_cap_quirk_lea=
+f+0x0/0x30 @ 2245
+[   16.054586] snd_hda_intel 0000:01:00.1: nv_msi_ht_cap_quirk_leaf+0x0/0x3=
+0 took 3 usecs
+[   32.373277] snd_hda_codec_conexant hdaudioC2D0: PM: calling hda_codec_pm=
+_suspend [snd_hda_codec] @ 973, parent: 0000:07:00.6
+[   32.373280] snd_hda_codec_nvhdmi hdaudioC0D0: PM: calling hda_codec_pm_s=
+uspend [snd_hda_codec] @ 2608, parent: 0000:01:00.1
+[   32.373286] snd_hda_codec_atihdmi hdaudioC1D0: PM: calling hda_codec_pm_=
+suspend [snd_hda_codec] @ 825, parent: 0000:07:00.1
+[   32.373803] acp_yc_mach acp_yc_mach.0: PM: calling platform_pm_suspend @=
+ 4869, parent: 0000:07:00.5
+[   32.373813] acp_yc_mach acp_yc_mach.0: PM: platform_pm_suspend returned =
+0 after 6 usecs
+[   32.373822] acp_yc_pdm_dma acp_yc_pdm_dma.0: PM: calling platform_pm_sus=
+pend @ 4869, parent: 0000:07:00.5
+[   32.373828] acp_yc_pdm_dma acp_yc_pdm_dma.0: PM: platform_pm_suspend ret=
+urned 0 after 2 usecs
+[   32.383535] snd_hda_codec_atihdmi hdaudioC1D0: PM: hda_codec_pm_suspend =
+[snd_hda_codec] returned 0 after 10235 usecs
+[   32.383547] snd_hda_intel 0000:07:00.1: PM: calling pci_pm_suspend @ 495=
+9, parent: 0000:00:08.1
+[   32.383557] snd_hda_intel 0000:07:00.1: PM: pci_pm_suspend returned 0 af=
+ter 5 usecs
+[   32.384686] snd_hda_codec_nvhdmi hdaudioC0D0: PM: hda_codec_pm_suspend [=
+snd_hda_codec] returned 0 after 11394 usecs
+[   32.384702] snd_hda_intel 0000:01:00.1: PM: calling pci_pm_suspend @ 495=
+8, parent: 0000:00:01.1
+[   32.385395] snd_hda_codec_conexant hdaudioC2D0: PM: hda_codec_pm_suspend=
+ [snd_hda_codec] returned 0 after 12105 usecs
+[   32.385406] snd_hda_intel 0000:07:00.6: PM: calling pci_pm_suspend @ 495=
+7, parent: 0000:00:08.1
+[   32.385509] snd_hda_intel 0000:01:00.1: PM: pci_pm_suspend returned 0 af=
+ter 803 usecs
+[   32.386452] snd_hda_intel 0000:07:00.6: PM: pci_pm_suspend returned 0 af=
+ter 1042 usecs
+[   32.548232] snd_hda_intel 0000:07:00.6: PM: calling pci_pm_suspend_late =
+@ 1934, parent: 0000:00:08.1
+[   32.548238] snd_hda_intel 0000:07:00.6: PM: pci_pm_suspend_late returned=
+ 0 after 0 usecs
+[   32.548247] snd_hda_intel 0000:07:00.1: PM: calling pci_pm_suspend_late =
+@ 773, parent: 0000:00:08.1
+[   32.548248] snd_hda_intel 0000:01:00.1: PM: calling pci_pm_suspend_late =
+@ 753, parent: 0000:00:01.1
+[   32.548256] snd_hda_intel 0000:07:00.1: PM: pci_pm_suspend_late returned=
+ 0 after 0 usecs
+[   32.548265] snd_hda_intel 0000:01:00.1: PM: pci_pm_suspend_late returned=
+ 0 after 0 usecs
+[   32.550201] snd_hda_intel 0000:07:00.6: PM: calling pci_pm_suspend_noirq=
+ @ 4965, parent: 0000:00:08.1
+[   32.550208] snd_hda_intel 0000:01:00.1: PM: calling pci_pm_suspend_noirq=
+ @ 753, parent: 0000:00:01.1
+[   32.550315] snd_hda_intel 0000:07:00.1: PM: calling pci_pm_suspend_noirq=
+ @ 773, parent: 0000:00:08.1
+[   32.563453] snd_hda_intel 0000:07:00.6: PM: pci_pm_suspend_noirq returne=
+d 0 after 13245 usecs
+[   32.564480] snd_hda_intel 0000:07:00.1: PM: pci_pm_suspend_noirq returne=
+d 0 after 14160 usecs
+[   32.574594] snd_hda_intel 0000:01:00.1: PM: pci_pm_suspend_noirq returne=
+d 0 after 24381 usecs
+[   34.136842] snd_hda_intel 0000:07:00.6: PM: calling pci_pm_resume_noirq =
+@ 773, parent: 0000:00:08.1
+[   34.149039] snd_hda_intel 0000:07:00.1: PM: calling pci_pm_resume_noirq =
+@ 4967, parent: 0000:00:08.1
+[   34.152548] snd_hda_intel 0000:07:00.6: PM: pci_pm_resume_noirq returned=
+ 0 after 15697 usecs
+[   34.161115] snd_hda_intel 0000:07:00.1: PM: pci_pm_resume_noirq returned=
+ 0 after 12069 usecs
+[   34.528188] nvidia 0000:01:00.0: calling  quirk_nvidia_hda+0x0/0x80 @ 13=
+46
+[   34.528200] nvidia 0000:01:00.0: quirk_nvidia_hda+0x0/0x80 took 4 usecs
+[   34.528251] snd_hda_intel 0000:01:00.1: PM: calling pci_pm_resume_noirq =
+@ 1344, parent: 0000:00:01.1
+[   34.528313] snd_hda_intel 0000:01:00.1: calling  nv_msi_ht_cap_quirk_lea=
+f+0x0/0x30 @ 1344
+[   34.528325] snd_hda_intel 0000:01:00.1: nv_msi_ht_cap_quirk_leaf+0x0/0x3=
+0 took 5 usecs
+[   34.528331] snd_hda_intel 0000:01:00.1: PM: pci_pm_resume_noirq returned=
+ 0 after 69 usecs
+[   34.529178] snd_hda_intel 0000:01:00.1: PM: calling pci_pm_resume_early =
+@ 4978, parent: 0000:00:01.1
+[   34.529187] snd_hda_intel 0000:01:00.1: PM: pci_pm_resume_early returned=
+ 0 after 0 usecs
+[   34.529210] snd_hda_intel 0000:07:00.1: PM: calling pci_pm_resume_early =
+@ 219, parent: 0000:00:08.1
+[   34.529212] snd_hda_intel 0000:07:00.6: PM: calling pci_pm_resume_early =
+@ 4978, parent: 0000:00:08.1
+[   34.529215] snd_hda_intel 0000:07:00.1: PM: pci_pm_resume_early returned=
+ 0 after 0 usecs
+[   34.529218] snd_hda_intel 0000:07:00.6: PM: pci_pm_resume_early returned=
+ 0 after 0 usecs
+[   34.532175] snd_hda_intel 0000:01:00.1: PM: calling pci_pm_resume @ 4974=
+, parent: 0000:00:01.1
+[   34.532434] snd_hda_intel 0000:07:00.6: PM: calling pci_pm_resume @ 4992=
+, parent: 0000:00:08.1
+[   34.536184] snd_hda_intel 0000:01:00.1: PM: pci_pm_resume returned 0 aft=
+er 4003 usecs
+[   34.536193] snd_hda_codec_nvhdmi hdaudioC0D0: PM: calling hda_codec_pm_r=
+esume [snd_hda_codec] @ 4974, parent: 0000:01:00.1
+[   34.536340] snd_hda_codec_nvhdmi hdaudioC0D0: PM: hda_codec_pm_resume [s=
+nd_hda_codec] returned 0 after 0 usecs
+[   34.635460] snd_hda_intel 0000:07:00.6: CORB reset timeout#2, CORBRP =3D=
+ 65535
+[   34.635469] snd_hda_intel 0000:07:00.6: PM: pci_pm_resume returned 0 aft=
+er 103028 usecs
+[   34.635475] snd_hda_codec_conexant hdaudioC2D0: PM: calling hda_codec_pm=
+_resume [snd_hda_codec] @ 4992, parent: 0000:07:00.6
+[   34.635503] snd_hda_codec_conexant hdaudioC2D0: PM: hda_codec_pm_resume =
+[snd_hda_codec] returned 0 after 0 usecs
+[   34.637039] Modules linked in: nft_masq veth bridge stp llc rfcomm snd_s=
+eq_dummy snd_hrtimer nft_nat nft_redir tun overlay nf_conntrack_netbios_ns =
+nf_conntrack_broadcast nft_fib_inet nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_r=
+eject_inet nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat nf=
+_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nvidia_uvm(OE) nf_tables nf=
+netlink qrtr bnep sunrpc binfmt_misc vfat f2fs fat nvidia_drm(OE) snd_ctl_l=
+ed nvidia_modeset(OE) snd_soc_acp6x_mach snd_soc_dmic snd_acp6x_pdm_dma snd=
+_sof_amd_acp70 snd_sof_amd_acp63 snd_sof_amd_vangogh snd_sof_amd_rembrandt =
+snd_sof_amd_renoir snd_sof_amd_acp snd_sof_pci snd_sof_xtensa_dsp amd_atl s=
+nd_sof intel_rapl_msr intel_rapl_common iwlmvm snd_sof_utils nvidia(OE) snd=
+_pci_ps snd_soc_acpi_amd_match snd_amd_sdw_acpi mac80211 soundwire_amd snd_=
+hda_codec_conexant soundwire_generic_allocation soundwire_bus snd_hda_codec=
+_generic edac_mce_amd snd_hda_codec_atihdmi snd_hda_codec_nvhdmi snd_soc_sd=
+ca snd_hda_codec_hdmi snd_hda_intel uvcvideo snd_soc_core
+[   34.637104]  kvm_amd snd_hda_codec uvc btusb videobuf2_vmalloc videobuf2=
+_memops libarc4 btmtk snd_hda_core snd_compress videobuf2_v4l2 ac97_bus btr=
+tl kvm snd_pcm_dmaengine snd_intel_dspcfg videobuf2_common btbcm snd_acp_pc=
+i snd_intel_sdw_acpi btintel snd_hwdep snd_amd_acpi_mach iwlwifi spd5118 vi=
+deodev snd_seq snd_acp_legacy_common irqbypass bluetooth snd_pci_acp6x snd_=
+seq_device mc rapl bitland_mifs_wmi cfg80211 pcspkr sparse_keymap snd_pci_a=
+cp5x wmi_bmof snd_pcm r8169 snd_rn_pci_acp3x snd_timer snd_acp_config joyde=
+v snd realtek snd_soc_acpi i2c_piix4 rfkill wireless_hotkey amd_pmc phy_pac=
+kage k10temp i2c_smbus snd_pci_acp3x soundcore zstd zram lz4hc_compress lz4=
+_compress amdgpu drm_buddy amdxcp i2c_algo_bit drm_ttm_helper ttm drm_exec =
+ucsi_acpi drm_panel_backlight_quirks typec_ucsi gpu_sched hid_multitouch nv=
+me typec drm_suballoc_helper drm_display_helper thunderbolt i2c_hid_acpi nv=
+me_core i2c_hid cec video nvme_keyring wmi nvme_auth sp5100_tco serio_raw f=
+use i2c_dev uinput
+[   34.740640] snd_hda_intel 0000:07:00.1: PM: calling pci_pm_resume @ 219,=
+ parent: 0000:00:08.1
+[   34.740803] acp_yc_pdm_dma acp_yc_pdm_dma.0: PM: calling platform_pm_res=
+ume @ 4869, parent: 0000:07:00.5
+[   34.740815] acp_yc_pdm_dma acp_yc_pdm_dma.0: PM: platform_pm_resume retu=
+rned 0 after 6 usecs
+[   34.740826] acp_yc_mach acp_yc_mach.0: PM: calling platform_pm_resume @ =
+4869, parent: 0000:07:00.5
+[   34.740833] acp_yc_mach acp_yc_mach.0: PM: platform_pm_resume returned 0=
+ after 4 usecs
+[   34.742747] snd_hda_intel 0000:07:00.1: PM: pci_pm_resume returned 0 aft=
+er 2097 usecs
+[   34.742778] snd_hda_codec_atihdmi hdaudioC1D0: PM: calling hda_codec_pm_=
+resume [snd_hda_codec] @ 4992, parent: 0000:07:00.1
+[   34.742796] snd_hda_codec_atihdmi hdaudioC1D0: PM: hda_codec_pm_resume [=
+snd_hda_codec] returned 0 after 0 usecs
