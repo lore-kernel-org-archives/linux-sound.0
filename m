@@ -1,64 +1,64 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A158C3D5C26
-	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 11:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5E635F5ED
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 11:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786102936; cv=none; b=BcerUt92wUEsrPa294TuUB6Kg3FwMxRIt998CkptZojsGDXzsZ1AAuNxG6F0O42vgggA1crmKaseqO3Rfz+bgtkDzs2MYO3mGsSmEoAZFGzQitAOw9+rIdq7qNJXG38mQmsDe0ci0jxS2827CiJ5Ts4XofxT4ZoJt7G2aQ7AwVU=
+	t=1786102942; cv=none; b=YaDyh/lUV9Gm2lMj9YNzfN5po+Qk7jcqryHg56xv94VfA9E3AD+7xjvc08bypWxTqju1OlpLvWunsh7SATxAL54/GVUY4HWyw6s0/VU/k1gJs6IwM7mLxBHdq19xBgkuJcoFNhmIwC7GK4UDuEYwNS7KF+NtnRX59Nv+brtmP/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786102936; c=relaxed/simple;
-	bh=SW3QQ7TLL2MlBWmSFLXbFPE4nTuOfBcLz7c3BJkp6jc=;
+	s=arc-20240116; t=1786102942; c=relaxed/simple;
+	bh=G7A9VyBzNW+ys4oCdJOqO6Hbk5F6spxIfIbUNWzCj3g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GDH5klRGiGbSwXYecyODhIM+jPpX+LNPcicmM4GNhj3RX9JkqMkdflC/cn19wsckcpKXoQd9ZdEbZ486j4CSeCPRyhyxz3AK4rd2f91+J62hHr+9fMyAStjuDxk8z/0POaa9t8/blTKNFcx65QyKSpWRO0mb5zc4PpwxP1pItvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qC9JIg7L; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=ZUJO81hf3dc48B+TyfFishSGOOBkiL4mbyL5o7QBy6Z6K25Iy9cCvdsge9FN+WVQ5U+7VnLMfIofSa8o3UgtJRSffHKi3yeONhSNYfeVHlVVCASmb5b27kYBWc5pgPuFuLxpPP554f+RGZXSinsXw94tqrWB68R00xKocXelycs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rwlY4ouh; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qC9JIg7L"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8453427d3f4so3805605b3a.3
-        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 04:42:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rwlY4ouh"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so3589175a91.0
+        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 04:42:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786102928; x=1786707728; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786102934; x=1786707734; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=O6lR1SogBn9JLBrBLFh5Dez9g6Tr1CXQQppMwm2xDcc=;
-        b=qC9JIg7LJbPyoGFssi/HNtrHcI2V70QyzK/e8fVsyG3hK4JtPgFsLeFWkYu0A/CqLd
-         z7lNCqFdBKE+SedeysAeMJaR/PC+eigrFSVY68OphWfVYTUKIimHl7PnfDO/9U/vk3iz
-         biewQ6iCyIfMCZQCN66Fc8myc/Ld5GixlIjiQP/FAWR5Nhp2qOLBMnAftzRxrZ9W5lQk
-         f/+SfHbeaIODC8Fh0Ys1DdVBXShcjtnHrnStN8KfZh0vSY3fvJsgvdH0/7MQ9iI2Qd2T
-         0unv1Nj+dT43l3K6PNdo5b0z96Wwu8ISSYroPeWFsb9k1z726ne+o6uEV4fJHLegxm9g
-         AI3g==
+        bh=0tFaoWtzLU8DJaY4QXu8kIEx2fyiCWG7Fl24BOjON7o=;
+        b=rwlY4ouhlCHd5rNbVTN7xCMxAogISPGbN7q7yOKKj6IFYH5pSPtdzzewkf1ZT1LUF4
+         UJ2E0NBKhJVF6WGA/fePCxs9xF8j6KjuvSNt+pQ4sQjcc86iBwdJb4ceiKRQqLvB1ac0
+         YldxprqgyJB847zV91zVMpmWihtBPziqi+lg4fONj0FOTaua2+rqQcUIwh6w/Jo0FhpV
+         cVtjmXSwV7GLNTCcNUMb9X9JhcLl1lDXCoxnjHXTcxgh3NBRVuSZuCfgwYpV2rwpxzca
+         jcm2c6pqrJSvWpDzTHBO6WWESJPLfhbxbBjUAYD9pBUQ+RkeX5YCa13YGcqPEJIeLsdv
+         /DpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786102928; x=1786707728;
+        d=1e100.net; s=20251104; t=1786102934; x=1786707734;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=O6lR1SogBn9JLBrBLFh5Dez9g6Tr1CXQQppMwm2xDcc=;
-        b=nKf1bnwYzWX+1kmuCHzHomt9fouKis6afsEOMZ5RtgWL03IH1Kc0XClhY8HhWl24jD
-         NrwQgEhO+HZyxoroT7kO0vhk8VJLHrUt9uPcaDMhLLbRWGnOCkri6i3lgUZOeZkn8fPl
-         /6QeY6tJi1oL77vcGAxLGv4MvdW8g8p+lZzz3b69x2+4WtoB/K3TdHQzO4AREIh0QzjZ
-         DcTSUEJmh/jhyZdp2lK4V8OIUQN2u6McoUqlH/VFEq+nJkQbHfsCsjq2GrYjPLsk6mAS
-         htl3DRZ1vOqLsKKCSoNzOkQDek/IBgNIjonA41U1eeIq41MpeW74MJiLgwlsRNV3kOk7
-         xV6Q==
-X-Forwarded-Encrypted: i=1; AHgh+RqKOffbSEOrJpV6Sdz/BNQ8dr7+1RDL5EmiiALlyXTFcqRDGah6LHKBYASZbkmGvtq4IwQ6MYAYlT3rjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxp4h1GBd2/vqYQd1uJ/jqQgoKYKgvz2Qtj2zjjz5SHviM6UxIs
-	UaI455a2cgyNM5D0jZ69EioR8O6PXo15Xvd3cuiPGPvuaq36p2bh0/yA
-X-Gm-Gg: AR+sD10ZzjTtUC1JiuihLJewrgf//NB+bHMwzWnuG5tEapgy7y4J9Y+FMcYu0cEsG3m
-	0oCL0Sl+vtJuOFPFo7vfQQ5lUDiIlOy3ahkKXd2SH52HAIY8GQXFE3lmSgZBIQ4MsgEOsiADGQi
-	bmFZxwK4zHSq+7xMi3Nmhrjp/Kc+J/Uk+ZND9IdrMzhVJQ6FHjb/tUi8YrP/GxB3QDjyq499/u/
-	cnHEu9/W0K01N6as2ftWOs+2PYCEXv6HbKd9YnZioJVxjl9sqdoA4PX7fT/wNHBJvEqUXChD03R
-	89iZzwT3jHz36X6PJSV1XRpQS8aZOLOQQ7KezFtBLovPQ0NCwy0QnfLhXm3NOXFXW2D0a3gXX50
-	Z71nMi8+a4YU+WwPeOpl4MzMngHIQSfVbj35nYr1argp91nsfA5kG95juO9FZMMdzaml3syclqH
-	eXtoup8Xl4sgTmbQdtaBCuWZt5zNwg8SokyLSpqVL6b/fq3yzvYWMkG8LGBe+48lP5yiSfsNJsQ
-	F/b5+OdFyE=
-X-Received: by 2002:a05:6a20:d4b:b0:3c3:8255:8c4a with SMTP id adf61e73a8af0-3cb85ea2ee0mr27242276637.17.1786102927754;
-        Fri, 07 Aug 2026 04:42:07 -0700 (PDT)
+        bh=0tFaoWtzLU8DJaY4QXu8kIEx2fyiCWG7Fl24BOjON7o=;
+        b=k8/dXejuXKY6L3Qnd7Sd4edz10QZKvSil+V0wbY+BFzZG4za8cy91kHPpDBi6O78wU
+         he1vjnsocn+teAL/vIj8lBCR0MUiiwbXE7KGakFcKz3hcd6/92bHhqbZdc+qMaWC7hwA
+         eFiE9PUuz42BCPuhV2J+lt0jmYKdQ1B02wimWCCddH2zRDzA7yGH2d8ua0oAiXkk1A/N
+         egIbvR0y02A2xMLgGbIoJFFqnM8qB8k4skbvP2lYZzhnVWB77Od/A5bPWxUI1raplHf5
+         aJ2F3jazR9MOwIGAjUjuuO8RjmzK3CXFdn0+seeSIbay3r03CTjBL16THyg3mq3oXRb8
+         lztA==
+X-Forwarded-Encrypted: i=1; AHgh+RqXeJ4gCS5B7f7tcPclYoBtnHqKAsz0f5FJpOe6opa+wnaVNYJ7sw/AE9yH4nR25Qi3GAFq7GbePQUy1w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQkJPPfcVJddTs7W2fgDrIACwPfx2OOFF2KW2/SbHmsJAZIMCU
+	ilPZHPg114cHgEs9sU/cUsPBohOmakHsqF6fPftchkLgwLhTfDRNdajA
+X-Gm-Gg: AR+sD13o0IflOEUw0I6z5g/n5WIkoVLpCWb5fLlgHMmpJPNod8dBQ8a13C0jsLOR/+W
+	hkHXywjyFPwPACeppkhx4ovyjwQvMeOSNSk4oxXPvDGgDPv6S2h94pESCPfvogO009aIaBMsNa+
+	AmFraHvyQQSqbXsCZRGXTjki2fEVf/jdtfKZHeimVhhuQb1tcAEqld1OBNPxqcNskKm3I2fuObS
+	oo1lGtHSCz9X3sdctmYJaKxePnaYxYzVTliMl8RfM1umx4rzgVr0/LbwKA0lk05tNylPMCge1Xp
+	NU9sTn7kUctdfhOM0An8+/8hI2b/CSt0zVSLs1WYUIuhdzY5Z+sH+kOOj57564FEcM5vsM09sLq
+	TzQPz2k1Ln7+TTD+CyfC7d9ffo5H0Yp7ko7t3TioKtkcZLOzOHdX0BY+0UY4Z0rvPPxGZcOE/AP
+	yISUQOPL5sl9abjIVhAZw23ydUalDDITJxmGgR9QP3dtMzMb48fNHL4Dg7gfrJEJLvLEUHg1RqB
+	FdHaqzUYEo=
+X-Received: by 2002:a17:90b:4b84:b0:38e:8021:2ea9 with SMTP id 98e67ed59e1d1-3903c5f6482mr20137207a91.19.1786102934189;
+        Fri, 07 Aug 2026 04:42:14 -0700 (PDT)
 Received: from localhost.localdomain ([72.255.58.127])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be86d3fcsm6930508eec.4.2026.08.07.04.42.02
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be86d3fcsm6930508eec.4.2026.08.07.04.42.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 04:42:07 -0700 (PDT)
+        Fri, 07 Aug 2026 04:42:13 -0700 (PDT)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>,
 	Jaroslav Kysela <perex@perex.cz>
@@ -67,9 +67,9 @@ Cc: Kees Cook <kees@kernel.org>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH 2/7] ALSA: ac97: replace strlcat() with scnprintf()
-Date: Fri,  7 Aug 2026 11:41:34 +0000
-Message-ID: <20260807114139.1661-3-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH 3/7] ALSA: cmipci: replace strlcat() with strscpy()
+Date: Fri,  7 Aug 2026 11:41:35 +0000
+Message-ID: <20260807114139.1661-4-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260807114139.1661-1-mahad.ibrahim.dev@gmail.com>
 References: <20260807114139.1661-1-mahad.ibrahim.dev@gmail.com>
@@ -81,58 +81,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-At this point name holds the vendor name written by the earlier
-strscpy(). A space and then the codec name were appended with two
-strlcat() calls. The else branch below already took its own offset
-with strlen() before calling snprintf().
+The "-SWIEC" suffix on card->driver was appended with strlcat().
 
-Take that offset once, before the branch, and use it for both. The
-two appends become a single scnprintf() writing " %s" at the offset,
-and the else branch uses the same variable instead of computing its
-own.
+Take the length of the existing driver name and write the suffix at
+that offset with strscpy(). This is the same thing the can_multi_ch
+branch immediately above already does, so both arms of the
+conditional now build the name the same way.
 
-The bytes written and the point at which the result is truncated are
-unchanged.
+strlcat() and strscpy() both truncate at the end of the buffer, and
+the suffix is written at the same offset either way.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- sound/pci/ac97/ac97_codec.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ sound/pci/cmipci.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/sound/pci/ac97/ac97_codec.c b/sound/pci/ac97/ac97_codec.c
-index 0bb65be021d9..dfd712ef0c63 100644
---- a/sound/pci/ac97/ac97_codec.c
-+++ b/sound/pci/ac97/ac97_codec.c
-@@ -1832,6 +1832,7 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
- 		       size_t maxlen, int modem)
- {
- 	const struct ac97_codec_id *pid;
-+	int len;
+diff --git a/sound/pci/cmipci.c b/sound/pci/cmipci.c
+index 9d9f784e3a8c..c8d98d76b689 100644
+--- a/sound/pci/cmipci.c
++++ b/sound/pci/cmipci.c
+@@ -2983,8 +2983,12 @@ static int snd_cmipci_create(struct snd_card *card, struct pci_dev *pci,
+ 		int l = strlen(cm->card->driver);
+ 		scnprintf(cm->card->driver + l, sizeof(cm->card->driver) - l,
+ 			  "-MC%d", cm->max_channels);
+-	} else if (cm->can_ac3_sw)
+-		strlcat(cm->card->driver, "-SWIEC", sizeof(cm->card->driver));
++	} else if (cm->can_ac3_sw) {
++		int l = strlen(cm->card->driver);
++
++		strscpy(cm->card->driver + l, "-SWIEC",
++			sizeof(cm->card->driver) - l);
++	}
  
- 	sprintf(name, "0x%x %c%c%c", id,
- 		printable(id >> 24),
-@@ -1849,9 +1850,9 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
- 	} 
- 
- 	pid = look_for_codec_id(snd_ac97_codec_ids, id);
-+	len = strlen(name);
- 	if (pid) {
--		strlcat(name, " ", maxlen);
--		strlcat(name, pid->name, maxlen);
-+		scnprintf(name + len, maxlen - len, " %s", pid->name);
- 		if (pid->mask != 0xffffffff)
- 			sprintf(name + strlen(name), " rev %u", id & ~pid->mask);
- 		if (ac97 && pid->patch) {
-@@ -1860,8 +1861,7 @@ void snd_ac97_get_name(struct snd_ac97 *ac97, unsigned int id, char *name,
- 				pid->patch(ac97);
- 		}
- 	} else {
--		int l = strlen(name);
--		snprintf(name + l, maxlen - l, " id %x", id & 0xff);
-+		snprintf(name + len, maxlen - len, " id %x", id & 0xff);
- 	}
- }
- 
+ 	cm->dig_status = SNDRV_PCM_DEFAULT_CON_SPDIF;
+ 	cm->dig_pcm_status = SNDRV_PCM_DEFAULT_CON_SPDIF;
 -- 
 2.54.0
 
