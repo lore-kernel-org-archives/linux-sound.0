@@ -1,75 +1,63 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C554B04BF
-	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 01:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E4C4B0494;
+	Fri,  7 Aug 2026 01:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786065852; cv=none; b=gsudSXc/gmbQFzWJSZbIsJbaRMfxbpKb1LSCWkzSKxYOUrE7GMxVt8BVKryTfUgB80Goe0YjH/BOkBVNvdJ8JuTmwmfUal0/9MOMcpaELNAPKiEtK/geJWIpo980QbkUQDcN2xt6dyyLWy4TYzRy39Vnt5t/N+5R0f+7Ngzr2vw=
+	t=1786065910; cv=none; b=KaHmn18I/L9HOkESf1aOSVK/nbDRmcki/FOzfUeDU5navaQ37P8ETFJbvz09igkHOlIxu+MdK3rH665efe/jLbhP2OUySuwenMn36KiYC6KSN13POoKEnyletDC6tRPwqvTGzYYoTnb3GGMGyBYjapmnLPk+jkON6HCM29jPVKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786065852; c=relaxed/simple;
-	bh=80ocvmi2cf0dwGKVeh0HWEPDBLshhhyTQY0cJgcK5ao=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BcprMGh9yfb8SHxX4ziTGcbK8yGxyzih6hUJNvWGkgPsCFbX40uH116WJUHpkyTQXZY0rzaDjvhCLsIFYtrtkCg6QHNi8jfM05o2SId6CO4hG7iqR7BejhuNNvjLHWjO8NQRWUMx4AYwc1WshnBPW0XAbYUhbaC3H8vNcgnlmy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFtSRDA6; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786065910; c=relaxed/simple;
+	bh=bnWd9LrDId9Pwik63OJcEDNiVrd208Zmx7mpbHmSQLI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jzcQr5GbWiUfm3dd2froKCfqd9AMtnobJ8KBQWrbQjjSu2jFZDu0hlshwHDNoJUo1QLtQP8bX4JQMRUO4+ge5sQp217GJ0TskFj515zeas8g6qPk1N9ideuzAz5z7Hun/PDJYjqnmScTLc3U4vo6cnao5AnkUatevibq7ttROP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EMCJSVr1; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFtSRDA6"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84867f07d63so3382642b3a.2
-        for <linux-sound@vger.kernel.org>; Thu, 06 Aug 2026 18:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786065850; x=1786670650; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=F9zn9Q6cIABIwDsq5qthJMTxEdPEhQL7gXImIY/tzQU=;
-        b=EFtSRDA6rFgPoWLQxw0hReJ/TW8i5v0GFLdLcYRYNOId8yOp5BRpX5+BgxIPJfIz5m
-         KHFx5JLzLF+jjbauN8UOyNu4eMOM6L8krnvwQUNJ509m7Nr/wKCSFbob5/5vt/USbu39
-         43Ore2INI9qzy3NVoKWgihNA8yZGcwaIdMwee9aMI5XOFv1JQPU1CXaHHwS/XM1Gp7BA
-         0BYo2yF1EFq/io4iL1LjtVPwSjLn4LLOIrIJJggDSi+ZCPBmp8bOgb8GFNiWtT/ODV7v
-         5WXH9huuVGCBCLRguZo388lRtNWtYjKVSLmkOslOSUSyDcq5z1b4g8wNaGGLqDCx0sCH
-         9eqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786065850; x=1786670650;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=F9zn9Q6cIABIwDsq5qthJMTxEdPEhQL7gXImIY/tzQU=;
-        b=X2wxb3+bGbmG1Ef3DFL62qQtgb9ZweQaQuktsvqPEyQ53/W7kkBVFHgwI2puKANihA
-         5BQ7+36AzxoYelYHDj6nTZ2XJ98a6nga7ZXGrCTEN6labx1qhpfR2Bgw1gXC1bU4qhE5
-         a96y5oB/364hzAhRgtiQE2gWIUgecz0RPiAWgtxx5kYdVEjedCVNFQCCGdtQ235o3XFv
-         cw3kSjlRT51XDqFkO1Rn/OGg9pDVaGTArODnthDE56zIx3QwMeCUj1IuqCTOL5tlOk/j
-         SLx7OyEFW3UIdBdeQy3euGwgtJp800c1teD0m1zPMz6c6wihs2AIMB9/7Qk4KUxk9Fn8
-         bZeg==
-X-Gm-Message-State: AOJu0YylpOXNHgauHaH/xceleoBfbvpQ9jRIzQYLgK2DneX8JvAaoQOZ
-	RFzfdhJTTgjhZb5S0xap9H12ohYEQAhts8clLVwP3WPENLKONGfkBZL9tZtXxA==
-X-Gm-Gg: AR+sD13HqsJrQPwD4kAKWH2fQI242TSBavW8QPgfbgq65VLfGYVmpewVYDymJvR/0Lr
-	v7NDJ93P1MjNHFghsU5EY9Isbb5p1mAZtvc0ESgJoIivAcHhLoKuhR+QQELOIaSVCqOZURgv2sU
-	x1UfKG/oR/QI6WH86HeOUb8r85EazBdQSprabklHawd2jPUCiRi7MCh4DhOqsiTJ6/IGAXH4ZaA
-	fh0J0M9odj+iDHG7QoIPrxwBGXQHJdCDT+Ptd+fAmpeERiSPwn0rXoLdBxjndBjQ7HK5pcdUUE/
-	5elWjHGSmusrOnjAKUScP+kbKwnc5E9zQEJyvNUQRwZVa6iCYOsZJM32n84seRB+PegsHdOf6tj
-	E+fFFhbCJAK3jRS3G7JuDLf44pXqHwboroC9R8MIEffjo9Vjx+6iNDO/VvBbBG2YNrUJqSBTc8C
-	YGOBPJCTRfmM+LeLtFwZlACAulkTODXIVb6tZdsjx9hnlLK0dWIwBJtNi47FuWew7V5WaiwhpGP
-	ib6IBG0jFE7nlCBGETb0itQDvKGUACuWrtgQ+a9X3MsDaClOJs0cNX8tob7fBwymCzth8tsfoCE
-	HVpo2A9dSH9UvoaT6byrs4P8D0GDBkNi53TcHA==
-X-Received: by 2002:a05:6a20:7487:b0:3c4:1c9f:d7e with SMTP id adf61e73a8af0-3cb85e2b724mr20842810637.6.1786065850586;
-        Thu, 06 Aug 2026 18:24:10 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe8bbddac6sm82550a12.17.2026.08.06.18.24.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 18:24:09 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] ASoC: amd: acp: return irq error directly
-Date: Thu,  6 Aug 2026 18:24:08 -0700
-Message-ID: <20260807012408.55272-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EMCJSVr1"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6770Gftj4063303;
+	Fri, 7 Aug 2026 01:24:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Ud/w5WdlhmCptNNwsOoZb7tMUctCGHHeXYd
+	IRJasy/Q=; b=EMCJSVr11qO+605av+n0hGxzCyxKDiWwHVkD3F1qTMdUZ60WBQU
+	vDuF82nfbBMpRlSIKzaC4aVMRmB5KgtfG3xkwBleP7BvRa0tnuAsXYtIenKt/WOm
+	KqHUSVulFOAQLtYvxHue9t/8DhMuGuWoIGigBEvrFoSAgcnSmyrjKG/DExI8t01y
+	f5qE69p+Zv4lOdxrcgCWk9yRg+8SQM+9QWjnfziNCGo5+WO4BKhGliuDe53D9lR/
+	+w1RPn1iKueDwtO7nG0zvjqGAXqESbgaA8XAJVW7xJtJtR7Y+OcxL+duz27DU+d0
+	4SLCYmzY5lFWrULzHXzwakopeQ1X1uA1NGA==
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fvy6h9h80-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 07 Aug 2026 01:24:56 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 6771Os8Q024372;
+	Fri, 7 Aug 2026 01:24:54 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 4fs9vknts5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 07 Aug 2026 01:24:54 +0000 (GMT)
+Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 6771OsM2024364;
+	Fri, 7 Aug 2026 01:24:54 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 6771OsIB024360
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 07 Aug 2026 01:24:54 +0000 (GMT)
+Received: by cse-cd01-lnx.ap.qualcomm.com (Postfix, from userid 4531182)
+	id D83D220C26; Fri,  7 Aug 2026 09:24:52 +0800 (CST)
+From: Le Qi <le.qi@oss.qualcomm.com>
+To: Srinivas Kandagatla <srini@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com,
+        mohammad.rafi.shaik@oss.qualcomm.com, Le Qi <le.qi@oss.qualcomm.com>
+Subject: [PATCH] ASoC: qcom: sc8280xp: configure codec sysclk for QCS615
+Date: Fri,  7 Aug 2026 09:24:50 +0800
+Message-Id: <20260807012450.1038180-1-le.qi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,28 +65,77 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Authority-Analysis: v=2.4 cv=G60s1dk5 c=1 sm=1 tr=0 ts=6a7533e8 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=VgxNshHlH55NMODlW1cA:9
+X-Proofpoint-GUID: LbbXvasDcKw2On3jWFfHql4wO7k0RYb1
+X-Proofpoint-ORIG-GUID: LbbXvasDcKw2On3jWFfHql4wO7k0RYb1
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA3MDAwNyBTYWx0ZWRfX5Uotuhu20Mdi
+ 52fH1/mdeNG48ph0h2zxtYjIjWQBQPgznqoDDb6NjPxYofurj/DWdeiR7Fdjy+/Q4eRqKSQIB3F
+ ePcfYVisHymy9WtvD4Sb6GM12f/N8Pk=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA3MDAwNyBTYWx0ZWRfX/B/ophE/tFIr
+ UJhzL2jkq+yqpOnupdtcO51Oqq4DiGgNZ5N6GcZ1M+B6Vqd3YF9wcN8+gLDm9LtYFaYTnQIfga0
+ NZw5dZ2xiUg3vOfhyeiRq97Z3vWenDOUfF/nDG3Siqj8qIU+nLeGZL7+oKCl80wtOOBhznFW2KI
+ UzzRDpm+64Uic1LuPIzcD6Ws7VuV7HPS/vtZFdeWJ/LtfixG2Sh+FY/6zaxZ+XAG6k7y4aR0+he
+ 9zlbeiE6oSrot3KWEE+gQOrlP8TTE4a7Ub1QKIpGjxYsfg0/ADeOvIWfoMmIZTwFQDj0LaunKrl
+ aHK3K7vVGTekIHLf3rnqCs9IoyWYNhxT0UOPL5MwyGH5tKBWueZiaZnpl2kavgtkrcVGdgj/gAW
+ +pxhFBXdr0xuCCT+8ysvtGkcxgkMQNIRCoDpK0wATo8plPZWAcfo1VdDmYGoVYhIHUOuQam5IMn
+ YuUktn0yiNtNNom5Rog==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-07_01,2026-08-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0 adultscore=0
+ spamscore=0 clxscore=1011 phishscore=0 suspectscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608070007
 
-platform_get_irq() returns multiple error codes. Return the irq directly
-instead of just -ENODEV.
+Continuous high-amplitude noise could occur in the DA7213 microphone
+capture path after a Bluetooth out-of-range/reset event followed by
+reconnection. The noise was present in both the raw ALSA capture and
+PipeWire input, confirming that it originated before Bluetooth
+encoding.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
+The codec already obtains and enables MCLK through its DT clock and
+bias-level handling. However, the machine driver did not explicitly
+configure the codec sysclk during hw_params(). Enable
+codec_sysclk_set for QCS615 so that the DA7213 clock source and rate
+are configured before the codec power-up sequence.
+
+Verified on QCS615 Talos with repeated Bluetooth disconnect and
+reconnect cycles. The noise was no longer reproducible.
+
+Signed-off-by: Le Qi <le.qi@oss.qualcomm.com>
 ---
- sound/soc/amd/acp-pcm-dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch depends on:
 
-diff --git a/sound/soc/amd/acp-pcm-dma.c b/sound/soc/amd/acp-pcm-dma.c
-index baf4b41e54df..e99588458ed8 100644
---- a/sound/soc/amd/acp-pcm-dma.c
-+++ b/sound/soc/amd/acp-pcm-dma.c
-@@ -1292,7 +1292,7 @@ static int acp_audio_probe(struct platform_device *pdev)
+ASoC: qcom: sc8280xp: enhance machine driver for board-specific config
+
+Link: https://lore.kernel.org/r/20260727151230.408122-4-mohammad.rafi.shaik@oss.qualcomm.com/
+
+The prerequisite patch introduces qcs615_priv_data and the
+codec_sysclk_set field used by this change. It has not yet been merged
+into linux-next.
+
+ sound/soc/qcom/sc8280xp.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/soc/qcom/sc8280xp.c b/sound/soc/qcom/sc8280xp.c
+index cf272d0612fe..8d949e4dec5b 100644
+--- a/sound/soc/qcom/sc8280xp.c
++++ b/sound/soc/qcom/sc8280xp.c
+@@ -306,6 +306,7 @@ static const struct snd_soc_common qcs615_priv_data = {
+ 	.driver_name = "qcs615",
+ 	.dapm_widgets = sc8280xp_dapm_widgets,
+ 	.num_dapm_widgets = ARRAY_SIZE(sc8280xp_dapm_widgets),
++	.codec_sysclk_set = true,
+ };
  
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
--		return -ENODEV;
-+		return irq;
- 
- 	status = devm_request_irq(&pdev->dev, irq, dma_irq_handler,
- 				  0, "ACP_IRQ", &pdev->dev);
+ static const struct snd_soc_common qcm6490_priv_data = {
 -- 
-2.55.0
+2.34.1
 
