@@ -1,138 +1,99 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com [203.205.221.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7F4386C1E
-	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 13:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5F5285CAA
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 14:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786107905; cv=none; b=Yk8ZpPiTWeP51k8riYxAkQB4hrA/tgEZM3eObSH/kYMJorTkWch4CwdsmlgIobE59+GAEl1EmtFc69fUr5xBhzhzFRpnqzvEyN9IFSF0DGdmvt/jGBl9M++fWmS/iTsXnJIUgrgO/x2VFoo5LJEOOxT2P/iHcF5VMrawdFtKCgE=
+	t=1786112420; cv=none; b=CVusWGglp3KjirLweu+m/Wdtttb1V0Fo7kTAgwwj9caJv8so9OlHVJyhhokEqfcctm5jS+YeSq4IpY7P+vWlm/KM+gq+J5lTACjufmI/cIEAypyE3NSZPkHk6Ksv1f2ATxcMvZJ3twib+T6TJvlI3SIY8EphGOcqH/F0k/pjNbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786107905; c=relaxed/simple;
-	bh=bK4iOFcZcF53f18rKhMIm1JIF5CClimXFXC6aWjBKYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J8ZSy5Pbd0kUUyHmU6YJlIuFyKgv1272IyYJEpiHbwHHV2x4EVx9L7gy+iCCDOxH5HykWAjb/nUeVtRWxMsgv3GbGby1dkWlmqo2GdEG2xrCdrltrmkvQsILdVey/WThxzRkFfQMph9R5iFrRmPVUYg5015mFcs+4qOrBsS8P/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m+nAZbxb; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786112420; c=relaxed/simple;
+	bh=xo1poeIZSXWhFu8Z59FlKesikj7/JBi6ReIj+nJGSKk=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=e5pQERvMDXiqi3SYxfuMjwqxm4uzXc6TxMcQZ++KLfEbwg6mkKdizkZIHJF3oq/IAw4ZK3oUbCEOMgat11Fi/naqbSw4Afh56J9GVxi7L9flFidtMNBxu3pjakxsj6JLrB0bdOndXXu+ggT6/TSN9VyKGC3s5Qh2LODn/feFo3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=nXu0l8ir; arc=none smtp.client-ip=203.205.221.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m+nAZbxb"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4798bea72f9so2081954f8f.1
-        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 06:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786107897; x=1786712697; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xlJrxjql3aaRTEFrOM8XlIdZQrfl76PpNhcigTUBoHY=;
-        b=m+nAZbxbvurn54axd1QtUKelUKUOJAuOAHGBDCZyExVbv4bHD9EdgR11UdwSKJM4Y7
-         ely0YcS2o5Iot2Wk1USA2f2AAMnbEBKyGTDdt9W65TufRMD20JmKWk5mj7xv8tGItu1w
-         ezLrIrXN3exLqU780w8KoCGWRfwdsUdI5M2Ls8RNcfpgXqBAI5voC8DJ7lHd6pbUuX8W
-         jiVIaTNw1YsaQ1brayC6C0PPTj9CpQ4JdqtQHXGIrkUZ8ieTZ5IIveNyAkuqc7df3UzT
-         s6I3Y1zdFCzmKvSbC53Or5DbtI0ZnJ9I671KWiC/73SniOXa0HkLPaH3xKP2UYh5rQ3C
-         rMfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786107897; x=1786712697;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xlJrxjql3aaRTEFrOM8XlIdZQrfl76PpNhcigTUBoHY=;
-        b=L2Lb/AJ/kzULF9PTDmPZYNkPPt2g9cqpg2g7QRfBJJ6w4LxWZ0mu7JTVrKbFzUKYX6
-         H5AuJ/Zh2Xc7nUzuxu3erM5pNYBKnxcKajlzPEPrgQ1N3yw6Et2UPNTwUFN+2geJH4YM
-         0S9Y3ZrgfNegHkQVMiKlEgYNkQT+zxCQI+0ZjlaqZ7Dy/ImdVfvQg8p16VarRk9nMA6j
-         CaKDE340WodGEggm/Scc1848WjiUfcbEZTuX7qWlsLs648GMYWCzXnc0Jk5auWkcP884
-         QJWHX6SWyK84KyehmHXiLrbEWxEAW4xuSvWRXHQ9C6P2dj6lSJ9OnSY24woSxxlf4liY
-         cMQA==
-X-Forwarded-Encrypted: i=1; AHgh+RqZ0Ynuifq/MsBOWwyWLzisPDitdAnnGHnL1KFbZ6LyL046PHkQprXsrKPg5LD5huw7Mg6cDrs8ryFwYw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJ160hpzWKw+YcXDxPe2zefjorB76Q4w/0Y5hPtt5G5kqisoIw
-	JPMh5AZC/uieAE2/l6GIrVmNiColiBYHjTcOYfLkG98oaEbK6s/UhKbP
-X-Gm-Gg: AR+sD1276d7qlvnhVnQdN9+NsYmv0K4wNZDmxKhMue+3WmFZVS2a+Yf8p6zk4T/kGro
-	AJh9cw+jYmllI2mCVwswYH4+2pqLZQrNAsBt4On9XRth+r/jxSC8OiIApnGcP5d37dPnsra7Ymq
-	cbZPU5gVkYCA2sAF8Dmaij7JZKaNNAZLD0nPIkV7dtTioalJEdwn01ojwosUNJXXBFXoRJImlxb
-	oK7w6ngoox7WPNWNh9aifJ1iZ6pduGuWFFKnHpFk9sxAhIv9eTUNbIk4K1QKUhPC1XVVqDuqsgd
-	RtEaganL7JFZgPjWRrkaCciKYmc3F1dEdhJhpuSTu4GC2oX48evI/4kG3hgKtkRDGOQT/v6xJ5k
-	+PJcC2N0MH73vMhpWPD1WmGNx5YlIifdVvwJLP+u9TAs1mzPg2PEOd4uCrCyhuhtocTcFSrYvC5
-	oajOwNqbA1u7C6J4jHdcg8NeFfbO96SO09g47p0DFhpYNfs4tG0Sdfl8qhXJK+dND4KDEDYzKaO
-	r+LNFi/d3vhjW+TYGc/Dl6++w==
-X-Received: by 2002:a5d:59c4:0:b0:47f:4919:d5b2 with SMTP id ffacd0b85a97d-47fec4e887dmr34364488f8f.1.1786107896575;
-        Fri, 07 Aug 2026 06:04:56 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48002145589sm6261890f8f.1.2026.08.07.06.04.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 06:04:56 -0700 (PDT)
-Date: Fri, 7 Aug 2026 14:04:54 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>, Takashi Iwai
- <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, Kees Cook
- <kees@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] ALSA: remove remaining strlcat() users under sound/
-Message-ID: <20260807140454.1014cf33@pumpkin>
-In-Reply-To: <87jyq2azz4.wl-tiwai@suse.de>
-References: <20260807114139.1661-1-mahad.ibrahim.dev@gmail.com>
-	<87jyq2azz4.wl-tiwai@suse.de>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="nXu0l8ir"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1786112386; bh=51KrcFiptP6M9Wn+JdOtCz/dSpKZuroZWGIkhaxsIfU=;
+	h=From:To:Cc:Subject:Date;
+	b=nXu0l8irbnJ+S7fyPmvfTq5GqG/G9sZ2OD6EOCDAR33H76g3eF81iFYQptLjIi27b
+	 FkR6EVJQ4rhp6aycsYKOpmafRxMy9JygcXQCJ1KbnzXv5cxctmUAarHgdjmzlz7f3e
+	 nRnFvuBxDhtyn6e5K6QqHOgZrdo1TLqzUMqyFuT4=
+Received: from xein-hyper ([2409:8a34:4ca0:240c:7a9d:f2ca:5878:ef73])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 4EB9D6D5; Fri, 07 Aug 2026 22:19:43 +0800
+X-QQ-mid: xmsmtpt1786112383t22kjoe52
+Message-ID: <tencent_428392223C2AD3BF23E7ABAA7521FE5C0C07@qq.com>
+X-QQ-XMAILINFO: OYTBn1rNHH7tqoFZ9pKTlSFZeI3n6XXSYvZATJGHJSc5jijF62KbdVNYhk5Vgg
+	 1NPIjdzLXpM7redqpEO3pvtd9qV3x5XoXHnkQH0zVdZqyJ8ZLAC5l7tb+5J1HWomj9VfnOPdLava
+	 5FRW5kf1GHvWIJxr/XeVbGTbnlar5oTnHJW/8dSQQX1iFFAIYHGvvawIQ+NHhJuJ4Ddd3rXL/P6+
+	 mB12z1T1Dw+LiEYEGNlRK/g6d+dUmHW+hIN1MBCjBA1Nbqrzqt8MohJD0Il16Omp8LtrrDKSCthP
+	 EXIzOl9A+QNOnP2LQC7ysnV17RvkzZZl2C9RFGbW4Odp6W71FTRXXya+OF1/VkI48/49jTMoFfqH
+	 ZT6FqkoMP6bHi9fbBdNQkG9o3wDKmkeW1kG+UTBnkJcJJI7A0JthFlP4Z6G4hjU6mt3kEG4/K46y
+	 GoO117tUALFPfBdg2EPfcsmGpfpEiC334HwKl5b7foNVJb/cjIknmONrTpWqd29jkoc5QjyHgQTe
+	 plf/l4MQrwTdqe2IliDp0gTaFn33adr7k39ufHs/l2GBXJ3XF+DzEf+M7PhCfiUt4u62ouUAS+Hf
+	 sRtlNkyfVbk9aCOg99cfHrx9cxNeM0nygZCSO5na33mivxhUO3CiVPoeYHsW9Lo9bg93vUngZQgN
+	 wsIYeHiCUVIaaod3KD3v9mFgzDXJOmxgvUKAZQ4LwLJMClUglnhx7N8uMpbQH7BqfEI3bbMMJkp9
+	 u52LgS994gnIL1+FyX+bh9mvh0hElbARK+folwYBg70JYC3GKfDkNbdQ0/4xFeLe1wrooMInX+Z+
+	 f90uTuMMkTRIDn8nWrxzSbUTHGMA5ZkwLbl7vPjkoAoSA7yvbLVtmhljZBGUH94BSi3Mk2mHJuwD
+	 84o1eKAKBso1zKhQpKe45/YO/5qfiOs99o/DssS4nfB9+GcxiR577EEmSxect1T4CrFGPZetlx7K
+	 J12btww+KkahmVo8SSRHds4D9mtgxwM3JL5F8+N+LXEIyohVaB+compWRXhk3M6EWatRvUWJRtnN
+	 wCshwXQs7cOALJTRl6AGGzT2aDgQMss9FNWrfEY8vCuXANhLMkwCutVGXBC1qOSdKf6MHNucqNgX
+	 yg4TqEVJsvc8/WbchbgarMksV8A3AQeVVNGYulwX95gWZ6zWXNTSkfzTse3Q==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+From: Lin Xianglin <1021538027@qq.com>
+To: alsa-devel@alsa-project.org
+Cc: linux-sound@vger.kernel.org,
+	Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	broonie@kernel.org,
+	Lin Xianglin <1021538027@qq.com>
+Subject: [PATCH] ASoC: amd: yc: Add DMI quirk for HyperX OMEN Gaming Laptop 16-ap1xxx
+Date: Fri,  7 Aug 2026 22:19:43 +0800
+X-OQ-MSGID: <20260807141943.9059-1-1021538027@qq.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 07 Aug 2026 14:15:27 +0200
-Takashi Iwai <tiwai@suse.de> wrote:
+The HyperX OMEN Gaming Laptop 16-ap1xxx (HP board 8F06) has an
+internal digital microphone array attached to the AMD ACP PDM
+controller, but the acp6x machine driver does not register the DMIC
+sound card because this board is missing from the DMI quirk table,
+leaving the internal microphone unusable.
 
-> On Fri, 07 Aug 2026 13:41:32 +0200,
-> Mahad Ibrahim wrote:
-> > 
-> > strlcat() is deprecated and slated for removal once its remaining
-> > users are converted.  This series converts the sound/ users outside
-> > of ASoC.
-> > 
-> > Each site is converted to an explicit offset plus a bounded copy:
-> > strscpy() where the appended text has no format specifiers, and
-> > scnprintf() where it does or where the resulting length is needed.
-> > 
-> > After this series the only remaining strlcat() user under sound/ is
-> > sound/soc/codecs/wm_adsp_fw_find_test.c, which goes via ASoC.
-> > 
-> > Build-tested with allmodconfig and boot-tested on x86_64.
-> > 
-> > The generated strings were checked against the pre-patch code in a
-> > userspace harness for empty, whitespace-padded, exact-fit and
-> > oversized inputs, and came out identical.  No audio hardware was
-> > available here, so the drivers themselves have not been exercised at
-> > runtime.
-> > 
-> > Mahad Ibrahim (7):
-> >   ALSA: ump: replace strlcat() with strscpy()
-> >   ALSA: ac97: replace strlcat() with scnprintf()
-> >   ALSA: cmipci: replace strlcat() with strscpy()
-> >   ALSA: caiaq: replace strlcat() with strscpy()
-> >   ALSA: usb-audio: replace strlcat() with append_ctl_name()
-> >   ALSA: hiface: replace strlcat() with scnprintf()
-> >   ALSA: usb-audio: replace strlcat() in longname construction  
-> 
-> Honestly speaking, I'm against those conversions.
-> Why do we have to open-code at each place with strlen()+strscpy()?
-> It's just harder to read than strlcat(), even more error-prone.
-> 
-> If an alternative is something like this, we really should reconsider.
+Add a DMI quirk entry for the HP board "8F06" so the acp6x DMIC
+capture card gets registered.
 
-Agreed.
-Changing the code to not need strcat() is one thing, repeatedly
-implementing a different version is silly.
-Even using seq_buf isn't always ideal.
+Signed-off-by: Lin Xianglin <1021538027@qq.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-	David
-
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index de5c895..ae86d3a 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -724,6 +724,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8E35"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8F06"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.55.0
 
