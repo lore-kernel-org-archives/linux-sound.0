@@ -1,104 +1,138 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404B0479898;
-	Fri,  7 Aug 2026 12:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7F4386C1E
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 13:04:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786107590; cv=none; b=kPKlmO/N9bqCBjZaFzZazVa5ajHvTeGodJ15Qts7TUQdxTQrxs9sFf4beZnsY9+pxs8DT4+Kg/HaqkiCBYZUuOuchpwvLM+zAao302OO2SRa4n09pfc7poE9XZG/SPf48A1C+8Fu+NBNKhrAoAthgG0qR8urP3LNHfHefnyaH94=
+	t=1786107905; cv=none; b=Yk8ZpPiTWeP51k8riYxAkQB4hrA/tgEZM3eObSH/kYMJorTkWch4CwdsmlgIobE59+GAEl1EmtFc69fUr5xBhzhzFRpnqzvEyN9IFSF0DGdmvt/jGBl9M++fWmS/iTsXnJIUgrgO/x2VFoo5LJEOOxT2P/iHcF5VMrawdFtKCgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786107590; c=relaxed/simple;
-	bh=jzYV/mp4HJoaoGFv++KcLQQBWO0dD3BNU8rdhwOlkLw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=U1Dn5g56+AuxoXNQMQTKs7IM5JOT6ik/mS05YD0gyAupqd+Vf8Zfu1AKscVCmEqL0KE9pq2poW/OsrilCf7XSPms+aCVLVFSBQ6xFJV4LRr8KcbCH5X+3gZfoMBI+IOIf/cQJRSOoS21gDrDyGBbJruoC8miv+S+R8Azg9S5dBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: c6ba5422925f11f1aa26b74ffac11d73-20260807
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:abc6b74f-b122-43ea-98ce-4899471cb8e7,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:a17ce16e0aaf2b03b33357482ebee64b,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|865|898,TC:nil,Content:0|1
-	5|50,EDM:5,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
-	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: c6ba5422925f11f1aa26b74ffac11d73-20260807
-X-User: zhangheng@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1068877248; Fri, 07 Aug 2026 20:59:07 +0800
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH 4/4] ALSA: hda/conexant: Add pin config quirk for Huawei Matebook
-Date: Fri,  7 Aug 2026 20:58:57 +0800
-Message-Id: <20260807125857.678297-4-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260807125857.678297-1-zhangheng@kylinos.cn>
-References: <20260807125857.678297-1-zhangheng@kylinos.cn>
+	s=arc-20240116; t=1786107905; c=relaxed/simple;
+	bh=bK4iOFcZcF53f18rKhMIm1JIF5CClimXFXC6aWjBKYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J8ZSy5Pbd0kUUyHmU6YJlIuFyKgv1272IyYJEpiHbwHHV2x4EVx9L7gy+iCCDOxH5HykWAjb/nUeVtRWxMsgv3GbGby1dkWlmqo2GdEG2xrCdrltrmkvQsILdVey/WThxzRkFfQMph9R5iFrRmPVUYg5015mFcs+4qOrBsS8P/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m+nAZbxb; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m+nAZbxb"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4798bea72f9so2081954f8f.1
+        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 06:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786107897; x=1786712697; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xlJrxjql3aaRTEFrOM8XlIdZQrfl76PpNhcigTUBoHY=;
+        b=m+nAZbxbvurn54axd1QtUKelUKUOJAuOAHGBDCZyExVbv4bHD9EdgR11UdwSKJM4Y7
+         ely0YcS2o5Iot2Wk1USA2f2AAMnbEBKyGTDdt9W65TufRMD20JmKWk5mj7xv8tGItu1w
+         ezLrIrXN3exLqU780w8KoCGWRfwdsUdI5M2Ls8RNcfpgXqBAI5voC8DJ7lHd6pbUuX8W
+         jiVIaTNw1YsaQ1brayC6C0PPTj9CpQ4JdqtQHXGIrkUZ8ieTZ5IIveNyAkuqc7df3UzT
+         s6I3Y1zdFCzmKvSbC53Or5DbtI0ZnJ9I671KWiC/73SniOXa0HkLPaH3xKP2UYh5rQ3C
+         rMfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786107897; x=1786712697;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xlJrxjql3aaRTEFrOM8XlIdZQrfl76PpNhcigTUBoHY=;
+        b=L2Lb/AJ/kzULF9PTDmPZYNkPPt2g9cqpg2g7QRfBJJ6w4LxWZ0mu7JTVrKbFzUKYX6
+         H5AuJ/Zh2Xc7nUzuxu3erM5pNYBKnxcKajlzPEPrgQ1N3yw6Et2UPNTwUFN+2geJH4YM
+         0S9Y3ZrgfNegHkQVMiKlEgYNkQT+zxCQI+0ZjlaqZ7Dy/ImdVfvQg8p16VarRk9nMA6j
+         CaKDE340WodGEggm/Scc1848WjiUfcbEZTuX7qWlsLs648GMYWCzXnc0Jk5auWkcP884
+         QJWHX6SWyK84KyehmHXiLrbEWxEAW4xuSvWRXHQ9C6P2dj6lSJ9OnSY24woSxxlf4liY
+         cMQA==
+X-Forwarded-Encrypted: i=1; AHgh+RqZ0Ynuifq/MsBOWwyWLzisPDitdAnnGHnL1KFbZ6LyL046PHkQprXsrKPg5LD5huw7Mg6cDrs8ryFwYw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ160hpzWKw+YcXDxPe2zefjorB76Q4w/0Y5hPtt5G5kqisoIw
+	JPMh5AZC/uieAE2/l6GIrVmNiColiBYHjTcOYfLkG98oaEbK6s/UhKbP
+X-Gm-Gg: AR+sD1276d7qlvnhVnQdN9+NsYmv0K4wNZDmxKhMue+3WmFZVS2a+Yf8p6zk4T/kGro
+	AJh9cw+jYmllI2mCVwswYH4+2pqLZQrNAsBt4On9XRth+r/jxSC8OiIApnGcP5d37dPnsra7Ymq
+	cbZPU5gVkYCA2sAF8Dmaij7JZKaNNAZLD0nPIkV7dtTioalJEdwn01ojwosUNJXXBFXoRJImlxb
+	oK7w6ngoox7WPNWNh9aifJ1iZ6pduGuWFFKnHpFk9sxAhIv9eTUNbIk4K1QKUhPC1XVVqDuqsgd
+	RtEaganL7JFZgPjWRrkaCciKYmc3F1dEdhJhpuSTu4GC2oX48evI/4kG3hgKtkRDGOQT/v6xJ5k
+	+PJcC2N0MH73vMhpWPD1WmGNx5YlIifdVvwJLP+u9TAs1mzPg2PEOd4uCrCyhuhtocTcFSrYvC5
+	oajOwNqbA1u7C6J4jHdcg8NeFfbO96SO09g47p0DFhpYNfs4tG0Sdfl8qhXJK+dND4KDEDYzKaO
+	r+LNFi/d3vhjW+TYGc/Dl6++w==
+X-Received: by 2002:a5d:59c4:0:b0:47f:4919:d5b2 with SMTP id ffacd0b85a97d-47fec4e887dmr34364488f8f.1.1786107896575;
+        Fri, 07 Aug 2026 06:04:56 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48002145589sm6261890f8f.1.2026.08.07.06.04.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 06:04:56 -0700 (PDT)
+Date: Fri, 7 Aug 2026 14:04:54 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>, Takashi Iwai
+ <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, Kees Cook
+ <kees@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] ALSA: remove remaining strlcat() users under sound/
+Message-ID: <20260807140454.1014cf33@pumpkin>
+In-Reply-To: <87jyq2azz4.wl-tiwai@suse.de>
+References: <20260807114139.1661-1-mahad.ibrahim.dev@gmail.com>
+	<87jyq2azz4.wl-tiwai@suse.de>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The headphone jack is not detected on this Huawei Matebook (Conexant
-SN6140 codec). The BIOS incorrectly marks Pin 0x18 as [N/A], causing
-the driver to report hp_outs=0 and no "Headphones" output appears.
+On Fri, 07 Aug 2026 14:15:27 +0200
+Takashi Iwai <tiwai@suse.de> wrote:
 
-Override the pin configuration for NID 0x18 to set it as a headphone
-jack, which restores proper detection and audio routing.
+> On Fri, 07 Aug 2026 13:41:32 +0200,
+> Mahad Ibrahim wrote:
+> > 
+> > strlcat() is deprecated and slated for removal once its remaining
+> > users are converted.  This series converts the sound/ users outside
+> > of ASoC.
+> > 
+> > Each site is converted to an explicit offset plus a bounded copy:
+> > strscpy() where the appended text has no format specifiers, and
+> > scnprintf() where it does or where the resulting length is needed.
+> > 
+> > After this series the only remaining strlcat() user under sound/ is
+> > sound/soc/codecs/wm_adsp_fw_find_test.c, which goes via ASoC.
+> > 
+> > Build-tested with allmodconfig and boot-tested on x86_64.
+> > 
+> > The generated strings were checked against the pre-patch code in a
+> > userspace harness for empty, whitespace-padded, exact-fit and
+> > oversized inputs, and came out identical.  No audio hardware was
+> > available here, so the drivers themselves have not been exercised at
+> > runtime.
+> > 
+> > Mahad Ibrahim (7):
+> >   ALSA: ump: replace strlcat() with strscpy()
+> >   ALSA: ac97: replace strlcat() with scnprintf()
+> >   ALSA: cmipci: replace strlcat() with strscpy()
+> >   ALSA: caiaq: replace strlcat() with strscpy()
+> >   ALSA: usb-audio: replace strlcat() with append_ctl_name()
+> >   ALSA: hiface: replace strlcat() with scnprintf()
+> >   ALSA: usb-audio: replace strlcat() in longname construction  
+> 
+> Honestly speaking, I'm against those conversions.
+> Why do we have to open-code at each place with strlen()+strscpy()?
+> It's just harder to read than strlcat(), even more error-prone.
+> 
+> If an alternative is something like this, we really should reconsider.
 
-Link: https://github.com/thesofproject/sof/issues/10687
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/hda/codecs/conexant.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Agreed.
+Changing the code to not need strcat() is one thing, repeatedly
+implementing a different version is silly.
+Even using seq_buf isn't always ideal.
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index 5ea4c74715c5..c2f9409b76ef 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -292,6 +292,7 @@ enum {
- 	CXT_PINCFG_TOP_SPEAKER,
- 	CXT_FIXUP_HP_A_U,
- 	CXT_FIXUP_ACER_SWIFT_HP,
-+	CXT_FIXUP_HUAWEI_MATEBOOK_HP,
- };
- 
- /* for hda_fixup_thinkpad_acpi() */
-@@ -1035,6 +1036,13 @@ static const struct hda_fixup cxt_fixups[] = {
- 			{ }
- 		},
- 	},
-+	[CXT_FIXUP_HUAWEI_MATEBOOK_HP] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x18, 0x03211020 }, /* Headphone */
-+			{ }
-+		},
-+	},
- };
- 
- static const struct hda_quirk cxt5045_fixups[] = {
-@@ -1135,6 +1143,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo G50-70", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x397b, "Lenovo S205", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad/Ideapad", CXT_FIXUP_LENOVO_XPAD_ACPI),
-+	SND_PCI_QUIRK(0x19e5, 0x3289, "Huawei Matebook", CXT_FIXUP_HUAWEI_MATEBOOK_HP),
- 	SND_PCI_QUIRK(0x1c06, 0x2011, "Lemote A1004", CXT_PINCFG_LEMOTE_A1004),
- 	SND_PCI_QUIRK(0x1c06, 0x2012, "Lemote A1205", CXT_PINCFG_LEMOTE_A1205),
- 	SND_PCI_QUIRK(0x1d05, 0x3012, "MECHREVO Wujie 15X Pro", CXT_FIXUP_HEADSET_MIC),
--- 
-2.25.1
+	David
+
+> 
+> 
+> thanks,
+> 
+> Takashi
+> 
 
