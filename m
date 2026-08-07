@@ -1,85 +1,85 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060644B04AF
-	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 05:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CCE37F74C
+	for <linux-sound@vger.kernel.org>; Fri,  7 Aug 2026 05:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786080123; cv=none; b=X/E890CA3GAjPIfh4uiqqzUK9Fk+Yz+JiiLy4gSYR5EmtLh6aulVdgpFGjM7pLF4eJUuSu2aWf/Mkfb7PwpPfB72ByFnuSvpN/DZlfN7gnnvDMzTwNJjf0xZfXAxJ8ml6GEPbWzmoubsg3XAuR8WJFinmKH0e+kSquL8Vo/Vnt8=
+	t=1786080124; cv=none; b=V5g1RhwlftrakSeAoZnbhfWLq5TwYki7aT0/5cfZDVRYtg05x77Z5MVpJksGs5i6+kEy42mxGNzBxMtOCQLug4Jh+fOIqgBbqjVCKQYwsqeieTJEsYEhYpaEdJYJR1IiRYdFTTAEfb6QK2iJIsrwLHPIV6xh5IyQJNnu5iHGRis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786080123; c=relaxed/simple;
-	bh=HSsBXFdUlIkuLwDWXwFFmBArCNAuG0DA46z3FbZjrlw=;
+	s=arc-20240116; t=1786080124; c=relaxed/simple;
+	bh=olHuLEH64Z9RLBEk/UCrTFEDNyrFxclXNFMwgT003jM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sbxvFy62JmkLtIhPh5pnJ0796noFKBffGqfj/Th/Zb2aSPtwnUuZ36c6fRZP+etpMx5Og7kkdhzeiiLmdmfVjyWq7qCNNNtswNCPq6rwRxQrBSgRCjrACRnqHBouKHoyTO9ABZv0CmNcqBx4fzVrAk+VxksAM2FHSfSMcBxCpGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6/wgH4Z; arc=none smtp.client-ip=209.85.167.50
+	 Content-Type:MIME-Version; b=uqUT22USloe/zGrNcAsMqz6LYLTvS1b6Wf+Unaz+5mSwLEA/F67gJSkCH0eU/zvT47W/AViAH1zHeh82EYity0SwVYgu5HoLFVO5OA9MP8p9RvdKxUFUrLD/pQGfYjqKlYQY/3dE760oRdAWAHHQLLYKniM9E7hu4scWRfCKQ9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hz3Gvq/o; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6/wgH4Z"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b0117dda13so2515850e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 06 Aug 2026 22:21:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hz3Gvq/o"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aec6360133so2555135e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 06 Aug 2026 22:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1786080118; x=1786684918; darn=vger.kernel.org;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=HzF2xPvcNfQpLHHlELzmZnypVmdloPb8Ky9A6X90We0=;
-        b=R6/wgH4Z5uegvMtzpKH/P6o3+CRUMKD91Agu6j7qkl180C6mzq4GczBkHvatkdrKcJ
-         OPFaUP7lpqW3csLDkHGZLvm0HUGd01UeiNEjeqaW80WBVLgmBj8KDgbd6v2rNJYGszOM
-         zJZZRMJGS8cRnkx3mb3n1iEXl0wfW2ZPem+93r3KF0ItPaTTHu8CTC4WyAzEnNJqv2mx
-         VKRA3E7PjnAVYYi+D6fCpWVWASJ8o6brxcmu/9M+OscUvsPuPXFfvlBiCJLBzk4ZWiS6
-         qMeeOh5k0npPFqOe5z9nwEO056/dqJrWSDfgw+wuXwlW6EpiFsqOzE+uVKvVmc2nhFTY
-         pqyw==
+        bh=HTIzY/gsSr7TabriA4xEhdubQ/7piKttMzIQdhji1ts=;
+        b=hz3Gvq/ohPqFO35G2lZWymzmC3p3vBAUeBXUYmhCqeml+10wZxqfoHqH1TDnMzrUbG
+         1S5Th9JHZiKSjW8iyFxgkbLwLL/z2W9hQgWCbtj/hwezyT+a2j8Ryr20NuLqJUzlBww+
+         qA9Q5lQbrWOUQW+oRCdaG0BYw2ZmJk8FS5n1WW0uEoPyjx0Zh+cR8bn/tL3Ae4SPk7z3
+         cgZSuKTve8RPAuznmLSk7gxfWlApoe+wWNuussTbqTrmy942fSaixbuhPY1bgIflZd90
+         XkfsMEWYfp80kEOUv2GtuSXmqEolcfjPQCk97Svb1IghAVjBLGxwXFhAXfmQuEG/KD13
+         rHmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1786080118; x=1786684918;
         h=mime-version:content-transfer-encoding:content-type:references
          :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HzF2xPvcNfQpLHHlELzmZnypVmdloPb8Ky9A6X90We0=;
-        b=NNG/vJSIoFaP7p76E4kfrorFDW6Zu5ocw2k6cj6DABgN5aagcj96LhpB6oV44tyVUE
-         z3kUP4kNeBT7Fi9UtHsXX5RqDCL99fbJYT5lDmXKmnjr0eYaTztl7JSm+OyHPMT4gQ6x
-         So31Jj+RLacCq5IP9T026FVJdmfBMH9gIQuiSYpMPEi9cCFBD3PFEyzKXyhLnShahjc1
-         bx8femWL31bSNpCRirb1Azg0+Qc0820mFy1pyL98hrV90lfmtF//U1HtfAdVZfaAZZIM
-         e7cnUlXquYd2kWGsLCNSM2EKAlwnnZTtTAVO/1QRIafOEgL/Rj5JqsRGUn55XHotiQ/K
-         Vb2Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rowrfsh7tTlFQykLzEy7UTvjLWScW5gFkRwTAQNmL/jbkKJY/rKk02S0FVqOEQ/XvTxXdTLnsw+w0+C6Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIacX/2vCRHK+VBx8oIAfxYM6AvohsWBv5TmO82g3TX1x0Lzpd
-	lv40K7NfjKLOpGN4tlamdKM9q5ahcgfzY9TK2tCq9zp75JwswEuDWOSv
-X-Gm-Gg: AR+sD10xQ1RMqly2AMEWZRFe8eWyWkOcUMvKHCIKwRD41tZQ2HhveMywNCDrtHEFSFp
-	RoC2ni6iAzd2gPoVzs3Pro5kChjFIEbDhnqO2c0b3eVJWYNUQfx4k5mFatAiXK8E29gTGtJ5f2y
-	HdJzC4r6G8oxO07BQS3vBCbnedsZ6/0PfBhbppFlgk9XFigc4ewo3Xbpp+IMgkv5o9JWpcEsuR6
-	X627veCKUyEXRuTT/3TmLlCFrjP59wnVKmz6W+PsAdODw00HIUq6d3JLX4PrYITpXvKzg4FjtfJ
-	SowgaFbtBxNZY80bilO5oakDvNwpmkPGYLdpbgO3WkUjvF+qvazzAZ9qVwCu0QQeir+Olv1IwPk
-	fgu2vwKF25QPHbZY5jnUBPUrJwGfqdKXk2hGyZ4o6REaKCSzDleHK5DlqbKs1Dhn14752v0NUlO
-	up7SEYi/czCYB+nnd+MrJjsbl4DAlrxPVkQ9koyVj0DeLV4Va0ogM6CioM9C89gYY2s2HiGMS4O
-	iC7f/0pf6tILapmD86X9p71DYdpRmBJ5Q==
-X-Received: by 2002:a05:6512:1291:b0:5ae:b78c:da1 with SMTP id 2adb3069b0e04-5b2f4cc9220mr2797658e87.28.1786080117504;
-        Thu, 06 Aug 2026 22:21:57 -0700 (PDT)
+        bh=HTIzY/gsSr7TabriA4xEhdubQ/7piKttMzIQdhji1ts=;
+        b=P0h4o++14iZrZjzXbMdFzaq5cPzdnv8I3WIgosHWPCnaZjFBt2Cz12ufmm40snFDoV
+         8F4y7A+MvF+pvzSuKMfmiBvo65CSx2HE+c/c+nGe6neVS8Wiu14iaU018SZBIlCREJLI
+         DQljA3TMATcFT0hQ8O8ud0MBXWSldCSZ+RZZQP8uYHrvzP0nO0pTD1wE0X+OnZHE5xOD
+         GZUk8MiweHjXfm0mG6pymvkFgnEIhPDeb/LsG7ikCzlQMekflYNNg3yaN14PAlVnZz4I
+         bAXv0k38WL8DqcUPrMvG7PA7HphI3lia1JS8oerkhaewHxWc8ncf70cXKGVcuXdclTYL
+         7c/Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrbhNRSdiJwgNOab1wdXDjJvjkSI9SJCjizGD8KBjIyigOpbZKrIVSmN4XDNby2CqIOAK6FAG0+ZHN12Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU92mZXXjZUmk6dTyqDYklgPKHI96P/WnhTZxPFntl96FTj2tU
+	gv81DffemggBqMOigb1ApF/qPWM6PVJhs5M/bCRncyQSKE2cBOMInife
+X-Gm-Gg: AR+sD10rR0Xt/1elwz5Hu2qGBDjzaLOFt1ulbtBTHMogj2nWcOccODlwgp4Tn9kWTjr
+	hlbiqXhhmiNcEUCGsk+DCQIN8vu32Fhpup0/Gyc2mk/IBkFJll2wiLfcAhdignr8Lv0vw+WeFNT
+	LBLHGc9EDFo/q31n6wsbzXGrGYSY82/6d3xhFJ/WWo0sk7/juKTN5APy7db5G8/Vh393nuuxUsG
+	an8lViia79flkhsNyqXnX5gLo8tLpM1HQMDDf82EYyhMKlu3U+8G0Ke9EV/84v2G2ZRO+ws7g9l
+	anbyrsBIOjYFN23KmOkgAcW65pNzUpNPGVUZkxfrOZGGIgCALvJd3gfwtwjs7IEMRtLHP1UmA6T
+	VqLFvQetEJXVYz3cVyCD1Rkc/XHRn5Va4UvdDbPpyJmYXeb0j4hI9HspWES226ImNGoCNYI2VqU
+	AuElkukqe5LZF1tYIBWoDolLy9TYR2u4VUUO774rZcVMHaDiSgE4C1Q+NYU1CtOI77mZbrBGRpK
+	GAf82fvY3bewAETxdT2NL8=
+X-Received: by 2002:a05:6512:3401:b0:5b1:537b:de9b with SMTP id 2adb3069b0e04-5b2f4b8fc08mr2844780e87.19.1786080118114;
+        Thu, 06 Aug 2026 22:21:58 -0700 (PDT)
 Received: from localhost (host-80-73-162-2.rev.as20985.net. [80.73.162.2])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b3055dee58sm265223e87.46.2026.08.06.22.21.57
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b3056eafc0sm276444e87.76.2026.08.06.22.21.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 06 Aug 2026 22:21:57 -0700 (PDT)
-Date: Fri, 07 Aug 2026 08:21:56 +0300
-Message-ID: <ef0cc45a88cf0b5b5a65f7634b710a42@gmail.com>
+Date: Fri, 07 Aug 2026 08:21:57 +0300
+Message-ID: <a3fb7ef6957612f6eb2edb209fcbb07b@gmail.com>
 From: Andrey Golovko <andrey.golovko@gmail.com>
-To: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Mario Limonciello <superm1@kernel.org>,
- Antoine Monnet <antoine@montane.tech>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: ASoC: tas2783-sdw: port prepare never completes after S0i3, no
- audio and no error (AMD ACP7.0, ASUS ProArt PX13)
-In-Reply-To: <b863334f983a42888d0de5973a998020@ti.com>
-References: <b1bc21c8a403fe15e742b6a6ff30b27f@gmail.com>
- <c6b9b217-3678-42d8-8e01-7fdbf7c67c7a@linux.dev>
- <b863334f983a42888d0de5973a998020@ti.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Robin Everaars <robineveraars@pm.me>
+Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com,
+ niranjan.hy@ti.com, broonie@kernel.org, lgirdwood@gmail.com,
+ linux-sound@vger.kernel.org, ckeepax@opensource.cirrus.com,
+ mstrozek@opensource.cirrus.com, yung-chuan.liao@linux.intel.com,
+ vkoul@kernel.org, Vijendar.Mukunda@amd.com,
+ peter.ujfalusi@linux.intel.com, sen@ti.com, nealstarkie@gmail.com,
+ bjuraszewski@gmail.com, Antoine Monnet <antoine@montane.tech>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [BUG] ASoC: tas2783-sdw: every amp on the link selects the same
+ channel, so a two-amp board plays mono
+In-Reply-To: <39194f6b-2613-42a3-a857-702889add03d@linux.dev>
+References: <20260805183517.8665-1-robineveraars@pm.me>
+ <02f2cd9c-519c-4154-be58-9065f34c6001@linux.dev>
+ <20260806184353.112230-1-robineveraars@pm.me>
+ <39194f6b-2613-42a3-a857-702889add03d@linux.dev>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -89,83 +89,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi Niranjan, Pierre-Louis,
+On 8/6/26 22:30, Pierre-Louis Bossart wrote:
 
-thanks to both - answers and new data inline.
+> Maybe the mapping is implicit and defined by the Unique Number
+>
+> I am not sure though how that Unique Number maps to the -1 and -2 suffix
+>
+> sdw:0:1:0102:0000:01:8   TAS2783, device_number 3, slave-tas2783
+> sdw:0:1:0102:0000:01:b   TAS2783, device_number 2, slave-tas2783
+>
+> which one is left and which one is right?
 
-Pierre-Louis wrote:
-> Just to be clear: are you referring to a scenario where audio playback
-> is on-going, the device does a system suspend during the audio playback
-> due to a user request, and on resume audio is supposed to restart
-> playing?
+Measured on a second HN7306EAC (I'm the andrey.golovko in Cc - same
+machine, same two amps at unique ID 0x8/0xB): 0x8 is the left speaker,
+0xB the right. Confirmed by muting each amp's volume control in turn,
+and by speaker-test with a per-amp one-channel mask applied: channel 1
+comes out of the physically left speaker only, channel 2 out of the
+right only. That matches Robin's amp 1 = left, amp 2 = right.
 
-Not necessarily on-going playback - that's the point that makes this
-hit ordinary users. PipeWire keeps the PCM substream open the whole
-session, so the substream survives the suspend regardless of whether
-anything was audibly playing. After resume, even a stream started
-*fresh* by an application plays into that surviving substream and is
-silent. The only way to get sound back is to force the substream
-through hw_free + hw_params (I cycle the card profile, which PipeWire
-translates into exactly that).
+The Unique Number to -1/-2 suffix mapping is not implicit - it is
+hardcoded in the kernel's machine descriptor. amd-acp70-acpi-match.c
+has, for exactly this platform (rt721_l1u0_tas2783x2_l1u8b_adr):
 
-So the reproduction is deterministic and needs no aplay-in-background
-race: boot, let PipeWire open the device, systemctl suspend for
->= 1 min (enough for amd_pmc to report real S0i3 residency; without
-residency the bug does not reproduce), resume, start any playback.
-Silent every time here.
+  .adr = 0x0001380102000001  ->  .name_prefix = "tas2783-1", spk_l_endpoint
+  .adr = 0x00013B0102000001  ->  .name_prefix = "tas2783-2", spk_r_endpoint
 
-> It could be that the use of the port_prep callback is restricted to the
-> initial stream setup. I am not sure if that stream callback is invoked a
-> second time after a suspend-resume cycle
+where spk_l_endpoint/spk_r_endpoint are aggregated endpoints with
+group_position 0 and 1. So a channel-to-peripheral binding does exist
+in the tree, keyed off the _ADR unique ID and complete with a
+left/right position - it is just not plumbed into playback port
+allocation: nothing turns group_position into a per-peripheral mask or
+offset. device_number (2/3 here) is attach order and indeed cannot be
+relied on; the unique ID via the match table can.
 
-I can answer that with a trace rather than a guess, with one caveat:
-stock ps-sdw-dma.c advertises SNDRV_PCM_INFO_RESUME, so a plain resume
-takes TRIGGER_RESUME and skips the prepare path entirely - no stream
-callbacks at all. With a local patch dropping INFO_RESUME (so userspace
-does a full snd_pcm_prepare recovery), the resume-spanning ftrace shows
-the complete sequence running after resume: sdw_prepare_stream ->
-sdw_prep_deprep_slave_ports -> tas_port_prep() invoked again, 4 calls
-(2 amps x 2 callbacks), DPn_PrepareCtrl written with the right masks,
-then enable. So the callback *is* invoked on the recovery path - and
-the amps are still silent.
+For cross-reference: the same mono issue on this machine was reported
+in July by Antoine Monnet (added to Cc), with an inline patch of the
+same shape as Robin's - per-amp one-channel mask derived from the
+name_prefix suffix:
 
-The one thing that separates every silent case from every working case
-in my traces is the de-prepare: the working path (hw_free) writes
-DPn_PrepareCtrl = 0 first, then a fresh prepare writes 3. The silent
-path re-writes 3 over 3. After the device has lost power and been
-re-initialized (SW_RESET + firmware re-download on re-attach), a
-rewrite of the same value evidently does not re-arm anything; the
-0 -> 3 edge does.
+  https://lore.kernel.org/all/778f017a-e1c2-4ab6-9968-6e4c6285180b@montane.tech/
 
-Niranjan wrote:
-> The device expects the DPn_PrepareCtrl bits to be set to be functional -
-> but doesn't update DPn_PrepareStatus.
-
-Thanks, that explains the design - I'll withdraw the "port prepare
-never completes" framing then, since it leaned on reading
-DPn_PrepareStatus, and per your description those bits are not to be
-interpreted in Simplified_CP_SM.
-
-One empirical note, for what it's worth: on this hardware 0x104 is not
-static. Across all my dumps, on both amplifiers, it reads 0x3 in every
-silent state and 0x0 in every working state, tracking the audible state
-exactly. I'm not suggesting polling it - just that on this part the
-register does reflect something about the port state.
-
-Which leaves the practical question for TI:
-
-  After the amplifier loses power while the manager is power-gated
-  (attach as UNINITIALIZED, SW_RESET, firmware re-download), what does
-  the device need before a port prepare takes effect again? Empirically
-  writing DPn_PrepareCtrl = 0 and then 3 works, while writing 3 alone
-  does not. If the 0 -> 3 sequence is genuinely required, where should
-  it live - tas_port_prep() unconditionally de-preparing before
-  preparing, or the codec driver de-preparing its ports as part of the
-  re-attach re-init?
-
-If TI can confirm the required sequence I'm happy to write and test the
-patch on this hardware - I already have the register dumps and traces
-automated.
+I have been running it since late July with correct physical L/R on my
+unit (Tested-by in that thread). Robin's finding that the mask value
+is ignored and only its weight matters applies to that patch equally:
+it works because the DAI-link codec order follows the adr_d table
+order above, which happens to match the speakers. Given that the
+descriptor already carries group_position per unique ID, deriving the
+assignment from that rather than from parsing the name_prefix suffix
+looks like the natural fix, and it would keep working if enumeration
+order ever changed.
 
 Thanks,
 Andrey
