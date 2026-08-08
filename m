@@ -1,276 +1,142 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022098.outbound.protection.outlook.com [52.101.126.98])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7962E7F17;
-	Sat,  8 Aug 2026 17:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.98
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786210148; cv=fail; b=K7VXvfyz7/ar1QB2gCDd4ef/2quWVtnSP2Jdh1otxRzppFi9pEgc05Xsqf0u6wj+0ceidMUJUUGrXi0fVHsMl7xXGmgQISP9TL1EgvYHzwwc3jd1TR2kD3qK2tkirAPBZ+R2e9BDZGSdYcDj1dmQqGBdp3oJ1kVulDWhigsX854=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786210148; c=relaxed/simple;
-	bh=teloP6bguwoj3utoFrHu7L2lzLzhBPBHMVL4gj6sux4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=W3KkQF9z/fWrqacVlvESFHj2uZb6Xrp372R0dPhkeMtEigsTFPCZYWli3Y7nodR1l4VeNx6zdqxlJgzHfRtxv0WQ/0mZ2RCpFtQqVLGh/TUPbJhgBOxY1ZgkyyM6aA/foeXxjxiCwTD87KK7TzwNoY2+7SPdnVrGZRn2OQ2yZE0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=macalinao.org; spf=pass smtp.mailfrom=macalinao.org; dkim=pass (2048-bit key) header.d=macalinao.org header.i=@macalinao.org header.b=aAZDxtfJ; arc=fail smtp.client-ip=52.101.126.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=macalinao.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=macalinao.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3486260565;
+	Sat,  8 Aug 2026 18:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786213210; cv=none; b=dQabxQnnTFeDXYBAWqDHzpZiLnH1WwQ5mXOPxgv1eCkCTsoZobtnnYRv/2FipU9ZraFZjjq4ZMP7razsB+DjuWg9LXtmUvBwDhpIKjhLC369t8EbUUaxiNaeHRVj8L1jpqRhKWyeXYi13ziVAr6mQj/jyhMG42HldoYAO5Yd89Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786213210; c=relaxed/simple;
+	bh=5+4qkVUVX99D4IodkKHZh7L2gA4EaeDSSRUnUo3tKco=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iv6d283rXs0M75VgngLwXiwFnYIB+KMpKSvM7LlTp3kmsm+oTGJbUi1hSNGwpTOeF85LSk6iggJXbue96Mq+CM/a/033PWtxjtpRHmhoH4R6XfEYalmieLVgb/cv3w7E1xYD5Tri/m+pkWGwi4xCPkQLeYwhpogUwG4r5xDc+Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mv2sF97f; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=macalinao.org header.i=@macalinao.org header.b="aAZDxtfJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PLdw7N1EPksmumGKdeyhLMbazj4H0nGe34/r0PObjPYcSvQrr/rOxY83qtyG6o91gpVY8LEVm9p5Ar/Jtmvz+kCzoVuiooPc3Uw8ugyAItrh8BFSu/2d7UlhdOd1q9O/XEN97/Dh7G40Sp4J3KUe2H2mU/WGA5K8uEKR6nKsRgQLVJAqshNpDwot3hzoGRUGzmEm6B3hN+wxWUW0LtPU3dotnTCMCxbG7bUy3YE2/rqHjU1DHs0TeEkw3ihwjrdwMKWac2tx6QSqj5MVMhqygJAdqk2fxSZeKTBGBd07XV1pI4nWIC5jvml3aOMBUCB6oApnYVviBnITqqLBeUBaOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rPqfpUVxzYAAM1+nCTRZup9tXxxBkwXIwnzLkHYk7Yw=;
- b=E8sAAH6GLt25bKSdPHs+PkOH6rDjzQtiotvH8NR+KjzzhPkprx3a2BoCKf6MY3OE09Q1pQpHzBzfe71wTbcb8mea+b57oYLZCprTcqE+jV8r0MzBCgVAdvLTP0wFqoEFyxUlOtbMGLjgP7YVhUBF0KxteBkDmGbQaYYKMLKpo+ee/I1TboVp6osuypjFzq3AAOoEipJ3BuxKY+LmcBlmtXRgGr/OEbKZePDFgXjoRv7he7b5zC0PcnzDrkq3a6SswHdpnNAVTl/yH/xi7VO2uxRcPaKbOIXMITbDgETQnv26JK6uhYQ4aO3cC61vZDVroJu5Ey48wCiuJEnB+MHpMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=macalinao.org; dmarc=pass action=none
- header.from=macalinao.org; dkim=pass header.d=macalinao.org; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=macalinao.org;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rPqfpUVxzYAAM1+nCTRZup9tXxxBkwXIwnzLkHYk7Yw=;
- b=aAZDxtfJcNX6i9cDSLPM9wGu5P2V6mbh8Qk7z+fbJgsuhWXz+IBrafA/q8caaaFgaqj8FkwYpJ2LTNUMyi9ojIHscAV6YLIqtCmqIj1sCkrHYTLeZmOGZks8jYAgd071kfDxGYcV+EQr5pyOS4VNQ0h3G9WjWRLNE9aTb+uDLYrEeMU9tYZiJPc71f7RzCIninVj7RyBjz4N42YHknxYLei/nM3VUkECzZgtgRLTJo8MSr6lyYdalH5TuLFf7wgGVgX5yB6sBNo4R26d/BI8mNB9HL56RMdN5HvgEllOKS5zYJ49f46lzMPTz0Y0J2od3sD7Gi3P6GYSF88LTItWyA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=macalinao.org;
-Received: from SI2PR03MB5290.apcprd03.prod.outlook.com (2603:1096:4:102::11)
- by SEZPR03MB7036.apcprd03.prod.outlook.com (2603:1096:101:e9::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.25; Sat, 8 Aug
- 2026 17:29:02 +0000
-Received: from SI2PR03MB5290.apcprd03.prod.outlook.com
- ([fe80::5923:f4d6:70b1:270c]) by SI2PR03MB5290.apcprd03.prod.outlook.com
- ([fe80::5923:f4d6:70b1:270c%4]) with mapi id 15.21.0292.024; Sat, 8 Aug 2026
- 17:29:02 +0000
-From: JJ Macalinao <jj@macalinao.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	JJ Macalinao <jj@macalinao.org>
-Subject: [PATCH v2] ALSA: usb-audio: add QUIRK_FLAG_ALWAYS_SET_RATE for Mackie DLZ Creator XS
-Date: Sun,  9 Aug 2026 01:27:26 +0800
-Message-ID: <20260808172726.1107550-1-jj@macalinao.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <1c54822e-8147-4ffe-b033-aa4ab966c872@macalinao.org>
-References: <1c54822e-8147-4ffe-b033-aa4ab966c872@macalinao.org>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TPYP295CA0058.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:8::9)
- To SI2PR03MB5290.apcprd03.prod.outlook.com (2603:1096:4:102::11)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mv2sF97f"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 678Gl8WD404469;
+	Sat, 8 Aug 2026 18:19:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=/W8uncRPERZtmZOrtfm72+GzKhJirP98rNy
+	mlhCkyXY=; b=mv2sF97fhAaE4DS2j/CUOBMc5V5EPkhl0mJRymBg7n0K+meyVOl
+	4aQ2wRNKG1wmDinLDnqM2J5Lq+fPLcKG9B+VHKbOZXHXsyQH6FzW4wlhXX99XilS
+	RolkQxu8kUIui4X+lCEnWLiNugJVN8Km+LSUaoS5F9eh2SFx6tygGLYfvkTF07s0
+	fw0hgsqznysX4QYqyHFzwdKDqvvn/4Zt71d0QEYFNHMXhfES1JymZ7pS+A0eRJ2M
+	ymAY/caOV9gkd/wVXr148qQ4CM4vrzfWV52v1erwoRMg2XpNhXstQamGsU8KSqfb
+	llmUDSaGqBzkAPZfHUVw2ldcaOs+J+M1Vdw==
+Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fwvp1hf51-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 08 Aug 2026 18:19:55 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 678IJqVP009364;
+	Sat, 8 Aug 2026 18:19:52 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4fwwhhhg14-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 08 Aug 2026 18:19:52 +0000 (GMT)
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 678IJqiu009338;
+	Sat, 8 Aug 2026 18:19:52 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.147.245.204])
+	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 678IJq0T009328
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 08 Aug 2026 18:19:52 +0000 (GMT)
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 3914174)
+	id 2B1B163A; Sat,  8 Aug 2026 23:49:51 +0530 (+0530)
+From: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
+Subject: [PATCH v1 0/5] ASoC: qcom: Fix AudioReach TDM review findings
+Date: Sat,  8 Aug 2026 23:49:43 +0530
+Message-Id: <20260808181948.2489187-1-prasad.kumpatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SI2PR03MB5290:EE_|SEZPR03MB7036:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a4727f1-1c27-44d8-faf2-08def57289a8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|786006|366016|1800799024|41320700013|376014|23010399003|56012099006|5023799004|10067099003|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	oU4XJAH3e16obAguOfuif6WRWeex+jpdmPsGKlGnHOJn2OQDNOSkyfJLLPp6CvrzJrBFBP1hkOqeksADqrz5WMLz4RlL+8ii69bEtCysibRoP4wEe7i6twwf6PaaVo9xQkMWd7n2akB3m7gEMCZwz4tM90eTc1PvW976HB+CYXsEh7sWbHJ3dTUwmOa9iqOLEvTUoVh7SsMjQAd7+YxLCc497/QIe60/1gSIaz9x0kac99I1B5ipFlXTtpZBL3gkDTjXIbEBswt31VBkuK7pB/v8kVKCMlMbWdUTVxvTEe5GJx2yIjjCjYwuq4+9Q87SMfmBzVBOqcwC8/XcsN6SmjIRDvLyPxoHrvf7M6xkI+n64ulGGPTq9EA2KfOR8xkVT5Hb/jYl5ID86LoeJ4teRqriEA0M9EJttzzXgmqycC3nu9nGAJ9FNydNz+ZF3BJ4PWmAyMiW9Jsqc81tyApjjLuloxoUQPRfHbGkwCon+1VR1fAouJ0o3La31IQFZqtBTfPACtOURI0h6FBLrd7oJuGWrUbzBEaaGze46j8WiMAwzuv3mCyGLaIRkQTo/3cdaBEIUKK0YkrEaMcPn9BznRu5nOKCS479QJ5XrqPQoqrqnDTyfvMbAuzPCWXDFr4OfrzCRu51Cxs2Qz889i1JqSkyI/nRx+RGiqqTl3rnnfk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB5290.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(786006)(366016)(1800799024)(41320700013)(376014)(23010399003)(56012099006)(5023799004)(10067099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?UqGStm/49sX+MV71mYK/viwNg18D2QGrShxDYLtNtm5FcoHUNsxcHClbLtnx?=
- =?us-ascii?Q?bFsxWQJTjky46r2CN25xCijSgH2bdJDrN/AzPCXALLk/d60yDrvZSWy8+Izl?=
- =?us-ascii?Q?AMbCtp9DkoXYcJ7IqMLcGgFmr7ewpkkIvhUzo7/YpXvEvapkhd10wa2JjX0H?=
- =?us-ascii?Q?TxHxjmvRsbOe3sGZsvwHm2L4JcWD9RMt1oGlAje9zycfH3Nj/5shl1AsYNoN?=
- =?us-ascii?Q?5qsoyCjc9vjEkbmjhCIYBfOcGGRJzsW/DJcEsyEPcKMxzB2jYyb5L4Vtb1FT?=
- =?us-ascii?Q?1zzebg5jSFXqFlE5tf9fWYiiqiw6cRpfgMLS7DxwcGPyJr4kB+uO/ZKkGba0?=
- =?us-ascii?Q?0vWWUFN9e+DsFeB6aLfuAHJIOCQClnOiUfifhmKc8mxCcOY7TDQLeWkEQmP5?=
- =?us-ascii?Q?Bqn7MUQPkq/y7+EjHx5kZV15WdiYVasWO0mht4bPYrCSARMrZG6Xc4cgGWxG?=
- =?us-ascii?Q?cK6AQSv5sY4b6PBgJ1/sUzY0xMVZYfBOx7WQzfVq5lbZgYFS9TqSxDTWRJNS?=
- =?us-ascii?Q?B2fQzkfJGRu9ay8JeAXfnRNz7iyTxzJdQJABa8igqnfHKFoK3oSxY9u1QT10?=
- =?us-ascii?Q?Cs+ii6fPHzz+tbTCX96RDDsI9D9HvcAe2JGZnJhbeV2cZ0v34p9Pkru5Ale1?=
- =?us-ascii?Q?pMswBu6AAoadHHU6dM25JyfcexZN5FypxvR6w6nDU/7xdF6HpBPbJFpR26q0?=
- =?us-ascii?Q?l0vkUOPvOiWDXwfy/oum5Zup3FsYJhVEy1NgILO+UKmq37/0z/O58ZGNvN0s?=
- =?us-ascii?Q?iv5n34c9n9SUh6tYuop7YTi8vZt5nwO9iZbjpNGolmpJJrnj4RzKZJ7uxvwT?=
- =?us-ascii?Q?vv/0URND52O0QBm8oLyJJq265txfIWNPxIo2XSO0tyxiNIriBFKouPq50O6M?=
- =?us-ascii?Q?CCN2w1XJGRtOHJ18c+YqY61lOFEvncib6df+kJcjCz0FGh+9yF2NKcWsEP9s?=
- =?us-ascii?Q?aHHOBZzxpMjWrt5sHW4vpYxmiuDvo2tiWldKkhLuHwfWkUWtFX5xu+Q1rUdC?=
- =?us-ascii?Q?c76q0ahIC3CQpQ/JPEMpK5t5/DKY2ul6G9j4JUQbPtJvInmVIZ0xUqdvGToi?=
- =?us-ascii?Q?ns8geBmoxDXDlsm4Mk9wbus/5UrZ+WP4dtCdneXdEvGflb316ZXPWEYK567z?=
- =?us-ascii?Q?w2j/mfLfmZxJ8Z3eKyZiF0LM2hfq39Ifz0K86V12AE0Kn7HRa5CKZcvfF7wz?=
- =?us-ascii?Q?d3Ss5mZaK2tBNlSpdtGQ1LR9w3jQnSKe9vM9V/QkRiCEBBD7zE2VWaGtYwtN?=
- =?us-ascii?Q?d01dxfRZLwDiI/MXav0SVSW8oB88ePN2qaCUF8Plw/KXHlI0MYRz3ae1nnjO?=
- =?us-ascii?Q?VpZZEe0WXp71LZlAH+R3BzayE7iwV18Q3h/H14LYi7Bjan7ITbfTBxJ46LFl?=
- =?us-ascii?Q?7+f3SmDmYt1L+jOGMXQBVd1hYVtQNXTGRk0UanKXKqNl719hdmoSbE3KhgVP?=
- =?us-ascii?Q?YcBdewuUZi4RSAXOy2Nv3XCtNqxPfbnh46BiFVoONtgTRkLtsAcszZvOfMEd?=
- =?us-ascii?Q?fG2gBsP80IMt0tFLVPnztY3cAiwX33vttkxwCXqJi+rmSomciOrjtWKDyfw2?=
- =?us-ascii?Q?PdZUZBEvhjz3fVH/V3HY2BmOXwSeEz4tNLf97z6FskLvNOGcodydloGZHWYg?=
- =?us-ascii?Q?Ebr80FkduPlFQpgWC1b+LbStY7XB+2nMyZa5zfFvL+6QBVG+0LsJhMJmnAhi?=
- =?us-ascii?Q?F0o2NTvsPqFx/NINZj87V/CSJcuAYzrsljUYxwFzj3gfvgGo?=
-X-OriginatorOrg: macalinao.org
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a4727f1-1c27-44d8-faf2-08def57289a8
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB5290.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2026 17:29:01.9225
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87e58715-deae-490b-8b96-6d6239d507f4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S92Cg1pEfPq7SwjcidOr/Y0CGAB6UggvxkR9aNBGuRjkzLWDL8FAspn938Y2YbY5Gtv8jjBqeie0MOjGebFbtA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB7036
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA4MDE1NyBTYWx0ZWRfXzV7KyKM0F0C9
+ zz+S3nI/rTawL/t4yNcBNnvRnrClt5GY+vGjBulydwHcDeW+3pKTT8H+lyJO2UuOinbpujsZ2Uy
+ trBPvyNJ541PvQOAFQZWTEuZcOXBkZNw4DL3/pW7+L/mM5ApZcjzaHEdl3uBPmXPj8cZ9zyooEW
+ rGdWkFJPKatVF0KHKhIALs42E908Cbmh0J+EYN/TNGxVTq0El6q0sqsTHmbRwtKczZO6uKqQDXt
+ 6vxrVFIkQFmixwhQQRt7qd0mUYdSyYo65q2SBlyPNeXL8rhjPZ/ArgxXzzoNJ/CiBwqQUy7d5JI
+ RDG6q0e46skFySxocqv0N1iaMT3bDNZ1J38aHHYcrnNpjj7UVRPVHgZ8EfhLSPtqKw5dtmNnSSn
+ yhYrrYED6lo/BIMiKAL/kecYSz/bMpI+oglMzr1Lw/Go1wOMWijImaZDxI6kl53aj7tQnCJDObS
+ TBhPerqw1ueKlp0fZzA==
+X-Proofpoint-GUID: 4xq2G1yDCVPS5TC-whLuldFanqvuP9ig
+X-Proofpoint-ORIG-GUID: 4xq2G1yDCVPS5TC-whLuldFanqvuP9ig
+X-Authority-Analysis: v=2.4 cv=ebgNubEH c=1 sm=1 tr=0 ts=6a77734c cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yOCtJkima9RkubShWh1s:22 a=c92rfblmAAAA:8 a=EUspDBNiAAAA:8
+ a=ZGhvr3efECkBx1CP94EA:9 a=GvGzcOZaWPEFPQC_NcjD:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA4MDE1NyBTYWx0ZWRfX7TA5W3E/Kq+H
+ 9pOzOFHN4tkl76kYeDOo4tbomblLc3hg6LkjGf/LyMLF0cfqL2zK5FkSHLxZVGjFQZ18tC/BS/7
+ sCPUp+lefBwnwzU5l9llQmDaQQkAEbI=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-08_06,2026-08-07_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 adultscore=0 phishscore=0 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608080157
 
-set_sample_rate_v2v3() returns early when the clock already reports the
-requested rate:
+Address review findings for the recently merged AudioReach TDM backend
+support.
 
-	prev_rate = get_sample_rate_v2v3(chip, fmt->iface,
-					 fmt->altsetting, clock);
-	if (prev_rate == rate)
-		goto validation;
+The first 2 patch fixes typo in the newly added QAIF clock ID names by
+renaming the LAPSS-prefixed identifiers to LPASS and updating the q6prm
+users accordingly.
 
-A device advertising exactly one sample rate always takes this branch, so
-it never receives a SET_CUR for CS_SAM_FREQ_CONTROL at all.
+The remaining patches address issues identified in the AudioReach TDM
+configuration and machine-driver paths:
 
-The Mackie DLZ Creator XS (0a73:003a, 14 in / 4 out, 48 kHz only) requires
-that write.  Without it the device drops off the USB bus roughly 0.2-1.8 s
-into any stream, clearing its port CONNECTION bit; captured audio is
-byte-correct until the instant it vanishes.
+  - Zero-initialize AudioReach module configuration structures so
+    unspecified slot parameters correctly fall back to topology defaults.
 
-USBPcap traces of a cold-booted device on Windows show SET_CUR 48000 issued
-unconditionally on every stream start, followed by clean streaming.  The
-device is otherwise driven with plain class-compliant UAC2 - it also works
-on iOS, which cannot load a vendor driver - so no vendor-specific
-initialization is involved.
+  - Distinguish between missing TDM configuration and malformed TDM slot
+    properties by using separate return codes, preventing valid DT
+    configuration errors from being silently ignored.
 
-The device is self-powered, so the resulting state survives a USB replug:
-initializing it on any host that issues the write leaves it working on
-Linux until it is power-cycled, which made the failure look intermittent.
+  - Align sc8280xp TDM hw_params error handling with the existing MI2S
+    implementation, including proper handling of optional callbacks and
+    error propagation.
 
-Add a quirk flag rather than dropping the early exit, since the opposite
-requirement also exists in-tree: QUIRK_FLAG_FIXED_RATE suppresses rate
-setting for single-rate devices (JBL Quantum610/810).  The two behaviors
-are device-dependent and cannot both be the default.
+All these Issues are reported by sashiko. 
+Link: https://sashiko.dev/#/patchset/20260804070307.117119-1-prasad.kumpatla@oss.qualcomm.com
 
-A/B on identically cold-booted hardware, same kernel, same port, repeated
-twice:
+Prasad Kumpatla (5):
+  dt-bindings: sound: qcom,q6dsp-lpass-ports: Rename QAIF clock IDs
+  ASoC: qcom: q6prm: Fix QAIF clock ID typo
+  ASoC: qcom: qdsp6: Zero-initialize AudioReach module config
+  ASoC: qcom: common: Distinguish missing and invalid TDM slot
+    configuration
+  ASoC: qcom: sc8280xp: Fix TDM hw_params error handling
 
-  without the flag  device dropped after 5-6 s, then again after 3-4 s
-  with the flag     20 s playback followed by 20 s of 14-channel capture,
-                    960000 frames, zero re-enumerations
+ .../sound/qcom,q6dsp-lpass-ports.h            | 56 +++++++++----------
+ sound/soc/qcom/common.c                       |  6 +-
+ sound/soc/qcom/qdsp6/q6apm-dai.c              |  4 +-
+ sound/soc/qcom/qdsp6/q6prm-clocks.c           | 56 +++++++++----------
+ sound/soc/qcom/qdsp6/q6prm.h                  | 56 +++++++++----------
+ sound/soc/qcom/sc8280xp.c                     | 21 +++++--
+ 6 files changed, 104 insertions(+), 95 deletions(-)
 
-This change was developed with an AI coding assistant.  The assistant did
-the trace analysis that located the bug and wrote the patch and this
-changelog; the hardware testing, the cold-boot cycles and the decision to
-submit were the author's.  Several earlier hypotheses it proposed - URB
-queue depth, isochronous packet under-allocation, endpoint start ordering -
-were disproven by measurement before this one.
-
-The bug was located with usbmon on Linux and USBPcap on Windows, by
-diffing an enumeration capture of a cold-booted device on each host.
-Verified on physical hardware by the A/B above.
-
-Assisted-by: Claude-Code:claude-opus-5
-Signed-off-by: JJ Macalinao <jj@macalinao.org>
----
-v2: skip the GET_CUR entirely when the flag is set, per Takashi's review,
-    rather than issuing it and discarding the result.
-
-    prev_rate is initialized to 0 because it is still read below - the
-    !cur_rate fallback and the TEAC 0x0644 block. That is not a new state:
-    get_sample_rate_v2v3() already returns 0 when the GET fails, so both
-    paths handle it today.
-
-    Retested on cold-booted hardware, same unit and port: 20 s playback
-    followed by 20 s of 14-channel capture, 960000 frames, no
-    re-enumeration.
-
- sound/usb/clock.c    | 11 +++++++----
- sound/usb/quirks.c   |  3 +++
- sound/usb/usbaudio.h |  6 ++++++
- 3 files changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index 2e0c18e352..34832183a1 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -600,7 +600,7 @@ int snd_usb_set_sample_rate_v2v3(struct snd_usb_audio *chip,
- static int set_sample_rate_v2v3(struct snd_usb_audio *chip,
- 				const struct audioformat *fmt, int rate)
- {
--	int cur_rate, prev_rate;
-+	int cur_rate, prev_rate = 0;
- 	int clock;
- 
- 	/* First, try to find a valid clock. This may trigger
-@@ -625,9 +625,12 @@ static int set_sample_rate_v2v3(struct snd_usb_audio *chip,
- 			return clock;
- 	}
- 
--	prev_rate = get_sample_rate_v2v3(chip, fmt->iface, fmt->altsetting, clock);
--	if (prev_rate == rate)
--		goto validation;
-+	if (!(chip->quirk_flags & QUIRK_FLAG_ALWAYS_SET_RATE)) {
-+		prev_rate = get_sample_rate_v2v3(chip, fmt->iface,
-+						 fmt->altsetting, clock);
-+		if (prev_rate == rate)
-+			goto validation;
-+	}
- 
- 	cur_rate = snd_usb_set_sample_rate_v2v3(chip, fmt, clock, rate);
- 	if (cur_rate < 0) {
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 3330eb6049..d00d6a543a 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2333,6 +2333,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x0951, 0x16ad, /* Kingston HyperX */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
-+	DEVICE_FLG(0x0a73, 0x003a, /* Mackie DLZ Creator XS */
-+		   QUIRK_FLAG_ALWAYS_SET_RATE),
- 	DEVICE_FLG(0x0b05, 0x18a6, /* ASUSTek Computer, Inc. */
- 		   QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE),
- 	DEVICE_FLG(0x0b0e, 0x0349, /* Jabra 550a */
-@@ -2638,6 +2640,7 @@ static const char *const snd_usb_audio_quirk_flag_names[] = {
- 	QUIRK_STRING_ENTRY(IFB_SILENCE_ON_EMPTY),
- 	QUIRK_STRING_ENTRY(MIXER_GET_CUR_BROKEN),
- 	QUIRK_STRING_ENTRY(PLAYBACK_URB_FIXUP),
-+	QUIRK_STRING_ENTRY(ALWAYS_SET_RATE),
- 	NULL
- };
- 
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index 31e6125000..c49709d7ad 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -260,6 +260,10 @@ extern bool snd_usb_skip_validation;
-  *  to insufficient buffer depth combined with xHCI scheduling variability.
-  *  The larger buffer (MAX_URBS = 12, ~64ms) absorbs system scheduling
-  *  jitter during boot, while URB_ISO_ASAP ensures consistent xHCI scheduling.
-+ * QUIRK_FLAG_ALWAYS_SET_RATE:
-+ *  Issue SET_CUR for the sample rate even when the clock already reports the
-+ *  requested rate.  A device advertising a single rate is otherwise never sent
-+ *  the request at all, and some require it before streaming will start.
-  */
- 
- enum {
-@@ -295,6 +299,7 @@ enum {
- 	QUIRK_TYPE_IFB_SILENCE_ON_EMPTY		= 29,
- 	QUIRK_TYPE_MIXER_GET_CUR_BROKEN		= 30,
- 	QUIRK_TYPE_PLAYBACK_URB_FIXUP		= 31,
-+	QUIRK_TYPE_ALWAYS_SET_RATE		= 32,
- /* Please also edit snd_usb_audio_quirk_flag_names */
- };
- 
-@@ -332,5 +337,6 @@ enum {
- #define QUIRK_FLAG_IFB_SILENCE_ON_EMPTY		QUIRK_FLAG(IFB_SILENCE_ON_EMPTY)
- #define QUIRK_FLAG_MIXER_GET_CUR_BROKEN		QUIRK_FLAG(MIXER_GET_CUR_BROKEN)
- #define QUIRK_FLAG_PLAYBACK_URB_FIXUP		QUIRK_FLAG(PLAYBACK_URB_FIXUP)
-+#define QUIRK_FLAG_ALWAYS_SET_RATE		QUIRK_FLAG(ALWAYS_SET_RATE)
- 
- #endif /* __USBAUDIO_H */
-
-base-commit: 140fe610af607fd70da95c447943fc2690855519
 -- 
-2.55.0
+2.34.1
 
