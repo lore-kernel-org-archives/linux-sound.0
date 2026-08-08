@@ -1,83 +1,152 @@
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35012F39B5
-	for <linux-sound@vger.kernel.org>; Sat,  8 Aug 2026 04:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516612C17A3;
+	Sat,  8 Aug 2026 07:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786163551; cv=none; b=LpIj+Mu5/m2tqgfh/s4tiT7HvXoFXWwvz3FCsjEXNsny752He+lyLAI9uiqajyrK8IMQ0lXfbHp9zhqUqnl42kYJEhXcTuhOhxHdRgdcA9rhyVnQSg26zGM4Hm2i7XokCjEcPOuOuceOenRjLBUABLWPgWzL7ctVW4OFjLPDFac=
+	t=1786172523; cv=none; b=qvDpX+MH0erzYFD+/0zFsmmwTfOVUUKjoC5uoHpykg7pDkPFG3eP0G6f0KHnqYeuYDJncxXopTppaZFlyUOvsIpRr9zc4e7cy5pAjQPTqsaC0ksDa4U4noc07CLRbVZSLyqIG6JfKSpABwdrPnUieZh1E+24d4gn96fnTYzi7gA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786163551; c=relaxed/simple;
-	bh=kKNOnAKL6f9G+IKy10DrQNe7J7gASjpwPwgzhnS/waU=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=TySCnGNqb4R7OXMEPYYVRtdEPq752xltt3xiC3iMdqBALEwg5GNIU3obIHpSyzHZar3+NVNJCV+vruBxA9lGSR8BYXEU3K1fJ8qNBMHRmlTMWgCHjui3X83NYXg2lbnp8D10XWlJboixatysbgLrY2jdXHdA4iPvxRq18UHJXFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-6a344ad5c7bso129725eaf.3
-        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 21:32:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786163549; x=1786768349;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zfd4pyEQOa6AgPJjkFHYwaDnkzo/yjMt0hIQ5M7EMTE=;
-        b=soynWx8NVgVKxXcuZQK62ZIHFBY3bz1r5sOjatnzHa5Gl7B7xxC9P987N1u/mHiRqQ
-         EpI0H44CdHnbRfDtpy3fHaFMyktPCYtfBxXfRIsPfhfWRdAnQwc9TT2OkbZeU1Qin6SP
-         9HT2flpBw2+56Ykgq1jnAPmyJZky97VH3gwBXA+8uVud+nXgfDX4tNsmxi/o7uoNPIkn
-         chKFPEAzZlu0/uu5WF3JVSiHYbYP5XD1GR+wtYxhPPvjhc1hhI7NMHCZX9lX4acGPChH
-         LnHtmqKaBz4wT5t3PZRjo0oEziEpQF+9VhH/jm19uycN+sX31shlPwiX+HljptrcXc64
-         hLQQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqHaWs+KAvf1TjWoeJQj6FZob9w4eeELkJvU5Bx/STHDD39jr9JId0zRpcMbSsCNdowLbgfj496Aizw9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7rQm8NJZsABc7tSXivl77HE0PvZaGzpbsTpWZY88m2ukY8EbK
-	u1Llu/RkfYiodX9n7bxJtvE8B/ytjLhQFK+tIRjalUBfVLEkbvQzraAfk4S4PY2pXBhS/rb4fCE
-	vsbqs/UhuNFdZ4cMewTyJQPBRYvowxDhTNlZAWMyg58WZeQOfCc+KF3xtKYg=
+	s=arc-20240116; t=1786172523; c=relaxed/simple;
+	bh=NPtcK32F+ASXCbIQ30WRwmn0xCwn1jf2lvyXeqOBMPk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aK7SCHUuSyWPvM/fUeXnrqaCiqaBIGD2WVyDvqN+wcSnK6fg1/8ECYHk0p9xKbl4PZGZLDQazYQcWh7ka6vByn7UAjMCeThoM5unMz0M1BfIAdjZ7hhFaLjheQ3vBqYXYV7ZveK1Le+/S51uznx439GtGyR7fnebjhJt2bT2VSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nM9TkgTq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1N2/edNW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tg1OSycy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Sa+4ywC5; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nM9TkgTq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1N2/edNW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tg1OSycy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Sa+4ywC5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 211D53F23;
+	Sat,  8 Aug 2026 07:01:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786172516; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UcycKuDX5444Y1/mgfvOKT/FF3E4vevSB714zCkG33k=;
+	b=nM9TkgTqPwtn1mj/zXDW3bokzjtYkVxtTr4TsW3P68rCqZmAFnlbLjCeLKHqBcPy/sHFD0
+	4rTYruZfs5YAx/HIkPF3W8Y0vHJi3icM3DLrYckk8feAmOY+BEFkYeSMkFJIM5VMNf5034
+	MaUvdi2BK27l8bFCgoecUJpJ4ktqAwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786172516;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UcycKuDX5444Y1/mgfvOKT/FF3E4vevSB714zCkG33k=;
+	b=1N2/edNW6g+Pc4erW+wa0HwihwSoG2XjJRIFellloP1NqPWIeiE+idQ0wwNApkSKJ0f+jW
+	FlOTSSES8MoyqDAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tg1OSycy;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Sa+4ywC5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786172512; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UcycKuDX5444Y1/mgfvOKT/FF3E4vevSB714zCkG33k=;
+	b=tg1OSycyvB7bOoET1g07q1PtPLz+Ws7vWvZ4jpYA5ZWDSdu8aKv16p+wSKOP4nSRQ/HmvA
+	vx3p1gktda/RKr7yTU9Cyt2JtAnUAFpybyfnDKdabr7JRJRC2jncWbgUc2flMFlQWgCdXe
+	DD89gRCo5sEf7JmDdeRD80NNCyU9wYI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786172512;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UcycKuDX5444Y1/mgfvOKT/FF3E4vevSB714zCkG33k=;
+	b=Sa+4ywC5DS4KjjuwqWY65VJY4ZQyaSv6NWNWf5lexb09pccN1/5B2irrImvkl639PXnjNH
+	Aj+eh9JCZAlLbuAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DE156779B2;
+	Sat,  8 Aug 2026 07:01:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Z2hkNF/UdmrWNgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 08 Aug 2026 07:01:51 +0000
+Date: Sat, 08 Aug 2026 09:01:51 +0200
+Message-ID: <87v79l9jts.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: HyeongJun An <sammiee5311@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: ump: Fix corrupted data bytes at MIDI 1.0 SysEx to UMP conversion
+In-Reply-To: <20260808014554.3550153-1-sammiee5311@gmail.com>
+References: <20260808014554.3550153-1-sammiee5311@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6820:8590:20b0:6ae:a950:9faa with SMTP id
- 006d021491bc7-6aea950a10fmr8053285eaf.10.1786163548910; Fri, 07 Aug 2026
- 21:32:28 -0700 (PDT)
-Date: Fri, 07 Aug 2026 21:32:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a76b15c.b50370da.49fe0.0023.GAE@google.com>
-Subject: [syzbot] Monthly sound report (Aug 2026)
-From: syzbot <syzbot+list5fc4dd4a798cdd331d86@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 211D53F23
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
 
-Hello sound maintainers/developers,
+On Sat, 08 Aug 2026 03:45:54 +0200,
+HyeongJun An wrote:
+> 
+> The cvt_legacy_sysex_to_ump() initialises only the first word of the
+> output packet and ORs the data bytes into it.  The second word is left
+> alone, and the conversion context is kept across calls, so it still
+> carries the previous packet's bytes.  Those stale bits corrupt the new
+> data.  Any SysEx longer than six data bytes is affected.
+> 
+> A SysEx with the twelve data bytes 01..0c comes out as:
+> 
+>   30160102 03040506
+>   30260708 0b0e0f0e
+> 
+> The second packet declares six data bytes and four of them are wrong,
+> inside the declared length.
+> 
+> The sibling cvt_legacy_cmd_to_ump() already clears the second word.  Do
+> the same here.
+> 
+> Fixes: 0b5288f5fe63 ("ALSA: ump: Add legacy raw MIDI support")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 
-This is a 31-day syzbot report for the sound subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/sound
+Applied to for-next branch.  Thanks.
 
-During the period, 5 new issues were detected and 0 were fixed.
-In total, 5 issues are still open and 144 have already been fixed.
 
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 222     No    KASAN: slab-use-after-free Write in snd_usb_midi_v2_free
-                  https://syzkaller.appspot.com/bug?extid=565b1138cfbe549d4422
-<2> 137     No    possible deadlock in snd_seq_deliver_event (2)
-                  https://syzkaller.appspot.com/bug?extid=d4d7ac4a87bb2d52a822
-<3> 14      No    KASAN: use-after-free Read in release_card_device
-                  https://syzkaller.appspot.com/bug?extid=7061d72c26b7daebe2b4
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+Takashi
