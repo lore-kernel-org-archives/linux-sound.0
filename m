@@ -1,108 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A55229B18;
-	Sat,  8 Aug 2026 00:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEB81C862F
+	for <linux-sound@vger.kernel.org>; Sat,  8 Aug 2026 01:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786149359; cv=none; b=CJVbmu9gz5N2/G+dio7SLIpRBr39x076oXGrPJs5UsIlFv4LK1gsmi0Nt2j6hpde1jyMRDuOK+uZAyVigeomKlr5MrzLExdCZ3gAgLW4co17MeL0OiK4tvcRsr7zw403RwDvC/5O9MUmjSLrD971gp8dUVE2KTnGDouyLl05uK8=
+	t=1786153563; cv=none; b=eDtGf0iyaByVErO0yS4SHudNf9Pz1p3xR2bBawVYTp64EnUMKzwY2IMIYxs9VYxGo8FMd+GPivV3OOz4q4xgflywxJDk6p/6SQSEUYiFxZnA+XwY/cYsTC1xrW6RDXL05sR3Lt1b1KGNPFn2etzzi7HLXfk//Js85Zk1cp33wuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786149359; c=relaxed/simple;
-	bh=9NV5KhFstPq2OlEECq8sc3thgW2vWCQpx/TnjbQtg9M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nYU8S8/Dfml0UOvV8nB46sCdcsVB+oTZCbswuCRfPkV3RfNvFQn7H6W93F5YHXmr3GnSwY2HNPlJ5lBWKjVv4iRsjTZz61DSFbvTxGkK1gvl+FGwwaW2oebMA3+fVWDtqdyD/O/x+J5HT/U7JJZS4nkfkfH0oKIDpBA3SMLhvZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdgMXSTH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786153563; c=relaxed/simple;
+	bh=jiYwrHfPMJZupGhgemLkbnAXfR4F0oA1drlrs7PD6eU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CaMqhIwgMiHcqs27UBve8IUfh0A04tMxfxgX+sY0RJh5DyoiR5ANgwWy+xR960f2xO9DyApPqmsgwfxFUT3EKnjc20jv19QRM54OVkrU7qZV1lGuk2Pg1/IvGnJ8rfJofczJtvAfc69V6p+mk+VXpzK6n5sxym9Q5g0QErzGEW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQFSBdRz; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdgMXSTH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8CC99C2BCB8;
-	Sat,  8 Aug 2026 00:35:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786149358;
-	bh=9NV5KhFstPq2OlEECq8sc3thgW2vWCQpx/TnjbQtg9M=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=SdgMXSTH3ynurqrrv/K25pF9AiJoFWUailsK++b6qcu6kMUDb4P5sG51V8Az1LUFi
-	 2f9u/i3uJK4HFr/4/odDt9fEZ7r2ZbVNdZe9FrGG200Ez6X4kNaB5C6qh4mD76OYbG
-	 3h8+JdxYokEvYe/dCDmnlA8jJaVXBwDj09viiEE5IHXVIINarTaiIGfPcWyYF4WLr9
-	 C+PRbf6nHu3jfWhr7V6FXaWpE5Z6NXx+rs/lfER7Nm6N26uCmBinnxQWeFuB19aEXR
-	 ijtJC6yUKbn5HTy+DZYgcx/gi0+g3Yr9rsu4rOG1iYpKUAMs9YVF+YV7+WDw/UBvJn
-	 G/SsmsJ9vlpFw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CAAEC5AD2B;
-	Sat,  8 Aug 2026 00:35:58 +0000 (UTC)
-From: Casey Tunturi via B4 Relay <devnull+casey.samaritansolutions.net@kernel.org>
-Date: Fri, 07 Aug 2026 20:35:13 -0400
-Subject: [PATCH] slimbus: qcom-ngd-ctrl: match downstream DEF_ACT_CHAN
- encoding
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQFSBdRz"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38f0f132f56so2105480a91.0
+        for <linux-sound@vger.kernel.org>; Fri, 07 Aug 2026 18:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786153561; x=1786758361; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1jzH3wz8al5H3PLnRo3rqNbon9VQ+SF4VfOzTEMOvxE=;
+        b=fQFSBdRz45bgahmUZaOTFVnS9vRsJDseTt5dZSzEtEvog5Ek7CMBA0lvjMmGnLmlwy
+         hhYJEYYJIugLtgB4dASuet5m0CS7bwgbMDmOW6yDayCy33vtYs7rK6Cl7neYTcHwrZEK
+         N4n/pAfvDjY9mtdNl2i0J1ro0uWaVqt9+hHSs/k2LKY2AVgAuVwba3dt5SiBQPK3AVMM
+         jHL+R/uzUHg0Iz1m6qd3hjUHQSmltyx7wbd5VxWSeEj99oZo10YzoisSCmgY0QI5WaCu
+         97Xm0v4hksI9pFBDetrGK0NZ5XlkoAEUi7xfN3R023VGdVTZ5EWokOLedAjtTx5/s/X1
+         aUfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786153561; x=1786758361;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1jzH3wz8al5H3PLnRo3rqNbon9VQ+SF4VfOzTEMOvxE=;
+        b=fnNB3WTLAh8VpWPXksX09OGlW30tcJU112xE57OynKlI5GqAVAOgGcdFac/WR/756O
+         qM9AyOtmOUfSopcSLi0tyWH1T5QqJ5HCA/hO5hQgOzKIfbhyzewcqiP0VOkZZ8TgKu3i
+         VnzXo6+0n31Ecx6PT7CVVAzKBBYIg0V8nT2ZWbNTrWfWA9iP28OXZKtZ/+l5DV3RD8NT
+         L/8u9yy644zGI8ZTfGP3Jj9iI7Am3YwNWV3hDFR+LoC07Pnth7frB3xht/Arh5WZNHWL
+         xEXapY30VuJw7Abv5WdoUbzKFVH29T39xdBHRHJOWcvtQVC7zaLZnNf6JSNNn9JoUgn7
+         oSOw==
+X-Gm-Message-State: AOJu0YwjAAjob/KpnVnzBo9Ko0MC2LVg/eiqv+uuVmw7IC7jNuqwqKVt
+	DG0/AiCOhhNnOx0aI4v/2MHAuQgsKR6IFi2canFFc+YW4yKWdcAJNXa1
+X-Gm-Gg: AR+sD12CpsyYGntzDN8pyVrKkEvSwMXyc1twiErytc0+X8b5x3jqK2RpEheL1MVcOQR
+	nW9PxE50yt7n3Fqjw7tYyz/uO12hHkAHvkCDJQ7ILfUugwgK2wGgbqXoccLeFdxf9WudpsqQ5Zr
+	rcWzXZNtMFThunbrDWJIthyE+on041jUUzcpL3A25DKZfsUcN3tO9F6CLkg/mVa1ea8SYx0fo8S
+	MCcHFI5iDBBmr/Xofv2EYX8pgsIIAnHoyAf+YznEDURPpDHasTpMX4Qr+2YBSfMUfaBHLFxNZTX
+	HSsTJnQVypd4/kyAHiBMy7m5s85kMugYzej/tOLap1Lr6miJCK2Lk5RPfpjhUF0jl7iLyShRzI6
+	hN4Bzg45KMHz9BbGB3IoNf+rsEGNOtFG2SwXqfz8ctarn9wkJPtqOp/DELBFHScxCA4xV5dej4J
+	KcdFrqQA2uE0o5YSB8mKvbarYaJUxJp5ROz0Y/g4efGpPWrqxIzXH0NN3Ac3Rv49xYzzmoxkPCc
+	Ah7+qYsBBtnCPSYxT9UPoR8OYYvA5GmNX74LQXczrWKidItvSfIGA==
+X-Received: by 2002:a17:90b:3eca:b0:37f:9e21:91d6 with SMTP id 98e67ed59e1d1-392846ac637mr1213667a91.13.1786153561263;
+        Fri, 07 Aug 2026 18:46:01 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39085f5e33fsm6697806a91.14.2026.08.07.18.45.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 18:45:59 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: ump: Fix corrupted data bytes at MIDI 1.0 SysEx to UMP conversion
+Date: Sat,  8 Aug 2026 10:45:54 +0900
+Message-ID: <20260808014554.3550153-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260807-slimbus-def-act-chan-v1-1-fd542efb3d30@samaritansolutions.net>
-X-B4-Tracking: v=1; b=H4sIAMB5dmoC/y2NWw6CMBQFt0L6bZNS6AO3YvjovdxqjYC2xZgQ9
- m4RPyeZM2dliWKgxM7VyiK9QwrzVKA+VQxvbroSD0NhJoXUwgrD0yOMsCQ+kOcOM98tDkZQ68E
- 4gJqV6TOSD59f9tIfnBa4E+a99TcivZbylw+NgUvEcR7HkM+VUl6S67y3DaI0ziolNdQtYAeN9
- J12wg6akPXb9gUEzzu6xAAAAA==
-X-Change-ID: 20260807-slimbus-def-act-chan-b70e4fb7abb1
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
- stable@vger.kernel.org, Casey Tunturi <casey@samaritansolutions.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786149357; l=1541;
- i=casey@samaritansolutions.net; s=20260808; h=from:subject:message-id;
- bh=e+Q5bDUByME3v5es1Uq1PGS+sTl936AilMSdVkoqZLc=;
- b=a/xPXsw22g09JQ+s5pQ5aOdlYeYCoHIxbI1RBc18HAnf2Bx0vvVajzqTLPH1wp5w3JUUE+fJA
- 4QJoSeL6h+jBzT2XrKBvJsFTpkiVKJEkXE2HRbVIpMxq0MszPOj2uB3
-X-Developer-Key: i=casey@samaritansolutions.net; a=ed25519;
- pk=oAg9oAsm2ZYWlQFWe7kijWzWnqsQZ/KIY59MAWrTRzk=
-X-Endpoint-Received: by B4 Relay for casey@samaritansolutions.net/20260808
- with auth_id=926
-X-Original-From: Casey Tunturi <casey@samaritansolutions.net>
-Reply-To: casey@samaritansolutions.net
+Content-Transfer-Encoding: 8bit
 
-From: Casey Tunturi <casey@samaritansolutions.net>
+The cvt_legacy_sysex_to_ump() initialises only the first word of the
+output packet and ORs the data bytes into it.  The second word is left
+alone, and the conversion context is kept across calls, so it still
+carries the previous packet's bytes.  Those stale bits corrupt the new
+data.  Any SysEx longer than six data bytes is affected.
 
-During my investigations, and some rather incessant cross-checking of
-blueline's SLIMbus path, I found that Qualcomm's downstream driver
-packs the first DEF_ACT_CHAN byte differently from mainline. Bits [7:5]
-hold the data format; bits [4:0] hold the five-bit client number.
+A SysEx with the twelve data bytes 01..0c comes out as:
 
-I changed ours to match. It made no immediate difference on my own
-hardware: blueline's current values produce 0x0f either way. The
-downstream layout is correct and should help devices that use upper
-logical-address bits or a non-zero data format.
+  30160102 03040506
+  30260708 0b0e0f0e
 
-Fixes: 52490169cddf ("slimbus: ngd: add stream support")
+The second packet declares six data bytes and four of them are wrong,
+inside the declared length.
+
+The sibling cvt_legacy_cmd_to_ump() already clears the second word.  Do
+the same here.
+
+Fixes: 0b5288f5fe63 ("ALSA: ump: Add legacy raw MIDI support")
 Cc: stable@vger.kernel.org
-Signed-off-by: Casey Tunturi <casey@samaritansolutions.net>
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 ---
- drivers/slimbus/qcom-ngd-ctrl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/core/ump_convert.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-index 3071e46d0..14192380d 100644
---- a/drivers/slimbus/qcom-ngd-ctrl.c
-+++ b/drivers/slimbus/qcom-ngd-ctrl.c
-@@ -1018,7 +1018,8 @@ static int qcom_slim_ngd_enable_stream(struct slim_stream_runtime *rt)
- 		if (txn.msg->num_bytes == 0) {
- 			int exp = 0, coef = 0;
- 
--			wbuf[txn.msg->num_bytes++] = sdev->laddr;
-+			wbuf[txn.msg->num_bytes++] =
-+				(port->ch.data_fmt << 5) | (sdev->laddr & 0x1f);
- 			wbuf[txn.msg->num_bytes] = rt->bps >> 2 |
- 						   (port->ch.aux_fmt << 6);
- 
-
----
-base-commit: 55f2ea9ff83cc27a85526b14bc9b32f96a08d6ec
-change-id: 20260807-slimbus-def-act-chan-b70e4fb7abb1
-
-Best regards,
---  
-Casey Tunturi <casey@samaritansolutions.net>
-
+diff --git a/sound/core/ump_convert.c b/sound/core/ump_convert.c
+index 0fe13d031656..85cc67de6330 100644
+--- a/sound/core/ump_convert.c
++++ b/sound/core/ump_convert.c
+@@ -258,6 +258,7 @@ static int cvt_legacy_sysex_to_ump(struct ump_cvt_to_ump *cvt,
+ 	else
+ 		status = UMP_SYSEX_STATUS_CONTINUE;
+ 	*data = ump_compose(UMP_MSG_TYPE_DATA, group, status, cvt->len);
++	data[1] = 0;
+ 	offset = 8;
+ 	for (i = 0; i < cvt->len; i++) {
+ 		*data |= cvt->buf[i] << offset;
+-- 
+2.43.0
 
