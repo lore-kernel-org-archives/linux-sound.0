@@ -1,129 +1,185 @@
-Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4091F3C3428
-	for <linux-sound@vger.kernel.org>; Sun,  9 Aug 2026 10:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C6D371889;
+	Sun,  9 Aug 2026 10:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786270586; cv=none; b=RGVGpDXIYWkXaPDtj4zwENflBYBFsfotXkQUxf00bBDuJh7AycJEcRotBxBugWhXdHS26cUCujIMo2e2R92S+twpbESr3WcXFEbZ+BwREFdkiT34xAsiXvH52/NjV3UBAA8WAf1d3236jlUgUkfDFGzsqYnBlanOV559ZavmJhM=
+	t=1786271428; cv=none; b=e0kBQoX22aseX40qLP515EzUP9NLOLJNsRdoGgkuwdeNdQygyJ9aF2/WJ0OyZH8zPz7oWaUXX0UhhRVEoao9VNeF+TAy8g7epF6X+zVY/ztZsQi1zKj1MslhkqFNd8ohdfmCkLX6gtdCWVMY/lPINf2MGGAxLFzKBI9yA2WBoxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786270586; c=relaxed/simple;
-	bh=TPFUcX3A7JoyNEA3ac/a7vTtA/ydvSA0ivyyMlAHRYI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qy1FRX7eC5DWimG1gPU94lKbhiFdVU9cUPzgIuTZSxo35DmagkAfa7fKwGdUl/bySRDWQhxEgaKrfZK4ocL60M0YqOfQH7+cc/yLWiK4geokNGxO4jYmFecO0ZHTfl/T9VsjlYzqbUt6nNrQEObI6FtEmInBjd2jm7Yj+F2Tyls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=CHnEQxpf; arc=none smtp.client-ip=57.129.93.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=saarinenkoti.fi
+	s=arc-20240116; t=1786271428; c=relaxed/simple;
+	bh=TBDabGiPe89/GXEvr1X0Zop4B48hsrGO3bWXoBsxL6g=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eYIXf5MpSVJVvV0RUNSTqoOso04/COK0r0T5RSI6tWS41iQim/jxtLxxyTEzTGWex9LkZmxLHtmeYXLk9YME2Nd95fWUSiIu+SkrLd45Ay7eu+GkGO330MP5fNtUc5eOBm+9YTbocaLHe2Xj7GsyaY9YusYP0QYtdic8cEhpMIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e5PCd/UE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IFTinSrF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0H2aa9ox; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XoLYFUIX; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="CHnEQxpf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saarinenkoti.fi;
-	s=protonmail3; t=1786270574; x=1786529774;
-	bh=6NdnXekWMWGk/nB2bensin1fqZep1VzxSs+L/LrylAo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=CHnEQxpflqwiXfM7UGZmo2eLngNrzEvF4BnWHXy3imdS367HF2rEI1+9KBoX6H87h
-	 s8TELUTZmqZu+Z9wW7UwZGWgnXMAf7qAWgZO12Am5OmHC/DIGAcToa9uIfLTen6vWj
-	 cssxR4TYLqLDLG8A3xkGgm1qlixCaQflnWqv/sBuYjxks3gpq06+yllAp+tWwlFWlD
-	 3WbZEznb8zrM6I/9PKDdIAFPuX/eRSNcksXsWKdh+Yl+/108j9hSLkg8mO14PXefsO
-	 Sst55d4rJoYGgPyXIXtMHrbixIA+0fCVP+GXr4M0ZsjaDuaDc/L4mcx8C3fwYef0T5
-	 lKD5W35gjAgeA==
-Date: Sun, 09 Aug 2026 10:16:10 +0000
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
-From: Ville Saarinen <wiza@saarinenkoti.fi>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: tas2783: drop firmware-owned registers from the regmap cache
-Message-ID: <20260809101541.4969-4-wiza@saarinenkoti.fi>
-In-Reply-To: <20260809101541.4969-1-wiza@saarinenkoti.fi>
-References: <20260809101541.4969-1-wiza@saarinenkoti.fi>
-Feedback-ID: 137674609:user:proton
-X-Pm-Message-ID: ed479765ff40cd4976a2a049a6a8281db4b4337a
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e5PCd/UE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IFTinSrF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0H2aa9ox";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XoLYFUIX"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 097CD8130E;
+	Sun,  9 Aug 2026 10:30:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786271421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
+	b=e5PCd/UESNGtH+kgxq7kJhL4vAPqGnoPIqBWXvWzGgWUCE4RaWmv7n/89mtLwcs7yDy1qd
+	vow9Oi+reFUycD6npv2tHSLMVXgqYNpILykI9g/LyFUIZsyTf1+Wn7lR2FKpzeJnnWAZbY
+	Z8iMA5jr6aA14GGFHIy65B0KEKBklRc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786271421;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
+	b=IFTinSrFDW2VdZEcXjTn8DmWvIma2C+xByBpZy641pH3c1fAKjflBFQLoV7aawOqAp0Ph2
+	2laChX2VbdfnnwCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786271417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
+	b=0H2aa9oxl0S95TkBSGARHCGK9LBPZRY/cMpVFGb8aRfIsFICWXhHRwJguvcGuIxYY9MvnT
+	ZRhEhBFwaH6E4zYOExDek30t0LHV/CwWJEUvZBOfXTVmclF9rQ+/vqUE5Ec3K1r9qehGVu
+	qYlTxCaedH0Eo206GOqWUG5a00n4sM8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786271417;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
+	b=XoLYFUIXfM4WP6VgI9KQLSoPwyWuehToUKsL+9aPhKqdfpkpatLKmA/bJwRIKCTk7SASuC
+	vuXE2aknltn62tDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9057779B2;
+	Sun,  9 Aug 2026 10:30:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id AbJML7hWeGoLXgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 09 Aug 2026 10:30:16 +0000
+Date: Sun, 09 Aug 2026 12:30:16 +0200
+Message-ID: <87fr0na8nb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: JJ Macalinao <jj@macalinao.org>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: usb-audio: add QUIRK_FLAG_ALWAYS_SET_RATE for Mackie DLZ Creator XS
+In-Reply-To: <20260808172726.1107550-1-jj@macalinao.org>
+References: <1c54822e-8147-4ffe-b033-aa4ab966c872@macalinao.org>
+	<20260808172726.1107550-1-jj@macalinao.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 
-The firmware image is downloaded with sdw_nwrite_no_pm(), which writes
-straight to the peripheral and bypasses the regmap cache. The cache keeps
-holding the tas2783_reg_default[] entries for every register the firmware
-image owns, so cache and device disagree from the moment the download
-completes.
+On Sat, 08 Aug 2026 19:27:26 +0200,
+JJ Macalinao wrote:
+> 
+> set_sample_rate_v2v3() returns early when the clock already reports the
+> requested rate:
+> 
+> 	prev_rate = get_sample_rate_v2v3(chip, fmt->iface,
+> 					 fmt->altsetting, clock);
+> 	if (prev_rate == rate)
+> 		goto validation;
+> 
+> A device advertising exactly one sample rate always takes this branch, so
+> it never receives a SET_CUR for CS_SAM_FREQ_CONTROL at all.
+> 
+> The Mackie DLZ Creator XS (0a73:003a, 14 in / 4 out, 48 kHz only) requires
+> that write.  Without it the device drops off the USB bus roughly 0.2-1.8 s
+> into any stream, clearing its port CONNECTION bit; captured audio is
+> byte-correct until the instant it vanishes.
+> 
+> USBPcap traces of a cold-booted device on Windows show SET_CUR 48000 issued
+> unconditionally on every stream start, followed by clean streaming.  The
+> device is otherwise driven with plain class-compliant UAC2 - it also works
+> on iOS, which cannot load a vendor driver - so no vendor-specific
+> initialization is involved.
+> 
+> The device is self-powered, so the resulting state survives a USB replug:
+> initializing it on any host that issues the write leaves it working on
+> Linux until it is power-cycled, which made the failure look intermittent.
+> 
+> Add a quirk flag rather than dropping the early exit, since the opposite
+> requirement also exists in-tree: QUIRK_FLAG_FIXED_RATE suppresses rate
+> setting for single-rate devices (JBL Quantum610/810).  The two behaviors
+> are device-dependent and cannot both be the default.
+> 
+> A/B on identically cold-booted hardware, same kernel, same port, repeated
+> twice:
+> 
+>   without the flag  device dropped after 5-6 s, then again after 3-4 s
+>   with the flag     20 s playback followed by 20 s of 14-channel capture,
+>                     960000 frames, zero re-enumerations
+> 
+> This change was developed with an AI coding assistant.  The assistant did
+> the trace analysis that located the bug and wrote the patch and this
+> changelog; the hardware testing, the cold-boot cycles and the decision to
+> submit were the author's.  Several earlier hypotheses it proposed - URB
+> queue depth, isochronous packet under-allocation, endpoint start ordering -
+> were disproven by measurement before this one.
+> 
+> The bug was located with usbmon on Linux and USBPcap on Windows, by
+> diffing an enumeration capture of a cold-booted device on each host.
+> Verified on physical hardware by the A/B above.
+> 
+> Assisted-by: Claude-Code:claude-opus-5
+> Signed-off-by: JJ Macalinao <jj@macalinao.org>
+> ---
+> v2: skip the GET_CUR entirely when the flag is set, per Takashi's review,
+>     rather than issuing it and discarding the result.
+> 
+>     prev_rate is initialized to 0 because it is still read below - the
+>     !cur_rate fallback and the TEAC 0x0644 block. That is not a new state:
+>     get_sample_rate_v2v3() already returns 0 when the GET fails, so both
+>     paths handle it today.
+> 
+>     Retested on cold-booted hardware, same unit and port: 20 s playback
+>     followed by 20 s of 14-channel capture, 960000 frames, no
+>     re-enumeration.
 
-tas2783_sdca_dev_resume() then does regcache_cache_only(false) followed by
-regcache_sync(), and regcache_sync() writes out every cached register. On
-a system resume the peripheral stays attached and keeps its device state,
-so hw_init is still set and the firmware is never re-downloaded - but the
-sync stamps the stale defaults back onto the device on top of the firmware
-tuning that is still live there.
-
-On an HP OmniBook X Flip 14, which carries two aggregated TAS2783 amps,
-this was measured with a cache-bypassing debugfs read taken after an
-s2idle cycle: all 12 registers where the firmware image differs from the
-defaults table had reverted to their default value on both amps, and the
-two amps had become byte-identical over 0x800001-0x800040. Among the lost
-values are the four page-0 bytes that give each amp of a stereo pair its
-own configuration. The speakers are silent after resume and stay silent
-until the machine is rebooted.
-
-Drop each downloaded file's destination range from the cache once it has
-been written, so the cache no longer claims to know registers the firmware
-owns and regcache_sync() has nothing stale to write over them. This is
-safe: a suspend deep enough for the peripheral to actually lose its state
-also takes it UNATTACHED, which clears hw_init and triggers a full
-firmware re-download on re-attach.
-
-Developed with AI assistance. The assistant diagnosed the interaction
-between the cache-bypassing firmware download and the resume-time
-regcache_sync(), and drafted the patch.
-
-All hardware measurements quoted above were run by the submitter on the
-affected machine. The submitter has reviewed the change, understands it
-and takes responsibility for it.
-
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Ville Saarinen <wiza@saarinenkoti.fi>
----
- sound/soc/codecs/tas2783-sdw.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.=
-c
-index d1addd8ae..f79e730b0 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -912,6 +912,26 @@ static void tas2783_fw_ready(const struct firmware *fm=
-w, void *context)
- =09=09=09=09"FW download failed: %d", ret);
- =09=09=09break;
- =09=09}
-+
-+=09=09/*
-+=09=09 * The firmware image is written with sdw_nwrite_no_pm(), which
-+=09=09 * bypasses the regmap cache. The cache therefore keeps holding
-+=09=09 * the stale reg_defaults entries for every register the
-+=09=09 * firmware owns, and the regcache_sync() done on resume writes
-+=09=09 * those defaults back out over the firmware tuning. That wipes
-+=09=09 * the per-amp configuration, including the channel assignment,
-+=09=09 * and leaves the speakers silent until the next full re-init.
-+=09=09 *
-+=09=09 * Drop the firmware-owned registers from the cache so nothing
-+=09=09 * stale can ever be synced over them. This is safe because a
-+=09=09 * suspend deep enough to lose device state also takes the
-+=09=09 * peripheral UNATTACHED, which clears hw_init and triggers a
-+=09=09 * full firmware re-download on re-attach.
-+=09=09 */
-+=09=09if (file->length)
-+=09=09=09regcache_drop_region(tas_dev->regmap, file->dest_addr,
-+=09=09=09=09=09     file->dest_addr + file->length - 1);
-+
- =09=09cur_file++;
- =09}
- =09mutex_unlock(&tas_dev->pde_lock);
---=20
-2.55.0
+Applied to for-next branch now.  Thanks.
 
 
+Takashi
