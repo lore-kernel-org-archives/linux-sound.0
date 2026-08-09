@@ -1,81 +1,86 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125942F3C3E
-	for <linux-sound@vger.kernel.org>; Sun,  9 Aug 2026 18:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6F33A453B
+	for <linux-sound@vger.kernel.org>; Sun,  9 Aug 2026 19:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786299298; cv=none; b=WlfNS44l7snn/+6wqe9j4NuW/Kmvuq5E35pQod1L2n3b96cS7JFEY0Sc+5ekqNsQ7Z5RjdnR2ZG2hJdXXhMhvv9sJwUMCmuFOTfq5wKz4YhOfecKTY5/mIKQcR/enqogZYxNnBVX239d2T+tEuelbu64bnHXhGnUdsvIN7GxAdo=
+	t=1786302850; cv=none; b=CoxXkFH0JSDOc9+Rdl4efcdxJ7MJfYh8nTs9rj/49LNns0f7OAo4glvCSBYj1AZWVqkGqmx4gLs2YXA8PpmSRWfS5vLPd4QSfjX1YOt5d1RjV6sC+z97lU0jfpwAZsyxmtisLb20jEa/0xh3GfGGTu8CNs8XkExiz8qle3g52iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786299298; c=relaxed/simple;
-	bh=vxRRdfrzTAe3nV6lMYa0lSyLq1ZXKy4NpjaCD9U6v+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oVwfkzW+Cum2+wAWzsD5P9EkESzY9wBQ9NDoKqpT50xNNFVpnj9dkbWG2UI+g32t+L0gx2JOCsg3I9GcOxj+lrtJRWVZrEEoeqSBRWBrIFoaD89ZhuU2WjuGyPZF3t88tRHuwIRQ6HdiqiHAo1yPOCOm4KD1RSc/wfYRKSNtepQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=oMX5xfgv; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1786302850; c=relaxed/simple;
+	bh=e/9vvsTJVKVZFPYo2QTYQayngoUsuF2tWwDl5Poy+UI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K2Y3tAEmF7xSSy0XGOjBtXZOzru7msWErCxBaHDeUY/wdlCduKZnjynS7pLIYhqML/KL15+SbRRTF34iJ1SgqL7QHvoZR1+7qwZI3CXR/lFmmbNSt73qN4YNsZnl8YV37m91kHNK8Tm1ScMh9LmpnA8lye49N664WBeqdQLJx+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bNvXCkmD; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="oMX5xfgv"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 44C4D67FD8DC; Mon, 10 Aug 2026 03:35:41 +0930 (ACST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 44C4D67FD8DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1786298741; bh=R7V2IYYLLWexkgVeIiL3pIHxW5U8HW3DIXmRGsg3+tg=;
-	h=Date:From:To:Cc:Subject:From;
-	b=oMX5xfgvNz9FrHkn+Oxd+S3AVg/CEAxxbSHo7znGOfFeuoCqxTM3F2ZyEqDQ2adLN
-	 vW/eGAXhksipcigcmUsLUQND92Mh29vzUwzxUOiZxuucsQKzujJwQ2eq1F5nQUlq4A
-	 jZRuMzRVe7HNhp7jOCz80y36H5vk1T/uzUePDm+akLDqyQPYl1Ii0s47wZiwCyLerq
-	 i6e6YEQkco1WDv93oueVGwjay9Wnh1/w9pJQcYQF6+CUZX3+y8YzEdaUwj9nvuLS4I
-	 eAC5WztUvnKxmtLVzJojU4QoJGDwEwX5Ad1MSwLWr2CorvQMkbag9WYcHQ1nY/mgsS
-	 Gmf5AgT7WUJzw==
-Date: Mon, 10 Aug 2026 03:35:41 +0930
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH 0/2] ALSA: Don't share mixer->urb with the FCP/scarlett2
- notification endpoint
-Message-ID: <cover.1786290885.git.g@b4.vu>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bNvXCkmD"
+Message-ID: <b2ae6045-6f8c-431f-978c-63158d3a4e9d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1786302831;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ROJLtfWfkWbQkaoSvTu2uuaIzMI91J1WeRYlRsawSVs=;
+	b=bNvXCkmDi2gubwaT2w/VIMz4R0rT/HSed78AIFPjQ9TRVhDAjsD5ERIF2aYwPKb/RgmsmF
+	OocH1cM6JnTM8OU94AdXppYb9xs0WgvBrmI3X0mEn1nqGb5t5WOOcMH7W14uRdlw8bhLAn
+	n1tGGiG/ke2hC10sjy0BToRxghKAkWw=
+Date: Sun, 9 Aug 2026 21:13:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH 1/3] ASoC: tas2783: let regmap-sdw-mbq poll for deferred
+ transactions
+To: Ville Saarinen <wiza@saarinenkoti.fi>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Charles Keepax <ckeepax@opensource.cirrus.com>
+References: <20260809101541.4969-1-wiza@saarinenkoti.fi>
+ <20260809101541.4969-2-wiza@saarinenkoti.fi>
+ <413bdfd6-e0b6-4a64-9e60-cfe25ac684be@linux.dev>
+ <51a70023-9eaf-4d50-8b87-60fdb73cf08a@saarinenkoti.fi>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <51a70023-9eaf-4d50-8b87-60fdb73cf08a@saarinenkoti.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Takashi,
 
-Both the FCP and scarlett2 drivers used mixer->urb for their
-notification endpoint URB, but that field belongs to
-snd_usb_mixer_status_create() and is managed by mixer.c. Sharing it
-means the "already set up" check in the driver's init_notify() can be
-satisfied by the status endpoint's URB, so the driver's own URB is
-never submitted and the first command would crash in
-wait_for_completion_timeout() on the still-zeroed cmd_done. mixer.c
-can also kill, resubmit or free the URB from under the driver.
+> Thanks for taking the time to review this. I am a bit of a kernel noob, 
+> but I completely agree with you and the spec: FUNCTION_STATUS cannot be 
+> deferred.
+> 
+> I think my commit message caused a misunderstanding. The patch doesn't 
+> defer the status read:
+> 
+> The hardware is actually returning COMMAND_IGNORED for the UDMPU23 
+> Cluster Index write, which is the only control tas2783_sdca_deferrable() 
+> flags as true.
+> 
+> I only added FUNCTION_STATUS to mbq_size to expose it to -> 
+> readable_reg(). Without that, regmap_sdw_mbq_poll_busy() considers the 
+> status register unreadable, skips checking the busy bit for the deferred 
+> UDMPU23 write, and instantly fails.
 
-Give each driver its own URB in its private data. For scarlett2 this
-also means taking over the free/suspend/resume handling that mixer.c
-was doing for it.
+I think your patch exposes a problem in the initial implementation of
+regmap_sdw_mbq_poll_busy(). FUNCTION_STATUS is a readable register by
+default, not sure why we would ever need to test if it's readable.
 
-Tested on an ISA C8X and a Scarlett 18i20 Gen 4 (FCP), and a Scarlett
-4i4 Gen 3 and 4i4 Gen 4 (scarlett2) on 7.1.7, including suspend/resume
-and configuration save on suspend.
+Adding Charles for additional comments, this part looks questionable
+with a possible register side-effect.
 
-Thanks,
-Geoffrey
+reg = SDW_SDCA_CTL(SDW_SDCA_CTL_FUNC(reg), 0,
+		   SDCA_CTL_ENTITY_0_FUNCTION_STATUS, 0);
 
-Geoffrey D. Bennett (2):
-  ALSA: FCP: Use a private URB for the notification endpoint
-  ALSA: scarlett2: Use a private URB for the notification endpoint
-
- sound/usb/fcp.c             | 38 +++++++-------
- sound/usb/mixer.c           |  6 +++
- sound/usb/mixer.h           |  2 +
- sound/usb/mixer_scarlett2.c | 98 ++++++++++++++++++++++++-------------
- 4 files changed, 92 insertions(+), 52 deletions(-)
-
--- 
-2.55.0
+if (ctx->readable_reg(dev, reg)) { <<< are we testing the correct reg?
 
