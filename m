@@ -1,43 +1,39 @@
-Received: from mail-244117.protonmail.ch (mail-244117.protonmail.ch [109.224.244.117])
+Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965CB3C4577;
-	Sun,  9 Aug 2026 10:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D758734BA5B;
+	Sun,  9 Aug 2026 10:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786270525; cv=none; b=Zfmnd6sfCs/RF16QE48P9ttQ9d/A2V608xYc7s74oPbZPSo8kqOwnzsRrmTA0EnH2W9bOx0UWNWSWmW9edGvmHqTD2vgwMN2gYaD+G8E1c1Z8QJ9k9vPbPydhk5qOul+MFAiLpbgLA80GvviylBpEi9yLq4qQFCB3n98s+mkxH0=
+	t=1786270578; cv=none; b=Vukh1i8DZK0h0Eb5K80IP79WsD85TK752XjEsmdMYMq+oK7bCWyeYoQRNf4jCkdsAoHK88IBRDbZokugscX20FC2or6dPOmotyLC6AmbvvR/wQpFw3/kRye7lR2dIMfQJWF+HLRCkbklwMwOQU6Q+viQO9nfsRPMOtfYPfbgHXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786270525; c=relaxed/simple;
-	bh=K4J5nAHCr8KJcWR+RNTGOeDFyRZKohdrU4g6x85FtzU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L6OXVFliQTNsBWNwIUUgPcnvgaWBjLl4C/ch+EnuZqXQAkaHBqL0NeKrCYceXndKDAc1uF0PA3JTAK6eS8nCHHjfN/E0Stx3RilkDvb6/D9pFbYn7hQdFsQ0jHh9otoaXXodCsbeUgd57OyyV0D4zkmueNfMhR1Znsu8LuOOS8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=GH5x+xLn; arc=none smtp.client-ip=109.224.244.117
+	s=arc-20240116; t=1786270578; c=relaxed/simple;
+	bh=baBdNzkV/nJMtQY/SrSkog/teKUaBaY4i7KlOkNBy8Y=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=d5qQHtM6Zljdg9ETq1ydPlkS/Fi7AL5pWbBWL3pAimiEcLDF+K96qWgmUKFn0OKjV3P3t7lBxtIJWQt6q4VwPJbvERcCtpDHq0TiqC9OfWu1YDoug4cSE2yRFCEmY0G1IVrH1Orw0977NZ6/akhVP8OGEpsrCHIV/vb63y+Y3XA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=NHwbafTT; arc=none smtp.client-ip=85.9.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=saarinenkoti.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="GH5x+xLn"
+	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="NHwbafTT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saarinenkoti.fi;
-	s=protonmail3; t=1786270514; x=1786529714;
-	bh=K4J5nAHCr8KJcWR+RNTGOeDFyRZKohdrU4g6x85FtzU=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=GH5x+xLnowwMloUc87Gl3c87g1Y4QeJcoZrzJDrb1ebRL8r+NgAjopNdWP1Px48Qg
-	 JnUDCXfHSlx1804mS6PnWVuZgsmKSBscQFnAVoKpg3pWPj3rwOK8qE+cqxKIv0EuYn
-	 XX2U9g+IM9Ex6GlWky9MrtMVfs6f64vydUPlgImxGexfKPJEWq5YOwbLvt3wSXE779
-	 H9OjTtGR7e0qETq9QtHLN/GLg8+mR8I6ubBtDxZDBf2J865peWdgH6v+PKkjyqHl9U
-	 YJRebQj11N+wkp1SGT+O15DhoBHfY92UQaAmEpMR44jKJrxSba8FHrDOX5+nzbltzS
-	 dlZDuo5O2URLg==
-Date: Sun, 09 Aug 2026 10:15:09 +0000
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+	s=protonmail3; t=1786270562; x=1786529762;
+	bh=pcPRwJbEbRGX+MoVM5ecrMx+25kBq3s+bZK0lM9gov4=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=NHwbafTTLLAPAfOn66/uqFRxhNQGhL0g95X+YJ3kIrb+0kKdIoHID9mAutbV0moue
+	 Zce5VO4U/nK6eJUQy4HZBcPlZgiPBAm09AmHRpZVXCm7m3B5eVGxrMNDedfb81H9Pw
+	 byb+eGWjFemn82RnnXh8W+HTmC2O+rwry+bFgcQzzSwlQXQvmvCflwicdQxMezl1/a
+	 kdYsDiYzb6ov14xWNZHRUtDXKXJC/LqGMz8u8Psew5lgrJJ9U+6+zwdmkRR9fJ6Z14
+	 xeGngCPfZUZdKBJk2Zq2v35E1UGRq0ZzMr0IiiBK1PP1pObXiIlRDNDdu2eMrou/q+
+	 7ekdDBVZ3tI6A==
+Date: Sun, 09 Aug 2026 10:15:57 +0000
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
 From: Ville Saarinen <wiza@saarinenkoti.fi>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ASoC: amd: acp70: add HP OmniBook X Flip 14 SoundWire machine
-Message-ID: <20260809101439.4798-3-wiza@saarinenkoti.fi>
-In-Reply-To: <20260809101439.4798-1-wiza@saarinenkoti.fi>
-References: <20260809101439.4798-1-wiza@saarinenkoti.fi>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] ASoC: tas2783: fix stereo split and resume on a two-amp pair
+Message-ID: <20260809101541.4969-1-wiza@saarinenkoti.fi>
 Feedback-ID: 137674609:user:proton
-X-Pm-Message-ID: 816cfb66c2660c63b66cf1667aaec03968cce477
+X-Pm-Message-ID: 2c436fecc95f6d378ca0e3538b290447f28b7721
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,115 +43,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Describe the SoundWire topology of the HP OmniBook X Flip 14-kc0xxx
-(board 8EA1): two TAS2783 smart amplifiers aggregated on link 0 (unique
-IDs 0xC and 0x9, group_position 0 and 1, name prefixes tas2783-1 and
-tas2783-2) driving the left and right internal speakers, and an RT712-VB
-on link 1 providing the headset jack on AIF1 and the internal DMIC array
-on AIF3. The RT712 amplifier path (AIF2) is left unused because the
-speakers are driven by the external TAS2783 pair, so the existing
-jack_dmic_endpoints array describes it exactly.
+Three fixes for the SoundWire TAS2783 driver, found while bringing up an
+HP OmniBook X Flip 14-kc0xxx, which carries two TAS2783 amplifiers
+aggregated on one link. Two of the three are not board-specific: as far as
+I can tell any machine with an aggregated TAS2783 pair is affected today.
 
-The entry is gated on snd_soc_acpi_amd_sdca_is_device_rt712_vb() so it
-does not capture a board carrying a different link 1 codec.
+Patch 1 makes deferred SDCA writes work. A Function answering
+COMMAND_IGNORED has deferred the transaction, and regmap-sdw-mbq is
+supposed to poll Entity-0 Function Status and retry -- but this driver
+neither makes that status register readable nor sets the poll interval and
+deadline, so the poll is skipped and the retry is instantaneous. Every
+deferred write fails by construction with -ENODATA.
 
-Developed with AI assistance. The assistant derived the link topology
-from the enumerated peripherals and drafted the table entry. The order
-of the two amplifier entries, which is what assigns the physical sides,
-was corrected after a listening test by the submitter.
+Patch 2 makes an aggregated pair render stereo. Both amplifiers currently
+play the same channel, so right-channel content is inaudible. The SDCA
+control that would select the channel, the UDMPU23 Cluster Index, turns
+out not to be implemented on this part -- a genuine device read of it
+returns -ENODATA -- so the split is done host-side, by claiming a single
+channel per amplifier and dropping the pair out of the SoundWire core's
+mirror mode. That is exposed as a boolean "RX Single Channel Switch",
+off by default, so the change is opt-in from the machine's UCM profile.
 
-All hardware measurements quoted above were run by the submitter on the
-affected machine. The submitter has reviewed the change, understands it
-and takes responsibility for it.
+The switch deliberately does not name a side. sdw_compute_slave_ports()
+advances the payload offset by the popcount of ch_mask and never looks at
+which bit is set, so a driver cannot choose which channel an amplifier
+renders; that follows from the amplifier's position in the slave iteration
+order, i.e. from the machine driver's codec order. An earlier version of
+this series exposed an rt1316/rt1318-style "RX Channel Select" enum with
+Left/Right values, and I am glad it did not go out: those values were
+measured to be inert, and the control would have promised an ABI the bus
+allocator cannot honour.
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Ville Saarinen <wiza@saarinenkoti.fi>
----
- sound/soc/amd/acp/amd-acp70-acpi-match.c | 56 ++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+Patch 3 stops the amplifiers losing their firmware tuning on resume.
+Firmware is downloaded with sdw_nwrite_no_pm(), which bypasses the regmap
+cache, so the cache keeps stale reg_defaults for every firmware-owned
+register; the regcache_sync() on resume then writes those defaults back
+over live firmware values. On the affected machine the speakers are dead
+after every system resume and stay dead until reboot.
 
-diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/a=
-md-acp70-acpi-match.c
-index ccd01152c..815e088b4 100644
---- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-@@ -659,6 +659,56 @@ static const struct snd_soc_acpi_link_adr acp70_rt721_=
-l1u0_tas2783x2_l1u8b[] =3D {
- =09{}
- };
-=20
-+static const struct snd_soc_acpi_adr_device rt712_vb_l1u0_adr[] =3D {
-+=09{
-+=09=09.adr =3D 0x000130025D071201ull,
-+=09=09/*
-+=09=09 * On this platform speakers are provided by two TAS2783 amps,
-+=09=09 * so the AIF2 amp path is left unused: jack + DMIC only.
-+=09=09 */
-+=09=09.num_endpoints =3D ARRAY_SIZE(jack_dmic_endpoints),
-+=09=09.endpoints =3D jack_dmic_endpoints,
-+=09=09.name_prefix =3D "rt712"
-+=09}
-+};
-+
-+/*
-+ * Unique ID 0xC drives the left speaker and 0x9 the right one. The order =
-of the
-+ * entries matters as much as the endpoints: asoc_sdw_parse_sdw_endpoints(=
-)
-+ * appends them to the dailink in array order and sdw_compute_slave_ports(=
-)
-+ * hands out payload block offsets in that same order, so the first entry =
-is the
-+ * one that receives channel 0.
-+ */
-+static const struct snd_soc_acpi_adr_device tas2783x2_l0u9c_adr[] =3D {
-+=09{
-+=09=09.adr =3D 0x00003C0102000001ull,
-+=09=09.num_endpoints =3D 1,
-+=09=09.endpoints =3D &spk_l_endpoint,
-+=09=09.name_prefix =3D "tas2783-1",
-+=09},
-+=09{
-+=09=09.adr =3D 0x0000390102000001ull,
-+=09=09.num_endpoints =3D 1,
-+=09=09.endpoints =3D &spk_r_endpoint,
-+=09=09.name_prefix =3D "tas2783-2",
-+=09},
-+};
-+
-+/* HP OmniBook X Flip 14-kc0xxx (board 8EA1) */
-+static const struct snd_soc_acpi_link_adr acp70_tas2783x2_l0u9c_rt712_vb_l=
-1u0[] =3D {
-+=09{
-+=09=09.mask =3D BIT(0),
-+=09=09.num_adr =3D ARRAY_SIZE(tas2783x2_l0u9c_adr),
-+=09=09.adr_d =3D tas2783x2_l0u9c_adr,
-+=09},
-+=09{
-+=09=09.mask =3D BIT(1),
-+=09=09.num_adr =3D ARRAY_SIZE(rt712_vb_l1u0_adr),
-+=09=09.adr_d =3D rt712_vb_l1u0_adr,
-+=09},
-+=09{}
-+};
-+
- static const struct snd_soc_acpi_endpoint rt721_endpoints[] =3D {
- =09{ /* Jack Playback/Capture Endpoint (AIF1) */
- =09=09.num =3D 0,
-@@ -704,6 +754,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_ma=
-chines[] =3D {
- =09=09.links =3D acp70_tas2783_2,
- =09=09.drv_name =3D "amd_sdw",
- =09},
-+=09{
-+=09=09.link_mask =3D BIT(0) | BIT(1),
-+=09=09.links =3D acp70_tas2783x2_l0u9c_rt712_vb_l1u0,
-+=09=09.machine_check =3D snd_soc_acpi_amd_sdca_is_device_rt712_vb,
-+=09=09.drv_name =3D "amd_sdw",
-+=09},
- =09{
- =09=09.link_mask =3D BIT(0) | BIT(1),
- =09=09.links =3D acp70_rt1320_l0_rt722_l1,
+Patch 3 is the one I would most like reviewed on its own merits. It is the
+smallest of the three, it is not specific to a stereo pair, and its
+symptom is severe.
+
+The three are independent and can be taken separately, though patch 2
+builds on the mbq configuration touched by patch 1.
+
+Testing
+=3D=3D=3D=3D=3D=3D=3D
+
+All three are running on the affected machine and the whole stack works
+from a cold boot with no manual steps, including across suspend/resume.
+
+Patch 2 was measured rather than judged by ear: a 1 kHz tone that is
+left-only for its first half and right-only for its second, played as one
+continuous stream, isolating each amplifier by muting the other and
+capturing on the machine's internal DMIC array, with every condition
+normalised against both amplifiers muted. Each run was verified from the
+kernel log to have re-run hw_params with the setting under test, since the
+switch is read at hw_params and a sink that never suspends will not pick
+up a change. Numbers are in that patch's changelog; briefly, with the
+switch on each amplifier carries one side and the other side sits within
+0.4 dB of the muted floor, and with it off both amplifiers render the same
+left channel. Ear tests on this hardware are unreliable -- the two
+speakers are close enough together that localisation gave a confidently
+wrong answer more than once.
+
+Patch 3's mechanism was confirmed by cache-bypassing debugfs register
+reads taken while the amplifiers were dead, showing all 12 firmware-owned
+registers reverted to their defaults. The fix has been through one
+suspend/resume cycle with the speakers still working; that confirmation is
+behavioural and I have not re-read the registers after a resume on the
+fixed build.
+
+Caveats
+=3D=3D=3D=3D=3D=3D=3D
+
+The hardware testing above was done on v7.1.6 with clang. The three
+patches apply to the master commit named below and have been compile-
+tested there with gcc and W=3D1, with no new warnings; the series adds
+exactly two new external references, regcache_drop_region (EXPORT_SYMBOL_
+GPL) and snd_ctl_boolean_mono_info (EXPORT_SYMBOL), established by diffing
+nm -u output against the unpatched objects. They have not been run on a
+master kernel. I have exactly one TAS2783 machine, so the stereo split in
+patch 2 is verified on one board with two amplifiers and nothing else.
+
+Tool disclosure, per Documentation/process/generated-content.rst
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+This work was done in extended interactive sessions with Claude (Anthropic,
+model claude-opus-5) acting as a coding and debugging assistant, and a
+substantial amount of the analysis and of the patch text originated with
+it. All three patches carry an Assisted-by tag as described in
+Documentation/process/coding-assistants.rst.
+
+The division of work:
+
+  - The assistant did the register-level analysis, read the relevant core
+    code, formed the hypotheses, wrote the driver changes and the
+    measurement harness, and drafted the changelogs.
+  - I ran everything needing root or physical access, rebooted into each
+    build, and ran the acoustic measurements.
+  - No single prompt produced these patches. It was iterative over roughly
+    a day, and a fair number of the assistant's intermediate conclusions
+    were wrong: that one amplifier was dead, that the firmware page-0
+    configuration set the channel, that the Cluster Index could be made to
+    work from the driver, and -- latest and most relevant to what you are
+    reading -- that an enum could assign a specific side to each
+    amplifier. That last one survived into a fully drafted patch whose
+    changelog claimed a per-side assignment, and was caught only by
+    re-reading the bus allocator and then measuring both amplifiers set to
+    the same value. Each wrong turn was discarded only because it was
+    measured. The dead ends around the Cluster Index are summarised in
+    patch 2's changelog, because they are the reason the split is done
+    host-side.
+
+I have reviewed all three patches, I understand what they do, and I take
+responsibility for them.
+
+Ville Saarinen (3):
+  ASoC: tas2783: let regmap-sdw-mbq poll for deferred transactions
+  ASoC: tas2783: add RX Single Channel Switch to split a two-amp stereo
+    pair
+  ASoC: tas2783: drop firmware-owned registers from the regmap cache
+
+ sound/soc/codecs/tas2783-sdw.c | 157 +++++++++++++++++++++++++++++++++
+ 1 file changed, 157 insertions(+)
+
+
+base-commit: 06cf61899d6498b33e4b7c87d99d5bd471ccc375
 --=20
 2.55.0
 
