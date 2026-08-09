@@ -1,43 +1,43 @@
-Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
+Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAF63C7E0E;
-	Sun,  9 Aug 2026 10:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4091F3C3428
+	for <linux-sound@vger.kernel.org>; Sun,  9 Aug 2026 10:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786270584; cv=none; b=tCr0X802q8Az8VG6ODjpOaGa+ES8sS7FDjezkHd/IrhKp/Vgb/A0C4ZTFRzjEzUdZr3051/TTdan0zz3852HV81JtNf3b8K8IkMKjJA+XszCr5wFP4c6yRsj1R001AuNsecqbHVN+BcJnLuJ4tHIja9qzV95iwXaIyLaehcpI6c=
+	t=1786270586; cv=none; b=RGVGpDXIYWkXaPDtj4zwENflBYBFsfotXkQUxf00bBDuJh7AycJEcRotBxBugWhXdHS26cUCujIMo2e2R92S+twpbESr3WcXFEbZ+BwREFdkiT34xAsiXvH52/NjV3UBAA8WAf1d3236jlUgUkfDFGzsqYnBlanOV559ZavmJhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786270584; c=relaxed/simple;
-	bh=xAvKIMSarrMteQnXUSTrrN4SGnb0sKQGx0wtYG5MyTA=;
+	s=arc-20240116; t=1786270586; c=relaxed/simple;
+	bh=TPFUcX3A7JoyNEA3ac/a7vTtA/ydvSA0ivyyMlAHRYI=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S6GZhi+DWiLhynR+ZousWnRJ/nyQgJL5SpFztKxD1edR01+HENnBEYlAR66E8XUJ/I76293+365bAzBlc9QYBgFOVI6+GDiFHplwfx5Hv/MTZwrlJUuE7AlOsYKScUub8dHIvy3VQLJy5dwU4dD1tmdqn9gNmHGSfsYmWbCVTxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=iGIjdfS/; arc=none smtp.client-ip=85.9.206.169
+	 MIME-Version:Content-Type; b=Qy1FRX7eC5DWimG1gPU94lKbhiFdVU9cUPzgIuTZSxo35DmagkAfa7fKwGdUl/bySRDWQhxEgaKrfZK4ocL60M0YqOfQH7+cc/yLWiK4geokNGxO4jYmFecO0ZHTfl/T9VsjlYzqbUt6nNrQEObI6FtEmInBjd2jm7Yj+F2Tyls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=CHnEQxpf; arc=none smtp.client-ip=57.129.93.249
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=saarinenkoti.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="iGIjdfS/"
+	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="CHnEQxpf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saarinenkoti.fi;
-	s=protonmail3; t=1786270566; x=1786529766;
-	bh=bLGBl5iyOkFHomVE5ec7XpLAZu5Q7qxrFW/yQFBlTkY=;
+	s=protonmail3; t=1786270574; x=1786529774;
+	bh=6NdnXekWMWGk/nB2bensin1fqZep1VzxSs+L/LrylAo=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=iGIjdfS/S4OhzAQI0JOsvfWApCsC1O1sNKUqpKEnLeogSX/r3X75R6iUmni94NFfd
-	 ltOBOILFwZFdtJDLFO8AZh0+GCQZeYCWWBicDBv3JUIZoVN5838mcHkDxNf0CObBms
-	 LUPUBgH5ADm6+MD+Oe9WPWtNNywMVmLCaWh30ouoIM/R9vRHTyXU6DRxKQA/n/fF7w
-	 7N40C/tLbutrE1Bh9dVv18Qrh3QcjBflOb6G8OHPGH+HXVJFVjfw03zvDOovjQZP9n
-	 moyIETJk2paZokmrGSgj1KE/624uRLpRUCOi8peMkV9AYdBc1BhIi2XNy9Z4vu+W2O
-	 pOnX6LD3NNQJQ==
-Date: Sun, 09 Aug 2026 10:16:01 +0000
+	b=CHnEQxpflqwiXfM7UGZmo2eLngNrzEvF4BnWHXy3imdS367HF2rEI1+9KBoX6H87h
+	 s8TELUTZmqZu+Z9wW7UwZGWgnXMAf7qAWgZO12Am5OmHC/DIGAcToa9uIfLTen6vWj
+	 cssxR4TYLqLDLG8A3xkGgm1qlixCaQflnWqv/sBuYjxks3gpq06+yllAp+tWwlFWlD
+	 3WbZEznb8zrM6I/9PKDdIAFPuX/eRSNcksXsWKdh+Yl+/108j9hSLkg8mO14PXefsO
+	 Sst55d4rJoYGgPyXIXtMHrbixIA+0fCVP+GXr4M0ZsjaDuaDc/L4mcx8C3fwYef0T5
+	 lKD5W35gjAgeA==
+Date: Sun, 09 Aug 2026 10:16:10 +0000
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
 From: Ville Saarinen <wiza@saarinenkoti.fi>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] ASoC: tas2783: let regmap-sdw-mbq poll for deferred transactions
-Message-ID: <20260809101541.4969-2-wiza@saarinenkoti.fi>
+Subject: [PATCH 3/3] ASoC: tas2783: drop firmware-owned registers from the regmap cache
+Message-ID: <20260809101541.4969-4-wiza@saarinenkoti.fi>
 In-Reply-To: <20260809101541.4969-1-wiza@saarinenkoti.fi>
 References: <20260809101541.4969-1-wiza@saarinenkoti.fi>
 Feedback-ID: 137674609:user:proton
-X-Pm-Message-ID: b57dfde39cfeb5c40499c7b9378a1af959f785e3
+X-Pm-Message-ID: ed479765ff40cd4976a2a049a6a8281db4b4337a
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,37 +47,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-In SDCA, a Function answering COMMAND_IGNORED to a Control write has
-deferred the transaction rather than rejected it. regmap_sdw_mbq_write()
-handles that by calling regmap_sdw_mbq_poll_busy(), which waits for the
-Entity-0 Function Busy bit to clear and then retries once. Neither half
-of that works for this codec:
+The firmware image is downloaded with sdw_nwrite_no_pm(), which writes
+straight to the peripheral and bypasses the regmap cache. The cache keeps
+holding the tas2783_reg_default[] entries for every register the firmware
+image owns, so cache and device disagree from the moment the download
+completes.
 
- - poll_busy only polls if ->readable_reg() accepts the Entity-0 Function
-   Status address. tas2783_readable_register() answers out of
-   tas2783_sdca_mbq_size(), which has no case for that address, so the
-   poll is skipped and the core falls through to a bare
-   fsleep(cfg.timeout_us).
+tas2783_sdca_dev_resume() then does regcache_cache_only(false) followed by
+regcache_sync(), and regcache_sync() writes out every cached register. On
+a system resume the peripheral stays attached and keeps its device state,
+so hw_init is still set and the firmware is never re-downloaded - but the
+sync stamps the stale defaults back onto the device on top of the firmware
+tuning that is still live there.
 
- - tas2783_mbq_cfg sets only .mbq_size, so timeout_us and retry_us are
-   both 0. The fallback wait is fsleep(0) and the retry is therefore
-   instantaneous.
+On an HP OmniBook X Flip 14, which carries two aggregated TAS2783 amps,
+this was measured with a cache-bypassing debugfs read taken after an
+s2idle cycle: all 12 registers where the firmware image differs from the
+defaults table had reverted to their default value on both amps, and the
+two amps had become byte-identical over 0x800001-0x800040. Among the lost
+values are the four page-0 bytes that give each amp of a stereo pair its
+own configuration. The speakers are silent after resume and stay silent
+until the machine is rebooted.
 
-Every deferred write consequently fails by construction, returning
--ENODATA and logging "Defer on undeferrable control".
+Drop each downloaded file's destination range from the cache once it has
+been written, so the cache no longer claims to know registers the firmware
+owns and regcache_sync() has nothing stale to write over them. This is
+safe: a suspend deep enough for the peripheral to actually lose its state
+also takes it UNATTACHED, which clears hw_init and triggers a full
+firmware re-download on re-attach.
 
-Add the Function Status register to the mbq size table so the poll can
-run, and to the volatile table so a later regcache_sync() never writes
-back to a status register. Mark the UDMPU23 Cluster Index deferrable and
-give the mbq cfg a poll interval and a deadline.
-
-Note the two cfg fields reach read_poll_timeout() as (sleep_us,
-timeout_us), i.e. .timeout_us is the poll interval and .retry_us the
-overall deadline -- the reverse of the kerneldoc on struct
-regmap_sdw_mbq_cfg. The values here follow the code, which is what runs.
-
-Developed with AI assistance. The assistant traced the -ENODATA into
-regmap_sdw_mbq_poll_busy() and drafted the fix.
+Developed with AI assistance. The assistant diagnosed the interaction
+between the cache-bypassing firmware download and the resume-time
+regcache_sync(), and drafted the patch.
 
 All hardware measurements quoted above were run by the submitter on the
 affected machine. The submitter has reviewed the change, understands it
@@ -86,81 +87,42 @@ and takes responsibility for it.
 Assisted-by: Claude:claude-opus-5
 Signed-off-by: Ville Saarinen <wiza@saarinenkoti.fi>
 ---
- sound/soc/codecs/tas2783-sdw.c | 37 ++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ sound/soc/codecs/tas2783-sdw.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.=
 c
-index 3d0b11654..5a7ac6224 100644
+index d1addd8ae..f79e730b0 100644
 --- a/sound/soc/codecs/tas2783-sdw.c
 +++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -423,6 +423,13 @@ static int tas2783_sdca_mbq_size(struct device *dev, u=
-32 reg)
- =09case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU23, 0x01, 0):
- =09case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU23, 0x01, 1):
- =09case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT25, 0x04, 0):
-+=09/*
-+=09 * Entity 0 Function Status. regmap_sdw_mbq_poll_busy() only polls the
-+=09 * Function Busy bit if ->readable_reg() accepts this address; without
-+=09 * it the core drops into a bare fsleep(cfg.timeout_us) and, with that
-+=09 * left at 0, retries a deferred transaction instantly and fails.
-+=09 */
-+=09case SDW_SDCA_CTL(1, 0, SDCA_CTL_ENTITY_0_FUNCTION_STATUS, 0):
- =09=09return 1;
-=20
- =09case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT26, 0x10, 0):
-@@ -505,6 +512,8 @@ static bool tas2783_volatile_register(struct device *de=
-v, u32 reg)
- =09case 0x400 ... 0x440: /* Data port 4. */
- =09case 0x500 ... 0x540: /* Data port 5. */
- =09case 0x800001:
-+=09/* Function Status is a live status word; never let the cache hold it. =
-*/
-+=09case SDW_SDCA_CTL(1, 0, SDCA_CTL_ENTITY_0_FUNCTION_STATUS, 0):
- =09=09return true;
-=20
- =09default:
-@@ -525,8 +534,36 @@ static const struct regmap_config tas_regmap =3D {
- =09.use_single_write =3D true,
- };
-=20
-+/*
-+ * The amp answers COMMAND_IGNORED (-ENODATA) to a UDMPU23 Cluster Index w=
-rite,
-+ * which in SDCA terms means the Function deferred the transaction. Declar=
-ing it
-+ * deferrable stops regmap-sdw-mbq warning about it and documents the inte=
-nt;
-+ * the poll-and-retry in regmap_sdw_mbq_write() runs either way.
-+ */
-+static bool tas2783_sdca_deferrable(struct device *dev, unsigned int reg)
-+{
-+=09switch (reg) {
-+=09case SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_UDMPU23,
-+=09=09=09  TAS2783_SDCA_CTL_UDMPU_CLUSTER, 0):
-+=09=09return true;
+@@ -912,6 +912,26 @@ static void tas2783_fw_ready(const struct firmware *fm=
+w, void *context)
+ =09=09=09=09"FW download failed: %d", ret);
+ =09=09=09break;
+ =09=09}
 +
-+=09default:
-+=09=09return false;
-+=09}
-+}
++=09=09/*
++=09=09 * The firmware image is written with sdw_nwrite_no_pm(), which
++=09=09 * bypasses the regmap cache. The cache therefore keeps holding
++=09=09 * the stale reg_defaults entries for every register the
++=09=09 * firmware owns, and the regcache_sync() done on resume writes
++=09=09 * those defaults back out over the firmware tuning. That wipes
++=09=09 * the per-amp configuration, including the channel assignment,
++=09=09 * and leaves the speakers silent until the next full re-init.
++=09=09 *
++=09=09 * Drop the firmware-owned registers from the cache so nothing
++=09=09 * stale can ever be synced over them. This is safe because a
++=09=09 * suspend deep enough to lose device state also takes the
++=09=09 * peripheral UNATTACHED, which clears hw_init and triggers a
++=09=09 * full firmware re-download on re-attach.
++=09=09 */
++=09=09if (file->length)
++=09=09=09regcache_drop_region(tas_dev->regmap, file->dest_addr,
++=09=09=09=09=09     file->dest_addr + file->length - 1);
 +
- static const struct regmap_sdw_mbq_cfg tas2783_mbq_cfg =3D {
- =09.mbq_size =3D tas2783_sdca_mbq_size,
-+=09.deferrable =3D tas2783_sdca_deferrable,
-+=09/*
-+=09 * NB: regmap_sdw_mbq_poll_busy() passes these to read_poll_timeout() a=
-s
-+=09 * (sleep_us, timeout_us) -- i.e. timeout_us is the poll interval and
-+=09 * retry_us the overall deadline, the opposite of what the kerneldoc on
-+=09 * struct regmap_sdw_mbq_cfg says. Values below follow the code, which
-+=09 * is what actually runs (checked against mainline master too).
-+=09 */
-+=09.timeout_us =3D 1000,
-+=09.retry_us =3D 100000,
- };
-=20
- static s32 tas2783_digital_getvol(struct snd_kcontrol *kcontrol,
+ =09=09cur_file++;
+ =09}
+ =09mutex_unlock(&tas_dev->pde_lock);
 --=20
 2.55.0
 
