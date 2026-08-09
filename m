@@ -1,87 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C6D371889;
-	Sun,  9 Aug 2026 10:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB133793AC;
+	Sun,  9 Aug 2026 10:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786271428; cv=none; b=e0kBQoX22aseX40qLP515EzUP9NLOLJNsRdoGgkuwdeNdQygyJ9aF2/WJ0OyZH8zPz7oWaUXX0UhhRVEoao9VNeF+TAy8g7epF6X+zVY/ztZsQi1zKj1MslhkqFNd8ohdfmCkLX6gtdCWVMY/lPINf2MGGAxLFzKBI9yA2WBoxs=
+	t=1786271471; cv=none; b=ExuwZn9+BR+VmvTtSueAIfpkFIAiYSJpExTviHNzAwXasa8tyO+ZpQGLJ1lnBX6eZZaTAwSMOOBHr3dTDULq3sy5mvrAcBDjsEew0AG9rgQPmiq9z1bgz7DxuY3HBf46z7L51EeK1GrHnD0iKzbZ5CxjAPP+thlD5u9tq5JynAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786271428; c=relaxed/simple;
-	bh=TBDabGiPe89/GXEvr1X0Zop4B48hsrGO3bWXoBsxL6g=;
+	s=arc-20240116; t=1786271471; c=relaxed/simple;
+	bh=VVzATvCJKYVfUkT1PeCQqkw0oOd6aVbAPq7aVel4aWM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eYIXf5MpSVJVvV0RUNSTqoOso04/COK0r0T5RSI6tWS41iQim/jxtLxxyTEzTGWex9LkZmxLHtmeYXLk9YME2Nd95fWUSiIu+SkrLd45Ay7eu+GkGO330MP5fNtUc5eOBm+9YTbocaLHe2Xj7GsyaY9YusYP0QYtdic8cEhpMIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e5PCd/UE; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IFTinSrF; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0H2aa9ox; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XoLYFUIX; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=uWnJTosSedHk4tbeg32ePCXSNvFwd2AZOpLa3lL2bDDLfSgGqZTREhMGe6V8QaDsdWa2kXA1o+FvmUoEcYivDruG2dhRvrTyh6XWE6vFEG6i9XsPL/8i5oddNAkwGKIFLP4LC4gmqrll9GVqxEXPnymIy0hsq/Emtooih0qz++Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oY3npLap; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XkUifjqG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=f1OOc32x; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=evTs294L; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e5PCd/UE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IFTinSrF";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0H2aa9ox";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XoLYFUIX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oY3npLap";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XkUifjqG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="f1OOc32x";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="evTs294L"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 097CD8130E;
-	Sun,  9 Aug 2026 10:30:17 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 17A5842E3;
+	Sun,  9 Aug 2026 10:30:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786271421; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786271463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
-	b=e5PCd/UESNGtH+kgxq7kJhL4vAPqGnoPIqBWXvWzGgWUCE4RaWmv7n/89mtLwcs7yDy1qd
-	vow9Oi+reFUycD6npv2tHSLMVXgqYNpILykI9g/LyFUIZsyTf1+Wn7lR2FKpzeJnnWAZbY
-	Z8iMA5jr6aA14GGFHIy65B0KEKBklRc=
+	bh=C4MQmEZ1jVktrdZ/Sdj6XuR/RWJ0jaz/O3XB5SmQt2M=;
+	b=oY3npLapq8LVTeLOgpriVG4AilvXnzrKMsqnzTXaL4yIIS8UE4LLnEd2s8mUiYTwfkfoTe
+	ZRsgk/E8Nz5gqU4g1P5E/GV5ESUDuCUs+lXxTDFYtuRggh56+oxEPvBwubFoFzhsaCBUvT
+	EphRdE5anoYb8DriUaRDGuR/mc5P5Fw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786271421;
+	s=susede2_ed25519; t=1786271463;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
-	b=IFTinSrFDW2VdZEcXjTn8DmWvIma2C+xByBpZy641pH3c1fAKjflBFQLoV7aawOqAp0Ph2
-	2laChX2VbdfnnwCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=C4MQmEZ1jVktrdZ/Sdj6XuR/RWJ0jaz/O3XB5SmQt2M=;
+	b=XkUifjqGDCVLQojlUpDrK/MoI8/XAeGdeW/PVAnIeZxQO4MjtWza8oQ33hfzbGy9XVG5Z5
+	sZ0RQo2cyn/ruzCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=f1OOc32x;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=evTs294L
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786271417; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786271459; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
-	b=0H2aa9oxl0S95TkBSGARHCGK9LBPZRY/cMpVFGb8aRfIsFICWXhHRwJguvcGuIxYY9MvnT
-	ZRhEhBFwaH6E4zYOExDek30t0LHV/CwWJEUvZBOfXTVmclF9rQ+/vqUE5Ec3K1r9qehGVu
-	qYlTxCaedH0Eo206GOqWUG5a00n4sM8=
+	bh=C4MQmEZ1jVktrdZ/Sdj6XuR/RWJ0jaz/O3XB5SmQt2M=;
+	b=f1OOc32xz4uiJSYcdKkLG+TBmJvS1cXxH0peqwCBprmDPJ1ey8sKil9JpEfsL7BmRkckys
+	M6YnA23vn+mkmhXyhc/sGWI5Qa10aZYdJPjm3wfwQJUEDddTK1tOWd+DtMxRWmSGeCIA6q
+	g9fYJXVllPq7fWKjiIsdoFzzCL8OQQY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786271417;
+	s=susede2_ed25519; t=1786271459;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=i9UcVgACT95dfu7aNdTddGu4dM1yDgUtGS+iL8Ptzx0=;
-	b=XoLYFUIXfM4WP6VgI9KQLSoPwyWuehToUKsL+9aPhKqdfpkpatLKmA/bJwRIKCTk7SASuC
-	vuXE2aknltn62tDQ==
+	bh=C4MQmEZ1jVktrdZ/Sdj6XuR/RWJ0jaz/O3XB5SmQt2M=;
+	b=evTs294LT03gtDFq308626TBoEG8HRfqQZqAXvMQa8OrvWCUx+ZngZvgvYLHQFzoOJphKs
+	+fzN/eavgwKCKyCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9057779B2;
-	Sun,  9 Aug 2026 10:30:16 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E21C1779B2;
+	Sun,  9 Aug 2026 10:30:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AbJML7hWeGoLXgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 09 Aug 2026 10:30:16 +0000
-Date: Sun, 09 Aug 2026 12:30:16 +0200
-Message-ID: <87fr0na8nb.wl-tiwai@suse.de>
+	id sDK/NeJWeGpBXwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 09 Aug 2026 10:30:58 +0000
+Date: Sun, 09 Aug 2026 12:30:58 +0200
+Message-ID: <87ecg7a8m5.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: JJ Macalinao <jj@macalinao.org>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Ajrat Makhmutov <rauty@altlinux.org>
+Cc: tiwai@suse.de,
 	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ALSA: usb-audio: add QUIRK_FLAG_ALWAYS_SET_RATE for Mackie DLZ Creator XS
-In-Reply-To: <20260808172726.1107550-1-jj@macalinao.org>
-References: <1c54822e-8147-4ffe-b033-aa4ab966c872@macalinao.org>
-	<20260808172726.1107550-1-jj@macalinao.org>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable headset mic on F+ FLAPTOP r
+In-Reply-To: <20260808185500.2564948-1-rauty@altlinux.org>
+References: <20260808185500.2564948-1-rauty@altlinux.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,94 +89,67 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
+X-Spam-Score: -3.51
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 17A5842E3
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[altlinux.org:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,alsa-project.org:url]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Sat, 08 Aug 2026 19:27:26 +0200,
-JJ Macalinao wrote:
+On Sat, 08 Aug 2026 20:55:00 +0200,
+Ajrat Makhmutov wrote:
 > 
-> set_sample_rate_v2v3() returns early when the clock already reports the
-> requested rate:
+> The BIOS of the F+ FLAPTOP r laptop (Realtek ALC897, SSID 1e63:6d9a)
+> declares only pin 0x1b, the headphone output of the 3.5 mm combo jack.
+> Every other external pin is left at 0x411111f0, so the headset mic pin
+> 0x19 is never parsed and no headset mic input exists. The pin is wired
+> on this board - retasking it makes the headset mic record.
 > 
-> 	prev_rate = get_sample_rate_v2v3(chip, fmt->iface,
-> 					 fmt->altsetting, clock);
-> 	if (prev_rate == rate)
-> 		goto validation;
+> Reuse ALC897_FIXUP_HP_HSMIC_VERB, which already sets the pin config this
+> machine needs: 0x19 as a headset mic without its own presence detect.
+> Only 0x1b reports jack presence here, so a mic pin with presence detect
+> would leave the driver in auto-mic mode waiting for an event that never
+> arrives.
 > 
-> A device advertising exactly one sample rate always takes this branch, so
-> it never receives a SET_CUR for CS_SAM_FREQ_CONTROL at all.
+> Without the quirk the generic parser retasks the lone headphone pin as
+> an input instead. That surfaces as a "Headphone Mic" input which records
+> only the internal mic bleed, so the headset mic appears present but dead.
 > 
-> The Mackie DLZ Creator XS (0a73:003a, 14 in / 4 out, 48 kHz only) requires
-> that write.  Without it the device drops off the USB bus roughly 0.2-1.8 s
-> into any stream, clearing its port CONNECTION bit; captured audio is
-> byte-correct until the instant it vanishes.
+> Tested on ALT Linux, kernel 6.12, by recording a CTIA headset mic on the
+> combo jack with the internal mic as a reference.
 > 
-> USBPcap traces of a cold-booted device on Windows show SET_CUR 48000 issued
-> unconditionally on every stream start, followed by clean streaming.  The
-> device is otherwise driven with plain class-compliant UAC2 - it also works
-> on iOS, which cannot load a vendor driver - so no vendor-specific
-> initialization is involved.
+> ALSA info before the patch:
+> https://alsa-project.org/db/?f=18363eddea933baee100c9bf461d0e5cf74c8de2
 > 
-> The device is self-powered, so the resulting state survives a USB replug:
-> initializing it on any host that issues the write leaves it working on
-> Linux until it is power-cycled, which made the failure look intermittent.
+> ALSA info after the patch:
+> https://alsa-project.org/db/?f=48ae2cd7aaf1eb0f24639ce83cd38cfd93b25f76
 > 
-> Add a quirk flag rather than dropping the early exit, since the opposite
-> requirement also exists in-tree: QUIRK_FLAG_FIXED_RATE suppresses rate
-> setting for single-rate devices (JBL Quantum610/810).  The two behaviors
-> are device-dependent and cannot both be the default.
-> 
-> A/B on identically cold-booted hardware, same kernel, same port, repeated
-> twice:
-> 
->   without the flag  device dropped after 5-6 s, then again after 3-4 s
->   with the flag     20 s playback followed by 20 s of 14-channel capture,
->                     960000 frames, zero re-enumerations
-> 
-> This change was developed with an AI coding assistant.  The assistant did
-> the trace analysis that located the bug and wrote the patch and this
-> changelog; the hardware testing, the cold-boot cycles and the decision to
-> submit were the author's.  Several earlier hypotheses it proposed - URB
-> queue depth, isochronous packet under-allocation, endpoint start ordering -
-> were disproven by measurement before this one.
-> 
-> The bug was located with usbmon on Linux and USBPcap on Windows, by
-> diffing an enumeration capture of a cold-booted device on each host.
-> Verified on physical hardware by the A/B above.
-> 
-> Assisted-by: Claude-Code:claude-opus-5
-> Signed-off-by: JJ Macalinao <jj@macalinao.org>
-> ---
-> v2: skip the GET_CUR entirely when the flag is set, per Takashi's review,
->     rather than issuing it and discarding the result.
-> 
->     prev_rate is initialized to 0 because it is still read below - the
->     !cur_rate fallback and the TEAC 0x0644 block. That is not a new state:
->     get_sample_rate_v2v3() already returns 0 when the GET fails, so both
->     paths handle it today.
-> 
->     Retested on cold-booted hardware, same unit and port: 20 s playback
->     followed by 20 s of 14-channel capture, 960000 frames, no
->     re-enumeration.
+> Cc: stable@vger.kernel.org # 6.12.x
+> Signed-off-by: Ajrat Makhmutov <rauty@altlinux.org>
 
 Applied to for-next branch now.  Thanks.
 
