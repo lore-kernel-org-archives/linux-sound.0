@@ -1,159 +1,124 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A323C1D43;
-	Mon, 10 Aug 2026 11:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EEF3D669B;
+	Mon, 10 Aug 2026 12:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786362057; cv=none; b=pZ6jGmWPsrCNWaWW4brIExVCXb57N9kyIkUNtuWEML34LH25RqrMj+Peg70y1qKiaArFVrBlQOF4n/lYzdKfeAjxIm55c6+QermD5058FBTJ4lXHqlsMbyoTbRrrchsDDtGRcW0yRJzKkZGJt3dzl/KcFRcXJ51qVxB0FRIWHRI=
+	t=1786365603; cv=none; b=NCqwUB1SkFZ9VRxz4VwvT/hFHiLSExeLdP3DkhidunE3LIgWJD+p0ILPZPz41sA1zMsqbvOJWXbab1pTHrVf5vZvcA4pI73q/xmL3dCHLcg1BPTPjuzbHfVYFHnfVI5nWsjyrXldTkMymsGlDpyHYFzBXW0NJsJ9y/6tuBobBAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786362057; c=relaxed/simple;
-	bh=mVqI6Pz1vVJ0I3QfoFXE/NLq9/aeaM8MmzJjg80mk9w=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HReSmOSugCIZ8qHnJJCvmXNhSYBM2sGs2d+MNgQgCXOdg059ESVmGWGc0BMH1fZ5fg1b/MHIU9jzLQiojsQPVE/i5yiwxSi1jCfxLrkTkYhPaBK43MqZ3vyYTwSMm/8oov/xdrGkoGMCNtitO03xAqTiwtB933G65q3ZqsBC3P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Cdo0sgkS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nnwKj0BE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xXrxDVu/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LkxxNh5a; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786365603; c=relaxed/simple;
+	bh=idY+TMDwbQ5ONQBtcS1ma7Z6izl5WGX4G7umMEjIKZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pZawqWhxXFufGgXYaaXnt4gfnm5dY8J47+AXVsff9yd9cDbJ9/yLR9M7DtkqijbVgNt07AlusjFXOOGUOhTwUn+xmDv97Dm5JzRqFo2LIZa2gV8YOCTDKi/+pzOuoQZT7WlyZ4d7/NQfIIsePPLEwix7mnOdLKZbc2gBWZeFN0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=8ARx8TI3; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cdo0sgkS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nnwKj0BE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xXrxDVu/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LkxxNh5a"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 44EAC3DF6;
-	Mon, 10 Aug 2026 11:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786362047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4mqieHPBKf8hwXfEzJENbzQSqAwbDI0I8thE5CGBTzY=;
-	b=Cdo0sgkSirGruPXmn/1uNv4zKS5AmjUNwsgL2UXzb9RckicjPvOKIx+rzE8u0uBkr6TITA
-	z6Isd1vxYMpbPh/gk3QcwFk5aLkilZwm5fYfT7vOh7WkzI8NkCAVjlANn2WojfEKGYfeLO
-	cv8nVnyb3Aqx18cYMCoxdH0tJ8NVJXg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786362047;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4mqieHPBKf8hwXfEzJENbzQSqAwbDI0I8thE5CGBTzY=;
-	b=nnwKj0BEHFO8u44MkO++wjOlX7RZ8al0Uh74987AiTwnI1r3+4foyQyx2aRRODimuGuglU
-	HGt6QM41HU9779Ag==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="xXrxDVu/";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LkxxNh5a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786362043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4mqieHPBKf8hwXfEzJENbzQSqAwbDI0I8thE5CGBTzY=;
-	b=xXrxDVu/ZHMnLohLvu25G21pWHqPDIuPn/wYh7Gop5ObJ0ZIPxm6ZkDyO6PcFG6SkecndG
-	/MAv3xKtmPzGHjGoBGlgIlt9wsK6gwNkd+YLBYsf4gNJYccBUpYsFrv1txJG8Gv4D+gyXL
-	uUlZFSR5WXTnoKn7XzAVbuosm/5kdqM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786362043;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4mqieHPBKf8hwXfEzJENbzQSqAwbDI0I8thE5CGBTzY=;
-	b=LkxxNh5a3hK3FRsqXF1/rEkMFqkXSUTMTcFXIKjpvYIaSPAOXcvD4DcbCKmtE/UCyLLaXL
-	jav2rHWZi3mYjMBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 145C7779B2;
-	Mon, 10 Aug 2026 11:40:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1f+UA7u4eWrHKwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 10 Aug 2026 11:40:43 +0000
-Date: Mon, 10 Aug 2026 13:40:42 +0200
-Message-ID: <87v79i8apx.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Denis Batishchev <ii343hbka@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable micmute LED on HP EliteBook 6 G1a p/n: AD3Q9ET#UUG
-In-Reply-To: <20260810061154.1575447-1-ii343hbka@gmail.com>
-References: <20260810061154.1575447-1-ii343hbka@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="8ARx8TI3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description;
+	bh=RY/1wmCxCIFM0LLRBnTLXmBpxbfVg0FeVcj6W7X9LH0=; t=1786365602; x=1787575202; 
+	b=8ARx8TI3PDgp8yyRWt3GU3iy1krWHsiSrXbJLxz137kmerIXl1MTsYcTX+3MEYDQAWVu7BWtxx6
+	fjKpt1JyJ2o9wsWOdHzz0RVHnTsSCeWOui0hZuCThrlz2ZOjeOrtd5eBM5Y6QlJbwU4qeAxcy25NK
+	MM+Q6pxd0wzaqp43mVR0IEbNtCvw2kD5gSNusU4/5Tn03UzR5EsPuzUdo5D4ZVybKVmqXSwqWtvw5
+	EgMI1qv1mFxCSflFP6TRTOgUe3DhTzkUdqp9dABBRYEi9KJLBhK/XxsHIe4SkduSStZVPIWoj4d2I
+	izBRT4VKgRrOju3JBGlRwBoxK3eaBpQu+o8g==;
+Date: Mon, 10 Aug 2026 14:39:14 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Daniel Thompson <danielt@kernel.org>, Grond <grond66@riseup.net>, Stefan
+ Leichter <sle85276@gmx.de>, Grazvydas Ignotas <notasas@gmail.com>, Tony
+ Lindgren <tony@atomide.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Lee Jones <lee@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Aaro Koskinen <aaro.koskinen@iki.fi>, Kevin Hilman
+ <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, Russell King
+ <linux@armlinux.org.uk>, Jingoo Han <jingoohan1@gmail.com>, Helge Deller
+ <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, Sen Wang <sen@ti.com>, Richard Fitzgerald
+ <rf@opensource.cirrus.com>, Arnd Bergmann <arnd@arndb.de>, Srinivas
+ Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, Kuninori Morimoto
+ <kuninori.morimoto.gx@renesas.com>, Charles Keepax
+ <ckeepax@opensource.cirrus.com>, Niranjan H Y <niranjan.hy@ti.com>,
+ letux-kernel@openphoenux.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ kernel@pyra-handheld.com, mfd@lists.linux.dev
+Subject: Re: [PATCH 15/16] backlight: remove pandora_bl
+Message-ID: <20260810143914.64d29a5c@kemnade.info>
+In-Reply-To: <DA9588C6-0238-4713-B1A1-CB2123F02028@goldelico.com>
+References: <cover.1783749722.git.hns@goldelico.com>
+	<f897f695c0e1e128d7ebb41be8dfdce4d634f552.1783749722.git.hns@goldelico.com>
+	<anmpiADsvzW39DNx@aspen.lan>
+	<DA9588C6-0238-4713-B1A1-CB2123F02028@goldelico.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -4.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 44EAC3DF6
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	DWL_DNSWL_LOW(-1.00)[suse.de:dkim];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 7bit
 
-On Mon, 10 Aug 2026 08:11:54 +0200,
-Denis Batishchev wrote:
+On Mon, 10 Aug 2026 12:45:16 +0200
+"H. Nikolaus Schaller" <hns@goldelico.com> wrote:
+
+> Hi Daniel,
 > 
-> The HP EliteBook 6 G1a (SSID 103c:8e0d) uses a Realtek ALC236 codec.
-> Without a quirk no fixup is selected and the mic-mute LED stays off.
-> It needs the same ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk as the
-> already-supported 14" variant (SSID 103c:8dfb), so add it.
+> > Am 10.08.2026 um 12:35 schrieb Daniel Thompson <danielt@kernel.org>:
+> > 
+> > On Sat, Jul 11, 2026 at 08:02:02AM +0200, H. Nikolaus Schaller wrote:  
+> >> Retire the platform specific pandora backlight driver since
+> >> it can now be replaced by twl_pm and device tree.
+> >> 
+> >> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>  
+> > 
+> > Yay!
+> > 
+> > Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org>  
 > 
-> Signed-off-by: Denis Batishchev <ii343hbka@gmail.com>
-> Cc: <stable@vger.kernel.org>
-> ---
->  sound/hda/codecs/realtek/alc269.c | 1 +
->  1 file changed, 1 insertion(+)
+> Well, there were some good comments by Sahiko to the prerequisites of this patch,
+> because it has one speciality the PWM BL driver does not handle (avoid
+> interpretation of PWM signals as W1 protocol).
 > 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index 6b36c730c..ef8beb928 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -7542,6 +7542,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8df1, "HP EliteBook 630 G12", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8df7, "HP Z66 G6", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8dfb, "HP EliteBook 6 G1a 14", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-> +        SND_PCI_QUIRK(0x103c, 0x8e0d, "HP EliteBook 6 G1a 14 (AD3Q9ET#UUG)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
->  	SND_PCI_QUIRK(0x103c, 0x8dfc, "HP EliteBook 645 G12", ALC236_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8dfd, "HP EliteBook 6 G1a 16", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
->  	SND_PCI_QUIRK(0x103c, 0x8dfe, "HP EliteBook 665 G12", ALC236_FIXUP_HP_GPIO_LED),
-
-The indent looks wrong; it needs to use hard-tabs.
-Please resubmit the corrected patch.
+> I haven't found time to work on this, so we can't remove this yet.
+> 
+> In the end it may either remain a pandora_bl driver (converted to DT)
+> or become a patch for something else.
+> 
+But then it is a TPS61161 on top of PWM, not a pandora driver.
+And then there might be just a quirk for that chip in the pwm_bl using
+triggered by a compatible. I guess the quirk is this:
 
 
-thanks,
+if (priv->old_state == PANDORABL_WAS_OFF) {
+-		/*
+-		 * set PWM duty cycle to max. TPS61161 seems to use this
+-		 * to calibrate it's PWM sensitivity when it starts.
+-		 */
+-		twl_i2c_write_u8(TWL_MODULE_PWM, MAX_VALUE, TWL_PWM0_OFF);
+-
+-		/* first enable clock, then PWM0 out */
+-		twl_i2c_read_u8(TWL4030_MODULE_INTBR, &r, TWL_INTBR_GPBR1);
+-		r &= ~PWM0_ENABLE;
+-		r |= PWM0_CLK_ENABLE;
+-		twl_i2c_write_u8(TWL4030_MODULE_INTBR, r, TWL_INTBR_GPBR1);
+-		r |= PWM0_ENABLE;
+-		twl_i2c_write_u8(TWL4030_MODULE_INTBR, r, TWL_INTBR_GPBR1);
+-
+-		/*
+-		 * TI made it very easy to enable digital control, so easy that
+-		 * it often triggers unintentionally and disabes PWM control,
+-		 * so wait until 1 wire mode detection window ends.
+-		 */
+-		usleep_range(2000, 10000);
+-	}
 
-Takashi
+Regards,
+Andreas
