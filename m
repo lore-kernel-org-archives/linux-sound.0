@@ -1,311 +1,257 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2296A35C1A0
-	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 17:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786384351; cv=none; b=o0Fo6vGakqbDRB3SHGdbJ8ZS4+5Sz7vkprwCcTNzSolmu397lCCTyb8+0v32EC3Lo2pDHks/1oi43pnE+Su/hZLXqN/JZdpQOMx7k7oW952sFK2hpraNqCvc94n1IHy510JUEz5OGKeGAJG5+CC6zHGQe+Ei0vql8XJbSVX5zB8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786384351; c=relaxed/simple;
-	bh=aliK82T6KYQxw/3hpLsCQ6N/jchY1K7iXkz58Jt/q0Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DwvdQN8QdGfG7rlN2OJjLjt5X+cpWKUE3vtJ5UuvymGORVs4V5Wrf3MO5md5Zih0q+OG3RBrUldMIWCqx+f2Aop8zSRavHedZHJgKVWuQXWkku9OdP2isQSYhC8AvDUxNJqvK9aGxiZjQxggYOlSjX65eAG9h48cVMXxDaDCs48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JSkrgMm2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WQ5HVq6V; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D346242D65;
+	Mon, 10 Aug 2026 18:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786386817; cv=pass; b=t19lYx3RKkGvEgGeTTTN2Jy9qqrb39nFAXu/6I2/JIpZQL2eg40niG0UX29Ruh9sJ/sVQrR1iY9hkr4aIxyuSMkrtmmPB8EphwJvQzEQv0RdXO25c6h06FKzTh/LwOM75+Zk5x7wB52l6gHnt5xU//3yceOeg3TZtcTV9JIlQS4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786386817; c=relaxed/simple;
+	bh=Y0lggjtUq7t4FnGr3h+/8GK5Aapn1d7YcvCZUb9d1Uc=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=QpAr0y5LMZp72dUB3xTNikNRPfu8SFB0HMTL401cAWgw5ihdsa/5ZgHMkAu4W+74cziCCcZ2yFbx7pLN2MzkygAr7feVpfWz5+1kFn3hRmZjn1TkKZSQFDn2uHRA4B8w9BjvGbmRlbrhGYPRz9LIxj9kgp8fLzGNwtP+yMiVe1Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=ljQniUtz; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=dMb3aEkL; arc=pass smtp.client-ip=81.169.146.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JSkrgMm2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WQ5HVq6V"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67AGtHDG1483448
-	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 17:52:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=i2fDcHme8fEGRpxzmxPzv/
-	MbcSjAJj5X4PquEbrTLtw=; b=JSkrgMm2gUmRFXNFlT/VDPDlhX7yEXYIyqtIWd
-	iXM9in/JtE0lQ3G1fiR876pg9fJiBcdtIlFvm/0ekIiek5kXXDess3uxE3iDixLS
-	UkWUVXuHEbUHQJi+sj3R5myS6s8D6CvirU0xnA2dpXj8FJ6Sq4Kw/IJEPYnwmJIz
-	7kWwEhZAB9CiQ0eBUmFZS53xKSt5NlO9MUBNvC+SqK8pJNg4bwIdcrkWQBDFF3V/
-	uDkVwP1KWPeD4unz7A4JwoG30SR+hH86AsPIQuD+VRlJ4HOnevoEaUI7rOqbzFHQ
-	+Q1do41S+jB7L09beyTfetXlMW0SJF8FKg8v0Kz4wpbMkktQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fyjk7882e-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 17:52:29 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2cf6acd760cso28870955ad.3
-        for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 10:52:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1786384349; x=1786989149; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=i2fDcHme8fEGRpxzmxPzv/MbcSjAJj5X4PquEbrTLtw=;
-        b=WQ5HVq6V+QerZmzfnEQHs9YWX5L8BEtAUWS+oBwNbCnLsl5Im9u8nvUH4cY1NIvub7
-         67HBbQa59nCWIkdgwFdRKvNqBwEyifDrHq58MoCqV3NWLUchMkA7ewPzc8YWD/aYq5zm
-         QdM7qAWuYIs67uyNJrZP2nlCcS0k1yHc25Z3O1CdfJ5VNvb0LmJikI2pC7qHKHtMenz1
-         lqR3QxnKsOxCapj4pJp6q3gLrwk7rdL+vRQg4+n3kDBauMmW4GhbBRV2YG3aa5H+onI8
-         cZXIEc3ACzwU55lH8ELRHjOkSnIsBrp7fCmJej3D9N3rX+vg17DYaq1l+s/fpuctJTb7
-         1lUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786384349; x=1786989149;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=i2fDcHme8fEGRpxzmxPzv/MbcSjAJj5X4PquEbrTLtw=;
-        b=oJyUSLGDBdMlNHh8uLpz35t6lvsdGZ70UIyILQkWkOakMfAPbGDC161/qQgXAM3OmC
-         bEPlIel2ntjfi1En/b6vgTpJ3FJmp+ey6FnZob+dJ0UVWwLQWsOQ0vBbvCJd/nL43FbM
-         G1K9y3qhw2l3LY4r/5Z4qoL5EK4KuZw8M7O0J0y5/Ed/RDhu1qoa431lWV4iRZzSzn7g
-         /EELTMblodJr79GYApKFsQkp+TpEl0zEgIPM1Ji+ggyCMNltXoddd+bWt9DHSNb8Mwuy
-         MEhUw45v6VpOqtvVu7RkyUK9gE+3GCBiAq2JaPZ47w4BfvV9pKEWDhdJ1eIq0E4gGVph
-         IqNA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpcr65Yu7RD+rKUWlHw1XoJzQ+xqr3K/ZIwhIpLsNt5wy5ZHujgdpP6PUwerK5n1ucBqk8dnbwFJYlvkg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyzps0vHzbDDFeM0XUezL2WyE018lHY7Rvs2gjm7GTH1mDU4T+T
-	lamxWqd1AHW+c0wyvQ9OG7RQfFw+L2gYin+U6NbVww0nquOP1Cut53VI7I6bSGTnitIlbLW23u4
-	GZVZe3XZ+p6TPTcwmxkDc0ivNq7O0W+RA4enOnQJDESnjYWqZp65EZwlNDkClxJFOxA==
-X-Gm-Gg: AR+sD10tQ7cM0QU0gwftDZsMquTSPN5T9RQYDYrEDrtA95C4RlWjlq3jziJJWrgNRIX
-	7ClUdPBjbgx+f/TbHaoFEpa74F72Y7Qqsgi+8yXhh3vQ5s4BDqaaW9hrIlIMJHU2lIKyMkqzfWg
-	CGkvoUOu8dIeB3Utzt7jbVQdI1y1XgpvJgBk5PxrwzMXBbOBuihxsiQ1lQsTkiesLsivTyxouoq
-	SBGGVmhZTnfHlSJTFHUxRT0gvSekcI1i3GQlkwTGBhnMuvt/QlruZBNiC63huuLolECiU1oyNCB
-	JtNJquB2gpw/zO0a7JYsK+NFIJUe4ccDVGsKiSNWHDyic9LcQGz+5eyRYXlDZ03M1pJK4y25VSJ
-	w8/u0tfmOHg6NcxDvzXIzPL7rh1Gc/WowslTg
-X-Received: by 2002:a17:902:d985:b0:2cb:ea0b:9164 with SMTP id d9443c01a7336-2d2ffc5bd27mr41640045ad.6.1786384348507;
-        Mon, 10 Aug 2026 10:52:28 -0700 (PDT)
-X-Received: by 2002:a17:902:d985:b0:2cb:ea0b:9164 with SMTP id d9443c01a7336-2d2ffc5bd27mr41639385ad.6.1786384347982;
-        Mon, 10 Aug 2026 10:52:27 -0700 (PDT)
-Received: from hu-vdadhani-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d16c4a9f0fsm39661585ad.68.2026.08.10.10.52.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 10:52:27 -0700 (PDT)
-From: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>
-Date: Mon, 10 Aug 2026 23:22:19 +0530
-Subject: [PATCH v2] slimbus: qcom-ngd-ctrl: Implement disable_stream
- callback
+	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="ljQniUtz";
+	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="dMb3aEkL"
+ARC-Seal: i=1; a=rsa-sha256; t=1786386626; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=mz82WlIZan4fdradr0G0GV3tyuUfiq4KtXMHRclOx5h0EVDg/01VH3IXOSMdBKq0Nz
+    RpA2X6GcOkMpsV1v1b2PtMoe1oID9L4A28OzKnTkCaM8b8im7d/V7bG0bMa9WAhMdMcE
+    MWuULX81LacRG2Ro1KCA3TsNPHiRfdYwllSQPVRrgrovLJGw4OwVZF/Ps8CW1uKgaWGL
+    4Z9tMoINerl59ecIOopZlH2yS7wibGsEem3VRKaRlxq7RMfncpMqYM0TysUUcNyHaC3e
+    WYdkO9bs9z1YA5XiTusw4BwJLKjAY1BRWJVk6ysU3GM3gUHW+i+D7EgXOybYJ8pVKg/R
+    iCPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1786386626;
+    s=strato-dkim-0002; d=strato.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=Y0lggjtUq7t4FnGr3h+/8GK5Aapn1d7YcvCZUb9d1Uc=;
+    b=BdNoX7e1nAB5IzdQHcDbAB/bVxkFYnYZPy2aXCmx7pyjhGMj/Vhmoje+EmZmFkecrz
+    le3csCEPySzasspnAyAExXrFw7WKX9zfAFHm+CDuy87JN9xRoNjYUOGSzclHKL04+XcM
+    1tVcABBIoW2vRl0CCs0fBIkyJ6FlghaOgboTL/htO1ER2dZEpyRxKHXb+3lX9ht6ocOJ
+    REYZKmzeoT/m/N+DiGZv5W1JibEDPMzB0CVBcqzuxFOHWViLBQZ3+RWOkHnjm7t4yLpJ
+    Jw3fdXqOU/qXnDSXW3qDYk4KcMfwD/nZdPDxq6tWwz/mHvJfiR+74tt7bs7JTQIwBRJ/
+    DRaA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1786386626;
+    s=strato-dkim-0002; d=goldelico.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=Y0lggjtUq7t4FnGr3h+/8GK5Aapn1d7YcvCZUb9d1Uc=;
+    b=ljQniUtzrPH2m+M6l4jZSMuX3O3WCuc1I+Sflkhg2jefmDsFT2nV3M/ziNtjNlhZmX
+    jYY4ZIVVXURLDIuLDbsEU07ahP6eDA0Jw+AriHYveH3AGK4tyN1UVFhy37+Ep67gTtsS
+    ZnNLw5Pw7prMoJDHCc/Y8SEsiw4H4C1bE6NngaNLkN5VHq3hoN4qpZmqc2kpESB0t/lh
+    tQWTMN0GUu1F8OMtWpzp8HsZkaGZ4xMHp254c0XM6mtuCxaTWjgkg6qGrnDdDC4GhU6r
+    aPgkjOT32puRm7n+XWHTqng9V9ae3jXi05R1lXZlIOfcUZWLCMYbLh46sPOx6MsDtRA1
+    OXdA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1786386626;
+    s=strato-dkim-0003; d=goldelico.com;
+    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=Y0lggjtUq7t4FnGr3h+/8GK5Aapn1d7YcvCZUb9d1Uc=;
+    b=dMb3aEkL+xg1cxalBAaM/8Z1E2miIaNANpAVl9947lRoZbqdOKy8hsYWLsSfEjREKF
+    jZP6rL2OFErxCAB+VkBA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrTipoGmsiNZ9v/oGyp26o/Wi+pVFrZX1Db5b3z"
+Received: from smtpclient.apple
+    by smtp.strato.de (RZmta 55.5.6 AUTH)
+    with ESMTPSA id Q58eac27AIUNiJm
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+	(Client did not present a certificate);
+    Mon, 10 Aug 2026 20:30:23 +0200 (CEST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260810-slim-disable-stream-support-v2-1-c2e8fcc3c99d@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIANIPemoC/yXMSw6CQAwA0KuQrm1Sh4/iVYiLAYrW8Jm0gzEh3
- N1Bl2/zNjBWYYNbtoHyW0yWOcGdMuiefn4wSp8MjlxFV8rRRpmwF/PtyGhR2U9oawiLRizysq4
- LOld0GSANQXmQz29v7n/b2r64i0cJ+/4FSuUpHn8AAAA=
-X-Change-ID: 20260803-slim-disable-stream-support-43599401607f
-To: Srinivas Kandagatla <srini@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786384345; l=5939;
- i=viken.dadhaniya@oss.qualcomm.com; s=20260324; h=from:subject:message-id;
- bh=aliK82T6KYQxw/3hpLsCQ6N/jchY1K7iXkz58Jt/q0Q=;
- b=4ZMCst4nPrpwfjtlB9lAHMxF6N6ap7RDAup29GBOXw9/Wr3Q4zBmn1DsYX1lrDyJfD+z5zqt1
- wBCK0yAQo2hB4GI4XpS05xAthVteUc0uLOykrkISOcjpCGPQSKcdpqG
-X-Developer-Key: i=viken.dadhaniya@oss.qualcomm.com; a=ed25519;
- pk=C39f+LOIGhh/02LQpT46TsUSXRvBn9qXC8Xb26KJ44Y=
-X-Authority-Analysis: v=2.4 cv=Yus/gYYX c=1 sm=1 tr=0 ts=6a7a0fdd cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=kKA2uLVnAdZqmg0bn4kA:9
- a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: PGbQjQU_hYuRkoODbrkYwvYQmCwg36wy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODEwMDE1MiBTYWx0ZWRfX15/m1Hgy5BgB
- sCtFTkbs5oKgGewaSysDJq1hIyd9RTbpGgfI3ADY5ekwD8lOKYC/pIf1vE7Ui3gNovkUS8wJjxD
- H/f5s1uQMPwtFCbUpNqNwx7s4EPSz3W9wbcFJGfXHSWohKNUCpVSDj5hVxzIDT2SPApL6PSWWE4
- vcVmz8u6anRQGCTwSoCptMjpMsL9QeWDPL3FbP3qa92GKyGnb/dndReAANHbZIIWqgt3O5JKAmE
- Qv95k82JFpHrdNA2zhy14QbAlRiQz6MrwaBGtP0vWp2sm+md1gD6bZfT9uPSp8ITqmpXWyBr801
- 3veZGhNbGQwokKzZN+50DWWmwia9tGgmRbujgw0lwQLvy8NtlsEQNvpFKqznN6B/CCjOA4IukqQ
- EvYdqY3BkF5PzabMw1YxsJDkblup8fBNQGiUAmwHt1VL97KYgRG1Rn+bSmy48Q621ohL4JEQNZB
- 6GVCPVT/aD61vBMy3GA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODEwMDE1MiBTYWx0ZWRfXzmfmFOzRsZFM
- A4udWHP2yz2O5+eMy0FPOq5Qum5FSHf6WAgi6QCymRS3oe1LeyE2dVcQb4K+tms3XOdLufHwIrK
- CTA0dlXLTHI1fbFryotGB4Y5o+d5d38=
-X-Proofpoint-GUID: PGbQjQU_hYuRkoODbrkYwvYQmCwg36wy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-10_04,2026-08-10_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 suspectscore=0 adultscore=0 impostorscore=0 bulkscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608100152
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.8\))
+Subject: Re: [PATCH 15/16] backlight: remove pandora_bl
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <2C9844A3-3C4C-48E6-863D-BF8328CEE540@goldelico.com>
+Date: Mon, 10 Aug 2026 20:30:13 +0200
+Cc: Daniel Thompson <danielt@kernel.org>,
+ Grond <grond66@riseup.net>,
+ Stefan Leichter <sle85276@gmx.de>,
+ Grazvydas Ignotas <notasas@gmail.com>,
+ Tony Lindgren <tony@atomide.com>,
+ Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ Jarkko Nikula <jarkko.nikula@bitmer.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Lee Jones <lee@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Roger Quadros <rogerq@kernel.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Sen Wang <sen@ti.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Niranjan H Y <niranjan.hy@ti.com>,
+ letux-kernel@openphoenux.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ linux-omap@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org,
+ kernel@pyra-handheld.com,
+ mfd@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <92FE1162-8C61-4186-B073-6AB4B2BDA640@goldelico.com>
+References: <cover.1783749722.git.hns@goldelico.com>
+ <f897f695c0e1e128d7ebb41be8dfdce4d634f552.1783749722.git.hns@goldelico.com>
+ <anmpiADsvzW39DNx@aspen.lan>
+ <DA9588C6-0238-4713-B1A1-CB2123F02028@goldelico.com>
+ <20260810143914.64d29a5c@kemnade.info>
+ <2C9844A3-3C4C-48E6-863D-BF8328CEE540@goldelico.com>
+To: Andreas Kemnade <andreas@kemnade.info>
+X-Mailer: Apple Mail (2.3826.700.81.1.8)
 
-Switching a channel to a new frequency without first disabling the stream
-causes the channel to be re-enabled without a clean shutdown, leading to a
-crash on the DSP subsystem.
 
-Implement qcom_slim_ngd_disable_stream() so clients can properly close a
-channel before switching to a new frequency.
 
-Signed-off-by: Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>
----
-Changes in v2:
-- Rewrite commit description for clarity.
-- Fix initializers: use { 0 } instead of {0} and {0,}.
-- Use reverse christmas tree ordering for local variable declarations.
-- Replace open-coded shift/mask with FIELD_PREP() and GENMASK-based defines.
-- Add SLIM_MSG_HDR_LEN macro to replace magic number +4 in txn.rl assignments.
-- Fix dev_err format strings: add spaces after colons and commas.
-- Update enum slim_ch_control comment to kernel-doc format with @member tags.
-- Link to v1: https://lore.kernel.org/linux-arm-msm/247e4ce7-1ba2-43b8-8a11-ec70f99a4fc1@linaro.org/T/#m3b50aa43a6493f8d3b607b1607b37bf14b199f69
----
- drivers/slimbus/qcom-ngd-ctrl.c | 82 ++++++++++++++++++++++++++++++++++++++++-
- drivers/slimbus/slimbus.h       | 13 +++++++
- 2 files changed, 93 insertions(+), 2 deletions(-)
+> Am 10.08.2026 um 15:23 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
+>=20
+>=20
+>=20
+>> Am 10.08.2026 um 14:39 schrieb Andreas Kemnade =
+<andreas@kemnade.info>:
+>>=20
+>> On Mon, 10 Aug 2026 12:45:16 +0200
+>> "H. Nikolaus Schaller" <hns@goldelico.com> wrote:
+>>=20
+>>> Hi Daniel,
+>>>=20
+>>>> Am 10.08.2026 um 12:35 schrieb Daniel Thompson =
+<danielt@kernel.org>:
+>>>>=20
+>>>> On Sat, Jul 11, 2026 at 08:02:02AM +0200, H. Nikolaus Schaller =
+wrote: =20
+>>>>> Retire the platform specific pandora backlight driver since
+>>>>> it can now be replaced by twl_pm and device tree.
+>>>>>=20
+>>>>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com> =20
+>>>>=20
+>>>> Yay!
+>>>>=20
+>>>> Reviewed-by: Daniel Thompson (RISCstar) <danielt@kernel.org> =20
+>>>=20
+>>> Well, there were some good comments by Sahiko to the prerequisites =
+of this patch,
+>>> because it has one speciality the PWM BL driver does not handle =
+(avoid
+>>> interpretation of PWM signals as W1 protocol).
 
-diff --git a/drivers/slimbus/qcom-ngd-ctrl.c b/drivers/slimbus/qcom-ngd-ctrl.c
-index 934c44c5bc1a..30d6ac52072b 100644
---- a/drivers/slimbus/qcom-ngd-ctrl.c
-+++ b/drivers/slimbus/qcom-ngd-ctrl.c
-@@ -1,7 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0
--// Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
--// Copyright (c) 2018, Linaro Limited
-+/*
-+ * Copyright (c) 2011-2017, The Linux Foundation. All rights reserved.
-+ * Copyright (c) 2018, Linaro Limited
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
- 
-+#include <linux/bitfield.h>
- #include <linux/irq.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-@@ -86,6 +90,10 @@
- #define SLIM_ROOT_FREQ	24576000
- #define LADDR_RETRY	5
- 
-+#define SLIM_CHAN_CTRL_CMD		GENMASK(7, 6)
-+#define SLIM_CHAN_CTRL_LADDR		GENMASK(4, 0)
-+#define SLIM_MSG_HDR_LEN		4
-+
- /* Per spec.max 40 bytes per received message */
- #define SLIM_MSGQ_BUF_LEN	40
- #define QCOM_SLIM_NGD_DESC_NUM	32
-@@ -1085,6 +1093,75 @@ static int qcom_slim_ngd_enable_stream(struct slim_stream_runtime *rt)
- 	return ret;
- }
- 
-+static int qcom_slim_ngd_disable_stream(struct slim_stream_runtime *rt)
-+{
-+	struct slim_device *sdev = rt->dev;
-+	struct slim_controller *ctrl = sdev->ctrl;
-+	struct slim_msg_txn txn = { 0 };
-+	struct slim_val_inf msg = { 0 };
-+	u8 wbuf[SLIM_MSGQ_BUF_LEN];
-+	u8 rbuf[SLIM_MSGQ_BUF_LEN];
-+	int i, ret;
-+
-+	txn.mt = SLIM_MSG_MT_DEST_REFERRED_USER;
-+	txn.dt = SLIM_MSG_DEST_LOGICALADDR;
-+	txn.la = SLIM_LA_MGR;
-+	txn.ec = 0;
-+	txn.msg = &msg;
-+	txn.msg->num_bytes = 0;
-+	txn.msg->wbuf = wbuf;
-+	txn.msg->rbuf = rbuf;
-+
-+	for (i = 0; i < rt->num_ports; i++) {
-+		struct slim_port *port = &rt->ports[i];
-+
-+		if (txn.msg->num_bytes == 0) {
-+			wbuf[txn.msg->num_bytes++] =
-+				FIELD_PREP(SLIM_CHAN_CTRL_CMD, SLIM_CH_REMOVE) |
-+				FIELD_PREP(SLIM_CHAN_CTRL_LADDR, sdev->laddr);
-+
-+			ret = slim_alloc_txn_tid(ctrl, &txn);
-+			if (ret) {
-+				dev_err(&sdev->dev, "Fail to allocate TID ret:%d\n", ret);
-+				return ret;
-+			}
-+			wbuf[txn.msg->num_bytes++] = txn.tid;
-+		}
-+		wbuf[txn.msg->num_bytes++] = port->ch.id;
-+	}
-+
-+	txn.mc = SLIM_USR_MC_CHAN_CTRL;
-+	txn.rl = txn.msg->num_bytes + SLIM_MSG_HDR_LEN;
-+	ret = qcom_slim_ngd_xfer_msg_sync(ctrl, &txn);
-+	if (ret) {
-+		slim_free_txn_tid(ctrl, &txn);
-+		dev_err(&sdev->dev, "TX timed out: MC: 0x%x, mt: 0x%x, laddr: 0x%x, ret: %d\n",
-+			txn.mc, txn.mt, sdev->laddr, ret);
-+		return ret;
-+	}
-+
-+	txn.mc = SLIM_USR_MC_RECONFIG_NOW;
-+	txn.msg->num_bytes = 2;
-+	wbuf[1] = sdev->laddr;
-+	txn.rl = txn.msg->num_bytes + SLIM_MSG_HDR_LEN;
-+
-+	ret = slim_alloc_txn_tid(ctrl, &txn);
-+	if (ret) {
-+		dev_err(&sdev->dev, "Fail to allocate TID ret:%d\n", ret);
-+		return ret;
-+	}
-+
-+	wbuf[0] = txn.tid;
-+	ret = qcom_slim_ngd_xfer_msg_sync(ctrl, &txn);
-+	if (ret) {
-+		slim_free_txn_tid(ctrl, &txn);
-+		dev_err(&sdev->dev, "TX timed out: MC: 0x%x, mt: 0x%x, laddr: 0x%x, ret: %d\n",
-+			txn.mc, txn.mt, sdev->laddr, ret);
-+	}
-+
-+	return ret;
-+}
-+
- static int qcom_slim_ngd_get_laddr(struct slim_controller *ctrl,
- 				   struct slim_eaddr *ea, u8 *laddr)
- {
-@@ -1624,6 +1701,7 @@ static int qcom_slim_ngd_ctrl_probe(struct platform_device *pdev)
- 	ctrl->ctrl.clkgear = SLIM_MAX_CLK_GEAR;
- 	ctrl->ctrl.get_laddr = qcom_slim_ngd_get_laddr;
- 	ctrl->ctrl.enable_stream = qcom_slim_ngd_enable_stream;
-+	ctrl->ctrl.disable_stream = qcom_slim_ngd_disable_stream;
- 	ctrl->ctrl.xfer_msg = qcom_slim_ngd_xfer_msg;
- 	ctrl->ctrl.wakeup = NULL;
- 	ctrl->state = QCOM_SLIM_NGD_CTRL_DOWN;
-diff --git a/drivers/slimbus/slimbus.h b/drivers/slimbus/slimbus.h
-index 00a7f112574b..c1137e8aedf4 100644
---- a/drivers/slimbus/slimbus.h
-+++ b/drivers/slimbus/slimbus.h
-@@ -1,6 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * Copyright (c) 2011-2017, The Linux Foundation
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-  */
- 
- #ifndef _DRIVERS_SLIMBUS_H
-@@ -316,6 +317,18 @@ enum slim_transport_protocol {
- 	SLIM_PROTO_EXT_HALF_DUP,
- };
- 
-+/**
-+ * enum slim_ch_control: Channel control.
-+ * @SLIM_CH_ACTIVATE: Schedules channel or group of channels in the TDM frame.
-+ * @SLIM_CH_SUSPEND: Keeps the TDM schedule but halts data transfer.
-+ * @SLIM_CH_REMOVE: Drops the channel or group from the TDM frame.
-+ */
-+enum slim_ch_control {
-+	SLIM_CH_ACTIVATE,
-+	SLIM_CH_SUSPEND,
-+	SLIM_CH_REMOVE,
-+};
-+
- /**
-  * struct slim_stream_runtime  - SLIMbus stream runtime instance
-  *
+Here is the report: =
+https://sashiko.dev/#/patchset/cover.1783749722.git.hns@goldelico.com?part=
+=3D15
 
----
-base-commit: 415606a7be939835db9b0d6b711887586646346d
-change-id: 20260803-slim-disable-stream-support-43599401607f
+>>>=20
+>>> I haven't found time to work on this, so we can't remove this yet.
+>>>=20
+>>> In the end it may either remain a pandora_bl driver (converted to =
+DT)
+>>> or become a patch for something else.
+>>>=20
+>> But then it is a TPS61161 on top of PWM, not a pandora driver.
+>> And then there might be just a quirk for that chip in the pwm_bl =
+using
+>> triggered by a compatible. I guess the quirk is this:
+>>=20
+>>=20
+>> if (priv->old_state =3D=3D PANDORABL_WAS_OFF) {
+>> - /*
+>> - * set PWM duty cycle to max. TPS61161 seems to use this
+>> - * to calibrate it's PWM sensitivity when it starts.
+>> - */
+>> - twl_i2c_write_u8(TWL_MODULE_PWM, MAX_VALUE, TWL_PWM0_OFF);
+>> -
+>> - /* first enable clock, then PWM0 out */
+>> - twl_i2c_read_u8(TWL4030_MODULE_INTBR, &r, TWL_INTBR_GPBR1);
+>> - r &=3D ~PWM0_ENABLE;
+>> - r |=3D PWM0_CLK_ENABLE;
+>> - twl_i2c_write_u8(TWL4030_MODULE_INTBR, r, TWL_INTBR_GPBR1);
+>> - r |=3D PWM0_ENABLE;
+>> - twl_i2c_write_u8(TWL4030_MODULE_INTBR, r, TWL_INTBR_GPBR1);
+>> -
+>> - /*
+>> - * TI made it very easy to enable digital control, so easy that
+>> - * it often triggers unintentionally and disabes PWM control,
+>> - * so wait until 1 wire mode detection window ends.
+>> - */
+>> - usleep_range(2000, 10000);
+>> - }
+>>=20
 
-Best regards,
---  
-Viken Dadhaniya <viken.dadhaniya@oss.qualcomm.com>
+Exactly. The Sashiko comment to this section was:
+
+When switching to the generic pwm-backlight driver, how is the TPS61161
+initialized into PWM mode? Because the TPS61161 shares its EN pin for =
+both 1-wire
+EasyScale digital control and PWM control, the removed pandora_bl driver =
+included this
+hardware workaround to force a 100% PWM duty cycle and sleep for 2-10ms =
+at
+startup. Without this initialization pulse, could the TPS61161 =
+misinterpret the initial
+PWM signal as a 1-wire EasyScale command and disable PWM control, =
+preventing
+the backlight from turning on properly?
+
+Well, I didn't see this but it would be on the safe side to have it.
+
+>=20
+> Yes that is what I mean. It needs to be ported somewhere. If it can be =
+ported to
+> some compatible =3D "pwm_bl_for_tps61161" or what fits best it will be =
+fine. Or it
+> could be in some compatible =3D "pandora_bl" driver.
+>=20
+> Has to be worked out when the development machines are not blocked by =
+3 or 4 other
+> projects already running in parallel :)
+
+Nevertheless I did a quick look into the pandora_bl driver structure.
+
+Here are my findings:
+- the code fragment is part of pandora_backlight_update_status()
+- priv->old_state remembers if brighness was set to 0 or not
+- so this code triggers on any change from bright =3D 0 to bright > 0
+- the pandora_bl driver is the only one to use TWL_MODULE_PWM besides =
+twl-pwm
+
+So the most natural way of transplanting this appears to me:
+- add this logic to the twl-pwm driver
+- add a propery to escribe this special need (e.g. "disable-easyscale")
+- use this to triger the extra code in case this flag is set
+- and if the pwm duty cycle changes from permanently off to real PWM
+- this should obviously go into twl_pwm_config() to detect through =
+duty_ns
+- alternativey it might be possible to handle everything in =
+twl4030_pwm_enable
+
+Suggestions welcome.
+
+BR,
+Nikolaus
 
