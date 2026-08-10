@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC9E42F6E8
-	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 16:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5D242C4E3
+	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 16:48:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786380478; cv=none; b=AGyU6p72RjOwjlglbec1IqOSOlvCbkHXtaNfrXXi5FWY2KchLZX7h/yAUmN3gym+cz7PNkWcOeciIl/4riY+M8mbT4SiMpx+gKQh9GKW5y63fufYh8i/SRrraJmCx+/DNxhJQlbbaVHVqIDqmPF/ZmYCDD24n4r2k++O7xpLIrM=
+	t=1786380505; cv=none; b=dFFv9O/qsX3uSJ/njFkU3q5fq1yjdYssrL4XYui8mbIQOm8UGiymYsjqXIRtq/5EdNLYFClEKwz7hfKKRSvHVd5dJiEdpwFOlym2442HSomgOREfcSWmH22SpsZracHLh51NeJGwxTQkkVsIjGaGWEYoF+Cl1heW0/P5YgHEuiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786380478; c=relaxed/simple;
-	bh=StZPyVzidhmfkYZ5y50qOxvlqN0diDRtdTA0M1WLsew=;
+	s=arc-20240116; t=1786380505; c=relaxed/simple;
+	bh=bWCqiYDzg+UCsgY+rUcpj+sy1fpvfgzvU5kGvelbjPs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iCgQfbUgC5Ae232FizSUKWhlt5woJ+JOLy7rQc25kIU8svV0qDyIND7LpS14sVSHJBnM8b5S28KMrCBRcg3AWp7Zu8F7tfq4ND3KF+y1QuLc9BjiTusq9nvwoHSwpAd7lwrmY02bKxJ0WL139yFLe11pTL3yi2B6ARRT/f4dQSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nmiRnhK9; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Tj6Xc3m9bGSwLSCw1yic3jGdiSJsaIKNvBBfuM2A4ciZcEBsLuEeTlGnKGkivV3BCcOj375lKJWM5hdTxQ2wtmCnWmUBW7q/THp78/aNr95usnOu83sj59O1TmQs6ptmYkedD+4j/3hzi9McuV6xcyFse/ASGCEfvsKw8iVX4mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fPWvC5Tn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nmiRnhK9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272B81F000E9;
-	Mon, 10 Aug 2026 16:47:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fPWvC5Tn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1CFF1F000E9;
+	Mon, 10 Aug 2026 16:48:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786380476;
-	bh=hwkAqTJVbWQGI5qTb8CYQH6rxqvcSSwdUabDAZCjrlQ=;
+	s=k20260515; t=1786380503;
+	bh=r+AeOLPbrsL3yUxkJi/4Fdm75CpPUzsCo/edWcnsE04=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=nmiRnhK9CvaO74Cw7xwmPpsmBY0KH70rIYz0E753ddsa0pOU+wziCV6jgc/n6j5rZ
-	 cbvSQJWvVVc7FEZc7UTCCb8C3L3y2t0o+nJTHmsSy48wEmG5i3vX+TlL7Rb3PoVm1D
-	 Ff+ulOL7NTf5ek+nkk9KsEgRIPzmDZXNf6uqYxAM6PofP9tq47ZT7gelXyJsn67ToV
-	 b/9A75gFK/pa5L0lXcSn1vZqS+c/6NDwCMNELY1RdRpDZdqrA07dGoqtzhtZA5LC91
-	 OcPqqkmRccbZo9smqT1M8depNgU29vul+g1f1qDVPcs8Y4WnSEVfQOn6WC768nwwrR
-	 j6WiGF9fuDYPQ==
+	b=fPWvC5TnYT/NFdt4KeTMCVB1of7HKnr96eABsIY78cF1p7aEX0X0egYJFtJGDS0QV
+	 8UsSQ6wWd51Vf8ct822dqoCDPtDo9WTLzwJQQ5/yoFj+2E/qfXu/Y2s7okE4C8Gael
+	 LFQTqvDdN+2YXOXJcxg6MOokD0wEUgOgj7NyTcl6uPtE1lSrXgpxkXuKDW2ufcgTf2
+	 PxCope+/lsDnPLYeE0dZA5r1AMq1/l6+wxLfka+HcLCErrdtrlnmv6wKR7PDzqgMxe
+	 ceMF2mtbFkx91iQv6nsRb0DDBHkHEbFBUpR0jyfMVI5rvtJPxhsRFm5BACRJ8OHvlb
+	 Fl31lUT/pm1CA==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
- peter.ujfalusi@linux.intel.com
-In-Reply-To: <20260806105742.2676322-1-yung-chuan.liao@linux.intel.com>
-References: <20260806105742.2676322-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: Add HDMI-In capture match table for
- NVL
-Message-Id: <178636522048.155010.11512823001212846427.b4-ty@b4>
-Date: Mon, 10 Aug 2026 13:33:40 +0100
+To: alsa-devel@alsa-project.org, Lin Xianglin <1021538027@qq.com>
+Cc: linux-sound@vger.kernel.org, Vijendar.Mukunda@amd.com, 
+ venkataprasad.potturu@amd.com
+In-Reply-To: <tencent_428392223C2AD3BF23E7ABAA7521FE5C0C07@qq.com>
+References: <tencent_428392223C2AD3BF23E7ABAA7521FE5C0C07@qq.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for HyperX OMEN Gaming
+ Laptop 16-ap1xxx
+Message-Id: <178636518244.155010.2458739450437226019.b4-ty@b4>
+Date: Mon, 10 Aug 2026 13:33:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,30 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1571; i=broonie@kernel.org;
- h=from:subject:message-id; bh=StZPyVzidhmfkYZ5y50qOxvlqN0diDRtdTA0M1WLsew=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqegC67k+ogz/T/O20NCuMYWgeakAcMW1gynz+h
- xI1cKSJDMGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanoAugAKCRAk1otyXVSH
- 0EeuB/4wNMMVCxE1HSA/et4mkP3/0asfz2PrRhbwafQw++3McKpU3dp3+jUSQCJJiQY3iQdBdW6
- NljqXHXmcx2s+5uSrtLJmhUETfGz2e20/WbScxdKGjunQ5HT2CqQmidLFYuh810oLHYfPUYtO89
- XGgfrhfr/j9TcuFX6z+khnLJUqQt4l1QppYvqXDL6DqqUNSsAqX7DZhy9JLNKwQ3AXc3KQNqnDA
- 4yAPcxQ544VQolXa31lYvChGUyd958PooYyYTe/2sjW+CW36fVsq9huvuutAOSMchpmCiUPgLED
- ccjjCQyh8PFI/Z8/hnOYGiBeXpRX4iEl0dzLh0Bi3H7fKUFN
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=bWCqiYDzg+UCsgY+rUcpj+sy1fpvfgzvU5kGvelbjPs=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqegDVEH4gF9cKYxy23rHAgZsJhB+3683JOrfck
+ kIDfhWPnWiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanoA1QAKCRAk1otyXVSH
+ 0N5pB/91TKQ6WbrBegHOIYIFG6sBlGufHmnJ95yljpR50zBEP7hPTl2kI7cIWUo2eeWPzUeKo9P
+ EL7HKVutuofbGOTo3eukJktQHe0bc2oIOA0+R0jXLpH2rNg0r5wt8WjZhjDsmhqmgqouwqOjKHi
+ c9HFCOM4sTqCAg4sypxznTD/I9Lhpv4+RwRAfVt4T0EhJAHM26IW7LChTRcePnHrMBgOedUlhsT
+ sbgtce8E4va13G8G8Yvmvd8KZA8moI4RvkeYSOsB1A6ZlHIXXEYpeb+ZDAHy052g3gMP5aM6SNJ
+ pbifmgbe5GvVEmxkKflRe4wQbv5nKJ/LkxWikEE1FSFLzetc
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Thu, 06 Aug 2026 18:57:40 +0800, Bard Liao wrote:
-> ASoC: Intel: Add HDMI-In capture match table for NVL
-> 
-> Add I2S HDMI-In capture with rt5682 I2S codec on NVL platform.
-> 
-> Balamurugan C (2):
->   ASoC: Intel: soc-acpi: Add entry for HDMI_In capture support in NVL
->     match table
->   ASoC: Intel: sof_rt5682: Add HDMI-In capture with rt5682 support for
->     NVL.
-> 
-> [...]
+On Fri, 07 Aug 2026 22:19:43 +0800, Lin Xianglin wrote:
+> ASoC: amd: yc: Add DMI quirk for HyperX OMEN Gaming Laptop 16-ap1xxx
 
 Applied to
 
@@ -76,10 +66,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: Intel: soc-acpi: Add entry for HDMI_In capture support in NVL match table
-      https://git.kernel.org/broonie/misc/c/8560d458509f
-[2/2] ASoC: Intel: sof_rt5682: Add HDMI-In capture with rt5682 support for NVL.
-      https://git.kernel.org/broonie/misc/c/d10549c4bcaa
+[1/1] ASoC: amd: yc: Add DMI quirk for HyperX OMEN Gaming Laptop 16-ap1xxx
+      https://git.kernel.org/broonie/sound/c/fe21db8c5e7c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
