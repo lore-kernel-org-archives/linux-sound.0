@@ -1,202 +1,175 @@
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.169])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0C13644CA;
-	Mon, 10 Aug 2026 20:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786395504; cv=pass; b=ZLUuMggZoXVqnhCxz6F2lP91Elm0VAVL9BqAU69QrFtcdHHv2ejDJ48aZhdXnMuo0U3ZuPgQdZPK3vITJvD06XVWj69WKewKsz/h9aXBo6TzHjF3haES2aFS0JtnSnOzxuOmc+vO9pv7wlpFxyGiUda1EnUzA3ixSDdzT0AA+rs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786395504; c=relaxed/simple;
-	bh=M2b0s5sV+UlmrYlU5mF5+QdMgIVz6hWvd8/C7SfZBcE=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=MF89f/CQqsJCvL4xNkEZydCPdRRH/eD5nEee10JVBOIVpprFCO6vd3m4FuLWSO5g5vRzFfDzAfXCf2bTQaGCuV50j4af02G458V++Hzcsj39zsJKsoYsdKXlcF9FXm4w187gGR4ZAgnlxRPrMLkm0bvr0TYQccvO4qnKPl7An4Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com; spf=pass smtp.mailfrom=goldelico.com; dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=PsP/bxV0; dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b=ol9sAKua; arc=pass smtp.client-ip=81.169.146.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=goldelico.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goldelico.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEF13B5E08
+	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 22:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786401806; cv=none; b=SoU8wnBxQT7jSlVOwq7d0+ffBFJnsaAZpJqz0qampZiEGKuoyfBZpKRlN45xcHUzHisOtXegZAU2HoLOcJrxHrEwCgnbv6MNl7eVzCQQhhUjGH0GF1pCuwGFnlK3oPAlRpZn7FhJtYR93YEGaDbwgwxv+e4e7tG0k97EHKu8pJI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786401806; c=relaxed/simple;
+	bh=m+hL7h+k2Fp8v8A/ZSxwi7exg7N+l7U5qhpHRFuIIww=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=KGYmrGauLNtx00jJBri/bNiBynVuZ8fn289srg5wns+Qy+Y4cv+BI1pbNYlo89Q/lWIBtwtOgmnLcu432HKAMd3kAoA0DEnVymwFGXOQLPTiwbYVLFkFuFwi7B21z1MKfkvUtQnuSs/MUdfOnEHzYH9R9r4xfoiUHJuwGyCQiyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXQQKCQg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="PsP/bxV0";
-	dkim=permerror (0-bit key) header.d=goldelico.com header.i=@goldelico.com header.b="ol9sAKua"
-ARC-Seal: i=1; a=rsa-sha256; t=1786395414; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=t2BQl9Z8KeurTNXDux1Cx0A8Bjn5K0igXQw7bigsJM3q6Fu18PGX6fQ8shpduQ2qp9
-    kojVa+x45LQPfZEA7f21vmALVD24IAPFWurY/6pZjrRMtWvkYIWYRxp6gKPf+fLOGsSl
-    kVsyrHPDywUYKyqNnyR9GXUPh19Yz1q6Gqukf+lmS9AnuahB/U1XVVZKSS0hLRmaqCkE
-    0N9c9YRybc2rxxFMk31QEfKmbi869/LgVytFIpDjRQnEkDQaa6uBwwiQom/I2JaRLoEo
-    HKsxaYV0a401CR32Zo4qSYOLi1oTrRJyJBpWn4BiGW6G0SOuZGtogL9eW4MayGFUM5NT
-    LR7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1786395414;
-    s=strato-dkim-0002; d=strato.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=M2b0s5sV+UlmrYlU5mF5+QdMgIVz6hWvd8/C7SfZBcE=;
-    b=Dwyj4QBN67/T9pzAOzwI1/AJhjzygobZHUmTcKODeVjNNEWKSV73ese/v4lua+h54C
-    IoGUXYfXo1dcUm6YCznSLE5tI2CwV5ca4KM+zS4VK4uVDykY+/5TW/lSMxDCkmTFd329
-    aHnbS5D6ENGua0gnvcq6s96Tp3XMeRV4H2ichflsdisgRE01IPVSdqL79XlpTDEAXg12
-    efmtlwOw9200KHv86Zp3TLhuxI8zUdS8mnTPzmwM1Sec0g8zCfBsTIZ3vG7RmmcHcxvK
-    tPTphRF5vVjbqPstelrDB1lv/Csoj//SX/yYxh/qQf23AX4v4YY7pFx7k5BuQfC3DPzy
-    7OXQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1786395414;
-    s=strato-dkim-0002; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=M2b0s5sV+UlmrYlU5mF5+QdMgIVz6hWvd8/C7SfZBcE=;
-    b=PsP/bxV0DkARdQeMAEKbfJPJg42HksHI8mlHtlKGDLalnkZ7cIXtbWwJ8LdE7DB99M
-    IIfb2bPHCNo1n8eCFg3PDJO55f0wEdVCy4Hlj8e9VrqLUhmh+LPpel1ZHgOBjIfR2WXF
-    5DV01vxRyuEGon6/1hhSINkJRmXOOTeKgrhyjj5VVzKXcz4fRAUawT+xQLdsxJxX+1K9
-    qHY3mrD4msgpzTNz6d8JL36TJcOrnyYROQ2y6rtb6lYNmnmlSe7AtpWh31Og8Do3WDBX
-    pMTRi48cpor8XLotO1HUL59BLznYwONrDYakOLuV9NNlZRVJDj1yyMUzFkSLgHvFK6G0
-    OJIg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1786395414;
-    s=strato-dkim-0003; d=goldelico.com;
-    h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=M2b0s5sV+UlmrYlU5mF5+QdMgIVz6hWvd8/C7SfZBcE=;
-    b=ol9sAKuaZNHWsPcZa7fLcth6fUGMED5C+eqhENktvwwMT/CtFPT0K86CugHMLpZSaJ
-    zfejHdUcnNxS2MSRKNAQ==
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9qVpwcQVkPW4I1HrTipoGmsiNZ9v/oGyp26o/Wi+pVFrZX1Db5b3z"
-Received: from smtpclient.apple
-    by smtp.strato.de (RZmta 55.5.6 AUTH)
-    with ESMTPSA id Q58eac27AKuqiaO
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-	(Client did not present a certificate);
-    Mon, 10 Aug 2026 22:56:52 +0200 (CEST)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXQQKCQg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4E4A1F000E9;
+	Mon, 10 Aug 2026 22:43:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786401805;
+	bh=1QGU4yPc5Vsd+1J7CMay8ekvfukE1qAbJtDy+wmpN00=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=lXQQKCQgDhnDgNBkMhozXGtTsxHDs/A//hYMR/H8XdueeDABbFd/usIMe4XJd+yY5
+	 iWmK97er4dOLCN8aANcWj0EVM+8GFcw2IeQmXMNBckFQ91QMt5UdaVO/A+H2FXCyhE
+	 xIOdyO21/uEt3kBA3BFiYtsEr6E+r+WsFV4xQQvfH0j81PHHNhImOxTi+wklOpGwie
+	 XvcJ52Hu26f1/E53J1TA9l3EU8jOhuduz7dnN1eyX4/gIfc0xsVipKLqbVoeQ7xSUO
+	 Ch7l8C4t0/PMet2eYYKvGUsPqM54hqbywm4/CSveDGQ3aO0W4uH3PEoO/kgbVrfWTp
+	 LNFUPvJlaieZA==
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, Baojun Xu <baojun.xu@ti.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+ Herve Codina <herve.codina@bootlin.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Kiseok Jo <kiseok.jo@irondevice.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Maciej Strozek <mstrozek@opensource.cirrus.com>, 
+ Nick Li <nick.li@foursemi.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Oder Chiou <oder_chiou@realtek.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Sen Wang <sen@ti.com>, Shenghao Ding <shenghao-ding@ti.com>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Xiubo Li <Xiubo.Lee@gmail.com>
+In-Reply-To: <20260806140006.1412298-1-tiwai@suse.de>
+References: <20260806140006.1412298-1-tiwai@suse.de>
+Subject: Re: [PATCH v2 00/31] ASoC: Use auto-cleanup for firmware loading
+Message-Id: <178637260703.155010.15309712287046900636.b4-ty@b4>
+Date: Mon, 10 Aug 2026 15:36:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.8\))
-Subject: Re: [Letux-kernel] [PATCH 15/16] backlight: remove pandora_bl
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20260810223413.01af9a6d@kemnade.info>
-Date: Mon, 10 Aug 2026 22:56:41 +0200
-Cc: linux-fbdev@vger.kernel.org,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Tony Lindgren <tony@atomide.com>,
- dri-devel@lists.freedesktop.org,
- Niranjan H Y <niranjan.hy@ti.com>,
- Sen Wang <sen@ti.com>,
- Rob Herring <robh@kernel.org>,
- Aaro Koskinen <aaro.koskinen@iki.fi>,
- Kevin Hilman <khilman@baylibre.com>,
- Helge Deller <deller@gmx.de>,
- Lee Jones <lee@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- linux-omap@vger.kernel.org,
- Daniel Thompson <danielt@kernel.org>,
- Grazvydas Ignotas <notasas@gmail.com>,
- devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Arnd Bergmann <arnd@arndb.de>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- mfd@lists.linux.dev,
- linux-sound@vger.kernel.org,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- linux-arm-kernel@lists.infradead.org,
- Roger Quadros <rogerq@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>,
- Takashi Iwai <tiwai@suse.com>,
- linux-kernel@vger.kernel.org,
- kernel@pyra-handheld.com,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Jarkko Nikula <jarkko.nikula@bitmer.com>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <38ED9D73-7BF3-4005-8E1C-4F7125906A20@goldelico.com>
-References: <cover.1783749722.git.hns@goldelico.com>
- <f897f695c0e1e128d7ebb41be8dfdce4d634f552.1783749722.git.hns@goldelico.com>
- <anmpiADsvzW39DNx@aspen.lan>
- <DA9588C6-0238-4713-B1A1-CB2123F02028@goldelico.com>
- <20260810143914.64d29a5c@kemnade.info>
- <2C9844A3-3C4C-48E6-863D-BF8328CEE540@goldelico.com>
- <92FE1162-8C61-4186-B073-6AB4B2BDA640@goldelico.com>
- <20260810223413.01af9a6d@kemnade.info>
-To: Discussions about the Letux Kernel <letux-kernel@openphoenux.org>
-X-Mailer: Apple Mail (2.3826.700.81.1.8)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5132; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=m+hL7h+k2Fp8v8A/ZSxwi7exg7N+l7U5qhpHRFuIIww=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqelQHnjyv1V2wbJiyHfCNPFI1scqJgmnSq+9K0
+ wvRRZS8NsuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanpUBwAKCRAk1otyXVSH
+ 0OkyCACA2QUgGddXym8xnkdH2WDVWcUZcBrWTMNEVX+nQAp7+35y+mnOQa/Xq/w93npuGlFdWdt
+ CBl2F5qivmc/TTOdOy46jGICYSe7QeezPsnamhacdv2ukICgWNo3JfU7lW04yXAIff2qRP62IFu
+ jiAPTTFMFn3LxwEEZoMjySJgWh1vdm8tkCyi8QwSw/SJ1ZhQgDUeLN9WxXymDu8Iw5WbGtHx3FC
+ mA7chL9ngBCdUNbeN/kpVjdvEE8EBDZvdjo0yclZzYOWF/tyrYEefITveVwOc6jASVQkdv/5bCS
+ tW0YBPxb6OVv7l7J1zxoshvdqOgcfoes1caFEjFo9x8ydqGG
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Thu, 06 Aug 2026 15:59:32 +0200, Takashi Iwai wrote:
+> ASoC: Use auto-cleanup for firmware loading
+> 
+> Hi,
+> 
+> here is a revised series of trivial patches to use the auto-cleanup
+> (via __free(firmware)) for firmware management.
+> Now compile warnings due to the mixture with goto have been addressed
+> for rt1320-sdw and wm2000 drivers.  Others remain identical, just took
+> a few review Acks.
+> 
+> [...]
 
+Applied to
 
-> Am 10.08.2026 um 22:34 schrieb Andreas Kemnade <andreas@kemnade.info>:
->=20
-> On Mon, 10 Aug 2026 20:30:13 +0200
-> "H. Nikolaus Schaller" <hns@goldelico.com> wrote:
->=20
->>>=20
->>> Yes that is what I mean. It needs to be ported somewhere. If it can =
-be ported to
->>> some compatible =3D "pwm_bl_for_tps61161" or what fits best it will =
-be fine. Or it
->>> could be in some compatible =3D "pandora_bl" driver.
->>>=20
->>> Has to be worked out when the development machines are not blocked =
-by 3 or 4 other
->>> projects already running in parallel :) =20
->>=20
->> Nevertheless I did a quick look into the pandora_bl driver structure.
->>=20
->> Here are my findings:
->> - the code fragment is part of pandora_backlight_update_status()
->> - priv->old_state remembers if brighness was set to 0 or not
->> - so this code triggers on any change from bright =3D 0 to bright > 0
->> - the pandora_bl driver is the only one to use TWL_MODULE_PWM besides =
-twl-pwm
->>=20
->> So the most natural way of transplanting this appears to me:
->> - add this logic to the twl-pwm driver
->=20
-> That chip could be connected to any pwm driver, so
-> it does not make sense to have that in a pwm driver.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-Well, the chip does not need a driver, at all - at least in PWM case.
-The missing piece is just about doing proper startup into PWM mode.
+Thanks!
 
-> So it belongs into a backlight driver.
+[01/31] ASoC: aw87390: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/3eea69748a49
+[02/31] ASoC: aw88081: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/a26aa707bdf6
+[03/31] ASoC: aw88166: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/dba82cc76661
+[04/31] ASoC: aw88261: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/037729f509fe
+[05/31] ASoC: aw88395: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/d8e40355d9a3
+[06/31] ASoC: aw88399: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/1767b85125e2
+[07/31] ASoC: fs-amp-lib: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/aec8a1e14a80
+[08/31] ASoC: hdac_hda: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/a57beee8f816
+[09/31] ASoC: max98390: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/b37d70e5bfc3
+[10/31] ASoC: ntpfw: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/5dd15c805eef
+[11/31] ASoC: pcm6240: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/c0124e91a9f2
+[12/31] ASoC: peb2466: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/38a3855d0c37
+[13/31] ASoC: rt1320-sdw: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/a372669b8dec
+[14/31] ASoC: rt5575: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/c36d435b7455
+[15/31] ASoC: rt5677: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/0582725c6b42
+[16/31] ASoC: rt722-sdca: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/d8c13497200f
+[17/31] ASoC: sigmadsp: se auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/4eea8eb99d6c
+[18/31] ASoC: sma1307: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/2afbdeb48302
+[19/31] ASoC: tas2781: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/37cb22498fa8
+[20/31] ASoC: tas5805m: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/834c7c851179
+[21/31] ASoC: tlv320aic31xx: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/e420e87ddc9a
+[22/31] ASoC: wm0010: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/148f54aecccc
+[23/31] ASoC: wm2000: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/2db054a5efa5
+[24/31] ASoC: zl38060: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/b6ba77dfeb2a
+[25/31] ASoC: fsl: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/997261a59b94
+[26/31] ASoC: Intel: avs: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/6a052cf54fa1
+[27/31] ASoC: Intel: catpt: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/a0dae90ea966
+[28/31] ASoC: qcom: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/c5663770970c
+[29/31] ASoC: renesas: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/81ab98716983
+[30/31] ASoC: SDCA: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/73a5271e10da
+[31/31] ASoC: SOF: Use auto-cleanup for firmware loading
+        https://git.kernel.org/broonie/sound/c/6d0a9e4df179
 
-Interesting how contrary requirements can be judged :) Especially
-for such simple things that apparently even work without any driver.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> And since it shared so much
-> code with the pwm_bl, it could be extended.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-But how do you give the chip driver access to twl4030 registers?
-Or make it universal so that it works on any PWM generator? Any ideas?
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> The compatible should have pwm in the name to be able to also add
-> a w1 driver later.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Ok, that is an argument to be considered.
-
-But: for multi-protocol chips (think of SPI and I2C) there are
-usually two drivers (or glue code for a core driver) for each
-protocol. So we can have one driver when connected to PWM and
-another being an EasyScale (which is not the standard one-wire
-protocol) driver.
-
-BTW: I am still not convinced that the chip needs an EasyScale
-client driver at all. The protocol is similar to an UART with
-fixed bit format. So this rather needs a generic host driver. Not a
-client driver. Something like baclkight levels -> easy-scale.
-Then you can connect any compatible chip.
-
-But even in this case the hardware connection requires you to
-patch or piggy-back that into the twl4030 pwm driver because that
-is the connection given by the Pandora hardware.
-
-So why not generating the simple startup sequence in the PWM driver?
-KISS...
-
-BR,
-Nikolaus
+Thanks,
+Mark
 
