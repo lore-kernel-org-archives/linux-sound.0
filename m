@@ -1,84 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869A036A004
-	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 11:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF1A3B9DAE
+	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 11:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786361850; cv=none; b=r0tUVnahqQ+rAsP58XuTzVEg3IRWB8Up0ICinvKZKeH3byTlOJVcRu6H5aqKJMWi9/fxgcofQTvBWNqGBUDZGvOzSzJlHkur3ksPrHTwA/YOoHDMSOX7fF0xOcqsJZrNZkXszggUkuHvmTqKMQQhxJYMfoyl/PRJCTBSXtlOqIE=
+	t=1786361910; cv=none; b=JrMHMF7G5XZq7bE1bWPoUzZ0ttyNblUYOkFdLqfyZqsrg+wwZy/QJtNN6GnAZ6GM7ZgxNKvdAnx89T4C++gxTmvCeoK4wTvnjKt+2iD1nHxGzgctk0Y8tMDIU6D6khch1oFvnN69zkyMgON18prQP2ZwVcTpnifQVh0kLpZ90aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786361850; c=relaxed/simple;
-	bh=ytKXGI1xwlZgcl5flfEgSnWwDqGz+g2qGro/WOlcYNM=;
+	s=arc-20240116; t=1786361910; c=relaxed/simple;
+	bh=C9j2ZWM6ddWaapaUUWuXODeRBJoUre4ITgJJBzFrPEk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PnpLkpveJsY3nPAiFgcJUhuGLxJUdLJ6uA97azV/OnV55z4oQ4j1j/gD2aorzNPa0rKdpd6YasuNM5eGZ/R0nAMOaLC/rBBrfuyXpKUIupkAUSnwWp9V6nsKGT4iujnpkFwKbqBflluMemVjzgalpvOqq78NS0EpasF2V3aHOLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yJgF4Z8V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eIWQIbDm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hvJLFupA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OMbzjmOK; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=H+IJW1/x7mWubYERBdKdg/DQtwhUSwDdhdWz/qCdQe0UStTq8m7Vl4g+LvKTf0o8xUOcreIBBgtFce6uu0UVDFjfx16T4Ch9jjaaycOkOcyKze9zUmowjVH0TASpjUmB0do2CKm1wSSP7ySDW+3lQ+nhASdEgR/jaUMsdZvOXvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qQGV3BTD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8naBJIvk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ID1Gfh6p; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EiBKykGv; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yJgF4Z8V";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eIWQIbDm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hvJLFupA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OMbzjmOK"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qQGV3BTD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8naBJIvk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ID1Gfh6p";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EiBKykGv"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3884E80937;
-	Mon, 10 Aug 2026 11:37:14 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7C7213E0C;
+	Mon, 10 Aug 2026 11:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786361838; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786361902; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifuhZThFFTAXzG5B1dTkBUFWN59Cd5TvqzP13JWLnHI=;
-	b=yJgF4Z8V2qbH5E0v2DnuCIWyjVu7t2RpzL+/a5xpnv5bbDxBvlNaGcpxKAyZCYI1FL/ach
-	+KfxCUNBBib/73b849ayDPNIyQA0eA15YkohqnbIGMC6z9nA7Umyghi0qmpb4g2AXkWKxK
-	HGv8fVFxV5VWtV6aHvoIQwJCAb1tB8c=
+	bh=/RnGlmU3WEKg/PJeM8+6mTLIAp2GUmTxPEiGl/8JCAk=;
+	b=qQGV3BTD9+qgg5QxV4jVe7bDxRQTRufh809vugrzxL9tOxvvoT9bZNThtMX9iEPlsOTVgm
+	V3v/VxRiDDWmvoNSryZfDxbIRa2gn289OpZven3kf7IXCqnTkknNW2qro/QJoLKZaG4Zmx
+	2E2LveNZQZWb/P2kDumpNQmULIZmrNU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786361838;
+	s=susede2_ed25519; t=1786361902;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifuhZThFFTAXzG5B1dTkBUFWN59Cd5TvqzP13JWLnHI=;
-	b=eIWQIbDmYatO03LpJvH59FWSr3TqqgWkI6kSs/372YGx2jyN1nAHjK/D6SMS53eGYwkmQe
-	8swYd9jB6sb8eECw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=/RnGlmU3WEKg/PJeM8+6mTLIAp2GUmTxPEiGl/8JCAk=;
+	b=8naBJIvkNcECciTFtmpBv5AqdtnhmsyyssAyGhHSMCs9midrDptiuAtMe4s3Ll+N5yAqQh
+	s2dUuvSGvBknkqAA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786361834; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786361898; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifuhZThFFTAXzG5B1dTkBUFWN59Cd5TvqzP13JWLnHI=;
-	b=hvJLFupAi6fyiyd4ByiM78HWfHFbHSDIR0ozRaOBtmOODTBqCDrHVmp6FODNWyhtMy+zgY
-	crdAtW5u/8MI+lCjkULV4VUz+ZvXKeuuJfgXUbXaM8+fLDDDpPTbtg67E6iEAiwBvsd0HS
-	CmtkxhY5LH2yEkGwANRPupOJpcp1FR0=
+	bh=/RnGlmU3WEKg/PJeM8+6mTLIAp2GUmTxPEiGl/8JCAk=;
+	b=ID1Gfh6pTr3i0T8DElcqPvcWOUMdh/kjTu5f5qzoAKgffyF34Cch1Qp0f2meoGo9AHXNsf
+	Tv8dASJmCSbeN64EdVWXB305D7I/8nF+ydQGNVir59eOI9rgYIJdodtfU1iAFCrC5aIJAq
+	irlndPEh9LxWsaHMV0uRP/6/Pc8mChQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786361834;
+	s=susede2_ed25519; t=1786361898;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ifuhZThFFTAXzG5B1dTkBUFWN59Cd5TvqzP13JWLnHI=;
-	b=OMbzjmOKs5TJe2UGBugclVPE8qmNf+UT23Q3aQKlDf81XfXfI8KZEFL4NA5GGtsgV1XMRg
-	0AFenBzPXemtiFAg==
+	bh=/RnGlmU3WEKg/PJeM8+6mTLIAp2GUmTxPEiGl/8JCAk=;
+	b=EiBKykGv+fzneH+2MHSMuJ+kShW7OF6Id9dpjc/8bzndYOXtI4t96aZsLO1QWb/hczKCgV
+	vZzPEq0maMBfTdAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1455D779B2;
-	Mon, 10 Aug 2026 11:37:14 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 568DC779BC;
+	Mon, 10 Aug 2026 11:38:18 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id S26fA+q3eWqdKAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 10 Aug 2026 11:37:14 +0000
-Date: Mon, 10 Aug 2026 13:37:13 +0200
-Message-ID: <87zeyu8avq.wl-tiwai@suse.de>
+	id gFndEyq4eWpvKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 10 Aug 2026 11:38:18 +0000
+Date: Mon, 10 Aug 2026 13:38:17 +0200
+Message-ID: <87y0ee8aty.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: "Geoffrey D. Bennett" <g@b4.vu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Brian Koebbe <brian@koeb.be>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: Don't share mixer->urb with the FCP/scarlett2 notification endpoint
-In-Reply-To: <cover.1786290885.git.g@b4.vu>
-References: <cover.1786290885.git.g@b4.vu>
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix quiet 3.5mm jacks on Beelink SER6
+In-Reply-To: <20260810042425.1122213-1-brian@koeb.be>
+References: <20260810042425.1122213-1-brian@koeb.be>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -104,41 +104,64 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	RCPT_COUNT_THREE(0.00)[4];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,koeb.be:email]
 X-Spam-Flag: NO
 X-Spam-Score: -3.30
 X-Spam-Level: 
 
-On Sun, 09 Aug 2026 20:05:41 +0200,
-Geoffrey D. Bennett wrote:
+On Mon, 10 Aug 2026 06:24:25 +0200,
+Brian Koebbe wrote:
 > 
-> Hi Takashi,
+> Both the front headphone jack and the rear line-out jack play back
+> at a barely audible volume on the Beelink SER6 Max (ALC897, PCI subsystem
+> ID 1f66:0202), even with all mixer controls at 0dB. GPIO2 on the
+> codec gates an external headphone/line amplifier that the generic
+> parser never enables. Add a fixup that asserts it. Verified fixed
+> on both jacks.
 > 
-> Both the FCP and scarlett2 drivers used mixer->urb for their
-> notification endpoint URB, but that field belongs to
-> snd_usb_mixer_status_create() and is managed by mixer.c. Sharing it
-> means the "already set up" check in the driver's init_notify() can be
-> satisfied by the status endpoint's URB, so the driver's own URB is
-> never submitted and the first command would crash in
-> wait_for_completion_timeout() on the still-zeroed cmd_done. mixer.c
-> can also kill, resubmit or free the URB from under the driver.
+> Signed-off-by: Brian Koebbe <brian@koeb.be>
+> ---
+>  sound/hda/codecs/realtek/alc662.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> Give each driver its own URB in its private data. For scarlett2 this
-> also means taking over the free/suspend/resume handling that mixer.c
-> was doing for it.
-> 
-> Tested on an ISA C8X and a Scarlett 18i20 Gen 4 (FCP), and a Scarlett
-> 4i4 Gen 3 and 4i4 Gen 4 (scarlett2) on 7.1.7, including suspend/resume
-> and configuration save on suspend.
-> 
-> Thanks,
-> Geoffrey
-> 
-> Geoffrey D. Bennett (2):
->   ALSA: FCP: Use a private URB for the notification endpoint
->   ALSA: scarlett2: Use a private URB for the notification endpoint
+> diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
+> index 2cf3664a35ff..2ce1b171337d 100644
+> --- a/sound/hda/codecs/realtek/alc662.c
+> +++ b/sound/hda/codecs/realtek/alc662.c
+> @@ -324,6 +324,7 @@ enum {
+>  	ALC897_FIXUP_HEADSET_MIC_PIN2,
+>  	ALC897_FIXUP_UNIS_H3C_X500S,
+>  	ALC897_FIXUP_HEADSET_MIC_PIN3,
+> +	ALC897_FIXUP_BEELINK_SER6_AMP,
+>  	ALC662_FIXUP_CSL_GPIO,
+>  };
+>  
+> @@ -778,6 +779,14 @@ static const struct hda_fixup alc662_fixups[] = {
+>  			{ }
+>  		},
+>  	},
+> +	[ALC897_FIXUP_BEELINK_SER6_AMP] = {
+> +		/* Beelink SER6 Max (Ryzen 6900HX) both 3.5mm jacks are very
+> +		 * quiet without this: GPIO2 gates an external headphone/line
+> +		 * amplifier that the generic parser never enables.
+> +		 */
+> +		.type = HDA_FIXUP_FUNC,
+> +		.v.func = alc_fixup_gpio4,
+> +	},
+>  	[ALC662_FIXUP_CSL_GPIO] = {
+>  		.type = HDA_FIXUP_FUNC,
+>  		.v.func = alc662_fixup_csl_amp,
+> @@ -788,6 +797,7 @@ static const struct hda_quirk alc662_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x1019, 0x9087, "ECS", ALC662_FIXUP_ASUS_MODE2),
+>  	SND_PCI_QUIRK(0x1019, 0x9859, "JP-IK LEAP W502", ALC897_FIXUP_HEADSET_MIC_PIN3),
+>  	SND_PCI_QUIRK(0x1022, 0xc950, "CSL Unity BF24B", ALC662_FIXUP_CSL_GPIO),
+> +	SND_PCI_QUIRK(0x1f66, 0x0202, "Beelink SER6 Max 6900", ALC897_FIXUP_BEELINK_SER6_AMP),
+>  	SND_PCI_QUIRK(0x1025, 0x022f, "Acer Aspire One", ALC662_FIXUP_INV_DMIC),
+>  	SND_PCI_QUIRK(0x1025, 0x0241, "Packard Bell DOTS", ALC662_FIXUP_INV_DMIC),
+>  	SND_PCI_QUIRK(0x1025, 0x0308, "Acer Aspire 8942G", ALC662_FIXUP_ASPIRE),
 
-As those are no new regression, I applied both to for-next branch now.
+The table is sorted in PCI SSID order.  Could you try to put the new
+entry at the right position, and resubmit the corrected patch?
 
 
 thanks,
