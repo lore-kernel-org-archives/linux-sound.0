@@ -1,108 +1,98 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-43171.protonmail.ch (mail-43171.protonmail.ch [185.70.43.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8358313E02A
-	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 13:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7491740FDAD
+	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 14:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786370140; cv=none; b=nHlpMvYclMfjEw51xnZ858n9TK3BThKkp+4+rPmFqeG6LxGHTlSlkxMoNBwlN8TePS+usqyQHWOeS99KUVLop/fp41ehavSIV84AflPEX5TPVcHbg5USqlI8r7qct5tjnBkkI9GJLY4OUEFus8aUIM+bfI2GX9KR2a6czCzOXYs=
+	t=1786373849; cv=none; b=Kckr2ruHUvziz5sT803drMDIo+Tn0h7h9/nQX2k8oZrddzYze7oduPXebZ+K1Hs9OegG+NamPQT7fSdU2tboqZqYu+xPQC1yVJuqDLvHomqVKo2pmyNqa1C8FyEGsfNZOpcmjxqsrSCRlJYyCFe1i9vF16Ph7objygPhmNhCfqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786370140; c=relaxed/simple;
-	bh=+49H72wzW6N8bjn12Wyc5oS2Vh9uUPL5RjM5Gza56wo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q4pxEfWoedd51/vcF7yVw5XV+uenAaO19Aqo+dnTukBr/880Tv5SjdZ/VvTXFILsYC2gMLJ/RNkrLZroCYEb4NT8gNfq02EtYH/HSkNR5L7IN86yfkCv3DxBlml8rTZJTEPslXygvLZYDq5LRAPeyGb90YLzcOf0TWQVgKbpIas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-979dc8b391eso818366241.1
-        for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 06:55:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786370138; x=1786974938;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=MmACebBfyQcjcArQc12qo4s2Hk/XInMFxhT8kxQZcwU=;
-        b=dXS7Ivsd8e45HjCocBpBGY6N4dPglJ0/BJR5YcAgzCHcPGYKokWlMFS24EoeLhpq5a
-         2GL5D7KzrAyBDEr4QbpRUgV+4qdcR0luxmkNZEyVhGgMlJ6aAqahaEZf1Aa/tQX92mdX
-         rk2by+jmSnBmU2YpoescxdB3s9gjsTCIQ1s2YeGxO9aoU7zx7ncANemGoqdIcHsyBK/Q
-         ZSfvgU0uszApO+UmDgPWa9tYhtcct1UB0LOrwSJqpjo+Fmtg4JjC7eZRsOvkUDDYT5M2
-         v39/SGhdk5E5JMqjOPJV9ujp2rXOmBudJC3W4goWmFn4tHnqgFY0qdSvjW4V5YHPxlaM
-         oh0Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpfhqbUOvL9/3+qwwuIXfMvbBJZgps06y6ERk1b/orsYB8x8mkO80MesFxTzQWrdgKpVY4dlxD40I/cUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEOaRADok92+0zNegqG/urCVt0VtjWRux55gfIEwva1NedX4aV
-	qBXxyH629WT7GKp/yITCoCBQosPkX/EeXDhjSRjLUXw1nXROy5Ew0CXaAy8rzctU
-X-Gm-Gg: AR+sD10NkLKFz301Oe+BK95tEJwV4xL8rcLXQiyyiPMS3E3f0HhVFeMUxIW25EBAycZ
-	5m+8LjuiF6Bm3y4m80hjrW2cHzUb7/qn006uetrLLNonKnoyM7t3B4/sCqcus7aZN02J6FdevTZ
-	4FQJ8YAq7zr8dxBcTWPtiSwAreLjYYVL7aRg7qnk7oHuYmr1ECcldM58hhCpK54rYzjnt35Xekx
-	Yz1nWYWw7POQsAWA8KnSmLieiS6nPbznvjksY8odetLQlSA7rM7sWADQULE20Q43chxM+brfob2
-	ss3jx9+4WBM3QcHbwJcYE1CBGTOfrFCDPPVxJBOYTzjbuTbcl18W3mOua6rXa4HgggA8QyPq6zi
-	ZQkaxpacetm1Zpy7I2r2YxaTsZb0rfmFddllEl+baewORZvwX2q8SZHEZ/EAI3VPexdBI2QArtm
-	Id09vusjoTKBAtFJHLD849UjWKfc+bNy+ZZ9DqITqawUy5eMdrIJju+ajU6ba1I8d2NIh/Wka+C
-	JLJ3ZAxLM14mjUls7CCfdHQBg==
-X-Received: by 2002:a05:6102:f81:b0:752:757a:96f0 with SMTP id ada2fe7eead31-7634ac4a5c0mr9407096137.3.1786370138429;
-        Mon, 10 Aug 2026 06:55:38 -0700 (PDT)
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-979f2cbe70asm3721346241.0.2026.08.10.06.55.37
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Aug 2026 06:55:38 -0700 (PDT)
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-9693bbb962eso1047309241.2
-        for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 06:55:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrXAVMHwXt0zyNUzNJYc1h/vj/hUjHAhmLqrtXN4R7u+u5kH+xFzT6zisBVqgOdgi2GOyQVWIugLgbKCg==@vger.kernel.org
-X-Received: by 2002:a05:6102:5e8e:b0:739:5cfb:50f6 with SMTP id
- ada2fe7eead31-7634d10fb7fmr9198315137.11.1786370137779; Mon, 10 Aug 2026
- 06:55:37 -0700 (PDT)
+	s=arc-20240116; t=1786373849; c=relaxed/simple;
+	bh=V9J/XO889xXeieyeMMMu8PGhKbU+ViSaAe4iLti4CW8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DizXJRcdI7mN1mLdJGKwL3+UeAJ1VkdxQMkYC3qH5jHEceQTaOjk7LKGb6Ympi0aAWc3/8ZdF+WlzDcku0wDXwYMnzGQWH5+0ZmBI4e5U+8REgTXxGtdxfEZK2b0/9EONiXUxQwbezGr2ADbKylR5g6mBKNZtTsiJ6/BCxWdwcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=koeb.be; spf=pass smtp.mailfrom=koeb.be; dkim=pass (2048-bit key) header.d=koeb.be header.i=@koeb.be header.b=TPcx23z9; arc=none smtp.client-ip=185.70.43.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=koeb.be
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=koeb.be
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=koeb.be header.i=@koeb.be header.b="TPcx23z9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koeb.be;
+	s=protonmail3; t=1786373836; x=1786633036;
+	bh=3n8Z1dmAG5OhAbeX0EvJJbKqZgTLWcy5wgex4x7lG8s=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=TPcx23z9LMtzmvSmcNaUOHSI+duR4aDz7XQ8VPsHCjHXO6+VWtxp5ylOYx/p7JYaj
+	 6lW18OiFpJ6u/A66Z7i8xyTtFnO5KHCHsHHU9HTOVAGKVbYquVA/SVrIQmI7fqfPLO
+	 kL+q2/Qwp/kDqE+WK+rG82Q2Dl4M/0rDsiCF7Vgxj9k6A1K8uUCUCfkQprx8TOOI9+
+	 icnhdP71y7Om83Tw8JJEL6N/cq1F+IIMO84TRmoeej5zxO6N8Eg/GxQAd2aO066ONK
+	 y9Y83b3qGdvRjWH4+q1Q+pcQ9ejZG2+ATtm/IJ+yhsIM/taOAnuHAw3cBQklD47BXh
+	 xlgodWJGS+1PQ==
+X-Pm-Submission-Id: 4hJdBx2VyJz2SccV
+From: Brian Koebbe <brian@koeb.be>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	Brian Koebbe <brian@koeb.be>
+Subject: [PATCH v2] ALSA: hda/realtek: Fix quiet 3.5mm jacks on Beelink SER6
+Date: Mon, 10 Aug 2026 09:57:00 -0500
+Message-ID: <20260810145700.1206010-1-brian@koeb.be>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260803132828.3249424-1-tommaso.merciai.xr@bp.renesas.com> <20260803132828.3249424-4-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20260803132828.3249424-4-tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 10 Aug 2026 15:55:26 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXcCDcPiQh9DEL7ujWSCQCvqMZHatWZhHha-2-JBo4oKA@mail.gmail.com>
-X-Gm-Features: AUfX_myvCDbZrLeq5_AkwBFoQaj9KuC2_xzwhuBv4cnxNXwsS1wJ2BykJXirplM
-Message-ID: <CAMuHMdXcCDcPiQh9DEL7ujWSCQCvqMZHatWZhHha-2-JBo4oKA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: r9a09g047e57-smarc: Set I2C1
- clock frequency to 1 MHz
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	John Madieu <john.madieu.xa@bp.renesas.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Tommaso,
+Both the front headphone jack and the rear line-out jack play back
+at a barely audible volume on the Beelink SER6 Max (ALC897, PCI subsystem
+ID 1f66:0202), even with all mixer controls at 0dB. GPIO2 on the
+codec gates an external headphone/line amplifier that the generic
+parser never enables. Add a fixup that asserts it. Verified fixed
+on both jacks.
 
-On Mon, 3 Aug 2026 at 15:29, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> On the SMARC carrier board I2C1 only carries the DA7212 audio codec.
-> Override the 100 kHz SoC default with 1 MHz.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Signed-off-by: Brian Koebbe <brian@koeb.be>
+---
+v2: put the QUIRK in the correct position
 
-Thanks for your patch!
+    remove comment from alc662_fixups[] addition, to better match others
 
-According to the DA7212 documentation, it supports 3.4 MHz, too.
-But given the I2C bus is also exposed on PMOD, GPIO, and M2 connectors,
-1 MHz is probably the safer value.
+    append to enum and alc662_fixups[] rather than insert
+---
+ sound/hda/codecs/realtek/alc662.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v7.4.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/sound/hda/codecs/realtek/alc662.c b/sound/hda/codecs/realtek/alc662.c
+index 2cf3664a35ff..77aada355031 100644
+--- a/sound/hda/codecs/realtek/alc662.c
++++ b/sound/hda/codecs/realtek/alc662.c
+@@ -325,6 +325,7 @@ enum {
+ 	ALC897_FIXUP_UNIS_H3C_X500S,
+ 	ALC897_FIXUP_HEADSET_MIC_PIN3,
+ 	ALC662_FIXUP_CSL_GPIO,
++	ALC897_FIXUP_BEELINK_SER6_AMP,
+ };
+ 
+ static const struct hda_fixup alc662_fixups[] = {
+@@ -782,6 +783,10 @@ static const struct hda_fixup alc662_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc662_fixup_csl_amp,
+ 	},
++	[ALC897_FIXUP_BEELINK_SER6_AMP] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc_fixup_gpio4,
++	},
+ };
+ 
+ static const struct hda_quirk alc662_fixup_tbl[] = {
+@@ -852,6 +857,7 @@ static const struct hda_quirk alc662_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1b35, 0x1234, "CZC ET26", ALC662_FIXUP_CZC_ET26),
+ 	SND_PCI_QUIRK(0x1b35, 0x2206, "CZC P10T", ALC662_FIXUP_CZC_P10T),
+ 	SND_PCI_QUIRK(0x1c6c, 0x1239, "Compaq N14JP6-V2", ALC897_FIXUP_HP_HSMIC_VERB),
++	SND_PCI_QUIRK(0x1f66, 0x0202, "Beelink SER6 Max 6900", ALC897_FIXUP_BEELINK_SER6_AMP),
+ 
+ #if 0
+ 	/* Below is a quirk table taken from the old code.
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.55.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
