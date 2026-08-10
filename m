@@ -1,104 +1,89 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E643783AF
-	for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 06:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF1C3A3E9A;
+	Mon, 10 Aug 2026 07:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786342322; cv=none; b=ILWab+sQ7U2c9v5A0IVM2t5CWcWOJcBymUhBSWwL8tFk4DPUDK37M+M0tmRFfz0PO3bs72N7HKMSnKldNTxqdNgxvVDrN5/OfSrknaAw9tNu0t/mDjO/yf/CrBhBZCZaMfsMuCavOlk2isBPa7xIrb9DOnfqxvFdaCVKCBdEOLA=
+	t=1786345944; cv=none; b=V5xYZEp0rnplF6MvnJKmbApgxbAk9NCyQ0t4dGdmPHZsfcNX61XJx73CfopHKpWgveePbdXArgPykUgbJKjn/bGPM1AWnCrHo3jF8PhfP7YoYH7+kSHhpQH+Ci+3m3gYlW6m1DThhfJNR9b32Te8TG2ePizPnTebJsQt06rzQbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786342322; c=relaxed/simple;
-	bh=dhiJ4S4TwV3ajJalMMqOr1BChfE0uIL3kIxrSt7MsjE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TseNdhBBia7rqS6gVxSQ0smSwBsxZp2C1fypkk1plRUaXiTXSNoTIpLqJJMlve6HfwV5quuQ68n4qI2jc++OVf/BxNCngXLeQlyGW6zFQ/S+9fOKSHtpdPVK8Zo5bfkCyOTOku2Gg+Z2/rPNzFE82rht4y2EmJeTulsrbbtSxvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bLROyuWW; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786345944; c=relaxed/simple;
+	bh=ied/MJFAUe4DTtXY8m0SlELwnulMoDGKPSmznHyV8vQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FMLNic6Jagjz7fwqDbQn5aXBJxNWapxfiUEIrUci5K/r/2tFKksfpi96TAylpOQZ8uBW8510ecMqfYNlqr/2b4KFBObYz36dZUuHxmGhm8eKhoYjSpabwubSsY9V1dR+k34ZYbXRRHSmsBW4G0VfXc4o9Vj/tPS+yLEnT32ZQIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUqmyhbf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bLROyuWW"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47fd4531020so782828f8f.3
-        for <linux-sound@vger.kernel.org>; Sun, 09 Aug 2026 23:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786342319; x=1786947119; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ifkqnnoVhAGXB1m6v9mKwNxlsMhpG5XwEqhjU+tW1mw=;
-        b=bLROyuWWxxUuKSwFa8xpXqzmROV9HBgGs3FTyphJdF2SxdyxAvPml5makPhoD32YeL
-         Tvcbn23YEPwVw3v47PtRezC7IeKog8dvg7DEmsvRWPazwEcqrdTPFLjmGxNoakhM/ajo
-         s/yRGImN3SqJE8XWwp5NLxfQHgGTfnoBxo/2JfjIsIjuAjp6iK4Y5mjVz6boSMPb8+Ue
-         dfCg18lFJOsEMxCC564Emn6mqrZ7yD85/b/Dm90XSDbFCYM3pJC60+lsWUi9VGzduGgO
-         golTB+bsTU3qXvTRVzelgc5O5wX/HEbXVDH5GtkgeVnboX+upxjLt/6C18t2O4PmK0Dq
-         pNFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786342319; x=1786947119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ifkqnnoVhAGXB1m6v9mKwNxlsMhpG5XwEqhjU+tW1mw=;
-        b=bmkLgvgF5eXNe/sfZSRzAPIsqHaMc0SatchvBrjCvKcFoJzwK2fhWumqcZHFhK2APF
-         +OCh3GgTpwvZpQlbLe2x3bNN6Was1uWbRoUYAPG0c9xIBd5guF7HYffWd+fQ4HsCe6vH
-         RCJHvjg5aUIl7rOn1hPPzamHcafsHqjh06ShZ1OQdDwfmPDfIBhC+vr8QtnwOoC5Z1mv
-         hLq8KFAA55y5ViJZVQgcaCtk4FaZA+gQr9wzW3f+SNkrzdscSchVdJzWb2oXErUeVSrM
-         sEaXvrN/p4IVFWl7DtiaU4/EV2l6lqN4G//t+SwPQ27b4bf4FWgb5UkwzngLwVr6Hl6I
-         H0pA==
-X-Forwarded-Encrypted: i=1; AHgh+RqJchUrcNUSZmWN4IHs3nZNY7jo/AXNRil/w9vj5flwlTpkWj++BgjiYy6eiqEQ0C269Ofj2iVb1CnWww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpFS43/rC4lnw9pJ4BlWTHgUO0EnUKA34wUkPbKkunVIk6i7gS
-	M299u/tFWsocFO2tMtFEE/d9yXOntL0sLLSi5y9ENDMoYP96xnJfGpXu
-X-Gm-Gg: AR+sD10Vg6DjjarC+LgM5VkpKOUBMo8wXlJonukyu9Cg/McrS9M0b2Jqtj3YCCRPsj4
-	iecAgkJV0MgstlhxLdODeg1erqSF919Pfj42TP2i4n4gCRXfUN6BQ3bif+ipJ0laCEWTfmSx5wI
-	dgTn5j9QG5hCQLDfvez021FLjAo6VWgIAj9u8goaljJLdL2SgTyEtXBYYaXphzhphBJWARNvJZe
-	kCekEw1nXlSHLkjNkKGGapiGfc//gTYgMws2oT9Y3x3E5fHsTzFU53Xrv1V0wf6Uqn/d+5rOg6s
-	xyHtgBYOTRDw+u7rzL0kHTVCWo1txN6g1TQP8KGsqw20tGjQ6nRXr+4M+oiPvRf+0Cr6P9+vCUp
-	YxqIZHh5YQl75m9q6lFKo/gI+TIwCZN4i06U/nhQwPkIRIf6qBMf5iqYbd3aipL1tL3EPOBx88A
-	wnXJUZCX9kS2fIbPzJTp48h7hu0IsH7FHGh2nC9m4Xh5qhhtm1hkmF1m3jOLjU75SEAjr7kBWfH
-	AODgyXJUOTWJoomQuS6H4bfELW/6nD+DhlYlGOI0ZCr+GetdkJ4B3dMJPCYexjVeQ==
-X-Received: by 2002:a05:6000:41d3:b0:45e:e1a4:c4c3 with SMTP id ffacd0b85a97d-47fec628b57mr64663153f8f.15.1786342318643;
-        Sun, 09 Aug 2026 23:11:58 -0700 (PDT)
-Received: from localhost (178-223-21-154.dynamic.isp.telekom.rs. [178.223.21.154])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-480020be8f3sm29210021f8f.0.2026.08.09.23.11.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Aug 2026 23:11:58 -0700 (PDT)
-From: Denis Batishchev <ii343hbka@gmail.com>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
-	ii343hbka@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Enable micmute LED on HP EliteBook 6 G1a p/n: AD3Q9ET#UUG
-Date: Mon, 10 Aug 2026 08:11:54 +0200
-Message-ID: <20260810061154.1575447-1-ii343hbka@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUqmyhbf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C81821F000E9;
+	Mon, 10 Aug 2026 07:12:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786345943;
+	bh=COaUeTCLiC6/x/enOdcDm7m3J3BQbpu2C+HiphZ+rII=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VUqmyhbfMBOS1FXtoKdFP+hMikiAiRZebva27LL+5ide3tHHtTYOaz/xuo9YdJPr+
+	 yJkLroRSTobte/93yBnmsugwgHF3OzGCZVAIAEIfub5qJJGzwe8OH+z01ym8JW6wiQ
+	 5jx4ZgLMdIPEHKQXm/AxjrsWvQLubsjqFiE16VyODK4VrMdmfOXOuhTnicHhOXVqi/
+	 nIUM6ZObJhU+KTiw5D8pQHsELpQL9+4zAaaw+4JGPGpdm6Bdtdpa6178a/tLpXwOWn
+	 mfdUPkDdALWesk3UNN8aZToizZEO0/3lAqu7aKZ8HNhrFyhHHnbxk4eT2yWpYuj6he
+	 GrwUXWKMoEHPA==
+Date: Mon, 10 Aug 2026 09:12:20 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, shawnguo@kernel.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, 
+	Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linuxppc-dev@lists.ozlabs.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v3 1/5] ASoC: dt-bindings: fsl,imx-asrc: update port
+ binding to support multiple paths
+Message-ID: <20260810-magic-olive-gecko-5e8a36@quoll>
+References: <20260804100218.49587-1-shengjiu.wang@oss.nxp.com>
+ <20260804100218.49587-2-shengjiu.wang@oss.nxp.com>
+ <anH5i7y3JkB1moee@SMW015318>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <anH5i7y3JkB1moee@SMW015318>
 
-The HP EliteBook 6 G1a (SSID 103c:8e0d) uses a Realtek ALC236 codec.
-Without a quirk no fixup is selected and the mic-mute LED stays off.
-It needs the same ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk as the
-already-supported 14" variant (SSID 103c:8dfb), so add it.
+On Tue, Aug 04, 2026 at 09:39:07AM -0500, Frank Li wrote:
+> On Tue, Aug 04, 2026 at 06:02:14PM +0800, shengjiu.wang@oss.nxp.com wrote:
+> > From: Shengjiu Wang <shengjiu.wang@nxp.com>
+> >
+> > The i.MX ASRC hardware supports up to three conversion pairs (A, B, C).
+> > The existing binding exposed only a single generic audio-graph port,
+> > which cannot represent independent conversion paths when multiple pairs
+> > are in use simultaneously.
+> >
+> > Add a ports container that enumerates up to three sub-ports, each
+> > representing an independent conversion path:
+> >   port@0 -- conversion path 0
+> >   port@1 -- conversion path 1
+> >   port@2 -- conversion path 2
+> >
+> > Each sub-port references audio-graph-port.yaml as before. Hardware pairs
+> > are allocated dynamically at stream open time; each active stream
+> > direction (playback or capture) on a port consumes one hardware pair.
+> >
+> > For backwards compatibility, keep the old single port property but mark
+> > it deprecated. A schema constraint (not: required: [port, ports]) ensures
+> > that both forms cannot be used at the same time. The binding example is
+> > updated to show the preferred ports form.
+> >
+> > No existing upstream DTS file for fsl,imx-asrc uses the previously
+> > documented single 'port' node, so this change does not break any
+> > in-tree device tree.
+> 
+> if no existing upstream DTS file use it, you can direct replace with ports
 
-Signed-off-by: Denis Batishchev <ii343hbka@gmail.com>
-Cc: <stable@vger.kernel.org>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+And what about all other users of this binding?
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 6b36c730c..ef8beb928 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7542,6 +7542,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8df1, "HP EliteBook 630 G12", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8df7, "HP Z66 G6", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8dfb, "HP EliteBook 6 G1a 14", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+        SND_PCI_QUIRK(0x103c, 0x8e0d, "HP EliteBook 6 G1a 14 (AD3Q9ET#UUG)", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8dfc, "HP EliteBook 645 G12", ALC236_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8dfd, "HP EliteBook 6 G1a 16", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8dfe, "HP EliteBook 665 G12", ALC236_FIXUP_HP_GPIO_LED),
--- 
-2.53.0
+Best regards,
+Krzysztof
 
