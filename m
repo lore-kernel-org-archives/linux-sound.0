@@ -1,84 +1,85 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAB33033E1;
-	Mon, 10 Aug 2026 13:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9FF28033B;
+	Mon, 10 Aug 2026 13:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786369046; cv=none; b=OR0zxksSijasGgosFgYV71ePN7UVdSBa6Vn03m+ZecxAa79Cq5o/knKZWP5DgGvum5kX74VfDKkte0ZvpBgSi+q9cFswBJxk65X74zb27EbDTY1hgif+9ce4s7KPQJLxpkbdkHfD9xwMznPMSSJyBcsl316M9iYCWnRskaPKp4g=
+	t=1786369052; cv=none; b=nPqHKDCP9uyM5zOTvaYRXUSTanFwCwhnQLMh+tlDzwQWXUbP5AUZ8IOS1nxpd72rl+lmW3ka0FYsetU9siJmdWVjPcFABC1ZIGOYW9cfvemmULybCESb22zuTJ1bU1GnNl0kPasXPUEB7FXmquLq94F25ZVxBZdKLuEGltp3wg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786369046; c=relaxed/simple;
-	bh=+FWBDScucpziU2z9A9x2iC1wOtqm67OIkq4r0gHMT6g=;
+	s=arc-20240116; t=1786369052; c=relaxed/simple;
+	bh=Zjq1Q8CeoiFpm5gURvKJ6CGk/x0CqTDUS1AkevgWyLQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Au2DyHigyZADdixKx2clWF57cE+UNPjnjkNu6eMRg9cjortC86YgzLQD7DvjtMnpcjDYasZjyADyeogqzp4Oif97HmKXneOIkzAsuyfT8JJhRaXQfVL6bdiQCc0103E/xjcushHQAdVLTxTDmOaWwbtc7o56Gh8AvUbXwY8bA6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ToLaXIGU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tgswSL1U; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H5wc9nCl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NoLo2Wj/; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version; b=Dpb5XGQwdaEK712hA423q9Lj0O8UdKjUzCoyo83ltJe3NpXXSLXoWxGGnV6RonVu9FexmJM7iXIdSSQ6UhLo9K8yo1AiCEpO71UvV2LCXMsulBX40pe7HQBaNw8BIaHaekiXaZjZSxRl5dSrnILso1fzOIiYvZP4BZEoJG84xBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=e0cJB/I0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5/jtI7ss; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0v81DiJa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/QW1tjKh; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ToLaXIGU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tgswSL1U";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H5wc9nCl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NoLo2Wj/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="e0cJB/I0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5/jtI7ss";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0v81DiJa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/QW1tjKh"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 766BC80B87;
-	Mon, 10 Aug 2026 13:37:13 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 377433DF6;
+	Mon, 10 Aug 2026 13:37:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786369037; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786369045; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZXPz0TSCQKboRGn8TAG6fDM7fbs06XQsUwIy57kHkaY=;
-	b=ToLaXIGUXx6id1gwN9QA8RarCtPg+Jf3TCIwgetnp6bfovLRaQdHD00FpDOVfmlcPRIUUL
-	5F6XvHQmvBrGmDZxVieOXQ2p/H03eWc0oVhsXJ8jKlM4tN5e1doJ6oEuexW9EzYm3EtJe6
-	/ekksDOxnIijiQOBvHsiQ/6jH8G28jI=
+	bh=1HfLb0hKzmLBwjDNiuOQe4KtAHV9fyQ/UPZ2Erumlck=;
+	b=e0cJB/I0trzBcK4KTHnZ8ePNDfjRBj+TTU7IJ6U5JnBlDb+lWQeRLpf9gaqjVwAsJ3Et+w
+	gkmVGDm7EGY7EAPGS5Cwar1J0l66iLvDx80uIKysuP6pTtIrVG7L3YbhbEwQ+StT4ulrjB
+	RZcv0GG31BbpVISW6im1MBVPr2O5C/I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786369037;
+	s=susede2_ed25519; t=1786369045;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZXPz0TSCQKboRGn8TAG6fDM7fbs06XQsUwIy57kHkaY=;
-	b=tgswSL1UGWaF9G1FSn8iFq9iECOaY4iTKsHCVT08GkQCHWRUXQT6Mh5UsMUFIpCOeZvRd+
-	/O5omISOWniyWmAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=1HfLb0hKzmLBwjDNiuOQe4KtAHV9fyQ/UPZ2Erumlck=;
+	b=5/jtI7ssI4paAfyxruyJ95eLNDWvY0XWNIq3AgG6wl3aRlFh/tJfhO4pzjiiFiKwcAWWhp
+	TPNfYNLVnsTnQGCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0v81DiJa;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/QW1tjKh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786369033; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786369041; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZXPz0TSCQKboRGn8TAG6fDM7fbs06XQsUwIy57kHkaY=;
-	b=H5wc9nCl2MCRdfOQRYLZUp4uacavTSDmWfW91Vqz64j35pqTlb/P4pbIm+imPoaNemCQby
-	drzHLSqTIi8NL6fVRulz3lSy5AlUYtMNiEaqB7rfVMfr+Gp0P8JzQY4fAxHg6KOebMRc+d
-	+PlQ2cc8xlaK7ZeUA6DNncZvynpAtrg=
+	bh=1HfLb0hKzmLBwjDNiuOQe4KtAHV9fyQ/UPZ2Erumlck=;
+	b=0v81DiJajFMDRRe3xP/ZwNQ6yfdTzV9lDB8qf/k2QbXm7ENy0WV/TZlPCnh6W7jBGft0gB
+	CdIitBeltxI11eEEhXkKcNySbSWCpyx1Cl4ZeQop7zECpD+79v91GQW7Yu5O+oJUY18gIz
+	tTF5LTPpn79s9hcWDfNAooJ+Y2m3bW8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786369033;
+	s=susede2_ed25519; t=1786369041;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ZXPz0TSCQKboRGn8TAG6fDM7fbs06XQsUwIy57kHkaY=;
-	b=NoLo2Wj/VwHCL+9Y6pz/SgScGC2c6KjdDB5lCGDjNmrNZJzXJ4J1WwZH4qrHIJetbbdJj/
-	jCR7lqizv6XQFgAQ==
+	bh=1HfLb0hKzmLBwjDNiuOQe4KtAHV9fyQ/UPZ2Erumlck=;
+	b=/QW1tjKh+xvp9enIKeDDx8sMF/gFlcLtGt/ERi/xh2RyRh0J6IrbL4WHIsEYyHNgMzTt7d
+	7uxol6VTYt823pDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4D05E779C0;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 71FB5779C3;
 	Mon, 10 Aug 2026 13:37:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WHmuEQnUeWq3HwAAD6G6ig
+	id MBisGgnUeWq3HwAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Mon, 10 Aug 2026 13:37:13 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] ALSA: seq: Use RCU for the virmidi file list
-Date: Mon, 10 Aug 2026 15:37:05 +0200
-Message-ID: <20260810133711.42483-5-tiwai@suse.de>
+Subject: [PATCH 5/5] ALSA: seq: Use RCU for the UMP client output substream
+Date: Mon, 10 Aug 2026 15:37:06 +0200
+Message-ID: <20260810133711.42483-6-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260810133711.42483-1-tiwai@suse.de>
 References: <20260810133711.42483-1-tiwai@suse.de>
@@ -89,138 +90,157 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 377433DF6
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:email,suse.de:dkim];
+	RCPT_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCVD_TLS_ALL(0.00)[];
 	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spam-Level: 
 
-Each virmidi device keeps a list of its opened input files (filelist)
-protected by both an rwlock (filelist_lock) and a rw_semaphore
-(filelist_sem).  snd_virmidi_dev_receive_event() walks the list on the
-sequencer event input path -- read_lock() when the event is delivered in
-atomic context, down_read() otherwise -- decoding each incoming event
-into the file's rawmidi buffer.  The writers (input open/close) take both
-locks to add/remove entries.
+The UMP sequencer client protects its output rawmidi file (out_rfile)
+with an rwlock (output_lock).  seq_ump_process_event(), the port's
+event_input callback, reads out_rfile.output under read_lock on every
+delivered UMP event, while the open/close paths (serialized by
+ump->open_mutex) publish and clear out_rfile under write_lock.
 
-This is another typical dual-lock read-mostly pattern as the port
-subscriber list: files are opened/closed rarely while the receive
-callback runs per event.  Let's convert the traversal to RCU and drop
-the rwlock; the existing filelist_sem keeps serializing the writers.
-The atomic input path now runs lock-free under rcu_read_lock(), and
-both readers share a single list_for_each_entry_rcu() (valid under the
-rwsem via lockdep_is_held()).  The writers switch to
-list_add_tail_rcu() / list_del_rcu().
+Output is opened/closed only on the subscribe/use lifecycle while
+delivery happens per event, so this is another read-mostly hot path.
+Convert it to RCU and drop the rwlock.  out_rfile is an embedded struct
+rather than a pointer, so instead of restructuring it, add an
+RCU-protected shadow of the substream (out_substream) for the reader;
+out_rfile itself becomes writer-only state accessed solely under
+open_mutex.  The reader now runs lock-free under rcu_read_lock() via
+rcu_dereference(), and open publishes the substream with
+rcu_assign_pointer().
 
-snd_virmidi_input_close() freed the entry (parser and struct)
-immediately after list_del.  A concurrent lockless reader in the atomic
-path may still be dereferencing it, so the close path now waits for an
-RCU grace period after list_del_rcu() before freeing; synchronize_rcu()
-is used rather than kfree_rcu() because the parser must also be released
-after the grace period, not just the struct.  Non-atomic readers are
-already excluded by the down_write, so only the atomic RCU readers need
-the grace period.
+On close the substream is cleared with rcu_assign_pointer(NULL) and the
+rawmidi is released only after synchronize_rcu(), so no reader in the
+delivery path can still be writing to the substream when
+snd_rawmidi_kernel_release() runs.
 
-Dropping write_lock_irq() from the writers is safe: no writer runs in
-atomic/IRQ context, and the sole atomic reader now uses RCU, which is
-IRQ-safe.
+Dropping write_lock_irqsave() from the writers is safe: they run in
+process context under open_mutex, and the sole atomic reader now uses
+RCU, which is IRQ-safe.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- include/sound/seq_virmidi.h  |  1 -
- sound/core/seq/seq_virmidi.c | 19 +++++++++++--------
- 2 files changed, 11 insertions(+), 9 deletions(-)
+ sound/core/seq/seq_ump_client.c | 38 +++++++++++++++++++--------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
 
-diff --git a/include/sound/seq_virmidi.h b/include/sound/seq_virmidi.h
-index 56a3f38df8c3..359cb363369d 100644
---- a/include/sound/seq_virmidi.h
-+++ b/include/sound/seq_virmidi.h
-@@ -46,7 +46,6 @@ struct snd_virmidi_dev {
- 	int client;			/* created/attached client */
- 	int port;			/* created/attached port */
- 	unsigned int flags;		/* SNDRV_VIRMIDI_* */
--	rwlock_t filelist_lock;
- 	struct rw_semaphore filelist_sem;
- 	struct list_head filelist;
- };
-diff --git a/sound/core/seq/seq_virmidi.c b/sound/core/seq/seq_virmidi.c
-index 982828650d41..6208bf7f57bf 100644
---- a/sound/core/seq/seq_virmidi.c
-+++ b/sound/core/seq/seq_virmidi.c
-@@ -78,10 +78,11 @@ static int snd_virmidi_dev_receive_event(struct snd_virmidi_dev *rdev,
+diff --git a/sound/core/seq/seq_ump_client.c b/sound/core/seq/seq_ump_client.c
+index ccd93599b493..4c1e81db376f 100644
+--- a/sound/core/seq/seq_ump_client.c
++++ b/sound/core/seq/seq_ump_client.c
+@@ -37,8 +37,11 @@ struct seq_ump_client {
+ 	struct snd_ump_endpoint *ump;	/* assigned endpoint */
+ 	int seq_client;			/* sequencer client id */
+ 	int opened[2];			/* current opens for each direction */
+-	rwlock_t output_lock;		/* protects out_rfile output access */
+ 	struct snd_rawmidi_file out_rfile; /* rawmidi for output */
++	/* RCU-protected shadow of out_rfile.output for the delivery hot path;
++	 * out_rfile itself is only touched by open/close under open_mutex
++	 */
++	struct snd_rawmidi_substream __rcu *out_substream;
+ 	struct seq_ump_input_buffer input; /* input parser context */
+ 	void *ump_info[SNDRV_UMP_MAX_BLOCKS + 1]; /* shadow of seq client ump_info */
+ 	struct work_struct group_notify_work; /* FB change notification */
+@@ -89,8 +92,8 @@ static int seq_ump_process_event(struct snd_seq_event *ev, int direct,
+ 	unsigned char type;
  	int len;
  
- 	if (atomic)
--		read_lock(&rdev->filelist_lock);
-+		rcu_read_lock();
- 	else
- 		down_read(&rdev->filelist_sem);
--	list_for_each_entry(vmidi, &rdev->filelist, list) {
-+	list_for_each_entry_rcu(vmidi, &rdev->filelist, list,
-+				lockdep_is_held(&rdev->filelist_sem)) {
- 		if (!READ_ONCE(vmidi->trigger))
- 			continue;
- 		if (ev->type == SNDRV_SEQ_EVENT_SYSEX) {
-@@ -96,7 +97,7 @@ static int snd_virmidi_dev_receive_event(struct snd_virmidi_dev *rdev,
+-	guard(read_lock_irqsave)(&client->output_lock);
+-	substream = client->out_rfile.output;
++	guard(rcu)();
++	substream = rcu_dereference(client->out_substream);
+ 	if (!substream)
+ 		return -ENODEV;
+ 	if (!snd_seq_ev_is_ump(ev))
+@@ -108,19 +111,22 @@ static int seq_ump_process_event(struct snd_seq_event *ev, int direct,
+ static int seq_ump_client_open(struct seq_ump_client *client, int dir)
+ {
+ 	struct snd_ump_endpoint *ump = client->ump;
+-	struct snd_rawmidi_file rfile = {};
+ 	int err;
+ 
+ 	guard(mutex)(&ump->open_mutex);
+ 	if (dir == STR_OUT && !client->opened[dir]) {
++		/* out_rfile is only accessed under open_mutex; the delivery
++		 * path reads out_substream via RCU, so open into out_rfile
++		 * directly and publish the substream afterwards
++		 */
+ 		err = snd_rawmidi_kernel_open(&ump->core, 0,
+ 					      SNDRV_RAWMIDI_LFLG_OUTPUT |
+ 					      SNDRV_RAWMIDI_LFLG_APPEND,
+-					      &rfile);
++					      &client->out_rfile);
+ 		if (err < 0)
+ 			return err;
+-		scoped_guard(write_lock_irqsave, &client->output_lock)
+-			client->out_rfile = rfile;
++		rcu_assign_pointer(client->out_substream,
++				   client->out_rfile.output);
+ 	}
+ 	client->opened[dir]++;
+ 	return 0;
+@@ -130,17 +136,18 @@ static int seq_ump_client_open(struct seq_ump_client *client, int dir)
+ static int seq_ump_client_close(struct seq_ump_client *client, int dir)
+ {
+ 	struct snd_ump_endpoint *ump = client->ump;
+-	struct snd_rawmidi_file rfile = {};
+ 
+ 	guard(mutex)(&ump->open_mutex);
+ 	if (!--client->opened[dir]) {
+-		if (dir == STR_OUT) {
+-			scoped_guard(write_lock_irqsave, &client->output_lock) {
+-				rfile = client->out_rfile;
+-				client->out_rfile = (struct snd_rawmidi_file){};
+-			}
+-			if (rfile.rmidi)
+-				snd_rawmidi_kernel_release(&rfile);
++		if (dir == STR_OUT && client->out_rfile.rmidi) {
++			rcu_assign_pointer(client->out_substream, NULL);
++			/* wait for a grace period so that no reader in the
++			 * delivery path is still writing to the substream
++			 * before it is released
++			 */
++			synchronize_rcu();
++			snd_rawmidi_kernel_release(&client->out_rfile);
++			client->out_rfile = (struct snd_rawmidi_file){};
  		}
  	}
- 	if (atomic)
--		read_unlock(&rdev->filelist_lock);
-+		rcu_read_unlock();
- 	else
- 		up_read(&rdev->filelist_sem);
- 
-@@ -200,8 +201,7 @@ static int snd_virmidi_input_open(struct snd_rawmidi_substream *substream)
- 	vmidi->port = rdev->port;	
- 	runtime->private_data = vmidi;
- 	scoped_guard(rwsem_write, &rdev->filelist_sem) {
--		guard(write_lock_irq)(&rdev->filelist_lock);
--		list_add_tail(&vmidi->list, &rdev->filelist);
-+		list_add_tail_rcu(&vmidi->list, &rdev->filelist);
- 	}
- 	vmidi->rdev = rdev;
  	return 0;
-@@ -243,9 +243,13 @@ static int snd_virmidi_input_close(struct snd_rawmidi_substream *substream)
- 	struct snd_virmidi *vmidi = substream->runtime->private_data;
+@@ -480,7 +487,6 @@ static int snd_seq_ump_probe(struct snd_seq_device *dev)
  
- 	scoped_guard(rwsem_write, &rdev->filelist_sem) {
--		guard(write_lock_irq)(&rdev->filelist_lock);
--		list_del(&vmidi->list);
-+		list_del_rcu(&vmidi->list);
- 	}
-+	/* wait for a grace period so that lockless readers in the atomic
-+	 * delivery path (snd_virmidi_dev_receive_event()) are no longer
-+	 * traversing this entry before its parser and memory are freed
-+	 */
-+	synchronize_rcu();
- 	snd_midi_event_free(vmidi->parser);
- 	substream->runtime->private_data = NULL;
- 	kfree(vmidi);
-@@ -508,7 +512,6 @@ int snd_virmidi_new(struct snd_card *card, int device, struct snd_rawmidi **rrmi
- 	rdev->device = device;
- 	rdev->client = -1;
- 	init_rwsem(&rdev->filelist_sem);
--	rwlock_init(&rdev->filelist_lock);
- 	INIT_LIST_HEAD(&rdev->filelist);
- 	rdev->seq_mode = SNDRV_VIRMIDI_SEQ_DISPATCH;
- 	rmidi->private_data = rdev;
+ 	INIT_WORK(&client->group_notify_work, handle_group_notify);
+ 	client->ump = ump;
+-	rwlock_init(&client->output_lock);
+ 
+ 	client->seq_client =
+ 		snd_seq_create_kernel_client(card, ump->core.device,
 -- 
 2.55.0
 
