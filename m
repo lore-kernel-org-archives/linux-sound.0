@@ -1,39 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAC142C4FF;
-	Mon, 10 Aug 2026 16:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA8942CAF9;
+	Mon, 10 Aug 2026 16:51:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786380705; cv=none; b=L3LCdslET8y5Ju0GHESMKV2FwY5x8idgP1cgEg9Z77zhquPeIuurUsjlpiFS/U2MOppoxnJXYRiGuSozUUVVyVG6UijN2qDlmRmqO4GLsy+rlhuq+xaDAqndbxHn14PvUDdDk6kzmntOtQT88qQRVAPeXVekK0UHittBLS3tFRc=
+	t=1786380710; cv=none; b=QDpuLzne5fe34lAv2BxVdaqEDjFl5A8ZOYfvBdjn8on+T70L3mgoylJLHEzT5xft1G2tJDGRg/lrPb3ngWuYyydoj12faVnXvSBpPRfiUhNOK/nXUUgKB7MtxcBVh/6ftsB76cpBkpSZG+tmV7s2jFFHW0qpxBusKBXt/mGj1V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786380705; c=relaxed/simple;
-	bh=ZuooAG5U5j7XM3xRLBlCFXY709CL4tws9JvOuI0NlUU=;
+	s=arc-20240116; t=1786380710; c=relaxed/simple;
+	bh=5IBcYRMu2xlVef1XFic6uLAKINq4QzxL8KNor3/9n64=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VTrgI88RpNdJA5dgs8AcZleW7lLp6NLBBUJotGTXxRwbPGLarwFd2TyB+4QhUjeJ9MYPUfWQgfv5nKsSPGN0AHTYKQu1hVfeDA3KoMsCQCtIVQZ/VDhvWsTX0hFA/Dyc3Wf03PHwXxXnP0f4pW3eEj0VK12GKpV92L1TzYw07FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IP5en1cj; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=F2BDI5XZHGvE7+NLlgP1JW8qTJtpHyndVHPQzw9KfYNDIXntTi3oaLZNIRu13fSf6yi5/bB1P8XtEGIakBjHArbEJdpGQaiDnWTcmheGxjADu0csnWVmEURfiKgsO7f+QpArAmSVXVYyxNomrAZRVlQz/V9YT5YeqvUmTAP0ATI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cbtaj1qf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IP5en1cj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C3011F00A3A;
-	Mon, 10 Aug 2026 16:51:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cbtaj1qf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C3421F00A3A;
+	Mon, 10 Aug 2026 16:51:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786380703;
-	bh=CrFkpqWIt01AXUIxLFRQLc8l7e42RnKcbJvBb9mlotY=;
+	s=k20260515; t=1786380708;
+	bh=BsLQbLH8PCRw3EeDu73QxZ8Xos27f/XEDpXukrhJbhE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=IP5en1cjORZ5N9yTbKwy22c1MorBigN0RinFNIFh+B/30Qiy78PfUZH/Kyhl8hKHH
-	 ASipT+iR17bTk7N8RVNZTL6BQj22YMiBooEtTm1BadNXkNm6INXRik/jWJu6uu8mls
-	 p7RWHRrcKVfo2kayrinWubJj/74enoYxOJWyuFTASHNK6z5HKR4gxS2K7JThGpKsfC
-	 wT1qfUxtW8SLdtJ5j1BayliK9QxrNvPmvCKSfqeMncYScH27cuqmv7+RY6m7jDJcyk
-	 BAB4HYTdO4albU8aVzZ703O9rnt/vkXozUbavodnSUKRKbF+9DdZOT+4RUNU6ehRAY
-	 adqDMH/nUeL8g==
+	b=cbtaj1qfI284AK9fIwMYxM/AkO4SNxhtCYcBUX85DG34th5B1IcS2oGjZY20xxdZN
+	 tHpaiEMLPQYK8W+WzMu+ZMmCYVYd34kuoZ5F9JyZ/hQmHSgGh2RqYGW12GkNhd1fNL
+	 yu7OWzr1Ll4MpblRZIkGxNXtNcSCThJR07jX50KhjHPXvC9a/pANlaEKE3qflfpW2u
+	 gp2GWTzOknLoeDMrUrltpcOpmzZMBPjY93hAGKtzdmm/NLH+R2VXsca6x6nl0EohAf
+	 gRJ1SZtqVRSWGet1OtkurQynoo6daVeJF9OVfhREP3v/WT+CwUSObxbl7yOrwa9fIb
+	 +NRmH9R1WeSzg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Rudi Heitbaum <rudi@heitbaum.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <anNU3tOUR7rOReSB@5e001e58230e>
-References: <anNU3tOUR7rOReSB@5e001e58230e>
-Subject: Re: [PATCH] ASoC: rt5645: Perform the initial jack detect at probe
-Message-Id: <178636732740.155010.8189524501266522274.b4-ty@b4>
-Date: Mon, 10 Aug 2026 14:08:47 +0100
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Le Qi <le.qi@oss.qualcomm.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel@oss.qualcomm.com
+In-Reply-To: <20260810031032.2001053-1-le.qi@oss.qualcomm.com>
+References: <20260810031032.2001053-1-le.qi@oss.qualcomm.com>
+Subject: Re: [PATCH v2] ASoC: qcom: sc8280xp: configure codec sysclk for
+ QCS615
+Message-Id: <178637233952.155010.2000772506342023864.b4-ty@b4>
+Date: Mon, 10 Aug 2026 15:32:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,29 +47,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1127; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ZuooAG5U5j7XM3xRLBlCFXY709CL4tws9JvOuI0NlUU=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqegGd4PmuALnz0vg72WyilV2zp42S33OrXS6qK
- sus+6XaAQWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanoBnQAKCRAk1otyXVSH
- 0CLEB/0R1tRvRTQ08os6RM42Ns9hCwite+m/TZzsp0bYIXAFf6Z0c3sqVuN7SEOr5gzlEQGmQAZ
- VJE6kDtzmqAyMx1riphum+dn6Js7g8hZXzJhKp+wNprG+Al9kCiRwKHQ1cvkI0gxENLVqJOUwqN
- mnQoyWuyqiBawVsktbaX0lW6ipltBeOAsxf0Jn3CLVOhFEmUE5q3sMjRy1ewKzG9aUMPCYOZ7if
- X9zJC42kY/9XaM9ZrPKnJ8QiTu1xtZgumo+JPbsgfaNbn5WtkL6Ob2pXCoV3F6bQW+yO1jVhtRX
- atd0LGlQCL2kEuWwP6MjTLXOIhPUCp6DKMrSoaXvDviGX8NU
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1121; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=5IBcYRMu2xlVef1XFic6uLAKINq4QzxL8KNor3/9n64=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqegGiwwYyeNLduMX2f44qw7ux/YCzM23t1Dy9Z
+ PX7e6veZPaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanoBogAKCRAk1otyXVSH
+ 0ESjB/9WBvzmILibnmVIO48g8xB2A2bpGYBq2YJuLp/EVQf555ZQJ7pvztEkqoMfCKOvbLKxqy0
+ UNjwGsBU78thig+BMrMELBsrwN59Ci3fodouYluiccakwF9OuZnfrXLGWl5SS86wS14xcauptpy
+ ItOb3sr+QXLNCQ46SwwGVj38re64NwvgpAdK27zf+IVK9gbgj1ECx5HZwKDrtP7E3rc4dATXBxI
+ Vrjp+07fKqKg/uQ9APjP7uuwFIWi9T90TiWPlJyp4+kAB0K+wL+Y18+/xV1s7Jr/fUG89pDVLxm
+ 5Yw4KIsEeKydzh/Kszjg5DY/QaA2z3+d8xzJxs5U2OPhIYCb
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 05 Aug 2026 15:21:02 +0000, Rudi Heitbaum wrote:
-> ASoC: rt5645: Perform the initial jack detect at probe
+On Mon, 10 Aug 2026 11:10:32 +0800, Le Qi wrote:
+> ASoC: qcom: sc8280xp: configure codec sysclk for QCS615
 
 Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
 Thanks!
 
-[1/1] ASoC: rt5645: Perform the initial jack detect at probe
-      https://git.kernel.org/broonie/sound/c/54b279699279
+[1/1] ASoC: qcom: sc8280xp: configure codec sysclk for QCS615
+      https://git.kernel.org/broonie/sound/c/530e344e4b7e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
