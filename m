@@ -1,90 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from wp23.hostingpalvelu.fi (wp23.hostingpalvelu.fi [31.217.193.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205F63537CE
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 17:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B8634D397;
+	Tue, 11 Aug 2026 17:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=31.217.193.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786470920; cv=none; b=IiSJYvm+CS02pbLAdhF8gDu0GM2eapNITGJazE2eGaA/7YyBGYAPPlFDzbNTXLFxIPvEC81/5ItlK8mcAD+XaXjEoFhsihqg+AYbVLLJ7VsGz1RSjFanIiwXV8PUDZ7/3O4EsgrLDc1cy/zVsoXO9+r/El2FVSIPJMVHQddOosw=
+	t=1786470974; cv=none; b=G4AHDFYLu98K+EBgud4FmJFKRrtF7p0ktMtfpU91w+iZAyL9zcdZk4snH1OPL9oisxUKxDrvdd/moVfOkiRYmLm+6mr9u4bcxSCtLQtnYERx1CwKNqBw2mN18yDpF96NZIofUc0rl9ZYuOuaztAevN0nQNx/hTJSaPYSevQEqr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786470920; c=relaxed/simple;
-	bh=6MtSswunV8kqiCp9Pyi24aQWKCDuiV3E1d2gfWObpQA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=SltBJd76VpprZFtEhUXtkb7jxHxoeroznf3aHizLjWQhUBIsuvOxsk1Jrg0C2ixv2/K3UcNmEzACdtnQ0CaVaQP/nKnAK8iU3TJEWNOiaMlI9yPjdQ3H000lEnuIhb64recLlPKKaIWhfhXG5B+Q48X/tlcu1Pk1a5jvN56uea4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NgpdDeVr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786470974; c=relaxed/simple;
+	bh=AQznq2K3XYLYCOMJRpNFcwqHm1elWDRib1IFG7WhGf4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nzXLJ2lkLoK1wWeW2r4LqA3YtXlEpzDmRhT4JsYO0indvlpdhngX1Ke8cvF2wNR2HjGkJJkxFbng2LIs0dFy5lGcJFedEhSyf1MA3kCHFg/KeOrJiKMcJnZKePTZ6n14G+iK/nurjsvSfIUKjcImg0HIJ8DZqWxGS2geUJcKCOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com; spf=pass smtp.mailfrom=bitmer.com; dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b=g/9fSoAM; arc=none smtp.client-ip=31.217.193.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bitmer.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bitmer.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NgpdDeVr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBB8B1F000E9;
-	Tue, 11 Aug 2026 17:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786470918;
-	bh=zEyfcoh/RR5qrJncN8RUKtqdgvb33esyeIVvnvgv4sk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=NgpdDeVrvEDCosr3xUBoay+m3M8ECMRMaP6XvLA20/SkpVIdIPQ2mR/ZmE7+AF2UM
-	 OeeLcZ7OAQpcbIiDGzuYpq2Ncvzuv9Rt/NxW3TKqHc+zHmqcHRCA0plyDgGzoy/WpS
-	 JSTVF0a5cFnOjOQ817lPoUbW7dWJdi+vw8h6x4mmPMa50ocyqwEszjVP4YDGZmvKmY
-	 i9Lp/wgGMk2L3WzxzKk6dmHts6h+uYiFjXxlTY83aVViTIVJlcneNsj+QW1VlpVP73
-	 h0sewFs1hvqJXGXaOH86nm5c2p7QWdnsARRsoldhBmNnwXRsCodPlw39soF5rYicCm
-	 +/2OIeztnAJ4A==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
- peter.ujfalusi@linux.intel.com
-In-Reply-To: <20260811005354.2884137-1-yung-chuan.liao@linux.intel.com>
-References: <20260811005354.2884137-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: NVL: Add entry for HDMI-In capture
- support to non-I2S codec boards.
-Message-Id: <178646517635.119683.9262080073978834349.b4-ty@b4>
-Date: Tue, 11 Aug 2026 17:19:36 +0100
+	dkim=pass (2048-bit key) header.d=bitmer.com header.i=@bitmer.com header.b="g/9fSoAM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=bitmer.com;
+	s=default; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=i/8mMTQxpoQsK6nKLeGGpngLMZdh+lDteEOxQlabjB0=; b=g/9fSoAMSDVRiisJnMKsnOAnKN
+	AIiTqVKKeYJ8/Q1fcOThqaRnbWjlQBt1jJbp4PQQBeAIVODJO+ZsjPGTYhLr0jiMhG4xkE54wymuI
+	A481YiYZEV5kxAITwh1/2ERuCYMkhn9KOerO6M/vFhYtBWdsesQUaSQVFlHAj/kyWS2acylBq6gYw
+	pdb+zkVM2cc5Nh6wohl0+WN+lmVYTq9NihXgt15uOgXNrhcaEJPA6Ozya70wAAArT5x4+FAgCWbsA
+	imBk6s6GeQzIlCZySzF/30TxBCBl3kEYI9FjPwrJcpSi/4nx5ByUOL5RJhqgaJ1TBZCzLsfGf+6LU
+	Zd8MaNpw==;
+Received: from 91-154-201-162.elisa-laajakaista.fi ([91.154.201.162]:43836 helo=[192.168.0.12])
+	by wp23.hostingpalvelu.fi with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+	(Exim 4.99.5)
+	(envelope-from <jarkko.nikula@bitmer.com>)
+	id 1wtpuZ-00000005RK2-1p2s;
+	Tue, 11 Aug 2026 20:05:10 +0300
+Message-ID: <b0dccc22-5f2a-4b31-a6ae-dbbbc9eb091c@bitmer.com>
+Date: Tue, 11 Aug 2026 20:05:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: ti: omap-twl4030: Check for missing card name after
+ parsing
+To: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>,
+ Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Andreas Kemnade <andreas@kemnade.info>, linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20260805044556.38183-1-phucduc.bui@gmail.com>
+Content-Language: en-US
+From: Jarkko Nikula <jarkko.nikula@bitmer.com>
+In-Reply-To: <20260805044556.38183-1-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1175; i=broonie@kernel.org;
- h=from:subject:message-id; bh=6MtSswunV8kqiCp9Pyi24aQWKCDuiV3E1d2gfWObpQA=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqe2IEm0mtWpTKlyjIdD0BONXm5vSaennNahH83
- pU+kLXSelWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCantiBAAKCRAk1otyXVSH
- 0DDlCACArStmqQXEcbiGZ7FZqyL78BtM7EwG91mFX7I2ejQA5QkzwpqeitczR88YzMNJL9QEOU+
- X2gGB33In+8HBX1ukQw1nflqLypdsIMVg2+HnQx4haZg3XP4B1a6q4sgijiM0cuZ0dQEmXItmAN
- dWUKFHYkqpgnP6PXs0A1aH20I1GxgjE8yuDtLQvmFg8C+nDFBbQfqRnFma559Z8wK47VN0LqJcf
- BcTwxLFpkXBRhdAhNtHkyDWinUYK7Jw2vZBxAbBeN67p2csML9+2+NaByLV1dS7jji3CjoPHeL0
- Zpt16M3jMkdtrcHwL5CVvhC2kjcLI1a4EhC6ft2bK++omOQ4
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - wp23.hostingpalvelu.fi
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - bitmer.com
+X-Get-Message-Sender-Via: wp23.hostingpalvelu.fi: authenticated_id: jarkko.nikula@bitmer.com
+X-Authenticated-Sender: wp23.hostingpalvelu.fi: jarkko.nikula@bitmer.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Tue, 11 Aug 2026 08:53:54 +0800, Bard Liao wrote:
-> ASoC: Intel: NVL: Add entry for HDMI-In capture support to non-I2S codec boards.
+On 05/08/2026 7:45 am, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>
+> Return any error from snd_soc_of_parse_card_name() directly. If the
+> helper returns successfully but card->name remains unset, report the
+> missing card name explicitly before returning -ENODEV.
+>
+> Suggested-by: Andreas Kemnade <andreas@kemnade.info>
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+> ---
+>  sound/soc/ti/omap-twl4030.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.2
-
-Thanks!
-
-[1/1] ASoC: Intel: NVL: Add entry for HDMI-In capture support to non-I2S codec boards.
-      https://git.kernel.org/broonie/sound/c/079e27f52b92
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
 
