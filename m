@@ -1,173 +1,116 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A99C3905E3
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 02:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786415317; cv=pass; b=HflTBdRaWo/j0wJ9hD8wJzvOEq3f2SE/1Bkaepuw/6Ta4ulDA16uHS08DW3TbiIKgdeb2YqLABIMzFcS+bv8LiEiWbNtoXqfl8uvZ5rwSLP2RWZap408WTUfshSbZTfoatCW6bb20Bnnnb9giOMYQdRUT40eQW2vnQN6+LwwNqc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786415317; c=relaxed/simple;
-	bh=AUc+FEsu+DrlUEKF4zIc/Pac63ML9yu4ibWXeDmIe8c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nJnjB7fGqTX7MdJP1PLoOBclcjeEh/irnUcr4a+u5AR+jbNNgqjVhj7OEXyH2oCysL8qEiZx3PpgofsGBr1xSFYnwTbQv3I2HHbD62xkVazIId+jUkxMQGZ5ohNt+LvHxRWezyLys2y3WSwaF4NK9eH14pBels8PQ4dyIwOZqW8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LnmmKpHo; arc=pass smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LnmmKpHo"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c998fd549a8so1920705a12.2
-        for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 19:28:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786415315; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AZW+rCYGy52rF6Ti3lo5dvye+C1ggd4ytFFSKGIPhAeKcRXIPNGVaKbvkJ1bpGbD9+
-         b9QuW4dviU9J4LmImMDreCpHz4/WAR87d0W2fWkuxBZkLjtNSWeR4z3JV5QsljzyOFEA
-         2jfCbOYt6xUlYiRZzTFxNM7GQRD+2PF81g3i71jnpEUMAc9HViPnD6oTdOLAJcX5Zzbl
-         MrETAdQo/OY93Kq9jOXQJDmNqWqeTihZNiZZ6CyVkBdqOq2RX2xa3+6Otd9xBMnhBlUH
-         qvwQqnFu10T5rHx1atTIiSBYlNKhO7xLWt8jVK4m1GOH4fKLc9VcfUwD79SqOwU8RGHQ
-         dypA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FK3vmJiqb7a+gVn5qBnneGTL0Sw9n7wbleQLLjtRCmM=;
-        fh=xJ2XlhtXAgXXcFGrxLKSc+YqKRWA+J16M28G43xaaO8=;
-        b=icnR7PGb3U2OALJAl1Blcs9SecXkLdqQyu+qcpPo0BkKQfhkTBWG71IGstgNx8W+Hp
-         TiD1+Tc4ZAZN+LpP7QDb2COnbjPKSLhpuoK2OoGQqauUWc2zjqZhu0tOewV0gwFjLYeN
-         VkbScAIoFixRawNOni8ZwSXLOYN/Kiy0G+ux5nNQR2zgElnW74L+Cng+byFMx9Vs7Q1/
-         L7C1/xpAaMuEeM3/BMUMzdfl+JPcchhS3UV9qGjGWrbd2EJG9jPXGDtPijVHODCnSQG+
-         JBt2jCY7aZkHzy3LfN8XBRrTgEWOaBmXOphgXOVH6f7SuQvjgQmgEGbQAEkMnk9e/DuB
-         9o2w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786415315; x=1787020115; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=FK3vmJiqb7a+gVn5qBnneGTL0Sw9n7wbleQLLjtRCmM=;
-        b=LnmmKpHoc31KzFeLH7aU/s2Vwlfaxsm27onqqErO8ZYT6QaVm5xOvNTbBLX4YgAUBK
-         oXtE+3NcAzGJ7HtMxMgUx68xRUgTn7ai0TU7FkLdwhkJLrRUH77S4kfjHHIlVPiIZe6E
-         xpTXJ5yPc0sc1xV70ojdbBL2d3eRVdsLzBMktVhr87fdRddhwnkApGjI9MCc80nGPkI0
-         w4+L6Ckc3CrlD5/kkVC+bnBfGVrYE+/eOiDRQX5RQhMluKHZE3ef2J82a1dOrqN4v6lj
-         Lk9/lV59iId/E0iRfNic0lqXQsvBreC/KGQh/qc9FFbQRPLxfC7G9yAOSg9svNUvLajD
-         FvBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786415315; x=1787020115;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FK3vmJiqb7a+gVn5qBnneGTL0Sw9n7wbleQLLjtRCmM=;
-        b=Ahzrt9mZd9TX0LDXFG+ePVrmvkzPd8zbR7mPOpNPaVFhyqHfPlII4Uvezl4mz4FO4u
-         hhrSBkZB0sBwbrX77J11arEP2wP6DhS936ydOsea4tFYon4vYiTX/YQZ7cJV3NEs/PxG
-         0cNovzjWYjEtXwtgsSEJZtreoGZf1tntIyN50GHuTWQLw2pXc9g3akns9dp5xUtchWnH
-         YXqwYDXhVJYYlYBvV0r3s2pucdWYWx3SiUQwTLgnsUl5bOsR2MrofluR1LVAKCqOVsCu
-         PCxhnG3B6NiCSYtNcLrg13bKTQLW7hGqR3Al/kr1v/UXcIylePFySxyeMydhOb1uqI8r
-         rWuw==
-X-Forwarded-Encrypted: i=1; AHgh+RrOxtLVs7X/Yk6jOpSXyHD6/3AE8HyNanLMGYgq4du4ff4c8ykfF4JP+CKuXJ4dxT0MTaVqTHaLTe6JrQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywesj2bM7qzPqaN6IH2/7VXwc2gf5e+pIezoPhC2JO4V1F3Z0Fw
-	ln6N8uuqVtOXx3+M7BMxtI/RKpH8Ku58e+2xH+bUvWCmcUbum2QRlURDyAweEpL+RfHfhPYYRiH
-	K5vmS9JogYjiZrvqZ5eSAQjMDrVPhdKg=
-X-Gm-Gg: AR+sD12oDo2ucibXMFXr6k0HX8Fy8Xwo+eev8NZcLpJQDDYEryZlGeRaYVdO6/cwLKA
-	Z0MvETHmVOB9jZgH3lfyNp9N65GJBektaEia5DPfOrPJ4nyD6PBOy1qErSuJnHRTAtXYHboFc/e
-	EPQG5ct2Tk0syzKESjdoWqClNvmZhlZZTHF+TpB31LbTCcedWdw1iI9Jk3oFNR1fredhFjcPVEL
-	olXuUpHhmwudqcZsXbeTHMoFB/A1rmmU0ZSAdXtBRXfBzAmuvUr7e+OF9B6ShBi5Jz1kp89NjHz
-	eYQihEftdJ5XBoG/60RuFlgbgxUxh3QeGupMie+dl1I6
-X-Received: by 2002:a05:6a21:e0a6:b0:398:837a:7af0 with SMTP id
- adf61e73a8af0-3cc2baff1a5mr397245637.30.1786415314854; Mon, 10 Aug 2026
- 19:28:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AEC3BB9FE;
+	Tue, 11 Aug 2026 02:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786416561; cv=none; b=rE2RKjb6vi7Xte4c2R8m3R0YVa0TiSir9hihU5ptd+rEiRb6MV5/Ba3/8M4V9EIcvc3GfxgqjPkzCttqDjkQCcQNCKm/1yk1yVg8zczQXzFEqWyTB/cvr0aKFLxJmiQMbi96Ps2DGT8D04x/7erT30FXuP1U3VYsbRYxkL19Vww=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786416561; c=relaxed/simple;
+	bh=oHtE6s7hg6DCPRFZdyQ+JiQsyVkBHsKJwvN7wziZYHs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NWj1Bp5L+KPzSzzHDEUSxUL5/afE0sjIRb6loQ9OZ0QFFv5zmH6k6ObmaPJsP4RQdEIsPSri2MjHXfOXB7z+uaYDqOSM8QG/jiePO3O9TW7QR1Jr262NnnSNQfzS/GUdmWrg0Lvnw6BK07VEUKzSbo8nZmZhoJGjKAAf0MRPzLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 3841c608952f11f1aa26b74ffac11d73-20260811
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:aa9ff7c8-a38c-4c8c-82fc-d8e2ae7915f6,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:874d2c9dee479eea0b866b0834a1422d,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 3841c608952f11f1aa26b74ffac11d73-20260811
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1309330190; Tue, 11 Aug 2026 10:49:06 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Branislav Klocok <branislav.klocok@orava.sk>
+Subject: [PATCH 1/4] ALSA: hda/realtek: Rename Line Out control to Headphone on ThinkPad X1 Carbon 6th
+Date: Tue, 11 Aug 2026 10:48:59 +0800
+Message-Id: <20260811024902.134457-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260804100218.49587-1-shengjiu.wang@oss.nxp.com>
- <20260804100218.49587-2-shengjiu.wang@oss.nxp.com> <20260810-normal-cuscus-of-argument-4b230b@quoll>
-In-Reply-To: <20260810-normal-cuscus-of-argument-4b230b@quoll>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 11 Aug 2026 10:28:13 +0800
-X-Gm-Features: AUfX_myaxBa_rPqdovqcCYr4z7pz2bgmNVRQ7bdnJSbreWmsZ5qeF4VRopEa4z0
-Message-ID: <CAA+D8AM9s7EX-G246Hf2=DOx5q2qXWg_MjUCaoJ8RggOjp+5cQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] ASoC: dt-bindings: fsl,imx-asrc: update port
- binding to support multiple paths
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	shawnguo@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
-	perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 10, 2026 at 3:14=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Tue, Aug 04, 2026 at 06:02:14PM +0800, shengjiu.wang@oss.nxp.com wrote=
-:
-> > From: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >
-> > The i.MX ASRC hardware supports up to three conversion pairs (A, B, C).
->
-> Which SoC? Did you read this binding you are changing?
+The ThinkPad X1 Carbon 6th Gen (ALC285, SSID 17aa:225c) has no physical
+Line Out jack. The 3.5mm headphone jack is wired to the headphone DAC,
+but the ALSA HDA driver names the corresponding control as
+"Line Out Playback Volume" (node 0x02).
 
-The i.MX35 ASRC (the original) already supports three conversion pairs
-(A, B, C).
-All subsequent SoCs that reuse this IP -- including i.MX53, i.MX8QM, i.MX8Q=
-XP,
-i.MX952, share the same three-pair hardware. This binding covers all of the=
-m.
+PipeWire's ALSA Card Profile (ACP) silences "Line Out" when headphones
+are activated, which incorrectly mutes the headphone output.
 
->
-> > The existing binding exposed only a single generic audio-graph port,
-> > which cannot represent independent conversion paths when multiple pairs
-> > are in use simultaneously.
-> >
-> > Add a ports container that enumerates up to three sub-ports, each
-> > representing an independent conversion path:
-> >   port@0 -- conversion path 0
-> >   port@1 -- conversion path 1
-> >   port@2 -- conversion path 2
-> >
-> > Each sub-port references audio-graph-port.yaml as before. Hardware pair=
-s
-> > are allocated dynamically at stream open time; each active stream
-> > direction (playback or capture) on a port consumes one hardware pair.
-> >
-> > For backwards compatibility, keep the old single port property but mark
->
-> Why? Did the old hardware change that it has more ports/paths?
+Add a quirk to rename the control to "Headphone Playback Volume" via
+alc285_lenovo_dac_rename().
 
-The hardware has always supported three pairs; the original binding simply
-did not expose them all. This patch corrects the binding to match what the
-hardware has always been capable of.
+Tested on openSUSE Tumbleweed (kernel 7.1.5):
+- Control renamed successfully, no name collision with "Headphone Playback Switch"
+- Headphone output works across multiple PipeWire/WirePlumber restarts
+  and port switches
 
->
-> > it deprecated. A schema constraint (not: required: [port, ports]) ensur=
-es
-> > that both forms cannot be used at the same time. The binding example is
-> > updated to show the preferred ports form.
-> >
-> > No existing upstream DTS file for fsl,imx-asrc uses the previously
-> > documented single 'port' node, so this change does not break any
-> > in-tree device tree.
->
-> Does it break other users of this binding?
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221522
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Tested-by: Branislav Klocok <branislav.klocok@orava.sk>
+---
+ sound/hda/codecs/realtek/alc269.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-No. The existing single 'port' property is kept and marked deprecated
-so that any out-of-tree device tree still works without modification.
-The new 'ports' form is additive only.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 6b36c730ce78..da9c816b8c4f 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -2572,6 +2572,13 @@ static void alc282_fixup_asus_tx300(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void alc285_lenovo_dac_rename(struct hda_codec *codec,
++				     const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_BUILD)
++		rename_ctl(codec, "Line Out Playback Volume",
++			   "Headphone Playback Volume");
++}
+ static void alc290_fixup_mono_speakers(struct hda_codec *codec,
+ 				       const struct hda_fixup *fix, int action)
+ {
+@@ -6998,6 +7005,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN,
+ 	},
++	[ALC285_LENOVO_DAC_RENAME] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_lenovo_dac_rename,
++	},
+ };
+ 
+ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -7956,6 +7967,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x224b, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x224c, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x224d, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
++	SND_PCI_QUIRK(0x17aa, 0x225c, "Lenovo ThinkPad X1 Carbon 6th Gen", ALC285_LENOVO_DAC_RENAME),
+ 	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x2288, "Thinkpad X390", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
+-- 
+2.25.1
 
->
-> Why mentioning upstream in the first place? Either this change breaks
-> ABI or not, explain that.
-
-The deprecated 'port' property is retained, so this change is fully backwar=
-ds
-compatible and does not break ABI.
-
-Best regards
-Shengjiu Wang
