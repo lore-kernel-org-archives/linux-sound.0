@@ -1,64 +1,64 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592664248D2
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 09:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D29422540
+	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 09:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786439179; cv=none; b=O92OKw08h33+vIX2OlSAJB5xfAGIoeCWtIq6OmkAa7l+Tx7O3HcsPSQ/EnqNZWCV5gthptH9h6skRkm1gn7QfCOMpMtXwJ6eZBg8CzZlU3Bh0S+OG0zQtjyrYLWPfPeB40q0cePYRcDD84ONLOL4aey07G9kiH2k8oyorw8Ebdc=
+	t=1786439182; cv=none; b=dI+/7RR/F/RpU2WOu9oIzMr2JZMN7HUIzEQXQJzd8/BmytDykh+YveHJlyLX2/1lOGrkCD0ZXpnJjT5K3XfgJMsIPbycJ2BZplPWpYiLd1LEAF61A2YT+vcb4/cYLmWRBUD0CnSD8cl5RwtPQbAJH+KLCppOcWolujDegbLTbSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786439179; c=relaxed/simple;
-	bh=BySdOifFf8Y6zuhIPQKfV05XjhOObYj9M6tyXBhqX1s=;
+	s=arc-20240116; t=1786439182; c=relaxed/simple;
+	bh=YhVJo70jkulbyd4wNCcrK+71b5/22m+Z4P3D4l5sVnk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=b9mvM0QE38D9BJRzvWhKEjqU2wDNvGjPai6b6DMVAq9vyUgUOHDUWPP/sfgS78Q2XBVV/8WSswkHl6c1xg3MauLLVQWFIX2St3YU5ICLU4T9fzrPgdrdxrKZi/8P7CkbSVLFIIs0woLdgGtCgyjM7mrJZWfx4AqLpTDiiKeebK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhLmimbv; arc=none smtp.client-ip=209.85.216.43
+	 MIME-Version; b=edvldFBIyl8sHqykRZKyVTU9ZByUMCKWA50MrL6hZOG4NAOP43UjhJ1OkFbuUkI7jnl7NdfeD7BkROyzcJhvZvJy8AG6FmB7alpUtWGu3paMSbfpUghrFCrQCV6EO9I6S+TGBYmHcDB+u5yJqcqMikjMAT/HPEE3lQGS0wQD5wE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HlW4RWo/; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhLmimbv"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so2143334a91.2
-        for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 02:06:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HlW4RWo/"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38deea72eebso2796450a91.1
+        for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 02:06:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786439178; x=1787043978; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786439181; x=1787043981; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hD/iT4iwK6mqdxyxeSvFzfrctiLQS7TKv4VcHOqvJ5o=;
-        b=WhLmimbv4uDsx2q78nBqwmjU36fRIxHbH5w5sRG2bZU1jxA2/VedbNIUrZl2LfxkSc
-         ykPuDaD/IxFY4tE/tsO/DCQWgznDQDqozh0qTCbrUSfBbOYktEJECoY6Dzl5oxbeOBYj
-         nAdZrdZfDJ2klkg/PdHEkP+dt8DUjpaNkc6vKjiGNX3k2l+99nQifqRYcWxka+Pf4uZk
-         ru+aecci7tlCllHJOR6mcTohHPcFgM65RnIYX4GDFA+anUU/z3Bqn/2okEAx9qTKN8No
-         JySVD1iIXPW5cA9YTpiCGGSlz4s87JnAD9jowyIE4nRoc264xTDgMALgqiHiWpjaJ44E
-         sTZQ==
+        bh=iZA/PnHaNXH4Xhxd+45+XSGsTu7F85iYW+CAMfYWS7U=;
+        b=HlW4RWo/0PrhQmvbQHBAGZYGc6gAUiFfrryiMve8E0GvZX877MYVgRvQoLiTEIX+1A
+         UoQBr9ywY/eVjsAfGvBVgCj0rG6od6uDk2qrz5aq+6iyfb5DMej/UddVNH4+f/SrQzim
+         tXLe00UpMMcwWXh3enZUw1Co9k2rJxed7zz3cyD0hpIo0dFV5ZJVt+zJww5XXRKCd2iQ
+         wbMAMGeuQnWq4maA3sEzl54YSuNqxW4jrnI+jLkoIK5B84C7q0PzJtdbzjFRWZkFtYuz
+         kzFFGsWQ75iQ725kKAGh9qQozEfBidB42iIoNnAbosNc7DwOGCznLoyrNS50Fla7pbzo
+         dHmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786439178; x=1787043978;
+        d=1e100.net; s=20251104; t=1786439181; x=1787043981;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hD/iT4iwK6mqdxyxeSvFzfrctiLQS7TKv4VcHOqvJ5o=;
-        b=ZslM6iKrBx+2oS3YjYM20xCUOq0pj1XTkc/zi/Jj1WmXd1wCln1yGicV6u97Xrnmzm
-         hWbCZAXtx3PCTaVfC2KzYZB5MXYAZ753qUsiFd4gBZGKpmrI0jcZmrTy3eqtd23V2jpy
-         +qtg75iF4WqwIGmbG2zVh6/+RUSTLZXaoEfN69a1Yvj9213900LjKu/QhtejhTREh876
-         wZuOla/Px9r/+k4we3/9GstOqxWlAunws8tgDPQGOtj9mnz9HlHNtTcSO20S3YIeQmgv
-         BGVehfJuAGu8fLTzGUJlFp6PTCv0nc0VVFHwCI5zSuPAADF1tXVyD7f+GT40kFRc/Pgt
-         wiWA==
-X-Gm-Message-State: AOJu0YzhLQsd2bSxYerHK1hEIiR/siajQr/rnDNUKLmgUwbSXSzwK9ew
-	8AhsCbld9GjFj3Cmf6CB2TsXsraKazZkXV16B5+YegrxT76zW2EA4w0Z
-X-Gm-Gg: AR+sD12RUXETtRo9LcvLhSLQepTKT120n4VjjGRVqhQcRJWhYjmaNlMWpaH32/ZHigA
-	02h3vd3w9LwzMyYFSMFG1YTTTLCpSpS6H4kuX0/F6SnqdGb+4dfn853AhLBlp5/BbP2BmjscdVH
-	JNEPsWefXah0nuBxi6SnDqnrzKvmtx8+fDc6gG45It3v2pqJEulS0CBixpEP8roKg/CzXirK5qI
-	KKACNQ+1HLcbMCXeM6HApdRg1e2iLnIJr0rzaM3LfTW+ZG5Pyu42A7n2vU4OhIkjQKRgNc0sBJA
-	kXaO8sTs3bmgx8U5HAOhB680BiOvZsco8JDpbjedn0yvvDTPB7untjIVoor10AZrIQQ4ylkntQ8
-	XcYrWhcIzkIXbTT/dgkidCy5tZI99LteHRww2aFZp/4vY06v7I1zlZfiiGigMdd2l/gUYhF6tmr
-	ShHCSZydbc0cBp4lS7ZZsFWpQnsbhTIKccP1IeI+DNbGQfgdFKCp5mq4tsMNpO2FCZQ+KaVyS4u
-	U9iqQNGY9XsTpb6ULJ7iEse0LRdYyycRaLfeackh7/MOcT1X2ID5TvlhVlBwnnqlScCmPc61Kf/
-	jjhn
-X-Received: by 2002:a17:90b:3bc6:b0:380:f389:447b with SMTP id 98e67ed59e1d1-392ec5b6ac4mr1829394a91.11.1786439177663;
-        Tue, 11 Aug 2026 02:06:17 -0700 (PDT)
+        bh=iZA/PnHaNXH4Xhxd+45+XSGsTu7F85iYW+CAMfYWS7U=;
+        b=pkgfyc07SmvIyIRDlruxgk7hPWJsCWhA63ltTQeqLSf0PiC5ULIU2/ZiA12Bnd5fIk
+         8r1CnpJGEzfzT955RPyGtsPHms//d0SEZxjefXJh49paNE23qKSC5qsFlgpJ4rP5Xy4z
+         9BadIrguj4r1vSg9SsxSZZcuGLWXiZ5qnkNEcHv/5s810BcQ+QPhqPccPmXER0ZJW5XE
+         EvWg5dsBNOXhusyOWdUjUQtdZj7vJo7BRDivmCd/HQGN6LxZ7qTYX+7PD4sERPOUh08/
+         g9xeKqS50cKEZi29C4KXkeAUbTzTOJkP+K0oXYpV24o0XEMEv9oFo0w0CKR0bErbVW9N
+         RKZg==
+X-Gm-Message-State: AOJu0YxrG083/jBRoXXzCVm0VH6UDa1jAE2CQRBzdwVgGrqfwEeBcVsT
+	9Ez2bP6fj4jhDWpBdcGHFPy0LYe0CHRBKI/YnBI5uujBnDpaaqocm92r
+X-Gm-Gg: AR+sD12ArrZJPGGcqjGJ91aZRdH1aYsVPTj1e6dlxT9bb0xlVoLRsHGqMqGcJP9Gjlh
+	iyfv10Aq2T0AwdHaCwUdYENokuwMVZaB/TMiGLoUqeJqRggySQZ0M3/oTNMy0GlVs3zhNJC45q3
+	Emk3q+jdCI+fytd9s3bqwPK4pVRkMwQ0iKwsvoILjFCWDl3SyDD4xOBEOro85/wLNxGaZTCDIxe
+	7Ztx9nYlDqoUx78sLKcyXzWNk5u358A99NP+lj+UBcZOKEZF3+qRm04HuBDs2ORs0qVmVYtgkiA
+	uVFaQE+bkOYlErbgtuSj8kuOTHwqy9kIyq3FaXhNiM2r0wQbU8LN2QNySJhygyS3FeIhIF3IbK0
+	f2Y0hxQsrydWJqXzpyPv6AhM5LIGHooGnzL6WUE7/B50Iwq/h5ktiqosnJLe7Of2Yr7LrMx0RRd
+	m2RnOc3UWd9CnDqZxLQfR9nRG1FUthkzvNy9rEQmy1O6VCFChISkDrfelxVQfnM4byKmOuzzZlq
+	v0+8K7tEuwzpmyY6S/6SyzoQkA56zljs8Fi/jBauAhSKvYkh5VRFd/Mbp4/YxJ0+PqApvRnPT3s
+	yWsh
+X-Received: by 2002:a17:90b:3fc5:b0:38d:dfd1:7a8 with SMTP id 98e67ed59e1d1-392ec3a8b23mr1791896a91.2.1786439180873;
+        Tue, 11 Aug 2026 02:06:20 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392ee41936asm1128999a91.14.2026.08.11.02.06.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392ee41936asm1128999a91.14.2026.08.11.02.06.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 02:06:17 -0700 (PDT)
+        Tue, 11 Aug 2026 02:06:20 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -68,9 +68,9 @@ To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
 Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/6] ASoC: samsung: aries_wm8994: Drop redundant probe error messages
-Date: Tue, 11 Aug 2026 16:05:46 +0700
-Message-ID: <20260811090550.38930-3-phucduc.bui@gmail.com>
+Subject: [PATCH 3/6] ASoC: samsung: pcm: Use dev_err_probe() for error handling
+Date: Tue, 11 Aug 2026 16:05:47 +0700
+Message-ID: <20260811090550.38930-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260811090550.38930-1-phucduc.bui@gmail.com>
 References: <20260811090550.38930-1-phucduc.bui@gmail.com>
@@ -84,54 +84,43 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Remove the probe error messages to avoid duplicate error reporting,
-since the error is already reported by the called functions.
+Replace dev_err() with dev_err_probe() to prevent log spam when probe
+returns -EPROBE_DEFER.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/samsung/aries_wm8994.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ sound/soc/samsung/pcm.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/samsung/aries_wm8994.c b/sound/soc/samsung/aries_wm8994.c
-index 58e3e08225de..d189db96cf17 100644
---- a/sound/soc/samsung/aries_wm8994.c
-+++ b/sound/soc/samsung/aries_wm8994.c
-@@ -381,10 +381,8 @@ static int aries_late_probe(struct snd_soc_card *card)
- 			headset_det_irq_thread,
- 			IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
- 			IRQF_ONESHOT, "headset_detect", priv);
--	if (ret) {
--		dev_err(card->dev, "Failed to request headset detect irq");
-+	if (ret)
- 		return ret;
+diff --git a/sound/soc/samsung/pcm.c b/sound/soc/samsung/pcm.c
+index 309f024bf2a4..7e7284125c3e 100644
+--- a/sound/soc/samsung/pcm.c
++++ b/sound/soc/samsung/pcm.c
+@@ -499,10 +499,9 @@ static int s3c_pcm_dev_probe(struct platform_device *pdev)
+ 		return PTR_ERR(pcm->regs);
+ 
+ 	pcm->cclk = devm_clk_get(&pdev->dev, "audio-bus");
+-	if (IS_ERR(pcm->cclk)) {
+-		dev_err(&pdev->dev, "failed to get audio-bus clock\n");
+-		return PTR_ERR(pcm->cclk);
 -	}
- 
- 	headset_button_gpio[0].data = priv;
- 	headset_button_gpio[0].desc = priv->gpio_headset_key;
-@@ -623,10 +621,8 @@ static int aries_audio_probe(struct platform_device *pdev)
- 	if (ret < 0) {
- 		/* Backwards compatible way */
- 		ret = snd_soc_of_parse_audio_routing(card, "samsung,audio-routing");
--		if (ret < 0) {
--			dev_err(dev, "Audio routing invalid/unspecified\n");
-+		if (ret < 0)
- 			return ret;
--		}
- 	}
- 
- 	aries_dai[1].dai_fmt = priv->variant->modem_dai_fmt;
-@@ -671,10 +667,8 @@ static int aries_audio_probe(struct platform_device *pdev)
- 
- 	ret = devm_snd_soc_register_component(dev, &aries_component,
- 				aries_ext_dai, ARRAY_SIZE(aries_ext_dai));
--	if (ret < 0) {
--		dev_err(dev, "Failed to register component: %d\n", ret);
-+	if (ret < 0)
- 		goto out;
--	}
- 
- 	ret = devm_snd_soc_register_card(dev, card);
++	if (IS_ERR(pcm->cclk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(pcm->cclk),
++				     "failed to get audio-bus clock\n");
+ 	ret = clk_prepare_enable(pcm->cclk);
  	if (ret)
+ 		return ret;
+@@ -512,8 +511,8 @@ static int s3c_pcm_dev_probe(struct platform_device *pdev)
+ 
+ 	pcm->pclk = devm_clk_get(&pdev->dev, "pcm");
+ 	if (IS_ERR(pcm->pclk)) {
+-		dev_err(&pdev->dev, "failed to get pcm clock\n");
+-		ret = PTR_ERR(pcm->pclk);
++		ret = dev_err_probe(&pdev->dev, PTR_ERR(pcm->pclk),
++				    "failed to get pcm clock\n");
+ 		goto err_dis_cclk;
+ 	}
+ 	ret = clk_prepare_enable(pcm->pclk);
 -- 
 2.43.0
 
