@@ -1,105 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [84.16.66.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9A72E285C;
-	Tue, 11 Aug 2026 22:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40687353EEB
+	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 22:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786487891; cv=none; b=OxkD2qsPjIlzZ1jWh+9kVBXEpXJHJsG8T0V5CFu4ZNXpj7WqdIJ5aDugWRV7DeHWzBTCDCzBuL5yBsR7cR0IGRj2dCro2F0AEBPtVgMLR8Mvk+10YQzEr0NhWBk89MTjBYCjqIIxvcwtKeI4ar+2VHNs7f1N3rum6E/Epx49OkQ=
+	t=1786488608; cv=none; b=UnJt2fVBjhGnSTcpTvXPhtt11tmlluxFJeakWAtedHhbC2d9AvbR0fW0PQINPQ6T171oPQii9apXRBwwwC+jTHDcklMxlMLTgqmTYowalnu417b8u7WEzUAH6ijw6RbUzoQoPSRvnh8nxeAwzkyVCnXRqJAksGLSMcf+QfWKs7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786487891; c=relaxed/simple;
-	bh=PFySlH5B9ZraY1mtFxYeHSeZtPI+MiPthDCd/Alk13A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=cJP9swQL/nSE6RyKyfM1jLBKeSIYfOQnjQwpxcXlg+/2eNf8pYXUfIA+EzRWudlo4h24rmoqNooiNOXgfeexZYpBeEyCABXVxt4I2g7nAlXQAS0VCevedgMFbQMM3ArGd4AIcWW7TTfzvU/3iAB2PxdTzsUrIufOoyKkPCLgS5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mp/G9klf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786488608; c=relaxed/simple;
+	bh=XvCe5/kxol9uxG/XZvN3oMiqgmphzn4bwF2McWiPNYc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Date:Message-ID; b=j16cee8iYGVJQTpRnYrD0u+0IqpGBzMWGU3GeLxa8arQN3zikHUAKYGm3QdGh3SwekpCE8E1gv2kMUlQGfubsV02vpKGjWXjVSzD/ODjmd9QKGISbwM25+TvyVkU8LV/TXbOJn4OVTGhlSQirXGqeNXbnHe4vGZ1tSk4XdyaYkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=snyders.xyz; spf=pass smtp.mailfrom=snyders.xyz; dkim=pass (2048-bit key) header.d=snyders.xyz header.i=@snyders.xyz header.b=wvSway1f; arc=none smtp.client-ip=84.16.66.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=snyders.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snyders.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mp/G9klf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 860731F000E9;
-	Tue, 11 Aug 2026 22:38:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786487890;
-	bh=FzXKYC03I39hEmbzF80sm/2SvrE4o5YfUYy5npuLn4g=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=mp/G9klfJuNuH4680Hf+YQJen7bPrescNeaTOga6wwUZTTnP+OBZC/CMpy2aXj4IF
-	 47dpMCLmMQ80/yTXR8OxNEyCH5qxaA3fofIbCuA6eF0ddTWRpAYS9ULr3cuwDlKhIE
-	 Wd4VD2X8mvgWyKDG3hnNeY5qHpeZYC7LXXnJxaEBtrf3zm/jozxmYXWjg4ghNPsBQt
-	 rAZk2V279Q4fmzHZNJDeoIwwU2JXENHwSbngVYzMMG2WjWvNnjqeUM2FrG1NM1Np/c
-	 zdUxMo2/VI7WXvTs/24Ry3b4iQh+oZVHI+VKm+4KCbsuuVPpUO8QMKoDAG/NxkET8u
-	 QdXwZYX55pd5g==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260811084605.1820056-1-prasad.kumpatla@oss.qualcomm.com>
-References: <20260811084605.1820056-1-prasad.kumpatla@oss.qualcomm.com>
-Subject: Re: [PATCH v1 0/2] ASoC: dt-bindings: qcom,sm8250: Add Maili sound
- card
-Message-Id: <178648267066.387691.4593405387170532179.b4-ty@b4>
-Date: Tue, 11 Aug 2026 22:11:10 +0100
+	dkim=pass (2048-bit key) header.d=snyders.xyz header.i=@snyders.xyz header.b="wvSway1f"
+Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hKRf40zFDzcwv;
+	Wed, 12 Aug 2026 00:50:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=snyders.xyz;
+	s=20251118; t=1786488603;
+	bh=XvCe5/kxol9uxG/XZvN3oMiqgmphzn4bwF2McWiPNYc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=wvSway1ff40nIQiXZSNuurvD1XHqrp/RZqejqRo+4GkJZeqQR3hQdxmUM2Eousjcq
+	 Bpjrd7yMu45Qe10i5PX4Rjpm33mG4tmyGLRjV9GxjCn3K91/a9lRjQ+4ZaKbjHF5sJ
+	 HKSnKulZDF3kMRyq7TY0LXv5VCBR+Sgj3HivpcqesBjHpURLX8D39YK/htVCF0p0al
+	 lzbkPRIzpL5cyKFh6QlMyrYqGqEd5dpw1n/dI+L+vQSeGmWnhvWoMTGQwwiR6KdIsN
+	 0PaL0ANG214ujE5+BqxBBv7DpvTulxQZRmHv7J8B3/5JNclplAP4mmkJiCDXN1xXYZ
+	 Rit3SA3HvKt6w==
+Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4hKRf26596zfT;
+	Wed, 12 Aug 2026 00:50:02 +0200 (CEST)
+From: Robin Snyders <robin@snyders.xyz>
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Richard Acayan <mailingradian@gmail.com>,
+	Robin Snyders <robin@snyders.xyz>
+Subject: Re: [PATCH] ASoC: q6afe-dai: make DISPLAY_PORT_RX a playback widget
+In-Reply-To:
+ <20260811-submit-q6afe-display-port-v1-1-3bc8f2f38bdf@snyders.xyz>
+References: <20260811-submit-q6afe-display-port-v1-1-3bc8f2f38bdf@snyders.xyz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1469; i=broonie@kernel.org;
- h=from:subject:message-id; bh=PFySlH5B9ZraY1mtFxYeHSeZtPI+MiPthDCd/Alk13A=;
- b=owGbwMvMwMWocq27KDak/QLjabUkhqzqJf6/xFx0jz2Y93tXauXZzhqhZXormqdfuH+m/31fV
- KmZK7dwJ6MxCwMjF4OsmCLL2mcZq9LDJbbOfzT/FcwgViaQKQxcnAIwkdfW7P+Ul4XwlTrOlK/N
- ve5+13VxzOass6wbVk7YWD/zmln6qz2+Vtk6i86ySNU8e9dxM3nFDan0FxICXVrFVb2vvFpuikb
- vsjPzPvmTM/G4Z7vtBuMS2yW5Gko7za/33m3+NmsCV1LquddRoe8tJTtzd0u2nr/ms6910p0553
- v0WTmWKh7ZpPCsXXaC1wyv8jvyDC8m3VVdaP/ow22hNceC/CpWTGg3W/baN8EwN4dJJMBcRc05+
- q01f7RRWoL8kqJ3jwOiNSM92t9trNCsEGpw1OauunMvuH6uzvupE/LVZOS6rtQpSZesrNT96FrQ
- YBvJzdXmajZT+enbzVk7GA4690x3VPT+HvHv0/zJ3guaAA==
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Date: Wed, 12 Aug 2026 00:49:46 +0200
+Message-ID: <178648858640.3471590.18184750436169014545.q6afe-withdrawal-resend@snyders.xyz>
+X-Infomaniak-Routing: alpha
 
-On Tue, 11 Aug 2026 14:16:03 +0530, Prasad Kumpatla wrote:
-> ASoC: dt-bindings: qcom,sm8250: Add Maili sound card
-> 
-> This series add support for sound card on Qualcomm Maili boards.
-> 
-> Prasad Kumpatla (2):
->   ASoC: dt-bindings: qcom,sm8250: Add Maili sound card
->   ASoC: qcom: sc8280xp: Add Maili sound card support
-> 
-> [...]
+Resending as plain text because vger rejected the list copies of my
+previous withdrawal reply due to a connector-generated HTML alternative.
 
-Applied to
+Please withdraw this patch.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+After a closer audit, I cannot substantiate the functional claim in the
+commit message. For this widget, AIF_IN and AIF_OUT use the same DAPM
+power check and sequencing, the explicit q6afe_dapm_routes entry already
+defines the route direction, and the widget is SND_SOC_NOPM with no event.
+The change makes the declaration consistent with the other RX widgets,
+but I have no evidence that it changes runtime behaviour or fixes the AFE
+start failure described in the submission.
 
-Thanks!
+I do not want this merged under an incorrect bug-fix rationale. I will
+resubmit only if I can demonstrate a material effect.
 
-[1/2] ASoC: dt-bindings: qcom,sm8250: Add Maili sound card
-      https://git.kernel.org/broonie/sound/c/4d788788e366
-[2/2] ASoC: qcom: sc8280xp: Add Maili sound card support
-      https://git.kernel.org/broonie/sound/c/19b7493a7162
+Sorry for the noise.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Robin
