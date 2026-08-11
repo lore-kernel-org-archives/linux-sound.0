@@ -1,180 +1,338 @@
-Received: from a3-11.smtp-out.eu-west-1.amazonses.com (a3-11.smtp-out.eu-west-1.amazonses.com [54.240.3.11])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9401367B84
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 18:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.3.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A52237A4B8;
+	Tue, 11 Aug 2026 18:19:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786472030; cv=none; b=PvTWc3Yn6ziJ3rALvByrJn1Ciqf8Q3JMstRLDSRig1n/u3/wRuiH00qP3h+OhUuK3j+1qldv493rhH+gd7xi0mTHJ4DuPJRiOaDo+wYNkn1GKvZ01koHNmcPbs+OuoAuxL/EhaZOhHRfsyjipkByL/di+zhyaqpaild1beTaoak=
+	t=1786472353; cv=none; b=NLIysolIeBw17RA9K8kMHFORcPzcRw+JUJR0JcpvPHE0VvHFvoVD8GJYiYgeFGQdn+yenS7JRrggGdBEL8qWvU9a6FiB+bCw3UEZzjiCraF12tTeM9IuINdSC82QeI0aChqpHAro3ZPtgs+6yH20+hWAXgyemFRsyIYj8KOrqKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786472030; c=relaxed/simple;
-	bh=Ma11O4/yFAaRckRnWqKsL5xjpMfwjgkjWIwAzrYTY1g=;
-	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Date:MIME-Version:
-	 Content-Type; b=aSpZaT+I/qnMt0YzjAkewlu7VPoxmds3CwgpDZpWJqZhVBFoCdXbylk6kBWhvqhLtq33BCbOojCFugp/jN20hj2Dn4lIQDdDqoT9A26VxmcyGey38a0AHmgLZt8OqOFpB5Uu3ntOeFjyeXLI4PpChp0B0EOAMKvL/BeTgBx2aJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=androos.io; spf=pass smtp.mailfrom=send.androos.io; dkim=pass (1024-bit key) header.d=androos.io header.i=@androos.io header.b=bF+A9LuJ; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=FmK9nS3V; arc=none smtp.client-ip=54.240.3.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=androos.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.androos.io
+	s=arc-20240116; t=1786472353; c=relaxed/simple;
+	bh=LSm5DIx4snk6M3aNoS32ZmRfoHK8v9JA9Kz/Uue2v18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cu7yYuHH+U3hS5ncpIFQLZq5YxDtG8pVwoluXSJxJAUlxHR0CdoZ+8Z3vdI6YPokdXlN5gNILv/R8MKxUo3Gu6Ei9NrN0Fzd0uh5TRDj/8EhDUGbkPv22dbTpgeRKcr3P7+/lisAgxlDBZyEzDFQ3rf3tO6zPOVWGncHKEJpHNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DaDWtMcY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=androos.io header.i=@androos.io header.b="bF+A9LuJ";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="FmK9nS3V"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
-	d=androos.io; t=1786472025;
-	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
-	bh=Ma11O4/yFAaRckRnWqKsL5xjpMfwjgkjWIwAzrYTY1g=;
-	b=bF+A9LuJVpsOIpivjbvaFgRh1WnP343n+aLRx6BuFwXLankTu1QNjPbe2jdZW4Am
-	eh4bpxci/UC7TwUsdaXrfkktBqrqsD6FxTKe0WpIif47RhhyjxA6lgvNWDPTPa21txN
-	IcfgJZwaScm50HruhNNNH10ECgE+G7e4ZkteMhmU=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=shh3fegwg5fppqsuzphvschd53n6ihuv; d=amazonses.com; t=1786472025;
-	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
-	bh=Ma11O4/yFAaRckRnWqKsL5xjpMfwjgkjWIwAzrYTY1g=;
-	b=FmK9nS3V9K2LRzHZ4+d32k4V8bRyxjhidm0q51v81IT0c8UNF64EB58UKl3DkpkQ
-	KtC9UzHdSg1sJaWXi8uq3+QyujD4fTujACPc6sWWD81zByz/IPpfembhqtS9iqTmTDC
-	YXVm5Ig+djAS1xI+G9ArVV7+gIRXLD/rBWKgpWtg=
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-In-Reply-To: <87h5l1b33j.wl-tiwai@suse.de>
-From: Neil Andrews <neil@androos.io>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz
-Subject: Re: [BUG] snd-usb-audio: Audient iD14 (2708:0008) 20 dB channel
- imbalance
-Message-ID: <0102019ff207ccda-7b65c5af-5c39-4218-ae8e-5ef8d55701e0-000000@eu-west-1.amazonses.com>
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 11 Aug 2026 18:13:45 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DaDWtMcY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EC751F00A3A;
+	Tue, 11 Aug 2026 18:19:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786472351;
+	bh=hc/QLCRd9UCk3o9qsDvUtgMEwoVwkuIh+1I01iMCrYk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DaDWtMcY8ufHf2RmCcMQ9Z+I9s9CjsDj2d7xt6m2i2DtpVyMWgdK1wZE9Alai519n
+	 hk7h7tWs0y2xEj4JM7XTtxF/Fwh6Rl++qCQQ/XdoPuktLFdEKESYdthArIuFL9zBuZ
+	 UJszx8Ngrn1h8rwBYl98SuqEftkLJNInfeOqEPpwy4fIaWf0UxgnIptwgo/klFL7cn
+	 Fh5eL7xwt9PZMvuR0lcFlF/a5nNmaJL4tkRyoAQxmJDGa+HnHha8PdG981IiNdwWaj
+	 uTThjlRgToT7TFhZqcZv+ItdRcMDBCgNvdDYMR2JocyxBoD+Jap4qFH3+Ts+6R5do4
+	 Qnig35Hn3QOIA==
+Date: Tue, 11 Aug 2026 19:19:04 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
+	Srinivas Kandagatla <srini@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v1 1/5] dt-bindings: sound: qcom,q6dsp-lpass-ports:
+ Rename QAIF clock IDs
+Message-ID: <81474771-c89e-4476-97ae-032756879605@sirena.org.uk>
+References: <20260808181948.2489187-1-prasad.kumpatla@oss.qualcomm.com>
+ <20260808181948.2489187-2-prasad.kumpatla@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uWz5LYfO0GfAdVdb"
+Content-Disposition: inline
+In-Reply-To: <20260808181948.2489187-2-prasad.kumpatla@oss.qualcomm.com>
+X-Cookie: PARDON me, am I speaking ENGLISH?
+
+
+--uWz5LYfO0GfAdVdb
 Content-Type: text/plain; charset=utf-8
-Feedback-ID: :1.eu-west-1.3mRTAxKqFuDMEE9BXCYRrSI9F/ZrE+OZZeY7XuVrscQZYVwMgTK2N8YsUG39Y6T8JbXGI6yd9YKkugDdKBPWmdzepROBy0b67ml7dTIfUOsjr0TXUDI53RxcdxxVrIw25aOcYei8jbkRArpDbKOfZ3iU5uSK+z8A8A2AHps5yx4=:1.eu-west-1.KEYBhYy5skZtLAf2ooWkoQwfhj0g1VAvm2T4fzvEpSk=:AmazonSES
-X-SES-Outgoing: 2026.08.11-54.240.3.11
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 11 Aug 2026, Takashi Iwai wrote:
-> It's fine to skip the volume if =
-it actually improves -- so please test
-> it ;)
->
-> Judging from your =
-description, an alternative with keeping the volume
-> control would be to just rename it; the problem is that it's tied with
-> "Speaker".  You can name it a different, some non-standard one,
-> instead, too.
+On Sat, Aug 08, 2026 at 11:49:44PM +0530, Prasad Kumpatla wrote:
+> The QAIF clock IDs were added with a LAPSS prefix typo. These IDs are
+> new, so rename them directly to the existing LPASS naming convention
+> instead of keeping misspelled aliases.
 
-Hi Takashi,
+This breaks the build.  *Please* test things before sending them.
 
-I tested both on 7.1.6 with sound/usb rebuilt=
- out of tree, measured with
-the loopback rig from the original report. Both=
- fix it. I would suggest
-the rename.
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:67:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF0_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF0_IBIT=E2=80=99?
+   67 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF0_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:68:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF0_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF0_EBIT=E2=80=99?
+   68 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF0_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:69:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF1_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF1_IBIT=E2=80=99?
+   69 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF1_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:70:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF1_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF1_EBIT=E2=80=99?
+   70 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF1_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:71:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF2_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF2_IBIT=E2=80=99?
+   71 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF2_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:72:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF2_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF2_EBIT=E2=80=99?
+   72 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF2_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:73:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF3_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF3_IBIT=E2=80=99?
+   73 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF3_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:74:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF3_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF3_EBIT=E2=80=99?
+   74 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF3_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:75:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF4_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF4_IBIT=E2=80=99?
+   75 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF4_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:76:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF4_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF4_EBIT=E2=80=99?
+   76 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF4_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:77:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF5_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF5_IBIT=E2=80=99?
+   77 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF5_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:78:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF5_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF5_EBIT=E2=80=99?
+   78 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF5_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:79:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF6_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF6_IBIT=E2=80=99?
+   79 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF6_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:80:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF6_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF6_EBIT=E2=80=99?
+   80 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF6_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:81:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF7_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF7_IBIT=E2=80=99?
+   81 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF7_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:82:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF7_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF7_EBIT=E2=80=99?
+   82 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF7_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:83:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF8_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF8_IBIT=E2=80=99?
+   83 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF8_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:84:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF8_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF8_EBIT=E2=80=99?
+   84 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF8_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:85:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF9_IBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF9_IBIT=E2=80=99?
+   85 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF9_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:86:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF9_EBIT=E2=80=99 undeclared here (not in a function);=
+ did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF9_EBIT=E2=80=99?
+   86 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF9_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:87:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF10_IBIT=E2=80=99 undeclared here (not in a function)=
+; did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF10_IBIT=E2=80=99?
+   87 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF10_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:88:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF10_EBIT=E2=80=99 undeclared here (not in a function)=
+; did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF10_EBIT=E2=80=99?
+   88 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF10_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:89:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF11_IBIT=E2=80=99 undeclared here (not in a function)=
+; did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF11_IBIT=E2=80=99?
+   89 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF11_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:90:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF11_EBIT=E2=80=99 undeclared here (not in a function)=
+; did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF11_EBIT=E2=80=99?
+   90 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF11_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:91:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF12_IBIT=E2=80=99 undeclared here (not in a function)=
+; did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF12_IBIT=E2=80=99?
+   91 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF12_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:92:19: error: =E2=80=
+=98LAPSS_CLK_ID_QAIF_IF12_EBIT=E2=80=99 undeclared here (not in a function)=
+; did you mean =E2=80=98LPASS_CLK_ID_QAIF_IF12_EBIT=E2=80=99?
+   92 |         Q6PRM_CLK(LAPSS_CLK_ID_QAIF_IF12_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:93:19: error: =E2=80=
+=98LAPSS_CLK_ID_VA_QAIF_IF0_IBIT=E2=80=99 undeclared here (not in a functio=
+n); did you mean =E2=80=98LPASS_CLK_ID_VA_QAIF_IF0_IBIT=E2=80=99?
+   93 |         Q6PRM_CLK(LAPSS_CLK_ID_VA_QAIF_IF0_IBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:94:19: error: =E2=80=
+=98LAPSS_CLK_ID_VA_QAIF_IF0_EBIT=E2=80=99 undeclared here (not in a functio=
+n); did you mean =E2=80=98LPASS_CLK_ID_VA_QAIF_IF0_EBIT=E2=80=99?
+   94 |         Q6PRM_CLK(LAPSS_CLK_ID_VA_QAIF_IF0_EBIT),
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/build/stage/linux/sound/soc/qcom/qdsp6/q6prm-clocks.c:15:27: note: in defi=
+nition of macro =E2=80=98Q6PRM_CLK=E2=80=99
+   15 |                 .clk_id =3D id,                           \
+      |                           ^~
 
-Baseline, unpatched, PipeWire at 50% =
-(control driven to 109/127):
-18.00 dB imbalance.
+--uWz5LYfO0GfAdVdb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-1. { 12, NULL }
+-----BEGIN PGP SIGNATURE-----
 
-Control gone, userspace falls back to software volume, 0.00 dB. So it
-does improve.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp7Z5cACgkQJNaLcl1U
+h9CP8gf+OgDfYf8RD8UpqG1cZWggtfajfEZdCu3aRyTzqpgwvZS1Vkn+uotbOwQE
++B6fTosSuz2ftHGTss8szPez5cCgbWZEWkdoC+0P86GNH6ao0oW3QsETRiO4Oe/L
+0kxhDNjD5jjswuZt6nuJFRYJ2U4FKgsT5NF/XZn+l/xjLmpVtpUJ6rabiEthva/l
+p5852na2z36OIXJmo3h2LJfZ5Api/+18DbTcXlLY4Lr2fNoWB6aXs1w9dXSAhfEP
+Kl9WG84nAVM1kSaS6iZNN87r5RbL0uRIwBB3VeQA/H8hcH6j2FHO1ZyVzVGCbKzU
+UBgDSipF3LYZWLnd7N42QjlueDKXeQ==
+=ovaN
+-----END PGP SIGNATURE-----
 
-One wrinkle: FU 12 keeps its value across a module reload, =
-so if the
-quirk arrives while the hardware is already attenuated, the =
-imbalance
-stays and there is no longer a control with which to undo it =
-(measured:
-18.00 dB, control absent). Only a power cycle clears it, which =
-matters
-for anyone whose saved ALSA state holds a value below 0 dB.
-
-2. { 12, "Monitor Mix Playback" }
-
---- a/sound/usb/mixer_maps.c
-+++ b/sound/usb/mixer_maps.c
-@@ -495,6 +495,19 @@
- 	{}
- };
-
-+/* Audient iD14: FU 12 advertises Volume on only 4 of its 6 logical =
-channels
-+ * and sits on the monitor-mixer branch, but it is traced through=
- to the
-+ * Speaker output terminal and gets named "Speaker Playback =
-Volume". Userspace
-+ * then adopts it as the stream's hardware volume, and =
-any setting below 0 dB
-+ * attenuates some channels but not others (20 dB =
-imbalance at 80%). Give it a
-+ * non-standard name so that it is no longer =
-taken for the stream's master
-+ * volume, while remaining reachable for =
-anyone who wants the monitor gain.
-+ */
-+static const struct =
-usbmix_name_map audient_id14_map[] =3D {
-+	{ 12, "Monitor Mix Playback" },	=
-/* FU, partial coverage */
-+	{}
-+};
-+
- /*
-  * Control map entries
-  */
-@@ -579,6 +592,11 @@
- 		.map =3D maya44_map,
- 	},
- 	{
-+		/* Audient iD14 */
-+		.id =3D USB_ID(0x2708, 0x0008),
-+		.map =3D audient_id14_map,
-+	},
-+	{
- 		/* KEF X300A */
- 		.id =3D USB_ID(0x27ac, 0x1000),
- 		.map =3D scms_usb3318_map,
-
-Gives numid=3D11,name=3D'Monitor Mix =
-Playback Volume'. PipeWire no longer
-picks it up (control stays at 127, 0.=
-00 dB), and it still works when set
-deliberately, so an attenuated device =
-can be recovered: 107 by hand
-gives 20.00 dB, back to 127 gives 0.00 dB. =
-The name ends in "Playback"
-because a mapped name suppresses the automatic =
-" Playback" but still
-gets " Volume" appended.
-
-3. A qualification to my =
-report
-
-I said userspace adopts the control as the card's hardware playback
-volume, without qualifying it. That is too broad.
-
-alsa-ucm-conf 1.2.16.1 =
-ships
-USB-Audio/Audient/Audient-iD14-HiFi-0008.conf, which splits the =
-device
-into 2-channel sinks and declares no playback mixer element. With it=
- in
-use PipeWire never touches FU 12: the control stays at 127 at every
-volume setting, on both split sinks and on the underlying node.
-Reproducing needs the ACP path instead, which I got by setting
-api.alsa.use-ucm =3D false for the device in WirePlumber (then 100% ->
-127, 80% -> 122, 50% -> 109). All measurements above were taken that
-way.
-
-So the affected set is narrower than I implied: the ACP path rather than
-that UCM profile, plus anyone whose saved ALSA state carries a value
-below 0 dB, since that is restored at boot either way. The descriptor
-problem itself is unchanged.
-
-Happy to send either version as a proper =
-patch with a Signed-off-by, and
-to test anything else on the hardware.
-
-thanks,
-Neil
+--uWz5LYfO0GfAdVdb--
