@@ -1,84 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC8337C903
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 06:09:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9790E394496;
+	Tue, 11 Aug 2026 06:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786428572; cv=none; b=cGI68mI9+1IaBkfHDacnmhqgs6asIZUgCnvCqdI5/c/kHekc7/7tTJZboi/MTv60dm0TZF6VVn13Ve0J8WQMEsg7Je6QvDRg9nPthzqnDrY/fbeLT+gtSBUZ4U6YXqARNslxclQYPbukpWohEk0htIBqFnnmPZruSgXFsBe8JM0=
+	t=1786428756; cv=none; b=Vo8dWnoSGifCYxGaBGrieHBgXn8eUFQVMlBYYRSYvpMLFTvYZM+O4HNlpPvfiaNKc4hkeGReNLJ4YWA/xSpwxwiaYwmogphH+cwBVglRu4HVeKuwZIRdf4VoHpvWnnJgl74E1xt/BGKshlTDgZbMYrpvBYtASQN4TB/W+u5gtmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786428572; c=relaxed/simple;
-	bh=xVoY/Kou9m+IdGZVU1C6aN/l9BasvkanRe2a0lCeI6E=;
+	s=arc-20240116; t=1786428756; c=relaxed/simple;
+	bh=0fa2RpEDe7m5PzwbULvWwK7r1hekDDhfJ3jk5ZlBG+o=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FQr4lAleR9k08Ej6dS4v+ZHCYpCUa8MThMcKSxclMQIqXnpwgN+1nePojMVmHoBud+9N5TAMiWmIrLQ+RLsNcEpcqCNJF3fU3JxUwSx9l5+2gfHXzMhAaN3Caepwrr5K28kFrIHjizWHwkrJTL+BqHlRShgwAwlGrksdjXb7IRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q4SDhoN5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zWAgz6QN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZVkSTJv8; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aMZpJGJk; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=DTu7q0pYRLFfyPHF/HK0SyRPXpMkaojYTMZODpQSRdNkWrHOk9StteJNo0lNnEl1cnOebVgUTvuz76S5URqJ+A1gUP1h4N0ZPLR59XbEO5ln46uQ+kc4Sj6qe4s3Sh7xdAqfYWCpLc8UlaTff/PX3pmKR4t96jlAfb/eskmr9gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FCZaLARV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+nMENYoi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZSDP3Esb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Tx2N76VG; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q4SDhoN5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zWAgz6QN";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZVkSTJv8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aMZpJGJk"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FCZaLARV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+nMENYoi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZSDP3Esb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Tx2N76VG"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 233228188F;
-	Tue, 11 Aug 2026 06:09:21 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BB710818AF;
+	Tue, 11 Aug 2026 06:12:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786428565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786428747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u9vR8ts62dQ3+6eAJC+w2fYrd0f1EFeutu6TFq9n0d8=;
-	b=q4SDhoN5v5Qz1o83iuT2SvF1VBPfiKbd8tZq0uKSb+z8+kWSQr1om72fxu8QVf3LUUjFou
-	hizOZtQLQCjnp8KhnYdPlqelT8IBrqo2AKbXFkGYogegmo3zS+4QLN5wiwD+VaoYv3S9P1
-	3cf96vy0EWaf2u01Ht4DpCkqkPCKcEQ=
+	bh=r909K1vr4bt+yjSpS39hgHqirCgo+4AGbhqWtmyRg8o=;
+	b=FCZaLARVXwUJPfc/nd86rV56Bsts6x+Us3XeL0oNXm1Y+VQ+AYdIRmGi3IaWVjvi5MpoYQ
+	9grdT4/iBjTvw0gS9w9wyJLRwCbrth8H1g/rUxOiyOu57RaG1oHpzFwCbKtO6e9CRHCWcU
+	57aWTzJ5BvDB9SBy6wSqVsmHlg7CwrE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786428565;
+	s=susede2_ed25519; t=1786428747;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u9vR8ts62dQ3+6eAJC+w2fYrd0f1EFeutu6TFq9n0d8=;
-	b=zWAgz6QNgZ5PJE1ZlYwn2QXDTFqWW9FSKlTXpdrXctMQVmsAno2Zsyjd6fxsG+0szZ2hUl
-	WoP0M3q1FW84DnCA==
+	bh=r909K1vr4bt+yjSpS39hgHqirCgo+4AGbhqWtmyRg8o=;
+	b=+nMENYoiJEZORwbeyRU5kNHhN+Pcgzda6q3L2LaH8IPpzg5HjykibzOHRVHjtywGHSp2sD
+	Nn5ZkJq6wxKfziBg==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786428561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786428743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u9vR8ts62dQ3+6eAJC+w2fYrd0f1EFeutu6TFq9n0d8=;
-	b=ZVkSTJv8VjupkPAKkN2bdiXki8ctNaz9SA31gPqcP/h7UcrqHNLgL3NoanSB1L2yeoWMDn
-	fHb/lIL2xs7X2K5OFuIZ3cqeeeD6bEwrDKQlmvRzPwkjlYClV3ifGPBZmblONMGp4PJVZn
-	PAGHYMTl6rZ8rZElHme3vPygkiWoVAE=
+	bh=r909K1vr4bt+yjSpS39hgHqirCgo+4AGbhqWtmyRg8o=;
+	b=ZSDP3Esbw0qEOpSVKf+HC5xO2MQbUEH7l01YsjdzhoacV4V9bb+R911zqvfJwPQ267fW/4
+	2g145tXh/VO2DqNFjexZVMLwz5OSS/XGk4ai5PHDoUOKLVFxmsykTTszRTaMmcFu8Q2rJs
+	r1OCexS3WTcl+qp7RLIq11hlfJ7Qh9w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786428561;
+	s=susede2_ed25519; t=1786428743;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u9vR8ts62dQ3+6eAJC+w2fYrd0f1EFeutu6TFq9n0d8=;
-	b=aMZpJGJkmJsMPYPdcustazz8ZFYU+TnvoWHp22Dsa4c7GQNR80RGNdiD9DJoS22rp2Fonj
-	V7SPqVPba/AQJdBA==
+	bh=r909K1vr4bt+yjSpS39hgHqirCgo+4AGbhqWtmyRg8o=;
+	b=Tx2N76VGVS8aX6pb2m2AgbaJt0d9zpF7h3byAq8vVjZFG7pVkztNCXL5+/0dNER5fuHKaL
+	5gokywzbgGzLWBCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F0654779B2;
-	Tue, 11 Aug 2026 06:09:20 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 87FE9779B6;
+	Tue, 11 Aug 2026 06:12:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nX9rOZC8empVOgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 11 Aug 2026 06:09:20 +0000
-Date: Tue, 11 Aug 2026 08:09:20 +0200
-Message-ID: <87h5l1b33j.wl-tiwai@suse.de>
+	id A9jkH0e9empNPQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 11 Aug 2026 06:12:23 +0000
+Date: Tue, 11 Aug 2026 08:12:23 +0200
+Message-ID: <87fr0lb2yg.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Neil Andrews <neil@androos.io>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz
-Subject: Re: [BUG] snd-usb-audio: Audient iD14 (2708:0008) 20 dB channel imbalance
-In-Reply-To: <0102019fed22f9d3-fa294ec5-02f1-4fd3-b3fa-76efc14331cc-000000@eu-west-1.amazonses.com>
-References: <0102019fed22f9d3-fa294ec5-02f1-4fd3-b3fa-76efc14331cc-000000@eu-west-1.amazonses.com>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Branislav Klocok <branislav.klocok@orava.sk>
+Subject: Re: [PATCH 1/4] ALSA: hda/realtek: Rename Line Out control to Headphone on ThinkPad X1 Carbon 6th
+In-Reply-To: <20260811024902.134457-1-zhangheng@kylinos.cn>
+References: <20260811024902.134457-1-zhangheng@kylinos.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -104,138 +106,77 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,orava.sk:email,kylinos.cn:email]
 
-On Mon, 10 Aug 2026 21:25:20 +0200,
-Neil Andrews wrote:
+On Tue, 11 Aug 2026 04:48:59 +0200,
+Zhang Heng wrote:
 > 
-> Hi,
+> The ThinkPad X1 Carbon 6th Gen (ALC285, SSID 17aa:225c) has no physical
+> Line Out jack. The 3.5mm headphone jack is wired to the headphone DAC,
+> but the ALSA HDA driver names the corresponding control as
+> "Line Out Playback Volume" (node 0x02).
 > 
-> On an Audient iD14 (USB 2708:0008), snd-usb-audio exposes a mixer control
-> "Speaker Playback Volume" that covers only 4 of the device's 6 playback
-> channels, and does not cover PCM channel 0. Userspace (PipeWire, PulseAudio)
-> adopts it as the card's hardware playback volume, so any setting below 100%
-> attenuates some channels but not others. At a typical 80% setting the
-> inter-channel imbalance is 20 dB. The device is balanced under Windows, where
-> the vendor driver does not drive this control.
+> PipeWire's ALSA Card Profile (ACP) silences "Line Out" when headphones
+> are activated, which incorrectly mutes the headphone output.
 > 
-> Not a regression: I diagnosed it on kernel 6.19.14 and re-measured on 
-> 7.1.6 with identical results.
+> Add a quirk to rename the control to "Headphone Playback Volume" via
+> alc285_lenovo_dac_rename().
 > 
-> System:
->   Kernel:        7.1.6-1-cachyos (CachyOS)
->   alsa-lib:      1.2.16.1, alsa-utils 1.2.16
->   PipeWire:      1.6.8, WirePlumber 0.5.15
->   Device:        Audient iD14, USB 2708:0008, bcdDevice 1.11
+> Tested on openSUSE Tumbleweed (kernel 7.1.5):
+> - Control renamed successfully, no name collision with "Headphone Playback Switch"
+> - Headphone output works across multiple PipeWire/WirePlumber restarts
+>   and port switches
 > 
-> The control, against a playback stream that is 6 channels
-> (Channels: 6, Channel map: FL FR FC LFE RL RR):
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221522
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+> Tested-by: Branislav Klocok <branislav.klocok@orava.sk>
+> ---
+>  sound/hda/codecs/realtek/alc269.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
->   numid=11,iface=MIXER,name='Speaker Playback Volume'
->     ; type=INTEGER,access=rw---R--,values=4,min=0,max=127,step=0
->     : values=107,107,107,107
->     | dBminmax-min=-127.00dB,max=0.00dB
-> 
-> The driver records the partial coverage itself (from alsa-info):
-> 
->   Unit: 12
->     Control: name="Speaker Playback Volume", index=0
->     Info: id=12, control=2, cmask=0xf, channels=4, type="S16"
-> 
-> Descriptor origin. FEATURE_UNIT bUnitID=12 advertises Volume on only 4 of its
-> 6 logical channels:
-> 
->   bmaControls(0)     0x00000000
->   bmaControls(1..4)  0x0000000c   Volume Control (read/write)
->   bmaControls(5)     0x00000000
->   bmaControls(6)     0x00000000
-> 
-> FU 12 is also not in the direct playback path. USB streaming input to Speaker
-> output runs:
-> 
->   INPUT_TERMINAL 2 (USB Streaming, 6ch)
->     -> EXTENSION_UNIT 51 (6ch)
->     -> FEATURE_UNIT 10 (6ch, bmaControls(0..6) all 0x00000000, no controls)
->     -> OUTPUT_TERMINAL 20 (0x0301 Speaker)
-> 
-> whereas FU 12 sits on the monitor-mixer branch:
-> 
->   EXTENSION_UNIT 50 (16ch) -> MIXER_UNIT 60 (6ch) -> FEATURE_UNIT 12
->     -> EXTENSION_UNIT 54 (6ch) / EXTENSION_UNIT 55 (3ch)
->     -> back into EXTENSION_UNIT 51 and 52
-> 
-> So FU 12 is traced through to the Speaker output terminal and named
-> "Speaker Playback Volume", but it is a partial-coverage control on a mixer
-> branch rather than a master volume for the stream. Consistent with that, the
-> measured coverage does not match a naive reading of cmask=0xf (logical
-> channels 1-4): it is PCM channel 0 that escapes attenuation and PCM channel 1
-> that receives it.
-> 
-> Measurements. The iD14 loops output channels 0 and 1 back onto capture
-> channels 10 and 11. I played 6-channel S32_LE WAVs carrying a -12 dBFS sine in
-> exactly one channel, straight to hw: with the card profile set to off so
-> PipeWire was out of the path, and recorded all 12 capture channels. The two
-> files are bit-identical in amplitude and differ only in which channel carries
-> the tone.
-> 
->   Speaker Playback Volume = 107/127 (-20.00 dB):
->     output ch0 -> loopback ch10   RMS -15.89 dBFS
->     output ch1 -> loopback ch11   RMS -35.89 dBFS
->     delta: 20.00 dB
-> 
->   Speaker Playback Volume = 127/127 (0.00 dB):
->     output ch0 -> loopback ch10   RMS -15.89 dBFS
->     output ch1 -> loopback ch11   RMS -15.89 dBFS
->     delta: 0.00 dB
-> 
-> The delta tracks the control's own dB value exactly. PCM channel 0 is
-> unaffected at either setting; PCM channel 1 is attenuated by precisely the
-> amount the control reports. Output channels 2-5 are not carried on the
-> loopback, so I could not measure them. Those four figures came out the same on
-> 6.19.14 and 7.1.6.
-> 
-> Workaround. Setting api.alsa.soft-mixer = true for the device in WirePlumber,
-> so PipeWire does volume in software and leaves the control at 0 dB, fixes it
-> completely. That also requires the ALSA state saved at 0 dB, or alsa-restore
-> reinstates the attenuation at the next boot and soft-mixer leaves it there.
-> 
-> Suggested fix. Ignoring the unit via sound/usb/mixer_maps.c looks like the
-> minimal change, so no hardware volume control is exported and userspace falls
-> back to software volume:
-> 
->   /* Audient iD14: FU 12 advertises Volume on only 4 of 6 logical channels and
->    * sits on the monitor-mixer branch, but is traced to the Speaker output
->    * terminal and adopted by userspace as the stream's hardware volume,
->    * producing a large inter-channel imbalance. Ignore it.
->    */
->   static const struct usbmix_name_map audient_id14_map[] = {
->        { 12, NULL },
->        { 0 }
->   };
-> 
-> and in usbmix_ctl_maps[]:
-> 
->   {
->        .id = USB_ID(0x2708, 0x0008),
->        .map = audient_id14_map,
->   },
-> 
-> Untested, and you may prefer a different approach - such as declining to
-> export any feature unit whose channel coverage is narrower than the stream it
-> is attached to, which would presumably help other interfaces with the same
-> descriptor shape. Happy to test patches; I have the device and a measurement
-> rig that gives an objective pass/fail in about thirty seconds.
+> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+> index 6b36c730ce78..da9c816b8c4f 100644
+> --- a/sound/hda/codecs/realtek/alc269.c
+> +++ b/sound/hda/codecs/realtek/alc269.c
+> @@ -2572,6 +2572,13 @@ static void alc282_fixup_asus_tx300(struct hda_codec *codec,
+>  	}
+>  }
+>  
+> +static void alc285_lenovo_dac_rename(struct hda_codec *codec,
+> +				     const struct hda_fixup *fix, int action)
+> +{
+> +	if (action == HDA_FIXUP_ACT_BUILD)
+> +		rename_ctl(codec, "Line Out Playback Volume",
+> +			   "Headphone Playback Volume");
+> +}
+>  static void alc290_fixup_mono_speakers(struct hda_codec *codec,
+>  				       const struct hda_fixup *fix, int action)
+>  {
+> @@ -6998,6 +7005,10 @@ static const struct hda_fixup alc269_fixups[] = {
+>  		.chained = true,
+>  		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN,
+>  	},
+> +	[ALC285_LENOVO_DAC_RENAME] = {
+> +		.type = HDA_FIXUP_FUNC,
+> +		.v.func = alc285_lenovo_dac_rename,
+> +	},
+>  };
+>  
+>  static const struct hda_quirk alc269_fixup_tbl[] = {
+> @@ -7956,6 +7967,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x17aa, 0x224b, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+>  	SND_PCI_QUIRK(0x17aa, 0x224c, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+>  	SND_PCI_QUIRK(0x17aa, 0x224d, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+> +	SND_PCI_QUIRK(0x17aa, 0x225c, "Lenovo ThinkPad X1 Carbon 6th Gen", ALC285_LENOVO_DAC_RENAME),
+>  	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+>  	SND_PCI_QUIRK(0x17aa, 0x2288, "Thinkpad X390", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
+>  	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
 
-It's fine to skip the volume if it actually improves -- so please test
-it ;)
-
-Judging from your description, an alternative with keeping the volume
-control would be to just rename it; the problem is that it's tied with
-"Speaker".  You can name it a different, some non-standard one,
-instead, too.
+Hmm,  this patch is broken -- missing the definition of enum
+ALC285_LENOVO_DAC_RENAME?
 
 
 thanks,
