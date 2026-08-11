@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C683D42BC56;
-	Tue, 11 Aug 2026 22:06:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480613B0AE7;
+	Tue, 11 Aug 2026 22:20:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786485990; cv=none; b=fLFhjK1j2ydZoviT3PGeeExF/uzB0iG1s1i/yDWj2ZAeE91qYgWiE4WbOlGEGqrfCZG6TZmQNPNLWxUTFiCgvChusJxyoGGdV6uj+tp1lReFHK9po9Oh1g5pCtx3zchEu2TInUD0X7NlITc75vpMfv2oe+3kAP2y3jhnvn9Zp5Q=
+	t=1786486822; cv=none; b=DWXpHMCU3fpxFxVmcFThbPxIq/w21A/3GR+I+gIR4fw4YBK2H1JXIRWFalvB9ZvgxM21tskA70kjOPCoQxsiV6F4hUokSAMaCbUwEcjH3RvCS0u5+fxmke3y1Z4Fy7rGhR1/LoW6Jp7AacCYLv8yijP4Vp7r+MFzvWBOOztx1hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786485990; c=relaxed/simple;
-	bh=vPOwkA19BILr5jWVEFCEJ1E1syExXAu8WP+xH/2Au5s=;
+	s=arc-20240116; t=1786486822; c=relaxed/simple;
+	bh=rGzMYl8k8YFPBqs1xAPBOcPcRdC/awV46Xpycd9gg3o=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=N7GsQeBQ1XYehYf/HrCoMgKh+XCeDnkaN5/a9p+be9jVrv+yNjydafsKV4LUEm6OK/eg/wj++cdpaZkYkjRJv7vku+7yoi/A7Tzz172dSX1obfpTUdHNvSRNQjuUz//9/h3APqBu2yKIP2OlKoMq0el8MMhwkUHJNvr8FWW31MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MlRCnUU+; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=uOQl4lMEkcq5TnDFMM138VNDcExvUV7u//bZcou4TcX4r70si6E5ykgyPFp3bj5UPyLdf0Nmjo/jV3l3QfcJVAM3gHvHiy13cy1al77rJTpXUeD9XbJYAuZkB/NdVyGVCNb3KTciSLzjrtzbwhkkthWPceCJgzei8WZ/GkToWkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVwq5eBm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MlRCnUU+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2ADA1F00A3A;
-	Tue, 11 Aug 2026 22:06:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVwq5eBm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8349F1F000E9;
+	Tue, 11 Aug 2026 22:20:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786485989;
-	bh=AC3hifGM/g3I+wFfHWwI2131IAq2wrnFxUfvtLYQYDQ=;
+	s=k20260515; t=1786486819;
+	bh=bgruTceOhBSt6ExD5rb9r1mmzE/uAzzfIg/kARi5H4E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=MlRCnUU+Ag/OFIL4j3SJoDoDGo0khcSU9lzqrMITDj1nQVxT3EUWURV3GIkrOke5z
-	 mgB3f1O0X6oVuQbGPGPZPpA6kiWmreQMOgAO3bkiZHu/lKDGPyrx0yKXx/qhMqE86/
-	 T5Qd8GL8Rou7tBk1Ln5xoBxymyRd/Ugm8KA9BgpUzcvX2v89LJk81hi92k0g95Nt4E
-	 BfegYS1c/vHUXI8lj+tX6dVN9SCX2HQNRo5Y/Vd62NCaCUTYrRiBJpLq5NuvmpCxuD
-	 m6rOEmfcU84FT1/mo44c+BmKW4WiBqzJpc2GL9WH4v8RZMhWAegaMqHWuB/xrQF3Yg
-	 t6N86KcsaHA4A==
+	b=aVwq5eBmgS0q8i3fcVBkoeIffemayJOditKOlU0eF2SYaQ89Z3bwxDTk/L6Du+nus
+	 xmHN5WASIu0Iy+qW+7ElSveYK53Brr8Vy5lpuLTz/PH7s4a42diUXbxBwT3NhsnRym
+	 QYJaB7C2p1NpLovshNr1t6wMa46LfN6hbuPZIDRO7z6PnNwNKFCWJJYoFpPjwp0d5s
+	 qdl2Uui3ap2/aSQqju9SEZlQLS6LZR1xcq0gkakwgTDPKpQYtjCfQASn21GxC9loTZ
+	 DbWBVNOP2G6w9ezAZpKJ7kD8KKBnu0IqlLZLaXqUHxn4KR8el4oRBlbGd02A07306c
+	 jCH45/WWlTzVg==
 From: Mark Brown <broonie@kernel.org>
-To: Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jarkko Nikula <jarkko.nikula@bitmer.com>, 
- Andreas Kemnade <andreas@kemnade.info>, linux-omap@vger.kernel.org, 
- phucduc.bui@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-In-Reply-To: <20260805044556.38183-1-phucduc.bui@gmail.com>
-References: <20260805044556.38183-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH] ASoC: ti: omap-twl4030: Check for missing card name
- after parsing
-Message-Id: <178645686823.119683.658802759634601408.b4-ty@b4>
-Date: Tue, 11 Aug 2026 15:01:08 +0100
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, LiangCheng Wang <zaq14760@gmail.com>
+Cc: Mark Brown <broonie@linaro.org>, linux-sound@vger.kernel.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+ Wig Cheng <onlywig@gmail.com>
+In-Reply-To: <20260805-fsl-asoc-defer-cpu-dai-v1-1-43f7f538e384@gmail.com>
+References: <20260805-fsl-asoc-defer-cpu-dai-v1-1-43f7f538e384@gmail.com>
+Subject: Re: [PATCH] ASoC: fsl-asoc-card: defer probe when the CPU DAI
+ device is not ready
+Message-Id: <178648253837.119683.3220582369920670222.b4-ty@b4>
+Date: Tue, 11 Aug 2026 22:08:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,20 +49,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1157; i=broonie@kernel.org;
- h=from:subject:message-id; bh=vPOwkA19BILr5jWVEFCEJ1E1syExXAu8WP+xH/2Au5s=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqe5zi4M3C+vPXyQl6aDtJrd0qI1L/6eV9/smHy
- OOiXch3sOqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanuc4gAKCRAk1otyXVSH
- 0Mr/B/4hdjCYFiCeSMzZ0JAc72WXA5EO/YdazvPxhEUrK53ZFoZUyhOKhpIrNZknfRrSrAr3yUv
- 7f1pzH4l6HoJnXEy10VSObSPg7oEl2wzySQGbIt5m2ArpNJQBZXgb0zk/F5NwRH4+bZq4xbFEwk
- 38xTKBNXcW7EbJNIoSPIP/8RzSbkanDDDqZa9m5+pipJMw56C3DIzIUb1afHZ0wZP7NXikS6HnR
- E/+xMnoDruyJUNhMDjlbI7uzRgmfe5RtFC9LaRnRJSxZ5Ai9sZ16XqK/qVhmdi9jw44L3yCV7aK
- 1si/nnNa+z514ubSc6MX6PEEnt5FWhVC673NhEg0vMKEC83+
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1159; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=rGzMYl8k8YFPBqs1xAPBOcPcRdC/awV46Xpycd9gg3o=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqe6AgT9j0MeDOeEtLSitTY9e2bQsFrJYbuEaKE
+ vEPNuskkFWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanugIAAKCRAk1otyXVSH
+ 0PUuB/9IwWDS7rJYhTs0Xg/SnYB1CFKANuW6Du7FdO4P/RMiV/8qMf8nFnk2tfwJAEXBZhVqFEa
+ ZdOZ9l2E8DN/9s/FbiJLcvrbA9l0ptxpmVKof7aUPFFBqfbX+FXfu68HzaAezloLfhWi+V32cPm
+ eEZKxhNMZ0CGfrnD/ld2o4O+/xVFC61FXJZrkkIYk28ITpJF8gxeROA3DuEprnopWDULdImvatN
+ 6+3v/R0WL0x1eG8hwkqCLODhWelE9pO3IXw5cMnQQDpOADCtBVjN7ho//cz1NlkTGfrQ1+C0Ouf
+ sEuKGKmPbh4zTy1dfnEloQDfqggqGSElzcG5Yw0ryvEnj8SH
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 05 Aug 2026 11:45:56 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: ti: omap-twl4030: Check for missing card name after parsing
+On Wed, 05 Aug 2026 15:55:43 +0800, LiangCheng Wang wrote:
+> ASoC: fsl-asoc-card: defer probe when the CPU DAI device is not ready
 
 Applied to
 
@@ -69,8 +70,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ti: omap-twl4030: Check for missing card name after parsing
-      https://git.kernel.org/broonie/sound/c/9e0698b77684
+[1/1] ASoC: fsl-asoc-card: defer probe when the CPU DAI device is not ready
+      https://git.kernel.org/broonie/sound/c/0286324da660
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
