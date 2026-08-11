@@ -1,60 +1,60 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010042.outbound.protection.outlook.com [40.93.198.42])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012029.outbound.protection.outlook.com [52.101.43.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447F342FCB5;
-	Tue, 11 Aug 2026 14:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0BB32143D;
+	Tue, 11 Aug 2026 14:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.29
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786457092; cv=fail; b=t4WVoVr2mwiyn4WHfkNFpnqKlNiSNaX9dGwwFpCaD/AZ0q5aokxHOk/jhQIWjX/isAkpJ63sTroZC+L6XwqicbRVC3iibnIje3EfnFoyB6g0r1S7vtnbQ342H/pBnJ80BW8HA/y7IJqRo+pWOJDjQQvx1gUwcUVVJFos79w4Q6w=
+	t=1786458086; cv=fail; b=Ksw4p6z8R1guVUkuudr4YLMN9j4+BCukuQSqzgtisD+IvUtOaRZSf2uSsBJoA7kmsZ4Z0z/0wMG8RmadB/Hs0Imem5JX+TO7WjoRWvI//xEXLsOipEy/26ES5Vrs3rKjE+Xl/hdj0rCAt7ryu3bdTBL92BSsIMxlVIrjVmpSOXo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786457092; c=relaxed/simple;
-	bh=NQqzuxE3A39EtzLdcD5Jva790edXutF7TIA2B/elPQI=;
+	s=arc-20240116; t=1786458086; c=relaxed/simple;
+	bh=WYNrNKXvz26Blv0p9Hk9ebrSLvvii2HBPv2dU3CWocE=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=X3Dh3mYxgOuiGaAPwVzOmqtj40SGmxapAun6UcSr1XMzT4W7OW5J6YqdlOEA57f5+59S+vShXFyRJ7SX56jxPuCXPAtuODUfkWCZ5+PQqly7RDm3bNPzS6mu/To5ooPB5/NIBlFUwvqE36DYk//kGDIwtl4B4Sdc3i5rJRr7Vf0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Tq8VuPY3; arc=fail smtp.client-ip=40.93.198.42
+	 Content-Type:MIME-Version; b=ma+YRsRQ4urrw0f0ZR9A5NO5WtCrJ6MLRhZ2t1NPnzxrW8p6B60Fk+0A8yfNYTC0v0+IklrXRXmdmYTqPLKmVRUCwdJY7Eex2C/d/SIGg50LFkg0UHjdbemXO9PhKozJ8IpVnlDNNZKqroCp/mXurCAxDMo2n7WlNrIBiy0qp0A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=g3cT0H2U; arc=fail smtp.client-ip=52.101.43.29
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Tq8VuPY3"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="g3cT0H2U"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TzETC2ThJblV7HdyMCNbFp85POitLprBzvmGRaCWFWo30tC8ZnWLn4tFW4EefniTKXf+Ua30V2ceVyThikRzUdoR6mRa+PLxmwhEelPnzzfIe9eAkQuMWajqqK9UK32rrf6pVJXYd/G3DA23XCjSDeEhvTtS4Swa9zfFkWQPATvb4nqVJzSKaTAadRlIbTBUYpmYx+mmwOXxYDcYRWFp2AtF2j9V5Y/dsdBHv2D+LWPUDqsVLYAS+88aIAUfj8NyR3ets+t6BK5v+dUNK96nH7LRnsGOfCVYb2XZVzQzxL7kxUdp9LiwyV/PEt0NFjqPgBXr6fIFqMyAE2oL7A5l/w==
+ b=GrPKhuEAE84f1jeP4x7NKApThwsEaNNG6xWy/lY2sA/5ctJZRH39VqZSYCOlvBLpfnzxyE/zoTOVqCJoLWhpvSjvWiVy3OWaVEvctCLPw/SwI3s9vc/DjJAi/dOvwzOfh83rKOBwiQcpGmjV7ZIK1D7yPh19r8Nk9c247GNlaqp7lblBUFMWX5+9PIc0BMs2Fw6pvvduzNfpvXA8zyfytqKAVTQm7UNdru2+3m1PXINJc6w+Z1HMNSB33cpqi87zbkjBXEPQ7Bgjm05kTqXZX174k8bLfSL7f10VtPW3m0kJ7I0nFcRwonQaLeZ/W4UR9mVb+tOuJzWKI8XmCxH/eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=L4l/ftM57jCu0Rga3evCq3prygOFHZsJb871NlLARmw=;
- b=TEd/KvXLM8BO2YmYRap5MsZnrjD4sIr/6R9fdGP0QTb1N4CDsce5rkCV8YGE8+PxrcPn0L1TYwU4sCdxYRTPCYEa9ymsHKr9KH/Vl2xhKh1avM/37QGdfuF1+XjcQazp/L/03Mgl9MpTjmNKGvxyoJnzO+iYRqGHhvtC/flCp2Xvvisalpx3pKjimn1iJlvXTOYzeppucgVJRonQbmiv708S94ljDCL1jJFj+fdMEJaYc8f+dX8asiTgghEDJ36+UZwhVAPxOTtxK4X8+2mye2HhXLSfLCTpN85rmW6yh3pLAp108Fk2qPGI13tsXuWhjiboW/j3YlIpvmTEpOjAng==
+ bh=RrjR1p5e94lLQchbplo3R4YiG1V4Oqp6E/dcH6AIDOg=;
+ b=gd5mhEmUIDIu1JM8xetInT9GXkaQn4QZ66lgQq2VNiqdpBG2G+RVD/SCOtgubBajSE4xPY8u2ohoh2Yt6gMaDFKcmzSyFI9HKOdZyNincYCNc6INVkEaLtrRqnrQE3xnW+6W8+8LpQs2o3hwfUT4uoxkgpDNNEaE9AtZP9G0ZNo04djAc8oyR4DAvJbrAz7GSLJEw5Vj2HjRBxUTP2KoUeOsKP8pwY2ytYpZYONkIQjsSio9yqOe38mZtSY04Huos1fvghg1HS8Q/1IaH2FsdSuJRYijdI8VP/Vc3C4hC91OgCsjCb/b2fz4UbkI/2D/MRXGLTVIdEN2MiKxvfhd8Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L4l/ftM57jCu0Rga3evCq3prygOFHZsJb871NlLARmw=;
- b=Tq8VuPY3FGES5UKzsTQOTsVhopSW6FBkonM4rfpEw7ajVKgxyKlB43r4oFxmJ3R/xSD3Kc9Dp3KaleOTV7ymzzh9dotlBnAvRjpwluzPKftYqPY1i2Dv6K0jXFOpqg4pc9LvVAuLywwUtWx5+Yau0pM7jbWlnDQVourcxVv+TQI=
+ bh=RrjR1p5e94lLQchbplo3R4YiG1V4Oqp6E/dcH6AIDOg=;
+ b=g3cT0H2U+Hme5Zntkb+WFo47jcLAzO65povrePpKs5MY9UCFZYnRAu4ZfD3JCtpMbyHLoN5WimKOZoybwmWgLJIPLly/BAr8KClqJjsWFEMWtJoN5/OuUqxNrcEQKb6vJv/KnPF24aeh7xJzno9LIWUq0a8h4mdDd+Wy0++nLiw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from LV5PR12MB9779.namprd12.prod.outlook.com (2603:10b6:408:301::14)
- by PH7PR12MB7986.namprd12.prod.outlook.com (2603:10b6:510:27d::17) with
+ by DM4PR12MB7645.namprd12.prod.outlook.com (2603:10b6:8:107::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.11; Tue, 11 Aug
- 2026 14:04:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Tue, 11 Aug
+ 2026 14:21:21 +0000
 Received: from LV5PR12MB9779.namprd12.prod.outlook.com
  ([fe80::8ac8:e862:8ae9:9287]) by LV5PR12MB9779.namprd12.prod.outlook.com
  ([fe80::8ac8:e862:8ae9:9287%5]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
- 14:04:41 +0000
-Message-ID: <23036150-4cd3-4b7e-bbfa-dc1a370a24e4@amd.com>
-Date: Tue, 11 Aug 2026 16:04:34 +0200
+ 14:21:21 +0000
+Message-ID: <7468b060-161b-4489-b876-4448bdeaf184@amd.com>
+Date: Tue, 11 Aug 2026 16:21:14 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: xilinx: formatter_pcm: fix stream_data leak on open
- error
+Subject: Re: [PATCH] ASoC: xilinx: formatter_pcm: clear stream pointers on
+ close
 To: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org
 Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
  "moderated list:ARM/ZYNQ ARCHITECTURE"
  <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260807004031.47455-1-rosenp@gmail.com>
+ open list <linux-kernel@vger.kernel.org>,
+ "Dhanunjanrao, Katta" <katta.dhanunjanrao@amd.com>
+References: <20260807002056.42953-1-rosenp@gmail.com>
 Content-Language: en-US
 From: Michal Simek <michal.simek@amd.com>
 Autocrypt: addr=michal.simek@amd.com; keydata=
@@ -101,11 +101,11 @@ Autocrypt: addr=michal.simek@amd.com; keydata=
  otYa9+7v0j0WOBTJaj16LFxdSRq/jZ1y/EIHs3Ysd85mUWXOB8xZ6h+WEMzqAvOt02oWJVbr
  ZLqxG/3ScDXZEUJ6EDJVoLAK50zMk87ece2+4GWGOKfFsiDfh7fnEMXQcykxuowBYUD0tMd2
  mpwx1d8=
-In-Reply-To: <20260807004031.47455-1-rosenp@gmail.com>
+In-Reply-To: <20260807002056.42953-1-rosenp@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH5PR05CA0011.namprd05.prod.outlook.com
- (2603:10b6:610:1f0::23) To LV5PR12MB9779.namprd12.prod.outlook.com
+X-ClientProxiedBy: CH3P221CA0026.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:610:1e7::27) To LV5PR12MB9779.namprd12.prod.outlook.com
  (2603:10b6:408:301::14)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -114,143 +114,134 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV5PR12MB9779:EE_|PH7PR12MB7986:EE_
-X-MS-Office365-Filtering-Correlation-Id: 834a4998-6d44-46f3-c1e8-08def7b17d4e
+X-MS-TrafficTypeDiagnostic: LV5PR12MB9779:EE_|DM4PR12MB7645:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6758e248-e3cc-4d34-22bc-08def7b3d0e3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|10067099003|56012099006|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|22082099003|18002099003|6133799003|10067099003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	0oUJtRQrwDUn/AkMGXaFPWqSzmsGXcmsYUpvkgp6qn3UIcm3+lCYEDgLVkPBdr3C72sbmjE3PTPS/ZmehiObYvG7MZmHIlvBW7HOwn/q9kYYdpeZoTBSkS3EpEN5td6SH4ScPwoT7OMqyzz2yECKZDmxxVCmSk/9XRKIf4S6erkZEhyWQAq03nvIDlC7B04sXKSceGWNkHzODD0yXCzNOYITdq6zY/wtOa6mgXaYSIH1E2QBUIn5TLi3iTmTREQfxLUauITGBN54XpgIRHWKm7ZHB5kKU99Ax12GXslJ1NS1FWkcbLt1ExQLm2THOsLzf81lMdZjcyvMkNTVPukxY/HAIYGZlkulgD6QFj+jYgJ7/kjaNjV58SoMz+qFcq+KXDXzfww02rTk+ZVwvPAJ3TwtriGujUtYJrxktYYBhEU7akZLZt9GOpbpUmNdDt08nSwPl+blD9psbzxT1+WJ1SZHRtESwM2kN63+XLvqNDrgTx95K1YTyFo636leoH8Fd8kJqLOXwBlLDESLXKEXxhxucH7mUou0xIzTnUW6s1O9Mn8nLx1xeE+clXp4rkhGciKuMfGziIqfJdYBAUsYm9w4tQUh9J67Dpe7NPY6ku6TOLkJ4ve7hZSWQPytZvkDWeicAVFNjWZtVFnWHMhW+ZDVbU5hhS0jHuf5qy1SuNI=
+	3KDAkIibK3RZaftr7D/c5BJXdyiJfWA7j3jHLtZBHqI1o2m0OpQ4PcVaLxy394/xZ1lg5Z3+FddLaQoDxPfFHPG0byYxT8dynzPiJzU2y4t1OWGJ2/pN4/vkWe9GCjzxW9GZvLIksinGiIWJOvY9h0lCpSlBLxtYyA6TGkBo63ReXwq8U/f1gg43anVaTQzTXyc4hjDE0QXtGl5ZWBsUnQFFRR82upr34yFzRfXYyh5rTadPT+8lLzv+S7w0U5GMlnOs9IsG52RO/U0qRPcspgWNZ6H7P0DsGI95Jn5jWvtPqSyhixQx9CN8OSIHJsvnItoLM+9zLwDMIkCfA++N/Vcdy5lIyUK68aPmHj/UZLtm+fBHWFkY9yvLxLrq8zWY1yYJ9nS0oINnWp06BuvPuZSVF+sCmt5IWAXSJdfZvip1sCki+kzTUmDNIwPhf6vgJ289AO/FidEoVxc0TgZRGDPdp8OSIIx4ZDNf1M13yz9oQS8EzyUCmFVwMnOzHPVGcMES1u1pCe0FAEKtusAUjrE1Dv9SM3HK2Qf8eiWV0a5FtlgbRfKMYfgY8cInqPKAA+kFQr7gbcoHanhy4Q4r6Af8BJeC8Q3qj0CmDhC5aw4zWtN7vsUPoBGWz+vpF7CCBLYMMNEB0wetCuOb6Fmg24QwqF2+0XgegtYbkhc+4Ec=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR12MB9779.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV5PR12MB9779.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(22082099003)(18002099003)(6133799003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dituNktaTVM2UEp6OE4wdFRGSjJBQjJYOVpPcDVFaXRPajRER2hmMHJOQU85?=
- =?utf-8?B?SFlhdXY1TzQyU2hHcHM4T1lEak5JRzdqYjdSUmJFQmxtbWRpbHkwbnpKTWxE?=
- =?utf-8?B?Z1lZcTRnUUFRYWxSd3pwSEM2cWJPSHdsczJFbStqUGdwUlhxWGVUOFNqSVIv?=
- =?utf-8?B?Wm9JSUEzZ3JJNVlPVTh0NjNYbENLYTVhZmlMOVMxVVdDVmdkc3UySkJyZjZZ?=
- =?utf-8?B?WnZwcUVKYkFHeU91enRnVVY5Wko1b2c4NGU3eTdUbW9xZjdrTkVoaWVxOVY5?=
- =?utf-8?B?MitMZ2ZZeC9LL1JDeUtBWUkzTWRVUTZYYmZtQ3RyZHRaRHVBUDlYbkFHYlI2?=
- =?utf-8?B?UUtLd0dLS2E1Tm9BdTRMdC9vTlA1Z21vVFZURWtNTEUrdGdUaU4xZDluOHND?=
- =?utf-8?B?a1Bjck01TURqc3hEK3E1dUQwMnFNY0hoZER5L0U3YmNXYkxWdFpwcm9KaUdT?=
- =?utf-8?B?bzgxLzBMZzB4eEQxOGpmTkVaMHJyNXRMOFN6bFJxeW5DZ1Uzc2FDZEJORmNq?=
- =?utf-8?B?WFZTeldVdVp2UjlxYmRlN29FVmo4SlFGaXpMclRHRGh6YkJ1alhUakwrL0M2?=
- =?utf-8?B?QnkwQzl1cnl1NlRSeEUxMWNMckNUSzdENVNhYmtHTWxyVXhKaXA3emJXRmFi?=
- =?utf-8?B?N1hCVUhhUDY1b2pQWFozZmIwY1MrVGRVOEJHWU9oYXk5WUdkSm9oUFNxR1RL?=
- =?utf-8?B?SUZFWVlreVFkdmxnSERESTJWMVZnNEl6d28rT2xUelhtbHp1ZTdRQnZ1UUl1?=
- =?utf-8?B?Uk5KY1A5MGoyQXRmNm9CSCs2eDBSNmJpTG9sZGtQYmxXUWpndWgrbm9aZ1ls?=
- =?utf-8?B?b3Vhc0NqUHRydE8zUENkc210N0lCelIyRHhCeDQvVUpQY0RTanhiTllSYWow?=
- =?utf-8?B?LzJIYjNsVWhJQzM3dUt0L1N4WVRObXVwSkNIakN6c1JGcmdsdXUwZHpZRmN5?=
- =?utf-8?B?VDliUHNqemtPVXN0alhyTVNmVGZwbDdyQy9XcVZ3OE5rUnNuaDYwQks1RVVx?=
- =?utf-8?B?VEZEUmJYME9zaFRlS2dKbWFaZkdnYi9YSk1FT1h4ZW1ZTnRrakdwekJ6T3lp?=
- =?utf-8?B?RUJSM3JWdDZCL0pZMktNbFd1NlBKcnlFTGlGNmNxMVRYdmF3RFNlb0xDV3Jp?=
- =?utf-8?B?NXkxektZR2lwRFVqNlRjU2V0dWJzdVdaR3orOFgrSERwZGxSMjBvemovZ0c0?=
- =?utf-8?B?UDc2VnF3eDA4VVV4NzIwZ3FMWkVhakhOZWl2d2JJNkpoNEJrNmE2QnkzMkJK?=
- =?utf-8?B?M2xZMm9nTUwyb3Q1UXVoY2lvWDkrZ1BTV2pFWkRpeCtMeWVWQkU4WXNLaFBN?=
- =?utf-8?B?LzgwdjBZOW8vMG5xRDRFcS9qOFdoNWx4M1J6TzM5SmY1TnZRL0JYVHEwMVJV?=
- =?utf-8?B?NzZnYUNEcFBEVGcyZk05Qko3K2l4cXNxWkwvNUFLbGRDSFVpdzNNbGhqeDlz?=
- =?utf-8?B?VEczR0FQT1AvWXhIcG9adXl3eXdSUkY3bEJDOGR6ZFpmT2JvVytwaGxvQVhu?=
- =?utf-8?B?MStNNFN4c1FJUDZ4VmRia3RyUVVRMkQ5aUhTQ1QrbFRFSFFwdVdmYWNta0tJ?=
- =?utf-8?B?ZEN4aDZOVU9JUHAxVEpZR2xNUTJVNzBENm0zRVVUQkFxOG9FYTlIM0F1bW1O?=
- =?utf-8?B?WGlIK1E4aVhMeE4xajJwU2I5Qlc2SzJCalFJTVFwNmdDVnZWOGJraDBVTlhG?=
- =?utf-8?B?cVZOVGI4d2ZIRU5xa2lvUEdFdFBHS2NzZ0hDK295QmVVMFBkNnJ5b1FvY3V2?=
- =?utf-8?B?YjJPZDFacEhFcnZ1elBWRDdlclArRlI3bzNzcXZwcUkraW9paUZKNVdSbnVV?=
- =?utf-8?B?WFQ3L2NuMVgzQTlPaXJrelg2MHlTOFQ1dXE0WW1pWFprcE9sOFFzT1lDanYr?=
- =?utf-8?B?YWdwanRFS2JQZ0FrZ2lVYjN6SUJpcHFPVC9hK3FpQVBmeFJyUmVrQlJNWUJR?=
- =?utf-8?B?MjdoWG84VE5xa3gvT29FUlh5T0tJRUlIQUlKaWp2RmQxZEJZMVZSSmRhUkIx?=
- =?utf-8?B?MHJLN1Z4QUhpbmtoL25raWRZVHZDaldieDVkMDk1enpXNE14RFlza3lkOUVK?=
- =?utf-8?B?bFBtV3FYUjlMaWJCNDRUTlFMYUxBNTZ1aFh3bjA5RUQ1dkVzTHRHRG50a0hH?=
- =?utf-8?B?TWJxSk9qRi9yZmhqN2dRWE82RkhWRUJkWThWTlNITklMYlhGSEpXbE9rTjA1?=
- =?utf-8?B?cVZaTlRUNGMwaG56MUdrVXJid2ZPM1Z2Z2srTmRFR0dQNXNHZ2hsRkR5enZH?=
- =?utf-8?B?cmJBbE94dkFuUit5bkVPaUtWVk5uKzhnWnhWNlRKOWRlYjFLaHYrbm0wOHZC?=
- =?utf-8?B?SmtKR3JMcExNMWRXTkhOQytsUFRocnZhdC8yVFN2Q29GbWNKdnV0QT09?=
+	=?utf-8?B?b3EwbnpheWR0QlVyWGFGUlZaRElFTm8zTHEwSU1mVTJWYmhhTGdxYjVORmNV?=
+ =?utf-8?B?ZEhnRzhxM2VDS2lmTDV6R1lQK0x2VDZqU29ocWtoU0NBZlBhd1lWRlgwSVkz?=
+ =?utf-8?B?SUkwVkZnRmhUMGdwbVlGZlZiMzJ3dVlKajhNaDVpVnhTNUhyc2c1U3g5blNS?=
+ =?utf-8?B?WW5jN21PODl5ZDJQYkZJSTk5dWF5a3dBenVHN1UxMmpuZkYyNmFhdCtSelh6?=
+ =?utf-8?B?aTdGUDNyT09WTDVMajFMV1lLQ1pUT1FTSWRjN0pSc2FiK21OZG5xOXVJRGJK?=
+ =?utf-8?B?cGpRK0ZyRUF2Ukk1TDI4UWZGQ2xScHN2VEV3L0NTZlV3c01mVk0reHhPT3pX?=
+ =?utf-8?B?UzNRdVdUaG5pOVZUWmNrMFZMb2VoRjZKaThvTmQrT3VTQjNMekVvVSsxbG10?=
+ =?utf-8?B?RUJVbHFpVVIzYy8ycEJWbWZVWWplS1oyTmUvWE8vMmc4NFFJQXNySnhTNzVM?=
+ =?utf-8?B?d0NRVVdMUW0veDBUdnpKZ2lGZkJyaUgxQlVBb2YveVlLcUdTdnJ3ZWlqZEly?=
+ =?utf-8?B?aHhFdFQ1SkgrdERudFFZdFliSjhVdHRPVDBXdVJVLzYwRE0vWFNjbVVQa1Zt?=
+ =?utf-8?B?YzJ2dGRGZ0REMDVNKzA0d1RkcUxJS3ljMXRTVFhIb3lIeDUvWTFhb1VDbUZ1?=
+ =?utf-8?B?UUpnQnhaVWFOMVFSVWZNZVF2NThYbkhnUnMwMGI0THl2WjhJc2NJYVI4a0N1?=
+ =?utf-8?B?TEtWdFNyZEtXNENzOFFIUWJPaWJQeWg1THoreHdYMXJ1SUJLUjllL2IvdVFn?=
+ =?utf-8?B?bjJna2UxK09TRlU3QlpTd2g1aG54YlhVOGtNZ29EQXJ2UFdma2pVL0RObzZm?=
+ =?utf-8?B?a1BQdUVWRXpPZllSQ0F4V24wZ3RxOFJwcHRkeTlFd3FZM1RUR0pqVER1a25I?=
+ =?utf-8?B?OVdGQnI2L3UyOEY0M2FpN3N6U0RjajE2d0Fwb2gzeXRpRU9TMFFLdlA4L2JZ?=
+ =?utf-8?B?SjBxNlFQL0NZU0R3M0Jja1pOdWRvVExldU1GMGswdEsyZi9KNFl5d1g0M0Zk?=
+ =?utf-8?B?Q09sTTVFaVNuZFRGaDJUS3NHODB3Y0Q2RUJWWTdteXo0eGM1RFlSdUlOaHp0?=
+ =?utf-8?B?blIzOHFGbWozSlBjN2J1R3V1dUp1Mlo1ell6WVVVanVvUDJLeUJBV2VSbTBx?=
+ =?utf-8?B?SllqdGNQVmtwU0N6dUFFNDBTd0Z2aXExem1naFFxckRybHZoTndOTWpZVEJI?=
+ =?utf-8?B?akNCMWhQbzRLaXJKRnJ5enRBTTIwOURPV3pBNUVUNzBIUjBkN0hydXk3VU0x?=
+ =?utf-8?B?ZTNuVVRIL24xYUZERkxmU1BxN3BBcWxOQ01HaXlvZm1JaXhKUG9IK0M2VEVQ?=
+ =?utf-8?B?NnVFSU9TZmNwczhRWEJrUWFJWWZDb3VLUGJZRkJEWWpxeG9iWDgyU3NNbkcy?=
+ =?utf-8?B?eXQ2N21QenpNWXQyeGdmSHBFa0ZtTno1bEhJM2ROZUdGaGx3czJUc0dmbXZp?=
+ =?utf-8?B?UGIrVkVhVmpob3VlQTRSYkZoSFlCZjlNd2ZSM0QydFo2MnF2cnh6UmRQb2cv?=
+ =?utf-8?B?Y1JsMisveEpsVHBQdUlQM2grQXVpS2k2cEdOTWtHY0ZmeEhYMk9uaHNxZUl6?=
+ =?utf-8?B?ekt0MDdFb2U3cDVmZm53S2g4ek9JL1lCdWw3WDRDQkhBYnBNbWtuS3dkY2lN?=
+ =?utf-8?B?RFFETEROeUdxZGIyUkxXTm5HaytOWlJzSDEzM3JIVnJYK0hkUWFUaXpDdkVu?=
+ =?utf-8?B?MU1FeEZvTEpqdzd1cUdJcTQzYXU3WjZVNjlZdjZ6eWphcS9HeDlGZXJnUklO?=
+ =?utf-8?B?ejlRMFExd0U4ZS83R0liYWI5ZnRFQWk0ZTIrWWl3WHAza1hMRE4ydm10dWs1?=
+ =?utf-8?B?UTBlb21pOEE0cUNDMUZSMm12LzI5MWw5T3d5Vlg3YXNnWFVrNUxhcjBoY0Jv?=
+ =?utf-8?B?SEJMb2xlK2Fia3AyRjRnR1NxZ2I4VUZKRnVaS1VGbVNUZ0EzR2xrRmtrZ3Zw?=
+ =?utf-8?B?WWlDTE5KV2lqaDN4Mm5pUFEwOHdyNGsrK09HQVE4RE9idjNvRUJuWWNFSHBP?=
+ =?utf-8?B?UGNrelJKK0huTFNJd05wVjNUY0JHVysvZGJhYzlpZHpoODJSbWNDRHB3S2k2?=
+ =?utf-8?B?M041dnhINGM5Q3dCd0dRMmVLaFg3QnE1ZFVzWE9SanZZZU1VT1hmblpjSU1D?=
+ =?utf-8?B?ZnBCUEZETXRVcVVtaThzMDNYNmRnMFYxam5NSG5zM2hRZmhLTS9wSmhjbDhq?=
+ =?utf-8?B?STVkNnpWTVNhMXNnWUxETEk2bU1NWkRFc3MxaktXcGg5a3E0ZU1SeGJQWkZa?=
+ =?utf-8?B?R0IzVEg0WWIyMFRoUTBrWFk4dmhuTFY0S0FWRXI3MjRzcjhIdGQwZENyNWdY?=
+ =?utf-8?B?TXExVFRKSWhsa2ZpNDQwVWRtVUx1R3p5aGVmdUxrRi8ySnBnb0RlZz09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 834a4998-6d44-46f3-c1e8-08def7b17d4e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6758e248-e3cc-4d34-22bc-08def7b3d0e3
 X-MS-Exchange-CrossTenant-AuthSource: LV5PR12MB9779.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 14:04:41.8195
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 14:21:20.9989
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BDDgkzCbNHJ5Fe9ujseMabD0HlB7xJv/r3CnwH6b7XlhWuSNvH8NdERvYT+Dv67U
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7986
+X-MS-Exchange-CrossTenant-UserPrincipalName: DqQUyn4Yn/5hktPr4AD5YQCc8T/NWDPNNVCaTnRk8ea8DBz660SD2cEyThS3R9Sx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7645
 
 
 
-On 8/7/26 02:40, Rosen Penev wrote:
-> In xlnx_formatter_pcm_open(), stream_data is allocated and
-> adata->play_stream or adata->capture_stream is assigned early.  If a
-> later step, such as snd_pcm_hw_constraint_step() or
-> snd_pcm_hw_constraint_integer(), fails, the function returns the error
-> immediately.  ALSA does not call the close callback when open fails, so
-> stream_data is leaked and the stream pointer is left dangling, pointing
-> to a substream that ALSA frees.  A later interrupt would then call
-> snd_pcm_period_elapsed() on the freed substream.
+On 8/7/26 02:20, Rosen Penev wrote:
+> xlnx_formatter_pcm_close() never clears adata->play_stream or
+> adata->capture_stream, and on reset failure it also skips
+> xlnx_formatter_disable_irqs(), leaving the hardware IOC interrupts
+> enabled while ALSA tears the stream down.  A subsequent interrupt then
+> dereferences the dangling substream pointer and calls
+> snd_pcm_period_elapsed() on a closed stream whose runtime has already
+> been freed, causing a WARN_ON or crash.  Since the IRQ is never
+> disabled, this repeats on every interrupt.
 > 
-> Free stream_data and clear the stream pointer on the error paths.
+> Disable the IRQs before resetting the formatter, and clear the stream
+> pointers in close so the IRQ handlers' NULL checks catch straggler
+> interrupts.  Do the cleanup even when the reset fails.
 > 
 > Fixes: 6f6c3c36f091 ("ASoC: xlnx: add pcm formatter platform driver")
 > Assisted-by: opencode:deepseek-v4-flash-free
 > Signed-off-by: Rosen Penev <rosenp@gmail.com>
 > ---
->   sound/soc/xilinx/xlnx_formatter_pcm.c | 14 +++++++++++---
->   1 file changed, 11 insertions(+), 3 deletions(-)
+>   sound/soc/xilinx/xlnx_formatter_pcm.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
 > 
 > diff --git a/sound/soc/xilinx/xlnx_formatter_pcm.c b/sound/soc/xilinx/xlnx_formatter_pcm.c
-> index 7eba3a0205f1..4f4c1e650aaf 100644
+> index 7eba3a0205f1..e1d2f1cadf8d 100644
 > --- a/sound/soc/xilinx/xlnx_formatter_pcm.c
 > +++ b/sound/soc/xilinx/xlnx_formatter_pcm.c
-> @@ -385,7 +385,7 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
->   	if (err) {
->   		dev_err(component->dev,
->   			"Unable to set constraint on period bytes\n");
-> -		return err;
-> +		goto err;
->   	}
->   
->   	/* Resize the buffer bytes as divisible by 64 */
-> @@ -395,7 +395,7 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
->   	if (err) {
->   		dev_err(component->dev,
->   			"Unable to set constraint on buffer bytes\n");
-> -		return err;
-> +		goto err;
->   	}
->   
->   	/* Set periods as integer multiple */
-> @@ -404,7 +404,7 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
->   	if (err < 0) {
->   		dev_err(component->dev,
->   			"Unable to set constraint on periods to be integer\n");
-> -		return err;
-> +		goto err;
->   	}
->   
->   	/* enable DMA IOC irq */
-> @@ -413,6 +413,14 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
->   	writel(val, stream_data->mmio + XLNX_AUD_CTRL);
->   
->   	return 0;
+> @@ -421,15 +421,19 @@ static int xlnx_formatter_pcm_close(struct snd_soc_component *component,
+>   	int ret;
+>   	struct xlnx_pcm_stream_param *stream_data =
+>   			substream->runtime->private_data;
+> +	struct xlnx_pcm_drv_data *adata = dev_get_drvdata(component->dev);
 > +
-> +err:
-
-err is also variable in this code that's why I suggest you to rename this label.
-
+> +	xlnx_formatter_disable_irqs(stream_data->mmio, substream->stream);
+> +
 > +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
 > +		adata->play_stream = NULL;
 > +	else
 > +		adata->capture_stream = NULL;
-> +	kfree(stream_data);
-> +	return err;
->   }
 >   
->   static int xlnx_formatter_pcm_close(struct snd_soc_component *component,
+>   	ret = xlnx_formatter_pcm_reset(stream_data->mmio);
+> -	if (ret) {
+> +	if (ret)
+>   		dev_err(component->dev, "audio formatter reset failed\n");
+> -		goto err_reset;
+> -	}
+> -	xlnx_formatter_disable_irqs(stream_data->mmio, substream->stream);
+>   
+> -err_reset:
+>   	kfree(stream_data);
+>   	return 0;
+>   }
 
-With that fixed fell free to add
+I am not convinced that this is correct. Based on
+https://docs.amd.com/r/en-US/pg330-audio-formatter/S2MM-Control-Register-0x10
 
-Reviewed-by: Michal Simek <michal.simek@amd.com>
+when you trigger reset (bit 1)
+"After completion of a soft reset, all registers and bits are in the Reset State."
+
+Default value for BIT 13 (AUD_CTRL_IOC_IRQ_MASK) is 1.
+It means after your change interrupt on completion is enabled not disabled.
+
+Katta: Can you please confirm it?
+
+Rosen: Did you test this on HW?
 
 Thanks,
 Michal
