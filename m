@@ -1,80 +1,153 @@
-Received: from smtp-42ad.mail.infomaniak.ch (smtp-42ad.mail.infomaniak.ch [84.16.66.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40687353EEB
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 22:50:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786488608; cv=none; b=UnJt2fVBjhGnSTcpTvXPhtt11tmlluxFJeakWAtedHhbC2d9AvbR0fW0PQINPQ6T171oPQii9apXRBwwwC+jTHDcklMxlMLTgqmTYowalnu417b8u7WEzUAH6ijw6RbUzoQoPSRvnh8nxeAwzkyVCnXRqJAksGLSMcf+QfWKs7c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786488608; c=relaxed/simple;
-	bh=XvCe5/kxol9uxG/XZvN3oMiqgmphzn4bwF2McWiPNYc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
-	 Content-Type:Date:Message-ID; b=j16cee8iYGVJQTpRnYrD0u+0IqpGBzMWGU3GeLxa8arQN3zikHUAKYGm3QdGh3SwekpCE8E1gv2kMUlQGfubsV02vpKGjWXjVSzD/ODjmd9QKGISbwM25+TvyVkU8LV/TXbOJn4OVTGhlSQirXGqeNXbnHe4vGZ1tSk4XdyaYkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=snyders.xyz; spf=pass smtp.mailfrom=snyders.xyz; dkim=pass (2048-bit key) header.d=snyders.xyz header.i=@snyders.xyz header.b=wvSway1f; arc=none smtp.client-ip=84.16.66.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=snyders.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=snyders.xyz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8706365A19
+	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 23:02:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786489349; cv=pass; b=WGoqm0RzotsvI5rUiLDN40kbBoZSvFJOMzej1EVVo4ZxDWlZ0B6WN2LMAMZsydw4kS9k/mfL7P99iEHFRHcxWBSzni4HoUQxljWVIljWtm9KHkoeOIz3DJCoTAjl6ygMGiukJm1cNKlBETwY8Syla1g3DE+U4EXUp1l/iy57Lnw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786489349; c=relaxed/simple;
+	bh=ShbddW7mELQmRSzLa6+ZKEEZehIXyfWmf5kiFqADHXY=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=CjXvOZNihjLAID5g641LZOXFgabrkKvWpUNiChu08Zh8y28TmmUdm027Tfa91b1uCSlqbBICMIEpANnhtiADAFArdBX63gH2YDPcGkUybsupWbV2FgYGLDOomLCD7iyNhHhRYd4XCFbrbu0zRNLSBZ/6N4XY8nsMbDxC9wsrKfY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YjW8LBg5; arc=pass smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=snyders.xyz header.i=@snyders.xyz header.b="wvSway1f"
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4hKRf40zFDzcwv;
-	Wed, 12 Aug 2026 00:50:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=snyders.xyz;
-	s=20251118; t=1786488603;
-	bh=XvCe5/kxol9uxG/XZvN3oMiqgmphzn4bwF2McWiPNYc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=wvSway1ff40nIQiXZSNuurvD1XHqrp/RZqejqRo+4GkJZeqQR3hQdxmUM2Eousjcq
-	 Bpjrd7yMu45Qe10i5PX4Rjpm33mG4tmyGLRjV9GxjCn3K91/a9lRjQ+4ZaKbjHF5sJ
-	 HKSnKulZDF3kMRyq7TY0LXv5VCBR+Sgj3HivpcqesBjHpURLX8D39YK/htVCF0p0al
-	 lzbkPRIzpL5cyKFh6QlMyrYqGqEd5dpw1n/dI+L+vQSeGmWnhvWoMTGQwwiR6KdIsN
-	 0PaL0ANG214ujE5+BqxBBv7DpvTulxQZRmHv7J8B3/5JNclplAP4mmkJiCDXN1xXYZ
-	 Rit3SA3HvKt6w==
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4hKRf26596zfT;
-	Wed, 12 Aug 2026 00:50:02 +0200 (CEST)
-From: Robin Snyders <robin@snyders.xyz>
-To: Mark Brown <broonie@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Richard Acayan <mailingradian@gmail.com>,
-	Robin Snyders <robin@snyders.xyz>
-Subject: Re: [PATCH] ASoC: q6afe-dai: make DISPLAY_PORT_RX a playback widget
-In-Reply-To:
- <20260811-submit-q6afe-display-port-v1-1-3bc8f2f38bdf@snyders.xyz>
-References: <20260811-submit-q6afe-display-port-v1-1-3bc8f2f38bdf@snyders.xyz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YjW8LBg5"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6679d88abdcso645548d50.2
+        for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 16:02:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786489347; cv=none;
+        d=google.com; s=arc-20260327;
+        b=JFxvTsbsiRTrzk67F0+h3jY95DeObjR5P867h9GAIM++6mybMWMzG5pixsf1sCTp4O
+         veLgqmg6EPPxfVOfi5MlFcS5aN0uKRajGF2b1EN3KWkJ+XTZQTalM6tGmLedmLrh4xhB
+         PjNWhrfNU+HrVayXYKWPCR1WRlXfNpm2LZN7r5C3h1ojvq6YOF6DgIT7YxrGUCTROg7d
+         i4ipYiIwKGiJoYQORRvPjcJJdKATCCoDRKWIpjDPZEwV/1lrWpgb9jM4JfgBFYX3dQxn
+         +a/cFzZgOJE2n332CLknnzhnhhSi0ATOLfrqZ9adXh0Mp5TT416q5b2eMqxj5nWMwqvG
+         7C0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=3HRaaPgZ8YLqgi0ahDNyK9IYjpPSagcZrlAUY/4gc/I=;
+        fh=RGnJuy/Ycrv4InBWjIdiAKsAIfYtfI+FYs6Ou0adh4s=;
+        b=OiaeSfhHsxSqjs0WUrapuBmc363coB6oXXWJVANLXlz1iQDX45Gr08QnBROieY1/TV
+         d+itfT08RB1GfyTv6O/XEbdTvF6aYXjYVEKq4Ow5gZ5mws0Ibrn7OTsC53Gg7Lp5UjvF
+         GYiNwUXuCqK0N4Cn8uacYqUs8pFafvxBpHb9Mbe5pB4bOO5Qpn6ijC5ZcBMZpEMlFJce
+         hBc8MlZyivtussZ/MkfyC7KAB6mFCagGr2T2kUfFO7RMKF/6YCOY6v0UhDDizNe3MrC2
+         tTXpXbx6A9Hog5WtyPXikLxfDvzGnbAyVuyydwNaLPUUz7jPlx54yczAPTnFiijPtqH2
+         S6xw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786489347; x=1787094147; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3HRaaPgZ8YLqgi0ahDNyK9IYjpPSagcZrlAUY/4gc/I=;
+        b=YjW8LBg5RrJpToIfVbKwquJDEstR2HZ6h3+pqvE767Qwz/kWmbMf+SRpjfwXP355gk
+         uMXxBQpubL+mJ+MoDumDt4qOQm19gl4pwDNETyyznROofSUE0TR8rpi3nrcGYuqzVnZW
+         rpWstmZkaPw0fIlB1aFOrlrf89e9eRxnvPowFOGHKMrRRNZ5iMaolia63NkrSMp1lpIc
+         Kr6FvVDNQOHNbL2t/DTP+awc9KMpy45Eb03eN9PxoQcB75WOzUcFO+pvfr6xp5CKo0eL
+         LieEdU9Fd0NePyAmLYbkWLXen9ljNWh+xMeO1NOPxSTofOICy3irRNKKPGLQAsX+O44u
+         iljg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786489347; x=1787094147;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=3HRaaPgZ8YLqgi0ahDNyK9IYjpPSagcZrlAUY/4gc/I=;
+        b=ASKK3+cxP/7sMuKD8I3s5bKGOxDW5RKS7cSz0vgiQnmPAd1AaVu0jaZZ5bGNQlDvSF
+         xeZmrAtCWFo2oAn+frR9gw1yzX4Eptv5VRb9s8dswVB6FG0zdGpdBvGRYwzdg8O4hyQh
+         DUgS9I8sNqMdHzZUXtyFUSndLSzK0ciflggtHHccZLYC+48CS28AXzfAYJTyfop4uivp
+         f0L9zMrgQ2vYQktfmsIgf6ErQkX4qO/yX0cs5TTUvo3pRq9JuMIZv3qZwXhtrMU50xmI
+         J21rAWUThg8F28d7ZWfxU4yyTgpfGLKLPne4gBLo/jk1NnfMzxVAaaliMi8jSSO8CflW
+         COlg==
+X-Gm-Message-State: AOJu0YztkbTPFo5sgaBWrZk5n9wCjxPIpS9QMJ20uG4/i05Q/X+2Qmvn
+	ypFNGSP9tSeiBl6ChHkJki98AIrkWGLoA9wyw9hc1EHoeDY1v808DHE9cl5NLmKAq+4TZve6Yll
+	McJNJ0ZUWTNCqj6p2g8So3T9Md8ImGaQ=
+X-Gm-Gg: AR+sD12R1HLYbsZfZkbx3nyM88lKmfhncLkwW4hInsB2Nsk/cQD87+NdqyddLnNwJm7
+	O4DxD50bwzkIbdkXnIT97JWNci1o+Q7lyh2P+4XhD8431lAgBOJAy0iO/nzzcGoGiz3ygLH2dwq
+	aaOaHZxluOraruWGJ7mH5TaXkFWy28J3YOxSlSlg8xMVWdtgy4T+whn6JmvDKKLizI01/s8syMs
+	4Wzu9Lbdvvouq9AKwKLUUKUT9ZxyJ4NRmdqPO5Y4kEdZteVOnk/UkWRX5e/32IoIqij0LosVLs0
+	lqS+j4BEWAWu3dInY5d50SsddQ0/XmiEqkG/KfJI3k1KDFrF7yJyaYs=
+X-Received: by 2002:a05:690e:244c:b0:667:c09c:4a36 with SMTP id
+ 956f58d0204a3-66b34100c12mr342636d50.11.1786489346568; Tue, 11 Aug 2026
+ 16:02:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Date: Wed, 12 Aug 2026 00:49:46 +0200
-Message-ID: <178648858640.3471590.18184750436169014545.q6afe-withdrawal-resend@snyders.xyz>
-X-Infomaniak-Routing: alpha
+From: Kel Modderman <kelvmod@gmail.com>
+Date: Wed, 12 Aug 2026 09:01:49 +1000
+X-Gm-Features: AUfX_mze1jQ-YO12tVxiNLU0qkeR6krACQ-S9rqECzpldzdY9MGH1rnzpjQ2NZY
+Message-ID: <CAFcu4SY1cRs4WD7=ZaD0s_ybYXO2=d-ZMG+dSeotktuPrz2YUg@mail.gmail.com>
+Subject: ACP7.0 SoundWire: two TAS2783 amps, only one channel reproduced?
+To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Resending as plain text because vger rejected the list copies of my
-previous withdrawal reply due to a connector-generated HTML alternative.
+Hi,
 
-Please withdraw this patch.
+I have an HP OmniBook X Flip 14-kc0xxx (board 8EA1) with AMD ACP 7.0
+(1022:15e2 rev 0x70, subsystem 103c:8ea1), and I am trying to get its
+speakers working with assistance from claude. I have got most of the way
+there but I am stuck on one point, and I would be grateful for your advice
+on whether the layout I am using is the right one.
 
-After a closer audit, I cannot substantiate the functional claim in the
-commit message. For this widget, AIF_IN and AIF_OUT use the same DAPM
-power check and sequencing, the explicit q6afe_dapm_routes entry already
-defines the route direction, and the widget is SND_SOC_NOPM with no event.
-The change makes the declaration consistent with the other RX widgets,
-but I have no evidence that it changes runtime behaviour or fixes the AFE
-start failure described in the submission.
+The machine has:
 
-I do not want this merged under an incorrect bug-fix rationale. I will
-resubmit only if I can demonstrate a material effect.
+  link 1, uid 0 - Realtek RT712 SDCA (headset jack and microphones)
+  link 0, uid 9 - TI TAS2783
+  link 0, uid C - TI TAS2783
 
-Sorry for the noise.
+Two local changes were needed to get a card at all:
 
-Robin
+  1. The BIOS reports acp-audio-config-flag = 16
+     (FLAG_AMD_LEGACY_ONLY_DMIC), so snd_amd_acp_find_config() returns a
+     value that neither acp70_pci_probe() nor pci-ps.c accepts, and the ACP
+     ends up with no driver bound and nothing in dmesg. Adding the board to
+     acp70_acpi_flag_override_table solves that.
+
+  2. There is no entry in snd_soc_acpi_amd_acp70_sdw_machines[] matching
+     this topology, so I added one.
+
+With those two changes the card is built correctly. The headset jack, the
+microphones and the UCM profile all work, and both amplifiers load their
+firmware from ti/audio/tas2783/8EA1-0-0-0x{9,C}.bin without errors.
+
+My problem is that only one channel of the stream is ever reproduced. I
+measured this with the machine's own microphones rather than by ear, so
+the numbers are repeatable:
+
+  amps on group_position 0 and 1:
+    only the position-0 amp plays, and only stream channel 0
+
+  the same, but swapped over:
+    only the (new) position-0 amp plays, and only stream channel 0
+
+  both amps on group_position 0:
+    both amps play, but both play stream channel 0
+
+So both amplifiers are healthy - either one on its own reproduces the
+whole signal when it sits on position 0 - but stream channel 1 is never
+reproduced, whatever layout I use. Nothing changes if I use the other
+firmware variant (8EA1-1-0-0x{9,C}.bin).
+
+I modelled the two-position layout on acp70_rt721_l1u0_tas2783x2_l1u8b,
+and the shared-position layout on tas2783_2_adr, which pairs two devices
+per position with /* left */ and /* right */ comments.
+
+So my question is really a simple one: is a two-TAS2783 configuration on
+ACP 7.0 expected to work, and if so, what should the machine entry look
+like? I am probably missing something obvious.
+
+I am happy to test patches or collect any further information you would
+find useful - I have the hardware in front of me and can rebuild modules
+quickly. I can also send the two patches I am carrying if that is helpful.
+
+This is on 7.1, and I checked the relevant files against the current master
+and the sound tree's for-next as well.
+
+Thanks very much for your time,
+
+Thanks, Kel
