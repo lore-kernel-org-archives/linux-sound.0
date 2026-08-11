@@ -1,174 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173322DF6E6;
-	Tue, 11 Aug 2026 13:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786454233; cv=fail; b=XKx+oHToGL3YXENAWOtclH3wZj2Yq5XBIsXqqJqwg3ny4yvCfl2oaTHA2doM/ousZQe30WnfSqEkK7cKLTaDw9opX8AhBkCDq6l0AUiayLRf9jVJwWcdEhkNSJKM07FXNMPsb5lDnRvmJE1XqoxTFCNgo2wSghTAoLNMWfGvlfM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786454233; c=relaxed/simple;
-	bh=5F52yzI2DhtVwmApLOdigFYoytOYhgTXT3uwMpuWP04=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=h6MZ8nNNzadoPCsX6SMwj2LLuiTmQ0fDBUfYdxLBWbcW6DMjxeQhHPhnFRd1jVeuex+v1wtP/QmDiUabmvZyV3KNZDnyYXAJ7pdvlrLF6FUsG8UtfJhnpVwZuvQIBJ9p0Mo87TrFNnSAzBFXkIEG3s7beA77KEmWhQUXh9/esNI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayWEOOs4; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12C625B0A4
+	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 13:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786454324; cv=none; b=KhsMUlzxDQXSpVlvT81d4iWMM4o847qj3czh4peA+nG8UcYUFGSd+jYY+yinNe6VsNUWbhqEf4HgfMqwTLQgzKBKbMBhAbDak6j62d/DZJFuy/Qr2asy8xl7hd4iBncm2Idqpmpy2uynFkVHjd/jp8GSoLuE9qTfP9XBYfuZZ7w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786454324; c=relaxed/simple;
+	bh=7ht3xVmLNQeIiUPPcl8A0XYm48ey0/xSzNiwDYwET7A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MIgZ7jg9rqj5AjxavZlwt1eXt0vjI2j2/kgKZkspFhCqMhv3bSaGSv4p5Z3RaWmQxfW59lXerr08YHTwpi5bQTQ9lvRTlsT8uXtO5RtzQ8aDI46EeAnx31OPYJlV99lhPTl0Wkaaexjudlh9MamwUt38zcMtQQYaCX73iyQB1Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MEtQGbaw; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayWEOOs4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786454231; x=1817990231;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=5F52yzI2DhtVwmApLOdigFYoytOYhgTXT3uwMpuWP04=;
-  b=ayWEOOs43xjMGpcmr1tY202xEhDDvEVAPOGY0dKbGrtbHmK77Xd4dinz
-   kOfUW8OsEBz6OIN6DR0IQbD4C6V5XDI26U5SHTsxVmak15/BGRToa5nzP
-   O+Rw6AEO1CfWOavEgrGlDWgVSvRWPls0g6660b+R/P6k68IV15gNlBSxP
-   amaaG5rXMwcSY5WVNaFA4CGVfIDXzEREI2wTDWGG8tAEoNwpkVSxyt0L7
-   OSFQiZqNmg9Ku99CI8rKxXlX0UWofCOEkAcTOMvYFnXGj5eQdVL39kZ9C
-   7ZXyVUMtTl0PvzRl8OpXxOgQU56306kX/hJzXnXbwH/VgQ+vX+UWlcX8p
-   A==;
-X-CSE-ConnectionGUID: ZCJa3GMaQfazuGpSJ5cYsQ==
-X-CSE-MsgGUID: NRFRA7H2SpyP77NjonBa/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="97329857"
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="97329857"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 06:17:10 -0700
-X-CSE-ConnectionGUID: fJsmhEEnRnCaq5wbYcjs+Q==
-X-CSE-MsgGUID: GQ1mobvmSoKP9loK6earpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="260728531"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2026 06:17:10 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 11 Aug 2026 06:17:09 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45 via Frontend Transport; Tue, 11 Aug 2026 06:17:09 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.25) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 11 Aug 2026 06:17:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e5Q5ZV9OeR7c11iHz8ABbLWkBtvToghy9pclZee7cXVB6lTiurbbXp6TPBvmw95fYuQNm49L9RYAFRb1rI2zw383eCcvj9Lp7CwN0fw8XfjqcE10cw8NA4kbLatPeIE/9EPsZi6mIRqLahZXhGb2XG9qKgub5S7DzRpXcNAXEqHBpMNlrh3GRtKHFmyWwtd2bP3QHPdhO6uOZYWiaRUiy203e11E+U6kay6YK4qEmU8cmsPMTjgIkMfOkziyibLxw0c6LItBM1Im3a+QPQYKxJp7mQ2W7bkgU/oW9u1f22Cvb+f2gWvSeWEYo7Y9sKmQDGQyqy6zTBzq4BHOKTEWwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rvb1bsTaj0R5W2W5yi1TU6D4ZkRJB0lP+y66Z972Oio=;
- b=XZQM8hDO/9WrdGbMDykIT18SzN22LYS90DpngmsYEH6UobmbsJXNRWyTjx4a6qBVLzJkbgziawmXs7AfCjRYd6rEtXegfLh5jJrLi9OVF/Im21WhOaeTT9XvLuuRa0QPSG/60QF84ZhvPfPktKKSXeoKY6dlTpod+teddCukSoIft/7SOHbpR1uZdAND49QeKntNf5oqO8sQS3GhP/6obIDzduxAGRI9oLycvdtKxAS6YjeOhFqvhOXCvuGCiryZNsz3GaEHDhagfl2qv7B8ocWxbP+m6O6ulpz7kzv3zErYAFqV5ZZhKoxcLIQfxsvVprpTen76zll49kMb2gjhvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com (2603:10b6:510:1e1::13)
- by DS7PR11MB9449.namprd11.prod.outlook.com (2603:10b6:8:266::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Tue, 11 Aug
- 2026 13:17:08 +0000
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd]) by PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd%5]) with mapi id 15.21.0292.024; Tue, 11 Aug 2026
- 13:17:07 +0000
-Message-ID: <5574c552-a2a7-4970-9fe0-1e25be78eac8@intel.com>
-Date: Tue, 11 Aug 2026 15:17:01 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] ASoC: samsung: aries_wm8994: Preserve gpiod_to_irq()
- error codes
-To: <phucduc.bui@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Sylwester
- Nawrocki" <s.nawrocki@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	"Mark Brown" <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>
-References: <20260811090550.38930-1-phucduc.bui@gmail.com>
- <20260811090550.38930-2-phucduc.bui@gmail.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260811090550.38930-2-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR09CA0113.eurprd09.prod.outlook.com
- (2603:10a6:803:78::36) To PH7PR11MB6006.namprd11.prod.outlook.com
- (2603:10b6:510:1e1::13)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEtQGbaw"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d02b4c3601so33862655ad.3
+        for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 06:18:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786454322; x=1787059122; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=771dtknE+FCD4MPix/3pSsrzDifz5xD86J8RNkB81os=;
+        b=MEtQGbawGIkWWFWInmuyghSaAv0Qf2EtvyC8u5riQmUDQ4tcXrVWiAIvTSdo/LeIRT
+         mLyjPCJpnZEh1lZbgqL5XptAh66MCuXeDL3osIdkceAWrsJif0zRXbQMOf09oZC22j/Z
+         2iGHBi3cbXrRMoxHrhRxZE1iWZoyiuqK8Jq5KHxVAvSD0E4Vb+TvNtpcakyIT6z44dDp
+         sJuqLqtwgbGsz2mKVy+nyyA1MCpH/Ldhl0yx8DhktqPbtO4JvWLYzG4A5T/SvLMLMqKq
+         bTDwnHCc/fRpcfiFbx6sG/vG0sWGF5WkhL5cyCkeajqD865th+ueCyibcxD85D+fnjGY
+         0Utw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786454322; x=1787059122;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=771dtknE+FCD4MPix/3pSsrzDifz5xD86J8RNkB81os=;
+        b=UOy9zyygc8tA1iCeIX7LKJFWxdQazBGQqgotIumGdsZOneUfcu8r5QVdqpITy9FIg4
+         LUVzNtDEFvp3L1Co/blRC48QQiXQ9CYf/PZPzbMye932ZwYAlR+3q8E6/SNKucF7DmIv
+         aqUTae90mkofcucDBV4vq3A+VTrktmbJyqWXfYcnyooL2xcryeY4uGfSA5dpClsdnztu
+         qFc+4FN72Q4i52V3r0V67MQDu1PxEn0PnyvugjlD0enGLkEpRGk+6BSGpm++zmh7i812
+         +6wUzCr0L+WtfDauC4fzokntN4eGWh28b97Ds25S2wrplCHFS98MquI1fcD52mAS1kFo
+         VOIA==
+X-Gm-Message-State: AOJu0Yz1DD/FYFvT2e3wFkEkOThbyUOJ3Sd290KfoT3xZuM0sdoE/3ZO
+	dim6Xe0DtAL5sUbbHp/H/XuGk+wONJo2PdNP58QYMJRlhXFDqxodzQBpJcMkUuGU
+X-Gm-Gg: AR+sD12gRTLq8xTdpZmCoNx5NR2MJltUFSa9X+vwoZUa8X3dnd/tDTDVY6WBzbsKPdE
+	ZnUHyz+JpPj+XBq1PImljMn/YrmvRvntwLR46/P4GyKnOVnjrKPEHt7c+F4XrK4apLX9vn7eXAZ
+	4HSLRqTiBioEUCZX4kSKaRPMMJAFpwPupiTZKzqfVAfnYSp1WvyqpMm2OGKA4orwVODoNrnP9+1
+	X8II0qQSuULbvs+6H0twlr6Oh+b9BXxMqrFfSg+iC3QuM6PTbj6wVwTSa9bxdfzPKdjzknHTCWV
+	+r86p8Bm866M71W1xRJPy9+U6PSJK3Lcs6Q+Qoc1TI/dFUaeC7PSHn8II75ZBsejs0wkBAXnDJN
+	fOFTq4z14zax93ZSJ28g6qhdfFajXktr/Azcyf8wn7DuRcnqYRKWnYJ1uNJn/8nfvtPdCfoR4H/
+	6MeF/C3yzHKBQg5H5So+CFFGMG44UknWJtbSaihkvfd8zBUlrr2COey4BTqq0tGcGb6J3HD/5JU
+	RqDQZJtqCc6WEGGAIKkytV6b6lOmS7C/P8ZrYuebaFNXMtASF5TUg==
+X-Received: by 2002:a17:903:9cc:b0:2c9:de53:f84f with SMTP id d9443c01a7336-2d32c0c42c0mr4352165ad.19.1786454321798;
+        Tue, 11 Aug 2026 06:18:41 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d31622ea02sm8115715ad.73.2026.08.11.06.18.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2026 06:18:41 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH] ALSA: seq: Don't leak the extension cell pointer in the bounce payload
+Date: Tue, 11 Aug 2026 22:18:35 +0900
+Message-ID: <20260811131835.3837024-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6006:EE_|DS7PR11MB9449:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59fdf8bb-3891-423b-cae6-08def7aad823
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|10067099003|11063799006|4143699003|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: DUrt41AmXDH2LbQuK/Xl3otOTZLY2KYbV5jJ7Iurrm6cjaFprVs/8vZVfKH8fEfM8j00Ai/7xRgzrn6qCtHHnEDQFiaf/aKp6+PkXXbFE15KeN9ixjW3LeyShu4fYDeFfwWX6rfEryYbDgyCLhN0jvyORkOh8ccnrOgPUBuGct2ZD1R8ZrSnw44I+i84M+E/YdTgyMjADDcHYj1fVbA8Rp4jbTRi2gThi1bbHU+FLF1Q9FhbAJYjfp9UflXdZ8YybJcKfM/UHGTtJmtvkbjBRBK8AoGDfAwwX2H1bEoWE/aYVmnQmF6SIuhHplutfmGpuneGoaIFNkZXf5++A+vRZiW/8MyU3sHMGV5pTinQRXneCBCdFQNvh1mef34AtXBk2/hvYNSCFNvtyQg2tyHbx7+/0WsxQDmMqj9UKO+5ripHmoeWtgWnIZ0/4KLQKNRsbmiCUJQas06i+6go13TE5wFu03NYLtVm2tqQTiU3mmw3IIziFrxg8vwvVbSYJZEwD8E1MIA4FsRn7Z0S5xvEYK/eeFimMecexrbZ9CYwkarjCXn0o6X1UW/tlO+M2c7Kh8PLeS0mFB+UTfuKTggLRyyk2F73bDjAyII6cnHsj3Kzak0+YvKpmimvpjmZfYT9F8BLvYxKJ7azvFGerIXZfeofFKaNkGzmQ2Yd7ieqJs8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(10067099003)(11063799006)(4143699003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3g4NUdPQXlKcmJzVHpDRTJyMkZXbTVOdFNYZlRreVgyb2dZR1ZNekJIQTJZ?=
- =?utf-8?B?YXNCUHRlb3dmLzRQTzU4Mkg1Z2Y3Q29WR1k3bncrMmZHazdLTm54M0VON28r?=
- =?utf-8?B?ZTR2b0s4Z2laOStYWkQwd3ZkRmtnQWtXczRsYmNjMXlCdWMzdktVS0ZUSUZn?=
- =?utf-8?B?Q0VRV0p1andCN1kyd1Y5T3FRTUtmK09MTDB3anRIcW9zcWxlWm5FdzV5aEhH?=
- =?utf-8?B?SDIvUndKVklzbDM2a1Nlay9nNjR1eVZNK1Q0MU9rWWpqZ3R3elE4bEx3YmFS?=
- =?utf-8?B?TjJKYURabndRUHVNME5ZMGoxSHY2UmlwMFJJM1pIdVg3ME00d1VseEhlOXFn?=
- =?utf-8?B?bUZTdFZIYmYxYjJoMkJMeVBTZWk2YnRqaUVNenBJdEp0UzJuY1JabnRyVW1k?=
- =?utf-8?B?b0JRMXpmc2hXQnRtQlI4T1VNSXVkSHFISmk3YVFha2NNQ1dqMDFhWEpxaG5V?=
- =?utf-8?B?Y0lVdklnM1pUbis2L253dDY5S3RhYXpqZEJTNFJ1QnBrU3Brdk9wZXM0Z1Av?=
- =?utf-8?B?WFNZT2IyanpHdDZZYnNmNnEzanF6TFlCcVd5bktpc2JGWmtseG05TkgvSWhL?=
- =?utf-8?B?amo1eEMwVGU2MVhMVExqcTNuajN3RjRTbTk5Z3EzSzlzNEM2MzdNdHpjYXlO?=
- =?utf-8?B?UHdmS1ZZamNrWWtha2N2M0RnMmhoQVNXNWJLa1h5S29FUzN6bUtncUoxNVJB?=
- =?utf-8?B?U01IQW94SFpMcnRUSEZCQ0s4WHRuUzlyWGRoZmtPZFpwR3RseUUvcjZ1aUFR?=
- =?utf-8?B?MGRFTlA0RVlRMmZjQktMUVZoWFc2NzA4ejhKMjhsZ2hwbGRmalFjVlJMeVNR?=
- =?utf-8?B?aDk5c1NURHdoakF0RWdRbHl1RDFyRkpqVzQvZjFCNU1CQ0pkYU9LQkpOYy9M?=
- =?utf-8?B?d282c0dvWXFOZTN3QmtiWm0vaHNsYmxHbHVsMkJDeDdVU2RKYkMvd09mWTZw?=
- =?utf-8?B?T3VGcThGNzV1Z3JwMUtVTTZTQk1PYUdZdUJ0WGtWOUdhdjZpRXlEOFozSkZX?=
- =?utf-8?B?NE1OVWxpSS9sV0Q4Q3JJU2tQMGJMSDlTYTVzZHJ1S0E4K21JZ1JhWHlJSHdE?=
- =?utf-8?B?T2pTQ0dIelk2TXBsd25MN3czQy8wTE5RZ05lMlZJUkZ5T0FJTGJFV1lxb01i?=
- =?utf-8?B?Y09XTWkzTjYzYXhWZFJTRFNtb2JVOUZoTXoyS2VWUFVsUCtSb0hseW9qcUVY?=
- =?utf-8?B?cno3d0U2ZlhHVWV1bXUxWlhDY0Rmc3ZoQ2JFY0JTQTlpa1Y2MU9xVDVKNUhC?=
- =?utf-8?B?akhvbGRudVp0Tjd1UVgxRXFqb0VCN1JUdFhXZDBaR0xuQXcwUlg4MnVvajly?=
- =?utf-8?B?Z1ZPYTBjdFNhcGZYdGNyRktENlBhVmE1VVdsV1Q1bXFIN2pBZEt4UWZrSzJh?=
- =?utf-8?B?dTI0STdMR29rd1c4MW1jSE1FbVRhVkRYVmw2UzByOHdNeENac0FUeEZSVnIv?=
- =?utf-8?B?ZzNNUW1ocVBHUlZueHBBRDhnaEpoc3hFM0NQWGhKejJPcldiQklIZzJ2b1Vv?=
- =?utf-8?B?VWwyV3l4UFZaazlqY21WOG5oS3pjVTJpTnlSS29ZZTJaTG01MlFFQ2JXREVv?=
- =?utf-8?B?VHc0NUhzNDNuYnp2WmpUdk5WMVJWNjkvM2pacDdOQi9DV1RMSFMzMkJMZXB3?=
- =?utf-8?B?OU4wZkU4T09LM0I1WEFVT0c4c2ExU0tMV0JZRm5MU21pL25XSXkwT0l6S3hx?=
- =?utf-8?B?N1RJQzMyaG5sZDRNREx6YjRWdjFkSTBIVTF4SXhqQ0cvUUtwZUJiR3dUNjhF?=
- =?utf-8?B?VmE4WWdNVEc4RmV1T0FrUXdZRURtdGZENHIxUjhxVDRFb1NuNFBEMnlBeEM5?=
- =?utf-8?B?MmduSlFzUHBDakp4SXBLSUxWVmNuSnk5N2VPZ3cxYi91ellzVXdxNW9Fc0hk?=
- =?utf-8?B?Y2N3QVhraml6Rjlabkd4aVBJNTZPK3RoWjZpeE5DcHJrWFQzMVM0TnJBaStH?=
- =?utf-8?B?b0haTzNsc0xTUUM1ZGdJQnVlSGZGb2hPbit4VlBObEl4Z1NXU05zbHdHbEY3?=
- =?utf-8?B?K2VTMEs1RlZyQnlRNWJoL042QldkbVI5amZXS3YwL3lyMFRRYjFpSDdVcjky?=
- =?utf-8?B?cFg3cFRyZ1l4R1lkcUs2RzFhbEdLUnBOeUxjckQ2cWFHVzd6VTFUR21YRnBY?=
- =?utf-8?B?NEJsSEVzcXB3cGFlaWdrRWJmbjkydzY0MW9naHZycUlmREVhM1BVTWhab3dY?=
- =?utf-8?B?RS9mbkFQWEQzOStySEhzVm5zOWlhc3ZDckhtWUpMTkx3cFBCL3FpVThFZVFq?=
- =?utf-8?B?RFBKdWVxOFN2RFNXV3RZMmNwUFk0blA4TmFHUXk3SXNyTWM4L0FKTHdESlFU?=
- =?utf-8?B?TFNyVEF2Y3RHVzdYdUJGMWdCaG9yOTB3MXYxVFhES3I4dUs4YWE0dz09?=
-X-Exchange-RoutingPolicyChecked: H52KS9AeBgmRPvYBZ8Dv8u1us4ZC9DCTMt5iCWp4v5EvQCkVj69qnLldlqdYb25Zj+Fl6Cy70DT60pu3YgNfPo8J7DGlEBeyIqi64Sq9dZYeCz5xF2hwQvXmVN/7zaV+pmY3DAUbzqSAZmf/kjpWZKBDmLjfBmI75QU3YLTCx56cTeJ6tMwohZ9vmtLfkyq4tvEVnmItxxwPteX3FgSnAkLpCZmQGNb5Z8EaUrRg7NUtCQvJHskC14YIqyJJB/BxswniLbKnvfPXnmayPjgySvAcx3qQaKdwE+Iw4fcITXRlETRSh17lrY644LdcYxxu6DLC5qt7yuaIZtQH9wH9pg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59fdf8bb-3891-423b-cae6-08def7aad823
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6006.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2026 13:17:07.8833
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jWWmeX4jIA+B+mvt/TXibaw/5wxdHsLH3j/l6ShU/PH1Opb6BUAssfFpK/Wv2p9uIzq93QBsab8vmwziDVAgo1DeET/bCi8tR1wwL/zYGn4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB9449
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On 8/11/2026 11:05 AM, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
-> 
-> gpiod_to_irq() can currently return several error codes, including
-> -ENXIO, -ENODEV, -EPROBE_DEFER, and -EINVAL.
-> 
-> Return the original error code instead of overwriting it with -EINVAL,
-> so that the actual failure reason is preserved.
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+The bounce_error_event() embeds the failed event in the bounce payload
+by pointing data.ext.ptr at it.  When that event is a queued
+variable-length event, its own data.ext.ptr holds the address of its
+first extension cell, put there by snd_seq_event_dup().  The payload
+goes out verbatim through snd_seq_expand_var_event(), so the address
+reaches userspace.
+
+That is the same address commit 705dd6dcbc0e ("ALSA: seq: Clear
+variable event pointer on read") removed from the event header.  The
+read path still clears it there, just above the call that expands the
+payload.
+
+Embed a sanitised copy instead, treated exactly as snd_seq_read()
+treats the header.  A stack copy is enough because delivery is
+synchronous and snd_seq_event_dup() copies before returning.
+
+An unprivileged client reaches this by setting SNDRV_SEQ_FILTER_BOUNCE,
+queueing a variable-length event to a port that does not exist and
+reading the bounce back.  Eight bytes on 64-bit, from its own pool.
+
+Fixes: efc86691e4d8 ("ALSA: seq: Fix kernel heap address leak in bounce_error_event()")
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+---
+Unrelated, and not part of the change: the payload does not match struct
+snd_seq_event_bounce in include/uapi/sound/asequencer.h - the err field is
+not sent.  Nothing regressed, since the kernel never produced the event
+before efc86691e4d8.  I can fix that separately if you want it.
+
+ sound/core/seq/seq_clientmgr.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
+index 28782e1776fa..9ec6c1c0cabc 100644
+--- a/sound/core/seq/seq_clientmgr.c
++++ b/sound/core/seq/seq_clientmgr.c
+@@ -528,7 +528,7 @@ static int bounce_error_event(struct snd_seq_client *client,
+ 			      struct snd_seq_event *event,
+ 			      int err, int atomic, int hop)
+ {
+-	struct snd_seq_event bounce_ev;
++	struct snd_seq_event bounce_ev, quoted;
+ 	int result;
+ 
+ 	if (client == NULL ||
+@@ -548,15 +548,19 @@ static int bounce_error_event(struct snd_seq_client *client,
+ 		 * For user clients, send SNDRV_SEQ_EVENT_BOUNCE with the
+ 		 * original event embedded as variable-length data.  This
+ 		 * avoids exposing data.quote.event (a kernel pointer) to
+-		 * userspace.  The variable-length path in snd_seq_event_dup()
+-		 * copies the event data from data.ext.ptr into chained cells,
+-		 * and snd_seq_expand_var_event() copies only the data content
+-		 * -- never the pointer -- to userspace.
++		 * userspace.  Sanitise the embedded copy too - a queued
++		 * variable-length event carries the address of its own
++		 * extension cell, and the payload goes out verbatim.
+ 		 */
++		quoted = *event;
++		if (snd_seq_ev_is_variable(&quoted)) {
++			quoted.data.ext.len &= ~SNDRV_SEQ_EXT_MASK;
++			quoted.data.ext.ptr = NULL;
++		}
+ 		bounce_ev.type = SNDRV_SEQ_EVENT_BOUNCE;
+ 		bounce_ev.flags = SNDRV_SEQ_EVENT_LENGTH_VARIABLE;
+ 		bounce_ev.data.ext.len = sizeof(struct snd_seq_event);
+-		bounce_ev.data.ext.ptr = (char *)event;
++		bounce_ev.data.ext.ptr = (char *)&quoted;
+ 	} else {
+ 		/*
+ 		 * For kernel clients, quote the event pointer directly.
+-- 
+2.43.0
+
