@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480613B0AE7;
-	Tue, 11 Aug 2026 22:20:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7045747B436;
+	Tue, 11 Aug 2026 22:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786486822; cv=none; b=DWXpHMCU3fpxFxVmcFThbPxIq/w21A/3GR+I+gIR4fw4YBK2H1JXIRWFalvB9ZvgxM21tskA70kjOPCoQxsiV6F4hUokSAMaCbUwEcjH3RvCS0u5+fxmke3y1Z4Fy7rGhR1/LoW6Jp7AacCYLv8yijP4Vp7r+MFzvWBOOztx1hk=
+	t=1786486827; cv=none; b=HIhSGFh1VrhLrahxxAX22VAJ5vfwTjIT3sH+O4Fx7smY46T4tDcaWdvLOMf1ZbWZ6MOOsZNzj2LJ7oPgL9oc7nxpXrPD9XctGsWc+MZT/xvAS6G+2zQGoHWOTcaL4/RiKxk6nCWP8vmGVxOr5qjg0ZDro7cyR7NjweMpDs73ZyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786486822; c=relaxed/simple;
-	bh=rGzMYl8k8YFPBqs1xAPBOcPcRdC/awV46Xpycd9gg3o=;
+	s=arc-20240116; t=1786486827; c=relaxed/simple;
+	bh=7Jr8fo4boJSL1ugftBxk4l8ujAkN96ATmdOYTBeOT+s=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uOQl4lMEkcq5TnDFMM138VNDcExvUV7u//bZcou4TcX4r70si6E5ykgyPFp3bj5UPyLdf0Nmjo/jV3l3QfcJVAM3gHvHiy13cy1al77rJTpXUeD9XbJYAuZkB/NdVyGVCNb3KTciSLzjrtzbwhkkthWPceCJgzei8WZ/GkToWkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVwq5eBm; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=l2dAtg+SLlw9hiXKJM9whAZmDQML6fz1WoSeGCG7+36RudwLZPQUSax0QXFeVSBy3e3L/jJTC/OHayJutVeqXQ0WVg4ltzhQFtX4RK1kOSxL5Uj7v375kSnADHFqZQ30YsZIAEhjx6d3yr2aFS/zgX+bkmgu+cw0smMg29IUSJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S/6D7XHT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVwq5eBm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8349F1F000E9;
-	Tue, 11 Aug 2026 22:20:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S/6D7XHT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CDE41F000E9;
+	Tue, 11 Aug 2026 22:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786486819;
-	bh=bgruTceOhBSt6ExD5rb9r1mmzE/uAzzfIg/kARi5H4E=;
+	s=k20260515; t=1786486826;
+	bh=2PqIr4fmxyKnYA6iGlh4mS7egkuY16Gey8TStUT6D1M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=aVwq5eBmgS0q8i3fcVBkoeIffemayJOditKOlU0eF2SYaQ89Z3bwxDTk/L6Du+nus
-	 xmHN5WASIu0Iy+qW+7ElSveYK53Brr8Vy5lpuLTz/PH7s4a42diUXbxBwT3NhsnRym
-	 QYJaB7C2p1NpLovshNr1t6wMa46LfN6hbuPZIDRO7z6PnNwNKFCWJJYoFpPjwp0d5s
-	 qdl2Uui3ap2/aSQqju9SEZlQLS6LZR1xcq0gkakwgTDPKpQYtjCfQASn21GxC9loTZ
-	 DbWBVNOP2G6w9ezAZpKJ7kD8KKBnu0IqlLZLaXqUHxn4KR8el4oRBlbGd02A07306c
-	 jCH45/WWlTzVg==
+	b=S/6D7XHT9FGfHPutlacLa6+iaAPoW4X8kDi6DMftL9dHMThohK/2K4++IZCBqilkf
+	 6BsSvVDCRpgko8MCBdqP4v2neSimnmMtzlkoNexz5VNLwz/msZ9rfd1ZgGWbmennQn
+	 aj9fVLQEu1oZobXJJFAMRCUk2BsCVeA7T56WG4RIas3hG1hFY7g6qks057tHC0NxNW
+	 n3fVUSZh6xHyZIFOwAd8gFYQsMrCn2t+fCduf7n073LP/S4n6SJl09DHpaijzKLz6d
+	 jCzNmgU2M247hnrnbk41EAqfM+1tZBV9vbimjl0uPcIzDezhibcDZFoDQ5ZWvawUPL
+	 prapXu5z17gig==
 From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, LiangCheng Wang <zaq14760@gmail.com>
-Cc: Mark Brown <broonie@linaro.org>, linux-sound@vger.kernel.org, 
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
- Wig Cheng <onlywig@gmail.com>
-In-Reply-To: <20260805-fsl-asoc-defer-cpu-dai-v1-1-43f7f538e384@gmail.com>
-References: <20260805-fsl-asoc-defer-cpu-dai-v1-1-43f7f538e384@gmail.com>
-Subject: Re: [PATCH] ASoC: fsl-asoc-card: defer probe when the CPU DAI
- device is not ready
-Message-Id: <178648253837.119683.3220582369920670222.b4-ty@b4>
-Date: Tue, 11 Aug 2026 22:08:58 +0100
+To: Daniel Mack <daniel@zonque.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, phucduc.bui@gmail.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260811100949.61142-1-phucduc.bui@gmail.com>
+References: <20260811100949.61142-1-phucduc.bui@gmail.com>
+Subject: Re: [RFC PATCH] ASoC: pxa: Use devm_clk_get_optional() for extclk
+ clock
+Message-Id: <178648245852.119683.17286838052552347114.b4-ty@b4>
+Date: Tue, 11 Aug 2026 22:07:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1159; i=broonie@kernel.org;
- h=from:subject:message-id; bh=rGzMYl8k8YFPBqs1xAPBOcPcRdC/awV46Xpycd9gg3o=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqe6AgT9j0MeDOeEtLSitTY9e2bQsFrJYbuEaKE
- vEPNuskkFWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanugIAAKCRAk1otyXVSH
- 0PUuB/9IwWDS7rJYhTs0Xg/SnYB1CFKANuW6Du7FdO4P/RMiV/8qMf8nFnk2tfwJAEXBZhVqFEa
- ZdOZ9l2E8DN/9s/FbiJLcvrbA9l0ptxpmVKof7aUPFFBqfbX+FXfu68HzaAezloLfhWi+V32cPm
- eEZKxhNMZ0CGfrnD/ld2o4O+/xVFC61FXJZrkkIYk28ITpJF8gxeROA3DuEprnopWDULdImvatN
- 6+3v/R0WL0x1eG8hwkqCLODhWelE9pO3IXw5cMnQQDpOADCtBVjN7ho//cz1NlkTGfrQ1+C0Ouf
- sEuKGKmPbh4zTy1dfnEloQDfqggqGSElzcG5Yw0ryvEnj8SH
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7Jr8fo4boJSL1ugftBxk4l8ujAkN96ATmdOYTBeOT+s=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqe6An4W7quwZTF0WWBqSdBtzwhPLKjxzXbBt3+
+ pkpojzQv2yJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanugJwAKCRAk1otyXVSH
+ 0JxXB/9NfzVHgUpvmMC0HyLNxNf56+nUpXFElK4awv1etNBi6ectrnvEAf5tQLS5utQYVyYCI2H
+ Vl/XZIS0Uqo0qTGP0WYX9MB751jigeXB0w7qyAK6qUAg+V8p/irG2HJlMD5Y5L08w8rqkRuhgIw
+ P8tweuUZJkW3TdcARG7CJEjM5VI83phPvBKEubJZVtmUQ4LkfsN2oCQRuxNGCOtLbz5DfaBko9Z
+ EtEvJ0vt1j/u9/G0s4n5G4IGcWzTlz+rCISgQ/NCrz2TgxZxfsZly64CbJXuYgx35n7RKcc3qoT
+ lIJ+zePPfdLHp/bENbXgrt2eIpfzq021ayy64ouIoNyIg1jo
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 05 Aug 2026 15:55:43 +0800, LiangCheng Wang wrote:
-> ASoC: fsl-asoc-card: defer probe when the CPU DAI device is not ready
+On Tue, 11 Aug 2026 17:09:49 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: pxa: Use devm_clk_get_optional() for extclk clock
 
 Applied to
 
@@ -70,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fsl-asoc-card: defer probe when the CPU DAI device is not ready
-      https://git.kernel.org/broonie/sound/c/0286324da660
+[1/1] ASoC: pxa: Use devm_clk_get_optional() for extclk clock
+      https://git.kernel.org/broonie/sound/c/6ec64d757af9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
