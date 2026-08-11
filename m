@@ -1,70 +1,70 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F332C0F6D
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 04:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192012E5B21
+	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 04:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786422087; cv=none; b=l/CESGha6m9tVsYJzztTLyZOAogu/06qrzBqTJRDTMlHr9pnOMBrOBlauW+5pB9Imwr0PR5LKu7v6yMzsbCHfVudPtio/bO6BKwv4MFK0HFxB/ykJF2ZhwJjuOgLx9erRoATj9YgWXfxDVZ+72L5B5i5TkOdym0MNR/pAm7V7Vw=
+	t=1786422165; cv=none; b=h/DKklXlyFh+f6O2lBEsZc/fGgmXlC/xPHvgm1LI7v9lUUE9fy06S+26KjEqJOzkmjoshv5gNmQPruPpXIE/vcYpxgueesllBfZP+7HcC9cgh2tp/Tn6tzigmUm2aWaWHlzIw6d24dhM00WLuPkhXxPrJUkEsG4T6cfxQ7bb4Xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786422087; c=relaxed/simple;
-	bh=UsMZNAyOu94pnIuYwaTgqfFMzgFNsEBuDeurzlzhPv4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kA5pJb+E9Ebphikq9httqm3/ml1kIEvt6Hpur6e3XZBgWicDYmtTDC4swWxgDKPJOd9FIVmtK+2lrU1GkJFSlaIk70a5PLUF7EPMoULYm2VBwhs9j7uLrpTPkR2D/dHAWi6bkTF8h86Vui1uTF/29KEAmUKj5Lq0tT4DvmcZp3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+80P/0D; arc=none smtp.client-ip=209.85.160.175
+	s=arc-20240116; t=1786422165; c=relaxed/simple;
+	bh=dy5iN0wea+nsc4PN7sAPjvU/vb2tQapU6mlBWYmlNCk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OE/+ZuTpQDyz7LHjafJhogJ1tVxoEoO+WIhP/mJhdQuasXl1xM942mI0MDZ53BMzz6CqSvJZUT+7zsqzg+KYnZ+6Sn2FIS/EAtfn5mpvr4WTuZYE6vGMG2t2KhAxbWp4XHi6PZdS/n9Lr++dCyVGUYOUT0KSiag+Bk/jg1w1k1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A/glQWnP; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+80P/0D"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-51c8e2e39easo27014941cf.0
-        for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 21:21:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A/glQWnP"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38101f85591so628669a91.1
+        for <linux-sound@vger.kernel.org>; Mon, 10 Aug 2026 21:22:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786422085; x=1787026885; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786422163; x=1787026963; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=trArl9+tT/ayTAiZfIgCD45Cj7fZExgNzjQorjwPpZw=;
-        b=U+80P/0DOP22P7j/r8XKp9FkJ7FN50dAdKTiFfXuwIKAu9SqMjef3qSztVKOQ3O1Qo
-         hP88ifzMP8ZSj6WApT+nTxPbGMH/TkY3weicmYCPFutu6sxJp1G8XKNVobgZG3Vb4D6J
-         vyYLi5BoRjH8TKsVEJafUZh+BG7euPOve0ZgOrUtdwlcMiseDO52Dni+Ys6cM6id1xN5
-         AiDfwJ0+OCkpIJV/KLSkCL4oDiJQtHnBS8GVNuC6osUddBvvBUlSlpLQH6YDud+D2NvZ
-         pS+raQlg89h3x9vp1gqF4M1g30e7+uOjMJhj88e5TcMIFl8C1HmsCF8GOovKZ1GAU06J
-         zcaw==
+        bh=Mpp6flFgaf+OkTjSxwrQSW1nYERsP+15hr/7N3u0IL0=;
+        b=A/glQWnPap2n0svnzIg1LivpGPWCsse6O42oJ97mh9I8CTsZYHBYWIZP4AxnGukTFh
+         4P36Na8N2XQK1lYx5yehpKtJeGD64R6L1JdkRBr/hFdg93ZY6YBBKk8ok8DcZmLQtZmC
+         RUjaoi031OdKvyr4qPKbaClVrVoZfGEZUxTiYZy0Wbx8iXa9KfBLLfmP/yhH31Zh4BYq
+         rn4G0pXdMmjSCUE/vi3VXYzlaqVuw36E6/WQYMbcB61/aRgEwZftAYAd0m9GWV0XnN9x
+         8Cr1IoB8r56qDxV0ahRKnW5fIJ44XXtjVWh6fSQY9vOCkD1lLEa81Pfe8w6Hr0zkP48d
+         txrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786422085; x=1787026885;
+        d=1e100.net; s=20251104; t=1786422163; x=1787026963;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=trArl9+tT/ayTAiZfIgCD45Cj7fZExgNzjQorjwPpZw=;
-        b=WiOU+Xue2tG9JLlKioqG8nQVZB8+VrbmPnk4wkPlwhkXDxua83oMTNEQ3FCE8sJ67j
-         Ck9pceIPYJIaauGTfLn2+JBjbYP54SdbUspYFun14YCCiP0ZKeO5SQAZRFrXheevxT0p
-         QwktpgHpEt6Qm+t5jlxOjybfE1HyGw82kRzU+QYvC9Zv95OYBb7wRH5zSqgTtIKqKSoT
-         fwsFQHGNj6s+V9050cIkDTqHAAhG5jBN2WpmeKkV2vBuzwE6MnVfL3TsbV3cDGZ19aX8
-         YWjxr9JCg0P1IBqO9du1yXkaFefe1ffii8r+gAjq6BKZzaT0/zefji7QqQgefLz4YUYP
-         fCFQ==
-X-Gm-Message-State: AOJu0YzxlvIMQZz/fMjza3FnsZZsg1kkN0GHT63aAiwKxAXikvCx0Pal
-	pomaLGWcoE8buC6SK0ebRUTL74lz6d8MJL3xRLgva+gXvKFKACO89ltEN3Bg9A==
-X-Gm-Gg: AR+sD11hquNvimIJer0iIo3lam6p3gPDhJpxB+IsWREaiSUGBDwPMWTYGZzwreUz5VZ
-	nAQvqpmqqwd+v4RNXfo4CFdDo1QdJGN7OYD2Z9kzjQs3QMWYOoUbQltz3whVTgGrJAeTVlqR5Ow
-	Iq+GhLAgG0suX2aJTO9FGZqzR81cpOWsusZ7ZEPCFuoNgmRzmj7MM7/pCLbPGIxHeSfWRHrf7Dh
-	P4CFZZqertJVEAGdNoE0H4YwJ85z8q+M6NLJEqS9h4KFjoEKxed7190mzHdKP1kyo4hNSiT4/mT
-	tHvPt4B/AtQUPe0RA8MH76zGAWD8r/5VHDJEq7ZeB3R0qcbH0QnFaIvqvTAGWpBY7Q7wEvT7FCu
-	TpMEHHoGwvR0kPPjWcqs88POG19KENTzXGhiOUPMhUWyqRjiRoMkwvbJoXeX4L4U88jE7vZs4aC
-	hU40KX3dSDafSaDqL977Twtk63Drwy7zpqs/fi2rukpkB6/t+s4dXZEU5bbCEm7lMf05xNYGg19
-	yuUmEnmKQi7s8+JXpIK+Dhtzdol6kJbhsO26EfWEVbEvpfWibMR9HUYJVN+lLvPXLOZuCT4YSEw
-	WiupzTR9w6A+gt+thIPGM38JWj5qWrqShiZWXQ==
-X-Received: by 2002:a05:622a:53c6:b0:528:3142:d466 with SMTP id d75a77b69052e-52d586c8d67mr5003471cf.41.1786422084924;
-        Mon, 10 Aug 2026 21:21:24 -0700 (PDT)
+        bh=Mpp6flFgaf+OkTjSxwrQSW1nYERsP+15hr/7N3u0IL0=;
+        b=GRb/8mzKCy09JwpgFXdLrYs9j+emaJUFxi9x2SG8rj/AzLC6Yuw9oQkGT/eHog5NAJ
+         9VS7BME9Mrv68zBQUQ7Von2dOpaFMkzGsVJsg9Knzsvy+BrNaHgBozvhOLUZjoB9tgZd
+         ql56WRx92DTQ2wD/Wj4Gf2Amyloy+ECni1VAyUytrOgql34i0FCpzYAA92yYRKJrrMB2
+         paxbRkESMJZj4/kq5D1c/kLi6JOLi0Q4hzqZRySjEkhiP3H1TLox7TH9W9iwXMmilFF4
+         nTIE/QpgbanMNgWW0orpiUymDU31miwEmWejw553ATjlFaBdhFFAgKlYcSau42jyN3l/
+         uP6A==
+X-Gm-Message-State: AOJu0YwHxo2HMYRu1Xj1TipTev9HcGQWBfLmj0QlJIJBUDIBgjYFP0m6
+	aVyu6XGUvXo//kWgQ8UZoc+Jv5mN6kFqHQHw/hE93nz0dyhqV6erFi8L6M7g0w==
+X-Gm-Gg: AR+sD11O87He+Ykbr8u1KjIuFy3EO1s0c7uAmHSyomLkCqrJxH+2dcCrfpu5RTbFbCO
+	O2Ul/bAR/Ci35j5m0wxMF38JJS1vGdCjSWRbvlHdW6ZVwODHasl7wVthH4nr3w6+e80Ui9IZD/y
+	sONgyciMmDSBKKFEb35bhpzQDcy7MxQQRMHnqQNYB2YPsV1q9utkLPdKmL5PkRsfs66jCExHzUq
+	cQVCwxGaJDL2iEED2oj/kNvczLUES83P9nb7kKdIMg5Hiikph+fuAMNjElHOst1PwrwksGRoR+G
+	qRy5m9gtLQLqIAFRJuEHNhMsGzLJjegUVmLNJEQsarSKQ1go3lbjKw6QAYLGIa/nhKSV4r8Q8J1
+	CwkCIv/efZwGYulhlzzPvfYojjwbcIa4NFJsXaHe0Ng49tfPGsVdgAw1Ip8NgrCo3d7HcCPsnBh
+	N+TqzCHJMR6XlL33aTkym3444/hi8EKkwxx1dP2xhRqFYpU7nE36lKwcUJPsj7S/JfpiLosQCfT
+	JANL0FbwIZ+qi/7pzzXmCz7ZALbpGlIeH1+jh+d6jfENJGSwQFdmkKJ3wRDiQqi0v9E/QprdXWL
+	08zBwR+QSyKmM2tCIWZOpa1uemA7cTdX/E6AbA==
+X-Received: by 2002:a17:90b:2684:b0:387:d5bd:622f with SMTP id 98e67ed59e1d1-392edfac028mr69821a91.18.1786422163343;
+        Mon, 10 Aug 2026 21:22:43 -0700 (PDT)
 Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90a6646ef03sm1745596d6.4.2026.08.10.21.21.23
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392ee41936asm33863a91.14.2026.08.10.21.22.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Aug 2026 21:21:24 -0700 (PDT)
+        Mon, 10 Aug 2026 21:22:42 -0700 (PDT)
 From: Rosen Penev <rosenp@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] sound: pci: asihpi: use pcim_iomap for managed PCI memory mapping
-Date: Mon, 10 Aug 2026 21:21:22 -0700
-Message-ID: <20260811042122.44923-1-rosenp@gmail.com>
+Subject: [PATCH] sound: pci: mixart: use managed resources for PCI and DMA allocations
+Date: Mon, 10 Aug 2026 21:22:41 -0700
+Message-ID: <20260811042241.54317-1-rosenp@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -74,74 +74,239 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace manual ioremap() calls with pcim_iomap() which uses devres
-for automatic cleanup. This eliminates the need for manual iounmap()
-in both the error path of asihpi_adapter_probe() and the
-asihpi_adapter_remove() function.
+Convert the Digigram miXart driver to use managed (devm_) resources
+for PCI device management, IRQ allocation, memory mapping, and DMA
+buffer allocation. This simplifies error handling paths and reduces
+the risk of resource leaks.
 
-The pcim_iomap() helper is cleaner and less error-prone since it
-handles unmapping automatically when the PCI device is released.
+- Use pcim_enable_device() and pcim_iomap_region() for managed PCI
+  resource handling
+- Use devm_kzalloc() for manager structure allocation
+- Use devm_request_threaded_irq() for IRQ allocation
+- Use snd_devm_card_new() for sound card creation
+- Use snd_devm_alloc_pages() for DMA buffer allocation
+- Simplify snd_mixart_free() to only handle mailbox shutdown and
+  board reset since other resources are now auto-released
 
-Assisted-by: opencode/big-pickle
+Clean up trailing whitespace on touched lines.
+
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- sound/pci/asihpi/hpioctl.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ sound/pci/mixart/mixart.c | 90 +++++++++------------------------------
+ 1 file changed, 20 insertions(+), 70 deletions(-)
 
-diff --git a/sound/pci/asihpi/hpioctl.c b/sound/pci/asihpi/hpioctl.c
-index 9de9ae7032b8..ec2da792e1c8 100644
---- a/sound/pci/asihpi/hpioctl.c
-+++ b/sound/pci/asihpi/hpioctl.c
-@@ -385,8 +385,7 @@ int asihpi_adapter_probe(struct pci_dev *pci_dev,
- 		if (pci_resource_flags(pci_dev, idx) & IORESOURCE_MEM) {
- 			memlen = pci_resource_len(pci_dev, idx);
- 			pci.ap_mem_base[idx] =
--				ioremap(pci_resource_start(pci_dev, idx),
--				memlen);
-+				pcim_iomap(pci_dev, idx, memlen);
- 			if (!pci.ap_mem_base[idx]) {
- 				HPI_DEBUG_LOG(ERROR,
- 					"ioremap failed, aborting\n");
-@@ -509,13 +508,6 @@ int asihpi_adapter_probe(struct pci_dev *pci_dev,
- 	return 0;
- 
- err:
--	while (--idx >= 0) {
--		if (pci.ap_mem_base[idx]) {
--			iounmap(pci.ap_mem_base[idx]);
--			pci.ap_mem_base[idx] = NULL;
--		}
+diff --git a/sound/pci/mixart/mixart.c b/sound/pci/mixart/mixart.c
+index f451554cff5f..c4d7b4ca8909 100644
+--- a/sound/pci/mixart/mixart.c
++++ b/sound/pci/mixart/mixart.c
+@@ -274,7 +274,7 @@ snd_mixart_add_ref_pipe(struct snd_mixart *chip, int pcm_number, int capture,
+ 			int j;
+ 			struct mixart_flowinfo *flowinfo;
+ 			struct mixart_bufferinfo *bufferinfo;
+-			
++
+ 			/* we don't yet know the format, so config 16 bit pcm audio for instance */
+ 			buf->sgroup_req.stream_info[i].size_max_byte_frame = 1024;
+ 			buf->sgroup_req.stream_info[i].size_max_sample_frame = 256;
+@@ -627,7 +627,7 @@ static int snd_mixart_hw_params(struct snd_pcm_substream *subs,
+ 		if( subs->stream == SNDRV_PCM_STREAM_CAPTURE ) {
+ 			i += MIXART_PLAYBACK_STREAMS; /* in array capture is behind playback */
+ 		}
+-		
++
+ 		bufferinfo = (struct mixart_bufferinfo *)chip->mgr->bufferinfo.area;
+ 		bufferinfo[i].buffer_address = subs->runtime->dma_addr;
+ 		bufferinfo[i].available_length = subs->runtime->dma_bytes;
+@@ -1059,45 +1059,15 @@ int snd_mixart_create_pcm(struct snd_mixart* chip)
+  */
+ static int snd_mixart_free(struct mixart_mgr *mgr)
+ {
+-	unsigned int i;
+-
+-	for (i = 0; i < mgr->num_cards; i++) {
+-		if (mgr->chip[i])
+-			snd_card_free(mgr->chip[i]->card);
 -	}
 -
- 	if (adapter.p_buffer) {
- 		adapter.buffer_size = 0;
- 		vfree(adapter.p_buffer);
-@@ -527,14 +519,11 @@ int asihpi_adapter_probe(struct pci_dev *pci_dev,
+ 	/* stop mailbox */
+ 	snd_mixart_exit_mailbox(mgr);
  
- void asihpi_adapter_remove(struct pci_dev *pci_dev)
- {
--	int idx;
- 	struct hpi_message hm;
- 	struct hpi_response hr;
- 	struct hpi_adapter *pa;
--	struct hpi_pci pci;
- 
- 	pa = pci_get_drvdata(pci_dev);
--	pci = pa->adapter->pci;
- 
- 	/* Disable IRQ generation on DSP side */
- 	hpi_init_message_response(&hm, &hr, HPI_OBJ_ADAPTER,
-@@ -550,10 +539,6 @@ void asihpi_adapter_remove(struct pci_dev *pci_dev)
- 	hm.adapter_index = pa->adapter->index;
- 	hpi_send_recv_ex(&hm, &hr, HOWNER_KERNEL);
- 
--	/* unmap PCI memory space, mapped during device init. */
--	for (idx = 0; idx < HPI_MAX_ADAPTER_MEM_SPACES; ++idx)
--		iounmap(pci.ap_mem_base[idx]);
+-	/* release irq  */
+-	if (mgr->irq >= 0)
+-		free_irq(mgr->irq, mgr);
 -
- 	if (pa->irq)
- 		free_irq(pa->irq, pa);
+ 	/* reset board if some firmware was loaded */
+ 	if(mgr->dsp_loaded) {
+ 		snd_mixart_reset_board(mgr);
+ 		dev_dbg(&mgr->pci->dev, "reset miXart !\n");
+ 	}
  
+-	/* release the i/o ports */
+-	for (i = 0; i < 2; ++i)
+-		iounmap(mgr->mem[i].virt);
+-
+-	pci_release_regions(mgr->pci);
+-
+-	/* free flowarray */
+-	if(mgr->flowinfo.area) {
+-		snd_dma_free_pages(&mgr->flowinfo);
+-		mgr->flowinfo.area = NULL;
+-	}
+-	/* free bufferarray */
+-	if(mgr->bufferinfo.area) {
+-		snd_dma_free_pages(&mgr->bufferinfo);
+-		mgr->bufferinfo.area = NULL;
+-	}
+-
+-	pci_disable_device(mgr->pci);
+-	kfree(mgr);
+ 	return 0;
+ }
+ 
+@@ -1146,11 +1116,11 @@ static const struct snd_info_entry_ops snd_mixart_proc_ops_BA1 = {
+ };
+ 
+ 
+-static void snd_mixart_proc_read(struct snd_info_entry *entry, 
++static void snd_mixart_proc_read(struct snd_info_entry *entry,
+                                  struct snd_info_buffer *buffer)
+ {
+-	struct snd_mixart *chip = entry->private_data;        
+-	u32 ref; 
++	struct snd_mixart *chip = entry->private_data;
++	u32 ref;
+ 
+ 	snd_iprintf(buffer, "Digigram miXart (alsa card %d)\n\n", chip->chip_idx);
+ 
+@@ -1164,7 +1134,7 @@ static void snd_mixart_proc_read(struct snd_info_entry *entry,
+ 		default:                             snd_iprintf(buffer, "\tUNKNOWN!\n\n"); break;
+ 		}
+ 
+-		snd_iprintf(buffer, "- system load -\n");	 
++		snd_iprintf(buffer, "- system load -\n");
+ 
+ 		/* get perf reference */
+ 
+@@ -1175,8 +1145,8 @@ static void snd_mixart_proc_read(struct snd_info_entry *entry,
+ 			u32 streaming = 100 * readl_be( MIXART_MEM( chip->mgr, MIXART_PSEUDOREG_PERF_STREAM_LOAD_OFFSET)) / ref;
+ 			u32 interr    = 100 * readl_be( MIXART_MEM( chip->mgr, MIXART_PSEUDOREG_PERF_INTERR_LOAD_OFFSET)) / ref;
+ 
+-			snd_iprintf(buffer, "\tstreaming          : %d\n", streaming);
+ 			snd_iprintf(buffer, "\tmailbox            : %d\n", mailbox);
++			snd_iprintf(buffer, "\tstreaming          : %d\n", streaming);
+ 			snd_iprintf(buffer, "\tinterrupts handling : %d\n\n", interr);
+ 		}
+ 	} /* endif elf loaded */
+@@ -1192,7 +1162,7 @@ static void snd_mixart_proc_init(struct snd_mixart *chip)
+ 
+ 	if (! snd_card_proc_new(chip->card, "mixart_BA0", &entry)) {
+ 		entry->content = SNDRV_INFO_CONTENT_DATA;
+-		entry->private_data = chip->mgr;	
++		entry->private_data = chip->mgr;
+ 		entry->c.ops = &snd_mixart_proc_ops_BA0;
+ 		entry->size = MIXART_BA0_SIZE;
+ 	}
+@@ -1228,7 +1198,7 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 	}
+ 
+ 	/* enable PCI device */
+-	err = pci_enable_device(pci);
++	err = pcim_enable_device(pci);
+ 	if (err < 0)
+ 		return err;
+ 	pci_set_master(pci);
+@@ -1237,46 +1207,29 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 	if (dma_set_mask(&pci->dev, DMA_BIT_MASK(32)) < 0) {
+ 		dev_err(&pci->dev,
+ 			"architecture does not support 32bit PCI busmaster DMA\n");
+-		pci_disable_device(pci);
+ 		return -ENXIO;
+ 	}
+ 
+ 	/*
+ 	 */
+-	mgr = kzalloc_obj(*mgr);
+-	if (! mgr) {
+-		pci_disable_device(pci);
++	mgr = devm_kzalloc(&pci->dev, sizeof(*mgr), GFP_KERNEL);
++	if (!mgr)
+ 		return -ENOMEM;
+-	}
+ 
+ 	mgr->pci = pci;
+-	mgr->irq = -1;
+ 
+-	/* resource assignment */
+-	err = pci_request_regions(pci, CARD_NAME);
+-	if (err < 0) {
+-		kfree(mgr);
+-		pci_disable_device(pci);
+-		return err;
+-	}
+ 	for (i = 0; i < 2; i++) {
+ 		mgr->mem[i].phys = pci_resource_start(pci, i);
+-		mgr->mem[i].virt = pci_ioremap_bar(pci, i);
+-		if (!mgr->mem[i].virt) {
+-			dev_err(&pci->dev, "unable to remap resource 0x%lx\n",
+-			       mgr->mem[i].phys);
+-			snd_mixart_free(mgr);
+-			return -EBUSY;
+-		}
++		mgr->mem[i].virt = pcim_iomap_region(pci, i, CARD_NAME);
++		if (IS_ERR(mgr->mem[i].virt))
++			return PTR_ERR(mgr->mem[i].virt);
+ 	}
+ 
+-	if (request_threaded_irq(pci->irq, snd_mixart_interrupt,
++	if (devm_request_threaded_irq(&pci->dev, pci->irq, snd_mixart_interrupt,
+ 				 snd_mixart_threaded_irq, IRQF_SHARED,
+-				 KBUILD_MODNAME, mgr)) {
+-		dev_err(&pci->dev, "unable to grab IRQ %d\n", pci->irq);
+-		snd_mixart_free(mgr);
++				 KBUILD_MODNAME, mgr))
+ 		return -EBUSY;
+-	}
++
+ 	mgr->irq = pci->irq;
+ 
+ 	/* init mailbox  */
+@@ -1303,7 +1256,7 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 		else
+ 			idx = index[dev] + i;
+ 		snprintf(tmpid, sizeof(tmpid), "%s-%d", id[dev] ? id[dev] : "MIXART", i);
+-		err = snd_card_new(&pci->dev, idx, tmpid, THIS_MODULE,
++		err = snd_devm_card_new(&pci->dev, idx, tmpid, THIS_MODULE,
+ 				   0, &card);
+ 
+ 		if (err < 0) {
+@@ -1321,7 +1274,6 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 
+ 		err = snd_mixart_create(mgr, card, i);
+ 		if (err < 0) {
+-			snd_card_free(card);
+ 			snd_mixart_free(mgr);
+ 			return err;
+ 		}
+@@ -1344,8 +1296,7 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 	/* create array of streaminfo */
+ 	size = PAGE_ALIGN( (MIXART_MAX_STREAM_PER_CARD * MIXART_MAX_CARDS *
+ 			    sizeof(struct mixart_flowinfo)) );
+-	if (snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV, &pci->dev,
+-				size, &mgr->flowinfo) < 0) {
++	if (snd_devm_alloc_pages(&pci->dev, SNDRV_DMA_TYPE_DEV, size)) {
+ 		snd_mixart_free(mgr);
+ 		return -ENOMEM;
+ 	}
+@@ -1355,8 +1306,7 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 	/* create array of bufferinfo */
+ 	size = PAGE_ALIGN( (MIXART_MAX_STREAM_PER_CARD * MIXART_MAX_CARDS *
+ 			    sizeof(struct mixart_bufferinfo)) );
+-	if (snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV, &pci->dev,
+-				size, &mgr->bufferinfo) < 0) {
++	if (snd_devm_alloc_pages(&pci->dev, SNDRV_DMA_TYPE_DEV, size)) {
+ 		snd_mixart_free(mgr);
+ 		return -ENOMEM;
+ 	}
 -- 
 2.55.0
 
