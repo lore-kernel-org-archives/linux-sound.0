@@ -1,132 +1,127 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A6B345CBC;
-	Tue, 11 Aug 2026 06:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EEA3264F1;
+	Tue, 11 Aug 2026 06:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786429254; cv=none; b=N5dpctsKQ6cYHrs4nKqn2aVuuECqH1Pl9xPY8WVFykMm36tfzr34fFGPTIA/HyeKd2gBeC38zQ7N7IC4mN/Teq1EeFovSWnt+GhpJGiLbbNPW+R45LeIq8PUUdER/LKivXJ1TMfA+FZvx6QvDL7G5jyfGlHIQnY3NmivuaCGS3E=
+	t=1786429666; cv=none; b=D6SHTlSZaClr8FJVyC/+67pOTP+ksFE0mRQ3t/qEVB29dkmg8jD5pc95F0M5QszOXa5aKzOzu8kylI1Fyq8iRhnFfUGWC0j63xDeYuPPGmCcoeyDISzVz9PPQSv4VWZVFHhAwKs5JZomGGzcXXcbyMJgFPZLztJ0UXSPk9mOTCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786429254; c=relaxed/simple;
-	bh=Gz4vXSrfRxzX6TiJekFCRrhaI1IF3mubKJ/RcXMRazc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jEAuq/RJc87pE4ekjSLtOKWaauCq6nLNEzLZa0fBNJfByNrDNhCyTii71JG0O6T8pHNJ2mX2SWiJLgRitfSabe4Ve6PM2bgkSgSJZruDE6ohBxgexuKuu2aA5hkqKnINvGSfgyY1Ql0IQd4zNiOJOqU8Na6cyrlob2erX3H0ts8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fDsz4XxR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LuGwtKtb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LCYcZTeZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pef8VDdk; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fDsz4XxR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LuGwtKtb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LCYcZTeZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pef8VDdk"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 29CB83DF5;
-	Tue, 11 Aug 2026 06:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786429236; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F6wZQbivkQJxzCBkIVMQdGx05f2NFWyLSqqe9OYr9MI=;
-	b=fDsz4XxRTq40TgQgXwATeG9BYw10xCiRGuyR5+MW48J5RNtrSgL5jFMqODyvmAtlhpjk6D
-	4S/vta8TG9oIN0bqyZAVchGR2Gauu2gCOZEepOeT/dNbZCc7CUvM8TEWREaz6R+jXuLWQj
-	lj7MzYQ60yWCrtUcw6V3cc6nSQgvQR8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786429236;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F6wZQbivkQJxzCBkIVMQdGx05f2NFWyLSqqe9OYr9MI=;
-	b=LuGwtKtbAkbleANPB+U8VCwNEOZamweO/lmvHGT7ZX5jtEd2hfVtVJBynpDC+A7rF1SDza
-	Cu4rvPtBdsKAUoDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786429232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F6wZQbivkQJxzCBkIVMQdGx05f2NFWyLSqqe9OYr9MI=;
-	b=LCYcZTeZQqsOS/a49/SEck6O1rDx89/utWgnRy4JU/EWlTYxTKHozdlhB9JAJxZnrPLW1u
-	9ti7RUK2hAz7hKzYhxqByk2vdPeXWOWgXRpTE2Iio8gAymjQQd+dJMZgv8BVdakV2xqcF3
-	zgz55dCYdOPw0LD8FDKVdjRyTbM7/v8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786429232;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F6wZQbivkQJxzCBkIVMQdGx05f2NFWyLSqqe9OYr9MI=;
-	b=pef8VDdkMykPeJz7GW6hgDS91OmOA2F5bl2EpuvoPEMu5AA8jtUmien4ce69TCEY+WhZQG
-	VEF7DnPbRVZb68AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 01332779B2;
-	Tue, 11 Aug 2026 06:20:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H7FsOi+/emrCRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 11 Aug 2026 06:20:31 +0000
-Date: Tue, 11 Aug 2026 08:20:31 +0200
-Message-ID: <877blxb2kw.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH] sound: pci: asihpi: use pcim_iomap for managed PCI memory mapping
-In-Reply-To: <20260811042122.44923-1-rosenp@gmail.com>
-References: <20260811042122.44923-1-rosenp@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1786429666; c=relaxed/simple;
+	bh=7AHiQQmie5Ux8Z6vTH1p3WQxEMISti4hHlAMqH9+Fpw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Y9QXlXvhE2Ezs8msaBXMVF187oRzlEMCWYQpcc7G7IN7Y9mJtK7dOu9xFarCNM/vRG8QbZ2J6AEmSgzk7i7RHK3ATy1/h/QJu8oT+SDxVJQ2afHtjAoG4yDdedagkzuu80IdSiaZdgBsYx+0VwRPnI8B4YhD68CdSn+UdeyZYzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: bf83bd1a954d11f1aa26b74ffac11d73-20260811
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:06c48c0d-09c6-4d54-88a2-4c9f25468e44,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:9c8749e05e5666fb28483a1d1d39a27f,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|850|865|898,TC:nil,Content:0|1
+	5|50,EDM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
+	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: bf83bd1a954d11f1aa26b74ffac11d73-20260811
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 818115433; Tue, 11 Aug 2026 14:27:38 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	Zhang Heng <zhangheng@kylinos.cn>,
+	Branislav Klocok <branislav.klocok@orava.sk>
+Subject: [PATCH v2] ALSA: hda/realtek: Rename Line Out control to Headphone on ThinkPad X1 Carbon 6th
+Date: Tue, 11 Aug 2026 14:27:34 +0800
+Message-Id: <20260811062734.400512-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <87fr0lb2yg.wl-tiwai@suse.de>
+References: <87fr0lb2yg.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 11 Aug 2026 06:21:22 +0200,
-Rosen Penev wrote:
-> 
-> Replace manual ioremap() calls with pcim_iomap() which uses devres
-> for automatic cleanup. This eliminates the need for manual iounmap()
-> in both the error path of asihpi_adapter_probe() and the
-> asihpi_adapter_remove() function.
-> 
-> The pcim_iomap() helper is cleaner and less error-prone since it
-> handles unmapping automatically when the PCI device is released.
-> 
-> Assisted-by: opencode/big-pickle
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+The ThinkPad X1 Carbon 6th Gen (ALC285, SSID 17aa:225c) has no physical
+Line Out jack. The 3.5mm headphone jack is wired to the headphone DAC,
+but the ALSA HDA driver names the corresponding control as
+"Line Out Playback Volume" (node 0x02).
 
-Applied to for-next branch.  Thanks.
+PipeWire's ALSA Card Profile (ACP) silences "Line Out" when headphones
+are activated, which incorrectly mutes the headphone output.
 
+Add a quirk to rename the control to "Headphone Playback Volume" via
+alc285_lenovo_dac_rename().
 
-Takashi
+Tested on openSUSE Tumbleweed (kernel 7.1.5):
+- Control renamed successfully, no name collision with "Headphone Playback Switch"
+- Headphone output works across multiple PipeWire/WirePlumber restarts
+  and port switches
+
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=221522
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+Tested-by: Branislav Klocok <branislav.klocok@orava.sk>
+---
+ sound/hda/codecs/realtek/alc269.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 6b36c730ce78..48d887d1324f 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -2572,6 +2572,13 @@ static void alc282_fixup_asus_tx300(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void alc285_lenovo_dac_rename(struct hda_codec *codec,
++				     const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_BUILD)
++		rename_ctl(codec, "Line Out Playback Volume",
++			   "Headphone Playback Volume");
++}
+ static void alc290_fixup_mono_speakers(struct hda_codec *codec,
+ 				       const struct hda_fixup *fix, int action)
+ {
+@@ -4289,6 +4296,7 @@ enum {
+ 	ALC287_FIXUP_AW88399_I2C_2,
+ 	ALC287_FIXUP_LENOVO_LEGION_AW88399,
+ 	ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN_HEADSET,
++	ALC285_LENOVO_DAC_RENAME,
+ };
+ 
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -6998,6 +7006,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN,
+ 	},
++	[ALC285_LENOVO_DAC_RENAME] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc285_lenovo_dac_rename,
++	},
+ };
+ 
+ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -7956,6 +7968,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x224b, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x224c, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
+ 	SND_PCI_QUIRK(0x17aa, 0x224d, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
++	SND_PCI_QUIRK(0x17aa, 0x225c, "Lenovo ThinkPad X1 Carbon 6th Gen", ALC285_LENOVO_DAC_RENAME),
+ 	SND_PCI_QUIRK(0x17aa, 0x225d, "Thinkpad T480", ALC269_FIXUP_THINKPAD_LIMIT_INT_MIC_BOOST),
+ 	SND_PCI_QUIRK(0x17aa, 0x2288, "Thinkpad X390", ALC285_FIXUP_THINKPAD_NO_BASS_SPK_HEADSET_JACK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2292, "Thinkpad X1 Carbon 7th", ALC285_FIXUP_THINKPAD_HEADSET_JACK),
+-- 
+2.25.1
+
