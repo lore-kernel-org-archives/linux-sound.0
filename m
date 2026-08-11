@@ -1,139 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a3-11.smtp-out.eu-west-1.amazonses.com (a3-11.smtp-out.eu-west-1.amazonses.com [54.240.3.11])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB88736920F;
-	Tue, 11 Aug 2026 18:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9401367B84
+	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 18:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.3.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786471767; cv=none; b=GFXYX8ef5eshtEi1qZVQikgzpFn70f8DUEZY7RQwMPWLEAx0ePlYQ7VAnI7ZucccxwAYVbq7T9x9qBYo+0ya8NZvTOwDug71yncnjTHBj32ydSxi+eD7NsnIWIIZFhfKQszOqmQDxYJ7VJJ2bQ9sOPIZlKwm0pCG1gRobse1SlU=
+	t=1786472030; cv=none; b=PvTWc3Yn6ziJ3rALvByrJn1Ciqf8Q3JMstRLDSRig1n/u3/wRuiH00qP3h+OhUuK3j+1qldv493rhH+gd7xi0mTHJ4DuPJRiOaDo+wYNkn1GKvZ01koHNmcPbs+OuoAuxL/EhaZOhHRfsyjipkByL/di+zhyaqpaild1beTaoak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786471767; c=relaxed/simple;
-	bh=R3Sm3emUwygtZH0CQ8dh3h0Y2HaTC/pUUS0iKw2VM9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=my1cA/dmYJaRTU49iGPs8itK0PQbCsBD/XSWieVV4wh9zFfjXDb1dtLqrnhNZsjf4/CHR48boHI7RC17zQoz1/JzWyImise1cSypmn7U4PhegbL+5jCT/7THzEY1DgV/lo9pRpdBUS0upJgXjDyPBeogp/W9lN3p7GF/RkghtgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UCU8L3fV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786472030; c=relaxed/simple;
+	bh=Ma11O4/yFAaRckRnWqKsL5xjpMfwjgkjWIwAzrYTY1g=;
+	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Date:MIME-Version:
+	 Content-Type; b=aSpZaT+I/qnMt0YzjAkewlu7VPoxmds3CwgpDZpWJqZhVBFoCdXbylk6kBWhvqhLtq33BCbOojCFugp/jN20hj2Dn4lIQDdDqoT9A26VxmcyGey38a0AHmgLZt8OqOFpB5Uu3ntOeFjyeXLI4PpChp0B0EOAMKvL/BeTgBx2aJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=androos.io; spf=pass smtp.mailfrom=send.androos.io; dkim=pass (1024-bit key) header.d=androos.io header.i=@androos.io header.b=bF+A9LuJ; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=FmK9nS3V; arc=none smtp.client-ip=54.240.3.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=androos.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=send.androos.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UCU8L3fV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FD1E1F000E9;
-	Tue, 11 Aug 2026 18:09:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786471766;
-	bh=fp0I+WEOJYjIihNljaA30yRbFo0fxG9dkAdF1R7NHwc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UCU8L3fVCCuUJVT/V4RVLOGDK+nmw4dsEG2ZS/rljXqnPmOMylfs+x14VoazoQIBs
-	 QDED7Im4nx7eyBHMdjca2re+EvHQ4y75B9ZuhrZtPpPbvUtphSVGdvk81i5yochkAi
-	 Ke+5O4YSr0r6w7EjfWdl29yExS186q250UW6SkrLZ36y+WF3yi4EMQy5vuCwallBnI
-	 mp+KBe9Uy8uFCWvPMe47pLaDs7fmUQe9QS+Zs4AbYCjlqn6lzvW5D5GfkrPQDj/omU
-	 6+zqzhwbx2s2vD+k+dpOmFKxzqP5KMr4tzSRmv2KwfcYdqHIEbWaqwr/dh5E99yt1z
-	 T6rFrO5awJtMg==
-Date: Tue, 11 Aug 2026 19:09:15 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Grond <grond66@riseup.net>, Stefan Leichter <sle85276@gmx.de>,
-	Grazvydas Ignotas <notasas@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Andreas Kemnade <andreas@kemnade.info>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sen Wang <sen@ti.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Niranjan H Y <niranjan.hy@ti.com>, letux-kernel@openphoenux.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	kernel@pyra-handheld.com, mfd@lists.linux.dev
-Subject: Re: [PATCH 02/16] regulator: twl: Expose the TWL4030's REGEN signal
- as a regulator
-Message-ID: <40172b9e-7435-41b7-8fb4-04095d4ba1ed@sirena.org.uk>
-Mail-Followup-To: "H. Nikolaus Schaller" <hns@goldelico.com>,
-	Grond <grond66@riseup.net>, Stefan Leichter <sle85276@gmx.de>,
-	Grazvydas Ignotas <notasas@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Andreas Kemnade <andreas@kemnade.info>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Sen Wang <sen@ti.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Niranjan H Y <niranjan.hy@ti.com>, letux-kernel@openphoenux.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	kernel@pyra-handheld.com, mfd@lists.linux.dev
-References: <cover.1783749722.git.hns@goldelico.com>
- <1746667e5c17e2d39fc0747d7e098b32b3d7b479.1783749722.git.hns@goldelico.com>
+	dkim=pass (1024-bit key) header.d=androos.io header.i=@androos.io header.b="bF+A9LuJ";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="FmK9nS3V"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple; s=resend;
+	d=androos.io; t=1786472025;
+	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type;
+	bh=Ma11O4/yFAaRckRnWqKsL5xjpMfwjgkjWIwAzrYTY1g=;
+	b=bF+A9LuJVpsOIpivjbvaFgRh1WnP343n+aLRx6BuFwXLankTu1QNjPbe2jdZW4Am
+	eh4bpxci/UC7TwUsdaXrfkktBqrqsD6FxTKe0WpIif47RhhyjxA6lgvNWDPTPa21txN
+	IcfgJZwaScm50HruhNNNH10ECgE+G7e4ZkteMhmU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=shh3fegwg5fppqsuzphvschd53n6ihuv; d=amazonses.com; t=1786472025;
+	h=In-Reply-To:From:To:Cc:Subject:Message-ID:Content-Transfer-Encoding:Date:MIME-Version:Content-Type:Feedback-ID;
+	bh=Ma11O4/yFAaRckRnWqKsL5xjpMfwjgkjWIwAzrYTY1g=;
+	b=FmK9nS3V9K2LRzHZ4+d32k4V8bRyxjhidm0q51v81IT0c8UNF64EB58UKl3DkpkQ
+	KtC9UzHdSg1sJaWXi8uq3+QyujD4fTujACPc6sWWD81zByz/IPpfembhqtS9iqTmTDC
+	YXVm5Ig+djAS1xI+G9ArVV7+gIRXLD/rBWKgpWtg=
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+In-Reply-To: <87h5l1b33j.wl-tiwai@suse.de>
+From: Neil Andrews <neil@androos.io>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz
+Subject: Re: [BUG] snd-usb-audio: Audient iD14 (2708:0008) 20 dB channel
+ imbalance
+Message-ID: <0102019ff207ccda-7b65c5af-5c39-4218-ae8e-5ef8d55701e0-000000@eu-west-1.amazonses.com>
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 11 Aug 2026 18:13:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YozZDkin/iTDr57l"
-Content-Disposition: inline
-In-Reply-To: <1746667e5c17e2d39fc0747d7e098b32b3d7b479.1783749722.git.hns@goldelico.com>
-X-Cookie: Anything is possible, unless it's not.
+Content-Type: text/plain; charset=utf-8
+Feedback-ID: :1.eu-west-1.3mRTAxKqFuDMEE9BXCYRrSI9F/ZrE+OZZeY7XuVrscQZYVwMgTK2N8YsUG39Y6T8JbXGI6yd9YKkugDdKBPWmdzepROBy0b67ml7dTIfUOsjr0TXUDI53RxcdxxVrIw25aOcYei8jbkRArpDbKOfZ3iU5uSK+z8A8A2AHps5yx4=:1.eu-west-1.KEYBhYy5skZtLAf2ooWkoQwfhj0g1VAvm2T4fzvEpSk=:AmazonSES
+X-SES-Outgoing: 2026.08.11-54.240.3.11
 
+On Tue, 11 Aug 2026, Takashi Iwai wrote:
+> It's fine to skip the volume if =
+it actually improves -- so please test
+> it ;)
+>
+> Judging from your =
+description, an alternative with keeping the volume
+> control would be to just rename it; the problem is that it's tied with
+> "Speaker".  You can name it a different, some non-standard one,
+> instead, too.
 
---YozZDkin/iTDr57l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Takashi,
 
-On Sat, Jul 11, 2026 at 08:01:49AM +0200, H. Nikolaus Schaller wrote:
-> From: Grond <grond66@riseup.net>
->=20
-> This is needed on some boards (for example, the Pandora), where REGEN is
-> used to drive external regulators.
+I tested both on 7.1.6 with sound/usb rebuilt=
+ out of tree, measured with
+the loopback rig from the original report. Both=
+ fix it. I would suggest
+the rename.
 
-Is this a regulator or a GPIO?  It sounds an awful lot like a GPIO.
+Baseline, unpatched, PipeWire at 50% =
+(control driven to 109/127):
+18.00 dB imbalance.
 
---YozZDkin/iTDr57l
-Content-Type: application/pgp-signature; name="signature.asc"
+1. { 12, NULL }
 
------BEGIN PGP SIGNATURE-----
+Control gone, userspace falls back to software volume, 0.00 dB. So it
+does improve.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp7ZUoACgkQJNaLcl1U
-h9C2sAf/dYpOrF3gel//SuWNj2En9HCdjFRvmlfEP+Hk69wcbhAG1amOMbhl5jhY
-YLCA99bUq+a8dG3W29+y/GRDgvbsT9jbkPHMhmJM27G5rT/OoQ4ffXdFOciNi0xQ
-t/M0Y1M5gSXaBdJbtUITVNXIlc6pwyAqb30a2yXj+JXuo0oKD5Ex7JyKCCnDdEx6
-IikziTt0bKUaLdXJ7eH62kgnnF9Bsh/H1ndKzgsUAFFNLCcT0qrkgj4LXjEXAkNc
-G9dYq2vzKqz17K3dm70t2b6L0MMfe0K8WjFUyNqOe8rzog6LQ65bAj439xtW1T9d
-n4kMTcDV+bq+pl2o2p5hnbAm2GIR6Q==
-=O/3/
------END PGP SIGNATURE-----
+One wrinkle: FU 12 keeps its value across a module reload, =
+so if the
+quirk arrives while the hardware is already attenuated, the =
+imbalance
+stays and there is no longer a control with which to undo it =
+(measured:
+18.00 dB, control absent). Only a power cycle clears it, which =
+matters
+for anyone whose saved ALSA state holds a value below 0 dB.
 
---YozZDkin/iTDr57l--
+2. { 12, "Monitor Mix Playback" }
+
+--- a/sound/usb/mixer_maps.c
++++ b/sound/usb/mixer_maps.c
+@@ -495,6 +495,19 @@
+ 	{}
+ };
+
++/* Audient iD14: FU 12 advertises Volume on only 4 of its 6 logical =
+channels
++ * and sits on the monitor-mixer branch, but it is traced through=
+ to the
++ * Speaker output terminal and gets named "Speaker Playback =
+Volume". Userspace
++ * then adopts it as the stream's hardware volume, and =
+any setting below 0 dB
++ * attenuates some channels but not others (20 dB =
+imbalance at 80%). Give it a
++ * non-standard name so that it is no longer =
+taken for the stream's master
++ * volume, while remaining reachable for =
+anyone who wants the monitor gain.
++ */
++static const struct =
+usbmix_name_map audient_id14_map[] =3D {
++	{ 12, "Monitor Mix Playback" },	=
+/* FU, partial coverage */
++	{}
++};
++
+ /*
+  * Control map entries
+  */
+@@ -579,6 +592,11 @@
+ 		.map =3D maya44_map,
+ 	},
+ 	{
++		/* Audient iD14 */
++		.id =3D USB_ID(0x2708, 0x0008),
++		.map =3D audient_id14_map,
++	},
++	{
+ 		/* KEF X300A */
+ 		.id =3D USB_ID(0x27ac, 0x1000),
+ 		.map =3D scms_usb3318_map,
+
+Gives numid=3D11,name=3D'Monitor Mix =
+Playback Volume'. PipeWire no longer
+picks it up (control stays at 127, 0.=
+00 dB), and it still works when set
+deliberately, so an attenuated device =
+can be recovered: 107 by hand
+gives 20.00 dB, back to 127 gives 0.00 dB. =
+The name ends in "Playback"
+because a mapped name suppresses the automatic =
+" Playback" but still
+gets " Volume" appended.
+
+3. A qualification to my =
+report
+
+I said userspace adopts the control as the card's hardware playback
+volume, without qualifying it. That is too broad.
+
+alsa-ucm-conf 1.2.16.1 =
+ships
+USB-Audio/Audient/Audient-iD14-HiFi-0008.conf, which splits the =
+device
+into 2-channel sinks and declares no playback mixer element. With it=
+ in
+use PipeWire never touches FU 12: the control stays at 127 at every
+volume setting, on both split sinks and on the underlying node.
+Reproducing needs the ACP path instead, which I got by setting
+api.alsa.use-ucm =3D false for the device in WirePlumber (then 100% ->
+127, 80% -> 122, 50% -> 109). All measurements above were taken that
+way.
+
+So the affected set is narrower than I implied: the ACP path rather than
+that UCM profile, plus anyone whose saved ALSA state carries a value
+below 0 dB, since that is restored at boot either way. The descriptor
+problem itself is unchanged.
+
+Happy to send either version as a proper =
+patch with a Signed-off-by, and
+to test anything else on the hardware.
+
+thanks,
+Neil
