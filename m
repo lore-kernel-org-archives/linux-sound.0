@@ -1,79 +1,78 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E741D426431
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 09:17:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B022342AFB7
+	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 10:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786439873; cv=none; b=YvnAm9D3grIrFZ3H9kJUOGgaSWfK7xPBiVkLprz29LZzEcLJULjqCsIn3YOX3HSgB47oEL8sovkMjfQ/A/YK7o/yKRtsNPFh9VPj9NrD37e4TlIiFI03fbRSmPu7LDaWiINCcYJ2XcOkcYNiAIhN+RdKpqTibcbnVMfo61QK1zY=
+	t=1786443019; cv=none; b=FWcW1aUT9ljINXiDSTn/TcWiN5AAVmjZQkpgUsZvii8cvMs/dJgiPL3A6sqH/s/SXzuz/pvqN7540KpVSE08540ZGePrZ+zIqnZH+CPXfPSENGSdbDw5X5QItymn+fXd+GisViM86bRUX19HxrSV0oFUsr/7h7JKQjyBECPSpSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786439873; c=relaxed/simple;
-	bh=InczLySXpyBrRix4jg6+8nPmD2FL0BQhNSmxXOu4iWE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mn7jvu1ARcTNmaEwEhKLLYYo4AXncDdQh47/fINlWPQXb8h7bLrIDKsispfSONZThF/k5qKZDe76hqOUTvnJTMJmSTCvoC3R/d6YXx4sAXlP5ZnLJpIl9ERNly97SGcnjzTDwWJsVtrR5BU8fyRQvT39Xm8ErKpH4xl05Uwd9Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ka2GbQIa; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1786443019; c=relaxed/simple;
+	bh=LDkL7QUnN4FVFemBwTfUF7bwBHp0F+iLG4wJh0jG3i0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rw5h0WuBZlszQq9fk/he7OkxKQ6nKoW3z/MIDMPZLk9e904no2YRzhPVm/OYmdoqL/nX0E5owez0B3t+0FUqoK6pozeLoeUjV394l4yLUm6K1n03606CShqDmSzjsGcNsJAeQE7WNlrC/nTApos+s/ZLEMwPKU9jGEwtQej0ELA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+c5bF/A; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ka2GbQIa"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-472326ca506so400394f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 02:17:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+c5bF/A"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ce87c7e3bbso7906505ad.1
+        for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 03:10:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786439868; x=1787044668; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786443007; x=1787047807; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KNt4bQq2u8qw/aarLJ9pb4tE5RTplArkdmLeC+XTR4A=;
-        b=Ka2GbQIa9pZsWwGyeWU4JbW+ROvgKISn/MUfiTl/TjKLcWUEdsomu3WW16oSGn1ldA
-         NUmEH9PQtG0rJedrSEiVLGDRJAqoyNbiiHdubDYeNu+SAWd3utG/kBf+OxPHUr/N7AFX
-         nEPRJ3nuJIIlXyQvESQK0s+Z8NjBri8Xemir4iul2AezzmiymTqhd0JkeYYwgF0fkVH6
-         v7NxO/ye9BmElGLsqWfmMVupXfTrq67dZ132qBVW0TFegnul3E+FvsjQDmb2QuGwczDr
-         +ibboKF/LQ+c+KgwbeGSo1aNunsa2F+KsC24iGIbX91JacTm52LSZlhCxV2KRH92thqd
-         EedA==
+        bh=yi2AQubmBld0thtX/fIlK+IyfhDWkAZ51GVpdWF8ty4=;
+        b=Q+c5bF/AfOEZke0JdQV3mDHGDINq7f+Lp1MuKAszvFd6dm9kHj7WYT7d/5GRDuuSxa
+         X7WA65v2h4hEUy0WqcXPhCDSt40pwfC6ixQr/k9+h8bb1VgBhhVnp+dDCp4x/uG+I0XG
+         oBt+ud+aBmOk5ejm2lNYtQ/3qd/c+/1P4VHR3UU+NKcm452wdBnpBJ6h4eTgFw+vtQdo
+         FtOarqtK4YTV89eS0dG+M1lqZ74vV2WHDXub10y8WH4P6ohSv8r0k53kFzWnDWJIrKOl
+         FjC7k3jMa/piKmk0A36kGbqc0dXsZxZc3LWgkFRgbjb97gAvmxOWNmdXBL0RjBCgtugj
+         Gmtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786439868; x=1787044668;
+        d=1e100.net; s=20251104; t=1786443007; x=1787047807;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KNt4bQq2u8qw/aarLJ9pb4tE5RTplArkdmLeC+XTR4A=;
-        b=G38vNSIfk8H4qH6x8PAlzITELMLULzl+1+PEIoY/JM+tzjB4rZSSEVBB7yPGc8GsA3
-         0n+Fyos+rnPoLjoApEPVl0MWduvA+2DQVDezIxCgc/ZLEzAzTcKjlofrSP1/5cehJsS7
-         6ecM4No5VB78q1ZqXtIBr9bVj5irLTsO3ng04EAxy2GSVzoilUeunK92mBCZuuAGx0iZ
-         PpAA9gCYj6SuQC5Z8jFC8U7JUXVtxsTzmqOlUK1Fi4nQiAG3E48U26yK2Kc0rcDh53Du
-         feE8WevJXfZ5OJhwM/BLHHdVSTCYnE6u1NFgvIJg5VExp5K9wmKDyDyjNs6XnchfBHE5
-         WYig==
-X-Forwarded-Encrypted: i=1; AHgh+RowPR0KVwhuNqRTBHo9qxyYcM8zAC1mJphsLPoA1JpW9zfL62sYG8qygjHSGcfIMAasavQefY9SqHNm4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+NM1Lsmgg4IFMZiI752ERzx154I068QWTxiJuyhF40uszicJb
-	gfw5fRq1v9bPpeIko82+eVKFIfc+6Lora2rPXdc6YUSo5y1PS/MTj+ps
-X-Gm-Gg: AR+sD13hZHUriU04Pluh4dynPnbHHIEdI5ez9faTpkeMIxWDmFDQzxfuMtdiy76ymlD
-	eSONfLAwzSFtsCYL65HVm/RzBQqDhCFBG3fo2wfPUlsWBZA7KrPvNMdTNYuuCygqeLDqIB1A4CB
-	EtEcfTAeSWMgUJrVCiVBQ7WH52ctonUNpGOpRFNvhcTEsg/bJIrSfP/TDev3AUYCGh5/6hSVgnK
-	CcSVjlJ2Om2ApewQvSuI2GqhB2SHRDA0jUC1ADQnlb1Wps2BMjjVkkCRdWIcMNDKLL2wGtsoSE9
-	ckBtkfK6J8mpFjzGW+2DdKZ7JAqeMCW01VV5CxcEq9gH4LH8QS7yNUHdnqTWEG9Gj1Rw8GaEIzF
-	LIJRAulvqhFqN4M/RkjinCTn6XkiDJLzv0VquBKM3tdk8s7cy8xPyjh0O+xOJLKr0mB5zk4PAT6
-	AnTn2k2PHaT7negjV5YOXsJ262GJy+fNropTM52BLC+XMehgYreOVXNSNvoWWngzP+rYSVTrRUV
-	ySAfCv+HTmQSsCnX8BguffDqOHDYw==
-X-Received: by 2002:a5d:5e8d:0:b0:47f:9750:26cc with SMTP id ffacd0b85a97d-4814adcac2cmr3530466f8f.23.1786439867832;
-        Tue, 11 Aug 2026 02:17:47 -0700 (PDT)
-Received: from localhost.localdomain ([82.137.32.40])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4814a5be8absm2714732f8f.15.2026.08.11.02.17.46
+        bh=yi2AQubmBld0thtX/fIlK+IyfhDWkAZ51GVpdWF8ty4=;
+        b=TtBiFuOU7QcDB0kdBRVyE8f89UY6KSZF3pjwxdZo0DtKMWXwK9hP+2tHKADFwOPvSt
+         Mav7bMC3Qtb1WcYGz+DkxaiwRfqZA32RAY6GoJpp4EvVg0HHxc3dYY1sgRBJgkmnls9m
+         ErcR44TUyYqlBZXIEojTaiQYWE+ssymcCGpdWESDS+QiKg2y8YziVWCRbUJ9Ek/IkDLf
+         FqTU/86ZATLrBFhuFa4RUHRjEAN5lsGABFuUVCE9Zl2pPqOkxnagBZ/8t5/wBVt2h+Es
+         4a+OabC+hqDBoYXLAphL9i2vLK/++gg5/xxnMW7ci7jBWNC3YB8oZO12j8WYeHgM7Fiz
+         zN7A==
+X-Forwarded-Encrypted: i=1; AHgh+RqXaIqTdST2y/5z1MNtg7Kondm85wh/QeRIPVqVINNIYnTf0GMCFINGbYliZM+o0Cd83ZCANsNb21aIvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHJ19/WzMVCIk4EEhOCSCkCOGMwH8SxSS+MZm1LLg65E2onLCs
+	qtkouDwCSPIcpGGu3rXJTGRypY61jt1M3FQ8zPfaK+Xdyv7aBZkflz787VWclg==
+X-Gm-Gg: AR+sD13n9HIEZbp5Ogjweygl+pRzID9dWfVZcmwPFhmz9LhWcbQmYUI0CMtwNVttMeR
+	455SWODRCOjTR5iBbhJssVM7J61oII5XuryqyV977cQssqirN22c7t9YVfyBkoXozPtVqkMkvdV
+	2GW/CML4MjcADurvDMAwKrXn9Tx8KqeKktTHnVhQZE6B2q45eJn4awOv6ogCQ9dGNdBmSJmxLE1
+	sQhj+FbxbpzppA/ojs4k2lbYcXVSlUWddcIaqqo1gErYKjvU/2Uc8PcFmboxDhhQZtl+eyovgqj
+	feODoq0/vS9g7P9c4cHclfPWN/EH6OBmXznvp07PGkq0v4aXiKhQmrS5MbO7h1yxypiDSMwy48s
+	g/fqjx/4TMm7uxBICRJbFBvzfihFViLz0WEIvaoWpqVskM3bmveIr2faZk1oBoh4tJNuSdrKgkO
+	uaWULn3jGIWCB+ee8MAouz6PkQZZd1m3bDnZoE/MX2Jza8AyKXFTViVyAq3R7K49TZcK0rXUCtm
+	+mZrfmUUYFylpM+NlRK7w2ZcjU3ZNDKWc0s7kpdOmiWPKejImUgVr6iH3fLt5xAU+8urR0QaF4R
+	aJdS
+X-Received: by 2002:a17:903:4688:b0:2cf:4339:aaa with SMTP id d9443c01a7336-2d317925cbfmr22741185ad.12.1786443006674;
+        Tue, 11 Aug 2026 03:10:06 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d315f4819dsm5189625ad.37.2026.08.11.03.10.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2026 02:17:47 -0700 (PDT)
-From: Eduard Bostina <egbostina@gmail.com>
-To: Conor Dooley <conor+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Eduard Bostina <egbostina@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Tue, 11 Aug 2026 03:10:06 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Daniel Mack <daniel@zonque.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
 	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>
-Cc: daniel.baluta@nxp.com,
-	simona.toaca@nxp.com,
-	goledhruva@gmail.com,
-	m-chawdhry@ti.com
-Subject: [PATCH] dt-bindings: sound: Convert TI DA830 EVM audio to DT schema
-Date: Tue, 11 Aug 2026 09:17:03 +0000
-Message-ID: <20260811091703.685487-1-egbostina@gmail.com>
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [RFC PATCH] ASoC: pxa: Use devm_clk_get_optional() for extclk clock
+Date: Tue, 11 Aug 2026 17:09:49 +0700
+Message-ID: <20260811100949.61142-1-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -83,161 +82,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the Texas Instruments DA830 EVM audio complex bindings
-to DT schema.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Signed-off-by: Eduard Bostina <egbostina@gmail.com>
+The Device Tree binding defines the extclk clock as an optional
+property, but the driver currently uses devm_clk_get() and manually
+handles the absence of the clock.
+
+Use devm_clk_get_optional() to match the binding and simplify the
+optional clock handling. This also propagates errors other than the
+absence of the optional clock, including -EPROBE_DEFER.
+
+This changes the existing behavior for errors other than
+-EPROBE_DEFER. RFC to discuss whether these errors should cause probe
+to fail rather than being treated as an unavailable optional clock.
+
+Fixes: 90eb6b59d311 ("ASoC: pxa-ssp: add support for an external clock in devicetree")
+Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- .../bindings/sound/davinci-evm-audio.txt      | 49 -----------
- .../bindings/sound/ti,da830-evm-audio.yaml    | 83 +++++++++++++++++++
- 2 files changed, 83 insertions(+), 49 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/davinci-evm-audio.txt
- create mode 100644 Documentation/devicetree/bindings/sound/ti,da830-evm-audio.yaml
+ sound/soc/pxa/pxa-ssp.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/davinci-evm-audio.txt b/Documentation/devicetree/bindings/sound/davinci-evm-audio.txt
-deleted file mode 100644
-index 963e100514c2..000000000000
---- a/Documentation/devicetree/bindings/sound/davinci-evm-audio.txt
-+++ /dev/null
-@@ -1,49 +0,0 @@
--* Texas Instruments SoC audio setups with TLV320AIC3X Codec
+diff --git a/sound/soc/pxa/pxa-ssp.c b/sound/soc/pxa/pxa-ssp.c
+index f8054c1c59fa..3a0abcb0bfbd 100644
+--- a/sound/soc/pxa/pxa-ssp.c
++++ b/sound/soc/pxa/pxa-ssp.c
+@@ -769,13 +769,10 @@ static int pxa_ssp_probe(struct snd_soc_dai *dai)
+ 			goto err_priv;
+ 		}
+ 
+-		priv->extclk = devm_clk_get(dev, "extclk");
++		priv->extclk = devm_clk_get_optional(dev, "extclk");
+ 		if (IS_ERR(priv->extclk)) {
+ 			ret = PTR_ERR(priv->extclk);
+-			if (ret == -EPROBE_DEFER)
+-				goto err_priv;
 -
--Required properties:
--- compatible : "ti,da830-evm-audio" : forDM365/DA8xx/OMAPL1x/AM33xx
--- ti,model : The user-visible name of this sound complex.
--- ti,audio-codec : The phandle of the TLV320AIC3x audio codec
--- ti,mcasp-controller : The phandle of the McASP controller
--- ti,audio-routing : A list of the connections between audio components.
--  Each entry is a pair of strings, the first being the connection's sink,
--  the second being the connection's source. Valid names for sources and
--  sinks are the codec's pins, and the jacks on the board:
--
--Optional properties:
--- ti,codec-clock-rate : The Codec Clock rate (in Hz) applied to the Codec.
--- clocks : Reference to the master clock
--- clock-names : The clock should be named "mclk"
--- Either codec-clock-rate or the codec-clock reference has to be defined. If
--  the both are defined the driver attempts to set referenced clock to the
--  defined rate and takes the rate from the clock reference.
--
--  Board connectors:
--
--  * Headphone Jack
--  * Line Out
--  * Mic Jack
--  * Line In
--
--
--Example:
--
--sound {
--	compatible = "ti,da830-evm-audio";
--	ti,model = "DA830 EVM";
--	ti,audio-codec = <&tlv320aic3x>;
--	ti,mcasp-controller = <&mcasp1>;
--	ti,codec-clock-rate = <12000000>;
--	ti,audio-routing =
--		"Headphone Jack",       "HPLOUT",
--		"Headphone Jack",       "HPROUT",
--		"Line Out",             "LLOUT",
--		"Line Out",             "RLOUT",
--		"MIC3L",                "Mic Bias 2V",
--		"MIC3R",                "Mic Bias 2V",
--		"Mic Bias 2V",          "Mic Jack",
--		"LINE1L",               "Line In",
--		"LINE2L",               "Line In",
--		"LINE1R",               "Line In",
--		"LINE2R",               "Line In";
--};
-diff --git a/Documentation/devicetree/bindings/sound/ti,da830-evm-audio.yaml b/Documentation/devicetree/bindings/sound/ti,da830-evm-audio.yaml
-new file mode 100644
-index 000000000000..b4a1cf67582b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/ti,da830-evm-audio.yaml
-@@ -0,0 +1,83 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/ti,da830-evm-audio.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments SoC audio setups with TLV320AIC3X Codec
-+
-+maintainers:
-+  - Eduard Bostina <egbostina@gmail.com>
-+
-+properties:
-+  compatible:
-+    const: ti,da830-evm-audio
-+
-+  ti,model:
-+    $ref: /schemas/types.yaml#/definitions/string
-+    description: The user-visible name of this sound complex.
-+
-+  ti,audio-codec:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the TLV320AIC3x audio codec
-+
-+  ti,mcasp-controller:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of the McASP controller
-+
-+  ti,audio-routing:
-+    $ref: /schemas/types.yaml#/definitions/non-unique-string-array
-+    description:
-+      A list of the connections between audio components. Each entry is a
-+      pair of strings, the first being the connection's sink, the second
-+      being the connection's source. Valid names for sources and sinks
-+      are the codec's pins, and the jacks on the board (Headphone Jack,
-+      Line Out, Mic Jack, Line In).
-+
-+  ti,codec-clock-rate:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: The Codec Clock rate (in Hz) applied to the Codec.
-+
-+  clocks:
-+    maxItems: 1
-+    description: Reference to the master clock
-+
-+  clock-names:
-+    const: mclk
-+
-+required:
-+  - compatible
-+  - ti,model
-+  - ti,audio-codec
-+  - ti,mcasp-controller
-+  - ti,audio-routing
-+
-+anyOf:
-+  - required:
-+      - ti,codec-clock-rate
-+  - required:
-+      - clocks
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    sound {
-+        compatible = "ti,da830-evm-audio";
-+        ti,model = "DA830 EVM";
-+        ti,audio-codec = <&tlv320aic3x>;
-+        ti,mcasp-controller = <&mcasp1>;
-+        ti,codec-clock-rate = <12000000>;
-+        ti,audio-routing =
-+            "Headphone Jack",       "HPLOUT",
-+            "Headphone Jack",       "HPROUT",
-+            "Line Out",             "LLOUT",
-+            "Line Out",             "RLOUT",
-+            "MIC3L",                "Mic Bias 2V",
-+            "MIC3R",                "Mic Bias 2V",
-+            "Mic Bias 2V",          "Mic Jack",
-+            "LINE1L",               "Line In",
-+            "LINE2L",               "Line In",
-+            "LINE1R",               "Line In",
-+            "LINE2R",               "Line In";
-+    };
+-			priv->extclk = NULL;
++			goto err_priv;
+ 		}
+ 	} else {
+ 		priv->ssp = pxa_ssp_request(dai->id + 1, "SoC audio");
 -- 
 2.43.0
 
