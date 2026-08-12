@@ -1,147 +1,134 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF8C17B50F
-	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 07:34:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E84D38AC8E
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 07:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786520068; cv=none; b=CmOa3eGVezt98KUUos18tJ5bITYAOkd0t7xx6nvT/GzifE5ngYhNosceXU/AuTcMsYGV0IqxpJxIaKADdH4vWxMT4EUYeqIAYy4UBtojqHKR5VvDjw/tkd8MzpOaLl7F05ZGnxs/gRxc+JbezTWcCmy31R5q0sKsC7NPOLXsrmE=
+	t=1786520690; cv=none; b=jueyshCf4L/3vZ959IFUBHTNX0+CDm0j8jXJ1+Ag3+FyGb7iejM63+B0hkfcSBamYQR78fXy5EdnUoEt1E+JIKvRJavXHu0HJOv2d+gdc33cWIiF5p+KnvOBqWaCPb3s6XUIGODEfbXTaQ7UrURElDz8k+P1c3YSP365cT734cY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786520068; c=relaxed/simple;
-	bh=rimOVgngoN1WAtay3fMITow4YjVgVxKsOO0+274eNbI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OFQRhXCb5otN9aJPf4vFkQ+Nv1rgbpoSuCdyGLqrK0srczOwH4P8gncisWSC2lOz1j9MpA7Fx5u7Vf1YCrkXw4FDevrztatyJWXYGNUh5H1zMBCjgcN6lK1iSxZSSTX8uI8h7zBpnXFWFaSo48/LKPgxWsm0aPi748fQV4gFPaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hvI5afwj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NSYcBQJL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=v2wvozya; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yf2ncch/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786520690; c=relaxed/simple;
+	bh=vO4h3w7pd2slyBEBZdONppT0Ub1XSCQ+7xhZm8z64m0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=EuTO4izAVf5Yg11v+xqKQSRtxQMauaHT3tr/Y6u3n2YnxQtE1RyjKokkWSmlZrSLZSNKOFt77GAKFy801EWgaZV/P4WKi0l00ejFp5OGgw0jUg9+yQB9uwXYMi8mDP6gszchoXXecXq0+j/0Ttjkyjkc9eUXzux/rjd6N+5M+6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=aXLuaGhD; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hvI5afwj";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NSYcBQJL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="v2wvozya";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yf2ncch/"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3840F3E49;
-	Wed, 12 Aug 2026 07:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786520061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KqdU16c0AhH8rl2CM6awZue2CoT+bYJAdbEoeDpxylE=;
-	b=hvI5afwjA9JQpnQr8aWeNF1sAOOtKcCR7JfcXmg+R+Z0tRatZd+/EpeTB2LmR5YTe0rkhf
-	uZg90/MnALvf3BvoVrsm2UO2wTk9SxNaKhxPtuCz4x4h6WmPmdhKlMbCQ4FVYrjgrb2G0h
-	1qgjrJMqUZyCkGTMp3zUiJybjpFYqkk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786520061;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KqdU16c0AhH8rl2CM6awZue2CoT+bYJAdbEoeDpxylE=;
-	b=NSYcBQJL76XXPQFTtdSv+5vau6HpZYWBLIVaFNeer/h0LyzTUWqv5OPDw6Hju3OWxXmpNz
-	WG1ZnOoZ1+yzbxDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786520057; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KqdU16c0AhH8rl2CM6awZue2CoT+bYJAdbEoeDpxylE=;
-	b=v2wvozyaQSB+jhoxJRxjFIhhNF6OIan5ab0YgYa/f7XeVXQjGnoBsDZGUgzEU5XAAS46el
-	wpcGKwSKj8iIp1hUHF1Roa/V2RCx8FKspoKoXaaIv+yDONHgELCnhnrqmTxW9M7VGhomxB
-	CwdnIsg9o9tp37+QJIqH9zIoTmK4myY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786520057;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KqdU16c0AhH8rl2CM6awZue2CoT+bYJAdbEoeDpxylE=;
-	b=yf2ncch/oGdsGQKGoB4fdrQJbeCnY0U2a6062iPx7yTv13w6bQAGJBZUiB4SWx2/wMuIbG
-	CTnoPm9GIVMwuEBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB501779B3;
-	Wed, 12 Aug 2026 07:34:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id JOgnOPghfGo+DwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 07:34:16 +0000
-Date: Wed, 12 Aug 2026 09:34:16 +0200
-Message-ID: <87ecg323nr.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Mark Brown <broonie@kernel.org>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	<linux-sound@vger.kernel.org>
-Subject: Re: [PATCH 00/14] ALSA: Drop __bitwise and __force prefix
-In-Reply-To: <5491df9f-f531-40c6-9491-07241b0cc703@intel.com>
-References: <20260812060557.80445-1-tiwai@suse.de>
-	<5491df9f-f531-40c6-9491-07241b0cc703@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="aXLuaGhD"
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260812074446euoutp01987631c0ee94bdbdb1f2017ca379d961~K-xk8CLX21384813848euoutp01g
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 07:44:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260812074446euoutp01987631c0ee94bdbdb1f2017ca379d961~K-xk8CLX21384813848euoutp01g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1786520686;
+	bh=6o9TiwHdK1+YNJTG0IZ9rVkj2Lx26ci5YXXB18DtBKc=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=aXLuaGhDqXl2iOZNXwSigttErFqergoYlB+FFs/mPtVZojYqGaNNp79YZBi8JwARc
+	 fyEVdT+CTqNNz0L5feyl87kaTC1gKSWYv+t9O8j16RP29d1Sb3Ivp2U29MLoSafbr7
+	 ifLZxHloMasnf7GoV7EcvO0t/L3w5mcIxXe8rnfU=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20260812074445eucas1p2a90873f2cab6887b9359d6c7ec26b6e8~K-xkJe7MA0999909999eucas1p2s;
+	Wed, 12 Aug 2026 07:44:45 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260812074444eusmtip17285a8c6de6c001a897a806c27f34de8~K-xjoItRV1972319723eusmtip1E;
+	Wed, 12 Aug 2026 07:44:44 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-sound@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Sylwester Nawrocki
+	<s.nawrocki@samsung.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>, Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin
+	<peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>
+Subject: [PATCH] ASoC: samsung: i2s: drop secondary DAI for i2sv7 hardware
+ variant
+Date: Wed, 12 Aug 2026 09:44:37 +0200
+Message-ID: <20260812074438.3225001-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,gmail.com,baylibre.com,kernel.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260812074445eucas1p2a90873f2cab6887b9359d6c7ec26b6e8
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260812074445eucas1p2a90873f2cab6887b9359d6c7ec26b6e8
+X-EPHeader: CA
+X-CMS-RootMailID: 20260812074445eucas1p2a90873f2cab6887b9359d6c7ec26b6e8
+References: <CGME20260812074445eucas1p2a90873f2cab6887b9359d6c7ec26b6e8@eucas1p2.samsung.com>
 
-On Wed, 12 Aug 2026 09:27:21 +0200,
-Cezary Rojewski wrote:
-> 
-> On 8/12/2026 8:04 AM, Takashi Iwai wrote:
-> > Hi,
-> > 
-> > this is a series of cleanup patches to kill the infamous __bitwise and
-> > __force prefix usage for some PCM and control parameter types.
-> > They were added ages ago just for code safety, but its effect is quite
-> > limited, while the drawback is significant.  Let's drop them.
-> Thank you for cleaning this up. For the series:
-> 
-> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-> 
-> 
-> sidetopic: Had to review via web browser as only 2 patches (00 and 12)
-> went through to my inbox for whatever reason.
+Commit 9167f260477b ("ASoC: soc-generic-dmaengine: Handle DMA channel
+request failures correctly") started reporting DMA channel request
+failures during probe instead of silently ignoring them. This exposed a
+bug in the Samsung I2S driver: it always registered a second DAI and its
+associated "tx-sec" DMA channel, even for hardware variants that don't
+actually support it, such as i2sv7 used on Exynos5433. As a result,
+sound card probing on Exynos5433-based boards started failing, whereas
+previously it worked only because the channel request failure was
+ignored.
 
-It was intentional, I tried to reduce Cc only for a relevant patch and
-a cover letter, as people often complaining when receiving unrelated
-patches.  The whole series should be available via ML, though.
+Drop the QUIRK_SEC_DAI flag from i2sv7, since this variant does not have
+a secondary DAI and register "Secondary Playback" DAPM route only for
+variants with such interface.
 
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ sound/soc/samsung/i2s.c | 23 +++++++++++++++++++----
+ 1 file changed, 19 insertions(+), 4 deletions(-)
 
-thanks,
+diff --git a/sound/soc/samsung/i2s.c b/sound/soc/samsung/i2s.c
+index 81d5dd36a246..3e76cb81462f 100644
+--- a/sound/soc/samsung/i2s.c
++++ b/sound/soc/samsung/i2s.c
+@@ -1116,15 +1116,31 @@ static const struct snd_soc_dapm_widget samsung_i2s_widgets[] = {
+ 
+ static const struct snd_soc_dapm_route samsung_i2s_dapm_routes[] = {
+ 	{ "Playback Mixer", NULL, "Primary Playback" },
+-	{ "Playback Mixer", NULL, "Secondary Playback" },
+-
+ 	{ "Mixer DAI TX", NULL, "Playback Mixer" },
+ 	{ "Primary Capture", NULL, "Mixer DAI RX" },
+ };
+ 
++static const struct snd_soc_dapm_route samsung_i2s_dapm_routes_sec_play[] = {
++	{ "Playback Mixer", NULL, "Secondary Playback" },
++};
++
++static int samsung_i2s_component_probe(struct snd_soc_component *component)
++{
++	struct samsung_i2s_priv *priv = snd_soc_component_get_drvdata(component);
++
++	if (priv->quirks & QUIRK_SEC_DAI)
++		snd_soc_dapm_add_routes(snd_soc_component_to_dapm(component),
++					samsung_i2s_dapm_routes_sec_play,
++					ARRAY_SIZE(samsung_i2s_dapm_routes_sec_play));
++
++	return 0;
++}
++
+ static const struct snd_soc_component_driver samsung_i2s_component = {
+ 	.name = "samsung-i2s",
+ 
++	.probe = samsung_i2s_component_probe,
++
+ 	.dapm_widgets = samsung_i2s_widgets,
+ 	.num_dapm_widgets = ARRAY_SIZE(samsung_i2s_widgets),
+ 
+@@ -1650,8 +1666,7 @@ static const struct samsung_i2s_dai_data i2sv6_dai_type __maybe_unused = {
+ };
+ 
+ static const struct samsung_i2s_dai_data i2sv7_dai_type __maybe_unused = {
+-	.quirks = QUIRK_PRI_6CHAN | QUIRK_SEC_DAI | QUIRK_NEED_RSTCLR |
+-			QUIRK_SUPPORTS_TDM,
++	.quirks = QUIRK_PRI_6CHAN | QUIRK_NEED_RSTCLR | QUIRK_SUPPORTS_TDM,
+ 	.pcm_rates = SNDRV_PCM_RATE_8000_192000,
+ 	.i2s_variant_regs = &i2sv7_regs,
+ };
+-- 
+2.43.0
 
-Takashi
