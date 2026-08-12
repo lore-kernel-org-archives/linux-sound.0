@@ -1,170 +1,210 @@
-Received: from mail-43100.protonmail.ch (mail-43100.protonmail.ch [185.70.43.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4FD28CF4A
-	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 13:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B1B2C08CF;
+	Wed, 12 Aug 2026 13:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786542121; cv=none; b=OQT7h9fm8wHXkoqhg8Yl1ukLYKyopUd1deFKFF+9kl1I6aIGRfEi6HQe+ejDxu4ccJDZfet7lfEsBSmIxdIlvSWbEYsEqx2FS4izBSuiZFuEukIYkjYEXkt7tpmd4yadw16c08BOGlvySx6fElcX/3Op0ISQdexF4fJcJwdx8mM=
+	t=1786542344; cv=none; b=EycFIQiinP58IzvfPoQ9/8mFX1kwGS8Sb/ozpe4B3ftpUPKhvpSjMPTgeV2d51Tm0X+z4MIoBr3/N1rNNRPD0/S+23gOoHG/2sZWwmXilFPzEOCfeV9eVY7ZTkQjZrO1tg2j6pDNbDtL0VcBwbxTaTYNN5hc7xeD2fazY6NXsjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786542121; c=relaxed/simple;
-	bh=vRids8bgN7eBcIWQI9+z35fegJuTdJ1v/G8SdMTcGe4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WIyQIyPzxK+xb7Leb94DpOBf0BCI8m/aq0fn0kQ3BiGK5JBWsaKzdrRE0Uaqawm4uJO0Iqhyy4cFWSqTJ0/ngEbph0jdAEhVnT9o8NG6FJ54PRrgO3VOlFHx/9PH9MRHhH32bKTf+HEKp0lidbqM68y/7tVHDTJL+wFIL6RzHXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=VXBbAfMo; arc=none smtp.client-ip=185.70.43.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1786542344; c=relaxed/simple;
+	bh=Fp8Xqmw3hja/bnS+5zJK/aYz93p7JerheaTp4vC06Rk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WGav47oXklpe/lIb0yqoN4lOpQzW9q1VTtdKKFg1GiEZ7LdXBxnnVogEL1g0Frg8LzdjK3V6+Rn5rqWtke7/xQ4NkxpqxOv9NKkW0wZMQZ1ox3viWbcqaM5ULXwdQn0IgKEB7/SZLgZvq5rIftvekxDz1A5+lCfko+ncyr2a3dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W2WRMx3n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E6m7KlUK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IQDkptee; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gRw1lh2V; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="VXBbAfMo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1786542117; x=1786801317;
-	bh=ixSS+8clg3W+fMA63xweINRnbByDRd46aRL7Mw+dOOc=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=VXBbAfMo0/PqWc5ExgQsYd9my2GhKwOf813hqiXETG+PbwBsvoU5C/4dQkhDwz/a/
-	 vDGtX50nnUPZO5BHbrOdGx3Vrwf9NUml1RXNavogHEBxv7aoI2iGp2ncRg6cCmEpap
-	 fXxE3HAk6kcUiXnvCJqi0C1mZeaOzh0OmfePRkmrPp1tFKLgcCS/ThqvYm8M7K1NO5
-	 vbKh7KvvTpSHaNXMubOAUCQ3UPFnGU4i1g0Oktdhudc1oZGqRuAZf7hnFAiBReA4Kt
-	 9O02aklBSEfDYkvwWSAWNDkOqKm1KgrtPz8hLUbTWaRdNil4zoXtUBlQKOcMIBST0c
-	 uXXDhU5DaPnFw==
-Date: Wed, 12 Aug 2026 13:41:52 +0000
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, linux-sound@vger.kernel.org
-From: Robin Everaars <robineveraars@pm.me>
-Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, broonie@kernel.org, linux-kernel@vger.kernel.org, Mario Limonciello <Mario.Limonciello@amd.com>, "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>, Syed Saba Kareem <syed.sabakareem@amd.com>
-Subject: Re: ASoC: amd: acp-pdm: full-scale burst on every DMIC capture start
-Message-ID: <20260812134148.17343-1-robineveraars@pm.me>
-In-Reply-To: <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com>
-References: <20260805181130.75314-1-robineveraars@pm.me> <9a5937cc-f4b2-42d7-8564-da81f6cf4e9e@amd.com> <20260811123336.197402-1-robineveraars@pm.me> <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com>
-Feedback-ID: 201127006:user:proton
-X-Pm-Message-ID: 94d9dc06a58d9ceb9b84470944ff71c60e8f71f5
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W2WRMx3n";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E6m7KlUK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IQDkptee";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gRw1lh2V"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F4733E61;
+	Wed, 12 Aug 2026 13:45:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786542336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
+	b=W2WRMx3nLeuMDxrPfK1KoqLGRq3i+XP9a3++BYm4wpzl5HycPHeTOvIWOVe4/C2LX6wo7B
+	TMx80GbjRuq8/LYGi8IujUs0i1VbMehpX2O6wyUnQLkpc9omh2ua+yhyTkTH9CMjsRp/ZZ
+	EQPSu0EzBKJ4N26fFsa/DfRJT7JT0iQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786542336;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
+	b=E6m7KlUKWHnzkp6RioNdyePMYAyIOGc08MQ/oSAyLkbO9n1YmD1GlsKjVOJvVz+7YbAFqu
+	IyLY9sOsgyeeTxDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IQDkptee;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gRw1lh2V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786542332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
+	b=IQDkpteeBHxkJg2gToumMklkvJOMyasX3Hn8hz6ofS8I18w4xokD7gpj+5D893D78DagmQ
+	UbcBlQhSzi/jbjazXZj27yC7N8idXgNDeuqkIvenfoTaiaQ6C+g3w0lARJpJGALSHvFamD
+	SbnrWU2bmrSqm/ekmx6nG6cNtFv3EOI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786542332;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
+	b=gRw1lh2VyIMoAtS27ouVSd6+ObbnxeiMEQ9DCsb1OTDlAOwNbXJNz7+iEGFor37+AN6C5/
+	0RyP/V6oNC2pnlBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6709779B1;
+	Wed, 12 Aug 2026 13:45:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2XOUN/t4fGq8cwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 13:45:31 +0000
+Date: Wed, 12 Aug 2026 15:45:27 +0200
+Message-ID: <87mrurzc3s.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andre Eikmeyer <dev@deq.rocks>
+Cc: platform-driver-x86@vger.kernel.org,	amd-gfx@lists.freedesktop.org,
+	linux-sound@vger.kernel.org,	Atharva Tiwari
+ <atharvatiwarilinuxdev@gmail.com>,	Hans de Goede <hansg@kernel.org>,	Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Alex Deucher
+ <alexander.deucher@amd.com>,	Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,	David Airlie <airlied@gmail.com>,	Simona Vetter
+ <simona@ffwll.ch>,	Kenneth Feng <kenneth.feng@amd.com>,	Jaroslav Kysela
+ <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org,	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ALSA: hda: allow direct complete with a powered-off GPU
+In-Reply-To: <20260812122206.193680-4-dev@deq.rocks>
+References: <20260812122206.193680-1-dev@deq.rocks>
+	<20260812122206.193680-4-dev@deq.rocks>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------be951bfd63fb864069fb584dfee3dcbd628a2eeaf4c3919899fac03a3d4802f3"; charset=utf-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 2F4733E61
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmail.com,kernel.org,linux.intel.com,amd.com,ffwll.ch,perex.cz,suse.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------be951bfd63fb864069fb584dfee3dcbd628a2eeaf4c3919899fac03a3d4802f3
-Content-Type: multipart/mixed;
- boundary=780a12e0d46d03834e602c45cba845550fe6bf8dd219e02ca4cb94c36350
-From: Robin Everaars <robineveraars@pm.me>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
-	linux-sound@vger.kernel.org
-Cc: venkataprasad.potturu@amd.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mario Limonciello <Mario.Limonciello@amd.com>,
-	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
-	"Syed Saba Kareem" <syed.sabakareem@amd.com>
-Subject: Re: ASoC: amd: acp-pdm: full-scale burst on every DMIC capture start
-Date: Wed, 12 Aug 2026 15:41:48 +0200
-Message-ID: <20260812134148.17343-1-robineveraars@pm.me>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com>
-References: <20260805181130.75314-1-robineveraars@pm.me> <9a5937cc-f4b2-42d7-8564-da81f6cf4e9e@amd.com> <20260811123336.197402-1-robineveraars@pm.me> <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com>
-MIME-Version: 1.0
+On Wed, 12 Aug 2026 14:22:06 +0200,
+Andre Eikmeyer wrote:
+> 
+> Hello everyone,
+> 
+> The HDA controller normally needs different WAKEEN settings for runtime and
+> system suspend, so azx_prepare() prevents direct complete. For a switcheroo
+> audio client whose bound GPU is already runtime suspended and switched off,
+> however, the controller is physically inaccessible and cannot signal wake
+> events.
+> 
+> Resuming the HDA function during system suspend also acquires its runtime
+> PM supplier. This powers the discrete GPU back on only to suspend it again
+> and can expose failures while restoring an otherwise unused GPU.
+> 
+> Direct complete is now allowed when the bound VGA device is both runtime
+> suspended and reported off by vga_switcheroo. Active GPUs and HDA
+> controllers without a switcheroo binding retain the existing WAKEEN
+> transition.
+> 
+> This was tested as part of the MacBookPro15,1 hybrid graphics series on
+> both the 2018 and 2019 revisions. The discrete GPU remains powered off
+> across system suspend when it is unused, and suspend and resume complete
+> successfully.
+> 
+> Thank you for your time and consideration.
+> 
+> Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
 
---780a12e0d46d03834e602c45cba845550fe6bf8dd219e02ca4cb94c36350
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Please drop greeting and thank-you texts.  They can be put in the
+cover letter, but not in each patch description.
 
-> PAUSE_PUSH should leave the decimator running. That is the safer ALSA
-> design and avoids both the transient and a 300 ms pause-resume latency.
->
-> Try attached patch.
+About the code changes:
 
-I tested the exact attachment against v7.1.7 on the ASUS ProArt PX13
-HN7306EAC. The bound module was snd_ps_pdm_dma from the rebuilt
-sound/soc/amd/ps/ps-pdm-dma.c.
+> +static bool azx_vga_is_powered_off(struct azx *chip)
+> +{
+> +#ifdef SUPPORT_VGA_SWITCHEROO
+> +	struct pci_dev *pci;
+> +	bool powered_off = false;
+> +
+> +	if (!use_vga_switcheroo(container_of(chip, struct hda_intel, chip)))
+> +		return false;
+> +
+> +	pci = get_bound_vga(chip->pci);
+> +	if (pci) {
+> +		powered_off = pm_runtime_suspended(&pci->dev) &&
+> +			vga_switcheroo_get_client_state(pci) == VGA_SWITCHEROO_OFF;
+> +		pci_dev_put(pci);
+> +	}
+> +
+> +	return powered_off;
+> +#else
+> +	return false;
+> +#endif
+> +}
 
-The normal start and pause paths work:
+This ifdef can be moved to the caller side below...
 
-  - 5/5 cold starts, with acp_ps_pdm_dma.0 confirmed runtime-suspended
-    before each capture: zero clipped or >=99% full-scale samples in the
-    first 300 ms.
-  - 5/5 warm starts, with the device confirmed active: the same result.
-  - PAUSE_PUSH/PAUSE_RELEASE: 3/3 with a 0.5 s pause and 3/3 with a 2 s
-    pause, no ALSA error and no full-scale samples.
-  - prepare followed by close without START: 3/3; the device returned to
-    runtime-suspended after the 2 s autosuspend delay.
-  - forced XRUN/reprepare recovery: 5/5; each recovered block had zero
-    clipped or >=99% full-scale samples.
+> +
+>  static int azx_prepare(struct device *dev)
+>  {
+>  	struct snd_card *card = dev_get_drvdata(dev);
+> @@ -1025,6 +1048,10 @@ static int azx_prepare(struct device *dev)
+>  		return 0;
+>  
+>  	chip = card->private_data;
+> +	/* A powered-off dGPU cannot signal HDA wake events. */
+> +	if (azx_vga_is_powered_off(chip))
+> +		return 1;
+> +
 
-Eac
-h prepare took about 304 to 309 ms. A one-second capture took 1.43 to
-1.48 seconds wall time, so the expected start latency is visible.
+... to wrap the call site, instead.  Since this is the only caller,
+having the conditional here would make the intention clearer.
 
-There is a problem on the system-resume path. I kept an ALSA capture
-running across one s2idle cycle. The process reached the real ALSA
-SUSPENDED state. Immediately after wake:
-
-  SUSPENDED boundary=101384
-  RESUME rc=0 (ok) state=RUNNING
-  XRUN boundary=101384
-  error: Broken pipe
-
-No post-resume sample was delivered. A fresh reopen after resume worked
-and contained no clipped samples.
-
-That matches the control flow in the patch: SUSPEND calls
-acp63_stop_pdm_dma(), which disables PDM, while RESUME enters
-acp63_start_pdm_dma(). That function enables PDM and DMA together when
-PDM_ENABLE is clear, without the 300 ms wait or FIFO flush. prepare() is
-not called between SUSPEND and RESUME.
-
-Could RESUME use a settling helper before arming DMA, or otherwise force
-a prepare/recovery path? I have withheld Tested-by because the in-place
-
-resume test fails. I can test a follow-up patch on the same hardware.
-
-Thanks,
-Robin
-
---780a12e0d46d03834e602c45cba845550fe6bf8dd219e02ca4cb94c36350
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
- 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
-Content-Type: application/pgp-keys; filename="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
-dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
-bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
-Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
-UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
-eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
-akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
-SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
-UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
-MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
-QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
-SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
-RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
-Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
-LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
---780a12e0d46d03834e602c45cba845550fe6bf8dd219e02ca4cb94c36350--
-
---------be951bfd63fb864069fb584dfee3dcbd628a2eeaf4c3919899fac03a3d4802f3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wqsEARYIAF0Fgmp8eCAJEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmfUHkNIYEWUlttXIb9yKSjsFiEEi2uhMrb2XujF
-nFjLHcV/a8sGGooAAJbmAP9XNwDBTB4jcYpMs+N5RzZJruoHe8RRXHVtdzEz
-UjS+gwD/TPcyG6yWUVAJ6mpcYBeEL7+iVJt5fwidD0ZQYkzxGQU=
-=oPMS
------END PGP SIGNATURE-----
+Also, a comment about what "return 1" plays here would be helpful for
+readers.  It's a small piece but has a significant meaning.
 
 
---------be951bfd63fb864069fb584dfee3dcbd628a2eeaf4c3919899fac03a3d4802f3--
+thanks,
 
+Takashi
