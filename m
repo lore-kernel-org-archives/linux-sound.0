@@ -1,83 +1,83 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD8E31282F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20362320CD3
 	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 06:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786514783; cv=none; b=oX7J4ARQ8KHa103Zxaxb4kglFTfvybZ9xNXEV5jUcghawBPLc0VZiEgy595Twm7G7piMqHay2/p+p9pJM/P3MsHDS6ZuQ8Oo1Vx9tN6CzxKtRps+ylUVggXgPUGmmW6Z3lpKS06S3wbUMVVqI+6bCHv+yDjAgKoWyD6YoBLf2RA=
+	t=1786514784; cv=none; b=OCDsGUxf2te+hdj/bsHTZ0lpJzwvcG93yQB7MRRoWJVw9M57ioNQf1EpkFDOrGZLUDXcQNNgxf6LJPshZbh9GGOirIKjey690bBvFR8xY9B7SL/TkgXgNk5COtd8whxKD+lQWsWgVFigoQvujDnKyXvmaFL7Zc9E52H6lHHW5g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786514783; c=relaxed/simple;
-	bh=IHyTkcePdHuWiYpNu81tfW7kDkvf166jSC1GUgmmN0U=;
+	s=arc-20240116; t=1786514784; c=relaxed/simple;
+	bh=l309QEMS4iORkoHFGszDJ/YcxRUQcAkZduvbrHLehUE=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pSVBH9wQs+9+3D1Tj96mMV+0ol9/7FgjJ7xpQj/F4dIl+VZlUwNKWRltJ8VjYmPd/RWBFygjnlX1ikPFwytbtulof+9IoN25eVlSTjwyVM6dLa7XNMZR2V0yDohMr+vsvyrtMdYfbX69pJdqB94aEdV/cwXoLCiqUgpS6WUWg40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DMYTQFik; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UP/lC5OE; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=F9dylfOu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C6VfhYJ6; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=BzNos4QHVE51cCzFdVjHJo9Lr+zjgRySRXKXSuxmM12b/5XAjdgZaApA8jNpvGkujU5h8RGefR4BGjcUudEo3DeKLCovBvf07dToBQsKhsZjVE1+sLaN2jZBcgTbqAYWIKVY/fueJgfEa6LDIZhdXHDgsO2yV3VJUCBrZyMhy4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CAGOvi5D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8auXJUHW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=shsqR+RV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/+OwNthh; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DMYTQFik";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UP/lC5OE";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="F9dylfOu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C6VfhYJ6"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CAGOvi5D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8auXJUHW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="shsqR+RV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/+OwNthh"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 23E993E3F;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 05AF8820DC;
 	Wed, 12 Aug 2026 06:06:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786514776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sSHD6eM7cxDkPRi0oc/fu47+846uK2TRWRpH3EPn2a0=;
-	b=DMYTQFik+aLnKmh5s82qnk1I7ZepE1x9PAk8Jd8bHEa5b9Io/w2dyqa/D+2N8bP6DZCNmM
-	rPYNPAVb/N4lxnM+dP+auk86jV0CdasG0fyyJi0fue7cdudi0HlmXFioM4ZHICTDDRq3w+
-	lURMv7/PwxsJXrpVs9h0CMzSvFhPydc=
+	bh=12gDg9y0CwhRXCh8eSW86+Z/LudbQuDI2z5FmWhnjL0=;
+	b=CAGOvi5DHypIU83trxKUsBZlQ2JFJrN8m7lSXjt3bpSLTokP4EsqAQ2xo+rdUL3UB1PuXY
+	3PwyFVxg86rmFMhY74XvHGgJH1m6874MgsiHQg/TBoVexXxaNkHISjfeJoYeRoC8IG6ba5
+	UXrX3JdLOihdcfxREaR02T/VCQm2TyI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786514776;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sSHD6eM7cxDkPRi0oc/fu47+846uK2TRWRpH3EPn2a0=;
-	b=UP/lC5OEDGArExXnjNC39lZ0pRMaY/G7BFHZ6GP6/bO4LlzBsyjYneMjw6gy3wE7I7iTuD
-	H4a00TkrpewC/BAQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=12gDg9y0CwhRXCh8eSW86+Z/LudbQuDI2z5FmWhnjL0=;
+	b=8auXJUHW0P0mTELvwEpv3KyxaK/ZjTjR4JAZmzU6QdxiPyN8QraxRUbPhmucYe4TiSwINQ
+	URW4E8H493F2BWCA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
 	t=1786514772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sSHD6eM7cxDkPRi0oc/fu47+846uK2TRWRpH3EPn2a0=;
-	b=F9dylfOuGV/bKoqjx1RWLZbpFLEr4ihiv+Il3Oi7UeNJiy7lkgJ2V5rG4gnvuticRPycFX
-	um4QvDgpUplzw7O3MfTwxAcU0R6yHA2GGVWgd42SGSqKHRjjUQU2vc2yLXjBDumjr4iyA6
-	ihGzOZShpRgIUs4ZKO8JZfPyvBO2DP0=
+	bh=12gDg9y0CwhRXCh8eSW86+Z/LudbQuDI2z5FmWhnjL0=;
+	b=shsqR+RVjcU7FEwKf0vsnPS6Y8BCYzg7AWASLaimeGIOfNoHoT8nceX7Ty4+1GzrGLKswW
+	YacmVKz8zZu79QJG3DOZO2iX/l9+f3TDWapbZxmseLb7NoKkjAz7YX16XPwb26UuIGavC+
+	9/Kdc11I3/adMy8aiZ7Nyo7knhS4xV0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
 	s=susede2_ed25519; t=1786514772;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sSHD6eM7cxDkPRi0oc/fu47+846uK2TRWRpH3EPn2a0=;
-	b=C6VfhYJ6xdE4NALQs2JlH9ALD41nSkUnTEE5nuugQdPNOQWuOlpYELh3r5MC5IebEqTTU2
-	Tqka4Gu42zJ1GICA==
+	bh=12gDg9y0CwhRXCh8eSW86+Z/LudbQuDI2z5FmWhnjL0=;
+	b=/+OwNthh2KETbFPAwy99E3BHL3dp+9UlxcZJtHKVouSFoCrjF2Yp29Ji0HCMZhygT1Bewd
+	aG/09JpU64V0A2Dw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05F1E779B7;
-	Wed, 12 Aug 2026 06:06:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DB061779B6;
+	Wed, 12 Aug 2026 06:06:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YFJDAFQNfGrREAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 06:06:12 +0000
+	id 2H05NFMNfGrREAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 06:06:11 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 04/14] ALSA: control: Drop __force casts
-Date: Wed, 12 Aug 2026 08:04:36 +0200
-Message-ID: <20260812060557.80445-5-tiwai@suse.de>
+Subject: [PATCH 03/14] ALSA: pcm: Avoid macros for SNDRV_PCM_FMTBIT and SNDRV_PCM_SUBFMTBIT
+Date: Wed, 12 Aug 2026 08:04:35 +0200
+Message-ID: <20260812060557.80445-4-tiwai@suse.de>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260812060557.80445-1-tiwai@suse.de>
 References: <20260812060557.80445-1-tiwai@suse.de>
@@ -89,7 +89,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-0.999];
 	R_MISSING_CHARSET(0.50)[];
@@ -99,7 +99,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -111,59 +111,148 @@ X-Spam-Flag: NO
 X-Spam-Score: -2.80
 X-Spam-Level: 
 
-Now that the bitwise parameter definitions are gone for control
-parameters, we don't have to cast with ugly __force prefix.
-Simply drop those superfluous casts.
+Avoid macros to define SNDRV_PCM_FMTBIT_* and SNDRV_PCM_SUBFMTBIT_*
+contants but use plain bit shifts, instead.  This allows bindgen and
+other tools aware of those definitions.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/control_compat.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/sound/pcm.h | 112 ++++++++++++++++++++++----------------------
+ 1 file changed, 55 insertions(+), 57 deletions(-)
 
-diff --git a/sound/core/control_compat.c b/sound/core/control_compat.c
-index f14d9f5e94be..87f7ad5ab739 100644
---- a/sound/core/control_compat.c
-+++ b/sound/core/control_compat.c
-@@ -226,8 +226,8 @@ static int copy_ctl_value_from_user(struct snd_card *card,
- 	if (type < 0)
- 		return type;
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+index ab96396a7444..02d8689354c4 100644
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -145,61 +145,60 @@ struct snd_pcm_ops {
+ #define SNDRV_PCM_RATE_8000_768000	(SNDRV_PCM_RATE_8000_384000|\
+ 					 SNDRV_PCM_RATE_705600|\
+ 					 SNDRV_PCM_RATE_768000)
+-#define _SNDRV_PCM_FMTBIT(fmt)		(1ULL << SNDRV_PCM_FORMAT_##fmt)
+-#define SNDRV_PCM_FMTBIT_S8		_SNDRV_PCM_FMTBIT(S8)
+-#define SNDRV_PCM_FMTBIT_U8		_SNDRV_PCM_FMTBIT(U8)
+-#define SNDRV_PCM_FMTBIT_S16_LE		_SNDRV_PCM_FMTBIT(S16_LE)
+-#define SNDRV_PCM_FMTBIT_S16_BE		_SNDRV_PCM_FMTBIT(S16_BE)
+-#define SNDRV_PCM_FMTBIT_U16_LE		_SNDRV_PCM_FMTBIT(U16_LE)
+-#define SNDRV_PCM_FMTBIT_U16_BE		_SNDRV_PCM_FMTBIT(U16_BE)
+-#define SNDRV_PCM_FMTBIT_S24_LE		_SNDRV_PCM_FMTBIT(S24_LE)
+-#define SNDRV_PCM_FMTBIT_S24_BE		_SNDRV_PCM_FMTBIT(S24_BE)
+-#define SNDRV_PCM_FMTBIT_U24_LE		_SNDRV_PCM_FMTBIT(U24_LE)
+-#define SNDRV_PCM_FMTBIT_U24_BE		_SNDRV_PCM_FMTBIT(U24_BE)
++#define SNDRV_PCM_FMTBIT_S8		(1ULL << SNDRV_PCM_FORMAT_S8)
++#define SNDRV_PCM_FMTBIT_U8		(1ULL << SNDRV_PCM_FORMAT_U8)
++#define SNDRV_PCM_FMTBIT_S16_LE		(1ULL << SNDRV_PCM_FORMAT_S16_LE)
++#define SNDRV_PCM_FMTBIT_S16_BE		(1ULL << SNDRV_PCM_FORMAT_S16_BE)
++#define SNDRV_PCM_FMTBIT_U16_LE		(1ULL << SNDRV_PCM_FORMAT_U16_LE)
++#define SNDRV_PCM_FMTBIT_U16_BE		(1ULL << SNDRV_PCM_FORMAT_U16_BE)
++#define SNDRV_PCM_FMTBIT_S24_LE		(1ULL << SNDRV_PCM_FORMAT_S24_LE)
++#define SNDRV_PCM_FMTBIT_S24_BE		(1ULL << SNDRV_PCM_FORMAT_S24_BE)
++#define SNDRV_PCM_FMTBIT_U24_LE		(1ULL << SNDRV_PCM_FORMAT_U24_LE)
++#define SNDRV_PCM_FMTBIT_U24_BE		(1ULL << SNDRV_PCM_FORMAT_U24_BE)
+ // For S32/U32 formats, 'msbits' hardware parameter is often used to deliver information about the
+ // available bit count in most significant bit. It's for the case of so-called 'left-justified' or
+ // `right-padding` sample which has less width than 32 bit.
+-#define SNDRV_PCM_FMTBIT_S32_LE		_SNDRV_PCM_FMTBIT(S32_LE)
+-#define SNDRV_PCM_FMTBIT_S32_BE		_SNDRV_PCM_FMTBIT(S32_BE)
+-#define SNDRV_PCM_FMTBIT_U32_LE		_SNDRV_PCM_FMTBIT(U32_LE)
+-#define SNDRV_PCM_FMTBIT_U32_BE		_SNDRV_PCM_FMTBIT(U32_BE)
+-#define SNDRV_PCM_FMTBIT_FLOAT_LE	_SNDRV_PCM_FMTBIT(FLOAT_LE)
+-#define SNDRV_PCM_FMTBIT_FLOAT_BE	_SNDRV_PCM_FMTBIT(FLOAT_BE)
+-#define SNDRV_PCM_FMTBIT_FLOAT64_LE	_SNDRV_PCM_FMTBIT(FLOAT64_LE)
+-#define SNDRV_PCM_FMTBIT_FLOAT64_BE	_SNDRV_PCM_FMTBIT(FLOAT64_BE)
+-#define SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE _SNDRV_PCM_FMTBIT(IEC958_SUBFRAME_LE)
+-#define SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_BE _SNDRV_PCM_FMTBIT(IEC958_SUBFRAME_BE)
+-#define SNDRV_PCM_FMTBIT_MU_LAW		_SNDRV_PCM_FMTBIT(MU_LAW)
+-#define SNDRV_PCM_FMTBIT_A_LAW		_SNDRV_PCM_FMTBIT(A_LAW)
+-#define SNDRV_PCM_FMTBIT_IMA_ADPCM	_SNDRV_PCM_FMTBIT(IMA_ADPCM)
+-#define SNDRV_PCM_FMTBIT_MPEG		_SNDRV_PCM_FMTBIT(MPEG)
+-#define SNDRV_PCM_FMTBIT_GSM		_SNDRV_PCM_FMTBIT(GSM)
+-#define SNDRV_PCM_FMTBIT_S20_LE	_SNDRV_PCM_FMTBIT(S20_LE)
+-#define SNDRV_PCM_FMTBIT_U20_LE	_SNDRV_PCM_FMTBIT(U20_LE)
+-#define SNDRV_PCM_FMTBIT_S20_BE	_SNDRV_PCM_FMTBIT(S20_BE)
+-#define SNDRV_PCM_FMTBIT_U20_BE	_SNDRV_PCM_FMTBIT(U20_BE)
+-#define SNDRV_PCM_FMTBIT_SPECIAL	_SNDRV_PCM_FMTBIT(SPECIAL)
+-#define SNDRV_PCM_FMTBIT_S24_3LE	_SNDRV_PCM_FMTBIT(S24_3LE)
+-#define SNDRV_PCM_FMTBIT_U24_3LE	_SNDRV_PCM_FMTBIT(U24_3LE)
+-#define SNDRV_PCM_FMTBIT_S24_3BE	_SNDRV_PCM_FMTBIT(S24_3BE)
+-#define SNDRV_PCM_FMTBIT_U24_3BE	_SNDRV_PCM_FMTBIT(U24_3BE)
+-#define SNDRV_PCM_FMTBIT_S20_3LE	_SNDRV_PCM_FMTBIT(S20_3LE)
+-#define SNDRV_PCM_FMTBIT_U20_3LE	_SNDRV_PCM_FMTBIT(U20_3LE)
+-#define SNDRV_PCM_FMTBIT_S20_3BE	_SNDRV_PCM_FMTBIT(S20_3BE)
+-#define SNDRV_PCM_FMTBIT_U20_3BE	_SNDRV_PCM_FMTBIT(U20_3BE)
+-#define SNDRV_PCM_FMTBIT_S18_3LE	_SNDRV_PCM_FMTBIT(S18_3LE)
+-#define SNDRV_PCM_FMTBIT_U18_3LE	_SNDRV_PCM_FMTBIT(U18_3LE)
+-#define SNDRV_PCM_FMTBIT_S18_3BE	_SNDRV_PCM_FMTBIT(S18_3BE)
+-#define SNDRV_PCM_FMTBIT_U18_3BE	_SNDRV_PCM_FMTBIT(U18_3BE)
+-#define SNDRV_PCM_FMTBIT_G723_24	_SNDRV_PCM_FMTBIT(G723_24)
+-#define SNDRV_PCM_FMTBIT_G723_24_1B	_SNDRV_PCM_FMTBIT(G723_24_1B)
+-#define SNDRV_PCM_FMTBIT_G723_40	_SNDRV_PCM_FMTBIT(G723_40)
+-#define SNDRV_PCM_FMTBIT_G723_40_1B	_SNDRV_PCM_FMTBIT(G723_40_1B)
+-#define SNDRV_PCM_FMTBIT_DSD_U8		_SNDRV_PCM_FMTBIT(DSD_U8)
+-#define SNDRV_PCM_FMTBIT_DSD_U16_LE	_SNDRV_PCM_FMTBIT(DSD_U16_LE)
+-#define SNDRV_PCM_FMTBIT_DSD_U32_LE	_SNDRV_PCM_FMTBIT(DSD_U32_LE)
+-#define SNDRV_PCM_FMTBIT_DSD_U16_BE	_SNDRV_PCM_FMTBIT(DSD_U16_BE)
+-#define SNDRV_PCM_FMTBIT_DSD_U32_BE	_SNDRV_PCM_FMTBIT(DSD_U32_BE)
++#define SNDRV_PCM_FMTBIT_S32_LE		(1ULL << SNDRV_PCM_FORMAT_S32_LE)
++#define SNDRV_PCM_FMTBIT_S32_BE		(1ULL << SNDRV_PCM_FORMAT_S32_BE)
++#define SNDRV_PCM_FMTBIT_U32_LE		(1ULL << SNDRV_PCM_FORMAT_U32_LE)
++#define SNDRV_PCM_FMTBIT_U32_BE		(1ULL << SNDRV_PCM_FORMAT_U32_BE)
++#define SNDRV_PCM_FMTBIT_FLOAT_LE	(1ULL << SNDRV_PCM_FORMAT_FLOAT_LE)
++#define SNDRV_PCM_FMTBIT_FLOAT_BE	(1ULL << SNDRV_PCM_FORMAT_FLOAT_BE)
++#define SNDRV_PCM_FMTBIT_FLOAT64_LE	(1ULL << SNDRV_PCM_FORMAT_FLOAT64_LE)
++#define SNDRV_PCM_FMTBIT_FLOAT64_BE	(1ULL << SNDRV_PCM_FORMAT_FLOAT64_BE)
++#define SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_LE (1ULL << SNDRV_PCM_FORMAT_IEC958_SUBFRAME_LE)
++#define SNDRV_PCM_FMTBIT_IEC958_SUBFRAME_BE (1ULL << SNDRV_PCM_FORMAT_IEC958_SUBFRAME_BE)
++#define SNDRV_PCM_FMTBIT_MU_LAW		(1ULL << SNDRV_PCM_FORMAT_MU_LAW)
++#define SNDRV_PCM_FMTBIT_A_LAW		(1ULL << SNDRV_PCM_FORMAT_A_LAW)
++#define SNDRV_PCM_FMTBIT_IMA_ADPCM	(1ULL << SNDRV_PCM_FORMAT_IMA_ADPCM)
++#define SNDRV_PCM_FMTBIT_MPEG		(1ULL << SNDRV_PCM_FORMAT_MPEG)
++#define SNDRV_PCM_FMTBIT_GSM		(1ULL << SNDRV_PCM_FORMAT_GSM)
++#define SNDRV_PCM_FMTBIT_S20_LE		(1ULL << SNDRV_PCM_FORMAT_S20_LE)
++#define SNDRV_PCM_FMTBIT_U20_LE		(1ULL << SNDRV_PCM_FORMAT_U20_LE)
++#define SNDRV_PCM_FMTBIT_S20_BE		(1ULL << SNDRV_PCM_FORMAT_S20_BE)
++#define SNDRV_PCM_FMTBIT_U20_BE		(1ULL << SNDRV_PCM_FORMAT_U20_BE)
++#define SNDRV_PCM_FMTBIT_SPECIAL	(1ULL << SNDRV_PCM_FORMAT_SPECIAL)
++#define SNDRV_PCM_FMTBIT_S24_3LE	(1ULL << SNDRV_PCM_FORMAT_S24_3LE)
++#define SNDRV_PCM_FMTBIT_U24_3LE	(1ULL << SNDRV_PCM_FORMAT_U24_3LE)
++#define SNDRV_PCM_FMTBIT_S24_3BE	(1ULL << SNDRV_PCM_FORMAT_S24_3BE)
++#define SNDRV_PCM_FMTBIT_U24_3BE	(1ULL << SNDRV_PCM_FORMAT_U24_3BE)
++#define SNDRV_PCM_FMTBIT_S20_3LE	(1ULL << SNDRV_PCM_FORMAT_S20_3LE)
++#define SNDRV_PCM_FMTBIT_U20_3LE	(1ULL << SNDRV_PCM_FORMAT_U20_3LE)
++#define SNDRV_PCM_FMTBIT_S20_3BE	(1ULL << SNDRV_PCM_FORMAT_S20_3BE)
++#define SNDRV_PCM_FMTBIT_U20_3BE	(1ULL << SNDRV_PCM_FORMAT_U20_3BE)
++#define SNDRV_PCM_FMTBIT_S18_3LE	(1ULL << SNDRV_PCM_FORMAT_S18_3LE)
++#define SNDRV_PCM_FMTBIT_U18_3LE	(1ULL << SNDRV_PCM_FORMAT_U18_3LE)
++#define SNDRV_PCM_FMTBIT_S18_3BE	(1ULL << SNDRV_PCM_FORMAT_S18_3BE)
++#define SNDRV_PCM_FMTBIT_U18_3BE	(1ULL << SNDRV_PCM_FORMAT_U18_3BE)
++#define SNDRV_PCM_FMTBIT_G723_24	(1ULL << SNDRV_PCM_FORMAT_G723_24)
++#define SNDRV_PCM_FMTBIT_G723_24_1B	(1ULL << SNDRV_PCM_FORMAT_G723_24_1B)
++#define SNDRV_PCM_FMTBIT_G723_40	(1ULL << SNDRV_PCM_FORMAT_G723_40)
++#define SNDRV_PCM_FMTBIT_G723_40_1B	(1ULL << SNDRV_PCM_FORMAT_G723_40_1B)
++#define SNDRV_PCM_FMTBIT_DSD_U8		(1ULL << SNDRV_PCM_FORMAT_DSD_U8)
++#define SNDRV_PCM_FMTBIT_DSD_U16_LE	(1ULL << SNDRV_PCM_FORMAT_DSD_U16_LE)
++#define SNDRV_PCM_FMTBIT_DSD_U32_LE	(1ULL << SNDRV_PCM_FORMAT_DSD_U32_LE)
++#define SNDRV_PCM_FMTBIT_DSD_U16_BE	(1ULL << SNDRV_PCM_FORMAT_DSD_U16_BE)
++#define SNDRV_PCM_FMTBIT_DSD_U32_BE	(1ULL << SNDRV_PCM_FORMAT_DSD_U32_BE)
  
--	if (type == (__force int)SNDRV_CTL_ELEM_TYPE_BOOLEAN ||
--	    type == (__force int)SNDRV_CTL_ELEM_TYPE_INTEGER) {
-+	if (type == SNDRV_CTL_ELEM_TYPE_BOOLEAN ||
-+	    type == SNDRV_CTL_ELEM_TYPE_INTEGER) {
- 		for (i = 0; i < count; i++) {
- 			s32 __user *intp = valuep;
- 			int val;
-@@ -236,7 +236,7 @@ static int copy_ctl_value_from_user(struct snd_card *card,
- 			data->value.integer.value[i] = val;
- 		}
- 	} else {
--		size = get_elem_size((__force snd_ctl_elem_type_t)type, count);
-+		size = get_elem_size(type, count);
- 		if (size < 0) {
- 			dev_err(card->dev, "snd_ioctl32_ctl_elem_value: unknown type %d\n", type);
- 			return -EINVAL;
-@@ -259,8 +259,8 @@ static int copy_ctl_value_to_user(void __user *userdata,
- 	struct snd_ctl_elem_value32 __user *data32 = userdata;
- 	int i, size;
+ #ifdef SNDRV_LITTLE_ENDIAN
+ #define SNDRV_PCM_FMTBIT_S16		SNDRV_PCM_FMTBIT_S16_LE
+@@ -228,11 +227,10 @@ struct snd_pcm_ops {
+ #define SNDRV_PCM_FMTBIT_U20		SNDRV_PCM_FMTBIT_U20_BE
+ #endif
  
--	if (type == (__force int)SNDRV_CTL_ELEM_TYPE_BOOLEAN ||
--	    type == (__force int)SNDRV_CTL_ELEM_TYPE_INTEGER) {
-+	if (type == SNDRV_CTL_ELEM_TYPE_BOOLEAN ||
-+	    type == SNDRV_CTL_ELEM_TYPE_INTEGER) {
- 		for (i = 0; i < count; i++) {
- 			s32 __user *intp = valuep;
- 			int val;
-@@ -269,7 +269,7 @@ static int copy_ctl_value_to_user(void __user *userdata,
- 				return -EFAULT;
- 		}
- 	} else {
--		size = get_elem_size((__force snd_ctl_elem_type_t)type, count);
-+		size = get_elem_size(type, count);
- 		if (copy_to_user(valuep, data->value.bytes.data, size))
- 			return -EFAULT;
- 	}
+-#define _SNDRV_PCM_SUBFMTBIT(fmt)	BIT(SNDRV_PCM_SUBFORMAT_##fmt)
+-#define SNDRV_PCM_SUBFMTBIT_STD		_SNDRV_PCM_SUBFMTBIT(STD)
+-#define SNDRV_PCM_SUBFMTBIT_MSBITS_MAX	_SNDRV_PCM_SUBFMTBIT(MSBITS_MAX)
+-#define SNDRV_PCM_SUBFMTBIT_MSBITS_20	_SNDRV_PCM_SUBFMTBIT(MSBITS_20)
+-#define SNDRV_PCM_SUBFMTBIT_MSBITS_24	_SNDRV_PCM_SUBFMTBIT(MSBITS_24)
++#define SNDRV_PCM_SUBFMTBIT_STD		(1U << SNDRV_PCM_SUBFORMAT_STD)
++#define SNDRV_PCM_SUBFMTBIT_MSBITS_MAX	(1U << SNDRV_PCM_SUBFORMAT_MSBITS_MAX)
++#define SNDRV_PCM_SUBFMTBIT_MSBITS_20	(1U << SNDRV_PCM_SUBFORMAT_MSBITS_20)
++#define SNDRV_PCM_SUBFMTBIT_MSBITS_24	(1U << SNDRV_PCM_SUBFORMAT_MSBITS_24)
+ 
+ struct snd_pcm_file {
+ 	struct snd_pcm_substream *substream;
 -- 
 2.55.0
 
