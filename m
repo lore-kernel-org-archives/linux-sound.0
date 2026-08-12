@@ -1,135 +1,115 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-06.mail-europe.com (mail-06.mail-europe.com [85.9.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85403A6B73
-	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 20:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C689835E1D5
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 21:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786567842; cv=none; b=t/y1vp6AUS1yBvFklWt9SvCoyeRN7zFVPnXLjsjKnUkTrPUnLAKP1ESm28XrIG0T2I7ODbzv0qD7py8bnMkQhRlmfLv8gGc5FDDAUxgfbi3a5zLs7q0vkXpINWhv72J/vCjTOAWmwQY5TOpaC5+91pFcfon0Z4pnOt2U+eutRY0=
+	t=1786569527; cv=none; b=eimuONEk1Zxk3ul93JjL86FeKLoKOxekhkzfCllv1114H9aJW4xl0CvYgnjXq6J+Uy4Ca0oTxl7XcZsFgikPpAyn9XTKFr4/ihingnl7degTXvBom4cPYLi8AUUNX2AQaXJe9pa5Uo0mNHM1lus9cc52AYqAEeZjF0YIsNOD2rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786567842; c=relaxed/simple;
-	bh=ZwCKvBVeKCOwHFezxhEHs3g/mJs9UKkhhIxC1BaFhkU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rOUQT3hmIcb6FtBG0Xc6Raop1JB2Rl+UUdycFVlkgf/IEu2L9adZul8xNqFWs2OSk1aIUEjuvPNp5HF85daFjvkuuMTYo1Ln7vAEp7Xn/o2G2JgZG+YtbtfuXis29kEyZ4j7zYYPqdjejyS7hhcG2fJ2H3zPJtOJwzHj/Cf75uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ZUYMYck9; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1786569527; c=relaxed/simple;
+	bh=ctf1nUhNLVNfjin7UMuWE2apYrA21BEiihmS9guDswE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TP4mZm6sDReP+QsKBwSFSaYXnQUihUaYVaJnj97S6V3LECVfJlt2KjrEN1jrFMwWbRgWMSsM5B4EgwLO0pg+D9K65n6PsBIF5//WvUKTvJumFq6YsHEEjFZzc6G868d78C+jwQ8f4i2qA1J7Lm0BLgTVbS3njghw5VG/AQf1CEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=rS3tDJnt; arc=none smtp.client-ip=85.9.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=saarinenkoti.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ZUYMYck9"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-480001972b8so556976f8f.2
-        for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 13:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1786567839; x=1787172639; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=YtUGituyk2Ddp0UGCePWRfQ0rhz3dgx1B50fS+vGVpw=;
-        b=ZUYMYck9Qh4YDFkEJT33+X28NFRV4ioLue7RXfdQdCbVhztSEhiKmV+mY6/99hfEyX
-         uIfmK0sgAR4UB2gi0A6gSErj/cC+hZMkLTrCs+J774T8AAbNfvybXpt+QIQNfhvfFqUC
-         sFUQUK2opelKhvUO9beGaWbegFwNVKJFsDwkW+CF4IGQ+nDAeuKRIx3+PJafgEe1AAu1
-         O+Ms0IQXAQ7A+zg7CzgrL35VZaTe7cP/uammA19fehoPFrYnX+lejCgvakOoD6KH75AW
-         VK+EQfkH7T2iE64i7rb5sJusbQbpHVsw2t4pNtV8d08dq74GALLnUz/Axk5J/T0C0z3n
-         k0KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786567839; x=1787172639;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=YtUGituyk2Ddp0UGCePWRfQ0rhz3dgx1B50fS+vGVpw=;
-        b=hhTcarKvXxBxoQHbLe8j7qm6cex0bVHrliB84Q97N/tDiddRWgesMF95eh8UInZWhm
-         bt8sSv2IYMNfXwrhVGk4noZsf/7OqUws7Qbc1PiOfuzWY/z3SozAmLjVTgZ7j7R2BAZ6
-         jKlK3Q7Bq4XHHR08iCFtKwkE5kAdAfHgTu6pSjD0lT6Ngwg0j+gw5f/1Isjq5BoMTSve
-         ADqo3ki7ISP8V+1TPuEEob9SsT61gs12CrI1pyuEa5uwXw4LwMnUE+cp9gZYKGmf/n7t
-         DJn8e4i55t+y7Ow+MLsSDsl/OWfH5zNSB0Be1W2jupEQuj8UfVoscawSwuuy202hS3jt
-         cYsA==
-X-Gm-Message-State: AOJu0Yw7eVBjw/PY69/L4X4QBGTOiQZMF1gFZl9HrFZnvg/ga+DxQ+jE
-	seSe/iD4XzEr1p9f8FCPO7f3gSwLC6LvbZxbFLBVohi/y8/0iK105AYoQ2d9wqPCl6s=
-X-Gm-Gg: AR+sD13FKe/tYp0EEA6UzTU4eaEy5Mt/HGsWDHNjhyqgZzpqxPo7NxTV3NKv/Ocic9W
-	/k/WbLiLZZ9URT72PtZwt5hOSzwX6bSmX+uDGRQ0NhimHoQ9e5mFcJNQP85SbYaU27aRzjrEKa1
-	74KOZYmFu9yZVCWbv6bHf6oVazXEFo6jxWsm+5qc23Ijd/tKEUUxWqxpAp3f1tjdElhqMg63RSf
-	BI8JrCLfnWdmediOdT9cvHhSCsizIedXTm2coXyCix43z3ivIGA+XFHJU/TLxQgSx74mSYjfdT3
-	UJVXes7Sxfn15Zx1DVjK+MMtfNIwPtNRHfByX/qeoSl9+WCkjHb60Kyvfuw0wAEe3LRoOav72cF
-	TOCgYYYJWOvIxyzRsydcFhGM1LJn1z9SB3bhiZhQq2Fe7nB9trGryC3Kb65it4Nh6l61n6j6JnJ
-	P2XxfZhOBUWY6SBEhr0tyYfjDGNuxaYlHcvekW2sviEgPera6U5pcsYeD6BbE=
-X-Received: by 2002:a5d:45c8:0:b0:481:4dcd:aefa with SMTP id ffacd0b85a97d-48159ca6290mr823395f8f.6.1786567838585;
-        Wed, 12 Aug 2026 13:50:38 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:282d:879b:d1fe:f977])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4815a5af45fsm376508f8f.18.2026.08.12.13.50.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 13:50:37 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Wed, 12 Aug 2026 22:50:34 +0200
-Subject: [PATCH] ASoC: meson: aiu: make aiu_formatter_i2s_drv static
+	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="rS3tDJnt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saarinenkoti.fi;
+	s=protonmail3; t=1786569508; x=1786828708;
+	bh=ctf1nUhNLVNfjin7UMuWE2apYrA21BEiihmS9guDswE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=rS3tDJntUhjHJ5pEEU6xWx9G7cuR5wiwSZTEj3MKx8Rc17S9J0U0wo6AA4EUaKz4U
+	 TrCerUp/51FV9sa11zZSgDtcsTuJK0kodcNg++wzDIugYR+PzOlMWIHRPaKLLuJyxJ
+	 QTC6gxk0m2h2krAtBgXGwwc3Ug24YnCvVreUpghS8GqnBlzI7vWVhJQasWdgYIZwlh
+	 72/n1VhPYt+E9WeDLMImD/OLyQp1G/RUF7QhsjV9wLDKE7y0v0vc9HiKB8xOSoIRGz
+	 dkZtF5jt2S6emgGG+Xbee7trsNxURM4oMRG09KOlpE35papw8UzC3l81rPLvCJ+1rf
+	 cALgG/SLJH05A==
+Date: Wed, 12 Aug 2026 21:18:23 +0000
+To: Mark Brown <broonie@kernel.org>
+From: Ville Saarinen <wiza@saarinenkoti.fi>
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, Ville Saarinen <wiza@saarinenkoti.fi>
+Subject: Re: [PATCH 3/3] ASoC: tas2783: drop firmware-owned registers from the regmap cache
+Message-ID: <20260812211807.59906-1-wiza@saarinenkoti.fi>
+In-Reply-To: <0de8a9a0-1929-4210-92dd-2376550fd841@sirena.org.uk>
+References: <20260809101541.4969-1-wiza@saarinenkoti.fi> <20260809101541.4969-4-wiza@saarinenkoti.fi> <0de8a9a0-1929-4210-92dd-2376550fd841@sirena.org.uk>
+Feedback-ID: 137674609:user:proton
+X-Pm-Message-ID: 1e63139ce91125a6460d283be264142145a4081e
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260812-aiu-formatter-static-v1-1-67936d57ba05@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAJncfGoC/yXMQQqDQAxA0atI1gZ0LKX0KsVFZoxtClVJMiKId
- +/ULt/i/x2MVdjgXu2gvIrJPBW0dQXpRdOTUYZiCE24Nrc2IEnGcdYPubOiObkkDB0RXVIXhxi
- hpIvyKNu5ffR/W45vTv57wXF8ATuSZ+R4AAAA
-X-Change-ID: 20260812-aiu-formatter-static-23aaa4c3bdbb
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Valerio Setti <vsetti@baylibre.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
- kernel test robot <lkp@intel.com>, Jerome Brunet <jbrunet@baylibre.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1135; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=ZwCKvBVeKCOwHFezxhEHs3g/mJs9UKkhhIxC1BaFhkU=;
- b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBqfNybkgNRRQANZqrgMfq5ox95yeE5stSqqgOYM
- tnyCOUWsYuJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCanzcmwAKCRDm/A8cN/La
- hXfiD/9wjY1KHufHKO8MBicjjnToaV+KSrITmuuCi2jyWAI5BqRoa6xPOgAb3b6yv2IiHQigpXu
- RiC6MGC8V7cdLH9Q+HP0lrrxysgBEidXkIPdFOGdDfgt8jI9j4fZOQnHBTJg4OQgF5814giLD/Y
- GIYE4uykk9jwjNXtW1UJiZ6DVzN1WCrjFoVcr5TwC5UvqMn4tGrW2YlgSLcZCCFJcDSNyCdr6of
- WkQWAwDDo0rv9BDHDWmcmtaFk5kkyCmLfu5tJLEtfbh89pDOGwPXESrZP2/CP+eMGizHLiUpydp
- N0WnBN/xsFKn3pSOFADKxnH6qoQMqoCi+nTMtJIkxmTmW8Stsaae+sqva2ivT72hl5Tpt3oiRS1
- Fnq8GVoO125m2M/T1GJ3GBCJmOb+L6HDJVdCtqy6Dx3HKT7aFHh4Bqu5+ZnXNdzu4YD84ORq/tR
- RllY6zDRUHGDx+gH/+9vQPI51dYtWhilSQ2VyuZXRC+qGtU+/URFhVVhqdDsiFRTZZejx7kro3w
- AK+hkfu4Bg9Mm0JIL9cycjTC16dc3b1wtFJYNWMiBKRzFPXjMvzol2JcODG2K+nRccYJ8XMdWyS
- JBoZjnom6I4KEs3tde+B/Z1rymBRL8o25gd8YRGgwfgqTdwtLL5rvpbpaTugYAobONYTbDEQYPr
- WTI9o3lib8LpqDQ==
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-aiu_formatter_i2s_drv is indeed used only in the aiu and it is not meant
-to be exported. It should be static.
+Thank you for the time on this.
 
-Cc: Valerio Setti <vsetti@baylibre.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202608080634.hf6aJGPB-lkp@intel.com/
-Fixes: 83b83024cdbf ("ASoC: meson: aiu: use aiu-formatter-i2s to format I2S output data")
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
- sound/soc/meson/aiu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Context you may not have seen: I withdrew this series on 11 August, in
+<20260811135539.8672-1-wiza@saarinenkoti.fi>, so none of what follows is
+an argument for the patch. It is just the answers, in case they save
+somebody a day. No credit or attribution is wanted for any of it -- take,
+adapt or drop it as suits.
 
-diff --git a/sound/soc/meson/aiu.c b/sound/soc/meson/aiu.c
-index 2668646e3597..535fbf7c1639 100644
---- a/sound/soc/meson/aiu.c
-+++ b/sound/soc/meson/aiu.c
-@@ -182,7 +182,7 @@ static const struct regmap_config aiu_regmap_cfg = {
- 	.max_register	= 0x2ac,
- };
- 
--const struct gx_formatter_driver aiu_formatter_i2s_drv = {
-+static const struct gx_formatter_driver aiu_formatter_i2s_drv = {
- 	.regmap_cfg	= &aiu_regmap_cfg,
- 	.ops		= &aiu_formatter_i2s_ops,
- };
+The numbers below come from the image this laptop loads,
+ti/audio/tas2783/8EA1-0-0-0x9.bin.zst, parsed with the driver's own
+header layout: 52 files, 39606 distinct destination addresses.
 
----
-base-commit: 83bf17424a97ab277ead2d98e3500bc632df0c40
-change-id: 20260812-aiu-formatter-static-23aaa4c3bdbb
+> Are there any controls with values that come from the firmware,
 
-Best regards,
---  
-Jerome
+Both of them. The driver registers two, "Amp Volume" at
+TAS2783_AMP_LEVEL (0x800003) and "Speaker Volume" at TAS2783_DVC_LVL
+(0x80001a). File 19 of the image writes 8 bytes at 0x800003 and file 24
+writes 4 bytes at 0x80001a, so both control registers are firmware
+owned, and one of them disagrees with the cache: the image puts 0x12
+there, an Amp Volume of 9 out of 20, where tas2783_reg_default[] holds
+0x28, which is 20.
+
+It is not confined to the controls. 69 of the 70 reg_defaults entries
+fall inside a range this image writes -- only 0x800021 does not -- and
+23 of those get a value different from the table. So the cache and the
+device disagree from the moment the download finishes, suspend or no
+suspend.
+
+> and shouldn't we do this before rather than after the firmware
+> download?
+
+Yes, before is better, and I have no defence for after. The loop breaks
+on a failed write, so doing it afterwards leaves the cache asserting
+defaults over a range that may already be partly overwritten, and
+tas2783_fw_ready() is an async callback, so a control read can race the
+download and pick up a stale cached value. Nothing about it requires
+the drop to come second.
+
+> I think a more robust fix is probably a combination of writing the
+> firmware values into the cache and marking registers that get
+> programmed by firmware download but should never be cached for
+> whatever reason as volatile.
+
+The volatile half fits this part well. The caching half is where the
+image is awkward: nearly all of those 39606 addresses are DSP memory.
+File 0 is 32632 bytes at 0x00c60088, which is PRAM_ADDR_START, and file
+1 is 6904 bytes at 0x800108, which is YRAM_ADDR_START. Neither is a
+readable register by the driver's own definition, since
+tas2783_sdca_mbq_size() returns 0 outside 0x800000-0x803fff and
+0x807e80-0x807eff and readable_reg is mbq_size > 0; and the regmap sets
+use_single_write, so caching them would turn one bulk
+sdw_nwrite_no_pm() into a byte-at-a-time replay of the whole image on
+every regcache_sync().
+
+Split the way you describe -- the page 0 config block cached, the two
+RAM ranges volatile -- it does look like the right shape for this
+device. One consequence worth flagging to whoever writes it: if the
+page 0 registers end up volatile rather than cached, almost the entire
+reg_defaults table is dead and should go with them.
+
+As with the series itself: the analysis above was done with AI
+assistance (Claude Opus 5). The image figures are from the shipped
+binary and the driver source, so they are checkable from both.
+
+Ville
 
