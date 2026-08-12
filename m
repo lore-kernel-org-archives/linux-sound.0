@@ -1,24 +1,24 @@
-Received: from mail-m12779.qiye.163.com (mail-m12779.qiye.163.com [115.236.127.79])
+Received: from mail-m1973187.qiye.163.com (mail-m1973187.qiye.163.com [220.197.31.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC393845B3
-	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 07:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A327C383C89
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 07:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786518372; cv=none; b=bcj0KC9WqN9BJfiqHi3efE36WF93bYOHS1OHDK20eFKaE0BBSWAPp7pamWbzpXs8EUGAmP3wFfzH5R5ATS7noduz8Ifq82bVPIDaYrrtaklIHJ6woikCu/6FGebPh8ln5vC/Qn/33n+9SmKY2tTlOZ2LSZytP07zOAw3Ac5GwUY=
+	t=1786518376; cv=none; b=j6qJstMs5ug5xWfohw4i1t5HK9XQdafp5uNh2gc8Z5ZSdQIilLRJVCXonPZ8OLzuWu3owRklruAgRyxrg1l+ibJch+MwD2WWom4/n8KPcn8JfijhZy8lBMBO5AaFNzMGXDz0GuFVq6nZV40rW87XZ5PBD4B5Dud7HUDN9R4qZgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786518372; c=relaxed/simple;
-	bh=/eGK4PkRJyOnG6AnXIvfSEFvh5Qk+T6aW4Mr67Mk0U4=;
+	s=arc-20240116; t=1786518376; c=relaxed/simple;
+	bh=HKVUkLLs8RWJ7xSP3wFNw8dt7UzUhE484aC4cRmNxRU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iRKmyquNL6WGfQULxxcaf804CEoiFYqMIoHguu8R2MQTaPcVLnDsXzYybvYxLbw6VLXNQ1iZ+P77ImOe2FaqjAzyVMHKCBjYyCKxnktDoDybFvsi2yMIwXZ7tz2r5xcT7xXBF9B6rkAFA8SoQsQI3J2/pN92f4JUYxOvNc8W9Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=JynyugOb; arc=none smtp.client-ip=115.236.127.79
+	 MIME-Version; b=JlpR8OjkLhtwZ3srdakMRQUhnu9egmBVB2sqexhyW/Z5ozRu0LfHusH9L0hH1Hjkh1fMClsEPIjQ2u9y8TpMGQpbxFb5CzQnQ7QC0sFTq8/lF5ABVzmFifQhG9hLGIV8xZYXEo514PRGkw5TIjyqISlQJzceBsa+GSHfSFBPmH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=g5DzkZ51; arc=none smtp.client-ip=220.197.31.87
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="JynyugOb"
+	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="g5DzkZ51"
 Received: from localhost.localdomain (unknown [182.148.129.247])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 49b045902;
-	Wed, 12 Aug 2026 15:00:46 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 49b045933;
+	Wed, 12 Aug 2026 15:00:52 +0800 (GMT+08:00)
 From: qianghua wang <qianghua.wang@senarytech.com>
 To: linux-sound@vger.kernel.org
 Cc: broonie@kernel.org,
@@ -30,9 +30,9 @@ Cc: broonie@kernel.org,
 	cezary.rojewski@intel.com,
 	bo.liu@senarytech.com,
 	"qianghua.wang" <qianghua.wang@senarytech.com>
-Subject: [PATCH 2/3] ASoC: sdw_utils: add Senary SN624x helpers and codec_info
-Date: Wed, 12 Aug 2026 14:59:43 +0800
-Message-ID: <27640e3ee0d3eaf2f01e23fcffd415c9f62add1b.1786511177.git.qianghua.wang@senarytech.com>
+Subject: [PATCH 3/3] ASoC: Intel: soc-acpi: add SN624x entries for PTL
+Date: Wed, 12 Aug 2026 14:59:44 +0800
+Message-ID: <86101e7815def5ff5d8414619a3f412efc4ab8b2.1786511177.git.qianghua.wang@senarytech.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1786511177.git.qianghua.wang@senarytech.com>
 References: <cover.1786511177.git.qianghua.wang@senarytech.com>
@@ -42,678 +42,141 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ff4c605ee09d8kunma462499a3e51c5
+X-HM-Tid: 0a9ff4c61e2a09d8kunma462499a3e5217
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDGB9PVh9JTBoeGh1NQkgaGlYVFA
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDHxpKVkoYTh9CSkJCTUlDS1YVFA
 	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKQ0lVSk9DVUpJQlVJT0xZV1kWGg8SFR0UWUFZT0tIVU
-	pLSEpPSExVSktLVUpCS0tZBg++
+	pLSU9PT0hVSktLVUpCS0tZBg++
 DKIM-Signature: a=rsa-sha256;
-	b=JynyugObRSrSbp8EGjooCAZiiA+DUKKn58TPiORVnIn9aU2+VdnbKjKZt4bzgcbZrxtR1Cmh145nCXMTireTKIs9gOnkYMDX7vIX74lM2staduciJFtefRFDzr6IUul7TSORYx4GHukwa5JXcClQ+yZ3aza/ouqwKJAVTpLMEfo=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
-	bh=3ctI4RwnVI0jIG8FrRRzbyuY/G5/vS771jMnQj6z2iE=;
+	b=g5DzkZ51/ICYK6PmYM9mYMbm7M7BYo65UW6QChuBPreLJDgKIMgiFGS2Ls/jhBWq3JTkjKyxWPLh+pVN09StM38m+HqSTgfrI6JcAqqzAyytSCoHnQb76X3FwouYYOQIDrtDhiXy1Qq7cNFar2Jwugg3BotUmsTs9VrRdZhFJjI=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
+	bh=/4+fCzVNtJ8DHFVM950/BJVHeUGLrQfaCMoXcaZiJFE=;
 	h=date:mime-version:subject:message-id:from;
 
 From: "qianghua.wang" <qianghua.wang@senarytech.com>
 
-Register SN6242/6244/6247 in codec_info_list and add Senary-specific
-jack/amp/dmic rtd helpers used by the generic sof_sdw machine driver.
+Add Panther Lake SoundWire machine entries for Senary SN6242/6244/6247
+on link 3, and select the SN624x SDCA codec from the SOF SoundWire
+machine Kconfig.
 
 Signed-off-by: qianghua.wang <qianghua.wang@senarytech.com>
 ---
- include/sound/soc_sdw_utils.h                 |  20 ++
- sound/soc/sdw_utils/Makefile                  |   4 +-
- sound/soc/sdw_utils/soc_sdw_senary_amp.c      |  80 +++++++
- sound/soc/sdw_utils/soc_sdw_senary_dmic.c     |  49 +++++
- sound/soc/sdw_utils/soc_sdw_senary_sdca.c     |  63 ++++++
- .../soc_sdw_senary_sdca_jack_common.c         | 197 ++++++++++++++++++
- sound/soc/sdw_utils/soc_sdw_utils.c           | 166 +++++++++++++++
- 7 files changed, 578 insertions(+), 1 deletion(-)
- create mode 100644 sound/soc/sdw_utils/soc_sdw_senary_amp.c
- create mode 100644 sound/soc/sdw_utils/soc_sdw_senary_dmic.c
- create mode 100644 sound/soc/sdw_utils/soc_sdw_senary_sdca.c
- create mode 100644 sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c
+ sound/soc/intel/boards/Kconfig                |  1 +
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 81 +++++++++++++++++++
+ 2 files changed, 82 insertions(+)
 
-diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
-index 79c21966220b..e8bdc20a75f6 100644
---- a/include/sound/soc_sdw_utils.h
-+++ b/include/sound/soc_sdw_utils.h
-@@ -293,4 +293,24 @@ int asoc_sdw_es9356_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai
- int asoc_sdw_es9356_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
- int asoc_sdw_es9356_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
- 
-+/* Senary SN624x SDCA */
-+int asoc_sdw_senary_sdca_jack_init(struct snd_soc_card *card,
-+				   struct snd_soc_dai_link *dai_links,
-+				   struct asoc_sdw_codec_info *info,
-+				   bool playback);
-+int asoc_sdw_senary_sdca_jack_exit(struct snd_soc_card *card,
-+				   struct snd_soc_dai_link *dai_link);
-+int asoc_sdw_senary_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd,
-+				       struct snd_soc_dai *dai);
-+int asoc_sdw_senary_amp_init(struct snd_soc_card *card,
-+			     struct snd_soc_dai_link *dai_links,
-+			     struct asoc_sdw_codec_info *info,
-+			     bool playback);
-+int asoc_sdw_senary_amp_exit(struct snd_soc_card *card,
-+			     struct snd_soc_dai_link *dai_link);
-+int asoc_sdw_senary_sdca_spk_rtd_init(struct snd_soc_pcm_runtime *rtd,
-+				      struct snd_soc_dai *dai);
-+int asoc_sdw_senary_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd,
-+				  struct snd_soc_dai *dai);
-+
- #endif
-diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
-index 5ae8c69b8b98..1dbc00a2d64a 100644
---- a/sound/soc/sdw_utils/Makefile
-+++ b/sound/soc/sdw_utils/Makefile
-@@ -10,5 +10,7 @@ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
- 		       soc_sdw_cs_amp.o					\
- 		       soc_sdw_es9356.o					\
- 		       soc_sdw_maxim.o \
--		       soc_sdw_ti_amp.o
-+		       soc_sdw_ti_amp.o \
-+		       soc_sdw_senary_sdca.o soc_sdw_senary_sdca_jack_common.o \
-+		       soc_sdw_senary_amp.o soc_sdw_senary_dmic.o
- obj-$(CONFIG_SND_SOC_SDW_UTILS) += snd-soc-sdw-utils.o
-diff --git a/sound/soc/sdw_utils/soc_sdw_senary_amp.c b/sound/soc/sdw_utils/soc_sdw_senary_amp.c
-new file mode 100644
-index 000000000000..9370402ab4c7
---- /dev/null
-+++ b/sound/soc/sdw_utils/soc_sdw_senary_amp.c
-@@ -0,0 +1,80 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// This file incorporates work covered by the following copyright notice:
-+// Copyright (c) 2022 Intel Corporation
-+// Copyright (c) 2024 Advanced Micro Devices, Inc.
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <sound/control.h>
-+#include <sound/soc.h>
-+#include <sound/soc-acpi.h>
-+#include <sound/soc-dapm.h>
-+#include <linux/soundwire/sdw.h>
-+#include <linux/soundwire/sdw_type.h>
-+#include <sound/soc_sdw_utils.h>
-+
-+static int senary_amp_add_device_props(struct device *sdw_dev)
-+{
-+	return 0;
-+}
-+
-+int asoc_sdw_senary_amp_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+
-+	if (ctx->amp_dev1) {
-+		device_remove_software_node(ctx->amp_dev1);
-+		put_device(ctx->amp_dev1);
-+	}
-+
-+	if (ctx->amp_dev2) {
-+		device_remove_software_node(ctx->amp_dev2);
-+		put_device(ctx->amp_dev2);
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_senary_amp_exit, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_senary_amp_init(struct snd_soc_card *card,
-+			     struct snd_soc_dai_link *dai_links,
-+			     struct asoc_sdw_codec_info *info,
-+			     bool playback)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct device *sdw_dev1, *sdw_dev2;
-+	int ret;
-+
-+	/* Count amp number and do init on playback link only. */
-+	if (!playback)
-+		return 0;
-+
-+	info->amp_num++;
-+
-+	if (info->amp_num == 2) {
-+		sdw_dev1 = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[0].name);
-+		if (!sdw_dev1)
-+			return -EPROBE_DEFER;
-+
-+		ret = senary_amp_add_device_props(sdw_dev1);
-+		if (ret < 0) {
-+			put_device(sdw_dev1);
-+			return ret;
-+		}
-+		ctx->amp_dev1 = sdw_dev1;
-+
-+		sdw_dev2 = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[1].name);
-+		if (!sdw_dev2)
-+			return -EPROBE_DEFER;
-+
-+		ret = senary_amp_add_device_props(sdw_dev2);
-+		if (ret < 0) {
-+			put_device(sdw_dev2);
-+			return ret;
-+		}
-+		ctx->amp_dev2 = sdw_dev2;
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_senary_amp_init, "SND_SOC_SDW_UTILS");
-diff --git a/sound/soc/sdw_utils/soc_sdw_senary_dmic.c b/sound/soc/sdw_utils/soc_sdw_senary_dmic.c
-new file mode 100644
-index 000000000000..378d2955bcbc
---- /dev/null
-+++ b/sound/soc/sdw_utils/soc_sdw_senary_dmic.c
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// This file incorporates work covered by the following copyright notice:
-+// Copyright (c) 2024 Intel Corporation
-+// Copyright (c) 2024 Advanced Micro Devices, Inc.
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <sound/soc.h>
-+#include <sound/soc-acpi.h>
-+#include <sound/soc-dapm.h>
-+#include <sound/soc_sdw_utils.h>
-+
-+/* Card pin "Dmic" → codec input (name_prefix + " DMIC") */
-+static const struct snd_soc_dapm_route senary_dmic_map[] = {
-+	{ "sn6242 DMIC", NULL, "Dmic" },
-+};
-+
-+int asoc_sdw_senary_dmic_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-+	struct snd_soc_component *component;
-+	char *mic_name;
-+	int ret;
-+
-+	component = dai->component;
-+
-+	ret = snd_soc_dapm_add_routes(dapm, senary_dmic_map,
-+				      ARRAY_SIZE(senary_dmic_map));
-+	if (ret) {
-+		dev_err(card->dev, "senary dmic map addition failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	mic_name = devm_kasprintf(card->dev, GFP_KERNEL, "%s", component->name_prefix);
-+	if (!mic_name)
-+		return -ENOMEM;
-+
-+	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s mic:%s-dmic", card->components,
-+					  mic_name);
-+	if (!card->components)
-+		return -ENOMEM;
-+
-+	dev_dbg(card->dev, "card->components: %s\n", card->components);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_senary_dmic_rtd_init, "SND_SOC_SDW_UTILS");
-diff --git a/sound/soc/sdw_utils/soc_sdw_senary_sdca.c b/sound/soc/sdw_utils/soc_sdw_senary_sdca.c
-new file mode 100644
-index 000000000000..8b814d803654
---- /dev/null
-+++ b/sound/soc/sdw_utils/soc_sdw_senary_sdca.c
-@@ -0,0 +1,63 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// This file incorporates work covered by the following copyright notice:
-+// Copyright (c) 2024 Intel Corporation.
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/string.h>
-+#include <linux/soundwire/sdw.h>
-+#include <linux/soundwire/sdw_type.h>
-+#include <sound/control.h>
-+#include <sound/soc.h>
-+#include <sound/soc-acpi.h>
-+#include <sound/soc-dapm.h>
-+#include <sound/soc_sdw_utils.h>
-+
-+/* dapm routes for SPK will be registered dynamically */
-+static const struct snd_soc_dapm_route sn6242_spk_map[] = {
-+	{ "Speaker", NULL, "sn6242 SPK" },
-+};
-+
-+/* Structure to map codec names to respective route arrays and sizes */
-+struct codec_route_map {
-+	const char *codec_name;
-+	const struct snd_soc_dapm_route *route_map;
-+	size_t route_size;
-+};
-+
-+/* Codec route maps array */
-+static const struct codec_route_map codec_routes[] = {
-+	{ "sn6242", sn6242_spk_map, ARRAY_SIZE(sn6242_spk_map) },
-+};
-+
-+static const struct codec_route_map *get_codec_route_map(const char *dai_name)
-+{
-+	for (size_t i = 0; i < ARRAY_SIZE(codec_routes); i++) {
-+		if (str_has_prefix(dai_name, codec_routes[i].codec_name))
-+			return &codec_routes[i];
-+	}
-+	return NULL;
-+}
-+
-+int asoc_sdw_senary_sdca_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-+	int ret;
-+
-+	/* Match by DAI name prefix (e.g. sn6242-sdca-aif2). */
-+	const struct codec_route_map *route_map = get_codec_route_map(dai->name);
-+
-+	if (!route_map) {
-+		dev_err(rtd->dev, "failed to get codec name and route map\n");
-+		return -EINVAL;
-+	}
-+
-+	/* Add routes */
-+	ret = snd_soc_dapm_add_routes(dapm, route_map->route_map, route_map->route_size);
-+	if (ret)
-+		dev_err(rtd->dev, "failed to add rt sdca spk map: %d\n", ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_senary_sdca_spk_rtd_init, "SND_SOC_SDW_UTILS");
-diff --git a/sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c b/sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c
-new file mode 100644
-index 000000000000..fcf1bd5f35fe
---- /dev/null
-+++ b/sound/soc/sdw_utils/soc_sdw_senary_sdca_jack_common.c
-@@ -0,0 +1,197 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+// This file incorporates work covered by the following copyright notice:
-+// Copyright (c) 2020 Intel Corporation
-+// Copyright (c) 2024 Advanced Micro Devices, Inc.
-+
-+#include <linux/device.h>
-+#include <linux/errno.h>
-+#include <linux/input.h>
-+#include <linux/soundwire/sdw.h>
-+#include <linux/soundwire/sdw_type.h>
-+#include <sound/control.h>
-+#include <sound/soc.h>
-+#include <sound/soc-acpi.h>
-+#include <sound/soc-dapm.h>
-+#include <sound/jack.h>
-+#include <sound/soc_sdw_utils.h>
-+
-+/*
-+ * jack_init / jack_exit / most of rtd_init follow soc_sdw_rt_sdca_jack_common.c
-+ * (same SDCA headset machine-helper pattern). Vendor-specific pieces here are
-+ * mainly the "senarytech,jd-src" property name and senary_sdca_jack_map[].
-+ *
-+ * Keep a Senary-local file for now to mirror the existing RT layout. Sharing
-+ * parameterised SDCA jack helpers in snd-soc-sdw-utils (jd-src key + common
-+ * init/exit/rtd_init boilerplate) is intentional follow-up work, out of scope
-+ * for the sn624x codec series.
-+ */
-+
-+/*
-+ * Note this MUST be called before snd_soc_register_card(), so that the props
-+ * are in place before the codec component driver's probe function parses them.
-+ */
-+static int senary_sdca_jack_add_codec_device_props(struct device *sdw_dev, unsigned long quirk)
-+{
-+	struct property_entry props[SOC_SDW_MAX_NO_PROPS] = {};
-+	struct fwnode_handle *fwnode;
-+	int ret;
-+
-+	if (!SOC_SDW_JACK_JDSRC(quirk))
-+		return 0;
-+
-+	props[0] = PROPERTY_ENTRY_U32("senarytech,jd-src", SOC_SDW_JACK_JDSRC(quirk));
-+
-+	fwnode = fwnode_create_software_node(props, NULL);
-+	if (IS_ERR(fwnode))
-+		return PTR_ERR(fwnode);
-+
-+	ret = device_add_software_node(sdw_dev, to_software_node(fwnode));
-+
-+	fwnode_handle_put(fwnode);
-+
-+	return ret;
-+}
-+
-+static const struct snd_soc_dapm_route senary_sdca_jack_map[] = {
-+	{ "Headphone", NULL, "sn6242 HP" },
-+	{ "sn6242 MIC2", NULL, "Headset Mic" },
-+};
-+
-+static struct snd_soc_jack_pin senary_sdca_jack_pins[] = {
-+	{
-+		.pin    = "Headphone",
-+		.mask   = SND_JACK_HEADPHONE,
-+	},
-+	{
-+		.pin    = "Headset Mic",
-+		.mask   = SND_JACK_MICROPHONE,
-+	},
-+};
-+
-+static const char * const need_sdca_suffix[] = {
-+	"sn6242", "sn6244", "sn6247"
-+};
-+
-+int asoc_sdw_senary_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_card *card = rtd->card;
-+	struct snd_soc_dapm_context *dapm = snd_soc_card_to_dapm(card);
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct snd_soc_component *component;
-+	struct snd_soc_jack *jack;
-+	int ret;
-+	int i;
-+
-+	component = dai->component;
-+	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+					  "%s hs:%s",
-+					  card->components, component->name_prefix);
-+	if (!card->components)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < ARRAY_SIZE(need_sdca_suffix); i++) {
-+		if (!strstr(component->name_prefix, need_sdca_suffix[i]))
-+			continue;
-+
-+		card->components = devm_kasprintf(card->dev, GFP_KERNEL,
-+						  "%s-sdca", card->components);
-+		if (!card->components)
-+			return -ENOMEM;
-+
-+		ret = snd_soc_dapm_add_routes(dapm, senary_sdca_jack_map,
-+					      ARRAY_SIZE(senary_sdca_jack_map));
-+		if (ret) {
-+			dev_err(card->dev,
-+				"senary sdca jack map addition failed: %d\n", ret);
-+			return ret;
-+		}
-+		break;
-+	}
-+
-+	if (i == ARRAY_SIZE(need_sdca_suffix)) {
-+		dev_err(card->dev, "%s is not supported\n", component->name_prefix);
-+		return -EINVAL;
-+	}
-+
-+	ret = snd_soc_card_jack_new_pins(rtd->card, "Headset Jack",
-+					 SND_JACK_HEADSET | SND_JACK_BTN_0 |
-+					 SND_JACK_BTN_1 | SND_JACK_BTN_2 |
-+					 SND_JACK_BTN_3,
-+					 &ctx->sdw_headset,
-+					 senary_sdca_jack_pins,
-+					 ARRAY_SIZE(senary_sdca_jack_pins));
-+	if (ret) {
-+		dev_err(rtd->card->dev, "Headset Jack creation failed: %d\n",
-+			ret);
-+		return ret;
-+	}
-+
-+	jack = &ctx->sdw_headset;
-+
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_1, KEY_VOICECOMMAND);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_2, KEY_VOLUMEUP);
-+	snd_jack_set_key(jack->jack, SND_JACK_BTN_3, KEY_VOLUMEDOWN);
-+
-+	ret = snd_soc_component_set_jack(component, jack, NULL);
-+
-+	if (ret)
-+		dev_err(rtd->card->dev, "Headset Jack call-back failed: %d\n",
-+			ret);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_senary_sdca_jack_rtd_init, "SND_SOC_SDW_UTILS");
-+
-+int asoc_sdw_senary_sdca_jack_exit(struct snd_soc_card *card, struct snd_soc_dai_link *dai_link)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+
-+	if (!ctx->headset_codec_dev)
-+		return 0;
-+
-+	if (!SOC_SDW_JACK_JDSRC(ctx->mc_quirk))
-+		return 0;
-+
-+	device_remove_software_node(ctx->headset_codec_dev);
-+	put_device(ctx->headset_codec_dev);
-+	ctx->headset_codec_dev = NULL;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_senary_sdca_jack_exit, "SND_SOC_SDW_UTILS");
-+
-+/*
-+ * Same control flow as asoc_sdw_rt_sdca_jack_init(); see file comment above
-+ * about deferred helper sharing in snd-soc-sdw-utils.
-+ */
-+int asoc_sdw_senary_sdca_jack_init(struct snd_soc_card *card,
-+				   struct snd_soc_dai_link *dai_links,
-+				   struct asoc_sdw_codec_info *info,
-+				   bool playback)
-+{
-+	struct asoc_sdw_mc_private *ctx = snd_soc_card_get_drvdata(card);
-+	struct device *sdw_dev;
-+	int ret;
-+
-+	/*
-+	 * Jack detection should be only initialized once for headsets since
-+	 * the playback/capture is sharing the same jack
-+	 */
-+	if (ctx->headset_codec_dev)
-+		return 0;
-+
-+	sdw_dev = bus_find_device_by_name(&sdw_bus_type, NULL, dai_links->codecs[0].name);
-+	if (!sdw_dev)
-+		return -EPROBE_DEFER;
-+
-+	ret = senary_sdca_jack_add_codec_device_props(sdw_dev, ctx->mc_quirk);
-+	if (ret < 0) {
-+		put_device(sdw_dev);
-+		return ret;
-+	}
-+	ctx->headset_codec_dev = sdw_dev;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_NS(asoc_sdw_senary_sdca_jack_init, "SND_SOC_SDW_UTILS");
-diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index d8db8fc5313e..a0c814fa4747 100644
---- a/sound/soc/sdw_utils/soc_sdw_utils.c
-+++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -17,6 +17,15 @@ static const struct snd_soc_dapm_widget generic_dmic_widgets[] = {
- 	SND_SOC_DAPM_MIC("DMIC", NULL),
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index cddbd2aa424e..2f2692cd8135 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -519,6 +519,7 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+ 	select SND_SOC_RT715_SDCA_SDW
+ 	select SND_SOC_RT721_SDCA_SDW
+ 	select SND_SOC_RT722_SDCA_SDW
++	select SND_SOC_SN624X_SDCA_SDW
+ 	select SND_SOC_RT1308_SDW
+ 	select SND_SOC_RT1308
+ 	select SND_SOC_RT1316_SDW
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index f7694b2a2b02..88bf1552be77 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -438,6 +438,65 @@ static const struct snd_soc_acpi_link_adr ptl_sdw_rt712_vb_l3_rt1320_l3[] = {
  };
  
-+/* Senary SN624x UCM uses CaptureMixerElem "Dmic"; keep separate from generic DMIC. */
-+static const struct snd_soc_dapm_widget sn624x_dmic_widgets[] = {
-+	SND_SOC_DAPM_MIC("Dmic", NULL),
+ /* this table is used when there is no I2S codec present */
++
++/*
++ * Senary SN624x: one multi-function device on link 3. Separate mach entries
++ * per part ID (adr_d[] is AND, not OR). ADR version nibble 0x3 matches the
++ * silicon SoundWire version. Amp endpoint is aggregated like the generic
++ * SOC_SDW_DAI_TYPE_AMP shape from find_acpi_adr_device().
++ */
++static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
++	/* Jack */
++	{
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	/* Amp */
++	{
++		.num = 1,
++		.aggregated = 1,
++		.group_position = 1,
++		.group_id = 1,
++	},
++	/* DMIC */
++	{
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
 +};
 +
-+static const struct snd_kcontrol_new sn624x_dmic_controls[] = {
-+	SOC_DAPM_PIN_SWITCH("Dmic"),
-+};
++#define SN624X_PTL_SINGLE_ADR(_sym, _adr)				\
++static const struct snd_soc_acpi_adr_device _sym[] = {			\
++	{								\
++		.adr = (_adr),						\
++		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),		\
++		.endpoints = sn624x_endpoints,				\
++		.name_prefix = "sn6242",				\
++	},								\
++}
 +
- static const struct snd_soc_dapm_widget generic_jack_widgets[] = {
- 	SND_SOC_DAPM_HP("Headphone", NULL),
- 	SND_SOC_DAPM_MIC("Headset Mic", NULL),
-@@ -1228,6 +1237,163 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		},
- 		.dai_num = 1,
++#define SN624X_PTL_LINK(_sym, _adr_arr)					\
++static const struct snd_soc_acpi_link_adr _sym[] = {			\
++	{								\
++		.mask = BIT(3),						\
++		.num_adr = ARRAY_SIZE(_adr_arr),			\
++		.adr_d = _adr_arr,					\
++	},								\
++	{}								\
++}
++
++SN624X_PTL_SINGLE_ADR(sn6242_single_adr, 0x0003300496624201ull);
++SN624X_PTL_SINGLE_ADR(sn6244_single_adr, 0x0003300496624401ull);
++SN624X_PTL_SINGLE_ADR(sn6247_single_adr, 0x0003300496624701ull);
++
++SN624X_PTL_LINK(ptl_link_sn6242, sn6242_single_adr);
++SN624X_PTL_LINK(ptl_link_sn6244, sn6244_single_adr);
++SN624X_PTL_LINK(ptl_link_sn6247, sn6247_single_adr);
++
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ /* Order Priority: mockup > most links > most bit link-mask > alphabetical */
+ 	{
+@@ -531,6 +590,28 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l3.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
  	},
-+	/*
-+	 * Senary SN6242/6244/6247: same SDCA jack/amp/mic topology; only part_id
-+	 * differs. name_prefix stays "sn6242" for UCM/DAI naming.
-+	 */
++
 +	{
-+		.vendor_id = 0x0496,
-+		.part_id = 0x6244,
-+		.name_prefix = "sn6242",
-+		.ignore_internal_dmic = true,
-+		.dais = {
-+			{
-+				.direction = {true, true},
-+				.dai_name = "sn6242-sdca-aif",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.init = asoc_sdw_senary_sdca_jack_init,
-+				.exit = asoc_sdw_senary_sdca_jack_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {true, false},
-+				.dai_name = "sn6242-sdca-aif2",
-+				.component_name = "sn6242",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_senary_amp_init,
-+				.exit = asoc_sdw_senary_amp_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+				.quirk = SOC_SDW_CODEC_SPKR,
-+				.quirk_exclude = true,
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "sn6242-sdca-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
-+				.widgets = sn624x_dmic_widgets,
-+				.num_widgets = ARRAY_SIZE(sn624x_dmic_widgets),
-+				.controls = sn624x_dmic_controls,
-+				.num_controls = ARRAY_SIZE(sn624x_dmic_controls),
-+				.quirk = SOC_SDW_CODEC_MIC,
-+				.quirk_exclude = true,
-+			},
-+		},
-+		.dai_num = 3,
++		.link_mask = BIT(3),
++		.links = ptl_link_sn6242,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
 +	},
 +	{
-+		.vendor_id = 0x0496,
-+		.part_id = 0x6247,
-+		.name_prefix = "sn6242",
-+		.ignore_internal_dmic = true,
-+		.dais = {
-+			{
-+				.direction = {true, true},
-+				.dai_name = "sn6242-sdca-aif",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.init = asoc_sdw_senary_sdca_jack_init,
-+				.exit = asoc_sdw_senary_sdca_jack_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {true, false},
-+				.dai_name = "sn6242-sdca-aif2",
-+				.component_name = "sn6242",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_senary_amp_init,
-+				.exit = asoc_sdw_senary_amp_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+				.quirk = SOC_SDW_CODEC_SPKR,
-+				.quirk_exclude = true,
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "sn6242-sdca-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
-+				.widgets = sn624x_dmic_widgets,
-+				.num_widgets = ARRAY_SIZE(sn624x_dmic_widgets),
-+				.controls = sn624x_dmic_controls,
-+				.num_controls = ARRAY_SIZE(sn624x_dmic_controls),
-+				.quirk = SOC_SDW_CODEC_MIC,
-+				.quirk_exclude = true,
-+			},
-+		},
-+		.dai_num = 3,
++		.link_mask = BIT(3),
++		.links = ptl_link_sn6244,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
 +	},
 +	{
-+		.vendor_id = 0x0496,
-+		.part_id = 0x6242,
-+		.name_prefix = "sn6242",
-+		.ignore_internal_dmic = true,
-+		.dais = {
-+			{
-+				.direction = {true, true},
-+				.dai_name = "sn6242-sdca-aif",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.init = asoc_sdw_senary_sdca_jack_init,
-+				.exit = asoc_sdw_senary_sdca_jack_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_jack_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {true, false},
-+				.dai_name = "sn6242-sdca-aif2",
-+				.component_name = "sn6242",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_senary_amp_init,
-+				.exit = asoc_sdw_senary_amp_exit,
-+				.rtd_init = asoc_sdw_senary_sdca_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+				.quirk = SOC_SDW_CODEC_SPKR,
-+				.quirk_exclude = true,
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "sn6242-sdca-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_senary_dmic_rtd_init,
-+				.widgets = sn624x_dmic_widgets,
-+				.num_widgets = ARRAY_SIZE(sn624x_dmic_widgets),
-+				.controls = sn624x_dmic_controls,
-+				.num_controls = ARRAY_SIZE(sn624x_dmic_controls),
-+				.quirk = SOC_SDW_CODEC_MIC,
-+				.quirk_exclude = true,
-+			},
-+		},
-+		.dai_num = 3,
++		.link_mask = BIT(3),
++		.links = ptl_link_sn6247,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
 +	},
+ 	{},
  };
- EXPORT_SYMBOL_NS(codec_info_list, "SND_SOC_SDW_UTILS");
- 
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_ptl_sdw_machines);
 -- 
 2.47.3
 
