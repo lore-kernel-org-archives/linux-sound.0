@@ -1,48 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA933559F2;
-	Wed, 12 Aug 2026 16:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BF13911A2;
+	Wed, 12 Aug 2026 16:29:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786552194; cv=none; b=SNUuKJHHGyo5MRIfWJdqBFkKWO7RrSxLHaj3gBi9/j9zcojYpIz7Bc71JW4mCz7Zzc4+EAAKmiftA8MdYNwupXEgQePeco4U/LBwvXZWkA/Z1rD7gwBTK5Ymt+u4D9oRVh+Dk89KuzOG3dUYeJMkwMKWrXzi8w6e35PctLPOLj0=
+	t=1786552201; cv=none; b=b5qhckycWcMXX/WbG6yw3tG2BErbY4o4Pnvjwoz7/ORmwrOw42iJDLQs50R9ep9Z1j8cJQfX5KdbMrylidyNmLKLuxs/OzW1W0la0/Ea8F75VIXQdk6l/Oc2Buq0YspAegjtO+n9v8kNjR2SyD/RgeKFcS9rMJAhRCnhrGmedHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786552194; c=relaxed/simple;
-	bh=MT18v+ha+HkzIJC/NekGYwRqEGwucKF7dVPPoYtWp2A=;
+	s=arc-20240116; t=1786552201; c=relaxed/simple;
+	bh=wnZ3dwLi2v71HRTnl19XP230YuzHDG2xlcwtpxnEExM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=vGeV+fGQB4oS3MOp80Glf4D2Q8g/lssGCsgdI8rxx61HwFwKREUbrxxMf6g4+h5ZZHlVKwXs/wysgJE9DLFvbw8dcpjyHZmcz8kxIJs5ZmysTtrNkosaPlI2Y8RLRWNf1AhauqSAiLwPr0EWicc0PjNrFraNwzLkOwiu1yeCdlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gl2Bi6uq; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=PkUiJ3xCEvrXpVv5OEi3kVk59G41lQP2hDZvBK3XbyN+mbQ39V1xYsd6TbKZDPlUzEtbEaalnsFta6nevlciDrlOxV788xJT4GbljBLoMOYd2C7xlCG2HZLE62emKQ+Z64uJ3N4Ia2aNr/aM4Y2t2TutGRUgBex+KVQoirPpWOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNhQdhHT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gl2Bi6uq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A38701F00A3A;
-	Wed, 12 Aug 2026 16:29:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNhQdhHT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872DC1F000E9;
+	Wed, 12 Aug 2026 16:29:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786552193;
-	bh=ZCmtgrPC/f0hYkTP7TdiXskrcM1SzWnvzy+FRHz8lAQ=;
+	s=k20260515; t=1786552199;
+	bh=6UWAE3YyH4XKWS1i6AZYOVl03Cz627Sq6U1AvRQjmsE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Gl2Bi6uqPqSh3ErW8FhDarMIWxj4IWminQd2NrfVA1fR0+TqBbw1VscEVGR7p2Xnu
-	 FfNTysra9ZoybrrtYlKc+vOF4jVOHQnH2v7oy5Y96lsj8waF0Oqrx829pKjsnmbxC+
-	 vwzz1Snp+iPrNk80TIh/5bTPqKPtTNMqoejaivgUJC4utVu9asyfzLrolOOM02CBid
-	 72WJvk4vDDU4MCz4pusOmNDO233NkY3mUJDT9Ry9YA1d+XOuRMlG8lVuQJwG7ZBSI8
-	 /SSEmzXooBzw3DLEP76cohm4vcGq6PtHqeCxcrRAKVkeoyEJrf4KxfXJEv35Kf3cXL
-	 Hjy2SKq3DNwSg==
+	b=WNhQdhHTGn/2BWrRfPpoU56S8XSJbzUreg0GvIRj2hNGf+zrjdFJIt1CeFWvXq/C6
+	 vStJ4AtGZJgfjzDi2nDHpuK30NYEbROkGQZFm2aKy9z9fnfzbu8b+WhT3DYRSLg7zt
+	 Ip5b1S12GLpE5z5mGSvshS6GdagcT1jlmfoFYncuqcYPd3u9+Bz3U0gQg2eoEiirI2
+	 5/jd2nbK6AsylTrsE4hoAfLRsqMhd9AJcF5+Itj8eTOVVFgv8gEiDNOTVYo8BL2bYZ
+	 UCCL0zoKTttdVEkYMbwquf+7e/0hJJA0eufA+yqu+khfmh1OhdUnu3WSrbtgkXmuRy
+	 h5w86XCDPwisg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
- Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
- Matteo Martelli <matteomartelli3@gmail.com>, 
- Binbin Zhou <zhoubinbin@loongson.cn>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Hongyang Zhao <hongyang.zhao@thundersoft.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Roger Shimizu <rosh@debian.org>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260812-es8316-regulator-next-20260722-v2-0-e7078bc9bc9c@thundersoft.com>
-References: <20260812-es8316-regulator-next-20260722-v2-0-e7078bc9bc9c@thundersoft.com>
-Subject: Re: [PATCH v2 0/2] ASoC: es8316: Add regulator support
-Message-Id: <178653178735.8393.6600060408725965146.b4-ty@b4>
-Date: Wed, 12 Aug 2026 11:49:47 +0100
+To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org
+In-Reply-To: <20260811042424.66882-1-rosenp@gmail.com>
+References: <20260811042424.66882-1-rosenp@gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt8365: use
+ devm_platform_ioremap_resource helpers
+Message-Id: <178655027936.8393.11056539340382876563.b4-ty@b4>
+Date: Wed, 12 Aug 2026 16:57:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,30 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1653; i=broonie@kernel.org;
- h=from:subject:message-id; bh=MT18v+ha+HkzIJC/NekGYwRqEGwucKF7dVPPoYtWp2A=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqfJ98M9yKrT5g2V3cqTnWYG/N2tHExJlWQerP9
- zLR1TSI5c+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanyffAAKCRAk1otyXVSH
- 0EHXB/9b23Y1AG0sGE1GAm8VN0GnWsLAS1eieGIItJLkJo9nMleYkab5Nsgn6cdVOff7N7zLwld
- iKF9AZcgigswT96Qf2bY1kX73ci1/TBQxbzSQXrBu0OAVBlNCCJyUezVhsB8Yg4VQSENih8eCr6
- SaUUnxZKq1gEWd4XSPw+3tTO6mrXTxIdzskYOPFoxAFJ0m3fAs6Jq3va8f5zTlRT9iBy6RSodar
- 3GmGJYHBf0udxTYnIJAC5Xwg3F9MRIXkXoG/h4nx864MB80gvmxh/FA9VTjEsa+xBRyoZnI6dAp
- HtA8D1QYZS8jXxbNUuLfineAIqjmr3mUrXbTkSswc2Uky7Qs
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=wnZ3dwLi2v71HRTnl19XP230YuzHDG2xlcwtpxnEExM=;
+ b=owEBbAGT/pANAwAKASTWi3JdVIfQAcsmYgBqfJ+D9IUcUTa8aN8BdfJR70JuBC1nerzCrNVN6
+ XUamXYxiz6JATIEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanyfgwAKCRAk1otyXVSH
+ 0FkqB/jelPTFXsIwlc/UGyL5aieoa3lN30k90fSwHzywnFlnuY210O1mo+m8hKrYtKS4Cc3iieZ
+ mHiwU7BOnjCrOk76enRTLa4e0kSpoecdQQMzP9wUdn458s7wVnX/JWyVw3TAbQtMpjIryegKZWw
+ VRuL04lh99OyDVuDPEgLOdIqql19Lh+aVgKZJoX99WsWZjKwxjLtFFI9S+EX0dVg2bKE+Rj21Ns
+ BPG9k8GQzLv13WONqLDk3k5PSSXAJN8WBSz20LA90G6x3h5nGdGDdXEsrKZCDi/NylmkZoiotnz
+ OJMxpq1fAjqdlvb4GaULRDvvppFfdYCrYGtsVgjZpNmuuPE=
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 12 Aug 2026 17:35:42 +0800, Hongyang Zhao wrote:
-> ASoC: es8316: Add regulator support
-> 
-> Add regulator support for the four ES8316 power domains so board
-> descriptions can model and control the codec supplies.
-> 
-> The binding patch documents AVDD, CPVDD, DVDD and PVDD as optional
-> supplies for ES8316, preserving compatibility with existing device-tree
-> descriptions. The driver patch enables the supplies before initializing
-> the regmap and keeps them enabled for the lifetime of the I2C device.
-> 
-> [...]
+On Mon, 10 Aug 2026 21:24:24 -0700, Rosen Penev wrote:
+> ASoC: mediatek: mt8365: use devm_platform_ioremap_resource helpers
 
 Applied to
 
@@ -83,10 +69,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: dt-bindings: es8316: Add regulator supplies
-      https://git.kernel.org/broonie/sound/c/e9966d450b46
-[2/2] ASoC: codecs: es8316: Add regulator support
-      https://git.kernel.org/broonie/sound/c/c60279912ef0
+[1/1] ASoC: mediatek: mt8365: use devm_platform_ioremap_resource helpers
+      https://git.kernel.org/broonie/sound/c/3d7fb01b36aa
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
