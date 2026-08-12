@@ -1,173 +1,192 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013034.outbound.protection.outlook.com [52.101.83.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDFB30F924;
-	Wed, 12 Aug 2026 13:48:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786542491; cv=fail; b=Rutj4KZmi2VmvF7G6OVB3g0o8LXoit6h0kUiF31UJ6IP9X/itM5Kf+39BxzKUyL3JQMYsAuyLbYJ+wlyjJVT+a3n+a15daOaicVgihItQ7+fuUIqQDGP5WALQ/ofE9UFoqnDVVjk2rCgpEnyPRuj1ijuCcOh8MBX6WLLrArAw58=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786542491; c=relaxed/simple;
-	bh=smvDnx1mILHq9Lx99HsLDFypQHjEpx1OBEuKXGHzyEw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UknjcnDaeYKuL5fdrB1nHgfmgUEyru5QqPjRQeH9DI8OUpj4MVrfBgmKqsBBvc6tkjJ7PzRjkhbmYzPjC4d5+IojXbwQlsAUVoT1vJI9+DRJMtMDHUXN5e83sfLlGIsnwdYI1vKgQrHHT8JeuglhJ/TrkUrQ6bicUR5+nf+rhLM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=P1U8Ql44; arc=fail smtp.client-ip=52.101.83.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C8126E165;
+	Wed, 12 Aug 2026 13:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786542854; cv=none; b=bkcpQftTm+v1uK6pJvqO2F6G7MSCJQDQ865+uDPfm9j+DroQs+8FQ9n/VjIEFswPTpdVkASou2jcVWNOSEzsv66VThp3xM3J8XtvOKG+Iy7mu9zZZrM14F9WH9HyxCg6NussudD/4nh7tTMZ9V+b7j/+SfqYqoOduWj+bjfIi5o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786542854; c=relaxed/simple;
+	bh=mBnIiEmkKneT62JG4vIBGxcQcicA5EMxhdXYQdimMeI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZXp1KlOvBDDDaqNIlqLZsbiN8dQNsuoysAROOCUEpKsTA6Gt61BrS2IXD65ImkeqFR9X9pewMLNYagTZ4cpmAsoQHzGM1FFoDkTKcyg0O4/Tl11+Ty7jDjSCf/nq/oA6YRsoxh5setn6t49JA/s2ScojVko5PuQa/pSn5XbfpHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Cc02pna2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lKJo1p7J; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EI87GtyM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YsWhsfJY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="P1U8Ql44"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Utjb1jHoMtcTeSDhgRKqys69k8kljT3faKm3TW5RI4KMjj4M54rKzIttiLpSyCmVyoMUgL/NGY3mJNz9aWK5xZLmso3PYi3o2mObVea+8qOeMaCy7qyKWQeK1ZHpmdPmFem3WX1xQBSCOz9lj1KM82qw+M9Ynzn59OeTY4JRguzlDyn86VkYS0NAy12pVDiROV6yzLAlSCnZuL16AfnKYBnUouv775zPqFk8vdFtEvBoupmGJ1ovSmSl+3gIxmWNAe0kho2kVAL1GWoC5Tot8kWX0oquZIynj1b7SPBLfC16K6ps+dLHZHddZ5plBcN0KViU0btYniH93Eg4bMIDUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YRGYRnn4G6Xd46W0JiSdcI04D+BrCSPSG17YMGfRxhM=;
- b=LV51HNpQ8bfnDWnSYxergiMEq7jj3km1GDyBKEsecfMbp8cQ6kU7xkxkGrLksmEhGVRgewfP7kQhGKHCjqIiql6WBhW+ycLtj6wTrksmORXBVxA8CEN7UglIHT4SBP6OR7r+MK1P2bFhmReCMbKOYSNDD51OuIxNudvkxdasgU3Nsi4krME42nuNRVxX476i142TJsjT1K2PSOGkq6L0Rhmerreo3MwgGj/o5MKU7tKTuMi5yMytox9fXOy0ls6nNZhVN3ZyCVDpHi2qOMwVJjAt2K9Ck1HbMn7WoVxx13erBMvkCjF5CwunquI5BF/eyvdzJzgSyM9hZC6iDM4sEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YRGYRnn4G6Xd46W0JiSdcI04D+BrCSPSG17YMGfRxhM=;
- b=P1U8Ql44QnUB70QAGUIwn7npJURSTgmPHT4JuFEjf5la0xfAsHYWFGGzYkw9PVtW8xjBCzSEpjlBeKud+8sHvle1OJ2XPFrOc691NTj41C54t/fYAW35dnz2WKfIggMQbe+YF6wTAKS6lULXQJHx5oMXYsDN6cA3wjQmiWEj8qqkw5RIW9pgPufS6+2N0bS5VQzCUWEzPRaHSF7DOQng4YGRjtVOHSVSsPwaCflOIigiG3oEeS0fncNqsIL6ExtO7Q7zKUT7lWW3LIiOpvnivjWQDwnRhBHKZqxUuPf9mYQ6IfJrtRchBAZVvvc6Vs5pedCZKW41n/iS0SZgmZ0FHg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com (2603:10a6:150:2c6::8)
- by GVXPR04MB10234.eurprd04.prod.outlook.com (2603:10a6:150:1c1::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Wed, 12 Aug
- 2026 13:48:05 +0000
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4]) by GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4%5]) with mapi id 15.21.0292.024; Wed, 12 Aug 2026
- 13:48:05 +0000
-Message-ID: <30ffea19-e2d6-401c-ad42-54a2de2f52ec@oss.nxp.com>
-Date: Wed, 12 Aug 2026 16:51:36 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] ASoC: mxs-sgtl5000: Drop redundant probe error
- messages
-To: phucduc.bui@gmail.com, Frank Li <Frank.Li@nxp.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>,
- Michael Trimarchi <michael@amarulasolutions.com>,
- Dario Binacchi <dario.binacchi@amarulasolutions.com>, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260812101418.37966-1-phucduc.bui@gmail.com>
- <20260812101418.37966-4-phucduc.bui@gmail.com>
-Content-Language: en-US
-From: Daniel Baluta <daniel.baluta@oss.nxp.com>
-In-Reply-To: <20260812101418.37966-4-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0034.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5dd::12) To GVXPR04MB12316.eurprd04.prod.outlook.com
- (2603:10a6:150:2c6::8)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Cc02pna2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lKJo1p7J";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EI87GtyM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YsWhsfJY"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 34A8A822F3;
+	Wed, 12 Aug 2026 13:54:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786542846; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dcTsi9mTEu/AweH+B/eF0oCGDKGYVPBNZGrykR66RMk=;
+	b=Cc02pna2wy+wF3esksu7cnKMuQu1KzM27lJ3z/lCxdqz8Hi15jqn6USxoVVKGsa1pyZJGY
+	6xxKJ9ZeHC8LH0A0q4Ut3rqdecziJdvI+kVPPJl7NMedlWkeC5I5eC7Deeqf5Lm4gCt0O1
+	c/ZDzNHyPO3xob+bAU3jqRsRcO5WDUk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786542846;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dcTsi9mTEu/AweH+B/eF0oCGDKGYVPBNZGrykR66RMk=;
+	b=lKJo1p7JpRBx3HBJydkEemscHVYl3ohOMSBQ+KS4V4M6qCa7kgeQd3t/t5iREWy6dDaA/E
+	NZtcOc41maCIJ2Cg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786542842; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dcTsi9mTEu/AweH+B/eF0oCGDKGYVPBNZGrykR66RMk=;
+	b=EI87GtyMcEH1bvWHzroG+knQ+uc5lJYV3k8q2zU5cvkQo90qaLUrkcPB3SB/N665Cl1WHw
+	HYpSX5GyuDK38q2T8RKqOsVXrGOziJuAP6eOzpiYq4mSuUzRksdPUEYLtxmbS5fLW2j9NX
+	Th/iPSp6dcF2ZVngvaRpUatwRQCPbP0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786542842;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dcTsi9mTEu/AweH+B/eF0oCGDKGYVPBNZGrykR66RMk=;
+	b=YsWhsfJY5Ho2SMFvwS+uH5CkdOIvogrWUAsEeXGWULb99UDuTS+SvP/gnQvx83/iPz9mKj
+	ijoqk92VeenLjVAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2232779B1;
+	Wed, 12 Aug 2026 13:54:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id dnWrMvl6fGpUfAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 13:54:01 +0000
+Date: Wed, 12 Aug 2026 15:53:57 +0200
+Message-ID: <87ik5fzbpm.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andre Eikmeyer <dev@deq.rocks>
+Cc: platform-driver-x86@vger.kernel.org,	amd-gfx@lists.freedesktop.org,
+	linux-sound@vger.kernel.org,	Atharva Tiwari
+ <atharvatiwarilinuxdev@gmail.com>,	Hans de Goede <hansg@kernel.org>,	Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Alex Deucher
+ <alexander.deucher@amd.com>,	Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,	David Airlie <airlied@gmail.com>,	Simona Vetter
+ <simona@ffwll.ch>,	Kenneth Feng <kenneth.feng@amd.com>,	Jaroslav Kysela
+ <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org,	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] ALSA: hda: allow direct complete with a powered-off GPU
+In-Reply-To: <87mrurzc3s.wl-tiwai@suse.de>
+References: <20260812122206.193680-1-dev@deq.rocks>
+	<20260812122206.193680-4-dev@deq.rocks>
+	<87mrurzc3s.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12316:EE_|GVXPR04MB10234:EE_
-X-MS-Office365-Filtering-Correlation-Id: e77a1c39-074f-4234-417d-08def8785604
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|19092799006|7416014|376014|56012099006|10067099003|6133799003|18002099003|22082099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	Whh5MlTwaI0wgwTt1xYcF0n3UmxSOYX/YYBSJJMVGXEFxII2y2JWR86TkhL7pbcGMPHvUXSJS+S/iZohMtYXPqUvVqdcy02FG8l0RVudRHZBXAKVpNiPHCnvzlXOo04erz4ctut9sVgvt4B6h3X2KBCTW54hvyr+OnzpXdcAj6q8jcKxf6TSfUaoSLen9UnkOPAafnK7g35weOoHnKHl5PmCSWxslM0k9OFkhlbkg+5WkWgg3t/kQ2OYyC1DyjjIg3GtCUQKhzObKmWY6DRIX/eEincO84klEX+nqksj0UmqzDvCsTwc0Gnq0LD8FVhn6bzXAsNeHnC1eWgK5ucCw7BRp768p+DHh6VcJcLzz4AEoj2/NmLjNOzd5Rbx2BTv9fgKwNpZhrGewv5j80mBdloS7ddN8p13TK1MPOFBC8wP+3qFiBo6NLcjV71BnISAxIBbbAhybIWClBgncyJVaF1r+ir1bw60bKrw/nRf6IJPzscFF9A5DWkcD6bkoXvEtpXCed7bGIamync6Rn6C9UorKHQsXFxP8L2jD9a5mz83am3a/HD+k4K9ACYp4YK0L+aw+3US1olXBw/tqQJn9IHvIqrRq2BIh7L1Llqwd7o3jTN00b9JBRNdDUoUhsrvIFl5kk9SaLvG2xUyTy46CE7HQS6ZvDkuDTzFUrmuqVo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(19092799006)(7416014)(376014)(56012099006)(10067099003)(6133799003)(18002099003)(22082099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MEl2Q3pmbmVCRnNGVHJ2d1VMNWNSMTk3a1hCS0thR2t5OEVmYk8rQStvNi9F?=
- =?utf-8?B?ZTYwMVNpcmdmNkxSN1d0RllZNzAxRmViSmw4eVg0OVNSQmNzQzJiQm84eHVx?=
- =?utf-8?B?MTFGWC9zSEw4aGwrYXZWQjdpbjZBMDhZU1M4eU5CM1BZMVdLVi9qajBiNEdu?=
- =?utf-8?B?UDhCZWdjV3BabFlYYUNhNU9VdEZkekxjTG5MWUNmT0tKSTRZbGlwaWliMFVq?=
- =?utf-8?B?T3RHcklyN0tuZ0tMZDFwK1Y1NS9TZ2tRalRZREhseG5LSHF6dUZPdjRCbW9y?=
- =?utf-8?B?cGxOZkVqZTJEQkhDTW12RjRZdHh6d2dqSFIwakp6WG0xQ2JFejdiaGVTZHJo?=
- =?utf-8?B?Y0NyV3RadzVrczZabjRMMTBzU1RrdjA5SEhzQ2RER1JvRmluWU03VmFGUTAw?=
- =?utf-8?B?SzhZUnlMcFhpS3B6Q1dTaE5vTzZCNnVua3FBN1dVWHJaMmxsWklMbzMwQXFH?=
- =?utf-8?B?bFpscWVJN1NUbEtPSXFkekl6TWx3Vm9VNEE1VEJ4dUdyWU8vNTdLME9RU1Rm?=
- =?utf-8?B?VE5KQTVQL0d2OVk3RHd2bWJlZzdFa0lxUGQ2MWRXTFN5MWFZS3laY2F1U0Jx?=
- =?utf-8?B?STYydFdTdTg5TmdJRFRLd3NXTGRpVys2cHF0dWJrZlA3cXRsbmdQVkNMbHFX?=
- =?utf-8?B?NklMWDl0OThuK0x1OVp5VGtPakY0OFkyRXEya3VRNFZZQVkxbWZveUVDQURw?=
- =?utf-8?B?V1VqeUZZeFA1NHQ4c0EwQm1ObE1TZU1HYU11MDZtTTRWU0VnZmNvcXJHYUht?=
- =?utf-8?B?aXFCWkIybGQ2M0ZETm9JbGNFbE5KZ0Y0U2dHYWs0VE9kbzdlUm5XdWtPNlZ3?=
- =?utf-8?B?R1h2bjJCNlFoT1U1dkhVMmVwelZwdU1uSGx3d0RNM0hTMStMOHJiek41eGYw?=
- =?utf-8?B?bFc0ZWx0Z3RzdTVQWEZVZG5IN3BlZG45dFFMNUVYU2JhS2V4SDY5OHg4cGZu?=
- =?utf-8?B?MWZyUDU0eHY0ajRUcUd6UTlFK2dwTmU0QlMrSTJHeEtPN3I5ZDdPRW9PdGYr?=
- =?utf-8?B?NGNQaTZIWHZsa1VGVkUvdWU5OGcxNitsS3hLL0hZMXk2MTlRSkhGcDQ3VEhw?=
- =?utf-8?B?dmtKZ1llQ2xGTWxoK2VxSE8zV0thYVVCN2p2SlQ2OXdqZ3FtWUNGajZ3cDZq?=
- =?utf-8?B?bFhYV2VzdWIzajkyZGJ6MjFlS0NtVVltSFFDMEkvRUd4U1ZjMVBoSUd1eFdh?=
- =?utf-8?B?c0RwalprTDdTNW5qK015S2h2a1lwMVhwWWJFMjNjVkNWZnduSUdEb0FCOHJI?=
- =?utf-8?B?K0l4ZDllNkd1ZkZtMjdrQ3FXMjRiOUIrdHhDeEtmV1Mzbm5rSGNrNGJZb0Z0?=
- =?utf-8?B?bmVTUXU5VlRRQ3RVb0x0VHNFTFhYU096NkxDNUwreXpCTjd1QVkzMmJPckxw?=
- =?utf-8?B?YkpSY0RHQ3hKalhIemVrd2NmU0JZMEU5Vkc5cTRVRXh6dUlOUFFqSkJpRnox?=
- =?utf-8?B?dC8xRlZOeDRDaVc5NE1FamVMTFJjUnhPQUhzL3JvUCszOVdCcjdPN2pkRHpG?=
- =?utf-8?B?UFR6OTAxalUya3ZFak1scW44Uk0yZlIrcXhJWjIzRFIzVnV6TmMxY0p1SFhO?=
- =?utf-8?B?UFd6UTNTdW1JUW1TdkJVajJnUGtISS9mTE0wMWJ4dVdMblBBaHZsVVFqN1BK?=
- =?utf-8?B?bmxkUHZhOGdKaW1JeXB6c1JIdU52MGtrTzg5bllqRmgvaWxNYi83ZjgzelFT?=
- =?utf-8?B?MmJuNzY2SC9najZKUkR5bHhhUzRJSm9OOXZ2bFgzRTRrc3U0cy9LYWhXT2c3?=
- =?utf-8?B?dmtldjZQNTNNaTExMHpxWmhwSHZCNnYvMm1jcDUwRjF1d2lsWitKZ3NhZnlR?=
- =?utf-8?B?TFF2S0tnNjVvS3kwSW1JMXAydGtGT2ptMGJwM2UwMlhJRmZENDJMUWhTWDl5?=
- =?utf-8?B?QzFuUmR6K2dUTUNEQStVWWF5T1BXUkVhbms1dWg5NTc3TG5LVmdKbnJYMHk4?=
- =?utf-8?B?eFdTZkhmVElSZUFXS2hJOWhUekZtdkJ1Q3hEdGsyWFdDOEF6dm9sMDEwMW9q?=
- =?utf-8?B?b01Wc2MyT2dzZkxjTThNOS81N09lVVN1TE0vK0FCMGlxc0VFNjJJa1c4aFZV?=
- =?utf-8?B?TVQybG1pWE9GTGczMktMa2cvb1hjL1Jlc2Z6K29Jb2E0bmg4OURjYU5VU2Rs?=
- =?utf-8?B?dXZJdDYvSCtJQjlsN3VHUUMzZHdiSWdna2ZsVzFhcXVyZTc1Y0RWemRJTnJr?=
- =?utf-8?B?cFVHWCt4U1hIa0lDS3lNcXJzdkRaR3dVbCt5NDN5V0hUOEhjd3EwWFNsTm56?=
- =?utf-8?B?YW5CQWYwaHc2WktQcHRtRnRTbU41d3Y3ajBhWHlWb2haSHNpTnVmQ1V1OGpM?=
- =?utf-8?B?Nm1nd0dRUWtsOG5VZE9oMTBiSVhMNk5mWDhpb3ZVWEFVWG8vcUpjdz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e77a1c39-074f-4234-417d-08def8785604
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12316.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 13:48:05.7436
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ckPk55oL4rThazG8Y+3fb88GpXIPZs3iRdZH7I1ULeSkLaGw4yDAYYg1ld7BgKSjhcbzi3wmWZUHvo1yoG/3dg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10234
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmail.com,kernel.org,linux.intel.com,amd.com,ffwll.ch,perex.cz,suse.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
 
-On 8/12/26 13:14, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
+On Wed, 12 Aug 2026 15:45:27 +0200,
+Takashi Iwai wrote:
 > 
-> Remove the probe error messages to avoid duplicate error reporting,
-> since the error is already reported by the called functions.
+> On Wed, 12 Aug 2026 14:22:06 +0200,
+> Andre Eikmeyer wrote:
+> > 
+> > +static bool azx_vga_is_powered_off(struct azx *chip)
+> > +{
+> > +#ifdef SUPPORT_VGA_SWITCHEROO
+> > +	struct pci_dev *pci;
+> > +	bool powered_off = false;
+> > +
+> > +	if (!use_vga_switcheroo(container_of(chip, struct hda_intel, chip)))
+> > +		return false;
+> > +
+> > +	pci = get_bound_vga(chip->pci);
+> > +	if (pci) {
+> > +		powered_off = pm_runtime_suspended(&pci->dev) &&
+> > +			vga_switcheroo_get_client_state(pci) == VGA_SWITCHEROO_OFF;
+> > +		pci_dev_put(pci);
+> > +	}
+> > +
+> > +	return powered_off;
+> > +#else
+> > +	return false;
+> > +#endif
+> > +}
 > 
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-
-This looks to be OK. Indeed at various points snd_soc_of_parse_audio_routing prints
-an error message if it gets into trouble.
-
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
-
-> ---
-
->  sound/soc/mxs/mxs-sgtl5000.c | 2 --
->  1 file changed, 2 deletions(-)
+> This ifdef can be moved to the caller side below...
 > 
-> diff --git a/sound/soc/mxs/mxs-sgtl5000.c b/sound/soc/mxs/mxs-sgtl5000.c
-> index f1c0e612313d..a253a48ca59c 100644
-> --- a/sound/soc/mxs/mxs-sgtl5000.c
-> +++ b/sound/soc/mxs/mxs-sgtl5000.c
-> @@ -155,8 +155,6 @@ static int mxs_sgtl5000_probe(struct platform_device *pdev)
->  
->  		ret = snd_soc_of_parse_audio_routing(card, "audio-routing");
->  		if (ret) {
-> -			dev_err(&pdev->dev, "failed to parse audio-routing (%d)\n",
-> -				ret);
->  			mxs_saif_put_mclk(0);
->  			return ret;
->  		}
+> > +
+> >  static int azx_prepare(struct device *dev)
+> >  {
+> >  	struct snd_card *card = dev_get_drvdata(dev);
+> > @@ -1025,6 +1048,10 @@ static int azx_prepare(struct device *dev)
+> >  		return 0;
+> >  
+> >  	chip = card->private_data;
+> > +	/* A powered-off dGPU cannot signal HDA wake events. */
+> > +	if (azx_vga_is_powered_off(chip))
+> > +		return 1;
+> > +
+> 
+> ... to wrap the call site, instead.  Since this is the only caller,
+> having the conditional here would make the intention clearer.
 
+Looking at the code again, this won't work well.
+
+But, keeping vga_switcheroo-specific code in a single place would be
+still meaningful.  So,
+
+ #ifdef SUPPORT_VGA_SWITCHEROO
+ #define use_vga_switcheroo(chip)	((chip)->use_vga_switcheroo)
+ #define needs_eld_notify_link(chip)	((chip)->bus.keep_power)
++static bool azx_vga_is_powered_off(struct azx *chip);
+ #else
+ #define use_vga_switcheroo(chip)	0
+ #define needs_eld_notify_link(chip)	false
++#define azx_vga_is_powered_off(chip)	false
+ #endif
+
+and then define azx_vga_is_powered_off() in the section for
+vga_switcheroo code.
+
+In anyway, it's a matter of taste, and if the resultant patch doesn't
+look better, you can keep the original way, too.
+
+
+thanks,
+
+Takashi
