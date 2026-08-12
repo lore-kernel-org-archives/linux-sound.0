@@ -1,152 +1,77 @@
-Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249044519A2;
-	Wed, 12 Aug 2026 14:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31183EF0C2
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 14:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786543438; cv=none; b=PkOL9/PKtYtfGkv6tKkyiuG0zpv4MgkKyFhgHx/dzm7PuTNKPBnnKCZi93iYvvP9XoKR1R9tCTcFVz0KlabC1QsefeYTl5WOw3K6/a6nhgfo0VAGlt8elEmOgQN9Mlne5BLL/+vUIPDNBwtBKxh7mPCGIzO+Y1R5I4eaaohKrbs=
+	t=1786543494; cv=none; b=F8P/61rdXTphruU+a3EXdAtad4rrRyVmPYkaUO0qU/L/B+2tZbxYtGPE7f2nkrjdImDxNOf2zmoyR2TmB0tot2XZIkmShcDHGMPW5s8tJ/99/ivz3CpENj1wQbjqVg+vkENN2hYSXvPVEPWwVyEa5bZL7AaJFVOvdfEaYPkAhrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786543438; c=relaxed/simple;
-	bh=rMVBYVyYP36ufcy949HDGAJ7V8DX2LXC7yMwpaP6hpQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=grEzm4IkU3gHudUaS+Dnwd0sAFAZNYM1Qx7UUHxTUTPb0PN13iM7Q3cuNm7cyU0cgKd+bldsT3HtCPa/oW6qCJSMhIA8M83X2h55/lNPXWUQNW3m3pR4tHCoperTNEGrFm0XfKeEL5X119GSLu+lRKKstcDqERmlR5D5cCr4VZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks; spf=none smtp.mailfrom=deq.rocks; dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b=fzBxrLN4; arc=none smtp.client-ip=91.216.248.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	s=arc-20240116; t=1786543494; c=relaxed/simple;
+	bh=G8YFoDj7q6dAbSPlvdPStcmNYkJzNj9dy1T0mfxuZoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bJqK4q8xyPVJBLBreUELwLHCTAqY8X8q3EjDyTuukmjJcLKiSy/jfxZyIw/roHjiFpRn3+hgFXnzWy+cr3w+J1wDKeUIuj9L4Hrd+ViJvsDf/gH9TnB7a7Z/Xh7RgeTkJFPhazZvsk5yNAu79i8yB8zMHvdRNbGmcMxqj7P1eMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWei/vOP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b="fzBxrLN4"
-From: Andre Eikmeyer <dev@deq.rocks>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1786543432;
-	bh=rMVBYVyYP36ufcy949HDGAJ7V8DX2LXC7yMwpaP6hpQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fzBxrLN4Mrud48wkeyqtNytP+uFPd3uaF8Iv6QPGsrIVOHalWEmxWXnrQF7NpvzOb
-	 EUfMPWcozRi8IUtB2KDyOjKkbIcKa5wsVQHdGayPKede3qKcXSKn0XX1l/Mrd6jkx5
-	 dXYCDKnpyIHEilgfjfO5xOwMiwjeTiDJHLmqmJC94aueZrdDdapa1ciIAz9ZxXVetI
-	 Ze5Q18TbBO3/Otrxp+iVWlFWGwiv5gvvCui2iSbA/dj7mBKGVSi1ZVDK5y79+SQq+b
-	 UvfEcamt7AyhKSHdCS2S+e8CIkxr43Fdgm6KcrfY4VvXUBV4t2VnifHB2sVnT8gkOb
-	 HCEVSyXikPpOQ==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWei/vOP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 810761F000E9;
+	Wed, 12 Aug 2026 14:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786543491;
+	bh=G8YFoDj7q6dAbSPlvdPStcmNYkJzNj9dy1T0mfxuZoc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KWei/vOP5k4Hri+kSX8UbrRK4+jG36/uqx/uJSVpVUulaVJvXg6GJhG8OGF9BYugk
+	 puWzzPdmcB1lqDWMkK++OhXiYSwm53Ks5AsM17mFkKebABPgIA9Kdmk/OSrSql/KZp
+	 pETotHLA72ON/VvSfdRBHS7Q1wCAwR8XSMQb43V0i3eCrOEHMj5xtRcF35Pw0rInU/
+	 155gOGGUwrMe6Iu7RCCvdViMSW65lN18ry37swtsQYRsL6UFQ01ag0hvLwklHJ4vdm
+	 g7xcbiE8uvY+3THZaw3LKpPIOhIQQEh/ZsXJHuklckBuyEYN5zX7PBvvAt76seM66p
+	 s+jbHUI2+4qbg==
+Date: Wed, 12 Aug 2026 15:04:47 +0100
+From: Mark Brown <broonie@kernel.org>
 To: Takashi Iwai <tiwai@suse.de>
-Cc: platform-driver-x86@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-sound@vger.kernel.org,
-	Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Kenneth Feng <kenneth.feng@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v2 3/3] ALSA: hda: allow direct complete with a powered-off GPU
-Date: Wed, 12 Aug 2026 16:03:47 +0200
-Message-ID: <20260812140347.33360-1-dev@deq.rocks>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260812122206.193680-4-dev@deq.rocks>
-References: <20260812122206.193680-4-dev@deq.rocks>
+Cc: linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: Re: [PATCH 12/14] ASoC: Intel: avs: Drop __force cast
+Message-ID: <096a0e20-c40b-4705-8c0f-ef4abbcaface@sirena.org.uk>
+References: <20260812060557.80445-1-tiwai@suse.de>
+ <20260812060557.80445-13-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IsTc3A6LC6R7TKeB"
+Content-Disposition: inline
+In-Reply-To: <20260812060557.80445-13-tiwai@suse.de>
+X-Cookie: !07/11 PDP a ni deppart m'I  !pleH
 
-The HDA controller normally needs different WAKEEN settings for runtime and
-system suspend, so azx_prepare() prevents direct complete. For a switcheroo
-audio client whose bound GPU is already runtime suspended and switched off,
-however, the controller is physically inaccessible and cannot signal wake
-events.
 
-Resuming the HDA function during system suspend also acquires its runtime
-PM supplier. This powers the discrete GPU back on only to suspend it again
-and can expose failures while restoring an otherwise unused GPU.
+--IsTc3A6LC6R7TKeB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Direct complete is now allowed when the bound VGA device is both runtime
-suspended and reported off by vga_switcheroo. Active GPUs and HDA
-controllers without a switcheroo binding retain the existing WAKEEN
-transition.
+On Wed, Aug 12, 2026 at 08:04:44AM +0200, Takashi Iwai wrote:
+> Now that the bitwise parameter definitions are gone for PCM
+> parameters, we don't have to cast with ugly __force prefix.
+> Simply drop a superfluous cast.
 
-This was tested as part of the MacBookPro15,1 hybrid graphics series on
-both the 2018 and 2019 revisions. The discrete GPU remains powered off
-across system suspend when it is unused, and suspend and resume complete
-successfully.
+Acked-by: Mark Brown <broonie@kernel.org>
 
-Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
----
-Changes in v2:
-- Move the SUPPORT_VGA_SWITCHEROO guard to the sole call site.
-- Explain the significance of the positive azx_prepare() return value.
+--IsTc3A6LC6R7TKeB
+Content-Type: application/pgp-signature; name="signature.asc"
 
- sound/hda/controllers/intel.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 28c55c5..9132907 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -334,6 +334,7 @@ enum {
- #ifdef SUPPORT_VGA_SWITCHEROO
- #define use_vga_switcheroo(chip)	((chip)->use_vga_switcheroo)
- #define needs_eld_notify_link(chip)	((chip)->bus.keep_power)
-+static struct pci_dev *get_bound_vga(struct pci_dev *pci);
- #else
- #define use_vga_switcheroo(chip)	0
- #define needs_eld_notify_link(chip)	false
-@@ -1016,6 +1017,26 @@ static void __azx_runtime_resume(struct azx *chip)
- 		display_power(chip, false);
- }
- 
-+#ifdef SUPPORT_VGA_SWITCHEROO
-+static bool azx_vga_is_powered_off(struct azx *chip)
-+{
-+	struct pci_dev *pci;
-+	bool powered_off = false;
-+
-+	if (!use_vga_switcheroo(container_of(chip, struct hda_intel, chip)))
-+		return false;
-+
-+	pci = get_bound_vga(chip->pci);
-+	if (pci) {
-+		powered_off = pm_runtime_suspended(&pci->dev) &&
-+			vga_switcheroo_get_client_state(pci) == VGA_SWITCHEROO_OFF;
-+		pci_dev_put(pci);
-+	}
-+
-+	return powered_off;
-+}
-+#endif
-+
- static int azx_prepare(struct device *dev)
- {
- 	struct snd_card *card = dev_get_drvdata(dev);
-@@ -1025,6 +1046,12 @@ static int azx_prepare(struct device *dev)
- 		return 0;
- 
- 	chip = card->private_data;
-+#ifdef SUPPORT_VGA_SWITCHEROO
-+	/* A positive return allows the PM core to use direct complete. */
-+	if (azx_vga_is_powered_off(chip))
-+		return 1;
-+#endif
-+
- 	chip->pm_prepared = 1;
- 	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
- 
-@@ -1183,8 +1210,6 @@ static const struct dev_pm_ops azx_pm = {
- static int azx_probe_continue(struct azx *chip);
- 
- #ifdef SUPPORT_VGA_SWITCHEROO
--static struct pci_dev *get_bound_vga(struct pci_dev *pci);
--
- static void azx_vs_set_state(struct pci_dev *pci,
- 			     enum vga_switcheroo_state state)
- {
--- 
-2.55.0
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp8fX4ACgkQJNaLcl1U
+h9C0Xgf+Na49w3zG4joQS6+CExdeMPQZVJ9LcVkGJjZKyq6k/puw7krHH5/E8XGQ
+Qlv/tBlYbGD9zm7mMlO9oRm+C7A2AQJ6OQ51+rRqWwzWwb8fAOlZ/hJosqE71/1H
+Hd0wESZajTT+tCAE4Xvq0MD6lnKiZnJiAQDur0uli51G+KploOaJegUtlsIZXOgI
+BkHuiagP9jlWST6JXA6Wz5Ph3XFpoULjPPw9hx8Yk4yOTmBS0KUJvOuJHwmKK4wx
+gAdBK5V6T6Y0heeqVM2R8trJppB3reefSXkbcFlnckBNOHqQ1AE/aqyTVtzmJn8b
+/bSRXa27CcD7610349Sz40uCRadbNg==
+=fymz
+-----END PGP SIGNATURE-----
+
+--IsTc3A6LC6R7TKeB--
