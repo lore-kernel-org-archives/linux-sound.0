@@ -1,210 +1,173 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013034.outbound.protection.outlook.com [52.101.83.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B1B2C08CF;
-	Wed, 12 Aug 2026 13:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786542344; cv=none; b=EycFIQiinP58IzvfPoQ9/8mFX1kwGS8Sb/ozpe4B3ftpUPKhvpSjMPTgeV2d51Tm0X+z4MIoBr3/N1rNNRPD0/S+23gOoHG/2sZWwmXilFPzEOCfeV9eVY7ZTkQjZrO1tg2j6pDNbDtL0VcBwbxTaTYNN5hc7xeD2fazY6NXsjk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786542344; c=relaxed/simple;
-	bh=Fp8Xqmw3hja/bnS+5zJK/aYz93p7JerheaTp4vC06Rk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WGav47oXklpe/lIb0yqoN4lOpQzW9q1VTtdKKFg1GiEZ7LdXBxnnVogEL1g0Frg8LzdjK3V6+Rn5rqWtke7/xQ4NkxpqxOv9NKkW0wZMQZ1ox3viWbcqaM5ULXwdQn0IgKEB7/SZLgZvq5rIftvekxDz1A5+lCfko+ncyr2a3dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W2WRMx3n; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=E6m7KlUK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IQDkptee; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gRw1lh2V; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDFB30F924;
+	Wed, 12 Aug 2026 13:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786542491; cv=fail; b=Rutj4KZmi2VmvF7G6OVB3g0o8LXoit6h0kUiF31UJ6IP9X/itM5Kf+39BxzKUyL3JQMYsAuyLbYJ+wlyjJVT+a3n+a15daOaicVgihItQ7+fuUIqQDGP5WALQ/ofE9UFoqnDVVjk2rCgpEnyPRuj1ijuCcOh8MBX6WLLrArAw58=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786542491; c=relaxed/simple;
+	bh=smvDnx1mILHq9Lx99HsLDFypQHjEpx1OBEuKXGHzyEw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UknjcnDaeYKuL5fdrB1nHgfmgUEyru5QqPjRQeH9DI8OUpj4MVrfBgmKqsBBvc6tkjJ7PzRjkhbmYzPjC4d5+IojXbwQlsAUVoT1vJI9+DRJMtMDHUXN5e83sfLlGIsnwdYI1vKgQrHHT8JeuglhJ/TrkUrQ6bicUR5+nf+rhLM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=P1U8Ql44; arc=fail smtp.client-ip=52.101.83.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W2WRMx3n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="E6m7KlUK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IQDkptee";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gRw1lh2V"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F4733E61;
-	Wed, 12 Aug 2026 13:45:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786542336; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
-	b=W2WRMx3nLeuMDxrPfK1KoqLGRq3i+XP9a3++BYm4wpzl5HycPHeTOvIWOVe4/C2LX6wo7B
-	TMx80GbjRuq8/LYGi8IujUs0i1VbMehpX2O6wyUnQLkpc9omh2ua+yhyTkTH9CMjsRp/ZZ
-	EQPSu0EzBKJ4N26fFsa/DfRJT7JT0iQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786542336;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
-	b=E6m7KlUKWHnzkp6RioNdyePMYAyIOGc08MQ/oSAyLkbO9n1YmD1GlsKjVOJvVz+7YbAFqu
-	IyLY9sOsgyeeTxDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IQDkptee;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gRw1lh2V
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786542332; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
-	b=IQDkpteeBHxkJg2gToumMklkvJOMyasX3Hn8hz6ofS8I18w4xokD7gpj+5D893D78DagmQ
-	UbcBlQhSzi/jbjazXZj27yC7N8idXgNDeuqkIvenfoTaiaQ6C+g3w0lARJpJGALSHvFamD
-	SbnrWU2bmrSqm/ekmx6nG6cNtFv3EOI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786542332;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Okam1Xv7qZj9TOT1CoF8I6lo9QA/fBV4+wzsnLl20Wk=;
-	b=gRw1lh2VyIMoAtS27ouVSd6+ObbnxeiMEQ9DCsb1OTDlAOwNbXJNz7+iEGFor37+AN6C5/
-	0RyP/V6oNC2pnlBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E6709779B1;
-	Wed, 12 Aug 2026 13:45:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2XOUN/t4fGq8cwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 13:45:31 +0000
-Date: Wed, 12 Aug 2026 15:45:27 +0200
-Message-ID: <87mrurzc3s.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Andre Eikmeyer <dev@deq.rocks>
-Cc: platform-driver-x86@vger.kernel.org,	amd-gfx@lists.freedesktop.org,
-	linux-sound@vger.kernel.org,	Atharva Tiwari
- <atharvatiwarilinuxdev@gmail.com>,	Hans de Goede <hansg@kernel.org>,	Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Alex Deucher
- <alexander.deucher@amd.com>,	Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>,	David Airlie <airlied@gmail.com>,	Simona Vetter
- <simona@ffwll.ch>,	Kenneth Feng <kenneth.feng@amd.com>,	Jaroslav Kysela
- <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] ALSA: hda: allow direct complete with a powered-off GPU
-In-Reply-To: <20260812122206.193680-4-dev@deq.rocks>
-References: <20260812122206.193680-1-dev@deq.rocks>
-	<20260812122206.193680-4-dev@deq.rocks>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="P1U8Ql44"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Utjb1jHoMtcTeSDhgRKqys69k8kljT3faKm3TW5RI4KMjj4M54rKzIttiLpSyCmVyoMUgL/NGY3mJNz9aWK5xZLmso3PYi3o2mObVea+8qOeMaCy7qyKWQeK1ZHpmdPmFem3WX1xQBSCOz9lj1KM82qw+M9Ynzn59OeTY4JRguzlDyn86VkYS0NAy12pVDiROV6yzLAlSCnZuL16AfnKYBnUouv775zPqFk8vdFtEvBoupmGJ1ovSmSl+3gIxmWNAe0kho2kVAL1GWoC5Tot8kWX0oquZIynj1b7SPBLfC16K6ps+dLHZHddZ5plBcN0KViU0btYniH93Eg4bMIDUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YRGYRnn4G6Xd46W0JiSdcI04D+BrCSPSG17YMGfRxhM=;
+ b=LV51HNpQ8bfnDWnSYxergiMEq7jj3km1GDyBKEsecfMbp8cQ6kU7xkxkGrLksmEhGVRgewfP7kQhGKHCjqIiql6WBhW+ycLtj6wTrksmORXBVxA8CEN7UglIHT4SBP6OR7r+MK1P2bFhmReCMbKOYSNDD51OuIxNudvkxdasgU3Nsi4krME42nuNRVxX476i142TJsjT1K2PSOGkq6L0Rhmerreo3MwgGj/o5MKU7tKTuMi5yMytox9fXOy0ls6nNZhVN3ZyCVDpHi2qOMwVJjAt2K9Ck1HbMn7WoVxx13erBMvkCjF5CwunquI5BF/eyvdzJzgSyM9hZC6iDM4sEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YRGYRnn4G6Xd46W0JiSdcI04D+BrCSPSG17YMGfRxhM=;
+ b=P1U8Ql44QnUB70QAGUIwn7npJURSTgmPHT4JuFEjf5la0xfAsHYWFGGzYkw9PVtW8xjBCzSEpjlBeKud+8sHvle1OJ2XPFrOc691NTj41C54t/fYAW35dnz2WKfIggMQbe+YF6wTAKS6lULXQJHx5oMXYsDN6cA3wjQmiWEj8qqkw5RIW9pgPufS6+2N0bS5VQzCUWEzPRaHSF7DOQng4YGRjtVOHSVSsPwaCflOIigiG3oEeS0fncNqsIL6ExtO7Q7zKUT7lWW3LIiOpvnivjWQDwnRhBHKZqxUuPf9mYQ6IfJrtRchBAZVvvc6Vs5pedCZKW41n/iS0SZgmZ0FHg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB12316.eurprd04.prod.outlook.com (2603:10a6:150:2c6::8)
+ by GVXPR04MB10234.eurprd04.prod.outlook.com (2603:10a6:150:1c1::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Wed, 12 Aug
+ 2026 13:48:05 +0000
+Received: from GVXPR04MB12316.eurprd04.prod.outlook.com
+ ([fe80::fc6e:ca22:f065:def4]) by GVXPR04MB12316.eurprd04.prod.outlook.com
+ ([fe80::fc6e:ca22:f065:def4%5]) with mapi id 15.21.0292.024; Wed, 12 Aug 2026
+ 13:48:05 +0000
+Message-ID: <30ffea19-e2d6-401c-ad42-54a2de2f52ec@oss.nxp.com>
+Date: Wed, 12 Aug 2026 16:51:36 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] ASoC: mxs-sgtl5000: Drop redundant probe error
+ messages
+To: phucduc.bui@gmail.com, Frank Li <Frank.Li@nxp.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>,
+ Michael Trimarchi <michael@amarulasolutions.com>,
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260812101418.37966-1-phucduc.bui@gmail.com>
+ <20260812101418.37966-4-phucduc.bui@gmail.com>
+Content-Language: en-US
+From: Daniel Baluta <daniel.baluta@oss.nxp.com>
+In-Reply-To: <20260812101418.37966-4-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P189CA0034.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5dd::12) To GVXPR04MB12316.eurprd04.prod.outlook.com
+ (2603:10a6:150:2c6::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 2F4733E61
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,gmail.com,kernel.org,linux.intel.com,amd.com,ffwll.ch,perex.cz,suse.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB12316:EE_|GVXPR04MB10234:EE_
+X-MS-Office365-Filtering-Correlation-Id: e77a1c39-074f-4234-417d-08def8785604
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|19092799006|7416014|376014|56012099006|10067099003|6133799003|18002099003|22082099003|11063799006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	Whh5MlTwaI0wgwTt1xYcF0n3UmxSOYX/YYBSJJMVGXEFxII2y2JWR86TkhL7pbcGMPHvUXSJS+S/iZohMtYXPqUvVqdcy02FG8l0RVudRHZBXAKVpNiPHCnvzlXOo04erz4ctut9sVgvt4B6h3X2KBCTW54hvyr+OnzpXdcAj6q8jcKxf6TSfUaoSLen9UnkOPAafnK7g35weOoHnKHl5PmCSWxslM0k9OFkhlbkg+5WkWgg3t/kQ2OYyC1DyjjIg3GtCUQKhzObKmWY6DRIX/eEincO84klEX+nqksj0UmqzDvCsTwc0Gnq0LD8FVhn6bzXAsNeHnC1eWgK5ucCw7BRp768p+DHh6VcJcLzz4AEoj2/NmLjNOzd5Rbx2BTv9fgKwNpZhrGewv5j80mBdloS7ddN8p13TK1MPOFBC8wP+3qFiBo6NLcjV71BnISAxIBbbAhybIWClBgncyJVaF1r+ir1bw60bKrw/nRf6IJPzscFF9A5DWkcD6bkoXvEtpXCed7bGIamync6Rn6C9UorKHQsXFxP8L2jD9a5mz83am3a/HD+k4K9ACYp4YK0L+aw+3US1olXBw/tqQJn9IHvIqrRq2BIh7L1Llqwd7o3jTN00b9JBRNdDUoUhsrvIFl5kk9SaLvG2xUyTy46CE7HQS6ZvDkuDTzFUrmuqVo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(19092799006)(7416014)(376014)(56012099006)(10067099003)(6133799003)(18002099003)(22082099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MEl2Q3pmbmVCRnNGVHJ2d1VMNWNSMTk3a1hCS0thR2t5OEVmYk8rQStvNi9F?=
+ =?utf-8?B?ZTYwMVNpcmdmNkxSN1d0RllZNzAxRmViSmw4eVg0OVNSQmNzQzJiQm84eHVx?=
+ =?utf-8?B?MTFGWC9zSEw4aGwrYXZWQjdpbjZBMDhZU1M4eU5CM1BZMVdLVi9qajBiNEdu?=
+ =?utf-8?B?UDhCZWdjV3BabFlYYUNhNU9VdEZkekxjTG5MWUNmT0tKSTRZbGlwaWliMFVq?=
+ =?utf-8?B?T3RHcklyN0tuZ0tMZDFwK1Y1NS9TZ2tRalRZREhseG5LSHF6dUZPdjRCbW9y?=
+ =?utf-8?B?cGxOZkVqZTJEQkhDTW12RjRZdHh6d2dqSFIwakp6WG0xQ2JFejdiaGVTZHJo?=
+ =?utf-8?B?Y0NyV3RadzVrczZabjRMMTBzU1RrdjA5SEhzQ2RER1JvRmluWU03VmFGUTAw?=
+ =?utf-8?B?SzhZUnlMcFhpS3B6Q1dTaE5vTzZCNnVua3FBN1dVWHJaMmxsWklMbzMwQXFH?=
+ =?utf-8?B?bFpscWVJN1NUbEtPSXFkekl6TWx3Vm9VNEE1VEJ4dUdyWU8vNTdLME9RU1Rm?=
+ =?utf-8?B?VE5KQTVQL0d2OVk3RHd2bWJlZzdFa0lxUGQ2MWRXTFN5MWFZS3laY2F1U0Jx?=
+ =?utf-8?B?STYydFdTdTg5TmdJRFRLd3NXTGRpVys2cHF0dWJrZlA3cXRsbmdQVkNMbHFX?=
+ =?utf-8?B?NklMWDl0OThuK0x1OVp5VGtPakY0OFkyRXEya3VRNFZZQVkxbWZveUVDQURw?=
+ =?utf-8?B?V1VqeUZZeFA1NHQ4c0EwQm1ObE1TZU1HYU11MDZtTTRWU0VnZmNvcXJHYUht?=
+ =?utf-8?B?aXFCWkIybGQ2M0ZETm9JbGNFbE5KZ0Y0U2dHYWs0VE9kbzdlUm5XdWtPNlZ3?=
+ =?utf-8?B?R1h2bjJCNlFoT1U1dkhVMmVwelZwdU1uSGx3d0RNM0hTMStMOHJiek41eGYw?=
+ =?utf-8?B?bFc0ZWx0Z3RzdTVQWEZVZG5IN3BlZG45dFFMNUVYU2JhS2V4SDY5OHg4cGZu?=
+ =?utf-8?B?MWZyUDU0eHY0ajRUcUd6UTlFK2dwTmU0QlMrSTJHeEtPN3I5ZDdPRW9PdGYr?=
+ =?utf-8?B?NGNQaTZIWHZsa1VGVkUvdWU5OGcxNitsS3hLL0hZMXk2MTlRSkhGcDQ3VEhw?=
+ =?utf-8?B?dmtKZ1llQ2xGTWxoK2VxSE8zV0thYVVCN2p2SlQ2OXdqZ3FtWUNGajZ3cDZq?=
+ =?utf-8?B?bFhYV2VzdWIzajkyZGJ6MjFlS0NtVVltSFFDMEkvRUd4U1ZjMVBoSUd1eFdh?=
+ =?utf-8?B?c0RwalprTDdTNW5qK015S2h2a1lwMVhwWWJFMjNjVkNWZnduSUdEb0FCOHJI?=
+ =?utf-8?B?K0l4ZDllNkd1ZkZtMjdrQ3FXMjRiOUIrdHhDeEtmV1Mzbm5rSGNrNGJZb0Z0?=
+ =?utf-8?B?bmVTUXU5VlRRQ3RVb0x0VHNFTFhYU096NkxDNUwreXpCTjd1QVkzMmJPckxw?=
+ =?utf-8?B?YkpSY0RHQ3hKalhIemVrd2NmU0JZMEU5Vkc5cTRVRXh6dUlOUFFqSkJpRnox?=
+ =?utf-8?B?dC8xRlZOeDRDaVc5NE1FamVMTFJjUnhPQUhzL3JvUCszOVdCcjdPN2pkRHpG?=
+ =?utf-8?B?UFR6OTAxalUya3ZFak1scW44Uk0yZlIrcXhJWjIzRFIzVnV6TmMxY0p1SFhO?=
+ =?utf-8?B?UFd6UTNTdW1JUW1TdkJVajJnUGtISS9mTE0wMWJ4dVdMblBBaHZsVVFqN1BK?=
+ =?utf-8?B?bmxkUHZhOGdKaW1JeXB6c1JIdU52MGtrTzg5bllqRmgvaWxNYi83ZjgzelFT?=
+ =?utf-8?B?MmJuNzY2SC9najZKUkR5bHhhUzRJSm9OOXZ2bFgzRTRrc3U0cy9LYWhXT2c3?=
+ =?utf-8?B?dmtldjZQNTNNaTExMHpxWmhwSHZCNnYvMm1jcDUwRjF1d2lsWitKZ3NhZnlR?=
+ =?utf-8?B?TFF2S0tnNjVvS3kwSW1JMXAydGtGT2ptMGJwM2UwMlhJRmZENDJMUWhTWDl5?=
+ =?utf-8?B?QzFuUmR6K2dUTUNEQStVWWF5T1BXUkVhbms1dWg5NTc3TG5LVmdKbnJYMHk4?=
+ =?utf-8?B?eFdTZkhmVElSZUFXS2hJOWhUekZtdkJ1Q3hEdGsyWFdDOEF6dm9sMDEwMW9q?=
+ =?utf-8?B?b01Wc2MyT2dzZkxjTThNOS81N09lVVN1TE0vK0FCMGlxc0VFNjJJa1c4aFZV?=
+ =?utf-8?B?TVQybG1pWE9GTGczMktMa2cvb1hjL1Jlc2Z6K29Jb2E0bmg4OURjYU5VU2Rs?=
+ =?utf-8?B?dXZJdDYvSCtJQjlsN3VHUUMzZHdiSWdna2ZsVzFhcXVyZTc1Y0RWemRJTnJr?=
+ =?utf-8?B?cFVHWCt4U1hIa0lDS3lNcXJzdkRaR3dVbCt5NDN5V0hUOEhjd3EwWFNsTm56?=
+ =?utf-8?B?YW5CQWYwaHc2WktQcHRtRnRTbU41d3Y3ajBhWHlWb2haSHNpTnVmQ1V1OGpM?=
+ =?utf-8?B?Nm1nd0dRUWtsOG5VZE9oMTBiSVhMNk5mWDhpb3ZVWEFVWG8vcUpjdz09?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e77a1c39-074f-4234-417d-08def8785604
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12316.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 13:48:05.7436
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ckPk55oL4rThazG8Y+3fb88GpXIPZs3iRdZH7I1ULeSkLaGw4yDAYYg1ld7BgKSjhcbzi3wmWZUHvo1yoG/3dg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10234
 
-On Wed, 12 Aug 2026 14:22:06 +0200,
-Andre Eikmeyer wrote:
+On 8/12/26 13:14, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
 > 
-> Hello everyone,
+> Remove the probe error messages to avoid duplicate error reporting,
+> since the error is already reported by the called functions.
 > 
-> The HDA controller normally needs different WAKEEN settings for runtime and
-> system suspend, so azx_prepare() prevents direct complete. For a switcheroo
-> audio client whose bound GPU is already runtime suspended and switched off,
-> however, the controller is physically inaccessible and cannot signal wake
-> events.
-> 
-> Resuming the HDA function during system suspend also acquires its runtime
-> PM supplier. This powers the discrete GPU back on only to suspend it again
-> and can expose failures while restoring an otherwise unused GPU.
-> 
-> Direct complete is now allowed when the bound VGA device is both runtime
-> suspended and reported off by vga_switcheroo. Active GPUs and HDA
-> controllers without a switcheroo binding retain the existing WAKEEN
-> transition.
-> 
-> This was tested as part of the MacBookPro15,1 hybrid graphics series on
-> both the 2018 and 2019 revisions. The discrete GPU remains powered off
-> across system suspend when it is unused, and suspend and resume complete
-> successfully.
-> 
-> Thank you for your time and consideration.
-> 
-> Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
-Please drop greeting and thank-you texts.  They can be put in the
-cover letter, but not in each patch description.
+This looks to be OK. Indeed at various points snd_soc_of_parse_audio_routing prints
+an error message if it gets into trouble.
 
-About the code changes:
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 
-> +static bool azx_vga_is_powered_off(struct azx *chip)
-> +{
-> +#ifdef SUPPORT_VGA_SWITCHEROO
-> +	struct pci_dev *pci;
-> +	bool powered_off = false;
-> +
-> +	if (!use_vga_switcheroo(container_of(chip, struct hda_intel, chip)))
-> +		return false;
-> +
-> +	pci = get_bound_vga(chip->pci);
-> +	if (pci) {
-> +		powered_off = pm_runtime_suspended(&pci->dev) &&
-> +			vga_switcheroo_get_client_state(pci) == VGA_SWITCHEROO_OFF;
-> +		pci_dev_put(pci);
-> +	}
-> +
-> +	return powered_off;
-> +#else
-> +	return false;
-> +#endif
-> +}
+> ---
 
-This ifdef can be moved to the caller side below...
-
-> +
->  static int azx_prepare(struct device *dev)
->  {
->  	struct snd_card *card = dev_get_drvdata(dev);
-> @@ -1025,6 +1048,10 @@ static int azx_prepare(struct device *dev)
->  		return 0;
+>  sound/soc/mxs/mxs-sgtl5000.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/sound/soc/mxs/mxs-sgtl5000.c b/sound/soc/mxs/mxs-sgtl5000.c
+> index f1c0e612313d..a253a48ca59c 100644
+> --- a/sound/soc/mxs/mxs-sgtl5000.c
+> +++ b/sound/soc/mxs/mxs-sgtl5000.c
+> @@ -155,8 +155,6 @@ static int mxs_sgtl5000_probe(struct platform_device *pdev)
 >  
->  	chip = card->private_data;
-> +	/* A powered-off dGPU cannot signal HDA wake events. */
-> +	if (azx_vga_is_powered_off(chip))
-> +		return 1;
-> +
+>  		ret = snd_soc_of_parse_audio_routing(card, "audio-routing");
+>  		if (ret) {
+> -			dev_err(&pdev->dev, "failed to parse audio-routing (%d)\n",
+> -				ret);
+>  			mxs_saif_put_mclk(0);
+>  			return ret;
+>  		}
 
-... to wrap the call site, instead.  Since this is the only caller,
-having the conditional here would make the intention clearer.
-
-Also, a comment about what "return 1" plays here would be helpful for
-readers.  It's a small piece but has a significant meaning.
-
-
-thanks,
-
-Takashi
