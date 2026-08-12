@@ -1,144 +1,89 @@
-Received: from bulk0.mail-out.lima-city.de (bulk0.mail-out.lima-city.de [91.216.248.212])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA92468C29;
-	Wed, 12 Aug 2026 14:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.212
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8DB2931DE;
+	Wed, 12 Aug 2026 16:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786546098; cv=none; b=mwWlZaZAquNQJVBJk25G3V2yEwc2apkTa+wwAQL+/NmjPHZVFhUcb7uB7BbfIw80oWP0Q1pftdn/jctFJcNWDqC0M6sNBH91CnkhNZwrFdtyiyTxpJeCLM+k/EljO8nD4IYtuuo8AbyAeSGJ1LNIYO6tMIpnffBsm9zGhAVQUAI=
+	t=1786550426; cv=none; b=bXZ4lszkZpYFDeuQJ2IEYvRJeD4ptVYYWOolX2IHDmdN4qQ/n3ZP/Oxvj2iTX3eLspen1JWLk6wRnDNqJt8y0IcX7CFC5FS3TsiG37YxTBXBNIqDcALaxWRhuRBOrwPoMZTb6efHhq2cxNy5Fl+c4WEns/E9+C097KBwB/UM4QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786546098; c=relaxed/simple;
-	bh=Nhd5BwNT8JgJuZ2WolA1jVTq2wOYamSWOsjVsd/H9Ns=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gY3uD5xCSPQkm1L7vLWiHBF82mZLPnCG1DgJbb3HArdgPHJxe3nm27CbgFHwXd0XA5AtRESw5VAbw3Xmw15Zu1mKoTQJe7pvFa+Wu/YXbateJZxe5iTxJ4bqoMn2vqHP0Vkvt+JYdCzqpUMURH9pLEo6nU9IQJUcsHnkJb6OzOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks; spf=none smtp.mailfrom=deq.rocks; dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b=G7sLTTjm; arc=none smtp.client-ip=91.216.248.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	s=arc-20240116; t=1786550426; c=relaxed/simple;
+	bh=VInwIXZeneChOmpgwSAQu6NGBKqoR0QovL9vQUm1oL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AbrHQlp2y8K8iGAZFESXMOt9bT8PDqUYc9148oS4JZVpNEPAXiz+5AGwTW+zlfHllhwjM8Jke/rD4C8iu/17JsphJGmpZ2CPfbLv6gg093wFIkNHsVjx1T18JNMcRe/9E6wLOGCOn6SL8jblFK3RlQioqc3hiHnFaZG9KcrJr4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZtE0YPp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b="G7sLTTjm"
-From: Andre Eikmeyer <dev@deq.rocks>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1786546088;
-	bh=Nhd5BwNT8JgJuZ2WolA1jVTq2wOYamSWOsjVsd/H9Ns=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G7sLTTjmWZM77W1pxZTDwK11BjmuVuQOoX/qZAwHg4i3kXhejBUvyLqf0tsDq6zTT
-	 orFa1BH5G/2zLBIUZOWSdOaPgtfMuxzwrA5zvTFGU5nIAripMP630j9Ntxtxf8vSlz
-	 uXqHFdw1vY9mqIfiWykKccWOU9Qeajs+Q1/vkRBVGkFEAiSN8kgekA95Jg86A3cyhe
-	 PSO04dCWDFNpq2P7kbqCaq+c3C3F9NSTj0JgqS/uO/H/0HLBZ0nEywpROo8BpsrhaE
-	 LNaZdKTfa+5i067+x2FGRC2FMPn4PwwrZSz+Rq3saZjX030D09C70NzJF4tmKKkLR2
-	 h3TiY1KAQD9Ew==
-To: platform-driver-x86@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-sound@vger.kernel.org
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Kenneth Feng <kenneth.feng@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Andre Eikmeyer <dev@deq.rocks>
-Subject: [PATCH v3 3/3] ALSA: hda: allow direct complete with a powered-off GPU
-Date: Wed, 12 Aug 2026 16:47:50 +0200
-Message-ID: <20260812144750.36797-4-dev@deq.rocks>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260812144750.36797-1-dev@deq.rocks>
-References: <20260812144221.35877-1-dev@deq.rocks>
- <20260812144750.36797-1-dev@deq.rocks>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZtE0YPp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60A51F000E9;
+	Wed, 12 Aug 2026 16:00:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786550424;
+	bh=AnM5hs9FlU5v7SuFbE9pl67y2MZ9opEc0+D8ijJ/D68=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kZtE0YPpkIcO4l0q2BQHb9PWBaO+v5moGJ+S9Ng0nvSGpHVSKqoP0NUZM7Q7U0vWW
+	 m2lf5i1ApZ78MfWpgYul+JE+rANKtPaG2eSISSfSKu3+BllkVY0K6AufaAUN2+iWsc
+	 K6wB52JAtWymZCIPsI8mVUAsy7cAkMCbmJKH4023f/XuWY4uxdhi2eI2vsKoJQTdC8
+	 tToj41xk3k2jDL2f5F6Z5kS8vrnWg9Oczddxo0F8qOXtzwqlSD4z6FS6yeWcKDm29e
+	 dNWKajT9PThs6HUiNpQ0bPAYbtx/UHVZNCkcZASivi/tqYvi5a5p9nHl7xiOYvc9sR
+	 bAvBohxO3Vnyw==
+Date: Wed, 12 Aug 2026 17:00:19 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Michal Simek <michal.simek@amd.com>
+Cc: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCHv2] ASoC: xilinx: formatter_pcm: use more devm in probe
+Message-ID: <d56927e9-6679-460a-a452-161614fec0bf@sirena.org.uk>
+References: <20260811185013.26960-1-rosenp@gmail.com>
+ <647a44e4-babe-4858-84de-ad26b6711ba2@amd.com>
+ <c22c308d-ce38-4327-a9d9-19ea995584e5@sirena.org.uk>
+ <8ef668c5-e66b-4750-9fb9-54d8025a9c90@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3VE6C5Dw+QpIeR15"
+Content-Disposition: inline
+In-Reply-To: <8ef668c5-e66b-4750-9fb9-54d8025a9c90@amd.com>
+X-Cookie: !07/11 PDP a ni deppart m'I  !pleH
 
-The HDA controller normally needs different WAKEEN settings for runtime and
-system suspend, so azx_prepare() prevents direct complete. For a switcheroo
-audio client whose bound GPU is already runtime suspended and switched off,
-however, the controller is physically inaccessible and cannot signal wake
-events.
 
-Resuming the HDA function during system suspend also acquires its runtime
-PM supplier. This powers the discrete GPU back on only to suspend it again
-and can expose failures while restoring an otherwise unused GPU.
+--3VE6C5Dw+QpIeR15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Direct complete is allowed when the bound VGA device is both runtime
-suspended and reported off by vga_switcheroo. Active GPUs and HDA
-controllers without a switcheroo binding retain the existing WAKEEN
-transition.
+On Wed, Aug 12, 2026 at 01:22:33PM +0200, Michal Simek wrote:
+> On 8/12/26 12:16, Mark Brown wrote:
 
-This was tested as part of the MacBookPro15,1 hybrid graphics series on
-both the 2018 and 2019 revisions. The discrete GPU remains powered off
-across system suspend when it is unused, and suspend and resume complete
-successfully.
+> > Please delete unneeded context from mails when replying.  Doing this
+> > makes it much easier to find your reply in the message, helping ensure
+> > it won't be missed by people scrolling through the irrelevant quoted
+> > material.
 
-Reviewed-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
----
- sound/hda/controllers/intel.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+> Do you mean patch content in this case?
 
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 28c55c5..194d962 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -334,9 +334,11 @@ enum {
- #ifdef SUPPORT_VGA_SWITCHEROO
- #define use_vga_switcheroo(chip)	((chip)->use_vga_switcheroo)
- #define needs_eld_notify_link(chip)	((chip)->bus.keep_power)
-+static bool azx_vga_is_powered_off(struct azx *chip);
- #else
- #define use_vga_switcheroo(chip)	0
- #define needs_eld_notify_link(chip)	false
-+#define azx_vga_is_powered_off(chip)	false
- #endif
- 
- static const char * const driver_short_names[] = {
-@@ -1025,6 +1027,10 @@ static int azx_prepare(struct device *dev)
- 		return 0;
- 
- 	chip = card->private_data;
-+	/* A positive return allows the PM core to use direct complete. */
-+	if (azx_vga_is_powered_off(chip))
-+		return 1;
-+
- 	chip->pm_prepared = 1;
- 	snd_power_change_state(card, SNDRV_CTL_POWER_D3hot);
- 
-@@ -1185,6 +1191,24 @@ static int azx_probe_continue(struct azx *chip);
- #ifdef SUPPORT_VGA_SWITCHEROO
- static struct pci_dev *get_bound_vga(struct pci_dev *pci);
- 
-+static bool azx_vga_is_powered_off(struct azx *chip)
-+{
-+	struct pci_dev *pci;
-+	bool powered_off = false;
-+
-+	if (!use_vga_switcheroo(container_of(chip, struct hda_intel, chip)))
-+		return false;
-+
-+	pci = get_bound_vga(chip->pci);
-+	if (pci) {
-+		powered_off = pm_runtime_suspended(&pci->dev) &&
-+			vga_switcheroo_get_client_state(pci) == VGA_SWITCHEROO_OFF;
-+		pci_dev_put(pci);
-+	}
-+
-+	return powered_off;
-+}
-+
- static void azx_vs_set_state(struct pci_dev *pci,
- 			     enum vga_switcheroo_state state)
- {
--- 
-2.55.0
+Yes, we don't need the entire patch (especially not with the only
+comment being added at the very end of the mail).
 
+--3VE6C5Dw+QpIeR15
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp8mJMACgkQJNaLcl1U
+h9BKlgf/Sx8cq+KhhJUMDgpwEmcOgSSqbMMGpyMyeQGAJvINHGZnkNxeJuoKCvQp
+IC+g/vcbsAlD25/y4bPSL/e35PODdVE7ZvwsQgxZNojLNpOdyYKZVRrL1ugwB0pb
+g9qGb67+u/T2CbufqheV4hVz+07z3ueKyH6MaR8mq4Hl0P2St1xBQVQvuhCrKIGa
+jplhxYyiMmL42IYU50CZsXjRPJDWZcOieV4o40XWFnTaVMVLwFGoR5uFFRUpjAbJ
+OIzF70tpA0gyfnfR3hSCCQHhRVCsXPxp9JWu6N5k9jUfHaNvUh+fjUFn89SARi2C
++rMEk14Afl60Swcmv2O0/04V8LlJ/Q==
+=0E6j
+-----END PGP SIGNATURE-----
+
+--3VE6C5Dw+QpIeR15--
