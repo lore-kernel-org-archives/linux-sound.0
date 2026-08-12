@@ -1,87 +1,83 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A948448CD46
-	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 21:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D093AA51E
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 21:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786570175; cv=none; b=sMQtleTvnqKy+vU0RVaRZkZSYBHi53SZVplrgf/9ojRuvEIVpepwZUquAp9xSv/IMRGXGiWxDf6nJq4uSmcYlyoNAzQxK6iUn1DBMMRgC2zoGCXtdimd7tn8tWFUGDZhbE+GJAGNZ34xitWbxGv5EkW7H42QC0K0Tlp390OStWU=
+	t=1786570414; cv=none; b=cY84a3bTiRyghESvqw/a0WqBjrhZFtAYkhxmtKK6VLCHIdaEao75xzqNZLbnCngO+3gTVVU+aQ8NR7DyR1Np5o7zmfJeSlG6Hi/0ygczfZ5ChPYe1Q4ZYPHOoZPtGFMYYZgNwwskDpW6LEfuTV3oc6gBzZVBuUeTKS3RLgUaYFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786570175; c=relaxed/simple;
-	bh=4T5T0MQ6AkshbH+QGrHPozTGAoEFhJsve10CPrr0Ob8=;
+	s=arc-20240116; t=1786570414; c=relaxed/simple;
+	bh=+ZPA8DnnnB+hEEU/UVSTgEQF5+XXyjqbGyFW2zrE6jw=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FvfNLfAaRQqyihNJRSAhFpUzP6VEZIc2TL54aKR8ITxy1/Nop63MiErhvzjDSAvaVCoxBTm2Gk+NLLMlrSyDT7YQeAOlf9U4KuaLaTMQ6PrnIHpVjc7dhm4ufzFhJ8iccINlCVUn/F6aVphCLDISBRyLnTLR+30JQAJqqLtdNDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2VZfB8T; arc=none smtp.client-ip=209.85.167.48
+	 MIME-Version:Content-Type; b=YdJRIG/3S3dWaxH9HBnPsdGhom75q0DUroP1YuthO8lT3Ubllk5PTfXRNe+Wb0v2zKsW7PI19k2pyypXKr8BD5Yli0SPdoSaXrN2B2FTGsEbAv9OJz1h5uBbo2GhJCveku9kGYRol5Chvs6RApDYzlSTyagKjZMfFLs/7hJyBOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CefHtLJS; arc=none smtp.client-ip=209.85.208.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2VZfB8T"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b0117d49dcso1273448e87.3
-        for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 14:29:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CefHtLJS"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39c7fd21b63so13018781fa.0
+        for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 14:33:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786570172; x=1787174972; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786570411; x=1787175211; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:subject:cc:to:from:message-id:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Y/BYKF84+irYO74EPPjBQDmGzxNhpd/vZTionbVxeCc=;
-        b=F2VZfB8TB+ZrRTiB8PPVAR0UsQPFN2L6tEpe40AzEc7f50Iik4DexCoJ0sslCox2Pu
-         PYiM3QP60vpgf7WeJ3gHW2MK2iAAIUI9qQKJrI/G5Nj430ChFzusRhzfYStb4kyf1WvI
-         8gQlQF7P1mvBK5kzEepmV9iI2zS54K+0YAZ7HT/xxQbF9bcdk3Ky/7RaLMbSDZxhrOJu
-         n7vIY+qpL8ASkz+rIZPqqgU8lOR7aOXlq/6JL9IRBJPkHdh9G0ouVCdG3c091430SS+o
-         OCR4a0zzOtzzuAR9wxZ4wIZQ62aNEf+VoczkIEkGeaT6K/jGbEZs/a/yQriQlFyIl+i1
-         u8dA==
+        bh=9nHTuE7AAYCFKX7KeTMghSgjvrUE2Rt+zw5zVdxCuNw=;
+        b=CefHtLJSkxwImh8c4CR19Hxj2ZKhQZUs6QrsT05ZUhb+23rpkfWTnL+IfcTchVQl/D
+         gUEFncYnto9ao8Emjzwf7CQ6wyGpH3vSbNNgu+2Tnks5tQCMSrbotkq+sIq8HZl3gdMv
+         G2vTIVPxJtDFGOLdl/TgC756XsGOLS8oF9etvS63A/VaZ/VXCUz2McxiF5tRspoweWKi
+         dOUBwbZ11cEnME/BrdQtYRaGQcwupzu9U3Zopq29w/8MlDrD9yDGFOvGFgBX9FPsGDDF
+         HdOmkT/ui+k0Cqr4HXchuSjyNMkxkNmyzmyUTvYJ+SpRVrxTcVf9bTU5FNteNlAecbtp
+         n1eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786570172; x=1787174972;
+        d=1e100.net; s=20251104; t=1786570411; x=1787175211;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:subject:cc:to:from:message-id:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Y/BYKF84+irYO74EPPjBQDmGzxNhpd/vZTionbVxeCc=;
-        b=eONxoiHN/WwNoTsiqPvaKB+sWemqHpADxCbaH89cBUWBS66gLhCCGLSPaCGoFk5pmD
-         xHjEg+3K5XA5rUvpKehUB6Nr6+R3YIBeo/LjcFJwKcQPlsSzi6Qw5uP9oev0H4rsVH70
-         2wY8RjU38d2gowRzdlT7S5T0EQLzsbOhNuXdp9JvaLB4kbujEhtpQu4BRyWANK36FuGF
-         aQcOOU5/j64yapaAq5By2y9LQW6RdqRx3KBjLLk1f7GC6iLxJZz6Cmu1PIrvNkC151O/
-         HdtQZB5zCGGXKNXcaoobJwr/t+ziMu/5d32+FlTjaPuGlspdaykzMcf/rKVYHgrAyQLQ
-         rqPg==
-X-Forwarded-Encrypted: i=1; AHgh+RpVqYxzbXDuQdkfBOdeW3ocEc3WUPCVdNNdy5Ak4v2AIGP9vqpDa2IcMNsZ/Xcj0FZ95jc7thS8l1Ie2g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi4Mltc5Gdvn13ocjVP9F9GUkJ2QwLNApz9cXQmw1D+HJT/JQl
-	rIY/Wr/YtGE8vkHpvlM2fhtg0Wzwz/9NPDDFRsrO0aQ3YaPYNsA4RZAJ
-X-Gm-Gg: AR+sD12bcMgAItj6uggKNQepU6Vhk9E7JhAeQLSdAehglohTSAq+QzvpeVI7JSQ9Vro
-	NJz7s3e5nAQZWNyWaCQUnSIQF0x3VxilBgMGO4qMW3xAziMJTHq1ae5m2JfNlJqJ8VHizssnPfN
-	IklNSYs1V1/0YLu+Dcc/NB0PgT7OqUHh8P77SsBG/vkhq8FaMIPz2SUCveMgAZng748GgPpPw0S
-	jX1peDsHhjiM7FlO5fP8wmPXtP40D0PIoOXA7CNDB5nSN8LAv6qaXW7M0xCn8mtQNEe5bZqKaPm
-	TxDjdhcfHXskKOTWee+b7vKKvKn+/AFenX0QGaMig6vzZXwKnbLaMJEJ87KJ+MHDh4/+IYarjvC
-	XgLb4Wz0Jl+PVA85fmZ6Yjy8cdZn7EPSX2pcaYHcBHlNtn0xF9RpqFFrtQGx7vfv54yAkpWjkZF
-	hTsNlUe4+uVxKWMvff3LxlflzUUs4ka8cUlS/cLUsuIFdQZ4kaunTa8aaw5Yq0E/xbX+ySTcDgi
-	vVoVV9a6NxTizacG3+Dh44=
-X-Received: by 2002:ac2:5b05:0:b0:5b1:5f8f:bc1e with SMTP id 2adb3069b0e04-5b453f4493dmr64421e87.3.1786570171382;
-        Wed, 12 Aug 2026 14:29:31 -0700 (PDT)
+        bh=9nHTuE7AAYCFKX7KeTMghSgjvrUE2Rt+zw5zVdxCuNw=;
+        b=bhOHxG+Nprd3WD+1YSj6TFYiGyfIUU7X8aVKkchuMZ3XVF1zCSJ9lZ0fOmthOXrXSZ
+         Ac2FTQoHMUEkLrNQ2B2ne6NpuRLJpSvnuS5aIg/6vKr7y5XkmiOhjufpLka/jVP5TXzK
+         S5s5y3fehqdRTElxaI+xnrd6WWZtiWXQrIC1Xj/elJ+mSW/wX4Q8mXR9TGZwkk69U8ll
+         xYMSo2xu3yax/QXuTcxFdFOGXbislNa+K12Bj4+0321HBieyDJPFbZMNqA2ptKeXwa8t
+         LlCuWiqn3UB3/IKzY1tiyoDYkM6o/FyC1MMUJuoBeRjAWl4aIoOuOsxCUT9jjE58qsJ/
+         v9Kw==
+X-Forwarded-Encrypted: i=1; AHgh+RoS5oRX+ECdoZfUP3lim+xaXsoyK05bd8YooMzVmpEkFJabWI57x7mgqFnhayO6Lg6pnAosW9s/5/JjUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqJ/z6qKONngUO9+SQ1EPwPLdj9Wd20s/qbcWgbxcZx9EuPp4t
+	dswsJ7v4vQdCazyF4nwQXvQHRWXd5JWYoxp2Vma3b/Hg6hhP1SNX42e+
+X-Gm-Gg: AR+sD10X20lFAeCilK5GHvFtw8y3wFNC3xwAkqIU79fxMWLhtmfkxtZhqnffyIwf6mB
+	gWWxCf/ugMXb+roFz97+3YIDpSVZEzm4YPNLeo1iHiBxP8DmycsbZIdIkrf4RQ/BOw7qGeAp9xu
+	uZlagO3Ds28tGGvGbHyMYAOCnpDN86l6AElMNYEbwcEPZWog56VILWY1dCIa97F9kgmcANWwCBe
+	NHtIKAsuREnwvlKGFr+slbLTjPySAU5Km7ZQ97EuP6t1JnrTUETLjezcnQM9s/oNKSOUtBtiCJW
+	IxRXx9bI1yxc1eRLuYbq28PsG9/QCdBOB5aNoY40N/9Gdr3+VyWm3XfUL15GFSDXY3BHYbkdkYX
+	8zC7hOmA5x/RLW9sOBiG0N2FckCDBHkbLh+2T0k3oKmQ5NP89Is2rRHInnpqykMGT04ClyVnFq0
+	Hm8OhVKvEdbttcYqCdCJ4bJtsfBWTLpd9eSUOY4Xuw2TkhzGyEIqtzj4UYqnJMAzKotFSBy/1qD
+	3//ORgfkWKifeROKRRf/RI=
+X-Received: by 2002:a05:651c:553:b0:39e:a64f:d7a9 with SMTP id 38308e7fff4ca-3a11a4e7fd5mr1720061fa.2.1786570410950;
+        Wed, 12 Aug 2026 14:33:30 -0700 (PDT)
 Received: from localhost (host-80-73-162-2.rev.as20985.net. [80.73.162.2])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b4539ea6fcsm70229e87.32.2026.08.12.14.29.31
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a11b3dc5bbsm680601fa.19.2026.08.12.14.33.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 14:29:31 -0700 (PDT)
-Date: Thu, 13 Aug 2026 00:29:27 +0300
-Message-ID: <0df69e3405cbb059f5e1d7326eeddf4f@gmail.com>
+        Wed, 12 Aug 2026 14:33:30 -0700 (PDT)
+Date: Thu, 13 Aug 2026 00:33:29 +0300
+Message-ID: <cc1960d677a7f5a5c86d48c3037c0aa6@gmail.com>
 From: Andrey Golovko <andrey.golovko@gmail.com>
-To: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+To: Antoine Monnet <antoine@montane.tech>, linux-sound@vger.kernel.org
 Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
  Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
  Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Vinod Koul <vkoul@kernel.org>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Vinod Koul <vkoul@kernel.org>,
  Bard Liao <yung-chuan.liao@linux.intel.com>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Mario Limonciello <superm1@kernel.org>,
- Antoine Monnet <antoine@montane.tech>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
  Robin Everaars <robineveraars@pm.me>,
  Ville Saarinen <wiza@saarinenkoti.fi>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: ASoC: tas2783-sdw: port prepare never completes after S0i3, no
- audio and no error (AMD ACP7.0, ASUS ProArt PX13)
-In-Reply-To: <20260812192500.7714-1-andrey.golovko@gmail.com>
-References: <b1bc21c8a403fe15e742b6a6ff30b27f@gmail.com>
- <ef0cc45a88cf0b5b5a65f7634b710a42@gmail.com>
- <20260812192500.7714-1-andrey.golovko@gmail.com>
+ linux-kernel@vger.kernel.org
+Subject: Re: ASoC: tas2783-sdw: no stereo channel split for two mono amps ->
+ mono output (AMD ACP SoundWire, ASUS ProArt PX13)
+In-Reply-To: <778f017a-e1c2-4ab6-9968-6e4c6285180b@montane.tech>
+References: <29e8c08b-9475-4aba-bce0-6d4a45a26d3b@gmail.com>
+ <778f017a-e1c2-4ab6-9968-6e4c6285180b@montane.tech>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -91,70 +87,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Answering my own question from a few hours ago, since I said I would
-report back on option (a) and the answer turned out to be more definite
-than I expected: (a) cannot work, and (b) is enough on its own.
+Antoine,
 
-A patch is posted here:
+your patch from 27 July is still the only working stereo fix for these
+boards, and it is now the only one left: Ville withdrew his series on
+11 August and asked that the tags go to Robin and to you, and nobody
+else has posted anything. It has never been sent as a formal [PATCH],
+so as things stand it cannot be applied by anyone.
 
-  https://lore.kernel.org/all/20260813001500.9218-1-andrey.golovko@gmail.com/
+I think it should be, and I would like to know how you want that to
+happen.
 
-(a) does not work, and not by a small margin
-============================================
+Where it has been tested
+========================
 
-I built a kernel with SNDRV_PCM_INFO_RESUME dropped from the SoundWire
-DMA PCMs and nothing else changed. Still silent after resume. The
-register state says why:
+  - your machine, ASUS ProArt PX13 HN7306EA (the original report);
+  - mine, ASUS ProArt PX13 HN7306EAC: Tested-by sent on 7 August, and
+    re-confirmed yesterday on a current broonie/sound for-next kernel --
+    speaker-test -c2 -s1 is the physically left speaker, -s2 the right,
+    with no audible level imbalance between them;
+  - Robin's board, same amp pair, where the one-channel-mask approach was
+    independently established and measured.
 
-  DPn_PrepareStatus  0x1 / 0x2      still not prepared
-  ChannelEn          now in bank 1  so the stream really was re-prepared
-  PDE23              req=0x3 act=0x3
+Robin has asked for Reported-by: and Suggested-by: on the channel-mask
+patch, since his 5 August report and the follow-up measurement
+established both the approach and the positional behaviour of
+sdw_compute_slave_ports().
 
-So dropping the flag did make userspace stop trying to resume the stream
-in place: the port was prepared afresh, the bank flipped, PrepareCtrl was
-written. It just did not help, because after resume userspace calls
-snd_pcm_prepare(), which reaches .prepare and sdw_prepare_stream() and
-never hw_params() again -- ALSA only requires hw_params() after
-hw_free(). The Function power-up lives in tas_sdw_hw_params(), so it is
-skipped on every recovery path, flag or no flag.
-
-That is worth stating plainly because it kills a whole family of fixes:
-no PCM capability flag and no change of userspace behaviour can put the
-power-up back, as long as it sits on a callback that recovery does not
-re-run.
-
-(b) is enough
-=============
-
-The patch powers PDE23 up in tas_port_prep(), in the PRE_PREP case,
-immediately before the PrepareCtrl write that function already does. The
-dependency is thereby satisfied on every path that prepares a port,
-which is what the hardware actually requires.
-
-No ACP change is involved: the tested kernel does not carry the
-INFO_RESUME patch. Same machine, s2idle for 8 min 51 s with 526 s of S0i3
-residency, px13-audio-restore workaround service disabled:
-
-  PDE23 req=0x0 act=0x0   DPn_PrepareStatus 0x0 / 0x0   audio after
-  resume, with no user intervention at all
-
-Two remarks
+Two options
 ===========
 
-Niranjan, Shenghao -- the hw_free() path still writes PS3, and with this
-patch the power-up now happens in port prepare while the power-down stays
-in hw_free(). That asymmetry works, but if you would rather have the
-power-down move to the POST_DEPREP case for symmetry, say so and I will
-respin. I left it alone because hw_free() is also the point where the
-stream is removed from the slave, and I did not want to change the
-power-down timing while fixing the power-up.
+Either you post it yourself as a proper [PATCH] -- which I would prefer,
+it is your work -- or, if you would rather not spend time on it, I am
+happy to send it with your authorship intact:
 
-Pierre-Louis, my question about simple_ch_prep_sm from the previous mail
-stands, and this result sharpens it: the failure was silent for months
-only because the core skips the NOT_PREPARED poll for this codec. Had it
-polled, sdw_prep_deprep_slave_port() would have printed "Chn prep failed
-for port 1" on the first resume. Whatever happens to this patch, TI may
-want to reconsider that property.
+  From: Antoine Monnet <antoine@montane.tech>
+  Reported-by: Robin Everaars <robineveraars@pm.me>
+  Suggested-by: Robin Everaars <robineveraars@pm.me>
+  Tested-by: Andrey Golovko <andrey@golovko.me>
+
+Just say which, and if the second, whether you want anything changed
+first. I will not send anything under your name without your word.
+
+One thing worth putting in the changelog
+========================================
+
+The name_prefix -> BIT(n) mapping reads as if the bit chose the channel,
+and it does not. As Robin measured, inverting the two masks between the
+amps does not move the audio: sdw_compute_slave_ports() advances the
+payload offset by hweight32(ch_mask) and never looks at which bit is
+set, so a one-channel mask fixes mono by defeating mirror mode, and L/R
+then follows codec order in the DAI link, which on these boards happens
+to match the speakers.
+
+That is worth a sentence in the commit message so nobody later reads the
+mapping as an ABI promise. It does not make the patch less correct -- the
+split it produces is right on three machines -- but it is the honest
+description of why it works.
+
+For completeness on the SDCA-correct alternative that Pierre-Louis raised:
+Ville measured that UDMPU23 ClusterIndex is simply not implemented on his
+TAS2783 revision, answering COMMAND_IGNORED to writes and to a plain read
+alike, so that route is closed at least on that silicon. TI have not
+commented on the intended mechanism.
+
+Unrelated, but you followed it: the "no audio after s2idle resume" problem
+you reported in July is understood and patched. After S0i3 the amplifier
+comes back with PDE23 at PS3, and a data port cannot complete channel
+preparation while the Function is powered down; the power-up only ever
+happened in hw_params(), which a resumed stream never calls again. Patch:
+
+  https://lore.kernel.org/all/20260813001500.9218-1-andrey.golovko@gmail.com/
 
 Thanks,
 Andrey
