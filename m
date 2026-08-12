@@ -1,152 +1,131 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C417C2D2487
-	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 06:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9CC3339377;
+	Wed, 12 Aug 2026 06:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786514795; cv=none; b=K1MeH/iD6xlIcAcy+c4AfY/L0ELOTj5lAR2rb8gTjXJXaFg7S8jqzxlLfSwj7fT1qZBo7PElzXtiXiQmOYECGhv8vIptY6B9pfemKGG52UOAqXBHZOVbfw+OZ/EpJEz3AvA5GGKcvhWyzqybtW4Ve9HksJZvMco3y4E+AbfMs+8=
+	t=1786515104; cv=none; b=DMvCQEMYMTpCOIJHWBLg8o+mb67pXKt4dWjMNxbLceehXVGv0eer0VoZ0SVCECl3RblKHk297xdYldBYr+dj4k6rIW5m01i69Ou9wYUhg5kg37VKze620EUm9Ti4FEcM9tfEkMJhFGhZnHIv+xwhdxm6Z2Lfttr7wxyBtX7PS3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786514795; c=relaxed/simple;
-	bh=60U9YoNAK3zfrer3pYbUWiza0kdKZsZqBHaLlr0qixM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lIFcevh1J7jWk6vyepLWL6DjB0/97LUqs5n8WsuVlZV6NshcYQC4VHenrAGp06UhzbZfmp+iq2FAUK1vI4Z4Xs5qfBDZs4C50sSqlNPt3O/tDDYyrA2QFIaM8XyN3QOMTubm7pHUpf2ryi6E42ixQGTly/9gWLQzkaY6VeCXnlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Si9W96/5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2Euawdnk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q/Wg05RA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AeL9B1XW; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786515104; c=relaxed/simple;
+	bh=5pJ46N6gX1WykQLkyViYxnhpRc5yocTt11xclEC3eg0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kdtJU4TtELPyu4Ufqt3wGadFEJwnxTQ0ZQj+AKlE5TubBxBH8PLRLdn+Amr7iTVpKYr5p8BAoVfUM54vTWdA6TQC0BDLq/h85YcEJGhscX6RCrgrxf1r/NCEIbDse2FahB8KseGsnnuHXSKSsTU1lUpfn41JHAF9+E5s3ESlw9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=dtoyCxWb; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Si9W96/5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2Euawdnk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q/Wg05RA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AeL9B1XW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 803B0820EC;
-	Wed, 12 Aug 2026 06:06:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786514784; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mnyLDCA0wCWqECX0SECOMxmX+0r5WRIWMnq0GEgyfCs=;
-	b=Si9W96/5La6he0kJnm/vAKxvIsRfUaD9vOZy4acd+PJjAzIW0F3T9q/u4TRHkjTxm9qk+e
-	3Or7OWeMge/jNI8II7+M5yHKdhX94vEpNs7JtBH00K6zDXiuXRDssS0XEAXqiFUA3mRC5A
-	90LbnwpJ7EGgSlQLAsUfDH/PPFnLpFM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786514784;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mnyLDCA0wCWqECX0SECOMxmX+0r5WRIWMnq0GEgyfCs=;
-	b=2Euawdnkq1WUOWIb3H1QXxLh3CjZ1tXrsWECHB6e9DYVGpr0RlcVbzW5d20kPzbrWurrJc
-	/hug8x/32yFU2nDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Q/Wg05RA";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AeL9B1XW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786514780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mnyLDCA0wCWqECX0SECOMxmX+0r5WRIWMnq0GEgyfCs=;
-	b=Q/Wg05RA/fTPXEJxkfDyOyHBxVIdAq1x+mpYC3LUCz8/AX84Po1dEFvvimrjsvWIyD95Yq
-	HsXS2D57IiQyPss6fJymdbIWgvCLvEmRH5SSpOaBtyr6oihWocgsBjDyDWVaWvmm1IqPWP
-	tpZv7kO/h14aol3gxryJ1HrBpV4XL/U=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786514780;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mnyLDCA0wCWqECX0SECOMxmX+0r5WRIWMnq0GEgyfCs=;
-	b=AeL9B1XW20FlP5wYil92bYsLdHfohGdciUlATLqnyhodQQ8Jt2t6Lf8np7D75EslkgLZIE
-	2n6HnmxKwVcJ4+Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B475C779D8;
-	Wed, 12 Aug 2026 06:06:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SD3XKlUNfGrREAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 06:06:13 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: [PATCH 14/14] ASoC: meson: Drop __force cast
-Date: Wed, 12 Aug 2026 08:04:46 +0200
-Message-ID: <20260812060557.80445-15-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260812060557.80445-1-tiwai@suse.de>
-References: <20260812060557.80445-1-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="dtoyCxWb"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE9851596;
+	Tue, 11 Aug 2026 23:11:37 -0700 (PDT)
+Received: from [192.168.7.252] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 319F63F86F;
+	Tue, 11 Aug 2026 23:11:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1786515101; bh=5pJ46N6gX1WykQLkyViYxnhpRc5yocTt11xclEC3eg0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dtoyCxWbiPyCzkXwodRmMBQ1gLxOk7yoIp8TwKgi8W+GO560K7SI6FOswfvAHoQUZ
+	 Mfgabkkv9Ht4W/GMwL4DT54BXXgBrU5CbBb2GpMQEa4iPhNqlFZwXFZXcFk9RdciK5
+	 D2GBE6SUg9kWh2/DW04fc7HKWgzAzSJlNtLSOPH4=
+Message-ID: <8c5e523a-b0ab-4cde-a80d-8f89fa9e5450@arm.com>
+Date: Wed, 12 Aug 2026 07:11:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,suse.de:dkim]
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 803B0820EC
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2] ASoC: xilinx: formatter_pcm: fix stream_data leak on
+ open error
+To: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Michal Simek <michal.simek@amd.com>,
+ Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>,
+ "moderated list:ARM/ZYNQ ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260811185140.27149-1-rosenp@gmail.com>
+Content-Language: en-GB
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+In-Reply-To: <20260811185140.27149-1-rosenp@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Now that the bitwise parameter definitions are gone for PCM
-parameters, we don't have to cast with ugly __force prefix.
-Simply drop a superfluous cast.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/soc/meson/meson-codec-glue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/meson/meson-codec-glue.c b/sound/soc/meson/meson-codec-glue.c
-index 2ff6066e1b6c..8773bf06e154 100644
---- a/sound/soc/meson/meson-codec-glue.c
-+++ b/sound/soc/meson/meson-codec-glue.c
-@@ -74,7 +74,7 @@ int meson_codec_glue_input_hw_params(struct snd_pcm_substream *substream,
- 	data->params.rates = snd_pcm_rate_to_rate_bit(params_rate(params));
- 	data->params.rate_min = params_rate(params);
- 	data->params.rate_max = params_rate(params);
--	data->params.formats = 1ULL << (__force int) params_format(params);
-+	data->params.formats = 1ULL << params_format(params);
- 	data->params.channels_min = params_channels(params);
- 	data->params.channels_max = params_channels(params);
- 	data->params.sig_bits = dai->driver->playback.sig_bits;
+On 11/08/2026 19:51, Rosen Penev wrote:
+> In xlnx_formatter_pcm_open(), stream_data is allocated and
+> adata->play_stream or adata->capture_stream is assigned early.  If a
+> later step, such as snd_pcm_hw_constraint_step() or
+> snd_pcm_hw_constraint_integer(), fails, the function returns the error
+> immediately.  ALSA does not call the close callback when open fails, so
+> stream_data is leaked and the stream pointer is left dangling, pointing
+> to a substream that ALSA frees.  A later interrupt would then call
+> snd_pcm_period_elapsed() on the freed substream.
+> 
+> Free stream_data and clear the stream pointer on the error paths.
+> 
+> Fixes: 6f6c3c36f091 ("ASoC: xlnx: add pcm formatter platform driver")
+> Assisted-by: opencode:deepseek-v4-flash-free
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> Reviewed-by: Michal Simek <michal.simek@amd.com>
+
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+
+> ---
+>  v2: change goto label from err to error.
+>  sound/soc/xilinx/xlnx_formatter_pcm.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/xilinx/xlnx_formatter_pcm.c b/sound/soc/xilinx/xlnx_formatter_pcm.c
+> index b50306b0fc06..3d6f1e4046d8 100644
+> --- a/sound/soc/xilinx/xlnx_formatter_pcm.c
+> +++ b/sound/soc/xilinx/xlnx_formatter_pcm.c
+> @@ -383,7 +383,7 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
+>  	if (err) {
+>  		dev_err(component->dev,
+>  			"Unable to set constraint on period bytes\n");
+> -		return err;
+> +		goto error;
+>  	}
+>  
+>  	/* Resize the buffer bytes as divisible by 64 */
+> @@ -393,7 +393,7 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
+>  	if (err) {
+>  		dev_err(component->dev,
+>  			"Unable to set constraint on buffer bytes\n");
+> -		return err;
+> +		goto error;
+>  	}
+>  
+>  	/* Set periods as integer multiple */
+> @@ -402,7 +402,7 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
+>  	if (err < 0) {
+>  		dev_err(component->dev,
+>  			"Unable to set constraint on periods to be integer\n");
+> -		return err;
+> +		goto error;
+>  	}
+>  
+>  	/* enable DMA IOC irq */
+> @@ -411,6 +411,14 @@ static int xlnx_formatter_pcm_open(struct snd_soc_component *component,
+>  	writel(val, stream_data->mmio + XLNX_AUD_CTRL);
+>  
+>  	return 0;
+> +
+> +error:
+> +	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+> +		adata->play_stream = NULL;
+> +	else
+> +		adata->capture_stream = NULL;
+> +	kfree(stream_data);
+> +	return err;
+>  }
+>  
+>  static int xlnx_formatter_pcm_close(struct snd_soc_component *component,
+
 -- 
-2.55.0
+Regards,
+Vincenzo
 
