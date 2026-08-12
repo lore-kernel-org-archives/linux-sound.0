@@ -1,153 +1,134 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8706365A19
-	for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 23:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786489349; cv=pass; b=WGoqm0RzotsvI5rUiLDN40kbBoZSvFJOMzej1EVVo4ZxDWlZ0B6WN2LMAMZsydw4kS9k/mfL7P99iEHFRHcxWBSzni4HoUQxljWVIljWtm9KHkoeOIz3DJCoTAjl6ygMGiukJm1cNKlBETwY8Syla1g3DE+U4EXUp1l/iy57Lnw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786489349; c=relaxed/simple;
-	bh=ShbddW7mELQmRSzLa6+ZKEEZehIXyfWmf5kiFqADHXY=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=CjXvOZNihjLAID5g641LZOXFgabrkKvWpUNiChu08Zh8y28TmmUdm027Tfa91b1uCSlqbBICMIEpANnhtiADAFArdBX63gH2YDPcGkUybsupWbV2FgYGLDOomLCD7iyNhHhRYd4XCFbrbu0zRNLSBZ/6N4XY8nsMbDxC9wsrKfY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YjW8LBg5; arc=pass smtp.client-ip=74.125.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A8A35E549;
+	Wed, 12 Aug 2026 00:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786495456; cv=none; b=nkY3ZzPmf9Qs+jza695PPr6ODYwhiyqVykbE4AbABcbG2zgn6S0fzX2TxRoQoOCsswEw7M4YI+N1McbOKd3WWpzNR6rN6hTQ6NXkicxrgBIYP/8O0jzcR38c0fqLia9RbiSrhyioA57l8Tv5AnDBpk0YrNrfhL07CBMfNySR7o0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786495456; c=relaxed/simple;
+	bh=C1N3V2wJq15d10Pk83+/UVgIWtp+1UNHphFnXeVp5vQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ulH3Z22Hw3MwDuv0dfEa988QRTJSlKfhacbHEMhxk7oBGCN0NgRrLSyJjphwuD9DFI0CZdBz5kd1ZGQHG3V6jaSw2G4ak0nMB2Ls9Py+ZroVmQJi3rAh2n0BF+/SZ6cU/HQnelDYIVTV+66iyPRn06naPAOCsjckbrxZ5kJo5GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OjlQ1j5l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YjW8LBg5"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6679d88abdcso645548d50.2
-        for <linux-sound@vger.kernel.org>; Tue, 11 Aug 2026 16:02:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786489347; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JFxvTsbsiRTrzk67F0+h3jY95DeObjR5P867h9GAIM++6mybMWMzG5pixsf1sCTp4O
-         veLgqmg6EPPxfVOfi5MlFcS5aN0uKRajGF2b1EN3KWkJ+XTZQTalM6tGmLedmLrh4xhB
-         PjNWhrfNU+HrVayXYKWPCR1WRlXfNpm2LZN7r5C3h1ojvq6YOF6DgIT7YxrGUCTROg7d
-         i4ipYiIwKGiJoYQORRvPjcJJdKATCCoDRKWIpjDPZEwV/1lrWpgb9jM4JfgBFYX3dQxn
-         +a/cFzZgOJE2n332CLknnzhnhhSi0ATOLfrqZ9adXh0Mp5TT416q5b2eMqxj5nWMwqvG
-         7C0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=3HRaaPgZ8YLqgi0ahDNyK9IYjpPSagcZrlAUY/4gc/I=;
-        fh=RGnJuy/Ycrv4InBWjIdiAKsAIfYtfI+FYs6Ou0adh4s=;
-        b=OiaeSfhHsxSqjs0WUrapuBmc363coB6oXXWJVANLXlz1iQDX45Gr08QnBROieY1/TV
-         d+itfT08RB1GfyTv6O/XEbdTvF6aYXjYVEKq4Ow5gZ5mws0Ibrn7OTsC53Gg7Lp5UjvF
-         GYiNwUXuCqK0N4Cn8uacYqUs8pFafvxBpHb9Mbe5pB4bOO5Qpn6ijC5ZcBMZpEMlFJce
-         hBc8MlZyivtussZ/MkfyC7KAB6mFCagGr2T2kUfFO7RMKF/6YCOY6v0UhDDizNe3MrC2
-         tTXpXbx6A9Hog5WtyPXikLxfDvzGnbAyVuyydwNaLPUUz7jPlx54yczAPTnFiijPtqH2
-         S6xw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786489347; x=1787094147; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3HRaaPgZ8YLqgi0ahDNyK9IYjpPSagcZrlAUY/4gc/I=;
-        b=YjW8LBg5RrJpToIfVbKwquJDEstR2HZ6h3+pqvE767Qwz/kWmbMf+SRpjfwXP355gk
-         uMXxBQpubL+mJ+MoDumDt4qOQm19gl4pwDNETyyznROofSUE0TR8rpi3nrcGYuqzVnZW
-         rpWstmZkaPw0fIlB1aFOrlrf89e9eRxnvPowFOGHKMrRRNZ5iMaolia63NkrSMp1lpIc
-         Kr6FvVDNQOHNbL2t/DTP+awc9KMpy45Eb03eN9PxoQcB75WOzUcFO+pvfr6xp5CKo0eL
-         LieEdU9Fd0NePyAmLYbkWLXen9ljNWh+xMeO1NOPxSTofOICy3irRNKKPGLQAsX+O44u
-         iljg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786489347; x=1787094147;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=3HRaaPgZ8YLqgi0ahDNyK9IYjpPSagcZrlAUY/4gc/I=;
-        b=ASKK3+cxP/7sMuKD8I3s5bKGOxDW5RKS7cSz0vgiQnmPAd1AaVu0jaZZ5bGNQlDvSF
-         xeZmrAtCWFo2oAn+frR9gw1yzX4Eptv5VRb9s8dswVB6FG0zdGpdBvGRYwzdg8O4hyQh
-         DUgS9I8sNqMdHzZUXtyFUSndLSzK0ciflggtHHccZLYC+48CS28AXzfAYJTyfop4uivp
-         f0L9zMrgQ2vYQktfmsIgf6ErQkX4qO/yX0cs5TTUvo3pRq9JuMIZv3qZwXhtrMU50xmI
-         J21rAWUThg8F28d7ZWfxU4yyTgpfGLKLPne4gBLo/jk1NnfMzxVAaaliMi8jSSO8CflW
-         COlg==
-X-Gm-Message-State: AOJu0YztkbTPFo5sgaBWrZk5n9wCjxPIpS9QMJ20uG4/i05Q/X+2Qmvn
-	ypFNGSP9tSeiBl6ChHkJki98AIrkWGLoA9wyw9hc1EHoeDY1v808DHE9cl5NLmKAq+4TZve6Yll
-	McJNJ0ZUWTNCqj6p2g8So3T9Md8ImGaQ=
-X-Gm-Gg: AR+sD12R1HLYbsZfZkbx3nyM88lKmfhncLkwW4hInsB2Nsk/cQD87+NdqyddLnNwJm7
-	O4DxD50bwzkIbdkXnIT97JWNci1o+Q7lyh2P+4XhD8431lAgBOJAy0iO/nzzcGoGiz3ygLH2dwq
-	aaOaHZxluOraruWGJ7mH5TaXkFWy28J3YOxSlSlg8xMVWdtgy4T+whn6JmvDKKLizI01/s8syMs
-	4Wzu9Lbdvvouq9AKwKLUUKUT9ZxyJ4NRmdqPO5Y4kEdZteVOnk/UkWRX5e/32IoIqij0LosVLs0
-	lqS+j4BEWAWu3dInY5d50SsddQ0/XmiEqkG/KfJI3k1KDFrF7yJyaYs=
-X-Received: by 2002:a05:690e:244c:b0:667:c09c:4a36 with SMTP id
- 956f58d0204a3-66b34100c12mr342636d50.11.1786489346568; Tue, 11 Aug 2026
- 16:02:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OjlQ1j5l"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CDA78C2BCC7;
+	Wed, 12 Aug 2026 00:44:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786495455;
+	bh=C1N3V2wJq15d10Pk83+/UVgIWtp+1UNHphFnXeVp5vQ=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=OjlQ1j5lv7fC+R3KxBDBdDuctBUIO7EKBb7RZChvDnBY8hkzkkjPPuzidthhXCGkb
+	 HukVO/FF0Ik+z2CLwwiJm4QWOyOGt+o2X/xHR0QGDSlrOMNuZVNPLpDwjs+Ph6CLPI
+	 iZ63WRYOPP+zObyzbryf5idocrcm7j8NdFnBV8icl7gUIQa9vvOzDrnJz7BLZPkFkc
+	 jrAP3uwzATzjAoCi0qVefmDAKpYvOa+mSiqHaWiEb1g/qOean5vHVA5Fg9qGIQRLSu
+	 DKRYsusRChkPAEw3iavsDXrSmyOz7sTIPcHxBQFyECQh7Uh6Wa1j2trvvqgqXi021N
+	 u+q/eM6AIiXgA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9D61C5CFCF;
+	Wed, 12 Aug 2026 00:44:15 +0000 (UTC)
+From: Trevor Vorhees via B4 Relay <devnull+vorhees-work.proton.me@kernel.org>
+Date: Tue, 11 Aug 2026 20:44:10 -0400
+Subject: [PATCH] ALSA: usb-audio: Fix sample rates for PreSonus AudioBox
+ USB
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Kel Modderman <kelvmod@gmail.com>
-Date: Wed, 12 Aug 2026 09:01:49 +1000
-X-Gm-Features: AUfX_mze1jQ-YO12tVxiNLU0qkeR6krACQ-S9rqECzpldzdY9MGH1rnzpjQ2NZY
-Message-ID: <CAFcu4SY1cRs4WD7=ZaD0s_ybYXO2=d-ZMG+dSeotktuPrz2YUg@mail.gmail.com>
-Subject: ACP7.0 SoundWire: two TAS2783 amps, only one channel reproduced?
-To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260811-audiobox-usb-fix-v1-1-13c8b7f071ea@proton.me>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSwqEMBBF0a1IjbsgibS/rTQOEi21HBhJGRHEv
+ Rvb4Xnw7glCgUmgyU4ItLOwXxL0J4NusstIyH0yGGUKVWmNNvbsnT8wisOBDzTKDvW3zolMCem
+ 2BkrzP/lrX0t0M3Xb04HrugE6d+HYdAAAAA==
+X-Change-ID: 20260811-audiobox-usb-fix-20af9593ee27
+To: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+ Abhinav Mahadevan <abhi220204@gmail.com>, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786495455; l=2050;
+ i=vorhees-work@proton.me; s=audiobox; h=from:subject:message-id;
+ bh=l8HNN0FiikEfBKzUrr9nL6yHOYFf/Ri6waOiekc5h3E=;
+ b=sqW0ZUmJEBAU7wkM6OyXVmUTi81pbBw+VZk352fbWQqspQYOORCA24A0RwobB+ef6P2/rw0fe
+ w2oca1x3jrRC2V4AieDyd7tzbEZ8uE/nucwzpXkt/wiLBONWUFmrkPL
+X-Developer-Key: i=vorhees-work@proton.me; a=ed25519;
+ pk=TmdvK8GsvZOb51T6DVhj7yKhGOofzmPnu20FNaeLwLg=
+X-Endpoint-Received: by B4 Relay for vorhees-work@proton.me/audiobox with
+ auth_id=940
+X-Original-From: Trevor Vorhees <vorhees-work@proton.me>
+Reply-To: vorhees-work@proton.me
 
-Hi,
+From: Trevor Vorhees <vorhees-work@proton.me>
 
-I have an HP OmniBook X Flip 14-kc0xxx (board 8EA1) with AMD ACP 7.0
-(1022:15e2 rev 0x70, subsystem 103c:8ea1), and I am trying to get its
-speakers working with assistance from claude. I have got most of the way
-there but I am stuck on one point, and I would be grateful for your advice
-on whether the layout I am using is the right one.
+The fixed audio formats for the PreSonus AudioBox USB specify a discrete
+rate mask but leave nr_rates at zero and rate_table unset.  find_format()
+therefore rejects every requested rate, preventing the playback and
+capture streams from being opened.
 
-The machine has:
+Add the advertised 44100 and 48000 Hz rates to both streams and report
+their 24 significant bits.
 
-  link 1, uid 0 - Realtek RT712 SDCA (headset jack and microphones)
-  link 0, uid 9 - TI TAS2783
-  link 0, uid C - TI TAS2783
+Fixes: 34fe4a9df247 ("ALSA: usb-audio: Add quirk for PreSonus AudioBox USB")
+Cc: stable@vger.kernel.org
+Signed-off-by: Trevor Vorhees <vorhees-work@proton.me>
+---
+Tested with a PreSonus AudioBox USB (194f:0301) on Linux
+7.1.8-zen1-3-zen. Playback and capture streams opened successfully at
+both 44100 and 48000 Hz after applying the patch.
+---
+ sound/usb/quirks-table.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Two local changes were needed to get a card at all:
+diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
+index 71444c28..9a28d7c6 100644
+--- a/sound/usb/quirks-table.h
++++ b/sound/usb/quirks-table.h
+@@ -2692,6 +2692,7 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 			{
+ 				QUIRK_DATA_AUDIOFORMAT(2) {
+ 					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.fmt_bits = 24,
+ 					.channels = 2,
+ 					.iface = 2,
+ 					.altsetting = 1,
+@@ -2703,11 +2704,16 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 						 SNDRV_PCM_RATE_48000,
+ 					.rate_min = 44100,
+ 					.rate_max = 48000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) {
++						44100, 48000
++					},
+ 				}
+ 			},
+ 			{
+ 				QUIRK_DATA_AUDIOFORMAT(3) {
+ 					.formats = SNDRV_PCM_FMTBIT_S24_3LE,
++					.fmt_bits = 24,
+ 					.channels = 2,
+ 					.iface = 3,
+ 					.altsetting = 1,
+@@ -2719,6 +2725,10 @@ YAMAHA_DEVICE(0x7010, "UB99"),
+ 						 SNDRV_PCM_RATE_48000,
+ 					.rate_min = 44100,
+ 					.rate_max = 48000,
++					.nr_rates = 2,
++					.rate_table = (unsigned int[]) {
++						44100, 48000
++					},
+ 				}
+ 			},
+ 			QUIRK_COMPOSITE_END
 
-  1. The BIOS reports acp-audio-config-flag = 16
-     (FLAG_AMD_LEGACY_ONLY_DMIC), so snd_amd_acp_find_config() returns a
-     value that neither acp70_pci_probe() nor pci-ps.c accepts, and the ACP
-     ends up with no driver bound and nothing in dmesg. Adding the board to
-     acp70_acpi_flag_override_table solves that.
+---
+base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
+change-id: 20260811-audiobox-usb-fix-20af9593ee27
 
-  2. There is no entry in snd_soc_acpi_amd_acp70_sdw_machines[] matching
-     this topology, so I added one.
+Best regards,
+--  
+Trevor Vorhees <vorhees-work@proton.me>
 
-With those two changes the card is built correctly. The headset jack, the
-microphones and the UCM profile all work, and both amplifiers load their
-firmware from ti/audio/tas2783/8EA1-0-0-0x{9,C}.bin without errors.
 
-My problem is that only one channel of the stream is ever reproduced. I
-measured this with the machine's own microphones rather than by ear, so
-the numbers are repeatable:
-
-  amps on group_position 0 and 1:
-    only the position-0 amp plays, and only stream channel 0
-
-  the same, but swapped over:
-    only the (new) position-0 amp plays, and only stream channel 0
-
-  both amps on group_position 0:
-    both amps play, but both play stream channel 0
-
-So both amplifiers are healthy - either one on its own reproduces the
-whole signal when it sits on position 0 - but stream channel 1 is never
-reproduced, whatever layout I use. Nothing changes if I use the other
-firmware variant (8EA1-1-0-0x{9,C}.bin).
-
-I modelled the two-position layout on acp70_rt721_l1u0_tas2783x2_l1u8b,
-and the shared-position layout on tas2783_2_adr, which pairs two devices
-per position with /* left */ and /* right */ comments.
-
-So my question is really a simple one: is a two-TAS2783 configuration on
-ACP 7.0 expected to work, and if so, what should the machine entry look
-like? I am probably missing something obvious.
-
-I am happy to test patches or collect any further information you would
-find useful - I have the hardware in front of me and can rebuild modules
-quickly. I can also send the two patches I am carrying if that is helpful.
-
-This is on 7.1, and I checked the relevant files against the current master
-and the sound tree's for-next as well.
-
-Thanks very much for your time,
-
-Thanks, Kel
