@@ -1,174 +1,95 @@
-Received: from mail-106118.protonmail.ch (mail-106118.protonmail.ch [79.135.106.118])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149ED3AC0EF;
-	Thu, 13 Aug 2026 12:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29F91F8691;
+	Thu, 13 Aug 2026 12:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786623425; cv=none; b=lmt63eDM+6GqH0zVYnjsboEniUSgXjHGdrUG1U7redPIO23RqK9W/5TjeYbuhdaspLOLIx1S0sDP57N6o+LHoNytfufDPYTg+cQy4joCeAVZtfHCedgp6QX9LsVXd/fbTDuLG/JqyjSHsCgg8RY9hrk9xnCbON/5Ebfv0SVOwPA=
+	t=1786623630; cv=none; b=qn5eedldqRno4IFCBsZx80zDjdha9UpSheAbjJTtLrqfSiZf2fCvTydt6HUedFqcgnhoUrdcq0Kdb6D6yUsWNQAN0z5JEiQZIWEJerGPlLcGLxQtTHd4ykMgLuIqVkKtbm1tcd9hlJcQmxBGAj03XBWLzSRQuTmvBv/1CnyFoBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786623425; c=relaxed/simple;
-	bh=kmouqm8SkvRUJY3ZPgrzRUVhdV+rk4EleN3abSBY2ls=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tcLe26hrXQcDwHLOnBUsxVuVBQgvbRudPJE8mttJYHmZyAo/V9FX7T8FV++LAZsjs7/ahvdYdKz8Ze/PruroXg8i8HDhyQlOyjz2Qq9JnH6d3gLYtPSzDxPZotaOXEYYkqMRkdlVyHczJmdOmsbeVXwfkyYOzg/b5OvqwpcQPmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=TbeQ+8YJ; arc=none smtp.client-ip=79.135.106.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1786623630; c=relaxed/simple;
+	bh=WMCbSYBvbFSAqJCoiPswlpF/qTICQkeiWenI/Fv71Cg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=d+XPdCKOMBH1H+PR6BiQXTTchJOuNgwzmsalU9ybp1w/48EOU+SMnK4dK4gV7dpysp4a9pTgeOog01r7kNMr6YbFdeF0DHvGA+uPjKwZjtI4ws4WEnFz0XUZohZpwB58gigVAB1mGIl6rXuVDjWTfGy8qDuShZKd2BWdX7NO6MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LliF5Im7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="TbeQ+8YJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1786623412; x=1786882612;
-	bh=KdzjffwG40yGC0jFidoxH5/KGXAydmp33nURpur2L+U=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=TbeQ+8YJo2VlnAxVuKstdDyqVIFxJd/bsW9RY15ubdLKcUBIEuW7lQuFKYxxTwIvQ
-	 r5BaLwVZr+0aZi4DE4BZwSc3ProHEvanexogBZsQE9an5PQ7WZJRm4nl50JCOVkpYR
-	 lRKpDd1+CBvIX10arbLEe4Sm4jkFjDJbN+C3ujVVi81v34tYEBfH/C1uTtA4WdKHe0
-	 +yIj5Y2admDxRgmfOvWlvCy+GbekkKd05bMoa6hLmgOwC5V1oLSqu/okuhQbJRRq5c
-	 /vzCXzsF5vDwrInhAR+Ct3XEoLZHa287gvZq2FFHIerUwNqeHXfAuIl9CmIALm7Xs/
-	 dtLHYQW7QtmQQ==
-Date: Thu, 13 Aug 2026 12:16:48 +0000
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, linux-sound@vger.kernel.org
-From: Robin Everaars <robineveraars@pm.me>
-Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, broonie@kernel.org, linux-kernel@vger.kernel.org, Mario Limonciello <Mario.Limonciello@amd.com>, "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>, Syed Saba Kareem <syed.sabakareem@amd.com>
-Subject: Re: ASoC: amd: acp-pdm: full-scale burst on every DMIC capture start
-Message-ID: <20260813121645.15370-1-robineveraars@pm.me>
-In-Reply-To: <759b61f5-6584-4397-bd61-8995bf5aa5fe@amd.com>
-References: <20260805181130.75314-1-robineveraars@pm.me> <9a5937cc-f4b2-42d7-8564-da81f6cf4e9e@amd.com> <20260811123336.197402-1-robineveraars@pm.me> <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com> <20260812134148.17343-1-robineveraars@pm.me> <759b61f5-6584-4397-bd61-8995bf5aa5fe@amd.com>
-Feedback-ID: 201127006:user:proton
-X-Pm-Message-ID: bd33debcf60b952d97f2e127bc694fc121475477
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LliF5Im7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B7581F000E9;
+	Thu, 13 Aug 2026 12:20:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786623629;
+	bh=j79Qv2kin7snMq51u+mksCtLNTIh6v/403FJtOsIOxY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=LliF5Im7g4i0LBPkEuB0ArAle1L3Wvcr3GtKvLVyY4iHgSJYmF6nF/wKfNZqGS/KF
+	 VgkzFypGexMUbm7twuHFfxkeENfqUF8VB0OMo1yDP88AAJpjeH38X1IqkB/G/9aNj4
+	 4FULUnknnAedjA/5gud1Iv4qTlv3A+H1/Vx1ExB9RXlU21I3An0Mu37mFmtrukYB3s
+	 EK5qLKi1xc31OeLuBxrDX+PKZC7+K3pvD8evoCY4IKtztUxffbaozekI7pDG/Ugsfa
+	 T2xhVpM8sOniC3et1kUMaF1UjYZwdRozu9EmbqanEC4YvOn8LdX2M5Yq9m7AjyVMV/
+	 A7Gt7pckzpdvQ==
+From: Mark Brown <broonie@kernel.org>
+To: Yixun Lan <dlan@kernel.org>, Takashi Iwai <tiwai@suse.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, 
+ phucduc.bui@gmail.com
+Cc: Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
+ Goko Mell <goku.sonxin626@gmail.com>, 
+ Jinmei Wei <weijinmei@linux.spacemit.com>, linux-riscv@lists.infradead.org, 
+ spacemit@lists.linux.dev, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260805064348.44283-1-phucduc.bui@gmail.com>
+References: <20260805064348.44283-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH v2] ASoC: spacemit: advertise only DMA-backed DAI
+ streams
+Message-Id: <178656041255.521321.7252255564384020860.b4-ty@b4>
+Date: Wed, 12 Aug 2026 19:46:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------ee20000a9a555471188f42be2786f95c488e589710f0a9f2f8058ab770e00651"; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=WMCbSYBvbFSAqJCoiPswlpF/qTICQkeiWenI/Fv71Cg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqfbaJ4xXTgaAU8344lNnzLHvdYVkrGGb5f1eyH
+ s5VgiGWywqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCan22iQAKCRAk1otyXVSH
+ 0HqpB/44WA3YXP8HUVRPmnUU+CaKSAAsNSpCeGaKrWokoYw14GfslOin9QfaxnVtK2nvQGb8hEe
+ BgVlCQcdGLimIF370fcNVOBnoe/zyrX5mfwTkIe9kXCe2BnmkYQa07Q+nlzGK30knIoYvaX/59r
+ 8m8q/BX1DvkY6l1J9OrglwNOwfiR2oJTfULl/m2mirlq34G3WT9/bSdJni9TJLyxnsjntGFwTiC
+ XUsHYmIAQRS5XB4A2MPjazuNyqibaDiFHAwbX9Pm21HviIfswR5142VE2Xy43R+J6HC+Ci6G99+
+ xHTZeysYX5BilSm+3r1IeZ425sl0E9nxc+EhrJXYYFjl+s2S
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------ee20000a9a555471188f42be2786f95c488e589710f0a9f2f8058ab770e00651
-Content-Type: multipart/mixed;
- boundary=592e8f6824db24ded7a8911e423ba6b4bbb9341649cd6a93abba490fc1bb
-From: Robin Everaars <robineveraars@pm.me>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
-	linux-sound@vger.kernel.org
-Cc: venkataprasad.potturu@amd.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mario Limonciello <Mario.Limonciello@amd.com>,
-	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
-	"Syed Saba Kareem" <syed.sabakareem@amd.com>
-Subject: Re: ASoC: amd: acp-pdm: full-scale burst on every DMIC capture start
-Date: Thu, 13 Aug 2026 14:16:45 +0200
-Message-ID: <20260813121645.15370-1-robineveraars@pm.me>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <759b61f5-6584-4397-bd61-8995bf5aa5fe@amd.com>
-References: <20260805181130.75314-1-robineveraars@pm.me> <9a5937cc-f4b2-42d7-8564-da81f6cf4e9e@amd.com> <20260811123336.197402-1-robineveraars@pm.me> <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com> <20260812134148.17343-1-robineveraars@pm.me> <759b61f5-6584-4397-bd61-8995bf5aa5fe@amd.com>
-MIME-Version: 1.0
+On Wed, 05 Aug 2026 13:43:48 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: spacemit: advertise only DMA-backed DAI streams
 
---592e8f6824db24ded7a8911e423ba6b4bbb9341649cd6a93abba490fc1bb
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Applied to
 
-> Please try attached patches.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-I tested the exact two attachments against v7.1.7 on the ASUS ProArt PX13
-HN7306EAC. Their SHA-256 values were:
+Thanks!
 
-  patch 1  c7e60e6850e3e61582d00a419f20afba863cee8253a3c5afe79a80de9464d8d8
-  patch 2  ceda8170c0307415c8d2aabea652b667391801c19a2c34e67eca3216b750f5bd
+[1/1] ASoC: spacemit: advertise only DMA-backed DAI streams
+      https://git.kernel.org/broonie/sound/c/0a91bb72980e
 
-The ordinary paths remain clean:
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-  - 5/5 runtime-suspended cold starts and 5/5 warm starts delivered no
-    clipped or >=99% full-scale samples.
-  - PAUSE_PUSH/PAUSE_RELEASE passed 3/3 with a 0.5 s pause and 3/3 with
-    a 2 s pause. All six complete recordings had no clipped or >=99%
-    full-scale samples.
-  - prepare followed by close passed 3/3, with prepare taking 303 to
-    304 ms. Runtime PM suspended the device afterward.
-  - forced XRUN/reprepare recovery passed 5/5, with clean recovered
-    blocks and prepare times of 304 to 308 ms.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-One initial cold attempt returned -EIO before delivering data. It did not
-recur in the next five runtime-suspended starts and ther
-e was no matching
-kernel diagnostic, so I have kept that observation separate from the
-reproducible system-resume result below.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Patch 2 cannot sleep in the trigger callback on this path. During a true
-active-capture s2idle test, ALSA reached SUSPENDED at frame 90128. On
-resume the kernel reported:
-
-  BUG: scheduling while atomic: pdm-alsa-lifecy/13258/0x00000002
-  __schedule_bug.cold
-  msleep
-  acp63_pdm_dai_trigger+0x10d/0x2fc [snd_ps_pdm_dma]
-  soc_dai_trigger.part.0 [snd_soc_core]
-  snd_soc_pcm_dai_trigger [snd_soc_core]
-  soc_pcm_trigger [snd_soc_core]
-
-The comment stating that TRIGGER_RESUME runs in a sleepable PM resume
-context does not hold for this ASoC trigger path. snd_pcm_resume() never
-returned to the test program, no post-resume sample was delivered and the
-program later received SIGSEGV while querying the PCM state in libasound.
-The kernel logged a second scheduling-while-atomic warning during core
-dump handling.
-
-A fresh capture after resume worke
-d and delivered 48000 frames with no
-clipped or >=99% full-scale samples.
-
-The settling operation therefore needs a sleepable path before DMA is
-armed, rather than msleep() inside the trigger callback. I have withheld
-Tested-by and can test another revision on the same hardware.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Robin
-
---592e8f6824db24ded7a8911e423ba6b4bbb9341649cd6a93abba490fc1bb
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
- 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
-Content-Type: application/pgp-keys; filename="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
-dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
-bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
-Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
-UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
-eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
-akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
-SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
-UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
-MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
-QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
-SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
-RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
-Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
-LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
---592e8f6824db24ded7a8911e423ba6b4bbb9341649cd6a93abba490fc1bb--
-
---------ee20000a9a555471188f42be2786f95c488e589710f0a9f2f8058ab770e00651
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wqsEARYIAF0Fgmp9tbAJEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmcUf7dELrF3wwU4HJUAtdl+FiEEi2uhMrb2XujF
-nFjLHcV/a8sGGooAABI7AQDMbQ88mSb9tp0f/F+vD+JWJnJv+KUQ5YpqlGUU
-PLXBlwD+JMRNujyq2Vj/PtW5jbK7iEh8CTr+qNsYLFJRbOQLFAM=
-=gmcH
------END PGP SIGNATURE-----
-
-
---------ee20000a9a555471188f42be2786f95c488e589710f0a9f2f8058ab770e00651--
+Mark
 
