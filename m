@@ -1,95 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981EA3EC804;
-	Wed, 12 Aug 2026 08:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527743FDBF8
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 08:52:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786524304; cv=none; b=lklp91TfLHU2ucXKROyL0Ze+3uQbFItpow0lZzjlbtEN15LlZT8hHNIBO+eC3d9k2aAH7ga2Ybs6yl9a6ilHMhKL8pgXVCDrkvtIy892RfRQl2S+zpy57xPOjTa77ARrRqeu0wjK+KHn9so6pvJXF050690NtweLyZ8iJuCtz1g=
+	t=1786524731; cv=none; b=ASmUaN3pnBsMNQbOT7ReeSc6gH1eInaZywyEtgdL71Zi+dOPKywCtj7/cZwu3WS5EuQhz8WvrkMkF4p+XR2kvQjIZWTeTKQlBRNSzPwUZSfwwu6ir68gVIGsuYJdkjkZdbneW6Am9inohT3S+6S0Hsb75PpyxPEQ5f5/aswYPBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786524304; c=relaxed/simple;
-	bh=2CSMtcXEqc0tpmFCbYeOA99mobukjNgRUya0dU22yxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pPNj/WZWf1PW9gWSu/zy0BojNJHAu5kXx0lDrVsXsuwEJsltHUJ7nmWKbrBcMBBu+wwtL0yEIHbin0pHp9mTd9cWkh7MQD8FW/TB6NzMNfRNguGPdNzcfqojftJlcGojic6VbOc6CZ3pg6IRoClNHdCqP+NgHaKKbmITfW7+c4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JZ9RvO5r; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786524731; c=relaxed/simple;
+	bh=hDT6SsWVXv051drBBLQfL1AKF73QYG6UGvdLTEQdEpQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hSLQ5gK8kS+fKz3bwIvMBnODoMnL3G3Gd+mkrHcIzfTv53cBwvVjZM8n/KAusfvitL0e+wfd7ysgXrzwpPhKjL4ZLOklxCqlBe5117sfPc2Ae1YNEfYq7KtdvH4FQVHlIAWuEYCAgw82EKQ8Zj232hptKWmEoIebopNHXBwTQic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k9baS7tM; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JZ9RvO5r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B9D91F00A3A;
-	Wed, 12 Aug 2026 08:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786524300;
-	bh=TGQs2XOjKlYSsf1IPMQ1PKQCI6R3QYdOYTCj0+ngk14=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JZ9RvO5rnMBpsm/TwIHag8vWK0VkyOZqmGqW0LA/19erVWejoPe0XDxFsrKORnT8y
-	 AeciO/7Iag677BVa5xXt3XDtYsebXh2IRUHNx9PfLTrgC16KU+/C9oEq+vWY/WNr11
-	 gM49iCmWNifbp1uKK2oXB5vOTEBHuwAstof6gAMGxkknIbIW0E99d/OwTbPt98uwK6
-	 7j2T05pPqk+u1+355Mk7TzklPjun2ACDLI7qBhChrOafG7aQ/oF9gg8rDBJw0A2qtT
-	 gTKQXTZxpUBFD8NGi9v74qjd5LYUMp7xE2VdC3UmQ4WBaexw03frQoJKbwrUa3u1U3
-	 vAkOntA/nrSCQ==
-Date: Wed, 12 Aug 2026 14:14:57 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: broonie@kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH 3/4] soundwire: bus_type: Create IRQ mapping before
- calling driver probe()
-Message-ID: <anwyid-ZPYHo1huA@vaman>
-References: <20260810104045.60701-1-rf@opensource.cirrus.com>
- <20260810104045.60701-4-rf@opensource.cirrus.com>
- <anqwMUVn4VnbaI6S@vaman>
- <271cedf9-9fb0-443c-ae26-fa3276e3c6ab@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k9baS7tM"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso619960a91.3
+        for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 01:52:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786524729; x=1787129529; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wVscmLxxxkjHHqv8gqJE8+q16IwQqZ3TyerfRT+WpMs=;
+        b=k9baS7tMvtC5m+gd0ybNbv7omrLI6cK8VasEKZRSfblOgA96/TxQvCu86QbecufRtp
+         CBF/AvIbCBgu/Rx515NuTxYx8vTgkbV5RJJHi26R3dYVkN3EGIsLyZiLEjnrKItS2GFX
+         O0S/qjV8Dejz4Uj6coKKkzgC/ixuTen7Y8HAeSYBrAOKUpAcjnglcpXSxcz7zqXdH9xV
+         XBrQpTPcQUnQDN1hKl0+fav+9xLLANfSUJBsaEK4W0EDlLjgub1ylstatENh9m6VY0Po
+         xvQtLbRvc+yryh4McgJRV3cRrV2WgvXdZYIGioC2yXix6qJ1UQcSY3+Q9WFGi5GNENaT
+         U3RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786524729; x=1787129529;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wVscmLxxxkjHHqv8gqJE8+q16IwQqZ3TyerfRT+WpMs=;
+        b=WS1GE0kU6vbCowJ/UoGkvQUyMhswvcVu44HW+He+EwKkv7N0zdN4w8KOAyJ+O1TtGo
+         MXwmXQl35IbIreEZfragayPqSUPu2f/Hc7S/RkSUssGxJyv/UD+3Ru6yYe09K/DYZ7OE
+         2C3ZpSr1JUYqOACOssM92ICIWxRH0eV3bK1c+hSYs1PqenyXKASfGq+x2sHSEj7SJh1B
+         dkznJyuLw1v2ZlsFz3juz/9WfeAmRsaiCqzX1S/dMW8cGQsSMXhdPrpHcOTl86c/NNrd
+         Q4XyEmSl2CpLsFcdPf1l2L8xX9QADPQjtnr+RMtiFPMVO6UnNYMY2hSdWTUoivCxtV+E
+         RDaA==
+X-Gm-Message-State: AOJu0Yx8K/KJfnkTDegh+71XYdp74CUs3ilB4uy3IB86+VzSfjBRSmD4
+	ISytjsMWe6MhNmfI2lcCwXDSj9H8KAqdT1iKR3tVW8haniV1Yq4NEQmK
+X-Gm-Gg: AR+sD13l4wr5eNy4Lq0kEzsRvgdzB/lRRlf3RitYSOt7C8kcnYU0Pp7ZN7M0Nf7bfh2
+	A+tj1eyU2fEMC46NxXROU66sAeYfeIxlfR7+eQoc9LHUKBqW0HpXXb53Vg5+3TkzTovH7vMAZkm
+	Ifk5FXaV5mlXWCZddNtUBCZxsdquNzbfiP6yNFXuJtCr4zacuhm4EDuRiA9SHg7DGX8hmquKsLa
+	liMRL/SKVoiR8P3dNn3ZN3793TOaMfHSczITyBDH57ZeD+VtOYRq0B2Wu3eSRJ2Wgo533KHf4AL
+	mGQTWpLkP2i+te9ivz26ZKyIBmRdWjd00zLSBtWbtZYLGQ+usIxF+4D97XV9ldKED9boXoH7gGf
+	psvJdAT+9Db+X6dINxPkRbIjl/KbMPhmgh4dKXXc1DGalwKQhaGKWKY7/6z6RLHt8Ve5jeWqwIK
+	uuuFX8saWy/UCGzhcssgd/7qBig7fVhyAb6sokzZPdTWo1ibknChVg5Qn9pMCZ7wvLcvbp/RA7Q
+	Gc2ByNp4EVGYC1spU7AczBV1H6GRVio3OurEFTY9JTxQyV4CcG0VWTDvhjifgqZWVoXHjWtT6Xj
+	kdgJ
+X-Received: by 2002:a17:90b:5623:b0:380:f85c:94b4 with SMTP id 98e67ed59e1d1-39301457de9mr3598662a91.7.1786524729581;
+        Wed, 12 Aug 2026 01:52:09 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-392f94d30f4sm2916303a91.14.2026.08.12.01.52.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 01:52:09 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v2 0/6] ASoC: samsung: Improve probe error handling
+Date: Wed, 12 Aug 2026 15:51:27 +0700
+Message-ID: <20260812085133.29658-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <271cedf9-9fb0-443c-ae26-fa3276e3c6ab@opensource.cirrus.com>
+Content-Transfer-Encoding: 8bit
 
-On 11-08-26, 09:37, Richard Fitzgerald wrote:
-> On 11/8/26 06:16, Vinod Koul wrote:
-> > On 10-08-26, 11:40, Richard Fitzgerald wrote:
-> > > Call sdw_irq_create_mapping() before calling the peripheral driver
-> > > probe() so that it is possible to request the IRQ during probe().
-> > > 
-> > > Previously creation of the mapping was conditional on the use_domain_irq
-> > > flag in the driver properties. But these are filled in after probe(),
-> > > which meant it wasn't possible to request the IRQ during probe(). This
-> > > was ok for MFD drivers where only children requested the IRQ. But for
-> > > normal drivers it led to the non-standard behavior of having to defer
-> > > requesting the IRQ until after probe().
-> > 
-> > Shouldnt that still be the case (conditionally creating mapping). Does
-> > every need this mapping?
-> 
-> Other interrupt providers create all their IRQs even if nothing uses
-> them, so why worry about one IRQ mapping per SoundWire peripheral?
-> 
-> Currently it's just another way that the SoundWire subsystem doesn't
-> follow normal Linux conventions and requires the codec drivers to
-> work around the strangeness.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Hmm okay lets go with this, so
+Hi all,
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+This series improves probe error handling in several Samsung ASoC
+drivers.
 
+Preserve the original error code from gpiod_to_irq() and use
+dev_err_probe() where appropriate. Also remove redundant probe error
+messages where the called functions already report the error.
 
-> 
-> We could unmap it after ops->read_prop() if we see use_domain_irq is
-> false.
-> 
-> If we want to skip ever creating it, we'd need to move use_domain_irq
-> to somewhere that is valid _before_ calling the codec driver probe().
-> 
-> Or call ops->read_prop() before calling probe(). There's no explanation
-> why read_prop() was placed after probe() so I'm reluctant to move it.
-> But I assume it's expected that probe() will always be the first
-> function called in a driver.
+Compile-tested only.
 
-The intent was that drivers can override the properties, so after the
-probe is recommended.
+Changes in v2:
+ - Add Cezary Rojewski's Reviewed-by tag.
+ - Update the commit message.
+
+Best regards,
+Phuc
+
+bui duc phuc (6):
+  ASoC: samsung: aries_wm8994: Preserve gpiod_to_irq() error codes
+  ASoC: samsung: aries_wm8994: Drop redundant probe error messages
+  ASoC: samsung: pcm: Use dev_err_probe() for error handling
+  ASoC: samsung: pcm: Drop redundant probe error messages
+  ASoC: samsung: spdif: Drop redundant probe error messages
+  ASoC: samsung: tm2_wm5110: Drop redundant probe error messages
+
+ sound/soc/samsung/aries_wm8994.c | 14 ++++----------
+ sound/soc/samsung/pcm.c          | 19 +++++++------------
+ sound/soc/samsung/spdif.c        |  8 ++------
+ sound/soc/samsung/tm2_wm5110.c   | 12 +++---------
+ 4 files changed, 16 insertions(+), 37 deletions(-)
 
 -- 
-~Vinod
+2.43.0
+
