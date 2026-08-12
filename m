@@ -1,100 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1D6367B6E;
-	Wed, 12 Aug 2026 19:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3792372075
+	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 19:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786562916; cv=none; b=H2fvWWhR5q3wmbGNPO3YGejvCDWYHSuohFATq53G/6bnYiGORlppAoLiCEkQyMFz8hRgPSyZRStnB04/SqvU/DThlow5zmPQn2DH/XNKj4B7yv34DISoGeqbr1+GZv7YoZXRJDmKVFEq5r3Y95qbwMLQ4usMLbI/P2PtLjzQxew=
+	t=1786562945; cv=none; b=hUnj1OIT+NKnuY4o/RB0gYlOSx8qURuGgtHnp6cRWeKiGZvfJFQ7TfU9WeVFzLMI7vMpao4CUjAUwqOBSpz847D2Rfx9KGoYM35DdncEEVN+iIVqX+HZGJ1Za1UxBGxAGZQw9oeDzZ4BnQld/W2vcQYi2J481molL0a5IbTTK2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786562916; c=relaxed/simple;
-	bh=dLji2N08zZSswpPPX2gbv/uuw8PM5LEyvne8vmueYt4=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=URgjeQ/oJkfr7s/wP20tHmdcUd67v+VjowRF9FO/LaHdFCDJYOG1oZHbn9Xf4La0IJYDhv6yUlzWJ8e6pEikipccU7qRuEJ6QjZyWljh5DEVtGD8pcIcHF1dgcxNOqdCrHipaL2GL628fUs/SwZ+nXDj0UenEX3tGJTJz5BIZQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jue82MC0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786562945; c=relaxed/simple;
+	bh=jpy5XZD/LVA1KvcJbBMPz6qs9DnJcEVLaquPNvmZGSg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ISwjNaI8v4vsgkyDNcdCzIft5cJB60lf+jnIZgneg9lKnAurwVMBXP6NRA7r3ATmQvmhQvWC25d8Yt9A5JLKUp1f9q9omOFdwAELx2pNJriAnj/lhzre27NiD0LjIIgSmaA6+LsswfLzAapoCskSoFfxuS2ksXFLJ7sLuZYVfoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qf6sNhIq; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jue82MC0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C9161F00A3D;
-	Wed, 12 Aug 2026 19:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786562915;
-	bh=XpdC2s+fmds2ewrhQhKdbytAxObOi+Lk6nEA9HAeFFo=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject;
-	b=jue82MC0SfYbsxnIRJA0OgjYty/dye6o/EY9OcuzF6l+/b8nLQgBcFz1YnLTYybPB
-	 qIdDO2/U0DyW6V+LYZgbrcCJCjc+f71Fr01hiOBULX6gSK9OfgGYuHgH7FRrb5Vr/p
-	 SjzRwfQ6bSDp0Q2w2g0Z3nZ7pFmxRV8WhpjDIn/v8aWOaEBegNImxhSMY68Vrldvbq
-	 6+FeONqKqcrFGvmJYS9GPKwe1Bb1Dx2B+43KW4uKc9i4KvNDI7amz/bbEjd26By9DV
-	 tzHF3hGWYbKilcIOJ//iHLhEF42f5mBiuMpYolLmE2dwLXHeYzpSP9yBPjHRzhFxcK
-	 3XLrKukAhdQjg==
-Date: Wed, 12 Aug 2026 14:28:34 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qf6sNhIq"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-472326ca506so821020f8f.2
+        for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 12:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786562942; x=1787167742; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6D16k/s+4sWOnTZjGytoDef/dz7828L1yfczDjZ2AAY=;
+        b=Qf6sNhIqN+MV8POsU0HkMB3TNg8GDTHkqbZDakco+hF0sjxIKBHUhjLJ+taFqO5YKO
+         rcZNqzbXYvdgLXEn0T8pRvOW99ZXmXWmAOI2LbfHI8iZVXiad57fAbHjMv2x9yAvnUcm
+         w9j4QkFoehPMu5tGtnEOnCMvhOrrlPQ/gE6/wt5Ugkotjgl/fNRe11EbekQAygXv3hfU
+         wvtPfm0bG+msbwSZg4Vk4YNPHWYafCk4MXgsbAlpWuyreL/tC5cVehJuuGwmA35HDfIF
+         FgGx+3cYbeTxIms22ckBR9MeybYiaKHxhgobZuMEgk9OVyoiohTjuk8xwIdEy6EF7Ip3
+         hfsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786562942; x=1787167742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6D16k/s+4sWOnTZjGytoDef/dz7828L1yfczDjZ2AAY=;
+        b=PzM4AyLZNXaIfIPSbX8fBwpHN3XpEhqGPDVtPWRN15vQIwgWdJ9JoTbQSi3ydW+MEu
+         L8cgx0MFnB/F3pxKj6gkjGKi9GVsk84rp8dNd0ubOOTLU4Hm1ahlF3WB4GdOuhanFcce
+         knu1WWdlihGdKBtYyapvPToOiHhlBJWA0CGQTRc2UAtKuSjZlG5VKHCzInJIDQfHfNS8
+         jtQvavJA9w3qb1Q6c9uHy8g+I3lGn2knhZ9qcUPgOU0V0QTU84XcXYlhjspLyjBz3Kp8
+         dnr9uREQvOp44qTLFidnNAHkMggPAA4FOModkt3sdw6LkXcPucIWVWlo9sGenU4dWMyX
+         tmzA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9JBg2O3ThRAvIwp8NtnQL3AdPZRJdPEU0uEgTG0lDcyYbXOiYgjgSgOTfv9PLzK9Q7jH2T3+p0p2SKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YznDcPhyk+kKAbu3s4ZCi0h50FkdBF8OcT9FW1anl1pmpgEzeyn
+	QySk6TuDXOXwAmiqaIlOnRGiXsUlwU3Vac/5GXYan4bAKHMZHvLe3KQe
+X-Gm-Gg: AR+sD13+I2PJDKDb6O62qRCov/tLyTVq9gOhL2Jxk3zcS0LNXqeYzD6m9ySG59fMcAR
+	2N8iAgFrg7AUbmZ3mioKktUAtDE/ej8HXPrvD09g4KOnS2v+I1Gm7xa97eOi8Pbac/zf+n0OZHk
+	/Psu8I005JBVoESG76JRSm5r8TWAJT2eZutEwb7bLWf1kRrArgQxuNmgltzz3DOBqYegOgKaMS0
+	Yw4Fb9oGjmpZm09Dl7GBVYHC9kTmQO++5O63riCJvzX40gQZUEsVh8Ga5qEHny5SvtGEBLY2LvV
+	3yFBJu7Eg0Xond1pMGoNW9tE3au7OdFXBr6Kk/gZl3LwkxcsCdrpt+NsCfY9gLjooawEmQGZTIr
+	OLtJXrqveu+Y5iiqMH8sEPaGItSOKiz2v5wiI0s52otd/l5Xza/BrA2pr5B3xMVAb7Lw6JuO+KO
+	6UfFDjZDynYlSTrO6pF1mCB9OH6/OtpzEkTteovaLHembFREP3JMuebcm7ntNFMufDKRnNtJMol
+	Osh8M0qlyKo
+X-Received: by 2002:a05:6000:4619:b0:47f:9de0:c27f with SMTP id ffacd0b85a97d-48159c9031fmr790665f8f.1.1786562941781;
+        Wed, 12 Aug 2026 12:29:01 -0700 (PDT)
+Received: from fedora.jkuat.ac.ke ([41.204.187.5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48150d4e3f5sm9648751f8f.22.2026.08.12.12.28.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2026 12:29:01 -0700 (PDT)
+From: Bramwel Barack <bramwelbarack89@gmail.com>
+To: tiwai@suse.de
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	Bramwel Barack <bramwelbarack89@gmail.com>
+Subject: [PATCH v3] ALSA: hda/realtek: Add mute LED quirk for HP 250 G8 (0x85f3)
+Date: Wed, 12 Aug 2026 22:28:32 +0300
+Message-ID: <20260812192832.69240-1-bramwelbarack89@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Matteo Martelli <matteomartelli3@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Binbin Zhou <zhoubinbin@loongson.cn>, 
- Roger Shimizu <rosh@debian.org>, Daniel Drake <drake@endlessm.com>, 
- Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- devicetree@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
- Katsuhiro Suzuki <katsuhiro@katsuster.net>
-To: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-In-Reply-To: <20260812-es8316-regulator-next-20260722-v2-1-e7078bc9bc9c@thundersoft.com>
-References: <20260812-es8316-regulator-next-20260722-v2-0-e7078bc9bc9c@thundersoft.com>
- <20260812-es8316-regulator-next-20260722-v2-1-e7078bc9bc9c@thundersoft.com>
-Message-Id: <178656291392.677456.3887097935460488837.robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: es8316: Add regulator
- supplies
+Content-Transfer-Encoding: 8bit
 
+The HP 250 G8 Laptop PC (subsystem 103c:85f3) using the Realtek ALC236
+codec requires a specific quirk to enable the mute button LED.
+Currently, the audio mutes in software, but the physical indicator
+light remains unlit.
 
-On Wed, 12 Aug 2026 17:35:43 +0800, Hongyang Zhao wrote:
-> The ES8316 has separate AVDD, CPVDD, DVDD and PVDD supply inputs for
-> its analog, charge pump, digital core and digital I/O domains. Describe
-> all four inputs so boards can model the codec power topology.
-> 
-> The binding also covers ES8311 and ES8323, whose supply inputs differ,
-> so restrict these properties to the ES8316 compatible. Keep them
-> optional for compatibility with existing descriptions.
-> 
-> Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
-> ---
->  .../devicetree/bindings/sound/everest,es8316.yaml  | 27 ++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
+Adding a quirk entry to the alc236_fixup_tbl with the
+ALC236_FIXUP_HP_MUTE_LED_COEFBIT2 fixup correctly maps the
+LED to the mute state via COEF index 0x07.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Signed-off-by: Bramwel Barack <bramwelbarack89@gmail.com>
+---
+v3:
+ - Sorted the quirk entry by PCI SSID order.
 
-yamllint warnings/errors:
+v2:
+ - Added technical description of the COEF bit mapping.
+ - Fixed spacing error in the quirk entry.
+ - Updated mailing list to linux-sound@vger.kernel.org.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/everest,es8316.yaml: allOf:1: 'then' is a dependency of 'if'
-	hint: Keywords must be a subset of known json-schema keywords
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/everest,es8316.yaml: allOf:1: 'then' is a dependency of 'else'
-	hint: Keywords must be a subset of known json-schema keywords
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260812-es8316-regulator-next-20260722-v2-1-e7078bc9bc9c@thundersoft.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 379e1458f4ac..23d9c9384545 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7101,6 +7101,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x85c6, "HP Pavilion x360 Convertible 14-dy1xxx", ALC295_FIXUP_HP_MUTE_LED_COEFBIT11),
+ 	SND_PCI_QUIRK(0x103c, 0x85de, "HP Envy x360 13-ar0xxx", ALC285_FIXUP_HP_ENVY_X360),
+ 	SND_PCI_QUIRK(0x103c, 0x85f0, "HP Laptop 15-dw0xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
++	SND_PCI_QUIRK(0x103c, 0x85f3, "HP 250 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x8603, "HP Omen 17-cb0xxx", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x860c, "HP ZBook 17 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+ 	SND_PCI_QUIRK(0x103c, 0x860f, "HP ZBook 15 G6", ALC285_FIXUP_HP_GPIO_AMP_INIT),
+-- 
+2.55.0
 
