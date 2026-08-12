@@ -1,167 +1,167 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013070.outbound.protection.outlook.com [52.101.83.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CF246982A;
-	Wed, 12 Aug 2026 14:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786544270; cv=fail; b=i7fW41tfZ8OQOgJdCVNrRjS+A8dZ8hRnClt62lWfwkI+SGWIORPHOFPdUrJ8n0M26XFEVRATxcNQguTPgHoS2Or4cuLET/bl3jm7/YYOIXD3PZmYcxlU1dqJ+pR3VY16dxcdq1HY3Ye6C5Y2J3ZYdyU0vJnQR2ChwO4uWKiTF6s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786544270; c=relaxed/simple;
-	bh=QSeAdio0TYOLtVD+H0j7BfJqhM0tVpUIYAB30cu071M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=q2MGaauZ8gQqNtnJST+lchHSOzSR4iTjfXyBzB7Ng2UeqerGDegsdraamOjVEKZT+WzKz5Bolz1wkG6y2Q2uSFCluVCirSYdd+NaZNBJgpQpb+D9L6einYsxyBzoauz24EtReydCNrBneWj+WhULG+0zVFly5SKeXHRwcJucP8I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=S6WRfmuE; arc=fail smtp.client-ip=52.101.83.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBB4329C7C;
+	Wed, 12 Aug 2026 14:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786545068; cv=none; b=Ccbi+BwvhiiSpQqYpoQSPxPdW1OQcfnuo+vST0qAjeGFFbr+OUTcB6bTzb/Kh4oxxP7hi908uHXoHWyXe2jAJAVpHM1ie+hDeOtJcNF1EGWhOEMAehHaRsJbC1Y90eQBevG01r55R1WEvR7+88Ap/hdOMpz/9LjZzY1JCQbbI7c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786545068; c=relaxed/simple;
+	bh=m5Ck/41SNH42G9spq+w94TsEi+ZnydGCOidNAt7APzc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Rd/FuZ22Pci7p/jgVZPaa2qWRgoha2dk+5Ziy4XrtcT02NfNVRXclktszMppSn1TxEKMmAVS62w5yKRsvRiaF8iiUuWYUmfMbGvGz/HtyDRiQqh452R1RHj9BTCWLre6Ys8J5jno6L3i+crMF1tMWB7KhgQ1qXV3JAYZ3mqmpxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vk+Efjvz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7tVU6ovb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wJwaCONb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=e7bHqRWr; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="S6WRfmuE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dHoHmLt8TCn7P13Z6xdxOx5iRvPG3YK9Ntrs9184sngkj6t2nPJGcvAlnLrIwNwDiLxJXGBlaYw4/2bZI6c8Xde5L3vUaZIBjaABABi7Xd/1XBH8pfvraLjUHTJyS4vYMIypPbNqdNXEnnwAdCH2+0n2RXZ+uh2gpaB3FdqocuP9wNhGMn3tuu3ahsNCt4eLiSGkb1azvqmNSHsmsKNLwWYbp+yKRc5yvbKpvvfVyMJRcBgHdflJ6EJTvrwH6VtGpLIRyRpsoVGSbbuefw1zrXDHtudwJJFvgcAFzpe8GNDX1ephB/+ntxwfEVR86WvPjE42B/bcanwj8kPTJRA+IQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/NCN8/tXa6K/qKOhy53IHufKRtJi4E0jITJHAX7PLFI=;
- b=hvsGuIh7WCt/UXcuFKpgA4lwSw6O+I/uT1VbdpqK92+r3L4QpA9LS9Nys9YmMGBPnPH5t+wGogCp1HLezfOgp1z2VX29Kwy0kHmS704nHLWoXoEB/vETFBlakZgT2AnTpP9/lUwW/qNVijQxXqnp7ZAH0kzL64lkjSgE6VzW+3R9wBvrLtIMTxQmVYLWI19mi5XPSmy9kIyAaSzpbR+whtmupFX3DnSszBv9atNpsYnX4o6pSCeZUVk+JqOvv/xP9gBBzM6oSXK/RMqKp6LXCPyWz1ctH4VJy+0IGAZwW/9X7fc30eqlJYfcsTzdZwo5mAnKvkDpDjMJlIL1aDj6Xw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/NCN8/tXa6K/qKOhy53IHufKRtJi4E0jITJHAX7PLFI=;
- b=S6WRfmuE9gOcDcXgxy8wbVCTZZDwT8nwgO+FmTbgpj80BiuPskOChM5U9gW7oB2Gwxrauy0F6BFTv4yv08w7COZQbZF2Q5qyrCK4Ti0LAdAKynNxZGyQh1u/vYg3rxqESpHXjUgyio/BX7ZdyEuVGrdnSKnKY0bejFWiNjP7tAVSF0SbI8UeLfNRvlKXROZQqRF6S/Z0SLPXwTF1PjxVkQhNnc9QlciuFr4jKTY4P6UkWqq2eIDNX7QmzK2xyOTiU1wLal9ooKGggGRf3OoMaF4MybdIZDwvjAQAl4ofh9o7g6a1YfbqjytjX2Qe6dUbwHpEVtAyTHUocFUOaX8mEg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by DB8PR04MB6889.eurprd04.prod.outlook.com (2603:10a6:10:11d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.13; Wed, 12 Aug
- 2026 14:17:43 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0315.012; Wed, 12 Aug 2026
- 14:17:42 +0000
-Date: Wed, 12 Aug 2026 09:17:32 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: phucduc.bui@gmail.com
-Cc: Frank Li <Frank.Li@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Michael Trimarchi <michael@amarulasolutions.com>,
-	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] ASoC: mxs-saif: Use dev_err_probe() for error
- handling
-Message-ID: <anyAfDrujtFivH5H@SMW015318>
-References: <20260812101418.37966-1-phucduc.bui@gmail.com>
- <20260812101418.37966-2-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260812101418.37966-2-phucduc.bui@gmail.com>
-X-ClientProxiedBy: PH7P220CA0170.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:33b::22) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vk+Efjvz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7tVU6ovb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wJwaCONb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e7bHqRWr"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1B13F3DF3;
+	Wed, 12 Aug 2026 14:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786545053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DT9tBNyLwA3sWYorDlzSqDnUt2SRFG6qIwU3+DA56M=;
+	b=Vk+EfjvznafJpSvUaElBpfEe96XH6oqZvgLnmwvgqfXAQDUWJ9Wa6WyOV6ZCKicIDectoS
+	AQTTJ1L13x2ItZ5uBqB5aZ56qokYoG87U/EBIQIkyFhW7h4Mwd6PX/OZf1BWn3fQgfdYVP
+	e6ld6N8R8MZLtB9lPc5VmpuG8ac37sw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786545053;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DT9tBNyLwA3sWYorDlzSqDnUt2SRFG6qIwU3+DA56M=;
+	b=7tVU6ovbwczQBGga1c0KdYXGyH3nMsI8t9lOhlhN5jwDKR8cNd/taRkVj2B/l4qRKrv/66
+	kpTeCdbuW54Se2Bw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786545049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DT9tBNyLwA3sWYorDlzSqDnUt2SRFG6qIwU3+DA56M=;
+	b=wJwaCONbUbIevo2lmTM6cdDi8WqoBaXTz62hlTf+zlAjqFpKlz3102HseuKwQP+UZ3Cs74
+	5qLtEDlgSRMKAyCm5RnlClosUA8DeazukTRaXRhq7Rxq1pIyoHGnOFfas8QUqDylhkcPme
+	TslYRAB2UMdIkKo/jHOaDqjJgPqN9rw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786545049;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4DT9tBNyLwA3sWYorDlzSqDnUt2SRFG6qIwU3+DA56M=;
+	b=e7bHqRWrR6D/DtEX+WVZ8G4obDt527IgS8pYeLucUmf+PaPkd56vRRWWeuYjZd2QsPKe/N
+	KaEkjEozhTCYqlBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3E64779B1;
+	Wed, 12 Aug 2026 14:30:48 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9EoSM5iDfGoZIQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 14:30:48 +0000
+Date: Wed, 12 Aug 2026 16:30:44 +0200
+Message-ID: <87bjb7za0b.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andre Eikmeyer <dev@deq.rocks>
+Cc: Takashi Iwai <tiwai@suse.de>,	platform-driver-x86@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,	linux-sound@vger.kernel.org,	Atharva Tiwari
+ <atharvatiwarilinuxdev@gmail.com>,	Hans de Goede <hansg@kernel.org>,	Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Alex Deucher
+ <alexander.deucher@amd.com>,	Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,	David Airlie <airlied@gmail.com>,	Simona Vetter
+ <simona@ffwll.ch>,	Kenneth Feng <kenneth.feng@amd.com>,	Jaroslav Kysela
+ <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Harry Wentland
+ <harry.wentland@amd.com>,	Leo Li <sunpeng.li@amd.com>,
+	dri-devel@lists.freedesktop.org,	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] ALSA: hda: allow direct complete with a powered-off GPU
+In-Reply-To: <20260812142300.34472-1-dev@deq.rocks>
+References: <20260812140347.33360-1-dev@deq.rocks>
+	<20260812142300.34472-1-dev@deq.rocks>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DB8PR04MB6889:EE_
-X-MS-Office365-Filtering-Correlation-Id: 992e96d5-1c60-40d7-0449-08def87c78f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|19092799006|7416014|376014|366016|1800799024|10067099003|11063799006|4143699003|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	XixY8ZEto0j7Fn3H2mqq0IA5ABL/507F5Z2jJ95RJRWj3OakVcJX38NFUd6x1e7fdDSbi8dIrqTUfKXJ7wye09RwJZ3Xjvk1OSFF5s0/MNdweNHIkCLfTd+Z0tRTclIDcQc9nmR35CXIuMZIy6EFBp2kxEw/ELSRCK+wspNpskWHJSCigpqRktIwFD9N8SxPjEqQ/AL3kmLoyrijbzHB9VXc4xj5BjcMT+ouVbqAy2qSZB3hPu6O3SeBuPHjuhzy0AaHUAPHWswxvuVKue9bd5N7WcDSLEdn1UDYQ6Nu0I2k3L5LAy1+HFExmyLZu4nrifgO+FT5fuDRJxB8u+OAjIejtzQT7abd/aPGl/PPBYUToFO6kFSEXFdAenl4QqmQsZrz6q0EyMJ4nhWeBtO7YvQxKRdf/apaxL2ld9Ubk/CryxNqnveMx7Y+Hy4YQ/+Rw7IyzrNv18jRSktBwqLPa8d/BqmIPvXmNBAnmWgpBCKVRKP1x3XOQi+kW+1W0cTFgXYD4vhZwqWkBAZ05MqWAxKc8KvWJXyObK8QQ6XWOTtmaqkR29JGS6Fn+WbvFfCo1LBNmGAgrrZiIxhzwJJzdPC9pt5PBqfkRDM8yJacAAznW4vRN/TVlFepdL5KyyM2+mQxLb/Fb1I5ga9zHm7v3Bmcs9iIxCZoOZqzuLpmy9I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(19092799006)(7416014)(376014)(366016)(1800799024)(10067099003)(11063799006)(4143699003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rJAwCT3/UtZvtUgmxZQj8yG8aC6WgGRY8Ru9IdQonNGeWfYJIjt0X1rgVlkT?=
- =?us-ascii?Q?aC5nRyIjVKsbg+Io37v9vAAJta9SHQvmbqmW2h2vtxyBhtXApO9OZYaZSLJF?=
- =?us-ascii?Q?7LEMfO2ctdQiwvKJ8/iVfzKpGrEJsgZngH+KaqXirChSn2XQCz8n4rUuO+vk?=
- =?us-ascii?Q?JkImn8AKUL0AJyMzWw//8Ho1AbTyvaUuKx5YiJC5KAhWXbT30IA1DqLbPriH?=
- =?us-ascii?Q?zSgb0p2CgkG4c5TDuaBCfYSeoxJZP9SxFhmKkPD/QmmFmvEIDRJm+vlepdUS?=
- =?us-ascii?Q?TUR7vvtjeddc9o0YPnn2xcPyQ64SLRlom2tZKNiH58nDodw2+jxu+G1aRbKP?=
- =?us-ascii?Q?8tGGKLxsIhgN9HJ/M1dEYcI9SfknaXEN7n2i6uaQmTQZuVdMOgxzRw+8+4AS?=
- =?us-ascii?Q?MQgIyvkreDUUEW4R/o6tn8xXY1sfYXIy+o7BV2fnlus2pohs4dm6i9d9zZCn?=
- =?us-ascii?Q?t0hC3A+RD7y5qqwUIaESRPTDBVfSPG4ybsKhD0d8qOWnajrbpziOscipLLdE?=
- =?us-ascii?Q?P+g2uvKUJSAt1ppDimc2QC8GLHyKfogR7ednYg34Le73gzrQafvza/t1hG2Y?=
- =?us-ascii?Q?l2T82YhbNLrfskaFZnfaM/eV578A4CJHbQxcUE24jzQaam+ChPN9OmfBFv2H?=
- =?us-ascii?Q?m+0CJmyaxOSqssse0P529lnMXJKpVo9tFDbyx5IsSmDFxl0yWtm1oyfqJXwc?=
- =?us-ascii?Q?vnjyywOwEzHebag8sREtk71zA9d231BLGaNeAV278FObW32hb8wEHWq8SYor?=
- =?us-ascii?Q?1XsDIIyJx+wHj9z2jJMOY/JYNpODRCSgjYD4X0qLSfBiOScKVh0aps4U4qM0?=
- =?us-ascii?Q?Y9CVmxq8m6liMcoxXcEvcWQibpkuKjvX3J29r09jE43X7YbyvRVIclSC7h0q?=
- =?us-ascii?Q?fHcaVOM0T/vKza5dtpOfALtcmHBbS9UCloCUSpqcuFiy9FVsrN4u9MPc7V0/?=
- =?us-ascii?Q?MXfTfbKf0vGsug4aO5LkSO17SkemxOa+gfZzk+0kYdQXBuz3ByAsslz3KtfL?=
- =?us-ascii?Q?f2N6RsuFLjFvEH5qEM9JmRIUaGxPktIDRz6B6RUZo4aWd0YxCsEyQG/d/HxB?=
- =?us-ascii?Q?DQCaYLHpPmQhYG8mCAaWsvS7XwwpgNznUGZqHnj5SrbjHYPmi0CmSv4Zh0Sa?=
- =?us-ascii?Q?9KUF2S5OQfT5ZsotEDZR5i7hP8j4ksxB0QwWRH+So+BleKS2BPbO+QLxgVYf?=
- =?us-ascii?Q?lREetQbV3f9RJdo22ZBgebKXusw+3cttSqkoeOuHOzPPe2FfzP87xq39CGKq?=
- =?us-ascii?Q?mP7SpvR5xHeMH3GdO/8So/iO3d5PLDL8HE9TFeqep8ZFBiUqcNawY1aHzQ7M?=
- =?us-ascii?Q?z0zyQZZ7JmauX1Nqzth6/6ymP1+kfu0HMDHFYbJj9Gtq/KMpGS0Au/81YQMx?=
- =?us-ascii?Q?uGikAdJQYNoI6N6RUd8XpmkTugJpmeXRLQ7OcD8P83Ps5HldroH+8hm6jbk3?=
- =?us-ascii?Q?19w74jyRPwRZtFs6bNbjHftPh2/+0gO3vZMyZACfe2HymQFOHLwQWdy1/IOi?=
- =?us-ascii?Q?yD3MTOKS5bkHnDeBUt4C3SGh3gGhU7+GsUmxP/kzI+Jz7TITe2GPlt6dwZOV?=
- =?us-ascii?Q?QqJ/xbGZzUs5NcV0qjeIHlioT3JcZx6QyI8ynfYGbRmbNEnp5lIbUGVqDL98?=
- =?us-ascii?Q?wawttuwW6jAKpxWiAALeO1Mwc8rksUwHHgc0uibFQY1ZoG9CRPCDot7oq2Rg?=
- =?us-ascii?Q?iXBl15bl5woDSpFW3FR9vc3Y0ubweNF7AFk+Ny4igc4bCA5B2X5gd/nlDEXG?=
- =?us-ascii?Q?Kg3tWbqiaeMbBZc3E8fBLGR547aQJYRuN2oGfZKX+ei3CYELQPeS?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 992e96d5-1c60-40d7-0449-08def87c78f7
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2026 14:17:42.4066
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1K3080AHbRsvFQRhmpg43vSE3FsKgfvSQ4udGHkUT3rnrcNvVRgGoKeoEk46seNwb4D2vDo7H5nSSZuvhQBsFodTvRLuCb4fuWBv5AL5SKRJg5TGJ64tVFhPRba0XbS0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6889
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,vger.kernel.org,lists.freedesktop.org,gmail.com,kernel.org,linux.intel.com,amd.com,ffwll.ch,perex.cz,suse.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[deq.rocks:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On Wed, Aug 12, 2026 at 05:14:16PM +0700, phucduc.bui@gmail.com wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
->
-> Replace dev_err() with dev_err_probe() to prevent log spam when probe
-> returns -EPROBE_DEFER.
->
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+On Wed, 12 Aug 2026 16:23:00 +0200,
+Andre Eikmeyer wrote:
+> 
+> The HDA controller normally needs different WAKEEN settings for runtime and
+> system suspend, so azx_prepare() prevents direct complete. For a switcheroo
+> audio client whose bound GPU is already runtime suspended and switched off,
+> however, the controller is physically inaccessible and cannot signal wake
+> events.
+> 
+> Resuming the HDA function during system suspend also acquires its runtime
+> PM supplier. This powers the discrete GPU back on only to suspend it again
+> and can expose failures while restoring an otherwise unused GPU.
+> 
+> Direct complete is now allowed when the bound VGA device is both runtime
+> suspended and reported off by vga_switcheroo. Active GPUs and HDA
+> controllers without a switcheroo binding retain the existing WAKEEN
+> transition.
+> 
+> This was tested as part of the MacBookPro15,1 hybrid graphics series on
+> both the 2018 and 2019 revisions. The discrete GPU remains powered off
+> across system suspend when it is unused, and suspend and resume complete
+> successfully.
+> 
+> Signed-off-by: Andre Eikmeyer <dev@deq.rocks>
 > ---
+> Changes in v3:
+> - Rework the conditional compilation as suggested in the follow-up review.
+> - Keep the switcheroo implementation in the existing switcheroo section.
+> 
+> The follow-up review crossed with the v2 submission.
+> 
+> Changes in v2:
+> - Explain the significance of the positive azx_prepare() return value.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Feel free to take my ack:
 
->  sound/soc/mxs/mxs-saif.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-> diff --git a/sound/soc/mxs/mxs-saif.c b/sound/soc/mxs/mxs-saif.c
-> index a01a680ad4d7..b877c978a04c 100644
-> --- a/sound/soc/mxs/mxs-saif.c
-> +++ b/sound/soc/mxs/mxs-saif.c
-> @@ -826,12 +826,9 @@ static int mxs_saif_probe(struct platform_device *pdev)
->  	mxs_saif[saif->id] = saif;
->
->  	saif->clk = devm_clk_get(&pdev->dev, NULL);
-> -	if (IS_ERR(saif->clk)) {
-> -		ret = PTR_ERR(saif->clk);
-> -		dev_err(&pdev->dev, "Cannot get the clock: %d\n",
-> -			ret);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(saif->clk))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(saif->clk),
-> +				     "Cannot get the clock\n");
->
->  	saif->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(saif->base))
-> --
-> 2.43.0
->
->
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
+
+But I guess you'd need to refresh the patch descriptions in other two
+patches in the series, so better to resubmit the whole series with
+corrected patches :)
+
+
+thanks,
+
+Takashi
