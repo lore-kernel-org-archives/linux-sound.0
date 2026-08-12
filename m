@@ -1,103 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30EBA415F06;
-	Wed, 12 Aug 2026 10:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4F9423A80;
+	Wed, 12 Aug 2026 10:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786529781; cv=none; b=DbVHTNQ2BmDdqtHJqvFZTlGojR+ThU6jTeEZk7r8DXaemzhNQCU6l1i/VqDrfqejpfBEZLUQ/l9g4PhcwvjUtdeVdSLBmmpG7nbJxXwbiwWuVO21ZSaHjo4AIOJXsG1kvqMFj9KbIjfjyZO0d2ssDYrWkEqY4EGe1NFG0REMouY=
+	t=1786529782; cv=none; b=BAoJgC27eChmoled4gYYvFBv6tMQp7s516H865Wjpuli7Nwdd+B0WLLQ+3ymrADe3rmbjLSfEDycBGoiElzULckphY9/kcyG8+7EN0X94pWDzX0AUo1srx8XaUQ+HDgHYeHlRp9juDL+Q1lrekZNLb7aX5cX/LKLz7uDY+Vn+PQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786529781; c=relaxed/simple;
-	bh=3LEAV7NwOG0WROZNojQ8GEkL3T0UbZNw3buVUn3pDXY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kVd+ykjwA8ov/7D5sdcMLhgQO8RYby3KlNMBj2idcg4B5QZGix2wyUzaILkl2BdA+IgaD4mSOBMUSwZCHiSwkQYiYHGOz8JXGYQ84ZvnrGnJvdABbLxdbMGKnKtG3fHueTAZ8rw1Y4AMnhSH4rKBeL642y7jlmrgsUf0CeCfMeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n4HQhDOF; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786529782; c=relaxed/simple;
+	bh=/WGf3b10YltXID+nIZciyhC1Vge6h+q9GY0sPrCo7SM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ffbmQ41+3G+YK6dQmxy9cIVG4eiexBy1BnU3g3oxMeeNa0nqK7L9AWID4hpamTbFf/7E5iFb/VUmXPd9aDAkQETjKw0UW05zkmplqF2b32Xvd597xAZ9LFcmEKdmBH+zB+p9hW0rUHa7jIoOJHsm7WTkQzIu1R/x+ntknhSC8Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CuCOjGE+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n4HQhDOF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DCE51F000E9;
-	Wed, 12 Aug 2026 10:16:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CuCOjGE+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A971F00A3A;
+	Wed, 12 Aug 2026 10:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786529779;
-	bh=xxhSk15DQjq31zTmbuh6wzx2sERsw5dR3P5SZDQapAA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=n4HQhDOFZ5Myj3DlnK0nnW1cGhostOraWeJG3sLmKSFwwoFOURwzIG7gpyo6TP0Mb
-	 /rvdVyNlw3f2dNvVN/307sYCo1R9lVr1PFqevJ8t9LnrFAyDa0u4EKPRzPqShGJAXz
-	 lDbPXjo0P0IiAFE5sE+wv+tYpdL4PQ+/O9L2vzEzXSdSnSP60jl/DAd81TA3mew309
-	 VMu9WB2ujfGt5PFruy7p/QlR+WWMWeEjLBzD7bEpv+8NurtXutnLpO5cb1B4gUF3eb
-	 bim4tRmU/kfCGDStoRu6GrI4prt+kKQXw3XGfL2LOgSkbYAqZ9PILuZHeTgw+l925f
-	 5mqMob1GD/xNA==
+	s=k20260515; t=1786529781;
+	bh=ut+V3KseSh4eYJkusl95jQJnVPMpgE/trF8B0ZPWHAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=CuCOjGE+Y2AG5z0+og+zew/WtI2kYltgC1GUl3fgDc3L5B/Recish3bW/1pERzvYY
+	 trzTUgwPngJ0A+5wTsHbHnXNjpllRAU+nvEPsfI+8AayglaXiM+8qTy579FZdRPUgg
+	 EteBAPs4rnW9z+nzM8JtFh2E+30hryQ8R7bPEj12hatUp+U4D7ceNIfPS1hW3UEsKo
+	 hIk2eWXcCjEaXZFnZqdgE6UNzE8WvjWBblpe/6h4dvfDKytDwuNxeiDQvMsxlEsPJO
+	 I6BO6tKWDFlWbDnT7RiKG0YaM0ekh8L9lARnVu5oK6g0rV/IBxEfWVJHvSgbS1HrYX
+	 8an52fF116axA==
+Date: Wed, 12 Aug 2026 11:16:17 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Ville Saarinen <wiza@saarinenkoti.fi>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260809101439.4798-1-wiza@saarinenkoti.fi>
-References: <20260809101439.4798-1-wiza@saarinenkoti.fi>
-Subject: Re: [PATCH 0/2] ASoC: amd: enable audio on HP OmniBook X Flip 14
-Message-Id: <178648276445.390283.1674088497568553473.b4-ty@b4>
-Date: Tue, 11 Aug 2026 22:12:44 +0100
+To: Michal Simek <michal.simek@amd.com>
+Cc: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCHv2] ASoC: xilinx: formatter_pcm: use more devm in probe
+Message-ID: <c22c308d-ce38-4327-a9d9-19ea995584e5@sirena.org.uk>
+References: <20260811185013.26960-1-rosenp@gmail.com>
+ <647a44e4-babe-4858-84de-ad26b6711ba2@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1737; i=broonie@kernel.org;
- h=from:subject:message-id; bh=3LEAV7NwOG0WROZNojQ8GEkL3T0UbZNw3buVUn3pDXY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqfEfx+MRj9bTJK1mw4ZDCiBrcV7gMg4CkplbA0
- Z32bLXhVFiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanxH8QAKCRAk1otyXVSH
- 0G3eB/9ySXpHCYWC+fHSlAIoujsDJHuYwNe7/qJUrbMZCHpXKlFDeCSh4utbSDtrZW0o4PWZr4r
- VM7drSj4CH0XKSpScfxfODXgSMeab2kNrXijFbCr9wM2mqQ4vOlwmNSBSY0l+KiE7O+76zS28wl
- m/K3p6W8BpyW+7C5XcDtRFLHClR4J+4d1ZXQyev8fglTHz0fp9yZmu5F/DI0DXnlJL8RQLJo8h0
- 7E6PH1/qnWrYNHdy8H1maqDZm/jCRV7JbtStiOSWOHqdw6hDzA+rnevlw5neleMqiCfmLJyzDa0
- f8zCO0+kk7ostk4S8bQzk84nEUctsaP6VTdhN960Jj/HRM6R
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="/+shNZ2aS8W/JL81"
+Content-Disposition: inline
+In-Reply-To: <647a44e4-babe-4858-84de-ad26b6711ba2@amd.com>
+X-Cookie: !07/11 PDP a ni deppart m'I  !pleH
 
-On Sun, 09 Aug 2026 10:14:58 +0000, Ville Saarinen wrote:
-> ASoC: amd: enable audio on HP OmniBook X Flip 14
-> 
-> The HP OmniBook X Flip 14-kc0xxx (board 8EA1, Strix Point, ACP 7.2) has no
-> usable audio on mainline at all. Its BIOS reports an ACP configuration flag
-> of FLAG_AMD_LEGACY_ONLY_DMIC, which binds the legacy ACP driver and
-> registers a PDM-only card, so the SoundWire links are never scanned. The
-> two TAS2783 speaker amplifiers on link 0 and the RT712-VB jack codec on
-> link 1 never enumerate, and the machine has no playback path whatsoever.
-> 
-> [...]
 
-Applied to
+--/+shNZ2aS8W/JL81
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+On Wed, Aug 12, 2026 at 07:58:23AM +0200, Michal Simek wrote:
+>=20
+>=20
+> On 8/11/26 20:50, Rosen Penev wrote:
+> > Use devm_clk_get_enabled() to let the clock be enabled automatically
+> > and cleaned up on unbind, dropping the manual clk_prepare_enable() and
+> > clk_disable_unprepare() calls in probe and remove. As a result, move the
+> > clk struct member into probe, which is the only place it's used.
 
-Thanks!
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
-[1/2] ASoC: amd: acp-config: force SoundWire probe on HP OmniBook X Flip 14
-      https://git.kernel.org/broonie/sound/c/8393e0bf593b
-[2/2] ASoC: amd: acp70: add HP OmniBook X Flip 14 SoundWire machine
-      https://git.kernel.org/broonie/sound/c/b48466e4be18
+--/+shNZ2aS8W/JL81
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp8R/AACgkQJNaLcl1U
+h9B/6Qf9HATYH1keNl7jmNP54GvocXgMJ8FoZoYGeP5z5EYg19v1hrFQ9rXa/nFm
+TOqwYItNcjlth2SskjOyN40TnNPiDVlk+HAyjqValGhriqANU86f3u1Z51237FCu
+35W0hxDjE7MykqMKwS941dBD+Q3FOkGv0oE7gP5ktyPSYAUcys4zplr+e7STKsC+
+U5kUbGSKHmLFALlNkbFLaYhVC3gJWMqNlEQ/Lc036i7lJWp6wlRgtIqd48aWac6+
+My4ZqhEn3xhm23XZOMfXDyRvyNHXaamPl2Zf289LeQNcuJQL4QjhM3kc32+8SoQ1
+0FaaqAX+V/Ew4uWrAUSo/U9W6jezlw==
+=0u+6
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--/+shNZ2aS8W/JL81--
