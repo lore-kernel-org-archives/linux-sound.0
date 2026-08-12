@@ -1,93 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BF13911A2;
-	Wed, 12 Aug 2026 16:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD372236FA;
+	Wed, 12 Aug 2026 16:51:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786552201; cv=none; b=b5qhckycWcMXX/WbG6yw3tG2BErbY4o4Pnvjwoz7/ORmwrOw42iJDLQs50R9ep9Z1j8cJQfX5KdbMrylidyNmLKLuxs/OzW1W0la0/Ea8F75VIXQdk6l/Oc2Buq0YspAegjtO+n9v8kNjR2SyD/RgeKFcS9rMJAhRCnhrGmedHc=
+	t=1786553468; cv=none; b=PBhX06FoLJcU8uviiW3rD025K61cGJPLqZPMhFaHuNsWHTrusQ1+kAOAa1Kk9OR6FagTdMo1fWAYz7SCjAohsS9xH2klR2kopqZUVj7UpRiW6e4NIZIWd2LjkatPtoNnOdMC0rzjOTztojJ7IG1gK+0HKN7Xr52jLHug//nMbtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786552201; c=relaxed/simple;
-	bh=wnZ3dwLi2v71HRTnl19XP230YuzHDG2xlcwtpxnEExM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PkUiJ3xCEvrXpVv5OEi3kVk59G41lQP2hDZvBK3XbyN+mbQ39V1xYsd6TbKZDPlUzEtbEaalnsFta6nevlciDrlOxV788xJT4GbljBLoMOYd2C7xlCG2HZLE62emKQ+Z64uJ3N4Ia2aNr/aM4Y2t2TutGRUgBex+KVQoirPpWOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNhQdhHT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786553468; c=relaxed/simple;
+	bh=nR3ojYdSPg4b7MsuvJBgCbeiuiB3ulP91gPDR9T1B+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eEQ5JmqUQ1JaFsgY12v0pSiiOfShUYV1fNGfhk7ypXgjqt5pyjsl4pXbbUROPLN/Vdr928HAMg988wfPriZ7W8hkJ+poNQ7bnDEjUdvCc04Kaw2xK2MSjeFRNWH6iRwO3BPY8xLs/71rMVKWsq0PuWXuvS++aguarPePEFI+1/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erEPONZt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNhQdhHT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872DC1F000E9;
-	Wed, 12 Aug 2026 16:29:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erEPONZt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ADB91F000E9;
+	Wed, 12 Aug 2026 16:51:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786552199;
-	bh=6UWAE3YyH4XKWS1i6AZYOVl03Cz627Sq6U1AvRQjmsE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=WNhQdhHTGn/2BWrRfPpoU56S8XSJbzUreg0GvIRj2hNGf+zrjdFJIt1CeFWvXq/C6
-	 vStJ4AtGZJgfjzDi2nDHpuK30NYEbROkGQZFm2aKy9z9fnfzbu8b+WhT3DYRSLg7zt
-	 Ip5b1S12GLpE5z5mGSvshS6GdagcT1jlmfoFYncuqcYPd3u9+Bz3U0gQg2eoEiirI2
-	 5/jd2nbK6AsylTrsE4hoAfLRsqMhd9AJcF5+Itj8eTOVVFgv8gEiDNOTVYo8BL2bYZ
-	 UCCL0zoKTttdVEkYMbwquf+7e/0hJJA0eufA+yqu+khfmh1OhdUnu3WSrbtgkXmuRy
-	 h5w86XCDPwisg==
+	s=k20260515; t=1786553467;
+	bh=nR3ojYdSPg4b7MsuvJBgCbeiuiB3ulP91gPDR9T1B+Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=erEPONZtisQIa+BkHupU2lDb30DtmnKQQuSKV5yRScXDGDqGWX8CQbB3HsIAQbN8K
+	 HKjuk6Zheu0WoydJDeqPeL6RfhVUWHNb0CGutrWnVXBQDJWwjs93HnfHjC/sc0T6ol
+	 ia5NZuBmebNNJP8hZxcjl/pCQP+6rqyT8kclaVGiz2Rzqe372hz2tmM+DZkK6dc3Qu
+	 1L2FLRi5VJMDyKUS+g97d7t6aiSO99SP7PPXbMdBoeeD5GRxyv84rvubA+o5mf5hGp
+	 tLhQd9Zo4IA/KA68aLHRGUJMnlJaasJ66IP4Wb9WNKsK2B+qlGMSC+SpMJrqf+BldN
+	 1tmJG0ImWzJ2g==
+Date: Wed, 12 Aug 2026 17:51:02 +0100
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Rosen Penev <rosenp@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org
-In-Reply-To: <20260811042424.66882-1-rosenp@gmail.com>
-References: <20260811042424.66882-1-rosenp@gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8365: use
- devm_platform_ioremap_resource helpers
-Message-Id: <178655027936.8393.11056539340382876563.b4-ty@b4>
-Date: Wed, 12 Aug 2026 16:57:59 +0100
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Michal Simek <michal.simek@amd.com>,
+	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCHv2] ASoC: xilinx: formatter_pcm: use more devm in probe
+Message-ID: <8817636e-fd2c-4482-b892-db47aa839aaa@sirena.org.uk>
+References: <20260811185013.26960-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1149; i=broonie@kernel.org;
- h=from:subject:message-id; bh=wnZ3dwLi2v71HRTnl19XP230YuzHDG2xlcwtpxnEExM=;
- b=owEBbAGT/pANAwAKASTWi3JdVIfQAcsmYgBqfJ+D9IUcUTa8aN8BdfJR70JuBC1nerzCrNVN6
- XUamXYxiz6JATIEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCanyfgwAKCRAk1otyXVSH
- 0FkqB/jelPTFXsIwlc/UGyL5aieoa3lN30k90fSwHzywnFlnuY210O1mo+m8hKrYtKS4Cc3iieZ
- mHiwU7BOnjCrOk76enRTLa4e0kSpoecdQQMzP9wUdn458s7wVnX/JWyVw3TAbQtMpjIryegKZWw
- VRuL04lh99OyDVuDPEgLOdIqql19Lh+aVgKZJoX99WsWZjKwxjLtFFI9S+EX0dVg2bKE+Rj21Ns
- BPG9k8GQzLv13WONqLDk3k5PSSXAJN8WBSz20LA90G6x3h5nGdGDdXEsrKZCDi/NylmkZoiotnz
- OJMxpq1fAjqdlvb4GaULRDvvppFfdYCrYGtsVgjZpNmuuPE=
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="PC+YJE+FBRevnzcf"
+Content-Disposition: inline
+In-Reply-To: <20260811185013.26960-1-rosenp@gmail.com>
+X-Cookie: Revenge is a form of nostalgia.
 
-On Mon, 10 Aug 2026 21:24:24 -0700, Rosen Penev wrote:
-> ASoC: mediatek: mt8365: use devm_platform_ioremap_resource helpers
 
-Applied to
+--PC+YJE+FBRevnzcf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+On Tue, Aug 11, 2026 at 11:50:13AM -0700, Rosen Penev wrote:
+> Use devm_clk_get_enabled() to let the clock be enabled automatically
+> and cleaned up on unbind, dropping the manual clk_prepare_enable() and
+> clk_disable_unprepare() calls in probe and remove. As a result, move the
+> clk struct member into probe, which is the only place it's used.
 
-Thanks!
+This doesn't apply against current code, please check and resend.
 
-[1/1] ASoC: mediatek: mt8365: use devm_platform_ioremap_resource helpers
-      https://git.kernel.org/broonie/sound/c/3d7fb01b36aa
+--PC+YJE+FBRevnzcf
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp8pHUACgkQJNaLcl1U
+h9B5VAf9EWJCXVNl8MzibMG8K2UgWDBQWdPGWmdONI6B2OjkH2eO+OhfjO2j9biO
+j35r1nTL4zU3wRvt/NPu9+T3Sy0tpzhdxFSSilnvF0t87hofQfdjClWWcxTGnwrF
+P5dXovRb970jFZQkk2mkcjMDLUf580jUf/yXjFZc8x7epjgzPrgKQrQ8Ny5lsdiU
++SgsIZcPn5kiLkm0qyA3i4xgd3PD8aYyklcXEtTdTqwDKiOfm3elO9hN4ta81aZS
+1N+pJLnU8IS0mdlfT33RhUZUmD8g0ywb7/CdjBMIeiisJbfH2/p8SbEAy40b7SxO
+Ppq9r4o7UYPD6s7vkRsvjIf5Mv/udQ==
+=ZZT6
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--PC+YJE+FBRevnzcf--
