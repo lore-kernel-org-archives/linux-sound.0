@@ -1,78 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9839F43CEED
-	for <linux-sound@vger.kernel.org>; Wed, 12 Aug 2026 12:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5D837DEAD;
+	Wed, 12 Aug 2026 13:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786538972; cv=none; b=G4f6cRkMakqdLOaUF3NLvGh8R5DqYRrzBSzRqcSJWBwU2JuXDBdJXtZ2izP3lVQNMW1vDoQepcsxyMHdEwfjzKyuizq9vjTRRNZcfA3cGxatLg6BPjhBumzGtmiqnwGZvGFItE4bK6IryPzobvQa48jeOwvSxia+DZ7Z5HihJL0=
+	t=1786539691; cv=none; b=CBa78R3bs3A3PWaV1OHdK28fcqSWwcwjF6eKGmKYOg8UxmH9UUSANLgwFMKAYNryCcuiEP6IukDG0jtMOwwyoI2NwlXqN0xp1QdJVPSvSqQDNMTwLXCBpPB7/jIWGX9X6GJM/x5P5OKmJPWcmN7HP8ADOyR0HImfxC56y+OLQuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786538972; c=relaxed/simple;
-	bh=l9aWFcNm0bwxHXmc42qW9RTOAM1VoiGfvBtDrSve78o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l+GCc73HM4ynlxd0FK1paNRqIeEsTAcInsbqeepj30wOiTGZ2CzLqf5meaKM21jw6bniEI+qC/YKsnSg2W3UVf2NO9GxNVXdCycXxVRUve/IGKfhJjFxaBTRrNlrC//Zpj8DBsK4J//CirpyA3WdiuILTlFdytgmChDxchPb+4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=exQXjwNz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786539691; c=relaxed/simple;
+	bh=tbt7BdbbvhRZPwnCsgFbgC8/QB/lMwXULL9MNJmtdJ8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GObvXHI9kot67njq7nEw2fMobni08tDhisj+URg/ygWUgip7qFFWrWP4NEMqdhvJlJqWWhocFi4ScoDiVthDkPrwxsKIdKs6n7KS+qFDPTbZli9OZ/dFrImRCzCUCGz3mClHoMBvVUiof9WWBGFMPgC29Nvw5V80P7kJFWqnXwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N7E8xcin; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5DOjmmgp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=N5KpMF1M; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9c9DCFoa; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="exQXjwNz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDA071F00A3A;
-	Wed, 12 Aug 2026 12:49:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786538969;
-	bh=l9aWFcNm0bwxHXmc42qW9RTOAM1VoiGfvBtDrSve78o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=exQXjwNzkxeU4MfyU+vcIBWpt9nUZ0CRRu7syTplAUCXMBV07ZgPoxPiyxs3B7SFg
-	 5d+bl90O3Gc7fP2NglGDPYx7s2Cs8lGc9/Na7/6aww39X+ng9q++DTF7lAKYWS9nuO
-	 5SzQFSECd5EWOST0HaO80CwLT91PZ55WOg4WLDkH1V727mCdgiNftC/P9xeGrWDQt+
-	 HmyWY2/YMpVuofztFIKMeM8w769QDyw4fgLz6WK2vmsXxyup6bk3OJGTP0PNjT3nhl
-	 hjrBVETlJdpoS2nIOePc2iGVxFE38HQo1njbPCgJIMNXOLy8to+ayteYsdaiqaeR1K
-	 2xOqKM/POPutg==
-Date: Wed, 12 Aug 2026 13:49:25 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>
-Subject: Re: [PATCH 11/14] ASoC: fsl: Drop __force casts
-Message-ID: <3649c059-da4a-4c41-98d2-60b30e25f4f1@sirena.org.uk>
-References: <20260812060557.80445-1-tiwai@suse.de>
- <20260812060557.80445-12-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N7E8xcin";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5DOjmmgp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N5KpMF1M";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9c9DCFoa"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9B4CF822ED;
+	Wed, 12 Aug 2026 13:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786539683; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lbl/CeMTx6pJigq3Vun4RMqP3E9LLG9i40VJpA5L148=;
+	b=N7E8xcinPbqxlhkXyzHnGb95w8GP1NDD9bp8bsT4YfnBCfNwKLRjnVOAtSSP8cPZgtFBUR
+	hTFksHtXFB3CQohwqkvtdTErHPndjF2Zb4zMdfuJCmLgB3dgnbhQ5fCyuJF4MsKubHDy7z
+	stSLurJQBA6Cu06XTgUPELEYdAFGkk4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786539683;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lbl/CeMTx6pJigq3Vun4RMqP3E9LLG9i40VJpA5L148=;
+	b=5DOjmmgpWnjQfhbohNv5d1k4+u7gctWBBjKZWW7btujl1Pc3TGH3A6R0vkJMvu1Q93XlFJ
+	kKs6aryodZMu0kAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786539679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lbl/CeMTx6pJigq3Vun4RMqP3E9LLG9i40VJpA5L148=;
+	b=N5KpMF1MDIj4XQvZrB2p9/1XTionFrR1OZN679/rVePi7rOjlPgRAeGJncFAeGksQBqv0z
+	V9cDa5cYAyHTF9LSN/bHRxfexYKIBpKtUuaIhD078HqqNPYhCj165glzYsSjvjsnSBBypF
+	Ay4A/KhHIbV4LAh8Hawj9Pq36M450tw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786539679;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lbl/CeMTx6pJigq3Vun4RMqP3E9LLG9i40VJpA5L148=;
+	b=9c9DCFoaGaq077B3WFLhttPY/OdAWyqIDUfe4BMt/4yu09gLjiDGcYDgjuNZbdQEJrxHGa
+	mzyAWa+/pB2uGsDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 82D34779B1;
+	Wed, 12 Aug 2026 13:01:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0m1TH59ufGqeSQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 12 Aug 2026 13:01:19 +0000
+Date: Wed, 12 Aug 2026 15:01:19 +0200
+Message-ID: <87se4jze5c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: HyeongJun An <sammiee5311@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: seq: Restore the delivery error code in the bounce event
+In-Reply-To: <20260812113236.3941391-1-sammiee5311@gmail.com>
+References: <20260812113236.3941391-1-sammiee5311@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WvvsarY36mIM3YHD"
-Content-Disposition: inline
-In-Reply-To: <20260812060557.80445-12-tiwai@suse.de>
-X-Cookie: !07/11 PDP a ni deppart m'I  !pleH
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
+
+On Wed, 12 Aug 2026 13:32:36 +0200,
+HyeongJun An wrote:
+> 
+> Commit efc86691e4d8 ("ALSA: seq: Fix kernel heap address leak in
+> bounce_error_event()") moved the data.quote.value assignment into the
+> kernel client branch.  A user client that sets SNDRV_SEQ_FILTER_BOUNCE
+> used to get the delivery error code there.  Now it gets none, and
+> nothing else reports it, because a queued event's write() has already
+> returned success by the time delivery fails.
+> 
+> Send struct snd_seq_event_bounce instead, the error code followed by the
+> original event record, which is what the UAPI header has described all
+> along.  Store the negative errno.  The kernel client branch negates it
+> only because data.quote.value is an unsigned short.
+> 
+> The payload grows from 28 to 32 bytes.  The snd_seq_read() rounds a
+> variable-length payload up to a multiple of the event size, so a legacy
+> client now needs an 84 byte buffer instead of 56.  That is what any
+> event carrying 29 payload bytes has always needed.  A UMP client reads
+> 64 bytes either way.
+> 
+> Drop the stale promise to copy the external data after the event record
+> as well.  That was never implemented, and bounce_error_event() runs with
+> atomic set from the timer interrupt.
+> 
+> Fixes: efc86691e4d8 ("ALSA: seq: Fix kernel heap address leak in bounce_error_event()")
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+> ---
+> Notes for the reviewer, not part of the change.
+> 
+> A UMP event does not fit the payload.  A struct snd_seq_ump_event is 32
+> bytes while quoted.event is 28, so ump[3] is dropped while
+> SNDRV_SEQ_EVENT_UMP stays set in the copy.  That is already true today,
+> but this locks it into the UAPI.  Clear the flag, skip bouncing UMP
+> events, or a different layout?  I did not want to guess.
+> 
+> The err field carries the negative errno.  Nothing has ever produced or
+> consumed this struct, so the sign is being chosen here for the first
+> time.  Say if you want the positive value instead.
+> 
+> I could not check whether any user space sets SNDRV_SEQ_FILTER_BOUNCE,
+> or what buffer size it reads with.
+
+Thanks, now I see what you meant previously.
+
+I belive that struct snd_seq_event_bounce is dead, not actually used.
+So, it's better to stick with the existing snd_seq_ev_quote even
+though we lose the error code in user-space delivery.  The definition
+of snd_seq_event_bounce can be dropped for avoiding confusion in
+future, too.
 
 
---WvvsarY36mIM3YHD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Aug 12, 2026 at 08:04:43AM +0200, Takashi Iwai wrote:
-> Now that the bitwise parameter definitions are gone for PCM
-> parameters, we don't have to cast with ugly __force prefix.
-> Simply drop those superfluous casts.
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---WvvsarY36mIM3YHD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp8a9QACgkQJNaLcl1U
-h9ChSQf7BZsMeuCa/yKVN6S9ZeEqbX0xL+uz0PjYk3qNprd6Z7sWYi6VlAPSFctG
-qzzPKv+10iXLu/DyucTMsMW2EiWp4nn03H6n8EsHnCxNkOYMN+XnescjvKQ3uIsh
-Xv5qm0eSTxkkkwTEUFFGMKsqFk9t1kouWZ86v7NuJV/MSdZzN4gMBv08kx4M5611
-BPjI3rkLDhoBhVElmk+hGMYVJTRvyOPlDybU/FxRn1SPwXTieucEB2MyLko8+7to
-/FiHbIj7iJFn/bIRYqOjYBMd5vikY0Rm2rfATAmqEXp399M/iJhHx/Dvv6J2wFPx
-2AIHucdvmFo3HrwunWraoKQrEtoHRg==
-=x4wi
------END PGP SIGNATURE-----
-
---WvvsarY36mIM3YHD--
+Takashi
