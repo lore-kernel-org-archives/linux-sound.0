@@ -1,162 +1,88 @@
-Received: from mail-106120.protonmail.ch (mail-106120.protonmail.ch [79.135.106.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63C2437112
-	for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 21:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93B83644B3;
+	Thu, 13 Aug 2026 22:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786655969; cv=none; b=eWToSdg7LkuYgP5xM+8S7UtbWhE9p9DYY3dZyXUrdAE0+R+lk9mye0w8Guk4iTVRwkoNvCAcilRfbkneGQcwdhGRPGkXwUgFa3KxjBPtfkarMZanbX9oJWywnqVLB9FTaGy/cgsSJtZOZa+onYgswSmcYl3jpCTVCRWeMHkVWO4=
+	t=1786659593; cv=none; b=E0MfJhr4NrfT/E2V8q9y2g24deVIHOW7Y4QxRP3+dlU4z9kfmMqZcwT3mlNUl06Cp63GIY0T1jHi4l0eSk8dcFxNvAzeIR3jvpsLrmBkb0A5JzWAIVhYiVO8EB7icZpffpZDsQTfsHvtSoM4apfPT6sXf4eowQo7Z5awUsVw2EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786655969; c=relaxed/simple;
-	bh=xH3gPrYDppt+MQrXmhlrMRygwbJaysyp4ket8pkDaJg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V5axDNqsVuK4yh/Xt2CRhNe2waAr9ZEW5Dw8/TpNtuaWnbmtBdx0A2WJERFh/481aO3Hl2AWg0wIxrXhNEjRDtJjkNoqUteA8gUciSzWOvS5c9xoBnfy2wLvPFdR1iNR7cMz/0897ZvWzONYf/HcbWLyBWhKjA1a6fwqVt0Dseo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=gZuc6nAo; arc=none smtp.client-ip=79.135.106.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1786659593; c=relaxed/simple;
+	bh=h/cZz00/1/SlrZT7qQD3nro5SmE1NcuKx9YBM7GyRIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pz4VGPxfddtKA2C53YhlkNXVtmbyBmNYJqGHWb3vmNHNN8XYvErFZ5k9b17iBloI6LETmoxMDJzR5WCGGkdPxZuJOvWPrIpaJC1NHJgRCpLElcKmI9mLyDj4Z+g5PZqk9PqseaqIWJPI8WUS1xDhHJKhGuvYh1BiLfp+O+Q2LLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sgho7mni; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="gZuc6nAo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1786655950; x=1786915150;
-	bh=+vZVQROOJ4Lf+QaUOHcsMONz/LGFoU22tAdh4Uplb34=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=gZuc6nAovG2m/uiYcj/DZAO+g85LqNaVv3AbXG/Hkzw4O9cRuCneR9ycfi7FKW/jH
-	 P+aHTJpIO4mZrsnAPO5PRywLBofHrvfclj8yBVevdTLBUV4uBH/js1uE+0VJYxbuuK
-	 oJ6Plct4FJD1a4FF9Ci05S3OF6tdjUlUdh4A05h8WlJ22s4PTcMXFLH5gOEfIzadzu
-	 f2qMvSexfuuUbt98/QUCZLJKN4zUPxmjf71UcfACaLh1c/o4KjeaF5euD1Qr0O8UIj
-	 UTcpjJ3Xaw0NtHLoWw8Ugf2yqoHwUe878L4SXwCEYxV4NpVUJ6zMyEgFX/sEew/ai3
-	 THJwN4DNwOW+A==
-Date: Thu, 13 Aug 2026 21:19:02 +0000
-To: Andrey Golovko <andrey.golovko@gmail.com>, Mark Brown <broonie@kernel.org>
-From: Robin Everaars <robineveraars@pm.me>
-Cc: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>, Antoine Monnet <antoine@montane.tech>, Ville Saarinen <wiza@saarinenkoti.fi>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: tas2783-sdw: power the Function up before preparing the port
-Message-ID: <20260813211858.17509-1-robineveraars@pm.me>
-In-Reply-To: <20260813194500.10598-1-andrey.golovko@gmail.com>
-References: <20260813001500.9218-1-andrey.golovko@gmail.com> <213117c2-02d0-4e94-be2f-c172ebedcfe4@sirena.org.uk> <20260813194500.10598-1-andrey.golovko@gmail.com>
-Feedback-ID: 201127006:user:proton
-X-Pm-Message-ID: f7d2d258e9e716eb700eef1bcdd796bfd2610fab
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sgho7mni"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA2221F000E9;
+	Thu, 13 Aug 2026 22:19:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786659592;
+	bh=092Pna56QuSDIlIXeHtlF7qEbhj6KCNEOQrzLk7UiGg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Sgho7mni3TBN17WC6KkkhThtoxNoeBPs2p7X8EiJ3h8Q1DqA+Pdo7he7ATtQ20fo3
+	 RpX4XiCWWdyAbvaSBJHKBiqpIYZOCjCO8IEzaKZc1G3HPehDNCk5r9/a3imQG3oIvT
+	 wrR+160dVc8wjc/FFLX1vB9j/dL0YLyH4PJrV6+qdPdliU8JPWQRYlacRDAp6P18km
+	 ehWfbpbgfOn205gPZ92qBdn+FXj/cV6/eIhVdzcJtpuzD/KluHmmAO3dnHFzUunz22
+	 1o1Crn61PyzcWi41hUN8IH6G2HvpeYKeHeuStRl+U4RGoVblqxsXEno5yfpHJk1lqx
+	 qkquWzIihW8vQ==
+Date: Thu, 13 Aug 2026 23:19:47 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com,
+	alsa-devel@alsa-project.org, shenghao-ding@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, niranjan.hy@ti.com,
+	pin-hao.huang@hp.com, Syed.SabaKareem@amd.com
+Subject: Re: [PATCH v2] ASoC: tas2783-sdw: add firmware download status check
+Message-ID: <0799cd9d-a0ef-41da-80ea-3fb9b1ef0f7f@sirena.org.uk>
+References: <20260813021450.1897-1-baojun.xu@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------cb0c3cfecc0bd92e335a0008fac9fa5f6d00d59c00e4d7fbf40f5b0e4987a2ab"; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="KzoVrVZXOpkAwgp5"
+Content-Disposition: inline
+In-Reply-To: <20260813021450.1897-1-baojun.xu@ti.com>
+X-Cookie: Immanuel doesn't pun, he Kant.
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------cb0c3cfecc0bd92e335a0008fac9fa5f6d00d59c00e4d7fbf40f5b0e4987a2ab
-Content-Type: multipart/mixed;
- boundary=8af598b9aa5a888213797b4ff59733ba7b0e3e4eb6ff11710eabf1d7a1a5
-From: Robin Everaars <robineveraars@pm.me>
-To: Andrey Golovko <andrey.golovko@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
-	Antoine Monnet <antoine@montane.tech>,
-	Ville Saarinen <wiza@saarinenkoti.fi>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: tas2783-sdw: power the Function up before preparing the port
-Date: Thu, 13 Aug 2026 23:18:58 +0200
-Message-ID: <20260813211858.17509-1-robineveraars@pm.me>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260813194500.10598-1-andrey.golovko@gmail.com>
-References: <20260813001500.9218-1-andrey.golovko@gmail.com> <213117c2-02d0-4e94-be2f-c172ebedcfe4@sirena.org.uk> <20260813194500.10598-1-andrey.golovko@gmail.com>
-MIME-Version: 1.0
 
---8af598b9aa5a888213797b4ff59733ba7b0e3e4eb6ff11710eabf1d7a1a5
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+--KzoVrVZXOpkAwgp5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Andrey,
+On Thu, Aug 13, 2026 at 10:14:50AM +0800, Baojun Xu wrote:
+> Currently, the firmware download is unnecessarily triggered on every
+> system resume from suspend, causing significant wake-up latency. However,
+> this step is redundant if the AMP remains powered on. Furthermore, certain
+> memory pages (addresses > 0xc60000) are skipped even after an AMP reset.
 
-thanks. One clarification about my negative v1 result: it was not an
-active-playback resume test. The controlled pre-suspend tone had completed
-before system suspend. The PipeWire sink was then idle for much longer than
-WirePlumber's default five-second node-suspend timeout. After wake I started a
-new pw-play process.
+> +		if (!tas_dev->first_hw_init || file->dest_addr < 0xc60000) {
+> +			ret = sdw_nwrite_no_pm(tas_dev->sdw_peripheral,
+> +					       file->dest_addr,
+> +					       file->length,
+> +					       file->fw_data);
 
-I did not trace the ALSA ioctls in that run, so I cannot prove exactly how
-PipeWire reactivated the PCM. The test was not designed to call
-snd_pcm_resume() on a running stream and should not be used as evidence for
-that path.
+What happens if the amplifier uses power (eg, over a system suspend)?
+Though since nothing clears first_hw_init I guess there might be issues
+there anyway...
 
-That makes the missing b627da430357 on v7.1.7 the more relevant difference for
-my result, although I have not proved that attribution yet. I agree that the
-next useful test is the exact v2 series on broonie/sound for-next rather than
-another cycle on v7.1.7.
-
-I will keep the cases separate:
-
-  - an active hw stream recovered only with snd_pcm_resume();
-  - an idle PipeWire sink followed by fresh playback after resume;
-
-  - a hw stream left PREPARED across suspend, then started without another
-    prepare, to confirm the remaining gap described in the cover letter.
-
-I will mask the resume rebind during each attributable cycle and keep the same
-pre/post acoustic measurement.
-
-Please send the register-readout module off-list. I can capture DP1
-PrepareCtrl, PrepareStatus, ChannelEn and PDE23 around each path, especially if
-one still fails on for-next.
-
-Thanks,
-Robin
-
---8af598b9aa5a888213797b4ff59733ba7b0e3e4eb6ff11710eabf1d7a1a5
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
- 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
-Content-Type: application/pgp-keys; filename="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
-dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
-bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
-Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
-UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
-eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
-akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
-SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
-UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
-MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
-QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
-SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
-RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
-Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
-LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
---8af598b9aa5a888213797b4ff59733ba7b0e3e4eb6ff11710eabf1d7a1a5--
-
---------cb0c3cfecc0bd92e335a0008fac9fa5f6d00d59c00e4d7fbf40f5b0e4987a2ab
+--KzoVrVZXOpkAwgp5
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
-Version: ProtonMail
 
-wqsEARYIAF0Fgmp+NMYJEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmdrQOBjmGen5IBy8SpvS9HqFiEEi2uhMrb2XujF
-nFjLHcV/a8sGGooAAHxHAQDERIPEYn0iypt6F2VhmplgAZQRvXDJgXuHnP+v
-eZKSYQD/TE5ly/PHEUFHheuFCVXr0gGAqK9vyoUzDWMscZcNRQU=
-=P9DI
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp+QwIACgkQJNaLcl1U
+h9ANegf+JK0QxQwgfNUpmn4rEGyfPdGNwOIGZnhXTPQ1YQw0Z1HGeeGH/Xf7DHxX
+0g8LX84V5NA3QMrDjlBCcJZSaFbBXNDzk1dQAp8ssgnOewMD7NyMp5UY1qs+/NpH
+RtlfGxbEZdgj//sJhYLocDrKObOkKoXO1R59TM+A+1Ua0KK8exlfeCtBJMyL2uEl
+PYlNslBO5GcB0yK8WCImKyFhM6Ijinhcds6fTgzbaNlUP6r1CeiYR697sK/HxjZp
+nx0ACestXtzHlPNUYKNjGmQEN1fqijp5N7nLm1Wf7W3wIYSVY9O1Y0b0ObrPzYTu
+AmcRVLekfBsYJvXw+Ql6Z1esLHPsnw==
+=BSuN
 -----END PGP SIGNATURE-----
 
-
---------cb0c3cfecc0bd92e335a0008fac9fa5f6d00d59c00e4d7fbf40f5b0e4987a2ab--
-
+--KzoVrVZXOpkAwgp5--
