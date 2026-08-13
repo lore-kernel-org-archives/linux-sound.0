@@ -1,85 +1,85 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E034963CE
-	for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 16:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C290495530
+	for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 16:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786638753; cv=none; b=DQkupT5vgK5ujxz+nCY/EPqVMhSOUxfE418sF4kkjcORnJEQmXW/xXiYhBuC1vKyGOhO8FtIW9rM+UHep/M60Lo3L/66pbgykUv2DYo2FqMKh235wXPNK+q8hVC+I6N8uqq2f7Wx3WTuYuAigFk0UCQcv/AtdtxL1UsG/RIGUs8=
+	t=1786638756; cv=none; b=X0l+3RrzuQOKLvmCEYQC1raR/mH5SK1b+o+yb4xiYLgjf61auLmMR+rQnFcvNW0m+DnTWHkXpsQX74iZ/VGPddZRa4CaFdRf4XnKrVKD1BZJ4W8cU24e2j3Fdfjr0YcVjYa7Xu8ukoOeiD8gLn4Vi6zLte4yuTrJzIi/pfSXij8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786638753; c=relaxed/simple;
-	bh=/YhplFr3wX+cQu+n5OeAbAsCzhnZxT1J8kXTe5t6tkc=;
+	s=arc-20240116; t=1786638756; c=relaxed/simple;
+	bh=yZsayIIRWkvLHibdEjd2G21zSgUhMa0Xp79RehKKOIU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f8qmE9RsBYoqMSzzhYLchmgciePLWFhJNm3ZRfLTG48Y85nn1gGZ/siB5L17bsNH+hBlj1gWujWclJXD9ZaSyxp3R7uqskaU8EGF5VM5GUPJirW0FP+MroQ9e+BKrOOfcKoGb6HsVWFdNedFgJ/DAW03bYmcfkir3Ye+fj1yWT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fbCLYW5T; arc=none smtp.client-ip=209.85.167.50
+	 MIME-Version:Content-Type; b=ZN3SYztaaggK6HJnzQOqm52lPQw2G/gLHtt4klzP+FGjgjY61kNcMymRhbZPHMBZRQv1iHCifAB7ep8AVy8I8/3qR4W+n1T2GUbVBmFPxsi0bvf/vGJPlnTkdST1GA1VDUekV9ZBIzh0jjx0vRa3tHeJY4iTUAEJUVM6i4eCya8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T06hmwl5; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fbCLYW5T"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aea0fff535so2682612e87.3
-        for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 09:32:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T06hmwl5"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b021916bd3so1313232e87.3
+        for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 09:32:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786638748; x=1787243548; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786638751; x=1787243551; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=twv+XV+1+yrG3KOORHIQ174JWU1gzEjtWwKvqruL4XM=;
-        b=fbCLYW5TBOvMPl6u6bZjJDoV+KLNdanRaTYzcg/oHsE9cv/s89MpeQaYhQEeuOGT3P
-         k6JG/+p3SjwAc8cFj3UFdHqOGdoyaR4fRMgbGvyJqe0ZZ1dwQuEQiNlsQghuMMrLKkaW
-         CFiyW5ayhO5kmcXj5lgktAZ8YtBVtsumpS877SFIgTV+pCJiZhzbzMYwYXlhYti8KioP
-         XITYMjbbdK7BgpQImcnlQ4yc3qiGU50nsO76FLgoutIT0rynExSw060wWVaafMQnC3ek
-         Fajw7MiVMddYvbZLlDXhIBYL6Awuh5fW672o4v/whhWBceC1d9bBuChT92g+mueCk3cM
-         6wng==
+        bh=BUYf9Zsf2WSHXbVUW7L/pdubtMVZe2GVng4+E2hHXS4=;
+        b=T06hmwl5Bu2thEL2vt9Rm7T5JVg/YY4369X+ZUIRMo61BqHqIuJoFuRd3dKcZirbR/
+         FrmfvI3pFjjweWOTFo3ov/yjlaGKKHhu4pivflIPQgvVKWn3M9RN4r/UYGzJaG/ThNBv
+         rZrLVY15J32oKXGehIXkGNmK286Tnj0Tnz2XhWJwWjswFmAmBSCau0uAAc/ci7NZf/FS
+         yt0dv9llSejp3E8NvUxEHd04KQkdciIVGbg2YN5fCKHhPXM7TsxGkZlq/u9Q8xoHkWs7
+         HIG9wO2WbgxXn1l9OqcUtUgofk3xIZyDlajlAMZGvprtAk65IifU56ZK5CMW6H7f+K2n
+         eovQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786638748; x=1787243548;
+        d=1e100.net; s=20251104; t=1786638751; x=1787243551;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=twv+XV+1+yrG3KOORHIQ174JWU1gzEjtWwKvqruL4XM=;
-        b=bTov4HP+OpXtFjHFIi1a7x6ieaJEMiF1pN8zdQTOJeE8tX8gjSURMytbgzR40wYNbD
-         dTYd4L+8Vx6Hfhu7EYrlGetkV/Rnc27HBE0/GWPIlkP/ycrOiDWvBtGxdz1L15VT5M05
-         GWHw7FSTYX/P5Oz/Sjn49e+QQXuhk1IdK+SxtayThfzqukqlvnFBQz9EovelzPCofL/4
-         eCBmLF/MUyn94tzZyyWxdPligqc732REv2DihU+2pTzEpfmdbYejYYaIyIg7x+oK88dF
-         g0/e63nDMwB2HKEJuGSy1xG3Sa5z0Sl0QHXF2bTfq3zgs1cqYxe/V9Fu271pY1X3CywB
-         O4QA==
-X-Forwarded-Encrypted: i=1; AHgh+RqvDDPUpLO49S0UOdA/drkMrF1Xf8HFD+dhuzCXVa9Jgw2bhmKv+/itcs7+0Tzvkq5D0h8k3TZWbPZcUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9Oi+OL++fVkw0633iqwmyNAWnZT3TF7CyFkWSH4XO82/nxvqf
-	Utx18R/OoiWgoPT4fQ9p3CSfM3dFu3JHH+uNAh0+amKmdGYMZ2oySJ3b
-X-Gm-Gg: AR+sD130VIdhtzlMrEVLFynSv7KWJCNMr2gIXnwxuLvK0/lRTZkHjRCcim7Rcta94ms
-	khojkGFGrRwdQgkUS7bYNG+2Vz26eaFqqdcd57LSqcqVzT2ChTWsBczROuxtLEQ0NriwTrAkZeg
-	mFVQC1KXRUdNcFF0nbvMmo22oUITB9854owgmxd8o6ZX5Uk7BarNtp4j4LkYMdASrxDQQyLJre2
-	1Qe/r0J5dd4Zbo8UBbuDXpULyDjITh7eTbJVmkRW/xgHMiT/my/BQJGBdjOEYLBGRxkCaPjOfug
-	648/buQIeYStSyxnfU/wCGeyod9v4YyLyahjzxV45j7mmclW6Wo620bWsn8ws11Lzc+bi+jE62F
-	KW4d+OCc4vWdEBsUpQZgErSfk2Q+K42zVMg/VuKxWTq1O2xm32hNJf+EexCmXHQ1zvK7wrKEsZJ
-	DUtYQtpB6hPs96OYzSB+ZTohnJmXeRIl+6F2MJEeGtdS5m4o2bozeHUaip3x3lxPuN0tMb2QfDj
-	IBskJesAb5SbcqrmFLaA3w=
-X-Received: by 2002:a05:6512:4205:b0:5ae:bd66:553b with SMTP id 2adb3069b0e04-5b453f830bdmr1118109e87.38.1786638748404;
-        Thu, 13 Aug 2026 09:32:28 -0700 (PDT)
+        bh=BUYf9Zsf2WSHXbVUW7L/pdubtMVZe2GVng4+E2hHXS4=;
+        b=eUwc1TMIv+zf2JWVZj3aXa9hP29fIo1Dys3cGE73QSV1xkafqnmMNFTCopHMpGwR8X
+         vlJMB/Lw/dlONtgEWkjrMTFufy5ICKi9KwtaGvafaFgyfPUwqOyoJhjX9rUaaV+kdsUm
+         wTovukEpWfn7LTdIo4g70TdFn4bKiP50jyR2MdCgRDNr3mqac3vhib/mA8RT8ERKTE+z
+         9PP3NBQuWLO0M/B/G/G+qSaw2Yt02ocxUUPuC7pEBhKQel66AOLJgM0jCQeImbivy69z
+         4bMl4mWCTHK6VM+mvMSjwsA28ATmT/VzE45nJomIetdeR7SIjQiuzm1bhY+9YXCY7Bjz
+         HeIQ==
+X-Forwarded-Encrypted: i=1; AHgh+RorOwPKUqvSywVcPh1gRuFFF0wWfUq9/lY6pMcNIcciKas8Ca/w+Kv1BbmxESXSmKen6pW4/Kxowt2gqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgtnUC0w/Ena4cF6fBTW9Lji1YkrWxqyamWOxbeAFHfNLMuag0
+	21hvSf2DGrJSUTodx/pvbolc6FRPTksRIuidcPuYazn7ACJJPiQac/qhou2q1iznyrHHtg==
+X-Gm-Gg: AR+sD11/P4ToscLvW41uwNBrDpWaxg7pxnWbjrn/Xw//gh1uiohuKCOeyAGw4U78uT6
+	2lATcfC/Ad1DhkqgFxqcyvcq99OQ7oUV+vw2ES7oTyQ3lUtUGj0hIIvHve9+Rm06wMH0f7ZCTFZ
+	CefxaJDmr2RBDZFwChM4MGgtrfvtPbM5kQIcyiBnFC6f4yq7eez+LY29uaqAtQdryob2UKuhVZR
+	Ta8DYayxohd5r8IEcRtMZuWF/TtRdCnoYrfFETndtocL2EBlUe2k4i8OJ7CCAWhMQEssNA/Wnpr
+	PkM18sfi3ShRylSU7qFmybHhrZcDBWJRGOVOTT/qrTWRuvFtD37Xa8RQFoHrLykRb+0PEMnLH/C
+	zMYe/sI/eDY1MwZ76b5ZDL7xyQrNl4oAVLzxI6BgG/NjSXT6P1ldm1uz/Gu4NajUJcLKEnp1gUU
+	tHWXXNAAIhF6P1GgaugWUASm5iUfzzz0oGPiCQF2Uyd2OcoKqiK0Ej+8Xhvt+RZqYSDwkQsFXLF
+	LKeTLDwVoJzpO5LbXr6lX8=
+X-Received: by 2002:a05:6512:428a:b0:5b4:473f:847b with SMTP id 2adb3069b0e04-5b453f836d2mr1027163e87.39.1786638750711;
+        Thu, 13 Aug 2026 09:32:30 -0700 (PDT)
 Received: from localhost (host-80-73-162-2.rev.as20985.net. [80.73.162.2])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458b9a8a5sm1778e87.7.2026.08.13.09.32.26
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458b9a986sm1401e87.14.2026.08.13.09.32.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 09:32:27 -0700 (PDT)
+        Thu, 13 Aug 2026 09:32:29 -0700 (PDT)
 From: Andrey Golovko <andrey.golovko@gmail.com>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Antoine Monnet <antoine@montane.tech>,
+To: Mark Brown <broonie@kernel.org>
+Cc: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
  Robin Everaars <robineveraars@pm.me>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
+ Antoine Monnet <antoine@montane.tech>,
  Ville Saarinen <wiza@saarinenkoti.fi>,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: tas2783-sdw: power the Function up before
- preparing the port
-Date: Thu, 13 Aug 2026 19:40:00 +0300
-Message-ID: <20260813194000.10412-3-andrey.golovko@gmail.com>
-In-Reply-To: <20260813194000.10412-1-andrey.golovko@gmail.com>
-References: <20260813194000.10412-1-andrey.golovko@gmail.com>
+Subject: Re: [PATCH] ASoC: tas2783-sdw: power the Function up before preparing the port
+Date: Thu, 13 Aug 2026 19:45:00 +0300
+Message-ID: <20260813194500.10598-1-andrey.golovko@gmail.com>
+In-Reply-To: <213117c2-02d0-4e94-be2f-c172ebedcfe4@sirena.org.uk>
+References: <20260813001500.9218-1-andrey.golovko@gmail.com>
+ <213117c2-02d0-4e94-be2f-c172ebedcfe4@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,79 +89,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A Data Port cannot complete channel preparation while the SDCA Function
-is powered down: the peripheral raises the channel's bit in
-DPn_PrepareStatus and never clears it.
+On Thu, Aug 13, 2026 at 02:22:52PM +0100, Mark Brown wrote:
 
-tas_sdw_hw_params() takes care of that for a stream that is being set
-up, and the retry loop there says so - "ensure power on so that port
-prepare succeeds".  Port preparation, however, also happens on a stream
-that is merely re-prepared, without hw_params() running again.  That is
-what userspace does after a suspend in which the peripheral lost power:
-snd_pcm_prepare() reaches .prepare and sdw_prepare_stream(), the port is
-prepared afresh, but PDE23 is still at the PS3 reset default because
-nothing wrote it since the device came back.
+> Does this DTRT if userspace restartss the stream by directly calling
+> SNDRV_PCM_IOCTL_RESUME (AMD adverise SNDR_PCM_INFO_RESUME...)?
 
-The result is silence with no error anywhere.  The codec sets
-simple_ch_prep_sm, so sdw_prep_deprep_slave_port() skips the
-NOT_PREPARED poll, and a port that never prepares is indistinguishable
-from a healthy one.
+No, it does not.  I wrote a test that takes that path deliberately - it
+plays a 440/660 Hz tone straight to the hw device and, when the write
+returns -ESTRPIPE, calls snd_pcm_resume() and never snd_pcm_prepare() -
+and on this machine, with v1 applied:
 
-Power the Function up in the PRE_PREP callback, immediately before the
-PrepareCtrl write it already performs, so that preparation has what it
-needs on every path that prepares a port.
+                       before suspend     after snd_pcm_resume()
+  DP1 PrepareCtrl      0x1 / 0x2          0x0 / 0x0
+  PDE23 req / act      0x0 / 0x0          0x3 / 0x3
+  tone 440 / 660 Hz    +65.5 / +75.2 dB   -1.7 / +1.8 dB
 
-Measured on an ASUS ProArt PX13 (AMD ACP7.0, two TAS2783): after s2idle
-with ~100 s of S0i3 residency, DPn_PrepareStatus stays at the channel
-mask and there is no audio; writing PDE23 PS0 and re-issuing the prepare
-clears it within 1 ms and audio returns.
+(two amplifiers on the link, tone measured through the internal
+microphone against the noise floor of the same run).  snd_pcm_resume()
+returned 0, the PCM stayed RUNNING and nothing logged an error; the
+ports were simply never prepared again, so the callback v1 hooks was
+never reached.  asoc_sdw_trigger() only calls sdw_enable_stream() on
+SNDRV_PCM_TRIGGER_RESUME, and the channels are then enabled on ports
+that no longer exist as far as the peripheral is concerned.
 
-Signed-off-by: Andrey Golovko <andrey.golovko@gmail.com>
----
-v2: no functional change.  The comment no longer implies that a userspace
-snd_pcm_prepare() is the only way into port preparation, since patch 1
-now also reaches it from the resume trigger.
- sound/soc/codecs/tas2783-sdw.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+v2 preparing the stream on that trigger fixes it:
 
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index c217da5fccdf..d32d8f441651 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -1259,6 +1259,7 @@ static int tas_port_prep(struct sdw_slave *slave, struct sdw_prepare_ch *prep_ch
- 			 enum sdw_port_prep_ops pre_ops)
- {
- 	struct device *dev = &slave->dev;
-+	struct tas2783_prv *tas_dev = dev_get_drvdata(dev);
- 	struct sdw_dpn_prop *dpn_prop;
- 	u32 addr;
- 	int ret;
-@@ -1270,6 +1271,25 @@ static int tas_port_prep(struct sdw_slave *slave, struct sdw_prepare_ch *prep_ch
- 	addr = SDW_DPN_PREPARECTRL(prep_ch->num);
- 	switch (pre_ops) {
- 	case SDW_OPS_PORT_PRE_PREP:
-+		/*
-+		 * The Function has to be powered before the port can complete
-+		 * channel preparation.  hw_params() does that when a stream is
-+		 * set up, but a stream that is only re-prepared - as it is
-+		 * after the peripheral lost power in S0i3 - does not go
-+		 * through hw_params() again, and the peripheral is back at its
-+		 * PS3 reset default.  Power it up here, where it is needed.
-+		 */
-+		scoped_guard(mutex, &tas_dev->pde_lock)
-+			ret = regmap_write(tas_dev->regmap,
-+					   SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23,
-+							TAS2783_SDCA_CTL_REQ_POW_STATE, 0),
-+					   TAS2783_SDCA_POW_STATE_ON);
-+		if (ret) {
-+			dev_err(dev, "power up failed for port %d, err=%d\n",
-+				prep_ch->num, ret);
-+			return ret;
-+		}
-+
- 		ret = sdw_write_no_pm(slave, addr, prep_ch->ch_mask);
- 		if (ret)
- 			dev_err(dev, "prep failed for port %d, err=%d\n",
--- 
-2.53.0
+                       before suspend     after snd_pcm_resume()
+  DP1 PrepareCtrl      0x1 / 0x2          0x1 / 0x2
+  PDE23 req / act      0x0 / 0x0          0x0 / 0x0
+  tone 440 / 660 Hz    +73.7 / +88.3 dB   +73.7 / +88.5 dB
 
+It is on the list as
+
+  [PATCH v2 0/2] ASoC: tas2783: prepare the port again on the resume path
+  Message-ID: <20260813194000.10412-1-andrey.golovko@gmail.com>
+
+> Similarly we can suspend while prepared.
+
+That one I could not close, and I do not think it can be closed from
+either the machine driver or the codec.  A stream suspended while merely
+PREPARED gets no trigger at all: snd_pcm_do_suspend() returns early when
+the stream is not running, and snd_pcm_do_resume() returns early unless
+the suspended state was RUNNING or DRAINING.  Userspace calls
+snd_pcm_start(), the ports are enabled, and nothing in the path knows
+the peripheral came back empty.  sdw_prepare_stream() cannot help
+either: the SoundWire stream is still SDW_STREAM_PREPARED, which it
+treats as "nothing to do" by design.
+
+What does know is the bus - the peripheral goes UNATTACHED and comes
+back uninitialized.  Invalidating the prepared state of the streams that
+peripheral takes part in looks like the right place to me.  That is a
+core change; tell me if you want it as part of this series and I will
+write it.
+
+Vijendar, thanks - that matches what the measurement says, and v2 takes
+the first of the two options you named.
+
+Robin, your negative result for v1 earlier today is consistent with all
+of this: playback opening cleanly, both amplifiers attached and silent
+is exactly what this path looks like from userspace.  Two things worth
+checking on your side before you spend another cycle:
+
+  - whether your player recovers with snd_pcm_resume() rather than
+    snd_pcm_prepare().  If it does, v1 alone could never have worked for
+    you, and v2 is the patch to test;
+  - v7.1.7 predates b627da430357 ("ASoC: tas2783-sdw: drop stale
+    regcache on uninitialized re-attach"), which is in for-7.3.  Without
+    it the register writes made on resume can be dropped by the cache,
+    which is a second reason a v7.1.7 test says less than a for-next
+    one.
+
+I would take you up on the offer of registers around a failed playback,
+but on a for-next kernel with v2 applied.  The register readout above
+comes from a small out-of-tree module that reads DPn_PrepareCtrl,
+DPn_PrepareStatus, ChannelEn and PDE23 over the bus without touching the
+regmap cache; I am happy to send it to you off-list if that helps.
+
+Thanks,
+Andrey
