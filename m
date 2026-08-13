@@ -1,135 +1,106 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-m15599.qiye.163.com (mail-m15599.qiye.163.com [101.71.155.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67443391835
-	for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 12:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB62D3BD225;
+	Thu, 13 Aug 2026 12:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786624005; cv=none; b=QQiwBZK+y+6SQkYvz/1gmymLfQVX1UCUgvuG0ynfNNyok2owjforqHsy7BwnUi18JSxurTj3nrtkRjT2CD8ptUSjZtlv0v/nG7H7XpOn3D6TsG1YjBZXv/InEVqSVAIleWcJxa4STSR7W81src1/X/Q/YjyuT9hh2OFVWu/pQoY=
+	t=1786624171; cv=none; b=bHOPXDgcii5rraKaIzOnQ4lB0NnENEHbvDVFtqqY+ZUE9AXRopcMGygyMugK16SONDdkqjLWbKjC3fykvw6yyZzYtQ1tJeXimd6n+i0/J1Dufcq73ILdxPyzSUjQn0bHtTOJTkU++nhbvtuEY3O0slkyvHCWK550ZdoJ1zDAAh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786624005; c=relaxed/simple;
-	bh=q32Ug0DVNKaYb8vkerPNKRtXm+pKjTDxiKCVi2gcuFE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PO9xzaIyAiD5CzaXMiG/GSMbh9n2TrktuOzdBo2HQULq00djFHMgCc7I7zWVKjtjv77IhQRzJ8lWx2yOYX61S9oYVCfMg7Hp+F3ALLXdEvXKlv+sg/Sxha+78L6dkggeffyh0p5yv5pf5DcgJvwS6RKYWfpTv4REZ76sVVTqAqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=JRWVi5XY; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1786624171; c=relaxed/simple;
+	bh=/H+h37ktJXQFR3ayxqO5EhAjCsQanT1aeEs7IGCODHk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DyLpO8fWySb0+l2sXu6FIumyzhkpqvURukQdgaTFFI4e0JWfoty+NOlrgWsBdwOyyjsFNpW/DqaX9O5VCZnkRt5z2ImubhhUHreaptsgY5aNudy+Ec+VXXSYk2TYdSK8obB8OTY53TFth6EZEZMColFKiNyzkkKBvGUI+sCVAJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com; spf=pass smtp.mailfrom=thundersoft.com; dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b=hmO2hLxo; arc=none smtp.client-ip=101.71.155.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=thundersoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thundersoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="JRWVi5XY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1786624001; x=1786883201;
-	bh=os7DnR8Xbg2zP8Zn2jhUydepFzP2B3kXgx2s5Nng2WY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=JRWVi5XYegTUATvjSNC9+e3neAYvQVknyp6KQzJc0ADcTmQaX/LBREIeuQsgJhba6
-	 X0vRxt9xsunGVHxtSMdBGy/057RVRqzVsPqYKPprIzIket9fAiAhXeuxt7pmiVeffs
-	 3NOLS8LNNSVzlQeyWtHR9vxA1HgqMkwkEgx91W5IrxzabhsYwSSv3bX3fmKNpS0XGJ
-	 xSm/8vMgb77tDrP6v5lVILS0cW8X6HRPW4SllqISufB5xfst6Y1hXabKNE8koefVm3
-	 sCDd4Zgeb9Y2tty/1wTgMJPe2Q+AGIz7BqjXOpb4Y3s5rPyFHAFF8WcFdeEnYBWzHM
-	 9FrwIhFBWK4TA==
-Date: Thu, 13 Aug 2026 12:26:35 +0000
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>, linux-sound@vger.kernel.org
-From: Robin Everaars <robineveraars@pm.me>
-Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, broonie@kernel.org, linux-kernel@vger.kernel.org, Mario Limonciello <Mario.Limonciello@amd.com>, "Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>, Syed Saba Kareem <syed.sabakareem@amd.com>
-Subject: Re: ASoC: amd: acp-pdm: full-scale burst on every DMIC capture start
-Message-ID: <20260813122632.9851-1-robineveraars@pm.me>
-In-Reply-To: <20260813121645.15370-1-robineveraars@pm.me>
-References: <20260805181130.75314-1-robineveraars@pm.me> <9a5937cc-f4b2-42d7-8564-da81f6cf4e9e@amd.com> <20260811123336.197402-1-robineveraars@pm.me> <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com> <20260812134148.17343-1-robineveraars@pm.me> <759b61f5-6584-4397-bd61-8995bf5aa5fe@amd.com> <20260813121645.15370-1-robineveraars@pm.me>
-Feedback-ID: 201127006:user:proton
-X-Pm-Message-ID: 4083069658069897ee9ccb33f998833556b51d23
+	dkim=pass (1024-bit key) header.d=thundersoft.com header.i=@thundersoft.com header.b="hmO2hLxo"
+Received: from [127.0.1.1] (unknown [36.129.139.90])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 49e09c484;
+	Thu, 13 Aug 2026 19:53:43 +0800 (GMT+08:00)
+From: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+Date: Thu, 13 Aug 2026 19:53:34 +0800
+Subject: [PATCH] ASoC: dt-bindings: es8316: Fix supply property constraints
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------8da1d97778046387133b3e218c35887f8996d1af7748a5c18772336c7824b44d"; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260813-b4-es8316-binding-conditional-fix-v1-1-6cd56aa1370c@thundersoft.com>
+X-B4-Tracking: v=1; b=H4sIAD2wfWoC/x2NwQqEMAxEf0VyNtDUXVF/RTzYNnUDUqUVWSj++
+ 4Y9DW/gzVQonIULTE2FzLcUOZICtQ34z5o2RgnKYI3tzUAduhdyGTrq0UkKkjb0h+al3rpjlC8
+ a5/xIb4ocLejOmVnr/8e8PM8PqUEbzXMAAAA=
+X-Change-ID: 20260813-b4-es8316-binding-conditional-fix-0bbc9151fef2
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Daniel Drake <drake@endlessm.com>, 
+ Katsuhiro Suzuki <katsuhiro@katsuster.net>, 
+ Matteo Martelli <matteomartelli3@gmail.com>, 
+ Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Roger Shimizu <rosh@debian.org>, 
+ Hongyang Zhao <hongyang.zhao@thundersoft.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786622023; l=1569;
+ i=hongyang.zhao@thundersoft.com; s=20260127; h=from:subject:message-id;
+ bh=/H+h37ktJXQFR3ayxqO5EhAjCsQanT1aeEs7IGCODHk=;
+ b=imYgtZBUslINZE+SejnGIsjy2NA8dFogwaaP9RefhU4EgAhiiiFpdoyCdXixcUO7l434lMjRw
+ S5W+f4eCS+fBMieLkT7PBZCX6ltQhza8xCtr91DKiDDP81I9zZ8OY9m
+X-Developer-Key: i=hongyang.zhao@thundersoft.com; a=ed25519;
+ pk=D9yL5W9Zj0lPBDAq9gzY++1849VlXuTWAkROzZ88J/4=
+X-HM-Tid: 0a9ffaf8960009d5kunmf4a1915b47dc88
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDSR1MVh5MTB8ZQkxDSUkeH1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlITVVKSUJVSkhCVUJLWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lPT09IVUpLS1VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=hmO2hLxovFAuvK0oW2lCckNLuPFYH3Ry06aqW0xuLnD1UP090s0Wx6uhtf0Sntud+PKxw4B0twe6OyvRN5XpM5tcCl1h6JDHOkF9FPvdkeUllR6MOvHMfMnE2TsbZ2LVFKaxgnQ8KUSj+oFsx+tIhbqvas7e3hVHrveKaq1yS6M=; c=relaxed/relaxed; s=default; d=thundersoft.com; v=1;
+	bh=/v4oCG7KsiGimIbQ0haXjVkJtc7ra71e9ZPL8hOWsr8=;
+	h=date:mime-version:subject:message-id:from;
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------8da1d97778046387133b3e218c35887f8996d1af7748a5c18772336c7824b44d
-Content-Type: multipart/mixed;
- boundary=8ca8de3e9643a3479502fa0769161ddaa6add023e80b81abfc52fbcbd0b2
-From: Robin Everaars <robineveraars@pm.me>
-To: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>,
-	linux-sound@vger.kernel.org
-Cc: venkataprasad.potturu@amd.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mario Limonciello <Mario.Limonciello@amd.com>,
-	"Dommati, Sunil-kumar" <Sunil-kumar.Dommati@amd.com>,
-	"Syed Saba Kareem" <syed.sabakareem@amd.com>
-Subject: Re: ASoC: amd: acp-pdm: full-scale burst on every DMIC capture start
-Date: Thu, 13 Aug 2026 14:26:32 +0200
-Message-ID: <20260813122632.9851-1-robineveraars@pm.me>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260813121645.15370-1-robineveraars@pm.me>
-References: <20260805181130.75314-1-robineveraars@pm.me> <9a5937cc-f4b2-42d7-8564-da81f6cf4e9e@amd.com> <20260811123336.197402-1-robineveraars@pm.me> <25022e80-1dff-46d8-891e-5fe7219f7331@amd.com> <20260812134148.17343-1-robineveraars@pm.me> <759b61f5-6584-4397-bd61-8995bf5aa5fe@amd.com> <20260813121645.15370-1-robineveraars@pm.me>
-MIME-Version: 1.0
+The DT meta-schema requires a `then` clause when an `if` condition has
+an `else` clause. Invert the compatible check and move the supply
+property restrictions to `then` so they remain allowed only for ES8316.
 
---8ca8de3e9643a3479502fa0769161ddaa6add023e80b81abfc52fbcbd0b2
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Fixes: e9966d450b46 ("ASoC: dt-bindings: es8316: Add regulator supplies")
+Reported-by: Rob Herring <robh@kernel.org>
+Closes: https://lore.kernel.org/r/20260812194234.GA693895-robh@kernel.org
+Signed-off-by: Hongyang Zhao <hongyang.zhao@thundersoft.com>
+---
+Fix the conditional schema added by commit e9966d450b46. Invert the
+compatible check and move the supply restrictions under `then`.
+---
+ Documentation/devicetree/bindings/sound/everest,es8316.yaml | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-One clarification about the isolated -EIO mentioned above: I removed patch 2,
-rebuilt and rebooted into the earlier patch-1-only module. Its SHA-256 was:
+diff --git a/Documentation/devicetree/bindings/sound/everest,es8316.yaml b/Documentation/devicetree/bindings/sound/everest,es8316.yaml
+index 276c73bb4790..f4ff23120c5b 100644
+--- a/Documentation/devicetree/bindings/sound/everest,es8316.yaml
++++ b/Documentation/devicetree/bindings/sound/everest,es8316.yaml
+@@ -33,9 +33,10 @@ allOf:
+   - if:
+       properties:
+         compatible:
+-          contains:
+-            const: everest,es8316
+-    else:
++          not:
++            contains:
++              const: everest,es8316
++    then:
+       properties:
+         avdd-supply: false
+         cpvdd-supply: false
 
-  cd55e119961b80066c66ae7abb5f05ca97fa2747de7887a17ee45c724f19fc9d
+---
+base-commit: 79a883d53960fb2eaf02f72a37182078b4fc938e
+change-id: 20260813-b4-es8316-binding-conditional-fix-0bbc9151fef2
 
-The first runtime-suspended capture after that reboot again returned -EIO
-before delivering data, with no matching kernel diagnostic. The next three
-runtime-suspended captures each delivered all 48000 frames with no clipped or
->=99% full-scale samples.
-
-I therefore do not attribute the isolated -EIO to patch 2. The reproducible
-patch-2 regression remains the scheduling-while-atomic failure from msleep()
-in acp63_pdm_dai_trigger() during active-capture resume.
-
-Thanks,
-Robin
-
---8ca8de3e9643a3479502fa0769161ddaa6add023e80b81abfc52fbcbd0b2
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
- 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
-Content-Type: application/pgp-keys; filename="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
- robineveraars@pm.me - 0x8B6BA132.asc"
-
-LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
-ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
-dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
-bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
-Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
-UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
-eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
-akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
-SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
-UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
-MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
-QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
-SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
-RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
-Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
-LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
---8ca8de3e9643a3479502fa0769161ddaa6add023e80b81abfc52fbcbd0b2--
-
---------8da1d97778046387133b3e218c35887f8996d1af7748a5c18772336c7824b44d
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: ProtonMail
-
-wqsEARYIAF0Fgmp9t/sJEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
-b25zLm9wZW5wZ3Bqcy5vcmejuvbAxNh7OWI21JWsXWHkFiEEi2uhMrb2XujF
-nFjLHcV/a8sGGooAAK8rAP9N8W7hITHRsT1l1N6UnX5ZU2UAOGEG98+RLG+h
-nsH87gD/VgZdmUvZiUCt52xJU7bo9EjlwV2OODWq7Ph15txtMwY=
-=DNvL
------END PGP SIGNATURE-----
-
-
---------8da1d97778046387133b3e218c35887f8996d1af7748a5c18772336c7824b44d--
+Best regards,
+-- 
+Hongyang Zhao <hongyang.zhao@thundersoft.com>
 
