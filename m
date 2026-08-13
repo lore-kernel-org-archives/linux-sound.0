@@ -1,37 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2184570C2;
-	Fri, 14 Aug 2026 11:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FA743F8CF;
+	Fri, 14 Aug 2026 11:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786706970; cv=none; b=nP/ZLg9rt4xNZMYm17h5qtHW7y4gzu0LvDAM6obJ4xwv1r71nurjcRah5EnaTqjnKNrj9TgAZ7XU1aGN/i+mMCon5S3sgoSHiX7v08Lcoqfh7ee8SlJIt5aOGUGx72QfOC3kaVeL1XQWUL0NEekUBQe9vnpfYbFiKhWnGb5Zo7U=
+	t=1786707493; cv=none; b=poB44Eel47XQQb0V7Clwg0vZ8hLF/xq2xBndU95BytcFq22zSf+/d+4+DYetAzxyn76KXGJqRkoUIz/IORIFITU6WpB23ToEWvpbPPzYfRc8EXC8wkcrfmqq7N219usN4ylVhkiOsRemhVr9VrJNIArEDtOJPuDeR94jAGLtPZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786706970; c=relaxed/simple;
-	bh=JK/RVAs/dl14S9jsi85PIl3pfYXOOqvpn4TPowSI9nY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hsoq9xtVuzIi0+rwc2ECqJq6O7bWHuS/Pq6hu1HGDVmX1ffXKcbcIx26P1PjQhvgVhOWP6cSQcnR4pjRbW75Qq8CyX1Uj8OUYTAmH+1ha9W+kCOTGTmcjqjJ4IMAzRG23R7EXW6wJ1tP8RK0HjWlPJSk4Dozx0bGzi2w/ayQcCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=enxmOuVO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1786707493; c=relaxed/simple;
+	bh=X+bkHMIykGMfgTnFl5dYB3gFs/d1nAs0ablI5dIyuq4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=gcgd0+InLhl5/Jv5VS4tsKATBNFdf5Yidnp1Hjb1Py2fO062HB3gAJOBmQuV6Iyx2gVhjmdbHsTWUSkXCqBfATWYCSPwnavTzezgn9GB6uZEp/ndRq9PFqiivd/ktIaG4T+MhKT2Zu6YKP4qcI2qvlnsd9Kc6SOANUG3OCKBE68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KepxzxOd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="enxmOuVO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DC6C4C2BCB9;
-	Fri, 14 Aug 2026 11:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786706968;
-	bh=JK/RVAs/dl14S9jsi85PIl3pfYXOOqvpn4TPowSI9nY=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=enxmOuVOX/uoBTkAq4to0exnriegho/MNOc/0PQNGIrfyqvGQOF0EK+TJM82CZ1ck
-	 UP5WQG8ejliyd/dr2NJ7KrxoL4f1pOrkMgaFLAo+FmfSVV0ioY0KROEG0GmkZUu+kl
-	 2OKhnLEAz61kcOf42gX9jFW+8pEKGAITzIkrkhqLBS4oIo3lQ+mamCO9Uyles1twxK
-	 vTOixa7y7Q2mS1ErjOuPPRv6NaoLD8JVLodiLWX2KwHM7eyR5lVcSizw3xIt+iTIS1
-	 czv4+SSE6pXBayknwPwx6TxKPl+gJ2uluFY9RgepDoaKNCBpwGCEbUtenFgzdLNaTI
-	 nv/LxJFbHeuHA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7693C5CFDB;
-	Fri, 14 Aug 2026 11:29:28 +0000 (UTC)
-From: Christian Wehba via B4 Relay <devnull+weebnuts.hotmail.com@kernel.org>
-Date: Fri, 14 Aug 2026 21:29:28 +1000
-Subject: [PATCH] ALSA: hda/realtek: Match Lenovo Yoga Slim 7 14AKP10 by
- codec SSID
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KepxzxOd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F16A1F00A3F;
+	Fri, 14 Aug 2026 11:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786707490;
+	bh=VxlozOHTV0l7kH01VkY8gMQr+CBC1D950EXG7JLaJQA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=KepxzxOdSYKlibc5rEqXOGzBXVMFs1aQ1AWkQvi595DOpbfObOGWdjN1Mc78QnPxf
+	 CV6LbtEgYVhqByWeVVFCwzbE+vyfMQUqNunj2/5vGwu1hFYOwZHh43k67r52FshhyS
+	 FVwAoFhKIxCB9dYoLpCWOs0dh/il8BKHZAPgpAWboFG+BfaHSEfwyyjhca3erZarrB
+	 ymKGZb5iU0F+Vu+ZyEW9p4NUHFUEYDmTEjt79GSDWwVSKJTkub9/jb70BeNbGtQXTJ
+	 wM5jHPePD3YVU8y8V3hwuHP6NFTP3rXTC8OrMmO2RuJXFgfiZPWwr92Vs1XIZzi+Bk
+	 7Kqrz048g5HMw==
+From: Mark Brown <broonie@kernel.org>
+To: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ linux-rockchip@lists.infradead.org, phucduc.bui@gmail.com
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20260806052136.21034-1-phucduc.bui@gmail.com>
+References: <20260806052136.21034-1-phucduc.bui@gmail.com>
+Subject: Re: [PATCH 00/14] ASoC: rockchip: Simplify probe error handling
+Message-Id: <178663242938.110398.4616104123339333100.b4-ty@b4>
+Date: Thu, 13 Aug 2026 15:47:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,110 +47,81 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260814-alc287-akp10-v1-1-60b3d619f72d@hotmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDC0Nj3cScZCMLc93E7AJDA92kZAODZEPTRPPEVAMloJaCotS0zAqwcdG
- xtbUAR7xwk14AAAA=
-X-Change-ID: 20260813-alc287-akp10-bc00c15a7ae0
-To: linux-sound@vger.kernel.org
-Cc: stable@vger.kernel.org, Christian Wehba <weebnuts@hotmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786706967; l=4514;
- i=weebnuts@hotmail.com; h=from:subject:message-id;
- bh=XN40BnZnWOGYHA+7GO2mZkGtsNIWrNdk7lHPf86eDyM=;
- b=HPrXYTWO2VzjjGrDZRPQMPUjEVwkWHxQrAvdIwKXMyiJ7R8iiH4SDjhiDgMDp78qAk6QtdLIR
- l7Kgz9njSpqAYYu2Dmw8dZZP5NBx5QQEi3u+Asez6suw/GIHHCafcsI
-X-Developer-Key: i=weebnuts@hotmail.com; a=ed25519;
- pk=x+EJ28Iu4dCXlGo0o5ZYbAdHluOsP4d5LHGiwTLloZI=
-X-Endpoint-Received: by B4 Relay for weebnuts@hotmail.com/default with
- auth_id=948
-X-Original-From: Christian Wehba <weebnuts@hotmail.com>
-Reply-To: weebnuts@hotmail.com
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3083; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=X+bkHMIykGMfgTnFl5dYB3gFs/d1nAs0ablI5dIyuq4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqfv4dF0ELklDTaytUOl3gquXr3axUlVMYXBwQo
+ 1zxlqyUExOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCan7+HQAKCRAk1otyXVSH
+ 0GiuB/4+eK/zn9anwX0PkYIkZrXfGhmYu9bJt/AudK1M4kG6Hscfr/jvlLrncqp0ySlP4PrVWZo
+ y19XgIcfarO6vNf9pESDLYcK4TbEopvlwz1AimPqRRjFMUDVapCXMcA2XASw/JgwQ1HEHNB2hKW
+ xRQMiNQe4DPLp6npE4yZVxMDChCMHuleA2qEGbioQGc+8dEDyzN0CkIJPa3koXXXMgai0SnIkc+
+ lK/1rNPaXlqCdq/oCr0xhi5kVmMQH1lla/liD6ajFrGVQU/Xj3Bz22rRhLfv2Stqed1Y28Tt/bn
+ NZhofyWyJK5k3oUKIBtzLsE6J4ZHJy9BNEnSUeWuMxAD2tW1
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Christian Wehba <weebnuts@hotmail.com>
+On Thu, 06 Aug 2026 12:21:22 +0700, phucduc.bui@gmail.com wrote:
+> ASoC: rockchip: Simplify probe error handling
+> 
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> Hi all,
+> 
+> This series simplifies probe error handling across Rockchip ASoC drivers.
+> 
+> [...]
 
-Commit e6c888202297 ("ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim
-7 14AKP10") added an entry for 17aa:391a using SND_PCI_QUIRK, so it is
-only tested against the PCI SSID. On this machine 0x391a is the codec
-SSID; the PCI SSID is 17aa:38b4, which is shared with the Legion Slim 7
-16IRH8.
+Applied to
 
-snd_hda_pick_fixup() walks the quirk table in order and returns on the
-first match, so the earlier 17aa:38b4 entry wins and the codec-SSID
-fallback at the end of the function is never reached:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-  snd_hda_codec_alc269 hdaudioC1D0: ALC287: picked fixup  for PCI SSID 17aa:38b4
+Thanks!
 
-The machine consequently gets ALC287_FIXUP_CS35L41_I2C_2 even though it
-has no CS35L41 amplifiers, and the intended fixup never runs. Its bass
-speakers hang off pin 0x17, which the BIOS reports as unconnected, so
-only the tweeters on pin 0x14 are driven and playback is very quiet.
+[01/14] ASoC: rockchip: rk3288_hdmi_analog: Drop redundant probe error messages
+        https://git.kernel.org/broonie/sound/c/931f4a1223e1
+[02/14] ASoC: rockchip: rk3288_hdmi_analog: Use dev_err_probe() for error handling
+        https://git.kernel.org/broonie/sound/c/06f5854050f5
+[03/14] ASoC: rockchip: rockchip_i2s: Use dev_err_probe() for error handling
+        https://git.kernel.org/broonie/sound/c/b5e4b1159743
+[04/14] ASoC: rockchip: rockchip_i2s: Drop redundant probe error messages
+        https://git.kernel.org/broonie/sound/c/c1bf7ae0c87a
+[05/14] ASoC: rockchip: rockchip_i2s: Propagate -EPROBE_DEFER from devm_pinctrl_get()
+        https://git.kernel.org/broonie/sound/c/be4f82d15235
+[06/14] ASoC: rockchip: i2s-tdm: Inline PTR_ERR() in dev_err_probe()
+        https://git.kernel.org/broonie/sound/c/334d5ea7582b
+[07/14] ASoC: rockchip: i2s-tdm: Drop redundant probe error messages
+        https://git.kernel.org/broonie/sound/c/9fea4805ed95
+[08/14] ASoC: rockchip: rockchip_max98090: Drop redundant probe error messages
+        https://git.kernel.org/broonie/sound/c/de983524dcbe
+[09/14] ASoC: rockchip: rockchip_pdm: Drop redundant probe error messages
+        https://git.kernel.org/broonie/sound/c/7d3f7eb890f1
+[10/14] ASoC: rockchip: rockchip_rt5645: Drop redundant probe error messages
+        https://git.kernel.org/broonie/sound/c/b300f1313b00
+[11/14] ASoC: rockchip: rockchip_sai: Propagate -EPROBE_DEFER from IRQ lookup
+        https://git.kernel.org/broonie/sound/c/c97bdbf862c6
+[12/14] ASoC: rockchip: rockchip_sai: Return the original error code
+        https://git.kernel.org/broonie/sound/c/7a2229ef7cdb
+[13/14] ASoC: rockchip: rockchip_sai: Drop redundant probe error messages
+        https://git.kernel.org/broonie/sound/c/26c9632c33f7
+[14/14] ASoC: rockchip: spdif: Return the original error code
+        https://git.kernel.org/broonie/sound/c/5784ef446847
 
-Convert the entry to HDA_CODEC_QUIRK and move it ahead of the colliding
-17aa:38b4 entry so that it is evaluated first. With
-ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN applied, pin 0x17 is enabled and
-both 0x14 and 0x17 are bound to DAC 0x02, so a single "Speaker Playback
-Volume" drives both speaker pairs:
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-  autoconfig for ALC287: line_outs=2 (0x14/0x17/0x0/0x0/0x0) type:speaker
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Verified on a Yoga Slim 7 14AKP10 by forcing the same fixup with
-model=alc287-yoga9-bass-spk-pin, which restores full volume and keeps
-the volume control effective across its whole range.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Note that the existing 17aa:391c and 17aa:391d entries are likewise
-placed after the 17aa:38b4 entry; should those machines also report PCI
-SSID 17aa:38b4 they would need the same reordering, but that could not
-be confirmed here for lack of the hardware.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Fixes: e6c888202297 ("ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 7 14AKP10")
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=221298
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Wehba <weebnuts@hotmail.com>
----
-Single patch; the full analysis is in the commit message.
-
-Tested on a Lenovo Yoga Slim 7 14AKP10 (AMD, ALC287) running 7.1.7 on
-Fedora 44. Without the change the machine matches the Legion Slim 7
-16IRH8 entry on PCI SSID 17aa:38b4 and gets ALC287_FIXUP_CS35L41_I2C_2
-despite having no CS35L41 amplifiers; only the tweeters on pin 0x14 are
-driven, so playback is very quiet. With the fixup applied both speaker
-pairs are driven and the volume control stays effective across its whole
-range.
-
-Reported and tracked at:
-https://bugzilla.kernel.org/show_bug.cgi?id=221298
----
- sound/hda/codecs/realtek/alc269.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index be7287ea2..488293612 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -8069,6 +8069,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a9, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
- 	SND_PCI_QUIRK(0x17aa, 0x38ab, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
-+	HDA_CODEC_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
- 	HDA_CODEC_QUIRK(0x17aa, 0x391c, "Lenovo Yoga 7 2-in-1 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	HDA_CODEC_QUIRK(0x17aa, 0x391d, "Lenovo Yoga 7 2-in-1 16AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-@@ -8117,7 +8118,6 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3911, "Lenovo Yoga Pro 7 14IAH10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3912, "Lenovo Xiaoxin 14 GT", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
--	SND_PCI_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TXNW2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3929, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
-
----
-base-commit: f42eb0bd059781dc7f3046c7d37e76f59b874744
-change-id: 20260813-alc287-akp10-bc00c15a7ae0
-
-Best regards,
--- 
-Christian Wehba <weebnuts@hotmail.com>
-
+Thanks,
+Mark
 
