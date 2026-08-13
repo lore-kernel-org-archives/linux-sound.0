@@ -1,271 +1,180 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11020096.outbound.protection.outlook.com [52.101.56.96])
+Received: from mail-43102.protonmail.ch (mail-43102.protonmail.ch [185.70.43.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A577947FB10;
-	Thu, 13 Aug 2026 15:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786633711; cv=fail; b=j4BZvxHP9mJHfUkUeyWtYgi5JTdTsy1leHEY/jbO2U9rNa2ii/D2NV5eQiYQBKGSgq3WvWpayGHqVpMF3f3ArPpY5SQ1B28FoNtnexqeh5x2Ce9ea51ZMKQ53MNKh4YzRhOUXR7MszJLbBi8+OIr1V33ziYN5XvdwGrK155q1cU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786633711; c=relaxed/simple;
-	bh=oDANRHmevvwMl+jWZ1HKk40czmM9pfyl85L7oO4dk8s=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=TPY0QXsHK/Q7xtkZQ04jZZE50lTrKrSm5cxmqociyyTEhADc0hTdKcs9sVd11RNZrE5ziipk7x3Df2Naf6tUAzKruEM2O3WMOKQ78w0oVyuegECGziy36ASx+EomMZ7n9k9p9566ZUoy5KWBW7Z+ZqWRkCek3ALpZNGO6P/YX4Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com; spf=pass smtp.mailfrom=inmusicbrands.com; dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b=NPgcLjgC; arc=fail smtp.client-ip=52.101.56.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inmusicbrands.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inmusicbrands.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBCE4734F8
+	for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 15:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.102
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786634544; cv=none; b=TYLjHG8AhxWCtjtYjpc7c+fzxoMwXT4A92ae8DymiQfKXg+FgtfEvG7eqmrdYH4Di8mNvP0TBg81ms9OGQvfrPHBKHLmiqLpzPF9L+L7Q64dU0IG3CZz6r37MxJugTxm0/asNx2K//YbrK7pJt6Ah7aUTQU2B4rvxxjRB6aMaVs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786634544; c=relaxed/simple;
+	bh=F1/5nZl47VWumbVz1LenlBelpmoq3Y9QymKhDfRXXUM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mHIRZpgp6Cpt3Z4Crhy3mGGmCNDMhDgsY0XWqOH+skJvFLDQEPK/uhB+yCtRnof6sHNLjn9jZGprT6GjRJCRXZqkjADk56dgu/O4t3XtixOUXwOvT5y0Oaj0Bwd2g44qonzoxUpqWDe0AjYxG4MhHguBJq/SjcW5CRdcasL5GPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=U/oqwy7B; arc=none smtp.client-ip=185.70.43.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inmusicbrands.com header.i=@inmusicbrands.com header.b="NPgcLjgC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tubVC8bZFkMz/zpLl48pdwhZs3++CyC4QRBGg6DeUB/wQaie7MwiJYeMzqoktMD7rZXBoJj/8Q23l70kvp0J7LmzFxB4mLXWs7nxC+gA+5Y+KCvZ4h3xqhxfEzaLNzLynWggs/hox7y4Oe6dy7YmHIxv53pgItvkvnuQqC0aFHgxm7qajkbn4BscYN/dhSVT01p7fv/Lgd5l8ops7TT9vPDXBvp4Fp9KxbuvjjW3z3T17wSYGIwlbUzmFVL49oSfEDIpl/IAOj8qnxcXUpV1Wc08ERsR1zxaLH+Yy59nzPwPKfQPEdkmXS3k5MtunFhecm74pHlilhB8oTkA8S0zoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eQVVP+n8aCzmanD/wuYIDWDqkw2eGDd0Hd6yHpH5pcw=;
- b=Azq5aE/Nna93ImrLT1Px7q1DpKUsDJVvwI5ghEUw76XNn7ynAkIzMfnQjWB6uJMqJzF+n5j0XEdCeLq0XbmfseOl/GWZ3Q+k8vUb8HS3MwL4eUbU8jvJErIotC5T05F9KTP5Kmu5TnrS1y502iaLvtc3MLS1qhZxa87sfxfVRnBoTHLJRbo2Pl837da1XP/ef/wn3yBngLnTysfS7E71EIhOk+U8QbDm6pY7238iGFZP+5lkrBLvBpVqdzhIEApxcpIPqp46CDX5C2+rTsam2CX+vwpIFyHUqXsarSq9kCaNbKBdnxql6g9J+mTTl1IN36z0sqnDARQzKCo1d5xo1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=inmusicbrands.com; dmarc=pass action=none
- header.from=inmusicbrands.com; dkim=pass header.d=inmusicbrands.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inmusicbrands.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eQVVP+n8aCzmanD/wuYIDWDqkw2eGDd0Hd6yHpH5pcw=;
- b=NPgcLjgCJ18AFEz+9iggSQjcvCPosUwVmRde8rV/yQYj19juhNlheFy8fqFENQNdigSZc0vlrQcXyt8obdwznBpmLEivhOJXVhwVT94agfByU0aCeNVOfzNBRjbqy0+AA23UmRINqNDZQpR2tTYqvH69Zs2zpIn3uJmfLy4jxM4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=inmusicbrands.com;
-Received: from BY1PR08MB10263.namprd08.prod.outlook.com
- (2603:10b6:a03:5ad::14) by BN0PR08MB6967.namprd08.prod.outlook.com
- (2603:10b6:408:116::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.15; Thu, 13 Aug
- 2026 15:08:24 +0000
-Received: from BY1PR08MB10263.namprd08.prod.outlook.com
- ([fe80::399d:caec:5af7:cd51]) by BY1PR08MB10263.namprd08.prod.outlook.com
- ([fe80::399d:caec:5af7:cd51%4]) with mapi id 15.21.0315.014; Thu, 13 Aug 2026
- 15:08:24 +0000
-From: John Keeping <jkeeping@inmusicbrands.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: John Keeping <jkeeping@inmusicbrands.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Zhang Cen <rollkingzzc@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: seq: midi: Serialize input teardown with event_input
-Date: Thu, 13 Aug 2026 16:08:08 +0100
-Message-ID: <20260813150810.795393-1-jkeeping@inmusicbrands.com>
-X-Mailer: git-send-email 2.55.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: LO3P265CA0008.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:bb::13) To BY1PR08MB10263.namprd08.prod.outlook.com
- (2603:10b6:a03:5ad::14)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="U/oqwy7B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1786634538; x=1786893738;
+	bh=cS6F27q/XviLEuWFhnMzMtf2r3b4urtHwo5fyb1bqdE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=U/oqwy7BTJgJUujAg1b/w+0uEuF4wy/XGWVK252yDfFH3QpQP7+a6qv4vr4eLJfZS
+	 ptTJoTQGpye6yBOtAIGQ9gs1l/TJB+OKw4E8RKkZnb0ar9ZS6kmULd/ys9gG1dZiGw
+	 EUS3kkeqsmr43gJs5Jt3JONAP1Bir2WDHmFicMoXZD6jlrhmhnPBC2YtrI+ePQg7vl
+	 27g4srJmDsfMFH0AtkcEd+F4SvQM8nETikLV982uygD1KvYXW8L1sqkZ/UpF4fezfG
+	 x7/kc9uzZmb3Bu6g1P+VNIj0POmkqQC8p8/U4IrvIo1YNT9EPazJclbiMFEWTApIu/
+	 Hbc9Oj2Wo8CLQ==
+Date: Thu, 13 Aug 2026 15:22:12 +0000
+To: Andrey Golovko <andrey.golovko@gmail.com>, Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+From: Robin Everaars <robineveraars@pm.me>
+Cc: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Antoine Monnet <antoine@montane.tech>, Ville Saarinen <wiza@saarinenkoti.fi>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: tas2783-sdw: power the Function up before preparing the port
+Message-ID: <20260813152208.103046-1-robineveraars@pm.me>
+In-Reply-To: <20260813001500.9218-1-andrey.golovko@gmail.com>
+References: <20260813001500.9218-1-andrey.golovko@gmail.com>
+Feedback-ID: 201127006:user:proton
+X-Pm-Message-ID: 8e4cc749e7da9a3a4d791f526d7e85105e0e45ba
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY1PR08MB10263:EE_|BN0PR08MB6967:EE_
-X-MS-Office365-Filtering-Correlation-Id: 358f9351-abfc-4a35-3f04-08def94cb876
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|4022899009|38350700014|6133799003|10067099003|56012099006|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	qWwRg0krdyee6BBaGtZ6lUNLPMpqHmaeBxIuxfdxr9t3tv6nDqxk/p9cmGIGGjbHssNqrZjFd3OFOcqZ5ovO2ddl8QVBcMQw4ye7TI/MSQRyoZI8AVkJQ6cr6hAjp9G93+CwsL8J8UKgX5Ce3vZ3vXkDnByAGo8R0PotTpGFt1R9q4x5sPKrz0O4qXx9zz3aMGOcA/+2MFwNgC9XhgD0IWoEnRdIO/msRfrMV1ATzktZ5CKxHa+OyoeTTAMgsDre7vkQu05ECIyTGCxNkXnE5W8wg07vtrvEqSDsIqMRtJEcmNdFKw085Utup2Xz/FStpOwfMkTcugpaeJq36V17Y+IJWOLjapZ2JZ9cpCYVToD3e3DgWDhrJ/9aggIC0wm1FvEAgn+YR8pt12yLpVeBhny75+yDw9iR6YQFA2qj904wYtU8R1rx4utXXGOV9CZqoKPrrqSE0llpW5ZlwlY3aAtp5tEOpSv9Qjg+b6bOEGqCAzsFFhv1ujayvcgqmA/rU1bNCeY7SEyfImMXRLjrInXbtUs6oa1kyoPrvRc00inH3+VMArHL/0MTbGDwyJAyr/4ATiLyBYDEFIhWEYhvffcdYHdouXm9TlJHm/ex5eoZV9oHj7HNzvq4Y4vGRnk5JxkRGWXMUPYidN+g6PJK732C/c4uk1HJ8S7xCymYjCw+4Ir5xgJAm7nPUpBp1Ejy5QlZFsaTM/xDC9hgJYuP8sOWgzabnxMeQPkkTvIjzn8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY1PR08MB10263.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(4022899009)(38350700014)(6133799003)(10067099003)(56012099006)(18002099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?6WE83rvTJOAKuPaGdnT63gk6AqeLvGVUoCoe6xbe020GlUR+8/XeWkmJNrso?=
- =?us-ascii?Q?k1Ly3eJ1FFHZPcwJ/b4tjgvEdcp3s8nPEDQPeJKVj+amXHm5RC9E+xhI+hb4?=
- =?us-ascii?Q?iPeoioyazlnX8QHpCIma/75mqAVXdEqX1fheUaqXcUyiuw9beGYo9MPF3Eeu?=
- =?us-ascii?Q?9Eq+esHOY0i8ol+y21RnrecsYu//XUZrjYWthBNDe8Tu7Ra5+Bm831WLJDyI?=
- =?us-ascii?Q?TJ9INLo1iqzJUxEjBJd4we9FaggbyWRNOctpBaInGBh7gmsk9lIGju08WERo?=
- =?us-ascii?Q?HB5Us+x7qIliqJxyqQALKC4zm3s777PhTBG8wjXtDiBVaPX5wpAl3nrRQwJo?=
- =?us-ascii?Q?cdFO4vwQ+bwPBpLBLwkEIqgWqkJ4m6ECoCujbMMtMWLjNxHGkb2QdDeL1kzb?=
- =?us-ascii?Q?TaPkcUL8sEuOk+s20IDtPXsQkh0NzykExQ12dabFJI5vORV0dIZyN6U2lFDY?=
- =?us-ascii?Q?8rE3LGEbz8w6292WTPXwI0bYewBCuYV6ilzOJY/Pvf77PMz/TF/EACoOEsN9?=
- =?us-ascii?Q?oTHkaKany6saTgHJzplF7tC/knHpC2Uwuhw0hpx+r+Ng7PdjYvrBWZXtyzQK?=
- =?us-ascii?Q?ttKtckAnJe1DQGBzNJJthyxM6icyD6gHTvt1p8c+FALEq7KGbXBqiUWrjUlH?=
- =?us-ascii?Q?W/khGGaGTuNBaGe/6Yup3M322OoxNBZw14J3cCagvJQTr1GyqDDZmqUHr7q0?=
- =?us-ascii?Q?1+UmVbbjxYG1h3YhR4kZ/eaCgY1x9WZi7J3a0w+Qq2sHcHK48X9azOhr1P55?=
- =?us-ascii?Q?YOxvS/P+tYougQ7eekMw1ndRaPIXa50+7HfOWhomrkT/TEJk3tfHobaBYWhO?=
- =?us-ascii?Q?5HXIAi4WxXUfVNl3YPAZKBPUP8lmt1EF7MUac9Pk8UWlTacNl68UqbNujry3?=
- =?us-ascii?Q?gaMsy0QPshtPrMSc4QqwUXien7SSAuLG4Oq0qGaSJKC8X08SWdXo0K8kAePU?=
- =?us-ascii?Q?kRFCsC5gChTQG7XWxiImIIhk12zuhfsEJ52f3CcvzLchKlcpmqAwhycTn9th?=
- =?us-ascii?Q?eMOd3LhR7Io3Z6nfN3Fy6LGA2mr6cluYZ6iTCE3GQbSrsDZOAE9/fbeZBt5X?=
- =?us-ascii?Q?72l8woV2ck5159izOzbIXOzbN5Ja7IBdBlTUFHU0WK2gXKL70y+arMDCjkvr?=
- =?us-ascii?Q?pg9O+19CS8PmjXk+Sb55V+B4U7E2RZ/w/TA6rEBPIEhNunUUjc7J/ruyIxk7?=
- =?us-ascii?Q?4gCwg+cJKjbg3dmmK+U/6KSafq/AhCuAMe7P+Msg2qIzqUbZ9x9JYi88xMDs?=
- =?us-ascii?Q?OTdoFPmr0PdtdxA0m3QJ3JKyW/PhIe8MfyhopNSig7Emaa1+EHuYENcQEjKk?=
- =?us-ascii?Q?lsLWitKOEIkuhCgvABoKYoagSmb5kr3raBuREMJccOyxkQDzzh3zR0xKnomi?=
- =?us-ascii?Q?QEolZuzbF3YBdWyx1CJ38GOyqWCSfnTh7+I+fMhczqzzRpdGXVNM//A4pRFN?=
- =?us-ascii?Q?vO08Y/HBgwiJqPLOrsmgzx8bxsH8gZKvlOph7jMCc/NS6WtN/92xZgt1A4iK?=
- =?us-ascii?Q?L9pusUNGMd9CQet4K6pDnqHSH0mELU/dzLH39rn8ImT0RdbTQ6XIQeteRKlx?=
- =?us-ascii?Q?P31AJx8i3obWD3+8GNuwuanuAkJzhmtcR0EeeOjq11y1QxfRC3LA9d7hG2/7?=
- =?us-ascii?Q?uYuOymNQUmGAH2KvjbUmmhzK52Om08w4rypgt+Ik+CCYt3hoaNRlyo/0qX5u?=
- =?us-ascii?Q?CPjJgFWlaDfszHVs16PxUmGsfYoZueO86e5ORPiix4YTgRSjQHjB4gKtcdGa?=
- =?us-ascii?Q?5KmjKf9nE0poTxDWHVCtHKM2bh498Uc=3D?=
-X-OriginatorOrg: inmusicbrands.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 358f9351-abfc-4a35-3f04-08def94cb876
-X-MS-Exchange-CrossTenant-AuthSource: BY1PR08MB10263.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2026 15:08:24.2375
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 24507e43-fb7c-4b60-ab03-f78fafaf0a65
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VL7kjzyUMEQJkDzPoV3d3JHEJ1BAARBsapyQNJBt6S8VSgvXk8o6D9jCnscUsekx6jkr/dEA546Boj3Tgc9ySzFBrXYIy5nDECm67oxV6wg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR08MB6967
+Content-Type: multipart/signed; protocol="application/pgp-signature"; micalg=pgp-sha256; boundary="------00956fbac61fc8a6ecc68a2d07ca8e503742a68e6e62998ec4649ec1795bf5bb"; charset=utf-8
 
-snd_midi_input_event() must not be running while a rawmidi substream is
-closing, since this can lead to the trigger state becoming out-of-step
-through this sequence in snd_rawmidi_input_trigger():
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------00956fbac61fc8a6ecc68a2d07ca8e503742a68e6e62998ec4649ec1795bf5bb
+Content-Type: multipart/mixed;
+ boundary=fb4e594afab6bb4d4887a8f5925706516e42ef0f4c07881bc975d794e113
+From: Robin Everaars <robineveraars@pm.me>
+To: Andrey Golovko <andrey.golovko@gmail.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Antoine Monnet <antoine@montane.tech>,
+	Ville Saarinen <wiza@saarinenkoti.fi>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: tas2783-sdw: power the Function up before preparing the port
+Date: Thu, 13 Aug 2026 17:22:08 +0200
+Message-ID: <20260813152208.103046-1-robineveraars@pm.me>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260813001500.9218-1-andrey.golovko@gmail.com>
+References: <20260813001500.9218-1-andrey.golovko@gmail.com>
+MIME-Version: 1.0
 
-	snd_rawmidi_input_trigger(up=0)
-					snd_midi_input_event()
-					 -> snd_rawmidi_kernel_read()
-					     -> snd_rawmidi_input_trigger(up=1)
-	  -> cancel_work_sync()
+--fb4e594afab6bb4d4887a8f5925706516e42ef0f4c07881bc975d794e113
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-which ends with the underlying device being active unexpectedly.
+I tested the exact inline patch from this message against v7.1.7 on the ASUS
+ProArt PX13 HN7306EAC. The normalized patch SHA-256 was:
 
-When this is called from close_substream(), further input can re-trigger
-the input event leaving it running after rawmidi_release_priv() has set
-rfile->rmidi to NULL which leads to:
+  68e9ae1300b17a7ba129b38c89d650964a8049cb03797a5eaf762f2d3fa78b40
 
-	Unable to handle kernel NULL pointer dereference at virtual address 00000000000000b0
-	Call trace:
-	 snd_midi_input_event+0x3c/0x134 [snd_seq_midi] (P)
-	 snd_rawmidi_input_event_work+0x1c/0x2c
-	 process_one_work+0x150/0x3a4
-	 worker_thread+0x190/0x318
+The bound snd_soc_tas2783_sdw module had SHA-256:
 
-Apply a similar approach to commit ef7607ab1c8ad ("ALSA: seq: midi:
-Serialize output teardown with event_input") which fixed the same issue
-in the output direction, but updated to use RCU following Takashi Iwai's
-proposed follow-on patch [1].
+  ec9eef4eb83f81761127c39c5da13d4ddb741f111fe2dcb6b64a5c4e0db245c0
 
-With this change in place, midisynth_unsubscribe() clears the input file
-so snd_midi_input_event() will not re-trigger the stream and will be
-quiesced by the cancel_work_sync() in snd_rawmidi_input_trigger().
+I disabled and masked my resume rebind service before the test. The separate
+boot rebind stayed enabled because this machine still hits the unrelated
+32 KiB firmware-write timeout during cold boot; it recovered both amplifiers
+on its first attempt before the baseline measurement.
 
-[1] https://lore.kernel.org/linux-sound/20260813144224.753399-1-tiwai@suse.de/
+Before suspend, a controlled 2 kHz both-channel tone measured +58.7 dB over
+baseline through the internal microphone:
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: John Keeping <jkeeping@inmusicbrands.com>
----
-Changes in v2:
-- Switch to using RCU following Takashi's suggestion
+  baseline combined       2.2
+  tone combined        1799.4
 
- sound/core/seq/seq_midi.c | 37 +++++++++++++++++++++++++++++++------
- 1 file changed, 31 insertions(+), 6 deletions(-)
+The machine then completed an s2idle cycle from 16:41:19 to 17:13:44, about
+32 minutes 25 seconds. The resume rebind remained masked and had no journal
+entries.
 
-diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
-index 2eb12199c92f9..28a78c72a5315 100644
---- a/sound/core/seq/seq_midi.c
-+++ b/sound/core/seq/seq_midi.c
-@@ -42,6 +42,8 @@ struct seq_midisynth {
- 	struct snd_rawmidi *rmidi;
- 	int device;
- 	int subdevice;
-+	struct snd_rawmidi_substream __rcu *input_substream;
-+	snd_use_lock_t input_use_lock;	/* in-flight event_input users */
- 	struct snd_rawmidi_file input_rfile;
- 	spinlock_t output_lock;		/* protects output_rfile publication */
- 	snd_use_lock_t output_use_lock;	/* in-flight event_input users */
-@@ -76,6 +78,14 @@ static void snd_midi_input_event(struct snd_rawmidi_substream *substream)
- 	msynth = runtime->private_data;
- 	if (msynth == NULL)
- 		return;
-+
-+	scoped_guard(rcu) {
-+		if (rcu_dereference(msynth->input_substream) != substream)
-+			return;
-+
-+		snd_use_lock_use(&msynth->input_use_lock);
-+	}
-+
- 	memset(&ev, 0, sizeof(ev));
- 	while (runtime->avail > 0) {
- 		res = snd_rawmidi_kernel_read(substream, buf, sizeof(buf));
-@@ -95,6 +105,8 @@ static void snd_midi_input_event(struct snd_rawmidi_substream *substream)
- 			memset(&ev, 0, sizeof(ev));
- 		}
- 	}
-+
-+	snd_use_lock_free(&msynth->input_use_lock);
- }
- 
- static int dump_midi(struct snd_rawmidi_substream *substream, const char *buf, int count)
-@@ -177,6 +189,7 @@ static int snd_seq_midisynth_new(struct seq_midisynth *msynth,
- 	msynth->card = card;
- 	msynth->device = device;
- 	msynth->subdevice = subdevice;
-+	snd_use_lock_init(&msynth->input_use_lock);
- 	spin_lock_init(&msynth->output_lock);
- 	snd_use_lock_init(&msynth->output_use_lock);
- 	return 0;
-@@ -188,28 +201,31 @@ static int midisynth_subscribe(void *private_data, struct snd_seq_port_subscribe
- 	int err;
- 	struct seq_midisynth *msynth = private_data;
- 	struct snd_rawmidi_runtime *runtime;
-+	struct snd_rawmidi_file rfile = {};
- 	struct snd_rawmidi_params params;
- 
- 	/* open midi port */
- 	err = snd_rawmidi_kernel_open(msynth->rmidi, msynth->subdevice,
- 				      SNDRV_RAWMIDI_LFLG_INPUT,
--				      &msynth->input_rfile);
-+				      &rfile);
- 	if (err < 0) {
- 		pr_debug("ALSA: seq_midi: midi input open failed!!!\n");
- 		return err;
- 	}
--	runtime = msynth->input_rfile.input->runtime;
-+	runtime = rfile.input->runtime;
- 	memset(&params, 0, sizeof(params));
- 	params.avail_min = 1;
- 	params.buffer_size = input_buffer_size;
--	err = snd_rawmidi_input_params(msynth->input_rfile.input, &params);
-+	err = snd_rawmidi_input_params(rfile.input, &params);
- 	if (err < 0) {
--		snd_rawmidi_kernel_release(&msynth->input_rfile);
-+		snd_rawmidi_kernel_release(&rfile);
- 		return err;
- 	}
- 	snd_midi_event_reset_encode(msynth->parser);
- 	runtime->event = snd_midi_input_event;
- 	runtime->private_data = msynth;
-+	msynth->input_rfile = rfile;
-+	rcu_assign_pointer(msynth->input_substream, rfile.input);
- 	snd_rawmidi_kernel_read(msynth->input_rfile.input, NULL, 0);
- 	return 0;
- }
-@@ -219,10 +235,19 @@ static int midisynth_unsubscribe(void *private_data, struct snd_seq_port_subscri
- {
- 	int err;
- 	struct seq_midisynth *msynth = private_data;
-+	struct snd_rawmidi_file rfile;
-+
-+	rcu_assign_pointer(msynth->input_substream, NULL);
-+	synchronize_rcu();
-+	snd_use_lock_sync(&msynth->input_use_lock);
- 
--	if (snd_BUG_ON(!msynth->input_rfile.input))
-+	rfile = msynth->input_rfile;
-+	msynth->input_rfile = (struct snd_rawmidi_file){};
-+
-+	if (snd_BUG_ON(!rfile.input))
- 		return -EINVAL;
--	err = snd_rawmidi_kernel_release(&msynth->input_rfile);
-+
-+	err = snd_rawmidi_kernel_release(&rfile);
- 	return err;
- }
- 
--- 
-2.55.0
+After resume, playback opened 
+and ran without a TAS2783 error and both amps
+remained Attached and bound to slave-tas2783, but the speakers were silent. A
+valid repeated acoustic capture measured:
+
+  baseline combined       0.6
+  tone combined           0.2
+  tone relative to baseline  -10.8 dB
+
+The first post-resume microphone capture produced an empty WAV due to the
+separate first-open issue already reported in the ACP PDM thread. I discarded
+that measurement, confirmed the DMIC could capture directly, then repeated the
+speaker measurement above with 353280 captured frames.
+
+So the PRE_PREP power-up patch does not fix the post-S0i3 speaker silence on
+this board. I am withholding Tested-by. The result suggests that restoring
+PDE23 is necessary for port preparation but is not sufficient for this
+machine's full TAS2783 resume state.
+
+One unrelated event occurred during the same resume: the RT721 jack-detect
+worker hit a NULL dereference in snd_jack_report(). Its stack did not contain
+TAS2783 or So
+undWire port preparation, so I have not attributed the speaker
+result to that Oops.
+
+I can test a follow-up patch or collect specific TAS2783 registers around the
+failed playback if useful.
+
+Thanks,
+Robin
+
+--fb4e594afab6bb4d4887a8f5925706516e42ef0f4c07881bc975d794e113
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="publickey - robineveraars@pm.me -
+ 0x8B6BA132.asc"; name="publickey - robineveraars@pm.me - 0x8B6BA132.asc"
+Content-Type: application/pgp-keys; filename="publickey -
+ robineveraars@pm.me - 0x8B6BA132.asc"; name="publickey -
+ robineveraars@pm.me - 0x8B6BA132.asc"
+
+LS0tLS1CRUdJTiBQR1AgUFVCTElDIEtFWSBCTE9DSy0tLS0tCkNvbW1lbnQ6IGh0dHBzOi8vZ29w
+ZW5wZ3Aub3JnClZlcnNpb246IEdvcGVuUEdQIDIuMTAuMAoKeGpNRWFoOGxaUllKS3dZQkJBSGFS
+dzhCQVFkQWFSa3p2ZTQ5ckJFSk1LSkg3NDZSWEhZKzJmVDc3b3hST2k1ZAo4SnBMKzY3TktYSnZZ
+bWx1WlhabGNtRmhjbk5BY0cwdWJXVWdQSEp2WW1sdVpYWmxjbUZoY25OQWNHMHViV1UrCndzQVJC
+Qk1XQ2dDREJZSnFIeVZsQXdzSkJ3a1FIY1YvYThzR0dvcEZGQUFBQUFBQUhBQWdjMkZzZEVCdWIz
+UmgKZEdsdmJuTXViM0JsYm5CbmNHcHpMbTl5Wng2VjVxUzg5dzdDRFlTSXNjNU54dVBKSTFyZ29F
+eVkvdjhkYlAzSApxa29OQXhVS0NBUVdBQUlCQWhrQkFwc0RBaDRCRmlFRWkydWhNcmIyWHVqRm5G
+akxIY1YvYThzR0dvb0FBQVpzCkFQOXpJS1d3dWJDbEZFczBKNmpwUUhUS1hGVHErOTlNUmtmREtx
+SVRidW1RelFEL1IyT2F6VHA0b0NKTzJiT0QKTkZsaVZBbTh5WFA2QSs1ODZ6UjJZS3QwUkFiT09B
+UnFIeVZsRWdvckJnRUVBWmRWQVFVQkFRZEEzcDVGN2I1TwpGc1dLclNXRW1FSGlhL29lN25vLyta
+MVcwT1BmZllyRFB5OERBUWdId3I0RUdCWUtBSEFGZ21vZkpXVUpFQjNGCmYydkxCaHFLUlJRQUFB
+QUFBQndBSUhOaGJIUkFibTkwWVhScGIyNXpMbTl3Wlc1d1ozQnFjeTV2Y21ldlVkUisKViszVWd2
+SVZqcURMRk9XeXlHcDVoNEpYQVBmWVpzRC8vUkhndlFLYkRCWWhCSXRyb1RLMjlsN294WnhZeXgz
+RgpmMnZMQmhxS0FBQm9GZ0VBOGU0ZVNMU2FMbXY4L2UyVzFMOS9WS0FiajJaN0pFUzZLQXBpOUJa
+Nm5RZ0JBTmhaCkZoTUZ6c3l6dTJZWXRhQjhTWXRWdGhKSjYvZUlRVFQ2VWRRRUlZc0YKPVlLaE0K
+LS0tLS1FTkQgUEdQIFBVQkxJQyBLRVkgQkxPQ0stLS0tLQ==
+--fb4e594afab6bb4d4887a8f5925706516e42ef0f4c07881bc975d794e113--
+
+--------00956fbac61fc8a6ecc68a2d07ca8e503742a68e6e62998ec4649ec1795bf5bb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: ProtonMail
+
+wqsEARYIAF0Fgmp94SQJEB3Ff2vLBhqKNRQAAAAAABwAEHNhbHRAbm90YXRp
+b25zLm9wZW5wZ3Bqcy5vcmdWWi0wsVZeVYs7Sa1LngrxFiEEi2uhMrb2XujF
+nFjLHcV/a8sGGooAAI4cAQDuZMLZdPqitEYjCl60TjpY5zfGejbe9uksn3SR
+qy6tAAEA1Vt87ZbY8F3GDa+kSidfD9ZR2rYCYrPkK/q3k5T3hgk=
+=nk6t
+-----END PGP SIGNATURE-----
+
+
+--------00956fbac61fc8a6ecc68a2d07ca8e503742a68e6e62998ec4649ec1795bf5bb--
 
