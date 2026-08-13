@@ -1,140 +1,204 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8772478E5E
-	for <linux-sound@vger.kernel.org>; Thu, 13 Aug 2026 14:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E032478E5E;
+	Thu, 13 Aug 2026 14:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786631730; cv=none; b=t1wkTmSsC0jUK+Fk/7MZAmFeBh2lCEeiSOIE1qt4DvCSoEu0fmD/h3VG9fsjLxAI8nt7nMJ0tArJAB7te/c4pxM/YlpX0gkQ7QYaQoF591wPRRelJr9sXOtAN1F+jZksB8NdFZZLL5Hqb0JP8RpRdMRpXXiSzaNiH+gAACIBif0=
+	t=1786632159; cv=none; b=f/LPhL+jw22BATHpZMb8VNMFP5q58MdE64eI3M2KmhwetaUtTX8IRC5VNqjekhfCkUUmiCsrfKimznEp++GoQumi/4peaJJtEv8a8MKDq4oiyH9vVJ72A0boTS0R79skuZNFrPj+oR8dOnBdwUTRzgpd9JbZ3KNKLE5FTNszLaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786631730; c=relaxed/simple;
-	bh=Ypo2/dLzzXsHjDcz9+fXpGjuNXOywvAxBq4MKB4liv0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kED0QO5CLReeQfH1rxhwANNjaFLPaUKKjIiV73v8tGr0G57DSVXLFuvyAlnhdnp29oxO5DlKFJn7TyGn2Pwmrq/SnQEBVZDTXhaizj5m5rSclfbzOMtbXvpublF7GO/1lHSX+K86jMI5HtI5SJONsCDgyBvVoboB8os+2nNqZcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fFjc9FNP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zEtMhMks; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=shIFDITu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MTXq7YX2; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1786632159; c=relaxed/simple;
+	bh=iVVRZxgjH8ohHuof150lDEJguRDg3Ixea+Gwa0UGNRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=se92wVFzSO5NACieUyU+edIfs5/58NlWXH+LatF8gtDJH1Q6NZeMDt2osEnD6IpSn3F/IvrRhOueiHRQx5gNwpBhogV3Bs2aLv+poE3qwhyc/FdQmsiFr0JzBarPKuD3lDw7sU1xP15NziawSTIbT06GrvLnncUR87DKo3gsapY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OyUnkl+i; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UzmRE/jO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=H7NGlCYH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hbRoWB0N; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fFjc9FNP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zEtMhMks";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="shIFDITu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MTXq7YX2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OyUnkl+i";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UzmRE/jO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="H7NGlCYH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hbRoWB0N"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 99E553E9E;
-	Thu, 13 Aug 2026 14:35:18 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 94E5382972;
+	Thu, 13 Aug 2026 14:42:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786631722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NWu/dWef1OuXSDDyi7cWIti5FAb3GEsFodPyL0XiCeI=;
-	b=fFjc9FNP57aC2Z5vZ6O9P71nl1TCC3ZhTwx/l/Py0Uzq1ZX8FlvNI4WsBJe6lZIKP9fzFy
-	3/13I5LyYZKQGBGw4vathurbgSZfoRGkxOfzEvfwJy40HL602iRMUVu113LzyrrRTqyxZg
-	AoKLEAejpFG3t/QDJ8LtcFlUcslfwlg=
+	t=1786632151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p/+HfkjhL9H9LSp3s+Sq6R2s3GZk9sn4kwHvhmRdri4=;
+	b=OyUnkl+iTTl7inXh4D6Qfpr27Hn8HL5dkEWPl/jb6r8bpVdp/S1euzO40sCK7v9UehowSX
+	wMwTvKIJFkSCbWjPYJd2rfQ+RIYotwWVyPx5L14Mqu3OA+2nQARf9bpeWuokeed8Ls5qKG
+	dJagGiBFLFkJ3TKOi6TD2PUGvAjbD/A=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786631722;
+	s=susede2_ed25519; t=1786632151;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NWu/dWef1OuXSDDyi7cWIti5FAb3GEsFodPyL0XiCeI=;
-	b=zEtMhMksx3+87mcygZ6tWrnSfSra++Oz8fyKMx94IEN4kT5MI+yPqsrM9xMxlWo7YCO2YH
-	DcTL8lg7KnicG5BA==
-Authentication-Results: smtp-out2.suse.de;
-	none
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p/+HfkjhL9H9LSp3s+Sq6R2s3GZk9sn4kwHvhmRdri4=;
+	b=UzmRE/jOpoWC3vFy3NTsmsLxzF1FeZtxRY7+ESVjflwz6k1/oIlqMrhdRgJnBY1qHnesr1
+	YXyZ9oqGsMvFpDCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=H7NGlCYH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hbRoWB0N
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786631718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NWu/dWef1OuXSDDyi7cWIti5FAb3GEsFodPyL0XiCeI=;
-	b=shIFDITuXHQ2hVgnjX/Kof2w7NVEXCsA1Pgmv2dkdnbVRdHrpjHFc+/Pd1ZpSGiFFBjpqw
-	F10Y2XaFBkvHa/IhpRmo/bJYBZP7POjNebUiyIsz9mqD51nH8JtdrtAs9MsBj8UCFEjbtH
-	rC7dHWFosFr9xFsQ7qwNzHzQkomwGVQ=
+	t=1786632147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p/+HfkjhL9H9LSp3s+Sq6R2s3GZk9sn4kwHvhmRdri4=;
+	b=H7NGlCYHeaSV6z+aOD+9NFhRLUKxcZYN4vuc0WHeCJ5PfzbaIB+SAqx/W6R42vmukFAi6n
+	JcdsFysyOn4GuuxNrKGYQybB5zIB49jtxRJ7pXilMkxaJksZDCMe5rIup33IbVnD4MsIGP
+	7W4fQXnXKfwOCkXNtbacnZpf4hojyIs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786631718;
+	s=susede2_ed25519; t=1786632147;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NWu/dWef1OuXSDDyi7cWIti5FAb3GEsFodPyL0XiCeI=;
-	b=MTXq7YX2VCtCg3W7J87WKwk5QQhq37tHajxG+ZOlaX3i00W7Z8qVcoY8s366VfYHg7QIGh
-	lrXJzG31usxTaeDQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=p/+HfkjhL9H9LSp3s+Sq6R2s3GZk9sn4kwHvhmRdri4=;
+	b=hbRoWB0NIHHkhXy1b//kzPqLPUYcTOtNjX5dJ0Zoctc/K0iJjKoOuqag1IOlD7qsZAXkUS
+	DFZfmoaNk5mBfEBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6CF2B77E7C;
-	Thu, 13 Aug 2026 14:35:18 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 75E3077E83;
+	Thu, 13 Aug 2026 14:42:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uQJVGSbWfWqgSQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 13 Aug 2026 14:35:18 +0000
-Date: Thu, 13 Aug 2026 16:35:18 +0200
-Message-ID: <87cxvmxf4p.wl-tiwai@suse.de>
+	id D6peG9PXfWoEUQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 13 Aug 2026 14:42:27 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [GIT PULL] ASoC fixes for v7.2-rc7
-In-Reply-To: <317e8543ff401f09ccc2e93c8cd70e71@kernel.org>
-References: <317e8543ff401f09ccc2e93c8cd70e71@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: seq: midi: Optimize event_input locking with RCU
+Date: Thu, 13 Aug 2026 16:42:16 +0200
+Message-ID: <20260813144224.753399-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.01
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 94E5382972
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:email,suse.de:dkim];
+	ARC_NA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWO(0.00)[2];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Thu, 13 Aug 2026 14:16:39 +0200,
-Mark Brown wrote:
-> 
-> The following changes since commit db2ddb87143519e20a95aa36c60b36107b736a58:
-> 
->   Linux 7.2-rc7 (2026-08-09 14:54:50 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.2-rc7
-> 
-> for you to fetch changes up to 079e27f52b929b554b90514b081ea40b3d632a25:
-> 
->   ASoC: Intel: NVL: Add entry for HDMI-In capture support to non-I2S codec boards. (2026-08-11 17:14:15 +0100)
-> 
-> ----------------------------------------------------------------
-> ASoC: Fixes for v7.2
-> 
-> This set of fixes is bulked out quite a bit by the inclusion of a lot of
-> quirks for various x86 platforms, though there are a few driver specific
-> fixes in here too.  Nothing here is terribly critical, we should be fine
-> waiting for the merge window if it's too much.
+The recent fix for serializing the output teardown introduced a
+spinlock invocation at every MIDI output event via event_process_midi.
+Since this is a hot path, let's do performance optimization with RCU.
 
-Pulled now.  Thanks.
+The new output_substream __rcu pointer is published via
+rcu_assign_pointer() in midisynth_use() after output_rfile is set, and
+cleared in midisynth_unuse() before the resource teardown.
+event_process_midi() reads it under rcu_read_lock() and bumps
+output_use_lock inside that section, which is necessary to close the
+window between the pointer dereference and the refcount increment.
 
+midisynth_unuse() calls synchronize_rcu() before snd_use_lock_sync():
+this guarantees that any reader who obtained a non-NULL pointer has
+already called atomic_inc (output_use_lock), so the subsequent
+snd_use_lock_sync() sees the correct in-flight count.
 
-Takashi
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/seq/seq_midi.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+
+diff --git a/sound/core/seq/seq_midi.c b/sound/core/seq/seq_midi.c
+index 2eb12199c92f..c2f89aee1914 100644
+--- a/sound/core/seq/seq_midi.c
++++ b/sound/core/seq/seq_midi.c
+@@ -43,8 +43,8 @@ struct seq_midisynth {
+ 	int device;
+ 	int subdevice;
+ 	struct snd_rawmidi_file input_rfile;
+-	spinlock_t output_lock;		/* protects output_rfile publication */
+ 	snd_use_lock_t output_use_lock;	/* in-flight event_input users */
++	struct snd_rawmidi_substream __rcu *output_substream;
+ 	struct snd_rawmidi_file output_rfile;
+ 	int seq_client;
+ 	int seq_port;
+@@ -134,8 +134,8 @@ static int event_process_midi(struct snd_seq_event *ev, int direct,
+ 	if (snd_BUG_ON(!msynth))
+ 		return -EINVAL;
+ 
+-	scoped_guard(spinlock_irqsave, &msynth->output_lock) {
+-		substream = msynth->output_rfile.output;
++	scoped_guard(rcu) {
++		substream = rcu_dereference(msynth->output_substream);
+ 		if (!substream)
+ 			return -ENODEV;
+ 		snd_use_lock_use(&msynth->output_use_lock);
+@@ -177,7 +177,6 @@ static int snd_seq_midisynth_new(struct seq_midisynth *msynth,
+ 	msynth->card = card;
+ 	msynth->device = device;
+ 	msynth->subdevice = subdevice;
+-	spin_lock_init(&msynth->output_lock);
+ 	snd_use_lock_init(&msynth->output_use_lock);
+ 	return 0;
+ }
+@@ -252,8 +251,8 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+ 		return err;
+ 	}
+ 	snd_midi_event_reset_decode(msynth->parser);
+-	scoped_guard(spinlock_irqsave, &msynth->output_lock)
+-		msynth->output_rfile = rfile;
++	msynth->output_rfile = rfile;
++	rcu_assign_pointer(msynth->output_substream, rfile.output);
+ 	return 0;
+ }
+ 
+@@ -261,17 +260,16 @@ static int midisynth_use(void *private_data, struct snd_seq_port_subscribe *info
+ static int midisynth_unuse(void *private_data, struct snd_seq_port_subscribe *info)
+ {
+ 	struct seq_midisynth *msynth = private_data;
+-	struct snd_rawmidi_file rfile = {};
++	struct snd_rawmidi_file rfile;
+ 
+-	scoped_guard(spinlock_irqsave, &msynth->output_lock) {
+-		rfile = msynth->output_rfile;
+-		msynth->output_rfile = (struct snd_rawmidi_file){};
+-	}
++	rcu_assign_pointer(msynth->output_substream, NULL);
++	synchronize_rcu();
++	snd_use_lock_sync(&msynth->output_use_lock);
++	rfile = msynth->output_rfile;
++	msynth->output_rfile = (struct snd_rawmidi_file){};
+ 
+ 	if (snd_BUG_ON(!rfile.output))
+ 		return -EINVAL;
+-
+-	snd_use_lock_sync(&msynth->output_use_lock);
+ 	snd_rawmidi_drain_output(rfile.output);
+ 	return snd_rawmidi_kernel_release(&rfile);
+ }
+-- 
+2.55.0
+
