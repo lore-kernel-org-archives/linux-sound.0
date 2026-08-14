@@ -1,88 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93B83644B3;
-	Thu, 13 Aug 2026 22:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B3FB2931D2
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 02:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786659593; cv=none; b=E0MfJhr4NrfT/E2V8q9y2g24deVIHOW7Y4QxRP3+dlU4z9kfmMqZcwT3mlNUl06Cp63GIY0T1jHi4l0eSk8dcFxNvAzeIR3jvpsLrmBkb0A5JzWAIVhYiVO8EB7icZpffpZDsQTfsHvtSoM4apfPT6sXf4eowQo7Z5awUsVw2EQ=
+	t=1786673271; cv=none; b=TsdwXiRJxv5+0+KFcUBnTaaBjPAJoVwZH8yU9iv8CPxwTF8LzJUZ/nIS9QF8Eaw0jSKlc6MWzX2eoHUiQ0xSI1Soc8BIp83tdpTaLcbHzHPb7Q5ZY5ELaJImJu9pr6gNRgedH0K/PlUStoE2NqSo7rHKmwTR6wTxLXDP1ImhqCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786659593; c=relaxed/simple;
-	bh=h/cZz00/1/SlrZT7qQD3nro5SmE1NcuKx9YBM7GyRIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pz4VGPxfddtKA2C53YhlkNXVtmbyBmNYJqGHWb3vmNHNN8XYvErFZ5k9b17iBloI6LETmoxMDJzR5WCGGkdPxZuJOvWPrIpaJC1NHJgRCpLElcKmI9mLyDj4Z+g5PZqk9PqseaqIWJPI8WUS1xDhHJKhGuvYh1BiLfp+O+Q2LLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sgho7mni; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786673271; c=relaxed/simple;
+	bh=fQO8bKpqFYtdX/vQNWJHNMELZfW0O1OEK1Uf6ts4N0o=;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type; b=BLG0l0TwJw2yy2FOZ9eMypzT0NkA1OQjlj0VlZB3lyp5AjOwIMy9YqfsLvZIhzKkZgvtAxtUS1ahnBqwUOn/t55JNczvSINqCx7VtYgYjgl4t4PiTFLG9GIVCn/6L855Rf6og9P8k4ij3s6ToVegNWkKjcOE0dVogxD70fBsetg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com; spf=pass smtp.mailfrom=tutamail.com; dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b=MoVN6t8Y; arc=none smtp.client-ip=185.205.69.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tutamail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tutamail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sgho7mni"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA2221F000E9;
-	Thu, 13 Aug 2026 22:19:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786659592;
-	bh=092Pna56QuSDIlIXeHtlF7qEbhj6KCNEOQrzLk7UiGg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Sgho7mni3TBN17WC6KkkhThtoxNoeBPs2p7X8EiJ3h8Q1DqA+Pdo7he7ATtQ20fo3
-	 RpX4XiCWWdyAbvaSBJHKBiqpIYZOCjCO8IEzaKZc1G3HPehDNCk5r9/a3imQG3oIvT
-	 wrR+160dVc8wjc/FFLX1vB9j/dL0YLyH4PJrV6+qdPdliU8JPWQRYlacRDAp6P18km
-	 ehWfbpbgfOn205gPZ92qBdn+FXj/cV6/eIhVdzcJtpuzD/KluHmmAO3dnHFzUunz22
-	 1o1Crn61PyzcWi41hUN8IH6G2HvpeYKeHeuStRl+U4RGoVblqxsXEno5yfpHJk1lqx
-	 qkquWzIihW8vQ==
-Date: Thu, 13 Aug 2026 23:19:47 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, andriy.shevchenko@linux.intel.com, 13916275206@139.com,
-	alsa-devel@alsa-project.org, shenghao-ding@ti.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	k-yi@ti.com, henry.lo@ti.com, robinchen@ti.com, niranjan.hy@ti.com,
-	pin-hao.huang@hp.com, Syed.SabaKareem@amd.com
-Subject: Re: [PATCH v2] ASoC: tas2783-sdw: add firmware download status check
-Message-ID: <0799cd9d-a0ef-41da-80ea-3fb9b1ef0f7f@sirena.org.uk>
-References: <20260813021450.1897-1-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=tutamail.com header.i=@tutamail.com header.b="MoVN6t8Y"
+Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
+	by mail.w13.tutanota.de (Postfix) with ESMTP id B0DD716E9BB28
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 04:07:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1786673261;
+	s=s1; d=tutamail.com;
+	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
+	bh=q7N5PGZfBop7MqITEpFqN9zsxQb2KRTxkibGaJsjQbI=;
+	b=MoVN6t8YoYeLU2pVYQC0e1t4I1CPjHLUo6vN9vCiE9+ouHE/yR3IbSIkC+3KTh8S
+	ohWtfmG59g2jQAbAUvIZa9mYx7mLdIuegFhf36k87BX9c18D6s9bAja2peVnAaiK1xN
+	yU9iKlivDKELZQ3W1RMJpMWolRKhyjJQFz76LSEmppNeTIhcvFlIA1U8K2MZ6Z1QWvm
+	wDXzrCEMfCMD3DfkX4H0oEtZg+q/jAkV+hWYbcpdM37/sNU9Tg6Re+duTCH95WhUVtL
+	gNXF3/ckXpWIc9HseXkj5KHmFukx/MCUYjsykxyp4icIhi9tdSTZ/moc0uXZAR0F7CS
+	Zth32JGcwg==
+Date: Fri, 14 Aug 2026 04:07:41 +0200 (CEST)
+From: cloudyweathered@tutamail.com
+To: Linux Sound <linux-sound@vger.kernel.org>
+Message-ID: <Ozy0Y1U--F-9@tutamail.com>
+Subject: [PATCH] ALSA: hda/realtek: Enable mute LED on HP Laptop 17-cn2xxx
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KzoVrVZXOpkAwgp5"
-Content-Disposition: inline
-In-Reply-To: <20260813021450.1897-1-baojun.xu@ti.com>
-X-Cookie: Immanuel doesn't pun, he Kant.
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_94761_852535102.1786673261719"
+Feedback-ID: 0144a90d6a9a357c608f5b7bdb4e6a30618b0c9dcb277d96100c9bad91b76d7ad6692750e9841a667796f32173979224d1e5ed594b0105b476ae6e456706447898:TurnOnPrivacy!:tutamail
+
+------=_Part_94761_852535102.1786673261719
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_94762_843799183.1786673261719"
+
+------=_Part_94762_843799183.1786673261719
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+The HP Laptop 17-cn2xxx (subsystem ID 0x103c899b) uses the ALC236
+codec and controls the mute LED via COEF 0x07 index 1, the same
+mechanism as the other HP consumer laptops (15s-eq1xxx, 14-fq0xxx,
+15-gw0xxx). No existing quirk covers this subsystem ID, so the mute
+LED stays off when the system is muted.
+
+Add a quirk entry to enable the mute LED.
+
+Signed-off-by: Max <cloudyweathered@tutamail.com>
+
+------=_Part_94762_843799183.1786673261719
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+<div dir="auto">The HP Laptop 17-cn2xxx (subsystem ID 0x103c899b) uses the ALC236<br></div><div dir="auto">codec and controls the mute LED via COEF 0x07 index 1, the same<br></div><div dir="auto">mechanism as the other HP consumer laptops (15s-eq1xxx, 14-fq0xxx,<br></div><div dir="auto">15-gw0xxx). No existing quirk covers this subsystem ID, so the mute<br></div><div dir="auto">LED stays off when the system is muted.<br></div><div dir="auto"><br></div><div dir="auto">Add a quirk entry to enable the mute LED.<br></div><div dir="auto"><br></div><div dir="auto">Signed-off-by: Max &lt;<a href="mailto:cloudyweathered@tutamail.com" rel="noopener noreferrer" target="_blank">cloudyweathered@tutamail.com</a>&gt;<br></div>  </body>
+</html>
+
+------=_Part_94762_843799183.1786673261719--
+
+------=_Part_94761_852535102.1786673261719
+Content-Type: text/x-patch; charset=us-ascii; 
+	name=0001-ALSA-hda-realtek-Enable-mute-LED-on-HP-Laptop-17-cn2.patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; 
+	filename=0001-ALSA-hda-realtek-Enable-mute-LED-on-HP-Laptop-17-cn2.patch
+
+From c9afe91571f34075072b67cf1dfe3bb05ca6be99 Mon Sep 17 00:00:00 2001
+From: Max cloudyweathered@tutamail.com
+Date: Fri, 14 Aug 2026 04:53:13 +0300
+Subject: [PATCH] ALSA: hda/realtek: Enable mute LED on HP Laptop 17-cn2xxx
+
+The HP Laptop 17-cn2xxx (subsystem ID 0x103c899b) uses the ALC236
+codec and controls the mute LED via COEF 0x07 index 1, the same
+mechanism as the other HP consumer laptops (15s-eq1xxx, 14-fq0xxx,
+15-gw0xxx). No existing quirk covers this subsystem ID, so the mute
+LED stays off when the system is muted.
+
+Add a quirk entry to enable the mute LED.
+
+Signed-off-by: Max cloudyweathered@tutamail.com
+---
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 427caf0..870f7a2 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7073,6 +7073,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8992, "HP EliteBook 845 G9", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8994, "HP EliteBook 855 G9", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8995, "HP EliteBook 855 G9", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x103c, 0x899b, "HP Laptop 17-cn2xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x89a0, "HP Laptop 15-dw4xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+ 	SND_PCI_QUIRK(0x103c, 0x89a4, "HP ProBook 440 G9", ALC236_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x89a6, "HP ProBook 450 G9", ALC236_FIXUP_HP_GPIO_LED),
+-- 
+2.54.0
 
 
---KzoVrVZXOpkAwgp5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Aug 13, 2026 at 10:14:50AM +0800, Baojun Xu wrote:
-> Currently, the firmware download is unnecessarily triggered on every
-> system resume from suspend, causing significant wake-up latency. However,
-> this step is redundant if the AMP remains powered on. Furthermore, certain
-> memory pages (addresses > 0xc60000) are skipped even after an AMP reset.
-
-> +		if (!tas_dev->first_hw_init || file->dest_addr < 0xc60000) {
-> +			ret = sdw_nwrite_no_pm(tas_dev->sdw_peripheral,
-> +					       file->dest_addr,
-> +					       file->length,
-> +					       file->fw_data);
-
-What happens if the amplifier uses power (eg, over a system suspend)?
-Though since nothing clears first_hw_init I guess there might be issues
-there anyway...
-
---KzoVrVZXOpkAwgp5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp+QwIACgkQJNaLcl1U
-h9ANegf+JK0QxQwgfNUpmn4rEGyfPdGNwOIGZnhXTPQ1YQw0Z1HGeeGH/Xf7DHxX
-0g8LX84V5NA3QMrDjlBCcJZSaFbBXNDzk1dQAp8ssgnOewMD7NyMp5UY1qs+/NpH
-RtlfGxbEZdgj//sJhYLocDrKObOkKoXO1R59TM+A+1Ua0KK8exlfeCtBJMyL2uEl
-PYlNslBO5GcB0yK8WCImKyFhM6Ijinhcds6fTgzbaNlUP6r1CeiYR697sK/HxjZp
-nx0ACestXtzHlPNUYKNjGmQEN1fqijp5N7nLm1Wf7W3wIYSVY9O1Y0b0ObrPzYTu
-AmcRVLekfBsYJvXw+Ql6Z1esLHPsnw==
-=BSuN
------END PGP SIGNATURE-----
-
---KzoVrVZXOpkAwgp5--
+------=_Part_94761_852535102.1786673261719--
