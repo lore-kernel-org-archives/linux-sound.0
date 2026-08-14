@@ -1,91 +1,120 @@
-Received: from mail-244118.protonmail.ch (mail-244118.protonmail.ch [109.224.244.118])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8543CCFB2
-	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 16:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80E54908B3
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 17:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786725457; cv=none; b=k4pfn9vhFmT+88zgDae8gM4HcFbiHEObPELanbjf7p+kJxh8jt5ipJ9Z7sQC8CIoPXxi8B5ne0ypmPGudMfnVNoIY+eoSGkNE3DEZ3m173Zfc4F2sUyp5PmzSphN7Rzk9id2zy+raE8RMhaLugDTvuO+qdHC+ECpfkL5Zn6Db1w=
+	t=1786727727; cv=none; b=hfLpogXKCAQ6qdnHgZcMC/+xNUTxqhRM52nXytPV+3nLE7sEjfEIwPtW/QH4a5otW/oBOW8S+RZBTNFSPn4kzlFUtBEfiKNhG1+0SB4AfcbynEAYU23YF+v4ouP53lB8NFrr0Lw74s3NNiEZJ663U7YCgao3G1uJbLs1Rn9Cs10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786725457; c=relaxed/simple;
-	bh=Q/RVXWj8pJT+Jvu8sYSDJTJz0IUW2TyHOpUkmt0iy5g=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AzlCuD2kqoxzCzx+EjWf7UV/72ushVRVjRy9Pqb1vlHyBIo3kiI7W2uPsRPC86dxxVAyCoA7hDAQsgpJKTZd0eBcn8Xner0xyOHD+2pths8uw9jotZQ+jumzhodL1OuOKfJsy+yYiIbWU+8DoU2f0ytCXbLZWvEDbIs+gPx1E3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=Cr26Zt3d; arc=none smtp.client-ip=109.224.244.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=saarinenkoti.fi
+	s=arc-20240116; t=1786727727; c=relaxed/simple;
+	bh=IWixYzehzPBCeyJBtSVmUN2Hy/+L8JxUsTM9k70Erwo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nQpSprr0MQbg7pvkrim+SFM4ku7LYPgsXDEnMgkJXRrmjVks/cy08iW9KAj6ojXWQ7acIy0Bw7k/1KjDFnD4EUKtLFhkFjVu3oD9bAijtDhkv5FtEJIyINCPXZsKZ/ZK+PQNNRjXmoXKLJiV1OjlJiIbII9uI7hDRSeIvB0SHVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mnKM6a7E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="Cr26Zt3d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saarinenkoti.fi;
-	s=protonmail3; t=1786725443; x=1786984643;
-	bh=EmTZMnowpgijCrbm6lLWN8qYdVOPwXu8E+VsQzn5urA=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Cr26Zt3dV1acZCFzv36wAYHUjJbyEbbM4fYoYc1rY7vEOPdKWO3S9M/hZRZnKXqMK
-	 JrB9hPjT+XW0QdJnbg6budI4fh+Xd/Y6Gh+i00EJHeR1fQPC50Ze/kC4IkA7IgW5SI
-	 UI+t7c17jQ59qYnEeHamqdUp13ebIHZ8Eb+LGB0rp4l80OcYltpkHcD+EgM7es4PuN
-	 dOYA2waMXALDRc77ocluDuh4CmCFLB2e84I61ai1ZPEH40xeiX6q6GUl7ahHoGgd7s
-	 bcux/bBxvB9naNpi8WGQr8z662uKml0raSxw5Mym7LbPcW71YzFu0uBwSivXJdp5H0
-	 HIgZgB3Zp16oA==
-Date: Fri, 14 Aug 2026 16:37:17 +0000
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
-From: Ville Saarinen <wiza@saarinenkoti.fi>
-Cc: Niranjan H Y <niranjan.hy@ti.com>, Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
-Subject: tas2783-sdw: firmware shipped for some boards cannot be requested by the driver
-Message-ID: <20260814163702.142555-1-wiza@saarinenkoti.fi>
-Feedback-ID: 137674609:user:proton
-X-Pm-Message-ID: f97926eec0136987d5ba0b275f44384335d1de3d
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mnKM6a7E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39731F000E9;
+	Fri, 14 Aug 2026 17:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786727725;
+	bh=kUPRbnKCmcdGMTtyeLumrKkCdz6vh5NM/5XfvDrPuGI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mnKM6a7EP3DumYujAvI4FvttSqHwZLrHeQDenZOaikuYrRqHImi8dOVMYtHmEmTZ9
+	 RtXVei011DcwVeEI5j95Zl+nZnwJyle1TWe2mk9xpOGol9AfwX7Fvuwl5+sBARjvCn
+	 7m4ufbZWbRwlDIZDdz/5gqqXbdO2V5VVMaxsGjV/PEEt65YMtUs/+6wnxOyM2vGg86
+	 muX1CUO+cR8wspHb9dekFLgi2lz5/A4Wxz6KTyX0qJ+KCf2Y6XPOi4eAiLZDxNghra
+	 TUKOebzIge65Bf9x964dnpFykjhS82F33Lex4KSFJ+Wx3TrFrsl0MWwFiXgMHMsZEE
+	 A57RySXrsCx7g==
+Date: Fri, 14 Aug 2026 18:15:21 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Qianghua Wang <qianghua.wang@senarytech.com>
+Cc: linux-sound@vger.kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	bo liu <bo.liu@senarytech.com>
+Subject: Re: [PATCH v3 1/3] ASoC: codecs: add SN624x SDCA SoundWire driver
+Message-ID: <4b1dedc3-91b4-4905-a402-d67e41bddfd5@sirena.org.uk>
+References: <20260814025653.5484-1-qianghua.wang@senarytech.com>
+ <20260814025653.5484-2-qianghua.wang@senarytech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mfHIbkthboM1N328"
+Content-Disposition: inline
+In-Reply-To: <20260814025653.5484-2-qianghua.wang@senarytech.com>
+X-Cookie: Body by Nautilus, Brain by Mattel.
 
-On the HP OmniBook X Flip 14-kc0xxx (subsystem 103c:8ea1, two TAS2783 on
-SoundWire link 0, unique IDs 0x9 and 0xC) the calibration firmware never
-loads: the name the driver requests does not exist, and the name that
-exists cannot be generated by the driver.
 
-tas_generate_fw_name() builds
+--mfHIbkthboM1N328
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  "%04X-%1X-%s%1X.bin"  subsystem_device, link_id, "0x" or "", unique_id
+On Fri, Aug 14, 2026 at 10:56:48AM +0800, Qianghua Wang wrote:
+> Add a SoundWire SDCA driver for Senary SN624x multi-function codecs
+> (jack, speaker amp, and DMIC). Program SDCA SampleFreqIndex in
+> hw_params, keep SDCA jack IRQs masked with poll-based detection, and
+> extend the Senary MAINTAINERS entry for the new codec files only.
 
-so it asks for 8EA1-0-0x9.bin, then 8EA1-0-9.bin via the fallback.
-linux-firmware (20260622) ships neither.  For this board it ships
+This looks mostly fine but you have some issues around when runtime PM
+is enabled.
 
-  ti/audio/tas2783/8EA1-0-0-0x9.bin.zst
-  ti/audio/tas2783/8EA1-1-0-0x9.bin.zst   (and the 0xC pair)
+> +	ret = devm_snd_soc_register_component(dev,
+> +					      &soc_sdca_dev_sn624x, sn624x_sdca_dai,
+> +					      ARRAY_SIZE(sn624x_sdca_dai));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 3000);
+> +	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_mark_last_busy(dev);
+> +	pm_runtime_enable(dev);
 
-four fields where the driver emits three.  The request fails, no
-calibration is downloaded, and the speakers stay silent.
+The component is registered before we enable runtime PM, this means that
+things like jack detection that try to use runtime PM could get run
+before it gets enabled which will result in bugs with mismatched counts
+or missing references.
 
-The extra field is not the link id: the two 8EA1 variants differ in DDC
-name, HP_Kento_14_SDW_alpha10_Stereo_AAC_20251014 against
-..._Stereo_FG_..., and both amps of this board are on link 0 regardless.
+> +static void sn624x_sdca_sdw_remove(struct sdw_slave *slave)
+> +{
+> +	struct sn624x_sdca_priv *sn624x = dev_get_drvdata(&slave->dev);
+> +
+> +	SN624X_DBG(&slave->dev, "SoundWire driver remove\n");
+> +	cancel_delayed_work_sync(&sn624x->jack_detect_work);
+> +	sn624x_jack_rpm_put(sn624x);
+> +	if (sn624x->first_hw_init)
+> +		pm_runtime_disable(&slave->dev);
+> +	mutex_destroy(&sn624x->disable_irq_lock);
+> +}
 
-It is not confined to one board.  Of the 144 files in ti/audio/tas2783,
-72 use the four-field form across roughly fifteen subsystem ids (1954,
-1964, 1994, 1AC4, 1AD4, 1B04, 1B94, 8EA1, 8EA2, 8EA4 through 8EA8), 66
-use the three-field form the driver generates, and 6 carry literal X
-placeholders (8EXX-X-9.bin.zst, 8EF6-X-9.bin.zst) that no
-request_firmware() call matches verbatim.  Both middle fields vary
-independently within the four-field set - 1954-{0,1}-{0,1},
-1AD4-{0..3}-2.  The container header is the same on three- and
-four-field files alike.
+The runtime PM enable is unconditional in the probe.
 
-As it stands every board whose firmware carries the four-field name is
-unreachable from mainline.  Locally I get sound by symlinking the
-requested name onto one of the two files, which picks a tuning by hand
-and is not a fix.
+Since fixing these would be relatively small changes code wise I'll push
+this into CI, assuming it goes OK there I'll apply so the driver makes
+the merge window - please send incremental fixes for this and anything
+else that gets noticed.
 
-For context, the ACP machine support for this board was merged for 7.3
-(8393e0bf59, b48466e4be), so it now enumerates and this is what remains
-between that and working speakers.
+--mfHIbkthboM1N328
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Measured on the hardware named above with linux-firmware 20260622;
-written with AI assistance (Claude, claude-opus-5).
+-----BEGIN PGP SIGNATURE-----
 
-Ville
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp/TSgACgkQJNaLcl1U
+h9D/fgf+JvcFq3Yv0DNKW90Gf+ob0drv5OEs91KNgaJnwVxLEPkKg0rzQl9kD5KJ
+rwomcq3KFoWlf+8+lO46361x1xwh5k4ErY+SBHQJYZUX49fcsT8+6aiNXs8mSjPz
+hRvuUVxVmAEbBhL9cn/F7tC6zYbbP7BbD3ZP5KIzkIhhzrrplgSUOovrQ3qJIrvn
+CfiOTuzN7YIf3QvRPEaGl5weMNIHy87YbgA1tuxYT4HQAnOcivCEZc7MparF4YW0
+gsighsa1U+n7/deRlq+2O29RFbKjmo1gYJLnuLTZ1dU09QQwJpOnk8XB6yEs6oW2
+Lr5EYFSMhf2cgH7031s+QNyxMq4E+w==
+=Pndl
+-----END PGP SIGNATURE-----
 
+--mfHIbkthboM1N328--
