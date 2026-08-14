@@ -1,159 +1,135 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7C73002C8;
-	Fri, 14 Aug 2026 05:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147FF3FA5F8
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 07:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786687068; cv=none; b=llzr/1GpHNqR6g5F0cjKo1FDOF8bbj4mBtq/pqIoCcZdOT5rr7uckIuySS6OCExE5krUEBUVSEM41FTy2uxyf6LVXpyO9pjett8DI6BNTtIXfwCHYZCw8Py3rw4OdWmW2Nc7oQodqe4wxHd9m8OXWkwGLH7G2wYjxel8Af1On5E=
+	t=1786691775; cv=none; b=Jy/Fhb7HZH/cN8KkKEh8rGYlaFUBaWA8ORzlciYDvQDngB4YK2LV3SX+B+ZnIrAoWaNGyFQECOYnrf4kn9bnYJ7Ibx8oUQob1JX9UuGenMf1X6FD0LElRvCppg48aoa09rm6O80BHIsQn08hMjHTFL8Sx+ywYwrtJYq7B1eNbL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786687068; c=relaxed/simple;
-	bh=p/xOdl5H4deEivprV1zCFCr+oS5AWIrpUw+wcqTkbQw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hK1vgO37g62ycu1k4sL/40nSls/wVITWAIT/Y/fgluhp4VVEhvtA5lqFPhmRb6FQNSd/OojSm3Ieo6R50u9BqZPVZYyzSjn+iRPJv76gh0z4h84Bd/vQItI74FIwN8WU2/Y0FUDs7Sxz1CrdlT3LpoMn/HtDQkM3RKFPOu0gmdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZpdaPWTc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OH4dDRBs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GYgBT+Bf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B3RLbbQI; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786691775; c=relaxed/simple;
+	bh=E9CaKmu80WzLNW0pIDgymQDLhH1SIUPZwlcDxrvu310=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nmUYSQ+4Exgfxa1u1EZIAYNv+iC47YvnLwNst9u6yuJ6VoNGLHO+spYwXm5BTCcLx3gAJK0rrX56KjUw2AGvId/qtSlMlxhIKp7Bk9tZejOp5tXHzjLuY1PE672Hox9qxVaCzfGUQ+B9pLLPs8Cu1Yd+ivoWZOPRauhPyURS0Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3RB6I3S; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZpdaPWTc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OH4dDRBs";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GYgBT+Bf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B3RLbbQI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C8503E9E;
-	Fri, 14 Aug 2026 05:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786687060; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2zMNO6xlShUrWz0VbLUVsQ5u7pwsoIn63ZBdL9YvI8=;
-	b=ZpdaPWTc2ogJkM5NusiwWgdySHqkYP2Jjqtfww41yzSmqX5wWEUJF5NICDCYVqMgguDrFt
-	3QmL/VNaMhOuWPQ7vBb1eMIiAkLsDcKAIdlfM9U+x5rkOU5t56iaBs0SY9nJ+eiPAA/Lje
-	8vgQeIU4BfA9ic2RfW2RHYSS5Ed4PYQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786687060;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2zMNO6xlShUrWz0VbLUVsQ5u7pwsoIn63ZBdL9YvI8=;
-	b=OH4dDRBspbWgYxTCW7miPEqRFtbJCDbsKQ342JCQODmJ0NoOpIzopgIzT6bgwfGRqZW6CN
-	VJ1VtcZJfU8R03Dw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786687056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2zMNO6xlShUrWz0VbLUVsQ5u7pwsoIn63ZBdL9YvI8=;
-	b=GYgBT+Bf3zFLTUPCV/X1aIwKx16Bkfhc3pMHP4zD9bo44A9591kvPhG88k0Tb27jKpI/JY
-	8hN1tiVuWHomvUPoeyL6ajAh94kEmamqAb0FPwlGomHH5UxZFTd/PPfVll0Jsz50D2Il9U
-	YLPcKacmtT3JF3UGsklvElhSgxhsWQM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786687056;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C2zMNO6xlShUrWz0VbLUVsQ5u7pwsoIn63ZBdL9YvI8=;
-	b=B3RLbbQIC9jXJowQvWo/1N/UXXjBVIFfs4nGm9MgPqQjNVGiWl+dpokK6XAitSxSITbMvo
-	Ft686r1V38oBCbAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D2E1278211;
-	Fri, 14 Aug 2026 05:57:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YoyoMU+ufmrxIgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 14 Aug 2026 05:57:35 +0000
-Date: Fri, 14 Aug 2026 07:57:35 +0200
-Message-ID: <871pc1fdm8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Neil Andrews <neil@androos.io>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Rename the Audient iD14 monitor mix volume control
-In-Reply-To: <0102019ffcdbb1e6-9b59d3cc-ef05-4df1-8f9f-fb2f425bcda2-000000@eu-west-1.amazonses.com>
-References: <0102019ffcdbb1e6-9b59d3cc-ef05-4df1-8f9f-fb2f425bcda2-000000@eu-west-1.amazonses.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3RB6I3S"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39c7fd45465so5623191fa.1
+        for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 00:16:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786691770; x=1787296570; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=blT0MxqalZ5HOlImHasYYT1NLWsOkpcDnw9nq0AxdEo=;
+        b=Z3RB6I3S061WDuEjUh/2wicGt0duu2kWt35R1yui13rJBicPB8ObO3IGx2zouLKNz5
+         PrcGpx/Wz6sLenuc+7Nb3MxiGtr56Dmih+pI5ObFDMpNi58J0SyIdSa66iub5Xoroc7u
+         ioZS3IH6/Ztz44reNJsP7fN9a0eyl+QSzpsAH+cjaqU2P3zDWT7NSLZG5D6epC59dz0M
+         Pco2qQRXhTmfZCbvAAeHeXymweznAC/Ykr9Xh4emvO+WPncwUvAzc9YUPGIJKHIAcdgJ
+         FhJtzyPOuim6viiNT8pW2wvANIHikF/oVSZs/fdPnGfvKmzT6jQ2ltDWO0hMWak9RM1A
+         C47A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786691770; x=1787296570;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=blT0MxqalZ5HOlImHasYYT1NLWsOkpcDnw9nq0AxdEo=;
+        b=kvtABiozpk1WMDY67Zc/vzwO3SWOanPC/o+W6WsOHhQ4Gnqjm2IXohDDwEDFZ9Xojo
+         3kJ90xp22Hrsfzfo/8/DhZJFBn7HPEOVx557FitcDBulmuckyPj35U5BE071HF0jhY4P
+         31ihH5GiutsTom23uzi8JUXFy4YragpuKxfkXB99KfRZ40qLwUQbbCuBy9KwqcZedNto
+         ZQgsNUg9N9adZ33N6Pe/vVprsQeWdSHQ/SBE0zQ0aQrC8SnsfgX2WwIzE8mVRweEYp62
+         NyRLhr8Ka5F6Cgmsys7cJw9bOEXOVi+9zRueAdathdTrD0s0OEoTZQ614kGQslnv9B6Z
+         rhaw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrm6K+Jf194dSlZHf2dK4P01WpTPsllFNNeZCHdQtSLrUiGf2+ZEi7/cluvPCqXGoNLY/PaOWKgygkz1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSnCg2S8PGqitajJziIhcXYi6Z6efJ/pNTnDVipMMphKDdLXxM
+	N+Jql4THis/6O99KRnUah7lQgyMmjZmRWHuk2F/45Sloom2U48Sw2PYm
+X-Gm-Gg: AR+sD12BjE+3v9+JXIIKG2g3C2RMOFyTTuDRuec+q19K5eum5OGep21Yvpiv8wnnN3A
+	VhL4a8gW7Bo1Fq7+iqubuSuB1E4f+ZYUH12oQJNg8cymFr+LRpxvwHawTNf2TgHV+Ln34hDVPpj
+	OdCo+a/jYTAl99giiEf+YsYFL6KouF7W+JO+RbtyJ3NTFQESosoYb5MqywYvtCeyxzHldzP/3U9
+	DA94N++7aDM4sl8fLvcQdTvJ5Yj7+9ymQckFB+dQkxvh0NTCwNpz7gAARYc+Xh82c3FIc1RD6jz
+	V8+/Tz343cg2oEeLRnCSDlok2NCdbekouDer847gN+RRqMpsPjDRtmZZDPDsXaIakXL4trzRYFs
+	P+N4aCtqJGX06GBl2U174AUXyFhWUIX1jG2PGysB8sobfR9TrqYvzlmCkFP/yjwW+7HPokbS3+k
+	K9mwvqRCZywsl11CoJSMUR+oJK2YWVEQ+5RCrsrF9dAS0c05gVy8dFUmikJXP7lHWMtJjhKlrtO
+	KjI682TKgWZA+2aK099p64qd8b0jy7laQ==
+X-Received: by 2002:a05:651c:30ca:b0:39a:d587:ceaf with SMTP id 38308e7fff4ca-3a132408060mr3033751fa.8.1786691769649;
+        Fri, 14 Aug 2026 00:16:09 -0700 (PDT)
+Received: from localhost (host-80-73-162-2.rev.as20985.net. [80.73.162.2])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a130cfb752sm4439391fa.29.2026.08.14.00.16.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 00:16:09 -0700 (PDT)
+From: Andrey Golovko <andrey.golovko@gmail.com>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+ Antoine Monnet <antoine@montane.tech>,
+ Robin Everaars <robineveraars@pm.me>,
+ Ville Saarinen <wiza@saarinenkoti.fi>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] ASoC: tas2783-sdw: fix the read-only Control handling
+Date: Fri, 14 Aug 2026 09:40:00 +0300
+Message-ID: <20260814094000.22118-1-andrey.golovko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 13 Aug 2026 22:41:24 +0200,
-Neil Andrews wrote:
-> 
-> On the Audient iD14 (2708:0008), feature unit 12 is traced through to
-> the Speaker output terminal and is therefore exported as "Speaker
-> Playback Volume".  The name fits it badly.  It advertises Volume on
-> only four of its six logical channels, which the driver records as
-> cmask=0xf, channels=4 on a 6-channel playback stream, and it sits on
-> the monitor mixer branch rather than in the direct playback path:
-> 
->   INPUT_TERMINAL 2 (USB streaming, 6ch) -> EXTENSION_UNIT 51 ->
->     FEATURE_UNIT 10 (no controls) -> OUTPUT_TERMINAL 20 (Speaker)
-> 
-> while FU 12 hangs off MIXER_UNIT 60 and feeds back into
-> EXTENSION_UNIT 51.
-> 
-> Userspace adopts the control as the stream's hardware playback volume,
-> so any setting below 0 dB attenuates part of the stream and not the
-> rest.  Measured over the device's own digital loopback, with one
-> -12 dBFS tone per channel played straight to hw:, PCM channel 0 is
-> unaffected while channel 1 tracks the control: at 107/127 (-20 dB) the
-> two read -15.89 and -35.89 dBFS, a 20.00 dB imbalance, and at 127/127
-> both read -15.89 dBFS.
-> 
-> Give the unit a non-standard name so that it is no longer taken for
-> the stream's master volume.  Dropping the control instead also fixes
-> the imbalance, but FU 12 keeps its value across a module reload, so
-> dropping it strands a device that is already attenuated with nothing
-> able to reset it.  Renaming leaves the monitor gain reachable and that
-> recovery path intact.
-> 
-> The mapped name ends in "Playback" because a name from the map
-> suppresses the automatic " Playback" but still gets " Volume"
-> appended; the control comes out as "Monitor Mix Playback Volume".
-> 
-> Tested on the ACP path with PipeWire, which is where the problem
-> reproduces: the control now stays at 127 at every volume setting and
-> the imbalance is 0.00 dB, and setting it by hand to 107 and back to
-> 127 gives 20.00 dB and 0.00 dB as before.
-> 
-> Link: https://lore.kernel.org/linux-sound/0102019fed22f9d3-fa294ec5-02f1-4fd3-b3fa-76efc14331cc-000000@eu-west-1.amazonses.com/T/#u
-> Signed-off-by: Neil Andrews <neil@androos.io>
+The two read-only Control patches from 13 August, resent together as a
+series because the second one depends on the first, and with the change
+Mark asked for.
 
-Applied to for-next branch.  Thanks.
+He pointed out that the XU22 Control 0x14 in the read-only list is
+SDCA_CTL_XU_FDL_STATUS, which sdca_fdl_process() writes.  He is right,
+and the description I gave it - "firmware download status" - reads like
+a status the device owns, which it is not.  It is a handshake: the
+device sets the bits it owns, and the host writes its response back into
+the same Control, keeping the device bits, which is exactly what
+sdca_fdl_process() does with response | (status & ~SDCA_CTL_XU_FDLH_MASK).
+So it is out of the list in 1/2.
 
+Whether the write is reachable on this device today: the driver
+registers no SDCA interrupts and never calls into sdca_fdl.c.  It
+downloads its firmware itself, with request_firmware_nowait() and its
+own container format in tas2783_fw_ready(), and the machines I have
+describe no Smart Amp SDCA function in the BIOS at all, so nothing
+populates the interrupt that would drive the state machine.  But the
+Function does implement the FDL Controls - the driver lists 0x10 and
+0x12 through 0x16 in its defaults - so the state machine is a plausible
+thing for this driver to grow, and _regmap_write() answers -EIO for a
+register the callback refuses.  That would break the handshake at the
+first response.  Not a trap worth planting for one entry in a list.
 
-Takashi
+2/2 still keeps the Control out of the cache, and now says why on its
+own: sdca_fdl_process() reads it to see what the device asked for, and a
+cached answer would hide the device half of the handshake.  Writable and
+volatile, which is the normal shape for a handshake register.
+
+The two are otherwise unchanged.  The behaviour I measured on an ASUS
+ProArt PX13 for v1 stands: the calibration data written at probe is byte
+for byte what it was before the series, and a read of the PDE23 actual
+power state answers 0x0 with the Function powered, where before it
+answered the 0x3 placeholder from the defaults.  The only difference in
+v2 is that a write to the File Download Status is no longer rejected,
+and nothing in the driver issues one.
+
+The questions in 1/2 stand as well: the list is static because
+sdca_regmap_writeable() is not available to a driver running its
+fallback tables, so it would be good to have it confirmed against the
+documentation, and to know whether the read-only Controls were meant to
+be in tas2783_reg_default[] at all.
+
+Andrey Golovko (2):
+  ASoC: tas2783-sdw: do not treat read-only Controls as writable
+  ASoC: tas2783-sdw: do not cache read-only Controls
+
+ sound/soc/codecs/tas2783-sdw.c | 99 +++++++++++++++++++++++-----------
+ 1 file changed, 68 insertions(+), 31 deletions(-)
