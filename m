@@ -1,134 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456B435C6A7;
-	Fri, 14 Aug 2026 19:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786736758; cv=none; b=Om8WpUtTKx+V644jgBAlBZ0ziLt36xx+r52ER+b0ZXDkaZ3I0Fv/e4Bu62Ay/ZsFhya7wA4Go5KBWLFjaur8hKHENOTt62a5XxJvrV7HREaPdJbCgUs+aWqWDM1EVOiUGUQVON1opOCM323/ggZn9m++YNXSraKC60PyYyWWzHo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786736758; c=relaxed/simple;
-	bh=gdFFZsNzJtizlM1dKtTx0t6Gvl5fViK28zsUBGmWGK0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=j0guPic0JQNXNgVqHI6SKzY/9tKiKMofzjozAd4onB0vFwEC4DmSbQCe7hFrCCM/a4Al+e6gok4ulbA+xw+QUfY6lhxgzhelD2Ew6HiavTzBV8bPjHQMEMtA5NB2xfBTLTYnZ2WntOjTgTcoA8hCcYzoOOsUm/Itwoj0gWVZs5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=izVGNRbH; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39A13B2D00
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 19:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786737055; cv=pass; b=bzFsTw4ec2V6umOTZrDOqoxhMrKj7tPSsHhzqcMqx/FjnV2o0+2LdBg5jBK7nQ7kK93nBK6BFOqtsAfMJs2L0BVY0dipv5GPZd6PLgHeX0iIWP7XOEZQbxrZvgWz4czJBq/zcMWFZ6zlemviY8LNNdsNiw1To5tomFsovCC/MfU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786737055; c=relaxed/simple;
+	bh=Jrd0fjqkKwjUuvXwMPL4xRhGf4w3usXC6PKzGA1FW28=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XYteJKybe6o0Ht0gQ32fE/Yl8tdad9kRbaIcdCHNX5R1l4S9jUPZ4pMbyBnwjJnF4KqVvOjXkXamDobB2sfsUCGfBrgZjQ/6a7lZ/h4PQP3GMHhE5xCe6Ww4Tdb/p7Orp6dnZpMOr4uJRwCKY4hEYReDyeQ6svBEq9Mp9T2cb0Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j8hAyzMh; arc=pass smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="izVGNRbH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B9EACC2BCF7;
-	Fri, 14 Aug 2026 19:45:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1786736757;
-	bh=gdFFZsNzJtizlM1dKtTx0t6Gvl5fViK28zsUBGmWGK0=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=izVGNRbHTHSZ+2BMHaHvKJeze4slJJOk0lAjvxMCFvYmfo8BMEmM00dqhdCv5n82P
-	 MIHGfhe4JQvNWcZAUh9/t7+nn8YfyFO5L8cc3Agp8HD5fTHobhezJInLSob95QQLch
-	 4onz0rUaHhBulmSwn+hOML5XAzPuT1s22HSibm2cz6pqJlUT9/dZ7EjMfa2M+gqjyO
-	 aQsgAvySdVZzMjVTgin7pOvOWks3qnCIKis8OG1b3Zi+E39JzDyu6LXPHIgfU3v7W2
-	 rYERXkHH6TaVGfLL0BSfIrRHoJ74CRj9CEeKjYoipxaZ1rBbzfEOx+i2t3HwDWUfx9
-	 VC/BcMUGeSmZQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C81C5CFCF;
-	Fri, 14 Aug 2026 19:45:57 +0000 (UTC)
-From: Zeliang Li via B4 Relay <devnull+lizeliang.linux.gmail.com@kernel.org>
-Date: Sat, 15 Aug 2026 03:45:55 +0800
-Subject: [PATCH v2] ALSA: hda/tas2781: Add hardware stabilization delay
- during firmware load retries
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j8hAyzMh"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cc61541f8cso32057975ad.0
+        for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 12:50:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786737054; cv=none;
+        d=google.com; s=arc-20260327;
+        b=kMbPMrSZER7izH8LOcKRm2xvMzoEmWYcp16nW0o5UeX5ByAtqz8gwBgg4Dd7519a7Q
+         BNj9bmSAUguuFhV4y2KB28z9R/EJYypv/CyXqxQ040+rTBiHgEBXVetqoTWPp+Uygh4d
+         ooL8D2HWVMDMBcwrbuHAmpieXr3FYDUktNVff5/dul7w1bXjPrawJZ8X4R+NejeeEQwx
+         Mb0cNfiPOhFwclNu3IH/Sl9rKw5Mp/oLz4NKvqKQA3Y557pW5sIT642N2CRAX7uECrjf
+         RgiHSp1eNHpbLhuaWIuMgGKZf2WF3woqAviVqqyiC/RN6i4lc1gKCu3Z9LsHaM8IVeZ6
+         SQ/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=20QuREEYPrUoHZLa/Vm7IT8ZlPWhCCE4NmzHB0Ei2ro=;
+        fh=PV1QNevnSoJIqjw3SSQobqKL488l35tgVeCa6MVaJqc=;
+        b=DlHLGJgbG3Y/FNlarZtfQrGGNnAqsk18U1u7Vrr49NB6vyALvA2hj9gf4srV/E9E4x
+         +OBJ8YcdTbgrrZV6Rm/VSu/Y5Sjt7NOH+ZqyfEfVNU9lYIE9o1UgDMKKP7XpelwasX14
+         /EOrqF7LiVWW6eC8t8sdiRBB9XjYWKXGbF/zXaqn/SK4+Z5vb4AJArtR/wQSiFbfdpwl
+         A/ImXveH6hSIAY//Hn+4KouQRvSdpdUXUpW+zp5VptNv2Zl0z6CWAMtonzp5jkD+SdFT
+         TfrF8yYscNI5IHuSKtOfkzxynJEVqoxKXpMvdPyiVESsUxz9UcXdN5p+jz91H6jrAejx
+         gfFQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786737054; x=1787341854; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=20QuREEYPrUoHZLa/Vm7IT8ZlPWhCCE4NmzHB0Ei2ro=;
+        b=j8hAyzMh9o2bm5p8R+Xr+AWtWUWOfp+6kmQ1TP9EpX35y/IQSi9LAobMFmgdUmsnEK
+         hBRsf7OAdHg9LWnomyLn5Nb1qs7uTwNDNP/HGKvpkew4n+iN7wcUGShXsMgxGz3XzwGX
+         oe/LDSHIZwCVnEovxSrJiobw1V2qtcrMMwzM3sqk+11OkwPxyXzHkPxNKPsvwnb7xObO
+         5YOOEigEW30bfLpnd54LTc2P4xJAKT2/nzruNBNjRwL7eR2K/BBvVvLZAsa8SzlB26th
+         pI+gugdsz6wbQdsdDsmePnlgEzuGVNnLXDVqYvWbm5vHcLy87XKCjMofWA7hmNqFyJXY
+         jKRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786737054; x=1787341854;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=20QuREEYPrUoHZLa/Vm7IT8ZlPWhCCE4NmzHB0Ei2ro=;
+        b=EbJTVN9QXOc2xpHEeBGn3I6hzhBrUm9r3v2PCPrngXzWX9+oNSAu2KwJjK+x2fosiE
+         baf+J2zd6aqi7oxRxorjxEmBp1f37/fBiJqOt+2yHADekZjH44mU6v/qyOPPZS8zHoKG
+         DWSidaxAijbOtA6z9FXtMjKrJ5RLwRGbigNTNv7+sd8AkXtYUFEBLjJwW3U8/5Xt9KML
+         b2QrVwIp32M0ZY0kvN2ANS53vXiKHd2DsW16SJZkN7HRHtIWJeVkhnVL2+nKQKwLbrJH
+         K3mjNVsg0kusI4SUtwzo7wEd71jtkmRW0yDLA5ldR9ihwdIgJG/c2R/7YI//nWc5MaoN
+         o6Ww==
+X-Forwarded-Encrypted: i=1; AHgh+Ro6k3TG75aNZ8Y7gu3Wu/XcgzAh6v7emQcBnqyui98GdZoDkTIG52VjOapvbd6u0x5bN+wzLopwzoJw4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3DSltRRJ93pjroiLEJzhhFzScaBIczKiQTnY5vcpLrU08NuPq
+	j+LezJxR3DOw6A/DDxq03+A9ydqaybyB+VKZry5eC6w9L8Spg5zGgDbDc4idd7ykTHZP5cNCrAG
+	KB5JVgMfE3Pwvi4tExtAWCovL4LcrnD4=
+X-Gm-Gg: AR+sD111jhdpPlPKTiVZtyTm/y2VNpfSwtI4YPv8ze3rz3QYdY1AF6adC1MIKvnzkgn
+	bIaDzdeWdnfxBiD6eEbve7K5ZoI1BB3LqaxVcmGqMopKLPb5sEv6eHqDsGVa/x22y30LX8xghNN
+	zkVETIYfcXjFCanzuKDy8bwtiRxKpQhqUCEhbj8o44uJL5Xrp8DLo10Y8Nhf5hc/vjhvxugFsOf
+	MNH3fh2ent79a0JonRHu9SRy1Km8f3lzbd+v2zONMzj7Msxy2hnPxgFxq2RWk1/23rXHvGizVXS
+	bLAkWzkWVTbgNGQFzLfel18EGnhGJRqg8edXoiLnJQCVWwU4PRNIukbGbMHkAGSd6gY83VqUB+s
+	qtWfF3R4Uwg==
+X-Received: by 2002:a17:902:f64e:b0:2cf:70d2:da7c with SMTP id
+ d9443c01a7336-2d37f77fdfemr182703285ad.12.1786737053583; Fri, 14 Aug 2026
+ 12:50:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260815-master-v2-1-b4ea03c8b59e@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDIzMDC0NT3dzE4pLUIt1Ei8TUJAszU2NzY2MloOKCotS0zAqwQdGxtbUAi4q
- UmlgAAAA=
-X-Change-ID: 20260815-master-a8aeb8653733
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Zeliang Li <lizeliang.linux@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786736756; l=2319;
- i=lizeliang.linux@gmail.com; s=20260815; h=from:subject:message-id;
- bh=iF4laLe0Y1wmQtGMkQjEFcYrO7/o6+MwaO3jA4IuTaU=;
- b=6ukA7NivbzFoWP8lKHr3dZU+bm/LEQwRMq+PwWK3YwowiRcFQJDhnf3izmfaJD4A/m6yG1Hsu
- hSsUsNDolH9B2AlosnE1olimvAcqdUw3mugJz6iKDYrzoyys0W0BYmW
-X-Developer-Key: i=lizeliang.linux@gmail.com; a=ed25519;
- pk=bDbGmUHqOf5ihCzM1cEQenmfHBqy7pSFeJvBEpeJsyM=
-X-Endpoint-Received: by B4 Relay for lizeliang.linux@gmail.com/20260815
- with auth_id=951
-X-Original-From: Zeliang Li <lizeliang.linux@gmail.com>
-Reply-To: lizeliang.linux@gmail.com
+References: <CANd6bg+B_fZUpy4wwU8HyQMeo9-GKMEx2FPBem=-e4yr4eU1uw@mail.gmail.com>
+ <945b889d-0e05-4f4c-a6ed-2d8172554d5c@sirena.org.uk>
+In-Reply-To: <945b889d-0e05-4f4c-a6ed-2d8172554d5c@sirena.org.uk>
+From: =?UTF-8?B?5p2O5YiZ6Imv?= <lizeliang.linux@gmail.com>
+Date: Sat, 15 Aug 2026 03:50:42 +0800
+X-Gm-Features: AcwNN1WFrEcpFEpRTRhWX9LIBVd5KoKj_7mwEFCJszn377qjqzzzddPDI_Z1XeI
+Message-ID: <CANd6bg+GsxB_rrygVO4j7gkcGe0+PisJJkgv9uK10=VFWp3pNg@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: tas2781: Add delay before block checksum retry to
+ prevent deadlock
+To: Mark Brown <broonie@kernel.org>
+Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com, 
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Zeliang Li <lizeliang.linux@gmail.com>
+> Your mail software has mangled this patch so it's unusable - at least
+> all the tabs have been replaced by spaces.  You might want to look at b4
+> to send the patches, especially it's web submission endpoint which
+> avoids having to configure mail:
+>
+>    https://b4.docs.kernel.org/en/latest/contributor/overview.html
 
-During runtime resume transitions, loading calibration data blocks
-to the tas2781 amplifier may intermittently trigger transmission
-failures or block checksum mismatches (-EAGAIN) due to un-stabilized
-power rails or I2C bus glitches.
+Thank you for the guidance. My mail client indeed corrupted the tabs.
+I will switch to the b4 tool and submit V2 via the web endpoint
+shortly.
 
-The loop in tasdev_load_blk() decrements block->nr_retry and attempts
-an immediate re-transmission upon receiving -EAGAIN. However, without
-any inter-retry delay, all available retry slots are exhausted within
-less than a microsecond—long before the hardware can physically
-settle. This leads to permanent "ERROR_PRAM_CRCCHK" deadlocks and
-silent speakers on modern laptops after resuming media.
-
-Fix this cleanly by introducing a 2ms usleep_range() delay directly
-inside the tasdev_load_blk() retry paths prior to each 'continue'
-statement. This grants the chip sufficient time to stabilize before
-the next transmission attempt without introducing unnecessary latency
-on final failures.
-
-Signed-off-by: Zeliang Li <lizeliang.linux@gmail.com>
----
- sound/soc/codecs/tas2781-fmwlib.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
-index dcbeb9618195..bfabff583d57 100644
---- a/sound/soc/codecs/tas2781-fmwlib.c
-+++ b/sound/soc/codecs/tas2781-fmwlib.c
-@@ -1849,16 +1849,26 @@ static int tasdev_load_blk(struct tasdevice_priv *tas_priv,
- 			}
- 		}
- 		if (ret == -EAGAIN) {
--			if (block->nr_retry > 0)
-+			if (block->nr_retry > 0) {
-+				/* Give the hardware time to stabilize before
-+				 * next block re-transmission attempt.
-+				 */
-+				usleep_range(2000, 2500);
- 				continue;
-+			}
- 		} else if (ret < 0) /*err in current device, skip it*/
- 			break;
- 
- 		if (block->is_pchksum_present) {
- 			ret = tasdev_block_chksum(tas_priv, block, chn);
- 			if (ret == -EAGAIN) {
--				if (block->nr_retry > 0)
-+				if (block->nr_retry > 0) {
-+					/* Give the bus time to recover after
-+					 * a checksum mismatch error.
-+					 */
-+					usleep_range(2000, 2500);
- 					continue;
-+				}
- 			} else if (ret < 0) /*err in current device, skip it*/
- 				break;
- 		}
-
----
-base-commit: a5161661ae99f497affa83a5b8654e457cda6267
-change-id: 20260815-master-a8aeb8653733
-
-Best regards,
 -- 
-Zeliang Li <lizeliang.linux@gmail.com>
-
-
+KISS == Keep it simple,stupid~:-)
+http://lizeliang.org
