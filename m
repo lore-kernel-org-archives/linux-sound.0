@@ -1,129 +1,151 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BDD3F7AB2
-	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 07:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786693288; cv=pass; b=du7vudsfMyPWXq6l7L2jsEa+rqszGkvkWY4E4D5/qJfgCHCCqt8ege8Sn6kyVEp/Lo46eUqW6AmIH7HvMCqitDum9HiMJYej97ZkoHGRQxImjkxuTBJqDBbF5DGYWhp1U2oOBAoOC994wpQlauxtgzY3P6uU6SfG/r91GRQa7IQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786693288; c=relaxed/simple;
-	bh=W4o1ZmlBfyrCH3y2jdCkwEByqgWhppc/8xEUvhcD0rE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SmBCSkwZZp/9oAGshjRMOzy5nSiyovesCxsiutB+ZB3U4IszjXSn2JMhFgQ9/sRNmdTF2Ex5Yw1nQrdAUHjXv1IrJT5weLNVs8rzBUhjOOYPHY9tEtTSYgblsLM9/cKXo3mKkYgYZkHlIhocnRgQqIcFo4E+ZtHrKKVhMBy3Jhw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EazMxGCy; arc=pass smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EazMxGCy"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38511175ad3so682178a91.2
-        for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 00:41:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786693277; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Z61ororCQLsvNrZK8LdNWPoDHEc4lZs6mVecI+RMyLaXpFdg88dlz7cJLPSsuWXj4q
-         123sP6ysCboLLjeqHppP4raSFr157Z1514YcvzvrDoDKiTgOoOjpv68sJx0L+SBVC2hb
-         rRB+H77lIPS2nqCHdko+LOwqYviVNYWC2zOIZYioPvpGge+JGCD4mvt9K++ks09dHrq0
-         C79BtpCIivAqb0XLaxiDF7Sq3lr0gPrhc5jg22M0yW8bM5kQZa5biGg+XASqhDu7zrgr
-         D418//Bhz1m6CCb7jbznKaGO9KOd5JiH4cJ/K3VkqV1e3ORkY57nnf2nPczLiYDpPhKa
-         kD2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W4o1ZmlBfyrCH3y2jdCkwEByqgWhppc/8xEUvhcD0rE=;
-        fh=LSQlTQPTCg3Ip3CjqwWp0UATAOv44KzrLk81D8XM4es=;
-        b=A6vXilSyIL+S2jjCqjZDISkw8EqCO+A8CPldW/vHuCJI+ABYYq0ygUg6QZLDyI+zu0
-         05qcPmmSO5Q6KsqIHVO+DHMi+iU6RVr8/9zU3BcnQt/3xmeh0NUcGNypEg5XybiyZkZG
-         792SgS5Mv7KaCuMuG428ahkCnx7L6dPNjgfvK/kxV7m9QR+orNk7IWJRqn2Cd7prvZ+w
-         OkP+7/2JZQWVGte3WbVc639tw6Y5HsBIzXSe/BWYQLec09obVmDno2jbEWEjoxbSDiAk
-         HUZzw3TYOmLyEn5rdz9ADU4ADG5ahayzSwiYd8C10+tUpKl9ofzcDtkg8HcK3mgpt8GS
-         rDiA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786693277; x=1787298077; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=W4o1ZmlBfyrCH3y2jdCkwEByqgWhppc/8xEUvhcD0rE=;
-        b=EazMxGCyQltK6qCWpEez4e1UxuXswYnZNKpc2CkSRvCO3b/N0NwRHfD+glg4GjVDT/
-         Mn9gvA2cX3BbVv4hGWsM6jCkjsiygXWJB0kpJzDY9558jsmR/bm6j8paSxkBcNmkW5dJ
-         z8pcXszFYGNVq6IUIj8LbrrttjKzx9ld9WauPYuaFjSzfKVgLj2pkuP+BKIBkLH8OOHP
-         Y9WECnH/vdmtvrdk71jVy+YTh41tNc/qO5QIKfkiIqj1jGv5hJ8ao5gSDrNvrT9bVCwF
-         oIvk7JU2evyZFftqRakBffBz7cH/TmeunOQ7u5TBeflt25if4Ux5C51OxZNxrIHrTcsd
-         EwXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786693277; x=1787298077;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=W4o1ZmlBfyrCH3y2jdCkwEByqgWhppc/8xEUvhcD0rE=;
-        b=S9Fz4ApzSIj+hGxfW5r9s11c9USiGkwnchifXZnQ7OWKnhv3xxBnXnf4yuB9mWC6g2
-         Ggzb3mKC8/7kYWX8pOBbziiOVSfTAmJlAxdKwk5z6t2M4sZ8Lz4Y9qLUHOvemk7fuBeT
-         Kl8/+HWvPeex1AIzfykyqIUsGvA7qMiN2gvXE0x9tr6nX2aukkdZT1RuyZC8IEWQKkZM
-         bm33iCCAaS1w/OEMblWVHd3mNBOvy/LWOADqRWzKIJsPPjHqN1TxSnbiiUtAA+q4ODmO
-         tn/7EcKFpJAZMTBIPe11EwvzDSXsSms3yHAcTAMyo8lRkRP6Sij79FMXaXilnowVDbc6
-         U0Kw==
-X-Forwarded-Encrypted: i=1; AHgh+RrP8Xa8Rc98g0vnCM+2wHqkzAev1AExJmPESeTA6VqEnUURoGpXCDVvufgjZJKqBCWCNZwaPh5yMMBQvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzABITsG5ETg6tfsGCEM9tKepqROlP/gM1ePq35ECYF2vGvhEqz
-	Jjwsrr/B24QgurKUpoIJK/xBsTFmgNfDkP9jadouT7LrdoVIi51MynskrEY6ihHgqAFxesZexCf
-	GrPShRB/ZaOWlDRXAj2ghCgzWAn4FMCs=
-X-Gm-Gg: AR+sD121KBD8lKcNWERZZZHneSYwOskB8PeRE+xc/xZ+ZBV83y5kWTDENazf9udlVuI
-	RrWMIRiE5Q6+QnQpp8Y2EkhgFF1A5GiFcsaq8nt0vubm4pxikcmnZSrXD/N7uEUGW/0N0/7t+BL
-	mrKs6ZB6YhFSEbRu465DgmXtOdkr8Tp6Uvqc+9QGKFAHG6L4IYYorHQHW/lUcZjgczx1DAW0jH0
-	aE7LXJPNX6T53g6pwW0HuK1jRYq6q3v5OAWSIF0sBFD0iW+ZfJSKu0ASAiwAcLKe4aIVIaDfDou
-	53q097Jz4bSjhgLZJpJ1sMCLrcQ9s3xy/jb023Q/ANX+Ug==
-X-Received: by 2002:a17:90b:3d8b:b0:38e:1497:af5b with SMTP id
- 98e67ed59e1d1-3933b77ece8mr4578497a91.1.1786693276690; Fri, 14 Aug 2026
- 00:41:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF02343847E;
+	Fri, 14 Aug 2026 08:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786695178; cv=none; b=k5AsMZpCw7bxdPG2hGhurFIkam3Xq17ldcbhINiN8GYcEMSA6XCGC/8zzP2uLHRAGSWTpEoBy1qeTYLOzxp2erGBwot79CAI4vtjSo7bydOnofd3xDEEc/d8viGUMtl4gqy7l1tjSU8MpCJ/n7mugikWcbd9dQpQ3JCQBggF3Xs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786695178; c=relaxed/simple;
+	bh=ZVWeD1F6psm4Kaw5gTaTRCWGhsg0lm0QeTch3nBmH4s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VSLqKUkyTvA7TS9BFzSKNya/ynGrCzjVRNm1hnC+7V7kFxX9oIphs0XpYrn/Kh074oE6NG3fNN5Cl8F+Nbnrc6mC8n3P9jQjyj/EIMgKBUfbcnPMOVy+6M8cfLdhMkgDKsoWB4SLzL+54Q2mA48EZyNRHsm5+mXBzKVrgVYxQxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.241.250])
+	by APP-01 (Coremail) with SMTP id qwCowAAX6+72zX5q_CWfBQ--.5989S2;
+	Fri, 14 Aug 2026 16:12:39 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>
+Subject: [PATCH v2] ASoC: SOF: validate topology volume range before allocation
+Date: Fri, 14 Aug 2026 16:12:38 +0800
+Message-ID: <20260814081238.25434-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260813070020.719810-1-shengjiu.wang@oss.nxp.com>
- <20260813070020.719810-2-shengjiu.wang@oss.nxp.com> <20260814-lean-classy-hyrax-60aab2@quoll>
-In-Reply-To: <20260814-lean-classy-hyrax-60aab2@quoll>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Fri, 14 Aug 2026 15:41:01 +0800
-X-Gm-Features: AUfX_mxVp0mCUmIh3cD49Kgp4iw4sN-NjfTifnUiJEeotRXNzWAYJPCWyxB1G3Y
-Message-ID: <CAA+D8AOdF08PyOqQX6HTz-bWZmyB0bmKoW2DxYtnGS3g72aWrA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] ASoC: dt-bindings: fsl,imx-asrc: update port
- binding to support multiple paths
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: shengjiu.wang@oss.nxp.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, Frank.Li@nxp.com, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	shawnguo@kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
-	perex@perex.cz, tiwai@suse.com, linuxppc-dev@lists.ozlabs.org, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowAAX6+72zX5q_CWfBQ--.5989S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCryfAry3AF4kJF1UtFyxXwb_yoW5ZFy7pF
+	s5WrZIgrWrXr43JFnxtw1v9rn3Z3y3GFW7GwsFqw1fZF13Ary8uay5t34ayFWUCryDtr4S
+	kF4Yy3yDXa1qyFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9I14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
+	xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
+	8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFV
+	Cjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWl
+	x4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6r
+	yUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j
+	6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJb
+	IYCTnIWIevJa73UjIFyTuYvjfU5byZUUUUU
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-On Fri, Aug 14, 2026 at 3:21=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Thu, Aug 13, 2026 at 03:00:16PM +0800, shengjiu.wang@oss.nxp.com wrote=
-:
-> > From: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >
-> > The i.MX ASRC hardware supports up to three conversion pairs (A, B, C).
->
-> Each one or only the newest? You will be getting the same questions.
+SOF treats the topology mixer min and max values as non-negative indices
+into its volume table. It stores them in signed fields, allocates max + 1
+entries through an int argument, and later indexes the table with the
+stored range.
 
-Each one.
+An inverted range is invalid, while a maximum at or above INT_MAX cannot
+be represented safely after the increment or in the signed fields.
+Validate the complete range before storing it or allocating the table.
 
-Best regards
-Shengjiu Wang
+Fixes: 311ce4fe7637 ("ASoC: SOF: Add support for loading topologies")
+Assisted-by: Codex:gpt-5
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+Changes since v1: https://lore.kernel.org/all/20260722041532.14085-1-pengpeng@iscas.ac.cn/
+- validate SOF's non-negative table-index range before signed storage
+- require max + 1 to remain representable by the allocator's int argument
+- rebase on current SOF topology sources
 
->
-> > The existing binding exposed only a single generic audio-graph port,
-> > which cannot represent independent conversion paths when multiple pairs
-> > are in use simultaneously.
->
-> Best regards,
-> Krzysztof
->
+The SOF table-index consumers and allocator conversion were reviewed
+statically; no SOF topology or hardware test was performed.
+
+ sound/soc/sof/topology.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
+index 42a2d90bb705..31dd7a66a9cf 100644
+--- a/sound/soc/sof/topology.c
++++ b/sound/soc/sof/topology.c
+@@ -846,6 +846,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
+ 	struct snd_soc_tplg_mixer_control *mc =
+ 		container_of(hdr, struct snd_soc_tplg_mixer_control, hdr);
+ 	int tlv[SOF_TLV_ITEMS];
++	u32 min, max;
+ 	unsigned int mask;
+ 	int ret;
+ 
+@@ -853,6 +854,11 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
+ 	if (le32_to_cpu(mc->num_channels) > SND_SOC_TPLG_MAX_CHAN)
+ 		return -EINVAL;
+ 
++	min = le32_to_cpu(mc->min);
++	max = le32_to_cpu(mc->max);
++	if (min > max || max >= INT_MAX)
++		return -EINVAL;
++
+ 	/*
+ 	 * If control has more than 2 channels we need to override the info. This is because even if
+ 	 * ASoC layer has defined topology's max channel count to SND_SOC_TPLG_MAX_CHAN = 8, the
+@@ -863,12 +869,12 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
+ 		kc->info = snd_sof_volume_info;
+ 
+ 	scontrol->comp_id = sdev->next_comp_id;
+-	scontrol->min_volume_step = le32_to_cpu(mc->min);
+-	scontrol->max_volume_step = le32_to_cpu(mc->max);
++	scontrol->min_volume_step = min;
++	scontrol->max_volume_step = max;
+ 	scontrol->num_channels = le32_to_cpu(mc->num_channels);
+ 
+-	scontrol->max = le32_to_cpu(mc->max);
+-	if (le32_to_cpu(mc->max) == 1)
++	scontrol->max = max;
++	if (max == 1)
+ 		goto skip;
+ 
+ 	/* extract tlv data */
+@@ -878,7 +884,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
+ 	}
+ 
+ 	/* set up volume table */
+-	ret = set_up_volume_table(scontrol, tlv, le32_to_cpu(mc->max) + 1);
++	ret = set_up_volume_table(scontrol, tlv, max + 1);
+ 	if (ret < 0) {
+ 		dev_err(scomp->dev, "error: setting up volume table\n");
+ 		return ret;
+@@ -911,7 +917,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
+ 	return 0;
+ 
+ err:
+-	if (le32_to_cpu(mc->max) > 1)
++	if (max > 1)
+ 		kfree(scontrol->volume_table);
+ 
+ 	return ret;
+-- 
+2.50.1 (Apple Git-155)
+
