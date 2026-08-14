@@ -1,83 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-244118.protonmail.ch (mail-244118.protonmail.ch [109.224.244.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A4E38E100;
-	Fri, 14 Aug 2026 16:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8543CCFB2
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 16:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786723548; cv=none; b=rk4IedelQ2KXyO3CDUJZ1GXVsqCzujMNIIl1jv/DuawrRRjjtLzMQIq8x+JlWcaMzrlhvUfjI+wHk0RrUYjBuQXd0/Xe2/KbEWMazdmoeJyTfqIM6ZG8d7dOV+J/AgSYMps8ciYyjrtZTrsOIR4EHs6ag3yUUvfxlI0JKSb5zqE=
+	t=1786725457; cv=none; b=k4pfn9vhFmT+88zgDae8gM4HcFbiHEObPELanbjf7p+kJxh8jt5ipJ9Z7sQC8CIoPXxi8B5ne0ypmPGudMfnVNoIY+eoSGkNE3DEZ3m173Zfc4F2sUyp5PmzSphN7Rzk9id2zy+raE8RMhaLugDTvuO+qdHC+ECpfkL5Zn6Db1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786723548; c=relaxed/simple;
-	bh=vt+rQy7nBjZ2kwpsZLzacs1KoUbIFLeoMEvU7vOmfhg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e0nq/zVG0jE2119jwRUB7yqnfF2g2aY8+8/jSLI3pEOGh/0nUpOSmx+wXCe/PA9y9UkvP0wfaHx/9tsUbusNolpbVmqcVggUCwRCRf79IuxzleVoYp4u7/GBvxrSCWessHX52ipzS+eQiR3FvsjHN0mTDtQeUYC/KUBBzR1vhcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kT/Nka0S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786725457; c=relaxed/simple;
+	bh=Q/RVXWj8pJT+Jvu8sYSDJTJz0IUW2TyHOpUkmt0iy5g=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=AzlCuD2kqoxzCzx+EjWf7UV/72ushVRVjRy9Pqb1vlHyBIo3kiI7W2uPsRPC86dxxVAyCoA7hDAQsgpJKTZd0eBcn8Xner0xyOHD+2pths8uw9jotZQ+jumzhodL1OuOKfJsy+yYiIbWU+8DoU2f0ytCXbLZWvEDbIs+gPx1E3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi; spf=pass smtp.mailfrom=saarinenkoti.fi; dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b=Cr26Zt3d; arc=none smtp.client-ip=109.224.244.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=saarinenkoti.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=saarinenkoti.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kT/Nka0S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C66121F00A3A;
-	Fri, 14 Aug 2026 16:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786723538;
-	bh=w5BL/q3M3/wO6Ojb4vvt+4QVTXNZMmPhLhaRKntlmCQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kT/Nka0SGdeVTQ4AP7A5ZGk6wcbCCON0sj9m2qqWOts7hCeAr9hP+Dcr1NpLVjxa3
-	 +yYZA/x8MFzTDCe3aDecLQ4o89HJLVh03CcI+lUmbeomF+5TxO7tec7loSRPbyne4u
-	 Szm2AMstcIYbop5XmC6P4W0Fl8GTl6oRTMBz3rZLb0PzTbPMOA2/WmmTBZ+GfSZXYH
-	 TJb3SbBPM38TkXcOz+N55JCb4FIwDUK8NiBZ6yn5UouxEBJj8lhdbcYDySl6J+f5JH
-	 OM8k6qtYIkO/YjRyVlObwJF9G3LPKR1q8Iah0PWtc2vWNht9y9WCsWOuq3BwqI7r7x
-	 6qGtpmc/KebTA==
-Date: Fri, 14 Aug 2026 17:05:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI quirk for HP OMEN by HP Gaming
- Laptop 16-n0xxx
-Message-ID: <acbab754-7fc6-41a8-b9b3-3fec70fb6340@sirena.org.uk>
-References: <20260814131441.805406-1-zhangheng@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=saarinenkoti.fi header.i=@saarinenkoti.fi header.b="Cr26Zt3d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=saarinenkoti.fi;
+	s=protonmail3; t=1786725443; x=1786984643;
+	bh=EmTZMnowpgijCrbm6lLWN8qYdVOPwXu8E+VsQzn5urA=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=Cr26Zt3dV1acZCFzv36wAYHUjJbyEbbM4fYoYc1rY7vEOPdKWO3S9M/hZRZnKXqMK
+	 JrB9hPjT+XW0QdJnbg6budI4fh+Xd/Y6Gh+i00EJHeR1fQPC50Ze/kC4IkA7IgW5SI
+	 UI+t7c17jQ59qYnEeHamqdUp13ebIHZ8Eb+LGB0rp4l80OcYltpkHcD+EgM7es4PuN
+	 dOYA2waMXALDRc77ocluDuh4CmCFLB2e84I61ai1ZPEH40xeiX6q6GUl7ahHoGgd7s
+	 bcux/bBxvB9naNpi8WGQr8z662uKml0raSxw5Mym7LbPcW71YzFu0uBwSivXJdp5H0
+	 HIgZgB3Zp16oA==
+Date: Fri, 14 Aug 2026 16:37:17 +0000
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>
+From: Ville Saarinen <wiza@saarinenkoti.fi>
+Cc: Niranjan H Y <niranjan.hy@ti.com>, Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
+Subject: tas2783-sdw: firmware shipped for some boards cannot be requested by the driver
+Message-ID: <20260814163702.142555-1-wiza@saarinenkoti.fi>
+Feedback-ID: 137674609:user:proton
+X-Pm-Message-ID: f97926eec0136987d5ba0b275f44384335d1de3d
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oOl6DJYwR8+U4O6H"
-Content-Disposition: inline
-In-Reply-To: <20260814131441.805406-1-zhangheng@kylinos.cn>
-X-Cookie: Body by Nautilus, Brain by Mattel.
-
-
---oOl6DJYwR8+U4O6H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 14, 2026 at 09:14:41PM +0800, Zhang Heng wrote:
-> Add a DMI quirk for the HP OMEN by HP Gaming Laptop 16-n0xxx fixing
-> the issue where the internal microphone was not detected.
->=20
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D218997
-> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+On the HP OmniBook X Flip 14-kc0xxx (subsystem 103c:8ea1, two TAS2783 on
+SoundWire link 0, unique IDs 0x9 and 0xC) the calibration firmware never
+loads: the name the driver requests does not exist, and the name that
+exists cannot be generated by the driver.
 
-I think we already have a quirk for this laptop:
+tas_generate_fw_name() builds
 
-   https://patch.msgid.link/20240807170249.16490-1-tiwai@suse.de
+  "%04X-%1X-%s%1X.bin"  subsystem_device, link_id, "0x" or "", unique_id
 
-which shoiuld be in v7.2 when that gets released?
+so it asks for 8EA1-0-0x9.bin, then 8EA1-0-9.bin via the fallback.
+linux-firmware (20260622) ships neither.  For this board it ships
 
---oOl6DJYwR8+U4O6H
-Content-Type: application/pgp-signature; name="signature.asc"
+  ti/audio/tas2783/8EA1-0-0-0x9.bin.zst
+  ti/audio/tas2783/8EA1-1-0-0x9.bin.zst   (and the 0xC pair)
 
------BEGIN PGP SIGNATURE-----
+four fields where the driver emits three.  The request fails, no
+calibration is downloaded, and the speakers stay silent.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp/PM4ACgkQJNaLcl1U
-h9Bc1ggAgMA9Ga0SbpfDWN+wOMPY4A1T/z/PvFGrAU6dvPohfPbZTMNrnjhwPzzA
-Oqi+bTQn6biych38+A8RbMUL/HvrZTMhhsqVBHVBxbukXhcwO6DhR/eT5w5BKKYN
-5dRHXode0ZdyVXjmOgE2cEzHGZfQ2ds5H/vfRgfgTsRPx449voUV1rQ45IjdjBoi
-Xw/Oqveosattc3ncoM76V6McIZ9lJ4eVgVnHbUv0mWFZrCputo3EtvgkrPNEN6cD
-UWwthg2cXKPT8KMvcZB5h7liKsJVIMCPP7N87mq4BCwJHLDr236z3qwlMq7RDc8H
-fV3RHb2v/JCgY0erfkNFd/ak1yuwrQ==
-=uO3J
------END PGP SIGNATURE-----
+The extra field is not the link id: the two 8EA1 variants differ in DDC
+name, HP_Kento_14_SDW_alpha10_Stereo_AAC_20251014 against
+..._Stereo_FG_..., and both amps of this board are on link 0 regardless.
 
---oOl6DJYwR8+U4O6H--
+It is not confined to one board.  Of the 144 files in ti/audio/tas2783,
+72 use the four-field form across roughly fifteen subsystem ids (1954,
+1964, 1994, 1AC4, 1AD4, 1B04, 1B94, 8EA1, 8EA2, 8EA4 through 8EA8), 66
+use the three-field form the driver generates, and 6 carry literal X
+placeholders (8EXX-X-9.bin.zst, 8EF6-X-9.bin.zst) that no
+request_firmware() call matches verbatim.  Both middle fields vary
+independently within the four-field set - 1954-{0,1}-{0,1},
+1AD4-{0..3}-2.  The container header is the same on three- and
+four-field files alike.
+
+As it stands every board whose firmware carries the four-field name is
+unreachable from mainline.  Locally I get sound by symlinking the
+requested name onto one of the two files, which picks a tuning by hand
+and is not a fix.
+
+For context, the ACP machine support for this board was merged for 7.3
+(8393e0bf59, b48466e4be), so it now enumerates and this is what remains
+between that and working speakers.
+
+Measured on the hardware named above with linux-firmware 20260622;
+written with AI assistance (Claude, claude-opus-5).
+
+Ville
+
