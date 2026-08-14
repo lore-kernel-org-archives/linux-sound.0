@@ -1,41 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC65646C4A0;
-	Fri, 14 Aug 2026 17:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3C047FB10;
+	Fri, 14 Aug 2026 17:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786727982; cv=none; b=DlA82xkuHgd32EpYdW6tc/fenHAsX9G8G5D4M/9N35LeK/Unp1OfguVYAb+k22Lcih8ozTdLy2E1YIvzgMht9o1as6H1THBs2sexYh6Qw8SPMPVya/1xV380ScpBCpR+QuXxdS/DcIJ9QFHSawlvVIc2edWVO3/C0xnwjJS71Cg=
+	t=1786727988; cv=none; b=sI/ZRTv2P6D5WAck0bgoXzRVomiPMAO71jm+6uuFWOb2pLVf2+7aye0vmIZuBn5wfya6aRfnroOqOqQnZ2FDJL7rv3Wtr4w+nfPIDO6Qp4CppkTTVhHqYkjq/m616chDAPTndFWa1XmiGDt1lvUpeIYA0w1yLaK+a91R1zhPdSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786727982; c=relaxed/simple;
-	bh=xmfFcPMenW12rCd32uJdDPV8XxpOnpcXbNiyDzfDA70=;
+	s=arc-20240116; t=1786727988; c=relaxed/simple;
+	bh=YVYNzKSm9qve4ydQxu17+fw89gJjlBL9izHQTAlLzbQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EHor/NwW+rsmX9QDtsLa1eAZ7xqZYUkyAK6J/SCyKDBwcbOQmYX+fBWhgdRvVTR94ieApufIIWtKgTAEJzPcyG8Ya0i+sXvZAocq3m2sDd/U9KoGMskAY9Y8F3rF/u8pS+2PHxmG5ffQKI9HhYpEkujutx/jxXRqyZ4Ft5f8G1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMlRYQ7G; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=dvWtxoxP+9+uHzoS/hTGLqxNUJJM1TjM9X7+XPTnp99SRKk5AwS6J1hefp7PZXwVl4ubdK4Rsq1D0rLHJpzsOKjMrC2Tq+Vm00MSXAimE/aJuvmXrr5LZp67ec986P13jgvuJ1nyTDomCarZTDIGvrfKHZpdf7fvIBi7MmTgRN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvSzlRoz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMlRYQ7G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F9691F000E9;
-	Fri, 14 Aug 2026 17:19:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvSzlRoz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B02B1F000E9;
+	Fri, 14 Aug 2026 17:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786727980;
-	bh=FsmBhKZLTfJeU9KCzG0C07Qvs9u+juMqc9lTbg5RFyQ=;
+	s=k20260515; t=1786727987;
+	bh=TpyiiTOVlrlJHEi3kDIcNJ4l9sQ8uVbenZHLAz6sMoE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=EMlRYQ7G4FQuzLAXL82lFn622evS7E395572OktmyBRBU23H5oq2YM40rqwNFxaPS
-	 V21xsV8XlnrkeOnyU3CIrPTLlcyqnkXvqAVGlq4dealMMV/g7955xR8f7qnEElwgYh
-	 1iKPB91Vg+FvrEpwtlGqhkulCDd3u2eHjY9DrcBPxsvW/6iU8fbpcUBZbY9c61yw7z
-	 ti1IIwfPVlug4bVvHxr1jXF0VGBKXf2/eG6FMV8kbPd7iVbHUClsyvFHKh/ge2PxQ2
-	 nKyZdMB8pngGJFVaem4jCTM7k2qPN3bQ3IcbCGvRcgpMeuoCEONoWCDt4l24EiCKbN
-	 gLleS/97O9+oA==
+	b=fvSzlRozZUoR6DQJK48u+oHXDA8RorRXWWbJlkT2UehQHSogIbbV70BSFfvfCJdC3
+	 kbVxWXFbIeESoJmuUwtQ7aCMyha/uoXvICE1fmfLwk1BoN7ZPfwmwNkv/Jw+Twj+Xf
+	 /KcfDQXVswfBbkII1GPqfV3RCMPCqt1nPze5bzP3VkcJ1HgZFMABu4UNA1nXWnLNXN
+	 1Pb0HUl6mUuzxQxSHEDQs/fYjfTCXKPWDPh3qOaXVYvkpFSBTpuDr2A0VvggE/r8AR
+	 7U0inxGY+9zqyjokPpZ2ZvLfpVUtD/hEYx1sR89xZPb27Rz0GcfTfIb4O0wsoXFWsk
+	 3epDeUoezTH8Q==
 From: Mark Brown <broonie@kernel.org>
-To: vkoul@kernel.org, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20260810104045.60701-1-rf@opensource.cirrus.com>
-References: <20260810104045.60701-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 0/4] ASoC: cs35l56: Switch to using the IRQ from the
- SoundWire core
-Message-Id: <178671206310.152149.8855186309091901787.b4-ty@b4>
-Date: Fri, 14 Aug 2026 13:54:23 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260814081238.25434-1-pengpeng@iscas.ac.cn>
+References: <20260814081238.25434-1-pengpeng@iscas.ac.cn>
+Subject: Re: [PATCH v2] ASoC: SOF: validate topology volume range before
+ allocation
+Message-Id: <178671768477.152149.15211243065621402828.b4-ty@b4>
+Date: Fri, 14 Aug 2026 15:28:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,31 +54,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1985; i=broonie@kernel.org;
- h=from:subject:message-id; bh=xmfFcPMenW12rCd32uJdDPV8XxpOnpcXbNiyDzfDA70=;
- b=owEBbAGT/pANAwAKASTWi3JdVIfQAcsmYgBqf04pZ4ZdRonjq/qKSj5gl0XT3LxP10qZ4QiT1
- dnDghwrGCiJATIEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCan9OKQAKCRAk1otyXVSH
- 0Mg8B/YlPmz6VxCxMH0KPloxhKSFvahKd5lEU4gGgozvxMJNVR9y9UNH0fVJ7RDYQWN7B6O29Cf
- KL+BrbtXtvQINlV8RzGMINqDPFOAfIb5zMrMUivLX3Q+bskd4oxziROVaYAQ2DQBt8HUQXRauv+
- YNY6cG0IAfrO5CIOwJhniAmgeWNDtu6+JCSfUS55JWO77VXnxO0FRZstX+EcdFfr3aNE1X6bOh2
- DUvt6qWWPVuEWeHBp2DbN92MEujh2MhpJcu07a9cuAo0gHO5YcvvNUD3dXug59htDHLPkS4nDd+
- kckBv8fYzFlx9HtBPiwEojHTXYC8N4zHDhpm4C/Kw1JhkHg=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=YVYNzKSm9qve4ydQxu17+fw89gJjlBL9izHQTAlLzbQ=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqf04uTpnV0sF1K8y5/TPYTfzVZKKgIt9VgTbL4
+ bYWe7zyZR6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCan9OLgAKCRAk1otyXVSH
+ 0H+CB/95K+C6h3cBovKpchbL0Z9FIPArLpJUxoS/jyJTE+UL0c/CHZ7Hdy3r+YL4JZjHM9Dw5zy
+ 1yJqudgZ62jGP6jn46s8bWa8P42yjTKm2QfupR07krR4p6M/6sn+0wjc5sTeuDQBB+ootjIecmJ
+ eu+hbCKFb/GK3iAL3S7zowVhU6a5wdnzTbcu6ag9oRr8q6cjfsL9KZLr7t/owGfLdOPLWbKaGn9
+ ufqFX4TRgkeWR4H4WGmjt7WuigYVeeWgzblvGBoNbOBA6oJ9iEB+Vj+kYJRO6mg/3xsydEKUJm2
+ icMFXtoCsFFbEi0SR6KQY2bJCdqV9GI4eMrmNz+AKIFhdfah
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 10 Aug 2026 11:40:41 +0100, Richard Fitzgerald wrote:
-> ASoC: cs35l56: Switch to using the IRQ from the SoundWire core
-> 
-> At the time the cs35l56 driver was written the only way to get interrupts
-> from the SoundWire core was to implement a custom handler inside the
-> interrupt_callback() function.
-> 
-> The SoundWire core now provides a virtual IRQ for notifying ImpDef
-> interrupts, and switching to this simplifies the code and also makes it
-> more similar to the normal interrupt handling of I2C/SPI (though some
-> SoundWire specials are still needed).
-> 
-> [...]
+On Fri, 14 Aug 2026 16:12:38 +0800, Pengpeng Hou wrote:
+> ASoC: SOF: validate topology volume range before allocation
 
 Applied to
 
@@ -77,14 +75,8 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: cs35l56: Request IRQ in cs35l56_common_probe()
-      https://git.kernel.org/broonie/sound/c/888162dabf64
-[2/4] ASoC: cs35l56: Move cs35l56_irq_request() after cs35l56_irq()
-      https://git.kernel.org/broonie/sound/c/a075fef187a6
-[3/4] soundwire: bus_type: Create IRQ mapping before calling driver probe()
-      https://git.kernel.org/broonie/sound/c/ee1811eacdbb
-[4/4] ASoC: cs35l56: Use IRQ provided by the SoundWire core
-      https://git.kernel.org/broonie/sound/c/243ca1fb5383
+[1/1] ASoC: SOF: validate topology volume range before allocation
+      https://git.kernel.org/broonie/sound/c/a698e4a60fa5
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
