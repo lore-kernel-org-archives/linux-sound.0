@@ -1,97 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B7639F187;
-	Fri, 14 Aug 2026 11:23:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E6C438494
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 11:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786706602; cv=none; b=QlpWlO0pFzC/Z/0+JqBZshCNO6ggHYaaf+c+SZNEcgQhpX6FJvOpjebLGdE7+9jJlZTrwvlZGbc6WAsZp6mwTw5wlu5r+9s9zXhkvwvMgRqfU9Yr1whesusYUYDINbC66szc1W3cpGwe1bScYZMqMspyPkgi7qrcEXzrYqh12i4=
+	t=1786706874; cv=none; b=MbB31uy/CR2ZVk9pQttNQIJbTT3sHzssLKJ3dlJjxt1arw3eW01PUCavE0PUTGJuckBpoDYqL0EIrEPOpY+sBlQ6vsZIpEc8+elXwRpzY+Aloz6m9ntd/ZJmQMqzvObu4gWu1ir7snTiEbjQVVHSGxt9VdD9/MEz2uUWWJ1Ez7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786706602; c=relaxed/simple;
-	bh=rTIiYGCTRbexi9EneEl3LcARzZARKdEb0plhunygDSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ck5Z2fKfywIDAO+JFr/AHq410Q8pRyVW1Umuih9hvPD8Ub1KeyxUEBl8TQdL9W2osmY0Yd4fHdtZN9hvqYCOVKQSQpfN7vFzyK+6gZtznSYm5mp24KQyUhLslDYlt7xsozOZqd/TZg4qNKYCtGA9BhIijtL5Gg6bSTjNISAel8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KlxnxoWw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786706874; c=relaxed/simple;
+	bh=Od3wbNXS9rJBhW02utE5o2yh9IgRySqZm0ekh3uR4Ts=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=RMoEnhzFl2Cgmku5b78p8scjxB3d5zm5xg2yE2oOlHfGhm5P/1AlEScONATOnlpiniyFsfWba8qNHDA1q244RsMMDedIXLQ+Z+7eC3IYYrA11M32VObKUvBB1V1NM4JCudjQrWWYxhxQ5z/uo610Nwdzr67ISx0mdICHoUpisJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=YxgmsbLD; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KlxnxoWw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942321F000E9;
-	Fri, 14 Aug 2026 11:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786706596;
-	bh=KkS5iqI1KCXVRQiNSG/qGktdgLMbfW5BJqBMCcW1WF8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KlxnxoWwiFnLOegEg0BmEYN48DtQD4JcDYALypshCW+2qSLAxAjWoShjL+nwOO7eb
-	 /wIksh7GHq9ZU2fGLUSdzdh4BzKl/Us44dbaiRbKdfvxThCLazATu0pCnXUJFffRrt
-	 76bMXIPsCOuLVBGLppDM/tE4P7d535ds8B/XlmfF2HC0Zq8TJI9tX8QBsU0v1W88TW
-	 i7RvyeAbi0aVhqGyYVKSY4U1BrQyxR5faDlrU3fbELtN+W4Kx+BT2Nl1WZhQPgK3+g
-	 S2mIA3MJi12H3fakqj9Pzlb0wfsrwUbojCdDfzbs1V3MHtZlwaONn+NEtYa9oIpQHy
-	 Gf0imusVJKAdA==
-Date: Fri, 14 Aug 2026 12:23:10 +0100
-From: Mark Brown <broonie@kernel.org>
-To: "Xu, Baojun" <baojun.xu@ti.com>
-Cc: "tiwai@suse.de" <tiwai@suse.de>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"13916275206@139.com" <13916275206@139.com>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"Ding, Shenghao" <shenghao-ding@ti.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Yi, Ken" <k-yi@ti.com>, "Lo, Henry" <henry.lo@ti.com>,
-	"Chen, Robin" <robinchen@ti.com>,
-	"Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
-	"pin-hao.huang@hp.com" <pin-hao.huang@hp.com>,
-	"Syed.SabaKareem@amd.com" <Syed.SabaKareem@amd.com>
-Subject: Re: Re: [PATCH v2] ASoC: tas2783-sdw: add firmware download status
- check
-Message-ID: <8111a8c5-6413-4c04-bc23-db30e3b78b1b@sirena.org.uk>
-References: <20260813021450.1897-1-baojun.xu@ti.com>
- <0799cd9d-a0ef-41da-80ea-3fb9b1ef0f7f@sirena.org.uk>
- <7ea690074ee94d9786ed21e2bdde43de@ti.com>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="YxgmsbLD"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954d29264cso4785205e9.2
+        for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 04:27:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1786706868; x=1787311668; darn=vger.kernel.org;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Od3wbNXS9rJBhW02utE5o2yh9IgRySqZm0ekh3uR4Ts=;
+        b=YxgmsbLDArjVWV8/bTynrQexdPGwSVsffaJe7BEzT0Kopox5RGWWFAvEYKMI2BDa8y
+         f7dMFf5lQGpd+7BfDLjWvR/drOd52AY1DjhRdhM/h1U5Vf4au/T8GWikU+83UZn4yZQc
+         +NcINO01xNJdwxlgkUcLcfnsVyS1CgFNVoI1IvOIA92DlZCG/iuUIWnNVaSIdvnIZm+E
+         wBu0t3AVGK+TZC4PoBun1d2ur/hAD/2Oq4qDuVdhwsqNxfD/YpE677+6ZeVdebWgOOrG
+         5BBpyl75lrCSTRyFxE7fGcQu/cXFM4Qlag+MohhvzySbaiEtbSN1S/NgTc9bWKXp7KMh
+         L5NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786706868; x=1787311668;
+        h=content-type:mime-version:message-id:date:user-agent:references
+         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Od3wbNXS9rJBhW02utE5o2yh9IgRySqZm0ekh3uR4Ts=;
+        b=YHlioX9XRZ1FIkbtXCDin5Qnxdnsw9+GUBsTB0Nb+0P9yTYEAkDojoE7VIBFVE5lVz
+         7LaJvmT7ZDX1U6j2YGm0BpWsjNostON8UZiQLvqTjkzhZpwzajRbajNjkf3Q92ruKIEs
+         iq6NFBNQwuVCe1xIIrBWkiUH/jQJQY89rz2etFeZxDJz4wnJcfPAOGlEm6B5QklGSDIJ
+         dkwhvqLz78KWnW0qoV0pSMoQlcWDNqviju7TwrwwxTifKX9zqMS1mFLRoXN4Gok43ozQ
+         QERfEPWzV6LpwaXW/fzqu/wleXDhN7Nn00jNsbIoS7T6fjfPzUfOxGO4+XDy4G4z9ojU
+         aFHQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqiGXwLkAoUDY6aIP1pfPH6YDOSalhA3PAXALY2F10aO+Khl88vPgLKSIryYuIQLRBKaM1BQ8IZDwMmuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAmYwuJNti7sL1zcIum7R7gfb6KjQ1w2QkUKqkomsOncJKrdwx
+	5WzwbMG5+WUGrVRnXEJKQpoDyMuE0QWjuV1xUI9mD+QX0UyTADMKffxdPFmqTSg2yQs=
+X-Gm-Gg: AR+sD121z89cvtu0wd2xgNZPWshz8YIPrKgWcw0apoEbTHUgaG4XWGOtG6gm8TDC3n4
+	3VngPwzW5hzVEF3y6Rt/i2fgeLyoKQbStK/J2Y9KyziRrPDRxYF5ML2BSjuAcwwjcYGRUV5mA1R
+	893gpHG8TVMGvUwG0zMTVzuv2YUXDMvvrbxoAfraYbdZvL1u8MlJeoFaCkxckUwoY7suMkmPy/W
+	K1vjwIq2+GLvJuYP97fTL1FmNVHRj8uspyYKHbxQ76aWTqiMdDG5EvDA3df+0kXwoBBc79m38ou
+	QZjM+no39CEdbZ31SqZlmdOKp4ZCzdougY6RJsNdPJjRcTJAz5BYG4lwKx3Nn07zjZiSaJCjVYL
+	VKXMBJNK0rxaUEeCJ7BKPNAeDKdb8hqG4MC8PA9wk4PolDxztIoGj68lz2/6GGVd7zlLQ9MmNkC
+	eWN6zHNyNPS05IhvUMlRWBrZ2MuJudLKnoQmM7QYDYQYu1CYpRm3itsWITdArdGyXDpxrM3w==
+X-Received: by 2002:a05:600c:500d:b0:499:86f5:9e33 with SMTP id 5b1f17b1804b1-499879bc10emr72416975e9.18.1786706868594;
+        Fri, 14 Aug 2026 04:27:48 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:9886:6a22:ee2a:d5e1])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-499899b5ad0sm22278775e9.4.2026.08.14.04.27.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 04:27:47 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: meson: aiu: Drop redundant probe error messages
+In-Reply-To: <20260814094211.25151-1-phucduc.bui@gmail.com> (phucduc bui's
+	message of "Fri, 14 Aug 2026 16:42:10 +0700")
+References: <20260814094211.25151-1-phucduc.bui@gmail.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Fri, 14 Aug 2026 13:27:46 +0200
+Message-ID: <1jjyptc571.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ilGqQWldoOFjm/xp"
-Content-Disposition: inline
-In-Reply-To: <7ea690074ee94d9786ed21e2bdde43de@ti.com>
-X-Cookie: Body by Nautilus, Brain by Mattel.
+Content-Type: text/plain
 
+On lun. 14 janv. 2008 at 11:42, phucduc.bui@gmail.com wrote:
 
---ilGqQWldoOFjm/xp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>
+> The functions called here don't log the error themselves, but the
+> error is already reported deeper in the call chain, so the dev_err()
+> calls are redundant and can be removed.
+>
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 
-On Fri, Aug 14, 2026 at 03:45:20AM +0000, Xu, Baojun wrote:
-
-> > What happens if the amplifier uses power (eg, over a system suspend)?
-> > Though since nothing clears first_hw_init I guess there might be issues
-> > there anyway...
-
-> Yes, that is the purpose of this patch. It prevents the re-downloading of
-> pages above 0xC60000 after resuming from suspend, as the data in this region
-> persists across an AMP reset. Therefore, these pages should only be downloaded
-> during the initial power-up (when first_hw_init is false).
-
-That's only going to be the case if the suspend is a retention one that
-maintains power to the device.  If the suspend is a deep one that cuts
-power to the device then I can't see how it'll keep memory contents.
-
---ilGqQWldoOFjm/xp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp++p4ACgkQJNaLcl1U
-h9BcMQf/frCo29taAXlKsrKWybhTMJnAVlIvkd/yZZkKeFVsNxApt3Z7oi+/k+oT
-1fCWuURmA2TWC9i3JQl/fqT6ARzc2Mdr5jFxfP3giiipDljfuttZcvsNv4l/dyY9
-aXR7sZspdaGGBBY7kHdxUNwej5JnEf5U/zX26PvSp55G1pqArDt6wMv4mCCI/Ipt
-JgIuclS7oOu6BzxdKBJt8GsubUY3AMGLfggHCxHeAu+/1FZ24HWWCNbM2pjarwm8
-GH+ps+5nOVqhNVdXuOP3QdI6FsOsXhu3ydV/uS0TxZqoGiI8Jj/+NNIt4255lqq7
-E/wEcvk7/8QWNfdoZ0QQJhwwjjwwfw==
-=elVz
------END PGP SIGNATURE-----
-
---ilGqQWldoOFjm/xp--
+Acked-by: Jerome Brunet <jbrunet@baylibre.com>
