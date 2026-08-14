@@ -1,169 +1,281 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3611471CF0;
-	Fri, 14 Aug 2026 13:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786713369; cv=none; b=rEVtov4mu+PqBZMmcFsS8mqCZkyNqEKFc52DvUwDPUfV5oti1Dp4PNHKfgUrF0v+lyXLQ+heL/8BzhxA/Rt3u3Ea+kzbcwjQ4pwNaAPerfP7S9rc77E/FFboPjGdKhlZYqCDBmDgsLKKTW0ruf8sFGQaOW3E1078aOjG2wsCKxQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786713369; c=relaxed/simple;
-	bh=/GkCJAOgHNfk5IczLPkzG5mVVY1HJW6dtEBkVmVQSR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fEQo01ELOxGfSQjmQR57upxCZWtI0RwjkJd5sRJYma+yJfJaLHA+uREqrdMNvDmYtHu8b2ONlj6d3IV5Y6QVCwvQJ5Y60lKDhcKkItQk2jPX+PlT9/cxqAHYgMAJehirdFnGcKsbNEy7jMfYrJpraqX+aIFk+prDPiLVkA9l5xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E1/yx6h7; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1F1346A11
+	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 13:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786713503; cv=pass; b=eqPsX4Fjbor90n3iUbOsX7GZnPis1Z9YqaC/iwcF+7S+mOWEAwz4lhuiUForAHdMOJoBLc3X3F6wGu96xYeV9F10PigwBtsg80+y0qKZDl1eUDr8GvvfFLPZDDR2SR1OryKOPkJACknh8vOaQFZUD/zzmYnqkM/lNRt7GuNyWUA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786713503; c=relaxed/simple;
+	bh=Dsq9KMOLLue374v3eqlpr9uw2RIKLQkjVAeBHF7Dobw=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=AKRAt+p5wgb8AWaw/3sJVUaSlDBpl3Pat4iHexg6yuprYFB1iwYz/o5EL+8Td2JQkNjlSUW4nynPKqxPzyiTqUng7OmxwiD+uoMVXLXMTYS8h/UjUVg8PaM/MJt52tnLwZ/FrEXXpU+cW7sU9gl7mENYTRJjo9YczJovVhjezkg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=FyesSO48; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E1/yx6h7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786713352; x=1818249352;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/GkCJAOgHNfk5IczLPkzG5mVVY1HJW6dtEBkVmVQSR0=;
-  b=E1/yx6h7Ka+PbWip9d5khLPvgXnheh5sGSrXFNi7RZZ8NaB4AyaAsDg3
-   SdUs8R+ncK5biaZkbtC1TRgF5vYC6S9YGwYcjltUPZ1EecpKVnxakVoM5
-   Bi8x1FhXr3L7v2rV/Gev28tTkox/MuEByd6CkqtqKtoMVhkHaVL39kG2U
-   7SMIKcZ/6ojdWhEVFYJGqu50nt+2r0UmE5Aonb5Bt51QPyNM4klMyvS4m
-   FxBmGZKeoIQPZTFgxhOzxhLUbxjimc+vxje0dzbcXN86o9c2qeRZbmDvc
-   7znAde3emvfJPuCNH4B/LpQL4N+qEI/d7wrQSWDRwqjTD6/aHZ6uzsKSC
-   Q==;
-X-CSE-ConnectionGUID: QqMnOv0RQ4GJ3bCCgMaNmg==
-X-CSE-MsgGUID: x+7HiSQKQ/e2uCYatyh98g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11874"; a="104824217"
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="104824217"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 06:15:51 -0700
-X-CSE-ConnectionGUID: Ptxy3oIUTqCsLMp4tDN7FQ==
-X-CSE-MsgGUID: Ro/zgt06RlmgdvlPDkOP+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,222,1779174000"; 
-   d="scan'208";a="263793983"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.246.214]) ([10.245.246.214])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2026 06:15:49 -0700
-Message-ID: <04b1856e-05e2-450e-a68c-4f9a3455e01e@linux.intel.com>
-Date: Fri, 14 Aug 2026 16:15:45 +0300
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="FyesSO48"
+ARC-Seal: i=1; a=rsa-sha256; t=1786713485; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=bWE8zBIIyGs7qQtUPCmCkFd5ymSjYCnSF6qjAVd+DxI9cyBCSrwEXT2aXW5yvHbmbkQkuy7cAyiS2IOZ1GMaU68UC2xEJEft0cXnvZKDMG0a5tZW4PE0ZjC6H7gSa1ZdyaVnG6hExufCnZG0Id34HJvAN41YnQ/LNg4c3m2SZRA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1786713485; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=XX4+KdUjyI8wxXEp7ZL2LByIvoHp4C65jXxEE8NETdM=; 
+	b=WqQTZ6SWYMV4KRXSwu1slQvP+mERBeDWkA9KlaSIyodkY/YtAbEBxkXU8uWQYk3Y7S1FEUC+QRVlRxuQHoZbE6+ju3U7YxTOU66nqu7XNg+gKE0/bDlUZ6MGAv5bZrr6ah0m6DMD0hXX5AB3FRAIy0xxYZQyahgXz1ROV9cwaJU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1786713485;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=XX4+KdUjyI8wxXEp7ZL2LByIvoHp4C65jXxEE8NETdM=;
+	b=FyesSO48ckFPWVYicPH8h8ushhYiVcNo3vfXCCaCTK00dx5yjN4bdxAaxKI57fWg
+	cGDa0uRqVwo52y7Hmx3h1dT5DSDseX8CGK0qlrziLrk5wI5qDNn1xLFUbfyufvofS+K
+	doc+dpwfpBMgfnap0cfxhVhm/8OPQtJ+KrtcW18LSqD/gHnWr4otG0YDy6RuGaGQ1u3
+	d18uIHLZN+9DxhHGnCNVAXcMD0vbkF6TFTmYoRofsHEyLSZZdjFOXgyaL2FV/kfdfD5
+	KIr3VDw/nO0yGuVWm7t0/1DeuSLw/jK4fvoOh1taF1ocnt2/veUUn/cv5exe++NNahc
+	lWU9IXoOjQ==
+Received: by mx.zohomail.com with SMTPS id 178671348289917.956569172568265;
+	Fri, 14 Aug 2026 06:18:02 -0700 (PDT)
+Message-ID: <c61e9568284fd0cd1580eb2b568700074c73e123.camel@rong.moe>
+Subject: Re: [REGRESSION] ALSA: usb-audio: Logitech PRO X Wireless
+ 046d:0aba playback volume rejected as sticky
+From: Rong Zhang <i@rong.moe>
+To: "Alexander N." <adventureFAN@gmx.de>, linux-sound@vger.kernel.org
+Cc: regressions@lists.linux.dev, tiwai@suse.de, perex@perex.cz
+In-Reply-To: <6262cbbd-d1f2-4c9d-a1c7-9c5d12636f4b@gmx.de>
+References: <6262cbbd-d1f2-4c9d-a1c7-9c5d12636f4b@gmx.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 Aug 2026 21:17:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: SOF: validate topology volume range before
- allocation
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260814081238.25434-1-pengpeng@iscas.ac.cn>
-Content-Language: en-US
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20260814081238.25434-1-pengpeng@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.56.2-10+b1 
+X-ZohoMailClient: External
 
+Hi Alexander,
 
+Thanks for the report.
 
-On 14/08/2026 11:12, Pengpeng Hou wrote:
-> SOF treats the topology mixer min and max values as non-negative indices
-> into its volume table. It stores them in signed fields, allocates max + 1
-> entries through an int argument, and later indexes the table with the
-> stored range.
-> 
-> An inverted range is invalid, while a maximum at or above INT_MAX cannot
-> be represented safely after the increment or in the signed fields.
-> Validate the complete range before storing it or allocating the table.
-> 
-> Fixes: 311ce4fe7637 ("ASoC: SOF: Add support for loading topologies")
-> Assisted-by: Codex:gpt-5
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
-> Changes since v1: https://lore.kernel.org/all/20260722041532.14085-1-pengpeng@iscas.ac.cn/
-> - validate SOF's non-negative table-index range before signed storage
-> - require max + 1 to remain representable by the allocator's int argument
-> - rebase on current SOF topology sources
+On Fri, 2026-08-14 at 12:41 +0200, Alexander N. wrote:
+> Hello,
+>=20
+> I found a regression in snd-usb-audio affecting the Logitech PRO X
+> Wireless Gaming Headset (USB ID 046d:0aba).
+>=20
+> The device has a valid UAC1 playback volume control, but the sticky mixer
+> detection introduced by commit 86aa1ea1f15c ("ALSA: usb-audio: Do not
+> expose sticky mixers") rejects it.
+>=20
+> Hardware
+> =3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>  =C2=A0 Logitech PRO X Wireless Gaming Headset
+>  =C2=A0 USB ID: 046d:0aba
+>=20
+> Observed kernel
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>  =C2=A0 7.1.5-ogc5.1.fc44.x86_64
+>  =C2=A0 Bazzite/Fedora 44 OGC kernel
+>=20
+> The OGC patch for this kernel does not modify sound/usb, and the relevant
+> mixer.c code matches upstream Linux 7.1.5.
+>=20
+> I have not hardware-tested current mainline 7.2-rc7, but current upstream
+> mixer.c still contains the same immediate SET_CUR -> GET_CUR sticky mixer
+> test and I could not find a device quirk for 046d:0aba.
+>=20
+> Symptom
+> =3D=3D=3D=3D=3D=3D=3D
+>=20
+> Without a workaround, ALSA only exposes:
+>=20
+>  =C2=A0 Simple mixer control 'PCM',0
+>  =C2=A0 =C2=A0 Capabilities: pswitch pswitch-joined
+>=20
+> There is no PCM Playback Volume control.
+>=20
+> The kernel logs:
+>=20
+>  =C2=A0 usb 1-10: 2:0: sticky mixer values (-16384/0/256 =3D> -3840), dis=
+abling
+>=20
+> I have also observed the same message ending in "=3D> 0", depending on th=
+e
+> hardware volume at probe time.
+>=20
+> Because the playback volume control is removed, the physical volume wheel
+> changes the headset's hardware volume independently of the PipeWire/KDE
+> system volume.
+>=20
+> USB Audio control behavior
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>=20
+> The device is UAC1.
+>=20
+> Feature Unit 2 exposes a master playback volume control.
+>=20
+> Direct control requests, after temporarily unbinding AudioControl
+> interface 0 from snd-usb-audio, report:
+>=20
+>  =C2=A0 GET_MIN =3D -16384=C2=A0 (-64.00 dB)
+>  =C2=A0 GET_MAX =3D=C2=A0 =C2=A0 =C2=A0 0=C2=A0 (=C2=A0 0.00 dB)
+>  =C2=A0 GET_RES =3D=C2=A0 =C2=A0 256=C2=A0 (=C2=A0 1.00 dB)
+>=20
+> GET_CUR and SET_CUR both work, but the device has two quirks relevant to
+> the new sticky detection.
+>=20
+> 1. GET_CUR reflects normal SET_CUR changes with a delay of roughly 50 ms.
 
-The patch appears to be identical to v1 to my non agent eyes ;)
+Interesting.
 
-Acked-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+>=20
+> Measured from 0 dB:
+>=20
+>  =C2=A0 target=C2=A0 =C2=A0 =C2=A0result=C2=A0 =C2=A0first visible GET_CU=
+R change
+>=20
+>  =C2=A0 =C2=A0-1 dB=C2=A0 =C2=A0 =C2=A0OK=C2=A0 =C2=A0 =C2=A0 =C2=A081.3 =
+ms
+>  =C2=A0 =C2=A0-2 dB=C2=A0 =C2=A0 =C2=A0OK=C2=A0 =C2=A0 =C2=A0 =C2=A051.9 =
+ms
+>  =C2=A0 =C2=A0-4 dB=C2=A0 =C2=A0 =C2=A0OK=C2=A0 =C2=A0 =C2=A0 =C2=A047.3 =
+ms
+>  =C2=A0 =C2=A0-8 dB=C2=A0 =C2=A0 =C2=A0OK=C2=A0 =C2=A0 =C2=A0 =C2=A047.1 =
+ms
+>  =C2=A0 -16 dB=C2=A0 =C2=A0 =C2=A0OK=C2=A0 =C2=A0 =C2=A0 =C2=A051.7 ms
+>  =C2=A0 -32 dB=C2=A0 =C2=A0 =C2=A0OK=C2=A0 =C2=A0 =C2=A0 =C2=A047.2 ms
+>=20
+> 2. The advertised minimum value -64 dB is not functional.
+>=20
+> A direct SET_CUR to -64 dB returns success, but GET_CUR remains at 0 dB
+> even after 1000 ms.
+>=20
+> This appears to cause a false positive in check_sticky_volume_control():
+>=20
+> - cval->min is -16384 (-64 dB)
+> - cval->max is 0
+> - if the saved value is 0, max is skipped
+> - SET_CUR(min) returns success
+> - an immediate GET_CUR still returns the saved value
+> - the mixer is classified as sticky and is not registered
 
-> 
-> The SOF table-index consumers and allocator conversion were reviewed
-> statically; no SOF topology or hardware test was performed.
-> 
->  sound/soc/sof/topology.c | 18 ++++++++++++------
->  1 file changed, 12 insertions(+), 6 deletions(-)
-> 
-> diff --git a/sound/soc/sof/topology.c b/sound/soc/sof/topology.c
-> index 42a2d90bb705..31dd7a66a9cf 100644
-> --- a/sound/soc/sof/topology.c
-> +++ b/sound/soc/sof/topology.c
-> @@ -846,6 +846,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
->  	struct snd_soc_tplg_mixer_control *mc =
->  		container_of(hdr, struct snd_soc_tplg_mixer_control, hdr);
->  	int tlv[SOF_TLV_ITEMS];
-> +	u32 min, max;
->  	unsigned int mask;
->  	int ret;
->  
-> @@ -853,6 +854,11 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
->  	if (le32_to_cpu(mc->num_channels) > SND_SOC_TPLG_MAX_CHAN)
->  		return -EINVAL;
->  
-> +	min = le32_to_cpu(mc->min);
-> +	max = le32_to_cpu(mc->max);
-> +	if (min > max || max >= INT_MAX)
-> +		return -EINVAL;
-> +
->  	/*
->  	 * If control has more than 2 channels we need to override the info. This is because even if
->  	 * ASoC layer has defined topology's max channel count to SND_SOC_TPLG_MAX_CHAN = 8, the
-> @@ -863,12 +869,12 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
->  		kc->info = snd_sof_volume_info;
->  
->  	scontrol->comp_id = sdev->next_comp_id;
-> -	scontrol->min_volume_step = le32_to_cpu(mc->min);
-> -	scontrol->max_volume_step = le32_to_cpu(mc->max);
-> +	scontrol->min_volume_step = min;
-> +	scontrol->max_volume_step = max;
->  	scontrol->num_channels = le32_to_cpu(mc->num_channels);
->  
-> -	scontrol->max = le32_to_cpu(mc->max);
-> -	if (le32_to_cpu(mc->max) == 1)
-> +	scontrol->max = max;
-> +	if (max == 1)
->  		goto skip;
->  
->  	/* extract tlv data */
-> @@ -878,7 +884,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
->  	}
->  
->  	/* set up volume table */
-> -	ret = set_up_volume_table(scontrol, tlv, le32_to_cpu(mc->max) + 1);
-> +	ret = set_up_volume_table(scontrol, tlv, max + 1);
->  	if (ret < 0) {
->  		dev_err(scomp->dev, "error: setting up volume table\n");
->  		return ret;
-> @@ -911,7 +917,7 @@ static int sof_control_load_volume(struct snd_soc_component *scomp,
->  	return 0;
->  
->  err:
-> -	if (le32_to_cpu(mc->max) > 1)
-> +	if (max > 1)
->  		kfree(scontrol->volume_table);
->  
->  	return ret;
+Super interesting.
 
--- 
-Péter
+Maybe some previously reported devices were broken because of the same
+reason.
 
+I think, the sticky check could be more precise in this manner:
+
+   res =3D (cval->max - cval->min) / 16; /* Check approximately 16 values. =
+*/
+   if (res < cval->res)
+   	res =3D cval->res;
+   else
+   	res =3D roundup(res, cval->res);
+  =20
+   for (i =3D cval->min; i+=3D res; i < cval->max) {
+   	if (i =3D=3D saved)
+   		continue;
+   	SET_CUR(i);
+   	check =3D GET_CUR(i);
+   	if (check !=3D saved)
+   		break;	/* Fast path. */
+   	/*
+   	 * Wait for asynchronous mixers. This sleeps for no more than 160ms
+   	 * in total, which should provide some time for the mixer to change
+   	 * its value.
+   	 * Note that there is no need to wait between SET_CUR and GET_CUR,
+   	 * as we don't care whether the GET_CUR value matches the SET_CUR one.
+   	 * What we expect is just a GET_CUR value differing from the saved one.
+   	 * It this manner, most devices should go through the fast path without
+   	 * extra sleep.
+   	 */
+   	msleep(10);
+   }
+   [...]
+
+This should classify your device as non-sticky.
+
+I will find some time to write a patch for that. I would be grateful if
+you can test it then.
+
+Thanks,
+Rong
+
+>=20
+> mixer_get_cur_broken is not appropriate
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> I tested the mixer_get_cur_broken quirk.
+>=20
+> GET_CUR on this device is not broken or constant. It correctly reports
+> host SET_CUR changes after the device delay, and it also reports volume
+> changes caused by the physical headset wheel.
+>=20
+> Using an internal-only cached value would therefore lose useful hardware
+> state.
+>=20
+> Local proof-of-concept fix
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>=20
+> I built a local snd-usb-audio.ko against the running 7.1.5 kernel.
+>=20
+> For this specific device, Feature Unit 2, UAC_FU_VOLUME, I:
+>=20
+> - clamp the unusable minimum from -64 dB to -63 dB
+> - skip the probe-time sticky/resolution checks for this control
+>=20
+> With that module, ALSA exposes:
+>=20
+>  =C2=A0 Simple mixer control 'PCM',0
+>  =C2=A0 =C2=A0 Capabilities: pvolume pvolume-joined pswitch pswitch-joine=
+d
+>  =C2=A0 =C2=A0 Playback channels: Mono
+>  =C2=A0 =C2=A0 Limits: Playback 0 - 63
+>=20
+> /proc/asound/card*/usbmixer shows:
+>=20
+>  =C2=A0 Unit: 2
+>  =C2=A0 =C2=A0 Control: name=3D"PCM Playback Volume", index=3D0
+>  =C2=A0 =C2=A0 Info: id=3D2, control=3D2, cmask=3D0x0, channels=3D1, type=
+=3D"S16"
+>  =C2=A0 =C2=A0 Volume: min=3D-16128, max=3D0, dBmin=3D-6300, dBmax=3D0
+>=20
+> Most importantly, no userspace workaround is required once the mixer
+> control is restored.
+>=20
+> Example before rotating the physical headset wheel:
+>=20
+>  =C2=A0 ALSA:=C2=A0 =C2=A0 =C2=A0-27 dB / 57%
+>  =C2=A0 PipeWire: 0.35
+>=20
+> After rotating the headset wheel:
+>=20
+>  =C2=A0 ALSA:=C2=A0 =C2=A0 =C2=A0-11 dB / 83%
+>  =C2=A0 PipeWire: 0.65
+>=20
+> KDE system volume follows the physical wheel as expected.
+>=20
+> I attached the proof-of-concept diff and the measured results. I am happy
+> to test a maintainer-preferred implementation or additional diagnostics.
+>=20
+> My suspicion is that this device exposes two assumptions in the sticky
+> mixer probe that are not universally safe:
+>=20
+> 1. GET_CUR is assumed to reflect SET_CUR immediately.
+> 2. advertised min/max values are assumed to be usable test values.
+>=20
+> Thanks.
+>=20
+> #regzbot introduced: 86aa1ea1f15ce6b56ac1b4c0d9b88a07a5b9bf03
