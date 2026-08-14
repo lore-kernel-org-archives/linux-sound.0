@@ -1,99 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3C047FB10;
-	Fri, 14 Aug 2026 17:19:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D82F4908BF;
+	Fri, 14 Aug 2026 17:43:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786727988; cv=none; b=sI/ZRTv2P6D5WAck0bgoXzRVomiPMAO71jm+6uuFWOb2pLVf2+7aye0vmIZuBn5wfya6aRfnroOqOqQnZ2FDJL7rv3Wtr4w+nfPIDO6Qp4CppkTTVhHqYkjq/m616chDAPTndFWa1XmiGDt1lvUpeIYA0w1yLaK+a91R1zhPdSc=
+	t=1786729435; cv=none; b=SNaKSeUpp/58OruUxdjoXEhpcYepFT0i235QlAWcyOXdWZw98HrwRsLwUBioRW2KIPF6zszN3nL3+Pz8APwqmWyJLXaEmlp2Nb8mTagTd4pQaf8RW+1yiTkPdyDF0qsFoTh/9n1Xz7VPmICwm7GfTCpJhNIGh3W8ksZYLuB0GK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786727988; c=relaxed/simple;
-	bh=YVYNzKSm9qve4ydQxu17+fw89gJjlBL9izHQTAlLzbQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dvWtxoxP+9+uHzoS/hTGLqxNUJJM1TjM9X7+XPTnp99SRKk5AwS6J1hefp7PZXwVl4ubdK4Rsq1D0rLHJpzsOKjMrC2Tq+Vm00MSXAimE/aJuvmXrr5LZp67ec986P13jgvuJ1nyTDomCarZTDIGvrfKHZpdf7fvIBi7MmTgRN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fvSzlRoz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786729435; c=relaxed/simple;
+	bh=+VuA6SQAaigUAXpTVjM8Uu98bsGMacm+0dVnh5oBKxs=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=nlS8uJctxswwChu8YIQk3WbF+OmWF52v+BrSyNm9CWgLcDm3H/FnQSyb1rI5IyTa5l7ltB7apnr3cOMIc8JOKLN9TukpRA4bsouZ4ZjM6E8mnx98yE1vMyYrdoSn/FSbiwHi1gdSyP2qxnzDIf3ur9knmEtvTAkUjpGRB+UphQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hc7PV8Od; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fvSzlRoz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B02B1F000E9;
-	Fri, 14 Aug 2026 17:19:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hc7PV8Od"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 039631F00A3A;
+	Fri, 14 Aug 2026 17:43:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786727987;
-	bh=TpyiiTOVlrlJHEi3kDIcNJ4l9sQ8uVbenZHLAz6sMoE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=fvSzlRozZUoR6DQJK48u+oHXDA8RorRXWWbJlkT2UehQHSogIbbV70BSFfvfCJdC3
-	 kbVxWXFbIeESoJmuUwtQ7aCMyha/uoXvICE1fmfLwk1BoN7ZPfwmwNkv/Jw+Twj+Xf
-	 /KcfDQXVswfBbkII1GPqfV3RCMPCqt1nPze5bzP3VkcJ1HgZFMABu4UNA1nXWnLNXN
-	 1Pb0HUl6mUuzxQxSHEDQs/fYjfTCXKPWDPh3qOaXVYvkpFSBTpuDr2A0VvggE/r8AR
-	 7U0inxGY+9zqyjokPpZ2ZvLfpVUtD/hEYx1sR89xZPb27Rz0GcfTfIb4O0wsoXFWsk
-	 3epDeUoezTH8Q==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260814081238.25434-1-pengpeng@iscas.ac.cn>
-References: <20260814081238.25434-1-pengpeng@iscas.ac.cn>
-Subject: Re: [PATCH v2] ASoC: SOF: validate topology volume range before
- allocation
-Message-Id: <178671768477.152149.15211243065621402828.b4-ty@b4>
-Date: Fri, 14 Aug 2026 15:28:04 +0100
+	s=k20260515; t=1786729434;
+	bh=F3PEOV8m/Ibpsgwt/AIXlf63+WI7aRV76XNs4DZwDP8=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=hc7PV8Odo4UNOtkJpA7bqNHd6h2y8o+y45mcBy+zseK0m9jrDlTL79xJ0He3/EnkJ
+	 D0dE0MQCLYszabvZZRXVfbog3XWju/f+tOHlp5igq6jJTvDGV8y74d50foxENLaHSM
+	 NoaDC6B+HayTpZP+Rp0iG+wa/VvOm/TFpWOZnA1xuAGZA20D24wYPauOXz54HPsS4B
+	 PWth8TSinjEbs3qQuNV8rd0Cj36q8gGwPmbyOSBCuqSoV2m0r/Ghr+bYmJU2nutMyM
+	 UNtNHU2IixYRT+PvIInYlObnOGmPy3raf2JkhbMXvCJZTutfXILIKPWMIey3VXlANd
+	 PQcVIgFv3cXWQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56C4B3924457;
+	Fri, 14 Aug 2026 17:43:09 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 7.2
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87a4qoewl7.wl-tiwai@suse.de>
+References: <87a4qoewl7.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87a4qoewl7.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.2
+X-PR-Tracked-Commit-Id: a92ee0d2486a8b3cd1483afdb6db21b51853867e
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: a5161661ae99f497affa83a5b8654e457cda6267
+Message-Id: <178672938785.3893955.2980223555929847367.pr-tracker-bot@kernel.org>
+Date: Fri, 14 Aug 2026 17:43:07 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=broonie@kernel.org;
- h=from:subject:message-id; bh=YVYNzKSm9qve4ydQxu17+fw89gJjlBL9izHQTAlLzbQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqf04uTpnV0sF1K8y5/TPYTfzVZKKgIt9VgTbL4
- bYWe7zyZR6JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCan9OLgAKCRAk1otyXVSH
- 0H+CB/95K+C6h3cBovKpchbL0Z9FIPArLpJUxoS/jyJTE+UL0c/CHZ7Hdy3r+YL4JZjHM9Dw5zy
- 1yJqudgZ62jGP6jn46s8bWa8P42yjTKm2QfupR07krR4p6M/6sn+0wjc5sTeuDQBB+ootjIecmJ
- eu+hbCKFb/GK3iAL3S7zowVhU6a5wdnzTbcu6ag9oRr8q6cjfsL9KZLr7t/owGfLdOPLWbKaGn9
- ufqFX4TRgkeWR4H4WGmjt7WuigYVeeWgzblvGBoNbOBA6oJ9iEB+Vj+kYJRO6mg/3xsydEKUJm2
- icMFXtoCsFFbEi0SR6KQY2bJCdqV9GI4eMrmNz+AKIFhdfah
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Fri, 14 Aug 2026 16:12:38 +0800, Pengpeng Hou wrote:
-> ASoC: SOF: validate topology volume range before allocation
+The pull request you sent on Fri, 14 Aug 2026 14:05:24 +0200:
 
-Applied to
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-7.2
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/a5161661ae99f497affa83a5b8654e457cda6267
 
-Thanks!
+Thank you!
 
-[1/1] ASoC: SOF: validate topology volume range before allocation
-      https://git.kernel.org/broonie/sound/c/a698e4a60fa5
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
