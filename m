@@ -1,96 +1,149 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DE745D5C2
-	for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 11:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2184570C2;
+	Fri, 14 Aug 2026 11:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786706920; cv=none; b=KIvPRhMNcpCnNh4yd6oXXFLOhmRklcnTGdfSFlT/EZtG9NFu/UzP8IfLyvsAIabFYiiUCsakzMmdgV5MMp9pSKnGrnrvK0NaxTgTgXJyWp+G9g4I53Doz20jKGvXNqbTsPhTcy4xAyamIbhsY0FM2XMwlP8AzB2oVoAxK1318SA=
+	t=1786706970; cv=none; b=nP/ZLg9rt4xNZMYm17h5qtHW7y4gzu0LvDAM6obJ4xwv1r71nurjcRah5EnaTqjnKNrj9TgAZ7XU1aGN/i+mMCon5S3sgoSHiX7v08Lcoqfh7ee8SlJIt5aOGUGx72QfOC3kaVeL1XQWUL0NEekUBQe9vnpfYbFiKhWnGb5Zo7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786706920; c=relaxed/simple;
-	bh=Od3wbNXS9rJBhW02utE5o2yh9IgRySqZm0ekh3uR4Ts=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SKyh31rOVFZbLcnUGUK2I+FuHW7fYRQhDUnnuPoECSVUdz00XBDjhdVJ1QjQIqQkP/r3jttEbzBXaKnYXFrTnCI0HxilmuW69azv1/Dg1Y/w3s38bpASh3FDV918NAI4XrpsancwIPVaBd6kWKbwVY8VBWETAzhMDA3kkeGiR+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=iV4CDWVL; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1786706970; c=relaxed/simple;
+	bh=JK/RVAs/dl14S9jsi85PIl3pfYXOOqvpn4TPowSI9nY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hsoq9xtVuzIi0+rwc2ECqJq6O7bWHuS/Pq6hu1HGDVmX1ffXKcbcIx26P1PjQhvgVhOWP6cSQcnR4pjRbW75Qq8CyX1Uj8OUYTAmH+1ha9W+kCOTGTmcjqjJ4IMAzRG23R7EXW6wJ1tP8RK0HjWlPJSk4Dozx0bGzi2w/ayQcCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=enxmOuVO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="iV4CDWVL"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4954a2e73a9so6653035e9.3
-        for <linux-sound@vger.kernel.org>; Fri, 14 Aug 2026 04:28:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1786706914; x=1787311714; darn=vger.kernel.org;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Od3wbNXS9rJBhW02utE5o2yh9IgRySqZm0ekh3uR4Ts=;
-        b=iV4CDWVLuMdDCvIwo2BkJnm9BDP6ydMRGyjPU8feRdiQM0DgnY+EfwSJrTLiW3pGPw
-         nsUuE9+beb7gK4UwBEhgdYUyKpw/8htOe7JJ0LMhL18K/CQ+kVlOQz1oUvuySaoPNu6g
-         JD5h7VQdzaaQPl9kEpx5IOXX5LyCxFftZxCe/9reRqAjXdvTa9+j4JUZh9gQHq9zUn37
-         oNuTdGHt7w78NwHiBOlvl25mIT2RjoBRyOSys1/l5ITM6E865ezntPke/uxM2YfGfBb3
-         Z3r8BfpH2hQTeJdcN2ZBOuN/VupKY5BSJ/SCkbbe+ujvQpWkKDFKxOpMdERZ2la8n22N
-         LHvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786706914; x=1787311714;
-        h=content-type:mime-version:message-id:date:user-agent:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Od3wbNXS9rJBhW02utE5o2yh9IgRySqZm0ekh3uR4Ts=;
-        b=HkdvLTFZNq04l/G10OpAHRV3EkRj4UNbwUI1w46GzXqHkNt7t40Lbl61RkMwdjUwO4
-         wH6laaF89ryUVZGJDu/7sInUUrYCTjeiurzR1W00tjD1niyn+V7yA1MvW/AIKXAPbx3m
-         6Q6Ivd2iw/koTfIqI6JQ7kVbHLzUCvDVG2nWKVtog3jG/KnVymG6q3WLsscOXVmt5JYg
-         +pfgGJJQHC3eoDblFxtEdcipN4E6uRHJcRPNUwaKHVT4tRPBqkHSzc5Zrr+cItTY5EL2
-         Gdr7YVl0Xi/0Vhr4jhsB+0f48b+HjL35euBAiFLL+DEiLxaU6sXc+tu7oS3U2wbekAjb
-         HgHw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqlmyh1ZR39S9DTGYncQXji1EwleN6Tr+x+2FJBie1CwwXF/2u2YhU+r89NaRlUIqvfN6DG5ekVrE2AhA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOO08ROEltfANwow4KrSN3eXVCme2TfA/UKY5ti/Ql2U9vpLVB
-	oTVHoRSjdx8nPdpQJ0Z7TbOsw/1Nqv8j796xnFF/zxEB1BEFlHgGaNhO93tESXIy0xs=
-X-Gm-Gg: AR+sD138VydgNhgb7+PY2noln4rdQsuvAYTwQ8vfCd9GhE4g3ZK0SLe29LDT6KmyLkA
-	s3JS01I/CwpcW2eeSN/KBmHde0iKAy1ylq7vtyr7JHiQ4qfvL/YDbiED428S+QHStf5J8rJ0bn3
-	wbjnxMOgSpbW+XxqTsD40tLQHdljVwU0foYapyPGUbEizZdhLY9pf9QdA0SDnvK3IDi9ENtGkLD
-	VDFHna5E/vwaq4LSZEvZRnMq8+7dfiROLXnvexK57kWRalUilibgwqyn0C/5jQ5276OSGmHEQL/
-	VvoySo/RHw1pQ1H3PEOzl/dOKmGTkmH7CUCT4rqKG0hcuDqY0SOFXM6h8NPk7bGs/ZVNF1gbMx7
-	8v7gelt0OQs9xcH+NhgbuMdAbxPdzvMfSqWPZKg/U/sbnjS2fn4BhYv7VdUNr4XuIrVHOTDz+EG
-	I80n4yypjMRF9ep5ZuySvym3rHeMwXLY86g+gZLFBrHSexq9o0UEvTSORGGi8=
-X-Received: by 2002:a05:600c:4708:b0:495:6396:8b67 with SMTP id 5b1f17b1804b1-499879419bdmr54955745e9.4.1786706914115;
-        Fri, 14 Aug 2026 04:28:34 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:9886:6a22:ee2a:d5e1])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-499899753ccsm24626765e9.0.2026.08.14.04.28.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 04:28:33 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: phucduc.bui@gmail.com, Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: meson: meson-card-utils: Drop redundant probe
- error messages
-In-Reply-To: <20260814094211.25151-2-phucduc.bui@gmail.com> (phucduc bui's
-	message of "Fri, 14 Aug 2026 16:42:11 +0700")
-References: <20260814094211.25151-1-phucduc.bui@gmail.com>
-	<20260814094211.25151-2-phucduc.bui@gmail.com>
-User-Agent: mu4e 1.12.9; emacs 30.1
-Date: Fri, 14 Aug 2026 13:28:32 +0200
-Message-ID: <1jzeyplz4v.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="enxmOuVO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DC6C4C2BCB9;
+	Fri, 14 Aug 2026 11:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786706968;
+	bh=JK/RVAs/dl14S9jsi85PIl3pfYXOOqvpn4TPowSI9nY=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=enxmOuVOX/uoBTkAq4to0exnriegho/MNOc/0PQNGIrfyqvGQOF0EK+TJM82CZ1ck
+	 UP5WQG8ejliyd/dr2NJ7KrxoL4f1pOrkMgaFLAo+FmfSVV0ioY0KROEG0GmkZUu+kl
+	 2OKhnLEAz61kcOf42gX9jFW+8pEKGAITzIkrkhqLBS4oIo3lQ+mamCO9Uyles1twxK
+	 vTOixa7y7Q2mS1ErjOuPPRv6NaoLD8JVLodiLWX2KwHM7eyR5lVcSizw3xIt+iTIS1
+	 czv4+SSE6pXBayknwPwx6TxKPl+gJ2uluFY9RgepDoaKNCBpwGCEbUtenFgzdLNaTI
+	 nv/LxJFbHeuHA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7693C5CFDB;
+	Fri, 14 Aug 2026 11:29:28 +0000 (UTC)
+From: Christian Wehba via B4 Relay <devnull+weebnuts.hotmail.com@kernel.org>
+Date: Fri, 14 Aug 2026 21:29:28 +1000
+Subject: [PATCH] ALSA: hda/realtek: Match Lenovo Yoga Slim 7 14AKP10 by
+ codec SSID
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260814-alc287-akp10-v1-1-60b3d619f72d@hotmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDC0Nj3cScZCMLc93E7AJDA92kZAODZEPTRPPEVAMloJaCotS0zAqwcdG
+ xtbUAR7xwk14AAAA=
+X-Change-ID: 20260813-alc287-akp10-bc00c15a7ae0
+To: linux-sound@vger.kernel.org
+Cc: stable@vger.kernel.org, Christian Wehba <weebnuts@hotmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786706967; l=4514;
+ i=weebnuts@hotmail.com; h=from:subject:message-id;
+ bh=XN40BnZnWOGYHA+7GO2mZkGtsNIWrNdk7lHPf86eDyM=;
+ b=HPrXYTWO2VzjjGrDZRPQMPUjEVwkWHxQrAvdIwKXMyiJ7R8iiH4SDjhiDgMDp78qAk6QtdLIR
+ l7Kgz9njSpqAYYu2Dmw8dZZP5NBx5QQEi3u+Asez6suw/GIHHCafcsI
+X-Developer-Key: i=weebnuts@hotmail.com; a=ed25519;
+ pk=x+EJ28Iu4dCXlGo0o5ZYbAdHluOsP4d5LHGiwTLloZI=
+X-Endpoint-Received: by B4 Relay for weebnuts@hotmail.com/default with
+ auth_id=948
+X-Original-From: Christian Wehba <weebnuts@hotmail.com>
+Reply-To: weebnuts@hotmail.com
 
-On lun. 14 janv. 2008 at 11:42, phucduc.bui@gmail.com wrote:
+From: Christian Wehba <weebnuts@hotmail.com>
 
-> From: bui duc phuc <phucduc.bui@gmail.com>
->
-> The functions called here don't log the error themselves, but the
-> error is already reported deeper in the call chain, so the dev_err()
-> calls are redundant and can be removed.
->
-> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Commit e6c888202297 ("ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim
+7 14AKP10") added an entry for 17aa:391a using SND_PCI_QUIRK, so it is
+only tested against the PCI SSID. On this machine 0x391a is the codec
+SSID; the PCI SSID is 17aa:38b4, which is shared with the Legion Slim 7
+16IRH8.
 
-Acked-by: Jerome Brunet <jbrunet@baylibre.com>
+snd_hda_pick_fixup() walks the quirk table in order and returns on the
+first match, so the earlier 17aa:38b4 entry wins and the codec-SSID
+fallback at the end of the function is never reached:
+
+  snd_hda_codec_alc269 hdaudioC1D0: ALC287: picked fixup  for PCI SSID 17aa:38b4
+
+The machine consequently gets ALC287_FIXUP_CS35L41_I2C_2 even though it
+has no CS35L41 amplifiers, and the intended fixup never runs. Its bass
+speakers hang off pin 0x17, which the BIOS reports as unconnected, so
+only the tweeters on pin 0x14 are driven and playback is very quiet.
+
+Convert the entry to HDA_CODEC_QUIRK and move it ahead of the colliding
+17aa:38b4 entry so that it is evaluated first. With
+ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN applied, pin 0x17 is enabled and
+both 0x14 and 0x17 are bound to DAC 0x02, so a single "Speaker Playback
+Volume" drives both speaker pairs:
+
+  autoconfig for ALC287: line_outs=2 (0x14/0x17/0x0/0x0/0x0) type:speaker
+
+Verified on a Yoga Slim 7 14AKP10 by forcing the same fixup with
+model=alc287-yoga9-bass-spk-pin, which restores full volume and keeps
+the volume control effective across its whole range.
+
+Note that the existing 17aa:391c and 17aa:391d entries are likewise
+placed after the 17aa:38b4 entry; should those machines also report PCI
+SSID 17aa:38b4 they would need the same reordering, but that could not
+be confirmed here for lack of the hardware.
+
+Fixes: e6c888202297 ("ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 7 14AKP10")
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221298
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Wehba <weebnuts@hotmail.com>
+---
+Single patch; the full analysis is in the commit message.
+
+Tested on a Lenovo Yoga Slim 7 14AKP10 (AMD, ALC287) running 7.1.7 on
+Fedora 44. Without the change the machine matches the Legion Slim 7
+16IRH8 entry on PCI SSID 17aa:38b4 and gets ALC287_FIXUP_CS35L41_I2C_2
+despite having no CS35L41 amplifiers; only the tweeters on pin 0x14 are
+driven, so playback is very quiet. With the fixup applied both speaker
+pairs are driven and the volume control stays effective across its whole
+range.
+
+Reported and tracked at:
+https://bugzilla.kernel.org/show_bug.cgi?id=221298
+---
+ sound/hda/codecs/realtek/alc269.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index be7287ea2..488293612 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8069,6 +8069,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38a9, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x38ab, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
++	HDA_CODEC_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x38b4, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x391c, "Lenovo Yoga 7 2-in-1 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x391d, "Lenovo Yoga 7 2-in-1 16AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+@@ -8117,7 +8118,6 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3911, "Lenovo Yoga Pro 7 14IAH10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3912, "Lenovo Xiaoxin 14 GT", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
+-	SND_PCI_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TXNW2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3929, "Thinkbook 13x Gen 5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+
+---
+base-commit: f42eb0bd059781dc7f3046c7d37e76f59b874744
+change-id: 20260813-alc287-akp10-bc00c15a7ae0
+
+Best regards,
+-- 
+Christian Wehba <weebnuts@hotmail.com>
+
+
