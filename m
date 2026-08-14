@@ -1,113 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E513531E846;
-	Fri, 14 Aug 2026 18:42:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706EC48C8DC;
+	Fri, 14 Aug 2026 18:42:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786732933; cv=none; b=L11fVDh5EVM/5/51lnZjU1z+M99G8kA8r9eiWTz0fwYSMrnFcmGbdRU3zySoH4LVal4errGN0i4Bo3VOy65vWAHeUNuUXJkAlW+zi9K/QcIel26W8CxGi4xystVewCR5v9ylPHw76I47BFOdAS5TaS3TqqOtp/JOL0q1+ruYACk=
+	t=1786732980; cv=none; b=QsbzAWjwEPoQE69ou2Jqr2PQLe3Oqs/BS9x+OCTVue8VcbSsyD7QC29MN3GYCThGg6xDuRrXl8oCPVPxb1y0coAtizbj5hzMsGQpn5u2aFefZQBLi23oqF8zb4GPqhohhMkRtir4vFFIvdwtWv/S+KvES0ffCMvAjr6A40+f/nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786732933; c=relaxed/simple;
-	bh=xcWeFbm98L1DsWNaw0w608Gyk3VdXyMyX7CZ9ZTLZSQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=olGlkfxGEvT60HiMn3VVNBUF14zs14oCI6XC3wq6k5gjobENmRRhPsFdtyKptOYb66UzFUDczpFo8mOXFQfu4jeu3bDjIQdK9ZqnJnmGoybRGMVz6Tw786Qg/B4OUo0th1yCVqTwJ/dHUpyh1ty5VnO+BDZE9mYzUUwk2O5KnLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O6qIQ0IC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786732980; c=relaxed/simple;
+	bh=YOJ94xYZkUiZp1NQvxc/IYUfIkFm7lbg/NgXRcg7xI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TsMjwll7gZblWc3cTYG0cBgh8ao0YgvWgZESNgPMU7LuFJAJdGTaiEaa5DDnM/JEobupWHwpFpjPa8HLMS3uo22V1O+fToc9oXesheLNYa8w2nBr2Zp3RvmdoUCqGXBI0yjlxhoAx0uCEkCxTCoC1qWmmfAIqH91rca8XruBzyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLw06ILA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O6qIQ0IC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CB001F00A3D;
-	Fri, 14 Aug 2026 18:42:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLw06ILA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D621F000E9;
+	Fri, 14 Aug 2026 18:42:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786732931;
-	bh=bBbLDJFcrBTaSJ3LPdJm2DJdlydtGF27CG1CJ5pPdvA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=O6qIQ0ICd/bGLuNghwgwJ8YOpz/gZ2Ra1IbmoJPI+DD0rw026G6HypvtGEnPyRbR8
-	 WCxHdlBL0dGBZaxCkhFnMdfrdpaJaDkK6eQVZ71MceW2USaf6UExhPchrUrlA0bDpF
-	 wNjWEdVqB+SV3yHHmDiKJwwN6ezabDUEHgHLiQo7uhmcm+BHQnxnKBssV9Y8CmIyXk
-	 N4OlO+S68Y30ztPxyb6dFhbv5cXOAOkQcvzt9MSDFIHx0FDyDgdX25fnU318LEeLE+
-	 jRQnmMywduOVs0moV6VNOVP2/2P9HDc+OL9d8HpvGk+kxXjq4trAJ4earugo/lyGkn
-	 8jCVsjw3+SuOA==
+	s=k20260515; t=1786732979;
+	bh=YkB1QnDS66V/ypjQWPelREncMUh+FHnfOw7Ld2EjWNE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NLw06ILAuBPWUuYJ831JRG48e70aFFMjvH0b/8/g8+T4RVOfye7gIZilbZMRkxhq5
+	 9/hunzg1n2QrOS2Yg3zI7u5p6sbClRS6XjDqb4SFSrvNlZJHl8FMxQUSdOrAmRPBOV
+	 LL+uDuFQOTkKVT1krCBbZ4Lvg3UJOgS1pRMswug/PsYZ+TBHO9xtvTLlpchUlAQePo
+	 p3lJ6sVjDC/sRwqoZM+eNQMb/hMwrNPWjOaXkd2Z/wrW2I+tx6LYpuNN/ZDqoJKdEX
+	 VMFfeafhmCJQyw9N3uJKk3p/8lN6ytnp3NmVCn+vqV41kFuFMpUUnqi+S4L7qvY42p
+	 2AWBNUtJP2SwA==
+Date: Fri, 14 Aug 2026 19:42:54 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Andrey Golovko <andrey.golovko@gmail.com>
-Cc: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
- Antoine Monnet <antoine@montane.tech>, Robin Everaars <robineveraars@pm.me>, 
- Ville Saarinen <wiza@saarinenkoti.fi>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260814094000.22118-1-andrey.golovko@gmail.com>
-References: <20260814094000.22118-1-andrey.golovko@gmail.com>
-Subject: Re: (subset) [PATCH v2 0/2] ASoC: tas2783-sdw: fix the read-only
- Control handling
-Message-Id: <178672090520.152149.17207193857826420271.b4-ty@b4>
-Date: Fri, 14 Aug 2026 16:21:45 +0100
+To: =?utf-8?B?5p2O5YiZ6Imv?= <lizeliang.linux@gmail.com>
+Cc: shenghao-ding@ti.com, kevin-lu@ti.com, baojun.xu@ti.com, sen@ti.com,
+	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: tas2781: Add delay before block checksum retry to
+ prevent deadlock
+Message-ID: <945b889d-0e05-4f4c-a6ed-2d8172554d5c@sirena.org.uk>
+References: <CANd6bg+B_fZUpy4wwU8HyQMeo9-GKMEx2FPBem=-e4yr4eU1uw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1871; i=broonie@kernel.org;
- h=from:subject:message-id; bh=xcWeFbm98L1DsWNaw0w608Gyk3VdXyMyX7CZ9ZTLZSQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqf2F+rhbX3zpJIxxIJmNV9jlnWOgana02SK7r1
- KVf5vsgxkSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCan9hfgAKCRAk1otyXVSH
- 0H/IB/46qRsAakxhXbUvLTRumFqGPmEJBCXlg0D0Z7bpTz17UzU8XWJJKRBIFXCsEDdq+rOdoRm
- LRHDsj8Hsn1PRESzJrr6iQa3/PTk92rbv/MpZ2Gr+ISw3jtkQKVTQDbHPH+xX95Bc1GVV1BjU5u
- uMzv5JMhK02bSqvGJYTOFz/yskqYvE5UhrqeQp24txhgAAUk4SGha9Y7/wm3z9RC+tjHwg6BdwA
- u3KPg72mHuZ1bJ3Z/ephnoFPY7UZarFdqvvnTkInZzfcQqVlP7E4amU0Ad5csgNWBJ+dLbwafAF
- 9w7o2UvePCaigDMVlF2R8ue3050+W2QeZ64jybbdUwOtppxE
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t4shxBsaYJYcYRKv"
+Content-Disposition: inline
+In-Reply-To: <CANd6bg+B_fZUpy4wwU8HyQMeo9-GKMEx2FPBem=-e4yr4eU1uw@mail.gmail.com>
+X-Cookie: Body by Nautilus, Brain by Mattel.
 
-On Fri, 14 Aug 2026 09:40:00 +0300, Andrey Golovko wrote:
-> ASoC: tas2783-sdw: fix the read-only Control handling
-> 
-> The two read-only Control patches from 13 August, resent together as a
-> series because the second one depends on the first, and with the change
-> Mark asked for.
-> 
-> He pointed out that the XU22 Control 0x14 in the read-only list is
-> SDCA_CTL_XU_FDL_STATUS, which sdca_fdl_process() writes.  He is right,
-> and the description I gave it - "firmware download status" - reads like
-> a status the device owns, which it is not.  It is a handshake: the
-> device sets the bits it owns, and the host writes its response back into
-> the same Control, keeping the device bits, which is exactly what
-> sdca_fdl_process() does with response | (status & ~SDCA_CTL_XU_FDLH_MASK).
-> So it is out of the list in 1/2.
-> 
-> [...]
 
-Applied to
+--t4shxBsaYJYcYRKv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+On Sat, Aug 15, 2026 at 02:19:26AM +0800, =E6=9D=8E=E5=88=99=E8=89=AF wrote:
+> +++ b/sound/soc/codecs/tas2781-fmwlib.c
+> @@ -1765,9 +1765,16 @@ static int tasdev_block_chksum(struct
+> tasdevice_priv *tas_priv,
+>   ret =3D -EAGAIN;
+>   block->nr_retry--;
+>=20
+> - if (block->nr_retry <=3D 0)
+> + if (block->nr_retry <=3D 0) {
+>   set_err_prg_cfg(block->type,
+>   &tas_priv->tasdevice[chn]);
+> +
+> + } else {
+> + /* Give the chip and I2C bus time to stabilize before
+> + * next re-transmission attempt.
+> + */
+> + usleep_range(2000, 2500);
+> + }
+>   } else
+>   tas_priv->tasdevice[chn].err_code &=3D ~ERROR_PRAM_CRCCHK;
 
-Thanks!
+Your mail software has mangled this patch so it's unusable - at least
+all the tabs have been replaced by spaces.  You might want to look at b4
+to send the patches, especially it's web submission endpoint which
+avoids having to configure mail:
 
-[1/2] ASoC: tas2783-sdw: do not treat read-only Controls as writable
-      https://git.kernel.org/broonie/sound/c/0c7aeb0f5ece
+   https://b4.docs.kernel.org/en/latest/contributor/overview.html
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--t4shxBsaYJYcYRKv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmp/Ya0ACgkQJNaLcl1U
+h9DDIAf+MtGt8tvS+CkPMWMjrGYCZDpoYTNSG8w7bxnZ5L6NsS7ar72k7HiRqVO/
+pE+8kE3FNkOrwUFkpli5qwvdajWpwQSeCWpeV0eSDR0CccR5fe8uTP61ghxSeiH5
+ugZICXyPPP5HBXx+pEltNNF5soqbhkTKFQuxtIOaj285oRpFUyoDmI+41+GoBZ01
+o/UBnwpnD5m8gkR+cQs9Ev8jQC6e3IgAxZ+93XKGIgLYHjRNu0sQq70qKVDC7zO8
+x7rmsv2UrO/yfu6KoCEtzlN8OSWNPKeJ7Q6fbAMomNvHoou45tjWGiPFcSyuh/Zr
+5Y6zrB3VywfTAuIRBgoYdtSWmmNLBQ==
+=55/E
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--t4shxBsaYJYcYRKv--
