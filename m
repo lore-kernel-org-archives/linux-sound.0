@@ -1,65 +1,65 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86137376A01
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ECB3378833
 	for <linux-sound@vger.kernel.org>; Sat, 15 Aug 2026 11:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786793828; cv=none; b=obOgqeggV0OBDolVJq3i2dR04vYEFAxK7tO+hznCNacNSqrOouOS/D3qX+Vk3S+1TmwzlvSzsD3COEXZq1VTUTokAOxaJtAX4aYiUR8EcnDZmHp0sDw8wIpPPzZeiIs94FT/9NaN8oykcotZcc/AWYDkVDpe1jDzpzmuxfe6yj8=
+	t=1786793829; cv=none; b=KIkBp3fmou2pDuQQg64CrmmA6GiTfMPuAi3xuvYiisbrEvgr8xr5TbS3NahaPWJKVCXKM0BrFQaCFMuWDJPbhs4/UJ7GguJJJEyeXK8dgXSjC5IOwsFJMXBjcfqNl/pL3MuqwNPEkrKPFzKKzzYvS7gmkuJiLlKqZ+XBEjmdRb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786793828; c=relaxed/simple;
-	bh=tQJ0i1MfjTGpgskD8LkZJQe8cZ1L34361W7BOazpZNI=;
+	s=arc-20240116; t=1786793829; c=relaxed/simple;
+	bh=bFiso7/5bo2qxT7JVBiB6HAnxRgKouO81GPHXA0xeG8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ergi+N5OLinXINGnMJe4QMuZa0s0xJnydqZoOP03CoJcU7CPBkcHCIQkB78vgcfrya1f+FTOosxzRyz6kA37/6DTzLII4h18bqH84yxM0d5Mva93QxzkaFXm36hK2j9AFr7/h75JZuZzO7WrzqQlw85zKxX86qW43VLEYjAFUtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TZNGZHV4; arc=none smtp.client-ip=209.85.167.43
+	 MIME-Version:Content-Type; b=XaRlj5frxtso35NuHeV+PyGpJAhhrQaAnyLraRiUl1xbM9Pwp0m1VArYKcc7BDhh/LZXQ8XO3ClcFMJ85KomxZ0iNUAk1IX0Efbz/KDsHMYjy+eVda8POkQjH/uMFbmVl2Fqq9Oy9Wrl62QEX0Z7eixQWx7cZ1E56nmP351vnkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ChOvNQl0; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TZNGZHV4"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5b159850b16so1768669e87.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ChOvNQl0"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39c86ce9e29so14067941fa.3
         for <linux-sound@vger.kernel.org>; Sat, 15 Aug 2026 04:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786793824; x=1787398624; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786793825; x=1787398625; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=G8DJOAERut18sMiiQSBR+SS27P0WTvLv9LFTZmBTo+E=;
-        b=TZNGZHV40LXxHRBx0w3bzrQMcT8Y0YeKXHRlmJkMdx7ZmxH2IbNiTyt+tJg1VPMQjo
-         JGzCfXcF4FTTi64Y+s0qo6XPa89T6f3inPJ7U/E+TU0wTaQkOCRFnM2b10WDMSVAZ2LH
-         96AkUokn8GbWvf9wlSWiCHmRMnwQal8qoIfwUod+GzWdv/cBX717aQX9FNtWikxomMPF
-         5TZcO4COCCY7yeeOl6sCVyJTXeKD3KZszM7tFkrVqpQtgs/+1sXnMcfBA3GxLz4g467h
-         3mXB9ixi4LxvBRt7JZi5eU1UcOI8b/+zeMxIEKlq4F2w4lK8qoFW/fj/2QcgpyfW08EL
-         V9yg==
+        bh=ITTecIXlxtWR6cUn9ksAsBIcZ/nNQKXG0g9oEXa5NjI=;
+        b=ChOvNQl0RrizKzE7cpfEj8y4WZcJePCQ0EhVUVZvGjIkqcCs808E58vcEjoPDUTyDc
+         68r8CmZG8MB0lkEDu4wSWzd9degVSo9EDaXvfzp4GrPGnaf5vW8zsCeRjCcHKuw0XYY0
+         2b0qQLSMJ89SEkvD5bkhw3aiZxjU+7ru9hW+HR7ODIR4GriP2jPFTmLgmyYVURe2EXqH
+         IVl8uRoI+4/yaXiiWNgR5ayhfurdsWwBPGpFu6Y01PH6q78yDWpKB/EV0LnKiSDzvkvN
+         dWv8U420iJ+DaBXfzs/joBsVLpYjgbJseOD14H/LS6M9XdTSo8rUqh/eHqfD3TkTlKBn
+         +15Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786793824; x=1787398624;
+        d=1e100.net; s=20251104; t=1786793825; x=1787398625;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=G8DJOAERut18sMiiQSBR+SS27P0WTvLv9LFTZmBTo+E=;
-        b=W/krO6s/I9JZQ6td/48KEanYGH8VnXIagZgUFRSLjjaH3Z6lmon2KjSMJZu1VAm5Xo
-         qG3p/wQZzqKhyqO2r/4pobSoZRJ5OhPBRJciPNKcNowZM6eR5stJAJcQOPVs5E5MPEyS
-         FhTk/yH/LE7kuE+TJCl2ZjcBkYJHRqY34JVFZbVazjsJ7DOzcdN2ylM/FcM/SNcazKfF
-         VzwJUJt8wmjIdYBR79EmA4T82nCP7rvX5l6uJ2W0taI+bRDtEj6pycQuuwCEnOLXfqua
-         IbRkbENXtDFwUHC3FrFftqRc0N6nyuHl5xnFRuk5xESyNRLhmmxOTDpDhOT1taLe80JB
-         yX5w==
-X-Forwarded-Encrypted: i=1; AHgh+RpuOO6vDf8GCHL64Lzbl8NSoqRayN8WbWU6aPSZA/z77U1CVCtgy1tep2QhBwFaX+Chsj5eDnm4ccZtHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWiXMwyRiJb68cN1zV4UD43Uw/84W347JBIvWkzT0dAaD+NqJU
-	LS46ifupKwunU13buaP9AlAAJnoFKEgSpkHtm1+aAlfOEqsH1C5jZIcp
-X-Gm-Gg: AR+sD11mdsx3jptu0WOUljIG5ZbVGoCb28YV02BwBWpWtzveOW+CR6tAvr14kJA84K/
-	hCXBBYAla3lXDmA/Tf8ySZY7fMYsL5sP1atraAwavxZRR9yBgpIBM02cSKfqLDTiY40u0beUIVd
-	+BzzZngvVjv1XyoXUdDxtP+na/o3f+cVWMGMQztexEe8RQlXT5kD1M2rj9fhov9uMF46CCHHRGJ
-	HeOQVdBg3+Y/BJdIRlP/VzMN6ebvuv+HNoSOP6DMsQr1sHfUsmFHHbeE2FuRwwuvGJEVYTvAQeP
-	amkL9Ew19YF/JEE04rmACjMuoMDt3JOkeIRJ+27LM+NXgxHuukiR99wyICJZCieDa/T/2Fp2od5
-	lYkFSERrYNnSn3O0E4yZDX0Yc0KfXrW58b71B1tWsdNUnJSGPPwGahy6J6bAiSALse2aoHEWUmB
-	24Ya3iJSUSC8VhmPNj9kvN/17X1FI2T1uohbZo3ivCCksiGmFqHAaPBAJSW/I7PBmn541TRdZS2
-	L450++VyIKKIiIQQVBAtK4T760IiMjoZw==
-X-Received: by 2002:a05:6512:39c9:b0:5b1:4e5e:559c with SMTP id 2adb3069b0e04-5b45913b876mr2072844e87.30.1786793824145;
+        bh=ITTecIXlxtWR6cUn9ksAsBIcZ/nNQKXG0g9oEXa5NjI=;
+        b=Fh35rei1Hj4LfqKlCXCnNVN0Hrtxvadp7BGWyweFjcmh1NXFMhYOZ1u/OFswvjD3rv
+         lLwc+szCNADIULReM55GaR17z3hiKzf3eimmoKrLupgjaLqEDp8QwZJOetrEmdZckUQG
+         3kVXt1l1s9LF+Sze/IDlXmkyEoM8bR8QtuHR+fFYtt+brAcriAHIyKXUhNeh2DfW6x1X
+         npUsDVawHKGxG1hzbpY5HiMFO5Z7kHVddKbPn6V89+v6dr3PVh/WdZ4pELClnMTTUoMr
+         Xypwjr/0RCJfHTsWa/KLIW3xpO7+mWC4lSb263JUcXexeZHo+7p26uMlzG35fj3x1J7H
+         RQsw==
+X-Forwarded-Encrypted: i=1; AHgh+RohL2Yt3Fi8c6C1S4Rdqds6v9LprN+JE28JQ9BWEqoYIWBN5HlTnESt6NO3oKAuB0kvT5gZzGl+ds+Xsw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+z5atQrjYtqkAHljZ8Ym2B4/j2TZ/5vdytTY+Y0tedDZATiAJ
+	owBzUCftvKgwjxcntuu0dBupRwHAeNS+c1kHvXDNQFbaDXmUUL/47QV1
+X-Gm-Gg: AR+sD13fqEwr0bNunvFIEZHrhYKCmsAo0CyqMfdrgzOEhYwqLEN2zrMi/WAkba5Vnik
+	E7VOpdSHS/foYPv7muLyjjBk0hg4A7woc+j7RLvmaO5b/wdXpj3vzOogo/eNWxotzHNslS6LAem
+	lpPXe0W2iipxGr12G2i5t3F9xQtPTCcoaik0aODPyMQIKZ3JQp1XzF9DPTjsbcOMCxQ//RBrQHp
+	o92JBAXZ5lrsY8IR5Nzbr+pznMIgDecDRyqePFKeeLN8bvNEmKlQJ5qJEb9ha0s6PV1cSTS3rmq
+	66j/aZwusWxDAPbWsiccAzw0YG8Zh67lGuzU5OIMwou0D3HxHENG+4vjYoC+HF1LhR2z7y1820D
+	TkAEJM+e+alKcsUmZYX0lIgVS6PvNqRc+cBkyerO8Z6hM95PCh+VHnwUWB9mlicm2a/kgnyu26s
+	F/HMUSQvsl2g1IcB/O5X1+v3i4gq4/s73k0RRjFRTXH+HX1cwzp+kfAuZxLBJyaKo3aPEYSn+O5
+	dd6/4dP5pVk9D4HagdtgLA=
+X-Received: by 2002:a05:651c:a347:b0:3a1:3191:2dbc with SMTP id 38308e7fff4ca-3a1327cbe76mr10906951fa.22.1786793824841;
         Sat, 15 Aug 2026 04:37:04 -0700 (PDT)
 Received: from localhost (host-80-73-162-2.rev.as20985.net. [80.73.162.2])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458c0ab08sm1070598e87.73.2026.08.15.04.37.03
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a130872f84sm10436161fa.1.2026.08.15.04.37.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Aug 2026 04:37:03 -0700 (PDT)
+        Sat, 15 Aug 2026 04:37:04 -0700 (PDT)
 From: Andrey Golovko <andrey.golovko@gmail.com>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
  Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>,
@@ -73,10 +73,9 @@ Cc: "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
  Robin Everaars <robineveraars@pm.me>,
  Ville Saarinen <wiza@saarinenkoti.fi>,
  linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] ASoC: tas2783-sdw: make multi-byte MBQ registers
- reachable
+Subject: [PATCH v3 2/2] ASoC: tas2783-sdw: do not cache read-only Controls
 Date: Sat, 15 Aug 2026 14:40:00 +0300
-Message-ID: <20260815112000.4180-2-andrey.golovko@gmail.com>
+Message-ID: <20260815112000.4180-3-andrey.golovko@gmail.com>
 In-Reply-To: <20260815112000.4180-1-andrey.golovko@gmail.com>
 References: <20260815112000.4180-1-andrey.golovko@gmail.com>
 Precedence: bulk
@@ -88,121 +87,193 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-tas2783_sdca_mbq_size() declares registers of one, two and four bytes,
-but the regmap is created with val_bits = 8.  The SoundWire MBQ bus
-rejects any register whose declared size exceeds the configured value
-width:
+The read-only SDCA Controls are readings of device state, but the regmap
+caches them and tas2783_reg_default[] gives each one a placeholder, so a
+read is answered from the cache and never reaches the peripheral.  The
+answer is whatever the cache happens to hold: on an ASUS ProArt PX13 a
+read of the PDE23 actual power state returns the 0x3 placeholder, i.e.
+PS3, while the Function is powered and a cache-bypassing read of the
+same Control over the bus answers 0x0.  Once the cache has been given a
+value it keeps it, so the Control reports a state the device left long
+ago.
 
-	ctx->val_size = config->val_bits / BITS_PER_BYTE;
-	...
-	size = ctx->cfg.mbq_size(ctx->dev, reg);
-	if (!size || size > ctx->val_size)
-		return -EINVAL;
+Mark those Controls volatile and drop their entries from the defaults.
+regcache_read() and regcache_write() skip volatile registers, so a
+read-only Control no longer enters the cache at all: reads reach the
+peripheral, and a sync cannot attempt to write a reading back.  That is
+what regcache_sync() asks for in the first place - "any registers that
+should not be synced should be marked as volatile".
 
-Both regmap_sdw_mbq_read() and regmap_sdw_mbq_write() bail out on that,
-so every register the driver itself declares as two or four bytes wide
-is unreachable through the regmap, in both directions, and the failure
-happens before anything reaches the bus.
+The list is the same one the writeable_reg callback needs, so move it
+into a helper both callbacks use.  The File Download Status is not on
+it, because the host writes that Control, but it is volatile all the
+same: the device raises its own bits on its own schedule, and
+sdca_fdl_process() reads the Control to see them.  A cached answer would
+hide the device half of the handshake.
 
-That is measurable.  On an ASUS ProArt PX13 HN7306EAC with two TAS2783
-aggregated on one link, a regmap read of XU22 Control 0x07, declared two
-bytes, and of XU22 Control 0x12, declared four bytes, returns -EINVAL on
-both amplifiers.  With val_bits widened the same reads reach the
-peripheral, which answers -ENODATA for both, powered or not - this part
-appears not to implement them.  So the change makes the registers
-addressable; whether a given peripheral answers is up to the peripheral.
-
-Widen val_bits to cover the largest size the callback returns.  The
-callback keeps deciding the size of each individual transfer, so
-single-byte registers are unaffected.
-
-The calibration path needs adjusting along with it.
-regmap_bulk_write(..., buf, sizeof(u32)) relied on val_bits = 8 to
-spread one calibration value over four consecutive single-byte
-registers; with a four-byte value width the same call would ask for four
-four-byte values and read past the end of the four-byte buffer.  Write
-the four registers explicitly instead, keeping the most-significant-byte
--first layout.  Read back over the bus, bypassing the cache, the five
-calibration values of both amplifiers are byte for byte what they were
-before this patch.
-
-What this does not do is repair regcache_sync().  On this machine a sync
-aborts earlier, at a single-byte Control - the FU23 Mute of channel 0,
-which tas2783_reg_default[] gives 0x1 while the driver's init sequence
-writes 0x00, so the sync tries to restore it and the peripheral answers
--ENODATA - and no multi-byte register is reached at all.
+Nothing in the driver reads any of these Controls - it performs no
+register reads at all - so the change is visible only through the
+regmap.
 
 Signed-off-by: Andrey Golovko <andrey.golovko@gmail.com>
 ---
-v3: new in this revision.  Written on 28 July, held back until the
-    read-only Control patches settled; it is the answer to Mark's
-    question on v2 2/2, which cannot stand without it.
- sound/soc/codecs/tas2783-sdw.c | 37 +++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
+v3: rebased onto for-7.3, behind 1/2, which is what makes the
+    multi-byte Controls readable once they stop being cached.
+    No other change since v2.
+v2: File Download Status is not read-only, so it is marked volatile
+    on its own; its entry stays out of tas2783_reg_default[].
+ sound/soc/codecs/tas2783-sdw.c | 68 ++++++++++++++--------------------
+ 1 file changed, 27 insertions(+), 41 deletions(-)
 
 diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index caf8fe1bf4db..b657ad031306 100644
+index b657ad031306..e859749ac825 100644
 --- a/sound/soc/codecs/tas2783-sdw.c
 +++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -564,7 +564,13 @@ static bool tas2783_volatile_register(struct device *dev, u32 reg)
+@@ -185,35 +185,17 @@ static const struct reg_default tas2783_reg_default[] = {
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU26, 0x01, 1), 0x1},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU26, 0x0b, 1), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x01, 0), 0x1},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x06, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x07, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x09, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x0a, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS24, 0x02, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS21, 0x02, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS26, 0x02, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS28, 0x02, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23, 0x1, 0), 0x3},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_SAPU29, 0x05, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU21, 0x06, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU26, 0x06, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT21, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT21, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT29, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT29, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT26, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT26, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT28, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_IT28, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT24, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT24, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT23, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT23, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT25, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT25, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT28, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT28, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x01, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x01, 1), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x01, 2), 0x0},
+@@ -222,40 +204,28 @@ static const struct reg_default tas2783_reg_default[] = {
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x01, 5), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x01, 6), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x01, 7), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MU26, 0x06, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT127, 0x04, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT127, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x01, 0), 0x1},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x01, 1), 0x1},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x01, 2), 0x1},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x0b, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x0b, 1), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x0b, 2), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS127, 0x02, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x01, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x04, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x05, 0), 0x1},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x08, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU26, 0x01, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU26, 0x04, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU26, 0x05, 0), 0x1},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU26, 0x08, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU23, 0x10, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU26, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x10, 0), 0x1},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x12, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x13, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x14, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x15, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_XU22, 0x16, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS24, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS21, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS26, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS28, 0x10, 0), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PDE23, 0x10, 0), 0x3},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_UDMPU23, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_SAPU29, 0x10, 0), 0x1},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_SAPU29, 0x11, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_SAPU29, 0x12, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU21, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_PPU21, 0x11, 0), 0x0},
+@@ -286,7 +256,6 @@ static const struct reg_default tas2783_reg_default[] = {
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT127, 0x12, 5), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT127, 0x12, 6), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_OT127, 0x12, 7), 0x0},
+-	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_FU127, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_CS127, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x10, 0), 0x0},
+ 	{SDW_SDCA_CTL(1, TAS2783_SDCA_ENT_MFPU21, 0x11, 0), 0x0},
+@@ -495,15 +464,15 @@ static bool tas2783_readable_register(struct device *dev, unsigned int reg)
+ 	return tas2783_sdca_mbq_size(dev, reg) > 0;
+ }
  
- static const struct regmap_config tas_regmap = {
- 	.reg_bits = 32,
--	.val_bits = 8,
-+	/*
-+	 * tas2783_sdca_mbq_size() declares registers of one, two and four
-+	 * bytes. val_bits has to cover the widest of those: the SoundWire MBQ
-+	 * bus rejects any register whose declared size exceeds val_bits, which
-+	 * would make every multi-byte register unreachable in both directions.
-+	 */
-+	.val_bits = 32,
- 	.readable_reg = tas2783_readable_register,
- 	.writeable_reg = tas2783_writeable_register,
- 	.volatile_reg = tas2783_volatile_register,
-@@ -667,9 +673,9 @@ static s32 tas2783_validate_calibdata(struct tas2783_prv *tas_dev,
- 
- static void tas2783_set_calib_params_to_device(struct tas2783_prv *tas_dev, u32 *cali_data)
+-static bool tas2783_writeable_register(struct device *dev, unsigned int reg)
++/*
++ * The read-only SDCA Controls the driver describes: the Latency of every
++ * Entity, the Clock Valid of every Clock Source, the actual power state of
++ * the Power Domain Entity, the protection status, the algorithm ready flag
++ * and the Extension Unit id, version and firmware download status.  None of
++ * them is a setting; every one is a reading of device state.
++ */
++static bool tas2783_read_only_control(unsigned int reg)
  {
--	u32 dev_count, offset, i, device_num;
-+	u32 dev_count, offset, i, j, device_num;
- 	u32 reg_value;
--	u8 buf[4];
-+	s32 ret;
+-	/*
+-	 * The Latency Control of every Entity, together with the Power Domain
+-	 * actual state and the protection status, is read-only. They are
+-	 * listed in tas2783_reg_default[] with a placeholder value, so without
+-	 * this a regcache_sync() would try to write them back and the
+-	 * peripheral would reject the transaction, aborting the sync.
+-	 */
+ 	switch (reg) {
+ 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_FU21, 0x10, 0):
+ 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_FU23, 0x10, 0):
+@@ -538,16 +507,33 @@ static bool tas2783_writeable_register(struct device *dev, unsigned int reg)
+ 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MFPU21, 0x04, 0):
+ 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MFPU26, 0x08, 0):
+ 	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_MFPU26, 0x04, 0):
+-		return false;
++		return true;
  
- 	dev_count = cali_data[1];
- 	offset = 3;
-@@ -683,12 +689,25 @@ static void tas2783_set_calib_params_to_device(struct tas2783_prv *tas_dev, u32
- 
- 		for (i = 0; i < ARRAY_SIZE(tas2783_cali_reg); i++) {
- 			reg_value = cali_data[offset + i];
--			buf[0] = reg_value >> 24;
--			buf[1] = reg_value >> 16;
--			buf[2] = reg_value >> 8;
--			buf[3] = reg_value & 0xff;
--			regmap_bulk_write(tas_dev->regmap, tas2783_cali_reg[i],
--					  buf, sizeof(u32));
-+
-+			/*
-+			 * A calibration value occupies four consecutive
-+			 * single-byte registers, most significant byte first.
-+			 * Write them one by one: these registers are declared
-+			 * as one byte wide by tas2783_sdca_mbq_size(), so a
-+			 * multi-byte regmap access would not match the layout.
-+			 */
-+			for (j = 0; j < sizeof(u32); j++) {
-+				ret = regmap_write(tas_dev->regmap,
-+						   tas2783_cali_reg[i] + j,
-+						   (reg_value >> (24 - 8 * j)) & 0xff);
-+				if (ret) {
-+					dev_err(tas_dev->dev,
-+						"calib write to 0x%x failed, err=%d\n",
-+						tas2783_cali_reg[i] + j, ret);
-+					break;
-+				}
-+			}
- 		}
- 		break;
+ 	default:
+-		return tas2783_sdca_mbq_size(dev, reg) > 0;
++		return false;
  	}
+ }
+ 
++static bool tas2783_writeable_register(struct device *dev, unsigned int reg)
++{
++	if (tas2783_read_only_control(reg))
++		return false;
++
++	return tas2783_sdca_mbq_size(dev, reg) > 0;
++}
++
+ static bool tas2783_volatile_register(struct device *dev, u32 reg)
+ {
++	if (tas2783_read_only_control(reg))
++		return true;
++
+ 	switch (reg) {
++	/*
++	 * The File Download Status is a handshake: the device raises its own
++	 * bits on its own schedule and the host writes back a response, so it
++	 * is writable, but it must never be answered from the cache.
++	 */
++	case SDW_SDCA_CTL(FUNC_NUM_SMART_AMP, TAS2783_SDCA_ENT_XU22, 0x14, 0):
+ 	case 0x000 ... 0x080: /* Data port 0. */
+ 	case 0x100 ... 0x140: /* Data port 1. */
+ 	case 0x200 ... 0x240: /* Data port 2. */
 -- 
 2.53.0
 
