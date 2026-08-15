@@ -1,98 +1,97 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0a-0002e601.pphosted.com (mx0a-0002e601.pphosted.com [148.163.150.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A823655FA;
-	Fri, 14 Aug 2026 22:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AFD110F2
+	for <linux-sound@vger.kernel.org>; Sat, 15 Aug 2026 02:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.150.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786746942; cv=fail; b=ec4IT90dr9PvnHdWlpUySWVQOndw+O/guCn0Sy5P+ToQelWAWbWcNBQGnyyhh30IU0UTRCg/kxMKKgsCglvkUdsq5KnHACYWZ1d9ePOsczzkZYTgzdQh3kAcJQajJiXQBNvA5/Rn97xha6ATc04aP4vmjRBSHcFUxuipya61dbc=
+	t=1786761187; cv=fail; b=WtPZWOAq+tDXnasT8qkLOYJSoBTRjbDov6eDik6KqIWMv2gpUYoukIl89oNYS9SyW99eI7m5PlG31PaHN42B3mlf7FPcVVCyWw5dLOIDZpZeLttzbMMVhzapPGwEKpilGDqFNCkE0woKJYBEEU6iyNwsi6BrRa93/5LAyyWGYQQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786746942; c=relaxed/simple;
-	bh=Te/AukHNBHZmujVfCH8IICCXWoka5aXpd4Zp/g3kw9M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qJnPHjnzXg5QHr/ZXrlZBN+JSLe1UK32D/a/nUIzGiWvjTLJ1skJvnx63Qm4kPq+Izxv44WZdnyXKq41d7e2qhS0di1SI86Iil0aVUbGfwc1gU/GdGm9EbEV5CxWxft3OpTKgJQxmhBQ4l4xBTSG1JuPaUTWeTSiHhTrZSYYZ7I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=W/K+xabJ; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=z7g6UZ95; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1786761187; c=relaxed/simple;
+	bh=xk3JteMOv93m9Tx4CCMqUZt9IkuI57uXNEh+Mx4nBLo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uAqlJ0o916OO+xSzBx3Prz9UerWAqV0fbQ1EFnG7Zx1a9+m57BXao4A9lwDO5XBJ8NZ0/bUO89KdhEZlTi17Pw7Jx7iPIe0kemdQo0/Ut2694rGtBZk/pOHwGqvIjkNXY2d0qRD/1Wmg+BPnjraE2rRTia+teeh/HA2B/Q19r1g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b=F3SZdX3w; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=bY/ckQ9X; arc=fail smtp.client-ip=148.163.150.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="W/K+xabJ";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="z7g6UZ95"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67EMOO7M2180044;
-	Fri, 14 Aug 2026 17:35:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=XC5LOXl4hxPQ008V9Eq7nsKpD3/8ESi5ZHF1ZcS1jD4=; b=
-	W/K+xabJZslRZ4J//Fxf95YDBFwfvf8cTweF+oqpovlWQ9M6m+11QS2xXZESH/Mf
-	7fqCokXYFQ2fKq6raN2bVmRUOXTLH8EEr/FRFFRZjTirVuN71Gkz1dLc/qpPAAsq
-	CWiEH/iTo5EhS15+c9kWdR3hoexLdcv+rxJg5o4DtLhrLuNLd3VBk1b3yHLm5MX7
-	0j9K1tTJ9odbpm+dW/RtLl9JybMGNc56ek9Zi2/fB5qKYAKuntjGGHL8U7pQ73+6
-	L+FsGZfK9sCaG9AKA5OygyR2K0iHEBOkhqF8+JhCNsEQmXlzGxLJK8afpT2+897D
-	cIrxiIy+3IgYY0hgR/bL6w==
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023107.outbound.protection.outlook.com [40.107.201.107])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4g0msjvyk7-1
+	dkim=pass (2048-bit key) header.d=ti.com header.i=@ti.com header.b="F3SZdX3w";
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bY/ckQ9X"
+Received: from pps.filterd (m0380145.ppops.net [127.0.0.1])
+	by m0380145.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 67ENADgK2687240;
+	Fri, 14 Aug 2026 21:32:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=proofpoint-05-2026; bh=3pIXrqdsu76Jg
+	ZKj3kDbiWuLsq73OpqvV3lm+4DmIWM=; b=F3SZdX3w6XvRwAye7qGNvPUz1hFzH
+	Zw4MmLTtu6eitnpUcWoETJawNKQV3puYuQBwXikmFE3GuhEZy3aAqRZPOFmN7N/5
+	Mgfzsp4qzawkst+Aba583DfCUtUR4+p0mvpyVQzrlgyO50m8qwiUPvZkonyqC19d
+	w7oO4kMyoI/7V3P7Oe8js7VkW3IRrcZXQDoJgT5FSVCGHUsYKWSGkHJmAqFejpGh
+	9orzUrYZai6rBBPgeUhUoZ2u3HQRpA4bVVx4n06pHmqiCO+0NhYA4B5Zx/qHbjxo
+	vAnVhmOJkm7Z5wLx8ilSeov/Xxt9MRgQDvgPe2YSQLhpC2UN6Vf8JRqpg==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011052.outbound.protection.outlook.com [40.107.208.52])
+	by m0380145.ppops.net (PPS) with ESMTPS id 4g1xey5v3u-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 14 Aug 2026 17:35:20 -0500 (CDT)
+	Fri, 14 Aug 2026 21:32:32 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZxcIyQpeddH8I/qp6GxataDrdeLpmOYAvHpqz2mF1pMUEmJlEXG8cDaVAWbBinX7II3XHleley0YOOn8U34zfZR4wN7rDLWjrsoi2YSilhxGo121GwqfvrhDcSPF1F66h3W8x2PmigtumPIvvmXHdl9+9Q9IWPA6FTKfiOc/umPU21bxh/zj7VhhnxoXuSNuRLbqliQNqXbgmJGMuTCjtQW3YK1HvlrUJYngNwwL1IBGAI6ymCYxh58PcYU85owHhcNpdiCXJHfTtPPhdbzBGybLGIsma36VHdBFVL5hMjy/oYBFS0G1nCIjX2m2ZdZKJ2y5KKFGXR/EcUbttuuuWg==
+ b=DpdFZQ0q+b4GP5p1r0HpEi+VmdSOF5WaiMi7wy/IxipBktreLE+30QXSkIyASvosMsdBG3Nyh8PwIqpuETBQFb9BA3nkp/byToIuy+rUfV1cbaIyuaoDPBGHwBNvOa1r0Q9RcmxobQ8jGhX8CXX54ixanb3UGSXWy/djLwUU9iH0ZfOmsSeaDbQGkdvyIWnEUxZhSQQYFFVt+qe8AjzCHU3aAxThryxNQJ1gKhG9SOW23a6AFQhc75m5ZmjV+aOnhrpEpX0EOMUgRRemxbX+ZVI+F5N00uDXSxgeQjAW6dLeUy9BBFi2lc9Tj1GhZpfe7z0bCuofH+5/IH7BmTudkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XC5LOXl4hxPQ008V9Eq7nsKpD3/8ESi5ZHF1ZcS1jD4=;
- b=g9ehqrEMelJxzSmGnNilHcR7L5c/06V3PjQtrY2HU90Nfic1veLo4P9D58aWEYgj+8wPUdrM9Qlb1eRHyP24tOISAyaCvLLzfOrGALBrqIZJjLKRrhfs93/HJIqyrFoapncUTJdwXkQnC+ZH6wQ+t8l9JygvwNNhatW0BD7+7m93EaRhRWF+joIW2WKhOUUOTUAT8WyuAFWEoLRAOyD3iurtmOPO2Kt+AcuESP4ga2b+d7a0o0qXqkAZtl8mUeWTHIwLkwDuZBNg++pyNBk9LmOQ3v0Ce5oFAO6eYEhofSnaHn8MfXps2NPXxJX6o6j22TNdrKJ0GpZwubouXpoTFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ bh=3pIXrqdsu76JgZKj3kDbiWuLsq73OpqvV3lm+4DmIWM=;
+ b=OT62FE9c5gs6DtZ+esUJ3u/sA7P0ErYA1wCv1Rf7waagEiGnj8ZBBlcVm3ilMDJFF754mo+/hYUUzBbVwtz7NpR/0EspWnKNJVlvGK5jJgGiCdsFf/aHgS7N+zoZjJ709ClN6UUpXqS2qv7YFImA4sKte9L6Fa33Z5VeG3JdX8Vt8RcfP7giLvcp4ZK6Vuk5+yQh8CwKLSwznFPxduivHbJ6+L6cmHRo6bUJT1aVg34gjlq495CoKDUFwcj4I2/LcXkBT4vwPx3kOLy7HrORVF1JOtY8T23+1p0MPsM3MGxp52Mg/AjDjc2BmhUfSBgyJu6FcwxX5J7yhUxP09y8Tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XC5LOXl4hxPQ008V9Eq7nsKpD3/8ESi5ZHF1ZcS1jD4=;
- b=z7g6UZ95K9Ts/TrJWb8G6BycG9mhi6sDCcVIk8oNE/AATnvWRpz0U2NLXepXW2sDxvjq1q4tA9FkApI0AYKneFPngdK/V19B4cjKAvosdQTUNJRQ2TTTEXeZwHS2iK9cD7jTZCKs8/4aWS3zZqR6qLLmqw4/lFuUI7kr2pGMe4A=
-Received: from LV3P220CA0028.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:234::21)
- by DS0PR19MB7564.namprd19.prod.outlook.com (2603:10b6:8:144::15) with
+ bh=3pIXrqdsu76JgZKj3kDbiWuLsq73OpqvV3lm+4DmIWM=;
+ b=bY/ckQ9X9tpkA9mvEIjGFqeCwB1NnnbRSgbvHBjSfN6x4t0KhR0/G3E06Z3uSqgAklBt4kAlEHRsbLsMDaHdimKcTl2kVo2VSs4LUbnq2M9X6RagfKHFhD+KMmf0T02pruqHbdjPsN8lw39sE6/7a9tjEZLCbYGJXLSm4KOfVzM=
+Received: from SJ0PR05CA0015.namprd05.prod.outlook.com (2603:10b6:a03:33b::20)
+ by CH3PR10MB7646.namprd10.prod.outlook.com (2603:10b6:610:179::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.292.24; Fri, 14 Aug
- 2026 22:35:13 +0000
-Received: from MN1PEPF0000F0DF.namprd04.prod.outlook.com
- (2603:10b6:408:234:cafe::5c) by LV3P220CA0028.outlook.office365.com
- (2603:10b6:408:234::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.315.16 via Frontend Transport; Fri,
- 14 Aug 2026 22:35:12 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- MN1PEPF0000F0DF.mail.protection.outlook.com (10.167.242.37) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.3
- via Frontend Transport; Fri, 14 Aug 2026 22:35:12 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2820D406540;
-	Fri, 14 Aug 2026 22:35:11 +0000 (UTC)
-Received: from ausswws06.ad.cirrus.com (ausswws06.ad.cirrus.com [141.131.145.33])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 3463F82024B;
-	Fri, 14 Aug 2026 22:35:09 +0000 (UTC)
-From: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
-To: David Rhodes <david.rhodes@cirrus.com>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: cs35l45: Adds support for SYNC bus
-Date: Fri, 14 Aug 2026 22:34:53 +0000
-Message-ID: <20260814223456.611160-2-rriveram@opensource.cirrus.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260814223456.611160-1-rriveram@opensource.cirrus.com>
-References: <20260814223456.611160-1-rriveram@opensource.cirrus.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.12; Sat, 15 Aug
+ 2026 02:32:25 +0000
+Received: from MWH0EPF000C6195.namprd02.prod.outlook.com
+ (2603:10b6:a03:33b:cafe::98) by SJ0PR05CA0015.outlook.office365.com
+ (2603:10b6:a03:33b::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.5 via Frontend Transport; Sat, 15
+ Aug 2026 02:32:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ MWH0EPF000C6195.mail.protection.outlook.com (10.167.249.105) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.3 via Frontend Transport; Sat, 15 Aug 2026 02:32:25 +0000
+Received: from DLEE208.ent.ti.com (157.170.170.97) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 14 Aug
+ 2026 21:32:24 -0500
+Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Fri, 14 Aug
+ 2026 21:32:24 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45 via Frontend
+ Transport; Fri, 14 Aug 2026 21:32:24 -0500
+Received: from LT5CG31242FY.dhcp.ti.com ([10.250.163.82])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 67F2WKpC3784499;
+	Fri, 14 Aug 2026 21:32:21 -0500
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <broonie@kernel.org>
+CC: <tiwai@suse.de>, <13916275206@139.com>, <perex@perex.cz>,
+        <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <baojun.xu@ti.com>, <k-lu@ti.com>,
+        Shenghao Ding <shenghao-ding@ti.com>
+Subject: [PATCH v1] ASoC: tas2781: Refactor calibration start kcontrol creation to separate helper
+Date: Sat, 15 Aug 2026 10:32:14 +0800
+Message-ID: <20260815023215.1788-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -100,277 +99,167 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0DF:EE_|DS0PR19MB7564:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: d5c996df-4081-41d4-c049-08defa544df6
+X-MS-TrafficTypeDiagnostic: MWH0EPF000C6195:EE_|CH3PR10MB7646:EE_
+X-MS-Office365-Filtering-Correlation-Id: 921b4c72-9d5e-4376-fdf4-08defa757153
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700016|61400799027|23010399003|921020|16102099003|18002099003|22082099003|56012099006|10067099003|11063799006;
+	BCL:0;ARA:13230040|36860700016|23010399003|376014|1800799024|82310400026|6133799003|10067099003|56012099006|18002099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	l/LwZFQJCgh8V6WRakQQEWi3E1Cd8fJuZVCzokWGrDt5Ow52k0/vbh+sQtP/tdx7sDEig3f844qQc+H+Vg3RzNw8DIuFFHms6O4jJrQfgs9g86xBcGjYIVenRMRy50NMlMMGgwUgQ4cEZXuiHEmIeFPfxi5GUr/BIqEGPmAJbr4JWkWpxI7UPYa4LoWWVafDeJeKv75jUKX48COP2+vTUohlYIfhho++t7+Xi3Gz4GlpgF0KJ5fqwY8PdmX7al4qZoDtkD60NPWyic2l9g6WGpkg05S/gvHB7ur2ejjBuBvW4nU+Tyf+KzS5oq80GsY10FoYlZAzb4SeB53ARirhKgEO/kRfO0FoOka3Tm6rcEreWaZhtrpjvJlWA6w+EbCtR3HbLZLESE4HykCo9ECRyDu1iulFm4/pTzfPDS+doENAVpLgOINhh/iU6gYKjGM0Dv2rA031cC0WWdhnV7EVPOUidWsQcUsoM/YuY912dZS00QZ7HiTUhK6VXr3qZ7tSy9+NThKzvEWVjOo/UX28Ml3mvIrEZnePIeWH628CThIWr47+5jiAsRquK+kwhgx1Sm20AZ8vNmQyWxBE3+sEzvMT+UUSsa2k65kUMcDdMXgllscjCrQgpPDD8qG4mCsUd6vZsPmjaJqycvc/iUyPYdIvMSzyuYl7aO5uskTBDRABuInQNuXLGGvn0zMTNr7em2sTKKv7CfhNRIIWWEWNqJ1C70tuWPh02d/acqtkCcY5Htl6+SM6MdRWMrsw9UWZ
+	NRD6COE90oPFFy+KX1y7w6H237LDF8iwLdYkxqnZ8dcJZAKepS6oWyzTlZUFrEhteET0GY0DwVqMxF3WOAIzADH204lBnTmVuVBG6/b7cWk2sC+4hlwOj4/HqdbREXJbonQVw05aBIEYb9zY/yte1t9XJXl6QTL02NqnQc6VAxM3lU+r/Xm98BVPLtXGII0QsIn8244F7CKnpNA745eA9wtpoA7/G3uQilAu7/wTqMUpcgNPWWfPy6B6+CsdukgMIi51H9bu3GWtAEc/H8hW/wau8qyP79GKFPrwhaT2oWV5yXXFWav+B6Rkrc87KIiPeIlj1iaPy5QOUtuL9ruXE6/pnfbUDy1zxwhAJgxlLvqpmZQnCrseJ6NatBfB8Tieasw8WczXeamp4FNiOBKwDc2IlBe+7Qef+i00Qp4Z7tgR6F86we8cM47KSMKj4Ml1b7Fc9QfURaehzmL565542a9bW/qvN6R1yICnGDLlsFGOgqXbZc0UKPnVM9L1AANlQ6GltufEl6MyI9SaQkxm0ulfN5aVESa64YLSdaJacgYkShk78EADd3MVMENtqf2rFzdobjuVRXeCaBRamj6X8kBFIYMu/yx3bnGQMOfY8uI0HtYtOGSH1GaY2MYc1TJ2SXN35kPRgR7fSO/9DXYq4RVDmRBdgWSoGsTknDJqEkvU77SxEX9Tx7dWfDJNwd5xyd9E3RxHZM/8dPg/V9B2vw==
 X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700016)(61400799027)(23010399003)(921020)(16102099003)(18002099003)(22082099003)(56012099006)(10067099003)(11063799006);DIR:OUT;SFP:1102;
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(1800799024)(82310400026)(6133799003)(10067099003)(56012099006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	zlonMwpQ++4wTnXuOt/JSDcpmAyZbkLxeaigo1Y7UGuB+jKvFN9CTczrixI8AlIXEeVgqqgRCDZvdO2tj2I8YdiJal4WP+5fnc4V2Ohy+hfhOGx+5e35HL+/vy2uOSyrwafU2XU1CwCbfYTRLMc7msuDC2oj7TrElJy4Hk5LzM8otftIBC1k5nVlK/VjENbK2i5KIE/qsNvfKajcsPtwC9TZBkQ4Yg0rowUwhuq5bD17E2Os4nDsA8pl5YbYmgolteYDCVCRak6aIpaZyBNO4wUHDrVqNy7Kg7fKmPTtxEUwzNJsXyZJcNdDf2DARHlTKo3w3LWvSU9YeG1Ef75k6W/AEy3JSmGL/DP0Yw+dTMnqjXDswCCeKv2Ejl18hIy/xYKzFSOdnnW3KSITRDaLApEopmJDohPyjKZtFQ+qNRCC0LjZt6KpHuNiiJ/X5ToG
+	JHZMiRsI2OmyqnkI4CJMqvMUdKBqHo1HqBV+LFr9LPaDcTaxriCLlnJ4hPCEcRoS4Vf7szvKcynoys5wfTqlQD0/5zkjlRcMfkCLiqPFgCXVdK1X9aKWQymv/nf65BIKP3wUk2y2Wyd0bFr9n+R3lqRuYFacZ05RNXxbxX9nNRxFqA619HJZEOOZxWZMs6VG50/k4TGQb34QUxfo1mIYlFTcPN7lBd7r9w2aP4YgvQT4JrwOvol+R8vz5zuDX1LFcNoq6fnsUSHwkcnuF9J9iSAlPQ1qRHqy5DdEtpOvYzL+b9ocYad08UpRYoXoj/lnHkMNDoK3skHHGYEj7nq5nocdGsabTFmgmAAxfI5n1IjPCY95EcmI/zyF+Cg9i7KpLpPeKmwknbkdpJ9oN8Feb8ayZNh5Aq+oB/fOQtmmCod00lG4xUxQbWmPqiY9vRxS
 X-Exchange-RoutingPolicyChecked:
-	afa1a78CQDDqN48b6sWz1i95KllZGXTWZ7cIy7kHnxG7XZYQXPSL1FUCu7kTmelM0U2QxXjMrkUgBaJ0S66w/8/DftLJyFYjwUWyw/1+DG6xUuavpje+8CknkBXFdJwYdoCFnDseBKFJ9sARs4KPKyEILyixENbtk95EGNCoP5g6+/C73k3GsymjdcIfSL5HfBmxmVDnD60IOze7aOKAKc7GKMoGcXs1bc9zQn0KFNyeswX/msLtCN9qzzGdtMg7WCRii5rWjM0jomYYmCqS/HngcSnYm1G/2B+57tUey1FO7oDpRk5vgp77opgdP510J0ptLjYv/s2RxDncFqn1gA==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Aug 2026 22:35:12.3339
+	VoBxjnaJA5b4fxAiYrOWL+jxOByZpQ3uJyQGQ4kegaQDLxCkNPuYTqxwUtqQUrghfSljUJwnwvRuKRTrLGaWzAqav1v9SJ/iTSsnA58QsbfYnEb17LPxC1QAlcN2luuT51IeJWWxkuUSeiPIuP8utd5Ih43FVm5qBhBK9rdz62wWPr+dif55IOe3hE8GXcBDnADImEtKwFq+zSX1kFmYWvCoBNW4v89XYKKjohNNeXe/izc3uZkfIjbi1OMb75DomHSePRv8IBX2XWlu2JllIOTxPlpQddgHf//9bPVw93YsXYDYRl81QyrbzXwAs8r43nrvRSLtogXvbMvlgm6kOA==
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2026 02:32:25.1299
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5c996df-4081-41d4-c049-08defa544df6
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MN1PEPF0000F0DF.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 921b4c72-9d5e-4376-fdf4-08defa757153
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000C6195.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR19MB7564
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE0MDE3MyBTYWx0ZWRfX0ItyrG1FWIBY
- m2DHkMh0LQx3D/F1IHBuJCcKou/HaFDklVqaAN4iIfRa+x9rGTERO66yrx7Ed5ByCneY/t4ZX2s
- yNAkEyfrUS6PuVQt76SaWOpoZFMDkFanyUdmv1Tnf1UkG/J3rb7EEWQKHZCprqjDaxtGBXN3A4d
- +cKPQmDzIX8R79rthsby0BZcJ5HhrGJaty9xZSP0nP6pS4nQ9CSAI9LfiyZZOZBzHNzXxPJOb72
- b3VlXA7d9gD6mnGQ0VlgjwsyBNUozndJeR2CwUk//j5Yzod90EOD5YDSCAkBQdov8vW/M0Fs2bR
- 5+647AoVBUQi227S+1LyQM2tafQrEQPv0IZdjx5WJQdMi7QombdexFwaEOZAteXCSPfpLf+YHSM
- UeGcT+SmFmvRMpy3vSwoqHy1sSA81TYnBG9XNNQDoxJDUyuvzK3AKGOV85etdxDrqPOcXU2tYti
- ff+pXeYpGSt3C5ZyRwg==
-X-Proofpoint-GUID: gV2Z4ZplkBWyMlgrZIOlwmlty_1hIDTs
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE0MDE3MyBTYWx0ZWRfX7d5L5EPxm1SP
- UoFhh0FHHLLf7ii+5WE3u3k94aKULGlpz6hgfmIac1phACkx5d/XUFDH+F1S2oszlGD2OwgvxV9
- Qfz2uMrND8HCI2/LRbs0ZQI0XHEg9ZU=
-X-Authority-Analysis: v=2.4 cv=VdTH+lp9 c=1 sm=1 tr=0 ts=6a7f9828 cx=c_pps
- a=OwVlNtrKK1PtuIndSPtdtA==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=w1d2syhTAAAA:8 a=98ZdnlpWABS4w4T5VXoA:9
-X-Proofpoint-ORIG-GUID: gV2Z4ZplkBWyMlgrZIOlwmlty_1hIDTs
-X-Proofpoint-Spam-Reason: safe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7646
+X-Authority-Analysis: v=2.4 cv=F9ZnsKhN c=1 sm=1 tr=0 ts=6a7fcfc0 cx=c_pps
+ a=DEJEzXtY41/hIaqkAZCRpw==:117 a=WotqVVQAdb04rnGuttW3Kw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10
+ a=V5UXEbMT0ywA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Z8NIEmU8O1QQgoT56wFK:22
+ a=gO1vWkAQAl3rybz1DQOp:22 a=sozttTNsAAAA:8 a=mnyRSSFBICsc5ylbAAkA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE1MDAxNiBTYWx0ZWRfX/tZdFIWMXILZ
+ XTvR4jB7+In7ehl4yM2m0ZBgFnG7AOR+0x86h81Jt6WSVWbpxAT8hSDOVp2REKBXjnnAhn1321E
+ porBaLCrzWZaK5v6zaiUSpCMa2M6Lyg=
+X-Proofpoint-ORIG-GUID: JmJLdkf_XoptKzDlcAGqMj-Y42ixGiO0
+X-Proofpoint-GUID: JmJLdkf_XoptKzDlcAGqMj-Y42ixGiO0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE1MDAxNiBTYWx0ZWRfX2DS21tHop8WH
+ fRAt2EcAyUq2ArMnltADKyRUYSpOlezb4ahrgxNkSJMrkjhEl6zo6NiVqdG4uJd2h1mEIhT6Jb1
+ qbeP4yYayejO6gvkd2Ibz9YQvQipmJw9WHgNpiw7SZ4wH8FVqX3mDXm4lVK7W5hFT9t244lvJED
+ eZBSabOs/qFPZqOur5SFpDVgyB7CA0z/x/xobLkt95YkNRVRaPXsOHxytMIfoYNxakN8+Ah94vD
+ 6BwVPvlFqY4xmQ384+Wk4/sIrB5DJj0tTl2eyhbjBzpKNh6D0bNQaGrWXWtdDms2LhROjfTr4Kt
+ v6+7cv8AeMdgmKUHdznJlF18D2l8S6Pu9wo4EBRPQDRSiJLI/QGwI6kG8F+4gGwwLFqUD0/JSjo
+ MtCQDrk++KEIXCpu7fPu1uqdCG1aQE679vP3qLRCt/8aJIeR7FKbFdfodAL9S5AXlu+SB10m5Av
+ 8EWwPusOAZieBimGeyw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-14_08,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 adultscore=0 phishscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608150016
 
-Adds support for the multidevice synchronization (SYNC) bus.
-The SYNC bus is an opaque one wire bus that is shared between
-Cirrus devices. Initial support only includes software (SW)
-data packets.
+Move the tas2781-specific calibration start kcontrol initialization logic
+out of tasdevice_create_cali_ctrls() into a new dedicated helper function
+create_tas2781_cali_start_ktrl().
 
-Signed-off-by: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
+This change eliminates duplicate inline code in the main calibration
+control registration routine, improves code readability, and makes further
+extension for custom calibration parameters much easier. No functional
+behavior changes.
+
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 ---
- sound/soc/codecs/cs35l45-tables.c |  4 ++
- sound/soc/codecs/cs35l45.c        | 77 ++++++++++++++++++++++++++++++-
- sound/soc/codecs/cs35l45.h        | 23 +++++++++
- 3 files changed, 103 insertions(+), 1 deletion(-)
+ sound/soc/codecs/tas2781-i2c.c | 71 ++++++++++++++++++++--------------
+ 1 file changed, 41 insertions(+), 30 deletions(-)
 
-diff --git a/sound/soc/codecs/cs35l45-tables.c b/sound/soc/codecs/cs35l45-tables.c
-index 764dbaa35042..57982b8ae645 100644
---- a/sound/soc/codecs/cs35l45-tables.c
-+++ b/sound/soc/codecs/cs35l45-tables.c
-@@ -51,6 +51,8 @@ static const struct reg_default cs35l45_defaults[] = {
- 	{ CS35L45_WKI2C_CTL,			0x00000030 },
- 	{ CS35L45_REFCLK_INPUT,			0x00000510 },
- 	{ CS35L45_GLOBAL_SAMPLE_RATE,		0x00000003 },
-+	{ CS35L45_SYNC_TX_RX_ENABLES,		0x00000200 },
-+	{ CS35L45_SYNC_SW_TX_ID,		0x00000000 },
- 	{ CS35L45_ASP_ENABLES1,			0x00000000 },
- 	{ CS35L45_ASP_CONTROL1,			0x00000028 },
- 	{ CS35L45_ASP_CONTROL2,			0x18180200 },
-@@ -134,6 +136,8 @@ static bool cs35l45_readable_reg(struct device *dev, unsigned int reg)
- 	case CS35L45_PWRMGT_STS:
- 	case CS35L45_REFCLK_INPUT:
- 	case CS35L45_GLOBAL_SAMPLE_RATE:
-+	case CS35L45_SYNC_TX_RX_ENABLES:
-+	case CS35L45_SYNC_SW_TX_ID:
- 	case CS35L45_ASP_ENABLES1:
- 	case CS35L45_ASP_CONTROL1:
- 	case CS35L45_ASP_CONTROL2:
-diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
-index a032bb23b4ac..9f0cdfe9fb92 100644
---- a/sound/soc/codecs/cs35l45.c
-+++ b/sound/soc/codecs/cs35l45.c
-@@ -6,6 +6,7 @@
- //
- // Author: James Schulman <james.schulman@cirrus.com>
- 
-+#include <linux/bitfield.h>
- #include <linux/gpio/consumer.h>
- #include <linux/module.h>
- #include <linux/pm_runtime.h>
-@@ -195,6 +196,43 @@ static int cs35l45_activate_ctl(struct snd_soc_component *component,
- 	return 0;
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 69091fd76c53..6f349f88f194 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -1456,6 +1456,43 @@ static void alpa_cali_update(struct bulk_reg_val *p,
+ 	p->val_len = 4;
  }
  
-+static int cs35l45_sync_en_get(struct snd_kcontrol *kcontrol,
-+				      struct snd_ctl_elem_value *ucontrol)
++static int create_tas2781_cali_start_ktrl(struct tasdevice_priv
++	*priv, struct snd_kcontrol_new *cali_ctrl)
 +{
-+	struct snd_soc_component *component =
-+			snd_soc_kcontrol_component(kcontrol);
-+	struct cs35l45_private *cs35l45 =
-+			snd_soc_component_get_drvdata(component);
++	struct soc_bytes_ext *ext_cali_start;
++	char *cali_start_name;
 +
-+	ucontrol->value.integer.value[0] = cs35l45->sync_en;
++	ext_cali_start = devm_kzalloc(priv->dev,
++		sizeof(*ext_cali_start), GFP_KERNEL);
++	if (!ext_cali_start)
++		return -ENOMEM;
++
++	cali_start_name = devm_kstrdup(priv->dev,
++		"Calibration Start", GFP_KERNEL);
++	if (!cali_start_name)
++		return -ENOMEM;
++	/*
++	 * package structure for tas2781 ftc start:
++	 *	Pkg len (1 byte)
++	 *	Reg id (1 byte, constant 'r')
++	 *	book, page, register for pilot threshold, pilot tone
++	 *		and sine gain (12 bytes)
++	 *	for (i = 0; i < Device-Sum; i++) {
++	 *		Device #i index_info (1 byte)
++	 *		Sine gain for Device #i (8 bytes)
++	 *	}
++	 */
++	ext_cali_start->max = 14 + priv->ndev * 9;
++	cali_ctrl->name = cali_start_name;
++	cali_ctrl->iface = SNDRV_CTL_ELEM_IFACE_MIXER;
++	cali_ctrl->info = snd_soc_bytes_info_ext;
++	cali_ctrl->put = tas2781_calib_start_put;
++	cali_ctrl->get = tasdev_nop_get;
++	cali_ctrl->private_value = (unsigned long)ext_cali_start;
 +
 +	return 0;
 +}
 +
-+static int cs35l45_sync_en_put(struct snd_kcontrol *kcontrol,
-+				      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component =
-+			snd_soc_kcontrol_component(kcontrol);
-+	struct cs35l45_private *cs35l45 =
-+			snd_soc_component_get_drvdata(component);
-+
-+	if (!cs35l45->sync_pin_set)
-+		return -EPERM;
-+
-+	if (ucontrol->value.integer.value[0] == cs35l45->sync_en)
-+		return 0;
-+
-+	if ((bool)ucontrol->value.integer.value[0])
-+		regmap_set_bits(cs35l45->regmap, CS35L45_BLOCK_ENABLES2, CS35L45_SYNC_EN_MASK);
-+	else
-+		regmap_clear_bits(cs35l45->regmap, CS35L45_BLOCK_ENABLES2, CS35L45_SYNC_EN_MASK);
-+
-+	cs35l45->sync_en = ucontrol->value.integer.value[0];
-+
-+	return 0;
-+}
-+
- static int cs35l45_amplifier_mode_get(struct snd_kcontrol *kcontrol,
- 				      struct snd_ctl_elem_value *ucontrol)
+ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
  {
-@@ -607,6 +645,15 @@ static const struct snd_kcontrol_new cs35l45_controls[] = {
- 			 0, cs35l45_dig_pcm_vol_tlv),
- 	WM_ADSP2_PRELOAD_SWITCH("DSP1", 1),
- 	WM_ADSP_FW_CONTROL("DSP1", 0),
-+	SOC_SINGLE_BOOL_EXT("SYNC Enable", 0, cs35l45_sync_en_get, cs35l45_sync_en_put),
-+	SOC_SINGLE("SYNC LSW RX Enable", CS35L45_SYNC_TX_RX_ENABLES,
-+			CS35L45_SYNC_LSW_RX_EN_SHIFT, 1, 0),
-+	SOC_SINGLE("SYNC LSW TX Enable", CS35L45_SYNC_TX_RX_ENABLES,
-+			CS35L45_SYNC_LSW_TX_EN_SHIFT, 1, 0),
-+	SOC_SINGLE("SYNC SW RX Enable", CS35L45_SYNC_TX_RX_ENABLES,
-+			CS35L45_SYNC_SW_RX_EN_SHIFT, 1, 0),
-+	SOC_SINGLE("SYNC SW TX Enable", CS35L45_SYNC_TX_RX_ENABLES,
-+			CS35L45_SYNC_SW_TX_EN_SHIFT, 1, 0),
- };
- 
- static int cs35l45_set_pll(struct cs35l45_private *cs35l45, unsigned int freq)
-@@ -1064,6 +1111,25 @@ static int cs35l45_sys_resume(struct device *dev)
- 	return 0;
- }
- 
-+static int cs35l45_apply_sync_property_config(struct cs35l45_private *cs35l45,
-+					      struct device_node *child)
-+{
-+	unsigned int val;
-+	int ret;
+ 	struct calidata *cali_data = &priv->cali_data;
+@@ -1574,37 +1611,11 @@ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
+ 	 */
+ 	cali_data->data[0] = 0xff;
+ 	if (priv->chip_id == TAS2781) {
+-		struct soc_bytes_ext *ext_cali_start;
+-		char *cali_start_name;
+-
+-		ext_cali_start = devm_kzalloc(priv->dev,
+-			sizeof(*ext_cali_start), GFP_KERNEL);
+-		if (!ext_cali_start)
+-			return -ENOMEM;
+-
+-		cali_start_name = devm_kstrdup(priv->dev,
+-			"Calibration Start", GFP_KERNEL);
+-		if (!cali_start_name)
+-			return -ENOMEM;
+-		/*
+-		 * package structure for tas2781 ftc start:
+-		 *	Pkg len (1 byte)
+-		 *	Reg id (1 byte, constant 'r')
+-		 *	book, page, register for pilot threshold, pilot tone
+-		 *		and sine gain (12 bytes)
+-		 *	for (i = 0; i < Device-Sum; i++) {
+-		 *		Device #i index_info (1 byte)
+-		 *		Sine gain for Device #i (8 bytes)
+-		 *	}
+-		 */
+-		ext_cali_start->max = 14 + priv->ndev * 9;
+-		cali_ctrls[i].name = cali_start_name;
+-		cali_ctrls[i].iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+-		cali_ctrls[i].info = snd_soc_bytes_info_ext;
+-		cali_ctrls[i].put = tas2781_calib_start_put;
+-		cali_ctrls[i].get = tasdev_nop_get;
+-		cali_ctrls[i].private_value = (unsigned long)ext_cali_start;
++		rc = create_tas2781_cali_start_ktrl(priv, &cali_ctrls[i]);
++		if (rc != 0)
++			return rc;
+ 		i++;
 +
-+	ret = of_property_read_u32(child, "cirrus,sync-lsw-txid", &val);
-+	if (!ret)
-+		regmap_update_bits(cs35l45->regmap, CS35L45_SYNC_SW_TX_ID,
-+				   CS35L45_SYNC_LSW_TXID_MASK, val << CS35L45_SYNC_LSW_TXID_SHIFT);
-+
-+	ret = of_property_read_u32(child, "cirrus,sync-sw-txid", &val);
-+	if (!ret)
-+		regmap_update_bits(cs35l45->regmap, CS35L45_SYNC_SW_TX_ID,
-+				   CS35L45_SYNC_SW_TXID_MASK, val);
-+
-+	return 0;
-+}
-+
- static int cs35l45_apply_property_config(struct cs35l45_private *cs35l45)
- {
- 	struct device_node *node = cs35l45->dev->of_node;
-@@ -1110,10 +1176,13 @@ static int cs35l45_apply_property_config(struct cs35l45_private *cs35l45)
- 					   val << CS35L45_GPIO_POL_SHIFT);
- 
- 		ret = of_property_read_u32(child, "gpio-ctrl", &val);
--		if (!ret)
-+		if (!ret) {
-+			if ((i == 0) && (val == CS35L45_GP1_CTRL_MDSYNC))
-+				cs35l45->sync_pin_set = true;
- 			regmap_update_bits(cs35l45->regmap, pad_regs[i],
- 					   CS35L45_GPIO_CTRL_MASK,
- 					   val << CS35L45_GPIO_CTRL_SHIFT);
-+		}
- 
- 		ret = of_property_read_u32(child, "gpio-invert", &val);
- 		if (!ret) {
-@@ -1134,6 +1203,12 @@ static int cs35l45_apply_property_config(struct cs35l45_private *cs35l45)
- 				   val << CS35L45_ASP_DOUT_HIZ_CTRL_SHIFT);
  	}
  
-+	child = of_get_child_by_name(node, "sync");
-+	if (child)
-+		cs35l45_apply_sync_property_config(cs35l45, child);
-+
-+	of_node_put(child);
-+
- 	return 0;
- }
- 
-diff --git a/sound/soc/codecs/cs35l45.h b/sound/soc/codecs/cs35l45.h
-index 7a790d2acac7..f8a4713ae92f 100644
---- a/sound/soc/codecs/cs35l45.h
-+++ b/sound/soc/codecs/cs35l45.h
-@@ -35,6 +35,8 @@
- #define CS35L45_PWRMGT_STS			0x0000290C
- #define CS35L45_REFCLK_INPUT			0x00002C04
- #define CS35L45_GLOBAL_SAMPLE_RATE		0x00002C0C
-+#define CS35L45_SYNC_TX_RX_ENABLES		0x00003400
-+#define CS35L45_SYNC_SW_TX_ID			0x00003408
- #define CS35L45_BOOST_CCM_CFG			0x00003808
- #define CS35L45_BOOST_DCM_CFG			0x0000380C
- #define CS35L45_BOOST_OV_CFG			0x0000382C
-@@ -183,6 +185,8 @@
- #define CS35L45_ASP_EN_SHIFT			27
- #define CS35L45_AMP_DRE_EN_SHIFT		20
- #define CS35L45_AMP_DRE_EN_MASK		BIT(20)
-+#define CS35L45_SYNC_EN_SHIFT			8
-+#define CS35L45_SYNC_EN_MASK			BIT(8)
- #define CS35L45_MEM_RDY_SHIFT			1
- #define CS35L45_MEM_RDY_MASK			BIT(1)
- 
-@@ -220,6 +224,22 @@
- #define CS35L45_44P100_KHZ			0x0B
- #define CS35L45_88P200_KHZ			0x0C
- 
-+/* SYNC_TX_RX_ENABLES */
-+#define CS35L45_SYNC_LSW_RX_EN_SHIFT		19
-+#define CS35L45_SYNC_LSW_RX_EN_MASK		BIT(19)
-+#define CS35L45_SYNC_LSW_TX_EN_SHIFT		18
-+#define CS35L45_SYNC_LSW_TX_EN_MASK		BIT(18)
-+#define CS35L45_SYNC_SW_RX_EN_SHIFT		17
-+#define CS35L45_SYNC_SW_RX_EN_MASK		BIT(17)
-+#define CS35L45_SYNC_SW_TX_EN_SHIFT		16
-+#define CS35L45_SYNC_SW_TX_EN_MASK		BIT(16)
-+
-+/* SYNC_SW_TX_ID */
-+#define CS35L45_SYNC_LSW_TXID_SHIFT		8
-+#define CS35L45_SYNC_LSW_TXID_MASK		GENMASK(10, 8)
-+#define CS35L45_SYNC_SW_TXID_SHIFT		0
-+#define CS35L45_SYNC_SW_TXID_MASK		GENMASK(2, 0)
-+
- /* ASP_ENABLES_1 */
- #define CS35L45_ASP_RX2_EN_SHIFT		17
- #define CS35L45_ASP_RX1_EN_SHIFT		16
-@@ -320,6 +340,7 @@
- #define CS35L45_GPIO_CTRL_MASK			GENMASK(22, 20)
- #define CS35L45_GPIO_INVERT_SHIFT		19
- #define CS35L45_GPIO_INVERT_MASK		BIT(19)
-+#define CS35L45_GP1_CTRL_MDSYNC		0x2
- 
- /* CS35L45_IRQ1_EINT_1 */
- #define CS35L45_BST_UVP_ERR_SHIFT		7
-@@ -493,6 +514,8 @@ struct cs35l45_private {
- 	struct regulator *vdd_a;
- 	bool initialized;
- 	bool sysclk_set;
-+	bool sync_en;
-+	bool sync_pin_set;
- 	u8 slot_width;
- 	u8 slot_count;
- 	int amplifier_mode;
+ 	return snd_soc_add_component_controls(priv->codec, cali_ctrls,
 -- 
 2.43.0
 
