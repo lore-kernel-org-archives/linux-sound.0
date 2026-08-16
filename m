@@ -1,196 +1,141 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D34222590
-	for <linux-sound@vger.kernel.org>; Sat, 15 Aug 2026 21:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786830587; cv=pass; b=T97IqfQq4NfpnFh3TZkWuw5HzdiRbonUIFLjMZNT7gf+ihy1uSjRnIhCCS/tACvzsOpkoSPL4oey0SNHCPZhs+g+45Z2mGGqLsrPfiaoJGDIs71Dy+ouIbsS0+RnrlB1Hbvr6NMCxzOo0WlhwWqeAemTM1J8qvNMLjfC5IhhuAM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786830587; c=relaxed/simple;
-	bh=N+WRXIhPUlKUu+SHdjrtwe6h6JGKi0HIRB3pUT49APY=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DQRr1RD6znstTiT4tqi9WlGUAPrNgjAiyHoWgN2uzd/Fzdss3cggJDRf/LZjMOiSyxbini7cikKrwp42LC2SFTlVQ9h1mb8Lc+sblEDtqkJbkt2vpxZKYODeNF1ztx1oWDNYRaE4L2D2eWCDmhShgxFfrXUMaAd81Ki8MMFpMk0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f4DjqUJv; arc=pass smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F0D4B0499
+	for <linux-sound@vger.kernel.org>; Sun, 16 Aug 2026 00:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786838471; cv=none; b=eRwtk018wVkJodMYsvkapymdz1+I2LCw6c5Mfzc0+dd19DtNjwYSKPvJNH2ROgs/GG6mz+hizFRh/ppf4a/rVP4iEFe6mF/e/Jnc+7UUlIqkQ5he1mCQxs8pZoBlJSOc1ERoxwN+TrhGDLNVk0TPBdN5bbSgHl/m3VVzQ/bcajk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786838471; c=relaxed/simple;
+	bh=jTIAf27M5NzIQ/HT/8Rvh+AaCXsZu3pvrlyi40ZBRCc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EjeHmcjHGGmP91ujkG8k2pze2mYkM1lPHxJLPXTIuarnkdggFcUxX25POH74uc9by7n96o/KzHp4HJLMFvDhlVlRykknn34+few3Sx0max4xSJ3ZymURhhr7M7TLRz/TqbI69gCYRj0wml4E7PiS9JedaEDtRY+v+kpvb1X18zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2sZsASq; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f4DjqUJv"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-66c70f05859so3393093d50.1
-        for <linux-sound@vger.kernel.org>; Sat, 15 Aug 2026 14:49:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786830585; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QwZ1BXpomGh5LU1OGtfJkP5gkis047OnbIIzhwVV3Qm70g4MDGh95ZmBe6Nn0H8z4U
-         YBuxtFl8ZxBy10eOkz4ZayNCcrhj6HFoquTmmXUal5xWNVheGQx83ZhbWpfcKG9lIlnT
-         wQfbql+k8CNfv7oLvbp50WrOGBE+yMFuHc4G6H8CwcW6CXic/SNfnIqZ8mHf/0d4LQ9r
-         TyFXBnJGfnepxYLxt+6jyMM5hrBj/uKcXIBJ4CT7QFE3HT+4cj7CGomRAkSaQB3QhT61
-         wd5mw1CCUSWnM3Jm7Wm3tYGsLblpekq2VCkXCN5emCW0eU9Cok5TMSJnnl3WVL7Foujg
-         jZ5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=0BiwD8sPUqgXhAkIy+YMgazrRCdFHB5CWVQZDyDO1H8=;
-        fh=JaEkxonVtwoEJIm+z++62VWVk8hw3ny3fXkOUEfyJX0=;
-        b=nfomMN7jUu+GArbVFLNs9l8o2JGq9/jGXGAMz7p0bliVMC1Uel7LtuV+aF9YH7Dte0
-         wQicfo/wLvUYj6d8sDy/tdZ2Y3/paBgsOVPtQZb4h/iSGB+TI0Bep2zuD+tYZsSd/ZPM
-         Pl6yL8R86Z3OU/Mat7RGsut37UnNoYKzdyPT/kLkEhkFJkZszfd+Z+oDGjdBnyMNtg5c
-         d6ivraHOUqPL54/xGbIv5JZ+j7Quo917j7usq3PcXN69Yddpry907IPrkPDZLT5GwViW
-         NOgVyTozG0zhUQK0cHWlCzC5k/a+lDZRoZ3NV1p/z3GpJpd/wQZuuY1RvH4d5jqA8bvR
-         mlKQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2sZsASq"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f96c5b722so1392611f8f.0
+        for <linux-sound@vger.kernel.org>; Sat, 15 Aug 2026 17:01:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786830585; x=1787435385; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1786838468; x=1787443268; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0BiwD8sPUqgXhAkIy+YMgazrRCdFHB5CWVQZDyDO1H8=;
-        b=f4DjqUJveP3newT5RmVZjnzf7/8CaAAt5+6bvDUxHm7391I+e1VPMxB0ZOqk2FLW8O
-         IGZNRx9FB3TRzBBv90p620i5X8dWpkxB3N64Eh5riqF3mRA8noiIxfU5NmqN5L2pDUcJ
-         VWxhPKXtOjNHDwhjWMvMrFTPKOGNHqGiklKO+PUS3VnAumwUXCwRxxrXwCU6wRedpm0w
-         7Q5xg8/TzZ3hP5hXc6jxXn/tYubTEgjoa0R/Ya3uKtJI2Z/531ZkM7IFjJG1sNJCSIj5
-         MoYE6mhu51fL86jf753kNLP8L8Wt1TkJ9MKOEh58AP0p7Ae+5itRsCCTMhzR6TusD6k6
-         76EA==
+        bh=S05GcFVUlDeLHwWGA/nTU8ZIeoXZY8FYWxsLnhiIPVM=;
+        b=c2sZsASqOafDhVRjgNP5TcTOWfDZufwws1Ch2OfcHGf78tGd7CYl4BlqlKIOwiQjxw
+         BS2JwTuPcwu3lMNrAQ6Ffy0sPoAN7scJ7hmEMWg0pcxJ2E/T4k1Q4iWiuzuBebic/UZq
+         tld+2u5BgnffpullZOJHpaOCqOybvbPKyfIZV3MLxaptM95ApWPIAy3OEXpSs9EvZTNC
+         KZFWoJoT2BQL64oo9G87g5OnWa7IxFB9dmhMyiB1KWUzpi2TQ5ga878/Yr/B2pTX3g2I
+         szCVoA5psQBCJ8hi1MOlwZfW2VaRNx4HJxk2HTx7zkJWbCEq4/BwMyG0Xre7Yr/9fZU4
+         rH0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786830585; x=1787435385;
-        h=content-type:cc:to:subject:message-id:date:mime-version:references
-         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0BiwD8sPUqgXhAkIy+YMgazrRCdFHB5CWVQZDyDO1H8=;
-        b=jZngMuNhXtTiyzExfXEd1tzRnxjWygMRcfLsEzJmkm6o3tj+Y3+e06gBI1RgXyYJlD
-         32XGJnLX1bw1SF8T1rWx/sNw7D3uMDtGZFr4EpiBDN/6Xj0uqGwFnuFBMuIVkDOyYVO8
-         xNbMqh08t6WsfADXM4FYbUOamvZ9HyynUMtSHdVmJPKRdI6dZCIQxQDcEKXZnsU90Hg9
-         VxtBRn8V3jOdNyqEXGrr+4gdZw+qz+jQ7tSZ3UuRNmY88QsHPGTJxext2r2HMjyVAcYa
-         AWnoWiUX9lcTf/4cdzf+NcxGXGzF24sKtjlVMsuRxHD97p/YvpaQNgRl7+sDMq+m21Ud
-         fBQw==
-X-Gm-Message-State: AOJu0YyM2VYj3U97E4TtAgWZ7wVZ8VjsEhZkCQMhdCM6gAtuV3zkVTGH
-	vDOgQl+jMemxMD0xg4lVSQ3xMDa8dU52OGvxnzBnt+rSwEZgNkvV7b3bX4la0zSeqNipVCO8/hA
-	OKCyhDqEd0LFq7h5W+fBeF/w/kxekSy+S2+x7jIk=
-X-Gm-Gg: AR+sD1370JH6WpjSlWERLa8ZyApzmuq8eZAAUAagM7lmPHOYvk1bs0JHFeIHpfFqB0n
-	zHkC5fZAGIfZFxkB3aGC+TObog2tki+J6Zil8gtSq4TmltOQklwWZH757nctui9dXYmighkUfRY
-	prIMao++5OzB9LubF9D9kW+PLqULuCwATFA3ASwAEnpGj2VCEtwqiSapLX54YW0+v7cEdriWjPQ
-	RtsXFW//BhPh0JHi5T657mKwboAAIkmvZmrqts4GPiyIdkh5tUHPURxl2g3jqmMYEuqCnC6BllU
-	FmSDNiNqmdmyjaQNAqa8uGHacitD2BO5wUvVXZ7qcBE5oaNKPpg4DnqeOGpC9BGvDMuBSlNA9oM
-	EEogxHcv16BbPbBXAucPgWwvEwbCeR9Oypw==
-X-Received: by 2002:a05:690e:1919:b0:667:b503:4d2c with SMTP id
- 956f58d0204a3-66c72c7b4c7mr6047858d50.34.1786830585153; Sat, 15 Aug 2026
- 14:49:45 -0700 (PDT)
-Received: from 595171893313 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 15 Aug 2026 16:49:44 -0500
-Received: from 595171893313 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 15 Aug 2026 16:49:44 -0500
-From: Gemayel Lira <gemayellira@gmail.com>
-In-Reply-To: <CAD96ZT+SnRnGr4Xd+NJkkVNpj8XrzL3Ete=pRgz05mqxAzbU2w@mail.gmail.com>
-References: <CAD96ZT+SnRnGr4Xd+NJkkVNpj8XrzL3Ete=pRgz05mqxAzbU2w@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1786838468; x=1787443268;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=S05GcFVUlDeLHwWGA/nTU8ZIeoXZY8FYWxsLnhiIPVM=;
+        b=oJjvBtO/5EpEvHCKnX1CVzyMtMkkNlMwx5+gsdqm4RW/XEQFerjltFpH+KlRltKZG8
+         2hmnZOwtJCOI3LgP0RkOd9vDIPXpgX7MdRM93tXbZrJpsg79QOAPIQT37VcUj4Nj8U8T
+         9sR0aZ8hGtMAaGRvnoCunYiN0xM5hCcXMFImz+b6U86PVR7XW76tsrmiP9ePHi4g/Lse
+         1H0gphht9HfoaaMnYMD8UOwjJi5b8Y8wciz8eNiIqkcBL1RZdn2fOxNIfrLMxjvBv1+t
+         dj87DQ17BceA61r3oluYM7TQtYUhiYCTU8OjkPAuuj4IA1wHUn2C84A8hQMFcRWiC09x
+         sNPQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoK9voDD2SnTs7YIh0gWUFZMgrWf1mE8lHGVXxYHlPFNPikC6M/5Zc/LlluRSWtpzCTO2oommk3HOzGTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhyrqWkk4l3QrsZlUtLGBXhNvZjRLdILzy0AQejh0zdUz9QYCz
+	l6AGCzn1laXZMod1OZVLZ+tfQUZ/Sdp2ewv1h/0p2h1vexc38AENnKbI
+X-Gm-Gg: AR+sD123omQqDsjeFPcpc+hMPKIYVQ1wqzwSRU2boItyDAqK1a2nY6MB3CzWtsjn0xq
+	xfrFnOzuZI/b1UgZz3jKcSiJLlfsFvt0XAG2seYnn64IW7y3MruJUtFmDhYE8QA0HbNT2mrenT5
+	kXH+83mlkA6vkBiP3FdWIoSQUdAG4w+c0eOO63jwTH6Gd7zIlLFwb8YgenayCuViuroVQ5OKReb
+	37ByR6WS3nw1U7vauI3obxTtVcHxpZr/Ck6+JHmmScrPWN4E7C9sHYj9smPjbGGk4XIGp42cYAJ
+	/eQwVDDq1cd60peqF5nU5+22d3KTKcGUz8PJ2jY+FNJdlFe+RMB60K0up/Ck2Hen4sf4v2s/xKj
+	tMbPC/YU05JInyhGxOnj+OqGwNrdQNyFKfTDhjaqd4L+nUQkYaxmvEcVRHsn02ZYHZrglgsnMjQ
+	CWT4sWKY4oI1Itx8bp9cs+b2BEo5Zkgc5a2TSEdj1SmukVrXHVngJ+ErBozNtbD6cAKpBBFoPcI
+	kAvOSx8Y5JlQQ2yV912yhK/4IY3Cj1yGh3pobnr9wK19QVX/ql5E+3C
+X-Received: by 2002:a5d:44cc:0:b0:47f:f908:ba7b with SMTP id ffacd0b85a97d-481607a8812mr19313208f8f.23.1786838468080;
+        Sat, 15 Aug 2026 17:01:08 -0700 (PDT)
+Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2c1307sm21029207f8f.27.2026.08.15.17.01.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 15 Aug 2026 17:01:07 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <999edd39-43d0-4973-96ce-a205283277ff@gmail.com>
+Date: Sun, 16 Aug 2026 01:01:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sat, 15 Aug 2026 16:49:44 -0500
-X-Gm-Features: AcwNN1Vh1UXUffNE20WOQlk8rrHfVo8m9exbmMInY5AKJlHtitvNy9tQg65hqjE
-Message-ID: <CAD96ZTJzEwiNwJm4ujLS4+X_KChi4+_sD0j-m+aE+_9i+eUGcA@mail.gmail.com>
-Subject: [PATCH v2] ALSA: hda: cs35l41: Enable VSPK on UX3405CA when ACPI
- leaves GPIO1 unused
-To: linux-sound@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, 
-	Jaroslav Kysela <perex@perex.cz>
-Cc: Stefan Binding <sbinding@opensource.cirrus.com>, alsa-devel@alsa-project.org, 
-	patches@opensource.cirrus.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: fix unmet dependencies on PPC_BESTCOMM and
+ SND_SOC_AC97_BUS
+To: Rosen Penev <rosenp@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ arnd@arndb.de, chancel.liu@nxp.com, jonsmirl@gmail.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260802144855.3596995-1-julianbraha@gmail.com>
+ <CAKxU2N9HkStUEo+iTa6xc2BJGe6KE==vARDdHPEhRH9yKOMLuw@mail.gmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <CAKxU2N9HkStUEo+iTa6xc2BJGe6KE==vARDdHPEhRH9yKOMLuw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-v1 mapped 10431A63 to generic_dsd_config and INTERNAL boost. Stefan Binding
-rejected that: this laptop is external boost, and overriding the ACPI _DSD
-as internal can damage the amplifiers. Takashi agreed not to take v1.
+Hi Rosen,
 
-v1 also loaded fallback firmware (SPKID: -19). After some S3 resumes the
-right amp failed with PM resume -110, then SPI -16 (EBUSY) until reboot.
+On 8/2/26 22:14, Rosen Penev wrote:
+> On Sun, Aug 2, 2026 at 7:49 AM Julian Braha <julianbraha@gmail.com> wrote:
+>>
+>> SND_MPC52xx_SOC_PCM030 and SND_MPC52xx_SOC_EFIKA both select
+>> SND_SOC_MPC5200_AC97 without ensuring that its dependency on PPC_BESTCOMM is
+>> met. This causes unmet dependencies such as:
+>>
+>> WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
+>>   Depends on [n]: SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_BESTCOMM [=n]
+>>   Selected by [m]:
+>>   - SND_MPC52xx_SOC_PCM030 [=m] && SOUND [=m] && SND [=m] && SND_SOC [=m] && SND_POWERPC_SOC [=m] && PPC_MPC5200_SIMPLE [=y]
+>>
+>> SND_MPC52xx_SOC_EFIKA also selects SND_SOC_STAC9766 without ensuring its
+>> dependency on SND_SOC_AC97_BUS is met.
+>>
+>> Let's resolve all 3 unmet dependencies by adding the dependencies on
+>> PPC_BESTCOMM where needed, and selecting SND_SOC_AC97_BUS as other, similar
+>> options in this subsystem do.
+>>
+>> These unmet dependency bugs were detected by kconfirm, a static analysis tool
+>> for Kconfig.
+>>
+>> Fixes: a9262c4fd404 ("ASoC: Support for AC97 on Phytec pmc030 base board.")
+>> Fixes: 6ffee43ecf8b ("ASoC: Fabric bindings for STAC9766 on the Efika")
+>> Signed-off-by: Julian Braha <julianbraha@gmail.com>
+>> ---
+>>  sound/soc/fsl/Kconfig | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
+>> index 8ae59c094878..a5d7cf534391 100644
+>> --- a/sound/soc/fsl/Kconfig
+>> +++ b/sound/soc/fsl/Kconfig
+>> @@ -243,7 +243,7 @@ config SND_SOC_MPC5200_AC97
+>>
+>>  config SND_MPC52xx_SOC_PCM030
+>>         tristate "SoC AC97 Audio support for Phytec pcm030 and WM9712"
+>> -       depends on PPC_MPC5200_SIMPLE
+>> +       depends on PPC_BESTCOMM
+>>         select SND_SOC_MPC5200_AC97
+>>         select SND_SOC_WM9712
+>>         help
+>> @@ -253,6 +253,8 @@ config SND_MPC52xx_SOC_PCM030
+>>  config SND_MPC52xx_SOC_EFIKA
+>>         tristate "SoC AC97 Audio support for bbplan Efika and STAC9766"
+>>         depends on PPC_EFIKA
+>> +       depends on PPC_BESTCOMM
+> does this really depend on PPC_BESTCOMM?
 
-This v2 keeps Binding's missing_speaker_id_gpio2 parse of the existing
-_DSD (external boost, shared reset, gpio2 = IRQ, speaker-id at CRS index
-2). ACPI sets cirrus,gpio1-func to VSPK (1) on the left amp and unused (0)
-on the right, so the right channel binds with VSPK: 0 and volume drops
-about one second after playback. After parse_acpi, enable VSPK on GPIO1
-only when ACPI left it unused. Boost type is unchanged.
+Yes, BestComm is the co-processor found on Freescale MPC5200.
 
-Tested: ASUS Zenbook 14 UX3405CA, Ubuntu kernel 7.0.0-27-generic.
-Both amps: VSPK: 1, SPKID: 1, firmware
-spk-prot-10431a63-spkid1-{l,r}0.bin. One S3 (deep): both amps reloaded
-firmware, no -110/-16.
-
-ACPI _DSD (SSDT SPKRAMPS), excerpt:
-
-  cirrus,gpio1-func:  1, 0
-  cirrus,gpio2-func:  2, 2
-  cirrus,boost-type:  1, 1
-  reset-gpios:        shared CRS index 1
-  spk-id-gpios:       missing (CRS index 2)
-
-dmesg after this quirk:
-
-  CS35L41 Bound - SSID: 10431A63, BST: 1, VSPK: 1, CH: L, FW EN: 1, SPKID: 1
-  CS35L41 Bound - SSID: 10431A63, BST: 1, VSPK: 1, CH: R, FW EN: 1, SPKID: 1
-
-v1: https://lore.kernel.org/linux-sound/CAD96ZT+SnRnGr4Xd+NJkkVNpj8XrzL3Ete=pRgz05mqxAzbU2w@mail.gmail.com/
-
-From c325bb06bb37fd658f0250dc8571b5bb6b2c7dbf Mon Sep 17 00:00:00 2001
-From: Gemayel Lira <gemayellira@gmail.com>
-Date: Sat, 15 Aug 2026 17:16:18 -0300
-Subject: [PATCH v2] ALSA: hda: cs35l41: Enable VSPK on UX3405CA when ACPI leaves
- GPIO1 unused
-
-The ASUS Zenbook 14 UX3405CA (SSID 1043:1A63) already has a valid _DSD
-and uses missing_speaker_id_gpio2. ACPI sets cirrus,gpio1-func to VSPK
-on the left amplifier and unused on the right, so the right channel
-binds with VSPK: 0 and volume drops shortly after playback starts.
-
-After parsing ACPI, enable VSPK on GPIO1 when it was left unused.
-
-Signed-off-by: Gemayel Lira <gemayellira@gmail.com>
----
-Changes in v2:
-- Do not map 10431A63 to generic_dsd_config / INTERNAL boost. Stefan
-  Binding rejected v1: this laptop is external boost, and that override
-  can damage the amplifiers.
-- Keep missing_speaker_id_gpio2 and enable VSPK only when ACPI left
-  GPIO1 unused. Boost type is unchanged.
-- v1 loaded fallback firmware (SPKID: -19) and, after some S3 resumes,
-  hit PM -110 then SPI -16 (EBUSY) on the right amp. This v2 binds
-  SPKID: 1 and official spk-prot-10431a63 firmware.
-
-v1: Message-ID:
-<CAD96ZT+SnRnGr4Xd+NJkkVNpj8XrzL3Ete=pRgz05mqxAzbU2w@mail.gmail.com>
-
- .../hda/codecs/side-codecs/cs35l41_hda_property.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-index 416d7bf..0c09094 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-@@ -450,7 +450,20 @@ static int missing_speaker_id_gpio2(struct
-cs35l41_hda *cs35l41, struct device *
- 		return ret;
- 	}
-
--	return cs35l41_hda_parse_acpi(cs35l41, physdev, id);
-+	ret = cs35l41_hda_parse_acpi(cs35l41, physdev, id);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * ACPI on 10431A63 sets gpio1 to VSPK on the left amp and unused
-+	 * on the right, so the right channel binds with VSPK: 0.
-+	 */
-+	if (cs35l41->hw_cfg.gpio1.func == CS35L41_NOT_USED) {
-+		cs35l41->hw_cfg.gpio1.func = CS35l41_VSPK_SWITCH;
-+		cs35l41->hw_cfg.gpio1.valid = true;
-+	}
-+
-+	return 0;
- }
-
- struct cs35l41_prop_model {
--- 
-2.53.0
+- Julian Braha
