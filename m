@@ -1,250 +1,177 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F2E14EC73
-	for <linux-sound@vger.kernel.org>; Sun, 16 Aug 2026 15:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D69248F64
+	for <linux-sound@vger.kernel.org>; Sun, 16 Aug 2026 15:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786893646; cv=none; b=P5DG9Ld+Nb7TKrhuZCyRrhFWo3DBlVYYLP8XVwQM68sa9N+bx5WI8iOnHC1RAcj5yJXuoPmreVN5a9NQI9auuU66ToP7iaWeBGYM2ZQX1h+ZNXq9+wA7JzJq2aKsSeVEnlgQzvp0h5AZsmA+UTqz47tYQn+k5FDA1m1O2w9kRXI=
+	t=1786895989; cv=none; b=o+GSK5ufx/ne5TPKw9WYSH/4YnwGJA71UYZ8pZrRYoePLdiz3RLSq/HaM4uTrMvzoESl4SGorwYMIc8wjGuKUogtWMouy5DyKRXhTCM9jOdUcGbMS1jX9I6Xb3/n3EgzQEvxC+P5EnP/WNfsg6ZDcb78d3VuMCAou/quES0TwwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786893646; c=relaxed/simple;
-	bh=juadWtrx9TmcJSKSubon0S2pdMYlSqUQFneYH5BhPBg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tTRRnsgABAyUi99oRk0JH9cKL9AMvIzVtpwqKPkI0SR1A/LRq+RMmQIx6fJd445crnYCBy89yvYUOQUSiQgGXhh5le6NbFw1dbmuZc56zpjELOMAbFuKyN2hff6C3YAV1cfnfXg3eoohXkVKDaHuQwFq/uo14oYGRjm8LYRFwP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QopNrRkw; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1786895989; c=relaxed/simple;
+	bh=Sw9+05Kn6CPhAWUYNlQRpu8a6dAywA6+bHc0oOe2MKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QJ1n/TWyFQ6EWjtoSQmqSINBcMQ4ZRBV7F/A/zLtqscRM9vQs1qRDzBOkjg5k8Lw8tF0Ig+2Q0FGv2m33ZMNTHmDjS4tjSWvOQDjMKASY5cxkzMM3OcEXevQKyn3/wRwJuCzanUQboL9RJ8hlV10Jw3TvVX8G4O4OXDLMrC/3pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jxZbBjoJ; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QopNrRkw"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47fe89fb333so1509944f8f.3
-        for <linux-sound@vger.kernel.org>; Sun, 16 Aug 2026 08:20:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jxZbBjoJ"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6a0de062db5so3983603a12.1
+        for <linux-sound@vger.kernel.org>; Sun, 16 Aug 2026 08:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786893643; x=1787498443; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hA6ZcSIXBspwUlSfeLJa7+a0Uc2KtuRzGYFFOPOHJWU=;
-        b=QopNrRkwm9Vwyu0XXvrm2GfyAgjEasIlqzlNgSJ9FyTzNBZtvlGIwUlFpXzUPyd7vH
-         hWxTpYrvfzx1R6Q+X+Si9F6nS1YNDGvCYf47OhD+g0a8Pgg9RTAPHxYy6CY6oNzyNABX
-         OqwG7/zti4xvbC24jx+16Gdz7ixyW8QH8A10dG76vID7PtohHWY18L7iQDMb+NJJEbyv
-         +5JRIeviY1sqVd8bohhZqC4cXMQImOTsc2AB0SJqHooiYpmOpZU09W0Ho9tgbxWxMBfz
-         qz0j6UGO61J7VUotpqL2Ue1Jh5YiNkJwL5mia4gOepzbg2LVWNiZp14/L/mmI0CzFU16
-         lOfg==
+        d=gmail.com; s=20251104; t=1786895986; x=1787500786; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pAKKTUYGlatu3QmFxdyAgsxejHtc5j1LfICMpNa6Qh0=;
+        b=jxZbBjoJx8e2svs3p+xBTkv8elDP32vcn9Y32L6wHbJLY+X/JmVja2U7yQ8xypSdZO
+         YK5Wg+Sg8jC4U9dbZnZC+uv1C2jsRvXmEZfWKd/NtjOLHtf/aKl7cbfg8olFJRzwusAf
+         1dhnSTjexszCkPgx29x1Tg9kMelgk+fYgeuCHMnZyC1mQazhm2uGy5M3DnSlRwXY1LqR
+         s5c/yHpa6ADC9mFv5g3JPOnQB0vy/ARE9NiSNdjSqpAhiLxA3S8hYi7eDe6OANOc6oRq
+         aVD4d/Z/zSTT1MY8LgTg8uF93Myiv/twrM10RVqWrju+LLymniaNo1+O6aJlZjYPX2Rc
+         4mjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786893643; x=1787498443;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hA6ZcSIXBspwUlSfeLJa7+a0Uc2KtuRzGYFFOPOHJWU=;
-        b=lvcy/MMLp5urQG5YscVbH3U82aU8T5XVilLfS4t7ot3HrIAi5BTUTXYpOHxtwQy+cP
-         4ta3BSYVyhFThNV/SqGO93pAi+NOry53OlXn21WQ5zLjEyE0GKEKZQsUCQv0R7CJNfrT
-         sL/msaYQJRRL9na+fLROR50ae9g0K4nOlXLNtoOLPbK+NkPxTvHg9C5csVlXlqv2z3MX
-         GDX+p4BVCCjo3/oXw6nH06N6ZeHcRem/ga4KZHsy3ts1L+17CJsx7IwXNrXAfcnUV5LH
-         KCaUQNrM6eAa0zDPT9YM4ofUP0mW7NgZg5H3yyC4xFMuBDZCexrgm6Ig7Cy/CZ0UllLY
-         CtPg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr7GrRMxtr0h+GIz1Mo/uYOKA/RGQe+eonIlWxGXvCYEoc0INVRT3Js8PuG1Q6a4uQcqmux1vWEHfy3ww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAC2d/WMFJn9gSpxj3ftiMOQHkNxFGnpfUCM7XbESLnBc3fKwb
-	YEJpvO+uPHUUnzrshO7CwhfgBmtsZS9DnTsjNuK4H+K4hT9YHpRn0gl5
-X-Gm-Gg: AR+sD11Lp6DOOs98QDU7Ly6F0bLKYNDprdan86qIW/CrgQuRsHvV9MQl76qZnQbk1qT
-	FvheBKx2bhMdzoGFN4Szv53bp4R3zvoFwXg8GqI4vGhH6fXEfZAQRyQ1z1hQEIdW6uZ19wmAcB7
-	SwTScal8Faup2b25VgxdO37oVQPy7ZLAJQM2tJeJ/2KUewExfkSOcLexxgz7kFUB4cgkPvC0SNZ
-	QYdIG3nQPy6YSi0UM66mW0Pd728ocEx2zK79J32DWujDk/7paRuw+FZysUD8yg+eTDctkgPmfHQ
-	dhRXmDpm0s4R+56YjcQ17vLth72Wxn3dYDB+fTCV/E+dOErN9vxIsbJHFGIC8Bsam6VYINvhBZA
-	Eb0gLkKjNbiDkfyyR0Mfr/cUJNz/BRLlzh9nEfoHxbnoeUSlpopge1FTust3x5pheAb6nL81LJO
-	0ZhiJVIr3+fUc3aEnA+xdvEQ0E5+5uHaQ8sdC+t+6y/qZupcvUcWT4tpvbpXJfcojsiHLnXFwQf
-	G1npYzTpqrWE8+zJeUKZg==
-X-Received: by 2002:a05:600c:4e8a:b0:499:7a4f:d13d with SMTP id 5b1f17b1804b1-499879441bdmr265663485e9.4.1786893642518;
-        Sun, 16 Aug 2026 08:20:42 -0700 (PDT)
-Received: from cachyos-x8664 ([45.141.148.169])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49996109652sm73425265e9.4.2026.08.16.08.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 16 Aug 2026 08:20:42 -0700 (PDT)
-From: Akhmed Zhitaev <zhitaevakh@gmail.com>
-To: amd-gfx@lists.freedesktop.org,
-	linux-sound@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Kenneth Feng <kenneth.feng@amd.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Subject: AMD Phoenix 1002:1640 Radeon HDA WALLCLK becomes 5.76 MHz after s2idle resume
-Date: Sun, 16 Aug 2026 20:17:54 +0500
-Message-ID: <20260816151754.7555-1-zhitaevakh@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1786895986; x=1787500786;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pAKKTUYGlatu3QmFxdyAgsxejHtc5j1LfICMpNa6Qh0=;
+        b=KQfLD+J2NaP0nMdQcW3khZ/T/TEGyh8m0TBanr1bE2U4v+DMXA6iv9rWBUPbjAXAR1
+         1stzYXvpBc91pfS8fa39HRQ2gkl1+H3DqDVGiJN7/kSaDvgcKKd1t2ce6xjH/tuNgiHM
+         i6dTkZ9g6DhEHyQMRGVlzcWmtio4FFJlkeeODQu6A/FIHTdaLtpLRiAMtiEg8LedaJu2
+         8gq34jJSLfLUCWTPezFzDVeBdUrndTRpeu2QweluEpQSmTXGITqUBfxRE4ZTqLqpWtsA
+         jDlCcmJHRajhZdcs6J4HSHRBwLqwkaR+rSYsAmS/Nao4XwjIu4ADeaIk+gatSMZglrpF
+         h5Sg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9Vw9vaU/tyitTufkKiGHrYnAAQdStUnLVPMbErSc59rg7wv7fYZwPEwaYi88l7z+OE5EZQ/LBZxUt9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0vNCtRpnWhyTiw/LyBq5cCbkkvIdAdClq8w7utPU/QOGpP9qf
+	3RBFSSNTNuVaIvn7hSaujpi9rXjsZxHMq9B51xzAlpP5q+1XDkubZf5i
+X-Gm-Gg: AR+sD11nD+uyuY48rxUS3um1GapXQD9n7e2Hy658gT9nHDkgKT/9fISa8BZvCKUhcmo
+	8tAjhv7FpS15jaC+rKt+caLElCqCXRVCvQFcMq6v9gQr16Kz5lS2UMfWu4kAM/hvug55ZZSEYO5
+	fLaYzJmUmIvlQxE/DZWfi6Zvx1DfVQOoFwlXH7+NU8vhWFbNXS+6Y2dDgoJ+roH5qOhs9rxeNt4
+	EmOCAFGggm2YOehahaDLtrfLHuE4r92ONWpNnadHANjmBNmJQeUo8xshjverIKn9WxY6WASFh7g
+	KeucVYNSZ/rwOeXiKrCAvd9+7i3A0hsaMmezTQfgFrM5maoxifL8hor09n/kutnmPmg0v7lO0iK
+	KSYA3tOl26jetwBtWpEcKQI3cg0wCkmmkiPpxVv7kWHaaI0ASiuB9KGcqLoAS1088MvfaKqKD5T
+	yFthCR31Y8Ybs36W1ypYdA1UD8LNgbyjj8Y/45lz23JwBbUu6847LXKRbJyXz9JSe3be4=
+X-Received: by 2002:a05:6402:1ccf:b0:698:9e5e:5df8 with SMTP id 4fb4d7f45d1cf-6a38a903b19mr9091471a12.7.1786895985687;
+        Sun, 16 Aug 2026 08:59:45 -0700 (PDT)
+Received: from foxbook (bfg7.neoplus.adsl.tpnet.pl. [83.28.44.7])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a38d767e3csm2931148a12.17.2026.08.16.08.59.42
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 16 Aug 2026 08:59:44 -0700 (PDT)
+Date: Sun, 16 Aug 2026 18:01:47 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: perex@perex.cz, tiwai@suse.com, kees@kernel.org,
+ chengordon326@gmail.com, jussi@sonarnerd.net, hulianqin@vivo.com,
+ i@rong.moe, g@b4.vu, cryolitia@uniontech.com, pav@iki.fi,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3] ALSA: usb-audio: Fix boot-time audio stuttering for
+ USB Audio device
+Message-ID: <20260816180147.2e5f01d1.michal.pecio@gmail.com>
+In-Reply-To: <20260728111309.1271834-1-zhangheng@kylinos.cn>
+References: <20260728111309.1271834-1-zhangheng@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi,
 
-I am investigating an AMD Phoenix/Hawk Point laptop with an integrated Radeon GPU and a reproducible audio-timing failure after s2idle resume.
+Adding linux-usb.
 
-Hardware:
+On Tue, 28 Jul 2026 19:13:09 +0800, Zhang Heng wrote:
+> This USB Audio device (0x1e0b:0xd01e) exhibits audio stuttering
+> during boot when playing audio. Once the system is fully booted,
+> playback is normal.
 
-  GPU:        0000:6e:00.0, PCI ID 1002:1900
-  Radeon HDA: 0000:6e:00.1, PCI ID 1002:1640
-  Analog HDA: 0000:6e:00.6
-  Parent:     0000:00:08.1, Phoenix internal GPP bridge
-  DCN:        3.1.4
-  NBIO:       7.7.0, nbio_v7_7_funcs
-  MP1/SMU:    13.0.10, smu_v13_0_0
+Weird, your thread runs horribly slowly (preempted by something despite
+spin_lock_irqsave held by xhci-hcd?) during those URB submissions. It's
+first time I actually see this warning:
 
-The internal eDP panel is active. No external HDMI/DP sink is connected; Radeon HDA ELD entries report no monitor present and invalid ELD.
+[    9.654586] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5154, index 13) beyond range (645, 1539)
+[    9.654589] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
+[    9.655053] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5158, index 14) beyond range (645, 1539)
+[    9.655055] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
 
-After cold boot, Radeon HDMI/DP playback is normal. After a reproducing s2idle cycle, playback stutters in Firefox, Telegram/AyuGram, and mpv. The failure reproduces with direct ALSA, without PipeWire; with hardware decoding enabled or disabled; and with Vulkan or OpenGL rendering. The Ryzen analog HDA remains smooth.
+If packet 14 was scheduled for frame 644, packet 0 must have been
+frame 643 i.e. uframe 5144 (should be frame aligned). So packet 14 was
+uframe 5158 - it was only being written to HW while it was already
+due for execution, some 2ms after usb_submit_urb() began. ???
 
-With mpv, normal A/V synchronization, display-resample, and display-vdrop stutter. --video-sync=desync makes video smooth while A/V drifts by seconds.
+URB execution won't even start until all packets are written - we do
+take care to queue URBs atomically. Initial part of this URB (before
+the warnings) will complete with -EXDEV status due to blatant isoc
+scheduling threshold violation, but the rest (with SIA bits) will be
+delayed by HW and completed normally after submission finishes.
 
-Direct HDA controller measurements were taken through the existing kernel MMIO mapping. The active stream used S32_LE, 8 channels, 48000 Hz, buffer_size 32768 frames. Expected transport rate is 1,536,000 bytes/s.
+The same may happen to the next URB if the condition which caused this
+persists, and moreover, the next URB may be scheduled with a gap after
+the previous one.
 
-GOOD cold boot:
-  WALLCLK approximately 23,999,690 Hz
-  LPIB approximately 1,535,987 bytes/s
-  approximately 47,999 frames/s
+IDK how snd-usb-audio would react to such a mess. It is believed, at
+least by the USB subsystem, that drivers expect contiguously submitted
+URBs to execute in contiguous service intervals, without gaps.
 
-BAD after s2idle:
-  WALLCLK approximately 5,759,926 Hz
-  LPIB approximately 368,638 bytes/s
-  approximately 11,519 frames/s
+FYI, a lot of this xhci-hcd logic is considered broken and goes out
+the window in v7.3. I'm curious if you could test how things work on
+usb-next without (and maybe also with) your workaround code.
 
-The BAD/GOOD ratio is approximately 0.24, close to 6/25. System monotonic timestamps advance normally, so this is not merely an ALSA timestamp or hw_ptr accounting error.
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/log/?h=usb-next
 
-HDA PM-boundary probes show:
+This removes the automatic conversion to SIA/ASAP and insertion of gaps
+between URBs, so that the initial URB will likely wholly complete with
+-EXDEV and the next one will be scheduled immediately after it.
 
-  GOOD cold boot: hda_intel_init_chip() -> approximately 24 MHz
-  BAD resume:     hda_intel_init_chip() -> approximately 5.76 MHz
+Again, what snd-usb-audio will think about it IDK, but usb-next mostly
+works for me in my test (one remaining exception I'm trying to fix).
 
-A complete runtime suspend/resume of 0000:6e:00.1 produced:
+> The device reports its isochronous endpoints with the Asynchronous
+> sync type (bmAttributes = 0x03), which causes the driver to
+> calculate nurbs = min(max_urbs, ...) = 3, providing only ~16ms
+> of buffering. During boot, the higher system scheduling jitter
+> (e.g., from init scripts, device enumeration, and driver probing)
+> can exceed this buffer depth, causing audible stuttering.
 
-  runtime-suspend-entry:       approximately 5.76 MHz
-  after controller shutdown:   0
-  runtime-resume-entry:        0
-  after azx_init_pci():        0
-  after hda_intel_init_chip(): approximately 5.76 MHz
+Not sure what causes it, xhci-hcd holds a spin_lock_irqsave() during
+the whole submission, so I think it shouldn't get preempted.
 
-The bad source clock therefore survives the local HDA controller power cycle.
+> This patch adds a device-specific quirk (QUIRK_FLAG_PLAYBACK_URB_FIXUP)
+> that applies two changes for this device:
+> 1. Forces nurbs to MAX_URBS (12), providing sufficient buffering
 
-The following did not restore 24 MHz:
+I actually wonder why snd-usb-audio seems to allocate only one URB per
+period and then submit URBs shorter than a period. Doesn't this mean
+that all URBs may be busy without covering the whole playback buffer,
+and then newly written samples have nowhere to go until one completes?
 
-  snd_hda_intel unbind/bind of 0000:6e:00.1
-  PCI PM reset of 0000:6e:00.1
-  full runtime suspend/resume of 0000:6e:00.1
-  amdgpu MODE2 GPU recovery followed by SMU resume
+This seems to increase risk of URB queue underrun, though TBH I tried
+increasing 'nurbs' and I haven't seen much practical difference running
+with very low latency like 2x250us or 2x500us.
 
-MODE1 was attempted once, but GFX/MES resume failed. No post-MODE1 HDA WALLCLK measurement was obtained, so no conclusion about MODE1 HDA recovery is drawn.
+Note: on USB 3.1 and newer such settings may only work on usb-next.
 
-The HDAU ACPI power resource performs OFF -> ON successfully. Radeon HDA normal resume is ordered after completion of the amdgpu parent resume.
+> 2. Sets URB_ISO_ASAP flag for more consistent xHCI scheduling
 
-The active AMDGPU resume path in the v7.1.8 tree is:
+URB_ISO_ASAP or xHCI SIA do the opposite of consistency - they cause
+execution to be delayed until the URB is written to the HW and the HW
+reaches it.
 
-  amdgpu_pmops_resume()
-    -> amdgpu_device_resume()
-       -> amdgpu_device_ip_resume()
-          phase1: soc21_common_resume, gmc_v11_0_resume, ih_v6_0_resume
-          phase2: smu_resume, gfx_v11_0_resume, sdma_v6_0_resume,
-                  vcn_v4_0_resume, jpeg_v4_0_resume, mes_v11_0_resume
-          phase3: dm_resume
+Non-ASAP submissions are scheduled contiguously and possibly complete
+with -EXDEV if submitted too late. Only after the last completion of
+the last remaining URB returns, will the next URB be scheduled
+separately and discontiguously, to execute in some (near) future.
+Again, this is documented usb_submit_urb() rule and it's believed that
+drivers expect it. It's how OHCI/UHCI/EHCI drivers work.
 
-On normal non-SR-IOV resume, PSP is excluded from the IP resume phases. For S0ix, PSP is also intentionally skipped during suspend because the source describes it as always-on hardware whose firmware/TMR state is reused.
+Using ASAP is a known workaround for the old xhci-hcd bugs, similar
+patches have been sent to linux-usb, that's why it's being fixed. But
+IDK if usb-next will solve your bizarre edge case out of the box.
 
-The active smu_v13_0_0_ppt_funcs has no gfx_state_change_set member, so the generic D0-entry call has no ASIC-specific implementation on this path.
-
-The active NBIO discovery dispatch is:
-
-  IP_VERSION(7, 7, 0) / (7, 7, 1)
-    -> adev->nbio.funcs = &nbio_v7_7_funcs
-
-soc21_common_resume() invokes soc21_common_hw_init(), which calls nbio_v7_7_init_registers() during resume as well as cold initialization.
-
-Read-only NBIO snapshots of the registers referenced by the active implementation were bit-identical at pre-s0ix, post-resume-pre-atomic, and post-atomic-restore:
-
-  BIF0_PCIE_MST_CTRL_3
-  BIF0_CPM_CONTROL
-  BIF0_PCIE_CNTL2
-  BIF0_PCIE_TX_POWER_CTRL_1
-  RCC_DEV0_EPF5_STRAP4
-
-The logged DCN audio DTO and clock-manager state did not show a corresponding 6/25 change. These display-side DTO registers are distinct from the PCI HDA WALLCLK register.
-
-The v7.1.8 tree contains BacoAudioD3PME and EnableAudioStutterWA definitions, but BacoAudioD3PME is not mapped in the active smu_v13_0_0 message map and the active PPT implementation has no set_azalia_d3_pme callback. EnableAudioStutterWA has no active Phoenix mapping or callback. Neither is being presented as a known fix, and neither was sent.
-
-The evidence establishes that the Radeon HDA WALLCLK itself changes from approximately 24 MHz to approximately 5.76 MHz after s2idle; the stream DMA follows the same ratio; the state survives local HDA recovery and MODE2 recovery; and it is not explained by the logged DCN DTO or NBIO state. The remaining hypothesis is a platform- or firmware-owned reference-clock mux/divider or power-domain state affecting GP17/HDAU that is not restored correctly across S0ix. This is a hypothesis, not a demonstrated register-level root cause.
-
-I would appreciate guidance on whether Phoenix/Hawk Point PMFW has a documented HDA/Azalia clock restore sequence, whether an audio-specific SMU message is expected for this ASIC, and whether PSP or platform firmware is expected to restore the GP17/HDAU reference clock during S0ix resume.
-
-No kernel workaround has been added, and no undocumented SMU message has been issued.
-
-======================================================================
-Appendix A: Representative GOOD/BAD HDA measurements
-======================================================================
-
-HDA controller timing samples (PCI 0000:6e:00.1, PCM8, S32_LE, 8ch, 48000 Hz)
-
-GOOD cold boot:
-  WALLCLK_Hz=23999690
-  LPIB_Bps=1535987
-  frames_per_sec=47999
-  configured_rate=48000
-
-BAD after s2idle + AC wake:
-  WALLCLK_Hz=5759926
-  LPIB_Bps=368638
-  frames_per_sec=11519
-  configured_rate=48000
-
-BAD/GOOD ratio: approximately 0.24 (approximately 6/25).
-
-======================================================================
-Appendix B: HDA PM-boundary measurements
-======================================================================
-
-Radeon HDA PM-boundary WALLCLK measurements (0000:6e:00.1, 1002:1640)
-
-GOOD cold-boot initialization:
-  hda_intel_init_chip(): approximately 24 MHz
-
-Failing system resume after s2idle:
-  hda_intel_init_chip(): approximately 5.76 MHz
-
-BAD runtime suspend/resume:
-  runtime-suspend-entry:       approximately 5.76 MHz
-  after controller shutdown:   0
-  runtime-resume-entry:        0
-  after azx_init_pci():        0
-  after hda_intel_init_chip(): approximately 5.76 MHz
-
-======================================================================
-Appendix C: NBIO/DCN state snapshots
-======================================================================
-
-NBIO 7.7.0, implementation nbio_v7_7_funcs.
-
-Read-only NBIO snapshots were bit-identical at:
-
-  pre-s0ix
-  post-resume-pre-atomic
-  post-atomic-restore
-
-Registers:
-  BIF0_PCIE_MST_CTRL_3
-  BIF0_CPM_CONTROL
-  BIF0_PCIE_CNTL2
-  BIF0_PCIE_TX_POWER_CTRL_1
-  RCC_DEV0_EPF5_STRAP4
-
-Relevant DCN phase state:
-  xtalin=24000, dccg_ref=24000
-  audio_dtb_dto=00000001/00000000
-  audio_dto_src=00000030
-  dtb_p=00000492
-
-The visible DCN audio DTO state did not change by the 6/25 ratio across the failing resume. These display-side DTO registers are distinct from the PCI HDA controller WALLCLK register.
-
-Thanks,
-Akhmed Zhitaev
+Regards,
+Michal
