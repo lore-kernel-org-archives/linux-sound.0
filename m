@@ -1,149 +1,114 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA293DE431;
-	Sun, 16 Aug 2026 10:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0943233924
+	for <linux-sound@vger.kernel.org>; Sun, 16 Aug 2026 11:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786877124; cv=none; b=XvqJ+MzsnwoMDYB/oImTnQJcOTGEa/Xbb6qjZnztWyTNpHjoVhnLmYWR1jzUy8XbJLBBCKj+YJdo1MvZk0RFvLWzatARMoRkWdhhmgt+kNyz2NLMyqVShtjjvarSn7Vm5zADBEnZFyZkvxTXwFfdWHP4U5L+yF0RgBVRQkgjqa8=
+	t=1786878522; cv=none; b=e0i0QxsHfbYd5FQf+7xtCPwwNmbcEE0EptpbQBsUDvJoJBdR8o7uvLuwUjOS5ahfnh96YEhca5BzfACxeElDGgVvkQ51Kc2PONCeCNPuiDH26tFzEBGk62k2H+KwYLfM0POvkkNXD0cJNEEL2nmmehulBkHxW6Do+K7Sy1DUMfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786877124; c=relaxed/simple;
-	bh=fkOg9DmI9WV4d8yBTIF3G/YQn+bniu4WBvHcZyP6y74=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GfN7naUybvHgQmu5q7ruIx3HXM9RP/5sbyThzxgU4+Th4yUBbguOjcxxo1xxLF5CflOk6AhKOzNc+UOI6ZwqA23qEvbX8LWulDmFRvQp9tgZ3OVoco57q15FB46HXz9qqad0gpKHgKtIZz9Ol5tkXTWte9i9ShHte7v8IYM7V8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yUZmGXKi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TA3TXGmd; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q//FA7NU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pkcCgiNL; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786878522; c=relaxed/simple;
+	bh=klDkroUxF/t2SvOb5saUJkhCtYJos0RsBHYMYIDnNak=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=nfJ49O+H1edpq2z5mgnUgeitjEuAVY6ZCfNizbIAvOjOawvvddseidSAzJgD71PNo7iPhpkg5GVJIhs76dFUvb5PeIxf3oFJ6liuiL/qpQTbBYhpXMh5bCngPXRv7k7VEyXLqUDbQp7/lX2pRtn2eJVcv9wM+kd15QLKFuCefkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qy0aIKmv; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yUZmGXKi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TA3TXGmd";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q//FA7NU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pkcCgiNL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 64B123E26;
-	Sun, 16 Aug 2026 10:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786877115; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Npe+l7sDwI12GUu0tf1QJN9xJ0kq7sr2w5gh6bPYel0=;
-	b=yUZmGXKiP1YyDBZvaee1LGafwB4VyFv9v0I4La4YiCYicn77jMVICc2eLPUvX6HacNf94d
-	hGkRhfQvX4zQuuh3yF3geQeI+zQdhYTQfZHN10JTNXU80ubfwo3l8ShoVrfsLleGOykwAZ
-	EzjIyijcB5vCTekTVKgy0HVQLwZ9eqI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786877115;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Npe+l7sDwI12GUu0tf1QJN9xJ0kq7sr2w5gh6bPYel0=;
-	b=TA3TXGmdacmFDyoQ3nUE7BlO+l/aBgi9Bg8F/ousltrTGHy7FDBFjXpbVPfEsY9G8ZM2kJ
-	OZYAZVXk1oEbCwAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Q//FA7NU";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pkcCgiNL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786877111; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Npe+l7sDwI12GUu0tf1QJN9xJ0kq7sr2w5gh6bPYel0=;
-	b=Q//FA7NUMtV0nQHlV9isaXb445XV7frLhCCXpokNV188JzV0JFlmitVRaACqRB1V9EdrlP
-	P1OwLkwCZ6T5HPSub6aCRKEkQQhtFlthht1ki+18JffSfSOeiCurbM7PutKBW7FiBTXif6
-	/9JFrd0WryfBBWvZ/ZuZAnzuNAJZfLQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786877111;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Npe+l7sDwI12GUu0tf1QJN9xJ0kq7sr2w5gh6bPYel0=;
-	b=pkcCgiNLlnV98pel10XQShsn+5u4vYaKRiCG3S88W1Op4ar44Nqy94d9LqGdGco4yegmyg
-	czSWVQXPxg0VHnBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31E1678E6D;
-	Sun, 16 Aug 2026 10:45:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id FVF7CreUgWoibQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 16 Aug 2026 10:45:11 +0000
-Date: Sun, 16 Aug 2026 12:45:10 +0200
-Message-ID: <87v79acpjd.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: tiwai@suse.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qy0aIKmv"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cc891373e0so31835805ad.2
+        for <linux-sound@vger.kernel.org>; Sun, 16 Aug 2026 04:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786878520; x=1787483320; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xccMbsoaEFd+utsSqS6Qyp/H3cuoOBB7T6MN8Xr/VQA=;
+        b=Qy0aIKmvMlbxBVUDkcBdf25kjgtnoEGl0yNl8SC2PdajWbrhMHD8QSvK/DhaiDrIs7
+         kLrnLD/hLnin4itTTix7q53gicZ44f9B7Tm3Qs2oKlVJKNl4yMgIK/M5kpyKTi+V/rGl
+         +1diKiP3mN4wJaEQyHPSusDOPCOcxkwk/10QM+c/qVPfXDsAeRvTFuYlQJEtYmpX5a6K
+         Jc+hxe7vTE6FbLGcTRNVwf0eYlO8n/1Jax5Ynw29Do25ZccvvPw0sGyP8vrMyx3H2093
+         Q5tU/9+PPK3Q677kG1jToWlbbJp9Yh9hbTDFx/LEsvomvoTxqO3EhFGG51KXOjn/QvnF
+         ykCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786878520; x=1787483320;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xccMbsoaEFd+utsSqS6Qyp/H3cuoOBB7T6MN8Xr/VQA=;
+        b=IFac+Bf5dRSpAK7WiH7ja1yd7o3x8snKPU2aUSlIJPgNQNQ+Dkltczu67M9QUG+bcd
+         DiKsLoO3Eb467jxok+Q93coAAIe2Pc1DyI3J1yEv5ZO0RjtrmzZeCIv/JWCm2dg6cKot
+         auJYBXxtZG0UqkknycsLu/ikxW+GO/prFA6eJO2EsR6/QgWVrgm78aorSxAR17w87iIi
+         SqTeip4VgqjmTA9k+FCJq6RneSaNFnxkdH8BeYugQQflyWZB9Hvpg4hpDd72X3g/UIsN
+         Q5AGWXobL1NJP1OMtCmO5CjABOJ91F9xVdn50yfAgjgrrELuEKXb2u3WslmVO5WUmfvQ
+         /KUg==
+X-Forwarded-Encrypted: i=1; AHgh+RpoGuUvgUpN+zpanx7fYMyy/1yE47N2K+/lwe/S+634Ls6OaEqcPHrnYbO351e2WHvq+4KYT4Q/rDJoqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWPGsjYMMN6iMY7YowNR2Yl0riqMKka9LnwzDErojiCehlkfSL
+	sHK5NeTgvAE99eVy//JNylVwYQ8BZaA6LhtPEF/TaQ1I9IuqjU1kTsnD
+X-Gm-Gg: AR+sD13Qs6fnuwdg4KF8Huo3yA9s4Fo99Y/oRWukQcG5uI9JcvZu9wAHZhIA3tnCduh
+	j8Di59lMvFuniNuRKE1FVhNF8K8UJqIGUnl5T/aMo8aAgyzphkDqJlSez/KjG/eyw50OT/aiJNM
+	y+LwqmjFIrapVT8rUnBNYG/FkYRpEixWp918tJjUr1uiDQejB8DZQvqCNy+ywRfVVe+v2tyPn9F
+	ek8vYpP9qKHnVGvpxKn7ucv/GFBSHoutbP48PgFzOuOmalJSpDo06dcDzgxPepzXG00nG6SyBw0
+	CEx4XNsEF0I8iLnKOoqSVaogTLKGAJsPGLKJGTYAivaZ0EOnWFeTTUet665kBO9RYk436KKDPTG
+	Sg65MJkdRmYZXbqyI4cpAuW3ilpp4ApabIhNgMqVjS1ERDh4NtuMYrJxpN7RHgEbFWKjSjMKy4L
+	SuqCj2P+nd6VfO+AL8NwaTIbBFqwBjQyk3luGuwH9OrqhvMsuAa1S9cly811yhf3/60GVJ
+X-Received: by 2002:a05:6a20:d488:b0:3c4:3112:45 with SMTP id adf61e73a8af0-3cc71d55fbfmr22877617637.1.1786878520068;
+        Sun, 16 Aug 2026 04:08:40 -0700 (PDT)
+Received: from localhost ([103.174.141.112])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-1413889bca5sm41718625c88.12.2026.08.16.04.08.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 16 Aug 2026 04:08:39 -0700 (PDT)
+From: Yashraj Ghule <yashrajghule.221@gmail.com>
+To: perex@perex.cz
+Cc: tiwai@suse.de,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix Lenovo Yoga Slim 7 14AKP10 quirk ordering
-In-Reply-To: <20260814125937.788663-1-zhangheng@kylinos.cn>
-References: <20260814125937.788663-1-zhangheng@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	Yashraj Ghule <yashrajghule.221@gmail.com>
+Subject: [PATCH v2] ALSA: hda/realtek: Fix mute LED for HP Victus 15-fa1xxx (MB 8C3F)
+Date: Sun, 16 Aug 2026 16:36:55 +0530
+Message-ID: <20260816110655.11592-1-yashrajghule.221@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260815163312.29030-1-yashrajghule.221@gmail.com>
+References: <20260815163312.29030-1-yashrajghule.221@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 64B123E26
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 14 Aug 2026 14:59:37 +0200,
-Zhang Heng wrote:
-> 
-> The Yoga Slim 7 14AKP10 has a PCI SSID of 17aa:38b4 but a codec SSID of
-> 17aa:391a. The current quirk table contains a PCI quirk for 17aa:38b4
-> (for the Legion Slim 7 16IRH8) which matches first, so the codec-specific
-> quirk for 17aa:391a is never applied.
-> 
-> This results in the wrong fixup being used (CS35L41_I2C_2 instead of the
-> correct bass speaker fixup), leaving the internal speakers misconfigured
-> or silent.
-> 
-> Move the 17aa:391a entry to a position before the 17aa:38b4 entry and
-> change it from SND_PCI_QUIRK to HDA_CODEC_QUIRK, because it should match
-> on the codec subsystem ID rather than the PCI SSID.
-> 
-> With this change, the correct ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN is
-> applied, restoring speaker output and auto-mute functionality.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221298
-> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+The HP Victus 15-fa1xxx with motherboard 8C3F is missing the
+existing mute LED quirk for ALC245 codecs.
 
-Could you put a comment line for the reason of unexpected positioning?
+Add the 103c:8c3f subsystem ID to the existing
+ALC245_FIXUP_HP_MUTE_LED_COEFBIT quirk.
 
+Tested on HP Victus 15-fa1xxx (MB 8C3F). The mute LED works
+as intended.
 
-thanks,
+Signed-off-by: Yashraj Ghule <yashrajghule.221@gmail.com>
+---
+Changes in v2:
+- Use Yashraj Ghule as the author and Signed-off-by identity.
+- Place the 8c3f entry in PCI SSID order.
 
-Takashi
+v1: Message-ID: <20260815163312.29030-1-yashrajghule.221@gmail.com>
+
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 3f0e276fc606..c4a68d84bd60 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7471,6 +7471,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8c21, "HP Pavilion Plus Laptop 14-ey0XXX", ALC245_FIXUP_HP_X360_MUTE_LEDS),
+ 	SND_PCI_QUIRK(0x103c, 0x8c2d, "HP Victus 15-fa1xxx (MB 8C2D)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8c30, "HP Victus 15-fb1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
++	SND_PCI_QUIRK(0x103c, 0x8c3f, "HP Victus 15-fa1xxx (MB 8C3F)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8c46, "HP EliteBook 830 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c47, "HP EliteBook 840 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8c48, "HP EliteBook 860 G11", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
+-- 
+2.55.0
+
