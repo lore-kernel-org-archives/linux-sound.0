@@ -1,170 +1,192 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m12787.qiye.163.com (mail-m12787.qiye.163.com [115.236.127.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016013BBA09;
-	Mon, 17 Aug 2026 07:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154203B71B2
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 07:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786953516; cv=none; b=OTom3rBBfCZM2EjK3uxHwDPzcWuUMpId+P8M47U3SGAaRRBsSsONKAiH5tdyOTY6pc8DtSFsg6v4WoMPgUc+rzgchq9e+eclTkKIT1fq+4yzSdhqPepggqoBD1xBWsi8nKj6gzF6U/c0GT684EsKyJXU/0GiLgccMatATE2vA6s=
+	t=1786953589; cv=none; b=Pc4x2+4jQWdc8GtfTvazGjJRfRbiAE3C8TuzgEV5Yukfy8ZrUfRuBcN0PU92bvBHttauGoJnAl1SKbaJ9y4gjrKa0X2hCQq58hOr2esKe9OetorwnG0z1qvZQvrhNj9kWUl/wEwRyb5/lPuPDRHpwaVPPeCa5WfIcjWAGDAcvlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786953516; c=relaxed/simple;
-	bh=02bGehaMprnuLfSN+5mcKUkj1JxN97nfHpsBq4klDyc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e/5DgmOAj9Ss7nyEMcYnrH7RjC78ktzinL+j00rUMmkwA2ahWRaa/UcQqunK/mWLCKMhzA7z9SLpa01UKUVia3uoCs/RtnnIYdbrlG64mv8E/P4LeRmUhh3yLkk+XhAH9pQK4aGPJGjY1wwYsJ45o7b3d8RDK8hkgX2uje/27eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uZ2wDhPS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=19+ukaJg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sNxgkffw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=neybIBcX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1786953589; c=relaxed/simple;
+	bh=Kb5ArOkgUb/gkPsu8CbkE2s2TFauZiDUGbAFmtiH7bw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HKC5adi3AeZvlJs1dNKMp79HJlh2hPdC/WF1IeAdnU/poJ0ym6KYjVycRNjbIvZKnrSbW7AOxptk2z9vNNIcqkUXGAm6bpep9cX9gg0254WtNXJanCpt2rgmd/KuRR2NOKG67B/i2vpbtwy+lkVAJYCUnrba5YRsw8T3SN6I9xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=fxsT+CDG; arc=none smtp.client-ip=115.236.127.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uZ2wDhPS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="19+ukaJg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sNxgkffw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="neybIBcX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CED1C83EC7;
-	Mon, 17 Aug 2026 07:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786953509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eiSGP+ei1Bq5X2XUmSr6tSSFWrzgJ5NsrvszctVrHY8=;
-	b=uZ2wDhPSRbZOsXfHIjekobEfXym+qt+9hNgB7sbCITqaGIQe8byDpGMsjD6PbWhnJM6C0Q
-	Tj5ZcbBv/oN0gyA/b2/OLMZGivnXDI2o0qHBwkFYxw74HwvpqQB7sNfocCe0j25jgLTDjy
-	F8rAN7QwDrp8HX+2s3yCmKE8IY3a2zY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786953509;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eiSGP+ei1Bq5X2XUmSr6tSSFWrzgJ5NsrvszctVrHY8=;
-	b=19+ukaJgLU4YcPWy17JNBSezCEPk9RDmT4CqO+nee0dvPHf7FdIofiJVc/JDRt9ep1b/eg
-	trV6Iyz4JbXi+mBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786953504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eiSGP+ei1Bq5X2XUmSr6tSSFWrzgJ5NsrvszctVrHY8=;
-	b=sNxgkffwbPPCB3tZWdBfYRZCthrGWdCERmCASEB2pQT7VM3HRGdgz9hQAQ5gleLyIr7+BV
-	+f5RDKtYHuIYmdfIB7ckdLApTJ3eD9sFIoZ3ewN4T9WxaHl7x+M+MRm8La0L3lPLb3ZOtF
-	S65zYUbw0YacvHUqKh3fzJX/psj2Z4E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786953504;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eiSGP+ei1Bq5X2XUmSr6tSSFWrzgJ5NsrvszctVrHY8=;
-	b=neybIBcXbKBl5dFVGWJnH4nYxP+LOdkOa4lnOaUok52E+24Suq3UVWsFANmXVFwM6WLY+E
-	MMueclh4/ejuR6BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E94F79368;
-	Mon, 17 Aug 2026 07:58:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id dEjWIyC/gmorZQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Aug 2026 07:58:24 +0000
-Date: Mon, 17 Aug 2026 09:58:24 +0200
-Message-ID: <871pbxmb4v.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhang Heng <zhangheng@kylinos.cn>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix Lenovo Yoga Slim 7 14AKP10 quirk ordering
-In-Reply-To: <333f1933-3cd5-448a-ad9d-14eb27d765c9@kylinos.cn>
-References: <20260814125937.788663-1-zhangheng@kylinos.cn>
-	<87v79acpjd.wl-tiwai@suse.de>
-	<333f1933-3cd5-448a-ad9d-14eb27d765c9@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="fxsT+CDG"
+Received: from localhost.localdomain (unknown [119.4.23.72])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4a31dcd3b;
+	Mon, 17 Aug 2026 11:23:30 +0800 (GMT+08:00)
+From: Qianghua Wang <qianghua.wang@senarytech.com>
+To: linux-sound@vger.kernel.org
+Cc: Qianghua Wang <qianghua.wang@senarytech.com>,
+	Mark Brown <broonie@kernel.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH 1/2] ASoC: codecs: sn624x: enable runtime PM on first attach
+Date: Mon, 17 Aug 2026 11:23:16 +0800
+Message-ID: <20260817032318.3989-1-qianghua.wang@senarytech.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <4b1dedc3-91b4-4905-a402-d67e41bddfd5@sirena.org.uk>
+References: <4b1dedc3-91b4-4905-a402-d67e41bddfd5@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa00dbeea1509d8kunm432bab687347af
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGktPVkMdSx5PH0wYGBgZHlYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKSkJVT1VJSFVMSVlXWRYaDxIVHRRZQVlPS0hVQkJJTk
+	tVSktLVUpCS0JZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=fxsT+CDGc6BE8EphwX5QYAN0nFZt86mhnmFSVg6/POzvxThPe5Q2mygMUd3HSCQr/6tYfuLAixLBOyQ61SqqXw3iK1PUvvRwWFy51Qf3nb89pI+CHvagQZO1c75k0A+WlhoqfKXcflK5nW6k1pgUvcHlhn7tNkB7uIykS9e9XSA=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
+	bh=WwdTr5gJE3o9ztYGjiUjk9wOveT/FiHKck1v6dofLAI=;
+	h=date:mime-version:subject:message-id:from;
 
-On Mon, 17 Aug 2026 09:25:14 +0200,
-Zhang Heng wrote:
-> 
-> 
-> From 9ee7af1cfe25ab0000000000000000000000000 Mon Sep 17 00:00:00 2001
-> From: Zhang Heng <zhangheng@kylinos.cn>
-> Date: Mon, 17 Aug 2026 10:00:00 +0800
-> Subject: [PATCH v2] ALSA: hda/realtek: Fix Lenovo Yoga Slim 7 14AKP10 quirk
->  ordering
-> 
-> The Yoga Slim 7 14AKP10 has a PCI SSID of 17aa:38b4 but a codec SSID of
-> 17aa:391a. The current quirk table contains a PCI quirk for 17aa:38b4
-> (for the Legion Slim 7 16IRH8) which matches first, so the codec-specific
-> quirk for 17aa:391a is never applied.
-> 
-> This results in the wrong fixup being used (CS35L41_I2C_2 instead of the
-> correct bass speaker fixup), leaving the internal speakers misconfigured
-> or silent.
-> 
-> Remove the 17aa:391a entry from its PCI-SSID-sorted position and add it as
-> an HDA_CODEC_QUIRK directly before the 17aa:38b4 entry, because it must
-> match on the codec subsystem ID rather than the PCI SSID and it has to win
-> over the colliding PCI quirk for the Legion Slim 7 16IRH8.  A comment is
-> added to explain the out-of-order placement, following the same style
-> already used for the 17aa:38bb and 17aa:38f9 codec-SSID overrides.
-> 
-> With this change, the correct ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN is
-> applied, restoring speaker output and auto-mute functionality.
-> 
-> The original quirk added in commit e6c888202297 ("ALSA: hda/realtek: Add
-> quirk for Lenovo Yoga Slim 7 14AKP10") matched on the PCI SSID 17aa:391a,
-> but this model actually exposes PCI SSID 17aa:38b4 (shared with the Legion
-> Slim 7 16IRH8), so that quirk never matched and the bass speaker remained
-> silent.  Fix it by matching on the codec SSID and placing the entry before
-> the colliding 17aa:38b4 PCI quirk.
-> 
-> Fixes: e6c888202297 ("ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 7 14AKP10")
-> Cc: stable@vger.kernel.org
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221298
-> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
-> ---
-> Changes in v2 (per review feedback from Takashi Iwai):
->   - Move the 17aa:391a HDA_CODEC_QUIRK to before the 17aa:38b4 entry so
->     that it actually takes precedence over the Legion Slim 7 16IRH8 PCI
->     quirk; the v1 placement (after 17aa:38b4) could never be reached.
->   - Add a comment explaining the unexpected, out-of-sort positioning.
->   - Add Fixes: e6c888202297 (the original non-matching quirk) and
->     Cc: stable@vger.kernel.org so the real fix is backported to v7.0.x.
+Runtime PM was enabled unconditionally from probe after
+register_component(). set_jack() can run in that window and
+touch RPM before it is enabled, leading to mismatched get/put
+counts. remove() only called pm_runtime_disable() when
+first_hw_init was set, which did not match the probe enable.
 
-This looks like an attachment, and I suppose it's accidental.
-Could you resubmit properly?
+Enable runtime PM from io_init() on first ATTACHED instead,
+and do not use runtime PM from set_jack() until then. If
+set_jack() ran early, take the long-lived jack PM reference
+once io_init() has enabled RPM.
 
+Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+---
+ sound/soc/codecs/sn624x-sdca-sdw.c | 63 ++++++++++++++++++++----------
+ 1 file changed, 43 insertions(+), 20 deletions(-)
 
-thanks,
+diff --git a/sound/soc/codecs/sn624x-sdca-sdw.c b/sound/soc/codecs/sn624x-sdca-sdw.c
+index cd18936037e9..8fd37f18fe5e 100644
+--- a/sound/soc/codecs/sn624x-sdca-sdw.c
++++ b/sound/soc/codecs/sn624x-sdca-sdw.c
+@@ -869,12 +869,16 @@ static int sn624x_jack_rpm_get(struct sn624x_sdca_priv *sn624x)
+ 
+ 	dev = sn624x->component->dev;
+ 	ret = pm_runtime_resume_and_get(dev);
+-	if (ret < 0 && ret != -EACCES) {
+-		dev_err(dev, "sn624x: jack rpm get failed (%d)\n", ret);
+-		return ret;
++	if (ret < 0) {
++		if (ret != -EACCES) {
++			dev_err(dev, "sn624x: jack rpm get failed (%d)\n", ret);
++			return ret;
++		}
++		/* pm_runtime not enabled yet (before first ATTACHED io_init) */
++		return 0;
+ 	}
+-	if (ret >= 0)
+-		sn624x->jack_rpm = true;
++
++	sn624x->jack_rpm = true;
+ 	return 0;
+ }
+ 
+@@ -988,6 +992,18 @@ static int sn624x_sdca_set_jack_detect(struct snd_soc_component *component,
+ 		return 0;
+ 	}
+ 
++	/*
++	 * Component registration happens before runtime PM is enabled (RPM is
++	 * enabled from io_init on first ATTACHED). Do not touch runtime PM
++	 * until then, or get/put counts can go out of sync.
++	 */
++	if (!sn624x->first_hw_init) {
++		sn624x->hs_jack = hs_jack;
++		sn624x->jack_type_last = -1;
++		sn624x_jack_schedule_poll(sn624x);
++		return 0;
++	}
++
+ 	/*
+ 	 * Take the runtime PM reference before publishing hs_jack, so a
+ 	 * failed get cannot leave jack detection marked as enabled.
+@@ -998,13 +1014,6 @@ static int sn624x_sdca_set_jack_detect(struct snd_soc_component *component,
+ 
+ 	sn624x->hs_jack = hs_jack;
+ 	sn624x->jack_type_last = -1;
+-
+-	/* set_jack may run before io_init; poll waits until hw_init. */
+-	if (!sn624x->first_hw_init) {
+-		sn624x_jack_schedule_poll(sn624x);
+-		return 0;
+-	}
+-
+ 	sn624x_sdca_jack_init(sn624x);
+ 	return 0;
+ }
+@@ -1122,13 +1131,30 @@ static int sn624x_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ 	sn624x_sdca_sdca_irq_mask_all(sn624x);
+ 
+ 	regcache_cache_only(sn624x->regmap, false);
++	if (!sn624x->first_hw_init) {
++		/*
++		 * PM runtime is only enabled when a Slave reports as Attached
++		 * (same pattern as rt722).
++		 */
++		pm_runtime_set_autosuspend_delay(dev, 3000);
++		pm_runtime_use_autosuspend(dev);
++		pm_runtime_set_active(dev);
++		pm_runtime_mark_last_busy(dev);
++		pm_runtime_enable(dev);
++	}
+ 
+ 	pm_runtime_get_noresume(dev);
+ 
+ 	sn624x_uaj_apply_io_defaults(sn624x);
+ 
+-	if (sn624x->hs_jack)
++	/*
++	 * set_jack() may have run before RPM was enabled (-EACCES). Take the
++	 * long-lived jack PM ref now that runtime PM is active.
++	 */
++	if (sn624x->hs_jack) {
++		sn624x_jack_rpm_get(sn624x);
+ 		sn624x_sdca_jack_init(sn624x);
++	}
+ 
+ 	ret = sn624x_sdca_jack_function_init(dev, sn624x);
+ 	if (ret < 0) {
+@@ -1149,8 +1175,6 @@ static int sn624x_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ 	if (sn624x->first_hw_init)
+ 		regcache_mark_dirty(sn624x->regmap);
+ 
+-	pm_runtime_set_active(dev);
+-
+ 	sn624x->hw_init = true;
+ 	sn624x->first_hw_init = true;
+ 
+@@ -1692,11 +1716,10 @@ int sn624x_sdca_init(struct device *dev, struct regmap *regmap,
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	pm_runtime_set_autosuspend_delay(dev, 3000);
+-	pm_runtime_use_autosuspend(dev);
+-	pm_runtime_mark_last_busy(dev);
+-	pm_runtime_enable(dev);
+-
++	/*
++	 * Do not enable runtime PM here. SoundWire slaves are only powered /
++	 * accessible after ATTACHED; enable RPM from io_init() then.
++	 */
+ 	SN624X_DBG(dev, "snd_soc_register_component OK (DAI sn624x-sdca-aif)\n");
+ 	return 0;
+ }
+-- 
+2.47.3
 
-Takashi
