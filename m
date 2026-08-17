@@ -1,94 +1,89 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16423DB321;
-	Mon, 17 Aug 2026 11:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12373B2FFC;
+	Mon, 17 Aug 2026 11:53:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786967512; cv=none; b=b/IB+hctsoqS7Wr6gKuejolxgYoszE2jFHlq9hoiELDMh57FHJPhjM2W8Ukiw88ate+7f3cEA90kUNqVmi0fFahGMr4KM4AcKtmoFmo63T/dAtiSZ77wMBCzVDl6+RGc9AyuMJPL8/hiYmRRphE/sgW6Sy3J1OIRWEwYS29aJm0=
+	t=1786967611; cv=none; b=LZPg0eXs5NxozIDrAQsy8tFyWPQYjQpHkCABNIsIoKdB4Qt+v6YWrm/ZoZH3i60MuQqOva3DuwCiX9wo6rmT9adDsqi8AEVMYRY3zueGIYF7zLTfc8L+r2QnPggh1kXs3N22Itx98/aUF/B+5K3+MXrM6RtaV3qLTcJWvI7pr9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786967512; c=relaxed/simple;
-	bh=uS/+2sUes7LhuAycKjtuJ5T3WMtdKH/gO07pcpQcdGo=;
+	s=arc-20240116; t=1786967611; c=relaxed/simple;
+	bh=l8xcl/eK0EC2zc06yZNG2ELvG8t1rtwcGiew3d8eKQs=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gQWkDJO1R3TpyMy3i4dshtn4k9N9vIwAfgrj79GaLJhyWQS4Um6h67sFT9h1WvkptHvu3bXAstz5UGg04MSxce/dTnr0J8pBQkXa2IPI8yByffo4J8cRFQ3NiVoaCdUUQxjIE/3VR4bnMtFayWEc8HUXXbcag5qakT2pE/8U3Us=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dPqKBREo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6P0m3rBn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DIKI1aHX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jk2xx1k4; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=j0ezxPIaNxPveEU72ev6Zjy1wCkTdMpeh+x3D49JMcy0/6cziSyVTljebfck0/il5COwSoI7qz9qs6e7k9Z/KiOSxJZGPvZDR/Hvvlp8tPRI3/9H2DW0s3js5UWsIi/jgwuE50GP7AtJLmiC/K7NF/cGYfbtjIc6+7hFC8lHV2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y2Gs1IIF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w12fQkP4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RXdhAfxS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2UgWCQMx; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dPqKBREo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6P0m3rBn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DIKI1aHX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jk2xx1k4"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y2Gs1IIF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w12fQkP4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RXdhAfxS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2UgWCQMx"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 881C983F5E;
-	Mon, 17 Aug 2026 11:51:40 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D4B5583F5E;
+	Mon, 17 Aug 2026 11:53:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786967504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786967604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+kmRmLX817Ik+D5NBWF90wJMeHjKXaP96FU2xqpjeM=;
-	b=dPqKBREohQLJpcXuxhU8LZZebxj9IBNmy+L4eUNBf+XXCIWbYlEJvDFpDgIOgI5RBYiJ6F
-	RUULTu4sbbT8XY35okec61nNKOw1uqMnJElOnQvoWNNQ9bdQHje5RWtuaUQ2K9LtbuYPwp
-	HEB6AKJPu6vKV1Lq3oezXpHFlq/rdZk=
+	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
+	b=y2Gs1IIF5G+hBYctG8VIHy7VvL2VEE1ZdXhLQ0n6OWZ3pXFO8YjxUVWIImE2yZnuYE/CFr
+	gyzsB0wLxdGYLFGQ3UuqQPyHJpMsgD5ymG1jG8sFtrJF2SXdsQM5ewLLP3gPm3LzW4XBDN
+	MRYntPPwWGJhCMH2ZX1sGbXHwgTTLr8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786967504;
+	s=susede2_ed25519; t=1786967604;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+kmRmLX817Ik+D5NBWF90wJMeHjKXaP96FU2xqpjeM=;
-	b=6P0m3rBnr0Y6xU//oCWpa1lp5B+QHtNAENm3H1JlDGHrvMboWSohpQqZ9vhcDys/cV16ti
-	Bkhr/7rin9uUmkBg==
+	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
+	b=w12fQkP4onpGUR8hAHlS6z6Vl122RzbxJPER/oR8vKrUd3uwPPanVp6YBPYPamPfe72/DQ
+	ksy0R44TDT6+ZrBQ==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DIKI1aHX;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Jk2xx1k4
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786967500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1786967599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+kmRmLX817Ik+D5NBWF90wJMeHjKXaP96FU2xqpjeM=;
-	b=DIKI1aHXGHLme+zRvoKlJdE/gNNDfKmdWuHpheHv6Cq5VZc/+CWu3pB98Iz+s7m2oMauxR
-	gTHra+kbMbWSmmXQBtGlA7avv3P1exARrZ48/BOA7HOUXvtKkH1teI/kCSPJwG4lvxSRf6
-	xs/TXVhIufaClCd4fuV0y6Ak3lsgdq8=
+	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
+	b=RXdhAfxSsu3oPpn4pgcsOKxwoz0IcclH0GQHF2+Vq3pDbvMYCxe/86MoYRio41ZQxyJCCR
+	lIFTpCXo1+TWh5p/ivdGBYYN2PnlqojJF4nrJhBeHmp69mScfLx+qLr5xaORomxbi9iWvo
+	/fv9v7jrS/7RmMnxXlS9uTSDGVFLLdA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786967500;
+	s=susede2_ed25519; t=1786967599;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9+kmRmLX817Ik+D5NBWF90wJMeHjKXaP96FU2xqpjeM=;
-	b=Jk2xx1k4hjhLAL0iaM2bmTqRfAU0M/Z3oVLhzZLTIeBUwD3lf+c0sofVKEY/u2UaWslF3N
-	3AQCrsArs8qyMNDQ==
+	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
+	b=2UgWCQMxUh8R8EKj2B3PVOqJ5bDrPzbcO5LEqevrLLatdv1BgE3f5TU+4CEUi8EHsXkKOc
+	RYvxtCsNZavqu0Ag==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2E5D87944D;
-	Mon, 17 Aug 2026 11:51:40 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB4C279451;
+	Mon, 17 Aug 2026 11:53:19 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id uan6Ccz1gmoOUgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Aug 2026 11:51:40 +0000
-Date: Mon, 17 Aug 2026 13:51:39 +0200
-Message-ID: <878q65rmlw.wl-tiwai@suse.de>
+	id yHqZKC/2gmqEUwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Aug 2026 11:53:19 +0000
+Date: Mon, 17 Aug 2026 13:53:19 +0200
+Message-ID: <877blprmj4.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: raoxu <raoxu@uniontech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	peter.ujfalusi@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	tglx@kernel.org,
-	broonie@kernel.org,
-	stuart.a.hayhurst@gmail.com,
-	wangruikang@iscas.ac.cn,
-	zhangheng@kylinos.cn,
-	cassiogabrielcontato@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: Add Lisuan HDMI controller and codec support
-In-Reply-To: <DE1B62191D573D37+20260817085531.992573-1-raoxu@uniontech.com>
-References: <DE1B62191D573D37+20260817085531.992573-1-raoxu@uniontech.com>
+To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Cc: "perex@perex.cz" <perex@perex.cz>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: usb-audio: Add delay quirk for SPACETOUCH USB Audio
+In-Reply-To: <TYUPR06MB6217D93F595D9995413C9721D2A72@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References: <TYUPR06MB6217D93F595D9995413C9721D2A72@TYUPR06MB6217.apcprd06.prod.outlook.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,59 +91,44 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-2.01 / 50.00];
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.993];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,linux.intel.com,kernel.org,gmail.com,iscas.ac.cn,kylinos.cn,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vivo.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -2.01
+X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 881C983F5E
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 
-On Mon, 17 Aug 2026 10:55:31 +0200,
-raoxu wrote:
+On Mon, 17 Aug 2026 13:19:42 +0200,
+ºúÁ¬ÇÚ wrote:
 > 
-> From: Xu Rao <raoxu@uniontech.com>
+> Audio control requests that set sampling frequency sometimes fail on
+> this card. Adding delay between control messages eliminates that problem.
 > 
-> Lisuan GPUs expose an HD-audio controller at PCI ID 4c54:5010 and an
-> HDMI/DP codec with codec ID 0x4c545020.  Neither ID is currently matched
-> by the HDA stack, leaving HDMI/DP audio unavailable on these devices.
+> usb 1-1: New USB device found, idVendor=0666, idProduct=0880
+> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> usb 1-1: Product: USB Audio
+> usb 1-1: Manufacturer: SPACETOUCH
+> usb 1-1: SerialNumber: 000000000
 > 
-> The existing downstream support uses the generic HDMI codec path and
-> attaches no Lisuan-specific capability flags to the controller.  Its
-> dedicated AZX driver type only changes the short driver name.
-> 
-> Use the corresponding generic upstream paths instead: bind 4c54:5010 to
-> AZX_DRIVER_GENERIC, register 0x4c545020 as MODEL_GENERIC, and add the
-> Lisuan codec vendor name.  This keeps the enablement minimal and avoids
-> a vendor-only AZX driver type with no vendor-specific behavior.
-> 
-> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
 
 Applied now.  Thanks.
 
