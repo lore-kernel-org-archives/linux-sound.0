@@ -1,141 +1,75 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A083C0628;
-	Mon, 17 Aug 2026 08:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFFF3C3429
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 08:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786956947; cv=none; b=BE6H7PS7isAeTj8yNf3DoUdadMpT9sDekQkWC25CCmUvoaTY6QTt3/p2mjzrwaCqLoUyHehftrsLYeR1Eo5DdDqf8xE5BuxQ+VSTd3Dvxdh0rGxgMG5MYWbAiCtt+kTYsRY2MY6PlXinus7UxOJCfSHwaEUrYJKdtFRhHsVnNkg=
+	t=1786957138; cv=none; b=L3Ng9bYLR8StRtLUtEe4NVncL17QQ0mxcOqOgH0L7c9NYzhIoUJYLBkgsQaT3x/i+mUHnlMIY1Jk31cFIs4dV/JoTyEkT9WXB3D69sVLkCgTO83pRZMn5NmbCSsUZM1ikwIdGe6qLSEqaE+bLb8f5XrFjd8RfwU/V3c8wx7nElI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786956947; c=relaxed/simple;
-	bh=szG/J2Rt4Nt7ZAQkAplejX4gkk1GykOw1bj+uzNqJp0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KzNLpvuOLU3ZJtuHLKUsKYVCbK2Z1rxZbD3ONgy5L2PgzWYMdIF8mnwYVkW9jIS0XAQ383LQssGcqWCWiTgZuHf4QiIR0vJVE2l4WmbzjCbqernR5bePlpO5vwOrqj76N1PBdhv0Z9BrD75q/HIeEFBA1z3nNOnDo9o27TnOqo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=RrVVIv8W; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1786957138; c=relaxed/simple;
+	bh=sqPOaOOnu50Yga2PJaMhvsEG+rlAbAKYj+pRZ2HVwm0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=m6bfWOw/7kz5ySi8CB6sLDWzc0VYTOLtOFIPDlIZAe95TrWC7sDdNM/syFdS9UdHKnmsB/Jmg8LQC2s7+eh+0KHctxyHDbySlwK2j7l4SrzZ0pW51avxwnsaPbH+Ekw/cCmSLiILlu9jeNf6LNK9peEn5AryetmihhRUGPCZDWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=Z8icqC7p; arc=none smtp.client-ip=185.67.36.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="RrVVIv8W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1786956939;
-	bh=25OjxAIFIM+GtUvd49SWvZU4PJDP/gNKFhP5YfdVlDc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=RrVVIv8W/2rb8uZuyHGoc9T9tR/5PymAdUTM+1WZjn7jl8xH9VMvJAEEyYOa8MHC5
-	 4a1qJtPW1g1YJmxYN/QaBmY8pErq8wLP5nzpIeYXa37yVWcAZHp9MOPhFXKKM+TmiS
-	 8DT0Fcr32KTTeEgo2qLkvCnmqupPaVDZVZMu683A=
-X-QQ-mid: zesmtpsz9t1786956934t3957497b
-X-QQ-Originating-IP: r/MCgBi1oj4WzTY6U6Womc3WvMOvR/YtIRPaN0key+k=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 17 Aug 2026 16:55:32 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 16976205930758977186
-EX-QQ-RecipientCnt: 13
-From: raoxu <raoxu@uniontech.com>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
-	peter.ujfalusi@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	tglx@kernel.org,
-	broonie@kernel.org,
-	stuart.a.hayhurst@gmail.com,
-	wangruikang@iscas.ac.cn,
-	zhangheng@kylinos.cn,
-	cassiogabrielcontato@gmail.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH] ALSA: hda: Add Lisuan HDMI controller and codec support
-Date: Mon, 17 Aug 2026 16:55:31 +0800
-Message-ID: <DE1B62191D573D37+20260817085531.992573-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="Z8icqC7p"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout02.posteo.de (Postfix) with ESMTPS id AE6EA240103
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 10:58:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
+	s=1984.8680eb; t=1786957128;
+	bh=sqPOaOOnu50Yga2PJaMhvsEG+rlAbAKYj+pRZ2HVwm0=;
+	h=Date:Message-ID:From:To:Cc:Subject:From;
+	b=Z8icqC7pZGMjDM9DKv3XYnoexWqYOaJQ7gwDiVPPX2seCJm47DvWGwoY7l2De9S3c
+	 beZVJ2xoz2clLtnMtYhUSe6sCmP9FiVKqZWAtbpVfmozmcInt1YcpTay0dMSeWOeZf
+	 rK6tl8Z35+WMfXrQUkdOXYhBIwwvO2hZ1OBoXbE3lhbDBdMnsS8n21RxDtsfD3GRmp
+	 qPPVPK6JTe/NWCcbNg1nvHmqCGgF9yw+C3n6/5dTjHZEHv1TPkbRKlxOyL9C6902cr
+	 I+pem62Ad4/YD0JDo8SCNlwI5AV6GvTBRxSOET6oM27oKi4Qn1J+2/twzQbV2+gcbo
+	 Mn7M9qN15RnIA==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4hNmw80Bb1z6twj;
+	Mon, 17 Aug 2026 10:58:48 +0200 (CEST)
+Date: Mon, 17 Aug 2026 08:58:48 +0000
+Message-ID: <1786957127.718071.28963@posteo.de>
+From: Michael Diesen <michael.diesen@posteo.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: stable@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org
+Subject: Re: Please apply bed0c8084044 to 7.1.y and 6.18.y
+In-Reply-To: <20260801154223.stable-0005@kernel.org>
+References: <4391ca99e19df478490aacfcde6e5ca4@posteo.de>
+	<20260801154223.stable-0005@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MjkRqJZlUFDQgHlaTxcN76ZcpQCT6Ll2M5C4NW4XRnHXJtjTL+clATBO
-	aMsmcEXo+dGsPA/8Oof7/803l132/HoCEOaXQxUPYFDWRzckfcqm3gsLvUU7Sq0PsAG5g15
-	A/E+52xCkBPcrvxTm/R2RtY/DpqYWvvpKYP4aHx7A2M+hXbmz4M6VoacpEfSc3JnQwZ2VkP
-	JK6RiA2uQZ6NzSr07RmIIJXcMMCLCi5wSaEdJRMHJEz/8O+CctxIbcHxYceOY/pDcvOkUG0
-	+So27HIjfs0vMrx7ZtMJ05EgasurjFnnMT7VNTu7SVN7WjO3+s+cQZzI8dbXrLcWMmoEDwd
-	5I9DjAd7eLxWBqH00u+rQ/IJmegNQ3rBxeIskA0jzIpNJojcdZMcRd6sj0CwDRFLjUbM8CJ
-	FZdqSujOxHWz/uawxaUL+pgEU9yw/6TwfZCedmLotsWOruptUge/70PDuxt6tlds/DrgkhJ
-	UwAqMvBO5m+ekeaW615ZfYp+U/tbHk0d9YopEBUNBSsPITdYPrMrcW03I2D9Yrf0sfk0TRP
-	ThpOUcQlwHfATVQiCdnwtoAmHeIFaNoRE3ahbsq3N25KAv8VUsypLsKcOMauUYRhVbpiy0Z
-	7oaufaJ40vrXY1i50bHf6RbEmAxYS+6ECZsuG56VnTU2n97tfE80SoIqnmy4KUWdRaz4RyF
-	BoNF7c4gs8NJ5eVdPgoL8BfqLTSwFenYyh6Vatele9lXYvOlRMZriS4+lV+4kGpkW90Oxxk
-	uNrqw9acMePmfrgarXOsPL66gkeKhw0U0Q+5aFACzx/jbZCF3zwntuOunpCG6QLOPaxRtp2
-	sbnb+ETn18PITrIs2oi+mJE5cZ1JE2J4R31l9AkcTIFD6593M1Qndw68w2BA95TscKzpQrT
-	mmSz3lKMFNFEl1rn6Q7p+P1HJSrAaR1ZL9hreM+jMiqBvqNtwJyZSJl49w21FkAMJE335zP
-	iuXTgMAaDPTuSqArzutEIm2WFElPOz2x9o2MrJgpYT7cdg8etMnuqLGnZg1gXJEn8wSr4k/
-	XZZcFPmQUCwS1qDmOwYK3fv/q4gExhjXxomp6lKA==
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
 
-From: Xu Rao <raoxu@uniontech.com>
+On Sat, Aug 01, 2026 at 06:13:27PM -0400, Sasha Levin wrote:
+> Queued for 7.1 and 6.18, thanks.
+>
+> 6.18 was missing the earlier 103c:8a06 Dragonfly Folio quirk that this
+> entry sorts next to, so that one went in ahead of it.
 
-Lisuan GPUs expose an HD-audio controller at PCI ID 4c54:5010 and an
-HDMI/DP codec with codec ID 0x4c545020.  Neither ID is currently matched
-by the HDA stack, leaving HDMI/DP audio unavailable on these devices.
+Thanks - 7.1.y picked it up in 7.1.8.
 
-The existing downstream support uses the generic HDMI codec path and
-attaches no Lisuan-specific capability flags to the controller.  Its
-dedicated AZX driver type only changes the short driver name.
+For 6.18.y the prerequisite is in place now: 302eb8765132 ("ALSA:
+hda/realtek: add quirk for HP Dragonfly Folio G3 2-in-1") went in with
+6.18.44. The 8a05 entry itself does not appear to have followed it,
+though - linux-6.18.y still carries only the 8a06 line in
+sound/hda/codecs/realtek/alc269.c, and I do not see it in queue/6.18
+either.
 
-Use the corresponding generic upstream paths instead: bind 4c54:5010 to
-AZX_DRIVER_GENERIC, register 0x4c545020 as MODEL_GENERIC, and add the
-Lisuan codec vendor name.  This keeps the enablement minimal and avoids
-a vendor-only AZX driver type with no vendor-specific behavior.
+Could you queue bed0c8084044 ("ALSA: hda/realtek: Add quirk for HP
+Dragonfly Folio G3 2-in-1 (103c:8a05)") for 6.18.y as well?
 
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- sound/hda/codecs/hdmi/hdmi.c  | 1 +
- sound/hda/controllers/intel.c | 2 ++
- sound/hda/core/device.c       | 1 +
- 3 files changed, 4 insertions(+)
+One note in case it is applied as a plain patch: the last context line
+of the hunk is the 103c:8a1b entry, which 6.18 does not have, so git am
+needs -3 there. The change itself is a single quirk table line directly
+above the 8a06 entry.
 
-diff --git a/sound/hda/codecs/hdmi/hdmi.c b/sound/hda/codecs/hdmi/hdmi.c
-index a4a2f2f0540c..1be12dfaf52d 100644
---- a/sound/hda/codecs/hdmi/hdmi.c
-+++ b/sound/hda/codecs/hdmi/hdmi.c
-@@ -2346,6 +2346,7 @@ static const struct hda_device_id snd_hda_id_generichdmi[] = {
- 	HDA_CODEC_ID_MODEL(0x1d179f8e, "KX-7000 HDMI/DP",	MODEL_GF),
- 	HDA_CODEC_ID_MODEL(0x1d179f8f, "KX-7000 HDMI/DP",	MODEL_GF),
- 	HDA_CODEC_ID_MODEL(0x1d179f90, "KX-7000 HDMI/DP",	MODEL_GF),
-+	HDA_CODEC_ID_MODEL(0x4c545020, "Lisuan HDMI/DP",	MODEL_GENERIC),
- 	HDA_CODEC_ID_MODEL(0x67663d82, "Arise 82 HDMI/DP",	MODEL_GF),
- 	HDA_CODEC_ID_MODEL(0x67663d83, "Arise 83 HDMI/DP",	MODEL_GF),
- 	HDA_CODEC_ID_MODEL(0x67663d84, "Arise 84 HDMI/DP",	MODEL_GF),
-diff --git a/sound/hda/controllers/intel.c b/sound/hda/controllers/intel.c
-index 28c55c5a2d2e..eb3a5b28e9f5 100644
---- a/sound/hda/controllers/intel.c
-+++ b/sound/hda/controllers/intel.c
-@@ -2838,6 +2838,8 @@ static const struct pci_device_id azx_ids[] = {
- 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
- 	{ PCI_VDEVICE(LOONGSON, PCI_DEVICE_ID_LOONGSON_HDMI),
- 	  .driver_data = AZX_DRIVER_LOONGSON | AZX_DCAPS_NO_TCSEL },
-+	/* Lisuan HD-audio */
-+	{ PCI_DEVICE(0x4c54, 0x5010), .driver_data = AZX_DRIVER_GENERIC },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, azx_ids);
-diff --git a/sound/hda/core/device.c b/sound/hda/core/device.c
-index 160c8d0453b0..44bd74133479 100644
---- a/sound/hda/core/device.c
-+++ b/sound/hda/core/device.c
-@@ -663,6 +663,7 @@ static const struct hda_vendor_id hda_vendor_ids[] = {
- 	{ 0x1af4, "QEMU" },
- 	{ 0x1fa8, "Senarytech" },
- 	{ 0x434d, "C-Media" },
-+	{ 0x4c54, "Lisuan" },
- 	{ 0x8086, "Intel" },
- 	{ 0x8384, "SigmaTel" },
- 	{} /* terminator */
---
-2.50.1
-
+Thanks,
+Michael
