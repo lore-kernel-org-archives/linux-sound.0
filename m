@@ -1,136 +1,111 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12373B2FFC;
-	Mon, 17 Aug 2026 11:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786967611; cv=none; b=LZPg0eXs5NxozIDrAQsy8tFyWPQYjQpHkCABNIsIoKdB4Qt+v6YWrm/ZoZH3i60MuQqOva3DuwCiX9wo6rmT9adDsqi8AEVMYRY3zueGIYF7zLTfc8L+r2QnPggh1kXs3N22Itx98/aUF/B+5K3+MXrM6RtaV3qLTcJWvI7pr9o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786967611; c=relaxed/simple;
-	bh=l8xcl/eK0EC2zc06yZNG2ELvG8t1rtwcGiew3d8eKQs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j0ezxPIaNxPveEU72ev6Zjy1wCkTdMpeh+x3D49JMcy0/6cziSyVTljebfck0/il5COwSoI7qz9qs6e7k9Z/KiOSxJZGPvZDR/Hvvlp8tPRI3/9H2DW0s3js5UWsIi/jgwuE50GP7AtJLmiC/K7NF/cGYfbtjIc6+7hFC8lHV2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y2Gs1IIF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w12fQkP4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RXdhAfxS; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2UgWCQMx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECAC41D205
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 12:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786970427; cv=pass; b=QGn44k7v9VppxWqLw8ff6CH98hTDFo1kQLN0+nv1VwaDGsS8c+SFjWsrzs5Q0MqhHmpHUzLsfRbPFPb87fDDggn+nDZQHcL1oCL8rSLkawukq5ZSyH1//tJAUz1wd8QEd7XHMXzmj3yUhxQdkN1hri5w9EFcKvV2McUealEwuKc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786970427; c=relaxed/simple;
+	bh=ga5KGyGu15o7XHyaaccHPzu88D3oZ51NGeguwUoAA1k=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uFEx67Y+kd2RCzQ51NS8Tk9EM1L5He+Q+NHMQIebhM9jQEZA1Mx/akyqL/jTEpr6PwwNV5iBGkndjKbk88IhWMrimh207OVAMNT0+HrBtEANiMyDLHH5NAiprrNytFRz5h8HVI+soMB/ECjZO1Ya3gFacgOxmuO8SkpGIMn4R7k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GdAb6i68; arc=pass smtp.client-ip=74.125.224.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y2Gs1IIF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w12fQkP4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RXdhAfxS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2UgWCQMx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D4B5583F5E;
-	Mon, 17 Aug 2026 11:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786967604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
-	b=y2Gs1IIF5G+hBYctG8VIHy7VvL2VEE1ZdXhLQ0n6OWZ3pXFO8YjxUVWIImE2yZnuYE/CFr
-	gyzsB0wLxdGYLFGQ3UuqQPyHJpMsgD5ymG1jG8sFtrJF2SXdsQM5ewLLP3gPm3LzW4XBDN
-	MRYntPPwWGJhCMH2ZX1sGbXHwgTTLr8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786967604;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
-	b=w12fQkP4onpGUR8hAHlS6z6Vl122RzbxJPER/oR8vKrUd3uwPPanVp6YBPYPamPfe72/DQ
-	ksy0R44TDT6+ZrBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1786967599; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
-	b=RXdhAfxSsu3oPpn4pgcsOKxwoz0IcclH0GQHF2+Vq3pDbvMYCxe/86MoYRio41ZQxyJCCR
-	lIFTpCXo1+TWh5p/ivdGBYYN2PnlqojJF4nrJhBeHmp69mScfLx+qLr5xaORomxbi9iWvo
-	/fv9v7jrS/7RmMnxXlS9uTSDGVFLLdA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1786967599;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KPXil13DcPH4bcyvFn6BDJOT/CRLRlQorr8tHyNRxaU=;
-	b=2UgWCQMxUh8R8EKj2B3PVOqJ5bDrPzbcO5LEqevrLLatdv1BgE3f5TU+4CEUi8EHsXkKOc
-	RYvxtCsNZavqu0Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB4C279451;
-	Mon, 17 Aug 2026 11:53:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id yHqZKC/2gmqEUwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 17 Aug 2026 11:53:19 +0000
-Date: Mon, 17 Aug 2026 13:53:19 +0200
-Message-ID: <877blprmj4.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?uvrBrMfa?= <hulianqin@vivo.com>
-Cc: "perex@perex.cz" <perex@perex.cz>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: usb-audio: Add delay quirk for SPACETOUCH USB Audio
-In-Reply-To: <TYUPR06MB6217D93F595D9995413C9721D2A72@TYUPR06MB6217.apcprd06.prod.outlook.com>
-References: <TYUPR06MB6217D93F595D9995413C9721D2A72@TYUPR06MB6217.apcprd06.prod.outlook.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GdAb6i68"
+Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-66c711b7f2aso4878956d50.3
+        for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 05:40:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786970425; cv=none;
+        d=google.com; s=arc-20260327;
+        b=T0pYyj4/IsGFF1mLIoJXzXdo8Rcto6vqBS53azSHv1IpLEQxjz2TN2Fotj8pi8EYTC
+         r9zA2nlAIQfmDSqDTrLg1+TqmI8+V72aNFBKjWA4iaNmEWP/+ZDDBkadcQCjd0KrFQ9h
+         H+EUYoShSTgFy7WQSElT7eu+KKyGlmkq8lJHYOoY35Wvyb4A5oz0wko/uamQHwmGCrHj
+         EC8qSk4H0gab0UZSDO5rb9upcKup+syhlk5zASuyhwgHQofpkdXFQ7mqQrbt65kGzQEt
+         2eltx8GpRsn9moumzkFxmm07JuKZbQBi6b4yiCG2stOjKC3+xnhCa8wGrsypR/Fo2WAF
+         Am7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=ga5KGyGu15o7XHyaaccHPzu88D3oZ51NGeguwUoAA1k=;
+        fh=qBjqsN0qWI+9ijudcPog1Wf0caLvVzGYZKzcqhtpDSs=;
+        b=WgDRpBGfckbs4gIIraHTPD1s/yi8t+pOxYvoeuTadKAvWrgUrBt4NqCBvuqqjXdhyq
+         9WsuGEfbsHp0t0DJ0rpbrIb9g/U4CzG0E+cxFRPu2LCDE4+rU8p7E5lWZOmoAdQ0WyXY
+         IeWV0FpLhq+1BFSV00G1IheQe0TwznGM28pX+TMLuy642vepaeA66WLfR0uL5V6Ltsi/
+         Nc1clto18wxYnlfNwmrDyT6z8F154FTWVbvpCYz/hBbADM9Nr7u+aGG6Zm8ovcaYoZTP
+         Z+D1SIl9YfUt1mmDOkjsOlDYp/sj7QAAIbI3BOi/pOn+Crj+i2vfctd9+RFVyZbNnmby
+         e4xg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786970425; x=1787575225; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ga5KGyGu15o7XHyaaccHPzu88D3oZ51NGeguwUoAA1k=;
+        b=GdAb6i68VSYFc0w4z7RkNMAlYV5HVmonQ5tmjI2iwXBQP97G/Uv5M3sK6JNlkku4eu
+         5q2f//5+O1D6aInrn46MbLX65u928b/hUapZ8nvk+88m38jjpVYG03imsGQxPvLdZQMI
+         in1nxeNvH2QaFm3zhhiHxQwC/O042ljYVKzsHIr2TurZA0dbRD6i5ZJzZW3+n5K9Sb9E
+         xda3ayvtEyjSk3gsqxZ44SpvcXaulsF7rcvjDB9y1nSr4ERg1r2538hqUEZggwJZNjbE
+         uc0cm15CUK3oAL4xKyGDurXQRZbqLF790gQWvoItl1ZvQ+qkdN4luMi85ljT6skUzjo2
+         pobA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786970425; x=1787575225;
+        h=content-type:cc:to:subject:message-id:date:mime-version:references
+         :in-reply-to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ga5KGyGu15o7XHyaaccHPzu88D3oZ51NGeguwUoAA1k=;
+        b=gAkE2H8/f230l+TL742uEhWrKNooR7b/+Z7E3LN5UqbOty+SEwtu8HpYqpWsvUzuhy
+         R/xsSgX4ba49ld08Lbh1nAqJUJ80YmUd+hEV2iIIgzkDYgeltlsD8JhCh/0HTIE3yBp5
+         XGW8lU4hgnKyBmQriBAv3Fz5/szTBwO9kpPFnnarGB45oz7czB1iJCPCQA87pvxT4D+d
+         uh9Dv+oNloC1E6RewM3dHIRJK410eYknRyaBB8ZSTESt+Dfn0Z2Vuye1gpLGOxsYvcmM
+         XjMm6dgTJ1wBHCzPE/xLQw2s3U/O0FGDf1fiFsHmt6FdEP6LRszN4W8y4IiOtnhu96D9
+         ei5w==
+X-Forwarded-Encrypted: i=1; AHgh+RrgwENp0H2gZrLyJeO0bxuEl+thbFYb9paFxikpyilpogdJWZB/RtmYjzFQo3PSw+ceO0VtRuga6I+V9Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0bRTJZ1qKhv292lYbesAirGn30aqGkCfXsGnLhEve9eF5PGOF
+	2wkJMVCO6nu0YIfAIEDUuZG4Q1MyRxOykIpFAH4LxwEjIrQSBzWnNPlpuW2PNfArnJAZw//rA9H
+	mxkq3WGEE8n2ZsqjN/zQObvlFCmUlprc=
+X-Gm-Gg: AR+sD10HbljUx7O63rezWRsExEEuKiGzb0p4FyothDqHY18gIy0LAKtWRHSA9oTxckj
+	gVAKh/fQzELuCYFvRWaxzJWli73RSTGs0F+Ac0L4xFpWw3CiFIZMBUngHH+MaG42GS8h1lxM29U
+	HnnRwVU0aE6QODy/0aN4ynHEsRfGQqbziooS4MCpN6hY7YZ+ROnozMWHpq7T13VB9Bf6nQcGKDW
+	Iw4hJ04NhkHUEX5bd+3c0XbHIOPmLEgPp8nREHslCGyLIpfRHxoIDACMu8neRetLeH5ymEkhgQ3
+	ZHcvjPn0KVx+nKjvEbx/5qZ7Boi26sn8rBMNqaHJ8qsQuecIJRva5Qb53LQurZIxGa0tC2W21Th
+	kwEbzgJZgcP2skrsngfWHasyAOdRDDT+pOWrgw/DgEnbH
+X-Received: by 2002:a05:690e:406:b0:667:ba5f:e326 with SMTP id
+ 956f58d0204a3-66cb9ea72e6mr53659d50.38.1786970425296; Mon, 17 Aug 2026
+ 05:40:25 -0700 (PDT)
+Received: from 595171893313 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 17 Aug 2026 07:40:24 -0500
+Received: from 595171893313 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 17 Aug 2026 07:40:24 -0500
+From: Gemayel Lira <gemayellira@gmail.com>
+In-Reply-To: <000301dd2e36$f0cc5ea0$d2651be0$@opensource.cirrus.com>
+References: <CAD96ZT+SnRnGr4Xd+NJkkVNpj8XrzL3Ete=pRgz05mqxAzbU2w@mail.gmail.com>
+ <178683053096.110591.14424183767747622650@gmail.com> <000301dd2e36$f0cc5ea0$d2651be0$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.993];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vivo.com:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+Date: Mon, 17 Aug 2026 07:40:24 -0500
+X-Gm-Features: AcwNN1VMjJIKO_UGNk4KhjJd_ZRYdUgtnYv9wV6a2Ak7CubS90k4IUJq2E9cHbQ
+Message-ID: <CAD96ZTJFVXau-4o7gs=LbKzF3UKduzenqhV1Pv6Tnjf3KwCvZA@mail.gmail.com>
+Subject: Re: [PATCH v2] ALSA: hda: cs35l41: Enable VSPK on UX3405CA when ACPI
+ leaves GPIO1 unused
+To: Stefan Binding <sbinding@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+	Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>
+Cc: alsa-devel@alsa-project.org, patches@opensource.cirrus.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 17 Aug 2026 13:19:42 +0200,
-ºúÁ¬ÇÚ wrote:
-> 
-> Audio control requests that set sampling frequency sometimes fail on
-> this card. Adding delay between control messages eliminates that problem.
-> 
-> usb 1-1: New USB device found, idVendor=0666, idProduct=0880
-> usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> usb 1-1: Product: USB Audio
-> usb 1-1: Manufacturer: SPACETOUCH
-> usb 1-1: SerialNumber: 000000000
-> 
-> Signed-off-by: Lianqin Hu <hulianqin@vivo.com>
+On Mon, 17 Aug 2026, Stefan Binding wrote:
+> Please create a bugzilla ticket at the below address and CC Cirrus
+> Patches (patches@opensource.cirrus.com) to it
+> Please attach an acpi dump and dmesg of the issue to the ticket.
 
-Applied now.  Thanks.
+https://bugzilla.kernel.org/show_bug.cgi?id=221896
 
-
-Takashi
+Thanks,
+Gemayel Lira
