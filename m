@@ -1,65 +1,65 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8AB3F9F30
-	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 10:49:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E20D3E6392
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 10:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786963797; cv=none; b=Z0QN5YkNpvW9oR6O5+qZIa8wi1fsD/KdyVkBdPKZRka3RDMnathYGMqgKxU1a3si3jOO98ZFd0306Abb4Nc6n72AKo+YYXy1pnhatsIHYlxwZC5+Xl++h6fXhzrpToTyNKgrnYRg8j3Y1zYxReQ8BRJ6nXZYiCDFXWkhuNTQPXU=
+	t=1786963803; cv=none; b=fxawZo/bUR4q41XPdksRcIjncgGZOrnJXEcTLnZJxBe5A63KTKb94HVuKPjS4GocpfYcs4T0TAq7yhw8ckYOFGnHEK90qvBH0JZLp+cLJqEBSAIQBjoFGdVNT6CSGPlBSlyUShBpllVU4THcWMrK2FCbjIWlUWzwaC7/I/zfYkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786963797; c=relaxed/simple;
-	bh=mkirpRWcMQwyj+8bGLtI32XjArgjQakZTX6mVw1GFfw=;
+	s=arc-20240116; t=1786963803; c=relaxed/simple;
+	bh=uv/yT7qHO1N52roMBm78ys1qAr6VsMBQrnpyFaIi6dU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JRx0Z1rQWOjl3eaca6HcqGpgXvJLI/3tTEanGbEkbV5LfsXq04w2zoSyBaop7buMAmiowbHVkezwl9JW62aARHh+7fZFAfCCPVfz277BmdXqWE8U5JgCx/FY64er2Qz23ttxMRklwhO38kvJsVjg9fvg1INM95PJXThllhzwgKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GAWwKFpk; arc=none smtp.client-ip=209.85.216.52
+	 MIME-Version; b=kyUwpUc/AZgIE7xeDbrTWJe5TbbPWNAc4UFQWO07OF7EI+SOWmYmDb+jn2TEQcM4HFzZAhWQ89bbnjRsQjYXcA+QFzkmEPPgkenne+Xh6qDalLDyNlo1KSEIxupFd0uHvfCrKL9KETWowgRGkPuyAAu8chXUHZ1T+U0eHmgJ0/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3fQN3Mm; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GAWwKFpk"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-383cb94f742so3920130a91.3
-        for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 03:49:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3fQN3Mm"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so2379651a91.0
+        for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 03:49:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786963793; x=1787568593; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1786963798; x=1787568598; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SlrFw8orvz3TJpMVjqa7zWk7IHsR8vKJ7UcbrcCP+74=;
-        b=GAWwKFpkLWaBfPqrQ0qQadHUjnq3yM7yvrLokK7H5R6PQ/K11iFektLO97H1PNn4bS
-         sFMRHW29TQSL/JLxeVAVxuafwKc83i0KMg3amdA27F/WA8xUsTzxY4ugmk4CgERgdS6C
-         uLccglHBi5Ck9TDw//v4N8nJ23MIMf8UDAql1thHw20PCp6ZN4F8G/aee6SnPCKjMS0Q
-         Mt+3ZpprEK6f+QxHYH7z+vubDQwZBL529HTFyvEKweIDjNl98axR6bMz8zqt+bSOnP9B
-         hKeiYUsdZoUTPr10jSheQl7JZsJtYFzvrB5m1nD3rnWZXrm4HfhTALhEj4BaMwe6SinN
-         xXzg==
+        bh=xjuVd7RI5k4hOIJinQsqh09SXyNVhRXdR0rTOUmxNmA=;
+        b=W3fQN3MmOCpHYLwSB0haOwbbXnSDukEOpuSjFp5uikOCwSnObYXBXzes3QcIwsgajD
+         cNT+PrpkVbjZnuoJteSG29VjafNVPXlb+2T4LNoAE6SgHjFtX7zhYvFmao+hVvwrPoIR
+         Fu1q8s9gHFH3/viRMfORptmnI5V1i1rOPU/0e4/Uj/j3R4i1gbIOM54Smvuyqmr4IUMM
+         y21HkNz4U68RqqUa3LRqlXXotSYkuWNjUkBvPR8yyV9dFMww07sGpOSc48I/lT2EDZQj
+         KJl7sSLAA4OU3hmaWkB8nWeMKY7TGQQS2dN4zN+p7hNQHo5ITwe8EGHrsW4dHPBAIAx8
+         GSJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786963793; x=1787568593;
+        d=1e100.net; s=20251104; t=1786963798; x=1787568598;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SlrFw8orvz3TJpMVjqa7zWk7IHsR8vKJ7UcbrcCP+74=;
-        b=SthApNaZuPm0EyMiMo5bqIlmjFKa8izevLrCXa/DjZ7ghMZGYRAUbaItsxmPzG2z+a
-         DuRZektzxVQqNzJm5Xvic6DUuw1yUv/eOrGGbNZQ9PR3RJU4RjoM/CxL6zrqiAS4ZqSW
-         K479awJckb1NsAtfZoHv7v2tDlUGDFi8Xf8agSexDT6ySYedR5DIb15EWSy7+rrvcJG8
-         /mGMbjjI8GIqNSvVAzVprjsbln0+UGc5/+yeJoYA5Za0bi1G/O2cO/arQHXr9J3kf0Sj
-         zx+PGQWSQxIaC849H4ZtfphVKWv2Et129pWlsUZyT8M7TwaXmR9otT/+enEq92XiyP/t
-         dOCA==
-X-Forwarded-Encrypted: i=1; AHgh+RoxQagonaU/Mo+2W/NtBK7Q85qwb5r3wR2hTKnJXowKPiNkY5ZdHQ9DMhn3F6ejI+r7HrKc0A+OyBwFXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD4jtZdjGfalTNN4Tw/9lzY5guR4SU+LTgrL+3qoafQEsQZWBP
-	D34YG2Z0+yv+VGNAnP3B7qRfOowkEe2UpzCrGOviCQ2fEGbo9eSYChFQ
-X-Gm-Gg: AR+sD10tFSvst9Pgdv26uZ1J5LcKb6V48cM3+ixtdIsC2lC15LsS3KWMnIBSqVN9S+X
-	LVMtdcQ9z0DaNrjrXeUFxifIn5h9llopP9dVUqQHAtq7lD7IlaF23E0XtLkOOa78HuB1dL55HRo
-	8+N5I1i/01l4OAOKs7xKC5cALq36SzdC4/8uZzfv/qKLnqMr3xhhYS5fl66XURPBzHuBobqy4v5
-	8lKxUJucoMBOqjYHYPu1to7UcBfxx5Nra6ewhEP5jU0ZcKAQlowYyOlEQeLC40SFyAzyT5gFAP2
-	7+Cm9AJtmj1hUqZyCsaNYM8ngF+pftEvmNphoRLFi0RQ8gWpZYXdP3Wuv0WYMdagrkSm1LLrB32
-	/X7uURrrRl4cndnRB+azLe1QLTNJ/c73UD743RAZ0LzNCkbokuHVrafUU+t9PqHyt+lp2s+E70X
-	MYhqlQylcoLku9/QFwQpDGvxwZVyi/FrHeGHDBLSv4YErtaPg2dxtHlgZb4igQCfLz2gY2f4NBl
-	eFl4sUDN8PeJxNCrAnPT0J7ettr91IBBCIdUQZJbrvwbW2+UjzftwcAPiykIHLHP8VfwzC64U7A
-	qZ3J
-X-Received: by 2002:a17:90b:384f:b0:390:b41a:b92f with SMTP id 98e67ed59e1d1-3933e648702mr22943522a91.18.1786963793327;
-        Mon, 17 Aug 2026 03:49:53 -0700 (PDT)
+        bh=xjuVd7RI5k4hOIJinQsqh09SXyNVhRXdR0rTOUmxNmA=;
+        b=EiKe9EjzOsbsIosXTVsgE3T3KxwksId0UAFcbbAe8ecfpI7BnAL1wiDwb+hARuAnj0
+         mhEJySJPFCi3eU1DoW+Q/pZ0KlzTKWLKSYzPB0imj3h+ecjVMC4QVlTSfmASpQ7q42fk
+         6s7DjmPuzP8rUfSX98INQgSeApMuIgV0wUe4RCCnoH9EFLDvQd7pS96M4Qxhp2tOqUJH
+         MjOOSPK37hX1YZWFaO9XYca34XP1OdyTMwmdaK5yUMnPoJyyAZ6i3Lb9GmcrqqON69iF
+         SWbjLxBvgfbFzzz7iLglSKlzXJXw+mlcbgE0rkIYsYZuCDgfMyQ2dE0jv7ha43X6Czfj
+         JQcQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqSijPYUgeFFviITWia6cKjfai++oGS0BrvHdw2moIhfQbttSEOnI53ZLv3Thbhecp/zyP4L7rAW85e7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqVpJg8cqpZFRw/eiMj2aU2VTI9QHi4i/d1b/4+nCEcmfGKYS3
+	vfz90iHCse4+e4KHD3j9xBOx7xiq7CHIDcqIvVRE/qFXLoaX28iK/eXN
+X-Gm-Gg: AR+sD12bo5vO1Jo3b5XfDMxtBpz6hkxm4iaYmO7jdC7xZu6DFxJESVRBY49YG1AqntY
+	gLKgROgvhkwn9F7+zOoutrJePwbLw97cPsFp9yNjEzU5ykIrOPbER8NDx6uQTf3gQFiTHKBkiAk
+	gUAtz/kLnFciReKp4jN1gaApFnvfc1y5joSlJigg+qnnOETvFDhzPTkFUmHxxoMRPCErc8gPyE7
+	P/ATP44WtQML5s8CFBjH6akQGwmgjiLAWfEbPJ0P4Y/B2wCNYR4qloMQWMuSbpmWgN0J53B6ocS
+	p0b/0K4Z5TfkDLCHDPgGe0msGlmzjNGDUrn4XAL4th3OasmUUPhjWkMIXJC+nGg+8dh6KQOvNac
+	0Pz3bP5KIyqFGg01c+BnKknSpLzMYYOszjg+N+YNJVkRANQmOj0uT+E9TG39HzXMNBlv/TCcOb1
+	WNAypMTb+8WrtC/cAlMoVKc+OtfN3lO78/h9DELDks4Y9A7FZYRQ8Yr0mvInQZo9JZZ0TI92017
+	qti1sOQPBuLtm/gONDN8Yt3cXoTR4bcBbXBY2sY1lyDVG19m/kESlHYl0NTAHvtNnZgtOLblWk9
+	KoAR
+X-Received: by 2002:a17:90b:3d48:b0:381:528a:808c with SMTP id 98e67ed59e1d1-3933b8939dfmr26013326a91.12.1786963797943;
+        Mon, 17 Aug 2026 03:49:57 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3954d38bd51sm1885413a91.12.2026.08.17.03.49.49
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3954d38bd51sm1885413a91.12.2026.08.17.03.49.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 03:49:52 -0700 (PDT)
+        Mon, 17 Aug 2026 03:49:57 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>
@@ -74,9 +74,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH 2/3] ASoC: mediatek: mt2701: Use dev_err_probe() for error handling
-Date: Mon, 17 Aug 2026 17:49:28 +0700
-Message-ID: <20260817104929.63152-2-phucduc.bui@gmail.com>
+Subject: [PATCH 3/3] ASoC: mediatek: mt2701: Drop redundant probe error messages
+Date: Mon, 17 Aug 2026 17:49:29 +0700
+Message-ID: <20260817104929.63152-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260817104929.63152-1-phucduc.bui@gmail.com>
 References: <20260817104929.63152-1-phucduc.bui@gmail.com>
@@ -90,100 +90,65 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Replace dev_err() with dev_err_probe() to prevent log spam when probe
-returns -EPROBE_DEFER.
+The errors handled here are already reported by the called functions,
+either directly or deeper in the call chain. Therefore, the additional
+dev_err() calls are redundant and can be removed.
 
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- .../mediatek/mt2701/mt2701-afe-clock-ctrl.c   | 51 +++++++++----------
- 1 file changed, 23 insertions(+), 28 deletions(-)
+ sound/soc/mediatek/mt2701/mt2701-afe-pcm.c | 4 +---
+ sound/soc/mediatek/mt2701/mt2701-cs42448.c | 4 +---
+ sound/soc/mediatek/mt2701/mt2701-wm8960.c  | 4 +---
+ 3 files changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c b/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
-index 18f0f27bd8c0..1cf66ca44a33 100644
---- a/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
-+++ b/sound/soc/mediatek/mt2701/mt2701-afe-clock-ctrl.c
-@@ -30,10 +30,9 @@ int mt2701_init_clock(struct mtk_base_afe *afe)
+diff --git a/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c b/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
+index d56b498e8c0c..3c5a76591ea7 100644
+--- a/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
++++ b/sound/soc/mediatek/mt2701/mt2701-afe-pcm.c
+@@ -1622,10 +1622,8 @@ static int mt2701_afe_pcm_dev_probe(struct platform_device *pdev)
  
- 	for (i = 0; i < MT2701_BASE_CLK_NUM; i++) {
- 		afe_priv->base_ck[i] = devm_clk_get(afe->dev, base_clks[i]);
--		if (IS_ERR(afe_priv->base_ck[i])) {
--			dev_err(afe->dev, "failed to get %s\n", base_clks[i]);
--			return PTR_ERR(afe_priv->base_ck[i]);
--		}
-+		if (IS_ERR(afe_priv->base_ck[i]))
-+			return dev_err_probe(afe->dev, PTR_ERR(afe_priv->base_ck[i]),
-+					     "failed to get %s\n", base_clks[i]);
+ 	ret = devm_request_irq(dev, irq_id, mt2701_asys_isr,
+ 			       IRQF_TRIGGER_NONE, "asys-isr", (void *)afe);
+-	if (ret) {
+-		dev_err(dev, "could not request_irq for asys-isr\n");
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	afe->regmap = syscon_node_to_regmap(dev->parent->of_node);
+ 	if (IS_ERR(afe->regmap)) {
+diff --git a/sound/soc/mediatek/mt2701/mt2701-cs42448.c b/sound/soc/mediatek/mt2701/mt2701-cs42448.c
+index 778a9dccfcaa..af833a8daa2a 100644
+--- a/sound/soc/mediatek/mt2701/mt2701-cs42448.c
++++ b/sound/soc/mediatek/mt2701/mt2701-cs42448.c
+@@ -366,10 +366,8 @@ static int mt2701_cs42448_machine_probe(struct platform_device *pdev)
+ 							= codec_node_bt_mrg;
+ 
+ 	ret = snd_soc_of_parse_audio_routing(card, "audio-routing");
+-	if (ret) {
+-		dev_err(dev, "failed to parse audio-routing: %d\n", ret);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	priv->i2s1_in_mux_sel_1 = devm_gpiod_get_optional(dev, "i2s1-in-sel-gpio1",
+ 							  GPIOD_OUT_LOW);
+diff --git a/sound/soc/mediatek/mt2701/mt2701-wm8960.c b/sound/soc/mediatek/mt2701/mt2701-wm8960.c
+index 84b3d6cd77a5..25ea3e274aa8 100644
+--- a/sound/soc/mediatek/mt2701/mt2701-wm8960.c
++++ b/sound/soc/mediatek/mt2701/mt2701-wm8960.c
+@@ -137,10 +137,8 @@ static int mt2701_wm8960_machine_probe(struct platform_device *pdev)
  	}
  
- 	i2s_num = min(afe_priv->soc->i2s_num, MT2701_BASE_CLK_NUM);
-@@ -45,47 +44,43 @@ int mt2701_init_clock(struct mtk_base_afe *afe)
+ 	ret = snd_soc_of_parse_audio_routing(card, "audio-routing");
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to parse audio-routing: %d\n", ret);
++	if (ret)
+ 		goto put_codec_node;
+-	}
  
- 		snprintf(name, sizeof(name), "i2s%d_src_sel", i);
- 		i2s_path->sel_ck = devm_clk_get(afe->dev, name);
--		if (IS_ERR(i2s_path->sel_ck)) {
--			dev_err(afe->dev, "failed to get %s\n", name);
--			return PTR_ERR(i2s_path->sel_ck);
--		}
-+		if (IS_ERR(i2s_path->sel_ck))
-+			return dev_err_probe(afe->dev, PTR_ERR(i2s_path->sel_ck),
-+					     "failed to get %s\n", name);
- 
- 		snprintf(name, sizeof(name), "i2s%d_src_div", i);
- 		i2s_path->div_ck = devm_clk_get(afe->dev, name);
--		if (IS_ERR(i2s_path->div_ck)) {
--			dev_err(afe->dev, "failed to get %s\n", name);
--			return PTR_ERR(i2s_path->div_ck);
--		}
-+		if (IS_ERR(i2s_path->div_ck))
-+			return dev_err_probe(afe->dev, PTR_ERR(i2s_path->div_ck),
-+					     "failed to get %s\n", name);
- 
- 		snprintf(name, sizeof(name), "i2s%d_mclk_en", i);
- 		i2s_path->mclk_ck = devm_clk_get(afe->dev, name);
--		if (IS_ERR(i2s_path->mclk_ck)) {
--			dev_err(afe->dev, "failed to get %s\n", name);
--			return PTR_ERR(i2s_path->mclk_ck);
--		}
-+		if (IS_ERR(i2s_path->mclk_ck))
-+			return dev_err_probe(afe->dev, PTR_ERR(i2s_path->mclk_ck),
-+				       "failed to get %s\n", name);
- 
- 		snprintf(name, sizeof(name), "i2so%d_hop_ck", i);
- 		i2s_ck = devm_clk_get(afe->dev, name);
--		if (IS_ERR(i2s_ck)) {
--			dev_err(afe->dev, "failed to get %s\n", name);
--			return PTR_ERR(i2s_ck);
--		}
-+		if (IS_ERR(i2s_ck))
-+			return dev_err_probe(afe->dev, PTR_ERR(i2s_ck),
-+					     "failed to get %s\n", name);
-+
- 		i2s_path->hop_ck[SNDRV_PCM_STREAM_PLAYBACK] = i2s_ck;
- 
- 		snprintf(name, sizeof(name), "i2si%d_hop_ck", i);
- 		i2s_ck = devm_clk_get(afe->dev, name);
--		if (IS_ERR(i2s_ck)) {
--			dev_err(afe->dev, "failed to get %s\n", name);
--			return PTR_ERR(i2s_ck);
--		}
-+		if (IS_ERR(i2s_ck))
-+			return dev_err_probe(afe->dev, PTR_ERR(i2s_ck),
-+					     "failed to get %s\n", name);
-+
- 		i2s_path->hop_ck[SNDRV_PCM_STREAM_CAPTURE] = i2s_ck;
- 
- 		snprintf(name, sizeof(name), "asrc%d_out_ck", i);
- 		i2s_path->asrco_ck = devm_clk_get(afe->dev, name);
--		if (IS_ERR(i2s_path->asrco_ck)) {
--			dev_err(afe->dev, "failed to get %s\n", name);
--			return PTR_ERR(i2s_path->asrco_ck);
--		}
-+		if (IS_ERR(i2s_path->asrco_ck))
-+			return dev_err_probe(afe->dev, PTR_ERR(i2s_path->asrco_ck),
-+					     "failed to get %s\n", name);
- 	}
- 
- 	/* Some platforms may support BT path */
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+ 	if (ret)
 -- 
 2.43.0
 
