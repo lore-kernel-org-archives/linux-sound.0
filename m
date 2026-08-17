@@ -1,97 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D0D3B7B91;
-	Mon, 17 Aug 2026 07:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30AB03B71B1
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 07:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786952369; cv=none; b=rMjGrA4nJuyWO9NS7UxEgpDutGN7Y+UgegEO3DxYeUnjIufW0LMcOZRPHiqCobobyJa9ggbdmVlzVXLLh/1BQJL2AXSrpeBCFlm6cpfD/RpIQFvBgUbZB8E1pVTsuvMQZGW/WOcaevaMl74U6U3tN5EMSNdo/316DvAs/BffuLc=
+	t=1786953238; cv=none; b=JM04mHCpHUnY7Kdm2M2xaou4QFRfjlm/T8WAKceYeGJMUOsxJeyyn8eZIkLa6tGK6xlSCTU/W6lWmi0V05yxCHr6lnGGe9zpbol3tuMSLB2dNHzYq2a52BgN1i0vBkeYQVTzmOorBvRbd6hlV7Mx4RlCCowIjBmx81iS+QhSNSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786952369; c=relaxed/simple;
-	bh=I8cJOVA5MebsGPrvNEU1cYE+gGipRNM2jrOxmjFLmic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NQjfcCxQUXt8rvZ1zywoTkMnmBWFkyTBdnu8I8mYVlg2f3DJnJhcZ4A3LNu7jeyf8tpuwwR8//SYSJhzuDPUCXFHWPpC9KMldB9hM7k2nSBNq3DDpagWugUi5tbDjws1L1zqSr2QxjwsDkCKhcoSnBQ9DZyjsGpiEiC5aT+VWME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hUnxTygf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786953238; c=relaxed/simple;
+	bh=CFNxdCq3cUzDzyuxBl+S0TNUzK8Xbp0qp4I5mkx/fW8=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IKb64QsV8UsQIJd3yGH6cCRPi/DrIuiCHtANvDj+jghbvEA391iw0MpjZA/hLHJUeighppSMNy6lDDm9K6E1Smz6AMO5ZBM9PbyvFUydzm2nkfFTu6S7jdUoWDYBW2ub0sZsqIE2qtkdtd2cgE1VQ9001OqB8q8T97nt/Vl0b2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0o+07OPb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=H3DtvVQj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EOH+JToP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yNvwjsuz; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hUnxTygf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E13AC1F000E9;
-	Mon, 17 Aug 2026 07:39:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786952367;
-	bh=iUnyPMbVJPnjnEOxdYhuEUy3Ps5JiRtKMppdRRM7gWc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hUnxTygfY/la4TaJxG+y+pnFupeuflipwt5jXDF1EspJZ0i36/Ff1jUS63Ry8rQTX
-	 iyJNbwNhhCqyGLrN7JxBWPb3SuGd3mEmNUJJftLicaKyFSlmimkvTmIntPxPPp4xYp
-	 9kOtfbacK5nxnHuH5NnP6gzIJ+mKjNoMn8ipgFcN274TOOPWKFTnxP1DwZ/QZExf+a
-	 aZSfrxLLgtpusoG+gcRUd3j3puw9h7kNgiVaeroaZA6huUZfD9IJOVTWGDgr3DQZ8u
-	 AFJ+LNG6BiTuWIvxh/9TPUAYV/MiCb/A8oUWfpJDaOqZuS2n8tjEppCskfg1l/ZANZ
-	 Apn2cyqI7jtKg==
-Date: Mon, 17 Aug 2026 09:39:20 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
-Cc: David Rhodes <david.rhodes@cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org, 
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: cs35l45: Adds SYNC properties
-Message-ID: <20260817-brawny-smart-dove-85e4a5@quoll>
-References: <20260814223456.611160-1-rriveram@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0o+07OPb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H3DtvVQj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EOH+JToP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yNvwjsuz"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DEA4183EBA;
+	Mon, 17 Aug 2026 07:53:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786953231; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6BVzCk2Ep+Ua2Zn/BMxfB+y84buyf820M9z5wCgrhQ=;
+	b=0o+07OPbfjEvkLViLBv9tdcqhwUBIkR0mbKLEbyRqMfjALaBXmFgVjS6kNv1BK8I7VjR/Y
+	uUZzRIOP/juG7tcbpen8nZN0/lOvghIrkzQayxMRl2S0/FlXkCismUlDb0Kt02a193G5JO
+	AgsI5FLy3lMmhMduZLPazb0cDLdMzRo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786953231;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6BVzCk2Ep+Ua2Zn/BMxfB+y84buyf820M9z5wCgrhQ=;
+	b=H3DtvVQj+q4DkKV3RPRe9vx5nHhEKmyh0N+ULTgWV3Tjr32jD3XwcUSAWIeZ8TNE7nS2+q
+	1DRIcsYgNf5EhiDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1786953226; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6BVzCk2Ep+Ua2Zn/BMxfB+y84buyf820M9z5wCgrhQ=;
+	b=EOH+JToPFYajkGy2gh1vMPzkzvztqbCFDzqDh/t8PuUtK11fBxNSYtGdcueOJmO9v89SK1
+	OEzAqb7Ffs6+f34BCKja0j5h/JIQEaqeX+ig6oU84DumJ6rHjPjLqkqz6fLoPXLR2u2PUX
+	D1Tgs9Re4gKinALCX/2PdZyOJJQXs3w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1786953226;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=r6BVzCk2Ep+Ua2Zn/BMxfB+y84buyf820M9z5wCgrhQ=;
+	b=yNvwjsuzQMuN7mmuYdEaDV3rUEtBqeKMR0nr2raoK2cGiu+v/m0PDIU7BibDJTWR4smQ9N
+	AELBd7db5b1fc9Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5BB379364;
+	Mon, 17 Aug 2026 07:53:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id OVHuKgq+gmrpYAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 17 Aug 2026 07:53:46 +0000
+Date: Mon, 17 Aug 2026 09:53:46 +0200
+Message-ID: <875x19mbcl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Giulio Gualtierotti <ggualtierotti.dev@mailbox.org>
+Cc: linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Subject: Re: [PATCH] ALSA: hda/realtek: Add micmute LED quirk for Acer Aspire A515-57
+In-Reply-To: <20260816094223.36617-1-ggualtierotti.dev@mailbox.org>
+References: <20260816094223.36617-1-ggualtierotti.dev@mailbox.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260814223456.611160-1-rriveram@opensource.cirrus.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-On Fri, Aug 14, 2026 at 10:34:52PM +0000, Ricardo Rivera-Matos wrote:
-> Introduces support for the multidevice synchronization (SYNC)
-> bus. The properties introduced allow for the configuration
-> of the device's transmitter IDs.
+On Sun, 16 Aug 2026 11:42:23 +0200,
+Giulio Gualtierotti wrote:
 > 
-> Signed-off-by: Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>
-> ---
->  .../bindings/sound/cirrus,cs35l45.yaml        | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
-
-Sashiko comments are valid.
-
+> The Acer Aspire A515-57 with subsystem ID 1025:1616 and Realtek
+> ALC256 uses GPIO2 (0x04) for the microphone mute LED. Without a
+> quirk, the GPIO mask and direction are not configured and the LED
+> does not follow the microphone mute state.
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs35l45.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs35l45.yaml
-> index 70f6c62aedca..f64ba8c872b9 100644
-> --- a/Documentation/devicetree/bindings/sound/cirrus,cs35l45.yaml
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs35l45.yaml
-> @@ -53,6 +53,29 @@ properties:
->      maximum: 3
->      default: 2
->  
-> +  sync:
-> +    description:
-> +      Multidevice synchronization (SYNC) bus configuration
-> +    type: object
-> +    additionalProperties: false
-> +    properties:
-> +      cirrus,sync-lsw-txid:
-> +        description: |
+> Reuse ALC256_FIXUP_ACER_SFG16_MICMUTE_LED, which configures GPIO2
+> as the microphone mute LED.
+> 
+> Tested on an Acer Aspire A515-57 with ALC256 (10ec:0256,
+> subsystem 1025:1616). GPIO mask and direction are 0x04 and GPIO
+> data switches between 0x00 and 0x04; the LED device is registered
+> and follows the microphone mute state.
+> 
+> Signed-off-by: Giulio Gualtierotti <ggualtierotti.dev@mailbox.org>
 
-Do not need '|' unless you need to preserve formatting.
+Applied now.  Thanks.
 
-> +          Transmitter ID to use for long software (LSW) data packets
-> +          on the SYNC bus.
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        minimum: 0
-> +        maximum: 7
-> +        default: 0
-> +      cirrus,sync-sw-txid:
-> +        description: |
-> +          Transmitter ID to use for short software (SW) data packets
-> +          on the SYNC bus.
 
-What is transmitter ID? Why does it differ per board designs?
-
-Best regards,
-Krzysztof
-
+Takashi
