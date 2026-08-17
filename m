@@ -1,75 +1,131 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFFF3C3429
-	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 08:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786957138; cv=none; b=L3Ng9bYLR8StRtLUtEe4NVncL17QQ0mxcOqOgH0L7c9NYzhIoUJYLBkgsQaT3x/i+mUHnlMIY1Jk31cFIs4dV/JoTyEkT9WXB3D69sVLkCgTO83pRZMn5NmbCSsUZM1ikwIdGe6qLSEqaE+bLb8f5XrFjd8RfwU/V3c8wx7nElI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786957138; c=relaxed/simple;
-	bh=sqPOaOOnu50Yga2PJaMhvsEG+rlAbAKYj+pRZ2HVwm0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=m6bfWOw/7kz5ySi8CB6sLDWzc0VYTOLtOFIPDlIZAe95TrWC7sDdNM/syFdS9UdHKnmsB/Jmg8LQC2s7+eh+0KHctxyHDbySlwK2j7l4SrzZ0pW51avxwnsaPbH+Ekw/cCmSLiILlu9jeNf6LNK9peEn5AryetmihhRUGPCZDWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de; spf=pass smtp.mailfrom=posteo.de; dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b=Z8icqC7p; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAE23C13E0
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 09:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786957248; cv=pass; b=fJHRddMtLESRIqzBjPory/Az2k6DLROxcmkx7b3ccLUVQiRKH5FGwWmArp5sO2+FkBiUgmF/SZwfxPwAkhIs7C7FkltafoQGb9HMno62IiYVCjiLjY7dpQXifSSYK4f91PCRd4tmzLswiP1Uc3OyDF8xJsWsMBz0EmN3XU388Sw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786957248; c=relaxed/simple;
+	bh=FpAwgs/QpFSSt1pIHMCAJBfHveT/Xputq51sRyavmyQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LzbNOQ7nv8vi5P3DLjwe8tlKguTZUQRfXwGAfYbvWQBWFjcnY1dLBGFRbUMB+YOfkF0O+8SZLNY/6UgxOj+VG/kstv5vKrYxMzhLYjA+KWLFAhegTOOfR/W6k9swg60IWQyK/elOLv+LgXbrs0qiGYiSp3PzTZfSs651n6ZIP4s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2/vdt/1; arc=pass smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.de header.i=@posteo.de header.b="Z8icqC7p"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id AE6EA240103
-	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 10:58:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.de;
-	s=1984.8680eb; t=1786957128;
-	bh=sqPOaOOnu50Yga2PJaMhvsEG+rlAbAKYj+pRZ2HVwm0=;
-	h=Date:Message-ID:From:To:Cc:Subject:From;
-	b=Z8icqC7pZGMjDM9DKv3XYnoexWqYOaJQ7gwDiVPPX2seCJm47DvWGwoY7l2De9S3c
-	 beZVJ2xoz2clLtnMtYhUSe6sCmP9FiVKqZWAtbpVfmozmcInt1YcpTay0dMSeWOeZf
-	 rK6tl8Z35+WMfXrQUkdOXYhBIwwvO2hZ1OBoXbE3lhbDBdMnsS8n21RxDtsfD3GRmp
-	 qPPVPK6JTe/NWCcbNg1nvHmqCGgF9yw+C3n6/5dTjHZEHv1TPkbRKlxOyL9C6902cr
-	 I+pem62Ad4/YD0JDo8SCNlwI5AV6GvTBRxSOET6oM27oKi4Qn1J+2/twzQbV2+gcbo
-	 Mn7M9qN15RnIA==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4hNmw80Bb1z6twj;
-	Mon, 17 Aug 2026 10:58:48 +0200 (CEST)
-Date: Mon, 17 Aug 2026 08:58:48 +0000
-Message-ID: <1786957127.718071.28963@posteo.de>
-From: Michael Diesen <michael.diesen@posteo.de>
-To: Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: Please apply bed0c8084044 to 7.1.y and 6.18.y
-In-Reply-To: <20260801154223.stable-0005@kernel.org>
-References: <4391ca99e19df478490aacfcde6e5ca4@posteo.de>
-	<20260801154223.stable-0005@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2/vdt/1"
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5bf9466867cso933596e0c.2
+        for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 02:00:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786957246; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VglX8cxRABUOxUv+ujyHZ5Yi6wFpeMa20/R+gGr3kr0gTMgVoTqt3qZq6vKuZUgJNH
+         4H8yEPyy9HFPOsbWswqXJEKxVRZPSRWIXIpHPmIu6SjMCkApgNjuP1ZKs2WPaS9uQMYj
+         w7vEJqgqLGrp4sES0kV6mOsPmu1HluhUbrKYUQH+2Xlul3qkoE8IByG2hX+ulvKpuc2z
+         G64ApggZf46gNLn/Bj5MYoiAlIWNuA4AW1pNpi3wtOeQOgXKCH+jKDzsRqB9zxr9zmpz
+         kWyomMJyWdvi4chSxWlSHKughEeZU0kuYzsyptmYPw9CalUg3nh7QYfDrmtnQHXyJhH+
+         Znkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=J2pxaM7qVEIl+r9r32/3W/crCxxR2fpkye27iBcvmTs=;
+        fh=m71zJhOb7cV/XioqljfgtYSkcgpKQ+m5Bf2hbQNPdWY=;
+        b=TbqkXQ7OrJBOdy1f59WTxXpLCua8+d8nU4LdkhvOiK6SUvJK7FqscwZhFORtJrDbng
+         5PoHAR9mcsRtchH2utIRy6niP7h33zm5UyRvuZ6fgwHDQGqQ80s5EPTVxlMLBxYvCNzo
+         ftewlj0UeJ0V1aMdWaEa6TpE73TOuqUutSXvyn0Egq9JIVSHXdQ3GqKfbs1y+p4btZHv
+         fdgdZHUmwUYzakohz/fYwuGRLhDhU7jPrECUHhwOeZe5KaSHBMW0av8DoiKesa8gRd1w
+         i861kYdfLIJDMtN+RHDqIXOh0Hve453pBrUIAXhuNvFfWIp+tG54OJHVZsv9ZBW80CYx
+         FZSA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786957246; x=1787562046; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=J2pxaM7qVEIl+r9r32/3W/crCxxR2fpkye27iBcvmTs=;
+        b=F2/vdt/1IJ7SuGuXFf/KOtJ3oZGVt6nM/DCQ5LPPHk56Qtu+XnyYmZxvinXJC9hrl7
+         EPfCFHpbg8PMex7rc9dv3DTbylFHpE5aw9x+cGdQX5cKn4arNLpmeC1OUBFO5qteDml5
+         1O1Ups1S/Vj0beSPtHdeONVD2oTZgzoHluf2j6ai3iNSJ7PHSteeZRZZTKfkc6FyxtAV
+         DR2Uda/2mLN1oJQRzen9r3L9aHS3mjDcHmLm3fJtL8Gj7Bb7HsNASbxRdCL826TUhOuK
+         yAxyf6ZkeOUiNJusCMCcBFbqHdEROZY3DTagAzKUpNBzB4Jz24y1ABYKkEeBE42aL8Tk
+         8y/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786957246; x=1787562046;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=J2pxaM7qVEIl+r9r32/3W/crCxxR2fpkye27iBcvmTs=;
+        b=HnvM+efAH997uw0yWXCY2pjIuO+8wuk2tiwoBteQh49kCS+p1R5yahZhM1pN3ZyNN2
+         o2splEAHoPCEZf2LkSbAWO0KTEoJ0gBcVt3fIMbTqokvXw8C4F0l5yLt8oYdZtHg0vaq
+         kPItfwLMW+l8HGEazpUQA0X36RQx41ztTCxPzU2I3w+x40o7wLoKNs15+z3Z52W8HyMA
+         zAhgrfqlZJeIiD62b8F2LOeE5s3rlm5fvoXbSdlEZvmGNgC5qwfJRl+FTGLD0kVKulmR
+         Y1AW3u3HsDVpOLbMsDVBmgaJUUCNfbA6Lif8ejPowLTA6iZlbah0VHwGnzP9hEqQhcIc
+         /Ljw==
+X-Forwarded-Encrypted: i=1; AHgh+RpLpsb7WwWFAFUh7U3nBqk8WNFGLuuqHZMt7iICr0AUaFOZQgsp5K2AW6HPxUiEY626VzAcgE5bDw3NYA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPCkSTGUus4RSs2AoE3TfwjDCZjk1//u9sQjbEHN187QX3DT21
+	N2QvqD+bWelEsF9n/oJema7dfIVOOFt6E/DudmUIek8Gw8qAgs4wqMtIPsJCMZEYl14rLSjLO49
+	pxHG2SrlN7gqDDhtLdz5mXNtPKpiMiXO7fe70EKyhmVTd
+X-Gm-Gg: AR+sD13nTDOP94l+IIHZM/npVwAXRVlkopl1Uy3MeWwFPgYjqL7xOy9THXe6QZ6mLpp
+	FsNj1SGOXFhEqoRD/ZtZcsc1ZouPHtLT4BXGqyTF7LXnDeXZXNbStejtMV32P8UwcetjpO2Oj6B
+	DRdFo3TK3z6EETOWn8aswBWf+ppgbzAgdu1Phi70ZUcufTrLRunTJobHrPrwbVaUdwuQrAT+orF
+	rCtCo9D2j1WSJ9Imya9NLGUa/kg56I7KFBGA2YrtrXbJ+1pLtbJ++XfeV8wUrKu1dI2yNfkZ5Zq
+	OyYNHjG+V+ymHIt7+c3Z7qatuofvURp/q/7R4GUP7e1XEdNfcCJBfYRr67/4+Chl1juA2sHPAqC
+	r42/x2w1h3rqIZK9osFaTOtmSb/58zxfdMiacTOywXo8W
+X-Received: by 2002:a05:6122:4b84:b0:5c2:c0ae:a2e8 with SMTP id
+ 71dfb90a1353d-5c591d41c0fmr3570588e0c.7.1786957245806; Mon, 17 Aug 2026
+ 02:00:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260815182747.8913-1-excursively@gmail.com> <SJ2PR11MB8424EA2C7382EBE3D914FA05FFA72@SJ2PR11MB8424.namprd11.prod.outlook.com>
+In-Reply-To: <SJ2PR11MB8424EA2C7382EBE3D914FA05FFA72@SJ2PR11MB8424.namprd11.prod.outlook.com>
+From: Sataporn Saijai <excursively@gmail.com>
+Date: Mon, 17 Aug 2026 16:00:34 +0700
+X-Gm-Features: AcwNN1WLpmR37fQ0T5iywLuwMqry0xEo16-2le8gXg_L0TYeORAUU8tkq2nt08A
+Message-ID: <CAHgGaxy-GQJLiXtO2LZkMzVi9ehemyMTj8JbajeokzdRsNTNbQ@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: Intel: soc-acpi-intel-ptl-match: add rt721_l3_rt1320_l3
+To: "Liao, Bard" <bard.liao@intel.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Ujfalusi, Peter" <peter.ujfalusi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Aug 01, 2026 at 06:13:27PM -0400, Sasha Levin wrote:
-> Queued for 7.1 and 6.18, thanks.
->
-> 6.18 was missing the earlier 103c:8a06 Dragonfly Folio quirk that this
-> entry sorts next to, so that one went in ahead of it.
+On Mon, Aug 17, 2026 at 11:42=E2=80=AFAM Liao, Bard <bard.liao@intel.com> w=
+rote:
 
-Thanks - 7.1.y picked it up in 7.1.8.
+> Can you add the SKU to drivers/soundwire/dmi-quirks.c?
+> Like 4dab2b904414 ("soundwire: dmi-quirks: Disable ghost Realtek devices =
+")
 
-For 6.18.y the prerequisite is in place now: 302eb8765132 ("ALSA:
-hda/realtek: add quirk for HP Dragonfly Folio G3 2-in-1") went in with
-6.18.44. The 8a05 entry itself does not appear to have followed it,
-though - linux-6.18.y still carries only the 8a06 line in
-sound/hda/codecs/realtek/alc269.c, and I do not see it in queue/6.18
-either.
+Done. ghost_realtek already has the exact address, so only the DMI match
+for 83QM was needed. Tested - the RT722 no longer appears under
+/sys/bus/soundwire/devices/. Will send as patch 1/2 in v2.
 
-Could you queue bed0c8084044 ("ALSA: hda/realtek: Add quirk for HP
-Dragonfly Folio G3 2-in-1 (103c:8a05)") for 6.18.y as well?
+> Can you check if c8f3c9fa75ff ("ASoC: soc-acpi / SOF: Add best_effort
+> flag to get_function_tplg_files op ") is in your kernel?
+> In theory, it will skip the BT link and will load other function
+> topologies.
 
-One note in case it is applied as a plain patch: the last context line
-of the hunk is the 103c:8a1b entry, which 6.18 does not have, so git am
-needs -3 there. The change itself is a single quirk table line directly
-above the 8a06 entry.
+It is in my tree (7.2.0-rc7), but best_effort is only ever set from the
+topology name:
+
+  topology.c: bool no_fallback =3D strstr(file, "dummy");
+
+With a real sof_tplg_filename it is false, so sof_sdw_get_tplg_files()
+returns 0 at SSP2-BT instead of skipping it, and the card fails to probe.
+The comment above that line describes 'dummy' as meaning no monolithic
+fallback exists, which is the case here - so I think it is the intended
+mechanism, though this would be the first machine entry to use it. Happy
+to do it differently if you prefer.
 
 Thanks,
-Michael
+Sataporn
