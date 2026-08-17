@@ -1,90 +1,78 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED5C29DB6C;
-	Mon, 17 Aug 2026 12:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835E1448B97
+	for <linux-sound@vger.kernel.org>; Mon, 17 Aug 2026 13:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786970985; cv=none; b=kuv/rKaxjWMuswg1IXSx8660rlL/tv0+edQk74tNYhPoOH3pblhMXj7Z+RH6W0uwg1QI/BZ/J2sU7OXwEzVFvfIcz4pIGoyPaRpd30bMcl+eIr/SMzIJ5JoPWEZf7ubrZI0QqocWB72GnZ4iV5pz8m4Yq3HQzviB2dwNXELrFgU=
+	t=1786974966; cv=none; b=jqPSX1FMjez15GW44c+lMK4PVaXkMCBA4c2t/dt4nOPHrzUlDENxrvZ12d6PjuwD2kBKyUylun2h2gOfqRbXrG5XMQAjGztz5BrmQt8UMAV09FVDiSgjPiX3tV0CGGACTLIhopDpVI1olupY7yjGcopGpzt9stAPjDW4dM8eaeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786970985; c=relaxed/simple;
-	bh=nBRzrtAs/cY0h8yCoZPgzFhgu4gu1MzSIj+l+WGgfCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nrvh3Z02RChIyE+b6UATSqdrrjQi0C36hiniQXTchNo2M16HGujQjezDms/A02VfYMDIKAhhkJGSPN/TLsrEKSnsQhIJX2jkTAQdZzntV9YQg8I8Il2QRDTeFsUzrPXrdHvuBv275+z9lI61oRs+PcihnFfY6KOjj+JyJeXqD/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=bW50XYJr; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1786974966; c=relaxed/simple;
+	bh=0qsSVgVwttgDpJJIQKcS1uXyz50s6i1L/i1fuJJfwEE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g8MFORRw1MkX/UIhexDX8KKN1swL1jlNPojP4X6TQEBP1RCc8xKdiHfnCs32fdqBCRvrpjepXb5zH8LMUXNYcpdGzaKNoFxgbLSycQT5UUzTUrkXKWFTkAaNJ49mlB4FKlsclsGJP0JdHgBC3PAyED+i3c31G0L1i83FLd/yuQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Itv4+BSL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="bW50XYJr"
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 5E03E87EAD;
-	Mon, 17 Aug 2026 14:49:34 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id rW_oeLf93fEn; Mon, 17 Aug 2026 14:49:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1786970973; bh=nBRzrtAs/cY0h8yCoZPgzFhgu4gu1MzSIj+l+WGgfCA=;
-	h=From:To:Cc:Subject:Date;
-	b=bW50XYJrUi4WwHROWCCZs2h29CN7Ty+qoLRBdgx71ddsDACrgcKd187hhkh++MdzS
-	 2Ffme6uy04bV8zTgz8pf3i8sgShmr1MZzGoRzai34LF7M39tGz/L+ioKPyauz/bhLZ
-	 3jOGitPx9goBAsHAF+f186fjwQ4F8WI7saMVkHy9CYkPtWya4fc1CGW49UW5FVIiFx
-	 c2/bB1ABwgfrcVKakYCZ6bpukcOWdYdC+CHhxdVuhjGBm4avMqi5iSlv/6UcESTUM1
-	 r/wAT+IIejjtHTgWRftqns+KhhMxD42gv466RqipKfyax4dcaTOqp0+zXL9+xYAbPj
-	 gdeU0kJQj0QGg==
-From: Sven Jans <skbotnl@disroot.org>
-To: 
-Cc: Sven Jans <skbotnl@disroot.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 16-bh0xxx
-Date: Mon, 17 Aug 2026 14:47:52 +0200
-Message-ID: <20260817124756.46242-1-skbotnl@disroot.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Itv4+BSL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E470C1F00A3A;
+	Mon, 17 Aug 2026 13:56:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786974962;
+	bh=0qsSVgVwttgDpJJIQKcS1uXyz50s6i1L/i1fuJJfwEE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Itv4+BSLXURkoeUlMP6oZh9Ad5EFEVi0QSOBRR813KfJoAiyAy10cavhnyN5T6eax
+	 +4wLWPnCeeFHdbGKYtjn+mGTZy2GKrWmWEqfuVW0SWRK3/MOxf9bKrc2sIlb0lrnxt
+	 fWx21yXlv+SfUgom85/1YkmQlEpAUqeWZRGBDYkF6+wz1zYSb8r8Vb1oVnrj/G6SQZ
+	 hZK+v+YYE/G2Hk6BTujVelKDVYHN88oK8Mw6vWrT3aL89qJuy25XLcWfT9NK2IxXjO
+	 8Wn8+q4+t7TszMvnDGUm8MeN0SlRGinEccjaF8qVeTbr7I5gApZVMVUDwrCVXhh6VY
+	 Sfg2LtiRL7pjQ==
+Date: Mon, 17 Aug 2026 14:55:58 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Shenghao Ding <shenghao-ding@ti.com>
+Cc: tiwai@suse.de, 13916275206@139.com, perex@perex.cz, lgirdwood@gmail.com,
+	linux-sound@vger.kernel.org, baojun.xu@ti.com, k-lu@ti.com
+Subject: Re: [PATCH v1] ASoC: tas2781: Refactor calibration start kcontrol
+ creation to separate helper
+Message-ID: <e255b74e-b6a9-47d7-9e92-1315325b3e56@sirena.org.uk>
+References: <20260815023215.1788-1-shenghao-ding@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WG1xCzr7mqglQKep"
+Content-Disposition: inline
+In-Reply-To: <20260815023215.1788-1-shenghao-ding@ti.com>
+X-Cookie: Obey all traffic laws.
 
-The laptop has a malformed _DSD which causes the cirrus,dev-index
-property to fail to parse, so it needs to be supported using the
-configuration table.
 
-Signed-off-by: Sven Jans <skbotnl@disroot.org>
----
-Created against tiwai/sound this time (I read that's preferred?)
-Link to v2:
-https://lore.kernel.org/linux-sound/20260709214414.8461-1-skbotnl@disroot.org/
+--WG1xCzr7mqglQKep
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
- sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Sat, Aug 15, 2026 at 10:32:14AM +0800, Shenghao Ding wrote:
+> Move the tas2781-specific calibration start kcontrol initialization logic
+> out of tasdevice_create_cali_ctrls() into a new dedicated helper function
+> create_tas2781_cali_start_ktrl().
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-index 416d7bf3e..e14a87336 100644
---- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-+++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-@@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
-+	{ "103C8E60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
- 	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
- 	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
-@@ -511,6 +512,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
- 	{ "CSC3551", "103C8CDD", generic_dsd_config },
- 	{ "CSC3551", "103C8CDE", generic_dsd_config },
-+	{ "CSC3551", "103C8E60", generic_dsd_config },
- 	{ "CSC3551", "104312AF", generic_dsd_config },
- 	{ "CSC3551", "10431433", generic_dsd_config },
- 	{ "CSC3551", "10431463", generic_dsd_config },
--- 
-2.55.0
+I already have a change of this subject with similar contents merged as
+commit ba5401135aa508f0cb5414f269edba1fe90460da.
 
+--WG1xCzr7mqglQKep
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqDEu0ACgkQJNaLcl1U
+h9BnOgf+M6nyxAdyOKqvzxoMK2ff93fn/okz7lQryXC0IfMTVwTNxNvi3Zp+gU1Z
+d5D/JCUdPatapv4ytNtXVFkvvFP7YcmNEARCDoFCR+6f+gO1b+9wRuSnsoTf1fmt
+t0lqp0+yN4Jba5yUdMphhynNrMR8GxlLM1vO0pk62pJCEnWr93m/udRVBgBnr65O
+uAQhMT7EMkXioWvu2T31MBEOMDZn2RiytRLQUhNYM4pYpKP+QWjUhSTR5aD7rMmr
+Ch69dfpOSBglBWxCyLVbTAEvIyyJ6esrRk++dLGqPNuxjtb4r1WGeMgJtgw1Zedo
+RkpGJgvkkYvBEMF/rjyLA6AS4JTWOg==
+=2FVg
+-----END PGP SIGNATURE-----
+
+--WG1xCzr7mqglQKep--
