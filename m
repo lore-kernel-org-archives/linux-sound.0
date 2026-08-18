@@ -1,214 +1,156 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E271146D2B5;
-	Tue, 18 Aug 2026 12:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787056017; cv=fail; b=TT2Znufh33EAaGnvETbbse0v2uFb4bPjEcwJ20w+FgYUXQy458ZgEvJUjEHUv8iXeCCgRx80Chq8FDfAEH7py1TqASTSQScqJ0SVD5jhcOde9alJutQ/YA72ljO1d38NMQM1j5HwAdU77Z7LvHU0piwE1P53Jvutyawue5mWXmo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787056017; c=relaxed/simple;
-	bh=/ovhZL9o2cYAfEcq85PXomKXk20r9o/Jx2b1Y5+eCLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k6lm9GtjL5U7S9ytvl7pFJPt77tYaLHk3PXfyLw1XhzJ7RvGXHY1YuG9GUpZlyu/gZnbIGUIg8zuAqmAPb+KJ8fs3YkqEkWwvsBfxrIeKsSQvGoTEKcYyxbYeEMewBexHMYQFJPPuudfp4Q37bBKWggkOdr9ZX13vRgMNg0qQCs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=V6kJ6NsP; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=YzZfokyf; arc=fail smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED6646EC6B
+	for <linux-sound@vger.kernel.org>; Tue, 18 Aug 2026 12:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787057456; cv=none; b=b0VKTRPasW+1WR4wWOiZYRTp+sjPFJnOTlHxXfkvXIFsfLyr4Sjysv/FSc/15V7fbhBshj4z7rAXzJ9+/usFmgmptBSMBuNeKT+eTm1kyHeBRUBbq4MLfvdEActw0fRKOy7iCkbYcN+IGIWrGHyYLJnQK7EJQLjqLpTSjiqWeSs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787057456; c=relaxed/simple;
+	bh=9UJP0+UnLhNHthhnuhnSoK+fMhRJRgf6rxK9n9XSqLY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UvU8U31iHF/Itcs6DQcb2k9S/deeeLgpzAf4rkaARW/DDT5+XAB5qRpeZxi2/WjxRvUujXWJ7jlBaodEDrP9CbQ7dC7nVcwgoE5R6ltIsJtXliYqoFYv3TOIvicWByyZEe/pPEB2B9rlhQWgFrqW+Xiw+MAhhkGYkRxx0svrRLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=V5HJDyHM; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=A5QMnbsh; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="V6kJ6NsP";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="YzZfokyf"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I4gVcZ1676310;
-	Tue, 18 Aug 2026 07:26:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=N6ZmZiZPeW2UMQdJTl
-	Wh7nvyVlIu5BbzLy3zpv3BT3g=; b=V6kJ6NsPc+dXA80E9UZMoXcOdZxB4Crxed
-	Wkf0WrrAnQG/gPAztDnGsSUmrNqmsEGM7kgVCPPTGUFNJ6mzFkeO2yo19tdqU9O2
-	35T+6wagm/A0LNjwzO18+ua8sy/YC1mOu7KHXF+L2HoS4FECPuVmWD7SYJbyoavp
-	bjvtvfPSYvn607PTpiW8G5fxYjFnT0LMbzJJSbRr7SrzQjJZJqgRjIpjHe0knhq/
-	4stBHrJKYAPA1lNR64O43dFfcBrWg5VnNOXH6qzqzwN9MwhpmI7fVuVzN47e9z17
-	3kaLYaulUtNXnYVekQDaemf/Lq9FggYD2HWKje47wQ1ESQguwklA==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023124.outbound.protection.outlook.com [40.93.201.124])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4g2mheuyt8-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 18 Aug 2026 07:26:25 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MTX0ak/O0FntC1tdvpe2BRVFacnNwXZCW2k83RuGsNxGnKOFp5t//Zjvod7F9VmMeHCngdbr/nCIM3ZO0gCFTGK/vUPUkEB4K6eEJm3Nbqei4vzWm4U4oMvad5ud8QX0faZb1rhNqqPWlWym3grDCXKQTN+oPA5aWIiGlt0IzWJCjwkNf91NKD/k118iIzy3swYuNOz2t5qRcrYZowbLUwRb4hu6Cr21rhq52dP9ssU+t/Oy79MPWieoknek+BkEx1+Nza8diRBYcFH+8vDfCl/E+2D0zBPaT6aTdJP0Z5bE0/zsy5XpCP2A8JBG7hRdtQDrlDsn3sJ1o/dIVLSVGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N6ZmZiZPeW2UMQdJTlWh7nvyVlIu5BbzLy3zpv3BT3g=;
- b=Unn+h4GdSk+gAWBFk2ViwEERVcfd1/UrJvNIXEB9eNAnEiPfcn9UyiFGf9EfdMZnSyqLDEGGnOhSO37WTs/DZspeuCgEkQa3JHeZeg5AiInvyS67uA0JV9JryvK1++3MDk64+behntaFkQmXNm5vTQ7UlHj+whV7lSNpixQVbDNkwD3nUTCYAPVRPKjDJRf5StNTerblbsm2AiSA93gKvq6fLJbH9heMm45FVm4JCk/TcWCnezaUP425k9bSmuOYBudyvt0B33hok0KF4MTgKHne5RGT8gPdftEwm6V2PlXYrZoqxNPig75sDLmuwiEZr0ou2Ta6bZ51tR/jOWMWIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=catcrafts.net
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="V5HJDyHM";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="A5QMnbsh"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67IABWjG1544848
+	for <linux-sound@vger.kernel.org>; Tue, 18 Aug 2026 12:50:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4hLfzkQULc5AeeCQ0RZxw/94NH4NiKad2ELWqLQgObE=; b=V5HJDyHM1Q9khnxu
+	N1nhPlxx5Q9glIy0voaF65Gt+8Ww/mZ9MCYR9hUybrpVlfQBbtw1cudIFAddnOiU
+	Zq6eiOgAe2/UDQ8dVmskJSsZmb5zfNr02UdiANc6CtzWhTlrvAoWCne6HIJZCT0P
+	Yp8Beg93Zmyp3flBJOkw9BDu/eWWR2gDPilxAILg6jkXSEiBOhmhsd1cDjf1lg9Y
+	QW7xaCRkN2aGGko0z/3VAv9/cE6thBAjzhu+4r/yo813dPdLFLjUOSA4/zRssbRV
+	6Dou7itgtNGogf7IVnzfxTI2bf37K1IA2Gmk0jtEhb2b9NWd0PvH+sE5eic7VBNF
+	8Et9oQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4dcn2ph5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Tue, 18 Aug 2026 12:50:48 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-9349ba88188so118468885a.2
+        for <linux-sound@vger.kernel.org>; Tue, 18 Aug 2026 05:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N6ZmZiZPeW2UMQdJTlWh7nvyVlIu5BbzLy3zpv3BT3g=;
- b=YzZfokyf5WfUmPuqR5a0MUbZYxMl75lON6LX1mPcZ0UcjaMHWXLqoeOhKu7wOmRFUleYwlebBrsRmS1C1kfaUw0ZyiHFWwomcYcoikrtLrquQDzhBfp1SFJN7wRg5R6bKmrhhmO9IqfmwPmR9lFmOz3NUTE4z51jeVo2nIKvgEA=
-Received: from SA1PR02CA0016.namprd02.prod.outlook.com (2603:10b6:806:2cf::22)
- by PH7PR19MB6828.namprd19.prod.outlook.com (2603:10b6:510:1ba::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Tue, 18 Aug
- 2026 12:26:21 +0000
-Received: from SA2PEPF00001505.namprd04.prod.outlook.com
- (2603:10b6:806:2cf:cafe::46) by SA1PR02CA0016.outlook.office365.com
- (2603:10b6:806:2cf::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.8 via Frontend Transport; Tue, 18
- Aug 2026 12:26:21 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- SA2PEPF00001505.mail.protection.outlook.com (10.167.242.37) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.3
- via Frontend Transport; Tue, 18 Aug 2026 12:26:20 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4F866406540;
-	Tue, 18 Aug 2026 12:26:19 +0000 (UTC)
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 3521082024B;
-	Tue, 18 Aug 2026 12:26:19 +0000 (UTC)
-Date: Tue, 18 Aug 2026 13:26:18 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Maciej Strozek <mstrozek@opensource.cirrus.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Bard Liao <yung-chuan.liao@linux.intel.com>,
-        Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        Jorijn van der Graaf <jorijnvdgraaf@catcrafts.net>,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, patches@opensource.cirrus.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/8] ASoC: SDCA: enable on DT platforms and add
- Qualcomm WCD9378 (Tambora) codec
-Message-ID: <aoRPamj24qt9xzhq@opensource.cirrus.com>
-References: <20260722234221.884765-1-srinivas.kandagatla@oss.qualcomm.com>
- <amHqO5pMFmKRNYTT@opensource.cirrus.com>
- <cedd89d4-28ec-4a86-99ab-249637d81736@kernel.org>
- <amsUlWAueA51eSDC@opensource.cirrus.com>
- <ec991e49-c23a-4c11-b0bb-32c12c427eee@kernel.org>
- <amsldHHER2lRaoqf@opensource.cirrus.com>
+        d=oss.qualcomm.com; s=google; t=1787057448; x=1787662248; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4hLfzkQULc5AeeCQ0RZxw/94NH4NiKad2ELWqLQgObE=;
+        b=A5QMnbshqwe4hkQ6pIzCuH75oFh4+RlgWQ7OkYU4IvFuoDhZ8FAjcJIYdD7CTvS80E
+         bhscWnWkhVhmUYBR7CFlrVbJKU4Hx2MM3jD4DViiVcUbDV9dfHvHwtshK5iW8VXNyrJ+
+         jLjh17miUL0nqxbDlybDxmMJCqru5518yYSvBll4ul4ujQ6XEn5dcSQpYD+oa/XAK8/m
+         daBRNGlkGyRn8fkjv429ZGP2aOCNMUnnhk13QN8duIQqIMzoDN09VmwFFMB+0Sr/GFi/
+         QKTJDODHsjxqMRmiTl/ow0M4NzKRsEAyDXwolX1BLbg4VS3/Ts+olETFe57XuKsYky01
+         oUiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787057448; x=1787662248;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4hLfzkQULc5AeeCQ0RZxw/94NH4NiKad2ELWqLQgObE=;
+        b=LAUp+4zNAVvPMqO8V1moZPlzAcIu75axNP1x9KifPEbtbb563aT2kXAUBbdqeqx74i
+         e7KhG2P8sT2zhzV6JG5D3eU+zuG72eV0VfzNINstW53WpEWNbFWfU5wgNadRKXUeE4AF
+         6y5Ig/LLtACGC8Qv0osHNG4jDSXi+DVriATWuXIz4wbV0SeY1Iz6CWHXvTyAwEKbIST+
+         5J/MbSraR1nP1nWku7SsgrCIpeYhx7aL0W6JjLEGserRFY1UPGW5Vx6klW7FZEC3gVbQ
+         x+2A6SepWdYiqa4DEBrlOlf4zVF69pURsQ6lkqnBp5BGhZ5gh/tb+HZvsrzi57JrgaHN
+         +EYg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp71HNjGQ4l50s4FTRH2vT1tsSo7sOsF3Dc5JbaMfOugCuSg7KLZDxjPOFCyG9wrdbK+SRyhrYx8z1v7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEguxu+cCASwXJyoxnWr5ik8yTDYYU4Gos9OYdARzp1uBr0kGY
+	h8jpfXr8CkMIkU/9umVRl/+T7HCxSYA+FCDaBIe5FgpEVMRohsdhF5YjGaImEKOGMvqdOtd0A4y
+	LOomuD2FAb07+tqgGGpbBMOn4P/7bAj3wNelDviqNQGjZ0SgS44GfecQlzJgHnVtC/tItvd4ubg
+	==
+X-Gm-Gg: AR+sD121/zN6gdWAkIi5XTH+C18TRSZ3KRAa+n+z4efiGOQV/vXIdYmoS/xhxAJlXCk
+	OOlz5jqd3OA2jLiEop6VmQhvX7LEqB/VAokuzJlrjWgAB8YJs9X8GtQrpOl/hxz5hscZss8g/UU
+	+W5G2AOkC890jcIOZuCrv9VZ+ru2err9ozQKl1EbTveKipphaGSlaYcvYWXr/K5c3deaBZBPdWr
+	b5/r5ZHB24mlIAggv1TONnqLdmJLQQsIInQ6hsXGiNbeF4G/VdN+DQ9nt7aYV6Ey3wcbjvXRG+8
+	Zznvf3yBF7TU2fDb29C5RRC2H6pbQ9lVsezedVjC90m2wXK7hnwhHdsL1hscd6u2UJRiFnVbWHp
+	ZiAHmZu5H/rH43x6O2/4/vdKr
+X-Received: by 2002:ac8:5a8b:0:b0:51c:845b:ac4 with SMTP id d75a77b69052e-52d8547a9e4mr243320001cf.3.1787057447625;
+        Tue, 18 Aug 2026 05:50:47 -0700 (PDT)
+X-Received: by 2002:ac8:5a8b:0:b0:51c:845b:ac4 with SMTP id d75a77b69052e-52d8547a9e4mr243319601cf.3.1787057447138;
+        Tue, 18 Aug 2026 05:50:47 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2185b99f78sm152538566b.50.2026.08.18.05.50.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2026 05:50:46 -0700 (PDT)
+Message-ID: <84be0a35-b088-4ab2-9111-80809d6d2d53@oss.qualcomm.com>
+Date: Tue, 18 Aug 2026 14:50:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <amsldHHER2lRaoqf@opensource.cirrus.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001505:EE_|PH7PR19MB6828:EE_
-X-MS-Office365-Filtering-Correlation-Id: 626f3828-295e-4f56-8cf6-08defd23e938
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|61400799027|36860700016|23010399003|376014|82310400026|7416014|10067099003|56012099006|22082099003|16102099003|18002099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	8RSWsfvQNHpF+5VSmSQeDLNlH1HrsLd7NaNhQl4jJLRES4WglZP5sNYKPTJCDyahbGxmMGQeMaagaRTEqlKWKUvPoiILV2niHUs2JkFizlGUi1Ks769ipSCLq46YeJ4dCsLwNfycDOrVyJraMPWd7Fnahb9SgZBlIKb8ZZovlYlulOQYmWtJSABhIpRUh3A5/4YItQ8K+MOS3qXzXg5neG2LVDNy1OqMIAjvnoJd4Zq/3fjH2ZWXwFkZCJfq6Jk8qG1FJImfv01R44RlLVHCV5Orner8s8yzxiV6r0wwXB7ytwefx1RNz1BOYpv91ueiIDSLvh0bHW3/96yngIUivZnZzULPX1r8yWxmV2INAbiDKHimCISDOYcMWN47oewGW6cO4bCyISwAHJ6YwRHcxtF+eHfYy5j5Fekc0E5NVtlrdvjlg1dnW9QbliJRfJTo49bhtVs7v3L2zCVDTIrvAtlMJD+4hNNsa9DG0A+ThJAo1aV5/oWtjNkIRG5TFRDnp2LV5TDT2bNQ7Cmn36CqmOBO6LCQVfWxqfrwql0nYm5GWC4ypdZ71IWZXgEuRbDGh0W/g7HqRTBbWx62MX+gJ9ZXajhZKAD/TnrDWfV1wEByQtffRyOr1s7Bl46veh2dNGzdfWVG+kX1OD+y1TgCd4UKrN7YxWCwJrwH38a310W6HNWcwQ5b9T/lsxAbV6lHh2wFBAEzsMp2ybGOf7d//Q==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(61400799027)(36860700016)(23010399003)(376014)(82310400026)(7416014)(10067099003)(56012099006)(22082099003)(16102099003)(18002099003)(4143699003)(11063799006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	HCyG68UdBwLUk/8Mvodu5GKu11UcFUFQOWqabjQiX7FMYoLCBCIUq1f7T1vceO4xnZzFAygBD1xAhVSScwVNBO+SC0VnHfubDdm44MIKavxsYK3W9jD4Cns/EktqGhHjFPp5Gb8dvzYJen7NnjyBVAYWKE+hOYv66jSmW/8sZ2pB6mW58Jsg/gDAW0fK/s3A84xTtiPpKTEH3Aa5KvEaSMUlnSzNacZeLDO7m9C13hSpvYmy03em/6R2VUmEKpeZcqoNlYxfOrOpIod9v/mhH0bW+tcgq1gM7+iFeKn8Hoorb0UXIy1KpHaH0G++0gWQo4ksW5koBXYZ4CV0lskOPME3hZUqxOaMiXRC0SZ7oTBEEq8xtbqhUiNfvK+dB1nPU0d7iKuyJHMClR2JMqA7AbuqWstbEd4KR3V6XbyQVYCDTCjC2EcVgSuxmwiEBkCL
-X-Exchange-RoutingPolicyChecked:
-	iyfYjwtJ2ahFDYzyphbmkxBXMyEloDjgtay6gE6cKW+1O96vD5hiwjIPDAbzbzkxHLCgNIbY1bYAHiwyjUb0DahM5CM5AHlh+vVgMga+0DcUS0J57wxrR1rPWnQlvdusWRP+f8XS1Knb/WukfsmbOJ4iOl+WTRp5cVKYdohEezvR63PGkLeOZfKSvUkGqYW4PdAanC0TL5UPAQLt5jyND1Y8Zv4VoAyLE7dLJJB9ARhU2r4GCXk54TRwa9evIHC2mgOgrf9usVt6jZJKmu6hkGouVSj+M7tEsSfpomX8iNQNV7d/AZmWS9ATaKPeB5/B3fl54UVXl1ccJ7hccnbZ7w==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2026 12:26:20.8848
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 626f3828-295e-4f56-8cf6-08defd23e938
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SA2PEPF00001505.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB6828
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA5MSBTYWx0ZWRfXwcAIK/1ulyhx
- r1uI/a9UnP95D1sp2DgUR4L4xis4sPbux0WFil4Vj3BmfJwo9Zmlq0gRt0Iy/ubVMhKGrl5mAlF
- 2Un13u5Xpkk4Qg60uCl8o5O/BwiACvyIlLV8gncHWiY2uMYCm6R2uc4Pz52sd7Cz4ok6uadRsFl
- rB+zLdNtXfgLfAARfyA1VgQuHwpkeX74cRNacwNisCL/T8c4cFzyQxLNNdvYp+KU8psNxfniUuC
- goEiiOAX+TxKLeFYzf6djxoR8E+6PwAk8K+2t2bMnXPigFPkycxCyRacTxNJucPzZww70+0u6/z
- 1rPYsHSO+5+W1Q5VuP9Ff2lTxNeoB97aGfb7Dma84EoY3Tjty98OgG1GE1aPXyUu/IOwpYYJAyx
- G/naiSci3DsdP4FNOdKhMYSoiYlyzBm+MshiDH1yUJRKP5Q5bCjP8ZxYBWgwPDAZ/9P31TTYiop
- 8qvw+Xx11elpRup4kHg==
-X-Proofpoint-GUID: V_M-EcfcL7KdUyzttvkB17BL14XkSouZ
-X-Proofpoint-ORIG-GUID: V_M-EcfcL7KdUyzttvkB17BL14XkSouZ
-X-Authority-Analysis: v=2.4 cv=FLMrAeos c=1 sm=1 tr=0 ts=6a844f71 cx=c_pps
- a=3zFA2TB6y+4Z7TVRdmCe4w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
- a=wXTcUcM20exgiWV_q7IA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA5MSBTYWx0ZWRfX5BziSWRptHel
- vmoR0aabO078vFQXeZqRVWUCWILHS5rXH3VkMBfn9rgaSSkN5cscSWQRQ3f9kcwlZzdbh5v1ILv
- THQdH0jz2ABNGstYgxv7GerB7ED1Xec=
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] slimbus: qcom-ngd-ctrl: match downstream DEF_ACT_CHAN
+ encoding
+To: casey@samaritansolutions.net, Srinivas Kandagatla <srini@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org,
+        stable@vger.kernel.org
+References: <20260807-slimbus-def-act-chan-v1-1-fd542efb3d30@samaritansolutions.net>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260807-slimbus-def-act-chan-v1-1-fd542efb3d30@samaritansolutions.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: sWIOu6MxSaUQuAFQN55kQEbSmj_0qu0u
+X-Authority-Analysis: v=2.4 cv=Gs5yPE1C c=1 sm=1 tr=0 ts=6a845528 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=oRWL8vWFAAAA:8 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=7S0yl7ldlo6rjceDY6AA:9
+ a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10 a=ZXulRonScM0A:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=ZSzuMzu-C871e8vGMv2q:22
+X-Proofpoint-GUID: sWIOu6MxSaUQuAFQN55kQEbSmj_0qu0u
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA5NCBTYWx0ZWRfX9mI1w/8/P3CR
+ idQ4UlO0cEXRHvYd3ypjKw462aIvC5vpmUNE8ojEE4eYgksaoPqZytSDGAsAv722cNPfqKrEtpm
+ HKkzqXYhwigTImpgc88wJQ1yJ6Z8n+dH0lz5xw+FpFraL8YkL5qOb6ac6xXRXS9hDtcKxdVsDtL
+ JTpJ9HqSjL3qFOnSGKfTRhDGjKUyDrh6XJVOGB+12O03Hqrquvq8fSAghp38vrRxl/1ODImCzTU
+ Uvw2u1ghQ5ACWSABJ9y3Oup2St9MBCGZ0fBTmRSDk556WXIOMM+UrberJ/EiWJL78oRhb2UVnuh
+ jKsEtKAVU/edEZX8rngMLAqTzaAoXDfejMYk7YqbXy2Tzm+uVi7QRYJTm0qrqT5Sp8KrwwB/w+T
+ UX0OtiRWBI/khLHnVPE220hRP4QGQUnRZjRH2LE4ONzb2WCcv2elPlLjfIriZc27PkJJ7VChO4g
+ +Kv9sswUfoDx5CUU7mw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA5NCBTYWx0ZWRfXxrLsamRdDH+Q
+ SFSj8Ww/HRJvMlZaNow4TnGaz0dn0w/cMco5zykGwyUJbctFGceMmKcHsW5nBtVU5s5AsCisIv8
+ 6Xg6aXQBdaYW6KZgPt/ouRmr/j2V6aM=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-18_01,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
+ phishscore=0 adultscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608180094
 
-On Thu, Jul 30, 2026 at 11:20:36AM +0100, Charles Keepax wrote:
-> On Thu, Jul 30, 2026 at 11:11:41AM +0200, Krzysztof Kozlowski wrote:
-> > On 30/07/2026 11:08, Charles Keepax wrote:
-> > > On Wed, Jul 29, 2026 at 01:41:57PM +0200, Krzysztof Kozlowski wrote:
-> > >> On 23/07/2026 12:17, Charles Keepax wrote:
-> > >>> On Thu, Jul 23, 2026 at 12:42:10AM +0100, Srinivas Kandagatla wrote:
-> > > Do we really want to take this line? It basically forces us to
-> > > do "board files" again, which is the problem DT was solving in
-> > 
-> > Again? We since long, long, long do board files and they are approved.
-> > Although now they are called software nodes, but same stuff.
+On 8/8/26 2:35 AM, Casey Tunturi via B4 Relay wrote:
+> From: Casey Tunturi <casey@samaritansolutions.net>
 > 
-> I have mostly seen those used for work arounds where the device
-> firmware is wrong or missing information. I am not sure I have
-> seen the sort of extensive use you are suggesting here?
+> During my investigations, and some rather incessant cross-checking of
+> blueline's SLIMbus path, I found that Qualcomm's downstream driver
+> packs the first DEF_ACT_CHAN byte differently from mainline. Bits [7:5]
+> hold the data format; bits [4:0] hold the five-bit client number.
 > 
-> > > the first place. I can't speak for Qualcomm, but at least for
-> > > our devices the SDCA properties can change a fair amount
-> > > between different laptops.
-> > 
-> > Sure, all properties which are not implied by compatible make sense for DT.
+> I changed ours to match. It made no immediate difference on my own
+> hardware: blueline's current values produce 0x0f either way. The
+> downstream layout is correct and should help devices that use upper
+> logical-address bits or a non-zero data format.
 > 
-> This is likely to be a very fluid set of things, at absolute
-> best maybe a super set is implied by the compatible but most of
-> properties can and will be tweaked per SKU.
-> 
-> There are also still plenty of advantages to the things that
-> are implied by the compatible being in the firmware. One of the
-> useful features of SDCA is that new hardware could be supported
-> without needing kernel updates (admittedly we are not quite
-> there yet on the Linux side but that is still the direction/goal).
-> 
-> > > Also there is the fact SDCA is already a thing and is gaining a
-> > > fair amount of traction pushing against it does really feel like
-> > > it is just making life much harder for ourselves.
-> > 
-> > I do not understand this comment. I am not pushing against SDCA. I am
-> > giving you guideline what can go to DT. Are you saying that SDCA somehow
-> > received review/approval of DT maintainers, so that we are bound by it now?
-> 
-> Obviously not, you guys are the maintainers and thus free to
-> merge/reject whatever you want. I am just highlighting the
-> reality that SDCA is now a widely adopted specification and
-> trying to steer the DT implementation in a direction that bears
-> no resemblence to that specification is going to be much harder
-> for everyone involved, likely including DT maintainers.
+> Fixes: 52490169cddf ("slimbus: ngd: add stream support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Casey Tunturi <casey@samaritansolutions.net>
+> ---
 
-Any opinions from the other DT maintainers here? The steer we
-have here is we can't put SDCA properties in DT, which feels
-like a pretty costly technical mistake to me.
+The semantics match, I don't know what side effects that may uncover
 
-Thanks,
-Charles
+Acked-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
+Konrad
