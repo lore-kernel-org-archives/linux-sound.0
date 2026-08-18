@@ -1,98 +1,83 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01EF283FC4;
-	Tue, 18 Aug 2026 14:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA16EED8;
+	Tue, 18 Aug 2026 15:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787064546; cv=none; b=JnidViMB3v8fg4si8uGAOzLoGWmg1irBbNBx1jiiIPMIYYdAWkT0eYm+guMRMgYihB95NgoNo8kv2dL3Rc5DR5gJM2ZB42D6PkxjcYGmAL+zyojGVmDbz36ays+sHFfwGuKq8kmKowkcUdRJkk9aR4S2Y3UD3hilhhco6WZnnkc=
+	t=1787065271; cv=none; b=f8XgsIE75UPyjnleiA3yofR7MQKWr4Jysh4Rmd4+sj45cbDzV1FbSxhifRRgAvnSWCBt4CbIKB/EQt+ZEfPWIYVRS4iG6qcP393Zrdauwawmb0YVYEi5eKIK6buU8cjILvaTXf9auNuiiWTPmoz4flmOlM6lfqbKK55G8/S1yys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787064546; c=relaxed/simple;
-	bh=abyYGMXMQVbJhue7bJqHhpaIPJzjQr1nPgzrACKCdqU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i5uWtARAugYjl7pqAOKPQAQp/5bFpPllgaml27s6GtTjcVDSwFDrdM+CIWvlOHR84W/9Bq157z5xoymwuRJnpBXMj1sBEkpf/dPc6v3vdZFp1VN0iRJDYh9jYs78ornkse4CYDqK9R5eITbWQISd4dj3zd/dScgH6V8yN3d8Emg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=iZuI/w84; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1787065271; c=relaxed/simple;
+	bh=D9KgCjTNFx4El58tXrl+YI1Lr/wKEdqnJt+ifIVzKeE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hniAI3x6/eGUeV7vWN843SQEoLNctQbbCFKexm0V21G348ioGOs7oTuzqey8TM6/bpLW/83IQlhxs+4sCxLw2n1jWhTkJnCHCRcLFR5cr6Ttr5zQF30Vj0Mrf23LPjn0HJufDX4sgyQMdKJmGt11d7OFVubTpglCGxrWm3V7gE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDD8thvp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="iZuI/w84"
-Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4a6e04cd7;
-	Tue, 18 Aug 2026 22:48:50 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>
-Subject: [PATCH] ALSA: pcxhr: initialize mutexes before requesting threaded IRQ
-Date: Tue, 18 Aug 2026 22:47:17 +0800
-Message-Id: <20260818144717.2269918-1-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDD8thvp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDDCC1F00A3A;
+	Tue, 18 Aug 2026 15:01:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787065270;
+	bh=D9KgCjTNFx4El58tXrl+YI1Lr/wKEdqnJt+ifIVzKeE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EDD8thvpWwCgly2j3bItzi3pgNMILRmBixfBQuA2V/VbJ/XZfBAcu+Fw4vUv5Usb6
+	 g8sgNDExzVQcbRwGrCKNPynXItp0Dr2lP6gBow1HJ5sbsQWN0/W+ZiAEpxJJErJBQH
+	 wxR2zIe4rB1VVsNhkMSXsYT4ih1vC9HPsimN0JYxLZEfs8q/rH4Z8dRZ8G95OSG0HU
+	 wtfLOFFU06ASeNut4FtGSikZRGd8Ffayw95vFrjDWBT9atQtadWpLuRbU0pfwG6gK7
+	 NXTmxpDwe0hQw1vg9WAteqFdQv1dsSVZQBdXS4lDzLGT6wMTnAr4bvBmIwBPdPCGW+
+	 STO9xd0UtE2zw==
+Date: Tue, 18 Aug 2026 16:01:06 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Sataporn Saijai <excursively@gmail.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: Intel: soc-acpi-intel-ptl-match: add
+ rt721_l3_rt1320_l3
+Message-ID: <67f89540-e9ae-484d-9c6a-817c5d88afdf@sirena.org.uk>
+References: <20260815182747.8913-1-excursively@gmail.com>
+ <c75806b8-7dd1-4cac-b4ba-e457d8aacce4@sirena.org.uk>
+ <CAHgGaxwrLQ3+gKSSxnOBYMYFRgcbQG9eHc6xy-i0DsKhVY7zTQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0aa01558b63303a1kunm10a86825114b6e
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDHh0YVkpCHRpCTUkaShofSFYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pPSExVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=iZuI/w84KZgRPbHm650rThuqxRw6eVtlM6xOMcbPVUQpNGSkgWvH1WbsgfeoakFKq2usMDFehZHDPWoAxD+VR7NYowKgSPiem0CVTQbOlDVyk6ngD8pEaE53FQjRn9O3W7KovQDHTdv+6I6tzT4+Ttz/2C6S5esqnzO5AD79eyw=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=21lG1nz3gXedQM4708u65RGG2z3e/pmYO1+gfk0/I9M=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mZfmjbTgYIEfokYy"
+Content-Disposition: inline
+In-Reply-To: <CAHgGaxwrLQ3+gKSSxnOBYMYFRgcbQG9eHc6xy-i0DsKhVY7zTQ@mail.gmail.com>
+X-Cookie: Smile!  You're on Candid Camera.
 
-pcxhr_probe() requests pcxhr_threaded_irq() before initializing
-mgr->lock, even though the threaded handler takes that mutex.
 
-Initialize the manager locks before request_threaded_irq() so an
-early interrupt cannot run against uninitialized mutex state during
-probe.
+--mZfmjbTgYIEfokYy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: 9bef72bdb26e ("ALSA: pcxhr: Use nonatomic PCM ops")
-Cc: stable@vger.kernel.org
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
- sound/pci/pcxhr/pcxhr.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+On Tue, Aug 18, 2026 at 10:53:12AM +0700, Sataporn Saijai wrote:
 
-diff --git a/sound/pci/pcxhr/pcxhr.c b/sound/pci/pcxhr/pcxhr.c
-index 83066d08367e..7b37b2aa76a6 100644
---- a/sound/pci/pcxhr/pcxhr.c
-+++ b/sound/pci/pcxhr/pcxhr.c
-@@ -1532,6 +1532,13 @@ static int pcxhr_probe(struct pci_dev *pci,
- 	mgr->pci = pci;
- 	mgr->irq = -1;
- 
-+	/* ISR lock  */
-+	mutex_init(&mgr->lock);
-+	mutex_init(&mgr->msg_lock);
-+
-+	/* init setup mutex*/
-+	mutex_init(&mgr->setup_mutex);
-+
- 	if (request_threaded_irq(pci->irq, pcxhr_interrupt,
- 				 pcxhr_threaded_irq, IRQF_SHARED,
- 				 KBUILD_MODNAME, mgr)) {
-@@ -1545,13 +1552,6 @@ static int pcxhr_probe(struct pci_dev *pci,
- 		 "Digigram at 0x%lx & 0x%lx, 0x%lx irq %i",
- 		 mgr->port[0], mgr->port[1], mgr->port[2], mgr->irq);
- 
--	/* ISR lock  */
--	mutex_init(&mgr->lock);
--	mutex_init(&mgr->msg_lock);
--
--	/* init setup mutex*/
--	mutex_init(&mgr->setup_mutex);
--
- 	mgr->prmh = kmalloc(sizeof(*mgr->prmh) +
- 			    sizeof(u32) * (PCXHR_SIZE_MAX_LONG_STATUS -
- 					   PCXHR_SIZE_MAX_STATUS),
--- 
-2.34.1
+> By the way, I noticed ptl_rt721_l0 and ptl_rt721_l3 were dropped in
+> 7.2 (they were there in 6.18). Was that removed on purpose to use the
+> default machine driver? If so I will just send the DMI quirk.
+
+That's the general idea, and if a DMI quirk does the right thing that's
+going to be better.
+
+--mZfmjbTgYIEfokYy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqEc7EACgkQJNaLcl1U
+h9CyAAf8DTo1VMaeTRC6pNINBk7QhRk8tIOelPd1igeLixz2JOJ+shnGM8vUdq/Q
+dPZsYt9mSVul4Ypj3hpsweGyvuhmVCIhX2fylX8Uxp0uY1GCtbqBXx+cGxQzdpbX
+HC9mMKS5GgPqOjdIgQnKmu7veTL/ZNspK6HPQ/JHWHctjW91rwr0qDW71LU7i50h
+SRiE8BrruHYgZLgp+9cJYBDknM2rVa4iBLbPipm7nQ9CQVxG4fjxU1X78z5iFgLA
+yV+m270hbBDhJnlanAk8EA5X1c049G7WOJoFdTrRBuN9ReJFzOF46e0i1f6J041Z
+ISwrJdk9GfCD+mHKyV4kHeG9QPqu9A==
+=u6P5
+-----END PGP SIGNATURE-----
+
+--mZfmjbTgYIEfokYy--
