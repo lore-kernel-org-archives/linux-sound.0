@@ -1,143 +1,114 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E66F2D46A1
-	for <linux-sound@vger.kernel.org>; Tue, 18 Aug 2026 11:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787050975; cv=pass; b=CVRs5po4XrOj3O5vUXG7GTSOBOeoTpI8IAHaq2XS+pJbod1wRCS4wuSlRZvsFQk+ALL4D0aVKk9Suk3nWI33dFv3WyJU/AYq9vAsuyJMjDDt6F1Ggfx9UPXJEswtHXkmEtw3d3KtHR4X2RPBx6G7U3Md4XXVp1OWo5KzxOnRtA8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787050975; c=relaxed/simple;
-	bh=BPjS6YWQ/poakltSjvNSgNnRZjwLe6wcNcWXaxoAgLk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QtuyozzTQII1Fk73zrlBZWYkhL9r1Ow+9x9FPSLSvG1wAy6b4hZpcc4sAVX3B2NsfyS5BjlgFgOhnBoWkDVHs35+UVpES+JhZ7SR4YNAuqOKm+F1aDJ9+EqhCCXHdZGpOxDSls2Muzk5XepqunZQskji2eprkmJUrEJHl+jhO+k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s8BWU+7H; arc=pass smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0D9451071;
+	Tue, 18 Aug 2026 11:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787051103; cv=none; b=OYG4BL/ckgGE59nNRlEmWWEzXdg5xdQefTtOritRGirlcaJyGexq1Y6FstYM2iOszojKwWfyyXxbrpc/0TLTNyI6mCZWBUkBw1dm2JfTxnWt9/FLstoRLTDjQipFj7ZVe1wYrJjTfE+6zRX0E7P7luu3ERk9X4782Oh+ivmF6yc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787051103; c=relaxed/simple;
+	bh=pARVkTyh7ve822c2/feb5MO/RMBFhnJekTNWRZDuM6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JeJ7At1KBSGUTRc2w04e/R3SMGXOU1RfJYc0C9VELnGgblt+hcwPJiMESO+XHbVZLgm4dUSp54NEkdBqX6dk8j7MNp9OGZqe8OlFL37/uxtYM5/jOZsBVEH5kUsU4l9f3MJ+O5ROWxQFOINBngIji/KjvnmBD+QGjIcZjFI/3vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCpFhUGY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s8BWU+7H"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cace91f112so52887055ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 18 Aug 2026 04:02:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787050974; cv=none;
-        d=google.com; s=arc-20260327;
-        b=klRWqGTrvAh9EiJov8DyaD6hktJHZ4ZXwhwbDk/ST0JylrV2r7pKuXMyGfLroLQoLY
-         LhSLdm4WSwkqOOwUuD1/ipHBbZ6bzAR3IMGm7C5p5AeYAFyuLBclQ9AED1H+Z3AC4aFx
-         zagHBUDJV89IavKohX2yGGTh2HIgDzbpU5ZeROEoBW5DoFXyW8UdzFKLk/YbSl7CWNre
-         3FvY8rxvwfYZqEh7heme5uUKQV9WMppY7UMCuNIDwF6SIMJ9bXTAnPiI88MDhNwWOHjM
-         enyg18aXTPVktGaFKWU6ty9S9k28jzmxzsjBIsuaRQDT14imQeBGHxSIwqZqgT9bv8ok
-         LHRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BPjS6YWQ/poakltSjvNSgNnRZjwLe6wcNcWXaxoAgLk=;
-        fh=3t8RJ6FB9Vkwmj0V2X0HUeNywuwwPi92jHYzac9nJ90=;
-        b=oiNI+TUG8O0/fYXVsHBvR8ZpscJuofKAMfQNW0ggp/J6EKbRiOBS4Wf76OayUdnB7Q
-         Vy8hazfsmPcwi1EPDitY9w1j6WmqIouwRAeGE4zMtzjELQY/PMtIyvo2KuOR61DS9SdY
-         eI70TYZAOiPqV4hByyb2qiuj/GVtnb77yG3p6/y8Tg2i180JgFa8+G3zXtQlJVlYGTVh
-         WlbtL6ushATKViMSI2xHZOsmmwtqwaENYAWF7FwjvEO78ZX3Hm43hCmAdTnkP+GuD37l
-         1+HAktax4BX2XU2SqOdZaZWDcaD0NrSJnku+03WXmImXz8kK52/1ye2sW6U1POGM5ysS
-         IQAQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787050974; x=1787655774; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BPjS6YWQ/poakltSjvNSgNnRZjwLe6wcNcWXaxoAgLk=;
-        b=s8BWU+7HoLQe8K2VFzAWH+8FUN9MZ9HNYmYKFxTtc36zRCbZuCnQQKYENAPRlpyb5h
-         wqnO/Pwx57Wo0J1YUiEBeKI02OZkhkyJj/GzRYwx8EqoZnnhVSDZNqrTiG5URfTWE5WQ
-         0s+LI+KJBOylRuXv3ty1HfBmCDmCYwE6DXxYhU2LuyeLXoN15d4k18kRMEsT0JB0URE4
-         xbEuTrfPH6JQSr+0rvQN5PIsuLG9UIwoY9mj1vINvOgo+R/zUeoK8tV/Nl9934ROm001
-         5uXaHl9Dn/uXNWvVO9iXWWOcjLeG3fE/5prFqMnqQq+tL+ZD9CjKYc/8HBR02cmtjWnJ
-         BugQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787050974; x=1787655774;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=BPjS6YWQ/poakltSjvNSgNnRZjwLe6wcNcWXaxoAgLk=;
-        b=ZOc5odI785yCIptpSl2fA8BUqDGRRumrpW9/TsvqXQfORy396bNpcfuZxDLXXWEHJD
-         gEPcFESTnJLC9mOt5/y4+RshMVMGp7ypdVWQCdmQVaXT9lgSWS1xWN3IDvQjluPML+/g
-         aYbpSnJovnmuv41XEB/sp/87iIAsOoH4/AU/I5SQUc7jKGzCsSBAQKV1T7YkA9ziGh7g
-         DevaOLlrbG7nkCQwW5BpEJLx+X7C9GEuI4fb0jG7Ackx8D/+eYmN3UemFGS921sgBP+N
-         1TU9xquIEHZLfB3jktNmyxHQWU7yIrqAU8nCowMiV40qU1/mFmRRN+DTKqoj4QkPcuSJ
-         5MKg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9mKyLj5P2akFKpXRWMFFc+5jeBY9r3qu3zBadlWrqKBbc2aMYnuJLstMODZYZx+FvfqFHypRrkl9bpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0TJ71g+pa51emVnVy6qDgKkHXgLuYA6rHTPZa8jKG4iI6G7y2
-	fNVGqrhpL/Hx7iegMdJgn2T5fm1W3ZubIGZn8HUdlfNSxE7g1JvWgkbIGIA2ShYP+Lh6oMJzm5U
-	+6hzdCBRAwGWh251OM6TjjOqQ0Zb4djA=
-X-Gm-Gg: AR+sD13t8cUm4U3g2ycYVmSzBzLWBAVPhLxE0xRZwqeGfmJq/uU7W+XuEJCY2LwnZc1
-	ruHoorv9Ft/aFfPde/MPMG+bCwE6De1GK9/yfylUajxJBww2oIn0m5i2ZFhYFf4ptyfhoYoYx3M
-	SgCavjFtdTAB3qUWxbmuCM8qpzsEKOmDVTYZhsniAaS6Jr2eVUuOdQUqnzcNIZEEDJ0yc1vJDSU
-	HsGojeNbIZwjvAibLEonELEtiCasDbtf+lMiCgq6wQb9WZkEPxZhTEBc03/3ZK2OfSABqyKD/t+
-	Yg4yAQxOLPR6vOCx7Lhvtreu03yZ4MNmKtp6OPgBb0+G0aNQG3DhO8gF3F5IORuZHxO8nQ84Ams
-	AuiR+5MnKVBFQl52vuKb5vjchS0vfSnk0vI7ruXIHk/NO8z+29+0/d3tdcNePCOmI1Xo=
-X-Received: by 2002:a17:903:3c44:b0:2d0:8b28:517c with SMTP id
- d9443c01a7336-2d3b0d78141mr373925525ad.3.1787050973910; Tue, 18 Aug 2026
- 04:02:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCpFhUGY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227431F000E9;
+	Tue, 18 Aug 2026 11:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787051101;
+	bh=3rblyBJ5A6FAan1g3OTvn6LNl4ZMyzCjnjvlZSePT4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XCpFhUGYoAXdRorTh9f0LgqwzRtIBwTbhQ4seEldY4FfQDCGOuBPJj4Iu8O02G4Er
+	 hfBdu+ZzUO2PuTxEuPTWFIvlPjCwQsFD1FNJWzN2OZAoHmFKs/I5ZYywhrGt/wHXbD
+	 lXfWHMCHL9nHkgZbz7f3BdYLb+qyBtQmyVf1KgUbFrQOdGQu02E/Kr9uAfQ2BT/Scd
+	 gJY/At/HxZbbN9ubDFpnr5nFe/MHzy5B1xJxvGq8pDhCjgsXa4bCPRY+brKfeNUFMt
+	 XTse6Bb4EjqTK59SsgFz8DXLVk8xjy7TcQPM1XHnElQ1OtVJSc7p7ypVwCVCndfJ5T
+	 a3zr+9Ypu0mTQ==
+Date: Tue, 18 Aug 2026 13:04:59 +0200
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, 
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: tegra: ADX: convert map to flexible array
+Message-ID: <aoQ7SynywUKcIAaS@orome>
+References: <20260814205018.39015-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260817104929.63152-1-phucduc.bui@gmail.com> <b3dad816-469b-478a-b6a8-a08ac8610ac9@intel.com>
-In-Reply-To: <b3dad816-469b-478a-b6a8-a08ac8610ac9@intel.com>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 18 Aug 2026 18:02:42 +0700
-X-Gm-Features: AcwNN1U_fcSxMy9R21C80tITgSmylcf4dSivVK9nzajAgmmuEsH3ejkqOedKKGQ
-Message-ID: <CAABR9nFME5kYrLZUMn86sT1RaJiqzJeC7QJzqqxedL1NkZUYwA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ASoC: mediatek: mt2701: Use devm_clk_get_optional()
- for audio_mrgif_pd
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Rosen Penev <rosenp@gmail.com>, Daniel Golle <daniel@makrotopia.org>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Cezary,
-
-Thank you for your review.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dknf7gob7xggqd3f"
+Content-Disposition: inline
+In-Reply-To: <20260814205018.39015-1-rosenp@gmail.com>
 
 
-> > The audio_mrgif_pd clock is optional as some platforms may support the
-> > BT path while others do not. Use devm_clk_get_optional() to reflect
-> > this.
-> >
-> > Propagate other errors to the caller.
->
-> What does that mean? Did the functional path change?
->
+--dknf7gob7xggqd3f
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] ASoC: tegra: ADX: convert map to flexible array
+MIME-Version: 1.0
 
-Previously, the code only returned an error for -EPROBE_DEFER and
-ignored other errors.
-After switching to devm_clk_get_optional(), all other errors are
-propagated to the caller as well.
+On Fri, Aug 14, 2026 at 01:50:18PM -0700, Rosen Penev wrote:
+> Replace the pointer-based map allocation with a flexible array
+> member and use struct_size() for allocation. This simplifies
+> the code and avoid an extra allocation.
+>=20
+> Assisted-by: opencode:big-pickle
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>  sound/soc/tegra/tegra210_adx.c | 12 ++++--------
+>  sound/soc/tegra/tegra210_adx.h |  2 +-
+>  2 files changed, 5 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_ad=
+x.c
+> index 9175598b52a7..d607ba4233b6 100644
+> --- a/sound/soc/tegra/tegra210_adx.c
+> +++ b/sound/soc/tegra/tegra210_adx.c
+> @@ -677,11 +677,13 @@ static int tegra210_adx_platform_probe(struct platf=
+orm_device *pdev)
+>  	void __iomem *regs;
+>  	int err, i;
+> =20
+> -	adx =3D devm_kzalloc(dev, sizeof(*adx), GFP_KERNEL);
+> +	soc_data =3D of_device_get_match_data(dev);
+> +	adx =3D devm_kzalloc(dev,
+> +			   struct_size(adx, map, soc_data->ram_depth * TEGRA_ADX_SLOTS_PER_WO=
+RD),
+> +			   GFP_KERNEL);
 
-Regarding the functional path, I don't think it changes on platforms
-where the clock is present.
-The change only allows platforms without this optional clock to
-continue probing.
+This is slightly hideous. Maybe add a temporary "count" variable for
+readability?
 
+Either way, though, this looks correct:
 
-> > Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
-> This should be part of a mediatek-patch-series with a cover letter.
-> Yeah, the mt6797 changes should be here too.
+Reviewed-by: Thierry Reding <treding@nvidia.com>
 
-Currently, the MediaTek ASoC drivers are split into multiple groups by SoC.
-I am handling them one group at a time to make the review easier.
+--dknf7gob7xggqd3f
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I will send each group once it is completed, rather than waiting for the entire
-MediaTek cleanup, which would take quite a long time. A single series
-covering all
-MediaTek SoCs would also be very long and harder to follow,
-especially if changes are requested during review.
+-----BEGIN PGP SIGNATURE-----
 
-I hope this approach works for you.
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmqEPFcACgkQ3SOs138+
+s6GwRw//bNdJ87iaPR43h9MA+iQvmN7luZ83EGxmzJSJkQMEn7RexGv3L4pkTTPQ
+jTsYbbaVoL+1x1o2O7iYFEjrxEyiVIHqKNMvdhFjfegZx79d4vzOJKsDPHZ/7on1
+5lDJHZaxjHcVAtSZmOSm4sdcuucdR4DKTq3R5Evm49YvOS87U1F0Q2PeSVDqje4R
+h4qHeZKRuVUiZhJq5z9KrsxYVgCAiFkz+N3OpS9HSdeH4LIGjElRC0WonqQJaiQ1
+gpGbYjFqSrWTSh4rlm7S9U124DvgIlD6nVZcOcpghCQ6ROtgXVn7KhhJaGJmbc6b
+O3uEQEbCC6w0KV+579blonaHEwUcV+69JyCWu2QpLBGH0771MFljfm4UKKYoqmfA
+MoUBGSbloVmIjAsJEZwbJ+QQ7D4X8mOEXqkXIe1g9NLqEy+1FO9fDF3z0DxyyilT
+WC/7Iv6X0a5MRMhfeDWOMebNFUU7tYXKXlObAzu7Fdu56X7hfXGvqeAO8IjyPAfw
+WLSYQv2wR74KDZVrbWwDGZWZ+wPMUMTzcCw/A7hqEF7OdUOCsacYgdDEtZUAFX2q
+bbykFyi5sb1WyUAElnqPip0cijOnGPYKKwFCFuzNnerlNaQ3Y5paRlpp+7qCcZ46
+hJ/W+vJCN09IJzL8XBfzRSqceo/RkkJvlVjLXIZJhs49qMXhc9A=
+=AlDQ
+-----END PGP SIGNATURE-----
 
-Best regards,
-Phuc
+--dknf7gob7xggqd3f--
