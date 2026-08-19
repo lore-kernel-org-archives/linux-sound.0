@@ -1,166 +1,175 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FE82E0B5C;
-	Wed, 19 Aug 2026 12:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A37313E0D;
+	Wed, 19 Aug 2026 12:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787141465; cv=none; b=ZEFu9Fsvrmm8oEa9PpDk1UPqR6yW0r1eT7xIB3wigaV9H55qhwl4mW3+b8698I0QGdgwlh1dtoNCueUkPgEPjddKUim9N6sh5/9/EQmdSZtZ7I3lqOVmCSUBUoo/IBXUko4Ps59N1j8o/eHBJfKhnfwFt1YRDQ47U867zk1JiCE=
+	t=1787144015; cv=none; b=SfND7PG7EXJysB9UGllICOXyWCUxk6C7KzHdWQEaB6kKcfUTyqSxLYD2//HN8Fn1sOgzaI2K4qxf0I6jK1WGSN8pZY81RZkyreZ5bI6AkGjWuGegBKWX+vZYXGa6aYqSw8BJSX9dmyrXHu3JNbr/0D27gV6+Wnx0pULLzpVBcCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787141465; c=relaxed/simple;
-	bh=6Ge+90LQGHHsL3Ue4NPpmC3hfSAt7rpE9myfA4wT5PY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y3DMbU+vwvQVxcWuBkWJsoWLMDhJKfDbEc8vsNFG2n7/85pUk3QCsBZyWQAwwZO45PeDVlQ3bId7aX3Gm4aRYHfMmPBqqZQx50fxYn5sgS/1C4Uw3OG+1/YfcRjcV5OZevgzDK3hXyjvTH/UfnrtaLKT/VmLfZQiLsVUtZJ4UBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from DESKTOP-L0HPE2S.localdomain (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowADnVD9DnYVq3mglBg--.9551S2;
-	Wed, 19 Aug 2026 20:10:44 +0800 (CST)
-From: Haotian Zhang <vulab@iscas.ac.cn>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>
-Subject: [PATCH] ALSA: ice1712: Fix missing snd_card_free() at probe error
-Date: Wed, 19 Aug 2026 16:49:59 +0800
-Message-ID: <20260819084959.10649-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1787144015; c=relaxed/simple;
+	bh=McOAoKxzrJDvJKlFZjwU+dISHDvj1Ut/8uUbpe8dOnw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W54IJRCjNKXqT1msnPPQAsGC1tvp4WgfJW2xCdkUlxZ4ZTtfFNAzymcz+BNrj+k4GLImg/6fiz0Qi7enMz6XXBcOdQKDCJcKoN40REjF8dl41tEbq/k+84Jq6561vfZ+GqQ4eVcgRwBHz6lkWsDeVa8Y/ivFjvMVWgt05waaOcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XgGu8ggv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8LgzWZy/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mj+c1ewk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AwwGidsq; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XgGu8ggv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8LgzWZy/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mj+c1ewk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AwwGidsq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5437584ABD;
+	Wed, 19 Aug 2026 12:53:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787144002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ynh+eSOFPu9DI/Kbgw+bPdVrpA96Zrl8Vbgpt2bGtxA=;
+	b=XgGu8ggvIRROREiSrTLklrZ3GHKgHx2jX2EHgnxqtEUXURVkrLoSKCztx43qHf9XhFxgVc
+	Ve8Qnmec85UV18KlrVAl/ameCu0Sp2ggy9I/pNsdzau/z6wfGkzYTBLUSNFzUcc9V+ldlB
+	O9/5r3NASUgLkUKM1N2/FfOl/9TSI4c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787144002;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ynh+eSOFPu9DI/Kbgw+bPdVrpA96Zrl8Vbgpt2bGtxA=;
+	b=8LgzWZy/fNNkiaV7xFWFO8NjJNtGQwMO6c959gEq8hlYAFecp8zBaUKDuJifgvg/JN3TFo
+	OUE1WEgCnhDImVAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787143998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ynh+eSOFPu9DI/Kbgw+bPdVrpA96Zrl8Vbgpt2bGtxA=;
+	b=mj+c1ewk6ljxi7Cp5Bff7ievb4fqJGfXaqxxMlFvBL1D7wqVCuHC5/QswUg+8JvzgO3YrV
+	VYipqGf1qVaWCCjuAjveLI6fwADckZTiwarR6M97Xrq78S2bCH5mfx+98GYvSuyuqvW2sc
+	+9HGh+D3/WVe5x5ZBhHMTC5Qak0FopE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787143998;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ynh+eSOFPu9DI/Kbgw+bPdVrpA96Zrl8Vbgpt2bGtxA=;
+	b=AwwGidsqM/HA0ljuJQXsc5RicfGtE+2F43oZGbx4VCCQ4aIVl84N0DdXuDLY/YQBep6T7c
+	fYOpRShIvXQOnNCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2BE332F81;
+	Wed, 19 Aug 2026 12:53:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fDpgCT6nhWqWJwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 19 Aug 2026 12:53:18 +0000
+Date: Wed, 19 Aug 2026 14:53:17 +0200
+Message-ID: <87ik56nuf6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Haotian Zhang <vulab@iscas.ac.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: ice1712: Fix missing snd_card_free() at probe error
+In-Reply-To: <20260819084959.10649-1-vulab@iscas.ac.cn>
+References: <20260819084959.10649-1-vulab@iscas.ac.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADnVD9DnYVq3mglBg--.9551S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxurykWF18XFyDtw4fKFy3Jwb_yoW5WrW5pr
-	sIqr1qkr48XrWYyFn8Xw15G3ZxCw48tFy7Grs5Gw10yr4fArWDJry3K3yFkFWrKFW8Gw42
-	vFWYqFyUKayftw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2jI8I6cxK6x804I0_JrC_JFyl8cAvFVAK0II2c7
-	xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE
-	2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
-	C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
-	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr1j6F
-	4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
-	0VAGYxC7MxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
-	evJa73UjIFyTuYvjfU5OzVUUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAMEA2qFd6dvBwAAsf
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-snd_ice1712_probe() performs multiple initialization steps after
-snd_card_new(), but directly returns on failures from later steps
-without releasing the ALSA card, causing resource leaks when
-probing fails.
+On Wed, 19 Aug 2026 10:49:59 +0200,
+Haotian Zhang wrote:
+> 
+> snd_ice1712_probe() performs multiple initialization steps after
+> snd_card_new(), but directly returns on failures from later steps
+> without releasing the ALSA card, causing resource leaks when
+> probing fails.
+> 
+> Route all initialization failures after snd_card_new() to a
+> common error path and call snd_card_free() before returning
+> the original error code.
+> 
+> Fixes: ca642da4b33d ("ALSA: ice1712: Allocate resources with device-managed APIs")
+> Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 
-Route all initialization failures after snd_card_new() to a
-common error path and call snd_card_free() before returning
-the original error code.
+Actually, this was rather a forgotten replacement of snd_card_new()
+with snd_devm_card_new(), as implemented in a similar code ice1724.c.
+But the error handling before the registration is still needed (it was
+fixed later for ice1724.c, too), so it'll be something like below.
 
-Fixes: ca642da4b33d ("ALSA: ice1712: Allocate resources with device-managed APIs")
-Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
----
- sound/pci/ice1712/ice1712.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
-index 1e39b985bef2..745af0c7020e 100644
+thanks,
+
+Takashi
+
+-- 8< --
 --- a/sound/pci/ice1712/ice1712.c
 +++ b/sound/pci/ice1712/ice1712.c
-@@ -2539,7 +2539,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 	err = snd_ice1712_create(card, pci, model[dev], omni[dev],
- 				 cs8427_timeout[dev], dxr_enable[dev]);
- 	if (err < 0)
--		return err;
-+		goto error;
+@@ -2519,8 +2519,8 @@ static int snd_ice1712_create(struct snd_card *card,
  
- 	for (tbl = card_tables; *tbl; tbl++) {
- 		for (c = *tbl; c->subvendor; c++) {
-@@ -2550,7 +2550,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 				if (c->chip_init) {
- 					err = c->chip_init(ice);
- 					if (err < 0)
--						return err;
-+						goto error;
- 				}
- 				ice->card_info = c;
- 				goto __found;
-@@ -2562,32 +2562,32 @@ static int snd_ice1712_probe(struct pci_dev *pci,
+ static struct snd_ice1712_card_info no_matched;
  
- 	err = snd_ice1712_pcm_profi(ice, pcm_dev++);
- 	if (err < 0)
--		return err;
-+		goto error;
- 
- 	if (ice_has_con_ac97(ice)) {
- 		err = snd_ice1712_pcm(ice, pcm_dev++);
- 		if (err < 0)
--			return err;
-+			goto error;
+-static int snd_ice1712_probe(struct pci_dev *pci,
+-			     const struct pci_device_id *pci_id)
++static int __snd_ice1712_probe(struct pci_dev *pci,
++			       const struct pci_device_id *pci_id)
+ {
+ 	static int dev;
+ 	struct snd_card *card;
+@@ -2535,8 +2535,8 @@ static int snd_ice1712_probe(struct pci_dev *pci,
+ 		return -ENOENT;
  	}
  
- 	err = snd_ice1712_ac97_mixer(ice);
+-	err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
+-			   sizeof(*ice), &card);
++	err = snd_devm_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
++				sizeof(*ice), &card);
  	if (err < 0)
--		return err;
-+		goto error;
- 
- 	err = snd_ice1712_build_controls(ice);
- 	if (err < 0)
--		return err;
-+		goto error;
- 
- 	if (c->build_controls) {
- 		err = c->build_controls(ice);
- 		if (err < 0)
--			return err;
-+			goto error;
- 	}
- 
- 	if (ice_has_con_ac97(ice)) {
- 		err = snd_ice1712_pcm_ds(ice, pcm_dev++);
- 		if (err < 0)
--			return err;
-+			goto error;
- 	}
- 
- 	if (!c->no_mpu401) {
-@@ -2597,7 +2597,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 			MPU401_INFO_INTEGRATED | MPU401_INFO_IRQ_HOOK,
- 			-1, &ice->rmidi[0]);
- 		if (err < 0)
--			return err;
-+			goto error;
- 		if (c->mpu401_1_name)
- 			/*  Preferred name available in card_info */
- 			snprintf(ice->rmidi[0]->name,
-@@ -2613,7 +2613,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 				-1, &ice->rmidi[1]);
- 
- 			if (err < 0)
--				return err;
-+				goto error;
- 			if (c->mpu401_2_name)
- 				/*  Preferred name available in card_info */
- 				snprintf(ice->rmidi[1]->name,
-@@ -2630,10 +2630,13 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 
- 	err = snd_card_register(card);
- 	if (err < 0)
--		return err;
-+		goto error;
- 	pci_set_drvdata(pci, card);
- 	dev++;
+ 		return err;
+ 	ice = card->private_data;
+@@ -2644,6 +2644,12 @@ static int snd_ice1712_probe(struct pci_dev *pci,
  	return 0;
-+error:
-+	snd_card_free(card);
-+	return err;
  }
  
++static int snd_ice1712_probe(struct pci_dev *pci,
++			     const struct pci_device_id *pci_id)
++{
++	return snd_card_free_on_error(&pci->dev, __snd_ice1712_probe(pci, pci_id));
++}
++
  #ifdef CONFIG_PM_SLEEP
--- 
-2.43.0
-
+ static int snd_ice1712_suspend(struct device *dev)
+ {
