@@ -1,50 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4141941DEDA;
-	Wed, 19 Aug 2026 16:02:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E101E515;
+	Wed, 19 Aug 2026 16:05:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787155377; cv=none; b=sl35uy8G6YKIlg+/k8QViLS6qM4wcgRU9Ib8L3N7oWoDRR3S2H5+rA/SNYQSwAOgEQ3EMcUE3n5Zk5uyI6y+I6PzKJLZo3sb4wBU0iNQ1lxBaTHHuPDYPRcG/jKlLFsH8ckLfF0G1a+E01h8dg44jDYTc9C0rSiO60XyxFYi6fE=
+	t=1787155511; cv=none; b=Zx5JHnSs9IlGIT8GIc3VnNJAXuZ3RhdAiB/Whf59jZP3MMmt2dzuvBmr/XpxuFMWPi9+/5/dHJ+00Il1R09+hIVq1eeepC5yc+Cy5w+Ubx7bfHRW6KzwA2zEVxI5rLdyp14Sv+CoY75z8wuSa7/hNxVJSZwQ1EP4dPb31pligjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787155377; c=relaxed/simple;
-	bh=mBP9dO6Q/bvbXIl75vBb536XRgmUvlYwCnveiX5a954=;
+	s=arc-20240116; t=1787155511; c=relaxed/simple;
+	bh=mhB5W5LoBNLHs7yKOUUsRa+KmuC0MZ99xNpKVJIJcnA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oceRc9pIm4HYrJnc1wl5pINSWN6oN/voecu0lLvB2uA5pHRkzrX66egNG9XlYqmpyTU7lHMUiNu0Mm8NaOU2I04z96MCu8cOSKeCde65qVcpI7Qdzfx3/U8L1+sGEgV8CZ7KDoldqeNT7YSs2LsQS3JdWO6worHtAEgzQL+Z1Tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCPKWdW/; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=It9fldbdxfjxty11Ro1AcQ9iJcgkK6FyV345Fom+DGIJ7Wf/Zf6kNwZVSUMK05xkShW9yXmxzhxb71jnxIAxgAgkK+WEUjARxDF28rjs7KGhshTJhs1ER8w/NttDJcTptnnwDLBcJ/1yzPqLJSubEyZ5lYWBKVYo4Qtx8kbagbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqyxbUDd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCPKWdW/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A241F000E9;
-	Wed, 19 Aug 2026 16:02:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqyxbUDd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DF051F00A3A;
+	Wed, 19 Aug 2026 16:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787155375;
-	bh=mBP9dO6Q/bvbXIl75vBb536XRgmUvlYwCnveiX5a954=;
+	s=k20260515; t=1787155509;
+	bh=76fJDa3yU2VhoQqB4RI7nd3g845aWQiGrXShEphjl0s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aCPKWdW/+OYHGAA/d+P75uuFWP2Nh6Kiitq/2V86zurtN7ipwLB/kuoR7zF6m8c4G
-	 ccd9Ce0YerNgy08NXG+7DJgxM2Fm11Za5uqx3smWj8BQSGt6/15VtEVOkxPhxvKQWM
-	 dGHlYSsmu0cQEQ4CKq++EvmAurF6CpCmtAwXNlKCjf+ZZcMvW0RCBlOhPv4Hyv62ck
-	 bX+DI7AKK6lKknQ3zW5PPBOGDhGyih1ALFjNX51HSsGiMVsk4PJw0oLWpEbqJHUB2a
-	 uaNy69dYlS7/9nMtoPlo1m9C5JOVy8ZxTVawYyNFjS/D5OALMcTLUsTi77Gn6Ty51v
-	 yePycMa54gy6A==
-Date: Wed, 19 Aug 2026 17:02:49 +0100
+	b=IqyxbUDdNGT8BeOulzKlmGuFD5psESBzgJ2T+hC6XzD++jB/JY7svtYyfGtg383ss
+	 9rybPfEuMe+A4jWqZ1IPe9Wz21eqyD98FX+uHGBjjSxfqZA6SdcgGVtmRe8Zxn7HpD
+	 Uri+cjfSS189+GDNnx9zIYVZearL9e1GNQy6xtl2gzCQ6IWUQlsic2CXjbF+UwwpRN
+	 KJTMXFqyrfm17AHoEsxULTcRKvHTo9enXaSx0KjIb8YSKNGUIIElBF3soY7FyQQ6AQ
+	 Bewvo5z9xY0+39H9Ru7SI/szZJBAJV1o8vfMJ8R/3P8HSYnG6wzynqpC3oup5+36mt
+	 Cc8KTsTimL2SA==
+Date: Wed, 19 Aug 2026 17:05:05 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jarkko Nikula <jarkko.nikula@bitmer.com>, Sen Wang <sen@ti.com>,
+To: phucduc.bui@gmail.com
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH v2] drm/omap: Report HDMI hotplug events to the ASoC HDMI
- codec
-Message-ID: <5681ef2c-b839-40c0-8e6b-65fff0f45af1@sirena.org.uk>
-References: <20260819152755.231754-1-ivo.g.dimitrov.75@gmail.com>
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] ASoC: mediatek: mt8183: Fix APLL enable error
+ handling
+Message-ID: <8881e314-0825-4686-a296-97c03b1dd33d@sirena.org.uk>
+References: <20260819101849.68010-1-phucduc.bui@gmail.com>
+ <20260819101849.68010-2-phucduc.bui@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,37 +48,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MQ01EvtHPHipj7q0"
+	protocol="application/pgp-signature"; boundary="ufr91nyObYYC2H+r"
 Content-Disposition: inline
-In-Reply-To: <20260819152755.231754-1-ivo.g.dimitrov.75@gmail.com>
+In-Reply-To: <20260819101849.68010-2-phucduc.bui@gmail.com>
 X-Cookie: Allow 6 to 8 weeks for delivery.
 
 
---MQ01EvtHPHipj7q0
+--ufr91nyObYYC2H+r
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 19, 2026 at 06:27:55PM +0300, Ivaylo Dimitrov wrote:
-> The OMAP HDMI audio driver currently has no way of reporting HDMI cable
-> hotplug events to ASoC. As a result, user space cannot detect HDMI audio
-> availability through the standard jack mechanism and audio policy managers
-> cannot automatically route audio to or from the HDMI output.
+On Wed, Aug 19, 2026 at 05:18:47PM +0700, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+>=20
+> Currently, the mt8183_apll*_enable() functions call mux_setting(afe, true)
+> but do not check its return value to handle failures.
+>=20
+> In addition, the cleanup paths of mt8183_apll*_enable() do not call
+> mux_setting(afe, false) when the enable operation fails, while the
+> mt8183_apll*_disable() functions do.
+>=20
+> Add error handling for apll*_mux_setting() and call mux_setting(afe, fals=
+e)
+> in the cleanup paths when mt8183_apll*_enable() fails.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+> -	apll1_mux_setting(afe, true);
+> +	ret =3D apll1_mux_setting(afe, true);
+> +	if (ret) {
+> +		dev_err(afe->dev, "%s apll1_mux_setting fail %d\n",
+> +			__func__, ret);
+> +		goto ERR_APLL1_MUX_SETTING;
+> +	}
 
---MQ01EvtHPHipj7q0
+apll1_mux_setting() logs errors, do we need to add another log?
+
+--ufr91nyObYYC2H+r
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqF06kACgkQJNaLcl1U
-h9DpdAf/S3p8MPqnz9KwPNCp+UwvEKPcDvaRSrCOAn+pwyWuM38JSGKf5e8YDppb
-NipzSeRdVpTTqBH+jpHeEfGL/lUIymIp78WQ+n0duIJan/+nGh7PFvHGUkg9DgeN
-OZH9s67Qb2jTX7Qpg1Zi6dFsQtYZaeb0yqUdyAlXQG8OzgNlYOObVNAEMRkv4fIw
-0uNxOvImEsa6ou+1iAt68UWrjLqmvgp5SoLAP4DXDbdQpNkToL6HrFcT/Tz0lUqU
-qSJ0p9T1F195FBe7V/19F6mVDFUWMVyg9sZUkGadwY/OKRO1OrbCDrGFURiVo0wn
-nHhEpZ1rTabiMUix6PZrkVoTpzd8aQ==
-=SgaR
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqF1DAACgkQJNaLcl1U
+h9DXtAf+MNuno9lo4ZsotXg9MOl9pnhUb2KfgvrIvkNu4j4j2CbqJoFi1hMugT8v
+GqW9yNgjbPMzJ/Of5sgmWc9keOc4bcVDhewHaKFMa+bKOVmyJ54lcu5PPQ9EYUQk
+vdoK9uKUB3eVKWZeOPC0DyyEEP+BOEUt/oqTBPMdlV2hE1hIoMf38j1rEeEBaqID
+0kPr7CIi9H9Et3KmDcHVXX+VCTWR8OXpeR6ZHIDbRPnGlCe9kvYYIINkuRntT7kj
+dpY6zArUsNBY6TC+XoUlwBln+WR1nTcdifXa1jfVF80RrwMn1EyqR5CHRo86/1oT
+M+nJS19pFmGbOWnSVN59/ox9/+TIoA==
+=YBEO
 -----END PGP SIGNATURE-----
 
---MQ01EvtHPHipj7q0--
+--ufr91nyObYYC2H+r--
