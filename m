@@ -1,118 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095E73F39EE;
-	Thu, 20 Aug 2026 10:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB154418A33
+	for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 11:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787221261; cv=none; b=AGisn6neHKOC3X6+v2zenFVmf3D/rfOpLEZfntLVPR/j1o2s+vYxc+Iexnatn0EGlootXYKYZKxOYj01kbSPckr2cUNfIKGmiSB+Loe6vSzugVf4WBPY4I7UL6E++/1II78R0N5HAEBtCOAG0cLxDJpAAfJ8ze1LV+Wx3Zmj698=
+	t=1787224398; cv=none; b=F5qApPF+gyNUN7fYm8yaP6Tcr49eBYvrjlJHSPuWuwT5T62fMR7sl5BegmQ1k+LoIH6ogwUBS7zuVfLV1O4tRu6KnnXuCLW7Z8X7K/K6NzsQUKEJdqGZADh3sk1rr7/P8xz4lv2/lSanSBF+kTbCbW858PYm0dbX6cAKGmOSY/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787221261; c=relaxed/simple;
-	bh=sCYVvPTW+2/mLPTcAQKqvJlqYUVgvZgoXYpPX0gzBlw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aXEWKIXEzquU5td88XdKKuYvqkeJm0wQNIG9QuZifZu/dWIdtTD8EglkWbmx4xdn8hzN8PS/QbjS609N2TaeihQ5mOPGb8ZuqaiXw7dEIaq+ZoYDHrKlyNNTh8zPc5Q+z1y0bTsEqs3VLCZZn9p0F3ngj5cBYag3nvEuWHqQ1tU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oK5aMTfe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787224398; c=relaxed/simple;
+	bh=Jnlm9/ph8dUyerL2gOM4nsth+MKXkHZ9Tj8imw3s9XY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QAHgP2xV8u3gT57ogWSBv0gvNRRMftmH21ie3DvhJhXa4snOvR2rz03X2xQ9o159iWCasUZRZuFY/+vBVPVTjUWxK4AnLVs/7/J1TfFvTDaJU+XrQ7FbTv+Y3u5LP26w+9bCXM2WX2zcaPMlhMaRuDaiwP5rEuGZGVvmrkiv7+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJCLvluH; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oK5aMTfe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 008FF1F000E9;
-	Thu, 20 Aug 2026 10:20:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787221256;
-	bh=PFeVwHGwojWnXM72C/0AXyTioasfj994XzOc2WFlW3w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oK5aMTfe5TvV2iIKE/dNudC6IwI1ZCK8PKLDzrRcHutv9MJ2vtmSmCV6/WCRwSKV2
-	 zOV+y+NYefphPBjl54Ydhag+PO7HfOxpnQh1zf24JVKdaOAE0r3hhYVIMI3Oztd8UN
-	 TnGbbAo131Hfe98H8SOUVzzxn3Z/4DYHNOv+hFBg4xQF/s8ftfemkAuuwzCzoek7nH
-	 xnPp9//bdL5kP6lG4Rc4NYnLiFLBMQD5FZRqhn9azC5HPE3tRilTMCcp+F+pj31tF8
-	 MpW9FU/R7AvCDt8tFt41RDwlipB2YaIg+hZlLTXjeIMVXoSI4fdysgCaNlvF4QInFx
-	 cc7eYs6p94ssw==
-Date: Thu, 20 Aug 2026 12:20:53 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, 
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: tegra: ADX: convert map to flexible array
-Message-ID: <aobUUhKX4rGgjQzX@orome>
-References: <20260814205018.39015-1-rosenp@gmail.com>
- <aoQ7SynywUKcIAaS@orome>
- <DKSCUAP946RH.AXJJ9UJMW9CU@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJCLvluH"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-84a652535dcso1228332b3a.3
+        for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 04:13:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787224396; x=1787829196; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/fA2Qh6VZccXsUY57cmXDESi+CqIM725cXDSiwO02/c=;
+        b=TJCLvluHFePR5qh3xyBkq3J1jVhhX4JYXhiXrLRYyZi3DTTe5N7co+etzcGhog+zfu
+         O3NvAkjqCXmc0y1PGZw+XCZSUK8H4lDRKGNL6wkM9W9xku/DnTg90CzUmklp9q2lA0eV
+         RCGk4TAcDve6cJ8X1rbi5wg5IDxU/cMPOHyjmL8ppDHrXIZbkShGGOit1suuXWgeRMmZ
+         GxZeI9sANW8IZI9KyXy0rD0EejSJaIDQqF+HnsQ6nMRZfHJGuwdGSNyZ4EAUG/zVCaQz
+         qTJXztEsuueGZ6E2XgTA9a9YLtP0qjUeDarl08fT641hKiuDayrUTmpGxwTBlZvh1Ovb
+         Vk3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787224396; x=1787829196;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/fA2Qh6VZccXsUY57cmXDESi+CqIM725cXDSiwO02/c=;
+        b=XLCjWuhn2xmg6Q/NlQ/FMRyOfP8OIoqAb2Vuy5LZYG4mznCJuteeNZySI+PHI2Rn1j
+         74SQyrdFMooA4phL8xwHHb3kSEKcMNtG5BPrOSG5q9XLsl1tiidrNhOavw92lUaNLXDF
+         KoTsCPiOVC1XJuSmmZrMjp+mz08gpKzhUaVA0hhWNSeoep/ph6zzbR0WDlnfl90amjYR
+         99Lmxbv8/4oz3Mh7VQNiF4blqsTp1JHiEA43ltGwiGGXsWa3JkedLfRsLLfQFMKD1IJZ
+         2hhBocWhL4G3ivDiOt4UsMItVX2G3eFOR7Sp2QQm5lVNCEQdNi/z4fQzMEZnuW5f8Rxo
+         O1gw==
+X-Forwarded-Encrypted: i=1; AHgh+RqtwUfx1T5UQpI7sXeswiUODk0suEWylJ0DtjRFKVezSXPP+MnneaBNhiMWA4AMME0tT/x1OUc4xJWfew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmV6VlaGujimtjaDnrezexpk/8ve5xEhoe27XZMubQ8u+6ijYE
+	CGLlAiOGsxDlKf+EPvL4BLKGNZ1C30EbfJRo2T2ohQuTnVHaYRbRI+Nc
+X-Gm-Gg: AR+sD12do3t2kt06CVXYXF2bSvvZs3LswBHr/O017qDgw8MJsJWW9N2H0w2yOcv4llf
+	ttf3PTc5vbhHmyS6ySulJZUSY0LNSlszorhlnWY2V0EHacdy2uHXYwzHb2LTmLTKbe13lEm6Enf
+	0obq+dYLzmpXopynsm1oS5fOGtx7XKxJINluw2FC0+UIlnJHNTT+8sJGb5787V3qY86xbkJp7fs
+	a9saLmxUP9ehuouigj+fsHnJDg2QHXQgUjR1SI72Vd1KkFhIrJ5oSg4YYmZ6hP0UaTWyZWVkP4D
+	UKF5eHl17xZO9g3eR5n3sFwG0uT85isr9OavgZLIGGYvlSf3XrZW/3RfD5c5oK0zvxSYYKMDGR3
+	JFx1k1v2RUxC2R0vfOdBwA19LFnP1LpAlM6VbtSGyXKWFmi7s8TufBkhvIkLtrF/Yt1d9MZCW1S
+	cWrGRz/LZ2IGAqoX6No6iwOswUPufvN3CrtB+bLjBnOgYxtJK7zx/o+dQrgOOdvgdqbC1kyxqmb
+	xzNQMlo0oJikGoRzyHMDGsLmhIU/cJoFN+HgXv+b7f8gcG2EAIzT83vu+9QYlA1b04YUgym7kL0
+	4o266rwQbommIZ8=
+X-Received: by 2002:a05:6a00:a20b:b0:84f:d7e4:3404 with SMTP id d2e1a72fcca58-851d3911ffamr20072394b3a.11.1787224396048;
+        Thu, 20 Aug 2026 04:13:16 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-851d36185c8sm1515460b3a.38.2026.08.20.04.13.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2026 04:13:15 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH 0/5] ASoC: mediatek: mt8186: Fix clock error handling
+Date: Thu, 20 Aug 2026 18:12:48 +0700
+Message-ID: <20260820111253.97866-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rim3mcgd5fnhwbvx"
-Content-Disposition: inline
-In-Reply-To: <DKSCUAP946RH.AXJJ9UJMW9CU@gmail.com>
+Content-Transfer-Encoding: 8bit
+
+From: bui duc phuc <phucduc.bui@gmail.com>
+
+Hi all,
+
+This series fixes error handling in the MT8186 AFE clock code.
+
+The current code can return from clock operations without cleaning up
+clocks that were already enabled, and can ignore clock lookup errors
+while later using the affected clock pointers.
+
+This series keeps devm_clk_get() and propagates clock lookup errors
+instead of silently continuing with a NULL clock.
+
+The changes therefore assume that the clocks used by the driver are
+required. If these clocks are intended to be optional and
+devm_clk_get_optional() is preferred, the clock users would also need
+to check for missing clocks before calling clock APIs such as
+clk_prepare_enable(), clk_disable_unprepare(), and clk_set_parent().
+
+If that is the preferred approach, I can rework the series accordingly.
+
+The changes were found by manual code inspection and compile-tested
+only.
+
+Best regards,
+Phuc
 
 
---rim3mcgd5fnhwbvx
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH] ASoC: tegra: ADX: convert map to flexible array
-MIME-Version: 1.0
+bui duc phuc (5):
+  ASoC: mediatek: mt8186: fix APLL mux setting error handling
+  ASoC: mediatek: mt8186: Fix AFE clock error handling
+  ASoC: mediatek: mt8186: Fix APLL enable error handling
+  ASoC: mediatek: mt8186: Fix MCK error handling
+  ASoC: mediatek: mt8186: Propagate clock lookup errors
 
-On Tue, Aug 18, 2026 at 01:33:45PM -0700, Rosen Penev wrote:
-> On Tue Aug 18, 2026 at 4:04 AM PDT, Thierry Reding wrote:
-> > On Fri, Aug 14, 2026 at 01:50:18PM -0700, Rosen Penev wrote:
-> >> Replace the pointer-based map allocation with a flexible array
-> >> member and use struct_size() for allocation. This simplifies
-> >> the code and avoid an extra allocation.
-> >>
-> >> Assisted-by: opencode:big-pickle
-> >> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> >> ---
-> >>  sound/soc/tegra/tegra210_adx.c | 12 ++++--------
-> >>  sound/soc/tegra/tegra210_adx.h |  2 +-
-> >>  2 files changed, 5 insertions(+), 9 deletions(-)
-> >>
-> >> diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
-> >> index 9175598b52a7..d607ba4233b6 100644
-> >> --- a/sound/soc/tegra/tegra210_adx.c
-> >> +++ b/sound/soc/tegra/tegra210_adx.c
-> >> @@ -677,11 +677,13 @@ static int tegra210_adx_platform_probe(struct platform_device *pdev)
-> >>  	void __iomem *regs;
-> >>  	int err, i;
-> >>
-> >> -	adx = devm_kzalloc(dev, sizeof(*adx), GFP_KERNEL);
-> >> +	soc_data = of_device_get_match_data(dev);
-> >> +	adx = devm_kzalloc(dev,
-> >> +			   struct_size(adx, map, soc_data->ram_depth * TEGRA_ADX_SLOTS_PER_WORD),
-> >> +			   GFP_KERNEL);
-> >
-> > This is slightly hideous. Maybe add a temporary "count" variable for
-> > readability?
-> The reason for this is to allow a treewide conversion of this when
-> devm_kzalloc_flex() gets introduced.
+ sound/soc/mediatek/mt8186/mt8186-afe-clk.c | 112 ++++++++++++++-------
+ 1 file changed, 74 insertions(+), 38 deletions(-)
 
-Huh? Why not do this right away, then? It's a waste of everyone's time
-to do these two-staged "cleanups". You're making maintainers do the work
-twice for no benefit whatsoever.
+-- 
+2.43.0
 
-Thierry
-
---rim3mcgd5fnhwbvx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmqG1QQACgkQ3SOs138+
-s6HYPxAAmHrz/w3m6t4cJ6Cyg8UPUUzrB+4HAycviPsQGrBsdElxwAkz64m5/ZAF
-+y0yY1N9THj6mph0j5SKTaLLEFQZ3/Tb1Ndm1wHtCgc/e5R0LnFOoxAZ05pxnjUc
-9VNfmMeF2Yhgp1UKoXkhr7wEEOQcYgFfPnxQ3S/A/YchPugWhpORoKvz605p9qNM
-kvXYqyO9FMTtYQ4pW/+4LlB7HjJldBimOZ1B0DS/0tbo5ib3BT8IDGQ7ICQa4cjA
-ZlA/sjm210V2uBScSdqvLS64G6Ay3cD0o6yNc4QmDi0CW7LbrZiB6FEcS6sapyLu
-XfzblXx2f1cvulL9n2QrE+mcwe6uJxs6XDrBYXnj1ncfeLBd3rPDo/0pOKW3Wy+H
-1QmGrvhyUML4ewnq4TXPUxghcV8Nz6daY/Iuq/Z6BCMWxvYVE8UEd4Csqy0uROFJ
-rgIt7EEj0fTvUNcMYBDr/QMIT+cUrPPnQ+NlNLDmuavo50QeD9ECyuf9AdwOxGSu
-as7dxsIV9xs+WmAX89LgFWV5LlVjCClcV1QlgZ1U+rzBxspYWLGlBJTVhAT9zj7f
-yFiUNycpRnaXJyKrO+kRx+WQoU6gFCldLOJbCU3pQmEUAHpY/eynXE3+85Q3ZstU
-inPJ1YPUZXQJ5teit7lCfrl/OCka+C5A/DcUSrHAwDjm/35mI98=
-=Uw62
------END PGP SIGNATURE-----
-
---rim3mcgd5fnhwbvx--
