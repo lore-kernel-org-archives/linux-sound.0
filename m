@@ -1,120 +1,85 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C1D3B27F6
-	for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 06:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787208518; cv=pass; b=sUtXgEIR5GzNU8LNCxHd5nmMHV6D8YUpdYVghpv55JEFr7NFdSpdkXQrXT49GNd7sO+aXKAk8x6i5sXMNFIkCNLai7R7+UtUox7KNCyka5z05I3FoXx21SESEwP8dez4fuWjVjfedVpQAKrv0UwGq8zNOYsCJLk2/uS0NMTk43E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787208518; c=relaxed/simple;
-	bh=jKx6hb5I9reOutt4e1+r0A1wPu8qOPLMjuwKbXXQc1I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W5EnOzEUuEzHG6kO76RCy3YrO2WMujbOsxPZEzI+WOrqprw+eh1J/aFX1921ev5s54b5FuEva3xHxNsp5U3knlNl6NG8SzHRQ5RQkh+CVGMjMtY2dg8LcuCWYn/ESmaGI2JpiM+7SeXSk7/VFfGn2ivgYpy1/K+YCSvMH3a2sxA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=asseily.com; spf=pass smtp.mailfrom=asseily.com; dkim=pass (2048-bit key) header.d=asseily.com header.i=@asseily.com header.b=ZQWbMIDc; arc=pass smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=asseily.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asseily.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asseily.com header.i=@asseily.com header.b="ZQWbMIDc"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-80bb41f7f3cso20030787b3.2
-        for <linux-sound@vger.kernel.org>; Wed, 19 Aug 2026 23:48:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787208515; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GhKl0L5rOQbAERLxTMmejTzRn6GI3+n+/9JPaf0FeRGiaxaoQkImDf/oUQsn3EX7A9
-         MOCNI1r4HP/Q77/mI57xzuzHbPtCFHzk1tt5lnsqKmm/RSB0M0CIpFLANPVnYi4Hb/hU
-         HeLBbruzWuMlXBgDR6SR5cz0SBO09uHRkoo5Dtah+RcmHm6bvcYhvsbSyQzgQSeMmRi7
-         cCrdwV0pITmTo0HgbFgHZurlHK2l7Fk/xGlrk0dlDS8k/W/rJx2aY0F6gSVMZyheU63q
-         ubO+ebgNM1RZmli/2Nx/FoSr32ZlE1cSLahxSN9YfX7VHTN1k6Sw76hNhpAR9DAJbkFp
-         RrRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=jKx6hb5I9reOutt4e1+r0A1wPu8qOPLMjuwKbXXQc1I=;
-        fh=loxnXWYpIGeZ5ICVv+b5gwn9sbOfaEYV7WFYi9IQv4M=;
-        b=X93DugaW712e7mzDYz7RwEIqSC15HedzU81X2RN7vk5ocSeRvFMgu+16hqjyKOc4he
-         cAqBar5Wz7gL9FjjHO/zolswalbwi43QJ2B+/m7FrL2BLSQ2WyhV9X6Rma7Ms10cVapB
-         RhasymWPWKpXQTDk4ja3abv+4qDefHK3ftcUfjil5B/XkdUbOYfbW1u57yaUiSZtnmE3
-         8/8ZucvTXXjdCTs/Lu35D4cANLaZI5WM79VMWsbH9ya2ZS3/nWExszQULkVktj0Fh/q7
-         zBdvIjOfMZhHuwPEA5kiMOkbJCrEVev43/8SNG/boIdd3vD+U5Qk/F5Wf5JWpJ9xk4dO
-         6Yag==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asseily.com; s=google; t=1787208515; x=1787813315; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jKx6hb5I9reOutt4e1+r0A1wPu8qOPLMjuwKbXXQc1I=;
-        b=ZQWbMIDcKlcUwfYe2ht/FzB3EAXYqselbm24mDvJZAbvg4VUrEwGocdchSp66/QkyH
-         U5dyzZbCqxqYiG13ZbqFMYBo/IQFO5iA+rkSnhWexE9hwLAZFXXW1jUZbCb72lgSFACh
-         666qGihvn/vwV327ZvwSkUE2tHQCyKw0EoLiWa4J5bZAFpFm2uQ0uniyfFPCuqbDHuy5
-         SgGnbzn4d5fA34dNFnuj/PwVmNMtqjOnxXw+LjLg3vw0utLzdGfwRLmUvffl/PhaEyMK
-         ogCDpjBZhRu8IVWZx0WDJvcbGHNaMhYtLVsUxl5YF1SCNMCi9L3bid0bULqBqA/lyWYn
-         RMVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787208515; x=1787813315;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jKx6hb5I9reOutt4e1+r0A1wPu8qOPLMjuwKbXXQc1I=;
-        b=ki6Lo4eeV4UvjcTF6pkzTvn/03Db2W0FAVO/h/ahxcJiiQ/rLWzcxctvXJZeX0PBFU
-         vGn3XkT2h2K+QoyEVBx15hdyzBBvnO5eh62s83AWESrFU3FLVjMBdPwcq4nvwyIo3ew+
-         uqvtBvFoSWwKU0045f7Ai4QJC8OGlskrpqQjCPUK2QD2AlgfGpuwPqVSSyQHLsQc+5wD
-         Qhx14C/oRfiYn4mWqVYVmtxGV5GM6xSCnyQ5mcD0iM00/8vpDv0MTnQ9fPmDc7x4wwZg
-         7LccMB9aiTjJnSUeEb6oOGnjWUh0WFkv00iUZvY5+cjdwNhscZZ6Wws2wmEpIoJt5V1A
-         v2/A==
-X-Gm-Message-State: AFuF++m5GToEmUopOgQhk2litdXQia5UxeMt1kPI3J2AY8PvlRKzeVZW
-	HAGaKXfcDbOfO2ZmOR9iY1PWnbL8WGpt9kluj+h4YEiv5EoTA2+yPYkooD7/dsW4L4QuSYtvnlV
-	lBS8i3LK/k9dQVr6W4Ls8Z02+bCxYmRFARw/U+0EzfvMuev5bpccxqk1/vw==
-X-Gm-Gg: AR+sD12SbsPA8lpwFVwVFniUV25coPKXKjIzUkWANaaY7YiTGlPKJhSFOkFuIoi1GVn
-	I2jhMoGepk+GQEIRkETRJYNtPYBOP1EmNnVtFc0xJVDFgJuYsOcfkzbcNQydqqaLQf9AMrfNQ+v
-	jyn7SoM3ADAIA1Zcl/AU+kqV8+a4aecmJpwzKTrtQe0rH1EhbiDBzJJyQX6A9FU3tfFEB9O1qXc
-	Yoa1GHRgjFsZ5YoyGB1dcRV6aCB5FfZtnQ+ooQaByHip3H7NUHFj6Z6BX80sqvIAF8Rqac+nux7
-	s71bjz7R9haadI9afTGTLg4AmU+ybn/v/OPVhnC0jWdDLYCcP07UHkg+mlRjoXFu7XNMvPQvdU7
-	N
-X-Received: by 2002:a05:690c:e68f:20b0:812:c9fa:9910 with SMTP id
- 00721157ae682-844e7d84198mr32821637b3.29.1787208515021; Wed, 19 Aug 2026
- 23:48:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7DD3B14B6;
+	Thu, 20 Aug 2026 07:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787211476; cv=none; b=sWeYRAINyXmCUu33w/8kYT8m2W6g4HNHHsc4hfYk1nZGMFKpE64BoFxei0fZoGTB0xz/ohgny5EZqT6c+aYmb8bqLhnD7dmCwKf28i5P+y76P3cbVFbeXQ8uqkQ1V7jDr5M6VuHa2nWv23c9bLFG3wj+5DRFDgF2HJY26IilN/4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787211476; c=relaxed/simple;
+	bh=u31o5wy8nKbqO6S6N9yvC5VF4t6csWUGmEkX460EnD4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q0McNhKUj+KDn1KAYt1ych2pBSmX0gT3uQyPVhfksguotc10Nk7hLiMxqOtV/3w9P7vVANu+L6sVaM6oJUvXxe64Nw2pFwbSBklGGJt3hWUGnn1NuebRT2wGU3gNqV07wCvK6Zf0bZArbn1OI2pj9zfaBhPRY0yeHEVTELzOlxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 0ad1aec69c6a11f19a56ed5b684f684d-20260820
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:fed09469-fa87-4109-a79b-57f3e876ddc5,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:52e3396b24d7d3bc6eb9f0277f7c8138,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 0ad1aec69c6a11f19a56ed5b684f684d-20260820
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1372004173; Thu, 20 Aug 2026 15:37:48 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH] ALSA: hda/conexant: Simplify headset plugin type handling
+Date: Thu, 20 Aug 2026 15:37:44 +0800
+Message-Id: <20260820073744.521680-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260820062626.39218-1-karl@asseily.com> <20260820062626.39218-2-karl@asseily.com>
- <f893c76c-32e2-49c7-a791-c86ae818c2e6@kernel.org>
-In-Reply-To: <f893c76c-32e2-49c7-a791-c86ae818c2e6@kernel.org>
-From: Karl Asseily <karl@asseily.com>
-Date: Thu, 20 Aug 2026 09:48:23 +0300
-X-Gm-Features: AcwNN1VhnIFEtxZ1zXYTfgcVa4Bw2RCVizoJlif7hDhp9-lIZ7ayVC_FRjmCe7Y
-Message-ID: <CA+gvwbq0sxs6b9=d=LF01L9V6sn0xLkkeAo==xLhAGkm9vTqrg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: vendor-prefixes: add ESS Technology
-To: linux-sound@vger.kernel.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-You're right =E2=80=94 esstech.com. I'll switch the prefix to esstech and r=
-ename the
-binding accordingly in v2.
+Both the CTIA and OMTP branches of cx_process_headset_plugin() write the
+same value to the headset-mic pin, differing only in the debug message.
+Merge the two branches into a single one, leaving the codec write
+unchanged.
 
-Thanks,
-Karl
+No functional change.
 
-On Thu, Aug 20, 2026 at 9:30=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 20/08/2026 08:26, Karl Asseily wrote:
-> > Add the vendor prefix for ESS Technology, Inc., maker of the SABRE fami=
-ly
-> > of audio DACs.
-> >
-> > Signed-off-by: Karl Asseily <karl@asseily.com>
->
-> Website is esstech.com, so your prefix should be esstech. Unless the
-> website is ess.com?
->
->
-> Best regards,
-> Krzysztof
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/hda/codecs/conexant.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index c517334b56fd..8e950c796209 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -223,11 +223,9 @@ static void cx_process_headset_plugin(struct hda_codec *codec)
+ 		count++;
+ 	} while (count < 3);
+ 	val = snd_hda_codec_read(codec, 0x1c, 0, 0xcb0, 0x0);
+-	if (val & 0x800) {
+-		codec_dbg(codec, "headset plugin, type is CTIA\n");
+-		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
+-	} else if (val & 0x400) {
+-		codec_dbg(codec, "headset plugin, type is OMTP\n");
++	if (val & 0xc00) {
++		codec_dbg(codec, "headset plugin, type is %s\n",
++			  val & 0x800 ? "CTIA" : "OMTP");
+ 		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
+ 	} else {
+ 		codec_dbg(codec, "headphone plugin\n");
+-- 
+2.25.1
+
