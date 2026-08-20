@@ -1,167 +1,284 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011017.outbound.protection.outlook.com [40.107.130.17])
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013062.outbound.protection.outlook.com [52.101.127.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC72C0F8C;
-	Thu, 20 Aug 2026 02:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C04E377011;
+	Thu, 20 Aug 2026 02:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.62
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787192107; cv=fail; b=aoyf0BK1f1Rnun7fWmrzP5uqrO4oXDg9reGVG0gFZwddCiLWxN1kJ0eIr/aet14/mh0PK57IuD4dFguq14/dm94n5yJzQCameIuakLaPjFnMg6iH8b4AiouOVEu3FiCI2L7JA0Kd7twDhH+rDNa9plNBOzJgH384zaz/Eb17gbw=
+	t=1787192979; cv=fail; b=l/kiosit19dPkPN2vPQh5bUBgdU2vzCqbFePmnDEI1B3lyFz0GLEpGSMvWQZ5yrMs089WDjLaIu0mVhIr3rVuhYZbNBlTIYPB+BpNHE3W9b763gjhMZ0f5ZCEUYlJDcdlcRS9FT32r681fvTyFkRfCCqfk238QhMUXe7e7Syvk0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787192107; c=relaxed/simple;
-	bh=0hAYiPKvHajrJJvQwns4MtjgNI7E4CVl1JQyrcwuVN8=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=uF53A8dxZNx0Jr2TUTJ/vvspyRwFpAwLRB/F3E3iYVi55qS/IRMOkfoAxkILcz6uRO2dBwYgD+IE3IO7XztrBmPPU9QFJTT8mvyeI3qrStFOzrEEJxYH7ZbZAuuwS6CKCGv7M2Eni+p33Ch8UfjzuT26qOajizsHudmq7ytLLd0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=QKbEWpUY; arc=fail smtp.client-ip=40.107.130.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1787192979; c=relaxed/simple;
+	bh=cHEv5oY/hZWmFsPV+YxvtlK+eN1WKAKjGOtAmmW4zN4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q7DbBJmLOi0itBevEs8nfRotBLcvKErIyODSlyvcImHr4Ntt8mGfAiiD0q9nfrbVlbSp73WoYAzBGLMm+KG0IbonG5PbDtze6VAeGp5LNixwvDlOxO69HtO3bxmHfwjVLfY4I8OrJrny/V3dOhhT/D5Ja0tRKIejGmUNc+D82wU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=rv2sTh/p; arc=fail smtp.client-ip=52.101.127.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="QKbEWpUY"
+	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="rv2sTh/p"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KSlydv+stCppYSMW17U9fwnfm/wRVgCEhPts+nVIxMgM0gc1zj+lCMascG4I5P9XQ0pekpwxhMFczn3sNJlj5UHbAnbhPVJ5uUJLpxSX0/AzswlyX222dAwLGoJ7bVvkMgd2byLBAf7Wd/UIKCuyVErR5YeAT+jNIQQ3rRUIruFttAbQn+VOdExo5+PD8LGSjjxi6oZwsKm9J3SC9I6XxO/sbYCGemTxxh7joxjBV/4Zh6wPXSQY0SXxkvpDimGeCUzmUZtplmdyzyKcDf2+g3RqU/C6AgXqAtuDZbOlZtMSZliWln/X5GwJ8z4V8/O+M9KV/Zz80Rus/YB2ib/j2Q==
+ b=lHCKyrlMyE5yazUbL8ak4CS2rEHW5hakgIbFnHYVpZtkZeRB6Va29qWchgVtE+83yC8306c4Aai2jKUfTg0zmKSQWqXVoJXMiiz4ysRvp9Y8+nlxu+zjAK/jd94tK+qQ3HB/HmRBsthJuH1/mW9xDjGG/9vMn6Ey8E5tAA1IJhKOYSMPIyWWSNQmILBWzi1b+mgq505zbiAelZ1XFPNtcgEmDoYjhRmFkUdyAceqHMV99cm0YSMjOJ7Cg4fHiETByuoZppsNGfZUXfE/IGdYnGq3D3k2bChjRiLBDkFmHJbd7S5VZOyM4gDS7yZN0IiHlNe+ZlcnkoW5l4g4HYZgUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kR1XgxGbKumNmKejcbNHMRjqGcukSeyctrLfsw8z/o0=;
- b=KVqesVT5p1gnPc7jUjiG7+uAhx0MFKXb1XXFSrfRf22fof5zo77hSp0mEoY63hsMvOmXzgPUtlGtLOq8UL+hLOnH0u9qlHNC16DASeXA5lEHSqb490ll7dc+PE3KK0bTflZSVb2zNPzIY9NfMmFJIix7gdS8lv1I2bnpQjHXGezxkxLUZAeV9mYaeZrXDQbQDUOEAg9pMmz0YItZAFy1dibwMwAU9yUzmkM95Z3nVEbVuqPyIx9e9AQ0baXhG7F0IL8Hb2OidtYCq2rykP23W9D/QIZOtE98HSFrKmO04CcNCD/qzbA4o1BORiX1GF7msa+TXnj/9QKPJIFAROwFWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
+ bh=cpnt91yumBjhpiLaosnTdcznESxpfMk/PA13NtYxCCY=;
+ b=M6jrFqZxoz+MZfXw9N4NRJQVMSPJODjxeoLS9lQgIZf8aAHR7ztHhbC3d63KlmogtKySQzFxe+HJaC8llKYh8kdfPuLR5470drPhxuP5vwDZa4QPbH1W8+8NA+D+ZtxZ5yCYWwX9/1sDUuYvW3xmWdYiB3HoYCYJ7NxtVch6ncrKSYBuhm49bxAUt0YLwRj3AgJWAUV3el7aghJLMbltQA4bI6fvaPpFevLGfdgz8rnBPKTAmg4pHvroShIne1gx7pF9cLKi0SsIFTv3C7Mr+HiUNIMOCQ0j7l/NScDkUe4UrlTWuXSjL08ZnPHNeLA5NGM1sP+KaloyaWcIG+Rjzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 175.98.123.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kR1XgxGbKumNmKejcbNHMRjqGcukSeyctrLfsw8z/o0=;
- b=QKbEWpUYeaUw5AILtDYqscrdYUmGhgYod/hKbPVoCSpzYVdgh8J1KwtUDmFCMj+larqF0om8GUrFXv8Z8ELZWciSXh8A0n0IHaofbzyRoCqy0x32dtC8tbg8BA3jR+AxLZoft/DftJEaej0Yi9TFu/jGcKnVh2KLF6pJOqJVGW4xtNE74sNPHgFzwjQ+u9eXlzNlO3X0m85TqY1kTDqOSFDZ7LP7r8azrEde0XTRi6ucJyA6sHAJq9XK0vjO516Ha6oh1sZxHK6UpZlg0ayki+NHWZlJj0J9+b1RUWXkKk9M//hY6BM/t6TBigZIcF5jHQC+XG/9lKr4lEniGYw0iw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
- (2603:10a6:150:112::20) by DU4PR04MB11857.eurprd04.prod.outlook.com
- (2603:10a6:10:61c::21) with Microsoft SMTP Server (version=TLS1_2,
+ bh=cpnt91yumBjhpiLaosnTdcznESxpfMk/PA13NtYxCCY=;
+ b=rv2sTh/pthmJCuEsWRBhKQeo6y9u6GKjEruMGtBk045r21cFR8KiG5mPB4FWtTWND66j47vku3EVnJnOXFTwTJ2g8Fsu36GWp7oaxsqGmTuRZdRPs6u2tgv9CXbxVnM/KCdZJFmhJigBsTQHmTFBRqUe5DZl03jBLQG+hjpNwAEz/GXCGH/qqeOmzIQWBfB4ha6hsV73NKsUff7Z2jQ30F+Wi7ZA3Ju5nUfCBmfF+6fyf0P32zfcrZFB/CSk79OnBwJPGGOyo0QyW5X2jb3VrttVOgs+D+Qr66Mi01+gpGv+cEChCG6yOshUMqyxByR1dWpCmXtrOv47aMIt1t3TGw==
+Received: from SI3PR02CA0004.apcprd02.prod.outlook.com (2603:1096:4:295::17)
+ by PS1PPFFB2C7A3AE.apcprd03.prod.outlook.com (2603:1096:308::2f1) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Thu, 20 Aug
- 2026 02:15:03 +0000
-Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
- ([fe80::d247:853:3e16:1994]) by GVXPR04MB10021.eurprd04.prod.outlook.com
- ([fe80::d247:853:3e16:1994%5]) with mapi id 15.21.0339.007; Thu, 20 Aug 2026
- 02:15:02 +0000
-From: Chancel Liu <chancel.liu@oss.nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: Frank.Li@nxp.com,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_mqs: Add DAPM output widgets for MQS_L/MQS_R pins
-Date: Thu, 20 Aug 2026 11:14:53 +0900
-Message-ID: <20260820021454.2229094-1-chancel.liu@oss.nxp.com>
-X-Mailer: git-send-email 2.50.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SE2P216CA0097.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2c2::16) To GVXPR04MB10021.eurprd04.prod.outlook.com
- (2603:10a6:150:112::20)
+ 2026 02:29:29 +0000
+Received: from OSA0EPF000000C9.apcprd02.prod.outlook.com
+ (2603:1096:4:295:cafe::7f) by SI3PR02CA0004.outlook.office365.com
+ (2603:1096:4:295::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.8 via Frontend Transport; Thu, 20
+ Aug 2026 02:29:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=175.98.123.7; helo=NTHCCAS02.nuvoton.com; pr=C
+Received: from NTHCCAS02.nuvoton.com (175.98.123.7) by
+ OSA0EPF000000C9.mail.protection.outlook.com (10.167.240.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.3 via Frontend Transport; Thu, 20 Aug 2026 02:29:28 +0000
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS02.nuvoton.com
+ (10.1.9.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Thu, 20 Aug
+ 2026 10:29:26 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Thu, 20 Aug 2026 10:29:26 +0800
+From: Neo Chang <YLCHANG2@nuvoton.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, <sjlin0@nuvoton.com>, "Neo
+ Chang" <YLCHANG2@nuvoton.com>
+Subject: [PATCH v9 0/2] ASoC: codecs: Add Nuvoton NAU83G60 audio codec driver
+Date: Thu, 20 Aug 2026 10:29:23 +0800
+Message-ID: <20260820022925.1174132-1-YLCHANG2@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB10021:EE_|DU4PR04MB11857:EE_
-X-MS-Office365-Filtering-Correlation-Id: d355fafe-3c48-4571-4c27-08defe60d75f
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000C9:EE_|PS1PPFFB2C7A3AE:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f69517f-0083-4220-4ffc-08defe62dc53
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|23010399003|376014|7416014|1800799024|366016|18002099003|3023799007|11063799006|10067099003|5023799004|56012099006;
+	BCL:0;ARA:13230040|36860700016|376014|1800799024|23010399003|82310400026|3023799007|56012099006|10067099003|6133799003|11063799006|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	Rm3ShT6L6LpNYlaktEj55qsHzZ4kNgiH1r0pu/Sid7ap5Nc1PhKqdxJPnmNtcERWaPujub7JchJlITl50aPiFgXHne6MhuNPRG4rQuqxdkc4rZk3OafCH7jk7xRzij4dMmay2WuWbX24MBsJIOejh2dfRaLIjggXYIkoHr8syCOv2JI9C57JHl54AkwpDGDXNHlMqJ1jjrWMTu+cAGAi0gSk6AMWHK138cYQ4k6XqnYZ20qRAcKDQemIUxZ2JnTjY+ga0T6MygQDlG4/tCHdEb8r98+hPIZoOcgIYb19nwKCBMoai8/ObyF2V8GRRQH4Arh+Kv6ahfDJSvmczcc4Ve2H6Vn6pGm9HthXqCKzFdJuHbWuImnWbxasqyVh1MjmlVEp0cGdbaqhlBrpLOmQ2iFclJn83kqCFmNRnL2bdNhl/LTH1WaDq6Hdb8s/ct1ZoCtu6KWPMHXpDnS5nNrhwGmnBw0TPqLevfH7pff90E7hFlGJCws4PTYee6V9o7w72No/0xgdxfcovovxiWu4F/o7Pd5kR+9YQLMKhTIaMdLmTniRn7t2LPtgT6pckva1Xf5at8i9KQttMwm0g7pRhIZv1JVqkl7mHA8NdlOAk/QKh4qzer2Zyv6+0LV9SuAsqHR9XbproiNF5/7p3GOI7l50eSMeiyZA6lITXuM8D3U=
+	Z2CQijmWKjq9phUqHn/wW7hgHlL+ZBFRDz9IVVlzCBOfI6txC5T/TyyjHUc54v6Ss+PPmPQ8NrR58k2fU73IOGw6Bl153sDDA4qCnePgq3U9v8ic0sjzn8cnsuYlf125Cws0D8lk9KnoW/36/119DrQI4dFIKWm9XireNFdCFXa+nAc9HXVkS8aBYKh55el7U4FDVDeUFo+GyaoaL9yKnf7f3UMwc3avZPTBPSHhD0dEp2G7/T4jvv4MMlx9ueiXpndxaeeL6Dr8hH8Al4TEzbGRgUDHaIVr0eJFagBizu3EsODZfhXBPceV6BK8SxYU9fURZ+zyMURXOC/R3JNViK5LE5mG83E3h6SUiqrIN3dSCj6m+c8A6NBthIr1kLERUK3/GutpTBHxXscZyw7zwI95zwtEQBxjGQYKbECv0IR0i9eNpWloAP7oTuJ6TjbwZK+CMJlKQh89+VjpZLxL2y/PuHIhpW03kdE5PyCPywT5/70yhE653l0K6SsQUc5ADJTPPsiiXK1Nc+yJ1689MhrkVQ+FAF8/T9J3nVoegRJwkrsscLYEaPW76V+0/4ct01dnXJu/tGSz1N0N+lzyhQVEuW2LlTlLGYv5NUMUd2A7ePWIXvP8JGsHQTK+DKLLn2RkqbOFICQB3u+2Ap6IE0rZggZliSB3TR+8DeJYziKJnbwm4Hz1VBeUvMV9B9F009iSWxLhD62p25qaSdG3UA==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB10021.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(23010399003)(376014)(7416014)(1800799024)(366016)(18002099003)(3023799007)(11063799006)(10067099003)(5023799004)(56012099006);DIR:OUT;SFP:1101;
+	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS02.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(23010399003)(82310400026)(3023799007)(56012099006)(10067099003)(6133799003)(11063799006)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HhVvmOA7jQT58YLY9c06OXlzCfJykZAhfL1zo3GiaEO7EHhrQO19vwf1lXVF?=
- =?us-ascii?Q?b7sHfzcRb5tyjwfD2YIIvHDHIfWWXnW5ZIjP75ImPqPm8pbFud1edVL2to/x?=
- =?us-ascii?Q?RRzZGQqV/vQouFUZL+2n23f2s2n6CWhDp2Vmyzsbc9Pbi2yvXNgYau6I5oKD?=
- =?us-ascii?Q?oug+A3KswwBsTF9uJyQBlOPj2j+UIL7uSPBd7NXTYhB9IcxR5XPT4QYGVbgD?=
- =?us-ascii?Q?Oc7mOEGIBljKP6oBph1RlIN7MnMrWtrcBlnRK7rXgBN6TIdT1F/svNIZNMIN?=
- =?us-ascii?Q?sz/MxhWmmf9C9+FbraM1dBxa+eIquPAcFxlkgVcv975FFMN1t0tVn0DPMmfj?=
- =?us-ascii?Q?5BvWeuUdQOaLnmb9GqUm15MAw51iy0gFKk9qVDGE9QiHdelrMObxzH07ZAXS?=
- =?us-ascii?Q?aIDfxAkLqXDnhhYZkSBbRliI5EsG9b3F434zx/quYd9bnA1Hq1XI9P6x5WNO?=
- =?us-ascii?Q?TRyuEcAsZISs0qUhy3YGB8+O2AFauXHj/tpAtdGGbPItKFshkFqQSQEOHdpo?=
- =?us-ascii?Q?SflMDGiw9xFmys56jZC2llhjlwTvEJXmFP3bTKo/KhB172DQaQTg+/6Y7P/b?=
- =?us-ascii?Q?zAxJHEyW0ryfgL7hryjl3bKQfOO8R/zoDeh2YWX0oucLwQoIx3a4nvtAImom?=
- =?us-ascii?Q?8mZprNrPHSPlIsuexHXwfaRDPqF6yTTy/+zKhfGKFNbpGIw/71Nrg3kSpAju?=
- =?us-ascii?Q?R9ye2BwDifu6/G8u/fnUyKK4qIIbBfxR10D71pbVdtJWO6Q2g/HErKn2RtjS?=
- =?us-ascii?Q?ZfGnlJMngXXL8U5Auz3ml1Chrv1BrSYcvzh1p/WvRmTF0P5I4pjxclkpJ5Hs?=
- =?us-ascii?Q?XeUksdntJlU0YCbUA9tkrOlrKXafHiHj9yCFHhjtRb6b6B9ElU7q8QhT+6rI?=
- =?us-ascii?Q?xrrsYTUi/iUK+A8SE0zRS6/PdAn2h2PtiF/az+Sm76lcxMyZ2B1Sba2fy9X7?=
- =?us-ascii?Q?euKIQVobpT+quPyC0OaHJYODv6vfCtaLILo9YfN8QZ+usWvC48nBSE11+ko8?=
- =?us-ascii?Q?G8WiNZJ0VS0RV7Lo8LpLts96LhWistnSyYezpTthhrYKAotv+LD135D8I33c?=
- =?us-ascii?Q?uWmAOxq30C8+ocnEGgKhFI7k29P8BtL95pHBF4t+2pOdO+AJ0OlMZuARjExX?=
- =?us-ascii?Q?+5qeDE5JQT0BASo6Oji6n1Gsv7ONGR4GXdrc2m8SbD2aqCH//KVohOMnq6Rz?=
- =?us-ascii?Q?J9YAAvEI0Fxw7zDMxkG6MBiHIgl9hJrQb2AnsbYQX8kX/I7qUiEPtcAQJaU8?=
- =?us-ascii?Q?Rx9fAbYwVHKOEcjpWPKYM9sgewhNIODJHAs1JV6RbAWxVrNUvzvX1sjwP0kv?=
- =?us-ascii?Q?9n/cuHNC1+DeaNO/EKIUjMlDWqjPak2Elc9FbzFp46e86/FLc/fkmfn6ZX6Q?=
- =?us-ascii?Q?QbxXzyNnjfZ9+72KYrWrIJ09nDFdjb7X/f7B5Xx+uZAmXJisKQ34EIH2T/pD?=
- =?us-ascii?Q?DD7ewngRF5Dg94fO1YWhwPMSmDJrTZTaNySZ9IvMstUBBDZrq+ps2lSJHzKA?=
- =?us-ascii?Q?eJJCC7OEIVaiF4RwNGCk9rNzFSuaxsjlI4R1Y9iTf1T1Mm1k/EeIfSBjbKXX?=
- =?us-ascii?Q?PwUopL3XMgudhTtHQO469r7vPtxmPxjpaz5TYmsLLtqck+H8zFAAlFINqs62?=
- =?us-ascii?Q?tsBN8DdNv/QD1rgy4WnRwUuscC7Kaakuy9CrtzKnuEcoSDdV/qQmDDZf3KIU?=
- =?us-ascii?Q?gDvtPIpim2K5GcrVLhGxEjoh6ljvVfG4Ai5BruO4Pb+KyNSYKaEXTjxB4+nt?=
- =?us-ascii?Q?f4j8CDgXlSgjNadhspnl7VDRQACZDraj2jIm20xzEhdh+dEAbkSI?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d355fafe-3c48-4571-4c27-08defe60d75f
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB10021.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 02:15:02.1359
+	qmrmlyuFkrTzZk26KYCsB8vkbQw4sWr2MZnFHADOysTL/RfXcdjEUW63NKBx8Sr0yxSfmqY6yrG4M0Oj5kRSt6yASg7rzBAq0o2VwsyngYJpjajuoS9QXzd/WKcVbcLxALnMfZSI1+Q99K9jGVnW1SW5NmdH1lWMAeqQQ2V6QftjTxUQD1dI6BFdzrPKHVbFj0xRG6NeZ6QoOOGCqasLmDdI6ejzcCIb2heiwO9g/1HazuLOnkwxFD/rGIJx0F6oEVe+EL3ltaZSwHN7iN7fi3Avu3GAOVMubwJFw8pffulf5spQIA+ScHCC5na1nof6I9Vt6a4Zb3+j5lH7Ndi+ZNZZuxQAZ0KbKlyavirEnq/SHuNEPlzNGSOd5gBD4mg5i6jSs1rJLlHmgqVrt3+/9mn+PlL0bXCBuWQACNJoJrlj8toehY8AiKVagbI9hSSi
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 02:29:28.8915
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7wWlXEMgyspk3xtp0J2QKZrxxQoorn8pKw3dtAawdo/kFcEMOBpEKuzVmTUkBQ8WoEYNQ480GD/FCP6i3+rfbzEhAawobpwzvRyE5dk22WSqW4ZcUwSJMn934IAI4jGt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11857
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f69517f-0083-4220-4ffc-08defe62dc53
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS02.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	OSA0EPF000000C9.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PPFFB2C7A3AE
 
-From: Chancel Liu <chancel.liu@nxp.com>
+This patch series adds support for the Nuvoton NAU83G60 audio codec.
 
-Provide DAPM output widgets for the MQS_L/MQS_R pins and route them
-from the "Playback" stream. This allows external amplifiers connected
-to the MQS outputs to be properly linked into the DAPM graph, so their
-power state can follow the playback stream.
+The NAU83G60 is a stereo Class-D amplifier with an integrated DSP and
+I/V-sense capabilities. The driver supports I2C register access through
+regmap, DAPM widgets and routes, TDM interface configuration, and DSP
+firmware loading.
 
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
----
- sound/soc/fsl/fsl_mqs.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+The series is structured as follows:
+- Patch 1: Adds the YAML device tree bindings documentation.
+- Patch 2: Adds the ASoC codec driver implementation.
 
-diff --git a/sound/soc/fsl/fsl_mqs.c b/sound/soc/fsl/fsl_mqs.c
-index 901f840df904..5b00488253bb 100644
---- a/sound/soc/fsl/fsl_mqs.c
-+++ b/sound/soc/fsl/fsl_mqs.c
-@@ -183,7 +183,21 @@ static void fsl_mqs_shutdown(struct snd_pcm_substream *substream,
- 			   mqs_priv->soc->en_mask, 0);
- }
- 
-+static const struct snd_soc_dapm_widget fsl_mqs_dapm_widgets[] = {
-+	SND_SOC_DAPM_OUTPUT("MQS_L"),
-+	SND_SOC_DAPM_OUTPUT("MQS_R"),
-+};
-+
-+static const struct snd_soc_dapm_route fsl_mqs_dapm_routes[] = {
-+	{ "MQS_L", NULL, "Playback" },
-+	{ "MQS_R", NULL, "Playback" },
-+};
-+
- static const struct snd_soc_component_driver soc_codec_fsl_mqs = {
-+	.dapm_widgets = fsl_mqs_dapm_widgets,
-+	.num_dapm_widgets = ARRAY_SIZE(fsl_mqs_dapm_widgets),
-+	.dapm_routes = fsl_mqs_dapm_routes,
-+	.num_dapm_routes = ARRAY_SIZE(fsl_mqs_dapm_routes),
- 	.idle_bias_on = 1,
- };
- 
+Changes in v9:
+[dt-bindings]
+- Correct firmware-name descriptions for Left/Right DSP binary requirement
+
+[codec driver]
+- Protect PEQ access with DAPM lock and component active check to prevent
+  race conditions during power state transitions.
+- Remove the global PRE and POST PMU/PMD widgets and consolidate the
+  mute/unmute logic directly into the HV event handler, preventing
+  unintended execution during capture-only streams.
+- Fix firmware memory leak on DSP setup error path.
+- Fix out-of-bounds array read in dev_dbg by validating the `source` parameter.
+- Fix uninitialized stack memory usage by checking regmap_read return value.
+
+Changes in v8:
+[dt-bindings]
+- No changes, added Krzysztof's Reviewed-by tag.
+
+[codec driver]
+- Replaced request_firmware_nowait() with a dedicated workqueue-driven
+  firmware loading mechanism to prevent use-after-free.
+- Fixed regmap cache_only mode handling to ensure cache sync and DSP setup
+  succeed during resume.
+- Fixed potential data race in nau8360_dsp_switch() when accessing
+  'anc_enable' and hardware registers.
+- Prevented uninitialized stack memory usage in nau8360_dsp_kcs_setup()
+  when handling short DSP fragments.
+- Fixed undefined bit-shift behavior caused by out-of-bounds
+  'tdm_tx_func_slot' configurations.
+- Fixed incompatible pointer type warning in nau8360_validate_tdm_slots().
+- Fixed audio format configurations for Left-Justified and
+  Right-Justified modes.
+- Explicitly included <linux/bitfield.h> to resolve implicit header
+  dependencies.
+- Set symmetric_rates = 1 in the DAI driver configuration.
+- Removed internal fine-grained clock dividers.
+
+Changes in v7:
+[dt-bindings]
+- No changes, added Krzysztof's Reviewed-by tag.
+
+[codec driver]
+- Fix potential DMA cache coherency issue in I2C transfers by separating
+  TX and RX buffers.
+- Change tdm_tx_func_slot and tdm_rx_func_slot types to u32 to fix
+  incompatible pointer type warnings.
+- Fix TDM channel enabling logic to check against slot IDs instead of
+  function indices
+- Add bounds check for TDM slot indices in nau8360_validate_tdm_slots
+  to prevent out-of-bounds shift operations.
+- Fix payload reading loop in nau8360_read_data_payload to break early
+  when data consumption is complete, preventing protocol errors.
+- Add wait_for_completion during driver removal/suspend to synchronize asyn
+  firmware loading and prevent use-after-free issues.
+- Refactor resume flow to properly handle regcache synchronization and
+  PEQ memory enablement.
+- Move PEQ Memory Clear process to execute after DSP reset.
+
+Changes in v6:
+[dt-bindings]
+- Removed '|' from descriptions.
+- Add firmware-name in required.
+- Add "nuvoton,dsp-tx-slot-mapping" and "nuvoton,dsp-rx-slot-mapping"
+  properties.
+
+[codec driver]
+- Fix Use-After-Free during device unbind by properly synchronizing
+  asynchronous firmware loading.
+- Fallback to default firmware names if the "firmware-name" property is
+  missing.
+- Parse "nuvoton,dsp-tx-slot-mapping" and "nuvoton,dsp-rx-slot-mapping"
+  properties for static TDM routing.
+- Drop dynamic TDM slot mapping via ALSA kcontrols.
+- Replace cached tdm_chan_len with direct register reads via
+  nau8360_get_tdm_chan_len().
+
+Changes in v5:
+[dt-bindings]
+- Remove detailed datasheet information, keeping only the valid
+  I2C address enum.
+- Simplify the `firmware-name` items definition by removing redundant
+  minItems/maxItems
+  and moving channel descriptions directly into individual item entries.
+
+[codec driver]
+- Add FW_LOADER dependency to prevent silent probe failure.
+- Fix uninitialized return variables and add error checks for underlying
+  I2C reads.
+- Replace stack-allocated buffers in I2C transfers with heap-allocated
+  memory.
+- Eliminate potential Use-After-Free by synchronizing firmware loading.
+- Protect PEQ memory control operations with mutex locks to ensure
+  thread-safe register updates.
+- Resolve TDM slot configuration races using mutex protection.
+- Correct mathematically invalid TDM TX slot offsets during channel
+  length changes.
+- Ensure TDM streams are explicitly disabled when slots or slot_width
+  is zero.
+- Fix DSP protocol corruption due to missing locking in the DAPM
+  clock event handler.
+- Use FIELD_PREP() in protocol packing functions to replace manual
+  bit-shifting.
+- Replace deprecated of_property_count_strings() with
+  device_property_read_string().
+- Remove unnecessary CONFIG_ACPI ifdefs as struct acpi_device_id is
+  universally available.
+- Refactor repetitive DAPM event handlers (adacl/adacr/dacl/dacr).
+- Simplify code flow by removing redundant gotos, variables,
+  debug messages, and dev_get_platdata().
+- Standardize driver style using switch-cases, positive logic checks,
+  and reduced conditional nesting.
+
+Changes in v4:
+[dt-bindings]
+- Refine the firmware-name description to clarify the loading order
+ (Left then Right) and the PBTL mode behavior.
+- Remove the "dsp bypass" option description.
+- Update the example node to follow devicetree coding styles.
+
+[codec driver]
+- Clean up unused DSP state flags (dsp_enable, dsp_created, dsp_fws_num).
+- Fixed the use of an uninitialized stack variable.
+- Fixed unhandled failures in nau8360_dsp_init() that caused duplicated
+  DAPM widgets to leak.
+- Add mutex protection for PEQ memory and TDM slot caches.
+- Restored the missing hardware memory access bit during suspend/resume
+  to prevent PEQ coefficients from being silently lost.
+- Handled regmap_read() failure in nau8360_vbat_level() to prevent
+  the usage of uninitialized stack memory.
+- Removed improper dynamic creation of DAPM widgets and routes within
+  ALSA kcontrol
+  `put` handlers, using proper static instantiation instead.
+- Moved RX enable logic to startup() for consistent stream state.
+- Replaced synchronous request_firmware() with request_firmware_nowait()
+  to prevent deadlocks and avoid blocking the kernel during firmware I/O.
+- Explicitly disable TDM RX/TX when slots or slot_width is zero.
+
+Changes in v2/v3:
+- v3: Resolved YAML build warnings, added Kconfig/Makefile entries,
+  fixed stack buffer overflows in DSP parsing, and refactored TDM slot
+  validation logic.
+- v2: Migrated software/runtime configurations from DT properties to
+  ALSA kcontrols, refactored TDM routing, and improved firmware path
+  handling.
+
+Neo Chang (2):
+  ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
+  ASoC: codecs: nau8360: Add support for NAU83G60 amplifier
+
+ .../bindings/sound/nuvoton,nau8360.yaml       |  115 +
+ sound/soc/codecs/Kconfig                      |   11 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/nau8360-dsp.c                |  633 +++++
+ sound/soc/codecs/nau8360-dsp.h                |  122 +
+ sound/soc/codecs/nau8360.c                    | 2295 +++++++++++++++++
+ sound/soc/codecs/nau8360.h                    |  911 +++++++
+ 7 files changed, 4089 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
+ create mode 100644 sound/soc/codecs/nau8360-dsp.c
+ create mode 100644 sound/soc/codecs/nau8360-dsp.h
+ create mode 100644 sound/soc/codecs/nau8360.c
+ create mode 100644 sound/soc/codecs/nau8360.h
+
 -- 
-2.50.1
+2.25.1
 
