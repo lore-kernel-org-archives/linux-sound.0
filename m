@@ -1,86 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2544C46D2D9;
-	Thu, 20 Aug 2026 13:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438124734D3;
+	Thu, 20 Aug 2026 13:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787233411; cv=none; b=fW1f1z1fuRlD5F10fzaUus/DlOkH451Y7KHQ1prBdmN4BT9nSUWJsIAag287SdLm/tdA3V1ekADbDbrqzSB1A3uNhHRHgvHBM/ommdMw4A+l2+XXysyvilcKgvBIoFz49nsBeJKbVgcabw+p8LTjaOh5Gs9rmitjWCEzzituxDA=
+	t=1787233468; cv=none; b=UlGTke+DCoBp2dV3u7MOpVbOB9yWsE1kLZ7G3eSSbnGpAONDsralAkYJlP0mtZ4+Vd/2dxwUFz/q6urZbPwMvAofdlMZUsIvy83YqHkOsHGHpSh4nPKIdIxyMWFEfVpo1rfRp43StYaShwQL1QDyU6+iHbwA+60YB11u2wUBSFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787233411; c=relaxed/simple;
-	bh=kawpVZ+Rl70v1gUebftZS+iyLLei4n7A1IOhXJYp44E=;
+	s=arc-20240116; t=1787233468; c=relaxed/simple;
+	bh=04XAV8MqMleVYDpSiIHSHNBW75D6NVq8w+VHiA17JTM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GB/HtR9FhCV//njDwVDvprHFnuoG+56PdnoUFYFV5K+7WSYSk+PMr5O8/CeKBJFFkscwMgVdlEyvHzSOa387fU2Va2bNNPezBwtiM3SHJJyzr1ybDp4ofTM+UIQ4C7ysrTV55atnQopiWbNUWLHI2F5xCN2aiZWahhjquBaUAy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oms6/Yxq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4VswExsh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yqycIzqL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FnmpUVQp; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=jMBpu84VcaLtxp/pvl0uZQw2vjNnSdaCGTLZtbsg03u6KVdnRjbQRRu5+eOFYUvhrPjIYvgkFqMrOZw9AfIfCLMGL6IVwlHd88h2MZEi9z+udPIRJMkznLhCRKc1JkeY4GWYf77jDt2E2Tj8/ZwOLd9eqJRm8QPmxb3udmJ4oCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KJB1IhWU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QMZgitXs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y95lzoHp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9PFyzwKK; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oms6/Yxq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4VswExsh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yqycIzqL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FnmpUVQp"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KJB1IhWU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QMZgitXs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y95lzoHp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9PFyzwKK"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0A46685079;
-	Thu, 20 Aug 2026 13:43:17 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0F35F3ED2;
+	Thu, 20 Aug 2026 13:44:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787233401; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787233461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fencSGekVUGzLBliOL+9iAtr0oW997hkXbDom61Xl80=;
-	b=oms6/YxqHtMbRVVn9hYloLswvndS8+HX0gIf/Hefa9LD6Ka/mt7ZS2mP8Bo3OsUoDCZoUf
-	zpiD4+1r2XorXo4ZkoC874jJ0/+so+l/fxK4/WMIK6MqQ7gp7OEhJTW465FbwUbdw8fc3o
-	SDqC52/+nVVH0dpLVt4VAMQvc09qQOA=
+	bh=8SFBcAy7hpfrt0N0n9Hr0uw2Gg5Kb3bSoiXrob7mzwg=;
+	b=KJB1IhWUk13EmPlU6P/DKCh6hF3YrzzKopc8s5poxBg8ndTvbUQOiwAnDMt4kwlnIofMgI
+	40TCIPDPMOyoG8/mlnwnb5K4kyWRhl8fwTAQMWaG7XQiDw96ADdqb0vq3F26Uo9wyFiqqa
+	LyC2EIcpH9jBK+GSoOrs9Qlcnt6AFGY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787233401;
+	s=susede2_ed25519; t=1787233461;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fencSGekVUGzLBliOL+9iAtr0oW997hkXbDom61Xl80=;
-	b=4VswExshotTVqv2fmsKGM5xXUOTFUT7+80rkstJEfl/GWFZ9mnsxDRtruXacXRfKT/RX6s
-	1nmL18ao0l4YIcBw==
-Authentication-Results: smtp-out1.suse.de;
+	bh=8SFBcAy7hpfrt0N0n9Hr0uw2Gg5Kb3bSoiXrob7mzwg=;
+	b=QMZgitXsY6s/Le0pmD+D45wlTMQO1KcNXl73qNy6sNS9GHo12x1JMsP7hVGxhGOJEPPShn
+	s98ygN8Z8TO01ABQ==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787233397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787233457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fencSGekVUGzLBliOL+9iAtr0oW997hkXbDom61Xl80=;
-	b=yqycIzqLJuxIXqiux9TESP3hRowVyooOvVfROGvRjG9HQ7eWzwi4adSPu3d5PQ6C3vvqgX
-	Ss2akc6Ad1R01ouKG//vPKI8rZpsvTVJT5dWMLwTkaat9xGC3b4tueBo4DVIOyaYhws6CT
-	OHOH7Ude3TaPv+/DaF8Rg549/onbCho=
+	bh=8SFBcAy7hpfrt0N0n9Hr0uw2Gg5Kb3bSoiXrob7mzwg=;
+	b=y95lzoHpNsRkpN06Goa9hnuwcsyduodTJMmMf/vlHfWzBJuAe3KKqmfA9ZY5d/7/1s1LVB
+	4UI/j/5PXeig3FksQzob41xeaEmjAf38hAqqDICKMqWNWxvjpfZXp0KqtNuKnBv5lPDSzZ
+	4yzuwnnuDCgiLB7Qbg7HM+7+7wiyWqI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787233397;
+	s=susede2_ed25519; t=1787233457;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fencSGekVUGzLBliOL+9iAtr0oW997hkXbDom61Xl80=;
-	b=FnmpUVQptVCecxjn8DBejedfvxhFwm5E5DLnwg/c7nlOXT7kUnCPdu6evVSQOlG/6nFZNt
-	1jpCMwGeOnKf+wBQ==
+	bh=8SFBcAy7hpfrt0N0n9Hr0uw2Gg5Kb3bSoiXrob7mzwg=;
+	b=9PFyzwKKf7LgS58NQz+XuHHLbdpSUqeTe1XZBJ39BiC2utYTeLOtgqOr6yzBiYCO70EIED
+	HzHLdpmesyIKwuDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CBF7E27A8;
-	Thu, 20 Aug 2026 13:43:16 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DFD1F27A8;
+	Thu, 20 Aug 2026 13:44:16 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BVGJMHQEh2r2PwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 20 Aug 2026 13:43:16 +0000
-Date: Thu, 20 Aug 2026 15:43:16 +0200
-Message-ID: <87wltklxfv.wl-tiwai@suse.de>
+	id SdUyNbAEh2rNQAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 20 Aug 2026 13:44:16 +0000
+Date: Thu, 20 Aug 2026 15:44:16 +0200
+Message-ID: <87v794lxe7.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jianhao Xu <jianhao.xu@seu.edu.cn>
-Subject: Re: [PATCH] ALSA: mtpav: shut down output timer before card teardown
-In-Reply-To: <20260820112749.9195-1-runyu.xiao@seu.edu.cn>
-References: <20260820112749.9195-1-runyu.xiao@seu.edu.cn>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix bass speaker DAC routing for Lenovo Yoga Pro 9 16IAH10
+In-Reply-To: <20260820130644.76093-1-zhangheng@kylinos.cn>
+References: <20260820130644.76093-1-zhangheng@kylinos.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,52 +87,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.995];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
 X-Spam-Score: -3.30
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
 
-On Thu, 20 Aug 2026 13:27:49 +0200,
-Runyu Xiao wrote:
+On Thu, 20 Aug 2026 15:06:43 +0200,
+Zhang Heng wrote:
 > 
-> snd_mtpav_output_timer() rearms chip->timer while holding
-> chip->spinlock and accesses the card-private mtpav state.
+> The Lenovo Yoga Pro 9 16IAH10 (PCI SSID 17aa:3846, codec SSID 17aa:3920)
+> uses a TAS2781 smart amplifier driven via the ALC287 codec.  On this
+> machine the bass speaker pin (NID 0x17) is by default routed to DAC 0x03,
+> which has no volume amplifier capability, resulting in the right-side
+> woofer being barely audible while only the tweeter plays.  The Windows
+> driver configures NID 0x17 to DAC 0x02, which is shared with the main
+> speaker and carries proper amp control.
 > 
-> snd_mtpav_free() currently takes the same lock and calls
-> timer_delete() when the timer is active. This only removes a
-> pending timer; it does not wait for a callback that is already
-> running and does not prevent the callback from rearming the timer.
+> Currently this machine has no PCI SSID quirk, so it falls through to the
+> codec SSID fallback and matches the existing 0x17aa:0x3920 entry intended
+> for the Yoga S990-16, applying only the TAS2781 I2C init without the DAC
+> routing fix.
 > 
-> A callback running on another CPU can therefore continue after
-> snd_mtpav_free() releases the lock and access the card-private
-> state while the card is being torn down. It can also rearm the
-> timer after timer_delete() has returned.
+> Add a dedicated quirk for PCI SSID 17aa:3846 that forces NID 0x17 to DAC
+> 0x02 via alc285_fixup_speaker2_to_dac1() and chains to
+> ALC287_FIXUP_TXNW2781_I2C so the TAS2781 amplifier initialization is
+> preserved.
 > 
-> Call timer_shutdown_sync() without holding chip->spinlock. This
-> waits for any running callback to finish and prevents further
-> rearming before the card-private mtpav state is released.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=220540
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 
-Thanks, applied now.
+Applied both patches now.  Thanks.
 
 
 Takashi
