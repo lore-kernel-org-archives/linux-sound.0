@@ -1,190 +1,220 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010027.outbound.protection.outlook.com [52.101.229.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335752874E6;
-	Thu, 20 Aug 2026 15:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787238326; cv=fail; b=MPSPOjAp/DCoM3aCcO5Y8jlMVWttmyrbchklS9uLVjaLj9u3X1FOCCJdzAxHff0M9sd2/K0k62LFPcQhmRBheOXWs79t8oDKwdlAU1gkZhjmTQ7l6T67WjQNWZoZaPFHUMyqwT4BiZ2fTVnQpzafkH7wVA6qx+ER/RNUFiPhMig=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787238326; c=relaxed/simple;
-	bh=6k/ldRLohCvshzjhb4UNHB4ABZAdWN0Yc7+EsMv5ebE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Bv64FOvP6W6wDOHQO/TGHqBtGOZsXY0SXYSc5JDxKyRTc/8Vm8MzUKQnd+ofA6QSDhHbJbk2TP1F3Ipqer+AJAkPLkpLz7dJGaH6Fi//5rg2RJwkYteyjE7Hj5O71bib4j/+C8lsUr4qSc4KI0qKXSj6GAHcuxeg6qJZpNeNq1A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=V+VxIhtH; arc=fail smtp.client-ip=52.101.229.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70E937E5CB
+	for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 15:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787238815; cv=none; b=FvyIiFVT74vwa+mW4SDxUsBgsHBwV/L/pN6g1KQ+/vb5NFUXkCX8uucvWqTdJu3iy7HIYglsyDVR3J665R0km6CrayPhG6A4b5w8DAjGyMNST40riZizNn5dgPRW4mX73J096IHnbYUqI0YEYKKHiyYahQblIV/20mlsLI5QzCo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787238815; c=relaxed/simple;
+	bh=6Ald7vZ6kBCoO8E+et7GzfHLmpauYeQ1CHl+O3YPb24=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=N20TxyudQly4j2vgR+zn7AG568GXmzziBe7OcalHEY440TvuzA78n7IY0Sf2Yt8gok4JonXvJlraMTVXV6nJ33y+8vI7zt77b/lTNfTCNeBBf3KtAOyE1UH0Q6wi9IlYnfMaj7r/6ho/yxLjpyzqeyr1jNdyziwbdOHZtoxgDhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SqUM6lBs; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="V+VxIhtH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u+1hVRI12uv1X+YkCgyj76U5gLswgWalhDnvMwCrU/Z6gCFmDq73FTPdGurQp2o2hyWj54jjS5F91kMh5hvGCsOMbOjnSShv1aPa+DZV5EIOQeRpD64Rt9kjcxW7rV509PUmbQgG6LTj7EeNnFo50NUoKHWtZkc/CVxwkA4xSYwzaHwY21MODLYJ0VIfZfd5HTmUUHnLUwLA9HNfjLR/GtyAK3qKmPcMI5mrBdsPrCJXGZd5ZnRTuWrl13BWrBNNzdmdl+iiE5lUPFutzvJZIk2JYi9ByTap52SPSH0LZ87+0cUF1D9Uqh2spIuhzrgafvAlQBRCoeCZBiNNczeAgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6k/ldRLohCvshzjhb4UNHB4ABZAdWN0Yc7+EsMv5ebE=;
- b=kYUuyORVZcLNrLipfznQbtLQRAl7chhRdTv02Uh1SNfTwhCJ/f9uD6eKlvAP/1hVpTuH1NRUyfI4SGtmE/ksMpqb/N9wJV/P6K1xXbwaLhCuGSXfIY+mzwC2uK4Fc3Yfmv54R4XAhXAk+flCOW/uwvRFh+W8OF9T+7rJHRW3o1X7Dsh6gL6106CPqJ3q5lKg5/zLqHpu/ewEEr0Z+q9/9vAsQkDpCuXlYl1JeZnP3TQEI8tY0Xr5R9uJIWPKXzDp3YbJ8jZoYihi1a5EAuUvSkwaqHZe/Tj35gmy9u4fZXHyAvrsKXmdLXm/3+oUU0gMf4ciPhlaAJPUmpa94SBkfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6k/ldRLohCvshzjhb4UNHB4ABZAdWN0Yc7+EsMv5ebE=;
- b=V+VxIhtHVKf5pLiG0NxCHCigv1ucdzso31o6ynFrvH36bCNROhEYpDKE9xYf/MW7rek7nWC2w15hcXK1byuq1qtQT+JMWto4Lzfqdi1br5LYOCt03U6HDbhQ6Qfii7Gl3p6pv/qVJce+ggA3fgy4wXyb64LAhdViTVNycuOOaoE=
-Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com (2603:1096:405:18d::7)
- by OS7PR01MB16965.jpnprd01.prod.outlook.com (2603:1096:604:423::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Thu, 20 Aug
- 2026 15:05:20 +0000
-Received: from TYRPR01MB13588.jpnprd01.prod.outlook.com
- ([fe80::2f5b:8560:48ed:3828]) by TYRPR01MB13588.jpnprd01.prod.outlook.com
- ([fe80::2f5b:8560:48ed:3828%4]) with mapi id 15.21.0339.008; Thu, 20 Aug 2026
- 15:05:08 +0000
-From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-To: geert <geert@linux-m68k.org>
-CC: Tommaso Merciai <tomm.merciai@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Biju
- Das <biju.das.jz@bp.renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	"magnus.damm" <magnus.damm@gmail.com>, Kuninori Morimoto
-	<kuninori.morimoto.gx@renesas.com>, John Madieu
-	<john.madieu.xa@bp.renesas.com>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/2] dt-bindings: sound: renesas,r9a09g047-sound: Drop
- #clock-cells from required
-Thread-Topic: [PATCH 1/2] dt-bindings: sound: renesas,r9a09g047-sound: Drop
- #clock-cells from required
-Thread-Index: AQHdMIpqrzcVbysEPUmsaJHHtEzDQbamuAYAgABQPoA=
-Date: Thu, 20 Aug 2026 15:05:08 +0000
-Message-ID:
- <TYRPR01MB1358899D35FBD843D12ED4F53E0A42@TYRPR01MB13588.jpnprd01.prod.outlook.com>
-References: <20260820095742.3094558-1-tommaso.merciai.xr@bp.renesas.com>
- <20260820095742.3094558-2-tommaso.merciai.xr@bp.renesas.com>
- <CAMuHMdXUu8M4Xjb27XLcMWGYFk6NdKwKB6WO2ZQ_FCAvMTJshQ@mail.gmail.com>
-In-Reply-To:
- <CAMuHMdXUu8M4Xjb27XLcMWGYFk6NdKwKB6WO2ZQ_FCAvMTJshQ@mail.gmail.com>
-Accept-Language: en-US, en-GB
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYRPR01MB13588:EE_|OS7PR01MB16965:EE_
-x-ms-office365-filtering-correlation-id: 1d53b776-0cb5-40a2-5c54-08defecc6cee
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|11063799006|4143699003|38070700021|56012099006|10067099003|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- sWTbkn2G6qEekggDewvpMtRv9dftD51oHAbHLSK2slfVFlZHlXWczEDfcuDZoq6XqzpaQ6cjGXAWU41El/68I+xPKRq8rfUISdZvEAVz7z5Lm8p1PeB/JgKVu6JgPUjbfB2Gjn7Vhzq4vW8NrnvSD5q8Xs3dHCTGcintgEpT+u6avMppKUBPWU5kYPgjGndaY3ZBW2Cl6kkzXiXXbYGVJ4kJdRFZ+o3u4SupOrcBvsSXuHkZbCGjY36VBHpqoSvFqZXB3pqb58a3pHhhV5MmKzwwcYXCuTkJN38BRP0YPLR0myAHB0hg2Ys8pW80+2lOpHF+AIFvWNLNCANItj6V/hxTfewXPwpIkVY2wpay1AiVOFzyH5nJw0zmdZLo2bckYHaW9l9q6xBFMPq1YP0auus4pJSuxSEydpS9uUoU2MRUGqzLuWnfuxG8xfw+W5iDIAYRzZtYFPJKmQGjzYNg2myKEdxX/XUY+Iddk1xyn++hoZX7HKuhVo6vqXlON2MOCZMGFJfkmbRjgvI9/lvY5dI71XJ4wcKB7EsWebN10pQLu4ibF8+C/SwjGKIIv8uPUb40kjxmGwmbei2vA3KKiLhceKomaVXkH9tA3Kx4FWshuNBH+mFJH35q8wSWnZpUE1WFsprasmmwnh3/VMZY+DZjH5Lu2UxGZdRU2hIMp5yvaSC66hlfbwrMia23EXG+CUFAv1n07LFbtbJV4lDCoQ==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB13588.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(11063799006)(4143699003)(38070700021)(56012099006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?RDIxOUhiWUptczNFdkJtc2VrR2hxejl4OHBBZGZKdEZVTVVsQ2JpMWZEQjZt?=
- =?utf-8?B?bnh6YTRKeGl6K0VIbE8zNHZrMlJDV2RXeXNZR0t0THMzNzB6Sm8zdzVaRWZJ?=
- =?utf-8?B?VlhWQ3dlaENYYytHR0wzT095Yzl3SFYzczU4bDJCRHhYeTc3T3BzTmRnL2or?=
- =?utf-8?B?Y01mUDF5dFNWTVpldG5QSk5tVVgzUnI3RytwZjdrU2VSeHVrcFUyM2xWSk1u?=
- =?utf-8?B?WTZuYXNNbUliZVZzOFRBV3gxZDBOelBiMXdVMlRJaUw3VU02NmM3SkpKdFN0?=
- =?utf-8?B?WmQ1aW5ESWt3TTRVR1J2UWJnMFVDcFRRZmxOTityUDVPYWwzSW1meWZ1bWpU?=
- =?utf-8?B?cXdxY3pock02bmNOWTBVdng4NHpqQjNqRVV1NlBTQ1lxZ283NkJTb2VqRXhC?=
- =?utf-8?B?MjFNMEpWKzhTeDd1aWRvRmhDMG44S2Y2Sm8wbGxha0UxaXNtM2xIdlAxS2xU?=
- =?utf-8?B?ZWNOL3VNVkc3clF6WWk4dFlZRVh4dGRML0JheUxpUFRRU1RLT1diVnl4dHBx?=
- =?utf-8?B?ckhybGJzSVFpd2lBU1N0dUZHZ2tMaHdzRHJCNjNOWkc0T1JxTjBTVFgvVW1p?=
- =?utf-8?B?QVVNZnVOWGpBMFpORXRPVUVwZ1dsdnJ4VE1RRDVLM2Fhb3FkcXZOZkpHakRD?=
- =?utf-8?B?TS9TZFRVZzh4TDU4NkxPRVVIVjBRcC9aYW5CM1V6LzZFSFk2RFNJcGxmemJl?=
- =?utf-8?B?bEVEVVhuL3NPVWdTT2hrSVU0K0tUMmY2a09pOHVTSytWRzFvd2V6WEZXWG9H?=
- =?utf-8?B?YS81NCtSMHloeUdtZWhyTnRBMmQ5K1c0TFFOcW5oVWU2STBLQVJ5RitYdlFo?=
- =?utf-8?B?OG8raXJPZXBhQk85SklCRU0wRlNrcFNLTWdrRFRtUUJyOHRYeW5hYnZ2WWd4?=
- =?utf-8?B?aFd4aGN1NXBjamp6Q25DUjFxRFZFbkxtbDZ1dkJjcmY0ZEdRMUVNQTRYZnBn?=
- =?utf-8?B?enUwMzA1REpOb0x6VkdxVU94NkE3Uk1NdXpiSXdVeHpPOVNRZTRuZlVJQW9U?=
- =?utf-8?B?Zm5sTWxTelpiRjdGc201Q3gvNDVpSkpKUTBNR1pwM1NaU0d0WEJuK2ZCaG5D?=
- =?utf-8?B?MTVzUERIbnA5NFNKSytzSGVRZ0Z0OE81TUlwejhLdDEvOFBlQS9MOEdNNW4w?=
- =?utf-8?B?N280QW0yMjlLUjUyUkxpN3d5UktuTG1QVW1GUnY5azJtSFJpcTRSRlJwZzVv?=
- =?utf-8?B?MDBmNUFpdTNYa01LcGhjUXN2UVJNRkNqTVB1bGFtUjl3OHlNTVlNNzQ0bEM1?=
- =?utf-8?B?dnlBd2t4dXIwdmNzbUQwekc3M0RYKzNxd1g3NFpsR3RBeEQzZzlPSVh4OGdJ?=
- =?utf-8?B?SC81a1dNazUzRHk0bElGWUZ6ajJXd3RxbGVNUm4zVE5obFUrSHhFVEdYc2xt?=
- =?utf-8?B?ZWdqL0laNDdZQW9kRytaRW9xT0tyaU1zczUvUzhueUw3aUVFK0dmL2Vjdlhu?=
- =?utf-8?B?bitOb1I5em41VXRoTlFrSDhjaDhuY3R3alNOY2RNUWRCWnF1SEhGekdiQlNp?=
- =?utf-8?B?a1hTTGRCVnFScnYzaWlNQ3JXUjNleG1iaXRPYXN0RWtOa3BIa3NzQk9qL1pL?=
- =?utf-8?B?QWYwbmNEZE1wcTBCd3N3VS9hak1KOVNVV1dBNVBiR2krb1N2aWFvVUt1U1NB?=
- =?utf-8?B?ZTMrNEh6QUZwM2ZMK3JrV1JKRlBKN2h0SHd5QXlwOXMxTXo0WllxUW1yTVFp?=
- =?utf-8?B?b0ZMVkI5bTJoYUZhbHlmRW9nVFY2bldYV3prM2FCbVE4UTNKbis3Y0wvK3BR?=
- =?utf-8?B?cm96U09yWTVhL2M3ajNaWnNtYitET3hqUm45SGMxNUY4cWR1TS9aMVpFRTdQ?=
- =?utf-8?B?UHFYQWwrWldGYlhyeVRTUzhrRVk5Nm16eXNhclVHcVBwdGd5OFI0NXpUTUQ2?=
- =?utf-8?B?VGZUTGJVbVBZYURUUlA2N3cySmhzRVZZVTltY2tqNTREdFZGNGFnTURUMUJz?=
- =?utf-8?B?T2ViYVFvMnNSK2NVYlNIOUYyTWxlMnNDeHVkN2V5YUJTUDVvUldwTzU1dDNG?=
- =?utf-8?B?b0M0UFRhb0Y4ZEw0cjIyWjUwUk5EMklKUTlBNkc4cUpaUUNnZ1JrN0RnVjlT?=
- =?utf-8?B?MG4vekQrd1BEY1lqS2pubWJXVS9YaGx5RzBJQ3Z2Z1hvM3JlcHVsVVN3SUhZ?=
- =?utf-8?B?Z3gvNTUybTdGbi9idU54TEZORk91RkxjblVEdzk5WTl4djZxbERJZUpJSm56?=
- =?utf-8?B?Y2x6c1Yvb2pvOG1hV1JDUEM0dmdDVzM0THcvYlBtMHRnUkRWK0VuRGZBNXMx?=
- =?utf-8?B?MVIra0p0OWY5Sk01NTBJK1czSytWZHRsU0tTYTgwdVhpUzd5OUw1YlRURTFj?=
- =?utf-8?B?RkQxY1NQdjZ3NmsrL2R1b2FwNVVUMHQzT3UxRlprcFRGVlBHS0N5VnNwYWVO?=
- =?utf-8?Q?oCYd1LiEpRxcRgGI=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SqUM6lBs"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b45f1cd80eso2471318e87.2
+        for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 08:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787238812; x=1787843612; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WoAaczqx9vz90sCyu2Uto6aX0IpeQLuBL6PDZDK9ORg=;
+        b=SqUM6lBsVARRhIMl9HvKLC+pWkotnDq1TB37tcsKHU59kSxZpwr14pBqgHhnY5RNW+
+         +WDbAG1F2v6jw8cBauxgdXLWqbWROKQe0nkWQbfsdcR8kwXCT9FdLzE0KkVN098dyo9M
+         tqWkFbii4MvvSdwhqR3fcmSxPbd8QXv1leeTLez/2WMgr73aK/1ZS8BToMisl71L8T64
+         jLgO3w29W/JQ981n8WspPVrqfDalD12lIGQxgTUG6nV3hdQWdJx3BduIoLS3uB4aBLFt
+         P5FVTx8lY/r5KzfY624g41Qvf4fmFPUvSQJtsAdbx+3MYLuXtxQ7nudYc1tTPE371dTR
+         B/Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787238812; x=1787843612;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WoAaczqx9vz90sCyu2Uto6aX0IpeQLuBL6PDZDK9ORg=;
+        b=ogRafPQZLHspecEPebR04OwNEJnM1RDi0MM3PW2MgazYBHb+0TU2CqZDiKERZmcgdp
+         HjReP4jJtJrHiHYhYnixlDl+UgEDPD3hyoIMmmy9Vo5O/gRcZhujQtev99M6LHHg22Dm
+         FjTdb/jj6gxDagtQwJZ2uc46XL2JXArWKPR9vy6gef8D2Bjj4kt6ragrYrIc0YahSwWq
+         rf9llIgGAJtcgrGNZ1VwnmGxhyG24+bsDMdIPw7ANLfj3tuDbJpZtBAxiFjxDAcunox+
+         zskmRXLD6EnKE921NiSUOwNYUTigLrGSW7vEhUhBtO4OVQpl1wVDTr6ZvdyduOXDS2/n
+         /sZw==
+X-Forwarded-Encrypted: i=1; AHgh+RqhmOnhT6yMylwTPfV6jpRl9MYRtlTSHCFHeD57Ch43LwM0Ryu8OzHdmKiaNLiwTntgsRBa3bkIQzrA0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoM5JI18B8DVatI5qSTZ78pwTOcs/z/R8ivcej6bLbQJ4O/gAA
+	gM3f+U5YXM6pPvxXQMKYteNqq27aBk3P3vkeLUCjnKvmrugPGPB7itVy
+X-Gm-Gg: AR+sD10rYPSXCA0K2vZXrcguVlIa7s8lMAoLPryZSgh6Z7a2r/4FlA9BtRduwDFcMCm
+	aD/Hy2GzPAqa+GUcuh2HEPmoWb5x4g6I7RNo/YpzQyo/ty6Jg/0ed+/FA5k6WzvrtZL6lEGpW4W
+	Cnl+uxMhGhPn7bgzNHpUAMwlKX7qIvIc2qPBAEfmKFacRd2CRUP2t2WB3kekBGTUQTcz30Uv6NU
+	2pF6jm8nL1XgXNqHPOjdf5HszuUlZulq7Om2P5Xql8PEF0hz8DgEv3WYTeDHvWIYlmspQ2mVhji
+	1nToKLDU2kqjzJ1FjKa/rHrUIUelclCH1I+ENyT3FWowDt20bMZhFOCCJwnC1lk1U5ZGYaswR4m
+	zIqI05vccamydpaCaouKgc3jWyHHqd+311jI2VXjo8pa8OvvOW7hUn0UFuK3KvolZvKC4P/rD0T
+	7LoozTsuZ1ecm10jLG9V6Uh/Ao8i7SUdTXHuu9aZS/M2zE0c9dJi72EnndlL9Fkf6UWGL1cOViF
+	SQMzhaxhul5j8Amdc6BKDngEl4KrIZ3v6OxYzGd3iVstbjFQX3AS/tM+8z1
+X-Received: by 2002:a05:6512:131f:b0:5b1:5a90:25b4 with SMTP id 2adb3069b0e04-5b478bcb7c5mr3792837e87.19.1787238811565;
+        Thu, 20 Aug 2026 08:13:31 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b4788f5a60sm1333617e87.77.2026.08.20.08.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2026 08:13:30 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: tiwai@suse.com,
+	jikos@kernel.org,
+	bentiss@kernel.org
+Cc: perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC 0/2] Two ways to reach the Topping M62's analogue gains
+Date: Thu, 20 Aug 2026 20:13:27 +0500
+Message-ID: <20260820151329.18332-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87y0eaxz39.wl-tiwai@suse.de>
+References: <87y0eaxz39.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB13588.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d53b776-0cb5-40a2-5c54-08defecc6cee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2026 15:05:08.7485
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /4VuCwrS16auEx1v4SOAUg/u5LW6cAlVuLTuprtKjsjo/LmXP69TluWGacptfCl3EQVNo4IcHSIGTrcWVPeg2ibh3TOa4YIykHoNBHUXTeQDh8wi44G3y2ahlIrEo7Wd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB16965
+Content-Transfer-Encoding: 8bit
 
-SGkgR2VlcnQsDQpUaGFua3MgZm9yIHlvdXIgcmV2aWV3IQ0KDQo+IC0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5v
-cmc+DQo+IFNlbnQ6IFRodXJzZGF5LCBBdWd1c3QgMjAsIDIwMjYgMTI6MTQgUE0NCj4gVG86IFRv
-bW1hc28gTWVyY2lhaSA8dG9tbWFzby5tZXJjaWFpLnhyQGJwLnJlbmVzYXMuY29tPg0KPiBDYzog
-VG9tbWFzbyBNZXJjaWFpIDx0b21tLm1lcmNpYWlAZ21haWwuY29tPjsgbGludXgtcmVuZXNhcy0N
-Cj4gc29jQHZnZXIua2VybmVsLm9yZzsgQmlqdSBEYXMgPGJpanUuZGFzLmp6QGJwLnJlbmVzYXMu
-Y29tPjsgTGlhbSBHaXJkd29vZA0KPiA8bGdpcmR3b29kQGdtYWlsLmNvbT47IE1hcmsgQnJvd24g
-PGJyb29uaWVAa2VybmVsLm9yZz47IFJvYiBIZXJyaW5nDQo+IDxyb2JoQGtlcm5lbC5vcmc+OyBL
-cnp5c3p0b2YgS296bG93c2tpIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBDb25vciBEb29sZXkNCj4g
-PGNvbm9yK2R0QGtlcm5lbC5vcmc+OyBtYWdudXMuZGFtbSA8bWFnbnVzLmRhbW1AZ21haWwuY29t
-PjsgS3VuaW5vcmkNCj4gTW9yaW1vdG8gPGt1bmlub3JpLm1vcmltb3RvLmd4QHJlbmVzYXMuY29t
-PjsgSm9obiBNYWRpZXUNCj4gPGpvaG4ubWFkaWV1LnhhQGJwLnJlbmVzYXMuY29tPjsgbGludXgt
-c291bmRAdmdlci5rZXJuZWwub3JnOw0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGlu
-dXgta2VybmVsQHZnZXIua2VybmVsLm9yZw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDEvMl0gZHQt
-YmluZGluZ3M6IHNvdW5kOiByZW5lc2FzLHI5YTA5ZzA0Ny1zb3VuZDogRHJvcA0KPiAjY2xvY2st
-Y2VsbHMgZnJvbSByZXF1aXJlZA0KPiANCj4gSGkgVG9tbWFzbywNCj4gDQo+IE9uIFRodSwgMjAg
-QXVnIDIwMjYgYXQgMTE6NTgsIFRvbW1hc28gTWVyY2lhaQ0KPiA8dG9tbWFzby5tZXJjaWFpLnhy
-QGJwLnJlbmVzYXMuY29tPiB3cm90ZToNCj4gPiBgI2Nsb2NrLWNlbGxzYCBkZWNsYXJlcyB0aGUg
-bm9kZSBhcyBhIGNsb2NrIHByb3ZpZGVyIGZvciBBVURJT19DTEtPVVQsDQo+ID4gd2hpY2ggb25s
-eSBtYWtlcyBzZW5zZSBvbiBib2FyZHMgdGhhdCByb3V0ZSB0aGF0IHBpbi4NCj4gPg0KPiA+IERy
-b3AgaXQgZnJvbSB0aGUgcmVxdWlyZWQgbGlzdCBzbyB0aGF0IGJvYXJkcyB3aGljaCBkbyBub3Qg
-d2lyZQ0KPiA+IEFVRElPX0NMS09VVCBjYW4gbGVhdmUgaXQgb3V0Lg0KPiA+DQo+ID4gU2lnbmVk
-LW9mZi1ieTogVG9tbWFzbyBNZXJjaWFpIDx0b21tYXNvLm1lcmNpYWkueHJAYnAucmVuZXNhcy5j
-b20+DQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+IA0KPiA+IC0tLQ0KPiA+IGEvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3NvdW5kL3JlbmVzYXMscjlhMDlnMDQ3LXNv
-dW5kLnlhbWwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mvc291
-bmQvcmVuZXNhcyxyOWEwOWcwNDctc291bmQuDQo+ID4gKysrIHlhbWwNCj4gPiBAQCAtMjk4LDcg
-KzI5OCw2IEBAIHJlcXVpcmVkOg0KPiA+ICAgIC0gcmVnDQo+ID4gICAgLSByZWctbmFtZXMNCj4g
-PiAgICAtICIjc291bmQtZGFpLWNlbGxzIg0KPiA+IC0gIC0gIiNjbG9jay1jZWxscyINCj4gPiAg
-ICAtIGNsb2Nrcw0KPiA+ICAgIC0gY2xvY2stbmFtZXMNCj4gPiAgICAtIHJlc2V0cw0KPiANCj4g
-SSBkaXNhZ3JlZTogdGhpcyBpcyBhIHByb3BlcnR5IG9mIHRoZSBzb3VuZCBibG9jaywgbm90IG9m
-IGJvYXJkIHdpcmluZy4NCg0KTWF5YmUgYmV0dGVyIHRvIGRyb3AgdGhpcyBwYXRjaC4NCk1vdmUg
-I2Nsb2NrLWNlbGxzID0gPDA+OyBmcm9tIHI5YTA5ZzA0N2U1Ny1zbWFyYy5kdHMgdG8gcjlhMDln
-MDQ3LmR0c2kNCkRyb3AgY2xvY2stZnJlcXVlbmN5ID0gPDExMjg5NjAwPjsgZnJvbSByOWEwOWcw
-NDdlNTctc21hcmMuZHRzDQoNCldoYXQgZG8geW91IHRoaW5rPw0KDQpLaW5kIHJlZ2FyZHMsDQpU
-b21tYXNvDQoNCj4gDQo+IEdye29ldGplLGVldGluZ31zLA0KPiANCj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdz
-IGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtDQo+IG02OGsub3JnDQo+
-IA0KPiBJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwgSSBj
-YWxsIG15c2VsZiBhIGhhY2tlci4NCj4gQnV0IHdoZW4gSSdtIHRhbGtpbmcgdG8gam91cm5hbGlz
-dHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nDQo+IGxpa2UgdGhhdC4NCj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcw0K
+You asked for PoCs of both roads and a comparison of the actual code
+rather than of arguments. Here are both. They are alternatives, not a
+series: each is written against mainline 98f21c54f995 on its own, and
+either can be applied alone.
+
+  1/2  ALSA: usb-audio: a mixer quirk that claims the HID interface
+  2/2  HID: topping: a HID driver that registers a card of its own
+
+Both build clean (checkpatch --strict: 0 errors, 0 warnings; the two
+CamelCase CHECKs in 1/2 are bNumEndpoints and bInterval) and both have
+been exercised on the device -- 152a:875c, bcdDevice 3.27 -- for
+reading, for unsolicited notification from the front panel, and for
+writing.
+
+What the device is
+==================
+
+The M62 keeps its two microphone preamp gains, its AUX and Bluetooth
+input volumes and its headphone and OTG output volumes behind a vendor
+protocol on a HID-class interface, and exposes none of them through
+UAC. What UAC does expose on the capture side is a digital trim after
+the converter, which cannot buy signal-to-noise: a noise-floor ladder
+against the card shows the converter's own floor rising with the
+signal. So on Linux today the one knob worth setting is the one that
+cannot be reached, and a measurement application has to begin by asking
+a human to touch the front panel.
+
+The protocol is fifteen-byte frames -- start magic, a constant, a
+target, a property, a signed 32-bit big-endian value, CRC-16/MODBUS
+over the middle stored big-endian, end magic. Rebuilding all 2619
+captured frames from that description reproduces them byte for byte.
+The device says nothing until it is subscribed; one write starts the
+stream and a second makes it announce its whole state, after which
+every change arrives unasked, including a front panel press.
+
+The control pipe is not an option: GET_REPORT and SET_REPORT stall with
+EPIPE for every report type, so the interrupt endpoints on the HID
+interface are the only route.
+
+What is identical in both
+=========================
+
+The frame builder, the parser, the CRC (the kernel's crc16(0xffff, ...)
+is CRC-16/MODBUS, so no private table), and the control table. A knob
+is a row of
+
+	{ name, target, paired target, property, min, max, TLV }
+
+so adding one is adding a row. Six rows today. The outputs come in
+pairs because the device answers on only one target of each pair and
+the other would drift away unheard.
+
+Where they differ
+=================
+
+1/2 claims the HID interface for snd-usb-audio and puts the elements on
+the card the device already has. The cost is two-sided: an entry in
+hid_ignore_list to keep usbhid off the interface, and one new helper in
+sound/usb/card.c, because usb_audio_driver is static there and a quirk
+cannot claim an interface without it. That helper is the only change in
+1/2 outside the new file and its dispatch. Nothing is lost by taking
+the interface: the report descriptor is a Generic Desktop application
+collection with eight unnamed usages, sixteen bytes in and out and no
+report ID, so hid-generic can only build an input device for a mouse
+that does not exist -- which is what it does today.
+
+2/2 binds as a HID driver, and the protocol half is if anything smaller
+there: usbhid owns the endpoints, so hid_hw_output_report replaces a
+hand-built interrupt URB out, raw_event replaces the one in, and no
+interface has to be claimed. It needs nothing in sound/usb.
+
+But these are mixer controls for an audio device, and the audio
+device's card belongs to snd-usb-audio. A HID driver cannot put an
+element there. There is no interface for it, and inventing one means
+exporting from sound/usb both a lookup from struct usb_device to the
+card and an add-element call, and then answering, for a single device,
+what happens when the two drivers probe in either order and when either
+disconnects first, given that the element would live in one module and
+its private data in another.
+
+So 2/2 does what a HID driver can do alone: it registers a card of its
+own. That works, and the cost is visible from userspace rather than
+theoretical:
+
+	$ cat /proc/asound/cards
+	 0 [ToppingCtl     ]: Topping - Topping M62 control
+	 ...
+	 4 [M62            ]: USB-Audio - M62
+
+	$ amixer -c M62 cset name='Mic-1 Analog Capture Volume' 33
+	amixer: Cannot find the given element from control sysdefault:4
+
+One device, two cards; the gains on a card with no PCM beside them; and
+anything that looks for a device's mixer next to its streams --
+alsamixer -c, UCM profiles, PipeWire's device model -- does not find
+them there.
+
+Against my own preference, two honest notes. The phantom input device
+2/2 leaves at boot (hid-generic binds first, the specific driver being
+a module outside the initramfs) is a packaging artefact, not a property
+of that road. And 1/2's claim helper is new API surface in sound/usb,
+small as it is.
+
+Field results
+=============
+
+With 1/2: the interface belongs to snd-usb-audio while a neighbouring
+device's HID interface still belongs to usbhid, so the ignore entry is
+precise. Values arrive by themselves -- the headphone volume came up at
+51 while the zero-initialised cache would have said 0. One front panel
+press produces exactly one control event. A write reaches the hardware:
+the device reports the written value back, and its meters answer.
+
+With 2/2: the same, on its own card.
+
+One device fact worth recording: a written gain takes effect at once,
+but when the device commits it to non-volatile memory is the firmware's
+business, and a value written and then torn off the bus can come back
+as the older one. Nothing in either driver depends on that -- neither
+treats itself as the source of truth, both ask the device -- but it is
+easy to mistake for a driver bug while testing.
+
+Where I come out
+================
+
+The knobs belong on the card the device already has, and 2/2 cannot put
+them there without a new cross-subsystem interface built for one
+device. 1/2's cost is one static-variable problem solved by one helper
+in the file that owns it. So I would take 1/2, which is also your gut
+feeling -- but the comparison is what you asked for, and either patch
+stands alone if you read it the other way.
+
+Not covered by either: the OTG input's gain. It has no front panel
+control and therefore never announced itself in any capture, so its
+property is unknown. It is one row when it is known.
+
+Mikhail
