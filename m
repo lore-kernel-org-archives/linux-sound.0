@@ -1,117 +1,118 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0315540F733
-	for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 10:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095E73F39EE;
+	Thu, 20 Aug 2026 10:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787220843; cv=none; b=r52a+kAfUBSpPQNWyQyhJI2w0O2CIHKAbyBp7VEnx3sirzkMM5vT8H+ba9nSSPkzNv2J/KtNi282x8sqmwXKy7JsGu3h/cUFz9iOeMAWqv9MzgGjYUF870Go6mD+66SaNkyKskIVvzJAK2CTmbZumX1L6+3GIfJCfSqmMLzwuZQ=
+	t=1787221261; cv=none; b=AGisn6neHKOC3X6+v2zenFVmf3D/rfOpLEZfntLVPR/j1o2s+vYxc+Iexnatn0EGlootXYKYZKxOYj01kbSPckr2cUNfIKGmiSB+Loe6vSzugVf4WBPY4I7UL6E++/1II78R0N5HAEBtCOAG0cLxDJpAAfJ8ze1LV+Wx3Zmj698=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787220843; c=relaxed/simple;
-	bh=J8SsCEbocsyTwxq3MZbYRuvps2cw72VJe49uJ1IGeUs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZzHzVApIDy2nWQg2Z2hT9PBHEg3lwRPGSUz5DCeTmAEPzHetNSK+W6t1ZPCbPESzWA+LJCrQnKNFkIbZ8eVkaigX95rEMJ6pPa6xEJqxTau17+avE80cydcQLB+m1LOFKpCeTUWmJuBhgsEAZ131AuOIV8IZQDSdRvOIHazNA1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-73b909fbb6bso1306623137.2
-        for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 03:13:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787220825; x=1787825625;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=+W1h9goTHh77Au8749p4RyYvKYe3xrOhWg/p6R4W4WY=;
-        b=nsut8FdyEDygjqKhf0Twmrn0fBVrnlu9fv1+MJGwj4PEBFER/GfFFFxSntHcnLFzPq
-         ndbZY4ApO7XkHH3SVtYOa5IQyrFd5HQJgtwe+QLXKun3lVJba8NMwefEjBpJ78grd09R
-         G6QbF9MBjMCxD1C5BYBBXr8/bLRnkh5ftpB2YZLSMq4sBAvU6hsyWigygTgauuahd8Dj
-         nzzvTjXEZJx/FEkQ1v5J8bhTmNL61wboK9K4lB+dVCtbCkqrXiG8pDSLmIzy4D69pCJk
-         Gnvd7KpcAXVFh+1r6SxRdnsH7psVAZ8+34/MyTKRthqp8H2OxXUtbaMhEJF6VDryLIoN
-         UKdw==
-X-Forwarded-Encrypted: i=1; AHgh+Rog4ULnCiC/OlnGT0aRiDMJ+Wwtfcy4+bjt2bsClpv3qAcX4M4HOFz7Yr8VJD4Xl1dtDVIMCio89A7WgA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOVhXR58E4eFVu8nR6Awxb6SHwaeBTS6E0UJndoRfj1HAgSnKU
-	DC1H8H9ywQb/4JaerLjzgHZ9Y/40SntLu3Er6edi//vTMtPd2RGiiQ1QeY6083eq
-X-Gm-Gg: AR+sD101HF4Slpa6JFizulI7Rqr26u3V+BUcyc4pPkszRmQQSU2jfV81nMXfGnoO9CP
-	DYtuh922SEaI52AvdUM1CkIrpVM/XEGSoRr1nxHv2NUhdned1zq2WfKJ+qfWR2q3Udh/qtXoGfR
-	lhcvGd2YoRfIRQvbVlEBNa59u92EnjayAtug0vqHcebY10LKZJsoXZ3pXYRIc4mtKFCnKN73Mbs
-	FhG/6D2pK4am+A33pwnAzG8oRJ6OXWWBb5/uuKeYxBr4TiImUB0VMDrmAi5hX82qAtwOaHZhfCb
-	rsD0L9kq04JejEr+kuOCfIUwcTdoc4wJIfpLner/Sspqgl6yDr46TaXDgi18vi07dc3M6kEygeW
-	ANBbNY21sbSlSnTO30O6Gkb7faQcS8yNhwqLQBLKsRVSl4wl3sPhLglCZ/8TOSwITn+XMy8ahsJ
-	EQZNAnb6XDXGspMBiPO0+P20+PZM2jwSEdgH448qvI2iynuDX31B+cfWWPif/VaulivFAXKUqGv
-	c5N5ioxgprfffxU8UvRNpOuEkmtMQ==
-X-Received: by 2002:a05:6102:5cc5:b0:779:fafc:99e9 with SMTP id ada2fe7eead31-779fafcd43amr120925137.0.1787220825487;
-        Thu, 20 Aug 2026 03:13:45 -0700 (PDT)
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97c4e90738dsm5161245241.9.2026.08.20.03.13.44
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2026 03:13:44 -0700 (PDT)
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5c5f23666d0so425747e0c.3
-        for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 03:13:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rqj6FPoU5oK5SU25oBPOFYnRs9GCs6p5DznDjD9sIIYC7uYvLt9qgTgRm2gvaZhM6kJU7zqirzF3IPsyQ==@vger.kernel.org
-X-Received: by 2002:a05:6102:370f:b0:738:fd01:5b63 with SMTP id
- ada2fe7eead31-777f8f80ec7mr4599483137.4.1787220823887; Thu, 20 Aug 2026
- 03:13:43 -0700 (PDT)
+	s=arc-20240116; t=1787221261; c=relaxed/simple;
+	bh=sCYVvPTW+2/mLPTcAQKqvJlqYUVgvZgoXYpPX0gzBlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aXEWKIXEzquU5td88XdKKuYvqkeJm0wQNIG9QuZifZu/dWIdtTD8EglkWbmx4xdn8hzN8PS/QbjS609N2TaeihQ5mOPGb8ZuqaiXw7dEIaq+ZoYDHrKlyNNTh8zPc5Q+z1y0bTsEqs3VLCZZn9p0F3ngj5cBYag3nvEuWHqQ1tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oK5aMTfe; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oK5aMTfe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 008FF1F000E9;
+	Thu, 20 Aug 2026 10:20:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787221256;
+	bh=PFeVwHGwojWnXM72C/0AXyTioasfj994XzOc2WFlW3w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oK5aMTfe5TvV2iIKE/dNudC6IwI1ZCK8PKLDzrRcHutv9MJ2vtmSmCV6/WCRwSKV2
+	 zOV+y+NYefphPBjl54Ydhag+PO7HfOxpnQh1zf24JVKdaOAE0r3hhYVIMI3Oztd8UN
+	 TnGbbAo131Hfe98H8SOUVzzxn3Z/4DYHNOv+hFBg4xQF/s8ftfemkAuuwzCzoek7nH
+	 xnPp9//bdL5kP6lG4Rc4NYnLiFLBMQD5FZRqhn9azC5HPE3tRilTMCcp+F+pj31tF8
+	 MpW9FU/R7AvCDt8tFt41RDwlipB2YaIg+hZlLTXjeIMVXoSI4fdysgCaNlvF4QInFx
+	 cc7eYs6p94ssw==
+Date: Thu, 20 Aug 2026 12:20:53 +0200
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Rosen Penev <rosenp@gmail.com>
+Cc: linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, 
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: tegra: ADX: convert map to flexible array
+Message-ID: <aobUUhKX4rGgjQzX@orome>
+References: <20260814205018.39015-1-rosenp@gmail.com>
+ <aoQ7SynywUKcIAaS@orome>
+ <DKSCUAP946RH.AXJJ9UJMW9CU@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260820095742.3094558-1-tommaso.merciai.xr@bp.renesas.com> <20260820095742.3094558-2-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20260820095742.3094558-2-tommaso.merciai.xr@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 20 Aug 2026 12:13:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXUu8M4Xjb27XLcMWGYFk6NdKwKB6WO2ZQ_FCAvMTJshQ@mail.gmail.com>
-X-Gm-Features: AcwNN1VNatSgn9Gu7wVYSsx8Z9RP9z3QZYhaLomWZy8kncfpOIt52cycw16PoQc
-Message-ID: <CAMuHMdXUu8M4Xjb27XLcMWGYFk6NdKwKB6WO2ZQ_FCAvMTJshQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: sound: renesas,r9a09g047-sound: Drop
- #clock-cells from required
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	biju.das.jz@bp.renesas.com, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	John Madieu <john.madieu.xa@bp.renesas.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rim3mcgd5fnhwbvx"
+Content-Disposition: inline
+In-Reply-To: <DKSCUAP946RH.AXJJ9UJMW9CU@gmail.com>
 
-Hi Tommaso,
 
-On Thu, 20 Aug 2026 at 11:58, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> wrote:
-> `#clock-cells` declares the node as a clock provider for AUDIO_CLKOUT,
-> which only makes sense on boards that route that pin.
->
-> Drop it from the required list so that boards which do not wire
-> AUDIO_CLKOUT can leave it out.
->
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+--rim3mcgd5fnhwbvx
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH] ASoC: tegra: ADX: convert map to flexible array
+MIME-Version: 1.0
 
-Thanks for your patch!
+On Tue, Aug 18, 2026 at 01:33:45PM -0700, Rosen Penev wrote:
+> On Tue Aug 18, 2026 at 4:04 AM PDT, Thierry Reding wrote:
+> > On Fri, Aug 14, 2026 at 01:50:18PM -0700, Rosen Penev wrote:
+> >> Replace the pointer-based map allocation with a flexible array
+> >> member and use struct_size() for allocation. This simplifies
+> >> the code and avoid an extra allocation.
+> >>
+> >> Assisted-by: opencode:big-pickle
+> >> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> >> ---
+> >>  sound/soc/tegra/tegra210_adx.c | 12 ++++--------
+> >>  sound/soc/tegra/tegra210_adx.h |  2 +-
+> >>  2 files changed, 5 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/sound/soc/tegra/tegra210_adx.c b/sound/soc/tegra/tegra210_adx.c
+> >> index 9175598b52a7..d607ba4233b6 100644
+> >> --- a/sound/soc/tegra/tegra210_adx.c
+> >> +++ b/sound/soc/tegra/tegra210_adx.c
+> >> @@ -677,11 +677,13 @@ static int tegra210_adx_platform_probe(struct platform_device *pdev)
+> >>  	void __iomem *regs;
+> >>  	int err, i;
+> >>
+> >> -	adx = devm_kzalloc(dev, sizeof(*adx), GFP_KERNEL);
+> >> +	soc_data = of_device_get_match_data(dev);
+> >> +	adx = devm_kzalloc(dev,
+> >> +			   struct_size(adx, map, soc_data->ram_depth * TEGRA_ADX_SLOTS_PER_WORD),
+> >> +			   GFP_KERNEL);
+> >
+> > This is slightly hideous. Maybe add a temporary "count" variable for
+> > readability?
+> The reason for this is to allow a treewide conversion of this when
+> devm_kzalloc_flex() gets introduced.
 
-> --- a/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> +++ b/Documentation/devicetree/bindings/sound/renesas,r9a09g047-sound.yaml
-> @@ -298,7 +298,6 @@ required:
->    - reg
->    - reg-names
->    - "#sound-dai-cells"
-> -  - "#clock-cells"
->    - clocks
->    - clock-names
->    - resets
+Huh? Why not do this right away, then? It's a waste of everyone's time
+to do these two-staged "cleanups". You're making maintainers do the work
+twice for no benefit whatsoever.
 
-I disagree: this is a property of the sound block, not of board wiring.
+Thierry
 
-Gr{oetje,eeting}s,
+--rim3mcgd5fnhwbvx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmqG1QQACgkQ3SOs138+
+s6HYPxAAmHrz/w3m6t4cJ6Cyg8UPUUzrB+4HAycviPsQGrBsdElxwAkz64m5/ZAF
++y0yY1N9THj6mph0j5SKTaLLEFQZ3/Tb1Ndm1wHtCgc/e5R0LnFOoxAZ05pxnjUc
+9VNfmMeF2Yhgp1UKoXkhr7wEEOQcYgFfPnxQ3S/A/YchPugWhpORoKvz605p9qNM
+kvXYqyO9FMTtYQ4pW/+4LlB7HjJldBimOZ1B0DS/0tbo5ib3BT8IDGQ7ICQa4cjA
+ZlA/sjm210V2uBScSdqvLS64G6Ay3cD0o6yNc4QmDi0CW7LbrZiB6FEcS6sapyLu
+XfzblXx2f1cvulL9n2QrE+mcwe6uJxs6XDrBYXnj1ncfeLBd3rPDo/0pOKW3Wy+H
+1QmGrvhyUML4ewnq4TXPUxghcV8Nz6daY/Iuq/Z6BCMWxvYVE8UEd4Csqy0uROFJ
+rgIt7EEj0fTvUNcMYBDr/QMIT+cUrPPnQ+NlNLDmuavo50QeD9ECyuf9AdwOxGSu
+as7dxsIV9xs+WmAX89LgFWV5LlVjCClcV1QlgZ1U+rzBxspYWLGlBJTVhAT9zj7f
+yFiUNycpRnaXJyKrO+kRx+WQoU6gFCldLOJbCU3pQmEUAHpY/eynXE3+85Q3ZstU
+inPJ1YPUZXQJ5teit7lCfrl/OCka+C5A/DcUSrHAwDjm/35mI98=
+=Uw62
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--rim3mcgd5fnhwbvx--
