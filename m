@@ -1,112 +1,167 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011017.outbound.protection.outlook.com [40.107.130.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3E48C1F;
-	Thu, 20 Aug 2026 02:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787191353; cv=none; b=Ysy+DYpGBBsA09jKDifyAopKuCoPo/2eMOG1iPRuwJ3Wn9/C77GgxKxWrklri5scxkzt6Mljoms4aOLB2XFeH92+kkm6jPM6VZRxJF2R/TxsJAptPuYWoYQqDDdxQ+kU4rmQazIraxO6sCV7z93oul4Rz55NFgEVHkyByXyBrcQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787191353; c=relaxed/simple;
-	bh=fQujZAuBnN9R+5vLCY1p47CiB3tjCHl32vKYjRi2QeY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WYOFQ2arZkHduMrAMH+8YPPGhezyra3TKojeM/2oGIJBJjlNXGs4knOuYGmj+Bbt4cvfczFtlHtbd4DULe85I+VxvIddBHZ35De2gwy+EWUfBZipn6wVCt2qfJ5+7a5XL/u8Y5dAt8QhMvxPk0hpqczpW9JkPaXq9brFtyeGu28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from DESKTOP-L0HPE2S.localdomain (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowAB34jwtYIZqKdsvBg--.10854S2;
-	Thu, 20 Aug 2026 10:02:21 +0800 (CST)
-From: Haotian Zhang <vulab@iscas.ac.cn>
-To: perex@perex.cz,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC72C0F8C;
+	Thu, 20 Aug 2026 02:15:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787192107; cv=fail; b=aoyf0BK1f1Rnun7fWmrzP5uqrO4oXDg9reGVG0gFZwddCiLWxN1kJ0eIr/aet14/mh0PK57IuD4dFguq14/dm94n5yJzQCameIuakLaPjFnMg6iH8b4AiouOVEu3FiCI2L7JA0Kd7twDhH+rDNa9plNBOzJgH384zaz/Eb17gbw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787192107; c=relaxed/simple;
+	bh=0hAYiPKvHajrJJvQwns4MtjgNI7E4CVl1JQyrcwuVN8=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=uF53A8dxZNx0Jr2TUTJ/vvspyRwFpAwLRB/F3E3iYVi55qS/IRMOkfoAxkILcz6uRO2dBwYgD+IE3IO7XztrBmPPU9QFJTT8mvyeI3qrStFOzrEEJxYH7ZbZAuuwS6CKCGv7M2Eni+p33Ch8UfjzuT26qOajizsHudmq7ytLLd0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=QKbEWpUY; arc=fail smtp.client-ip=40.107.130.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="QKbEWpUY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KSlydv+stCppYSMW17U9fwnfm/wRVgCEhPts+nVIxMgM0gc1zj+lCMascG4I5P9XQ0pekpwxhMFczn3sNJlj5UHbAnbhPVJ5uUJLpxSX0/AzswlyX222dAwLGoJ7bVvkMgd2byLBAf7Wd/UIKCuyVErR5YeAT+jNIQQ3rRUIruFttAbQn+VOdExo5+PD8LGSjjxi6oZwsKm9J3SC9I6XxO/sbYCGemTxxh7joxjBV/4Zh6wPXSQY0SXxkvpDimGeCUzmUZtplmdyzyKcDf2+g3RqU/C6AgXqAtuDZbOlZtMSZliWln/X5GwJ8z4V8/O+M9KV/Zz80Rus/YB2ib/j2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kR1XgxGbKumNmKejcbNHMRjqGcukSeyctrLfsw8z/o0=;
+ b=KVqesVT5p1gnPc7jUjiG7+uAhx0MFKXb1XXFSrfRf22fof5zo77hSp0mEoY63hsMvOmXzgPUtlGtLOq8UL+hLOnH0u9qlHNC16DASeXA5lEHSqb490ll7dc+PE3KK0bTflZSVb2zNPzIY9NfMmFJIix7gdS8lv1I2bnpQjHXGezxkxLUZAeV9mYaeZrXDQbQDUOEAg9pMmz0YItZAFy1dibwMwAU9yUzmkM95Z3nVEbVuqPyIx9e9AQ0baXhG7F0IL8Hb2OidtYCq2rykP23W9D/QIZOtE98HSFrKmO04CcNCD/qzbA4o1BORiX1GF7msa+TXnj/9QKPJIFAROwFWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kR1XgxGbKumNmKejcbNHMRjqGcukSeyctrLfsw8z/o0=;
+ b=QKbEWpUYeaUw5AILtDYqscrdYUmGhgYod/hKbPVoCSpzYVdgh8J1KwtUDmFCMj+larqF0om8GUrFXv8Z8ELZWciSXh8A0n0IHaofbzyRoCqy0x32dtC8tbg8BA3jR+AxLZoft/DftJEaej0Yi9TFu/jGcKnVh2KLF6pJOqJVGW4xtNE74sNPHgFzwjQ+u9eXlzNlO3X0m85TqY1kTDqOSFDZ7LP7r8azrEde0XTRi6ucJyA6sHAJq9XK0vjO516Ha6oh1sZxHK6UpZlg0ayki+NHWZlJj0J9+b1RUWXkKk9M//hY6BM/t6TBigZIcF5jHQC+XG/9lKr4lEniGYw0iw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20) by DU4PR04MB11857.eurprd04.prod.outlook.com
+ (2603:10a6:10:61c::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Thu, 20 Aug
+ 2026 02:15:03 +0000
+Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994]) by GVXPR04MB10021.eurprd04.prod.outlook.com
+ ([fe80::d247:853:3e16:1994%5]) with mapi id 15.21.0339.007; Thu, 20 Aug 2026
+ 02:15:02 +0000
+From: Chancel Liu <chancel.liu@oss.nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
 	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH v2] ALSA: ice1712: Fix the card leak at probe error with the auto-cleanup
-Date: Thu, 20 Aug 2026 09:41:17 +0800
-Message-ID: <20260820014117.14044-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260819084959.10649-1-vulab@iscas.ac.cn>
-References: <20260819084959.10649-1-vulab@iscas.ac.cn>
+Cc: Frank.Li@nxp.com,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_mqs: Add DAPM output widgets for MQS_L/MQS_R pins
+Date: Thu, 20 Aug 2026 11:14:53 +0900
+Message-ID: <20260820021454.2229094-1-chancel.liu@oss.nxp.com>
+X-Mailer: git-send-email 2.50.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SE2P216CA0097.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2c2::16) To GVXPR04MB10021.eurprd04.prod.outlook.com
+ (2603:10a6:150:112::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAB34jwtYIZqKdsvBg--.10854S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFy3Xr45Cr18ur43Cr1rJFb_yoW8Cry5pr
-	4kCFy2kr4DJr1j93WDXF15GasIkay8tFy7GwsYywn5tFs5Ar1Yq3W5Ka4F9F4SkFW8Ca1U
-	ZrWYy3Wjqayft3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-	7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbV
-	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AF
-	wI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1D
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUBT5
-	dUUUUU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAIFA2qGRVdnTgAAsf
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB10021:EE_|DU4PR04MB11857:EE_
+X-MS-Office365-Filtering-Correlation-Id: d355fafe-3c48-4571-4c27-08defe60d75f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|19092799006|23010399003|376014|7416014|1800799024|366016|18002099003|3023799007|11063799006|10067099003|5023799004|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	Rm3ShT6L6LpNYlaktEj55qsHzZ4kNgiH1r0pu/Sid7ap5Nc1PhKqdxJPnmNtcERWaPujub7JchJlITl50aPiFgXHne6MhuNPRG4rQuqxdkc4rZk3OafCH7jk7xRzij4dMmay2WuWbX24MBsJIOejh2dfRaLIjggXYIkoHr8syCOv2JI9C57JHl54AkwpDGDXNHlMqJ1jjrWMTu+cAGAi0gSk6AMWHK138cYQ4k6XqnYZ20qRAcKDQemIUxZ2JnTjY+ga0T6MygQDlG4/tCHdEb8r98+hPIZoOcgIYb19nwKCBMoai8/ObyF2V8GRRQH4Arh+Kv6ahfDJSvmczcc4Ve2H6Vn6pGm9HthXqCKzFdJuHbWuImnWbxasqyVh1MjmlVEp0cGdbaqhlBrpLOmQ2iFclJn83kqCFmNRnL2bdNhl/LTH1WaDq6Hdb8s/ct1ZoCtu6KWPMHXpDnS5nNrhwGmnBw0TPqLevfH7pff90E7hFlGJCws4PTYee6V9o7w72No/0xgdxfcovovxiWu4F/o7Pd5kR+9YQLMKhTIaMdLmTniRn7t2LPtgT6pckva1Xf5at8i9KQttMwm0g7pRhIZv1JVqkl7mHA8NdlOAk/QKh4qzer2Zyv6+0LV9SuAsqHR9XbproiNF5/7p3GOI7l50eSMeiyZA6lITXuM8D3U=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB10021.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(23010399003)(376014)(7416014)(1800799024)(366016)(18002099003)(3023799007)(11063799006)(10067099003)(5023799004)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HhVvmOA7jQT58YLY9c06OXlzCfJykZAhfL1zo3GiaEO7EHhrQO19vwf1lXVF?=
+ =?us-ascii?Q?b7sHfzcRb5tyjwfD2YIIvHDHIfWWXnW5ZIjP75ImPqPm8pbFud1edVL2to/x?=
+ =?us-ascii?Q?RRzZGQqV/vQouFUZL+2n23f2s2n6CWhDp2Vmyzsbc9Pbi2yvXNgYau6I5oKD?=
+ =?us-ascii?Q?oug+A3KswwBsTF9uJyQBlOPj2j+UIL7uSPBd7NXTYhB9IcxR5XPT4QYGVbgD?=
+ =?us-ascii?Q?Oc7mOEGIBljKP6oBph1RlIN7MnMrWtrcBlnRK7rXgBN6TIdT1F/svNIZNMIN?=
+ =?us-ascii?Q?sz/MxhWmmf9C9+FbraM1dBxa+eIquPAcFxlkgVcv975FFMN1t0tVn0DPMmfj?=
+ =?us-ascii?Q?5BvWeuUdQOaLnmb9GqUm15MAw51iy0gFKk9qVDGE9QiHdelrMObxzH07ZAXS?=
+ =?us-ascii?Q?aIDfxAkLqXDnhhYZkSBbRliI5EsG9b3F434zx/quYd9bnA1Hq1XI9P6x5WNO?=
+ =?us-ascii?Q?TRyuEcAsZISs0qUhy3YGB8+O2AFauXHj/tpAtdGGbPItKFshkFqQSQEOHdpo?=
+ =?us-ascii?Q?SflMDGiw9xFmys56jZC2llhjlwTvEJXmFP3bTKo/KhB172DQaQTg+/6Y7P/b?=
+ =?us-ascii?Q?zAxJHEyW0ryfgL7hryjl3bKQfOO8R/zoDeh2YWX0oucLwQoIx3a4nvtAImom?=
+ =?us-ascii?Q?8mZprNrPHSPlIsuexHXwfaRDPqF6yTTy/+zKhfGKFNbpGIw/71Nrg3kSpAju?=
+ =?us-ascii?Q?R9ye2BwDifu6/G8u/fnUyKK4qIIbBfxR10D71pbVdtJWO6Q2g/HErKn2RtjS?=
+ =?us-ascii?Q?ZfGnlJMngXXL8U5Auz3ml1Chrv1BrSYcvzh1p/WvRmTF0P5I4pjxclkpJ5Hs?=
+ =?us-ascii?Q?XeUksdntJlU0YCbUA9tkrOlrKXafHiHj9yCFHhjtRb6b6B9ElU7q8QhT+6rI?=
+ =?us-ascii?Q?xrrsYTUi/iUK+A8SE0zRS6/PdAn2h2PtiF/az+Sm76lcxMyZ2B1Sba2fy9X7?=
+ =?us-ascii?Q?euKIQVobpT+quPyC0OaHJYODv6vfCtaLILo9YfN8QZ+usWvC48nBSE11+ko8?=
+ =?us-ascii?Q?G8WiNZJ0VS0RV7Lo8LpLts96LhWistnSyYezpTthhrYKAotv+LD135D8I33c?=
+ =?us-ascii?Q?uWmAOxq30C8+ocnEGgKhFI7k29P8BtL95pHBF4t+2pOdO+AJ0OlMZuARjExX?=
+ =?us-ascii?Q?+5qeDE5JQT0BASo6Oji6n1Gsv7ONGR4GXdrc2m8SbD2aqCH//KVohOMnq6Rz?=
+ =?us-ascii?Q?J9YAAvEI0Fxw7zDMxkG6MBiHIgl9hJrQb2AnsbYQX8kX/I7qUiEPtcAQJaU8?=
+ =?us-ascii?Q?Rx9fAbYwVHKOEcjpWPKYM9sgewhNIODJHAs1JV6RbAWxVrNUvzvX1sjwP0kv?=
+ =?us-ascii?Q?9n/cuHNC1+DeaNO/EKIUjMlDWqjPak2Elc9FbzFp46e86/FLc/fkmfn6ZX6Q?=
+ =?us-ascii?Q?QbxXzyNnjfZ9+72KYrWrIJ09nDFdjb7X/f7B5Xx+uZAmXJisKQ34EIH2T/pD?=
+ =?us-ascii?Q?DD7ewngRF5Dg94fO1YWhwPMSmDJrTZTaNySZ9IvMstUBBDZrq+ps2lSJHzKA?=
+ =?us-ascii?Q?eJJCC7OEIVaiF4RwNGCk9rNzFSuaxsjlI4R1Y9iTf1T1Mm1k/EeIfSBjbKXX?=
+ =?us-ascii?Q?PwUopL3XMgudhTtHQO469r7vPtxmPxjpaz5TYmsLLtqck+H8zFAAlFINqs62?=
+ =?us-ascii?Q?tsBN8DdNv/QD1rgy4WnRwUuscC7Kaakuy9CrtzKnuEcoSDdV/qQmDDZf3KIU?=
+ =?us-ascii?Q?gDvtPIpim2K5GcrVLhGxEjoh6ljvVfG4Ai5BruO4Pb+KyNSYKaEXTjxB4+nt?=
+ =?us-ascii?Q?f4j8CDgXlSgjNadhspnl7VDRQACZDraj2jIm20xzEhdh+dEAbkSI?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d355fafe-3c48-4571-4c27-08defe60d75f
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB10021.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 02:15:02.1359
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7wWlXEMgyspk3xtp0J2QKZrxxQoorn8pKw3dtAawdo/kFcEMOBpEKuzVmTUkBQ8WoEYNQ480GD/FCP6i3+rfbzEhAawobpwzvRyE5dk22WSqW4ZcUwSJMn934IAI4jGt
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11857
 
-snd_ice1712_probe() performs multiple initialization steps after
-snd_card_new(), but directly returns on failures from later steps
-without releasing the ALSA card, causing resource leaks when
-probing fails.
+From: Chancel Liu <chancel.liu@nxp.com>
 
-Use snd_devm_card_new() together with scope-based cleanup
-via __free(snd_card_unref), and clear the card pointer after
-successful registration to keep it alive.
+Provide DAPM output widgets for the MQS_L/MQS_R pins and route them
+from the "Playback" stream. This allows external amplifiers connected
+to the MQS outputs to be properly linked into the DAPM graph, so their
+power state can follow the playback stream.
 
-Fixes: ca642da4b33d ("ALSA: ice1712: Allocate resources with device-managed APIs")
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
 ---
-changes in v2:
-  - Use the auto-cleanup instead as suggested by Takashi Iwai.
----
- sound/pci/ice1712/ice1712.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ sound/soc/fsl/fsl_mqs.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
-index 1e39b985bef2..6dc9d1183d37 100644
---- a/sound/pci/ice1712/ice1712.c
-+++ b/sound/pci/ice1712/ice1712.c
-@@ -2515,7 +2515,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 			     const struct pci_device_id *pci_id)
- {
- 	static int dev;
--	struct snd_card *card;
-+	struct snd_card *card __free(snd_card_unref) = NULL;
- 	struct snd_ice1712 *ice;
- 	int pcm_dev = 0, err;
- 	const struct snd_ice1712_card_info * const *tbl, *c;
-@@ -2527,8 +2527,8 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 		return -ENOENT;
- 	}
- 
--	err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
--			   sizeof(*ice), &card);
-+	err = snd_devm_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-+				sizeof(*ice), &card);
- 	if (err < 0)
- 		return err;
- 	ice = card->private_data;
-@@ -2632,6 +2632,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
- 	if (err < 0)
- 		return err;
- 	pci_set_drvdata(pci, card);
-+	card = NULL; /* probe succeeded, don't release as error */
- 	dev++;
- 	return 0;
+diff --git a/sound/soc/fsl/fsl_mqs.c b/sound/soc/fsl/fsl_mqs.c
+index 901f840df904..5b00488253bb 100644
+--- a/sound/soc/fsl/fsl_mqs.c
++++ b/sound/soc/fsl/fsl_mqs.c
+@@ -183,7 +183,21 @@ static void fsl_mqs_shutdown(struct snd_pcm_substream *substream,
+ 			   mqs_priv->soc->en_mask, 0);
  }
+ 
++static const struct snd_soc_dapm_widget fsl_mqs_dapm_widgets[] = {
++	SND_SOC_DAPM_OUTPUT("MQS_L"),
++	SND_SOC_DAPM_OUTPUT("MQS_R"),
++};
++
++static const struct snd_soc_dapm_route fsl_mqs_dapm_routes[] = {
++	{ "MQS_L", NULL, "Playback" },
++	{ "MQS_R", NULL, "Playback" },
++};
++
+ static const struct snd_soc_component_driver soc_codec_fsl_mqs = {
++	.dapm_widgets = fsl_mqs_dapm_widgets,
++	.num_dapm_widgets = ARRAY_SIZE(fsl_mqs_dapm_widgets),
++	.dapm_routes = fsl_mqs_dapm_routes,
++	.num_dapm_routes = ARRAY_SIZE(fsl_mqs_dapm_routes),
+ 	.idle_bias_on = 1,
+ };
+ 
 -- 
-2.43.0
+2.50.1
 
