@@ -1,123 +1,112 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292AA1FECCD
-	for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 01:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787191038; cv=pass; b=HVE6Cp/2t9jGf/uT+cjuQvSrbnyVq6C9pF+oXEg+owifWyDfU1ipySfbkNMAnLCVas/zhFOvVxeu/DDkQkGBDNz88g560RRTQLv1UHQOZlQeie7ESOHK4Q+e7fyJZ/LO26pHSrPek8s+eDtLuyfHMZdmvOgRu8uoEiXuKIIAwls=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787191038; c=relaxed/simple;
-	bh=C3bR8dbH4tqhnjcwmnVGD7d9p9jk+49U/r8avnE1URo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aurp2hEhSJb09kOfsK2yw7G7VOhutUFrPb8aQpFJLE1SfLIKimeK6BfiAvWA0hUhc1YblFOwYIm2mcFHoEVTe++x8W19XXWThhH1Ga3ovaZbzmLSVg+jl59OzRNx4k4ouNEC5iAvyg25jJ+CTKZixWMwXz8zZdqzNe/n0dmQeQ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sLv6I/A8; arc=pass smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sLv6I/A8"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84a2c90e383so323494b3a.0
-        for <linux-sound@vger.kernel.org>; Wed, 19 Aug 2026 18:57:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787191036; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EMcsBX55OM8x9eQfL4U0QSAUl/qWKmZFqhWimwtRDP2WO7A/Ma//C6YCRhavPIoDiA
-         qV3tSXseNAHA6qHPwa1sOiFpfUQNCOyw+Co6tZKLnl5Dg51e7g5oqNqV6mliW8gg2Me3
-         nHR6bybAoSozwgMKEN+RfSovcpl8LWU8R5jPBG0hvMfnMmN3jiUbig2W1sOH+1exCCnV
-         K6fbJpJjvCwy9NCDM1Kwbe/ys+I7dEhkzTC5u3zdOR0xNP8lmJkD38t71NXGcw5AgRm7
-         CxDRuOGff/GuRSxIfsX4VgJURHJLw7Y3GXhtRXeJUdjv3FgyQvDTlt0JhLl35PssTjiT
-         zGrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=it5S9JSefBP08qQNXkvnIfWUHs/AeH/D7OPJ+RS6iTE=;
-        fh=qFkm5TCmquKMQCYEJHOD7yXq/otJw/5kLCnTJTWyZjw=;
-        b=azKMq/3vxxWSJ+cjyqd/vy/O3i8dGn2OgVDRNaFX07QNNqeQGgs0kzDS4wE/29F++c
-         y9MLLAUd9RcMCSi0yIOcspndTa2tpvoje93QlYpmvRC/xZxkMtjueskTUzY1gJ0RmhqY
-         s4B9bPKZmkEcEHSnsyL7mO2FxAVMMa6Eh1B3zQrYH7WCUFEgF2ejjm+r3tHm9oZqFfnV
-         ONyXDv5DZLDWwIkdIqsM5xshsVlz+0qb6jcitauzmB46dgZWk+A2NLHmHHJJIl56vl7i
-         2V3eqAqeT98wNyRTMr1i0sF/dVZuILHCtblrAnRFxJ9swziXweiyQlAeNVVWKKQFzxmK
-         g0Ew==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787191036; x=1787795836; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=it5S9JSefBP08qQNXkvnIfWUHs/AeH/D7OPJ+RS6iTE=;
-        b=sLv6I/A8dWeegSJIqGWkWhXKgDPhBQtYSiTIBA/conW0p7V8L4L33Sr6iMdD+PM7yb
-         +va5Vp5mdyS+RsJSmUrh+cVKxyureVJWLc0QGs6Uk9vKObIJg+T7Ze2NuG0A7KywmbLU
-         D513yfLhpSQnCVeRvylnxPAZytUTbiryLwSKKRYEIM7HtRul3UTomtXmQ5CmnqAlU0fY
-         NCVN+MttKDQUG2Mq7X2iPo5vuhUmo9kOGsIpmSdsnqiQhuvJ3LqnDzp6nqshdr1Hb1Gr
-         3dUUkzMsWvrUqjEbpV6h+JRl93jFfwoMlpEOalN6/5y07jCJGJZe9qdwl92u/2XADnT0
-         WozQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787191036; x=1787795836;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=it5S9JSefBP08qQNXkvnIfWUHs/AeH/D7OPJ+RS6iTE=;
-        b=dygr1Nvut+mzGIC6AXrUctVKfGlXNOoORyRKVtiT4gnJdOueQTDCIrhwxGBza0/3LJ
-         loXxxk4jRnJZwSDvMEeyG0NYjcGSmRcEfiwUQCuI8OFxQ1iSHRI9yk/Htk7pUAu4fNk1
-         yzxwd5wIBzEGR6JWZ4xVAr+RwU6IcBbEsDv2AEDjZ9E5nyr7XkSgVO003hw6ivBroy9+
-         gJc+R9YwPpxTZ56wpsVh0RNbYHxVuIl8Pz0ikamd9z1/cmS5Nc98AHvKJUNqawkR6bWv
-         irmMI+6N2n8X5Lk61qMvTdSSkNUgAXINADFI4DD2hJ3S3ZmFVC2I3BuoPIYb6OgUyu11
-         +2+Q==
-X-Forwarded-Encrypted: i=1; AHgh+RranRY0NqAMrHMzaLTSyr3SR3DNgi5TER5CJW5cPZN5Z71z9o70AzXZrzSN7QZ5TJ6mY5I+nursb73lXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWrqMiblCYF9tTMyC96OtfdNYjSonqTV8ckHMG+j1S/NWCOjkp
-	QJHUKBdClHGI/5vo4GPYfr3N/SPVO4Z1QjQWlzLy5jZ9Fmiw7eyznlKB32j0zY1pd8jeHOq9dbt
-	VnZeeLygSY4o18sx39g1MERbpvmtzgsM=
-X-Gm-Gg: AR+sD11VaRk0+d9L3ZhJXA/TWLLc0kO0Gn1QkrLwUtDFUFtWmnwY7kghRhSDVqR/PWE
-	C6CgNggGdYCK+ZpCNjpDsYCly1qToOntgEfQoNpb6OGDItxIh4bEBf/lzGcTrBWlKDHlV1pzY6N
-	aSrHqSeLPm4YdvHqmA6OoUvrktfWRz9fNLnUqiwetdAdKtGBgweEW9FnW+cnK8ss/Q6NpI18x8L
-	WGldBsAdXzKqmhqIHdjlYASJoPU7RY/O0EzCfjbRBJiTqFvc4QUqxtqU0q9YfOBU98xWkG+CsgA
-	qMgY2ThtEVRIVyM73aezV5HbRYbUQsfoasqwYUzLCuL/jIsZ3z1fxjQMxO8ajdFRpD1HRhsVhBe
-	g72/x6yPpY4za277RtpR/HmbWV9f+e/rCtR3xNA9N5WcIyRv8W/sd2SRs
-X-Received: by 2002:a05:6300:6182:b0:3b3:3506:cf3f with SMTP id
- adf61e73a8af0-3cd14c6b150mr3711941637.1.1787191036226; Wed, 19 Aug 2026
- 18:57:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3E48C1F;
+	Thu, 20 Aug 2026 02:02:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787191353; cv=none; b=Ysy+DYpGBBsA09jKDifyAopKuCoPo/2eMOG1iPRuwJ3Wn9/C77GgxKxWrklri5scxkzt6Mljoms4aOLB2XFeH92+kkm6jPM6VZRxJF2R/TxsJAptPuYWoYQqDDdxQ+kU4rmQazIraxO6sCV7z93oul4Rz55NFgEVHkyByXyBrcQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787191353; c=relaxed/simple;
+	bh=fQujZAuBnN9R+5vLCY1p47CiB3tjCHl32vKYjRi2QeY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WYOFQ2arZkHduMrAMH+8YPPGhezyra3TKojeM/2oGIJBJjlNXGs4knOuYGmj+Bbt4cvfczFtlHtbd4DULe85I+VxvIddBHZ35De2gwy+EWUfBZipn6wVCt2qfJ5+7a5XL/u8Y5dAt8QhMvxPk0hpqczpW9JkPaXq9brFtyeGu28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S.localdomain (unknown [36.110.52.2])
+	by APP-05 (Coremail) with SMTP id zQCowAB34jwtYIZqKdsvBg--.10854S2;
+	Thu, 20 Aug 2026 10:02:21 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH v2] ALSA: ice1712: Fix the card leak at probe error with the auto-cleanup
+Date: Thu, 20 Aug 2026 09:41:17 +0800
+Message-ID: <20260820014117.14044-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260819084959.10649-1-vulab@iscas.ac.cn>
+References: <20260819084959.10649-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260819101849.68010-1-phucduc.bui@gmail.com> <20260819101849.68010-2-phucduc.bui@gmail.com>
- <8881e314-0825-4686-a296-97c03b1dd33d@sirena.org.uk>
-In-Reply-To: <8881e314-0825-4686-a296-97c03b1dd33d@sirena.org.uk>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Thu, 20 Aug 2026 08:57:05 +0700
-X-Gm-Features: AcwNN1WvPV8f1W6lpVMiV3TmhZ52Aju5OoAforzPDg8091qw5BC36o8DvhecH-s
-Message-ID: <CAABR9nF1VaUKeUDhJydJYYc_Jc0kdYCdD3+rtLNR2SPCx9RPbg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] ASoC: mediatek: mt8183: Fix APLL enable error handling
-To: Mark Brown <broonie@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Cezary Rojewski <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAB34jwtYIZqKdsvBg--.10854S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFy3Xr45Cr18ur43Cr1rJFb_yoW8Cry5pr
+	4kCFy2kr4DJr1j93WDXF15GasIkay8tFy7GwsYywn5tFs5Ar1Yq3W5Ka4F9F4SkFW8Ca1U
+	ZrWYy3Wjqayft3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbV
+	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AF
+	wI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
+	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1D
+	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
+	0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
+	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUBT5
+	dUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAIFA2qGRVdnTgAAsf
 
-Hi Mark,
+snd_ice1712_probe() performs multiple initialization steps after
+snd_card_new(), but directly returns on failures from later steps
+without releasing the ALSA card, causing resource leaks when
+probing fails.
 
-Thank you for your review.
+Use snd_devm_card_new() together with scope-based cleanup
+via __free(snd_card_unref), and clear the card pointer after
+successful registration to keep it alive.
 
-> > -     apll1_mux_setting(afe, true);
-> > +     ret =3D apll1_mux_setting(afe, true);
-> > +     if (ret) {
-> > +             dev_err(afe->dev, "%s apll1_mux_setting fail %d\n",
-> > +                     __func__, ret);
-> > +             goto ERR_APLL1_MUX_SETTING;
-> > +     }
->
-> apll1_mux_setting() logs errors, do we need to add another log?
+Fixes: ca642da4b33d ("ALSA: ice1712: Allocate resources with device-managed APIs")
+Suggested-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+---
+changes in v2:
+  - Use the auto-cleanup instead as suggested by Takashi Iwai.
+---
+ sound/pci/ice1712/ice1712.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Oh, sorry, this was an oversight on my part. The apll1_mux_setting()
-function already logs the error,
-so there is no need to add another error message here.
-I=E2=80=99ll send v2 shortly.
+diff --git a/sound/pci/ice1712/ice1712.c b/sound/pci/ice1712/ice1712.c
+index 1e39b985bef2..6dc9d1183d37 100644
+--- a/sound/pci/ice1712/ice1712.c
++++ b/sound/pci/ice1712/ice1712.c
+@@ -2515,7 +2515,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
+ 			     const struct pci_device_id *pci_id)
+ {
+ 	static int dev;
+-	struct snd_card *card;
++	struct snd_card *card __free(snd_card_unref) = NULL;
+ 	struct snd_ice1712 *ice;
+ 	int pcm_dev = 0, err;
+ 	const struct snd_ice1712_card_info * const *tbl, *c;
+@@ -2527,8 +2527,8 @@ static int snd_ice1712_probe(struct pci_dev *pci,
+ 		return -ENOENT;
+ 	}
+ 
+-	err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
+-			   sizeof(*ice), &card);
++	err = snd_devm_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
++				sizeof(*ice), &card);
+ 	if (err < 0)
+ 		return err;
+ 	ice = card->private_data;
+@@ -2632,6 +2632,7 @@ static int snd_ice1712_probe(struct pci_dev *pci,
+ 	if (err < 0)
+ 		return err;
+ 	pci_set_drvdata(pci, card);
++	card = NULL; /* probe succeeded, don't release as error */
+ 	dev++;
+ 	return 0;
+ }
+-- 
+2.43.0
 
-Best regards,
-Phuc
