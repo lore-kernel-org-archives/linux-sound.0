@@ -1,75 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4EB3B0AEA;
-	Fri, 21 Aug 2026 07:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF5A73CC7F3;
+	Fri, 21 Aug 2026 08:53:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787298257; cv=none; b=plueJ+wYgBPFOM3F6Esh6Kos1z+lsrOT2xvL791+MX0gaBSGnA4l4iH7oE0kwVd3w2loNSYDnb19u5/OIJFSaaQDn819NC/lXJqM2wJQQN1jQ9hDB/I6T+DSLlV2kZOpxF2bdF1oi9j8MAUV9bekoNTDa0zcpbVhfKV5ocDsRc0=
+	t=1787302389; cv=none; b=Cd5alzIuJRrx5JXUj2iRstsr5RlAIoe+zA/SfWsw14VanlSFXU+m6TmZoIhvXFW18Gu9w0rCKi8r0pXdgsxB02b6s1LI5oE+XB5Xq70NJW52TU1C4envbUmbAISCTcEqq/1qb3AT/4ewgthfx5DREE8E8E4aYvAVrI0R4C9PiL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787298257; c=relaxed/simple;
-	bh=MqfV0nNeifyM88acdUHn5aO2f8L17ibUdT/rK43pAuw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dk8fBmMIUREYarFaTvaNlOSCrPsnIiTOSQ2wPKdE9a3jW2e3IyuBiiY3uvyatGV6NPiYlyyFx+yu6xNq0nWyZ89xC+JMVHrC/NY0EtJDzrlxzFBzIKLYkLQNha7h4O59rHOPIlLf1VzjI6VruFNKjBpgQWt3JAoPyUcTHAhmwpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iz0WIGc9; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iz0WIGc9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B71821F00A3A;
-	Fri, 21 Aug 2026 07:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787298252;
-	bh=VjXQZ4YqL5x4QZ1X8CSM8ipD+GmxEbhHc6vBGHqaXgc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Iz0WIGc9UvmVtV9tm4OIJc09o6oNQoI++86LWj21c3UwjflKdCgPGuJest5Se2sCS
-	 +h+WDtRXOenePwRu/ZWIfBR/YvjpXQ62FDhG1oODctCXtwCa1eJwWLXyZxyRRXY0JM
-	 RLEWXhVVInBZ1L4S8jrTSnTQvbIqIt/QZKchYQjqbADVoLjkm5arUpebAXWlQyDiVs
-	 XauV7apWUcGBPufhMwl4GWuotdkxdA2q7I0y6Nblmdu/areezr40z0qPRwLhGNfZKl
-	 vogpO9JcVUEnxvsk7MSg/EOM5KpphOIgrk65eIUoVr587LD9zb1QZTYFODYy49vLnN
-	 43jCQxUtXyWaw==
-Date: Fri, 21 Aug 2026 09:44:09 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v2 1/4] dt-bindings: sound: qcom,q6dsp-lpass-ports:
- Rename QAIF clock IDs
-Message-ID: <20260821-omniscient-shrewd-butterfly-d24c1f@quoll>
-References: <20260818084655.3240284-1-prasad.kumpatla@oss.qualcomm.com>
- <20260818084655.3240284-2-prasad.kumpatla@oss.qualcomm.com>
+	s=arc-20240116; t=1787302389; c=relaxed/simple;
+	bh=bL7Vt4WOxuAc9LQzPkcAnQS8qZ/McedjYWszdtBF8lk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lGrnuT1ij/93E9ULgmhGehbXK3j4Z9CRln83L0m9qdEVIsIuVfe4aNXJrrhVed1jHcTJMDYTEiCRAd6jiSVq7YvTpclrihUZYaiLS01jFR79VhbLv0/GAz7WPuRa7ocIot7cPXYBJMFRepJZ81rZ6n3oDin50fnBgPyR8VkbCuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29BF31F00A3E;
+	Fri, 21 Aug 2026 08:53:04 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Shenghao Ding <shenghao-ding@ti.com>,
+	Kevin Lu <kevin-lu@ti.com>,
+	Baojun Xu <baojun.xu@ti.com>,
+	Sen Wang <sen@ti.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/3] ASoC: Make sure clk_init_data is fully initialized
+Date: Fri, 21 Aug 2026 10:52:54 +0200
+Message-ID: <cover.1787239902.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260818084655.3240284-2-prasad.kumpatla@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 18, 2026 at 02:16:52PM +0530, Prasad Kumpatla wrote:
-> The QAIF clock IDs were introduced with a LAPSS prefix typo. Rename
-> them to use the existing LPASS naming convention and update all
-> corresponding in-tree users.
-> 
-> Since these IDs are new, rename them directly instead of keeping
-> backward-compatible aliases.
-> 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Link: https://sashiko.dev/#/patchset/20260804070307.117119-1-prasad.kumpatla@oss.qualcomm.com
+	Hi all,
 
-You wanted a Closes and Fixes tag.
+The clk_init_data structure contains several mutually-exclusive members
+for different methods to specify the possible parents of a clock,
+prompting drivers to initialize only the members they need.  However,
+not initializing all members may cause subtle issues, which are only
+exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
+enabled.
 
-> Signed-off-by: Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>
-> ---
->  .../sound/qcom,q6dsp-lpass-ports.h            | 56 +++++++++----------
->  sound/soc/qcom/qdsp6/q6prm-clocks.c           | 56 +++++++++----------
->  sound/soc/qcom/qdsp6/q6prm.h                  | 56 +++++++++----------
->  3 files changed, 84 insertions(+), 84 deletions(-)
+Hence this series aims to make sure all members are fully initialized,
+to avoid such bugs, and to prevent future breakage when converting
+drivers to a different method for specifying the parents.
 
-Best regards,
-Krzysztof
+Part One[1] fixed all cases that I identified to be real bugs, in
+response to a crash I saw on BeagleBone Black.
 
+This series is the ASoC subpart of Part Two, which fixes remaining cases
+that are currently harmless.  These are still fragile, and may cause
+future breakage when converting drivers to a different method for
+specifying the parents.
+
+Thanks for your comments!
+
+[1] "[PATCH treewide 0/5] clk: Make sure clk_init_data is fully
+     initialized (part 1)"
+    https://lore.kernel.org/cover.1787165329.git.geert+renesas@glider.be
+
+Geert Uytterhoeven (3):
+  ASoC: codecs: lpass: Make sure clk_init_data is fully initialized
+  ASoC: codecs: wcd934x: Make sure clk_init_data is fully initialized
+  ASoC: tlv320aic32x4: Make sure clk_init_data is fully initialized
+
+ sound/soc/codecs/lpass-rx-macro.c    | 2 +-
+ sound/soc/codecs/lpass-tx-macro.c    | 2 +-
+ sound/soc/codecs/lpass-va-macro.c    | 2 +-
+ sound/soc/codecs/lpass-wsa-macro.c   | 2 +-
+ sound/soc/codecs/tlv320aic32x4-clk.c | 2 +-
+ sound/soc/codecs/wcd934x.c           | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+-- 
+2.43.0
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
