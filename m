@@ -1,153 +1,276 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A403D5652
-	for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 10:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787307929; cv=none; b=Ny2cUDh/n5tcOupW+S0zwA9nKHADXWPcRBbQobmnk/b0vKYIHx7gaTqifzGB4Y7FDSF4lb4pHat8L68wFx0W9Fj8wNy6/8NeeJ5JBMOsIEYadxHPPOH8eFoB5rlfpF8GnT+7NImUKm9XyirJYrncrYb+KAkDfzFajHQd1vSBnX8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787307929; c=relaxed/simple;
-	bh=9+nNgrIbtiaXxwQEJECnJgBnQln9hyRAZut5Q+duTm0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G35vkx2RXhe4k8EHxkyZ0PofPU3emj0snt8Kz981LziQ6Oe7qhq10wMlprz8h5UOdR59nQ9vEHdpstzXU2QoVybHYrkUfFU0Is0KrgkhLiiRsaDUHrNiVrFqqXxN0X5Dowq8206n5+5thCNgo3xSLfpKBliQbrYh6E/2gc/GI8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OqxpGv0Q; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCA83C2774
+	for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 11:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787311418; cv=pass; b=S0sor+EF72Kn1U3lvICn6GYUxxGdS8Qdv2GAkSkxMTJ/WZd9AHM1VTfZp93PlDrSdIZL3agIEicOmbg2Ew2tJcB9ysJ8PVzhVWUPrw7iyGRBKa/+VmRiEySC3YDK7/zRMgB1f1pUbMFKE6mcDj/SSPZxcnLsq5QfKU4/3MmcnhU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787311418; c=relaxed/simple;
+	bh=LiExl+gOe3SeIzZXSuj4Zafu/2QOIkUK5hELicXazKo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZjreFeyy02eTOi5EaLaduIx4irWlMFjG33mytTgVLppnJzUJEKxBYfBR5YUVFt+albikyEkJ5rvXjm4Bo328xT3ojw4HFpG5UVI2fagFVU/A3v0fGt12qpz8B82IHNgF4xFybFathtNhMoqoWNgQpPurTt1h4kcbZz/CY8jb0G4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QatBGwuz; arc=pass smtp.client-ip=209.85.210.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqxpGv0Q"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c160420289bso128111566b.0
-        for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 03:25:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QatBGwuz"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7f18c0e03e3so549060a34.2
+        for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 04:23:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787311412; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aZmcDPkeldq6tCr3vNPQGoIxJFIXqStQnwi91xk6xxLWCC8C/TmWPYLw5FUmRGrdfc
+         QvxxKhyJ7DvZH+Uhx1ER92ZvRVI+wvQ424zpliKhGt0k/NBYkkH76NX79GW6kOPC5yPV
+         tYlGPjR4Qym7dlAa7XjdxpURQNLOk4DFDZbjEyRGRi3HBOZyxL2IPOQsRkoFcMg32FX4
+         G0Bd2f71J2eddZi2GYLkPppjs4p0Q46os7Wlqa4XbTK01YpC5QlN2oyZrhr/qv5a++VF
+         +eLdDqAWBSgA+V+cp1siSfw0Mfd48M+0ZvnjhpKdZZzP2iOg61b8nMpm0r2AA06guGHt
+         I9WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=XP0TXz3XgGZqxpegnUNB5sva+CKg8bV+74SS+MJugIo=;
+        fh=QjBig1gfJBzUKK8oH8Pr21yAL4IbUYSxVachlafdwmA=;
+        b=SfKOTA+DKVhBkaWUn4/5kOr+/zuDpIAexcCj/5trR3GJAUteA1iqFzXIVVTh/0rK4Q
+         zghRVVwvuL8cLylSXXicyNctrjmxvmTLcYr0KYSjdBm1krjLKSdiXeIbYOTXKWAH/oTd
+         1c/EVfhxGqOCQcERAI6PBmub/A2h5pJVGX6fhCWCQnOCO2RskhsLnySJn7WiBsqE8sVS
+         h0Mc4iaCqb8gvPMCDJHMStS+/q4XnNtDp7ZdWKLAIvo0nim+1tRZg9rWRTt+1Vz8MXml
+         DZqgF1rha18juNByhQZat6ExfcaPcXxZQlWWLTSTClbUMkVOhl8Pom10haK0A/OxYxHY
+         4KKQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787307920; x=1787912720; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VnOEYXmOukDrbPX5qoi601Gks/SapggbUlIYE99i1mg=;
-        b=OqxpGv0QxImviiGLr7byloL2rh7HFEFsRc2Z/YAczYSpHfk/Tu45qYl5pmC42ZUg29
-         oeqr7pZydE6uNmxYRSVW2UYdPSoL+P8zZbS7T0hPaDfnx3q3fPC6JMWo1N2BF1qTG+ON
-         1RWEiiCM6r7jES/2y8xCBb8H5S8tOxpBIS1koG2XFTiLjIBemP6l+dYIKO5RagYxsORT
-         J7RzgQSC1fcC/tpYQ9q0E72UPzBOy0E8mHVsRi1qdYmNdai/Jitvw6tbdfI76hqDPmNV
-         h1f5vudJdhVsl6WWasZuSs22yrH5RSh6LwAmd0xSegDLcHMGoICKa+sg5Ac5xcW4HiNw
-         izag==
+        d=gmail.com; s=20251104; t=1787311412; x=1787916212; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=XP0TXz3XgGZqxpegnUNB5sva+CKg8bV+74SS+MJugIo=;
+        b=QatBGwuzib0/erTsEzv2jLI45++dS1cTy/BJrdOVJ+wSglKZiwxWPGx8FPVpJcdCau
+         hLdc5+AHY+UUr0QFypFZM8YwMG/gGBz8MXYWpB814qn/4/OLtGauMWgwqc/D+UIrH7/m
+         JPd9BemOiGMgYj75N+rD3EIYdmBcHoAfcUpi4SJV5Uv1bQ3K8W1hUlCvngvK7OrLscmB
+         QpxCEw1medGVmy3IYvCL3zA2vv1pcssztHRWstsMY6rkLdRbQkdOw7CCMLCUKiAofujL
+         W+T0Ff80FmGaunn7Rrk46LpD1VaMdtv+0gcHQwesULprp/5ZlKZG1B2t2ExDSywoxJzS
+         BoeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787307920; x=1787912720;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VnOEYXmOukDrbPX5qoi601Gks/SapggbUlIYE99i1mg=;
-        b=GW37oADWZ21YqRqezvDFjVBkctga1hoZnhLxNoDLrQou6w5Eluzhb4Ci+cSXpaUlVl
-         izuW/kDqzDZGx9lPPOcjqbAcDCGqRiH6LwfYHOE92o86nimfEZpIAx6BzOkdegXb0dbS
-         bR7FxlVwELqqrYUyrt+ZhHYMarMxg8LZTUBKtf2loeQf6W6737GgaYou/z0pcB964Cwh
-         nxTyR38ZhModIhPDf7AD+oxCE4h3A20NTY/R47ps0dyPMmIRqfFcNTY5NrsZzcMYHQp3
-         Fn2JjdaRreaxh3bNEFrt9iE/U49I1QMR98bwut0O4/vu4hMvo3iFw5j5RN/mQ6Vo0ugW
-         LxkA==
-X-Gm-Message-State: AFuF++maxXagpmM6ifQMM9qY0MYJjZ6sxmW89m2Jdd6SkGZW3TsFY+28
-	bBVlcxnow2lkxWghSOtWJzzTH7/UnQPV3JXn8oC0YAe9W9bNWLqobV6fKA5fdb9/GHQ=
-X-Gm-Gg: AR+sD12TAiaeWfB8qAJSBB5OzLwfLls9x5RUsZJvbC8UT5R4gKf5AwU3irv5mDs4W0+
-	6yi4WU05FPp7YHtRBPrMvDt6n0Zco7FN3z2fyyJfG5jU5dcL/ppitxjjpDxidsF6oqbXqutjmJL
-	8ro1FThLH9FNuqD5hyu2Znv4AFtv9DIzhzMNjYPnV5XiChsU4WncvirrNis5UUIqa7zZSpTu/96
-	oWMvtuqRHnveCzj6LjnjiHerfaW64vbmcFSRPay7NnR/uf+Mx4gy8tQN0aAEGekODYmBwuXVSzZ
-	iCwbLwWZLFh/GY+bbvhIC6JxqtFmc0+eIEOTiVOdVRNK3fH4BItY5Aiha0OAjg5AO6Uph012hpl
-	t9/Q59iI68va+vVCCz+GnzLCBeA+3n8c9Lm30uYBHSdMPCFHS9nxaJm8Lp7t/HYOE0n3L16Ee64
-	pf8sAp32tp4AaO14J6roQKrdCtvs0j3yAFVVHPH0E+ZTGD2fVvWm/hMgrfTHs8uFTs0nRQbZ6bm
-	5vPG5YI7/DgLAhGAGbnSQ73rmrFrNcDY0zq41YZOHLU8ovUbgFpL0IMfYp+iJK3
-X-Received: by 2002:a17:907:e1c3:20b0:c20:ef18:ddcc with SMTP id a640c23a62f3a-c246a69da16mr421835666b.11.1787307919989;
-        Fri, 21 Aug 2026 03:25:19 -0700 (PDT)
-Received: from pop-os.. (05BBC51F.dsl.pool.telekom.hu. [5.187.197.31])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24591e044dsm447437666b.51.2026.08.21.03.25.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 03:25:19 -0700 (PDT)
-From: Csaba Budai <ilyr73@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Csaba Budai <ilyr73@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix ALC700 audio on Intel Hades Canyon
-Date: Fri, 21 Aug 2026 12:25:14 +0200
-Message-ID: <20260821102514.11194-1-ilyr73@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1787311412; x=1787916212;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XP0TXz3XgGZqxpegnUNB5sva+CKg8bV+74SS+MJugIo=;
+        b=fIiFgmTCWLK4LHJNw9WY5ZGt0FDeonA25XXwwTCD9OHdvQnf26j6BD57FrbC0x80Jv
+         nHNNCtX5ie7b1LGrxsJJQTlbpIqfN/nE8cr207z5k87+QwK767D9lgApXPWh8VQ734HG
+         f4NsRTsBaPCzglA0XItvJNJHt+Zxo2mScwUxvujKyTiI7BZuYs822PF4YZYzHAhv4ENc
+         e0XU4e5gDF7nHo/GyonfHUmCWT3ANfQxOuoXrAYKt6b03ZPGJR+tbi0c1dKLFh1WslCA
+         Ngj2OxQPnYkKJxijdB639paVUx2hvaA12XTKGd9zWd+cU4CyTJ6tEqxZmcD2lPjSBhJO
+         QLFw==
+X-Forwarded-Encrypted: i=1; AHgh+RqEsK0kR18sU/xcCXCmYNsmb0ausO0hvdz/8APFuGDRufl0Am6Kdlh8wv+Bb+F8Nwu5ffhoBAxobbGO/w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7lKtTmL7LLTfAIYsem3eUvScKBqwjfMVBHR5pUbL0oYjCrst0
+	g+KTNy9gE1V/wey7S0I9UaR6bt3tfuhPa7B5/PCE4vJd8EfK2bxvTS31oeEeljg5siXrgBTQCeh
+	B64w2XIswiVUDzWANyAztJ9ZxDQzLREA=
+X-Gm-Gg: AR+sD10LLxaFE5fkAh0zRGR2hTCuAVSIXzkFJdXVLCm/o+SggQ8rvjJ1NRpHVuTFShD
+	tc2StL3CMQ9y1V5wAqX/zNn94mSKumhPz2O5OAFylmSzGOWN25mHhW8BloShVXHGy0o74GIJjsE
+	LGT5NU22bRbXPy3tK3yBcX/UEYPihJTsFLJxHBycqwlVtMsc0tZSPx921SjTLNZYvyZ+9niOuaY
+	1NBlbicbUIMaQiuagCloEIJcrRoAhYwBUeuWiORL6tU93MORqAVNdc6fX92yRzc+h69Iu7z4Ycc
+	cuIhlHNUNbW8MaPSABe/0z0IL8xcdVoIKRMRPC0Cz8fVqCgXy3p6L1CFo9yMT6AP5Dzc/0ChuQt
+	RmsQQfDagjG2BQoCY0wv6gor/bO2OZoCa5kBfKikkJZPz
+X-Received: by 2002:a05:6830:2b0f:b0:7e9:8867:cb23 with SMTP id
+ 46e09a7af769-7f46173cb90mr6196887a34.16.1787311411854; Fri, 21 Aug 2026
+ 04:23:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <87y0eaxz39.wl-tiwai@suse.de> <20260820151329.18332-1-mikhail.v.gavrilov@gmail.com>
+In-Reply-To: <20260820151329.18332-1-mikhail.v.gavrilov@gmail.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Fri, 21 Aug 2026 16:23:20 +0500
+X-Gm-Features: AcwNN1WSC1RC40OlRsvrLRcT0ZtouTJ1WArekA-2DoyJ-r1DwXMS-VEfJgk_jP0
+Message-ID: <CABXGCsMXRZaM9yKsyyffkfyXXDjHXhyixXZ-jz9BY=xJn0R7DA@mail.gmail.com>
+Subject: Re: [RFC 0/2] Two ways to reach the Topping M62's analogue gains
+To: tiwai@suse.com, jikos@kernel.org, bentiss@kernel.org
+Cc: perex@perex.cz, linux-sound@vger.kernel.org, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Intel Hades Canyon systems with an ALC700 codec, analog audio can
-become unusable after rebooting from Windows into Linux.
+On Thu, Aug 20, 2026 at 8:13=E2=80=AFPM Mikhail Gavrilov
+<mikhail.v.gavrilov@gmail.com> wrote:
+>
+> You asked for PoCs of both roads and a comparison of the actual code
+> rather than of arguments. Here are both. They are alternatives, not a
+> series: each is written against mainline 98f21c54f995 on its own, and
+> either can be applied alone.
+>
+>   1/2  ALSA: usb-audio: a mixer quirk that claims the HID interface
+>   2/2  HID: topping: a HID driver that registers a card of its own
+>
+> Both build clean (checkpatch --strict: 0 errors, 0 warnings; the two
+> CamelCase CHECKs in 1/2 are bNumEndpoints and bInterval) and both have
+> been exercised on the device -- 152a:875c, bcdDevice 3.27 -- for
+> reading, for unsolicited notification from the front panel, and for
+> writing.
+>
+> What the device is
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> The M62 keeps its two microphone preamp gains, its AUX and Bluetooth
+> input volumes and its headphone and OTG output volumes behind a vendor
+> protocol on a HID-class interface, and exposes none of them through
+> UAC. What UAC does expose on the capture side is a digital trim after
+> the converter, which cannot buy signal-to-noise: a noise-floor ladder
+> against the card shows the converter's own floor rising with the
+> signal. So on Linux today the one knob worth setting is the one that
+> cannot be reached, and a measurement application has to begin by asking
+> a human to touch the front panel.
+>
+> The protocol is fifteen-byte frames -- start magic, a constant, a
+> target, a property, a signed 32-bit big-endian value, CRC-16/MODBUS
+> over the middle stored big-endian, end magic. Rebuilding all 2619
+> captured frames from that description reproduces them byte for byte.
+> The device says nothing until it is subscribed; one write starts the
+> stream and a second makes it announce its whole state, after which
+> every change arrives unasked, including a front panel press.
+>
+> The control pipe is not an option: GET_REPORT and SET_REPORT stall with
+> EPIPE for every report type, so the interrupt endpoints on the HID
+> interface are the only route.
+>
+> What is identical in both
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>
+> The frame builder, the parser, the CRC (the kernel's crc16(0xffff, ...)
+> is CRC-16/MODBUS, so no private table), and the control table. A knob
+> is a row of
+>
+>         { name, target, paired target, property, min, max, TLV }
+>
+> so adding one is adding a row. Six rows today. The outputs come in
+> pairs because the device answers on only one target of each pair and
+> the other would drift away unheard.
+>
+> Where they differ
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> 1/2 claims the HID interface for snd-usb-audio and puts the elements on
+> the card the device already has. The cost is two-sided: an entry in
+> hid_ignore_list to keep usbhid off the interface, and one new helper in
+> sound/usb/card.c, because usb_audio_driver is static there and a quirk
+> cannot claim an interface without it. That helper is the only change in
+> 1/2 outside the new file and its dispatch. Nothing is lost by taking
+> the interface: the report descriptor is a Generic Desktop application
+> collection with eight unnamed usages, sixteen bytes in and out and no
+> report ID, so hid-generic can only build an input device for a mouse
+> that does not exist -- which is what it does today.
+>
+> 2/2 binds as a HID driver, and the protocol half is if anything smaller
+> there: usbhid owns the endpoints, so hid_hw_output_report replaces a
+> hand-built interrupt URB out, raw_event replaces the one in, and no
+> interface has to be claimed. It needs nothing in sound/usb.
+>
+> But these are mixer controls for an audio device, and the audio
+> device's card belongs to snd-usb-audio. A HID driver cannot put an
+> element there. There is no interface for it, and inventing one means
+> exporting from sound/usb both a lookup from struct usb_device to the
+> card and an add-element call, and then answering, for a single device,
+> what happens when the two drivers probe in either order and when either
+> disconnects first, given that the element would live in one module and
+> its private data in another.
+>
+> So 2/2 does what a HID driver can do alone: it registers a card of its
+> own. That works, and the cost is visible from userspace rather than
+> theoretical:
+>
+>         $ cat /proc/asound/cards
+>          0 [ToppingCtl     ]: Topping - Topping M62 control
+>          ...
+>          4 [M62            ]: USB-Audio - M62
+>
+>         $ amixer -c M62 cset name=3D'Mic-1 Analog Capture Volume' 33
+>         amixer: Cannot find the given element from control sysdefault:4
+>
+> One device, two cards; the gains on a card with no PCM beside them; and
+> anything that looks for a device's mixer next to its streams --
+> alsamixer -c, UCM profiles, PipeWire's device model -- does not find
+> them there.
+>
+> Against my own preference, two honest notes. The phantom input device
+> 2/2 leaves at boot (hid-generic binds first, the specific driver being
+> a module outside the initramfs) is a packaging artefact, not a property
+> of that road. And 1/2's claim helper is new API surface in sound/usb,
+> small as it is.
+>
+> Field results
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> With 1/2: the interface belongs to snd-usb-audio while a neighbouring
+> device's HID interface still belongs to usbhid, so the ignore entry is
+> precise. Values arrive by themselves -- the headphone volume came up at
+> 51 while the zero-initialised cache would have said 0. One front panel
+> press produces exactly one control event. A write reaches the hardware:
+> the device reports the written value back, and its meters answer.
+>
+> With 2/2: the same, on its own card.
+>
+> One device fact worth recording: a written gain takes effect at once,
+> but when the device commits it to non-volatile memory is the firmware's
+> business, and a value written and then torn off the bus can come back
+> as the older one. Nothing in either driver depends on that -- neither
+> treats itself as the source of truth, both ask the device -- but it is
+> easy to mistake for a driver bug while testing.
+>
+> Where I come out
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> The knobs belong on the card the device already has, and 2/2 cannot put
+> them there without a new cross-subsystem interface built for one
+> device. 1/2's cost is one static-variable problem solved by one helper
+> in the file that owns it. So I would take 1/2, which is also your gut
+> feeling -- but the comparison is what you asked for, and either patch
+> stands alone if you read it the other way.
+>
+> Not covered by either: the OTG input's gain. It has no front panel
+> control and therefore never announced itself in any capture, so its
+> property is unknown. It is one row when it is known.
+>
+> Mikhail
 
-The affected system uses codec subsystem ID 8086:2073. In the broken
-state, Realtek coefficient 0x1b has value 0x4a4b. Setting bit 0x0400
-changes it to 0x4e4b and immediately restores normal analog playback.
+Three things I should have said in the cover letter, one of which
+argues against the conclusion I drew there.
 
-The BIOS also sets this bit after disabling and re-enabling onboard
-audio, while Windows may leave it cleared. Linux currently does not
-restore it during codec initialization.
+The quirk's hid_ignore_list entry means no hidraw node is created for
+this device at all. Topping ship a control application for Windows and
+macOS and not for Linux; there is none today, and the driver should not
+block one if it appears. The HID road leaves that channel open and the
+quirk road closes it. I weighed the two roads by where the mixer
+controls can live and did not weigh this, and it belongs on the scale.
 
-Add a machine-specific fixup for Intel Hades Canyon which sets only
-bit 0x0400 of coefficient 0x1b during HDA_FIXUP_ACT_INIT.
+The one gap the cover letter named is closed. The OTG input's gain is
+target 0x27, property 0x04, on the same taper family as Bluetooth --
+read out of a capture of the vendor application moving it, with the
+indices it dwelt on matching the decibels it displayed. Both patches
+carry the row here; I have not resent them for one line, and it will be
+in whichever version goes forward.
 
-The fix has been verified across Windows -> Linux reboots on an Intel
-NUC8i7HNB with an ALC700 codec.
+And the protocol turns out to need more than a write path, which bears
+on the complexity you asked me to compare. The vendor application
+repeats its subscribe every two seconds, so a driver has to keep that
+up or the device stops reporting; the device has two memories, and a
+separate command commits the live state to the one that survives a
+power cycle; and the source selectors -- which mix or bus each output
+listens to -- can be written but never read: the device does not
+announce them, and the vendor application does not ask, because on
+connect it pushes its whole workspace rather than reading anything.
+None of that favours either road, since both pay it identically, but it
+is a fair bit more than a table of gains, and I would rather you saw it
+before deciding.
 
-Signed-off-by: Csaba Budai <ilyr73@gmail.com>
----
- sound/hda/codecs/realtek/alc269.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+I have not resent the patches. Both roads work on the hardware; the
+question is still which one you would rather carry.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index cae327e1d..2fd11b963 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -4089,6 +4089,7 @@ enum {
- 	ALC225_FIXUP_DELL_WYSE_MIC_NO_PRESENCE,
- 	ALC225_FIXUP_S3_POP_NOISE,
- 	ALC700_FIXUP_INTEL_REFERENCE,
-+	ALC700_FIXUP_INTEL_HADES_CANYON,
- 	ALC274_FIXUP_DELL_BIND_DACS,
- 	ALC274_FIXUP_DELL_AIO_LINEOUT_VERB,
- 	ALC298_FIXUP_TPT470_DOCK_FIX,
-@@ -4333,6 +4334,19 @@ static void alc287_fixup_lenovo_yoga_book_9i(struct hda_codec *codec,
- 	__snd_hda_apply_fixup(codec, id, action, 0);
- }
- 
-+static void alc700_fixup_intel_hades_canyon(struct hda_codec *codec,
-+					    const struct hda_fixup *fix,
-+					    int action)
-+{
-+	/*
-+	 * Windows may leave coef 0x1b bit 0x0400 cleared, causing broken
-+	 * analog playback after rebooting into Linux.  Restore the bit
-+	 * during codec initialization.
-+	 */
-+	if (action == HDA_FIXUP_ACT_INIT)
-+		alc_update_coef_idx(codec, 0x1b, 0x0400, 0x0400);
-+}
-+
- static const struct hda_fixup alc269_fixups[] = {
- 	[ALC298_FIXUP_RAZER_BLADE16_2025_PINS] = {
- 		.type = HDA_FIXUP_PINS,
-@@ -5411,6 +5425,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 			{}
- 		}
- 	},
-+	[ALC700_FIXUP_INTEL_HADES_CANYON] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc700_fixup_intel_hades_canyon,
-+	},
- 	[ALC274_FIXUP_DELL_BIND_DACS] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc274_fixup_bind_dacs,
-@@ -8230,6 +8248,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x2782, 0xa128, "Positivo N15RPE-S", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0xa212, "Lunnen Ground 14", ALC269VC_FIXUP_LUNNEN_GROUND_14),
- 	SND_PCI_QUIRK(0x7017, 0x2014, "Star Labs StarFighter", ALC233_FIXUP_STARLABS_STARFIGHTER),
-+	SND_PCI_QUIRK(0x8086, 0x2073, "Intel NUC 8 Hades Canyon",
-+		      ALC700_FIXUP_INTEL_HADES_CANYON),
- 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
- 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
- 	SND_PCI_QUIRK(0x8086, 0x2081, "Intel NUC 10", ALC256_FIXUP_INTEL_NUC10),
--- 
-2.43.0
-
+--=20
+Thanks,
+Mikhail Gavrilov.
