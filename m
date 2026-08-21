@@ -1,79 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EC13BE155;
-	Fri, 21 Aug 2026 08:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE684582CB;
+	Fri, 21 Aug 2026 09:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787302398; cv=none; b=cazOZxtDnACY82F1mALEFMAoaHRgqD/u7BXUJxcPz6pYYdCTihpWlBSspHZVTWPKgLgA1i7mnKB+oEFnTmq/EWwuzCCUsiDuMw+Tkp7W6PV9sr9S+Knb2OT9/oCMGRWbFiel9cZBJVNiOpSTCYrUAJquy1RC6gwrDXFcCHulb2Q=
+	t=1787305518; cv=none; b=bwa/OTw5IFBmD4hVPPcJZslk5r3nYM+rnzZkIYbfAR49KOIZYKc0fxaYXEChr1KJmdzpyrmOzvxiITX3VP/YZHBIEsMjElpV5tzxJaleKFUAkO2TlNRHMVXUZNUcKopJ++yuw3hWbNzhj+eQkaNFY7umyNUmnGImu6pIZuYG1OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787302398; c=relaxed/simple;
-	bh=5oZVaPo4l7oFhFMbAiNFw+RxleDJkRD0WclOy5p3nec=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=azxkdHLC2bGDNvWVlcY92UCeFqZWUNrxFcw5ibk4PgCxzxQ13bPqmgFOuku2qYg03eaz6Cfke5Iffz+syLlMqwE0VVM5CGomKYVCqLpu6y6cf2LpEQYVzySy7S+AnmKz+X+P/blo6drD0IEtqwqqHsOix5Yaub/SKIg/dgt9Lo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B7A1F000E9;
-	Fri, 21 Aug 2026 08:53:14 +0000 (UTC)
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] ASoC: tlv320aic32x4: Make sure clk_init_data is fully initialized
-Date: Fri, 21 Aug 2026 10:52:57 +0200
-Message-ID: <7acfe448928df59a62418233d716b0c9806559d5.1787239902.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1787239902.git.geert+renesas@glider.be>
-References: <cover.1787239902.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1787305518; c=relaxed/simple;
+	bh=GOS3Sfd6WsIo0/Gd4p9eZj3WYjUl1BAGLoVcofgedSc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g23eQf/0syGGrkpqXY5UoPxexqjqgGceZvjw+uK58KgK1RXVQoKpQtz3NBn5oKAXs2oiKvr1fl024SMb3YN399A6OPxc7unbBEW1QGfhmi5O5f4J1o0DjjN58DYSZv+Wa/e+2ou9zkekNfx2y90V2QTYHdaqrCJvnMo0W5zBJOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p9Xlbrx4; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p9Xlbrx4"
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 726751583;
+	Fri, 21 Aug 2026 11:43:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1787305423;
+	bh=GOS3Sfd6WsIo0/Gd4p9eZj3WYjUl1BAGLoVcofgedSc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=p9Xlbrx4yRZeEr+M5OiXU66CzzO56nw+H+DlrS759vl6uYgxeUurwgANT46H0j8XX
+	 QJmph7g30madW4EG1Xd0G7Rle1Q855Qr6c7I9bCXncLCFQ2MeKXuRU8/bMg5Mfilko
+	 kCs+pn9JgRH8USzzwJcRTSkrO+2/jJE+Joxyx5Kk=
+Message-ID: <5b90d713-ffe4-44f2-846b-cb42751310ed@ideasonboard.com>
+Date: Fri, 21 Aug 2026 12:45:01 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] drm/omap: Report HDMI hotplug events to the ASoC HDMI
+ codec
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-omap@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Jarkko Nikula <jarkko.nikula@bitmer.com>, Sen Wang <sen@ti.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Alex Deucher <alexander.deucher@amd.com>
+References: <20260819171935.233946-1-ivo.g.dimitrov.75@gmail.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In-Reply-To: <20260819171935.233946-1-ivo.g.dimitrov.75@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The clk_init_data structure contains several mutually-exclusive members
-for different methods to specify the possible parents of a clock,
-prompting drivers to initialize only the members they need.  However,
-not initializing all members may cause subtle issues, which are only
-exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
-enabled.
+Hi,
 
-Make sure all members are fully initialized, to avoid such bugs, and to
-prevent future breakage when converting drivers to a different method
-for specifying the parents.
+On 19/08/2026 20:19, Ivaylo Dimitrov wrote:
+> The OMAP HDMI audio driver currently has no way of reporting HDMI cable
+> hotplug events to ASoC. As a result, user space cannot detect HDMI audio
+> availability through the standard jack mechanism and audio policy managers
+> cannot automatically route audio to or from the HDMI output.
+> 
+> Add an optional HPD callback to `omap_hdmi_audio_pdata` and invoke it from
+> the DRM HDMI bridge whenever the connector status changes. The HDMI audio
+> driver registers an ASoC jack and reports `SND_JACK_AVOUT` state changes in
+> response to these notifications.
+> 
+> Also fix the disconnect path by taking a runtime PM reference before
+> updating the CEC physical address.
+> 
+> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+> ---
+>   drivers/gpu/drm/omapdrm/dss/hdmi.h        |  6 +++
+>   drivers/gpu/drm/omapdrm/dss/hdmi4.c       | 29 ++++++++++---
+>   drivers/gpu/drm/omapdrm/dss/hdmi5.c       | 37 +++++++++++++---
+>   drivers/gpu/drm/omapdrm/dss/hdmi_common.c | 14 ++++++
+>   include/sound/omap-hdmi-audio.h           |  1 +
+>   sound/soc/ti/omap-hdmi.c                  | 53 +++++++++++++++++++++--
+>   6 files changed, 125 insertions(+), 15 deletions(-)
+Thanks, picking up to drm-misc-next.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Compile-tested only.
----
- sound/soc/codecs/tlv320aic32x4-clk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/tlv320aic32x4-clk.c b/sound/soc/codecs/tlv320aic32x4-clk.c
-index deed61650e09db0b..ad15ce9c607915e4 100644
---- a/sound/soc/codecs/tlv320aic32x4-clk.c
-+++ b/sound/soc/codecs/tlv320aic32x4-clk.c
-@@ -451,8 +451,8 @@ static struct aic32x4_clkdesc aic32x4_clkdesc_array[] = {
- static struct clk *aic32x4_register_clk(struct device *dev,
- 					struct aic32x4_clkdesc *desc)
- {
--	struct clk_init_data init;
- 	struct clk_aic32x4 *priv;
-+	struct clk_init_data init = {};
- 	const char *devname = dev_name(dev);
- 
- 	init.ops = desc->ops;
--- 
-2.43.0
+  Tomi
 
