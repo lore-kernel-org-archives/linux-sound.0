@@ -1,64 +1,61 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A0D381E97
-	for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 04:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F5537F8BA
+	for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 04:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787287202; cv=none; b=JOyoUhqXw2bvmcPltBfwDU+EruR4Aeh1slO+2haC7HyPuGDJNB5CKLPfIYbDuhpxC36KdWpFXIGqU+IzwLeOl5ESfy8AHMji3VlZfxCE3U5kEz40swrdWBSrhHbE5/UdAdKVrvsYkcOjrOrTUWERj3GnanTag18IK18sLDI4VxE=
+	t=1787287203; cv=none; b=ZuIuQPsoWqxinJwSczcH6A8mQ4lUKfZAaQTnFmCe8cWua7EbhXjcST7ZglwRePiwg79csD60gCS8DXvk0dfSlF3jc1U8BgBfUZH42Rj1Pk3KOtBEbqAGUuXIn0MKCFWF1mydEQW4JlJX67srldMmpRiQ9FDJ7W7ePKJQFGXaITw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787287202; c=relaxed/simple;
-	bh=dmm5s5EvKAr7EaMlUMgpNClRMNSBub5q46OgcTbVtOc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cmeqnImL/JXUHrJ+70qREPmOSt1KIgJe/Yw868EWXJemLIqtJH7zgpjhk3nvnNcHdFCAU4DyW1V8slxEBmmRRLwujrvtvSTxTTOLQhwpjcT5IOaV7QXAod9TjsRz7zliQlw5655SRbMLmWfnwCXd1G/Up+p5SkueEeccG5mcHQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=asseily.com; spf=pass smtp.mailfrom=asseily.com; dkim=pass (2048-bit key) header.d=asseily.com header.i=@asseily.com header.b=YOxbLZ7g; arc=none smtp.client-ip=209.85.208.51
+	s=arc-20240116; t=1787287203; c=relaxed/simple;
+	bh=qRHSC5phIZPW5Ca8Ib2JUQTlHTEXOPJIKe1HckYWaEw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BE9paul04MZ3w4IFRYdScMmdnqG/7e3XNDNdO9NWXNmww4SgNMlkA/0VWG7lw2UvYfT7OetKgfmLRuodDPttsCQbQzHB1SB84Q/dQTXtr9zQUu7CfuZkDj86Xn2v71HE0lBpd9gIkO7X59Z+jtUoMSpxQt+bx3G3QhliJPy2jTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=asseily.com; spf=pass smtp.mailfrom=asseily.com; dkim=pass (2048-bit key) header.d=asseily.com header.i=@asseily.com header.b=hs1WvdIn; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=asseily.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asseily.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asseily.com header.i=@asseily.com header.b="YOxbLZ7g"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a36982a875so1025295a12.0
-        for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 21:40:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asseily.com header.i=@asseily.com header.b="hs1WvdIn"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c169ae1cb26so343997266b.1
+        for <linux-sound@vger.kernel.org>; Thu, 20 Aug 2026 21:39:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asseily.com; s=google; t=1787287199; x=1787891999; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=c/TOCQOXC1+dxo3+w71MBVrhrZesKXF/A9anBAhAKsE=;
-        b=YOxbLZ7g3lJuM9qDwNZDgl8+cIsQHwVx3Fr72icpMPB2wyS37U282Lq0XvKKe4x7uE
-         zlJd8uu3xehFt8IPDcohvCEIxLPLc+OdloEJi/+VtXqdOL6DbHKtdyTiiiWSSVYSF7MU
-         efqedVufvin8XoL2cgSM6amxLhKQmPh1lO1eeZ7a8jtgsJ9VtXGsUb5uHkiip+gWJTRr
-         Pp2ZwHLcX2Pc544oSyNdBM/sC3J4IDsEOS5GyiiCoLyAt8aMZF8HLVeu6FZX99/LTgQZ
-         I8h0NZtWkHhruSHqQOHOJuHXxglFMVjb+gfZf4iPS9IAXAm80roqL81OC/CHv1TVQEXK
-         ljnQ==
+        d=asseily.com; s=google; t=1787287198; x=1787891998; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=65OzRDOw6tie8Aix12tqjxniJ5oDLhGIyjGq0d/QKfs=;
+        b=hs1WvdInSxlG3LlFJFS6MbvNoiGh41xPdrBKK6KsVIUxG/tCUXQzyJrsH/fz5kVYLH
+         3rCa8CzkZLDcoi+LXZptdusYWtDbE2j2XAqHcMCEI4aZp1jRIx9qTFGomAGwslfUuex1
+         FgSNkDvgWc/3SkvqVVgIBHtfecXZX7j3u4beijKWpGSmW3+QK8NaKXqzor9jNO8yQRh5
+         RHMMaLBABIskqcpftYK00vsSvi1raGgQtDznF/ofXrw4Cl82cR5CNdkNJEl9/eDJVWRu
+         KXBrMWiV9pu190/NciPkRINIRiK1VlY/Lpr9wrk0AMmw7JQEwgEmOHwuk+eQ6UXHbobB
+         UtGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787287199; x=1787891999;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c/TOCQOXC1+dxo3+w71MBVrhrZesKXF/A9anBAhAKsE=;
-        b=kFyxjuhiiBSeLfj9HAaqE5xG+QE1SHwzU7b0ygkCn6dq28JsyatKt18nXaAmikwE1D
-         5YDNTrJlPVhRSjBYAlAmSBRCJ0kNsV7JOYb3xSQTgN53XFW3DF86JmHkaH07/Ga9NPb1
-         nlNHo2jjf/Pb8cJ4ed2a36jnWqAYVbtE8/5kc9T3UIT4gnONy33Y+G6NkFfz2+VpFtyd
-         pFOz45QrObRPgmLGfO4Bt/74/Hm9jt4xQ+LF3W5gR6h6fKixj/ic1Z+/iZNoiM1N3UpU
-         nTjQaE/TDFeG68+ecfetWZHd+QuXi/+ygWdEtxm9Fy9zPiP7QVPbjYZj+sdDnuSHEjDo
-         5HQg==
-X-Gm-Message-State: AOJu0YxrSJJmOe5gE/lHgaK0isToLoSoNVtHT3DF0JOLpEb4sZ6fJ6AU
-	U4qdcNOV9LBYQR7n9fICa39xVFvYIyhX/eK9FjLUeBtNTb4pVcfHWBYOLcFHiZ2IOg/LPYNL9NX
-	Nt4wCJk4=
-X-Gm-Gg: AR+sD13N6cEDX66wKwphuj5apLlfaL7wXcPp/by51w+qPFt6KQaHgnCwS9eyR5C1K7z
-	IBUmyseMdbwKPTqxmdEsZl9bufbbzdpq17ChQPm3kwF6B/MS1e2yni6PRKPbYlaHDLkxhS6WYV3
-	1ZFN8O73R2RhE2IMuCsIgtovJ4PvZ0UT0Ep/PiLoKcUF2I7D/yFcaZgvvR8Wyd4NPBqMUicR2k0
-	7UhT/quv21UMC/8h6MX+rAcEtvaXtM1f80yUD4SLhIj4jMmDh7azXqDEHIN9K0EKO0eSsBidQy5
-	vr88I+q2M5gyYpbYeI/sxX9k+q//SnaL5twi4XwX9wgQnPizbydjorvFYtxwSrzP62Sk9JWhdu5
-	DCOl2Y7l9tvmPZXTjoYfx3fn4VSLdEPwatEMtvCEugiGV5ToVTCi+AbewfGEAqinimhlg+E8RRd
-	d1xNul0uMLMwhbXy2kfATxJwgfP7/2z2z4t6KntfGcHPiWyR8QKbk/RmpHohZX3x+9FANCklNzX
-	S0=
-X-Received: by 2002:a17:907:934d:b0:c20:9447:bd5e with SMTP id a640c23a62f3a-c246a5f6d65mr331787166b.9.1787287199427;
-        Thu, 20 Aug 2026 21:39:59 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787287198; x=1787891998;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=65OzRDOw6tie8Aix12tqjxniJ5oDLhGIyjGq0d/QKfs=;
+        b=XZqCh6c3i8p7FUlPJCnvaDFVhnblsM6M/HvmsIYpxhTOCsKOcC/Tp9jxkbWW1Hjywi
+         mRKBmsuqbNv9c0M1I4W96poKsP81ujsFRdWS1K17+Lsz/5OBLfzKjfgmLxJqASWpGdb0
+         QzBiGWoFddKW/DdHUPx78RywaIYhjj0g7PYeFJ8lX3rUfV1CpUh8MOhim/vPf6O3yEmO
+         6k25boXAqlwMxDWXTcQVB7BOSTRctOe79N3CjGATxEMiTeaghp5ZzpDtYRUQf7EpFFrW
+         C5rgXewJTe67Gq5W+tMWb94GPO/5VM2uWB38s08z0+mCOZ/Ce9IpqvNp1kArEwxpTw9N
+         vTxQ==
+X-Gm-Message-State: AOJu0YymtGm+hKVRg0uSq5l59CtYDoNU6tZAhIgc5WlWaGZ5pP7kWSN+
+	NydU7vagC4esbM5a9wvEFTtK/KX38ewd6rTNRMzDSRTry32mfcSc8BzjfnPIy7fA9Dw=
+X-Gm-Gg: AR+sD10oC7cOO1bQmWZPdrSjh5Hr+jmb05JiP576EYA/MzZSLH7qc9r2CAz6gkuTE34
+	Q1fXSDn+dzqFlKnXyvd3LZ4/ruFg69jy82GM/77VaunQBUJ77uULzta9G4O0MGdOuj1g3N7nxeO
+	XYei0toolORgUoq7ZEONUE4c1tINZY+pAOpHpsSX82obolxFkXQN+u5dG6FMpvfuvE5W1C5g/Tf
+	3RWdngFjCA8XrhD7xAKfhhRzgYvcRbjyITCAw/hZhvUoyUKvhVOJ0OYZ2uu5LrykMFizsWVHTgx
+	tQXWWCBsI3awCvn1Ub/jFrCL04pYR9LCNi2GEqkMuif8VpcAfsCEtFoPO4eGzBroy8q6Fk1rpGB
+	Ku4o3cm/yZqIzxKwbC/GGZh34uaEVeeGIM26sUOnzW6M55/R7zz+e3EFAPBraDS1gK55oZFSuCI
+	GRZ3sAEuUKve6XgJwlhBQrBw5qc8wBhTg/nczL4+v/76T0+TSbDIenFnPWIxTlN6vGxXQOGejUT
+	gk=
+X-Received: by 2002:a17:907:9345:b0:c24:6382:2648 with SMTP id a640c23a62f3a-c246d633d8amr246738866b.5.1787287197824;
+        Thu, 20 Aug 2026 21:39:57 -0700 (PDT)
 Received: from Behemoth.triland.local ([178.135.16.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2458b5d438sm268182266b.27.2026.08.20.21.39.57
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2458b5d438sm268182266b.27.2026.08.20.21.39.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 21:39:58 -0700 (PDT)
+        Thu, 20 Aug 2026 21:39:57 -0700 (PDT)
 From: Karl Asseily <karl@asseily.com>
 To: broonie@kernel.org,
 	lgirdwood@gmail.com,
@@ -71,12 +68,10 @@ Cc: linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Karl Asseily <karl@asseily.com>
-Subject: [PATCH v2 1/4] dt-bindings: vendor-prefixes: add ESS Technology
-Date: Fri, 21 Aug 2026 07:38:56 +0300
-Message-Id: <20260821043859.171871-2-karl@asseily.com>
+Subject: [PATCH v2 0/4] ASoC: add ESS Technology ES9039Q2M codec driver
+Date: Fri, 21 Aug 2026 07:38:55 +0300
+Message-Id: <20260821043859.171871-1-karl@asseily.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260821043859.171871-1-karl@asseily.com>
-References: <20260821043859.171871-1-karl@asseily.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,32 +80,111 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the vendor prefix for ESS Technology, Inc., maker of the SABRE family
-of audio DACs. The prefix follows the company's domain, esstech.com.
+This series adds support for the ESS Technology ES9039Q2M, a 32-bit
+two-channel audio DAC with an asynchronous sample rate converter,
+controlled over I2C. The part also has a hardware mode strapped by
+HW0/HW1/HW2 with no control bus at all; this driver implements the
+software mode that MODE = GND selects.
 
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Karl Asseily <karl@asseily.com>
----
+Two things about the part shape the driver:
 
-Notes:
-    v2: rename the vendor prefix to esstech, after the company domain
+ - Selecting an input format takes two registers, not one. INPUT_SEL
+   chooses the port; SYS MODE CONFIG enables the matching decoder, and at
+   reset only ENABLE_TDM_DECODE is set. Selecting DoP without also
+   enabling ENABLE_DOP_DECODE leaves the part hunting for a marker with
+   the marker decoder switched off, so it finds nothing and mutes. The
+   driver writes both.
 
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ - Several registers have non-zero reserved defaults - register 88 reads
+   0xb8 at reset - so every write is read-modify-write.
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 396044f368e..7744e4044e8 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -549,6 +549,8 @@ patternProperties:
-     description: Seiko Epson Corp.
-   "^esp,.*":
-     description: Espressif Systems Co. Ltd.
-+  "^esstech,.*":
-+    description: ESS Technology, Inc.
-   "^est,.*":
-     description: ESTeem Wireless Modems
-   "^eswin,.*":
+The programmable FIR coefficient controls are write-only by design.
+PROG_COEFF_OUT is documented as a coefficient readback but is not a RAM
+read port: it returns the last coefficient written, whatever address is
+selected in PROG_COEFF_ADDR. Measured with the driver out of the path,
+five sequences, ten reads, all returning the same value. A get() built on
+that register would return something with the shape of data and none of
+its meaning, so there is none.
+
+Every control has been verified against the silicon rather than against
+the driver's own read-back - written through ALSA, then read over raw I2C
+- and DSD, DoP and S/PDIF input are all implemented and tested on
+hardware.
+
+ESS Technology has no bindings in the tree today, so the series also adds
+the vendor prefix, taken from the company's domain esstech.com.
+
+Link to v1: https://lore.kernel.org/r/20260820062626.39218-1-karl@asseily.com
+
+Changes in v2:
+
+ - Accept SND_SOC_DAIFMT_CBP_CFP rather than requiring CBC_CFC. v1
+   rejected every provider mode but consumer, which was one board's choice
+   written into the driver. CBP_CFP now programs PCM_MASTER_MODE,
+   hw_params() calls clk_set_rate() to pull MCLK to a multiple of the
+   sample rate where the clock allows it, and the datasheet's two MCLK
+   floors are applied separately - 128 x Fs synchronous, 130 x Fs
+   asynchronous - instead of 130 x Fs unconditionally, which had been
+   refusing 192 kHz on synchronous boards that can carry it.
+
+ - ES9039_DECODE_MASK did not cover ENABLE_SPDIF_DECODE. hw_params() uses
+   that mask to enable one decoder and clear the rest, so the S/PDIF
+   decoder stayed enabled alongside whichever decoder was selected.
+
+ - mute_stream() and the "Master Playback Switch" control both wrote
+   ES9039_DAC_MUTE and overwrote each other. Each now records its own
+   intent and the register is written from the union of the two.
+
+ - The DoP control returns -EBUSY while a stream is open rather than
+   half-applying a change hw_params() will not re-run, and both halves of
+   automatic DoP detection go through one helper under a mutex, so
+   AUTO_INPUT_SEL and ENABLE_DOP_DECODE can no longer disagree.
+
+ - Status controls use the symbolic source-bit names rather than bare
+   BIT() values. Doing so found a bug: "Clock Fault" read bit 7 of
+   register 235, which is reserved, rather than BCK_WS_FAIL_SOURCE in
+   register 234, and could never have reported a fault.
+
+ - The volume put() raises VOLUME_HOLD around the pair of channel writes
+   and drops it afterwards, which is what the bit is for. A stereo change
+   previously left the channels briefly at different levels.
+
+ - Rename the vendor prefix from "ess" to "esstech", after Krzysztof
+   Kozlowski pointed out that ESS Technology's domain is esstech.com. The
+   binding file, its $id and the compatible string follow.
+
+ - The harmonic correction controls keep their names rather than gaining a
+   "Volume" suffix. The justification in the comment was wrong - TLV data
+   is not what decides - but they cancel distortion rather than set a
+   level, so the name stands and the comment now says why.
+
+ - Style: the header block is one C++ comment, and the "return ret ? ret :
+   1" ternaries are plain conditionals.
+
+ - Add the Assisted-by tag that
+   Documentation/process/coding-assistants.rst asks for, which v1 omitted.
+   This driver was developed with AI assistance. The board it was written
+   against, the register-level measurements quoted above, and the
+   responsibility for what is in it, are mine.
+
+v2 has had a run on the board the driver was written for.
+
+Karl Asseily (4):
+  dt-bindings: vendor-prefixes: add ESS Technology
+  ASoC: dt-bindings: add ESS Technology ES9039Q2M
+  ASoC: es9039q2m: add ESS Technology ES9039Q2M codec driver
+  MAINTAINERS: add entry for the ES9039Q2M codec driver
+
+ .../bindings/sound/esstech,es9039q2m.yaml     |   61 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |    7 +
+ sound/soc/codecs/Kconfig                      |   14 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/es9039q2m.c                  | 1621 +++++++++++++++++
+ 6 files changed, 1707 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/esstech,es9039q2m.yaml
+ create mode 100644 sound/soc/codecs/es9039q2m.c
+
 -- 
 2.34.1
 
