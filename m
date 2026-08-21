@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB4B348C65;
-	Mon, 24 Aug 2026 10:33:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A283F822B;
+	Mon, 24 Aug 2026 10:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787567624; cv=none; b=kaAtkZVQTb4WRyhJeWEX5M13JCk+z+8lLKJkHM65IyOTDtAjXeYYtISq/nvrkAP7P2KsYZIqEIl8OTamJDlf3QlsLwCYOJ0eNayyRiMgM+1QBRHykjB5V73D831n/vm5+33hmuXosYiXDEQ9uZy0OoKwPBjfjHfYGHsyU6rjd30=
+	t=1787567631; cv=none; b=asnKRqeCXHifr8kgpMZt9WIcFIeYYPQ1ErKXO8FtX/ksXTJ5mtewbMGsbKPTU+Sv6z5qQ8sdv3WIuoGe/fauz7HYYV1AoB+PiNeYHJ2vetramtwc9aYP2rNXYADsfsdP90iQLcvW126y9gCgOK+s3U3LvXgzn9AE1TCHLcM+VUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787567624; c=relaxed/simple;
-	bh=bo/TvVGAt1GBT5Evo2c1DqvBo6Xp+PYJypDFrhCAM/I=;
+	s=arc-20240116; t=1787567631; c=relaxed/simple;
+	bh=RWItFD+xMPkyhKcdU1W/q/G24PtA33ZfMfA8sLCFzhg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sR025ATaDgv8RvTf+QmEd2ud4cOStKaWPpU8Az+43rmyGUK8M94cCCQLtGIiwb7VfolVJKrKGHrLraN/f1LD7HoyCPBPo0ygFWkUWHXfMovPQSCKQ3HWnKxOnvPU+vg5VkTS6iDOnGi694h/3c3pBD2e3fE+jn52Ecvpec3N/EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxyEysay; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=Kj4l2K67bG0w+rj4meotmbH8bCOfDZ3zYkTqVgD/FsIO+MBY0iyXsn42IN3BFP+1/XzUTcF/TsL/+/ATKwhJyI5s5GCjsEMFv1eyZcK95hzkaHJmZZ63+enUiQVKGUma1/gKgMX3nml1rvdDbwDpY9fqFEg45TnQvbb9Aa1hLdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2Trqy0S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxyEysay"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C59F1F000E9;
-	Mon, 24 Aug 2026 10:33:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2Trqy0S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB2CC1F000E9;
+	Mon, 24 Aug 2026 10:33:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787567623;
-	bh=cBqEd0VHegJaMleVKrh/elGUKBgeJpNkaIYIJ751hJw=;
+	s=k20260515; t=1787567629;
+	bh=HL1vq6LGseK5oHmbSJuvoie5coOOHPD8Uy40KAodNDI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=HxyEysayVpIazxsAR4SV25ZAmuyQockT1gnJM58cL+jlYf6W3lLj4A3MNflf+DVVC
-	 VxNVYgf1I1hcMJbB4+3GWs8B7lFH21JnM5evheD+N107MFzLT1LwSoZGfy7cXqbDVu
-	 tcqFJprjHJl+xOfxjiJc/peotC/kBb7qqUggHl175tyC+u96L5Cl8nDnW7NZnyDus6
-	 YwJvr0fLKt1mvNbZiUns1H22MPJBRoEkkXW4mkR7GdYCMtqqPVTURXy/xzxEzBESu2
-	 a5lAM9psDQT+fjl6/NGQYUvQu1EcOfLvrPfQu/lJ8kplitttXl5nRfXk4WHaYgESB/
-	 zRaCsLmInmbQg==
+	b=J2Trqy0SHMl/6ng7893KTDv1vWBNUdfhtcV+fYyHbXt5Bo0YhbCWETs0TtNcxkoqN
+	 E77+wZMJr74iZjC6GlkNIlB0My72yPXqNMEvlIq76rMnrKd1mZKy7jQJ6dasf4kBbU
+	 /R1xwLir5BSKnHJZCg4ijnjVQ5GpxLoRMlWdhzzpysmHXofXYeTwDsMYlFVJH+qRdn
+	 h7dnK6Ac7Z11WgzsRCA+O8dwr2hTL/DNYCOfusFzdt5fzkJNjO5FvwbWj6XxvEW43E
+	 4LN/35WdnxMpFXvZbyWydjwllUaOyYmo3/zP6tjl7MMmT12fsHO6MjrbpH2CKezE90
+	 ALENDoJct3Dzg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Julian Braha <julianbraha@gmail.com>
-Cc: arnd@arndb.de, rosenp@gmail.com, chancel.liu@nxp.com, 
- jonsmirl@gmail.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260821175410.179631-1-julianbraha@gmail.com>
-References: <20260821175410.179631-1-julianbraha@gmail.com>
-Subject: Re: [PATCH v2] ASoC: fix unmet dependencies on PPC_BESTCOMM and
- SND_SOC_AC97_BUS
-Message-Id: <178734979058.89326.11467147747571208450.b4-ty@b4>
-Date: Fri, 21 Aug 2026 23:03:10 +0100
+To: linux-sound@vger.kernel.org, Niranjan H Y <niranjan.hy@ti.com>
+Cc: linux-kernel@vger.kernel.org, ckeepax@opensource.cirrus.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ cezary.rojewski@intel.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, baojun.xu@ti.com, shenghao-ding@ti.com, 
+ sandeepk@ti.com, v-hampiholi@ti.com
+In-Reply-To: <20260820115114.1203-1-niranjan.hy@ti.com>
+References: <20260820115114.1203-1-niranjan.hy@ti.com>
+Subject: Re: [PATCH v2 1/3] ASoC: sdw_utils: Set component_name for tac5xx2
+ codec family
+Message-Id: <178734853532.89326.16193090451804199019.b4-ty@b4>
+Date: Fri, 21 Aug 2026 22:42:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,8 +50,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
 
-On Fri, 21 Aug 2026 18:54:10 +0100, Julian Braha wrote:
-> ASoC: fix unmet dependencies on PPC_BESTCOMM and SND_SOC_AC97_BUS
+On Thu, 20 Aug 2026 17:21:12 +0530, Niranjan H Y wrote:
+> ASoC: sdw_utils: Set component_name for tac5xx2 codec family
 
 Applied to
 
@@ -57,8 +59,12 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: fix unmet dependencies on PPC_BESTCOMM and SND_SOC_AC97_BUS
-      https://git.kernel.org/broonie/sound/c/72cc574aa379
+[1/3] ASoC: sdw_utils: Set component_name for tac5xx2 codec family
+      https://git.kernel.org/broonie/sound/c/9d4843ac81d1
+[2/3] ASoC: tac5xx2-sdw: Rename gain and volume macros
+      https://git.kernel.org/broonie/sound/c/04145998fa20
+[3/3] ASoC: tac5xx2-sdw: update default regmap registers
+      https://git.kernel.org/broonie/sound/c/cf82dd2183cb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
