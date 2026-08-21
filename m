@@ -1,65 +1,65 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4F0443AAB
-	for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 12:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CBA1F099C
+	for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 12:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787315396; cv=none; b=so59rR9lq8lnZVrldbhvUyzfcYB9c+G1Kzf7AAQFOVtHyveWCAEXHKTeWcvwQjRg98KcsNVcCk0xOLSDaU/thDrVMBGRYVWXGuaB4wY9gET80J6gaEDeVFWKhkDIjZdCf0uM0E+oLMR+mWynP2Gi13JYuR6mnfBZ9rBFlWfF1dM=
+	t=1787315399; cv=none; b=OUChuJds5FztVsVbuWptrf5gklNkll5zktTo6dCJekFUy/U8kpe3VAKpqFVIo3b1Dd5qBbOiAMBaj4vLQnesmEjvq443SpZpUwpiQCGSuMK7FOXhnt6bgpSc/BgkpqlvrNBn2UvFj5aATNYgbWJSUE7f8U9vGLnqLkdcfsdvx4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787315396; c=relaxed/simple;
-	bh=o1MWaXkXr2aP1vAPknR4xkrDwfhPNsw9JwAuoBORvkU=;
+	s=arc-20240116; t=1787315399; c=relaxed/simple;
+	bh=0nndnxehF8p8gtYhNyKcqNJYzw8UX2W6RofWyaFs+6M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JrhxjhIFkgb54ncc2Ml0gO997Tl85ZkJDeDHKVSzhri39rgg3830OIxmYGd/kPNHNhCAyCkOIAGvg8BbvGbkb5uA56RhCLtULyL5spXNWgghLgcwzfKT15/PePjVk7IIn+rxcYW85XIRH7H3Xc9Q3fHK3kjoSymN48zegCy/f+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kzId3syV; arc=none smtp.client-ip=209.85.210.169
+	 MIME-Version; b=LmWGUL5+/sUGAIoclw75K2PkyBXopRpgMX7IpTAcb04aPURGoW/XD/xEmOn2w65omU+MwCJhzK66M6C6IB+q4LMv5AAdxkQ1jwGL1vWQM+lEw1B72VLS35GYlB3SIeFtWbv5DBTv2/FAi5wh/O76ghlkqh/eFRAUaDfQDV3kRlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VOJJh6DA; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kzId3syV"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-84a4d8fd6ecso900503b3a.1
-        for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 05:29:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VOJJh6DA"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84e0688b7e8so618467b3a.1
+        for <linux-sound@vger.kernel.org>; Fri, 21 Aug 2026 05:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787315393; x=1787920193; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787315397; x=1787920197; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=g4hgMi6/uNAtRYrz9ZogYJurz7z1EY11bapUhL//V5s=;
-        b=kzId3syVg6pWf2usunhJde+DoqY0Ik7itg6gKbH4FSUXXaVnrdfdXvAwzEgEKj3bPz
-         +ShcRTvhM4KIJAzQBWpSVSvheWF8IVFS53zrLBEyqAl4BUa29ZcoiIBiJ8vywIeL12J6
-         d7eZI4ngZsBpC39RSM/uh1+L331mQKPcY5y2b2D5hRKo1MMkigPzNkqsvcc2Ax9zQ43w
-         R/JtFwz576FY5tDJN5tZQw5bw1P/HHBJ3IvCmm1K792yVxgtQZMOxGglMVBo5TQ1iOPE
-         4qsrCLQxApyYVk9qjDXSJ6Z8uJDgzjA75E6eaNSa2G7fv7A4r0VbAJYFO7txiCkSe8Zi
-         PrdA==
+        bh=4LEpADh7BRFyWhypphnGElkUejLABiWZIaIIaxvhaYU=;
+        b=VOJJh6DAUJYMD8UNS7zwg9CL3NIRFBqeV8E5tWphL4Rw+cTYWSooiqB4fOZoz8qFJt
+         2AVB77TbZUhxO0OJb3q2EdsmkBBE+6k59Vi8IAiQhxW7P0MSgTTkYB8ASxpksouIeG2S
+         98Xdq+nop8brY0HDhmvn10g3sGZvfab7q0ODvaS0RuXs0irPEphIctAYUluIja29hPS5
+         75oXyaUSbsJitt26OCPa8RXZeoKx2trAP7vxAkDqYBThbZ9lGzTm//i/TbbpqwGohEp9
+         byYZsndpZpjFGLnXVS9FHXnGOcdZ0JLnz8CysnVX13vJCdd2OixTCWXai8t6zXQ9ujkp
+         cedg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787315393; x=1787920193;
+        d=1e100.net; s=20251104; t=1787315397; x=1787920197;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g4hgMi6/uNAtRYrz9ZogYJurz7z1EY11bapUhL//V5s=;
-        b=F07FJXfEnoLN6GNRS9B+XfQEWiLPHCdOOh7DsH9CEalClA0I6MHMcGiRSw4lWY6NP+
-         iPNX0Hz5NnoDYmTrUGG8Stm6B1HQ+pcK5or2Ocbzu1WwnF64u7wCd9nek+AEFgrRWj2U
-         ysaD2afVgxuEmYpsRU+4m1TS1c9OoVwr7ObIWS9F/mSD3dMXI9y/K1LbHh0asnBAv8Qo
-         cNgUcO0PHoZje9sdMtzEaqtcoLejPG8/7q59KrJ4ahDM/Sjoj39l4KE2cN+vQwBgGwM2
-         SCObiEpnRUzC5CG65paSe8+eMUSBdQWswqygrXGHjBbAFbe9oHBQN8+OZSzxUfnFOWF+
-         ASpg==
-X-Forwarded-Encrypted: i=1; AHgh+RrKpNT9Ut/TIgCHMhaCAN/bc1ZxRHUv3qIbhnA/Fw3SSLGNn3YkcoDNwlXB+kQj9h9dkerTRmizOowCZw==@vger.kernel.org
-X-Gm-Message-State: AFuF++mAm3u8aaJCI/SIvRuks7OAW3dP5dg44DVSEmghCnyPQ5R3BxHq
-	+uuJdMv8PiVL21uviSI7gos96tfuMX7htbijpw10WM45OK+QfQyTlARU
-X-Gm-Gg: AR+sD136+CHzugxW0PYYjhLb20YgoZlbdeXD/4ly4+TGJtYT2UO88sd8YznjzmReqoV
-	AxnHvgAjUJ8Cp4ScHGHK58zlr0h7m2a3ymSs3udrb9tN1v1HVncBr9CaspqRs2ikNt+9ue9Iuiv
-	vwLCnCZBAjNcqsCuoG+UI7ROQ5ALxfKHS+CGX9SPZZsKeFK/Y2VV38OhL34munch/4sFWh+PJsM
-	sD4KoERvNP9k/CYRqytk/vsHSP8r34trfacM85K9PQUCl33qZXFlWaopZJaS3rDReVLwp0z4YpS
-	rIPn/BXpObdzC0Fy+QJ6LDWc2X6lg4imOnIBtx7loWoK3WI167brMKyE4uYvr1tXs6p0uDQltkN
-	A/bbC8SNUJVjEVGOONK/I4e8u8gk811cfHEKu4b6/6LdrZvvn35N9eT18f56N9JKdKksjBPDLZn
-	9mDeHNMYBgzUbOHol2ugF8rVj0C6EPfOHtC8lh9crMd4apwnopxRAeWPKaFrRVU73IiWqMOh9WB
-	TlCyVELg0ihL7P6VPAU/l+UIbpLU1DgqXKYWSGvbh3kvEgFYuYxfYBUmknRNzedpL6IUPHOkzWj
-	ergcig==
-X-Received: by 2002:a05:6a00:328a:b0:851:b03a:fcb with SMTP id d2e1a72fcca58-851fa018184mr11023615b3a.14.1787315393221;
-        Fri, 21 Aug 2026 05:29:53 -0700 (PDT)
+        bh=4LEpADh7BRFyWhypphnGElkUejLABiWZIaIIaxvhaYU=;
+        b=GjoyhHLPfFNG1JEorhcxxOcBcqmf0Do4Gd0HRzbi7EJe/wxOEo3MgyvB40S29y9QPE
+         dljQhsNcdldVyGe4ZlLUThSGqadXu0Ne65FaAYxkR3aGPl6vIqi183hlQ5c7DnDkFooQ
+         brla9Vd0TXRIYaXsmfD+URnwgInMrXRXZQfjR7ZSDLR2K+Zwi1OrgJMkVODJ25HVWjAd
+         DT1kwX74liTjF3KOxvHx5+UenzaqCwyBxQh3+JhBDKbYicRAEgXbSg00WdY6gtrfWP9m
+         WrUfkRUhxSRtIuEm0n7C9zB6aZR7LZ6XhmRY5xY+ovT4WV3304kyvrvRxng8PpUjdRXX
+         yBkg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1DlEUuIHNIl9/BpYoFbsmd73SU+ysZxgUC/i3aCfZMrezxErF5IaL4f14EztA5jk1WNnrrs6ugtgVoQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++l+SPpuJq2f/kk2CP6k5wmNkVZj9TAuTgDw0QfbWA1sgAsNt8sg
+	pJQzjizN3p7n6mwawaTo6AAKYTfGEidr11H3hDpk7kw8O+ft5Dl0kuAC
+X-Gm-Gg: AR+sD13QsAeLl0XRqhYJsub6ZQKNo1YrNOpqNhYGiDXKVOg2D13FkiARytH+I9z+LGs
+	zKnas/OsQvL6BycFT5twJec418OJ917KoTNW9tnyTMek+w9EWWIfj2W87JtyRdniz8vfZdad9hX
+	t9J7ohfIPMzPr7Z/qE/E0VA7ZLX3ivzEeu9hsqa6GsSJhWK7etMK9vyvnDQov1pglHdFebEy04K
+	JsD8wXMdQKT/gc3kjvNPgAYv76fx4jNrE4Gw92cMrfKN4VKrRFoEr9DnUvw3UGc5loxqQ/vLvEl
+	zhhZAzYNne5KEghPxMc+0e4IWDTz3joh8hRAZW6N1VWfSoRsBZZnLlASRoPQVKAlHbEAlnGm0N3
+	QrURvX1aWzRdD7gLVKg0MxshLIR8j8PM4KIELT0sqaEk4HSJzu7vAGyc14lI7qwZGTPx0By5RDd
+	2klSKWE+bqsp+tjRcCiWls7F/YUc2dy7npsw0cZ7zEQqthlqQeh0oaw0H89uY7GjRimO7BNcldv
+	m25m0jXMrcYOHsJA67eBIUru/oo3YFAsldze0rRkhT0ug/DjFSzFYK4intrsMzkkqa70tFMM3ec
+	wfIZ
+X-Received: by 2002:a05:6a00:ba8e:b0:848:34ad:3d6c with SMTP id d2e1a72fcca58-851f9f4a715mr9133903b3a.15.1787315397244;
+        Fri, 21 Aug 2026 05:29:57 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-851d3389fc4sm2848582b3a.14.2026.08.21.05.29.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-851d3389fc4sm2848582b3a.14.2026.08.21.05.29.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 05:29:52 -0700 (PDT)
+        Fri, 21 Aug 2026 05:29:56 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>
@@ -73,9 +73,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v2 2/4] ASoC: mediatek: mt8183: Fix APLL enable error handling
-Date: Fri, 21 Aug 2026 19:29:26 +0700
-Message-ID: <20260821122928.41343-3-phucduc.bui@gmail.com>
+Subject: [PATCH v2 3/4] ASoC: mediatek: mt8183: Use dev_err_probe() for error handling
+Date: Fri, 21 Aug 2026 19:29:27 +0700
+Message-ID: <20260821122928.41343-4-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260821122928.41343-1-phucduc.bui@gmail.com>
 References: <20260821122928.41343-1-phucduc.bui@gmail.com>
@@ -89,66 +89,34 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-Currently, the mt8183_apll*_enable() functions call mux_setting(afe, true)
-but do not check its return value to handle failures.
+Replace dev_err() with dev_err_probe() to prevent log spam when probe
+returns -EPROBE_DEFER.
 
-In addition, the cleanup paths of mt8183_apll*_enable() do not call
-mux_setting(afe, false) when the enable operation fails, while the
-mt8183_apll*_disable() functions do.
-
-Add error handling for apll*_mux_setting() and call mux_setting(afe, false)
-in the cleanup paths when mt8183_apll*_enable() fails.
-
-Fixes: a94aec035a12 ("ASoC: mediatek: mt8183: add platform driver")
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
- sound/soc/mediatek/mt8183/mt8183-afe-clk.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ sound/soc/mediatek/mt8183/mt8183-afe-clk.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/sound/soc/mediatek/mt8183/mt8183-afe-clk.c b/sound/soc/mediatek/mt8183/mt8183-afe-clk.c
-index 6ab0734ad136..0790d8123179 100644
+index 0790d8123179..46cab62220d9 100644
 --- a/sound/soc/mediatek/mt8183/mt8183-afe-clk.c
 +++ b/sound/soc/mediatek/mt8183/mt8183-afe-clk.c
-@@ -382,7 +382,9 @@ int mt8183_apll1_enable(struct mtk_base_afe *afe)
- 	int ret;
+@@ -101,12 +101,9 @@ int mt8183_init_clock(struct mtk_base_afe *afe)
  
- 	/* setting for APLL */
--	apll1_mux_setting(afe, true);
-+	ret = apll1_mux_setting(afe, true);
-+	if (ret)
-+		goto ERR_APLL1_MUX_SETTING;
+ 	for (i = 0; i < CLK_NUM; i++) {
+ 		afe_priv->clk[i] = devm_clk_get(afe->dev, aud_clks[i]);
+-		if (IS_ERR(afe_priv->clk[i])) {
+-			dev_err(afe->dev, "%s(), devm_clk_get %s fail, ret %ld\n",
+-				__func__, aud_clks[i],
+-				PTR_ERR(afe_priv->clk[i]));
+-			return PTR_ERR(afe_priv->clk[i]);
+-		}
++		if (IS_ERR(afe_priv->clk[i]))
++			return dev_err_probe(afe->dev, PTR_ERR(afe_priv->clk[i]),
++					     "failed to get clock %s\n", aud_clks[i]);
+ 	}
  
- 	ret = clk_prepare_enable(afe_priv->clk[CLK_APLL22M]);
- 	if (ret) {
-@@ -411,6 +413,8 @@ int mt8183_apll1_enable(struct mtk_base_afe *afe)
- ERR_CLK_APLL1_TUNER:
- 	clk_disable_unprepare(afe_priv->clk[CLK_APLL22M]);
- ERR_CLK_APLL22M:
-+	apll1_mux_setting(afe, false);
-+ERR_APLL1_MUX_SETTING:
- 	return ret;
- }
- 
-@@ -436,7 +440,9 @@ int mt8183_apll2_enable(struct mtk_base_afe *afe)
- 	int ret;
- 
- 	/* setting for APLL */
--	apll2_mux_setting(afe, true);
-+	ret = apll2_mux_setting(afe, true);
-+	if (ret)
-+		goto ERR_APLL2_MUX_SETTING;
- 
- 	ret = clk_prepare_enable(afe_priv->clk[CLK_APLL24M]);
- 	if (ret) {
-@@ -465,6 +471,8 @@ int mt8183_apll2_enable(struct mtk_base_afe *afe)
- ERR_CLK_APLL2_TUNER:
- 	clk_disable_unprepare(afe_priv->clk[CLK_APLL24M]);
- ERR_CLK_APLL24M:
-+	apll2_mux_setting(afe, false);
-+ERR_APLL2_MUX_SETTING:
- 	return ret;
- }
- 
+ 	return 0;
 -- 
 2.43.0
 
