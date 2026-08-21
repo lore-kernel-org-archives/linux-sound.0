@@ -1,133 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010023.outbound.protection.outlook.com [52.101.46.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3623F48A8AC;
-	Fri, 21 Aug 2026 15:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787325882; cv=none; b=Aix3lTuEDNwyM+A4zBEY/ipbOSKI5Fl+UWIT0+1dCvF4QiBp6200z8g2D5kkTaBDlOzzRtmLzDRjNbNT6jc+7ScfLO/1OYI0WU6NyZ+NS6yN+hmWQnZmtCjvLq5jJ5O458gC2S/02j0Zfg8wG/n1wHJ9PFCqZsH09Ze7l8c4rxs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787325882; c=relaxed/simple;
-	bh=SBGml8hrQ2aFRGNL2p+ZCGxmIsUl/78d5Et7UrK0FMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DOIV2XFGUq6iqUSykv6Jyrr89/S9myKSFsEj72x6+YB9ONtsJ5ly77Mp+J+o7L2gYa8X/CqdaVBMiRKNk8wXRuSAYuezhRBAWqkWJ6NO//HX1GIg+4qHHb9xvuMJNZ2jU8tHBFmu2DW+18ETpdKbzJ3gGO1sAmB8ELx1o9wdTWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VWsTPTjF; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5ED317A314;
+	Fri, 21 Aug 2026 15:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.23
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787326708; cv=fail; b=ascPrZ2RKDZYxap96IQ9QXVlRMaTHoeKbIuWYRgfJD5N7t6QsUFBn1nFanDLDzdWUua5OOsJuL8TPTM8CmUFQa9eEzwQXM0ktqBO7xqs1EdaPn8Dk2NdVKfOR4Ri2+GRC74XNnjhth3u4adjMKNkfP9cRqxUHhEPFyKbBvyys7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787326708; c=relaxed/simple;
+	bh=EYjQ1PhVdv2dVCuaVzwLZugFtANHB033kVtQctwxSIk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jc7fwiy5qixXXIjKVKnDqaNr/s4OBPV7P7d+soyVUpALcjw1MtnWOo+nQ4vLw4LkGUFuLHxVN9pe1gcgreEsn4oowXGud5BwdNkFU2M9Tzv4LEQC4Zae0xUe6yBBzaK3NG+26ES85lhNYswK2vZBK0f1l8HCFy6ZTSQnXZ5q/9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cvYKXkgY; arc=fail smtp.client-ip=52.101.46.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VWsTPTjF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBCB01F000E9;
-	Fri, 21 Aug 2026 15:24:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787325880;
-	bh=dnL5vbj5IlrgthDUXFHTUoJ8e1RoFREik7AkKfQotBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VWsTPTjFck2IV5MzjnjvlEZBKFtNtr6UK41cxwdBCwKDSEtRJNhn68AGM9VYnrIEB
-	 MKH+8eHrVZiztyqudfUZP1eDnusyNgkJ4CeS3oWD3kgVC9dmA0cuqFIh3yO4giZHeE
-	 eklKneFSNty/eOOT8CLXBi8Ha9ECzg1WOpSCO81Nb08enxxhCY+DteS07YbezzXyx5
-	 QdMySiIZuwghX3UrEBTyMSYJSmSfsxTGObMbGd1vXkKec+elDUGNQSDMcdww0QjBnO
-	 neb1rL/qmTbkhV9p/yGnbNHCbY2Gdm3abxaFXmY7QKsRwQZAdEybzW96LCy1ZfEDZG
-	 y801IxSjrscbA==
-Date: Fri, 21 Aug 2026 16:24:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Neo Chang <YLCHANG2@nuvoton.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
-	krzk+dt@kernel.org, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, alsa-devel@alsa-project.org,
-	neo.chang70@gmail.com, kchsu0@nuvoton.com, sjlin0@nuvoton.com
-Subject: Re: [PATCH v9 2/2] ASoC: codecs: nau8360: Add support for NAU83G60
- amplifier
-Message-ID: <7e7b8329-23d3-495d-ad48-9ea70189c46c@sirena.org.uk>
-References: <20260820022925.1174132-1-YLCHANG2@nuvoton.com>
- <20260820022925.1174132-3-YLCHANG2@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cvYKXkgY"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T80pA8sKayle58OzLgj6voSjWdm61guGo5NjlCL6s05EuBphHJrTo+yZk+4xYuumxDAscWRI/Y6l/CXDh0lX4Lff+bKR/h+BNGgxhH3rvwRqyIh14x7E/MH9PnsZfzOi/otYD6qu1lzo/5xwT2bRNdQD0WYC8ThYQlzA/N6qxIb0mqN/AjjzFRm26ItP8+QFwrmBdKM2itx4V7YF13fg6jZ8uHEF2Byi1C7JDHwEXT/p1LU0YFgHGYzfPXtLt8yd3Q4uT78azNVYzxEN8BQJ1F1WDjl0G8vW4lLLQIKV5nfzbYphoPh72cMxEv8KpgHGwtx8TcSullqBSctIYcYZtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uMvl/G/EMiY2lk+Ua70XdtYtIE4D2OVNPleUqXt38OI=;
+ b=Rd6kxWPVi4h7RzQ9OETUiO7Hgy+rWuDLiFyeVL+TvLL9fV19/NWXl50nAbXSpJWk3IgSLP69qaPl7BykjYfM+v/YsY5VNQ6jBVjR2pRc0PL3rNGvMKMwX6HciF6QF83p+gg1H6vftuFN8kKah7kvQKfb+kvzzctvpb3wo0caPya0VKRxh1+xorQHlcaOXG5m6LWCbrAAP9LkoP4c+YwOgR3byE6zNW65MvfxWAtgLYSbq3YVmftTFLGY/O3JJh51axrexxvitqf4f+b/0GSKSFKWM2CH5PkIWM1Ja9YPqhZQk/5zKohIZ2XLRAFR0v27I/1mbmGEmLxp6cziikwYQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uMvl/G/EMiY2lk+Ua70XdtYtIE4D2OVNPleUqXt38OI=;
+ b=cvYKXkgYuV+3CgoG0B+yY/Czdd7oSUPQCvfXZZfYycz390WqN86Eb0YI7Zl4urrSuBDjqpdThiI3KvTQzX0fUFTejXchOkEgnD+atj1ksyolWRQ10vGpPnwFRYT/ZusFZTlrY0ftHp7NRhzgaklmBnJGNLrh7PXTzV0ood+QwCgVDe8TnDEZW0BkaYvnOdXQE1IQMWPNQ7QsCAV6/0rxCFv6OfeFwBZeoFiLb5/MES0oaniuy8AytbuThisBLplmRQUHGawQsSNNq0FlkJxbOwTeTS0/dyF6QPFL/OVUwBTgBat58nqWck+Bli2L6RO0KffU+FUW0gyaYfgHq6YOAQ==
+Received: from CH0PR03CA0329.namprd03.prod.outlook.com (2603:10b6:610:118::19)
+ by MN2PR12MB4319.namprd12.prod.outlook.com (2603:10b6:208:1dc::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.10; Fri, 21 Aug
+ 2026 15:38:22 +0000
+Received: from BN3PEPF0000B372.namprd21.prod.outlook.com
+ (2603:10b6:610:118:cafe::f) by CH0PR03CA0329.outlook.office365.com
+ (2603:10b6:610:118::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.11 via Frontend Transport; Fri,
+ 21 Aug 2026 15:38:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN3PEPF0000B372.mail.protection.outlook.com (10.167.243.169) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.0 via Frontend Transport; Fri, 21 Aug 2026 15:38:21 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Fri, 21 Aug
+ 2026 08:37:55 -0700
+Received: from moonraker.nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 21 Aug
+ 2026 08:37:52 -0700
+From: Jon Hunter <jonathanh@nvidia.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "Thierry
+ Reding" <thierry.reding@kernel.org>, Sheetal <sheetal@nvidia.com>,
+	<peter.ujfalusi@linux.intel.com>
+CC: <linux-sound@vger.kernel.org>, <linux-tegra@vger.kernel.org>, Jon Hunter
+	<jonathanh@nvidia.com>
+Subject: [PATCH 0/4] ASoC: tegra: Fixes for issues exposed in Linux v7.2
+Date: Fri, 21 Aug 2026 16:37:30 +0100
+Message-ID: <20260821153734.158426-1-jonathanh@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="FbvYG0boBekWO757"
-Content-Disposition: inline
-In-Reply-To: <20260820022925.1174132-3-YLCHANG2@nuvoton.com>
-X-Cookie: Package sold by weight, not volume.
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B372:EE_|MN2PR12MB4319:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a779d11-2091-448d-05ad-08deff9a3b49
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|23010399003|36860700016|1800799024|6133799003|18002099003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	SqzH8VnJSXMthQmgsN0hKT2C6lWrp8C4g+Lg+usdL1J+hyJazdbdLf1DGW4rYbSMQvJiBonkhp2CTRAOw/aj3mA9/bfJmg4VNbwd1NH0G81WWyG1TN9rdE3ZGwQOl0AAQQRpJtjpFh8CLaKb8ERPDQKTiDMYDyW8PXo4OnKjFfwc7XyGRsviDg2AyhANGzt6ccjnTZyLz5z5o54+FLx+gupex/ZfZZjJ/xY4BQZRRZwAl5Uh9+IMDbGg2XhpSAEhS5mOOqYdtEyvHIEhy87wON8Nbo8nZznjN0vb+akK8dHfPJhsYqMpxQk4e+8muNufzSsEBjtZyHalcXpnnWb0giVm39vYgJjPVb+4sr3LlbDrqY1C9jZWWQjzCsFtjsOXP0uYiUO65HkhDDz6lb9rTHf5UBXO2wV5KfQM6btI8LHYY9m/fx3nN+nh2gHTmCwWwR2Cnip+Xgtwg2Y3ZH/pKSWW+tMV7mnNOrL3PSKYlxtzXTAemf8FKxhBjk4thNfeECp1az52Dfi5QCjhKlrLJ/mzS96B6v/3dP5Csl/1pI847qq8GT5bK9UHR4JD0SZpMGSU+xqm923auaqdpUwoJv/eQjIRu1vfp1p98fj0axDA++h7bvyel3lKgKa37WGvkxdozeUX7YRCnGrOfTqLWj6Y2ejhpHEYmlfLgZah4VwC6STTpudtDhhkbGSOD5PhH5upYSSW3rPB1Ba8XRYlKg==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(23010399003)(36860700016)(1800799024)(6133799003)(18002099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	oJmmJ5BXdV+y86KBRmE+jp1HIoUG2vwzL705G1UFk9W+An0ps9MlzPFsTWhyHyGUt0kNZXaCESC4KlpnwU1jYFwzg77Mc4m47mA6lKKSlIL/Xh/Z3IrBWw6W2Wzne345LVeJoxtstr+ox/ngZSpYDBnPjGzqqVuRRV3wjSF6wjq8eQtEEfsIiNxagF5EgtAVxR90KfBMopuExbf6gLYaeIgZKJGK/SF/Y+OOFIh4jz5kgi9zH05ARJOXxPD+RLVnv4+0PxAXflSGlK8ZaDM26cc/6yNl0+oiRcX12tpx4zWHFBVL4bXlWi/GJUjwYvzg2HoXNe8xR1ynXmFvAn+F8LRsfw6WpPtMQ0zwLRm7TPXaHZGBgvQPPUpxAnGjWaDLZt5sh089iS62nokeN0nKPiu9UU27KMMrLSM07jHCBeWzjgHqdzfeOE/tYe42gzNr
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 15:38:21.5778
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a779d11-2091-448d-05ad-08deff9a3b49
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B372.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4319
 
+Commit 4b05ccb17f92 ("regcache: Sort the local copy of an unsorted
+reg_defaults array") exposed an issue in the Tegra I2S and MIXER drivers
+and after this commit was added, this underlying issue now causes audio
+tests that exercise the I2S and MIXER drivers to fail. This series fixes
+the issue in the I2S and MIXER drivers and also fixes warning observed
+with the ADMAIF and MBDRC drivers that have unsorted reg_defaults.
 
---FbvYG0boBekWO757
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Jon Hunter (4):
+  ASoC: tegra: Fix the I2S enable default value
+  ASoC: tegra: Fix the MIXER enable default value
+  ASoC: tegra: Sort ADMAIF register defaults
+  ASoC: tegra: Sort MBDRC register defaults
 
-On Thu, Aug 20, 2026 at 10:29:25AM +0800, Neo Chang wrote:
-> Add support for the Nuvoton NAU83G60 audio codec. The NAU83G60 is a
-> stereo 30W+30W smart amplifier with an integrated low-latency
-> Advanced Audio DSP.
+ sound/soc/tegra/tegra210_admaif.c | 208 ++++++++++++++++++++----------
+ sound/soc/tegra/tegra210_i2s.c    |  20 ++-
+ sound/soc/tegra/tegra210_i2s.h    |   1 +
+ sound/soc/tegra/tegra210_mbdrc.c  |  42 +++---
+ sound/soc/tegra/tegra210_mixer.c  |  10 +-
+ 5 files changed, 184 insertions(+), 97 deletions(-)
 
-A couple of issues here, mostly this looks fine.
+-- 
+2.43.0
 
-> +static int nau8360_peq_coeff_put(struct snd_kcontrol *kcontrol,
-> +	struct snd_ctl_elem_value *ucontrol)
-> +{
-> +	struct snd_soc_component *cp = snd_kcontrol_chip(kcontrol);
-> +	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(cp);
-> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(cp);
-> +	struct soc_bytes_ext *params = (void *)kcontrol->private_value;
-> +	int i, reg, ret = 0;
-> +	__be16 *data = NULL;
-> +	bool changed = false;
-> +
-> +	/* Use the DAPM lock to prevent race conditions during DAPM power-up
-> +	 * state transitions, and check component active status to prohibit
-> +	 * PEQ access during active audio streams (playback and capture).
-> +	 */
-> +	snd_soc_dapm_mutex_lock(dapm);
-> +	if (snd_soc_component_active(cp)) {
-> +		dev_dbg(nau8360->dev,
-> +			"PEQ coefficient access is ignored during audio is active");
-> +		goto unlock_dapm;
-
-This should probably be -EBUSY or something, though that will upset
-mixer-test.  As things stand since the values change when a stream
-starts and stops there should be an event when that happens, and since
-we report success some value ought to be filled in for the read.
-
-> +static void nau8360_dsp_fw_load(struct nau8360 *nau8360)
-> +{
-> +	nau8360->load_fw_done = false;
-> +	schedule_work(&nau8360->load_fw_work);
-> +}
-
-> +static int __maybe_unused nau8360_resume(struct snd_soc_component *component)
-> +{
-> +	struct nau8360 *nau8360 = snd_soc_component_get_drvdata(component);
-> +	struct regmap *regmap = nau8360->regmap;
-
-> +	nau8360_dsp_fw_load(nau8360);
-
-This only kicks off the firmware load, it doesn't wait for it to
-complete.  That means that if a stream restarts quickly after resume we
-will run into issues - I see that the normal playback path just errors
-if we try to start without the firmware.  We should wait, either here or
-in the startup path.
-
-> +	if (NAU8360_IS_DSP_REG(reg))
-> +		*value = nau8360->i2c_read_buf[0] |
-> +			(nau8360->i2c_read_buf[1] << 8) |
-> +			(nau8360->i2c_read_buf[2] << 16) |
-> +			(nau8360->i2c_read_buf[3] << 24);
-
-get_unaligned_le32()?
-
---FbvYG0boBekWO757
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqIbbMACgkQJNaLcl1U
-h9ARoQf/Vm6uj3Mw8pW8Ni5unT/J30hjetyZ2zxoIepaS5lXsLB5W34wxwhZhTQq
-D3wbdzK1JJnvXXivIoyoJjY8EZZlXCp7si6f89XtOokkQ8Mvw21EgUetKaDBrNfw
-j91Nw8GBQnY5B+jM4qSvgmHi0nE3lujSpcKm6WQyUrGO2iMJpanztxuv8Py6DCDI
-ojPbtfNA8mCWtiA3gLJC4R3O1DbJZRuKJLpgCyp35NMnttJDaajjdAhIgPAfK/jV
-thzBU72FrQpI4JsDNgT7j9aXXFQBT1k62EKBOEfAB+CFvAz2sgdkd5l/70FCEnRV
-65SCV405IUFuSECXuVpFIzRAJ57p6w==
-=NzXF
------END PGP SIGNATURE-----
-
---FbvYG0boBekWO757--
