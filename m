@@ -1,93 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0471535CB6E;
-	Sun, 23 Aug 2026 08:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFAD339361;
+	Sun, 23 Aug 2026 09:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787475595; cv=none; b=CNB13HDrJ2BN0hs2oDxnpfjWW9iI5CVnoporR/VMyLspYmO3vwPyXFNAmqxnCDaXhRDfLTn0Sff9zvWh4yyPTPIMpL0QML5MrGE4WsgOJF/PSoWVG2AohNZLNDyBetufFDvX71aYJx5u/5ti7HaAWm39XntK78UNj5d0/D/Si20=
+	t=1787475629; cv=none; b=DKcmbt0RE/2vrl6Ziw2RCZ7/rdlXIvhoC5lwamElgOWljgEnplmExp5M1nv/miAWaN/fDCrtEBAb4ry7Ef4HWng3+kUNvTpQNfeeAvU1n3L8JV/9+WcNOZdDA7yqox1O5trHzjpiwsJe2bPiPs0Ix+g7xXL9TMDLzSa8sT13crE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787475595; c=relaxed/simple;
-	bh=fokXA99WlON9F07C39oSy2Sk3g6bnkSMOIb42ljSiVo=;
+	s=arc-20240116; t=1787475629; c=relaxed/simple;
+	bh=OtQYl7A7doj1nRxT0QCPma4goulBBejMQmyeYzZ2E04=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ASqf7feje8hX26fnl7ELxqLsQL/HzSbn4Sm38B80u6LofzHDLLOYFmlEMx13xt7B+78jhklPCb6D8Dfw/zbw88DfyzOpCsTzBcOQlaPc1fLumCjR1SvYT2DmIwVpAjdorU+8a1OkL76/tRGiRmDU83e0uS869JrfzynZxN9M398=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wAye/Rew; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JvX0UIVp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l2WcBStG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uoxqB8zL; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=OY3iiCb9T9C0dmQlXa8znH6+gdcUnbQjHiRSkw8WfHZER9mr66xgZw+bTNIwfpbfBgqmSndoklqLcG7fwXB2Vdy/7gw5ZZ2yvXiQTXVhY8steDTO0OXbDwcIU00Q5xZ1cVci4I/gOlDlYv4fmwDeX2cwJIkgCgXWatLGEbSb/T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GWQ6wX7/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9sicZ8ju; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OgeEVREB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8moz7JWH; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wAye/Rew";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JvX0UIVp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l2WcBStG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uoxqB8zL"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GWQ6wX7/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9sicZ8ju";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OgeEVREB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8moz7JWH"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 827A7862A4;
-	Sun, 23 Aug 2026 08:59:42 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9EAF98615A;
+	Sun, 23 Aug 2026 09:00:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787475586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787475621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
-	b=wAye/RewwLOfjGV35hK8X37mm6FuLGlMOFmLvl80Az3321ElSbJvV/Rk+CPgQgzB1KcNuq
-	H0qC/YBA/8YzbJFqkA8+RE0YAs/jOmi/fIyvNYd+X3bGlsw6so46MEqaHUPIPZZVgkNUhA
-	PUOy9D8ZRV+vrXoBaH3nl13texLozpc=
+	bh=u8TBrOtMHkY8C2ezmBC0IR7HRFaxx0ZgptuPG6yE9H8=;
+	b=GWQ6wX7/3EFaM67rw16Fscs7DQQ7+EaXzrzOP/XrAz7njDZZu24fltR3a2ObvAMv4RUjQt
+	j8tXBMTH+fRnETHr/A8Fq3A9WfioJQzUsJ1fU2eWtU66yu2s8jvsSQhBHNVAXrkmNV40ID
+	9VIo2/g3j+TxjDQWUOYm+642XLRDgaE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787475586;
+	s=susede2_ed25519; t=1787475621;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
-	b=JvX0UIVp+GOK+0VWAG5Wryqhgvx1VIlx6tbS5HcJ1m6kfbi+oUpxlvQGEFn8LcQBd21BPr
-	nyYJNI9Mn/B7iBDw==
+	bh=u8TBrOtMHkY8C2ezmBC0IR7HRFaxx0ZgptuPG6yE9H8=;
+	b=9sicZ8juhtwWRusKX7ZLO/LOFQiJKuegC6F19CCUaMlp49j9qJU+tfFoEuxYR/KWIyOwiQ
+	gOXr6EjLMpzlepBw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=l2WcBStG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uoxqB8zL
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OgeEVREB;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8moz7JWH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787475582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787475617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
-	b=l2WcBStGATUrhb8fCBYr+lT/RVyhgPaQwetCFQpFrBKEnqzFIo3UAZsz7KHoQKKw1ygM8q
-	hH6EMd5Udk1MsveAPF60ft1g8Ibo5BgPh4fpdVxpz/Jkp9IRwK4lU+hqBLg+fweodT0oDQ
-	tVWwRQKPZnfUHo83sWJZXYJOgAb855k=
+	bh=u8TBrOtMHkY8C2ezmBC0IR7HRFaxx0ZgptuPG6yE9H8=;
+	b=OgeEVREBX41qSr5swVESUNwmeakUoGyaarOjwpLjPXHfs486pxCifz16VMcGHIMB0+eNxw
+	kDz++12K56effUwtzo/lF5iG5lpS2fgkN0MlUjjeTUCuh9DN9Pll/VIJGySiR2d5eL3Mj1
+	K6I7+UxLZNMVyfySyuz3dIpwOFKDn1w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787475582;
+	s=susede2_ed25519; t=1787475617;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
-	b=uoxqB8zLA+At9cfPTe2YzvJinOIr8tnavR8cXpMw/2VwVFbbSJCR7h+tGdKjImlNZmPz+r
-	8CWErkvxokY8y4Dg==
+	bh=u8TBrOtMHkY8C2ezmBC0IR7HRFaxx0ZgptuPG6yE9H8=;
+	b=8moz7JWHIU/6+g8zRDTZ2VFgFQy4DYI8Vl/L1iuQHo8KaH7PZuWeHr1jQWzyNNw0KEE8m0
+	0Ub29EXUxSj39wAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44FD013332;
-	Sun, 23 Aug 2026 08:59:42 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D94113332;
+	Sun, 23 Aug 2026 09:00:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AzEBD362imonCQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 23 Aug 2026 08:59:42 +0000
-Date: Sun, 23 Aug 2026 10:59:41 +0200
-Message-ID: <87jyphw6te.wl-tiwai@suse.de>
+	id Fl+SFaG2imrfCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 23 Aug 2026 09:00:17 +0000
+Date: Sun, 23 Aug 2026 11:00:17 +0200
+Message-ID: <87ik51w6se.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Federico =?ISO-8859-1?Q?Valent=EDn?= Andrade <fandrade@frba.utn.edu.ar>
+To: Edward Blair <edward.blair@gmail.com>
 Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kuba@kernel.org,
-	alexander.deucher@amd.com
-Subject: Re: [PATCH 1/2] ALSA: usb-audio: Skip reading sample rate on M-Audio Venom
-In-Reply-To: <20260822043033.529424-2-fandrade@frba.utn.edu.ar>
-References: <20260822043033.529424-1-fandrade@frba.utn.edu.ar>
-	<20260822043033.529424-2-fandrade@frba.utn.edu.ar>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add quirk flags for SMSL USB DAC
+In-Reply-To: <20260822114110.1069541-1-edward.blair@gmail.com>
+References: <20260822114110.1069541-1-edward.blair@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -95,84 +88,60 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -2.01
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 9EAF98615A
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
 	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCPT_COUNT_FIVE(0.00)[5];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 827A7862A4
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 
-On Sat, 22 Aug 2026 06:30:32 +0200,
-Federico Valentín Andrade wrote:
+On Sat, 22 Aug 2026 13:41:10 +0200,
+Edward Blair wrote:
 > 
-> The M-Audio Venom (0763:2084) is an USB Audio Class 1 compliant
-> synth with an integrated audio interface, it does not implement
-> GET_CUR on SAMPLING_FREQ_CONTROL, hanging up if requested on
-> endpoint 0.
+> The SMSL USB DAC with USB ID 152a:85dd produces an audible pop
+> when snd-usb-audio performs its redundant probe-time interface setup.
+> It also pops when returning from runtime suspend.
 > 
-> The first class request issued by the driver after enumeration is
-> a GET_CUR on endpoint 0x02, freezing the device's USB microcontroller.
-> Timing out on every transfer afterwards with -ETIMEDOUT, such as
-> SET_INTERFACE, so neither the mixer nor any streaming interface is set up.
+> Skip the probe-time interface setup and disable runtime autosuspend for
+> this device. Both flags have been verified through the quirk_flags module
+> parameter.
 > 
-> Analyzing a USBPcap capture of the Windows driver I found it never
-> requests the sampling frequency, as the synth exposes a single
-> discrete of 44100Hz on both streaming interfaces, thus asking for it
-> is unnecessary.
+> Keep QUIRK_FLAG_DSD_RAW in the device entry because the exact match takes
+> precedence over the generic 0x152a vendor entry from which the device
+> currently inherits that flag.
 > 
-> So I applied get_sample_rate to avoid this check, and
-> disable_autosuspend because the synth doesn't come back from being
-> suspended.
-> 
-> Signed-off-by: Federico Valentín Andrade <fandrade@frba.utn.edu.ar>
-> ---
->  sound/usb/quirks.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-> index f4e1eac639..caa80487f4 100644
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-> @@ -2334,6 +2334,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
->  		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
->  	DEVICE_FLG(0x0763, 0x2081, /* M-Audio Fast Track Ultra */
->  		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
-> +	DEVICE_FLG(0x0763, 0x2084, /* M-Audio Venom */
-> +		   QUIRK_FLAG_MIXER_GET_SAMPLE_RATE | QUIRK_FLAG_DISABLE_AUTOSUSPEND),
->  	DEVICE_FLG(0x07fd, 0x000b, /* MOTU M Series 2nd hardware revision */
->  		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
->  	DEVICE_FLG(0x08bb, 0x2702, /* LineX FM Transmitter */
+> Signed-off-by: Edward Blair <edward.blair@gmail.com>
 
-This caused a build error.  A typo of QUIRK_FLAG_GET_SAMPLE_RATE?
+Applied now.  Thanks.
 
-
-thanks,
 
 Takashi
-
