@@ -1,86 +1,79 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE4434A3D9
-	for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 17:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687F83AE6F3
+	for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 19:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787506670; cv=none; b=M2vRD39cFc5diElrd2FtlSh+vX+4DHz3vXXjGWVQYYEFJKZYxovF10l1s9mW/cBSYWYLvJmOeN5JX56H8EdIzXHTWBn3OKjgMR8IXoeeG2XzJVrZppfb1sj35JP5Ed/FS0NTipUxlGevqlBpLJQ6vtoXwsyuq5bTFJEhg6hifwo=
+	t=1787514514; cv=none; b=DxF57Y+YDGeRGaj7amHljpSPNvXEO5uONqPlITJfNVwA0vOphD1iqyKsPC6v2uP8ISRK72IlvZgH+TUQ/hInyDsTG3Ms6klQaaWXpZmA1KOh1/3Yj5TuLIvOREvcNsrDuDqa5NoElp61AzHxcR7cH6KeO7nqrbfklnBdgUCRzmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787506670; c=relaxed/simple;
-	bh=vDzC1lXQTX20zA2uT4KvproTMpd8ikDZ7Uz9qaUggPI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Lpfr+SXxjhK045JmX2fQSiGHtylP997W/DZGV7BQ4cqmsTLGjX8t8deyECYT1qlInAlPyHhyIqpViWbBBfdAH+EcOtdV4LbwlzhUYl3g5spzJoO53DvP3cBeM9XNZREOsTZKPFxu444DUiyUpU/xoDPsr3/dePEyVkEpTlawyWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pQacU6NX; arc=none smtp.client-ip=209.85.218.46
+	s=arc-20240116; t=1787514514; c=relaxed/simple;
+	bh=9eE802/mdqD1szWpDk9wP2FgV9BPvfuFoeY4cWiDP5o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gzVn5v00aI9jh6Hr76qiRqUz7tHxAODLwnHzOl/BDZhjBLnK6iLT2TeQSvx0kUtZe7ariNKT46xnmuT3OXnICMcbiKGmjvCLTu3HffSWzwIg4pykkEmCMwAk0s+f6ODW8jGr6gGd8nMeKv4SLyNZPn/dSjwOMwGOa8jlsLwHC0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DOY+oGGE; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pQacU6NX"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c1c52d920b8so383443166b.2
-        for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 10:37:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DOY+oGGE"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b0117dda13so2673555e87.0
+        for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 12:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787506667; x=1788111467; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WzxtLwRD92+TCzzKKRXbUxryNiIrjmzaSY4Z8wvm3PE=;
-        b=pQacU6NXgdwzVgaamRqgbVzWhlcLvjBztie4RtyJLUrQHp2L4NKw616g3JngzNBDd8
-         25xUYQDJJylCNt7sGiw9GPtMC/GwThJq0CIft1otleNIrBCyZf0Ia69O2vHYymJk6jJ4
-         Jvh/wiCbT/D2aIJDPjAI6YRsopbagDb2yK9XzGI6O7EUtKbqdJfK/IYTZSqSsmiahIpA
-         Ibck/zQu4+RTs78ZOMJdB72aSEJ/3CVk7BqYx/Q8kPCNvryXfdNUl84XpeJKQ1qq3XEg
-         drO100RRuPdI9swX012HwWiz9FqP0zCYc8orybXc7Sowl/B+3p/z25NS6v24ku5xakzX
-         jKpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787506667; x=1788111467;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1787514509; x=1788119309; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WzxtLwRD92+TCzzKKRXbUxryNiIrjmzaSY4Z8wvm3PE=;
-        b=IWKMdc+6zwjPwGS5Am+Pi0xzgQGXfnnvwn/XjrmX89LD90KN//JBafhBOqIyKRoSnK
-         gO3X6vO4eMcx6himynsU1CgbF9iiHGfLd3xsxuySRcnn+r2iIaE01yTw5zVK7xOZ9L1I
-         rn+sc/dPQwWwyMaaC+nIM37IQgJTCWqHjAf3cXUIEv1AxcvltGek0KJUUFs1DbGMTXFr
-         2JiIwajUx6LP579E+sR7+Xl5qRuGx1xgT4alQzHhkAsjjb7ozmM3RYkBeb5JNhD6Tqj9
-         cOvXtD9486fTY+mSMvlvSZ7LlngwsHG8WipcE9YBSy5xoEAk5D4b7pmXHXlOlhxBM2Gj
-         jmLw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrr7I/TxEt+PBfsnrsPmuHAKwpWWHUPSKpClo1oJUSpAkmmsWijpM5aL9EUJApLoTpcdtojXJyZMhUHzw==@vger.kernel.org
-X-Gm-Message-State: AFuF++lqWSp+O7nGcrJ69xLve+xPydLVNSraptC1Njnw+mO3YcJycRbR
-	e7V1nrWaVx4jH5LsF3yyU8tyAGqACfObz9/EmjehXy7d/EtUxvo1Rqg0
-X-Gm-Gg: AR+sD13dthF7s1Mp3T5Z3vSdg+benMM9uhGeJ08H34LX/xhBIhFEdL9+k1y1Ji3chhV
-	I/GgUayrkwDqW5lU5SjFnVxTzLAkmwZgD5voV9iNJDSZ4yuC1P51Pz5BfNclbJaxVWx2+k2vg/R
-	U0udfuSa4mCBy5NymrUK5MS4perCKkB1Y/wEf8QgDb6W9Ty6LkAz65X+Sb5y/+M71mGHARF3odT
-	IjESREO6arvundvrkb3HIZZfd7GzdC75KzlRlG7PWsens8TrR80vtZIsVhDewqAc2F8q5Von7JW
-	W36sYDWQXS23eVN0E4EU0zmI4rCsZLe3XMJhmyz03sdEl2M4beUfiBkjFFDthzXSpSP2IC1It9l
-	ZDE2LpbvdM1HIt0okhRite80fuJQSoPdmiSRgWOPM5moP0+ZRnIgBO0WGXKbjXtQI9dPhaKamcW
-	ekCQCY9Q9pVKQsc9L9S39TxdHRfTEr1s9lq18avaVghY1sFPSDsAPkdCQoC0NxBeW2Xy8HRpmNx
-	U3xCqNqmdWwcyg4yIJECmHKEbCH1lrs9Rhtua6QhDnCyPGEdWz7TxsaC/rBlZv4eum8WDmmxrhx
-	a8qXy4yUNo5M0x3hnGckX2RSawlot+2otvgeSJwP54G1aHyI+YJ2T1DLqkrh/nJhtDuyhituFg=
-	=
-X-Received: by 2002:a17:907:7b83:b0:c20:fe93:a86 with SMTP id a640c23a62f3a-c246a62b495mr2653594366b.18.1787506666570;
-        Sun, 23 Aug 2026 10:37:46 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-b027-cd01-554a-ffde-5279-f351.310.pool.telefonica.de. [2a02:3100:b027:cd01:554a:ffde:5279:f351])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c249689fa1dsm791239266b.56.2026.08.23.10.37.45
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 23 Aug 2026 10:37:46 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        bh=v1N+xmknAerLXLrkm4c+ef9Ke+sN2GRf6fH6nUtDpvs=;
+        b=DOY+oGGEXF8SsybJR6bRaJAp2XarMA6NAw+VUKcjM7lDXcp7Gy7AXQ75f+Of+XO88D
+         oLVvbJBadzUmnkwRwS9rv0btOgFV6zvi6jZanfdhKdxYd0VWgbNLRvBSAZvx/3ETMsBS
+         uf5Ju9IvMduSqDApORjvvoC2jkhDD4kki2qI98dZf78hrTacfBOgNva/QnjQUwkSHD9n
+         QrUdjIg6imFNYuDS74esg/9JQNtR3UqHWrKhCxmuWLxecLn/E+munGiBSC/scMzC3SBN
+         CDruIbRJ8WTGo9UL24Pi6XXtp7HzEb9uVL4iJgU/vLViuF5oHQzUmtVhY4xJRhtbZ9BL
+         1zjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787514509; x=1788119309;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v1N+xmknAerLXLrkm4c+ef9Ke+sN2GRf6fH6nUtDpvs=;
+        b=CMaE8vWO+5+ZChw7Ue1BGJiQOxpc9YaYELZHEy03IsVvvf/Z0NbUBKop0/ieibhySf
+         sGegVNLHfs4+jMLLsi+mluj/yRxdMxybMkAb5MVPWy8JVS6lMkuVAkEEABUXVOca/5Dk
+         qyMJR7MXFDZJCUSaDMDXI0jwtvNHiFJSUi5ucJ5mtkUVWVConclMhQteMbNIsbIIY8Tv
+         KnyLDWIeyEi1nQZRAIq7qtuXAc4aRqMGGMPOX0bkEv/hJvzAcNyh5cbkSIdkBcdNOEbk
+         Df8S/HKQhu37IUG2HwLl8sPH1FUxVBgy7/qXJ6m/vahBlY2OGB5lPOhV/5/68F+CcdzU
+         JLqg==
+X-Forwarded-Encrypted: i=1; AHgh+RoZvYZEAm1HCca+ZIL48nSu70zeUGKcSrSLfjsZ2dy3meRCetaXIaXF1BxzcQvXm0ERF5AuVREzGHrmrw==@vger.kernel.org
+X-Gm-Message-State: AFuF++l8fBQMIeL/BEdMpxQZHGWr1GHUH9xAWqnJpJknwrK/TDwdX/22
+	KbexlpbJvRqqEayZ8ClLRrG8lwTbopsyay3sP5i28YjNbo6Y2lNTMPYh
+X-Gm-Gg: AR+sD13VDChymjVpbO9HRnF6ZQlDD8qrqENKB71H7Xso4kuFUWzVo4zDaoPZBxtKWMz
+	7nYZUhObEXsRfXL6Gni3WhrsFO0TFQEXoLAzPzsJxiQ2fKDA2TgYbEvkGQq/VqOpZmJhCiEMNal
+	nW+6dlptuBOED3eF/BvzZq5uXYFpwESYQgLDFIxSF6QHtTc0HlG5EV1yeEYEOoNFfL8iX3ZUZVT
+	QRwEEukbUZ/87Ui52ZnC+3+SYoLmxu0r0CPCS/8+YB/1G2XV1ok5wR8ozuu9b0svFyMpH+7tUBx
+	RmM4A7LgxI2tSYvuxtBnSoQ5SmN/8yH/zwsG4rfQgXBuBmR9FPkZOSpYiXhV1OtKSdatOVY1FBY
+	ryuuvYZxVRVSES7Elbndz0cq6eap1G+ZCKG9r3tL8U3Ek5Bqxzz7LxzCRUpi2+dw9zPdHEhPndl
+	i5g8GQt7Qk9NS43sVBYJbJquejyHpiIlTOCx+vEmjtRMCF6NNjso9M7m6cR0b3jYvDUB0WOuvHV
+	EacheZWGO4NMg7/KTI3Qxc33b2mrX8Ub37LnOUDpjFkZb47++NkN7xQFkRv
+X-Received: by 2002:a05:6512:3c94:b0:5b2:e5b7:2419 with SMTP id 2adb3069b0e04-5b4841e99d8mr6452510e87.5.1787514508303;
+        Sun, 23 Aug 2026 12:48:28 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b48cda2b8bsm1199260e87.26.2026.08.23.12.48.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Aug 2026 12:48:26 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: tiwai@suse.com
+Cc: perex@perex.cz,
+	jikos@kernel.org,
+	bentiss@kernel.org,
 	linux-sound@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
+	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] drm/vc4: hdmi: Unregister the ASoC card on unbind
-Date: Sun, 23 Aug 2026 19:37:40 +0200
-Message-Id: <20260823173740.2983-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Subject: [PATCH v3 0/2] ALSA: usb-audio: the Topping M62's vendor controls
+Date: Mon, 24 Aug 2026 00:48:20 +0500
+Message-ID: <20260823194822.29430-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260823142216.79704-1-mikhail.v.gavrilov@gmail.com>
+References: <20260823142216.79704-1-mikhail.v.gavrilov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,109 +82,69 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vc4_hdmi, including the embedded ASoC card, is DRM-managed and freed
-with the DRM device when the aggregate device is torn down. The card is
-registered with devm_snd_soc_register_card() on the HDMI platform device
-from the component bind callback, so its devres node starts out in the
-component's devres group and used to be released at component unbind,
-while vc4_hdmi is still alive.
+v3 answers the automated review of v2. Four of its five findings were
+real, and one of them was a bug a user would have met on every boot.
 
-Whenever an ASoC component is registered, the core retries every card
-waiting for components. For a devm-managed card, each retry destroys and
-re-adds its devres node. Because snd_soc_bind_card() requeues the card and
-converts -EPROBE_DEFER to success, even a retry that still defers can move
-the node outside the now-closed component devres group. It is then only
-released at platform driver detach, after vc4_hdmi has been freed:
+  - The enum refused "Unknown", which is the value it reports until a
+    hand has chosen. alsactl stores and restores that value like any
+    other, so the refusal failed a restore of the driver's own report
+    -- observed here as "Cannot write control ... Invalid argument"
+    from alsactl. Writing "Unknown" is now a quiet no-op rather than an
+    error, since it is a report and not a choice either way.
 
-  # modprobe vc4; rmmod vc4
-  BUG: KASAN: slab-use-after-free in snd_soc_unregister_card
-  Read of size 1 at addr ffff0000456a8450 by task rmmod/262
-   devm_card_bind_release / devres_release_all / driver_detach
-  Allocated by task 171: drmm_kmalloc / vc4_hdmi_bind
-  Freed by task 262 (rmmod): drm_dev_put / component_del
+  - The hardware is reached under snd_usb_lock_shutdown(), the way the
+    rest of this directory reaches it. Without it nothing made the
+    teardown wait for a control callback already in flight.
 
-Register the card without devm and unregister it from a component unbind
-callback, where the HDMI device resources and the DRM-managed structure
-are both still alive, regardless of where the card got bound.
+  - Suspend and resume are handled rather than survived: the URB does
+    not outlive a system sleep, so notifications stopped for good after
+    the first one. The resume path resubmits, subscribes again and asks
+    for the state, which also refreshes a cache that may have gone
+    stale while the panel was reachable and the driver was not.
 
-Fixes: 42d99857d6f0 ("ASoC: core: Move all users to deferrable card binding")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
-v2:
-- Preserve the existing ASoC component-lifetime comment and document at
-  the card registration site how deferrable binding can move the card's
-  devres node outside the component devres group.
-- Point Fixes at the deferrable card binding change.
-- Add the ASoC maintainers and linux-sound recipients, add the stable
-  trailer, and update Assisted-by to the current format.
+  - The claimed interface is released, on the error path and at
+    teardown, so unbind and bind again works instead of failing at the
+    claim. That needed a release helper beside snd_usb_claim_iface(),
+    for the same reason the claim needed one.
 
-Tested on a Raspberry Pi 400 (BCM2711), v7.2-11658-g26260251022f, with
-KASAN: report gone, rmmod/insmod loop clean.
+  - A mutex spans each write from the comparison to the cache update.
+    The review called two writers reaching the device in one order and
+    the cache in the other a race, and it is one, though a narrow one.
 
- drivers/gpu/drm/vc4/vc4_hdmi.c | 24 +++++++++++++++++++++---
- drivers/gpu/drm/vc4/vc4_hdmi.h |  1 +
- 2 files changed, 22 insertions(+), 3 deletions(-)
+Nothing else changed since v2; the questions in that cover letter about
+the third form of the driver and about a control that can be written
+but not read still stand.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 17c8635c5afa..7e312932488a 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -2422,12 +2422,18 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
- 	 * snd_soc_card_get_drvdata() if needed.
- 	 */
- 	snd_soc_card_set_drvdata(card, vc4_hdmi);
--	ret = devm_snd_soc_register_card(dev, card);
-+
-+	/*
-+	 * Deferred card binding can move a devm registration outside the
-+	 * component devres group, so unregister the card explicitly at unbind.
-+	 */
-+	ret = snd_soc_register_card(card);
- 	if (ret)
--		dev_err_probe(dev, ret, "Could not register sound card\n");
-+		return dev_err_probe(dev, ret, "Could not register sound card\n");
- 
--	return ret;
-+	vc4_hdmi->audio.card_registered = true;
- 
-+	return 0;
- }
- 
- static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
-@@ -3345,8 +3351,20 @@ err_put_runtime_pm:
- 	return ret;
- }
- 
-+static void vc4_hdmi_unbind(struct device *dev, struct device *master,
-+			    void *data)
-+{
-+	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
-+
-+	if (vc4_hdmi->audio.card_registered) {
-+		snd_soc_unregister_card(&vc4_hdmi->audio.card);
-+		vc4_hdmi->audio.card_registered = false;
-+	}
-+}
-+
- static const struct component_ops vc4_hdmi_ops = {
- 	.bind   = vc4_hdmi_bind,
-+	.unbind = vc4_hdmi_unbind,
- };
- 
- static int vc4_hdmi_dev_probe(struct platform_device *pdev)
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.h b/drivers/gpu/drm/vc4/vc4_hdmi.h
-index 29d461d4ee49..444c73513d86 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.h
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.h
-@@ -106,6 +106,7 @@ struct vc4_hdmi_audio {
- 	struct snd_soc_dai_link_component platform;
- 	struct snd_dmaengine_dai_dma_data dma_data;
- 	bool streaming;
-+	bool card_registered;
- };
- 
- /* General HDMI hardware state. */
+Tested on the hardware as before: values arrive by themselves after
+probe, a front panel knob still reaches the driver ten minutes later, a
+write reaches the analogue stage -- one source recorded at gain 30 and
+at gain 60 differs by 29.7 dB against the 30.0 dB the taper table
+predicts -- and for 2/2 the audible test, where pointing an output away
+from the bus being played silences it and pointing it back returns the
+sound. On a KASAN and lockdep kernel, including unplug while a stream
+was running, and now also across a suspend and resume cycle; no
+reports.
+
+Mikhail Gavrilov (2):
+  ALSA: usb-audio: expose the Topping M62's analogue gains as mixer
+    controls
+  ALSA: usb-audio: let the M62's outputs say what they listen to
+
+ MAINTAINERS               |   6 +
+ drivers/hid/hid-ids.h     |   3 +
+ drivers/hid/hid-quirks.c  |   2 +
+ sound/usb/Makefile        |   1 +
+ sound/usb/card.c          |  19 +
+ sound/usb/mixer_quirks.c  |   5 +
+ sound/usb/mixer_topping.c | 709 ++++++++++++++++++++++++++++++++++++++
+ sound/usb/mixer_topping.h |   7 +
+ sound/usb/usbaudio.h      |   4 +
+ 9 files changed, 756 insertions(+)
+ create mode 100644 sound/usb/mixer_topping.c
+ create mode 100644 sound/usb/mixer_topping.h
+
+
+base-commit: 2709dd5ae32f0828f386327c76bba9f39f63a1c6
 -- 
-2.39.5 (Apple Git-154)
+2.55.0
+
