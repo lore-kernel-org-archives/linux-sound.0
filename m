@@ -1,91 +1,86 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450E0364042;
-	Sun, 23 Aug 2026 09:05:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09361EFFA1;
+	Sun, 23 Aug 2026 09:05:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787475909; cv=none; b=f8eJmqAb2Y44yMAsMFU08TcHg6awTcih2C6/tHI95I0aUUV5BwzbZXNW9sVJfER43JA7s6G5wvLDvBKBuyCVEdXdSllAzkU1FXGkD8d3IVAvTUD0EApuTUqIrJ06fKN/RF7hZofIzwKlwhUBsbCf/Ja7Sasr+2O99d7pBTOcZmM=
+	t=1787475939; cv=none; b=CKcMHd1xnY4mdklhdrfufJvCnPS+D09/cx3MUEVJrRHpHyHsUZ7DZXRethp831svVQjnptFFW7UtrEHlGwp/+c9lAfvT+PJl83gznBMoTqF43O9PJ0KgfPeoRvJG+xD8TJ4Nj+WmI0EO+omNp0jB0Lyt++AS8h0O21nCAqnwwQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787475909; c=relaxed/simple;
-	bh=s3tRzvedsaJNk3Dv+AayP49cjrUIwcrgd7ASbnrlY3w=;
+	s=arc-20240116; t=1787475939; c=relaxed/simple;
+	bh=vsOcWEDvBgqt5lfrFV7XRFBvbpZz5egUudZakx668Ek=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qab30bmKV65OhZjTLwU2bEioqQSYywieFfB54lEhmM8bXP0Ty8MYI22GQOb0KS5D25ZNQwjqu2uvt9SZp0wmj0ezXmkA99DEQfJbByK/Wdoy+KISVlM+RBGejS8kdrVmN2II7TumnxICu06KHSNklLPso5NrxU2WMmB2pvSI1Ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MS5MQ8aD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SwHq/uSy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=geNGI8Hw; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sV5uYDE5; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=IqhXOj5aD0cCKSwTwrtmcmAM8UpGIPsldz9EmEWR3gaOHHqGmy+pS7ELWYta94mmzpCzhrIfse1IgfYJxAFSodPhYyUSxnp2wNo2qrpJzi/1pgNSy772PyBvSrQOlkVHFatnvNCaolWGilgQBz7tpXm3mpjj63vKl/k0TrvafDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=i+uMHBfD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HlYJYgnV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MTBzPCvq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Yfh5Zkp0; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MS5MQ8aD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SwHq/uSy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="geNGI8Hw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sV5uYDE5"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="i+uMHBfD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HlYJYgnV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MTBzPCvq";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yfh5Zkp0"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8080C862A9;
-	Sun, 23 Aug 2026 09:04:55 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 70A7E8619C;
+	Sun, 23 Aug 2026 09:05:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787475899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787475931; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MAIqgHGxQTBaSi78xltQYJxat07GDNiZBgvTCxWmzes=;
-	b=MS5MQ8aD9OL8BcSQGhXtLzHC8sd1aIQO2d+bXSm+BeEwPE6M5l35pXs+UD4b97JEbUEln/
-	TulTyoYg+AKHnK72tF3nqmn4mvSl5pudRaLCgUIl3F/MtPfdkfFt2E2t17ppZou8K2hBSZ
-	p8E7bS1zoTphplxc7i42KPhPFV23eUw=
+	bh=x4GWY9Wa5dx6+MAzuEtiXiV6w97+eD8mWFQzQFS6ooA=;
+	b=i+uMHBfDSlfs0hROeqtzWz93glpFToZduKZNz/wyHdR4eK5c0pSzc5CbGJAw5WU2qMYqxw
+	Y98x9wE1FcsNjl53U7pYtDu8HQo+gT57zKiTx0Y/bKpECJST85OcGz6m7MWhbJ9dt7NFEU
+	MFVcCTOPwFPrUAvyzffYxToiYEE19SY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787475899;
+	s=susede2_ed25519; t=1787475931;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MAIqgHGxQTBaSi78xltQYJxat07GDNiZBgvTCxWmzes=;
-	b=SwHq/uSyQPzqqOP8lj7ezG8tCu5ng27OUGsbZjDz/q6YKcCjQYb96hi1vH4B0EOfsRUQn8
-	/5WlfmHnf5/F08AQ==
+	bh=x4GWY9Wa5dx6+MAzuEtiXiV6w97+eD8mWFQzQFS6ooA=;
+	b=HlYJYgnVUIa75QeIQMenSEC1fdMYDwEJEJMifQPV27CrcIUt6yu9wVPrDxDr5DT/Q1rxUO
+	acIKAfQirbIQ3wCw==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787475895; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787475927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MAIqgHGxQTBaSi78xltQYJxat07GDNiZBgvTCxWmzes=;
-	b=geNGI8HwNJuIi8/Oixo3BhDOQQ3sGNKvIGN+UukDGelaHFpJD8Q5az0wAANDR7EB8MGL5U
-	fPVEXsKha7Od3kG5AjddhAvLyGO1C4gSRlkbVgVoU5Z3KFFUzv9VcUul6arJfkN6gwFqVa
-	Gwwqva8pMs8RtTrl1gieinO5SOpaR5c=
+	bh=x4GWY9Wa5dx6+MAzuEtiXiV6w97+eD8mWFQzQFS6ooA=;
+	b=MTBzPCvquvXsEztJQe8tc4iKykzkLFj+C1fEPX52Yq72GsrSiJ4qGr/38TMIg/FCG4kWNh
+	9C8slh/4MVB3OzvwEszIf/ahME26u0fPtt4n8ZG8XvFUCDaHOcoWHkpA3L+xqr5G2aF2ea
+	7HdXGBkR1tLDjyOIh4iDZOwY+5KjhKY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787475895;
+	s=susede2_ed25519; t=1787475927;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MAIqgHGxQTBaSi78xltQYJxat07GDNiZBgvTCxWmzes=;
-	b=sV5uYDE5hBIYd99gjkIJdk1dYE6fi+biAxKa4DO0JRrDthGUEaDPytWf5pQYNp8nbhvspC
-	i9wohJHc4Ic/9wAg==
+	bh=x4GWY9Wa5dx6+MAzuEtiXiV6w97+eD8mWFQzQFS6ooA=;
+	b=Yfh5Zkp0uf5oH3TV5ZdjAXT7h/csNwvCgfSxif/xVQe4fjOpFP7FSLBduEt6H2YqA9sxVN
+	2XIca9GqB9Xfm8Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36BB013332;
-	Sun, 23 Aug 2026 09:04:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44E3013332;
+	Sun, 23 Aug 2026 09:05:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EB5lC7e3imqDDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 23 Aug 2026 09:04:55 +0000
-Date: Sun, 23 Aug 2026 11:04:54 +0200
-Message-ID: <87h5klw6kp.wl-tiwai@suse.de>
+	id d6x6D9e3imqzDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 23 Aug 2026 09:05:27 +0000
+Date: Sun, 23 Aug 2026 11:05:26 +0200
+Message-ID: <87fr05w6jt.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Rong Zhang <i@rong.moe>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+To: Will Porter <mrwillporter@gmail.com>
+Cc: linux-sound@vger.kernel.org,
 	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Niemeyer <adventureFAN@gmx.de>
-Subject: Re: [PATCH 0/4] ALSA: usb-audio: Demote the severity of sticky GET_CUR
-In-Reply-To: <20260823-uac-demote-sticky-check-v1-0-a8cbe572edff@rong.moe>
-References: <20260823-uac-demote-sticky-check-v1-0-a8cbe572edff@rong.moe>
+	Jaroslav Kysela <perex@perex.cz>,
+	Neil Andrews <neil@androos.io>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Add iD14 MkI to monitor-mix volume quirk
+In-Reply-To: <20260823015353.686080-1-mrwillporter@gmail.com>
+References: <20260823015353.686080-1-mrwillporter@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,71 +91,55 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.990];
 	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmx.de];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,linuxfoundation.org,infradead.org,suse.de,vger.kernel.org,gmx.de];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 X-Spam-Flag: NO
 X-Spam-Score: -3.30
 X-Spam-Level: 
 
-On Sat, 22 Aug 2026 20:52:27 +0200,
-Rong Zhang wrote:
+On Sun, 23 Aug 2026 03:53:53 +0200,
+Will Porter wrote:
 > 
-> Currently, a mixer is disabled when its GET_CUR is sticky, causing
-> userspace to fall back to soft mixers, unless
-> QUIRK_FLAG_MIXER_GET_CUR_BROKEN is set. This leads to issues on some
-> wireless headphones with broken GET_CUR but effective SET_CUR, which use
-> poorly-performed lossy codecs and are prone to audible distortion at low
-> volume. They have to set the quirk flag to reeanble the mixer.
+> Add the iD14 MkI USB ID to the existing audient_id14_map. This
+> names feature unit 12 Monitor Mix Playback Volume.
 > 
-> Considering that users can always opt into soft mixers if they need it,
-> i.e., when SET_CUR is stubbed, demote the severity of sticky GET_CUR by
-> marking GET_CUR as broken and only provide mixer values from the cache.
-> The mixer itself is still registered.
+> Live meter A/B testing on MkI USB ID 2708:0002 reproduced the same
+> asymmetric attenuation seen on MkII. At ALSA value 104, the right
+> channel was 23.07 dB below the left. At 127, both channels were equal.
 > 
-> The default behavior of sticky check now becomes what
-> QUIRK_FLAG_MIXER_GET_CUR_BROKEN originally does, so the quirk flag is no
-> longer needed.
+> The misleading Speaker Playback Volume name causes PipeWire to adopt
+> FU12 as the stream master. Reuse the existing map to keep the control
+> available while preventing that selection.
 > 
-> On some devices, whether their GET_CUR being sticky depends on whether
-> hotpluggable components are present. When the hotpluggable components
-> are missing on probe, their GET_CUR behavior is classified as broken.
-> Therefore, reverse QUIRK_FLAG_MIXER_GET_CUR_BROKEN as
-> QUIRK_FLAG_MIXER_GET_CUR_OK, so that it can be set to prevent the
-> heuristics from gating GET_CUR.
+> Hardware-tested on Bazzite 7.2.0-ogc4.1.fc44.x86_64 with this change
+> backported. ALSA exposed Monitor Mix Playback Volume after module load
+> and USB reconnect. PipeWire volume changes from 100% to 35% and back
+> left all four FU12 values at 127. Channel-isolated left/right playback
+> remained balanced after reconnect.
 > 
-> Note that even if the quirk flag is set, init_cur_mix_raw() should still
-> initialize the mixer value to cval->min, otherwise restoring the bogus
-> saved value on the first channel could lead to unbalanced channels.
+> Build-tested with CONFIG_SND_USB_AUDIO=m using the focused sound/usb
+> target.
 > 
-> The first user of QUIRK_FLAG_MIXER_GET_CUR_OK is Logitech PRO X
-> Wireless, whose Playback mixer's GET_CUR somehow becomes broken when the
-> microphone is detached, so set QUIRK_FLAG_MIXER_GET_CUR_OK to prevent
-> the mixer behavior from depending on whether the microphone is attached.
-> The device also needs QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE as the minimum
-> mixer value doesn't work properly.
-> 
-> Reported-by: Alexander Niemeyer <adventureFAN@gmx.de>
-> Closes: https://msgid.link/6262cbbd-d1f2-4c9d-a1c7-9c5d12636f4b@gmx.de
-> Closes: https://msgid.link/7984832b-86f6-4934-bfc0-1ed70218973a@gmx.de
-> Signed-off-by: Rong Zhang <i@rong.moe>
+> Assisted-by: Codex:gpt-5
+> Signed-off-by: Will Porter <mrwillporter@gmail.com>
 
-Applied all four patches now.  Thanks.
+Applied now.  Thanks.
 
 
 Takashi
