@@ -1,89 +1,93 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109B635C6BD
-	for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 08:57:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0471535CB6E;
+	Sun, 23 Aug 2026 08:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787475467; cv=none; b=iTksvZ7MhPSebAPOudZC0cw3/U4LsF9BzKD8ZWFQluyZV1LcWlWZoDvpmyBcnOm3j7NX9bo6QmzvNavzBHUDtDke53loiEHwClPeuj/suJfQMMcIyp4IJ5YVkYOx9IalKl+Q7F05MUrzdpX5iGnG2pegHMg6NsEf3BXjqw7+nyY=
+	t=1787475595; cv=none; b=CNB13HDrJ2BN0hs2oDxnpfjWW9iI5CVnoporR/VMyLspYmO3vwPyXFNAmqxnCDaXhRDfLTn0Sff9zvWh4yyPTPIMpL0QML5MrGE4WsgOJF/PSoWVG2AohNZLNDyBetufFDvX71aYJx5u/5ti7HaAWm39XntK78UNj5d0/D/Si20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787475467; c=relaxed/simple;
-	bh=3yEF8Awo7U3aEZgkuo7607yUpRLu4p5aPuP8ZN9/fQg=;
+	s=arc-20240116; t=1787475595; c=relaxed/simple;
+	bh=fokXA99WlON9F07C39oSy2Sk3g6bnkSMOIb42ljSiVo=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kibwSnCGqO8EuuSrAzN0OxL0pGx2kBJCa4IFTEbVNSTq+sAScV+rzRx/uxqMq8sFO1lnFfhWycaJlZ1b2iyZYyRRioNSyX0YWxUX/Fen/89hs6RWu02As7XV4qMuD9b7oy7Lq+cSAvjr0Ir2wS28HhID3jIlGB+NiYYkQbXA0Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OR55lZ4s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HeyaKHiy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VqRzfylN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/iJEQZu2; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=ASqf7feje8hX26fnl7ELxqLsQL/HzSbn4Sm38B80u6LofzHDLLOYFmlEMx13xt7B+78jhklPCb6D8Dfw/zbw88DfyzOpCsTzBcOQlaPc1fLumCjR1SvYT2DmIwVpAjdorU+8a1OkL76/tRGiRmDU83e0uS869JrfzynZxN9M398=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wAye/Rew; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JvX0UIVp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=l2WcBStG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uoxqB8zL; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OR55lZ4s";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HeyaKHiy";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VqRzfylN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/iJEQZu2"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wAye/Rew";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JvX0UIVp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="l2WcBStG";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uoxqB8zL"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3D3A7861D2;
-	Sun, 23 Aug 2026 08:57:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 827A7862A4;
+	Sun, 23 Aug 2026 08:59:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787475453; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787475586; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pxNW4IRzXyWK0vkj4m74M3luPnlArT9L/wG846cgGro=;
-	b=OR55lZ4sqU7slBZvkk2k6q459PczwkY1HFnYJQg2elvmQCrNtyyGYovugBpWDi1+l/c9R3
-	F6IqcwRE3nRb02R4igpJFCrYxQEinTz9PXBWPRjWfF1rlWlvAsILgnnlQ6qd6fKmnPuDI9
-	1w9BfXVcAARpJ6cidZTRCkddVMmEyDA=
+	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
+	b=wAye/RewwLOfjGV35hK8X37mm6FuLGlMOFmLvl80Az3321ElSbJvV/Rk+CPgQgzB1KcNuq
+	H0qC/YBA/8YzbJFqkA8+RE0YAs/jOmi/fIyvNYd+X3bGlsw6so46MEqaHUPIPZZVgkNUhA
+	PUOy9D8ZRV+vrXoBaH3nl13texLozpc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787475453;
+	s=susede2_ed25519; t=1787475586;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pxNW4IRzXyWK0vkj4m74M3luPnlArT9L/wG846cgGro=;
-	b=HeyaKHiyAtA+oEYvqFW9BjgrQRkU7VF4Tm80mFxsfOZPAni+4l5NJO4kDhv7ZJ0hGXIKju
-	qhzVkNhZkuC6gvDA==
+	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
+	b=JvX0UIVp+GOK+0VWAG5Wryqhgvx1VIlx6tbS5HcJ1m6kfbi+oUpxlvQGEFn8LcQBd21BPr
+	nyYJNI9Mn/B7iBDw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=VqRzfylN;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/iJEQZu2"
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=l2WcBStG;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=uoxqB8zL
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787475449; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787475582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pxNW4IRzXyWK0vkj4m74M3luPnlArT9L/wG846cgGro=;
-	b=VqRzfylNqNTORJGfhNzLnw+9IQN4y/Wta8Un8g8PhW+zfHREBqBEpB3qVZmY0HbB1cIwuZ
-	Dou/baw0C5ksouilHBqA2mfHK2Uj8nQXViJ/w6SWEo6aGX+v/AlMgzsDscK6+PHX9LtSNd
-	9T9SOyUccuotbXGDnGg88dL1HkKgK6s=
+	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
+	b=l2WcBStGATUrhb8fCBYr+lT/RVyhgPaQwetCFQpFrBKEnqzFIo3UAZsz7KHoQKKw1ygM8q
+	hH6EMd5Udk1MsveAPF60ft1g8Ibo5BgPh4fpdVxpz/Jkp9IRwK4lU+hqBLg+fweodT0oDQ
+	tVWwRQKPZnfUHo83sWJZXYJOgAb855k=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787475449;
+	s=susede2_ed25519; t=1787475582;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pxNW4IRzXyWK0vkj4m74M3luPnlArT9L/wG846cgGro=;
-	b=/iJEQZu25Mj+WHPPIdwbyFJQqvEBJz0tSvGtoc8Wu1GyYMVWVgOfKT4V/MBV4N2TfkLPp8
-	91mfFAcU7Vu5cxCg==
+	bh=6PiymZWvYv2AygDur8wz2MJuPDFbWXZJN+1NUP9KyRQ=;
+	b=uoxqB8zLA+At9cfPTe2YzvJinOIr8tnavR8cXpMw/2VwVFbbSJCR7h+tGdKjImlNZmPz+r
+	8CWErkvxokY8y4Dg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F384213332;
-	Sun, 23 Aug 2026 08:57:28 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 44FD013332;
+	Sun, 23 Aug 2026 08:59:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id F8kZOfi1imoYBwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 23 Aug 2026 08:57:28 +0000
-Date: Sun, 23 Aug 2026 10:57:28 +0200
-Message-ID: <87ld9xw6x3.wl-tiwai@suse.de>
+	id AzEBD362imonCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 23 Aug 2026 08:59:42 +0000
+Date: Sun, 23 Aug 2026 10:59:41 +0200
+Message-ID: <87jyphw6te.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?=22Habil_Eren_T=FCrker=22?= <habilerenturker@gmail.com>
-Cc: perex@perex.cz,	tiwai@suse.com,	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,	Habil Eren =?ISO-8859-1?Q?T=FCrker?=
- <habilerenturker@hotmail.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for HP Laptop 15-fd0039nt speaker mute LED
-In-Reply-To: <20260821205717.3219-1-habilerenturker@hotmail.com>
-References: <20260821205717.3219-1-habilerenturker@hotmail.com>
+To: Federico =?ISO-8859-1?Q?Valent=EDn?= Andrade <fandrade@frba.utn.edu.ar>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kuba@kernel.org,
+	alexander.deucher@amd.com
+Subject: Re: [PATCH 1/2] ALSA: usb-audio: Skip reading sample rate on M-Audio Venom
+In-Reply-To: <20260822043033.529424-2-fandrade@frba.utn.edu.ar>
+References: <20260822043033.529424-1-fandrade@frba.utn.edu.ar>
+	<20260822043033.529424-2-fandrade@frba.utn.edu.ar>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,138 +98,81 @@ MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,hotmail.com];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,alsa-project.org,vger.kernel.org,hotmail.com];
-	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Spam-Flag: NO
 X-Spam-Score: -3.51
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 3D3A7861D2
+X-Rspamd-Queue-Id: 827A7862A4
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 
-On Fri, 21 Aug 2026 22:57:06 +0200,
-Habil Eren Türker wrote:
+On Sat, 22 Aug 2026 06:30:32 +0200,
+Federico Valentín Andrade wrote:
 > 
-> HP Laptop 15-fd0039nt (SSID 103c:8bb6) has a speaker mute LED that is
-> controlled via VREF100 on NID 0x1a. Unlike standard implementations, this
-> device requires PIN_VREF100 (0x24) to turn the LED on and PIN_IN (0x20)
-> to turn it off, with active-high polarity.
+> The M-Audio Venom (0763:2084) is an USB Audio Class 1 compliant
+> synth with an integrated audio interface, it does not implement
+> GET_CUR on SAMPLING_FREQ_CONTROL, hanging up if requested on
+> endpoint 0.
 > 
-> The existing ALC236_FIXUP_HP_MICMUTE_LED_ONLY quirk only handles the
-> microphone mute LED, so this patch adds a new fixup
-> ALC236_FIXUP_HP_15_FD0XXX that covers both:
-> - Mic mute LED via GPIO0 (active-low)
-> - Speaker mute LED via NID 0x1a VREF100
+> The first class request issued by the driver after enumeration is
+> a GET_CUR on endpoint 0x02, freezing the device's USB microcontroller.
+> Timing out on every transfer afterwards with -ETIMEDOUT, such as
+> SET_INTERFACE, so neither the mixer nor any streaming interface is set up.
 > 
-> The patch also adds a custom power_filter to ensure the pin remains
-> powered during suspend, and a shutdown hook to restore the pin state.
+> Analyzing a USBPcap capture of the Windows driver I found it never
+> requests the sampling frequency, as the synth exposes a single
+> discrete of 44100Hz on both streaming interfaces, thus asking for it
+> is unnecessary.
 > 
-> Tested-by: Habil Eren Türker <habilerenturker@hotmail.com>
-> Signed-off-by: Habil Eren Türker <habilerenturker@hotmail.com>
+> So I applied get_sample_rate to avoid this check, and
+> disable_autosuspend because the synth doesn't come back from being
+> suspended.
+> 
+> Signed-off-by: Federico Valentín Andrade <fandrade@frba.utn.edu.ar>
 > ---
->  sound/hda/codecs/realtek/alc269.c | 59 ++++++++++++++++++++++++++-----
->  1 file changed, 50 insertions(+), 9 deletions(-)
+>  sound/usb/quirks.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-> index 01b87267f..d19935be3 100644
-> --- a/sound/hda/codecs/realtek/alc269.c
-> +++ b/sound/hda/codecs/realtek/alc269.c
-> @@ -1364,16 +1364,57 @@ static void alc269_fixup_hp_gpio_led(struct hda_codec *codec,
->  	alc_fixup_hp_gpio_led(codec, action, 0x08, 0x10);
->  }
->  
-> -static void alc236_fixup_hp_micmute_led_only(struct hda_codec *codec,
-> -				const struct hda_fixup *fix, int action)
-> +/* Patch for HP 15-fd0xxx (8BB6) Speaker Mute LED & Mic-Mute LED */
-> +
-> +static void hp_8bb6_shutup(struct hda_codec *codec)
-> +{
-> +	snd_hda_shutup_pins(codec);
-> +	snd_hda_set_pin_ctl(codec, 0x1a,
-> +			   snd_hda_codec_get_pin_target(codec, 0x1a));
-> +}
-> +
-> +static unsigned int hp_8bb6_power_filter(struct hda_codec *codec,
-> +					  hda_nid_t nid,
-> +					  unsigned int power_state)
-> +{
-> +	if (nid == 0x1a)
-> +		return AC_PWRST_D0;
-> +	return snd_hda_gen_path_power_filter(codec, nid, power_state);
-> +}
-> +
-> +static int hp_8bb6_speaker_mute_led_set(struct led_classdev *led_cdev,
-> +					 enum led_brightness brightness)
-> +{
-> +	struct hda_codec *codec = dev_to_hda_codec(led_cdev->dev->parent);
-> +	unsigned int val = (brightness == LED_OFF) ? PIN_IN : PIN_VREF100;
-> +
-> +	snd_hda_set_pin_ctl_cache(codec, 0x1a, val);
-> +	return 0;
-> +}
-> +
-> +static void alc236_fixup_hp_15_fd0xxx(struct hda_codec *codec,
-> +				      const struct hda_fixup *fix,
-> +				      int action)
->  {
->  	struct alc_spec *spec = codec->spec;
->  
-> -	if (action == HDA_FIXUP_ACT_PRE_PROBE)
-> +	switch (action) {
-> +	case HDA_FIXUP_ACT_PRE_PROBE:
->  		spec->micmute_led_polarity = 1;
-> -	alc_fixup_hp_gpio_led(codec, action, 0x00, 0x01);
-> -}
-> +		alc_fixup_hp_gpio_led(codec, action, 0x00, 0x01);
-> +		spec->mute_led_polarity = 0;
-> +		snd_hda_gen_add_mute_led_cdev(codec, hp_8bb6_speaker_mute_led_set);
-> +		codec->power_filter = hp_8bb6_power_filter;
-> +		codec->power_save_node = 0;
-> +		spec->shutup = hp_8bb6_shutup;
-> +		break;
->  
-> +	case HDA_FIXUP_ACT_INIT:
-> +		if (spec->gen.vmaster_mute.hook)
-> +			snd_hda_sync_vmaster_hook(&spec->gen.vmaster_mute);
-> +		break;
-> +	}
-> +}
+> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> index f4e1eac639..caa80487f4 100644
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -2334,6 +2334,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+>  		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+>  	DEVICE_FLG(0x0763, 0x2081, /* M-Audio Fast Track Ultra */
+>  		   QUIRK_FLAG_MIXER_GET_CUR_BROKEN | QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+> +	DEVICE_FLG(0x0763, 0x2084, /* M-Audio Venom */
+> +		   QUIRK_FLAG_MIXER_GET_SAMPLE_RATE | QUIRK_FLAG_DISABLE_AUTOSUSPEND),
+>  	DEVICE_FLG(0x07fd, 0x000b, /* MOTU M Series 2nd hardware revision */
+>  		   QUIRK_FLAG_CTL_MSG_DELAY_1M),
+>  	DEVICE_FLG(0x08bb, 0x2702, /* LineX FM Transmitter */
 
-Hmm, the whole workarounds look too much.
-For example, power_save_node is already turned off as default in
-alc269_probe().
-
-And, if the pin-shutup causes a problem, you can simply set
-spec->no_shutup_pins flag.
-
-And, this is an enhancement of the existing quirk entry, you can
-mention the relevant commit, too.
+This caused a build error.  A typo of QUIRK_FLAG_GET_SAMPLE_RATE?
 
 
 thanks,
 
 Takashi
+
