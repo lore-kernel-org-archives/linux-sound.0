@@ -1,249 +1,280 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95FD32B12C
-	for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 05:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F01733ADB9
+	for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 08:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787461216; cv=none; b=RZqTnKcfbK+uXlePnx9rZ7V7dJebsgklE1N6cUQIwsbq1UIKHXnCwViuGSHeEx0SCTkT3lEv1E0xgOYCKKsY9iEzofkibsENhDW4i1k6D1hjkVh2JRVts1BhqC7ScuYO16OeMZeMdFxIVL9W/v406VckOfs5gR377jgi3mBFliU=
+	t=1787475117; cv=none; b=g0N7YEiktULLr4za5x6nI3n8j+AfXqPUtJ/66dJ9ajQFahumrYDicMdM7rffe4/i8v2FHf0fVyO3W7eJMYGc/bEsD9OTgmyvxEh7FrOQU+k21bqxPRkDmDTaRqd8ouAo640ZwrdgKYtsrMFG2ii4+8/PyuaadpAJ3AEJDCSIkVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787461216; c=relaxed/simple;
-	bh=3twbRfnqX/9P5GZJs6Qn0AGe+X2EOr8qTXEIjGv0jLc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u+HOgy16TkWAIoI6ovpnIbTmWMbkV6NeTK3EUUKetP+1HxFxUexPcEFCgyg6IcrGC5vyBsY7bihheTTpntgQL95xG3qyv2lUnZJ8itDVm5p+aHPqqasEKNHnVQ3upuooPoB9BM9BJ8pKY3F9wT49hWwgVMBJWgDtlm8RfecPr4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GbqWm1y+; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787475117; c=relaxed/simple;
+	bh=W+oWCvEswXDgQP4QPRhSokTCey3kay04HHL1/CXBXVw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sNvguPjMWrFDqQUY9amVINrrv0IpXzHSRiXeQt6KFWj7BQ99Iwdq0PDRIxFeZT6Vqn4+sYAXZ0XhuqIHLPe9ocbzKXw0+k15h5wySabRm6HCrjPpPlSQRhJMrcTXBoqC6qcOyQU+ADhQCRmGmslKGEfB2hRjOLf9sLA/jL3iQ94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SYi5QYul; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vQeTirr2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uhw14Zpv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dLvKb+gi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GbqWm1y+"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso3365724a91.1
-        for <linux-sound@vger.kernel.org>; Sat, 22 Aug 2026 22:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787461214; x=1788066014; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LHlqmGMbfsxtCYIUcQEVll9m/OkCwVr2FmGex2YgLq0=;
-        b=GbqWm1y+vMy0uQXkIVOyGw2fVjWiJ+Ey4FPGUju7VRtheRaxtA5+5ILQFrhAZnnuwL
-         SDw12Ksx1StxS9+48jRzhwnr2c61CTJvAs9w9ELJ4m/Wd7YMIcNS7y/j0AmGa9nkvl37
-         kUffPAPG9lIBUTZS+Ox9N+5xdmwCXvHMRzjFdo4E+0QNyk2CKi49ZgQyq3oys5osD2bg
-         3XjgOkeZHayrnd7QkbttOP2i55ZzOeJSk+Q/y0/WYwWXhO91ffwYf+wmI/1A8QlCf4HC
-         cNvHovoAe9fdUB/wwjl7VT2I0JGRfsWL4b6KxYmll6n6Yd/Y/J/pKSPIqHiHmA3N4sT1
-         5eZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787461214; x=1788066014;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LHlqmGMbfsxtCYIUcQEVll9m/OkCwVr2FmGex2YgLq0=;
-        b=RishrkLm3Num4n4B8Z9nr15qNk5ikSgIuMtFt/yAxP5414sGRB0bqNaTI/bsyalbvT
-         mjtpr3xv03HxsOstJpUHiwa0U5fSkCBE/buLofVAKqq+24iIFwyjbPeU3WcsZDsnonT8
-         F/hA913xXD8aM9lTSjLAwiBjCl7rE0EIG/LvZKceGTVprH2Uw//Gca9isQr+SBvlmYJz
-         cC5v616fVkK0CodYHOCd5BsvqgENBPbMnPfdOF+A8nPzzYgbJ0cKm/VdxPg3DEJKtlwN
-         hu4hDcBPm88K3UTz2CRD9m+WMLWi0rL7ddk4AjkByw4g9wdJ/atsOXVd9sqyvy997yZd
-         TPrw==
-X-Gm-Message-State: AFuF++kCADoCaQspBuudCrVnGBAReakFwb0bozcKAlLEAPUflsv74Eff
-	6Al8efwQI1PxxWOMoV1vcb7xcEsWlfTaGT8JRnFtGMYYOiM21EpTwraghR+hyA==
-X-Gm-Gg: AR+sD10qtO5O5pGS8EJKwqxsQWQ2QygH+/WhNEqgTfUj9rgK9xn6XlEkxtY/96lYOiw
-	o6L9NnCpulggyDbvqujMAFzbF3TdK7TaJNwySLIJMfz81o2eBvrV71j1NnUlkebJujwx9Q9rpoR
-	q1XW921DElI0z+WS68F9jR54BKqzGJxw/7wJz7PcttRgeVZy+75vTfasN1HeQ6Zanjs2DmwmXxT
-	fNcJNj3EvSd1wGWyspDWfJNd4j3sLnf2tabb1D9XXxN3h1hYNFiZEuRq0ChQlBcxnglQg3EgWdz
-	zjMptBQzLYWqPOLIoCNOnXnHPfVkuxti3+6qC+Wv/DGT2XLPUiNVwU0L9qdTRPDsYLgHqKHAvm4
-	BWhTRMONVln7d8suYId+r2p/ylWM25XWs1nIQO0dos7tNMWMR0hAjK3p6moE5sBQgiaATreHEmc
-	taAR/WtHuKz2UwHrPtMnB3FuEO7g18J5uxvXKsz9ugLFcP2wICfRRsn3KJ7Taal3cCzvT4y5GgA
-	XNvuYhtEYE4pA3UF3wt6OpB/74VvAouoShISEyI15WBCx/kt/BZ+0H4WdvoYTVEQi9jUG5geIfy
-	tMzu+ph4P8B3o5+oVWDRGy7UPI5YNDOxlVzTPw==
-X-Received: by 2002:a17:90b:3c84:b0:390:b41a:b92b with SMTP id 98e67ed59e1d1-395c3542369mr34039656a91.4.1787461214151;
-        Sat, 22 Aug 2026 22:00:14 -0700 (PDT)
-Received: from ryzen.lan ([2601:644:8000:7a86::e35])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-395c9128498sm2813642a91.2.2026.08.22.22.00.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2026 22:00:13 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/ZYNQ ARCHITECTURE),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
-Date: Sat, 22 Aug 2026 22:00:12 -0700
-Message-ID: <20260823050012.17067-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SYi5QYul";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vQeTirr2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uhw14Zpv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dLvKb+gi"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1D3CC3E04;
+	Sun, 23 Aug 2026 08:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787475011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=coqy+q8OZPNQJ1s1m4PO7s5VBxleeMC7LXTi4F5Vaqw=;
+	b=SYi5QYulqrZAJpbJdNmETN7SwAqMqmb0Sm4VrxNMtRsvEpUjsTEE+R+y+PNLaYxnZI4T71
+	JjHyEGULfZ1aVB19GXm2ZIkYCNGk6UYN0wujKnODkIbzn1PoierK1OpnxSXIXme1l8NI8b
+	6Vst4j0UMhNSwqUe1CYMpqYWQaLkVYM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787475011;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=coqy+q8OZPNQJ1s1m4PO7s5VBxleeMC7LXTi4F5Vaqw=;
+	b=vQeTirr22q3h+0WWSVPl5qSjFAyEvBDYLghEHCyNMS2TvTrwQz9XdTBgr8xpvJB9cNJsaf
+	IcIQlU58FeJwGFDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787475007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=coqy+q8OZPNQJ1s1m4PO7s5VBxleeMC7LXTi4F5Vaqw=;
+	b=uhw14Zpvfs2lxqB48ubIeNlLQKA2+tJyP4x7b0aS+GrAugjwJ2xWnzSxMZL7WUC2YKyF2v
+	l0BUHCvDjxVUPk2wTliSdi+agQAj/mwCcoeiQzSTXuEPhepD9tdeGZ7HIk+wgfAmoNK0VB
+	pC92XaChDjHFq6dBgXqL1Kuflf3IsGY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787475007;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=coqy+q8OZPNQJ1s1m4PO7s5VBxleeMC7LXTi4F5Vaqw=;
+	b=dLvKb+giBUCFqe/MA/EmavaAW5F+kQ6Tf0rips5CVrjmBeY+jE7hePKiYYQTRnb6fhASgv
+	QYNbfjU9UQyKuqBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6BC513332;
+	Sun, 23 Aug 2026 08:50:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HMl/Lj60imqAfwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 23 Aug 2026 08:50:06 +0000
+Date: Sun, 23 Aug 2026 10:50:06 +0200
+Message-ID: <87o6etw79d.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: tiwai@suse.com,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC 0/2] Two ways to reach the Topping M62's analogue gains
+In-Reply-To: <20260820151329.18332-1-mikhail.v.gavrilov@gmail.com>
+References: <87y0eaxz39.wl-tiwai@suse.de>
+	<20260820151329.18332-1-mikhail.v.gavrilov@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -1.80
+X-Spam-Level: 
 
-Use devm_clk_get_enabled() to let the clock be enabled automatically
-and cleaned up on unbind, dropping the manual clk_prepare_enable() and
-clk_disable_unprepare() calls in probe and remove. As a result, move the
-clk struct member into probe, which is the only place it's used.
+On Thu, 20 Aug 2026 17:13:27 +0200,
+Mikhail Gavrilov wrote:
+> 
+> You asked for PoCs of both roads and a comparison of the actual code
+> rather than of arguments. Here are both. They are alternatives, not a
+> series: each is written against mainline 98f21c54f995 on its own, and
+> either can be applied alone.
+> 
+>   1/2  ALSA: usb-audio: a mixer quirk that claims the HID interface
+>   2/2  HID: topping: a HID driver that registers a card of its own
+> 
+> Both build clean (checkpatch --strict: 0 errors, 0 warnings; the two
+> CamelCase CHECKs in 1/2 are bNumEndpoints and bInterval) and both have
+> been exercised on the device -- 152a:875c, bcdDevice 3.27 -- for
+> reading, for unsolicited notification from the front panel, and for
+> writing.
+> 
+> What the device is
+> ==================
+> 
+> The M62 keeps its two microphone preamp gains, its AUX and Bluetooth
+> input volumes and its headphone and OTG output volumes behind a vendor
+> protocol on a HID-class interface, and exposes none of them through
+> UAC. What UAC does expose on the capture side is a digital trim after
+> the converter, which cannot buy signal-to-noise: a noise-floor ladder
+> against the card shows the converter's own floor rising with the
+> signal. So on Linux today the one knob worth setting is the one that
+> cannot be reached, and a measurement application has to begin by asking
+> a human to touch the front panel.
+> 
+> The protocol is fifteen-byte frames -- start magic, a constant, a
+> target, a property, a signed 32-bit big-endian value, CRC-16/MODBUS
+> over the middle stored big-endian, end magic. Rebuilding all 2619
+> captured frames from that description reproduces them byte for byte.
+> The device says nothing until it is subscribed; one write starts the
+> stream and a second makes it announce its whole state, after which
+> every change arrives unasked, including a front panel press.
+> 
+> The control pipe is not an option: GET_REPORT and SET_REPORT stall with
+> EPIPE for every report type, so the interrupt endpoints on the HID
+> interface are the only route.
+> 
+> What is identical in both
+> =========================
+> 
+> The frame builder, the parser, the CRC (the kernel's crc16(0xffff, ...)
+> is CRC-16/MODBUS, so no private table), and the control table. A knob
+> is a row of
+> 
+> 	{ name, target, paired target, property, min, max, TLV }
+> 
+> so adding one is adding a row. Six rows today. The outputs come in
+> pairs because the device answers on only one target of each pair and
+> the other would drift away unheard.
+> 
+> Where they differ
+> =================
+> 
+> 1/2 claims the HID interface for snd-usb-audio and puts the elements on
+> the card the device already has. The cost is two-sided: an entry in
+> hid_ignore_list to keep usbhid off the interface, and one new helper in
+> sound/usb/card.c, because usb_audio_driver is static there and a quirk
+> cannot claim an interface without it. That helper is the only change in
+> 1/2 outside the new file and its dispatch. Nothing is lost by taking
+> the interface: the report descriptor is a Generic Desktop application
+> collection with eight unnamed usages, sixteen bytes in and out and no
+> report ID, so hid-generic can only build an input device for a mouse
+> that does not exist -- which is what it does today.
+> 
+> 2/2 binds as a HID driver, and the protocol half is if anything smaller
+> there: usbhid owns the endpoints, so hid_hw_output_report replaces a
+> hand-built interrupt URB out, raw_event replaces the one in, and no
+> interface has to be claimed. It needs nothing in sound/usb.
+> 
+> But these are mixer controls for an audio device, and the audio
+> device's card belongs to snd-usb-audio. A HID driver cannot put an
+> element there. There is no interface for it, and inventing one means
+> exporting from sound/usb both a lookup from struct usb_device to the
+> card and an add-element call, and then answering, for a single device,
+> what happens when the two drivers probe in either order and when either
+> disconnects first, given that the element would live in one module and
+> its private data in another.
+> 
+> So 2/2 does what a HID driver can do alone: it registers a card of its
+> own. That works, and the cost is visible from userspace rather than
+> theoretical:
+> 
+> 	$ cat /proc/asound/cards
+> 	 0 [ToppingCtl     ]: Topping - Topping M62 control
+> 	 ...
+> 	 4 [M62            ]: USB-Audio - M62
+> 
+> 	$ amixer -c M62 cset name='Mic-1 Analog Capture Volume' 33
+> 	amixer: Cannot find the given element from control sysdefault:4
+> 
+> One device, two cards; the gains on a card with no PCM beside them; and
+> anything that looks for a device's mixer next to its streams --
+> alsamixer -c, UCM profiles, PipeWire's device model -- does not find
+> them there.
+> 
+> Against my own preference, two honest notes. The phantom input device
+> 2/2 leaves at boot (hid-generic binds first, the specific driver being
+> a module outside the initramfs) is a packaging artefact, not a property
+> of that road. And 1/2's claim helper is new API surface in sound/usb,
+> small as it is.
+> 
+> Field results
+> =============
+> 
+> With 1/2: the interface belongs to snd-usb-audio while a neighbouring
+> device's HID interface still belongs to usbhid, so the ignore entry is
+> precise. Values arrive by themselves -- the headphone volume came up at
+> 51 while the zero-initialised cache would have said 0. One front panel
+> press produces exactly one control event. A write reaches the hardware:
+> the device reports the written value back, and its meters answer.
+> 
+> With 2/2: the same, on its own card.
+> 
+> One device fact worth recording: a written gain takes effect at once,
+> but when the device commits it to non-volatile memory is the firmware's
+> business, and a value written and then torn off the bus can come back
+> as the older one. Nothing in either driver depends on that -- neither
+> treats itself as the source of truth, both ask the device -- but it is
+> easy to mistake for a driver bug while testing.
+> 
+> Where I come out
+> ================
+> 
+> The knobs belong on the card the device already has, and 2/2 cannot put
+> them there without a new cross-subsystem interface built for one
+> device. 1/2's cost is one static-variable problem solved by one helper
+> in the file that owns it. So I would take 1/2, which is also your gut
+> feeling -- but the comparison is what you asked for, and either patch
+> stands alone if you read it the other way.
+> 
+> Not covered by either: the OTG input's gain. It has no front panel
+> control and therefore never announced itself in any capture, so its
+> property is unknown. It is one row when it is known.
 
-Simplify the probe error paths by returning directly instead of
-jumping to clk_err, and use devm_snd_soc_register_component() return
-value directly. Also remove error message from ioremap as it throws one
-itself. Same with devm_request_irq().
+Thanks!  I didn't expect such complete patches when I asked for PoC,
+and you've done much better than I thought :)
 
-Assisted-by: opencode:deepseek-v4-flash-free
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
-Reviewed-by: Michal Simek <michal.simek@amd.com>
-Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
----
- v4: use dev_err_probe
- v3: rebase.
- v2: add signed-off-by. Further clean up some stuff.
- sound/soc/xilinx/xlnx_formatter_pcm.c | 79 ++++++++-------------------
- 1 file changed, 22 insertions(+), 57 deletions(-)
+Honestly speaking, both look well acceptable.  From the pure kernel
+POV, the 2nd patch is simpler, but as you pointed out, we'll need
+another stuff to combining two sound cards.  It'd be likely a special
+UCM profile, but this can be a bit hackish.
 
-diff --git a/sound/soc/xilinx/xlnx_formatter_pcm.c b/sound/soc/xilinx/xlnx_formatter_pcm.c
-index 95312b4ddc5b..3c321c19f829 100644
---- a/sound/soc/xilinx/xlnx_formatter_pcm.c
-+++ b/sound/soc/xilinx/xlnx_formatter_pcm.c
-@@ -81,7 +81,6 @@ struct xlnx_pcm_drv_data {
- 	int mm2s_irq;
- 	struct snd_pcm_substream *play_stream;
- 	struct snd_pcm_substream *capture_stream;
--	struct clk *axi_clk;
- 	unsigned int sysclk;
- };
- 
-@@ -595,100 +594,68 @@ static int xlnx_formatter_pcm_probe(struct platform_device *pdev)
- 	u32 val;
- 	struct xlnx_pcm_drv_data *aud_drv_data;
- 	struct device *dev = &pdev->dev;
-+	struct clk *axi_clk;
-+
-+	axi_clk = devm_clk_get_enabled(dev, "s_axi_lite_aclk");
-+	if (IS_ERR(axi_clk))
-+		return dev_err_probe(dev, PTR_ERR(axi_clk), "failed to get s_axi_lite_aclk");
- 
- 	aud_drv_data = devm_kzalloc(dev, sizeof(*aud_drv_data), GFP_KERNEL);
- 	if (!aud_drv_data)
- 		return -ENOMEM;
- 
--	aud_drv_data->axi_clk = devm_clk_get(dev, "s_axi_lite_aclk");
--	if (IS_ERR(aud_drv_data->axi_clk)) {
--		ret = PTR_ERR(aud_drv_data->axi_clk);
--		dev_err(dev, "failed to get s_axi_lite_aclk(%d)\n", ret);
--		return ret;
--	}
--	ret = clk_prepare_enable(aud_drv_data->axi_clk);
--	if (ret) {
--		dev_err(dev,
--			"failed to enable s_axi_lite_aclk(%d)\n", ret);
--		return ret;
--	}
--
- 	aud_drv_data->mmio = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(aud_drv_data->mmio)) {
--		dev_err(dev, "audio formatter ioremap failed\n");
--		ret = PTR_ERR(aud_drv_data->mmio);
--		goto clk_err;
--	}
-+	if (IS_ERR(aud_drv_data->mmio))
-+		return PTR_ERR(aud_drv_data->mmio);
- 
- 	val = readl(aud_drv_data->mmio + XLNX_AUD_CORE_CONFIG);
- 	if (val & AUD_CFG_MM2S_MASK) {
- 		aud_drv_data->mm2s_presence = true;
- 		ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
- 					       XLNX_MM2S_OFFSET);
--		if (ret) {
--			dev_err(dev, "audio formatter reset failed\n");
--			goto clk_err;
--		}
-+		if (ret)
-+			return dev_err_probe(dev, ret, "audio formatter reset failed\n");
- 		xlnx_formatter_disable_irqs(aud_drv_data->mmio +
- 					    XLNX_MM2S_OFFSET,
- 					    SNDRV_PCM_STREAM_PLAYBACK);
- 
- 		aud_drv_data->mm2s_irq = platform_get_irq_byname(pdev,
- 								 "irq_mm2s");
--		if (aud_drv_data->mm2s_irq < 0) {
--			ret = aud_drv_data->mm2s_irq;
--			goto clk_err;
--		}
-+		if (aud_drv_data->mm2s_irq < 0)
-+			return aud_drv_data->mm2s_irq;
-+
- 		ret = devm_request_irq(dev, aud_drv_data->mm2s_irq,
- 				       xlnx_mm2s_irq_handler, 0,
- 				       "xlnx_formatter_pcm_mm2s_irq", aud_drv_data);
--		if (ret) {
--			dev_err(dev, "xlnx audio mm2s irq request failed\n");
--			goto clk_err;
--		}
-+		if (ret)
-+			return ret;
- 	}
- 	if (val & AUD_CFG_S2MM_MASK) {
- 		aud_drv_data->s2mm_presence = true;
- 		ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
- 					       XLNX_S2MM_OFFSET);
--		if (ret) {
--			dev_err(dev, "audio formatter reset failed\n");
--			goto clk_err;
--		}
-+		if (ret)
-+			return dev_err_probe(dev, "audio formatter reset failed\n");
- 		xlnx_formatter_disable_irqs(aud_drv_data->mmio +
- 					    XLNX_S2MM_OFFSET,
- 					    SNDRV_PCM_STREAM_CAPTURE);
- 
- 		aud_drv_data->s2mm_irq = platform_get_irq_byname(pdev,
- 								 "irq_s2mm");
--		if (aud_drv_data->s2mm_irq < 0) {
--			ret = aud_drv_data->s2mm_irq;
--			goto clk_err;
--		}
-+		if (aud_drv_data->s2mm_irq < 0)
-+			return aud_drv_data->s2mm_irq;
-+
- 		ret = devm_request_irq(dev, aud_drv_data->s2mm_irq,
- 				       xlnx_s2mm_irq_handler, 0,
- 				       "xlnx_formatter_pcm_s2mm_irq",
- 				       aud_drv_data);
--		if (ret) {
--			dev_err(dev, "xlnx audio s2mm irq request failed\n");
--			goto clk_err;
--		}
-+		if (ret)
-+			return ret;
- 	}
- 
- 	dev_set_drvdata(dev, aud_drv_data);
- 
--	ret = devm_snd_soc_register_component(dev, &xlnx_asoc_component,
--					      NULL, 0);
--	if (ret) {
--		dev_err(dev, "pcm platform device register failed\n");
--		goto clk_err;
--	}
--
--	return 0;
--
--clk_err:
--	clk_disable_unprepare(aud_drv_data->axi_clk);
--	return ret;
-+	return devm_snd_soc_register_component(dev, &xlnx_asoc_component, NULL, 0);
- }
- 
- static void xlnx_formatter_pcm_remove(struct platform_device *pdev)
-@@ -705,8 +672,6 @@ static void xlnx_formatter_pcm_remove(struct platform_device *pdev)
- 
- 	if (ret)
- 		dev_err(&pdev->dev, "audio formatter reset failed\n");
--
--	clk_disable_unprepare(adata->axi_clk);
- }
- 
- static const struct of_device_id xlnx_formatter_pcm_of_match[] = {
--- 
-2.55.0
+So, from the usability POV, the first patch would be "easier", and if
+I have to choose, my gut feeling is to pick the first one.  But again,
+I have no strong opinion, and both look good in general.  I'd like to
+hear from others, too.
 
+About the code, there are a few things to be improved.  The spinlock
+could be done better with guard().  A temporary buffer could be
+handled with __free(), too.
+
+
+thanks,
+
+Takashi
