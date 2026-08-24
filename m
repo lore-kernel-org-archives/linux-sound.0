@@ -1,222 +1,170 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f11.google.com (mail-oi2-f11.google.com [74.125.231.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14724334C5;
-	Mon, 24 Aug 2026 16:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787588936; cv=fail; b=pariw/0irhvFxJ9wSmb2jNuktj/4BX9TuYc/M9ntxWkNijY36j8gUVY0HyKtrlO0EnSwGLzi65MlOvLrlx60Z9yswNqtOu+/2zEybtZd+vakU6/kr6dcF0MqMpKHwCOmCDVHXEhsnrlLIfm7n3lYd+sPXATW3089L7rMRHCUjzM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787588936; c=relaxed/simple;
-	bh=hE+VhOD9DT6Do/5O6SMRARCPMbaW0k7IiY3OfqwPqTY=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=s6GtgYd3n9pVkSEb6SaYHzOR4JkxBm/iYqG9yrSHcGagMy2ZZscOHOw3d+vDYjI7LVqsO8orkzV2jo/+1qTl6gKZZ5cl1nPmr8Jms/BLjLnc6Nh4Z2PPfOsk+qmSn9oMNMSWLbWQ4AQfaTOSWJ/9SyZfviF5GV+xhvSUgyxNUmg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=p3rL4dio; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=mKaYguTm; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="p3rL4dio";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="mKaYguTm"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67ODbXKZ2671922;
-	Mon, 24 Aug 2026 11:28:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=LTJT5XJD0D9hPGgrc5dwH57CTvibpu2sH07FyOmkfv0=; b=
-	p3rL4dioEO+7+YD/34OA44U5exx/IU/jbeziylcrTjt2d5sV1SPp62jTckY77T68
-	rJAW3MsdGpsdFl9eS3EIuTNFh14hTysCIJFbJdeGbNm7dpRq2+5FXN+EC5G85w8Z
-	G+GMfR8QFIURCaGJtOJKJHkCwEbVLaBH7u7Ejwu7eSYW7BxGEY6sF5sVhoqegHeJ
-	pR4ZPPpCr+l6UtC/ijVfL4EusA4uV4MC61r9hDypDjdccBn9SYkFPkf+1Av+/Fwh
-	zMGXbHjyUzPW2d6GsdJkCJuWhrUq2p/2xh7LfovbXCtcN5VhjP0StLyL4MJx8QGV
-	/xXIsc9tIk/7JyI0B7eJCw==
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11022082.outbound.protection.outlook.com [52.101.53.82])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4g795uttwv-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 24 Aug 2026 11:28:35 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=P939VcUWM5jl8ZhcIB1/INJZ7nINns/WizQuJ8wNDMJ9WW1HIZ0Z7u1vmtzKOi6RIHX24tjG5J2gOP1QL3J4xtThOygmAbdXaXVcdFuHQNu0nrE0deiR/OZvBujn9yKI3J9smQXFkXjI/wvr/4ZHdQbcMeUHpohYkKXP6Br531mK+lJCVqSadJNXPRK8izIB8lQegCTtmszPQMG+OCvIF1HiW3pE/DbCKnQqJd+QbQUfzNVUi/vPE3PbMFRlTAD7JyJcsff5SF+0GksQM7SPcD5AIjNU0UTgITKB9yrJGZsI5//p3dDsnunOh0LW/2sm6ImvTPV2uQLfL/l96ijLsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LTJT5XJD0D9hPGgrc5dwH57CTvibpu2sH07FyOmkfv0=;
- b=eNLBX+MRq0N4TNaRSslN21N1AL5QMry5+1WVZKFSqi3lEjvAXlQaC9nAGerCn+vr4LX4nUANiAMVY/AT3enPm0jc3ZTO4IfrlAC0xb2xJAMVoe9R5ofvkhaR06hmpDIo8/L4KjT8ujtFcpNQbVVTf7YFm+qVxSglZ8H4nZ4adGOPruMYsoQy+0lwvEZplKgaKqztXOGmt3draJ9RKnItCqbhlOnxVmIfmhYRILU7qd6NN1beCKU6MfkwxaohPMzXP7h5PKTfkVbfqo03V2+LsNF2mCiSWjXxsVsj2Y4/hB3CeEptSYB2MsZkz21b56bOj7yMEjXUEGbbTTIB9MHiww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LTJT5XJD0D9hPGgrc5dwH57CTvibpu2sH07FyOmkfv0=;
- b=mKaYguTmL1rcConSuUqpjXR6HL0BntWxMPF5qYcCjUBO89KC4bYXXKwVzHSLKKY01iMyHeLEXw14zmzd/OT8rOmEiw5d3cbqNLtN9jLp6fLCSWM7De9QKvismrAn85/dfofSuxYd4lMB9u9iHBnOvTVMc/2msiLgQO1QpAvNIus=
-Received: from CH2PR02CA0023.namprd02.prod.outlook.com (2603:10b6:610:4e::33)
- by MN0PR19MB5874.namprd19.prod.outlook.com (2603:10b6:208:37a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
- 2026 16:28:30 +0000
-Received: from DM2PEPF00003FC5.namprd04.prod.outlook.com
- (2603:10b6:610:4e:cafe::44) by CH2PR02CA0023.outlook.office365.com
- (2603:10b6:610:4e::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.12 via Frontend Transport; Mon,
- 24 Aug 2026 16:28:29 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- DM2PEPF00003FC5.mail.protection.outlook.com (10.167.23.23) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.3
- via Frontend Transport; Mon, 24 Aug 2026 16:28:29 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 3EC48406541;
-	Mon, 24 Aug 2026 16:28:28 +0000 (UTC)
-Received: from LONNCK4V044 (LONNCK4V044.ad.cirrus.com [198.61.68.151])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 04B1582254B;
-	Mon, 24 Aug 2026 16:28:28 +0000 (UTC)
-From: "Stefan Binding \(Opensource\)" <sbinding@opensource.cirrus.com>
-To: "'Sven Jans'" <skbotnl@disroot.org>
-Cc: "'David Rhodes'" <david.rhodes@cirrus.com>,
-        "'Richard Fitzgerald'" <rf@opensource.cirrus.com>,
-        "'Jaroslav Kysela'" <perex@perex.cz>,
-        "'Takashi Iwai'" <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
-        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>
-References: <20260824142209.4945-1-skbotnl@disroot.org>
-In-Reply-To: <20260824142209.4945-1-skbotnl@disroot.org>
-Subject: RE: [PATCH v3] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 16-bh0xxx
-Date: Mon, 24 Aug 2026 17:28:27 +0100
-Message-ID: <003801dd33e5$98042a00$c80c7e00$@opensource.cirrus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB2635E94F
+	for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 17:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.203
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787592272; cv=none; b=hLIS3Y0rHQp4BriLfRALiYdWAsnKjyLCTbTzdsWyB7qC0aiw00m6ycTsk113tF7XBQDiRboDszVTFBWciK8urX0M4QWTpgJJVXxHwfniW+pApIivJpgRN9qXiKAtEoQeO7o4lU61odjyvJPiZfr/wwAgWdWS2RrjwXZqMnNn1uo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787592272; c=relaxed/simple;
+	bh=lQwBJcYe4HGSztLpEq5r/XxNuBtWNglyRh4c2/HetRw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ZQnYVfIOAPsHST6P2mHG548DK7d8Vkt94/ThGuhs3/FCpxLOI6CRss+5zvv6Pp9CtTk2xhny+uPH741bHdteg7oNjecSGAW/eO5ttQ/9aKUjTqfOjQBS5BnJkNPGbySMeseVoC7GodF1l7pAw3+el6uyOsORmNAFHeCfZFS+rd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f11.google.com with SMTP id 5614622812f47-4af7b6a2349so1691959b6e.1
+        for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 10:24:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787592269; x=1788197069;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0IpoK5mGpVvd7seW9F/U8EzzJ1RgOKGijTXpNX2gbEk=;
+        b=kVNtj0fqDJMtn+5QHlgVPAaQ8I1xDK6Bw6AC1fJHUqsmFYzIU6JjFIACUR0L/qWqYf
+         QWjJoFZ1w3h2yYmeV1tIox3IDut1xN+cg/IXQe52nxNSTpOr+xD4QYtWnx/FLyR1VAXR
+         rem/8MOnO43iaZYhdcuiBxKJUw032WghVP873MtUSmE9hO3B0KiL/P9cM2Ba5qPwU09M
+         oE5fNT0H611sRHapKoe4HwmyOoyiA16sWXuuZpPWc6yifeB9HJ29xdLMZfSMvWQpL7xp
+         8JUgOkSBIEK37FyGMrqxze2Ppji8PP7GS+5oKnlcLQuK56VNf7ZI97TcXVVC8cT9VjKg
+         9aIw==
+X-Forwarded-Encrypted: i=1; AHgh+RpZ78mX1KUAEKQV6dCSzL+PuU/+RdcN58IzCsCSe24r1j38GVglJI9xrjL1IqkWnHbq9TLtEGXpzWClbg==@vger.kernel.org
+X-Gm-Message-State: AFuF++nfQs468ZLY/kGAdERJEbm/DVu4CiDmXD8ZmgnhWAijHOrroPDS
+	nzkuMCX307hOCIPZYVZaZXQVsm52asW++SGx8bMgE7lxvEVC3WFS9GeGkuvur15qzd5+7ceVyMF
+	R53ORMoeMt0cMog1RGjBbw3Fc+arx+s2ojHQ1PVBe4IDeW786PYITzXtqh2w=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQHd77by57z1fxh0M5/kqzsDG/1Xv7ar6yDw
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM2PEPF00003FC5:EE_|MN0PR19MB5874:EE_
-X-MS-Office365-Filtering-Correlation-Id: b4ce03df-7278-45e0-9f16-08df01fcbb45
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|61400799027|23010399003|82310400026|13003099007|6133799003|10067099003|56012099006|11063799006|18002099003|22082099003|16102099003;
-X-Microsoft-Antispam-Message-Info:
-	4M/15H/C8g/gL/lp8fwcY2rDONZmVeTLeBtr4nPj4tcpeh6GUCpmbIIxFlGP90tYsCK/FVNeTYuICmDePHJLw6FxmeLPMsT06jYElRav08cJIwchpHa2r09jBUrAtFGa8O1z9/wNJeDquwgZzeFdt9dAw4lclkwKvVkvAjahCaxzziNEcz2vdSgy8v96p03mAjpjl4rFEK4EyEcexPMKuD04SBStKpW9WiAXc1hT3lgyQ5ngQAdFtZWR9oSSEHjcd1aMe9yfWpxJpKCH0ABSJuc2vX7w2ZaVr4LGL2b0xfq4h4p5noJ/liPJ8MeR9IxqfEkoRx2mC36HW4EhYgFsvbhRpo2f8F30Kk2qb+Dy0HLLazjApzWS2k5WTb70jWOuDBEWoCvYuK+OyUHpdCmHwPiqaZmRT1d6R+pPJfULZsmr4VYDNlUDJK6ai3VIHj8VzJTet7vDxWAhM/WePWXOC/LnpR57yeTeRYrP1Bo++JFwcIqUfWBZcdfCUJU0pkFpcYB0AltrUXr3NpMMUOKFBjfTUDIR0e//rP5cw0sKg7wvH3MMQPl3LCuI9Pl8gSa9/se7aQADS7/et+Ow/PPrlZkTcC3cmX0eQbqd4XazTUdZWSpCBRd/ZPBxPc8QvnAkWl661ysN0B2FG2kkoWTgHXfl8NrFdrXmSPaJ3+7LU8/DhUlFP1eq8ZD2N06EeBTnt/ElNnV45dHq3JUA+Rqlow==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(61400799027)(23010399003)(82310400026)(13003099007)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003)(16102099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	HjV8mA0o3mi4yE+y0ovJE6LaAL2WSHH8AEMdOMBbt1f14tN0eBWXQSaw5kPqoKo5dHOoYpU1pkdDAk6DJSbTcYDXkvuZemud+KguVhvzXqLh4DggCnA2bgu/Dr+Ig0ZEZw4R2Oan64bW062WIdfbXeg5HFPnyQKP4rTWCGvE1iQqvhmWNZl64Gm5+NnnfabElv6WpWWUJmFNR0ecAfATJ03ldZOpc5nzReGlRsmpu62vOtohadwpHd6+W8+21rU02JYFlkNR5mg1DyRp7CGLGJ4/5MWMSFBlhACMpRbWzd0w9zCEJzi/zWbIR833u4/zZ5qTTykaZ3ohLYmWwFrxVttPomwF9wHu71hfIrZWK1tAmWPnLytuQNgPApHJ8sSXBnRgm+yF0AVKJxkWTvlaL+4nFMJeOHoRAbCk9E6sVjTC699AaJIgnDSYyATUdb0Q
-X-Exchange-RoutingPolicyChecked:
-	Vu9cYxUqGD4nksZfOp44+mKDaXdVR/yDajkr0hHtqvfl9u/0H3s/zrrp8SjzbVHg79tuSaspk7P9UgNU7x0ULEF5++ndL9ojJTMeZptB4Xvqq10DgrR42TU7pyt89A+1uUzTeMkZAt0rtEjBt/7pS9WH9bLSSguTzw10JYD8Djd/wssciC2ekE5iTnn+YHk9QG9QFL8Ct6H17nIHr+1NKND54LQA+HCRycmMS+DmfHqJJZv6AAOjK6fEhJXm0UAykvnMlwrsbE+zLnboB1RmI2s/caQ+z9NfK+5eHbhkzQ0F1P7yHZQdD1UqAV5V6vbhbLzXkdbqv1GQRwGfutACVw==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 16:28:29.2576
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4ce03df-7278-45e0-9f16-08df01fcbb45
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DM2PEPF00003FC5.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR19MB5874
-X-Authority-Analysis: v=2.4 cv=aYhRWxot c=1 sm=1 tr=0 ts=6a8c7133 cx=c_pps
- a=fzV1Iv4YRLQDDQDbumTdQQ==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=kj9zAlcOel0A:10 a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=VwQbUJbxAAAA:8 a=LpNgXrTXAAAA:8 a=w1d2syhTAAAA:8 a=iox4zFpeAAAA:8
- a=KdYoivNf6ORsynzyJ7AA:9 a=CjuIK1q_8ugA:10 a=LqOpv0_-CX5VL_7kjZO3:22
- a=WzC6qhA0u3u7Ye7llzcV:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI0MDEzOCBTYWx0ZWRfX+j/lfFeKc5yA
- 5bSIqTPjV8/cBIknVnmO1gAX7G7+XVl+aHdMKzsq9uXZDvQnUXf54vixStXk/1cLqG2q47jyH/m
- DT97j1KHJ5Z4dkpyXKLJ5NOvlISjCaQ0LrH+gPQXRN5EaYifBpc8u8N1VIwV8qpHigDEVgmPEuu
- stKI6L3lEpukGScKAP/YNwWOxJyHQkn5lRj2C+jxzYvBdmqHoAviwk7uyHYsypsuSxvTvptV3de
- UwLrEedCQxQ5G5pLWkoPvhMKt04KzCjmmKJbfC5V6E70ii7fAc+lt6fD9mUrnC3bADv9xXp3lnx
- myvm2lpTY8CqyoyocWmhZRW7Kh0KVH4KhqUg4n22LGbaJM3jSC2naJn/nOWgzXE47ihOdEJUJeG
- UsEsZfO6VypGEr3NvZVa8kgQb18RTd/tftF+NUcZGK9wSomyR+MtlKOlb5oGneeueQHAvaO/zED
- KIJAQeJjLXMHj/NGSjA==
-X-Proofpoint-ORIG-GUID: t7SK_tV_PIH6Kcf5BFPYinvyJUFF8m3w
-X-Proofpoint-GUID: t7SK_tV_PIH6Kcf5BFPYinvyJUFF8m3w
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI0MDEzOCBTYWx0ZWRfXzeb8dXxRY0mu
- Nxg1bokDI94nI11XbtkGq8+i3cYOKUl2uSerComVOFepcBzcIEoM+rxoE2SNnlon3eT7vwwTasj
- w7/y5SFhrBKAgMpWiErEmbmSxuI7x3g=
-X-Proofpoint-Spam-Reason: safe
+X-Received: by 2002:a05:6808:1809:b0:4b1:ba28:5df5 with SMTP id
+ 5614622812f47-4b350713058mr687552b6e.18.1787592269462; Mon, 24 Aug 2026
+ 10:24:29 -0700 (PDT)
+Date: Mon, 24 Aug 2026 10:24:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8c7e4d.4d75e56a.c9a88.0052.GAE@google.com>
+Subject: [syzbot] [sound?] possible deadlock in rawmidi_release_priv
+From: syzbot <syzbot+7d1edf0ff6a05961020c@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hello,
 
-We are planning on upstreaming fixes for various laptops, including this
-one, with malformed ACPI.
-We are currently awaiting confirmation of the correct settings before we do
-so.
+syzbot found the following issue on:
 
-Thanks,
-Stefan
+HEAD commit:    818bebeb63dd drm/xe: Don't hand out the flat CCS storage a..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1798a179580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ccca94d2c01b9e78
+dashboard link: https://syzkaller.appspot.com/bug?extid=7d1edf0ff6a05961020c
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1058a179580000
 
-> -----Original Message-----
-> From: Sven Jans <skbotnl@disroot.org>
-> Sent: Monday, August 24, 2026 3:22 PM
-> Cc: Sven Jans <skbotnl@disroot.org>; David Rhodes
-> <david.rhodes@cirrus.com>; Richard Fitzgerald <rf@opensource.cirrus.com>;
-> Jaroslav Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; linux-
-> sound@vger.kernel.org; patches@opensource.cirrus.com; linux-
-> kernel@vger.kernel.org
-> Subject: [PATCH v3] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 16-
-> bh0xxx
-> 
-> The laptop has a malformed _DSD which causes the cirrus,dev-index property
-> to fail to parse, so it needs to be supported using the configuration
-table.
-> 
-> Signed-off-by: Sven Jans <skbotnl@disroot.org>
-> ---
-> Created against tiwai/sound this time (I read that's preferred?) Link to
-v2:
-> https://lore.kernel.org/linux-sound/20260709214414.8461-1-
-> skbotnl@disroot.org/
-> 
->  sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-> b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-> index 416d7bf3e..e14a87336 100644
-> --- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-> +++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
-> @@ -85,6 +85,7 @@ static const struct cs35l41_config
-> cs35l41_config_table[] = {
->  	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
-> 0, 1, -1, 1000, 4100, 24 },
->  	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
-> 0, 1, -1, 1000, 4100, 24 },
->  	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
-> 0, 1, -1, 1000, 3900, 24 },
-> +	{ "103C8E60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
-> 0,
-> +1, -1, 1000, 4500, 24 },
->  	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
-> 1, 2, 0, 1000, 4500, 24 },
->  	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
-> 0, 1, -1, 1000, 4500, 24 },
->  	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 },
-> 0, 1, -1, 1000, 4500, 24 }, @@ -511,6 +512,7 @@ static const struct
-> cs35l41_prop_model cs35l41_prop_model_table[] = {
->  	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
->  	{ "CSC3551", "103C8CDD", generic_dsd_config },
->  	{ "CSC3551", "103C8CDE", generic_dsd_config },
-> +	{ "CSC3551", "103C8E60", generic_dsd_config },
->  	{ "CSC3551", "104312AF", generic_dsd_config },
->  	{ "CSC3551", "10431433", generic_dsd_config },
->  	{ "CSC3551", "10431463", generic_dsd_config },
-> --
-> 2.55.0
-> 
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-818bebeb.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6e4100526b12/vmlinux-818bebeb.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/723c4783ee96/bzImage-818bebeb.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7d1edf0ff6a05961020c@syzkaller.appspotmail.com
+
+============================================
+WARNING: possible recursive locking detected
+syzkaller #0 Not tainted
+--------------------------------------------
+syz.0.43/5949 is trying to acquire lock:
+ffff88802e25c160 (&rmidi->open_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
+ffff88802e25c160 (&rmidi->open_mutex){+.+.}-{4:4}, at: rawmidi_release_priv+0x45/0x280 sound/core/rawmidi.c:574
+
+but task is already holding lock:
+ffff8880541aa160 (&rmidi->open_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
+ffff8880541aa160 (&rmidi->open_mutex){+.+.}-{4:4}, at: rawmidi_release_priv+0x45/0x280 sound/core/rawmidi.c:574
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&rmidi->open_mutex);
+  lock(&rmidi->open_mutex);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+locks held by syz.0.43/5949: 2, last CPU#1:
+ #0: ffff8880541aa160 (&rmidi->open_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
+ #0: ffff8880541aa160 (&rmidi->open_mutex){+.+.}-{4:4}, at: rawmidi_release_priv+0x45/0x280 sound/core/rawmidi.c:574
+ #1: ffff88802e25c460 (&ump->open_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:253 [inline]
+ #1: ffff88802e25c460 (&ump->open_mutex){+.+.}-{4:4}, at: snd_ump_legacy_close+0x117/0x300 sound/core/ump.c:1182
+
+stack backtrace:
+CPU: 1 UID: 0 PID: 5949 Comm: syz.0.43 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_deadlock_bug.cold+0xbd/0xca kernel/locking/lockdep.c:3057
+ check_deadlock kernel/locking/lockdep.c:3109 [inline]
+ validate_chain kernel/locking/lockdep.c:3911 [inline]
+ __lock_acquire+0x1343/0x1ec0 kernel/locking/lockdep.c:5253
+ lock_acquire kernel/locking/lockdep.c:5886 [inline]
+ lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5843
+ __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+ __mutex_lock+0x1a4/0x1bc0 kernel/locking/mutex.c:821
+ class_mutex_constructor include/linux/mutex.h:253 [inline]
+ rawmidi_release_priv+0x45/0x280 sound/core/rawmidi.c:574
+ snd_rawmidi_kernel_release+0x3a/0xd0 sound/core/rawmidi.c:596
+ snd_ump_legacy_close+0x234/0x300 sound/core/ump.c:1187
+ close_substream.part.0+0x16b/0x860 sound/core/rawmidi.c:560
+ close_substream include/linux/mutex.h:253 [inline]
+ rawmidi_release_priv+0x210/0x280 sound/core/rawmidi.c:580
+ snd_rawmidi_release+0x5a/0xf0 sound/core/rawmidi.c:610
+ __fput+0x3ff/0xb50 fs/file_table.c:512
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
+ exit_to_user_mode_loop+0x1d8/0x700 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:336 [inline]
+ do_syscall_64+0x661/0x790 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0821b9e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fffd162af08 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007fffd162aff0 RCX: 00007f0821b9e0d9
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 000000000000dfa7 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000001b31d20000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f0821e25fac R14: 00007f0821e25fa8 R15: 00007f0821e25fa0
+ </TASK>
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
