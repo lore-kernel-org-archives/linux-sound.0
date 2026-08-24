@@ -1,141 +1,90 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DED6438034
-	for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 14:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06C44399E5;
+	Mon, 24 Aug 2026 14:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787580165; cv=none; b=Yuk31w5lkoB2Ml9fxunIzQyGYDmirGF3h7seCXOX05VLgZDfV10h6mynYOt1mKQ3tiN8Jg26/8cmJ6d4u0XQRdGqt/VhOTrcV74lTfCUPKHfEGNUCOFOkJCFIxpyfXXpHB88sBbAOU/g6EpsaIid1yxAY00TSLXjHWpmfGJJF68=
+	t=1787581402; cv=none; b=fR9mUvoL/U1uiZiAv2tgklX0A4UkfZAfFRwa2M9bAy0JFfXVgMvZAfACG19YvizlxKyIVjV3d6JWpmz8I5aZx5ryt89X1xXeV7gXeJVOpHLMkcjs9sLUBhM1rLHJaswUEllbek398zaWpX0V+hsTxFQWSCaEG2+ccV++GtMEz8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787580165; c=relaxed/simple;
-	bh=gFwUUntQodYhgeddVFOYBo7Qp9VpQc9z4h43g2XDIMs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FpKjBMBwybhIntviSWBfl0gBVp4vRyI38kCkZcjwD7J5FQsX9SIW/xx7nOFk9Mf2KBzbmFem6YvnBmsZxTTSo/vNizbYSYq4+YZrPAMasDQU0fHs1Y0wXdrLIdJV4fLDQZ/bdguHyoHQGhuCB33Nl8hE2dtcxmgC7oSh0U57Im8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=frba.utn.edu.ar; spf=pass smtp.mailfrom=frba.utn.edu.ar; dkim=pass (2048-bit key) header.d=frba.utn.edu.ar header.i=@frba.utn.edu.ar header.b=kRuscPHO; arc=none smtp.client-ip=209.85.210.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=frba.utn.edu.ar
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=frba.utn.edu.ar
+	s=arc-20240116; t=1787581402; c=relaxed/simple;
+	bh=nBRzrtAs/cY0h8yCoZPgzFhgu4gu1MzSIj+l+WGgfCA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h8unqvOW6G9IWc2T2w/jYAEDQylkbKMWfKxTRZZCwaH6P5r+LOgTzNI35wglitJjiY4l3LCr2RMikpBjOfnyCZi4IJtNO816PkybsrUUTSeOKE4k0rFoOCwSutdJIm9v5zW7RM53+nII83r7PZftZAOAOkK3OEpvkuHGg7Eoxc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=JL0KniDs; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=frba.utn.edu.ar header.i=@frba.utn.edu.ar header.b="kRuscPHO"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7f48c750afcso1189173a34.0
-        for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 07:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=frba.utn.edu.ar; s=google; t=1787580162; x=1788184962; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y9u+aARNWADXwd90+pDUTDjttmTqr1vQNgiDbZgD+K8=;
-        b=kRuscPHOVW2QsbFOlnq6TlZNROjxKJSM0m9jr4CHL9WFeeY49gpwPDumvGO8JkMtMr
-         GubtCpVA2ry8PzPOd4DneY3kFTE5fUULnhwxUVy4gvKvmlOP/mZOsCQOTVNi3mnwR+o4
-         G+Fx9tjDAeDVW0bIb/Tlf/8aXmpO/dtO95/fIqrIAjWjewwDhtVL8B6MOkS49OateJLH
-         blJZEbHd5W3hUTcxLGOrAf95dybGi2RCvLobyGPPp2bzikvw47Fh4krsx+zy5nRAwpIr
-         NyeLgIZU18Gfbu0PO4fVWL3mXtgxHSkmvI+3OhDIk7S2kF5qnm4OmKnpkL0ZeUjICh4V
-         6Fqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787580162; x=1788184962;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y9u+aARNWADXwd90+pDUTDjttmTqr1vQNgiDbZgD+K8=;
-        b=BJUGhIlCcT4/2Z3xdsl7DrIYY512D+qrPAYf18M5gizz6VhzTt+5pKAo5SlfT7dmdG
-         Ft4wibxhsWXCA65fVFqEuAtuJDhsLv6J3SRl1tIPzxCugQ4nBZsKuswMabWVxW3HtwuT
-         u/b/AbBsJSicSR6iBUjXf6OMAt/ZZzfNnx+n4xFfz4sdakFVnZa6nWPq/BivkaRG3bTh
-         06a5QEmeZEGMXQNGTZv2zPCYcucGmB0hzIby0E9elOVEe8j7QaOgoaBfXrCj89PccQcK
-         fxsSvkcfBwp5DQNWdp2rGlOmWcYbm3NVBgoHVth0erYDCIPV9gWcHhJsQHsScVQEHhja
-         2olg==
-X-Gm-Message-State: AFuF++kXJsN2rtryE16SC0c8n5cl9Y91SBMFejoCP+5qrKDlkiqWF6Wf
-	PQ7tEImajxiTuQLTpjYnNABtw2lmcM1MNAqqoQhVusrERx+/ajVV9PquFLrcCSC+nk3uJ0i+0Tp
-	izHRmqFr5jQ==
-X-Gm-Gg: AR+sD125ttpoNJ0QefJTXoRl37ajN4C0GgIqoneU1NJwYTM/DkVNW740ZuJmcPcpVxH
-	5tiOFGRp0m8fBpL+uw47PrYbzNqQVX+GU1fodBPxYaJkbQt3jYtioTwAcSj+vSTluiAQYr76nxD
-	TqqNb5dcdsdKpks+Nq+Zvxe/PaGcII8xVqKy35i0JssrZOLl8cJLLnTwxIzZCl4DfjScQuBAKeC
-	Cd9L2vIMWAVJK0VUXF5C90wQfkd8D2cs6okaA6S+q28r7DUyaFYpf3Q7pKrJQ6EpFmMBn/jsJxA
-	+M31uGHOWKpfk8nISv5mJPZPiG7lDIpLqF4RdLj6i/jIhsKo0cTZljZqDMEi05XIP+e8EfEkvCf
-	nsdx93Iviysg/StfCDtH8yk3N8PjZSTbGtg/wXJVQ4J7sX1MwfR2UjnadM40wfeXVGE6x7BNgPp
-	wepWCVGFoF5O/Dcky9OhwAjZwLwB70q6Cd3HBe4iHW7e3CIV6g1IovIpRsSHhHX3Fo4avwMywo4
-	nW9go54B+RiXjndSuqegtKSRQ==
-X-Received: by 2002:a05:6820:81d4:b0:6b1:5a78:b0f0 with SMTP id 006d021491bc7-6b15a78b190mr29057680eaf.6.1787580162155;
-        Mon, 24 Aug 2026 07:02:42 -0700 (PDT)
-Received: from localhost ([190.192.192.134])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f90c0de2sm28152062eec.8.2026.08.24.07.02.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 07:02:41 -0700 (PDT)
-From: =?UTF-8?q?Federico=20Valent=C3=ADn=20Andrade?= <fandrade@frba.utn.edu.ar>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	kuba@kernel.org,
-	alexander.deucher@amd.com,
-	=?UTF-8?q?Federico=20Valent=C3=ADn=20Andrade?= <fandrade@frba.utn.edu.ar>
-Subject: [PATCH v3 2/2] ALSA: usb-audio: Skip mixer creation on M-Audio Venom
-Date: Mon, 24 Aug 2026 11:02:11 -0300
-Message-ID: <20260824140211.17003-3-fandrade@frba.utn.edu.ar>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260823152733.740731-1-fandrade@frba.utn.edu.ar>
-References: <20260823152733.740731-1-fandrade@frba.utn.edu.ar>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="JL0KniDs"
+Received: from mail01.layka.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 69E7288475;
+	Mon, 24 Aug 2026 16:23:17 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id RDk_6dhFphJR; Mon, 24 Aug 2026 16:23:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1787581396; bh=nBRzrtAs/cY0h8yCoZPgzFhgu4gu1MzSIj+l+WGgfCA=;
+	h=From:To:Cc:Subject:Date;
+	b=JL0KniDshF7g94w1QQc6MQqO/sIfwzkEksgFAH1KVbeiGmcPxOF0bU0rOv3fMhC8O
+	 BsZXn7SCk0dD3eCpw4/Bxmru79JJNUqeBBlwVDoi+uSJWvxZs9ha3OOyrmnkjtDBpz
+	 lF+Qgs1b7PTPH4koUW+hGz4/E0KV4Mv/0uv8S1P5Wd7EEsiHwbgyNOKAUFyssw2NL+
+	 8v/IqM72naRjp2zUzRcwkT8Knf2dysKbF/4wnm7QEiTQGIAjDf87Gpr7kVmYKS9rXT
+	 vCCH7oqnq/vgiEuX+r/37Y0AFdf2psltFfIMEO2lUoIRNmdAVXBfJtru5vhJ3fWeqy
+	 Mdea2IHbb/jcw==
+From: Sven Jans <skbotnl@disroot.org>
+To: 
+Cc: Sven Jans <skbotnl@disroot.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] ALSA: hda: cs35l41: Support HP OmniBook 7 Laptop 16-bh0xxx
+Date: Mon, 24 Aug 2026 16:22:07 +0200
+Message-ID: <20260824142209.4945-1-skbotnl@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The M-Audio Venom (0763:2084) does not answer any GET_CUR request
-of its feature units, hanging up the USB microcontroller and
-"responding" with timeouts. So the mixer building lasts around 47
-seconds, and the device does not stream at all.
+The laptop has a malformed _DSD which causes the cirrus,dev-index
+property to fail to parse, so it needs to be supported using the
+configuration table.
 
-The same GET_CUR requests issued through libusb (with no kernel
-driver bound) complete correctly and blazingly fast. So it seems
-to only happen during the initial probe.
-
-I defined an explicit composite quirk to bypass the mixer creation,
-as it is not needed (the synth already comes with volume controls).
-
-With both this and the device flag applied, the synth works
-flawlessly.
-
-Signed-off-by: Federico Valentín Andrade <fandrade@frba.utn.edu.ar>
+Signed-off-by: Sven Jans <skbotnl@disroot.org>
 ---
- sound/usb/quirks-table.h | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Created against tiwai/sound this time (I read that's preferred?)
+Link to v2:
+https://lore.kernel.org/linux-sound/20260709214414.8461-1-skbotnl@disroot.org/
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 0a3d39b838..dd02c6294e 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -1814,6 +1814,28 @@ YAMAHA_DEVICE(0x7010, "UB99"),
- 		}
- 	}
- },
-+{
-+	/*
-+	 * M-Audio Venom
-+	 *
-+	 * The AudioControl interface times out on every GET_CUR request,
-+	 * which adds around 47 seconds to the card registration and
-+	 * freezes the device, blocking streaming.
-+	 * Using an explicit composite quirk to skip the mixer entirely.
-+	 */
-+	USB_DEVICE_VENDOR_SPEC(0x0763, 0x2084),
-+	QUIRK_DRIVER_INFO {
-+		.vendor_name = "M-Audio",
-+		.product_name = "Venom",
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_IGNORE(0) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(1) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(2) },
-+			{ QUIRK_DATA_STANDARD_MIDI(3) },
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
- 
- /* Casio devices */
- {
+ sound/hda/codecs/side-codecs/cs35l41_hda_property.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
+index 416d7bf3e..e14a87336 100644
+--- a/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
++++ b/sound/hda/codecs/side-codecs/cs35l41_hda_property.c
+@@ -85,6 +85,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "103C8C51", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8CDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8CDE", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 3900, 24 },
++	{ "103C8E60", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "104312AF", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 1, 2, 0, 1000, 4500, 24 },
+ 	{ "10431433", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+ 	{ "10431463", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4500, 24 },
+@@ -511,6 +512,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "103C8C6A", hp_i2c_int_2amp_dual_spkid },
+ 	{ "CSC3551", "103C8CDD", generic_dsd_config },
+ 	{ "CSC3551", "103C8CDE", generic_dsd_config },
++	{ "CSC3551", "103C8E60", generic_dsd_config },
+ 	{ "CSC3551", "104312AF", generic_dsd_config },
+ 	{ "CSC3551", "10431433", generic_dsd_config },
+ 	{ "CSC3551", "10431463", generic_dsd_config },
 -- 
 2.55.0
 
