@@ -1,175 +1,170 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB42532ED4E
-	for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 22:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787525739; cv=pass; b=cm66dCxlwSWgLBKTC74ef3sYwkU/gO+7peKaoN0MbONs+22vTwaKn00v786VTQXPHf3clFQVyOxy6NCx6mMfuFlJ2Vvf65xkPuUxbrUI2j+P/q/3DqFWLnETmBZf5x6r26WbJ9qTty2GX/4vZ09LkLS4a+AxBs+u6OTqru0rf/Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787525739; c=relaxed/simple;
-	bh=lGK1jeAFEMFLYD3h6AkNgEeazz7yZVCsfJzpRwa6lJU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=EGNL/nEJMVsMVRljE0JEYW1qNlzXPPooXROCzM6r69ztn/sPbKAiL/ejKRA041jACXoVSYuv8E31//Dv5W/Tn5Y5Mq4hD9e1u49EgjYRC0fzmbeViERX9GUi4z1ugBvStvhQHow/p/ncLZ/5f/Yncc14PqCjsC+s8KRhDFHKTIs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZAeFdCh; arc=pass smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F273374E46
+	for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 03:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787542929; cv=none; b=SOw8EKtdnhJq3aRmO9Nj87gelfM18qC28qIo5UEXNzMDhgg8xVQkVpU3SpgCH81tQmVA4lQ69xlCHZTC2cCk7EfDlaFu86o5SQ4F14jYHuexATtUbzt3tmFOEZDxqgjywJTMI8mxtSWS69jgbyDFjh8OvsorFTxZb9WRJsKtchA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787542929; c=relaxed/simple;
+	bh=Bi+Ox9ef2wQwe+B3fKR3Hh0MAHKmBGfDeUqYNOxKKOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NqEv8b+WSiHOQ2oEkiyWBft3+os1mUabPwDxvj1jgg+JzXwn+cCkCBsXTOqoOlwVHB4xGtgw0hEsH7C6mvcINWEEmL4FCB28zF+px4nY20BRj2KBtso3IL39qH18cLQjeKV9mQefWM7f2v7xGa5UImJJeJh2gjKgHZ/pJrovuPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=carbonforge.ai; spf=pass smtp.mailfrom=carbonforge.ai; dkim=pass (2048-bit key) header.d=carbonforge.ai header.i=@carbonforge.ai header.b=NxiSjUU0; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=carbonforge.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=carbonforge.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZAeFdCh"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7ec49608332so3246048a34.3
-        for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 15:55:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787525737; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jAT5RFwm3w6jtpq24V5H5JxVzA3lhW+wqj/wajwaa7LfSikzsv7wQqbOTblY4qPNLW
-         VipoDs5DsiOn/u0bYSarp3xYVE4WaHJMtDTFC7oXgDmnekEmBGu56dEvXD3mnemnnRi+
-         2Uns4We1wCKiTQRIXm583WyT6veu3VaWd/mPJGpfkDMcoUFXH6cfltdYPJ07885j61yu
-         glcPNkHnqW8LkjRiVeebPUrpBwpWTXOw9CensdVo96UQmF9fe+yrPxZwm8e249I9WeMb
-         xLlRZxwoxJ7+nJcjunNicGOTcs8MOXQoQ5koM26M740zQ8kOEg9uiX9dRDaKMwYNtGvN
-         yrOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=6nQM6BUPRFGBmcGNWVqBmiQItuS5E5NLa7Gr9IT1OgQ=;
-        fh=RQB0t50W0TgvpByp3gC87ewyPJ8Rw7Ii9E7CSeoNK/s=;
-        b=G9QhSRSpGoxItQ3VJC4s22ZE9edZWNTZ9TTOHpqkAqgklmzsASNrqq03G/laLNMLI5
-         rptEHjY6RPnSYmHW0QwKg2deeNHUjHG9aNGEy/aJWTUhDWfEeSzlD4CqUMDjlxR9wxOK
-         Bjky8xIjyiSNCOQYn/qC1gNHEPRrnJ/RVhT/ugFadSijWJTk2ubtaEEUgIarBHzR5Gjp
-         Waz7h2YzVxzbkcTDe6dC9oEWaHbZ75j/uizH2Z1fG5KHgV2eizEBQTs+35LQtqhNtBMt
-         ro1N/np8ZEC4+3Eo8ewIcKaOzaWMDn8xx0wLdw77x+VJD8WYetfKzQ1R1cQka4yq/ywJ
-         bOfw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=carbonforge.ai header.i=@carbonforge.ai header.b="NxiSjUU0"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38e3efab7e0so2141606a91.0
+        for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 20:42:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787525737; x=1788130537; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6nQM6BUPRFGBmcGNWVqBmiQItuS5E5NLa7Gr9IT1OgQ=;
-        b=BZAeFdCh/aJGN6KWM/7dplpiBmsmlRJ3Th9d1EjP3SK8M3ocejgn2OXzX/Lfy0cd2G
-         HNbZ/JMzEdHCYtYvHeNjFgrk6jw1uJzebwGz9kqr4v/GYqcFLmE1GO29iljC+Z5ddo7N
-         5IYDHafxYR+nFrhe51ptAjzoFPSqLQb6WwfVWu/HX/IdgUC29ecFXiDdfHt1/Ov2E8XD
-         u1v1v4BQIwRiaqJvHLh8hV8oREd8J+tq/qx1C3pey+dr4zeT123K3uEJ3YTcFyKSElA5
-         8FyqTjvwTO84IIvXlkZ1MdPy8qmItgivnf+NgjxClaThXUJn/kSlWEdA95kl64QZ0QUZ
-         Dhwg==
+        d=carbonforge.ai; s=google; t=1787542927; x=1788147727; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RJq744OREUPzqmKTdnKipIJtTwtRmFDRIV76EXzXeCY=;
+        b=NxiSjUU08P4WOBXGfq8qbAgX4gds897x17NOQQH1GyjPffi2bTbWn3A/GIEng2UFDF
+         Ewp4+HA64dTbSfd8JEJC9Yl5mIEofXfpnw09dd8iFYdjnYG+fjVGcID22iXXTU6j2Zq7
+         O9ZApRZngRL340EJ7aPr537ND8HfBZa1Hqorl3vTt6wPpKvxhoxpevYKM4KdlH9FaS5B
+         lArlPt49eJCsURtCXAQCaubnz+AWCHuXJKkSyi5dzDaLM8VS/3xv5kxHLPWhyfm5tobI
+         zMPXGAX+TKlPiS42RbBv41al9Ynr8ZzeckxjFbeKkdw3GmvUlHrufHUNjOlYdMFpIghx
+         Qtcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787525737; x=1788130537;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=6nQM6BUPRFGBmcGNWVqBmiQItuS5E5NLa7Gr9IT1OgQ=;
-        b=knKlgZB/lqSNHEWVvDzcF6ZGGoPSjM29so9GJR+lpcEPAaeR25SqmkERVeQnAs/c5S
-         KQHBcVVk9z+EypO4/gPwAI7xeV8ICLoWr1KglKBxzane5f361TR44kl4HW0nh4sqYr+h
-         c1sDoQaoApPYIVVvh1/kEYh8wnDDYr5UNnsAzx2hLsP0lrRwEWrakP+c6Zhv5Kq3PsSw
-         /f04VLnvZDDF97TR2yL92uMdbeXpUAKwCBV1oMCexFQ/GwhrSYk2I4cLFfV5efrUCLD8
-         lqDusK0aaPHBA7laiSyqe5AoqAu46F+ZTcvnBvUmNQrlvDYi9IJ+uilBLPTYwELhL+gb
-         iqlg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0XYcfbdJseLF7t0wc1EFt+w5WXqbYIi3QDmXju6lIxR726EzHgsRWs2AYjrLn8wU7YApUL7YlQO0DlQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++lEWJK29RHTHvRUR3PHZLYfLNzXfmm9WGUpMn9cHh3xCwLzHvt1
-	YCFVv9IGQ6w0bMzxN6h/LJFuLOsJFiNRVigj6pRg2+1akKA+usOXejjWnU90dMNhD3pHJxECH9k
-	YgFtTXOATIjgWrtUDO1hQRswuYYzRcmc=
-X-Gm-Gg: AR+sD12WgD3h0ZvPboLk3C5Dt/7mwZgG/BAIQF4mDmvRag2Dj+rZFlL8P6xqjd9gEqN
-	L5RcGblntV1WJl81BYBX5hxt1o0x2b88SgTsUO59z4c+sxrbBs2qmK3fOdBYk1VhxubV/mgkSxd
-	h188KdhdTXjlIU3h859cu2JCv1fP5/dFylWzPn6TdVR95Xy2zcYxlPw2MtDujDC/+5lt8pSMN0g
-	3t8MLgrOKBrnswY/Dv5MAl627EqpdvVrTvK9k8aROGsXxTKL91BXS5OQibay84HhVlPKMgIDZ3X
-	jarcXvBR0ONoYDl/yyHQZ7qzHKG/FgHelETl8BW+FBx6X48Sfh61r4pCWtEGgFKKk/5FUqOrD8O
-	0YXNvwpvH/6yNojCa8KaNDnzYK86hVfIy0vHuMyMk9NuJd4HzHgJtH20=
-X-Received: by 2002:a05:6830:4116:b0:7f3:a8ac:45fe with SMTP id
- 46e09a7af769-7f461510b2fmr23497950a34.11.1787525736693; Sun, 23 Aug 2026
- 15:55:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787542927; x=1788147727;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RJq744OREUPzqmKTdnKipIJtTwtRmFDRIV76EXzXeCY=;
+        b=K5g9lh7Z0LDKYBuGtbCLCt4Pwtg5cgrTJoGyBlP0wzCxx9OF4C4lyTOy0Slmqx84z0
+         gE2fsDf+KhvhhsC8ctYQo+csu56MqdwaJJsz4Zp7SHJ1zikzO+f13+tWhvsoz94+nW3e
+         kNppCPd6a6X7ptT0+ozMt2VW1cd7vPBYuAt7HmuB1hq5Srjh2rFS3YZReaR+gCKaex8F
+         QMSRkcFytEVwJAEiMoabWfw0HVFTRSzwbjXc/Oqg86nCKWXaXLAQQiO9rYRAkKMXD0vh
+         l8dYu0czcWRcvwihldsx70r3k8lpBe2ZB+kIKMxtQa1AAF41uOcT15umTXr1xHfxTDcc
+         7jdw==
+X-Forwarded-Encrypted: i=1; AHgh+RqOv7fdS4UZYl7w/op7yKEKwR2fPPfyHL28r0ptmH43woAVIIQye1bv0eLt/kylgCcaAtQJsKIE69UPjQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++kZk37kDQfyiz4evGgWl1m95rtcxf08R370PglXFHe5lthPRlKp
+	28yTcKWSIlFg/BQfPBBIWCvmyS1Gy53A41rQvpE5TSBRVLP/4TwYZ1ErIN9srJxLFXxl
+X-Gm-Gg: AR+sD11y7Z5261SqnyPP7nbecyQfFG4oeG1kQ/V0X/I4tRfsCiwkS7f5dX6wnkwd6C3
+	otPR25FYsMKKMYKZTyiBBKjj3aLsqqoqw9yoPGWjFMuiSnDKPzfxhuq0Zht2BhfQomRLgbYR5bu
+	//XuS9KlC/QLqjhGHmlFmDOWW55HrVWZGbkBvOoPxT1eTKSk2Nzr2W5/oxryhw4PsrcWYhNRqPF
+	jX2JimawKfjdFWCd5ub1qxGk8T8WnIM7q1ZDF6Rz7htiekf81BPrhe2qBN35C8vz+yd87brRmVb
+	b6/geS9irTjDnxrC4ABg3psTp6u9w6PWxybzy28dtj91T+1U02KUy8wed70eCLhO9nvh5w4SX28
+	y66ShIYnrnsugzdayk0r7+jD8gR9Y5ikV/DuaygSzqMvgtawwJf6jfSi1Ti9hV3xW+tzWaRubH3
+	y6dmlJg8LeSqu0ypAxo9joFDgwKn9IPgN7aZVjhH2UwZZv7MpBU2ImEzZpZGURrJiMQva4f4Tap
+	DTYDGOm6amCXlVhe8SJnzRiwQNjLE836ov2BQYjmDzCHBVu0IPvuS2KSq4XfTkzCujg6u6dsz2F
+	86fjKwCO6iveYY3GDIZdaO5d2nUUH4O60MD5/IAQ8FloDr903lRFYcYDTZBctFhxGO5dH5qkj08
+	HMm6klwvsc2P3xyCTqeEzmgmJdW8TY87eZYNbgdFsf6U=
+X-Received: by 2002:a17:90b:4ac8:b0:380:ce69:2669 with SMTP id 98e67ed59e1d1-395a0510f96mr34114570a91.9.1787542927288;
+        Sun, 23 Aug 2026 20:42:07 -0700 (PDT)
+Received: from jml-HP-OmniBook-X-Flip-Laptop-14-kc0xxx.tail8972ac.ts.net (45-19-222-18.lightspeed.sntcca.sbcglobal.net. [45.19.222.18])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f90e22f8sm19080206eec.13.2026.08.23.20.42.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Aug 2026 20:42:06 -0700 (PDT)
+From: jml <jml@carbonforge.ai>
+To: Vijendar.Mukunda@amd.com,
+	shenghao-ding@ti.com,
+	broonie@kernel.org
+Cc: venkataprasad.potturu@amd.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	sen@ti.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	jml <jml@carbonforge.ai>
+Subject: [PATCH v2 0/3] ASoC: fix SoundWire audio on HP OmniBook X Flip 14 (ACP7.1 + TAS2783)
+Date: Sun, 23 Aug 2026 20:41:50 -0700
+Message-ID: <20260824034153.50193-1-jml@carbonforge.ai>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Mon, 24 Aug 2026 03:55:21 +0500
-X-Gm-Features: AcwNN1Uwa6OcQQNdTAM_nRZ95jY-l9IKhkHybM4SNpQAplxIwOWLSG55WHdb9h8
-Message-ID: <CABXGCsPh2d=1tJzszkFFQS=WrtNh3pD+Mhv_uj9VE2w58QPQrA@mail.gmail.com>
-Subject: ALSA: usb-audio: guessed channel positions on a device that names its channels
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org, 
-	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
-I ran into this setting up a Topping M62 on Linux. It is a USB
-interface with ten playback channels and sixteen capture channels --
-five stereo pairs out, a set of inputs and loopback returns in. Nothing
-about it is a home cinema. But alsamixer labels its playback controls
-M62 Front, Rear, Center, Woofer and Side, its capture controls Mic
-Front, Rear, Center, Woofer and Side, and a player that lists ALSA
-devices directly offers "5.1 Surround output to Front, Center, Rear and
-Subwoofer speakers" for it. Choosing one of those gives silence or the
-wrong pair, and nothing explains why.
+On the HP OmniBook X Flip 14-kc0xxx (board 8EA1, ACP PCI 1022:15e2 rev
+0x71) no analog audio works: no speakers, no headset jack, no headset
+microphone. Only HDMI and the PDM microphone come up.
 
-The layout is not in the descriptors. Every AudioStreaming interface on
-this device declares bmChannelConfig 0x00000000. It comes from
-convert_chmap() in sound/usb/stream.c:
+The machine has two TI TAS2783 SmartAmps on SoundWire link 0 (unique_id
+0x9 and 0xC) and a Realtek RT712-VB on link 1. A matching entry already
+exists in snd_soc_acpi_amd_acp70_sdw_machines[], and the TAS2783
+codec_info entry already carries .component_name, so those parts are
+done. Three problems remain.
 
-} else {
-/* If we're missing wChannelConfig, then guess something
-   to make sure the channel map is not skipped entirely */
-if (channels == 1)
-chmap->map[c++] = SNDRV_CHMAP_MONO;
-else
-for (; c < channels && *maps; maps++)
-chmap->map[c++] = *maps;
-}
+Patch 1 is board specific: the BIOS never exposes
+"acp-audio-config-flag", so the ACP config lookup falls back to
+FLAG_AMD_LEGACY_ONLY_DMIC, snd_pci_ps declines to probe and snd_acp_pci
+binds instead. SoundWire never comes up at all, so the existing machine
+entry is never reached.
 
-for (; c < channels; c++)
-chmap->map[c] = SNDRV_CHMAP_UNKNOWN;
+Patches 2 and 3 are not board specific:
 
-The standard position list is walked positionally, so channel 3 becomes
-FC, channel 4 LFE and so on, while the honest answer the next lines
-already use for the tail -- SNDRV_CHMAP_UNKNOWN -- never reaches the
-head.
+ - 2 makes the driver find factory calibration data that some OEMs store
+   under a different vendor GUID. Affected machines run the amplifiers
+   on generic defaults with nothing to indicate anything is wrong; the
+   symptom is distortion at higher volumes.
 
-What makes this more than an unlucky guess is that the device does say
-what its channels are, in the field beside the one we read:
+ - 3 fixes silent amplifiers after system sleep for aggregated TAS2783
+   pairs.
 
-bNrChannels            10
-bmChannelConfig    0x00000000
-iChannelNames          11 Playback 1
+All three have been running on the affected machine: speakers, headset
+jack and microphones work, and audio survives suspend/resume.
 
-bNrChannels            16
-bmChannelConfig    0x00000000
-iChannelNames          21 Analogue 1
+To be clear about what was tested where: the changes were developed and
+runtime tested against v7.0 (Ubuntu 7.0.0-30), then rebased onto
+for-next. The rebased form is checkpatch clean and builds warning-free
+(sound/soc/codecs/tas2783-sdw.o and sound/soc/amd/acp-config.o), but the
+runtime testing was done with the v7.0 form of the same changes - I have
+not booted a for-next kernel on this machine.
 
-iChannelNames indexes the name of the first channel and the rest follow
-in order. Reading those string descriptors from the same Linux machine
-gives:
+Two things I did not turn into patches, because I would rather ask.
 
-11  Playback 1        21  Analogue 1      29  Loopback 1
-12  Playback 2        22  Analogue 2      30  Loopback 2
-13  Playback 3        23  AUX 1           31  Loopback 3
-14  Playback 4        24  AUX 2           32  Loopback 4
-15  Playback 5        25  BT 1            33  Loopback 5
-16  Playback 6        26  BT 2            34  Loopback 6
-17  Playback 7        27  Mobile 1        35  Loopback 7
-18  Playback 8        28  Mobile 2        36  Loopback 8
-19  Playback 9
-20  Playback 10
+First, firmware lookup. tas_generate_fw_name() builds a flat name, so on
+this board it asks for "8EA1-0-0x9.bin" and then "8EA1-0-9.bin".
+linux-firmware ships these blobs as ti/audio/tas2783/8EXX-X-9.bin and
+ti/audio/tas2783/8EXX-X-C.bin, i.e. under a subdirectory and with what
+look like wildcard components for the board id and the link. The driver
+prepends no path and implements no 8EXX fallback, so the firmware is
+never found and playback fails with -EINVAL. Locally I worked around it
+with symlinks under /lib/firmware/updates. Should the driver prepend
+ti/audio/tas2783/ and fall back to the 8EXX-X- form, or is
+linux-firmware expected to ship per-board names?
 
-That is the hardware, exactly: two microphone inputs, a stereo AUX, a
-Bluetooth return, a phone return and eight loopback returns. In
-sound/usb the field appears only in validate.c, counted towards a
-descriptor's expected length and never read.
+Second, channel order. tas2783x2_l0u9c_adr[] maps unique_id 0xC to
+spk_l_endpoint and 0x9 to spk_r_endpoint. On this unit that appears to
+be the wrong way round: with 0x9 as left and 0xC as right, a
+left-channel-only tone comes out of the left speaker. I have only one
+machine, so I have not sent a patch for it - can anyone with the same
+board confirm?
 
-Two questions, then, and I would rather ask than send a patch that
-guesses at the answer.
+jml (3):
+  ASoC: amd: acp-config: override ACP config flag on HP OmniBook X Flip
+    14
+  ASoC: tas2783: also look for calibration data under the OEM GUID
+  ASoC: tas2783: re-initialise amplifiers from .startup after system
+    sleep
 
-Should the positional guess stop where the position list stops meaning
-anything? For two channels it is almost always right and clearly
-useful. For ten or sixteen it is not uncertain but wrong, and UNKNOWN
-is both honest and already available.
-
-And is there interest in surfacing iChannelNames at all? The chmap API
-is positional and has no room for free text, so this is not a matter of
-filling in a map -- it would need somewhere new to live, and I do not
-want to invent that unilaterally. But devices do provide these names,
-and on an interface with ten identical-looking channels they are the
-only thing that tells a user which is which.
-
-Happy to write either patch if a direction is agreeable.
+ sound/soc/amd/acp-config.c     |   7 ++
+ sound/soc/codecs/tas2783-sdw.c | 130 ++++++++++++++++++++++++++++-----
+ 2 files changed, 120 insertions(+), 17 deletions(-)
 
 -- 
-Thanks,
-Mikhail Gavrilov.
+2.53.0
+
+jml (3):
+  ASoC: amd: acp-config: override ACP config flag on HP OmniBook X Flip
+    14
+  ASoC: tas2783: also look for calibration data under the OEM GUID
+  ASoC: tas2783: re-initialise amplifiers from .startup after system
+    sleep
+
+ sound/soc/amd/acp-config.c     |   7 ++
+ sound/soc/codecs/tas2783-sdw.c | 130 ++++++++++++++++++++++++++++-----
+ 2 files changed, 120 insertions(+), 17 deletions(-)
+
+-- 
+2.53.0
+
