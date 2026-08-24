@@ -1,113 +1,183 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146A929B77E
-	for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 20:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787603481; cv=pass; b=OX3p8FLeLv/h5zVqwL0h/9dbKdv6A96uIPBrX1xJ15sjRScLMdZo0HG3UxljOXBXfNgRyduG6eK696yGoP+NtyLnwCo1l3U6M3UF2b/Sw0Ke3RWjcYtPzQjg2eosGMJFWyXuYNQ/jdvwlyb7pNuk12VKKldbbqw6O+5qpX4YZRM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787603481; c=relaxed/simple;
-	bh=BdqbJq/msOBCkkDUN/S0Xt6oyVT9dXF1dmGv+lvM+gQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VI85KjEwKT6xdYku9uI+rhjMHgTMcGhCmQ+pbvcBjOrUvsVMVcm6JtX8wq0cGe6tczSayENccKQj8+Cl8rs3aNia23ODGkkz2dL2cGymdj6eR+HLnB6svr07pJ1V2H96ghw6ZYF6YJljVLzN+5TxhpGDcxkC6xxDyusXhefSXHw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nWlqgbfC; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FBE38F941;
+	Mon, 24 Aug 2026 20:44:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787604286; cv=none; b=PBo61Ia+iYYv5JF7pgsQZjr1cS++1j8BhGW4L/LHplqOZuXH146j0ZEbpCuEuEwwu4SCMwNDwCfctlgHAPPgjgLJ0GT0D0CnAObQSYBcXMIM0wTlLc9ATdLNz6dvKwiDuK3OJuG6ee1GKYBiGpBFzM6M7x69SrYdnHzObvXM+BY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787604286; c=relaxed/simple;
+	bh=NOA4vCbb1ZYoR2rPPmMusfS16XtzjtdN1T/mb8VJtC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qm9TSbp/QjhxqNShXvHwYZW37INt9NUXDPwVQISlKRo5NezsFhJ+ieMO3QJWHNfFb+mwM5tfEr0Zpj+RZmZhKsprFVFB19UsVUvhmu1K3WBL3VCvismLQUo+mMdli5w3GprgC7dRs/eHxhPEAadtSOpY6xmbVLnYLYyJQE/pXgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lr4Jvxn3; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nWlqgbfC"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6a41191c9a9so7863398a12.3
-        for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 13:31:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787603478; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HLmNzOoqohB57zKRe0F5X4zR6fcnYwUTmV/iWUa9yK/qeGOLxWR72pXuLkNgYcgBBy
-         fiM2H7bY0r/T8S9AxQzTm+M629XYSPIVxjd8pOnywCyMOiLpVYTtw2w6GELfHFCfy9pX
-         mqpAXMA59DMDLojWBP9S6ACm2y94VMVl75sQIErOE5lJ1atum9I9ectIPWe/684SIZhW
-         bDFL0k/JgPMU/xHOH7wv/MxarTcaw9a7gKsgOdJFNpO8RlJOw/Fg/vekJTO8EtJ58MT6
-         MGvZBgSgUe2b4IKEHQjWuGs6+ZXDGzqjHALxLSf6/mnhPi+Fc3n21uipSllVaWnoYXO0
-         GHTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=BdqbJq/msOBCkkDUN/S0Xt6oyVT9dXF1dmGv+lvM+gQ=;
-        fh=IQsWyj/0e/Asg2crSMfb8kbZxTNGaXw+MgPA2sexFyg=;
-        b=Wt+ubsldjbZuQInQy2zW7eB/U+lKLKv537Ej7a/EP7AyLu0F8wA3Su9G9Osn91XuVK
-         kIAOV0M79H293kvqJyKPOq/sD8KHNzkj3C00dOFz8MI2GXcFqQUclW+VbmHSPwnGLTEG
-         sZNEGjMLu4ERD+qaDaBRwtTtcPaQbGuMdt7diZa8Tu9LWJSdOCkpbqQ/EhcGvUoUnXg8
-         URBbnGRTothPrtzLmXs8ciACiNXwrpGPFHFRecyVXwdDy5J6vdOoq9+RKWYUu7TY8dip
-         Q8CidU+vTnX9UCKCJZC4JMBTobJPw/bs8YsAQceDV1ddfLkWw10ueILvP0XPq83+gxsW
-         snoQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787603478; x=1788208278; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BdqbJq/msOBCkkDUN/S0Xt6oyVT9dXF1dmGv+lvM+gQ=;
-        b=nWlqgbfCUk4i14/HFADUqn5jwOTG1QRMMp4Tq1+lIxPVntK5r+Oh/L7R35RrIocWYt
-         2cyyNyj2K8DBIz1Sree1Qx4Pbj0HcuXsCs0KdiNNuMAoxvkSbmr6pEJmbnzJHGOqrf5E
-         59WKZlY6pfS7I/siOFDeV3ufWKJtGh0MVX3UCn5m1mCXnanfkGli/uomJkx+3NSMt7fd
-         ktktZF+tcbyyguMO+QOAOCL1xPwGZoo+5bPn03opV9tHI6EqfPjRdCp98VRGstSS+vPr
-         6sWoi6Ra4dKyokxOGLzfw7WWV5Ao7Rwx7khw90jS3Luiw+Z/AGNO0/LWxWXH2wobLVp7
-         xq2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787603478; x=1788208278;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BdqbJq/msOBCkkDUN/S0Xt6oyVT9dXF1dmGv+lvM+gQ=;
-        b=aBrSDY88jLsmtUQxHWYQM9bit3l+1dD26uDZRzelrW8Iw0wr9AvjCp+bOYOuuhXXhK
-         YZp6zCgRPBLzQIHiKD2QhqZ0y6Lv5HbWrqERiuZhAoHi6ABrKuidjl6Tr8gq5D1HgxZ0
-         ovTce5NO9oyAaFzcrggQ00BnrdNFE4lrfwUfVcmm/jyaxFG63k3znUAmCHcGaooIX1FF
-         x22W5N1gGw+HrqJOExx3jvcpoLWJqsHKMS+nfi2Z1TLA4wvR609PoU8N55aOVDy/U/Xz
-         Pr5PtBfVr7KkffNL5A7mewtUiGRsTKD+vWbqlHo21WA+/JV+bJ8+lmPXKeH9ERtX7FHS
-         bp9Q==
-X-Gm-Message-State: AFuF++kekME5plT5WrSUQxz8/PVVESV2BcfD1V/QPp/4gXAcpQSdxYxF
-	5oSPmUVVhAOzO2Udjw1IBOAlRsC4YpvaEv+3YwNeuqoX2AaUP6SVSmBVMObpPtcK2vCpMckI27E
-	hT/WQ95gozFn90sYmRq+I47bgxWnYFqg=
-X-Gm-Gg: AR+sD1025PaZyRgSEI0m7LxBIozsxCsdMQFZ6C+91s/95m51ILkCFvm8yM/OrFdUMQ9
-	54faKmGMwV13f9mae3o4/uHHhUdKaoNOWfti+TSd7XpDz427i5QRQB+rN37gJe2VOzxjeR1sUPX
-	lCuq2kqp0qcOxj8TCwkVz8hAVOJwIZdPfw4qoc/WHw+VAfawxpC6D5bjTnqPaMQ+5nPVqyN/EPx
-	UD9PZjncy+H4nVCvd2yuhKcQSHG9SyQIY18Aw7aK3vM8YSa21Z1llKzXOarf8W/FvyEeYCO4o9T
-	S5HeocvSVyUSSKi6TRIE0zc+HOS8XK/Jt1GsLct2E6tJ4SfBYsEaxIi2nF069kHc3beGQrg2pAV
-	UPg7rrb/oOmmJnBE/N+1a4DVaQjnIgIe/h+2SxprQOe9Lwlp15Jp08hslKGq6eFgUpAywBw5dfm
-	sjBW1BHXpTu+B62Np/I/AjJuE24bMsn0Px6LPRgcX5JEqnK5tZfAre+Yga
-X-Received: by 2002:a05:6402:1906:b0:6a1:f8ad:6c0c with SMTP id
- 4fb4d7f45d1cf-6a42f1fce20mr35518310a12.16.1787603478279; Mon, 24 Aug 2026
- 13:31:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lr4Jvxn3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787604285; x=1819140285;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NOA4vCbb1ZYoR2rPPmMusfS16XtzjtdN1T/mb8VJtC8=;
+  b=lr4Jvxn3O7jUJAfvdEXa38Tv7i9MwWpFcnRbqjwTYGPwZBh3ac4QefiJ
+   F2zdlM9QvniWXpTNxzM/Vx9wy5dz77j2/zN/EjA+/oxndgWJtClOQLTNQ
+   h/6qkm7Ij5iYy/mtSad9OCotX9qdxTVnSl7/6NBCA33gUCgoZ3iGkuD/e
+   czuoeBWIwdJqhqYOFDAiw2nenxHH0ppPagLYip8kNWXYi9yoADO3Ny5gO
+   lrRZfKBALg1ZpEacrcesRSLbmEa37NNM7BZ7lYaYgbTTSM9FX+ZJpDu3o
+   BFIroioD/NIdkVa0n9j7wZKQ9eEUVQzRmzlbTaJf+QVf09V/yZAcepJIt
+   Q==;
+X-CSE-ConnectionGUID: QRjIHywbRx+hT/L+TjNsSw==
+X-CSE-MsgGUID: ZLBnJvGFQACbluE6s1nHoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="110852355"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="110852355"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 13:44:44 -0700
+X-CSE-ConnectionGUID: gOHQQFA4TaueFmkpeRvIcg==
+X-CSE-MsgGUID: 0iKgjXZuS3mbnxO942bOww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="291950997"
+Received: from lkp-server01.sh.intel.com (HELO 3532383e6126) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 24 Aug 2026 13:44:41 -0700
+Received: from kbuild by 3532383e6126 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wybWx-0000000046D-2932;
+	Mon, 24 Aug 2026 20:44:32 +0000
+Date: Tue, 25 Aug 2026 04:44:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>, linux-sound@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Michal Simek <monstr@monstr.eu>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
+Message-ID: <202608250423.yjFoKzoa-lkp@intel.com>
+References: <20260823050012.17067-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260823050012.17067-1-rosenp@gmail.com> <219e4bf6-f7c2-4651-b032-e9b1ea11feab@sirena.org.uk>
-In-Reply-To: <219e4bf6-f7c2-4651-b032-e9b1ea11feab@sirena.org.uk>
-From: Rosen Penev <rosenp@gmail.com>
-Date: Mon, 24 Aug 2026 13:31:07 -0700
-X-Gm-Features: AcwNN1Xu99UHBB5ytUNfFVDP-9LDqFJzbdzdqQIBKkcj-I4Wbr-XxYcud_LSSAE
-Message-ID: <CAKxU2N_Jt2kfV0mpLTa7s8sEYBgk=2L8_SvdRPWjgf-_QMtEnA@mail.gmail.com>
-Subject: Re: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Michal Simek <michal.simek@amd.com>, 
-	"moderated list:ARM/ZYNQ ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
-	open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260823050012.17067-1-rosenp@gmail.com>
 
-On Mon, Aug 24, 2026 at 4:41=E2=80=AFAM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Sat, Aug 22, 2026 at 10:00:12PM -0700, Rosen Penev wrote:
-> > Use devm_clk_get_enabled() to let the clock be enabled automatically
-> > and cleaned up on unbind, dropping the manual clk_prepare_enable() and
-> > clk_disable_unprepare() calls in probe and remove. As a result, move th=
-e
-> > clk struct member into probe, which is the only place it's used.
->
-> This doesn't apply against current code, please check and resend.
-I resent a version that I checked against master as well as linux-next.
+Hi Rosen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v7.2]
+[also build test ERROR on linus/master next-20260821]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/ASoC-xilinx-formatter_pcm-use-more-devm-in-probe/20260822-220012
+base:   v7.2
+patch link:    https://lore.kernel.org/r/20260823050012.17067-1-rosenp%40gmail.com
+patch subject: [PATCHv4] ASoC: xilinx: formatter_pcm: use more devm in probe
+config: arm64-randconfig-002-20260825 (https://download.01.org/0day-ci/archive/20260825/202608250423.yjFoKzoa-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 935bfc708590c60147a79c7df145bb6e68b1d388)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260825/202608250423.yjFoKzoa-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608250423.yjFoKzoa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> sound/soc/xilinx/xlnx_formatter_pcm.c:632:62: error: too few arguments to function call, expected at least 3, have 2
+     632 |                         return dev_err_probe(dev, "audio formatter reset failed\n");
+         |                                ~~~~~~~~~~~~~                                      ^
+   include/linux/dev_printk.h:278:20: note: 'dev_err_probe' declared here
+     278 | __printf(3, 4) int dev_err_probe(const struct device *dev, int err, const char *fmt, ...);
+         |                    ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +632 sound/soc/xilinx/xlnx_formatter_pcm.c
+
+   584	
+   585	static int xlnx_formatter_pcm_probe(struct platform_device *pdev)
+   586	{
+   587		int ret;
+   588		u32 val;
+   589		struct xlnx_pcm_drv_data *aud_drv_data;
+   590		struct device *dev = &pdev->dev;
+   591		struct clk *axi_clk;
+   592	
+   593		axi_clk = devm_clk_get_enabled(dev, "s_axi_lite_aclk");
+   594		if (IS_ERR(axi_clk))
+   595			return dev_err_probe(dev, PTR_ERR(axi_clk), "failed to get s_axi_lite_aclk");
+   596	
+   597		aud_drv_data = devm_kzalloc(dev, sizeof(*aud_drv_data), GFP_KERNEL);
+   598		if (!aud_drv_data)
+   599			return -ENOMEM;
+   600	
+   601		aud_drv_data->mmio = devm_platform_ioremap_resource(pdev, 0);
+   602		if (IS_ERR(aud_drv_data->mmio))
+   603			return PTR_ERR(aud_drv_data->mmio);
+   604	
+   605		val = readl(aud_drv_data->mmio + XLNX_AUD_CORE_CONFIG);
+   606		if (val & AUD_CFG_MM2S_MASK) {
+   607			aud_drv_data->mm2s_presence = true;
+   608			ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
+   609						       XLNX_MM2S_OFFSET);
+   610			if (ret)
+   611				return dev_err_probe(dev, ret, "audio formatter reset failed\n");
+   612			xlnx_formatter_disable_irqs(aud_drv_data->mmio +
+   613						    XLNX_MM2S_OFFSET,
+   614						    SNDRV_PCM_STREAM_PLAYBACK);
+   615	
+   616			aud_drv_data->mm2s_irq = platform_get_irq_byname(pdev,
+   617									 "irq_mm2s");
+   618			if (aud_drv_data->mm2s_irq < 0)
+   619				return aud_drv_data->mm2s_irq;
+   620	
+   621			ret = devm_request_irq(dev, aud_drv_data->mm2s_irq,
+   622					       xlnx_mm2s_irq_handler, 0,
+   623					       "xlnx_formatter_pcm_mm2s_irq", aud_drv_data);
+   624			if (ret)
+   625				return ret;
+   626		}
+   627		if (val & AUD_CFG_S2MM_MASK) {
+   628			aud_drv_data->s2mm_presence = true;
+   629			ret = xlnx_formatter_pcm_reset(aud_drv_data->mmio +
+   630						       XLNX_S2MM_OFFSET);
+   631			if (ret)
+ > 632				return dev_err_probe(dev, "audio formatter reset failed\n");
+   633			xlnx_formatter_disable_irqs(aud_drv_data->mmio +
+   634						    XLNX_S2MM_OFFSET,
+   635						    SNDRV_PCM_STREAM_CAPTURE);
+   636	
+   637			aud_drv_data->s2mm_irq = platform_get_irq_byname(pdev,
+   638									 "irq_s2mm");
+   639			if (aud_drv_data->s2mm_irq < 0)
+   640				return aud_drv_data->s2mm_irq;
+   641	
+   642			ret = devm_request_irq(dev, aud_drv_data->s2mm_irq,
+   643					       xlnx_s2mm_irq_handler, 0,
+   644					       "xlnx_formatter_pcm_s2mm_irq",
+   645					       aud_drv_data);
+   646			if (ret)
+   647				return ret;
+   648		}
+   649	
+   650		dev_set_drvdata(dev, aud_drv_data);
+   651	
+   652		return devm_snd_soc_register_component(dev, &xlnx_asoc_component, NULL, 0);
+   653	}
+   654	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
