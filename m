@@ -1,247 +1,178 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010049.outbound.protection.outlook.com [52.101.46.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB973769E6
-	for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 03:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787542947; cv=none; b=PvwHPSceCUbjlMp4cRKob6x1/fJUDlsnil/ClZj8dWlAqvfBmVsoT4Xc5E6vKebPTE4QtlNuzAwgry1OicDQSePtFc3nOHL0gZKFDf1Qe2xAyLxCT/qxyvK4hr0rPl0T+ILET30j8vmSMDu4BHwUqAmpqvC6GKVK2JK3R21BrUs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787542947; c=relaxed/simple;
-	bh=hVvWSR+4y9hh/YdFNcmxA7cJJldpDGkxTr0G5bzOUlc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cpnQ9bHkdOkhOSxOJWYCZ7Ps6ofQvv+U6v6Csze7sj2Gi8g122npJnqk9dkvNPicVASKdJ/by4TvZUjnccuP6BoRiJT4G8aSY/ulm6AEEDeAzbWLM3YEDvAe+rccL9sdTCTb8mrmQPW+V854vgKvLzaYgLsyHkJhwymNndMj0Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=carbonforge.ai; spf=pass smtp.mailfrom=carbonforge.ai; dkim=pass (2048-bit key) header.d=carbonforge.ai header.i=@carbonforge.ai header.b=QGt7zjEO; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=carbonforge.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=carbonforge.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E4E3AC0F6
+	for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 05:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787549675; cv=fail; b=uSjTiXSYTLbErI/lTne0dY0qdtGZRoSAWPwRXtNOE6j4F79CQzvHmPEWp3uHz9OUu4JmlHlIoG3tfA+A2j1AnlQeMvs+B/Ipjw26n4c39zmldhUTaHAyVC9iMs1Waq/sBnUXFjv84X6KD1PhZKXdRITv/rgs6BhMyPIapGnG2OU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787549675; c=relaxed/simple;
+	bh=Ke+WCT/yFYn3e/SW1Z4pfaqLhN2cWyYBRFB+w867Vss=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Z5jZ95Bht8Gko6momRFlrj/aieWY4V2XvVbNcU6BH69RaZaYSiG9l9xtwWQmnr7W0fi5adJMGootrWRJdPY2aKi/ZyCrSfbFYihi9idGlJ4wPQpOLRn5sHp33TGMNs0lcxrwD5dQI51uiX+tzsWaYsxEHNK9OBScI+4el2rN2Yg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jbLX6DPk; arc=fail smtp.client-ip=52.101.46.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=carbonforge.ai header.i=@carbonforge.ai header.b="QGt7zjEO"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so2876419a12.0
-        for <linux-sound@vger.kernel.org>; Sun, 23 Aug 2026 20:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=carbonforge.ai; s=google; t=1787542945; x=1788147745; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4p3op5z6ERoIS4WKnwW2MZ7Z2ZW1xOrWk04xWTMa0VU=;
-        b=QGt7zjEOPHw0YYtxjR54t2ukOchDslwmeJJkG9pO5Gdy9XtdfPz+CHGlFuLf35J2E8
-         SRl5wOZKKutQ+zPmJyWyl0j0XVmTi3cjz/8kV41iThnZ+Jh3UbmkJ8rAmSK46QpwysfF
-         P5L7DW3balPzx551W6HQfY1S7MQOJv10xLSmM5WlPSUcZAC7nzMX0KGyHKi4ppC8s6FU
-         So/gkQWKocQpT/eXapy2hph8QOHjVS4qtVfeEszvsKlddXwDSAQcff4zf8KzJPN2PjaJ
-         JhxEwsqv44+W2Vb1irBSx1+7N6TSXpt4G5soPRdTmXlvFRAPkanCThMPAZ7+E4zrESg8
-         7pPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787542945; x=1788147745;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4p3op5z6ERoIS4WKnwW2MZ7Z2ZW1xOrWk04xWTMa0VU=;
-        b=E4UcBt6wVpHt4Qk2WCqK2Alf3+gnl6qB3Oc3klowwI9l0ItSnHCvlaLKZrgyIcx1FI
-         UpNtcaqph9sd5GyQZo7Dx3vfzFf8oGZOXwFjqLGECcpS4A5PDaxCqyQ7mr6fyarz2iYk
-         4iJoJp1i2bxTWEERJ/UqbMTvBNFiLpaCQst7z6Aqk01tqmsLXWcTr20p8KfVkAn3Zgkb
-         xrtC/D3avClb7XG6wdpPSlQiRP9KE7K99kwCjBzaWyXFvBQVJVJYlRy1oPQdBshvngxB
-         JqNcX/VdXsXuw2R98KgQwRRAlZrQQfIuNoz9Bbd+AmZ+bnj30P24rwbS07Mhz0j8qKh6
-         Zacw==
-X-Forwarded-Encrypted: i=1; AHgh+RpSMBvz5odWMlWUiOV7lPY3U/IjPDL6+DGXQGfAumOoGmoKBPTvk7+4cT5pUHKQ2SH7bUdlRwOA6+6qxQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++nTdg9w67oblHLx4R5HTEfWxzVtFav3XLLCRDmu3o3xqiij+Z4i
-	vCpGL+J2JpNMVtDrbo6KLQfS/mxR0RCEzjkftNiwPOzZ6KsiuzA3LfPqGyIRVKe5Nrer
-X-Gm-Gg: AR+sD12r+7Xi77gSeCotCYY+3x8hN/hOAezP7LGo9AhLV0z9DLlAJT3XA4Ihvpc6mTJ
-	9Rc0/BGDYd4VxGrmj4UJRk7rQ4Hm7WsaQHirGaJ9pCiuvA2LVzBHrWbDfye+SRjrF91c1OdxaC5
-	Nd1WL+RaTeadHitwdgF1EydWmPFCwCZxUMsVRzufdaiTuPm3dAOFVS5p5CFiQkz+bbSMjmrtJkn
-	g+nuFNzEARXsA24Ujp1IgTLfF5m3mgA5hrdIq2DJOqIVP6mixdIe/BNvnRT1fHLlrwTrINkSd9j
-	BxBxUmkYIKnavIAhWRGW7swxfxalFZWNmHOaYEiR5LdLG1e5ahTzMWZ7NrsTvWTXgWA8i+ceiRK
-	d3tqqU0Eof0qgGhjyCAOI8Ofe4vMLdTuCnv/vz5o9kFR0sxomQcsX0kJ2AOxrWOcQdbrO2G48pV
-	tklu1lN+yyjhE0Ue0kVcC1fBaWUs/4LF5fWpvRtu1rBEV0Sb2BOeRsMID35PcHEaK8Y8YOSUr8a
-	1ZzOfeHbkckg7EPb2NiFwXBjZ2QFlKFHLZuGJ3mV/eSYiLycWsK9qalTdIkRnnNuyg0FPUjaP0w
-	GeIeuEi8IfyHlGXoTd1Twqw61JXMPk6FKgoUHUX3GwnRKW8jKTOEmdWu6ZqY/KZOulSqpA/xhYY
-	xh2ut1tB50noz47JLlAU0Lv9ShsICf+Gl2Y7ZlQ==
-X-Received: by 2002:a05:6a21:7d02:b0:3c3:a3fd:db0a with SMTP id adf61e73a8af0-3cd3013e240mr48114696637.16.1787542945012;
-        Sun, 23 Aug 2026 20:42:25 -0700 (PDT)
-Received: from jml-HP-OmniBook-X-Flip-Laptop-14-kc0xxx.tail8972ac.ts.net (45-19-222-18.lightspeed.sntcca.sbcglobal.net. [45.19.222.18])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f90e22f8sm19080206eec.13.2026.08.23.20.42.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 20:42:24 -0700 (PDT)
-From: jml <jml@carbonforge.ai>
-To: Vijendar.Mukunda@amd.com,
-	shenghao-ding@ti.com,
-	broonie@kernel.org
-Cc: venkataprasad.potturu@amd.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	sen@ti.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	jml <jml@carbonforge.ai>
-Subject: [PATCH v2 3/3] ASoC: tas2783: re-initialise amplifiers from .startup after system sleep
-Date: Sun, 23 Aug 2026 20:41:53 -0700
-Message-ID: <20260824034153.50193-4-jml@carbonforge.ai>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260824034153.50193-1-jml@carbonforge.ai>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jbLX6DPk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P7AF6mKm+zt+tNUTnQ844SKBvS6yS4LOjZ1iJhVD1OZ4SjvodCMRnYsG9ODMGmPD9gHAOHCIB5/ze7ZK9lw/nZWV1X/tu4m+GYlbeljKZ1gb2PaYKG+HGMvbVdRTKkEKN4Tc6lud8g72RHW0ziAii7xkvAw2Qqq6NeSd416s6PNZ87j5Shc9YZzK6zdJr49aEm9BjEaD2tFSU+TxxAgD4e7gW+KOQ5ZXtCT+f6kz2YrMYR0Xy75utPyaFkKghCtlyNonq1+CJ7I0qM+3th4FtKUpKl4aK3gt/KVj/UDkoLQcmSxrgkJUqcgNVcUbAMk30n05mxUSYC4iYXDUC480YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KNekpVxdrEK8W8amgcfZTym3NCunb/LM8LASgREUwAk=;
+ b=QodI0J0JST1kFwvs56coUyxOxqv59eQn0NLaOSf915YT9MEg718pSP2u1EFUgWt7Nx6QKNoN678YC5uYukYEfZXB+1F9jhqhB+eQ5waSjW1qqqvxgwW33cJYfvShkB4tmWX9Nm6dV8QHqAjqRV2N1Lzi5ebUvXP934euaTBaYIUSb8g3xvKo6Hr8o8g1BratjtmO8FkHnXCvZcxxjxpR3MrF+qzvABC0ZCUNuZcIaOllEVpwfe+IPz2Q1E5ZhlKA1lZLEef2plkztsBHz+C377AK76R41olUUdRyY8B/nnU9ieME7gowmR2zGF9ARGWqclhxbdevxL6rmopojG+Uhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KNekpVxdrEK8W8amgcfZTym3NCunb/LM8LASgREUwAk=;
+ b=jbLX6DPkMStAAxCpn4B5RdbhO8KbEpv7SEyYyI9JYXv57XTe0FEAmrutLfULAAtmqMVcGY7enrHcdfy48l8UcoTFfKfG5Qjd7m389XJUXSMPRaeyfaH69SDx4Tz7tB+ELFS0fAgqvqpdrLoAiBLDDDl0CZzJ4QUjZzj4do9SF7c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ CYYPR12MB8871.namprd12.prod.outlook.com (2603:10b6:930:c2::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.12; Mon, 24 Aug 2026 05:34:22 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 05:34:22 +0000
+Message-ID: <aaf48710-f1f8-4fe8-a6c2-e54019c3eec5@amd.com>
+Date: Mon, 24 Aug 2026 11:03:34 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] ASoC: amd: acp-config: override ACP config flag on
+ HP OmniBook X Flip 14
+To: jml <jml@carbonforge.ai>, shenghao-ding@ti.com, broonie@kernel.org
+Cc: venkataprasad.potturu@amd.com, kevin-lu@ti.com, baojun.xu@ti.com,
+ sen@ti.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-sound@vger.kernel.org
 References: <20260824034153.50193-1-jml@carbonforge.ai>
+ <20260824034153.50193-2-jml@carbonforge.ai>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <20260824034153.50193-2-jml@carbonforge.ai>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0002.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:272::17) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|CYYPR12MB8871:EE_
+X-MS-Office365-Filtering-Correlation-Id: e11b8d42-23fc-40fc-5343-08df01a159cd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|6133799003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	ShmibpL4PMCXhUbNUrFhfdA7m2dhElQruUWiyAUjNkQvpUeRJs7wpWgWbt5Le2ZapYX0cbn1MXKPiTBTYg4lK8YPWbCP/47S00hgZinwMqrP8MHINvrkqI4+Zf+eQj54wFkZ7HWSMTRWaCsx1LV2otb1olApMtteKXQ92j48IGWVgTDaHZ+fjGM7hPdxM2QvuzxxdLtHdjYuyoeJ7WOttt/PbjJcHNXs9MJtMTFEP5DsAciyv7PV6akP6xum1Nm3xcthPKCXrYMSJIsIV6IyfT9iTH6Sh/Kv4w8oDZvo9h48lWhnOq/FVGnGyrXf9OpJb0UdQrXVtO/CDpegVzxjYAZvqLIliEZPHnPAmn1k75A6GQOqt36bA0RBPbuouKJ4dSY800TmFQHZS5aW7LEjkokf/GWI8EaOb41y/JIcG5JBiTI4Q+hVKKTKoYCwko3rCWb+zfAOXlR9rq3VuOSKTh4ohyxe5FcwaY1dwbKWxG1sW6dO8oONSAApabLqwXQKQxKD5A4V1S7oTNcv88PP08agqQVtE1KrilY5UCVpiCuSueaSHoCwcAbDjEvtu9TwQthM1KO3fnG0z8TLYl+ZRJSkWkSgi9/T2oebyXovrRq/J31+JRD/542+QVo/2RhEaH/NEczNwo4f7vaxUvoxFWKLW4KBM6phvCV+qr4MUnA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?KzBrQ2s2NVR0VWZmMm53anI3Mlh3bnZZdk5OSjAyK0lRMjRZVnEvME1XbXB3?=
+ =?utf-8?B?TDErWHYrcDBSOFRMeTNKMXdDcmRJWWpYZFp3L1hIQWJJYlR2RGMwRGNBcE9y?=
+ =?utf-8?B?eTJtc2dSRTg1bTRDalE2NXBOdnlLQWhDa215MzBmWjBPMVpCaGhvekVxbSts?=
+ =?utf-8?B?NUdyaDBrcWwvK1NjQXFVWHB3VW45cFJ6OFRaUkRHbUkvUE5EblFMQkozSjFz?=
+ =?utf-8?B?ZVFDMjRkZzdBWFR4NGpPU3lxckVEenVvUHp0ZlVRUmpYK2VqRVJLZUtKUjRS?=
+ =?utf-8?B?YWlwSTZDU0dQT09YSzlTNnpBUGtCL1JuQy9BblMrbWc2MU9LM2tmSGtSTzN6?=
+ =?utf-8?B?VW5uYURDOU5RNEluMDVRN25jZVdQOVZQNG9aZmo3WitlZTh5QnFqVFFqdXcx?=
+ =?utf-8?B?azd1ci9sSEZZVTB0RVNIQ016Y1N3US9LSmJsK0lWWDNoT21ZckMyc08rTW5t?=
+ =?utf-8?B?UkVDSU93NjdqUGV0M2VCb1NUbUlaQzZiUms1b3plclVHTHlaOHIxdndXZWhF?=
+ =?utf-8?B?ZUdKQmFmMjh0SnVML0dwUmlOa0FTNW9hRkkyRklsV2JlL1BLcjJzRFI3SnNa?=
+ =?utf-8?B?bW40UWVTNFRTdUhoRDNvYXRqeVFUaVFpdFpDUFVydXpacEFZWTB3SVdFeUh5?=
+ =?utf-8?B?N3ZFaTRLQTc0ME8zRDNKSU9UOE1wN0NjeHR4a3Y0MTlJSVZxcUp6N3FlUWNx?=
+ =?utf-8?B?N3FnbThMeUdyMFZwdE9Rd3IzUkYxMnhiY042dElQMmxnUWJ1VmRnVi84Q0VI?=
+ =?utf-8?B?MzIvRXlSNGl1bCtoeTRJQ0tEWVQrRlF2UHphQ3Y0T1h3OFordkZja2JSdTUw?=
+ =?utf-8?B?aGdnZEwvazlOZFluWEh2dkdXU3VkNVZsNk1IeFN2SXhydkROYm9KbzlJNzN0?=
+ =?utf-8?B?Q0RuRUhIWjVwcllWcmJvcm1FVTV1NlNqdVMyQTlLOGN3MisxdnFzYnBDbkNG?=
+ =?utf-8?B?ZTUvOWZBRXBXUmowa2RrcVZPeHFkRCtyS2ZKMlp2aytTS1B1SDNVaEtGbE1H?=
+ =?utf-8?B?bUtBVFN4ckJwOHZvd1ZWQnFFM2M2UjdoRUVKby81UnV1emE0WWdTcGlLeGdt?=
+ =?utf-8?B?K0UvclJxMXRDeG9wekxsa2laQUdJUFZZa3Y3UGVMR3ZybkZzRkdhcHNOSTFS?=
+ =?utf-8?B?cktRMWR2UDh5M2ZmRVRSV2wwZnVoSkNJUGVLQXNMZWJWby9oUWZ2clFDODZZ?=
+ =?utf-8?B?SGF1c1ZQaFpVR0x5MTFlMUtxRmo2Q2pzczY2R1pka3lOeWZEWTZCVC9PY1hp?=
+ =?utf-8?B?VzVZQ2I5RE5uSjRsdGhBdzhJbWZqWTgrM2VIMGVQNzd1SUhIRmtBcVhVTzRz?=
+ =?utf-8?B?ekNuNllWelI3aDQ2cWk5VFRLWGd6KzdYblFUcHU0cGI1Ry8wTys5SktIUFJk?=
+ =?utf-8?B?cGt1bUxiVUdOME10dFRua00vS1U0OWZZMFlFWW5PSVBPVVMvT2IyYzN5N0lh?=
+ =?utf-8?B?Y2pXcmNmOTR3Q1BIeG5LbzFKeTVCaSttb1RyOEVWeVcxUDJqSHozdk9ScVdF?=
+ =?utf-8?B?c0ZHNVBRS3ZLeTc4OENrT3JKVzhJZGVXTVlROGdyM1pBbHBMdmVQdm0wenVq?=
+ =?utf-8?B?QVF1UFpBMjNwaXBtTldmR2hYcUZSbklaTEZVaEdHYjluWGpTQlB5aVdzL0dZ?=
+ =?utf-8?B?cmRsOGNIeXNRUm1KUFh2a3E1SWpSNzUxajFnUDZLd3NrMWxwVTQyOXpTQnhH?=
+ =?utf-8?B?Vnlsa1hBVkFBanYxbTQzV2hJZEs1V3N3RHQ0UE9GQmpPMk5XR1g4ZG5PMTNp?=
+ =?utf-8?B?cG50K0x6UkovdnFCeEh6MFordXVnZ2hwZnJPalhOK3o3TTZ3elJDejI0UmIx?=
+ =?utf-8?B?bjExTGwvZUM3UkcrMFpyVS8wK2JSRDVPblNuWjVvaEVyS0pScCtZSTFVMjdS?=
+ =?utf-8?B?TjR6YU80T09iTEhHdzlpckhaZVRndkpmN1FyejJ3eXFFMkJRUkdwSWI4WHhY?=
+ =?utf-8?B?akl4MmlET0JMcU1GZE8zbDcya1U1dHQ1ZFBqR1ovczN6ci9mOGdYT1BlL3du?=
+ =?utf-8?B?OE9KdXRvNlJpclhqdEx3d0pnTW1IYi96WXhHYmR4bTdEWXp6WGF3QXo4Y25U?=
+ =?utf-8?B?MU05L21DblVXdHAyTW8rVEVDZUpmNTRQSUZqRXF0MzNuekFPM1hMUEJWTVBI?=
+ =?utf-8?B?Y0VIVGc1Z1BISWl5OWx6L0RxVWtjWW9NOW5YdXEzOU1KcnF5UW5UQ0UyMEJT?=
+ =?utf-8?B?bnltdFRsNjc3Qk1nZ2RDSXNnOVJ4VzczTUlnYUFWTkVYUGVIN2U0dElPNDlJ?=
+ =?utf-8?B?L0I2eHFjdnBOZzhhVFExbFFhMGNCOEZGV3d3RS9QdEpwZ1FoMjFVK3lIcEJQ?=
+ =?utf-8?B?RjkvUExBbGlqNWJXeHZuQ1pxcm5Wd3dSMXZRaWx1aXNKeVNkTDJ5UT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e11b8d42-23fc-40fc-5343-08df01a159cd
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 05:34:22.1112
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ip1GKjAmO2Y88+TJ6ymf9F1KKPbHJBvoPSnb7fACIDUGw0WxDfx9cOENxDPpPeho0y2jh3EPJ/CPfDJgAvxebQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8871
 
-After system sleep the amplifiers come back silent. The firmware is in
-fact re-downloaded correctly when the peripheral re-enumerates - the
-download reports success and both fw_dl_success and hw_init are set -
-but the part still produces no output. Only a firmware download
-performed shortly before playback restores sound.
 
-Doing that from .hw_params is not safe when the parts are used as an
-aggregated pair on a single SoundWire stream, as they are on the HP
-OmniBook X Flip 14-kc0xxx: by then the first amplifier's port
-configuration is already in place, and resetting the second one knocks
-the first out. Exactly one of the two speakers then works, and which one
-varies from resume to resume.
 
-Do the re-initialisation from .startup instead. ASoC calls .startup for
-every codec DAI of a link before any of them reaches .hw_params, so both
-amplifiers can be re-initialised while the stream is still unconfigured.
-
-Gate it on a flag set from a PM notifier rather than on fw_dl_success:
-whether a given peripheral re-enumerates before or after the notifier
-runs is a race, so fw_dl_success is not a reliable indication that the
-DSP still holds its program.
-
-Signed-off-by: jml <jml@carbonforge.ai>
----
- sound/soc/codecs/tas2783-sdw.c | 78 ++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
-
-diff --git a/sound/soc/codecs/tas2783-sdw.c b/sound/soc/codecs/tas2783-sdw.c
-index 2ca634a6e..4c850a857 100644
---- a/sound/soc/codecs/tas2783-sdw.c
-+++ b/sound/soc/codecs/tas2783-sdw.c
-@@ -24,6 +24,7 @@
- #include <linux/pm.h>
- #include <linux/pm_runtime.h>
- #include <linux/regmap.h>
-+#include <linux/suspend.h>
- #include <linux/wait.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_registers.h>
-@@ -112,8 +113,13 @@ struct tas2783_prv {
- 	bool fw_dl_success;
- 	/* use fallback fw name */
- 	bool fw_use_fallback;
-+	/* set across system sleep, cleared once the part has been re-inited */
-+	bool force_reinit;
-+	struct notifier_block pm_nb;
- };
- 
-+static s32 tas_io_init(struct device *dev, struct sdw_slave *slave);
-+
- static const struct reg_default tas2783_reg_default[] = {
- 	{TAS2783_AMP_LEVEL, 0x28},
- 	{TASDEV_REG_SDW(0, 0, 0x04), 0x21},
-@@ -1051,7 +1057,47 @@ static s32 tas_sdw_pcm_hw_free(struct snd_pcm_substream *substream,
- 			    TAS2783_SDCA_POW_STATE_OFF);
- }
- 
-+/*
-+ * The amplifier loses its DSP program across system sleep and only a
-+ * firmware download performed shortly before playback makes it produce
-+ * sound again. Doing that from .hw_params is not safe when the parts are
-+ * used as an aggregated pair on one SoundWire stream: by then the first
-+ * amplifier's port configuration is already in place, and resetting the
-+ * second one knocks the first out, so exactly one of the two speakers
-+ * works and which one varies from resume to resume.
-+ *
-+ * .startup runs for every codec DAI of the link before any of them
-+ * reaches .hw_params, so both amplifiers can be re-initialised while the
-+ * stream is still unconfigured.
-+ */
-+static int tas_sdw_startup(struct snd_pcm_substream *substream,
-+			   struct snd_soc_dai *dai)
-+{
-+	struct snd_soc_component *component = dai->component;
-+	struct tas2783_prv *tas_dev =
-+		snd_soc_component_get_drvdata(component);
-+	s32 ret;
-+
-+	if (!tas_dev->force_reinit && tas_dev->fw_dl_success)
-+		return 0;
-+
-+	tas_dev->hw_init = false;
-+	regcache_cache_only(tas_dev->regmap, false);
-+
-+	ret = tas_io_init(tas_dev->dev, tas_dev->sdw_peripheral);
-+	if (ret || !tas_dev->fw_dl_success) {
-+		dev_err(tas_dev->dev, "re-init before playback failed, err=%d\n",
-+			ret);
-+		return -EIO;
-+	}
-+
-+	tas_dev->force_reinit = false;
-+
-+	return 0;
-+}
-+
- static const struct snd_soc_dai_ops tas_dai_ops = {
-+	.startup	= tas_sdw_startup,
- 	.hw_params	= tas_sdw_hw_params,
- 	.hw_free	= tas_sdw_pcm_hw_free,
- 	.set_stream	= tas_set_sdw_stream,
-@@ -1391,6 +1437,32 @@ static void tas_remove(struct tas2783_prv *tas_dev)
- 	snd_soc_unregister_component(tas_dev->dev);
- }
- 
-+/*
-+ * fw_dl_success on its own is not a reliable indication that the DSP still
-+ * holds its program: whether a given peripheral re-enumerates before or
-+ * after this notifier runs is a race, and a download performed while the
-+ * bus is still settling does not stick.
-+ */
-+static int tas2783_pm_notify(struct notifier_block *nb,
-+			     unsigned long action, void *data)
-+{
-+	struct tas2783_prv *tas_dev =
-+		container_of(nb, struct tas2783_prv, pm_nb);
-+
-+	switch (action) {
-+	case PM_SUSPEND_PREPARE:
-+	case PM_HIBERNATION_PREPARE:
-+	case PM_POST_SUSPEND:
-+	case PM_POST_HIBERNATION:
-+		tas_dev->force_reinit = true;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
- static s32 tas_sdw_probe(struct sdw_slave *peripheral,
- 			 const struct sdw_device_id *id)
- {
-@@ -1462,6 +1534,11 @@ static s32 tas_sdw_probe(struct sdw_slave *peripheral,
- 	/* keep in cache until the device is fully initialized */
- 	regcache_cache_only(regmap, true);
- 	tas_dev->regmap = regmap;
-+
-+	tas_dev->pm_nb.notifier_call = tas2783_pm_notify;
-+	if (register_pm_notifier(&tas_dev->pm_nb))
-+		dev_warn(dev, "pm notifier registration failed");
-+
- 	return tas_init(tas_dev);
- }
- 
-@@ -1469,6 +1546,7 @@ static void tas_sdw_remove(struct sdw_slave *peripheral)
- {
- 	struct tas2783_prv *tas_dev = dev_get_drvdata(&peripheral->dev);
- 
-+	unregister_pm_notifier(&tas_dev->pm_nb);
- 	pm_runtime_disable(tas_dev->dev);
- 	tas_remove(tas_dev);
- 	mutex_destroy(&tas_dev->calib_lock);
--- 
-2.53.0
+On 8/24/26 09:11, jml wrote:
+> [You don't often get email from jml@carbonforge.ai. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+> The HP OmniBook X Flip 14-kc0xxx (board 8EA1, ACP 7.1) does not expose
+> the "acp-audio-config-flag" ACPI property on its ACP device, so
+> snd_amd_acp_acpi_find_config() falls back to its
+> FLAG_AMD_LEGACY_ONLY_DMIC default. snd_pci_ps then declines to probe and
+> snd_acp_pci binds instead, which has no SoundWire support at all.
+>
+> The result is a machine with only the PDM microphone and HDMI: the
+> SoundWire codecs driving the speakers and the headset jack never come
+> up, even though a matching entry for this board already exists in
+> snd_soc_acpi_amd_acp70_sdw_machines[].
+>
+> Add the board to acp70_acpi_flag_override_table so the config lookup
+> returns 0 and snd_pci_ps can claim the device.
+>
+> Signed-off-by: jml <jml@carbonforge.ai>
+Reviewed-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+> ---
+>   sound/soc/amd/acp-config.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+> index 3021dc498..a545dd679 100644
+> --- a/sound/soc/amd/acp-config.c
+> +++ b/sound/soc/amd/acp-config.c
+> @@ -30,6 +30,13 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
+>                          DMI_MATCH(DMI_PRODUCT_NAME, "HN7306EA"),
+>                  },
+>          },
+> +       {
+> +               /* HP OmniBook X Flip 14-kc0xxx (Krackan Point, ACP 7.1) */
+> +               .matches = {
+> +                       DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
+> +                       DMI_MATCH(DMI_BOARD_NAME, "8EA1"),
+> +               },
+> +       },
+>          {
+>                  /* ASUS Zenbook S16 UM5606GA (Strix Point, ACP 7.0) */
+>                  .matches = {
+> --
+> 2.53.0
+>
 
