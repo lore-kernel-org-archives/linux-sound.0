@@ -1,205 +1,198 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAD13E559C
-	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 08:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FFA30C168
+	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 08:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787646528; cv=none; b=tL7/dpMd3iS87Qv0ODdR8YIbJG/fQQJO7ABt8Kw8tccPhzv8VpyDfAuK3vFJdtqy+9n67xXe8vBu5pET3/1deKPmXF9n7554Yk2wa6QgLfuOvD3UoclNMICGJwSK2jHviFEfHfXdvnk4xST9M+cKTMbkpSA2pxjCLLRGURDxaxI=
+	t=1787647298; cv=none; b=iJcznodbQPryiCfpVa2fslzoQ+ZZJpNiaQEvPLiI9AdFff8LzketPEoA3x0bl53yAL/abF5npB8Sq6YWrl8iFx/mVMe0TpC78MVT7rQ8+RzNsACqQpE/yJkREITuuf0tnnvEbulysz1OFbSwW/jmuJJ4p9jywR4npCKQwccw5N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787646528; c=relaxed/simple;
-	bh=O5hpInFvfc14DjYaeDAOoPBWveVvqnxG8FDaQf1BQIg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=YXaBAb0nMLBtvhVtCHbWrXIvBMEm9pOtgvAbQC8oyI81bGmIDjabrVz3iwaOsun+pvwVZAQwVLZ0SuxtZ0tbBU9oq7vWiArBam8wxcop3cBBL2+GFIRaJ2ISPqK9eB1uWJWgDuaDO9bs5i21MB213jbza9tx7cjmtVwXN2eDG/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rd8rhSDB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+aL339Hx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ulXori7d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C6epso+Y; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1787647298; c=relaxed/simple;
+	bh=1rGcIZc6xyJ10BN4yD1jgVoi+DZUD/QP5PKu48fGIKA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YjXEfKcJcbhVC2XAYxIqpRqWgxeUWpSzI/A4hpY+g8VI5P7OOg1Zvz9qYej6w36v70u/ifwg/o3GI4lxq1+5fk6DxmWl6fOKvruKNszeFxf0W78u0+NsalFWsEYhCCK7SIyqjeTd1aTRl3EyFV1yGg89wqIUXbsFhDz0h5/lPV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G0HqzCgb; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rd8rhSDB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+aL339Hx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ulXori7d";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C6epso+Y"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C94A086DA9;
-	Tue, 25 Aug 2026 08:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787646519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
-	b=rd8rhSDBwt5GYy/DHPkhaqJm79KZ92Li22LMx2qo3sZwXK0fnuPguDBN9wRWEU4kO5ahJ9
-	sPs2Nd1PAdKrslBrXh+zkYwyyWdoyvE1jOx0h6d2VHah/KZN4G/bbwxkFIF5TYuZrn83zK
-	Df1Pt9YRjZ6P9RT63AZb7Q4GboAkAyI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787646519;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
-	b=+aL339Hxay4PWUe8rkq2tFXKQqjNx9XVvdXvpDg3m4rl4YA5jPtmoOolgy15dd5LXzHKmx
-	WexFh0zpJVT67KBQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787646515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
-	b=ulXori7dfxB39jw9cGfRTE9G8RgLpRllBtyZ1EFLjHBmEoOQpCaL70nzGqFZaxrOO76PiE
-	DXMCPv0/Xw8U5NTcN4655HY50QTcIOBzNpYrf/zr+HBm/mZqnhTIWtcgJ6tkJQHRGmAOEd
-	QJsyHF4puWiin/K5qTxOLqWeaf7uc14=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787646515;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
-	b=C6epso+YRz4+hOfoCX72FfOolGXyyDgOKfymW3jyLcN4K2xvhNCPGSZp4gail3VCKXNDeu
-	CFKcuYHDsgGrJ1Bw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ABBA513331;
-	Tue, 25 Aug 2026 08:28:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2+prKDNSjWphDgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 25 Aug 2026 08:28:35 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: rawmidi: Another workaround for false-positive mutex lockdep warning
-Date: Tue, 25 Aug 2026 10:28:33 +0200
-Message-ID: <20260825082834.952365-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0HqzCgb"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-69c108fee7fso7281610a12.3
+        for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 01:41:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787647295; x=1788252095; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/rqGdLhMu9krZRKREk51+4+n08MuVi1R0FDvTEzZocw=;
+        b=G0HqzCgbgkf6cTsUMvh6jcrEnZdj3P5lZoRZ+OjHY491WYs7+oBUdJSagn0wHJfd5x
+         e9BBNB2hZg9CjJ205M3N6aaNYBJqhnpmspFz2NQu9Tjw10fHNhIOCqUNyoNRpjTX6UJY
+         6ZEXxHBiIkBexYL3kk3Rc/yPcUPQEGuwR0rAfZXtHifSmKNRIaUFYYJ4MTchvPOy82N0
+         K+7UI5Bw0t6lfdhsm1otzE5omr5PmfiDgCgTQtyouqxrU0+AVg4CJkwVxnERghBYL5az
+         5dEWrzX2ePyB1wwPpSaqqeGyhVQqnIYMzHrrMbU0fu6fv5pg8MSw0huR1Sc9vgYR+rMK
+         sKfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787647295; x=1788252095;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/rqGdLhMu9krZRKREk51+4+n08MuVi1R0FDvTEzZocw=;
+        b=NryGJvyVYAA/tM2f0x7mqASu4fePz0RuJVmzNgN9UMf8WRi3WgoLnumhnPDRJoDfgV
+         q19YgRB14Pzffy+SxCPQSO1Oubhq8MJ5u3kYH2PKJj2HndYEa22RUP1/L30vkOeKVyjy
+         rjL8M6ZxRnroyUZ/swOOA3RahwXjfK2VjUflD+RB2C4ApHXWEYlkIOsO1hR4FWjfM2v3
+         bXJ8tBwohe2gFmgxraoYJm6WjGapreceHmYISlSQvo3LX65sGL6vofGSf9vmMR60C7NI
+         c8gedGd2hf6bFtaZY5iDD6sU7Qei5am5cLfm1s9UCSkUYntenVIrI0LVpG0plt3lYhlD
+         K30Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrlPONhi4AzauwXZIStJAwcxIQx8PAXHSKodfJwnLVQdVmXQ46hkgHGRcgD2VGAeeVDomu/fxAsNTnwrQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++lSy0vySCsKb0CNWl1qEpn15RDsHpD9+T7K7rZSiWFqwC49clH9
+	KGWBcyvHFws+xy04ymZ2eyfX8jRzLxh90IzGkI8COhApmZFiGT/aTaU=
+X-Gm-Gg: AR+sD11X/fUDDAgm/IyvdswaVE5BH+0LAkCgj5ak6I4ZEK+h0Wa25U5eXUYKwMdCMV3
+	5pgXxGF4Htxwwe9Dzv3HJA++n5YDnwOMrxPZH5wgeaLL/eiATkyuJY+HNte6a3NjOTCVRdUpCib
+	VQxdo1A/DSFE6qYzBnjDwf6bYxg6OoZGz6zNn/lJUDJ7qfoo1AB7dWtCZSALNbQEg91VgSPR1oU
+	1V//DHDLiZmSpED4II3oqRfTdh0/n9GjwVXRvxOS4UX34DwIROR0Fd3BOfcfVqVe0hXVTsDqVuA
+	QyBFR0rhSpI9Ya2LT0uVwh9iLkHgah9Q/6bWl+xDnJ0pRkFTI+qkRqqtUOwS2+MQnV/zmK/mg+s
+	H30FUNUGbHsDKsGzd/p+1T0N9MSE9uET7nBww4J2oq/EYrhTvlw5ekonF7wlUmCLurYlUN+PFP/
+	sXii9kx5i24jEaFUZTWVO/dDGuVV4s00snNVGQuwaJT39KItg7rNhNxu1zLg+PwJKO3Tcng60u1
+	qq+P0H/fw==
+X-Received: by 2002:a17:906:f5a8:b0:c21:450d:cd7e with SMTP id a640c23a62f3a-c24925dbc76mr2418611366b.9.1787647295025;
+        Tue, 25 Aug 2026 01:41:35 -0700 (PDT)
+Received: from localhost.localdomain ([31.223.84.133])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24962bbea6sm1567513466b.27.2026.08.25.01.41.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Aug 2026 01:41:34 -0700 (PDT)
+From: "=?UTF-8?q?Habil=20Eren=20T=C3=BCrker?=" <habilerenturker@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Habil=20Eren=20T=C3=BCrker?= <habilerenturker@hotmail.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	=?UTF-8?q?Habil=20Eren=20T=C3=BCrker?= <habilerenturker@hotmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix speaker mute LED for HP Laptop 15-fd0039nt
+Date: Tue, 25 Aug 2026 11:40:14 +0300
+Message-ID: <20260825084125.4103-1-habilerenturker@hotmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
 
-While we attempted to work around the false-positive lockdep warning
-due to the nested mutex lock in rawmidi at the open path for a UMP
-legacy rawmidi, it didn't cover the similar locking at its close path,
-and this still caused another false-positive reports by syzkaller.
+HP Laptop 15-fd0039nt (SSID 103c:8bb6) needs a quirk to control the
+speaker mute LED via VREF100 on NID 0x1a (active-high).
 
-Add a similar workaround to snd_rawmidi_kernel_release() as done in
-the former commit 9c04742e73b3 ("ALSA: rawmidi: Work around
-false-positive mutex lockdep warning") to cover completely.
+This patch replaces the previous ALC236_FIXUP_HP_MICMUTE_LED_ONLY
+with ALC236_FIXUP_HP_15_FD0XXX, which covers both mic mute (GPIO0)
+and speaker mute (NID 0x1a) LEDs.
 
-Reported-by: syzbot+7d1edf0ff6a05961020c@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/6a8c7e4d.4d75e56a.c9a88.0052.GAE@google.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Use spec->no_shutup_pins instead of a custom shutup hook, as suggested
+by Takashi Iwai.
+
+Fixes: e711ebfadc9a ("ALSA: hda/realtek: Add quirk for HP Laptop 15-fd0039nt")
+Tested-by: Habil Eren Türker <habilerenturker@hotmail.com>
+Signed-off-by: Habil Eren Türker <habilerenturker@hotmail.com>
 ---
- include/sound/rawmidi.h | 8 +++++++-
- sound/core/rawmidi.c    | 9 ++++++---
- sound/core/ump.c        | 3 ++-
- 3 files changed, 15 insertions(+), 5 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 61 +++++++++++++++++++++++++++----
+ 1 file changed, 53 insertions(+), 8 deletions(-)
 
-diff --git a/include/sound/rawmidi.h b/include/sound/rawmidi.h
-index 88a6159364d0..4154035af414 100644
---- a/include/sound/rawmidi.h
-+++ b/include/sound/rawmidi.h
-@@ -179,7 +179,8 @@ int snd_rawmidi_info_select(struct snd_card *card, struct snd_rawmidi_info *info
- int snd_rawmidi_kernel_open_nested(struct snd_rawmidi *rmidi, int subdevice,
- 				   int mode, struct snd_rawmidi_file *rfile,
- 				   int depth);
--int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile);
-+int snd_rawmidi_kernel_release_nested(struct snd_rawmidi_file *rfile,
-+				      int depth);
- int snd_rawmidi_output_params(struct snd_rawmidi_substream *substream,
- 			      struct snd_rawmidi_params *params);
- int snd_rawmidi_input_params(struct snd_rawmidi_substream *substream,
-@@ -201,6 +202,11 @@ static inline int snd_rawmidi_kernel_open(struct snd_rawmidi *rmidi,
- 	return snd_rawmidi_kernel_open_nested(rmidi, subdevice, mode, rfile, 0);
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index 01b87267f..ec7b9ee67 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -1364,14 +1364,59 @@ static void alc269_fixup_hp_gpio_led(struct hda_codec *codec,
+ 	alc_fixup_hp_gpio_led(codec, action, 0x08, 0x10);
  }
  
-+static inline int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile)
+-static void alc236_fixup_hp_micmute_led_only(struct hda_codec *codec,
+-				const struct hda_fixup *fix, int action)
++/*
++ * HP Laptop 15-fd0xxx (SSID 103c:8bb6) Speaker Mute LED fix
++ *
++ * The speaker mute LED is controlled via VREF100 on NID 0x1a.
++ * This pin must remain powered (D0) even during suspend, otherwise
++ * the LED state is lost and the pin defaults to Hi-Z on resume,
++ * causing the LED to stop responding to mute toggles.
++ * Windows keeps this pin powered unconditionally, so matching that
++ * behavior ensures consistent LED operation across suspend/resume.
++ * The mic-mute LED is controlled via GPIO 0 with active-low polarity.
++ */
++static unsigned int hp_8bb6_power_filter(struct hda_codec *codec,
++					 hda_nid_t nid,
++					 unsigned int power_state)
 +{
-+	return snd_rawmidi_kernel_release_nested(rfile, 0);
++	if (nid == 0x1a)
++		return AC_PWRST_D0;
++	return snd_hda_gen_path_power_filter(codec, nid, power_state);
 +}
 +
- /* set up the tied devices */
- static inline void snd_rawmidi_tie_devices(struct snd_rawmidi *r1,
- 					   struct snd_rawmidi *r2)
-diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
-index bf504e27f73e..b688fd76f5d5 100644
---- a/sound/core/rawmidi.c
-+++ b/sound/core/rawmidi.c
-@@ -571,7 +571,6 @@ static void rawmidi_release_priv(struct snd_rawmidi_file *rfile)
- 	struct snd_rawmidi *rmidi;
- 
- 	rmidi = rfile->rmidi;
--	guard(mutex)(&rmidi->open_mutex);
- 	if (rfile->input) {
- 		close_substream(rmidi, rfile->input, 1);
- 		rfile->input = NULL;
-@@ -585,7 +584,8 @@ static void rawmidi_release_priv(struct snd_rawmidi_file *rfile)
- }
- 
- /* called from sound/core/seq/seq_midi.c */
--int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile)
-+int snd_rawmidi_kernel_release_nested(struct snd_rawmidi_file *rfile,
-+				      int depth)
++static int hp_8bb6_speaker_mute_led_set(struct led_classdev *led_cdev,
++					enum led_brightness brightness)
++{
++	struct hda_codec *codec = dev_to_hda_codec(led_cdev->dev->parent);
++	unsigned int val = (brightness == LED_OFF) ? PIN_IN : PIN_VREF100;
++
++	snd_hda_set_pin_ctl_cache(codec, 0x1a, val);
++	return 0;
++}
++
++static void alc236_fixup_hp_15_fd0xxx(struct hda_codec *codec,
++				      const struct hda_fixup *fix,
++				      int action)
  {
- 	struct snd_rawmidi *rmidi;
+ 	struct alc_spec *spec = codec->spec;
  
-@@ -593,7 +593,9 @@ int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile)
- 		return -ENXIO;
- 
- 	rmidi = rfile->rmidi;
-+	mutex_lock_nested(&rmidi->open_mutex, depth);
- 	rawmidi_release_priv(rfile);
-+	mutex_unlock(&rmidi->open_mutex);
- 	module_put(rmidi->card->module);
- 	return 0;
+-	if (action == HDA_FIXUP_ACT_PRE_PROBE)
++	switch (action) {
++	case HDA_FIXUP_ACT_PRE_PROBE:
+ 		spec->micmute_led_polarity = 1;
+-	alc_fixup_hp_gpio_led(codec, action, 0x00, 0x01);
++		alc_fixup_hp_gpio_led(codec, action, 0x00, 0x01);
++
++		spec->mute_led_polarity = 0;
++		snd_hda_gen_add_mute_led_cdev(codec, hp_8bb6_speaker_mute_led_set);
++
++		codec->power_filter = hp_8bb6_power_filter;
++		spec->no_shutup_pins = 1;
++		break;
++
++	case HDA_FIXUP_ACT_INIT:
++		if (spec->gen.vmaster_mute.hook)
++			snd_hda_sync_vmaster_hook(&spec->gen.vmaster_mute);
++		break;
++	}
  }
-@@ -607,7 +609,8 @@ static int snd_rawmidi_release(struct inode *inode, struct file *file)
  
- 	rfile = file->private_data;
- 	rmidi = rfile->rmidi;
--	rawmidi_release_priv(rfile);
-+	scoped_guard(mutex, &rmidi->open_mutex)
-+		rawmidi_release_priv(rfile);
- 	kfree(rfile);
- 	module = rmidi->card->module;
- 	snd_card_file_remove(rmidi->card, file);
-diff --git a/sound/core/ump.c b/sound/core/ump.c
-index 82ad155c56e6..d183c8a000bd 100644
---- a/sound/core/ump.c
-+++ b/sound/core/ump.c
-@@ -1184,7 +1184,8 @@ static int snd_ump_legacy_close(struct snd_rawmidi_substream *substream)
- 		ump->legacy_substreams[dir][group] = NULL;
- 	if (dir == SNDRV_RAWMIDI_STREAM_OUTPUT) {
- 		if (!--ump->legacy_out_opens)
--			snd_rawmidi_kernel_release(&ump->legacy_out_rfile);
-+			snd_rawmidi_kernel_release_nested(&ump->legacy_out_rfile,
-+							  SINGLE_DEPTH_NESTING);
- 	}
- 	return 0;
- }
+ static void alc285_fixup_hp_gpio_led(struct hda_codec *codec,
+@@ -4096,7 +4141,7 @@ enum {
+ 	ALC236_FIXUP_HP_GPIO_LED,
+ 	ALC236_FIXUP_HP_MUTE_LED,
+ 	ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF,
+-	ALC236_FIXUP_HP_MICMUTE_LED_ONLY,
++	ALC236_FIXUP_HP_15_FD0XXX,
+ 	ALC236_FIXUP_LENOVO_INV_DMIC,
+ 	ALC298_FIXUP_SAMSUNG_AMP,
+ 	ALC298_FIXUP_SAMSUNG_AMP_V2_2_AMPS,
+@@ -5839,9 +5884,9 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc236_fixup_hp_mute_led_micmute_gpio,
+ 	},
+-	[ALC236_FIXUP_HP_MICMUTE_LED_ONLY] = {
++	[ALC236_FIXUP_HP_15_FD0XXX] = {
+ 		.type = HDA_FIXUP_FUNC,
+-		.v.func = alc236_fixup_hp_micmute_led_only,
++		.v.func = alc236_fixup_hp_15_fd0xxx,
+ 	},
+ 	[ALC236_FIXUP_LENOVO_INV_DMIC] = {
+ 		.type = HDA_FIXUP_FUNC,
+@@ -7345,7 +7390,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8b97, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
+ 	SND_PCI_QUIRK(0x103c, 0x8bb3, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
+ 	SND_PCI_QUIRK(0x103c, 0x8bb4, "HP Slim OMEN", ALC287_FIXUP_CS35L41_I2C_2),
+-	SND_PCI_QUIRK(0x103c, 0x8bb6, "HP Laptop 15-fd0039nt", ALC236_FIXUP_HP_MICMUTE_LED_ONLY),
++	SND_PCI_QUIRK(0x103c, 0x8bb6, "HP Laptop 15-fd0039nt", ALC236_FIXUP_HP_15_FD0XXX),
+ 	SND_PCI_QUIRK(0x103c, 0x8bbe, "HP Victus 16-r0xxx (MB 8BBE)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8bc8, "HP Victus 15-fa1xxx", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8bcd, "HP Omen 16-xd0xxx", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
 -- 
-2.55.0
+2.47.3
 
