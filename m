@@ -1,111 +1,157 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD293D47C8
-	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 07:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B016A33D51A;
+	Tue, 25 Aug 2026 07:55:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787643815; cv=none; b=P/Cgvqi/kR9tgZF+Osowg0fq63txSPVfcZOueJEn2y3VoooQCSJeatAS/QYulhSD4m6/jMitZD08owMWuRvdtvLr5YIDZW/zKZfPtzoPstMwhH5LrL8/E0unwX7/GyeU/UsEJKKtm/euBY5EIkWC1hbXC/O6238ujTSiaJwreh0=
+	t=1787644537; cv=none; b=hupIoGAc/GOLwz5iCxdG0SwT+U3iwgrNqOaCKf//5CT5+wVwFJMB0ER5Cpvl+SAFAxFN4xk5AduaS1/Ets83lLZBs1Tff8haXHaAoi/G4nszvlNlyMyo26bJT0EmnKXqhPp1kQWirNMLAyndbxI/M4B2J2GaumZQt5FMAnkG/1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787643815; c=relaxed/simple;
-	bh=sLg8Ckk/hQ3NBVs8nL/RdwFJItCXw1At4jpUvXP85Gc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nBGwqRsAx3HVgPMB1YIZUiYw0wQfSdNWpqinjca4FRydx0nSdIpGNm46Yjb+O4hXldB0muKTBOtSzGOerbB1LJmsdMd5X9J0jpZtntVVNinS3kXe2ObLp5UIqPvxUPBJJf7aRV3T6vcAgQQ1qnswsvwpwAu/BwLTdK8NzkthWic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gWJZ9te8; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787644537; c=relaxed/simple;
+	bh=w6k4yxUIlgq3rTwngzAe8W4NW320TicNmCK7vltjCFY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TtizN82Ite43fwtLthwzwqc6eVTFXuDaARcvfR2ZLsQZrn3hSN4/IbCI4iyo/C0na6pseDBUq78vYj5X5yJX6ER05fR4RrQXJCyVQa/hCo9v2YHTKGMEFVSiIIVfBMWHDTd5t/g8v5QRwGwAa/+rP+lEBsqpgc65sQ2+3D5nADI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dwQRPwY9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CKTZjF9m; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rgige9R/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HIaoTn/l; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gWJZ9te8"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a051904222so5378621a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 00:43:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787643812; x=1788248612; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=53BGkIX3YCtdYzektyoVFu0+GpJUKht1d2NbX/XeaVI=;
-        b=gWJZ9te8J4edl5o0rlinczfhmd7/K7qHnv6x2x1sG8TrApK4meazHAymh4Li+euUky
-         q86pykaLRU7ZpeN5cmKXTSS+b3A32FDA24UL0nzk4vWx7KLLEwRISsWeqi7FGkVVbKE4
-         l9bkwmBEhXTMv04T2ESX4s7EvwMq1L5ZwYpcOs3Tic5Jpw/ZnE4Ox/fBJ8iKw2sXnGD+
-         opa/TPH60fDQNQzpMSEI4+cbjgihYFtfOIVhN9POHLImbFPz2VtHgAX4xzBcpcMp4W6e
-         9LogdN+f7AdE/N0RcdawYLTporRMuFC84g8rN6X7NHceNfZWV2q+CrOlUOCKCfR/wNpi
-         9cZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787643812; x=1788248612;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=53BGkIX3YCtdYzektyoVFu0+GpJUKht1d2NbX/XeaVI=;
-        b=ZscscNA44HZuRqq8e21dFH2JoI3o3fdmgOGpJosAHaKzK177osAXv9REVcZ7vXWgc8
-         vnTMOAm+gFvTnwFBPpJ4Eygy3jUsjFyloj6rfIImnfVtA8zBUP2CXwE8Sdu5Dl4LKxhg
-         VE9m9guVRs9CgwyrqckiMmhXWRNqKIXz/aQYMjTQKKhwvITyxeKpFRLtnIgx0TGGZjQF
-         I8NNmKTCvL6Tq3NrIdi+S0k7GH6uhMfQA1Nv6fB3CndU/6Un3XMwPak/ksgXRfAkuUTa
-         OtAcAhQGdmB2GoCR32Op4Ua6csKHe1hzJz9sFVPiZHDqkxBa/YmbOECejL7PSfelEEcm
-         OqOA==
-X-Forwarded-Encrypted: i=1; AHgh+RqbO9VuCLUt0QTGBYoG4RhSEMzlszXhEbA7GNOTF6995EpKhDUSHcLpcJjOcUktM/rfgvk4VuLNR5G4gg==@vger.kernel.org
-X-Gm-Message-State: AFuF++mR/ZHUSEyKdwdcne+H5KK0PO5H3PJWYYRPikYk1CihD1GCLkys
-	Np1MD75KHlR+fhvyw6zGhLpQMw2XydkoNqOq8Hmic5GIEAr41X0PzkYU
-X-Gm-Gg: AR+sD13D7I5cvT2M18IA9FAMc2f069nGTHCUO9pQ29WLxWmy+2e+qCp0qGiOjdsKCAd
-	9TRyqsevvCdDANl3VkEtZHL2JHLonmpTyEJxCxhTvI87i4prQO8Oifrw/PbOpdDYzDOUcj57C1f
-	pJLv9GKhA+BJO4P/4M9MSoIRfxHn5FCHPKcDgVp/r1A7oyup8b+KWpMGDNHEUpRdEUDWi8GXzHg
-	wWF35upNWnOpqEGJZo89F/f5NNFMjHzo6YrDl4x2qv4CPg2/XgaQaszTERUaTiYvo2nZA5Jj5Ey
-	c3s2oO6RWCCV5hOfsSipw5WxZ4bfn3yzpl8V6ZVmBgUOb0x1Wro1AMnFjvJvPNH8AotrxZ38Dkk
-	lvYwDfgsrBjIAqKt6sH8/cp2MFjaJ3FN09adOGm3USMG0gMoaD+aILaV27ULCpy2a54dnl/bPSr
-	UJ2imfuWPHG2GLgEeqj6qTSBysS7UWDjsD2nBNrWgJatXeq+g4/97DVsn518tV2VqIzw8=
-X-Received: by 2002:a17:907:72c5:b0:c24:d6f0:1223 with SMTP id a640c23a62f3a-c24d6f20633mr953718966b.12.1787643811777;
-        Tue, 25 Aug 2026 00:43:31 -0700 (PDT)
-Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24966f9cbcsm1852865066b.29.2026.08.25.00.43.30
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 25 Aug 2026 00:43:31 -0700 (PDT)
-Date: Tue, 25 Aug 2026 09:43:27 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload
- path
-Message-ID: <20260825094327.606072e9.michal.pecio@gmail.com>
-In-Reply-To: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
-References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dwQRPwY9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CKTZjF9m";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rgige9R/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HIaoTn/l"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 64B7586D79;
+	Tue, 25 Aug 2026 07:55:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787644529; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xcEOKAMSRfvcvkRR8DohH3uU+oR2/7ZyFshxDbXUS1Q=;
+	b=dwQRPwY9sZuwSXU8oTeBJnF85KlnVBKouTiRv1BzIAIgWmftvpW2o2PlszAR04Jc4EsdGK
+	kNXcIadpv4TO+IuDeEdoTAAA01x/v72Z14N82ofR3NGF5FJTnnXSADu5iYY9Tz84XMe0KG
+	GdMF/ycdyJUWDmNoF9Ltb7/2nQg4+lA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787644529;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xcEOKAMSRfvcvkRR8DohH3uU+oR2/7ZyFshxDbXUS1Q=;
+	b=CKTZjF9mGFPaY6w2S0BF6H9PElArL+CbgSP9PXZGhuFmgTkMNKzJljIVS0XF8I+1J/InGs
+	WnQIrFgeeqqYfrDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="rgige9R/";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="HIaoTn/l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787644525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xcEOKAMSRfvcvkRR8DohH3uU+oR2/7ZyFshxDbXUS1Q=;
+	b=rgige9R/DujZJDrU68a0yn51ac7mFWJwlEkfRYH5RZHcIse18gEUEe6CzscMTaW542tKzM
+	9PXPMr5oBNMQlMucq04/4f4NzcCY43QJugPoI4O8fRxqINSbIN9oggftWXEibLzhUNkAbm
+	9B9PnQNPhqv0Mi98uakAQv3LMycCJ1Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787644525;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xcEOKAMSRfvcvkRR8DohH3uU+oR2/7ZyFshxDbXUS1Q=;
+	b=HIaoTn/lvCHwXtgERq103Ba37AGuWOODV0R7j0GWrCJdQ1rpltMgb5fvrf0sqraxKZ/1Ee
+	YQ12Ta0J/d22FxDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1EC901339D;
+	Tue, 25 Aug 2026 07:55:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qrMjBm1KjWoObAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 25 Aug 2026 07:55:25 +0000
+Date: Tue, 25 Aug 2026 09:55:24 +0200
+Message-ID: <87mruatz0z.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Federico =?ISO-8859-1?Q?Valent=EDn?= Andrade <fandrade@frba.utn.edu.ar>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kuba@kernel.org,
+	alexander.deucher@amd.com
+Subject: Re: [PATCH v3 1/2] ALSA: usb-audio: Skip reading sample rate on M-Audio Venom
+In-Reply-To: <20260824140211.17003-2-fandrade@frba.utn.edu.ar>
+References: <20260823152733.740731-1-fandrade@frba.utn.edu.ar>
+	<20260824140211.17003-2-fandrade@frba.utn.edu.ar>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 64B7586D79
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Hi,
+On Mon, 24 Aug 2026 16:02:10 +0200,
+Federico Valentín Andrade wrote:
+> 
+> The M-Audio Venom (0763:2084) is an USB Audio Class 1 compliant
+> synth with an integrated audio interface, it does not implement
+> GET_CUR on SAMPLING_FREQ_CONTROL, hanging up if requested on
+> endpoint 0.
+> 
+> The first class request issued by the driver after enumeration is
+> a GET_CUR on endpoint 0x02, freezing the device's USB microcontroller.
+> Timing out on every transfer afterwards with -ETIMEDOUT, such as
+> SET_INTERFACE, so neither the mixer nor any streaming interface is set up.
+> 
+> Analyzing a USBPcap capture of the Windows driver I found it never
+> requests the sampling frequency, as the synth exposes a single
+> discrete of 44100Hz on both streaming interfaces, thus asking for it
+> is unnecessary.
+> 
+> So I applied get_sample_rate to avoid this check, and
+> disable_autosuspend because the synth doesn't come back from being
+> suspended.
+> 
+> Signed-off-by: Federico Valentín Andrade <fandrade@frba.utn.edu.ar>
 
-On Mon, 24 Aug 2026 19:06:54 -0700, Wesley Cheng wrote:
-> On some environments, 16kB pages can be enabled from the Linux subsystem,
-> which manages the IOMMU mappings for the audio DSP within the system.  In
-> the current design, the following assumptions break when 16k pages are
-> utilized:
->   1. xHCI ring size is equal to PAGE_SIZE
->   2. Ring addresses start at the beginning of a page
+Applied both patches now.  Thanks.
 
-FYI it's worse than you think - xhci_ring_to_sgtable() returns wrong
-data and uses some allocation out of bounds on these systems. Quickly
-scanning through the patch I haven't noticed any changes there.
 
-> When the USB offload driver maps the rings (w/ the audio DSP SID), it is
-> set with a 16k granular, which is a problem, as several xHCI rings could
-> exist on the same page.  This is because the rings are currently allocated
-> from the segment_pool.  Hence, potentially mapping non USB audio related
-> rings into the region accessible by the audio DSP.
-
-If that's a security or reliability concern, perhaps each sideband
-instance should create its own DMA pool, as opposed to allocating every
-ring segment on a separate page?
-
-I suppose each 'xhci_ring' could keep a pointer to its segment pool and
-things would work for everyone, with very few changes.
-
-Regards,
-Michal
+Takashi
