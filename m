@@ -1,159 +1,205 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8810E3D47AA;
-	Tue, 25 Aug 2026 08:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAD13E559C
+	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 08:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787646189; cv=none; b=u39qapCah6qGSoArV8ROmV7CKnlpCWBndQDAF2YVY89tjsfnR+mY3aWeSDVmhLhgabplD2b6LhRvO5uR14n7bwji0qcPVBwZfKz5VD9t3b3CvUqKhW0wglGQSNewMEdCOAKW3RqBw9jbEY99Et52bVa4k3/Jdt1YDNMYnX1VE5k=
+	t=1787646528; cv=none; b=tL7/dpMd3iS87Qv0ODdR8YIbJG/fQQJO7ABt8Kw8tccPhzv8VpyDfAuK3vFJdtqy+9n67xXe8vBu5pET3/1deKPmXF9n7554Yk2wa6QgLfuOvD3UoclNMICGJwSK2jHviFEfHfXdvnk4xST9M+cKTMbkpSA2pxjCLLRGURDxaxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787646189; c=relaxed/simple;
-	bh=iRir5Y2X32/DlvSLyBdiJYCyNQ6RavhFSpX54pSsFtE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cE+u4jAGASe7Dcuud8S7UwSEPQWSsp7ZQ9owU2jkW1U/B+gi2GipBM4d95/sRvzn7HaXPAOZzWtvXLF1Jk+lYd33y9IxmNz7yJ6rpJAZqlIT+EWhoGgHxOHF6vA5Jp8jIIrp656gG53WIuGrGanLzlmZW2oKcnPNlYunJaILUCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rweGdF3Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4JxGcV1P; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=b67PDkLW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+8yQrdNa; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1787646528; c=relaxed/simple;
+	bh=O5hpInFvfc14DjYaeDAOoPBWveVvqnxG8FDaQf1BQIg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=YXaBAb0nMLBtvhVtCHbWrXIvBMEm9pOtgvAbQC8oyI81bGmIDjabrVz3iwaOsun+pvwVZAQwVLZ0SuxtZ0tbBU9oq7vWiArBam8wxcop3cBBL2+GFIRaJ2ISPqK9eB1uWJWgDuaDO9bs5i21MB213jbza9tx7cjmtVwXN2eDG/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rd8rhSDB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+aL339Hx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ulXori7d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C6epso+Y; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rweGdF3Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4JxGcV1P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="b67PDkLW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+8yQrdNa"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rd8rhSDB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+aL339Hx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ulXori7d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C6epso+Y"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 64DFB86D5A;
-	Tue, 25 Aug 2026 08:22:57 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C94A086DA9;
+	Tue, 25 Aug 2026 08:28:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787646181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RgUTuYEYetTfhpzkZVAqAjRopJP04QIEdaikLyS24RM=;
-	b=rweGdF3YVr1VEoiOQ9vScCZbmhfxEmhN+kqOCl7QX2IiOclCboWUwds0E/1hkNDzB0jnHU
-	u0Ndm0df2Q9w7pJQQzKnRaB69YC0/qJhHqic94IUPMYbk/uJw8JdiObWhntcZP0lDMRgtB
-	SKLuzHuptJdaC7sjGeh6Ifb+X12LiM0=
+	t=1787646519; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
+	b=rd8rhSDBwt5GYy/DHPkhaqJm79KZ92Li22LMx2qo3sZwXK0fnuPguDBN9wRWEU4kO5ahJ9
+	sPs2Nd1PAdKrslBrXh+zkYwyyWdoyvE1jOx0h6d2VHah/KZN4G/bbwxkFIF5TYuZrn83zK
+	Df1Pt9YRjZ6P9RT63AZb7Q4GboAkAyI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787646181;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RgUTuYEYetTfhpzkZVAqAjRopJP04QIEdaikLyS24RM=;
-	b=4JxGcV1PpQG1ncmgM8hLTo/pmUTN/9H58KrUhBWwUpkuHUmp32TcTDqbT3SU2AKU8Eln+H
-	/UlCGKG4ovTw2CBA==
+	s=susede2_ed25519; t=1787646519;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
+	b=+aL339Hxay4PWUe8rkq2tFXKQqjNx9XVvdXvpDg3m4rl4YA5jPtmoOolgy15dd5LXzHKmx
+	WexFh0zpJVT67KBQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787646177; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RgUTuYEYetTfhpzkZVAqAjRopJP04QIEdaikLyS24RM=;
-	b=b67PDkLW1UjXC1iUpx5pvIYMhtFPGrr+MargJ3w247WkWZ5qLRu8l70/Oednniq5ESfC/p
-	d0WhFffFElCwn16C0em0Jg+Mpn38JOpq0wCv43Q6inNhfxhX2gxrWIMioyuVAWgUkgHJFZ
-	pJmFdUKuQu9KnTuCuynkNC9NxkBIH4A=
+	t=1787646515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
+	b=ulXori7dfxB39jw9cGfRTE9G8RgLpRllBtyZ1EFLjHBmEoOQpCaL70nzGqFZaxrOO76PiE
+	DXMCPv0/Xw8U5NTcN4655HY50QTcIOBzNpYrf/zr+HBm/mZqnhTIWtcgJ6tkJQHRGmAOEd
+	QJsyHF4puWiin/K5qTxOLqWeaf7uc14=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787646177;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RgUTuYEYetTfhpzkZVAqAjRopJP04QIEdaikLyS24RM=;
-	b=+8yQrdNaPr9eo9g9MSvL78ECYKyeSZJq9NyxLdPiZXZRAcfdKVBZnrqjr7M6Mxv+K+J/2Q
-	WIKpXQ7WE/HCAvDw==
+	s=susede2_ed25519; t=1787646515;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=wjHAGcnK0ZvPQt1wsP5hmNeXmRi5ZYMQySdP6zzFJK8=;
+	b=C6epso+YRz4+hOfoCX72FfOolGXyyDgOKfymW3jyLcN4K2xvhNCPGSZp4gail3VCKXNDeu
+	CFKcuYHDsgGrJ1Bw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30F8313332;
-	Tue, 25 Aug 2026 08:22:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ABBA513331;
+	Tue, 25 Aug 2026 08:28:35 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /0pECuFQjWo5CQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 25 Aug 2026 08:22:57 +0000
-Date: Tue, 25 Aug 2026 10:22:56 +0200
-Message-ID: <87cxv6txr3.wl-tiwai@suse.de>
+	id 2+prKDNSjWphDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 25 Aug 2026 08:28:35 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/conexant: Set mic pin VREF to 0x24 on headset mic plug
-In-Reply-To: <20260825023855.394959-1-songxiebing@kylinos.cn>
-References: <20260825023855.394959-1-songxiebing@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: rawmidi: Another workaround for false-positive mutex lockdep warning
+Date: Tue, 25 Aug 2026 10:28:33 +0200
+Message-ID: <20260825082834.952365-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.989];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
 	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
 	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+	RCVD_TLS_ALL(0.00)[]
 
-On Tue, 25 Aug 2026 04:38:55 +0200,
-songxiebing wrote:
-> 
-> From: Bob Song <songxiebing@kylinos.cn>
-> 
-> For 3-pole headset microphones, the mic pin VREF must always be
-> configured to 0x24 regardless of the headset type, otherwise the
-> mic will not be able to record audio. Move the setting of the mic
-> pin widget control to a common path.
-> 
-> Signed-off-by: Bob Song <songxiebing@kylinos.cn>
-> ---
->  sound/hda/codecs/conexant.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-> index 40da2832ba66..a18091a2866f 100644
-> --- a/sound/hda/codecs/conexant.c
-> +++ b/sound/hda/codecs/conexant.c
-> @@ -225,13 +225,12 @@ static void cx_process_headset_plugin(struct hda_codec *codec)
->  	val = snd_hda_codec_read(codec, 0x1c, 0, 0xcb0, 0x0);
->  	if (val & 0x800) {
->  		codec_dbg(codec, "headset plugin, type is CTIA\n");
-> -		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
->  	} else if (val & 0x400) {
->  		codec_dbg(codec, "headset plugin, type is OMTP\n");
-> -		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
->  	} else {
-> -		codec_dbg(codec, "headphone plugin\n");
-> +		codec_dbg(codec, "mic plugin\n");
->  	}
-> +	snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
->  }
+While we attempted to work around the false-positive lockdep warning
+due to the nested mutex lock in rawmidi at the open path for a UMP
+legacy rawmidi, it didn't cover the similar locking at its close path,
+and this still caused another false-positive reports by syzkaller.
 
+Add a similar workaround to snd_rawmidi_kernel_release() as done in
+the former commit 9c04742e73b3 ("ALSA: rawmidi: Work around
+false-positive mutex lockdep warning") to cover completely.
 
-Hmm, it's a headset plug check code, and the fallback case you
-modified was supposed to be a headphone jack, no microphone.  That is,
-the state where a headphone is plugged without microphone into the
-headset jack, and in this case, it's wrong to enable the mic pin --
-you shouldn't be able to record from the mic at all in this particular
-case.
+Reported-by: syzbot+7d1edf0ff6a05961020c@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/6a8c7e4d.4d75e56a.c9a88.0052.GAE@google.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/sound/rawmidi.h | 8 +++++++-
+ sound/core/rawmidi.c    | 9 ++++++---
+ sound/core/ump.c        | 3 ++-
+ 3 files changed, 15 insertions(+), 5 deletions(-)
 
-So, there must be other case -- mic-only plug -- and that is where the
-mic pin is set up, too.
+diff --git a/include/sound/rawmidi.h b/include/sound/rawmidi.h
+index 88a6159364d0..4154035af414 100644
+--- a/include/sound/rawmidi.h
++++ b/include/sound/rawmidi.h
+@@ -179,7 +179,8 @@ int snd_rawmidi_info_select(struct snd_card *card, struct snd_rawmidi_info *info
+ int snd_rawmidi_kernel_open_nested(struct snd_rawmidi *rmidi, int subdevice,
+ 				   int mode, struct snd_rawmidi_file *rfile,
+ 				   int depth);
+-int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile);
++int snd_rawmidi_kernel_release_nested(struct snd_rawmidi_file *rfile,
++				      int depth);
+ int snd_rawmidi_output_params(struct snd_rawmidi_substream *substream,
+ 			      struct snd_rawmidi_params *params);
+ int snd_rawmidi_input_params(struct snd_rawmidi_substream *substream,
+@@ -201,6 +202,11 @@ static inline int snd_rawmidi_kernel_open(struct snd_rawmidi *rmidi,
+ 	return snd_rawmidi_kernel_open_nested(rmidi, subdevice, mode, rfile, 0);
+ }
+ 
++static inline int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile)
++{
++	return snd_rawmidi_kernel_release_nested(rfile, 0);
++}
++
+ /* set up the tied devices */
+ static inline void snd_rawmidi_tie_devices(struct snd_rawmidi *r1,
+ 					   struct snd_rawmidi *r2)
+diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
+index bf504e27f73e..b688fd76f5d5 100644
+--- a/sound/core/rawmidi.c
++++ b/sound/core/rawmidi.c
+@@ -571,7 +571,6 @@ static void rawmidi_release_priv(struct snd_rawmidi_file *rfile)
+ 	struct snd_rawmidi *rmidi;
+ 
+ 	rmidi = rfile->rmidi;
+-	guard(mutex)(&rmidi->open_mutex);
+ 	if (rfile->input) {
+ 		close_substream(rmidi, rfile->input, 1);
+ 		rfile->input = NULL;
+@@ -585,7 +584,8 @@ static void rawmidi_release_priv(struct snd_rawmidi_file *rfile)
+ }
+ 
+ /* called from sound/core/seq/seq_midi.c */
+-int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile)
++int snd_rawmidi_kernel_release_nested(struct snd_rawmidi_file *rfile,
++				      int depth)
+ {
+ 	struct snd_rawmidi *rmidi;
+ 
+@@ -593,7 +593,9 @@ int snd_rawmidi_kernel_release(struct snd_rawmidi_file *rfile)
+ 		return -ENXIO;
+ 
+ 	rmidi = rfile->rmidi;
++	mutex_lock_nested(&rmidi->open_mutex, depth);
+ 	rawmidi_release_priv(rfile);
++	mutex_unlock(&rmidi->open_mutex);
+ 	module_put(rmidi->card->module);
+ 	return 0;
+ }
+@@ -607,7 +609,8 @@ static int snd_rawmidi_release(struct inode *inode, struct file *file)
+ 
+ 	rfile = file->private_data;
+ 	rmidi = rfile->rmidi;
+-	rawmidi_release_priv(rfile);
++	scoped_guard(mutex, &rmidi->open_mutex)
++		rawmidi_release_priv(rfile);
+ 	kfree(rfile);
+ 	module = rmidi->card->module;
+ 	snd_card_file_remove(rmidi->card, file);
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index 82ad155c56e6..d183c8a000bd 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1184,7 +1184,8 @@ static int snd_ump_legacy_close(struct snd_rawmidi_substream *substream)
+ 		ump->legacy_substreams[dir][group] = NULL;
+ 	if (dir == SNDRV_RAWMIDI_STREAM_OUTPUT) {
+ 		if (!--ump->legacy_out_opens)
+-			snd_rawmidi_kernel_release(&ump->legacy_out_rfile);
++			snd_rawmidi_kernel_release_nested(&ump->legacy_out_rfile,
++							  SINGLE_DEPTH_NESTING);
+ 	}
+ 	return 0;
+ }
+-- 
+2.55.0
 
-
-Takashi
