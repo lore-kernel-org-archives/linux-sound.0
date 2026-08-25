@@ -1,89 +1,88 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B213225A640
-	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 11:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17883955EB;
+	Tue, 25 Aug 2026 11:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787655884; cv=none; b=OXUyHsWdscTLYqTCGqgHILhHzzTsteH/Rygh744n24B1CBKUpPDBRARWYjCJiCF7B2/d3jI6GlLVG3oVtozCjYnKSvGETRIdPD5zwc5fa5MkE4vU3eitAbJ9KS5ByVBiJaQdf6Q41H0CH/UDYH0B5eBeWWuh4vgpE+Pz5tLaOpw=
+	t=1787656193; cv=none; b=YaCdP1wYJXfnafRS5t5BgoN8qD/waugZBrSlB3Cwd4YKEc3QVLbkv3Kljb8hhNz/+H7ERSPXMdrx6xWEn/NS71PS1i3dB18Mti/BoDT/bGj2x7ao7pfDnDH/sdLjwg7CK9fXI6s4PZmxNjq4+sMZZXu0oxERXwbk/kMTDFgy82k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787655884; c=relaxed/simple;
-	bh=XAmRwKy6rqYYQtXykzmNGd8JW9mpq45ymIPfFe2oVEs=;
+	s=arc-20240116; t=1787656193; c=relaxed/simple;
+	bh=v6SKz/QSgRHXGIUo1eEuETY+0V6EHZTt5iHjhXxsvyk=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CgmIpxDvCi4iyYmiejOBRc+dnGeVAJ2o0K5DhK1KP3MMSHr8PK8iK1grz8ggAmInU3WzQP6gztTToYc3Uw7MR+EZUOhqtLFwRQADY1BnicIxibYQTFLU5FQTumDw/i2feCPzSCPs/ZgegRyu6bTAYpLhbgufleWlsyMIUjm/G7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=doxY1tPY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=66kSnQlL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xQfY8VTl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gzM9SEEE; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=N9Tep2kPCfmFbD1qCp6wFqXSrBz6sih/RSSOBtjncqIFWJlybArFxmZ0GrNeSm9nlLY3ZVaQqoeuEjEd903EVs/uDI7ArZ3BHPyup75tBpRa3pZ7Sh/zn2Op0PuBU6jFgFpKYBR9uuF56bWbXf/Q/eN5mWP9c2oCE9uG1FoKIdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V37jzsVe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bizvjyRx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KX8oeYje; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ISQnX6wt; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="doxY1tPY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="66kSnQlL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xQfY8VTl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gzM9SEEE"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V37jzsVe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bizvjyRx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KX8oeYje";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ISQnX6wt"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C6C771F7CB;
-	Tue, 25 Aug 2026 11:04:20 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B1F2886E49;
+	Tue, 25 Aug 2026 11:09:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787655865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787656185; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSSIo+D6ZbvIE/2dhkB6WSMQs/S1gZ+yCG8xQ8agXjc=;
-	b=doxY1tPYv2xxmJoauQCo1iDEpnrawAGzjgpdOGUjo1B2CdIs8Vqq4Bgep2RB44+5/0QEhp
-	CGr6P+32AMFNwOCpFlHa/oyGjNODG+p0O/HvMg9gCQQCJIul1y2aKsSTYVL+KdySiSzUb5
-	dxowaUGRe6F51FRJFCq2h2EuQluKvv0=
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=V37jzsVePOqYnGPrKsE/k/5qDTqf9hn1n5S70EFbyOgt4Tl+HqMEb9hCPZKbW7uTPVnFoQ
+	Ya7Rd73WClJgaKJptm0SuK/ns5BD84MPlUmG10qewtUHTWUiDHG9RhQkxefJJLoH3tpl+4
+	Slnuuf7BxcpDCBSomFv0U9NwSwMIZA8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787655865;
+	s=susede2_ed25519; t=1787656185;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSSIo+D6ZbvIE/2dhkB6WSMQs/S1gZ+yCG8xQ8agXjc=;
-	b=66kSnQlLEbcmHgtVF/26bxRp0Wrwazjuu4MJGM1E0Elt5bWpFwJkEMZVmP2gDAb2Y9vWb9
-	Vr1kImJRzfrqjyAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xQfY8VTl;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gzM9SEEE
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=bizvjyRxlFwsfD5PMUJQwiBfbJ4MoklgAV/Xjj9kyjTqmrPNEiUqzJpAiAOY41X3opB1IV
+	9FsqcVqlB9enYPCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787655860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1787656181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSSIo+D6ZbvIE/2dhkB6WSMQs/S1gZ+yCG8xQ8agXjc=;
-	b=xQfY8VTlnpCRkahFrCZskzcqAKjdEU0oSuT4ho8oE18KcrWYIh3SXhmfxlRt6PEaILL/rA
-	g3vg30x6L6r6NOjNbYymchHtETXBJW+HscGjJSBg1u+DtdKFHA1yMDdo7ecx74Pkh5km2m
-	4luufPKR7uoVmZrhJghqUg1dyDC8pDw=
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=KX8oeYjeDDeEBvy1/cJq5fTCoFfHbG1Qmd1OpxpvnQODBGbBVNFSzB8SKk9NyQRXezqiOd
+	CGb8dh/sWbygQo3mIq0xvshnBwpq0FMc7rNRE+4NdHfNkYbHr8m/KdavSulwV6qt0ryr0Y
+	IvFC5nFS/LMZlLq+FtKK1b9wuzct0VY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787655860;
+	s=susede2_ed25519; t=1787656181;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xSSIo+D6ZbvIE/2dhkB6WSMQs/S1gZ+yCG8xQ8agXjc=;
-	b=gzM9SEEE09eMrcZl6py0XN//ZYxD4H63tmsURgAIT/eWoiTqQAFakvyyFOeN22cy+ncdCl
-	IhHObht9vrohmRBQ==
+	bh=ifHAILXr3H0GLX5Reet3nLnTl72ERhcEO8ROft9fRQ4=;
+	b=ISQnX6wtuudLeuS6PrHD39UHxX1p4/MSTK0dMUV4nXHnpWD08afpduEkdZ9NjIJfdK5Z7A
+	N5KlIuNeh6sJHKCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC69C13332;
-	Tue, 25 Aug 2026 11:04:20 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 92FC513332;
+	Tue, 25 Aug 2026 11:09:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2CtxKbR2jWraKAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 25 Aug 2026 11:04:20 +0000
-Date: Tue, 25 Aug 2026 13:04:20 +0200
-Message-ID: <87qzjmsbpn.wl-tiwai@suse.de>
+	id NNEwI/V3jWrxLQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 25 Aug 2026 11:09:41 +0000
+Date: Tue, 25 Aug 2026 13:09:37 +0200
+Message-ID: <87o6eqsbgu.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-1?Q?=22Habil_Eren_T=FCrker=22?= <habilerenturker@gmail.com>
-Cc: perex@perex.cz,	tiwai@suse.com,	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,	Habil Eren =?ISO-8859-1?Q?T=FCrker?=
- <habilerenturker@hotmail.com>
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix speaker mute LED for HP Laptop 15-fd0039nt
-In-Reply-To: <20260825084125.4103-1-habilerenturker@hotmail.com>
-References: <20260825084125.4103-1-habilerenturker@hotmail.com>
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload path
+In-Reply-To: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -91,58 +90,113 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+Content-Type: text/plain; charset=ISO-2022-JP
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.992];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,hotmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,qualcomm.com:email];
+	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,alsa-project.org,vger.kernel.org,hotmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
-X-Spam-Score: -3.51
+X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Rspamd-Queue-Id: C6C771F7CB
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 
-On Tue, 25 Aug 2026 10:40:14 +0200,
-Habil Eren Türker wrote:
+On Tue, 25 Aug 2026 04:06:54 +0200,
+Wesley Cheng wrote:
 > 
-> HP Laptop 15-fd0039nt (SSID 103c:8bb6) needs a quirk to control the
-> speaker mute LED via VREF100 on NID 0x1a (active-high).
+> On some environments, 16kB pages can be enabled from the Linux subsystem,
+> which manages the IOMMU mappings for the audio DSP within the system.  In
+> the current design, the following assumptions break when 16k pages are
+> utilized:
+>   1. xHCI ring size is equal to PAGE_SIZE
+>   2. Ring addresses start at the beginning of a page
 > 
-> This patch replaces the previous ALC236_FIXUP_HP_MICMUTE_LED_ONLY
-> with ALC236_FIXUP_HP_15_FD0XXX, which covers both mic mute (GPIO0)
-> and speaker mute (NID 0x1a) LEDs.
+> When the USB offload driver maps the rings (w/ the audio DSP SID), it is
+> set with a 16k granular, which is a problem, as several xHCI rings could
+> exist on the same page.  This is because the rings are currently allocated
+> from the segment_pool.  Hence, potentially mapping non USB audio related
+> rings into the region accessible by the audio DSP.
 > 
-> Use spec->no_shutup_pins instead of a custom shutup hook, as suggested
-> by Takashi Iwai.
+> To mitigate this, this series introduces the alignment_req parameter.
+> Before the USB audio offload path is enabled, the USB audio data
+> streams/endpoint are not active.  Only when the class driver issues a
+> usb_set_interface() call (done from snd_usb_endpoint_prepare()), will the
+> xHCI allocate the transfer ring resources.  By setting the alignment_req
+> beforehand, when allocating the ring segment, it can fulfill the audio DSP
+> alignment requirements by allocating DMA-able memory on the fly (based on
+> what is being requested) versus fetching it from the segment pool.
+> Likewise, keep track of if memory was dynamically allocated to handle the
+> free path properly.  The function call flow will now look like the
+> following:
 > 
-> Fixes: e711ebfadc9a ("ALSA: hda/realtek: Add quirk for HP Laptop 15-fd0039nt")
-> Tested-by: Habil Eren Türker <habilerenturker@hotmail.com>
-> Signed-off-by: Habil Eren Türker <habilerenturker@hotmail.com>
+> handle_uaudio_stream_req()
+>   $B("(B
+>   $B"'(B
+> enable_audio_stream(subs, ..., pcm_card_num)
+>   $B("(B
+>   $B('(!(B xhci_sideband_add_endpoint(sb, data_ep, PAGE_SIZE)
+>   $B("(B    $B("(B  alignment_req == PAGE_SIZE
+>   $B("(B    $B"'(B
+>   $B("(B  sb->alignment_req = alignment_req
+>   $B("(B
+>   $B('(!(B snd_usb_endpoint_prepare(chip, data_endpoint)
+>   $B("(B     $B"*(B xhci_check_bandwidth() $B"*(B xhci_endpoint_init())
+>   $B("(B    $B"'(B
+>   xhci_endpoint_init(..., ep_index, ...)
+>   $B("(B    if (sideband && sideband->alignment_req)
+>   $B("(B        new_ring = xhci_ring_alloc(xhci, 2, ring_type, max_packet,
+>   $B("(B                                    sideband->alignment_req, mem_flags)
+>   $B("(B    $B"'(B
+>   xhci_ring_alloc(..., alignment_req, ...)
+>   $B("(B    ring->alignment_req = alignment_req
+>   $B("(B    $B"'(B
+>   xhci_alloc_segments_for_ring(xhci, ring, flags)
+>   $B("(B    xhci_segment_alloc(xhci, ..., ring->alignment_req, flags)
+>   $B("(B    $B"'(B
+>   xhci_segment_alloc(..., alignment_req, flags)
+>        if (alignment_req > TRB_SEGMENT_SIZE)
+>            seg->trbs = dma_alloc_coherent(dev, alignment_req, &dma, flags)
+>        else
+>            seg->trbs = dma_pool_zalloc(xhci->segment_pool, ...)
+> 
+> Similar logic is added for the secondary interrupter path as well.  The USB
+> offload class driver calls xhci_sideband_create_interrupter(), which will
+> be responsible for allocating the secondary event ring.  The same
+> alignment_req parameter is passed, and during xHCI event ring creation, the
+> same set of APIs are utilized, so the runtime memory allocation is already
+> handled.
+> 
+> This was confirmed to work on the SM8350 MTP platform, with the 
+> CONFIG_ARM64_16K_PAGES config enabled, alongside tinyaudio binaries:
+> 
+> tinymix -D 0 set 513 1  (Enables USB_RX multimedia#1 path)
+> tinyplay -D 0 -d 0....  (Routes PCM data to ASoC platform sound card) 
+> 
+> Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+> ---
+> Wesley Cheng (2):
+>       xhci: sideband: support page-aligned ring segment allocation
+>       ALSA: usb-audio: qcom: request page-aligned xHCI ring buffers
 
-Applied now.  Thanks.
+I guess your first patch alone breaks the build, and this is bad for
+bisection.  When you change the API, the callers should be addressed
+in the same commit altogether in order to keep the stuff working
+during the transition.
 
+
+thanks,
 
 Takashi
