@@ -1,320 +1,287 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013039.outbound.protection.outlook.com [52.101.127.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D74E30C16A
-	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 02:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787623641; cv=none; b=BG/zbtjw0KWtqqEvkJySqdBYwwY4J4MXntFLz9gJzIR6XDk8c8QskcjAzARsCrWqsE3+RG+fIUSuWwys+PXah/eIn6VAZMSaJqYlGwRQ15j/lvrWuKuJ8IKLWDaP1zOjapvQTcFrmw9tT5Io7AINocU7WlbWZ2E0In2zRpH4Vfc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787623641; c=relaxed/simple;
-	bh=jZ9edC218ErYtuLBf01+Uq6fGVBYmGjOA1pWHaCCy+M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pqlllFAkyLPvrAR089Epru3HfbJ/WV9ubX/ZyWRT7cnR3HzlTAZ2D73q6bWoLASfLqE072th1mZjwSqmErp885Ree/9Znmk13IB73YG6MsUwVhhLS0zAvP+wP/irgn6MudAe6KKCYoNGwRuzPLkD/Iv2bsaFwSH9YkMTjnqGZOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SY/XCYXY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Segfi6jb; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA93194C96;
+	Tue, 25 Aug 2026 02:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787624217; cv=fail; b=nmZggdvz30y9PFZ1h3B+tXGLEIQCg1U6xDQa3UToVbk7Ca3ovbspUaS1A32T9EStanCQlB0YCCxxS/D4Nejok9voLg41m93b8HEGf6W37yT65Psf0uqXvkb788o7PWqp4BXF8RxXX7avmTaSbiYjQJo3c4i/ZoALEM7mWOAaY+U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787624217; c=relaxed/simple;
+	bh=O3DPLmK/UR9wi0ynj87MBRI630IoFY0A+jZMzcAOHPE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VxO7kcnv2VKUd5JGKv78l4JekwOschiuk5cxhqCkYp0dWmC1s/eGX4n6tXhBLXcdyL0rhiGkurVgt5PfI11B55R6NspoKcm9fnB4lWkXNw4MqldE9tA+40kfRyfH6aFrAd28AODsJWO6Y8hcMtqTueCOxRPKlk7AMasCFhNH9vA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=ZXJ1wopv; arc=fail smtp.client-ip=52.101.127.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SY/XCYXY";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Segfi6jb"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67ONMTRW3241330
-	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 02:07:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YzF3hXZW0ytcWbA+isUMZBMZ3HrRdAr99GThHRzOSok=; b=SY/XCYXYw+5laH5/
-	wZbWHkILawpV/YQ16VNXFkz4xTjcjQd1BeMgBo+CcmltD9yg780ZTLCa2awzGZQ4
-	g7FdMzminkBYCfQripJxOXkrtahHTyD1g3rq/wawd0yUzQpmCQTkkqUcdkPt310C
-	awNh4bqR6IR9sdJEueFAzqZWhvWKYnUTRBDXcKGguX2LAE3k4l4k4fOa88gAag31
-	V4Nyse8upSj35BG/V2YW6SxQbr3VSzUox5UfbyKOeuHkehN+Et6u898vz7eqhB+Q
-	1RpMNKbbhr2wLg9IdfbhPxVwQwbTRM/w0cZKwsO8eUa1pgBk1DryTEFPt6yZRiXO
-	uvqHxA==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g8huf44dc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 02:07:04 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c89704da8c7so6182798a12.0
-        for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 19:07:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1787623624; x=1788228424; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YzF3hXZW0ytcWbA+isUMZBMZ3HrRdAr99GThHRzOSok=;
-        b=Segfi6jbLBkNB22mDlCmv98jHOU+DKW464NgEYmVJiuveRmlODsMIH53uVuiE/+/yM
-         MhWSsVNGFnx6hJ80aC4kZX9HJk7O/BgBvqrcKIOz3n0CxcXT5j8RYb51aPFoe1TA7gnz
-         1Cojtaq4ayNnDLkAgKf730WrAu8pfnXvDR2PD9IFVJOQszToxGRvTxObSuc86HM/Sd1Z
-         lFB7P/3XEpqCUzjcRM6q2nFO9c5YKMZBxu/oVYqYIBQtEnBRPeyVdWTMSlhOu5shZNvm
-         vAtCsLyM31IbBTJyHOrggPM1idi6tOjxOOWpyMT+inzv30hcXbSUVJGGKww3FD4RiKGV
-         ej/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787623624; x=1788228424;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YzF3hXZW0ytcWbA+isUMZBMZ3HrRdAr99GThHRzOSok=;
-        b=XPYfaZG1FepwtufJOsh6EK22ILcn9oir3YCmKBRwz+paIsN6sYXJjWF5LvqVMNXKwG
-         s1MnxfLrW4MHf8LSRpQEmQSS3QrJU6xTIFn9NcpwRKuCR2n9w15dXFZ7QTOtUqn3/tTZ
-         Yvzsq7eOeSKQGXy46QSXZ0+PyRkDRMRKdIfAumX7bsaBuZw1MR8FeWV+cO+Dkf4wapqe
-         Z7Nf6cVV2zEdhrjj9/lz6JmA7HhwBvAC/DRSnHVnTlnhPlEXscGddiuwjgqkU+u9YZvm
-         xrXlgWlckv+snIkc81jj3bkl94MdpYJNxzmtykiOCILXut+WnKZCkExhLGzPEZwcAs/Q
-         qFcA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro7Q0cBCtsnUzRsYOsBvxd/PX6yXNPUWSwcky33S+K6LInTt0DWGqQ+EOJ8dZ76O3XdH4XOrchBneuKhg==@vger.kernel.org
-X-Gm-Message-State: AFuF++k3rC2ClG6JSM/FUOxiqJBil8mPT2g+YPoncI4viA+cS8H4V/Du
-	g9yyb2smijOuDku9cuRMrSjy9fJLavteVmXPsNqWF7aYdRGx5T6hgMkLVSZxZC69XLep1nB5d23
-	r9VcTnKKx1frzFFvKdokoPZ+VtSAYUshyAh8Ycnxxl3hlj1Gl0qukwMpFYi7W8+OeiNV2VoEBjg
-	==
-X-Gm-Gg: AR+sD120zhsF6rofN5RfsCOdpc9V6rROZbPMYzF6JCv0xB7do6cHYQoyvD2UUYn4fcs
-	XsRohmzZdVo4PGUGfzVVmwoHrKluyeCKFnKy+rYRQ5TTKxujI4wr7+EjA8LqC5+DpsFQhL3/MgR
-	0DS8tZ+B3tMxsqB29EZgN/oyp+PR0ETCVHzTGN3jY/qx42uNX4zMOnWBlovuQtFOB9rpwC5wU/h
-	e5Mhgabe4bapNCSBYKlaHeMRoOHZEQpTMilhmhe19ZL0WNwMK3K8njSq8llTQdSWBbKPnQWzXr1
-	73YYVbdiEnchufXFJE9L6Z+yTO7Gk9kRW0fexJWwfTz3z7gSKV2mxxhVzN2vtIk0BrhvtXz3jMB
-	tDum30OHzG3eRAW9kEBQtJY3h63lKWncCnuocProNo3oOyX7suZwE
-X-Received: by 2002:a05:6a20:43ac:b0:3b4:8f18:33a with SMTP id adf61e73a8af0-3cd2fd8e233mr63445142637.1.1787623623696;
-        Mon, 24 Aug 2026 19:07:03 -0700 (PDT)
-X-Received: by 2002:a05:6a20:43ac:b0:3b4:8f18:33a with SMTP id adf61e73a8af0-3cd2fd8e233mr63445049637.1.1787623623216;
-        Mon, 24 Aug 2026 19:07:03 -0700 (PDT)
-Received: from hu-wcheng-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f91d33dcsm39442376eec.18.2026.08.24.19.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 19:07:02 -0700 (PDT)
-From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Date: Mon, 24 Aug 2026 19:06:56 -0700
-Subject: [PATCH 2/2] ALSA: usb-audio: qcom: request page-aligned xHCI ring
- buffers
+	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="ZXJ1wopv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LUmjkepGUj0b5qy+SzJbhf2rY2p+qtMgMigGrotVyU8TiWzKuCihLsSXcatda/nlri2EI+/wT2uxk/WLK9v7kP8rRSJZ+whslWgMQtr/kVc0t8qfoX8DjywuF40ksQLVoNt23bPycDt3mzPskd3/804iAHLThU1anY+cWrx8q9REJ0Q0kxtuFvQk/1WiTmSF/u8QHwGZ2uQ0QCoROaCf4/TY/cv46HGJfwDzDHk/WmL2/WOBjqvsTXYamYrq0sI4GRt+b5n7bti+ny1yHBWkVSBoURHU4a89x1w+Wu0/zAFliphNee2f9IxcmTCWVGRLdXypFgIQmAcCYdwB6KrAvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dozaAEMvDNqbyYuBLjYXmZkSw5iRPKf2/z+UhZWuWa0=;
+ b=UqB9wqht4YymC+c+MVYOO44tlvlktZjdVtDz6QoLs26sjJI/HncVUYZdg+f+7KAV+O1Uflo/UMlBnYoIKQp29eKgUEhZa1BCfNKbUCwA7sa6nWS5ZyyW3XOnFySB+zrtDVtH2WjAV9TUxYAftz9ik0mcoUVWo21XG/k2sgsZyObn9pEm63eZBnkR61ma36YDJjFYrgszhiVYynLWQ8yA0pWOs1QD2xZ+zY+la5iKSCRvO0iVBqpoFLy6opzUeXh0NLFMgrSB31j7fN2P1EnDPIRJ62G9OH402lQw/I30yxL2VeEdkC8FtYs7WDWOQ97JL5f6spLnJMy6dJoFQj97sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 175.98.123.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dozaAEMvDNqbyYuBLjYXmZkSw5iRPKf2/z+UhZWuWa0=;
+ b=ZXJ1wopvqsd2WEDQjM2a7OF3g6PwWizS+e36bUzBluSh8vl4vi9LjX86t+fUEtD0erIgJ9TkS9doN3d9HRmIoGB9hpw+B8/gPqPacc+miv+Y8T0Xt/BtGVWnUypsD6r5eavQy+RA+UocuWm0EVsHxNyjMe4KXIEaxhM6MRhp3aA+xmOAksaLvfIgU17rsZe4PyzUTA3HM6G2ey6hbBMjKypJVSOZbyIM8yteG3HpvPvSOHlE+KbnDHRFzCDtCPWEcMQQNT/GnIvswPfhbkRJOAom3qtRqY9cGExK9p43krCclVtl7RzpcwWEF3g9cI8z8AYn04XkoFY6tcRx6iTykw==
+Received: from TYCP286CA0276.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:3c9::13)
+ by SEZPR03MB10259.apcprd03.prod.outlook.com (2603:1096:101:33c::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
+ 2026 02:16:49 +0000
+Received: from TY2PEPF0000AB83.apcprd03.prod.outlook.com
+ (2603:1096:400:3c9:cafe::6f) by TYCP286CA0276.outlook.office365.com
+ (2603:1096:400:3c9::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.12 via Frontend Transport; Tue,
+ 25 Aug 2026 02:16:49 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 175.98.123.7)
+ smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nuvoton.com;
+Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
+ 175.98.123.7 as permitted sender) receiver=protection.outlook.com;
+ client-ip=175.98.123.7; helo=NTHCCAS02.nuvoton.com; pr=C
+Received: from NTHCCAS02.nuvoton.com (175.98.123.7) by
+ TY2PEPF0000AB83.mail.protection.outlook.com (10.167.253.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.3 via Frontend Transport; Tue, 25 Aug 2026 02:16:48 +0000
+Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCCAS02.nuvoton.com
+ (10.1.9.121) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Tue, 25 Aug
+ 2026 10:16:47 +0800
+Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
+ (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
+ Transport; Tue, 25 Aug 2026 10:16:47 +0800
+From: Neo Chang <YLCHANG2@nuvoton.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <linux-sound@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+	<neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, <sjlin0@nuvoton.com>, "Neo
+ Chang" <YLCHANG2@nuvoton.com>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH v10 1/2] ASoC: dt-bindings: nuvoton,nau8360: Add NAU83G60
+Date: Tue, 25 Aug 2026 10:16:43 +0800
+Message-ID: <20260825021644.1203076-2-YLCHANG2@nuvoton.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260825021644.1203076-1-YLCHANG2@nuvoton.com>
+References: <20260825021644.1203076-1-YLCHANG2@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260824-16k_offload_v1_b4-v1-2-49a6be60ca30@oss.qualcomm.com>
-References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
-In-Reply-To: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-sound@vger.kernel.org,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI1MDAxNiBTYWx0ZWRfX8esDpMXb9SPE
- CjOeq+MucLG5v5yExqePrpgVCTJfjVM0yMc0FR+jzpmT1/gjQrgBRVEa2vw+HaRAIp8vcyFtb76
- 9+2qw/Depz15YEf/FNwZPwIa0p+CWAo=
-X-Authority-Analysis: v=2.4 cv=Wac8rUhX c=1 sm=1 tr=0 ts=6a8cf8c8 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=CbMfP9IJxQ5wjS32uxIA:9 a=QEXdDO2ut3YA:10
- a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-ORIG-GUID: 4MQhS7GBU6oHuGKeOHP3khmHzIZOy68E
-X-Proofpoint-GUID: 4MQhS7GBU6oHuGKeOHP3khmHzIZOy68E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI1MDAxNiBTYWx0ZWRfX3imcYP0WlBRc
- wm5syZ+xtZ6F/BGNlXD9V2aTZFrDWsVnb+LvPqwADuHGLOE6sZbYKl49daPLyaY2Ac/Qe7482Y2
- lFXLPCZfU7iHEx2vasrvSBcERVmHTjsMhf6UTMfzhH3EPadVDkchWi82FVIsxS5VIuypzBJn32A
- 7SrYpz5w5gVVeSBACdCAe0XNwkz85bIIhrDIcT3lUu3mvA1znmxLa49m8pW2++npHIfchndDC0r
- lFVSfx3tx7GbTi0luvtOeRGkdmwncQ1t59KKfpiSnqJoRSd36rM6IxgY/BEZat4Xal3hhbSkfRs
- ywp0BHj1LInu92SOPjOJp6r2CHrRpTYnDsi88Zd5KrhUwi79nu/Vq5ICQle5istJi4qc5R+oSry
- ybfoNTZCb4ccms6sJebBmaU0pfH7K3TUZMTxLd9rIhXoKIBm9TBaZDRfrzgFFHwblCZTn6KYU6U
- 7+9PepHdnYAFBCdjCbw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-24_07,2026-08-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 impostorscore=0 adultscore=0 priorityscore=1501
- bulkscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608250016
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NotSetDelaration: True
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB83:EE_|SEZPR03MB10259:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81e866ec-4dca-4ae8-600a-08df024eeb7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|23010399003|36860700016|376014|7416014|1800799024|13003099007|6133799003|10067099003|11063799006|56012099006|18002099003|22082099003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	9QaXrIScWVMogJbs7+iwXQLdBPazVH+yrgFSeWLgArWX5n+2beAk7EbXoMN7BoJBKvhC2RvjcQ4aXDa11tyZfJFKYBvucHIwBmIUX35GCLHYHnh5kTkoOL3sVuTtzrEbkjWklgAMPex9zsOm9/k8vuHrZsRUubwLrJUI+O/sdANfDgSaNEm5lh9oXyecyk3AlaK4FdBM4BlbpmCfE/dt/ZvhxgaX4hyqnCHwkzi5QhBJmg2OzseKFlkyIw7MfkQScYiuFKxPwKt1wwPY/rb+9uVaiMgQQmmK6aOKghwZu8u9z8AbNX8oma//L978guwsD7/ektMjb/gdM4JHmz1zElTPUNkitrZOOSbSs4ZhoGiaG3A3uTCXcuM5Aq8b/DA31aJGpusw8by9wejhDzQNo8tROr8oZPDpm5uhyhln9Ybd07qVcm7uMgXxv7/VvD5HKJKdTreR88TcvZfU6qFgJg2OtgJNqBtfDQm+t04O4jgjvBPaXcbvlDDukUGR9IRGQcfG3e/u0s4fCloCwvtan4v0L8dVwt/FwUyx4uJ+APdox2S1wM0WTLNuBxTjwXOkJDjXWdNMVnRYrldReGOi2ye+QgUMejDry8w4GDN4xvE2TH4XeyQCqCMSBiqlhiZt6MS4fdwzrpMgEj4r4ahR4w==
+X-Forefront-Antispam-Report:
+	CIP:175.98.123.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS02.nuvoton.com;PTR:175-98-123-7.static.tfn.net.tw;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(36860700016)(376014)(7416014)(1800799024)(13003099007)(6133799003)(10067099003)(11063799006)(56012099006)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	r7aat6oBe8BhCRsPVV4Pltpz1uet8Bscc571O54s6WtfWlyn63AFngx2j3LVCHrBTtdgRkGTf2LG5FXKus/u3zy0tAah7S8hDRRMdRiSvnCLBaypDpkW/1THOOoUtRXpGeJ3IxhoE2J6866xpq/mbgm4BRmBhHhfaliichl4usgbn7aQQGIy4vmMktDQZnFImhcBvV0n9nguD8Vnx0Sxnk7ioQ+i+bUovP6dls4bZjYF2/Ewv6JTrPkMNXufsWuyyx4ruyQz3ZqgIZaKwizR+4FS594z5PN3jyaGXnygRW5vHHCqUTPLK5GggJhhRXeiuyIRiMS2cIXJfTsPYbB2fmbnEBSaZINWsQ/O+xJjj/Pt+Ll+TgCVZx9c0E3lfcJlLB9GLHepFYdUk2RZ2isdLPVvfebzYGd/fStzZYJkI8Ap4E75ztghF4OQ2zU6SsGg
+X-OriginatorOrg: nuvoton.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 02:16:48.9994
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81e866ec-4dca-4ae8-600a-08df024eeb7a
+X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[175.98.123.7];Helo=[NTHCCAS02.nuvoton.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB83.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR03MB10259
 
-Now that xhci sideband supports requesting a specific ring alignment,
-ask for PAGE_SIZE alignment when adding the data/sync endpoints to the
-sideband and when creating the interrupter's event ring, so the
-buffers reported to the ADSP over QMI always start at a page boundary
-and span a full page.
+Add device tree bindings documentation for the Nuvoton NAU83G60
+audio amplifier.
 
-xhci_sideband_add_endpoint() must run before the endpoint's transfer
-ring is first allocated (i.e. before snd_usb_endpoint_prepare()
-triggers xhci_endpoint_init()) for the alignment request to apply to
-that first allocation. Move the xhci_sideband_add_endpoint() calls out
-of uaudio_endpoint_setup() and into enable_audio_stream(), before
-snd_usb_endpoint_prepare() is called for the data and sync endpoints,
-and unwind them on the new error paths.
-
-At that point in the setup sequence dev->ep_in[]/ep_out[] are not yet
-populated, since the endpoint's altsetting has not been activated, so
-usb_pipe_endpoint() cannot be used to find the usb_host_endpoint. Add
-uaudio_find_host_endpoint(), which resolves it directly from the
-interface's altsetting descriptor table instead.
-
-Assisted-by: Claude:claude-sonnet-5
-Signed-off-by: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
 ---
- sound/usb/qcom/qc_audio_offload.c | 96 +++++++++++++++++++++++++++++++++------
- 1 file changed, 82 insertions(+), 14 deletions(-)
+Changes in v10:
+- No changes, added Krzysztof's Reviewed-by tag.
 
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index e4bfd43a2488..87e016104c3d 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -941,6 +941,45 @@ static void uaudio_dev_release(struct kref *kref)
- 	wake_up(&dev->disconnect_wq);
- }
- 
-+/**
-+ * uaudio_find_host_endpoint() - look up usb_host_endpoint for a snd_usb_endpoint
-+ * @subs: usb substream owning the target snd_usb_endpoint
-+ * @endpoint: sync or data snd_usb_endpoint to resolve
-+ *
-+ * usb_pipe_endpoint() resolves via dev->ep_in[]/ep_out[], which are only
-+ * populated once usb_set_interface() has activated the endpoint's altsetting
-+ * (i.e. after snd_usb_endpoint_prepare() has run for it). Looking that up
-+ * beforehand returns NULL.
-+ *
-+ * Instead, look the endpoint up directly in the interface's altsetting
-+ * descriptor table, which is populated once at enumeration time and stays
-+ * valid regardless of which altsetting is currently active.
-+ *
-+ * Return: matching usb_host_endpoint, or NULL if not found.
-+ */
-+static struct usb_host_endpoint *
-+uaudio_find_host_endpoint(struct snd_usb_substream *subs,
-+			  struct snd_usb_endpoint *endpoint)
-+{
-+	struct usb_host_interface *alt;
-+	struct usb_interface *iface;
-+	int i;
-+
-+	iface = usb_ifnum_to_if(subs->dev, endpoint->iface);
-+	if (!iface)
-+		return NULL;
-+
-+	alt = usb_altnum_to_altsetting(iface, endpoint->altsetting);
-+	if (!alt)
-+		return NULL;
-+
-+	for (i = 0; i < alt->desc.bNumEndpoints; i++)
-+		if (alt->endpoint[i].desc.bEndpointAddress == endpoint->ep_num)
-+			return &alt->endpoint[i];
-+
-+	return NULL;
-+}
-+
- /**
-  * enable_audio_stream() - enable usb snd endpoints
-  * @subs: usb substream
-@@ -958,8 +997,9 @@ static void uaudio_dev_release(struct kref *kref)
- static int enable_audio_stream(struct snd_usb_substream *subs,
- 			       snd_pcm_format_t pcm_format,
- 			       unsigned int channels, unsigned int cur_rate,
--			       int datainterval)
-+			       int datainterval, unsigned int card_num)
- {
-+	struct usb_host_endpoint *data_ep = NULL, *sync_ep = NULL;
- 	struct snd_pcm_hw_params params;
- 	struct snd_usb_audio *chip;
- 	struct snd_interval *i;
-@@ -997,17 +1037,47 @@ static int enable_audio_stream(struct snd_usb_substream *subs,
- 			goto detach_ep;
- 		}
- 
-+		data_ep = uaudio_find_host_endpoint(subs, subs->data_endpoint);
-+		if (!data_ep) {
-+			dev_err(&subs->dev->dev, "data ep # %d not found\n",
-+				subs->data_endpoint->ep_num);
-+			ret = -ENODEV;
-+			goto detach_ep;
-+		}
-+
-+		ret = xhci_sideband_add_endpoint(uadev[card_num].sb, data_ep, PAGE_SIZE);
-+		if (ret < 0) {
-+			dev_err(&subs->dev->dev,
-+				"failed to add data ep to sec intr: %d\n", ret);
-+			goto detach_ep;
-+		}
-+
- 		if (subs->sync_endpoint) {
-+			sync_ep = uaudio_find_host_endpoint(subs, subs->sync_endpoint);
-+			if (!sync_ep) {
-+				dev_err(&subs->dev->dev, "sync ep # %d not found\n",
-+					subs->sync_endpoint->ep_num);
-+				ret = -ENODEV;
-+				goto remove_data_ep;
-+			}
-+
-+			ret = xhci_sideband_add_endpoint(uadev[card_num].sb, sync_ep, PAGE_SIZE);
-+			if (ret < 0) {
-+				dev_err(&subs->dev->dev,
-+					"failed to add sync ep to sec intr: %d\n", ret);
-+				goto remove_data_ep;
-+			}
-+
- 			ret = snd_usb_endpoint_prepare(chip, subs->sync_endpoint);
- 			if (ret < 0)
--				goto detach_ep;
-+				goto remove_sync_ep;
- 		}
- 
- 		ret = snd_usb_endpoint_prepare(chip, subs->data_endpoint);
- 		if (ret < 0)
--			goto detach_ep;
-+			goto remove_sync_ep;
- 
--		dev_dbg(uaudio_qdev->data->dev,
-+		dev_dbg(&subs->dev->dev,
- 			"selected %s iface:%d altsetting:%d datainterval:%dus\n",
- 			subs->direction ? "capture" : "playback",
- 			subs->cur_audiofmt->iface, subs->cur_audiofmt->altsetting,
-@@ -1019,6 +1089,11 @@ static int enable_audio_stream(struct snd_usb_substream *subs,
- 
- 	return 0;
- 
-+remove_sync_ep:
-+	if (sync_ep)
-+		xhci_sideband_remove_endpoint(uadev[card_num].sb, sync_ep);
-+remove_data_ep:
-+	xhci_sideband_remove_endpoint(uadev[card_num].sb, data_ep);
- detach_ep:
- 	snd_usb_hw_free(subs);
- 
-@@ -1140,14 +1215,6 @@ uaudio_endpoint_setup(struct snd_usb_substream *subs,
- 
- 	memcpy(ep_desc, &ep->desc, sizeof(ep->desc));
- 
--	ret = xhci_sideband_add_endpoint(uadev[card_num].sb, ep);
--	if (ret < 0) {
--		dev_err(&subs->dev->dev,
--			"failed to add data ep to sec intr: %d\n", ret);
--		ret = -ENODEV;
--		goto exit;
--	}
--
- 	sgt = xhci_sideband_get_endpoint_buffer(uadev[card_num].sb, ep);
- 	if (!sgt) {
- 		dev_err(&subs->dev->dev,
-@@ -1212,7 +1279,8 @@ static int uaudio_event_ring_setup(struct snd_usb_substream *subs,
- 
- 	/* event ring */
- 	ret = xhci_sideband_create_interrupter(uadev[card_num].sb, 1, false,
--					       0, uaudio_qdev->data->intr_num);
-+					       0, uaudio_qdev->data->intr_num,
-+					       PAGE_SIZE);
- 	if (ret < 0) {
- 		dev_err(&subs->dev->dev, "failed to fetch interrupter\n");
- 		goto put_offload;
-@@ -1637,7 +1705,7 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 		ret = enable_audio_stream(subs,
- 					  map_pcm_format(req_msg->audio_format),
- 					  req_msg->number_of_ch, req_msg->bit_rate,
--					  datainterval);
-+					  datainterval, pcm_card_num);
- 
- 		if (!ret)
- 			ret = prepare_qmi_response(subs, req_msg, &resp,
+Changes in v9:
+- Correct firmware-name descriptions for Left/Right DSP binary requirement
 
+Changes in v8:
+- No changes, added Krzysztof's Reviewed-by tag.
+
+Changes in v7:
+- No changes, added Krzysztof's Reviewed-by tag.
+
+Changes in v6:
+- Remove '|' from descriptions.
+- Add firmware-name in required.
+- Add "nuvoton,dsp-tx-slot-mapping" and "nuvoton,dsp-rx-slot-mapping" properties.
+
+Changes in v5:
+- Remove the detailed datasheet information, keep only the valid I2C address enum
+- Simplify the firmware firmware-name items definition by removing the redundant
+  minItems/maxItems and moving the channel descriptions directly into individual
+  item entries.
+
+Changes in v4:
+- Refine the `firmware-name` description to clarify the loading order
+ (Left then Right) and the PBTL mode behavior.
+- Remove the "dsp bypass" option description.
+- Update the example node to follow devicetree coding styles.
+
+Changes in v3:
+- Remove colon to resolve YAML build warnings.
+- Fix 'firmware-name' property definition to comply with binding schemas
+
+Changes in v2:
+- Dropped the word "driver" from the description.
+- Removed runtime/software configuration properties:
+  nuvoton,low-latency, nuvoton,anc-enable, nuvoton,aec-enable,
+  nuvoton,vbat-microvolt, and nuvoton,tdm-channel-length.
+- Added missing "nuvoton,dac-cur-enable" property for static speaker impedance matching.
+- Removed unnecessary '|' formatting from single-line descriptions.
+- Fixed typo in firmware-name property.
+---
+ .../bindings/sound/nuvoton,nau8360.yaml       | 115 ++++++++++++++++++
+ 1 file changed, 115 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
+
+diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
+new file mode 100644
+index 000000000000..3edab944a4e9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8360.yaml
+@@ -0,0 +1,115 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/nuvoton,nau8360.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Nuvoton NAU83G60 Stereo Class-D Amplifier with DSP
++
++description:
++  Stereo Class-D Amplifier with DSP and I/V-sense.
++  This device supports I2C.
++
++maintainers:
++  - Neo Chang <YLCHANG2@nuvoton.com>
++
++properties:
++  compatible:
++    enum:
++      - nuvoton,nau8360
++
++  reg:
++    description: The I2C address is determined by the hardware pins.
++    enum: [0x1a, 0x1b, 0x4a, 0x4b]
++
++  "#sound-dai-cells":
++    const: 0
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: mclk
++
++  firmware-name:
++    description:
++      List of DSP core firmware filenames. Both Left and Right DSP firmware
++      must be provided and loaded. In PBTL mode, the Left DSP must use the
++      same binary file as the Right DSP.
++    items:
++      - description: Left DSP core firmware filename.
++      - description: Right DSP core firmware filename.
++
++  nuvoton,pbtl-enable:
++    type: boolean
++    description: NAU83G60 supports PBTL mode for mono output.
++
++  nuvoton,dac-cur-enable:
++    type: boolean
++    description:
++      Adjust DAC output current to match speaker impedance and prevent
++      hardware damage. +3.2dB when present, 0dB by default.
++
++  nuvoton,dsp-rx-slot-mapping:
++    description:
++      Configures the TDM slot routing for DSP RX functions.
++      Each integer assigns a specific DSP internal function to a TDM slot.
++      The indices of the array correspond to the following hardware functions
++        (0) DACL
++        (1) DACR
++        (2) ANCL
++        (3) ANCR
++      Assigned slots must be unique, except 255 which disables the function.
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 4
++    maxItems: 4
++    items:
++      enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 255 ]
++
++  nuvoton,dsp-tx-slot-mapping:
++    description:
++      Configures the TDM slot routing for DSP TX functions.
++      Each integer assigns a specific DSP internal function to a TDM slot.
++      The indices of the array correspond to the following hardware functions
++        (0) AECL (Acoustic echo cancellation left)
++        (1) AECR (Acoustic echo cancellation right)
++        (2) ISNSL (Current sense left)
++        (3) ISNSR (Current sense right)
++        (4) VSNSL (Voltage sense left)
++        (5) VSNSR (Voltage sense right)
++        (6) TJ (Junction temperature)
++        (7) VBAT (Battery voltage)
++      Assigned slots must be unique, except 255 which disables the function.
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 8
++    maxItems: 8
++    items:
++      enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 255 ]
++
++required:
++  - compatible
++  - reg
++  - firmware-name
++
++allOf:
++  - $ref: dai-common.yaml#
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "nuvoton,nau8360";
++            reg = <0x1a>;
++            #sound-dai-cells = <0>;
++            firmware-name = "NAU83G60.kcs.bin.l", "NAU83G60.kcs.bin.r";
++            nuvoton,dac-cur-enable;
++            nuvoton,pbtl-enable;
++            nuvoton,dsp-rx-slot-mapping = <0 1 2 3>;
++            nuvoton,dsp-tx-slot-mapping = <0 1 2 3 4 5 6 7>;
++        };
++    };
 -- 
-2.34.1
+2.25.1
 
