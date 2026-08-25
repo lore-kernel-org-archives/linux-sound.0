@@ -1,87 +1,186 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034C7285CBA;
-	Tue, 25 Aug 2026 02:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787625546; cv=none; b=X01DLKaLZIfcj7mNvYFdykWE96eiAtVmPdie7hVKBv+t959w2wY/MlYLD+zTl3qwBS3FZ5bEAULj+inTaG7l0Tx9WDIEr2va5VzTZNAkXmdwZ0Cj8gonDlbPC7qVMxo7fZ263QlIkraQBy/zw+kag99DC5pV7aQzOhhwHH+gTqs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787625546; c=relaxed/simple;
-	bh=dEfPByvC9mF7RTgoTt9YSSjX4gOr+XYq8VXZHNXovLQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DdG7j6WNbqYuKbC5Vpzy3FuVr/i86CA7pFI536Y1iZJuwYyEfjt8J/i1iC/7PEYDBYa2I8zkzWf37AkjUjlhk+plX7rLk7rv8KQvJQWHZrC0NWTAI2Eg+uoctCyxseDwWtMSCKyoSFyVEi+FaNa5bihsH6TYQnYgaQTcU6i+OjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 1fd5f620a02e11f19a56ed5b684f684d-20260825
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:ace71b58-8589-43d0-af36-3d1c2ad37cfc,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:967feefb50a0ac11231d438c43f9e447,BulkI
-	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:ni
-	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 1fd5f620a02e11f19a56ed5b684f684d-20260825
-X-User: songxiebing@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <songxiebing@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1622390094; Tue, 25 Aug 2026 10:38:58 +0800
-From: songxiebing <songxiebing@kylinos.cn>
-To: tiwai@suse.com,
-	perex@perex.cz
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	songxiebing@kylinos.cn
-Subject: [PATCH] ALSA: hda/conexant: Set mic pin VREF to 0x24 on headset mic plug
-Date: Tue, 25 Aug 2026 10:38:55 +0800
-Message-Id: <20260825023855.394959-1-songxiebing@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DF137F74A
+	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 03:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787630236; cv=pass; b=Fl+Iw26zFVksbXDJZzM/de6/tAT4zeEPmnaE4wohwbYwv62wLTi6TBZKyAznnsXIAbKqLfW3atDVYfNYA+HRIJWsBReQe2M18HSx5q0TVxSTi+WoUBHiHWr/cJAkD9/Tq6bzSiLcpPP3MIbx/gPhbAGSLDCMhi8fY7/pFQPXjQ8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787630236; c=relaxed/simple;
+	bh=RXmFDfhWcTpQBrj7twWm9WPmpquLnT2VNEmn8TaEDVc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rt4WhEdpvqVmDEnIwhCBPTTUrhyCRPxPp+xKVusDHw6c8rw1TR//oab9BGAnW1mZ8qQqD5xgDMhGGPT2SGv1azdhl4JmGJU+tK39j77u3cNsz8To1pkExzeNwNap/0wA+n0BB91Gz1dkgX1VlVfQPin5v8CHQ7T5QoZ/RCJhLdM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oM7jaiZ2; arc=pass smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oM7jaiZ2"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d032846c95so51428855ad.1
+        for <linux-sound@vger.kernel.org>; Mon, 24 Aug 2026 20:57:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787630235; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BywbwYCUuH9iQzCZ3VUnkr65zA1PbASgju3TjrMOO0R38tbXplg0jzSPlCh2wAHuR4
+         JBcbTiQeJUGzInSsuURVczuKQ+e/522mO+OVmxwdJL2bvEwn++r+1rCJNAnzcxVGMUYh
+         mkgpwCrwJnxE9nooyhyfQUAtvFd99LgFOUNeI2ci1NUB2aUmdgRbd8GbjfVK67LDH0iE
+         oLHVcGCZBVuy5WT3eQ5ntV56sksWNAo2rofmCB1D1HybMWFN9Asz5+II+a4ZD9Ytqv+G
+         slyehxG2sDGXLg0+m4k/JvsinFFfRtJc7MlLvxvJWh17zQqZQ0WnMMKe0LY5E0/gsSHo
+         uA7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Mj2rFiHFmTvobZLOVzaNcgjQJ+pH5YwE1FlLD6AaG3E=;
+        fh=iTdivhct2WzgwRGdbuiPYlNGulbMTmbUbX9AB3csOWM=;
+        b=Yly9p09WzcsAiLV431fiKRB5fvcfnZjaSgT8zFIXx+quI2CXNhc50XAYjRGBuhLJ7g
+         kqaMrMOihYioAocz82OtA8yAWvipRyF7ggBPWILfTJR7mmFhJiQbNoxxJEVRb8KUoaul
+         lk0xbzilGmKsoUA64B6FesC86+X7+7thE6VHaTrwX1IXfCaN/Fd6Yp51xG+d6uZDQoTy
+         15zChvmLclH2GkC99iaCcFz4c7M5xwGqlmafvhzdvcpy5wa4kby1LAlJYwb8J5agur4o
+         P1w9VZj6rXXMUF9tYZUMWvA6Nu1N/LydOYeTlK1NVOw+uJ1O4ASbJ2WD0OBfr52uT/Yo
+         54TA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787630235; x=1788235035; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Mj2rFiHFmTvobZLOVzaNcgjQJ+pH5YwE1FlLD6AaG3E=;
+        b=oM7jaiZ2aIDI5HiXer7Winp8lHFL1irQMOPmkGoPhdi3bIfuBxQ4jhXUyonxTh2cqR
+         o2Vg5sO/y+ez5OJsqzVHT/3ZO2a7Ht7/Bi7WQQYgVFABePM0HVbMA6Ma7LcLOWR1yt3a
+         k1Rwm2cI/j7/qi1Nv/X5hOYpiCehfjyhDdZcJ69qn+730LsBKzGfzCTAvbwbK+Z3IGAs
+         1lF/ViI7uRLVVw8cFWGNeEu1AT8num2AxEEeWy8Uqo+ApNZy53aN2jdXwB0nODcyM3jQ
+         a6LgYa/v1IiZhnqx6K28GrDtLurfdqHO8pX/G1JqqSeZiLC5YGEEyiHna94OneTS3bi+
+         Nezg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787630235; x=1788235035;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Mj2rFiHFmTvobZLOVzaNcgjQJ+pH5YwE1FlLD6AaG3E=;
+        b=UpC6h709f2lpUAO1TB9ACAZlE3xmyBjbaKE6ebyrpRPfo6xxFQ0yB4Bl44QJmkBUJt
+         inIJ6vgPSixXjEiq37cOT3tge5cV83Nt3mdfinSpAmXVg0/qs3AR6z/z3Pvi1iJsz+i2
+         9/NCtZZLk7xvTUAMsldrE1MYcOJ5nxKIxHce0QRLxVbADOjh80qoDFL6hSL6HLQ5xIcq
+         SbKZ9R6wM8wqUpccMHLllyt8u2FaSoqmp7lAMjOUEVoPuV79GqAQQPsGsM97h325nc5C
+         hof79XLErwSUhCdRakLcTugjxxmEF1UTsn0nsdoWWQqBtzDIPDcFjv6IO7z+Jd37wmO9
+         YRig==
+X-Forwarded-Encrypted: i=1; AHgh+Rqvn8T17SpWeWzw5W1J86BAX7lqxpzvLd/0trects3tRgRTzlt3T/xNe54vpBxQxRfTir1pdvCGA+CoOg==@vger.kernel.org
+X-Gm-Message-State: AFuF++n5+MdJ6UzCDvIMIx0pT9hAHrdIkQkSGcdEtNrH+r86dOI7oLuN
+	8fkGwMs46AEjpL6+IVgPmW1jAQlXQpY0di/8bICrCqL/Nfpvbm4tNbKErCa0Vz19HeIB/jHP5GG
+	P8dEElZhUpvYbDzvFQzSg7C2SyXR+054=
+X-Gm-Gg: AR+sD13EehWsNRvTPtlBBZh2QKoWe9zK7UpHu2gQXUocBd0IzuksSzAh6p4Mhg9+J4u
+	Nm4ab/f/pMyk/0GmXMIkmcWQirOPgKshZm0sjGwEwHO6Qno8vIc/IxdLuhYd6sZPq0+Ljr+ZAhH
+	3p12Ag/A7VWv+VwMRBoIyQzTZhQHpBYV1a36PRlqQKrAzPWy/i0ahBaSxzKMMcP6inZ0+elI95D
+	iiry+RySaOGFjKEjcpphx31jNGUuusun+ZfIERnQl89ZAjOVLyj53TVLts2XLE0c3Dnnwww4q+4
+	X1zRteJXIcV1mYyACwuGc9SVlMFhrHokoMqm4KfvuNAXmWefEd45e0oSKjRcRX6grfJu0QgnKaF
+	emzZr7+DZHCA1/lBtv4H2wSi3z8abg2k0mjnh+o3w5zOo3r5FiXGFQUwd
+X-Received: by 2002:a17:902:e784:b0:2cf:ba10:6d6 with SMTP id
+ d9443c01a7336-2d64af6f8dbmr579072465ad.4.1787630234646; Mon, 24 Aug 2026
+ 20:57:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260720064131.75156-1-phucduc.bui@gmail.com> <aoyBuho270dTWYBL@jupiter.universe>
+In-Reply-To: <aoyBuho270dTWYBL@jupiter.universe>
+From: Bui Duc Phuc <phucduc.bui@gmail.com>
+Date: Tue, 25 Aug 2026 10:57:03 +0700
+X-Gm-Features: AcwNN1VgX709NuVPHPIHO1MRK8e5h6C55gRznHlOABgEJFMByB-FIa7JkcPYZN4
+Message-ID: <CAABR9nEbY8++3VDX438QfCYwqRdqYhPWLHWMR3E9yV=2mN28zQ@mail.gmail.com>
+Subject: Re: [PATCH v3] ASoC: soc-generic-dmaengine: Handle DMA channel
+ request failures correctly
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: broonie@kernel.org, lars@metafoo.de, lgirdwood@gmail.com, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	tiwai@suse.com, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bob Song <songxiebing@kylinos.cn>
+Hi Sebastian, Mark,
 
-For 3-pole headset microphones, the mic pin VREF must always be
-configured to 0x24 regardless of the headset type, otherwise the
-mic will not be able to record audio. Move the setting of the mic
-pin widget control to a common path.
+Thanks for the report, and apologies for the regression.
 
-Signed-off-by: Bob Song <songxiebing@kylinos.cn>
----
- sound/hda/codecs/conexant.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> The new warning triggers for the Rockchip SPDIF driver [0], which
+> is playback only and thus only has a 'tx' DMA channel:
+>
+> [    2.275100] rockchip-spdif 27ea0000.spdif-tx: DTS/ACPI name 'rx' not found, legacy failed (-19)
+>
+> This is from RK3576 Sige5, which does not yet have the node enabled
+> upstream. But it should be exactly the same for any RK3576, RK3588
+> or RK3568 board at least.
+>
+> [0] sound/soc/rockchip/rockchip_spdif.c
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index 40da2832ba66..a18091a2866f 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -225,13 +225,12 @@ static void cx_process_headset_plugin(struct hda_codec *codec)
- 	val = snd_hda_codec_read(codec, 0x1c, 0, 0xcb0, 0x0);
- 	if (val & 0x800) {
- 		codec_dbg(codec, "headset plugin, type is CTIA\n");
--		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
- 	} else if (val & 0x400) {
- 		codec_dbg(codec, "headset plugin, type is OMTP\n");
--		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
- 	} else {
--		codec_dbg(codec, "headphone plugin\n");
-+		codec_dbg(codec, "mic plugin\n");
- 	}
-+	snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
- }
- 
- static void cx_update_headset_mic_vref(struct hda_codec *codec, struct hda_jack_callback *event)
--- 
-2.25.1
 
+The if (has_fw_node && !name_exists_in_fw) branch is not handled correctly.
+For DT-only devices (such as Rockchip), this branch can end up propagating
+the -ENODEV error coming from the DTS/ACPI stage itself, i.e. the case where
+the name simply doesn't exist in dma-names (which is exactly what
+name_exists_in_fw is meant to capture), rather than actually reflecting a
+legacy-filter-map failure, as the message currently implies.
+
+The more accurate fix would be to also filter out the -ENODEV returned by
+of_dma_request_slave_channel() and acpi_dma_request_slave_chan_by_name()
+when the name isn't found. However, acpi_dma_request_slave_chan_by_name()
+internally calls acpi_dev_get_resources(), so the returned error isn't
+guaranteed to
+always be -ENODEV. It could be a different error from the resource-parsing step.
+
+In addition, for genuine legacy-path failures, find_candidate()
+already logs the failure itself:
+
+--------------------------------------
+if (err) {
+        if (err == -ENODEV) {
+                dev_dbg(device->dev, "%s: %s module removed\n",
+                               __func__, dma_chan_name(chan));
+                list_del_rcu(&device->global_node);
+        } else
+                dev_dbg(device->dev,
+                               "%s: failed to get %s: (%d)\n",
+                               __func__, dma_chan_name(chan), err);
+
+        if (--device->privatecnt == 0)
+               dma_cap_clear(DMA_PRIVATE, device->cap_mask);
+
+        chan = ERR_PTR(err);
+}
+
+------------------------------------
+
+So, to avoid duplicate logging as well as logging with an inaccurate
+or misleading source,
+I'll drop these two branches:
+
++                       if (has_fw_node && !name_exists_in_fw)
++                               dev_warn(dev, "DTS/ACPI name '%s' not
+found, legacy failed (%ld)\n",
++                                        name, PTR_ERR(chan));
++
++                       if (!has_fw_node)
++                               dev_warn(dev, "Legacy DMA channel '%s'
+request failed (%ld)\n",
++                                        name, PTR_ERR(chan));
++
+
+and keep only:
+
++                       if (has_fw_node && name_exists_in_fw)
++                               dev_warn(dev, "DTS/ACPI DMA channel
+'%s' request failed (%ld)\n",
++                                        name, PTR_ERR(chan));
+
+which can be simplified to:
+------------------------------------------------
++                       if (device_property_match_string(dev,
+"dma-names", name) >= 0)
++                               dev_warn(dev, "dma-names has '%s' but
+request failed (%ld)\n",
++                                        name, PTR_ERR(chan));
+-------------------------------------------------
+
+I'll send a fix for this.
+
+Best regards,
+Phuc
