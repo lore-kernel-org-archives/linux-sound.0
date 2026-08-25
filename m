@@ -1,80 +1,74 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127413FD14F
-	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 11:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AE742A17E
+	for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 12:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787656376; cv=none; b=pSp+nEYkquxcydFp3Udy5nOIMSS+fHNRG/+KHniu4Lb43g46FNj/P3sjvEW2MGjoQM9Yq58hlCBxcbhHZYv16NpnCafcG4+2+0tsQGAF6Bf/OZHOG+hgB3ca1dkjY9dZLHvYAtYZP2s12j4iL5IAcB+3OyUbEADCczCSutX0Qgk=
+	t=1787662675; cv=none; b=dbz1fJ+nrNMJilfbMfQDB3KYvJoIT/KENQeReUJPwq68kFQ6GTtVFPXYDNKyPfwZpCcXZUaBQwOsS4IakAvQ7K2K0Bq+fMhCUA1WgixgJc3QNAm+FlSxxKzRY4WJ4dK+JGmNTAZBWfFmrx77ZmFeeE1nocs8nFKLVmX8f+0Ry2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787656376; c=relaxed/simple;
-	bh=vMtWDNwbwcpelyaCoK5Kmwd4wqMxpsqiZD7dK5PEs7s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lL+aF77/I1hXKb6tbvAiqPoz8KGSULFWSsC4fmQfSq44Pu7ULDkuOeAAlA3pvzTEvy+kcImxRh68yNmdv1SxKP4yq8v5BNG8DHfYKHfqvVfHnVH7s+3mqBYHIR9BJWdlGvrw070rfDW99Hz9cfd52nWQRgUuwE3TeEcGzs4DWN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U/JbF3sG; arc=none smtp.client-ip=209.85.167.44
+	s=arc-20240116; t=1787662675; c=relaxed/simple;
+	bh=QP+3/LI0nxLkgJ/Scbe7OQh/8ApQIaUvT5L3XTK6zFI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fQfFINDdvGKRjqk2Ky3sgdGf7v4mIwbBgHQOWQYORket66em0VUFDeQlM/w5RlAxlDDPcCdGe5Md2N0JaRbjcMZeLU5DEltMQ4+ZB8tuNZFxgl1KgkhmEhUsyh/uzoiiaQTNOCLirSCevdk9APTkdhiCWxI78M6r/ARhVuqf6jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QSPzWO4p; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U/JbF3sG"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aeb24c0807so3787379e87.0
-        for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 04:12:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QSPzWO4p"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-84e27035206so1952467b3a.3
+        for <linux-sound@vger.kernel.org>; Tue, 25 Aug 2026 05:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787656372; x=1788261172; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lymENNeZhP352EEGP9sBVket9fGxGtuJScsbcL5Oefo=;
-        b=U/JbF3sGiE98wRd9XSfDTNCO22ziIQ8ccviO053ukdTu/ZyZ2U9Ie4PwC7dOjnaIhp
-         FC5SG5BTuhVKbRxbZ39WxCibShVX9J0f7M3F0UoLjj98Q9K3S8uM9px2Jm1O7smYNmFI
-         VoxFD+NKrGwq48Vir4vupeG7UZXttUh3ahC907cLj1CyB6hLle1wC+tWMGTkHcj2if47
-         AijOuQKpmN4rUntbC+R6jcYY01Hc9Hk3wRFU1No5rhs3HGGLr/laK5PtWQZvE9KXNPsB
-         iTkeUrEBDq1oKFeDY220hNau5kEFK+yZNEfRWOJeyJrPhfFqcdImnmB1YAI/F4L0Nmj1
-         1B3Q==
+        d=gmail.com; s=20251104; t=1787662673; x=1788267473; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mxkwXPN1Bs/FaD68NtnzI5z2SBmRZQo8jCWgYr3x1Zs=;
+        b=QSPzWO4pm8QEHbKsMMnapIEnEE1pFB5Vbhf2sRem6thc12XyPny9eSJ5OJbcroWvWH
+         NVHOqQ1zjJtvcOH+LoCKrwRW/9YTm7saSa3jclg1/z2ELmzEGy450JYMN7goxV9n72GY
+         V3ecp2TlusGLHaA1v9VxnhP0PrQJ6KVk41RYtGbp9HUqtmNYvjIkzR5IczRpSIjSSOTT
+         Bm/IEuRgSpMTXg8Obxi6dfsBTvO/2qXlzffNnqbHjQdju/fzUfSTCoDFAXHQLJhwXd5Z
+         Ylc4lr+iQQF6hJUdEZUlJ/80oMDtig+IBVnlzGl1ZZgsdYfRpoh2OPvVs4nMwe/Vq5bG
+         +ASw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787656372; x=1788261172;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lymENNeZhP352EEGP9sBVket9fGxGtuJScsbcL5Oefo=;
-        b=rtCGBnLJTHBA4jtA81wOGxqkB0RDYwaMX0WKkpCH6r1sVVB2RMwNUVinikCrV2PX2Y
-         6qLchq4+NTi9Rwitk7RQyR4Pu1iB+rQvBYOe4ETuu5nRzXjUNFiStJdX8nT3A3qVr7LS
-         rQs4TLIq8wEaCnEZolgxKCH28gqTgez25Wj4rhAhepnMB3H38ywnE3pLpNP8ocrGPNi5
-         PDdw+7DjEr5jj5ygujNOFN6xBTM4Ns3rIOciM9pay1d1y2peYkyTJPd9P9JY7yGbWBhb
-         ILobToSH42KdVJg8/yF+HSl5QWVMS/dQxv1KkixFtOHNTqDjvEIvgLJvoFZlgDJg2wpt
-         +TFg==
-X-Forwarded-Encrypted: i=1; AHgh+RqNBvQKq9GYmjVrn5bafVj15pyI9U/iyT8Iq6eihacjHErejin3OIfTllC8NhtO+G+w2CockkoBhM2CsA==@vger.kernel.org
-X-Gm-Message-State: AFuF++n9EcZkHs8OhXiz7cTSx4JmGA3PdnDpNYKTodWxbU6WzcvxAWYp
-	1UGQWHJM0aTaA1fU4kUZES8UlpynkDlE0cqRQ/hC2a6gvwT6xPJMRWOs
-X-Gm-Gg: AR+sD10X9PRB7Rnv+/JIgP4jYDOinHtLp1/CwW8KHqSCH0zbQ6x5SyFhUf/rTw2aO38
-	PrisYoNDYbTRrVULugAAR5aQlfKbVrHDMeIWSAs/J5c/q5YelrlXH/5x3R1xnCHB9XWUiUb+wlK
-	1w82u/QCaSgOdzHk/5UoI4j5GbUuCYoUGbtgmpQDJYA/CMMpfbmnl3lq+PP6lw4JkXryTA2m9ro
-	QWG75n/gSZJVW6Nt9sN2VFMNpA2AFi6LvuSrHIhAnie4dpIteqtWzlakJIujg0QFbcUBzA51VwZ
-	3z7cB19aS4Lj4SjKXY7AlEn7Tv8irLP/3/y4tjdqsMjspxREQ2cEMC5X0hsWPK8v1NU0EemRnPu
-	FW9DpmamqzytkWSWXr2WPuuiM4dsEMcE9oZ16c/O1wuIbSFmyv9ExQJKwpkyy/E1+vYvF84nDzE
-	zW42sXxc16DKC15c+dssGO3Q4KFnzP2bXBaJdlYfzwAaPLRYvpioLaQlBJ+0wE96dYDrWd5wd7I
-	xYOaFehQLWiqJwXLrUHBG/F+Ep5PONnipWHhl0lkkKJP7mC0KWh9ybrGEsmhUmqWL8Hnmo=
-X-Received: by 2002:a05:6512:118a:b0:5b2:9f7a:29aa with SMTP id 2adb3069b0e04-5b4841a9e27mr10019236e87.0.1787656371650;
-        Tue, 25 Aug 2026 04:12:51 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b48ce3a89fsm2337244e87.83.2026.08.25.04.12.49
+        d=1e100.net; s=20251104; t=1787662673; x=1788267473;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mxkwXPN1Bs/FaD68NtnzI5z2SBmRZQo8jCWgYr3x1Zs=;
+        b=np7W7KZcic67qH67XE/NNUACCm9EAHdm0pF2u1NyLuxaDmW8FyVdLluTQh2EOkaeY+
+         HjPt0ksG2+Nsvf64HpimqYldXNwSFGWYpdnOzaEDNPRjdgiBMApuOawGyCBa7wBEInK1
+         MpDgXW1kSNrP1thfQjH/OmyzPVyHuAGlX6hEjg43/OEZUVNWyFIb6Y1yDjbGjEnh9sVW
+         RG0GKpJ7RqluoDX64LF/QdOmGaBL/E6jq6GABTWQhCTjXwnHZE89tIm8tUHmF6NeIKLk
+         XiWJgXKvNAn/pqswOdmgCvrB3kuMsFh1lgcXj0D16yyVcMhqJ0bH+0jeE7uROttTC9KM
+         183A==
+X-Gm-Message-State: AFuF++nzCZ3ESObV0h2Zq2AuVqWdSV48ezDs2HwMfOB6fc0lIToZxDIj
+	i9hy/O0h9FRjqsioMH4E2HpL62fiPdCMgHfTnqWihWUmzeBq7aM9tMQW
+X-Gm-Gg: AR+sD117o66jt6NaA9slDtdn+oFBGFSgct056z6cG2EYRYCFY2lnUbrrLI3BqX8SmAG
+	3sxI70ICRbXiEIKi6dn/llI1xjHUv/9fTHXnZasFYXxbvsJTbynnJww3whMa0lvK6FDRcnEOVQj
+	SL56lGDH4o/YzlFxHBkduURQQkdSyWE1NEU4fiR7fFds7z0uOidXj1fa5mUy5YY1IaXpS3YI7zF
+	4L8kAlBAFcv9F4YRZDsi9o/4nRJPWtjiCSF42ado7NLYgvYIUZmAJMkR4lqxyL9kZ7iB18NaGX/
+	iHhZqd7SDh8XcCaft9lVCq+C+GPoh6yFL8J2Y4m8j+lxXxKcpncQgjCWAFQSIkV9yMHUksFZQrf
+	rbKM04W64Afz6D4RQKAxPj58xaQMRZtggFM1MfMf91vn8wRQaSt+gJUGzCaiHp+gzRAeYb8JIB3
+	ZY0wZSlhUcZmWRVa++lqCX+5Z501GXn4Pa4dxb7v0B173Q48PD9OoDU8Ra34ZG/ivtKA55+V5dz
+	wnpSA7+MKsNMdwEZ7RXwMkzbnxhVFBOJij0u7mWPtcQCw6FaZXZGQ==
+X-Received: by 2002:a05:6a00:3926:b0:848:4754:28e4 with SMTP id d2e1a72fcca58-851fa060bdfmr53550880b3a.15.1787662672900;
+        Tue, 25 Aug 2026 05:57:52 -0700 (PDT)
+Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520f03b185sm2937367b3a.39.2026.08.25.05.57.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 04:12:51 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	jikos@kernel.org,
-	bentiss@kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org,
+        Tue, 25 Aug 2026 05:57:52 -0700 (PDT)
+From: HyeongJun An <sammiee5311@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	lars@metafoo.de
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH v8 2/2] ALSA: usb-audio: let the M62's outputs say what they listen to
-Date: Tue, 25 Aug 2026 16:12:39 +0500
-Message-ID: <20260825111239.24834-3-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260825111239.24834-1-mikhail.v.gavrilov@gmail.com>
-References: <20260825085659.52675-1-mikhail.v.gavrilov@gmail.com>
- <20260825111239.24834-1-mikhail.v.gavrilov@gmail.com>
+	HyeongJun An <sammiee5311@gmail.com>
+Subject: [PATCH] ASoC: dapm: Fix off-by-one check on the second enum channel
+Date: Tue, 25 Aug 2026 21:57:45 +0900
+Message-ID: <20260825125745.932832-1-sammiee5311@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -83,262 +77,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Each output on this card has a source selector: it can take one of the
-three internal mixes, or any input, or any playback bus straight from
-USB. Which it is decides everything downstream -- point the headphones
-at a playback bus and the card's mixer leaves the path entirely, along
-with every question about what is summed into it.
+The snd_soc_dapm_put_enum_double() rejects item[0] once it reaches
+e->items, but it lets item[1] be equal to it.  Both go on to
+snd_soc_enum_item_to_val(), which indexes e->values with no bound of
+its own, so an enum with a value table reads one element past the end.
 
-That matters more here than it would elsewhere. There is no control
-panel for the M62 on Linux, so a user who never runs the vendor's
-application on another machine has no way to see or change this, and
-inherits whatever the card was last told. One enumerated control per
-output gives them the whole choice, and it does so without exposing the
-sixty-cell mixer matrix, which without a graphical representation would
-confuse far more than it helps.
+The indexing arrived with the MUX consolidation, which relaxed the
+item[1] check in the same hunk.  The value MUX handler it deleted used
+>= there, and the snd_soc_put_enum_double() in soc-ops.c still does.
 
-The item list has "Unknown" first, and it is deliberate rather than
-tidy: THE DEVICE NEVER REPORTS A SELECTOR. Not to this driver, and not
-to the vendor's own application, which on connect pushes its entire
-workspace to the card rather than asking it anything. So the current
-setting cannot be learned at probe, and saying so is the only honest
-thing a control can do until a hand has chosen. Selecting "Unknown" is
-refused, since it is a report and not a choice.
+Only adav80x pairs a value table with two shifts, and its second
+channel looks accidental, but the control does report two values.
+Writing three into it reads off the end of adav80x_mux_values.  The
+core catches that only under CONFIG_SND_CTL_INPUT_VALIDATION, which
+defaults off.
 
-The numbering the card uses has a hole where 4 and 5 would be, so the
-item index and the value written are kept as separate tables rather
-than one being computed from the other.
-
-Writing "Unknown" changes nothing and says so quietly. It is what the
-control reports until a hand has chosen, and alsactl stores and
-restores it like any other value, so refusing it would fail a restore
-of the driver's own report -- once at every boot, and again whenever a
-saved state is put back over a chosen one.
-
-The choice is written again on resume. The gains need no such help --
-the device announces them and the cache re-syncs by itself -- but a
-selector is never reported, so if the card came up on its own defaults
-while the host slept, the driver's idea of it would be silently wrong
-and writing the remembered value back would look like no change at all.
-
-This write wakes the device before taking the lock for the same reason
-the gain controls do: the wake can run the resume callback on this
-thread, and that callback writes the selectors back under the same
-lock.
-
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Fixes: 3727b4968453 ("ASoC: dapm: Consolidate MUXs and value MUXs")
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
 ---
- sound/usb/mixer_topping.c | 162 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 162 insertions(+)
+ sound/soc/soc-dapm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/usb/mixer_topping.c b/sound/usb/mixer_topping.c
-index 933a8bbe57b9..7d6ba7257807 100644
---- a/sound/usb/mixer_topping.c
-+++ b/sound/usb/mixer_topping.c
-@@ -127,6 +127,45 @@ static const struct topping_ctl_desc topping_m62_ctls[] = {
- 	  topping_tlv_out_0 },
- };
- 
-+/*
-+ * WHAT AN OUTPUT CAN LISTEN TO. The same numbering serves the outputs
-+ * and the loopback returns, and it has a hole where 4 and 5 would be,
-+ * so the index of a control item is not the value the card wants and
-+ * the two are kept side by side.
-+ *
-+ * "Unknown" is first and is not a choice: the device NEVER reports a
-+ * selector, not to us and not to the vendor's own application, which
-+ * pushes its whole workspace on connect rather than asking. So a
-+ * driver cannot learn where an output is pointing, and the only honest
-+ * thing it can show until a hand has chosen is that it does not know.
-+ */
-+static const char * const topping_sources[] = {
-+	"Unknown", "Mix A", "Mix B", "Mix C", "IN 1", "IN 2", "IN 1+2",
-+	"AUX", "BT", "OTG IN", "Playback 1/2", "Playback 3/4",
-+	"Playback 5/6", "Playback 7/8", "Playback 9/10",
-+};
-+
-+static const u8 topping_source_value[] = {
-+	0, 1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-+};
-+
-+struct topping_enum_desc {
-+	const char *name;
-+	u8 target;
-+	u8 prop;
-+};
-+
-+/*
-+ * The selector answers on ONE target of an output's pair, unlike the
-+ * volume and the mute which must be written to both.
-+ */
-+static const struct topping_enum_desc topping_m62_enums[] = {
-+	{ "Headphone Playback Source", 0x64, 0x02 },
-+	{ "OTG Playback Source", 0x62, 0x02 },
-+};
-+
-+#define TOPPING_NUM_ENUMS	ARRAY_SIZE(topping_m62_enums)
-+
- struct topping_mixer {
- 	struct usb_mixer_interface *mixer;
- 	struct usb_interface *iface;
-@@ -143,6 +182,7 @@ struct topping_mixer {
- 	spinlock_t lock;	/* guards val[] against the URB */
- 	int *val;
- 	struct snd_kcontrol **kctl;
-+	int sel[TOPPING_NUM_ENUMS];	/* what a hand chose, or 0 */
- };
- 
- static void topping_build(u8 *f, u8 target, u8 prop, s32 value)
-@@ -387,6 +427,71 @@ static int topping_ctl_put(struct snd_kcontrol *kctl,
- 	return 1;
- }
- 
-+static int topping_sel_info(struct snd_kcontrol *kctl,
-+			    struct snd_ctl_elem_info *uinfo)
-+{
-+	return snd_ctl_enum_info(uinfo, 1, ARRAY_SIZE(topping_sources),
-+				 topping_sources);
-+}
-+
-+static int topping_sel_get(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct topping_mixer *tm = elem->head.mixer->private_data;
-+
-+	guard(mutex)(&tm->write_lock);
-+	ucontrol->value.enumerated.item[0] = tm->sel[elem->control];
-+	return 0;
-+}
-+
-+static int topping_sel_put(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct usb_mixer_elem_info *elem = kctl->private_data;
-+	struct topping_mixer *tm = elem->head.mixer->private_data;
-+	const struct topping_enum_desc *d;
-+	unsigned int item;
-+	int err;
-+
-+	item = ucontrol->value.enumerated.item[0];
-+	if (item >= ARRAY_SIZE(topping_sources))
-+		return -EINVAL;
-+
-+	/* the wake before the lock, for the reason given in _ctl_put */
-+	CLASS(snd_usb_lock, pm)(elem->head.mixer->chip);
-+	if (pm.err < 0)
-+		return -EIO;
-+
-+	guard(mutex)(&tm->write_lock);
-+
-+	/*
-+	 * "Unknown" is what this control reports until a hand has chosen,
-+	 * and alsactl stores and restores it like any other value.  It is
-+	 * not a choice, so writing it changes nothing -- quietly, rather
-+	 * than failing a restore of the driver's own report.
-+	 */
-+	if (!item || tm->sel[elem->control] == item)
-+		return 0;
-+
-+	d = &topping_m62_enums[elem->control];
-+	err = topping_send(tm, d->target, d->prop,
-+			   topping_source_value[item]);
-+	if (err < 0)
-+		return err;
-+
-+	tm->sel[elem->control] = item;
-+	return 1;
-+}
-+
-+static const struct snd_kcontrol_new topping_sel = {
-+	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE,
-+	.info = topping_sel_info,
-+	.get = topping_sel_get,
-+	.put = topping_sel_put,
-+};
-+
- static const struct snd_kcontrol_new topping_ctl = {
- 	.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
- 	.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
-@@ -429,6 +534,57 @@ static int topping_add_ctl(struct topping_mixer *tm, int idx)
- 	return 0;
- }
- 
-+static int topping_add_sel(struct topping_mixer *tm, int idx)
-+{
-+	struct usb_mixer_elem_info *elem;
-+	struct snd_kcontrol *kctl;
-+
-+	elem = kzalloc_obj(*elem);
-+	if (!elem)
-+		return -ENOMEM;
-+
-+	elem->head.mixer = tm->mixer;
-+	elem->head.id = 0;
-+	elem->control = idx;
-+	elem->channels = 1;
-+	elem->val_type = USB_MIXER_BESPOKEN;
-+
-+	kctl = snd_ctl_new1(&topping_sel, elem);
-+	if (!kctl) {
-+		kfree(elem);
-+		return -ENOMEM;
-+	}
-+	kctl->private_free = snd_usb_mixer_elem_free;
-+	strscpy(kctl->id.name, topping_m62_enums[idx].name,
-+		sizeof(kctl->id.name));
-+
-+	return snd_usb_mixer_add_control(&elem->head, kctl);
-+}
-+
-+/*
-+ * The gains come back by themselves, since the device announces them,
-+ * but a selector is never reported: if the card came up on its own
-+ * defaults while the host slept, this driver's idea of it would be
-+ * silently wrong, and writing the remembered value would then look
-+ * like no change at all.  So the choice a hand made is written again
-+ * -- which is what the mixer core does for every control that is not
-+ * marked as the driver's own to handle.
-+ */
-+static void topping_restore_sel(struct topping_mixer *tm)
-+{
-+	const struct topping_enum_desc *d;
-+	int i;
-+
-+	guard(mutex)(&tm->write_lock);
-+	for (i = 0; i < TOPPING_NUM_ENUMS; i++) {
-+		if (!tm->sel[i])
-+			continue;	/* nothing was ever chosen */
-+		d = &topping_m62_enums[i];
-+		topping_send(tm, d->target, d->prop,
-+			     topping_source_value[tm->sel[i]]);
-+	}
-+}
-+
- static void topping_suspend(struct usb_mixer_interface *mixer)
- {
- 	struct topping_mixer *tm = mixer->private_data;
-@@ -473,6 +629,7 @@ static int topping_resume(struct usb_mixer_interface *mixer)
- 	 */
- 	topping_send(tm, TOPPING_TT_DEVICE, TOPPING_PP_SUBSCRIBE, 1);
- 	topping_send(tm, TOPPING_TT_DEVICE, TOPPING_PP_ANNOUNCE, 1);
-+	topping_restore_sel(tm);
- 	schedule_delayed_work(&tm->keepalive,
- 			      msecs_to_jiffies(TOPPING_KEEPALIVE_MS));
- 	memalloc_noio_restore(noio);
-@@ -618,6 +775,11 @@ int snd_topping_init(struct usb_mixer_interface *mixer)
- 		if (err < 0)
- 			return err;	/* private_free cleans up */
- 	}
-+	for (i = 0; i < TOPPING_NUM_ENUMS; i++) {
-+		err = topping_add_sel(tm, i);
-+		if (err < 0)
-+			return err;
-+	}
- 
- 	err = usb_submit_urb(tm->urb, GFP_KERNEL);
- 	if (err < 0) {
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index c98e917cc911..06b85313af12 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -3614,7 +3614,7 @@ int snd_soc_dapm_put_enum_double(struct snd_kcontrol *kcontrol,
+ 	val = snd_soc_enum_item_to_val(e, item[0]) << e->shift_l;
+ 	mask = e->mask << e->shift_l;
+ 	if (e->shift_l != e->shift_r) {
+-		if (item[1] > e->items)
++		if (item[1] >= e->items)
+ 			return -EINVAL;
+ 		val |= snd_soc_enum_item_to_val(e, item[1]) << e->shift_r;
+ 		mask |= e->mask << e->shift_r;
 -- 
-2.55.0
+2.43.0
 
