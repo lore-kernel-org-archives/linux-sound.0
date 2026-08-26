@@ -1,121 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C073A9850;
-	Wed, 26 Aug 2026 11:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A035F1990A7;
+	Wed, 26 Aug 2026 11:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787744690; cv=none; b=UNXmEDmZWHoyqf9VR9+QcRC7P650zV+WHW58uBjA5PhtsYYPT2sIgDeQV+yDfBxG3yY8rM8xJ82NbEpVYOR02p40sh4xjKUrjkKEn6XGRrfQff8LttTzkebxjrEDuT/BCopz2hMp6+P9ueAKwbhzTtka/lGjrm58iuXdsLJHFsk=
+	t=1787745240; cv=none; b=q49918aRIoJFacNZnBq2zwe6ZXCyyJ1DBOpwU5eBA0JPk1y9XSQKkhNeVPgB/IiB5Zgr70Fp0LdavE67++g+jJ747WRJBxULLVk/6fDzR74eF5loXf7jBqu9qf/76bly7Pa/oXr+Q3+xYyuWVxac1eZbe/q6v5CK9+tdJtgJVc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787744690; c=relaxed/simple;
-	bh=dGTaVK9xEjgjJS5Wbxhq68P8aqLa+iZXLVsxgAjvaIQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IP5Nz++HMtgdXCdrLQnqkLK/Y/rAlegxUeBeM/weCY5whM4EVrCWYw8Xw+odQl1MYn3YtmL5glFDb6G1gGtYEMzTJDa/iniQeBZt8QTURpdonUI+y1C1sV3eHdNA0TxeYfMYcsU/LrBs61bFAFdnO/ZnRqu0czRqzLb2xQRHVy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NlkBB474; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NlkBB474"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787744688; x=1819280688;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=dGTaVK9xEjgjJS5Wbxhq68P8aqLa+iZXLVsxgAjvaIQ=;
-  b=NlkBB474qK0Kxp37xVMaANjzNmQWDljG6Dxr/UcwcAS4EUQohB4KdiPM
-   g3nyByB0RyUFPTafCKRCK5g9z7i3VjL3LsSVb12fqarFywl2Eh39RfkXK
-   Rbm12CKX9hu8NA55Yk2ZCx5gRDLvM/SxDOOADL1cY0YY0Gf1f7EcDKo1N
-   WIQK28Kd1s1egXetdavwEZz+cD1Fvm0XqGZVMzcZ9OlPJB0G7X5zV9O0z
-   WswMJ7YQMpsOt8DO5RNYP5uLwCkta5OpHwCz2wuRFhtBWcpbmQCKgfzw5
-   dmOHNTs5xvgy19XnhVbS3KSa3y7jYh45XlQV0nwIP9j4OvPm5972Mzr8p
-   g==;
-X-CSE-ConnectionGUID: w3lAKdt9QRuyk4iYKDdX7g==
-X-CSE-MsgGUID: L/7ajcrNTYW2GPy8t8nXMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="98895387"
-X-IronPort-AV: E=Sophos;i="6.25,244,1779174000"; 
-   d="scan'208";a="98895387"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 04:44:47 -0700
-X-CSE-ConnectionGUID: 78rG4yjeTB2LDK/USSAn5A==
-X-CSE-MsgGUID: wLlXgNdFSvefERgVid47dw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,244,1779174000"; 
-   d="scan'208";a="264957615"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.245.238]) ([10.245.245.238])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 04:44:45 -0700
-Message-ID: <05117737-8793-4db9-9815-f617ac085d82@linux.intel.com>
-Date: Wed, 26 Aug 2026 14:44:42 +0300
+	s=arc-20240116; t=1787745240; c=relaxed/simple;
+	bh=oEnZ8Am8U2+w1Uivf5bMPYLQS2cYsmAH4fIx8UpSk2o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=a2C8kx55hzNqqYll0d3Ou+AZ1wZnHQY282+3kM6H2E/OsDm8qO+AKA0pJypwoBFnnP6SwOWNoe9zQh7lVKP+FrWJW6AzWUfLQtRBeDcEGmZQ0POZa5X0YY6dp4HANl4uuBiVC8AyezaaXci1NMYmhB3H8EA/xIDRc8ZRvkhlU1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: cc7cab64a14411f19a56ed5b684f684d-20260826
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:f2dec469-82de-4d2d-9312-1de37da8be9f,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:73833bb80bfc216a23de1368f34623f5,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|102|850|865|898,TC:nil,Content:0|15|50,EDM:5
+	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
+	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: cc7cab64a14411f19a56ed5b684f684d-20260826
+X-User: songxiebing@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <songxiebing@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1342511268; Wed, 26 Aug 2026 19:53:48 +0800
+From: songxiebing <songxiebing@kylinos.cn>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	songxiebing@kylinos.cn
+Subject: [PATCH v3] ALSA: hda/conexant: Always enable the headset-mic pin on plugin
+Date: Wed, 26 Aug 2026 19:53:44 +0800
+Message-Id: <20260826115344.2128835-1-songxiebing@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260825023855.394959-1-songxiebing@kylinos.cn>
+References: <20260825023855.394959-1-songxiebing@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload
- path
-To: Michal Pecio <michal.pecio@gmail.com>,
- Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
- <20260825094327.606072e9.michal.pecio@gmail.com>
- <25ebe180-a620-4170-92f7-fda6c55a4129@oss.qualcomm.com>
- <0bf654f3-51c5-4555-8cdd-dc9d25dd9f78@oss.qualcomm.com>
- <20260826122552.5761dea2.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260826122552.5761dea2.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/26/26 13:25, Michal Pecio wrote:
-> On Wed, 26 Aug 2026 00:50:53 -0700, Wesley Cheng wrote:
->> Thanks for this suggestion.  I think it actually makes the overall
->> design a lot better.  So now that the sideband driver has its own
->> segment pool (per sideband instance), we expect that any page
->> allocations done from this pool is technically owned by the audio
->> DSP.  This allows us to still utilize 4k ring segments, while mapping
->> the entire 16k page, so it helps conserve/optimize the memory
->> allocations.  I will do a bit more testing and review before
->> submitting a new revision w/ these changes.
-> 
-> The part about memory being "owned by the audio DSP" made me wonder
-> if it would be helpful to let offload drivers allocate their own memory
-> and then just dma_map() it for the xHC. No new rings would be allocated
-> for offloaded endpoints when they are enabled, we would point Endpoint
-> Context of the xHC to the sideband ring and leave ep->ring as NULL.
-> 
-> Offload drivers would have full control over memory allocation - size,
-> number of segments (it seems that qc-usb-audio only uses one out of two
-> allocated by xhci-hcd), alignment, anything else.
-> 
-> It would become impossible to offload an endpoint which is already
-> enabled, but is this an issue for anyone?
-> 
-> NULL ep->ring will cause oopses/panics when somebody submits URBs to
-> offloaded endpoints, but I think it wouldn't be a problem otherwise.
-> 
-I have similar thoughts.
+From: Bob Song <songxiebing@kylinos.cn>
 
-One idea would be to basically let sideband allocate the entire ring and set
-ep->new_ring early. This would tell xhci_endpoint_init() that a ring exists and
-a new one should not be allocated.
+Rename the function to cx_process_headset_detect_plug_type() to reflect
+that it only reports the detected plug type, and move the pin control
+write into cx_update_headset_mic_vref() so that node 0x19 is always set
+to enable the headset mic with the 80% VREF whenever the mic is
+present, regardless of the type detection result.
 
-xhci ring allocation would need some refactoring to create helpers for sideband
-to allocate and initialize all the other parts of the ring.
+Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+---
+changes in v2:
+  - Optimize code logic and description
+changes in v3:
+  - Based on the latest code modifications
+---
+ sound/hda/codecs/conexant.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-This is something that VTIO (xhci spec section 4.25) would also need.
-There an endpoint can be handed over to a secondary DMA ID (second, new PCI BDF),
-that the normal xhci driver can be excluded from  with iommu.
+diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
+index 8e950c796209..7357dc91ac49 100644
+--- a/sound/hda/codecs/conexant.c
++++ b/sound/hda/codecs/conexant.c
+@@ -207,7 +207,7 @@ static void cx_remove(struct hda_codec *codec)
+ 	snd_hda_gen_remove(codec);
+ }
+ 
+-static void cx_process_headset_plugin(struct hda_codec *codec)
++static void cx_process_headset_detect_plug_type(struct hda_codec *codec)
+ {
+ 	unsigned int val;
+ 	unsigned int count = 0;
+@@ -241,10 +241,12 @@ static void cx_update_headset_mic_vref(struct hda_codec *codec, struct hda_jack_
+ 	 * Check hp&mic tag to process headset plugin & plugout.
+ 	 */
+ 	mic_present = snd_hda_codec_read(codec, 0x19, 0, AC_VERB_GET_PIN_SENSE, 0x0);
+-	if (!(mic_present & AC_PINSENSE_PRESENCE)) /* mic plugout */
++	if (!(mic_present & AC_PINSENSE_PRESENCE)) { /* mic plugout */
+ 		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x20);
+-	else
+-		cx_process_headset_plugin(codec);
++	} else {
++		cx_process_headset_detect_plug_type(codec);
++		snd_hda_codec_write(codec, 0x19, 0, AC_VERB_SET_PIN_WIDGET_CONTROL, 0x24);
++	}
+ }
+ 
+ static int cx_suspend(struct hda_codec *codec)
+-- 
+2.25.1
 
-VTIO use case is something like trusted VM accessing a secure usb storage device,
-preventing regular OS running the xhci driver in another VM from touching it.
-
-The secure VM needs to allocate and map the ring to this secondary PCI BDF
-
-Thanks
-Mathias
