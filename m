@@ -1,137 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBB34457C7;
-	Thu, 27 Aug 2026 11:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F8B26CE05;
+	Thu, 27 Aug 2026 12:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787830806; cv=none; b=WtGIVT/1JKeasdvAB3dWk3gjoJYBveyq6+X1VQTc1H2EntyNlL5hPDF1izvy0HBnwLJ83i2luKFxv4Y8Hhjk+StvnXH/xbnsOWWbUj+edbccdkj0AUQfG5KiexUJ0mKtkGh+Ya6Dhb7yjPCjzkDbfFCWJ7zEIEHftynzbS1BNeE=
+	t=1787832819; cv=none; b=O6BQhHh+1t7JYlTFeddkLTT47UiYnECPWcHgCgFWFYWmPrGag7lvc7fiStzMKxa6Vw4yCsPHJFz7r/jPo7Dy5E0jtzNYZDrydoz9c8k4ow2uAuOiCsWB60ovSltKoqpfHxGRh4B3o9tSUOpL+khkmXSJK9QMpPashH+9h1X/xkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787830806; c=relaxed/simple;
-	bh=8ro+jZNFcEo++P23Nt+cPrJhOZj2Y0bNSwIIyF0sg50=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FWtKTFS5OCd5kAfO2aiDGSVj7jpDrLJFrFXmSEPlOO+oHQ7km2uiAAhl8RZryc/4kXeFPvBH9jUWmSeyXqPDJ5f8qQ6KDuXOWf9Xk7lf40MFR8tlejtQGfv9a4mGb8JtqLT4k7BePCT3nDcyBz1Pd0evQOfnXyLZIul8ODAXov8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=K+rQfJca; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=57g2cu2A; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xVEzU6ka; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8nU5Nn5y; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1787832819; c=relaxed/simple;
+	bh=7mJPMTcUzciIsKhxmZgqiqME4lm6eMXGzz36MWvbkLk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Sp2nzcHueLDFdzeY4peZd93gZNAvAcD5iW1xZnk214iiiTxQO+B7p/1NXc+PyiMQOIzFIN81V+PBQq7SjMqCY31ulM9RQ5wjr6krKrWhiLm4v0LL06kq3eGGU3Oiy6cMFguJN4xGES9cR6Cee19WaCCQhFdA648GIVjeBjCwhuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FRk9Ejmg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K+rQfJca";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="57g2cu2A";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xVEzU6ka";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8nU5Nn5y"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7C30421903;
-	Thu, 27 Aug 2026 11:39:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787830797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Mh/Y7OSUpAjE00BNOyiNrcsicwT9JI/UljNMGboymC8=;
-	b=K+rQfJcalin/z+x3NJBCQpIppMraYAgN796TX8ex71f+bX4+L3mOisrVUYKMKijGmrXJId
-	v+3P8LtViqzQOYqFpUDzUYJ41jTJBcf8wMTGBQ6reG9/V4cyKJJtCcgrYcu37KCk/4/dm1
-	oPezeEpAgRQ4F/H3pIsM1Kz1sN6QEVk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787830797;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Mh/Y7OSUpAjE00BNOyiNrcsicwT9JI/UljNMGboymC8=;
-	b=57g2cu2A2wUZ4gGWEN9TA+I2k4zQacierJxi/a51efdRGXVL2Z0MRMb+NbqXl6lAx9m9K0
-	0mqfTitiFiSSYvBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787830793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Mh/Y7OSUpAjE00BNOyiNrcsicwT9JI/UljNMGboymC8=;
-	b=xVEzU6kaxV7mPjXwk/K+WdZiqvhY/aopS7H0/kCqveBHDj5fR7WTz6p/ClFRiFF4cez+pM
-	MwJsOmqiKjYT76tU8Z7FPP+NaNjlKV5J3aZ1iXfFgS/fVi4Bp0VWKDHjP7w7VGEQZP6rxp
-	oAnxN3yk0fbC+Sgqc4rjLv0jc74WD88=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787830793;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=Mh/Y7OSUpAjE00BNOyiNrcsicwT9JI/UljNMGboymC8=;
-	b=8nU5Nn5y0wWc/AptxGclFtVf/6D2vIWI1LS6N0jwifNi1CMugu63Bred2OE4v9PAdm8UtO
-	SVbrH6D787ndv9AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5732B1352C;
-	Thu, 27 Aug 2026 11:39:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id roQWFAkikGpTfQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 27 Aug 2026 11:39:53 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: control: Don't add invalid kcontrols to LED layer
-Date: Thu, 27 Aug 2026 13:39:03 +0200
-Message-ID: <20260827113951.893291-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FRk9Ejmg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E96E81F000E9;
+	Thu, 27 Aug 2026 12:13:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787832817;
+	bh=Ykgc8ndVGXjEBJ7yYVL59pOYqTkPieFvOUJ+xVQW7fc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=FRk9EjmgJKFF3yEZCrXm9NMGv15LbkQthv6KxSsxxgDzFS9JP+vvoB3E2V7xI2u+E
+	 MHwYsMlLuYAoX8rh+OwgeOYjmz6odFDNcSO53GMCSFn7PE7oRg4v5NnDpvIEB4GiVH
+	 WlCoYbWj9Vmk/K4cwC5wV04hL61Vlt9L3Za9DyiQWY1B8Zgv5eaPoYHVX3dP6+eILv
+	 ZjTTiowgbQVX7BocYdrgZTTbP2YdNIb+K9Mr4TDb19DNyYSGlK0ajqDxC/Kl4RWaTn
+	 LA6QT+F9W7IKkOORBLLyX75D3DldIrcdvPDyQBg6WUYbvKhzMmkOY1lkS9GYprnsu0
+	 qeifi9ctEvhoA==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ Syed.SabaKareem@amd.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Shengyu Qu <wiagn@4d2.org>
+Cc: wiagn233@outlook.com
+In-Reply-To: <20260826172050.15686-1-wiagn@4d2.org>
+References: <20260826172050.15686-1-wiagn@4d2.org>
+Subject: Re: [PATCH v2] ASoC: amd: acp-config: change quirks to cover all
+ ASUS FA401EA variants
+Message-Id: <178778615313.88371.7197074338897722219.b4-ty@b4>
+Date: Thu, 27 Aug 2026 00:15:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.993];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1158; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=7mJPMTcUzciIsKhxmZgqiqME4lm6eMXGzz36MWvbkLk=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqkCntdTbHSKE6dc89PMq1IIlmUXSmsSxv2odqu
+ UY95QA72fiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapAp7QAKCRAk1otyXVSH
+ 0KWTB/42RMzZ1TVtHm9IdZNXaFkSs6uN0/IBwrWtJmcfeehYcAE/e4jKcoAbeF5ZdvYmwRvbKwE
+ 0J3dF2FGdmxHgxk3fywtIXhy4s8+fboJgMwfHAHGNVCXXhbMfAbWxTZ9mXs9UtOoCskM0oUTMDq
+ GHZ21BHa7YVsc21un1BZxZbXWfmUBhuGsqKsfL+KCiXmWL1AizB9tcX7ldPw9TdFpfG2kt5jh6Z
+ CS2Wov21ffY2FVE5MdqEJInCbAYyJhLoGZcFlCRTMWeLPY3aRoPw66RJ0QqJRzV7qHo/AmB1nE6
+ zz2JhZcDRCXtA0AGwUwTtAnFN9q/n+UR4D1Paxr2VvhyHlUu
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The kcontrol LED state layer tries to track the all associated
-kcontrol elements with naive assumptions that they are readable.
-But one can create a write-only element that has no get callback (even
-a user element can do it), and this may lead to a NULL dereference at
-the call chain of snd_ctl_led_notify(), as found by syzkaller.
+On Thu, 27 Aug 2026 01:20:50 +0800, Shengyu Qu wrote:
+> ASoC: amd: acp-config: change quirks to cover all ASUS FA401EA variants
 
-For avoiding the Oops, add a sanity check of the kcontrol's info and
-get callbacks, and just skip the invalid kcontrols before assigning
-the kctl to the LED layer.
+Applied to
 
-Reported-by: syzbot+b7fe2760ea6f1ee44b4d@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/6a9007b3.1d9ded08.62e62.00cd.GAE@google.com
-Fixes: 22d8de62f11b ("ALSA: control - add generic LED trigger module as the new control layer")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/control_led.c | 2 ++
- 1 file changed, 2 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-diff --git a/sound/core/control_led.c b/sound/core/control_led.c
-index 8cbacee57ce7..3d13bbec1c54 100644
---- a/sound/core/control_led.c
-+++ b/sound/core/control_led.c
-@@ -255,6 +255,8 @@ static int snd_ctl_led_set_id(int card_number, struct snd_ctl_elem_id *id,
- 	kctl = snd_ctl_find_id(card, id);
- 	if (!kctl)
- 		return -ENOENT;
-+	if (!kctl->info || !kctl->get)
-+		return -EINVAL;
- 	ioff = snd_ctl_get_ioff(kctl, id);
- 	vd = &kctl->vd[ioff];
- 	access = vd->access & SNDRV_CTL_ELEM_ACCESS_LED_MASK;
--- 
-2.55.0
+Thanks!
+
+[1/1] ASoC: amd: acp-config: change quirks to cover all ASUS FA401EA variants
+      https://git.kernel.org/broonie/sound/c/15596a87fcc6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
