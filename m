@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F311548820E;
-	Wed, 26 Aug 2026 21:04:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF5A48820D;
+	Wed, 26 Aug 2026 21:44:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787778290; cv=none; b=LhcXJ6gaBblpn6OBeCb48w+rLgIEww+zgOeOVnNi4ftB8PJWgC9Uang570yC+jN8tGqOHUQyJR8pv8ko+gv3S8vt5NVlwXcz32Z1JgWiO+qEEMLhFrA2Jo9d9qXKMk1n2AvuFK4JZK5K7OHvBg9H9UUoouNubGAudMggjzPAmH0=
+	t=1787780700; cv=none; b=qYLYdY15bw9w4TDSpQLg/33SGRP4gsvHtEitrgcE83FEjUjAL4jEvqN+Zwe2qpn4yO+S/GRZGdqy1fCR+ijCa0v6Y6M/yViLEDaZzmIvXuHcixhRwh2ZBs4iyu1CGmeqIIU6pRM5ZkfiPTnwO0qlxDXji3Ckb6owBUI6n5S86Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787778290; c=relaxed/simple;
-	bh=9t4vVx9ZBNiJQclrP9s1GZ1QV/+y5AhIZeGGyGHDgZY=;
+	s=arc-20240116; t=1787780700; c=relaxed/simple;
+	bh=afJ4/Z8pMALxEC1OH4/6gJjxyKeHCIuspoLLRdhnh6Q=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dcegT28YU3q3IFKEjCEFmTwyrMAhq+WumY/4qHPOe5t7fpsC5y4Yt0oAANuIaX61eGUXMI8JAHX9/LB+pC1ZEi/UhjBoLNO/RfYE6q04kzduT9rtGGYfxATClk7W7ZuYXlwpVvsmPVFNueGiL31z4w4DNVWe+qycyktj/wov7L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgKWevp3; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=EOoQShIWkj17Zs0/ULsH3NDeti4lmMXmlpGYygafYxiXBEPlotc7zDhJTSRjBngUfQrrr4Z1LcuXA4WGfOoiQ4BxdrsOVkyTKh2Y8/1btzQ1nlnhZGH5HZcz4oUl4sKv3h1pWoIiXiAvPLm4tHHk3Sq+Nrmhx4Dgmhc2xBSajOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UYQmihYU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgKWevp3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19ED91F000E9;
-	Wed, 26 Aug 2026 21:04:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UYQmihYU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1BC01F000E9;
+	Wed, 26 Aug 2026 21:44:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787778288;
-	bh=GL+vC/suHw0bw4D/kdLOP75TO/aA04X72RhtQeyATQU=;
+	s=k20260515; t=1787780699;
+	bh=mox2A2+G3ierWSL5WOIsEOc3ij3GJJ+HJ///At8iuHA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=jgKWevp3PFU7+hJdBovSWEVRAjvrQtO7K43malOBQQGW9MJBG+HGKVfrQLr4Wcv0P
-	 FFHo+WNaqMzUtcdzkhDqKjeC9f+G3BgWUXnd6c9rplEmI6FDhsPLO7c6xNSsGtUiqw
-	 tY0aL5yEgvi1GxDpwOCKOedfhE5B7oqlOIMpUqEDnTvo8rLvfBV/3ZEcP+3pfTTWrT
-	 efCXhi4IlQ+CMdFyofgoQm4y3x3OGd/s8nTOq7/ZxpvQwsfVaYOnMZA2GqiPKGRzr9
-	 m7T7XThy+ptSOQd5b+H4EZ9cIGq/rubSpVN9QFbkn39P8pMnbYONvom9NRL7R/ySaz
-	 fpAhgSnWWrEAg==
+	b=UYQmihYU3c7weCQUHQJHbg24vzhQ9HILHbTRQpQIX1XFHXLp5wsQJBgTMdbR4EB28
+	 2xI1lBerc+PxyoAP30xIbxE7eFSL8VQTjibCHAUD21sYVpRLCzNpExyFS/ybTcc0nM
+	 QoXd5uFR1SrOLT4nf1L/oN9sXXTaFtf/cgzRSi5bfHjtHPBFFsCuUBF9oDPHHaqOoA
+	 53dNF/P+8FfOeI4RG2Yp+PeG60PBZXvqQqz+uecqDgUS1B2F3AyMXGHG2e1mltD+Tu
+	 5l/m2ECUTYocBZ2jcCE35yP82fdI6tjr6RPuFcAVyjA90KtjKrN0eYazdmRTquymlY
+	 XgLvNl+e0mnbQ==
 From: Mark Brown <broonie@kernel.org>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Liam Girdwood <lgirdwood@gmail.com>, phucduc.bui@gmail.com
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260825081949.55537-1-phucduc.bui@gmail.com>
-References: <20260825081949.55537-1-phucduc.bui@gmail.com>
-Subject: Re: [PATCH] ASoC: soc-generic-dmaengine: Fix DMA channel request
- warning
-Message-Id: <178775011613.88371.423195330777709210.b4-ty@b4>
-Date: Wed, 26 Aug 2026 14:15:16 +0100
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
+ Sehat Mahde <hskmahde@gmail.com>
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260825224640.13662-1-hskmahde@gmail.com>
+References: <20260825224640.13662-1-hskmahde@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: acp-config: force SoundWire probe on HP
+ OmniBook X Flip 16
+Message-Id: <178775542282.88371.4820386326566315467.b4-ty@b4>
+Date: Wed, 26 Aug 2026 15:43:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,20 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1147; i=broonie@kernel.org;
- h=from:subject:message-id; bh=9t4vVx9ZBNiJQclrP9s1GZ1QV/+y5AhIZeGGyGHDgZY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqj1TsLQ9VVx5v27wz1M9LV+wdt0P8BNBSd+6YN
- NGGWTagZEyJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCao9U7AAKCRAk1otyXVSH
- 0LiIB/wPni6e3GH4Cd0Uuo9LY03mOXAK+zFpMzWI8/jXx+VFq6+B4Vxea/gkLQ6AzA650AukiBL
- FitaFqaWe7FDJv5J1Ea2CiJUH7BxXDSNVY2tAL4aqltB06xqgj7dTjc36lB7JruVx2LIZw6F5tQ
- qVv8Bg8Ll3MSHzVLTQwwluNjX9Yj2mWY9zw+lt0pJvKJYgIkXtCiUgwilta7cFceoq4MMpESoon
- NkpaOYqQJXnWTaCv0wOHAxTojTQFKpV2wZsD7ZLKx1wA1TVssJgFsQCp3EuBjv53A2KBP0w7LDQ
- YTMVb433nZYzoFTu7lmwptXUawhAv7+kaA02yfxhlQjLy522
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1155; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=afJ4/Z8pMALxEC1OH4/6gJjxyKeHCIuspoLLRdhnh6Q=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqj15XDZsmG+zA0okO9TjCDdtIx7kveiiG447eV
+ 2QxmfP1vq+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCao9eVwAKCRAk1otyXVSH
+ 0BwkB/4oh2VtJREuM/MWeng91onbXzLU6RYYNPV41TE59DBvabI3mE6BBhwxTi2XkaMCSy7q5ob
+ 36bArwtLRJZU2AI7uFqcSEqEkFBmeIG64z8kPiJ244paP4cIm3DP6qzDiCjvvJFXRrsLLoHkGHG
+ 8ihcOEhed/JhB0ahCoJUKQclD0i7uOgR3/VzpPa1BXq3zZjapYZ0Z9S7MDLgPcKStMR0FMH1lTn
+ Y2aM+SB7eycayGjgNKA+KOoUfoyrhBrg0DKgzybG4uLNVm5axewYiyT/4JwpptPBdvp2iAjTIe8
+ boKjkiK8mKUTTiu4wz62zHAORFaDPA+QttnviDio7mkdKDM/
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, 25 Aug 2026 15:19:49 +0700, phucduc.bui@gmail.com wrote:
-> ASoC: soc-generic-dmaengine: Fix DMA channel request warning
+On Tue, 25 Aug 2026 17:46:40 -0500, Sehat Mahde wrote:
+> ASoC: amd: acp-config: force SoundWire probe on HP OmniBook X Flip 16
 
 Applied to
 
@@ -68,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-generic-dmaengine: Fix DMA channel request warning
-      https://git.kernel.org/broonie/sound/c/84d2d96ac3f1
+[1/1] ASoC: amd: acp-config: force SoundWire probe on HP OmniBook X Flip 16
+      https://git.kernel.org/broonie/sound/c/4d6642d64cd0
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
