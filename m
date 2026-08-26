@@ -1,150 +1,213 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013009.outbound.protection.outlook.com [52.101.83.9])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC41346AC0;
-	Wed, 26 Aug 2026 07:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787729968; cv=fail; b=j8Qd8nfO63BThTxAWliSrbOtXNXjJPca9ffSPNRL9Qk0DKO1JAaCvBzSDDpb24B3dL9jRo3D1hmhCdQAaM7y/HdNHqklOhET0NVQY+dwBuFIa4Br0POVbfcoAn+wUYXjZkhdrI3KzJDg+KrhPNair3Zcaf4BmxYIj/V+OhFfp24=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787729968; c=relaxed/simple;
-	bh=EHrWoueXIS/vHQ1QuFQ3HvccCaIZHtrrVA8Uc2/MgNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DKjGZa0LPzEP4k4u3vgROIqL9Bap2O2SpvooAdcTeWdUrf33pZxCUHveVPy+oiINgoty18MiCqc5fkmQ8h/4xCqZJb+S0PpV8Ke8Z9f6CbneEfPfHTIqexgUkSvRwXc6REMwKjrs9x8fnWxl8zCzhljCg/fvqZjbhepcCw84PAM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=wQnTdftq; arc=fail smtp.client-ip=52.101.83.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF39D3812EF
+	for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 07:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787730659; cv=none; b=WUScC0Z6umjJxmc7+mI812/oiPfhJwfolUWC0YZEizXdH2B6JuVEUhmsIuBbhpJueYyu5lsfdUCCsIy8nkr2FhRWGeMZXQjtSDALifpuPVpDV1IRByLR+FxBckIbPUD8N63ZF+/qKT0+WimM/paqsDpE9X/bnztfHlcl5FOGa8k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787730659; c=relaxed/simple;
+	bh=AGLvPVl1km06Qd2SJp9Kfnk85aC+F3AEnFspKy5slLo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=hECZucP+upe3S10n2Bm4BXz6TJOAfSOoPgdgQ+THMv/iQ3/PphbRCJyoqn4WN1b3Ix1elqehDGknVjr2NDaIGa+tzExEPjF0P40sFpr+SAOuGJJ2xhmETmmLouB2Mzzh7XkW5T1yHy8UjQ28ub/0otobVZfRHeEtugsbVtyp/NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P+iynFJQ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YF/Ql8R8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="wQnTdftq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R43JFKtg+0kQ3PULyOr6D7g/UNPBoezR4WGU48rTaw+cL/S5cKjfKDvNFe5YJc6fRK1boUHwTAAxcPSEMwLmCPbilFIu6sE6/L7Km7UoFx+MMu0tzXVe63QjpJ77J6BZwDbLX5rnRVSJJvxlk3TFRcYa4mfOq1ZujH8fw9PiCV1Mot6XtNC6obxw1CvaepDkca7ohkFIWnicMBD0GAbfiDwcuBNEyEzaJTptwGCMw/dagKYTZ9chfggL4IixFTgy5tNLuhXJAylDvNBzqOkkHG0RfXoG+k3qGvSTV4Y6SaFMGUXXzzvmRvVSogr8uBE4bjK3pPo8Z+yvVWW3IRIW9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EHrWoueXIS/vHQ1QuFQ3HvccCaIZHtrrVA8Uc2/MgNA=;
- b=GVYCtfepRzGNArya8yneoVi1KAgucnXMZXI/BTqAGugjTGkCH5arLTOKvTnm8v7ZOFmHzzR65kmpDitgWaKlOqEIwY8+YrTdL2ir0Y1KBmTq4wM1wSDrISnKR6AjDsvHvcNw+ds5t57YPjetcyUrKLZU7qDh/g0H9j2B7kL3GOIlCHHYxsBaRvPevXQvm2FqycSP673rHO+YBy6ji11E77IHuApIWxzwVk6Qx/uUTuxK32OnvOzOtidbLZpgdqGOhgsKqZ+F0DpnK3B8GreWJpjFlLz+b6CivNnLv47RP/M506KcTwaawt9FPfY1oMWN7Tk0KOGgt9FIxUwZHQwvbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EHrWoueXIS/vHQ1QuFQ3HvccCaIZHtrrVA8Uc2/MgNA=;
- b=wQnTdftq7Q05wwII8HDuMrJEGx0GW2nr6MX+8f3nHi4y7RbSZqQniGTf/b0qr74N2jszCUhqF085SAOgo/WU38cQuQY1f/p40DpuMcIpUvb1LtSI0Tlx0+N8yaJipESAzXSpfxKOFaafLnLgNIvefVIMGSOUgjOmokfXJ7r5LugapaIzjOZgYSAfJVk4JX2agV1pR2W6VwIqMD9pjSVfoSAaSUY3CuZalOjYAlQ+4yiByEIEcs9uFQUvMEbSmg33w/FKZxo5ZdGcEg6NUMCavWaq3Z8gl826vyQH535aCJs9k+dfm887qwSrhfcotmHbfeFS4gwDhLn4kfA3umhKVA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
- (2603:10a6:150:112::20) by GV4PR04MB11425.eurprd04.prod.outlook.com
- (2603:10a6:150:299::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.8; Wed, 26 Aug
- 2026 07:39:21 +0000
-Received: from GVXPR04MB10021.eurprd04.prod.outlook.com
- ([fe80::d247:853:3e16:1994]) by GVXPR04MB10021.eurprd04.prod.outlook.com
- ([fe80::d247:853:3e16:1994%5]) with mapi id 15.21.0339.012; Wed, 26 Aug 2026
- 07:39:21 +0000
-From: Chancel Liu <chancel.liu@oss.nxp.com>
-To: stefanghetu9@gmail.com
-Cc: Xiubo.Lee@gmail.com,
-	broonie@kernel.org,
-	festevam@gmail.com,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	nicoleotsuka@gmail.com,
-	perex@perex.cz,
-	shengjiu.wang@gmail.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] ASoC: fsl_micfil: balance mclk enable/disable
-Date: Wed, 26 Aug 2026 16:39:11 +0900
-Message-ID: <20260826073912.1265526-1-chancel.liu@oss.nxp.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260822115959.74496-1-stefanghetu9@gmail.com>
-References: <20260822115959.74496-1-stefanghetu9@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SE2P216CA0024.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:114::14) To GVXPR04MB10021.eurprd04.prod.outlook.com
- (2603:10a6:150:112::20)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P+iynFJQ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YF/Ql8R8"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67Q6RfhM3689279
+	for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 07:50:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	GVQm7LcKqb3/uCDJ8rBRntP24G/9E0sp761G2/nC4u8=; b=P+iynFJQre2Kk7SU
+	hkukfoif+fCGeK/xztYy5ZwmNTUcax5AIoxD9c1Nh2hLWmRVeQb2H2Bc/TG6DEOk
+	d4q4EtX7HD4x5j7VMg/VC/cEJodadCNjK/T6Ct1pbVrFMSvG5A9TwEv+Wr2jNCWN
+	eFN26s4659McxUBQiXcFM6Q6nbFggvU9nLqeGu1y2eGZjV8BjNboSXqQM35QOIW0
+	KpyhhdzkqhLB6yt1wBGQ0BynaIK8EdRd2A12YzdlCNnqqGFr/FZ34Z4opNyWUEYP
+	42OuzAMDUkkZnfZgQfjTj7T+2PD93W5ryvU5uJzTZmsqZPKv0tfV2SXE/VusRerO
+	KREmeA==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g9fjn2s58-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 07:50:56 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2cc640dfde3so10982875ad.1
+        for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 00:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1787730656; x=1788335456; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GVQm7LcKqb3/uCDJ8rBRntP24G/9E0sp761G2/nC4u8=;
+        b=YF/Ql8R81ee3a/Ypu9dwHoj/kz+GfMQZNwcKnlpi1oats23xcv7RRVS+DGyFuo94h7
+         +XdYKMn5AAVoMM8pX8wQSdvzuyUYY2fTTIZQBl60NdeAGC8wF68mqncf2n1j7pafGdh6
+         lQvoDo5SMmn1fPpl/F5SXz3dhFW5VcJFjfpVGOPzp3a57Y0XaNrlwfgJz+dxdWNyLLAr
+         sAQEjEX0vzWGcNOJhOlXnDnZP6hmM6oU1LmEF2/etw75M6+1l9pXllAy2funub40NnaE
+         02cEDpkDfh5dYa7w5mvOiPw332xD9z2XRh44mixINWuAoYj90kOD4H1or3IVgbTEnWt1
+         HLVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787730656; x=1788335456;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GVQm7LcKqb3/uCDJ8rBRntP24G/9E0sp761G2/nC4u8=;
+        b=Rm3ltmld6473MLS4ORM2mXoM+jMEXs2fflxoyKPz05k6UmyoEkv96DVl9ktHhrAt3A
+         rsyxBo/5CjeqHar+DxoBzZofJtOpJhZ5sLAjecDYyqOC9IXSLzl4Owtr0hURcl3f+utG
+         94mXVqNa8fKbN8ufhQgPdYJzTBRwjFoComuN9jjPz5bc1VaWKiavUIiTIw5mlzGgJsch
+         zIVuDHSir9wLdAFr+P5kdV696470CLEhml6Y9xYbVMhdbxb6T9Ldy5Bj1GFpBlTtlzVk
+         B1dHpEIBTv6tN8NnnyV1Go8PyC8+5k+0nF/s+/z0Bq/FJZI0c+D6WX3ENgpa6LBC0az5
+         7y7A==
+X-Forwarded-Encrypted: i=1; AHgh+Rqs+J77qWCJ283hb9UWELU+aAGCCyjEU+K8GA57CAJFazuwXMNllPqrGBTZTDuCaOnRAoRGr/KSjbKAhQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++k+zNYfqXUAPggjyP8bSLfThcU7NMlo1f434MHQqC6aVVDlsrBV
+	QgMnfQrGw145UOz1d9BKqZjDObOQoj9XhK4aQS+m5jphLm3TjhlTPy5A5ZnGll603Q5Ts4hAO12
+	pm/tO+QWEO9qc62QlE9MrEbU5U4x3j2iB5eCsQkqSHQi5PVJR9zw5jTW17QaZN2itwA==
+X-Gm-Gg: AR+sD137LUjah0w6H8RUV+XUXSMnAR92NCIvGTahWjsIH54xRN+9ihmPrIj8wcFf8Rn
+	z8CD8MAeTXgPCwSHS6IEk1GMFtf/xhnfSZtbjovgnlq2JloSXNpNWDSCgRq4oBkySMyfvkgQxBq
+	K7WyOWMtlMTmns+3M41ZFK5KUJMZWg2gqOCUa61fq/Q08S8nwve9JUaGlW4XvBNeU48cXkEQxpT
+	YGKgkb/BwOTdIsDPyV3q88WTrQaaGkr52u9T34PPu5Tf8uHc0zu53EKSwTw4SO9QXcpgatI21aF
+	hl0hOQ9tileCKS+LSPwHD9l8T43CEkcZWPSGM6Y7DRvobzOMLtT9rHOKLINVmTHLjQZfoO8oRpZ
+	LewFHZaGxYQv6XjEY2gpyod9wXDrFbA==
+X-Received: by 2002:a17:903:2305:b0:2cf:afa5:b19a with SMTP id d9443c01a7336-2d707b7faacmr76688275ad.11.1787730656094;
+        Wed, 26 Aug 2026 00:50:56 -0700 (PDT)
+X-Received: by 2002:a17:903:2305:b0:2cf:afa5:b19a with SMTP id d9443c01a7336-2d707b7faacmr76687195ad.11.1787730655464;
+        Wed, 26 Aug 2026 00:50:55 -0700 (PDT)
+Received: from [192.168.1.26] ([75.80.180.230])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3283d769d81sm6247033eec.13.2026.08.26.00.50.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 Aug 2026 00:50:54 -0700 (PDT)
+Message-ID: <0bf654f3-51c5-4555-8cdd-dc9d25dd9f78@oss.qualcomm.com>
+Date: Wed, 26 Aug 2026 00:50:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB10021:EE_|GV4PR04MB11425:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2860b0df-c0f7-4fd3-5dc3-08df0345242a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|19092799006|23010399003|366016|7416014|376014|10067099003|56012099006|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	C7WID26mUx+3s3HW5G5KB+KhS0AYksnAD1Tox4E1GVIfilM4frVZfrmgQ8ATEo0XEc5FIFiPZqpD8walyZKiIv4sTqnD90iDV7+XbDxG2ARnLrfKSxsD6E8dcD38mZDN33jrLaE1MkgTP9OSZhCEzBbMEsgu62dkFpAnBqoVEG5vtOBD02w4jZato4t9dmSsuL0TITQb91u539I+oOi/BiaeR84hXuEfmYq+jB13eHyfKQLR/ilQkH7cHn/v0bK+paW5WAOIVQRkr+iIg9e6BmGJ2CNID2iqigkCnvvJBKOkQpMJ0WKaiKz7uyI1cfbD99KryrOaKESmGjlEDiHps4FboDMtncsDcx1kaAsI9Zh9FEo4MyUBpgoyuPADiYM2v7WP/LoEWNfqm/lkQqHiY6e+c5T15S5p8EezCMsLlZ9AXVCTVcdLPUknWjgxGfZHeTKDIJc8iT29qMoWEvTEvZybDeJJLkGRcpRaBs9jhacp2Nm9P9oAYUVXhuFYKVUUBisATOXYaDJhAftWXWun0Sa0apqBZmnH2+Va27nepCWmVpSma4dbUQsU6AwBN0nIH5yn5DTWDtRViXZHI8lLOIMLFfmak2lXG4r1sHKGyxHe5hLG07TVJ4TlsxNVdQTro1MvAO5oGDItFZKNM4yzjtpPp5APyahvBtveWeYCWbw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB10021.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(23010399003)(366016)(7416014)(376014)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K2M2VXJ1aWtKWmI1dUVzVjF2OUNjTVVXcEFsaTd0MEZyemNUT3R5TnhiU0Ir?=
- =?utf-8?B?cExuWGhSeERSeUJ0VExaTnlxZUNzeVlNamRqWEpUbndFQWtZZzFkYTRxbnRz?=
- =?utf-8?B?c1pBMWllNThyTVBRT0cyMW1nN2pYRXZzMmlBd1BQYmF3TzhHWDdHZm5DYXpL?=
- =?utf-8?B?dnFxcU1BUkxScDI4Z3dXQ0l2M1lzSDlkcmEybktRYzR3RDlhZUZwNXhvdm1E?=
- =?utf-8?B?b2dQYzhyOGZhUG1ocmhQZVFvaTdGeDBsSDJ1S2Jzbi9TeG1oMWN3clMrNTdn?=
- =?utf-8?B?SC85RGtxTGRHODM4RFpma0ordjlRaG1EdEdsTzgxWTVEZFVxUG5WcVRXOTVB?=
- =?utf-8?B?WkdmVEQ1NDRDZ1dGdDRpbzJXSUE2UGtna0ZrQWlROWEzRXBGWEcvWjFubmxI?=
- =?utf-8?B?WWM1LzFPd2N5SmMxU1RoVjBTdXc4b0llRi9zZGxzeis2eVdoQSsyQk01MCtG?=
- =?utf-8?B?V0NLdTdvQSs1VWdLWWhZQ3ZGdC95OXAxSkZNTVNYZUZnME8xakZmOXM2Zzg5?=
- =?utf-8?B?ek1NaWtTSm5xWWx2VDQwQnBrQ0hhZms1QnFUZkJMTFpQMGM3MTlvaFRnZGVM?=
- =?utf-8?B?ZlV3UkFUTThUZUpJVnNvZ1NRQjFwQUtaRkkyVEpXd0pOQXlQd3VDcWlOUThR?=
- =?utf-8?B?T0paR0J1SGZYRGtTQWFjQ0hielozdGUwSUYwTDF0ZzRyOEFMc3RUMjFIei94?=
- =?utf-8?B?RTJRWlFEaDRIY1krUWpUYUIvK2huNVpVS0xMZlY1Qlp5SWlVcDdqWERiRHo0?=
- =?utf-8?B?UTJZcEQxbjh1Y2YyMGQvLzJCaDFCck1tS3Q3TUpWd0VYdkhZcFdGVzlpdWRV?=
- =?utf-8?B?U1plUGgycHhGTmRSUHN2RUNnN2tOQ1hQMmQ2aEdPeE9KMmxycHRmSkFSc0Jr?=
- =?utf-8?B?Q1g2ZVpReDhXOGY3UzVQc1RZL01wOFhKcktRRmhpa2g4emRoamwrUFZjdmRS?=
- =?utf-8?B?TFIrbklCLzliRk5jeDZ6VTloMUsxeGhHS2xySWEvcHhIKysrSVZzZTI3eFZn?=
- =?utf-8?B?eklmcThIZFNNM2lyeUxPYWZiajVFY2FPZ3hWNUoyUVYvVndmZ0U5VHFreE1a?=
- =?utf-8?B?RXVpTUpxNThKU0lLMHJEMWtuUC95aExsejhlOExoMTVGUEE3Y2dJNTdWU1dy?=
- =?utf-8?B?cWxjdzdqdnJNenEvUmlZMTBESnBuWW02YmNCZ0I5Z3dxOFZUMEJOVThDd083?=
- =?utf-8?B?YUpHOXR4ZDZ6OHJWMmhRdUg1OThYbURlOEp4OVNvWHdoSDhQTGJMblBHeGcw?=
- =?utf-8?B?VUZqSmxYMUw5SSszaHdIVGkvUHRBOGZ3aFRlT29BeGhpMk9tZkN2TDJBNk44?=
- =?utf-8?B?RWdzVzExWmtEakF1bitLR0U1Y3I3NTNzYlNkUkZONVcyM0NCZ2VvMHgzeGZ2?=
- =?utf-8?B?L25EekliYUxMb2MrQkRKMENQQU41MFUwYk9wdXk0L3kwTVdGSGhLbXZ3aXhB?=
- =?utf-8?B?RVZzSFJDdWwvYnFvMFlEczB0NThyc1MyRlo1WDM5QzVPMlgvNjRLL0J1ejZR?=
- =?utf-8?B?WmpBR2N0L0JhSGx4UWQ3TEtxMFpUMDZ6NTVBZWtxcXpEeUdvVHFZeHUxQ3R5?=
- =?utf-8?B?ODZmQzdvdVFPWkhaQ0E4MnFVbVU1d2xSTEFFdjJFTkgrM0xNUWxFWlNJUHB0?=
- =?utf-8?B?WitudVMyOXp0em5UNTRTL0JGT1JLd2JVS2ZGSW1tQzZSTnQ3c1BHS2JsMi9k?=
- =?utf-8?B?U2hDdWg2aWtLck10UTBIdEtFV0JGc1FGYzFMV2tqVmY4NmVteVBid21nVTQ0?=
- =?utf-8?B?UE1vcHlRck9lUU1NNWQ5OWJhYlJnclRNUllwbUZ2SUhIY2NEdi83eFBFRmZG?=
- =?utf-8?B?VlBIOHYyZkJsN3FqZmg4VHBxUnhyRFY0M2RJd25BVHl0RjRPNU1sOVRqaFdq?=
- =?utf-8?B?c1B4d2JNMmtFeTBoV0RFRlg4MWoyY21ieEZpeUI2QjlkWTFLaTVYeWVPMVF0?=
- =?utf-8?B?Z3l0aEg2SHN3Wk1kZlgxU1JCbGVYOHJKek9JL3laQ211SHJveWwvb3BHTk9o?=
- =?utf-8?B?NUUvMmpqRU14d2ExZUtseVVsMDc5c2hReDBwYmFXb2ZXUUhXY0swWWpNZnZs?=
- =?utf-8?B?QWVGTVpKd2hhMEhab2d2R0FONFpBT1VXZVBqb2JpVlNKV1c3b1hDR1lLUEU4?=
- =?utf-8?B?Vk5WZTRDcG13YTZDcGM0RjdRVmdjblBVckdNcWV6SUUrWU81VVE3RjQyaUsz?=
- =?utf-8?B?dW55bGgwSTBmRXpOK1B0ckRhRUU1WCtzZlBveXkyUVF3U0VLSkZtWGNUMEdl?=
- =?utf-8?B?ZU5ObmhmbFRiQ3NQOGY4eTNpdXc2RjQ3aGEwNGd0RUtPM3FIdFMyVGF2L3RD?=
- =?utf-8?B?SkR4aHJOVm1jUWxCa3VEMW5Ya3BoanZ3SlR3VWQyVUFaV05oSmlDcEFsOW9u?=
- =?utf-8?Q?vvG//G5Iy+fLo7Vvy06lNxXcou63ucKfrjQVZ?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2860b0df-c0f7-4fd3-5dc3-08df0345242a
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB10021.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2026 07:39:21.6024
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SZeWGfO0x7yVPXDA+r6l29WWdl5MFmVNriuUgwDbiieKxTYahc8TlX4Zt4eCQ/1YzMsfHKX9eBv30H/cw0hnIhH+Gi3uackRZBFXMvz5laSIblLVnXI+1o8TpBGHcJcz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4PR04MB11425
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload
+ path
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+ <20260825094327.606072e9.michal.pecio@gmail.com>
+ <25ebe180-a620-4170-92f7-fda6c55a4129@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <25ebe180-a620-4170-92f7-fda6c55a4129@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: 0WZCv0jIpeoPndut_UU6aKfGeyQxJZcM
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI2MDA2MyBTYWx0ZWRfXzTTgOPMW1W0s
+ cn+30tPPr/2Ds60g6GkJCqO8TOJv4L+jvum2Adan2skPLB1R5i73vKUaYHVWyONBNkB/vpoZtkU
+ nh/NegCWfogKFRBOteOdju2kiPs/9RM=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI2MDA2MyBTYWx0ZWRfXyP664TgxX7d5
+ gFYaSwvrpFIBSGGaVw1GLUJs+3DTmO4mwjz9RAEwNDuYOWrR1JxItB6hR+tEJLekFH3FgRZg7Po
+ ebpP3r8f83tlLftrXpFFkE+Cxg5ICqBltiD7vtHgLigQc9HH50wmbIVm8NEjh84BTrb7jFadY5j
+ xNS0SHIUiPxY6ZWD0hs9Hz/faSBb5EYmfFbDdkaLrmpcK340pXXWJXSrMRhs3PyRpMWgzl0hRBF
+ zBev3XdHaLSuPs/5c2UbCT/qxWjVHun/MZxj/YGhu6URIU+C97hS+Z6EUm1iqEPejjgH+WtgJdK
+ vLIjIAfE4GkrhYIDz7ek2eIB34T3Jlu+AI0igHYxjYF4W++zdi1YH2IIuhrg2GFtpGF0aRVcqim
+ hH0+c/feFbg6Q6g3cN1GmvHxu7I7UuF/FFH1e0BEy1blMHr3jEyLZYQZStKxQggNelFRjv2sSxa
+ d9Klfnfrdngw/j1etBw==
+X-Authority-Analysis: v=2.4 cv=ccziaHDM c=1 sm=1 tr=0 ts=6a8e9ae0 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=agQD+r7xwyS+FYqxhQjztw==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=K85ttj8os38tJnul55EA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-ORIG-GUID: 0WZCv0jIpeoPndut_UU6aKfGeyQxJZcM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-26_02,2026-08-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0
+ clxscore=1015 malwarescore=0 bulkscore=0 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608260063
 
-> Fixes: b47024dc624b ("ASoC: fsl_micfil: Add mclk enable flag")
->
-> Signed-off-by: Ștefan Ghețu <stefanghetu9@gmail.com>
 
-Nit: please drop the blank line between the Fixes and Signed-off-by
-tags. With that fixed:
 
-Reviewed-by: Chancel Liu <chancel.liu@nxp.com>
+On 8/25/2026 12:08 PM, Wesley Cheng wrote:
+> 
+> 
+> On 8/25/2026 12:43 AM, Michal Pecio wrote:
+>> Hi,
+>>
+>> On Mon, 24 Aug 2026 19:06:54 -0700, Wesley Cheng wrote:
+>>> On some environments, 16kB pages can be enabled from the Linux subsystem,
+>>> which manages the IOMMU mappings for the audio DSP within the system.  In
+>>> the current design, the following assumptions break when 16k pages are
+>>> utilized:
+>>>    1. xHCI ring size is equal to PAGE_SIZE
+>>>    2. Ring addresses start at the beginning of a page
+>>
+>> FYI it's worse than you think - xhci_ring_to_sgtable() returns wrong
+>> data and uses some allocation out of bounds on these systems. Quickly
+>> scanning through the patch I haven't noticed any changes there.
+>>
+> 
+> Hi Michal,
+> 
+> Thanks for the review.
+> 
+> I had a tidbit that I tested that addressed an OOB condition, but as it 
+> currently stands, that API should be working properly, if TRB segment size 
+> == page size.  Hence, why I left it out as a change.
+> 
+> The OOB condition I saw was that when 16k pages were used (w/o this 
+> series), since specified rings can exist at a page offset, that offset 
+> information is never populated, so we might be mapping the incorrect range.
+> 
+> Regardless, I'll introduce that change in the next revision, since that's 
+> information that shouldn't be left out.
+> 
+>>> When the USB offload driver maps the rings (w/ the audio DSP SID), it is
+>>> set with a 16k granular, which is a problem, as several xHCI rings could
+>>> exist on the same page.  This is because the rings are currently allocated
+>>> from the segment_pool.  Hence, potentially mapping non USB audio related
+>>> rings into the region accessible by the audio DSP.
+>>
+>> If that's a security or reliability concern, perhaps each sideband
+>> instance should create its own DMA pool, as opposed to allocating every
+>> ring segment on a separate page?
+>>
+> 
+> This is an interesting suggestion.  Let me take a look at it more and get 
+> back to you.
+> 
 
-Regards,
-Chancel Liu
+Hi Michal,
+
+Thanks for this suggestion.  I think it actually makes the overall design a 
+lot better.  So now that the sideband driver has its own segment pool (per 
+sideband instance), we expect that any page allocations done from this pool 
+is technically owned by the audio DSP.  This allows us to still utilize 4k 
+ring segments, while mapping the entire 16k page, so it helps 
+conserve/optimize the memory allocations.  I will do a bit more testing and 
+review before submitting a new revision w/ these changes.
+
+BTW, I tried my best to see if I could re-use existing ring/segment alloc 
+apis w/o modifying the arguments, but up to a certain point it was 
+unavoidable.  However, I think code re-use is better than having a, more or 
+less the same, sideband API variant.
+
+Thanks
+Wesley Cheng
+
+> Thanks
+> Wesley Cheng
+> 
+>> I suppose each 'xhci_ring' could keep a pointer to its segment pool and
+>> things would work for everyone, with very few changes.
+>>
+>> Regards,
+>> Michal
+> 
+
