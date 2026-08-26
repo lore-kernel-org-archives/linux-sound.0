@@ -1,130 +1,165 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-oi2-f0.google.com (mail-oi2-f0.google.com [74.125.231.192])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9297441F379;
-	Wed, 26 Aug 2026 15:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C6541D11F
+	for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 16:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.192
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787758093; cv=none; b=Of/gGMKXm3Lw0NgLGy02DQqmZv93nK0BZ8ZQTjbtweHBSqj4qqOlHVT7h0CTUZVAg7PUsW2QG/1AlU01dm6L90qdjn7IUcEmYajPxwVkNsg4eIn+dEZEF95aw+wzPvWf2OqMtiUOIK9YIE3CvIRW3mROVtQqyz7Qyls6rNs7ZaI=
+	t=1787760107; cv=none; b=SyycQKiIz3ZMgQeJxBZpgnAy2AWp6A6mmGzaAyWIRToIeF0TSstdoFnzRQBk3Qx+2Qr51P2UqoeFHSXW0+8TU7ptvy/YqcR96Byd+k5yd4lNJKGuANhMKs2fbmHMxnC62FoXqYYhpzP0ZHsgBbHc6j1o1rdXamvgCi4JGhehjCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787758093; c=relaxed/simple;
-	bh=ql5L1X5B1xrSd16oOT3rkSXC0D1nE7eZWCoMpLA82IU=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IHvvtxHZ9oOGuUl/j3+rhXme6VB5ESIuxeQPs2s33z9O4FbWhsZzqCs1hN0U3YCInoWywOdMw7Vl2ChcfeLOX8VH/VgYPI2ls4m4NAI+ONmkaTnplaXaakJ9tWh/9mKUwYNxaCa/skApQshBh21PhYZJwmMT2gPAST+3FGKOYQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EDX+cuYO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7vSRRno0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Fg6Usnuk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Oe0xy4MX; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EDX+cuYO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7vSRRno0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Fg6Usnuk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Oe0xy4MX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id AC08721166;
-	Wed, 26 Aug 2026 15:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787758082; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMwM+wkM9+AtG95FmkryQYWLFycbhavz/ozUdsBzMJI=;
-	b=EDX+cuYOAcCiVfuz74SmQtep5L5GNxtBUDrwCcrF57JXON57toHtU9QCs1ys01ReWLQ/XP
-	RUuT6DBXz0WwsYmN8VqKMj/TJ2O0V6J5QCA/Jy5M1qmRI1udYafn8VkMwYH2amVbSf897S
-	7ZzvI7pfOim4B6OF2lQrH376IYBrmPc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787758082;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMwM+wkM9+AtG95FmkryQYWLFycbhavz/ozUdsBzMJI=;
-	b=7vSRRno0hvB1ANZroc6KqQdjf5wF2Vvb9RZprus+ZEu36zVZZ4K0CkpCP4VrAp3cALAfp/
-	w0dMjMvLJhRoMOBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1787758078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMwM+wkM9+AtG95FmkryQYWLFycbhavz/ozUdsBzMJI=;
-	b=Fg6UsnukFAp106JOlRCCEpskvIF5AVzYyvhAuHRCAlCTmF9ZCMW4MiZa4tqS2vS2vKUKNg
-	Of5SN4GuLx+yAW3bV9sNA8V2kSrf4SYMJRnSYXgOmUkgc04Z+XN/b4ih5TjPS/4pwfyDIE
-	KZv3ObC19L68+bEVmoCU3CuhKu8AXEs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1787758078;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DMwM+wkM9+AtG95FmkryQYWLFycbhavz/ozUdsBzMJI=;
-	b=Oe0xy4MXEJnF8uM1X1ZvQhB4eK8L3FThm5OjGK8/Fu0pmtFjp7olaH+jyjdX2GaZFL8jVg
-	9xMk5l9jdbaW8TCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 834151361C;
-	Wed, 26 Aug 2026 15:27:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Bfo2Hv4Fj2qJXwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 26 Aug 2026 15:27:58 +0000
-Date: Wed, 26 Aug 2026 17:27:58 +0200
-Message-ID: <87wltcgav5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: songxiebing <songxiebing@kylinos.cn>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ALSA: hda/conexant: Always enable the headset-mic pin on plugin
-In-Reply-To: <20260826115344.2128835-1-songxiebing@kylinos.cn>
-References: <20260825023855.394959-1-songxiebing@kylinos.cn>
-	<20260826115344.2128835-1-songxiebing@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1787760107; c=relaxed/simple;
+	bh=fRS26Ur5jWVPNQ/rcZJ1N1Pte0FcrE5lSwCspQP3sW0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=SFtJ/zJXDQ4Sb6Fc9Ysa8W5KJQ5dkyNSeqiQBcci+OiGvxeYZJkSO0Qtp6pHTPhvCANlgGdI1cmY/PrPqYq1irLKU5mFX6aGwgng0dzX1oMQGOgCzRQ46AUZ4DNoqSWbsMGXbkbDsRLqjnH5MgBYeX8IwqFoE9fu9Nmut8ULXS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.192
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f0.google.com with SMTP id 5614622812f47-4a4492f5cd1so169728b6e.1
+        for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 09:01:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787760104; x=1788364904;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=znwQLx4ttLCAahi4lYkTwRyA0+r8xuDmAlKgFKQsAFo=;
+        b=lblOXUfE1s3zPd4bajSxSWG3aelhEIC7D3it9COL5c6jJrUjb6lcS17PxkWH1Ab+nB
+         qQKlYkBhemm6fjl7SqM9fZ7Og6sfueF3xEZc1IGJmpk9Q2aoPuDEgkJwYI5sCfY3toVk
+         T4xiJysq+UF3knAAJJOoRPRRCenozxrdW1jXFbj+6on0BOwVoeUXt2LGY3bXAoyP440V
+         f0y7zHaLGSM0yIPLGKZhyD7xQti67DURNPWMq+y4MmdtFq0/30sigWjmoXy/oS2T1fIT
+         H20qo0IflMeMjLdN15IhjhzbEnpsG6WFDRD0hyE8uV5I871AsWtX1H5qMrAu+Evbj+gg
+         Bpyw==
+X-Forwarded-Encrypted: i=1; AHgh+RqjrH8WxjxEWwN48L4SEC60B0pCoGF/PF7sM4cys/7MGjSS/Kbwnfg4dzWACEVjQaltmsyAS+AnTeRWMw==@vger.kernel.org
+X-Gm-Message-State: AFuF++ntt2RwQx+mNqzJ4udIkXnynIveIUkhvVevmDYqGyz/w0nXR6xv
+	ZnHqxCh22ieY8s6XCbUFnehG+Sv6t4swkSq5cci9eNkuHsLS6OCQPj2ADs/6rTYzQt06D58pR4G
+	L+RQ44mNA+ROp75Ujx/Xuq5PO2ajGgC9LqRHFCGVCq+gboZvV58Xgxq3zjjk=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.982];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:3505:b0:493:a860:5809 with SMTP id
+ 5614622812f47-4b3668b1451mr8453659b6e.4.1787760104366; Wed, 26 Aug 2026
+ 09:01:44 -0700 (PDT)
+Date: Wed, 26 Aug 2026 09:01:44 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a8f0de8.1d9ded08.62e62.00b5.GAE@google.com>
+Subject: [syzbot] [sound?] WARNING: ODEBUG bug in dummy_pcm_close
+From: syzbot <syzbot+225231fce6755d40d078@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 26 Aug 2026 13:53:44 +0200,
-songxiebing wrote:
-> 
-> From: Bob Song <songxiebing@kylinos.cn>
-> 
-> Rename the function to cx_process_headset_detect_plug_type() to reflect
-> that it only reports the detected plug type, and move the pin control
-> write into cx_update_headset_mic_vref() so that node 0x19 is always set
-> to enable the headset mic with the 80% VREF whenever the mic is
-> present, regardless of the type detection result.
-> 
-> Signed-off-by: Bob Song <songxiebing@kylinos.cn>
+Hello,
 
-Applied now.  Thanks.
+syzbot found the following issue on:
+
+HEAD commit:    66498c75b4f8 Merge tag 'dmaengine-7.3-rc1' of git://git.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=123b9979580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e9ce1d694820ba2b
+dashboard link: https://syzkaller.appspot.com/bug?extid=225231fce6755d40d078
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12b29415580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d0a47f9dd2f2/disk-66498c75.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9d5e64d02b84/vmlinux-66498c75.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f14557ff09c4/bzImage-66498c75.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+225231fce6755d40d078@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+ODEBUG: free active (active state 0) object: ffff8880213f7f20 object type: hrtimer hint: dummy_hrtimer_callback+0x0/0x150 sound/drivers/dummy.c:-1
+WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230 lib/debugobjects.c:629, CPU#1: syz.0.66/5973
+Modules linked in:
+CPU: 1 UID: 0 PID: 5973 Comm: syz.0.66 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:debug_print_object+0x18a/0x230 lib/debugobjects.c:629
+Code: f8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ff e8 3d 70 4f fd 4d 8b 0f 4c 89 ef 48 8b 74 24 08 48 89 ea 44 89 e1 4d 89 f0 ff 34 24 <67> 48 0f b9 3a 48 83 c4 08 ff 05 73 77 92 0b 48 83 c4 10 5b 41 5c
+RSP: 0018:ffffc90003a37b70 EFLAGS: 00010246
+RAX: 1ffffffff181f12c RBX: dffffc0000000000 RCX: 0000000000000000
+RDX: ffffffff8c6d6340 RSI: ffffffff8c6d5dc0 RDI: ffffffff9084dfc0
+RBP: ffffffff8c6d6340 R08: ffff8880213f7f20 R09: ffffffff8c0f8ba0
+R10: dffffc0000000000 R11: ffffffff81b3d530 R12: 0000000000000000
+R13: ffffffff9084dfc0 R14: ffff8880213f7f20 R15: ffffffff8c0f8960
+FS:  000055557a276500(0000) GS:ffff888124df1000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc4e5ef7d58 CR3: 000000007ed3e000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
+ debug_check_no_obj_freed+0x2e3/0x450 lib/debugobjects.c:1201
+ slab_free_hook mm/slub.c:2679 [inline]
+ slab_free mm/slub.c:6499 [inline]
+ kfree+0x13e/0x650 mm/slub.c:6792
+ dummy_pcm_close+0x9b/0xb0 sound/drivers/dummy.c:609
+ snd_pcm_release_substream+0x313/0x490 sound/core/pcm_native.c:2793
+ snd_pcm_release+0xb6/0x160 sound/core/pcm_native.c:2983
+ __fput+0x418/0xa50 fs/file_table.c:512
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
+ exit_to_user_mode_loop+0x204/0x770 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:336 [inline]
+ do_syscall_64+0x328/0x520 arch/x86/entry/syscall_64.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc4e4f9e0d9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc47a4ba18 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007fc4e5227da0 RCX: 00007fc4e4f9e0d9
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007fc4e5227da0 R08: 00007fc4e5226038 R09: 0000000000000000
+R10: 000000000003fdc0 R11: 0000000000000246 R12: 00000000000175a9
+R13: 00007fc4e522609c R14: 000000000001729d R15: 00007fc4e5226090
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	f8                   	clc
+   1:	48 c1 e8 03          	shr    $0x3,%rax
+   5:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
+   9:	74 08                	je     0x13
+   b:	4c 89 ff             	mov    %r15,%rdi
+   e:	e8 3d 70 4f fd       	call   0xfd4f7050
+  13:	4d 8b 0f             	mov    (%r15),%r9
+  16:	4c 89 ef             	mov    %r13,%rdi
+  19:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
+  1e:	48 89 ea             	mov    %rbp,%rdx
+  21:	44 89 e1             	mov    %r12d,%ecx
+  24:	4d 89 f0             	mov    %r14,%r8
+  27:	ff 34 24             	push   (%rsp)
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	48 83 c4 08          	add    $0x8,%rsp
+  33:	ff 05 73 77 92 0b    	incl   0xb927773(%rip)        # 0xb9277ac
+  39:	48 83 c4 10          	add    $0x10,%rsp
+  3d:	5b                   	pop    %rbx
+  3e:	41 5c                	pop    %r12
 
 
-Takashi
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
