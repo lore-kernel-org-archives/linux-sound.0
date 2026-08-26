@@ -1,90 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A20231619C;
-	Wed, 26 Aug 2026 21:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B3E30F526;
+	Wed, 26 Aug 2026 22:44:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787780705; cv=none; b=QgTz9n0H0twPHPJUUeiiV+Yw/CeUNlktTjfjVDPprFN9whd25MH04IhQCfWUrlL6mKZpi565ZumPVp+WODp3FQVYv0Y7dy6/YqvNXANXnBmvyWS6qP1xCACyAKE29CzhUTRxFtkm6oUPXPq7SUxpuFZqQlva6bD3gYtCBovMfdo=
+	t=1787784251; cv=none; b=TGIXDNxAE5RHOP9bJeQh+p2zKOxLs5XVPWNk+9km/imFgWavdtGXt7Heebj86hMWcMUCdZhtDlzUdG+yzBNlVMWrA/ElCINbvNBo9LExUevCwCd/v/ejuGAF8aFXNLw3UFusJ+I8BGiA/0XTNFFBs3+mED/10HrDDfbrRFFhdoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787780705; c=relaxed/simple;
-	bh=OzgBvhDz0sPmjbMmy58pYHT5dyWZeKD27g9GUdsrY20=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ukFbYcZ3DpOEiOsNk/KlCZNWyLoclPDDAdICX8KwDSKxE3nO/bcPO+iQhZn6tFOvVjVmmU9xBPEjyNzRE02GnP9gn3m8gnlmGlQ/N/XGuzY167Fm2TngaQrWEPnezNW6Jkw+QLdCcN8hb+N7lWLWD1pCeyX5gz7R3r26FuSA9xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4RpCUV1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787784251; c=relaxed/simple;
+	bh=WtKwuad73ZA7KB+e2evPWVWEk8dpaQ9l5PD+N+RBzyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tWzhdzfoxDEfDbR635UJaFM9/Sx7pg41ZX7ZIf2ILl5T6TTvI09aiu4g9Vh42U+8t0RgvpMeodmNQ2V/D5cc/6EI2AufHEymPAwRu4ciMPxBgmOPosnobYSGVRLa2iFoTULYiHpHWTtNX0KZ/0Ga1/LjUzyFev+K5pdTyg9JNGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e13YDO4H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4RpCUV1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AAF71F000E9;
-	Wed, 26 Aug 2026 21:45:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e13YDO4H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A28F1F000E9;
+	Wed, 26 Aug 2026 22:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787780704;
-	bh=2IeDyvgxihq/bAKZRy6GVVy86r3ij2i7we7pLMRw0XY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=P4RpCUV1NydSHFBF4gJzxe8Wi9yyBD8r0JsFwUBDjuMw/phfTiE6aYUovb1xo+zra
-	 5h8rJsnft27sgpjGku8Yi1MEVsmNHEgLUUjShjTrO4b+NnWYExrj8+KInTXMgoZcid
-	 sjZWnjxLUXQ9g8+T3EFl4ADVADp0+ruzD0lfdK2SJiQ7UmoXXVufquMW5ac7OoKelH
-	 b0sDFFdu01K6cQcC5ksBCiP6FL3tAti+RCLMttfN0WhH25zn+RW89I+wzmUzdK9PXk
-	 1J9CSJPG8F8e9irjL1ez1ZnYICcOLkaoMf2rrvvSpCgsTBInU3wZaykJaMeFOZDCt2
-	 rYJhx9ZR021Yg==
+	s=k20260515; t=1787784250;
+	bh=WtKwuad73ZA7KB+e2evPWVWEk8dpaQ9l5PD+N+RBzyM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=e13YDO4Hn6u/k2+QNfIMl1j6PGkAWlcSWnEFCEqZ0sd7C6eZTvyMe7kXPSG2q1xNI
+	 7i7gyov7lL6+gI1U6QzKXUOSHRiVLE8mRQf/a0u3jhthpTYAWtBhAEdxl3shFjgKun
+	 bJCXLkv9EfWr1uQ6hF0zwYyIiRG9bZQj5n/9s6g6AS5ZjmcKtC6nX/Z9n1pAzzSsop
+	 EAqUnW7AUezEOLlFOQXc19uWGrGELKcE/i0po4RiqkuhGdOiut5D5GGkbt70j8Jm69
+	 vnmy6aFusMmmY2vLpA82VrWrn+MmmyTFBH0OZu60jFXNtb/TFB4GFNJmJEL8Ol3W23
+	 zxWDo0o+B9oVA==
+Date: Wed, 26 Aug 2026 23:44:05 +0100
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, lars@metafoo.de, 
- HyeongJun An <sammiee5311@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260825125745.932832-1-sammiee5311@gmail.com>
-References: <20260825125745.932832-1-sammiee5311@gmail.com>
-Subject: Re: [PATCH] ASoC: dapm: Fix off-by-one check on the second enum
- channel
-Message-Id: <178775623949.88371.15561120678567071292.b4-ty@b4>
-Date: Wed, 26 Aug 2026 15:57:19 +0100
+To: Ajay Kumar Nandam <ajay.nandam@oss.qualcomm.com>
+Cc: Srinivas Kandagatla <srini@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: sound: qcom,q6apm-dai: add stage-2
+ (SCM/VMID) access model
+Message-ID: <c7c29560-ff28-4321-989a-e081f2870555@sirena.org.uk>
+References: <20260826-a2a-shikra-vmid-v5-v2-0-c3dc62354eee@oss.qualcomm.com>
+ <20260826-a2a-shikra-vmid-v5-v2-1-c3dc62354eee@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1136; i=broonie@kernel.org;
- h=from:subject:message-id; bh=OzgBvhDz0sPmjbMmy58pYHT5dyWZeKD27g9GUdsrY20=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqj15ch7w66JUZLUY1EU3XlWEfRtVgHHfwnAijW
- ZmvkP2TvqaJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCao9eXAAKCRAk1otyXVSH
- 0N1bB/98DDehXBCtcj+Y24SYiqdk4sRCq0bi3X4hon5YwWXHtW5WEu/VibhB7OYxWFQLk7MTZke
- NhElkKoxriLFg7j9uL2V9OEnlJhi9vhb2JHPqTzM6h07Q6RA86PjUqArlm2CmAj5UDw9d+Ndhm6
- 6YPUbQSlr03JfDKUFQM+mML2r3y/SB7I/jkSwz2mHWi5urrsAQo6GB/sdQgznZIwPRcR0Lti9P6
- LFLHFYi+zCrcCjCj/ct/6QGnQQdVhF8YzBh/pmoF7MRJxEDAcEqbfTlONc1q5Rk8SuZAAmAP17m
- DEzUiF61bxpI/27DlHh1kFiZB9qBFs/Djb77WcpjeT1Ahf5O
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Hd4wADyx6tZLNZ1g"
+Content-Disposition: inline
+In-Reply-To: <20260826-a2a-shikra-vmid-v5-v2-1-c3dc62354eee@oss.qualcomm.com>
+X-Cookie: Obey all traffic laws.
 
-On Tue, 25 Aug 2026 21:57:45 +0900, HyeongJun An wrote:
-> ASoC: dapm: Fix off-by-one check on the second enum channel
 
-Applied to
+--Hd4wADyx6tZLNZ1g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+On Wed, Aug 26, 2026 at 12:10:12AM +0530, Ajay Kumar Nandam wrote:
+> The APM DAIs expose PCM buffers that the backing DSP must be able to
+> reach. On existing targets the DSP runs in a stage-1 context and the
+> buffers are described to the SMMU via the iommus property.
 
-Thanks!
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-[1/1] ASoC: dapm: Fix off-by-one check on the second enum channel
-      https://git.kernel.org/broonie/sound/c/14511c9b54ce
+--Hd4wADyx6tZLNZ1g
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqPbDQACgkQJNaLcl1U
+h9D/mwf+Oldii1nLbT1oQfkDYm/DX8gI01xY4GAxyUSJpmwY3U09+eApU9Wg/5n/
+b1ERIqRCstALM7VEwbd1Gi2Pvhx+LKPySCosEzbqRviReImo0nUvN9ALMviEsh8A
+trwkMKtJ8kI231NWV8QlWZNRNYSiPX/E93hI/1R5G2NtNlW0kFdiBHpyIGPnmStO
+nkyFW3hGe9NdF6KIZXkCNXk0Brdb+8N4R8Wmgmbq9+s6oGL1PEmhfuWveCdHefSS
+Z4/ExLSoZslXDYFcXJP6ZR3RSIgH0WvNtyuIGGNLnVFb6LE4t8CwODtDg+/ZmgbI
+3JBUptRtHQDPIcAY88H2cH9BoQgeTQ==
+=unmd
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--Hd4wADyx6tZLNZ1g--
