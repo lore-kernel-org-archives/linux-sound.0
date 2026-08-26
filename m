@@ -1,127 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bayard.4d2.org (bayard.4d2.org [155.254.16.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7993D8103;
-	Wed, 26 Aug 2026 10:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B61F3D7D8E;
+	Wed, 26 Aug 2026 10:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=155.254.16.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787738514; cv=none; b=BpkifBG5spS7LYbuQ1z5Eow1V/hOzJ1eKQvfcCHM7WmApEIypu1lU735DHEazIf2L74Kq5nQQAPjk0wg4TnWyddH2G7QeH7c7f19sHWdcwgT0q+UxhoXuxgZrjwMA8N8HqfN03Zpc0WBM7nj7tyaV5mHOkvWYdrxArdorbTg6B8=
+	t=1787738520; cv=none; b=EnOsy+F2lx+2ZNY+8MgCw8ifZ5XZKfr8/ACFp6E9828MAy7CeeJoDOaROxOqNQNhHwINq3pWqqa3TEWNv9c5aiL3kalcTNeuS8iBQgnb6f0k4kaxpHhTk0jDJxyXN6dHACEURgKOO8+iA4SzVkuCCiMxSpbt/bwQWP6V3HHToLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787738514; c=relaxed/simple;
-	bh=YR6MskzxjgqfRTUiV6Gj70WdytoaPLBU9dfv2xvB3Cg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bx/Ma2erQOJMu9j9reyKk4dFTI5iw3eYVZyl9aBDD8A+UQaqdnfYe5HuZysw+dFwC0n1O+fjyaFQXNC8pzy2zueqRN8oHEA+ovrBUMFwDn5sWHvzwldkskiS6tN6L1gCe0fayEZt3P0KYKbXHvDMjrMP2axILBatXiyk0UAqOwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WtuhIlOd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787738520; c=relaxed/simple;
+	bh=c5VYaZdTmXX1DcxMFueJsGckf7QH1DNKPX8oY8uv/cg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hEbARMvDoTVsR2O3OcsfxfU62A2xgUcitI0DF9Mkm3+LFxFZvHdjbWL7bSCCVXRgmxdjTAAtrCJwpgyxBi8bp1Y4+bODbb7mRhRJUiVwKLLHeoJMdbyUGlcWtwAB3m5t1Qkx2IYR+wGsPfKlP3DPykrZAJWypZZX39I7SLKApAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=4d2.org; spf=pass smtp.mailfrom=4d2.org; dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b=T1o9bhEx; dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b=tPxmuusU; arc=none smtp.client-ip=155.254.16.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=4d2.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=4d2.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WtuhIlOd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76EA41F00A3F;
-	Wed, 26 Aug 2026 10:01:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787738512;
-	bh=5ZZMWMHHASb2W63/qpvlrKSJ5yWZUa+XpnSBn0uVQ9M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WtuhIlOdtkvnPnju92QShbhFoJv8dBQLTWYhYuVMGB9UrHxcIu75QfF4y1//HNZ61
-	 i6idehWjCli7o7Xbw6T7arDAuOW2TSn+ZlZsjp+BFek/e+yLMA5gJNfoORQIJV7CSk
-	 Le79CYcpCd2jNTXOx6KT/TkQRL1EMNwsZR5ui+pW614bfpoWHwrBYWRADsrEGxfT6O
-	 hy77QOMArmGpS83codX7svmxGamskSWdLftShKH7CS7ZW3RUB7zkIvXOoBrs0waMH1
-	 pRYJnyaRXRyl6yRePC3+SjJYeJ+msCxAaqVdW2ye1k1A/qwHJkEBHIkuFBA5C/TntC
-	 w5cTFd5E4+MIA==
-Message-ID: <137d4a06-4542-488d-91e2-d338ffb9d47d@kernel.org>
-Date: Wed, 26 Aug 2026 11:01:47 +0100
+	dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b="T1o9bhEx";
+	dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b="tPxmuusU"
+Received: from localhost (bayard.4d2.org [127.0.0.1])
+	by bayard.4d2.org (Postfix) with ESMTP id C8C1017589BD;
+	Wed, 26 Aug 2026 02:42:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=4d2.org; s=mail;
+	t=1787737360; bh=c5VYaZdTmXX1DcxMFueJsGckf7QH1DNKPX8oY8uv/cg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T1o9bhExm3lE6FPUvGLtiqtkCRRmaLmeY4n6jeJNNZzWQWUw37B9JXzn/emrQMMOB
+	 yDTttIz9d8HnDINpC1fz72Z1dOpoz01rBYKsQOW90wji99FikaJ6ZbdjGdZQfaqMl7
+	 Lh/SttYJXh5jOBA0RRnMmkxbtR7L7n3UJOZw72LKZ+pkNVL27yxWZWJLOuESt3yLwu
+	 8jTXda6Y/E9oiQlOjT5hepG6HBozxY+j1cLbFmMLGe60n3VMyjaIBSzpH6D9lOQlUW
+	 CJ8zQu3DaViUFXVYnRwsvDNIsSAoYEbbgOfymE/ruRG+lb5XaNBSMZZMeiwufyaDAP
+	 VzDD2xdZoENsA==
+X-Virus-Scanned: amavis at 4d2.org
+Authentication-Results: bayard.4d2.org (amavis); dkim=pass (2048-bit key)
+ header.d=4d2.org
+Received: from bayard.4d2.org ([127.0.0.1])
+ by localhost (bayard.4d2.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id cKEw9-ihNdCy; Wed, 26 Aug 2026 02:42:39 -0700 (PDT)
+Received: from Headcrab-PC-Fedora (unknown [IPv6:2409:8a15:4eb2:2420:b4e6:d4bf:a398:ef06])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: wiagn@4d2.org)
+	by bayard.4d2.org (Postfix) with ESMTPSA id 851E317581AF;
+	Wed, 26 Aug 2026 02:42:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=4d2.org; s=mail;
+	t=1787737359; bh=c5VYaZdTmXX1DcxMFueJsGckf7QH1DNKPX8oY8uv/cg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tPxmuusUB7xrhf2zVcE1sW2uf1+1kjACflZOwu6Yb9HaZoLxCpyvGjkO0yoW6RIU0
+	 fsOlDS6bvSkEbjW892hFL9cm5cYFvsQCfboIVPJE8tiuVzN55zPHnJHsxCUjJgh1fj
+	 lZRoJe7LLXD8Gvx1uoPBgTU6ovCS4UDhZQwc3gCZM0w5CCgzvRWOWNTFpSmANJo84W
+	 RrUzTKCgmqNOrKYMNv2TmZOBVYkTVeQB6yXYH46fnWl3BeWApgGieJkANx6J2sUJyi
+	 W/3+I6V19UJYu2+OiF4pmE7NT4QGHZxsOy2xl1csl9acBcuIeiyBc1VQNMKGSpW+2K
+	 Dq+cYxBhCT8zw==
+From: Shengyu Qu <wiagn@4d2.org>
+To: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	Syed.SabaKareem@amd.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: wiagn233@outlook.com,
+	Shengyu Qu <wiagn@4d2.org>
+Subject: [PATCH] ASoC: amd: acp-config: add quirk for more ASUS FA401EA variants
+Date: Wed, 26 Aug 2026 17:42:09 +0800
+Message-ID: <20260826094209.29299-1-wiagn@4d2.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/9] ASoC: dt-bindings: qcom,qaif-cpu: Add binding
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Cc: Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Mark Brown <broonie@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
- Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>
-References: <20260824063627.3595610-1-harendra.gautam@oss.qualcomm.com>
- <20260824063627.3595610-2-harendra.gautam@oss.qualcomm.com>
- <bf6e42b4-ff21-4b6c-a7d5-024e5b9a7da4@oss.qualcomm.com>
- <CAC-tS8CaVN8YgkUHJVvLcU1xWB3V5dOgS07CHVOBUnPtMjNxTg@mail.gmail.com>
- <08b6fd88-84b3-4b3f-a8c5-dd6bfd39403f@oss.qualcomm.com>
- <CAC-tS8CtA+wRuucDskRXSc=AHgNdbuq+khj85pFmCG8dGS3Njw@mail.gmail.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <CAC-tS8CtA+wRuucDskRXSc=AHgNdbuq+khj85pFmCG8dGS3Njw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Existing quirks doesn't cover all known exising FA401EA devices, so add
+more quirk items to cover them.
 
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221310#c49
+Fixes: 27d090f3ccd4 ("ASoC: amd: acp: add ACP70 DMI override for new ASUS TUF platforms")
+Signed-off-by: Shengyu Qu <wiagn@4d2.org>
+---
+ sound/soc/amd/acp-config.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-On 8/26/26 10:55 AM, Harendra Gautam wrote:
-> On Wed, Aug 26, 2026 at 3:13 PM Srinivas Kandagatla
-> <srinivas.kandagatla@oss.qualcomm.com> wrote:
->>
->>
->>
->> On 8/26/26 10:39 AM, Harendra Gautam wrote:
->>>>> + * CIF (Codec Interface) VA TX DAI IDs -- capture from voice activity codec.
->>>>> + * WRDMA channels collect audio from the VA codec and write it to memory.
->>>>> + */
->>>>> +#define QAIF_CDC_DMA_VA_TX0  246
->>>>> +#define QAIF_CDC_DMA_VA_TX1  247
->>>>> +#define QAIF_CDC_DMA_VA_TX2  248
->>>>> +#define QAIF_CDC_DMA_VA_TX3  249
->>>>> +#define QAIF_CDC_DMA_VA_TX4  250
->>>>> +#define QAIF_CDC_DMA_VA_TX5  251
->>>>> +#define QAIF_CDC_DMA_VA_TX6  252
->>>>> +#define QAIF_CDC_DMA_VA_TX7  253
->>>>> +#define QAIF_CDC_DMA_VA_TX8  254
->>>>> +#define QAIF_CDC_DMA_VA_TX9  255
->>>>> +
->>>> These DAI IDs exceed the LPASS_MAX_PORT limit, which will cause sound
->>>> card registration to fail.
->>>>
->>>> Check sound/soc/qcom/common.c, as the current indices (246-255) are
->>>> beyond the supported LPASS port range.
->>>>
->>>> Best Regards,
->>>> Rafi.
->>> Thanks for pointing this out. We can either add the range check for
->>> min/max QAIF DAI IDs in qcom/common.c or introduce a common helper in
->>> qcom/common.h to validate the supported DAI IDs across Qualcomm
->>> platforms.
->>
->> You should add these ids to
->> include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h instead to avoid
->> conflicts with common code.
->>
->> --srini
-> Thanks for the suggestion. qcom,q6dsp-lpass-ports.h is specific to Q6
-> DSP/AFE virtual port IDs. Since QAIF is a direct MMIO driver with no
-> Q6 DSP involvement, would adding QAIF IDs there not be misleading?
-
-These are IDs that will be reused across both dsp and non-dsp solution.
-So it makes more sense to keep it in one single place to allow the
-hardware description (DT) unchanged across different software solutions.
-
-
-> would it be better to update the range check in common.c/common.h to
-> accommodate both LPASS and QAIF DAI ID ranges instead?
-No, that does not make sense because these numbering might conflicting
-with other ports in future.
-
---srini
-
-
-THat
-> -Harendra
->>> -Harendra
->>
+diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+index 3021dc498c855..509f24a26ffe7 100644
+--- a/sound/soc/amd/acp-config.c
++++ b/sound/soc/amd/acp-config.c
+@@ -51,12 +51,24 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "83V9"),
+ 		},
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "FA401EA"),
++		},
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "TUF Gaming A14 FA401EA"),
+ 		},
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "TX Air FA401EA"),
++		},
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
+-- 
+2.55.0
 
