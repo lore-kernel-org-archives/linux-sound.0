@@ -1,90 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8173D3B14C4;
-	Wed, 26 Aug 2026 10:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70433932F7
+	for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 10:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787739227; cv=none; b=qR3fUt9wwdFrAFV6v5EdiIltRTUUoalqCwDtUTMcE9wwEAwIqxbBRpGiU92M0DY+ufZLrxIRgi7v3lICjxCckIy+N1CNFdTyDbkogvbLcLrXtIZ4RRw0GY2jtQB1P+pIl51i3/ktEtReINTep/azyM3xgemhHNmWMGhqXFIpp8w=
+	t=1787739961; cv=none; b=XS0EsKlKXNcdYZ3Xyzh7HtO4jsNqFEs9bCY3VIKm7DR6+8jOk/Tiwy8X6OdmPcfR7fRI7LJTr2+VyJN7Ntpmrza4fV+uzIYu9nsDOLZ6xz2x5/Edb3lDklFGcPv3LRhCTDOps/bk5B7ugzA/bSUbgXvcRoPVQtLE4hJlUSVW3Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787739227; c=relaxed/simple;
-	bh=yu/FDwKw8vCpw8DGljbxdSxYvelbyDXMPhHSaI0mJXY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mF81I0nz1Y3ZOwvXwE0wZEqoN3sqwiqlFhlZEIKiavZgVyre9wCGnc2wdihH8uh4cdvlMEbWTtRItvethpGDDaGarppAF5UvDSnKRFMv/Ep7bws15zRN41wzSHiFHV7y6D9sbscfCjJfWiqmTazdIppDgAxld5qzGdXcsBA0USY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mv6Lyao0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787739961; c=relaxed/simple;
+	bh=wEDTJJ7W8kiwxLRX1+enWo0Pl+M9+VeM0mUaKzfEPJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J/GCGhZjo27kTcmSKBJOuWtqK/j9knmF3A8EUsi7NzINBtEU+ztc6Amke0TFxplUax4jzzorjqd8Sep8nde1mLNZ3YdZdm5q5abh5qLoPf8vbCD2noZ7o6ZKTd0/LWq8eEskbAC9wIhtcv0xHuG29KE0rC6RSHIoy2/N9vyILjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L9AyZFMT; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mv6Lyao0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B92591F000E9;
-	Wed, 26 Aug 2026 10:13:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787739226;
-	bh=NtgT+ubk+KjyVdVRSY5QRnQTD2pSCmFQN2j+zKDZ99I=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=mv6Lyao0P6xS6QUZSJ7O0bzJbFV0hl3LuFjx/Z7+MBj2i3Mz9HxkCMOBcufQEeuiB
-	 XrpEJZOKSvgg8XkzX9Zy2K3nxMclC76ffIVWP/npzvhN1Gdm0OY9EarhyS7/6AOloN
-	 l2b/W9CEYGKlqydeRZoGEcv9JuC+d1d0OCbH68XBXgXahD8YjtcEqhLwyjiULuX/i0
-	 uzuLqtju8TZbN+TZgjAis6gLxWUJBmti17g/m+fJ/Zf8yvv9Az5Giv3QVlavM8OHtb
-	 6XIUuVoa3k6DcN+2+J4L74wnZItrC1qkVaQrBnghNZIrtu3QlXazKAT0AHLTziLxw4
-	 T5fhl4v6v6Qng==
-From: Mark Brown <broonie@kernel.org>
-To: Vijendar.Mukunda@amd.com, 
- Christopher Tolang <christophertolang@gmail.com>
-Cc: venkataprasad.potturu@amd.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260823113221.19744-1-christophertolang@gmail.com>
-References: <20260823113221.19744-1-christophertolang@gmail.com>
-Subject: Re: [PATCH] ASoC: amd: yc: Add DMI entry for MSI Thin A15 B7UC
-Message-Id: <178766212794.119896.2209950795595633659.b4-ty@b4>
-Date: Tue, 25 Aug 2026 13:48:47 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L9AyZFMT"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c250a2bc3b3so94703366b.2
+        for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 03:25:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787739958; x=1788344758; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7ZF4eI1OEh2v4DHesaWp67R2xMPuMRHeqkB4bC7uF/4=;
+        b=L9AyZFMTPLVgsgN/QDMGCIjX76X9TyCv31wnNPTuF0SyjUO639QZDm+CiBFbYGFOZV
+         mF7TmrWSh6Ryg554P/HOfzY76N8xLe2GXafJcXvApNBMHQHU5PLU5xTpgT5AeMf6Z4Oh
+         Ch3pjhHOJ5GdOgpw+lA56jwB67U6uwxTrmfYPKVsee6odPrH2SCyaZMfUfAUVR7HmMnX
+         Ucc7wAf6sGaUNlukYHxHbfKahV8GCD6+87pOCh/12Jdkfka6jKYyGnyS1Id5u6Uzs4A6
+         bKr8yNLi4HOTAfD2vqYZh04SW8VCEZhI9OgQddtPqqPXuXszXVLWl53pOiJhLwPlsI2Q
+         NAQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787739958; x=1788344758;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7ZF4eI1OEh2v4DHesaWp67R2xMPuMRHeqkB4bC7uF/4=;
+        b=iAOe4rYjo9AeL4cX58DMTWAbO0I7e6SeTeopHaHjT1AkJyvznrOjTqt7CwX2GGHsiz
+         21QC8Ut35+wE+8e8epmxhdjcAqTIC8NfGe648LNbrLc0pBQPARR0Swfag3Gp5r345X1A
+         4/k1ZA3rN5xlanEbNhdtvFIewYhKtAakBTEtb9/2qt7blwl+vEErnIjp+OWJ39n9CJ2i
+         xWNxSVyD27IytEK16h10T1nzmWxHfeyAxITJyb9bbfBlgNuawJKQd3Mr+XaIVmk5knTl
+         CA3vyGbYtrZ6eMqu/H/h27b9wEstgrtEjyjuw83UobS165aNEXT1wNNfr2E8Z1CIITZg
+         BuCg==
+X-Forwarded-Encrypted: i=1; AHgh+RoBHyvshKN0q0HLeNldEa+5Pzx+ALgnHHSyGE/1hq2tBQH0tTRZ46kujw3CGRc2xy+BHDqs88V4DCBBUA==@vger.kernel.org
+X-Gm-Message-State: AFuF++kaNZTlqCHGf8k4bShna7cmx1kqv6N1aRjrGnhRkReiQSAHNdaL
+	1spmH0vBx8c9GUiufnPcdY0Vzdl1UIN1N0B3uVAVVBmFKrQK7hXYWXiU
+X-Gm-Gg: AR+sD10wJ0M7+4EPUrqb+h/NkOs9UMwb4VJd4wQgUvtVnDyry9ZbJw5xHUP5LDxmvLI
+	CY1FOoH4X1m0egKtmBPER3NyBa17Iy1zDPr3nYINV/M95PKLTv+fWNwCJrU+ucFufHP4ZoGEgZv
+	an6v5OkH48VS/DCo5BMbdPSBiTT/elyiZ8wn6jMeMPMnTE1sEQ1YAOnzWFT16Zly3Te0iHe82D4
+	LbMYEEaLGm7VxS5jd9jkUC5yR2zQMj0fC6qhzjUiJ5+wVnEfx01kQoE9D0Jgyu4H5OgHXzdjbnU
+	loPtg6pt9QHaHqrz9tpETgIteVmS1xJjPKl6Ct2c8peyepqiv4i8yUQvC7x6wqRXCf/js7S4lRm
+	00WwF/2GL5FA/ccIrKko/RVMvC3qVEZDXWI7nGCaZFdV7+KFxLHjSv0o+HT4UCgEtYSm0ZYna3C
+	BBkfU2PHtbcbXTB82p4XkmKTvX+Gpyv9Gd1Ow+Fsh7yZfLC0ho3S+uhn7suSpeDXjggfCWtkyro
+	+J9Hg==
+X-Received: by 2002:a17:906:478c:b0:c24:6505:8f67 with SMTP id a640c23a62f3a-c250bb556c2mr665876766b.10.1787739957750;
+        Wed, 26 Aug 2026 03:25:57 -0700 (PDT)
+Received: from foxbook (bfk5.neoplus.adsl.tpnet.pl. [83.28.48.5])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c250dfd6e6asm307762866b.19.2026.08.26.03.25.56
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 26 Aug 2026 03:25:57 -0700 (PDT)
+Date: Wed, 26 Aug 2026 12:25:52 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add larger page size support for USB audio offload
+ path
+Message-ID: <20260826122552.5761dea2.michal.pecio@gmail.com>
+In-Reply-To: <0bf654f3-51c5-4555-8cdd-dc9d25dd9f78@oss.qualcomm.com>
+References: <20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com>
+	<20260825094327.606072e9.michal.pecio@gmail.com>
+	<25ebe180-a620-4170-92f7-fda6c55a4129@oss.qualcomm.com>
+	<0bf654f3-51c5-4555-8cdd-dc9d25dd9f78@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1124; i=broonie@kernel.org;
- h=from:subject:message-id; bh=yu/FDwKw8vCpw8DGljbxdSxYvelbyDXMPhHSaI0mJXY=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqjrxWaReIGx39nOTD8y+08ecoGvsSi+kDyryL6
- 9UUh1DWKTmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCao68VgAKCRAk1otyXVSH
- 0OGhB/9+gSA3WU/QqmZ627ljjK9a/8AYyIAGu6MIBY3fIGfjretq6rKxe2AipDY1wmu8D05/3P9
- lmWWUyXjSFASmhC8B+nbk9eF/7Rzj5mqOhs7LCOqb4050MbLGQUoPA7RZghyiY/j9RowCRgErXJ
- 6wu17A+/lhHMjT55YO9KSTIvuXbiOVpYPjOMdFnzct4XD4zyhyDZ50HKL47MmnxeTlHn6N6Ne0O
- pR5F3IFxTGyjffeNPY4rDe0KSKtqgE5DiPWuqskqTjCU1k4JP035pTxwZI1QEdZ6n0NIsfRoUM0
- qm71M60sIzsmld8NMBMKoNbGN4I5b/pF4TybMPafN7jPHciW
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Sun, 23 Aug 2026 19:32:21 +0800, Christopher Tolang wrote:
-> ASoC: amd: yc: Add DMI entry for MSI Thin A15 B7UC
+On Wed, 26 Aug 2026 00:50:53 -0700, Wesley Cheng wrote:
+> Thanks for this suggestion.  I think it actually makes the overall
+> design a lot better.  So now that the sideband driver has its own
+> segment pool (per sideband instance), we expect that any page
+> allocations done from this pool is technically owned by the audio
+> DSP.  This allows us to still utilize 4k ring segments, while mapping
+> the entire 16k page, so it helps conserve/optimize the memory
+> allocations.  I will do a bit more testing and review before
+> submitting a new revision w/ these changes.
 
-Applied to
+The part about memory being "owned by the audio DSP" made me wonder
+if it would be helpful to let offload drivers allocate their own memory
+and then just dma_map() it for the xHC. No new rings would be allocated
+for offloaded endpoints when they are enabled, we would point Endpoint
+Context of the xHC to the sideband ring and leave ep->ring as NULL.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+Offload drivers would have full control over memory allocation - size,
+number of segments (it seems that qc-usb-audio only uses one out of two
+allocated by xhci-hcd), alignment, anything else.
 
-Thanks!
+It would become impossible to offload an endpoint which is already
+enabled, but is this an issue for anyone?
 
-[1/1] ASoC: amd: yc: Add DMI entry for MSI Thin A15 B7UC
-      https://git.kernel.org/broonie/sound/c/e2aa5ad3be41
+NULL ep->ring will cause oopses/panics when somebody submits URBs to
+offloaded endpoints, but I think it wouldn't be a problem otherwise.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Regards,
+Michal
