@@ -1,165 +1,106 @@
-Received: from mail-oi2-f0.google.com (mail-oi2-f0.google.com [74.125.231.192])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bayard.4d2.org (bayard.4d2.org [155.254.16.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C6541D11F
-	for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 16:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.192
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B848E3242D9;
+	Wed, 26 Aug 2026 17:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=155.254.16.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787760107; cv=none; b=SyycQKiIz3ZMgQeJxBZpgnAy2AWp6A6mmGzaAyWIRToIeF0TSstdoFnzRQBk3Qx+2Qr51P2UqoeFHSXW0+8TU7ptvy/YqcR96Byd+k5yd4lNJKGuANhMKs2fbmHMxnC62FoXqYYhpzP0ZHsgBbHc6j1o1rdXamvgCi4JGhehjCQ=
+	t=1787764891; cv=none; b=Ttt7V+f6Ehc7hFCUUyIeUuiBf+n2VifbPD/N79RQyplkpcAUCXA/FMiTHyAaIUSeZBi3rkmb+k5e2YmhJ7iedf81siNizIfjdX+XPot2l+MT8GEkuGLK9m7W6v9TOeziicVd41RDJ76FbT0FPevAghCKQdO7z3oEYw5I+Nu8+VE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787760107; c=relaxed/simple;
-	bh=fRS26Ur5jWVPNQ/rcZJ1N1Pte0FcrE5lSwCspQP3sW0=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=SFtJ/zJXDQ4Sb6Fc9Ysa8W5KJQ5dkyNSeqiQBcci+OiGvxeYZJkSO0Qtp6pHTPhvCANlgGdI1cmY/PrPqYq1irLKU5mFX6aGwgng0dzX1oMQGOgCzRQ46AUZ4DNoqSWbsMGXbkbDsRLqjnH5MgBYeX8IwqFoE9fu9Nmut8ULXS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.192
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi2-f0.google.com with SMTP id 5614622812f47-4a4492f5cd1so169728b6e.1
-        for <linux-sound@vger.kernel.org>; Wed, 26 Aug 2026 09:01:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787760104; x=1788364904;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=znwQLx4ttLCAahi4lYkTwRyA0+r8xuDmAlKgFKQsAFo=;
-        b=lblOXUfE1s3zPd4bajSxSWG3aelhEIC7D3it9COL5c6jJrUjb6lcS17PxkWH1Ab+nB
-         qQKlYkBhemm6fjl7SqM9fZ7Og6sfueF3xEZc1IGJmpk9Q2aoPuDEgkJwYI5sCfY3toVk
-         T4xiJysq+UF3knAAJJOoRPRRCenozxrdW1jXFbj+6on0BOwVoeUXt2LGY3bXAoyP440V
-         f0y7zHaLGSM0yIPLGKZhyD7xQti67DURNPWMq+y4MmdtFq0/30sigWjmoXy/oS2T1fIT
-         H20qo0IflMeMjLdN15IhjhzbEnpsG6WFDRD0hyE8uV5I871AsWtX1H5qMrAu+Evbj+gg
-         Bpyw==
-X-Forwarded-Encrypted: i=1; AHgh+RqjrH8WxjxEWwN48L4SEC60B0pCoGF/PF7sM4cys/7MGjSS/Kbwnfg4dzWACEVjQaltmsyAS+AnTeRWMw==@vger.kernel.org
-X-Gm-Message-State: AFuF++ntt2RwQx+mNqzJ4udIkXnynIveIUkhvVevmDYqGyz/w0nXR6xv
-	ZnHqxCh22ieY8s6XCbUFnehG+Sv6t4swkSq5cci9eNkuHsLS6OCQPj2ADs/6rTYzQt06D58pR4G
-	L+RQ44mNA+ROp75Ujx/Xuq5PO2ajGgC9LqRHFCGVCq+gboZvV58Xgxq3zjjk=
+	s=arc-20240116; t=1787764891; c=relaxed/simple;
+	bh=13+NHVoDRaNyxW8YsyAG3yCn4HxBT5OIP8rOD8sKg4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UIANICCtgPTHnX0k9EQY9hd+LpoOeqhD0PIgpqw71uG5XOHW3+MYNKafsliIGMw1aFNKipo32y74JgRq+bTvYgWqFhUEaL0Y0jeRsCmauXGNSufSwTvHSVNJCINHw9Ho1q0zWZA4i2VYE6VRAZw/lr+3BOGDSblvHPy4DHMTS9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=4d2.org; spf=pass smtp.mailfrom=4d2.org; dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b=WP5lor7D; dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b=GYD92rbR; arc=none smtp.client-ip=155.254.16.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=4d2.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=4d2.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b="WP5lor7D";
+	dkim=pass (2048-bit key) header.d=4d2.org header.i=@4d2.org header.b="GYD92rbR"
+Received: from localhost (bayard.4d2.org [127.0.0.1])
+	by bayard.4d2.org (Postfix) with ESMTP id 09B9617589BE;
+	Wed, 26 Aug 2026 10:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=4d2.org; s=mail;
+	t=1787764873; bh=13+NHVoDRaNyxW8YsyAG3yCn4HxBT5OIP8rOD8sKg4U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WP5lor7Dxk9nibHY1+vnU5MtfHdysJPR46RJpoTrizWmYKV66NdA/TbCpe4GlEreM
+	 iE5ge7/vdVA0XHQehVNITBlCoErFBlYR3BTqZwJjkSxbh1v4iWv8EplwsoLITNSmFo
+	 J2sNJkQkz6m/cmzcchd5qyp4j9QlrTlX9UVyuVSRFrBfD65fqUa9P7UCHYwNx2b/A8
+	 VJsY9KdO2O+3wlwL15lOoupmAaTrZC5Z7/GaRIexMXGBt2SBqgIKW6CALXIB80vwLz
+	 U7ZbQc7K8BQVU5VjBBmrM/QpdlNF6hm0XuiCRV+hjEW/PU8o+qE1t4QlrHhOv510Dn
+	 8PDR+hFtlbtZQ==
+X-Virus-Scanned: amavis at 4d2.org
+Authentication-Results: bayard.4d2.org (amavis); dkim=pass (2048-bit key)
+ header.d=4d2.org
+Received: from bayard.4d2.org ([127.0.0.1])
+ by localhost (bayard.4d2.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id L-s0aNOgtJ2p; Wed, 26 Aug 2026 10:21:10 -0700 (PDT)
+Received: from Headcrab-PC-Fedora (unknown [IPv6:2408:8431:4d10:18:a686:580f:dd35:47a3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: wiagn@4d2.org)
+	by bayard.4d2.org (Postfix) with ESMTPSA id 14CBE17581AF;
+	Wed, 26 Aug 2026 10:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=4d2.org; s=mail;
+	t=1787764870; bh=13+NHVoDRaNyxW8YsyAG3yCn4HxBT5OIP8rOD8sKg4U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GYD92rbRyoegU7QeKSgmtiM3euXmj4SNdJa4JOHlCDCVxYchSXpiLIkhliK6h0BzK
+	 FIla4oqWEs5d9dTMwvkPdewL3F5BR+YtDPlw7Ys3/EEBKK5Gm9ZJ70N9zTy0GCpZp2
+	 Ml9oBKPwLGizxO9qUrhs4QaZSIrY42HNTC2KsvRv6PmE3b0BCxAOJp0bNai9zdXe77
+	 BWQIHwyi5X5KfsDuQPA+EkrNkfzjHnat2gpkRHGluSYHQnL/vC11qVNurhppgVCmoN
+	 iQ78HCg8HX2p0ogjI9WdDw27DIYQYYLblHFcZpgurwdYW7djzPUTxeTloGb/0TGa25
+	 iFAVwWD9AHvyw==
+From: Shengyu Qu <wiagn@4d2.org>
+To: Vijendar.Mukunda@amd.com,
+	venkataprasad.potturu@amd.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	Syed.SabaKareem@amd.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: wiagn233@outlook.com,
+	Shengyu Qu <wiagn@4d2.org>
+Subject: [PATCH v2] ASoC: amd: acp-config: change quirks to cover all ASUS FA401EA variants
+Date: Thu, 27 Aug 2026 01:20:50 +0800
+Message-ID: <20260826172050.15686-1-wiagn@4d2.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3505:b0:493:a860:5809 with SMTP id
- 5614622812f47-4b3668b1451mr8453659b6e.4.1787760104366; Wed, 26 Aug 2026
- 09:01:44 -0700 (PDT)
-Date: Wed, 26 Aug 2026 09:01:44 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a8f0de8.1d9ded08.62e62.00b5.GAE@google.com>
-Subject: [syzbot] [sound?] WARNING: ODEBUG bug in dummy_pcm_close
-From: syzbot <syzbot+225231fce6755d40d078@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Existing quirk doesn't cover all known existing FA401EA devices, so use
+"FA401EA" to cover all of them.
 
-syzbot found the following issue on:
-
-HEAD commit:    66498c75b4f8 Merge tag 'dmaengine-7.3-rc1' of git://git.ke..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=123b9979580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=e9ce1d694820ba2b
-dashboard link: https://syzkaller.appspot.com/bug?extid=225231fce6755d40d078
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12b29415580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d0a47f9dd2f2/disk-66498c75.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/9d5e64d02b84/vmlinux-66498c75.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f14557ff09c4/bzImage-66498c75.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+225231fce6755d40d078@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object: ffff8880213f7f20 object type: hrtimer hint: dummy_hrtimer_callback+0x0/0x150 sound/drivers/dummy.c:-1
-WARNING: lib/debugobjects.c:632 at debug_print_object+0xec/0x230 lib/debugobjects.c:629, CPU#1: syz.0.66/5973
-Modules linked in:
-CPU: 1 UID: 0 PID: 5973 Comm: syz.0.66 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:debug_print_object+0x18a/0x230 lib/debugobjects.c:629
-Code: f8 48 c1 e8 03 80 3c 18 00 74 08 4c 89 ff e8 3d 70 4f fd 4d 8b 0f 4c 89 ef 48 8b 74 24 08 48 89 ea 44 89 e1 4d 89 f0 ff 34 24 <67> 48 0f b9 3a 48 83 c4 08 ff 05 73 77 92 0b 48 83 c4 10 5b 41 5c
-RSP: 0018:ffffc90003a37b70 EFLAGS: 00010246
-RAX: 1ffffffff181f12c RBX: dffffc0000000000 RCX: 0000000000000000
-RDX: ffffffff8c6d6340 RSI: ffffffff8c6d5dc0 RDI: ffffffff9084dfc0
-RBP: ffffffff8c6d6340 R08: ffff8880213f7f20 R09: ffffffff8c0f8ba0
-R10: dffffc0000000000 R11: ffffffff81b3d530 R12: 0000000000000000
-R13: ffffffff9084dfc0 R14: ffff8880213f7f20 R15: ffffffff8c0f8960
-FS:  000055557a276500(0000) GS:ffff888124df1000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fc4e5ef7d58 CR3: 000000007ed3e000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
- debug_check_no_obj_freed+0x2e3/0x450 lib/debugobjects.c:1201
- slab_free_hook mm/slub.c:2679 [inline]
- slab_free mm/slub.c:6499 [inline]
- kfree+0x13e/0x650 mm/slub.c:6792
- dummy_pcm_close+0x9b/0xb0 sound/drivers/dummy.c:609
- snd_pcm_release_substream+0x313/0x490 sound/core/pcm_native.c:2793
- snd_pcm_release+0xb6/0x160 sound/core/pcm_native.c:2983
- __fput+0x418/0xa50 fs/file_table.c:512
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
- __exit_to_user_mode_loop kernel/entry/common.c:70 [inline]
- exit_to_user_mode_loop+0x204/0x770 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:336 [inline]
- do_syscall_64+0x328/0x520 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fc4e4f9e0d9
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffc47a4ba18 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-RAX: 0000000000000000 RBX: 00007fc4e5227da0 RCX: 00007fc4e4f9e0d9
-RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-RBP: 00007fc4e5227da0 R08: 00007fc4e5226038 R09: 0000000000000000
-R10: 000000000003fdc0 R11: 0000000000000246 R12: 00000000000175a9
-R13: 00007fc4e522609c R14: 000000000001729d R15: 00007fc4e5226090
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	f8                   	clc
-   1:	48 c1 e8 03          	shr    $0x3,%rax
-   5:	80 3c 18 00          	cmpb   $0x0,(%rax,%rbx,1)
-   9:	74 08                	je     0x13
-   b:	4c 89 ff             	mov    %r15,%rdi
-   e:	e8 3d 70 4f fd       	call   0xfd4f7050
-  13:	4d 8b 0f             	mov    (%r15),%r9
-  16:	4c 89 ef             	mov    %r13,%rdi
-  19:	48 8b 74 24 08       	mov    0x8(%rsp),%rsi
-  1e:	48 89 ea             	mov    %rbp,%rdx
-  21:	44 89 e1             	mov    %r12d,%ecx
-  24:	4d 89 f0             	mov    %r14,%r8
-  27:	ff 34 24             	push   (%rsp)
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	48 83 c4 08          	add    $0x8,%rsp
-  33:	ff 05 73 77 92 0b    	incl   0xb927773(%rip)        # 0xb9277ac
-  39:	48 83 c4 10          	add    $0x10,%rsp
-  3d:	5b                   	pop    %rbx
-  3e:	41 5c                	pop    %r12
-
-
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221310#c49
+Fixes: 27d090f3ccd4 ("ASoC: amd: acp: add ACP70 DMI override for new ASUS TUF platforms")
+Signed-off-by: Shengyu Qu <wiagn@4d2.org>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Changes since v1:
+ - Use single item to match all variants
+v1: https://lore.kernel.org/all/20260826094209.29299-1-wiagn@4d2.org/
+---
+ sound/soc/amd/acp-config.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/sound/soc/amd/acp-config.c b/sound/soc/amd/acp-config.c
+index 3021dc498c855..75b8e8a1fd7e5 100644
+--- a/sound/soc/amd/acp-config.c
++++ b/sound/soc/amd/acp-config.c
+@@ -54,7 +54,7 @@ static const struct dmi_system_id acp70_acpi_flag_override_table[] = {
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "TUF Gaming A14 FA401EA"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "FA401EA"),
+ 		},
+ 	},
+ 	{
+-- 
+2.55.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
