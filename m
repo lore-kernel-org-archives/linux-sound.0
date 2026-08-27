@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E67C471263
-	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 13:11:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A1D46EF87
+	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 13:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787836300; cv=none; b=tQGFMW65MXzEtL36YbgwzR1uvO6xIXhenVuf+fbE1iLcUbzGOwGhCSux2NmuT3VbTM9j9BXtdd7Ay9ZPE8/GHacW89pHfnbEYRPY7No6XDash0vzFScQYgqEUNXc9FtqzH+18zaE6BPdJ9iySmJKY01kY/xkd+XAylqgcRhJc0E=
+	t=1787836300; cv=none; b=JHGbCAUmmc1TREmNDnmLDhZFBXxQRBSnLK7OIO+F3mse20UZ8P2VMs3Oduq63ClE59Znx91cj71I3pFUxfAwsbbYMYDyLAk4frbxkJzJV5G8qs2B16kAMW82+3oHISk38Ex+p889MNXEI7A26DN4wNlYihp/YJVOcCHvEeoZlu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1787836300; c=relaxed/simple;
-	bh=WNmtC68NJA0/Rqf4KTTozQ2j/CAl/XfqX1JIbDkF3x8=;
+	bh=Vj50uZqQXef+6M2IpMB37wL0UyfHzb9tzwWBKD/reXI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YiH6IqALo1mZ3cjZ0mPOJFjKXzu9YJx24Ju9FtBQGhf6ILphbiBDIgVL3/dmrg6FBlipKCcUCwkKwq2JylWgy8oSrM0NEJBidEbYKxHzPhRB1d5n+y3KPAklH70ae8OBLGfm3X0Io4SWeJwou98K2C0OMA9XOteiFjIut5lshIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lkEyo0Gp; arc=none smtp.client-ip=198.175.65.16
+	 MIME-Version; b=i4sbUBcZxEtCnmuv896Y2P+fCH/ZaYEbvHOPFhs7FpOzHEAUng8oL0t7dFXjoBqp/QgLIlIigfnI3B/yuU7Ud7KOdMr9673wGytaRPI1tRzzWzoxB/zrWaKnG6qn1dGkGtSm5ocyXVfmkA/jgL+x5bDvYFNwzX4Jtds84rFir20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nsEx72PC; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lkEyo0Gp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nsEx72PC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787836289; x=1819372289;
+  t=1787836292; x=1819372292;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=WNmtC68NJA0/Rqf4KTTozQ2j/CAl/XfqX1JIbDkF3x8=;
-  b=lkEyo0Gp+MPW5cu8KPNI5g+/XAwTGlqdVNInnbDNfcqCjTd0q6dKNK0G
-   WzqrrmvggrhFnqwlMTlNunJ+1nx7rVWNz/SQnkwlKpYNPyERMeTXAzXBL
-   BLmwH/UcA665Ycat2EdON6uDgjQebUGKXxw2n7nbfvhAJm0DRj+GKX/5l
-   FMvAYbW6DnZq+/xhTF5jiNz3h0/12soyWh/Vqp+bGLB16OCFBrQg96/x6
-   ZJr/AtZ+Q3FTtgc2ETc92ONMgTqVaWhDwNvPDuISRZl3SFVs5adLaYcCF
-   2cSaHsGgaCW7wTZUKSojz7E+CNS2BMFJ8axAQvN6ChrS1pcq4GDAkI+0d
+  bh=Vj50uZqQXef+6M2IpMB37wL0UyfHzb9tzwWBKD/reXI=;
+  b=nsEx72PC3Avf6u4QjyspRO8+dxuCW0yY07kYk1WlsJboAGps9i7QghmW
+   Y/V883gMdEDxfMjrMI8wYC6HDse9L1Ucc5Ng5F0mapIV8/IRuc8r4sa28
+   GPoq5lI59I2MZaCbKOc7yXcqVhrJyT3G69yuCXSX6g51secaZkFuIB4Hf
+   /I156YgVrmeBghAbTbKoZUXkFxHqlcxtGm4NlI34gr+ASH71cJBDD7XX3
+   7rZw2vmzXwGEaXQrH5inOJU1+MUMWcYskTCF/iuKYREYuXhnOx34xwzcN
+   1sjOeu4ZAflTceJnwaRNdOpARpb0+hLXjS/oAgP61KOUuUUdMHEwncghj
    Q==;
-X-CSE-ConnectionGUID: 1Ggce/ltTuu+B4SbmskBEA==
-X-CSE-MsgGUID: zvL8qU36R1CMr8+IqVS6Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88539059"
+X-CSE-ConnectionGUID: poVdYkWnQdyzhZAZmlD47Q==
+X-CSE-MsgGUID: /8Pf9ZPNTLy7VyivRD/apQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88539065"
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="88539059"
+   d="scan'208";a="88539065"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 06:11:02 -0700
-X-CSE-ConnectionGUID: LPJvgoNQTZqXQPJwTzFThQ==
-X-CSE-MsgGUID: zDMlg7YNR5mTzKzmHbshDw==
+X-CSE-ConnectionGUID: HWGZX/0PTVuErzxWmWdw1A==
+X-CSE-MsgGUID: Lv1gXQvQRFO6zXc0y8cOtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="263589349"
+   d="scan'208";a="263589353"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Aug 2026 06:10:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 27 Aug 2026 06:10:57 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH 05/10] ASoC: Intel: avs: Clean up streams if their initialization fails
-Date: Thu, 27 Aug 2026 15:15:05 +0200
-Message-Id: <20260827131510.1014084-6-cezary.rojewski@intel.com>
+Subject: [PATCH 06/10] ASoC: Intel: avs: Do not ignore -ENOENT when loading a topology
+Date: Thu, 27 Aug 2026 15:15:06 +0200
+Message-Id: <20260827131510.1014084-7-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260827131510.1014084-1-cezary.rojewski@intel.com>
 References: <20260827131510.1014084-1-cezary.rojewski@intel.com>
@@ -62,56 +62,130 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When streams are being initialized the memory allocation may fail.
-Have an error path and return early if that is the case.
+avs_load_topology() combines request_firmware() and
+snd_soc_tplg_component_load().  The fallback mechanism introduced for
+the HDAudio based boards honors -ENOENT and checks for a generic
+topology if no specific is found before giving up and failing the
+component probing.
 
-Fixes: 1affc44ea5dd ("ASoC: Intel: avs: PCI driver implementation")
-Co-developed-by: Amadeusz Sławiński <amade@asmblr.net>
-Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
+However, if -ENOENT is returned by the latter function -
+snd_soc_tplg_component_load() - is shall not be ignored.  That means
+there is an actual problem with the topology file and no fallback shall
+be attempted.
+
+Fixes: 739c031110da ("ASoC: Intel: avs: Provide support for fallback topology")
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/core.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ sound/soc/intel/avs/pcm.c      | 34 ++++++++++++++++++++--------------
+ sound/soc/intel/avs/topology.c |  2 +-
+ sound/soc/intel/avs/topology.h |  1 +
+ 3 files changed, 22 insertions(+), 15 deletions(-)
 
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index 8f27a7d43718..611ae9f034d4 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -92,16 +92,28 @@ static int avs_hdac_bus_init_streams(struct hdac_bus *bus)
- {
- 	unsigned int cp_streams, pb_streams;
- 	unsigned int gcap;
-+	int ret;
+diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+index 2b886fae8209..ad25bd355769 100644
+--- a/sound/soc/intel/avs/pcm.c
++++ b/sound/soc/intel/avs/pcm.c
+@@ -6,6 +6,7 @@
+ //          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
+ //
  
- 	gcap = snd_hdac_chip_readw(bus, GCAP);
- 	cp_streams = (gcap >> 8) & 0x0F;
- 	pb_streams = (gcap >> 12) & 0x0F;
- 	bus->num_streams = cp_streams + pb_streams;
- 
--	snd_hdac_ext_stream_init_all(bus, 0, cp_streams, SNDRV_PCM_STREAM_CAPTURE);
--	snd_hdac_ext_stream_init_all(bus, cp_streams, pb_streams, SNDRV_PCM_STREAM_PLAYBACK);
-+	ret = snd_hdac_ext_stream_init_all(bus, 0, cp_streams, SNDRV_PCM_STREAM_CAPTURE);
-+	if (ret)
-+		return ret;
-+	ret = snd_hdac_ext_stream_init_all(bus, cp_streams, pb_streams, SNDRV_PCM_STREAM_PLAYBACK);
-+	if (ret)
-+		goto err;
- 
--	return snd_hdac_bus_alloc_stream_pages(bus);
-+	ret = snd_hdac_bus_alloc_stream_pages(bus);
-+	if (ret)
-+		goto err;
-+
-+	return 0;
-+err:
-+	snd_hdac_ext_stream_free_all(bus);
-+	return ret;
++#include <linux/cleanup.h>
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <sound/hda_register.h>
+@@ -987,13 +988,25 @@ static int avs_component_load_libraries(struct avs_soc_component *acomp)
+ 	return ret;
  }
  
- static bool avs_hdac_bus_init_chip(struct hdac_bus *bus, bool full_reset)
++static int avs_request_topology(struct snd_soc_component *component, const char *name,
++				const struct firmware **fw)
++{
++	char *fullname __free(kfree) = NULL;
++
++	fullname = kasprintf(GFP_KERNEL, "%s/%s", component->driver->topology_name_prefix, name);
++	if (!fullname)
++		return -ENOMEM;
++
++	return request_firmware(fw, fullname, component->dev);
++}
++
+ static int avs_component_probe(struct snd_soc_component *component)
+ {
+ 	struct snd_soc_card *card = component->card;
+ 	struct snd_soc_acpi_mach *mach;
+ 	struct avs_soc_component *acomp;
++	const struct firmware *fw;
+ 	struct avs_dev *adev;
+-	char *filename;
+ 	int ret;
+ 
+ 	dev_dbg(card->dev, "probing %s card %s\n", component->name, card->name);
+@@ -1009,13 +1022,7 @@ static int avs_component_probe(struct snd_soc_component *component)
+ 		goto finalize;
+ 
+ 	/* Load specified topology and create debugfs for it. */
+-	filename = kasprintf(GFP_KERNEL, "%s/%s", component->driver->topology_name_prefix,
+-			     mach->tplg_filename);
+-	if (!filename)
+-		return -ENOMEM;
+-
+-	ret = avs_load_topology(component, filename);
+-	kfree(filename);
++	ret = avs_request_topology(component, mach->tplg_filename, &fw);
+ 	if (ret == -ENOENT && !strncmp(mach->tplg_filename, "hda-", 4)) {
+ 		unsigned int vendor_id;
+ 
+@@ -1030,18 +1037,17 @@ static int avs_component_probe(struct snd_soc_component *component)
+ 							     "hda-generic-tplg.bin");
+ 		if (!mach->tplg_filename)
+ 			return -ENOMEM;
+-		filename = kasprintf(GFP_KERNEL, "%s/%s", component->driver->topology_name_prefix,
+-				     mach->tplg_filename);
+-		if (!filename)
+-			return -ENOMEM;
+ 
+ 		dev_info(card->dev, "trying to load fallback topology %s\n", mach->tplg_filename);
+-		ret = avs_load_topology(component, filename);
+-		kfree(filename);
++		ret = avs_request_topology(component, mach->tplg_filename, &fw);
+ 	}
+ 	if (ret < 0)
+ 		return ret;
+ 
++	ret = snd_soc_tplg_component_load(component, &avs_tplg_ops, fw);
++	if (ret)
++		return ret;
++
+ 	ret = avs_component_load_libraries(acomp);
+ 	if (ret < 0) {
+ 		dev_err(card->dev, "libraries loading failed: %d\n", ret);
+diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
+index 673ac31f2fea..d5e641c73faf 100644
+--- a/sound/soc/intel/avs/topology.c
++++ b/sound/soc/intel/avs/topology.c
+@@ -2194,7 +2194,7 @@ avs_control_load(struct snd_soc_component *comp, int index, struct snd_kcontrol_
+ 	return 0;
+ }
+ 
+-static const struct snd_soc_tplg_ops avs_tplg_ops = {
++const struct snd_soc_tplg_ops avs_tplg_ops = {
+ 	.io_ops			= avs_control_ops,
+ 	.io_ops_count		= ARRAY_SIZE(avs_control_ops),
+ 	.control_load		= avs_control_load,
+diff --git a/sound/soc/intel/avs/topology.h b/sound/soc/intel/avs/topology.h
+index 1cf7455b6c01..b5799c994b88 100644
+--- a/sound/soc/intel/avs/topology.h
++++ b/sound/soc/intel/avs/topology.h
+@@ -230,6 +230,7 @@ struct avs_tplg_module {
+ 	struct list_head node;
+ };
+ 
++extern const struct snd_soc_tplg_ops avs_tplg_ops;
+ struct avs_tplg *avs_tplg_new(struct snd_soc_component *comp);
+ 
+ int avs_load_topology(struct snd_soc_component *comp, const char *filename);
 -- 
 2.34.1
 
