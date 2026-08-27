@@ -1,55 +1,77 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37BAA30E85D
-	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 07:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020A5339379
+	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 07:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787816559; cv=none; b=FJU4BGUR/0748kKnG+YPQB+1LcPDAPmShTc8hfLnWJMu1orNWiFKRJem4a2sMLHotZJ0RvprDZ+aWs1U8Y0Li3kEqLeyY96/J2k3B/HRi9sXllqPCQTPj+HFKzCduIqlOqSAdPer4WZae1ol1b964Aln+WwBPuDTJ4aOhmRYkFg=
+	t=1787816631; cv=none; b=j1g6CxgwU4nA/jD6nBon4SL/quvlANH6JgMHoT444qFjFzd8MWD0L+gyotac1YHnH/BNZsvmbo+WWbQR+FAZRPskbMqw1zuMqKWpc4iCkp7uMMihfRX96XA3fbgRVJngdVFvVYJAi4YmQ2ZX3wwUjkgeUDtIV17gTK2t+Ubkrjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787816559; c=relaxed/simple;
-	bh=CnCzMx65H3QywXWvDpWLqQRfNLH+hGE7pv4YENAeH+A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=La8Gj8VA0Xq2xdgmx/Rj17NNyLRwSqWpzFVndoSBfIIVvXLhLBCqkMhXJu98PzG0nha6BQVLjDG2rbwMnEmiQCbJmKHWgTIt7VWbgQb7xZ6XnXSnhfYQW++39jkvUEP/s+EEmfBfUD4L8s2PfFQHEg9NjHomLi98rRQSNxgPQUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=HzvY/UB6; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1787816631; c=relaxed/simple;
+	bh=Xevj5TRkEDm/ATw9jZmgzrjdvYzk28JGtOZh95gmagA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=a0TXqztoQlz6sdSw2uQE68/APX0kkjiRUXyKa0ly2cfjNRBp1qS6bICaEvZwjxI6AAN1dEenm4qTKdFmLpKMBdVQW5Id6jW2hkJhSf+uxD6YPUXTG42PL++DuwDWpR8Dtz9cqfcYkskKMAYXU8E63xLtL8HFvgUBVTVggBCKog0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LKq6hF+1; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="HzvY/UB6"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 67R7g3tiD1342828, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1787816523; bh=zxUt7BrNDpP0WHmRzfWmxHQzFmBWYsmYEJ2+TdXApyc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=HzvY/UB6kRocnq1ytKzZcSoLI52wr8eDRU451LrzVv8SBtAicGgzKHl7+bKt5VWCW
-	 6TwwuDh+/hRLm9Tiq0CJVi+CJTts/HrfbOddYgYGGqxBIx5QhFYlepJiEliR9DJNBo
-	 Xh/31yLLj0A8LPZrA9/Hqqf6zVB9VAJxqT69mZzapxxBWt4LqUSHq2KNnDLYa3KVx1
-	 4KJFGkvW4HicunUPVwZXUpivmYvArREkVNpOmuhiUpOruV2BxI3sqABa7qsiRli2RQ
-	 VkSr0YQ98JEf/iDprTecOcJrYQiEzHWOgxdDz+V2lrxxZihNMZiJfRyD6iL9+GnW7r
-	 cRUtVSKjVQmJQ==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 67R7g3tiD1342828
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 27 Aug 2026 15:42:03 +0800
-Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 27 Aug 2026 15:42:01 +0800
-Received: from RTKEXHMBS04.realtek.com.tw (10.21.1.54) by
- RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Thu, 27 Aug 2026 15:42:01 +0800
-Received: from sw-server.localdomain (172.24.54.4) by
- RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server id
- 15.2.2562.43 via Frontend Transport; Thu, 27 Aug 2026 15:42:00 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-	<oder_chiou@realtek.com>, <jack.yu@realtek.com>, <derek.fang@realtek.com>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: rt766: fix the warnings: unmet direct dependencies detected for SND_SOC_SDCA_HID
-Date: Thu, 27 Aug 2026 15:41:55 +0800
-Message-ID: <20260827074155.3938361-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LKq6hF+1"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b8eeb3ff2so820075e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 00:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787816628; x=1788421428; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Xevj5TRkEDm/ATw9jZmgzrjdvYzk28JGtOZh95gmagA=;
+        b=LKq6hF+1JDmru3WJFrRh8mTml09EDLI1mRi5ivdj2paQnQ+42K5xcGCj85Ci7SNPMP
+         kHrxWodr/WtYqbt1L15tjVviujwM7mtq2HkHxZPItrzBISRs1KUABnfY+/WTFSRfv1yW
+         ms7MRPxoTdhL/KvzwKQzIXuOOIbV/Lrt3h4SuFqGJ8/9Y8rLenabzo0S7gy+LJ198pga
+         A3MGqMvgsPgmChWoS1nlrm/NRpRhn2KxholdvI2NbmdvPg5CrJ+sd7yrarNmz+LsBm6C
+         u/eDQcQZyc8MwTEiii7/OJZL8JNDgtR7Il0+yJySnccMVtc542Lw1ROHAGG4w+haVgdL
+         mPdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787816628; x=1788421428;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Xevj5TRkEDm/ATw9jZmgzrjdvYzk28JGtOZh95gmagA=;
+        b=KBkoXnbBq/O+H0MeQPtSx1vdo0Dmy7NeWYHDTRAIhxAtocc6AV9dGbSj7i9oSt8R5f
+         A/mVpCqwqlUOCfzyPEhYBTFMCAZiMq7TfXWY5jsH0R1jrFdQeZ52kp+HhtydQbY3Lj2T
+         3tpi3O/xpIrH8nfnmMehGVjcgmJwolmeXF5DpUFj4wsbY+BEpeX4074eoKNICiYpHSRV
+         sD0qq2pmabh7nmlLEpLRLWq8FVd5G2B/oGGBjfPfBm8kAolz2weiModJgLv3kAf7Us8w
+         jxkScUIIDyM9qlQh7H3zm3AtZ8GMeU8iFwrE1boUlBtRcnBDUuIu38l/7Q8nd3c5L8He
+         mBZQ==
+X-Forwarded-Encrypted: i=1; AHgh+RopVacc1llpI8U2vNkU5E+TtIsK4fdUIooAw1NFhkey7U9FIHPvyVCe1+9a24A3qO5LRiaaix1Qkz0owA==@vger.kernel.org
+X-Gm-Message-State: AFuF++mRtPZ785q19YBTHMT8bmRJ/A3tlgeTDeoki61IZH/maAwvcKqe
+	n7ATMwHosLcFFjie8wsUzvUuPb+9Stp97ia0LwN4Mj1pvPAznWv9wmKi
+X-Gm-Gg: AR+sD12Z7kF46kcwtlpDseCuv+yR3BUDeyPsTjc4Y4LYIT4yzbK5R2tyxVFPxuVGYTI
+	zLvsl2s+GY2X8Ra8GeDLR81o6a62H3XVUTMfGgqixfiqhdEtLFlE8EWVZ9wnJHWC1s8pe4LEPah
+	KsIIR7DsYb5Iv8H1TZSJlXqfXo3Xi65ZKU79cDOeIyXrhrGp5KzpgiBQsclXHleTaYwH7zAg673
+	l9HldHtKOrmViyeU2zyRhMVEOMtnfccz+qTmFzld7ED3EBMKP9D888ughl/tm0JfWH6bkfWeSK4
+	iMBXdi6RtWSK4bpXUT5mZr+eWblHSMVWOFNO9npfunw4i5i0mpBtXpBD9Tj7Ubh6WncrjUPxoUg
+	QlL2lsKu5L85zIX5nJKyiIQl3TsEmfSTi1TKbbXZMkh7SlyNKHtjYjcVbg2k06vqhdca5p59m3d
+	539Un7QzGsGLiQOhLoX3A7ZtF5okCEs9mYlhaVtMaxwfV/AiZNBW/UcAx6K7plCVgNXhotknZe8
+	ulPSw7plSsCXMPDMHG5BGV/j4NMokk6qupK3IfmLzmc
+X-Received: by 2002:a05:600c:a43:b0:497:fecd:5b00 with SMTP id 5b1f17b1804b1-499dc717e27mr126972725e9.9.1787816628092;
+        Thu, 27 Aug 2026 00:43:48 -0700 (PDT)
+Received: from 1Z10 ([78.211.107.127])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b494228bfsm29175235e9.2.2026.08.27.00.43.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 00:43:47 -0700 (PDT)
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+To: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Yauhen Kharuzhy <jekhor@gmail.com>,
+	linux-sound@vger.kernel.org,
+	Maurizio Casciano <mauriziocasciano7@gmail.com>
+Subject: Re: [PATCH v4 0/2] ASoC: Intel: Add Lenovo Yoga Book RT5677 support
+Date: Thu, 27 Aug 2026 09:43:45 +0200
+Message-ID: <20260827074345.1423410-1-mauriziocasciano7@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260827072517.1401173-1-mauriziocasciano7@gmail.com>
+References: <20260827072517.1401173-1-mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,34 +79,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Shuming Fan <shumingf@realtek.com>
+Adding Liam's current MAINTAINERS address to Cc.
 
-This patch fixs the kconfig warnings from the kernel test robot.
+The v4 series is archived at:
 
-| Fixes: b50ecf5873df ("ASoC: rt766: add RT766/RT767 SDCA driver")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes:
-| https://lore.kernel.org/oe-kbuild-all/202608262153.rOQYkmOr-lkp@intel.com/
+https://lore.kernel.org/linux-sound/20260827072517.1401173-1-mauriziocasciano7@gmail.com/
 
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index f9a47e262a77..caa24d48c1ac 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -1990,6 +1990,7 @@ config SND_SOC_RT766_SDCA_SDW
- 	tristate "Realtek RT766 SDCA Codec - SDW"
- 	depends on SOUNDWIRE
- 	depends on SND_SOC_SDCA
-+	depends on HID
- 	select SND_SOC_SDCA_HID
- 	select SND_SOC_SDCA_IRQ
- 	select REGMAP_SOUNDWIRE
--- 
-2.54.0
-
+Thanks,
+Maurizio
