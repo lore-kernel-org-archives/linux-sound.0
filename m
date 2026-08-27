@@ -1,41 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2887747DD7B
-	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 14:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E7B4756C1;
+	Thu, 27 Aug 2026 16:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787841640; cv=none; b=Zkmt+/mZiqTlPHq6t9q/BazEVCuiUImAvMAo0IEO2Ho2migSgKQ+d3+9MAs0BnFx77m+ts2/Osn1nVpG6bCO85VbGzSOHrY3K99Oa3dhQMj9Ul+wujcmwDbrbhgGp75kf7hXOZiiRigwE3WvfQhscuOMaCJCDc8nRJKEZyW01Tk=
+	t=1787848116; cv=none; b=ewLhbGnT6Q5MlQQvOd9iU4zRVYpiID6QNwe5cOnU9x3c5yAtrIgCe3Oq1r1WrJ3L+2kLojiihoUNucpwDbqNYrD2vJVij2bNsX+NqYMKaD1824BqP02HiI6CtuIkpnZfra1o6cq8vHk3Ru0v5//oP2f6zaPEFrdzHOEuc9Twlf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787841640; c=relaxed/simple;
-	bh=lM7E3XpL2NGpDGZdgaXXD6tMuAZbW8EkHdaXi43Qur0=;
+	s=arc-20240116; t=1787848116; c=relaxed/simple;
+	bh=ebaBF7Wm57jhnHCdB2Tivrcc0WgePRhWe4w6HflJXUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qkmNC4YctUseNxzQw2uxfL9aWKXiL1xZEdGuzENLSKdqcvnypS29iWkZsVq6OQAKdeAWma3JPwx3BDOz/B0yqbqzvy2eU0ixyNwR+D2Q+k5R3YuR2CY01mv4Mi43emhrXr+CcSLzTaZaCgAGFDdgbe9lHVDuaXYba1uVWJHoc5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f92uiqXU; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PKYDSLS1U5q4UU/u4qENuErJa9kdovNXpkh8Gm217qjEPaz//Wr+Y3pZ5pZQPS3UD9kt0B4xKOlovS/0pmQc7qbFMpXgRWBm9Wg7Xqd80uJEZEBy6EF5BU6I00fwC0hdLPxnY20nU6ENOdXK0LxsyEunVA/wFAitk4E7CiE0mo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=il8vsbVO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f92uiqXU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F70B1F000E9;
-	Thu, 27 Aug 2026 14:40:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="il8vsbVO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AA701F000E9;
+	Thu, 27 Aug 2026 16:28:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787841631;
-	bh=SqzBHeKxcNAInlsYktkxbz5Ns635rN14d2/DWg6gEU8=;
+	s=k20260515; t=1787848115;
+	bh=ebaBF7Wm57jhnHCdB2Tivrcc0WgePRhWe4w6HflJXUY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=f92uiqXUeObTFpPEfYxHeE3QBZhW9neRUVYOQjFXISrNaqxJHWZMqgaj53s+G9AYC
-	 OzXGj6gRoJ+T6/LnGeMi6vGvZPaHQtQwwyw0ZG+chU3EU0jTtOqvEGy75sGFOeW69e
-	 9kQE5laAKtWZWBNwP3qzlPQZ+wXHs+vS3F1NeVBSu8GNQ4v5NEFtzM1q6rFWzdBo3L
-	 G1vff2zs8TYEeEGS0LzxhqjSXzKqslgpK4s07Orm3PlIpX8GzTxm0GQXm4DDaeh8gt
-	 3jjiteBTy/ZgpxpiNLNDlQAqa7fRm2geDpEy/R+SeII7a4CjdIub/2Envm1EA+XrnB
-	 nJtpqOw/xXn7A==
-Date: Thu, 27 Aug 2026 15:40:27 +0100
+	b=il8vsbVOCFUwes1trTtQUc+VPgHBNT8pQgbTC8TYPhIAsGILGCdk6BFKvKtouFF7w
+	 0PPcJVg5Gtfpy5/z5OLyJm4e0mv6CKzd2VaBzIKnLXQSKgpgHrlFsfjGPqNFaiCQeH
+	 uSVFdJ3k4Gk1OrESYOEx9lMTr5pPWqfhVFZd5dqCM2lB9C2vumY5EEuFN71EkbxGsI
+	 samfySvYLnoD4SGk5eCruJsS7oPPKnK/AB1On85pcTaP/Wgw4pb8ZU0I9NBG+9Q6Nl
+	 rf2zi7gzoJFdt2h8BnzEIFE8xLX9AhTb03u2FhNY+FTmul/19RTVJOTl22NmuMKNVp
+	 i28zpeufjzvOw==
+Date: Thu, 27 Aug 2026 17:28:30 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 09/10] ASoC: Intel: avs: Refactor and fix init_config
- access
-Message-ID: <868fabf5-81f5-487e-8ed1-855e97f31897@sirena.org.uk>
-References: <20260827131510.1014084-1-cezary.rojewski@intel.com>
- <20260827131510.1014084-10-cezary.rojewski@intel.com>
+To: Bui Duc Phuc <phucduc.bui@gmail.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v2 2/4] ASoC: mediatek: mt8183: Fix APLL enable error
+ handling
+Message-ID: <98b11d2d-8157-4c1b-8562-42ff11cdff60@sirena.org.uk>
+References: <20260821122928.41343-1-phucduc.bui@gmail.com>
+ <20260821122928.41343-3-phucduc.bui@gmail.com>
+ <47c14ad6-0311-467b-907c-517ff5044438@intel.com>
+ <CAABR9nHyDL8=EiSi+_GBpHM0xLZraH8az+HRXQWudG=1hLZ7qQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,52 +50,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LjOuRwCtZGZL+nU2"
+	protocol="application/pgp-signature"; boundary="0wMx2L5PNJE4zS3t"
 Content-Disposition: inline
-In-Reply-To: <20260827131510.1014084-10-cezary.rojewski@intel.com>
+In-Reply-To: <CAABR9nHyDL8=EiSi+_GBpHM0xLZraH8az+HRXQWudG=1hLZ7qQ@mail.gmail.com>
 X-Cookie: Alimony is the high cost of leaving.
 
 
---LjOuRwCtZGZL+nU2
+--0wMx2L5PNJE4zS3t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 27, 2026 at 03:15:09PM +0200, Cezary Rojewski wrote:
-> Existing code accesses enties found in ->init_configs array through
-> indexes that are part of ->config_ids array.  Those two are limited by:
-> ->num_init_configs and ->num_config_ids respectively.  Using ID larger
-> or equal to ->num_init_configs leads to out-of-bounds access:
+On Thu, Aug 27, 2026 at 02:58:04PM +0700, Bui Duc Phuc wrote:
 
-> -	acomp =3D to_avs_soc_component(mod->template->owner->owner->owner->owne=
-r->comp);
-> +	acomp =3D to_avs_soc_component(template->owner->owner->owner->owner->co=
-mp);
-> =20
-> -	u32 num_ids =3D mod->template->num_config_ids;
-> -	u32 *ids =3D mod->template->config_ids;
-> -
-> -	for (int i =3D 0; i < num_ids; i++) {
-> -		struct avs_tplg_init_config *config =3D &acomp->tplg->init_configs[ids=
-[i]];
-> +	for (int i =3D 0; i < template->num_init_configs; i++) {
-> +		struct avs_tplg_init_config *config =3D template->init_configs[i];
+> To be honest, after looking at the code for other MediaTek SoCs, I found quite
+> a few logic issues and inconsistent clock handling. This, along with
+> the git log history,
+> makes me wonder whether these code paths were ever properly tested on
+> real hardware.
+> Therefore, I have stopped at mt8186 for now.
 
-I don't see any users of acomp left after this refactoring?
+There's a lot of code there with shaky error handling; probably the
+default case works but things blow up relatively easily on error.
 
---LjOuRwCtZGZL+nU2
+--0wMx2L5PNJE4zS3t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqQTFoACgkQJNaLcl1U
-h9Av5wf9EPnYhfAl5jSE3TG7U7aY8FAhXrvFi0FBnJi8XXVqB4sDGFg1zWG96FO8
-HBI+5yKnVM5OLZTPf8vOhVuHO890e77DKRVBZurkMGhBdq8uBI6i8HMWQ2kUiifo
-Ys5GTa1VZGGqrUsNxurYFhJXtvpueMcwH2UJqQj2cmCrBvaofpYThkQvce4EhTNJ
-563qNj4wnNCtbVXfODMMl5rykJb91iV8afAm1Q6VCKivcRiqZ5H8P479thHVNwlw
-K6pclXFQf1iRZMhRdhwAkO07cpCXk3iaGO4eyLXhtN4LdflekMDNlhU/S/B6QcuF
-WTaLPQPp19W4CrSAow1HEKwu1a9iQw==
-=xSgp
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqQZa0ACgkQJNaLcl1U
+h9DUGwf+MCKXjmklPUUS4YqdH7aXXG4NE645E1C5lIakFBlUZ2EMKk7d0PfJyYJ8
+1k50GnIm/Ud5wuZAvf5TWmKCRxtOHlOO3mK46E6jgJDVSEYu8D5G5hJGUoPuZDEF
+A/V6u4gDYz+UbUiuNEGgcUJAAxcAY0n5vQzDvrZgv+PKaxGdOlTL5j1BzZtX+UlD
+IDiuE6SkNZQ6MiSeAU/zyw5RLZES6NX3qliToDQnWYNcyWKUl8fdgVkAJWD75jAo
+85rJGgqvAPd6kQg3qTf43+PgBovSgwE/oZg1EEyUZrEQpZ2r79S/cFZHfpFz/TV+
+DRCLEIOXjwDCmSO5jYZOQXTCLRg4YA==
+=UBIx
 -----END PGP SIGNATURE-----
 
---LjOuRwCtZGZL+nU2--
+--0wMx2L5PNJE4zS3t--
