@@ -1,64 +1,64 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E6636B92B
-	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 23:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F76937757D
+	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 23:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787872925; cv=none; b=iq7BVydAoyJQeDGuiJ5v4rfJgCC/hK7ObVUYSWr0KlAJcfybmKDPiIFXXWvx5ODaZ0GioSKIrtrsrCCLOIiT+er9aLHcmpZFaPqdhiCsJMVMZmBDm+w+jYN1Ve5zwxYfb/aKYH9Tvwvu6gbjbX0G3/MvUMcq1ppfUsC61BSo5yg=
+	t=1787872931; cv=none; b=LQVmdeM2XmzC288/WH3pToCN0X1avzDjo1dXwqY0JsMj9GXfxKG1pF2dv8G4w++TvpaaXDmrGN2RUdnofMMP1QJf9qY512897lD+MRDEtqBAF1iy9FyVYPUbcwy7jXEbQxQMdj+pzTiz9Rh/1QDl7dlkT8xVNVXNjI8nCFvORlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787872925; c=relaxed/simple;
-	bh=PURQP6ZO5l8U5LecyA8nFec2CWoAEjm0KPyDK/TL9pM=;
+	s=arc-20240116; t=1787872931; c=relaxed/simple;
+	bh=pZwz+f8Jrl4t8j4pbfuvXzvgW56/tDJ2sxBemNi0t/g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C+LnqloI8ZL6gRdvqxwBzOVP8wSVtDzAuBkR3u/mlYu1XG2m7ozTv+LFgeMOBES0x8ZWyAg69KKKYXXKR2YrlyDOlPUEyYijrTUMysvoby77nRY3YWd6mZKZiSdcYXHciuBFawfWYpjFnw8q95MDEh3qUR+NzDqHXdwY0qMPS50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWZ9D1BW; arc=none smtp.client-ip=209.85.160.51
+	 MIME-Version; b=RGFPIFoJ9zdaViiiZNS0tGpptQAsRpnKmYG76yDEEBgVmgDbXKrMHEUSYxPa4dMnw34iFeDAUqDG8ToSZXmBoANJRr48z+IJ6IVXGZ7a0UmLk5pqG/5wkHDA1m+4davoUuQ/04dgmyJjRA2swrMQyKmQ/HLutW+8Wu7k3s/+DKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XQvBKmj8; arc=none smtp.client-ip=209.85.167.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWZ9D1BW"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-4563ac048f4so605663fac.0
-        for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 16:22:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XQvBKmj8"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4864ebb6268so468539b6e.3
+        for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 16:22:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787872922; x=1788477722; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787872929; x=1788477729; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=17uEs7Ned+dWqz4ZIVhnARGDREWSqKdWLg/j4K6DqdM=;
-        b=ZWZ9D1BWZxBYe1ODuWt0Mtpqaz1V2Uvwn7F03fLy0019uebUeYmUkBHho0FS9SiP3D
-         6XPZdUeJOG3qzk575m+gDnqIcW3V+w+B4HEUgyy1aGPFbE2pt/P2jB/7n8XQ3b8fcdxJ
-         W3XXaapg92W258yWzKP07lMJ5D8g6TYAL4T5iZcf4jV2FO1pt7769A3S35v00xrmaUsr
-         jC+kZhw+fzrWXDGA78IDlskuaqC67/tSBMQrcj/ApzmUK09mtMBdXs5Ztmb28VmLdn15
-         8wS10InS/Ojx9tv+El7dtGyaVSgeO0FZWgK5fKuvz6JsOQe8Uo01gi9T1ckBnjxaDv88
-         2Urg==
+        bh=O+4qeVVVSQESc4ddkEUc5FBIdc2XaWCbbfUsn4FAT3M=;
+        b=XQvBKmj8hHLQTBqU9bFP2fKxo8Vo6LRPR+xjOt5fgZARZUhLHlbLdQ6WAxBUgaAnU8
+         +ivJT35x0hIJgVkSDKG9vOLVyKelIF9reXXDtJT1YYNS5GrKFY/0AnoOwPkP1TE9QJ/S
+         PcoyL76tOf4SrCT2Vq6khUmnhAUcBveFvF4NKAHLDnLo4Khn9W8dgHnnYioytmNLD/Oy
+         vfwmVNjtNjYTR+gr1xyG3fhQHlYimgYFWg/NXdodmcMtwNewui1+woFP82KVJ5nk2JBk
+         CmUcXfNbTaSY5q3W67P+XXEJtRvfwMmgZq3V0Ojov2//KHDSXoxIKbIZIZRTOqJEmaJB
+         SnBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787872922; x=1788477722;
+        d=1e100.net; s=20251104; t=1787872929; x=1788477729;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=17uEs7Ned+dWqz4ZIVhnARGDREWSqKdWLg/j4K6DqdM=;
-        b=n6YAh2ea1FgMo5pvVwS2g8VrkAqh6oCriK6jwYoF3jBAaXk4X8lsCiBd/U32Iie0cG
-         MjUltEkNnMSIv77nP1q2pdPtuTqQnm+cIkwhAHS63xKrYJQggnie6QotBHwqzr4Bso/z
-         3HuCEzjTF3HQtTP7A0xlILWsXGs3zkG0Cz+dx4RdqMBMvSHgrlORmioEvAR4FH9cZTeT
-         XFObSZW9f1ZdWfXMRlXdposr0X9l9pVug4bGYg3QmJDhhuez3aMXJrjHKrokNg+YNLwK
-         yu1MHdr5yDqAfScml/0LgCsncBP/A4NPxAQpKfE1aSrRxXLxEbnK/LsGP3+IFvz6yMSB
-         O6Lg==
-X-Forwarded-Encrypted: i=1; AHgh+RrpiE0LW95curF0R0ygyFFZQc//llQQwpX4USwyCY7SGam8YUi/Rpzl4xiE2sqr0WkblwgoDA0Sx3ObOw==@vger.kernel.org
-X-Gm-Message-State: AFuF++lljGRUYMpUyoBCLuTBRU/sQ+Z5jRQaIPviP+oHShKCtM8ZawnF
-	+YEHbFCPJBV5RTR5ZpXTd4m1P4lDOoeSPZhx9QBtfRprcRUH5mK0BtbG
-X-Gm-Gg: AR+sD10vwFGuG7zx+t6vMEYJnBu0y4XGDzVaxrtldlNhQBgF9IFLe5pGf/KsFcyNNLv
-	3/AaUu2ehSrSvjLLBDF2ysehprz8MRAFib+PJTGKgdcMnIAjSrpq5s/+TGOdxSnOOTS0U8uMKGy
-	caX4yvWI2iK4fayN9mMUhFhlL/fJAD/n6Ii/yJ3NtHj3dwoWmet74Wxa4m2tnBDNMlUfQW3Idni
-	uhwIJi7tr/AjyxGKRIgZr24+8Y7m/2f0WuPp3wBzbFw3lH4mpRGXZxHIqNO3d8zdLjUNcN4GClq
-	CrOp8IH6JihnWkIhl+hQ/0Qjbg6hYIsLB2CW+/R9g3z5gqERW7aaBSMoO1sU3LiGA6gV4IDHtGe
-	jTaNBK6q1O3tdXMYvVadXCgDcjMQB6Z22qOrRTkL9TJ4bh1cvzMnaVS/2RVIXSZRZQ5w4xMtOQ0
-	kDfQvHASP2PF51gk/Yo4Eh8sjLt5ww3VwNP2rjRsTysn1+5oIgb4zjNDXby29ptesceNKHJnsjq
-	ZRhlW3+fbQhZhET
-X-Received: by 2002:a05:6808:c3ee:b0:4b3:1e40:6451 with SMTP id 5614622812f47-4b397f09e25mr3397971b6e.1.1787872922428;
-        Thu, 27 Aug 2026 16:22:02 -0700 (PDT)
+        bh=O+4qeVVVSQESc4ddkEUc5FBIdc2XaWCbbfUsn4FAT3M=;
+        b=V3/DvAR7y7/78G7nl1wt8RTiuT51E0e70K+JXx3nep6Fwi8dm9N11Cw7knzvOmUpYT
+         HxRq0PenA7CYgAtD1yQUUBzttsbY4JiN79obU/OidaGIUx4ljxJmjTnzQO+/LwDged9I
+         9oGpsFKZQcDSlYc2DMPzq1veCstc6Dpula4gazkp+9frRw9mIB7DinHXL8ecO1fQdx90
+         RH8zKYWXMCwDr3EayDhcdpKt9BqakIJAwOPE5dTzLbG2WRojvA9uwOqTux8NLtKJQgma
+         SLjYArN0CK3VrjYhHxj99mpYMoPzyay6lcd2x8+8Iymd4mNFHvh7zzzdNSQt1kZsphtN
+         DSrg==
+X-Forwarded-Encrypted: i=1; AHgh+RqtkVKccE9qfMgOWzMnSchy+oUE7B2+xsh3vfnZuJg+goWq+kaFW6QkkS1R9iKB5/lenDvj2TSLvwCBnA==@vger.kernel.org
+X-Gm-Message-State: AFuF++nlOkGdd08tWTkIPsL7pyJ8nCt19jmelb2UablyTzhFOt7HNun2
+	NYVo+VOEflSv0Waab6YKIDbRy3Oeiron3j5LvCiDJ7Avs67b26od76Kf
+X-Gm-Gg: AR+sD100TALBTsNtbXOMNV5Xs6dRB9rmXv0l/vKfR2jzAGHxxGspwA7WfQ1ITvWVECl
+	xTTQBA7mLyquGsoy4l+NrMCAXs/E7yHQVYPnXPvjr5yRnQwLoEGIyOrGELRIampb2RzfJKMgFfg
+	lTLJpOZ7oGzCeciyCp831zv+FwpIBHy++1JcEn2vP81XMVHLwNgbGfFUUY5+xsRZZmYdq/OVUpE
+	4NcNtK1KUxYec3GhmSQpY4GhfoK+np9O4cgosCTMMBIGpDf6dP0794QhCkspEnTOLLF+VE9b2AG
+	IersoMdhvgdpzO3oO4KJxDczVI01wHqQ9yOhspcTz55cwNyeJZfIiRBt226DnDyRjI9rgAH2Ddz
+	k8hq1ayqybVOsyu29+3Mr0LEWr50Bl2wJD6VlcLtkm3Ic9osyKL7vMSVRCJnmOj192V8F1Z2J+p
+	rBvpQICOSn73eDGT47ZiBA8jwwqdjZqxwJ6VDXVI6LVp4UeCRTAovW0Y/HF2GTIfEVdny0RjTDd
+	N4kiQ==
+X-Received: by 2002:a05:6808:538e:b0:497:8f1:df07 with SMTP id 5614622812f47-4b398038bdamr3195085b6e.7.1787872925030;
+        Thu, 27 Aug 2026 16:22:05 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b38fbfe089sm1589553b6e.14.2026.08.27.16.21.59
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b38fbfe089sm1589553b6e.14.2026.08.27.16.22.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 16:22:00 -0700 (PDT)
+        Thu, 27 Aug 2026 16:22:03 -0700 (PDT)
 From: Will Porter <mrwillporter@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
@@ -75,9 +75,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Will Porter <mrwillporter@gmail.com>
-Subject: [PATCH 5/6] ALSA: usb-audio: Add PM guards to RME Digiface controls
-Date: Thu, 27 Aug 2026 18:21:42 -0500
-Message-ID: <20260827232143.149197-6-mrwillporter@gmail.com>
+Subject: [PATCH 6/6] ALSA: usb-audio: Guard FCP protocol transfers
+Date: Thu, 27 Aug 2026 18:21:43 -0500
+Message-ID: <20260827232143.149197-7-mrwillporter@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260827232143.149197-1-mrwillporter@gmail.com>
 References: <20260824230302.27965-1-mrwillporter@gmail.com>
@@ -90,47 +90,53 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The RME Digiface status and register helpers issue vendor requests
-without preventing runtime suspend or disconnect. The volatile status
-controls can repeatedly reach these unguarded paths while userspace
-polls them.
+FCP meter and hwdep operations issue control transfers without
+preventing runtime suspend or disconnect. Protect the central
+request-and-response transport. One reference then covers the command,
+acknowledgment wait, and response.
 
-Protect both helpers with snd_usb_lock. All Digiface get and put
-callbacks then resume the device and hold the disconnect reference
-across their transfer.
+The initial step-zero request bypasses that transport. Hold an outer
+reference across the complete initialization sequence so the device stays
+active through step zero, notification-URB setup, and both initialization
+commands. The central transport keeps its guard for calls outside
+initialization; the existing active counter balances the nested calls.
+
+FCP has no private resume callback. Its suspend callback only removes the
+notification URB. Taking the initialization and transport guards under the
+existing protocol mutex causes no resume-side lock inversion.
 
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Will Porter <mrwillporter@gmail.com>
 ---
- sound/usb/mixer_quirks.c | 8 ++++++++
+ sound/usb/fcp.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index a1f5592cc5d5..fc622eb95dc5 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -3480,6 +3480,10 @@ static int snd_rme_digiface_write_reg(struct snd_kcontrol *kcontrol, int item, u
- 	struct usb_device *dev = chip->dev;
+diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
+index 5fc2131b4561..68bb7eabf107 100644
+--- a/sound/usb/fcp.c
++++ b/sound/usb/fcp.c
+@@ -191,6 +191,10 @@ static int fcp_usb(struct usb_mixer_interface *mixer, u32 opcode,
+ 	const int max_retries = 5;
  	int err;
  
-+	CLASS(snd_usb_lock, pm)(chip);
++	CLASS(snd_usb_lock, pm)(mixer->chip);
 +	if (pm.err < 0)
 +		return -EIO;
 +
- 	err = snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
- 			      item,
- 			      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-@@ -3499,6 +3503,10 @@ static int snd_rme_digiface_read_status(struct snd_kcontrol *kcontrol, u32 statu
- 	__le32 buf[4] = {};
+ 	if (!private->urb)
+ 		return -ENODEV;
+ 
+@@ -1026,6 +1030,10 @@ static int fcp_init(struct usb_mixer_interface *mixer,
+ 	struct usb_device *dev = mixer->chip->dev;
  	int err;
  
-+	CLASS(snd_usb_lock, pm)(chip);
++	CLASS(snd_usb_lock, pm)(mixer->chip);
 +	if (pm.err < 0)
 +		return -EIO;
 +
  	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0),
- 			      RME_DIGIFACE_READ_STATUS,
- 			      USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+ 		FCP_USB_REQ_STEP0,
+ 		USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
 -- 
 2.47.3
 
