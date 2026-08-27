@@ -1,64 +1,64 @@
 Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0277836B92B
-	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 23:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FDE3DCDA7
+	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 23:22:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787872919; cv=none; b=MbSJBNgtLGxtZQE7ENAGT2nO2OWigeeL+RFGhQ2lbgaoJ4O0t6HFbycdzzqGoP6NbdSWdEmNdsAsz8vZEgIYvOnmv17aQTi+l1f3uHsOz3oEuy2Xfh+rIeUMUAuPEoQx5kMx7qYl464nAb/vSiFmFSTEM5BcAE2VhBO7+JM9iQQ=
+	t=1787872921; cv=none; b=Ov8XroUfk02A1xm73t8tfNV7f8fgHuBWvQNUENfmhQ6ZwF135VBB/mI7Lmy9OfVQqs3wKpKc0ZFRcWiwR5ji6AzKNYNCUGuLRZO5gO+WZ3LysEeREG55lSxHuRxlw8LQJCnjFZlI9g67GEzrxYxVI17bHMdwRdRrrg0lC2pLzig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787872919; c=relaxed/simple;
-	bh=ePzkJoNpPalxhOCXt5PVJAtsXVveyLh3mOZy7XB8YIs=;
+	s=arc-20240116; t=1787872921; c=relaxed/simple;
+	bh=e/Bu9tGinqn0oPwIBbllDvzdk9Z/chxdVrt6JyTUUiA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JuwXTQl6QN92LN+DcuckKzBSCzNvlEmAGENA3xn6/VobtEdAt+rVfB3yBPxcUU+WussG3q9ZQomS5AgKToxW3njPJ5DWg9iCsJMEBbdxVwqXrzCvAOkN6W8PxQhw0rIN9UY8KidnbBuxZ2ySKbWIMCM8MR1BWEXrpGoCKwe0+6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=npcxS452; arc=none smtp.client-ip=209.85.167.171
+	 MIME-Version; b=d3gmkCpQD6tnkGeBF0Dg91HtTLKL5ijzRwVojvDvx+uGgfnZA9C6CdKTokWiDQNzh6dEP2FMpr1pgbbjCJli7LBbRXieRXUwElsgy7sZsQPwmsAyUVGO6eEuTdi1lhpvMOxyLtE9ykQMSJ2rCQ3VUZzSIw/WfINW4ePGD7ubW7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H1zMICxa; arc=none smtp.client-ip=209.85.167.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="npcxS452"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4b28df1f600so448784b6e.2
-        for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 16:21:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H1zMICxa"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-497e6956acfso375322b6e.1
+        for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 16:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787872916; x=1788477716; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787872919; x=1788477719; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=q6j+81W5sTdSzj/6qIi3uJWGbH2J1mlEvsG2WkACG8I=;
-        b=npcxS452B5JRjqgAxq6RBdGnfPKIrfGVkgMZgrz2zOj8YsyLjT88zY1pb74w2NXVDH
-         Unw9wLCX+w+k2SNCVJj84AtADols0TirCROJUNNK/fRgFBysbEoqaZ/doMYubsAEWfSh
-         pZVLeK3lCYr2vAeYxCATWdYyV2kFECO5uDZ2ciX8iyWxaYHnh+i+VRU0aZPP3MwGrQOJ
-         6XiKvou4iFa/WRlhrtqIQpJKt9WEIjdBtNfqG1kdlmAOeqzGRJchHurPFFq5USoYUiM/
-         17VG/jHX/YyhA+rcSflb6sg2Zm5RQhk44F3xm9gG+e1pKq17bY1w29fPN0qCkYA8x1Mp
-         C0tw==
+        bh=Ial078NkMLwCx72YKPqRkqjVXPsF6XZg2wkYCbXAeYw=;
+        b=H1zMICxaBzDZzrz7Mj0KUbN/lJBQ+iM4OPy5yhT1x6Fp0kuXJEqgjJ2xjIiYKc0UiL
+         osHpH6KVUab/jfE3ehnUvCkl6jzI2TOVvVOqfmuNUFFpFEQPuMzvFbCGPPsBa0VExmDg
+         OXqBk5HuRzPk1c2T8uz93JevBuzLOWwc3JjcFUEWw+OzYRn5pmxfk3CbWS4A89EOYRNo
+         x8dL1wU9uLjrAIBlnu47XEQwvSyEYYuiPrWRIoKTDIHNx8RFgBlPShhvCaG7G5jRkTDb
+         ZeinUiD83jzImXpX3W8Wqg2rIvx20phlxU0BP45+rTrRQswY6QuEgvXNdMaCx5jEsWdY
+         C0rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787872916; x=1788477716;
+        d=1e100.net; s=20251104; t=1787872919; x=1788477719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=q6j+81W5sTdSzj/6qIi3uJWGbH2J1mlEvsG2WkACG8I=;
-        b=AztxyklggIv70zgN9kXDiOo9KwIhnPrQd6t5P5nDdtXU12jciwQUJzq+yRBLDN8dWN
-         46PU2jUvwH2rO/WIEU4n2ibPkVJgSSAw1lJsyvVyOzRORdUdpSH9K4Ry3t1e5gs8BTgd
-         77TzKT0CPKG5Gye12nR9EClv0hS9aMw8lcXTnmB6WQ5BQIJ6BBGh7w70PTVZ4VmP9n8W
-         2Tj4AxBSavoNafC3lYv5adH9/vPXFlaf8yFnH5W/WpxV9S1zW6FCtXAqSUUEIUAm/gHI
-         vNDZHM84LRz/DXJDbPzu8kurL+jtIGHqnLtk8QYQa1WUCyouSfONhoCw52kIbJJzcplv
-         X1/A==
-X-Forwarded-Encrypted: i=1; AHgh+RpJKtagkwOoq/qbX+vL5h39EkPhTBJJtQ9rNj/Nk4LO9g7Qq0FXbZv8r4hR/EwTrXqLXgLYR14jc5T23g==@vger.kernel.org
-X-Gm-Message-State: AFuF++lIfWUwQI1npNulFvMqFafa3+e+i0ucGMBoEo8EJA545VdOWliu
-	47ozTzrDRr4BrWrJ8Qj8p4pG78WPO2aQ2rg4u53gnJEcMxYhCNv2G36Q
-X-Gm-Gg: AR+sD13FawuVqI/e4zoJ34Bh3kXGM9ozqziF/G0K2zKJZ/GFdhq4n6rNq83wfUKHu5+
-	tSB457U/x3bnU2mzbcFvSOXY07Rpt9mDhzccctKsh1nsEvOmvyehyJqbADcwcRt1CPf53Ytehvl
-	5Uh3CTK28/McdfbALpXPsnlfpjEhrHgWV1htLNeL+Ct8cPRf4MtZ9zS/My9LPynjnEcQOgSz692
-	agBRP8cCI4PSXwJXzOOqqUSaV9B64Y/XqYrCSLHfIhjRRdNGlq5/90rfBliYfVD/uqqdpQ5UcXj
-	BIw8rrXD7+OFLM/l5cUMcoYS7IVih6l3aqSJUFd1WkktdLmVbxGVgmNLbzJ/z25chQc6izp73Bs
-	7n7FvbIhRvl+9oibqZmPvm4kVePryO8wTXisvoPJYwOY4m6JkeCd8PydOA9wlkPWk9rJ8Ohby2/
-	28o/niwoYT5uKopZAsoge7Zr6eOG6cLDyxSm7NKxrq+oK4K8fpNgpuy5wT7Ui31/CaQFxxmsHtA
-	MlESg==
-X-Received: by 2002:a05:6808:190f:b0:4b3:7efc:e970 with SMTP id 5614622812f47-4b3980115e8mr2982157b6e.5.1787872915662;
-        Thu, 27 Aug 2026 16:21:55 -0700 (PDT)
+        bh=Ial078NkMLwCx72YKPqRkqjVXPsF6XZg2wkYCbXAeYw=;
+        b=fcY8iP7go7ZTVjHJ93W5lwGQDsE3Coz0LvK1Dy2LkaTVHVrQFyey8Oehf0whGZShym
+         C7KYRjyRXGP83oJ34p0VeddMGIsdIyd/exy9z4jtcw9kVdZquT04UfEPotb6SB9B8uK2
+         X0JfOWB9xQsAs3YDI15Zh4wd/qHrucTNkaAWduMhGAr0zepgpxHPLMRxhTKvKechyOtp
+         42XNP+k7nqeOLM7fNIs+Y2sNW+F70arOZDLzuvtOFMph0FVwqFZQ82pEKcRCo+I4L9By
+         qz35wtqzRRZ/EUKqbKU1uIyLmWA1FH6tcW8bOCoPs4joBC4wKozNowpnK8/hGvxegmd0
+         vlow==
+X-Forwarded-Encrypted: i=1; AHgh+RrbcNwb2LGh5x+HwX08DZBgvxidU64mR10guyyJV9Pk3xMHy+gVBrNFpRadWIFQVowsVH3SVa4oYwOgGg==@vger.kernel.org
+X-Gm-Message-State: AFuF++krMBWk7T9Fnkh5bF21sdUvoz0b/b8wCrX+KvoyABvuJasJRQTG
+	8bMfknDGwDvp6yMwIWWnIKqGqV3+db7TXqj1Qu+IXURGXIlS4uEBPHbM
+X-Gm-Gg: AR+sD107G9ziJqDkwyWOJS+ruNkpt9lHr5kMM5MLkO5UFOljMnYIIBmmYafTox+6e94
+	sBeWjjfCWm+qVBqF5zyWuu0FrR8pif1P0dvOz/OVbgYh2TQGtuzVPzXuz76mwkJgicAhyPPbEUD
+	Ilw1BzXuyIEjVhTXG2CfjbG/CwrUAzqIwmLsryZRxfmnbvM2F8Qi6ngDYRQjrEtTj1yLfujUPIc
+	b7CmPi3yfzZK9hwvq4YvW4IzT8gmzwT2Z7cg3/+9geIF9eUbw5wvuXNe7wlTz4h+i8TEpaTfpow
+	d+rl/dDa7UHWyqIzXvimyqhJSfBNDBJchck5bwLWtc0ZBPzj0JTe2TIHm05FGVGJ8W0tYx1BUzj
+	0UImU9CkHYdlMO5Iwa1ypc8YzTvRQccWB409E6F259Z1/mXHSWX3LKKVwKu3P0zhe/b2YtSJYz1
+	tROIQgwQ4taMrwSTEJEYflOT1uscvJvoH6bRnXtlUvF71b4VH1oLEcvxphvVgvFBctcS5V3Oz2Z
+	oEsrw==
+X-Received: by 2002:a05:6808:198a:b0:4af:aaca:7be3 with SMTP id 5614622812f47-4b37ca62369mr8499737b6e.12.1787872919055;
+        Thu, 27 Aug 2026 16:21:59 -0700 (PDT)
 Received: from localhost.localdomain ([2600:1702:4ff0:baa0:5054:ff:fe3d:4ddb])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b38fbfe089sm1589553b6e.14.2026.08.27.16.21.52
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b38fbfe089sm1589553b6e.14.2026.08.27.16.21.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 16:21:55 -0700 (PDT)
+        Thu, 27 Aug 2026 16:21:57 -0700 (PDT)
 From: Will Porter <mrwillporter@gmail.com>
 To: Takashi Iwai <tiwai@suse.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
@@ -75,9 +75,9 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Will Porter <mrwillporter@gmail.com>
-Subject: [PATCH 3/6] ALSA: usb-audio: Add PM guard to Scarlett meter reads
-Date: Thu, 27 Aug 2026 18:21:40 -0500
-Message-ID: <20260827232143.149197-4-mrwillporter@gmail.com>
+Subject: [PATCH 4/6] ALSA: usb-audio: Guard Scarlett2 protocol transfers
+Date: Thu, 27 Aug 2026 18:21:41 -0500
+Message-ID: <20260827232143.149197-5-mrwillporter@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260827232143.149197-1-mrwillporter@gmail.com>
 References: <20260824230302.27965-1-mrwillporter@gmail.com>
@@ -90,34 +90,94 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Scarlett Gen 1 meter callback reads the device without preventing
-runtime suspend or disconnect. The transfer can fail when userspace
-polls the volatile control after the device suspends.
+Scarlett2 controls and hwdep operations reach the proprietary USB
+transport without preventing runtime suspend or disconnect. Protect the
+central request-and-response helper. One reference then covers the
+command, acknowledgment wait, and response.
 
-Hold snd_usb_lock across the meter request. This matches the guarded
-Forte and common mixer control paths in this file.
+The runtime and system resume hook submits only the notification URB. It
+takes no protocol mutex. Thus, the transport guard does not invert the
+existing data_mutex or usb_mutex order. Keep the suspend-time config save
+on the unguarded helper because it runs inside the USB suspend callback.
+
+This change protects each USB transaction. It does not hold a runtime-PM
+reference across the asynchronous flash-erase interval.
 
 Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: Will Porter <mrwillporter@gmail.com>
 ---
- sound/usb/mixer_scarlett.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ sound/usb/mixer_scarlett2.c | 36 ++++++++++++++++++++++++++++++------
+ 1 file changed, 30 insertions(+), 6 deletions(-)
 
-diff --git a/sound/usb/mixer_scarlett.c b/sound/usb/mixer_scarlett.c
-index 673eb8d8724d..369968565c19 100644
---- a/sound/usb/mixer_scarlett.c
-+++ b/sound/usb/mixer_scarlett.c
-@@ -707,6 +707,10 @@ static int scarlett_ctl_meter_get(struct snd_kcontrol *kctl,
- 	int idx = snd_usb_ctrl_intf(elem->head.mixer->hostif) | (elem->head.id << 8);
- 	int err;
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 502854cc9f9f..ed5fe746d438 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -2603,9 +2603,9 @@ static int scarlett2_usb_rx(struct usb_device *dev, int interface,
+ }
  
-+	CLASS(snd_usb_lock, pm)(chip);
+ /* Send a proprietary format request to the Scarlett interface */
+-static int scarlett2_usb(
+-	struct usb_mixer_interface *mixer, u32 cmd,
+-	void *req_data, u16 req_size, void *resp_data, u16 resp_size)
++static int scarlett2_usb_nopm(struct usb_mixer_interface *mixer, u32 cmd,
++			      void *req_data, u16 req_size,
++			      void *resp_data, u16 resp_size)
+ {
+ 	struct scarlett2_data *private = mixer->private_data;
+ 	struct usb_device *dev = mixer->chip->dev;
+@@ -2713,6 +2713,18 @@ static int scarlett2_usb(
+ 	return err;
+ }
+ 
++static int scarlett2_usb(struct usb_mixer_interface *mixer, u32 cmd,
++			 void *req_data, u16 req_size,
++			 void *resp_data, u16 resp_size)
++{
++	CLASS(snd_usb_lock, pm)(mixer->chip);
 +	if (pm.err < 0)
 +		return -EIO;
 +
- 	err = snd_usb_ctl_msg(chip->dev,
- 				usb_rcvctrlpipe(chip->dev, 0),
- 				UAC2_CS_MEM,
++	return scarlett2_usb_nopm(mixer, cmd, req_data, req_size,
++				  resp_data, resp_size);
++}
++
+ /* Send a USB message to get data; result placed in *buf */
+ static int scarlett2_usb_get(
+ 	struct usb_mixer_interface *mixer,
+@@ -3020,9 +3032,21 @@ static int scarlett2_usb_set_config_buf(
+ /* Send SCARLETT2_USB_DATA_CMD SCARLETT2_USB_CONFIG_SAVE */
+ static void scarlett2_config_save(struct usb_mixer_interface *mixer)
+ {
+-	int err;
++	__le32 req = cpu_to_le32(SCARLETT2_USB_CONFIG_SAVE);
++	int err = scarlett2_usb(mixer, SCARLETT2_USB_DATA_CMD,
++				&req, sizeof(req), NULL, 0);
++
++	if (err < 0)
++		usb_audio_err(mixer->chip, "config save failed: %d\n", err);
++}
++
++/* The USB suspend callback must not acquire another PM reference. */
++static void scarlett2_config_save_nopm(struct usb_mixer_interface *mixer)
++{
++	__le32 req = cpu_to_le32(SCARLETT2_USB_CONFIG_SAVE);
++	int err = scarlett2_usb_nopm(mixer, SCARLETT2_USB_DATA_CMD,
++				     &req, sizeof(req), NULL, 0);
+ 
+-	err = scarlett2_usb_activate_config(mixer, SCARLETT2_USB_CONFIG_SAVE);
+ 	if (err < 0)
+ 		usb_audio_err(mixer->chip, "config save failed: %d\n", err);
+ }
+@@ -8639,7 +8663,7 @@ static void scarlett2_private_suspend(struct usb_mixer_interface *mixer)
+ 	struct scarlett2_data *private = mixer->private_data;
+ 
+ 	if (cancel_delayed_work_sync(&private->work))
+-		scarlett2_config_save(private->mixer);
++		scarlett2_config_save_nopm(private->mixer);
+ 
+ 	scarlett2_cleanup_urb(mixer);
+ }
 -- 
 2.47.3
 
