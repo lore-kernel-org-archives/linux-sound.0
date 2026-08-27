@@ -1,157 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA71A472521
-	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 13:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12B4405C2F;
+	Thu, 27 Aug 2026 13:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787836999; cv=none; b=cQPv2CIQySGURZSDh7Degx+hIhI+DTKStY7++8wuRVRtznoocMNygE/jedrLdhUJMEIy2uRxn3ithS1T1IbRHwVqSAFJU97waOXZZeh8B2vk/LRdKmJTWnpUblrjcROrRmLcQPejB+t2SLQa+HqagukDv7wNWRdRC+NN0rVj8SI=
+	t=1787837107; cv=none; b=W/76nbIL2eknvxWNbzvKm9Nyv2C2Od3j+otQW7kKoomDf1Qt/TowcwERyHUOhZ3J0nx8PKiQeqU01t6q9CkUiDELFhFQJ2DlyDBEdnjPn7OKH3E2RsmqYFbwZXZanI3O4TZUdmp3PMc/eJfk2dNSjSSLcJpAW7eDgZlsnxDSEkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787836999; c=relaxed/simple;
-	bh=I6FlKsaIiTQxYA5IAPr48r8AXyk9ZIVzBV8TSggdKro=;
-	h=Message-ID:From:To:Cc:Subject:Date; b=SsqaXFfhDtchr/eemXQPZdXJPHfk9svXHJ+K22IgKGyt+wsODdvTlNNhWR8YIY8IVR4uLR1irYOYrZ31xQ0OQ0KWi6PDEXDn1qhrMOP6It5LVCsNKc7sOyDtxlSwxHX9jATs16aLP1O7DPnY2YTh09mtmkhI204OSrSRlZfq2hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpNOmiBz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787837107; c=relaxed/simple;
+	bh=KWrz/2iQPsQ4HYxGk2rAwCOSoqJ13qPQ+mvu/nh9kLg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UlOmzrCPG9UGB/KEyuVQsGnqR9U5CqRqniJpeGDE6boz9sRnEcjKCZ1qw/tb1oioWXH0RGAow0gQ+Z7jqaliXdeMk2syj8WPiYTRyklgF0f60AHEVeN/mDu1ScgOkwCNwnFBbwcE1r/ueyAwiVZd4ezwGG5DetCBA6dCbBSZ3DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=A8dryX7d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XgAUMGQM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C2GWj+Kg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lCjdcWQm; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpNOmiBz"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id EB5C91F000E9;
-	Thu, 27 Aug 2026 13:23:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787836990;
-	bh=j42Ftv0SC1OUWcgy6ui//FzXdBesogup0aH3DH/2bCY=;
-	h=From:To:Cc:Subject:Date;
-	b=MpNOmiBzxqc84TwO+mbGZDhk2Lh/xag3yHA6eWyv1aBRfb5nSRMXldEQYkM9TN8Nb
-	 XIixHlk87VfQ+le635mHaQzUMYuoYQyqgnJ3akQy280rpMSk/AGIU+9KYm9KwIRJ/5
-	 2kA8nIW+9QyNS9oo0yubCBRYc1MWHZOfTnq9A1YJRM3x3dDPJQ9YoehqCBHfQ/K7CE
-	 0Zp86u4TGFxseb6i/088O7O0eU6Yv1+SUByrg6mqNmaD6Cja6HyxFoMsI9l0P5BNj9
-	 ehOzCRyN/YaxD942bFKV5aGXuMNZiVslxu8zl8wpqMEYahSJMrW3c+NId0uCfZHgzH
-	 uTIAysrSiM/Wg==
-Message-ID: <b334f5b2d0e7c0c73107f54bfee509b1@kernel.org>
-From: Mark Brown <broonie@kernel.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, Mark Brown <broonie@kernel.org>
-Subject: [GIT PULL] ASoC fixes for v7.3-merge-window
-Date: Thu, 27 Aug 2026 14:22:59 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A8dryX7d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XgAUMGQM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C2GWj+Kg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lCjdcWQm"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9DC0A21B7B;
+	Thu, 27 Aug 2026 13:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787837085; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OgTzyndZaNJwogmIdukKPE2hSwM61hUS1kXw4HUTZOM=;
+	b=A8dryX7dDpGXA8o5x7fiyOYliVzfQrPrlHOjBLHGjzk4x6HBYrTqpCMiQ8ZueWceRRb8Y+
+	W6wxRwUoRfgcA98q6rHCTPN4xMYLZJGNfvKuBiR1bdxFvsH6vCcjiWQNe+vFOQEPqu1IK9
+	vGgSMM3fXXazUIqxOmFdWkyDlNGxlSI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787837085;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OgTzyndZaNJwogmIdukKPE2hSwM61hUS1kXw4HUTZOM=;
+	b=XgAUMGQMw0ixyEjne6FUasy44WLA4V6e5H3vfR9rcTEigKBOfrnIBH09n3sz2W56MjdHo6
+	O//PgUZZ944YrwBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787837081; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OgTzyndZaNJwogmIdukKPE2hSwM61hUS1kXw4HUTZOM=;
+	b=C2GWj+KgjCzdYrGksA7oOtkvrfogM3CxkGzluhVfGyYLCJLShGfnefvqdXhtEL6h4WeIPe
+	33EnuY2Om9+1gK7LD6JLenOpNUloGUJVMT5Lmr4vw9g2tf2GHHI7Am4ypoapc/1BMTTnND
+	iZogQlPBR8GaLOBIHvaXESZft+MCj9E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787837081;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OgTzyndZaNJwogmIdukKPE2hSwM61hUS1kXw4HUTZOM=;
+	b=lCjdcWQmP2XiCz0hOS7b5mOF2xiuHxKfvI3lUwcnQYpGs3tp05YAE+9yMjDt2piLO6lvSb
+	buUYON5agN+frUDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 622A513354;
+	Thu, 27 Aug 2026 13:24:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id kc+7Fpk6kGo6aQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 27 Aug 2026 13:24:41 +0000
+Date: Thu, 27 Aug 2026 15:24:40 +0200
+Message-ID: <8733vzg0h3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jeffin Philip <jeffinphilip14@gmail.com>
+Cc: tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: control: Don't add invalid kcontrols to LED layer
+In-Reply-To: <20260827131211.11946-1-jeffinphilip14@gmail.com>
+References: <20260827113951.893291-1-tiwai@suse.de>
+	<20260827131211.11946-1-jeffinphilip14@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
 
-The following changes since commit 0c7aeb0f5eceb95b5887bd8e83fef865e5a49a13:
+On Thu, 27 Aug 2026 15:12:11 +0200,
+Jeffin Philip wrote:
+> 
+> On 8/27/26 13:39, Takashi Iwai wrote:
+> 
+> >The kcontrol LED state layer tries to track the all associated
+> >kcontrol elements with naive assumptions that they are readable.
+> >But one can create a write-only element that has no get callback (even
+> >a user element can do it), and this may lead to a NULL dereference at
+> >the call chain of snd_ctl_led_notify(), as found by syzkaller.
+> >
+> >For avoiding the Oops, add a sanity check of the kcontrol's info and
+> >get callbacks, and just skip the invalid kcontrols before assigning
+> >the kctl to the LED layer.
+> 
+> I don't think a user can attach a device via sysfs without root permissions,
+> (correct me if I am wrong).
 
-  ASoC: tas2783-sdw: do not treat read-only Controls as writable (2026-08-14 16:20:47 +0100)
+The kcontrol can be added without root privilege.  But the
+reassignment of LED-control via sysfs is only for root, so the
+specific trigger pattern by syzbot is only for root.
 
-are available in the Git repository at:
+However, in theory, it could be without root if a driver has some
+built-in patterns to bind LED controls and if one would add user
+elements manually later to match with it.
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git tags/asoc-fix-v7.3-merge-window
 
-for you to fetch changes up to 15596a87fcc6fa07a162858e5fd00ba31752096b:
+thanks,
 
-  ASoC: amd: acp-config: change quirks to cover all ASUS FA401EA variants (2026-08-27 00:15:37 +0100)
-
-----------------------------------------------------------------
-ASoC: Fixes for v7.3
-
-A fairly big batch of fixes that came in during the merge window.
-There's a lot of quirks for x86 systems and a bunch of driver specific
-fixes, the most critical being the fixes for Tegra's register
-definitions.  It turned out that they had been relying on the regmap
-default handling bugs that were fixed in v7.2 and so audio was fairly
-badly broken, unfortunately the issue wasn't noticed in time for
-release.
-
-----------------------------------------------------------------
-Andrey Golovko (2):
-      ASoC: sdw_utils: prepare the stream again when resuming
-      ASoC: tas2783-sdw: power the Function up before preparing the port
-
-Binbin Zhou (1):
-      ASoC: loongson: Fix naming of machine event and DAPM widgets
-
-Christopher Tolang (1):
-      ASoC: amd: yc: Add DMI entry for MSI Thin A15 B7UC
-
-HyeongJun An (1):
-      ASoC: dapm: Fix off-by-one check on the second enum channel
-
-Jack Yu (2):
-      ASoC: sdw_utils: fix double put_device() on aggregated amps
-      ASoC: rt712-sdca: Pull high JD2 to prevent from entering TV mode
-
-Jon Hunter (4):
-      ASoC: tegra: Fix the I2S enable default value
-      ASoC: tegra: Fix the MIXER enable default value
-      ASoC: tegra: Sort ADMAIF register defaults
-      ASoC: tegra: Sort MBDRC register defaults
-
-Julian Braha (1):
-      ASoC: fix unmet dependencies on PPC_BESTCOMM and SND_SOC_AC97_BUS
-
-Kuninori Morimoto (1):
-      ASoC: codec: max98926: fixup invert setup mask
-
-Mark Brown (3):
-      ASoC: qcom: Fix AudioReach TDM review findings
-      ASoC: tas2783: prepare the port again on the resume path
-      ASoC: tegra: Fixes for issues exposed in Linux v7.2
-
-Mehmet Aysel (2):
-      ASoC: amd: acp-config: Add HVY-WXX9/M1060 DMI quirk
-      ASoC: amd: acp3x-es83xx: Add HVY-WXX9/M1060 DMI quirk
-
-Niranjan H Y (3):
-      ASoC: sdw_utils: Set component_name for tac5xx2 codec family
-      ASoC: tac5xx2-sdw: Rename gain and volume macros
-      ASoC: tac5xx2-sdw: update default regmap registers
-
-Prasad Kumpatla (4):
-      ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Rename QAIF clock IDs
-      ASoC: qcom: qdsp6: Zero-initialize AudioReach module config
-      ASoC: qcom: common: Distinguish missing and invalid TDM slot configuration
-      ASoC: qcom: sc8280xp: Fix TDM hw_params error handling
-
-Sehat Mahde (1):
-      ASoC: amd: acp-config: force SoundWire probe on HP OmniBook X Flip 16
-
-Shengyu Qu (1):
-      ASoC: amd: acp-config: change quirks to cover all ASUS FA401EA variants
-
-Shuming Fan (1):
-      ASoC: rt766: add RT766/RT767 VA1 device IDs
-
-Zhang Heng (1):
-      ASoC: amd: yc: Add DMI entry for Alienware m18 R1 AMD
-
-bui duc phuc (1):
-      ASoC: soc-generic-dmaengine: Fix DMA channel request warning
-
- include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h |  56 +++---
- sound/soc/amd/acp-config.c                         |  23 ++-
- sound/soc/amd/acp/acp3x-es83xx/acp3x-es83xx.c      |   8 +
- sound/soc/amd/yc/acp6x-mach.c                      |  14 ++
- sound/soc/codecs/max98926.c                        |   2 +-
- sound/soc/codecs/rt712-sdca.c                      |   1 +
- sound/soc/codecs/rt712-sdca.h                      |   1 +
- sound/soc/codecs/rt766-sdca-sdw.c                  |   2 +
- sound/soc/codecs/tac5xx2-sdw.c                     | 118 ++++++------
- sound/soc/codecs/tac5xx2.h                         |   5 +-
- sound/soc/codecs/tas2783-sdw.c                     |  20 ++
- sound/soc/fsl/Kconfig                              |   4 +-
- sound/soc/fsl/efika-audio-fabric.c                 |   2 -
- sound/soc/fsl/pcm030-audio-fabric.c                |   2 -
- sound/soc/loongson/loongson_card.c                 |  14 +-
- sound/soc/qcom/common.c                            |   6 +-
- sound/soc/qcom/qdsp6/q6apm-dai.c                   |   4 +-
- sound/soc/qcom/qdsp6/q6prm-clocks.c                |  56 +++---
- sound/soc/qcom/qdsp6/q6prm.h                       |  56 +++---
- sound/soc/qcom/sc8280xp.c                          |  21 ++-
- sound/soc/sdw_utils/soc_sdw_rt_amp.c               |   2 +
- sound/soc/sdw_utils/soc_sdw_utils.c                |  28 ++-
- sound/soc/soc-dapm.c                               |   2 +-
- sound/soc/soc-generic-dmaengine-pcm.c              |  20 +-
- sound/soc/tegra/tegra210_admaif.c                  | 208 ++++++++++++++-------
- sound/soc/tegra/tegra210_i2s.c                     |  20 +-
- sound/soc/tegra/tegra210_i2s.h                     |   1 +
- sound/soc/tegra/tegra210_mbdrc.c                   |  42 ++---
- sound/soc/tegra/tegra210_mixer.c                   |  10 +-
- 29 files changed, 461 insertions(+), 287 deletions(-)
+Takashi
