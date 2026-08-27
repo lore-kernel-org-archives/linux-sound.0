@@ -1,107 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FCF45FFD9;
-	Thu, 27 Aug 2026 13:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3150E339396
+	for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 13:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787835923; cv=none; b=jmJn/nvTdMMua9NaHzJhqs7HGW17lGycGTHM1dtYpMzDhwzbw8VasSlbqRn0AiZU0oXcNIm8Of2rkq7d4n0JkE1Xrrggrts9SoM14ovg2a9SaSofih5UOgyHSnEv08Ju4Of4JvPRj2c9EhphPV/oEg7zp3qEFy1+l6Sdr48imcM=
+	t=1787836281; cv=none; b=JJveryF25Z/BSt265SlyZqV+ymQ4q+OO8IF9gttzPt6tTmxWb0DhAgjWJtC+8RBLPC+nd3DM6i0krVGI09g6xnWD8hLUsy2EA8rCuCorXt9ipkhh4GI0jNZ1ywyumB/aHO/UwI33td9tfxyWBewxnr0hDRbbVWnhsfvdRwTCLsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787835923; c=relaxed/simple;
-	bh=AteT2pQsVcjrkJV+D2jeAV1doOdHG0LconUmSxsnWpM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QPTrG/pKM2Y0HyFuKPVn3Bj8PEaAVMzJX/z960Yr1kAjKsmwLvj1NC8VD9NWhiyHqkuHOeupU/K6ZXO3HAFjxyPtgBS7faj1J+GovQj1KHWkQMW/36itXjTQ1uDgzcR5gluxQsl/3qiTsdayH4vHhmoZrWI4Q+MU375RF3SbjvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NnOEryNu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787836281; c=relaxed/simple;
+	bh=nr7osP1DXIpl5AWPoJ1wPnBT5YmUBciQfdG2k9wHVK8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HB2utnJc3D+AUyt/ydgYGSuBKunJpLgz8opO5FoZd6HatXeHviQV1DFKf8XpUiWxPqWDyDbIBzSJCLK2EVEO8ruHQuoEpOtwjvpKWA+CIbPPOSGJhRyQ+nlArOhSUHva3d8rhh9tYfe4L+eIS9RV9sAUrQIQIWLQNq7BxSAjIAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=haoiFtJC; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NnOEryNu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2E251F00A3A;
-	Thu, 27 Aug 2026 13:05:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787835910;
-	bh=5N2NHwJ9ekiynGs9A4R9WYmF9Lz/Lz4EWA7of7Z5Lgo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NnOEryNuYlH832ez6i90oIGqNA+xgOZPP6jhlZb2rhV/Dm3TFq3HRzI9f5WLxboTL
-	 ryWIwoGxQKY7CeDv9ciNI+wpZoq5b1JyofLv3OsOxqx6pnPANckzJeV70cIRyu3CZ6
-	 rFCw/oJjJj/2OvdYgod6LInChkb8Q16tbBantpvbxZD556S0CXMF7UMrJuORE/1nFV
-	 gsHRwHIQEyHzhsFJVxwAx1HVtEXdn+QY8bDi2BUFcxVz9iHukQCpBbDPkGIRCLrq3R
-	 9RKYc2nJ59hy6zY8ekHM7Bg0B0V+1dlG3jyFdokQoiNbw4YKmiAMCMVbFagaJhlrHa
-	 U4ffjg96V0Yeg==
-Date: Thu, 27 Aug 2026 14:05:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Yauhen Kharuzhy <jekhor@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] ASoC: Intel: Add Cherry Trail RT5677 machine
- driver
-Message-ID: <901421b8-6e7b-404a-ba67-10c3166911f9@sirena.org.uk>
-References: <20260827072517.1401173-1-mauriziocasciano7@gmail.com>
- <20260827072517.1401173-2-mauriziocasciano7@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="haoiFtJC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787836271; x=1819372271;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nr7osP1DXIpl5AWPoJ1wPnBT5YmUBciQfdG2k9wHVK8=;
+  b=haoiFtJCEyAv3KMgt8tWhb7GF67Tirdp7wj2h5I6Ife9/oUP1besEM8g
+   wDpQsNTq7bYjpRiKsVfbeN3bl8ymm5ojJgbFHtFGLlJFycwX5roq61ZiY
+   m7OEoDmG58mvMOoqduRwIg2Dr5iJOhKh0zNZpuNXl02QSaiEgX5XJbwMm
+   0V+iLEu4lnSa64CBX6i22RZ8LZoSzf7X4J5bqS964UZp1Mm9jiP8ottuu
+   z/EBhHYUqShS/RNMou9HPvbRzdQ3YSzsLdjy6xRq1YUvpuPkVrFR1w6Gw
+   3bQBwUeYZBDQnDYeqfoLrG5fdFDEabLLkvOoU1H4nB6lorVsrk/FjfaIj
+   A==;
+X-CSE-ConnectionGUID: khNw4vbQQ72cD+5mmIGwKA==
+X-CSE-MsgGUID: n/5bkUtkSB2YVni/C0Rr0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88539034"
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="88539034"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 06:10:54 -0700
+X-CSE-ConnectionGUID: r//Jq5i2TMyi5v20u4RKtQ==
+X-CSE-MsgGUID: MFsWeWAjR5inBxVHeDYUnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="263589324"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa006.fm.intel.com with ESMTP; 27 Aug 2026 06:10:47 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH 00/10] ALSA/ASoC: Intel: avs: HDAudio bus and general fixes
+Date: Thu, 27 Aug 2026 15:15:00 +0200
+Message-Id: <20260827131510.1014084-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="02JyUJ345uZ0PE2y"
-Content-Disposition: inline
-In-Reply-To: <20260827072517.1401173-2-mauriziocasciano7@gmail.com>
-X-Cookie: Alimony is the high cost of leaving.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+The first half of the patchset concentrates on the driver initialization
+procedure - a number of steps do not clean up after themselves when they
+fail.  This is for both, HDAudio bus (ext) and the DSP part (avs) and
+targets following procedures:
 
---02JyUJ345uZ0PE2y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+- stream initialization
+- link initialization
+- bus initialization
 
-On Thu, Aug 27, 2026 at 09:25:16AM +0200, Maurizio Casciano wrote:
+The next five are loosely related fixes.  First, split topology-loading
+error handling from request-firmware one.  Currently -ENOENT coming from
+topology-loading, which is a real error, is ignored.
 
-> Link: https://github.com/jekhor/yogabook-linux-kernel/commit/4e41d0ff72c1=
-d1fd8d5c59dda247e4ca8a1da999
->=20
-> Link: https://lore.kernel.org/linux-sound/20260611-asoc-yogabook-v2-v3-3-=
-3128447b67b6@gmail.com/
->=20
-> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
->=20
-> Assisted-by: Codex:gpt-5.6-sol sparse
+Second, with deeper test coverage around corrupted firmware/DSP exception
+handling, new issues are unearthed.  Switch to async d0ix_work
+cancellation to avoid deadlock when D0IX has been scheduled just before
+the recovery work.
 
-This isn't how trailers should be formatted, please look at other
-commits for examples.
+The 09/10 patch, init_config change fixes possible out-of-bounds bug.
+The fix is larger than what one could expect as instead of patching with
+if-statements I've decided to refactor the parsing of init_configs.
+The scenario that causes the problem no longer exists.
+Note: the solution does not impose any changes on the existing topology
+files (userspace).
 
-> +static int cht_rt5677_codec_fixup(struct snd_soc_pcm_runtime *rtd,
-> +				  struct snd_pcm_hw_params *params)
-> +{
+The remaining two, IMHO are self-explanatory.
 
-> +	/*
-> +	 * Configure SSP2 for the 24-bit format expected by the codec. The SST
-> +	 * ssp2-port front end still advertises S16_LE and converts the stream.
-> +	 */
-> +	params_set_format(params, SNDRV_PCM_FORMAT_S24_LE);
+Cezary Rojewski (10):
+  ALSA: hda: ext: Clean up links if their initialization fails
+  ALSA: hda: ext: Clean up streams if their initialization fails
+  ASoC: Intel: avs: Clean up the bus when its initialization fails
+  ASoC: Intel: avs: Clean up the bus when fetching ML caps fails
+  ASoC: Intel: avs: Clean up streams if their initialization fails
+  ASoC: Intel: avs: Do not ignore -ENOENT when loading a topology
+  ASoC: Intel: avs: Cancel d0ix_work asynchrounously during recovery
+  ASoC: Intel: avs: Fix unbalanced module reference count
+  ASoC: Intel: avs: Refactor and fix init_config access
+  ASoC: Intel: avs: hda: Constrain MSBs on startup
 
-params_set_format() is addative, it won't clear any existing format that
-was set which is not what you're looking for here.
+ sound/hda/core/ext/controller.c      | 11 +++++-
+ sound/hda/core/ext/stream.c          | 11 +++++-
+ sound/soc/intel/avs/boards/hdaudio.c | 17 ++++++++
+ sound/soc/intel/avs/core.c           | 59 +++++++++++++++++++---------
+ sound/soc/intel/avs/debugfs.c        | 12 ++++--
+ sound/soc/intel/avs/ipc.c            |  6 +--
+ sound/soc/intel/avs/path.c           | 10 ++---
+ sound/soc/intel/avs/pcm.c            | 34 +++++++++-------
+ sound/soc/intel/avs/topology.c       | 49 +++++++++++++----------
+ sound/soc/intel/avs/topology.h       |  5 ++-
+ 10 files changed, 144 insertions(+), 70 deletions(-)
 
---02JyUJ345uZ0PE2y
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqQNgAACgkQJNaLcl1U
-h9AQswgAgUPt0bIXdFJSZxVT7TpT208MNCIDuuCtxIVhf5YZtT+z2frAM/cjl89l
-kc3TAfzKH/wT20JTj8YzuPkZXUHRjsog7oltSyIIMklJZ3ZMASLDLoUr1/a54hTS
-ccEbDb6Ot2RumCNbYk3XKwZNTw0cmE+qj6YxekgmADzR68Ns3LXx4Z/7q+kL+iQR
-IPAJ9qV4hT8Bw4dDEGEYxGCleUzywMDNYlf9vnnrNcc5QXaKa9ll+Jb/LrTjikJT
-tLinGIueSE2SsofLk4uNFj84EA3aafGNWRVhHWG0ivUGmnASFsOI3pH2NWwHhd+7
-XocLVvWC0Rr9l07pNWmPqS9qxlr0Mw==
-=4+xY
------END PGP SIGNATURE-----
-
---02JyUJ345uZ0PE2y--
