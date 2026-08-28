@@ -1,37 +1,76 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F263DE457;
-	Fri, 28 Aug 2026 11:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1EC449ED6;
+	Fri, 28 Aug 2026 11:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787917228; cv=none; b=AsSVjj5XIa1ILOEyj6UR/xvqjIcqKrEBYQIgfkZ89ZPwtBdeA9EraCA/2hfEjDx57svOJD4X8NhPrTf+0mNfsFiEzuonmMBj0Zc2fFdH9nZ8LNzCT6aZB98X4a9vp3xRnWoYlqDIeBDVUKq385QD5Q8DgsOfH56E0qMNto61TlA=
+	t=1787918179; cv=none; b=V8oq6nQsmYGGwmmVjsy3Wor06j1/243AY/sSIwcdnnnuFfVLIg32lxEyvBXz7JdfBwcMBZ0+TT8GBBQ4MoAgq+plGkOgX6lIlgNF9IAU7HeXe7p7WDKRVkRaYex2LQ5dx380sIilvMZPMqvd1aGy0GueoyERY5PnrYu1CUMAZLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787917228; c=relaxed/simple;
-	bh=bc1aYia6d8j5bYAVlMp2zGJbeu5EN59Hi1NoDKaMaMM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C5JT5b013KS22E7jsRc7pGoBjKmnokEFv2KWEqk9Wm37pQtnvgBD1fhk4yaXVX1TKt2d/7Gd0Bs5t6+Di//k11zXSxSKpDavjDzbOm/GymVxspDIWDnR74lPirOAveLEfpw6IfhCTs1IaJ3T+XmvGWfTGogJ5OaYYDJvXxCXOgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowACnfPA6cpFqpPm9Bg--.43118S15;
-	Fri, 28 Aug 2026 19:34:21 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	patches@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 13/20] ASoC: wm8804: Propagate cache replay errors from runtime resume
-Date: Fri, 28 Aug 2026 19:34:08 +0800
-Message-ID: <20260828113416.47061-14-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260828113416.47061-1-pengpeng@iscas.ac.cn>
-References: <20260828113416.47061-1-pengpeng@iscas.ac.cn>
+	s=arc-20240116; t=1787918179; c=relaxed/simple;
+	bh=Fqvx6yZ7d3AO1AuNBTIYtJTRvPSlJoonCN0/SaX9yq4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hjzNAP82ss+JPfbdUNsvwRLT8MyclR8/1S4m6vylBOVGJTZ39yxh5JH+eYV0AETeGL98ktqt0EL1EqfSc0Ys8BduSLcZBg476LRt29Dk3l8YDZUDbZFKPfetac40FAamomeOI0SQmFbc+I3k35Nnb8F0EdOAH9dUB5iPoTFJWHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NMUDCS3W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Mjk8+Irb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Dkq9js3K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GkFaHPG4; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NMUDCS3W";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Mjk8+Irb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Dkq9js3K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GkFaHPG4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A9D2221CD4;
+	Fri, 28 Aug 2026 11:55:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787918155; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AWu3EE/D7d16eyHtTU/QING0cNGIWXkKi3yhQPYQBpI=;
+	b=NMUDCS3W10X7XUWL21V6C++6/YzC1UFxw5sX+6r6ByaBRWzON7QaSUWmFjEkMSyABJF4lE
+	6EcsrWtrZZCsG06KfhkluLq6ULuCCV3vb8iVwUFb/nNGmpq1SpDFo+kX/nNJXI3isKuRwd
+	HRgqOdkM4Z9dlc1eKpvGM7nw52OHhOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787918155;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AWu3EE/D7d16eyHtTU/QING0cNGIWXkKi3yhQPYQBpI=;
+	b=Mjk8+IrbYbxGSEZKvShkK4wzbiMQIkK5QOTdDdAn5Ypzi6khplz2qnPWO2xziQWH+6p4dl
+	yQMYITFy5jfS7JCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787918151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AWu3EE/D7d16eyHtTU/QING0cNGIWXkKi3yhQPYQBpI=;
+	b=Dkq9js3Kz2S06FTLWlJnjPtgyCyLBWhV7KaIXaMPmgvixQrsb9C1sjtF5+N6OPJicBmEsy
+	FF0M1tOsuA0wpfe3pqW9EUmZazcEZpxeATiIx4D+Nh82mlByCoik6KKTiE45/mpYGTG5ww
+	YKsZyl8GDNu+RV7Gyy7Y4FDeAjLWopU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787918151;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=AWu3EE/D7d16eyHtTU/QING0cNGIWXkKi3yhQPYQBpI=;
+	b=GkFaHPG4haoX1y8gRCAyd0xgS9TIzRbeOz8QzQf0S9D9mKPMZBhTthEwQ2uhBq/nM3LyS+
+	J5n7rmu7lf09TPDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 66D2C13515;
+	Fri, 28 Aug 2026 11:55:51 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ccdkF0d3kWomEAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 28 Aug 2026 11:55:51 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: Fix race between non-atomic ops and trigger-start
+Date: Fri, 28 Aug 2026 13:55:39 +0200
+Message-ID: <20260828115542.3999-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,59 +78,76 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACnfPA6cpFqpPm9Bg--.43118S15
-X-Coremail-Antispam: 1UD129KBjvdXoWrZF4DtFWrXw13XF4kurW5Awb_yoWkJwc_Wa
-	y8WwsrWFZ8Kr4I93srAr1Yv3ykWry7Z3W2qr1DKF43t342yFn5JFWUJrsxuw4DWw18Ca43
-	X3Wjgry7Gry5KjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbDkFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
-	IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
-	F7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
-	1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
-	M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
-	v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
-	F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r126r
-	1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_
-	Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x
-	0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8
-	Jr0_Cr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJw
-	CI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUjBTYUUU
-	UUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-Spam-Level: 
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.993];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid,appspotmail.com:email];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[]
 
-wm8804_runtime_resume() enables supplies and ignores regcache_sync(),
-then powers up OSCCLK and reports runtime-PM success.
+We protect the races of the concurrent state transitions between
+atomic PCM ops, but the checks between the non-atomic ops (hw_params,
+hw_free and prepare) and the atomic ops aren't perfect; there is a
+check of the conflicting PCM state at the beginning of hw_params & co,
+but the atomic PCM ops can be still issued during the non-atomic PCM
+operations.  An example such scenario is that a thread A re-issues the
+PREPARE or HW_PARAMS for the already prepared stream, while another
+thread B triggers the PCM start in the middle of the prepare
+operation.  Although this usually doesn't lead to much serious issues,
+it can give some inconsistency as reported by syzkaller (such as
+ODEBUG warning).
 
-Return the cache error and disable the supplies acquired by resume
-before OSCCLK is enabled.
+There are various atomic PCM ops, and basically the only problem is
+the PCM start as it operates from the PREPARED state.  Other trigger
+commands (stop, etc) are for the running or the other special state,
+hence they are filtered as pre-condition.
 
-The issue was identified via static analysis and manually reviewed.
+This patch is for preventing the PCM trigger-start during the non-
+atomic operations in order to address the problems above.
+Fortunately, the hw_params, hw_free and prepare operations call
+snd_pcm_buffer_access_lock(), and this can be used for checking the
+concurrent operations at the PCM trigger -- which sets the
+runtime->buffer_accessing to a negative (if possible), so the PCM
+trigger just needs to check the runtime->buffer_accessing value; if
+it's negative, it means the concurrent non-atomic PCM ops is running.
 
-Fixes: 1a60667fc81f ("ASoC: wm8804: Enable runtime PM")
-
-Assisted-by: LLM
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Reported-by: syzbot+225231fce6755d40d078@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/6a8f0de8.1d9ded08.62e62.00b5.GAE@google.com
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/soc/codecs/wm8804.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ sound/core/pcm_native.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/codecs/wm8804.c b/sound/soc/codecs/wm8804.c
-index 94aa3c8de0ab..0935e2e3c2d4 100644
---- a/sound/soc/codecs/wm8804.c
-+++ b/sound/soc/codecs/wm8804.c
-@@ -692,7 +692,11 @@ static int wm8804_runtime_resume(struct device *dev)
- 		return ret;
- 	}
- 
--	regcache_sync(wm8804->regmap);
-+	ret = regcache_sync(wm8804->regmap);
-+	if (ret) {
-+		regulator_bulk_disable(ARRAY_SIZE(wm8804->supplies), wm8804->supplies);
-+		return ret;
-+	}
- 
- 	/* Power up OSCCLK */
- 	regmap_update_bits(wm8804->regmap, WM8804_PWRDN, 0x8, 0x0);
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 4a5057e7629d..20ae67949e05 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1468,6 +1468,8 @@ static int snd_pcm_pre_start(struct snd_pcm_substream *substream,
+ 	struct snd_pcm_runtime *runtime = substream->runtime;
+ 	if (runtime->state != SNDRV_PCM_STATE_PREPARED)
+ 		return -EBADFD;
++	if (atomic_read(&runtime->buffer_accessing) < 0)
++		return -EBADFD; /* during hw_params, hw_free or prepare */
+ 	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK &&
+ 	    !snd_pcm_playback_data(substream))
+ 		return -EPIPE;
 -- 
-2.43.0
+2.55.0
 
