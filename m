@@ -1,162 +1,207 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6E1287247;
-	Fri, 28 Aug 2026 13:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981E7377541;
+	Fri, 28 Aug 2026 13:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787923860; cv=none; b=jX/QD4duw2lSg1nF4OGXnmzrIYyeCzbO+FQTtWdhxu/2xxo4/vFtTybFmHJGdAToyvRxP/rniVCcE5YymMaKIoiQGZneuAURh/rFbKcyy62GRsJCWEFrEqSW3Exrfii41hLFMmbXxrhohZYUx9FYG3o/0eESGjH8YmzbZ22mrnU=
+	t=1787924993; cv=none; b=Zu0fpWsmh1YI7lXb64nUWaGlda4CZha6EAMuSrJF0gdYPaUSxG+j4VZ6Rax13pBABvyTZJarMjOycrhgmsEi9DIdVChpwy7f6a2e7Jp4rL7mkg4wcxtuJOre1zGBjPZBSgGUS8Eiu/AOgtFToIaIXF3XvCItf5BpwvZ3ujoJswc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787923860; c=relaxed/simple;
-	bh=nPbBLDVeV+A69NA0G6ETeX5d52904YSCbDT3lyPgAIw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=brk8WvvGDbtmwcNoN8Oeg4YynyFcRYlJUFBCJeclHeSfMUuxbk3NwyPvqz2xr/pa1b0UyBEGmJcDOueQaOOux9g2xkV/lWIKojvGQCzOPXHNajZshFyGmhbTJVmV9ghZmYoUGDbMU+bwbH/pilCQdG9yXHBWTPEeFRvPNX2iEwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ab0e2cf4a2e411f19a56ed5b684f684d-20260828
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:68587b0d-f28d-43a4-a6ba-6da6dc04a679,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:7816847fd6413e5ff3abab754726e512,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|817|865|898,TC:nil,Content:-10|-8|
-	-5|15|50,EDM:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ab0e2cf4a2e411f19a56ed5b684f684d-20260828
-X-User: zhangheng@kylinos.cn
-Received: from [172.25.120.77] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1300583132; Fri, 28 Aug 2026 21:30:43 +0800
-Message-ID: <2b516460-858a-43d2-a42b-a1b1194c8cb3@kylinos.cn>
-Date: Fri, 28 Aug 2026 21:30:34 +0800
+	s=arc-20240116; t=1787924993; c=relaxed/simple;
+	bh=L/vtVOuW152LypUSH+OZVSSz4b7e/pD6T/lCivxelpw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=c/nITJSS6qp/XJ4b3MHbYkxeLFgu09b9wdhFA5+eDbWQhDdEjwuLZzRzbzT67HvLA64w8PfhDOOt4LQrHFnkLi3SzFRlCK3r5X2K6aoz3iD8/bMAhrBTF5LtWRG4ixP5C6kiAe9FRkQXdwiAgwxrOLOUtvgE5Z9TMDHKRg1uwz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uZaK880V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yqOZ/ggz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iQIxoWgQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1z2TNRvZ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uZaK880V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yqOZ/ggz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iQIxoWgQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1z2TNRvZ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D4F0F1FDEF;
+	Fri, 28 Aug 2026 13:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787924962; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OXlN0Lemb4BL44E4k0eIHMPf36FJp1GheSM6Mt20CWI=;
+	b=uZaK880VjicEmP7d0TP/bv5QZh6K9ANPOEdEamUCkpzpSCqoUBKQFutMzghSoq/cg3cMDT
+	rVtQ2nIitBuJibstKhYhF6LUqgFwPfY1oLNJ95qq8CEJv9qGsLSs1NcWJ5DacQfAkKeH/S
+	ymTUBRKW55su3OylNxqXzGuGvTATJ/c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787924962;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OXlN0Lemb4BL44E4k0eIHMPf36FJp1GheSM6Mt20CWI=;
+	b=yqOZ/ggzHYj84l8iGctiqty9wE+Oi8xlaPUpfeQ/YwRjq8sieVxnJZ+Ao0AULUSgktDisa
+	4DjrCygDyiZDT9Dg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1787924957; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OXlN0Lemb4BL44E4k0eIHMPf36FJp1GheSM6Mt20CWI=;
+	b=iQIxoWgQGPyhEjwUKjrx6IrY0pVrjYDG0GwMfREUNmaB2LXUw38LebcIn3APWoDnvlWlG7
+	SPTphIQZee8R5LIIYLFY+KpRujPpweIeLbCTh8O7nh4VF36UneiEeinRuOpnHpv7DuGJ4x
+	afvCg42KNWbfymexS+/fZdbcGO/6Dqc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1787924957;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OXlN0Lemb4BL44E4k0eIHMPf36FJp1GheSM6Mt20CWI=;
+	b=1z2TNRvZvz1wc81sz2aHdHV3Ki7W+n94JmbiugyVM2kjQI4qctymKc7BH/L1XwlCrnIhTE
+	A/qvWYLwUcuZhuAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B8A31352D;
+	Fri, 28 Aug 2026 13:49:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2/WxIN2RkWpzBAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 28 Aug 2026 13:49:17 +0000
+Date: Fri, 28 Aug 2026 15:49:17 +0200
+Message-ID: <87se3ytkwy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Subject: Re: ALSA: usb-audio: guessed channel positions on a device that names its channels
+In-Reply-To: <CABXGCsPh2d=1tJzszkFFQS=WrtNh3pD+Mhv_uj9VE2w58QPQrA@mail.gmail.com>
+References: <CABXGCsPh2d=1tJzszkFFQS=WrtNh3pD+Mhv_uj9VE2w58QPQrA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] ALSA: usb-audio: Fix boot-time audio stuttering for
- USB Audio device
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: perex@perex.cz, tiwai@suse.com, kees@kernel.org, chengordon326@gmail.com,
- jussi@sonarnerd.net, hulianqin@vivo.com, i@rong.moe, g@b4.vu,
- cryolitia@uniontech.com, pav@iki.fi, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20260728111309.1271834-1-zhangheng@kylinos.cn>
- <20260816180147.2e5f01d1.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Zhang Heng <zhangheng@kylinos.cn>
-In-Reply-To: <20260816180147.2e5f01d1.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+
+On Mon, 24 Aug 2026 00:55:21 +0200,
+Mikhail Gavrilov wrote:
+> 
+> Hello,
+> I ran into this setting up a Topping M62 on Linux. It is a USB
+> interface with ten playback channels and sixteen capture channels --
+> five stereo pairs out, a set of inputs and loopback returns in. Nothing
+> about it is a home cinema. But alsamixer labels its playback controls
+> M62 Front, Rear, Center, Woofer and Side, its capture controls Mic
+> Front, Rear, Center, Woofer and Side, and a player that lists ALSA
+> devices directly offers "5.1 Surround output to Front, Center, Rear and
+> Subwoofer speakers" for it. Choosing one of those gives silence or the
+> wrong pair, and nothing explains why.
+> 
+> The layout is not in the descriptors. Every AudioStreaming interface on
+> this device declares bmChannelConfig 0x00000000. It comes from
+> convert_chmap() in sound/usb/stream.c:
+> 
+> } else {
+> /* If we're missing wChannelConfig, then guess something
+>    to make sure the channel map is not skipped entirely */
+> if (channels == 1)
+> chmap->map[c++] = SNDRV_CHMAP_MONO;
+> else
+> for (; c < channels && *maps; maps++)
+> chmap->map[c++] = *maps;
+> }
+> 
+> for (; c < channels; c++)
+> chmap->map[c] = SNDRV_CHMAP_UNKNOWN;
+> 
+> The standard position list is walked positionally, so channel 3 becomes
+> FC, channel 4 LFE and so on, while the honest answer the next lines
+> already use for the tail -- SNDRV_CHMAP_UNKNOWN -- never reaches the
+> head.
+> 
+> What makes this more than an unlucky guess is that the device does say
+> what its channels are, in the field beside the one we read:
+> 
+> bNrChannels            10
+> bmChannelConfig    0x00000000
+> iChannelNames          11 Playback 1
+> 
+> bNrChannels            16
+> bmChannelConfig    0x00000000
+> iChannelNames          21 Analogue 1
+> 
+> iChannelNames indexes the name of the first channel and the rest follow
+> in order. Reading those string descriptors from the same Linux machine
+> gives:
+> 
+> 11  Playback 1        21  Analogue 1      29  Loopback 1
+> 12  Playback 2        22  Analogue 2      30  Loopback 2
+> 13  Playback 3        23  AUX 1           31  Loopback 3
+> 14  Playback 4        24  AUX 2           32  Loopback 4
+> 15  Playback 5        25  BT 1            33  Loopback 5
+> 16  Playback 6        26  BT 2            34  Loopback 6
+> 17  Playback 7        27  Mobile 1        35  Loopback 7
+> 18  Playback 8        28  Mobile 2        36  Loopback 8
+> 19  Playback 9
+> 20  Playback 10
+> 
+> That is the hardware, exactly: two microphone inputs, a stereo AUX, a
+> Bluetooth return, a phone return and eight loopback returns. In
+> sound/usb the field appears only in validate.c, counted towards a
+> descriptor's expected length and never read.
+> 
+> Two questions, then, and I would rather ask than send a patch that
+> guesses at the answer.
+> 
+> Should the positional guess stop where the position list stops meaning
+> anything? For two channels it is almost always right and clearly
+> useful. For ten or sixteen it is not uncertain but wrong, and UNKNOWN
+> is both honest and already available.
+> 
+> And is there interest in surfacing iChannelNames at all? The chmap API
+> is positional and has no room for free text, so this is not a matter of
+> filling in a map -- it would need somewhere new to live, and I do not
+> want to invent that unilaterally. But devices do provide these names,
+> and on an interface with ten identical-looking channels they are the
+> only thing that tells a user which is which.
+> 
+> Happy to write either patch if a direction is agreeable.
+
+I'd say yes for both.  It's beyond the standard definition, so we'd
+just need to do the best.
 
 
-> Hi,
-> 
-> Adding linux-usb.
-> 
-> On Tue, 28 Jul 2026 19:13:09 +0800, Zhang Heng wrote:
->> This USB Audio device (0x1e0b:0xd01e) exhibits audio stuttering
->> during boot when playing audio. Once the system is fully booted,
->> playback is normal.
-> 
-> Weird, your thread runs horribly slowly (preempted by something despite
-> spin_lock_irqsave held by xhci-hcd?) during those URB submissions. It's
-> first time I actually see this warning:
-> 
-> [    9.654586] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5154, index 13) beyond range (645, 1539)
-> [    9.654589] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
-> [    9.655053] xhci_hcd 0000:03:00.3: Frame ID 644 (reg 5158, index 14) beyond range (645, 1539)
-> [    9.655055] xhci_hcd 0000:03:00.3: Ignore frame ID field, use SIA bit instead
-> 
-> If packet 14 was scheduled for frame 644, packet 0 must have been
-> frame 643 i.e. uframe 5144 (should be frame aligned). So packet 14 was
-> uframe 5158 - it was only being written to HW while it was already
-> due for execution, some 2ms after usb_submit_urb() began. ???
-> 
-> URB execution won't even start until all packets are written - we do
-> take care to queue URBs atomically. Initial part of this URB (before
-> the warnings) will complete with -EXDEV status due to blatant isoc
-> scheduling threshold violation, but the rest (with SIA bits) will be
-> delayed by HW and completed normally after submission finishes.
-> 
-> The same may happen to the next URB if the condition which caused this
-> persists, and moreover, the next URB may be scheduled with a gap after
-> the previous one.
-> 
-> IDK how snd-usb-audio would react to such a mess. It is believed, at
-> least by the USB subsystem, that drivers expect contiguously submitted
-> URBs to execute in contiguous service intervals, without gaps.
-> 
-> FYI, a lot of this xhci-hcd logic is considered broken and goes out
-> the window in v7.3. I'm curious if you could test how things work on
-> usb-next without (and maybe also with) your workaround code.
-> 
-I tested this on the original version without this change,
-and the performance was quite poor.
-However, I am not familiar with this area,
-so I cannot provide a professional explanation.
+thanks,
 
-In fact, I originally debugged this issue on the 5.4 stable branch,
-and it worked basically fine even without this change.
-The most important part is the fix below.
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/log/?h=usb-next
-> 
-> This removes the automatic conversion to SIA/ASAP and insertion of gaps
-> between URBs, so that the initial URB will likely wholly complete with
-> -EXDEV and the next one will be scheduled immediately after it.
-> 
-> Again, what snd-usb-audio will think about it IDK, but usb-next mostly
-> works for me in my test (one remaining exception I'm trying to fix).
-> 
->> The device reports its isochronous endpoints with the Asynchronous
->> sync type (bmAttributes = 0x03), which causes the driver to
->> calculate nurbs = min(max_urbs, ...) = 3, providing only ~16ms
->> of buffering. During boot, the higher system scheduling jitter
->> (e.g., from init scripts, device enumeration, and driver probing)
->> can exceed this buffer depth, causing audible stuttering.
-> 
-> Not sure what causes it, xhci-hcd holds a spin_lock_irqsave() during
-> the whole submission, so I think it shouldn't get preempted.
-> 
->> This patch adds a device-specific quirk (QUIRK_FLAG_PLAYBACK_URB_FIXUP)
->> that applies two changes for this device:
->> 1. Forces nurbs to MAX_URBS (12), providing sufficient buffering
-> 
-> I actually wonder why snd-usb-audio seems to allocate only one URB per
-> period and then submit URBs shorter than a period. Doesn't this mean
-> that all URBs may be busy without covering the whole playback buffer,
-> and then newly written samples have nowhere to go until one completes?
-> 
-> This seems to increase risk of URB queue underrun, though TBH I tried
-> increasing 'nurbs' and I haven't seen much practical difference running
-> with very low latency like 2x250us or 2x500us.
-> 
-> Note: on USB 3.1 and newer such settings may only work on usb-next.
-> 
->> 2. Sets URB_ISO_ASAP flag for more consistent xHCI scheduling
-> 
-> URB_ISO_ASAP or xHCI SIA do the opposite of consistency - they cause
-> execution to be delayed until the URB is written to the HW and the HW
-> reaches it.
-> 
-> Non-ASAP submissions are scheduled contiguously and possibly complete
-> with -EXDEV if submitted too late. Only after the last completion of
-> the last remaining URB returns, will the next URB be scheduled
-> separately and discontiguously, to execute in some (near) future.
-> Again, this is documented usb_submit_urb() rule and it's believed that
-> drivers expect it. It's how OHCI/UHCI/EHCI drivers work.
-> 
-> Using ASAP is a known workaround for the old xhci-hcd bugs, similar
-> patches have been sent to linux-usb, that's why it's being fixed. But
-> IDK if usb-next will solve your bizarre edge case out of the box.
-> 
-> Regards,
-> Michal
+Takashi
