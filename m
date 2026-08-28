@@ -1,84 +1,46 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA113911C1
-	for <linux-sound@vger.kernel.org>; Fri, 28 Aug 2026 09:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A07F1EFFA1;
+	Fri, 28 Aug 2026 10:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787908594; cv=none; b=jJ69fNbyyA/6deveyLqnvOoY7YvIOF60UxdplNgNi+46FrQ5HjUOiiWDwdmFkXpbkHuOVeKFJXPVRyrhKc5+1seYg+b0NKHGW4a2nC9GFreXl9LOxrHimzOCUcIP6v4k0MAFoFI6fE2zZP3wLiEhm8NJE6OTfkrmG+nSueWOzjo=
+	t=1787912240; cv=none; b=g6Ec2SWSaoK5NNzFcZgrzewdNTPO+R1brRYmNW3X8jr2nZGNzQz3bX5j25MTH1ibhxLGHZ+UnBm6gB0XaKAxBgPcHmQXm4Fx4w4nsAUUOloHkjRiwiNMIVKfBQyob2gTuUblDXYhf40NeyDFmdS2MSGB//9TOjAAY8eLgvw8lNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787908594; c=relaxed/simple;
-	bh=flUUxagMMbbwFuTrQc7nygferYAal45fxbtXaeUEeAk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dps7MTBk5Whnrg1IDUFBCVjJ0gqur6/PdaSkrV8BC+0fIzTphn2ekRFvMQHZawnbn4Rg8cL5rSdMG8ChPmDr3dtXJUHWUHdtb45pSJqKTHiD2k6JVOREjA7MMEcKnxy4pYlq+RmYJipUlXrpFnNUBMys/x9ovbJyIKr7Mqk9vu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IQyt4Z5B; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IQyt4Z5B"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-853f8c34ba4so1159362b3a.0
-        for <linux-sound@vger.kernel.org>; Fri, 28 Aug 2026 02:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787908592; x=1788513392; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=H8NabRqeVDl6V/0Mf+sYcOuuE1n9qJZPVQBsEE5OZg0=;
-        b=IQyt4Z5BZfGgIsKPakgqk4m4GTNyHtnNwEmg82REhTgn5vHycNbGqCV3dq5ASYcfIa
-         XZ7pjZ1IR7FawuiTGRoSJFeEUohzvsk+oMOAS52yKEzDA8PJ92lkDIdg/ToqMnDI+MCo
-         IWvo2Cmxeq0lTHgdyyUaQc1Hve89c0G3J3KH1KPRGhK0vCDHlnYvBI3Gxdxv0n76VYOH
-         cxLwGX5FyIq2LcKfmVRKbkwhevBPTJBamUMezJVM+ALPqkQgVA0wInIDxSLABlLv9OAj
-         WRb75zRicoP1iINAGbLdzXEKsRiissbJXcVJ4HohjAgEAbgupxjpYHXxJTNeR9+/Mzt/
-         Qrng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787908592; x=1788513392;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H8NabRqeVDl6V/0Mf+sYcOuuE1n9qJZPVQBsEE5OZg0=;
-        b=aIYQeLnlaRPIKHdoRNO3SlA/KqmccW8fegFH/4T+i9le+Cc6m8bYrpoUVqrMLMCqVA
-         IfZr5cBO8RZcNHCsJ+wwMUX6CkVrYDaq6JGZWVklsP0DuzNvePXD9NikKof8wJIVv9YQ
-         r7hU9ymuJaT69y02AkP6vvYV/CbemsQSJT6IWor7I0Sz49VrrGBZfHyHMKEjeW5L+auy
-         cByHtMUpik5uNm0if++YFsGje6106WYkvK5OtUPtp+nNK4/YqmzzAGqpmIZRhhYGbzMk
-         H81i2vxTwLsnWeYJ06mc6irpVLkJ+64Sw/wOsMW4a8t32lzAij6WL19583oOvIRJKDcU
-         zJOg==
-X-Forwarded-Encrypted: i=1; AHgh+RoQM+X4T4F1yS1Be6gMSFRBjUr0Y01MyPeIQq6c5qXytIK/T4tWZ+3oOsojK7wTQ4WFC6uJoCXvLgzDkA==@vger.kernel.org
-X-Gm-Message-State: AFuF++mivbL57nbI+aJZa4z1fvg82k/gsB61FR/EHSvkmHl6Vavrt5/i
-	ZbpsQWCd6s+QbSTzOHbMOrfpypNUlYY0h/tvHtfKhaVlz339LqF1pYiM
-X-Gm-Gg: AR+sD10AoemQhLZJCNZJiswLdoISrX3972BQrkB/lQKjdXaNXRBiFyfhNouvt2TQcEU
-	yosArT9h0YUObzWm9/9RgGZfdoXos+cWYdiBaA3Au2ph2/7qnkD/mlKvJgh1U7DWGU9yECoo0Kq
-	aIrXO81Dix9g7ViWzw6E+kiXAk2Az9HHv/OqXS2h0uAAeng8g6q5PJuQfjPMzlxKT5k8T6H50cp
-	Iv50lnEyppjactyCsEMb8TUxEJ4ZSYEGJYDGbpl0rsuLsURcwRv2sT9jr3PJepF/F2zxEDQYLSm
-	AwDThuKmcIg8PbsCa9PahmKJXzCB53ZpLeB/XryBhZr6YbtWyxEJTXDSdQZzlHZp1qnOVDlEGRF
-	ErddaKqB+LxdPbwkyDHf1cK1TSCeZN1sPPRX0p+GooKL5SkAr9R/ANJkQ8syaKYGD6rQ6ZdlvkG
-	5yZKQH4Msi0f0cP9o6MXP7FsP0g78X6B/i/yCafvE0L+aH28q83RmgGfr+o3zhnhApGPSzQk/GW
-	hxjKa+UxmALMUpT+rxxpfAr6Ruo5v6ucCLH+eeDcPBT8fzhJ1AYLwsbzaZ3+Q3a7FeurTZgFGjz
-	CNK3hmaUgwfUXxk=
-X-Received: by 2002:a05:6a00:8019:b0:851:d12e:389b with SMTP id d2e1a72fcca58-8562a8d4291mr12413048b3a.14.1787908591962;
-        Fri, 28 Aug 2026 02:16:31 -0700 (PDT)
-Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8569fe78fc3sm381248b3a.24.2026.08.28.02.16.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 02:16:31 -0700 (PDT)
-From: phucduc.bui@gmail.com
-To: Mark Brown <broonie@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
+	s=arc-20240116; t=1787912240; c=relaxed/simple;
+	bh=R4DBvfbDbQdUPpXHKYXHcJ9Eyik3Pcly/qxoQGVywnI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pjwHyPk/Cwd1pIkDFo1xSOe9Hoizetu5qdD5yp0C5vVP6pp4jMpOEI84qBefat6NytKKP3YWCer/jlx2WiN8+6g/Pc3StSF6vBmwysDefLmzPrZoXOwFQTzLry+nnRIsHt8IIUnR+0m+HftIBQvvZpX0Q23jjJZBUvleR958mfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a11ed056a2c911f19a56ed5b684f684d-20260828
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:a70495cb-b4e3-4b2a-a0e2-07bd3a10a830,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:3fb2368d1cd4f6b0058718db5338656a,BulkI
+	D:nil,BulkQuantity:0,SF:102|850|865|898,TC:nil,Content:0|15|50,EDM:5,IP:ni
+	l,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,
+	LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: a11ed056a2c911f19a56ed5b684f684d-20260828
+X-User: zhangheng@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1409501854; Fri, 28 Aug 2026 18:17:10 +0800
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 8/8] ASoC: mediatek: mt8186: Drop redundant probe error messages
-Date: Fri, 28 Aug 2026 16:15:32 +0700
-Message-ID: <20260828091532.600047-9-phucduc.bui@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260828091532.600047-1-phucduc.bui@gmail.com>
-References: <20260828091532.600047-1-phucduc.bui@gmail.com>
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH 1/2] ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 9 14ILL10
+Date: Fri, 28 Aug 2026 18:17:03 +0800
+Message-Id: <20260828101704.354406-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -87,68 +49,29 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: bui duc phuc <phucduc.bui@gmail.com>
+The Lenovo Yoga Slim 9 14ILL10 (83CX) uses ALC287 with CS35L56
+amplifiers. Without a matching SSID entry the bass speakers stay silent.
+Add PCI SSID 17aa:380b (codec SSID 17aa:3905) to apply
+ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN.
 
-The errors handled here are already reported by the called functions,
-either directly or deeper in the call chain. Therefore, the additional
-dev_err() calls are redundant and can be removed.
-
-platform_get_irq() returns a negative value on error and does not
-return zero. Therefore, only check for a negative error code and
-return it directly.
-
-Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221902
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 ---
- sound/soc/mediatek/mt8186/mt8186-afe-pcm.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c b/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c
-index 143386c54dd7..4bf098657fb4 100644
---- a/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c
-+++ b/sound/soc/mediatek/mt8186/mt8186-afe-pcm.c
-@@ -2852,10 +2852,8 @@ static int mt8186_afe_pcm_dev_probe(struct platform_device *pdev)
- 
- 	/* init audio related clock */
- 	ret = mt8186_init_clock(afe);
--	if (ret) {
--		dev_err(dev, "init clock error, ret %d\n", ret);
-+	if (ret)
- 		return ret;
--	}
- 
- 	/* init memif */
- 	afe->memif_32bit_supported = 0;
-@@ -2885,15 +2883,14 @@ static int mt8186_afe_pcm_dev_probe(struct platform_device *pdev)
- 
- 	/* request irq */
- 	irq_id = platform_get_irq(pdev, 0);
--	if (irq_id <= 0)
--		return dev_err_probe(dev, irq_id < 0 ? irq_id : -ENXIO,
--				     "no irq found");
-+	if (irq_id < 0)
-+		return irq_id;
- 
- 	ret = devm_request_irq(dev, irq_id, mt8186_afe_irq_handler,
- 			       IRQF_TRIGGER_NONE,
- 			       "Afe_ISR_Handle", (void *)afe);
- 	if (ret)
--		return dev_err_probe(dev, ret, "could not request_irq for Afe_ISR_Handle\n");
-+		return ret;
- 
- 	ret = enable_irq_wake(irq_id);
- 	if (ret < 0)
-@@ -2957,10 +2954,8 @@ static int mt8186_afe_pcm_dev_probe(struct platform_device *pdev)
- 					      &mt8186_afe_component,
- 					      afe->dai_drivers,
- 					      afe->num_dai_drivers);
--	if (ret) {
--		dev_err(dev, "err_dai_component\n");
-+	if (ret)
- 		goto err_pm_disable;
--	}
- 
- 	ret = pm_runtime_put_sync(dev);
- 	if (ret) {
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index e4349743a251..ae5464087625 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -8100,6 +8100,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3801, "Lenovo Yoga9 14IAP7", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	HDA_CODEC_QUIRK(0x17aa, 0x3802, "DuetITL 2021", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
+ 	SND_PCI_QUIRK(0x17aa, 0x3802, "Lenovo Yoga Pro 9 14IRP8", ALC287_FIXUP_TAS2781_I2C),
++	SND_PCI_QUIRK(0x17aa, 0x380b, "Lenovo Yoga Slim 9 14ILL10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	/* Yoga Pro 9 16IMH9 and Legion 7 16ITHG6 share PCI SSID 17aa:3811
+ 	 * with Legion S7 15IMH05; use codec SSID to distinguish them
+ 	 */
 -- 
-2.43.0
+2.25.1
 
