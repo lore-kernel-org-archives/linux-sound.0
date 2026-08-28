@@ -1,37 +1,35 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EA843C7DF;
-	Fri, 28 Aug 2026 11:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A352440646;
+	Fri, 28 Aug 2026 11:34:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787916871; cv=none; b=VJTw2XHXidKRsnFhy1vccfw9DbxGZzR6B/mRUTdKs//eD4SypqaCOlLtVs4QmIC+DAFzl95LvbaVvP49YRDyYxwrlPDFjIDizY4yt/5u5Q/rEWCKRMj8ncrBn5ZXaU8ulN2wXpzmoVQ7l2ty4cVXq+AWQZMpHk+Wm/qlUlEttfE=
+	t=1787916872; cv=none; b=FrbHriVviaoyzhch38ZhakTp/upzZxAaL4+QeGBU7c6WIUAUtGREIIXOdINNBANGfvMzGnOMv5PpIQ0tx8F6EFinvDOx2g8+HrjBe0Qal/YkznezJIqcJYJxTzqd0YqbuELKMk1lBx1QgFNvW0KmYAyk3pRZLVqzUcMdJ3x9HAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787916871; c=relaxed/simple;
-	bh=+AFHfwdAE3DWpDrb/6rhDH7zpQe21zQknzY8C9EzhW0=;
+	s=arc-20240116; t=1787916872; c=relaxed/simple;
+	bh=iNan82HEr2Zes0rNnV4jhGug+YWTCPC8QHQTavWc8KY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OEefLDyyVmb52DKj2kqGEt1WIJpZyFdtUJVCditwAO65jTWdg/jDdzTPwlEpi9jQIEHSl9vCtw6f6tFikdNHQKr2v5qYouMm+vy3/kRU/Kjwn2iH9ePXUffT2GcHcH17XOXadrPg540Ugcd7xcCtt32rBGlnKuKWasOV6R3FU94=
+	 MIME-Version; b=Rqa0Xt/dGmQ+GAI1NmJNTq8uxgzsJpi/PfG0bsCdZpNEGT4ZNF0GUgm9h3yYxCyq3UIAGxuc6925tm/a9Tu520NoWgg1OM1CVOc9+Rji5Ph+g2i6z+MN5o+Zz0xbEJBE+LaUPF0lsahpBJaQtnoHWtB3TAE+LUEs5GVxTADaWZo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowACnfPA6cpFqpPm9Bg--.43118S12;
-	Fri, 28 Aug 2026 19:34:20 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowACnfPA6cpFqpPm9Bg--.43118S4;
+	Fri, 28 Aug 2026 19:34:19 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Sen Wang <sen@ti.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 10/20] ASoC: tlv320aic3x: Propagate power restoration errors
-Date: Fri, 28 Aug 2026 19:34:05 +0800
-Message-ID: <20260828113416.47061-11-pengpeng@iscas.ac.cn>
+Subject: [PATCH 02/20] ASoC: adau1701: Propagate register cache replay errors
+Date: Fri, 28 Aug 2026 19:33:57 +0800
+Message-ID: <20260828113416.47061-3-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260828113416.47061-1-pengpeng@iscas.ac.cn>
 References: <20260828113416.47061-1-pengpeng@iscas.ac.cn>
@@ -42,124 +40,58 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACnfPA6cpFqpPm9Bg--.43118S12
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFW3WFyxJr1xAF17trWUurg_yoW5tr47pF
-	ZaqrZ8tw1vvF4SgF45t3WrZ3WfXr9ayF1rA347Kw18Zrn8Ar9Ygr18tr1avFyDJry8GrZx
-	uw1jqw1UCF13KaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-	IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4U
-	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
-	kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
-	daVFxhVjvjDU0xZFpf9x0JUhNVPUUUUU=
+X-CM-TRANSID:qwCowACnfPA6cpFqpPm9Bg--.43118S4
+X-Coremail-Antispam: 1UD129KBjvJXoWrKFy5Cr43CF15trW5CF1xXwb_yoW8Jr4fpr
+	Z3CFZrGw4jq3yFya98tr45Xa4fKrWSkFy3Aw4jg3saywnxJr4I9r43tF4UZFykKr42gFsx
+	Xr17A3y5AF15AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBG14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+	8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+	xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+	vE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+	r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r1q6r43Mx
+	AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+	Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwI
+	xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWx
+	JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcV
+	C2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU66wtUUUUU=
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-aic3x_set_power() ignores the model-specific bypassed register sequence
-and cache replay, while aic3x_set_bias_level() ignores the helper
-result.  A failed OFF-to-STANDBY transition can therefore be reported as
-successful with power set.
+adau1701_reset() marks the cache dirty after firmware and reset setup
+but ignores regcache_sync().  The hw_params and component probe callers
+return the helper status, so they can currently accept reset completion
+while cached register state was not restored.
 
-Check both register restore operations, return the device to reset,
-cache-only and supplies-off state on failure, and propagate power-on and
-power-off results from the DAPM bias callback.
+Return the cache replay error so those effective callers stop the
+transition.
 
 The issue was identified via static analysis and manually reviewed.
 
-Fixes: 2a6fedec195b ("ASoC: tlv320aic3x: Convert to direct regmap API usage")
-Fixes: 733a763dd8b3 ("ASoC: tlv320aic3x: Fix class-D initialization for tlv320aic3007")
+Fixes: 45405d58924f ("ASoC: adau1701: switch to direct regmap API usage")
 
 Assisted-by: LLM
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/tlv320aic3x.c | 36 +++++++++++++++++++++++++++-------
- 1 file changed, 29 insertions(+), 7 deletions(-)
+ sound/soc/codecs/adau1701.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tlv320aic3x.c b/sound/soc/codecs/tlv320aic3x.c
-index b38393a8130f..b5ef59169dbe 100644
---- a/sound/soc/codecs/tlv320aic3x.c
-+++ b/sound/soc/codecs/tlv320aic3x.c
-@@ -1416,13 +1416,19 @@ static int aic3x_set_power(struct snd_soc_component *component, int power)
- 			gpiod_set_value(aic3x->gpio_reset, 0);
- 		}
+diff --git a/sound/soc/codecs/adau1701.c b/sound/soc/codecs/adau1701.c
+index 329ab01b62c0..a5c2d095a0ab 100644
+--- a/sound/soc/codecs/adau1701.c
++++ b/sound/soc/codecs/adau1701.c
+@@ -355,7 +355,9 @@ static int adau1701_reset(struct snd_soc_component *component, unsigned int clkd
+ 	regmap_write(adau1701->regmap, ADAU1701_DSPCTRL, ADAU1701_DSPCTRL_CR);
  
--		if (aic3x->model == AIC3X_MODEL_3007)
--			regmap_multi_reg_write_bypassed(aic3x->regmap, aic3007_class_d,
--							ARRAY_SIZE(aic3007_class_d));
-+		if (aic3x->model == AIC3X_MODEL_3007) {
-+			ret = regmap_multi_reg_write_bypassed(aic3x->regmap,
-+							      aic3007_class_d,
-+							      ARRAY_SIZE(aic3007_class_d));
-+			if (ret)
-+				goto err_power_off;
-+		}
+ 	regcache_mark_dirty(adau1701->regmap);
+-	regcache_sync(adau1701->regmap);
++	ret = regcache_sync(adau1701->regmap);
++	if (ret)
++		return ret;
  
- 		/* Sync reg_cache with the hardware */
- 		regcache_cache_only(aic3x->regmap, false);
--		regcache_sync(aic3x->regmap);
-+		ret = regcache_sync(aic3x->regmap);
-+		if (ret)
-+			goto err_power_off;
- 
- 		/* Rewrite paired PLL D registers in case cached sync skipped
- 		 * writing one of them and thus caused other one also not
-@@ -1457,6 +1463,17 @@ static int aic3x_set_power(struct snd_soc_component *component, int power)
- 	}
- out:
- 	return ret;
-+
-+err_power_off:
-+	if (aic3x->gpio_reset)
-+		gpiod_set_value(aic3x->gpio_reset, 1);
-+	regcache_cache_only(aic3x->regmap, true);
-+	regcache_mark_dirty(aic3x->regmap);
-+	aic3x->power = 0;
-+	regulator_bulk_disable(ARRAY_SIZE(aic3x->supplies),
-+			       aic3x->supplies);
-+
-+	return ret;
+ 	return 0;
  }
- 
- static int aic3x_set_bias_level(struct snd_soc_component *component,
-@@ -1464,6 +1481,7 @@ static int aic3x_set_bias_level(struct snd_soc_component *component,
- {
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
- 	struct aic3x_priv *aic3x = snd_soc_component_get_drvdata(component);
-+	int ret;
- 
- 	switch (level) {
- 	case SND_SOC_BIAS_ON:
-@@ -1477,8 +1495,12 @@ static int aic3x_set_bias_level(struct snd_soc_component *component,
- 		}
- 		break;
- 	case SND_SOC_BIAS_STANDBY:
--		if (!aic3x->power)
--			aic3x_set_power(component, 1);
-+		if (!aic3x->power) {
-+			ret = aic3x_set_power(component, 1);
-+			if (ret)
-+				return ret;
-+		}
-+
- 		if (snd_soc_dapm_get_bias_level(dapm) == SND_SOC_BIAS_PREPARE &&
- 		    aic3x->master) {
- 			/* disable pll */
-@@ -1488,7 +1510,7 @@ static int aic3x_set_bias_level(struct snd_soc_component *component,
- 		break;
- 	case SND_SOC_BIAS_OFF:
- 		if (aic3x->power)
--			aic3x_set_power(component, 0);
-+			return aic3x_set_power(component, 0);
- 		break;
- 	}
- 
 -- 
 2.43.0
 
