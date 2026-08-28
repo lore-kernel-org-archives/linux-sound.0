@@ -1,65 +1,65 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0BF30F95C
-	for <linux-sound@vger.kernel.org>; Fri, 28 Aug 2026 05:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAAE2C11C4
+	for <linux-sound@vger.kernel.org>; Fri, 28 Aug 2026 05:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787893557; cv=none; b=K3dy+t2Ckwz+4nKHqiQLkCsYXpBtaTjWjFdyN/LI+yZW4v0JbGFaJJa0gGyM1cEeo8X8h0xYTMO3xkDhws+g1hXuN8NV5wCsFNEZejnxlkQmjzLpyaqD/h3GRlgKrw8z6rwO6Whzg0u5K31+JJGO9mv64SjacSVN+z30EvcCvgQ=
+	t=1787893561; cv=none; b=p6zpyPBtpm758DCgFsWRY29kRyUd8GX2ZkNuMHKfdu07cgEk4Jlx66wfxQVq9Fb+DyRsxfB80AVPR6mmKhp5a5MN/pk535iG/QDjBtjoptl7LgMgcDTlJ/+THrB+koJoKChwE7p1nMIHnDrJXZZJUlpZprnki2nNyvAK5f8fFwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787893557; c=relaxed/simple;
-	bh=Q7QQT7/BVhDq1O498rAEP2puFeqnHzBBniDPqc+j0VM=;
+	s=arc-20240116; t=1787893561; c=relaxed/simple;
+	bh=KBeCd5r28ZoCaTvZfGV/KIZe2U7TawXL60KXOy1aHs8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Gwo2deqGN87jjCEv/h1YcDC1HdIbPcbTa/+kGrL9JdqaE3Mmk4PQ5rEOQwsTcekUnuzIfCzqJ/0yq+P8BctUqOV/D2Npey2A9PTXNyULN7og88pYJu3E3zCNxXJTICA7clhEJy2mE//jFFEi6xUQQ2bL4JUqwEw7Y6vrPNBFsbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KdOGayKg; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=cwAOtxUlt1/j8NhvDgGGAQWKqskB60CMJSkZvdDZ4BoH1LfPd6i3gHjXvZG5U6I+6AkE/lEEHTzodmB5eqqPw4Hpr2zcC0ZZug0b+OUmh3KJI/VYQE3u92rfOigCpMR+ZzDsUGgyr/VEr/l7qQhDOKiVXDtbpj8qVgcVxwGIoTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIcm5XJS; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KdOGayKg"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d72ae08fa1so5496805ad.2
-        for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 22:05:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIcm5XJS"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cc1ceadbd16so503681a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 27 Aug 2026 22:05:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787893555; x=1788498355; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1787893559; x=1788498359; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aHaGtDWIabgwE9bMPCVResetCLU3h+f9hWvuf0/laf8=;
-        b=KdOGayKg73h5yOVMTM+lSR4hOWBJPZ9EeCrACOzM/88sTIJybLIcIcuyMLowwJK0q7
-         539iKbNghWjo/eCAnF8qePEYZV2YqDRKxMkQhx5gYtru7NiA+HYZPBH0eZ44apF1nQKE
-         b7UrFLjLRKd2WR1rta6KBibc8U16AvMlJeX8cfGFxQxffHvZQztm4pErP+VuamOtSHzp
-         bsNGIBFZX9SJCkmitV2gkeaIOju+cOXnfX+ELOhe+Pci9Q9Gy239DAKZFz9l39fMnUBr
-         d00VklGy6zUpyAkidyq0oaKuHK9t91gtUqqSn+vYTsfX/3duRgQOqoZBuJPTzkmcMKyk
-         wyyw==
+        bh=wX5Pjxydk72W6dlHzm6vBpUneCYTnp+fBCLKSyxEezc=;
+        b=jIcm5XJS8ESbte+rPWruhM2XqQjw6rizwxDXVuOScdp96SLG3BKJk7S71FcZ1qplRk
+         drjKuP2Tvewj1BNZIIcEv9Wf//kYWicgN8jlH6hxfDnlfLUOlPc2WViYoyMeHTSw3V/e
+         Fx0j5TPQSjFeiX2JI9zyCPh0feXV3JoSx4QoFEX3k1ZVMcs25LH+X3jUghkaW7O2CzoX
+         IiKinoRozBnIEQ2uouAkN9MKV2O3Ml4LV/x96ukmPZKjdv93utZDKnEOqucFxdkA1wp9
+         xS4VtY2MHgcz4djpa6ZVqNVzqUHw88iJZRSujbOz/u3C8ti5gVjKaXCI/WlAfx927VnI
+         nUkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787893555; x=1788498355;
+        d=1e100.net; s=20251104; t=1787893559; x=1788498359;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aHaGtDWIabgwE9bMPCVResetCLU3h+f9hWvuf0/laf8=;
-        b=IAxBHEsP837TDqkuKVYlsik4bpxirtqL9IpZTYmFRyi1IflMgsAXC32bryaPSGQJ2T
-         ZbwoETr0vOzVejb491yIFQcVOSavnEcmTC/py4KJ7fT5234lr0lJyV5BWDoZ0MxzDqOt
-         uNk2zQnHv4HfeyDFz/vEEh/2hfufX5G5pznOm4I6tbWgm/CEOcpXv/Qo3GHpbc3A4bCy
-         WEsTTZ9ie2oSMY+M9vt5wbsYRA9HwGe/bg4WUygq7doAM7ZXCx5EiYb3mfy3aUDK8Noq
-         knKgoHj6FVE6spL6Omh+oVi4fkuaUmYhbeVcRZiVSMJVvfpGf8TbR8vhAaZNCISd7wQu
-         Boiw==
-X-Forwarded-Encrypted: i=1; AHgh+RrF4Ryj6Qf986m7z3m3czUSC3d1+8zLzHfaMDQ0T0M6PS1flEfq+5AvJx2p817hBDJPKNiYU1qHf686QQ==@vger.kernel.org
-X-Gm-Message-State: AFuF++m8HvRxhMcNQhZK3+0XXCUTpen6jMCylIwM7i5SFux2GE4gFF8P
-	QdTJqnMgQQMxNe3rAKPKLn8OOyiM5h1HwNP8yqOcnp1X3HX3IBE57eDP
-X-Gm-Gg: AR+sD126JsWtP+Tr0dxMrQFewRuBK8MAIbDVHfQ+YW80Q0XFxZHAWGfH5evwtwnAMxs
-	BnvjyQqXxEUFCGyQO9lARKCXlkdQvGtJR5++Q6xZ41ylH4tLirWBX2UFO3oiYumxFfUZXqvkOwz
-	YpaRb4mQNs7fe0lSdmNRTi1qM62FNj4HLeRp62ECisMqHV/43wHppYBiairnH0YbIQOGVGZH+Sd
-	9lKfoG8U7tG/NFamME8NGLbesS//yP5DYwQ6+rxTr3K7JEmB4AwyHlOxqbKw9TEfztN/sY6KDTz
-	Q65j2ibXeXBQiPnij2pIHydGkc8bIEMK3uVzuZVNl3ZPfaU1JkaUN+T9KsHRLNhZ+kq1S/PUEVs
-	mIoTBOYHPRtnDTnP6NLhaX1yFylhQrcu9M3m+4Xg7kciVZZyIVbeV7DilX5lpMZjoVGQnTm+bTA
-	YVKx20f91ey4jYOa+HQXG3VOV8E5v+W3tJkfazX6vtt3+FevhzQ5eVYBmb3D932oOQyWURP7g45
-	JcCCQB5SGjgp3AJRBbe6R/grTR82AqUHX3uLBeIbq/uof+dkxjYwkOPgHeRQlpXKPjXt6bgbeCE
-	elWh
-X-Received: by 2002:a17:90b:1a8c:b0:366:3517:1aa2 with SMTP id 98e67ed59e1d1-396d0c0ffb5mr8090761a91.0.1787893555138;
-        Thu, 27 Aug 2026 22:05:55 -0700 (PDT)
+        bh=wX5Pjxydk72W6dlHzm6vBpUneCYTnp+fBCLKSyxEezc=;
+        b=KPJxMsymvWv10mNDJHJwE0RnaYfYxLcXGAfg0uFZUip98GI0zODd8nElSzhbRpxmJf
+         itZGe2nu7t8x3savT0uQZuhJiQJSNYWcW2URKH5d4XdAhCGIT4GRKbe7uoc35k6jinfC
+         boXnot0ibsqmCvzjQ0VGMn3MgZPJakZiB7VLb2tuBOIX0KS/F0CBhYPWI2Yien6kWEGK
+         h1Zrki2ecCrV1nfJpMHuMtWTYTDAZTXrdjLNOUhWVCB6VwifnzOWW1ntsW+J71lcoo+Y
+         L5vQsY7U+RR2Q3IHrQDOQ99D3ClOtjxeSDgfvyLPgHxR+M6zJC5PZTvelrwptlODrhBA
+         AeBw==
+X-Forwarded-Encrypted: i=1; AHgh+RoQ1a6PALyiuxfl1TdlEUS0/KJupYaItYzKKgxUH6J6tTFkOyg93JE4zsxOO/4sYDdYmLUMnyrXK44FKQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++kLhvubSb6J4xIrEemqoiftXu+PlmU5CauRAv4VvDkYzd74r+fq
+	eY6KELZWN/djDFlhiuAwl7suCyt+7B669HurbtFhZt0V1d52QL0ZsUB1
+X-Gm-Gg: AR+sD13IKwKJex/xMKDBbFCrOZE2e5FIR+UWk4hmtkiQIwfzThQS/pxQPEzFRjj4Gpl
+	/n3r7aSUGBnoyCVaSnfbjrscwgDT31OmP48N2p1ZYmqX55vCYG4X2gof5K/3NlhWtHcAzCEW9ZH
+	hkbpJeL8ZeYHG3AZUcgWLTSnVFAmDPY912DHErP+GvzEmbRee5u/sudYvpmrpXTYriBtjWAR3qu
+	1jOm4u4G2+5GOmJNbwO10ZdbhYUPPwiRwurrCYqjtGvfxlTKjwYxVrnBX6zH2yQ6H4Ely7/h/wd
+	ObmkeHjGJbXAetUuI5dxGPCMePec/hdR38heMofDpDksRIzvRRM5G+UJvPiau8Y9DSgg66vXt7y
+	JTGA0e+H2ZKdpIFGSgZAmQ+t1i+kp1EbYbbvHLrZzKbaJWmYSpYfz+VwHct/Agov/b3X6ZJRF18
+	yQnYRYqaer6hB8i5fLKcpxQTJsagXxsvr/lW+8RROd+/W712yRJfdgRaRaAgUtWQd7Zwtm0DmXL
+	C4q2u9zFiLLs0H93iRyE/nKcpieH5S3/DdxOCyAiLg2/AY7Q7Pj0kvR9aXSIcJaXep2ZwGbgvpR
+	KbPM
+X-Received: by 2002:a17:90a:da87:b0:36a:5d1f:7b6 with SMTP id 98e67ed59e1d1-396d0d4c42fmr9359769a91.2.1787893559221;
+        Thu, 27 Aug 2026 22:05:59 -0700 (PDT)
 Received: from phuc-desktop.. ([183.91.15.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396dda7c922sm986549a91.7.2026.08.27.22.05.51
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396dda7c922sm986549a91.7.2026.08.27.22.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 22:05:54 -0700 (PDT)
+        Thu, 27 Aug 2026 22:05:58 -0700 (PDT)
 From: phucduc.bui@gmail.com
 To: Mark Brown <broonie@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>
@@ -73,9 +73,9 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	bui duc phuc <phucduc.bui@gmail.com>
-Subject: [PATCH v3 1/5] ASoC: mediatek: mt8183: Fix wrong clock cleanup on clk_set_parent() failure
-Date: Fri, 28 Aug 2026 12:05:22 +0700
-Message-ID: <20260828050526.590761-2-phucduc.bui@gmail.com>
+Subject: [PATCH v3 2/5] ASoC: mediatek: mt8183: Fix clock handling in mux disable path
+Date: Fri, 28 Aug 2026 12:05:23 +0700
+Message-ID: <20260828050526.590761-3-phucduc.bui@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260828050526.590761-1-phucduc.bui@gmail.com>
 References: <20260828050526.590761-1-phucduc.bui@gmail.com>
@@ -89,46 +89,114 @@ Content-Transfer-Encoding: 8bit
 
 From: bui duc phuc <phucduc.bui@gmail.com>
 
-In mt8183_afe_enable_clock(), when clk_set_parent() fails, the current
-error path incorrectly cleans up the previously enabled clock instead of
-the clock used by clk_set_parent().
+In the disable path of the appl*_mux_setting() functions,
+clk_disable_unprepare() is called after clk_set_parent().
+If clk_set_parent() fails, clk_disable_unprepare() is skipped,
+potentially leaving one of the clocks enabled.
 
-Fix the error path to clean up the correct clock when clk_set_parent()
-fails.
+Move the clk_disable_unprepare() calls before clk_set_parent()
+so that the clocks are always disabled and unprepared in the
+disable path.
 
 Fixes: a94aec035a12 ("ASoC: mediatek: mt8183: add platform driver")
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Suggested-by: Cezary Rojewski <cezary.rojewski@intel.com>
 Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
 ---
-
-Changes in v3:
- - Add a Reviewed-by tag.
-
- sound/soc/mediatek/mt8183/mt8183-afe-clk.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/mediatek/mt8183/mt8183-afe-clk.c | 70 +++++++++++-----------
+ 1 file changed, 36 insertions(+), 34 deletions(-)
 
 diff --git a/sound/soc/mediatek/mt8183/mt8183-afe-clk.c b/sound/soc/mediatek/mt8183/mt8183-afe-clk.c
-index cc4f8f4d3dab..6ab0734ad136 100644
+index 6ab0734ad136..2dbe0b7f8bad 100644
 --- a/sound/soc/mediatek/mt8183/mt8183-afe-clk.c
 +++ b/sound/soc/mediatek/mt8183/mt8183-afe-clk.c
-@@ -137,7 +137,7 @@ int mt8183_afe_enable_clock(struct mtk_base_afe *afe)
- 		dev_err(afe->dev, "%s(), clk_set_parent %s-%s fail %d\n",
- 			__func__, aud_clks[CLK_MUX_AUDIO],
- 			aud_clks[CLK_CLK26M], ret);
--		goto CLK_MUX_AUDIO_ERR;
-+		goto CLK_MUX_AUDIO_INTBUS_ERR;
+@@ -265,25 +265,26 @@ static int apll1_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			goto ERR_SELECT_CLK_TOP_MUX_AUD_ENG1;
+ 		}
+ 	} else {
+-		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1],
+-				     afe_priv->clk[CLK_CLK26M]);
+-		if (ret) {
+-			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+-				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG1],
+-				aud_clks[CLK_CLK26M], ret);
+-			goto EXIT;
+-		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1]);
+-
+-		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_1],
+-				     afe_priv->clk[CLK_CLK26M]);
+-		if (ret) {
+-			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+-				__func__, aud_clks[CLK_TOP_MUX_AUD_1],
+-				aud_clks[CLK_CLK26M], ret);
+-			goto EXIT;
+-		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_1]);
++
++		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG1],
++				     afe_priv->clk[CLK_CLK26M]);
++		if (ret) {
++			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
++				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG1],
++				aud_clks[CLK_CLK26M], ret);
++			goto EXIT;
++		}
++
++		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_1],
++				     afe_priv->clk[CLK_CLK26M]);
++		if (ret) {
++			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
++				__func__, aud_clks[CLK_TOP_MUX_AUD_1],
++				aud_clks[CLK_CLK26M], ret);
++			goto EXIT;
++		}
  	}
  
- 	ret = clk_prepare_enable(afe_priv->clk[CLK_MUX_AUDIOINTBUS]);
-@@ -153,7 +153,7 @@ int mt8183_afe_enable_clock(struct mtk_base_afe *afe)
- 		dev_err(afe->dev, "%s(), clk_set_parent %s-%s fail %d\n",
- 			__func__, aud_clks[CLK_MUX_AUDIOINTBUS],
- 			aud_clks[CLK_TOP_SYSPLL_D2_D4], ret);
--		goto CLK_MUX_AUDIO_INTBUS_ERR;
-+		goto CLK_AFE_ERR;
+ 	return 0;
+@@ -339,25 +340,26 @@ static int apll2_mux_setting(struct mtk_base_afe *afe, bool enable)
+ 			goto ERR_SELECT_CLK_TOP_MUX_AUD_ENG2;
+ 		}
+ 	} else {
+-		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2],
+-				     afe_priv->clk[CLK_CLK26M]);
+-		if (ret) {
+-			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+-				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG2],
+-				aud_clks[CLK_CLK26M], ret);
+-			goto EXIT;
+-		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2]);
+-
+-		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_2],
+-				     afe_priv->clk[CLK_CLK26M]);
+-		if (ret) {
+-			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
+-				__func__, aud_clks[CLK_TOP_MUX_AUD_2],
+-				aud_clks[CLK_CLK26M], ret);
+-			goto EXIT;
+-		}
+ 		clk_disable_unprepare(afe_priv->clk[CLK_TOP_MUX_AUD_2]);
++
++		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_ENG2],
++				     afe_priv->clk[CLK_CLK26M]);
++		if (ret) {
++			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
++				__func__, aud_clks[CLK_TOP_MUX_AUD_ENG2],
++				aud_clks[CLK_CLK26M], ret);
++			goto EXIT;
++		}
++
++		ret = clk_set_parent(afe_priv->clk[CLK_TOP_MUX_AUD_2],
++				     afe_priv->clk[CLK_CLK26M]);
++		if (ret) {
++			dev_err(afe->dev, "%s clk_set_parent %s-%s fail %d\n",
++				__func__, aud_clks[CLK_TOP_MUX_AUD_2],
++				aud_clks[CLK_CLK26M], ret);
++			goto EXIT;
++		}
  	}
  
- 	ret = clk_prepare_enable(afe_priv->clk[CLK_AFE]);
+ 	return 0;
 -- 
 2.43.0
 
