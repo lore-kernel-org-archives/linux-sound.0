@@ -1,172 +1,282 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9547C4119EE
-	for <linux-sound@vger.kernel.org>; Sat, 29 Aug 2026 19:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788032526; cv=none; b=cx1e6OpnaOIYfVx46ZoYmCT4a37KbRk/X636kYuMdENkCh40YiaASbvae6wCN+5CXoboVDenv5Nk0fnxL74QWv1wEOkXdk/wRLlz9Oba+ST5YYKbCzdOfaJ9FEaB1pp0YzSyLyhocAmvGyhihn5b5B1qMkNX16QpwL9HqSqBSeE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788032526; c=relaxed/simple;
-	bh=w66JHtaqYu6BtNB8TaZPdSDZZgYslAu8moQz0zGwRD0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mJHg6u4Y2olBPWq03DVdZ7+Qi6TAIFVICtzTN9Ad7gDxM+4QA4jniDhIRO5GSExmpO1QUbE5psJNVYU7LQr+9mdggKfFS7RnM/IV2919ShGnEsbO6P0lsDV860Rx0k6n2m9ik3M9tlBlGzkJiKpAGdAfVaM6bPPr5hX20zXqit0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WeU391y3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LeB4gmKq; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6E640862F
+	for <linux-sound@vger.kernel.org>; Sat, 29 Aug 2026 20:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788035774; cv=pass; b=h2hLeGxtUzC1Dpaq0OfjoHFpU6bOMfpC+GFmpxY/bFo1e3n4omYRQpO9xX+L+NAi0ccVNWv8evymP3GmueRCVQ6yJzpnBN1KdBBLHN4VNT/66ICiD4T5/ewq92PqAnnAz1xisit1B44uM/xOvI0oOak2siAXpfLUAqCwFYhXaUA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788035774; c=relaxed/simple;
+	bh=X3bVy3tWFtlIKKTPElf6KXmRrWxJGx8ScIYbrwClHFs=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=JUFznR5i0YDMVs5b3625ZksptlxGNgHLkvCnK/agEr1vqd4YTiADgl9x6iRVSdX7Ni8L/2z+nulBkykGx7ddJPBzZsNnTRtKxNVRxhcP2SXVQJkg1tWawoBKhrcWjnys1pHcD+ga19qwxyaAPriWAwJcc2fJIIgHakodRYBY9jE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ge7qxCuy; arc=pass smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WeU391y3";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LeB4gmKq"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67TH04w31833103
-	for <linux-sound@vger.kernel.org>; Sat, 29 Aug 2026 19:42:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=UE0sMOBybnNkYtc0us0FNHcXyb+U+7zgcvo
-	3E/nh92M=; b=WeU391y3EN2EAeWizyqkPS9VYRMrMaNbiAj1iZtZQ8YwMfV6c+g
-	tmWEAHFuozPD53FpbZrgWQZ5R9Zkrr4Aa1gtPEbnNSuLuScG7MQtnYnRjJavOaOf
-	haOqeJdQCWRelvArqRENAKjM/6+DMPEi89oPoqLxWIf9SLzNupzGSOpVeF/rcStZ
-	hf/EYrqJM1O5XcLILqDeZHPHjtGrKKNz+kcioyAqGUWN38e5xQYSNSuEiI9H9O8o
-	Cl6P1HsI7idBTp0cl68SJdbHTy23TjxkTAjHrpkEfa/MwobotvqRlWhLhqsxCQ2V
-	B0a8mk2eeF7Bgq3Chi04iLHOpERke/5Do+w==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gbqt6hkqj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sat, 29 Aug 2026 19:42:00 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-52f64c48bf2so44144501cf.0
-        for <linux-sound@vger.kernel.org>; Sat, 29 Aug 2026 12:42:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ge7qxCuy"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a173ad7cf4so3336632a12.3
+        for <linux-sound@vger.kernel.org>; Sat, 29 Aug 2026 13:36:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788035769; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hyG7i84Ux6LUQN7jsuucZUfF12w3qL9dmr7Y/mnwVG6j5X8kpAT9rYckru6GlDG8X9
+         T+HWy8Qel4kCrN0I8sfcDnqC3X3dbTQl55gLP8DICkNumLwo5Ghv4VHry7qMnErrci5W
+         XweUP871NAug8Ju/nCNVs4dWRcGBf2Ylzup2bmp8R0b93VYlTBqrkIE83JkQJBvpPEWP
+         8ebqERcLAed62DhQV5l3fVCiIFj07cMLjguy78Smvn7kMV4L+NE4hdyEl0S/iscGSHol
+         i68/lFlOIhmHB2kpYelkyJmjZk+3TPH8DlAy/B/+sw9+U7nxcudzNubb6xQDZaz3BO5q
+         7FNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=Xovgz39vU9Xpo5fpdpWwYxiEvljk9XUabSW2iYIhSts=;
+        fh=RGnJuy/Ycrv4InBWjIdiAKsAIfYtfI+FYs6Ou0adh4s=;
+        b=Q04k/sLRhC0QZ1BM0VYVKz0NCKqJRPCj22EdQZsRivZiRefFrXkYIdmcheDpZ1HPnK
+         hUYl1l1b4qoil8zGN0weqC2YQ+Nae/RWt4KGLdfPB670m7JdVvtmL5rBPJo6APCg7rNc
+         ploxhIpEtoRwjKSOEzy0y8d1TQpECD9j2eJEMZn8SxvO0sPWpc/pyu/y6akWHC+Yh6h6
+         /Cs4v9R8SD4tFVo7a3KQtbWbSb6wknSbSMsY8KX78okgEB8KnDNGJTMtMdNYEoWAsfzi
+         vNPpiIV4QHl8y3JSDTCiuCO3kEcZXivpf6oIgHRE731rB4kFW0Kehmri62BS8jmhnS2F
+         f0sA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788032520; x=1788637320; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UE0sMOBybnNkYtc0us0FNHcXyb+U+7zgcvo3E/nh92M=;
-        b=LeB4gmKq7RGUItZafNlj9P1ZtrEXnix+8FdsEqGiIClPcz3PaAB/p5RNp/tgSzXnM9
-         Bq7z08oQYTJgAOPorKFo+eVCCdPPnMocFzKkN7EA3h3pkGs00oE6bd/g6gdorUEbBBFz
-         WuKNJqrrVthGJirL53EWT1zRxe79R5/8acOTnaaaZBB0EWd7WzqFGMkh7nzftLX9l6Ru
-         3nutiWiHaA+OjvppVpgFoS3Xt1A9EryQ99CKg2hHB1nT2yVRovyEkQMl2+yLfo1AHZrg
-         S+ZHgH3lvqPBczKDiOwPpiOXTlLzrv4UjZ+27kCJscwbW0dQQU6GlskPnL542WVUhq/S
-         99PQ==
+        d=gmail.com; s=20251104; t=1788035769; x=1788640569; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Xovgz39vU9Xpo5fpdpWwYxiEvljk9XUabSW2iYIhSts=;
+        b=ge7qxCuy2TmUqYyZi9m09vG3KBk83C62Xk9cfPldbs3yTnSrarUm2g2K+WsciVaXfS
+         Cz07YLlhI5sGOgFIosPS63w80rw0HMXMHHFrdWf92v5+BUAdPF3h4NgDdBX/JoVznKaT
+         +xORYUJ9Cr3rXOzPqXTgzrrRIZcQk47OHjmRJQQ2Zz+HLNAuga/uQLzqIIeCxuXtJ6Zs
+         6KUzfGlXg0Ywo3/Lu/OE8Rs6TLj6tiWwQ6zTmMxfJ5JdGdGL+pyx99e2ENEgT8UGcn40
+         3Tbwhvv0nASJ+lUvirUWJamjEL/rRo0Hayf3ja0YAwJeI65t8Jv5+uo8B9KvTOerEfAy
+         s5YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788032520; x=1788637320;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UE0sMOBybnNkYtc0us0FNHcXyb+U+7zgcvo3E/nh92M=;
-        b=ZGLT66Qn4pQuO/FxzIr+ptSlCSBSVGergz1sVdrNu4TCSFdqqzb0Bf1g8+hMJIW9vh
-         zPFsG6LRw0s6W3vG1T2pwwTxnsvopZ+ZAvW9EYquEf8TNUC1WtDfblkfE7vXmOHvsuUW
-         z89XIlgQSDM+okLCbHHpTxDkhdn+n2XIBH3+V0ojTSSrYevZuJ6QrE/KUwtBNW65SqtG
-         9PAdPiG4zqYVIag4GY8+lGxNNwckzDlwT1dtMryA7UXACUv6EwJsPw945OUkeHql0Et8
-         GyaJrs1bLFfa+QhBhUL14eFQjntqYpLHGpLQsbEsPwHOkovfSct4ZqKK1B6uVmRSQOpR
-         3h2A==
-X-Forwarded-Encrypted: i=1; AHgh+Rqa3BZGBj0qwSTcxtgsw1DZLtkOXNMN/gZMCN9pe/fp/me8eCjsn+8/T6dqs8WWSXcX0W31Nfu2dXy8cg==@vger.kernel.org
-X-Gm-Message-State: AFuF++lsr8bXSDzsu7z8Rxc4pstcrf+8liToNW+Tib7UuT9qaM2i35cl
-	JPQCKGPTx19yVO6qE1gZHfIL5s3XrJCT27M7kFcqFpzdZRVGsUibqXLoOmIJvxG8YknJjkjF5Zw
-	eHVU8aJzbMTal60rr8fGVO8OMq67tZ2h5vfoPAPbrv2/lyv2TvPDp9qYM+Ect4h0SPg==
-X-Gm-Gg: AR+sD12cgVJNiL5NtAmWDcSXBecg1Uw/IzZzdDOlMaaPIOy9/Jx5ZS3aqlaIpjCwJ8Q
-	8huSqSh2ZyKQkzGXq+o4h2YA76jQaP5Ckdm4K8w/2i578hDK9H4hlzrNaGQ9SJLrMMiZlq3JV1T
-	90GFwaY84sXbLp9qZKb3r8E/vLQWaiOY6A/seFfmc2ZqaYZdgybFBd3/gGP+siGtrmju5hYH818
-	gcqEtCzQln5umOLaWSPau/bpcDxfTEz4ep0wEWSfIBedVRhRt5m04hKLTAy34HmDuP1Bp2SqeDu
-	AZe2rqgVbk7+r0qMbtOZSKQ1Ff8dkcQnJIknoqSKi/azJhZtjeEDqDNEpL+iF6tfki6yqp9TUnc
-	Ll9G9rWMGAwfC1Qk=
-X-Received: by 2002:a05:622a:858b:b0:52f:b9ad:9dc1 with SMTP id d75a77b69052e-52fb9adaa2fmr158668521cf.20.1788032520085;
-        Sat, 29 Aug 2026 12:42:00 -0700 (PDT)
-X-Received: by 2002:a05:622a:858b:b0:52f:b9ad:9dc1 with SMTP id d75a77b69052e-52fb9adaa2fmr158668181cf.20.1788032519645;
-        Sat, 29 Aug 2026 12:41:59 -0700 (PDT)
-Received: from quoll ([178.197.219.214])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cc9497b3esm109116615e9.5.2026.08.29.12.41.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 12:41:58 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Oleksij Rempel <o.rempel@pengutronix.de>, linux-sound@vger.kernel.org,
-        devicetree@vger.kernel.org, imx@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH] ASoC: dt-bindings: imx-audmux: Replace tabs with spaces
-Date: Sat, 29 Aug 2026 21:41:55 +0200
-Message-ID: <20260829194154.108191-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1788035769; x=1788640569;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Xovgz39vU9Xpo5fpdpWwYxiEvljk9XUabSW2iYIhSts=;
+        b=Lw0vytlSI/8xK6j/rzydBbz0q8S2oMxGt5spynTSEHyzMtCJ6nfzY4Gp54VmyGK9/f
+         JhjFZOnUMhRWOdVk06eyYJ7LqiZGFlHVPHqTFoJNtuEoydnNIevNWSNt3FDQnYjd3gTA
+         a7f9Q6hwf3ks/WwrY33/B7TP1N9gVNaxm3VXp8bYNBvtW9Q1Gw6qlZhrzKaWAN0C6Myw
+         camLUSSk+AvTz9HzIgFyDUbduCGiJnylUofLXN0eBXrsFZdNLLf4+EY4o9/hX/cVTu/N
+         u/6cOdhuvkM8Uf4xeI+uKgLq4aazv/mdP/Q6HlCOaqFDoYDdRxD+UWOnNEA6yb51Hmbg
+         Ctlg==
+X-Gm-Message-State: AFuF++nxdkZjqT9YEoglj+s1tGvJVfQ1cwPGXtAJ4idlIUN74v4NjZaD
+	aWpl8u97onpwcyNIiSh4ra625PWdYVLA3032cGG1pkxLwCmj8Wb4orSW/TfPs1PCjEKYJeMI28K
+	lWYAGZTdfK3fNIAMPikR6vo/AFJNJ0AU=
+X-Gm-Gg: AYBFou00BUSiUPwMyNF/DNERmEXA/LJv02Cp0wbZYYNI5mi8Ptlmw7irxYy/zgAFrYW
+	hTHQN0m7CXUcdqy9iQb7jVw27xYwJJxl7HTyDVU+RnBW2s61My0Zeln0lwiSkBIqABlNYR8KV2l
+	L/MiZ9OGi4gZNMeaWtYdRbAwtovcC35zhBKx7htdzmvXpjVIgo4aInxJC0gPP1nmOjzchvB5JV3
+	VRNLEri2eSyX7tABrMNF+ooCspDAZjCH+Wd9Ek6VTE9dxfg9neQOErICDnjaT3INHHdwYqjkR7x
+	ieE72f4XN1Sn8JgWUu2pDSm1Pw7c5cW1iJYXgaGjw9YYuACLB+tjBerurK5bCh5xqdi+dSQS7px
+	LFWzztJ9P8tjvt6UGmLeBzpQQ
+X-Received: by 2002:a05:6402:505c:b0:6a5:def7:b872 with SMTP id
+ 4fb4d7f45d1cf-6a60d36ffffmr9045015a12.9.1788035768388; Sat, 29 Aug 2026
+ 13:36:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1317; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=w66JHtaqYu6BtNB8TaZPdSDZZgYslAu8moQz0zGwRD0=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqkzYDrucOEqKbgwzMI9GFk+bfUoET/OAaI0FuE
- 1AwPwDyxwmJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCapM2AwAKCRDBN2bmhouD
- 1yTxD/wKCcZV032FBhJ4DJlVj52zDbEY6vtEQN1S4V9nAb0+kVofU2g7A6V3jNORq72dYl2DOJn
- 3PSXvU01Q9j8UAWFG3w/tsec32sPcJCr6jSq9KH3RZwujUqV9JQGgnNLCrblhLe/D7/FLiQqMxM
- sRgXNWFUza8+56/+Yp4tz2nkkkbN4Urx00SaVxdeu+CBAtB4GsE4vtDdx8OJ/B6mt4/jvJ3b2cU
- RVYz7quvNf8Jq1bI7a9Tx7l6SfFrJ8kspS+K6VboYo58UAtxsQ8r+dnuYMf+jrC9Hqk18QiSqnM
- l8FfbDE9EmNt0wh5uTsD/k/KgwBNzMW574Pkbg8bREwntzgSl2+jtxFA3jC3KGDSWH8bm4Du+iv
- TiLa3FDw1UIVExBtxTv1WtmQ/dKUF9dy5rTZPnjzYRp0iqottMCyK45pGv4bRMnC4/f+/gihsZY
- M/0h4BeZzJWe5K1kHF1mHXYU93Ag2u+stShAyjLkfKjgoI6G1q/Juv23mTiv+6sQhZggHSp4Osh
- v7skbiV9MZZV0SeAxhHo1dzNLKHcazp1GIE6JLgCXo45NdxiCxx9sOLfeCPR0M+ejE485U6c467
- RqEfFbtJcuaro89VgPDDLEN9V0zZNFkX6PDHCpREw+5GyKf8VoS1XbxECY9aVh/kbQQFHP4jOfM jHVBKmsQ9gUpG0Q==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: cdzs6fgJrcPtymKbitU5r7ioXeT7Ss3I
-X-Proofpoint-GUID: cdzs6fgJrcPtymKbitU5r7ioXeT7Ss3I
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDE3MSBTYWx0ZWRfX/n7OCN445U+t
- kUjWvo+w8w3op+/2ATq+y9frRAosfk1hkQqpxjtXiJ+eAKN+zY4KE+lpkqz+DMPnSS7JMym2oPi
- kifEFvH9UDeFFj4N8SfPuzYqzpBdJsBSe0X3Tl1LIxkmuJCAWlsYWbP6a2RCHizYi8cAYMIdmJF
- DC2/mlB7TKqcfqXycBkSGDaUW8xp5tDGxjguwhiB5UPzv0xplCEfEtfyqMRf1fu+JCVMNdizK5h
- Co1qqyyNmsenC6+AZNxSFHcYx03s5L8mH/PjLTbcX4I2wTBiacg/osvGKKuMnNWV0aqmX1gYCAE
- ZOsQ5Ni41JsDOEfKdGf6QdDAWFWL8dtDyuO9XSz41F+CvYQ93hNHieLMs20f1uKRG8/WCSXRUAO
- BaNr7aCHrWg7AL5CpXxiuvbDqqi4m8wbw9WHmSiBTzCgkEtfjuMenEn4Iq0+8wxPiZt/jCc23Ei
- irc6/ko5lFl0gakvL/Q==
-X-Authority-Analysis: v=2.4 cv=S8/pBosP c=1 sm=1 tr=0 ts=6a933608 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=+bKQE0WJfmhK2875HamI0Q==:17
- a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
- a=i9mLyMywaSABm-nTGLoA:9 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDE3MSBTYWx0ZWRfX2CYJSVTcDBSR
- VMP8crCEL8dFTwL1UgWRjhgqyglbpt8sGxHMh9OZMLBLW4wIYGS6i3Igl1INdJzC10iIrOQjtyG
- OIi+nQwZ46LrAZTOcDedcZyceSy0Je8=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-29_05,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
- bulkscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608290171
+From: hazar sahmeran acikbas <hazaracikbas@gmail.com>
+Date: Sat, 29 Aug 2026 23:35:56 +0300
+X-Gm-Features: AcwNN1W7uwreZ8qnOYZSTcXbrShQL0cdZc_Hi6Bnt8ENrssLqHFjyL8itOmCaWY
+Message-ID: <CACTnKN6KSPjo0xUh=LuVEEwU9bx5CqnK4k1gVyKrEXDfa_tEUQ@mail.gmail.com>
+Subject: [BUG] ASoC: amd: acp70: Acer Nitro AN16S-61 falls back to
+ acp-pdm-mach, which streams invalid PCM (no working internal mic)
+To: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-YAML files do not use spaces, even within the values in DTS.  No
-functional change, although dt-style-check will warn about it
-("[tab-in-yaml] tab character not allowed in DTS example").
+Hello,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
- Documentation/devicetree/bindings/sound/imx-audmux.yaml | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On an Acer Nitro AN16S-61 (ACP 7.0, 1022:15e2 rev 70) there is no working
+internal microphone under Linux. The board has no entry in the ACP70 DMI
+config quirk table in snd_acp_config, so it falls through to the generic
+acp-pdm-mach machine driver. That driver creates a capture device which
+opens and streams without error, but the data is not PCM audio.
 
-diff --git a/Documentation/devicetree/bindings/sound/imx-audmux.yaml b/Documentation/devicetree/bindings/sound/imx-audmux.yaml
-index dab45c310670..501af1add3c1 100644
---- a/Documentation/devicetree/bindings/sound/imx-audmux.yaml
-+++ b/Documentation/devicetree/bindings/sound/imx-audmux.yaml
-@@ -101,10 +101,10 @@ examples:
-         mux-ssi1 {
-             fsl,audmux-port = <0>;
-             fsl,port-config = <
--                IMX_AUDMUX_V2_PTCR_SYN		0
--                IMX_AUDMUX_V2_PTCR_TFSEL(2)	0
--                IMX_AUDMUX_V2_PTCR_TCSEL(2)	0
--                IMX_AUDMUX_V2_PTCR_TFSDIR	0
-+                IMX_AUDMUX_V2_PTCR_SYN      0
-+                IMX_AUDMUX_V2_PTCR_TFSEL(2) 0
-+                IMX_AUDMUX_V2_PTCR_TCSEL(2) 0
-+                IMX_AUDMUX_V2_PTCR_TFSDIR   0
-                 IMX_AUDMUX_V2_PTCR_TCLKDIR      IMX_AUDMUX_V2_PDCR_RXDSEL(2)
-               >;
-         };
--- 
-2.53.0
+This differs from other reported ACP 7.0 machines (ASUS ROG Flow Z13, HP
+Omen 16-ap0xxx) where no PDM capture device is created at all. Here
+enumeration, board match and PCM open all succeed; only the data is wrong.
 
+Hardware
+--------
+DMI  sys_vendor      Acer
+     product_name    Nitro AN16S-61
+     product_family  Acer Nitro 16S AI
+     board_vendor    SXP
+     board_name      EV3_SKF
+     bios_version    V1.53  (03/06/2026)
+
+ACP (Audio Coprocessor)  1022:15e2 rev 70, subsystem 1025:1874
+HD Audio Controller      1022:15e3, subsystem 1025:1874
+Analog codec             Realtek ALC245 (10ec:0245), codec SSID 0x10251874
+
+There is no SoundWire codec on this board.
+
+Environment
+-----------
+Kernel          7.2.0-1-cachyos (x86_64)
+sof-firmware    2025.12.2
+linux-firmware  20260622
+alsa-ucm-conf   1.2.16.1
+Userspace       PipeWire/WirePlumber, default config
+
+Legacy ACP path is active; SOF is not bound (no /sys/kernel/debug/sof).
+snd_sof_amd_acp70 is loaded but users=0.
+
+Binding chain (all of this succeeds)
+------------------------------------
+  snd_acp_pci  ->  PCI 0000:64:00.5
+  ACPI-based match via snd_amd_acpi_mach
+  ->  platform devices acp_asoc_acp70.0 and acp-pdm-mach
+
+Card longname is correctly derived from DMI:
+
+  SXP-NitroAN16S_61-V1.53-EV3_SKF
+
+The kernel log is silent on ACP apart from one line:
+
+  snd_acp_pci 0000:64:00.5: enabling device (0000 -> 0002)
+
+No probe errors or warnings. Card 3 registers zero ALSA controls --
+"amixer -c 3 controls" and "amixer -c 3 scontrols" both return nothing,
+so there is no PDM gain or enable control of any kind.
+
+Reproduce
+---------
+  $ arecord -l
+  card 3: acppdmmach [acp-pdm-mach], device 0: DMIC capture dmic-hifi-0 []
+
+  $ arecord -D plughw:3,0 -f S32_LE -c 2 -r 48000 -d 3 /tmp/dmic.wav
+
+Then inspect the samples:
+
+  $ python3 -c "
+  import struct, collections
+  d = open('/tmp/dmic.wav','rb').read()[44:]
+  n = len(d)//4
+  s = struct.unpack('<%di' % n, d[:n*4])
+  c = collections.Counter(s)
+  print('samples', n, 'min', min(s), 'max', max(s), 'distinct', len(c))
+  print('first 16', s[:16])
+  "
+
+Actual result
+-------------
+A 3-second capture (288000 stereo S32_LE samples) contains only FOUR
+distinct sample values:
+
+  min = -2147483648, max = +2147483647, distinct = 4
+  287956 of 288000 samples (99.98%) are exactly INT_MIN
+
+The opening frames are a regular alternating pattern:
+
+  -2147483648, -2147483648, +2147483647, +2147483647, -2147483648, ...
+
+i.e. a full-scale square wave at Fs/2, which then collapses to a constant
+INT_MIN rail for the remainder of the capture. This looks like an
+undecimated/unconverted bitstream or DMA'd garbage rather than a
+microphone that is present but silent.
+
+hw:3,0 rejects S16_LE ("Sample format non available"); only S32_LE opens.
+
+Expected: real microphone audio.
+
+The HDA/ALC245 path does not provide the internal mic either
+------------------------------------------------------------
+The ALC245 pin configuration declares two internal digital mic pins:
+
+  Node 0x12  Pin Default 0x90a60130  [Fixed] Mic at Int, Conn = Digital
+  Node 0x13  Pin Default 0x90a60140  [Fixed] Mic at Int, Conn = Digital
+
+Both are exposed as mutually-exclusive capture sources on the HDA card
+("Internal Mic" and "Internal Mic 1"), and both default to off with the
+external jack "Mic" selected. Selecting each in turn and capturing:
+
+  Internal Mic   (0x12): all zeros, 1 distinct value
+  Internal Mic 1 (0x13): an opening full-scale transient that decays
+                         exponentially to zero and stays there
+
+Per-0.125s AC-RMS for 0x13 with Internal Mic Boost at maximum (+30 dB):
+
+  1884 906 435 209 100 48 23 11 5 2 1 2 0 0 0 0 0 0 0
+
+That is a filter/DC settling artifact at stream open, not audio. Capture
+volume was at maximum in both cases. So the internal mics are not merely
+deselected on the HDA codec; neither pin carries a working signal.
+
+For reference, the codec picks only a vendor-level fixup, not a
+board-specific one (this kernel is built without CONFIG_SND_DEBUG_VERBOSE,
+so the quirk name is stripped from the message):
+
+  snd_hda_codec_alc269 hdaudioC2D0: ALC245: picked fixup  for PCI SSID
+  1025:0000
+
+Already ruled out
+-----------------
+- Reproduces at raw ALSA (arecord), independent of PipeWire/WirePlumber.
+  No custom PipeWire/WirePlumber configuration is present.
+
+- Not a machine-match problem: the ACPI match succeeds, both platform
+  devices are created, and the DMI-derived card longname is correct.
+
+- Not UCM: alsa-ucm-conf ships a matching profile for this machine driver
+  (conf.d/acp-pdm-mach/acp-pdm-mach.conf), and the failure reproduces with
+  arecord on plughw directly, which does not go through UCM.
+
+- Not a muted or deselected input: capture gain was at maximum on both
+  cards, and both ALC245 internal-mic sources were explicitly selected
+  and tested.
+
+- Not a stale local override: the machine previously had an invalid
+  "options snd-hda-intel model=alc245-acer" in /etc/modprobe.d. That file
+  was removed and the machine rebooted; all results above are from a
+  stock configuration, and nothing changed.
+
+- Mic-mute hardware is inert under Linux here: KEY_MICMUTE (248) and
+  KEY_F20 (190) are both absent from the "Acer WMI hotkeys" capability
+  bitmap, and no micmute LED class device exists. The device does report
+  KEY_WLAN, KEY_PROG1 and KEY_TOUCHPAD_TOGGLE, so the hotkey path itself
+  works. (This missing keymap entry looks like a separate acer-wmi gap
+  worth fixing independently.) The EC's own power-on state is not visible
+  from the OS, so this is not a formal proof -- but a muted DMIC would
+  give clean zeros, not a full-scale Nyquist square.
+
+Suggested fix
+-------------
+The mechanism needed appears to exist in-tree already. The ASUS ProArt
+PX13 series ("ASoC: amd: acp: PX13 ACP70 config and machine quirks",
+March 2026, merged via for-7.0) added a DMI-keyed override in
+snd_acp_config that redirects ACP70 boards away from the generic PDM
+machine-driver fallback onto the correct path for that board. That table
+is present in the running kernel -- the ASUS board string is visible in
+the module:
+
+  zstdcat /lib/modules/7.2.0-1-cachyos/kernel/sound/soc/amd/snd-acp-config.ko.zst
+| strings | grep HN7306EA
+
+There is simply no entry for this Acer board, so it falls through to
+acp-pdm-mach, which is evidently not how its DMICs are wired.
+
+Request: add an ACP70 config quirk entry for the Acer Nitro AN16S-61
+(DMI product "Nitro AN16S-61", board "EV3_SKF", ACP subsystem 1025:1874).
+
+What that entry should select is the open question, and I do not have
+enough information to answer it. Unlike the PX13, this board has no
+SoundWire codec, and the two internal DMIC pins declared on the ALC245
+are both silent. So the DMICs appear to be on neither a working PDM
+instance nor the HDA codec as currently configured. Possibilities:
+
+  - a different PDM controller instance than the fallback selects;
+  - missing PDM clock / decimation-ratio / gain init for ACP 7.0 on this
+    board (card 3 registering zero ALSA controls may be a symptom);
+  - an ACPI/_DSD-declared endpoint configuration the current code does
+    not honour.
+
+I am happy to test patches, apply debug printks, dump ACP registers, or
+provide any further logs on request. alsa-info.sh output can be supplied
+or uploaded on request -- I did not upload it pre-emptively.
+
+Thanks for looking at this.
