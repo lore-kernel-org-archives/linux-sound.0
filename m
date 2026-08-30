@@ -1,160 +1,177 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C7E2E7378
-	for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 20:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47DF2F7F09
+	for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 21:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788123074; cv=none; b=EWCTV5I/nG7hW1JdfOzCftoRqQJAiElK992PAunmJVF6TW3JkyCAEGD1732HYytxmL5hmzEVKW1i6IwgQ+I1MCrh8aHwrnbZJpUe4qqQGEBcySk9UEdMJSlOZYzwiT0/auvOeQWuAGGLQjRSJZkj61hgtnUEga6twVR6um3Q8Jo=
+	t=1788124270; cv=none; b=e70EptEShISoiyHYj1iAdSGbw16x7c50D4p7Z2N0a1aeCtVUZuKaD4ozuYTc1crVo8Gfifr+yTCvraq1li3hXky3r3btMEpyG2zQtcekQWxejuD8O3c2EtmtIKSI7bzv8vmqhPL1XIQ5TEw5t0NYHf0KXbgxRtPPe0ERiJvZFks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788123074; c=relaxed/simple;
-	bh=GkRg0kWNXK2utdZSpLyFvG7AOXLg08RsNEeYS6GWOis=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ASAmEAm2HkM+tVhTTBGsIExgT/J5LWbCkz2ZsKgwXFnCBOojgLMUPIgkLdBHHMfLvq0k6TE4F4/p0u8KjXdy3cJMN2sd4ukb1Z316z9lwemjUMMeVmpWWZAVogYP097FgZvtxtzY64S5UxgeeX7tmmcTuHUBuDAlEgLAg5tzOIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NTRltCpW; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1788124270; c=relaxed/simple;
+	bh=x1SkIl6iKUUejh7zdfLj/CjsYpbNg1BMET6btHWa4WQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A7aTua8ttQ9cZTutIYKWT/uhew/tlO9yIYy/1xb5NDCUR9iNCQfUeSYJinTpHYJIur4THVEpzg7VSe+5pqsMuyy3TiTj1jkRmeulyPAypqfhTm7uSST2amygtVfPDP47W63ARATm9Ca1O7TUGPYJ7u/xkCDbEITP7725sSpa0+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Us2rrRKK; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NTRltCpW"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49b96837ca3so15087745e9.3
-        for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 13:51:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Us2rrRKK"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47fe2d179e2so1684097f8f.1
+        for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 14:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788123071; x=1788727871; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LoZfYCgqZbEQ0teo+NtTssPLrP4Kgxaj7h/3WUn4gBg=;
-        b=NTRltCpWoOMAvVkIOaFi+Vbb/s0t9wZi6yaYIv0Vm4Pwwsv5B8zqoKlc3Srv0AguyS
-         0S14MOPsSTco4/Tula8xvU/BTrHorAoOIrJHcgPl3paojcJkpYbKJ+guhgmBLfhWUbCf
-         HLkasyLuAfLiwZTq+p2rDXs8ZO4YXHabR3SyWNjvIG0W2Px2e8E0rzChRfkAwXgasb5B
-         IZpccasiqhCAUBIVD1QTIpbEctdfbvGkwY5IbgsD76a/OBf52WXdtpc96na1XnLq3dNB
-         XNiIdp7e9FAIuVQCWM6CU8KkGffD82S8HbHbjuu95fFhzn/aoVjL2b8ORD3/JX9mOACP
-         SxoA==
+        d=gmail.com; s=20251104; t=1788124267; x=1788729067; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CVLu7tw+tzyiEDt7AhVn43dizoUQJSvF2qQeqgPHb+4=;
+        b=Us2rrRKK6+WSCdChbEFdb7QgBdhy3mA+U+cAu0nRMYdDYDUC8HG7nd6SF0K+Pb1IcN
+         DM36SA69fI7pF5H+skdk0QbQ1y9Z6YdYQF8I0LQu39Oc4d96/SF3k8fxGdUMViXzWsbH
+         cpoBRgl7/pn3SBbeKjUcNdqoLZXAcZA1JGaTBNyvp0BH3lCujRRQcGUd87U0uMDwCLB0
+         yVzZS3qOx6HzEsO4Ggd+Dlp85pnNCaEQuBkOL1q0rZ/JX11ZbKVN9XbeWxF6+mhy8Lax
+         2X2Yo0qmXQ6wzt5cjDozy2YdtXc/+h/JWpMpNurF7/Vw5IWTvKE7Xt032qZktcnu6XmW
+         aacQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788123071; x=1788727871;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LoZfYCgqZbEQ0teo+NtTssPLrP4Kgxaj7h/3WUn4gBg=;
-        b=rXAFrYZ7mCnl//gZ6MND2MNWquosefOKFCh72xmiP+2Y1xjkDqwJTr2TZykva9hXGg
-         zUWA0AT+KJQvAb9JfbGl7l8TYYJHie+wz5//Oy5jdridjWMj0oDYBY8SeZeZVLCbf7+V
-         9qzjLeEYysw05nR7abObhYplVYlYMwvsQVnP5telqOI13xiYGQtZZjZsPkHWQkfrYKIT
-         CiI4/GOOnH/zvQyOMmkjPuDdU/JiWP/JlaEcgF7rCM/HMWkRqwmPlF5SXM0JAYdiSoVS
-         6bnoD4ZTjINVZWRa4VL/BayVsacRkQtvig6nfaxz4685EAbqBr4q0hg38j3qWS9hiY4n
-         s5ZA==
-X-Forwarded-Encrypted: i=1; AHgh+RrG6f1BCGdGD0AiWWI44v3ydkaao6CxwFSd8XqEgaYiNaHgPjJGyidbOGxJjNP+rcZpgsKEpl0dyz0tKA==@vger.kernel.org
-X-Gm-Message-State: AFuF++maPm+YYVGUNzJCHq2BDnw4vzL9Sh/9sROmnJjvYTY6bXYd69yM
-	cakYQzrmh7CYM/YcHaCLZ/caYNCtELkr+IlfypY7duMRwEbu5GTsEPu2
-X-Gm-Gg: AR+sD12PVZk/OuCDq/GnFMs+khknQEDm5/vlcms7xbsq0+R4naRpzkdPwz4l0H2s+d/
-	2hccIdpshWYFh/m3hZY43uToiHxpW7mus3HGBe56gJegk0bTId0YyX10vti8SoT8p3Sl5o7XOIZ
-	CCuMsRCuVtn+QGb/nF2q5DJSCowT1w7Sjt9CDaF/vRLSeOa87RiMWp6GAXSCfuUw0+GEvx6fInZ
-	eM5LHcW17za2lvKxFC4IVjE6jd9Sl7UMnIvRssaznUS8zJRPo4odcrgjTSBxuq3T4+sRLlZ5ysv
-	bEtRjARinvDsynWD/LFx8WHzBL4BCD+MpWdEUn6VousKNKGv1nkkKm4b2I/+SpagtD1xZjSjY93
-	u4lUUI1Qzvd7ZUDynlLWcgpVkJ+/nd5q8py/uXkqLVePCbvWjPydtYF0hSpL+rQy/mgL51f+96u
-	pcwIb4pk124lsx4nFrVD4QX03KckxAwYANLo8ot9vk8hD4qlVn7bWm5rDUDut/PIYag5RZm8IK0
-	aHnQ/GxwqgyHpYd8PAfQX5yjjIuU+7AcOwzMoHcexn65exZlGbh1SlbS2w5OzSbzLPJngA9Awej
-	YQQL2XpCIX4G50fmqfbHXjBZphfSe/0yME729tpEQv8B5GS0H/HGXPns0Tx8kKFbzWP4ad568u3
-	tYvYuVQ==
-X-Received: by 2002:a05:600c:c4ac:b0:499:a5fc:2087 with SMTP id 5b1f17b1804b1-49b91c20e36mr320052515e9.6.1788123070924;
-        Sun, 30 Aug 2026 13:51:10 -0700 (PDT)
-Received: from workstation ([85.186.165.159])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b94dd2517sm233634495e9.7.2026.08.30.13.51.09
+        d=1e100.net; s=20251104; t=1788124267; x=1788729067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CVLu7tw+tzyiEDt7AhVn43dizoUQJSvF2qQeqgPHb+4=;
+        b=ITUqP2WwlOkz4qcpsN49MQgYkQbMuUyiRxJ8LqjILQEZZHoVgFNpgtEAFDGI52jI1w
+         fbQ9flHodr5To6UXe0D8SzZn8ZkoYOWzXXTPeZpCKjhdFuHfwD93ptFEUT+gADgjH2L8
+         5JjT2z5/Q/l91d2FYa/U4xx71Yak11THRYQoLQ/N8SLehPpmXjEo0/2v82SGO54SFvaH
+         VVcNkWwkMeXRZOv4Sux7pUQ3JDYMYjV7Mzvj6TFP2BFLrL1Feylj2hnOZ1c4XahxS5Z5
+         Q0GhZbYaZdt7YslKEYXbYAUxMIIRrsSEqoPbU5vtHbMGE1gslKCRsNXxm54QmX9LftQ4
+         h7cA==
+X-Gm-Message-State: AFuF++nhrYQqbHKu2its/gufJ7Tq+QNJjYbNK/nsT9x3hNTCI4LL+4No
+	7qbrX48h9TT5+I+VXDeTPLo2mgBekORi4sv+o6+aM97fqcBfjKKyX1L6
+X-Gm-Gg: AYBFou0aTr/29zmgi9sF5ygzDh8vsQgKAOAqoMRZBkuzADHOEqdHdZy1ox8vFlhabdN
+	ALttQo5ihKhQyIs/8nlT8Xn3i7RcHVR8UuiGqtfL287UOQCvuOlDQNFZbMYZj+7GcfDLcHEGjLd
+	r6megWnE1Q848FcFOCE65VRen5gZoWP7HrqJhBqULE57V3mhFmTOmieYn4hiyYEMXA/iC84SryU
+	39WBNNQpy+BuONcCjaODWQ07J3kFegSE8jmuLGLjLLCIEzEUjWoThibx7EfGhvfCx7JacnK+2l3
+	i59wdaNVTNGQ6BSswL8xYX0NdIzxINHNwGy16NUQ6rZk8ymjx2IGiW//g6eLAvbRnhOujB0wGaS
+	3bvQmuFzXPGDF7sQs46AJ1ft4W1BoCs8TwZcaMIgFiWESqoVpQyqH8BI2EBGM3GdRqWFKNxLZu+
+	P5Kh/6mjs6BZYEws29Ftxva/ZoOAhir7fO47NCjn2ut7W1NmDtK26ISh5i5luFRnWM1vRZaw==
+X-Received: by 2002:a5d:5e01:0:b0:480:c5:d635 with SMTP id ffacd0b85a97d-482f782a4a2mr29764013f8f.0.1788124266841;
+        Sun, 30 Aug 2026 14:11:06 -0700 (PDT)
+Received: from laptop ([109.95.34.188])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb20793sm17790800f8f.17.2026.08.30.14.11.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2026 13:51:10 -0700 (PDT)
-From: =?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Chancel Liu <chancel.liu@nxp.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
+        Sun, 30 Aug 2026 14:11:06 -0700 (PDT)
+From: Oleksandr Kovalov <oleksandr.kovalov.work@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
-Subject: [PATCH v2] ASoC: fsl_micfil: balance mclk enable/disable
-Date: Sun, 30 Aug 2026 23:51:06 +0300
-Message-ID: <20260830205106.11267-1-stefanghetu9@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260822115959.74496-1-stefanghetu9@gmail.com>
-References: <20260822115959.74496-1-stefanghetu9@gmail.com>
+	Oleksandr Kovalov <oleksandr.kovalov.work@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix cold-boot headset misdetection on Acer Aspire A515-57G
+Date: Mon, 31 Aug 2026 00:10:38 +0300
+Message-ID: <20260830211038.19528-1-oleksandr.kovalov.work@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-hw_params() enables mclk unconditionally and hw_free() disables it
-unconditionally, but the PCM core does not guarantee 1:1 pairing:
-hw_free() can run without hw_params(), and hw_params() can be called
-multiple times from the SETUP state. This triggers an "already
-disabled" WARN() in the first case and leaks an enable reference in
-the second, leaving the clock ungateable.
+On the Acer Aspire A515-57G (PCI SSID 1025:1616), if headphones are
+already inserted into the combo jack before the codec powers up (a cold
+boot with the plug already seated), the impedance-based headset-type
+sensing races and misclassifies the jack. This drives the wrong output
+configuration and is audible as missing center-panned content (e.g.
+vocals) while panned content plays normally.
 
-Guard both sides with the existing mclk_flag, as fsl_sai.c does with
-mclk_streams.
+A genuine physical unplug/replug after boot reliably fixes this by
+forcing a fresh sense transient, which is a strong hint about the
+underlying cause: the sensing hardware appears to need a settled,
+freshly-triggered read rather than the one-shot classification done
+during the normal HDA_FIXUP_ACT_INIT pass.
 
-Fixes: b47024dc624b ("ASoC: fsl_micfil: Add mclk enable flag")
-Signed-off-by: Ștefan Ghețu <stefanghetu9@gmail.com>
+Add a machine-specific fixup that, on cold boot only (not S3/S4 resume,
+which already gets its own re-check), waits briefly after the normal
+init-time decision and then forces a fresh headset-mode classification
+by resetting the cached mode and re-invoking the existing
+alc_fixup_headset_mode() path -- mirroring what a manual replug already
+does. The wait+recheck is skipped whenever the first pass already
+determined nothing is plugged in, to avoid adding boot latency on the
+common case.
+
+Tested on kernel 7.1.9 by building the affected module standalone and
+confirming cold boot with headphones pre-inserted plays correctly from
+the very first sample, across multiple boots (including a full restart,
+and headphones inserted mid-POST rather than before power-on), with no
+crashes or warnings and no behavioral difference from a real
+post-replug recovery.
+
+Signed-off-by: Oleksandr Kovalov <oleksandr.kovalov.work@gmail.com>
 ---
- sound/soc/fsl/fsl_micfil.c | 21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 33 +++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
-index 60ac8eabab9da..5d8f0f76ab46f 100644
---- a/sound/soc/fsl/fsl_micfil.c
-+++ b/sound/soc/fsl/fsl_micfil.c
-@@ -953,12 +953,17 @@ static int fsl_micfil_reparent_rootclk(struct fsl_micfil *micfil, unsigned int s
- 	/* Get root clock */
- 	clk = micfil->mclk;
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index bfbdb88..51b0900 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -2309,6 +2309,33 @@ static void alc_fixup_headset_mode_alc255_no_hp_mic(struct hda_codec *codec,
+ 	}
+ }
  
--	/* Disable clock first, for it was enabled by pm_runtime */
-+	/* Reparent root clock to the PLL matching this sample rate */
- 	fsl_asoc_reparent_pll_clocks(dev, clk, micfil->pll8k_clk,
- 				     micfil->pll11k_clk, ratio);
--	ret = clk_prepare_enable(clk);
--	if (ret)
--		return ret;
++/*
++ * On the Acer Aspire A515-57G (and possibly other models sharing this
++ * board), if headphones are already inserted into the combo jack before
++ * the codec powers up (cold boot), the impedance-based headset-type
++ * sensing races and misclassifies the jack, driving the wrong output
++ * configuration (audible as missing center-panned/vocal content). A
++ * genuine physical unplug/replug after boot fixes it by forcing a fresh
++ * sense transient. Mirror that here on cold boot only: give the sense
++ * hardware time to settle, then force a fresh classification.
++ */
++static void alc_fixup_headset_mode_acer_coldboot(struct hda_codec *codec,
++						 const struct hda_fixup *fix, int action)
++{
++	struct alc_spec *spec = codec->spec;
 +
-+	/* Enable only once; hw_params can be called multiple times */
-+	if (!micfil->mclk_flag) {
-+		ret = clk_prepare_enable(clk);
-+		if (ret)
-+			return ret;
-+		micfil->mclk_flag = true;
++	alc_fixup_headset_mode(codec, fix, action);
++
++	if (action == HDA_FIXUP_ACT_INIT &&
++	    !is_s3_resume(codec) && !is_s4_resume(codec) &&
++		spec->current_headset_mode != ALC_HEADSET_MODE_UNPLUGGED) {
++		msleep(500);
++		spec->current_headset_mode = ALC_HEADSET_MODE_UNKNOWN;
++		spec->current_headset_type = ALC_HEADSET_TYPE_UNKNOWN;
++		alc_fixup_headset_mode(codec, fix, action);
 +	}
- 
- 	return 0;
- }
-@@ -991,8 +996,6 @@ static int fsl_micfil_hw_params(struct snd_pcm_substream *substream,
- 	if (ret)
- 		return ret;
- 
--	micfil->mclk_flag = true;
--
- 	/* floor(K * CLKDIV) */
- 	switch (micfil->quality) {
- 	case QUALITY_HIGH:
-@@ -1068,8 +1071,10 @@ static int fsl_micfil_hw_free(struct snd_pcm_substream *substream,
++}
++
+ static void alc288_update_headset_jack_cb(struct hda_codec *codec,
+ 				       struct hda_jack_callback *jack)
  {
- 	struct fsl_micfil *micfil = snd_soc_dai_get_drvdata(dai);
- 
--	clk_disable_unprepare(micfil->mclk);
--	micfil->mclk_flag = false;
-+	if (micfil->mclk_flag) {
-+		clk_disable_unprepare(micfil->mclk);
-+		micfil->mclk_flag = false;
-+	}
- 
- 	return 0;
- }
+@@ -4063,6 +4090,7 @@ enum {
+ 	ALC282_FIXUP_ACER_DISABLE_LINEOUT,
+ 	ALC255_FIXUP_ACER_LIMIT_INT_MIC_BOOST,
+ 	ALC256_FIXUP_ACER_HEADSET_MIC,
++	ALC256_FIXUP_ACER_COLDBOOT,
+ 	ALC285_FIXUP_IDEAPAD_S740_COEF,
+ 	ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST,
+ 	ALC295_FIXUP_ASUS_DACS,
+@@ -6050,6 +6078,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_HEADSET_MODE_NO_HP_MIC
+ 	},
++	[ALC256_FIXUP_ACER_COLDBOOT] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc_fixup_headset_mode_acer_coldboot,
++	},
+ 	[ALC285_FIXUP_IDEAPAD_S740_COEF] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc285_fixup_ideapad_s740_coef,
+@@ -6796,6 +6828,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S", ALC2XX_FIXUP_HEADSET_MIC),
++	SND_PCI_QUIRK(0x1025, 0x1616, "Acer Aspire A515-57G", ALC256_FIXUP_ACER_COLDBOOT),
+ 	SND_PCI_QUIRK(0x1025, 0x1640, "Acer Aspire A315-44P", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1025, 0x1679, "Acer Nitro 16 AN16-41", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
 -- 
-2.53.0
+2.55.0
 
