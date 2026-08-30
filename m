@@ -1,33 +1,32 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9571F3A48E4;
-	Sun, 30 Aug 2026 14:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E4A3B6C01;
+	Sun, 30 Aug 2026 14:15:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788099175; cv=none; b=cMl/kGL+Y5BRZN0+NRM1UHusL72lXEn5sfSxa6werDkebxraaOT0Y/1r0JUDi9MRBjhfAocbrELZqvug3nFFTjxEV4jrcVhfmSxU3Vut4kcXDeIWYuYL0X4a1RMiooMyO1sdvGEdMK5eFpsFNKmfaWEMX97hJLffwftUJTtCX3s=
+	t=1788099333; cv=none; b=QPcmkwm7mYv83Pr+fqr/UCaiYtiajcJqK1SL6Ef0keoAxd/z7+o3dGCxLTg4DJXhOYYVyOeU0IEuCsXrQrjp5R0HzessvSmBiMGfeApMU5sHZ99wP2b9T+Kp/DwZKBQKJ8E45NsID6ltmu5C9MDTp2WxmkNf2E/L6dIz4CtoSjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788099175; c=relaxed/simple;
-	bh=m1owQV5nsD5mBsPs31Tw04uXfiqrnjto2hDfNOynI4E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lOUTGeq8WmCAYjk7XhPo98uC9KJDO8isiipL4KzgpOvwVKTwJVYOQNDVkgys51uY1JrxgDf3dETRqJbxmJo0U35+BPQOyx0TmfrFiEhKfKGXkFu6cUkJ1Upe1WU4Ml7mnJKyLhTideydRMrAYAvYBrTD/yXsBAQGXSjHHgxicZc=
+	s=arc-20240116; t=1788099333; c=relaxed/simple;
+	bh=BjLaTTRa82IB/v8JATjULW2oZ05oK0WzmAPwsJrAvrY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nyRdxFZiKSk/YBuUfRJSAZzFGthS9G/dasLSopXXNNMEETPAgeqGlnliDVGmlkdZRiVYuCDSdrHUaYWoHarFjTZwe1GgG5r21k9X/jvXI7DjsCcXNfSn1UjPf8pNsKaBfYtZJIqbweB7rs2yT0HZnF9m5hCEGUKBOrGAMa7MZDY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-03 (Coremail) with SMTP id rQCowAAXGzldOpRq8ZabBg--.27486S2;
-	Sun, 30 Aug 2026 22:12:46 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowACXnTv7OpRqPZ6bBg--.46271S2;
+	Sun, 30 Aug 2026 22:15:23 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Michael Zhang <zhangyi@everest-semi.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] ASoC: es8375: make register initialization fallible
-Date: Sun, 30 Aug 2026 22:12:43 +0800
-Message-ID: <20260830141243.31984-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH] ASoC: sta32x: make power restoration transactional
+Date: Sun, 30 Aug 2026 22:15:21 +0800
+Message-ID: <20260830141521.33246-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -36,10 +35,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAAXGzldOpRq8ZabBg--.27486S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxKF48Xw45Wr4fuFWfuw17Wrg_yoW3XF45pF
-	9IvFn09r4Fqr4fXFn8tr4UWFy5KrySqF1ay347Kw12vrWqyr1xKF1YyayxZF9IyrZrXF4U
-	JayUAayUWr48ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:rQCowACXnTv7OpRqPZ6bBg--.46271S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xry7Xr4DXw18AFW8AFy5Arb_yoW7Zw1fpr
+	WayFZ5trs2vF4fZF17tr4qqF15KrWxtr45Za42gw47ZF1DCF929r1akF42vF98GrZ0gF4U
+	Xw42y3yrCa1jgaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
@@ -48,211 +47,190 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxKF48Xw45Wr4fuFWfuw17Wrg_yoW3XF45pF
 	2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
 	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
 	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
 	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
 	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
 	JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUjZNVP
 	UUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-ES8375 initialization and bias transitions discard register access
-errors. Component probe can therefore succeed after partial
-initialization, and resume cannot distinguish an invalid reset-state
-read from a valid state.
+sta32x_set_bias_level() enables the codec supplies, restores the
+coefficient and register state, and then starts the watchdog. Register
+access errors in the mute and coefficient helpers and the cache replay
+are discarded, allowing DAPM to publish STANDBY for a partially restored
+codec.
 
-Express the initialization writes as one ordered regmap sequence while
-preserving the reset delay, propagate the probe and bias errors, and
-return the complete initialization or replay result from resume. Resume
-retains the ASoC best-effort state and does not power the codec back
-down on failure.
+Propagate every operation in the local restore transaction, including
+the final standby-state write. Start the watchdog only after that write
+succeeds. On failure, hold reset, mark the cache dirty, disable the
+supplies and report a cleanup failure while preserving the primary
+error. The DAPM bias callback consumes the returned error independently
+of component resume handling.
 
-This RFC asks how a hardware-specific initialization helper shared by
-probe and deferred resume should handle transport errors.
-
-The regmap configuration keeps these as individual writes. Probe has an
-effective error consumer and can fail fast, while deferred resume
-continues after the callback. Should resume instead attempt the
-remaining writes and report the first error?
-
-The shared component resume reporting contract is discussed at:
-
-https://lore.kernel.org/all/20260825085239.82282-1-pengpeng@iscas.ac.cn/
-
-Fixes: de2b3119f9f7 ("ASoC: codecs: add support for ES8375")
+Fixes: 54dc6cabe684 ("ASoC: sta32x: preserve coefficient RAM")
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/es8375.c | 115 +++++++++++++++++++++++++++-------------------
- 1 file changed, 67 insertions(+), 48 deletions(-)
+ sound/soc/codecs/sta32x.c | 101 +++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 77 insertions(+), 24 deletions(-)
 
-diff --git a/sound/soc/codecs/es8375.c b/sound/soc/codecs/es8375.c
-index e8747bc24433f..5bdc83f8a939c 100644
---- a/sound/soc/codecs/es8375.c
-+++ b/sound/soc/codecs/es8375.c
-@@ -455,12 +455,19 @@ static int es8375_set_bias_level(struct snd_soc_component *component,
- 			dev_err(component->dev, "unable to prepare mclk\n");
- 			return  ret;
- 		}
--		regmap_write(es8375->regmap, ES8375_CSM1, 0xA6);
-+		ret = regmap_write(es8375->regmap, ES8375_CSM1, 0xA6);
-+		if (ret) {
-+			clk_disable_unprepare(es8375->mclk);
-+			return ret;
-+		}
- 		break;
- 	case SND_SOC_BIAS_PREPARE:
- 		break;
- 	case SND_SOC_BIAS_STANDBY:
--		regmap_write(es8375->regmap, ES8375_CSM1, 0x96);
-+		ret = regmap_write(es8375->regmap, ES8375_CSM1, 0x96);
+diff --git a/sound/soc/codecs/sta32x.c b/sound/soc/codecs/sta32x.c
+index d6de739212f92..3766db457b673 100644
+--- a/sound/soc/codecs/sta32x.c
++++ b/sound/soc/codecs/sta32x.c
+@@ -342,27 +342,48 @@ static int sta32x_sync_coef_shadow(struct snd_soc_component *component)
+ {
+ 	struct sta32x_priv *sta32x = snd_soc_component_get_drvdata(component);
+ 	unsigned int cfud;
+-	int i;
++	int i, ret;
+ 
+ 	/* preserve reserved bits in STA32X_CFUD */
+-	regmap_read(sta32x->regmap, STA32X_CFUD, &cfud);
++	ret = regmap_read(sta32x->regmap, STA32X_CFUD, &cfud);
++	if (ret)
++		return ret;
++
+ 	cfud &= 0xf0;
+ 
+ 	for (i = 0; i < STA32X_COEF_COUNT; i++) {
+-		regmap_write(sta32x->regmap, STA32X_CFADDR2, i);
+-		regmap_write(sta32x->regmap, STA32X_B1CF1,
+-			     (sta32x->coef_shadow[i] >> 16) & 0xff);
+-		regmap_write(sta32x->regmap, STA32X_B1CF2,
+-			     (sta32x->coef_shadow[i] >> 8) & 0xff);
+-		regmap_write(sta32x->regmap, STA32X_B1CF3,
+-			     (sta32x->coef_shadow[i]) & 0xff);
++		ret = regmap_write(sta32x->regmap, STA32X_CFADDR2, i);
 +		if (ret)
 +			return ret;
 +
- 		clk_disable_unprepare(es8375->mclk);
- 		break;
- 	case SND_SOC_BIAS_OFF:
-@@ -521,46 +528,56 @@ static struct snd_soc_dai_driver es8375_dai = {
- 	.symmetric_rate = 1,
- };
- 
--static void es8375_init(struct snd_soc_component *component)
-+static const struct reg_sequence es8375_init_sequence[] = {
-+	{ ES8375_CLK_MGR10, 0x95 },
-+	{ ES8375_CLK_MGR3, 0x48 },
-+	{ ES8375_DIV_SPKCLK, 0x18 },
-+	{ ES8375_CLK_MGR4, 0x02 },
-+	{ ES8375_CLK_MGR5, 0x05 },
-+	{ ES8375_CSM1, 0x82 },
-+	{ ES8375_VMID_CHARGE2, 0x20 },
-+	{ ES8375_VMID_CHARGE3, 0x20 },
-+	{ ES8375_DAC_CAL, 0x28 },
-+	{ ES8375_ANALOG_SPK1, 0xFC },
-+	{ ES8375_ANALOG_SPK2, 0xE0 },
-+	{ ES8375_VMID_SEL, 0xFE },
-+	{ ES8375_ANALOG1, 0xB8 },
-+	{ ES8375_SYS_CTRL2, 0x03 },
-+	{ ES8375_CLK_MGR2, 0x16 },
-+	{ ES8375_RESET1, 0x00, 80000 },
-+	{ ES8375_CLK_MGR3, 0x00 },
-+	{ ES8375_CSM1, 0x86 },
-+	{ ES8375_CLK_MGR4, 0x0B },
-+	{ ES8375_CLK_MGR5, 0x00 },
-+	{ ES8375_CLK_MGR6, 0x31 },
-+	{ ES8375_CLK_MGR7, 0x11 },
-+	{ ES8375_CLK_MGR8, 0x1F },
-+	{ ES8375_CLK_MGR9, 0x00 },
-+	{ ES8375_ADC_OSR_GAIN, 0x1F },
-+	{ ES8375_ADC2, 0x00 },
-+	{ ES8375_DAC2, 0x00 },
-+	{ ES8375_DAC_OTP, 0x88 },
-+	{ ES8375_ANALOG_SPK2, 0xE7 },
-+	{ ES8375_ANALOG2, 0xF0 },
-+	{ ES8375_ANALOG3, 0x40 },
-+	{ ES8375_CLK_MGR2, 0xFE },
-+};
++		ret = regmap_write(sta32x->regmap, STA32X_B1CF1,
++				   (sta32x->coef_shadow[i] >> 16) & 0xff);
++		if (ret)
++			return ret;
 +
-+static int es8375_init(struct snd_soc_component *component)
- {
- 	struct es8375_priv *es8375 = snd_soc_component_get_drvdata(component);
-+	int ret;
- 
--	regmap_write(es8375->regmap, ES8375_CLK_MGR10, 0x95);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR3, 0x48);
--	regmap_write(es8375->regmap, ES8375_DIV_SPKCLK, 0x18);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR4, 0x02);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR5, 0x05);
--	regmap_write(es8375->regmap, ES8375_CSM1, 0x82);
--	regmap_write(es8375->regmap, ES8375_VMID_CHARGE2, 0x20);
--	regmap_write(es8375->regmap, ES8375_VMID_CHARGE3, 0x20);
--	regmap_write(es8375->regmap, ES8375_DAC_CAL, 0x28);
--	regmap_write(es8375->regmap, ES8375_ANALOG_SPK1, 0xFC);
--	regmap_write(es8375->regmap, ES8375_ANALOG_SPK2, 0xE0);
--	regmap_write(es8375->regmap, ES8375_VMID_SEL, 0xFE);
--	regmap_write(es8375->regmap, ES8375_ANALOG1, 0xB8);
--	regmap_write(es8375->regmap, ES8375_SYS_CTRL2, 0x03);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR2, 0x16);
--	regmap_write(es8375->regmap, ES8375_RESET1, 0x00);
--	msleep(80);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR3, 0x00);
--	regmap_write(es8375->regmap, ES8375_CSM1, 0x86);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR4, 0x0B);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR5, 0x00);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR6, 0x31);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR7, 0x11);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR8, 0x1F);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR9, 0x00);
--	regmap_write(es8375->regmap, ES8375_ADC_OSR_GAIN, 0x1F);
--	regmap_write(es8375->regmap, ES8375_ADC2, 0x00);
--	regmap_write(es8375->regmap, ES8375_DAC2, 0x00);
--	regmap_write(es8375->regmap, ES8375_DAC_OTP, 0x88);
--	regmap_write(es8375->regmap, ES8375_ANALOG_SPK2, 0xE7);
--	regmap_write(es8375->regmap, ES8375_ANALOG2, 0xF0);
--	regmap_write(es8375->regmap, ES8375_ANALOG3, 0x40);
--	regmap_write(es8375->regmap, ES8375_CLK_MGR2, 0xFE);
--
--	regmap_update_bits(es8375->regmap, ES8375_SDP, 0x40, 0x40);
--	regmap_update_bits(es8375->regmap, ES8375_SDP2, 0x20, 0x20);
-+	ret = regmap_multi_reg_write(es8375->regmap, es8375_init_sequence,
-+				     ARRAY_SIZE(es8375_init_sequence));
-+	if (ret)
-+		return ret;
++		ret = regmap_write(sta32x->regmap, STA32X_B1CF2,
++				   (sta32x->coef_shadow[i] >> 8) & 0xff);
++		if (ret)
++			return ret;
 +
-+	ret = regmap_update_bits(es8375->regmap, ES8375_SDP, 0x40, 0x40);
-+	if (ret)
-+		return ret;
++		ret = regmap_write(sta32x->regmap, STA32X_B1CF3,
++				   sta32x->coef_shadow[i] & 0xff);
++		if (ret)
++			return ret;
 +
-+	return regmap_update_bits(es8375->regmap, ES8375_SDP2, 0x20, 0x20);
- }
- 
- static int es8375_suspend(struct snd_soc_component *component)
-@@ -570,6 +587,7 @@ static int es8375_suspend(struct snd_soc_component *component)
- 	regmap_write(es8375->regmap, ES8375_CSM1, 0x96);
- 	regcache_cache_only(es8375->regmap, true);
- 	regcache_mark_dirty(es8375->regmap);
+ 		/*
+ 		 * chip documentation does not say if the bits are
+ 		 * self-clearing, so do it explicitly
+ 		 */
+-		regmap_write(sta32x->regmap, STA32X_CFUD, cfud);
+-		regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x01);
++		ret = regmap_write(sta32x->regmap, STA32X_CFUD, cfud);
++		if (ret)
++			return ret;
++
++		ret = regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x01);
++		if (ret)
++			return ret;
+ 	}
 +
  	return 0;
  }
  
-@@ -577,20 +595,23 @@ static int es8375_resume(struct snd_soc_component *component)
+@@ -370,15 +391,24 @@ static int sta32x_cache_sync(struct snd_soc_component *component)
  {
- 	struct es8375_priv *es8375 = snd_soc_component_get_drvdata(component);
- 	unsigned int reg;
-+	int ret;
+ 	struct sta32x_priv *sta32x = snd_soc_component_get_drvdata(component);
+ 	unsigned int mute;
+-	int rc;
++	int restore_ret, ret;
  
- 	regcache_cache_only(es8375->regmap, false);
- 	regcache_cache_bypass(es8375->regmap, true);
--	regmap_read(es8375->regmap, ES8375_CLK_MGR2, &reg);
-+	ret = regmap_read(es8375->regmap, ES8375_CLK_MGR2, &reg);
- 	regcache_cache_bypass(es8375->regmap, false);
+ 	/* mute during register sync */
+-	regmap_read(sta32x->regmap, STA32X_MMUTE, &mute);
+-	regmap_write(sta32x->regmap, STA32X_MMUTE, mute | STA32X_MMUTE_MMUTE);
+-	sta32x_sync_coef_shadow(component);
+-	rc = regcache_sync(sta32x->regmap);
+-	regmap_write(sta32x->regmap, STA32X_MMUTE, mute);
+-	return rc;
++	ret = regmap_read(sta32x->regmap, STA32X_MMUTE, &mute);
 +	if (ret)
 +		return ret;
- 
- 	if (reg == 0x00)
--		es8375_init(component);
-+		ret = es8375_init(component);
- 	else
--		es8375_set_bias_level(component, SND_SOC_BIAS_ON);
--
--	regcache_sync(es8375->regmap);
-+		ret = es8375_set_bias_level(component, SND_SOC_BIAS_ON);
++
++	ret = regmap_write(sta32x->regmap, STA32X_MMUTE,
++			   mute | STA32X_MMUTE_MMUTE);
 +	if (ret)
 +		return ret;
- 
--	return 0;
-+	return regcache_sync(es8375->regmap);
++
++	ret = sta32x_sync_coef_shadow(component);
++	if (!ret)
++		ret = regcache_sync(sta32x->regmap);
++
++	restore_ret = regmap_write(sta32x->regmap, STA32X_MMUTE, mute);
++	return ret ?: restore_ret;
  }
  
- static int es8375_codec_probe(struct snd_soc_component *component)
-@@ -599,9 +620,7 @@ static int es8375_codec_probe(struct snd_soc_component *component)
+ /* work around ESD issue where sta32x resets and loses all configuration */
+@@ -794,9 +824,9 @@ static int sta32x_startup_sequence(struct sta32x_priv *sta32x)
+ static int sta32x_set_bias_level(struct snd_soc_component *component,
+ 				 enum snd_soc_bias_level level)
+ {
+-	int ret;
+ 	struct sta32x_priv *sta32x = snd_soc_component_get_drvdata(component);
+ 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
++	int cleanup_ret, ret;
  
- 	es8375->mastermode = 0;
+ 	dev_dbg(component->dev, "level = %d\n", level);
+ 	switch (level) {
+@@ -820,15 +850,28 @@ static int sta32x_set_bias_level(struct snd_soc_component *component,
+ 				return ret;
+ 			}
  
--	es8375_init(component);
--
--	return 0;
-+	return es8375_init(component);
+-			sta32x_startup_sequence(sta32x);
+-			sta32x_cache_sync(component);
++			ret = sta32x_startup_sequence(sta32x);
++			if (!ret)
++				ret = sta32x_cache_sync(component);
++			if (ret)
++				goto restore_failed;
++
++			ret = regmap_update_bits(sta32x->regmap, STA32X_CONFF,
++						 STA32X_CONFF_PWDN | STA32X_CONFF_EAPD,
++						 0);
++			if (ret)
++				goto restore_failed;
++
+ 			sta32x_watchdog_start(sta32x);
++			break;
+ 		}
+ 
+ 		/* Power down */
+-		regmap_update_bits(sta32x->regmap, STA32X_CONFF,
+-				   STA32X_CONFF_PWDN | STA32X_CONFF_EAPD,
+-				   0);
++		ret = regmap_update_bits(sta32x->regmap, STA32X_CONFF,
++					 STA32X_CONFF_PWDN | STA32X_CONFF_EAPD,
++					 0);
++		if (ret)
++			return ret;
+ 
+ 		break;
+ 
+@@ -846,6 +889,16 @@ static int sta32x_set_bias_level(struct snd_soc_component *component,
+ 		break;
+ 	}
+ 	return 0;
++
++restore_failed:
++	gpiod_set_value(sta32x->gpiod_nreset, 0);
++	regcache_mark_dirty(sta32x->regmap);
++	cleanup_ret = regulator_bulk_disable(ARRAY_SIZE(sta32x->supplies),
++					     sta32x->supplies);
++	if (cleanup_ret)
++		dev_warn(component->dev, "Failed to disable supplies: %d\n",
++			 cleanup_ret);
++	return ret;
  }
  
- static bool es8375_writeable_register(struct device *dev, unsigned int reg)
+ static const struct snd_soc_dai_ops sta32x_dai_ops = {
 
 base-commit: 32b4e6b134c62e14291206da331891e99e2fb63d
 -- 
