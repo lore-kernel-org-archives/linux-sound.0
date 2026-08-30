@@ -1,206 +1,90 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71672175A74;
-	Sun, 30 Aug 2026 14:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310F13A4538;
+	Sun, 30 Aug 2026 14:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788099690; cv=none; b=jmMD1C4e7qOgiVkvjqCLRJilG2oabBXh1z1qUvT36miFpLcjPFsgvQW9T1PRZWnein6KlMN1K4ZxFYtOkOMdnyCBEdHJ1IlCGzxsmM34oQFL2kFnGxfc6Ud3oNsa7mcJKWULwKBX0q88nxgcISy5ItqUVde2Ve1C55YIwV2T8sA=
+	t=1788100069; cv=none; b=byuxn6jjq+mlRHF74Uh8+i4n/xIwbyrP6QbFaK+FqXck6LdQD7+MYJUdNrBokrv1JtRsZlnESRcOQfyb2Rbz7vcsfBFWLDMwEFw3FCQLHjtTR44i75tYSb/OppjMhXhTIbzBc8HlX2/H1dpLc7xH8iRZdq50H2bYqGPZkY4QbJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788099690; c=relaxed/simple;
-	bh=vDFygmzbUsa8gIhSRGDtcp+XSKMfMhxMXjWZPmQFcVA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kTqT05p/pDJ0RdWkrQrtQygrdgYxZ0ozwYFmvgtpjofTSLc/593M8wx2pyvtdVaZWBFxExoMcpqzLn0/SNV8mg9nbi5m3PEe8hFvxkXb2YaqPWBnu1LqhvGYkEZsSfDLeEqltDlcEEWiIFRPjmuA1ciS2T+hCMyXX6v5u/XtZn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-03 (Coremail) with SMTP id rQCowABncD5gPJRqAbCbBg--.48832S2;
-	Sun, 30 Aug 2026 22:21:20 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Mark Brown <broonie@kernel.org>,
-	Jack Yu <jack.yu@realtek.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: rt1015: make control calibration failures observable
-Date: Sun, 30 Aug 2026 22:21:18 +0800
-Message-ID: <20260830142118.36668-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1788100069; c=relaxed/simple;
+	bh=6Mj+pUEWF19/xY8BvpB85SuoP347Zd246oOwwrU3AhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ipPl7u+YTNFoSSKdpPXL31fsmo1yRWU05iT+PXO350WtkMhkF/qyULHlsS5cM32Yeb6lS8fdx/ZFf9R7Giu7Rm7CHIooZ1XdVPjblTFRfim9uZh26p3EZS139O84iOpjebrTU7iSMDpIIFfCYouHhiiO3hjoPv85cjj/YYdUz98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikKseO/Z; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikKseO/Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A29151F000E9;
+	Sun, 30 Aug 2026 14:27:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788100067;
+	bh=6Mj+pUEWF19/xY8BvpB85SuoP347Zd246oOwwrU3AhQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ikKseO/ZMaQN2SZlQqu6BBe+14HfZZNIyeldx92vA1QpLD1bOmTTeaCNC9Li57vZB
+	 qlAi6SkjrwkHkRi4CkWZ7cvoNjdrql+vRI2A/oIFukApoo9Z34jPDBJGY5ATSbKOpg
+	 ab7IeeUU6/9CGH8xNHsIagOpiZDRDLqnWd1rOgDOtvlPuGkgyC0+KefYa7ok+UTP2O
+	 F0zLswmHo7ruymxucSB2mqB8FShGRuSUL3+7ELiy8BkCQHn5HTudiWEQo7RFfSBepT
+	 GKeFwxAH8nMqxN31db71DGx/rc8zi4APhJTfKj6bQlY5rT4uo1w2TtwadRXuUSmtPB
+	 ujTvF5YaDjplw==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id 3242CCC22E4; Sun, 30 Aug 2026 15:27:45 +0100 (BST)
+Date: Sun, 30 Aug 2026 15:27:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Sergey Lebedev <lsa.uz@pm.me>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] ASoC: fix audio on the Microsoft Surface Pro 11
+ (Intel)
+Message-ID: <apQ94WcqOmDLE2iG@sirena.org.uk>
+References: <20260804225853.31585-1-lsa.uz@pm.me>
+ <20260830084500.6123-1-lsa.uz@pm.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowABncD5gPJRqAbCbBg--.48832S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAr1rGr4ftF13ArWrtF4rAFb_yoWrKF45pF
-	y5Ar1YvFWxXFs5XFs5tw1rZF1S9ryfK34ayw17Gw1IvrnxKw12gF1FgFyFvFWDWFZ8XF47
-	uFW8Aa4fGr1qqaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUgXo
-	cUUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kH/i8S4zSBgAhDLt"
+Content-Disposition: inline
+In-Reply-To: <20260830084500.6123-1-lsa.uz@pm.me>
+X-Cookie: Orders subject to approval.
 
-The bypass-boost control runs a hardware calibration while bypassing the
-register cache. It ignores every register access and cache restore
-failure, then publishes both the requested mode and calibration
-completion.
 
-Return failures from the complete calibration sequence, always restore
-normal cache operation and unlock DAPM, and only publish the control
-state after the calibration and final mode write both succeed. The mixer
-control callback is an effective error consumer, independent of deferred
-component resume.
+--kH/i8S4zSBgAhDLt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: da145172b236 ("ASoC: rt1015: Fix DC calibration on bypass boost mode")
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- sound/soc/codecs/rt1015.c | 81 +++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 65 insertions(+), 16 deletions(-)
+On Sun, Aug 30, 2026 at 08:45:05AM +0000, Sergey Lebedev wrote:
+> The Microsoft Surface Pro 11 for Business (Intel, Lunar Lake) has no working
+> audio under Linux: the speakers are silent while every layer reports success.
+> These two patches fix it, and the machine then works with the stock
+> sof-soundwire UCM profile and the shipped topologies - no board quirk, no new
+> match entry, no local configuration of any kind.
 
-diff --git a/sound/soc/codecs/rt1015.c b/sound/soc/codecs/rt1015.c
-index ff0c08ff610e1..c6cb8d3ec0454 100644
---- a/sound/soc/codecs/rt1015.c
-+++ b/sound/soc/codecs/rt1015.c
-@@ -488,35 +488,72 @@ static int rt1015_bypass_boost_get(struct snd_kcontrol *kcontrol,
- 	return 0;
- }
- 
--static void rt1015_calibrate(struct rt1015_priv *rt1015)
-+static int rt1015_calibrate(struct rt1015_priv *rt1015)
- {
- 	struct snd_soc_component *component = rt1015->component;
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
- 	struct regmap *regmap = rt1015->regmap;
-+	int ret, sync_ret;
- 
- 	snd_soc_dapm_mutex_lock(dapm);
- 	regcache_cache_bypass(regmap, true);
- 
--	regmap_write(regmap, RT1015_CLK_DET, 0x0000);
--	regmap_write(regmap, RT1015_PWR4, 0x00B2);
--	regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x0009);
-+	ret = regmap_write(regmap, RT1015_CLK_DET, 0x0000);
-+	if (ret)
-+		goto restore_cache;
-+
-+	ret = regmap_write(regmap, RT1015_PWR4, 0x00B2);
-+	if (ret)
-+		goto restore_cache;
-+
-+	ret = regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x0009);
-+	if (ret)
-+		goto restore_cache;
-+
- 	msleep(100);
--	regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x000A);
-+	ret = regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x000A);
-+	if (ret)
-+		goto restore_cache;
-+
- 	msleep(100);
--	regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x000C);
-+	ret = regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x000C);
-+	if (ret)
-+		goto restore_cache;
-+
- 	msleep(100);
--	regmap_write(regmap, RT1015_CLSD_INTERNAL8, 0x2028);
--	regmap_write(regmap, RT1015_CLSD_INTERNAL9, 0x0140);
--	regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x000D);
-+	ret = regmap_write(regmap, RT1015_CLSD_INTERNAL8, 0x2028);
-+	if (ret)
-+		goto restore_cache;
-+
-+	ret = regmap_write(regmap, RT1015_CLSD_INTERNAL9, 0x0140);
-+	if (ret)
-+		goto restore_cache;
-+
-+	ret = regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x000D);
-+	if (ret)
-+		goto restore_cache;
-+
- 	msleep(300);
--	regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x0008);
--	regmap_write(regmap, RT1015_SYS_RST1, 0x05F5);
--	regmap_write(regmap, RT1015_CLK_DET, 0x8000);
-+	ret = regmap_write(regmap, RT1015_PWR_STATE_CTRL, 0x0008);
-+	if (ret)
-+		goto restore_cache;
-+
-+	ret = regmap_write(regmap, RT1015_SYS_RST1, 0x05F5);
-+	if (ret)
-+		goto restore_cache;
-+
-+	ret = regmap_write(regmap, RT1015_CLK_DET, 0x8000);
-+
-+restore_cache:
- 
- 	regcache_cache_bypass(regmap, false);
- 	regcache_mark_dirty(regmap);
--	regcache_sync(regmap);
-+	sync_ret = regcache_sync(regmap);
-+	if (!ret)
-+		ret = sync_ret;
- 	snd_soc_dapm_mutex_unlock(dapm);
-+
-+	return ret;
- }
- 
- static int rt1015_bypass_boost_put(struct snd_kcontrol *kcontrol,
-@@ -525,6 +562,8 @@ static int rt1015_bypass_boost_put(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct rt1015_priv *rt1015 =
- 		snd_soc_component_get_drvdata(component);
-+	int bypass_boost = rt1015->bypass_boost;
-+	int ret;
- 
- 	if (rt1015->dac_is_used) {
- 		dev_err(component->dev, "DAC is being used!\n");
-@@ -534,13 +573,23 @@ static int rt1015_bypass_boost_put(struct snd_kcontrol *kcontrol,
- 	rt1015->bypass_boost = ucontrol->value.integer.value[0];
- 	if (rt1015->bypass_boost == RT1015_Bypass_Boost &&
- 			!rt1015->cali_done) {
--		rt1015_calibrate(rt1015);
--		rt1015->cali_done = 1;
-+		ret = rt1015_calibrate(rt1015);
-+		if (ret)
-+			goto restore_boost;
-+
-+		ret = regmap_write(rt1015->regmap, RT1015_MONO_DYNA_CTRL,
-+				   0x0010);
-+		if (ret)
-+			goto restore_boost;
- 
--		regmap_write(rt1015->regmap, RT1015_MONO_DYNA_CTRL, 0x0010);
-+		rt1015->cali_done = 1;
- 	}
- 
- 	return 0;
-+
-+restore_boost:
-+	rt1015->bypass_boost = bypass_boost;
-+	return ret;
- }
- 
- static const char * const rt1015_dac_output_vol_select[] = {
+Please don't send new patches in reply to old patches or serieses, this
+makes it harder for both people and tools to understand what is going
+on - it can bury things in mailboxes and make it difficult to keep track
+of what current patches are, both for the new patches and the old ones.
 
-base-commit: 32b4e6b134c62e14291206da331891e99e2fb63d
--- 
-2.50.1
+--kH/i8S4zSBgAhDLt
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqUPeAACgkQJNaLcl1U
+h9CZKQf/WOAf/YRuIgWHzRyiO6M2UvSbLT1ChdIgAb1diQdc/LKF5Dkr2xFLdRC6
+eRroN+2caYcYpGc/zTC50aSRf+6xVqkoYrdhWAERf3bQl/qn5vNY8XI4omM7NVnm
+pFl1ZPNE3Xt/qg80r6uUOl1n3UIyK0kcFqpeLBGY6alVicDr8wk5uMfAqsgwXbCt
+XQ+KBo2s9trbx4v7bjn24bIXWmDJBehd4w1c2IVpinY/ibWT8DT3pCTn1Yr95RV9
++1SqYTYYIldCAdp/9bdcZlZ+P7C3GKMlHdX7J6iz3LIPmtb4bW+fKTe47mKZLwLj
+sunEgmhB3A5AfSa7xBz2i3KQdLTsUw==
+=MfLq
+-----END PGP SIGNATURE-----
+
+--kH/i8S4zSBgAhDLt--
