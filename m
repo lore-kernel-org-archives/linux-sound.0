@@ -1,33 +1,33 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565EA3F1045;
-	Sun, 30 Aug 2026 13:44:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9571F3A48E4;
+	Sun, 30 Aug 2026 14:12:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788097478; cv=none; b=mbapYSPLfbF1vqcRcAzqVtnrFHfx5Lc/gApy+KhsXWAMsrAxttLWPPPOme9iErT+ciDT+XsB2VqBohftz2ai3jIaE5FAIV7bNB09paloHi+FBCDizTE/av9/O9HFGAOXenoNOHCXvUENpPbRcY9Te4JQ+ypoI/6rPjrlizmXLXE=
+	t=1788099175; cv=none; b=cMl/kGL+Y5BRZN0+NRM1UHusL72lXEn5sfSxa6werDkebxraaOT0Y/1r0JUDi9MRBjhfAocbrELZqvug3nFFTjxEV4jrcVhfmSxU3Vut4kcXDeIWYuYL0X4a1RMiooMyO1sdvGEdMK5eFpsFNKmfaWEMX97hJLffwftUJTtCX3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788097478; c=relaxed/simple;
-	bh=NavIMbvNyecazTbDSluBSlQC5QoSFv4xmsIX+R6SQ+8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IthkIyaCEixhTWIwVj0WvQSWH3beWRALM+HIaJrZYgCKepESVsS4vzvIykzcD+G7y2r16meNR4SJSHjChi+Lk9/7NHQNoADzOp9uvv98EUJQzMxmOZ4FZNN6E5/mX1UKri1vgvJjWnbOkpgX8iNsOoMOrzIUwRRqnm96qC0dCs8=
+	s=arc-20240116; t=1788099175; c=relaxed/simple;
+	bh=m1owQV5nsD5mBsPs31Tw04uXfiqrnjto2hDfNOynI4E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lOUTGeq8WmCAYjk7XhPo98uC9KJDO8isiipL4KzgpOvwVKTwJVYOQNDVkgys51uY1JrxgDf3dETRqJbxmJo0U35+BPQOyx0TmfrFiEhKfKGXkFu6cUkJ1Upe1WU4Ml7mnJKyLhTideydRMrAYAvYBrTD/yXsBAQGXSjHHgxicZc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-03 (Coremail) with SMTP id rQCowADH0D6+M5RqOkebBg--.17579S2;
-	Sun, 30 Aug 2026 21:44:31 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowAAXGzldOpRq8ZabBg--.27486S2;
+	Sun, 30 Aug 2026 22:12:46 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Kiseok Jo <kiseok.jo@irondevice.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
 Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
+	Michael Zhang <zhangyi@everest-semi.com>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: sma1307: validate setting firmware layout
-Date: Sun, 30 Aug 2026 21:44:28 +0800
-Message-ID: <20260830134428.9550-1-pengpeng@iscas.ac.cn>
+Subject: [RFC PATCH] ASoC: es8375: make register initialization fallible
+Date: Sun, 30 Aug 2026 22:12:43 +0800
+Message-ID: <20260830141243.31984-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -36,79 +36,225 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowADH0D6+M5RqOkebBg--.17579S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7trW7GrWkJFWxJrW7Jr18Krg_yoW8KFWxpr
-	45WFySyr1rKrWjq3Z5Jw15ua4Ykwn7trW2g34xtF18CFn8t3WDGayUtry29ryrA3Z5Ww1Y
-	vFWDurs5ZFykGr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:rQCowAAXGzldOpRq8ZabBg--.27486S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKF48Xw45Wr4fuFWfuw17Wrg_yoW3XF45pF
+	9IvFn09r4Fqr4fXFn8tr4UWFy5KrySqF1ay347Kw12vrWqyr1xKF1YyayxZF9IyrZrXF4U
+	JayUAayUWr48ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
-	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUeT
-	mhDUUUU
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUjZNVP
+	UUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-sma1307_setting_loaded() checks a byte count against an element count, then
-reads an eight-int header and a fixed default table from the firmware. It
-also trusts the mode count while indexing a five-entry mode_set array.
+ES8375 initialization and bias transitions discard register access
+errors. Component probe can therefore succeed after partial
+initialization, and resume cannot distinguish an invalid reset-state
+read from a valid state.
 
-Validate the byte-to-int conversion, fixed header/default extent, mode
-count, and exact mode table layout before parsing the setting file.
+Express the initialization writes as one ordered regmap sequence while
+preserving the reset delay, propagate the probe and bias errors, and
+return the complete initialization or replay result from resume. Resume
+retains the ASoC best-effort state and does not power the codec back
+down on failure.
 
-Fixes: 576c57e6b4c1 ("ASoC: sma1307: Add driver for Iron Device SMA1307")
+This RFC asks how a hardware-specific initialization helper shared by
+probe and deferred resume should handle transport errors.
+
+The regmap configuration keeps these as individual writes. Probe has an
+effective error consumer and can fail fast, while deferred resume
+continues after the callback. Should resume instead attempt the
+remaining writes and report the first error?
+
+The shared component resume reporting contract is discussed at:
+
+https://lore.kernel.org/all/20260825085239.82282-1-pengpeng@iscas.ac.cn/
+
+Fixes: de2b3119f9f7 ("ASoC: codecs: add support for ES8375")
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/sma1307.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ sound/soc/codecs/es8375.c | 115 +++++++++++++++++++++++++++-------------------
+ 1 file changed, 67 insertions(+), 48 deletions(-)
 
-diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
-index adb369a29b9d3..653cbafee23ec 100644
---- a/sound/soc/codecs/sma1307.c
-+++ b/sound/soc/codecs/sma1307.c
-@@ -1701,7 +1701,9 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 			__func__, setting_file, ERR_PTR(ret));
- 		sma1307->set.status = false;
- 		return;
--	} else if ((fw->size) < SMA1307_SETTING_HEADER_SIZE) {
-+	} else if (fw->size % sizeof(int) ||
-+		   fw->size < (SMA1307_SETTING_HEADER_SIZE +
-+				       SMA1307_SETTING_DEFAULT_SIZE) * sizeof(int)) {
- 		dev_err(sma1307->dev, "%s: Invalid file\n", __func__);
- 		sma1307->set.status = false;
- 		return;
-@@ -1720,6 +1722,10 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
- 	sma1307->set.checksum = data[sma1307->set.header_size - 2];
- 	sma1307->set.num_mode = data[sma1307->set.header_size - 1];
- 	num_mode = sma1307->set.num_mode;
-+	if (num_mode < 0 || num_mode > ARRAY_SIZE(sma1307->set.mode_set)) {
-+		sma1307->set.status = false;
-+		return;
-+	}
- 	sma1307->set.header = devm_kmalloc_array(sma1307->dev,
- 						 sma1307->set.header_size,
- 						 sizeof(int),
-@@ -1755,7 +1761,11 @@ static void sma1307_setting_loaded(struct sma1307_priv *sma1307, const char *fil
+diff --git a/sound/soc/codecs/es8375.c b/sound/soc/codecs/es8375.c
+index e8747bc24433f..5bdc83f8a939c 100644
+--- a/sound/soc/codecs/es8375.c
++++ b/sound/soc/codecs/es8375.c
+@@ -455,12 +455,19 @@ static int es8375_set_bias_level(struct snd_soc_component *component,
+ 			dev_err(component->dev, "unable to prepare mclk\n");
+ 			return  ret;
+ 		}
+-		regmap_write(es8375->regmap, ES8375_CSM1, 0xA6);
++		ret = regmap_write(es8375->regmap, ES8375_CSM1, 0xA6);
++		if (ret) {
++			clk_disable_unprepare(es8375->mclk);
++			return ret;
++		}
+ 		break;
+ 	case SND_SOC_BIAS_PREPARE:
+ 		break;
+ 	case SND_SOC_BIAS_STANDBY:
+-		regmap_write(es8375->regmap, ES8375_CSM1, 0x96);
++		ret = regmap_write(es8375->regmap, ES8375_CSM1, 0x96);
++		if (ret)
++			return ret;
++
+ 		clk_disable_unprepare(es8375->mclk);
+ 		break;
+ 	case SND_SOC_BIAS_OFF:
+@@ -521,46 +528,56 @@ static struct snd_soc_dai_driver es8375_dai = {
+ 	.symmetric_rate = 1,
+ };
  
- 	/* MODE */
- 	offset = sma1307->set.header_size + sma1307->set.def_size;
--	sma1307->set.mode_size = DIV_ROUND_CLOSEST(size - offset, num_mode + 1);
-+	if ((size - offset) % (num_mode + 1)) {
-+		sma1307->set.status = false;
-+		return;
-+	}
-+	sma1307->set.mode_size = (size - offset) / (num_mode + 1);
- 	for (int i = 0; i < num_mode; i++) {
- 		sma1307->set.mode_set[i]
- 		    = devm_kzalloc(sma1307->dev,
+-static void es8375_init(struct snd_soc_component *component)
++static const struct reg_sequence es8375_init_sequence[] = {
++	{ ES8375_CLK_MGR10, 0x95 },
++	{ ES8375_CLK_MGR3, 0x48 },
++	{ ES8375_DIV_SPKCLK, 0x18 },
++	{ ES8375_CLK_MGR4, 0x02 },
++	{ ES8375_CLK_MGR5, 0x05 },
++	{ ES8375_CSM1, 0x82 },
++	{ ES8375_VMID_CHARGE2, 0x20 },
++	{ ES8375_VMID_CHARGE3, 0x20 },
++	{ ES8375_DAC_CAL, 0x28 },
++	{ ES8375_ANALOG_SPK1, 0xFC },
++	{ ES8375_ANALOG_SPK2, 0xE0 },
++	{ ES8375_VMID_SEL, 0xFE },
++	{ ES8375_ANALOG1, 0xB8 },
++	{ ES8375_SYS_CTRL2, 0x03 },
++	{ ES8375_CLK_MGR2, 0x16 },
++	{ ES8375_RESET1, 0x00, 80000 },
++	{ ES8375_CLK_MGR3, 0x00 },
++	{ ES8375_CSM1, 0x86 },
++	{ ES8375_CLK_MGR4, 0x0B },
++	{ ES8375_CLK_MGR5, 0x00 },
++	{ ES8375_CLK_MGR6, 0x31 },
++	{ ES8375_CLK_MGR7, 0x11 },
++	{ ES8375_CLK_MGR8, 0x1F },
++	{ ES8375_CLK_MGR9, 0x00 },
++	{ ES8375_ADC_OSR_GAIN, 0x1F },
++	{ ES8375_ADC2, 0x00 },
++	{ ES8375_DAC2, 0x00 },
++	{ ES8375_DAC_OTP, 0x88 },
++	{ ES8375_ANALOG_SPK2, 0xE7 },
++	{ ES8375_ANALOG2, 0xF0 },
++	{ ES8375_ANALOG3, 0x40 },
++	{ ES8375_CLK_MGR2, 0xFE },
++};
++
++static int es8375_init(struct snd_soc_component *component)
+ {
+ 	struct es8375_priv *es8375 = snd_soc_component_get_drvdata(component);
++	int ret;
+ 
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR10, 0x95);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR3, 0x48);
+-	regmap_write(es8375->regmap, ES8375_DIV_SPKCLK, 0x18);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR4, 0x02);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR5, 0x05);
+-	regmap_write(es8375->regmap, ES8375_CSM1, 0x82);
+-	regmap_write(es8375->regmap, ES8375_VMID_CHARGE2, 0x20);
+-	regmap_write(es8375->regmap, ES8375_VMID_CHARGE3, 0x20);
+-	regmap_write(es8375->regmap, ES8375_DAC_CAL, 0x28);
+-	regmap_write(es8375->regmap, ES8375_ANALOG_SPK1, 0xFC);
+-	regmap_write(es8375->regmap, ES8375_ANALOG_SPK2, 0xE0);
+-	regmap_write(es8375->regmap, ES8375_VMID_SEL, 0xFE);
+-	regmap_write(es8375->regmap, ES8375_ANALOG1, 0xB8);
+-	regmap_write(es8375->regmap, ES8375_SYS_CTRL2, 0x03);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR2, 0x16);
+-	regmap_write(es8375->regmap, ES8375_RESET1, 0x00);
+-	msleep(80);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR3, 0x00);
+-	regmap_write(es8375->regmap, ES8375_CSM1, 0x86);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR4, 0x0B);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR5, 0x00);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR6, 0x31);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR7, 0x11);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR8, 0x1F);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR9, 0x00);
+-	regmap_write(es8375->regmap, ES8375_ADC_OSR_GAIN, 0x1F);
+-	regmap_write(es8375->regmap, ES8375_ADC2, 0x00);
+-	regmap_write(es8375->regmap, ES8375_DAC2, 0x00);
+-	regmap_write(es8375->regmap, ES8375_DAC_OTP, 0x88);
+-	regmap_write(es8375->regmap, ES8375_ANALOG_SPK2, 0xE7);
+-	regmap_write(es8375->regmap, ES8375_ANALOG2, 0xF0);
+-	regmap_write(es8375->regmap, ES8375_ANALOG3, 0x40);
+-	regmap_write(es8375->regmap, ES8375_CLK_MGR2, 0xFE);
+-
+-	regmap_update_bits(es8375->regmap, ES8375_SDP, 0x40, 0x40);
+-	regmap_update_bits(es8375->regmap, ES8375_SDP2, 0x20, 0x20);
++	ret = regmap_multi_reg_write(es8375->regmap, es8375_init_sequence,
++				     ARRAY_SIZE(es8375_init_sequence));
++	if (ret)
++		return ret;
++
++	ret = regmap_update_bits(es8375->regmap, ES8375_SDP, 0x40, 0x40);
++	if (ret)
++		return ret;
++
++	return regmap_update_bits(es8375->regmap, ES8375_SDP2, 0x20, 0x20);
+ }
+ 
+ static int es8375_suspend(struct snd_soc_component *component)
+@@ -570,6 +587,7 @@ static int es8375_suspend(struct snd_soc_component *component)
+ 	regmap_write(es8375->regmap, ES8375_CSM1, 0x96);
+ 	regcache_cache_only(es8375->regmap, true);
+ 	regcache_mark_dirty(es8375->regmap);
++
+ 	return 0;
+ }
+ 
+@@ -577,20 +595,23 @@ static int es8375_resume(struct snd_soc_component *component)
+ {
+ 	struct es8375_priv *es8375 = snd_soc_component_get_drvdata(component);
+ 	unsigned int reg;
++	int ret;
+ 
+ 	regcache_cache_only(es8375->regmap, false);
+ 	regcache_cache_bypass(es8375->regmap, true);
+-	regmap_read(es8375->regmap, ES8375_CLK_MGR2, &reg);
++	ret = regmap_read(es8375->regmap, ES8375_CLK_MGR2, &reg);
+ 	regcache_cache_bypass(es8375->regmap, false);
++	if (ret)
++		return ret;
+ 
+ 	if (reg == 0x00)
+-		es8375_init(component);
++		ret = es8375_init(component);
+ 	else
+-		es8375_set_bias_level(component, SND_SOC_BIAS_ON);
+-
+-	regcache_sync(es8375->regmap);
++		ret = es8375_set_bias_level(component, SND_SOC_BIAS_ON);
++	if (ret)
++		return ret;
+ 
+-	return 0;
++	return regcache_sync(es8375->regmap);
+ }
+ 
+ static int es8375_codec_probe(struct snd_soc_component *component)
+@@ -599,9 +620,7 @@ static int es8375_codec_probe(struct snd_soc_component *component)
+ 
+ 	es8375->mastermode = 0;
+ 
+-	es8375_init(component);
+-
+-	return 0;
++	return es8375_init(component);
+ }
+ 
+ static bool es8375_writeable_register(struct device *dev, unsigned int reg)
 
-base-commit: 08dbfad3f5040f5bdb6c529da20d6d4e81fefd72
+base-commit: 32b4e6b134c62e14291206da331891e99e2fb63d
 -- 
 2.50.1
 
