@@ -1,43 +1,43 @@
 Received: from mail-24417.protonmail.ch (mail-24417.protonmail.ch [109.224.244.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234223A3E73
-	for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 08:45:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04A633E36A
+	for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 12:26:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788079527; cv=none; b=BLvJTpdDPw7EjYpICax6nn3HBZFTJ4jjgPlhETRjJGRJUelMJnJcDWVTu+5lxkyi1L1UCDSbA3j8/XcMf5GaUxuZdTSk9rtZcWw4+Q+KMh7eZAZDYQnEo25jAf2WYrBEy608oHRp77TdQJL1NXkl2aCjsI7nHR+kYRuDDrbClVg=
+	t=1788092785; cv=none; b=bplx+z+3IF9jVGyCAtnpThG3Brn2a2tF8MFZ4FyXU2NvWIccXzPvYKGpKS0LcBNIzX9+xFUfdzfDAK6dzntUQWuSSYWJUBu7oEuiT+QBJDaHyLqs9OZm6iCKxL+Wr1jD+1sKGZhzAZi/wZjmam2M43wBtqJEK2LM048E/3cgG40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788079527; c=relaxed/simple;
-	bh=lcs4zcrgdLIT3JD+m7JIIvdFU0tstU3E/FP3fDCC6aM=;
+	s=arc-20240116; t=1788092785; c=relaxed/simple;
+	bh=gMES+XbAaTWdwIOpV7xRmxgC1klgiNi5llJN8rx27zQ=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o4TVwnZXtMVI9XkPFHQfeadGoXakJ2KLLi8FZaqE8nzvt9bn/azOBPD0dJPgxvVOvkVOLUVCG+z6xB3onk3f1M+GJoIft+ZEG3uI6C8Jx78BBwvfn3GfNEV0aCyAVRN7vs2pLQKG/9dyjd6q/MUU/BNSwzdHuPt9jMUY8mUXCFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=oIQeFc4P; arc=none smtp.client-ip=109.224.244.17
+	 MIME-Version:Content-Type; b=aIAssfVgzfMe9pF8mhFvL1cTKhHGelAaUNB73Upp9nZG3fx234QDxjC/3A7zAZYKtl5sICNle1/c/93ubYXFR3SAjaqZRX+CQPGYqLyVFuFCUPxNV2MdtbPVvUrH8HbOooE9nO1q0+/Hajh0ABaaIg094Q9/WrCS2UTyFquT/ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=AtBMpcnM; arc=none smtp.client-ip=109.224.244.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="oIQeFc4P"
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="AtBMpcnM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1788079523; x=1788338723;
-	bh=qLEuIV9WXMF8WA2Og6nH2usoaxxRB7X4vIDz5I7QZmU=;
+	s=protonmail3; t=1788092780; x=1788351980;
+	bh=xw89cOOqbr5zzKQkcOLyWx3QnxWIgSvTdDfm1qS8+oQ=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=oIQeFc4PK+OexnYPkcAATKV809YRpWFF2dBNDX3Xq9IM5zVwyMtu4bQa9g87Sb1vR
-	 XOuBTbZHNy1dxb/aMy4to85hRLEyaDFinyzgORPNZTGbS7yP8EFJPdRdWZFCWko2Ux
-	 mmpOHrrIDMccwTb+a1CIOTG3mN0td+P5pKLR1V8PxlyqTSwxid9zVO4fTH2nsgvq34
-	 WKEMm5xkaXIRBXoOv2nwmhoLC6FTarZeR4+t1s1nvGgN2M2CvqEql58yfQ8J9D9tbe
-	 U7KuGnpZsN/o1laIsb4hKHHL5K7owGNtKTHym2k6tgI1pv4c909ebdjJY6i5eq5Zq3
-	 6HrqoFxvJQPEQ==
-Date: Sun, 30 Aug 2026 08:45:20 +0000
-To: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+	b=AtBMpcnMy6Mj+QfWQlp+QKmjkYoDs4kGlyvdRgvJ/C7nKY/NGr80uq9S8HVNFX8Pk
+	 aZ14W8iVUWBUzHYDEHJd910aK6vkmTgnuQj2t+JkyBKF1blbhOemiA9MsRPVQvof8I
+	 13b+IqL/uzBuNYP4lHpSKH1rMD2ePHfEu0OMwTCp1os6U4ZJTMqD0ZViWYPe1Cne3p
+	 +D600fTPh9rh3JZjfTe6yhIl3j7eFfssJzPQiC1SugqlzHDENIfHe5DrRNRAG3VJ5L
+	 TiL0iigs8VUmylDNWxYKRZnXwawPMs6pd6ZsftpZInZLjQ1LBuLa3q2M8AP/UasEs6
+	 3xSTDo7QX9fxQ==
+Date: Sun, 30 Aug 2026 12:26:13 +0000
+To: Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Amaan Lalani <zlzzm2014@outlook.com>
 From: Sergey Lebedev <lsa.uz@pm.me>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] soundwire: dmi-quirks: drop the ghost RT1320 on the Surface Pro 11 (Intel)
-Message-ID: <20260830084500.6123-3-lsa.uz@pm.me>
+Subject: Re: [PATCH v2 0/2] ASoC: fix audio on the Microsoft Surface Pro 11 (Intel)
+Message-ID: <20260830122606.47028-1-lsa.uz@pm.me>
 In-Reply-To: <20260830084500.6123-1-lsa.uz@pm.me>
 References: <20260804225853.31585-1-lsa.uz@pm.me> <20260830084500.6123-1-lsa.uz@pm.me>
 Feedback-ID: 113843758:user:proton
-X-Pm-Message-ID: c887decb40059c5d4142f26eb1a2606818aca2dc
+X-Pm-Message-ID: a726369410a390c3c9c15938ac90a3a81daa0169
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,108 +47,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-The Microsoft Surface Pro 11 for Business (Intel, Lunar Lake) carries a
-single physical RT1320 amplifier on link 0 and describes it twice:
+Some context I should have gathered before v1, not after v2. None of it
+needs action from you; it is here so nobody spends time twice.
 
-  SWRA  _ADR 0x000030025D132000   SDCA class 0
-  SWRB  _ADR 0x000030025D132001   SDCA class 1
+1. An overlapping series is already on the list
+-----------------------------------------------
 
-Identical apart from the class id: same link, same manufacturer, part and
-version, same unique id 0. The part reports class 1, so only SWRB
-enumerates. SWRA never attaches on any boot or firmware version tested,
-including the November 2025 bundle.
+Amaan Lalani sent this on 2026-08-28, two days before my v2:
 
-The ghost is not harmless. It consumes an amplifier index in
-find_acpi_adr_device(), so the real part is named "rt1320-2" and the stock
-sof-soundwire UCM profile enables switches on a device that is not there.
-Its endpoints also reach create_sdw_dailink(), which builds DAI link names
-from link id and function type alone; the ghost declares the same SmartMic
-function as the real part, so the card fails to register at all:
+  [PATCH 0/2] ASoC: fix SoundWire enumeration on Surface Pro 11
+  https://lore.kernel.org/linux-sound/BY5PR02MB63701A05A58EF6B4D6CAAC31A0AC=
+2@BY5PR02MB6370.namprd02.prod.outlook.com/
 
-  sysfs: cannot create duplicate filename
-    '.../sof_sdw/SDW0-Capture-SmartMic'
-  kobject_add_internal failed for SDW0-Capture-SmartMic with -EEXIST
-  sof_sdw sof_sdw: probe with driver sof_sdw failed with error -12
+Same machine, and in substance the same two changes as my v1 2/3 and 3/3 -
+the name-prefix reuse for _ADR entries differing only in class id, and an
+is_peripheral_attached() test on SDW_SLAVE_UNATTACHED. So the review you
+already gave me applies to it unchanged: it detects the ghost at runtime
+rather than removing it at enumeration.
 
-Remap its _ADR to zero so sdw_acpi_find_slaves() never creates the
-peripheral, which is how ghost devices are handled already - see
-ghost_realtek and global_ghost_adr in this file. Both failures then
-disappear, because neither path is reached.
+Their version is better than mine was in two respects worth keeping if that
+approach is ever preferred: it hooks both asoc_sdw_count_sdw_endpoints() an=
+d
+asoc_sdw_parse_sdw_endpoints() rather than only the parse path, and it
+carries Fixes: tags.
 
-Matched on DMI_PRODUCT_SKU rather than the product name. A later batch of
-the same model could carry a different RT1320 version, which would change
-the _ADR; keying on the SKU keeps this remap to the hardware it was
-verified on, and follows dell_sku_0A3E above.
+2. There is a body of downstream work for this machine
+------------------------------------------------------
 
-Suggested-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-Suggested-by: Bard Liao <bard.liao@intel.com>
-Signed-off-by: Sergey Lebedev <lsa.uz@pm.me>
----
-v2:
- - new in v2. Replaces v1's 2/3 (sdw_utils runtime presence test) and 3/3
-   (SOF/Intel amp-index dedup) with a single remap at enumeration, per
-   Pierre-Louis Bossart's suggestion.
- - matched on DMI_PRODUCT_SKU rather than the product name, per Bard Liao:
-   a later batch could carry a different RT1320 version and therefore a
-   different _ADR.
- drivers/soundwire/dmi-quirks.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Andr=C3=A9 Gilerson has carried Surface Pro 11 Intel patches in a linux-sur=
+face
+fork since February - audio, cameras, an IR sensor driver, touchpad, lid
+wake, a suspend hang fix. People have been running them daily for months.
+None of it has been submitted here.
 
-diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.=
-c
-index d75037558..8b3c5c8d1 100644
---- a/drivers/soundwire/dmi-quirks.c
-+++ b/drivers/soundwire/dmi-quirks.c
-@@ -111,6 +111,25 @@ static const struct adr_remap ghost_realtek[] =3D {
- =09{}
- };
-=20
-+/*
-+ * The Microsoft Surface Pro 11 (Intel) describes its single physical RT13=
-20
-+ * amplifier twice on link 0, as two _ADR entries differing only in SDCA c=
-lass
-+ * id and sharing the same unique id. Only the class 1 entry enumerates; t=
-he
-+ * class 0 entry is a ghost.
-+ *
-+ * Matched on the product SKU rather than the product name: a later batch =
-of the
-+ * same model could carry a different RT1320 version, which would change t=
-he
-+ * _ADR. Keying on the SKU keeps this remap to the hardware it was verifie=
-d on.
-+ */
-+static const struct adr_remap microsoft_sp11_intel[] =3D {
-+=09/* ghost rt1320 on link0 */
-+=09{
-+=09=090x000030025d132000ull,
-+=09=090x0000000000000000ull
-+=09},
-+=09{}
-+};
-+
- static const struct dmi_system_id adr_remap_quirk_table[] =3D {
- =09/* TGL devices */
- =09{
-@@ -207,6 +226,15 @@ static const struct dmi_system_id adr_remap_quirk_tabl=
-e[] =3D {
- =09=09},
- =09=09.driver_data =3D (void *)ghost_realtek,
- =09},
-+=09/* LNL devices */
-+=09{
-+=09=09.matches =3D {
-+=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "Microsoft Corporation"),
-+=09=09=09DMI_EXACT_MATCH(DMI_PRODUCT_SKU,
-+=09=09=09=09=09"Surface_Pro_11th_Edition_With_Intel_For_Business_2103")
-+=09=09},
-+=09=09.driver_data =3D (void *)microsoft_sp11_intel,
-+=09},
- =09{}
- };
-=20
---=20
-2.50.1 (Apple Git-155)
+  https://github.com/linux-surface/linux-surface/pull/1990
 
+His audio fix takes the traditional shape: a DMI-gated machine entry in
+soc-acpi-intel-lnl-match.c naming the real peripheral outright, with
+name_prefix "rt1320-1" and two endpoints. With such an entry matched, the
+generic find_acpi_adr_device() path is never reached, so the ghost never
+gets the chance to consume an amp index.
+
+3. The part that is actually interesting: the generic path is better here
+--------------------------------------------------------------------------
+
+Measured on this machine today, with v2 applied, stock alsa-ucm-conf
+1.2.15.3 and firmware-sof 2025.12.2, and no local configuration:
+
+  Components: 'HDA:80862820,80860101,00100000  cfg-amp:1
+               iec61937-pcm:7,6,5 spk:rt1320 mic:rt1320-1 cfg-mics:1'
+
+  Using function topologies instead intel/sof-ipc4-tplg/sof-lnl-dummy.tplg
+  loading topology 0: intel/sof-ipc4-tplg/sof-sdca-1amp-id2.tplg
+  loading topology 1: intel/sof-ipc4-tplg/sof-sdca-mic-id4.tplg
+  loading topology 2: intel/sof-ipc4-tplg/sof-hdmi-pcm5-id5.tplg
+
+  arecord -l: card 0: sofsoundwire, device 4: Microphone
+
+With no machine entry, the generic path uses a *-dummy.tplg base, dispatche=
+s
+the function topologies itself, and produces cfg-mics:1.
+
+On the machine-entry branches the microphone is a recurring problem. Users
+report the mic missing entirely on the 6.18 branch - sof-sdca-mic-id4.tplg
+present in firmware but never requested - and the v7.0 commit fixes it by
+switching to a dummy base and forcing "Playback-SmartAmp" /
+"Capture-SmartMic" dailink names, which is the dispatcher's own behaviour
+reimplemented by hand. Its commit message attributes the loss to the
+monolithic base topology discarding the SmartMic function. Separately, the
+missing cfg-mics breaks the UCM import outright on alsa-ucm-conf 1.2.16.
+
+I have not run that branch here, so that comparison is their reports agains=
+t
+my measurements rather than one machine tested both ways. I have offered to
+do exactly that on this device and will report the result.
+
+If it holds, the general shape is worth more than this laptop: remove ghost
+_ADRs at enumeration and let the generic path do its job, instead of adding
+a match entry per model - which for this hardware appears to cost the
+microphone. Surface Pro 12 (Panther Lake) is reported to have the same
+firmware shape, so it would be the next test of that idea rather than the
+next entry.
+
+Thanks,
+Sergey
 
