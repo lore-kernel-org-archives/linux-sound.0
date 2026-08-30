@@ -1,33 +1,38 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD9C218592;
-	Sun, 30 Aug 2026 14:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17683B6BF4;
+	Sun, 30 Aug 2026 14:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788099521; cv=none; b=vAnrqgw9hMPFBO6OCJAwQU9AWDk8aeTIZ9v1/3XRZuWOILJOUZZ0coATF+POD03KTZfoxKLt+EH1wFSHVkY2Ghaf7jU78gISbz378MTjFpPc6RQt48T63qIXZ4bZRRVYaRw1ukHuWQTvgUuF58WVr+Q4nQ5SWI2q8UU9kMaBmXg=
+	t=1788099653; cv=none; b=IUXpin8j9WELz9ryJmEBfkBxNKZm0x1TUzIwXiiUjuekYcFfCNNpIF678AX3ebvPzHNyZ4W2CXuYjXIczMCBuG1wv7JM7AmnSAXyYQx7HwZkAH7CE4hkgZu+1vl/eICuGbsnZzm5fs3sEc0iqG8WqKQNL5w48VWlDAaQpwMVfQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788099521; c=relaxed/simple;
-	bh=ABPHStH+QhuUzlxKfOJeUhI0q0fpMI2bZvMLnt+c798=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UV34dOB96nPopOsAZJLTltzlPUuCZK/c9SYAdAv0sug5YzzkXfDeXONh8Cw2msX9BaGapKmWLxgFWUrlpmVfdx1M+JQ3xq96PDJk+Ucw8zUU8kB8lJQmrdNTuA5tOIhqE3x9qQp2pRd1Pm3WyQZTZYoWRNwM1Arj2q14jJ5i3O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-03 (Coremail) with SMTP id rQCowAD3AUC3O5RqK6ebBg--.27828S2;
-	Sun, 30 Aug 2026 22:18:31 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	s=arc-20240116; t=1788099653; c=relaxed/simple;
+	bh=T03PuuoSRa1jWsCZpYBXs4OhFF/fgPSmDr0NaF8p8PE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oQbMOB2FCnRSmbbNfMAQ+DtM5OwodoFCG+B1N+Z5Qf87gyU6g/lhz9XRrF8nGfk9oHZoqjtvqV+0OMsxO8oWuL2BJK68GA5roJIALE33fFK8mpPbznD3LstZVS9KiX5nYsG/96+IJCtEoHDPvk7PbYVIprrkmFFY+feI+E0+VK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=V3MtdQBH; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="V3MtdQBH"
+Received: from PC-202605011814.localdomain (unknown [223.112.146.162])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4bd71cb64;
+	Sun, 30 Aug 2026 22:20:37 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: arnaud.pouliquen@foss.st.com
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: nau8822: keep regcache offline while supplies are off
-Date: Sun, 30 Aug 2026 22:18:28 +0800
-Message-ID: <20260830141828.34419-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	linux-kernel@vger.kernel.org,
+	runyu.xiao@seu.edu.cn,
+	jianhao.xu@seu.edu.cn,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: sti: initialize IRQ lock before requesting IRQ
+Date: Sun, 30 Aug 2026 22:20:26 +0800
+Message-Id: <20260830142026.2666914-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -35,90 +40,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAD3AUC3O5RqK6ebBg--.27828S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAF4UAw18JrW8Gr45Zr17GFg_yoW5XFyrpF
-	s5KrZ5ur48uFWrZFyFyF48XF1rKrWFyF4fA3ZrK3yFyw13Ar929rn5KF1jvFZ8JrW8JFsr
-	Zr47ZayjgF1rGaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUjZNVP
-	UUUUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-HM-Tid: 0aa0530b321b03a1kunm3934c37810313a
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHkkfVkoZHR1KHk4ZShgfQ1YeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pPSExVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=V3MtdQBHO7BeGQxMhnTABEcTnWBxXs1J6W5E7xBKU9FfPg1JgJiE0n7CYsiWB/XqdJ19CyJ0sjHjhNCOqU0JMzBkJ0m5Aekfn0aRyaoR1uK4g7FInxATUS/031LYXwp7R+1FK+nUwyxdE1KVGy/gez5uAZfS3Db5PEtAyheXObc=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=aTWn2c6FB8B9+AnEg+IOIk1k9j/44DH3LogairwFP18=;
+	h=date:mime-version:subject:message-id:from;
 
-nau8822_suspend() disables all codec supplies and marks the register
-cache dirty, but leaves regmap in live I/O mode. Resume then attempts
-the cache replay without first leaving a corresponding cache-only state.
+uni_reader_init() registers the shared IRQ before initializing
+reader->irq_lock. A pending interrupt can invoke the handler while the
+lock is still uninitialized.
 
-Enter cache-only mode after the regulators have been disabled
-successfully, leave it after the supplies are restored, and stop the
-local resume sequence if cache replay fails. Do not power the codec back
-down on a resume error, because deferred component resume remains best
-effort and continues after the callback.
+Initialize the lock before registering the IRQ so the interrupt path
+always sees valid lock state.
 
-regulator_bulk_disable() restores regulators already disabled by the
-same bulk operation if a later disable fails. Only publish cache-only
-state after the whole power-off operation succeeds, so the regmap state
-continues to match the hardware state on either outcome.
-
-Fixes: 1e3cb6c321be ("ASoC: nau8822: new codec driver")
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Fixes: d05d862ead8e ("ASoC: STI: Fix null ptr deference in IRQ handler")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:GPT-5
+Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
 ---
- sound/soc/codecs/nau8822.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ sound/soc/sti/uniperif_reader.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/nau8822.c b/sound/soc/codecs/nau8822.c
-index 830164e991a79..889c3b5f6d04f 100644
---- a/sound/soc/codecs/nau8822.c
-+++ b/sound/soc/codecs/nau8822.c
-@@ -1059,10 +1059,14 @@ static int nau8822_suspend(struct snd_soc_component *component)
- {
- 	struct nau8822 *nau8822 = snd_soc_component_get_drvdata(component);
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
-+	int ret;
+diff --git a/sound/soc/sti/uniperif_reader.c b/sound/soc/sti/uniperif_reader.c
+index 45d7613f5..5347f9620 100644
+--- a/sound/soc/sti/uniperif_reader.c
++++ b/sound/soc/sti/uniperif_reader.c
+@@ -416,6 +416,8 @@ int uni_reader_init(struct platform_device *pdev,
+ 	else
+ 		reader->hw = &uni_reader_pcm_hw;
  
- 	snd_soc_dapm_force_bias_level(dapm, SND_SOC_BIAS_OFF);
--	regulator_bulk_disable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
-+	ret = regulator_bulk_disable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
-+	if (ret)
-+		return ret;
- 
-+	regcache_cache_only(nau8822->regmap, true);
- 	regcache_mark_dirty(nau8822->regmap);
- 
- 	return 0;
-@@ -1072,7 +1076,9 @@ static int nau8822_resume(struct snd_soc_component *component)
- {
- 	struct nau8822 *nau8822 = snd_soc_component_get_drvdata(component);
- 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
--	int ret = regulator_bulk_enable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
-+	int ret;
++	spin_lock_init(&reader->irq_lock);
 +
-+	ret = regulator_bulk_enable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
+ 	ret = devm_request_irq(&pdev->dev, reader->irq,
+ 			       uni_reader_irq_handler, IRQF_SHARED,
+ 			       dev_name(&pdev->dev), reader);
+@@ -424,8 +426,6 @@ int uni_reader_init(struct platform_device *pdev,
+ 		return -EBUSY;
+ 	}
  
- 	if (ret) {
- 		dev_err(component->dev,
-@@ -1082,7 +1088,10 @@ static int nau8822_resume(struct snd_soc_component *component)
- 
- 	fsleep(100);
- 
--	regcache_sync(nau8822->regmap);
-+	regcache_cache_only(nau8822->regmap, false);
-+	ret = regcache_sync(nau8822->regmap);
-+	if (ret)
-+		return ret;
- 
- 	snd_soc_dapm_force_bias_level(dapm, SND_SOC_BIAS_STANDBY);
-
-base-commit: 32b4e6b134c62e14291206da331891e99e2fb63d
+-	spin_lock_init(&reader->irq_lock);
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(uni_reader_init);
 -- 
-2.50.1
-
+2.34.1
