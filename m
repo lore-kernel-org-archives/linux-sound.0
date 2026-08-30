@@ -1,21 +1,21 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61E4A3B6C01;
-	Sun, 30 Aug 2026 14:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD9C218592;
+	Sun, 30 Aug 2026 14:18:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788099333; cv=none; b=QPcmkwm7mYv83Pr+fqr/UCaiYtiajcJqK1SL6Ef0keoAxd/z7+o3dGCxLTg4DJXhOYYVyOeU0IEuCsXrQrjp5R0HzessvSmBiMGfeApMU5sHZ99wP2b9T+Kp/DwZKBQKJ8E45NsID6ltmu5C9MDTp2WxmkNf2E/L6dIz4CtoSjk=
+	t=1788099521; cv=none; b=vAnrqgw9hMPFBO6OCJAwQU9AWDk8aeTIZ9v1/3XRZuWOILJOUZZ0coATF+POD03KTZfoxKLt+EH1wFSHVkY2Ghaf7jU78gISbz378MTjFpPc6RQt48T63qIXZ4bZRRVYaRw1ukHuWQTvgUuF58WVr+Q4nQ5SWI2q8UU9kMaBmXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788099333; c=relaxed/simple;
-	bh=BjLaTTRa82IB/v8JATjULW2oZ05oK0WzmAPwsJrAvrY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nyRdxFZiKSk/YBuUfRJSAZzFGthS9G/dasLSopXXNNMEETPAgeqGlnliDVGmlkdZRiVYuCDSdrHUaYWoHarFjTZwe1GgG5r21k9X/jvXI7DjsCcXNfSn1UjPf8pNsKaBfYtZJIqbweB7rs2yT0HZnF9m5hCEGUKBOrGAMa7MZDY=
+	s=arc-20240116; t=1788099521; c=relaxed/simple;
+	bh=ABPHStH+QhuUzlxKfOJeUhI0q0fpMI2bZvMLnt+c798=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UV34dOB96nPopOsAZJLTltzlPUuCZK/c9SYAdAv0sug5YzzkXfDeXONh8Cw2msX9BaGapKmWLxgFWUrlpmVfdx1M+JQ3xq96PDJk+Ucw8zUU8kB8lJQmrdNTuA5tOIhqE3x9qQp2pRd1Pm3WyQZTZYoWRNwM1Arj2q14jJ5i3O4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-03 (Coremail) with SMTP id rQCowACXnTv7OpRqPZ6bBg--.46271S2;
-	Sun, 30 Aug 2026 22:15:23 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowAD3AUC3O5RqK6ebBg--.27828S2;
+	Sun, 30 Aug 2026 22:18:31 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
@@ -24,9 +24,9 @@ Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: sta32x: make power restoration transactional
-Date: Sun, 30 Aug 2026 22:15:21 +0800
-Message-ID: <20260830141521.33246-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH] ASoC: nau8822: keep regcache offline while supplies are off
+Date: Sun, 30 Aug 2026 22:18:28 +0800
+Message-ID: <20260830141828.34419-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -35,10 +35,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowACXnTv7OpRqPZ6bBg--.46271S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xry7Xr4DXw18AFW8AFy5Arb_yoW7Zw1fpr
-	WayFZ5trs2vF4fZF17tr4qqF15KrWxtr45Za42gw47ZF1DCF929r1akF42vF98GrZ0gF4U
-	Xw42y3yrCa1jgaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID:rQCowAD3AUC3O5RqK6ebBg--.27828S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAF4UAw18JrW8Gr45Zr17GFg_yoW5XFyrpF
+	s5KrZ5ur48uFWrZFyFyF48XF1rKrWFyF4fA3ZrK3yFyw13Ar929rn5KF1jvFZ8JrW8JFsr
+	Zr47ZayjgF1rGaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
 	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
 	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
@@ -54,183 +54,69 @@ X-Coremail-Antispam: 1UD129KBjvJXoW3Xry7Xr4DXw18AFW8AFy5Arb_yoW7Zw1fpr
 	UUUUU==
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-sta32x_set_bias_level() enables the codec supplies, restores the
-coefficient and register state, and then starts the watchdog. Register
-access errors in the mute and coefficient helpers and the cache replay
-are discarded, allowing DAPM to publish STANDBY for a partially restored
-codec.
+nau8822_suspend() disables all codec supplies and marks the register
+cache dirty, but leaves regmap in live I/O mode. Resume then attempts
+the cache replay without first leaving a corresponding cache-only state.
 
-Propagate every operation in the local restore transaction, including
-the final standby-state write. Start the watchdog only after that write
-succeeds. On failure, hold reset, mark the cache dirty, disable the
-supplies and report a cleanup failure while preserving the primary
-error. The DAPM bias callback consumes the returned error independently
-of component resume handling.
+Enter cache-only mode after the regulators have been disabled
+successfully, leave it after the supplies are restored, and stop the
+local resume sequence if cache replay fails. Do not power the codec back
+down on a resume error, because deferred component resume remains best
+effort and continues after the callback.
 
-Fixes: 54dc6cabe684 ("ASoC: sta32x: preserve coefficient RAM")
+regulator_bulk_disable() restores regulators already disabled by the
+same bulk operation if a later disable fails. Only publish cache-only
+state after the whole power-off operation succeeds, so the regmap state
+continues to match the hardware state on either outcome.
+
+Fixes: 1e3cb6c321be ("ASoC: nau8822: new codec driver")
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
- sound/soc/codecs/sta32x.c | 101 +++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 77 insertions(+), 24 deletions(-)
+ sound/soc/codecs/nau8822.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/sta32x.c b/sound/soc/codecs/sta32x.c
-index d6de739212f92..3766db457b673 100644
---- a/sound/soc/codecs/sta32x.c
-+++ b/sound/soc/codecs/sta32x.c
-@@ -342,27 +342,48 @@ static int sta32x_sync_coef_shadow(struct snd_soc_component *component)
+diff --git a/sound/soc/codecs/nau8822.c b/sound/soc/codecs/nau8822.c
+index 830164e991a79..889c3b5f6d04f 100644
+--- a/sound/soc/codecs/nau8822.c
++++ b/sound/soc/codecs/nau8822.c
+@@ -1059,10 +1059,14 @@ static int nau8822_suspend(struct snd_soc_component *component)
  {
- 	struct sta32x_priv *sta32x = snd_soc_component_get_drvdata(component);
- 	unsigned int cfud;
--	int i;
-+	int i, ret;
- 
- 	/* preserve reserved bits in STA32X_CFUD */
--	regmap_read(sta32x->regmap, STA32X_CFUD, &cfud);
-+	ret = regmap_read(sta32x->regmap, STA32X_CFUD, &cfud);
-+	if (ret)
-+		return ret;
-+
- 	cfud &= 0xf0;
- 
- 	for (i = 0; i < STA32X_COEF_COUNT; i++) {
--		regmap_write(sta32x->regmap, STA32X_CFADDR2, i);
--		regmap_write(sta32x->regmap, STA32X_B1CF1,
--			     (sta32x->coef_shadow[i] >> 16) & 0xff);
--		regmap_write(sta32x->regmap, STA32X_B1CF2,
--			     (sta32x->coef_shadow[i] >> 8) & 0xff);
--		regmap_write(sta32x->regmap, STA32X_B1CF3,
--			     (sta32x->coef_shadow[i]) & 0xff);
-+		ret = regmap_write(sta32x->regmap, STA32X_CFADDR2, i);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_write(sta32x->regmap, STA32X_B1CF1,
-+				   (sta32x->coef_shadow[i] >> 16) & 0xff);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_write(sta32x->regmap, STA32X_B1CF2,
-+				   (sta32x->coef_shadow[i] >> 8) & 0xff);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_write(sta32x->regmap, STA32X_B1CF3,
-+				   sta32x->coef_shadow[i] & 0xff);
-+		if (ret)
-+			return ret;
-+
- 		/*
- 		 * chip documentation does not say if the bits are
- 		 * self-clearing, so do it explicitly
- 		 */
--		regmap_write(sta32x->regmap, STA32X_CFUD, cfud);
--		regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x01);
-+		ret = regmap_write(sta32x->regmap, STA32X_CFUD, cfud);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_write(sta32x->regmap, STA32X_CFUD, cfud | 0x01);
-+		if (ret)
-+			return ret;
- 	}
-+
- 	return 0;
- }
- 
-@@ -370,15 +391,24 @@ static int sta32x_cache_sync(struct snd_soc_component *component)
- {
- 	struct sta32x_priv *sta32x = snd_soc_component_get_drvdata(component);
- 	unsigned int mute;
--	int rc;
-+	int restore_ret, ret;
- 
- 	/* mute during register sync */
--	regmap_read(sta32x->regmap, STA32X_MMUTE, &mute);
--	regmap_write(sta32x->regmap, STA32X_MMUTE, mute | STA32X_MMUTE_MMUTE);
--	sta32x_sync_coef_shadow(component);
--	rc = regcache_sync(sta32x->regmap);
--	regmap_write(sta32x->regmap, STA32X_MMUTE, mute);
--	return rc;
-+	ret = regmap_read(sta32x->regmap, STA32X_MMUTE, &mute);
-+	if (ret)
-+		return ret;
-+
-+	ret = regmap_write(sta32x->regmap, STA32X_MMUTE,
-+			   mute | STA32X_MMUTE_MMUTE);
-+	if (ret)
-+		return ret;
-+
-+	ret = sta32x_sync_coef_shadow(component);
-+	if (!ret)
-+		ret = regcache_sync(sta32x->regmap);
-+
-+	restore_ret = regmap_write(sta32x->regmap, STA32X_MMUTE, mute);
-+	return ret ?: restore_ret;
- }
- 
- /* work around ESD issue where sta32x resets and loses all configuration */
-@@ -794,9 +824,9 @@ static int sta32x_startup_sequence(struct sta32x_priv *sta32x)
- static int sta32x_set_bias_level(struct snd_soc_component *component,
- 				 enum snd_soc_bias_level level)
- {
--	int ret;
- 	struct sta32x_priv *sta32x = snd_soc_component_get_drvdata(component);
+ 	struct nau8822 *nau8822 = snd_soc_component_get_drvdata(component);
  	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
-+	int cleanup_ret, ret;
++	int ret;
  
- 	dev_dbg(component->dev, "level = %d\n", level);
- 	switch (level) {
-@@ -820,15 +850,28 @@ static int sta32x_set_bias_level(struct snd_soc_component *component,
- 				return ret;
- 			}
+ 	snd_soc_dapm_force_bias_level(dapm, SND_SOC_BIAS_OFF);
+-	regulator_bulk_disable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
++	ret = regulator_bulk_disable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
++	if (ret)
++		return ret;
  
--			sta32x_startup_sequence(sta32x);
--			sta32x_cache_sync(component);
-+			ret = sta32x_startup_sequence(sta32x);
-+			if (!ret)
-+				ret = sta32x_cache_sync(component);
-+			if (ret)
-+				goto restore_failed;
-+
-+			ret = regmap_update_bits(sta32x->regmap, STA32X_CONFF,
-+						 STA32X_CONFF_PWDN | STA32X_CONFF_EAPD,
-+						 0);
-+			if (ret)
-+				goto restore_failed;
-+
- 			sta32x_watchdog_start(sta32x);
-+			break;
- 		}
++	regcache_cache_only(nau8822->regmap, true);
+ 	regcache_mark_dirty(nau8822->regmap);
  
- 		/* Power down */
--		regmap_update_bits(sta32x->regmap, STA32X_CONFF,
--				   STA32X_CONFF_PWDN | STA32X_CONFF_EAPD,
--				   0);
-+		ret = regmap_update_bits(sta32x->regmap, STA32X_CONFF,
-+					 STA32X_CONFF_PWDN | STA32X_CONFF_EAPD,
-+					 0);
-+		if (ret)
-+			return ret;
- 
- 		break;
- 
-@@ -846,6 +889,16 @@ static int sta32x_set_bias_level(struct snd_soc_component *component,
- 		break;
- 	}
  	return 0;
+@@ -1072,7 +1076,9 @@ static int nau8822_resume(struct snd_soc_component *component)
+ {
+ 	struct nau8822 *nau8822 = snd_soc_component_get_drvdata(component);
+ 	struct snd_soc_dapm_context *dapm = snd_soc_component_to_dapm(component);
+-	int ret = regulator_bulk_enable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
++	int ret;
 +
-+restore_failed:
-+	gpiod_set_value(sta32x->gpiod_nreset, 0);
-+	regcache_mark_dirty(sta32x->regmap);
-+	cleanup_ret = regulator_bulk_disable(ARRAY_SIZE(sta32x->supplies),
-+					     sta32x->supplies);
-+	if (cleanup_ret)
-+		dev_warn(component->dev, "Failed to disable supplies: %d\n",
-+			 cleanup_ret);
-+	return ret;
- }
++	ret = regulator_bulk_enable(NAU8822_NUM_SUPPLIES, nau8822->supplies);
  
- static const struct snd_soc_dai_ops sta32x_dai_ops = {
+ 	if (ret) {
+ 		dev_err(component->dev,
+@@ -1082,7 +1088,10 @@ static int nau8822_resume(struct snd_soc_component *component)
+ 
+ 	fsleep(100);
+ 
+-	regcache_sync(nau8822->regmap);
++	regcache_cache_only(nau8822->regmap, false);
++	ret = regcache_sync(nau8822->regmap);
++	if (ret)
++		return ret;
+ 
+ 	snd_soc_dapm_force_bias_level(dapm, SND_SOC_BIAS_STANDBY);
 
 base-commit: 32b4e6b134c62e14291206da331891e99e2fb63d
 -- 
