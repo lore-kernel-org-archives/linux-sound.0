@@ -1,86 +1,186 @@
-Received: from outbound.st.icloud.com (st-2006e-snip4-1.eps.apple.com [57.103.76.212])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEE6041C6A
-	for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 00:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.212
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788048067; cv=none; b=g1NA0V/72p2qdPnmgg+iHsTBaHCKBdESGoLq2q5iA39Asbq1cO7jkEhyF2+zv4r+4qvHeXDNiaY7byjIOi0X6z4OEtv7n3aP6GQPvos9DmNiC9rRmz2WdWaL1Pjcm2IYlKnVqsKNf98RtDljMozcQcAZmYCRUIUdmGMGHAuZZbA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788048067; c=relaxed/simple;
-	bh=Fs9OMltzkjNyRypdyw2q6jgnXvJJwT21izYMgt+u4D4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YyrlBg7JFsbgw81f8x4DrPUJIKwv9MKgeK2ObZjfxYzo0fwJDAlLo31+AS+HWx3mVcW/iQzeQs9giwaRlNRGhmiQGR7a2ezyA6x4jLRc5ymoRvQ/w3wSm06Br1cU315GTaK2LkobWQZqj5jp4qhXxGDZBHHJrvM9tFXFIT49j7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=byyjAMWN; arc=none smtp.client-ip=57.103.76.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC183F1055
+	for <linux-sound@vger.kernel.org>; Sun, 30 Aug 2026 01:33:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788053595; cv=pass; b=CyMr7DLhbTej/jrf74v3ORiBVOlwWdj26qa6H1HuZkW5YUavKlLELLDxnWP2RztsNuenyetDhbSZ1XPxMcuKy1eQnjVQn7EhtKwJ0oldg3IUAthQvMjaaHYtJeGPRcFMdo95D3JZZm4I4c6sg/racyOwHU96X+dz5wsfY1LoruQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788053595; c=relaxed/simple;
+	bh=mAYl480KrVBsMjHlvpqybLi7zu7kDHnHq/FLxDkzgr8=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=sH3GaCF7byVlJU/hDfpCTvF7crW2pKUelappGDSOD/upsBhv4VJfgjTw9qP2GBtYXJALSS88vh8AdSUeJyXr3YNH3wnLn+TFPxlxg+IR6j8cXIDGdADzzyW6EEZ2xcTiA/prHT4T0SNGIn5csHhKylCuxCs7d69J2Ca2Vt/MzsQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JFdrlxtT; arc=pass smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="byyjAMWN"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-9 (Postfix) with ESMTPS id CE43318007D1;
-	Sun, 30 Aug 2026 00:01:00 +0000 (UTC)
-X-ICL-RepId: 01a04ff8-311b-7e4e-9b56-e65ce4562b8f
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhJB0MGXwReAUwdXARfEhVdRUEEVAADSQ5WAC1eCF4fTBwdDlgGEhZdRVoOWwRHFBcbXAAXGVFNDFhbCFsEDx9MDFECQgVWXkoMHQRUB10FXVZQAlpLQgRLRWhcBVwcQBdIHV9qS1YUBBFQAVgeVl5aF15NWgJWTQVKA18BWwpDCUgDXQdbCl4LSgBaBkYDXUsRUAYGUgVeCjhaDlsERxQXG1wACUtGCUkdDgRUB10FXQ==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1788048064; x=1790640064; bh=7MEo6PfhAbSCGd6Pp5tHXnJaBo7Tn1yOdNssC5V67VQ=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=byyjAMWN887wy2KlKbNWE2q2fwV1URLPrP07K+ogvznNgjp3a2ZxD9K4ThSb8IHznP4uuDSUxkbrPt6HXgKVSPnmFkQHuzopRy5L79bo/YyPj+F88FsOXJ/NMfFrmRHtfTgdTWe/FHHpZpFngBDOwuySdnVng00lF3eUDBm28sAtDDzEFmpDMYNvyZLBFbMX1u2s4A63Xgpyfz2x8eVHKU1Cul3r5m/XYwsgjdkyk6xl8XNK8sVuVuYjbZZkalf7IfPEw3a2J9Kgt7TInoDxB9H23m3zSXGNZf6GBFZRTmhcLJVj9M0ULAIWa9vBYilce+Ps3cK+RzxAbcWhuHbMuQ==
-mail-alias-created-date: 1788013603398
-Received: from vaio-vjs131 (unknown [17.156.216.30])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-9 (Postfix) with ESMTPSA id 727B918007C2;
-	Sun, 30 Aug 2026 00:00:58 +0000 (UTC)
-From: Riku Matsumura <rick197.3@icloud.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Riku Matsumura <rick197.3@icloud.com>
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for VAIO VJS131
-Date: Sun, 30 Aug 2026 09:00:08 +0900
-Message-ID: <20260830000008.22371-1-rick197.3@icloud.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JFdrlxtT"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-85b293528a9so36757607b3.1
+        for <linux-sound@vger.kernel.org>; Sat, 29 Aug 2026 18:33:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788053593; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Jg274i/EFROzSw+xg/f9qxGai6CaPYWo1mtIZAuv+V4olXBwBpE6FJpfOPtfVBZVOo
+         Oi/w69ghP0Sj2DYV9QWc3s7daXLE+R+fnusLnA3e6sQMz0gKHIjxXOdN7JnEb5wnvYKW
+         11efKuSAbj0ugXEXhqr9L6l4zlswTBZvh8ne6Fyo92XxfgVW5Hs2f/93CB/o6mXcjZYS
+         7Fo+MNDvUxC8Slw3iToGgVFg2owQQSP/kdGUUPW/KXIGwIHX1I+qticH4kEIo4vcanFJ
+         eYSPw52kebIpUDOv0b3W95FTCWq9rtSZP98s905noi7fbMpzbeAxkqoxcz6O20PB4iGF
+         cTsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=mAYl480KrVBsMjHlvpqybLi7zu7kDHnHq/FLxDkzgr8=;
+        fh=YR7/V6Xs0ughgdki5HmD8LX3umOUz1mesq5mAaEMBAg=;
+        b=gPWJ3HbkogNA27JmTJCXGutEyvSfphjsjSIEaLhe9Q2VjqQJSkVIhBc5kBrREPsccz
+         VrU3/TrmELWYxp2HxuIUhSW8F2VTCu/QPGJ8Pry/Qfp/aXFaRlpjRVrRlJQdvyXSrqh8
+         wUk8ljC3A/cXu1qsAgL9pZMZ56T+x74DJ0iPW8/ZpRqGMWYRgm+tpME6du2dvWTfEPL6
+         IRGZUM30Sn7ki5Eik6Sn+Y1nWQOvSkxXNGKlm9++Xl21SRE2vFAnGHUMitTZniWdgmeo
+         5WM/Y4qIvgRvxWQFapqDA5mGQ96dg2Iae6gI6S0bCsnFUR1ve4vALwc4z42ZKVUQsgc4
+         vLVQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788053593; x=1788658393; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mAYl480KrVBsMjHlvpqybLi7zu7kDHnHq/FLxDkzgr8=;
+        b=JFdrlxtTpkwACuBeb1em0qMusYuXl9oqRXKK/WxtpFP4Hu4x3Yi1vv7Mo1priuu8Tt
+         57WDxyyuVTxLb8O+owmOg/SXteayNnQMVAdE3D4bxXSpi4IJLxQg9Yb+V2ShC8eHk/fi
+         sK6VQUIqE0xmELQrSJ761piyP4oteoEt458zIB1F7qamavMInbgsx30b1lPhc8lEVhJU
+         49X2WV/9lrAVUq9t5B45vc0Qztph0K2X1X1UzL31aZ7bbQ4Y69HBHR56+VH7w7iQUxts
+         TXNmVjRtZyw+5qO74JFqtcqhzujpft8hQ+Uuuv/p2bEZdVRlnY32rKe+EEf053vD9tae
+         VM5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788053593; x=1788658393;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=mAYl480KrVBsMjHlvpqybLi7zu7kDHnHq/FLxDkzgr8=;
+        b=YEht6TXAw2MbxHW35MebDHk4VooXFn49a1/rrRlSkpW7IUYy9qAvqYDLUwhTcnbmWb
+         mTLwxy4fKvXnLAy4kw07LDX0AkpVkJFCLi5drgFN+XEpP0nXyg2uzy/6KFtYgW56xHNY
+         X+h6F9/6O6pdAuWYQfj1DFRRaDQxsf7iEYeTqWAgGW5mmt9W5nygv/zeM/napZdELz/d
+         BXhQ6fspNgmxlkzRuoq+UdW1agWwo9OyawExU+ic4XgQRBu+855VqEQZjm+3l+5U5o82
+         CI3rXvrRdIjWwhHHvJuV/rGMNsVMheNNAG/Yp+DDFBzjQFXRkcmr3zLaO3EdKgdMVpA4
+         VIog==
+X-Gm-Message-State: AFuF++m6mGmgbFLJV7YNKPDBpbeHzqQc/IAarOebM/df77xHbW1+eJ/W
+	xfYKIBr1PL5kagqMXSJktMsktUqrNrjUvlwnGjs7jdj7OZ2J3BFf3eWW1+Izc8lMSe5IaG5MMhC
+	/UVwhrlzzpWzsTAm1qswumbBwgl1OohPyXaYbZKY=
+X-Gm-Gg: AYBFou2wAh1j8P8Opg8Rp0czK0JU3W3IxFtHrNlyh3B5QNNpjXGO0C5R3PJQ//CCSx3
+	wtJxLGYIqqFoiTl+KUMV3gLkozmodquLfyRYr2XKm5cOs6UwA1V+X8JBLGtBPgokVtxh0BKnfS9
+	nmXpU3H/k+/N6GzO1GloVizpm62O9V3Zf1M4DDTphRjmtgok2F0jptRANFAONPMM9Rbt/F2ZK1D
+	d2roh0OuLwqGaqyYMOGApn3Dq+nGnLanq5vFWhVr50tlQVT5j9QoYvIZcztQ/gHVoWMMnuEPuxs
+	ClE9VLWzUBg/tN8GAMNlE5uvD3wKeUX3NAUiuaYLlvIYhQ==
+X-Received: by 2002:a05:690c:48c3:b0:81e:fdf7:bfbd with SMTP id
+ 00721157ae682-8648e496844mr494567b3.15.1788053593165; Sat, 29 Aug 2026
+ 18:33:13 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Sat, 29 Aug 2026 18:33:12 -0700
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Sat, 29 Aug 2026 18:33:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 9HJly519PNmkvRfXGWoYGt8XEva1eHi-
-X-Authority-Info-Out: v=2.4 cv=X7df6WTe c=1 sm=1 tr=0 ts=6a9372bd
- cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
- a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=Sv0fKeRqtYgA:10 a=x7bEGLp0ZPQA:10
- a=fzZKuvliyykA:10 a=VkNPw1HP01LnGYTKEx00:22 a=v3ZZPjhaAAAA:8
- a=2V6XNmGYLCZsKDmTOlIA:9 a=2Wl4p6LbmfKSPKhIh_70:22 a=NXiRo49oMsgu644ZUbny:22
-X-Proofpoint-ORIG-GUID: 9HJly519PNmkvRfXGWoYGt8XEva1eHi-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDIwOSBTYWx0ZWRfX5jcNUOzHkY1y
- xZ62tyD9fHBoOWlH7I5+h0hFF1irfHD1n7krUqMKPoOuSyYPwuV0/W+P+/vOpS1y67hNO6fAe+S
- vsSCY+D8jCz3fhbS6ewu9H7gnqSy8e6ifohi0HxeGnj+kgayKlXwGP8EbucR77Qw5RYVqchGHQL
- uVwQAhqbsk1eRxgcCJLc5HKTTtAtjyeTr3Flt6Fr1JZidKfP/c8IaLOAWm8DHYfvZILClmikryV
- op5vrCtMqTEmgKdN0i0n0Z00hyarPWJdHmppYXeyENDlFEr7AoRBuou4I/qwsH1hFUSGWKTP+KG
- 8yfNccyATcpQHEqHUdRwmRhAWnWs5EkDlgn9LLtXg/A1ANBxXpUR6LB+a7SY1E=
-X-JNJ: AAAAAAAB0bvv207M2zumyD6i6el4P/o/4Myq/KyXWqubSX9iMRrX/A8oTFsbanU8sSOvtgCkliAQJ7DaDAl6DdncrDzC+eRrbuids1wpJ1ZSq5PfPoZ9WfdfYBel7SohCruEiycuc51tdQe720Wx031XTQ8DFTmloK3K9TlxB0Bbzb35urHOTYGkT+M9TXjgKxpN2QdN5KRmN+bzDDCHpPsMEGQK866kt/iORwnLC2mayr/h94bSVcsf4CUf29lYEJ2fi4t6/SSCexlb9zETLYhGx5B/HsKc2TLz0Qne5pNkN+MvLMf6NEGimcZs96XpGaMilQjmKLbciN0KD0lgNmXpIpovhjbxBJj0y/fcN48iZ+3YajiZpkVUM2ox+8E1svleCK7NwABtVZarR7S6Y6ke5leAqlPHOZmO/UJVX+ctD/wdofXB4jqwetaRKzzBM68I+zFwA5G+bSVA8dbrcKmT2oHPIJOsxTIev04gNvMuLoYDZAgjpxUwB6ZXiSAm9jNhxtweVp3PUiCOnPXeT3FraF68NSQIayuTLlnF2XMufZB7egWt/vA39mfxnVuQEno6+o+eE1XPxaNTFiLN78a6XRkAiK7FEoCnOKh4n5wUUUm2DScgaWGU6mJhcLNXjs7K8izRTU1e5MypPKtUeYFBvF+MZkEeaxykwqpzajEEX/iCxUqpfdlvCiMzzv8Usw4O9GvjncOT9mmnAwitavPn4YVc4VQ4ue32o4wJscptmNOHT0r1cSO5o9C9clHAXk9MDhvFkObfkC3NXEGtQ9rBo2VpghAfOdaddy5o++wIeS9H2zpWdrASUt34iGYJRGMBOFAzZxYB4MS4/Sx7BM12yLA+wcgBNLMdvpkM0TTTJTE087FTV3uf3cH1wgShrCNYKXikoD2ej8kFJljI7fAaIoiT3iT65wz61cIGM5z9QXvcdhOyGw5tmCnpcNAATIrLjYy6/MzHCgMcfqL227hNjqjaulV
- 8PpIknPvN7o34RlSRBoPc368os5Pci9U6BfU+Q78YJ0mJPaApEEZLzmazW5MBvnknHzCkH0ElCkXq3phXc8/LeTrbSq7DyGHQRGDZRUH1g4Bcg7yIbA4HZp+vwZRqhxdmNFVCYnvp7938456EoJRm2Y6o6uM6daFSLKDbzP7ry5dXpxkPsRR35dQiwUpSkuZhKQzInb14aNy+DpzKbVikrJTtwXza5E9XX6HTVJml6rKowtB1EluKfuoR6a8=
-X-Apple-Category-Label: MTY1NzkyMzA3NzI6JGNhdGVnb3J5JF9QZXJzb25hbCw=
+From: VR RS <james.vorres@gmail.com>
+Date: Sat, 29 Aug 2026 18:33:12 -0700
+X-Gm-Features: AcwNN1VOUZlvjZXHPg-GK7pEbJidoYWsFYxCXEo6YkwunFoy686-opFcndt8WX8
+Message-ID: <CAA0e5J=fuvTkqUeasaNqgwwooKacgtS7a4unsT-PXH+HoUPp3g@mail.gmail.com>
+Subject: [BUG] ASUS TUF A14 FA401EA: RT721-SDCA SoundWire speakers enumerate
+ and stream but remain silent
+To: linux-sound@vger.kernel.org
+Cc: Vijendar.Mukunda@amd.com, venkataprasad.potturu@amd.com, 
+	oder_chiou@realtek.com
+Content-Type: text/plain; charset="UTF-8"
 
-The VAIO VJS131 with an ALC233 codec incorrectly selects the headset
-microphone when no headset is connected. Add a PCI SSID quirk for
-1d19:0006 to apply ALC233_FIXUP_ASUS_MIC_NO_PRESENCE, which configures
-pin 0x19 as a headset microphone without its own jack detection.
+Hi,
 
-Signed-off-by: Riku Matsumura <rick197.3@icloud.com>
----
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+I am reporting an audio issue on an ASUS TUF Gaming A14 FA401EA using
+the AMD ACP70 / RT721-SDCA SoundWire audio path.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index e4349743a251..96bbad376925 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -8287,6 +8287,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d05, 0x3034, "TongFang X6KK45xU", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d05, 0x30ba, "TongFang XxAF5xxx", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
-+	SND_PCI_QUIRK(0x1d19, 0x0006, "VAIO VJS131", ALC233_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1d72, 0x1901, "RedmiBook 14", ALC256_FIXUP_ASUS_HEADSET_MIC),
--- 
-2.53.0
+Hardware / OS
+- ASUS TUF Gaming A14 FA401EA
+- AMD Ryzen AI platform / ACP70 SoundWire
+- RT721-SDCA acting as jack + internal SmartAmp + DMIC
+- Arch Linux / Omarchy
+- Windows on the same machine plays through the internal speakers normally
 
+Kernel work tested
+- Stock Linux 7.1.9 did not expose the internal audio path correctly.
+- A custom 7.1.9-arch1-2-fa401audio build using the existing FA401EA
+SoundWire quirk lineage made ALSA/PipeWire enumerate the device
+correctly, but produced no audible output.
+- A follow-up 7.1.9-arch1-3-fa401audio build tested an
+FA401EA-specific non-aggregated endpoint mapping. It still produced no
+audible output.
+
+Current ALSA enumeration
+- card 1: amdsoundwire
+- device 0: SDW1-PIN0-PLAYBACK-SimpleJack rt721-sdca-aif1-0
+- device 2: SDW1-PIN1-PLAYBACK-SmartAmp rt721-sdca-aif2-2
+
+PipeWire creates both:
+- Audio Coprocessor Speaker
+- Audio Coprocessor Headphones
+
+The Speaker sink maps to hw:amdsoundwire,2 and can be selected as the
+default sink.
+
+Raw ALSA test
+speaker-test -D hw:amdsoundwire,2 -c 2
+
+The PCM opens successfully at 48 kHz / S16_LE / 2 channels, runs
+continuously with no xruns or errors, and alternates Front Left /
+Front Right, but there is total silence from the internal speakers.
+
+Diagnostics performed during active playback
+- PCM/DMA state: RUNNING
+- RT721 SoundWire slave/runtime state: active
+- ACP SoundWire manager: active
+- DP3 SmartAmp sink port: active bank, both stereo channels enabled
+- DP3 word length: 16-bit, matching the stream
+- DAPM path: DP3RX -> FU21/FU23 -> SPK -> Speaker, with the relevant
+widgets powered
+- Speaker mixer controls: unmuted / full playback level
+- RT721 driver power/mute sequencing: verified against the exact
+driver source and appears to execute as intended
+- CS31 sample-rate programming: 48 kHz path traced in the driver and
+live state checked
+- Function-unit input gain on entity 0x23 / control 0x0B: live
+readback is 0xFE80 on both channels, matching the ACPI
+mipi-sdca-function-initialization-table (approximately -1.5 dB), so
+this is not a muted/default-gain issue
+- ACPI DSDT/SSDT inspection found no separate GPIO/_DSM/WMI/EC
+speaker-enable sequence outside the RT721 SDCA path
+- Windows on the same hardware confirms the speakers/amp are
+physically functional
+
+Hypotheses already tested and ruled out
+- PipeWire routing/default-sink issue
+- ALSA mute/volume issue
+- missing DAPM route or unpowered speaker widget
+- incorrect sample rate
+- missing ACPI speaker-enable GPIO/DSM/WMI method
+- missing FU input-gain initialization
+- FA401EA endpoint aggregation mismatch (tested in a dedicated
+rebuild; did not restore output)
+- a meaningful behavioural difference in the shared RT721 vs
+RT722/RT712 speaker-init path was not found
+
+At this point every Linux-visible layer from PCM through SoundWire
+transport and SDCA control-plane state looks consistent during
+playback, yet the speakers remain silent. The remaining unverified
+area appears to be RT721 vendor-specific analog/index-register
+initialization or another board-specific condition not visible through
+the standardized SDCA controls.
+
+A detailed local investigation report was generated, including the
+live register/DAPM/ACPI findings and the failed endpoint experiment. I
+can provide the full report, kernel patch, logs, ACPI tables, or any
+targeted register/debug output that would be useful.
+
+Please let me know what additional traces would be most helpful,
+particularly around RT721 vendor analog/output initialization on a
+self-contained SmartAmp topology.
+
+Thanks,
+James
