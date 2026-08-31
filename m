@@ -1,105 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED023BB110
-	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 22:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F9D38CFE4;
+	Mon, 31 Aug 2026 22:31:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788215429; cv=none; b=OcioPs81Yztj51mT048+3kQnCc1IsQqoirLc0fhxWodiLjCzlwsHaPx2P5T6erphPV+rgwwFyg+ttBQHtPc7XQdSnY31mPpJ2tc/27vBzNqSnlktHMUNYfSetN5OVtFA7XtNkaDHmecJYR7z9c1QGwCcjPfvQHhNd4/RwOr/L5s=
+	t=1788215513; cv=none; b=XUaRl3JW1xp1tvkvVnTxIcuUqIX5SsPlc7E0pfGh0q93aDESRlDX8y0vh1/r6MLF1qs6dmXdD8q03pvYPITOv9DqiZ9gr2uqHU6z00uZzFA9SK6/AhsBxxdEa8Qr+etB11O3dEgDFtjhVDDUVhn/Nt4eIACWS28XSsYo9WGzCgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788215429; c=relaxed/simple;
-	bh=BiMRGybCXhFlA4III7edHWQ/Pu5mWncFBHG84Az9rGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=POpej1dx9yTGjSrE+Ms5E6bQpSRlHaS7vUDP1bCHYW3II+ADh8DA/Go9w9cmfVdvntY4dQ8jZhiuiPJwpnu0rvtsFoN0DeUXsRT6HMLZKyHV6Sq7Lrrs2ngk+IrjmDGnzRMF/vkFnPyTQUF8gLJe6PrgCUANR2X7atdayh++ag0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZqKvRwho; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788215513; c=relaxed/simple;
+	bh=Oso+dgHGf9ngPqwwYgqk/cGH7h4Kdl9mR5SdFWHjxQE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hEKse21paco+NnAT6htl5ZPqTGg2OdM4nYXHRJKEzVD1ALwlz/DXM+Lr/hU4XcHl5c+72Wx/0Uh8BfY3QEd/iPomJx081dzJj/ukE0uVvVBIwfYb8hwZJnnAiZlICiBABOLL9jbLbVUoT0cGgNYaRMZYwKqyy7FWJZ9klt4ZVs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVPDB2Da; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZqKvRwho"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A9301F000E9;
-	Mon, 31 Aug 2026 22:30:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVPDB2Da"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9986E1F000E9;
+	Mon, 31 Aug 2026 22:31:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788215427;
-	bh=3QRPqGwDqptdkmDgg7x5BQwqCPcXYPcPcwe4sTsT5dc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZqKvRwhoTh1+q3tgf2+ZpwKfsuC+ERHmDQxxyqyo/BpJFQS1Yuve+RjsU3dCuHAwZ
-	 WNwXExiH9nZ0n3uYNabvMljLry3Bixwe1NR3K7LCbrMWrYV1XAtd5JOG0G85Grhk7w
-	 qXhx4uDOHPYdGY36NxUdQpVX66G4fhOjmLoRA2mMrbTY53qC2mUs10wz7cRfqhSqU6
-	 O7hPgT7m5XT8egw5wD/7WHi0MMUZlPI8FY0wkM86b8mckqYTtOepJYgVmyXYyITpp3
-	 6CTpn5oHvCfFke5xy/RYXbXEfmRbEFSB5D9JaZyWEvrFTftHafqtem3AzluGraqkHE
-	 Uq2XZmFcUH08A==
-Date: Mon, 31 Aug 2026 23:30:23 +0100
+	s=k20260515; t=1788215512;
+	bh=8rDXhVjfe3+sYGPnhHnPLjgMki9YslWI3MwExCoxuMA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=YVPDB2Da1AnXIe3zjCNpmblIgAVemP/6eYWXl+U8VtGoVdg5KvUhVCUfYKbKsyyqS
+	 nBAE5DWKi3bSAZIWsaxk8A+3EpPDZ2qLUHuHrMndQomBo2QJNI0gN6By3Tymk0WnKd
+	 520bxYWtxyotXneY8YvID6ms0v5MR5Fpk97JUX/3BhmuOXb93LfK7eiHQx9PhtI73y
+	 bevt/vL+V0Zy62TI/ldTW9D4kZUvA3dOWYNsHJ24aMqACKwcPPEsGU9YpOQzwvJ6yf
+	 fKVWbgnJ1k/49J8GDPPNYWH5G2h7EsGQ+ZfaWCM1hc7hyKQGXin6+/M/6pUNl7uhVB
+	 ak5Ac3JqG0Dyw==
 From: Mark Brown <broonie@kernel.org>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 09/10] ASoC: Intel: avs: Refactor and fix init_config
- access
-Message-ID: <1f928229-1c43-4260-90e9-9e1bd1cd776b@sirena.org.uk>
-References: <20260831164233.1487766-1-cezary.rojewski@intel.com>
- <20260831164233.1487766-10-cezary.rojewski@intel.com>
+To: arnaud.pouliquen@foss.st.com, Runyu Xiao <runyu.xiao@seu.edu.cn>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ jianhao.xu@seu.edu.cn, stable@vger.kernel.org
+In-Reply-To: <20260830142026.2666914-1-runyu.xiao@seu.edu.cn>
+References: <20260830142026.2666914-1-runyu.xiao@seu.edu.cn>
+Subject: Re: [PATCH] ASoC: sti: initialize IRQ lock before requesting IRQ
+Message-Id: <178817936971.141190.12027742009257573747.b4-ty@b4>
+Date: Mon, 31 Aug 2026 13:29:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oN4Y3csgw+ikYTPk"
-Content-Disposition: inline
-In-Reply-To: <20260831164233.1487766-10-cezary.rojewski@intel.com>
-X-Cookie: Sell by date stamped on bottom.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1120; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Oso+dgHGf9ngPqwwYgqk/cGH7h4Kdl9mR5SdFWHjxQE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqlgDUWo5cznnMrRhO903oDI784KqcpSLgQ16Wd
+ cA0h8/wa1iJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapYA1AAKCRAk1otyXVSH
+ 0MvRB/98rVEgpzPAjhGDfqC+ZJXJILAo46BEza3lgbS4ZqyUVD1Ku/KPXCJpT6++pwvNCGeON7v
+ ZJOOJmLTjEX8SZ5JMBDHYorwscRMrW/QSVvvr9RjbySVSx1R90NZ9R1QEnmUp6KdyS+YaMlINHy
+ pLZoPlw121b09oHzs/UpFEDCEip6CdtznhSEVM5Dx3z7E/MTVuKoiSee8HyfnNnPIVRWACMVnNC
+ RBd4b1v6EbDAQjwbJGIoMEI4Q5mgkU94wLtMvLLns2Ujl9WkU8QXCxonielwx8h/rhQlQtCj1vT
+ QBsIORISausCrAb4MU+ChrcnYL4/oVgHYGhCou6LZgDuDqty
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+On Sun, 30 Aug 2026 22:20:26 +0800, Runyu Xiao wrote:
+> ASoC: sti: initialize IRQ lock before requesting IRQ
 
---oN4Y3csgw+ikYTPk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Aug 31, 2026 at 06:42:32PM +0200, Cezary Rojewski wrote:
-> Existing code accesses enties found in ->init_configs array through
-> indexes that are part of ->config_ids array.  Those two are limited by:
-> ->num_init_configs and ->num_config_ids respectively.  Using ID larger
-> or equal to ->num_init_configs leads to out-of-bounds access:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
 
-...
+Thanks!
 
-> Rather than adding another if-statement, refactor the code.  There is no
-> need to store the IDs, have a list of pointers to actual config-entries
-> instead.  As the verification of ->init_config entries does not differ from
-> verification of other types that are part of the topology.c file, simply
-> reuse the code.
+[1/1] ASoC: sti: initialize IRQ lock before requesting IRQ
+      https://git.kernel.org/broonie/sound/c/04405aeef4f8
 
->  static int avs_path_module_send_init_configs(struct avs_dev *adev, struct avs_path_module *mod)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> +       for (int i = 0; i < template->num_init_configs; i++) {
-> +               struct avs_tplg_init_config *config = template->init_configs[i];
->                 size_t len = config->length;
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-This will dereference every init_configs entry...
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-> +	cfgs = devm_kcalloc(comp->card->dev, module->num_init_configs, sizeof(*cfgs), GFP_KERNEL);
-> +	if (!cfgs)
-> +		return -ENOMEM;
-> +
-> +	ret = parse_dictionary_entries(comp, tuples, block_size, cfgs, module->num_init_configs,
-> +				       sizeof(*cfgs), AVS_TKN_MOD_INIT_CONFIG_ID_U32,
-> +				       init_config_parsers, ARRAY_SIZE(init_config_parsers));
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-...but IIRC this ignores things it doesn't understand so will leave NULL
-entries behind.  You'd presumably need malformed firwmare or something
-but still, we're parsing data from userspace.
+Thanks,
+Mark
 
---oN4Y3csgw+ikYTPk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqWAH8ACgkQJNaLcl1U
-h9AERgf/aMK7Ixaxc+2kZCt9C/z6jV0SVIuGyB4AcTGbH5oZk05W9uIMrXfuf0bz
-QihioQ1k6NhE0Tm6C+mKPLXXwMTfMehxqdDghKIZle4RycD9P89GL8wWoauLJTVJ
-XfItNLixwZPRYH/MWtqXbB+Bj/wPA99bWU/NyJznsDp0U/7K6LWFe5APo1ZR4MCS
-1NdcX3LFP5XCKPTAW29SMTjSjJx1bMDwAoy+KgyQ6j8JbtYKbNcFQSc96pWgkOVh
-pkexmljbvfqcaxrsX1gm+dMdrpunMojXQjfP7VaSFsdQ73X8zHXXrcx9UxJ4qqip
-7Ckhxlaycx2QquYHLma2Ija73SCJ+A==
-=BnU9
------END PGP SIGNATURE-----
-
---oN4Y3csgw+ikYTPk--
