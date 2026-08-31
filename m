@@ -1,48 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00B7521227;
-	Mon, 31 Aug 2026 13:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB683521210;
+	Mon, 31 Aug 2026 13:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183849; cv=none; b=jLxAN0sILUrZaH2Z8p6Q15FuadQV7xSnI/GNQkPQnMqO7W3LrZzhlqYUztaCKlX6mgxxt9vdKS6g4VHrCCcGA3pf0Cs939rNKepVxdlSd+dmOwC+tu1ZEBealAyhMeDic2rUU+kVdkLk0ft6Lf5F/myzUJydKYN8cvyQ2ISFOyA=
+	t=1788183855; cv=none; b=BnigulsA3j5w+GoJ0Mjd6wb5EgnLJxrdk3NABh1WOh8n0Bym6vfwG5wIRZsDT6XodTEUCVYNc+4hNe2JeHa5HHYL2P+rXxTHloWo1nDeVDwx64EPBhNf8dVP75xl3UiAcRb9EDPhSBhpVwR2Edghg3okI9gp+WiErIXgvviXJc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183849; c=relaxed/simple;
-	bh=+eIMNW+G9+vS/u+rgKv4T3f8IJb0j8tppCh6r0VNmSY=;
+	s=arc-20240116; t=1788183855; c=relaxed/simple;
+	bh=9UVlpdY2+yBE/50frAkHYJdIgkUz+ShHyHuMH0CWi2c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iUmPcdGbDQQ+HKGiXWavRBXRH3BLwvgAeue1D0MFDJAT1mLetLYTOP6gVrtxHunIazlleIFGBA6bSuu7cO9KNjhvFHyMJvUF1DqYEofOHdhD+R5Wocxx7Joc1V3zc+chcHiZCtT3adgo9z8Z5XmSmWki2E0SP9HgieTlvcPZ77M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TBJqPGmz; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=AwcoBdIlBgs45z4tI6v9isFOcpUEC+x+2UFpvoztvVaWCiOV0gALF/majqvDZOXGhAgnuMxjHT55XJIeJJgnjhm7gUmLstWTa+HdFRwLLoI9bcU2TvgE4Q9RqLO/8Kz57mcptqDueps3YvovpDv4Zf3qPsfZvue3zxOm1GVn5lM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLk/2A6B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TBJqPGmz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 777681F00ADE;
-	Mon, 31 Aug 2026 13:44:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLk/2A6B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077E01F00A3E;
+	Mon, 31 Aug 2026 13:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183846;
-	bh=5ZSYxAxyXIXMLA4+TJmzL2ZvISOyC00ADA5E9FDWHxQ=;
+	s=k20260515; t=1788183851;
+	bh=QXRzar77aJt/WkXV87uNtCkSjKWYNfrHbwi6KZO9GUw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=TBJqPGmzAffSjVBKMbUqIx2pC1SCHbubjAB+XkX9FUF4r2SOpm1Roj2gSGY2iE0v6
-	 DgMNO7flNIJN4J5iVPwk9sIINs6Uw1LXKY0uARAeS6rufJlv6UsE6t3ISAEg3Xi+c2
-	 JeKa2ePk+V/y0XVpmtjb2gIAG7QI0vHFBxMoUtDk24vRPDvz0QEt+4bAWtwd7QfEds
-	 bYKSCYgDDqeTjMy0GeNONMtrKmMuNclV7DuHqRJe+7dUXLXG/HKGpsc2mO7HkGv7HJ
-	 4v53s5Itz/oSX5ZnNpPv8HgmatItvcFNQwc4C1J4HkS7Lqn75iXNWYcMtZWZ56lTh1
-	 Cp4NB/Q6L3GjA==
+	b=oLk/2A6Bp/XVkKA1mZ5RzaHay0XmceXligCyTi//WFaY5hxDudLnAjanAMKgg7osU
+	 PTSiR80y/52SHOKoBhAAtHGiQ5TPHBsVgd/+Llz8UkdYGo+efIxE2A4WhuKkDGKaO1
+	 K1BhliPYpkFaffXZ3Ohh5Gp3/A4tZ41Xx4rbENXJK5QvX/IAtbXUu9giJtNWUD2NsH
+	 q3LdDyQodkTy9PFmU5zO99wFacjpWSKJ04vAG8FVfMOLGnX5Lpkd9vkXz248Y46Zdf
+	 66nujuGFTyxQcGyLIj/DLY32UbG7l9XpU5Epx811n77OcL7kk9ru3K5NZWEb1/yMQQ
+	 EM6Gw1aIT+pkg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
+Cc: Jetha Chan <jethachan@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
+	Vijendar.Mukunda@amd.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] ASoC: fsl-asoc-card: reduce WM8904 PLL ratio to meet frequency limit
-Date: Mon, 31 Aug 2026 09:26:07 -0400
-Message-ID: <20260831133314.4125787-339-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: amd: yc: Add Alienware m15 R7 AMD to DMIC quirk table
+Date: Mon, 31 Aug 2026 09:26:10 -0400
+Message-ID: <20260831133314.4125787-342-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -52,390 +50,415 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.48
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+From: Jetha Chan <jethachan@gmail.com>
 
-[ Upstream commit 99b5316f08f390a5e1ea2239ecca8e2b4ef70ac6 ]
+[ Upstream commit e782d687d2f5bf8b8113dc48ba22cca4b472c252 ]
 
-WM8904 has a 27 MHz PLL frequency limit. The current S24_LE PLL ratio
-of 384 exceeds this at high sample rates (96 kHz × 384 = 36.864 MHz).
+The Alienware m15 R7 AMD exposes an ACP6x DMIC path, but its DMI
+product name is not present in the Yellow Carp ACP quirk table. As a
+result, the ACP machine driver does not enable the DMIC card on this
+system.
 
-Reduce the ratio to 192 for WM8904, keeping PLL within limits at all
-supported rates (96 kHz × 192 = 18.432 MHz).
+Add the DMI product name for this machine. With this quirk applied, the
+kernel reports:
 
-Add codec-specific pll_ratio_s24 field, default 384, override to 192
-for WM8904.
+  acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Link: https://patch.msgid.link/20260429100028.2739711-6-shengjiu.wang@nxp.com
+and ALSA exposes the ACP DMIC capture device:
+
+  card 3: acp6x
+  device 0: DMIC capture dmic-hifi-0
+
+Tested on an Alienware m15 R7 AMD with product SKU 0B59.
+
+Link: https://jethachan.net/dev/2026/03/21/fixing-internal-microphone-alienware-linux.html
+Assisted-by: OpenAI-Codex:gpt-5.5
+Signed-off-by: Jetha Chan <jethachan@gmail.com>
+Link: https://patch.msgid.link/20260630003328.15675-1-jethachan@gmail.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: ASoC: amd: yc: Add Alienware m15 R7 AMD to
+DMIC quirk table
 
-### Step 1.1: Subject Line
-**Record:** `[ASoC: fsl-asoc-card]` `[reduce]` — Lower WM8904 S24_LE PLL
-ratio so FLL output stays within the codec’s frequency limit.
-
-### Step 1.2: Commit Message Tags
-**Record:**
-- **Signed-off-by:** Shengjiu Wang `<shengjiu.wang@nxp.com>` (author,
-  NXP)
-- **Link:** https://patch.msgid.link/20260429100028.2739711-6-
-  shengjiu.wang@nxp.com
-- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer,
-  applied the series)
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, or Cc: stable tags
-- Part of **[PATCH v2 5/5]** in series “ASoC: fsl-asoc-card: Add some
-  improvements”
-
-### Step 1.3: Commit Body Analysis
-**Record:**
-- **Bug:** WM8904 FLL/PLL output is limited to 27 MHz. With the
-  hardcoded S24_LE ratio of 384, high sample rates exceed that (96 kHz ×
-  384 = 36.864 MHz).
-- **Symptom:** FLL programmed out of spec → audio fails or is unreliable
-  at high rates with S24_LE on WM8904 boards.
-- **Root cause:** `fsl-asoc-card.c` uses a single 384 multiplier for all
-  codecs with PLL enabled; WM8904 needs 192.
-- **Fix:** Add per-codec `pll_ratio_s24` (default 384), set 192 for
-  `fsl,imx-audio-wm8904`.
-
-### Step 1.4: Hidden Bug Fix Detection
-**Record:** Yes — despite “reduce ratio,” this is a hardware correctness
-fix (codec clock out of spec), not a cosmetic cleanup.
+**Local tree:** `v6.18.44-1-g2736c32da98b9` (Makefile: 6.18.44), checked
+out from `stable/linux-6.18.y`.
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 2.1: Change Inventory
+### Step 1.1: Subject line
+**Record:** `[ASoC: amd: yc] [add] Add Alienware m15 R7 AMD to DMIC
+quirk table`
+
+### Step 1.2: Tags
 **Record:**
-- **File:** `sound/soc/fsl/fsl-asoc-card.c` (+7 / −1)
-- **Functions:** `fsl_asoc_card_hw_params()`, `fsl_asoc_card_probe()`
-- **Structs:** `codec_priv` (+1 field)
-- **Scope:** Single-file, surgical fix
+- **Link:** https://jethachan.net/dev/2026/03/21/fixing-internal-
+  microphone-alienware-linux.html (author blog with reproduction
+  details)
+- **Link:**
+  https://patch.msgid.link/20260630003328.15675-1-jethachan@gmail.com
+  (mailing list submission)
+- **Assisted-by:** OpenAI-Codex:gpt-5.5
+- **Signed-off-by:** Jetha Chan \<jethachan@gmail.com\>
+- **Signed-off-by:** Mark Brown \<broonie@kernel.org\> (ASoC maintainer)
+- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
+  stable tags
+- Notable: maintainer Signed-off-by; hardware-tested per commit body
 
-### Step 2.2: Code Flow Changes
+### Step 1.3: Body analysis
 **Record:**
-- **Hunk 1 (struct):** Adds `pll_ratio_s24` to `codec_priv` with
-  documentation.
-- **Hunk 2 (`hw_params`):** `pll_out = sample_rate * 384` → `pll_out =
-  sample_rate * codec_priv->pll_ratio_s24` for S24_LE.
-- **Hunk 3 (`probe` init):** Default `pll_ratio_s24 = 384` for all
-  codecs.
-- **Hunk 4 (WM8904 branch):** Override to `pll_ratio_s24 = 192` for
-  `fsl,imx-audio-wm8904`.
+- **Bug:** Alienware m15 R7 AMD has ACP6x DMIC hardware, but DMI product
+  name is missing from `yc_acp_quirk_table`, so the ACP machine driver
+  does not enable DMIC.
+- **Symptom:** `acp_yc_mach.0` stays unbound; no ACP DMIC ALSA capture
+  device; internal microphone unusable.
+- **Root cause:** BIOS does not expose working `AcpDmicConnected` ACPI
+  property (same pattern as m17 R5 AMD quirk from 2022).
+- **Fix approach:** Add DMI vendor/product match entry pointing at
+  `acp6x_card`.
+- **Version info:** Tested on SKU 0B59; author used kernel 6.19.8 on
+  Arch-based distro.
 
-**Before → After:** WM8904 at 96 kHz S24_LE requests 36.864 MHz FLL
-output → 18.432 MHz (within 27 MHz limit).
-
-### Step 2.3: Bug Mechanism
-**Record:**
-- **Category:** Hardware workaround / logic correctness (wrong clock
-  ratio for a specific codec).
-- **Mechanism:** Generic 384× ratio violates WM8904’s 27 MHz PLL limit
-  at rates above ~70 kHz with S24_LE (e.g. 88.2 kHz × 384 = 33.9 MHz, 96
-  kHz × 384 = 36.9 MHz).
-
-### Step 2.4: Fix Quality
-**Record:**
-- Minimal, codec-specific override; other codecs unchanged (default
-  384).
-- Low regression risk; only affects WM8904 machine configs using PLL
-  path.
-- NXP-authored, ASoC-maintainer-applied.
+### Step 1.4: Hidden bug fix?
+**Record:** Not disguised — this is an explicit hardware-enablement
+quirk fix. Without the entry, probe returns `-ENODEV` and DMIC never
+registers.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 2: DIFF ANALYSIS
+
+### Step 2.1: Inventory
+**Record:**
+- **Files:** `sound/soc/amd/yc/acp6x-mach.c` (+7 lines, 0 removed)
+- **Functions modified:** none directly; `yc_acp_quirk_table[]` data
+  extended
+- **Scope:** Single-file, surgical DMI table addition
+
+### Step 2.2: Code flow change
+**Record:**
+- **Before:** `dmi_first_match(yc_acp_quirk_table)` on Alienware m15 R7
+  AMD returns NULL → `platform_get_drvdata()` NULL → probe fails with
+  `-ENODEV`.
+- **After:** DMI match succeeds → `platform_set_drvdata(pdev,
+  &acp6x_card)` → DMIC card registers, log shows `"Enabling ACP DMIC
+  support via DMI"`.
+- **Path affected:** Platform driver probe during boot on matching
+  hardware only.
+
+### Step 2.3: Bug mechanism
+**Record:** **[Hardware workaround / DMI quirk]** — Missing DMI override
+for a platform whose ACPI tables omit `AcpDmicConnected`. Same mechanism
+as existing Alienware m17 R5 AMD entry (`d40b6529c6269`).
+
+### Step 2.4: Fix quality
+**Record:**
+- Obviously correct: identical structure to 70+ existing entries in the
+  same table.
+- Minimal, no logic changes.
+- **Regression risk:** Very low — only matches exact DMI vendor
+  `"Alienware"` + product `"Alienware m15 R7 AMD"`.
+- **Backport note:** Mainline diff context includes MSI Vector/Raider
+  entries not present in 6.18.44; insertion should go immediately before
+  the existing m17 entry at lines 503–509. Trivial adjustment, same
+  7-line hunk content.
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
 
 ### Step 3.1: Blame
-**Record:** In this 6.18.43 tree, the hardcoded `384` at line 225 and
-WM8904 probe block at lines 833–838 are present. Stable history is
-flattened, but `imx-audio-wm8904` support is in the tree since at least
-Linux 6.18-rc7 (`ac3fd01e4c1ef`).
+**Record:**
+- Alienware m17 R5 AMD quirk introduced by `d40b6529c6269` (Brent
+  Mendelsohn, 2022-10-24).
+- YC machine driver introduced by `fa991481b8b22` (2021-10-18).
+- Both are ancestors of HEAD in this tree.
+- **m15 R7 AMD entry:** NOT present (`git log -S "Alienware m15 R7 AMD"
+  -- sound/soc/amd/yc/acp6x-mach.c` returns empty).
 
-### Step 3.2: Fixes: Tag
-**Record:** N/A — no Fixes: tag.
+### Step 3.2: Fixes: tag
+**Record:** N/A — no Fixes: tag. Bug is omission from quirk table, not a
+regression from a specific commit.
 
-### Step 3.3: Related File History
-**Record:** Patch is **[5/5]** in a series; patches 1–4 cover ASRC DPCM,
-CS42888 constraints, and WM8960/WM8962 format limits — unrelated to this
-WM8904 PLL fix. This patch is self-contained.
+### Step 3.3: Related file history
+**Record:** 73 quirk-related commits in `sound/soc/amd/yc/`. Recent
+stable examples: HP OMEN (`65aabf8896687`), MSI Bravo 17 D7VF
+(`ba06528ad5a31`), ASUS ExpertBook entries. **20** DMI quirk commits
+already in `stable/linux-6.18.y` for this subsystem. Standalone one-
+patch fix.
 
-### Step 3.4: Author Context
-**Record:** Shengjiu Wang is an active NXP/i.MX audio contributor with
-multiple stable-worthy ASoC fixes in this tree.
+### Step 3.4: Author context
+**Record:** Jetha Chan is not a regular ASoC contributor (only unrelated
+Alienware platform/x86 commit `246f9bb62016c` in tree). Patch merged by
+Mark Brown. Precedent: community hardware reports routinely land as DMI
+quirks in this file.
 
 ### Step 3.5: Dependencies
-**Record:** No prerequisites. Applies standalone; only needs existing
-`fsl,imx-audio-wm8904` support and PLL code path already in 6.18.43.
+**Record:** No dependencies. Requires only `SND_SOC_AMD_YC_MACH` driver
+and `yc_acp_quirk_table` — both present since kernel ~5.15+. Applies
+standalone.
 
 ---
 
-## Phase 4: Mailing List and External Research
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original Discussion
-**Record:** `b4 mbox` retrieved thread from lore (7 messages). Patch v2
-5/5 submitted 2026-04-29. Mark Brown applied entire series to
-`broonie/sound` for-7.2 on 2026-04-30. This patch:
-https://git.kernel.org/broonie/sound/c/99b5316f08f3. No stable
-nomination or NAK found in thread.
+### Step 4.1: Original discussion
+**Record:**
+- `b4 dig` with message-id failed (commit not in local repo; lore
+  blocked by Anubis bot protection).
+- Author blog post fetched successfully — detailed reproduction
+  confirming DMI mismatch and successful module-level test.
 
 ### Step 4.2: Reviewers
-**Record:** CC’d: broonie@kernel.org, lgirdwood@gmail.com,
-perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org. Mark Brown
-applied with “Thanks!”
+**Record:** Mark Brown Signed-off-by confirms maintainer acceptance.
+Could not verify CC list via b4 dig -w (tool failure / commit not
+indexed locally).
 
-### Step 4.3: Bug Report
-**Record:** No external bug tracker. Issue found during NXP board
-testing per cover letter (“During testing several issues were
-identified”).
+### Step 4.3: Bug report
+**Record:** Blog documents: `acp_yc_mach.0` unbound, only HDA cards
+visible, DMI product `"Alienware m15 R7 AMD"` vs table having only m17.
+Severity from user perspective: **complete internal mic failure**. m17
+R5 had bugzilla.kernel.org #216590 for same class of issue.
 
-### Step 4.4: Series Context
-**Record:** 5-patch series; this patch is independent of patches 1–4.
+### Step 4.4: Related patches
+**Record:** Standalone. Related sibling: `d40b6529c6269` (m17 R5 AMD,
+same table, same symptom class).
 
-### Step 4.5: Stable List History
-**Record:** UNVERIFIED — lore stable search blocked by bot protection;
-no stable discussion found in mbox thread.
+### Step 4.5: Stable list history
+**Record:** Could not search lore stable archive (bot protection).
+However, 20 prior DMI quirk commits for this exact driver are already in
+`stable/linux-6.18.y`, establishing clear precedent.
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-**Record:** `fsl_asoc_card_hw_params()`, `fsl_asoc_card_probe()`,
-`wm8904_set_fll()` (codec callee).
+### Step 5.1: Key functions
+**Record:** `acp6x_probe()` uses `yc_acp_quirk_table[]`; table data
+extended only.
 
 ### Step 5.2: Callers
-**Record:** `fsl_asoc_card_hw_params` registered as `.hw_params` in card
-DAI ops (line 295) — invoked on every PCM open/hw_params for
-playback/capture.
+**Record:** `acp6x_probe` registered as `.probe` in `acp6x_mach_driver`,
+invoked via `module_platform_driver()` at boot when
+`CONFIG_SND_SOC_AMD_YC_MACH` is enabled and ACPI platform device exists.
 
 ### Step 5.3: Callees
-**Record:** `snd_soc_dai_set_pll()` → `wm8904_set_fll()` →
-`fll_factors()` configures WM8904 FLL registers. `wm8904.c` does not
-validate Fout against 27 MHz; it can succeed in software while hardware
-is out of spec (Fvco computed up to ~147 MHz at 36.864 MHz Fout).
+**Record:** `dmi_first_match()`, `platform_set_drvdata()`,
+`devm_snd_soc_register_card()`.
 
 ### Step 5.4: Reachability
-**Record:** Userspace opens PCM stream on imx8mp Hummingboard Pulse (and
-related boards) with WM8904 → `hw_params` → PLL programmed. WM8904
-advertises `SNDRV_PCM_FMTBIT_S24_LE` and rates up to 96 kHz — the broken
-path is reachable from normal audio use.
+**Record:** Triggered on every boot for Alienware m15 R7 AMD with YC ACP
+hardware and module built-in or loaded. Not userspace-triggerable, but
+affects all owners of this laptop model at boot.
 
-### Step 5.5: Similar Patterns
-**Record:** Other codecs on the same driver (WM8962, WM8994, NAU8822)
-keep default 384; only WM8904 needs the lower ratio — consistent with
-codec-specific hardware limits.
-
----
-
-## Phase 6: Cross-Reference Against Local Tree (6.18.43)
-
-### Step 6.1: Buggy Code Present?
-**Record:** **YES.** Local tree is `v6.18.43` (stable/linux-6.18.y).
-Buggy hardcoded `384` at line 225; WM8904 config at lines 833–838
-without ratio override. `imx8mp-hummingboard-pulse-codec.dtsi` uses
-`fsl,imx-audio-wm8904`. Multiple DTBs build from that DTSI.
-
-### Step 6.2: Backport Complications
-**Record:** Clean apply expected — patch matches current file structure
-(index `44083d15f6e5` in submission aligns with local tree).
-
-### Step 6.3: Related Fixes Already Present?
-**Record:** `pll_ratio_s24` not in tree; fix not yet applied.
+### Step 5.5: Similar patterns
+**Record:** Entire `yc_acp_quirk_table[]` is a catalog of identical per-
+laptop DMI overrides for broken/missing ACPI DMIC detection. Alienware
+m17 R5 AMD entry at lines 503–509 is the direct sibling.
 
 ---
 
-## Phase 7: Subsystem Context
+## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
 
-### Step 7.1: Subsystem and Criticality
-**Record:** **ASoC / sound/soc/fsl** — IMPORTANT for i.MX embedded
-platforms; not core kernel, but affects real shipped hardware.
+### Step 6.1: Buggy code exists?
+**Record:** **YES.** File `sound/soc/amd/yc/acp6x-mach.c` exists. Quirk
+table and probe logic present. m17 R5 AMD quirk present; **m15 R7 AMD
+missing** — bug is live in 6.18.44.
 
-### Step 7.2: Subsystem Activity
-**Record:** Actively maintained; WM8904 Hummingboard support added in
-6.18 cycle.
+### Step 6.2: Backport complications
+**Record:** **Minor context adjustment.** Mainline patch context
+references MSI Vector/Raider entries absent from 6.18.44; insert before
+existing Alienware m17 block. No structural conflicts.
+
+### Step 6.3: Related fixes already present?
+**Record:** m17 R5 AMD quirk (`d40b6529c6269`) present. No m15 fix. No
+duplicate.
 
 ---
 
-## Phase 8: Impact and Risk Assessment
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 8.1: Who Is Affected
-**Record:** Users of i.MX boards with `fsl,imx-audio-wm8904` (SolidRun
-imx8mp Hummingboard Pulse/Pro/Mate/Ripple variants).
-CONFIG_SND_SOC_FSL_ASOC_CARD + WM8904.
+### Step 7.1: Subsystem criticality
+**Record:** **sound/ASoC AMD YC driver** — IMPORTANT for affected laptop
+users; PERIPHERAL in global kernel terms (config-dependent, specific
+hardware).
 
-### Step 8.2: Trigger Conditions
-**Record:** PCM stream with `SNDRV_PCM_FORMAT_S24_LE` at sample rates
-where `rate × 384 > 27 MHz` — notably 88.2 kHz and 96 kHz. Common for
-hi-res audio. Unprivileged users via standard ALSA/PulseAudio/PipeWire.
+### Step 7.2: Subsystem activity
+**Record:** Highly active — continuous DMI quirk additions through
+2025–2026, many backported to 6.18.y stable.
 
-### Step 8.3: Failure Severity
-**Record:** **MEDIUM-HIGH** for affected hardware — broken or unreliable
-audio (FLL out of spec), not a kernel crash. Real functional defect on
-supported boards.
+---
 
-### Step 8.4: Risk-Benefit
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: Who is affected
+**Record:** Owners of Alienware m15 R7 AMD laptops running kernels with
+`SND_SOC_AMD_YC_MACH` enabled (common on AMD Rembrandt/Yellow Carp
+laptops).
+
+### Step 8.2: Trigger conditions
+**Record:** Every boot on matching DMI identity. Deterministic, not a
+race. Unprivileged users cannot trigger the fix path, but all users on
+this hardware are affected by the bug.
+
+### Step 8.3: Failure mode severity
+**Record:** Internal DMIC completely non-functional (driver probe
+fails). **Severity: MEDIUM** — not crash/corruption/security, but core
+laptop functionality broken. Falls under stable **hardware quirk
+exception**.
+
+### Step 8.4: Risk-benefit
 **Record:**
-- **Benefit:** Restores correct audio at high sample rates on WM8904
-  boards already supported in 6.18.y.
-- **Risk:** Very low — 7-line change, WM8904-only override, defaults
-  preserved for other codecs.
-- **Ratio:** Strong benefit, minimal risk.
+- **Benefit:** HIGH for affected users (working internal microphone).
+- **Risk:** VERY LOW (7-line DMI string, exact hardware match only).
+- **Ratio:** Strongly favorable; matches established stable practice for
+  this file.
 
 ---
 
-## Phase 9: Final Synthesis
+## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+### Step 9.1: Evidence summary
 
 **FOR backport:**
-- Real hardware bug on boards in this tree
-- Vendor-authored, maintainer-applied fix
-- Small, self-contained, standalone within series
-- Buggy code confirmed present in 6.18.43
-- Hardware quirk / workaround category (stable-appropriate)
-- Affects user-visible audio functionality
+- Fixes real, reproducible hardware bug (dead internal mic)
+- Hardware quirk / DMI workaround — explicit stable exception category
+- 7-line, single-file, obviously correct
+- Tested on real hardware; ASoC maintainer Signed-off-by
+- Identical pattern to m17 R5 quirk already in tree since 2022
+- 20 similar quirk commits already in 6.18.y stable for this driver
+- Driver and quirk infrastructure fully present in this tree
+- No new APIs, no behavior change for non-matching systems
 
 **AGAINST backport:**
-- Not a crash/security/data-corruption issue
-- Limited to one machine driver + one codec variant
-- WM8904 fsl-asoc-card support is relatively new in 6.18
+- Not a crash, security, or data-corruption issue (strict "important
+  issue" reading)
+- Lore review thread not accessible for verification
+- Minor patch context adjustment needed vs mainline
 
-**Unresolved:** No independent Tested-by; no explicit stable nomination
-in mailing list.
+**Unresolved:**
+- Full mailing list review thread (Anubis blocked lore.kernel.org)
+- b4 dig could not resolve commit hash (not in local tree)
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — math verified; NXP + Mark
-   Brown; identified in board testing.
-2. Fixes real bug affecting users? **PASS** — broken hi-rate S24_LE
-   audio on WM8904 imx boards.
-3. Important issue? **PASS (MEDIUM)** — functional hardware defect, not
-   crash-level.
-4. Small and contained? **PASS** — 7 lines, one file.
-5. No new features/APIs? **PASS** — internal driver parameter only.
-6. Can apply to local tree? **PASS** — code exists, clean apply
-   expected.
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — same pattern as dozens of
+   accepted quirks; author tested on hardware
+2. Fixes real bug affecting users? **PASS** — internal microphone
+   completely broken
+3. Important issue? **PASS** (hardware quirk exception) — functional
+   hardware failure on a commercial laptop
+4. Small and contained? **PASS** — 7 lines, 1 file
+5. No new features or APIs? **PASS** — DMI table entry only
+6. Can apply to local tree? **PASS** — trivial insertion before existing
+   Alienware m17 entry
 
-### Step 9.3: Exception Category
-**Record:** Hardware quirk/workaround — codec-specific clock ratio
-correction.
+### Step 9.3: Exception category
+**Record:** **Hardware quirk/workaround** — DMI-based enablement for
+laptop with broken ACPI DMIC detection.
 
-### Step 9.4: Decision Rationale
-For **linux-6.18.y (6.18.43)**: the buggy WM8904 PLL configuration is
-present, real imx8mp Hummingboard hardware is supported, and the fix is
-minimal and codec-specific. This is appropriate stable material as a
-hardware correctness fix for boards already enabled in this tree.
+### Step 9.4: Problem and decision rationale
+
+This commit solves a concrete hardware support gap: the Alienware m15 R7
+AMD has an ACP6x DMIC path, but without a DMI quirk the `acp_yc_mach`
+platform driver refuses to bind because ACPI does not report
+`AcpDmicConnected`. The result is no internal microphone on Linux — a
+user-visible regression-class hardware issue, not a cosmetic fix.
+
+For the 6.18.y stable tree specifically, all infrastructure exists (YC
+driver since 2021, m17 sibling quirk since 2022, continuous stable
+backport of identical quirk patches). The fix is minimal, maintainer-
+reviewed, and carries negligible regression risk while restoring
+essential laptop functionality for a defined hardware population.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed subject, tags, body from provided commit message and
-  mbox
-- [Phase 2] Diff analysis: 7 lines in `fsl-asoc-card.c`, 2 functions
-  modified
-- [Phase 3] `git describe HEAD` → v6.18.43; `git blame` line 225 shows
-  hardcoded 384
-- [Phase 3] `git log stable/linux-6.18.y -S "imx-audio-wm8904"` →
-  present since 6.18-rc7
-- [Phase 3] Confirmed patch 5/5 is standalone within series (mbox cover
-  letter)
-- [Phase 4] `b4 mbox` → 7-message thread; Mark Brown applied series
-  2026-04-30
-- [Phase 4] No stable/CC/stable or NAK in mbox thread
-- [Phase 4] UNVERIFIED: lore stable list search (bot-blocked)
-- [Phase 5] `fsl_asoc_card_hw_params` called from `.hw_params` DAI ops
-  (line 295)
-- [Phase 5] `wm8904_set_fll`/`fll_factors` reviewed — no 27 MHz Fout
-  validation in driver
-- [Phase 5] WM8904 supports S24_LE and up to 96 kHz (`wm8904.c` lines
-  2023–2026)
-- [Phase 6] Buggy code confirmed at line 225; WM8904 probe at lines
-  833–838
-- [Phase 6] `imx8mp-hummingboard-pulse-codec.dtsi` uses `fsl,imx-audio-
-  wm8904`
-- [Phase 6] Multiple DTBs include pulse codec DTSI (Makefile lines 211,
-  pro/mate/ripple)
-- [Phase 8] 96 kHz × 384 = 36.864 MHz > 27 MHz; 96 kHz × 192 = 18.432
-  MHz < 27 MHz
-- [Phase 8] 88.2 kHz × 384 = 33.87 MHz also exceeds limit
+- **[Phase 1]** Parsed subject, tags, body from provided commit message
+- **[Phase 1]** Fetched author blog: confirmed DMI mismatch, unbound
+  `acp_yc_mach`, successful DMIC after quirk
+- **[Phase 2]** Diff: +7 lines to `yc_acp_quirk_table[]` in
+  `acp6x-mach.c`
+- **[Phase 2]** Read `acp6x_probe()` lines 758–816: confirmed DMI match
+  enables `acp6x_card`, no match → `-ENODEV`
+- **[Phase 3]** `git describe HEAD`: v6.18.44-1-g2736c32da98b9
+- **[Phase 3]** `git log -S "Alienware m15 R7 AMD"`: empty — commit not
+  in tree
+- **[Phase 3]** `git blame` lines 503–509: m17 quirk from
+  `d40b6529c6269` (2022-10-24)
+- **[Phase 3]** `git merge-base --is-ancestor d40b6529c6269 HEAD`: m17
+  quirk is ancestor
+- **[Phase 3]** `git merge-base --is-ancestor fa991481b8b22 HEAD`: YC
+  driver is ancestor
+- **[Phase 3]** `git log --oneline -20 --
+  sound/soc/amd/yc/acp6x-mach.c`: many recent quirk commits
+- **[Phase 3]** `git show d40b6529c6269`: m17 quirk, same bug class,
+  bugzilla #216590
+- **[Phase 4]** `b4 dig` for new patch message-id: failed (exit 2)
+- **[Phase 4]** lore.kernel.org fetch: blocked by Anubis bot protection
+- **[Phase 4]** Blog fetch: success — full reproduction details
+- **[Phase 5]** `grep acp6x_probe/dmi_first_match`: probe at line 758,
+  DMI check at 798
+- **[Phase 6]** `grep "Alienware" acp6x-mach.c`: only m17 R5 present,
+  m15 R7 absent
+- **[Phase 6]** Confirmed Vector A16/Raider A18 from mainline diff
+  context not in 6.18.44 tree
+- **[Phase 6]** `git log stable/linux-6.18.y --grep="DMI quirk" --
+  sound/soc/amd/yc/ | wc -l`: 20 quirk commits in stable
+- **[Phase 7]** Read `sound/soc/amd/Kconfig` lines 107–116:
+  `SND_SOC_AMD_YC_MACH` config exists
+- **[Phase 8]** Failure mode verified via probe code: no DMI match →
+  `-ENODEV` → no DMIC card
 
-**YES**The background git history checks are done. They confirm:
+**YES**The background searches finished and match what the analysis
+already used:
 
-- **`imx-audio-wm8904` support is in the 6.18.y tree** (present since at
-  least Linux 6.18-rc7), including the Hummingboard Pulse DTS and the
-  hardcoded `384` PLL ratio.
-- **The fix is not in this tree yet** — `pll_ratio_s24` does not appear
-  on master or stable.
-- **History is flattened** in this checkout, so individual introduction
-  commits are hard to isolate, but the buggy WM8904 path is clearly
-  present in 6.18.43.
+- **Author/subject search:** No ASoC quirk commit for "Alienware m15 R7
+  AMD" in this tree. The only m15 R7 hits are unrelated `platform/x86`
+  Alienware WMI work.
+- **Stable quirk count:** **20** DMI quirk commits for
+  `sound/soc/amd/yc/` are already in `stable/linux-6.18.y`, including
+  the sibling `d40b6529c6269` (Alienware m17 R5 AMD) entry.
 
-That supports the earlier **YES** verdict: this is a small, standalone
-hardware fix for boards already supported in linux-6.18.y.
+That supports the **YES** backport verdict for 6.18.y: same quirk
+pattern, driver and table already present, only the m15 R7 DMI entry is
+missing.The target-commit search finished: **"Alienware m15 R7 AMD" is
+not in `sound/soc/amd/yc/acp6x-mach.c` in this tree.** The only m15 R7
+matches are unrelated `platform/x86` Alienware WMI commits, which
+confirms the ASoC DMIC quirk patch still needs to be backported.
 
- sound/soc/fsl/fsl-asoc-card.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/fsl/fsl-asoc-card.c b/sound/soc/fsl/fsl-asoc-card.c
-index 71113886e494b..dcf2e495ad19f 100644
---- a/sound/soc/fsl/fsl-asoc-card.c
-+++ b/sound/soc/fsl/fsl-asoc-card.c
-@@ -48,6 +48,9 @@
-  * @mclk_id: MCLK (or main clock) id for set_sysclk()
-  * @fll_id: FLL (or secordary clock) id for set_sysclk()
-  * @pll_id: PLL id for set_pll()
-+ * @pll_ratio_s24: PLL output ratio for S24_LE format (PLL_freq = sample_rate × ratio)
-+ *                 Default is 384, but some codecs (e.g., WM8904) require lower values
-+ *                 to stay within PLL frequency limits
-  */
- struct codec_priv {
- 	struct clk *mclk;
-@@ -56,6 +59,7 @@ struct codec_priv {
- 	u32 mclk_id;
- 	int fll_id;
- 	int pll_id;
-+	int pll_ratio_s24;
- };
- 
- /**
-@@ -222,7 +226,7 @@ static int fsl_asoc_card_hw_params(struct snd_pcm_substream *substream,
- 
- 		if (codec_priv->pll_id >= 0 && codec_priv->fll_id >= 0) {
- 			if (priv->sample_format == SNDRV_PCM_FORMAT_S24_LE)
--				pll_out = priv->sample_rate * 384;
-+				pll_out = priv->sample_rate * codec_priv->pll_ratio_s24;
- 			else
- 				pll_out = priv->sample_rate * 256;
- 
-@@ -742,6 +746,7 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
- 	for (codec_idx = 0; codec_idx < 2; codec_idx++) {
- 		priv->codec_priv[codec_idx].fll_id = -1;
- 		priv->codec_priv[codec_idx].pll_id = -1;
-+		priv->codec_priv[codec_idx].pll_ratio_s24 = 384;
- 	}
- 
- 	/* Diversify the card configurations */
-@@ -835,6 +840,7 @@ static int fsl_asoc_card_probe(struct platform_device *pdev)
- 		priv->codec_priv[0].mclk_id = WM8904_FLL_MCLK;
- 		priv->codec_priv[0].fll_id = WM8904_CLK_FLL;
- 		priv->codec_priv[0].pll_id = WM8904_FLL_MCLK;
-+		priv->codec_priv[0].pll_ratio_s24 = 192;
- 		priv->dai_fmt |= SND_SOC_DAIFMT_CBP_CFP;
- 	} else if (of_device_is_compatible(np, "fsl,imx-audio-spdif")) {
- 		ret = fsl_asoc_card_spdif_init(codec_np, cpu_np, codec_dai_name, priv);
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index d9f145b634f35..d657287ccf43e 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -500,6 +500,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VF"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Alienware"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Alienware m15 R7 AMD"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.53.0
 
