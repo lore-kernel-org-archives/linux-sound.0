@@ -1,43 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9845237C923
-	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 20:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC5838887C
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 21:19:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788209848; cv=none; b=d2CGF3/G9O7vsGxMJ+O6oh1FF1NVe2TAqSG4WJWjQxENkbEMFAx+oLs8sVm1ZYTsCCqpmsslLFJ8bH7BUnY1Q3qXPdPfHuYr6ZDZtOEPCEjNO2kNBVbkLYWhTFHyzMAw6tl3Es7hRpz5DEXOKfIWO+w9Ix4kxJUDuLNC8BH9fjg=
+	t=1788211150; cv=none; b=KjoVi9L1UeWn8gxblI3XumQH7XYEJkQ88alDb3u/Xg09iYgorZw87x8uNTgSUZiPP5pVUBIjzFdy1oEW1NtyyqkcDmxiUP8rjb+yw0au71juTPm/MuIw03J8YqNHKDlJAehd0RWSdDP2bynKSVmZ3wj1sHdBbluPPgebPNMWRgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788209848; c=relaxed/simple;
-	bh=SZFnu8U3lGaZywGc+S5AHO9Rs2+8eDZVx0zLu4RGMm0=;
+	s=arc-20240116; t=1788211150; c=relaxed/simple;
+	bh=LqVfC8cf6moDq3zNM0IhVbZVtg1vWoD7JNS1iIklVfQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b0qUnIl5itwS4wXPiERbBt2VRK5xR0YFJ4/pkCCHs2CeUvJ7sEtw23MdBmLB965wA5aPV2I0wyNqRqZidU3KpNAvNvbSksVa52FxCHfNLAxbjAifdmdfXq97SSn8T4Wlboc6qpW1uZU/w7RcgBedAJIXbuPaR8feIwmTXI4lA1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWVCQErD; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=aZ2Vp05Zi+Tex4yXC2MnUTSVengYNZBp0Tp1A6xQkSCYFzCGP3KTvKyUX3AzEnFL9nCHtxbb+Mi4TkbEizeTUPuuPN0dsf7WFkAm5XalHXP5aij20PzmOtwhhGNRRy4ejVbvnoz/uMfSegyQjoNdhILr+Ml1GN8Iucbpn9HzpXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cnn9sjA3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWVCQErD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D1071F000E9;
-	Mon, 31 Aug 2026 20:57:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cnn9sjA3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71B5C1F000E9;
+	Mon, 31 Aug 2026 21:19:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788209845;
-	bh=gaZEKL2+TthySOxdON0donjsFeKTptge43WVMyCtQvY=;
+	s=k20260515; t=1788211149;
+	bh=LqVfC8cf6moDq3zNM0IhVbZVtg1vWoD7JNS1iIklVfQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KWVCQErDeig5I9I/6973al8oXkfRKNRVDvmRNZCKW2waI++V+pHr87T1gUTawwTP3
-	 hxNqJy03Dxj7s7aYiuCwSHaguQ9T5IjBw9kxH9d6Ji3TedAg2O+fasW5n6tE+O7DNz
-	 /PoNQurqO/WOvd/D5kUq5lHF+3Aazzm6WCmwcwwzVRnoQ93hp+DUrPTP8MRiBbv3lW
-	 qGDXpp2wnOI+HRfAw4+AglYQqyFfFkhH1Jsz9lfSjCQAe7jN0Iq+q3PlIYM+6IRo4V
-	 HjzSlN1o9zmBXguPKnpId8I1KhICBBEzDmYKprvE42AvwPtKw4cc2TX3dd1J+5Ozhq
-	 7tEf1D9f3hqIg==
-Date: Mon, 31 Aug 2026 21:57:21 +0100
+	b=Cnn9sjA3dZuMOHEYI1p3DhL/2Oocq6+oP4uhmZd6viGbYr7u0XqmI36H9/UmPfc6d
+	 G/sG+y442NjlwPxAxjqyIpx5yxMAxqMnioO/g8Tf+JOXEORAEOwxBklK6Ktrkg/OLA
+	 Vm8lcREQnUSC/ltdACTj6HkuphifWMVN7Vm1OmYK2vte6Oh8X6N8OCSQEGQ45lVh2I
+	 XKeylJdUIGFgShbFdgFoQUc0EJjSVcHnhQ5ybER9gIDfjqimlzm/Uh//iHMWTI+5do
+	 /hedvlnr7No336TcBQQ/7Yno/kPS5zkLtcdtWoSRB8yxO+EEgur9FUrL8JctlAj5OD
+	 pqPQoU9F4V3Lg==
+Date: Mon, 31 Aug 2026 22:19:04 +0100
 From: Mark Brown <broonie@kernel.org>
-To: jml <jml@carbonforge.ai>
-Cc: Vijendar.Mukunda@amd.com, shenghao-ding@ti.com,
-	venkataprasad.potturu@amd.com, kevin-lu@ti.com, baojun.xu@ti.com,
-	sen@ti.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] ASoC: tas2783: re-initialise amplifiers from
- .startup after system sleep
-Message-ID: <0c55f950-fc93-4826-9178-193dcf64658f@sirena.org.uk>
-References: <20260824034153.50193-1-jml@carbonforge.ai>
- <20260824034153.50193-4-jml@carbonforge.ai>
+To: Qianghua Wang <qianghua.wang@senarytech.com>
+Cc: linux-sound@vger.kernel.org,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	bo liu <bo.liu@senarytech.com>
+Subject: Re: [PATCH v4 0/3] ASoC: add Senary SN624x SoundWire SDCA support
+Message-ID: <c3eee22d-2337-408e-bdcf-cd93980a8ade@sirena.org.uk>
+References: <cover.1787017592.git.qianghua.wang@senarytech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,91 +48,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8PkRpOwmIxTTN1t4"
+	protocol="application/pgp-signature"; boundary="CtXu72Mr4aXZKsOo"
 Content-Disposition: inline
-In-Reply-To: <20260824034153.50193-4-jml@carbonforge.ai>
-X-Cookie: Sell by date stamped on bottom.
+In-Reply-To: <cover.1787017592.git.qianghua.wang@senarytech.com>
+X-Cookie: It's later than you think.
 
 
---8PkRpOwmIxTTN1t4
+--CtXu72Mr4aXZKsOo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Aug 23, 2026 at 08:41:53PM -0700, jml wrote:
+On Tue, Aug 18, 2026 at 10:08:43AM +0800, Qianghua Wang wrote:
+> This series adds SoundWire SDCA support for Senary SN624x
+> multi-function codecs (jack, speaker amp, DMIC) on Intel ARL,
+> LNL, MTL, and PTL.
 
-For DCO purposes you should really use something that's less obviously a
-pseudonym.
+This doesn't apply against current code, please check and resend.
 
-> After system sleep the amplifiers come back silent. The firmware is in
-> fact re-downloaded correctly when the peripheral re-enumerates - the=20
-> download reports success and both fw_dl_success and hw_init are set -=20
-> but the part still produces no output. Only a firmware download
-> performed shortly before playback restores sound.
-
-This really feels like a bodge; the resume path ought to be able to
-figure out getting the device into a good state without this.  There's
-some issues below which I think would be best solved by handling this in
-the actual resume path.  Are you sure it's not something like races with
-the device bouncing on and off the bus during init and something eating
-all the removals while a callback is running?
-
-> +static int tas_sdw_startup(struct snd_pcm_substream *substream,
-> +			   struct snd_soc_dai *dai)
-> +{
-
-> +	tas_dev->hw_init =3D false;
-> +	regcache_cache_only(tas_dev->regmap, false);
-> +
-> +	ret =3D tas_io_init(tas_dev->dev, tas_dev->sdw_peripheral);
-> +	if (ret || !tas_dev->fw_dl_success) {
-
-What stops tas_update_status() running at the same time?  That also
-tries to do an _io_init().  Also given that _io_init() does a software
-reset do we need to resync bits of the cache?
-
->  static const struct snd_soc_dai_ops tas_dai_ops =3D {
-> +	.startup	=3D tas_sdw_startup,
-
-This only runs for new streams so if we're suspended with active audio
-we won't go through startup again...
-
-> +/*
-> + * fw_dl_success on its own is not a reliable indication that the DSP st=
-ill
-> + * holds its program: whether a given peripheral re-enumerates before or
-> + * after this notifier runs is a race, and a download performed while the
-> + * bus is still settling does not stick.
-> + */
-> +static int tas2783_pm_notify(struct notifier_block *nb,
-> +			     unsigned long action, void *data)
-> +{
-> +	struct tas2783_prv *tas_dev =3D
-> +		container_of(nb, struct tas2783_prv, pm_nb);
-> +
-> +	switch (action) {
-> +	case PM_SUSPEND_PREPARE:
-> +	case PM_HIBERNATION_PREPARE:
-> +	case PM_POST_SUSPEND:
-> +	case PM_POST_HIBERNATION:
-> +		tas_dev->force_reinit =3D true;
-> +		break;
-
-=2E..which is going to interact poorly with this.
-
---8PkRpOwmIxTTN1t4
+--CtXu72Mr4aXZKsOo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqV6rAACgkQJNaLcl1U
-h9DsOwgAhfeJl7T51KL0tDm2B4YVvuYavTxf7op3Jnf4Ar4817FRjLA445Q5fvcy
-trmr4c/P0AkIPEl+1k+IfDDEwoPCvQGP0Wdoj8nhD2oLxlRJEtuPu910zuQCX5ts
-XVJ9uZRE/FUMrMzdjkzKSf/Ehcte8wKq6Sk1F7QaWjqOcGXmlKWPpEb6WPzeVJRe
-6Gzm3Vnm1o/asX8RWw5t17Yqi/WbvA6J9nXOsEvhMQE4IlQL8WXKC3abA2cnz7kV
-qLnaYe/LhrvTcCgH5GSPUgzts7RUtEFE/w9QxA144/Wv/DFItJYaC+N9tNoFa0jc
-J0aaQ8/hvnlVHMVhaf8uCspS+IdsZg==
-=9/PK
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqV78gACgkQJNaLcl1U
+h9BwFgf+KyBjd8M1MPAitVSZmPU3/xkC7LyRj2+RYfQJCWx6IetQ/IOtCKWRwqKX
+isgaTX3CXHff+h+E7YN1QcfwV0FOYmDziBdW5mI5wt7WeAEWq0semiSdxGdyrcZZ
+jS7bAcaD1dT6mov4jIp8LkHqUVJwBZ75JFWdrWzSizca4fRwJdugiwFGBG2zFoj2
+69q1V1BB+37qYSLKy5LpMYG7ear8rh950remN+O7/0WRvpp/x3nEchkqaO+M7hFG
+ti6Nmg6wd++eHx20dQ43Xi4vxQe4sNkikgAcG5TMfG/1alz0NdeEhFM8JE0JZM8M
+1NUcokKw5l+V85s/IeQ1cBwHgevNJA==
+=3XPH
 -----END PGP SIGNATURE-----
 
---8PkRpOwmIxTTN1t4--
+--CtXu72Mr4aXZKsOo--
