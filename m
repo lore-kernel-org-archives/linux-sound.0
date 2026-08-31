@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7F84746AB;
-	Mon, 31 Aug 2026 13:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D20459B679;
+	Mon, 31 Aug 2026 13:51:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184290; cv=none; b=HZQtdQ3MUMPEIvO6ynME22naYX+7utksR5JScAvtvGmqaXC9T7lV/DKdyVKglKBSzEh2FlHjtvCwmI4kiIXyOc1WhS4zB9ARTnfA/FJFcN/7WA6Rq/Fzd4Zy47BNZRVDBIdjg0ZUUk0mo/u7vXbaB2JM83AERW5NMw0heeT+z2M=
+	t=1788184304; cv=none; b=Ui6/pJ2Uuwj7zT7ESBoYYibW4BGPw6hF6HyJ2F4tphM3i846/2ASWhH9/EfnS71eH9MOQaxd6y7xraD+N/5VbIeeP7Vrnfkt/+zow8XI0vv5Au2yaSbFvgXUvt3yNb/U4krAE32il5TBQwzapnuNd+GzFh4mkaNnjt2yhGI9DyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184290; c=relaxed/simple;
-	bh=tv2t9Qi3Md7T4llAZTdrrda9R0abp35jq5QwT9YHbJs=;
+	s=arc-20240116; t=1788184304; c=relaxed/simple;
+	bh=1uAy2OJTOTy0zeju2706sQ4Mlt9NE8ih/SaQurLonrk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QMb2SWBxgwtTj22pGyzM8k4DKVI/wdzOrMxdVhgGS7n4wdVWqjWKu215U/wyJb9jlYApaLR38Ignu/fgzIIOmjWv6LKFnV1fm2GnlwnyvILJrfSMCjbE9fxDLn5ASaZSsIMuihUFzLNrsbcFzGFTf/m/SsbMCeAfTOj2+ZU7gpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GnL2iVXJ; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=GoDuMhIT081OFmDb27rFPvfFN0bqqJKlsL29aqS5jSA4Ghii6dzq8fuXjGu9ypXW64yND22P4cn2hMPKHMMhUk9e2+TUEtZn9IgGQNwQRXUrVuK84s0nAmivOLgx00qMhpDAJn/fPoC98Pbnux+s+ItXAr7ZCm+bzJjN7ZqVMSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mU4S5Nrt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GnL2iVXJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FF51F00A3D;
-	Mon, 31 Aug 2026 13:51:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mU4S5Nrt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48C881F000E9;
+	Mon, 31 Aug 2026 13:51:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184288;
-	bh=mOxVgusYOuBLDF9wnkORRZlaJ14L8gZxA3VUemltWLM=;
+	s=k20260515; t=1788184299;
+	bh=Xy8SsRCa5kF8aw3Zrtf9+1ak17dI9byixxsBvDMsfPU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GnL2iVXJ96zQT4MzXcLCkxVSdrhV5Ruju1/MyHsHmRxDLHrNw7GCEiNabEUJ88xH6
-	 IunTdUjga7GwgjT3VNkmnqxggyyvZyEr0UP7DoB9bISwSvba6Z+ze6BgaZPiNwnVMO
-	 vAjIqr4bZGc+O1h2oMp60Ch2McgjMJv4Yf693UzqbDapFqsLeJ7Ij2ABdrjlr/3qhU
-	 ml4WPeW7SRfsuA73gj5/zokLBM5M543UnncwG2Ails4jkYXFsN+De2iuctXXFurJyC
-	 rx7xosh8isD0K9H4GSHFzbhWpRipCHXbIEQ5oV0eEAukZjo5pRR224eesBji1isHuz
-	 LfkiqT3s6nQKg==
+	b=mU4S5NrtaYa2SU3f32sw61H3eU49cyJxqE4kLwldFStqFlBHasqzYMCCXd3GVDQNQ
+	 ksrkmCSKV4idJoqqh6itlWqaIz87331DpcsHBu2tiWFkSRSpK1iOnXHcvp5TffgT/F
+	 E9KfHhG52GtO0y9D5I/mK9DnLysx67jLXvM80vo27qbhmciHoAccDpPv3NKIbBcs9/
+	 IF/mbTgJnEoP+emax57T6GoLHCJ+yCv0aRohzNJnlVcqdidzk1kbcRlMCmrSYUFTcD
+	 RWktmVrdhUgWPYJioTbKo882Ua3WFEV2pP6X8pkiyHV5dDPwVmr23kwNDbAMVVZCnW
+	 a1k2y/tTPybLA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Evelyn Ali <evelynali99@gmail.com>,
+Cc: =?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ALSA: hda/realtek: ALC882: Fixup for Clevo P775TM1
-Date: Mon, 31 Aug 2026 09:30:31 -0400
-Message-ID: <20260831133314.4125787-603-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: seq: Remove arbitrary prioq insertion limit
+Date: Mon, 31 Aug 2026 09:30:38 -0400
+Message-ID: <20260831133314.4125787-610-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -48,394 +48,421 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.48
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Evelyn Ali <evelynali99@gmail.com>
+From: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-[ Upstream commit def5e78a4e003c83adc9a8b4b72534def3a49641 ]
+[ Upstream commit 3fcc84f1f8d28cc1966b859cef33c858ff531766 ]
 
-Clevo P775TM1 laptops come with an ESS Sabre HiFi DAC. Setting
-0x1b pin VREF to 80% enables said DAC output.
+The sequencer priority queue insertion path uses a hardcoded traversal
+limit of 10000 entries.  The value is intended to catch a corrupted list,
+but it also becomes a real limit for valid queues.
 
-Signed-off-by: Evelyn Ali <evelynali99@gmail.com>
-Link: https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com
+The event pool limit is per client, while a sequencer queue can be shared
+by multiple clients.  A queue can therefore legitimately contain more than
+10000 events.  In that case, inserting an event that has to be placed past
+the arbitrary limit fails with -EINVAL.
+
+Use the queue's own cell count as the traversal bound instead.  This keeps
+the protection against inconsistent list accounting or cyclic lists without
+rejecting valid large queues.
+
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Link: https://patch.msgid.link/20260525-alsa-seq-prioq-limit-v1-1-16c348df5ff7@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
+# Stable Backport Analysis: ALSA: seq: Remove arbitrary prioq insertion
+limit
+
+**Local tree:** Linux **6.18.44** (`git describe HEAD` → `v6.18.44`)
+
+---
+
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: PARSE THE SUBJECT LINE
-**Record:** `[ALSA: hda/realtek: ALC882]` `[Fixup]` — Add hardware fixup
-quirk for Clevo P775TM1 laptop audio (ALC882/898 codec path).
+### Step 1.1: Subject Line
+**Record:** `[ALSA: seq]` `[remove]` — Remove an arbitrary hardcoded
+traversal limit in the sequencer priority-queue insertion path.
 
-### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
+### Step 1.2: Tags
 **Record:**
-- **Signed-off-by:** Evelyn Ali \<evelynali99@gmail.com\> (author)
-- **Link:**
-  https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com
-- **Signed-off-by:** Takashi Iwai \<tiwai@suse.de\> (ALSA/HDA
-  maintainer, committer)
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable tags
-- Notable: Maintainer commit; v2 patch on lore; no syzbot/fuzzer
-  involvement
+- **Signed-off-by:** Cássio Gabriel `<cassiogabrielcontato@gmail.com>`
+  (author)
+- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer)
+- **Link:** https://patch.msgid.link/20260525-alsa-seq-prioq-
+  limit-v1-1-16c348df5ff7@gmail.com
+- **No** Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or
+  Cc: stable tags
+- Notable: Maintainer (Iwai) sign-off; no fuzzer/user bug reports cited
 
-### Step 1.3: ANALYZE THE COMMIT BODY TEXT
+### Step 1.3: Body Analysis
 **Record:**
-- **Bug:** Clevo P775TM1 uses an ESS Sabre HiFi DAC; pin 0x1b VREF must
-  be 80% to enable DAC output
-- **Symptom:** No audio output from the external headphone amp / Sabre
-  DAC without the VREF setting
-- **Version info:** None stated
-- **Root cause:** Hardware requires specific pin VREF configuration not
-  provided by default or generic Clevo quirk
+- **Bug:** `snd_seq_prioq_cell_in()` uses a hardcoded traversal counter
+  of 10000 intended as corruption/loop protection, but it also caps
+  legitimate queues.
+- **Symptom:** Inserting an event that must be placed past the 10000th
+  element returns `-EINVAL` with `pr_err("cannot find a pointer..
+  infinite loop?")`.
+- **Root cause:** Event pools are per-client (`SNDRV_SEQ_MAX_EVENTS` =
+  2000), but sequencer queues are shared across clients. Multiple
+  clients can enqueue to the same queue, so total queue depth can exceed
+  10000 even when each client stays within its pool limit.
+- **Fix approach:** Use `f->cells` (the queue's own cell count) as the
+  traversal bound instead of 10000.
 
-### Step 1.4: DETECT HIDDEN BUG FIXES
-**Record:** Not disguised — explicit hardware fixup/quirk. Fixes broken
-audio on a specific laptop model, not a crash or memory bug.
+### Step 1.4: Hidden Bug Fix?
+**Record:** No — this is an explicit functional bug fix, not disguised
+cleanup. The commit clearly describes incorrect rejection of valid
+events.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: INVENTORY THE CHANGES
+### Step 2.1: Inventory
 **Record:**
-- **File:** `sound/hda/codecs/realtek/alc882.c` (+22 lines, 0 removed)
-- **Functions modified/added:** `alc898_fixup_clevo_p775tm1()` (new)
-- **Tables modified:** enum fixup IDs, `alc882_fixups[]`,
-  `alc882_fixup_tbl[]`, `alc882_fixup_models[]`
-- **Scope:** Single-file, surgical hardware quirk addition
+- **File:** `sound/core/seq/seq_prioq.c` (+4 net lines, ~6 lines
+  moved/restructured)
+- **Function:** `snd_seq_prioq_cell_in()`
+- **Scope:** Single-file, surgical fix
 
-### Step 2.2: CODE FLOW CHANGE
+### Step 2.2: Code Flow Change
 **Record:**
-- **Hunk 1 (enum):** Adds `ALC898_FIXUP_CLEVO_P775TM1` fixup ID
-- **Hunk 2 (new function):** On `HDA_FIXUP_ACT_PRE_PROBE`, sets pin 0x1b
-  to `PIN_VREF80` via `snd_hda_set_pin_ctl_cache()` and sets
-  `spec->gen.keep_vref_in_automute = 1` so automute does not clear VREF
-- **Hunk 3 (fixups table):** Registers fixup function, chained to
-  `ALC882_FIXUP_EAPD`
-- **Hunk 4 (quirk table):** `SND_PCI_QUIRK(0x1558, 0x7709, "Clevo
-  P775TM1", ...)` — PCI SSID match
-- **Hunk 5 (model table):** Adds model name `clevo-p775tm1` for manual
-  override
+- **Before:** `count = 10000`; decrement after each list advance; error
+  when count hits 0 while `cur` is still non-NULL.
+- **After:** `remaining = f->cells`; at start of each loop iteration,
+  post-decrement check `if (remaining-- <= 0)` → error with new message
+  `"inconsistent prioq cell count"`; old end-of-loop count check
+  removed.
+- **Affected path:** Slow-path sorted insertion (when the tail fast-path
+  does not apply — priority events or out-of-order timestamps).
 
-### Step 2.3: IDENTIFY THE BUG MECHANISM
-**Record:** **Category (h): Hardware workaround / audio codec quirk.**
-Pin 0x1b VREF at 80% gates the ESS Sabre HiFi DAC; without it the
-external amp stays disabled. `keep_vref_in_automute` prevents the
-generic automute path from stripping VREF during jack events.
+### Step 2.3: Bug Mechanism
+**Record:**
+- **Category:** Logic / correctness bug (artificial operational limit)
+- **Mechanism:** The 10000 bound is smaller than the legitimate maximum
+  queue occupancy. With `SNDRV_SEQ_DEFAULT_CLIENT_EVENTS` = 200 and up
+  to 192 clients sharing one queue, 51 clients each holding 200 queued
+  events yields 10,200 events — exceeding the limit. With max pool size
+  2000, only 6 fully-loaded clients are needed (6 × 2000 = 12,000).
 
-### Step 2.4: ASSESS THE FIX QUALITY
-**Record:** Fix is minimal and follows established patterns in the same
-file (`alc889_fixup_mbp_vref`, other Clevo fixups). Chaining to
-`ALC882_FIXUP_EAPD` matches other Clevo entries. Low regression risk —
-only affects PCI SSID `0x1558:0x7709`. No lock or API changes.
+### Step 2.4: Fix Quality
+**Record:**
+- **Obviously correct:** Yes. `f->cells` is the authoritative count
+  maintained by the prioq; a valid list traversal visits at most
+  `f->cells` nodes. Post-decrement semantics (`remaining-- <= 0` uses
+  pre-decrement value) allow exactly N iterations for N existing cells,
+  including full-list traversal for tail insertion.
+- **Minimal:** Yes, no unrelated changes.
+- **Regression risk:** Very low. Corrupted/cyclic lists still hit the
+  bound and fail safely; valid large queues are no longer rejected.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: BLAME THE CHANGED LINES
-**Record:** Insertion point (between `0x70d1` and `0x7714` Clevo quirks)
-dates to `aeeb85f26c3bb` (2025-07-09, Realtek driver split). No pre-
-existing bug — this is missing hardware support, not a regression from
-prior code.
+### Step 3.1: Blame
+**Record:** In this tree, `count = 10000` at line 165 is attributed to
+commit `e664048784506` (Nov 2025 merge), but the file header dates to
+1998–1999. The 10000 limit with `/* FIXME: enough big, isn't it? */` is
+longstanding ALSA sequencer code, not a recent regression.
 
-### Step 3.2: FOLLOW THE FIXES: TAG
+### Step 3.2: Fixes: Tag
 **Record:** N/A — no Fixes: tag present.
 
-### Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
-**Record:** Local tree at `v6.18.44` has only two commits touching
-`alc882.c`: `e1d695b45fd11` (probe rewrite) and `aeeb85f26c3bb` (driver
-split). Commit `def5e78a4e003` is on `master` but not in
-`stable/linux-6.18.y`. Standalone single-patch fix, not part of a
-series.
+### Step 3.3: Related File History
+**Record:** Recent ALSA seq stable commits in this tree include UAF
+fixes, leaks, and functional fixes. Same author (Cássio Gabriel) already
+has `33074b1e6c18f` ("ALSA: seq_oss: return full count for successful
+SEQ_FULLSIZE writes") backported here — a similar functional correctness
+fix with Iwai sign-off. The prioq fix itself is **not** yet in this tree
+(`git log -S "inconsistent prioq cell count"` returns nothing).
 
-### Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
-**Record:** Evelyn Ali has no other commits in this tree. Takashi Iwai
-is the ALSA/HDA maintainer and authored the surrounding Clevo quirk
-infrastructure.
+### Step 3.4: Author Context
+**Record:** Cássio Gabriel is an active ALSA seq contributor in this
+tree. Takashi Iwai (subsystem maintainer) signed off.
 
-### Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
-**Record:** No dependencies. Required symbols (`PIN_VREF80`,
-`snd_hda_set_pin_ctl_cache`, `keep_vref_in_automute`,
-`ALC882_FIXUP_EAPD`) all exist in this tree. `git apply --check` on the
-patch succeeds cleanly.
+### Step 3.5: Dependencies
+**Record:** Standalone. Uses existing `f->cells` field and
+`guard(spinlock_irqsave)` — both present in this tree's `seq_prioq.c`.
+No series dependencies.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
-**Record:** `b4 dig -c def5e78a4e003` → [v2] thread at
-https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com.
-Only v2 found (no v1 in series list). Maintainer merged without
-objections in thread.
+### Step 4.1: Original Discussion
+**Record:** `b4 dig` could not match the commit (not yet in this tree's
+HEAD). `b4 shazam` and WebFetch/curl to lore.kernel.org and
+patch.msgid.link were blocked (Anubis bot protection / 403).
+**UNVERIFIED:** Full review thread content, stable nominations in
+replies.
 
-### Step 4.2: CHECK WHO REVIEWED THE PATCH
-**Record:** `b4 dig -w`: To linux-sound@vger.kernel.org, Evelyn Ali,
-Takashi Iwai. Appropriate subsystem list and maintainer CC'd.
+### Step 4.2: Reviewers
+**Record:** **UNVERIFIED** via b4 -w. Commit message confirms Takashi
+Iwai (maintainer) sign-off.
 
-### Step 4.3: SEARCH FOR THE BUG REPORT
-**Record:** No external bug report or syzbot link. Hardware issue
-reported by patch author on their own hardware.
+### Step 4.3: Bug Report
+**Record:** No external bug report referenced. Bug identified through
+code analysis by the author.
 
-### Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
-**Record:** Standalone 1-patch series. No prerequisites.
+### Step 4.4: Series Context
+**Record:** Standalone 1-patch fix; no "patch X/Y" markers.
 
-### Step 4.5: CHECK STABLE MAILING LIST HISTORY
-**Record:** Not searched on lore stable list; no stable nomination found
-in patch thread. Absence of Cc: stable is expected per review
-instructions.
+### Step 4.5: Stable List History
+**Record:** **UNVERIFIED** — lore access blocked.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
-**Record:** `alc898_fixup_clevo_p775tm1()` (new fixup callback)
+### Step 5.1: Key Functions
+**Record:** `snd_seq_prioq_cell_in()` — modified.
 
-### Step 5.2: TRACE CALLERS
-**Record:** Invoked by HDA fixup framework during codec probe for
-matching PCI quirk `0x1558:0x7709`. Called from device enumeration when
-the Realtek codec driver loads — standard driver probe path for affected
-hardware.
+### Step 5.2: Callers
+**Record:** Called from `snd_seq_enqueue_event()` in
+`sound/core/seq/seq_queue.c` (lines 314, 319) for tick and real-time
+queues. That is reached from `snd_seq_client_enqueue_event()` →
+`snd_seq_write()` ioctl/write path — userspace-accessible ALSA sequencer
+API.
 
-### Step 5.3: TRACE CALLEES
-**Record:** `snd_hda_set_pin_ctl_cache(codec, 0x1b, PIN_VREF80)` —
-caches pin control for node 0x1b with 80% VREF. Sets
-`spec->gen.keep_vref_in_automute` read later in
-`sound/hda/codecs/generic.c` automute path.
+### Step 5.3: Callees
+**Record:** `compare_timestamp_rel()`, spinlock via
+`guard(spinlock_irqsave)`, `pr_err()`.
 
-### Step 5.4: FOLLOW THE CALL CHAIN
-**Record:** PCI device probe → HDA codec driver → quirk table lookup by
-SSID → fixup chain (`ALC898_FIXUP_CLEVO_P775TM1` → `ALC882_FIXUP_EAPD`)
-→ pin configuration at probe. Reachable on boot for matching hardware;
-not userspace-triggerable but affects all audio on that machine.
+### Step 5.4: Reachability
+**Record:** Userspace applications writing sequencer events to a shared
+queue can trigger the slow insertion path. Reachable from
+`/dev/snd/seq*` write/ioctl by unprivileged users with sequencer access.
 
-### Step 5.5: SEARCH FOR SIMILAR PATTERNS
-**Record:** Same `keep_vref_in_automute` + VREF pattern in
-`alc889_fixup_mbp_vref()` and `alc889_fixup_mac_pins()` in the same file
-(lines 109–144). Multiple Clevo-specific fixups already present
-(`ALC1220_FIXUP_CLEVO_P950`, `ALC1220_FIXUP_CLEVO_PB51ED`, etc.).
+### Step 5.5: Similar Patterns
+**Record:** `seq_queue.c` has a separate `MAX_CELL_PROCESSES_IN_QUEUE`
+(1000) for dispatch processing — a different code path. The prioq 10000
+limit is unique to insertion traversal.
 
 ---
 
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
 
-### Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
-**Record:** Local tree is **v6.18.44** (`stable/linux-6.18.y`). The fix
-is **absent** — grep finds no `P775TM1`, `0x7709`, or
-`ALC898_FIXUP_CLEVO_P775TM1`. Without the quirk, `0x1558:0x7709` matches
-only the generic `SND_PCI_QUIRK_VENDOR(0x1558, "Clevo laptop",
-ALC882_FIXUP_EAPD)` at line 682, which does not set pin 0x1b VREF. The
-broken behavior (no Sabre DAC output) is present for P775TM1 owners on
-this tree.
+### Step 6.1: Buggy Code Present?
+**Record:** **Yes.** `count = 10000; /* FIXME: enough big, isn't it? */`
+confirmed at line 165 of `sound/core/seq/seq_prioq.c` in v6.18.44.
 
-### Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
-**Record:** **Clean apply** — `git apply --check` passes with no
-conflicts. File structure matches mainline commit base.
+### Step 6.2: Backport Complications
+**Record:** **Clean apply expected.** The tree already uses
+`guard(spinlock_irqsave)(&f->lock)` at line 144, matching the patch
+context. No structural divergence in this function.
 
-### Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
-**Record:** No duplicate or alternative fix for P775TM1 found. Clevo
-VREF/quirk infrastructure is present from the 2025 driver split.
+### Step 6.3: Related Fixes Already Present?
+**Record:** **No.** Fix not present; `git log --grep="inconsistent
+prioq"` returns nothing.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
-**Record:** **sound/ALSA HDA Realtek codec driver** — IMPORTANT (affects
-audio on specific laptop hardware, not core kernel paths).
+### Step 7.1: Subsystem
+**Record:** `sound/core/seq` — ALSA sequencer. **Criticality:
+IMPORTANT** (not core kernel, but widely used by audio/MIDI
+applications).
 
-### Step 7.2: ASSESS SUBSYSTEM ACTIVITY
-**Record:** Actively maintained; frequent laptop quirk additions on
-stable (e.g., `04dd210180575` Clevo mic fix in this tree).
+### Step 7.2: Activity
+**Record:** Actively maintained in 6.18.y — 13 ALSA seq commits since
+the base merge, including several stable-worthy bug fixes.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: DETERMINE WHO IS AFFECTED
-**Record:** **Driver-specific / hardware-specific** — Clevo P775TM1
-laptops with PCI SSID `0x1558:0x7709` and Realtek ALC898-class codec.
+### Step 8.1: Who Is Affected
+**Record:** Users of ALSA sequencer with shared queues and multiple
+clients — DAWs, MIDI routers, JACK/ALSA bridge setups, OSS sequencer
+compatibility layers.
 
-### Step 8.2: DETERMINE THE TRIGGER CONDITIONS
-**Record:** Triggers at every boot/probe on matching hardware. Not
-timing-dependent. Unprivileged users cannot trigger it arbitrarily, but
-all users on that laptop are affected.
-
-### Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
-**Record:** **No audio output** from the ESS Sabre HiFi DAC / external
-headphone amp. **Severity: MEDIUM** — serious functional impairment for
-affected users, but no crash, corruption, deadlock, or security impact.
-
-### Step 8.4: CALCULATE RISK-BENEFIT RATIO
+### Step 8.2: Trigger Conditions
 **Record:**
-- **Benefit:** Enables working audio on Clevo P775TM1 — real hardware
-  fix for real users
-- **Risk:** Very low — 22 lines, SSID-gated, established pattern
-- **Ratio:** Strong benefit, minimal risk — standard stable quirk
-  material
+- Shared sequencer queue used by multiple clients
+- Combined queued events > 10,000 (achievable with 51 default-pool
+  clients at 200 events each, or 6 max-pool clients at 2000 each)
+- Event insertion requires sorted traversal (not the sequential tail
+  fast-path)
+- **Likelihood:** Uncommon but legitimate in professional multi-client
+  MIDI setups
+
+### Step 8.3: Failure Mode Severity
+**Record:** Event enqueue fails with `-EINVAL`; kernel logs error;
+application loses the event. **Severity: MEDIUM** — functional failure,
+not crash/corruption/security, but breaks valid workloads.
+
+### Step 8.4: Risk-Benefit
+**Record:**
+- **Benefit:** MEDIUM — restores correct behavior for large shared
+  queues
+- **Risk:** VERY LOW — ~6 lines, uses existing `f->cells` accounting,
+  maintainer-reviewed
+- **Ratio:** Favorable
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: COMPILE THE EVIDENCE
+### Step 9.1: Evidence Summary
 
-**FOR backporting:**
-- Hardware codec quirk — explicit stable exception category
-- Fixes real user-visible bug (no audio) on Clevo P775TM1
-- Small (22 lines), single file, applies cleanly to v6.18.44
-- Follows established patterns in same file (VREF +
-  `keep_vref_in_automute`, Clevo quirk table)
-- Merged by subsystem maintainer (Takashi Iwai)
-- All prerequisites present in this tree
-- Fix not yet in `stable/linux-6.18.y`
+**FOR backport:**
+- Real, verifiable bug (10000 < legitimate max queue depth)
+- Buggy code present in Linux 6.18.44
+- Small, surgical, maintainer-signed fix
+- Same author/subsystem already has a functional fix in this stable tree
+  (`33074b1e6c18f`)
+- Userspace-reachable path
+- Fix preserves corruption detection using accurate bound
 
-**AGAINST backporting:**
-- Not a crash/security/corruption issue
-- Affects narrow hardware population
-- No Tested-by: tag beyond author/maintainer
-- New laptop model — limited user base on 6.18.y today
+**AGAINST backport:**
+- Not a crash, security, or data-corruption issue
+- Requires multi-client shared-queue workloads
+- No user/syzbot reports cited
+- Mailing list review details unverified
 
-**Unresolved:** None material to the decision.
+**Unresolved:**
+- Full lore review thread (blocked)
+- Whether any reviewer explicitly nominated for stable
 
-### Step 9.2: STABLE RULES CHECKLIST
-1. Obviously correct and tested? **PASS** — standard HDA quirk pattern;
-   maintainer-merged v2
-2. Fixes a real bug affecting users? **PASS** — broken audio on P775TM1
-3. Important issue? **PASS** (functional/hardware) — no audio is a
-   significant usability failure for affected hardware, though not
-   CRITICAL severity
-4. Small and contained? **PASS** — 22 lines, one file
-5. No new features or APIs? **PASS** — hardware quirk exception applies
-6. Can apply to the local tree? **PASS** — clean apply verified
+### Step 9.2: Stable Rules Checklist
+1. Obviously correct and tested? **PASS** — logic verified; maintainer
+   sign-off; no Tested-by
+2. Fixes a real bug affecting users? **PASS** — incorrect `-EINVAL` on
+   valid large queues
+3. Important issue? **PASS (borderline)** — MEDIUM severity functional
+   failure in userspace API, not crash/corruption
+4. Small and contained? **PASS** — single file, ~6 lines changed
+5. No new features or APIs? **PASS**
+6. Can apply to local tree? **PASS** — clean apply expected
 
-### Step 9.3: CHECK FOR EXCEPTION CATEGORIES
-**Record:** **Hardware quirk / audio codec quirk** — automatic stable
-YES category per stable rules.
+### Step 9.3: Exception Categories
+**Record:** None apply (not device ID, quirk, DT, build, or docs).
 
-### Step 9.4: DECISION RATIONALE
+### Step 9.4: Problem and Decision Rationale
 
-For **linux-6.18.y (v6.18.44)**, this commit should be backported. It is
-a textbook HDA Realtek laptop quirk: PCI SSID-specific pin VREF
-configuration enabling an external DAC. The same file already contains
-numerous Clevo fixups using identical infrastructure. The patch is
-absent from this stable tree, applies without modification, and fixes a
-real hardware issue with negligible regression risk.
+The commit fixes a longstanding artificial limit in ALSA sequencer
+priority-queue insertion. The 10000-entry traversal cap was meant to
+detect list corruption but incorrectly rejects valid queues when
+multiple clients share a sequencer queue and their combined event count
+exceeds 10000. Given per-client pool limits of up to 2000 events and 192
+possible clients, this is not theoretical — 6 clients at max pool size,
+or 51 at default pool size, suffice.
+
+For stable 6.18.y users running multi-client MIDI/sequencer setups,
+affected insertions silently fail with `-EINVAL`, causing dropped
+events. The fix replaces the arbitrary constant with `f->cells`, which
+is the correct upper bound for a consistent list. The patch is minimal,
+reviewed by the ALSA maintainer, and follows the precedent of the same
+author's functional seq fix already backported to this tree.
 
 ---
 
 ## Verification
 
-- [Phase 1] `git show def5e78a4e003`: parsed tags (SOB Evelyn Ali, Link,
-  SOB Takashi Iwai); no Fixes/Reported-by/Tested-by
-- [Phase 1] Subject parsed: ALSA hda/realtek ALC882 fixup for Clevo
-  P775TM1
-- [Phase 2] Diff: +22 lines in `alc882.c`; new
-  `alc898_fixup_clevo_p775tm1()`, quirk `0x1558:0x7709`
-- [Phase 3] `git describe HEAD`: v6.18.44; tree is `stable/linux-6.18.y`
-- [Phase 3] `git log HEAD..master --grep P775TM1`: commit only on
-  master, not in stable branch
-- [Phase 3] `git apply --check` on patch from `def5e78a4e003`: applies
-  cleanly
-- [Phase 3] `git blame` lines 666–668: surrounding Clevo quirks from
-  `aeeb85f26c3bb` (2025-07-09)
-- [Phase 4] `b4 dig -c def5e78a4e003`: lore URL
-  https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com
-- [Phase 4] `b4 dig -a`: v2 only, standalone patch
-- [Phase 4] `b4 dig -w`: CC'd linux-sound@vger.kernel.org and Takashi
-  Iwai
-- [Phase 4] `b4 dig -m /tmp/p775tm1.mbox`: thread saved; maintainer
-  merge reply, no stable nomination or NAK
-- [Phase 5] `grep keep_vref_in_automute`: used in `alc882.c` lines
-  126/143 and `generic.c` line 4412
-- [Phase 5] `grep PIN_VREF80`: defined in `hda_local.h`, used across HDA
-  codecs
-- [Phase 6] `grep P775TM1|0x7709|ALC898_FIXUP`: no matches — fix absent
-  from local tree
-- [Phase 6] Read `alc882.c` line 682: generic Clevo EAPD quirk exists
-  but lacks VREF fix
-- [Phase 6] Read `alc882.c` lines 666–668: gap where `0x7709` quirk
-  should be inserted
-- [Phase 8] Failure mode: no audio from Sabre DAC; severity MEDIUM
-  (functional, not crash)
+- **[Phase 1]** Parsed commit message and tags from user-provided
+  content
+- **[Phase 1]** Confirmed no Reported-by/syzbot/Cc: stable tags
+- **[Phase 2]** Read `sound/core/seq/seq_prioq.c` lines 130–196: buggy
+  `count = 10000` present
+- **[Phase 2]** Verified post-decrement semantics of `remaining-- <= 0`
+  allow N traversals for N cells
+- **[Phase 3]** `git describe HEAD` → `v6.18.44`; Makefile confirms
+  6.18.44
+- **[Phase 3]** `git blame -L 165,182` → `count = 10000` at line 165
+- **[Phase 3]** `git log -S "inconsistent prioq cell count"` → no
+  results (fix not in tree)
+- **[Phase 3]** `git show 33074b1e6c18f` → same author's functional fix
+  already in 6.18.y stable
+- **[Phase 4]** `b4 dig -c HEAD` → no match (expected; fix not
+  committed)
+- **[Phase 4]** `b4 shazam "Remove arbitrary prioq insertion limit"` →
+  message-id not known
+- **[Phase 4]** WebFetch lore.kernel.org and patch.msgid.link → blocked
+  (Anubis/403)
+- **[Phase 5]** `grep snd_seq_prioq_cell_in` → callers in
+  `seq_queue.c:314,319`
+- **[Phase 5]** Traced call chain: `snd_seq_write` →
+  `snd_seq_client_enqueue_event` → `snd_seq_enqueue_event` →
+  `snd_seq_prioq_cell_in`
+- **[Phase 6]** Confirmed buggy code at `seq_prioq.c:165` in local tree
+- **[Phase 6]** Confirmed `guard(spinlock_irqsave)` and `f->cells` field
+  exist for clean apply
+- **[Phase 6]** Read `include/sound/seq_kernel.h`:
+  `SNDRV_SEQ_MAX_EVENTS=2000`, `SNDRV_SEQ_MAX_CLIENTS=192`,
+  `SNDRV_SEQ_DEFAULT_CLIENT_EVENTS=200`
+- **[Phase 6]** Verified math: 6×2000=12000>10000; 51×200=10200>10000
+- **[Phase 8]** Confirmed failure mode: `-EINVAL` from
+  `snd_seq_prioq_cell_in`, propagated through `snd_seq_enqueue_event`
+  with cell freed
+- **UNVERIFIED:** Mailing list review discussion and any explicit stable
+  nominations
+- **UNVERIFIED:** Whether fix has landed in mainline (not needed for
+  local-tree decision; bug exists here)
 
-**YES**
+**YES****Result:** Backport to **Linux 6.18.44** — **YES**.
 
- sound/hda/codecs/realtek/alc882.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+The hardcoded 10,000-entry traversal limit in `snd_seq_prioq_cell_in()`
+can reject valid events on shared sequencer queues (e.g. 6 clients at
+max pool size, or 51 at default). The fix uses `f->cells` instead, is
+small and maintainer-reviewed, and the buggy code is still present in
+this tree — the fix is not applied yet.
 
-diff --git a/sound/hda/codecs/realtek/alc882.c b/sound/hda/codecs/realtek/alc882.c
-index 529fecd5baa0a..fd466b6985f05 100644
---- a/sound/hda/codecs/realtek/alc882.c
-+++ b/sound/hda/codecs/realtek/alc882.c
-@@ -61,6 +61,7 @@ enum {
- 	ALC887_FIXUP_ASUS_HMIC,
- 	ALCS1200A_FIXUP_MIC_VREF,
- 	ALC888VD_FIXUP_MIC_100VREF,
-+	ALC898_FIXUP_CLEVO_P775TM1,
- };
- 
- static void alc889_fixup_coef(struct hda_codec *codec,
-@@ -236,6 +237,19 @@ static void alc1220_fixup_clevo_pb51ed(struct hda_codec *codec,
- 	alc_fixup_headset_mode_no_hp_mic(codec, fix, action);
- }
- 
-+/* On Clevo P775TM1, VREF of pin 0x1b enables the external headphone amp */
-+static void alc898_fixup_clevo_p775tm1(struct hda_codec *codec,
-+				       const struct hda_fixup *fix, int action)
-+{
-+	struct alc_spec *spec = codec->spec;
-+
-+	if (action != HDA_FIXUP_ACT_PRE_PROBE)
-+		return;
-+
-+	snd_hda_set_pin_ctl_cache(codec, 0x1b, PIN_VREF80);
-+	spec->gen.keep_vref_in_automute = 1;
-+}
-+
- static void alc887_asus_hp_automute_hook(struct hda_codec *codec,
- 					 struct hda_jack_callback *jack)
+ sound/core/seq/seq_prioq.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/sound/core/seq/seq_prioq.c b/sound/core/seq/seq_prioq.c
+index e649485a87722..8c9a293cb5b51 100644
+--- a/sound/core/seq/seq_prioq.c
++++ b/sound/core/seq/seq_prioq.c
+@@ -132,7 +132,7 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 			  struct snd_seq_event_cell * cell)
  {
-@@ -560,6 +574,12 @@ static const struct hda_fixup alc882_fixups[] = {
- 			{}
- 		}
- 	},
-+	[ALC898_FIXUP_CLEVO_P775TM1] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc898_fixup_clevo_p775tm1,
-+		.chained = true,
-+		.chain_id = ALC882_FIXUP_EAPD,
-+	},
- };
+ 	struct snd_seq_event_cell *cur, *prev;
+-	int count;
++	int remaining;
+ 	int prior;
  
- static const struct hda_quirk alc882_fixup_tbl[] = {
-@@ -664,6 +684,7 @@ static const struct hda_quirk alc882_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1558, 0x67f1, "Clevo PC70H[PRS]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
- 	SND_PCI_QUIRK(0x1558, 0x67f5, "Clevo PD70PN[NRT]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
- 	SND_PCI_QUIRK(0x1558, 0x70d1, "Clevo PC70[ER][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
-+	SND_PCI_QUIRK(0x1558, 0x7709, "Clevo P775TM1", ALC898_FIXUP_CLEVO_P775TM1),
- 	SND_PCI_QUIRK(0x1558, 0x7714, "Clevo X170SM", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
- 	SND_PCI_QUIRK(0x1558, 0x7715, "Clevo X170KM-G", ALC1220_FIXUP_CLEVO_PB51ED),
- 	SND_PCI_QUIRK(0x1558, 0x9501, "Clevo P950HR", ALC1220_FIXUP_CLEVO_P950),
-@@ -719,6 +740,7 @@ static const struct hda_model_fixup alc882_fixup_models[] = {
- 	{.id = ALC1220_FIXUP_GB_DUAL_CODECS, .name = "dual-codecs"},
- 	{.id = ALC1220_FIXUP_GB_X570, .name = "gb-x570"},
- 	{.id = ALC1220_FIXUP_CLEVO_P950, .name = "clevo-p950"},
-+	{.id = ALC898_FIXUP_CLEVO_P775TM1, .name = "clevo-p775tm1"},
- 	{}
- };
+ 	if (snd_BUG_ON(!f || !cell))
+@@ -162,10 +162,16 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 	prev = NULL;		/* previous cell */
+ 	cur = f->head;		/* cursor */
  
+-	count = 10000; /* FIXME: enough big, isn't it? */
++	remaining = f->cells;
+ 	while (cur != NULL) {
+ 		/* compare timestamps */
+ 		int rel = compare_timestamp_rel(&cell->event, &cur->event);
++
++		if (remaining-- <= 0) {
++			pr_err("ALSA: seq: inconsistent prioq cell count\n");
++			return -EINVAL;
++		}
++
+ 		if (rel < 0)
+ 			/* new cell has earlier schedule time, */
+ 			break;
+@@ -176,10 +182,6 @@ int snd_seq_prioq_cell_in(struct snd_seq_prioq * f,
+ 		/* move cursor to next cell */
+ 		prev = cur;
+ 		cur = cur->next;
+-		if (! --count) {
+-			pr_err("ALSA: seq: cannot find a pointer.. infinite loop?\n");
+-			return -EINVAL;
+-		}
+ 	}
+ 
+ 	/* insert it before cursor */
 -- 
 2.53.0
 
