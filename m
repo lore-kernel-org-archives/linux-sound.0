@@ -1,161 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898503C1974;
-	Mon, 31 Aug 2026 08:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7543DAAAB
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 08:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788163881; cv=none; b=lkhOwcSwkLh4YKZz2JA5NGNP9nRfkLoxKPx+vVb+EduqzGF5iNZ2lGpTmC1KGAnJF5cdE1t1XUnmB4ZKDFi9J00tYwt9qFzbXKvtv8A5NbbgNPTFpQNJRooFDYz5GuzQiah/eLoPTwH29x/LZ9LMWykIJHqwcLH6ZL+zjZ3xsRE=
+	t=1788164775; cv=none; b=DrdxS8RqFbIyVr/eGgYMrRIawUm1MnOvxh8r4WF3+vXCFb80kdOaLi6IJGcBzXQhaDI7anv3iQcR6wEJx8w9XuonPN822kF6PG3s/C5lbQ26XkMmqZOSJ2zrklwVWtfYORk2dmA7wYBgb2+SVLUM+sBLTNS2FUdJAQZCuap91zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788163881; c=relaxed/simple;
-	bh=Bmyq0qDOT7DxHyaxetz1ss5JfOWjJd1G2k9FC0+7nCk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oanLJKi0e0KbsFJKCb1+xcCdZCSBmCUFFKvd76agPpFeObdXNar48PG5b2wX6dd4OwWolpWwrvXLmZTrOlXWK+rkVsub9hu1vj7Fh3Yb2oTgahjWgVuiiZGanUQvDY9bYREOxsdpuYBMPoRpwjg/iYIt1e2wzpsn/EUZKQI1zT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=I79Ymh0j; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=knD3xvzi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HlUqUR8g; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=j1ArBW5W; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1788164775; c=relaxed/simple;
+	bh=LC32bx4buY8+xqOpBc5EJnaO4rGmOf7j4BLQfXrglKg=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nwH18UKG74MwCf3vG1f+u8reKMpKd5jTFLCLilwZuHWyTTBT10uKjtEeuqZRKZ/Xshy0hdujmSS7SwcEJR2TmvbQ1aEweAnsehjcXarLolSRzQYlaj65E1QyzDyJn+YiICgcZTty8KW4b8/wAwehlvkMSQRf91Bkz/eRTkPTk/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=luites.com; spf=pass smtp.mailfrom=luites.com; dkim=pass (2048-bit key) header.d=luites.com header.i=@luites.com header.b=kGp1ZHIz; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=luites.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luites.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="I79Ymh0j";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="knD3xvzi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HlUqUR8g";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j1ArBW5W"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 41BE7224CB;
-	Mon, 31 Aug 2026 08:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788163873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EX18xwSWw91y/0T4BOJt/V1QzJ0inCFeMn+lOvupHpU=;
-	b=I79Ymh0j2B+LpmI+mX5nYJZHxda36UX5OnioDZn+1UyatkmClf9r0eeM3eS3hOP/TCr2+i
-	yv6EOi8F1JYz895alWu6oXnzqMO+K/2To6q6tYF+5D3MUR6I9IUtI+bH66/EAncFupxPoA
-	PIUw5IR6PFsLMSndMgX5HVypgXSxnCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788163873;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EX18xwSWw91y/0T4BOJt/V1QzJ0inCFeMn+lOvupHpU=;
-	b=knD3xvzidfqhdTSblQar5MHDNQnWYvg4y3MbwWkXbBGTN8GvcnPrxV6LE/Hjdy3uZaD0MH
-	5w5nYEMXtI9v8fCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HlUqUR8g;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=j1ArBW5W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788163869; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EX18xwSWw91y/0T4BOJt/V1QzJ0inCFeMn+lOvupHpU=;
-	b=HlUqUR8g9Ve/UhWSSSJDK5I9WHbSo1wdzfERngc8Bnzn5Gr8PpJ2UrdRUxKJxDX4HLX6hg
-	BWQybm/u+4sb32tvfITN0J//d7JNZHAB2qGkGTax5xwl1OtrMshXpFZiP8GGK+frg9hnsq
-	vGCxR8JsZHpvaK3FRzh58crdALH19Hg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788163869;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EX18xwSWw91y/0T4BOJt/V1QzJ0inCFeMn+lOvupHpU=;
-	b=j1ArBW5WJ/zjCWC7bQCo2y7bVOAaKXIMAywsYw0/eHyo8+SboXuEIPut2EMheAAj7RVRIg
-	nZ9QRYIbogaCOIBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED97A13515;
-	Mon, 31 Aug 2026 08:11:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1mvKOBw3lWrxAQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 31 Aug 2026 08:11:08 +0000
-Date: Mon, 31 Aug 2026 10:11:08 +0200
-Message-ID: <87a4q2so9v.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Yilin Zhang" <yilinzhang@moonshot.ai>
-Cc: <tiwai@suse.com>,
-	<perex@perex.cz>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<stable@vger.kernel.org>,
-	"Kimi Security Team" <bug-report@moonshot.ai>
-Subject: Re: [PATCH] ALSA: pcm: Serialize PCM mmap with buffer reallocation to fix page UAF
-In-Reply-To: <20260831045506.889070-1-yilinzhang@moonshot.ai>
-References: <20260831045506.889070-1-yilinzhang@moonshot.ai>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=luites.com header.i=@luites.com header.b="kGp1ZHIz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luites.com;
+	s=protonmail; t=1788164754; x=1788423954;
+	bh=LC32bx4buY8+xqOpBc5EJnaO4rGmOf7j4BLQfXrglKg=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=kGp1ZHIz22gESbubnvN1MOiO2P+JiF7ne39IfceQZiz9lh3/qqjGF4opQ01iyiT3I
+	 oTv42nmAiYy05RkjH/qTCxDxtlK2Ld39fv+yD/aY0FsFA0+hCbSJKA84AZDqBjX6nB
+	 3uR7yTgC0lL3pfn04fbUL7bYZaMwYCchqkvqjGJax+S5YvpDWxLCdlaEdQGnZvG8Gh
+	 Ds51wv5e167q3//nK2GBCBGnsDpmoYoTwa1jWvA6w+I7kWlxvoMn1f1K7/G8kFiqZO
+	 GFvarSLnZZeKtO1wBYW3GbMRNLTemkOWIr/M3O3hfDkpEcqWzxj47Ufq3esxDg4dHY
+	 R9TrkyHzhXvYQ==
+Date: Mon, 31 Aug 2026 08:25:47 +0000
+To: Vinod Koul <vkoul@kernel.org>
+From: Ian Luites <ian@luites.com>
+Cc: Bard Liao <yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Charles Keepax <ckeepax@opensource.cirrus.com>, Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, Ian Luites <ian@luites.com>
+Subject: [PATCH] soundwire: dmi-quirks: Disable ghost Realtek on Asus GX651AX
+Message-ID: <20260831082534.224716-1-ian@luites.com>
+Feedback-ID: 196833966:user:proton
+X-Pm-Message-ID: 63d591cc6fdcf620e988376798c5e88949e2347d
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.51
-X-Rspamd-Queue-Id: 41BE7224CB
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 31 Aug 2026 06:55:06 +0200,
-Yilin Zhang wrote:
-> 
-> snd_pcm_hw_params() and snd_pcm_hw_free() guard buffer reallocation
-> with an mmap_count check performed under the PCM stream lock, but the
-> lock is released long before the buffer is actually freed:
-> snd_pcm_sync_stop(), constraint refinement and do_free_pages() all
-> happen in between.  snd_pcm_mmap_data(), on the other hand, takes no
-> lock at all: it validates against the old buffer's state and
-> dma_bytes, remaps its pages into the VMA, and only then increments
-> mmap_count.
-> 
-> A concurrent mmap() can therefore slip in between the check and the
-> free.  remap_pfn_range() installs writable PTEs for the old buffer's
-> pages without taking page references, and the subsequent
-> do_free_pages() returns those pages to the page allocator while the
-> VMA still maps them.  This leaves a stale, writable mapping of freed
-> pages: a page-level use-after-free that can be leveraged for local
-> privilege escalation.
-> 
-> Make snd_pcm_mmap_data() participate in the buffer-access scheme
-> introduced for hw_params/hw_free: acquire runtime->buffer_accessing
-> before validating and remapping, and release it afterwards.  Buffer
-> reallocation already fails with -EBUSY while accessors are active,
-> and the mmap side now fails with -EBUSY while a reallocation is in
-> progress, so the validate/remap sequence and the check/free sequence
-> can no longer interleave.
-> 
-> A reproducer that turns this race into a stale writable mapping of
-> the freed DMA buffer pages is available on request.
-> 
-> Reported-by: Kimi Security Team <bug-report@moonshot.ai>
-> Fixes: 92ee3c60ec9f ("ALSA: pcm: Fix races among concurrent hw_params and hw_free calls")
-> Signed-off-by: Yilin Zhang <yilinzhang@moonshot.ai>
+The Asus ROG Zephyrus Duo GX651AX exposes a Realtek RT722 device in
+ACPI which does not exist in the physical hardware. The device remains
+unattached while the CS42L43 and both CS35L56 devices attach
+successfully.
 
-Applied now.  Thanks.
+This confuses the function topology machine driver into creating
+duplicate DAI links named SDW3-Playback-SimpleJack, and the sof_sdw
+probe fails with error -12. Add a model-specific quirk to remove the
+ghost RT722 device.
+
+Fixes: 45cf24da0a10 ("ASoC: Intel: soc-acpi-intel-ptl-match: Remove unneces=
+sary cs42l43 match")
+Cc: <stable@vger.kernel.org> # 7.2.x
+Assisted-by: LLM
+Signed-off-by: Ian Luites <ian@luites.com>
+---
+ drivers/soundwire/dmi-quirks.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/soundwire/dmi-quirks.c b/drivers/soundwire/dmi-quirks.=
+c
+index 768255dd12..62fa64b224 100644
+--- a/drivers/soundwire/dmi-quirks.c
++++ b/drivers/soundwire/dmi-quirks.c
+@@ -200,6 +200,13 @@ static const struct dmi_system_id adr_remap_quirk_tabl=
+e[] =3D {
+ =09=09},
+ =09=09.driver_data =3D (void *)ghost_realtek,
+ =09},
++=09{
++=09=09.matches =3D {
++=09=09=09DMI_MATCH(DMI_SYS_VENDOR, "ASUS"),
++=09=09=09DMI_MATCH(DMI_BOARD_NAME, "GX651AX"),
++=09=09},
++=09=09.driver_data =3D (void *)ghost_realtek,
++=09},
+ =09{
+ =09=09.matches =3D {
+ =09=09=09DMI_MATCH(DMI_SYS_VENDOR, "ASUS"),
+--=20
+2.55.0
 
 
-Takashi
