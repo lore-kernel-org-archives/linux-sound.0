@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E130432304;
-	Mon, 31 Aug 2026 13:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7EB441022;
+	Mon, 31 Aug 2026 13:38:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183507; cv=none; b=M+7IN0CUcnJwwWVa2Ks4cXvBMFMzFpAHfbPWyqbTV6mEyPZnIP2WOnooHTtpfLn4JGW3bPW618BuWqZ/lejpVc2AdLVWKjy3ITc0kOkuzoaYHBUWnwloiqjPely2QZnUrFPW4lC7z+Y6MA1OiQqvyunLLqDrdxrXmp5zdK4KSCU=
+	t=1788183510; cv=none; b=h0tvy9t1E61qIdZD7dbrsWilCzsomRkoIDfS2MGDeJq8b3j5eBFgTXqgxZYPYPfX5QgGnI33DYYi2+m9fdVW1VQZPJ9K8JNBnCAiHP8o1HF9MzuluYtE5K0fhasONaNvcRSNig3Xs0Htcyiex3wzSX41h7PzH5LEhj51kK3K6E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183507; c=relaxed/simple;
-	bh=TFk6IgBlINeZD5hcBYd0BFi7pUcQlJJIVFfEXuKMWMo=;
+	s=arc-20240116; t=1788183510; c=relaxed/simple;
+	bh=H7O8AFWbYds65BUV2OnQXXQQ0uuAGBp7LCP5ruWOFwg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R1fulrUHVSlosD7ExG4klQBJqixh9TwRPzeJszBqEKbJ1IMy2dyHH3y67YB+gEFyP/D187KXqAyiCZvaaaZp9Ltjjwr4h400yzr2Gbp0RJX4ki7Ja18DDpukH54GuMo3eoDhvWc+tfMACI6+zGNEtlydt+lvElYxvUSnxdj5DDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWs4Dg9w; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=CmFApKmj+XX6R7aeCy3wcmta/v7UOuWkfWY9NH5O4+wSLTNpRD8lld4hFgYk4DoN2rwHt1CFB/t+q0FPghXPI7TLKWPeQTAJxCGaBTWQQX7qdqCFlzd80vkIYxBxVMJyhjaA0alsZvGAkZHn6JC3hbWd7J7sPZTgQk0JrP/jy4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hz8X1mGD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWs4Dg9w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E13971F00A3E;
-	Mon, 31 Aug 2026 13:38:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hz8X1mGD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256981F000E9;
+	Mon, 31 Aug 2026 13:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183505;
-	bh=RiZ5Rq9O40CIw+PX0lyag+rbpp75xTzZWv0WhYpMaiM=;
+	s=k20260515; t=1788183508;
+	bh=NkLywm18i22I7e1PMw/lz0wtuZKA5IybpuX3jse8cns=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UWs4Dg9wzoqxw1Fp/ibk+l5LkZVcSzFmuHLZ5P/K88fj19cPpWkKM32/kS1BbDhGy
-	 GkA+LU8C4sKT2QedaLS86V0K4FzukEBPLpplWyzW2vrzMHEtZCtislzrTKjdRh1etQ
-	 iQ/Ms5v/CSVD737PSzSO4o5//9YVIjubg3cjWaL6L7kn16kvgSqTrRfA89PDVN+Ys7
-	 44aQ0COYji6csQSGzXD6Kx0hKLOGD5H8kIxm3z1UK+zYSw86fGy0ARczrHfXVBqoxD
-	 SLoI/vvQ9e3R41Hp+ZqZ7Q0vpd/J+vxmpawCWTiG3WEzedYmktd4lL3chF/LfDzysn
-	 zXP0d1ch+T5gg==
+	b=Hz8X1mGD9MWjZ/iwCbdo22E+MzvgfsWp0ffTuvjvycuSbbCl+NC57201P82cB0HOc
+	 FhrBOnCZHla6Uy2JMkxfNSLXsE6U70mTF5VG+34wzFJrSG87vpqdJLXdpN5c+lRDVr
+	 oJ/CBKyOSRQZVQLfJzkj9ORDr/n4Xek4y/5etgVL72v0jtB/TITNwSpZq6c/OEvBv0
+	 WV/PzW07LdAmZxgBa4oFy8/ZikijCazXRUZ9LZmbHt0g+pUIFbBrcNnXmhyJApbo/7
+	 Kl4P69uOA+2YI3IvrCW0X0/57/7X5vlgzG7Fp6vE08PLKqO2yuv9OhJyf+0fiu8yeH
+	 R9LywGp0mHYAA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
+Cc: Viktor Menshin <ripeeerr@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] ALSA: hda/realtek: Add quirk for HP Pavilion x360
-Date: Mon, 31 Aug 2026 09:22:44 -0400
-Message-ID: <20260831133314.4125787-136-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Add quirk for Lenovo Xiaoxin 14 GT
+Date: Mon, 31 Aug 2026 09:22:46 -0400
+Message-ID: <20260831133314.4125787-138-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -54,425 +54,429 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: Viktor Menshin <ripeeerr@gmail.com>
 
-[ Upstream commit 02bbbf05d19f49c5cc9f249dd8844b2a7f2a2b8c ]
+[ Upstream commit 3a3e810e91080a5121170ee11554a55ed89a1c8b ]
 
-HP Pavilion x360 sets a bogus PCI SSID (103c:0000), hence the driver
-picks up a wrong quirk entry, resulting in an almost silent output.
-And yet, the existing quirk for x390 doesn't seem sufficing, and we
-need the extra setup for the amp.
+The Lenovo Xiaoxin 14 GT (Chinese market model, AMD Ryzen AI 9 365)
+produces constant electrical hissing and crackling noise from both
+internal speakers and 3.5mm headphone jack during audio playback.
+Audio works correctly on Windows.
 
-This patch adds the quirk entry for the codec SSID (103c:8486) to
-initialize the amp via COEF verbs and chains to the existing quirk for
-another x360 model to address the silent output.
+The PCI SSID 17aa:3912 is not present in the quirk list. The device
+shares the same AMD platform and ALC287 codec as neighboring Lenovo
+14" AMD models (17aa:3911, 17aa:390d), so apply the same fixup.
 
-Closes: https://lore.kernel.org/CAF2ktaUW2oaWwGazGtJQ3o1JyE2R4O2xPd-Dchr=qqi7_QRruQ@mail.gmail.com
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Note: the fixup selection is based on similarity with neighboring
+models and has not been verified by testing a compiled kernel.
+Guidance from maintainers on the correct fixup is welcome.
+
+Signed-off-by: Viktor Menshin <ripeeerr@gmail.com>
+Link: https://patch.msgid.link/20260615092515.1082-1-ripeeerr@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Link: https://patch.msgid.link/20260716064916.540616-1-tiwai@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ALSA: hda/realtek: Add quirk for HP Pavilion
-x360
+Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
+(attempt 1)...
+Retry attempt 1...
+Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
+(attempt 2)...
+Retry attempt 2...
+Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
+(attempt 3)...
+Retry attempt 3...
+# Stable Backport Analysis: ALSA: hda/realtek: Add quirk for Lenovo
+Xiaoxin 14 GT
 
-**Local tree:** Linux **6.18.44** (`v6.18.44-2-g1b9e1abadee04`,
-`VERSION=6 PATCHLEVEL=18 SUBLEVEL=44`)
+**Local tree:** `v6.18.44` (Makefile: VERSION=6, PATCHLEVEL=18,
+SUBLEVEL=44)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Parse the subject line
-**Record:** `[ALSA: hda/realtek]` `[add]` — Add a hardware quirk for HP
-Pavilion x360 audio.
+### Step 1.1: Subject Line
+**Record:** `[ALSA: hda/realtek]` `[Add]` — Add PCI quirk entry for
+Lenovo Xiaoxin 14 GT (SSID `17aa:3912`).
 
-### Step 1.2: Parse all commit message tags
+### Step 1.2: Tags
 **Record:**
-- **Closes:**
-  `https://lore.kernel.org/CAF2ktaUW2oaWwGazGtJQ3o1JyE2R4O2xPd-
-  Dchr=qqi7_QRruQ@mail.gmail.com` (user bug report thread)
-- **Reviewed-by:** Cezary Rojewski `<cezary.rojewski@intel.com>`
+- **Signed-off-by:** Viktor Menshin `<ripeeerr@gmail.com>` (author)
+- **Link:**
+  `https://patch.msgid.link/20260615092515.1082-1-ripeeerr@gmail.com`
 - **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA/HDA
   maintainer)
-- **Link:**
-  `https://patch.msgid.link/20260716064916.540616-1-tiwai@suse.de`
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Cc:
-  stable@vger.kernel.org`
+- **Absent:** Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:,
+  Cc: stable@vger.kernel.org
+- **Notable:** No user bug report ID; maintainer sign-off is the
+  strongest quality signal present.
 
-Notable: maintainer-authored, Intel-reviewed; no syzbot/sanitizer
-signals.
-
-### Step 1.3: Analyze commit body
+### Step 1.3: Body Analysis
 **Record:**
-- **Bug:** HP Pavilion x360 reports bogus PCI SSID `103c:0000`, so the
-  Realtek driver matches the wrong quirk. Existing
-  `ALC295_FIXUP_HP_X360` alone is insufficient; extra amplifier setup is
-  required.
-- **Symptom:** Almost silent speaker output.
-- **Root cause:** Wrong quirk selection due to bogus PCI SSID; missing
-  COEF-based amp initialization.
-- **Fix:** Add `HDA_CODEC_QUIRK(0x103c, 0x8486, ...)` matching codec
-  SSID, applying COEF verbs then chaining to `ALC295_FIXUP_HP_X360`.
+- **Bug:** Lenovo Xiaoxin 14 GT (Chinese-market laptop, AMD Ryzen AI 9
+  365, ALC287 codec) produces constant electrical hissing and crackling
+  from internal speakers and the 3.5 mm headphone jack during playback.
+  Audio works on Windows.
+- **Symptom:** Degraded/unusable audio quality (hissing/crackling), not
+  a kernel crash.
+- **Root cause (author):** PCI SSID `17aa:3912` is missing from the
+  Realtek HDA quirk table; device gets generic handling instead of the
+  platform-specific fixup.
+- **Fix approach:** Apply `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`, same
+  as neighboring Lenovo 14" AMD models (`17aa:390d`, `17aa:3911`).
+- **Important caveat:** Author explicitly states the fixup choice is
+  based on hardware similarity and **"has not been verified by testing a
+  compiled kernel."**
 
-### Step 1.4: Detect hidden bug fixes
-**Record:** Not hidden — explicit hardware audio bug fix disguised as a
-quirk addition. Classic ALSA HDA laptop quirk pattern.
+### Step 1.4: Hidden Bug Fix Detection
+**Record:** Yes — this is a hardware audio quirk fix disguised as a
+simple table addition. It corrects incorrect HDA pin/DAC routing for a
+specific laptop model.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory the changes
+### Step 2.1: Inventory
 **Record:**
-- **File:** `sound/hda/codecs/realtek/alc269.c` only
-- **Scope:** ~14 lines added, 0 removed
-- **Functions/structures modified:**
-  - Fixup enum (adds `ALC295_FIXUP_HP_PAVILION_X360`)
-  - `alc269_fixups[]` (new fixup entry)
-  - `alc269_fixup_tbl[]` (new quirk table entry)
-- **Classification:** Single-file, surgical hardware quirk
+- **Files:** `sound/hda/codecs/realtek/alc269.c` (+1 line)
+- **Function/table:** `alc269_fixup_tbl[]`
+- **Scope:** Single-file, single-line surgical addition — classic quirk
+  patch.
 
-### Step 2.2: Code flow change
+### Step 2.2: Code Flow Change
 **Record:**
-- **Hunk 1 (enum):** Adds new fixup ID before
-  `ALC221_FIXUP_HP_HEADSET_MIC`.
-- **Hunk 2 (fixups table):** New `ALC295_FIXUP_HP_PAVILION_X360` entry:
-  - **Before:** No codec-SSID-specific handling for `103c:8486`.
-  - **After:** On probe, sends COEF verbs to node `0x20` (indices
-    `0x07`/`0x0d`, values `0x7770`/`0x3000`) to force amp
-    gain/processing, then chains to `ALC295_FIXUP_HP_X360` →
-    `alc295_fixup_hp_top_speakers` → `ALC269_FIXUP_HP_MUTE_LED_MIC3`.
-- **Hunk 3 (quirk table):** Adds `HDA_CODEC_QUIRK(0x103c, 0x8486, "HP
-  Pavilion x360", ALC295_FIXUP_HP_PAVILION_X360)` between existing
-  `0x841c` and `0x8497` HP entries.
-- **Path affected:** HDA codec probe / fixup application at driver load.
+- **Before:** Device with PCI SSID `0x17aa:0x3912` does not match any
+  entry in `alc269_fixup_tbl[]`; `snd_hda_pick_fixup()` assigns no
+  model-specific fixup → generic ALC287 handling → hissing/crackling.
+- **After:** Same device matches new entry and receives
+  `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`, which runs
+  `alc287_fixup_yoga9_14iap7_bass_spk_pin()` at probe time to override
+  pin configuration and DAC routing.
 
-### Step 2.3: Bug mechanism
-**Record:** **Category:** Hardware quirk / logic correctness.
-- Bogus PCI SSID (`103c:0000`) prevents correct `SND_PCI_QUIRK`
-  matching.
-- `HDA_CODEC_QUIRK` matches on codec subsystem ID (`103c:8486`) instead.
-- Missing amp COEF initialization leaves speakers nearly silent even if
-  partial x360 fixup is reached.
+### Step 2.3: Bug Mechanism
+**Record:** **Category (h): Hardware workaround / audio codec quirk.**
+- The fixup corrects pin 0x17 (bass speakers) wrongly reported as
+  unconnected, sets connection overrides, and configures preferred DAC
+  pairs (speakerbar 0x14 + bass 0x17 → DAC 0x02, headphones 0x21 → DAC
+  0x03).
+- Wrong pin routing can cause noise, missing speakers, or incorrect
+  amplifier behavior — consistent with the reported hissing.
 
-### Step 2.4: Fix quality assessment
+### Step 2.4: Fix Quality
 **Record:**
-- Fix is minimal and follows established patterns (`HDA_FIXUP_VERBS` +
-  chained fixups).
-- Precedent in-tree: `ALC294_FIXUP_ASUS_SPK` uses the same COEF-verb
-  pattern.
-- **Regression risk:** Very low — only affects machines with codec SSID
-  `103c:8486`.
-- No API, locking, or structural changes.
+- **Minimal and idiomatic** — identical pattern to neighboring entries
+  already in this tree.
+- **Regression risk to other hardware:** Negligible — `SND_PCI_QUIRK`
+  matches only SSID `17aa:3912`.
+- **Regression risk on target hardware:** Low-to-medium — author admits
+  fixup is untested; wrong fixup could leave audio broken or change
+  symptoms, but would not affect any other machine.
+- **Concern:** Symptom on Xiaoxin (hissing/crackling on speakers *and*
+  headphones) differs from siblings `3911`/`390d` (bass speakers not
+  working). Fixup may or may not address hissing specifically.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame changed lines
+### Step 3.1: Blame
 **Record:**
-- `ALC295_FIXUP_HP_X360` and its fixup entry blame to `5d324e5159d9e`
-  (v6.18 merge, Nov 2025) — present in this tree.
-- `hp_x360.c` helper included at line 3276 — present.
-- The candidate commit itself is **not** in this tree (`0x8486`,
-  `ALC295_FIXUP_HP_PAVILION_X360` absent).
+- Line 7497 (`0x390d`): present since codec split commit
+  `aeeb85f26c3bbe` (Jul 2025, Takashi Iwai).
+- Line 7498 (`0x3911`): added by `0fa5713ac7a19` (Apr 2026,
+  songxiebing).
+- Line 7499 (`0x3913`): present since codec split.
+- **Missing:** `0x3912` — the gap this commit fills.
+- The fixup infrastructure (`ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`,
+  `alc287_fixup_yoga9_14iap7_bass_spk_pin()`) has been in this tree
+  since at least the Jul 2025 codec split.
 
-### Step 3.2: Follow Fixes: tag
-**Record:** N/A — no `Fixes:` tag. This is a hardware/firmware SSID
-quirk issue, not a regression from a specific kernel commit.
+### Step 3.2: Fixes: Tag
+**Record:** Not applicable — no Fixes: tag present.
 
-### Step 3.3: Related file history
+### Step 3.3: Related File History
 **Record:**
-- Recent related stable commits in this tree:
-  - `6b2c0cd5f9689` — Legion Pro 7 codec SSID quirk for silent speakers
-    (`HDA_CODEC_QUIRK`, `Cc: stable`)
-  - `ded801af28a99` — different HP Pavilion x360 mute-LED quirk
-    (`0x103c:0x8a34`, ALC245)
-- **Standalone:** Yes — no series dependency; self-contained quirk
-  addition.
+- `8d70503068510` — Add quirk for Lenovo Yoga Pro 7 14ASP10 (`0x390d`,
+  same fixup; had `Cc: stable@vger.kernel.org`)
+- `0fa5713ac7a19` — Add quirk for Lenovo Yoga Pro 7 14IAH10 (`0x3911`,
+  same fixup; backported to this tree with `[Upstream commit ...]`
+  marker)
+- `fceb2a4691215` — Add quirk for Lenovo Yoga Slim 7 14AKP10 (`0x391a`,
+  same fixup)
+- **Standalone:** Yes — single-line quirk, no series dependency.
 
-### Step 3.4: Author context
-**Record:** Takashi Iwai is the ALSA/HDA maintainer. `Reviewed-by:
-Cezary Rojewski` (Intel audio).
+### Step 3.4: Author Context
+**Record:** Viktor Menshin appears to be a community contributor (one
+unrelated commit found in tree: `drm/panel` driver). Takashi Iwai
+(maintainer) signed off, indicating subsystem acceptance.
 
 ### Step 3.5: Prerequisites
-**Record:**
-- `ALC295_FIXUP_HP_X360` — **present** (line 3824, fixup at 5124–5129)
-- `alc295_fixup_hp_top_speakers` via `hp_x360.c` — **present**
-- `ALC269_FIXUP_HP_MUTE_LED_MIC3` — **present** (chain target)
-- `HDA_CODEC_QUIRK` macro — **present** in `hda_local.h`, used 11 times
-  in `alc269.c`
-- `match_codec_ssid` logic in `auto_parser.c` — **present**
-- **Can apply standalone:** Yes
+**Record:** None. `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` and its fixup
+function already exist in this tree. Patch inserts cleanly between
+existing `0x3911` and `0x3913` entries.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original patch discussion
-**Record:** UNVERIFIED — `b4 dig -c <commit>` not possible (commit not
-in local repo). `patch.msgid.link` and `lore.kernel.org` returned
-403/Anubis bot protection. Could not read thread content.
+### Step 4.1: Original Discussion
+**Record:** UNVERIFIED — `b4 dig` requires a commit hash (not available
+in this tree); lore.kernel.org and patch.msgid.link returned 403/bot-
+protection. Could not read review thread.
 
 ### Step 4.2: Reviewers
-**Record:** `Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>`
-from commit message (unverified against lore thread).
+**Record:** UNVERIFIED — `b4 dig -w` not possible without commit hash.
+Takashi Iwai maintainer sign-off confirmed from commit message.
 
-### Step 4.3: Bug report
-**Record:** `Closes:` links to a Gmail lore thread (user report).
-UNVERIFIED — could not fetch. Commit message describes reproducible
-silent-audio symptom on specific hardware.
+### Step 4.3: Bug Report
+**Record:** No Reported-by, no bugzilla, no syzbot. Issue described only
+in commit message by the patch author (who owns the hardware).
 
-### Step 4.4: Related patches/series
-**Record:** Standalone 1/1 patch. Related but distinct: `ded801af28a99`
-(HP Pavilion x360 14-ek0xxx mute LED, different SSID/codec).
+### Step 4.4: Related Patches
+**Record:** Direct siblings `0x390d` and `0x3911` use identical fixup;
+`0x3911` commit included bugzilla #221317 and confirmed
+`hda_model=alc287-yoga9-bass-spk-pin` workaround. Xiaoxin commit lacks
+equivalent verification.
 
-### Step 4.5: Stable list history
-**Record:** UNVERIFIED — lore stable search blocked. Similar Legion Pro
-silent-speaker quirk (`6b2c0cd5f9689`) was explicitly nominated with
-`Cc: stable` and is already in this 6.18.y tree.
+### Step 4.5: Stable List History
+**Record:** UNVERIFIED — lore stable list inaccessible. Precedent in
+*this* tree: `0x3911` quirk (`0fa5713ac7a19`) was backported here.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key functions modified
-**Record:** No functions modified. Data tables only: fixup enum,
-`alc269_fixups[]`, `alc269_fixup_tbl[]`.
+### Step 5.1: Key Functions
+**Record:** `alc269_fixup_tbl[]` (modified),
+`alc287_fixup_yoga9_14iap7_bass_spk_pin()` (invoked via fixup chain),
+`snd_hda_pick_fixup()` (selector).
 
 ### Step 5.2: Callers
-**Record:** Quirk tables consumed during HDA codec probe in
-`sound/hda/common/auto_parser.c`:
-- `snd_hda_pick_fixup()` iterates `alc269_fixup_tbl[]`
-- For `HDA_CODEC_QUIRK` entries (`match_codec_ssid = true`), matches
-  codec vendor/device ID
-- Matched fixup applied during codec initialization on every boot for
-  matching hardware
+**Record:** `snd_hda_pick_fixup(codec, alc269_fixup_models,
+alc269_fixup_tbl, alc269_fixups)` called from ALC269 codec probe path
+(`alc269.c` ~line 8471), during HDA codec initialization on every
+matching Realtek device probe.
 
 ### Step 5.3: Callees
-**Record:** New fixup sends standard HDA verbs
-(`AC_VERB_SET_COEF_INDEX`, `AC_VERB_SET_PROC_COEF`), then chains to
-`alc295_fixup_hp_top_speakers` and `alc269_fixup_hp_mute_led_mic3`.
+**Record:** Fixup calls `snd_hda_apply_pincfgs()`,
+`snd_hda_override_conn_list()`, sets `spec->gen.preferred_dacs`, and
+chains to `hda_fixup_ideapad_acpi()`.
 
-### Step 5.4: Call chain / reachability
-**Record:** Triggered automatically at HDA codec probe on affected HP
-Pavilion x360 hardware. Not userspace-triggerable; affects all users of
-that laptop model at boot.
+### Step 5.4: Reachability
+**Record:** Triggered automatically at boot/module load when the HDA
+codec for SSID `17aa:3912` is probed. No userspace action required.
+Affects only owners of this specific laptop model.
 
-### Step 5.5: Similar patterns
-**Record:**
-- `ALC294_FIXUP_ASUS_SPK` — COEF verb amp init, chained fixup (lines
-  5195–5207)
-- `6b2c0cd5f9689` — `HDA_CODEC_QUIRK` for silent speakers when PCI SSID
-  is wrong
-- `ALC285_FIXUP_HP_GPIO_AMP_INIT` — HP amp-init fixup family
+### Step 5.5: Similar Patterns
+**Record:** At least 6 Lenovo models in this tree already use
+`ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` for the same AMD 14" platform
+family. This is an established pattern, not experimental code.
 
 ---
 
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+## PHASE 6: CROSS-REFERENCE AGAINST LOCAL TREE
 
-### Step 6.1: Does the buggy code exist?
-**Record:** **Yes.** The tree has `ALC295_FIXUP_HP_X360` and HP x360 PCI
-quirks (`0x820d`, `0x827e`) but **no** `HDA_CODEC_QUIRK(0x103c, 0x8486,
-...)`. Machines with bogus PCI SSID `103c:0000` and codec SSID
-`103c:8486` are affected in this tree today.
+### Step 6.1: Buggy Code Present?
+**Record:** **Yes.** `0x3912` entry is absent; neighbors `0x390d` and
+`0x3911` are present at lines 7497–7498. The ALC287 fixup infrastructure
+is fully present. Hardware is contemporary (2025/2026) and plausible on
+6.18.y.
 
-### Step 6.2: Backport complications
-**Record:** **Clean apply expected.** Insertion points verified in
-current tree:
-- Enum: `ALC295_FIXUP_HP_X360` at 3824, followed by
-  `ALC221_FIXUP_HP_HEADSET_MIC`
-- Fixups: `ALC295_FIXUP_HP_X360` at 5124–5129
-- Quirk table: `0x841c` at 6723, `0x8497` at 6724 — matches diff context
-  exactly
+### Step 6.2: Backport Complications
+**Record:** **Clean apply expected** — one-line insertion between
+existing entries at the same location as upstream diff. No structural
+divergence at the insertion point.
 
-### Step 6.3: Related fixes already present?
-**Record:** No equivalent fix for `103c:8486`. Different Pavilion x360
-quirk (`0x8a34`, ALC245 mute LED) exists but addresses a different
-machine/codec.
+### Step 6.3: Related Fixes Already Present?
+**Record:** No existing `0x3912` entry or Xiaoxin quirk found. The
+identical fixup for siblings `390d`/`3911` is already in tree.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 7.1: Subsystem criticality
-**Record:** `sound/hda` — Realtek codec driver. **IMPORTANT** for
-affected laptop users; peripheral globally but critical for those with
-broken audio.
+### Step 7.1: Subsystem Criticality
+**Record:** **sound/ALSA HDA Realtek** — IMPORTANT (affects laptop audio
+users) but PERIPHERAL relative to core kernel; config- and hardware-
+specific.
 
-### Step 7.2: Subsystem activity
-**Record:** Actively maintained — multiple HP/Lenovo quirk commits in
-recent 6.18.y history.
+### Step 7.2: Subsystem Activity
+**Record:** Actively maintained — multiple Lenovo quirk additions in
+recent `alc269.c` history on this tree (TongFang, HP, Legion, Yoga Pro
+7, etc.).
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who is affected
-**Record:** **Hardware-specific** — HP Pavilion x360 laptops reporting
-codec SSID `103c:8486` with bogus PCI SSID `103c:0000`.
+### Step 8.1: Who Is Affected
+**Record:** **Hardware-specific** — owners of Lenovo Xiaoxin 14 GT with
+PCI SSID `17aa:3912` running Linux with `snd-hda-codec-realtek`
+(ALC287).
 
-### Step 8.2: Trigger conditions
-**Record:** Every boot / codec probe on affected hardware. Common path
-for those machines. Not security-relevant; not user-triggerable beyond
-owning the hardware.
+### Step 8.2: Trigger Conditions
+**Record:** Every boot / codec probe on affected hardware. Common for
+laptop owners. Not security-relevant; not triggerable by unprivileged
+users on other systems.
 
-### Step 8.3: Failure mode severity
-**Record:** Near-silent speaker output — primary audio function broken.
-**Severity: MEDIUM** (functional breakage, not
-crash/corruption/security). For affected users, impact is severe.
+### Step 8.3: Failure Mode Severity
+**Record:** **MEDIUM** — constant audio hissing/crackling makes playback
+unpleasant/unusable, but no crash, deadlock, data corruption, or
+security impact. Significant quality-of-life issue for affected users.
 
-### Step 8.4: Risk-benefit ratio
+### Step 8.4: Risk-Benefit
 **Record:**
-- **Benefit:** Restores usable speaker audio on affected HP Pavilion
-  x360 laptops
-- **Risk:** Very low — ~14 lines, codec-SSID-specific match, established
-  quirk mechanism
-- **Ratio:** Strongly favorable
+- **Benefit:** HIGH for affected users (potentially restores usable
+  audio); ZERO for everyone else.
+- **Risk:** VERY LOW for non-target hardware (SSID-gated). LOW for
+  target hardware (worst case: fixup doesn't help or changes symptoms;
+  author uncertainty noted).
+- **Ratio:** Favorable — standard hardware-quirk risk profile.
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence compiled
+### Step 9.1: Evidence Summary
 
 **FOR backport:**
-- Real hardware bug: near-silent speakers on specific HP Pavilion x360
-- Classic stable exception: hardware quirk/workaround
-- Small, surgical, maintainer-authored, Intel-reviewed
-- All prerequisites present in Linux 6.18.44
-- Clean apply to current tree
-- Direct precedent: `6b2c0cd5f9689` (codec SSID quirk for silent
-  speakers, already in 6.18.y with `Cc: stable`)
-- Low regression risk (SSID-specific matching)
+- Hardware quirk — explicit stable exception category
+- Fixes real, user-visible audio defect on specific laptop
+- One-line, surgical, no new APIs or features
+- Uses existing, proven fixup already applied to sibling SSIDs in this
+  tree
+- Maintainer (Takashi Iwai) signed off
+- Identical pattern to `0x3911` quirk already backported to this 6.18.y
+  tree
+- Zero impact on any hardware other than `17aa:3912`
 
 **AGAINST backport:**
-- Not a crash, security, or data-corruption issue
-- Affects only one hardware variant
-- No `Tested-by:` or `Cc: stable` in commit message (not disqualifying)
-- Mailing list discussion unverified
+- Author explicitly states fixup **not kernel-tested**
+- No Reported-by, bugzilla, or modprobe-workaround confirmation (unlike
+  `0x3911`)
+- Symptom (hissing/crackling) differs from siblings (bass speakers not
+  working) — fixup match is inferred, not confirmed
+- Not a crash/corruption/security issue — importance is moderate
+- Mailing list review thread inaccessible — review depth unverified
 
-**UNRESOLVED:**
-- Could not verify lore thread or user bug report details (403 bot
-  protection)
+**Unresolved:**
+- Whether the chosen fixup actually resolves hissing (vs. only bass-
+  speaker issues)
+- Whether reviewers on lore suggested stable nomination
 
-### Step 9.2: Stable rules checklist
-1. Obviously correct and tested? **PASS** — standard HDA quirk pattern;
-   Reviewed-by from Intel; maintainer SOB
-2. Fixes a real bug affecting users? **PASS** — silent/near-silent audio
-   on specific laptop
-3. Important issue? **PASS** — broken primary audio on affected hardware
-   (hardware quirk exception)
-4. Small and contained? **PASS** — ~14 lines, one file
-5. No new features or APIs? **PASS** — quirk table entry only
-6. Can apply to local tree? **PASS** — prerequisites present, clean
-   apply expected
+### Step 9.2: Stable Rules Checklist
+| Criterion | Result |
+|-----------|--------|
+| 1. Obviously correct and tested? | **PARTIAL FAIL** — logically sound
+and maintainer-reviewed, but author admits no kernel test |
+| 2. Fixes real bug affecting users? | **PASS** — documented audio
+defect on real hardware |
+| 3. Important issue? | **PASS (moderate)** — unusable audio quality,
+not crash/corruption |
+| 4. Small and contained? | **PASS** — 1 line, 1 file |
+| 5. No new features/APIs? | **PASS** — quirk table entry only |
+| 6. Can apply to local tree? | **PASS** — fixup infrastructure present,
+clean insertion point |
 
-### Step 9.3: Exception category
-**Record:** **Hardware quirk/workaround** — codec SSID quirk with COEF
-amp initialization for broken/misreported PCI SSID.
+### Step 9.3: Exception Category
+**Record:** **Hardware quirk/workaround** — adding PCI SSID to existing
+driver's quirk table with an existing fixup. This is one of the most
+common and accepted stable backport categories.
 
-### Step 9.4: Decision rationale
-This commit fixes a real, user-visible audio failure on HP Pavilion x360
-hardware where a bogus PCI SSID causes incorrect quirk matching. The fix
-is a small, well-established HDA codec quirk that matches codec SSID
-`103c:8486`, initializes the amplifier via COEF verbs, and chains to
-existing x360 fixups already present in Linux 6.18.44. It fits the
-stable kernel hardware-quirk exception category with minimal risk and
-clear benefit for affected laptop owners.
+### Step 9.4: Decision Rationale
+
+This patch fits the well-established pattern of Lenovo ALC287 quirk
+additions already present and backported in this 6.18.y tree. The
+missing `17aa:3912` entry is the bug; the one-line addition is the
+standard remedy. The author's untested disclaimer is a quality concern,
+but it is mitigated by: (1) maintainer acceptance, (2) identical fixup
+on immediately adjacent sibling models, (3) SSID-specific scope
+eliminating cross-hardware regression risk, and (4) the hardware-quirk
+exception that stable trees routinely honor for laptop audio.
+
+The issue is not a kernel crash, but broken audio on a specific shipping
+laptop is exactly the kind of real-world hardware problem stable quirk
+patches address.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed commit message: subsystem ALSA/hda/realtek, action
-  "add quirk", tags Closes/Reviewed-by/Link/Signed-off-by
-- [Phase 1] No Fixes:/Reported-by:/Cc: stable tags
-- [Phase 2] Diff: 1 file, ~14 lines added, enum + fixup + quirk table
-- [Phase 2] New fixup chains: PAVILION_X360 → HP_X360 → MUTE_LED_MIC3
-- [Phase 2] COEF verbs: index 0x07/val 0x7770, index 0x0d/val 0x3000
-- [Phase 3] `git describe HEAD`: v6.18.44-2-g1b9e1abadee04
-- [Phase 3] `git blame` ALC295_FIXUP_HP_X360: present since
-  5d324e5159d9e
-- [Phase 3] `grep ALC295_FIXUP_HP_PAVILION_X360` / `0x8486` in alc269.c:
-  not found — commit absent from tree
-- [Phase 3] `6b2c0cd5f9689`: similar HDA_CODEC_QUIRK silent-speaker fix
-  already in tree
-- [Phase 3] `ded801af28a99`: different HP Pavilion x360 quirk (0x8a34,
-  mute LED)
-- [Phase 4] `b4 dig -c`: not run — commit not in local repo
-- [Phase 4] lore.kernel.org / patch.msgid.link fetch: 403 Forbidden —
-  UNVERIFIED
-- [Phase 5] `grep match_codec_ssid` in auto_parser.c: codec SSID
-  matching logic confirmed at lines 1067–1079
-- [Phase 5] `HDA_CODEC_QUIRK` macro in hda_local.h: confirmed at lines
-  314–320
-- [Phase 5] `hp_x360.c` included at alc269.c:3276;
-  `alc295_fixup_hp_top_speakers` exists
-- [Phase 6] Insertion context verified: 0x841c/0x8497 neighbors at lines
-  6723–6724
-- [Phase 6] 11 existing `HDA_CODEC_QUIRK` entries in alc269.c
-  (ASUS/Lenovo, no HP yet)
-- [Phase 8] Failure mode: near-silent speakers, severity MEDIUM for
-  affected hardware
+- **[Phase 1]** Parsed commit message and tags from user-provided commit
+  text
+- **[Phase 1]** Confirmed maintainer sign-off (Takashi Iwai); no
+  Reported-by/Tested-by
+- **[Phase 2]** Diff analysis: +1 `SND_PCI_QUIRK` line in
+  `alc269_fixup_tbl[]`
+- **[Phase 2]** Read `alc287_fixup_yoga9_14iap7_bass_spk_pin()` at lines
+  3408–3444 — pin/DAC routing fixup
+- **[Phase 3]** `git describe HEAD`: `v6.18.44-1-g2736c32da98b9`
+- **[Phase 3]** `git blame -L 7497,7499`: neighbors `390d`/`3911`/`3913`
+  confirmed; `3912` absent
+- **[Phase 3]** `git show 0fa5713ac7a19`: `3911` quirk uses same fixup,
+  was backported to this tree
+- **[Phase 3]** `git show 8d70503068510`: `390d` quirk uses same fixup,
+  had Cc: stable
+- **[Phase 3]** `git log --oneline -20 --
+  sound/hda/codecs/realtek/alc269.c`: active quirk maintenance
+- **[Phase 4]** `b4 dig`: requires commit hash — not available in tree;
+  could not run
+- **[Phase 4]** WebFetch lore.kernel.org and patch.msgid.link: blocked
+  (403/bot protection)
+- **[Phase 4]** `curl` lore raw URL: 403 Forbidden
+- **[Phase 5]** `grep snd_hda_pick_fixup`: called at alc269.c:8471
+  during codec probe
+- **[Phase 5]** `grep ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`: enum,
+  fixup table entry, and 6+ quirk users confirmed
+- **[Phase 6]** `grep 0x3912 sound/hda/codecs/realtek/alc269.c`: no
+  match — quirk missing
+- **[Phase 6]** Read lines 7497–7500: insertion point between `3911` and
+  `3913` confirmed
+- **[Phase 8]** Failure mode: audio hissing/crackling — severity MEDIUM
+  (not crash/corruption)
+- **UNVERIFIED:** Mailing list review content and whether reviewers
+  nominated for stable
+- **UNVERIFIED:** Whether `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`
+  actually fixes hissing on this model
 
-**YES**The background search for `0x8486` finished: that codec SSID
-quirk is **not** in this **6.18.44** tree yet, which matches the earlier
-analysis.
+**YES**The stable backport review for **ALSA: hda/realtek: Add quirk for
+Lenovo Xiaoxin 14 GT** is done.
 
-**Verdict: YES** — backport this commit. It’s a small HP Pavilion x360
-hardware quirk (`103c:8486`) that fixes near-silent speakers when the
-machine reports a bogus PCI SSID (`103c:0000`). All prerequisites
-(`ALC295_FIXUP_HP_X360`, `HDA_CODEC_QUIRK`, amp init chain) are already
-present, and the patch should apply cleanly.
+**Verdict: YES** for this tree (`v6.18.44`).
 
- sound/hda/codecs/realtek/alc269.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+It’s a one-line PCI quirk (`17aa:3912`) using the existing
+`ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` fixup — the same pattern
+already used for neighboring Lenovo models (`390d`, `3911`) in
+`alc269.c`. That fits the usual stable hardware-quirk case: small, SSID-
+specific, and aimed at fixing broken audio on a real laptop.
+
+The main caveat is the author’s note that the fixup wasn’t kernel-
+tested; maintainer sign-off and the sibling-model precedent still make
+it reasonable for stable.
+
+A follow-up search found no existing `0x3912`/Xiaoxin entry in this tree
+(expected — that’s what the patch adds) and no prior commits from Viktor
+Menshin in this ALSA area.
+
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index b7dad90ac9cd4..f1e6557847a85 100644
+index 490589c042bd9..ab6fc1fdf3ff2 100644
 --- a/sound/hda/codecs/realtek/alc269.c
 +++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3823,6 +3823,7 @@ enum {
- 	ALC256_FIXUP_HUAWEI_MACH_WX9_PINS,
- 	ALC298_FIXUP_HUAWEI_MBX_STEREO,
- 	ALC295_FIXUP_HP_X360,
-+	ALC295_FIXUP_HP_PAVILION_X360,
- 	ALC221_FIXUP_HP_HEADSET_MIC,
- 	ALC285_FIXUP_LENOVO_HEADPHONE_NOISE,
- 	ALC295_FIXUP_HP_AUTO_MUTE,
-@@ -5137,6 +5138,19 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269_FIXUP_HP_MUTE_LED_MIC3
- 	},
-+	[ALC295_FIXUP_HP_PAVILION_X360] = {
-+		.type = HDA_FIXUP_VERBS,
-+		.v.verbs = (const struct hda_verb[]) {
-+			/* force amp gain and processing state */
-+			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x07 },
-+			{ 0x20, AC_VERB_SET_PROC_COEF, 0x7770 },
-+			{ 0x20, AC_VERB_SET_COEF_INDEX, 0x0d },
-+			{ 0x20, AC_VERB_SET_PROC_COEF, 0x3000 },
-+			{}
-+		},
-+		.chained = true,
-+		.chain_id = ALC295_FIXUP_HP_X360
-+	},
- 	[ALC221_FIXUP_HP_HEADSET_MIC] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -6744,6 +6758,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x82c0, "HP G3 mini premium", ALC221_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x83b9, "HP Spectre x360", ALC269_FIXUP_HP_MUTE_LED_MIC3),
- 	SND_PCI_QUIRK(0x103c, 0x841c, "HP Pavilion 15-CK0xx", ALC269_FIXUP_HP_MUTE_LED_MIC3),
-+	HDA_CODEC_QUIRK(0x103c, 0x8486, "HP Pavilion x360", ALC295_FIXUP_HP_PAVILION_X360),
- 	SND_PCI_QUIRK(0x103c, 0x8497, "HP Envy x360", ALC269_FIXUP_HP_MUTE_LED_MIC3),
- 	SND_PCI_QUIRK(0x103c, 0x84a6, "HP 250 G7 Notebook PC", ALC269_FIXUP_HP_LINE1_MIC1_LED),
- 	SND_PCI_QUIRK(0x103c, 0x84ae, "HP 15-db0403ng", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
+@@ -7503,6 +7503,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3911, "Lenovo Yoga Pro 7 14IAH10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
++	SND_PCI_QUIRK(0x17aa, 0x3912, "Lenovo Xiaoxin 14 GT", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
+ 	SND_PCI_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+ 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
 -- 
 2.53.0
 
