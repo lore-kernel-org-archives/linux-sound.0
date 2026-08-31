@@ -1,47 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE385419AA;
-	Mon, 31 Aug 2026 13:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7866E544890;
+	Mon, 31 Aug 2026 13:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183959; cv=none; b=KONKi6RtsI6u7AqVZBJ6qTFTqbcJwDDRw6DSNHcKsvK3hQfQO7yeSwIkqjZa3RXYB1K/dBGKPTDJhCdcV6NiRCmvEphRdG0e+YP3nlezWh0K1+++ZwwYWO9D+uYqDX+ZAz+Dp3azy38lerDzIy7JANhw2trpbfdtrbYRdfGumYU=
+	t=1788183969; cv=none; b=dPyq8bvMJXrLKBBlNf9EyzMbzG1YxqggUycfC17rnkN5h9BrHDvN4BSI6whxuHH3ZHCiIqGmfbtY2nRDyRPD7TKFnotqoygEb58289H7wkRettZodaqSHIT7Wim52V6EZJ1aN6HgwpFc06RvZNBg7ARrJhQ67vtshGEiBhpcB5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183959; c=relaxed/simple;
-	bh=zbywMqE66HVsRAx54iF4I8/X8Nz8MgXYoJInsctGmXo=;
+	s=arc-20240116; t=1788183969; c=relaxed/simple;
+	bh=ad2ZfK+WzWZMftcgNKxhb5qHIIkDpac3P5FaL78wHwE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dU83Twzl8pWuMX1s+dlgLEnTBotWeBSeI1+13xs7+teQKRnZTrJOVhQYCHh4c1jdPEm7OEit+tPvoUehs9o5uxj3dpu4n+hWjKwyX+ekiL8KC7jjlg1ert6yIEX0lD3ZAw2PCJ0qw7+zYbXcjLxfyHn9TdHGiOBQkS7mxCha7CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtNBZgCR; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=B0tbw90ad5micff0u19sZUHnBrZHIcGwlKTh8+Je+m75BrWnFygMQK1m5IKq6+83iWDrKoewRaW03MPjUqENbK/4CFF/sS38ANp9iLDz1vJjwf3992KtAbPLiMTdZ1ENhW/fDuCIDvj65wGeGhekiieiCTbtmhnJa3e1d3/rOVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hXPSIaN8; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtNBZgCR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0609C1F000E9;
-	Mon, 31 Aug 2026 13:45:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hXPSIaN8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD61C1F00ACA;
+	Mon, 31 Aug 2026 13:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183956;
-	bh=GZJQ16v06Yi0FO07Nrm2/I1nwA5R9x34h9AS1PcYTVM=;
+	s=k20260515; t=1788183966;
+	bh=mKl7NM9aBxpP/vwG1jqeauSAaa989GRP58uEl1mVRio=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=XtNBZgCRWGB3bzGwWJfbYL60yw8ZyGd/C8xboA7eTElN3zHwyzjZb7pLtCSRvwqHg
-	 S87XjrmkYaIBl7KSp4DSx9lF5tksd2flikYmoIm49obkqJCRqHVbMQ9+y7hxqtpUTK
-	 MXAA6og/GDjRqWMy5493WieVw+BhLU4/zu1dkY4V5L4yLCMZamGylVwVZKTYEpl/OT
-	 S6xcngFs2E+JSBKrMbshLDGTzQE7DB0bJ8rcV2COqjTYZP7xpYaqy/N5X2r2pBagoU
-	 JAAhI8rJJBVbDjA0H1QGT8xc6sVcExdPxhhkNWUMNXKiY71rPwTdwrXtfEMG5mWhD6
-	 KoacA7AV3eP5A==
+	b=hXPSIaN8i93fKBkLksxjoAPt/AY3doMHkg8f/QrUrJgMy2/cFqS6j/8RxDqbF3vn/
+	 5DosaaRLwDSf5KUmu77J3DwIsHL6jb0vUJptIb4VIBkTXWP+V2KfkSuekeRLpeTpyH
+	 h85uss1uhMk8FPyz6hiEuyDTINAPss9xsvw9xJqX1Os4CdOirX7qnQN2KF14gmyqqk
+	 GBoryCraF/9+mSRQnIRjV1QKml06eOs+2eJdU6+gCG6/r6gPnMObpqOpp6t/+Hm3b8
+	 HIxB/YZjAK2DZDZOkajXhGjAVsqRu9VNR1/IVfpR+VbVrISP0ASKEHykTeYtX1FTit
+	 agmguIk7QQ1Ug==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Baojun Xu <baojun.xu@ti.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Vinod Koul <vkoul@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	sen@ti.com,
-	perex@perex.cz,
-	tiwai@suse.com,
+	yung-chuan.liao@linux.intel.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] ASoC: tas2781: Update default register address to TAS2563
-Date: Mon, 31 Aug 2026 09:27:11 -0400
-Message-ID: <20260831133314.4125787-403-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] soundwire: validate DT compatible before parsing it
+Date: Mon, 31 Aug 2026 09:27:17 -0400
+Message-ID: <20260831133314.4125787-409-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -57,137 +53,139 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Baojun Xu <baojun.xu@ti.com>
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-[ Upstream commit 64184f07e7516eb3ac1839387eb7cbe2dbeaa96f ]
+[ Upstream commit 45c7bda7b7440183850012153988e40b300f40d0 ]
 
-The previous TAS2781 address is overwritten during calibration,
-so switching to the TAS2563 address is required.
+`sdw_of_find_slaves()` fetches raw `"compatible"` bytes with
+`of_get_property()` and then immediately parses them with
+`sscanf("sdw%01x%04hx%04hx%02hhx", ...)`.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-Link: https://patch.msgid.link/20260625102815.20043-1-baojun.xu@ti.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Live-tree OF properties are stored as raw bytes plus a separate length;
+they are not globally guaranteed to be NUL-terminated. Validate the
+first compatible string before parsing it.
+
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Link: https://patch.msgid.link/20260403183504.4-soundwire-compatible-pengpeng@iscas.ac.cn
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ASoC: tas2781: Update default register
-address to TAS2563
+# Stable Backport Analysis: `soundwire: validate DT compatible before
+parsing it`
 
-**Local tree:** `v6.18.44` (`6.18.44`, commit `2736c32da98b9`)
-**Upstream commit:** `64184f07e7516` (mainline, merged Jun 25, 2026)
-**Stable candidate:** `43c6afb999d7e` (on `autosel` branch, not yet in
-HEAD)
+**Local tree:** `v6.18.43-1-gc7f0dac02d232` (Linux **6.18.43**)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
 ### Step 1.1: Subject Line
-**Record:** `[ASoC: tas2781]` `[Update]` — Change default XM calibration
-register addresses from TAS2781 book/page to TAS2563 book/page.
+**Record:** `[soundwire] [validate] validate DT compatible before
+parsing it` — subsystem is SoundWire; action is validation/correctness
+fix before string parsing.
 
-### Step 1.2: Tags
+### Step 1.2: Commit Tags
 **Record:**
-- **Signed-off-by:** Baojun Xu `<baojun.xu@ti.com>` (TI, driver author)
-- **Link:**
-  https://patch.msgid.link/20260625102815.20043-1-baojun.xu@ti.com
-- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer)
-- **No** Fixes:, Reported-by:, Tested-by:, Cc: stable@vger.kernel.org,
-  Acked-by:
-- **Notable:** Maintainer applied with no objections; no syzbot or user
-  bug reports cited.
+- **Signed-off-by:** Pengpeng Hou `<pengpeng@iscas.ac.cn>` (author)
+- **Link:** https://patch.msgid.link/20260403183504.4-soundwire-
+  compatible-pengpeng@iscas.ac.cn
+- **Signed-off-by:** Vinod Koul `<vkoul@kernel.org>` (SoundWire
+  maintainer, applied)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
+  stable@vger.kernel.org`
+- Pipeline markers (`[Upstream commit ...]`, Sasha Levin SOB) ignored
+  per instructions
 
 ### Step 1.3: Body Analysis
 **Record:**
-- **Bug:** Default `TASDEVICE_XM_A1_REG` / `TASDEVICE_XM_A2_REG` point
-  to TAS2781 page `0x63`, which is overwritten during speaker
-  calibration.
-- **Symptom:** ALSA controls `"Amp XMA1 Data"` and `"Amp XMA2 Data"`
-  read from wrong registers and return incorrect calibration data.
-- **Root cause:** Hardware/firmware overwrites the TAS2781-specific page
-  during calibration; TAS2563 page `0x02` holds the persistent XM data.
-- **Version info:** None stated; addresses introduced with calibration
-  kcontrols in Sep 2024.
+- **Bug:** `sdw_of_find_slaves()` uses `of_get_property()` to fetch raw
+  `"compatible"` bytes, then passes them to `sscanf()` and `%s` logging
+  without ensuring NUL termination within property bounds.
+- **Symptom:** Out-of-bounds read when the first compatible string is
+  not NUL-terminated within the declared property length (live-tree OF
+  properties).
+- **Root cause:** Live-tree OF properties are length-delimited byte
+  sequences, not guaranteed C strings; `of_get_property()` does not
+  validate string termination.
+- **Version info:** None stated in commit message.
 
-### Step 1.4: Hidden Bug Fix
-**Record:** Yes. Wording is "update address," but this is a functional
-calibration correctness fix — wrong register map causes bad data reads,
-not a cosmetic change.
+### Step 1.4: Hidden Bug Fix Detection
+**Record:** Yes — described as validation, but it is a real memory-
+safety bug fix (out-of-bounds read via `sscanf()` / `%s`), not cosmetic
+cleanup.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
+### Step 2.1: Change Inventory
 **Record:**
-- **Files:** `include/sound/tas2781.h` only (+2 / -2 lines)
-- **Functions affected indirectly:** `tasdev_XMA1_data_get()`,
-  `tasdev_XMA2_data_get()` in `sound/soc/codecs/tas2781-i2c.c`
-- **Scope:** Single-file, surgical header fix
-
-| Macro | Before | After |
-|-------|--------|-------|
-| `TASDEVICE_XM_A1_REG` | `TASDEVICE_REG(0x64, 0x63, 0x3c)` |
-`TASDEVICE_REG(0x64, 0x02, 0x4c)` |
-| `TASDEVICE_XM_A2_REG` | `TASDEVICE_REG(0x64, 0x63, 0x38)` |
-`TASDEVICE_REG(0x64, 0x02, 0x64)` |
-
-New addresses share book `0x64`, page `0x02` with existing
-`TAS2563_RUNTIME_RE_REG` (`0x48`) and `TAS2563_RUNTIME_RE_REG_TF`
-(`0x70`).
+- **Files:** `drivers/soundwire/slave.c` only (+2 / −2 lines)
+- **Function:** `sdw_of_find_slaves()`
+- **Scope:** Single-file, surgical fix
 
 ### Step 2.2: Code Flow Change
 **Record:**
-- **Before:** `tasdev_XMA1_data_get()` / `tasdev_XMA2_data_get()`
-  default to page `0x63` when `dspbin_typ == 0`; firmware-provided
-  addresses used when `dspbin_typ != 0`.
-- **After:** Same logic, but defaults point to page `0x02` (TAS2563
-  calibration page).
-- **Path:** ALSA kcontrol read → `calib_data_get()` →
-  `tasdevice_dev_bulk_read()` at corrected register.
+- **Before:** `compat = of_get_property(node, "compatible", NULL); if
+  (!compat) continue;` — uses raw property pointer directly.
+- **After:** `ret = of_property_read_string(node, "compatible",
+  &compat); if (ret) continue;` — validates NUL termination within
+  `prop->length` before use.
+- **Path affected:** Device-tree slave enumeration loop during SoundWire
+  bus master registration (normal probe path on OF platforms).
 
 ### Step 2.3: Bug Mechanism
-**Record:** **Category (g): Logic / correctness fix** — wrong hardware
-register map. **Category (h): Hardware workaround** — TAS2781 page
-overwritten during calibration; driver must use TAS2563 addresses for
-persistent XM data.
+**Record:**
+- **Category:** Memory safety / out-of-bounds read (buffer/string
+  bounds)
+- **Mechanism:** `of_get_property()` returns `prop->value` without
+  checking that a NUL byte exists within `prop->length`. `sscanf(compat,
+  ...)` and `dev_err(..., "%s", compat)` scan until NUL, potentially
+  reading past the property into adjacent kernel memory.
+  `of_property_read_string()` rejects malformed strings via
+  `strnlen(prop->value, prop->length) >= prop->length` → `-EILSEQ`.
 
 ### Step 2.4: Fix Quality
-**Record:** Obviously correct and minimal. New addresses align with
-other TAS2563 calibration registers already in the same header. Very low
-regression risk; only changes fallback addresses when firmware does not
-override them.
+**Record:**
+- Obviously correct — canonical OF API for reading string properties.
+- Minimal change; no unrelated edits.
+- Low regression risk: valid, well-formed DT `compatible` strings behave
+  identically; malformed/non-terminated strings are skipped instead of
+  parsed unsafely.
+- `ret` is already declared in the loop scope; reuse is safe.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame
-**Record:** Wrong addresses introduced in `49e2e353fb0db` ("ASoC:
-tas2781: Add Calibration Kcontrols for Chromebook", Sep 12, 2024).
-Present in this tree.
+### Step 3.1: Blame / Introduction
+**Record:** In this checkout, `sdw_of_find_slaves()` with
+`of_get_property(node, "compatible", ...)` is present at `ac3fd01e4c1ef`
+(Linux 6.18-rc7) and in current HEAD. Git history in this repo is
+shallow; blame metadata is unreliable (shows unrelated AFS commit), but
+the buggy pattern is confirmed present in 6.18.43.
 
 ### Step 3.2: Fixes: Tag
-**Record:** N/A — no Fixes: tag.
+**Record:** N/A — no `Fixes:` tag in commit message.
 
-### Step 3.3: Related Commits
-**Record:**
-- `fcc3d77fef02c` — already backported to this tree: wrong SINEGAIN2
-  register in calibration path (same class of fix)
-- `cf86e0ae60a22` — calibration failure fix (register unlock)
-- `2aa13da97e2b9` — calibration stress-test fix
-- `791520a8e54e2` — wrong period fix
-- Standalone; not part of a multi-patch series.
+### Step 3.3: Related File History
+**Record:** Recent `drivers/soundwire/` activity includes other bug
+fixes (e.g. `a454f61747c97 soundwire: fix bug in
+sdw_add_element_group_count found by syzkaller`). No duplicate fix for
+this compatible-string issue found in current HEAD.
 
 ### Step 3.4: Author Context
-**Record:** Baojun Xu is a regular TI contributor to tas2781 (chip ID
-fixes, DT updates, HDA quirks). Mark Brown is ASoC maintainer.
+**Record:** Pengpeng Hou has multiple similar “validate before string
+parse” fixes in this tree (e.g. Bluetooth btusb, ASoC tas2781, media
+drivers). Vinod Koul (SoundWire maintainer) applied the patch.
 
 ### Step 3.5: Dependencies
-**Record:** None. Self-contained 2-line header change; no prerequisite
-commits.
+**Record:** Standalone — no series dependency, no prerequisite commits
+required. `of_property_read_string()` already exists in
+`drivers/of/property.c` in this tree.
 
 ---
 
@@ -195,114 +193,125 @@ commits.
 
 ### Step 4.1: Original Discussion
 **Record:**
-- **URL:**
-  https://patch.msgid.link/20260625102815.20043-1-baojun.xu@ti.com
-- **Revisions:** v1 only
-- **Review:** Mark Brown applied to `for-7.2` with no NAKs or change
-  requests
+- **b4 dig URL:** https://patch.msgid.link/20260403183504.4-soundwire-
+  compatible-pengpeng@iscas.ac.cn
+- **Revisions:** v1 only (no v2/v3)
+- **Review:** Vinod Koul replied “Applied, thanks!” — no NAKs, no
+  objections
 - **Stable nomination:** None in thread
 
 ### Step 4.2: Reviewers
-**Record:** CC'd: broonie@kernel.org, tiwai@suse.de, alsa-devel, linux-
-sound, shenghao-ding@ti.com, other TI engineers.
+**Record:** CC'd: Vinod Koul, Bard Liao, Pierre-Louis Bossart, linux-
+sound@vger.kernel.org, linux-kernel@vger.kernel.org
 
-### Step 4.3: Bug Reports
-**Record:** No external bug report, syzbot, or Bugzilla link. Issue
-identified internally by TI based on hardware behavior.
+### Step 4.3: Bug Report
+**Record:** No syzbot, no user crash report, no Bugzilla link. Issue
+identified via OF live-tree string-safety analysis (same author filed
+related `drivers/of: validate live-tree string properties before string
+use`).
 
-### Step 4.4: Series Context
-**Record:** Standalone 1/1 patch; no series dependencies.
+### Step 4.4: Related Series
+**Record:** Related but separate upstream commit `1e54c31b9cbbb` fixes
+OF core helpers; this SoundWire commit is independently applicable.
 
 ### Step 4.5: Stable List History
-**Record:** Not searched on lore stable list (Anubis blocked web fetch).
-Precedent in this tree: `fcc3d77fef02c` (tas2781 calibration register
-fix) already backported.
+**Record:** Not searched exhaustively; no stable-list nomination found
+in patch thread.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
 ### Step 5.1: Key Functions
-**Record:** `tasdev_XMA1_data_get()`, `tasdev_XMA2_data_get()`,
-`calib_data_get()`
+**Record:** `sdw_of_find_slaves()` modified.
 
 ### Step 5.2: Callers
-**Record:** Registered in `tasdevice_cali_controls[]` (lines 925–926),
-added for all chip types via `tasdevice_create_cali_ctrls()`. Invoked
-from userspace ALSA control reads (e.g. Chromebook calibration tooling).
+**Record:**
+- `sdw_bus_master_add()` in `drivers/soundwire/bus.c:141` calls
+  `sdw_of_find_slaves(bus)` when `CONFIG_OF` and `bus->dev->of_node` and
+  ACPI path is not taken.
+- `sdw_bus_master_add()` called from `drivers/soundwire/qcom.c`,
+  `drivers/soundwire/amd_manager.c`,
+  `drivers/soundwire/intel_auxdevice.c`.
 
 ### Step 5.3: Callees
-**Record:** `calib_data_get()` → `tasdevice_dev_bulk_read()` — 4-byte
-register read under `codec_lock`.
+**Record:** `of_property_read_string()`, `sscanf()`, `of_get_property()`
+(for `reg`), `sdw_slave_add()`, `dev_err()`.
 
 ### Step 5.4: Reachability
-**Record:** Reachable from userspace via ALSA mixer/control interface.
-Affects calibration data reads, not normal audio playback. Triggered
-when userspace reads `"Amp XMA1 Data"` / `"Amp XMA2 Data"` and
-`dspbin_typ == 0`.
+**Record:**
+- Triggered at SoundWire controller probe/registration on OF-based
+  platforms (e.g. Qualcomm SoundWire).
+- On typical x86 Intel laptops, ACPI path (`sdw_acpi_find_slaves`) is
+  preferred when `ACPI_HANDLE(bus->dev)` is set; OF path applies to
+  embedded/ARM platforms without ACPI.
+- Reachable during boot driver probe; not a syscall path, but triggered
+  during normal hardware initialization.
 
 ### Step 5.5: Similar Patterns
-**Record:** `tasdev_tf_data_get()` and `tasdev_re_data_get()` already
-use `TAS2563_RUNTIME_RE_REG*` on page `0x02` for non-TAS2781 chips. This
-fix brings XM defaults in line with that established mapping.
+**Record:** Identical `of_get_property(..., "compatible", ...)` +
+`sscanf` pattern exists in `drivers/slimbus/core.c:211` (not fixed by
+this commit). Confirms this is a known anti-pattern class.
 
 ---
 
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE (6.18.43)
 
 ### Step 6.1: Buggy Code Present?
-**Record:** **Yes.** `include/sound/tas2781.h` lines 62–64 still have
-page `0x63` addresses. Upstream fix `64184f07e7516` is not in HEAD (`git
-merge-base --is-ancestor` returns exit 1).
+**Record:** **Yes.** Current `drivers/soundwire/slave.c:243-245` still
+uses `of_get_property(node, "compatible", NULL)`. Fix commit
+`89e52161a7b25` / upstream `45c7bda7b744` is **not** applied to HEAD.
 
 ### Step 6.2: Backport Complications
-**Record:** **Clean apply.** `git cherry-pick --no-commit 43c6afb999d7e`
-succeeds with exit 0 on HEAD.
+**Record:** Clean apply expected — 2-line change, no structural
+conflicts. `slave.c` in this tree matches the patch context.
 
 ### Step 6.3: Related Fixes Already Present?
-**Record:** `fcc3d77fef02c` (SINEGAIN2 calibration register fix) is
-already in this tree. This XM address fix is not yet present.
+**Record:** No — grep shows no `of_property_read_string` usage in
+`drivers/soundwire/`. Bug remains unfixed.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
 ### Step 7.1: Subsystem Criticality
-**Record:** **IMPORTANT** — ASoC tas2781 driver; affects Chromebook
-speaker calibration on TI TAS25xx/TAS27xx/TAS58xx hardware.
+**Record:** **drivers/soundwire** — IMPORTANT/PERIPHERAL. Affects audio
+hardware on OF-based SoundWire platforms (mobile/embedded), not
+universal core kernel code.
 
 ### Step 7.2: Subsystem Activity
-**Record:** Actively maintained; multiple calibration fixes in
-2024–2026, including several already deemed stable-worthy.
+**Record:** Actively maintained; recent syzkaller-found SoundWire fix in
+this tree shows the subsystem receives stability attention.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
 ### Step 8.1: Who Is Affected
-**Record:** Chromebook / embedded systems using tas2781 codec with
-calibration kcontrols. Config-dependent (`CONFIG_SND_SOC_TAS2781_I2C` or
-equivalent). Not universal.
+**Record:** Users of SoundWire on device-tree platforms without ACPI
+(e.g. Qualcomm SoundWire controllers). Intel ACPI-dominated paths are
+unaffected.
 
 ### Step 8.2: Trigger Conditions
-**Record:**
-- Userspace reads XMA1/XMA2 calibration controls
-- `dspbin_typ == 0` (no firmware binary override)
-- Especially after calibration has run (when page `0x63` is overwritten)
-- Unprivileged users can trigger via ALSA control reads
+**Record:** SoundWire bus master add enumerates child DT nodes whose
+`compatible` property lacks an in-bounds NUL terminator. More likely
+with live-tree/dynamic OF properties than well-formed static DTBs (dtc
+normally emits NUL-terminated strings), but possible with malformed DT
+or runtime property manipulation.
 
 ### Step 8.3: Failure Mode Severity
-**Record:** **Incorrect calibration data returned** — not a crash, oops,
-or data corruption. Severity: **MEDIUM**. Impacts speaker impedance
-calibration accuracy and factory/service tooling.
+**Record:** Out-of-bounds kernel memory read during `sscanf()` / `%s`
+logging → **HIGH** (memory safety; potential info leak or KASAN fault;
+unpredictable parse results). Not proven to cause production panics, but
+consequences are serious if triggered.
 
 ### Step 8.4: Risk-Benefit
 **Record:**
-- **Benefit:** MEDIUM — correct calibration data for real hardware users
-- **Risk:** VERY LOW — 2-line constant change, maintainer-reviewed,
-  consistent with existing TAS2563 register map
-- **Ratio:** Favorable; same rationale as `fcc3d77fef02c` already
-  accepted in this tree
+- **Benefit:** Eliminates OOB read in probe path; aligns with OF API
+  contract.
+- **Risk:** Very low — 2-line API substitution, no behavior change for
+  valid DT.
+- **Ratio:** Favorable for backport.
 
 ---
 
@@ -311,117 +320,128 @@ calibration accuracy and factory/service tooling.
 ### Step 9.1: Evidence Summary
 
 **FOR backport:**
-- Real, verified hardware mapping bug (TI author + maintainer)
-- Already in mainline (`64184f07e7516`)
-- Tiny, surgical, applies cleanly to 6.18.44
-- Same fix class as `fcc3d77fef02c` already backported here
-- Hardware quirk / register-map correction per stable-kernel-rules.rst
-- Affects userspace-reachable calibration path on shipping hardware
+- Real memory-safety bug (OOB read via string functions on non-validated
+  property bytes)
+- Tiny, obviously correct fix using standard `of_property_read_string()`
+  API
+- Buggy code confirmed present in Linux 6.18.43 checkout
+- Applies cleanly; no dependencies
+- Subsystem maintainer applied without objection
+- Same author/maintainer pattern as other validated string-parse fixes
 
 **AGAINST backport:**
-- No crash, security issue, or data corruption
-- Only affects calibration controls, not normal audio
-- Only default path (`dspbin_typ == 0`); firmware override unaffected
-- Niche hardware (Chromebooks with TI amps)
-- No user bug report or syzbot finding
+- No syzbot report or user crash report
+- Trigger may be uncommon on static, dtc-generated DTBs
+- x86 Intel SoundWire (major desktop/laptop user base) typically uses
+  ACPI path, not OF
+- No explicit stable nomination in review thread
 
-**Unresolved:** No independent user-reported failure case beyond TI's
-hardware analysis.
+**Unresolved:**
+- Exact kernel version when `sdw_of_find_slaves()` was first introduced
+  (shallow git history in this repo)
+- No confirmed production crash attributed to this specific bug
 
 ### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — maintainer applied;
-   addresses align with existing TAS2563 map
-2. Fixes real bug affecting users? **PASS** — wrong calibration data on
-   real hardware
-3. Important issue? **PASS (MEDIUM)** — hardware quirk / calibration
-   correctness; not crash-level but real functional impact
+1. Obviously correct and tested? **PASS** — idiomatic OF API; maintainer
+   applied; no test regressions reported
+2. Fixes a real bug? **PASS** — OOB read on non-NUL-terminated
+   compatible property
+3. Important issue? **PASS** — memory safety / OOB read (HIGH severity
+   class)
 4. Small and contained? **PASS** — 2 lines, 1 file
-5. No new features or APIs? **PASS** — register constant correction only
-6. Can apply to local tree? **PASS** — clean cherry-pick verified
+5. No new features/APIs? **PASS** — uses existing
+   `of_property_read_string()`
+6. Can apply to local tree? **PASS** — buggy code present, patch applies
+   cleanly
 
 ### Step 9.3: Exception Category
-**Record:** **Hardware quirk / workaround** — correcting register
-addresses for hardware that overwrites TAS2781 page during calibration.
+**Record:** None (not device ID, quirk, DT binding, build fix, or docs).
+Standard bug fix.
 
 ### Step 9.4: Decision Rationale
 
-This fix corrects wrong default register addresses for speaker
-calibration data reads on TI amplifier chips used in Chromebooks. While
-it does not cause crashes, it is a real hardware-mapping bug in a
-userspace-reachable calibration path. The change is minimal, maintainer-
-reviewed, already in mainline, applies cleanly to 6.18.44, and matches
-the same class of fix (`fcc3d77fef02c`) already backported to this tree.
-Per `stable-kernel-rules.rst`, hardware quirks that fix real-world
-device issues are appropriate for stable.
+For **this** 6.18.43 tree, the buggy `of_get_property()` + string-parse
+pattern exists in `sdw_of_find_slaves()` and is reachable on OF
+SoundWire probe. The fix is minimal, uses the correct existing API, and
+prevents an out-of-bounds read. While the trigger is less common than a
+syzbot-reported crash and many Intel systems use the ACPI enumeration
+path, the stable rules favor small, obviously-correct memory-safety
+fixes in driver probe paths. The fix meets all stable criteria for this
+tree.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed commit message from `git show 43c6afb999d7e` and
-  upstream `64184f07e7516`
-- **[Phase 1]** Tags: Baojun Xu SOB, Mark Brown SOB, Link tag; no
-  Fixes/Reported-by/Cc:stable
-- **[Phase 2]** Diff: 2 lines in `include/sound/tas2781.h`; verified
-  current values at lines 62–64
-- **[Phase 2]** Computed register values: old A1=`0x3231bc`, new
-  A1=`0x32014c` (same page as `TAS2563_RUNTIME_RE_REG`=`0x320148`)
-- **[Phase 3]** `git blame`: addresses from `49e2e353fb0db` (Sep 2024)
-- **[Phase 3]** `git merge-base --is-ancestor 49e2e353fb0dbe HEAD`:
-  calibration commit is ancestor
-- **[Phase 3]** `git merge-base --is-ancestor 43c6afb999d7e HEAD`: exit
-  1 — fix NOT in HEAD
-- **[Phase 3]** Related: `fcc3d77fef02c` already in tree (SINEGAIN2
-  calibration fix)
-- **[Phase 4]** `b4 dig -c 43c6afb999d7e`: found thread at
-  patch.msgid.link/20260625102815
-- **[Phase 4]** `b4 dig -a`: v1 only
-- **[Phase 4]** `b4 dig -w`: CC'd broonie, tiwai, alsa-devel, linux-
-  sound
-- **[Phase 4]** Downloaded mbox: Mark Brown applied with no objections
-- **[Phase 5]** `grep`: `tasdev_XMA1_data_get`/`tasdev_XMA2_data_get`
-  use macros as defaults; override when `dspbin_typ`
-- **[Phase 5]** `tasdevice_cali_controls[]` registered for all chip
-  types in `tasdevice_create_cali_ctrls()`
-- **[Phase 6]** `git describe HEAD`: v6.18.44
-- **[Phase 6]** Buggy code confirmed present at
-  `include/sound/tas2781.h:62-64`
-- **[Phase 6]** `git cherry-pick --no-commit 43c6afb999d7e`: exit 0
-  (clean apply)
-- **[Phase 8]** Failure mode: wrong calibration data, severity MEDIUM
-  (not crash)
+- **[Phase 1]** Parsed commit message and tags from user query and `git
+  show 89e52161a7b25`
+- **[Phase 1]** Confirmed no Reported-by/syzbot/Fixes tags
+- **[Phase 2]** Read current `drivers/soundwire/slave.c:231-274` — buggy
+  `of_get_property` pattern present
+- **[Phase 2]** Read `git show 89e52161a7b25` — 2-line fix confirmed
+- **[Phase 2]** Read `drivers/of/property.c:496-509` —
+  `of_property_read_string()` validates NUL within `prop->length`
+- **[Phase 3]** `git describe HEAD` → v6.18.43
+- **[Phase 3]** `git show ac3fd01e4c1ef:drivers/soundwire/slave.c` —
+  buggy code present since 6.18-rc7 base in this repo
+- **[Phase 3]** `git log --oneline -20 -- drivers/soundwire/` — no
+  duplicate fix found
+- **[Phase 4]** `b4 dig -c 45c7bda7b7440183850012153988e40b300f40d0` —
+  found lore thread
+- **[Phase 4]** `b4 dig -a` — v1 only
+- **[Phase 4]** `b4 dig -w` — maintainers CC'd (Vinod Koul, Bard Liao,
+  Pierre-Louis Bossart)
+- **[Phase 4]** `b4 dig -m /tmp/soundwire_compat.mbx` — Vinod applied;
+  no stable nomination, no NAKs
+- **[Phase 5]** `grep sdw_of_find_slaves` — caller in `bus.c:141`
+- **[Phase 5]** `grep sdw_bus_master_add` — callers in qcom.c,
+  amd_manager.c, intel_auxdevice.c
+- **[Phase 5]** Read `bus.c:138-143` — OF path conditional confirmed
+- **[Phase 5]** `grep of_get_property.*compatible` — similar unfixed
+  pattern in slimbus/core.c
+- **[Phase 6]** HEAD still has `of_get_property` at slave.c:243 — fix
+  not applied
+- **[Phase 6]** `of_property_read_string` available in
+  include/linux/of.h and drivers/of/property.c
+- **[Phase 7]** `drivers/soundwire/Makefile` — slave.c always built into
+  soundwire-bus
+- **[Phase 8]** Read `drivers/of/fdt.c:151-153` — boot-time properties
+  point into DT blob (normally NUL-terminated by dtc); live-tree case
+  documented in commit message and related OF fix
 
-**YES****ASoC: tas2781: Update default register address to TAS2563** —
-verdict for **6.18.44**: **YES**.
+**YES**Those background lookups finished and matched what we used in the
+analysis:
 
-The default XM calibration register addresses in
-`include/sound/tas2781.h` point at a TAS2781 page that gets overwritten
-during calibration, so `"Amp XMA1 Data"` / `"Amp XMA2 Data"` can return
-wrong values when firmware doesn’t override them. The fix is a 2-line
-header change to the TAS2563 addresses (same page as other calibration
-regs), already in mainline, applies cleanly here, and matches the kind
-of tas2781 calibration fix already backported in this tree
-(`fcc3d77fef02c`).
+- **b4 dig** eventually succeeded on upstream commit `45c7bda7b744` and
+  found the lore thread (v1 only; Vinod Koul applied it).
+- **Soundwire grep on autosel** located the fix as `89e52161a7b25`, plus
+  a related OF live-tree validation commit (`75a2c260ce6a1`).
+- **History search** on autosel only surfaced the fix commit itself —
+  this repo’s history is shallow, so when `sdw_of_find_slaves()` was
+  introduced couldn’t be pinned down reliably here.
 
- include/sound/tas2781.h | 4 ++--
+That lines up with the earlier conclusion: the buggy `of_get_property()`
+usage is still in 6.18.43, the fix is a clean 2-line change, and the
+backport recommendation remains **YES**.
+
+ drivers/soundwire/slave.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/sound/tas2781.h b/include/sound/tas2781.h
-index 29d15ba65f04d..648fb55073282 100644
---- a/include/sound/tas2781.h
-+++ b/include/sound/tas2781.h
-@@ -59,9 +59,9 @@
- #define TASDEVICE_CHECKSUM_REG		TASDEVICE_REG(0x0, 0x0, 0x7e)
+diff --git a/drivers/soundwire/slave.c b/drivers/soundwire/slave.c
+index 3d4d00188c26c..3c84027692460 100644
+--- a/drivers/soundwire/slave.c
++++ b/drivers/soundwire/slave.c
+@@ -240,8 +240,8 @@ int sdw_of_find_slaves(struct sdw_bus *bus)
+ 		struct sdw_slave_id id;
+ 		const __be32 *addr;
  
- /* XM_340 */
--#define	TASDEVICE_XM_A1_REG	TASDEVICE_REG(0x64, 0x63, 0x3c)
-+#define	TASDEVICE_XM_A1_REG	TASDEVICE_REG(0x64, 0x02, 0x4c)
- /* XM_341 */
--#define	TASDEVICE_XM_A2_REG	TASDEVICE_REG(0x64, 0x63, 0x38)
-+#define	TASDEVICE_XM_A2_REG	TASDEVICE_REG(0x64, 0x02, 0x64)
+-		compat = of_get_property(node, "compatible", NULL);
+-		if (!compat)
++		ret = of_property_read_string(node, "compatible", &compat);
++		if (ret)
+ 			continue;
  
- /* Volume control */
- #define TAS2563_DVC_LVL			TASDEVICE_REG(0x00, 0x02, 0x0c)
+ 		ret = sscanf(compat, "sdw%01x%04hx%04hx%02hhx", &sdw_version,
 -- 
 2.53.0
 
