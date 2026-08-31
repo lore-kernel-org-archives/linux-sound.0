@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72BDF3911DD
-	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 20:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F4A38E8CB
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 20:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788208155; cv=none; b=Rbp/JpF49LvtI7yxdoFT42qYmfdXty81AmNeswvVWvaEuRG4APvL++rAYf7kuhtUZ2t4GZEEjFHeqR2cscYw16Cd07v1DXfm8L6X9TLXRu1y389vnGVen5qJeDLmgxXHuKWT/2RdkuNMfH+5RpGbXKAg2Ts/QBDEVgyZPv1yc1Q=
+	t=1788208156; cv=none; b=HD+cVF55C6Fy/yAIg20SiUb6os6Quyo+Oro1Yf4xchYApf1dHae1zlUxeEpr0KIb11K8hulh0jdp01mns6VsbSI+WhczE0vFm31GQFOT6ESJ/+WX/BvOHrC8ykb+8p/6cW6cggQOVvKim37D93uEQ8R/q+wLqo2xLlvgQ/CK9Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788208155; c=relaxed/simple;
-	bh=K3TTNLTj02sxCFOfmZAWRf9Xh/7adeuGUGZYLg8LKbw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dfYDA5szhGWRHGkmjHmGwecHetjbaaWMhOl8XftS0VuIzUEko7XBi9RjNnEu1sSH3GE9/mrstMGQQr3E3JsYeReXsKy1n1RdSPxgxVt6v5bsnW9pqJPmugk4BfOBHsuumm2MP+X0Lp7BXe2wKf0koAyhfSaXQx8n+QPrRXHlj8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKwvIIga; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788208156; c=relaxed/simple;
+	bh=2DxVJ69vxzrgX+jYg6RjmKHPS9z6WVWjTFuaBHQRlZQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Fb1+mt3OTNzz183S9KA04AuacdKsM+d0OM6v3kJWzd801Ryy1627SPI5Cp6n79PpTJMPiX4qWUKZNTAgtHKMGw8MQzLKdPHpe3MPcWdPR7YUxTvOMeEh7CB58oQ+KwBfUMMZHwlJZElATfXAgwNiObpctCx43C4hg1RHY0EHrWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJ3J+hE5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKwvIIga"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5374D1F000E9;
-	Mon, 31 Aug 2026 20:29:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJ3J+hE5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38B371F00A3D;
+	Mon, 31 Aug 2026 20:29:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788208152;
-	bh=bZyg8xm640F4fEDpc/ce0SJxh+4jLECxzFDJI4CX60Q=;
-	h=From:Subject:Date:To:Cc;
-	b=CKwvIIgarPx4FnQz/nfTQpsZUtLl+RqDv7YWsk0G5+VcL1qNSkrY5SYKGRIIwlZN7
-	 nMPn/Ds6ya2nOIZlqKKcL6TF1pUI7zYZHs6lQ3tneRd2KyDZBTS91hY6QyuJE8O2Dq
-	 uGiJNTcNMBloPXE6a/538Gh1+4yOM7CSQT+lAaKyphlblV6fSSFnRJRpDtwelk0KdL
-	 5OXxw4NmwcBpYOt7ZGv4X4JyS6CsocE+9eeOpoAQyfu+Pg3OktfZh7yHbiJsIdjgDH
-	 dFptmh1mLI6/xU7u70CmCm7bvuYgRqQdi04sM4uOEB2yVGobcoDGINJYIKDz5lHnH6
-	 FhPmu0VqHjuEQ==
+	s=k20260515; t=1788208154;
+	bh=jAK1TDrCU0TmUF5HfX2PJOOC2urZIUZcxDOl2A2m7cU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=LJ3J+hE5EyzzDk8p6vjV9lLOCF7DXoepwe176/k9HivC/HqowXcTlxd+doYQsexpp
+	 3OoxpliI9/eo6kXWOZoAdxe6tAdP/rU319DhmJyPhLAxnFLo58UlH4fleZO0stuv1H
+	 nSnpvm4PK5T5PL5e3SkF4IXR890J3Z803fK9t+evIA/3g0O9N7Mi4FWhHsi/Q2RYM1
+	 tvRVynrwHJQhdpnB/jJKgY3Kgawej0V95qISteLfh1OZoli/Ux+I/8Ho+ttlhxCID7
+	 y6RFoa7Q7sBFF6049N0lEt8XaF1VX27qW3zzSAS1o04uJKzWVopDMvBH+C3YgFpowX
+	 Vmzi1eCJZKbnw==
 From: Linus Walleij <linusw@kernel.org>
-Subject: [PATCH 0/6] ASoC: ab8500: Fix codec reset, routing and DAI setup
-Date: Mon, 31 Aug 2026 22:29:05 +0200
-Message-Id: <20260831-ab8500-codec-fixes-v1-0-f85024e717e3@kernel.org>
+Date: Mon, 31 Aug 2026 22:29:06 +0200
+Subject: [PATCH 1/6] ASoC: ab8500: Reset the audio block before configuring
+ it
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,40 +38,87 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3LQQqAIBBA0avIrBsYLUW6SrQwm2o2GQoRhHdPW
- j4+/4XCWbjAqF7IfEuRdDboTkE8wrkzytoMhowjbyyGxVsijGnliJs8XFAP0VltdO8GgjZemf/
- Qvmmu9QMACUWSZAAAAA==
-X-Change-ID: 20260825-ab8500-codec-fixes-14c651213640
+Message-Id: <20260831-ab8500-codec-fixes-v1-1-f85024e717e3@kernel.org>
+References: <20260831-ab8500-codec-fixes-v1-0-f85024e717e3@kernel.org>
+In-Reply-To: <20260831-ab8500-codec-fixes-v1-0-f85024e717e3@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
 Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
-Repair independent correctness problems in the AB8500 codec driver:
-reset sequencing, AB8505 digital microphone GPIO setup, the capture
-power graph, serial format setup, and TDM slot programming. Remove the
-sidetone apply control which became destructive when its coefficient
-controls were removed.
+ResetAudn is active low, but the codec probe only deasserts it. It also
+clears Clk32kOut2Dis despite claiming to disable that output, and writes
+codec registers before releasing reset.
 
+Pulse ResetAudn before the first audio-bank access and leave the unused
+32 kHz output disabled.
+
+Fixes: 679d7abdc754 ("ASoC: codecs: Add AB8500 codec-driver")
 Assisted-by: LLM
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
-Linus Walleij (6):
-      ASoC: ab8500: Reset the audio block before configuring it
-      ASoC: ab8500: Repair the DAPM capture graph
-      ASoC: ab8500: Correct digital interface format setup
-      ASoC: ab8500: Validate and program TDM slots correctly
-      ASoC: ab8500: Remove the nonfunctional sidetone apply control
-      ASoC: ab8500: Skip missing DMIC GPIOs on AB8505
+ sound/soc/codecs/ab8500-codec.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
- sound/soc/codecs/ab8500-codec.c | 682 ++++++++++++++++------------------------
- 1 file changed, 273 insertions(+), 409 deletions(-)
----
-base-commit: 73ae59e975966d24e32926247ddb45a537ebe184
-change-id: 20260825-ab8500-codec-fixes-14c651213640
+diff --git a/sound/soc/codecs/ab8500-codec.c b/sound/soc/codecs/ab8500-codec.c
+index 2cf96cbdd294..714ff0a16f44 100644
+--- a/sound/soc/codecs/ab8500-codec.c
++++ b/sound/soc/codecs/ab8500-codec.c
+@@ -1638,18 +1638,18 @@ static struct snd_kcontrol_new ab8500_ctrls[] = {
+ static int ab8500_audio_init_audioblock(struct snd_soc_component *component)
+ {
+ 	int status;
++	u8 mask = AB8500_STW4500CTRL3_CLK32KOUT2DIS |
++		  AB8500_STW4500CTRL3_RESETAUDN;
+ 
+ 	dev_dbg(component->dev, "%s: Enter.\n", __func__);
+ 
+-	/* Reset audio-registers and disable 32kHz-clock output 2 */
+-	status = ab8500_sysctrl_write(AB8500_STW4500CTRL3,
+-				AB8500_STW4500CTRL3_CLK32KOUT2DIS |
+-					AB8500_STW4500CTRL3_RESETAUDN,
+-				AB8500_STW4500CTRL3_RESETAUDN);
++	/* Reset the audio registers and disable the unused 32 kHz output. */
++	status = ab8500_sysctrl_write(AB8500_STW4500CTRL3, mask,
++				      AB8500_STW4500CTRL3_CLK32KOUT2DIS);
+ 	if (status < 0)
+ 		return status;
+ 
+-	return 0;
++	return ab8500_sysctrl_write(AB8500_STW4500CTRL3, mask, mask);
+ }
+ 
+ static int ab8500_audio_setup_mics(struct snd_soc_component *component,
+@@ -2181,6 +2181,13 @@ static int ab8500_codec_probe(struct snd_soc_component *component)
+ 
+ 	ab8500_codec_of_probe(dev, np, &codec_pdata);
+ 
++	status = ab8500_audio_init_audioblock(component);
++	if (status < 0) {
++		dev_err(dev, "%s: failed to init audio-block (%d)!\n",
++			__func__, status);
++		return status;
++	}
++
+ 	status = ab8500_audio_setup_mics(component, &codec_pdata.amics);
+ 	if (status < 0) {
+ 		pr_err("%s: Failed to setup mics (%d)!\n", __func__, status);
+@@ -2193,13 +2200,6 @@ static int ab8500_codec_probe(struct snd_soc_component *component)
+ 		return status;
+ 	}
+ 
+-	status = ab8500_audio_init_audioblock(component);
+-	if (status < 0) {
+-		dev_err(dev, "%s: failed to init audio-block (%d)!\n",
+-			__func__, status);
+-		return status;
+-	}
+-
+ 	/* Override HW-defaults */
+ 	snd_soc_component_write(component, AB8500_ANACONF5,
+ 		      BIT(AB8500_ANACONF5_HSAUTOEN));
 
-Best regards,
 -- 
-Linus Walleij <linusw@kernel.org>
+2.55.0
 
