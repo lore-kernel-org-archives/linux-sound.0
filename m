@@ -1,121 +1,90 @@
-Received: from r3-129.sinamail.sina.com.cn (r3-129.sinamail.sina.com.cn [202.108.3.129])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CA018C332
-	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 10:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DED72C027F;
+	Tue,  1 Sep 2026 11:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788260124; cv=none; b=fJjSL17S1cj5u3gV/fZtVqYULR5ugrs8pf6egOQatmczbrBBZ+YQtVqa2rxYr+k9FmcwB1GwXSbSAcUyyPPZ8eSLmcNITjWPXS78JIz7V4RrhzOcmRuyhA7r7uc+VnFOl+KB5QlrCseTLAXVvA98Vz+rckKL+HZVpitwR28dulk=
+	t=1788261905; cv=none; b=Cdane+/5FQzkiNm6EOQ89aT/NV9091PYI5imkTbIuXzVcyH7riDWWnhfhCDN3DX2B88WBoBZg0zYhpSr8fiVbLZLUG2Xg8VMcWNV0hrk/c/1++AjQu8qJFnjWPxUSLrSN1DZz6fI3NcBcsGceFHFDex8V/VSMlZ1i29F50A8oXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788260124; c=relaxed/simple;
-	bh=2rvvDvJ0R3KRV2PGZ5FMwpPag9Imj2m0gWsH04o8E6g=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=NQKHb18z+0w8u4NIeSj8z0Z6eeI54QLJa306/XGD1BiLe9wQm9fHAuLRSX3dWE9JfNwBJwLmKg9+FIS+/JzJiQ4nbh/e8bHJVIx6/DMbrPw9YcMEZ4DCLI9QhCXeSnA7qnGZo/bqKInZPPdRnnfPH2gnqU1WP8SJW2llvupR6WI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com; spf=pass smtp.mailfrom=everest-semi.com; arc=none smtp.client-ip=202.108.3.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everest-semi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everest-semi.com
-Received: from unknown (HELO zy-virtual-machine.localdomain)([58.38.107.94])
-	by sina.net (10.54.253.36) with ESMTP
-	id 6A96ADCE00003A9A; Tue, 1 Sep 2026 18:49:50 +0800 (CST)
-X-Sender: zhangyi@everest-semi.com
-X-Auth-ID: zhangyi@everest-semi.com
-Authentication-Results: sina.net;
-	 spf=none smtp.mailfrom=zhangyi@everest-semi.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=zhangyi@everest-semi.com
-X-SMAIL-MID: B8E60D78A0B245D0B1A32B4274860B9C
-X-SMAIL-UIID: B8E60D78A0B245D0B1A32B4274860B9C-20260901-184950
-From: Zhang Yi <zhangyi@everest-semi.com>
-To: linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: broonie@kernel.org,
-	Zhang Yi <zhangyi@everest-semi.com>
-Subject: [RFC PATCH] ASoC: codecs: ES8326: issue about capture pop
-Date: Tue,  1 Sep 2026 18:49:46 +0800
-Message-Id: <20260901104946.20114-1-zhangyi@everest-semi.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1788261905; c=relaxed/simple;
+	bh=yWfNKdz7HAVroXMHN7/2NOMoTKz5E9piBvjTaavTBd4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=jcq1lLfvK2izZ2tvgCnuqoqRwNDZ545420KD2beKqvdFyslodlxBPTSwGIdj6ZAzoGXwbRntHebWDaSSCzHJIq86fBO97J8q5xhg5HOyVdysgoSn2B+qgy5sDhuH3cumlGje4+BNY8wNzL3E4ELWxBPtjXeeIoNe2thoeghBhW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YX14xIXF; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YX14xIXF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 042CE1F000E9;
+	Tue,  1 Sep 2026 11:25:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788261903;
+	bh=9/pgRNnN1oUPIt1S0++4gkkUojIODOUZLdqpUMSg968=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=YX14xIXFOcAMoFwwHcrzk6CuhG0+T5zXW4lJFg2lV+EKBCfbc2X3hZH8YKpnq0dlS
+	 HWpJ1RcLHKZDIweBxjy2rqg2LYINR2ahOSYvfNemL0nA1qNF/gZ7oo6Wz0O79aPr0v
+	 0GkuEqTyidlRbLrUGJydkERPy+k23OL9sS6YfFM0fiJmsP9nYlL/Fb3L/tc5rQu5dh
+	 ylD+5vtFc6v5lmHWqyOswxkfUc9oU3LIRQH3w6/wUNmT0ZyFtoFp9LQVjSTFe8W/ym
+	 6oMlv+7HHNMvwSl2LJ7vJYUI6O9C4Vf4EdBJ2QfW9mZa0kg73bYg97ObdYyM6TQkoe
+	 Pgqab0O+vXEoA==
+From: Mark Brown <broonie@kernel.org>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20260831094506.57467-1-rf@opensource.cirrus.com>
+References: <20260831094506.57467-1-rf@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l56: Fix pm_runtime imbalance if suspending
+ before first attach
+Message-Id: <178818236777.141190.622965646011500936.b4-ty@b4>
+Date: Mon, 31 Aug 2026 14:19:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1170; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=yWfNKdz7HAVroXMHN7/2NOMoTKz5E9piBvjTaavTBd4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqlrYKE7MlZTUpnCzFFRWnw9bTnHjWC6DwlJ3aF
+ vzY47VH6fqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapa2CgAKCRAk1otyXVSH
+ 0PCyB/4wKYS5aCIbrvaf7GIglQw1tBVSPsXIT4d7FHCPNgpShdxj/l26Av1O8ctaFDn1/005dT6
+ rQyNyvyfzi0BrnblBDW1ik3OhLn2O7b/Saz2h52awHxDDpYEGM9z+vGZ4y57+72EcnNtFXT+8nY
+ yzKS/BP8UlY+M6E0cmnZfmH608L6jbpskhJs8UftIuWxKpm4wb7y/WyietUiGtG/mpy0QyIBiqP
+ GI/Bl8WBAJ8G0/BmyLCTQCAFeRfmNwPiIiC7BQ7Dy6L13ZE64luml3qxJ7BCHOQaRq3qLCjTzTa
+ plsk7x1oGhFauUal7yrHsSDZc4Ii++gwtZ6zt6nTNiKUuf5x
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-This RFC asks how to resolve the 'capture pop noise' issue.
-The ES8326's capture pop noise occurs when LRCK is active.
-While the pop noise can be effectively reduced through codec configuration,
-it cannot be completely eliminated.
-So I decided to create a workqueue. unmute the ADC once the LRCK becomes active.
+On Mon, 31 Aug 2026 10:45:06 +0100, Richard Fitzgerald wrote:
+> ASoC: cs35l56: Fix pm_runtime imbalance if suspending before first attach
 
-Signed-off-by: Zhang Yi <zhangyi@everest-semi.com>
----
- sound/soc/codecs/es8326.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+Applied to
 
-diff --git a/sound/soc/codecs/es8326.c b/sound/soc/codecs/es8326.c
-index c5460589a..b6eadc2e9 100644
---- a/sound/soc/codecs/es8326.c
-+++ b/sound/soc/codecs/es8326.c
-@@ -26,6 +26,7 @@ struct es8326_priv {
- 	struct snd_soc_component *component;
- 	struct delayed_work jack_detect_work;
- 	struct delayed_work button_press_work;
-+	struct delayed_work capture_pop_work;
- 	struct snd_soc_jack *jack;
- 	int irq;
- 	/* The lock protects the situation that an irq is generated
-@@ -628,6 +629,7 @@ static int es8326_mute(struct snd_soc_dai *dai, int mute, int direction)
- 			regmap_update_bits(es8326->regmap, ES8326_HP_DRIVER_REF,
- 					0x30, 0x00);
- 		} else {
-+			cancel_delayed_work_sync(&es8326->capture_pop_work);
- 			regmap_update_bits(es8326->regmap,  ES8326_ADC_MUTE,
- 					0x0F, 0x0F);
- 			if (es8326->version > ES8326_VERSION_B) {
-@@ -666,8 +668,9 @@ static int es8326_mute(struct snd_soc_dai *dai, int mute, int direction)
- 				regmap_update_bits(es8326->regmap, ES8326_ANA_MICBIAS, 0x70, 0x70);
- 				regmap_update_bits(es8326->regmap, ES8326_VMIDSEL, 0x40, 0x00);
- 			}
--			regmap_update_bits(es8326->regmap,  ES8326_ADC_MUTE,
--					0x0F, 0x00);
-+
-+			queue_delayed_work(system_dfl_wq, &es8326->capture_pop_work,
-+				   msecs_to_jiffies(40));
- 		}
- 	}
- 	return 0;
-@@ -773,6 +776,15 @@ static void es8326_disable_micbias(struct snd_soc_component *component)
- 	snd_soc_dapm_mutex_unlock(dapm);
- }
- 
-+static void es8326_capture_pop_handler(struct work_struct *work)
-+{
-+	struct es8326_priv *es8326 =
-+		container_of(work, struct es8326_priv, capture_pop_work.work);
-+
-+	regmap_update_bits(es8326->regmap,  ES8326_ADC_MUTE,
-+					0x0F, 0x00);
-+}
-+
- /*
-  *	For button detection, set the following in soundcard
-  *	snd_jack_set_key(jack->jack, SND_JACK_BTN_0, KEY_PLAYPAUSE);
-@@ -1140,6 +1152,7 @@ static int es8326_suspend(struct snd_soc_component *component)
- 	struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
- 
- 	cancel_delayed_work_sync(&es8326->jack_detect_work);
-+	cancel_delayed_work_sync(&es8326->capture_pop_work);
- 	es8326_disable_micbias(component);
- 	es8326->calibrated = false;
- 	regmap_write(es8326->regmap, ES8326_CLK_MUX, 0x2d);
-@@ -1291,6 +1304,8 @@ static int es8326_i2c_probe(struct i2c_client *i2c)
- 			  es8326_jack_detect_handler);
- 	INIT_DELAYED_WORK(&es8326->button_press_work,
- 			  es8326_jack_button_handler);
-+	INIT_DELAYED_WORK(&es8326->capture_pop_work,
-+			  es8326_capture_pop_handler);
- 	/* ES8316 is level-based while ES8326 is edge-based */
- 	ret = devm_request_threaded_irq(&i2c->dev, es8326->irq, NULL, es8326_irq,
- 					IRQF_TRIGGER_RISING | IRQF_ONESHOT,
--- 
-2.17.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+
+Thanks!
+
+[1/1] ASoC: cs35l56: Fix pm_runtime imbalance if suspending before first attach
+      https://git.kernel.org/broonie/sound/c/fbf2c660bac8
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
