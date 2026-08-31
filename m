@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B583D9680
-	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 09:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FE03DB32A
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 09:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788168724; cv=none; b=G3w6Dtlv98AQ6PxIZKt6Ip6jn0BK08LJT9/1lILddSMJujG5+d0uz2aijfoXj3vOQiAxD/xAOduTTselaz5fEoDAVioWeyj6FsDeacy1P1B8EWL/SFOW8NL8Bu7tu44t2gj+k5kQgqU7T+wqCWkOjJMlLa4RS47TBxSYt4AqqoI=
+	t=1788168725; cv=none; b=mZR7mpt7FmyrkUv2un5xnj0p4QnTgPStiLZ26jw9h0xMrs0sPgrxjYd+jHtJ6ioztP1ADOs000EUOksqYQNZcjLdk7niOSfScdrWmdVjUs3KI715ZTgu9SZJQzeL+t2DCP1YSYynDxe4YlcXjmdTsr3wS6xmb5IYVD8I5vrfkT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788168724; c=relaxed/simple;
-	bh=CtQ6kZqYHhdakZYFpjMm08BG7u1bEbRN5FWLjQ8NooQ=;
+	s=arc-20240116; t=1788168725; c=relaxed/simple;
+	bh=WNmtC68NJA0/Rqf4KTTozQ2j/CAl/XfqX1JIbDkF3x8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cOmo2uuJozIab0K/rZ3Pw147lnN5tocuRean1jRDxwcUCXQeM6DNrbjCtidec174Umf+2oVGcyzpxaVNmmHAKmQDTA4lq3n6qe+1MFnxUCoUi75CdLwiJ2hzlqptvDf6YpkhoPLx+vq4QzDa+XbTsWL+6ZOoS4jnKiEUSTBzxsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VD4wd4al; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version:Content-Type; b=o8d3cX878Abr2qz/ZfNekCU+XVBm1/o/1C1H60nLVXV9yg7lL6UC8aoQohglcZ5supPbKtxVk9azNpq9M1XI8oaQTG+72YrFJTMub6SHN275Zbq3MN6mp9MYRQZyY9zcWLdQuh8cRueIjY0XQq7FZuJ3Nh4rYWng+bIg16S45NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nSYLL5q9; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VD4wd4al"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nSYLL5q9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788168723; x=1819704723;
+  t=1788168724; x=1819704724;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CtQ6kZqYHhdakZYFpjMm08BG7u1bEbRN5FWLjQ8NooQ=;
-  b=VD4wd4alwYYYuAXWtg04F9b6TyPrTGEI4LOyHVCyUMoJ6KNqqKtnsSk3
-   LEE5wRx+s+hxQutcbjxZfuJEzBuug4lS4/pCUuzynQv2siW3pCkMj6F7a
-   RaCSRsdEXBNW6OSX8GB5otHIOqYSIxCVoCDcdvrW62ql0QAr5Tw73Z5Ss
-   2fLPDxkEgwY2DOxOoUyzcBDEszzrkTGUgIpZ19/K0FRWjsBAz6zyXDqfs
-   OtV899qSItRTxhPgDzwZcJllPUux3X3Rt5mRTZ8RyMz/A3MxuBwnW5/Pv
-   vnB3+JNrBgYugaSNRtba4F2b1Y9W7weLOvREhiCZ43mTriVCw9Zu6AXoJ
-   g==;
-X-CSE-ConnectionGUID: lnJ4yCgnR0Gx99hCc0c+aQ==
-X-CSE-MsgGUID: zM9c0xSpT5C/5w3sBklChA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88332882"
+  bh=WNmtC68NJA0/Rqf4KTTozQ2j/CAl/XfqX1JIbDkF3x8=;
+  b=nSYLL5q9XsvWgcSgnmh3knvadVx5HEN58Meiax8aiSgOrF0sD/HPo2oP
+   Gy+zh01PXKvaUI4XOKoB5Rh5Ho6yKJM4mDXAWYozQg9vRgYxBZqQVSdrl
+   I0mgCydnE1fr1wKGM+aedsG3dp4vNWPJtLE8ERQI7j0fLxiZaptLEj/FJ
+   nVINKLLqNETBaywgPlxLOTll9Foq2WEvqHM3qNWWMh6rzma1i+T8Sz62g
+   w8kZBI+2IxO3hfhp5ObR3Br2caCmYMoBHU+qzELpIxGdIDVIMQ5UjXmbB
+   f7iItf5Z0LWhhMGN5po9N8LFXmhFMgi0ZLi5J05T7zGM0yQJXuTHrZthI
+   A==;
+X-CSE-ConnectionGUID: uLJGmzNrQZGd36OkpqtRqw==
+X-CSE-MsgGUID: QMQit/kWR3yuMt1KYZUdkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88332914"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88332882"
+   d="scan'208";a="88332914"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:32:02 -0700
-X-CSE-ConnectionGUID: Dif7VcvdS06GFSSjvYSYPg==
-X-CSE-MsgGUID: CWKz9VsvTaOX2zVvnlb7cw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:32:04 -0700
+X-CSE-ConnectionGUID: r/SWuHCCTse/1+09Eh6slw==
+X-CSE-MsgGUID: szxBrga8S7GcxeHDJ2Z5Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="265507948"
+   d="scan'208";a="265507973"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 02:32:00 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 Aug 2026 02:32:02 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v2 05/11] ASoC: Intel: avs: Clean up the bus when fetching ML caps fails
-Date: Mon, 31 Aug 2026 11:36:09 +0200
-Message-Id: <20260831093615.1117987-6-cezary.rojewski@intel.com>
+Subject: [PATCH v2 06/11] ASoC: Intel: avs: Clean up streams if their initialization fails
+Date: Mon, 31 Aug 2026 11:36:10 +0200
+Message-Id: <20260831093615.1117987-7-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260831093615.1117987-1-cezary.rojewski@intel.com>
 References: <20260831093615.1117987-1-cezary.rojewski@intel.com>
@@ -65,51 +65,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-snd_hdac_ext_bus_get_ml_capabilities() may fail and its return code
-shall be checked and accounted for. Address the issue by updating the
-error-path for avs_pci_probe().
-
-At the same time, if the function in question succeeds but the next part
-of avs_pci_probe() fails, the hlink list shall be cleaned up before
-leaving the scope.
+When streams are being initialized the memory allocation may fail.
+Have an error path and return early if that is the case.
 
 Fixes: 1affc44ea5dd ("ASoC: Intel: avs: PCI driver implementation")
 Co-developed-by: Amadeusz Sławiński <amade@asmblr.net>
 Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/core.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ sound/soc/intel/avs/core.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index f45256ff5bac..8f27a7d43718 100644
+index 8f27a7d43718..611ae9f034d4 100644
 --- a/sound/soc/intel/avs/core.c
 +++ b/sound/soc/intel/avs/core.c
-@@ -475,8 +475,13 @@ static int avs_pci_probe(struct pci_dev *pci, const struct pci_device_id *id)
- 	}
+@@ -92,16 +92,28 @@ static int avs_hdac_bus_init_streams(struct hdac_bus *bus)
+ {
+ 	unsigned int cp_streams, pb_streams;
+ 	unsigned int gcap;
++	int ret;
  
- 	snd_hdac_bus_parse_capabilities(bus);
--	if (bus->mlcap)
--		snd_hdac_ext_bus_get_ml_capabilities(bus);
-+	if (bus->mlcap) {
-+		ret = snd_hdac_ext_bus_get_ml_capabilities(bus);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to get ml capabilities: %d\n", ret);
-+			goto err_ml_cap;
-+		}
-+	}
+ 	gcap = snd_hdac_chip_readw(bus, GCAP);
+ 	cp_streams = (gcap >> 8) & 0x0F;
+ 	pb_streams = (gcap >> 12) & 0x0F;
+ 	bus->num_streams = cp_streams + pb_streams;
  
- 	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
- 		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-@@ -518,6 +523,8 @@ static int avs_pci_probe(struct pci_dev *pci, const struct pci_device_id *id)
- 	snd_hdac_bus_free_stream_pages(bus);
- 	snd_hdac_ext_stream_free_all(bus);
- err_init_streams:
-+	snd_hdac_ext_link_free_all(bus);
-+err_ml_cap:
- 	iounmap(adev->dsp_ba);
- err_remap_bar4:
- 	iounmap(bus->remap_addr);
+-	snd_hdac_ext_stream_init_all(bus, 0, cp_streams, SNDRV_PCM_STREAM_CAPTURE);
+-	snd_hdac_ext_stream_init_all(bus, cp_streams, pb_streams, SNDRV_PCM_STREAM_PLAYBACK);
++	ret = snd_hdac_ext_stream_init_all(bus, 0, cp_streams, SNDRV_PCM_STREAM_CAPTURE);
++	if (ret)
++		return ret;
++	ret = snd_hdac_ext_stream_init_all(bus, cp_streams, pb_streams, SNDRV_PCM_STREAM_PLAYBACK);
++	if (ret)
++		goto err;
+ 
+-	return snd_hdac_bus_alloc_stream_pages(bus);
++	ret = snd_hdac_bus_alloc_stream_pages(bus);
++	if (ret)
++		goto err;
++
++	return 0;
++err:
++	snd_hdac_ext_stream_free_all(bus);
++	return ret;
+ }
+ 
+ static bool avs_hdac_bus_init_chip(struct hdac_bus *bus, bool full_reset)
 -- 
 2.34.1
 
