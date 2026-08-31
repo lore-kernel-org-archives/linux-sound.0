@@ -1,224 +1,462 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE402DB789;
-	Mon, 31 Aug 2026 13:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183182; cv=fail; b=sAyNfXJT4ajgkg06Q9x6j8JdjcEAkXEmkcQ8t/YSZhlrZ9ovXZNkfBqbMwwFzWyscgIFjlHAEaFcziaszYGAXhUGi/R5dH8u4FSzVNOMJkCD+q62bTFj6RTXn5w5lDSbglbp86NEK1J6/8xXmx56awu/vdyxiKQLlddXEtp6Pt8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183182; c=relaxed/simple;
-	bh=4OD4AHi1/HjSRigXfFxX065LqacC5QC07lC67OsHSM8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=oe0ZSUy32e+t2q0MQHBIPJH3qhNq+1TjrB4GR61n+9k/ZN5kSeO0jmAkNPiNSiMnUtF6Ng8SqRqDOZ7duDz3aAqUIxL4SZngqpzxL+mhYs6v/jYuSCL+aZlWH7CCB6ize+7rJ0BBjqUmSwJ4w2RrqjSKabOSEjcwPvy4EHsy4d8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eo0+lC6k; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AA04483AB;
+	Mon, 31 Aug 2026 13:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788183247; cv=none; b=GipukJ/dMCjiUaMJytmP3+jYaJhAXvSj0VyJbyAlvVnlbV7xA3uXlVpd+OGBej7oGAuLUava1t6vTkzMUbc07cJecWKtg1BshB/Bjkh0j1sT6LKFOor/BqibVA396K9s30L9m3pfrg3WseOyYsyZCEQ8wEnqjvIz7v7LDGA4x/U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788183247; c=relaxed/simple;
+	bh=6t5XOUyIMbWGOOvlv5e/onn57DhshHv9bNX/QZz896I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tHePmVVWgLgDL78vTZSVF5WbUfQ6ux9cu1Ho9ZbOR+NCmu1/G6vvkJDA6wNuj3AmsFIHO9v86ic+E45d8XkwSOutb3KtRV88YYJZZPvTXPYEbvC1PM/0XMdtI/Cc8YdKbEpTcg7nOcZVnNWHVcVcOed7aaEblmlEeghGVDGehw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g2jpei/j; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eo0+lC6k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788183180; x=1819719180;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=4OD4AHi1/HjSRigXfFxX065LqacC5QC07lC67OsHSM8=;
-  b=eo0+lC6kfQpgZmM3jLKaAnPU6I9MflRHBAsh9g4dwXt+i0r2xMqLhNm8
-   Uf7vBOuEnCYsGpRCDA1hMoDNZRY40OezfeJXQFLisg5e8L6ByEW8NN1xn
-   xmLJFx++ZoTFkBLWCxrCxLUGqc075/5L2RUxHDMQc0D/Nepp4roR3mFDr
-   NHIt6wxvFoqoZtfhqdSMirHNVZ6hOmAuCk7fgrbw/ni+lxHs1y0hCs6AK
-   PA3zqHOiXtUEci0w9gJ9CqP59DPXeMEAmL4PQ0IUYxHieywhYEWs/B2gP
-   EACaiNhkZnZnBXgVWZJ1oPe+qrq7XJOewZP/oMh89JofNe5IlWeDvLJGv
-   g==;
-X-CSE-ConnectionGUID: TK6iwWq9SmKza292VLQIEQ==
-X-CSE-MsgGUID: SqFwu9aBQE+U7nIrs4LINw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="100102990"
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="100102990"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 06:33:00 -0700
-X-CSE-ConnectionGUID: XWg16bUSSiOWpFOXBnjmoA==
-X-CSE-MsgGUID: jZ9bjUjIQBSUTE0mnNWD0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="265082990"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 06:32:59 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Mon, 31 Aug 2026 06:32:59 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Mon, 31 Aug 2026 06:32:58 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.68) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Mon, 31 Aug 2026 06:32:58 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FaFADtecWWQS1wqdBegQzsfG1v56u+1zalRbuvnCCsxMLnCWo35Xo6j7NbnC+CdiYYBOdl/RWdswHw9304OEHSd7vcXISlx57RA5urCM8paVsHrqZ3xWW/44aHaOzUdBsPkQSc7e8J2Tsc3SUFJPBjkBgUFsYVajj868gpHKvmSj0veLj3Tp3xo2x6s8+qYuuEHBULQdQYC2K6UtyVpy3lvpZhkvQ0ErVgyJdSmAEuq6vbSodaxMXL9TvbK1GsIlkTLJkJd/6pSG6HIrUoh6sESyiGh3lLDT1mcrNuvPUVRgT64nPC3dx/0iyk780TTQhEwWPAdhUbxDyrV9S2t9OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4OD4AHi1/HjSRigXfFxX065LqacC5QC07lC67OsHSM8=;
- b=bLb7TfCzeAGFt/5BqkfOl+CbR2rmc7sbrKJMY/xBKwVQ2jm9uBs0EJKoOsvP0n5C2Qtp95jZkDoRAw8fZ8C7Bqrhm8oulDARArMH3UIA4B3x95EbTs4MWB7YjoIN/WcTKdFXT7Hddpw2s8ZId2DpUJWi6O4Yk39CQTW9EMNTYMwrw21jXx2h0jezPjETq0/1AKQwMvTO6pOVxGvJhw//lBtFOnLXn3lEAAaad3j3qmwamU3iwa+8q0AwtIESjXDdyyGmaQ+FvInAx1zfRRFsIERf6FtQig/RwYG0L0S8PwNOh7GNDjE2APYyQFbQOmuPdZrfLvpkVdAdv4iIfSdRWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ2PR11MB8424.namprd11.prod.outlook.com (2603:10b6:a03:53e::10)
- by PH7PR11MB8123.namprd11.prod.outlook.com (2603:10b6:510:236::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
- 2026 13:32:56 +0000
-Received: from SJ2PR11MB8424.namprd11.prod.outlook.com
- ([fe80::3df:33f9:59a1:da76]) by SJ2PR11MB8424.namprd11.prod.outlook.com
- ([fe80::3df:33f9:59a1:da76%5]) with mapi id 15.21.0360.006; Mon, 31 Aug 2026
- 13:32:56 +0000
-From: "Liao, Bard" <bard.liao@intel.com>
-To: Amaan Lalani <zlzzm2014@outlook.com>, Mark Brown <broonie@kernel.org>
-CC: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>, "sound-open-firmware@alsa-project.org"
-	<sound-open-firmware@alsa-project.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 1/2] ASoC: SOF: Intel: reuse name prefix for duplicate
- SoundWire devices
-Thread-Topic: [PATCH 1/2] ASoC: SOF: Intel: reuse name prefix for duplicate
- SoundWire devices
-Thread-Index: AQHdNyAG62iOkzxB/EyV5CUxy4uGqra4EyqQgAAX2ZA=
-Date: Mon, 31 Aug 2026 13:32:55 +0000
-Message-ID: <SJ2PR11MB84247925F9779CD9B402A898FFA92@SJ2PR11MB8424.namprd11.prod.outlook.com>
-References: <BY5PR02MB63701A05A58EF6B4D6CAAC31A0AC2@BY5PR02MB6370.namprd02.prod.outlook.com>
- <BY5PR02MB6370065815A8A47F536FE4CFA0AC2@BY5PR02MB6370.namprd02.prod.outlook.com>
- <SJ2PR11MB84247CAA0DDE5DEBC95521B5FFA92@SJ2PR11MB8424.namprd11.prod.outlook.com>
-In-Reply-To: <SJ2PR11MB84247CAA0DDE5DEBC95521B5FFA92@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ2PR11MB8424:EE_|PH7PR11MB8123:EE_
-x-ms-office365-filtering-correlation-id: 2565df77-44da-4071-b6cf-08df07645daf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|23010399003|376014|18002099003|22082099003|3023799007|11063799006|38070700021|56012099006|10067099003|4143699003;
-x-microsoft-antispam-message-info: fKZaRHlCWT4EhPqGsGzxD4sZr9Ya02LDiOw+7lxnZvudT1f9/xVjnE9pnzxKNYf0gK8p7olRU/2Ybn3nWusWPqCKH2y6r6xv+Xc3EZGAgu6s3XzSSTkTfg0248PodmBd4W/O5lnjXu3om4Z6ebv+v2HqlWMPknwklE53nj8vYqH5IFepnZI/vG1w/YChn7Fi3LQ4oHeovr4JgYphvk34l02MyQJz3efkbtuQMErHU7I+GYmgmxm1m3FxTF4Q9/twivLI3W68Wv7idEX6e/p5RTJvthwkXsnB36ng6p1tGPakVTgVK5NJsjw4LzGwOVvXClx8WtlQjlwryOo/39ivp1tVl84Xby4ljbJhlG/E1vf3d6WIA/1xMg81ueV+zg5boHMKXTEyu+/UcP/foZJt+/ErEOqDlmRZNUoeW3mavUPFG2i974/r8YyNKM1f5hPkK2mW9anx0LInuF2inVY6RJxUdjN3PgDskXdj8AY7AAKeHFflLXwpgZw3DRa9GYKIxhoBOLM30yM9tXKyWIxpMsDNZEmOvWunUr/0+0lmCWztsXd9AZrpqAf67vlYfLBC2/MJzXknjdt3Ct/JVQILj81HYi2S4HNZbOM/yWQoC8Fxt3EVbkUniYIuM/nZYClcU0xBSYtEdWJWB0DnoV38xgtnC+gkJBLo5ZfYSGxJz+8XmuKVbpPVhbAoKwkEh0XFchnqWKbtV4rNhq8hChUHEW6CPG3x/7Cx3jroV8V/LI4=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8424.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(23010399003)(376014)(18002099003)(22082099003)(3023799007)(11063799006)(38070700021)(56012099006)(10067099003)(4143699003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?VNNjpFGRQhOZd3uE/NJKryduLJRmTq7Ap5wiO4Wui/dEcp/ddwEoX2OB285G?=
- =?us-ascii?Q?vu5eaYPf22XUhvCRExRjGuMwlR8amdoDykdSaxZA4fNE20C+ZammFZJRkxrV?=
- =?us-ascii?Q?LtUC7pIbjuPWE1T+uxjirV/tfXJOqnzp/F97ubBqhVQdFwzW3eGcxxQsC37l?=
- =?us-ascii?Q?3IJAhq4VIxytjvGMm1l1k41UkPDWqkvAAnUFUsJDaqmq7Ioq74gMU/WtTMJF?=
- =?us-ascii?Q?6SOtNMNxmQRRNXn65v0P2Q0Rw8DkUK7QHIDAIG9+9ZLLIkLD6AS6zwQPd3qR?=
- =?us-ascii?Q?05gMDMazglOg/7vBg9PCtoD1UFETtXBrZ/LOsHJE9tqf6m4iQCVLHZ4XqvoH?=
- =?us-ascii?Q?iZ9eKjhldiHlSg5dqWk4VZNb+CzvAw2kUAGWK/fgDFfhwj91nPMV4RG9q4iQ?=
- =?us-ascii?Q?J2OiKMwQwY4O3BwenR0aybr6vP031VK20vLCb/SWFpAGCIUdeFfjNIgfYZ/l?=
- =?us-ascii?Q?MNCUfqyt9U1CzrNF8NwPCyxQvz00Dea7rpYJkyTTX1XxERwvZE2q646dErMr?=
- =?us-ascii?Q?mCZTbZRaegw9jUr+lKOaVARNHgqjFY3vBxSZraLxyM4fWAOYP+Tz54Jn0HqM?=
- =?us-ascii?Q?5GQQSrpYMyXDowYBgHR7EyPfeodu+g1TFsDtoV6Uz9hiXUFtjfJHChKmK9DB?=
- =?us-ascii?Q?zKFNSEeGyyvEwXKu4I+9h5IqQoTmMY9S0Dx7aGX+olCuqo/6NVnxzv8n1hqu?=
- =?us-ascii?Q?SzFoj6ma33n0Ko5uiDvVKpcQ2D1wJUDOT1nDITLpCTIbq/IU76tol7gqn+5t?=
- =?us-ascii?Q?O1mRfEaHf1LpqByRWbAbnn7/jVxEQrpyuWF1Q/vN+yRJeIwC/HvyrfjgNzL+?=
- =?us-ascii?Q?tgsj35jQdn4WOk2iLZJQdOsnlpkx5OmuKTK8Y8hz4+40vDQPQuTOpLyXX+vY?=
- =?us-ascii?Q?NE7ODv3rPjmj2RaO+16pFzBVU9Lf789c9aTbcolh0j5dBXNruHFUzOelO3w6?=
- =?us-ascii?Q?L3OuLnjK4fxuySKb8Z5ejIRLGdA4tbckaQYG6Q2tBdzHytsSRwNu6WNByRKD?=
- =?us-ascii?Q?rjhidG/L8RGfk8UVEG/+kr4ebIVyX7paD832agRQqfex7lK3i+aOEOTtyreI?=
- =?us-ascii?Q?fqdJ90j0dvTzEHu14bUEzDwDgIK5G4bCzOdmp4kxnK5OlwkMv+46EQdneEIp?=
- =?us-ascii?Q?pe44Hsfq4d/s3I0orNnwsifA1ISXAHUWoxJjD0rN5ExF8j1noRLTzmt992yX?=
- =?us-ascii?Q?5b5iqrSp9gTccC4UV939IPxxzwhQoN7ckahXIj5i91xBv81gFX0sd5FUZRB1?=
- =?us-ascii?Q?JUiJVCtjzivTd6EUYUE9GiiuFDdDJgQb0xl3o3HJxWgnh50a6Dnu6UFUvkR2?=
- =?us-ascii?Q?HUDSR7ftSnxHuie8gv0uipWEJe1sJ0IfH9FiWcB7LlWycWBd2Tns4sO/BBBz?=
- =?us-ascii?Q?4PnHbNyfAcY1Mh+O0lT+vsdZFt4IiC6FzJwDYvB0QyisoND2X62P4cufegYY?=
- =?us-ascii?Q?8bJpfJnEOKPnqtGCzVCMsf/4kU/L0LtdmTM3GonnPKar3TktwslKijqiClkQ?=
- =?us-ascii?Q?vA7WIOfN8PGbfMJClqTnhh4xVIFMnn2bJDqPzHyw4t9vgTinc+kebibLKjcG?=
- =?us-ascii?Q?3JVWAklCj3C1BSnYTwFR8kaMXxnY6VIFQzxSDEZ98kjsWjxy1jd1cUDtjyxG?=
- =?us-ascii?Q?+nP02g3qmThkbHRasuE3Py2GBAk5IPFuuWMXt4Jz/IAfEDvujHCf9PoZBt8b?=
- =?us-ascii?Q?VaSznDU5CzcleBdjdJe4xIj5EKk2Q7x+DMASYsrZhpffgJ7g?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g2jpei/j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F05821F00A3D;
+	Mon, 31 Aug 2026 13:34:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183245;
+	bh=bGLi8cWVQ5WvUPoi1yj2jO7mi90RrKqBFc6uQi+9uCk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=g2jpei/jVoUq4Gab9WfQng9DQ2p7jmIUUYYfSrhVDT7ePW4pIhaSfkYqxYnGmY3Rk
+	 vorcEh/u8cwYhrX1Rxn8t7u7T9KS6fzwaLMHQnj9t8XMUrEclWbyjJHK0y7gtqihnt
+	 Mpaw8drDHm6EjZrxUFLk/8Cs7RGi12sRQTazPHmYKfJ1wwKaJTmGg6tvLcsQlJk1n2
+	 xLrxYZQ7sl1QJc1vvzVotMGuuuF7GBKbse3FN3NCn61hH1NoDmTduWhza+wfdbAfXV
+	 01fICx/C+ScMdogIoh+x7qDRE3BAxzZ7DcTl0iblqq0s8OsGhZRF0bHqUpu6m+PFl+
+	 dnyj5RCXHom8g==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Ruoyu Wang <ruoyuw560@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: es18xx: check control allocation before private data setup
+Date: Mon, 31 Aug 2026 09:21:00 -0400
+Message-ID: <20260831133314.4125787-32-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
+References: <20260831133314.4125787-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: dZSXqHFXDyR6+/7MzJyP+S+29ByZyLFzK9A+dbbj0xRsUGs9m1UBwrhxbPhZgc/cMQEh7Qp+7tYWqyA9fTCZXNvKiH9JhxPioTTILiybPnf8k64NQJGXT0v37JYYRLwe3e3hCnqksUlhXMroRIWTGxMd9IgG9Ajg6jNGOtgsnn0o/5y/7o6tDeguOWm/uo36XEBPXSgPji5hlMN8f5F+a6QwsKXxx7tT7HkpdE7L8qHOxywzpt7/RuX9qxYh4IsiZteuQn+mx5l7hiQQANPVppcX9olm3YxpeYwbVm1uzFcSZus0aJbrD2H/wIpD2E4GjAfbPVo7Fb/MCdoqUzGZcw==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8424.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2565df77-44da-4071-b6cf-08df07645daf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2026 13:32:55.9679
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UqjFEBjRtFRLPZjMQNrETOJFk3/VXUyQhJMrb1Sm3t6sYpyQ/n8mibha4itQqPjzyS7TzwPEqzR0ZySFkN7JyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8123
-X-OriginatorOrg: intel.com
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.48
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: Ruoyu Wang <ruoyuw560@gmail.com>
 
+[ Upstream commit 422e42b7c2b882ba1d16d4afc8891bcea7c4de93 ]
 
-> -----Original Message-----
-> From: Liao, Bard
-> Sent: Monday, August 31, 2026 8:30 PM
-> To: Amaan Lalani <zlzzm2014@outlook.com>; Mark Brown
-> <broonie@kernel.org>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>; Jaroslav Kysela
-> <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Peter Ujfalusi
-> <peter.ujfalusi@linux.intel.com>; Bard Liao <yung-
-> chuan.liao@linux.intel.com>; Pierre-Louis Bossart <pierre-
-> louis.bossart@linux.dev>; linux-sound@vger.kernel.org; sound-open-
-> firmware@alsa-project.org; linux-kernel@vger.kernel.org
-> Subject: RE: [PATCH 1/2] ASoC: SOF: Intel: reuse name prefix for duplicat=
-e
-> SoundWire devices
->=20
->=20
->=20
-> > -----Original Message-----
-> > From: Amaan Lalani <zlzzm2014@outlook.com>
-> > Sent: Saturday, August 29, 2026 3:04 AM
-> > To: Mark Brown <broonie@kernel.org>
-> > Cc: Liam Girdwood <lgirdwood@gmail.com>; Jaroslav Kysela
-> > <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Peter Ujfalusi
-> > <peter.ujfalusi@linux.intel.com>; Bard Liao <yung-
-> > chuan.liao@linux.intel.com>; Pierre-Louis Bossart <pierre-
-> > louis.bossart@linux.dev>; linux-sound@vger.kernel.org; sound-open-
-> > firmware@alsa-project.org; linux-kernel@vger.kernel.org; Amaan Lalani
-> > <zlzzm2014@outlook.com>
-> > Subject: [PATCH 1/2] ASoC: SOF: Intel: reuse name prefix for duplicate
-> > SoundWire devices
-> >
-> > Some firmware describes a single physical SoundWire peripheral with
-> > multiple _ADR entries that differ only in SDCA class ID.
-> >
-> > These entries currently consume separate amplifier indices when the
-> > SoundWire machine description is built. This can cause the peripheral
-> > that actually enumerates to receive a different name prefix from the
-> > one expected by UCM.
-> >
-> > Detect entries which differ only in class ID and reuse the name prefix
-> > assigned to the first entry. Do not increment the amplifier index for
-> > the duplicate entry.
-> >
-> > Fixes: 5226d19d4cae ("ASoC: SOF: Intel: use sof_sdw as default SDW
-> machine
-> > driver")
-> >
-> > Assisted-by: LLM
-> > Signed-off-by: Amaan Lalani <zlzzm2014@outlook.com>
-> > ---
->=20
-> It seems be a valid assumption that 2 peripherals with the same vendor
-> and part ID but different class ID will never coexist in the same device.
-> However, the implementation is not correct. We should skip the duplicated
-> peripheral completely not just reuse the name_prefix.
->=20
+snd_es18xx_mixer() creates controls with snd_ctl_new1() and then stores
+bookkeeping pointers or sets private_free before calling snd_ctl_add().
+snd_ctl_new1() can return NULL on allocation failure, so those writes
+can dereference a NULL control pointer.
 
-The problem is that we don't know which one is the real one. And which
-one should be skipped. We may need to enumerate the peripheral before
-selecting the machine driver. I need to think more about it.
+Check the returned control pointers before using them and return -ENOMEM
+on allocation failure.
+
+Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
+Link: https://patch.msgid.link/20260607074219.3-1-ruoyuw560@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+# Stable Backport Analysis: ALSA: es18xx: check control allocation
+before private data setup
+
+**Local tree:** `v6.18.44` (Makefile: 6.18.44)
+
+---
+
+## PHASE 1: COMMIT MESSAGE FORENSICS
+
+### Step 1.1: Parse the subject line
+**Record:** `[ALSA: es18xx]` `[check]` — Add NULL checks after
+`snd_ctl_new1()` before using returned control pointers in
+`snd_es18xx_mixer()`.
+
+### Step 1.2: Parse all commit message tags
+**Record:**
+- **Signed-off-by:** Ruoyu Wang `<ruoyuw560@gmail.com>` (author)
+- **Link:**
+  https://patch.msgid.link/20260607074219.3-1-ruoyuw560@gmail.com
+- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer
+  merge)
+- No `Fixes:`, `Reported-by:`, `Cc: stable@vger.kernel.org`, `Tested-
+  by:`, or `Reviewed-by:` tags
+- Notable: absence of `Cc: stable` is expected for manual review; not a
+  negative signal
+
+### Step 1.3: Analyze commit body text
+**Record:**
+- **Bug:** `snd_es18xx_mixer()` calls `snd_ctl_new1()`, then stores
+  bookkeeping pointers (`chip->master_volume`, etc.) and sets
+  `kctl->private_free` before calling `snd_ctl_add()`. If allocation
+  fails, `snd_ctl_new1()` returns NULL and those writes dereference
+  NULL.
+- **Symptom:** NULL pointer dereference (kernel oops) during driver
+  probe/mixer setup.
+- **Root cause:** Missing NULL check on `snd_ctl_new1()` return value in
+  two loops that use `kctl` before `snd_ctl_add()`.
+- **Fix:** Check `kctl` after allocation; return `-ENOMEM` on failure.
+
+### Step 1.4: Detect hidden bug fixes
+**Record:** Not disguised — this is an explicit NULL-dereference bug
+fix, not cleanup or optimization.
+
+---
+
+## PHASE 2: DIFF ANALYSIS
+
+### Step 2.1: Inventory the changes
+**Record:**
+- **Files:** `sound/isa/es18xx.c` only (+4 lines, 0 removed)
+- **Functions modified:** `snd_es18xx_mixer()`
+- **Scope:** Single-file, surgical fix (2 identical NULL-check
+  additions)
+
+### Step 2.2: Understand the code flow change
+
+**Hunk 1 (base_controls loop, ~line 1764):**
+- **Before:** `kctl = snd_ctl_new1(...)` → if `ES18XX_HWV`, assign
+  `chip->master_volume`/`master_switch` and set `kctl->private_free` →
+  `snd_ctl_add(card, kctl)`
+- **After:** Same, but return `-ENOMEM` immediately if `kctl` is NULL
+- **Path affected:** Mixer initialization for HWV-capable chips during
+  probe
+
+**Hunk 2 (hw_volume_controls loop, ~line 1825):**
+- **Before:** `kctl = snd_ctl_new1(...)` → assign
+  `chip->hw_volume`/`hw_switch`, set `kctl->private_free` →
+  `snd_ctl_add()`
+- **After:** Same, with NULL check added
+- **Path affected:** Hardware volume control setup during probe
+
+**Record:** Both hunks fix error-path NULL dereference before
+`snd_ctl_add()` is reached.
+
+### Step 2.3: Identify the bug mechanism
+**Record:**
+- **Category:** NULL pointer dereference (memory safety)
+- **Mechanism:** `snd_ctl_new1()` documented to return NULL on
+  allocation failure (`sound/core/control.c` line 258). In two loops,
+  `kctl` is dereferenced (`kctl->private_free`, pointer assignments)
+  before `snd_ctl_add()`, which does handle NULL but is never reached.
+  Other `snd_ctl_new1()` calls in the same function pass the result
+  directly to `snd_ctl_add()` and are already safe.
+
+### Step 2.4: Assess fix quality
+**Record:**
+- Fix is obviously correct and minimal
+- Matches the established pattern in `sound/pci/es1938.c` (lines
+  1657–1659), which already has identical NULL checks
+- No regression risk: only adds early return on allocation failure
+- No API changes, no locking changes
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
+
+### Step 3.1: Blame the changed lines
+**Record:**
+- Buggy pattern present since `1da177e4c3f41` (Linux 2.6.12-rc2) —
+  original import of es18xx driver
+- HWV bookkeeping (`master_volume = kctl`, `private_free`) dates to the
+  same original commit
+- Bug has existed across all kernel versions including this tree
+
+### Step 3.2: Follow Fixes: tag
+**Record:** No `Fixes:` tag present. Not applicable.
+
+### Step 3.3: Check file history for related changes
+**Record:**
+- Recent es18xx commits are cleanups (guard(), strscpy, spelling) —
+  unrelated
+- **Direct precedent:** `9e53e99b6fa3c` — "ALSA: es1938: check
+  snd_ctl_new1() return value" — identical fix for sibling ESS driver,
+  already in this tree as a stable backport (`Cc:
+  stable@vger.kernel.org`, `Signed-off-by: Greg Kroah-Hartman`)
+- Standalone fix; v2 resend notes other v1 patches were already in for-
+  next
+
+### Step 3.4: Check author's other commits
+**Record:** Ruoyu Wang is an active contributor with multiple similar
+NULL-check / allocation-safety fixes across subsystems (mtk, mt76, nfp,
+RDMA, etc.). Not the es18xx maintainer, but fixes follow established
+ALSA patterns.
+
+### Step 3.5: Check for dependent/prerequisite commits
+**Record:** No dependencies. Self-contained 4-line fix. Applies cleanly
+to v6.18.44 (`git apply --check` succeeded).
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+### Step 4.1: Find original patch discussion
+**Record:**
+- **v1:** https://lkml.iu.edu/2606.0/12742.html (Jun 6, 2026)
+- **v2:** https://lkml.iu.edu/2606.0/12836.html (Jun 7, 2026) — rebased
+  on sound.git for-next
+- **Maintainer reply:** https://lkml.iu.edu/2606.0/12904.html — Takashi
+  Iwai: "Applied to for-next branch now. Thanks."
+- No NAKs or objections found
+- No explicit stable nomination in thread, but identical es1938 fix was
+  stable-nominated
+
+### Step 4.2: Check who reviewed the patch
+**Record:** (from v2 headers via openwall mirror)
+- **To:** Takashi Iwai, Jaroslav Kysela
+- **Cc:** linux-sound@, linux-kernel@, alsa-devel@
+- Takashi Iwai (ALSA maintainer) applied the patch
+
+### Step 4.3: Search for bug report
+**Record:** No user bug report, syzbot report, or sanitizer report. Bug
+identified by code review (static analysis of allocation pattern).
+Trigger requires ENOMEM during probe — rare but real.
+
+### Step 4.4: Check for related patches and series
+**Record:** v2 notes other v1 patches (for other drivers) were already
+in for-next. This es18xx patch is standalone.
+
+### Step 4.5: Check stable mailing list history
+**Record:** No stable-list discussion found for this specific commit.
+The es1938 sibling fix (`9e53e99b6fa3c`) was explicitly nominated for
+stable and merged by Greg K-H.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+### Step 5.1: Identify key functions
+**Record:** `snd_es18xx_mixer()` — only function modified
+
+### Step 5.2: Trace callers
+**Record:**
+- `snd_es18xx_mixer()` called from `snd_audiodrive_probe()` (line 2071)
+- `snd_audiodrive_probe()` called from PnP probe paths
+  (`snd_audiodrive_pnp_detect`, `snd_audiodrive_pnpc_detect`) and module
+  init
+- **Context:** Driver probe during module load / PnP enumeration —
+  standard device initialization path
+
+### Step 5.3: Trace callees
+**Record:** `snd_ctl_new1()` (can return NULL), `snd_ctl_add()` (handles
+NULL safely at line 515–516 of `sound/core/control.c`, but never reached
+in buggy paths)
+
+### Step 5.4: Follow call chain (bug reachability)
+**Record:**
+```
+module load / PnP probe → snd_audiodrive_probe() → snd_es18xx_mixer() →
+snd_ctl_new1() [ENOMEM] → NULL deref
+```
+- Reachable during driver probe on systems with ESS ES18xx hardware
+- Bug only in HWV code paths (`chip->caps & ES18XX_HWV`), set for chip
+  versions 0x1869 and 0x1879
+- Trigger requires memory allocation failure — uncommon but possible
+  under memory pressure
+
+### Step 5.5: Search for similar patterns
+**Record:** Identical pattern already fixed in `sound/pci/es1938.c`.
+Multiple other ALSA drivers check `if (!kctl)` after `snd_ctl_new1()`.
+es18xx was simply missed.
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+### Step 6.1: Does the buggy code exist in this tree?
+**Record:** **YES.** At lines 1764–1773 and 1825–1830 in
+`sound/isa/es18xx.c`, the code uses `kctl` without NULL check before
+`snd_ctl_add()`. Fix is not yet present in v6.18.44.
+
+### Step 6.2: Check for backport complications
+**Record:** **Clean apply** — `git apply --check` succeeded with zero
+conflicts. No refactoring needed.
+
+### Step 6.3: Check if related fixes are already here
+**Record:** The es1938 sibling fix (`9e53e99b6fa3c`) is already in this
+tree. No equivalent es18xx fix present.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+### Step 7.1: Identify subsystem and criticality
+**Record:** **ALSA / ISA sound driver** (`CONFIG_SND_ES18XX`) —
+**PERIPHERAL** subsystem. Legacy ESS AudioDrive hardware (ISA/PnP).
+Small user base but real hardware still exists.
+
+### Step 7.2: Assess subsystem activity
+**Record:** es18xx driver receives periodic maintenance (guard(),
+strscpy, constification) but is mature/legacy code. Bug predates all
+recent changes.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: Who is affected
+**Record:** Users with `CONFIG_SND_ES18XX` enabled and ESS ES18xx
+hardware with HWV capability (chip versions 0x1869, 0x1879). Narrow but
+real population.
+
+### Step 8.2: Trigger conditions
+**Record:**
+- **When:** Driver probe, during mixer control creation
+- **Condition:** `snd_ctl_new1()` allocation failure (ENOMEM) in HWV
+  code paths
+- **Likelihood:** Low (requires memory pressure during probe), but probe
+  is a standard path
+- **Unprivileged trigger:** No — requires hardware present and driver
+  loading; not a syscall-level attack vector
+
+### Step 8.3: Failure mode severity
+**Record:**
+- **Failure:** NULL pointer dereference → kernel oops during module
+  probe
+- **Severity:** **HIGH** when triggered (kernel crash during driver
+  load); **LOW** likelihood of trigger
+
+### Step 8.4: Risk-benefit ratio
+**Record:**
+- **Benefit:** Prevents kernel oops on allocation failure; aligns es18xx
+  with es1938 and ALSA conventions
+- **Risk:** Very low — 4 lines, no behavior change on success path
+- **Ratio:** Clear benefit outweighs risk
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+### Step 9.1: Compile the evidence
+
+**FOR backporting:**
+- Real NULL pointer dereference bug in driver probe path
+- Small (4 lines), obviously correct fix
+- Identical fix for es1938 sibling driver already backported to stable
+  in this tree
+- Bug present since 2.6.12; code exists in v6.18.44
+- Applies cleanly
+- ALSA maintainer (Takashi Iwai) applied to for-next
+- Follows established ALSA pattern (`if (!kctl) return -ENOMEM`)
+
+**AGAINST backporting:**
+- Legacy ISA driver with small user base
+- Trigger requires ENOMEM during probe (rare)
+- No user reports or fuzzer findings
+- Only affects HWV-capable chip variants
+
+**Unresolved:** None material to the decision.
+
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — pattern proven in es1938;
+   maintainer merged
+2. Fixes a real bug? **PASS** — documented NULL deref on allocation
+   failure
+3. Important issue? **PASS** — kernel oops (HIGH severity, low
+   likelihood)
+4. Small and contained? **PASS** — 4 lines, 1 file
+5. No new features or APIs? **PASS**
+6. Can apply to local tree? **PASS** — clean apply verified
+
+### Step 9.3: Exception categories
+**Record:** Not applicable (standard bug fix, not device ID/quirk/build
+fix).
+
+### Step 9.4: Decision rationale
+
+This commit fixes a genuine NULL pointer dereference in
+`snd_es18xx_mixer()` where `snd_ctl_new1()` return values are used
+before being validated. The identical pattern was already fixed and
+backported for the closely related `es1938` driver in this same tree.
+The fix is minimal, follows ALSA conventions, applies cleanly to
+v6.18.44, and prevents a kernel oops during driver probe under memory
+pressure. While the affected hardware is legacy and the trigger is
+uncommon, stable trees routinely accept such probe-path NULL-deref fixes
+— especially when a direct sibling precedent exists.
+
+---
+
+## Verification
+
+- [Phase 1] `git describe HEAD` → v6.18.44; parsed subject, tags, body
+  from provided commit message
+- [Phase 1] Web search → found v1/v2 on lkml.iu.edu and maintainer
+  acceptance reply
+- [Phase 2] Read `sound/isa/es18xx.c` lines 1754–1845 → confirmed buggy
+  code without NULL checks
+- [Phase 2] Read `sound/core/control.c` lines 250–259, 515–516 →
+  confirmed `snd_ctl_new1()` returns NULL on failure; `snd_ctl_add()`
+  handles NULL but is bypassed in buggy paths
+- [Phase 2] Read `sound/pci/es1938.c` lines 1655–1678 → confirmed
+  identical fix pattern already present
+- [Phase 3] `git blame -L 1755,1845 sound/isa/es18xx.c` → buggy code
+  from 1da177e4c3f41 (2.6.12)
+- [Phase 3] `git log -S 'master_volume = kctl' -- sound/isa/es18xx.c` →
+  introduced in 1da177e4c3f41
+- [Phase 3] `git show 9e53e99b6fa3c` → es1938 stable backport with Cc:
+  stable, Fixes: 2.6.12
+- [Phase 3] `git log --oneline -20 -- sound/isa/es18xx.c` → no
+  conflicting recent changes
+- [Phase 4] WebFetch lkml.iu.edu/2606.0/12904.html → Takashi Iwai
+  applied to for-next
+- [Phase 4] b4 dig unavailable (commit not in tree); used web search
+  instead
+- [Phase 5] `grep snd_es18xx_mixer(` → called from
+  `snd_audiodrive_probe()` line 2071
+- [Phase 5] Read es18xx.c lines 1597–1604 → ES18XX_HWV set for versions
+  0x1869, 0x1879
+- [Phase 6] `git apply --check` with provided diff → exit 0 (clean
+  apply)
+- [Phase 6] Confirmed fix not present in current tree (no `if (!kctl)`
+  in es18xx.c)
+- [Phase 7] Read `sound/isa/Kconfig` line 186 → CONFIG_SND_ES18XX
+  tristate option
+- [Phase 8] Assessed severity: oops on ENOMEM during probe, HWV chips
+  only
+
+**YES**
+
+ sound/isa/es18xx.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/sound/isa/es18xx.c b/sound/isa/es18xx.c
+index 1da7b400a17b6..2f454f7797ce2 100644
+--- a/sound/isa/es18xx.c
++++ b/sound/isa/es18xx.c
+@@ -1762,6 +1762,8 @@ static int snd_es18xx_mixer(struct snd_card *card)
+ 	for (idx = 0; idx < ARRAY_SIZE(snd_es18xx_base_controls); idx++) {
+ 		struct snd_kcontrol *kctl;
+ 		kctl = snd_ctl_new1(&snd_es18xx_base_controls[idx], chip);
++		if (!kctl)
++			return -ENOMEM;
+ 		if (chip->caps & ES18XX_HWV) {
+ 			switch (idx) {
+ 			case 0:
+@@ -1823,6 +1825,8 @@ static int snd_es18xx_mixer(struct snd_card *card)
+ 		for (idx = 0; idx < ARRAY_SIZE(snd_es18xx_hw_volume_controls); idx++) {
+ 			struct snd_kcontrol *kctl;
+ 			kctl = snd_ctl_new1(&snd_es18xx_hw_volume_controls[idx], chip);
++			if (!kctl)
++				return -ENOMEM;
+ 			if (idx == 0)
+ 				chip->hw_volume = kctl;
+ 			else
+-- 
+2.53.0
+
