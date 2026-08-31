@@ -1,53 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861563E0C47;
-	Mon, 31 Aug 2026 12:12:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B88A3F4845
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 12:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788178344; cv=none; b=VOVmCx8WTiTwSLAokEnCNlN5qCXbzGO4n16++DP/GPpT7M6qyA1ohOXA3AtNaNi/z5osgW3dMzAETyTq2MsY2Ol3FxKwN46TNqyMrP0A0IYBy1DlllxinaenYPIQszDQwezN1NrWpiwzV8QHWc8Axj3Jwfw3fBAS8CsBuX4qZqM=
+	t=1788178462; cv=none; b=HaHWDa/Zc2+OnqhGHziRW92j6l/O0Cl+6CkFbdHPG7mQvlB7hjjIAPyXWzvGDSJd8VFjb/2ln+zUiVZ4edDb3XN6VIpojCyYEDYzCWpc+kwZH+C5mkuDJ/b4GoqRdbM15AGw7T1VTjbx+WI3mZBbxB+5ofhnMDBZNHbhNYxT800=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788178344; c=relaxed/simple;
-	bh=CD5OwstgpMzIDB3nnm8lm8+2h5M23PSx6Nv2d5oaTxQ=;
+	s=arc-20240116; t=1788178462; c=relaxed/simple;
+	bh=j7mwSofyRBIb+2s9EcwuHHLsEm/TGgqrpEbXsP0nfWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ieC8w1g1FCRig9EA4Ll+dihCf3JIbsAz92Q6KIm3tafPwp6m42D9GncDu4lUa0+DGmc9c0ZXqmkIDXKfj6Ws/h136D39nYq6F1deiF20oM0t0+EL3d6xptM7Kf46wCzrT04qgqoWgjGtRjdLo003WomIqSFPO7t43iuSwObaDtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdU8CmXV; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kKAtmnYSYhTZjx9vcAf+4xw18XQ9l94HtYRd7n3mHxWOgek0I8wzw0fRCS2zXFLyWPHT6zA3Qt3cKnfRKA4LSz1liTgnxq59qYttIZdJTb5ulH9KbmFhCT93S8MX2s3MdhmqXdfxMpo2QPyZ8cBd/xk2P2ReSKl76Z7EsK0gUX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MOVywn2q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdU8CmXV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6AC1F00A3D;
-	Mon, 31 Aug 2026 12:12:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MOVywn2q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BE21F00A3D;
+	Mon, 31 Aug 2026 12:14:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788178343;
-	bh=CD5OwstgpMzIDB3nnm8lm8+2h5M23PSx6Nv2d5oaTxQ=;
+	s=k20260515; t=1788178460;
+	bh=LZ5etioNDv1DUGpUeK1yJrVycEM8lV9AvbfhrYK2Ai8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZdU8CmXVJuFSlUO5l1upNskR7bhYgWDGj/pOcPzrorpWb+1NP7Nc2/2fxfwwISBkI
-	 hzV19TwFueXpWVwYcgchB6ri4oy39dqJ9ZDeSYwfeL5VpZvqO4pe75s24s8om1YwWw
-	 TlbtmxbXbAc6e36avHg+ZxVGawsu/5p1qh/NWBLY7f4YkQye/M0jqEhPs9g197vgpy
-	 nd4+hFZU4acblvqUXuZagYq0dJNPmgF+dqX5d+K0qj+EjlrY8OttzKdFc308W3yxc8
-	 2hpTxS5Y955lPr060lcCKED5r/HhpGUBRO09j4S4nGNZIhwxAk+7n9zigf+DCk3e4w
-	 sWF1/PgE0D64Q==
-Date: Mon, 31 Aug 2026 13:12:16 +0100
+	b=MOVywn2qKFaMIxlmoO17KR1fwbzicvFll+qkihRTMVPvkxdLMhCULDDDW9FNlIb7e
+	 W/VrTnFsjT9JRQ/F64/lyjz5cYFC7JURkzmGgBlqntb6v5GEYqZ8hC/i15xQnzPtvz
+	 o6nQRy0ntFv7qOYBKTi2stroyUqEHCSLlRtsz71b4AMekkuVx/Hwm3AH5vDb6gOZuL
+	 knbq5V2ZSSdzS9im9zYX8RhPs0wkBgl2qw+3E12SR/Ti4qORTl3TCl3crUL2WbZS9O
+	 t7YWNntRK2ZRHGdxStx7XMZ2Uu9mAZ5V2g+fozhBfLNLL/vzhGq90o1JTNDnugdmWD
+	 YfTWyV02UnJ0Q==
+Date: Mon, 31 Aug 2026 13:14:17 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v3 8/9] spi: dw: Use dma_slave_caps bus width helpers
-Message-ID: <820f9317-8457-4041-8f94-5f5f75e7afc8@sirena.org.uk>
-References: <20260831-dmaengine-support-wider-dma-masks-v3-0-507d97496f2d@analog.com>
- <20260831-dmaengine-support-wider-dma-masks-v3-8-507d97496f2d@analog.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: tiwai@suse.com, perex@perex.cz, amade@asmblr.net,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 00/11] ALSA/ASoC: Intel: avs: HDAudio bus and general
+ fixes
+Message-ID: <0ebd78e8-4f82-4721-986d-db0c0bb3d2b6@sirena.org.uk>
+References: <20260831093615.1117987-1-cezary.rojewski@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,40 +42,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+AhjCYXbI1r3nDs8"
+	protocol="application/pgp-signature"; boundary="ojEHj5AtVW9MEt4z"
 Content-Disposition: inline
-In-Reply-To: <20260831-dmaengine-support-wider-dma-masks-v3-8-507d97496f2d@analog.com>
+In-Reply-To: <20260831093615.1117987-1-cezary.rojewski@intel.com>
 X-Cookie: Sell by date stamped on bottom.
 
 
---+AhjCYXbI1r3nDs8
-Content-Type: text/plain; charset=iso-8859-1
+--ojEHj5AtVW9MEt4z
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 31, 2026 at 12:46:45PM +0100, Nuno S=E1 wrote:
-> Store the common TX destination and RX source bus widths in a
-> driver-owned DMA bus width bitmap and populate it through the
-> dma_slave_caps helper.
->=20
-> This avoids depending on the legacy src_addr_widths and dst_addr_widths
-> masks returned by dma_get_slave_caps().
+On Mon, Aug 31, 2026 at 11:36:04AM +0200, Cezary Rojewski wrote:
+> The first half of the patchset concentrates on the driver initialization
+> procedure - a number of steps do not clean up after themselves when they
+> fail.  This is for both, HDAudio bus (ext) and the DSP part (avs) and
+> targets following procedures:
 
-Acked-by: Mark Brown <broonie@kernel.org>
+This doesn't apply against current code, please check and resend.
 
---+AhjCYXbI1r3nDs8
+--ojEHj5AtVW9MEt4z
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqVb6AACgkQJNaLcl1U
-h9ClLgf/VHBuWh4bKapW/V9pta/hHFd6AdEC3fSQe3piNqlsxij13907eXkDp5vK
-49rYbjuUKofwlFtkL1iqWkbfwMLiZKB3Svg1aZIZ2vCmEHLNiYsn7aOZBr9QfbPZ
-Xa0b0gL7qDlbjlnI/aVxdeNrG+lJPCOdXXbw2lyTU02JrFe616Kvw13M3X/oRZgc
-1ApUKhWS+cNbymddHSiRqg+Xp7FZqsB/XqeoxI0jI6QTa0y9HN7YDaIb0mjk1nEF
-rJd9cfabjSWy1n1SfBsKQpaOWn4AfHNdpI31RPjauLbRJPei3NokTkAWsfYmW/92
-w0ChV1u7IFXxu0o9ZglrW9zt8VbrJA==
-=qaNr
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqVcBgACgkQJNaLcl1U
+h9Dugwf+JRjYwdLKRsh+0hZubH96mdScIASf2G46PDLbYd7WQ1Urlnp9CVn6kZ+u
+iV29kFWiZMQlgEh45CpwiNoRck23sS+mw9Teo2Sp5S7nxqEhp2WMpABOXjFFF1BB
+59rkCvnOKXooksGPYKk3pL95a6mu3rsso+MaEEo+V4J3BXpHT6e1gZU9H/eL6qV3
+1O+JUXRrBZ4HMn6ImCj2YXrL8EbEktYtv8cdN59yAeSY2hY3IYL0uT7IqaA2m1V2
+unXGovPxJC8HA9+SbvZSU9J5lx7MxKuB2Zhf3oX9nZNf8zRO/vtmbWTWM6+ne47n
+FPub4c0aQ8YQ8vY9uKK6+xQh1mTe3Q==
+=Uagv
 -----END PGP SIGNATURE-----
 
---+AhjCYXbI1r3nDs8--
+--ojEHj5AtVW9MEt4z--
