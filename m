@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C3C4B26E0;
-	Mon, 31 Aug 2026 13:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7F84746AB;
+	Mon, 31 Aug 2026 13:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184287; cv=none; b=ShkWxTrUoeWJ46C8Dgg/QSD2fecVaM5FGtxQeBfOG4YwcfGxlfHmE2caErMt3qlZqqGc4ibiAFYyMhAYeAWyv2w8D+MfyPXAi5Jry+yMVnn2Enih3eh7sMOXtqQcg28fW+3yhPblL28FpvI52rTPjq3ju6r6Xu/xIrab7YxfHEw=
+	t=1788184290; cv=none; b=HZQtdQ3MUMPEIvO6ynME22naYX+7utksR5JScAvtvGmqaXC9T7lV/DKdyVKglKBSzEh2FlHjtvCwmI4kiIXyOc1WhS4zB9ARTnfA/FJFcN/7WA6Rq/Fzd4Zy47BNZRVDBIdjg0ZUUk0mo/u7vXbaB2JM83AERW5NMw0heeT+z2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184287; c=relaxed/simple;
-	bh=L3h44K28RxRDCXPTqoVMMS/eE84caZ2gqB2JXtvtrIg=;
+	s=arc-20240116; t=1788184290; c=relaxed/simple;
+	bh=tv2t9Qi3Md7T4llAZTdrrda9R0abp35jq5QwT9YHbJs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bC/jjqualkk8qFBPYn2VSldPKhN4BDK9Fsvww6kokyUM/AXWkv5OoHAe2ezBcLapAXjuTu+8qTZacIKyKYQn1S5xKDLnSbVDDfV9izyV72uU0myIlDwuz0axj4if97zryRnugBpH2/hkGNeM+k0kbwU70MJyMADSqnrp6n9TBf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YxPe1VzG; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=QMb2SWBxgwtTj22pGyzM8k4DKVI/wdzOrMxdVhgGS7n4wdVWqjWKu215U/wyJb9jlYApaLR38Ignu/fgzIIOmjWv6LKFnV1fm2GnlwnyvILJrfSMCjbE9fxDLn5ASaZSsIMuihUFzLNrsbcFzGFTf/m/SsbMCeAfTOj2+ZU7gpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GnL2iVXJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YxPe1VzG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8135B1F00A3E;
-	Mon, 31 Aug 2026 13:51:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GnL2iVXJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08FF51F00A3D;
+	Mon, 31 Aug 2026 13:51:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184284;
-	bh=gYJ+8ErtlC4Y7RCEVbiGQklUCpLaTHQjEs8L+d++bJE=;
+	s=k20260515; t=1788184288;
+	bh=mOxVgusYOuBLDF9wnkORRZlaJ14L8gZxA3VUemltWLM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YxPe1VzGTs0HfNpujDQVIPL8TWDmNmUtO9HU1CmIMV3arJqj+nSr9g7RQZshSSzEQ
-	 VXGwFX3Eoe8w3qA/XHvMerGUOu4D0J1d4ba4gD0gqR96nxv3zu8Ew7xQrS4k8qbXsD
-	 V99+aFVu+wT7jTH/j4L6OfLvVR+0YvcDICvDxH6WsDY9oN6YLA3bIdtDQq0k0bbK6S
-	 OycZrRiWMX7wdslySaWZcKy4oZh8RNnVnevokWcRtnlWc6+HKHGD/ZwEOIMTJENYvm
-	 J+XgUKXK2mmb5M7Ff9DTlmDfNGrDlQqkmGqwdATdYmhNsZuIEq/9vyTadQF7dqjTa0
-	 1FgBDFJuruJ4A==
+	b=GnL2iVXJ96zQT4MzXcLCkxVSdrhV5Ruju1/MyHsHmRxDLHrNw7GCEiNabEUJ88xH6
+	 IunTdUjga7GwgjT3VNkmnqxggyyvZyEr0UP7DoB9bISwSvba6Z+ze6BgaZPiNwnVMO
+	 vAjIqr4bZGc+O1h2oMp60Ch2McgjMJv4Yf693UzqbDapFqsLeJ7Ij2ABdrjlr/3qhU
+	 ml4WPeW7SRfsuA73gj5/zokLBM5M543UnncwG2Ails4jkYXFsN+De2iuctXXFurJyC
+	 rx7xosh8isD0K9H4GSHFzbhWpRipCHXbIEQ5oV0eEAukZjo5pRR224eesBji1isHuz
+	 LfkiqT3s6nQKg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Sergey Lebedev <lsa.uz@pm.me>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Evelyn Ali <evelynali99@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ASoC: rt1320: run the initialisation preset on the first hardware init
-Date: Mon, 31 Aug 2026 09:30:29 -0400
-Message-ID: <20260831133314.4125787-601-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] ALSA: hda/realtek: ALC882: Fixup for Clevo P775TM1
+Date: Mon, 31 Aug 2026 09:30:31 -0400
+Message-ID: <20260831133314.4125787-603-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -56,379 +54,388 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Sergey Lebedev <lsa.uz@pm.me>
+From: Evelyn Ali <evelynali99@gmail.com>
 
-[ Upstream commit 9b30521074f01aff856f539c1241a48342b69f7c ]
+[ Upstream commit def5e78a4e003c83adc9a8b4b72534def3a49641 ]
 
-rt1320_io_init() applies the vendor initialisation preset only when the
-amplifier's SDCA function status has FUNCTION_NEEDS_INITIALIZATION set:
+Clevo P775TM1 laptops come with an ESS Sabre HiFi DAC. Setting
+0x1b pin VREF to 80% enables said DAC output.
 
-	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
-
-Its two sibling drivers guard the same write differently, also running
-the preset on the first hardware init:
-
-  rt712-sdca.c:  if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) ||
-                     (!rt712->first_hw_init)) {
-  rt722-sdca.c:  if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) ||
-                     (!rt722->first_hw_init)) {
-
-On the Microsoft Surface Pro 11 (Intel) the RT1320 never sets that bit.
-Its function status reads back 0x41 on every boot, cold or warm:
-
-  rt1320-sdca sdw:0:0:025d:1320:01: rt1320_io_init amp func_status=0x41
-
-which is NEWLY_ATTACHED | FUNCTION_HAS_BEEN_RESET: the function reports
-that it has been reset and does not consider itself in need of
-initialisation. Bit 5 is never set, so the preset never runs,
-rt1320_vc_preset() and the MCU patch load are skipped, and the amplifier
-is left unprogrammed. rt712 and rt722 would have run it via their
-first_hw_init fallback.
-
-Add the same fallback. With it rt1320_vc_preset() executes and the
-amplifier reports RT1320_KR0_INT_READY=0x1f where previously it did not.
-
-Signed-off-by: Sergey Lebedev <lsa.uz@pm.me>
-Link: https://patch.msgid.link/20260804225853.31585-2-lsa.uz@pm.me
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Evelyn Ali <evelynali99@gmail.com>
+Link: https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject line
-**Record:** `[ASoC: rt1320]` `[run]` — run the vendor initialization
-preset on first hardware init.
+### Step 1.1: PARSE THE SUBJECT LINE
+**Record:** `[ALSA: hda/realtek: ALC882]` `[Fixup]` — Add hardware fixup
+quirk for Clevo P775TM1 laptop audio (ALC882/898 codec path).
 
-### Step 1.2: Tags
+### Step 1.2: PARSE ALL COMMIT MESSAGE TAGS
 **Record:**
-- **Signed-off-by:** Sergey Lebedev `<lsa.uz@pm.me>` (author)
-- **Link:** https://patch.msgid.link/20260804225853.31585-2-lsa.uz@pm.me
-- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer)
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
-  by:`, or `Cc: stable@vger.kernel.org`
-- Notable: maintainer sign-off; real hardware report (Surface Pro 11);
-  no syzbot/fuzzer involvement
+- **Signed-off-by:** Evelyn Ali \<evelynali99@gmail.com\> (author)
+- **Link:**
+  https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com
+- **Signed-off-by:** Takashi Iwai \<tiwai@suse.de\> (ALSA/HDA
+  maintainer, committer)
+- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
+  stable tags
+- Notable: Maintainer commit; v2 patch on lore; no syzbot/fuzzer
+  involvement
 
-### Step 1.3: Body analysis
+### Step 1.3: ANALYZE THE COMMIT BODY TEXT
 **Record:**
-- **Bug:** `rt1320_io_init()` only runs the vendor preset when
-  `FUNCTION_NEEDS_INITIALIZATION` is set; on Surface Pro 11 RT1320
-  reports `0x41` (`NEWLY_ATTACHED | FUNCTION_HAS_BEEN_RESET`), never bit
-  5
-- **Symptom:** `rt1320_vc_preset()` and MCU patch load are skipped;
-  amplifier stays unprogrammed; speakers silent
-- **Root cause:** RT1320 lacks the `first_hw_init` fallback that sibling
-  drivers `rt712-sdca` and `rt722-sdca` already use
-- **Version info:** Surface Pro 11 (Intel, Lunar Lake); tested on
-  7.1.0-rc7 per cover letter
+- **Bug:** Clevo P775TM1 uses an ESS Sabre HiFi DAC; pin 0x1b VREF must
+  be 80% to enable DAC output
+- **Symptom:** No audio output from the external headphone amp / Sabre
+  DAC without the VREF setting
+- **Version info:** None stated
+- **Root cause:** Hardware requires specific pin VREF configuration not
+  provided by default or generic Clevo quirk
 
-### Step 1.4: Hidden bug fix?
-**Record:** Yes — not disguised cleanup. This is a clear
-logic/correctness fix restoring driver behavior that existed at
-introduction and was accidentally dropped.
+### Step 1.4: DETECT HIDDEN BUG FIXES
+**Record:** Not disguised — explicit hardware fixup/quirk. Fixes broken
+audio on a specific laptop model, not a crash or memory bug.
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory
+### Step 2.1: INVENTORY THE CHANGES
 **Record:**
-- **Files:** `sound/soc/codecs/rt1320-sdw.c` (+1 / -1)
-- **Function:** `rt1320_io_init()`
-- **Scope:** Single-file, one-line surgical fix
+- **File:** `sound/hda/codecs/realtek/alc882.c` (+22 lines, 0 removed)
+- **Functions modified/added:** `alc898_fixup_clevo_p775tm1()` (new)
+- **Tables modified:** enum fixup IDs, `alc882_fixups[]`,
+  `alc882_fixup_tbl[]`, `alc882_fixup_models[]`
+- **Scope:** Single-file, surgical hardware quirk addition
 
-### Step 2.2: Code flow change
+### Step 2.2: CODE FLOW CHANGE
 **Record:**
-- **Before:** Preset runs only if `amp_func_status &
-  FUNCTION_NEEDS_INITIALIZATION`
-- **After:** Also runs when `!rt1320->first_hw_init` (first hardware
-  init)
-- **Path:** Normal probe via `rt1320_update_status()` →
-  `rt1320_io_init()` on `SDW_SLAVE_ATTACHED`
+- **Hunk 1 (enum):** Adds `ALC898_FIXUP_CLEVO_P775TM1` fixup ID
+- **Hunk 2 (new function):** On `HDA_FIXUP_ACT_PRE_PROBE`, sets pin 0x1b
+  to `PIN_VREF80` via `snd_hda_set_pin_ctl_cache()` and sets
+  `spec->gen.keep_vref_in_automute = 1` so automute does not clear VREF
+- **Hunk 3 (fixups table):** Registers fixup function, chained to
+  `ALC882_FIXUP_EAPD`
+- **Hunk 4 (quirk table):** `SND_PCI_QUIRK(0x1558, 0x7709, "Clevo
+  P775TM1", ...)` — PCI SSID match
+- **Hunk 5 (model table):** Adds model name `clevo-p775tm1` for manual
+  override
 
-### Step 2.3: Bug mechanism
-**Record:**
-- **Category:** Logic/correctness (hardware workaround)
-- **Mechanism:** Some RT1320 parts never set
-  `FUNCTION_NEEDS_INITIALIZATION`; without the `first_hw_init` fallback,
-  `rt1320_vc_preset()` / `rt1320_load_mcu_patch()` never execute and the
-  amp is left uninitialized
+### Step 2.3: IDENTIFY THE BUG MECHANISM
+**Record:** **Category (h): Hardware workaround / audio codec quirk.**
+Pin 0x1b VREF at 80% gates the ESS Sabre HiFi DAC; without it the
+external amp stays disabled. `keep_vref_in_automute` prevents the
+generic automute path from stripping VREF during jack events.
 
-### Step 2.4: Fix quality
-**Record:**
-- Obviously correct: matches `rt712-sdca.c` and `rt722-sdca.c`, and
-  restores original `rt1320` behavior from `bad0a07a7e61a`
-- Minimal, no unrelated changes
-- **Regression risk:** Very low — restores long-standing pattern; only
-  affects first init
+### Step 2.4: ASSESS THE FIX QUALITY
+**Record:** Fix is minimal and follows established patterns in the same
+file (`alc889_fixup_mbp_vref`, other Clevo fixups). Chaining to
+`ALC882_FIXUP_EAPD` matches other Clevo entries. Low regression risk —
+only affects PCI SSID `0x1558:0x7709`. No lock or API changes.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame
-**Record:**
-- Buggy condition from `f465d10cd7318` (Sep 2, 2024, "ASoC: rt1320: Add
-  support for version C")
-- That commit **removed** `|| (!rt1320->first_hw_init)` that existed
-  since `bad0a07a7e61a` (May 21, 2024)
-- Regression present since v6.12 (first tag containing `f465d10`)
+### Step 3.1: BLAME THE CHANGED LINES
+**Record:** Insertion point (between `0x70d1` and `0x7714` Clevo quirks)
+dates to `aeeb85f26c3bb` (2025-07-09, Realtek driver split). No pre-
+existing bug — this is missing hardware support, not a regression from
+prior code.
 
-### Step 3.2: Fixes: tag
-**Record:** N/A — no `Fixes:` tag. Regression commit is `f465d10cd7318`,
-confirmed in this tree.
+### Step 3.2: FOLLOW THE FIXES: TAG
+**Record:** N/A — no Fixes: tag present.
 
-### Step 3.3: Related file history
-**Record:**
-- Part of a 3-patch series: "ASoC: fix audio on the Microsoft Surface
-  Pro 11 (Intel)"
-- Patches 2/3 and 3/3 address phantom ACPI entries; **this patch is
-  standalone** for RT1320 init
-- Recent rt1320 fixes in tree: mute issue, speaker noise, RT1321 support
-  — unrelated
+### Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES
+**Record:** Local tree at `v6.18.44` has only two commits touching
+`alc882.c`: `e1d695b45fd11` (probe rewrite) and `aeeb85f26c3bb` (driver
+split). Commit `def5e78a4e003` is on `master` but not in
+`stable/linux-6.18.y`. Standalone single-patch fix, not part of a
+series.
 
-### Step 3.4: Author context
-**Record:** Sergey Lebedev — Surface Pro 11 reporter/fixer; no prior
-sound commits in this tree. Mark Brown committed upstream.
+### Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS
+**Record:** Evelyn Ali has no other commits in this tree. Takashi Iwai
+is the ALSA/HDA maintainer and authored the surrounding Clevo quirk
+infrastructure.
 
-### Step 3.5: Dependencies
-**Record:** None for this change. `first_hw_init` already exists in
-`rt1320_sdw_priv` and is initialized to `false` at probe. Applies
-standalone.
+### Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS
+**Record:** No dependencies. Required symbols (`PIN_VREF80`,
+`snd_hda_set_pin_ctl_cache`, `keep_vref_in_automute`,
+`ALC882_FIXUP_EAPD`) all exist in this tree. `git apply --check` on the
+patch succeeds cleanly.
 
 ---
 
-## Phase 4: Mailing List and External Research
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original discussion
+### Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION
+**Record:** `b4 dig -c def5e78a4e003` → [v2] thread at
+https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com.
+Only v2 found (no v1 in series list). Maintainer merged without
+objections in thread.
+
+### Step 4.2: CHECK WHO REVIEWED THE PATCH
+**Record:** `b4 dig -w`: To linux-sound@vger.kernel.org, Evelyn Ali,
+Takashi Iwai. Appropriate subsystem list and maintainer CC'd.
+
+### Step 4.3: SEARCH FOR THE BUG REPORT
+**Record:** No external bug report or syzbot link. Hardware issue
+reported by patch author on their own hardware.
+
+### Step 4.4: CHECK FOR RELATED PATCHES AND SERIES
+**Record:** Standalone 1-patch series. No prerequisites.
+
+### Step 4.5: CHECK STABLE MAILING LIST HISTORY
+**Record:** Not searched on lore stable list; no stable nomination found
+in patch thread. Absence of Cc: stable is expected per review
+instructions.
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+### Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF
+**Record:** `alc898_fixup_clevo_p775tm1()` (new fixup callback)
+
+### Step 5.2: TRACE CALLERS
+**Record:** Invoked by HDA fixup framework during codec probe for
+matching PCI quirk `0x1558:0x7709`. Called from device enumeration when
+the Realtek codec driver loads — standard driver probe path for affected
+hardware.
+
+### Step 5.3: TRACE CALLEES
+**Record:** `snd_hda_set_pin_ctl_cache(codec, 0x1b, PIN_VREF80)` —
+caches pin control for node 0x1b with 80% VREF. Sets
+`spec->gen.keep_vref_in_automute` read later in
+`sound/hda/codecs/generic.c` automute path.
+
+### Step 5.4: FOLLOW THE CALL CHAIN
+**Record:** PCI device probe → HDA codec driver → quirk table lookup by
+SSID → fixup chain (`ALC898_FIXUP_CLEVO_P775TM1` → `ALC882_FIXUP_EAPD`)
+→ pin configuration at probe. Reachable on boot for matching hardware;
+not userspace-triggerable but affects all audio on that machine.
+
+### Step 5.5: SEARCH FOR SIMILAR PATTERNS
+**Record:** Same `keep_vref_in_automute` + VREF pattern in
+`alc889_fixup_mbp_vref()` and `alc889_fixup_mac_pins()` in the same file
+(lines 109–144). Multiple Clevo-specific fixups already present
+(`ALC1220_FIXUP_CLEVO_P950`, `ALC1220_FIXUP_CLEVO_PB51ED`, etc.).
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+### Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?
+**Record:** Local tree is **v6.18.44** (`stable/linux-6.18.y`). The fix
+is **absent** — grep finds no `P775TM1`, `0x7709`, or
+`ALC898_FIXUP_CLEVO_P775TM1`. Without the quirk, `0x1558:0x7709` matches
+only the generic `SND_PCI_QUIRK_VENDOR(0x1558, "Clevo laptop",
+ALC882_FIXUP_EAPD)` at line 682, which does not set pin 0x1b VREF. The
+broken behavior (no Sabre DAC output) is present for P775TM1 owners on
+this tree.
+
+### Step 6.2: CHECK FOR BACKPORT COMPLICATIONS
+**Record:** **Clean apply** — `git apply --check` passes with no
+conflicts. File structure matches mainline commit base.
+
+### Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE
+**Record:** No duplicate or alternative fix for P775TM1 found. Clevo
+VREF/quirk infrastructure is present from the 2025 driver split.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+### Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY
+**Record:** **sound/ALSA HDA Realtek codec driver** — IMPORTANT (affects
+audio on specific laptop hardware, not core kernel paths).
+
+### Step 7.2: ASSESS SUBSYSTEM ACTIVITY
+**Record:** Actively maintained; frequent laptop quirk additions on
+stable (e.g., `04dd210180575` Clevo mic fix in this tree).
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: DETERMINE WHO IS AFFECTED
+**Record:** **Driver-specific / hardware-specific** — Clevo P775TM1
+laptops with PCI SSID `0x1558:0x7709` and Realtek ALC898-class codec.
+
+### Step 8.2: DETERMINE THE TRIGGER CONDITIONS
+**Record:** Triggers at every boot/probe on matching hardware. Not
+timing-dependent. Unprivileged users cannot trigger it arbitrarily, but
+all users on that laptop are affected.
+
+### Step 8.3: DETERMINE THE FAILURE MODE SEVERITY
+**Record:** **No audio output** from the ESS Sabre HiFi DAC / external
+headphone amp. **Severity: MEDIUM** — serious functional impairment for
+affected users, but no crash, corruption, deadlock, or security impact.
+
+### Step 8.4: CALCULATE RISK-BENEFIT RATIO
 **Record:**
-- **URL:** https://patch.msgid.link/20260804225853.31585-2-lsa.uz@pm.me
-- **Series:** v1 only (no v2/v3)
-- Cover letter: full Surface Pro 11 audio needs all 3 patches; patch 1/3
-  is codec-specific and one line
-- No explicit stable nomination in thread
-- No NAKs found in mbox
-
-### Step 4.2: Reviewers
-**Record:** CC'd to Mark Brown, Liam Girdwood, Jaroslav Kysela, Takashi
-Iwai, Realtek/Intel SOF maintainers, `linux-sound@`, `sound-open-
-firmware@`, `linux-kernel@`
-
-### Step 4.3: Bug report
-**Record:** Hardware testing on Surface Pro 11 for Business (Intel Core
-Ultra 7 268V, Lunar Lake). Symptom: silent speakers despite successful
-probe. Severity: complete audio failure on affected hardware.
-
-### Step 4.4: Related patches
-**Record:** Patches 2/3 (`sdw_utils`) and 3/3 (SOF Intel HDA amp
-indexing) are separate; needed for full SP11 fix but not prerequisites
-for this one-line driver fix.
-
-### Step 4.5: Stable list
-**Record:** No stable-specific discussion found in mbox.
+- **Benefit:** Enables working audio on Clevo P775TM1 — real hardware
+  fix for real users
+- **Risk:** Very low — 22 lines, SSID-gated, established pattern
+- **Ratio:** Strong benefit, minimal risk — standard stable quirk
+  material
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 9: FINAL SYNTHESIS
 
-### Step 5.1: Key functions
-**Record:** `rt1320_io_init()`, `rt1320_vc_preset()`,
-`rt1320_update_status()`
+### Step 9.1: COMPILE THE EVIDENCE
 
-### Step 5.2: Callers
-**Record:**
-- `rt1320_update_status()` — SoundWire slave status callback
-  (`.update_status` in `rt1320_sdw_slave_driver`)
-- Triggered on `SDW_SLAVE_ATTACHED` during SoundWire enumeration
-- Common device probe path for RT1320-equipped Intel SOF machines
+**FOR backporting:**
+- Hardware codec quirk — explicit stable exception category
+- Fixes real user-visible bug (no audio) on Clevo P775TM1
+- Small (22 lines), single file, applies cleanly to v6.18.44
+- Follows established patterns in same file (VREF +
+  `keep_vref_in_automute`, Clevo quirk table)
+- Merged by subsystem maintainer (Takashi Iwai)
+- All prerequisites present in this tree
+- Fix not yet in `stable/linux-6.18.y`
 
-### Step 5.3: Callees
-**Record:** `rt1320_vab_preset()`, `rt1320_vc_preset()`,
-`rt1321_preset()`, `regmap_read/write`, `rt1320_load_mcu_patch()`
-(inside `rt1320_vc_preset()`)
+**AGAINST backporting:**
+- Not a crash/security/corruption issue
+- Affects narrow hardware population
+- No Tested-by: tag beyond author/maintainer
+- New laptop model — limited user base on 6.18.y today
 
-### Step 5.4: Reachability
-**Record:** Reachable on every boot for RT1320 SoundWire devices when
-`CONFIG_SND_SOC_RT1320_SDW` is enabled (implied by Intel SOF ACPI
-matches). Not userspace-triggered, but affects all audio on affected
-machines.
+**Unresolved:** None material to the decision.
 
-### Step 5.5: Similar patterns
-**Record:** Identical `first_hw_init` fallback in `rt712-sdca.c:1837`
-and `rt722-sdca.c:1400`. Original `rt1320` driver at
-`bad0a07a7e61a:1699` had the same pattern.
+### Step 9.2: STABLE RULES CHECKLIST
+1. Obviously correct and tested? **PASS** — standard HDA quirk pattern;
+   maintainer-merged v2
+2. Fixes a real bug affecting users? **PASS** — broken audio on P775TM1
+3. Important issue? **PASS** (functional/hardware) — no audio is a
+   significant usability failure for affected hardware, though not
+   CRITICAL severity
+4. Small and contained? **PASS** — 22 lines, one file
+5. No new features or APIs? **PASS** — hardware quirk exception applies
+6. Can apply to the local tree? **PASS** — clean apply verified
 
----
+### Step 9.3: CHECK FOR EXCEPTION CATEGORIES
+**Record:** **Hardware quirk / audio codec quirk** — automatic stable
+YES category per stable rules.
 
-## Phase 6: Cross-Reference Against Local Tree
+### Step 9.4: DECISION RATIONALE
 
-### Step 6.1: Buggy code exists?
-**Record:**
-- **Tree:** `stable/linux-6.18.y` at `v6.18.44`
-- **Buggy line present:** `sound/soc/codecs/rt1320-sdw.c:941` — `if
-  ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION))`
-- RT1320 driver (`bad0a07a7e61a`) and version C support
-  (`f465d10cd7318`) are both ancestors of HEAD
-- Fix (`9b30521074f01` / `4ff3319b43e07`) is **not** in this tree
-
-### Step 6.2: Backport complications
-**Record:** Clean one-line apply at line 941; no conflicts expected.
-Stable tree file matches autosel backport diff base.
-
-### Step 6.3: Related fixes already present?
-**Record:** No equivalent fix found. Other rt1320 fixes (mute, noise)
-address different issues.
-
----
-
-## Phase 7: Subsystem and Maintainer Context
-
-### Step 7.1: Subsystem criticality
-**Record:** `sound/soc/codecs` — ASoC codec driver. **IMPORTANT** for
-Intel SOF + SoundWire laptop users (LNL/PTL/ARL platforms with RT1320).
-
-### Step 7.2: Subsystem activity
-**Record:** Actively maintained; multiple rt1320 ACPI machine entries
-and driver fixes in 6.18.y.
-
----
-
-## Phase 8: Impact and Risk Assessment
-
-### Step 8.1: Who is affected
-**Record:** Users with RT1320 amplifiers on Intel SOF SoundWire
-platforms where the chip does not set `FUNCTION_NEEDS_INITIALIZATION` —
-confirmed on Surface Pro 11; potentially any RT1320 since the v6.12
-regression. Config-specific: `CONFIG_SND_SOC_RT1320_SDW`.
-
-### Step 8.2: Trigger conditions
-**Record:** Every cold/warm boot on affected hardware. Not timing-
-dependent. Unprivileged users cannot trigger directly, but all users on
-affected machines lose speaker output.
-
-### Step 8.3: Failure mode severity
-**Record:** Amplifier never initialized → **silent speakers** (complete
-audio failure on affected machines). Severity: **HIGH** for affected
-hardware (not a kernel crash, but total loss of primary audio output).
-
-### Step 8.4: Risk-benefit
-**Record:**
-- **Benefit:** HIGH for RT1320 users — restores working audio
-- **Risk:** VERY LOW — one-line restoration of original + sibling-driver
-  pattern
-- **Ratio:** Strongly favors backport
-
----
-
-## Phase 9: Final Synthesis
-
-### Step 9.1: Evidence summary
-
-**FOR backport:**
-- Real regression introduced by `f465d10` (removed `first_hw_init`
-  fallback present since driver introduction)
-- Confirmed hardware impact (Surface Pro 11 — silent speakers)
-- One-line fix matching proven rt712/rt722 pattern
-- Self-contained, no dependencies
-- ASoC maintainer sign-off
-- RT1320 driver and platform ACPI support present in 6.18.y
-
-**AGAINST backport:**
-- Full Surface Pro 11 audio may also need patches 2/3 and 3/3 (separate
-  commits)
-- No explicit stable nomination or `Fixes:` tag (expected for manual
-  review)
-
-**Unresolved:** Whether other RT1320 platforms besides Surface Pro 11
-hit this path (likely, given regression since v6.12).
-
-### Step 9.2: Stable rules checklist
-1. Obviously correct and tested? **PASS** — restores original logic;
-   tested on real hardware per cover letter
-2. Fixes a real bug? **PASS** — amplifier left unprogrammed
-3. Important issue? **PASS** — complete audio failure on affected
-   laptops
-4. Small and contained? **PASS** — 1 line, 1 file
-5. No new features/APIs? **PASS** — behavior restoration only
-6. Can apply to local tree? **PASS** — buggy code present, clean apply
-
-### Step 9.3: Exception category
-**Record:** Hardware workaround / quirk — RT1320 does not set
-`FUNCTION_NEEDS_INITIALIZATION`; driver must initialize on first hw init
-regardless.
-
-### Step 9.4: Decision rationale
-
-For **linux-6.18.y** (`v6.18.44`): this is a regression fix restoring
-driver behavior accidentally removed in v6.12. The RT1320 driver, the
-buggy code, and affected platform support are all present. The fix is
-one line, matches sibling drivers, and fixes silent speakers on real
-hardware. It is self-contained and low risk.
+For **linux-6.18.y (v6.18.44)**, this commit should be backported. It is
+a textbook HDA Realtek laptop quirk: PCI SSID-specific pin VREF
+configuration enabling an external DAC. The same file already contains
+numerous Clevo fixups using identical infrastructure. The patch is
+absent from this stable tree, applies without modification, and fixes a
+real hardware issue with negligible regression risk.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed subject, tags, body from commit `9b30521074f01` /
-  `4ff3319b43e07`
-- [Phase 2] Diff: 1-line change in `rt1320_io_init()` at line 941
-- [Phase 3] `git blame`: regression in `f465d10cd7318`; original
-  fallback in `bad0a07a7e61a`
-- [Phase 3] `git show f465d10`: confirmed removal of `||
-  (!rt1320->first_hw_init)`
-- [Phase 3] `git show bad0a07a7e61a`: confirmed original driver had
-  fallback
-- [Phase 3] `git merge-base --is-ancestor`: driver, version C, and fix
-  presence verified
-- [Phase 4] `b4 dig -c 4ff3319b43e07`: found lore thread; v1 series;
-  cover letter read from mbox
-- [Phase 4] `b4 dig -w`: Mark Brown and sound maintainers CC'd
-- [Phase 4] No stable/Reviewed-by/Tested-by in mbox
-- [Phase 5] `grep rt1320_io_init`: called from `rt1320_update_status()`
-  on attach
-- [Phase 5] Compared with `rt712-sdca.c:1837` and `rt722-sdca.c:1400`
-  patterns
-- [Phase 6] `git describe HEAD`: `v6.18.44` on `stable/linux-6.18.y`
-- [Phase 6] Buggy code at `rt1320-sdw.c:941`; fix not in tree
-- [Phase 6] `git show 4ff3319b43e07 -p`: clean apply to current tree
-- [Phase 7] RT1320 ACPI matches present in `soc-acpi-intel-lnl-match.c`,
-  `ptl-match.c`, `arl-match.c`
-- [Phase 8] Failure mode: unprogrammed amplifier → silent speakers
-
-**YES**The analysis is complete for **linux-6.18.y** (`v6.18.44`).
-
-This is a one-line regression fix: `f465d10` ("Add support for version
-C") dropped the `first_hw_init` fallback that existed since the RT1320
-driver was introduced. On hardware like the Surface Pro 11, the amp
-never sets `FUNCTION_NEEDS_INITIALIZATION`, so the preset and MCU patch
-load are skipped and speakers stay silent. The fix restores the same
-pattern already used in `rt712-sdca` and `rt722-sdca`.
-
-The buggy code is present in this tree, the patch applies cleanly, and
-it is self-contained (patches 2/3 and 3/3 in the series are separate
-Surface Pro 11 ACPI issues).
+- [Phase 1] `git show def5e78a4e003`: parsed tags (SOB Evelyn Ali, Link,
+  SOB Takashi Iwai); no Fixes/Reported-by/Tested-by
+- [Phase 1] Subject parsed: ALSA hda/realtek ALC882 fixup for Clevo
+  P775TM1
+- [Phase 2] Diff: +22 lines in `alc882.c`; new
+  `alc898_fixup_clevo_p775tm1()`, quirk `0x1558:0x7709`
+- [Phase 3] `git describe HEAD`: v6.18.44; tree is `stable/linux-6.18.y`
+- [Phase 3] `git log HEAD..master --grep P775TM1`: commit only on
+  master, not in stable branch
+- [Phase 3] `git apply --check` on patch from `def5e78a4e003`: applies
+  cleanly
+- [Phase 3] `git blame` lines 666–668: surrounding Clevo quirks from
+  `aeeb85f26c3bb` (2025-07-09)
+- [Phase 4] `b4 dig -c def5e78a4e003`: lore URL
+  https://patch.msgid.link/20260602214122.78020-1-evelynali99@gmail.com
+- [Phase 4] `b4 dig -a`: v2 only, standalone patch
+- [Phase 4] `b4 dig -w`: CC'd linux-sound@vger.kernel.org and Takashi
+  Iwai
+- [Phase 4] `b4 dig -m /tmp/p775tm1.mbox`: thread saved; maintainer
+  merge reply, no stable nomination or NAK
+- [Phase 5] `grep keep_vref_in_automute`: used in `alc882.c` lines
+  126/143 and `generic.c` line 4412
+- [Phase 5] `grep PIN_VREF80`: defined in `hda_local.h`, used across HDA
+  codecs
+- [Phase 6] `grep P775TM1|0x7709|ALC898_FIXUP`: no matches — fix absent
+  from local tree
+- [Phase 6] Read `alc882.c` line 682: generic Clevo EAPD quirk exists
+  but lacks VREF fix
+- [Phase 6] Read `alc882.c` lines 666–668: gap where `0x7709` quirk
+  should be inserted
+- [Phase 8] Failure mode: no audio from Sabre DAC; severity MEDIUM
+  (functional, not crash)
 
 **YES**
 
- sound/soc/codecs/rt1320-sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/hda/codecs/realtek/alc882.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index e1bd991a823a4..a08e20bfe9c86 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -938,7 +938,7 @@ static int rt1320_io_init(struct device *dev, struct sdw_slave *slave)
- 	dev_dbg(dev, "%s amp func_status=0x%x\n", __func__, amp_func_status);
+diff --git a/sound/hda/codecs/realtek/alc882.c b/sound/hda/codecs/realtek/alc882.c
+index 529fecd5baa0a..fd466b6985f05 100644
+--- a/sound/hda/codecs/realtek/alc882.c
++++ b/sound/hda/codecs/realtek/alc882.c
+@@ -61,6 +61,7 @@ enum {
+ 	ALC887_FIXUP_ASUS_HMIC,
+ 	ALCS1200A_FIXUP_MIC_VREF,
+ 	ALC888VD_FIXUP_MIC_100VREF,
++	ALC898_FIXUP_CLEVO_P775TM1,
+ };
  
- 	/* initialization write */
--	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION)) {
-+	if ((amp_func_status & FUNCTION_NEEDS_INITIALIZATION) || !rt1320->first_hw_init) {
- 		switch (rt1320->dev_id) {
- 		case RT1320_DEV_ID:
- 			if (rt1320->version_id < RT1320_VC)
+ static void alc889_fixup_coef(struct hda_codec *codec,
+@@ -236,6 +237,19 @@ static void alc1220_fixup_clevo_pb51ed(struct hda_codec *codec,
+ 	alc_fixup_headset_mode_no_hp_mic(codec, fix, action);
+ }
+ 
++/* On Clevo P775TM1, VREF of pin 0x1b enables the external headphone amp */
++static void alc898_fixup_clevo_p775tm1(struct hda_codec *codec,
++				       const struct hda_fixup *fix, int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	if (action != HDA_FIXUP_ACT_PRE_PROBE)
++		return;
++
++	snd_hda_set_pin_ctl_cache(codec, 0x1b, PIN_VREF80);
++	spec->gen.keep_vref_in_automute = 1;
++}
++
+ static void alc887_asus_hp_automute_hook(struct hda_codec *codec,
+ 					 struct hda_jack_callback *jack)
+ {
+@@ -560,6 +574,12 @@ static const struct hda_fixup alc882_fixups[] = {
+ 			{}
+ 		}
+ 	},
++	[ALC898_FIXUP_CLEVO_P775TM1] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc898_fixup_clevo_p775tm1,
++		.chained = true,
++		.chain_id = ALC882_FIXUP_EAPD,
++	},
+ };
+ 
+ static const struct hda_quirk alc882_fixup_tbl[] = {
+@@ -664,6 +684,7 @@ static const struct hda_quirk alc882_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1558, 0x67f1, "Clevo PC70H[PRS]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x67f5, "Clevo PD70PN[NRT]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x70d1, "Clevo PC70[ER][CDF]", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
++	SND_PCI_QUIRK(0x1558, 0x7709, "Clevo P775TM1", ALC898_FIXUP_CLEVO_P775TM1),
+ 	SND_PCI_QUIRK(0x1558, 0x7714, "Clevo X170SM", ALC1220_FIXUP_CLEVO_PB51ED_PINS),
+ 	SND_PCI_QUIRK(0x1558, 0x7715, "Clevo X170KM-G", ALC1220_FIXUP_CLEVO_PB51ED),
+ 	SND_PCI_QUIRK(0x1558, 0x9501, "Clevo P950HR", ALC1220_FIXUP_CLEVO_P950),
+@@ -719,6 +740,7 @@ static const struct hda_model_fixup alc882_fixup_models[] = {
+ 	{.id = ALC1220_FIXUP_GB_DUAL_CODECS, .name = "dual-codecs"},
+ 	{.id = ALC1220_FIXUP_GB_X570, .name = "gb-x570"},
+ 	{.id = ALC1220_FIXUP_CLEVO_P950, .name = "clevo-p950"},
++	{.id = ALC898_FIXUP_CLEVO_P775TM1, .name = "clevo-p775tm1"},
+ 	{}
+ };
+ 
 -- 
 2.53.0
 
