@@ -1,91 +1,84 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F26D3CB55E;
-	Mon, 31 Aug 2026 08:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634D6310652;
+	Mon, 31 Aug 2026 08:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788163482; cv=none; b=GvIQ39rIcQtg4ddTKI/p1XCeY0qJ/ySzq4cgLJXfpKBZ6Sp3Gndlu7iJH1HRR5/iD5g0M4jqG9ZJSbbFYDQ8j6Q0x4eSoQwDD8PnMhQl0BYJgNwo9PBVeHpLK4OC0UU+Noyw1Ejba9bdGNL22ly0YCOVxDWXlmKa6e6H3jCQO38=
+	t=1788163574; cv=none; b=gFXVXsgvSqg6ez25qx13YJNfVW3c0XPLXPTGRPItodVDuIIYRKcWMWRC6GEwzitvsurbY8homvMDRMCds8fpUN145127/fOrPsSC5wv6OH/HcYx3esjwKM09Y/qAfwRjMvhj5N+8NV+XKkLPU7jwflDFEVY80PPPBbAszoQj2R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788163482; c=relaxed/simple;
-	bh=GwtANNND55W6eP6eX71g8mL2LKhcEeq1I1nuJbKpjO4=;
+	s=arc-20240116; t=1788163574; c=relaxed/simple;
+	bh=1kesVN34fvEitPRM+XPoxwR9jQVdHcN8nCqzlfYrZuc=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZJyIPxA5v4FZJClV3scMEeZtyvMGT7btnv/xMbyAgM26DDw1C7Y98yDoN3SnH7sFigIYlk4v5ot6vB3Qy9q0NQxiF97e+fHMz44dci/RNhklpF0ei244MXleClwH0fvb8iyFdhjb6FEjAToGmREaP1u7MOJVZPlY2FQKDEVta5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KuC7ATox; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HbSNE5QT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=w5PldHDK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HoMkYxUV; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=U2eek9Wzti6GMmGckICpCYlzqBRXb9n0QYnpMgMFE4h26VEVKTNG6+GkYkn1enp94B7k7hoHdtxyieEkx5Dl7t5y+HZWLT7AZh3MECz4ve8cuLAjMp+cfbISsz5CWcEg8VHAnVRvedA1Avn21NEJtbTY7PyExymLMaPtA631hk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JDjy5LW0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CaxqGe93; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D4GZCmYD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3yHb4/89; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KuC7ATox";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HbSNE5QT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="w5PldHDK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HoMkYxUV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JDjy5LW0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CaxqGe93";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D4GZCmYD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3yHb4/89"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2569622340;
-	Mon, 31 Aug 2026 08:04:25 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 54FDB1FB86;
+	Mon, 31 Aug 2026 08:06:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788163469; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788163567; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aoovuQsKKNnZGQBlkft9L3Qj3EdU2+dn0FyPc+EXekY=;
-	b=KuC7AToxUCc5hMx8h0RdC3u7BOMpJ1tBea4hvbTH1pJmPfSh3IFEb5W6OaEma3mhUbqVKO
-	tGaE7c/9aaAfOZLzcOofH/joFtXaNYXxtUaCZY70vL1qXlQswBGm4x+oXGmhB6EnZYR1iR
-	ye2GT0t61UOg4yZA8qC3aOkiItMeDPQ=
+	bh=WHjuqHGpzh1Z9uFx0kR/NlpPeEUBMlxQpQJce9ZRerY=;
+	b=JDjy5LW0fV5VfmnQoMUuJy+ekqUThjWxi3mOTYoPKrmeOsxhpg3AViF2oQFrr2Lfc6gWfM
+	IzuaoK/+taOvq8oWJZvCqF5jr68YkXnhu9Yr3tmwcTMBwlW5dH44X3fOcbd8RSGaGQmT4c
+	ZdzlMZ3dsvZghYi85EvUO+aBpBjdYlM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788163469;
+	s=susede2_ed25519; t=1788163567;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aoovuQsKKNnZGQBlkft9L3Qj3EdU2+dn0FyPc+EXekY=;
-	b=HbSNE5QTBK7wgqsLnD2exNqU+WFoFjoFDQS8BtQpv4eHFz6PlaEBlrH3xcyeQ9tO1H9LWy
-	lxEs9Aeik18X59BQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=w5PldHDK;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HoMkYxUV
+	bh=WHjuqHGpzh1Z9uFx0kR/NlpPeEUBMlxQpQJce9ZRerY=;
+	b=CaxqGe93a9syofdIQB95udnIOQwOER6fUAAHJtHlyiTePfyma1xkUm7ugSh5gMWJb/lbT3
+	PvZM3tqIzDWdxlDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788163465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788163563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aoovuQsKKNnZGQBlkft9L3Qj3EdU2+dn0FyPc+EXekY=;
-	b=w5PldHDKO+/zGsD1OwjWpvQ7HuVT21pZmZhdnBWjRgZL4aUHtilIh+iAY/bBcQFaz2kS/h
-	EOFUIhwwLU/9EYfkCaG+qJHTKnzRKazesFs2wuFje49VtKu7NzhsXYxHezxBAs1GrkDHo3
-	XMBynPjrWYgs1FrINjl8zna+ahoWAyE=
+	bh=WHjuqHGpzh1Z9uFx0kR/NlpPeEUBMlxQpQJce9ZRerY=;
+	b=D4GZCmYDXPDiE16JrD/Jh2abYumNyYfvOQ9q+KCEPVLNLEHO2kNzQWmPn99mN3125dS74D
+	gGQilBeMKoIvvVUZ2PE8vvGte4l8sIz101mlgj232BxLajNnPLirJdVfJ1wzj28bkFIYuk
+	DeYeEYi5LPkBHJNJFjRmNoT3U93h/zo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788163465;
+	s=susede2_ed25519; t=1788163563;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=aoovuQsKKNnZGQBlkft9L3Qj3EdU2+dn0FyPc+EXekY=;
-	b=HoMkYxUVubB/MmPDOdd6qPNeDY95pIZUsVBKr+Xc+5bFzAEvzht84Zoecj8w0ygFekq/AW
-	8j+xAHbW1I3rT4BA==
+	bh=WHjuqHGpzh1Z9uFx0kR/NlpPeEUBMlxQpQJce9ZRerY=;
+	b=3yHb4/89rOK6xlgcpRZLWgtfsNcqgaDi2UPgJHtOqvCmna7FBgGipjH3KgHFt/m8tOIpS/
+	SdLXCsmXq9PowbAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A154D13515;
-	Mon, 31 Aug 2026 08:04:24 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 167E313515;
+	Mon, 31 Aug 2026 08:06:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 79oiJog1lWqveQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 31 Aug 2026 08:04:24 +0000
-Date: Mon, 31 Aug 2026 10:04:24 +0200
-Message-ID: <87h5kasol3.wl-tiwai@suse.de>
+	id BmHuA+s1lWqcewAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 31 Aug 2026 08:06:03 +0000
+Date: Mon, 31 Aug 2026 10:06:02 +0200
+Message-ID: <87ecfesoid.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Will Porter <mrwillporter@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,	Jaroslav Kysela <perex@perex.cz>,
-	"Geoffrey D. Bennett" <g@b4.vu>,	Asahi Lina <lina@asahilina.net>,	Chris J
- Arges <chris.j.arges@canonical.com>,	Nick Kossifidis <mickflemm@gmail.com>,
-	Detlef Urban <onkel@paraair.de>,	Roy Vegard Ovesen
- <roy.vegard.ovesen@gmail.com>,	fenugrec <fenugrec@mail.com>,	Frederic Popp
- <frederic.l.popp@t-online.de>,	=?ISO-8859-1?Q?C=E1ssio?= Gabriel
- <cassiogabrielcontato@gmail.com>,	Shipei Qu <qu@darknavy.com>,
-	linux-sound@vger.kernel.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] ALSA: usb-audio: guard device-specific control transfers
-In-Reply-To: <20260827232143.149197-1-mrwillporter@gmail.com>
-References: <20260824230302.27965-1-mrwillporter@gmail.com>
-	<20260827232143.149197-1-mrwillporter@gmail.com>
+To: Zhang Heng <zhangheng@kylinos.cn>
+Cc: tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Add quirk for Lenovo Yoga Slim 9 14ILL10
+In-Reply-To: <20260828101704.354406-1-zhangheng@kylinos.cn>
+References: <20260828101704.354406-1-zhangheng@kylinos.cn>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -94,85 +87,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
 X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 2569622340
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.994];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,mail.com,t-online.de];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,b4.vu,asahilina.net,canonical.com,gmail.com,paraair.de,mail.com,t-online.de,darknavy.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo,kylinos.cn:email]
 X-Spam-Flag: NO
-X-Spam-Score: -2.01
 
-On Fri, 28 Aug 2026 01:21:37 +0200,
-Will Porter wrote:
+On Fri, 28 Aug 2026 12:17:03 +0200,
+Zhang Heng wrote:
 > 
-> Takashi confirmed that hardware access through usb_ctl_msg() should hold
-> snd_usb_lock, and suggested guarding scarlett2_usb() as the central point
-> for Scarlett2. This series adds that protection to the six device-specific
-> paths identified by the RFC audit.
+> The Lenovo Yoga Slim 9 14ILL10 (83CX) uses ALC287 with CS35L56
+> amplifiers. Without a matching SSID entry the bass speakers stay silent.
+> Add PCI SSID 17aa:380b (codec SSID 17aa:3905) to apply
+> ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN.
 > 
-> Each guard covers a complete synchronous USB transaction. The guards are
-> outside private data and USB mutexes when a resume callback could affect
-> lock ordering.
-> 
-> FCP holds one reference across its complete initialization sequence so
-> runtime suspend cannot intervene between step zero, notification-URB setup,
-> and the two initialization commands.
-> 
-> Scarlett2 uses a dedicated unguarded helper only for the suspend-time config
-> save. That call already runs inside the USB suspend callback. The guarded
-> path covers normal controls and hwdep operations. The series does not claim
-> to hold a PM reference across Scarlett2's asynchronous flash-erase interval.
-> 
-> The affected devices were unavailable for runtime testing. I reproduced the
-> failure mechanism with an Audient iD14 MkI mixer path before the RFC. I then
-> built the complete sound/usb/ directory with the configuration from the
-> running x86-64 distribution kernel (7.2.0-ogc4.1.fc44.x86_64):
-> 
->   make olddefconfig
->   make -j4 W=1 sound/usb/
-> 
-> All six changed objects compiled without warnings, and the build linked
-> sound/usb/snd-usb-audio.o. The series also passes scripts/checkpatch.pl
-> --strict with no errors, warnings, or checks.
-> 
-> Link: https://lore.kernel.org/r/20260824230302.27965-1-mrwillporter@gmail.com
-> 
-> Will Porter (6):
->   ALSA: usb-audio: Add PM guard to Studio 1810c controls
->   ALSA: usb-audio: Add PM guards to US-16x08 transfers
->   ALSA: usb-audio: Add PM guard to Scarlett meter reads
->   ALSA: usb-audio: Guard Scarlett2 protocol transfers
->   ALSA: usb-audio: Add PM guards to RME Digiface controls
->   ALSA: usb-audio: Guard FCP protocol transfers
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=221902
+> Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
 
-Applied all patches now.  Thanks.
+Applied both patches now.  Thanks.
 
 
 Takashi
