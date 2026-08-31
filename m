@@ -1,237 +1,183 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013031.outbound.protection.outlook.com [52.101.72.31])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446C652ED46;
-	Mon, 31 Aug 2026 14:01:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C888481FA0;
+	Mon, 31 Aug 2026 14:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184897; cv=fail; b=XdMF2iOodEyVy3dAaJsqC+NaRQJwv8+1PU0QHjSKsymTacIBpxN8mM3jKJC8HPwjUXmR8ZjNkoT+1lDagSydMUiZ2wOv84yib4/Q8itNFe833JplTIb6JDccPnel/A9HHWq+O5yZH18hY6KRmllRMCpFBF7wH1D5QghGS1y0/MA=
+	t=1788184934; cv=fail; b=RYiuYGAIyPJEsLp1xjaXQxlEojANvZRJKJOF3QxA6sUJKzvGXpYDCqp6B/GsX71GmLmOXzBhHsmri3PWu/9MGK6hSwVM4MaFYuUgeF3MY6mtRVMgvcX7A8EiRVdi9V78WnBB8MATLNFfpxEiI9pr93szDAXEVxYvkRHDD5nYKzc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184897; c=relaxed/simple;
-	bh=8pey+3pSmgTA0ZLiJO0GucuKnLOyGboFVHSgeGfUzLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JZGPb798reuA/uZYBzC6MJGQDXrAKH+5iF/1uSmAU7yfy8F3NbeXtmprv0GWMwGcMRAi//fPcDb/gupzDXpjmGaLxgvaIk5oZRIPMCk9tgSADwuXI34EwHi2WKQEtmnW72TT7wUa3eyEHLDGwzlEu9sjWKEt5Vh8wojndqJH11g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=bZHvh3Rw; arc=fail smtp.client-ip=52.101.72.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1788184934; c=relaxed/simple;
+	bh=FfGY/hgv+DPvGSUs/06PYkfBgrql3SCMtbnTRFMsohc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Db7zu3qzsOX/LQ1s6OAaM95yPk61HessczPxbUziLfptbxboHxxWOEnwjzhB5WXxh5M6z+l4BfQA5WhDo904Kj0CF3O6Ot5QmERNCSLn7Sp8uvrGuvHhhAZ/9Qxxn6QHD1yY0JbNVn1dnsy0VUFY5St8nbC/8v8o/XRiUJBbOfM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EOkLqWbC; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=wvMOM448; arc=fail smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="bZHvh3Rw"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EOkLqWbC";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="wvMOM448"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67V5RRQT1516251;
+	Mon, 31 Aug 2026 09:02:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=k9pOoUE1LWzRDMcq
+	XbjqLM3beqsaO2OZwmlV17b8sJM=; b=EOkLqWbClg4JXRySvuE40cALj3x9hTS8
+	Dj23lSb6aI7txBVRdkbHKgBHc8DqxpIYozW/GO1bWXmuVGm8UGKv02nDkQML0BxC
+	YaoUtS3irsQ453TIFdVyMMKbf8z1x+3GzU/3FYXtLAghzS97rLHWmr1KnQH2PHRN
+	/53jeqBkQzlV0geaEzmzpd0e5uqUTjTd1b3NqWHT7mkfPJQSlzMWizAm7sZgU4pW
+	RyprvouZ4ZDfwe2xOkX9jlzXN5GBc9YbBTuBNYDYQ6HGuQns8gtVCTf8R2m5mXif
+	whUU1SD4ChV5MHbMkONJKqEoVfrA2HJxbwTs74iVwQU28ZXP7ijxGg==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11020074.outbound.protection.outlook.com [52.101.61.74])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4gbvtyt69r-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 31 Aug 2026 09:02:06 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PTxXdwfaix5jI4RAv4vWsQ1K5me2W4vt7TbdJqyetfJWyo6UounxgZWtZ09M487RQ19kspib0sn81cbFwqTboPQ5KVNOcSUkVJApGnAphk7rmLZJ+x/hXXbbJG9jKClGgewvgLLyd27nLpIiHZDjsY4iZ1iSWoesASJuRB5GxDAmoHt2CL5wC824+rEnpi7GuKP0nPtlf7S4eVpQ68Q7RIJLXn2K+tzdNtJ3wc/Ws46ehdnovdOiOxxOXlANc9vpyDAzunL5Sl6KRRLPPb17q5p+VGqE3u2IVuwNHOg/XiE/hKUT8/n07EseDaTRGkpy4Iiuf558yigAsKTe6dThDg==
+ b=sCGAax4b6wndYUXJWqWiSF1pLGOToJFqEHduNZPc+RDt02a9P/tyvW7KSSJ6W0EoMOCADUY4or2asL9C8xgkgBk0n/b7lay44LyqwhEWVmY6N5X971VoyyWYWakFLvzGUda1kCm8zaDHjn+BAU4l8+UU2oOW48yrwSH/eMriA9NQF9ag99VkPjQ+LnkyhQ7Orc+qyx+R1A5urcVbqTF0wT4WLuPHUB1Z1DvN98Fx5GVIwRdS4erXyxs9WBaXj4hXLFSrGhN42FfNqqEHq4V84Vzm49m/fwd+xUHmJoqdfQP7plIeUwSAOsOgXpFBO0joKIovDJeq/2Wuc6qSH6kMNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=w5j6cX9aQpWckUrkXpGzk+3puZNHRCaENq65S6Hd53k=;
- b=wpttS1v9Um4Btifbqg8LedJcwx7ENLtZxkNB+jFIL6ZKz/U88h66VBuCjd9pf4gAyGkifI3R2o2cMGP8S7kxgi0Vy/Cg2bd22Dc85jgXsQjQ+GGruFutA9PIPIiVYN4RyYhgu1gzh8pWmls9riJBtut4GGTOGUzWeOfJAUvhdh2JsA7HJgCoMJObbuLaZS+4j1UeT+zG5RtC7yzIQrFdJv6yFVP2MSA1k+w/P6KIGOCqp+VwzCOesKRMYpz+ibSQaC5g9zAa6QsAKdRXvCJhKNWkmGUcJtgU6/tvf3R0I1gIzN09mmj+cqj+Y9RLLPXWL/LixNGWWsHXAvyPSdLmqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.87) smtp.rcpttodomain=analog.com smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
+ bh=k9pOoUE1LWzRDMcqXbjqLM3beqsaO2OZwmlV17b8sJM=;
+ b=OMuIcCxCe8DVIFSGtWLdMjxUeP+LqXWt1eD/i2w7KZO6KiREkoqE7/PVTqoicug/2MD/saZK/zpwn+CK7rXHkyz+JgHCGuWYRg+oKWdFRpnJ4HAhTaaQoHKWw3a3TftA1yqpwzAGngevx+QyVdic+s47H55fdBRQYi6KG1weMZ5g1X5keyUF+sQGCR3YQtVXr97XM5C+juhN7B/sH5ejnZzH9POkjdCfePUoPD3Mlr6Y0AWfM77IwDarXlEov+C4LiqMf8V4MjAhwcdSihO/LRnsUFpzQbcccKUXP1bYrS/r3ZwWmfKQn7+8FW/8iPkuYW3rxm7PSk1a2NtoFxM4TQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w5j6cX9aQpWckUrkXpGzk+3puZNHRCaENq65S6Hd53k=;
- b=bZHvh3Rwx4uTs0sNaUlPfPRXrcBSxlN7XPziAiJKwRbatJHAK9JqKMka8GPwVF6krhdh9aHCwyF8BsDbWGsC6dvkYnJ+g+radCTbQogbxJzLWuWYicXvvWA72O873qSLwupDSklFUbcdrq1lkDLx2b+t2NvnxBH4/Iy5rENkYhsW/9QNbfLUVJoNiDSoq1olVDv0Z0jBFmTJP6mQ6ppRw2pr5fjieFekbwkNaQHO8RAloeWHEhBGylF6M4Pxj7et/k2Y0Ns6hQrha0Oa9tbAKxPSGn8s6UAN/WPjHcnVuIslE7NAo8jVVZaawrHP6c6q5Rjy3GE6vGExTU/+79sqNQ==
-Received: from DB9PR02CA0013.eurprd02.prod.outlook.com (2603:10a6:10:1d9::18)
- by VI0PR10MB8762.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:234::18) with
+ bh=k9pOoUE1LWzRDMcqXbjqLM3beqsaO2OZwmlV17b8sJM=;
+ b=wvMOM448OZHZ/Jyy5xSObS+CTXB01ljM6wugLTSoKfqeUJf7F+l6lWxezu0Iev1lw/mWAr2eS1FS5JPbBsgzxdjHpwaNrpXfKwpAGQdHLLYJZP0fkByr8Lac2lpavK7D4in1IYK5MU7CcUZa67Z1lqaX4CWgc+ACOC2VDJ/94bc=
+Received: from SA0PR12CA0008.namprd12.prod.outlook.com (2603:10b6:806:6f::13)
+ by DS2PR19MB493324.namprd19.prod.outlook.com (2603:10b6:8:404::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
- 2026 14:01:27 +0000
-Received: from DB1PEPF000509EB.eurprd03.prod.outlook.com
- (2603:10a6:10:1d9:cafe::73) by DB9PR02CA0013.outlook.office365.com
- (2603:10a6:10:1d9::18) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 14:02:03 +0000
+Received: from SN1PEPF00036F42.namprd05.prod.outlook.com
+ (2603:10b6:806:6f:cafe::90) by SA0PR12CA0008.outlook.office365.com
+ (2603:10b6:806:6f::13) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Mon,
- 31 Aug 2026 14:01:27 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.87)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.87 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.87; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.87) by
- DB1PEPF000509EB.mail.protection.outlook.com (10.167.242.69) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.3 via Frontend Transport; Mon, 31 Aug 2026 14:01:26 +0000
-Received: from ENXDAG1NODE4.st.com (10.75.129.197) by smtpo365.st.com
- (10.250.44.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Mon, 31 Aug
- 2026 16:03:24 +0200
-Received: from [10.48.87.20] (10.48.87.20) by ENXDAG1NODE4.st.com
- (10.75.129.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Mon, 31 Aug
- 2026 16:01:24 +0200
-Message-ID: <eb9fa2ed-e59d-4ad4-9218-f7473ceb9f9b@foss.st.com>
-Date: Mon, 31 Aug 2026 16:01:24 +0200
+ 31 Aug 2026 14:02:03 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ SN1PEPF00036F42.mail.protection.outlook.com (10.167.248.26) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.8
+ via Frontend Transport; Mon, 31 Aug 2026 14:02:02 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id DF359406544;
+	Mon, 31 Aug 2026 14:02:00 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id C9827820247;
+	Mon, 31 Aug 2026 14:02:00 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: lee@kernel.org, vkoul@kernel.org
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+        linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        mfd@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] Add SoundWire detach helper
+Date: Mon, 31 Aug 2026 15:01:55 +0100
+Message-ID: <20260831140157.1736905-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/9] dmaengine: stm32-dma3: Use bus width capability
- helpers
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-	<linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-iio@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>, <linux-spi@vger.kernel.org>
-CC: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, "Lars-Peter
- Clausen" <lars@metafoo.de>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Jonathan Cameron <jic23@kernel.org>, "David
- Lechner" <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
-	"Jaroslav Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Mark Brown
-	<broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>
-References: <20260831-dmaengine-support-wider-dma-masks-v3-0-507d97496f2d@analog.com>
- <20260831-dmaengine-support-wider-dma-masks-v3-5-507d97496f2d@analog.com>
-Content-Language: en-US
-From: Amelie Delaunay <amelie.delaunay@foss.st.com>
-In-Reply-To: <20260831-dmaengine-support-wider-dma-masks-v3-5-507d97496f2d@analog.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To ENXDAG1NODE4.st.com
- (10.75.129.197)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509EB:EE_|VI0PR10MB8762:EE_
-X-MS-Office365-Filtering-Correlation-Id: eb58c925-3e9f-4bab-47dd-08df07685954
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F42:EE_|DS2PR19MB493324:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: ce12d946-9519-4221-1425-08df07686ebd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|1800799024|23010399003|7416014|376014|10067099003|6133799003|22082099003|56012099006|4143699003|5023799004|18002099003|11063799006;
+	BCL:0;ARA:13230040|34020700016|82310400026|36860700016|23010399003|61400799027|376014|10067099003|16102099003|18002099003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	pIJ/rHjc4eUp3uziMcdO0FED3+SEBVMVBHuANIHEff2xvTSpOhXC6jUVqbkwVVn+8chEixyYuPywRZZv75AcVXXbKRFfBwc3uRgQPJThxtEA+xMQ3jh0demRQlTriEXszYJUlWEijyY/6MrKUEYYWbh5YYdBbuG/fP3C7+XevjM4VeZymNwDd6q/TPgKbAJs1uQcMT90dHmlkp0EAfyqDbyU17JoHtcndyP1aFlhkh2NUD8XRXiTqplvsWB0mkXnOT5UaBHI59tqeJ7gpvHTRhzMAVc7cF6xifczOQbMlYFGrPWdtH94yfsuCGPZkAT/ezp3ThsZJ32y6EIfpyJ5FIDKbb8jK9aA0PBpOxdRZOTL1swdDdjEqfFBNvnnxtLOVCW3dAde4Q/ovi3zi4RQ4m866qbuFDdKT1PDf/rV5j3a8PnzEhVwj5K2tMPnO/6E9kjbrRscKlN9zdoWYt7ipKbbqzKY9gUcwdFD6p3lRPZBx7uVF9CsCIo+uv86yNKYtxr1LA5m0rbrSKdZ90eiaO/oxKtL+1mdkN+jIz9C9q9z+FzvXK1Z/Sp2afUQlHQAqMo6o7SgS9tJeY9h2rSCmE+W5BDdJR8ByOiO1QFMnfOMYEB8C19jt3ecZ017tP8NlIoerrFqLTK7WrdF/mQRbXabLN//LPKql3KIXXkmVXJE1tjzrorIZCYLc+59n9KzL0g5OZebBUNAXw7qRKlVeg==
+	TmNTZDjtZLJP4kDobmx1Xopa96RUtc0WJyKNTOsUG+y4cH8NsMhNXN76aLcJ5ZeWboaebk/8i8rS7nOOR7UsavQoz4absoQ50lKi2GtWVuFiTTwzZlK8lQb7WD8mm3pphvNH6F74dKGQZStmriz602ymQ6bT13Ja4hv9UPVnWA/MxdKnaxulhoeAhmAwFJPSwUb4O7cQZlIow5P0IQBH1Pe6vosD03SB7LPDedUZub5GZcq5JEoElnXjxokiE+Gy3pjkfYNAjgxzAPBl6VOcVDJkZC5Bz+ZiV/IILTlNr4kh/6CvcsgGhHvFpWLJRyZo6124MWXPqp0CwZMCX9yyhxWFNKbLyg0cFDKuf4+AZOmv+dXX2YUKwOIYCYrcf+keGFzDm0BdV5bhl86RKBjHapp2A92goAaybZpKCtOrXZJEDeNXoXohPHhMoDvgHpy1SFR06GqTkgM/Q2cHqtweKB5H6izK/UOG29KG2TNho8EX/55KHjhyO/mDG34R0GgyHrJZx5GejbSzTMZrZ8UIZsX//Lw8lJDnvKG2Jj+ImjBB65YUZMfTRoSbtSkZhaUEHZ+BHVlahY/o2QLEtbtA8KmQVj108Kz1xYixsEJ6/uG31RLUY7Bqp/x3ik+0stVkH8gFfTGIF7wrS5927NY58+uRyAMP1QvogO/I7uK4jeTg8p7pr5903o/fqjcO7TtZrqZeWNcWGRrQjEkkERfyyg==
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.87;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(1800799024)(23010399003)(7416014)(376014)(10067099003)(6133799003)(22082099003)(56012099006)(4143699003)(5023799004)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(34020700016)(82310400026)(36860700016)(23010399003)(61400799027)(376014)(10067099003)(16102099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	lQ5J6/XuSl7bmwg0CHTWGaAPqk1Ep5MrJV83Qsav5vUkYbJtdaNgX8BxntTyF56qX66/6CT5vY1IZtHQ7OPQTT0w05dndPXd6AfNlWHQNWcRjc2BDb0ruFPHJOREIhDlHK0dqPGbNGhuUrEU9fNfEcw0tlD5WCFINXLu77x8Zl2CY0rGciNMilxv3tO4z0FOVvl1EkuLhnfB0hxflEhyvX1AhsoehU7r3bTyzWITfNlFVn6GCQenJD+2HKodzShO2nbJstIxHJcdgCeLr3O3so6aCrzinDxJk9MrDuUBp14ssuKfDwEXGLEXtCg8oJRL2TgwrlqMoR8n0lI4eGAVYNJBwB/8AlIXXxxrEPeZA4U6gfErrH2nruqsAglOaM0mIZ9aXFs05XuRRQKyaJigu59N6swGhJNCXX+vLyVx6PSg1AYWWyzUy2TojL+nQv0a
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 14:01:26.5344
+	nsCIx4VtuSReKZf4Y92JLB93FkYj3q6SsWKcIPaACEjAauM8oURg4+WLehhIqrHwFYlGsUliQCnShfN16jLspAUOHytaZHgwSnHFXpAxwO7jfJHn9aSQE+kCeo6GA97FbdpTrSDPGK6WhqvrsTXdMDeQ0MT6E9pIwFo7D6SN9yNYrFib5PmbdsCf4Zqu2QEqZp/kE3ld0qDLBGN0hVGRs6L/P1Oj8HaP03o1qjJ01A+fXO2dvbwsknw4xk5jd2ZO9T4f8Koxc4ZgJhTxdHZUZQy1cdGpcLUWEQUsIxlPLNA4Q4jskm8HfI4+w5t+cVq1jG7+Fnq9xOV51SuZQj1AHz+Cb/uss9LyLR7w6f+QxIAkbO199jRs/DKiIX8TTpHKEJ8E+cEnE3GAkMIsLlcLRfKs6nUi2joLUUI15cpeqPHofgULi+22fOPZZxelflvT
+X-Exchange-RoutingPolicyChecked:
+	NIUIvlUweHC8xr4UMpe4DOICk34HDsXyA4joQfMY93gGRtsLZOFr/l1ajYgx3PG8t6vJtqHy6jMT8+m9XcqZFvnGmX0AGiyVEhvdFTkglrp4N5St8O2Mus3a5uJgEikaFmunMxb6iqG7PLc1C9Sp3mOfjrG8jGtuT5tJiNKe2kCUs2jWz11/LvZ7wrGHnkxBLtRKuvfnk/aVZ3Xtly+liMAUDiZTdfLg73TFQ1MI+Vt4L/2HWpvnxMze95hCnEjQkXqD2OcRekTidX09TKhqvoaBHemrA0lIVohoqA/dIRohqfZLJqz527RcH3sy8WuGRGPRaHu19bb7nZPzgMw3Ug==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 14:02:02.3042
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb58c925-3e9f-4bab-47dd-08df07685954
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.87];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB1PEPF000509EB.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce12d946-9519-4221-1425-08df07686ebd
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SN1PEPF00036F42.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR10MB8762
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR19MB493324
+X-Proofpoint-GUID: OG3YUK7Mza7JrgGZ0jUClQubmb2defGs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMxMDEyMSBTYWx0ZWRfX2N1TNHXAruGU
+ wOGH7kYQ6NGvzRp5IC4J7DcC0e5DNqpLkbods2lRwpOPLl8l0710HnK3TKAzdOMOmstoZq/AVhn
+ KTCd3INZV4Z4N6K1KPmyrtBoKHLizIem1JbfdYqWH396SQsEOL3YcT57MgdlwOyqIkh6X9WTxB1
+ 7jyMET6VFG36cTgR2T3uHsZGpbpN5zW41iEcRHCuFc0NbsAnHoiIauDuwIFeyO403iqkc/VTRsv
+ j9h+tmg6f6AiGa62pUTvb5pmdJIyxndMVw8mUzP6fouvQdpBoAYvKCTqCvX/lhB98q4LTd261oR
+ Ii2lzRfk/X/XtM4K8laH6JunBYrc7kdPZeXlcnM6o7euw7fMpVCHd9Yyt2AvkWXus4bvxjukKvO
+ uf1teOsrr/fzigEDtP5hE2PzXyG2E+xXkTlekD6wC+9LG29Q/wUIbveyQiYJf8Kol18zg7X0PUQ
+ HYG8shPYBLvRbFDxd9w==
+X-Authority-Analysis: v=2.4 cv=LcMMLDfi c=1 sm=1 tr=0 ts=6a95895e cx=c_pps
+ a=yYy2G489n0tWBFeUj/OB0w==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
+ a=VwQbUJbxAAAA:8 a=w1d2syhTAAAA:8 a=cZtL-XUxLnsMaWc3fMoA:9
+X-Proofpoint-ORIG-GUID: OG3YUK7Mza7JrgGZ0jUClQubmb2defGs
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODMxMDEyMSBTYWx0ZWRfX4ek8GYSoAg5e
+ hrVRMayEbbTty2JIZ1CENZ++SuuFaNzg/iTaM94jV/UNwUHlpOfqgqLjoLAytK0eVSSKdrFNVpQ
+ bcZCKblnnkC56OxvLhEEFV4QVj/P52E=
+X-Proofpoint-Spam-Reason: safe
 
-Hi,
+Currently, if a SoundWire driver takes an action that causes the device
+to detach from the bus it needs to be careful. There will be a period of
+time until the detach is recognised by the core, if the driver
+immediately
+calls sdw_slave_wait_for_init() it is possible for that to complete
+before the detach has been recognised. Leaving the driver with a device
+that is potentially not ready for what follows.
 
-Thanks for the updates!
+To avoid this race add a new helper that drivers can use to inform the
+core the device will detach. This clears the enumeration completions
+ensuring that sdw_slave_wait_for_init() can't complete until the device
+re-attaches.
 
-On 8/31/26 13:46, Nuno Sá wrote:
-> Advertise the controller-wide bus width capabilities through the new
-> dma_bus_width_set_many() helper and clear the per-channel unsupported
-> widths through dma_bus_width_clear().
-> 
-> While at it, validate the requested transfer bus widths against the new
-> capability mask instead of the legacy u32 one. Besides not depending on
-> the legacy field anymore, this also stops BIT() from being fed a bus
-> width coming from the device tree without any bound check.
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> ---
->   drivers/dma/stm32/stm32-dma3.c | 34 +++++++++++++++++++++-------------
->   1 file changed, 21 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/dma/stm32/stm32-dma3.c b/drivers/dma/stm32/stm32-dma3.c
-> index 4724e7fa0008..0689aeb7cff5 100644
-> --- a/drivers/dma/stm32/stm32-dma3.c
-> +++ b/drivers/dma/stm32/stm32-dma3.c
-> @@ -9,6 +9,7 @@
->   #include <linux/bitfield.h>
->   #include <linux/clk.h>
->   #include <linux/dma-mapping.h>
-> +#include <linux/dma/engine/widthmask.h>
->   #include <linux/dmaengine.h>
->   #include <linux/dmapool.h>
->   #include <linux/init.h>
-> @@ -588,7 +589,8 @@ static int stm32_dma3_chan_prep_hw(struct stm32_dma3_chan *chan, enum dma_transf
->   	dbl_max = chan->dma_config.dst_maxburst ? : 1;
->   
->   	/* Following conditions would raise User Setting Error interrupt */
-> -	if (!(dma_device.src_addr_widths & BIT(sdw)) || !(dma_device.dst_addr_widths & BIT(ddw))) {
-> +	if (!dma_bus_width_test(dma_device.src_bus_widths, sdw) ||
-> +	    !dma_bus_width_test(dma_device.dst_bus_widths, ddw)) {
+This is the third part of a longer series of moving these slave
+attach/deatach operations into the core:
 
-Just to come back to one point you mentioned in your cover letter, "this 
-stops BIT() from being fed an unvalidated device tree bus width". Here, 
-sdw and ddw are set either by dma_config.[src|dst]_addr_width, or forced 
-to DMA_SLAVE_BUSWIDTH_4_BYTES or DMA_SLAVE_BUSWIDTH_8_BYTES depending on 
-the channel capabilities. So, unless I'm missing something, they do not 
-come from an "unvalidated *device tree* bus width".
+https://lore.kernel.org/linux-sound/20260512103022.1154645-1-ckeepax@opensource.cirrus.com/
+https://lore.kernel.org/linux-sound/20260608102714.2503120-1-ckeepax@opensource.cirrus.com/
 
-Anyway, it's great to see another use of the new API.
+I have based this series off Vinod's soundwire tree as that probably
+makes sense for which tree to take it through.
 
+Thanks,
+Charles
 
->   		dev_err(chan2dev(chan), "Bus width (src=%u, dst=%u) not supported\n", sdw, ddw);
->   		return -EINVAL;
->   	}
-> @@ -1469,14 +1471,14 @@ static void stm32_dma3_caps(struct dma_chan *c, struct dma_slave_caps *caps)
->   
->   	if (!chan->fifo_size) {
->   		caps->max_burst = 0;
-> -		caps->src_addr_widths &= ~BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
-> -		caps->dst_addr_widths &= ~BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
-> +		dma_bus_width_clear(caps->src_bus_widths, DMA_SLAVE_BUSWIDTH_8_BYTES);
-> +		dma_bus_width_clear(caps->dst_bus_widths, DMA_SLAVE_BUSWIDTH_8_BYTES);
->   	} else {
->   		/* Burst transfer should not exceed half of the fifo size */
->   		caps->max_burst = chan->max_burst;
->   		if (caps->max_burst < DMA_SLAVE_BUSWIDTH_8_BYTES) {
-> -			caps->src_addr_widths &= ~BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
-> -			caps->dst_addr_widths &= ~BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
-> +			dma_bus_width_clear(caps->src_bus_widths, DMA_SLAVE_BUSWIDTH_8_BYTES);
-> +			dma_bus_width_clear(caps->dst_bus_widths, DMA_SLAVE_BUSWIDTH_8_BYTES);
->   		}
->   	}
->   }
-> @@ -1734,6 +1736,12 @@ static int stm32_dma3_probe(struct platform_device *pdev)
->   	struct reset_control *reset;
->   	struct stm32_dma3_chan *chan;
->   	struct dma_device *dma_dev;
-> +	enum dma_slave_buswidth buswidths[] = {
-> +		DMA_SLAVE_BUSWIDTH_1_BYTE,
-> +		DMA_SLAVE_BUSWIDTH_2_BYTES,
-> +		DMA_SLAVE_BUSWIDTH_4_BYTES,
-> +		DMA_SLAVE_BUSWIDTH_8_BYTES,
-> +	};
->   	u32 master_ports, chan_reserved, i, verr;
->   	u64 hwcfgr;
->   	int ret;
-> @@ -1775,14 +1783,14 @@ static int stm32_dma3_probe(struct platform_device *pdev)
->   	 * channel, and can only access address at even boundaries, multiple of the buswidth.
->   	 */
->   	dma_dev->copy_align = DMAENGINE_ALIGN_8_BYTES;
-> -	dma_dev->src_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
-> -				   BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
-> -				   BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
-> -				   BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
-> -	dma_dev->dst_addr_widths = BIT(DMA_SLAVE_BUSWIDTH_1_BYTE) |
-> -				   BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
-> -				   BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
-> -				   BIT(DMA_SLAVE_BUSWIDTH_8_BYTES);
-> +	ret = dma_bus_width_set_many(dma_dev->src_bus_widths, buswidths, ARRAY_SIZE(buswidths));
-> +	if (ret)
-> +		goto err_clk_disable;
-> +
-> +	ret = dma_bus_width_set_many(dma_dev->dst_bus_widths, buswidths, ARRAY_SIZE(buswidths));
-> +	if (ret)
-> +		goto err_clk_disable;
-> +
->   	dma_dev->directions = BIT(DMA_DEV_TO_MEM) | BIT(DMA_MEM_TO_DEV) | BIT(DMA_MEM_TO_MEM);
->   
->   	dma_dev->descriptor_reuse = true;
-> 
+Changes since v1:
+ - Correct kerneldoc
 
-It looks nicer this way. Thanks!
+Charles Keepax (2):
+  soundwire: Add a helper function to indicate a device will detach
+  mfd: cs42l43: Move to core detach helper
 
-Reviewed-by: Amelie Delaunay <amelie.delaunay@foss.st.com>
+ drivers/mfd/cs42l43-sdw.c     |  2 --
+ drivers/mfd/cs42l43.c         | 15 +--------------
+ drivers/soundwire/bus.h       |  6 ------
+ include/linux/mfd/cs42l43.h   |  1 -
+ include/linux/soundwire/sdw.h | 26 ++++++++++++++++++++++++++
+ 5 files changed, 27 insertions(+), 23 deletions(-)
 
-Regards,
-Amelie
+-- 
+2.47.3
+
