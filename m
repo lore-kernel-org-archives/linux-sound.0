@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7EB441022;
-	Mon, 31 Aug 2026 13:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E1B490BEE;
+	Mon, 31 Aug 2026 13:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183510; cv=none; b=h0tvy9t1E61qIdZD7dbrsWilCzsomRkoIDfS2MGDeJq8b3j5eBFgTXqgxZYPYPfX5QgGnI33DYYi2+m9fdVW1VQZPJ9K8JNBnCAiHP8o1HF9MzuluYtE5K0fhasONaNvcRSNig3Xs0Htcyiex3wzSX41h7PzH5LEhj51kK3K6E4=
+	t=1788183519; cv=none; b=hImEopt8oaFoRzSRe0Cqafszh2P0RiZ1LVsjlx4PfZrqSQCjc1LnqBRWQvlBhc7B8f13YiKY7p61P+wtH5blUEINQN4xjfteb6jlcFnB4VZn3CIO8ScmNsbrNJKBfGiu653ECo/v7wEPQNFRsfIOVZbsNOf1im7gf4sKOYkeKP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183510; c=relaxed/simple;
-	bh=H7O8AFWbYds65BUV2OnQXXQQ0uuAGBp7LCP5ruWOFwg=;
+	s=arc-20240116; t=1788183519; c=relaxed/simple;
+	bh=PQl+2EVsvgICC18dXT3Bn6fY9nFx9i22nzg72qQDowU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CmFApKmj+XX6R7aeCy3wcmta/v7UOuWkfWY9NH5O4+wSLTNpRD8lld4hFgYk4DoN2rwHt1CFB/t+q0FPghXPI7TLKWPeQTAJxCGaBTWQQX7qdqCFlzd80vkIYxBxVMJyhjaA0alsZvGAkZHn6JC3hbWd7J7sPZTgQk0JrP/jy4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hz8X1mGD; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=VrcUIoh/yetgaelxmFoPBuwdiuyKUNrwvY3BBn91gBmNXnIMbcnepQ0lex4yq8arjE9Tum5vop98rd90eILVEELqn4XSjBIvmQIOv43725uyqiIp4z6ld+Mrj/QUFxWYZg0XRb/OQvOKnnBdWOlt63ybch7Zj/KWkoQgo6YuMd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L6tTd4ry; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hz8X1mGD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256981F000E9;
-	Mon, 31 Aug 2026 13:38:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L6tTd4ry"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30D731F00A3F;
+	Mon, 31 Aug 2026 13:38:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183508;
-	bh=NkLywm18i22I7e1PMw/lz0wtuZKA5IybpuX3jse8cns=;
+	s=k20260515; t=1788183516;
+	bh=8OCzv8gHHMhGPGUdxg7OrV/lIV9NbIlPcC62zD6xPjI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Hz8X1mGD9MWjZ/iwCbdo22E+MzvgfsWp0ffTuvjvycuSbbCl+NC57201P82cB0HOc
-	 FhrBOnCZHla6Uy2JMkxfNSLXsE6U70mTF5VG+34wzFJrSG87vpqdJLXdpN5c+lRDVr
-	 oJ/CBKyOSRQZVQLfJzkj9ORDr/n4Xek4y/5etgVL72v0jtB/TITNwSpZq6c/OEvBv0
-	 WV/PzW07LdAmZxgBa4oFy8/ZikijCazXRUZ9LZmbHt0g+pUIFbBrcNnXmhyJApbo/7
-	 Kl4P69uOA+2YI3IvrCW0X0/57/7X5vlgzG7Fp6vE08PLKqO2yuv9OhJyf+0fiu8yeH
-	 R9LywGp0mHYAA==
+	b=L6tTd4rysqk0kSXJZvp0n/2DyCykRL/Z7s37FZK0Iexa0vHrbtV16+rEPiNZ05I52
+	 ZcAR8C7yTg7ndefI24GQsBWXyxt3pxR7leAD7Sdh/G/AyJIA3GUYYpS987zzXcAQhi
+	 4di6ByZgGeLOT6Dg3iv/PSSKa2cprw6ei9fs8PwneCFZTbjs6VZhcZKq9PQ02w5kW2
+	 iqXYg/XO1d7AK6ze1oE5SvfAEnqyhq2b8u8zXTcSLFZNPWeez1SHmn0odi6SevnUwm
+	 Zg0kh80zZjXZ5zGpHdX1mjIoi2yq9VuFMVWDK7Hqh5UGQHPoWeJs6rUOXyHiX9dSgN
+	 QdHZ4yECbHcyA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Viktor Menshin <ripeeerr@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Yousef Alhouseen <alhouseenyousef@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	daniel.baluta@nxp.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	sound-open-firmware@alsa-project.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Add quirk for Lenovo Xiaoxin 14 GT
-Date: Mon, 31 Aug 2026 09:22:46 -0400
-Message-ID: <20260831133314.4125787-138-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] ASoC: SOF: validate probe info element counts
+Date: Mon, 31 Aug 2026 09:22:51 -0400
+Message-ID: <20260831133314.4125787-143-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -54,429 +59,424 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Viktor Menshin <ripeeerr@gmail.com>
+From: Yousef Alhouseen <alhouseenyousef@gmail.com>
 
-[ Upstream commit 3a3e810e91080a5121170ee11554a55ed89a1c8b ]
+[ Upstream commit 95edf2dbb492f3ea2420111e9c0044c7dec9113c ]
 
-The Lenovo Xiaoxin 14 GT (Chinese market model, AMD Ryzen AI 9 365)
-produces constant electrical hissing and crackling noise from both
-internal speakers and 3.5mm headphone jack during audio playback.
-Audio works correctly on Windows.
+Probe information replies contain a firmware-provided element count. IPC3
+uses that count to copy an array, then returns the unchecked count to its
+caller. A short reply can therefore make the caller walk beyond the copied
+array.
 
-The PCI SSID 17aa:3912 is not present in the quirk list. The device
-shares the same AMD platform and ALC287 codec as neighboring Lenovo
-14" AMD models (17aa:3911, 17aa:390d), so apply the same fixup.
+IPC4 similarly uses the count both to allocate the destination array and
+to walk the reply. On 32-bit systems the allocation size can wrap, while on
+all systems an excessive count reads beyond the reply payload.
 
-Note: the fixup selection is based on similarity with neighboring
-models and has not been verified by testing a compiled kernel.
-Guidance from maintainers on the correct fixup is welcome.
+Validate each count against the actual reply size before copying or
+allocating the array, and use kcalloc() for the IPC4 allocation.
 
-Signed-off-by: Viktor Menshin <ripeeerr@gmail.com>
-Link: https://patch.msgid.link/20260615092515.1082-1-ripeeerr@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+Link: https://patch.msgid.link/20260628000329.18606-1-alhouseenyousef@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
-(attempt 1)...
-Retry attempt 1...
-Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
-(attempt 2)...
-Retry attempt 2...
-Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
-(attempt 3)...
-Retry attempt 3...
-# Stable Backport Analysis: ALSA: hda/realtek: Add quirk for Lenovo
-Xiaoxin 14 GT
-
-**Local tree:** `v6.18.44` (Makefile: VERSION=6, PATCHLEVEL=18,
-SUBLEVEL=44)
-
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
+## Phase 1: Commit Message Forensics
 
 ### Step 1.1: Subject Line
-**Record:** `[ALSA: hda/realtek]` `[Add]` — Add PCI quirk entry for
-Lenovo Xiaoxin 14 GT (SSID `17aa:3912`).
+**Record:** `[ASoC: SOF]` `[validate]` — Validate firmware-provided
+probe info element counts before use in IPC3/IPC4 probe handlers.
 
 ### Step 1.2: Tags
 **Record:**
-- **Signed-off-by:** Viktor Menshin `<ripeeerr@gmail.com>` (author)
-- **Link:**
-  `https://patch.msgid.link/20260615092515.1082-1-ripeeerr@gmail.com`
-- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA/HDA
-  maintainer)
-- **Absent:** Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:,
-  Cc: stable@vger.kernel.org
-- **Notable:** No user bug report ID; maintainer sign-off is the
-  strongest quality signal present.
+- **Signed-off-by:** Yousef Alhouseen `<alhouseenyousef@gmail.com>`
+  (author)
+- **Link:** `https://patch.msgid.link/20260628000329.18606-1-
+  alhouseenyousef@gmail.com`
+- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer)
+- No `Fixes:`, `Reported-by:`, `Cc: stable@vger.kernel.org`, `Tested-
+  by:`, or `Reviewed-by:` tags
+- Notable: maintainer sign-off; no fuzzer/user bug report in message
 
 ### Step 1.3: Body Analysis
 **Record:**
-- **Bug:** Lenovo Xiaoxin 14 GT (Chinese-market laptop, AMD Ryzen AI 9
-  365, ALC287 codec) produces constant electrical hissing and crackling
-  from internal speakers and the 3.5 mm headphone jack during playback.
-  Audio works on Windows.
-- **Symptom:** Degraded/unusable audio quality (hissing/crackling), not
-  a kernel crash.
-- **Root cause (author):** PCI SSID `17aa:3912` is missing from the
-  Realtek HDA quirk table; device gets generic handling instead of the
-  platform-specific fixup.
-- **Fix approach:** Apply `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`, same
-  as neighboring Lenovo 14" AMD models (`17aa:390d`, `17aa:3911`).
-- **Important caveat:** Author explicitly states the fixup choice is
-  based on hardware similarity and **"has not been verified by testing a
-  compiled kernel."**
+- **Bug:** Probe info IPC replies include a firmware-provided
+  `num_elems`. IPC3 uses it for `kmemdup()` and returns it to callers;
+  IPC4 uses it for allocation and iteration. Neither path validates the
+  count against the actual reply size.
+- **Symptoms:** Short/malformed replies can cause out-of-bounds reads
+  during copy/iteration; on 32-bit IPC4 paths, `num_elems *
+  sizeof(desc)` can wrap in `kzalloc()`.
+- **Root cause:** Missing bounds check on untrusted firmware IPC payload
+  fields.
+- **Version info:** None stated in the commit message.
 
-### Step 1.4: Hidden Bug Fix Detection
-**Record:** Yes — this is a hardware audio quirk fix disguised as a
-simple table addition. It corrects incorrect HDA pin/DAC routing for a
-specific laptop model.
+### Step 1.4: Hidden Bug Fix?
+**Record:** Yes. Although the subject says "validate" rather than "fix",
+this is a memory-safety bug fix: unchecked firmware metadata can cause
+OOB access and allocation-size wrap.
 
 ---
 
-## PHASE 2: DIFF ANALYSIS
+## Phase 2: Diff Analysis
 
 ### Step 2.1: Inventory
 **Record:**
-- **Files:** `sound/hda/codecs/realtek/alc269.c` (+1 line)
-- **Function/table:** `alc269_fixup_tbl[]`
-- **Scope:** Single-file, single-line surgical addition — classic quirk
-  patch.
+- `sound/soc/sof/sof-client-probes-ipc3.c`: +19 / -4 lines
+- `sound/soc/sof/sof-client-probes-ipc4.c`: +11 / -1 lines
+- **Functions modified:** `ipc3_probes_info()`,
+  `ipc4_probes_points_info()`
+- **Scope:** Small, two-file, subsystem-local surgical fix
 
-### Step 2.2: Code Flow Change
-**Record:**
-- **Before:** Device with PCI SSID `0x17aa:0x3912` does not match any
-  entry in `alc269_fixup_tbl[]`; `snd_hda_pick_fixup()` assigns no
-  model-specific fixup → generic ALC287 handling → hissing/crackling.
-- **After:** Same device matches new entry and receives
-  `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`, which runs
-  `alc287_fixup_yoga9_14iap7_bass_spk_pin()` at probe time to override
-  pin configuration and DAC routing.
+### Step 2.2: Code Flow Changes
+
+**IPC3 (`ipc3_probes_info`):**
+- **Before:** After IPC success, used `reply->num_elems` directly to
+  compute `bytes *= num_elems`, `kmemdup()`, and `*num_params`.
+- **After:** Reads `payload_size = reply->rhdr.hdr.size`, rejects
+  undersized payloads, computes `elem_size`, validates `num_elems <=
+  payload_size / elem_size`, then copies/returns count.
+
+**IPC4 (`ipc4_probes_points_info`):**
+- **Before:** Used `info->num_elems` directly for `kzalloc(*num_desc *
+  sizeof(**desc))` and loop bound.
+- **After:** Validates `info->num_elems` against `msg.data_size`,
+  switches to `kcalloc()`, rejects invalid counts.
 
 ### Step 2.3: Bug Mechanism
-**Record:** **Category (h): Hardware workaround / audio codec quirk.**
-- The fixup corrects pin 0x17 (bass speakers) wrongly reported as
-  unconnected, sets connection overrides, and configures preferred DAC
-  pairs (speakerbar 0x14 + bass 0x17 → DAC 0x02, headphones 0x21 → DAC
-  0x03).
-- Wrong pin routing can cause noise, missing speakers, or incorrect
-  amplifier behavior — consistent with the reported hissing.
+**Record:** **Memory safety / bounds validation bug**
+- **IPC3:** Unchecked `num_elems` can make `bytes = elem_size *
+  num_elems` exceed actual reply payload; `kmemdup()` reads past valid
+  IPC data. If multiplication wraps, a small allocation can be paired
+  with a large returned count, and callers iterate past the allocation.
+- **IPC4:** Unchecked `num_elems` allows loop reads past `msg.data_ptr`
+  bounds; `kzalloc(n * size)` can wrap on 32-bit systems.
 
 ### Step 2.4: Fix Quality
-**Record:**
-- **Minimal and idiomatic** — identical pattern to neighboring entries
-  already in this tree.
-- **Regression risk to other hardware:** Negligible — `SND_PCI_QUIRK`
-  matches only SSID `17aa:3912`.
-- **Regression risk on target hardware:** Low-to-medium — author admits
-  fixup is untested; wrong fixup could leave audio broken or change
-  symptoms, but would not affect any other machine.
-- **Concern:** Symptom on Xiaoxin (hissing/crackling on speakers *and*
-  headphones) differs from siblings `3911`/`390d` (bass speakers not
-  working). Fixup may or may not address hissing specifically.
+**Record:** Fix is obviously correct and minimal. It mirrors the
+existing SOF pattern in `debug.c` (`struct_size(reply, elems,
+reply->num_elems) != reply->rhdr.hdr.size`). Regression risk is very
+low: only rejects malformed firmware replies.
 
 ---
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+## Phase 3: Git History Investigation
 
 ### Step 3.1: Blame
-**Record:**
-- Line 7497 (`0x390d`): present since codec split commit
-  `aeeb85f26c3bbe` (Jul 2025, Takashi Iwai).
-- Line 7498 (`0x3911`): added by `0fa5713ac7a19` (Apr 2026,
-  songxiebing).
-- Line 7499 (`0x3913`): present since codec split.
-- **Missing:** `0x3912` — the gap this commit fills.
-- The fixup infrastructure (`ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`,
-  `alc287_fixup_yoga9_14iap7_bass_spk_pin()`) has been in this tree
-  since at least the Jul 2025 codec split.
+**Record:** Buggy lines in both files trace to commit `5d324e5159d9e` in
+this shallow checkout. The vulnerable logic is present in the current
+tree at `sof-client-probes-ipc3.c:131-144` and `sof-client-probes-
+ipc4.c:251-264`.
 
-### Step 3.2: Fixes: Tag
-**Record:** Not applicable — no Fixes: tag present.
+### Step 3.2: Fixes Tag
+**Record:** N/A — no `Fixes:` tag in the commit message.
 
 ### Step 3.3: Related File History
-**Record:**
-- `8d70503068510` — Add quirk for Lenovo Yoga Pro 7 14ASP10 (`0x390d`,
-  same fixup; had `Cc: stable@vger.kernel.org`)
-- `0fa5713ac7a19` — Add quirk for Lenovo Yoga Pro 7 14IAH10 (`0x3911`,
-  same fixup; backported to this tree with `[Upstream commit ...]`
-  marker)
-- `fceb2a4691215` — Add quirk for Lenovo Yoga Slim 7 14AKP10 (`0x391a`,
-  same fixup)
-- **Standalone:** Yes — single-line quirk, no series dependency.
+**Record:** Repository is shallow (`git rev-parse --is-shallow-
+repository` → `true`), limiting history depth. The probe client files
+exist in this 6.18.44 tree. No duplicate fix found (`grep "invalid probe
+info element count"` → no matches).
 
-### Step 3.4: Author Context
-**Record:** Viktor Menshin appears to be a community contributor (one
-unrelated commit found in tree: `drm/panel` driver). Takashi Iwai
-(maintainer) signed off, indicating subsystem acceptance.
+### Step 3.4: Author History
+**Record:** No prior SOF commits from Yousef Alhouseen found in this
+tree. Mark Brown is ASoC maintainer (sign-off).
 
-### Step 3.5: Prerequisites
-**Record:** None. `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` and its fixup
-function already exist in this tree. Patch inserts cleanly between
-existing `0x3911` and `0x3913` entries.
+### Step 3.5: Dependencies
+**Record:** Standalone fix. Uses only existing headers (`offsetof`,
+`kcalloc`). No series dependency indicated. The commit is not yet
+present in this checkout.
 
 ---
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+## Phase 4: Mailing List and External Research
 
 ### Step 4.1: Original Discussion
-**Record:** UNVERIFIED — `b4 dig` requires a commit hash (not available
-in this tree); lore.kernel.org and patch.msgid.link returned 403/bot-
-protection. Could not read review thread.
+**Record:** UNVERIFIED — `b4 dig` could not match the commit (not in
+local repo). WebFetch to patch.msgid.link and lore.kernel.org returned
+bot-protection pages (403/JS challenge). Could not read review thread.
 
 ### Step 4.2: Reviewers
-**Record:** UNVERIFIED — `b4 dig -w` not possible without commit hash.
-Takashi Iwai maintainer sign-off confirmed from commit message.
+**Record:** UNVERIFIED — `b4 dig -w` unavailable for this commit.
 
 ### Step 4.3: Bug Report
-**Record:** No Reported-by, no bugzilla, no syzbot. Issue described only
-in commit message by the patch author (who owns the hardware).
+**Record:** No `Reported-by:` or syzbot link. Issue identified by code
+inspection of firmware IPC parsing.
 
 ### Step 4.4: Related Patches
-**Record:** Direct siblings `0x390d` and `0x3911` use identical fixup;
-`0x3911` commit included bugzilla #221317 and confirmed
-`hda_model=alc287-yoga9-bass-spk-pin` workaround. Xiaoxin commit lacks
-equivalent verification.
+**Record:** UNVERIFIED — could not retrieve series revisions from lore.
 
 ### Step 4.5: Stable List History
-**Record:** UNVERIFIED — lore stable list inaccessible. Precedent in
-*this* tree: `0x3911` quirk (`0fa5713ac7a19`) was backported here.
+**Record:** UNVERIFIED — lore stable search inaccessible.
 
 ---
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+## Phase 5: Code Semantic Analysis
 
 ### Step 5.1: Key Functions
-**Record:** `alc269_fixup_tbl[]` (modified),
-`alc287_fixup_yoga9_14iap7_bass_spk_pin()` (invoked via fixup chain),
-`snd_hda_pick_fixup()` (selector).
+**Record:** `ipc3_probes_info()`, `ipc3_probes_points_info()` (wrapper),
+`ipc4_probes_points_info()`
 
 ### Step 5.2: Callers
-**Record:** `snd_hda_pick_fixup(codec, alc269_fixup_models,
-alc269_fixup_tbl, alc269_fixups)` called from ALC269 codec probe path
-(`alc269.c` ~line 8471), during HDA codec initialization on every
-matching Realtek device probe.
+**Record:**
+- `sof_probes_compr_shutdown()` in `sof-client-probes.c:78` —
+  compressed-stream shutdown path
+- `sof_probes_dfs_points_read()` in `sof-client-probes.c:227` — debugfs
+  read path (root-accessible)
+
+Both invoke `ipc->points_info()` from the IPC ops table.
 
 ### Step 5.3: Callees
-**Record:** Fixup calls `snd_hda_apply_pincfgs()`,
-`snd_hda_override_conn_list()`, sets `spec->gen.preferred_dacs`, and
-chains to `hda_fixup_ideapad_acpi()`.
+**Record:** `sof_client_ipc_tx_message()`,
+`sof_client_ipc_set_get_data()`, `kmemdup()`, `kzalloc()`/`kcalloc()`,
+`sof_client_get_ipc_max_payload_size()`
 
 ### Step 5.4: Reachability
-**Record:** Triggered automatically at boot/module load when the HDA
-codec for SSID `17aa:3912` is probed. No userspace action required.
-Affects only owners of this specific laptop model.
+**Record:**
+- Trigger requires `CONFIG_SND_SOC_SOF_DEBUG_PROBES`, auto-selected on
+  Intel HDA (`SND_SOC_SOF_HDA_PROBES`) and AMD ACP
+  (`SND_SOC_SOF_ACP_PROBES`) SOF platforms.
+- Malformed `num_elems` must come from SOF firmware IPC replies during
+  probe point enumeration.
+- Not a direct unprivileged syscall path, but reachable during normal
+  audio probe shutdown and root debugfs use when probes are active.
+- Precedent: `sound/soc/sof/debug.c:227-231` already validates similar
+  IPC `num_elems` against `rhdr.hdr.size`.
 
 ### Step 5.5: Similar Patterns
-**Record:** At least 6 Lenovo models in this tree already use
-`ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` for the same AMD 14" platform
-family. This is an established pattern, not experimental code.
+**Record:** `debug.c` already validates IPC element counts; probes code
+was missing equivalent checks. `ipc3-control.c` uses overflow checks for
+control data sizes.
 
 ---
 
-## PHASE 6: CROSS-REFERENCE AGAINST LOCAL TREE
+## Phase 6: Cross-Reference Against Local Tree
 
 ### Step 6.1: Buggy Code Present?
-**Record:** **Yes.** `0x3912` entry is absent; neighbors `0x390d` and
-`0x3911` are present at lines 7497–7498. The ALC287 fixup infrastructure
-is fully present. Hardware is contemporary (2025/2026) and plausible on
-6.18.y.
+**Record:** **Yes.** Local tree is **v6.18.44** (`6.18.44`). Vulnerable
+code is present; fix is **not** applied. Confirmed by reading current
+sources and absent error string `invalid probe info element count`.
 
 ### Step 6.2: Backport Complications
-**Record:** **Clean apply expected** — one-line insertion between
-existing entries at the same location as upstream diff. No structural
-divergence at the insertion point.
+**Record:** Expected **clean apply** — current file contents match the
+patch base context exactly.
 
 ### Step 6.3: Related Fixes Already Present?
-**Record:** No existing `0x3912` entry or Xiaoxin quirk found. The
-identical fixup for siblings `390d`/`3911` is already in tree.
+**Record:** No equivalent validation found in probe IPC files. `debug.c`
+has similar validation for a different IPC path only.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## Phase 7: Subsystem and Maintainer Context
 
-### Step 7.1: Subsystem Criticality
-**Record:** **sound/ALSA HDA Realtek** — IMPORTANT (affects laptop audio
-users) but PERIPHERAL relative to core kernel; config- and hardware-
-specific.
+### Step 7.1: Subsystem
+**Record:** `sound/soc/sof` — ASoC / SOF audio driver. **Criticality:
+IMPORTANT** (not core kernel, but widely used on Intel/AMD
+laptop/desktop SOF platforms).
 
-### Step 7.2: Subsystem Activity
-**Record:** Actively maintained — multiple Lenovo quirk additions in
-recent `alc269.c` history on this tree (TongFang, HP, Legion, Yoga Pro
-7, etc.).
+### Step 7.2: Activity
+**Record:** SOF client probe support is active in this tree (`sof-
+client-probes*.c` present, Makefile builds with
+`CONFIG_SND_SOC_SOF_DEBUG_PROBES`).
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## Phase 8: Impact and Risk Assessment
 
 ### Step 8.1: Who Is Affected
-**Record:** **Hardware-specific** — owners of Lenovo Xiaoxin 14 GT with
-PCI SSID `17aa:3912` running Linux with `snd-hda-codec-realtek`
-(ALC287).
+**Record:** Users on SOF platforms with probes enabled (Intel HDA SOF,
+AMD ACP). Config-specific, not universal.
 
 ### Step 8.2: Trigger Conditions
-**Record:** Every boot / codec probe on affected hardware. Common for
-laptop owners. Not security-relevant; not triggerable by unprivileged
-users on other systems.
+**Record:** SOF firmware returns probe info with `num_elems`
+inconsistent with reply size. Requires probes feature active and a
+probe-info IPC exchange. Most likely with buggy firmware; defense-in-
+depth against compromised firmware is also relevant. Root can trigger
+via debugfs when extractor is running.
 
 ### Step 8.3: Failure Mode Severity
-**Record:** **MEDIUM** — constant audio hissing/crackling makes playback
-unpleasant/unusable, but no crash, deadlock, data corruption, or
-security impact. Significant quality-of-life issue for affected users.
+**Record:**
+- **IPC3:** OOB read in `kmemdup()`; potential `size_t` multiply wrap
+  leading to small allocation + large iteration count
+- **IPC4:** OOB read in `info->points[i]` loop; `kzalloc()` size wrap on
+  32-bit
+- **Severity: HIGH** (kernel memory safety; possible oops/KASAN fault)
 
 ### Step 8.4: Risk-Benefit
 **Record:**
-- **Benefit:** HIGH for affected users (potentially restores usable
-  audio); ZERO for everyone else.
-- **Risk:** VERY LOW for non-target hardware (SSID-gated). LOW for
-  target hardware (worst case: fixup doesn't help or changes symptoms;
-  author uncertainty noted).
-- **Ratio:** Favorable — standard hardware-quirk risk profile.
+- **Benefit:** Prevents kernel memory corruption/crash on malformed
+  firmware IPC in an existing code path
+- **Risk:** Very low — only rejects invalid replies; follows established
+  SOF validation pattern
+- **Ratio:** Strong benefit, minimal risk
 
 ---
 
-## PHASE 9: FINAL SYNTHESIS
+## Phase 9: Final Synthesis
 
 ### Step 9.1: Evidence Summary
 
 **FOR backport:**
-- Hardware quirk — explicit stable exception category
-- Fixes real, user-visible audio defect on specific laptop
-- One-line, surgical, no new APIs or features
-- Uses existing, proven fixup already applied to sibling SSIDs in this
-  tree
-- Maintainer (Takashi Iwai) signed off
-- Identical pattern to `0x3911` quirk already backported to this 6.18.y
-  tree
-- Zero impact on any hardware other than `17aa:3912`
+- Real memory-safety bug (OOB read, allocation-size wrap)
+- Small, surgical, obviously correct fix
+- Buggy code exists in this 6.18.44 tree; fix not yet present
+- Matches existing validation in `debug.c`
+- Maintainer-reviewed (Mark Brown)
+- Callers iterate using returned count after undersized allocation/copy
 
 **AGAINST backport:**
-- Author explicitly states fixup **not kernel-tested**
-- No Reported-by, bugzilla, or modprobe-workaround confirmation (unlike
-  `0x3911`)
-- Symptom (hissing/crackling) differs from siblings (bass speakers not
-  working) — fixup match is inferred, not confirmed
-- Not a crash/corruption/security issue — importance is moderate
-- Mailing list review thread inaccessible — review depth unverified
+- Config-limited (`CONFIG_SND_SOC_SOF_DEBUG_PROBES`)
+- Trigger requires malformed SOF firmware IPC, not direct userspace
+  input
+- No syzbot/user report in commit message
+- Mailing list review details unavailable
 
 **Unresolved:**
-- Whether the chosen fixup actually resolves hissing (vs. only bass-
-  speaker issues)
-- Whether reviewers on lore suggested stable nomination
+- Full lore review thread and any explicit stable nominations (web
+  access blocked)
 
 ### Step 9.2: Stable Rules Checklist
-| Criterion | Result |
-|-----------|--------|
-| 1. Obviously correct and tested? | **PARTIAL FAIL** — logically sound
-and maintainer-reviewed, but author admits no kernel test |
-| 2. Fixes real bug affecting users? | **PASS** — documented audio
-defect on real hardware |
-| 3. Important issue? | **PASS (moderate)** — unusable audio quality,
-not crash/corruption |
-| 4. Small and contained? | **PASS** — 1 line, 1 file |
-| 5. No new features/APIs? | **PASS** — quirk table entry only |
-| 6. Can apply to local tree? | **PASS** — fixup infrastructure present,
-clean insertion point |
+1. Obviously correct and tested? **PASS** — logic is straightforward;
+   maintainer sign-off; pattern proven elsewhere in SOF
+2. Fixes a real bug affecting users? **PASS** — malformed firmware IPC
+   can crash/affect SOF probe users
+3. Important issue? **PASS** — HIGH severity memory safety
+4. Small and contained? **PASS** — ~30 lines, 2 files
+5. No new features or APIs? **PASS** — validation only
+6. Can apply to local tree? **PASS** — code exists; patch context
+   matches
 
-### Step 9.3: Exception Category
-**Record:** **Hardware quirk/workaround** — adding PCI SSID to existing
-driver's quirk table with an existing fixup. This is one of the most
-common and accepted stable backport categories.
+### Step 9.3: Exception Categories
+**Record:** None (not device ID, quirk, DT, build, or docs). Standard
+bug-fix exception applies.
 
 ### Step 9.4: Decision Rationale
 
-This patch fits the well-established pattern of Lenovo ALC287 quirk
-additions already present and backported in this 6.18.y tree. The
-missing `17aa:3912` entry is the bug; the one-line addition is the
-standard remedy. The author's untested disclaimer is a quality concern,
-but it is mitigated by: (1) maintainer acceptance, (2) identical fixup
-on immediately adjacent sibling models, (3) SSID-specific scope
-eliminating cross-hardware regression risk, and (4) the hardware-quirk
-exception that stable trees routinely honor for laptop audio.
-
-The issue is not a kernel crash, but broken audio on a specific shipping
-laptop is exactly the kind of real-world hardware problem stable quirk
-patches address.
+For **this** tree (6.18.44), the vulnerable probe IPC parsing code is
+present and lacks bounds checking on firmware-provided element counts.
+The fix is minimal, follows an established SOF pattern, and closes a
+real kernel memory-safety hole that can be triggered when SOF probes are
+in use and firmware returns inconsistent IPC data. While the feature is
+config-specific and firmware-mediated, stable trees routinely take such
+IPC validation fixes because the failure mode is kernel OOB access, not
+a benign error return.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed commit message and tags from user-provided commit
-  text
-- **[Phase 1]** Confirmed maintainer sign-off (Takashi Iwai); no
-  Reported-by/Tested-by
-- **[Phase 2]** Diff analysis: +1 `SND_PCI_QUIRK` line in
-  `alc269_fixup_tbl[]`
-- **[Phase 2]** Read `alc287_fixup_yoga9_14iap7_bass_spk_pin()` at lines
-  3408–3444 — pin/DAC routing fixup
-- **[Phase 3]** `git describe HEAD`: `v6.18.44-1-g2736c32da98b9`
-- **[Phase 3]** `git blame -L 7497,7499`: neighbors `390d`/`3911`/`3913`
-  confirmed; `3912` absent
-- **[Phase 3]** `git show 0fa5713ac7a19`: `3911` quirk uses same fixup,
-  was backported to this tree
-- **[Phase 3]** `git show 8d70503068510`: `390d` quirk uses same fixup,
-  had Cc: stable
-- **[Phase 3]** `git log --oneline -20 --
-  sound/hda/codecs/realtek/alc269.c`: active quirk maintenance
-- **[Phase 4]** `b4 dig`: requires commit hash — not available in tree;
-  could not run
-- **[Phase 4]** WebFetch lore.kernel.org and patch.msgid.link: blocked
-  (403/bot protection)
-- **[Phase 4]** `curl` lore raw URL: 403 Forbidden
-- **[Phase 5]** `grep snd_hda_pick_fixup`: called at alc269.c:8471
-  during codec probe
-- **[Phase 5]** `grep ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`: enum,
-  fixup table entry, and 6+ quirk users confirmed
-- **[Phase 6]** `grep 0x3912 sound/hda/codecs/realtek/alc269.c`: no
-  match — quirk missing
-- **[Phase 6]** Read lines 7497–7500: insertion point between `3911` and
-  `3913` confirmed
-- **[Phase 8]** Failure mode: audio hissing/crackling — severity MEDIUM
-  (not crash/corruption)
-- **UNVERIFIED:** Mailing list review content and whether reviewers
-  nominated for stable
-- **UNVERIFIED:** Whether `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`
-  actually fixes hissing on this model
+- [Phase 1] Parsed subject, tags, body from provided commit message
+- [Phase 1] Confirmed no `Fixes:`, `Reported-by:`, or syzbot references
+- [Phase 2] Read diff hunks for `ipc3_probes_info()` and
+  `ipc4_probes_points_info()`
+- [Phase 2] Classified bug as unchecked firmware `num_elems` → OOB /
+  overflow
+- [Phase 3] `git describe HEAD` → `v6.18.44-1-g2736c32da98b9`; Makefile
+  → 6.18.44
+- [Phase 3] `git blame` on vulnerable lines → `5d324e5159d9e`
+- [Phase 3] `git rev-parse --is-shallow-repository` → `true`
+- [Phase 3] `grep "invalid probe info element count"` → no matches (fix
+  absent)
+- [Phase 4] `b4 dig -c HEAD` on wrong commit; target commit not in repo
+- [Phase 4] WebFetch patch.msgid.link and lore search → blocked by bot
+  protection
+- [Phase 4] curl lore raw → 403 Forbidden
+- [Phase 5] `grep` callers → `sof-client-probes.c:78`, `sof-client-
+  probes.c:227`
+- [Phase 5] Read `debug.c:227-231` — existing `num_elems` vs `hdr.size`
+  validation
+- [Phase 5] Read Kconfig — `SND_SOC_SOF_DEBUG_PROBES` auto-selected by
+  HDA/ACP probe options
+- [Phase 6] Read current `sof-client-probes-ipc3.c:102-148` — vulnerable
+  code confirmed
+- [Phase 6] Read current `sof-client-probes-ipc4.c:207-267` — vulnerable
+  code confirmed
+- [Phase 6] Verified patch context matches current tree contents
+- [Phase 7] Read `sound/soc/sof/Makefile` — probes built under
+  `CONFIG_SND_SOC_SOF_DEBUG_PROBES`
+- [Phase 8] Traced failure modes: OOB read, size wrap, caller over-
+  iteration
+- **UNVERIFIED:** Lore review thread, stable-list discussion, explicit
+  reviewer stable nomination
 
-**YES**The stable backport review for **ALSA: hda/realtek: Add quirk for
-Lenovo Xiaoxin 14 GT** is done.
+**YES**
 
-**Verdict: YES** for this tree (`v6.18.44`).
+ sound/soc/sof/sof-client-probes-ipc3.c | 23 +++++++++++++++++++----
+ sound/soc/sof/sof-client-probes-ipc4.c | 11 ++++++++++-
+ 2 files changed, 29 insertions(+), 5 deletions(-)
 
-It’s a one-line PCI quirk (`17aa:3912`) using the existing
-`ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` fixup — the same pattern
-already used for neighboring Lenovo models (`390d`, `3911`) in
-`alc269.c`. That fits the usual stable hardware-quirk case: small, SSID-
-specific, and aimed at fixing broken audio on a real laptop.
-
-The main caveat is the author’s note that the fixup wasn’t kernel-
-tested; maintainer sign-off and the sibling-model precedent still make
-it reasonable for stable.
-
-A follow-up search found no existing `0x3912`/Xiaoxin entry in this tree
-(expected — that’s what the patch adds) and no prior commits from Viktor
-Menshin in this ALSA area.
-
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 490589c042bd9..ab6fc1fdf3ff2 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7503,6 +7503,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
- 	SND_PCI_QUIRK(0x17aa, 0x390d, "Lenovo Yoga Pro 7 14ASP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3911, "Lenovo Yoga Pro 7 14IAH10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x3912, "Lenovo Xiaoxin 14 GT", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x391a, "Lenovo Yoga Slim 7 14AKP10", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TXNW2781_I2C),
+diff --git a/sound/soc/sof/sof-client-probes-ipc3.c b/sound/soc/sof/sof-client-probes-ipc3.c
+index a78ec0954a618..a3e382d6161f1 100644
+--- a/sound/soc/sof/sof-client-probes-ipc3.c
++++ b/sound/soc/sof/sof-client-probes-ipc3.c
+@@ -107,7 +107,7 @@ static int ipc3_probes_info(struct sof_client_dev *cdev, unsigned int cmd,
+ 	struct device *dev = &cdev->auxdev.dev;
+ 	struct sof_ipc_probe_info_params msg = {{{0}}};
+ 	struct sof_ipc_probe_info_params *reply;
+-	size_t bytes;
++	size_t bytes, elem_size, payload_size;
+ 	int ret;
+ 
+ 	*params = NULL;
+@@ -128,14 +128,29 @@ static int ipc3_probes_info(struct sof_client_dev *cdev, unsigned int cmd,
+ 	if (ret < 0 || reply->rhdr.error < 0)
+ 		goto exit;
+ 
++	payload_size = reply->rhdr.hdr.size;
++	if (payload_size < offsetof(struct sof_ipc_probe_info_params, dma)) {
++		ret = -EINVAL;
++		goto exit;
++	}
++
+ 	if (!reply->num_elems)
+ 		goto exit;
+ 
+ 	if (cmd == SOF_IPC_PROBE_DMA_INFO)
+-		bytes = sizeof(reply->dma[0]);
++		elem_size = sizeof(reply->dma[0]);
+ 	else
+-		bytes = sizeof(reply->desc[0]);
+-	bytes *= reply->num_elems;
++		elem_size = sizeof(reply->desc[0]);
++
++	payload_size -= offsetof(struct sof_ipc_probe_info_params, dma);
++	if (reply->num_elems > payload_size / elem_size) {
++		dev_err(dev, "%s: invalid probe info element count %u\n",
++			__func__, reply->num_elems);
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	bytes = reply->num_elems * elem_size;
+ 	*params = kmemdup(&reply->dma[0], bytes, GFP_KERNEL);
+ 	if (!*params) {
+ 		ret = -ENOMEM;
+diff --git a/sound/soc/sof/sof-client-probes-ipc4.c b/sound/soc/sof/sof-client-probes-ipc4.c
+index 758a56d271d77..2c2ab85979b83 100644
+--- a/sound/soc/sof/sof-client-probes-ipc4.c
++++ b/sound/soc/sof/sof-client-probes-ipc4.c
+@@ -248,10 +248,19 @@ static int ipc4_probes_points_info(struct sof_client_dev *cdev,
+ 		return ret;
+ 	}
+ 	info = msg.data_ptr;
++	if (msg.data_size < sizeof(*info) ||
++	    info->num_elems > (msg.data_size - sizeof(*info)) /
++			      sizeof(info->points[0])) {
++		dev_err(dev, "%s: invalid probe info element count %u\n",
++			__func__, info->num_elems);
++		kfree(msg.data_ptr);
++		return -EINVAL;
++	}
++
+ 	*num_desc = info->num_elems;
+ 	dev_dbg(dev, "%s: got %zu probe points", __func__, *num_desc);
+ 
+-	*desc = kzalloc(*num_desc * sizeof(**desc), GFP_KERNEL);
++	*desc = kcalloc(*num_desc, sizeof(**desc), GFP_KERNEL);
+ 	if (!*desc) {
+ 		kfree(msg.data_ptr);
+ 		return -ENOMEM;
 -- 
 2.53.0
 
