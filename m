@@ -1,49 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1075F4AA014;
-	Mon, 31 Aug 2026 13:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FED0555C0D;
+	Mon, 31 Aug 2026 13:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183997; cv=none; b=GtHuFgKKZfwKRx0b0VDZivmHKBZFFK1Ub+wD1fWikDe7FvBaDOiHR8yoET0NKQvy3VHjPyHWfB/U/ZU4/++g8wBgaLifctPhDWCVOD5QfPuNpX0hA4EOU0QsDFHk98GDiZULMHL8KjGVNFu6FuPCKXkLOZMpbSbQRF8SoGf93Us=
+	t=1788184025; cv=none; b=cXj6JAr1xKuNBvQHcaCBxnqr7JRrpK2xTAOSW08RJIBcw19Zqfnz+ht15IDFThQ/0Dur8EA4eKat1vSaZ04yo2ktyv5ZkKbifnXbvrGIRDuw7g/3IM8kCMwUVEM1zZFEAAbLjrpqaSw3k7vu4ywHG0o0Ac/JtFD87FQR95lsS3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183997; c=relaxed/simple;
-	bh=Ns+7hwuRK8re8UExsbKJtmTSwPrahS+iexun9sGpazE=;
+	s=arc-20240116; t=1788184025; c=relaxed/simple;
+	bh=f7as2J5ha+rh2KMEDaJOJFTJSZpLbsVAhziGPu44PFs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aj1VuHgnV3myuMIMANCW8fAK+VI+GxgjN+ymsyU/PZMCE1m0DLuaEo/mgFDqqdjkQtjCmEE1R4Cj5yKYDx3Yv+xhSnNqPXyJtZjsPGo336coNX8PaCY+5PwbZP2suPzBVG09qsslEwcjd+9Fd16fM2m3CUiGw1+81CC2ekbjHLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GlDav2T6; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=VE1hPYvWAb9TTiEiRIOyYnmQcIV1FRsOZVEyIO2GWWd4f8/2Fa2bNXI1oc3kwNnKZfrfrkfoVh10Jj/9Fr/mtUGR+tXP5FufGdD6/V9S2gupSH1PYNl/3K2Vjxc8Ov+K7XvZk6m/4B4lJM19R5vSqau5ogxSG0JiQpyziT057L8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGcJK4sV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GlDav2T6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F321F00A3D;
-	Mon, 31 Aug 2026 13:46:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGcJK4sV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E26831F000E9;
+	Mon, 31 Aug 2026 13:47:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183991;
-	bh=U6Hur/urQ7GEifMNcaT3dW4KCx7dnvzKVtBY2c3zVZk=;
+	s=k20260515; t=1788184022;
+	bh=/T4cX/SYuVx3IVIoOuCrfO08y6KbwPPsNAxZ6k+R63k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GlDav2T6QuCYiUPRbjaJZq9tTnELLcdSc+VRQO/+8zdAAnVzU8cmgf7CzpwklAM9R
-	 95feWNMLSvTsqCvtOBtSe+a8jk20Kk1WkSrWJVb96mTzwk6mXCnD5/cQxm8K0+oMAs
-	 5wGuqW9/W3wdA/i2vrKE0e6uJSvU3ZfW1SxUN0/uDSZHlkhq1X6n/my64rir3ZjoTQ
-	 kF0LXApMZn591ukQvj3sQiqqpkeGXJMo9DoTRwbcEWahY1laSKj3rCEss7dXOaFCKH
-	 BjDU+loUvL1K3dzKaVXwKmbo0ZoKeYAgbKJfFxmrqhiX+s7dAr3xSFiqjPw/Ben1LK
-	 MgQ7Ka4LB0cmQ==
+	b=iGcJK4sVarjLiEe7r8O+FSyYKxKBQGQ+7OiMytmcfpZv4i1g3afADfYHsurUmkF/H
+	 oazUGTwwJgaZOMs4y91BkqX1C5y4zxF7M0fgMnLZo2x8J/ZeKbpadtofcjF4Quo82N
+	 RsaBXJzeruXj6q6OwP2d5r+GNeDmsvJoePgIZXvQXQfMy5FKJg0dvLV+dAG1qWCAuD
+	 IPRDs9MBSAGnMRx6IWxEo1FeJSNVNxjJKVTrRZPwxy1bbAVzZS7ib/bWjhsH1VdQlR
+	 rPzc34mll168Mkd1jVst35wvRmzun8tCsv+cC+PIVKzKmcomB8pkAGtgyFHzCs0UBi
+	 emi+JftM3RKHw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+Cc: Lin Xianglin <1021538027@qq.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	sen@ti.com,
+	Vijendar.Mukunda@amd.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ASoC: codecs: pcm3168a: Prevent regulator double-disable in S4
-Date: Mon, 31 Aug 2026 09:27:33 -0400
-Message-ID: <20260831133314.4125787-425-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.6] ASoC: amd: yc: Add DMI quirk for HyperX OMEN Gaming Laptop 16-ap1xxx
+Date: Mon, 31 Aug 2026 09:27:51 -0400
+Message-ID: <20260831133314.4125787-443-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -59,407 +56,393 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Cezary Rojewski <cezary.rojewski@intel.com>
+From: Lin Xianglin <1021538027@qq.com>
 
-[ Upstream commit bb3c847523f951315f212047ab26363f9928d569 ]
+[ Upstream commit fe21db8c5e7c2a9815a9be54a1f5d556f905506e ]
 
-The SLEEP_PM_OPS are unset for the driver. Hibernation (S4) causes no
-resume (skipped thanks to smart_suspend=true) yet still performs the
-suspend sequence unconditionally, see device_complete() in
-drivers/base/power/main.c.
+The HyperX OMEN Gaming Laptop 16-ap1xxx (HP board 8F06) has an
+internal digital microphone array attached to the AMD ACP PDM
+controller, but the acp6x machine driver does not register the DMIC
+sound card because this board is missing from the DMI quirk table,
+leaving the internal microphone unusable.
 
-If S4 runs for already suspended pcm3168a device, we end up with
-"unbalanced disables" warning from the regulators. Assigning the
-operations fixes the problem.
+Add a DMI quirk entry for the HP board "8F06" so the acp6x DMIC
+capture card gets registered.
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Link: https://patch.msgid.link/20260525201801.1336936-2-cezary.rojewski@intel.com
+Signed-off-by: Lin Xianglin <1021538027@qq.com>
+Link: https://patch.msgid.link/tencent_428392223C2AD3BF23E7ABAA7521FE5C0C07@qq.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ASoC pcm3168a S4 Regulator Double-Disable
-Fix
-
-**Local tree:** `v6.18.44` (Makefile: 6.18.44)
-
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
+## Phase 1: Commit Message Forensics
 
 ### Step 1.1: Subject Line
-**Record:** `[ASoC: codecs: pcm3168a]` `[Prevent]` — Prevent regulator
-double-disable during system hibernation (S4) when the codec is already
-runtime-suspended.
+**Record:** `[ASoC: amd: yc]` `[Add]` — Add DMI quirk for HyperX OMEN
+Gaming Laptop 16-ap1xxx (HP board 8F06) to enable internal DMIC on AMD
+ACP6x.
 
-### Step 1.2: Commit Tags
+### Step 1.2: Commit Message Tags
 **Record:**
-| Tag | Value |
-|-----|-------|
-| Signed-off-by | Cezary Rojewski \<cezary.rojewski@intel.com\> (author)
-|
-| Signed-off-by | Mark Brown \<broonie@kernel.org\> (ASoC maintainer) |
-| Link | https://patch.msgid.link/20260525201801.1336936-2-
-cezary.rojewski@intel.com |
+- **Signed-off-by:** Lin Xianglin \<1021538027@qq.com\> (author)
+- **Link:** https://patch.msgid.link/tencent_428392223C2AD3BF23E7ABAA752
+  1FE5C0C07@qq.com
+- **Signed-off-by:** Mark Brown \<broonie@kernel.org\> (subsystem
+  maintainer merge)
+- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
+  stable@vger.kernel.org
+- Notable: maintainer Signed-off-by; no syzbot or multi-reporter tags
 
-**Notable patterns:** Message-ID suffix `-2-` suggests patch 2 of a
-series. No Reported-by, Fixes:, Cc: stable, or syzbot tags. Maintainer
-(Mark Brown) committed the patch.
-
-### Step 1.3: Body Analysis
+### Step 1.3: Commit Body Analysis
 **Record:**
-- **Bug:** Without `SYSTEM_SLEEP_PM_OPS`, hibernation (S4) runs the
-  suspend path even when resume is skipped (`smart_suspend=true`),
-  causing regulators to be disabled twice on an already runtime-
-  suspended pcm3168a device.
-- **Symptom:** Kernel warning: `"unbalanced disables for <regulator>"`
-  from the regulator core.
-- **Root cause (author):** Missing system-sleep PM ops; hibernation
-  suspend sequence runs unconditionally while resume is optimized away.
-- **Version info:** None explicit; references generic PM behavior in
-  `device_complete()` / `drivers/base/power/main.c`.
+- **Bug:** HyperX OMEN Gaming Laptop 16-ap1xxx (HP board `8F06`) has an
+  internal DMIC on AMD ACP PDM, but `acp6x` machine driver does not
+  register the DMIC sound card because the board is missing from
+  `yc_acp_quirk_table`.
+- **Symptom:** Internal microphone unusable (no DMIC capture card
+  registered).
+- **Root cause:** Missing DMI quirk entry; ACPI/`_WOV` path alone does
+  not enable registration on this board.
+- **Fix:** Add `DMI_MATCH(DMI_BOARD_VENDOR, "HP")` +
+  `DMI_MATCH(DMI_BOARD_NAME, "8F06")` with `driver_data = &acp6x_card`.
+- **Version info:** None in message; upstream commit `fe21db8c5e7c`
+  merged to broonie/sound `for-7.2` (Linux 7.2).
 
-### Step 1.4: Hidden Bug Fix?
-**Record:** No — this is an explicit bug fix, not disguised cleanup.
-Adding `SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-pm_runtime_force_resume)` is the standard kernel pattern for bridging
-runtime PM and system sleep PM.
+### Step 1.4: Hidden Bug Fix Detection
+**Record:** Yes — despite “Add” wording, this is a hardware-enablement
+bug fix. Same pattern as prior HP/Lenovo/ASUS DMI quirk commits in this
+driver (e.g. `65aabf8896687` for OMEN 16-ap0xxx already in this tree).
 
 ---
 
-## PHASE 2: DIFF ANALYSIS
+## Phase 2: Diff Analysis
 
 ### Step 2.1: Change Inventory
 **Record:**
-| File | Change |
-|------|--------|
-| `sound/soc/codecs/pcm3168a.c` | +1 line |
-
-**Functions modified:** `pcm3168a_pm_ops` structure initialization only.
-
-**Scope:** Single-file, surgical (1 line added).
+- **Files:** `sound/soc/amd/yc/acp6x-mach.c` only (+7 lines, 0 removed)
+- **Functions modified:** None; only `yc_acp_quirk_table[]` static data
+- **Scope:** Single-file surgical hardware-quirk addition
 
 ### Step 2.2: Code Flow Change
 **Record:**
-- **Before:** `pcm3168a_pm_ops` had only
-  `RUNTIME_PM_OPS(pcm3168a_rt_suspend, pcm3168a_rt_resume, NULL)`.
-  System sleep callbacks (`suspend`, `freeze`, `poweroff`, etc.) were
-  all NULL.
-- **After:** Adds `SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-  pm_runtime_force_resume)`, wiring all system-sleep transitions to the
-  PM core's force-suspend/resume helpers.
-- **Affected path:** System hibernation (S4) / freeze / suspend when
-  device is already runtime-suspended.
+- **Before:** On HP board `8F06`, `dmi_first_match(yc_acp_quirk_table)`
+  returns NULL at `check_dmi_entry`; if ACPI `AcpDmicConnected`/`_WOV`
+  also fail, `platform_get_drvdata()` is NULL → `acp6x_probe()` returns
+  `-ENODEV` → no DMIC card.
+- **After:** DMI match sets `platform_set_drvdata(pdev, &acp6x_card)` →
+  `devm_snd_soc_register_card()` registers DMIC capture card.
+- **Path affected:** Platform driver probe during boot (`acp6x_probe`).
 
 ### Step 2.3: Bug Mechanism
 **Record:**
-- **Category:** Reference counting / double-operation bug in PM path
-  (regulator enable_count).
-- **Mechanism:** `pcm3168a_rt_suspend()` → `pcm3168a_disable()` →
-  `regulator_bulk_disable()`. When the device is already runtime-
-  suspended (regulators already disabled), a second system-sleep suspend
-  attempt calls disable again. `pm_runtime_force_suspend()` guards this:
-
-```2016:2018:drivers/base/power/runtime.c
-        pm_runtime_disable(dev);
-        if (pm_runtime_status_suspended(dev) ||
-dev->power.needs_force_resume)
-                return 0;
-```
-
-If already suspended, it returns without invoking `runtime_suspend`
-again.
+- **Category:** Hardware workaround / quirk (missing board ID in DMI
+  table)
+- **Mechanism:** ACPI does not reliably expose DMIC config on this HP
+  board; existing DMI override path in `acp6x_probe()` was never
+  triggered because `8F06` was absent from the table.
 
 ### Step 2.4: Fix Quality
-**Record:** Obviously correct; identical pattern used in sibling ASoC
-codecs (`ak4458.c`, `cs42xx8.c`, `wm8962.c`) and other subsystems (e.g.
-`spi-rockchip.c` backported with `Cc: stable`). Minimal regression risk
-— one line, well-understood PM-core API.
+**Record:**
+- Obviously correct: identical to dozens of existing entries in the same
+  table.
+- Minimal: 7 lines, no logic changes.
+- Regression risk: very low — only affects systems matching HP vendor +
+  board name `8F06`.
+- No API, locking, or structural changes.
 
 ---
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+## Phase 3: Git History Investigation
 
-### Step 3.1: Blame
+### Step 3.1: Blame / Bug Introduction
 **Record:**
-- PM ops structure last changed in `15559cdeb9be5` (Mar 2025): "ASoC:
-  pcm3168a: Convert to EXPORT_GPL_DEV_PM_OPS()" — cosmetic refactor
-  only; did not add system sleep ops.
-- Driver introduced `a9b17a638af5a` (Dec 2015) with only
-  `SET_RUNTIME_PM_OPS` — missing system sleep ops since birth.
-- **Bug present since:** v4.4 era (driver introduction); not a recent
-  regression.
+- `yc_acp_quirk_table` and `acp6x_probe()` DMI override path exist since
+  `fa991481b8b22` (Oct 2021, “ASoC: amd: add YC machine driver using
+  dmic”).
+- Neighboring HP board entries: `8BD6` (b3a51137607cee, Mar 2024),
+  `8EE4` (78783e8d588cf), `8E35` (65aabf8896687, backported to this tree
+  May 2026).
+- Bug is not a regression — it is a missing quirk for hardware never
+  previously listed.
 
 ### Step 3.2: Fixes: Tag
 **Record:** N/A — no Fixes: tag present.
 
 ### Step 3.3: Related File History
-**Record:**
-- Intel AVS pcm3168a machine board added `79ebb596201c8` (Feb 2025) by
-  same author — likely where bug was discovered during hibernation
-  testing.
-- Recent pcm3168a changes are feature/format work, not PM fixes.
-- **Standalone:** Yes — no other commits required for this one-line fix.
+**Record:** This file has extensive recent quirk activity in v6.18.44
+(20+ quirk commits). Direct precedent: `65aabf8896687` — “Add HP OMEN
+Gaming Laptop 16-ap0xxx product line in quirk table” — already
+backported to this tree with `Cc: stable@vger.kernel.org`. Same
+subsystem, same failure mode (internal mic not detected), same fix
+pattern.
 
 ### Step 3.4: Author Context
-**Record:** Cezary Rojewski (Intel) — author of Intel AVS pcm3168a board
-support; active contributor to `sound/soc/codecs/` and Intel AVS boards.
+**Record:** Lin Xianglin — no prior commits in `sound/soc/amd/yc/` in
+this tree. Mark Brown (maintainer) merged upstream.
 
 ### Step 3.5: Dependencies
-**Record:** Requires `EXPORT_GPL_DEV_PM_OPS` / `RUNTIME_PM_OPS` macros
-(present since `15559cdeb` in this tree). Requires
-`pm_runtime_force_suspend/resume` (present under `CONFIG_PM_SLEEP`).
-**Can apply standalone.**
+**Record:** No dependencies. Standalone table entry. Applies cleanly
+after `8E35` in local tree (`git apply --check` succeeded with 1-line
+offset). Upstream context includes `Victus by HP Laptop 16-e1xxx` after
+`8F06`; that entry is not in v6.18.44, but the `8F06` hunk is
+independent.
 
 ---
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+## Phase 4: Mailing List and External Research
 
-### Step 4.1: Original Discussion
-**Record:** `b4 dig -c <commit>` could not run — commit not in local
-tree. Link fetch to patch.msgid.link blocked (Anubis bot protection).
-**Lore discussion URL: UNVERIFIED.**
+### Step 4.1: Original Patch Discussion
+**Record:**
+- **b4 dig -c fe21db8c5e7c:** https://patch.msgid.link/tencent_428392223
+  C2AD3BF23E7ABAA7521FE5C0C07@qq.com
+- **Series revisions:** v1 only (committed version is latest)
+- **Review:** Mark Brown replied “Applied to …/broonie/sound.git
+  for-7.2. Thanks!” — no NAKs
+- **Stable nomination:** None in thread (expected; absence is not
+  negative)
 
 ### Step 4.2: Reviewers
-**Record:** UNVERIFIED via b4 dig -w. Mark Brown committed the patch
-(ASoC maintainer acceptance).
+**Record (b4 dig -w):** CC'd: `linux-sound@vger.kernel.org`, `alsa-
+devel@alsa-project.org`, `Vijendar.Mukunda@amd.com`,
+`venkataprasad.potturu@amd.com`, `broonie@kernel.org`.
 
 ### Step 4.3: Bug Report
-**Record:** No external bug report linked. Bug found during Intel AVS
-pcm3168a development/testing (inferred from author and timing).
+**Record:** No external bug report or syzbot link. Hardware-specific
+user-facing issue described in commit message. Phoronix notes the quirk
+enables internal mic on HyperX OMEN 16-ap1xxx for Linux 7.2.
 
-### Step 4.4: Series Context
-**Record:** Message-ID `1336936-2` implies a 2-patch series; this fix is
-self-contained in `pcm3168a.c` and does not depend on patch 1 for
-correctness (UNVERIFIED: patch 1 content not inspected).
+### Step 4.4: Related Patches
+**Record:** Sister fix `d63c219b7ff3` / stable backport `65aabf8896687`
+for OMEN 16-ap0xxx (same product line, same mic issue). Mainline also
+has `38417f5fc8e3` for Victus 16-e1xxx — not required for this fix.
 
 ### Step 4.5: Stable List History
-**Record:** UNVERIFIED — lore.kernel.org inaccessible. Analogous `spi:
-rockchip` fix was explicitly `Cc: stable@vger.kernel.org` for the same
-class of runtime/system PM imbalance.
+**Record:** No stable-list discussion found for this specific patch.
+Sister OMEN ap0xxx patch was explicitly nominated `Cc: stable` and
+backported to 6.18.y.
 
 ---
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+## Phase 5: Code Semantic Analysis
 
 ### Step 5.1: Key Functions
-**Record:** `pcm3168a_pm_ops` (modified), `pcm3168a_rt_suspend()`
-(indirectly protected), `pcm3168a_disable()` (contains the double-
-disable), `pm_runtime_force_suspend()` / `pm_runtime_force_resume()`
-(added callbacks).
+**Record:** `yc_acp_quirk_table[]` (data), `acp6x_probe()` (consumer at
+line 798).
 
 ### Step 5.2: Callers
-**Record:**
-- `pcm3168a_pm_ops` referenced from `pcm3168a-i2c.c` and
-  `pcm3168a-spi.c` via `.pm = pm_ptr(&pcm3168a_pm_ops)`.
-- System PM core calls sleep ops during `dpm_suspend` / hibernation
-  freeze/poweroff phases.
-- `pcm3168a_rt_suspend` also called via runtime PM idle/autosuspend
-  during normal operation.
+**Record:** `acp6x_probe` registered as `.probe` in `acp6x_mach_driver`,
+loaded via `module_platform_driver()`. Platform device `acp_yc_mach`
+created from `pci-acp6x.c` during ACP6x PCI probe — runs at boot on AMD
+Yellow Carp laptops with `CONFIG_SND_SOC_AMD_YC_MACH`.
 
 ### Step 5.3: Callees
-**Record:** `pcm3168a_disable()` → `regulator_bulk_disable()` +
-`clk_disable_unprepare()`. Warning originates in `_regulator_disable()`
-when `enable_count == 0`.
+**Record:** `dmi_first_match()`, `platform_set_drvdata()`,
+`platform_get_drvdata()`, `devm_snd_soc_register_card()`.
 
 ### Step 5.4: Reachability
-**Record:** Triggered during hibernation (S4) on systems with
-`CONFIG_SND_SOC_PCM3168A` and `CONFIG_HIBERNATION`. Intel AVS pcm3168a
-boards, TI K3 EVMs, Renesas boards using this codec. Requires user-
-initiated hibernate while codec is runtime-suspended (common idle
-scenario).
+**Record:** Triggered automatically at boot on matching HP hardware. Not
+userspace-triggerable, but affects every boot for affected laptop
+owners. Unprivileged users cannot trigger the bug path — they simply
+lack a working internal mic.
 
 ### Step 5.5: Similar Patterns
-**Record:** ~60 codecs have only `RUNTIME_PM_OPS` without
-`SYSTEM_SLEEP_PM_OPS`; pcm3168a is vulnerable because its
-`runtime_suspend` disables physical regulators. Codecs like `ak4458.c`
-already use the force-suspend pattern:
-
-```731:734:sound/soc/codecs/ak4458.c
-static const struct dev_pm_ops ak4458_pm = {
-        RUNTIME_PM_OPS(ak4458_runtime_suspend, ak4458_runtime_resume,
-NULL)
-        SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-pm_runtime_force_resume)
-};
-```
+**Record:** Same file contains 80+ DMI quirk entries for identical DMIC-
+enablement purpose. This tree already backports these routinely.
 
 ---
 
-## PHASE 6: CROSS-REFERENCE AGAINST LOCAL TREE (6.18.44)
+## Phase 6: Cross-Reference Against Local Tree (v6.18.44)
 
 ### Step 6.1: Buggy Code Present?
-**Record:** **YES.** Current tree at
-`sound/soc/codecs/pcm3168a.c:908-910`:
-
-```908:910:sound/soc/codecs/pcm3168a.c
-EXPORT_GPL_DEV_PM_OPS(pcm3168a_pm_ops) = {
-        RUNTIME_PM_OPS(pcm3168a_rt_suspend, pcm3168a_rt_resume, NULL)
-};
-```
-
-No `SYSTEM_SLEEP_PM_OPS` — fix not yet applied.
+**Record:** Yes. `sound/soc/amd/yc/acp6x-mach.c` exists;
+`yc_acp_quirk_table` has `8E35` but not `8F06` (confirmed via grep).
+Upstream master has `8F06` at line 738; local tree does not. Bug affects
+owners of this laptop running v6.18.44.
 
 ### Step 6.2: Backport Complications
-**Record:** **Clean apply expected.** One line insertion after
-`RUNTIME_PM_OPS` line. `EXPORT_GPL_DEV_PM_OPS` conversion already in
-tree (`15559cdeb`). No conflicts anticipated.
+**Record:** Clean apply — `git apply --check` succeeded inserting entry
+after `8E35`. Minor context difference from upstream (no `Victus
+16-e1xxx` entry in this tree) does not block application.
 
 ### Step 6.3: Related Fixes Already Present?
-**Record:** No equivalent fix found in tree history (`git log --grep`
-for "double-disable" / "pcm3168a.*S4" returned nothing).
+**Record:** `65aabf8896687` (OMEN 16-ap0xxx + board `8E35`) already in
+tree. No fix for `8F06` / 16-ap1xxx present.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## Phase 7: Subsystem Context
 
-### Step 7.1: Subsystem Criticality
-**Record:** `sound/soc/codecs/` — **PERIPHERAL** (driver-specific), but
-hibernation is a core system feature; regulator warnings indicate broken
-power state.
+### Step 7.1: Subsystem and Criticality
+**Record:** `sound/soc/amd/yc` — ASoC AMD Yellow Carp audio.
+**IMPORTANT** (laptop audio/DMIC), not core kernel, but affects real
+hardware users.
 
 ### Step 7.2: Subsystem Activity
-**Record:** Actively developed — Intel AVS pcm3168a board added Feb
-2025; recent card-name updates. Driver mature (since 2015) with ongoing
-platform enablement.
+**Record:** Highly active — 20+ quirk commits in recent history of this
+file in v6.18.44 alone.
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## Phase 8: Impact and Risk Assessment
 
 ### Step 8.1: Who Is Affected
-**Record:** Users of pcm3168a codec (I2C/SPI) who hibernate — Intel AVS
-platforms, embedded TI/Renesas boards. Config-dependent:
-`CONFIG_SND_SOC_PCM3168A`.
+**Record:** Owners of HyperX OMEN Gaming Laptop 16-ap1xxx (HP board
+`8F06`) with `CONFIG_SND_SOC_AMD_ACP6x` / `CONFIG_SND_SOC_AMD_YC_MACH`
+enabled (typical on AMD laptop kernels).
 
 ### Step 8.2: Trigger Conditions
-**Record:** Hibernation (S4) while pcm3168a is already runtime-suspended
-(idle audio). Not timing-dependent race; deterministic PM sequencing
-bug. Unprivileged users can trigger via `echo disk > /sys/power/state`.
+**Record:** Every boot on matching hardware where ACPI does not enable
+DMIC. Common/likely for this specific board. Not security-relevant; not
+unprivileged-triggerable.
 
 ### Step 8.3: Failure Mode Severity
-**Record:** `WARN` from regulator core (`"unbalanced disables for %s"`).
-**Severity: MEDIUM** — does not panic, but indicates broken regulator
-refcount state that can leave hardware/PM in inconsistent state. Similar
-class of bugs backported to stable (rockchip SPI clock double-disable).
+**Record:** Internal microphone completely nonfunctional — **MEDIUM**
+severity (functional hardware loss, no crash/corruption/security
+impact).
 
 ### Step 8.4: Risk-Benefit
 **Record:**
-- **Benefit:** MEDIUM — fixes real hibernation warning on affected
-  hardware; correct PM integration.
-- **Risk:** VERY LOW — 1-line addition of established kernel pattern.
-- **Ratio:** Strong benefit-to-risk ratio.
+- **Benefit:** Restores internal mic on a real, shipping laptop model;
+  identical to already-accepted stable quirk pattern.
+- **Risk:** Very low — 7-line table entry, board-specific match only.
+- **Ratio:** Strong benefit, negligible risk. Matches established stable
+  practice for this driver.
 
 ---
 
-## PHASE 9: FINAL SYNTHESIS
+## Phase 9: Final Synthesis
 
 ### Step 9.1: Evidence Summary
 
 **FOR backport:**
-- Real, reproducible bug during hibernation (author-verified on Intel
-  AVS pcm3168a)
-- Standard, proven fix pattern (`pm_runtime_force_suspend/resume`)
-- Maintainer-committed (Mark Brown)
-- Surgical 1-line change
-- Bug present since driver introduction (2015); driver and Intel AVS
-  board exist in 6.18.44
-- Analogous fixes backported to stable in other subsystems
+- Fixes real hardware bug (internal mic unusable)
+- Hardware quirk exception category — explicitly stable-worthy
+- Tiny, obviously correct, standalone
+- Applies cleanly to v6.18.44
+- Driver and quirk infrastructure present since 2021
+- Sister OMEN ap0xxx fix already backported to this exact tree
+- Maintainer (Mark Brown) merged upstream
+- No dependencies or prerequisites
 
 **AGAINST backport:**
-- Affects only pcm3168a users who hibernate (niche but real)
-- Failure is WARN, not crash/oops
-- Intel AVS pcm3168a board is relatively new (but core driver is old and
-  widely used on embedded)
+- Not a crash, security, corruption, or deadlock issue (lower urgency
+  than KASAN fixes)
+- No Tested-by or explicit Cc: stable in submission
+- Laptop may be relatively new, but users on 6.18.y exist
 
-**UNRESOLVED:**
-- Full lore review thread (blocked)
-- Patch 1 of series content (likely independent)
+**Unresolved:** No Tested-by tag; no explicit stable nomination for this
+specific patch (sister patch had one).
 
 ### Step 9.2: Stable Rules Checklist
-| Criterion | Result |
-|-----------|--------|
-| 1. Obviously correct and tested? | **PASS** — standard PM pattern;
-Intel developer found during board bring-up |
-| 2. Fixes a real bug? | **PASS** — regulator unbalanced-disable WARN
-during S4 |
-| 3. Important issue? | **PASS** — MEDIUM: incorrect PM state during
-hibernation |
-| 4. Small and contained? | **PASS** — 1 line, 1 file |
-| 5. No new features/APIs? | **PASS** — wires existing PM-core helpers |
-| 6. Can apply to local tree? | **PASS** — driver and prerequisites
-present in 6.18.44 |
+1. Obviously correct and tested? **PASS** — pattern proven by many
+   identical quirks; no Tested-by but maintainer merged.
+2. Fixes real bug affecting users? **PASS** — internal mic nonfunctional
+   on specific laptop.
+3. Important issue? **PASS (moderate)** — functional hardware loss;
+   hardware-quirk exception applies strongly.
+4. Small and contained? **PASS** — 7 lines, one file, table entry only.
+5. No new features or APIs? **PASS** — extends existing quirk table
+   only.
+6. Can apply to local tree? **PASS** — verified with `git apply
+   --check`.
 
-### Step 9.3: Exception Categories
-**Record:** None (not device ID, quirk, DT, build, or docs). Standard PM
-bug fix.
+### Step 9.3: Exception Category
+**Record:** Hardware quirk/workaround — automatic stable qualification
+per stable-kernel-rules exceptions.
 
 ### Step 9.4: Decision Rationale
-This fix addresses a real hibernation PM bug in a long-standing codec
-driver that is now used on Intel AVS platforms in this tree. The change
-is minimal, follows an established pattern already used in multiple ASoC
-codecs, and prevents regulator refcount corruption during S4. It meets
-all stable kernel criteria for this 6.18.y tree.
+For **v6.18.44**, this commit should be backported. The ACP6x YC machine
+driver and DMI quirk mechanism are fully present; the only gap is the
+missing `8F06` entry. The fix is identical in nature to `65aabf8896687`,
+which stable maintainers already accepted for the closely related OMEN
+16-ap0xxx. Risk is negligible; benefit is restoring internal microphone
+functionality for affected laptop owners.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed commit message and tags from user-provided diff
-- [Phase 2] Diff analysis: +1 line to `pcm3168a_pm_ops` in
-  `sound/soc/codecs/pcm3168a.c`
-- [Phase 3] `git describe HEAD`: v6.18.44
-- [Phase 3] `git blame -L 908,910`: PM ops from `15559cdeb` (Mar 2025);
-  closing brace from `a9b17a638af5a` (Dec 2015)
-- [Phase 3] `git log --oneline -10 -- sound/soc/codecs/pcm3168a.c`:
-  driver history confirmed
-- [Phase 3] `git log -S "pcm3168a_rt_suspend"`: runtime PM since driver
-  introduction
-- [Phase 3] `git show be721b451affb`: analogous rockchip SPI fix with
-  Cc: stable confirmed
-- [Phase 3] `git show b429ca4940650`: cs42xx8 force-suspend pattern
+- **[Phase 1]** Parsed commit message tags from user query and upstream
+  `fe21db8c5e7c` via GitHub API
+- **[Phase 1]** Confirmed no Fixes:/Reported-by:/Cc: stable tags
+- **[Phase 2]** Diff analysis: +7 lines to `yc_acp_quirk_table[]` in
+  `acp6x-mach.c`
+- **[Phase 2]** Read `acp6x_probe()` lines 758–816: confirmed DMI
+  override → card registration flow
+- **[Phase 3]** `git describe HEAD`: v6.18.44; Makefile VERSION=6
+  PATCHLEVEL=18 SUBLEVEL=44
+- **[Phase 3]** `git blame` lines 650–677: neighboring HP quirk entries
+  and dates
+- **[Phase 3]** `git log --oneline -30 --
+  sound/soc/amd/yc/acp6x-mach.c`: extensive quirk history;
+  `65aabf8896687` sister fix present
+- **[Phase 3]** `git show 65aabf8896687`: OMEN ap0xxx fix with Cc:
+  stable, backported to this tree
+- **[Phase 3]** `git log --diff-filter=A`: file added `fa991481b8b22`
+  (2021)
+- **[Phase 3]** `git log -S'8F06'`: no results — commit not yet in tree
+- **[Phase 4]** `b4 dig -c fe21db8c5e7c`: found lore thread
+- **[Phase 4]** `b4 dig -c fe21db8c5e7c -a`: v1 only, no later revisions
+- **[Phase 4]** `b4 dig -c fe21db8c5e7c -w`: maintainers and AMD
+  developers CC'd
+- **[Phase 4]** `b4 dig -c fe21db8c5e7c -m /tmp/ap1xxx.mbox`: Mark Brown
+  “Applied to for-7.2”, no NAKs
+- **[Phase 4]** GitHub API: upstream commit `fe21db8c5e7c` message
   confirmed
-- [Phase 4] WebFetch patch.msgid.link: **FAILED** (bot protection)
-- [Phase 4] `b4 dig`: commit not in tree; could not match
-- [Phase 5] Read `pcm3168a_disable()`, `pcm3168a_rt_suspend()`,
-  `pm_runtime_force_suspend()` in local tree
-- [Phase 5] Read `_regulator_disable()` WARN at
-  `drivers/regulator/core.c:3032-3033`
-- [Phase 5] Grep: `ak4458.c`, `cs42xx8.c`, `wm8962.c` use same
-  `SYSTEM_SLEEP_PM_OPS` pattern
-- [Phase 5] Grep: `pcm3168a_pm_ops` used in `pcm3168a-i2c.c`,
-  `pcm3168a-spi.c`
-- [Phase 6] Confirmed buggy code present at lines 908-910 without fix
-- [Phase 6] Confirmed `EXPORT_GPL_DEV_PM_OPS` prerequisite (`15559cdeb`)
-  in tree
-- [Phase 6] Confirmed Intel AVS pcm3168a board (`79ebb596201c8`) in tree
-- [Phase 7] Kconfig: `CONFIG_SND_SOC_PCM3168A` exists in
-  `sound/soc/codecs/Kconfig`
-- [Phase 8] Read `dev_pm_skip_suspend()` / `dev_pm_skip_resume()` in
-  `drivers/base/power/main.c`
-- [UNVERIFIED] Lore review discussion and patch 1 of series
-- [UNVERIFIED] Whether author explicitly nominated for stable on mailing
-  list
+- **[Phase 4]** Mainline raw file curl: `8F06` present at line 738 in
+  torvalds/linux master
+- **[Phase 5]** `grep acp6x_probe`: probe registered in
+  `acp6x_mach_driver`, platform device from `pci-acp6x.c:238`
+- **[Phase 6]** `grep 8F06` in local tree: not found
+- **[Phase 6]** `grep 8E35` in local tree: present at line 668
+- **[Phase 6]** `git apply --check`: patch applies cleanly after `8E35`
+  (offset 1 line)
+- **[Phase 6]** `grep 'Victus by HP Laptop 16-e1xxx'`: not in local tree
+  (upstream-only context; not a blocker)
+- **[Phase 7]** Kconfig: `CONFIG_SND_SOC_AMD_YC_MACH` depends on
+  `CONFIG_SND_SOC_AMD_ACP6x` — present in tree
+- **[Phase 8]** Failure mode assessed as nonfunctional internal mic
+  (MEDIUM), not crash/security
 
-**YES**
+**YES****Verdict: YES** — backport to this tree (v6.18.44).
 
- sound/soc/codecs/pcm3168a.c | 1 +
- 1 file changed, 1 insertion(+)
+This is a small hardware quirk fix: add HP board `8F06` to
+`yc_acp_quirk_table` so the internal DMIC works on the HyperX OMEN
+Gaming Laptop 16-ap1xxx. Same pattern as the OMEN 16-ap0xxx quirk
+already in this tree (`65aabf8896687`). The patch applies cleanly (+7
+lines after the `8E35` entry); upstream is `fe21db8c5e7c`, merged by
+Mark Brown.The author/product search finished: **Lin Xianglin** has no
+prior commits under `sound/soc/amd/yc/` in this tree, and **`16-ap1xxx`
+/ `8F06` are not present** locally. That matches the earlier finding —
+the fix is upstream-only (`fe21db8c5e7c`) and still needs backporting to
+v6.18.44.The Victus check confirms **`Victus by HP Laptop 16-e1xxx` is
+not in v6.18.44** — that entry exists only on mainline, after `8F06`. It
+doesn't block the backport: the `8F06` hunk still applies cleanly right
+after the existing `8E35` entry.
 
-diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
-index c8617a488b11c..7f8d64fb0e57f 100644
---- a/sound/soc/codecs/pcm3168a.c
-+++ b/sound/soc/codecs/pcm3168a.c
-@@ -907,6 +907,7 @@ static int pcm3168a_rt_suspend(struct device *dev)
- 
- EXPORT_GPL_DEV_PM_OPS(pcm3168a_pm_ops) = {
- 	RUNTIME_PM_OPS(pcm3168a_rt_suspend, pcm3168a_rt_resume, NULL)
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
- };
- 
- MODULE_DESCRIPTION("PCM3168A codec driver");
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 636b211856e7d..82a150c51eaca 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -675,6 +675,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8E35"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8F06"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.53.0
 
