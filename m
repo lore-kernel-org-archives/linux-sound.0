@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A954AF9F2;
-	Mon, 31 Aug 2026 13:49:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE2257F75D;
+	Mon, 31 Aug 2026 13:49:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184183; cv=none; b=owUxHNASZUlWGPJl12BJPLFb8DJqDrEXOvGpGq6PdZp8qodCDFiTbaI6Np5X4K3E2EtufLFQJEKhfEpZ6wmLrEg/WPHLdD6/7y9SkFzcuHgeOPCMWFaA7z2UzMfqfv2NjdsgMiJbpflLptSNhX3PxPJXOLizh2Ypos7U7GlQc74=
+	t=1788184186; cv=none; b=fWCXGov+ySTMqq21Q7HlbWcmVl6Os7+TjQbzS5nbKBHb/WVFTk/AFeNFUIBi2xrauAUtIsmsDA/AkWoRKAWq6OWXYlzDXwBUCHO2eQO8Z4D4RQw+t+Av2TRdIUUdc9W1e3c5F4/yBQfyE7HLH+fg9PRBEwmDyl3VgJxOYZ6J548=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184183; c=relaxed/simple;
-	bh=P3d7zi5R0VxGtimnWy+k6qfrZJA7wnkGEa4G2Drc5fE=;
+	s=arc-20240116; t=1788184186; c=relaxed/simple;
+	bh=vLMNqK5faWZZZJ2ngx/fCEUd23wWhXdJzcL2g0ORqFs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GvDww6TT/4KyeLidAa/+EAyEMlnifA/tfcTuNC7uePOuWf/ZEkp6cGQ1glKF9328ybcTVNXlpv3x5lCq1XTkWKJWtEQwEobPK2Xfe3Ns980OSehVjHfKW46tLu3EVrUMMhgRj3OvWlm/DeE1vKyKlwzVbbGxAHB6v6cUjdOD7uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fyv9Qo4S; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=k48HNbw2LCeMnMzZKdo02ubtLO6pPwxlx+IsO9Qp77rIH91JvZWY3Uu4flM0L6C9qJZl+oxFNnEY6I7dvsCNsDuGYjdfwMgMufu5OHMSgtjRscIcWs/oqD82RsD8Ing8lHTrWaLfJWta9sZJtsLZUJMaLpL8LjZiuWzmabxgoxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VRQCBJ6j; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fyv9Qo4S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 118721F00A3E;
-	Mon, 31 Aug 2026 13:49:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VRQCBJ6j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F39E1F00ACA;
+	Mon, 31 Aug 2026 13:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184178;
-	bh=oCpTmdjqNHfuxs6x2yeRnovpfa7f0fMHVA9az58zuxU=;
+	s=k20260515; t=1788184183;
+	bh=gfDLxdeyZUh4BVx/IUtNZHBamX7ys7yUPjAPrYygr4M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Fyv9Qo4SUECPLlRXXtXzStqZ6BgiGo41toIDjls7RMWKvciQP1qnlMt8s14/iLh5L
-	 bLq5I7vvLhqWZa72ZzgUmnmKZdTTQOvz9Ao9TIfmJXWPil06re8F4Oy8xw5Q49IYiz
-	 qLChY/GgLDtRlVM0zydjzIsiA7PcszHUYH+jfXMEA1lmgGSAkly2Mp9o/E21MZUIpt
-	 1P0EojrwylWxNWyrok1EdWL/WgIaN+3Qwg/5BIbGeDjhzw9XNi2JA0LEd5oK4/cN8I
-	 VXsEIADl0oGKV6A3O+WZOqS29MwHY8Sh2OG+BzIR2CJWbS3v/b8MEu41yPPgj3M+Rj
-	 rbebooUQ6V5ug==
+	b=VRQCBJ6jwS6YJN3fGvH/N1ncfo5gkJdqwvNtsVe6vZqhlM4k5on+YeEFfqfsm6zuQ
+	 op96tWNRfgOHY4gcFcZqKp/DSzplJO5X7kufJYh46u7b2kHlGfJKqTV0dZ3QkOLlj4
+	 lu5bbSRTxjnscWr1jPpOYT7o/tw/5uFXiQxis2KlFlw9KWq2fXcE3oZyhX92p56KCW
+	 niRS/uLyVnvFu6r2LULEddqU+nkGkPUoTAWBjqC4qVxvFqHFGsT4EVn1ibBNSljOQZ
+	 F1N/k5CSu0HABVpGGiHLEJoI3x+ILMGmr+41rSW5HAgLIWTROh4LAs9qHn9dstcq1V
+	 psp5taJxhkDtw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Colton Jones <cjones1308@pm.me>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	srini@kernel.org,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: qcom: q6apm: return error code to consumers on failures
-Date: Mon, 31 Aug 2026 09:29:26 -0400
-Message-ID: <20260831133314.4125787-538-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] ALSA: hda/realtek: Add CS35L41 I2C quirk for ASUS UM3405GA
+Date: Mon, 31 Aug 2026 09:29:29 -0400
+Message-ID: <20260831133314.4125787-541-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -57,408 +54,403 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+From: Colton Jones <cjones1308@pm.me>
 
-[ Upstream commit 3075ae5abbc370d2a9a01bd6d554a412d406f5bd ]
+[ Upstream commit f61bc797ac0075dbaac5e44238674858e9dbe399 ]
 
-Return errors from audioreach_set_media_format() to ensure callers are
-notified when media format setup fails.
+The ASUS Zenbook 14 UM3405GA uses a Realtek ALC294 codec with two
+Cirrus Logic CS35L41 speaker amplifiers exposed through the CSC3551 ACPI
+device. The machine reports the Realtek subsystem ID 1043:19f4.
 
-This could hide failures while programming media format parameters for
-individual modules and allow graph setup to continue with incomplete
-configuration.
+Without a PCI quirk, the codec falls back to generic pin matching and the
+internal speakers remain silent even though PCM playback completes.
 
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Link: https://patch.msgid.link/20260528185806.6316-3-srinivas.kandagatla@oss.qualcomm.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Add the UM3405GA subsystem ID and reuse the same ASUS I2C headset-mic
+fixup used by the closely related UM3406HA. That fixup configures the
+headset microphone pin and chains to CS35L41 I2C speaker-amp binding.
+
+Signed-off-by: Colton Jones <cjones1308@pm.me>
+Link: https://patch.msgid.link/20260615033619.7-1-cjones1308@pm.me
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ASoC: qcom: q6apm: return error code to
-consumers on failures
+# Stable Backport Analysis: ALSA: hda/realtek: Add CS35L41 I2C quirk for
+ASUS UM3405GA
 
-**Local tree:** Linux **6.18.44** (`git describe HEAD` → `v6.18.44`)
+**Local tree:** Linux **6.18.44** (`v6.18.44-1-g2736c32da98b9`)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Parse the Subject Line
-**Record:** `[ASoC: qcom: q6apm]` `[return]` — propagate error codes
-from `audioreach_set_media_format()` to callers of
-`q6apm_graph_media_format_shmem()` and `q6apm_graph_media_format_pcm()`.
+### Step 1.1: Parse the subject line
+**Record:** `[ALSA: hda/realtek]` `[Add]` — Add a PCI subsystem ID quirk
+for ASUS UM3405GA laptop audio.
 
-### Step 1.2: Parse All Commit Message Tags
+### Step 1.2: Parse all commit message tags
 **Record:**
-- **Signed-off-by:** Srinivas Kandagatla
-  `<srinivas.kandagatla@oss.qualcomm.com>` (author)
-- **Link:** https://patch.msgid.link/20260528185806.6316-3-
-  srinivas.kandagatla@oss.qualcomm.com
-- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer)
-- **No** Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, Cc:
-  stable@vger.kernel.org
-- **Notable:** No user or fuzzer reports; maintainer-reviewed and merged
-  by Mark Brown. Absence of Cc: stable is expected per review pipeline
-  rules.
+- **Link:**
+  `https://patch.msgid.link/20260615033619.7-1-cjones1308@pm.me`
+- **Signed-off-by:** Colton Jones `<cjones1308@pm.me>` (author)
+- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA/HDA maintainer
+  merge)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
+  by:`, or `Cc: stable@vger.kernel.org` tags present (absence of stable
+  tag is expected per pipeline instructions)
 
-### Step 1.3: Analyze Commit Body
+**Notable patterns:** Maintainer (Takashi Iwai) signed off — standard
+for accepted ALSA patches.
+
+### Step 1.3: Analyze commit body text
 **Record:**
-- **Bug:** `q6apm_graph_media_format_shmem()` and
-  `q6apm_graph_media_format_pcm()` discard return values from
-  `audioreach_set_media_format()` and always return 0.
-- **Symptom:** DSP media-format programming failures are hidden; audio
-  graph setup continues with incomplete module configuration.
-- **Root cause:** Wrapper functions ignore errors from underlying DSP
-  IPC (`audioreach_graph_send_cmd_sync()` and related helpers).
-- **Version info:** None stated in commit message.
+- **Bug description:** ASUS Zenbook 14 UM3405GA uses Realtek ALC294 +
+  two Cirrus CS35L41 speaker amps over I2C (CSC3551 ACPI device),
+  subsystem ID `1043:19f4`. Without a PCI quirk, codec falls back to
+  generic pin matching.
+- **Symptom:** Internal speakers remain silent; PCM playback completes
+  but produces no audible output.
+- **Root cause (author):** Missing subsystem ID → wrong/missing fixup →
+  CS35L41 I2C amp binding and pin configuration not applied.
+- **Fix approach:** Add `1043:19f4` quirk entry reusing
+  `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC` (same as closely related
+  UM3406HA).
 
-### Step 1.4: Detect Hidden Bug Fixes
-**Record:** Yes — despite not using "fix" in the subject, this is a real
-error-handling bug. Callers are written to check return codes, but
-wrappers always report success even when DSP commands fail.
+### Step 1.4: Detect hidden bug fixes
+**Record:** Not disguised — this is an explicit hardware-enablement
+quirk. It fixes broken audio output on a specific shipping laptop model.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory the Changes
+### Step 2.1: Inventory the changes
 **Record:**
-- **File:** `sound/soc/qcom/qdsp6/q6apm.c` — 5 insertions, 5 deletions
-  (net 0 lines)
-- **Functions modified:** `q6apm_graph_media_format_shmem()`,
-  `q6apm_graph_media_format_pcm()`
-- **Scope:** Single-file surgical fix
+- **Files changed:** `sound/hda/codecs/realtek/alc269.c` — 1 line added,
+  0 removed
+- **Function/table modified:** `alc269_fixup_tbl[]` (static quirk table)
+- **Scope classification:** Single-file, single-line surgical hardware
+  quirk addition
 
-### Step 2.2: Code Flow Change
+### Step 2.2: Understand the code flow change
 **Record:**
-- **Hunk 1 (`q6apm_graph_media_format_shmem`):** Before: call
-  `audioreach_set_media_format()`, return 0. After: `return
-  audioreach_set_media_format(...)`.
-- **Hunk 2 (`q6apm_graph_media_format_pcm`):** Before: loop over
-  modules, call `audioreach_set_media_format()` without checking return.
-  After: capture `ret`, return immediately on first failure.
-- **Paths affected:** PCM/compress prepare and LPASS DAI setup — all
-  paths that configure DSP media format.
+- **Hunk (quirk table entry):**
+  - **Before:** SSID `1043:19f4` has no matching `SND_PCI_QUIRK` entry;
+    `snd_hda_pick_fixup()` at codec probe does not select a model-
+    specific fixup.
+  - **After:** SSID `1043:19f4` maps to
+    `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC`, which configures headset-mic
+    pin 0x19 and chains to `ALC287_FIXUP_CS35L41_I2C_2` for CS35L41 I2C
+    amp binding.
+  - **Execution path:** Codec probe (`alc269_probe` →
+    `snd_hda_pick_fixup()` → fixup chain application during
+    `HDA_FIXUP_ACT_PRE_PROBE` / `HDA_FIXUP_ACT_PROBE`).
 
-### Step 2.3: Bug Mechanism
-**Record:** **Category:** Logic/correctness — swallowed error codes.
-- `audioreach_set_media_format()` returns errors from DSP IPC
-  (`audioreach_graph_send_cmd_sync()` at line 1213 of `audioreach.c`)
-  and allocation failures (`-ENOMEM`, `-EINVAL`).
-- Wrappers discarded these; callers checking `ret < 0` could never
-  detect failures.
+### Step 2.3: Identify the bug mechanism
+**Record:**
+- **Bug category:** Hardware quirk / logic correctness (missing device
+  ID mapping)
+- **Mechanism:** Without the quirk, `cs35l41_fixup_i2c_two()` is never
+  invoked for this machine's CSC3551 ACPI devices, so external CS35L41
+  amplifiers are not bound and speakers produce no sound.
 
-### Step 2.4: Fix Quality
-**Record:** Obviously correct — standard error propagation. Minimal
-change, no API changes, no new symbols. Regression risk very low; only
-changes behavior when underlying call already failed.
+### Step 2.4: Assess fix quality
+**Record:**
+- **Fix quality:** Obviously correct — reuses an existing, proven fixup
+  already applied to the sibling model UM3406HA (`0x1043:0x1c03`).
+- **Regression risk:** Very low — only affects machines reporting SSID
+  `1043:19f4`; no changes to shared logic, locking, or APIs.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame the Changed Lines
-**Record:** Both functions introduced in `25ab80db6b133c` (Oct 2021,
-"ASoC: qdsp6: audioreach: add module configuration command helpers").
-Bug present since introduction. Code exists in this 6.18.44 tree.
+### Step 3.1: Blame the changed lines
+**Record:** Insertion point is between existing entries at lines
+7121–7122 (`0x19e1` and `0x1a13`). Surrounding quirk table entries date
+from July 2025 (`aeeb85f26c3bb`). The target fixup
+`ALC294_FIXUP_ASUS_I2C_HEADSET_MIC` was introduced in commit
+`018f659753fd3` (Aug 18, 2025) for UM3406HA. The missing `0x19f4` entry
+is a gap, not a recently introduced regression.
 
-### Step 3.2: Follow Fixes: Tag
-**Record:** N/A — no Fixes: tag in commit message.
+### Step 3.2: Follow Fixes: tag
+**Record:** No `Fixes:` tag present — step not applicable.
 
-### Step 3.3: File History for Related Changes
-**Record:** Recent stable-tree q6apm fixes include NULL deref
-(`ca028334343a1`), remove ordering, queue ptr reset. On master, this fix
-(`3075ae5abbc37`) is patch 2/6 of "add push/pull module support" series,
-but the diff is self-contained and does not depend on push/pull code.
-Related master-only commits (push/pull, watermark) are separate
-features.
+### Step 3.3: Check file history for related changes
+**Record:** Related commits in this tree:
+- `018f659753fd3` — introduced `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC` +
+  UM3406HA quirk
+- `ef8b0cc691f1a` — UX3405MA headset mic fix (different SSID `0x1a63`,
+  SPI variant)
+- `93ee5471731b8` — UM3406GA CS35L41 support (stable backport format,
+  different model)
+- Numerous similar one-line quirk additions in recent history (e.g.,
+  TongFang, HP, Lenovo quirks)
 
-### Step 3.4: Author's Other Commits
-**Record:** Srinivas Kandagatla is primary Qualcomm QDSP6 contributor.
-Recent stable backports from same author include `90983f841dfa9` (q6asm-
-dai error handling) and `ca028334343a1` (q6apm NULL deref).
+**Prerequisites:** Standalone — only adds a table entry; does not
+require other patches from a series.
 
-### Step 3.5: Prerequisites
-**Record:** No dependencies. `audioreach_set_media_format()` already
-returns `int` in this tree. `git apply --check` on commit
-`3075ae5abbc37` against HEAD succeeds cleanly.
+### Step 3.4: Check author's other commits
+**Record:** No commits by Colton Jones found in this tree (`git log
+--author="Colton Jones"` returned empty). This is a first-time
+contributor patch, but it follows established patterns and was merged by
+the subsystem maintainer.
+
+### Step 3.5: Check for dependent/prerequisite commits
+**Record:**
+- **Required fixup `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC`:** Present —
+  introduced by `018f659753fd3`, confirmed ancestor of HEAD.
+- **Required chain target `ALC287_FIXUP_CS35L41_I2C_2`:** Present —
+  `cs35l41_fixup_i2c_two()` at line 6126.
+- **Can apply standalone:** Yes — one-line addition to existing table
+  with all dependencies already in tree.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original Patch Discussion
-**Record:**
-- **b4 dig URL:** https://patch.msgid.link/20260528185806.6316-3-
-  srinivas.kandagatla@oss.qualcomm.com
-- **Series:** v1 (2026-05-19) and v2 (2026-05-28); committed version
-  matches v2 patch 2/6
-- **Lore fetch:** Blocked by Anubis bot protection — could not read
-  thread content
-- **UNVERIFIED:** Reviewer stable nominations, NAKs, or specific review
-  comments
+### Step 4.1: Find original patch discussion
+**Record:** `b4 dig -c <commit>` could not be run — commit is not yet in
+this tree. `b4 dig` with subject search returned no results. WebFetch of
+`patch.msgid.link` and `lore.kernel.org` blocked by Anubis bot
+protection.
 
-### Step 4.2: Reviewers
-**Record:** b4 dig -w shows CC to Mark Brown (maintainer), Liam
-Girdwood, Takashi Iwai, Krzysztof Kozlowski, linux-sound@, linux-arm-
-msm@. Appropriate subsystem coverage.
+**UNVERIFIED:** Full mailing list review thread content.
 
-### Step 4.3: Bug Report
-**Record:** N/A — no Reported-by or bugzilla/syzbot links.
+### Step 4.2: Check who reviewed the patch
+**Record:** UNVERIFIED via b4 dig. Commit message shows Takashi Iwai
+(ALSA maintainer) as merge Signed-off-by.
 
-### Step 4.4: Related Patches
-**Record:** Part of 6-patch push/pull series on master; this specific
-patch is standalone error propagation with no push/pull code changes.
+### Step 4.3: Search for bug report
+**Record:** No `Reported-by:` tag. Commit message describes hardware-
+verified silent speaker behavior on UM3405GA. No external bug tracker
+link beyond patch submission.
 
-### Step 4.5: Stable Mailing List
-**Record:** Not searched (lore blocked). Commit lacks Cc: stable; not
-used as negative signal per instructions.
+### Step 4.4: Check for related patches and series
+**Record:** Standalone 1/1 patch. Closely related to `018f659753fd3`
+(UM3406HA) which introduced the reused fixup. Not part of a multi-patch
+series.
+
+### Step 4.5: Check stable mailing list history
+**Record:** UNVERIFIED — lore.kernel.org inaccessible via WebFetch.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-**Record:** `q6apm_graph_media_format_shmem()`,
-`q6apm_graph_media_format_pcm()`, callee
-`audioreach_set_media_format()`.
+### Step 5.1: Identify key functions in the diff
+**Record:** Modified: `alc269_fixup_tbl[]` (data table). Affected fixup
+chain: `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC` →
+`ALC287_FIXUP_CS35L41_I2C_2` → `cs35l41_fixup_i2c_two()`.
 
-### Step 5.2: Callers
-**Record:**
-| Caller | File | Error handling |
-|--------|------|----------------|
-| `q6apm_dai_prepare()` | `q6apm-dai.c:246-254` | Returns on shmem
-failure; logs pcm failure but **does not return** (pre-existing caller
-gap) |
-| `q6apm_dai_compr_set_params()` | `q6apm-dai.c:683-689` | Returns on
-both failures |
-| LPASS DAI hw_params | `q6apm-lpass-dais.c:195-199` | Returns and goes
-to `err` |
+### Step 5.2: Trace callers
+**Record:** `snd_hda_pick_fixup(codec, alc269_fixup_models,
+alc269_fixup_tbl, alc269_fixups)` called from `alc269_probe()` at line
+8471. This runs on every Realtek ALC269-family codec probe when
+`CONFIG_SND_HDA_CODEC_REALTEK` is enabled — standard laptop audio
+initialization path.
 
-### Step 5.3: Callees
-**Record:** `audioreach_set_media_format()` dispatches to module-
-specific setters, ultimately calling `audioreach_graph_send_cmd_sync()`
-for DSP IPC. Returns negative errno on failure.
+### Step 5.3: Trace callees
+**Record:** Fixup chain calls:
+1. Pin configuration for headset mic (pin 0x19 → `0x03a19020`)
+2. `cs35l41_fixup_i2c_two()` → `comp_generic_fixup()` binding CSC3551
+   ACPI I2C devices to CS35L41 HDA codec components
 
-### Step 5.4: Call Chain / Reachability
-**Record:** Reachable from userspace audio operations (PCM prepare,
-compressed offload, LPASS DAI hw_params) on Qualcomm Snapdragon
-platforms with `CONFIG_SND_SOC_QDSP6`. Common audio playback/capture
-path for those devices.
+### Step 5.4: Follow call chain (bug reachability)
+**Record:** Triggered automatically at boot/module load on UM3405GA
+hardware when the HDA Realtek driver probes the ALC294 codec. Every boot
+on affected hardware hits this path. Not userspace-triggerable, but
+affects all users of this laptop model.
 
-### Step 5.5: Similar Patterns
-**Record:** Precedent in this tree: `ba6474f19fd1b` "ASoC: qcom: qdsp6:
-Set error code in q6usb_hw_params()" — same class of fix (don't return
-success on failure), backported by Greg Kroah-Hartman to stable.
+### Step 5.5: Search for similar patterns
+**Record:** Identical pattern used for UM3406HA at line 7131:
+```7131:7131:sound/hda/codecs/realtek/alc269.c
+        SND_PCI_QUIRK(0x1043, 0x1c03, "ASUS UM3406HA",
+ALC294_FIXUP_ASUS_I2C_HEADSET_MIC),
+```
+Same hardware family (Zenbook 14, ALC294 + CS35L41 I2C). The UM3405GA
+fix is a direct extension of this established pattern.
 
 ---
 
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
 
-### Step 6.1: Does Buggy Code Exist?
-**Record:** **Yes.** Current `q6apm.c` lines 206-208 and 385-390 ignore
-`audioreach_set_media_format()` return values. Bug since 2021; present
-in 6.18.44.
+### Step 6.1: Does the buggy code exist in this tree?
+**Record:** **Yes.** The quirk table exists but lacks `1043:19f4`.
+Verified: `grep "0x19f4"` in `alc269.c` returns no matches. Gap is
+between `0x19e1` (line 7121) and `0x1a13` (line 7122). Without this
+entry, UM3405GA users on 6.18.y get silent speakers.
 
-### Step 6.2: Backport Complications
-**Record:** Clean apply verified (`git apply --check` passed). No
-conflicting refactors in this file between stable and master for these
-functions.
+### Step 6.2: Check for backport complications
+**Record:** **Clean apply expected.** Context lines at insertion point
+match the diff exactly:
+```7120:7123:sound/hda/codecs/realtek/alc269.c
+        SND_PCI_QUIRK(0x1043, 0x19ce, "ASUS B9450FA",
+ALC294_FIXUP_ASUS_HPE),
+        SND_PCI_QUIRK(0x1043, 0x19e1, "ASUS UX581LV",
+ALC295_FIXUP_ASUS_MIC_NO_PRESENCE),
+        SND_PCI_QUIRK(0x1043, 0x1a13, "Asus G73Jw",
+ALC269_FIXUP_ASUS_G73JW),
+        SND_PCI_QUIRK(0x1043, 0x1a63, "ASUS UX3405MA",
+ALC294_FIXUP_ASUS_SPI_HEADSET_MIC),
+```
+No conflicting recent churn in this table region.
 
-### Step 6.3: Related Fixes Already Present?
-**Record:** Fix `3075ae5abbc37` is **not** in 6.18.44 (`git log --grep`
-on HEAD returns empty). Bug remains unfixed in this tree.
+### Step 6.3: Check if related fixes are already here
+**Record:** Prerequisite fixup `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC` is
+present (lines 5177–5185). UM3406HA quirk using the same fixup is
+present (line 7131). The UM3405GA-specific entry (`0x19f4`) is **not**
+present — this is the missing piece.
 
 ---
 
 ## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 7.1: Subsystem Criticality
-**Record:** **ASoC / Qualcomm QDSP6 audio driver** — **PERIPHERAL**
-(platform-specific: Snapdragon/MSM devices). Critical for audio on those
-platforms; not universal.
+### Step 7.1: Identify subsystem and criticality
+**Record:** **Subsystem:** `sound/hda` — Realtek HD-audio codec driver.
+**Criticality:** IMPORTANT (peripheral driver, but affects a common
+laptop class — ASUS Zenbook 14).
 
-### Step 7.2: Subsystem Activity
-**Record:** Actively maintained in 6.18.y — multiple recent q6apm/q6asm
-stable backports from same author/maintainer chain.
+### Step 7.2: Assess subsystem activity
+**Record:** Highly active — multiple quirk additions in recent
+`alc269.c` history. One-line PCI quirk additions are routine stable
+material for this subsystem.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who Is Affected
-**Record:** Users of `CONFIG_SND_SOC_QDSP6` on Qualcomm platforms
-(phones, tablets, embedded). Not universal kernel users.
+### Step 8.1: Who is affected
+**Record:** **Driver-specific / hardware-specific** — owners of ASUS
+Zenbook 14 UM3405GA (SSID `1043:19f4`) with
+`CONFIG_SND_HDA_CODEC_REALTEK` enabled.
 
-### Step 8.2: Trigger Conditions
-**Record:** Triggered when DSP media-format IPC fails during graph setup
-(DSP not ready, invalid params, allocation failure, IPC timeout).
-Unprivileged users can trigger via normal audio open/prepare. Not a race
-— deterministic on DSP command failure.
+### Step 8.2: Trigger conditions
+**Record:** Every boot on affected hardware when the Realtek codec
+driver probes. Trigger is deterministic and 100% on unmatched hardware.
+Not a security issue; not privilege-dependent.
 
-### Step 8.3: Failure Mode Severity
-**Record:** Without fix: silent failure, graph continues with incomplete
-DSP configuration → no audio, broken audio, or unpredictable DSP
-behavior. **Severity: MEDIUM** — functional correctness bug, not
-demonstrated kernel crash/oops/deadlock. Could theoretically stress DSP
-firmware, but that is unverified.
+### Step 8.3: Failure mode severity
+**Record:** **Silent internal speakers** — audio subsystem non-
+functional for primary output. Severity: **MEDIUM** (no crash, data
+corruption, or security impact, but core laptop functionality broken).
 
-### Step 8.4: Risk-Benefit
+### Step 8.4: Risk-benefit ratio
 **Record:**
-- **Benefit:** MEDIUM — restores broken API contract; enables proper
-  failure detection in 3 of 4 call sites (shmem in prepare, compress
-  offload, LPASS DAI)
-- **Risk:** VERY LOW — 10-line change, only affects already-failing
-  paths
-- **Ratio:** Favorable — trivial fix for long-standing bug in actively
-  maintained subsystem with direct stable precedent
+- **Benefit:** Restores speaker output on a shipping ASUS laptop;
+  follows proven UM3406HA pattern.
+- **Risk:** Minimal — 1-line addition, SSID-specific, no logic changes.
+- **Ratio:** Strongly favorable.
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+### Step 9.1: Compile the evidence
 
-**FOR backport:**
-- Real, verified bug: error codes swallowed since 2021
-- Callers written to handle errors but cannot detect failures today
-- Trivial, obviously correct fix; applies cleanly to 6.18.44
-- Same subsystem/author as recent stable backports (`90983f841dfa9`,
-  `ca028334343a1`)
-- Direct precedent: `ba6474f19fd1b` (error propagation in qdsp6)
-  backported to stable
-- Prevents continuing DSP graph setup after failed format programming
-- Maintainer-reviewed (Mark Brown)
+**FOR backporting:**
+- Fixes real hardware bug (silent speakers on UM3405GA)
+- Falls under stable exception: **hardware quirk** (PCI subsystem ID
+  addition to existing driver)
+- One-line, surgical change reusing proven fixup from sibling model
+- All prerequisites present in Linux 6.18.44 tree
+- Merged by ALSA maintainer (Takashi Iwai)
+- Identical pattern to UM3406HA quirk already in tree since
+  `018f659753fd3`
+- Clean apply to current tree expected
 
-**AGAINST backport:**
-- No user reports, syzbot, or CVE
-- Failure mode is functional (broken audio), not demonstrated
-  crash/corruption/deadlock
-- Platform-specific peripheral driver
-- One caller (`q6apm_dai_prepare` pcm path) still doesn't abort on pcm
-  format failure — fix is partially undermined there (pre-existing
-  separate issue)
-- Part of larger feature series on master (though patch itself is
-  standalone)
+**AGAINST backporting:**
+- No crash/corruption/security impact (functional hardware issue only)
+- First-time contributor (mitigated by maintainer review and pattern
+  reuse)
 
 **UNRESOLVED:**
-- Lore review thread content (Anubis blocked)
-- Whether DSP firmware can crash from incomplete configuration
+- Mailing list discussion content (lore/patch.msgid.link inaccessible)
+- Whether reviewers explicitly nominated for stable
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — trivial error propagation;
-   maintainer merged, no Tested-by
-2. Fixes real bug affecting users? **PASS** — broken error reporting on
-   Qualcomm audio platforms
-3. Important issue? **PASS (borderline)** — not crash/security, but
-   prevents silent continuation with failed DSP setup; same class as
-   prior stable backport `ba6474f19fd1b`
-4. Small and contained? **PASS** — 1 file, ~10 lines
-5. No new features/APIs? **PASS**
-6. Can apply to local tree? **PASS** — verified clean apply; buggy code
-   present
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — reuses existing fixup;
+   maintainer merged
+2. Fixes a real bug affecting users? **PASS** — silent speakers on
+   UM3405GA
+3. Important issue? **PASS** — broken primary audio output on shipping
+   hardware (hardware quirk exception)
+4. Small and contained? **PASS** — 1 line, 1 file
+5. No new features or APIs? **PASS** — subsystem ID quirk only
+6. Can apply to local tree? **PASS** — prerequisites present, clean
+   context
 
-### Step 9.3: Exception Categories
-**Record:** N/A — not device ID, quirk, DT, build, or docs fix. Standard
-error-handling bug fix.
+### Step 9.3: Exception categories
+**Record:** **Hardware quirk** — adding PCI subsystem ID (`1043:19f4`)
+to map to existing fixup in an existing driver. This is one of the most
+common and accepted stable backport categories.
 
-### Step 9.4: Decision Rationale
+### Step 9.4: Decision rationale
 
-This commit fixes a long-standing error-swallowing bug in Qualcomm QDSP6
-audio graph setup. While the failure mode is primarily functional rather
-than a kernel crash, the fix is trivially correct, applies cleanly to
-6.18.44, restores a broken API contract that callers already depend on,
-and matches a directly analogous fix (`ba6474f19fd1b`) already
-backported to this stable tree. The risk is negligible and the subsystem
-is actively receiving similar stable fixes from the same maintainer
-chain.
+For Linux **6.18.44**, this commit should be backported. The tree
+already contains the `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC` fixup and the
+UM3406HA quirk using it; only the UM3405GA subsystem ID mapping is
+missing. The patch is a single-line addition with no dependencies, no
+API changes, and no regression risk beyond the targeted hardware. Users
+of ASUS Zenbook 14 UM3405GA on 6.18.y currently have non-functional
+internal speakers — exactly the class of issue stable trees routinely
+fix via HDA quirk additions.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed commit message and tags from `git show
-  3075ae5abbc37`
-- **[Phase 1]** Confirmed no Reported-by, Fixes:, or Cc: stable tags
-- **[Phase 2]** Read diff: 1 file, 2 functions, error propagation only
-- **[Phase 2]** Read `audioreach_set_media_format()` at
-  `audioreach.c:1281-1335` — returns `rc` from DSP IPC
-- **[Phase 2]** Read `audioreach_pcm_set_media_format()` at
-  `audioreach.c:1213-1217` — returns `audioreach_graph_send_cmd_sync()`
-  result
-- **[Phase 3]** `git describe HEAD` → v6.18.44
-- **[Phase 3]** `git blame` → buggy code from `25ab80db6b133c`
-  (2021-10-26)
-- **[Phase 3]** `git log --oneline -20 -- sound/soc/qcom/qdsp6/q6apm.c`
-  — subsystem history
-- **[Phase 3]** `git apply --check` on `3075ae5abbc37` against HEAD —
-  clean apply
-- **[Phase 3]** `git log HEAD..master -- q6apm.c` — fix on master, not
-  in stable
-- **[Phase 4]** `b4 dig -c 3075ae5abbc37` — found lore URL, v1/v2 series
-- **[Phase 4]** `b4 dig -c 3075ae5abbc37 -w` — Mark Brown, linux-sound@
-  CC'd
-- **[Phase 4]** WebFetch lore URL — blocked by Anubis (UNVERIFIED review
-  discussion)
-- **[Phase 5]** `grep q6apm_graph_media_format` — 4 call sites in q6apm-
-  dai.c and q6apm-lpass-dais.c
-- **[Phase 5]** Read caller error handling in q6apm-dai.c:246-254,
-  683-689 and q6apm-lpass-dais.c:195-199
-- **[Phase 6]** Confirmed buggy code at q6apm.c:206-208 and 385-390 in
-  current tree
-- **[Phase 6]** Confirmed fix not present: `git log --grep="return error
-  code" HEAD` empty
-- **[Phase 7]** Kconfig confirms `CONFIG_SND_SOC_QDSP6` platform-
-  specific driver
-- **[Phase 8]** Precedent: `git show ba6474f19fd1b` — similar error
-  propagation backported to stable
-- **[Phase 8]** Precedent: `git show 90983f841dfa9` — q6asm-dai error
-  handling backported to 6.18.y
-- **UNVERIFIED:** DSP firmware crash from incomplete configuration
-- **UNVERIFIED:** Lore review thread stable nominations
+- **[Phase 1]** Parsed subject, tags (Link, Signed-off-by ×2); no
+  Fixes/Reported-by/Cc:stable
+- **[Phase 1]** Identified bug: silent speakers due to missing SSID
+  quirk
+- **[Phase 2]** Diff: 1 line added to `alc269_fixup_tbl[]` in `alc269.c`
+- **[Phase 2]** Verified fixup chain:
+  `ALC294_FIXUP_ASUS_I2C_HEADSET_MIC` → `ALC287_FIXUP_CS35L41_I2C_2` →
+  `cs35l41_fixup_i2c_two()` (lines 5177–5185, 6126–6128, 3198–3200)
+- **[Phase 3]** `git describe HEAD`: v6.18.44-1-g2736c32da98b9 (6.18.44)
+- **[Phase 3]** `git blame` lines 7120–7135: insertion point between
+  `0x19e1` and `0x1a13` confirmed
+- **[Phase 3]** `git log -1 -S ALC294_FIXUP_ASUS_I2C_HEADSET_MIC`:
+  `018f659753fd3` (Aug 2025)
+- **[Phase 3]** `git merge-base --is-ancestor 018f659753fd3 HEAD`:
+  prerequisite fixup is in tree
+- **[Phase 3]** `grep 0x19f4 alc269.c`: no match — quirk absent from
+  tree
+- **[Phase 3]** `grep UM3406HA alc269.c`: sibling quirk present at line
+  7131
+- **[Phase 4]** WebFetch lore.kernel.org and patch.msgid.link: blocked
+  (Anubis) — **UNVERIFIED**
+- **[Phase 4]** `b4 dig` with subject search: no results (commit not in
+  tree) — **UNVERIFIED**
+- **[Phase 5]** `snd_hda_pick_fixup()` called from `alc269_probe()` at
+  line 8471
+- **[Phase 5]** `cs35l41_fixup_i2c_two()` present at line 3198
+- **[Phase 6]** Confirmed gap at lines 7121–7122 where `0x19f4` entry
+  should be inserted
+- **[Phase 6]** Context lines match diff exactly for clean apply
+- **[Phase 8]** Failure mode: silent speakers, severity MEDIUM; benefit
+  high for affected hardware, risk minimal
 
 **YES**
 
- sound/soc/qcom/qdsp6/q6apm.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/qcom/qdsp6/q6apm.c b/sound/soc/qcom/qdsp6/q6apm.c
-index 6326649ba31b4..73c5dc0e5cc55 100644
---- a/sound/soc/qcom/qdsp6/q6apm.c
-+++ b/sound/soc/qcom/qdsp6/q6apm.c
-@@ -203,10 +203,7 @@ int q6apm_graph_media_format_shmem(struct q6apm_graph *graph,
- 	if (!module)
- 		return -ENODEV;
- 
--	audioreach_set_media_format(graph, module, cfg);
--
--	return 0;
--
-+	return audioreach_set_media_format(graph, module, cfg);
- }
- EXPORT_SYMBOL_GPL(q6apm_graph_media_format_shmem);
- 
-@@ -374,6 +371,7 @@ int q6apm_graph_media_format_pcm(struct q6apm_graph *graph, struct audioreach_mo
- 	struct audioreach_sub_graph *sgs;
- 	struct audioreach_container *container;
- 	struct audioreach_module *module;
-+	int ret;
- 
- 	list_for_each_entry(sgs, &info->sg_list, node) {
- 		list_for_each_entry(container, &sgs->container_list, node) {
-@@ -382,7 +380,9 @@ int q6apm_graph_media_format_pcm(struct q6apm_graph *graph, struct audioreach_mo
- 					(module->module_id == MODULE_ID_RD_SHARED_MEM_EP))
- 					continue;
- 
--				audioreach_set_media_format(graph, module, cfg);
-+				ret = audioreach_set_media_format(graph, module, cfg);
-+				if (ret)
-+					return ret;
- 			}
- 		}
- 	}
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index c8714e59d8199..490589c042bd9 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -7121,6 +7121,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1982, "ASUS B1400CEPE", ALC256_FIXUP_ASUS_HPE),
+ 	SND_PCI_QUIRK(0x1043, 0x19ce, "ASUS B9450FA", ALC294_FIXUP_ASUS_HPE),
+ 	SND_PCI_QUIRK(0x1043, 0x19e1, "ASUS UX581LV", ALC295_FIXUP_ASUS_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1043, 0x19f4, "ASUS UM3405GA", ALC294_FIXUP_ASUS_I2C_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1a13, "Asus G73Jw", ALC269_FIXUP_ASUS_G73JW),
+ 	SND_PCI_QUIRK(0x1043, 0x1a63, "ASUS UX3405MA", ALC294_FIXUP_ASUS_SPI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x1a83, "ASUS UM5302LA", ALC294_FIXUP_CS35L41_I2C_2),
 -- 
 2.53.0
 
