@@ -1,201 +1,161 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A272DF719;
-	Mon, 31 Aug 2026 11:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.149.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788175895; cv=fail; b=XgKTH2z++ovGU/bUlnRAl/p7YT+RG+YQ9qX7JNgeYvdfzImgGQE25G3+yCvuFUlMAF4gHIOloqDn2aZFWwd+dGVv3nkLqL638baaxXUhOQ89mjzQ00DFuvp9ZaBVI6uRdQYViCAfgHbHbvFynd0tL/tLLnMPhJ0BSlN34/fElYA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788175895; c=relaxed/simple;
-	bh=5siRdqd8fMqa/tA/cZh+6folhHi0Un7j6prfazq3ddU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mda21CjSIKsEHkGA0Na6/0QMqLtEczupolTToR4+AOQ8E1X/p3J8kzRC3zxh4cNFZIuLJJRmwypXBI1fK3tLTfY3MbH1LV7Ul/nX+Ww5e5VR38CGOPTaR2FlNFCgDaKJPNLh5OPnVy/FlOjRMphNdA0RWeiybT7TDqvFrR13zkI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=N0ixawzG; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=AsY+Z2wM; arc=fail smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918CA39FCCA
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 11:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788175994; cv=none; b=A5M03hssBRojwEvotBLGfxLizmHSyHibWZJiAcHBB4WSpLNHN5A972a89tgk73cVDrA8iEVK7Yyt0ibyuKWf+5dQ0yOirymhL4FcK3TNBhNrFIFzgM8MXDElSsrOSfbz4Q/oICj+/D8EHHBuPzYq6JTh1PMdEBEaWK4ef3y0v7A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788175994; c=relaxed/simple;
+	bh=JA8jrHKuhk0CJFLWQ126/WU45hXRi8573vPGNkgvooI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PxQHEiNUfmWXai9GkFkWvR0DZU0MVaIXqLW6BVivBLyYcfi624SWUFGKStL1Luja/dsJxKBUgEkxd4iqQxK4KWPtASajF/ax9yr2zQKO444C1rizCfjhyjUrf6jsSLYKIJT+QWHE/r0S8HbJenxYJlTWETPxghBv8OkI1Y8vSfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NSg8yqJx; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="N0ixawzG";
-	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="AsY+Z2wM"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67V5RRGx1516251;
-	Mon, 31 Aug 2026 06:30:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=0IAvIequYYb/jK4e
-	QogfXqQZ4tC57b1elP3vmUndbM4=; b=N0ixawzGxFiVmst/57HgHuvzvn5iaedq
-	VTDVNIyhACyw8bC7CJ1vMo0vbJiIVLEVH4QBfmAdL1KKi+UlHlmxKEIC7KIIJQ/I
-	mDeU38SjR5e3GynbKplkltiE9MchCc6sXyuMNFnDpzoVFCtYgwqbm3X9uLG71vVZ
-	ZvSOWYz0mTcmtn/4BfYju/Yp7Isgc94vUKYryREY0NyDZmZjNJQZ71bmKlJgmqn7
-	TvcmhohT6FHUwztfDfNyjr5fhL5/3Hnu5TyMj+wJT02Wy14LRMcH57jRfaPIt9zX
-	C8w1LE0CrttvoVAO1Cb7xCpeiz1MF02+4WPm3BPR1t6hGXlXdpbQaQ==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022073.outbound.protection.outlook.com [52.101.48.73])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4gbvtysxf9-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 31 Aug 2026 06:30:58 -0500 (CDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nyCd2TO9c/7DsOhSiUNr/yb3GljCBAIzukH4x0tdL2v5etsULJgcD6CwHop39RD00eEWj9PJR+6Wscfb2ZJExkSbRgyvJRi8u0o8u9uO/9Ll6unFep6U4NYxwTqX/REQGQQ5L1uiRbclV2DlUUzy2L+c4313VEWqlhrVITSjjg1skTJAGIlmGRKmkQyoHCpQVWKHw0u1WQBVN0pT4MzEM9Ql7BCWDmHly5QrsJINV7/Ib5lLeNFHQffD6iObh8m7vDmJjKAPaC6QOi1Y+LtP1t3lg3qnjcOO36JrB7yA2eseJYFKGTpDj17Sq48YRuBpLOZMJGvc05hD9167j3Z9dA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0IAvIequYYb/jK4eQogfXqQZ4tC57b1elP3vmUndbM4=;
- b=lZfizS0yWNHBHM34NNMWNyUDxOKqQDkPK7sW6Al4PD8Wii/vMq7eRwgjvzanqgLb2azSI/Ryjq3OY0T1P/4b4baRSSSkf38pND7kmzjuDuSSNSOlzVwQRu4uAI1p3ouoNWjFspDmkmvYwXJesRRWo32PiSBat4R0MoW+e/MTQHfjIxElvpU6pUokCS9SNiH3I+5pU+wHzIr+FGb7j6c2Tay1fGEFFPvwB43v0hCkIaogZ4z17egSS0es0lpGsAmsTw68mCTaVg2E3XdPspQgnC5B9VlMAugi9CZ+lETBJlIWKPd6LTw5tewU4QB9yRShrPtseHh6YPoYPbDCMvnkhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 84.19.233.75) smtp.rcpttodomain=cirrus.com
- smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
- action=oreject header.from=opensource.cirrus.com; dkim=none (message not
- signed); arc=none (0)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NSg8yqJx"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c9aea40d799so1852650a12.0
+        for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 04:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0IAvIequYYb/jK4eQogfXqQZ4tC57b1elP3vmUndbM4=;
- b=AsY+Z2wMlXhzZtg7HHxabn16K37BP7EKY/rMRwpfkaTX4R8jdprdL31EXByMKvVngdPs9hPcHZaQj4RQNpgS6MjeyZAt3JT1JRH2X7UsK60gaylORFquJ6F6J5SlKRDKzEk9HQLMfjJWUq2k7QIhyBZjT+3Wtw9ematJPQKloeE=
-Received: from CH0PR04CA0005.namprd04.prod.outlook.com (2603:10b6:610:76::10)
- by MW3PR19MB4345.namprd19.prod.outlook.com (2603:10b6:303:49::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
- 2026 11:29:42 +0000
-Received: from CH2PEPF0000014A.namprd02.prod.outlook.com
- (2603:10b6:610:76:cafe::8d) by CH0PR04CA0005.outlook.office365.com
- (2603:10b6:610:76::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Mon,
- 31 Aug 2026 11:29:41 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
- smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
-Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
- CH2PEPF0000014A.mail.protection.outlook.com (10.167.244.107) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.8
- via Frontend Transport; Mon, 31 Aug 2026 11:29:41 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 2B591406544;
-	Mon, 31 Aug 2026 11:29:40 +0000 (UTC)
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.11])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 1383E820247;
-	Mon, 31 Aug 2026 11:29:40 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: vkoul@kernel.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-        patches@opensource.cirrus.com
-Subject: [PATCH] soundwire: bus_type: Use devres to free slave IDA
-Date: Mon, 31 Aug 2026 12:29:39 +0100
-Message-ID: <20260831112939.126708-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.47.3
+        d=gmail.com; s=20251104; t=1788175993; x=1788780793; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=YwoI9pJbspw0thPYgo5uRAdd6p/MMBJUTUU3yjoPKkw=;
+        b=NSg8yqJxJ4EAbff8QwbkWOeABB/hKCm7iWHNpSI0oRFMRQvCbTkBX4A8DCHhkdSJI9
+         f0h8bydV/1RqVaLqo2Mz/O/jcXAt8smYDAS5m/bljT9JVmoDYBhzIwLy0CxsZoD7bHKf
+         7WFwZ3kkjZFcs5A/YiyyOChMxpkrGQIflXp5m/2ua4cxY45tdUbujQ/FP30mSqp8IB/V
+         PXm4DS1+nnZfK88de5AXIq4+DZAQYMBA8vu//5IOBAqBn9qBXTGVKwDjBMduA3OH4KYb
+         lOPGDUPuuk+74izWhy6CjsaICtUySBfBdA1D0nn/WMYuSKtEKJowIHyFOP24MLe6Fzn8
+         1byQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788175993; x=1788780793;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YwoI9pJbspw0thPYgo5uRAdd6p/MMBJUTUU3yjoPKkw=;
+        b=A2ch+Fj/dh0+tpLJU1B5gqGk44yyW4NegZ+k6kXHaHMqN9ItuIeJFABdgw5SRQqreS
+         3my5AOjtnMaFogvpheCwKEodx91mCO90ppc7lM9JOGzm6oTbgBqXzrQ+7JNjiveG+R+L
+         facta2lnXqVCEfmkLfbQOTxFihn4bKI3XOkvYp3W1OJwaA4fcYF2n0tHBQNEUq9MvlVT
+         RsQrid7a5o0DHK7TRmTov7sWFMF0xARWI1ORBBRBAOzP6Bs0Zh/x8M9aEqQOiVtpzooX
+         LqHFanqh4/WNz8s4A1Ac65eG+2/EuStt81blxGG/4Kr272ql8mkAQK5ihQtu+Hy1OMgb
+         Niow==
+X-Forwarded-Encrypted: i=1; AKwUvBwYpiWZG5uxEdI/xSCd3iPzE25OcS6OK+5C+ChK7Cogyxk0xsOYbpEfGadJYmrwYWCW9sGQPg7UyJ8wOQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++m14A2AaYkh7UvieCsZI3vMcPiAvTGpWVWnv9RbphVSJ+b94q+g
+	Hwpet+W5htd8c59xo/K+IUP8BHLcoUdcxGAVkOKUXhJbp0pf/zLbf2xl
+X-Gm-Gg: AYBFou2/s+9PGWYXwz6NhaFRfIkCTvTE3gnIIQiUngTvpwqTnekHSNgB2mqZ5uWhKom
+	Ln+j7v4kjiSluJ/UC1PMNmvz2HB2xdvyPffVUni1I1js55rmbchZhbCPJDy2tzFr7pcer9oWpzC
+	jNVvkvMSYjkWwCTXrxNVGrI2CTbSMuXEbNBbxxsQxh0/3/t8i8btgvVe+xedawOkxIQ5UMLz/W0
+	Zy7ddvcfGcE9+nowcT3zAdXGp2usorpIJi6aZMikz7++QlCbq4X52rsDnwisYu7BCzUcQVZc9El
+	DhAvVSt0jx6fOpq3CZHFtDRee/SdboFA8K6Vis+dQYFpNDjAR9OZqggzxUwSl6VtlgJ8JG0T8AZ
+	hE5275cd8yuHGYoEfGQ9BW9YG8NHlF+lvKOqeBPZA9B1amOokoYSvwvQ4tVJG7dN2+jdumM3u5g
+	C4GbB7wQn1XRr7CnyakQYn7cQvHMQAyuVlOLjjFth0k8IkHsB9yN+xJZA3eCS6tB1ZZPKRMBhVN
+	sVeqFGGZWCEuSq1OQfk15ZJ9/+LJRNn6WpkItBI4Zr8ds1QZpgA99VmCUZUe8gW2hbxy4piviC7
+	n7RvFqvXmXZ3KkVxsd8XxpRL+RWhWol+2b6zuztXHZtQg5M=
+X-Received: by 2002:a17:90b:2f0f:b0:396:41d1:cbc7 with SMTP id 98e67ed59e1d1-396d0d92d15mr41287848a91.3.1788175992822;
+        Mon, 31 Aug 2026 04:33:12 -0700 (PDT)
+Received: from [192.168.2.3] ([2403:581e:d87e:0:fc2d:ed31:e80e:412d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f7bc825sm34111826eec.9.2026.08.31.04.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 04:33:12 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH 0/3] Enable shared GPIO for Apple Silicon audio support
+Date: Mon, 31 Aug 2026 21:32:38 +1000
+Message-Id: <20260831-apple-shared-gpio-v1-0-e855b12e18ce@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000014A:EE_|MW3PR19MB4345:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 417d0954-c5c8-4acd-ce9c-08df0753262f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|34020700016|61400799027|36860700016|23010399003|82310400026|10067099003|16102099003|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	FVsytd9jBFy4OZOezb/m8EcLo+JGmzvf21CPGHO9/Mmuhw/NcZq++8/zhREI80F5xcrHPmzEGRcpuRlKrzefMSRYqrQfutkYQ7yVpoTZulXVwk4qY5OKVR5eJKMxgXkCTde10vrJG2eJkDB6t/XBTic72iXDjGxEZs39KB+aCZVY3BRwKJuhGpI8/oQAqYzWnAwGBIgMl3+gxMpK5sOd2Td0GhK09rI+ebXP35W0oXZreTzyeoGozO4Fefrt6wo9hE3EhzSXrqaXaxLDYWLA8XguMlQ//OJy+dVFPFkNfqhShD4n8Z2mxAWnrdChTchY4avpTXuPYZA+g1s1xEyvlI0MsiCfMyG+n25UUr0G8RbG7QNI82QbvN8rTYK98MzT8JPeDLCYgj7pFwZOgy9qYsQyJ4zf7BHbb05kQH4Aa+LCfmYWFSWsQhk5mfGRdmrS3sHCzvXp3EP1SDVOhyFrO9ut21IrMSOdPY17iD++rU0s96C111+XlV1FUkghyOVu+Oe6yGXoSGh3lUzFqewa2zkW1AOuoMq+JLuktnCb02BwqKBB/g8f96BRvFy/WYVpjT/Pe3zwD8RKEboggEmDc1rB3QEJtWWwilKO1eq9E6KRwXUYFNozqZYnF0mLU/VRdv08NdduWqKfPNbaOkCvxhfXJtDhA9GASEbj246SP+4057tgkNCi72X5WB2SNIWbeCfaGJpzvJsOMjkQJv9itQ==
-X-Forefront-Antispam-Report:
-	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(34020700016)(61400799027)(36860700016)(23010399003)(82310400026)(10067099003)(16102099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	RBc0TpJx04UAFml+BsoP3zBJlOVcQl/TZ/qFBonolbd9WGFTxXjAXmFthIxRUIKlrZ/6ZCbYtV+b/upbwIbuBo3ndkQvy/9MP+Je6ltAP0uvWLS7coKWpixdYiye5HBAyNPWKZ/AKhCmiYdPMPsd7J2N3bOHnEVpNsPVS7FhpgtAPi7P2MRIHRUEIuNNp6J9in5zK7TIBdNoUfj0ZW58x8WAjL6g7QTcw61UzSxPoj918qvuVvtMuj2+qkof9YMltD4n2JCFbhmz10NW4i++coKyau7K6P3MoCwtoSZcDWfyjBt9C7l5lXmt7J/Vqy2hgZ8NIyHvMGbiuzpmUNcKuOzZUFS5VnVNYV3cNRxiC+bT4MThmWhBALkkZ3AuNGcmLzHnTtibLr73idXLZngYTCSkhPNL9kDQuUf4hofxQ6ztwKIa+bbW39+72lcMdUQI
-X-Exchange-RoutingPolicyChecked:
-	d58JI57raTPazFcJLH9lfPvvEiVmc1K/lkKIHTV3XshNIMXFLNixsFFKAGIE1DPexp2QeExRjnj62HDQjtr0Xij1DRicuMR4puSr1PdVEzI2NnbyC+F23DGSr4/7ITEfxFxOiAGolkZjOiDeTi1ZH3AJYzjzKlyRqFe8PSiS8caFmzQHiwupKxVzpzrqfvjskl3QXOWhopT1YMwAhYxdZBeAgfDozGQIFYAHTSTyStl3xitcr2szXznyuC24DpfYkXUYDKVrPYS9lFLSkXRxwcG21rZcVI5inMg3wAUZnAlpFA9Xyr5eODZsF6Fxl3IZsepU8lIcMqc8GPEFsDQLTg==
-X-OriginatorOrg: opensource.cirrus.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 11:29:41.1865
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 417d0954-c5c8-4acd-ce9c-08df0753262f
-X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH2PEPF0000014A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR19MB4345
-X-Proofpoint-GUID: YfCaqIf2BdHshIcfcdI9X7ej1itKjTT-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODMxMDA5OSBTYWx0ZWRfX8P5Snen4rcJh
- wwNb7AvNY2qc0u5IQ6Fs+os0/OceMXCZvoyjOFy+2vlNZ+ob/Q31E86jyJ+FdNFzXQ/7SEzCV2c
- 9YkEU3qtsjao4UrMkqAGnfmuUEdtA7k5N30VvaKn9bH0c2OMJ23UzzovsqLbDvDwYfjLMo2eJaT
- MeOZuh5PC5dWAI8qeXYpmFdzNkGmAzepHvNwyHvSRgK70peIkcPo/d4sjUNpergiZ2hz7xiIFTq
- avmWhaJwsYcw0pL4umdaMvXHFtudkmA6YEY7I8Lvh6k8iz6qRSgvKBQsX0cIVw+QLUEVHbCKFYL
- GVB7WrHzwMlhxZ6/MamWOnnXz1AHfYQgMF1ApYQcwHLmGpNB4sfV3D5uvsIV8B7Nx9SFA2wtreY
- sVDo1IXvXlHf9Sge2sJRzSU8FWf8T99CP5MdC8rcbFYZzHDosHSd0UvuJtYaZbbvfRxlbBN3i6L
- +1VC7HGBp+1aN1I/9IQ==
-X-Authority-Analysis: v=2.4 cv=LcMMLDfi c=1 sm=1 tr=0 ts=6a9565f2 cx=c_pps
- a=o5n9MpPAMAXLgzyrJXPTXg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=Sv0fKeRqtYgA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=Dj2-6B8FqX4mGL0U3gbX:22
- a=w1d2syhTAAAA:8 a=RrUWIrlwsjPz-q60CHAA:9
-X-Proofpoint-ORIG-GUID: YfCaqIf2BdHshIcfcdI9X7ej1itKjTT-
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODMxMDA5OSBTYWx0ZWRfX1qtMe1CwwAzp
- 5dcow3NvkYDeIpMSo4z0Z1BC3bl8Qi5keHUVmxQgno26JQuTVquzzpr63Z/sIr4zLK0WGvxApHl
- abK5IqkbB3mGiYULc0WTeeYF9bSGtKQ=
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTNJqVKBqxAXFX5gCIGmo8aEc
+ HcrLr/FezspokCpyXaKeIvKtiYUeUbd5NcRLH0yWWOdqWzNPoQFrJOP6HkMsrEzQ+Vwu+JSekp
+ diBjkcz7b+9/6eszonr8RHccXNvdv2HUAAAA=
+X-Change-ID: 20260829-apple-shared-gpio-60f86e74e35a
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Sen Wang <sen@ti.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, asahi@lists.linux.dev, 
+ James Calligeros <jcalligeros99@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2665;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=JA8jrHKuhk0CJFLWQ126/WU45hXRi8573vPGNkgvooI=;
+ b=kA0DAAoW1DYy0VH3eWAByyZiAGqVZm6gk8hq/DZpJ7Sxzc6aABaz6Amen7+KLPp8mgNqyZt2h
+ IiRBAAWCgA5FiEEsIISSJsyBtmPFHm91DYy0VH3eWAFAmqVZm4bFIAAAAAABAAObWFudTIsMi41
+ KzEuMTIsMywyAAoJENQ2MtFR93lgVXIA/jxuSb36HlgsJsBZYezGXmJU5VV9xJiVbYBpEWb7i9w
+ ZAP94S1jJis0hOEMTV0nlB7uKc1AoDcePfnSn7FH6oi7sBw==
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Create a devres cleanup action to call ida_free(). This ensures that it
-is freed after anything that is cleaned up by devres and might have been
-using the allocated ID. It also avoids mixing devres and manual cleanup
-during sdw_bus_probe().
+Hi folks,
 
-Fixes: aab12022b076f ("soundwire: bus: Add internal slave ID and use for IRQs")
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+On Apple Silicon Macs, every speaker codec's software shutdown pin
+is connected to the same GPIO line. This line must be pulled high
+whenever any codec asserts it so.
+
+This makes power management impossible. When we goe through the list of
+codecs and call each suspend/resume, the GPIO line is asserted low or high
+by the first suspended/resumed codec. This causes issues for the subsequent
+codecs; they are already shut off by the time we try to cache the register
+state on suspend.
+
+In the downstream Asahi Linux kernel[1], we were previously (ab)using the
+regulator API to work around this safely. We replaced the shutdown-gpios
+property in the codec Devicetree nodes with a virtual regulator which acts
+as a proxy for the GPIO line. The regulator will not deassert the pin until
+every consumer wants it off, and it will assert it as soon as any one
+codec requires it.
+
+Now that the kernel has shared GPIO support, this has become unnecessary.
+The first commit in this series enables shared GPIO for ARCH_APPLE so
+that we can take advantage of this new(ish) infrastructure.
+
+The shared GPIO infrastructure considers the first state change of a
+line to be the "default" state, which is the state that it will allow
+to be asserted without all consumers agreeing. Currently the TAS2764 and
+TAS2770 drivers initialise the shutdown GPIO high, which means the first
+change is to low. This does not help us, as the line will not be reasserted
+on resume until all codecs have tried to assert it. Since both drivers
+explicitly pull the line high on codec probe, we can initialise it low,
+causing the first state change to be from low to high. This makes the
+shared GPIO proxy behave as we intend. The second and third commits in this
+series implement this.
+
+This has been enabled in the Asahi Linux kernel since 7.1.9, and addresses
+the last obstacle to attempting to upstream the machine driver for this
+platform.
+
+We intend to take the Kconfig patch via our soc tree. The two codec driver
+changes should be taken via asoc.
+
+Regards,
+James
+
+[1] https://github.com/AsahiLinux/linux
+
 ---
- drivers/soundwire/bus_type.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+James Calligeros (3):
+      arm64: Kconfig: Select HAVE_SHARED_GPIOS for Apple Silicon
+      ASoC: tas2764: Initialise SDZ GPIO low
+      ASoC: tas2770: Initialise SDZ GPIO low
 
-diff --git a/drivers/soundwire/bus_type.c b/drivers/soundwire/bus_type.c
-index d61a97c5b41ef..fea15107cd9b9 100644
---- a/drivers/soundwire/bus_type.c
-+++ b/drivers/soundwire/bus_type.c
-@@ -71,6 +71,13 @@ int sdw_slave_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	return 0;
- }
- 
-+static void sdw_slave_ida_free(void *data)
-+{
-+	struct sdw_slave *slave = data;
-+
-+	ida_free(&slave->bus->slave_ida, slave->index);
-+}
-+
- static int sdw_bus_probe(struct device *dev)
- {
- 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-@@ -104,15 +111,16 @@ static int sdw_bus_probe(struct device *dev)
- 		return ret;
- 	}
- 	slave->index = ret;
-+	ret = devm_add_action_or_reset(dev, sdw_slave_ida_free, slave);
-+	if (ret)
-+		return ret;
- 
- 	/* Create IRQ mapping now so the driver can get it in probe() */
- 	sdw_irq_create_mapping(slave);
- 
- 	ret = drv->probe(slave, id);
--	if (ret) {
--		ida_free(&slave->bus->slave_ida, slave->index);
-+	if (ret)
- 		return ret;
--	}
- 
- 	mutex_lock(&slave->sdw_dev_lock);
- 
-@@ -170,8 +178,6 @@ static void sdw_bus_remove(struct device *dev)
- 
- 	if (drv->remove)
- 		drv->remove(slave);
--
--	ida_free(&slave->bus->slave_ida, slave->index);
- }
- 
- static void sdw_bus_shutdown(struct device *dev)
--- 
-2.47.3
+ arch/arm64/Kconfig.platforms | 1 +
+ sound/soc/codecs/tas2764.c   | 2 +-
+ sound/soc/codecs/tas2770.c   | 2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+---
+base-commit: cf72cbb39da84b6f02f90c07f33b102fc10b16f0
+change-id: 20260829-apple-shared-gpio-60f86e74e35a
+
+Best regards,
+--  
+James Calligeros <jcalligeros99@gmail.com>
 
