@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECADC469855;
-	Mon, 31 Aug 2026 13:34:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3025D46EF98;
+	Mon, 31 Aug 2026 13:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183294; cv=none; b=XGKRgH6XFYYv/BTtMnl5ce0woYari3Xdt8Lev9ohZWRbRAdPF3kIGLmJJx/xBxRCw5l3EFwtRsJy8RbUs+bYDOIfuwZD+0Av3ui65dptQL9ouxcuGff7N9OXXHcG1jLiR8Do7gNFfYW/URapk+fwGncgIGKbWRTkWS6bCnnEL+g=
+	t=1788183306; cv=none; b=Mkqv4WSqARIznsR3PKxERmNQJb8VAPvEmOANeTtAXwmRDKGC+TZItb/YVL/0nbB+qPjw++hX/bLl+QO0uU7BliJr8BZL5PxL3YR8W0CVcygzKNvm8EZeddJjt0YWCPxmlahOARd0SSJxuHbM0qPfT8y6MZCsJpFyAI2GatY5AuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183294; c=relaxed/simple;
-	bh=pY6oZyil6X72ogphhbf5fgHGa/BIOUFgikVKfvisMl0=;
+	s=arc-20240116; t=1788183306; c=relaxed/simple;
+	bh=IIJJnT5rq24O4eQc43ogTdi47H7LtfQXMj6dsHdaS8E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L9hKjSL+IYNrrcTkHrURkd+edkdhuDPvafOPFOxLgJx6s1ebCNrtKIhW7ukQdBrPJYJPUdiWx7SQYwwCQeG7xPRplHRU4HxEx2vcGPrM9xH2BhjN64nA0tLqQbIG3ATqa3ENHa+YnyXA2/6sB6/dKxq4bAdIW2HSsVk/tWzvxm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A//w0OUh; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=dJGonHryyAOcDAHEohsMH53P7NkND6F4MYDZfYzPfvLar6FGtr95mzoca3b28/UGpo9P4BysbMHkY8sRB9vYAQ4jbJQg/hN6m5633ndybaoHae6YJqwxEjEBq/2q//AYZMfjs7rPQu65Tttoz7Qo++n5kO3K0Mi2Q1IlxpjV3KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b3MsK+SC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A//w0OUh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF0601F00A3F;
-	Mon, 31 Aug 2026 13:34:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b3MsK+SC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 868421F000E9;
+	Mon, 31 Aug 2026 13:35:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183291;
-	bh=40BT4Xcte5wJP6zPSe0nFxczfcaDOItBpRR5JXW1bCc=;
+	s=k20260515; t=1788183303;
+	bh=0Pt20Ngb6iAONZKq2t2fx67wf1zvZDiz2qMZDURnkOA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=A//w0OUhcDXx3DsR3YNmkxS/LI6K1zulRgNey2INW0iFvGuJUHtT9I/DrTomi+8D/
-	 IE3DRC6z5XBNir2AjAmCy7z3wY3Yke4L1YdlHIv492AfBRhVnKGFkc3qCs47+R/43s
-	 vMexJMvEQOIdzRSMbv2NHd+RGUPLDmzmfj7ewUT+6Nh8FN1Xq8sTuCkKC38D7qdqua
-	 p9pZHe/I3dHA5okD8cCSOHf0+KgO5JRVNs3cPBnB28nDqt9qE3PEntj460IquebHkp
-	 ok0PDqTlG1nKfKGltoMQtpt4bqj3kczlXJvD/ORnMz0dM5hNeVaU6dPeH8PzZ4Af+H
-	 vTruguEjt48hA==
+	b=b3MsK+SC2yZ1ojLcAL5v8nqFq5d8ppS9KFe2C2Vckps6Jqey+s9Kg5zBUQlvT0NiU
+	 p4x8bX+BQ8Afo1uIA8tDH8tWG20GBGeP17JeBxaAH6LLjn6eaCdSU4xZPDnG6JsVr+
+	 DwfbPvwxxyv6IVws5ngq1JaUUd6Q56FDykTklrZ64bI5VHUFE1gZM1QBUF7OYbw8Jv
+	 YtuwUwRVRDix4MFiA0bh4vVqE4DwPAb0LsUYM4sEcubMzbA19ZWSmjbUQYpb0XXHWu
+	 bCq8bBkf4m1lLypQS3QOpAOcSOf6QKNdPFWCzgB+2FB8N+jDn+mwyh/eGSsXZuXmQ5
+	 W3cmRpHiO/Gng==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Furst Blumier <seal@furst.blue>,
+Cc: =?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ALSA: hda/realtek: Add quirk for HP 255 15.6 inch G9 Notebook PC
-Date: Mon, 31 Aug 2026 09:21:29 -0400
-Message-ID: <20260831133314.4125787-61-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: usb-audio: Propagate write errors in generic mixer put callbacks
+Date: Mon, 31 Aug 2026 09:21:36 -0400
+Message-ID: <20260831133314.4125787-68-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -48,369 +48,451 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.48
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Furst Blumier <seal@furst.blue>
+From: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-[ Upstream commit 98e157916f83c26a41448267180944048d2f1460 ]
+[ Upstream commit 87a6f2fa6e6c69bb649fa327635a0bd977724603 ]
 
-The HP 255 15.6 inch G9 Notebook PC (PCI SSID 103c:8a1b) uses the
-ALC236 codec but lacks an entry in the quirk table, causing the kernel
-to fall back to a null SSID match (103c:0000) and skip the necessary
-fixup. Add a quirk entry using ALC236_FIXUP_HP_MUTE_LED_COEFBIT2,
-matching the HP 255 G8 which uses the same codec and fixup. This fixes
-the mute-button LED and fixes an issue with unplugging and replugging a
-headset jack not being recognized as an audio sink.
+mixer_ctl_feature_put(), mixer_ctl_procunit_put(), and
+mixer_ctl_selector_put() ignore failures from their SET_CUR helper
+routines and report the control as changed whenever the requested
+value differs from the current one.
 
-Signed-off-by: Furst Blumier <seal@furst.blue>
-Link: https://patch.msgid.link/20260609201706.502075-1-seal@furst.blue
+If the device rejects the write, userspace still sees success although
+the hardware state did not change. Propagate write failures instead,
+using filter_error() so ignore_ctl_error keeps the same semantics as
+the existing get paths.
+
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://patch.msgid.link/20260419-usb-write-error-propagation-v1-1-5a3bd4a673ae@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ALSA HDA Realtek HP 255 G9 Quirk
+# Stable Backport Analysis: ALSA usb-audio generic mixer put error
+propagation
 
-**Local tree:** Linux **6.18.44** (`git describe HEAD` → `v6.18.44`,
-Makefile `VERSION/PATCHLEVEL/SUBLEVEL` = 6/18/44)
+**Local tree:** Linux **6.18.43** (`git describe HEAD` → `v6.18.43`,
+Makefile `6.18.43`)
+
+**Upstream commit:** `87a6f2fa6e6c6` (exists in mainline; **not** yet in
+this 6.18.y tree)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Parse the subject line
-**Record:** `[ALSA: hda/realtek]` `[Add]` — Add quirk for HP 255 15.6
-inch G9 Notebook PC (PCI SSID quirk table entry).
+### Step 1.1: Subject line
+**Record:** `[ALSA: usb-audio]` `[Propagate]` — propagate SET_CUR write
+failures from generic mixer put callbacks to userspace.
 
-### Step 1.2: Parse all commit message tags
+### Step 1.2: Tags
 **Record:**
-- **Signed-off-by:** Furst Blumier `<seal@furst.blue>` (author)
-- **Link:**
-  https://patch.msgid.link/20260609201706.502075-1-seal@furst.blue
-- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA/HDA
-  maintainer)
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
-  stable@vger.kernel.org`
-- Notable: maintainer sign-off present; no syzbot/fuzzer report
+- **Signed-off-by:** Cássio Gabriel `<cassiogabrielcontato@gmail.com>`
+  (author)
+- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer)
+- **Link:** `https://patch.msgid.link/20260419-usb-write-error-
+  propagation-v1-1-5a3bd4a673ae@gmail.com` (patch series v1, part 1)
+- **No** Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or
+  Cc: stable in the upstream commit message
+- Notable pattern: this is **patch 1/3** of a write-error-propagation
+  series; parts 2 and 3 are already in this tree (see Phase 6)
 
-### Step 1.3: Analyze commit body
+### Step 1.3: Body analysis
 **Record:**
-- **Bug:** HP 255 15.6 inch G9 (PCI SSID `103c:8a1b`) uses ALC236 codec
-  but has no quirk entry.
-- **Mechanism:** Kernel falls back to a generic/null SSID match
-  (`103c:0000`) and skips the needed fixup.
-- **Symptoms:** Broken mute-button LED; unplugging/replugging a headset
-  jack is not recognized as an audio sink.
-- **Fix approach:** Add quirk using `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2`,
-  same as HP 255 G8.
-- **Version info:** None stated in commit message.
+- **Bug:** `mixer_ctl_feature_put()`, `mixer_ctl_procunit_put()`, and
+  `mixer_ctl_selector_put()` call SET_CUR helpers but ignore their
+  return values. If the requested value differs from current, they
+  report success (`changed=1`) even when the USB write failed.
+- **Symptom:** Userspace (alsamixer, PipeWire, PulseAudio) believes a
+  mixer control was applied; hardware state is unchanged.
+- **Root cause:** Asymmetric error handling — get paths already use
+  `filter_error()` on read failures; put paths did not check write
+  failures.
+- **Version info:** None in message.
 
-### Step 1.4: Detect hidden bug fixes
-**Record:** Not disguised — this is an explicit hardware quirk fix. It
-is not a crash/security fix, but it fixes real, user-visible audio
-behavior on a specific laptop model.
+### Step 1.4: Hidden bug fix?
+**Record:** No — this is an explicit correctness bug fix, not disguised
+cleanup. The commit message clearly describes incorrect success
+reporting on failed hardware writes.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory the changes
+### Step 2.1: Inventory
 **Record:**
-- **Files:** `sound/hda/codecs/realtek/alc269.c` (+1 line)
-- **Functions modified:** None directly; change is in static
-  `alc269_fixup_tbl[]`
-- **Scope:** Single-file, single-line surgical quirk addition
+- **File:** `sound/usb/mixer.c` only (+13 / -4 lines)
+- **Functions modified:** `mixer_ctl_feature_put()`,
+  `mixer_ctl_procunit_put()`, `mixer_ctl_selector_put()`
+- **Scope:** Single-file, surgical fix (3 call sites, 4 error-check
+  blocks)
 
-### Step 2.2: Code flow change
-**Record:**
-- **Before:** `103c:8a1b` has no entry in `alc269_fixup_tbl[]`; probe
-  falls through to a generic HP fixup (vendor table
-  `ALC269_FIXUP_HP_MUTE_LED` at line 7652) or no specific ALC236
-  coefbit2 fixup.
-- **After:** Exact SSID match selects
-  `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` during `snd_hda_pick_fixup()` in
-  codec probe.
-- **Path affected:** Codec initialization / probe path (boot and module
-  load).
+### Step 2.2: Code flow per hunk
+
+| Hunk | Before | After |
+|------|--------|-------|
+| `mixer_ctl_feature_put` (per-channel + master) |
+`snd_usb_set_cur_mix_value(...)` called, return ignored; `changed=1`
+always set | Capture `err`; on `err < 0`, `return filter_error(cval,
+err)`; only set `changed=1` on success |
+| `mixer_ctl_procunit_put` | `set_cur_ctl_value(...)` ignored; always
+`return 1` | Check `err`; propagate via `filter_error()` on failure |
+| `mixer_ctl_selector_put` | Same as procunit | Same fix |
+
+**Record:** Affects the normal userspace write path for generic USB
+Audio Class mixer controls (feature, processing/extension, selector
+units).
 
 ### Step 2.3: Bug mechanism
-**Record:**
-- **Category:** Hardware workaround / audio codec quirk (HDA
-  pin/LED/jack configuration).
-- **Mechanism:** Missing PCI SSID → wrong fixup applied → incorrect
-  mute-LED coefficient setup and headset jack behavior for ALC236 on
-  this board.
+**Record:** **Logic/correctness fix** — ignored error return from USB
+control URB path (`snd_usb_mixer_set_ctl_value()` can return `-EINVAL`,
+`-ETIMEDOUT`, `-EIO`). Put callbacks violated ALSA semantics by
+reporting change on failure.
 
-### Step 2.4: Fix quality assessment
+`filter_error()` preserves `ignore_ctl_error` quirk semantics matching
+get paths:
+
+```129:130:sound/usb/mixer.c
+#define filter_error(cval, err) \
+        ((cval)->head.mixer->ignore_ctl_error ? 0 : (err))
+```
+
+On write failure with `ignore_ctl_error`, returning 0 ("no change") is
+consistent — hardware did not change.
+
+### Step 2.4: Fix quality
 **Record:**
-- **Quality:** High — one-line addition, reuses an existing fixup
-  already applied to HP 255 G8 (`0x890e`) and HP 255 G10 (`0x8b2f`) in
-  this tree.
-- **Regression risk:** Very low — no logic changes, no new APIs, no
-  structural changes.
+- **Obviously correct:** Mirrors existing get-path pattern and already-
+  backported sibling fixes in this tree.
+- **Minimal:** Only adds error checks; no structural changes.
+- **Regression risk:** Very low. Worst case: userspace now sees errors
+  it previously missed — intended behavior.
+  `snd_usb_set_cur_mix_value()` only updates cache on success (lines
+  528–532), so no new cache corruption.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-### Step 3.1: Blame the changed lines
-**Record:** Insertion point is between lines 6843–6844 (after `0x8a0f`,
-before `0x8a1f`). Neighbor entries added in commits like `bee43f7b9bc62`
-(HP 14s-dr5xxx, `0x8a1f`) and `aeeb85f26c3bb` (Realtek driver split,
-July 2025). The *absence* of `0x8a1b` is the bug — not a recently
-introduced regression in existing code.
+### Step 3.1: Blame
+**Record:** Buggy put-path code in `mixer_ctl_feature_put` dates to
+long-standing code in this tree (blame shows `19eef1d98eeda` as tip-of-
+history marker — bulk history import, not the bug introduction). The
+asymmetry (get checks errors, put does not) has been present since
+generic mixer support existed in this file.
 
-### Step 3.2: Follow Fixes: tag
-**Record:** N/A — no `Fixes:` tag in commit message.
+### Step 3.2: Fixes: tag
+**Record:** N/A — no Fixes: tag in commit message.
 
 ### Step 3.3: Related file history
-**Record:** This tree regularly backports similar HDA Realtek quirk
-commits (e.g. `bee43f7b9bc62` HP 14s-dr5xxx mute LED quirk,
-`302eb87651326` HP Dragonfly Folio G3). Standalone one-liner; not part
-of a multi-patch series.
+**Record:** Same author recently landed a coordinated write-error fix
+series in this tree:
+- `bfd28b07541e5` — Scarlett enum put (series v1-2, **already in
+  6.18.43**)
+- `3061b6c114458` — US-16x08 put callbacks (series v1-3, **already in
+  6.18.43**)
+- `f3e8a6cca15b8` — quirk cache rollback on write errors (related
+  follow-up, **already in 6.18.43**)
+- `54c448e4f26a7`, `afc90150551dd` — further cache-shadow fixes after
+  successful writes
 
-### Step 3.4: Author's other commits
-**Record:** No prior commits from Furst Blumier in
-`sound/hda/codecs/realtek/` in this tree. Patch carries Takashi Iwai
-maintainer sign-off.
+**This commit (series v1-1) is the missing piece** of an already-
+partially-backported series.
 
-### Step 3.5: Prerequisites / dependencies
-**Record:**
-- `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` enum, fixup table entry, and
-  `alc236_fixup_hp_mute_led_coefbit2()` all exist in this tree (lines
-  3875, 5552–5554, 1551–1563).
-- HP 255 G8 (`0x890e`, line 6811) and HP 255 G10 (`0x8b2f`, line 6874)
-  already use the same fixup.
-- **Can apply standalone:** Yes.
+### Step 3.4: Author context
+**Record:** Cássio Gabriel is an active ALSA/usb-audio contributor with
+multiple stable backports already merged into this tree by Greg Kroah-
+Hartman. Takashi Iwai (maintainer) signed off.
+
+### Step 3.5: Dependencies
+**Record:** **Standalone.** No prerequisite commits. Uses existing
+`filter_error()` macro and existing SET_CUR helpers. `git apply --check`
+of upstream patch against current tree: **applies cleanly**.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original patch discussion
-**Record:** Could not retrieve — `b4 dig` requires a commit hash (not
-provided); no matching mbox in workspace. `patch.msgid.link` and
-`lore.kernel.org` blocked by Anubis bot protection.
+### Step 4.1: Original discussion
+**Record:** `b4 dig -c` could not be used (commit not in HEAD).
+Lore/patch.msgid.link fetch blocked by Anubis bot protection. Patch
+identified as **v1-1** of `usb-write-error-propagation` series from Link
+tag. Sibling patches v1-2/v1-3 were backported with explicit `Cc:
+stable@vger.kernel.org`.
 
-### Step 4.2: Reviewers from b4 dig -w
-**Record:** N/A — b4 dig not run (no commit hash available).
+### Step 4.2: Reviewers
+**Record:** UNVERIFIED for full thread. Verified: Takashi Iwai merged
+upstream; Greg K-H backported siblings to this tree.
 
 ### Step 4.3: Bug report
-**Record:** No external bug report linked beyond the patch submission
-message-id. Author-reported hardware issue on HP 255 G9.
+**Record:** No external bug report or syzbot link. Bug identified by
+code review / series author.
 
-### Step 4.4: Related patches / series
-**Record:** Same fixup pattern as HP 255 G8/G10 and multiple other HP
-ALC236 laptops in `alc269_fixup_tbl[]`. Standalone patch.
+### Step 4.4: Series context
+**Record:** 3-patch series from 2026-04-19:
+1. **v1-1** — generic mixer put (this commit) — **NOT in 6.18.43**
+2. **v1-2** — Scarlett — **IN 6.18.43**
+3. **v1-3** — US-16x08 — **IN 6.18.43**
 
-### Step 4.5: Stable mailing list history
-**Record:** UNVERIFIED — could not search lore stable list due to bot
-protection.
+### Step 4.5: Stable list history
+**Record:** UNVERIFIED (lore blocked). Strong indirect evidence:
+siblings explicitly `Cc: stable` and merged by stable maintainer.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
 ### Step 5.1: Key functions
-**Record:** Indirectly affects `alc269_probe()` → `snd_hda_pick_fixup()`
-→ `alc236_fixup_hp_mute_led_coefbit2()` via fixup table selection.
+**Record:** `mixer_ctl_feature_put`, `mixer_ctl_procunit_put`,
+`mixer_ctl_selector_put`
 
-### Step 5.2: Callers
-**Record:** `snd_hda_pick_fixup()` called from `alc269.c` probe at lines
-8471–8486 during HDA codec initialization (device probe at boot/module
-load). Common path for all Realtek HDA laptops using this driver.
+### Step 5.2: Callers / registration
+**Record:** Registered as `.put` handlers in:
+- `usb_feature_unit_ctl` / `usb_feature_unit_ctl_ro` — used for standard
+  UAC feature-unit mixer controls on essentially all USB audio devices
+- `mixer_procunit_ctl` — processing/extension unit controls
+- `mixer_selectunit_ctl` — selector unit controls
+
+Created via `snd_ctl_new1()` at lines ~1730, 2207, 2601, 2830 in
+`mixer.c`.
 
 ### Step 5.3: Callees
-**Record:** Selected fixup `alc236_fixup_hp_mute_led_coefbit2()`
-configures mute-LED coefficient registers (`spec->mute_led_coef.idx =
-0x07`, etc.) and registers mute-LED cdev via
-`snd_hda_gen_add_mute_led_cdev()`.
+**Record:**
+- `snd_usb_set_cur_mix_value()` → `snd_usb_mixer_set_ctl_value()` → USB
+  control URB (`snd_usb_ctl_msg`)
+- `set_cur_ctl_value()` → same URB path
+- `filter_error()` for quirk-aware error suppression
 
-### Step 5.4: Call chain / reachability
-**Record:** Triggered automatically at audio codec probe on affected
-hardware — no userspace syscall needed. Every boot on HP 255 G9 without
-this quirk gets wrong fixup.
+### Step 5.4: Reachability
+**Record:** Userspace → `SNDRV_CTL_IOCTL_ELEM_WRITE` → ALSA core →
+kcontrol `.put` callback. **Reachable by any unprivileged user** with
+access to the audio device. Triggered on every mixer
+volume/route/selector change for generic UAC controls. Very common path.
 
 ### Step 5.5: Similar patterns
-**Record:** At least 15 other machines in this tree use
-`ALC236_FIXUP_HP_MUTE_LED_COEFBIT2`, including HP 255 G8 (`0x890e`) and
-HP 255 G10 (`0x8b2f`). Same-generation G9 (`0x8a1b`) is the obvious
-missing sibling.
+**Record:** Scarlett fix in this tree already does the same for
+`snd_usb_set_cur_mix_value()`:
+
+```442:444:sound/usb/mixer_scarlett.c
+                err = snd_usb_set_cur_mix_value(elem, 0, 0, val);
+                if (err < 0)
+                        return err;
+```
+
+Generic paths were the omission.
 
 ---
 
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE (6.18.43)
 
-### Step 6.1: Does the buggy code exist?
-**Record:** **Yes.** `0x8a1b` is absent from `alc269_fixup_tbl[]` in
-v6.18.44. Confirmed by grep (no matches) and `git log -S "0x8a1b" --
-sound/hda/` (empty). Adjacent entries `0x8a0f` and `0x8a1f` are present
-at lines 6843–6844.
+### Step 6.1: Buggy code present?
+**Record:** **YES.** All three functions in `sound/usb/mixer.c` ignore
+write return values at lines 1472, 1487, 2353, 2717. Bug is long-
+standing in this tree.
 
 ### Step 6.2: Backport complications
-**Record:** **Clean apply expected** — single-line insertion in sorted
-quirk table between existing HP entries. No structural divergence around
-insertion point.
+**Record:** **Clean apply** — `git apply --check` of upstream
+`87a6f2fa6e6c6` patch succeeded with no conflicts. Line numbers differ
+slightly from upstream (expected for stable tree) but hunks match.
 
 ### Step 6.3: Related fixes already present?
-**Record:** No prior fix for `103c:8a1b`. Related sibling quirks for HP
-255 G8/G10 already present with same fixup type.
+**Record:** Siblings v1-2 and v1-3 backported; **this generic fix is
+NOT**. Leaving it out creates inconsistent behavior: device-specific put
+callbacks report errors, generic ones still lie to userspace.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## PHASE 7: SUBSYSTEM CONTEXT
 
 ### Step 7.1: Subsystem criticality
-**Record:** `sound/hda/codecs/realtek` — **IMPORTANT** (laptop audio;
-affects users of specific HP hardware, not universal).
+**Record:** **sound/usb** (ALSA USB audio driver) — **IMPORTANT**. USB
+audio is widely used on desktops, laptops, and pro-audio gear.
 
-### Step 7.2: Subsystem activity
-**Record:** Actively maintained in 6.18.y — numerous recent Realtek
-quirk backports in `git log --oneline -20 -- sound/hda/codecs/realtek/`.
+### Step 7.2: Activity
+**Record:** Actively maintained; multiple usb-audio stable fixes landed
+recently in this tree (write-error series, UAF fixes, quirk updates).
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## PHASE 8: IMPACT AND RISK
 
 ### Step 8.1: Who is affected
-**Record:** Users of **HP 255 15.6 inch G9 Notebook PC** (PCI SSID
-`103c:8a1b`) with ALC236 codec and `CONFIG_SND_HDA_CODEC_REALTEK`.
+**Record:** All users of USB audio devices using standard UAC mixer
+controls (feature units, selector units, processing units) — a large
+fraction of USB sound cards, headsets, and DACs.
 
 ### Step 8.2: Trigger conditions
-**Record:** Every boot / audio driver probe on affected hardware. Not
-timing-dependent; deterministic. Unprivileged users cannot trigger the
-fix, but all users of this laptop are affected without it.
+**Record:** Any mixer control write where the device rejects or fails
+the SET_CUR URB (device disconnect mid-write, USB STALL, timeout, power-
+management race, flaky firmware). Common during hot-unplug or device
+errors.
 
-### Step 8.3: Failure mode severity
-**Record:**
-- Mute LED does not work correctly
-- Headset jack replug not recognized as audio sink
-- **Severity: MEDIUM** — functional audio regression, not kernel crash,
-  data corruption, or security issue
+### Step 8.3: Failure severity
+**Record:** Userspace reports success when hardware unchanged →
+volume/routing UI out of sync with actual audio path. **Severity:
+MEDIUM** (not kernel oops/UAF, but real functional incorrectness;
+qualifies as "oh, that's not good" per stable rules). No kernel crash or
+data corruption.
 
-### Step 8.4: Risk-benefit ratio
+### Step 8.4: Risk-benefit
 **Record:**
-- **Benefit:** Restores correct audio jack detection and mute LED on a
-  real laptop model; matches established pattern for G8/G10 in same
-  product line.
-- **Risk:** Minimal — one table entry, existing fixup, maintainer-
-  reviewed.
-- **Ratio:** Favorable for stable backport under the hardware-quirk
-  exception.
+- **Benefit:** HIGH for correctness — fixes the broadest code path in
+  the series (generic mixer, all devices); completes an already-started
+  stable backport series.
+- **Risk:** VERY LOW — 13-line additive error checks, matches proven
+  pattern.
+- **Ratio:** Strongly favors backport.
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence compile
+### Step 9.1: Evidence summary
 
-**FOR backporting:**
-- Fixes real hardware bug on HP 255 G9 (mute LED + headset jack)
-- One-line, obviously correct quirk using proven existing fixup
-- Same fixup as HP 255 G8 already in this tree
-- ALC236 fixup infrastructure fully present in 6.18.44
-- Takashi Iwai (maintainer) signed off
-- Hardware quirk — explicit stable exception category
-- This tree routinely takes similar HDA Realtek quirk patches
-- Missing quirk confirmed in v6.18.44
+**FOR backport:**
+- Real bug: false success to userspace on failed hardware writes
+- Upstream commit `87a6f2fa6e6c6` exists in mainline (stable rule
+  satisfied)
+- Tiny, obviously correct, applies cleanly
+- Affects common userspace path for all generic USB mixer controls
+- Series parts 2 and 3 already backported to **this** 6.18.43 tree with
+  `Cc: stable`
+- ALSA maintainer (Iwai) signed off; stable maintainer (Greg K-H) merged
+  siblings
+- Completes incomplete backport of a coordinated fix series
 
-**AGAINST backporting:**
-- Not a crash, security, or data-corruption issue
-- Affects only one specific laptop model
-- No independent test report or syzbot validation
+**AGAINST backport:**
+- Not a crash/security/data-corruption issue
+- No user bug report or fuzzer finding
+- Upstream commit lacks explicit `Cc: stable` (siblings have it)
 
-**UNRESOLVED:**
-- Mailing list review thread content (blocked)
-- Whether reviewers explicitly nominated for stable
+**Unresolved:**
+- Full lore review thread (blocked by bot protection)
+- No independent Tested-by
 
 ### Step 9.2: Stable rules checklist
-1. Obviously correct and tested? **PASS** — mirrors HP 255 G8;
-   maintainer SOB; standard quirk pattern.
-2. Fixes a real bug affecting users? **PASS** — mute LED and headset
-   jack on real hardware.
-3. Important issue? **PASS (borderline)** — not crash/security, but real
-   user-visible hardware malfunction; quirk exception applies.
-4. Small and contained? **PASS** — 1 line, 1 file.
-5. No new features or APIs? **PASS** — table entry only, reuses existing
-   fixup.
-6. Can apply to local tree? **PASS** — prerequisites present; clean
-   insertion.
+1. Obviously correct and tested? **PASS** — mirrors get-path and sibling
+   fixes; maintainer-reviewed
+2. Fixes real bug affecting users? **PASS** — userspace gets incorrect
+   success on write failure
+3. Important issue? **PASS (MEDIUM)** — functional correctness on
+   widely-used path; "oh, that's not good"
+4. Small and contained? **PASS** — 13 lines, one file
+5. No new features/APIs? **PASS**
+6. Can apply to local tree? **PASS** — clean apply verified
 
-### Step 9.3: Exception category
-**Record:** **Hardware quirk/workaround** — adding PCI SSID entry to
-existing Realtek HDA driver quirk table. This is one of the explicitly
-allowed stable exceptions.
+### Step 9.3: Exception categories
+**Record:** None (not device ID, quirk, DT, build, or docs). Standard
+bug fix.
 
 ### Step 9.4: Decision rationale
 
-For Linux **6.18.44**, owners of the HP 255 15.6 inch G9 hit wrong HDA
-fixup behavior because `103c:8a1b` is missing from the quirk table while
-the needed `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` fixup and sibling entries
-(HP 255 G8/G10) are already present. The patch is a minimal, maintainer-
-approved hardware quirk of the kind routinely accepted into stable
-trees. Severity is functional rather than catastrophic, but the stable-
-kernel rules explicitly welcome such quirks, and the risk of regression
-is negligible.
+This tree already backported two of three patches from the same April
+2026 write-error-propagation series. The generic mixer fix is the
+broadest of the three — it covers standard UAC controls used by nearly
+every USB audio device — yet it is the only one still missing. Leaving
+it out means Scarlett and US-16x08 users get correct error reporting
+while everyone else on generic mixer controls still gets silent write
+failures.
+
+The fix is minimal, upstream-merged, applies cleanly, and follows
+established patterns already present in this tree.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed subject, tags, and body from provided commit
-  message.
-- **[Phase 1]** Confirmed Takashi Iwai maintainer sign-off; no
-  syzbot/Fixes: tags.
-- **[Phase 2]** Diff: +1 line `SND_PCI_QUIRK(0x103c, 0x8a1b, ...)` in
-  `alc269_fixup_tbl[]`.
-- **[Phase 2]** Read `alc236_fixup_hp_mute_led_coefbit2()` at lines
-  1551–1563.
-- **[Phase 3]** `git blame -L 6840,6846`: neighbors from commits
-  `302eb87651326`, `bee43f7b9bc62`, `aeeb85f26c3bb`.
-- **[Phase 3]** `git log -S "ALC236_FIXUP_HP_MUTE_LED_COEFBIT2"`: fixup
-  present since driver split and earlier quirk commits.
-- **[Phase 3]** `git log -S "0x8a1b" -- sound/hda/`: empty — quirk never
-  added to this tree.
-- **[Phase 4]** UNVERIFIED: `b4 dig` not run (no commit hash provided).
-- **[Phase 4]** UNVERIFIED: lore.kernel.org and patch.msgid.link blocked
-  by Anubis.
-- **[Phase 5]** Read `snd_hda_pick_fixup()` in
-  `sound/hda/common/auto_parser.c` lines 1006–1103.
-- **[Phase 5]** Read probe call sites at `alc269.c` lines 8471–8486.
-- **[Phase 5]** Grep: `ALC236_FIXUP_HP_MUTE_LED_COEFBIT2` used by HP 255
-  G8 (`0x890e`, line 6811) and G10 (`0x8b2f`, line 6874).
-- **[Phase 6]** `git describe HEAD` → `v6.18.44`; Makefile confirms
-  6.18.44.
-- **[Phase 6]** Grep for `0x8a1b` / `HP 255 15.6 inch G9`: no matches in
-  tree.
-- **[Phase 6]** Read insertion area lines 6840–6846: gap between
-  `0x8a0f` and `0x8a1f` confirmed.
-- **[Phase 7]** `git log --oneline -20 -- sound/hda/codecs/realtek/`:
-  active quirk backport activity.
-- **[Phase 8]** Failure mode assessed as functional audio (MEDIUM), not
-  crash/security.
+- [Phase 1] Parsed subject, tags, body from provided commit message and
+  `git show 87a6f2fa6e6c6`
+- [Phase 2] Diff analysis: 3 functions, 4 error-check sites, +13/-4
+  lines in `sound/usb/mixer.c`
+- [Phase 2] Read `filter_error`, `snd_usb_set_cur_mix_value`,
+  `set_cur_ctl_value` — cache only updated on success
+- [Phase 3] `git blame` on lines 1470–1490: long-standing code
+- [Phase 3] Found upstream commit `87a6f2fa6e6c6` adjacent to siblings
+  `0f25cf1f02e3`, `3c06aec8abda6`
+- [Phase 3] Siblings `bfd28b07541e5`, `3061b6c114458` confirmed in
+  6.18.43 with `Cc: stable`
+- [Phase 3] `git merge-base --is-ancestor 87a6f2fa6e6c6 HEAD` → exit 1
+  (fix NOT in tree)
+- [Phase 3] `git apply --check` of upstream patch → applies cleanly
+- [Phase 4] UNVERIFIED: lore/patch.msgid.link blocked by Anubis; `b4 dig
+  -c` N/A (commit not in HEAD)
+- [Phase 4] Verified series structure via upstream commit ordering and
+  sibling Link URLs
+- [Phase 5] Grep: three `.put` handlers registered via `snd_ctl_new1`
+  for feature/procunit/selector units
+- [Phase 5] Read `scarlett_ctl_enum_put` — same error-propagation
+  pattern already backported
+- [Phase 6] `git describe HEAD` → v6.18.43; buggy code confirmed at
+  lines 1472, 1487, 2353, 2717
+- [Phase 6] No duplicate fix found in tree
+- [Phase 8] Failure mode: false success to userspace, severity MEDIUM
+- [Phase 8] Trigger: any failed SET_CUR on generic mixer controls,
+  reachable from userspace
 
 **YES**
 
- sound/hda/codecs/realtek/alc269.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/mixer.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 0c23eb601ecaa..0ef5468b0701a 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -6841,6 +6841,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x89e7, "HP Elite x2 G9", ALC245_FIXUP_CS35L41_SPI_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8a06, "HP Dragonfly Folio G3 2-in-1", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8a0f, "HP Pavilion 14-ec1xxx", ALC287_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8a1b, "HP 255 15.6 inch G9 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8a1f, "HP Laptop 14s-dr5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8a20, "HP Laptop 15s-fq5xxx", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8a25, "HP Victus 16-d1xxx (MB 8A25)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index 0765250f3a56d..871abd957c241 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1469,7 +1469,10 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
+ 				return -EINVAL;
+ 			val = get_abs_value(cval, val);
+ 			if (oval != val) {
+-				snd_usb_set_cur_mix_value(cval, c + 1, cnt, val);
++				err = snd_usb_set_cur_mix_value(cval, c + 1,
++								cnt, val);
++				if (err < 0)
++					return filter_error(cval, err);
+ 				changed = 1;
+ 			}
+ 			cnt++;
+@@ -1484,7 +1487,9 @@ static int mixer_ctl_feature_put(struct snd_kcontrol *kcontrol,
+ 			return -EINVAL;
+ 		val = get_abs_value(cval, val);
+ 		if (val != oval) {
+-			snd_usb_set_cur_mix_value(cval, 0, 0, val);
++			err = snd_usb_set_cur_mix_value(cval, 0, 0, val);
++			if (err < 0)
++				return filter_error(cval, err);
+ 			changed = 1;
+ 		}
+ 	}
+@@ -2350,7 +2355,9 @@ static int mixer_ctl_procunit_put(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
+ 	val = get_abs_value(cval, val);
+ 	if (val != oval) {
+-		set_cur_ctl_value(cval, cval->control << 8, val);
++		err = set_cur_ctl_value(cval, cval->control << 8, val);
++		if (err < 0)
++			return filter_error(cval, err);
+ 		return 1;
+ 	}
+ 	return 0;
+@@ -2714,7 +2721,9 @@ static int mixer_ctl_selector_put(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
+ 	val = get_abs_value(cval, val);
+ 	if (val != oval) {
+-		set_cur_ctl_value(cval, cval->control << 8, val);
++		err = set_cur_ctl_value(cval, cval->control << 8, val);
++		if (err < 0)
++			return filter_error(cval, err);
+ 		return 1;
+ 	}
+ 	return 0;
 -- 
 2.53.0
 
