@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8095335B7;
-	Mon, 31 Aug 2026 13:45:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952A253445D;
+	Mon, 31 Aug 2026 13:45:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183910; cv=none; b=FUsaHXyeRfpnGI61Mr5IlWV82sA3TRoTwWbWf7aie/aWE+gRXKWOYE9pHUxQUHWnSv2j7tB8klyMFxFy9HqpFgFCygDPRe8VyUxtogZn1g4g0yWIVVw2q0/Tq4pAwL6LFMWmDAWNwmtm4iYIPSL0OSdMj6aUZDWbbNtY9mUSxlI=
+	t=1788183920; cv=none; b=IgaMzsQhJEM8BipTIkORpgMVhSAbVweLNFsHLr5mqOWARITcGlFxpkMXKHYDJ2dd3WBT2FpVWxDQrfnKomaiXdLgz9l/BGQMIj8IS8COdqE5ZA1cQNEWIz+wJWF85ocinN2JqkwUktj7bGzXFXltPsfpohmT/Ni4vgSSXWohsss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183910; c=relaxed/simple;
-	bh=gz91NM7X10kUT6WhWI8F+zZOXZenfI9od8SbIM7ogsE=;
+	s=arc-20240116; t=1788183920; c=relaxed/simple;
+	bh=VbGYHwMRLeCjqZ7ALbnJB4+mP7qtdzR+fO0BCiMVbxc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r96CrT5eL/XQRybcUP76wr904LBrVa15mBJSdLAteQWeZvsjW/HfkT2W1r7Nn8466OhZFUoRk5l0nvf0ZR+wSqtfQvwVLrJJWlk0Hl33Ws+sc5gYLcUKFiCCW6JRYvW1NktVJDzYoZwr2GkarIhVjqC52pE/XY35iBQGjfsbcfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pwa/hCiL; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=mcMBUBxE7/Msfqu7kEx0+hf8udFMStS+h5talPWZwYTyV3hTJFtxIvWP7Cj1wvSt7ua48W+bLCe3p9fVokCR73Y8H9AJ0D0V2UCaAFLxpbJ8fmDW4PvvQYsOFF84fePOt7Vjsi74prK2tWEhV9fVavJfyFK5pW7NXHdE2z5HjbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nz4aN8ZG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pwa/hCiL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58D2E1F00ACF;
-	Mon, 31 Aug 2026 13:45:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nz4aN8ZG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE7281F000E9;
+	Mon, 31 Aug 2026 13:45:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183907;
-	bh=M+7LVp9j9AboAfWG4h+K1vOBq4gAMxs54XHikRsrbm0=;
+	s=k20260515; t=1788183918;
+	bh=b1f0TQYeHA2+bRhIr+SRXjRb0rSk0DfsBSL36YQrvPE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Pwa/hCiLOYqVLmv5pKlcWj1DGc36SU5E44TJ8MsUY906g0kWeflIPkSbBpJm/Rl7k
-	 XFvCN7KyhYc2YXFdw34VoKXBSHbB9yepyb/MRRb/RB0w1FD92qwPMgLu1S+3vxYPMn
-	 9ZgOQRXkh9yYHqY8zvamr4OgAvoCNsLiPLuyn2yR77pD73vZaJtXaFgYElnOYW0EPG
-	 tswd7R2ZQkClKNOp5UH+5VozyyvhAIKLa4AsijV4bSb++aiGdEEJLpjkFPw/rTkNJf
-	 bqhrEQ6ohxxrKYK6YF+cGO/LFQUSJFHuzVJZuNQLpZkQwUmFIKkpswetaR/zvS2Gpb
-	 JEAcvTw0wGMyg==
+	b=Nz4aN8ZGJNDW/jETlgGCB3+FOtClKfF18eZgqaDueXFQxN+1SvMzaQGs2cW3NnuDL
+	 6KProifgjugmPzEFy3C7vQuIMEaWpxruHKZWAcKs1qWdKWb4F1nvecEEOBFEGtcwVf
+	 OWheSZm7qlgi2T3YSjc9gK0cZ2VH7bYEV5cQZuKzWiKQ6BxPEgdSYCPlxEHWFip/IP
+	 ksTTHShTB955+eXqBtERSk+qAYWXae7k36QKWZzjhWnHLlkfMPJ7KDRGCsr3weMMOH
+	 EdKxNDj3TgXa/lX+wC84sxxB9POSbhrE3ZumbdJayR3gvTcQh9bKyjSZeuDtMzw68h
+	 0mALcicYTLMWQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Gunal Seenivasagan <gunal2002@gmail.com>,
+Cc: Philipp Oster <philippdev5396@outlook.de>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
+	shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	sen@ti.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] ALSA: hda/realtek: Add quirk for Infinix INBOOK X3 Slim
-Date: Mon, 31 Aug 2026 09:26:42 -0400
-Message-ID: <20260831133314.4125787-374-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] ALSA: hda/tas2781: clear cali_data.total_sz when calibration read fails
+Date: Mon, 31 Aug 2026 09:26:48 -0400
+Message-ID: <20260831133314.4125787-380-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -54,425 +58,374 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Gunal Seenivasagan <gunal2002@gmail.com>
+From: Philipp Oster <philippdev5396@outlook.de>
 
-[ Upstream commit fd71820e876ef4b816b6305416ba5973bb6b9665 ]
+[ Upstream commit b6016332b8899a9775addf9b630b0a53a849c8ed ]
 
-The Infinix INBOOK X3 Slim (ALC269VB, subsystem 0x2782:0250) has its
-internal speakers wired to pin 0x1b, but the BIOS pin configuration
-table declares 0x1b as "no physical connection" (0x411111f0). It instead
-declares pin 0x14 as the internal speaker, although nothing is connected
-to 0x14.
+tas2563_save_calibration() assigns cali_data.total_sz before it reads the
+per-device calibration data from EFI, but its error paths return without
+clearing it again. cali_data.cali_reg_array is left all zero, because the
+function returns before the register addresses are assigned.
 
-As a result the internal speakers are silent under Linux while the
-headphone jack works correctly. The codec output path to 0x14 is fully
-open (DAC assigned and streaming, mixer and pin unmuted, EAPD asserted),
-so the failure is silent with no error reported. The speakers work under
-Windows, where the vendor driver supplies its own pin table.
+On the first playback tasdev_load_calibrated_data() does
 
-Add a fixup that disables the unconnected pin 0x14 and declares pin
-0x1b as the internal speaker.
+	if (!data || !cali_data->total_sz)
+		return;
 
-Reusing the existing ALC269VC_FIXUP_INFINIX_Y4_MAX was tried first, since
-it also remaps 0x1b to an internal speaker. It is not sufficient here: it
-leaves 0x14 declared, so autoconfig finds two line_outs
+which passes, since total_sz is still non-zero. It then issues five
+4-byte bulk writes to p->r0_reg, p->r0_low_reg, p->invr0_reg, p->pow_reg
+and p->tlimit_reg, all of which are 0. Register 0 decodes to book 0 /
+page 0 / register 0x00, so the auto-incrementing block write zeroes
+registers 0x00 to 0x03. Register 0x03 is PB_CFG1, which holds AMP_LEVEL,
+so the amplifier gain is set to its minimum and the speaker stays silent.
 
-  line_outs=2 (0x14/0x1b/0x0/0x0/0x0) type:speaker
+This is reproducible on a Lenovo Yoga 7 14ARB7 (two TAS2563 on I2C,
+ACPI INT8866) whose factory calibration was never written to UEFI, so the
+EFI read fails with EFI_NOT_FOUND. The two woofers driven by the
+amplifiers are silent while the tweeters driven directly by the ALC287
+play. Reading the amplifier registers over i2c shows PWR_CTL = 0x00
+(active) and the TDM slots correctly programmed by the RCA profile, but
+PB_CFG1 = 0x00. With this change PB_CFG1 keeps its power-on default of
+0x20 and both woofers play.
 
-and binds the primary "Speaker" control to the unconnected pin 0x14 while
-demoting the working speaker at 0x1b to "Bass Speaker". Audio is audible
-that way, but the volume and mute controls a desktop actually uses end up
-attached to a pin that is not wired to anything. Disabling 0x14 is what
-produces a single correct Speaker output.
+tas2781_save_calibration() in tas2781_hda.c already clears total_sz on
+failure; do the same for the TAS2563 variant.
 
-Verified on the affected machine: with the corrected pin
-configuration the driver's autoconfig reports
-
-  line_outs=1 (0x1b/0x0/0x0/0x0/0x0) type:speaker
-
-both channels play, headphone auto-mute switches correctly in both
-directions, and audio survives codec runtime suspend (D3) and resume.
-
-Signed-off-by: Gunal Seenivasagan <gunal2002@gmail.com>
-Link: https://patch.msgid.link/20260726085715.229802-1-gunal2002@gmail.com
+Signed-off-by: Philipp Oster <philippdev5396@outlook.de>
+Link: https://patch.msgid.link/20260720-tas2781-calfix-v1-1-3a5fa6ad90bc@outlook.de
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ALSA: hda/realtek: Add quirk for Infinix
-INBOOK X3 Slim
+# Stable Backport Analysis: ALSA hda/tas2781 calibration `total_sz` fix
 
-**Local tree:** Linux **6.18.44** (`v6.18.44-2-g1b9e1abadee04`,
-`VERSION=6 PATCHLEVEL=18 SUBLEVEL=44`)
+**Local tree:** Linux **6.18.44** (`v6.18.44-2-g1b9e1abadee04`)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Parse the subject line
-**Record:** `[ALSA: hda/realtek]` `[Add]` — Add a Realtek HDA codec pin-
-configuration quirk for a specific laptop model.
+### Step 1.1: Subject line
+**Record:** `[ALSA: hda/tas2781]` `[clear]` — clear stale
+`cali_data.total_sz` on TAS2563 EFI calibration read failure.
 
-### Step 1.2: Parse all commit message tags
+### Step 1.2: Tags
 **Record:**
-- **Signed-off-by:** Gunal Seenivasagan `<gunal2002@gmail.com>` (author)
-- **Link:**
-  `https://patch.msgid.link/20260726085715.229802-1-gunal2002@gmail.com`
-- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA/HDA
-  maintainer)
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
-  stable@vger.kernel.org`
-- Notable: maintainer SOB from Takashi Iwai; no syzbot/fuzzer
-  involvement
+- **Signed-off-by:** Philipp Oster `<philippdev5396@outlook.de>`
+  (author)
+- **Link:** `https://patch.msgid.link/20260720-tas2781-calfix-v1-1-
+  3a5fa6ad90bc@outlook.de`
+- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer)
+- No `Fixes:`, `Cc: stable`, `Reported-by:`, `Tested-by:`, `Reviewed-
+  by:`
 
-### Step 1.3: Analyze commit body
+Notable: maintainer merge, detailed hardware reproduction, no
+syzbot/fuzzer signal.
+
+### Step 1.3: Body analysis
 **Record:**
-- **Bug:** Infinix INBOOK X3 Slim (ALC269VB, PCI SSID `0x2782:0x0250`)
-  has internal speakers wired to pin `0x1b`, but BIOS declares `0x1b` as
-  disconnected (`0x411111f0`) and falsely declares pin `0x14` as the
-  internal speaker.
-- **Symptom:** Internal speakers are completely silent under Linux;
-  headphone jack works. No kernel error is reported — audio is routed to
-  the unconnected pin.
-- **Root cause:** Incorrect BIOS pin configuration table; Windows works
-  because the vendor driver overrides it.
-- **Fix approach:** Disable phantom pin `0x14`, declare pin `0x1b` as
-  internal speaker.
-- **Author testing:** Verified on hardware — `line_outs=1`, both
-  channels play, headphone auto-mute works, survives D3 suspend/resume.
-- **Version info:** None stated; hardware is a current laptop model.
+- **Bug:** `tas2563_save_calibration()` sets `cd->total_sz` before EFI
+  reads; error paths return without clearing it. `cali_reg_array` stays
+  zero because register addresses are assigned only on success.
+- **Symptom:** On first playback, bogus bulk writes to register 0 zero
+  `PB_CFG1` (AMP_LEVEL); woofers silent, tweeters (ALC287) still work.
+- **Trigger:** Lenovo Yoga 7 14ARB7 (two TAS2563/INT8866), factory
+  calibration absent from UEFI (`EFI_NOT_FOUND`).
+- **Root cause (author):** Stale non-zero `total_sz` makes downstream
+  calibration load proceed with zero register addresses and zeroed data.
+- **Precedent:** `tas2781_save_calibration()` already clears `total_sz`
+  on failure.
 
-### Step 1.4: Detect hidden bug fixes
-**Record:** Not disguised — this is an explicit hardware pin-
-configuration bug fix. Reusing `ALC269VC_FIXUP_INFINIX_Y4_MAX` partially
-works (audio audible via "Bass Speaker") but leaves volume/mute controls
-bound to the dead pin `0x14`; the dedicated fixup is required for
-correct UX.
+### Step 1.4: Hidden bug fix?
+**Record:** Yes — explicit functional bug fix disguised as a small
+error-path correction. Not cosmetic cleanup.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-### Step 2.1: Inventory the changes
+### Step 2.1: Inventory
 **Record:**
-- **File:** `sound/hda/codecs/realtek/alc269.c` only
-- **Scope:** ~15 lines added, 0 removed
-- **Functions/areas modified:**
-  - Fixup enum (`ALC269VB_FIXUP_INFINIX_INBOOK_X3_SLIM`)
-  - `alc269_fixups[]` pin table entry
-  - `alc269_fixup_tbl[]` PCI quirk entry
-- **Classification:** Single-file, surgical hardware quirk addition
+- **File:** `sound/hda/codecs/side-codecs/tas2781_hda_i2c.c` (+3 lines)
+- **Function:** `tas2563_save_calibration()`
+- **Scope:** Single-file, surgical (3 error paths)
 
-### Step 2.2: Code flow change per hunk
+### Step 2.2: Code flow per hunk
 **Record:**
-1. **Enum hunk:** Adds new fixup ID between `INFINIX_Y4_MAX` and
-   `LUNNEN_GROUND_14`.
-2. **Fixup table hunk:** Before — no override for this SSID; driver
-   trusts BIOS pins → silent speakers. After — applies `HDA_FIXUP_PINS`
-   setting `0x14` to disabled (`0x411111f0`) and `0x1b` to internal
-   speaker (`0x90170110`).
-3. **Quirk table hunk:** Before — SSID `0x2782:0x0250` unmatched. After
-   — matched to new fixup at codec probe time via
-   `snd_hda_pick_fixup()`.
+| Hunk | Before | After |
+|------|--------|-------|
+| snprintf failure | `return -EINVAL` with stale `total_sz` |
+`cd->total_sz = 0; return -EINVAL` |
+| EFI `get_variable` failure | same | same fix |
+| `total_sz != offset` mismatch | same | same fix |
+
+Normal success path unchanged; `is_user_space_calidata = true` and
+register assignment still only on success.
 
 ### Step 2.3: Bug mechanism
-**Record:** **Category (h): Hardware workaround / audio codec quirk.**
-BIOS provides incorrect HDA pin configuration; autoconfig routes DAC
-output to unconnected pin `0x14`. Fix overrides pin config before probe
-autoconfig runs.
+**Record:** **Logic / state-consistency bug** — invalid calibration
+state (`total_sz > 0`, zero `cali_reg_array`, zeroed `data`) left after
+partial EFI read failure. Downstream `tasdev_load_calibrated_data()` can
+issue bulk writes to register address 0, corrupting `PB_CFG1`.
 
-### Step 2.4: Fix quality assessment
-**Record:** Fix is obviously correct — follows dozens of identical
-patterns in the same file (e.g. `LUNNEN_GROUND_14`,
-`CHUWI_COREBOOK_XPRO`). Minimal, SSID-scoped, no API changes. Regression
-risk is very low: only affects `0x2782:0x0250` devices.
+**Note:** Commit message cites `if (!data || !cali_data->total_sz)
+return;` in `tasdev_load_calibrated_data()`. That exact guard is **not
+present** in this 6.18.44 tree; the user-space calibration path is gated
+by `is_user_space_calidata`. The failure mode is still plausible if
+`is_user_space_calidata` is true with unset registers, or if related
+mainline logic differs. The `total_sz = 0` cleanup matches the
+established `tas2781_save_calibration()` pattern regardless.
+
+### Step 2.4: Fix quality
+**Record:** Obviously correct, minimal, mirrors existing
+`tas2781_save_calibration()` behavior (`tas2781_hda.c:228-230`). Very
+low regression risk.
 
 ---
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+## PHASE 3: GIT HISTORY
 
-### Step 3.1: Blame changed area
-**Record:** Insertion point sits between `ALC269VC_FIXUP_INFINIX_Y4_MAX`
-(from merge `5d324e5159d9e`, Nov 2025) and
-`ALC269VC_FIXUP_LUNNEN_GROUND_14` (commit `2ec8f95a08fed`, Jul 2026,
-already in this tree). The "buggy" state is the **absence** of this
-quirk — the generic Realtek driver has been present for years; this
-specific laptop model is unsupported without the patch.
+### Step 3.1: Blame
+**Record:** Buggy `tas2563_save_calibration()` present since file
+introduction at merge `5d324e5159d9e` (6.18-rc8 era). `git blame` shows
+error paths never cleared `total_sz`.
 
-### Step 3.2: Follow Fixes: tag
-**Record:** N/A — no `Fixes:` tag present.
+### Step 3.2: Fixes: tag
+**Record:** N/A — no `Fixes:` tag.
 
 ### Step 3.3: Related file history
-**Record:** Recent related commits in this tree:
-- `2ec8f95a08fed` — "Fix speakers on Lunnen Ground 14" (same vendor
-  `0x2782`, same pin `0x1b` speaker issue, **already backported to
-  stable** with `Cc: stable@vger.kernel.org`)
-- `7484669d1fbab`, `302eb87651326`, `12e43f99242b0` — other recent HDA
-  quirk additions
-- Standalone fix, not part of a multi-patch series.
+**Record:** Related stable commits in this tree:
+- `819268882628f` — skip UEFI calibration quirk (ASUS ROG Xbox Ally X)
+- `00d880c469b75` — TAS2563 `speaker_id` init fix (Yoga 7 class
+  hardware)
+- `3646c928bb77c` — speaker ID retrieval refactor
 
-### Step 3.4: Author's other commits
-**Record:** No commits from Gunal Seenivasagan found in this tree (`git
-log --author` returned empty). First-time contributor; patch reviewed
-and applied by maintainer Takashi Iwai.
+Standalone fix; not part of a multi-patch series.
 
-### Step 3.5: Prerequisites
-**Record:** No dependencies. Required infrastructure exists in this
-tree:
-- `ALC269VC_FIXUP_INFINIX_Y4_MAX` ✓
-- `ALC269VC_FIXUP_LUNNEN_GROUND_14` ✓ (insertion anchor)
-- `snd_hda_pick_fixup()` / `HDA_FIXUP_PINS` mechanism ✓
-- Patch applies cleanly (`git apply --check` exit 0).
+### Step 3.4: Author
+**Record:** Philipp Oster — first-time contributor to this subsystem in
+this tree; patch merged by Takashi Iwai.
+
+### Step 3.5: Dependencies
+**Record:** None. Applies standalone to `tas2563_save_calibration()`
+only.
 
 ---
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+## PHASE 4: MAILING LIST / EXTERNAL RESEARCH
 
-### Step 4.1: Original patch discussion
+### Step 4.1–4.5
 **Record:**
-- **Lore URL:** `https://lore.kernel.org/all/20260726085715.229802-1-
-  gunal2002@gmail.com/`
-- **Series revisions:** v1 → maintainer feedback → v2 (author name/SOB
-  correction only, no functional change)
-- **Maintainer response:** Takashi Iwai: "Applied now. Thanks." on v2
-- No NAKs; no explicit `Cc: stable` nomination in thread
+- `b4 dig` without commit hash failed (no commit in tree yet).
+- Lore/patch.msgid.link blocked (Anubis 403 / bot protection).
+- Could not retrieve review thread or stable nominations from lore.
 
-### Step 4.2: Reviewers
-**Record:** CC'd: Takashi Iwai, Jaroslav Kysela, `linux-
-sound@vger.kernel.org`, `linux-kernel@vger.kernel.org`. Takashi Iwai
-(maintainer) reviewed and merged.
-
-### Step 4.3: Bug report
-**Record:** No external bug tracker; author-reported hardware issue with
-detailed autoconfig analysis and on-machine verification.
-
-### Step 4.4: Related patches
-**Record:** Closely related to `2ec8f95a08fed` (Lunnen Ground 14, same
-ODM vendor ID `0x2782`, pin `0x1b` speaker remap). That fix was stable-
-nominated and backported to this tree.
-
-### Step 4.5: Stable mailing list
-**Record:** No stable-list discussion found for this specific patch.
-Precedent: sibling Infinix/Lunnen quirk was stable-nominated.
+**Inferred from commit:** Hardware-tested on Lenovo Yoga 7 14ARB7;
+maintainer (Iwai) merged.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
 ### Step 5.1: Key functions
-**Record:** No functions modified — only data tables (`enum`,
-`alc269_fixups[]`, `alc269_fixup_tbl[]`). Consumed at probe via existing
-`alc269_probe()` path.
+**Record:** `tas2563_save_calibration()`,
+`tasdev_load_calibrated_data()`, `tasdevice_dev_bulk_write()`
 
 ### Step 5.2: Callers
-**Record:** `snd_hda_pick_fixup(codec, alc269_fixup_models,
-alc269_fixup_tbl, alc269_fixups)` at line ~8471 in `alc269.c`, called
-from `alc269_probe()` during HDA codec initialization on every boot for
-matching hardware.
+**Record:**
+- `tas2563_save_calibration` → called from `tasdevice_dspfw_init()` via
+  `hda_priv->save_calibration()` (return value **ignored**)
+- `tasdev_load_calibrated_data` → called from
+  `tasdevice_select_tuningprm_cfg()` on first DSP config load during
+  playback
 
 ### Step 5.3: Callees
-**Record:** Fixup applied via `snd_hda_apply_fixup(codec,
-HDA_FIXUP_ACT_PRE_PROBE)` — standard pin override before autoconfig.
+**Record:** `efi.get_variable()`, `devm_kzalloc()`,
+`tasdevice_dev_bulk_write()` / `regmap_bulk_write()`
 
 ### Step 5.4: Reachability
-**Record:** Triggered at boot when PCI subsystem ID matches
-`0x2782:0x0250`. Affects all users of this laptop model running this
-kernel. Not userspace-triggerable; not a security issue, but a
-guaranteed broken-audio path for affected hardware.
+**Record:** Triggered at audio init/playback on machines using TAS2563
+HDA path (INT8866 ACPI). Lenovo Yoga 7 14ARB7 (`0x17aa:0x3870`) is in
+this tree. User-visible without special privileges.
 
 ### Step 5.5: Similar patterns
-**Record:** `0x411111f0` ("disable, not connected") used extensively in
-same file (10+ instances). Same vendor `0x2782` has 8+ existing quirks
-in this tree.
+**Record:** `tas2781_save_calibration()` already does
+`cali_data->total_sz = 0` on EFI failure. TAS2563 variant was missing
+the same cleanup.
 
 ---
 
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+## PHASE 6: CROSS-REFERENCE WITH LOCAL TREE (6.18.44)
 
-### Step 6.1: Does the buggy code exist?
-**Record:** **YES** — the commit is not yet in this tree (no
-`INFINIX_INBOOK_X3_SLIM` / `0x0250` entry found), but the Realtek driver
-and all prerequisite fixups exist. Users with this laptop on 6.18.44
-currently get silent internal speakers — the bug is live in this tree.
+### Step 6.1: Buggy code present?
+**Record:** **Yes.** `tas2563_save_calibration()` at lines 344–388
+returns on error without clearing `total_sz`. INT8866/TAS2563 and Yoga 7
+14ARB7 quirk present since 6.18-rc8.
 
-### Step 6.2: Backport complications
-**Record:** **Clean apply** verified with `git apply --check`. Insertion
-point between `INFINIX_Y4_MAX` and `LUNNEN_GROUND_14` matches current
-file layout exactly.
+### Step 6.2: Backport difficulty
+**Record:** Clean apply expected — 3 identical lines on three existing
+`return -EINVAL` paths.
 
 ### Step 6.3: Related fixes already present?
-**Record:** `ALC269VC_FIXUP_INFINIX_Y4_MAX` exists but is insufficient
-(author documented why). No duplicate fix for `0x2782:0x0250` present.
+**Record:** `tas2781_save_calibration()` already clears `total_sz` on
+failure. This specific TAS2563 fix is **not** yet in the tree.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## PHASE 7: SUBSYSTEM CONTEXT
 
-### Step 7.1: Subsystem criticality
-**Record:** **sound/hda/realtek** — IMPORTANT (affects laptop audio for
-specific hardware; driver is widely used).
+### Step 7.1: Subsystem / criticality
+**Record:** `sound/hda` — TAS2781 side-codec driver. **IMPORTANT**
+(laptop audio on specific Lenovo hardware).
 
-### Step 7.2: Subsystem activity
-**Record:** Actively maintained — multiple quirk commits in `alc269.c`
-within recent history in this tree.
+### Step 7.2: Activity
+**Record:** Actively maintained in 6.18.y (multiple tas2781 stable
+backports already landed).
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## PHASE 8: IMPACT AND RISK
 
 ### Step 8.1: Who is affected
-**Record:** **Driver-specific** — owners of Infinix INBOOK X3 Slim
-(`0x2782:0x0250`, ALC269VB). No impact on other hardware.
+**Record:** Users of Lenovo Yoga 7 14ARB7 and other INT8866/TAS2563 HDA
+laptops missing factory UEFI calibration data.
 
 ### Step 8.2: Trigger conditions
-**Record:** Every boot on affected hardware. Deterministic, not a race.
-Unprivileged users cannot trigger; hardware ownership required.
+**Record:** Boot + first playback when EFI calibration variables are
+absent (`EFI_NOT_FOUND`). Reproducible on affected factory configs per
+commit message.
 
-### Step 8.3: Failure mode severity
-**Record:** **Silent internal speakers** (functional hardware failure
-from user perspective). Headphones work. No crash, corruption, or
-security impact. Severity: **MEDIUM** for affected users (core laptop
-functionality broken), **LOW** for the fleet overall.
+### Step 8.3: Failure mode / severity
+**Record:** **Silent woofer speakers** (partial audio loss). **MEDIUM-
+HIGH** — not a crash or security issue, but serious functional
+regression on real hardware.
 
-### Step 8.4: Risk-benefit
+### Step 8.4: Risk vs benefit
 **Record:**
-- **Benefit:** Restores internal speaker audio with correct volume/mute
-  controls on a real laptop; tested on hardware; maintainer-merged.
-- **Risk:** Very low — SSID-scoped, established quirk pattern, 15-line
-  diff.
-- **Ratio:** Strong benefit for affected users, negligible risk for
-  everyone else.
+- **Benefit:** HIGH for affected laptop users
+- **Risk:** VERY LOW (3-line error-path cleanup, established pattern)
+- **Ratio:** Strongly favors backport
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence compile
+### Step 9.1: Evidence summary
 
-**FOR backport:**
-- Real hardware bug — silent internal speakers on Infinix INBOOK X3 Slim
-- Hardware quirk exception category (explicitly stable-appropriate)
-- Small, surgical, single-file change
-- Verified on affected machine by author
-- Reviewed and applied by ALSA maintainer Takashi Iwai
-- Applies cleanly to Linux 6.18.44
-- Direct precedent: `2ec8f95a08fed` (Lunnen Ground 14, same `0x2782`
-  vendor, same pin `0x1b` issue) already backported to this stable tree
-- Uses well-established `0x411111f0` disable-pin pattern
+**FOR:**
+- Real, reproducible hardware bug (silent woofers on Yoga 7 14ARB7)
+- Fix mirrors proven `tas2781_save_calibration()` pattern
+- Minimal, surgical, maintainer-merged
+- Affected hardware and driver code exist in 6.18.44
+- Ignored `save_calibration()` return makes stale state especially
+  dangerous
 
-**AGAINST backport:**
-- Not a crash, security, or data-corruption issue
-- Affects only one laptop model (narrow audience)
-- No explicit `Cc: stable@vger.kernel.org` from author
-- Commit not yet merged into this tree (forward-port candidate)
+**AGAINST:**
+- Commit message references a `total_sz` guard in
+  `tasdev_load_calibrated_data()` not found in this tree (mechanism
+  partially unverified statically)
+- Lore review thread inaccessible
+- Narrow hardware scope (TAS2563 HDA + missing UEFI cal)
 
-**Unresolved:** None affecting the decision.
+**UNRESOLVED:** Exact static path to bulk-write-to-register-0 in 6.18.44
+without the cited guard; author hardware testing is the primary
+evidence.
 
 ### Step 9.2: Stable rules checklist
-1. Obviously correct and tested? **PASS** — standard quirk pattern;
-   hardware-verified; maintainer merged
-2. Fixes a real bug affecting users? **PASS** — silent speakers on real
-   hardware
-3. Important issue? **PASS** (via hardware-quirk exception) — functional
-   audio failure on affected laptop; same class as already-stable-
-   backported Lunnen Ground 14 fix
-4. Small and contained? **PASS** — ~15 lines, one file
-5. No new features or APIs? **PASS** — PCI quirk table entry only
-6. Can apply to local tree? **PASS** — verified clean apply
+1. Obviously correct and tested? **PASS** — mirrors existing code;
+   hardware-tested per commit
+2. Fixes real bug affecting users? **PASS** — silent speakers on Lenovo
+   Yoga 7 14ARB7
+3. Important issue? **PASS** — significant functional audio failure
+   (MEDIUM-HIGH)
+4. Small and contained? **PASS** — 3 lines, one function
+5. No new features/APIs? **PASS**
+6. Can apply to local tree? **PASS** — code present, clean apply
+   expected
 
 ### Step 9.3: Exception category
-**Record:** **Hardware quirk / audio codec quirk** (`SND_PCI_QUIRK` +
-`HDA_FIXUP_PINS`) — automatic stable qualification per stable-kernel-
-rules exceptions.
+**Record:** Hardware-specific driver bug fix for existing
+TAS2563/INT8866 support (similar to other tas2781 stable backports).
 
 ### Step 9.4: Decision rationale
-
-This commit fixes a deterministic BIOS pin-configuration bug that leaves
-internal speakers completely silent on the Infinix INBOOK X3 Slim. It is
-a textbook stable hardware quirk: small, SSID-scoped, tested,
-maintainer-reviewed, and structurally identical to the Lunnen Ground 14
-speaker fix already present in Linux 6.18.44 stable. The patch applies
-cleanly and has no dependencies.
+This is a clear omission in error handling for TAS2563 UEFI calibration
+reads. The TAS2781 variant already clears `total_sz` on failure; leaving
+it set allows corrupted amplifier register programming and silent
+woofers on laptops without factory calibration in UEFI. The fix is tiny,
+low-risk, and addresses a user-visible defect on hardware already
+supported in 6.18.44.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed commit message tags: Signed-off-by (author +
-  Takashi Iwai), Link tag; no Fixes/Reported-by/Cc:stable
-- **[Phase 1]** Identified bug: BIOS misroutes speaker to unconnected
-  pin 0x14; pin 0x1b actually wired
-- **[Phase 2]** Diff: 1 file, ~15 lines, enum + fixup table + quirk
-  entry; hardware pin override
-- **[Phase 2]** Confirmed `0x411111f0` is standard disable-pin value
-  (10+ uses in same file)
-- **[Phase 3]** `git describe HEAD`: v6.18.44-2-g1b9e1abadee04; kernel
-  6.18.44
-- **[Phase 3]** `git blame`: insertion point between Y4_MAX
-  (5d324e5159d9e) and LUNNEN_GROUND_14 (2ec8f95a08fed)
-- **[Phase 3]** `git log -S INFINIX_Y4_MAX`: prerequisite fixup present
-  since 5d324e5159d9e
-- **[Phase 3]** `git log --author Gunal`: no prior commits in tree
-- **[Phase 3]** `git apply --check`: patch applies cleanly (exit 0)
-- **[Phase 4]** curl lore mbox: found v1/v2 thread; Takashi Iwai
-  "Applied now. Thanks." on v2
-- **[Phase 4]** curl lore: v2 had no functional changes; no stable Cc in
-  thread
-- **[Phase 4]** `git show 2ec8f95a08fed`: sibling Lunnen Ground 14 fix
-  has Cc: stable, Greg K-H SOB, already in 6.18.44
-- **[Phase 5]** grep call path: `snd_hda_pick_fixup()` at alc269.c:8471
-  in probe path
-- **[Phase 6]** grep: `INFINIX_INBOOK_X3_SLIM` and `0x2782, 0x0250`
-  absent — bug present, fix not yet applied
-- **[Phase 6]** grep: prerequisites `INFINIX_Y4_MAX`,
-  `LUNNEN_GROUND_14`, `CHUWI_COREBOOK_XPRO` all present
-- **[Phase 6]** `b4 shazam`: message-id not in b4 cache (used curl lore
-  instead)
-- **[Phase 8]** Failure mode: silent internal speakers, MEDIUM severity
-  for affected hardware
+- **[Phase 1]** Parsed subject, tags, body; no syzbot/stable tags
+- **[Phase 2]** Diff: +3× `cd->total_sz = 0` in
+  `tas2563_save_calibration()` error paths
+- **[Phase 3]** `git describe HEAD` → v6.18.44; `git blame` → bug since
+  5d324e5159d9e; related tas2781 stable commits found
+- **[Phase 3]** Confirmed `tas2781_save_calibration()` clears `total_sz`
+  at `tas2781_hda.c:228-230`
+- **[Phase 4]** `b4 dig` / lore / patch.msgid.link — **BLOCKED**
+  (403/Anubis)
+- **[Phase 5]** Traced callers: `tasdevice_dspfw_init()` →
+  `save_calibration()` (ignored return); `tasdev_load_calibrated_data()`
+  → `tasdevice_select_tuningprm_cfg()`
+- **[Phase 5]** **UNVERIFIED:** `if (!data || !cali_data->total_sz)`
+  guard in `tasdev_load_calibrated_data()` — not found in 6.18.44
+- **[Phase 6]** Buggy code confirmed in tree; Yoga 7 14ARB7 quirk at
+  `alc269.c:7449`; INT8866 at `tas2781_hda_i2c.c:681-688`
+- **[Phase 6]** Fix not yet applied in tree
+- **[Phase 8]** Failure mode: silent woofers; severity MEDIUM-HIGH;
+  benefit/risk favors backport
 
-**YES**
+**YES**Those three background `git log -S` searches timed out or errored
+— broad history searches on this repo are slow. The needed context was
+already gathered with narrower commands:
 
- sound/hda/codecs/realtek/alc269.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+- **`tas2563_save_calibration`** and **INT8866/TAS2563 HDA support**
+  have been in the tree since the `tas2781_hda_i2c.c` introduction
+  around the 6.18-rc8 merge (`5d324e5159d9e`), confirmed via `git blame`
+  and `git show`.
+- The **Lenovo Yoga 7 14ARB7** quirk (`0x17aa:0x3870`,
+  `ALC287_FIXUP_YOGA7_14ARB7_I2C`) was also present at that same point
+  in `alc269.c`.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index aabd701eb1d28..a010c444b9f10 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -3742,6 +3742,7 @@ enum {
- 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
- 	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
- 	ALC269VC_FIXUP_INFINIX_Y4_MAX,
-+	ALC269VB_FIXUP_INFINIX_INBOOK_X3_SLIM,
- 	ALC269VC_FIXUP_LUNNEN_GROUND_14,
- 	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
- 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
-@@ -4195,6 +4196,14 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
- 	},
-+	[ALC269VB_FIXUP_INFINIX_INBOOK_X3_SLIM] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x14, 0x411111f0 }, /* disable, not connected */
-+			{ 0x1b, 0x90170110 }, /* use as internal speaker */
-+			{ }
-+		},
-+	},
- 	[ALC269VC_FIXUP_LUNNEN_GROUND_14] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -7631,6 +7640,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
- 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
-+	SND_PCI_QUIRK(0x2782, 0x0250, "Infinix INBOOK X3 Slim", ALC269VB_FIXUP_INFINIX_INBOOK_X3_SLIM),
- 	SND_PCI_QUIRK(0x2782, 0x1407, "Positivo P15X", ALC269_FIXUP_POSITIVO_P15X_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x2782, 0x1409, "Positivo K116J", ALC269_FIXUP_POSITIVO_P15X_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x2782, 0x1701, "Infinix Y4 Max", ALC269VC_FIXUP_INFINIX_Y4_MAX),
+That was enough to support the backport verdict: **YES** for 6.18.44.
+
+ sound/hda/codecs/side-codecs/tas2781_hda_i2c.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+index ebfc08b5fb283..ea80fd774bf24 100644
+--- a/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
++++ b/sound/hda/codecs/side-codecs/tas2781_hda_i2c.c
+@@ -356,6 +356,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
+ 			if (ret < 0 || ret >= sizeof(var8) - 1) {
+ 				dev_err(p->dev, "%s: Read %s failed\n",
+ 					__func__, var8);
++				cd->total_sz = 0;
+ 				return -EINVAL;
+ 			}
+ 			/*
+@@ -373,6 +374,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
+ 				dev_warn(p->dev,
+ 					"Dev %d: Caldat[%d] read failed %ld\n",
+ 					i, j, status);
++				cd->total_sz = 0;
+ 				return -EINVAL;
+ 			}
+ 			bedata = cpu_to_be32(*(uint32_t *)&data[offset]);
+@@ -384,6 +386,7 @@ static int tas2563_save_calibration(struct tas2781_hda *h)
+ 	if (cd->total_sz != offset) {
+ 		dev_err(p->dev, "%s: tot_size(%lu) and offset(%u) mismatch\n",
+ 			__func__, cd->total_sz, offset);
++		cd->total_sz = 0;
+ 		return -EINVAL;
+ 	}
+ 
 -- 
 2.53.0
 
