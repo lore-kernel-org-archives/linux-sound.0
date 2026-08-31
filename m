@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB683521210;
-	Mon, 31 Aug 2026 13:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48030530E01;
+	Mon, 31 Aug 2026 13:44:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183855; cv=none; b=BnigulsA3j5w+GoJ0Mjd6wb5EgnLJxrdk3NABh1WOh8n0Bym6vfwG5wIRZsDT6XodTEUCVYNc+4hNe2JeHa5HHYL2P+rXxTHloWo1nDeVDwx64EPBhNf8dVP75xl3UiAcRb9EDPhSBhpVwR2Edghg3okI9gp+WiErIXgvviXJc8=
+	t=1788183899; cv=none; b=uz4jDrRopz0omN0tOQsgHqnZNaN9CSpdBw+E4NXPbSYAoI/SYdMumGa9hOHkuQ4PV/mzkpNzh86ruhTdTi0Y1gRQA8kjhpFFOmEoCpYv4ar46KAJnXDOExCAZJxhpeCyxuMGI3q4K8uSxcJe44dY3ZL/h5JO/ylF5MuI4/hfZZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183855; c=relaxed/simple;
-	bh=9UVlpdY2+yBE/50frAkHYJdIgkUz+ShHyHuMH0CWi2c=;
+	s=arc-20240116; t=1788183899; c=relaxed/simple;
+	bh=iFJCfpRqwuOkvNt7G9lVIOoQbPuxZKN1Q63mAfehW1M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AwcoBdIlBgs45z4tI6v9isFOcpUEC+x+2UFpvoztvVaWCiOV0gALF/majqvDZOXGhAgnuMxjHT55XJIeJJgnjhm7gUmLstWTa+HdFRwLLoI9bcU2TvgE4Q9RqLO/8Kz57mcptqDueps3YvovpDv4Zf3qPsfZvue3zxOm1GVn5lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oLk/2A6B; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=PR01gUfeXBU6ezfqUHqWXyhkHeguEFN4SFyftyGv/+iEpYzwdHMIImTRFoF8AK3e8RBTMlbIlmWQoYIIMtHYcBcdVdBPjcna7MwEpLOWS5BWhdeuiMnG1yuixXmZHwBhK+qvp+/S+HFN98p9o8gkEduKe6pJUUY1lq7O1w2ssgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bl9FLwE0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oLk/2A6B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 077E01F00A3E;
-	Mon, 31 Aug 2026 13:44:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bl9FLwE0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B91021F00A3D;
+	Mon, 31 Aug 2026 13:44:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183851;
-	bh=QXRzar77aJt/WkXV87uNtCkSjKWYNfrHbwi6KZO9GUw=;
+	s=k20260515; t=1788183897;
+	bh=5EYOOfs2MFQSXCyk4VnYLNrx8jys++FtwygfapBYvHQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=oLk/2A6Bp/XVkKA1mZ5RzaHay0XmceXligCyTi//WFaY5hxDudLnAjanAMKgg7osU
-	 PTSiR80y/52SHOKoBhAAtHGiQ5TPHBsVgd/+Llz8UkdYGo+efIxE2A4WhuKkDGKaO1
-	 K1BhliPYpkFaffXZ3Ohh5Gp3/A4tZ41Xx4rbENXJK5QvX/IAtbXUu9giJtNWUD2NsH
-	 q3LdDyQodkTy9PFmU5zO99wFacjpWSKJ04vAG8FVfMOLGnX5Lpkd9vkXz248Y46Zdf
-	 66nujuGFTyxQcGyLIj/DLY32UbG7l9XpU5Epx811n77OcL7kk9ru3K5NZWEb1/yMQQ
-	 EM6Gw1aIT+pkg==
+	b=bl9FLwE0jGbtWZWUeqhjDWbNCHPrHuLrX6lMBgwflBtHldPRtd941eRFNRSgMvtah
+	 U2ztVPLhCGHj6u0nmVWxKsdPIsVcX4IOvMuW2mcNZswrGQ0Di/lFEORyWF9jYCxuIg
+	 JNS5aWJJH+92ZpCoKfa5v+ksrbjaqiiIP7IbQMZBD5CMY4ws4amHIpPQ6wx3snLCmk
+	 2IQYckPot9K8vMezps1KgpAgiBbrT2Vd56vZJXPn6bBRqCtXGxk8McIYws5XVYXARp
+	 iwhzyrQo/fAxqsobOQTkG7WoG/TOQxt8RNQS1M7SwdS43woj/8kHysD1wBvClVQOIx
+	 6qkq7yiYqMriQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Jetha Chan <jethachan@gmail.com>,
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jarkko Nikula <jarkko.nikula@bitmer.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	Vijendar.Mukunda@amd.com,
+	sen@ti.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
+	linux-omap@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.1] ASoC: amd: yc: Add Alienware m15 R7 AMD to DMIC quirk table
-Date: Mon, 31 Aug 2026 09:26:10 -0400
-Message-ID: <20260831133314.4125787-342-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ASoC: ti: omap3pandora: update board check to use DT compatible
+Date: Mon, 31 Aug 2026 09:26:36 -0400
+Message-ID: <20260831133314.4125787-368-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -56,409 +58,376 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Jetha Chan <jethachan@gmail.com>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
-[ Upstream commit e782d687d2f5bf8b8113dc48ba22cca4b472c252 ]
+[ Upstream commit 45efb8fbdae303539e7fb5562e147583d4ed63ad ]
 
-The Alienware m15 R7 AMD exposes an ACP6x DMIC path, but its DMI
-product name is not present in the Yellow Carp ACP quirk table. As a
-result, the ACP machine driver does not enable the DMIC card on this
-system.
+The omap3pandora driver contains a check for the ARM machine ID via the
+machine_is_omap3_pandora() macro. The board concerned now supports
+only FDT booting, which does not use machine IDs, and therefore the
+code should be updated to check the DT compatible property instead. The
+legacy board file for this machine was removed in commit 7fcf7e061edd
+("ARM: OMAP2+: Remove legacy booting support for Pandora").
+The presence of this machine ID check prevents the removal of machine
+IDs no longer used by the kernel from arch/arm/tools/mach-types,
+because the machine_is_*() macros are generated from mach-types. To
+resolve this issue, use of_machine_is_compatible() instead.
 
-Add the DMI product name for this machine. With this quirk applied, the
-kernel reports:
-
-  acp_yc_mach acp_yc_mach.0: Enabling ACP DMIC support via DMI
-
-and ALSA exposes the ACP DMIC capture device:
-
-  card 3: acp6x
-  device 0: DMIC capture dmic-hifi-0
-
-Tested on an Alienware m15 R7 AMD with product SKU 0B59.
-
-Link: https://jethachan.net/dev/2026/03/21/fixing-internal-microphone-alienware-linux.html
-Assisted-by: OpenAI-Codex:gpt-5.5
-Signed-off-by: Jetha Chan <jethachan@gmail.com>
-Link: https://patch.msgid.link/20260630003328.15675-1-jethachan@gmail.com
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Acked-by: Jarkko Nikula <jarkko.nikula@bitmer.com>
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ASoC: amd: yc: Add Alienware m15 R7 AMD to
-DMIC quirk table
-
-**Local tree:** `v6.18.44-1-g2736c32da98b9` (Makefile: 6.18.44), checked
-out from `stable/linux-6.18.y`.
-
----
-
-## PHASE 1: COMMIT MESSAGE FORENSICS
+## Phase 1: Commit Message Forensics
 
 ### Step 1.1: Subject line
-**Record:** `[ASoC: amd: yc] [add] Add Alienware m15 R7 AMD to DMIC
-quirk table`
+**Record:** `[ASoC: ti: omap3pandora]` `[update]` — Update OMAP3 Pandora
+board detection to use device-tree compatible strings instead of ARM
+machine ID.
 
 ### Step 1.2: Tags
 **Record:**
-- **Link:** https://jethachan.net/dev/2026/03/21/fixing-internal-
-  microphone-alienware-linux.html (author blog with reproduction
-  details)
-- **Link:**
-  https://patch.msgid.link/20260630003328.15675-1-jethachan@gmail.com
-  (mailing list submission)
-- **Assisted-by:** OpenAI-Codex:gpt-5.5
-- **Signed-off-by:** Jetha Chan \<jethachan@gmail.com\>
-- **Signed-off-by:** Mark Brown \<broonie@kernel.org\> (ASoC maintainer)
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable tags
-- Notable: maintainer Signed-off-by; hardware-tested per commit body
+- **Signed-off-by:** Ethan Nelson-Moore `<enelsonmoore@gmail.com>`
+  (author)
+- **Acked-by:** Jarkko Nikula `<jarkko.nikula@bitmer.com>`
+- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer)
+- **No** Fixes:, Reported-by:, Tested-by:, Link:, or Cc:
+  stable@vger.kernel.org in the committed message (v1 had Cc: stable; v3
+  removed it per review)
+- Notable: maintainer ack and ASoC maintainer sign-off
 
 ### Step 1.3: Body analysis
 **Record:**
-- **Bug:** Alienware m15 R7 AMD has ACP6x DMIC hardware, but DMI product
-  name is missing from `yc_acp_quirk_table`, so the ACP machine driver
-  does not enable DMIC.
-- **Symptom:** `acp_yc_mach.0` stays unbound; no ACP DMIC ALSA capture
-  device; internal microphone unusable.
-- **Root cause:** BIOS does not expose working `AcpDmicConnected` ACPI
-  property (same pattern as m17 R5 AMD quirk from 2022).
-- **Fix approach:** Add DMI vendor/product match entry pointing at
-  `acp6x_card`.
-- **Version info:** Tested on SKU 0B59; author used kernel 6.19.8 on
-  Arch-based distro.
+- **Bug:** `machine_is_omap3_pandora()` relies on legacy ARM machine
+  IDs; Pandora boots only via FDT since legacy board support was removed
+  in `7fcf7e061edd` (2015).
+- **Symptom:** The ASoC module’s `module_init()` returns `-ENODEV`, so
+  the Pandora audio card never registers on DT-booted systems.
+- **Secondary motivation:** The `machine_is_*()` reference blocks
+  cleanup of unused `mach-types` entries.
+- **Root cause:** Board detection uses `MACH_TYPE_OMAP3_PANDORA` while
+  DT boot matches generic `OMAP3_DT` / `OMAP36XX_DT` machine descriptors
+  and sets `__machine_arch_type` accordingly (see
+  `arch/arm/kernel/devtree.c:235`).
 
 ### Step 1.4: Hidden bug fix?
-**Record:** Not disguised — this is an explicit hardware-enablement
-quirk fix. Without the entry, probe returns `-ENODEV` and DMIC never
-registers.
+**Record:** Yes. Although framed partly as mach-types maintenance, this
+is a functional board-detection bug: DT-booted Pandora boards do not
+match `machine_is_omap3_pandora()`, so audio never initializes. v2
+changelog softened v1’s “always fails” wording, but on normal DT boot
+`__machine_arch_type` is set from the matched DT machine descriptor, not
+`MACH_TYPE_OMAP3_PANDORA`.
 
 ---
 
-## PHASE 2: DIFF ANALYSIS
+## Phase 2: Diff Analysis
 
 ### Step 2.1: Inventory
 **Record:**
-- **Files:** `sound/soc/amd/yc/acp6x-mach.c` (+7 lines, 0 removed)
-- **Functions modified:** none directly; `yc_acp_quirk_table[]` data
-  extended
-- **Scope:** Single-file, surgical DMI table addition
+- **File:** `sound/soc/ti/omap3pandora.c` (+3 / -2 net, ~5 logical lines
+  changed)
+- **Functions:** `omap3pandora_soc_init()` only
+- **Scope:** Single-file surgical fix
 
 ### Step 2.2: Code flow change
 **Record:**
-- **Before:** `dmi_first_match(yc_acp_quirk_table)` on Alienware m15 R7
-  AMD returns NULL → `platform_get_drvdata()` NULL → probe fails with
-  `-ENODEV`.
-- **After:** DMI match succeeds → `platform_set_drvdata(pdev,
-  &acp6x_card)` → DMIC card registers, log shows `"Enabling ACP DMIC
-  support via DMI"`.
-- **Path affected:** Platform driver probe during boot on matching
-  hardware only.
+- **Hunk 1 (includes):** Adds `<linux/of.h>`, removes `<asm/mach-
+  types.h>` — switches from machine-ID API to OF API.
+- **Hunk 2 (`omap3pandora_soc_init`):**
+  - **Before:** `if (!machine_is_omap3_pandora()) return -ENODEV;`
+  - **After:** `if
+    (!of_machine_is_compatible("openpandora,omap3-pandora-600mhz") &&
+    !of_machine_is_compatible("openpandora,omap3-pandora-1ghz")) return
+    -ENODEV;`
+  - **Path affected:** `module_init()` gate for the entire Pandora audio
+    driver.
 
 ### Step 2.3: Bug mechanism
-**Record:** **[Hardware workaround / DMI quirk]** — Missing DMI override
-for a platform whose ACPI tables omit `AcpDmicConnected`. Same mechanism
-as existing Alienware m17 R5 AMD entry (`d40b6529c6269`).
+**Record:** **Logic / correctness fix (board detection).** On DT boot,
+Pandora DTs use compatibles `openpandora,omap3-pandora-{600mhz,1ghz}`
+plus generic `ti,omap3430`/`ti,omap3630`. Kernel matches generic
+OMAP3/OMAP36xx DT machine descriptors; `__machine_arch_type` is not
+`MACH_TYPE_OMAP3_PANDORA` (1761). The old check always fails on DT boot,
+blocking driver registration.
 
 ### Step 2.4: Fix quality
-**Record:**
-- Obviously correct: identical structure to 70+ existing entries in the
-  same table.
-- Minimal, no logic changes.
-- **Regression risk:** Very low — only matches exact DMI vendor
-  `"Alienware"` + product `"Alienware m15 R7 AMD"`.
-- **Backport note:** Mainline diff context includes MSI Vector/Raider
-  entries not present in 6.18.44; insertion should go immediately before
-  the existing m17 entry at lines 503–509. Trivial adjustment, same
-  7-line hunk content.
+**Record:** Obviously correct. Matches DT files in-tree and the pattern
+used by sibling OMAP board drivers (`rx51.c`, `n810.c`). Minimal change,
+no API changes, very low regression risk. Only Pandora DT compatibles
+pass the new check.
 
 ---
 
-## PHASE 3: GIT HISTORY INVESTIGATION
+## Phase 3: Git History Investigation
 
 ### Step 3.1: Blame
-**Record:**
-- Alienware m17 R5 AMD quirk introduced by `d40b6529c6269` (Brent
-  Mendelsohn, 2022-10-24).
-- YC machine driver introduced by `fa991481b8b22` (2021-10-18).
-- Both are ancestors of HEAD in this tree.
-- **m15 R7 AMD entry:** NOT present (`git log -S "Alienware m15 R7 AMD"
-  -- sound/soc/amd/yc/acp6x-mach.c` returns empty).
+**Record:** Current `machine_is_omap3_pandora()` gate is long-standing
+driver code. Legacy Pandora board file removed in `7fcf7e061edd`
+(2015-07-16). DT support added in `771048f59d068`, `b715da74deaf`,
+`9ccd0106c9db` (2015-03-16). Mismatch between DT-only boot and machine-
+ID check has existed since ~2015.
 
 ### Step 3.2: Fixes: tag
-**Record:** N/A — no Fixes: tag. Bug is omission from quirk table, not a
-regression from a specific commit.
+**Record:** N/A — no Fixes: tag in committed version (removed in v2
+after review).
 
 ### Step 3.3: Related file history
-**Record:** 73 quirk-related commits in `sound/soc/amd/yc/`. Recent
-stable examples: HP OMEN (`65aabf8896687`), MSI Bravo 17 D7VF
-(`ba06528ad5a31`), ASUS ExpertBook entries. **20** DMI quirk commits
-already in `stable/linux-6.18.y` for this subsystem. Standalone one-
-patch fix.
+**Record:** No related omap3pandora fixes in recent history. A larger
+rewrite series (“Rewrite sound card driver as a platform driver with
+DT”, Nikolaus Schaller, 2026) exists on mailing lists but is not in this
+tree and would be unsuitable for stable anyway.
 
 ### Step 3.4: Author context
-**Record:** Jetha Chan is not a regular ASoC contributor (only unrelated
-Alienware platform/x86 commit `246f9bb62016c` in tree). Patch merged by
-Mark Brown. Precedent: community hardware reports routinely land as DMI
-quirks in this file.
+**Record:** Ethan Nelson-Moore appears to be a board-specific
+contributor. Patch acked by Jarkko Nikula and signed off by Mark Brown
+(ASoC maintainer).
 
 ### Step 3.5: Dependencies
-**Record:** No dependencies. Requires only `SND_SOC_AMD_YC_MACH` driver
-and `yc_acp_quirk_table` — both present since kernel ~5.15+. Applies
-standalone.
+**Record:** Standalone. Requires only existing DT compatibles and
+`of_machine_is_compatible()`, both present in this tree. No series
+prerequisites.
 
 ---
 
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+## Phase 4: Mailing List and External Research
 
 ### Step 4.1: Original discussion
-**Record:**
-- `b4 dig` with message-id failed (commit not in local repo; lore
-  blocked by Anubis bot protection).
-- Author blog post fetched successfully — detailed reproduction
-  confirming DMI mismatch and successful module-level test.
+**Record:** Patch went through v1 → v2 → v3 (May 2026). v2 changelog:
+removed Fixes: tags and corrected claim that machine IDs “always fail” —
+noted they can work if bootloader passes ID. v3 is the committed form.
+Lore fetch blocked by bot protection; details corroborated via
+Ratatoskr/search results.
 
 ### Step 4.2: Reviewers
-**Record:** Mark Brown Signed-off-by confirms maintainer acceptance.
-Could not verify CC list via b4 dig -w (tool failure / commit not
-indexed locally).
+**Record:** Acked-by Jarkko Nikula; Signed-off-by Mark Brown.
+Appropriate ASoC maintainers involved.
 
-### Step 4.3: Bug report
-**Record:** Blog documents: `acp_yc_mach.0` unbound, only HDA cards
-visible, DMI product `"Alienware m15 R7 AMD"` vs table having only m17.
-Severity from user perspective: **complete internal mic failure**. m17
-R5 had bugzilla.kernel.org #216590 for same class of issue.
+### Step 4.3: Bug reports
+**Record:** No syzbot, bugzilla, or user crash reports. Functional
+hardware-enablement issue, not a sanitizer finding.
 
 ### Step 4.4: Related patches
-**Record:** Standalone. Related sibling: `d40b6529c6269` (m17 R5 AMD,
-same table, same symptom class).
+**Record:** v1 included Cc: stable; final v3 does not. Larger DT
+platform-driver rewrite is a separate future effort.
 
 ### Step 4.5: Stable list history
-**Record:** Could not search lore stable archive (bot protection).
-However, 20 prior DMI quirk commits for this exact driver are already in
-`stable/linux-6.18.y`, establishing clear precedent.
+**Record:** Not investigated on lore stable list (fetch blocked). No
+evidence of prior stable rejection.
 
 ---
 
-## PHASE 5: CODE SEMANTIC ANALYSIS
+## Phase 5: Code Semantic Analysis
 
 ### Step 5.1: Key functions
-**Record:** `acp6x_probe()` uses `yc_acp_quirk_table[]`; table data
-extended only.
+**Record:** `omap3pandora_soc_init()` (modified gate only).
 
 ### Step 5.2: Callers
-**Record:** `acp6x_probe` registered as `.probe` in `acp6x_mach_driver`,
-invoked via `module_platform_driver()` at boot when
-`CONFIG_SND_SOC_AMD_YC_MACH` is enabled and ACPI platform device exists.
+**Record:** Called via `module_init()` when `snd-soc-omap3pandora.ko` is
+loaded (`CONFIG_SND_SOC_OMAP3_PANDORA=m` in `omap2plus_defconfig`). Runs
+in process context during module load, after DT is populated — safe for
+`of_machine_is_compatible()`.
 
 ### Step 5.3: Callees
-**Record:** `dmi_first_match()`, `platform_set_drvdata()`,
-`devm_snd_soc_register_card()`.
+**Record:** `of_machine_is_compatible()`, then existing
+`platform_device_alloc/add`, GPIO/regulator setup unchanged.
 
 ### Step 5.4: Reachability
-**Record:** Triggered on every boot for Alienware m15 R7 AMD with YC ACP
-hardware and module built-in or loaded. Not userspace-triggerable, but
-affects all owners of this laptop model at boot.
+**Record:** Triggered when distro/user loads the omap3pandora audio
+module on OpenPandora hardware booted from DT (the only supported method
+since 2015). Direct user-visible impact: audio card registration.
 
 ### Step 5.5: Similar patterns
-**Record:** Entire `yc_acp_quirk_table[]` is a catalog of identical per-
-laptop DMI overrides for broken/missing ACPI DMIC detection. Alienware
-m17 R5 AMD entry at lines 503–509 is the direct sibling.
+**Record:** `sound/soc/ti/rx51.c:364` uses `machine_is_nokia_rx51() ||
+of_machine_is_compatible("nokia,omap3-n900")`.
+`sound/soc/ti/n810.c:289-291` uses only DT compatibles. omap3pandora was
+the outlier still using machine ID only.
 
 ---
 
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
+## Phase 6: Cross-Reference Against Local Tree (6.18.43)
 
-### Step 6.1: Buggy code exists?
-**Record:** **YES.** File `sound/soc/amd/yc/acp6x-mach.c` exists. Quirk
-table and probe logic present. m17 R5 AMD quirk present; **m15 R7 AMD
-missing** — bug is live in 6.18.44.
+### Step 6.1: Buggy code present?
+**Record:** **Yes.** `sound/soc/ti/omap3pandora.c:226` still has
+`machine_is_omap3_pandora()`. DT files with correct compatibles exist at
+`arch/arm/boot/dts/ti/omap/omap3-pandora-{600mhz,1ghz}.dts`. Legacy
+board file is gone (`7fcf7e061edd` present). `mach-types` still lists
+`omap3_pandora` at line 325.
 
 ### Step 6.2: Backport complications
-**Record:** **Minor context adjustment.** Mainline patch context
-references MSI Vector/Raider entries absent from 6.18.44; insert before
-existing Alienware m17 block. No structural conflicts.
+**Record:** **Clean apply** — verified with `git apply --check` against
+current tree. No conflicts expected.
 
 ### Step 6.3: Related fixes already present?
-**Record:** m17 R5 AMD quirk (`d40b6529c6269`) present. No m15 fix. No
-duplicate.
+**Record:** No equivalent DT-compatible check already applied in this
+tree.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## Phase 7: Subsystem and Maintainer Context
 
-### Step 7.1: Subsystem criticality
-**Record:** **sound/ASoC AMD YC driver** — IMPORTANT for affected laptop
-users; PERIPHERAL in global kernel terms (config-dependent, specific
-hardware).
+### Step 7.1: Subsystem
+**Record:** **ASoC / OMAP3 Pandora audio driver** — PERIPHERAL (niche
+embedded hardware: OpenPandora handheld).
 
-### Step 7.2: Subsystem activity
-**Record:** Highly active — continuous DMI quirk additions through
-2025–2026, many backported to 6.18.y stable.
+### Step 7.2: Activity
+**Record:** Mature, low-churn driver. OMAP DT infrastructure stable.
+Recent activity is this board-detection fix and a proposed larger DT
+rewrite.
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## Phase 8: Impact and Risk Assessment
 
 ### Step 8.1: Who is affected
-**Record:** Owners of Alienware m15 R7 AMD laptops running kernels with
-`SND_SOC_AMD_YC_MACH` enabled (common on AMD Rembrandt/Yellow Carp
-laptops).
+**Record:** OpenPandora users with `CONFIG_SND_SOC_OMAP3_PANDORA`
+enabled (present in `omap2plus_defconfig`). Small but real user
+population.
 
 ### Step 8.2: Trigger conditions
-**Record:** Every boot on matching DMI identity. Deterministic, not a
-race. Unprivileged users cannot trigger the fix path, but all users on
-this hardware are affected by the bug.
+**Record:** DT boot (standard for Pandora since 2015) + omap3pandora
+module load. Common for intended users, not a race or obscure corner
+case.
 
 ### Step 8.3: Failure mode severity
-**Record:** Internal DMIC completely non-functional (driver probe
-fails). **Severity: MEDIUM** — not crash/corruption/security, but core
-laptop functionality broken. Falls under stable **hardware quirk
-exception**.
+**Record:** Audio driver silently fails init (`-ENODEV`); no kernel
+crash, corruption, or security issue. **Severity: MEDIUM** — broken
+hardware functionality (“oh, that's not good” per stable rules), not
+CRITICAL.
 
 ### Step 8.4: Risk-benefit
 **Record:**
-- **Benefit:** HIGH for affected users (working internal microphone).
-- **Risk:** VERY LOW (7-line DMI string, exact hardware match only).
-- **Ratio:** Strongly favorable; matches established stable practice for
-  this file.
+- **Benefit:** Restores Pandora audio on the only supported boot path;
+  enables mach-types cleanup; follows established OMAP DT-detection
+  pattern.
+- **Risk:** Very low — 5-line change, board-specific compatibles only.
+- **Ratio:** Moderate-to-good benefit for affected users, minimal risk.
 
 ---
 
-## PHASE 9: FINAL SYNTHESIS
+## Phase 9: Final Synthesis
 
 ### Step 9.1: Evidence summary
 
 **FOR backport:**
-- Fixes real, reproducible hardware bug (dead internal mic)
-- Hardware quirk / DMI workaround — explicit stable exception category
-- 7-line, single-file, obviously correct
-- Tested on real hardware; ASoC maintainer Signed-off-by
-- Identical pattern to m17 R5 quirk already in tree since 2022
-- 20 similar quirk commits already in 6.18.y stable for this driver
-- Driver and quirk infrastructure fully present in this tree
-- No new APIs, no behavior change for non-matching systems
+- Real functional bug: DT-booted Pandora never passes board check
+- Small, surgical, maintainer-reviewed fix
+- Applies cleanly to 6.18.43
+- Matches in-tree DT compatibles
+- Precedent in sibling OMAP ASoC drivers
+- Qualifies as hardware quirk / board-detection fix under stable
+  exceptions
 
 **AGAINST backport:**
-- Not a crash, security, or data-corruption issue (strict "important
-  issue" reading)
-- Lore review thread not accessible for verification
-- Minor patch context adjustment needed vs mainline
+- Niche hardware, small user base
+- Bug present since ~2015 without crash/security impact
+- No user bug reports or syzbot findings
+- Final commit omits Cc: stable (not decisive per review rules)
+- Strict “important issue” bar (crash/corruption/deadlock) not met
 
-**Unresolved:**
-- Full mailing list review thread (Anubis blocked lore.kernel.org)
-- b4 dig could not resolve commit hash (not in local tree)
+**Unresolved:** No direct user bug report verified; lore thread not
+fully readable due to bot protection.
 
 ### Step 9.2: Stable rules checklist
-1. Obviously correct and tested? **PASS** — same pattern as dozens of
-   accepted quirks; author tested on hardware
-2. Fixes real bug affecting users? **PASS** — internal microphone
-   completely broken
-3. Important issue? **PASS** (hardware quirk exception) — functional
-   hardware failure on a commercial laptop
-4. Small and contained? **PASS** — 7 lines, 1 file
-5. No new features or APIs? **PASS** — DMI table entry only
-6. Can apply to local tree? **PASS** — trivial insertion before existing
-   Alienware m17 entry
+1. Obviously correct and tested? **PASS** — logic verified against DT
+   files and `devtree.c` behavior; maintainer acked.
+2. Fixes a real bug affecting users? **PASS** — Pandora audio module
+   cannot initialize on DT boot.
+3. Important issue? **PASS (borderline)** — hardware functionality
+   broken for affected users; hardware-quirk category, not
+   crash/security.
+4. Small and contained? **PASS** — ~5 lines, one file.
+5. No new features or APIs? **PASS** — detection mechanism change only.
+6. Can apply to local tree? **PASS** — verified clean apply.
 
 ### Step 9.3: Exception category
-**Record:** **Hardware quirk/workaround** — DMI-based enablement for
-laptop with broken ACPI DMIC detection.
+**Record:** Hardware quirk / board-detection workaround — analogous to
+DT updates enabling already-supported hardware.
 
-### Step 9.4: Problem and decision rationale
+### Step 9.4: Decision rationale
 
-This commit solves a concrete hardware support gap: the Alienware m15 R7
-AMD has an ACP6x DMIC path, but without a DMI quirk the `acp_yc_mach`
-platform driver refuses to bind because ACPI does not report
-`AcpDmicConnected`. The result is no internal microphone on Linux — a
-user-visible regression-class hardware issue, not a cosmetic fix.
-
-For the 6.18.y stable tree specifically, all infrastructure exists (YC
-driver since 2021, m17 sibling quirk since 2022, continuous stable
-backport of identical quirk patches). The fix is minimal, maintainer-
-reviewed, and carries negligible regression risk while restoring
-essential laptop functionality for a defined hardware population.
+For **this 6.18.43 tree**, the buggy code exists, DT is the only Pandora
+boot path, and the fix is minimal and correct. Without it,
+`CONFIG_SND_SOC_OMAP3_PANDORA` is effectively dead on real hardware.
+While the user base is small and severity is functional rather than
+catastrophic, stable rules explicitly accept fixes for “hardware quirk”
+issues and “real bug[s] that bother people.” This fits that pattern and
+mirrors accepted OMAP board-detection fixes (`rx51`, `n810`).
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed subject, tags, body from provided commit message
-- **[Phase 1]** Fetched author blog: confirmed DMI mismatch, unbound
-  `acp_yc_mach`, successful DMIC after quirk
-- **[Phase 2]** Diff: +7 lines to `yc_acp_quirk_table[]` in
-  `acp6x-mach.c`
-- **[Phase 2]** Read `acp6x_probe()` lines 758–816: confirmed DMI match
-  enables `acp6x_card`, no match → `-ENODEV`
-- **[Phase 3]** `git describe HEAD`: v6.18.44-1-g2736c32da98b9
-- **[Phase 3]** `git log -S "Alienware m15 R7 AMD"`: empty — commit not
-  in tree
-- **[Phase 3]** `git blame` lines 503–509: m17 quirk from
-  `d40b6529c6269` (2022-10-24)
-- **[Phase 3]** `git merge-base --is-ancestor d40b6529c6269 HEAD`: m17
-  quirk is ancestor
-- **[Phase 3]** `git merge-base --is-ancestor fa991481b8b22 HEAD`: YC
-  driver is ancestor
-- **[Phase 3]** `git log --oneline -20 --
-  sound/soc/amd/yc/acp6x-mach.c`: many recent quirk commits
-- **[Phase 3]** `git show d40b6529c6269`: m17 quirk, same bug class,
-  bugzilla #216590
-- **[Phase 4]** `b4 dig` for new patch message-id: failed (exit 2)
-- **[Phase 4]** lore.kernel.org fetch: blocked by Anubis bot protection
-- **[Phase 4]** Blog fetch: success — full reproduction details
-- **[Phase 5]** `grep acp6x_probe/dmi_first_match`: probe at line 758,
-  DMI check at 798
-- **[Phase 6]** `grep "Alienware" acp6x-mach.c`: only m17 R5 present,
-  m15 R7 absent
-- **[Phase 6]** Confirmed Vector A16/Raider A18 from mainline diff
-  context not in 6.18.44 tree
-- **[Phase 6]** `git log stable/linux-6.18.y --grep="DMI quirk" --
-  sound/soc/amd/yc/ | wc -l`: 20 quirk commits in stable
-- **[Phase 7]** Read `sound/soc/amd/Kconfig` lines 107–116:
-  `SND_SOC_AMD_YC_MACH` config exists
-- **[Phase 8]** Failure mode verified via probe code: no DMI match →
-  `-ENODEV` → no DMIC card
+- [Phase 1] Parsed commit message and tags from user-provided content;
+  noted v1→v3 evolution via web search.
+- [Phase 2] Read full `sound/soc/ti/omap3pandora.c`; confirmed diff
+  scope and `module_init` gate.
+- [Phase 3] `git describe HEAD`: v6.18.43-1-gc7f0dac02d232 / kernel
+  6.18.43.
+- [Phase 3] `git show 7fcf7e061edd`: legacy Pandora board file removed
+  2015-07-16; present in tree.
+- [Phase 3] `git show b715da74deaf`, `9ccd0106c9db`, `771048f59d068`: DT
+  files added 2015-03-16; present in tree.
+- [Phase 3] `git blame` on lines 222-230: long-standing
+  `machine_is_omap3_pandora()` check.
+- [Phase 4] Web search: found v1/v2/v3 thread; v2 changelog correction
+  about machine IDs; lore direct fetch blocked.
+- [Phase 4] `b4 dig`: no result for attempted lookups.
+- [Phase 5] Grep `of_machine_is_compatible` in `sound/soc/ti/rx51.c`,
+  `n810.c`: confirmed precedent.
+- [Phase 5] Read `arch/arm/kernel/devtree.c:234-235`: DT boot sets
+  `__machine_arch_type = mdesc->nr`.
+- [Phase 5] Read `arch/arm/mach-omap2/board-generic.c:130-161`: Pandora
+  matches generic OMAP3/OMAP36xx DT descriptors, not OMAP3_PANDORA.
+- [Phase 5] Grep `arch/arm/tools/mach-types`: `omap3_pandora` = 1761.
+- [Phase 6] Grep `sound/soc/ti/omap3pandora.c`: buggy
+  `machine_is_omap3_pandora()` at line 226.
+- [Phase 6] Grep DT files: compatibles
+  `openpandora,omap3-pandora-600mhz` and
+  `openpandora,omap3-pandora-1ghz` present.
+- [Phase 6] `git apply --check`: patch applies cleanly to current tree.
+- [Phase 6] Grep `CONFIG_SND_SOC_OMAP3_PANDORA`: enabled as module in
+  `omap2plus_defconfig`.
+- [Phase 7] Read `Documentation/process/stable-kernel-rules.rst`:
+  hardware quirk criterion applies.
+- [Phase 8] Traced failure mode: `module_init` returns `-ENODEV` → no
+  audio card registered.
 
-**YES**The background searches finished and match what the analysis
-already used:
+**YES**
 
-- **Author/subject search:** No ASoC quirk commit for "Alienware m15 R7
-  AMD" in this tree. The only m15 R7 hits are unrelated `platform/x86`
-  Alienware WMI work.
-- **Stable quirk count:** **20** DMI quirk commits for
-  `sound/soc/amd/yc/` are already in `stable/linux-6.18.y`, including
-  the sibling `d40b6529c6269` (Alienware m17 R5 AMD) entry.
+ sound/soc/ti/omap3pandora.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-That supports the **YES** backport verdict for 6.18.y: same quirk
-pattern, driver and table already present, only the m15 R7 DMI entry is
-missing.The target-commit search finished: **"Alienware m15 R7 AMD" is
-not in `sound/soc/amd/yc/acp6x-mach.c` in this tree.** The only m15 R7
-matches are unrelated `platform/x86` Alienware WMI commits, which
-confirms the ASoC DMIC quirk patch still needs to be backported.
-
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index d9f145b634f35..d657287ccf43e 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -500,6 +500,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Bravo 17 D7VF"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "Alienware"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Alienware m15 R7 AMD"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
+diff --git a/sound/soc/ti/omap3pandora.c b/sound/soc/ti/omap3pandora.c
+index 808fb6765c05f..2ddd14e8f6b6c 100644
+--- a/sound/soc/ti/omap3pandora.c
++++ b/sound/soc/ti/omap3pandora.c
+@@ -11,12 +11,12 @@
+ #include <linux/delay.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ 
+ #include <sound/core.h>
+ #include <sound/pcm.h>
+ #include <sound/soc.h>
+ 
+-#include <asm/mach-types.h>
+ #include <linux/platform_data/asoc-ti-mcbsp.h>
+ 
+ #include "omap-mcbsp.h"
+@@ -223,7 +223,8 @@ static int __init omap3pandora_soc_init(void)
+ {
+ 	int ret;
+ 
+-	if (!machine_is_omap3_pandora())
++	if (!of_machine_is_compatible("openpandora,omap3-pandora-600mhz") &&
++		!of_machine_is_compatible("openpandora,omap3-pandora-1ghz"))
+ 		return -ENODEV;
+ 
+ 	pr_info("OMAP3 Pandora SoC init\n");
 -- 
 2.53.0
 
