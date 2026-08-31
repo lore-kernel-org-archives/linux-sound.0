@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F6F56FA6E;
-	Mon, 31 Aug 2026 13:48:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9BF577E3E;
+	Mon, 31 Aug 2026 13:49:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788184125; cv=none; b=Te9IPAEnIIZOP230f14ZrmjjO7zsq/t4jRkiuZVGh12gjD/R0oSnZLVNEsudoC9JZqHPCoZFI9b8/3q+MDNBb0ahbg7A35cmObQRUHp6GKvD6ZlifT8JujaOXhgq1cPnuOQabWQeVKTMQSqoK99d7a4oSMXMZ5CNmccG6935XDg=
+	t=1788184152; cv=none; b=kQnm0GVSJ9dPBrj4mBvyrAVg8lVb3nDv0B0vkNd6WN3wI4sV94MlCYQo7YHGVDKrytWe7qovl5+ogZ71eWHYZxUM1jIewrfcd3OnpQ/ciHq6drb/iH6hubCkglFMapM196PFLL4Ru6HCgR9psWCwdZ2hm8evwm2cvLwfOV21fr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788184125; c=relaxed/simple;
-	bh=MyVGdkapJo7uz38KZUV5Ah+fkh4v+BDrh9wPD97M000=;
+	s=arc-20240116; t=1788184152; c=relaxed/simple;
+	bh=Clif3bi8a2lRrhuJsOGOpsR6MekCuHfCt6K8xCxehDM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dx60pJXHMXmvlsefnp3Gy3iymCAAqSdRhY0zWiF1J4CDxGsWouyTTpcBoJLHDQCgS0eQd7+HbuFPfx+QLZGHweQU4w1XXeWYI4eiqjKXnTclu4WBCv/7CGjMWmAac9bwm7N/1MbNVRE5MHaUC3gtjv0KfYSK3hQqto/Nxl1US4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bGbz/6y6; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=BeLKATZsoP+h2/I3mhsCB3rGlVUsNGdDK8mJ1zRHGFg7TIxA4+y1Igk0P5R7UM2bpa2bhAh7ftFKtYm4w9YIWgREUpLqnfjCXNqmBEGeb7IEDJqvSkcpvkSm9WfkqrIKK8YClof579/jyGFUQUnmxxpuArTZevGTYSyG7uzG+I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wgt57QES; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bGbz/6y6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BA281F00ACF;
-	Mon, 31 Aug 2026 13:48:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wgt57QES"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D611F00A3F;
+	Mon, 31 Aug 2026 13:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788184122;
-	bh=poYvFVwgRt6ax7yYw0845dAMxDo4gpjAawdVwxTmDEk=;
+	s=k20260515; t=1788184150;
+	bh=kwIr7DFE5DIUwoHkfFtN91T2UNmCduYY1HrF+s3/kVs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bGbz/6y6YwHDmxC6iBUkLQLr8eZPx0JsyoYRpL8isqPLr1Nn7Z99WSVWFPa85DUOZ
-	 6j89Q6aKBeJm6SoqjecXPlWgukygj5AdU3Dznd++oS6wgr2hs07rRiqWWGKzFL01Cp
-	 OttbbFCccqPSQyUY+pI7LrZ7u/Z2IGQyISaq5MDVjT33r2VqZ0nCzljvFKXlD5UA4V
-	 o3/kju/pwKB61jmssvh5F9MhvehFre1o8gNQvYXF9gDiN2eBpA58fq46Qhm/9EY5pL
-	 dlV9kSlIBmarujdTwluoKdvOsxyOUiWanOR63aHow9CqooDTh+yilS39vbwD3RZ5xu
-	 vS3vQQ1piNEdw==
+	b=Wgt57QESucSMloknkYzfakH6NeKR9q9uoI0jloy1DNHKqnOr5s+hQwW05O4/yyCj+
+	 GuBtdda5Go1jxBqjK8b2Mzw4tDEuvOaHdQhgf8hkmvvgtaxLl+eoxgODthe8/Hqw0q
+	 mAwB4szGnf/AByGMVV4QMtA11/PBiaPxV6rgrhYsR/SyzRaIqsDgppI++RjCQynNDC
+	 WqwAR0L9EaX947wEbALDZ5tytlXdjl9VkuKTf6Jrg0WlmyvPne3vxCUtbjH1ATfDxr
+	 phQxR4RBqDeJ4fvSKD9peAHjChofvPlFL+9UJgcCSNG26jpYIhjcM2SZTJsvqD/gdI
+	 RV3HPviFHy0Gw==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>,
+Cc: =?UTF-8?q?Andr=C3=A9=20Pragosa?= <pragosa512@gmail.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	david.rhodes@cirrus.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda: cs35l56: Fail if wmfw file is missing
-Date: Mon, 31 Aug 2026 09:28:53 -0400
-Message-ID: <20260831133314.4125787-505-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ALSA: hda/realtek: Add mute LED quirk for HP Victus 16-e0xxx (MB 88ED)
+Date: Mon, 31 Aug 2026 09:29:09 -0400
+Message-ID: <20260831133314.4125787-521-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -50,433 +48,387 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.48
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
+From: André Pragosa <pragosa512@gmail.com>
 
-[ Upstream commit 07ae060d35900977a93d4a05ec995b06c85c2552 ]
+[ Upstream commit 630c45e92db44b738d1e9224c5f3c032c76a33ca ]
 
-Fail cs35l56_hda_fw_load() and log an error if it didn't find a wmfw file
-and the BIOS didn't patch the firmware already. Also remove a section of
-code from cs35l56_hda_request_firmware_files() that attempted to find a
-.bin if a .wmfw was not found.
+Add subsystem ID 103c:88ed to the existing HP Victus 16-e0xxx
+mute LED quirk list.
 
-The CS35L56 ROM can only provide default audio in SoundWire mode. A wmfw
-is needed to enable I2S audio. Also none of the customer-specific .bin
-files are compatible with the ROM firmware. So a .wmfw file is always
-required.
+The HP Victus 16-e0xxx with subsystem ID 103c:88ed uses the same
+mute LED coefficient configuration as the already supported
+103c:88eb variant.
 
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Link: https://patch.msgid.link/20260709161211.686498-1-rf@opensource.cirrus.com
+The mute LED was verified by manually toggling coefficient index
+0x0b (bit 3) using hda-verb. After adding the quirk, the LED is
+registered as hda::mute and follows the audio mute state.
+
+Signed-off-by: André Pragosa <pragosa512@gmail.com>
+Link: https://patch.msgid.link/20260728221129.14680-2-pragosa512@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: ALSA hda/realtek HP Victus 16-e0xxx (MB
+88ED) mute LED quirk
 
-**Step 1.1 — Subject line**
+**Local tree:** Linux **6.18.44** (`git describe HEAD` →
+`v6.18.44-2-g1b9e1abadee04`)
 
-Record: `[ALSA: hda: cs35l56]` `[Fail]` — Fail firmware load when
-required `.wmfw` file is missing for CS35L56 HDA amplifier driver.
+---
 
-**Step 1.2 — Tags**
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-Record:
-- `Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>` —
-  Cirrus Logic driver author
-- `Link: https://patch.msgid.link/20260709161211.686498-1-
-  rf@opensource.cirrus.com` — original submission
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` — ALSA maintainer merge
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
-  stable@vger.kernel.org`
+### Step 1.1: Subject line
+**Record:** `[ALSA: hda/realtek] [Add] mute LED quirk for HP Victus
+16-e0xxx (MB 88ED)`
 
-Notable: no fuzzer or user bug reports; vendor-authored fix merged by
-subsystem maintainer.
+### Step 1.2: Tags
+**Record:**
+- **Signed-off-by:** André Pragosa `<pragosa512@gmail.com>` (author)
+- **Link:**
+  `https://patch.msgid.link/20260728221129.14680-2-pragosa512@gmail.com`
+- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer)
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Acked-
+  by:`, or `Cc: stable@vger.kernel.org`
+- Notable: maintainer sign-off from Takashi Iwai; no syzbot or user bug
+  reports
 
-**Step 1.3 — Body analysis**
-
-Record:
-- **Bug:** Driver allowed proceeding with only a `.bin` coefficient file
-  when no `.wmfw` was found, even when BIOS had not pre-patched
-  firmware.
-- **Symptom:** I2S audio cannot work without `.wmfw`; customer `.bin`
-  files are incompatible with ROM firmware.
-- **Root cause:** Fallback in `cs35l56_hda_request_firmware_files()`
-  searched for system-specific `.bin` without `.wmfw`, and
-  `cs35l56_hda_fw_load()` only validated `.bin` presence, not `.wmfw`.
+### Step 1.3: Body analysis
+**Record:**
+- **Bug:** HP Victus 16-e0xxx with subsystem ID `103c:88ed` does not get
+  the mute-LED quirk; the F-key mute LED does not track audio mute
+  state.
+- **Symptom:** Mute LED stays non-functional; audio mute itself is
+  unaffected.
+- **Root cause:** Missing `SND_PCI_QUIRK` table entry for this mainboard
+  variant.
+- **Fix approach:** Reuse `ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT` (same as
+  `103c:88eb`).
+- **Verification:** Author tested coefficient index `0x0b` bit 3 via
+  `hda-verb`; after quirk, LED registers as `hda::mute` and follows mute
+  state.
 - **Version info:** None in message.
 
-**Step 1.4 — Hidden bug fix?**
-
-Record: Yes. Although phrased as validation, this fixes incorrect
-firmware-loading logic that could shut down the DSP and attempt to load
-incompatible coefficients onto ROM firmware.
-
----
-
-## Phase 2: Diff Analysis
-
-**Step 2.1 — Inventory**
-
-Record:
-- **File:** `sound/hda/codecs/side-codecs/cs35l56_hda.c` (+9 / −21, net
-  −12 lines)
-- **Functions:** `cs35l56_hda_request_firmware_files()`,
-  `cs35l56_hda_fw_load()`
-- **Scope:** Single-file surgical fix
-
-**Step 2.2 — Code flow changes**
-
-Record:
-- **Hunk 1 (request_firmware_files):** Before → if system-specific
-  `.wmfw` missing, try system-specific `.bin` alone and return early if
-  found. After → that fallback removed; search continues to generic
-  firmware paths.
-- **Hunk 2 (fw_load):** Before → when `firmware_missing`, only require
-  `.bin`. After → when `firmware_missing`, require both `.wmfw` and
-  `.bin`, with explicit error messages for each.
-
-**Step 2.3 — Bug mechanism**
-
-Record:
-- **Category:** Logic / correctness fix (firmware validation)
-- **Mechanism:** Without `.wmfw`, `cs_dsp_load()` returns 0 for NULL
-  firmware (verified in `drivers/firmware/cirrus/cs_dsp.c:1527-1528`),
-  so `cs_dsp_power_up()` could proceed to `setup_algs()` and
-  `cs_dsp_load_coeff()` with only an incompatible `.bin` on ROM firmware
-  — after an unnecessary `cs35l56_firmware_shutdown()`.
-
-**Step 2.4 — Fix quality**
-
-Record:
-- Fix is minimal and matches vendor hardware requirements.
-- No API changes; only tightens validation on the `firmware_missing`
-  path.
-- Regression risk: very low — systems with valid `.wmfw`+`.bin` or BIOS-
-  patched firmware are unchanged.
-- BIOS-patched path (`firmware_missing == false`) is unaffected.
+### Step 1.4: Hidden bug fix?
+**Record:** Not a crash/leak/race fix. This is an explicit **hardware
+quirk / device-ID extension** for mute-LED support on a specific laptop
+SKU. Classified as hardware enablement, not disguised cleanup.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 2: DIFF ANALYSIS
 
-**Step 3.1 — Blame**
+### Step 2.1: Inventory
+**Record:**
+- **Files:** `sound/hda/codecs/realtek/alc269.c` only (+2 lines, minor
+  formatting)
+- **Functions modified:** None; only `alc269_fixup_tbl[]` quirk table
+- **Scope:** Single-file, surgical quirk-table addition
 
-Record: Buggy fallback and incomplete validation introduced in
-`5d324e5159d9e` (2025-11-28, v6.18-rc8 merge window). File did not exist
-before that commit in this tree (`git show 5d324e5159d9e^:...` → 0
-lines; current tree → 1182 lines).
+### Step 2.2: Code flow change
+**Record:**
+- **Before:** `snd_hda_pick_fixup()` during codec probe finds no match
+  for SSID `103c:88ed` → no mute-LED fixup applied.
+- **After:** SSID `103c:88ed` maps to
+  `ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT` →
+  `alc245_fixup_hp_mute_led_v2_coefbit()` runs at
+  `HDA_FIXUP_ACT_PRE_PROBE`, configures coef `0x0b` bit 3, registers
+  `hda::mute` LED class device.
+- **Path affected:** HDA codec probe for matching HP Victus hardware
+  only.
 
-**Step 3.2 — Fixes: tag**
+### Step 2.3: Bug mechanism
+**Record:**
+- **Category:** Hardware workaround (audio codec quirk)
+- **Mechanism:** Missing PCI subsystem ID in quirk table prevents
+  existing, correct fixup from being selected.
 
-Record: Not applicable — no `Fixes:` tag present.
-
-**Step 3.3 — Related file history**
-
-Record: Recent non-merge commits on this file in 6.18.y:
-- `fecae8b1fb2d3` — ACPI companion ordering
-- `7e6f7ac79abe2` — uninitialized value fix
-- `f8ad9ef771565` — ASP TX error propagation
-- `c18c40e081c19` — signedness fix
-
-Standalone fix; not part of a multi-patch series.
-
-**Step 3.4 — Author context**
-
-Record: Richard Fitzgerald (Cirrus Logic) is the CS35L56 driver author.
-Recent HDA cs35l56 commits in this tree are maintenance fixes from the
-same vendor ecosystem.
-
-**Step 3.5 — Dependencies**
-
-Record: No prerequisites. Patch applies cleanly (`git apply --check`
-succeeded). All referenced symbols exist in this tree.
-
----
-
-## Phase 4: Mailing List and External Research
-
-**Step 4.1 — Original discussion**
-
-Record: Fetched lore mbox at `https://lore.kernel.org/all/20260709161211
-.686498-1-rf@opensource.cirrus.com/t.mbox.gz`. Single v1 submission
-(2026-07-09). `b4 dig -c` did not match (commit not in tree); `b4 dig
--a` returned no revisions. No review replies or stable nominations
-found.
-
-**Step 4.2 — Reviewers**
-
-Record: Patch sent To: `tiwai@suse.com`, Cc: `linux-
-sound@vger.kernel.org`, `linux-kernel@vger.kernel.org`. Merged by
-Takashi Iwai.
-
-**Step 4.3 — Bug reports**
-
-Record: None. No syzbot, bugzilla, or user reports.
-
-**Step 4.4 — Related patches**
-
-Record: Standalone; not part of a series.
-
-**Step 4.5 — Stable list history**
-
-Record: No stable-list discussion found for this fix.
+### Step 2.4: Fix quality
+**Record:**
+- **Quality:** Obviously correct — identical fixup to already-supported
+  `103c:88eb` sibling variant; manually verified.
+- **Regression risk:** Very low — adds one table row, no logic changes.
+- **Red flags:** None.
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 5.1 — Key functions**
+### Step 3.1: Blame
+**Record:**
+- Adjacent entry `0x88eb` introduced in commit `9745c2561e55f`
+  (2026-01-13, Bharat Dev Burman): *"add HP Victus 16-e0xxx mute LED
+  quirk"*
+- That commit also introduced `ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT` and
+  `alc245_fixup_hp_mute_led_v2_coefbit()`.
+- `0x88ed` is absent from this tree (confirmed via grep).
 
-Record: `cs35l56_hda_request_firmware_files()`, `cs35l56_hda_fw_load()`,
-`cs35l56_hda_dsp_work()`, `cs35l56_hda_bind()`.
+### Step 3.2: Fixes: tag
+**Record:** No `Fixes:` tag present; not applicable.
 
-**Step 5.2 — Callers**
+### Step 3.3: Related file history
+**Record:**
+- Multiple similar mute-LED quirk commits already in this 6.18.y tree,
+  including:
+  - `9745c2561e55f` — Victus 16-e0xxx (`0x88eb`) + V2 fixup
+    (prerequisite)
+  - `a424946e00f2e`, `7556bd5cd8ef3`, `8db3663d3c3e2`, `bee43f7b9bc62`,
+    `3210077ed2648` — other HP mute-LED quirks
+- Standalone one-liner; not part of a multi-patch series.
 
-Record:
-- `cs35l56_hda_fw_load()` ← `cs35l56_hda_dsp_work()` (workqueue)
-- `cs35l56_hda_dsp_work()` queued from `cs35l56_hda_bind()` during HDA
-  component binding at audio subsystem init
+### Step 3.4: Author context
+**Record:** André Pragosa has no prior commits in
+`sound/hda/codecs/realtek/` in this tree. Takashi Iwai (maintainer)
+signed off.
 
-**Step 5.3 — Callees**
-
-Record: `cs35l56_firmware_shutdown()`, `cs_dsp_power_up()` →
-`cs_dsp_load()` / `cs_dsp_load_coeff()`, `cs35l56_system_reset()`,
-`cs_dsp_run()`.
-
-**Step 5.4 — Reachability**
-
-Record: Triggered during device bind on laptops with
-`CONFIG_SND_HDA_SCODEC_CS35L56_{I2C,SPI}=y/m`. Common boot path for
-affected Cirrus CS35L56 HDA hardware; not userspace-syscall reachable,
-but runs on every affected machine boot.
-
-**Step 5.5 — Similar patterns**
-
-Record: `cs35l41_hda.c` always loads `.wmfw` before `cs_dsp_power_up()`.
-The removed cs35l56 fallback (`.bin` without `.wmfw`) was inconsistent
-with CS35L56 hardware requirements described by the vendor.
-
----
-
-## Phase 6: Cross-Reference Against Local Tree (6.18.44)
-
-**Step 6.1 — Buggy code present?**
-
-Record: **Yes.** Local tree is **v6.18.44** (`git describe HEAD` →
-`v6.18.44-1-g2736c32da98b9`). Buggy fallback at lines 520–532 and
-incomplete validation at lines 622–625 of `cs35l56_hda.c` are present.
-Driver introduced in 6.18; bug present since introduction.
-
-**Step 6.2 — Backport complications**
-
-Record: Clean apply expected — `git apply --check` passed with no
-conflicts.
-
-**Step 6.3 — Related fixes already present?**
-
-Record: No equivalent wmfw-validation fix in this tree. Other cs35l56
-HDA fixes (uninit value, signedness, error propagation) are separate
-issues.
+### Step 3.5: Dependencies
+**Record:**
+- **Requires:** `ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT` and
+  `alc245_fixup_hp_mute_led_v2_coefbit()` — **both present** (from
+  `9745c2561e55f`, confirmed ancestor of HEAD).
+- **Standalone:** Yes; only adds a quirk-table entry.
 
 ---
 
-## Phase 7: Subsystem and Maintainer Context
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-**Step 7.1 — Subsystem criticality**
+### Step 4.1: Original discussion
+**Record:** `b4 dig -c <commit>` not possible — commit hash not in local
+tree. `b4 dig` with patch URL failed (wrong invocation).
+Lore/patch.msgid.link blocked by bot protection (Anubis).
+**UNVERIFIED:** full review thread content.
 
-Record: **ALSA / HDA side-codec driver** — IMPORTANT, platform-specific
-(CS35L56 laptop amplifiers). Requires `CONFIG_SND_HDA_SCODEC_CS35L56`
-and I2C or SPI variant.
+### Step 4.2: Reviewers
+**Record:** **UNVERIFIED** via b4 `-w`. Commit message shows Takashi
+Iwai maintainer sign-off.
 
-**Step 7.2 — Subsystem activity**
+### Step 4.3: Bug report
+**Record:** No external bug report linked. Author self-reported hardware
+issue and manual verification.
 
-Record: Actively maintained in 6.18.y with multiple recent cs35l56 HDA
-fixes.
+### Step 4.4: Related patches
+**Record:** Part of ongoing HP Victus mute-LED quirk pattern; sibling
+`0x88eb` fix already in this tree. Commit message references `0x88eb` as
+the matching configuration.
 
----
-
-## Phase 8: Impact and Risk Assessment
-
-**Step 8.1 — Who is affected**
-
-Record: Users of laptops with CS35L56 HDA amplifiers where BIOS did not
-pre-patch firmware and firmware packaging is incomplete (`.bin` present,
-`.wmfw` missing). Config-specific, but real hardware on modern laptops.
-
-**Step 8.2 — Trigger conditions**
-
-Record: Boot-time firmware load when `firmware_missing == true` and a
-system-specific `.bin` exists without matching `.wmfw`. Unprivileged
-users cannot directly trigger it, but it affects every boot on
-misconfigured affected systems.
-
-**Step 8.3 — Failure mode severity**
-
-Record:
-- **Without fix:** Unnecessary firmware shutdown/reset, then attempt to
-  load incompatible `.bin` onto ROM firmware; I2S audio non-functional;
-  possible DSP errors logged at debug level only.
-- **Severity:** MEDIUM — hardware malfunction (no speakers), not kernel
-  oops, but incorrect firmware programming on real hardware.
-
-**Step 8.4 — Risk-benefit**
-
-Record:
-- **Benefit:** Prevents invalid firmware path; clear `dev_err()` for
-  missing `.wmfw`; avoids pointless shutdown/reset and incompatible
-  coefficient loading.
-- **Risk:** Very low — small vendor fix, no behavior change for
-  correctly configured systems.
-- **Ratio:** Favorable for 6.18.y where this driver exists and the bug
-  is present.
+### Step 4.5: Stable list history
+**Record:** **UNVERIFIED** — lore.kernel.org inaccessible. Precedent in
+this tree: similar mute-LED quirks already backported.
 
 ---
 
-## Phase 9: Final Synthesis
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Evidence FOR:**
-- Fixes real incorrect firmware-loading logic confirmed in local tree
-- Vendor-authored, maintainer-merged, obviously correct per CS35L56
-  hardware requirements
-- Small, single-file, applies cleanly to 6.18.44
-- Prevents loading customer `.bin` files incompatible with ROM firmware
-- Improves diagnostics for broken audio on affected laptops
-- Driver and buggy code both exist in this tree since 6.18
+### Step 5.1: Key functions
+**Record:** No functions modified. Affected data: `alc269_fixup_tbl[]`.
+Selected fixup: `alc245_fixup_hp_mute_led_v2_coefbit()`.
 
-**Evidence AGAINST:**
-- No user reports, syzbot, or crash reports
-- Primary user-visible outcome may still be “no audio” on misconfigured
-  systems
-- New driver with limited 6.18.y deployment so far
-- No explicit stable nomination in review thread
+### Step 5.2: Callers
+**Record:** `snd_hda_pick_fixup(codec, alc269_fixup_models,
+alc269_fixup_tbl, alc269_fixups)` called from codec init at line 8471
+during HDA probe. Standard path for every Realtek ALC269-family codec
+load.
 
-**Unresolved:** Whether loading incompatible `.bin` onto ROM can cause
-anything beyond failed audio (vendor states incompatibility; no crash
-report verified).
+### Step 5.3: Callees
+**Record:** Fixup calls `snd_hda_gen_add_mute_led_cdev(codec,
+coef_mute_led_set)` which hooks LED brightness to codec coefficient
+updates.
 
-**Stable rules checklist:**
-1. Obviously correct and tested? **PASS** — vendor requirement,
-   maintainer merged; no Tested-by
-2. Fixes real bug? **PASS** — invalid firmware path on real hardware
-3. Important issue? **PASS (MEDIUM)** — broken audio / incorrect DSP
-   programming on affected laptops
-4. Small and contained? **PASS** — 30 lines, one file
-5. No new features/APIs? **PASS**
-6. Applies to local tree? **PASS** — clean apply to 6.18.44
+### Step 5.4: Reachability
+**Record:** Triggered at boot/module load when HDA codec probes on
+hardware with SSID `103c:88ed`. Not userspace-triggerable after probe;
+affects only matching HP Victus 16-e0xxx machines.
 
-**Exception category:** Hardware workaround / driver correctness for
-existing CS35L56 HDA support.
+### Step 5.5: Similar patterns
+**Record:** Many adjacent `SND_PCI_QUIRK` entries for HP mute LEDs in
+the same table, including `0x88eb` (same fixup) and `0x8a3d` (Victus 15,
+same V2 fixup).
 
 ---
 
-## Problem Summary for Stable Users
+## PHASE 6: CROSS-REFERENCE AGAINST LOCAL TREE
 
-On CS35L56 HDA laptops where the BIOS has not pre-loaded firmware, the
-driver incorrectly treated a `.bin` coefficient file as sufficient even
-when the required `.wmfw` firmware wrapper was missing. Per Cirrus
-Logic, ROM firmware only supports SoundWire default audio; `.wmfw` is
-mandatory for I2S, and customer `.bin` files are not compatible with
-ROM. The old code could shut down the amplifier and attempt an invalid
-DSP load. The fix fails early with a clear error and removes the invalid
-`.bin`-without-`.wmfw` fallback.
+### Step 6.1: Buggy code present?
+**Record:** **Yes.** `0x88eb` is supported but `0x88ed` is missing
+(`grep 0x88ed` → no matches). Affected hardware on 6.18.44 gets no mute-
+LED fixup. Prerequisite V2 fixup infrastructure has been in tree since
+`9745c2561e55f`.
 
-For **Linux 6.18.y** specifically, this driver exists and the bug is
-present from its introduction; the fix is low-risk and should be
-included.
+### Step 6.2: Backport complications
+**Record:** **Clean apply expected.** Insert one `SND_PCI_QUIRK` line
+after existing `0x88eb` entry at line 6809. Mainline diff references
+`0x88ee` entry not yet in 6.18.44; no conflict — patch simply adds
+`0x88ed` after `0x88eb`.
+
+### Step 6.3: Related fixes already present?
+**Record:** Prerequisite commit `9745c2561e55f` (88eb + V2 fixup) is in
+tree. No duplicate `0x88ed` entry. No alternate fix found.
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+### Step 7.1: Subsystem criticality
+**Record:** **sound/ALSA hda/realtek** — IMPORTANT (laptop audio/LED
+UX), PERIPHERAL for users without this exact hardware.
+
+### Step 7.2: Subsystem activity
+**Record:** Active — frequent HP mute-LED quirk commits in recent
+`alc269.c` history; this file is actively maintained for new laptop
+SKUs.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: Who is affected
+**Record:** Owners of HP Victus 16-e0xxx laptops with mainboard SSID
+`103c:88ed` and Realtek ALC245 codec. Driver-specific, hardware-specific
+population.
+
+### Step 8.2: Trigger conditions
+**Record:** Every boot/probe on matching hardware. Common for affected
+owners; zero impact on all other systems. Unprivileged users cannot
+trigger; not a security issue.
+
+### Step 8.3: Failure mode severity
+**Record:** Mute LED does not reflect audio mute state. Audio function
+unaffected. **Severity: LOW** (UX/cosmetic indicator). Not crash,
+corruption, deadlock, or security.
+
+### Step 8.4: Risk-benefit
+**Record:**
+- **Benefit:** Enables expected F-key mute LED behavior on an additional
+  Victus SKU; matches established stable practice for HP HDA quirks in
+  this tree.
+- **Risk:** Minimal — 2-line table addition, existing fixup, maintainer-
+  reviewed.
+- **Ratio:** High benefit for affected users, negligible risk for
+  everyone else.
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+### Step 9.1: Evidence summary
+
+**FOR backport:**
+- Hardware quirk / device-ID extension (explicit stable exception
+  category)
+- Trivial, surgical 2-line change
+- Reuses proven fixup already in tree for sibling `0x88eb` variant
+- Manually verified by author; Takashi Iwai sign-off
+- Prerequisite infrastructure present (`9745c2561e55f` is ancestor of
+  HEAD)
+- Multiple analogous HP mute-LED quirk commits already backported to
+  this 6.18.y tree
+- Clean apply expected
+
+**AGAINST backport:**
+- Not a crash, security, corruption, or deadlock fix
+- Does not meet strict "important issue" wording in stable rules if
+  quirks exception is not applied
+- No syzbot/user bugzilla report
+- Lore review thread not accessible for independent verification
+
+**UNRESOLVED:**
+- Full mailing-list review discussion (lore blocked)
+- Whether reviewers explicitly nominated for stable
+
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — same fixup as `0x88eb`, hda-
+   verb verified, maintainer SOB
+2. Fixes a real bug? **PASS** — mute LED non-functional on matching
+   hardware
+3. Important issue? **PASS (via quirk exception)** — LOW severity UX
+   bug; qualifies under audio codec quirk / hardware workaround
+   exception routinely accepted for stable
+4. Small and contained? **PASS** — 2 lines, one table entry
+5. No new features/APIs? **PASS** — quirk table extension only; no new
+   fixup type or userspace API
+6. Can apply to local tree? **PASS** — prerequisites present, clean
+   insert after `0x88eb`
+
+### Step 9.3: Exception category
+**Record:** **Hardware quirk / device ID addition** — `SND_PCI_QUIRK`
+entry for existing `ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT` fixup on HP
+Victus 16-e0xxx (MB 88ED).
+
+### Step 9.4: Decision rationale
+
+For **Linux 6.18.44**, this commit should be backported. The missing
+quirk leaves mute LED broken on a specific HP Victus SKU while audio
+works; the fix is a two-line table entry reusing an already-present,
+maintainer-accepted fixup (`9745c2561e55f`). This matches the
+established pattern of HP mute-LED quirk backports already present in
+this stable tree. Risk is negligible; benefit is real for affected
+laptop owners.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed commit message and tags from user-provided content
-  and lore mbox fetch
-- [Phase 2] Diff analysis: 2 functions modified, logic/correctness bug
-  in firmware validation
-- [Phase 3] `git describe HEAD` / `make kernelversion`: tree is
-  **6.18.44**
-- [Phase 3] `git blame -L 518,625`: buggy code from `5d324e5159d9e`
-  (2025-11-28)
-- [Phase 3] `git show 5d324e5159d9e^:...cs35l56_hda.c`: file absent
-  before merge (driver new in 6.18)
-- [Phase 3] `git log --oneline -20 -- cs35l56_hda.c`: related fixes
-  listed; no duplicate wmfw fix
-- [Phase 4] Lore mbox fetch: original patch at
-  `20260709161211.686498-1-rf@opensource.cirrus.com`
-- [Phase 4] `b4 dig`: no commit match (not in tree); no series revisions
-  found
-- [Phase 4] No stable-list or review-thread stable nominations found
-- [Phase 5] `grep cs35l56_hda_fw_load`: call chain bind → workqueue →
-  fw_load verified
-- [Phase 5] `cs_dsp_load()` at `cs_dsp.c:1527-1528`: NULL wmfw returns
-  0, allowing coeff load attempt
-- [Phase 6] Buggy fallback at `cs35l56_hda.c:520-532` and validation at
-  `:622-625` confirmed present
-- [Phase 6] `git apply --check`: patch applies cleanly
-- [Phase 7] Kconfig: `SND_HDA_SCODEC_CS35L56_{I2C,SPI}` in
-  `sound/hda/codecs/side-codecs/Kconfig`
-- [Phase 8] Failure mode: broken audio / invalid DSP load, severity
-  MEDIUM (not verified as kernel crash)
+- **[Phase 1]** Parsed subject, tags, and body from user-provided commit
+  message
+- **[Phase 2]** Diff analysis: +2 lines to `alc269_fixup_tbl[]`, no
+  function changes
+- **[Phase 3]** `git describe HEAD` → v6.18.44; `make kernelversion`
+  equivalent via Makefile → 6.18.44
+- **[Phase 3]** `git log -S "0x88eb"` → prerequisite `9745c2561e55f`
+- **[Phase 3]** `git log -S "ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT"` →
+  introduced in `9745c2561e55f`, `2e8194b4fdee7`
+- **[Phase 3]** `git merge-base --is-ancestor 9745c2561e55f HEAD` →
+  prerequisite is in tree
+- **[Phase 3]** `git blame -L 6809` → `0x88eb` line from `9745c2561e55f`
+- **[Phase 3]** `grep 0x88ed` → not in tree (bug present)
+- **[Phase 3]** `grep 0x88ee` → not in tree (mainline context differs;
+  no apply conflict)
+- **[Phase 4]** `b4 dig -c` → not run (commit not in tree)
+- **[Phase 4]** `b4 dig <url>` → failed (incorrect usage)
+- **[Phase 4]** WebFetch lore/patch.msgid.link → blocked by Anubis bot
+  protection
+- **[Phase 4]** curl lore → blocked by Anubis
+- **[Phase 5]** Read `alc245_fixup_hp_mute_led_v2_coefbit()` at lines
+  1598–1612
+- **[Phase 5]** Read `snd_hda_pick_fixup()` call at line 8471
+- **[Phase 5]** `grep alc269_fixup_tbl` → table at 6510, used at 8472
+- **[Phase 6]** Confirmed `ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT` enum,
+  fixup struct, and function all exist
+- **[Phase 6]** Confirmed `0x88eb` at line 6809, `0x88ed` absent
+- **[Phase 7]** `git log --grep="mute LED"` → multiple similar quirk
+  commits in tree including `9745c2561e55f`, `a424946e00f2e`
+- **[Phase 8]** Failure mode assessed as non-crash LED indicator issue,
+  LOW severity
+- **UNVERIFIED:** Mailing-list reviewer feedback and explicit stable
+  nominations
 
 **YES**
 
- sound/hda/codecs/side-codecs/cs35l56_hda.c | 30 +++++++---------------
- 1 file changed, 9 insertions(+), 21 deletions(-)
+ sound/hda/codecs/realtek/alc269.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/hda/codecs/side-codecs/cs35l56_hda.c b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-index 1d25fe01066ee..baf286bf7ec83 100644
---- a/sound/hda/codecs/side-codecs/cs35l56_hda.c
-+++ b/sound/hda/codecs/side-codecs/cs35l56_hda.c
-@@ -516,20 +516,6 @@ static void cs35l56_hda_request_firmware_files(struct cs35l56_hda *cs35l56,
- 								  NULL, "bin");
- 			return;
- 		}
--
--		/*
--		 * Check for system-specific bin files without wmfw before
--		 * falling back to generic firmware
--		 */
--		if (amp_name)
--			cs35l56_hda_request_firmware_file(cs35l56, coeff_firmware, coeff_filename,
--							  base_name, system_name, amp_name, "bin");
--		if (!*coeff_firmware)
--			cs35l56_hda_request_firmware_file(cs35l56, coeff_firmware, coeff_filename,
--							  base_name, system_name, NULL, "bin");
--
--		if (*coeff_firmware)
--			return;
- 	}
- 
- 	ret = cs35l56_hda_request_firmware_file(cs35l56, wmfw_firmware, wmfw_filename,
-@@ -615,13 +601,15 @@ static void cs35l56_hda_fw_load(struct cs35l56_hda *cs35l56)
- 					   &wmfw_firmware, &wmfw_filename,
- 					   &coeff_firmware, &coeff_filename);
- 
--	/*
--	 * If the BIOS didn't patch the firmware a bin file is mandatory to
--	 * enable the ASP·
--	 */
--	if (!coeff_firmware && firmware_missing) {
--		dev_err(cs35l56->base.dev, ".bin file required but not found\n");
--		goto err_fw_release;
-+	/* If the BIOS didn't patch the firmware a wmfw and bin file are mandatory */
-+	if (firmware_missing) {
-+		if (!wmfw_firmware) {
-+			dev_err(cs35l56->base.dev, ".%s file required but not found\n", "wmfw");
-+			goto err_fw_release;
-+		} else if (!coeff_firmware) {
-+			dev_err(cs35l56->base.dev, ".%s file required but not found\n", "bin");
-+			goto err_fw_release;
-+		}
- 	}
- 
- 	mutex_lock(&cs35l56->base.irq_lock);
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index a010c444b9f10..2a0a1891ac423 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -6856,6 +6856,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x88d1, "HP Pavilion 15-eh1xxx (mainboard 88D1)", ALC245_FIXUP_HP_MUTE_LED_V1_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x88dd, "HP Pavilion 15z-ec200", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x88eb, "HP Victus 16-e0xxx", ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT),
++	SND_PCI_QUIRK(0x103c, 0x88ed, "HP Victus 16-e0xxx (MB 88ED)",
++		      ALC245_FIXUP_HP_MUTE_LED_V2_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x88ee, "HP Victus 16-e0xxx (MB 88EE)", ALC245_FIXUP_HP_MUTE_LED_COEFBIT),
+ 	SND_PCI_QUIRK(0x103c, 0x8902, "HP OMEN 16", ALC285_FIXUP_HP_MUTE_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x890e, "HP 255 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
 -- 
 2.53.0
 
