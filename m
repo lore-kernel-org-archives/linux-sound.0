@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED003453A45
-	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 16:38:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF1B4A3865
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 16:38:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788194317; cv=none; b=VxlHOnLYB0ov4hs5r3w1y0vS/z2ltdE0/o5kfrnqOjiuEaZLrv2fbYCBxKY55S07ZBuO7fFbGsGr7Lt2dkC7TNjqzU8ptEK0MP3mE6nCLHZN/l5Vvgg2OIhWQjf8Qbrc6ilqVlMXpeMaKacAgmO31ApBP5pfv5w1UBzCmW2XBZ4=
+	t=1788194318; cv=none; b=t+wdQT5haPdLTTH2pN0jd6VwvDb95yhGfdmZ43EjzwM8cO9LgCQOJRNQe5TTz0xA5uxbX5AFYEGiHEwFgtZsBHx+bWFTDZIsNDpbuvkR9BozK+q322g71xxQMDqdrclh0MlAnPsli4H4l4RqBzKQyP6AX4TJDrvvTid3dkWpF0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788194317; c=relaxed/simple;
-	bh=KJEK+7WZ4CuvEdwm3UKj89YGPQBjzfCr3OdKXGnvzes=;
+	s=arc-20240116; t=1788194318; c=relaxed/simple;
+	bh=wJFZUuMIAm9mhDweM/YwVpnEVP6A0DEftVGbt/9Rzrw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ghQvlX7U2lDgBlIBY2WIzk0+C28NA5EEZpyXBoXlmZl/U4gg+H6o7POFYrb2JKGlSEvDTM05c6KjmEPgyjjG2RnXXA8IdBHD2fqKuqxqpuj0uYwwzZ7KrCmi+cBh8jOQzcSogVBPTBb/0L0RxQ0K3J+e/6hHuvvHvwp+dCSMtK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iehnxDBW; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=oz5BV66ZP/lJ+vSo+w46i/JxVRhrSLum5pjTa6ZGax/TEYGhJJZTUhOAcXBXdKh9Kjf+35SCg2/s79rMnAnPnSvcK0n97Yive+4aS4wryYBNx3gbIAez7ljhs2C1WyPNmqb0fQ1vmKyvQucOgT9eiT8Tz9sO6Z8/awOTs4Vvhto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YXrlX24c; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iehnxDBW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YXrlX24c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788194315; x=1819730315;
+  t=1788194317; x=1819730317;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KJEK+7WZ4CuvEdwm3UKj89YGPQBjzfCr3OdKXGnvzes=;
-  b=iehnxDBWvr/6p2KUjFisKHZpqgB/Y+JGE1+z5OCsHsodH9z5wDFbFDkA
-   ebB+hVJSucFw2VDeKeTVUKcYH/68YeICxB49jtaUmvqDbrOKv20K/YGHm
-   N84DbrxBMyqxqSUZvDzszVyGCGwPmxoS9dGkidlrm+oI2biBZpDIxWhkZ
-   Y/LBmP86gDPrsciK1cHol/qme2QRFlsFnWV/7Xr6jqjpOwPgWS8BbD6zv
-   CBNGGiMio7W3XThYYaA4IELJSZUw8ibuI7XlpzGNQs1WNaKu8z8swQgMU
-   Ngyo+i9X4VwyJh4hn1jv/JCT04vpZruVOPI5ENWW7dJfPAJid5T966uOO
-   A==;
-X-CSE-ConnectionGUID: F+YUJqI0T9e1NKdPmXYQVQ==
-X-CSE-MsgGUID: D5JOFhxPSCuxbfk15VW91g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="111379709"
+  bh=wJFZUuMIAm9mhDweM/YwVpnEVP6A0DEftVGbt/9Rzrw=;
+  b=YXrlX24cFADb/WWRyPb6fRIOPmjCiWK1M8913GVNqLga/UgmEYwqw1eh
+   /sZ4+jgDmiS2CHfQoJBT/7e/qGYhOvDynrCkwjymZcdujuLalWiLKdWms
+   kZhG4bIch0fFRficn1kTYrb3ZrEAaH5pNXiPrVo4y4cBHHTBeE5dVMMa7
+   /CFz4sO+d0Gv8ld22qXEerhBj1BT1VEISpb3HhoQ7Zw/FE76IvjTDsnr5
+   QtLRzrecgCwEVz81319N3Osglh0+PcjlQ3Mpv0JTxzezT1ZOYnDsDxjlj
+   iVT0fP62E4nrWrF4NIr6nC85eLLr0OEzQ4U4O4tmjf7IFVMad7LyrzEht
+   Q==;
+X-CSE-ConnectionGUID: 8yogtdEvQ6mYmixNqLv0Ug==
+X-CSE-MsgGUID: k8GvMuWoTmi6Gf0nExd2kA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="111379715"
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="111379709"
+   d="scan'208";a="111379715"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 09:38:35 -0700
-X-CSE-ConnectionGUID: QhhvVc2oQWaj45w5mpc2sw==
-X-CSE-MsgGUID: iJyfefYjS5Cswh0uM3rc1A==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 09:38:36 -0700
+X-CSE-ConnectionGUID: /LaIZQRnR4qcBOJnFv455A==
+X-CSE-MsgGUID: DrGwbmMMQPCl0JReua+BWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="274111746"
+   d="scan'208";a="274111758"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Aug 2026 09:38:33 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 31 Aug 2026 09:38:35 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v3 01/10] ALSA: hda: ext: Clean up links if their initialization fails
-Date: Mon, 31 Aug 2026 18:42:24 +0200
-Message-Id: <20260831164233.1487766-2-cezary.rojewski@intel.com>
+Subject: [PATCH v3 02/10] ALSA: hda: ext: Clean up streams if their initialization fails
+Date: Mon, 31 Aug 2026 18:42:25 +0200
+Message-Id: <20260831164233.1487766-3-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260831164233.1487766-1-cezary.rojewski@intel.com>
 References: <20260831164233.1487766-1-cezary.rojewski@intel.com>
@@ -64,51 +64,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-snd_hdac_ext_bus_get_ml_capabilities() allocates the hlink nodes
-one-by-one but the procedure may fails due to -ENOMEM in the middle of
-it. Clean up the list before returning the error code to simply the
-function usage.
+snd_hdac_ext_stream_init_all() does not rollback changes done when
+the allocation fails. Fix that to simplify its usage.
 
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/hda/core/ext/controller.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ sound/hda/core/ext/stream.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/sound/hda/core/ext/controller.c b/sound/hda/core/ext/controller.c
-index b1f1eff1d181..f75d3dcc6cb2 100644
---- a/sound/hda/core/ext/controller.c
-+++ b/sound/hda/core/ext/controller.c
-@@ -81,7 +81,7 @@ int snd_hdac_ext_bus_get_ml_capabilities(struct hdac_bus *bus)
- {
- 	int idx;
- 	u32 link_count;
--	struct hdac_ext_link *hlink;
-+	struct hdac_ext_link *hlink, *save;
- 	u32 leptr;
+diff --git a/sound/hda/core/ext/stream.c b/sound/hda/core/ext/stream.c
+index 517bd151fcc3..51adc42587b3 100644
+--- a/sound/hda/core/ext/stream.c
++++ b/sound/hda/core/ext/stream.c
+@@ -94,6 +94,7 @@ int snd_hdac_ext_stream_init_all(struct hdac_bus *bus, int start_idx,
+ 	int (*setup_op)(struct hdac_stream *, bool);
+ 	int stream_tag = 0;
+ 	int i, tag, idx = start_idx;
++	struct hdac_stream *s, *_s;
  
- 	link_count = readl(bus->mlcap + AZX_REG_ML_MLCD) + 1;
-@@ -91,7 +91,7 @@ int snd_hdac_ext_bus_get_ml_capabilities(struct hdac_bus *bus)
- 	for (idx = 0; idx < link_count; idx++) {
- 		hlink = kzalloc_obj(*hlink);
- 		if (!hlink)
+ 	if (pci->device == PCI_DEVICE_ID_INTEL_HDA_APL)
+ 		setup_op = snd_hdac_apl_host_stream_setup;
+@@ -103,7 +104,7 @@ int snd_hdac_ext_stream_init_all(struct hdac_bus *bus, int start_idx,
+ 	for (i = 0; i < num_stream; i++) {
+ 		struct hdac_ext_stream *hext_stream = kzalloc_obj(*hext_stream);
+ 		if (!hext_stream)
 -			return -ENOMEM;
 +			goto err_nomem;
- 		hlink->index = idx;
- 		hlink->bus = bus;
- 		hlink->ml_addr = bus->mlcap + AZX_ML_BASE +
-@@ -112,6 +112,13 @@ int snd_hdac_ext_bus_get_ml_capabilities(struct hdac_bus *bus)
- 	}
+ 		tag = ++stream_tag;
+ 		snd_hdac_ext_stream_init(bus, hext_stream, idx, dir, tag);
+ 		idx++;
+@@ -112,6 +113,14 @@ int snd_hdac_ext_stream_init_all(struct hdac_bus *bus, int start_idx,
  
  	return 0;
-+
+ 
 +err_nomem:
-+	list_for_each_entry_safe(hlink, save, &bus->hlink_list, list) {
-+		list_del(&hlink->list);
-+		kfree(hlink);
++	list_for_each_entry_safe(s, _s, &bus->stream_list, list) {
++		struct hdac_ext_stream *hext_stream = stream_to_hdac_ext_stream(s);
++
++		list_del(&s->list);
++		kfree(hext_stream);
 +	}
 +	return -ENOMEM;
  }
- EXPORT_SYMBOL_GPL(snd_hdac_ext_bus_get_ml_capabilities);
+ EXPORT_SYMBOL_GPL(snd_hdac_ext_stream_init_all);
  
 -- 
 2.34.1
