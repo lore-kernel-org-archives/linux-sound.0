@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D35947CA89;
-	Mon, 31 Aug 2026 13:35:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BD747F767;
+	Mon, 31 Aug 2026 13:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183361; cv=none; b=Ym+Uy9U9nxeN/QtT3AYwcasAFAzqlhu+lcUlQbaT39vv3qzjaqp3NMN2gBcOxXUwRrR1A3w6EVtAkWKICJJPbSX4Gsx2JNAw91B19qo3D7ma9ptYPi4G0mpz8UHOT2ohz2tCCfUi5SzIkg/QPfQYMOV82lR2IlfZ4G/7ElwUpmY=
+	t=1788183463; cv=none; b=XGC0TbXk15IhESekhiyZ/HmFhAPp/HNqIcQeflwWSiUakR8gQK3NF1wy84n4PtW6mdLAhKJmV2S3OQuutJ1CxGripU+b6dxTpDgF6YTDetiD7DP8JVpREq0O/XnIJ7graWJlnZjGWl0b1ZMrVb7y/zTOcMfMiBM5CtoHCtFZy/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183361; c=relaxed/simple;
-	bh=wod/HMkSv//5T2gf2RQr57j3jF8Lr7WpYo1Od7XV34c=;
+	s=arc-20240116; t=1788183463; c=relaxed/simple;
+	bh=FyEW3Bc0Fu/jxu5SwqR5Zk3whVIte3iD6X8zjAnNEZo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TalAe37GtJB4dLt2xfBwQOT7OPRYCgcQtHcgBgXCiKNvLAFtlmX78PUV0nwYdbpzAs9DI0MoNIc/QpkvNkf1c+PPa1xElU/IDWWE4v+6L//qOubLeYlllY7Jly/TNdV/DCPoJotPvJObJEMrnTAp7uU6MnL/MCYkmMX0hPTL4vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FqhFjFLg; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=PNsDfNG7Laj/EZsfePjzwHSrpMTbZReDDXd5/1rKraaodT1p8Nbla/8Kovm03sNmZF20mq2XmQurjtwZWKCeHmS/EgaFrWL+2Z0UrOclC7UJbAjiP6rOof+2JIzFW33fNxmBxapFiEceXAGeEmJxapBVNXLMIvCZoCeRCTqJCyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZGqM9OK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FqhFjFLg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8DB1F00A3E;
-	Mon, 31 Aug 2026 13:35:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZGqM9OK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37AA01F000E9;
+	Mon, 31 Aug 2026 13:37:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183359;
-	bh=ahlZPyLBgzB2r84fLnraW0FBw9ZX2LWR50RWd5H2TEk=;
+	s=k20260515; t=1788183461;
+	bh=zRllzes4Brg+KzK9UoYcX5ou4h2m/6LiczELqbs0h0U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=FqhFjFLgO8q9937RrPLfyM77lyiOuCkusQhGqQ/NY8osD3MrWuf96Rs8rJS7yhjop
-	 xjB6nRC0KJhUAnyKkjlv+IWAAwMRuppjwVh1YUQKQ3mVrG9/nTaFMBsoUfR2P4d41C
-	 t7T9/9HyWeSJsMw2qkvuctmEXx8oY7VDMVf0d04lo8wIMxaVajv8pZIs153WsX1fJK
-	 uDyUcbmfy4uHX8eCKc//00edIXNraC/I3h9t9WNk8Rb/WanwB8zlZfhUVmusm9wrHE
-	 Gp7AZCNvFGvh8WeR/rcM7rexOuwuVto8M4rnZz26GDTRNz5xMFLxQfVEyr9WSMX0ZL
-	 zA3kaOgOW0tXA==
+	b=hZGqM9OKLpsu6N0sauKVK0Nkt6JMUWWRnzN2DX6YWI5jYwlA9cH2SDtMtieybpZHI
+	 65fLx9SjXs5VbPqdpAxtGXouwzLFdKLNfQLOVWHbFA01XKpo6VFNAIwmimUNFkbMQ6
+	 3EHBS2eEgfaPn42GPIZS3yGORk7qzdafbxNfobq+tTv2QlZU5DifuCVib/PVmVXl5F
+	 AX3NFzaeBARInYlryKBaAAHHDGSzEFpM+fC0HDSaHt5LUOoR0CXvlo4eQ+yZuPr0p4
+	 jLgRkr8jF/xTJk3sr0vuaguNFpSPegVKtABrSzbv4q1tC40QNfrkqSKrX3BBTEoeTM
+	 JHjFojkaXJldA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Galen Hassen <rwekyes@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ALSA: hda/conexant: Add pin config quirk for Lenovo IdeaPad Slim 5 16AKP10
-Date: Mon, 31 Aug 2026 09:22:09 -0400
-Message-ID: <20260831133314.4125787-101-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-5.10] ASoC: Intel: catpt: Complete coredump handling
+Date: Mon, 31 Aug 2026 09:22:18 -0400
+Message-ID: <20260831133314.4125787-110-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -54,397 +58,447 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Galen Hassen <rwekyes@gmail.com>
+From: Cezary Rojewski <cezary.rojewski@intel.com>
 
-[ Upstream commit f7c4968ae3af3e819428da5416c2dfd361473f5c ]
+[ Upstream commit 7e5d59f407bc39d43b350cc45f7880647429eb5d ]
 
-The Lenovo IdeaPad Slim 5 16AKP10 (PCI SSID 17aa:38b6) uses the
-Conexant SN6140 codec. The internal microphone is on pin 0x1a but
-the BIOS configures it with pin default 0x95a60120, which includes
-a jack detection bit that causes the kernel to treat it as an
-unplugged external mic rather than a fixed internal mic.
+An exception may occur during the firmware booting procedure.  In such
+case the firmware sends COREDUMP_REQUESTS and expects the driver to dump
+relevant information and finish with the COREDUMP_RELEASE write.
 
-Add a pin config quirk that overrides pin 0x1a to 0x95a60130,
-setting the connectivity bits to indicate a fixed/always-connected
-device. This allows the internal microphone to be correctly
-identified and used.
+To distinguish such situation from generic timeout, always signal
+fw_ready completion when a coredump request is received and translate
+it to -EREMOTEIO in catpt_boot_firmware().
 
-Signed-off-by: Galen Hassen <rwekyes@gmail.com>
-Link: https://patch.msgid.link/20260616173257.37373-1-rwekyes@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+The "FW READY" print makes the success clearly visible even when
+the event-traces are not enabled.
+
+Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Link: https://patch.msgid.link/20260528083444.1439233-2-cezary.rojewski@intel.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-# Stable Backport Analysis: ALSA HDA Conexant Lenovo IdeaPad Slim 5
-16AKP10 Quirk
+# Stable Backport Analysis: ASoC: Intel: catpt: Complete coredump
+handling
 
-**Local tree:** `v6.18.44` (`linux-6.18.y` stable), HEAD `2736c32da98b9`
-**Candidate commit:** `d69c76ccc5540` (upstream `f7c4968ae3af`) — **not
-present in current HEAD**
+**Local tree:** `v6.18.44` (6.18.44 stable)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1 — Subject line**
-Record: `[ALSA: hda/conexant]` `[Add]` — Add pin config quirk for Lenovo
-IdeaPad Slim 5 16AKP10
+### Step 1.1: Subject line
+**Record:** `[ASoC: Intel: catpt]` `[Complete]` — finish incomplete
+firmware coredump protocol handling during firmware boot failure.
 
-**Step 1.2 — Tags**
-Record:
-- `Signed-off-by: Galen Hassen <rwekyes@gmail.com>` (author)
-- `Signed-off-by: Takashi Iwai <tiwai@suse.de>` (ALSA maintainer)
-- `Link:
-  https://patch.msgid.link/20260616173257.37373-1-rwekyes@gmail.com`
-- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
-  stable@vger.kernel.org`
+### Step 1.2: Tags
+**Record:**
+- **Signed-off-by:** Cezary Rojewski `<cezary.rojewski@intel.com>`
+  (author)
+- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer
+  merge)
+- **Link:** `https://patch.msgid.link/20260528083444.1439233-2-
+  cezary.rojewski@intel.com` (patch 2 of a series, per Message-ID)
+- No `Fixes:`, `Reported-by:`, `Cc: stable@vger.kernel.org`, `Tested-
+  by:`, or `Reviewed-by:` tags
+- Notable: maintainer merge sign-off; no fuzzer/user bug report
 
-Notable: maintainer Signed-off-by; no syzbot/fuzzer involvement.
+### Step 1.3: Body analysis
+**Record:**
+- **Bug:** On firmware boot exception, firmware sends `COREDUMP_REQUEST`
+  and expects the driver to dump state then write `COREDUMP_RELEASE`.
+  Current code dumps but never releases or signals boot completion.
+- **Symptom:** Boot thread waits the full `FW_READY_TIMEOUT_MS` (250
+  ms), returns `-ETIMEDOUT` instead of a firmware-failure error;
+  coredump protocol is incomplete.
+- **Root cause:** `CATPT_GLB_REQUEST_CORE_DUMP` handler calls
+  `catpt_coredump()` but does not write `COREDUMP_RELEASE` or
+  `complete(&cdev->fw_ready)`.
+- **Fix approach:** Release firmware from coredump state, complete
+  `fw_ready`, and return `-EREMOTEIO` from `catpt_boot_firmware()` when
+  woken but `ipc->ready` is false.
 
-**Step 1.3 — Body analysis**
-Record:
-- **Bug:** Lenovo IdeaPad Slim 5 16AKP10 (PCI SSID `17aa:38b6`) with
-  Conexant SN6140 codec; internal mic on pin `0x1a` has BIOS default
-  `0x95a60120` with jack-detection connectivity bits.
-- **Symptom:** Kernel treats internal mic as unplugged external mic;
-  internal microphone unusable.
-- **Fix:** Override pin `0x1a` to `0x95a60130` (fixed/always-connected
-  connectivity).
-- **Root cause:** Incorrect BIOS pin configuration, not a kernel logic
-  bug.
-
-**Step 1.4 — Hidden bug fix?**
-Record: Yes — presented as "Add quirk" but fixes a real hardware
-enablement bug (broken internal microphone). Classic HDA codec quirk
-pattern, not cosmetic cleanup.
+### Step 1.4: Hidden bug fix?
+**Record:** Yes. Subject says "Complete" rather than "fix", but this is
+incomplete error-path/protocol handling: missing firmware handshake step
+and incorrect boot error classification.
 
 ---
 
 ## PHASE 2: DIFF ANALYSIS
 
-**Step 2.1 — Inventory**
-Record:
-- **File:** `sound/hda/codecs/conexant.c` only (+12 lines)
-- **Changes:** New enum `CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10`, pin
-  table, fixup entry, `SND_PCI_QUIRK(0x17aa, 0x38b6, ...)`
-- **Scope:** Single-file, surgical hardware quirk addition
+### Step 2.1: Inventory
+**Record:**
+- `sound/soc/intel/catpt/ipc.c` (+10 lines): coredump path completion,
+  debug print on FW ready
+- `sound/soc/intel/catpt/loader.c` (+3 lines): distinguish coredump
+  wakeup from success
+- `sound/soc/intel/catpt/registers.h` (+12 lines): coredump register
+  constants and DRAM I/O helpers
+- **Functions modified:** `catpt_dsp_process_response()`,
+  `catpt_boot_firmware()`
+- **Scope:** Single-driver, 3 files, ~25 net lines — surgical fix
 
-**Step 2.2 — Code flow**
-Record per hunk:
-1. **Enum entry** → registers new fixup ID in existing enum.
-2. **Pin table** `{ 0x1a, 0x95a60130 }` → overrides BIOS default at
-   probe via `HDA_FIXUP_PINS`.
-3. **Fixup table entry** → wires pin table into `cxt_fixups[]`.
-4. **PCI quirk** → matches SSID `17aa:38b6` to apply fixup on probe.
+### Step 2.2: Code flow changes
+**Record:**
+- **Hunk 1 (`ipc.c` fw_ready path):** Adds `dev_dbg("FW READY ...")`
+  before arming IPC — diagnostic only.
+- **Hunk 2 (`ipc.c` coredump path):** After `catpt_coredump()`, reads
+  DRAM coredump register; if `CATPT_COREDUMP_REQUEST`, writes
+  `CATPT_COREDUMP_RELEASE`; then `complete(&cdev->fw_ready)`.
+- **Hunk 3 (`loader.c`):** After successful
+  `wait_for_completion_timeout`, if `!cdev->ipc.ready`, return
+  `-EREMOTEIO` instead of continuing boot.
+- **Hunk 4 (`registers.h`):** Adds `CATPT_DRAM_COREDUMP`,
+  request/release values, `catpt_dram_addr`,
+  `catpt_readl_dram`/`catpt_writel_dram` macros.
 
-Before: SN6140 codec uses BIOS pin config; pin `0x1a` seen as jack-
-detect external mic (unplugged).
-After: Pin `0x1a` forced to fixed internal mic; ALSA correctly exposes
-internal microphone.
+### Step 2.3: Bug mechanism
+**Record:** **Category:** Logic/correctness fix on firmware error path +
+incomplete protocol handshake.
+- **Before:** Coredump during boot → dump created, `ipc->ready = false`,
+  no completion, no RELEASE → 250 ms timeout → `-ETIMEDOUT`.
+- **After:** Coredump during boot → dump + conditional RELEASE +
+  `fw_ready` completion → immediate wakeup → `-EREMOTEIO`.
+- **Runtime path:** Same coredump handler is used for non-boot
+  exceptions; RELEASE is also missing today on that path.
 
-**Step 2.3 — Bug mechanism**
-Record: **Hardware workaround / codec quirk** — incorrect BIOS HDA pin
-default causes wrong jack connectivity classification. Same pattern as
-existing `CXT_PINCFG_SWS_JS201D` (`0x95a70130` for internal mic on
-SN6140 hardware).
-
-**Step 2.4 — Fix quality**
-Record: Obviously correct; minimal; follows established quirk
-infrastructure. Regression risk very low — only affects machines
-matching `17aa:38b6`. No locking, no API, no behavior change for other
-hardware.
+### Step 2.4: Fix quality
+**Record:** Obviously correct and minimal. RELEASE is guarded by a
+register read. Boot cannot proceed on failure because `ipc->ready`
+remains false. Low regression risk; no API changes.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 3.1 — Blame**
-Record: Similar SN6140 quirk (`cxt_pincfg_sws_js201d`, pin `0x18` =
-`0x95a70130`) introduced in `4639c5021029d` (Feb 2024, originally
-`patch_conexant.c`). Long-standing, proven pattern.
+### Step 3.1: Blame
+**Record:** Coredump case in `ipc.c` introduced in `64b9b1b005743` (Sep
+2020, "Add IPC message handlers"). Boot wait logic in `a9aa6fb3eb6c7`
+(Sep 2020, "Firmware loading and context restore"). Bug present since
+initial coredump support (~5.9 era).
 
-**Step 3.2 — Fixes: tag**
-Record: N/A — no `Fixes:` tag. Bug is BIOS misconfiguration, not
-introduced by a specific kernel commit.
+### Step 3.2: Fixes: tag
+**Record:** N/A — no `Fixes:` tag in commit message.
 
-**Step 3.3 — Related file history**
-Record: Recent `conexant.c` changes in this tree include headset mic
-fixes, Acer Swift HP fix, HP ZBook quirk — all similar hardware quirk
-additions. Standalone patch, not part of a series.
+### Step 3.3: Related file history
+**Record:** Recent catpt commits in this tree include init and hw_params
+fixes (`7af2d06ec25b5`, `a2f79598c6c1f`). No prior coredump-completion
+fix. This commit is **not** yet in the local tree (buggy code still
+present).
 
-**Step 3.4 — Author context**
-Record: Galen Hassen is a hardware reporter/contributor (also submitted
-USB quirk patches). Takashi Iwai (ALSA maintainer) applied the patch on
-lore ("Applied now. Thanks.").
+### Step 3.4: Author context
+**Record:** Cezary Rojewski is the original catpt author (2020). Recent
+catpt work in-tree is maintenance/fixes. Mark Brown merged.
 
-**Step 3.5 — Dependencies**
-Record: No prerequisites. Requires only existing Conexant driver
-infrastructure:
-- SN6140 codec ID `0x14f11f87` present since `ca348e7fe1ab9` (in this
-  tree)
-- SN6140 uses default `cxt5066_fixups` path via `snd_hda_pick_fixup()`
-  fallthrough
-- `git apply --check` on the diff against current tree: **passes
-  cleanly**
+### Step 3.5: Dependencies
+**Record:** Message-ID suffix `-2` suggests a 2-patch series; patch 1
+not found in workspace mbox files. The diff is self-contained (adds its
+own register definitions and helpers). **UNVERIFIED:** whether patch 1
+of the series is required; nothing in the diff references symbols from
+an unseen prerequisite.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-**Step 4.1 — Original discussion**
-Record:
-- Lore URL:
-  https://patch.msgid.link/20260616173257.37373-1-rwekyes@gmail.com
-- Series: v1 (2026-06-15) → v2 (2026-06-16); committed version is v2
-  (latest)
-- Takashi Iwai reply: "Applied now. Thanks." — no NAKs, no objections
-- No explicit stable nomination in thread
+### Step 4.1: Original discussion
+**Record:** **UNVERIFIED** — `b4 dig` requires a commit hash (not
+available; commit not in tree). Lore and patch.msgid.link returned
+403/bot protection. Could not read review thread.
 
-**Step 4.2 — Reviewers**
-Record: CC'd to `tiwai@suse.de`, `alsa-devel@alsa-project.org`, `linux-
-sound@vger.kernel.org`. Maintainer reviewed and merged.
+### Step 4.2: Reviewers
+**Record:** **UNVERIFIED** — `b4 dig -w` not run (no commitish).
 
-**Step 4.3 — Bug report**
-Record: User-reported hardware issue from patch author (owns the
-laptop). No bugzilla/syzbot link. Severity from user perspective:
-internal microphone completely non-functional.
+### Step 4.3: Bug report
+**Record:** N/A — no `Reported-by:` or syzbot link.
 
-**Step 4.4 — Related patches**
-Record: Separate Realtek quirk exists for Yoga 7 16AKP10
-(`e656ef8698e28` on autosel) — different codec/subsystem; not a
-dependency.
+### Step 4.4: Series context
+**Record:** Message-ID indicates patch 2/2. Coredump infrastructure
+(`catpt_coredump()`, `CATPT_GLB_REQUEST_CORE_DUMP`) already exists in
+this tree from 2020; this patch completes protocol handling rather than
+introducing coredump support.
 
-**Step 4.5 — Stable list history**
-Record: No stable-specific discussion found for this patch.
+### Step 4.5: Stable list discussion
+**Record:** **UNVERIFIED** — lore stable search inaccessible.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1 — Key functions/structures**
-Record: `cxt_pincfg_lenovo_ideapad_slim5_16akp10[]`, `cxt_fixups[]`,
-`cxt5066_fixups[]`, `cx_probe()` (via `snd_hda_pick_fixup` +
-`snd_hda_apply_fixup`)
+### Step 5.1: Key functions
+**Record:** `catpt_dsp_process_response()`, `catpt_boot_firmware()`,
+`catpt_coredump()` (called, not modified).
 
-**Step 5.2 — Callers**
-Record: `cx_probe()` → `snd_hda_pick_fixup(codec, cxt5066_fixup_models,
-cxt5066_fixups, cxt_fixups)` → matches `SND_PCI_QUIRK(0x17aa, 0x38b6)` →
-`snd_hda_apply_fixup(HDA_FIXUP_ACT_PRE_PROBE)` applies pin overrides
-before `snd_hda_parse_pin_defcfg()`. Called during HDA codec probe at
-boot/module load.
+### Step 5.2: Callers
+**Record:**
+- `catpt_dsp_process_response()` ← `catpt_dsp_irq_thread()` (IRQ thread,
+  interrupt bottom half)
+- `catpt_boot_firmware()` ← `catpt_first_boot_firmware()` (probe) and
+  `catpt_resume()` (resume after suspend)
+- Probe failure path: `catpt_probe_components()` →
+  `catpt_first_boot_firmware()` → on error, `catpt_dsp_power_down()`
 
-**Step 5.3 — Callees**
-Record: Standard HDA fixup framework (`HDA_FIXUP_PINS` →
-`snd_hda_apply_pincfgs`). No special runtime callbacks.
+### Step 5.3: Callees
+**Record:** Coredump path uses `catpt_coredump()` → `dev_coredumpv()`;
+new path uses `readl`/`writel` on DRAM via `host_dram_offset` (present
+in `core.h` and device specs).
 
-**Step 5.4 — Reachability**
-Record: Triggered automatically on every boot for matching hardware
-(`17aa:38b6` + Conexant SN6140). Not userspace-triggerable, but affects
-all users of this laptop model.
+### Step 5.4: Reachability
+**Record:** Triggered when ADSP firmware crashes/exceptions during boot
+or runtime. Boot path is hit on every driver probe and resume.
+Unprivileged users cannot directly trigger it, but normal suspend/resume
+and module load are common.
 
-**Step 5.5 — Similar patterns**
-Record: `CXT_PINCFG_SWS_JS201D` uses `0x95a70130` for SN6140 internal
-mic; `CXT_FIXUP_HP_MIC_NO_PRESENCE` fixes similar jack-presence
-misconfiguration on pin `0x1a`. Same bug class, same fix approach.
-
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
-
-**Step 6.1 — Buggy code exists?**
-Record: **Yes.** Conexant driver with SN6140 support (`0x14f11f87`) and
-`cxt5066_fixups[]` quirk table exist in 6.18.44. Without this quirk,
-affected laptops get wrong pin config from BIOS. Quirk `17aa:38b6` is
-absent (grep confirms no matches).
-
-**Step 6.2 — Backport complications**
-Record: **Clean apply** — `git apply --check` succeeded with zero
-conflicts. File was moved from `patch_conexant.c` to
-`sound/hda/codecs/conexant.c` in this tree, but upstream commit already
-targets the new path.
-
-**Step 6.3 — Related fixes already present?**
-Record: No existing fix for `17aa:38b6` or IdeaPad Slim 5 16AKP10 in
-this tree.
+### Step 5.5: Similar patterns
+**Record:** No other coredump RELEASE handling exists in catpt today.
+`grep` shows no `CATPT_COREDUMP` symbols in the tree before this patch.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## PHASE 6: CROSS-REFERENCE WITH LOCAL TREE (v6.18.44)
 
-**Step 7.1 — Subsystem**
-Record: `sound/hda/codecs` — ALSA HDA codec driver. **Criticality:
-PERIPHERAL** (driver-specific), but HDA quirks are routinely backported
-because they fix real hardware for real users.
+### Step 6.1: Buggy code present?
+**Record:** **Yes.** Current `ipc.c` lines 214–218 handle coredump
+without RELEASE or `complete()`. Current `loader.c` returns only
+`-ETIMEDOUT` on timeout with no `ipc->ready` check. Driver present since
+2020; `CONFIG_SND_SOC_INTEL_CATPT` targets Haswell/Broadwell.
 
-**Step 7.2 — Activity**
-Record: Actively maintained; multiple recent Conexant quirk commits in
-6.18.y history.
+### Step 6.2: Backport difficulty
+**Record:** Clean apply expected — no conflicting recent changes in
+these hunks. New macros use existing `host_dram_offset` field.
+
+### Step 6.3: Related fixes already present?
+**Record:** No — `git log --grep=coredump -- sound/soc/intel/catpt/`
+returns empty.
 
 ---
 
-## PHASE 8: IMPACT AND RISK ASSESSMENT
+## PHASE 7: SUBSYSTEM CONTEXT
 
-**Step 8.1 — Who is affected**
-Record: Owners of Lenovo IdeaPad Slim 5 16AKP10 (`17aa:38b6`) with
-Conexant SN6140 codec. Config-dependent on
-`CONFIG_SND_HDA_CODEC_CONEXANT`. Narrow hardware population, but 100%
-affected on that hardware without the quirk.
+### Step 7.1: Subsystem criticality
+**Record:** `sound/soc/intel/catpt` — **IMPORTANT** (audio driver), but
+hardware-specific (older Intel Haswell/Broadwell platforms). Not core
+kernel.
 
-**Step 8.2 — Trigger conditions**
-Record: Every boot / codec probe on matching hardware. Not timing-
-dependent; deterministic BIOS misconfiguration.
+### Step 7.2: Activity
+**Record:** Moderate maintenance activity; recent stable backports
+include init and hw_params fixes.
 
-**Step 8.3 — Failure mode severity**
-Record: Internal microphone non-functional (no audio input from built-in
-mic). **Severity: MEDIUM** — functional regression, not
-crash/corruption/security. Video calls, voice recording broken out of
-the box.
+---
 
-**Step 8.4 — Risk vs benefit**
-Record:
-- **Benefit:** Restores internal microphone on a specific popular
-  consumer laptop; zero-cost for all other hardware.
-- **Risk:** Very low — 12-line quirk, PCI SSID-scoped, established
-  pattern.
-- **Ratio:** Strong benefit for affected users, negligible risk for
-  everyone else.
+## PHASE 8: IMPACT AND RISK
+
+### Step 8.1: Who is affected
+**Record:** Users with `CONFIG_SND_SOC_INTEL_CATPT` on Haswell/Broadwell
+systems when ADSP firmware fails during boot or at runtime.
+
+### Step 8.2: Trigger conditions
+**Record:** Firmware exception during boot (probe/resume) or operation.
+Uncommon but real; not timing-dependent race.
+
+### Step 8.3: Failure severity
+**Record:**
+- **Without fix:** Incomplete firmware handshake (no
+  `COREDUMP_RELEASE`); boot waits 250 ms then reports misleading
+  `-ETIMEDOUT`; firmware may remain in coredump state; audio non-
+  functional.
+- **With fix:** Immediate failure detection, correct `-EREMOTEIO`,
+  protocol completed.
+- **Severity:** **MEDIUM-HIGH** for affected hardware — device
+  recovery/protocol correctness, not kernel oops/UAF. Audio is already
+  broken when triggered, but firmware can be left in a bad state without
+  RELEASE.
+
+### Step 8.4: Risk-benefit
+**Record:**
+- **Benefit:** MEDIUM — completes mandatory firmware protocol,
+  faster/correct boot failure handling, better runtime coredump cleanup
+- **Risk:** LOW — ~25 lines, guarded RELEASE write, explicit
+  `ipc->ready` check prevents false-success boot
+- **Ratio:** Favorable
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-**Step 9.1 — Evidence summary**
+### Step 9.1: Evidence summary
 
 **FOR backport:**
-- Real hardware bug: internal mic broken due to wrong BIOS pin config
-- Hardware quirk exception category (explicitly stable-appropriate)
-- Small (12 lines), single file, applies cleanly to 6.18.44
-- SN6140 driver and quirk infrastructure already in tree
-- ALSA maintainer (Takashi Iwai) reviewed and applied
-- Follows proven pattern (`CXT_PINCFG_SWS_JS201D`,
-  `CXT_FIXUP_HP_MIC_NO_PRESENCE`)
-- No dependencies, no new APIs
+- Real bug since 2020: incomplete coredump protocol (missing
+  `COREDUMP_RELEASE`)
+- Boot path misreports failure as timeout instead of remote I/O error
+- Unnecessary 250 ms wait on known firmware failure
+- Small, self-contained, maintainer-authored fix
+- Buggy code confirmed present in v6.18.44
+- Applies to both probe and resume boot paths
 
 **AGAINST backport:**
-- Not a crash, security, or data-corruption issue
-- Affects only one laptop model (narrow scope)
-- No explicit `Cc: stable` or `Tested-by` from hardware owner
+- No kernel crash, UAF, security issue, or data corruption
+- Trigger requires firmware failure (uncommon)
+- Niche older hardware
+- Device is already non-functional when bug triggers
+- Probe failure calls `catpt_dsp_power_down()` (DSP reset), which may
+  mitigate stuck state
+- Mailing list review/stable nomination not verified
+- Possible patch 1/2 series dependency unverified
 
-**Unresolved:** None material to the decision.
+**Unresolved:** Lore review thread; whether patch 1 is required;
+explicit stable nomination.
 
-**Step 9.2 — Stable rules checklist**
-1. Obviously correct and tested? **PASS** — standard quirk pattern;
-   maintainer merged
-2. Fixes a real bug affecting users? **PASS** — internal mic unusable on
-   affected laptop
-3. Important issue? **PASS** (hardware functionality) — not CRITICAL
-   severity, but hardware quirk fixes are standard stable material per
-   stable-kernel-rules exceptions
-4. Small and contained? **PASS** — 12 lines, one file
-5. No new features or APIs? **PASS** — quirk table entry only
-6. Can apply to local tree? **PASS** — clean apply verified
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — logic is clear; no `Tested-
+   by` but maintainer merged
+2. Fixes a real bug affecting users? **PASS** — incomplete firmware
+   protocol on error path
+3. Important issue? **PASS (MEDIUM)** — firmware stuck in coredump
+   state, misleading errors, delayed failure detection on probe/resume;
+   not kernel crash级别
+4. Small and contained? **PASS** — 3 files, ~25 lines
+5. No new features/APIs? **PASS** — completes existing coredump handling
+6. Can apply to local tree? **PASS** — driver and buggy code present;
+   clean apply expected
 
-**Step 9.3 — Exception category**
-Record: **Hardware quirk/workaround** — codec pin configuration override
-for broken BIOS. Automatic stable qualification per documented
-exceptions.
+### Step 9.3: Exception categories
+**Record:** None (not device ID, quirk, DT, build, or docs fix).
 
-**Step 9.4 — Decision rationale**
-This is a textbook HDA codec hardware quirk: the Conexant SN6140 driver
-already exists in 6.18.44, the patch applies cleanly, and without it the
-internal microphone on the Lenovo IdeaPad Slim 5 16AKP10 is non-
-functional. The fix is minimal, PCI-SSID-scoped, and follows the same
-pattern as numerous other Conexant quirks already in stable trees. While
-not a crash-level bug, restoring broken hardware functionality via
-targeted quirks is exactly what stable kernels are expected to carry.
+### Step 9.4: Decision rationale
+This is a genuine, long-standing protocol bug in the Intel catpt driver.
+When firmware exceptions occur, the driver partially handles coredump
+but never completes the handshake the firmware expects
+(`COREDUMP_RELEASE`), and the boot path misinterprets the situation as a
+generic timeout. While the device is already broken when this triggers,
+leaving firmware in coredump state without release is a real correctness
+defect that can impede recovery, and the fix is minimal with very low
+regression risk. It meets stable criteria for a contained driver bug fix
+on an error path affecting probe and resume.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed subject, tags, body; no Fixes:/Reported-by:/syzbot
-- [Phase 1] Identified hardware quirk fixing broken internal microphone
-- [Phase 2] Diff: 12 lines added to `sound/hda/codecs/conexant.c`; enum
-  + pintbl + fixup + PCI quirk
-- [Phase 2] Bug category: hardware pin config workaround (jack-detect →
-  fixed internal)
-- [Phase 3] `git describe HEAD`: v6.18.44-1-g2736c32da98b9; `make
-  kernelversion`: 6.18.44
-- [Phase 3] `git blame` on SWS JS201D quirk: `4639c5021029d` (Feb 2024),
-  same SN6140 pattern
-- [Phase 3] Commit `d69c76ccc5540` NOT ancestor of HEAD; upstream
-  `f7c4968ae3af`
-- [Phase 3] `git apply --check` on diff against current tree: **clean
-  apply**
-- [Phase 3] SN6140 codec `0x14f11f87` in tree since `ca348e7fe1ab9`;
-  rename commit `7f4c540e0859e` also in tree
-- [Phase 4] `b4 dig -c d69c76ccc5540`: lore thread found
-- [Phase 4] `b4 dig -a`: v1→v2 series; v2 is committed version
-- [Phase 4] `b4 dig -w`: CC'd tiwai@suse.de, alsa-devel, linux-sound
-- [Phase 4] Mbox thread: Takashi Iwai "Applied now. Thanks."; no NAKs;
-  no stable nomination
-- [Phase 5] Verified SN6140 (`0x14f11f87`) uses `cxt5066_fixups` via
-  default fallthrough in `cx_probe()`
-- [Phase 5] `grep 38b6` / `IDEAPAD_SLIM5` in conexant.c: no matches
-  (quirk absent)
-- [Phase 5] Similar pin value `0x95a70130` exists at line 838 (SWS
-  JS201D internal mic)
-- [Phase 6] Conexant driver, SN6140 support, and quirk tables confirmed
-  present in 6.18.44
-- [Phase 8] Failure mode: internal mic non-functional; severity MEDIUM;
-  risk VERY LOW
+- [Phase 1] Parsed subject, tags, body from provided commit message
+- [Phase 1] Confirmed Message-ID indicates patch 2 of series
+  (`1439233-2`)
+- [Phase 2] Read current `ipc.c`, `loader.c`, `registers.h` — buggy code
+  present, matches pre-patch state
+- [Phase 2] Confirmed `FW_READY_TIMEOUT_MS` is 250 ms in `loader.c`
+- [Phase 3] `git describe HEAD` → `v6.18.44`; `make kernelversion` →
+  `6.18.44`
+- [Phase 3] `git blame` on coredump case → `64b9b1b005743` (Sep 2020)
+- [Phase 3] `git blame` on boot wait → `a9aa6fb3eb6c7` (Sep 2020)
+- [Phase 3] `git log --oneline -20 -- sound/soc/intel/catpt/` — no
+  coredump fix present
+- [Phase 3] `git merge-base --is-ancestor 4fac9b31d0b9d HEAD` → catpt
+  driver in tree
+- [Phase 4] `b4 dig` — requires commitish; not available (commit not in
+  tree)
+- [Phase 4] WebFetch lore/patch.msgid.link — blocked (403/bot
+  protection)
+- [Phase 4] Grep workspace `*.mbx` for series — no match
+- [Phase 5] Traced callers: `catpt_boot_firmware` from probe/resume;
+  `catpt_dsp_process_response` from IRQ thread
+- [Phase 5] Read `catpt_coredump()` in `dsp.c` — dumps via
+  `dev_coredumpv()`
+- [Phase 5] Read `catpt_ipc_arm()` — sets `ipc->ready = true` only on
+  successful FW ready
+- [Phase 5] Confirmed `host_dram_offset` exists in `core.h` and device
+  specs
+- [Phase 6] Grep `CATPT_COREDUMP` — not present (fix not applied)
+- [Phase 6] Read probe error path in `device.c` —
+  `catpt_dsp_power_down()` on boot failure
+- [Phase 7] Read `Kconfig` — `SND_SOC_INTEL_CATPT` for Haswell/Broadwell
+- [Phase 8] Assessed failure modes from code flow analysis
+- **UNVERIFIED:** Mailing list review feedback and stable nominations
+- **UNVERIFIED:** Whether patch 1 of the series is a prerequisite
 
 **YES**
 
- sound/hda/codecs/conexant.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ sound/soc/intel/catpt/ipc.c       |  8 ++++++++
+ sound/soc/intel/catpt/loader.c    |  3 +++
+ sound/soc/intel/catpt/registers.h | 12 ++++++++++++
+ 3 files changed, 23 insertions(+)
 
-diff --git a/sound/hda/codecs/conexant.c b/sound/hda/codecs/conexant.c
-index c3c8326d0b77a..fe7445fabb887 100644
---- a/sound/hda/codecs/conexant.c
-+++ b/sound/hda/codecs/conexant.c
-@@ -294,6 +294,7 @@ enum {
- 	CXT_FIXUP_HEADSET_MIC,
- 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
- 	CXT_PINCFG_SWS_JS201D,
-+	CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10,
- 	CXT_PINCFG_TOP_SPEAKER,
- 	CXT_FIXUP_HP_A_U,
- 	CXT_FIXUP_ACER_SWIFT_HP,
-@@ -831,6 +832,12 @@ static const struct hda_pintbl cxt_pincfg_lemote[] = {
- 	{}
- };
+diff --git a/sound/soc/intel/catpt/ipc.c b/sound/soc/intel/catpt/ipc.c
+index d26863249097f..952c26e5d0e6c 100644
+--- a/sound/soc/intel/catpt/ipc.c
++++ b/sound/soc/intel/catpt/ipc.c
+@@ -205,6 +205,7 @@ static void catpt_dsp_process_response(struct catpt_dev *cdev, u32 header)
+ 		memcpy_fromio(&config, cdev->lpe_ba + off, sizeof(config));
+ 		trace_catpt_ipc_payload((u8 *)&config, sizeof(config));
  
-+/* Lenovo IdeaPad Slim 5 16AKP10 with SN6140 */
-+static const struct hda_pintbl cxt_pincfg_lenovo_ideapad_slim5_16akp10[] = {
-+	{ 0x1a, 0x95a60130 }, /* Internal mic, fixed/always-connected */
-+	{}
-+};
++		dev_dbg(cdev->dev, "FW READY 0x%08x\n", header);
+ 		catpt_ipc_arm(ipc, &config);
+ 		complete(&cdev->fw_ready);
+ 		return;
+@@ -215,6 +216,13 @@ static void catpt_dsp_process_response(struct catpt_dev *cdev, u32 header)
+ 		dev_err(cdev->dev, "ADSP device coredump received\n");
+ 		ipc->ready = false;
+ 		catpt_coredump(cdev);
 +
- /* SuoWoSi/South-holding JS201D with sn6140 */
- static const struct hda_pintbl cxt_pincfg_sws_js201d[] = {
- 	{ 0x16, 0x03211040 }, /* hp out */
-@@ -1011,6 +1018,10 @@ static const struct hda_fixup cxt_fixups[] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = cxt_pincfg_sws_js201d,
- 	},
-+	[CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = cxt_pincfg_lenovo_ideapad_slim5_16akp10,
-+	},
- 	[CXT_PINCFG_TOP_SPEAKER] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -1119,6 +1130,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x21da, "Lenovo X220", CXT_PINCFG_LENOVO_TP410),
- 	SND_PCI_QUIRK(0x17aa, 0x21db, "Lenovo X220-tablet", CXT_PINCFG_LENOVO_TP410),
- 	SND_PCI_QUIRK(0x17aa, 0x38af, "Lenovo IdeaPad Z560", CXT_FIXUP_MUTE_LED_EAPD),
-+	SND_PCI_QUIRK(0x17aa, 0x38b6, "Lenovo IdeaPad Slim 5 16AKP10", CXT_PINCFG_LENOVO_IDEAPAD_SLIM5_16AKP10),
- 	SND_PCI_QUIRK(0x17aa, 0x3905, "Lenovo G50-30", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x390b, "Lenovo G50-80", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x3975, "Lenovo U300s", CXT_FIXUP_STEREO_DMIC),
++		if (catpt_readl_dram(cdev, COREDUMP) == CATPT_COREDUMP_REQUEST) {
++			dev_dbg(cdev->dev, "releasing firmware from the coredump state\n");
++			catpt_writel_dram(cdev, COREDUMP, CATPT_COREDUMP_RELEASE);
++		}
++
++		complete(&cdev->fw_ready);
+ 		/* TODO: attempt recovery */
+ 		break;
+ 
+diff --git a/sound/soc/intel/catpt/loader.c b/sound/soc/intel/catpt/loader.c
+index 696d84314eeb5..680efad5f458d 100644
+--- a/sound/soc/intel/catpt/loader.c
++++ b/sound/soc/intel/catpt/loader.c
+@@ -626,6 +626,9 @@ int catpt_boot_firmware(struct catpt_dev *cdev, bool restore)
+ 	if (!ret) {
+ 		dev_err(cdev->dev, "firmware ready timeout\n");
+ 		return -ETIMEDOUT;
++	/* Wake up does not mean FW is ready, an exception could occur. */
++	} else if (!cdev->ipc.ready) {
++		return -EREMOTEIO;
+ 	}
+ 
+ 	/* update sram pg & clock once done booting */
+diff --git a/sound/soc/intel/catpt/registers.h b/sound/soc/intel/catpt/registers.h
+index 6c1ad28c6d692..64bd534a76ff4 100644
+--- a/sound/soc/intel/catpt/registers.h
++++ b/sound/soc/intel/catpt/registers.h
+@@ -124,6 +124,11 @@
+ #define CATPT_SSCR2_DEFAULT		0x0
+ #define CATPT_SSPSP2_DEFAULT		0x0
+ 
++/* Coredump register and its states */
++#define CATPT_DRAM_COREDUMP		0x1F4
++#define CATPT_COREDUMP_REQUEST		UINT_MAX
++#define CATPT_COREDUMP_RELEASE		0
++
+ /* Physically the same block, access address differs between host and dsp */
+ #define CATPT_DSP_DRAM_OFFSET		0x400000
+ #define catpt_to_host_offset(offset)	((offset) & ~(CATPT_DSP_DRAM_OFFSET))
+@@ -137,6 +142,8 @@
+ 
+ /* registry I/O helpers */
+ 
++#define catpt_dram_addr(cdev) \
++	((cdev)->lpe_ba + (cdev)->spec->host_dram_offset)
+ #define catpt_shim_addr(cdev) \
+ 	((cdev)->lpe_ba + (cdev)->spec->host_shim_offset)
+ #define catpt_dma_addr(cdev, dma) \
+@@ -151,6 +158,11 @@
+ #define catpt_writel_ssp(cdev, ssp, reg, val) \
+ 	writel(val, catpt_ssp_addr(cdev, ssp) + (reg))
+ 
++#define catpt_readl_dram(cdev, reg) \
++	readl(catpt_dram_addr(cdev) + CATPT_DRAM_##reg)
++#define catpt_writel_dram(cdev, reg, val) \
++	writel(val, catpt_dram_addr(cdev) + CATPT_DRAM_##reg)
++
+ #define catpt_readl_shim(cdev, reg) \
+ 	readl(catpt_shim_addr(cdev) + CATPT_SHIM_##reg)
+ #define catpt_writel_shim(cdev, reg, val) \
 -- 
 2.53.0
 
