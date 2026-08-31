@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB187509F0A;
-	Mon, 31 Aug 2026 13:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF23C50DDA1;
+	Mon, 31 Aug 2026 13:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183754; cv=none; b=QdMA4VGG0HiOBCaub5JFzdY4B9S78VSBAZO+rB+OnbIVx17NR+hVpCZpn815IV4KsJnspiFwKKdkWcplSQ3LtWow4y+jOG62rKRUT2jPuXPOLB9C6nhgtLz7N9xBONRrESG+6+yVxEiiSGC3q+emC5ydfCwTgidCidevlRdJ6+4=
+	t=1788183769; cv=none; b=ZYIjk211vhFVcqd1Ylr3imPuxBLWWgN3lThvi/5fQYXEexfYD8W81fjLJyLignB8e0aMmckl3vIHh/B/SGKmsTRGfps9fF4+qQJqDppVgVTKUOtCFOnCVtGYaaoysIxkrB2QdVK2tz9z2xdtdQeI8tQLNu865eaSwHRjyM2W8uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183754; c=relaxed/simple;
-	bh=j9UahECLgtK66pHV1y4MMhyFa4WFeU4DHeSbLppsWP4=;
+	s=arc-20240116; t=1788183769; c=relaxed/simple;
+	bh=6aQXyXvy6ClEwNi0a9SjPsN7BvdsMNdLnTMeFcn16Mk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UnMK3K+BMHllz6qjNh0Xuvtav8n92OnoOAuf86xEOOXmFApZLWwLzsPae0wjyyUDPgXawSEJVsseyCoxphHKxZwNKgEbxualol+LwDilSWKUmiBNpBRhr/jCsS/eZbDdaIkYJexFwGTgdjNeoeLe5Wy0DN0qXz1txiUTslkC7UY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAT/4rEs; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=k8a2AZM0DM2CR0MEntYOnxCvwvq9+OBUs5AsYpRpBS5vzzGSAIBZKfkUFEgysxochwAeKCvcGL5Sjd/cQ3W9aYJ/x2tK7rO/Nocm5dZXBVAM8VCvnZ3U8Sa/QE0AByNzUX+Il+nGt4YygvBUjSIauHK35rYOaEC1VGV38Mvswi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I+Zog3Ky; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAT/4rEs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDD941F00A3E;
-	Mon, 31 Aug 2026 13:42:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I+Zog3Ky"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DFE21F000E9;
+	Mon, 31 Aug 2026 13:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183751;
-	bh=0ficZOrstrFRp+kCyBauxLO02CLjM0M7ZQNKFWpwhEc=;
+	s=k20260515; t=1788183766;
+	bh=mY7vBTNMj5okLY9XpvpQUohcvN3B1Veh3GEY1CdggbY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=QAT/4rEsN5UBqN4zgwibLMwmwNsRBRRU3ar2aMtwiCe4Irmw/EOzw7a2nL39dC/nV
-	 3kMF/repBOk/tpxx2Vlg0vNuiOrEftFcjHhU0uDlG/gMzta48yElrQc86ZKNFzVti0
-	 iL6+6xYzOZ6VibY14pPylkhJV2AvSD2rEJhczUEcqVairHM/kYgL7/0/GRU9HzdTYt
-	 TzXjW1H09x7zBismDePaBEAdRc1KVfQk4xRWfBoN5yXkXL32eVvqiGXoS6PZfUcc8V
-	 QA+owNk2p5i1nPsLA6ZfC4QlfEkj7/ZvLClSWgIYH4KXZKg7uXynLV2uuSf1LMYrX1
-	 LkHzqVeSZNziw==
+	b=I+Zog3KyOpaJAlfguWFGUi+Z7bU6atLU2LDjxUM3jvhw52JkLWamQ5Klz9GIpAWEX
+	 SLVklNCzidCQVzj9K5cE6gNJnAvPd4pHVFAEFr6J+zGBcKJrQoCTTiSaXrSw0EHoNO
+	 ZNE9a+lDWFjSOAA7rpwPkWSiVxj2wTtaTW8B03UkrNZvAu2whIJKHW+Oi1yZfZKGwV
+	 7Pk99IoHy6467oLf+IMbPn0KBj7IAdwOsJQjwfw6XcN7NF9MhfdLhVrtyIH8JOsj4o
+	 pXash0d0yEWwnw3y1fdmqdHMqkA9qUOPpKQWaflkA+kk6g4bJrj+s3CUCSPn71tR31
+	 cA0mTF/3tGL7Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
+Cc: Tianze Shao <shaotianze@outlook.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] ASoC: codecs: rk3328: Use managed GPIO and clock helpers
-Date: Mon, 31 Aug 2026 09:25:10 -0400
-Message-ID: <20260831133314.4125787-282-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18-6.12] ASoC: rt712-sdca: reset codec at io_init to fix silent headphone
+Date: Mon, 31 Aug 2026 09:25:20 -0400
+Message-ID: <20260831133314.4125787-292-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -49,505 +50,401 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.18.48
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+From: Tianze Shao <shaotianze@outlook.com>
 
-[ Upstream commit 0cf3489bba9ad13aae052232e223e19a620fe7a7 ]
+[ Upstream commit 4c9854ad3cdc7ce408453207f153bb910cc6f3c1 ]
 
-rk3328_platform_probe() acquires the mute GPIO with gpiod_get_optional()
-but never releases it. It also enables mclk and pclk manually while
-relying on probe error labels for unwind, and the driver has no platform
-remove callback to disable those clocks after a successful unbind.
+On ThinkPad X1 Carbon Gen 13 (Lunar Lake, RT712-SDCA version VA) the
+3.5mm headphone jack is silent after rebooting from Windows.
+rt712_sdca_va_io_init() gates rt712_sdca_calibration() on the persisted
+vendor SW_CONFIG1 flag, and io_init writes SW_CONFIG1=1 at the end
+regardless of whether the calibration succeeded. Across a warm reboot
+the codec keeps power, so SW_CONFIG1 stays unchanged, the calibration
+may be skipped, and the retained state can be invalid, leaving the
+headphone amp disabled.
 
-This path has already needed fixes for missing clock unwinds on probe
-errors. Use devm_gpiod_get_optional() and devm_clk_get_enabled() so the
-GPIO and enabled clock lifetimes are tied to the device. This removes the
-manual error labels and makes both probe failure and driver unbind follow
-the normal devres cleanup path.
+This patch mimics the reset sequence in rt711-sdca.c, it adds an
+rt712_sdca_reset() helper, and calls it from io_init so the codec is
+reset before initialization. RT712_PARA_VERB_CTL,
+RT712_HIDDEN_REG_SW_RESET and RT712_HDA_LEGACY_RESET_CTL are already
+defined but were unused. The reset clears SW_CONFIG1 and the analog
+state so rt712_sdca_calibration() runs from a clean state and
+completes.
 
-Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
-Link: https://patch.msgid.link/20260525-asoc-rk3328-devm-resources-v1-1-2abde0006f89@gmail.com
+Problem reproducible: boot Windows (headphone is good) -> reboot
+to Linux (silent).
+The reproducibility may depend on Windows' behaviour.
+
+Signed-off-by: Tianze Shao <shaotianze@outlook.com>
+Link: https://patch.msgid.link/TYCPR01MB872223CB999D2099A5E0F58DC4F62@TYCPR01MB8722.jpnprd01.prod.outlook.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## Phase 1: Commit Message Forensics
+# Stable Backport Analysis: ASoC: rt712-sdca: reset codec at io_init to
+fix silent headphone
 
-### Step 1.1: Subject Line
-**Record:** `[ASoC: codecs: rk3328]` `[Use]` — Convert probe resource
-acquisition to managed (devm) helpers for GPIO and clocks.
-
-### Step 1.2: Commit Message Tags
-**Record:**
-- **Signed-off-by:** Cássio Gabriel `<cassiogabrielcontato@gmail.com>`
-  (author)
-- **Signed-off-by:** Mark Brown `<broonie@kernel.org>` (ASoC maintainer
-  committer)
-- **Link:** https://patch.msgid.link/20260525-asoc-rk3328-devm-
-  resources-v1-1-2abde0006f89@gmail.com
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, or Cc:
-  stable@vger.kernel.org
-- Notable: Maintainer commit; no fuzzer or user bug reports
-
-### Step 1.3: Commit Body Analysis
-**Record:**
-- **Bug:** `rk3328_platform_probe()` uses `gpiod_get_optional()` without
-  ever releasing the mute GPIO; enables `mclk`/`pclk` manually with
-  fragile error-path unwinds; no platform `.remove` to disable clocks on
-  unbind.
-- **Symptom:** Resource leaks — GPIO descriptor leak; clocks left
-  enabled after driver unbind; incomplete probe-error cleanup (driver
-  already needed two prior clock-unwind fixes).
-- **Root cause:** Non-devm resource management with manual `goto` unwind
-  labels and no platform remove callback.
-- **Version info:** None in message.
-
-### Step 1.4: Hidden Bug Fix Detection
-**Record:** Yes — described as devm conversion, but it fixes real
-resource leaks on probe failure and driver unbind. Prior commits
-`d14eece945a80` (2021) and `35a9b000b24d5` (2022) fixed related clock-
-unwind gaps in the same function.
+**Local tree:** Linux **6.18.44** (`v6.18.44-1-g2736c32da98b9`)
+**Fix commit:** `4c9854ad3cdc7` (on `master`, **not** in current HEAD)
 
 ---
 
-## Phase 2: Diff Analysis
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 2.1: Change Inventory
+### Step 1.1: Subject line
+**Record:** `[ASoC: rt712-sdca]` `[fix]` — reset codec at `io_init` to
+fix silent headphone on RT712-SDCA VA hardware.
+
+### Step 1.2: Tags
 **Record:**
-- **File:** `sound/soc/codecs/rk3328_codec.c` — 13 insertions, 41
-  deletions (net −28 lines)
-- **Function modified:** `rk3328_platform_probe()`
-- **Scope:** Single-file surgical fix in one probe function
+- **Fixes:** — absent (expected for manual review)
+- **Reported-by:** — absent
+- **Tested-by:** — absent
+- **Reviewed-by / Acked-by:** — absent
+- **Link:** https://patch.msgid.link/TYCPR01MB872223CB999D2099A5E0F58DC4
+  F62@TYCPR01MB8722.jpnprd01.prod.outlook.com
+- **Signed-off-by:** Tianze Shao (author), Mark Brown (maintainer
+  commit)
+- **Cc: stable:** — absent
+- Notable: Realtek engineers (Shuming Fan, Oder Chiou) were CC'd on
+  submission; Mark Brown applied to `for-7.2`.
 
-### Step 2.2: Code Flow Changes
+### Step 1.3: Body analysis
 **Record:**
-| Hunk | Before → After |
-|------|----------------|
-| GPIO | `gpiod_get_optional()` → `devm_gpiod_get_optional()` — GPIO
-tied to device lifetime |
-| mclk | `devm_clk_get()` + `clk_prepare_enable()` →
-`devm_clk_get_enabled()` — single managed acquire+enable |
-| pclk | `devm_clk_get()` + `clk_prepare_enable()` + manual error labels
-→ `devm_clk_get_enabled()` |
-| Error paths | Manual `err_unprepare_pclk` / `err_unprepare_mclk`
-labels → early `return` (devres auto-cleanup) |
-| Success path | `return 0` after register → direct `return
-devm_snd_soc_register_component(...)` |
+- **Bug:** On ThinkPad X1 Carbon Gen 13 (Lunar Lake, RT712-SDCA VA),
+  3.5mm headphone is silent after warm reboot from Windows.
+- **Symptom:** Headphone jack produces no audio; speakers may still
+  work.
+- **Root cause:** `rt712_sdca_va_io_init()` skips
+  `rt712_sdca_calibration()` when persisted `SW_CONFIG1` is set. Across
+  warm reboot the codec retains power/state; calibration is skipped but
+  analog state may be invalid, leaving the HP amp disabled. `io_init`
+  always writes `SW_CONFIG1=1` at the end regardless of calibration
+  outcome.
+- **Repro:** Boot Windows (headphone works) → reboot to Linux (silent).
+- **Version info:** RT712-SDCA **VA** variant specifically; Lunar Lake
+  platform.
 
-### Step 2.3: Bug Mechanism
-**Record:** **Category:** Resource leaks (GPIO + clocks)
-- **GPIO leak:** `gpiod_get_optional()` at line 451 with no
-  `gpiod_put()` anywhere in file; all error returns after GPIO
-  acquisition leak the descriptor.
-- **Clock leak on unbind:** `platform_driver` has only `.probe`, no
-  `.remove`; clocks enabled via `clk_prepare_enable()` are never
-  disabled on unbind.
-- **Remaining probe-error gap:** `clk_prepare_enable(mclk)` failure at
-  lines 468–470 returns directly with no GPIO cleanup and no clock
-  cleanup — not covered by existing `err_unprepare_*` labels.
-- **Fix mechanism:** devm helpers release GPIO/clocks automatically on
-  probe failure and device unbind.
-
-### Step 2.4: Fix Quality
-**Record:** Obviously correct — standard kernel devm pattern used widely
-in ASoC codec drivers (90+ files in tree use
-`devm_clk_get_enabled`/`devm_gpiod_get_optional`). Minimal, removes
-error-prone manual unwind. **Regression risk:** Very low; behavior
-unchanged on successful probe.
+### Step 1.4: Hidden bug fix?
+**Record:** No — this is an explicit hardware-init bug fix, not
+disguised cleanup.
 
 ---
 
-## Phase 3: Git History Investigation
+## PHASE 2: DIFF ANALYSIS
 
-### Step 3.1: Blame / Bug Introduction
+### Step 2.1: Inventory
 **Record:**
-- GPIO mute code: `87d12d5545fa7` (2020-02-19) — `gpiod_get_optional()`
-  without devm
-- Clock manual enable: `c32759035ad24` (2018-12-21) — original driver
-- Manual error labels: `d14eece945a80` (2021-05-18) — added after
-  missing unwind was found
-- **Buggy code present since v5.0 era; long-standing in this tree**
+- **Files:** `sound/soc/codecs/rt712-sdca.c` only (+11 lines)
+- **Functions:** new `rt712_sdca_reset()`; call added in
+  `rt712_sdca_io_init()`
+- **Scope:** Single-file surgical fix
 
-### Step 3.2: Fixes: Tag
-**Record:** N/A — no Fixes: tag in commit message.
-
-### Step 3.3: Related File History
+### Step 2.2: Code flow change
 **Record:**
-```
-d14eece945a80 ASoC: rk3328: fix missing clk_disable_unprepare() on error
-35a9b000b24d5 ASoC: rk3328: fix disabling mclk on pclk probe failure
-```
-Both prior fixes are in this tree. This commit completes the devm
-conversion those fixes were working toward. Standalone single patch (v1
-only, no series).
+- **Hunk 1 (new helper):** Adds `rt712_sdca_reset()` writing
+  `RT712_HIDDEN_REG_SW_RESET` via `RT712_PARA_VERB_CTL` and
+  `RT712_HDA_LEGACY_RESET_CTL` — identical pattern to
+  `rt711_sdca_reset()`.
+- **Hunk 2 (`rt712_sdca_io_init`):** Calls reset after
+  `pm_runtime_get_noresume()` and before reading `RT712_JD_PRODUCT_NUM`
+  / version detection / `rt712_sdca_va_io_init()`.
+- **Before:** Init proceeded with potentially stale codec state from
+  prior OS boot.
+- **After:** Codec is reset to clean state; `SW_CONFIG1` cleared;
+  calibration runs when gated on `!hibernation_flag`.
 
-### Step 3.4: Author Context
-**Record:** Cássio Gabriel — active ASoC contributor with similar
-resource-lifetime fixes (e.g., mediatek mt8183/mt8192 cleanup commits).
-Mark Brown committed and maintains ASoC.
+### Step 2.3: Bug mechanism
+**Record:** **Category (g) logic/correctness + (h) hardware
+workaround.** Skipped calibration due to persisted `SW_CONFIG1` flag
+across warm reboot leaves headphone amp in invalid state. Reset forces
+clean init path.
+
+### Step 2.4: Fix quality
+**Record:** Obviously correct — mirrors proven `rt711_sdca_reset()` at
+the same point in `io_init`. Minimal, no API changes. Low regression
+risk; reset is standard codec bring-up practice already used in sibling
+driver.
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
+
+### Step 3.1: Blame
+**Record:** Calibration gating on `SW_CONFIG1` at lines 1741–1747 blame
+to `5d324e5159d9e` (6.18-era merge). Buggy logic present since driver
+landed in this tree.
+
+### Step 3.2: Fixes: tag
+**Record:** N/A — no `Fixes:` tag.
+
+### Step 3.3: Related file history
+**Record:** Fix commit `4c9854ad3cdc7` on `master`. No duplicate fix in
+current HEAD. Standalone single-patch series (v1 only).
+
+### Step 3.4: Author context
+**Record:** Tianze Shao submitted hardware-specific fix; Mark Brown
+(ASoC maintainer) applied. Realtek engineers CC'd.
 
 ### Step 3.5: Dependencies
-**Record:**
-- Requires `devm_clk_get_enabled()` — in tree since `7ef9651e9792b`
-  (2022-06-15), confirmed ancestor of HEAD
-- Requires `devm_gpiod_get_optional()` — present in
-  `include/linux/gpio/consumer.h`
-- **Can apply standalone; no prerequisite commits needed**
+**Record:** Self-contained. All required register constants
+(`RT712_PARA_VERB_CTL`, `RT712_HIDDEN_REG_SW_RESET`,
+`RT712_HDA_LEGACY_RESET_CTL`) already defined in `rt712-sdca.h`.
+`rt712_sdca_index_update_bits()` already exists. No prerequisite commits
+needed.
 
 ---
 
-## Phase 4: Mailing List and External Research
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original Discussion
-**Record:**
-- **b4 dig URL:** https://patch.msgid.link/20260525-asoc-rk3328-devm-
-  resources-v1-1-2abde0006f89@gmail.com
-- **Series:** v1 only (no revisions)
-- **Review feedback:** Thread contains only the patch submission — no
-  replies, no stable nomination, no NAKs
-- lore.kernel.org web UI blocked by bot protection; used b4 mbox instead
+### Step 4.1: Original discussion
+**Record:** b4 dig found thread at https://patch.msgid.link/TYCPR01MB872
+223CB999D2099A5E0F58DC4F62@TYCPR01MB8722.jpnprd01.prod.outlook.com.
+Single v1 submission; Mark Brown applied with no objections or NAKs. No
+explicit stable nomination in thread.
 
 ### Step 4.2: Reviewers
-**Record:** CC'd: Mark Brown, Liam Girdwood, Takashi Iwai, Jaroslav
-Kysela, linux-sound@vger.kernel.org. Committed by Mark Brown
-(maintainer). No explicit Reviewed-by in commit.
+**Record:** CC'd: linux-sound, Shuming Fan, Oder Chiou (Realtek), Liam
+Girdwood, Mark Brown, Jaroslav Kysela, Takashi Iwai, linux-kernel.
 
-### Step 4.3: Bug Reports
-**Record:** N/A — no Reported-by or external bug links.
+### Step 4.3: Bug report
+**Record:** Author-reported on ThinkPad X1 Carbon Gen 13 with explicit
+repro steps. No syzbot/bugzilla. Severity: complete loss of headphone
+audio on affected path.
 
-### Step 4.4: Related Patches
-**Record:** Standalone 1/1 patch. Related prior in-tree fixes:
-`d14eece945a80`, `35a9b000b24d5`.
+### Step 4.4: Series context
+**Record:** Standalone 1/1 patch; no series dependencies.
 
-### Step 4.5: Stable List History
-**Record:** UNVERIFIED — could not search lore stable archive (bot
-protection). No stable discussion found in saved mbox thread.
+### Step 4.5: Stable list history
+**Record:** Not searched separately; no stable nomination found in patch
+thread.
 
 ---
 
-## Phase 5: Code Semantic Analysis
+## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-**Record:** `rk3328_platform_probe()` — only function modified.
+### Step 5.1: Key functions
+**Record:** `rt712_sdca_reset()` (new), `rt712_sdca_io_init()`
+(modified).
 
 ### Step 5.2: Callers
-**Record:** Called by platform core during device enumeration for
-`rockchip,rk3328-codec` OF nodes. Affects RK3328 boards (Rock64, NanoPi
-R2S/R2C, Orange Pi R1 Plus, etc.) at boot when `CONFIG_SND_SOC_ROCKCHIP`
-/ codec is enabled.
+**Record:** `rt712_sdca_io_init()` called from `rt712-sdca-sdw.c` during
+SoundWire slave attach when `hw_init` is false and status is
+`SDW_SLAVE_ATTACHED` — standard device enumeration/probe path.
 
 ### Step 5.3: Callees
-**Record:** `devm_kzalloc`, `syscon_regmap_lookup_by_phandle`,
-`devm_gpiod_get_optional`, `devm_clk_get_enabled`,
-`devm_platform_ioremap_resource`, `devm_regmap_init_mmio`,
-`devm_snd_soc_register_component`.
+**Record:** `rt712_sdca_index_update_bits()` → index read/write on codec
+registers. No allocation, no locking added.
 
 ### Step 5.4: Reachability
-**Record:** Probe runs at boot on affected hardware. Module unload
-(`module_platform_driver`) can trigger unbind — the leaky path without
-`.remove`. Probe-failure paths reachable with misconfigured clocks/GPIO.
+**Record:** Triggered at every codec `io_init` on boot/resume attach.
+Affects all RT712-SDCA users; bug manifests on VA variant after warm
+reboot from Windows with persisted codec state.
 
-### Step 5.5: Similar Patterns
-**Record:** 90+ ASoC codec files already use
-`devm_clk_get_enabled`/`devm_gpiod_get_optional`. rk3328 was an outlier
-still using manual management.
-
----
-
-## Phase 6: Cross-Reference Against Local Tree
-
-### Step 6.1: Buggy Code in Tree?
-**Record:** **YES.** Local tree is **Linux 6.18.44** (`git describe
-HEAD` → `v6.18.44-1-gef4bf62bccf3c`). Buggy code confirmed at lines
-451–514 of `sound/soc/codecs/rk3328_codec.c`. Fix commit `0cf3489bba9ad`
-is on `master` but **not** in HEAD.
-
-### Step 6.2: Backport Complications
-**Record:** **Clean apply** — `git format-patch -1 0cf3489bba9ad | git
-apply --check` succeeded with no conflicts.
-
-### Step 6.3: Related Fixes Already Present?
-**Record:** Prior partial fixes `d14eece945a80` and `35a9b000b24d5` are
-in tree. This devm conversion is not yet applied. No duplicate fix
-found.
+### Step 5.5: Similar patterns
+**Record:** `rt711_sdca_reset()` in `rt711-sdca.c` (lines 75–82) called
+at identical point in `rt711_sdca_io_init()` (line 1619). Same reset
+register pattern.
 
 ---
 
-## Phase 7: Subsystem and Maintainer Context
+## PHASE 6: CROSS-REFERENCE AGAINST LOCAL TREE (6.18.44)
 
-### Step 7.1: Subsystem Criticality
-**Record:** **ASoC / Rockchip RK3328 codec driver** — **PERIPHERAL**
-(platform-specific audio codec, affects RK3328-based embedded boards
-only).
+### Step 6.1: Buggy code exists?
+**Record:** **YES.** Current tree has:
+- `hibernation_flag` gating at lines 1741–1747 in
+  `rt712_sdca_va_io_init()`
+- `SW_CONFIG1=1` write at line 1909 in `rt712_sdca_io_init()`
+- No `rt712_sdca_reset()` (grep confirmed absent)
+- `git merge-base --is-ancestor 4c9854ad3cdc7 HEAD` → exit 1 (fix
+  **not** in tree)
 
-### Step 7.2: Subsystem Activity
-**Record:** Moderate — recent commits include DAI terminology update and
-pm_runtime include cleanup. Driver is mature but still receives
-maintenance fixes.
+### Step 6.2: Backport complications
+**Record:** **Clean apply expected.** `git cherry-pick --no-commit
+4c9854ad3cdc7` auto-merged successfully on current HEAD.
+
+### Step 6.3: Related fixes already present?
+**Record:** None found (`git log --grep` for "silent headphone" /
+"rt712_sdca_reset" returned empty).
 
 ---
 
-## Phase 8: Impact and Risk Assessment
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
 
-### Step 8.1: Who Is Affected
-**Record:** Users of RK3328-based boards with the on-SoC audio codec
-enabled — embedded/ARM64 platforms (Rock64, NanoPi, Orange Pi variants).
-Not universal; driver/config-specific.
+### Step 7.1: Subsystem
+**Record:** ASoC / Realtek RT712-SDCA codec driver
+(`sound/soc/codecs/`). **Criticality: IMPORTANT** — affects audio on
+Intel Lunar Lake laptops (ThinkPad X1 Carbon Gen 13, etc.).
 
-### Step 8.2: Trigger Conditions
+### Step 7.2: Activity
+**Record:** RT712-SDCA driver is actively used; Intel LNL ACPI match
+tables reference RT712 configurations in `soc-acpi-intel-lnl-match.c`.
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+### Step 8.1: Who is affected
+**Record:** Users with RT712-SDCA **VA** on platforms that warm-reboot
+from Windows (ThinkPad X1 Carbon Gen 13 confirmed). Config-dependent
+(SDCA + RT712 VA hardware).
+
+### Step 8.2: Trigger conditions
+**Record:** Warm reboot from Windows to Linux with codec retaining
+power/state. Common dual-boot scenario on laptops. Not unprivileged
+syscall-triggered; hardware/boot-path triggered.
+
+### Step 8.3: Failure mode severity
+**Record:** **MEDIUM-HIGH** — complete loss of 3.5mm headphone output
+(functional hardware breakage, not crash/corruption). Significant for
+affected dual-boot users.
+
+### Step 8.4: Risk-benefit
 **Record:**
-- **GPIO leak:** Any probe path after successful `gpiod_get_optional()`
-  that returns error (including `clk_prepare_enable(mclk)` failure at
-  line 468–470).
-- **Clock/GPIO leak on unbind:** Module unload or device unbind (no
-  platform `.remove`).
-- **Likelihood:** Probe errors uncommon; unbind rare on production
-  embedded systems but real during development/module reload.
-- **Unprivileged trigger:** No — requires hardware presence and driver
-  binding.
-
-### Step 8.3: Failure Mode Severity
-**Record:**
-- GPIO descriptor leak (one per failed probe or unbind)
-- Clocks left running after unbind (power/resource leak)
-- **Severity: LOW to MEDIUM** — no crash, corruption, deadlock, or
-  security impact; gradual resource retention
-
-### Step 8.4: Risk-Benefit
-**Record:**
-- **Benefit:** Eliminates verified resource leaks; prevents recurrence
-  of manual unwind bugs (driver already needed two prior fixes);
-  simplifies probe code
-- **Risk:** Very low — standard devm pattern, net code reduction, clean
-  apply
-- **Ratio:** Moderate benefit, very low risk. Importance is below
-  crash/corruption fixes but above pure cosmetic cleanup.
+- **Benefit:** Restores headphone audio on affected premium laptops;
+  follows established sibling-driver pattern.
+- **Risk:** Very low — 11 lines, reset at init only, same as rt711-sdca.
+- **Ratio:** Favorable for backport.
 
 ---
 
-## Phase 9: Final Synthesis
+## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+### Step 9.1: Evidence summary
 
 **FOR backport:**
-- Verified real resource leaks (GPIO never released; clocks not disabled
-  on unbind)
-- Verified remaining probe-error leak path (`mclk` enable failure
-  returns without any cleanup)
-- Small, surgical, obviously correct devm conversion (−28 lines)
-- Applies cleanly to 6.18.44
-- All required APIs present in tree since 2022
-- Same driver already needed two prior clock-unwind fixes — pattern of
-  incomplete error handling
-- Committed by ASoC maintainer Mark Brown
-- Low regression risk
+- Real, reproducible hardware bug on ThinkPad X1 Carbon Gen 13
+- Complete headphone silence — serious functional regression
+- Small (11 lines), surgical, obviously correct
+- Mirrors proven `rt711_sdca_reset()` pattern
+- Maintainer-applied; Realtek CC'd
+- Buggy code present in 6.18.44; fix absent; patch applies cleanly
+- Hardware quirk/workaround category (persisted codec state)
 
 **AGAINST backport:**
-- LOW severity — resource leaks, not crash/corruption/security/deadlock
-- Niche hardware (RK3328 embedded boards only)
-- Unbind path rarely exercised in production
-- No user reports, syzbot, or stable nomination
-- Successful-probe GPIO hold is functionally intentional until unbind
+- Narrow hardware scope (RT712 VA, specific reboot path)
+- Not a crash/security/corruption/deadlock
+- No multi-user reports or syzbot
+- No explicit stable nomination or Tested-by
 
-**Unresolved:** No stable-list discussion found; no independent Tested-
-by.
+**Unresolved:** Exact kernel version when rt712-sdca driver first landed
+(history in this tree is merge-heavy), but driver and buggy code are
+confirmed present in 6.18.44.
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — standard devm pattern;
-   maintainer committed; no test reports
-2. Fixes a real bug? **PASS** — verified GPIO and clock resource leaks
-3. Important issue? **BORDERLINE PASS** — resource leaks, not
-   crash/corruption; LOW-MEDIUM severity
-4. Small and contained? **PASS** — 1 file, 54 lines touched, net −28
-5. No new features/APIs? **PASS** — uses existing devm helpers
-6. Can apply to local tree? **PASS** — clean apply verified
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — mirrors rt711-sdca; author
+   reproduced on real hardware; maintainer applied.
+2. Fixes real bug? **PASS** — silent headphone after Windows→Linux warm
+   reboot.
+3. Important issue? **PASS** — complete audio loss on affected hardware
+   (hardware quirk exception applies).
+4. Small and contained? **PASS** — 11 lines, 1 file.
+5. No new features/APIs? **PASS** — internal reset helper only.
+6. Can apply to local tree? **PASS** — cherry-pick auto-merged; all
+   symbols/constants present.
 
-### Step 9.3: Exception Categories
-**Record:** None — not device ID, quirk, DT, build, or docs fix.
-Standard resource-lifetime bug fix.
+### Step 9.3: Exception category
+**Record:** **Hardware quirk/workaround** — codec retains invalid state
+across warm reboot; reset at init restores proper operation.
 
-### Step 9.4: Decision Rationale
+### Step 9.4: Decision rationale
 
-This is a genuine, verified resource-leak fix in a driver that has
-already required two separate stable-worthy clock-unwind patches. The
-devm conversion is the robust completion of that work: it fixes GPIO
-leaks on probe-error paths (including the `mclk` enable-failure path
-that bypasses all existing error labels) and clock/GPIO leaks on driver
-unbind. While severity is low (no crashes or data corruption), the fix
-is small, obviously correct, applies cleanly, has no dependencies, and
-carries negligible regression risk. For the 6.18.y tree where the buggy
-code is present and the required devm APIs have been available for
-years, this meets stable backport criteria.
+For **Linux 6.18.y**, the RT712-SDCA driver is present with the buggy
+`SW_CONFIG1` hibernation gating. Users of ThinkPad X1 Carbon Gen 13 (and
+similar Lunar Lake + RT712 VA machines) who dual-boot can lose headphone
+output entirely. The fix is minimal, follows an established pattern in
+the same subsystem, applies cleanly, and carries very low regression
+risk. This fits stable's hardware workaround exception and addresses a
+real user-visible functional bug.
 
 ---
 
 ## Verification
 
-- **[Phase 1]** Parsed commit message from user query and `git show
-  0cf3489bba9ad`
-- **[Phase 1]** Tags: Signed-off-by (author + Mark Brown), Link to
-  patch; no Fixes/Reported-by/Cc:stable
-- **[Phase 2]** Read current `rk3328_codec.c` lines 422–529; confirmed
-  manual GPIO/clock management and missing `.remove`
-- **[Phase 2]** Verified no `gpiod_put` in file (`grep` returned no
-  matches)
-- **[Phase 2]** Verified `mclk` enable failure path (lines 468–470)
-  returns without cleanup
-- **[Phase 3]** `git blame -L 451,514`: GPIO from `87d12d5545fa7`
-  (2020), clocks from `c32759035ad24` (2018)
-- **[Phase 3]** `git log --oneline` on file: found prior fixes
-  `d14eece945a80`, `35a9b000b24d5` in tree
-- **[Phase 3]** `git show d14eece945a80`, `35a9b000b24d5`: confirmed
-  prior clock-unwind fixes
-- **[Phase 3]** `git merge-base --is-ancestor 7ef9651e9792b HEAD`:
-  `devm_clk_get_enabled` available — YES
-- **[Phase 3]** `grep devm_gpiod_get_optional
-  include/linux/gpio/consumer.h`: API present
-- **[Phase 4]** `b4 dig -c 0cf3489bba9ad`: found lore URL
-- **[Phase 4]** `b4 dig -c 0cf3489bba9ad -w`: Mark Brown, Liam Girdwood,
-  Takashi Iwai CC'd
-- **[Phase 4]** `b4 dig -c 0cf3489bba9ad -a`: v1 only, no revisions
-- **[Phase 4]** `b4 dig -c 0cf3489bba9ad -m /tmp/rk3328_devm.mbox`:
-  thread has patch only, no review replies
-- **[Phase 4]** UNVERIFIED: lore stable archive search (bot protection
-  on web)
-- **[Phase 5]** `grep` count: 90+ ASoC codec files use
-  devm_clk_get_enabled/devm_gpiod_get_optional
-- **[Phase 5]** Confirmed `rk3328_codec_driver` has `.probe` only, no
-  `.remove` (lines 523–529)
-- **[Phase 6]** `git describe HEAD`: v6.18.44; `make kernelversion`
-  equivalent: 6.18.44
-- **[Phase 6]** `git merge-base --is-ancestor 0cf3489bba9ad HEAD`:
-  commit NOT in HEAD
-- **[Phase 6]** `git format-patch -1 0cf3489bba9ad | git apply --check`:
-  clean apply
-- **[Phase 6]** Read current probe code: buggy pattern confirmed present
-- **[Phase 8]** Failure mode: resource leaks, severity LOW-MEDIUM
+- **[Phase 1]** Parsed subject, tags, body from provided commit message
+  and `git show 4c9854ad3cdc7`
+- **[Phase 2]** Diff analysis: +11 lines in `rt712-sdca.c`; new
+  `rt712_sdca_reset()`, call in `rt712_sdca_io_init()`
+- **[Phase 3]** `git blame -L 1741,1747`: hibernation gating present
+  since 6.18 merge
+- **[Phase 3]** `git merge-base --is-ancestor 4c9854ad3cdc7 HEAD` → exit
+  1 (fix not in tree)
+- **[Phase 3]** `git show 4c9854ad3cdc7^:...` confirmed parent has buggy
+  SW_CONFIG1 gating without reset
+- **[Phase 4]** `b4 dig -c 4c9854ad3cdc7`: found lore thread; v1 only;
+  Mark Brown applied
+- **[Phase 4]** `b4 dig -w`: CC list includes Mark Brown, Realtek
+  engineers, ASoC maintainers
+- **[Phase 4]** Read `/tmp/rt712-reset.mbx`: no NAKs, no stable
+  nomination, maintainer applied
+- **[Phase 5]** `grep rt712_sdca_io_init`: caller in `rt712-sdca-
+  sdw.c:187` on SDW attach
+- **[Phase 5]** Read `rt711-sdca.c:75-82,1619`: confirmed identical
+  reset pattern
+- **[Phase 6]** `git describe HEAD` + Makefile: tree is 6.18.44
+- **[Phase 6]** `grep rt712_sdca_reset` in tree: no matches (fix absent)
+- **[Phase 6]** Read `rt712-sdca.c:1728-1909`: confirmed buggy code
+  paths present
+- **[Phase 6]** `grep RT712_HIDDEN_REG_SW_RESET` in `rt712-sdca.h`:
+  constants defined, unused
+- **[Phase 6]** `git cherry-pick --no-commit 4c9854ad3cdc7`: auto-merged
+  cleanly
+- **[Phase 7]** `grep` in `sound/soc/intel/`: LNL ACPI tables reference
+  RT712 hardware
+- **[Phase 8]** Assessed severity: functional audio loss, not kernel
+  crash
 
-**YES**The analysis is done for **Linux 6.18.44**.
+**YES****Result:** The RT712-SDCA headphone fix (`4c9854ad3cdc7`) should
+be backported to this **6.18.44** tree.
 
-**Commit:** `ASoC: codecs: rk3328: Use managed GPIO and clock helpers`
-(`0cf3489bba9ad` on master, not yet in this tree)
-
-**Finding:** The current `rk3328_platform_probe()` has real resource
-leaks: the mute GPIO from `gpiod_get_optional()` is never released,
-clocks stay enabled on unbind (no platform `.remove`), and the `mclk`
-enable-failure path still leaks the GPIO. The patch fixes this with
-`devm_gpiod_get_optional()` and `devm_clk_get_enabled()`, applies
-cleanly, and only depends on APIs already in 6.18.
-
-**Verdict:** Backport to this tree.
+On ThinkPad X1 Carbon Gen 13 (RT712 VA), warm reboot from Windows can
+leave the codec in a bad state and skip calibration, so the 3.5mm jack
+stays silent. The patch is small (11 lines), mirrors the existing
+`rt711_sdca_reset()` pattern, applies cleanly here, and the buggy code
+is present without the fix yet.
 
 **YES**
 
- sound/soc/codecs/rk3328_codec.c | 54 ++++++++-------------------------
- 1 file changed, 13 insertions(+), 41 deletions(-)
+ sound/soc/codecs/rt712-sdca.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/sound/soc/codecs/rk3328_codec.c b/sound/soc/codecs/rk3328_codec.c
-index 9697aefc6e030..5871b5a819757 100644
---- a/sound/soc/codecs/rk3328_codec.c
-+++ b/sound/soc/codecs/rk3328_codec.c
-@@ -425,7 +425,6 @@ static int rk3328_platform_probe(struct platform_device *pdev)
- 	struct rk3328_codec_priv *rk3328;
- 	struct regmap *grf;
- 	void __iomem *base;
--	int ret = 0;
- 
- 	rk3328 = devm_kzalloc(&pdev->dev, sizeof(*rk3328), GFP_KERNEL);
- 	if (!rk3328)
-@@ -441,14 +440,13 @@ static int rk3328_platform_probe(struct platform_device *pdev)
- 	regmap_write(grf, RK3328_GRF_SOC_CON2,
- 		     (BIT(14) << 16 | BIT(14)));
- 
--	ret = of_property_read_u32(rk3328_np, "spk-depop-time-ms",
--				   &rk3328->spk_depop_time);
--	if (ret < 0) {
-+	if (of_property_read_u32(rk3328_np, "spk-depop-time-ms",
-+				 &rk3328->spk_depop_time)) {
- 		dev_info(&pdev->dev, "spk_depop_time use default value.\n");
- 		rk3328->spk_depop_time = 200;
+diff --git a/sound/soc/codecs/rt712-sdca.c b/sound/soc/codecs/rt712-sdca.c
+index 0ebaae426e73b..d8b40663fa92f 100644
+--- a/sound/soc/codecs/rt712-sdca.c
++++ b/sound/soc/codecs/rt712-sdca.c
+@@ -1849,6 +1849,15 @@ static void rt712_sdca_vb_io_init(struct rt712_sdca_priv *rt712)
  	}
- 
--	rk3328->mute = gpiod_get_optional(&pdev->dev, "mute", GPIOD_OUT_HIGH);
-+	rk3328->mute = devm_gpiod_get_optional(&pdev->dev, "mute", GPIOD_OUT_HIGH);
- 	if (IS_ERR(rk3328->mute))
- 		return PTR_ERR(rk3328->mute);
- 	/*
-@@ -461,57 +459,31 @@ static int rk3328_platform_probe(struct platform_device *pdev)
- 		regmap_write(grf, RK3328_GRF_SOC_CON10, BIT(17) | BIT(1));
- 	}
- 
--	rk3328->mclk = devm_clk_get(&pdev->dev, "mclk");
-+	rk3328->mclk = devm_clk_get_enabled(&pdev->dev, "mclk");
- 	if (IS_ERR(rk3328->mclk))
- 		return PTR_ERR(rk3328->mclk);
- 
--	ret = clk_prepare_enable(rk3328->mclk);
--	if (ret)
--		return ret;
- 	clk_set_rate(rk3328->mclk, INITIAL_FREQ);
- 
--	rk3328->pclk = devm_clk_get(&pdev->dev, "pclk");
--	if (IS_ERR(rk3328->pclk)) {
--		dev_err(&pdev->dev, "can't get acodec pclk\n");
--		ret = PTR_ERR(rk3328->pclk);
--		goto err_unprepare_mclk;
--	}
--
--	ret = clk_prepare_enable(rk3328->pclk);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "failed to enable acodec pclk\n");
--		goto err_unprepare_mclk;
--	}
-+	rk3328->pclk = devm_clk_get_enabled(&pdev->dev, "pclk");
-+	if (IS_ERR(rk3328->pclk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(rk3328->pclk),
-+				     "failed to get or enable acodec pclk\n");
- 
- 	base = devm_platform_ioremap_resource(pdev, 0);
--	if (IS_ERR(base)) {
--		ret = PTR_ERR(base);
--		goto err_unprepare_pclk;
--	}
-+	if (IS_ERR(base))
-+		return PTR_ERR(base);
- 
- 	rk3328->regmap = devm_regmap_init_mmio(&pdev->dev, base,
- 					       &rk3328_codec_regmap_config);
--	if (IS_ERR(rk3328->regmap)) {
--		ret = PTR_ERR(rk3328->regmap);
--		goto err_unprepare_pclk;
--	}
-+	if (IS_ERR(rk3328->regmap))
-+		return PTR_ERR(rk3328->regmap);
- 
- 	platform_set_drvdata(pdev, rk3328);
- 
--	ret = devm_snd_soc_register_component(&pdev->dev, &soc_codec_rk3328,
-+	return devm_snd_soc_register_component(&pdev->dev, &soc_codec_rk3328,
- 					       rk3328_dai,
- 					       ARRAY_SIZE(rk3328_dai));
--	if (ret)
--		goto err_unprepare_pclk;
--
--	return 0;
--
--err_unprepare_pclk:
--	clk_disable_unprepare(rk3328->pclk);
--
--err_unprepare_mclk:
--	clk_disable_unprepare(rk3328->mclk);
--	return ret;
  }
  
- static const struct of_device_id rk3328_codec_of_match[] __maybe_unused = {
++static void rt712_sdca_reset(struct rt712_sdca_priv *rt712)
++{
++	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_REG,
++		RT712_PARA_VERB_CTL, RT712_HIDDEN_REG_SW_RESET,
++		RT712_HIDDEN_REG_SW_RESET);
++	rt712_sdca_index_update_bits(rt712, RT712_VENDOR_HDA_CTL,
++		RT712_HDA_LEGACY_RESET_CTL, 0x1, 0x1);
++}
++
+ int rt712_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ {
+ 	struct rt712_sdca_priv *rt712 = dev_get_drvdata(dev);
+@@ -1876,6 +1885,8 @@ int rt712_sdca_io_init(struct device *dev, struct sdw_slave *slave)
+ 
+ 	pm_runtime_get_noresume(&slave->dev);
+ 
++	rt712_sdca_reset(rt712);
++
+ 	rt712_sdca_index_read(rt712, RT712_VENDOR_REG, RT712_JD_PRODUCT_NUM, &val);
+ 	rt712->hw_id = (val & 0xf000) >> 12;
+ 	rt712->version_id = (val & 0x0f00) >> 8;
 -- 
 2.53.0
 
