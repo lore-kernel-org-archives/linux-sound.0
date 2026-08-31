@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5014A3D35
-	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 16:38:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B815B4A3D50
+	for <linux-sound@vger.kernel.org>; Mon, 31 Aug 2026 16:38:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788194329; cv=none; b=GzSqr245LzGLiWs5sdcI4JBUhP9dprckh+hTo1hLuCwPs5HyRgSNzLuawXsLuGCJhRgZOq/3KHrrvQgk5iPFPF4H0Unl3CUfsEIR1d/dvcd1mpzHqp9yDdcjFr/POsgJ/99tMLtifrLmFkQWAgypGzSSY5/pGpJSWI384Ee+8Gs=
+	t=1788194331; cv=none; b=PmJQpBWrvBLyUlpx8TnqSnZNjkDi40qjVVJqX4iMidH4AYhksmB2m1CrXDFT8AWlMB20NWxMwWb6QVGF4JmyzSd0vHF4ZsQrYcJfj42SnbgREOgNT/wZDsJwRSrfErLoSdSIPNzQBagnV0+0MBlMFfEvBFksAqz/nzogoZq0/ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788194329; c=relaxed/simple;
-	bh=mdV92BFhfePLIjGpyX+kBx0c4+nev+O8zhp7OxvYnbQ=;
+	s=arc-20240116; t=1788194331; c=relaxed/simple;
+	bh=SGunQbOgPSfsFFCjeLeKafRdJhRxD0pG1NnhY5oXKZM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LwwVc9bCQLHDeRhzYIytllB5eAr8n0T6JdUnUkED0w3yfMbY3CuBysz2jPPoUy1plMIFJEHXLEhopkA4rfxMnR9rDf4aReaMX6OqsvmHixv6m014IBu7E7+uKjXtr0KoNljVke2bSSQicDte98az/rog5zU0NSY1djKqcXiaIrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKiU6lst; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=ZBP3hIrBrOSRQpZzsP9vwZFDKZXoFyXgBhMTBVs/1TnGlG7mRFw4e6AktAJRtu3tN7y1JnvU+v8oHy0B0bAHISCCjmjcQBfTeR5MuzW53ULiB34XdnLdqKYG7zPyaPD5mW9zWiALC4WDWcxGf8NlZZra8Z38HArqSre1LrwU2HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeIJzDk2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKiU6lst"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeIJzDk2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788194328; x=1819730328;
+  t=1788194330; x=1819730330;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mdV92BFhfePLIjGpyX+kBx0c4+nev+O8zhp7OxvYnbQ=;
-  b=KKiU6lstqAjzGKWejkG/VKzoHLEEjzQuMZ7WtgUShv9ULlIUXRELLWqA
-   DiqIzbS8dfKgVsrw7/MOxQwwUhr7VhLDShGJ49v2AtUJj1NqG/a/fQQYF
-   DrQHp/5HN3173L/E73FMf45ymM1MOPBUYLr1+qmGzMLVKMZqyTIBFylOd
-   PWbubS8QpuWod+bpfaV1Qo4HDTYpd4BkMgtzo6/ZkZOGNiGINrHeY9rZK
-   wDtwWm27oFtatrfoZJQYApjhqWHXE2qRGHJZ7SiSGayOJs6jtWjYkIh2f
-   VXWUaVh9FIlbIf7Q2kreD83BO2DI1LnBkcfu5XLIJSH1YTm2lN1fv/0RC
-   g==;
-X-CSE-ConnectionGUID: PD4Rl7wTSempjd4YSqJQmA==
-X-CSE-MsgGUID: V36Xjd+ATCWxC2d1r99WwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="111379764"
+  bh=SGunQbOgPSfsFFCjeLeKafRdJhRxD0pG1NnhY5oXKZM=;
+  b=eeIJzDk2Uv+J+mrZQ2ixGPvlNxFuN6enLvr+1ZSFtM44M/BsCZxmkksb
+   z3uooFJR4rRi0nMAXmZGusdXpAzbdqjP2vvjSNzBP69foQf4xuRt8Rd8B
+   FSYe+jnQS+1b20LJAgZ0qb5/rDF8ux7DTdjVM4Q+rW5dR4UX/RRixQ+SS
+   TFVeT8djIBAXG+5L8Dna2XgJ18/OpMb2/AkSsIalf5SSvyw1y+VM+4W0g
+   eX+I6+XQNW8RpuWih4PN9DTe/7ffJflMibkes8nq82cjQAU20WtpCS535
+   /qZy+ZnMtVW2mxq/Kh9eQ5BPO/LoAba173ja7Xxs8TRnYO1YEzg6WJUO2
+   A==;
+X-CSE-ConnectionGUID: GVboXCiETEaTQEqAvh+7UA==
+X-CSE-MsgGUID: uEgOHY6QSIKXR2zRIekQOQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="111379774"
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="111379764"
+   d="scan'208";a="111379774"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 09:38:48 -0700
-X-CSE-ConnectionGUID: vmXEo4m8Si2ViR1hW5Fw8A==
-X-CSE-MsgGUID: hzk8kDuKTNi2d4DpxCxb+g==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 09:38:49 -0700
+X-CSE-ConnectionGUID: lZ923VTpSPCFfCoStU03eQ==
+X-CSE-MsgGUID: w7Q4x87lS8+omHrh39+xSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
-   d="scan'208";a="274111899"
+   d="scan'208";a="274111912"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Aug 2026 09:38:46 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 31 Aug 2026 09:38:48 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v3 09/10] ASoC: Intel: avs: Refactor and fix init_config access
-Date: Mon, 31 Aug 2026 18:42:32 +0200
-Message-Id: <20260831164233.1487766-10-cezary.rojewski@intel.com>
+Subject: [PATCH v3 10/10] ASoC: Intel: avs: hda: Constrain MSBs on startup
+Date: Mon, 31 Aug 2026 18:42:33 +0200
+Message-Id: <20260831164233.1487766-11-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260831164233.1487766-1-cezary.rojewski@intel.com>
 References: <20260831164233.1487766-1-cezary.rojewski@intel.com>
@@ -64,153 +64,50 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Existing code accesses enties found in ->init_configs array through
-indexes that are part of ->config_ids array.  Those two are limited by:
-->num_init_configs and ->num_config_ids respectively.  Using ID larger
-or equal to ->num_init_configs leads to out-of-bounds access:
+Front-end DAI links are marked as dynamic for the card thus the
+__soc_pcm_open() function never gets to soc_pcm_apply_msb() step which
+performs MSBs-constraint rule. Do that on link startup instead.
 
-avs_path_module_send_init_configs()
-loop:
-	(...) &acomp->tplg->init_configs[ids[i]]
-					^ out-of-bounds candidate
-
-Rather than adding another if-statement, refactor the code.  There is no
-need to store the IDs, have a list of pointers to actual config-entries
-instead.  As the verification of ->init_config entries does not differ from
-verification of other types that are part of the topology.c file, simply
-reuse the code.
-
-Fixes: 8a49ef789b1b ("ASoC: Intel: avs: Send initial config to module if present")
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/path.c     | 11 +++-----
- sound/soc/intel/avs/topology.c | 47 +++++++++++++++++++---------------
- sound/soc/intel/avs/topology.h |  4 +--
- 3 files changed, 32 insertions(+), 30 deletions(-)
+ sound/soc/intel/avs/boards/hdaudio.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index 213d6ecdd7cc..a8a2b3484338 100644
---- a/sound/soc/intel/avs/path.c
-+++ b/sound/soc/intel/avs/path.c
-@@ -836,15 +836,10 @@ static int avs_path_module_type_create(struct avs_dev *adev, struct avs_path_mod
+diff --git a/sound/soc/intel/avs/boards/hdaudio.c b/sound/soc/intel/avs/boards/hdaudio.c
+index 03cfd91202d3..2e15a293298d 100644
+--- a/sound/soc/intel/avs/boards/hdaudio.c
++++ b/sound/soc/intel/avs/boards/hdaudio.c
+@@ -15,6 +15,22 @@
+ #include "../../../codecs/hda.h"
+ #include "../utils.h"
  
- static int avs_path_module_send_init_configs(struct avs_dev *adev, struct avs_path_module *mod)
- {
--	struct avs_soc_component *acomp;
-+	struct avs_tplg_module *template = mod->template;
- 
--	acomp = to_avs_soc_component(mod->template->owner->owner->owner->owner->comp);
--
--	u32 num_ids = mod->template->num_config_ids;
--	u32 *ids = mod->template->config_ids;
--
--	for (int i = 0; i < num_ids; i++) {
--		struct avs_tplg_init_config *config = &acomp->tplg->init_configs[ids[i]];
-+	for (int i = 0; i < template->num_init_configs; i++) {
-+		struct avs_tplg_init_config *config = template->init_configs[i];
- 		size_t len = config->length;
- 		void *data = config->data;
- 		u32 param = config->param;
-diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
-index d5e641c73faf..5d70be63a4a7 100644
---- a/sound/soc/intel/avs/topology.c
-+++ b/sound/soc/intel/avs/topology.c
-@@ -350,6 +350,7 @@ AVS_DEFINE_PTR_PARSER(modcfg_base, struct avs_tplg_modcfg_base, modcfgs_base);
- AVS_DEFINE_PTR_PARSER(modcfg_ext, struct avs_tplg_modcfg_ext, modcfgs_ext);
- AVS_DEFINE_PTR_PARSER(pplcfg, struct avs_tplg_pplcfg, pplcfgs);
- AVS_DEFINE_PTR_PARSER(binding, struct avs_tplg_binding, bindings);
-+AVS_DEFINE_PTR_PARSER(init_config, struct avs_tplg_init_config, init_configs);
- AVS_DEFINE_PTR_PARSER(nhlt_config, struct avs_tplg_nhlt_config, nhlt_configs);
- 
- static int
-@@ -1198,7 +1199,7 @@ static const struct avs_tplg_token_parser module_parsers[] = {
- 	{
- 		.token = AVS_TKN_MOD_INIT_CONFIG_NUM_IDS_U32,
- 		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
--		.offset = offsetof(struct avs_tplg_module, num_config_ids),
-+		.offset = offsetof(struct avs_tplg_module, num_init_configs),
- 		.parse = avs_parse_byte_token,
- 	},
- 	{
-@@ -1214,10 +1215,32 @@ static const struct avs_tplg_token_parser init_config_parsers[] = {
- 		.token = AVS_TKN_MOD_INIT_CONFIG_ID_U32,
- 		.type = SND_SOC_TPLG_TUPLE_TYPE_WORD,
- 		.offset = 0,
--		.parse = avs_parse_word_token,
-+		.parse = avs_parse_init_config_ptr,
- 	},
- };
- 
-+static int avs_tplg_module_init_configs(struct snd_soc_component *comp,
-+					struct avs_tplg_module *module,
-+					struct snd_soc_tplg_vendor_array *tuples, u32 block_size)
++static int avs_link_startup(struct snd_pcm_substream *substream)
 +{
-+	struct avs_tplg_init_config **cfgs;
-+	int ret;
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	const struct snd_soc_pcm_stream *stream_info;
++	struct snd_soc_dai *codec_dai;
 +
-+	if (!module->num_init_configs)
-+		return -EINVAL;
++	codec_dai = snd_soc_rtd_to_codec(rtd, 0);
++	stream_info = snd_soc_dai_get_pcm_stream(codec_dai, substream->stream);
 +
-+	cfgs = devm_kcalloc(comp->card->dev, module->num_init_configs, sizeof(*cfgs), GFP_KERNEL);
-+	if (!cfgs)
-+		return -ENOMEM;
-+
-+	ret = parse_dictionary_entries(comp, tuples, block_size, cfgs, module->num_init_configs,
-+				       sizeof(*cfgs), AVS_TKN_MOD_INIT_CONFIG_ID_U32,
-+				       init_config_parsers, ARRAY_SIZE(init_config_parsers));
-+	if (!ret)
-+		module->init_configs = cfgs;
-+	return ret;
++	return snd_pcm_hw_constraint_msbits(substream->runtime, 0, 0, stream_info->sig_bits);
 +}
 +
- static struct avs_tplg_module *
- avs_tplg_module_create(struct snd_soc_component *comp, struct avs_tplg_pipeline *owner,
- 		       struct snd_soc_tplg_vendor_array *tuples, u32 block_size)
-@@ -1244,27 +1267,11 @@ avs_tplg_module_create(struct snd_soc_component *comp, struct avs_tplg_pipeline
- 	block_size -= esize;
- 	/* Parse trailing config ids if any. */
- 	if (block_size) {
--		u32 num_config_ids = module->num_config_ids;
--		u32 *config_ids;
--
--		if (!num_config_ids)
--			return ERR_PTR(-EINVAL);
--
--		config_ids = devm_kcalloc(comp->card->dev, num_config_ids, sizeof(*config_ids),
--					   GFP_KERNEL);
--		if (!config_ids)
--			return ERR_PTR(-ENOMEM);
--
- 		tuples = avs_tplg_vendor_array_at(tuples, esize);
--		ret = parse_dictionary_entries(comp, tuples, block_size,
--					       config_ids, num_config_ids, sizeof(*config_ids),
--					       AVS_TKN_MOD_INIT_CONFIG_ID_U32,
--					       init_config_parsers,
--					       ARRAY_SIZE(init_config_parsers));
++static const struct snd_soc_ops avs_link_ops = {
++	.startup = avs_link_startup,
++};
 +
-+		ret = avs_tplg_module_init_configs(comp, module, tuples, block_size);
- 		if (ret)
- 			return ERR_PTR(ret);
--
--		module->config_ids = config_ids;
- 	}
+ static int avs_create_dai_links(struct device *dev, struct hda_codec *codec, int pcm_count,
+ 				struct snd_soc_dai_link **links)
+ {
+@@ -43,6 +59,7 @@ static int avs_create_dai_links(struct device *dev, struct hda_codec *codec, int
+ 		dl[i].platforms = platform;
+ 		dl[i].num_platforms = 1;
+ 		dl[i].ignore_pmdown_time = 1;
++		dl[i].ops = &avs_link_ops;
  
- 	module->owner = owner;
-diff --git a/sound/soc/intel/avs/topology.h b/sound/soc/intel/avs/topology.h
-index b5799c994b88..189984ce7b51 100644
---- a/sound/soc/intel/avs/topology.h
-+++ b/sound/soc/intel/avs/topology.h
-@@ -221,8 +221,8 @@ struct avs_tplg_module {
- 	u8 domain;
- 	struct avs_tplg_modcfg_ext *cfg_ext;
- 	u32 ctl_id;
--	u32 num_config_ids;
--	u32 *config_ids;
-+	u32 num_init_configs;
-+	struct avs_tplg_init_config **init_configs;
- 	struct avs_tplg_nhlt_config *nhlt_config;
- 
- 	struct avs_tplg_pipeline *owner;
+ 		dl[i].codecs = devm_kzalloc(dev, sizeof(*dl->codecs), GFP_KERNEL);
+ 		dl[i].cpus = devm_kzalloc(dev, sizeof(*dl->cpus), GFP_KERNEL);
 -- 
 2.34.1
 
