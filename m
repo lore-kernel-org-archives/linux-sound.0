@@ -1,45 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7CC51357A;
-	Mon, 31 Aug 2026 13:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC714A49A1;
+	Mon, 31 Aug 2026 13:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788183794; cv=none; b=grY0iEo/WwXhWJH1LSs7tsNTdEeIFwZTRj1EWsp346M2HaQ/8x2ti8z0nnBnHZfbwiJXoMxqaRPDANMk5qVBOm4TBodzMRCVrifLANl92Q48wOLfPbDRFxuQlK+/oKdusSJg+vww7darPT8xzwptcqE6MjpRy09olcsjQZQL6yM=
+	t=1788183814; cv=none; b=hxpfpa3dMG0Pm7XdIQKX4r2w+hxtZ7Wx+8PzdmZl9bHThDebioujbHl+Iejo0cmSyNVnYwlg/5O9iBhpuKRc2l+PUdMgCyV3kEcx7prlIbPChF5q5hZBusAwWQgOOiitc55A+nxMPniiIivh0+iK8PAx+i5kWI4R9BOVNqoR/2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788183794; c=relaxed/simple;
-	bh=/rIdjbJQJ2GqgvAPCrKrONnisAn2PgNEyGeY7gU/TkM=;
+	s=arc-20240116; t=1788183814; c=relaxed/simple;
+	bh=sVyr8foC6HYCvrx8Cque7mZDWQkB3fi3pNelniF0yfU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PP70XhDKeXELTUcTBedM707aNeytj1sYXH2HIjF0q1vlcnIv7r6N+dvRrSQei4j4ZHTfKLEzeo+z5/pyQti11uU4k4WFrSjsLdLtCWjdGmjXfEy2q+CgmkDJrfcY3ozCWr4NJbQpTKX9cUq1b4Xb9mdQ4mUph2WV2ndohPx29Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=difC8JgR; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=GhNZpXgT1hx/gtqQ6Iv+YDuyaZSys0SkjlRg6QIg+7+gKPbRZmW7Ggx8fTRUF0xEJyzFAq2oLh9k42qlbgz52l8fcoOp2A2BDXU0XSvDPfpF2jVGQqqGNQruRZhh8R6nNyeuYjQpmr7pyuhepEP6wdEtQHcHyh/uTuoFy1eW3N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cHcWbP2R; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="difC8JgR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BDD91F00A3E;
-	Mon, 31 Aug 2026 13:43:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cHcWbP2R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 174D51F000E9;
+	Mon, 31 Aug 2026 13:43:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788183791;
-	bh=b8I3FUHEB/WhSDy/hA5h+jKXW4Z/GC1dh52DxZX49jE=;
+	s=k20260515; t=1788183810;
+	bh=rOKKgiKls+fMCU+mwXra6P3qUafxkT02LD6xOduHgow=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=difC8JgRZHFFULL2ZuRI8AAjAQL49oyr/5IyO/qcwbMxsjWIbv3pmXS4/wdZbX3wR
-	 TjHK1FL/suQmkWfrZtexSKkAVS1wPEkPThaaV1PBrm4ahIqs4c+x31deZyeHK/p2BB
-	 lqP1RsQV0ffj4qS+PO2vQbv1RCjFrnb2p7G9841fzt9CTn6N3O6w3s2aQcpWl3yXv6
-	 ptIl/DSgX3XGX9rvEIMUzLpf1ny9EztQDfoFuRU1LeJRefM5W+kSAPE7XoFZIkrZ3Y
-	 M0izGDYgX9NNULbGNlKSjn2yneJFEXHzg6Qq85a2XjII2ypPIEs0vLFDLXorLTPK8R
-	 iTVHIwV4OvBKg==
+	b=cHcWbP2RKD4r7kOfLHXlktKuMg6JH09cvIXd7/Ln0Asnlne4gwRO0fFdFi5JMOkLB
+	 Z0WD1V99wN2aaJNNiTQAgP783YYqPrNSDL4A2U+Cnp9mUJstJJl+I/Q3fwwGWt3YZV
+	 4Sgk6+ei9o19ndq5JzLbAuhJe9cfN4RGna0uq7IGfeLPq8freCSufJ2OU1Py4DU6Ya
+	 KB+plFussJl0xcS2P8x8JZwXlVpDzgQUX7VxqW+FbAKvkq15NwPKZBlUbKCbpYCGMp
+	 tAr8u27/x/Eb5/TntWjuLroAIn5+ZlCl0XFIvm+qfhb4iE7dBYuCNAs8TsRrKRbRE6
+	 zN1lujZx4fPXA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Moritz Baron <moritz.baron@stud.uni-hannover.de>,
-	Felix Aljoscha Schnuell <felix.aljoscha.schnuell@stud.uni-hannover.de>,
+Cc: Xu Rao <raoxu@uniontech.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-6.6] ALSA: hda/realtek: Add quirk for Lenovo Yoga Pro 7 14IRH8
-Date: Mon, 31 Aug 2026 09:25:34 -0400
-Message-ID: <20260831133314.4125787-306-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] ALSA: usb-audio: qcom: Free QMI handle
+Date: Mon, 31 Aug 2026 09:25:46 -0400
+Message-ID: <20260831133314.4125787-318-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
 References: <20260831133314.4125787-1-sashal@kernel.org>
@@ -55,82 +54,71 @@ X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Moritz Baron <moritz.baron@stud.uni-hannover.de>
+From: Xu Rao <raoxu@uniontech.com>
 
-[ Upstream commit 853e10ec445984e99b3c7f6375f4e185614b842a ]
+[ Upstream commit b8ff1f3578f83dedf5feb796d97a3f67c1bea58f ]
 
-The Lenovo Yoga Pro 7 14IRH8 (ALC287 codec, subsystem ID 0x17aa:0x38b1)
-has bass speakers on pin 0x17 that are not routed through a DAC with
-volume control. This causes the bass speakers to play at full volume
-regardless of the volume slider position.
+qc_usb_audio_probe() allocates svc->uaudio_svc_hdl separately from the
+uaudio_qmi_svc object.
 
-Apply ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN which corrects the DAC
-routing for pin 0x17, enabling proper volume control. This is the same
-fix used for other Yoga Pro 7 models with identical audio topology
-(14APH8, 14AHP9, 14ASP10, 14IAH10).
+qmi_handle_release() releases the resources owned by an initialized QMI
+handle, but does not free the memory containing the struct qmi_handle
+itself. The probe error path and the remove path currently release the
+handle and then free svc, losing the last pointer to the separately
+allocated handle.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=217949
+This leaks one struct qmi_handle on each affected probe unwind and on
+each successful probe/remove cycle.
 
-Co-developed-by: Felix Aljoscha Schnuell <felix.aljoscha.schnuell@stud.uni-hannover.de>
-Signed-off-by: Felix Aljoscha Schnuell <felix.aljoscha.schnuell@stud.uni-hannover.de>
-Signed-off-by: Moritz Baron <moritz.baron@stud.uni-hannover.de>
-Link: https://patch.msgid.link/20260609141648.60608-1-moritz.baron@stud.uni-hannover.de
+Free the handle after qmi_handle_release() in both paths.
+
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+Link: https://patch.msgid.link/9108EC860F3F87DF+20260623071308.2549182-1-raoxu@uniontech.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
-(attempt 1)...
-Retry attempt 1...
-Connection lost, reconnecting to https://agentn.us.api5.cursor.sh
-(attempt 2)...
-Retry attempt 2...
-# Stable Backport Analysis: ALSA: hda/realtek: Add quirk for Lenovo Yoga
-Pro 7 14IRH8
+# Stable Backport Analysis: ALSA: usb-audio: qcom: Free QMI handle
 
-**Local tree:** Linux 6.18.44 (`v6.18.44`)
-**Commit under review:** `853e10ec44598` (on `master`, not yet in this
-tree)
+**Local tree:** `v6.18.44` (Linux 6.18.y stable)
+**Upstream fix:** `b8ff1f3578f83` (on `master`, not yet in this tree)
 
 ---
 
 ## PHASE 1: COMMIT MESSAGE FORENSICS
 
-### Step 1.1: Subject Line
-**Record:** `[ALSA: hda/realtek] [add] quirk for Lenovo Yoga Pro 7
-14IRH8 — maps codec SSID 0x17aa:0x38b1 to existing bass-speaker DAC
-routing fixup`
+### Step 1.1: Subject line
+**Record:** `[ALSA: usb-audio: qcom]` `[Free]` — free a separately
+allocated QMI handle that was leaked on probe error and remove paths.
 
 ### Step 1.2: Tags
 **Record:**
-- **Link:** https://bugzilla.kernel.org/show_bug.cgi?id=217949
-- **Link:**
-  https://patch.msgid.link/20260609141648.60608-1-moritz.baron@stud.uni-
-  hannover.de
-- **Co-developed-by:** Felix Aljoscha Schnuell
-- **Signed-off-by:** Felix Aljoscha Schnuell, Moritz Baron, Takashi Iwai
-- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Cc: stable
-- Notable: Bugzilla link documents a long-standing user report; Takashi
-  Iwai (ALSA maintainer) merged it
+- **Signed-off-by:** Xu Rao `<raoxu@uniontech.com>` (author)
+- **Signed-off-by:** Takashi Iwai `<tiwai@suse.de>` (ALSA maintainer,
+  committer)
+- **Link:** https://patch.msgid.link/9108EC860F3F87DF+20260623071308.254
+  9182-1-raoxu@uniontech.com
+- No `Fixes:`, `Reported-by:`, `Tested-by:`, `Reviewed-by:`, `Cc:
+  stable@vger.kernel.org`
+- Notable: maintainer (Takashi Iwai) applied and committed the patch
 
-### Step 1.3: Body Analysis
+### Step 1.3: Body analysis
 **Record:**
-- **Bug:** Lenovo Yoga Pro 7 14IRH8 (ALC287, codec SSID `0x17aa:0x38b1`)
-  routes bass speakers on pin 0x17 through a DAC without volume control
-- **Symptom:** Bass speakers play at full volume regardless of the
-  volume slider
-- **Root cause:** Wrong quirk match — machine shares PCI SSID
-  `0x17aa:0x3852` with Yoga 7 14ITL5 and gets the wrong `SND_PCI_QUIRK`
-  fixup
-- **Fix:** Add `HDA_CODEC_QUIRK` for codec SSID `0x17aa:0x38b1` applying
-  existing `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`
-- **Version info:** None explicit; hardware is a 2023-era Lenovo laptop
+- **Bug:** `svc->uaudio_svc_hdl` is `kzalloc()`'d separately from
+  `struct uaudio_qmi_svc`. `qmi_handle_release()` tears down handle
+  resources but does not free the `struct qmi_handle` memory. After
+  `kfree(svc)`, the handle allocation is orphaned.
+- **Symptom:** One `struct qmi_handle` leaked per probe unwind (error
+  path) and per successful probe/remove cycle.
+- **Root cause:** Mismatch between separate allocation and release API
+  semantics (`qmi_handle_release()` vs. `kfree()`).
+- **Version info:** None stated; bug present since driver introduction.
 
-### Step 1.4: Hidden Bug Fix Detection
-**Record:** Not disguised — this is an explicit hardware quirk fix for
-broken audio volume control, not cleanup or optimization.
+### Step 1.4: Hidden bug fix?
+**Record:** No — this is an explicit, straightforward memory-leak fix,
+not disguised cleanup.
 
 ---
 
@@ -138,316 +126,337 @@ broken audio volume control, not cleanup or optimization.
 
 ### Step 2.1: Inventory
 **Record:**
-- **Files:** `sound/hda/codecs/realtek/alc269.c` (+4 lines, 0 removed)
-- **Functions modified:** `alc269_fixup_tbl[]` static table only
-- **Scope:** Single-file, surgical quirk-table addition
+- **File:** `sound/usb/qcom/qc_audio_offload.c` (+2 / -0)
+- **Functions:** `qc_usb_audio_probe()`, `qc_usb_audio_remove()`
+- **Scope:** Single-file, surgical fix (2 lines)
 
-### Step 2.2: Code Flow Change
-**Record:**
-- **Before:** Yoga Pro 7 14IRH8 matches `SND_PCI_QUIRK(0x17aa, 0x3852,
-  "Lenovo Yoga 7 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS)` — wrong
-  fixup for this hardware
-- **After:** `HDA_CODEC_QUIRK(0x17aa, 0x38b1, ...)` is inserted *before*
-  the `0x3852` PCI quirk; codec SSID match takes precedence, applying
-  `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN`
-- **Path affected:** Codec probe/init during audio driver load (every
-  boot for affected hardware)
+### Step 2.2: Code flow per hunk
 
-### Step 2.3: Bug Mechanism
-**Record:**
-- **Category:** Hardware workaround / logic correctness fix
-- **Mechanism:** Incorrect pin-to-DAC routing leaves bass speakers on
-  DAC 0x06/0x08 (no volume control). The existing fixup function
-  `alc287_fixup_yoga9_14iap7_bass_spk_pin()` reroutes pin 0x17 to DAC
-  0x02/0x03 with proper volume control
+**Hunk 1 — `release_qmi` error path in `qc_usb_audio_probe()`:**
+- **Before:** `qmi_handle_release(svc->uaudio_svc_hdl);` → `kfree(svc);`
+  — handle struct leaked
+- **After:** `qmi_handle_release()` then `kfree(svc->uaudio_svc_hdl)`
+  then `kfree(svc)`
 
-### Step 2.4: Fix Quality
-**Record:**
-- **Quality:** High — reuses a fixup already applied to Yoga Pro 7
-  14APH8, 14AHP9, 14ASP10, 14IAH10, and others in this tree
-- **Pattern:** Identical to `b98ecc1c60ad7` (Yoga Pro 7 14IMH9 / codec
-  SSID `0x38cf` vs shared PCI SSID `0x3847`)
-- **Regression risk:** Very low — only affects machines with codec SSID
-  `0x17aa:0x38b1`; `HDA_CODEC_QUIRK` uses `match_codec_ssid = true`
+**Hunk 2 — `qc_usb_audio_remove()`:**
+- **Before:** Same leak on every module remove
+- **After:** `kfree(svc->uaudio_svc_hdl)` added after
+  `qmi_handle_release()`
+
+### Step 2.3: Bug mechanism
+**Record:** **Category:** Error-path / resource leak (missing `kfree` on
+separately allocated object).
+**Mechanism:** `uaudio_svc_hdl` is a pointer field in `struct
+uaudio_qmi_svc` pointing to a separately `kzalloc()`'d `struct
+qmi_handle`. `qmi_handle_release()` (documented and implemented in
+`drivers/soc/qcom/qmi_interface.c`) frees internal resources
+(`recv_buf`, service list entries, etc.) but explicitly does not free
+the handle struct itself — callers must do that, as
+`drivers/slimbus/qcom-ngd-ctrl.c` does with `devm_kfree()` after
+`qmi_handle_release()`.
+
+### Step 2.4: Fix quality
+**Record:** Obviously correct; mirrors established QMI caller pattern.
+Minimal, no API changes. No meaningful regression risk — `kfree()` is
+called after full `qmi_handle_release()` and before `kfree(svc)`.
 
 ---
 
 ## PHASE 3: GIT HISTORY INVESTIGATION
 
 ### Step 3.1: Blame
-**Record:**
-- Insertion point lines 7435–7438 blame to `b98ecc1c60ad7` (14IMH9
-  HDA_CODEC_QUIRK, 2026-03-31) and `aeeb85f26c3bb` (Realtek driver
-  split, 2025-07-09) for the `0x3852` PCI quirk
-- The mis-match condition (shared PCI SSID) has existed since the
-  Realtek driver split; the 14IRH8-specific codec quirk was never added
-  until `853e10ec44598`
+**Record:** Buggy allocation introduced in `326bbc348298a` ("ALSA: usb-
+audio: qcom: Introduce QC USB SND offloading support", 2025-04-11).
+Driver is an ancestor of `v6.18` — bug has been present since the driver
+landed in this release series.
 
-### Step 3.2: Fixes: Tag
-**Record:** No Fixes: tag present — N/A
+### Step 3.2: Fixes: tag
+**Record:** N/A — no `Fixes:` tag present.
 
-### Step 3.3: Related File History
-**Record:**
-- `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` fixup function present since
-  `aeeb85f26c3bb` (driver split)
-- Related quirk additions already in v6.18.44: `634e5e1e06f5c` (14APH8),
-  `ad22051afdad9` (14AHP9), `8d70503068510` (14ASP10), `0fa5713ac7a19`
-  (14IAH10), `b98ecc1c60ad7` (14IMH9)
-- `HDA_CODEC_QUIRK` macro present since at least `e656ef8698e28` in this
-  file
-- Standalone patch — not part of a series
+### Step 3.3: Related file history
+**Record:** Recent related fixes in this file from the same
+author/subsystem:
+- `1467ca02ddac4` — "Free sideband sg_table objects" (same leak pattern,
+  already in this 6.18.y tree)
+- `e7144a2b3ac8d` — error-path cleanup in `qc_usb_audio_probe()`
+- `5c7ef5001292d` — xfer_buf leak fix
 
-### Step 3.4: Author Context
-**Record:** Moritz Baron / Felix Schnuell are student contributors;
-patch merged by Takashi Iwai. No prior commits from these authors in
-this tree's realtek path.
+Standalone fix; original submission was `[PATCH 1/3]` but v2 was applied
+as a single patch by Takashi Iwai with no series dependencies.
+
+### Step 3.4: Author context
+**Record:** Xu Rao (Uniontech) — active contributor to Qualcomm USB
+audio offload leak fixes. Takashi Iwai (ALSA maintainer) committed the
+fix.
 
 ### Step 3.5: Dependencies
-**Record:**
-- **Dependency:** `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` fixup —
-  **present** in v6.18.44
-- **Dependency:** `HDA_CODEC_QUIRK` macro — **present** in
-  `sound/hda/common/hda_local.h`
-- **Dependency:** `alc287_fixup_yoga9_14iap7_bass_spk_pin()` —
-  **present** since driver split
-- Can apply standalone: **yes** (`git apply --check` succeeded on HEAD)
+**Record:** None. Applies standalone; no prerequisite commits or
+structural assumptions beyond code already in this tree.
 
 ---
 
 ## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
 
-### Step 4.1: Original Discussion
+### Step 4.1: Original discussion
 **Record:**
-- `b4 dig -c 853e10ec44598` →
-  https://patch.msgid.link/20260609141648.60608-1-moritz.baron@stud.uni-
-  hannover.de
-- `b4 dig -a`: single revision found (no v2/v3 series)
-- Lore page blocked by bot protection (Anubis) — could not read thread
-  content
+- **URL:** https://lists.openwall.net/linux-kernel/2026/06/23/512
+- **Series:** Originally `[PATCH 1/3]`; v2 submitted as single patch
+- **Maintainer response:** Takashi Iwai: "Applied now. Thanks."
+  (https://lists.openwall.net/linux-kernel/2026/06/25/1001)
+- No NAKs, no stable nomination in thread
+- `b4 dig -c` could not be used (commit not in current HEAD); lore found
+  via openwall mirror
 
 ### Step 4.2: Reviewers
-**Record:** `b4 dig -w` returned only the patch URL; full recipient list
-not retrieved. Takashi Iwai Signed-off-by confirms maintainer
-acceptance.
+**Record:** CC'd: Jaroslav Kysela, Takashi Iwai, Greg Kroah-Hartman,
+Kees Cook, linux-sound, linux-kernel. Appropriate subsystem maintainers
+included.
 
-### Step 4.3: Bug Report
-**Record:**
-- Bugzilla #217949: "Yoga Pro 7 14IRH8 volume controls broken" — filed
-  2023-09-25, attachment from reporter
-- Severity from reporter perspective: broken volume control on a
-  commercial laptop
-- Long-standing issue (nearly 3 years before fix)
+### Step 4.3: Bug report
+**Record:** No syzbot, kmemleak, or user bug report. Found via code
+review.
 
-### Step 4.4: Related Patches
-**Record:** Same fixup family used across multiple Yoga Pro 7 models;
-14IMH9 (`b98ecc1c60ad7`) uses identical `HDA_CODEC_QUIRK` pattern for
-shared PCI SSID and is already in v6.18.44
+### Step 4.4: Related patches
+**Record:** Patches 2/3 of the original series were not committed with
+this fix; the applied upstream commit is self-contained.
 
-### Step 4.5: Stable List History
-**Record:** Not searched on lore stable list (lore blocked). However,
-the original 14APH8 quirk (`634e5e1e06f5c`) explicitly had `Cc:
-stable@vger.kernel.org`, establishing precedent for this fixup family in
-stable.
+### Step 4.5: Stable list
+**Record:** No stable-specific discussion found for this exact patch.
 
 ---
 
 ## PHASE 5: CODE SEMANTIC ANALYSIS
 
-### Step 5.1: Key Functions
-**Record:** `alc269_fixup_tbl[]` (modified);
-`alc287_fixup_yoga9_14iap7_bass_spk_pin()` (existing, invoked via fixup
-chain)
+### Step 5.1: Key functions
+**Record:** `qc_usb_audio_probe()`, `qc_usb_audio_remove()`
 
 ### Step 5.2: Callers
-**Record:** `snd_hda_pick_fixup(codec, alc269_fixup_models,
-alc269_fixup_tbl, alc269_fixups)` at line 8471, called during Realtek
-ALC269 codec probe (`alc269_probe` path). Triggered on every boot when
-HDA codec is enumerated.
+**Record:** Registered as `.probe`/`.remove` in
+`qc_usb_audio_offload_drv` auxiliary driver table. Invoked during
+auxiliary device probe/remove on Qualcomm platforms with
+`CONFIG_SND_USB_AUDIO_QMI`.
 
 ### Step 5.3: Callees
-**Record:** Selected fixup invokes
-`alc287_fixup_yoga9_14iap7_bass_spk_pin()` which sets pin config for
-0x17 and connects it to DAC 0x02/0x03 (DACs with volume control),
-chained to `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK`
+**Record:** `kzalloc()`, `qmi_handle_init()`, `qmi_add_server()`,
+`qmi_handle_release()`, `kfree()`, `qc_usb_audio_cleanup_qmi_dev()`,
+`snd_usb_register_platform_ops()`
 
 ### Step 5.4: Reachability
-**Record:** Triggered automatically during kernel audio subsystem init
-on affected hardware — no userspace action required beyond normal boot.
-Every Yoga Pro 7 14IRH8 owner is affected.
+**Record:** Triggered at module/auxiliary-device load and unload on
+systems with Qualcomm USB audio offload enabled
+(`CONFIG_SND_USB_AUDIO_QMI=y/m`, requires `QCOM_QMI_HELPERS`,
+`USB_XHCI_SIDEBAND`). Not userspace-triggerable directly, but hits every
+probe error and every clean module remove.
 
-### Step 5.5: Similar Patterns
-**Record:** At least 6 other models in this tree use
-`ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` with the same bass-speaker
-topology; 14IMH9 uses the same `HDA_CODEC_QUIRK` pattern for PCI SSID
-collision.
+### Step 5.5: Similar patterns
+**Record:** `drivers/slimbus/qcom-ngd-ctrl.c` correctly calls
+`qfree`/`devm_kfree` after `qmi_handle_release()`. Same author's
+`1467ca02ddac4` fixed an analogous separate-allocation leak in this same
+driver.
 
 ---
 
 ## PHASE 6: CROSS-REFERENCING AGAINST LOCAL TREE
 
-### Step 6.1: Buggy Code Exists?
-**Record:** **Yes.** `SND_PCI_QUIRK(0x17aa, 0x3852, ...)` at line 7438
-matches Yoga Pro 7 14IRH8 via shared PCI SSID. Codec SSID `0x38b1` quirk
-is **missing** from v6.18.44.
+### Step 6.1: Buggy code present?
+**Record:** **YES.** Current tree at
+`sound/usb/qcom/qc_audio_offload.c`:
+- Line 1968: separate `kzalloc(sizeof(*svc->uaudio_svc_hdl))`
+- Lines 1996–1998: `release_qmi` path missing
+  `kfree(svc->uaudio_svc_hdl)`
+- Lines 2020–2021: `remove` path missing `kfree(svc->uaudio_svc_hdl)`
+- Upstream fix `b8ff1f3578f83` is **not** an ancestor of HEAD (`git
+  merge-base --is-ancestor` exit 1)
 
-### Step 6.2: Backport Complications
-**Record:** **Clean apply.** `git format-patch -1 853e10ec44598 --stdout
-| git apply --check` succeeded with exit code 0 on HEAD. Line numbers
-differ (master ~7741 vs stable ~7438) but context matches.
+### Step 6.2: Backport difficulty
+**Record:** Clean apply expected — the `release_qmi` and `remove` paths
+match upstream context exactly.
 
-### Step 6.3: Related Fixes Already Present?
-**Record:** The fixup function and enum exist; sibling model quirks
-exist; only the `0x38b1` table entry is missing. No duplicate fix found.
+### Step 6.3: Related fixes already present?
+**Record:** `1467ca02ddac4` (sg_table leak, same driver/author) is
+already in this tree — strong precedent that this class of leak fix is
+accepted for 6.18.y.
 
 ---
 
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+## PHASE 7: SUBSYSTEM CONTEXT
 
-### Step 7.1: Subsystem Criticality
-**Record:** `sound/hda/codecs/realtek/` — IMPORTANT (affects laptop
-users with this specific hardware, not universal core path)
+### Step 7.1: Subsystem criticality
+**Record:** **IMPORTANT** — ALSA USB audio driver, Qualcomm-specific
+offload path. Not core kernel, but affects real hardware (Snapdragon
+laptops/tablets with USB XHCI sideband audio offload).
 
-### Step 7.2: Subsystem Activity
-**Record:** Actively maintained — multiple realtek quirk commits in
-v6.18.44 history (TongFang, HP, Lenovo, ASUS, Samsung additions in
-recent weeks)
+### Step 7.2: Activity
+**Record:** Actively maintained; multiple bug fixes in 2025–2026
+including several leak fixes backported to stable.
 
 ---
 
 ## PHASE 8: IMPACT AND RISK ASSESSMENT
 
-### Step 8.1: Who Is Affected
-**Record:** Lenovo Yoga Pro 7 14IRH8 owners with ALC287 codec
-(CONFIG_SND_HDA_INTEL / SOF audio stack). Driver-specific, single-
-machine SSID.
+### Step 8.1: Who is affected
+**Record:** Users with `CONFIG_SND_USB_AUDIO_QMI` on Qualcomm platforms
+using USB audio offload. Config-specific, platform-specific — not
+universal.
 
-### Step 8.2: Trigger Conditions
-**Record:** Every boot with default audio driver — automatic codec
-probe. Common/likely for all owners of this model. Not security-
-relevant; not userspace-triggerable beyond normal audio use.
-
-### Step 8.3: Failure Mode Severity
-**Record:** Bass speakers at uncontrollable full volume — **MEDIUM**
-functional bug. Not a crash, deadlock, or data corruption, but makes
-volume control effectively broken for bass output. Poor UX and
-potentially harmful at high volume.
-
-### Step 8.4: Risk-Benefit
+### Step 8.2: Trigger conditions
 **Record:**
-- **Benefit:** HIGH for affected users (restores working volume control
-  using proven fixup)
-- **Risk:** VERY LOW (4-line table entry, codec-SSID-specific, pattern
-  validated on 6+ sibling models)
-- **Ratio:** Strongly favors backport
+- Every successful driver remove (module unload, device unbind)
+- Probe error after QMI init when `snd_usb_register_platform_ops()`
+  fails
+- Unprivileged users cannot directly trigger; requires platform hardware
+  and driver loaded
+- **Likelihood:** Once per boot cycle on affected systems (remove path);
+  probe error path is rarer
+
+### Step 8.3: Failure mode severity
+**Record:** **LOW** — small memory leak (~one `struct qmi_handle` per
+cycle, roughly a few hundred bytes including embedded lists already
+freed by `qmi_handle_release()`). No crash, corruption, deadlock, or
+security exposure. Would require repeated load/unload to accumulate
+meaningfully.
+
+### Step 8.4: Risk-benefit
+**Record:**
+- **Benefit:** Eliminates a real, confirmed leak on an established code
+  path; aligns with prior stable backports in this exact driver
+- **Risk:** Very low — 2-line addition, established QMI pattern, no
+  behavior change beyond freeing leaked memory
+- **Ratio:** Moderate benefit for niche users, very low risk; precedent
+  in this tree tips toward inclusion
 
 ---
 
 ## PHASE 9: FINAL SYNTHESIS
 
-### Step 9.1: Evidence Summary
+### Step 9.1: Evidence summary
 
 **FOR backport:**
-- Real hardware bug with Bugzilla report since 2023
-- Hardware quirk exception category (explicitly allowed for stable)
-- Tiny, surgical 4-line change
-- Reuses existing, battle-tested fixup already in tree
-- Identical pattern to 14IMH9 quirk already backported to v6.18.44
-- Merged by ALSA maintainer Takashi Iwai
-- Applies cleanly to v6.18.44
-- All prerequisites present in this tree
+- Real, verified memory leak in code present since driver introduction
+- Obviously correct 2-line fix matching QMI subsystem conventions
+- Driver exists in v6.18; bug affects this tree
+- Same author fixed an analogous leak (`1467ca02ddac4`) already
+  backported to this 6.18.y tree by Greg Kroah-Hartman
+- ALSA maintainer reviewed and applied upstream
+- Clean apply, no dependencies
 
 **AGAINST backport:**
-- Not a crash/security/corruption issue (severity is functional audio)
-- Lore discussion content unverified (bot protection)
+- Low severity (small leak, not crash/corruption/security)
+- Niche hardware/config (`CONFIG_SND_USB_AUDIO_QMI`)
+- No fuzzer or user reports
+- Strict reading of "important issue" criterion is borderline for pure
+  leaks
 
-**Unresolved:**
-- No reviewer thread content (lore blocked)
-- No explicit Tested-by on this specific machine in commit message
+**Unresolved:** Whether patches 2/3 of the original `[PATCH 1/3]` series
+were ever needed — upstream committed only this standalone fix.
 
-Neither unresolved item affects the technical decision.
+### Step 9.2: Stable rules checklist
+1. Obviously correct and tested? **PASS** — correct by inspection;
+   maintainer-applied upstream
+2. Fixes a real bug? **PASS** — confirmed memory leak
+3. Important issue? **PASS (borderline)** — not crash/security, but real
+   leak on remove path; same class already accepted in this tree
+4. Small and contained? **PASS** — 2 lines, 1 file
+5. No new features/APIs? **PASS**
+6. Can apply to local tree? **PASS** — buggy code present, clean apply
+   expected
 
-### Step 9.2: Stable Rules Checklist
-1. Obviously correct and tested? **PASS** — reuses fixup proven on
-   identical topology across multiple Yoga Pro 7 models; maintainer
-   merged
-2. Fixes a real bug? **PASS** — Bugzilla #217949, volume control non-
-   functional
-3. Important issue? **PASS** — broken volume control on commercial
-   laptop (MEDIUM severity, real user impact)
-4. Small and contained? **PASS** — 4 lines, 1 file
-5. No new features/APIs? **PASS** — quirk table entry only
-6. Can apply to local tree? **PASS** — clean apply, all dependencies
-   present
+### Step 9.3: Exception categories
+**Record:** None directly (not device ID, quirk, DT, build, or docs).
+Standard resource-leak fix.
 
-### Step 9.3: Exception Category
-**Record:** Hardware quirk/workaround (audio codec quirk for broken DAC
-routing on specific Lenovo laptop)
+### Step 9.4: Decision rationale
 
-### Step 9.4: Decision Rationale
+This is a genuine memory leak on the driver remove path and probe error
+path in `sound/usb/qcom/qc_audio_offload.c`, present in Linux 6.18 since
+the Qualcomm USB audio offload driver was introduced. The fix is
+minimal, obviously correct, and follows the established QMI handle
+lifecycle pattern used elsewhere in the Qualcomm subsystem.
 
-This commit adds a codec-SSID-specific quirk entry so the Lenovo Yoga
-Pro 7 14IRH8 gets the correct bass-speaker DAC routing fixup instead of
-the wrong PCI-SSID-based quirk shared with Yoga 7 14ITL5. The fix is
-minimal, self-contained, uses infrastructure already present in Linux
-6.18.44, follows an established pattern already applied to sibling
-models in this tree, and addresses a documented multi-year user bug. It
-fits squarely within the hardware-quirk exception for stable kernels.
+While the leak severity is low (one small allocation per module cycle on
+niche hardware), this 6.18.y tree has already accepted a nearly
+identical class of fix from the same author in the same file
+(`1467ca02ddac4` — "Free sideband sg_table objects"). That establishes
+clear precedent that resource-leak fixes in this driver are appropriate
+for 6.18.y stable. The fix is not yet in the local tree (`b8ff1f3578f83`
+is on `master` only) and should be backported.
 
 ---
 
 ## Verification
 
-- [Phase 1] Parsed subject, tags, body from commit `853e10ec44598`
-- [Phase 1] Bugzilla #217949 confirmed: "Yoga Pro 7 14IRH8 volume
-  controls broken" (2023-09-25)
-- [Phase 2] Diff: +4 lines in `alc269_fixup_tbl[]`, adds
-  `HDA_CODEC_QUIRK(0x17aa, 0x38b1, ...)`
-- [Phase 2] Read `alc287_fixup_yoga9_14iap7_bass_spk_pin()` at lines
-  3408–3423 — reroutes pin 0x17 to DACs with volume control
-- [Phase 3] `git describe HEAD` → v6.18.44; Makefile VERSION 6.18.44
-- [Phase 3] `git merge-base --is-ancestor 853e10ec44598 HEAD` → exit 1
-  (commit NOT in current tree)
-- [Phase 3] `git blame -L 7435,7440` → 14IMH9 quirk at 7435, 0x3852 PCI
-  quirk since driver split
-- [Phase 3] `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` present since
-  `aeeb85f26c3bb`
-- [Phase 3] Related quirk commits in tree: `634e5e1e06f5c`,
-  `b98ecc1c60ad7`, `0fa5713ac7a19`, etc.
-- [Phase 4] `b4 dig -c 853e10ec44598` → patch.msgid.link URL found
-- [Phase 4] `b4 dig -a` → single revision
-- [Phase 4] Lore thread fetch blocked by Anubis bot protection —
-  UNVERIFIED
-- [Phase 5] `snd_hda_pick_fixup()` call at line 8471 confirmed
-- [Phase 5] `HDA_CODEC_QUIRK` macro at `hda_local.h:314-320` with
-  `match_codec_ssid = true`
-- [Phase 6] `0x38b1` not present in tree; `0x3852` PCI quirk present at
-  line 7438
-- [Phase 6] `git format-patch ... | git apply --check` → exit 0 (clean
-  apply)
-- [Phase 6] `ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN` fixup struct at
-  lines 6255–6260 confirmed
-- [Phase 8] Failure mode: bass at full volume, severity MEDIUM
+- **[Phase 1]** Parsed subject, tags, body from provided commit message
+- **[Phase 1]** Confirmed no syzbot/Reported-by; Takashi Iwai Signed-
+  off-by present
+- **[Phase 2]** Read current `qc_audio_offload.c` lines 1957–2023: leak
+  confirmed on both paths
+- **[Phase 2]** Read `qmi_handle_release()` at
+  `drivers/soc/qcom/qmi_interface.c:687-719`: does not free `struct
+  qmi_handle` itself
+- **[Phase 2]** Read `drivers/slimbus/qcom-ngd-ctrl.c:496-508`:
+  precedent for caller freeing handle after release
+- **[Phase 3]** `git describe HEAD`: `v6.18.44`
+- **[Phase 3]** `git blame` lines 1968–2021: introduced in
+  `326bbc348298a` (2025-04-11)
+- **[Phase 3]** `git merge-base --is-ancestor 326bbc348298ab v6.18`:
+  driver in v6.18 release
+- **[Phase 3]** `git merge-base --is-ancestor b8ff1f3578f83 HEAD`: exit
+  1 — fix NOT in current tree
+- **[Phase 3]** `git show 1467ca02ddac4`: analogous leak fix already in
+  this tree (committed by Greg K-H)
+- **[Phase 4]** Fetched https://lists.openwall.net/linux-
+  kernel/2026/06/23/512: original patch submission
+- **[Phase 4]** Fetched https://lists.openwall.net/linux-
+  kernel/2026/06/25/1001: Takashi Iwai "Applied now"
+- **[Phase 4]** `b4 dig -c HEAD`: not applicable (commit not in HEAD);
+  lore accessed via openwall
+- **[Phase 5]** `grep qc_usb_audio_probe`: only auxiliary driver probe
+  entry
+- **[Phase 5]** Read `include/linux/soc/qcom/qmi.h:216-238`: `struct
+  qmi_handle` definition
+- **[Phase 6]** Confirmed buggy code at lines 1996–1998 and 2020–2021 in
+  local tree
+- **[Phase 6]** `grep kfree.*uaudio_svc_hdl` in tree: no matches — fix
+  absent
+- **[Phase 6]** Read `sound/usb/Kconfig:191-197`:
+  `CONFIG_SND_USB_AUDIO_QMI` dependencies
+- **[Phase 8]** Assessed severity as LOW leak, not crash/security
 
-**YES**
+**YES**The background checks finished and match the earlier analysis:
 
- sound/hda/codecs/realtek/alc269.c | 4 ++++
- 1 file changed, 4 insertions(+)
+- **Fix location:** `b8ff1f3578f83` ("ALSA: usb-audio: qcom: Free QMI
+  handle") is on `master` but **not** in the current `v6.18.44` tree —
+  so the leak is still present locally.
+- **Author context:** Xu Rao has several similar QMI/resource-leak fixes
+  in this area, including `1467ca02ddac4` (sideband `sg_table` leak),
+  which is already in this 6.18.y tree.
 
-diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
-index 0ef5468b0701a..c8714e59d8199 100644
---- a/sound/hda/codecs/realtek/alc269.c
-+++ b/sound/hda/codecs/realtek/alc269.c
-@@ -7437,6 +7437,10 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	HDA_CODEC_QUIRK(0x17aa, 0x38cf, "Lenovo Yoga Pro 7 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3847, "Legion 7 16ACHG6", ALC287_FIXUP_LEGION_16ACHG6),
- 	SND_PCI_QUIRK(0x17aa, 0x384a, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
-+	/* Yoga Pro 7 14IRH8 shares PCI SSID 17aa:3852 with Yoga 7 14ITL5;
-+	 * use codec SSID to distinguish them
-+	 */
-+	HDA_CODEC_QUIRK(0x17aa, 0x38b1, "Lenovo Yoga Pro 7 14IRH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3852, "Lenovo Yoga 7 14ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x3853, "Lenovo Yoga 7 15ITL5", ALC287_FIXUP_YOGA7_14ITL_SPEAKERS),
- 	SND_PCI_QUIRK(0x17aa, 0x3855, "Legion 7 16ITHG6", ALC287_FIXUP_LEGION_16ITHG6),
+That supports the **YES** backport recommendation: real leak, trivial
+fix, and precedent for the same driver in this stable series.
+
+ sound/usb/qcom/qc_audio_offload.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+index da2759f2ee866..62a57b8d171b8 100644
+--- a/sound/usb/qcom/qc_audio_offload.c
++++ b/sound/usb/qcom/qc_audio_offload.c
+@@ -1994,6 +1994,7 @@ static int qc_usb_audio_probe(struct auxiliary_device *auxdev,
+ release_qmi:
+ 	qc_usb_audio_cleanup_qmi_dev();
+ 	qmi_handle_release(svc->uaudio_svc_hdl);
++	kfree(svc->uaudio_svc_hdl);
+ free_svc:
+ 	kfree(svc);
+ 
+@@ -2018,6 +2019,7 @@ static void qc_usb_audio_remove(struct auxiliary_device *auxdev)
+ 	qc_usb_audio_cleanup_qmi_dev();
+ 
+ 	qmi_handle_release(svc->uaudio_svc_hdl);
++	kfree(svc->uaudio_svc_hdl);
+ 	kfree(svc);
+ 	uaudio_svc = NULL;
+ }
 -- 
 2.53.0
 
