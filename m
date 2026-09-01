@@ -1,66 +1,66 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039C1479881
-	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 09:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FCC479891
+	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 09:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788254008; cv=none; b=dOQ6JgJlPUN4OZbZMDxthsQMJKA70F1SQKb3jL5GoQnqJBMHdilXF97qOMqxuHfaaUBEitAmKgBveQwNyCxJ9bZYrU/qMZFIEzMe+xBkmFnyWT0bspDx8trTMjnE1q7n43bAmu7rwjo7MXhJmkJNh1K0hxFQbQvYlx6af2c4Hd4=
+	t=1788254010; cv=none; b=s4MDheKY9vsM0BBzEvzj3S184H/D5u7/d95FaEQQyAI5YFRXeWxgJ6g3m4l0R5xG8dAEHUXZq6FxakG/5myWj+8ANlWBbtSz8I8u1xpmkRVRAo16XOESA5jT3LF7GLgNtcAPKwtIDwx18aXutB1GX0IzNxsfVU1sPLFDda/s8wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788254008; c=relaxed/simple;
-	bh=5TXH4LC7ZsK53s8hTAxjUirx2sEYY+ExHWiOtAZax1E=;
+	s=arc-20240116; t=1788254010; c=relaxed/simple;
+	bh=wiy8pO7v9iI1/7qOJcZeis9iXMhYLOorLIS5PCg4eBE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rFXVwtmg0xwjTjC+jwKA8hEVHBdls3Qn1dc6/NXb6woyfBrYHAt/0Une1az3nsdCNMPOeH+b8QnRgp5mlFU56bgN+DH+xFE90uTCdPPaRI9Pe2UVMkqB/Ofnc+HNyB40PWhHbnoM3lakBHlOOZ2zz9scl4x9LxNMS3w2f3OfC18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KTVC+N+l; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version:Content-Type; b=Z+K6BevCNl3w5M0gb3QPGfDaR9k3TtnFHv9yflqC82rJ1XkwGYKcRU4mNB0DM8kMUbYGrV1a+2saZ6B08WV2LkDS1LhsePAzk+zB0w3LAQVCrT+Dj82R5imk+9zR6YJdpBCK8Z0qWYE18cmiVFBqVVr8C7CkBhDbMGxTTwGKJOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NPoU7h1V; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KTVC+N+l"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49cdc81f40eso8566195e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 01 Sep 2026 02:13:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NPoU7h1V"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-484392e3d33so1347333f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 01 Sep 2026 02:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788254005; x=1788858805; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=t6/zRLtsUSMddk2IzAgWLfFXWAC9OmiNCU9k76PvNK4=;
-        b=KTVC+N+lmN5KJcwrfqShoqBht30i/ldO42Hk4YXOyFEqc7l1KbwfwvGTc6tJGWzxO/
-         HrCw8k/KeaFULbtM/AuRJ260xcvBXFyC52LL+fxiE5+iN9C4mekdHDFze7kWZn+jeu2W
-         5bYpQM2sjkVWGAVelCuieVBmilz5n0PkTHYH7EKq2Icrk9347KORMEDHQd6n42MGmxMH
-         ZvGnpLp79fDyNrSYFhfB0GgR29y7lKY89kjP0iXQFby6PBJQDK/7o94Luht7AwGXytrE
-         Lf84/g3tpsZM3JzfB6K6c5OrLQWKzSilpWBqwjmeVYRqfUFINhaWs96RkegcHDfhL210
-         4POQ==
+        d=gmail.com; s=20251104; t=1788254006; x=1788858806; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VTk2I9UAlwFcSdMLy483yatScQNtKnIT1avRSc59jAI=;
+        b=NPoU7h1VFHs9yhF1P/3i7cfJt/00J2/eoUqyzFfqMk3K0POIMYTaxtODh0C6albeTo
+         QgMlvgduPTmQgWJ1pIns+QXYKsqaK/n+NczhcRu5Yg1MoC9kSUz89MeysgKybHhVaSqA
+         iBaySSBSnfTqRIjuwRjcc/GVtB5OQLWBiHjv4mcB7kXX31/GYhelcpirpJC46Hi0Wuob
+         x2TxA5aGaQ/QZhPRLGcm+GcT9MyMsoDBhq8Jato07Fok2hZzGiqOkOvKmhzOdnyxprxp
+         y0xgv+E+yT7k2+1RBWSukI7DlE5MQq6vcPQwJTmVdzJGOEK74PqQ9w62C22rhnq1ZjA3
+         MtUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788254005; x=1788858805;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=t6/zRLtsUSMddk2IzAgWLfFXWAC9OmiNCU9k76PvNK4=;
-        b=h9NgAHaly9dO74DvCdacw9fR50rGDPsisdY9yEhCTFX8F7V2jLAVcI1epSYjAAtz78
-         vcbA2rOxWTqI+ynBnxylE+J5mXQ9NIwEVHMC3n8X5b2uv/IKSDBsKPuxjeqcoOBxNiyt
-         DI4TrDvNbaw2OLanrq+MfS6I1Fxkvt+bFyy/QR4e87ICFgW40EcFjsMOyX84KEsXgDz8
-         gwABc0YnyMSq7v2L0oZUQFWND5jm0PgMU+aJRWL2AV+K5rw2tk3ocT4lA/FAqoANbKgJ
-         kWOcdCRr4I56/cliVZ8NjO9lRN6BH21qaRbf8rZEZC6XDEhwehQkQ2+aL++NKeu8Q8nf
-         +tGw==
-X-Forwarded-Encrypted: i=1; AHgh+RpU630d+gnqGnuPW8wtXa34j+37aySQD1EuOelkzBClZeJ80+mjByQ2GCxTKh1VDx5YBn++Jryph76XdA==@vger.kernel.org
-X-Gm-Message-State: AFuF++mA/bF3cL2cnc9VecoYYkTQHNk6XBqYz8r27obTEiocSfUHatAG
-	4pJCbJy0XabjRnnE9HKzAo+dE8sZq7C4YvbGeVfE2aftGHoSKQSjffo/
-X-Gm-Gg: AR+sD125rw3xpCN/FD0ixrOQD/+nD4rASoY7C5+bNIOjhP34JJsdaWOBtewahHUQrRr
-	G6rsdPGyjAPgqLB3jz1/fGa/fsMQGLytuFvNKkWKGa8wFO9Mi+ECbTfzG/H1WWSrn3jT2XECwdo
-	KKWON9n3hgNnUcZLWFBwIvzD1qpehXj16RJp1CDm0k+EGrlONiXs4jS55bxru5htFn8qyPycbho
-	SfJSkHeXnhYrHpJCov8ec9ApxjkMDFwvElBbW0w1WKCDdJSzWKqb6AiuMSXH1VI+cqw4peYDJCG
-	taWQru4LY6w3vbq0WAyQ9pZjzj04Mldj9MOFeKotSazuxQ6AI1EjPE0EDI0ZAOf9gBoLkOWhgpO
-	JoamRsq8HafL8teSb8byP/4g9zrgkMaWMfFt4hrqeVAMjxcHBbaBf1c5ricMrVJXd2c7hQKd+Cm
-	ZXfTrE/YeUMtseA49rA5swL3fR5eHY0i/jKZHbQupqGHX6mCx9nuMF/o7/92YMa0HXfYMYxguyo
-	TIB1RnknuQdN3p8QRCbD/6a5J2H/xqtOuVmGDFjlvriW1wrNPR//4NbTPrYnd07/GKwZ6IvaGgN
-	jvGp+LZcesYSieOZxZFn5E8SALlMxb3F1qOGpeOCbMwmgWxThug/k+v38wvxfkdEqXFDusPfQrc
-	tDQ==
-X-Received: by 2002:a05:600c:3b2a:b0:49c:cee0:e7c1 with SMTP id 5b1f17b1804b1-49cdc57d1d1mr105123535e9.16.1788254004957;
-        Tue, 01 Sep 2026 02:13:24 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788254006; x=1788858806;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VTk2I9UAlwFcSdMLy483yatScQNtKnIT1avRSc59jAI=;
+        b=mal5bDwZLolMQs5tXCOx7rdhZ54l6MS3G6nJFukCLhAhjpVKlJJQz8BgFYcr5eFX5x
+         U86Ai61H6KeT+N9sIwZAgtF2cE5uVdagThBNgzOE0KPoXwfroE2kNqx51BMs+Oqn/7Xg
+         hLWVq3H3Sf1Ff439rTwTA7NKaftNMYTAHT3K3tAMfBrz4FQ37OkdJcNZoJlELVG9ouVI
+         /Dh1yde9mqczdWClwB2JvVdH1HTa0EwVyDTK8KUZspEZYZcCbyikqh2Ynu4vRJPx+0Sy
+         RnPJrQ6Icn+16XFrNGhBrciCiiAcbnOTCqKAtSc8A1+mFYi4NjfuFgcUY7O6UZNxjO0p
+         wkKQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxwEnf44mIRutk9vw7p7ShAXSKtYkvtej4DSsqZv4hDzWhf5x/CamX7J2b+4Q3+i4oPNHQo13JrgnCl/A==@vger.kernel.org
+X-Gm-Message-State: AFuF++lnPjaxxjBAGHutBJUZzYDwVo64Cr9CAEwgCa9uCdJxkET0XELH
+	8egmloXlfx0iYtFl3sQob4QFCalBkO0fvgfm7ID3ovkDb/4lePGWiNeH
+X-Gm-Gg: AYBFou3Fb2tOPajZqxW+CUs0nN9njVqQEYzK4ap7uECJEdpfkSyCA6l0Mac+LynObZC
+	oUzO0qNaDGz0G2oaUHA0NJ/iagLNlkxg65IRL3Q1gHdGRFiw5EcEUC1gxyyMDC84dbwuTRJDf+t
+	GXgYQoW9bKPpED8xVpl+VyHsjnti5zeKmgmSOnDT9O/k7IgGYU6HiJ83d/+YQUyQgMR+wpN45yw
+	DzRBthMOUdmUGcPrfrlkSmb0r2sb8ZkM4tNz0i9G1+XA0qom81oES6d+vUlE7Dybhegx22eUNfj
+	VKiAXbXgwk8wkQjaFClLeT9G3W3LohXXW6Q3OqGgAVHaT1dIMgtA/GrTSeHor6KjyT1IdDvvdeD
+	8kjcImSIRqdtOp0KQcxF6wu0HJHE4mWEuwhk6WW0FKKTzdzUIiiNGXxZTMuZW5IgF9UbbqDDthj
+	pNdPs7xJwizxoajlZEtlSkSXensVrPvgnyZ/IquiT9lFhhAuinR1f4ZFZJmkjhG6Go3m652cSoo
+	6QfmbthlA2BFwXKysvxCY7yRb2lBpIo25oXmJ9GTTctcGFzarBTjRMlbKEOdvAXVWKaY/lZ+u6C
+	9XBmYvw4/yN33sLatkIGwn/YZkVeE7xfjwVdRF2EEVqz0/6Kuo+EvrJINFySPxoP+hw=
+X-Received: by 2002:a05:6000:3106:b0:47f:8d71:210a with SMTP id ffacd0b85a97d-482f79cf4d0mr47047548f8f.15.1788254005998;
+        Tue, 01 Sep 2026 02:13:25 -0700 (PDT)
 Received: from localhost.localdomain (dynamic-2a02-3100-a16a-7801-fd8c-4b37-36b4-e53a.310.pool.telefonica.de. [2a02:3100:a16a:7801:fd8c:4b37:36b4:e53a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48442d781bcsm3378291f8f.26.2026.09.01.02.13.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48442d781bcsm3378291f8f.26.2026.09.01.02.13.25
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 01 Sep 2026 02:13:24 -0700 (PDT)
+        Tue, 01 Sep 2026 02:13:25 -0700 (PDT)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: stable@vger.kernel.org
 Cc: Karl Mehltretter <kmehltretter@gmail.com>,
@@ -70,11 +70,12 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+5f8f3acdee1ec7a7ef7b@syzkaller.appspotmail.com,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 6.1.y 1/2] ALSA: aloop: Fix racy access at PCM trigger
-Date: Tue,  1 Sep 2026 11:13:01 +0200
-Message-Id: <20260901091302.66860-2-kmehltretter@gmail.com>
+	syzbot+8fa95c41eafbc9d2ff6f@syzkaller.appspotmail.com,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.1.y 2/2] ALSA: aloop: Fix peer runtime UAF during format-change stop
+Date: Tue,  1 Sep 2026 11:13:02 +0200
+Message-Id: <20260901091302.66860-3-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260901091302.66860-1-kmehltretter@gmail.com>
 References: <2026050445-connector-rebuff-f713@gregkh>
@@ -85,120 +86,136 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: Cássio Gabriel <cassiogabrielcontato@gmail.com>
 
-[ Upstream commit 826af7fa62e347464b1b4e0ba2fe19a92438084f ]
+[ Upstream commit e5c33cdc6f402eab8abd36ecf436b22c9d3a8aff ]
 
-The PCM trigger callback of aloop driver tries to check the PCM state
-and stop the stream of the tied substream in the corresponding cable.
-Since both check and stop operations are performed outside the cable
-lock, this may result in UAF when a program attempts to trigger
-frequently while opening/closing the tied stream, as spotted by
-fuzzers.
+loopback_check_format() may stop the capture side when playback starts
+with parameters that no longer match a running capture stream. Commit
+826af7fa62e3 ("ALSA: aloop: Fix racy access at PCM trigger") moved
+the peer lookup under cable->lock, but the actual snd_pcm_stop() still
+runs after dropping that lock.
 
-For addressing the UAF, this patch changes two things:
-- It covers the most of code in loopback_check_format() with
-  cable->lock spinlock, and add the proper NULL checks.  This avoids
-  already some racy accesses.
-- In addition, now we try to check the state of the capture PCM stream
-  that may be stopped in this function, which was the major pain point
-  leading to UAF.
+A concurrent close can clear the capture entry from cable->streams[] and
+detach or free its runtime while the playback trigger path still holds a
+stale peer substream pointer.
 
-Reported-by: syzbot+5f8f3acdee1ec7a7ef7b@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/69783ba1.050a0220.c9109.0011.GAE@google.com
-Cc: <stable@vger.kernel.org>
-Link: https://patch.msgid.link/20260203141003.116584-1-tiwai@suse.de
+Keep a per-cable count of in-flight peer stops before dropping
+cable->lock, and make free_cable() wait for those stops before
+detaching the runtime. This preserves the existing behavior while
+making the peer runtime lifetime explicit.
+
+Reported-by: syzbot+8fa95c41eafbc9d2ff6f@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=8fa95c41eafbc9d2ff6f
+Fixes: 597603d615d2 ("ALSA: introduce the snd-aloop module for the PCM loopback")
+Cc: stable@vger.kernel.org
+Suggested-by: Takashi Iwai <tiwai@suse.com>
+Signed-off-by: Cássio Gabriel <cassiogabrielcontato@gmail.com>
+Link: https://patch.msgid.link/20260424-alsa-aloop-peer-stop-uaf-v2-1-94e68101db8a@gmail.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
-[ Karl Mehltretter: dropped the access-mode comparison and notification
-  (462494565c27, e299a9fd433f, cdac6e1f7164). ]
+[ used scoped_guard(spinlock_irq) instead of guard(spinlock_irq) ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+[ Karl Mehltretter: 6.12.y commit 03f52a9c1704 applies to 6.1.y/6.6.y
+  unchanged; identical patch-id. ]
 Assisted-by: LLM
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- sound/drivers/aloop.c | 58 +++++++++++++++++++++++++------------------
- 1 file changed, 34 insertions(+), 24 deletions(-)
+ sound/drivers/aloop.c | 44 +++++++++++++++++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 14 deletions(-)
 
 diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
-index a38e602b4fc60..67bbadcec02b0 100644
+index 67bbadcec02b0..64870381d66ec 100644
 --- a/sound/drivers/aloop.c
 +++ b/sound/drivers/aloop.c
-@@ -319,35 +319,41 @@ static int loopback_snd_timer_close_cable(struct loopback_pcm *dpcm)
+@@ -98,6 +98,9 @@ struct loopback_ops {
+ struct loopback_cable {
+ 	spinlock_t lock;
+ 	struct loopback_pcm *streams[2];
++	/* in-flight peer stops running outside cable->lock */
++	atomic_t stop_count;
++	wait_queue_head_t stop_wait;
+ 	struct snd_pcm_hardware hw;
+ 	/* flags */
+ 	unsigned int valid;
+@@ -347,8 +350,11 @@ static int loopback_check_format(struct loopback_cable *cable, int stream)
+ 				return 0;
+ 			if (stream == SNDRV_PCM_STREAM_CAPTURE)
+ 				return -EIO;
+-			else if (cruntime->state == SNDRV_PCM_STATE_RUNNING)
++			else if (cruntime->state == SNDRV_PCM_STATE_RUNNING) {
++				/* close must not free the peer runtime below */
++				atomic_inc(&cable->stop_count);
+ 				stop_capture = true;
++			}
+ 		}
  
- static int loopback_check_format(struct loopback_cable *cable, int stream)
- {
-+	struct loopback_pcm *dpcm_play, *dpcm_capt;
- 	struct snd_pcm_runtime *runtime, *cruntime;
- 	struct loopback_setup *setup;
- 	struct snd_card *card;
-+	bool stop_capture = false;
- 	int check;
- 
--	if (cable->valid != CABLE_VALID_BOTH) {
--		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
--			goto __notify;
--		return 0;
--	}
--	runtime = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->
--							substream->runtime;
--	cruntime = cable->streams[SNDRV_PCM_STREAM_CAPTURE]->
--							substream->runtime;
--	check = runtime->format != cruntime->format ||
--		runtime->rate != cruntime->rate ||
--		runtime->channels != cruntime->channels;
--	if (!check)
--		return 0;
--	if (stream == SNDRV_PCM_STREAM_CAPTURE) {
--		return -EIO;
--	} else {
--		snd_pcm_stop(cable->streams[SNDRV_PCM_STREAM_CAPTURE]->
--					substream, SNDRV_PCM_STATE_DRAINING);
--	      __notify:
--		runtime = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->
--							substream->runtime;
--		setup = get_setup(cable->streams[SNDRV_PCM_STREAM_PLAYBACK]);
--		card = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->loopback->card;
-+	scoped_guard(spinlock_irqsave, &cable->lock) {
-+		dpcm_play = cable->streams[SNDRV_PCM_STREAM_PLAYBACK];
-+		dpcm_capt = cable->streams[SNDRV_PCM_STREAM_CAPTURE];
-+
-+		if (cable->valid != CABLE_VALID_BOTH) {
-+			if (stream == SNDRV_PCM_STREAM_CAPTURE || !dpcm_play)
-+				return 0;
-+		} else {
-+			if (!dpcm_play || !dpcm_capt)
-+				return -EIO;
-+			runtime = dpcm_play->substream->runtime;
-+			cruntime = dpcm_capt->substream->runtime;
-+			if (!runtime || !cruntime)
-+				return -EIO;
-+			check = runtime->format != cruntime->format ||
-+				runtime->rate != cruntime->rate ||
-+				runtime->channels != cruntime->channels;
-+			if (!check)
-+				return 0;
-+			if (stream == SNDRV_PCM_STREAM_CAPTURE)
-+				return -EIO;
-+			else if (cruntime->state == SNDRV_PCM_STATE_RUNNING)
-+				stop_capture = true;
-+		}
-+
-+		setup = get_setup(dpcm_play);
-+		card = dpcm_play->loopback->card;
-+		runtime = dpcm_play->substream->runtime;
- 		if (setup->format != runtime->format) {
- 			snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
- 							&setup->format_id);
-@@ -364,6 +370,10 @@ static int loopback_check_format(struct loopback_cable *cable, int stream)
- 			setup->channels = runtime->channels;
+ 		setup = get_setup(dpcm_play);
+@@ -371,8 +377,11 @@ static int loopback_check_format(struct loopback_cable *cable, int stream)
  		}
  	}
-+
-+	if (stop_capture)
-+		snd_pcm_stop(dpcm_capt->substream, SNDRV_PCM_STATE_DRAINING);
-+
+ 
+-	if (stop_capture)
++	if (stop_capture) {
+ 		snd_pcm_stop(dpcm_capt->substream, SNDRV_PCM_STATE_DRAINING);
++		if (atomic_dec_and_test(&cable->stop_count))
++			wake_up(&cable->stop_wait);
++	}
+ 
  	return 0;
  }
+@@ -1004,24 +1013,29 @@ static void free_cable(struct snd_pcm_substream *substream)
+ 	struct loopback *loopback = substream->private_data;
+ 	int dev = get_cable_index(substream);
+ 	struct loopback_cable *cable;
++	struct loopback_pcm *dpcm;
++	bool other_alive;
  
+ 	cable = loopback->cables[substream->number][dev];
+ 	if (!cable)
+ 		return;
+-	if (cable->streams[!substream->stream]) {
+-		/* other stream is still alive */
+-		spin_lock_irq(&cable->lock);
+-		cable->streams[substream->stream] = NULL;
+-		spin_unlock_irq(&cable->lock);
+-	} else {
+-		struct loopback_pcm *dpcm = substream->runtime->private_data;
+ 
+-		if (cable->ops && cable->ops->close_cable && dpcm)
+-			cable->ops->close_cable(dpcm);
+-		/* free the cable */
+-		loopback->cables[substream->number][dev] = NULL;
+-		kfree(cable);
++	scoped_guard(spinlock_irq, &cable->lock) {
++		cable->streams[substream->stream] = NULL;
++		other_alive = cable->streams[!substream->stream];
+ 	}
++
++	/* Pair with the stop_count increment in loopback_check_format(). */
++	wait_event(cable->stop_wait, !atomic_read(&cable->stop_count));
++	if (other_alive)
++		return;
++
++	dpcm = substream->runtime->private_data;
++	if (cable->ops && cable->ops->close_cable && dpcm)
++		cable->ops->close_cable(dpcm);
++	/* free the cable */
++	loopback->cables[substream->number][dev] = NULL;
++	kfree(cable);
+ }
+ 
+ static int loopback_jiffies_timer_open(struct loopback_pcm *dpcm)
+@@ -1216,6 +1230,8 @@ static int loopback_open(struct snd_pcm_substream *substream)
+ 			goto unlock;
+ 		}
+ 		spin_lock_init(&cable->lock);
++		atomic_set(&cable->stop_count, 0);
++		init_waitqueue_head(&cable->stop_wait);
+ 		cable->hw = loopback_pcm_hardware;
+ 		if (loopback->timer_source)
+ 			cable->ops = &loopback_snd_timer_ops;
 -- 
 2.53.0
