@@ -1,97 +1,353 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D67A478E27
-	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 14:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE92386C20;
+	Tue,  1 Sep 2026 14:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788271645; cv=none; b=PMhKa2YQc5istqhKbK/bS0LnS2OrP9wXMr7OgcPh1alPgELQtu0oLo+xMPhKGZZs9Gq5U93Sh+wBGQmk6bahkGHgz6inNxtwB+tTfAAeXiATRilZgd9tU/7MG/aAwjHZgXRB/hafamAoARsxAf7kNv/dShMMXgbVQ9aP9PD9Sm8=
+	t=1788271664; cv=none; b=FvMgg0EMVHuFizCKtIZro8GEajSw9pJiQSHYXWsSu+Lb+nNoqV56uQ3TAbpeKNz3I2EcpggubvTgPZM6IJsNcSvL7dwWIs41BJ9a4zmhcq9sZoJA2GSLQnlOBNtjoGpy3k5Lzo0Tr4hc9lXFuAluquADOwKfeXVqp8ZaJ8HX8ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788271645; c=relaxed/simple;
-	bh=8dbuh99N1XaDbBH5diUg3guiV1slhS+7uThdi0QBWkc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oLc/4grsoBwqrUaUDkAP284TqNQGHSCiQ4/0b0ji58dUUbEe/CKDW4zidBQrgpWhB3JvUQkittmGZQ/WDR739Bk92MERomR/XcWRV61INPnOThYEHMxIeNDdDm5lInMBWtDMrOOW6IcSHO5F9ISgtL3/U9LoX9+o6RgYc0nhjaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oU58bUK1; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788271664; c=relaxed/simple;
+	bh=9lbHYxaaUFdbyd42U/p4bqizcqzmLOiW9yG7pN6nJ1Q=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DXfE6ifFG4Kl1pXQjD7hKzuFaHwF0S0ohMLc1MAuFvpC++YaBwlQvsfd4xOGwqb3mSLHVuZf8+9nuYNAXFpQ3ZR2wter0scw8DBHY83o/qhV0d8SHQm29ARqNSCia3wKGViL03HYjk6YOXXENeQP9L7b4PfN+K3gZwL93LlZgCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RipTC9CF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=B3n4EX97; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yUwup2bF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kXrrKtio; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oU58bUK1"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cbee846deecso1429705a12.1
-        for <linux-sound@vger.kernel.org>; Tue, 01 Sep 2026 07:07:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788271643; x=1788876443; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=g40qfLHL0Oj8BSuCLOFYazR0XabGc98fdwfYz+rGZo0=;
-        b=oU58bUK1GcD+l+kkPUw2BMzAVYtoZonlkJ2/kQB6p8CdSrVDe3aELYYYu02czg8R8D
-         7FoyY5zbPzUhNbE/iv7k5u44FLq2vfRq4w/khnelmpxKwLKQe8t/pwhhiHcNhzbY74kz
-         Xl251cIe54UzbQ0S3S0YCNd1owwB7CO8KYvaLjhjd2VOA4jNHgJf/oWGTh28VCD4IkKs
-         YQmMIm8ylp1tHpfvK5jP6J04ajkZG6CSd3Xzl3/FAy4oBjTXGQuxvrnp0RVBdAr+2taZ
-         CVZagQjW+WCPRrYy+uVA/5t1M9CXM09SWzrggy6zA9DmTMdTIFZOXHtbYR5+frtiYmeb
-         DkcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788271643; x=1788876443;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g40qfLHL0Oj8BSuCLOFYazR0XabGc98fdwfYz+rGZo0=;
-        b=Dw8N3GF6md56OFXH5tHsAlIbBi6Q1zlaCdoigvQIHDgWQhFlCrAK6Gw0HfHf+3ldrB
-         rgJURumOprjeMeR/iUKDLMIBl9314sFrVFLvAk89fakvIWrPyBqnztldh28sHMQuZXeH
-         Q5Q4LsIDenTUaG4kyN8YnAt3MFt/fdb9PPnhHX3sX1vVTCLc6GfTES816yeGGlPCojTM
-         OXzLttjE/CwMSJgTPdqO6k2ofWIwF6p2nN+Or+T6jJuGq7EVza4xW+nzhscvcBGB7C1r
-         Y7gM4n490AElsBQeG+gjCr1Z5uuu3usB5BJYUR6JewQXvT/37qKVcMi2KwHiocqDTuTp
-         QMug==
-X-Forwarded-Encrypted: i=1; AKwUvBxw4uUMNAemAAi5HbkvFX0V9dTFF126jstjrQh3ASq5jJ3KfGmkgQUNXx9N5jOxN9UrT8l5nyGnEcBjuA==@vger.kernel.org
-X-Gm-Message-State: AFuF++lFLXS58S3ob+1IYCIykGhUX4ODz1POHip9fO1oAsfhUVZJ6/2G
-	GCUgO+jMJUPvrJClhaD9JO0WhWWOHB1TwDfKSshFAWuqD22+YDpGTIsj
-X-Gm-Gg: AYBFou0UNH4FfRHvD65tOFDGh/pPd7EXzR/WUcG4mdNSnIdPzhNtflVsj/InK2IL4gN
-	GpT9fYrxf08bWPOmjGrtX2i7Q77qYw0nKQdQhK1ozxg+LpMzFR82h5wPGP2YJlvFmb+rrRfMlKt
-	pcpLvXFRteOl0D3TsMHdbUqdPClpz4nA98hODNu70xn6QYjdHFH8YzFdafaKpoJCwlPnpD/mWOC
-	Oy5FcKVuU6sfhXgJ2AqKUA4A+Ashm038cXOv/T/ZBHd3jrJ4gYle//0SwTURS5m+5g4JUBhp9oH
-	X/0k2Z3vxyPaAsldIRYUXHMuI/bq9GzLWhp/oIMWLASPHUjIKIb1uDTwci8jBBDCpkUjkeUNwEJ
-	pNGfPf4boM8zbMe5lrfyroSEtujS+UpLLhjnVNLL8AwVAM46LHGR+wjCZQ/vyTI5/TRPuQ2mdEv
-	W3mwg9pC2xxaJdmhKhoCUHdg4ka6IJL+UfQvKtf2duIb2c9I7S6e7esPclWXp7asycC9PZ8vwWs
-	xs8esc/F4tmzdsoa6AGN1yv2iPZBYFlA7HMJKxhMY+kBHfDwM6Cdw==
-X-Received: by 2002:a17:90b:1f86:b0:396:4cbf:45a2 with SMTP id 98e67ed59e1d1-396d0ff5bb9mr56582677a91.14.1788271643256;
-        Tue, 01 Sep 2026 07:07:23 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3990d7bb9d7sm6433736a91.15.2026.09.01.07.07.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 07:07:22 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: tianchu.chen@linux.dev
-Cc: broonie@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	zhang.lyra@gmail.com,
-	linux-sound@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: Re: [PATCH] ASoC: sprd: validate compress buffer sizes against fixed allocations
-Date: Tue,  1 Sep 2026 23:07:07 +0900
-Message-ID: <20260901140707.1516083-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <4386bc53631b052c1866a91061715b009d98b04f@linux.dev>
-References: <4386bc53631b052c1866a91061715b009d98b04f@linux.dev>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RipTC9CF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="B3n4EX97";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yUwup2bF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kXrrKtio"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F17952275C;
+	Tue,  1 Sep 2026 14:07:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788271657; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsZK4jm0JzBlFSl/aTthADc9TmkYvM4civyL8fU2rLg=;
+	b=RipTC9CF9VARmxgljgYeutYJH7IWx4FNFY6E6RIlwK4iqT7Q7EFMehk0kuYEe8QxGECh4V
+	ETnf1O6N3PcT8r+J6+iyyOfVCN8+7AFPcu4Vh3grXuDltAAzzBseVVttJZ+piCmhbSKWfV
+	IVROxwaDmMU0fYK1SNFP2tikI3msqtE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788271657;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsZK4jm0JzBlFSl/aTthADc9TmkYvM4civyL8fU2rLg=;
+	b=B3n4EX97FGS1DEG/w4YZ3J7a+KauSuhjXP+6VkKeNURJYiu3IqcjsG3sLn/PEAP1tAtLpF
+	eo2Z9129D57AzfAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788271652; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsZK4jm0JzBlFSl/aTthADc9TmkYvM4civyL8fU2rLg=;
+	b=yUwup2bFrsUfXCnJfiz2BtA6ADKjaEddwfPEaFMAgYCfcHwdlzkLO8ac7nSL2J4SL6F8Ry
+	+RagxePtdEczgjLVS/vselz8jCbznDxnyfWGJy6CVSI+xjHw0/UIAFxniHzVFEM3pz+/04
+	UBzq+x9HVy1ipaB9MtrHGwDs39MFGFc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788271652;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IsZK4jm0JzBlFSl/aTthADc9TmkYvM4civyL8fU2rLg=;
+	b=kXrrKtiojBlT1c7oWWUh38aYmJBkR1jQpWlmQEpn1poKiRSnCMs4nEcI9xOdzmPYd7WPg6
+	hwTAyW/eghE+eDAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB4EC1369E;
+	Tue,  1 Sep 2026 14:07:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I3wXLSTclmpUXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 01 Sep 2026 14:07:32 +0000
+Date: Tue, 01 Sep 2026 16:07:32 +0200
+Message-ID: <878q5lcbff.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Isma=EFl?= Bahloul <i.bahloul01@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [RFC PATCH v2 1/4] ALSA: usb: add RME Babyface Pro FS driver
+ (proprietary mode) =?ISO-2022-JP?B?GyRCIT0bKEI=?= core + PCM
+In-Reply-To: <20260901090635.9208-2-i.bahloul01@gmail.com>
+References: <20260901090635.9208-1-i.bahloul01@gmail.com>
+	<20260901090635.9208-2-i.bahloul01@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,intel.com:email]
 
-On Mon, Aug 31, 2026 at 03:13:36PM +0000, Tianchu Chen wrote:
-> +	if (params->buffer.fragment_size > SPRD_COMPR_IRAM_BUF_SIZE ||
-> +	    (u64)params->buffer.fragment_size * params->buffer.fragments >
-> +	    SPRD_COMPR_AREA_BUF_SIZE)
-> +		return -EINVAL;
+On Tue, 01 Sep 2026 11:06:32 +0200,
+Ismaïl Bahloul wrote:
+> 
+> Add the core RME Babyface Pro FS driver (proprietary mode, VID
+> 0x2a39 PID 0x3fc0): USB vendor-request protocol + cold init,
+> interrupt-URB PCM streaming on interface 5, mixer-state persistence
+> across re-probes/resume, and the card lifecycle (probe/disconnect/PM/
+> module entry).
+> 
+> The control surface (mixer, front panel, DSP EQ) is stubbed here so
+> the module links; the follow-up patches in this series implement each
+> part.
+> 
+> Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
+> Assisted-by: DeepSeek V4 Flash
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202609010710.w6NVelt4-lkp@intel.com/
 
-I walked the copy path.  Stage 0 writes fragment_size in total and no
-more, so '>' against the 32K data area is exact.  '>=' would reject the
-32K the comment there calls usual.
+You don't have to put Reported-by / Closes tags here.
 
-Worth saying the overflow is reachable with the driver's own advertised
-caps, not just a hostile value.  get_caps reports max_fragment_size 128K
-and the core never enforces it.
+And, above all, please try to give some "big picture" of the design of
+the driver.  It's not clear what the stream_work does and how the
+stream numbers are managed and how they influence on what.
 
-Reviewed-by: HyeongJun An <sammiee5311@gmail.com>
+
+> diff --git a/sound/usb/babyfacepro/Makefile b/sound/usb/babyfacepro/Makefile
+> new file mode 100644
+> index 000000000..40badfd14
+> --- /dev/null
+> +++ b/sound/usb/babyfacepro/Makefile
+> @@ -0,0 +1,2 @@
+> +snd-usb-babyface-pro-y := babyfacepro.o babyfacepro-ctl.o
+> +obj-$(CONFIG_SND_USB_BABYFACE_PRO) += snd-usb-babyface-pro.o
+> diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyfacepro/babyfacepro-ctl.c
+
+SPDX tag is missing in Makefile?
+
+
+> --- /dev/null
+> +++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
+(snip)
+> +/* Crosspoint-map output order vs the master-map order — HARDWARE-
+> + * VERIFIED 2026-08-24: the block that feeds the Phones is the FIRST
+> + * crosspoint block (0x34), while the Phones master is the SECOND
+> + * (0x03E2/0x0006).  The crosspoint map lists the Phones first (the
+> + * monitor output); the master map lists AN1/2 first.  Control index =
+> + * the canonical order (AN1/2=0, PH3/4=1, ...) so the crosspoint and
+> + * master controls line up; this table maps to the register block.
+> + */
+
+Avoid non-ASCII letters as much as possible.
+LLM tends to put the too fancy letters and comment styles, e.g....
+
+> +const u8 bf_xpoint_block[6] = { 1, 0, 2, 3, 4, 5 };
+> +
+> +/* ── control-surface stubs ──────────────────────────────────────
+
+.... like the above.  Avoid the unneeded separator like this.
+
+> --- /dev/null
+> +++ b/sound/usb/babyfacepro/babyfacepro.c
+(snip)
+> +int bf_vendor_write(struct snd_usb_babyface *chip, u8 req, u16 val, u16 idx)
+> +{
+> +	return usb_control_msg_send(chip->dev, 0, req,
+> +				    USB_DIR_OUT | USB_TYPE_VENDOR |
+> +				    USB_RECIP_DEVICE,
+> +				    val, idx, NULL, 0, 1000, GFP_KERNEL);
+> +}
+> +
+> +int bf_vendor_read(struct snd_usb_babyface *chip, u8 req, u16 idx, u8 *buf)
+> +{
+> +	return usb_control_msg_recv(chip->dev, 0, req,
+> +				    USB_DIR_IN | USB_TYPE_VENDOR |
+> +				    USB_RECIP_DEVICE,
+> +				    0, idx, buf, 4, 1000, GFP_KERNEL);
+> +}
+
+Avoid magic 1000.  It's a timeout for 1000ms, so define it.
+
+> +/* The 0x16 cold-init clear covers only 0x00-0x3D — the "cross"
+> + * registers of a block (L-reg odd / R-reg even of the stereo
+> + * sources) survive from the previous session and would sum L+R into
+> + * BOTH channels of the output (mono).  Zero them explicitly: 10 odd
+> + * L-registers (5,7,…23) + 10 even R-registers (4,6,…22).
+> + */
+> +int bf_crosspoint_clear_cross(struct snd_usb_babyface *chip,
+> +			      unsigned int blk)
+> +{
+> +	int ret, k;
+> +	u16 flag;
+> +
+> +	for (k = 5; k < 24; k += 2) {
+
+Those L and R registers should be defined properly, instead of
+hard-coded magic numbers in the loop condition.
+
+> +		flag = bf_flag_cycle[chip->flag_cnt];
+> +		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
+> +		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000,
+> +				      (BF_REG_CROSS_BASE_L +
+> +				       BF_REG_CROSS_STRIDE * blk + k) | flag);
+
+This seems to be a quite often seen pattern.  Maybe it should be
+better in a helper, e.g. bf_vendor_write_cycle()?
+
+int bf_vendor_write_cycle(struct snd_usb_babyface *chip, u8 req, u16 val, u16 idx)
+{
+	u16 flag;
+
+	flag = bf_flag_cycle[chip->flag_cnt];
+	chip->flag_cnt = (chip->flag_cnt + 1) & 3;
+	return bf_vendor_write(chip, req, val, idx);
+}
+
+> +/* ── mixer-state persistence across interface re-probes ────────
+> + * A userspace client can claim the proprietary interface via usbfs
+> + * (USBDEVFS_DISCONNECT_CLAIM — seen with PipeWire grabbing the
+> + * device when a stream targets the sink, and with the TuxMix
+> + * user-space daemon's libusb).  That detaches us and the card
+> + * disappears for the duration; on release the interface re-probes.
+> + * The device keeps its registers across the detach, but our cold
+> + * init clears them — so save the mixer state at disconnect and
+> + * restore it at the next probe.
+> + */
+
+Hmm, this could be done by alsactl restore, in general, too?
+
+Though, the state save/restore could be used for the runtime PM, too,
+so it can be useful.  But it's something to be considered later.
+
+> +/* ── stream (interrupt URBs, caiaq-style) ──────────────── */
+> +
+> +static bool babyface_capture_copy(struct snd_usb_babyface *chip,
+> +				  struct snd_pcm_substream *subs,
+> +				  const u8 *data, unsigned int frames)
+> +{
+> +	struct snd_pcm_runtime *rt = subs->runtime;
+> +	unsigned int buf_frames = rt->buffer_size;
+> +	unsigned int words = chip->frame_bytes / 4;
+> +	unsigned int chans = rt->channels;
+> +	unsigned int pos, f, i;
+> +	unsigned long new_period;
+> +	bool crossed = false;
+> +	u8 *dst;
+> +
+> +	spin_lock(&chip->lock);
+> +	pos = chip->hw_ptr[SNDRV_PCM_STREAM_CAPTURE] % buf_frames;
+> +	for (f = 0; f < frames; f++) {
+> +		const __le32 *w = (const __le32 *)(data + f * chip->frame_bytes);
+> +
+> +		dst = rt->dma_area + frames_to_bytes(rt, pos);
+> +		for (i = 0; i < chans; i++) {
+> +			/* Channel map: app ch0-3 = device words 0-3 (AN1-4);
+> +			 * app ch4-9 = words 6-11 (ADAT/SPDIF); app ch10/11 =
+> +			 * words 12/13 = a FIXED-GAIN playback tap (observed
+> +			 * 2026-08-25: the playback echoes there at ~−27 dB,
+> +			 * independent of the output masters — NOT the output
+> +			 * bus; the ADAT/SPDIF range is words 6-11 only).  The
+> +			 * device words 4/5 are a fixed marker, not audio —
+> +			 * skipped.  At 96/192 kHz the frame has fewer words;
+> +			 * missing ones read as zero.
+> +			 */
+> +			static const u8 map[12] = { 0, 1, 2, 3, 6, 7, 8, 9,
+> +						   10, 11, 12, 13 };
+> +			u8 wi = i < 12 ? map[i] : 0xff;
+> +			s32 s = 0;
+> +
+> +			if (wi < words) {
+> +				/* 24-bit sample in bytes 1-3; arithmetic shift
+> +				 * sign-extends from bit 23.  S24_LE container.
+> +				 */
+> +				s = (s32)le32_to_cpu(w[wi]) >> 8;
+> +			}
+> +			put_unaligned_le32((u32)s, dst + i * 4);
+
+Why do you have to convert to S24_LE at all?
+You can use S32_LE with msbits.  That's a far more standard format,
+and even easier for user-space.
+That is, just copy the data as-is.
+
+> +static bool babyface_playback_copy(struct snd_usb_babyface *chip,
+> +				   struct snd_pcm_substream *subs,
+> +				   u8 *data, unsigned int frames)
+> +{
+> +	struct snd_pcm_runtime *rt = subs->runtime;
+> +	unsigned int buf_frames = rt->buffer_size;
+> +	unsigned int words = chip->frame_bytes / 4;
+> +	unsigned int chans = rt->channels;
+> +	unsigned int pos, f, i;
+> +	unsigned long new_period;
+> +	bool crossed = false;
+> +	const u8 *src;
+> +
+> +	spin_lock(&chip->lock);
+> +	/* Clamp to what the app has actually written: the in-flight URBs
+> +	 * (nurbs × frames_per_urb) can exceed the app ring, and without
+> +	 * this the driver advances hw_ptr past appl_ptr — the ALSA core
+> +	 * then flags a spurious XRUN on the next app interaction even
+> +	 * though the app refills on schedule (seen at period 16-128 /
+> +	 * 96-192 kHz with nurbs=16).  The device just repeats the last
+> +	 * frames (stale audio) instead of corrupting the stream state.
+> +	 * NB: subtract the unbounded counters directly — modulo arithmetic
+> +	 * is ambiguous at exact buffer multiples (appl=512, hw=0 → both
+> +	 * wrap to 0).
+> +	 */
+> +	{
+> +		snd_pcm_sframes_t data =
+> +			(snd_pcm_sframes_t)(rt->control->appl_ptr -
+> +					    chip->hw_ptr[SNDRV_PCM_STREAM_PLAYBACK]);
+> +		if (data < 0)
+> +			data = 0;
+> +		if (data > (snd_pcm_sframes_t)buf_frames)
+> +			data = (snd_pcm_sframes_t)buf_frames;
+> +		if ((unsigned int)data < frames)
+> +			frames = (unsigned int)data;
+> +	}
+
+Hmm, this sounds weird.  We can tolerate the XRUN check, but this
+doesn't look good.
+
+I stop at this point for now.
+
+
+thanks,
+
+Takashi
