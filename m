@@ -1,41 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F3F391E52;
-	Tue,  1 Sep 2026 21:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB70C3D47A7
+	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 22:43:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788296999; cv=none; b=Kig0sRSbBtokd57S1GyszIO3YJ8HFjCFQTZAemKQZ6Dt626yRkF7feQ3R9Ehhg3kXK1bNX+Z74vqkSXmcj6fKdo3CoBdzL+MUdyjibModCKizMNleo8zRDn7lseibMFQ5rcFLX7l6ThLiDjeoO5nMhPBEEIOpYznxBU184bsx6o=
+	t=1788302631; cv=none; b=tv/1iVnvlWf41qoQsLOMGU53eDQ7l5uYi1S4SrsRkcxlPbzbKsEENb8/Rp+03qc7PEWUY8V8ksUm2iYI30me9tFJGJ8VLwsdO1rofBsI4mVt1R4EQy8lU4NSXjmJ7XCjS6oEyxgTsn5RS8qYH3N8qDqWMhgo5L1AHf50iNIUxZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788296999; c=relaxed/simple;
-	bh=vMw6l7WmtT1y2WxoL4sVn9cybVODmLTkExSbW4A/PXg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Wih2Ysbi8dA0FThAHNKP+d165szO43/UAzJOQSgrv0rwOJUTUbdfdi/BSTm1TUrGI0BnVDdyCuBrw62xfRPo4DdJRrPbeZMG7hFDdCykvEZSh21BPKnsQql/rCk9zU5QKoNyD+HGmL9RTrIHLHw8MAkywILKrz35T0P0uKGCC7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LeV03l8a; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788302631; c=relaxed/simple;
+	bh=OnkHwvL0Hhw5nwcYb/ksO4Q5esMWcF1JsgkvsrX7GYQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=K2BBkSySeH3s33oECo2Ch42495dyCAXBqPE2MrGEyYcCLKDpIW0xG8NP6k1UcUQLZXzdB/uk0UmhpU6RMq0B5rEX6LtR9V+ouehqRGmVt4NvNA/KrcPdQhtHXQvGUcHT+COsDnGZbKqOETsrvsv7QQTPoLqr3qBLnX7PqnhJ7Q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hxSX8n60; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LeV03l8a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 310AD1F000E9;
-	Tue,  1 Sep 2026 21:09:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hxSX8n60"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2085E1F000E9;
+	Tue,  1 Sep 2026 22:43:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788296998;
-	bh=TUtbD5rQhJ6cYuF0PXB0UlwbuIDJDrPaRKZYsiklulg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=LeV03l8aZFOW8qlS0YQtKs+d43nBdIZxd2myeok3fttcNXcizJnKjwNXdgH66u6Lo
-	 2YLRchbeHqYRr0U/0s+clM/Zt42Y6d2tPLXpXhncs9WTYyOtYGSrBHK/dpWG7rVW2s
-	 PEMUMnvKsaX3F3EylihzwCkisP++O5nJkikI+yCFx1awLw5+RGZM2C44TxInK5ymfs
-	 uBjBVz7TCh8r8s8zQ2oIh6t98Ajfn4AxrVgQ8k8CTnLEJag7YLESJdnZKMWB+IDFbu
-	 lh6uTt4IFefGE6E11LU+gmrUw2iOOa89uySe5HPvbmYeMVm+S+8DBtxMYNUziU8n+S
-	 X26YiTX4725NA==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20260901123857.2338909-1-ckeepax@opensource.cirrus.com>
-References: <20260901123857.2338909-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: soc-ops: Clarify kernel doc for
- snd_soc_info_volsw_xs()
-Message-Id: <178828687935.33904.4202619035347939807.b4-ty@b4>
-Date: Tue, 01 Sep 2026 19:21:19 +0100
+	s=k20260515; t=1788302630;
+	bh=vTJ2gpPGz9wngNtCoGYd7szMJsXO/NTt+bKcznpzwtc=;
+	h=From:Subject:Date:To:Cc;
+	b=hxSX8n60Rlg1jKLGFS5L+wIZ9a86R5QLdbNKxZkpAEBq4+KU/ws7f/R8V2jHaFrqF
+	 xO4v0l9N9AwzXnfmAOyAZ60Z4ZHQRKji8dBFeTDXeL7SR78tFVxIDQxmD/zUMMEuuN
+	 /8X/AGv0FxkAqa2Itv53rKdMnJMPVhQMuVcvfMNP7qAm0k563yq0gBzLGktkU4mo2k
+	 WvT6QbmS42iZ/t0zpKmVn5tW+iV9IBRVq6iXF3OJLYcFCteAKx35qSi81nFMlnTxnD
+	 GviHo2Jzx0EkMx4E9mzD17NrXjgeXoJwHP85zU4ldYc4xvBZYvZEf3hzLTCWCJpr8a
+	 K7+Rk+wB6oO8w==
+From: Linus Walleij <linusw@kernel.org>
+Subject: [PATCH 0/9] ASoC: ux500: Fix MSP lifecycle, clocking and resources
+Date: Wed, 02 Sep 2026 00:43:43 +0200
+Message-Id: <20260902-ux500-msp-fixes-v1-0-da1447fd9f7b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,47 +37,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1142; i=broonie@kernel.org;
- h=from:subject:message-id; bh=vMw6l7WmtT1y2WxoL4sVn9cybVODmLTkExSbW4A/PXg=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqlz8invxoJd7IrYOiNZC/xxD8uQxTQkZVSVQQ8
- Bq4J6f/uuWJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapc/IgAKCRAk1otyXVSH
- 0NDUB/9A8W8E4URN5gO+AEeQ4C2f8Y2qYxCKZnkHMzZpoL4SOzr/jEmgLwKH9uQ3iItUlGTRkzp
- xuBZ1GooCoqAyPH8I4D76xohXv2vxxPBsEl4pWpGAgZVofue/YhUIMSnOxfvwsEX0jF+xutHZfr
- StuyNJH60PraX6yhzejM+mcPWAffSdgwN/NXsY+LGF6OUBJ8xgn5IzeCSZs3HbP0NsVvCSeIv7s
- p7Hj7Gcp1SpGMJIE9lFREW4LwDeRqyClC/a4Eg2Yyspc10I2SO/IpZFdFNa4LjY3GX3amnRGfUc
- IGjSuUyAtXxHeE9FR+ZUisQhhJkrUNspyuErJ3z7OtBCdxgS
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3LQQqAIBBA0avErBswzaiuEi3MpppFJQ5FIN09a
+ fn4/ARCkUmgLxJEuln4PDKqsgC/uWMl5DkbtNKNarXF67FK4S4BF35I0LZzbWrXTc4byFeI9Ic
+ 8DeP7fljyExNhAAAA
+X-Change-ID: 20260825-ux500-msp-fixes-58d434a9bac3
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
+X-Mailer: b4 0.14.3
 
-On Tue, 01 Sep 2026 13:38:57 +0100, Charles Keepax wrote:
-> ASoC: soc-ops: Clarify kernel doc for snd_soc_info_volsw_xs()
+Repair independent correctness problems in the DB8500 multichannel
+serial port driver. The series fixes duplex and repeated-prepare stream
+ownership, error propagation, frame and divider programming, FIFO
+watermarks, DAI validation, reset handling, and MMIO resource ownership.
+It also removes obsolete PRCMU QoS calls which are unconditional stubs.
 
-Applied to
+The register programming follows the DB8500 v2 reference manual. These
+changes are independent of the later sound-card devicetree conversion.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
+Assisted-by: LLM
+Signed-off-by: Linus Walleij <linusw@kernel.org>
+---
+Linus Walleij (9):
+      ASoC: ux500: Fix MSP stream lifecycle handling
+      ASoC: ux500: Propagate MSP setup errors
+      ASoC: ux500: Correct MSP frame and bit clock setup
+      ASoC: ux500: Validate MSP DAI configuration
+      ASoC: ux500: Deassert the MSP reset during probe
+      ASoC: ux500: Request the MSP MMIO resource
+      ASoC: ux500: Remove obsolete PRCMU QoS calls
+      ASoC: ux500: Allow repeated MSP prepare calls
+      ASoC: ux500: Program the MSP FIFO watermarks
 
-Thanks!
+ sound/soc/ux500/ux500_msp_dai.c | 189 ++++++++++++----------------
+ sound/soc/ux500/ux500_msp_dai.h |  14 +--
+ sound/soc/ux500/ux500_msp_i2s.c | 264 +++++++++++++++++++++++++++-------------
+ sound/soc/ux500/ux500_msp_i2s.h |  12 +-
+ 4 files changed, 271 insertions(+), 208 deletions(-)
+---
+base-commit: 73ae59e975966d24e32926247ddb45a537ebe184
+change-id: 20260825-ux500-msp-fixes-58d434a9bac3
 
-[1/1] ASoC: soc-ops: Clarify kernel doc for snd_soc_info_volsw_xs()
-      https://git.kernel.org/broonie/sound/c/2bba6ea93e48
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Linus Walleij <linusw@kernel.org>
 
