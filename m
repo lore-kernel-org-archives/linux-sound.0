@@ -1,261 +1,141 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5122947A895
-	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 10:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98794772BA;
+	Tue,  1 Sep 2026 10:38:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788259065; cv=none; b=BD+VPKTfZTV8Os14JNLW4CpBPyXzvoqxHyOMfA/zDNJ8EJfz/FALNAImX+qfTzqrJrvFEAO0EUjIJu05zrZzdL04BwAUyZonzB8Ln4kgV+iobVNXN9j3bKmL9jb1824TmZSkSsd53bPCLlSvnd6spCTZ2FC5fWDkiBpn2gTk3K0=
+	t=1788259125; cv=none; b=Yx7gEI/SOte5LUG6kBz0Q+wD5Bn0ejDg34+OQ9UOh11c+5k4dHUnlO4kQYyvH9ReWnLd9TiAe1gTzOjVlJWePIxMExCxA+lXJNDpPA6wBCbsPQ/uo2LIlHuJMPOoktencshfK8Jm4z3TUCOz6Fhrs4Ohg69LiZwfcjmewE766VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788259065; c=relaxed/simple;
-	bh=m162thZBVhyy0wZcbSN805/eQ6omc+etcke2hS+teWU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ijv2jX8fyhTPg3MFXl2K+hZfuGQo4py55ijjNFz929IKHbDlp/ay/1HgXbHmUI2vbdQxbra698bHxunWYzt+xtXbirR2OKFl5LDzVM5pSbr4131PuGFDotzia3M0jk6UgJ57cF53H7dSLXIJLeq3CtBg1Q2AkhNHwGJNHKfOYE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qJMdTV5r; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788259125; c=relaxed/simple;
+	bh=oaWczQnGvSSnR8wxKQp6n3QLjZWe0NuB5uPQAX46yz4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IhvDElu/wmTGk/HNEO3QDubazcxXExX2TXNh7Y5P6H3r2cELt4gS6aHr1OcZVHwzfD4nnljoyTcgg/h+T7daK3Zs2Q1lp52kabkVIpfFnwM71lymVYn/4oLwp1tLdjauyM9mmtUevIBlSDTGBMyVucnLcAqivA7BtFdLntnCqfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AkhUR9yh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=n7IImI5A; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MyzPm/2C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/du5xpuh; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qJMdTV5r"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-484392e3d33so1397417f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 01 Sep 2026 03:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788259061; x=1788863861; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g8Xha6Xgz2f3NrS4LysABMsL2JkXYHN9WzLYcNH8QJU=;
-        b=qJMdTV5rTzjfTgTG4lMBiMZIMB2yaguRcePZGrqPt0yerG8GdWkREvOm7NMNOX6CN+
-         sxnJL7/yQPfdY+3L0uODuZgJ/z/d6hIM8Sq2h1vtoNrvhR06Be5uwlOYZreIjtWMUKCS
-         MSTf3m/Xsh0IH9dNEfTHrnqfW8EeSywpUa9+KAKNgXg60U8CAp5m3KpmJ2xzTtkgOsRZ
-         Wv96ORr1NcwtPUCLkaTMZzvMMXLKlApfovax5v8ErozL5OEq9go9cWP5AhpEl0VKu/MG
-         wjUJx9/rmrXh8KvQthxWbY8kK1ythIyEBicJeCIbRs51Vj+9Zqd225lrB+7vDFm/ZqFy
-         0Nqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788259061; x=1788863861;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=g8Xha6Xgz2f3NrS4LysABMsL2JkXYHN9WzLYcNH8QJU=;
-        b=WaL0hUmkWQzqJxTJRTcgUimSFkGl7TDOGa5n3cpyEXdXcPtJs8K6gnmDjDd7XrcMO5
-         ksyIzh8KnwsHuoMuWpIOYOfn/PB2Q8P4oP8pCZEjFR6XAv0+u3pxd0EQwWdMp5S5VUTa
-         h6Jt54JC/r9WthjAs/rASZgULi9nEGuJOJf8IXpLCTtVZAz6FnVMKG50msb6qpE2EJEB
-         1pp9bJp2cAkOoSbjCdn6o/7bw/jIWVEVWglBAkCnFdohs/GGQ25xWqOEva3L189qdMG/
-         H3ytwqQMZ7kBPEY3GbdZWysJ8Ci0msOgH5ledZ9qCbbr+97+7as47pLRQuc80aR3bDvq
-         gAcw==
-X-Forwarded-Encrypted: i=1; AKwUvBwterUjn0BQ4M1i/p/UrmNIMfeP1/w5ACymB5GOE70d2vQV29RV/rKmgmVNxfgSlCVMTBcZu66fqaZE7A==@vger.kernel.org
-X-Gm-Message-State: AFuF++kUpUdVlYEB8E2VB/GyCPUir/Sc/eLDIuMSTNHVWu3jxp9KwZ/n
-	4CyaqKCryECcMbTotSxcG3XoCCjWDVbfrIp5FfPQp0NJ8f5hPNCWqPLJ
-X-Gm-Gg: AYBFou1E/W9BAs6dUF1549hfq4UUxBr2ZmIJI0IuIY76e9d4m3ZSZkmqKHDJbr4e4rz
-	8qp9mJGkGb1lV4y2z3DzcD1896ngkN5E+0oP8CpywlyIFM29ZSeAIKpZh6eijeebd2FPHybP5j3
-	8Qo7Y6mYqWJ3ANnlAVkOfvdoSuu42RV5QMNWOMsGkZuHJjyqgO+UX3aF5W7se8mV/th96jdNGHe
-	fpH4pHvaLN3NiIfLCQQTD87oldE4K7maF7TcNN7ZRUFuWPtnAmpcgEwSrxDJAkEF8GNNwW0SJJG
-	xln+9HTNiTgNO+Ht67H1cxycly+y2CHd7jnNZV8NgRxLHQ3/4zJB7y2u8wNrqckVmDYgJ9Extkf
-	O3sO7SXeK+9Sx2/umU/czz514EMCgaUrp5Pbb+m3Lp8loBvM0JRLKUClG3796mf8hnEb/rlVAqO
-	55fi6JP7Z8tOmORe27XRWdhW0AmU69lxUu8vLjMa9E0ltesweVLOnt+5Z2msH7gd56EbBsBHjSU
-	PyOpBDhfo00uH8nH9eZbCgANCRVFQ07fTZOzCQUmjBRw/sOjj1GNK7NxRc+4YUxvx+32YcyRFXp
-	fSMsOmG8r7lUn9R1IOek6ZfiF3TOHmwj4F6El+FvzVlPjaAEa85aC8YxzJ2y6heWeM8=
-X-Received: by 2002:a05:6000:260f:b0:484:3c3a:5932 with SMTP id ffacd0b85a97d-4843c3a5a14mr23911359f8f.22.1788259061085;
-        Tue, 01 Sep 2026 03:37:41 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a16a-7801-fd8c-4b37-36b4-e53a.310.pool.telefonica.de. [2a02:3100:a16a:7801:fd8c:4b37:36b4:e53a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48442d3c460sm3972126f8f.13.2026.09.01.03.37.39
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 01 Sep 2026 03:37:40 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: stable@vger.kernel.org
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AkhUR9yh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n7IImI5A";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MyzPm/2C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/du5xpuh"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A01151F82C;
+	Tue,  1 Sep 2026 10:38:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788259117; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VZ8uAID95kafUlS3Ut/6c+yQndE4Jq/ifMQnwEEg3c8=;
+	b=AkhUR9yhsO5k0MO78S21B0kp6hod22q9KxF8g/f0fKAvUDO5fsfPLzc2bmRc9haAo4BT7A
+	ijgvp9c+pVVuY9aJ3auqEtNaeq6QkyB8Sh78joO0veFVZfYscdRM6LaGIBweIkOVoE3MVz
+	TAX2x/mpEZ2Jm+/lv19Nln1qvOmB9sQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788259117;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VZ8uAID95kafUlS3Ut/6c+yQndE4Jq/ifMQnwEEg3c8=;
+	b=n7IImI5A8VBqDod0CTVItI+zqv1dxHW/pStZNXqibWpT+djLw76B4q1gkcGjNamSCkAWNb
+	ZDR/VOoYb+CYjkAQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788259113; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VZ8uAID95kafUlS3Ut/6c+yQndE4Jq/ifMQnwEEg3c8=;
+	b=MyzPm/2C83Dk0VXBZMyMcflW63Qv4Ao8VLxOI0GX1W78DTHxSRRQpGEBF3uFBDTQh6iVph
+	0osLwlt5jcAieBO9+WOhgsZWbNwELOqyE8zq6nuERXC201Q2/RTNfIfQxFVL3yz3KZWRpz
+	Oqi7PctzilmrIrIf0WlmMcayCxKmhsQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788259113;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VZ8uAID95kafUlS3Ut/6c+yQndE4Jq/ifMQnwEEg3c8=;
+	b=/du5xpuhKi/PXaeIaD6mucAwXT1dW6cdyqWiC0NjTjwcLPaeHM0QltcisJRHnLUjtnUA1K
+	Ljq3cMT68NGVLeAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 510EF136CB;
+	Tue,  1 Sep 2026 10:38:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ApoxEymrlmpMCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 01 Sep 2026 10:38:33 +0000
+Date: Tue, 01 Sep 2026 12:38:32 +0200
+Message-ID: <874ig9dzo7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: raoxu <raoxu@uniontech.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+5f8f3acdee1ec7a7ef7b@syzkaller.appspotmail.com,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 5.10.y] ALSA: aloop: Fix racy access at PCM trigger
-Date: Tue,  1 Sep 2026 12:37:29 +0200
-Message-Id: <20260901103729.70869-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: restore MFG widget enumeration after core split
+In-Reply-To: <44809B8FF80DCCA2+20260901034024.2407783-1-raoxu@uniontech.com>
+References: <44809B8FF80DCCA2+20260901034024.2407783-1-raoxu@uniontech.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,uniontech.com:email,suse.de:mid]
 
-From: Takashi Iwai <tiwai@suse.de>
+On Tue, 01 Sep 2026 05:40:24 +0200,
+raoxu wrote:
+> 
+> From: Xu Rao <raoxu@uniontech.com>
+> 
+> Before commit 7639a06c23c7 ("ALSA: hda - Move a part of hda_codec stuff
+> into hdac_device"), widget enumeration selected the function group with
+> 
+> 	codec->afg ? codec->afg : codec->mfg
+> 
+> and read subordinate nodes from that group.
+> 
+> The core split moved this logic into snd_hdac_refresh_widgets(), but
+> hard-coded codec->afg there. For an MFG-only codec, codec->afg is zero,
+> so the Root Node is queried and codec->start_nid/num_nodes are populated
+> from the function-group range instead of the MFG's subordinate nodes.
+> 
+> Restore the pre-split AFG-or-MFG selection.
+> 
+> Fixes: 7639a06c23c7 ("ALSA: hda - Move a part of hda_codec stuff into hdac_device")
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
 
-[ Upstream commit 826af7fa62e347464b1b4e0ba2fe19a92438084f ]
+Thanks, applied now.
 
-The PCM trigger callback of aloop driver tries to check the PCM state
-and stop the stream of the tied substream in the corresponding cable.
-Since both check and stop operations are performed outside the cable
-lock, this may result in UAF when a program attempts to trigger
-frequently while opening/closing the tied stream, as spotted by
-fuzzers.
+(Though, I've never seen an actual hardware with MFG, so it's likely
+ no issue in practice :)
 
-For addressing the UAF, this patch changes two things:
-- It covers the most of code in loopback_check_format() with
-  cable->lock spinlock, and add the proper NULL checks.  This avoids
-  already some racy accesses.
-- In addition, now we try to check the state of the capture PCM stream
-  that may be stopped in this function, which was the major pain point
-  leading to UAF.
 
-Reported-by: syzbot+5f8f3acdee1ec7a7ef7b@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/69783ba1.050a0220.c9109.0011.GAE@google.com
-Cc: <stable@vger.kernel.org>
-Link: https://patch.msgid.link/20260203141003.116584-1-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-[ Karl Mehltretter: open-coded spin_lock_irqsave() instead of scoped_guard();
-  used snd_pcm_running() instead of cruntime->state; dropped the access-mode
-  comparison and notification (462494565c27, e299a9fd433f, cdac6e1f7164);
-  kept the stop_count handling from the e5c33cdc6f40 backport. ]
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
----
-e5c33cdc6f40 ("ALSA: aloop: Fix peer runtime UAF during format-change
-stop") went into 5.10.y (83bd62fa9620) and 5.15.y (345c24b2bcf0) without
-this prerequisite, so stop_count is only taken after the unlocked peer
-lookup and format checks.
-
-The 5.10.y and 5.15.y backports are submitted as separate mails with
-identical source diffs. The 6.1.y and 6.6.y branches need both upstream
-fixes and are handled by separate two-patch submissions.
-
-Tested on v5.10.268 with KASAN under QEMU; a kprobe widened the race.
-Vulnerable kernel, probe at loopback_trigger+0x679 after the peer-runtime
-load: KASAN UAF, then a NULL dereference and Oops. Fixed kernel, probe at
-+0x93, placed just inside the new lock boundary so the close contends on
-cable->lock: no KASAN report or Oops.
-
-Functional A/B, same initramfs: all 4096 captured frames matched
-byte-for-byte and control/mismatch handling passed. A prepared-but-idle
-capture remained PREPARED when mismatched playback started instead of being
-forced to DRAINING, matching upstream.
-aloop.o builds on v5.10.268 and v5.15.219. The patch also applies unchanged
-to v5.10.269-rc1 and v5.15.220-rc1.
-
- sound/drivers/aloop.c | 99 ++++++++++++++++++++++++++-----------------
- 1 file changed, 59 insertions(+), 40 deletions(-)
-
-diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
-index 314ced32efbbc..3901f52164933 100644
---- a/sound/drivers/aloop.c
-+++ b/sound/drivers/aloop.c
-@@ -323,56 +323,75 @@ static int loopback_snd_timer_close_cable(struct loopback_pcm *dpcm)
- 
- static int loopback_check_format(struct loopback_cable *cable, int stream)
- {
-+	struct loopback_pcm *dpcm_play, *dpcm_capt;
- 	struct snd_pcm_runtime *runtime, *cruntime;
- 	struct loopback_setup *setup;
- 	struct snd_card *card;
--	int check;
-+	unsigned long flags;
-+	bool stop_capture = false;
-+	int check, err = 0;
-+
-+	spin_lock_irqsave(&cable->lock, flags);
-+	dpcm_play = cable->streams[SNDRV_PCM_STREAM_PLAYBACK];
-+	dpcm_capt = cable->streams[SNDRV_PCM_STREAM_CAPTURE];
- 
- 	if (cable->valid != CABLE_VALID_BOTH) {
--		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
--			goto __notify;
--		return 0;
--	}
--	runtime = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->
--							substream->runtime;
--	cruntime = cable->streams[SNDRV_PCM_STREAM_CAPTURE]->
--							substream->runtime;
--	check = runtime->format != cruntime->format ||
--		runtime->rate != cruntime->rate ||
--		runtime->channels != cruntime->channels;
--	if (!check)
--		return 0;
--	if (stream == SNDRV_PCM_STREAM_CAPTURE) {
--		return -EIO;
-+		if (stream == SNDRV_PCM_STREAM_CAPTURE || !dpcm_play)
-+			goto unlock;
- 	} else {
--		/* close must not free the peer runtime below */
--		atomic_inc(&cable->stop_count);
--		snd_pcm_stop(cable->streams[SNDRV_PCM_STREAM_CAPTURE]->
--					substream, SNDRV_PCM_STATE_DRAINING);
--		if (atomic_dec_and_test(&cable->stop_count))
--			wake_up(&cable->stop_wait);
--	      __notify:
--		runtime = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->
--							substream->runtime;
--		setup = get_setup(cable->streams[SNDRV_PCM_STREAM_PLAYBACK]);
--		card = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->loopback->card;
--		if (setup->format != runtime->format) {
--			snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
--							&setup->format_id);
--			setup->format = runtime->format;
-+		if (!dpcm_play || !dpcm_capt) {
-+			err = -EIO;
-+			goto unlock;
- 		}
--		if (setup->rate != runtime->rate) {
--			snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
--							&setup->rate_id);
--			setup->rate = runtime->rate;
-+		runtime = dpcm_play->substream->runtime;
-+		cruntime = dpcm_capt->substream->runtime;
-+		if (!runtime || !cruntime) {
-+			err = -EIO;
-+			goto unlock;
- 		}
--		if (setup->channels != runtime->channels) {
--			snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
--							&setup->channels_id);
--			setup->channels = runtime->channels;
-+		check = runtime->format != cruntime->format ||
-+			runtime->rate != cruntime->rate ||
-+			runtime->channels != cruntime->channels;
-+		if (!check)
-+			goto unlock;
-+		if (stream == SNDRV_PCM_STREAM_CAPTURE) {
-+			err = -EIO;
-+			goto unlock;
-+		} else if (snd_pcm_running(dpcm_capt->substream)) {
-+			/* close must not free the peer runtime below */
-+			atomic_inc(&cable->stop_count);
-+			stop_capture = true;
- 		}
- 	}
--	return 0;
-+
-+	setup = get_setup(dpcm_play);
-+	card = dpcm_play->loopback->card;
-+	runtime = dpcm_play->substream->runtime;
-+	if (setup->format != runtime->format) {
-+		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &setup->format_id);
-+		setup->format = runtime->format;
-+	}
-+	if (setup->rate != runtime->rate) {
-+		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &setup->rate_id);
-+		setup->rate = runtime->rate;
-+	}
-+	if (setup->channels != runtime->channels) {
-+		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &setup->channels_id);
-+		setup->channels = runtime->channels;
-+	}
-+
-+unlock:
-+	spin_unlock_irqrestore(&cable->lock, flags);
-+	if (stop_capture) {
-+		snd_pcm_stop(dpcm_capt->substream, SNDRV_PCM_STATE_DRAINING);
-+		if (atomic_dec_and_test(&cable->stop_count))
-+			wake_up(&cable->stop_wait);
-+	}
-+
-+	return err;
- }
- 
- static void loopback_active_notify(struct loopback_pcm *dpcm)
--- 
-2.53.0
+Takashi
