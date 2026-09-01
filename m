@@ -1,81 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9741C3FD96B;
-	Tue,  1 Sep 2026 02:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15EB41169B
+	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 02:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788228621; cv=none; b=humI0fBRSSz8NEZktPpzl6TwEAqEY261+ybmZGFlWeq/ytrbp9b5d3tyLTyzMuMiJYdy9vFbnkcpn6JKH29VzZDUP5yXpv4FSixTDGdsPa4ODQ38z4pl+fb7v3NoTx2OaJwDzmf+S1UkETtQUU7cXz0oi26vPB41IObXepCWxdA=
+	t=1788228716; cv=none; b=R2oBAeD8wWxXRQgPr4yFn7O3WW5p17jjM7b18dmtj53g5F6x+MRWXr5dfNLMj+uiYBvQw7vn6Ryc/M0H1yEQjw90M3F6KItDWjJfa/VNo06I2IxtHHet4fWhe/GXeUM1d5UBZp7q7bQQv9MkicaqWpBxdRpjxcFcieE07/ukekM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788228621; c=relaxed/simple;
-	bh=RsYztL2A3RTDALVXc3ebS0uX2Wy/mYkdp3u045ucYug=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h0EaRrVEvr206G5fC+WoEVpgMKgGiM3RyxAmHGighMH/H/K05/RRa/ApUvsuXP6ZG5O4X7Hp0Qa9BbgDyqNNHO4A+IT6/HyWHh9a4NrMGP3S4caaeZjUMe0/5sciqrC+4v+s3hCyKnbg9qJdqRe/pwISICtVB8Weri0LMyE8Gz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4zpdbBS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788228716; c=relaxed/simple;
+	bh=285YDRADzs3mAID4NiKmFwM18Kqbv3zZY6R5FvSkAGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QkfJ0/PE8eDC7hWoF/rYZAYL7mh2YWGFqLtWIL3229Xh2d4dxClxkL6HwXjvifXkQp1+uQUUKAjyE5zXF5KsH9dcFRKQOIKNglMF6DXbMz+lMb7nrz/CPVPSN+3chxOcGNwjnA3E2vs0zelRETzpZ27mYaZsC0bMVfB7HySD/zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fyHxUYkD; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4zpdbBS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 379BD1F0155C;
-	Tue,  1 Sep 2026 02:09:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788228600;
-	bh=Q38ppnsRCg+QgWzcPnKe7cYKeUUIuSpA8ILz1z4F2Wc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=V4zpdbBS84wfKssNU8dsHMHsmAQFbTa6I5/SdOvJT66phstK8ZOj2CHlE9uCUz292
-	 U1L27c5EGL0D3N0GjpsFu/K0TJtNCbJ5AHiJFF46ykRvLBEPT+kkzbX4NhA5tQ05to
-	 7zQOyP8oAZFoI/6iEkJiwcjnJfjdiwOEMzC6gC6QoRUPB5UPO469OlkjmBF4yT+gKk
-	 P4qZndXQYOyIpWKgzAW9533fbE5ySLjpe47M/NrWLwUNZS92zRsQK/l2/tznNHHvYx
-	 P418ojgi5PhD6cLNWTFkaH0NNYzkrArxdjI4ngifH9DdHl4nkXgzvDvp04W9S9kU0o
-	 qrEHHAbf5nbeg==
-From: Bjorn Andersson <andersson@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Raag Jadav <raag.jadav@intel.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-Subject: Re: [PATCH v2] soc: qcom: apr: Drop unused apr_device_id
-Date: Mon, 31 Aug 2026 21:09:34 -0500
-Message-ID: <178822856247.1835959.5448297814131514478.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <e8b352f33ae38df3616dc157c1cafd13d49c5e3e.1784554037.git.u.kleine-koenig@baylibre.com>
-References: <e8b352f33ae38df3616dc157c1cafd13d49c5e3e.1784554037.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fyHxUYkD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788228709; x=1819764709;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=285YDRADzs3mAID4NiKmFwM18Kqbv3zZY6R5FvSkAGM=;
+  b=fyHxUYkD0Kr8KsUBBxMiZLwvCic8YSomzlthNcBIa3KnxZQWPEAApH48
+   vNheTDXe4Et9xBRuJkeCBq/eTpQmJI/LpGzPh63bWJ5IbvEf7vPdC76ga
+   3G68953Xxa+ko+Ym+zwyJXI1smhUL//SlF1TW6VV/AukDf1jyg6T+lAXX
+   ZM5Bo1ZaNjtzXCssgsAU2WH/EQIFHkPpCv+lSrNWQrqoEklQ9Zc4eTRVu
+   Ud5hObbFm8FpvW7h8wn42UOutcI1wLqYUDjGMV6vDKYICVg6XDFPbDA80
+   JZwDBI3vVQ3jiYiYL1pIbUmD/NVsglMpgnM1nABHUUHeI5YAtJIcMh8yx
+   w==;
+X-CSE-ConnectionGUID: 8yjRDTLYT9qOZtFzlxMjnA==
+X-CSE-MsgGUID: RNLo2W8uQ6KiMVeavEORsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="88670269"
+X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
+   d="scan'208";a="88670269"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 19:11:43 -0700
+X-CSE-ConnectionGUID: GRG9nQJ0SBymJ8G0riIGxg==
+X-CSE-MsgGUID: edHzoMiCQ3e13v5jwhSumw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
+   d="scan'208";a="293788669"
+Received: from yungchua-desk.itwn.intel.com ([10.227.8.136])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 19:11:40 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com,
+	niranjan.hy@ti.com
+Subject: [PATCH] ASoC: Intel: sof_sdw: add tac5xx2-sdw family
+Date: Tue,  1 Sep 2026 10:11:32 +0800
+Message-ID: <20260901021132.231908-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+From: Niranjan H Y <niranjan.hy@ti.com>
 
-On Mon, 20 Jul 2026 15:33:46 +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> apr_device_id was introduced in commit 6adba21eb434 ("soc: qcom: Add APR
-> bus driver") in 2018, and since then not a single driver made use of it.
-> 
-> So drop the unused id_table pointer from struct apr_driver and move
-> APR_NAME_SIZE to the apr header which still has a usage of it.
-> 
-> Note that with the id_table being NULL apr_device_match() degrades to just
-> of_driver_match_device(), so replace this callback accordingly.
-> 
-> [...]
+ Add Texas Instrument's tac5xx2-sdw family to include
+support for soundwire codecs tac5572, tac5682
 
-Applied, thanks!
+Signed-off-by: Niranjan H Y <niranjan.hy@ti.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+SND_SOC_TAC5XX2_SDW depends on SND_SOC_SDCA and if we select
+SND_SOC_SDCA, it will cause recursive dependency error
+symbol SOUNDWIRE depends on SND_SOC_SDCA_OPTIONAL
+symbol SND_SOC_SDCA_OPTIONAL default value contains SND_SOC_SDCA
+symbol SND_SOC_SDCA is selected by SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+symbol SND_SOC_INTEL_SOUNDWIRE_SOF_MACH depends on SND_SOC_SOF_INTEL_SOUNDWIRE
+symbol SND_SOC_SOF_INTEL_SOUNDWIRE depends on SOUNDWIRE
 
-[1/1] soc: qcom: apr: Drop unused apr_device_id
-      commit: 06cb5c457dd57ad1960f7557c67976de4afa79e4
+That's why we imply SND_SOC_TAC5XX2_SDW in SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+instead of selecting it.
+---
+ sound/soc/intel/boards/Kconfig | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Best regards,
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index cddbd2aa424e..b795bcade8e9 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -533,12 +533,14 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+ 	select SND_SOC_CS35L56_SPI
+ 	select SND_SOC_CS35L56_SDW
+ 	select SND_SOC_ES9356
++	imply SND_SOC_TAC5XX2_SDW
+ 	select SND_SOC_DMIC
+ 	select SND_SOC_INTEL_HDA_DSP_COMMON
+ 	imply SND_SOC_SDW_MOCKUP
+ 	help
+ 	  Add support for Intel SoundWire-based platforms connected to
+-	  MAX98373, RT700, RT711, RT1308 and RT715
++	  MAX98373, RT700, RT711, RT1308, RT715, TAC5XX2_SDW family (including
++	  TAC5572, TAC5682).
+ 	  If unsure select "N".
+ 
+ endif
 -- 
-Bjorn Andersson <andersson@kernel.org>
+2.43.0
+
