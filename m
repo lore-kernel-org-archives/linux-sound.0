@@ -1,409 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B1737B000;
-	Tue,  1 Sep 2026 15:13:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19870369D4A;
+	Tue,  1 Sep 2026 15:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.152.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788275620; cv=fail; b=uj2E9QNlb2JxxGfyCkwV1V9ZxFFk7AzwJZoEVn0tJMaoQdcmMWYYVsT3vLtNJKDKOsaLn99Iet/5SY9FmjnruBKWQO7QtGade4B0upS39AH+wvRLhnHdhr8EOPxhaJm56VddePX8quqJrW3vsDUJK7KOPIYbeCxeFSSM2a8Jnv8=
+	t=1788275680; cv=fail; b=Xl8euppl3GWlK4o7uhcJf8NSCfvJ7ytLpRDwTTancfLvkAPUn2omfZHSxvQixdqzO02k1OLdKNy4NkGtNwWLMJ9YLuoUpNCNFKxQNynLTUgfZTTSi7E/ThP9tsRqBQfyjxYUIT/cfOAM4Msu1B4XnNo8bGS4glH+TKmdD7ZkBQY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788275620; c=relaxed/simple;
-	bh=ASttXJWPaQnv82ZkYXfsDkrPakDzuWhyZG+A+F43EjU=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=SVA2Q55HvNE8FbqQhc9wRa1RPS322Iiov131NugvI5ZY2QMA22KxSO3qZncD4UzJJaxvioT0+opf34fFXmAdovGS1Jq7V1H09T44XXNHQIT2AAv+98ReX+RTxD2iGQ5QtAd23lYvnOyTmpbaDDQ8vxvV/rNaVImijgc//XxDOtg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LppXrOg2; arc=fail smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788275680; c=relaxed/simple;
+	bh=wBgvTlCX1DLD9GPTJORtNHe/zyWcPMd7NqUfXOn+VCg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nVH7ctwTSonooZzPVMyBbrqUEBaNUp2Slcw7MIwMVyUO50iDzfeyaNS6sdbQ68sv0K6oj6s0sSCWV0ydJQJPK5aSCCdYgiAKwpAyyHMzeCZVQWjXSADnMLfkA2FNbpLZN9dBu+H1Z+12JPRmGdAn9DEF2lguSJApx5hFkSDG7EE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=dPbRu163; dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b=kgkApQil; arc=fail smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LppXrOg2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788275618; x=1819811618;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ASttXJWPaQnv82ZkYXfsDkrPakDzuWhyZG+A+F43EjU=;
-  b=LppXrOg2tW5cQjO4sqqLyxGXkeWLIWDftIXfdf5Z7Ly4g/IbZ9ITydhd
-   Gu6EilpeQrpMBXha/N4kflSGFGLZPWEt0Tn13OS3hBGzjVZyogoxKqYkK
-   YOK8aMthTcE9rLUvpobbpTG5pA538PfycSSnEKSUHAuCfCmgqdz4LFRA5
-   eqXWgPPHpGlX+T1TViHkcaQnSyhs3NFrnSmRjA7ZcKvK1B6n7HpgEwQG1
-   rEkMbypVNuVj6Zl0/HwvUGgoD0NCXm0uoX4UgUixW1ckGc9Q8fIZtDB4k
-   elm+hBhoRdYTQ6vcyHgW1FPb2QIcK3BmFeYU9mnxvEdN9JPCz4njjJYNq
-   A==;
-X-CSE-ConnectionGUID: JDqUHwpRTZ2vgZTAZPCo3A==
-X-CSE-MsgGUID: 48fY48yORbaJcP00/lh8Ig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="99868483"
-X-IronPort-AV: E=Sophos;i="6.25,256,1779174000"; 
-   d="scan'208";a="99868483"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 08:13:37 -0700
-X-CSE-ConnectionGUID: u3EWlU7STKagdcSdHlnx+w==
-X-CSE-MsgGUID: mjlaB0BfREmbkz8aUYy/0g==
-X-ExtLoop1: 1
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 08:13:37 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 1 Sep 2026 08:13:36 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Tue, 1 Sep 2026 08:13:36 -0700
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.29) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 1 Sep 2026 08:13:36 -0700
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="dPbRu163";
+	dkim=pass (1024-bit key) header.d=cirrus4.onmicrosoft.com header.i=@cirrus4.onmicrosoft.com header.b="kgkApQil"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681EMwvH3139842;
+	Tue, 1 Sep 2026 10:14:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=Sreze9H44TEOyR9G
+	sYjvynBflNdbPv+yIpy5+gX9Rdo=; b=dPbRu163ciJDBUsIGKenoXulmETWuEo+
+	GV66YuOqD0Geq5zzYkgTMokatYac5X6G0IIZf5RWhfg6800sgxK4t1kHG1B85JfO
+	iuixrDn20Qdk+ZdM/RRrWuCauv/BihpM/DkWMHl7ND5XY6aFJRLVidneuLxOzMfa
+	iALP2xXlYalGVcEoGDPRSLahceiKDcZSikiQy3xoGQGLugwxVNjZyJTXOfDNvwj3
+	w1ErzcdMQfiSyw1jLW6LbnVmExhwhlzeOGwa1aFFUX93zVYuhyMsSDQiB5CZeUm3
+	vor44Dgz4v99/yw4KLjF9c0clUkhjgW2XTPi6EvSJ9+JgExl1mjtvg==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11023091.outbound.protection.outlook.com [40.93.196.91])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4gduntgh1e-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 01 Sep 2026 10:14:35 -0500 (CDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q7niV18xQPltIUM/JIT5I4kC8doGk7QD7unGSMbzPdas5sh1FqzihhdBUapu3rCMHryPnA/OQs9D/uPyXGY6g0ewAkO1VsSw2Lvcd0WkXMmeKE460bIKlLTwbIfN+3b3BWIeEAAUoeky35YzFDNbcLL2wZ9rMSBZj1TQyu2EfZNLsZ7XI3YuzFFlhkarYfoITa8+JxrK6wa+5yBmptvosNGPtI7h8Mg2bfnyWZmJKjY5x4H7B0fPH2aYIqXssFHYzt1kOuD+LVp2UBk/HJTkhn6RqiwqC4bErrijCnwKhpHntoYcysnKHNL9sxtOsqbSkzwMPhPi3tAHk5lluBrQmQ==
+ b=O9kpDFH0EVxWKJaNqjS+fzIRCdpyn2wvdyPQ9tTqZhIf1ZGH9kaZNosPobLVYjScf2du6QzpTwml2BYq01yr0C/A3HQGc6EB59RooJLD9oa56Yt+wsRJfunkOv750bcxvwrjY9Gu2fAglhUt6zQ1xtqGpTRiKh+ouBms2HbOo32jAgb3kjAbSbbl+weIxBg6JZFfCSICczGgkyE5AKL3NEhJWsSFRBroiDpFNePb+ficyhXRjvV3KvDnGmERsGkg0ea7Wl6SWDsjs2+55xhk2+IeO3M0OXCeaOLxVZq+uO9svQHn5HCubpp+vcKimzdvWyjE9t00eI6sFPuYHdxBow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+8vMOcijPzh7GdJOQopnf5rIzS8AieYo+h1uZPDfEDg=;
- b=Vg5B+Bq8EUVXSnNAcMLpWLMGPlYdd4ufre+GDgwDDu4N/XK0hvKWVMF+H/CPbLBAUe75NOqnKm2ET0XkrBVDqvBcLkPoLb7AVoqVnuFJVxg+rg1eui/XahKJOMBZaGqUOFZcKyAe8DzCYwu2lrYvl0Qrj2kwKKHwRQAQaYUxmsgE/ZhI0QHqWdDJg1XoYmsejAtXVP4CgvurJ3g8sOJp+jsW3Y67IHZiWD7Jx99S1ipYyXWEmyRRiB41lon6aTHDW4hum6TjVqAEqnWjOyTq0LUH5PcV8OO6VRjG5P972okc4ke+DctREwkhGTSSRLQr708geDqegIggszjOvH+xYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com (2603:10b6:510:1e1::13)
- by PHXPR11MB9685.namprd11.prod.outlook.com (2603:10b6:510:3ca::7) with
+ bh=Sreze9H44TEOyR9GsYjvynBflNdbPv+yIpy5+gX9Rdo=;
+ b=tNcq3ucTo/OO/vSlRL0dCbh3qZAY8CFxjK/WhGCfRcJ5c9857j/c7Q7KFKsVJl5csFMkQQUFBUgVBsBno8Bm8FCYVQG6OmCRFiAR3KB4HgItgn8ZnOZ1FzTkXKPDkYpc8eskhnVWlBmIgg1Dy8xrzi9wv/I4VzQqS/YUKsTxftqHaUUbc1oCmBNUDTvtV9grDUPDx8DbqQ3yEFoff883xiD8lSAy8vm+PU6ln/1PIAuetF2bTUigH2gq6oW1SuW/UD783FaPPgnvBpAaPteIV0XuidahbBuBF7gEDD2VOu6tjuClaZTipJTHC2+GSTAjolunA5Wm0HneE9tVRblczA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 84.19.233.75) smtp.rcpttodomain=cirrus.com
+ smtp.mailfrom=opensource.cirrus.com; dmarc=fail (p=reject sp=reject pct=100)
+ action=oreject header.from=opensource.cirrus.com; dkim=none (message not
+ signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cirrus4.onmicrosoft.com; s=selector2-cirrus4-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sreze9H44TEOyR9GsYjvynBflNdbPv+yIpy5+gX9Rdo=;
+ b=kgkApQil5L7hsulyLsRCODq8DQg6Qpz6jH+8lUx7TL0o2v1+jlGxljkozewQhOqNBg7KNNb1aUErnWHz3q+T8LFh1yi+9utiN5EziebBuaheQnK4rKnQ+1D6nHLarQWHmUUutXeTrzxweNFSC8/onx+bDAqYdPG9AN08yi4gTD4=
+Received: from MN0PR04CA0024.namprd04.prod.outlook.com (2603:10b6:208:52d::14)
+ by DM4PR19MB7287.namprd19.prod.outlook.com (2603:10b6:8:108::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Tue, 1 Sep
- 2026 15:13:35 +0000
-Received: from PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd]) by PH7PR11MB6006.namprd11.prod.outlook.com
- ([fe80::4e2d:28f0:ede9:73bd%5]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 15:13:35 +0000
-Message-ID: <012545ae-b1dd-4c07-9ee5-f81a2c92a5da@intel.com>
-Date: Tue, 1 Sep 2026 17:13:29 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/2] ASoC: Intel: Add Cherry Trail RT5677 machine
- driver
-To: Maurizio Casciano <mauriziocasciano7@gmail.com>
-CC: <linux-kernel@vger.kernel.org>, Liam Girdwood
-	<liam.r.girdwood@linux.intel.com>, Peter Ujfalusi
-	<peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Kai Vehmanen
-	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Yauhen Kharuzhy
-	<jekhor@gmail.com>, <linux-sound@vger.kernel.org>
-References: <20260827072517.1401173-1-mauriziocasciano7@gmail.com>
- <20260827181236.2421882-1-mauriziocasciano7@gmail.com>
- <20260827181236.2421882-2-mauriziocasciano7@gmail.com>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <20260827181236.2421882-2-mauriziocasciano7@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0140.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b8::8) To PH7PR11MB6006.namprd11.prod.outlook.com
- (2603:10b6:510:1e1::13)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 15:14:25 +0000
+Received: from BL6PEPF0001AB76.namprd02.prod.outlook.com
+ (2603:10b6:208:52d:cafe::73) by MN0PR04CA0024.outlook.office365.com
+ (2603:10b6:208:52d::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.10 via Frontend Transport; Tue, 1
+ Sep 2026 15:14:23 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 84.19.233.75)
+ smtp.mailfrom=opensource.cirrus.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=oreject header.from=opensource.cirrus.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ opensource.cirrus.com discourages use of 84.19.233.75 as permitted sender)
+Received: from edirelay1.ad.cirrus.com (84.19.233.75) by
+ BL6PEPF0001AB76.mail.protection.outlook.com (10.167.242.169) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.8
+ via Frontend Transport; Tue, 1 Sep 2026 15:14:22 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by edirelay1.ad.cirrus.com (Postfix) with ESMTPS id 4E2C9406545;
+	Tue,  1 Sep 2026 15:14:21 +0000 (UTC)
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.12])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPSA id 40CCC820247;
+	Tue,  1 Sep 2026 15:14:21 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: lee@kernel.org
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com,
+        mfd@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] mfd: cs42l43: Add support for new cs42l44 variant
+Date: Tue,  1 Sep 2026 16:14:17 +0100
+Message-ID: <20260901151417.2546618-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6006:EE_|PHXPR11MB9685:EE_
-X-MS-Office365-Filtering-Correlation-Id: 17a5f76d-fde3-43c5-12bc-08df083b9791
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB76:EE_|DM4PR19MB7287:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 91cb6258-d580-4bcf-f6a3-08df083bb3e0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|23010399003|6133799003|3023799007|10067099003|56012099006|11063799006|5023799004|4143699003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: WB7joOcnKXMzxmCIN/HQmv14MVZI4Otkd+ETRyyEdYpGxpzjMjJPfKaiUTOKQGg9kmSg2hLEWctQZgplwY+fnTjskjWLQnScX9jGJMu8VijiqDag6sflCONox1rw6hhHoML4YFxOWM+6fFOA5tk7Zo+btUCGDe05un/AhUixIuonhxGA39Srzicta+kes+M4H8UT058mFkI7TVHgAMqhTEkL8Tf7VkqcUVIDSZm3lBPOLH7T6Yvol+j080H1S9IIEwRaRA3J/FuUQOgdbNi5VNe1msiponzJ3WwdwGoaIYB38FePoIEn4/GksEF93L8ijBLydsuI3wD6CWRhe9cR0Cz8rQ1B4BpIkqihCEA0HZaTrR0Zhi9J7RRal/PVt1hwdWho0x+wAB3FpNQXj1vG05mzL81pFj2lB/0qe2Q1zL7/EVUQubdGe7W4ihkREHCSpLqWAZm5D3XsMjUPOxYw12fT5McXIgGLYPfx6W9MoNavdXJ7gxYYR+KSW31waYKwvHRVIlODpIaJrxxpCeH2si5Demzlyk1D1l8Q4TU76exIPs45Cs12HjTdBvkiMLOIyUX6+6iCndWU2e8DCk3NrM/ycGD1sspnfbF5G3nE5FV4iPJYzWpONM45ZLG2q6lmVA467QgkhHtfjr430shFITAWaEzlHyYfErIsoysbQWM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6006.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(23010399003)(6133799003)(3023799007)(10067099003)(56012099006)(11063799006)(5023799004)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|61400799027|376014|23010399003|82310400026|34020700016|10067099003|11063799006|56012099006|18002099003|16102099003;
+X-Microsoft-Antispam-Message-Info:
+	NBLTreFm9CYyZWLZKmasa3eHhjAkhlnAd6HRZkBYpxBD6azjh8G9hfdlsmJeaykWjhY5BOwsute2iL4NhOSkGFUTUQELXgCIgvIE0kEniHSYNs703gk+CSNYjxdiJwfrtNF3EvZDrQsg74tTyBocteLl5wgl6E9wQ+p85+0p9nOOz2bkiTs/lLm4s/nH1Dm0uuMJ6mKqn8grd31q3BRxQWk4pagmmUGiiKd6b0K9ueSC98VbBcv/Z2uqLVnYR4y2l+05n0CgIFkBftlwFEhkspGympybwoxjIPGwiVmeo/CxMgVNsuXjxJp8scBa78SDhq7tm3+wSvN41AixCTNnUvmHWGZUmd0YLE4/P8rf/uf0ZmUDT+Tgk4HHolK8+CnLSTj2CGcszkeP5BJyLXifT9wCfYSsOuxeoT/+j6xCwBIyAUA5402eIgvjDn+ulbeyVYMB+dp8OhPAktrdEMdnRc72y2qbtMS8ZAQgC4tUbcu4G+U2XiZTIkinRrzrWTm6A7XWJsbjgZKnIEtOy8upmgAnmWVLKnE3MZ96vUK84C7Ws5bV8y3odE4NG3LVhQ06prVnS0LpSgHIXduX0mfQgkfKAZgiAMeYpmlc3spNJG8+BQvlGwFs5DkQtp83dYw/ABSMXCQytaWxOgX7EUbmSXeqFf/ddmt0lgWnVvt+Ckp/B8GIA0rtxaV8FrUMPsHL
+X-Forefront-Antispam-Report:
+	CIP:84.19.233.75;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edirelay1.ad.cirrus.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(61400799027)(376014)(23010399003)(82310400026)(34020700016)(10067099003)(11063799006)(56012099006)(18002099003)(16102099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzV6NFR0RG81Wk9ueThiSHVUaU5zQWN2NTlPaVIvQ0RDZUtucnhxaXhMVHp5?=
- =?utf-8?B?SGRwMU9Jb1pmNG90R0M4WCsrQVZBZjNKcGp5cEovVUxZdG51MDgvbysxOGI1?=
- =?utf-8?B?V2FXa0Z0eWhmbG8rTnZWYjFGWkRYLzZHRXk0Z3JCUUxUZjZOTWNQdWFmME1w?=
- =?utf-8?B?ZDhuRnQ2QXd1TEhYRWFKaGNxdGNrdFVpOEVRMUdRbCtMN0JaUExEeGN3c2du?=
- =?utf-8?B?d0ozY3BkbUl3TDdYN2JTSE1DNkR0N1hIbEVCRWd0K3l0ZnpwWU5OMlZRWVhJ?=
- =?utf-8?B?cW9QeW42MkJtUDczcStNZjFHZnJWMktQL2pFZ1FkQ0lIbjB0bndDY01UUFg1?=
- =?utf-8?B?RitrYWRaaGNXbFB6VTBneHUrWXgwdDQ4MGtnMmMwd3pPL0pNaGhERUxFNUow?=
- =?utf-8?B?SURHRENVc1VPQ0ZNaFFaMXBFbXE2c1g2NzBEWXpadDFCNUM2ZWE4S3dBYmpq?=
- =?utf-8?B?VG0yVEQ0eS85NEhXMEV4ZWQ3RWh5dU1RS0ZiTlp3c3VrZWVGbm9pUjR3dVRS?=
- =?utf-8?B?NXc3c0F1U3paMDBvYmlXSkl3dG05QkJNTUJ6WFBnbDFmRTdWY3dzV1pZbnQ5?=
- =?utf-8?B?emhPeGVUcVhwN0xhRFZsSUFYRlRuUXhJd0JWZEsrSEFTVVdmb21qcnZlQ2FE?=
- =?utf-8?B?Z21aSkkrL2lwSnJzdGd3Qm9DRloyQitqM1BhQ2ZVZWROZDMrK1ZCUlI4emxI?=
- =?utf-8?B?Z3BBaDd4K3pmenFwUFh4TUdCRWlBN0hVU2syNlVLUmYrVmUvUFJYaUZPdGVo?=
- =?utf-8?B?YllpdkFqK1d5aWpweC9yTEtpSWQ2ODB5YzdVNkFoUVErM2g1Y3p1UXp2WHdh?=
- =?utf-8?B?RS9VTEk4NC9ncGRqR2F4QjFKbWFyZTc5RE9nNW83dzJENWJTNE5CZEFhUktx?=
- =?utf-8?B?dm5GbzlNQWZERjF1bVZWd3pTeFFKNmVmdjU2amNmOWZmbnZPaGd4VEhXTzFx?=
- =?utf-8?B?cW5Pa2RtUlVBa3JpUjlqK08rT1d3TGNPaFp2dVhENE0wdU9BN2s4dG0yUlNB?=
- =?utf-8?B?UHNqcy9VOUFGTHhLL1BXcHJpbXlGc1lMZzk0dTdXakd5UG45Y25pS2kvakVY?=
- =?utf-8?B?SHVLWnhMRkFubi9McStrdWhrckVaOWZxMGkzbXNtVGZHM01DVC85QWd5ZXhk?=
- =?utf-8?B?NXJIWjZUb3VISjcyVXIwQWpkMlMzUnRrQ0dxMXhISFdWaGU1R1ZNSGNrZmt1?=
- =?utf-8?B?aVl2MExKc214M3dZR2pCUDFYWldIZVJ5dS9RSDNrSjltYlYzV2lEZHhRWldq?=
- =?utf-8?B?R0g5N0laOEdKQmZsSm9XSjE0VC93NXB5VHJDV2I2VUlLNW10bGdkZTc3WjNP?=
- =?utf-8?B?WlBiTmFyM2tSRitOYVdMRGdoblFoWWNNdGJibTQwVm1RR3RpQ2pMMGdkZ2Zi?=
- =?utf-8?B?Wlg5NTRGUTRjYjRlYnBmb2xqRUxZb0NRc1ZGaVdlcGZ4Y05WbG9RQmNEMTRZ?=
- =?utf-8?B?SWtvMW4vWkhWamZuMFRSUjRsMURrY3cvUTBVRVNaSWpDQnpkc2dRYm95SUdL?=
- =?utf-8?B?bm5EM1JiSFhickdteWp3R1VDck54eWNlSzRTWEx6ajJoRXl0VnF3ZlFwKzEr?=
- =?utf-8?B?dEU3ZUN3VVpXQnp1TWg0SDJ6RkV3WUxTbVJpbld5Q3lmNW9kcXdNUkJXajY3?=
- =?utf-8?B?M3dCSnhlUnd2S29adi9iZzcrVlUxS0tOanQ4ejZBd3NSYmpiQ2RHV2kza0Zs?=
- =?utf-8?B?a2pzbTUxMzEwdkQ2K3E4WmVQWkN0cmZoZFJJdFpPK0RDMjh2bGlhNkdaWjRs?=
- =?utf-8?B?NUhpT1Y0ZWZIUmtVY3RRdytibDFHVEpnaDlZbzRvK3V6OC9HZndoYU4zcXpV?=
- =?utf-8?B?WG9sMFUxVFBsNldwSHA3d1hWUUdBMHhXYXBEYWtXaW80c01tc2hsY3hUblZR?=
- =?utf-8?B?Z1l6N29mYzVrUFdBNUVhYzc2R3ppOUVNcUVwQ2EwZ3dZdzlDSWgxcXppejR3?=
- =?utf-8?B?VlNMdHI2dllkeUVoaytMeHBEOXNRWVRxR2FPQ0hxMDN0ODZ2ZklVbTJRZUFP?=
- =?utf-8?B?YzJuRmN2NnVySlQ2bGVuc0g2aHRjRzQ2b092NTlyNTlMdnVQNTU2K0RJMUdT?=
- =?utf-8?B?NXBldWQ1WUtORHJxTDN2YTZkT1NIZ2U3RjNFTlo2QWMyWnVnOWk0WVA1Mllh?=
- =?utf-8?B?RjJsWmJIZUYybXJtWTF0eUFQYUlaWXNkQlJMekR2Ri9SaVFlSDhrNkRuSWx5?=
- =?utf-8?B?b1VTUmdqSHZ4YWt2cUpMRkEwVk82REEzMGJ6NGVPQzA1dDJpcXNpTzdRNlY2?=
- =?utf-8?B?U1l4QU93b1MrNnUxUXBYRmdWbGVyK1ZUK3FnUUN4eFBJVmdZUFA0Y1BPQWV4?=
- =?utf-8?B?VXh5Rk9xZWRyb1kwMVFjT0tlL0tuSHJrbFJ3VHR6SzFBTmRmcVpGL1IwUTlB?=
- =?utf-8?Q?76lXdiU6t3Y6BOzU=3D?=
-X-Exchange-RoutingPolicyChecked: vrjVgCKB4z+26U+9L9UFMdCcdN4zY0BNHbbKiIf5Z9d2pjaaefl4Gz+U1E8w1E1wTVD2aYh8RTTtWsB7GFGMscQ6WHC1Jc732ZKfnj/CzCBshl2UkcWKamuTMXQKKDa4Z0Gi7PV8q1p7gF+UMim7/0O0RwQEvRfLN0M/fJNZhPkN3MZeALr5F80u6fnemZCn9bM5a6Pr5xvHmip30NvPKtmtwRBpKQIWDUSiQIp7LdBbho6IEXW6vLu5G4BNbeM8/0UxMMzXyTaDNVnfMg7PWt8UUC4gxL7QMdQ/qONsw4Pjxv8GWdBI3S8K/uBy5/142veR/RT0C+PcD4LTP34n1Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 17a5f76d-fde3-43c5-12bc-08df083b9791
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6006.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 15:13:34.9815
+X-MS-Exchange-AntiSpam-MessageData-0:
+	GkZ1T+GePk6oSDoZtP3fBv7aG7yyX9AiEyul26uxBGHkVb6CdBZb7pb2G+VPQplfgfw0Ebn55B7b6tiSCQN8LIDRM0i1Rc4AjxHo8XWw+WkW55KMAiSIg59Kp8+IjCXVcp7BNxQuQidwDFpVr8n99wi/jVd0XoUxgAiHc6ihlzMqTktiNWSzCSNdd7qQB4SQICA9AlhAlXJJfxdbmjGtcDTeDmAzfZ/Pp7OVojtLYSEPKzKCU6AW5On1JSs5a8eVciUayAMtpSlkCVq1RsrDxDGLdBu7B8Pa7MtiYUoE2HML3prbPJP1Aj+zO/A3UsQNp4cckZqwh+x/uLIPBTpTGPt3Ua9UTXB6FkkIAAOKS2MzMq5Cj2rr55yzB4febhqYKPYhcQRKqR0e/GEAk239s2xbW3kjyGJDFDWNcZ92UuLNjG3EnA266YHh5X7k8r6M
+X-Exchange-RoutingPolicyChecked:
+	o6YRwjRh8X0wVt6vjg8Qh/eq5wLIdRyYPOE0jwsQxY3grY8/irhLJhkaZGd2y5gIeuyKiLehqSEmQGajMg/Z/HnTJwCWBOnkqYU6YQS0dptdvmhlNz40NoheyhtAzJhEzHM3nMQ6N6brTAFNO3n4Y3tl4ENPY6dKF/Et4hnhxaXSiVoTK0aOSoHFBo6lKIa4wefmj1VxcnzRBHRMa488okkkNDvAbNWwuScigBsMWOQod+d3sIKfdbjqY7CXn94S/7tVQ4/+l2F86jwK3iMocC6TrGIoDP4QkBQjL5dO93aRelW2XuwbwRqJ4Y8yhk38V6GwcOopOH1BEA/xcmOlLQ==
+X-OriginatorOrg: opensource.cirrus.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 15:14:22.1800
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cZ2AB3vGiWr2LBAJwj4uzMJxHkVAZ0BzsVQ2UJQ+6xt7+OSQZ8NyBB96AYGr0Z6ZU0fjIHgm5MvCxEwCYGpqpoXiFGCvgbNlZX/maRF3c8U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PHXPR11MB9685
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91cb6258-d580-4bcf-f6a3-08df083bb3e0
+X-MS-Exchange-CrossTenant-Id: bec09025-e5bc-40d1-a355-8e955c307de8
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bec09025-e5bc-40d1-a355-8e955c307de8;Ip=[84.19.233.75];Helo=[edirelay1.ad.cirrus.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BL6PEPF0001AB76.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR19MB7287
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAxMDEzNSBTYWx0ZWRfX8z6aE5mXYZ20
+ Z7TKRzsHtcM6ikKTnpZBtpmm25FEl0ec/2OKwWSc7QCY1VXRghEmkbAdEwKqZHYE4i6TTgD69rO
+ 2iIcv4KvGObSADGp2q9HQydze4BHQgW4nhdRXRIojN2gzjQNzId7T/ENJLsK9tx6Fr2+LTt25dt
+ J/ctzxGT2zB2+EoPobDwz6frEukpWNqab2djmDjyBTfnRofAI22xWgaDFNvR6JmN1k9N4izVshn
+ 9ZumRjl35Szt77V4bWGe0Qlft7pEs7/O+Tvv0Gma8MoOeTFGFZMUm7+UU+11xzkOD+FcDmQxxfr
+ tA5wMklBfZWSTVLqaNgeQHX6xTpgLvKN8psbRfqpx2yGmwIAsx0GD42BmVNIE40YubKvdi/Cxem
+ V5V8TSA4BVWYreNvtKLvncHFCzfs1R9YyPvf7/dJGkQUrMst5nIQhJ/mIDS6JnXZcjBmrxDPddY
+ dVmG/KvcJwIZvHHVJ/w==
+X-Authority-Analysis: v=2.4 cv=X4Zi7mTe c=1 sm=1 tr=0 ts=6a96ebdb cx=c_pps
+ a=H2sYsg3hgj+L3aiWSAFbmg==:117 a=h1hSm8JtM9GN1ddwPAif2w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=VdqzKS8jKosA:10 a=s63m1ICgrNkA:10 a=RWc_ulEos4gA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=iX4cTi3TZMoOKdANLEfx:22 a=KfkQE9S9VqCBgivYGm0O:22
+ a=w1d2syhTAAAA:8 a=9-cLgooicdUm-9VPlSsA:9
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAxMDEzNSBTYWx0ZWRfX9+b+TWuqqJ84
+ McTP1kJM0GjgvLKO+7aRfHCKcqprzkw3+IT/kzkoKOxnpAJEjhnaurHhJWETmNbWDDVErp5r1Ml
+ RB+nmjDYm6DgPfuejyaTGKFPpKbZbKQ=
+X-Proofpoint-ORIG-GUID: vzH_r_l39LsxoixPRzvVonV_e-byEAar
+X-Proofpoint-GUID: vzH_r_l39LsxoixPRzvVonV_e-byEAar
+X-Proofpoint-Spam-Reason: safe
 
-On 8/27/2026 8:12 PM, Maurizio Casciano wrote:
-> The Lenovo Yoga Book YB1-X91F/L uses the Cherry Trail SSP2 link with
-> an RT5677 codec and a TS3A227E headset detector. Its amplifiers and
-> headphone path also need board-specific GPIO sequencing.
-> 
-> Add a Cherry Trail RT5677 machine driver based on Yauhen Kharuzhy's
-> implementation. Clone the card, DAI links and link components per device
-> so probing never mutates global templates, and allocate jack storage with
-> the device lifetime. Support SST and SOF parent naming, MCLK and PLL setup,
-> jack buttons, microphones, and output controls.
-> 
-> Link: https://github.com/jekhor/yogabook-linux-kernel/commit/4e41d0ff72c1d1fd8d5c59dda247e4ca8a1da999
-> Link: https://lore.kernel.org/linux-sound/20260611-asoc-yogabook-v2-v3-3-3128447b67b6@gmail.com/
-> Assisted-by: Codex:gpt-5.6-sol sparse
-> Co-developed-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> Signed-off-by: Yauhen Kharuzhy <jekhor@gmail.com>
-> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+The cs42l44 is a cost optimised variant of cs42l43b. Add basic support
+for this new device.
 
-Looks better, a bit of work and we have a merge candidate.
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
 
-> +static void cht_rt5677_platform_clock_disable(struct snd_soc_card *card,
-> +					      struct snd_soc_dai *codec_dai)
-> +{
-> +	struct cht_rt5677_private *ctx = snd_soc_card_get_drvdata(card);
-> +	int ret;
-> +
-> +	ret = snd_soc_dai_set_sysclk(codec_dai, RT5677_SCLK_S_RCCLK,
-> +				     48000 * 512, SND_SOC_CLOCK_IN);
-> +	if (ret)
-> +		dev_warn(card->dev, "setting codec idle sysclk failed: %d\n", ret);
-> +
-> +	clk_disable_unprepare(ctx->mclk);
-> +}
-> +
-> +static int cht_rt5677_platform_clock_control(struct snd_soc_dapm_widget *w,
-> +					     struct snd_kcontrol *kctl,
-> +					     int event)
-> +{
-> +	struct snd_soc_card *card = snd_soc_dapm_to_card(w->dapm);
-> +	struct snd_soc_dai *codec_dai;
-> +
-> +	codec_dai = snd_soc_card_get_codec_dai(card, CHT_CODEC_DAI);
-> +	if (!codec_dai) {
-> +		dev_err(card->dev, "codec DAI not found\n");
-> +		return -EIO;
-> +	}
-> +
-> +	if (SND_SOC_DAPM_EVENT_ON(event))
-> +		return cht_rt5677_platform_clock_enable(card, codec_dai);
-> +
-> +	cht_rt5677_platform_clock_disable(card, codec_dai);
-> +
-> +	return 0;
+Changes since v1:
+ - Rebased since v1 to no longer rely on Uwe's series.
 
-I believe clock_control(event=disable) should not be ignoring result of
-cht_rt5677_platform_clock_disable().  Yeah, currently the function
-returns void but with small update, this could be corrected.  In
-general, the right approach is based on the use-case - teardown path
-invoked during error handling should be persmissive.  Conscious disable
-operation (here, clock control) I believe shall not.
+ drivers/mfd/cs42l43-i2c.c        |  2 ++
+ drivers/mfd/cs42l43-sdw.c        |  1 +
+ drivers/mfd/cs42l43.c            | 18 ++++++++++++------
+ include/linux/mfd/cs42l43-regs.h |  1 +
+ 4 files changed, 16 insertions(+), 6 deletions(-)
 
-> +}
-> +
-> +static int cht_rt5677_hp_event(struct snd_soc_dapm_widget *w,
-> +			       struct snd_kcontrol *kctl, int event)
-> +{
-> +	struct snd_soc_card *card = snd_soc_dapm_to_card(w->dapm);
-> +	struct cht_rt5677_private *ctx = snd_soc_card_get_drvdata(card);
-> +
-> +	gpiod_set_value_cansleep(ctx->gpio_hp_en, SND_SOC_DAPM_EVENT_ON(event));
-> +
-> +	return 0;
-
-gpiod_set_value_cansleep() can fail and blind "return 0" is discouraged.
-
-> +}
-> +
-> +static int cht_rt5677_spk_event(struct snd_soc_dapm_widget *w,
-> +				struct snd_kcontrol *kctl, int event)
-> +{
-> +	struct snd_soc_card *card = snd_soc_dapm_to_card(w->dapm);
-> +	struct cht_rt5677_private *ctx = snd_soc_card_get_drvdata(card);
-> +
-> +	gpiod_set_value_cansleep(ctx->gpio_spk_en1, SND_SOC_DAPM_EVENT_ON(event));
-> +	gpiod_set_value_cansleep(ctx->gpio_spk_en2, SND_SOC_DAPM_EVENT_ON(event));
-> +
-> +	return 0;
-
-Ditto.
-
-> +static int cht_rt5677_codec_init(struct snd_soc_pcm_runtime *runtime)
-> +{
-> +	struct snd_soc_dai *codec_dai = snd_soc_rtd_to_codec(runtime, 0);
-> +	struct snd_soc_component *component = codec_dai->component;
-> +	struct cht_rt5677_private *ctx = snd_soc_card_get_drvdata(runtime->card);
-> +	int ret;
-> +
-> +	/*
-> +	 * The codec derives its asynchronous sample-rate conversion clocks from
-> +	 * I2S1 while the SSP link runs from the Cherry Trail platform clock.
-> +	 */
-> +	rt5677_sel_asrc_clk_src(component, RT5677_DA_STEREO_FILTER |
-> +					    RT5677_AD_STEREO1_FILTER |
-> +					    RT5677_I2S1_SOURCE,
-> +				     RT5677_CLK_SEL_I2S1_ASRC);
-
-Please do not ignore the result of rt5677_sel_asrc_clk_src().
-
-> +
-> +	/* Mono ADC L uses the codec system clock rather than the I2S1 clock. */
-> +	rt5677_sel_asrc_clk_src(component, RT5677_AD_MONO_L_FILTER, RT5677_CLK_SEL_SYS2);
-
-Ditto.
-
-> +
-> +	/* Firmware may leave MCLK enabled without updating the CCF count. */
-> +	ret = clk_prepare_enable(ctx->mclk);
-> +	if (ret) {
-> +		dev_err(runtime->dev, "preparing MCLK failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +	clk_disable_unprepare(ctx->mclk);
-> +
-> +	ret = clk_set_rate(ctx->mclk, CHT_PLAT_CLK_3_HZ);
-> +	if (ret) {
-> +		dev_err(runtime->dev, "setting MCLK rate failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-> +SND_SOC_DAILINK_DEF(dummy, DAILINK_COMP_ARRAY(COMP_DUMMY()));
-> +
-> +SND_SOC_DAILINK_DEF(media, DAILINK_COMP_ARRAY(COMP_CPU("media-cpu-dai")));
-> +
-> +SND_SOC_DAILINK_DEF(deepbuffer, DAILINK_COMP_ARRAY(COMP_CPU("deepbuffer-cpu-dai")));
-> +
-> +SND_SOC_DAILINK_DEF(ssp2_port, DAILINK_COMP_ARRAY(COMP_CPU("ssp2-port")));
-> +SND_SOC_DAILINK_DEF(ssp2_codec, DAILINK_COMP_ARRAY(COMP_CODEC(RT5677_I2C, CHT_CODEC_DAI)));
-> +
-> +SND_SOC_DAILINK_DEF(platform, DAILINK_COMP_ARRAY(COMP_PLATFORM("sst-mfld-platform")));
-
-I'd suggest to drop the newlines between SND_SOC_DAILINK_DEF entries.
-Perhaps also have a tab(s) instead of a space before DAILINK_COMP_ARRAY
-so all the definitions are aligned nicely.
-
-> +
-> +static const struct snd_soc_dai_link cht_rt5677_dailink[] = {
-> +	/* Front End DAI links */
-> +	[MERR_DPCM_AUDIO] = {
-> +		.name = "Audio Port",
-> +		.stream_name = "Audio",
-> +		.nonatomic = true,
-> +		.dynamic = 1,
-> +		.ops = &cht_rt5677_aif1_ops,
-> +		SND_SOC_DAILINK_REG(media, dummy, platform),
-> +	},
-> +	[MERR_DPCM_DEEP_BUFFER] = {
-> +		.name = "Deep-Buffer Audio Port",
-> +		.stream_name = "Deep-Buffer Audio",
-
-Did you test both endpoints, the low-latency and the high-latency one?
-While I did not touch atom-driver really, when refactoring its sibling
-(now called catpt-driver) I had to do quite a bit of tinkering to verify
-the high-latency playback path actually works.
-
-> +		.nonatomic = true,
-> +		.dynamic = 1,
-> +		.playback_only = 1,
-> +		.ops = &cht_rt5677_aif1_ops,
-> +		SND_SOC_DAILINK_REG(deepbuffer, dummy, platform),
-> +	},
-> +
-> +	/* Back End DAI links */
-> +	{
-> +		/* SSP2 - Codec */
-> +		.name = "SSP2-Codec",
-> +		.id = 0,
-> +		.no_pcm = 1,
-> +		.nonatomic = true,
-> +		.init = cht_rt5677_codec_init,
-> +		.be_hw_params_fixup = cht_rt5677_codec_fixup,
-> +		.ops = &cht_rt5677_be_ssp2_ops,
-> +		SND_SOC_DAILINK_REG(ssp2_port, ssp2_codec, platform),
-> +	},
-> +};
-> +
-> +/* SoC card */
-
-The comment is redundant.
-
-> +static const struct snd_soc_card cht_rt5677_card = {
-> +	.owner = THIS_MODULE,
-> +	.num_links = ARRAY_SIZE(cht_rt5677_dailink),
-> +	.num_aux_devs = 1,
-> +	.dapm_widgets = cht_rt5677_widgets,
-> +	.num_dapm_widgets = ARRAY_SIZE(cht_rt5677_widgets),
-> +	.dapm_routes = cht_rt5677_map,
-> +	.num_dapm_routes = ARRAY_SIZE(cht_rt5677_map),
-> +	.controls = cht_rt5677_controls,
-> +	.num_controls = ARRAY_SIZE(cht_rt5677_controls),
-> +};
-> +
-> +static const struct acpi_gpio_params speaker_enable_gpio = { 2, 0, false };
-> +static const struct acpi_gpio_mapping cht_rt5677_gpios[] = {
-> +	{ "speaker-enable-gpios", &speaker_enable_gpio, 1 },
-> +	{ }
-> +};
-> +
-> +#define SOF_CARD_NAME "cht yogabook"
-> +#define SOF_DRIVER_NAME "SOF"
-> +
-> +#define CARD_NAME "cht-rt5677"
-> +#define DRIVER_NAME NULL
-
-I'm going to repeat myself from v2 [1]:
-
-Have you tested the driver with both, legacy -and- SOF firmware? If
-you're using just one of them, let's limit the driver to that one.
-Anything else can be part of a follow up series if there is a need to
-support multiple solutions. Otherwise we'd be merging code with no
-coverage and no user.
-
-[1]:
-https://lore.kernel.org/all/7932c58b-b6fa-40c3-8967-7710d84f9667@intel.com/
-
-> +static int snd_cht_rt5677_probe(struct platform_device *pdev)
-
-> +
-> +	card->dev = dev;
-> +	platform_name = mach->mach_params.platform;
-> +
-> +	ret = snd_soc_fixup_dai_links_platform_name(card, platform_name);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "fixing DAI link platform name failed\n");
-
-Could you run a test without snd_soc_fixup_dai_links_platform_name() ?
-The function is more of a relict of the past.
+diff --git a/drivers/mfd/cs42l43-i2c.c b/drivers/mfd/cs42l43-i2c.c
+index 4db452b41220d..0a0c34d5982e4 100644
+--- a/drivers/mfd/cs42l43-i2c.c
++++ b/drivers/mfd/cs42l43-i2c.c
+@@ -59,6 +59,7 @@ static int cs42l43_i2c_probe(struct i2c_client *i2c)
+ static const struct of_device_id cs42l43_of_match[] = {
+ 	{ .compatible = "cirrus,cs42l43", .data = (void *)CS42L43_DEVID_VAL },
+ 	{ .compatible = "cirrus,cs42l43b", .data = (void *)CS42L43B_DEVID_VAL },
++	{ .compatible = "cirrus,cs42l44", .data = (void *)CS42L43B_DEVID_VAL },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
+@@ -68,6 +69,7 @@ MODULE_DEVICE_TABLE(of, cs42l43_of_match);
+ static const struct acpi_device_id cs42l43_acpi_match[] = {
+ 	{ "CSC4243", CS42L43_DEVID_VAL },
+ 	{ "CSC2A3B", CS42L43B_DEVID_VAL },
++	{ "CSC4244", CS42L43B_DEVID_VAL },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(acpi, cs42l43_acpi_match);
+diff --git a/drivers/mfd/cs42l43-sdw.c b/drivers/mfd/cs42l43-sdw.c
+index 6ccfdcd3f6698..81dd19df53685 100644
+--- a/drivers/mfd/cs42l43-sdw.c
++++ b/drivers/mfd/cs42l43-sdw.c
+@@ -184,6 +184,7 @@ static int cs42l43_sdw_probe(struct sdw_slave *sdw, const struct sdw_device_id *
+ static const struct sdw_device_id cs42l43_sdw_id[] = {
+ 	SDW_SLAVE_ENTRY(0x01FA, 0x4243, (void *)CS42L43_DEVID_VAL),
+ 	SDW_SLAVE_ENTRY(0x01FA, 0x2A3B, (void *)CS42L43B_DEVID_VAL),
++	SDW_SLAVE_ENTRY(0x01FA, 0x4244, (void *)CS42L43B_DEVID_VAL),
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(sdw, cs42l43_sdw_id);
+diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
+index 4212ebcca60b5..592677e1db41a 100644
+--- a/drivers/mfd/cs42l43.c
++++ b/drivers/mfd/cs42l43.c
+@@ -959,6 +959,7 @@ static void cs42l43_boot_work(struct work_struct *work)
+ {
+ 	struct cs42l43 *cs42l43 = container_of(work, struct cs42l43, boot_work);
+ 	unsigned int devid, revid, otp;
++	bool valid_id;
+ 	int ret;
+ 
+ 	ret = cs42l43_wait_for_attach(cs42l43);
+@@ -973,19 +974,24 @@ static void cs42l43_boot_work(struct work_struct *work)
+ 
+ 	switch (devid) {
+ 	case CS42L43_DEVID_VAL:
++		valid_id = (cs42l43->variant_id == CS42L43_DEVID_VAL);
++		break;
+ 	case CS42L43B_DEVID_VAL:
+-		if (devid != cs42l43->variant_id) {
+-			dev_err(cs42l43->dev,
+-				"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
+-				devid, cs42l43->variant_id);
+-			goto err;
+-		}
++	case CS42L44_DEVID_VAL:
++		valid_id = (cs42l43->variant_id == CS42L43B_DEVID_VAL);
+ 		break;
+ 	default:
+ 		dev_err(cs42l43->dev, "Unrecognised devid: 0x%06x\n", devid);
+ 		goto err;
+ 	}
+ 
++	if (!valid_id) {
++		dev_err(cs42l43->dev,
++			"Device ID (0x%06x) does not match variant ID (0x%06lx)\n",
++			devid, cs42l43->variant_id);
++		goto err;
++	}
++
+ 	ret = regmap_read(cs42l43->regmap, CS42L43_REVID, &revid);
+ 	if (ret) {
+ 		dev_err(cs42l43->dev, "Failed to read rev: %d\n", ret);
+diff --git a/include/linux/mfd/cs42l43-regs.h b/include/linux/mfd/cs42l43-regs.h
+index 68831f113589d..4c00ceae8b461 100644
+--- a/include/linux/mfd/cs42l43-regs.h
++++ b/include/linux/mfd/cs42l43-regs.h
+@@ -1183,6 +1183,7 @@
+ 
+ /* CS42L43B VARIANT REGISTERS */
+ #define CS42L43B_DEVID_VAL					0x0042A43B
++#define CS42L44_DEVID_VAL					0x00042A44
+ 
+ #define CS42L43B_DECIM_VOL_CTRL_CH1_CH2				0x00008280
+ #define CS42L43B_DECIM_VOL_CTRL_CH3_CH4				0x00008284
+-- 
+2.47.3
 
