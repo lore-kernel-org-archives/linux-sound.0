@@ -1,79 +1,81 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012024.outbound.protection.outlook.com [40.107.209.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419274749FA
-	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 10:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788257455; cv=none; b=Y8r16s9MduwE/U9topAFR/4tJ+51BnQG2xi8f+OP3LY3Mq2b0lBpOfKlR9rDpe+ezjfghFicqhKFkYeDFJdw8xpT4+DSrrM46FUkskEJ9cgcmscRgwBzqQagS0zMrJz/N4tZ7XmTdjrMWCvcQaDuxDohUT0sCPJ2LqisLbbKWXM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788257455; c=relaxed/simple;
-	bh=m162thZBVhyy0wZcbSN805/eQ6omc+etcke2hS+teWU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QZS689hsDZsTpdw0FSGDDZRNejAcSULIal3YVioSXTH96rB6Fly/0a813RwOzY4Exifmv8APps+PXlmjJFYQkaxC5QlUjhz95N/14Dj0Eug/ZY0S0ZIgC3mC8L5k5TaoYlDfyg0niJWMBUQP6qom38ehnvtO2azr9adLGd/nHek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DiR5Ssdu; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDFD36D51F;
+	Tue,  1 Sep 2026 10:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788258231; cv=fail; b=pHcNTZI3iNM6yU7cjEaiRrPVQKPiuZD8ezYnrkaqwSFsR3ngRx7v57TeRot/XM8Pn3CgNexK6u5HCR8kEMA9QS3Sowvg/xuv1VGKiB0ZxxgR18/Dy+CZD4c1GhleadSennX7pcN+E9wPZTVOAcceKRMO2THmNnTEWQbWM5UunB0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788258231; c=relaxed/simple;
+	bh=8qdCKpSYEqyK3CR4mlD1IKDbMPyFGCq9QQGWvL2vR1s=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WVl4glBL3GsjvRcvQYmKecP6tjSbc5aqeD4/WpSokHONWQ0o6PXaRGeHxA25xNpa21Qss5T5KM5xn+3RrX4JpaSzz4soBMksnSLiJhqWtwmH2BFYAyQ8sgEMOuWixMXaxZdIJcPS8/r9aco+bbLDaya8yve3Ri/UesTxO79mz+o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hkAs5N7j; arc=fail smtp.client-ip=40.107.209.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiR5Ssdu"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49ccfbe062eso23801155e9.3
-        for <linux-sound@vger.kernel.org>; Tue, 01 Sep 2026 03:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788257451; x=1788862251; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g8Xha6Xgz2f3NrS4LysABMsL2JkXYHN9WzLYcNH8QJU=;
-        b=DiR5SsdujQZmBWO9jMZIY2pP3j+2rErJobPylV6zLUt3BO9ULK9x3j6WJFHgjc/u0c
-         NSfWpKugcMVPvcCaPZILw6jN9nJkv9eTxkmZgmv8rWx/vm/l8cLKsYLE25Tsdp6x0MqP
-         NyXdbiU983USE/Wt89Hv5gUowKwjH9P/NLAsqEdlSM4aLPhT/8qp62xoIOiIYRebb7CK
-         iuhhdBCvTmN+LHOT1bFU5v3xddgXAu/6Do0dPsZDKtjcO/pzRX9gF7StoQPCUhvO6KHl
-         GSiL1zMP1W6/aD9sD2gqcohyUeEQHt6ATOdPxJrKYuYJVHVLojJlTLVl3SaZA7K/lJ2v
-         zGQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788257451; x=1788862251;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=g8Xha6Xgz2f3NrS4LysABMsL2JkXYHN9WzLYcNH8QJU=;
-        b=Y4MQ93h2yourtJ//RqDQX+N6UgHOf8y+OpKovqLpDQDBDg3aHLeFoj+4WCgwLBEUMz
-         161ZcOsOrp7nG8GKcuNAXsopr+H22Gcg3T8PjbH8PfPfEesXIgwQsYa9dN/McigmqJI5
-         e7fqZWN31akwjZid/BsaIn8Wji8hJkPYhueUufZb+pQFui639Vbk0Yy1FhyoFYRPE4WM
-         hVjBv5Ti2nxf9d5Q4jFgaiQVlwW/D/oMpa6pf+ZJcEYmGZat0+brd35O3CKCQgwk7Qfg
-         blDnGqvkvomJD1IlSGmHVKAGAO9f+mqumY6NUNI7GwH918+pjK+5nH2oxa3dVDb96mGH
-         gsuA==
-X-Forwarded-Encrypted: i=1; AHgh+RqzqGbs0U7WPkzz+u4huyjc2FeYArr+VvAAHhc9nrcSvNiXJCkxdTQzGKpe9gn8vDdKTCvNlsAweIBV8Q==@vger.kernel.org
-X-Gm-Message-State: AFuF++nu1hXmV1V3RYpJRwPwGF99D9mF6X6sX50zAA4bmpor6NOcSBNL
-	gDfwFo6LeWEZk23RsGUany/E7taU7N8R8/ETG0lPOTvqTS5Qoia2x4qCgqvcKbH1
-X-Gm-Gg: AR+sD11CkVVqyESftlslkP4ernoJE5ner/9RN8SDPl86g3ZK+bwQ+JvskGKngfy45Qh
-	rPnb6ACuKRSEj8XVtXIp1pFdIjSMNxW/JRkySaHJSUmnHvGJVG6Ku3oxTTqqmiocwtga3CgDKXN
-	mIKb1CXQ+ChsgXa9Ofh6lpWLaTFZwjQPO9h9DDeX/bYet0ueWzh+2RT5X8KoPN8cfbJEWRU/CZ9
-	UG/Ri5fvjmHm2/CD1OY7a3IIbEB7SCnlT+Jsuqhh7jH8rMtXd8CkyYiUViLSOEvwlNWt35N9JkI
-	gvJ6bCd98NuqR9qT5s0KHip3da/fM6U2oyjHxTxLQSjCEJTWjN3nbvOtRgSOF/mwWyaQufS9w0s
-	WZenEZjZLd+VEVrb3MnSH4EC6sMufF22dnovdkdNlF28cku3KJezG/ciOsyGlky/uSrcTwDM5hg
-	kSxcADzt0zvLHyrkBGgnEfruibDbdjtEWywfeBnUaGfyasc3WEhSLTadRaC7D2egdHikllousLW
-	BuCQifxPhsWHnW1kKGqKzMCFUf8VittQHfrmG23i3UVm2fSX6SWRc0Kj6Ns1ES0teyAXInfyDSw
-	K4BcGteAyoGskxbuhaUPQpdUwbTTQb86dLCEV3Ybq2z/d8pozC07b4e+aypvYfNjC6LT2BFggpG
-	6Ew==
-X-Received: by 2002:a05:600c:c08a:b0:49c:e1b5:b2bf with SMTP id 5b1f17b1804b1-49ce1b5b2c3mr19468445e9.0.1788257451132;
-        Tue, 01 Sep 2026 03:10:51 -0700 (PDT)
-Received: from localhost.localdomain (dynamic-2a02-3100-a16a-7801-fd8c-4b37-36b4-e53a.310.pool.telefonica.de. [2a02:3100:a16a:7801:fd8c:4b37:36b4:e53a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce089c2sm56812265e9.2.2026.09.01.03.10.50
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 01 Sep 2026 03:10:50 -0700 (PDT)
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: stable@vger.kernel.org
-Cc: Karl Mehltretter <kmehltretter@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	=?UTF-8?q?C=C3=A1ssio=20Gabriel?= <cassiogabrielcontato@gmail.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+5f8f3acdee1ec7a7ef7b@syzkaller.appspotmail.com,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 5.15.y] ALSA: aloop: Fix racy access at PCM trigger
-Date: Tue,  1 Sep 2026 12:10:41 +0200
-Message-Id: <20260901101041.82052-1-kmehltretter@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hkAs5N7j"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mqUss/bX1ZSclo3x5P+rwX5lGKGSHmGE2KkJO+bJ/MD0xlY4I5TCXw/ihVXS3Upoor0YqcxcSs0243S5ZxzLRAR+dPlqZxdpGcpP6f1JzJSYNI/6E2XvjeppAaT09XS6zurR6RHOFYe30Hnjmcrf5o8OO+fAiFU9um+OVipCUCaMbxESD5qC9mOgpR6ZPC3UNmSii9KDcl5IlAXCLuSqsNzDJfsTus892tTHTFbvqwzgiKWur4crR336jTOeJSbcfN8h1NGPuLDaxbxRGROHJ6UaqILpgB4rNfXerVtjw/vqhy/pxyXL8R4dMmembD99aCw8pgO+2s9lyVawTP5AVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8wAvgHvAsFSGMmCOH4Y6I42T3RK48q+2JbibJ/wTpOk=;
+ b=LKHV6mjAqu1/pdfUFSJS/qnla8gAzVGRDv7sDlKsKttZpyvBwr2Wa+lDXRwn0NrJgFbBJ6aO6wUuit+Yq4EaPZUODtz4WPW1ontKXSPrTaPpRglU1lAwLscGHRoXjzeg8UuRVbwqmfpZpheJtcadrhM30Q4Y+WYbW8ZxyerqGodj71KcB6Msr3uHZltTsUGeEO8TP5EIKfAr+dN3Aif6lxg2jIvfTsht6GC3PITmXW3ZNgHjTAbOGsvxrnhXit/omYJi9N9YvOZRbPBWpbIYTvdMh45WXMQv/RaD9uBNQRF6qeKpDnV4NCxIbRkC+5KVtXLFCMb3zlmUd4wEVmde0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8wAvgHvAsFSGMmCOH4Y6I42T3RK48q+2JbibJ/wTpOk=;
+ b=hkAs5N7jTskER8I6vCO6DGJCCeZVEEIJWkbxjhC7vdtE9Wve28LAkWBRAs/MCfAzk2QNC2wkZ9NtFrJgjZoyjWt5be9UNtTR+tOLhAomh8R+pdjB8wrufEbn0s7N2KjDEkPa5pPNNKX1XYqQjxmf7BhnRTkUy1qhRh0C2+wKdCM=
+Received: from SA0PR12CA0030.namprd12.prod.outlook.com (2603:10b6:806:6f::35)
+ by DS2PR12MB108293.namprd12.prod.outlook.com (2603:10b6:8:404::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 10:23:44 +0000
+Received: from SN1PEPF00036F3D.namprd05.prod.outlook.com
+ (2603:10b6:806:6f:cafe::3b) by SA0PR12CA0030.outlook.office365.com
+ (2603:10b6:806:6f::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Tue, 1
+ Sep 2026 10:23:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SN1PEPF00036F3D.mail.protection.outlook.com (10.167.248.21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.382.8 via Frontend Transport; Tue, 1 Sep 2026 10:23:43 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Tue, 1 Sep
+ 2026 05:23:43 -0500
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Tue, 1 Sep
+ 2026 05:23:42 -0500
+Received: from amd-B550M-DS3H.amd.com (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.46 via Frontend
+ Transport; Tue, 1 Sep 2026 05:23:39 -0500
+From: Syed Saba Kareem <syed.sabakareem@amd.com>
+To: Mark Brown <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Sunil-kumar Dommati
+	<Sunil-kumar.Dommati@amd.com>, Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	<eraleexxx@gmail.com>, Venkata Prasad Potturu
+	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Zhang Heng
+	<zhangheng@kylinos.cn>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Tommaso Soncin <soncintommaso@gmail.com>, Gustavo Salvini
+	<guspatagonico@gmail.com>, "open list:AMD ASoC DRIVERS"
+	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ASoC: amd: yc: Add DMI entry for HP 255R G10 laptop
+Date: Tue, 1 Sep 2026 15:53:26 +0530
+Message-ID: <20260901102338.26403-1-syed.sabakareem@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,182 +83,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F3D:EE_|DS2PR12MB108293:EE_
+X-MS-Office365-Filtering-Correlation-Id: 48070c1a-42b0-46b8-3c46-08df081319ad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|23010399003|7416014|376014|18002099003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	opM7CyA8zwzAQdEV09548PQGb9WaKEpw9kmK4QHpu0N2wSlIysOLtk3pYY9Pw+NlICNbueQJGtwaDp5aSmFYUYZhwitzECNpUFisMVFMhjThzO27BEZ413eTGmUtRETclp4Coj3PWZhefeJy98hr8GfVs8jDpqAAA+GkvwVAAEnJB5HvLr1xuxsn37uEFQks5hys/KyMwhphl3dYhieb9RX73skTpRvev79jERhHyzUttR27mDayF6bNfpYZkXwxfOe0RoE7Bu+q9V/4lFA1e0PKDLfpSzVfWsdU1zjqnp6kMSLuAk8y0aDOJNf9rkIH9R2c/rFL6ic3Y7E1YmaE18bexY7f/Z68vuMMU4kHOgEx/crfwXCseptwo2ouAR9cIlvZFNxETO9wiemcJeri5Kt/ssENi6VLj9B+aODD/wE7N1yEFkdfiJ3JxATXRSnjs4QRuKBGzqQD4TYZUbil7TupFaMAfxO5+wyFUrJxNVjGfFsrhKa6r4TV0NmfbBSS5h7QDItWM5uaf92EiaVl33oUxfczz/v8svaV84i1q9Iu1B98A59x1Bm6Pd2XjcE8kqc6Ms+JdcB1TXncpaDZRvwzcvLHPmiDnj+nmYY3xtTo22IoQYtTt69pzCEypRGRG4eeBgrsuc2irJQrJnFybqB7EtZsHHre4oNa0W6eJdZ1Fxf1fAn7/jjIvq4hFM8nlGIe1BOHIUkP0k3/S3ih8Q==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(23010399003)(7416014)(376014)(18002099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	HZyujoVh8eL18W5jG35rFF6mzN2XdI4G/Y9sMCZr/Xd+adQJ4zer1C1Ho/CY/YMYXbxCUyxhM2h3EVuPH+JWwRv4tT5FkYbrNlrQcvO67RxHjSkKwI+6uIXFmqYGym5yHDGvfF+0JkGfU4Z7gZskvgUIOU/E/DNhqwZemUOozYufWJnv9LBsKaGHJW2lY9X32A2SGMzJlCM9dwo3TcpvVK6YDHlTEBH2WoX3lfRNC/X+tPcQJf9y3aFQFA9nDP0ao8hfP7af3ZmTpuHmfDxfHmrMOArm4bKSlr3Y7/2PfBG7+x7dcVgWCbgSjl8pM39nYI1o5n5EuIXZ2cacBF6PZRMxN3yyNk8/3PikTeDpH+UvUI9K+2OUTWXFMz9nK0gpiyFBFIDylpdu5erNMPsAzV2HO+khRmLti1VzbUgFg3L4PWs9vnz5Tse4i7CIKO8Q
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 10:23:43.7422
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48070c1a-42b0-46b8-3c46-08df081319ad
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF00036F3D.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB108293
 
-From: Takashi Iwai <tiwai@suse.de>
+From: Syed Saba Kareem <Syed.SabaKareem@amd.com>
 
-[ Upstream commit 826af7fa62e347464b1b4e0ba2fe19a92438084f ]
+The HP 255R G10 laptop has an internal DMIC connected
+to the AMD ACP6x audio coprocessor.
+Add a DMI quirk entry so the internal microphone is
+properly detected on this model.
 
-The PCM trigger callback of aloop driver tries to check the PCM state
-and stop the stream of the tied substream in the corresponding cable.
-Since both check and stop operations are performed outside the cable
-lock, this may result in UAF when a program attempts to trigger
-frequently while opening/closing the tied stream, as spotted by
-fuzzers.
-
-For addressing the UAF, this patch changes two things:
-- It covers the most of code in loopback_check_format() with
-  cable->lock spinlock, and add the proper NULL checks.  This avoids
-  already some racy accesses.
-- In addition, now we try to check the state of the capture PCM stream
-  that may be stopped in this function, which was the major pain point
-  leading to UAF.
-
-Reported-by: syzbot+5f8f3acdee1ec7a7ef7b@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/69783ba1.050a0220.c9109.0011.GAE@google.com
-Cc: <stable@vger.kernel.org>
-Link: https://patch.msgid.link/20260203141003.116584-1-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-[ Karl Mehltretter: open-coded spin_lock_irqsave() instead of scoped_guard();
-  used snd_pcm_running() instead of cruntime->state; dropped the access-mode
-  comparison and notification (462494565c27, e299a9fd433f, cdac6e1f7164);
-  kept the stop_count handling from the e5c33cdc6f40 backport. ]
-Assisted-by: LLM
-Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+Reported-by: eraleexxx@gmail.com
+Signed-off-by: Syed Saba Kareem <Syed.SabaKareem@amd.com>
 ---
-e5c33cdc6f40 ("ALSA: aloop: Fix peer runtime UAF during format-change
-stop") went into 5.10.y (83bd62fa9620) and 5.15.y (345c24b2bcf0) without
-this prerequisite, so stop_count is only taken after the unlocked peer
-lookup and format checks.
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-The 5.10.y and 5.15.y backports are submitted as separate mails with
-identical source diffs. The 6.1.y and 6.6.y branches need both upstream
-fixes and are handled by separate two-patch submissions.
-
-Tested on v5.10.268 with KASAN under QEMU; a kprobe widened the race.
-Vulnerable kernel, probe at loopback_trigger+0x679 after the peer-runtime
-load: KASAN UAF, then a NULL dereference and Oops. Fixed kernel, probe at
-+0x93, placed just inside the new lock boundary so the close contends on
-cable->lock: no KASAN report or Oops.
-
-Functional A/B, same initramfs: all 4096 captured frames matched
-byte-for-byte and control/mismatch handling passed. A prepared-but-idle
-capture remained PREPARED when mismatched playback started instead of being
-forced to DRAINING, matching upstream.
-aloop.o builds on v5.10.268 and v5.15.219. The patch also applies unchanged
-to v5.10.269-rc1 and v5.15.220-rc1.
-
- sound/drivers/aloop.c | 99 ++++++++++++++++++++++++++-----------------
- 1 file changed, 59 insertions(+), 40 deletions(-)
-
-diff --git a/sound/drivers/aloop.c b/sound/drivers/aloop.c
-index 314ced32efbbc..3901f52164933 100644
---- a/sound/drivers/aloop.c
-+++ b/sound/drivers/aloop.c
-@@ -323,56 +323,75 @@ static int loopback_snd_timer_close_cable(struct loopback_pcm *dpcm)
- 
- static int loopback_check_format(struct loopback_cable *cable, int stream)
- {
-+	struct loopback_pcm *dpcm_play, *dpcm_capt;
- 	struct snd_pcm_runtime *runtime, *cruntime;
- 	struct loopback_setup *setup;
- 	struct snd_card *card;
--	int check;
-+	unsigned long flags;
-+	bool stop_capture = false;
-+	int check, err = 0;
-+
-+	spin_lock_irqsave(&cable->lock, flags);
-+	dpcm_play = cable->streams[SNDRV_PCM_STREAM_PLAYBACK];
-+	dpcm_capt = cable->streams[SNDRV_PCM_STREAM_CAPTURE];
- 
- 	if (cable->valid != CABLE_VALID_BOTH) {
--		if (stream == SNDRV_PCM_STREAM_PLAYBACK)
--			goto __notify;
--		return 0;
--	}
--	runtime = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->
--							substream->runtime;
--	cruntime = cable->streams[SNDRV_PCM_STREAM_CAPTURE]->
--							substream->runtime;
--	check = runtime->format != cruntime->format ||
--		runtime->rate != cruntime->rate ||
--		runtime->channels != cruntime->channels;
--	if (!check)
--		return 0;
--	if (stream == SNDRV_PCM_STREAM_CAPTURE) {
--		return -EIO;
-+		if (stream == SNDRV_PCM_STREAM_CAPTURE || !dpcm_play)
-+			goto unlock;
- 	} else {
--		/* close must not free the peer runtime below */
--		atomic_inc(&cable->stop_count);
--		snd_pcm_stop(cable->streams[SNDRV_PCM_STREAM_CAPTURE]->
--					substream, SNDRV_PCM_STATE_DRAINING);
--		if (atomic_dec_and_test(&cable->stop_count))
--			wake_up(&cable->stop_wait);
--	      __notify:
--		runtime = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->
--							substream->runtime;
--		setup = get_setup(cable->streams[SNDRV_PCM_STREAM_PLAYBACK]);
--		card = cable->streams[SNDRV_PCM_STREAM_PLAYBACK]->loopback->card;
--		if (setup->format != runtime->format) {
--			snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
--							&setup->format_id);
--			setup->format = runtime->format;
-+		if (!dpcm_play || !dpcm_capt) {
-+			err = -EIO;
-+			goto unlock;
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 3f852393fc99..e4456249958a 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -878,6 +878,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "TM2423"),
  		}
--		if (setup->rate != runtime->rate) {
--			snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
--							&setup->rate_id);
--			setup->rate = runtime->rate;
-+		runtime = dpcm_play->substream->runtime;
-+		cruntime = dpcm_capt->substream->runtime;
-+		if (!runtime || !cruntime) {
-+			err = -EIO;
-+			goto unlock;
- 		}
--		if (setup->channels != runtime->channels) {
--			snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
--							&setup->channels_id);
--			setup->channels = runtime->channels;
-+		check = runtime->format != cruntime->format ||
-+			runtime->rate != cruntime->rate ||
-+			runtime->channels != cruntime->channels;
-+		if (!check)
-+			goto unlock;
-+		if (stream == SNDRV_PCM_STREAM_CAPTURE) {
-+			err = -EIO;
-+			goto unlock;
-+		} else if (snd_pcm_running(dpcm_capt->substream)) {
-+			/* close must not free the peer runtime below */
-+			atomic_inc(&cable->stop_count);
-+			stop_capture = true;
- 		}
- 	}
--	return 0;
-+
-+	setup = get_setup(dpcm_play);
-+	card = dpcm_play->loopback->card;
-+	runtime = dpcm_play->substream->runtime;
-+	if (setup->format != runtime->format) {
-+		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &setup->format_id);
-+		setup->format = runtime->format;
-+	}
-+	if (setup->rate != runtime->rate) {
-+		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &setup->rate_id);
-+		setup->rate = runtime->rate;
-+	}
-+	if (setup->channels != runtime->channels) {
-+		snd_ctl_notify(card, SNDRV_CTL_EVENT_MASK_VALUE,
-+			       &setup->channels_id);
-+		setup->channels = runtime->channels;
-+	}
-+
-+unlock:
-+	spin_unlock_irqrestore(&cable->lock, flags);
-+	if (stop_capture) {
-+		snd_pcm_stop(dpcm_capt->substream, SNDRV_PCM_STATE_DRAINING);
-+		if (atomic_dec_and_test(&cable->stop_count))
-+			wake_up(&cable->stop_wait);
-+	}
-+
-+	return err;
- }
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "Hewlett-Packard"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "HP 255R 15.6 inch G10 Notebook PC"),
++		}
++	},
+ 	{}
+ };
  
- static void loopback_active_notify(struct loopback_pcm *dpcm)
 -- 
-2.53.0
+2.43.0
+
