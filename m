@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836823B19D8
-	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 18:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48067499F30
+	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 18:19:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788286775; cv=none; b=sXto9/59csPnxpc6uGRVrfUesYbfxAhaNJioKu5CpzkJ2Wz+64eN7QcJShlgAR5uCgSRvpL17HvLREhM9y7XrK7K24y10iSwxH7SkxFvkkZUKw9baRFoVJM6tRYO1uNaUCPjkoASV6KibOceLcg+wlE+UWQln2l5LHVDA62ZZGU=
+	t=1788286780; cv=none; b=nhCWSTaHOxC92ULMqqC4rrikbBWS1pNQPYNC7SGuOFQHZKN7Mm4sFE4z0EhMy6o+j4XIQQoxWxLijjkhimsnff4HDZq5n8bI7Xv3Imwv2NcOnHnF+PXGYJPGjM2Eg3W2Up2ZcR1Uc2WkmKJjYcBEA0i4vyM2ECQWnLUhzW5T7Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788286775; c=relaxed/simple;
-	bh=HODRrP4eG7sTsn5Srps4epqUw+YiCXbmrYjdlQaE+m8=;
+	s=arc-20240116; t=1788286780; c=relaxed/simple;
+	bh=HrZKe3HTv2E9OL+i9H2UBkmPh3qvELh+gW3Mvn1ANuE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=av6yi/sYUqgKYf4ETP7K10cM7axLh0L+V9nx+QKOwvndTdXj3QPsjBMVuctxA42Y5bhPQJ7wJeLcmOs8DpG+CcC+JrB7+EUOs/XELqKqrYqYiIGCRmXfX7VmtXvH+sQMUDNGQruYA2y5/q/pmQvbgK7gi9ddWOoTl5SchUV6Mfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Py2gcyTf; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=uyPv5BVIf+KPGq+GClCglVMBrpZHjScrzG/H2TqqGMY37vEzMGBtFFF6jz+Ss69zRGBdd/1N3kLj8YA6Sd5FsoN7yAfNGXIT+tIESY2ud2LdHHIFlUAFTpnBhbEOVM6UcEc5D4gvjmtv5I5L+CrSu+Fhaj1DWbMrNiLQlyvrOfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gq7JhXWA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Py2gcyTf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CB461F000E9;
-	Tue,  1 Sep 2026 18:19:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gq7JhXWA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0F6C1F000E9;
+	Tue,  1 Sep 2026 18:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788286774;
-	bh=z5kiamUx4yXF/qBV7lFBzQ6OgdpRIA89NQ3I4mxtE+8=;
+	s=k20260515; t=1788286779;
+	bh=WtaNq2UvqQBpGh6LnMZrkbOKw8II7lTG2tggnekkpco=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Py2gcyTfVtEVVQJfSyZc8qBmE7oUTvnI01M/H1SUOjnOdc8WDkryLew9rmQKkE8E9
-	 lXv1GKT70EpaXOQ11wj4Ok2KqK+Cfte2sGrFLtXiC1bUjiuSbY0LCQ8v80PrfslsQE
-	 /kO/VPtZ6T70s6O4Bu4KhuOzKaegTJdRpAw52MUdgkwIx7GOg1Rb0Itn/3tmWS47FL
-	 /2uR+NIeOSxARMauW3ne6FR2oFc2eAOC+oUg7AVJByi0EK+JC1Tc81dUrl4MUQOvuy
-	 Ww6mYCM85kDS9f3lsjR4UIWRinfFHq5IYaifB09jRGY9n84f9vXDCdKB38/Uy1P7gG
-	 dX+Xk16+rzIIw==
+	b=Gq7JhXWAABdtPD0DGtdmZuO9Wwk/BWjW5/D53S63zRJJuIZ2kGevT3Bf/828wv3CF
+	 woafO56ETFlmDejIOkf26Dm5mbZO9zXvK9d4hOS5OMid9GvpD02lFR5HA1iopPSeK7
+	 7rQvAo7C1YKSdfJsh+Iv2+AUg+wOojb3pbWxVhxZk+ZCCicBHvoskY3ARBCCZzqOGn
+	 1F+nK5CpcMBpl5bDjFdHFiMxqc72WMuwzXB/o+vm30VoRow0NzYgZT+MpzTg9R8EcD
+	 alANZJqsCz4gg6mUarG7Ng0LEqb/bROLt+/04tz9bXZI+U/2sT+t7wBsVd2NsTeZfX
+	 nk6mS84ZJ+skA==
 From: Mark Brown <broonie@kernel.org>
-To: baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
- Tianchu Chen <tianchu.chen@linux.dev>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <4386bc53631b052c1866a91061715b009d98b04f@linux.dev>
-References: <4386bc53631b052c1866a91061715b009d98b04f@linux.dev>
-Subject: Re: [PATCH] ASoC: sprd: validate compress buffer sizes against
- fixed allocations
-Message-Id: <178821245488.439600.12439967920767648601.b4-ty@b4>
-Date: Mon, 31 Aug 2026 22:40:54 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com, 
+ peter.ujfalusi@linux.intel.com, jairaj.arava@intel.com
+In-Reply-To: <20260901011951.230315-1-yung-chuan.liao@linux.intel.com>
+References: <20260901011951.230315-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: sof_rt5682: Add support for
+ nvl_max98360a_rt5682
+Message-Id: <178826836351.33904.4775441254069625520.b4-ty@b4>
+Date: Tue, 01 Sep 2026 14:12:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,20 +45,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1154; i=broonie@kernel.org;
- h=from:subject:message-id; bh=HODRrP4eG7sTsn5Srps4epqUw+YiCXbmrYjdlQaE+m8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqlxczWaJnV3osda4rdtaxHPUJuXJhUgh6hHEJc
- xoWp2nQtsqJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapcXMwAKCRAk1otyXVSH
- 0NKJB/9XriLWuKM6WZPRJKGI2jxjXOMrb1mFCWQvLtWmUT7x+QO0XzpzfuvLdLqOxChKf8AVLJg
- LK3JxC6uIfcVcFsmIHFjv6l20qveAZdzK8mY6ggmBmR7PvA9PWWWc1iC702k5QY2r+LnWLv8YPb
- ZdpX0XqIlNKD3VxYJ8Rkt0spxHlDYYY1jw5gRZg7rjK0n3rJQ7MXPBZ5HfUqXpn+ja/ymkeMpbx
- WgMTkkdKhafLuC0zquV5P04YH0Ydao/uhVCaLWoSbrdltCEl5V949cz2xLZdjpN84k2uxxWKwTx
- bZBgt5l/juOOGDGd0eWZqSDGXr5ifrAkfSHszX30i3o+ocG1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1137; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=HrZKe3HTv2E9OL+i9H2UBkmPh3qvELh+gW3Mvn1ANuE=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqlxc3fF3gBTv1p5OwMfry1nVJ+4N19ZvSGS4mx
+ sfQukSspCmJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapcXNwAKCRAk1otyXVSH
+ 0AHcB/9lDSHfRX5arHETCPFAml1eHUeImmFEwYu6mamlIe4aPDsrUfDHws/f9I00Q88I48FVCK7
+ kCKD76uO9ZsnMKjVJYQ3oQzCwvvcVmkQQIePmasww3GIJWrXVbNDm6JcoIJKu/XTOdSBSdjkAqN
+ hKLbfGSiX/JDjsNX4Mi9xeKaJcOILpgZbuSEO+sLrPpYpQhv2rp8WxQlhGOjxq0zlP5kYTqgfC4
+ foaryJINBlxyWbWN9X8MF1BFxn7UaOwBiLGeYS2Mrjh23fugPkRHOi0kAtzekydfh1catpVCx6G
+ FBz/5lom4UW2tbseb3+FnoCf5po4uyUzDLuVfNdCPV77RD7u
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 31 Aug 2026 15:13:36 +0000, Tianchu Chen wrote:
-> ASoC: sprd: validate compress buffer sizes against fixed allocations
+On Tue, 01 Sep 2026 09:19:51 +0800, Bard Liao wrote:
+> ASoC: Intel: sof_rt5682: Add support for nvl_max98360a_rt5682
 
 Applied to
 
@@ -66,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sprd: validate compress buffer sizes against fixed allocations
-      https://git.kernel.org/broonie/sound/c/7a4ce92d150b
+[1/1] ASoC: Intel: sof_rt5682: Add support for nvl_max98360a_rt5682
+      https://git.kernel.org/broonie/sound/c/4ed5bfc41071
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
