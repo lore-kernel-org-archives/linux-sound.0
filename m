@@ -1,120 +1,453 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mail-m127168.xmail.ntesmail.com (mail-m127168.xmail.ntesmail.com [115.236.127.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772C242DA5B;
-	Tue,  1 Sep 2026 07:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5709337AA91
+	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 07:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788247108; cv=none; b=VepHvcTXTuHkatixsS9oNuvTEg3kStcpUb8ja2fStobLxaeYc82itOHEVNVy57AutNqO8UOo4I2hXXkPmFh2w4/gkvXLX+/Q5OX4IrsMpk7EZRXqPuxeGGFnJEe3UT7BMJ2+s0P6DHfFTNp3tNNA7rhwDNg1Z3qsL8yCY37vGwc=
+	t=1788248246; cv=none; b=mzo3ExUg12H4SM30/nhX9oU43pcs3IlLOoDPd/kkzfgBj4IvjQnQE/G825viTO/I6cy3qml+hyjp/dXR0vQa0YieNiQ8zdwc7ejjskONQoSxZTTRCUW/rWI8qUAbF8RKBgtqNZ88PqiXBb69jDLi9h7e7+POau2hoIRf0OJZ5I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788247108; c=relaxed/simple;
-	bh=nQ1Txs5VtWwa3LV7R5SsGLj9IbDYJQeJmmceT7DdqFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qG4kkrbhn27nFyjaNCQIu5Rk2yMsuo5kJ8hVNku+GxG1znn8ouDK+YxVreqbjnMscplbBIDuCO1KXusnJZZ6hya2UkwfnwcNGqyXppkEApu2YiUqytQivah+FUhr/nMPvL9COm1wWX96LI+lQ8tHEkRpf0auU6xnYgqyD4ueZNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m70veq3G; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1788248246; c=relaxed/simple;
+	bh=RKj4l0S2vzPBMy9AGpIx+WEsbOkE89aqT9yhsRrvSDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=vDxmvLZUEM3j+EtfaULFqW/loFsCUcvEGsHYJHwV3yftEp8NVwBOhP9kszAhHcGpeSfM3UpoTo14MjfZxGIg1oGy13Ap1xWs3F9i/SgzNJMRvHkyE7YwnZMCADp1lzqBJ0g/fUbVd5fNM1mT1D6IYozWeyacULXow37mb9gDQFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=CNIn040/; arc=none smtp.client-ip=115.236.127.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m70veq3G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788247105; x=1819783105;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nQ1Txs5VtWwa3LV7R5SsGLj9IbDYJQeJmmceT7DdqFA=;
-  b=m70veq3GFbthuqwztB3F4+K393V4Ic5LeNXDRCt51YvQhraiADg8c9T5
-   Fd1BnTJzfcIZNKZ1ajpg0TAZMyTgc9d2EVlMmCrkENG3RC3DSQBQY3flX
-   nZ6jN+cT9DApQhU8aORD51EXbsSTJn8GAa4r+bFXJi+9jrYmG0/ue36UU
-   7l7Gj5WooRcGtHGzoy2tVjqyG+4W35ReMOxXWGhnBS/ZyHyviVm199133
-   eKYu4UYnUgJxnOTIKLYmQeFZkh4ZL8g5bmwIUrHr8oEhOpYsTkJehkMUB
-   OFqQByLTtdMNlC30Q/AyUETdwzxodwd3I3VL7mnp71Oc70BlwDXO6uiJ7
-   Q==;
-X-CSE-ConnectionGUID: 3PCgXjNwTfygnIp9UBh83w==
-X-CSE-MsgGUID: n/FwF+MlT9iODPKvAb/4gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11892"; a="92534044"
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="92534044"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 00:18:24 -0700
-X-CSE-ConnectionGUID: 6fQWQPLNTsGsO9NeARB8fA==
-X-CSE-MsgGUID: KiNiqfY8RJGBKkD+8I7ZhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,255,1779174000"; 
-   d="scan'208";a="292513211"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.222])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2026 00:18:20 -0700
-Date: Tue, 1 Sep 2026 10:18:17 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Cc: linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3 1/9] dmaengine: Support bus widths of 32 bytes and
- above
-Message-ID: <apZ8OSzG7bEpQylL@ashevche-desk.local>
-References: <20260831-dmaengine-support-wider-dma-masks-v3-0-507d97496f2d@analog.com>
- <20260831-dmaengine-support-wider-dma-masks-v3-1-507d97496f2d@analog.com>
- <apWFa4BFoAL2AhG3@ashevche-desk.local>
- <apWjMBvGA6yo_nCZ@nsa>
+	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="CNIn040/"
+Received: from test-VJFE6CF11X-XXXXXX (unknown [112.193.82.77])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4c0aaacb6;
+	Tue, 1 Sep 2026 11:01:08 +0800 (GMT+08:00)
+From: Qianghua Wang <qianghua.wang@senarytech.com>
+To: linux-sound@vger.kernel.org
+Cc: Qianghua Wang <qianghua.wang@senarytech.com>,
+	Mark Brown <broonie@kernel.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH v5 3/3] ASoC: Intel: soc-acpi: add SN624x entries for ARL/LNL/MTL/PTL
+Date: Tue,  1 Sep 2026 11:00:49 +0800
+Message-ID: <14488e51e696df1b91b15a4100f41fa0a6975793.1788230065.git.qianghua.wang@senarytech.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1788230065.git.qianghua.wang@senarytech.com>
+References: <cover.1788230065.git.qianghua.wang@senarytech.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <apWjMBvGA6yo_nCZ@nsa>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-HM-Tid: 0aa05ae9d1ea09d8kunm596bfc8a4b20b3
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCSExNVkhOS0wZTU9MGUkaHVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKSklVSkJIVUNJVUxMWVdZFhoPEhUdFFlBWU9LSFVKS0
+	lPT09IVUpLS1VKQktLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=CNIn040/IheD4mBPnWlmWvSNarj4exQj7I6gh1gxwKSIehWRPxAXDcUatFnMM4xlCS8gbE2m9jIjKbdDydljsRmiQ6ydo0GgkNrvQDROB6SxF7hA15pXzLhJhg2sxKfz1I+E+BXOhj/j/TtZhZzALlxJmjinpKuZa7oK7BBr224=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
+	bh=4QOqxzaYfId6f7NskDaSwSnB+0SD7b2HzZMRVNfy4ig=;
+	h=date:mime-version:subject:message-id:from;
 
-On Mon, Aug 31, 2026 at 04:56:18PM +0100, Nuno Sá wrote:
-> On Mon, Aug 31, 2026 at 04:45:15PM +0300, Andy Shevchenko wrote:
-> > On Mon, Aug 31, 2026 at 12:46:38PM +0100, Nuno Sá wrote:
+Add SoundWire machine match entries for Senary SN624x on Arrow Lake,
+Lunar Lake, Meteor Lake, and Panther Lake, and select the SN624x SDCA
+codec from the SOF SoundWire machine Kconfig. Each part ID uses a
+separate mach entry; name_prefix is "sn624x".
 
-...
+Signed-off-by: Qianghua Wang <qianghua.wang@senarytech.com>
+---
+ sound/soc/intel/boards/Kconfig                |  1 +
+ .../intel/common/soc-acpi-intel-arl-match.c   | 71 ++++++++++++++++
+ .../intel/common/soc-acpi-intel-lnl-match.c   | 71 ++++++++++++++++
+ .../intel/common/soc-acpi-intel-mtl-match.c   | 71 ++++++++++++++++
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 82 +++++++++++++++++++
+ 5 files changed, 296 insertions(+)
 
-> > >  F:	drivers/dma/
-> > >  F:	include/dt-bindings/dma/
-> > >  F:	include/linux/dma/
-> > > +F:	include/linux/dma/engine/
-> > >  F:	include/linux/dmaengine.h
-> > >  F:	include/linux/of_dma.h
-> > 
-> > Unneeded, previous entry includes recursively.
-> 
-> Checkpatch complains so I guess we assume it's a tool issue?
-
-Can you confirm that without this line get_maintainer.pl works? If it does,
-then the problem is in checkpatch.pl (false positive).
-
-...
-
-> > It's possible to split this patch to two:
-> > - move the existing type into a new types.h header
-> > - add support for the new API
-> 
-> Yeah I thought about that but this still looked simple enough to go
-> together but I can split in the next version.
-
-I think the split is needed as it makes better view on the changes
-(and accompanying justifications in the commit messages).
-
+diff --git a/sound/soc/intel/boards/Kconfig b/sound/soc/intel/boards/Kconfig
+index cddbd2aa424e..5b80b1770ff0 100644
+--- a/sound/soc/intel/boards/Kconfig
++++ b/sound/soc/intel/boards/Kconfig
+@@ -535,6 +535,7 @@ config SND_SOC_INTEL_SOUNDWIRE_SOF_MACH
+ 	select SND_SOC_ES9356
+ 	select SND_SOC_DMIC
+ 	select SND_SOC_INTEL_HDA_DSP_COMMON
++	select SND_SOC_SN624X_SDCA_SDW
+ 	imply SND_SOC_SDW_MOCKUP
+ 	help
+ 	  Add support for Intel SoundWire-based platforms connected to
+diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+index 1033f2d45c8a..575889a4c69b 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
+@@ -531,6 +531,63 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_machines[] = {
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_machines);
+ 
+ /* this table is used when there is no I2S codec present */
++
++/*
++ * Senary SN624x on Arrow Lake: one multi-function device on link 0.
++ * Separate mach entries per part ID (adr_d[] is AND, not OR). Amp endpoint
++ * is aggregated like the generic SOC_SDW_DAI_TYPE_AMP shape from
++ * find_acpi_adr_device().
++ */
++static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
++	/* Jack */
++	{
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	/* Amp */
++	{
++		.num = 1,
++		.aggregated = 1,
++		.group_position = 1,
++		.group_id = 1,
++	},
++	/* DMIC */
++	{
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
++#define SN624X_ARL_SINGLE_ADR(_sym, _adr)				\
++static const struct snd_soc_acpi_adr_device _sym[] = {			\
++	{								\
++		.adr = (_adr),						\
++		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),		\
++		.endpoints = sn624x_endpoints,				\
++		.name_prefix = "sn624x",				\
++	},								\
++}
++
++#define SN624X_ARL_LINK(_sym, _adr_arr)					\
++static const struct snd_soc_acpi_link_adr _sym[] = {			\
++	{								\
++		.mask = BIT(0),						\
++		.num_adr = ARRAY_SIZE(_adr_arr),			\
++		.adr_d = _adr_arr,					\
++	},								\
++	{}								\
++}
++
++SN624X_ARL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
++SN624X_ARL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
++
++SN624X_ARL_LINK(arl_link_sn6242, sn6242_single_adr);
++SN624X_ARL_LINK(arl_link_sn6244, sn6244_single_adr);
++
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 	{
+ 		.link_mask = BIT(0) | BIT(2) | BIT(3),
+@@ -624,6 +681,20 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-arl-es9356.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(0),
++		.links = arl_link_sn6242,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-arl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(0),
++		.links = arl_link_sn6244,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-arl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
+diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+index 3b9758f73238..f9c47cc1e0c7 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
+@@ -685,6 +685,63 @@ static const struct snd_soc_acpi_link_adr lnl_sdw_rt712_vb_l2_rt1320_l1[] = {
+ };
+ 
+ /* this table is used when there is no I2S codec present */
++
++/*
++ * Senary SN624x on Lunar Lake: one multi-function device on link 0.
++ * Separate mach entries per part ID (adr_d[] is AND, not OR). Amp endpoint
++ * is aggregated like the generic SOC_SDW_DAI_TYPE_AMP shape from
++ * find_acpi_adr_device().
++ */
++static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
++	/* Jack */
++	{
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	/* Amp */
++	{
++		.num = 1,
++		.aggregated = 1,
++		.group_position = 1,
++		.group_id = 1,
++	},
++	/* DMIC */
++	{
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
++#define SN624X_LNL_SINGLE_ADR(_sym, _adr)				\
++static const struct snd_soc_acpi_adr_device _sym[] = {			\
++	{								\
++		.adr = (_adr),						\
++		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),		\
++		.endpoints = sn624x_endpoints,				\
++		.name_prefix = "sn624x",				\
++	},								\
++}
++
++#define SN624X_LNL_LINK(_sym, _adr_arr)					\
++static const struct snd_soc_acpi_link_adr _sym[] = {			\
++	{								\
++		.mask = BIT(0),						\
++		.num_adr = ARRAY_SIZE(_adr_arr),			\
++		.adr_d = _adr_arr,					\
++	},								\
++	{}								\
++}
++
++SN624X_LNL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
++SN624X_LNL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
++
++SN624X_LNL_LINK(lnl_link_sn6242, sn6242_single_adr);
++SN624X_LNL_LINK(lnl_link_sn6244, sn6244_single_adr);
++
+ /* this table is used when there is no I2S codec present */
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+ 	/* mockup tests need to be first */
+@@ -805,6 +862,20 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-lnl-rt713-l2-rt1320-l13.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(0),
++		.links = lnl_link_sn6242,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(0),
++		.links = lnl_link_sn6244,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-lnl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_lnl_sdw_machines);
+diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+index 596582053d93..e89c5cfd6ed1 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+@@ -1296,6 +1296,63 @@ static const struct snd_soc_acpi_link_adr mtl_cs35l63_x2_link1_link3_fb[] = {
+ };
+ 
+ /* this table is used when there is no I2S codec present */
++
++/*
++ * Senary SN624x on Meteor Lake: one multi-function device on link 0.
++ * Separate mach entries per part ID (adr_d[] is AND, not OR). Amp endpoint
++ * is aggregated like the generic SOC_SDW_DAI_TYPE_AMP shape from
++ * find_acpi_adr_device().
++ */
++static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
++	/* Jack */
++	{
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	/* Amp */
++	{
++		.num = 1,
++		.aggregated = 1,
++		.group_position = 1,
++		.group_id = 1,
++	},
++	/* DMIC */
++	{
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
++#define SN624X_MTL_SINGLE_ADR(_sym, _adr)				\
++static const struct snd_soc_acpi_adr_device _sym[] = {			\
++	{								\
++		.adr = (_adr),						\
++		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),		\
++		.endpoints = sn624x_endpoints,				\
++		.name_prefix = "sn624x",				\
++	},								\
++}
++
++#define SN624X_MTL_LINK(_sym, _adr_arr)					\
++static const struct snd_soc_acpi_link_adr _sym[] = {			\
++	{								\
++		.mask = BIT(0),						\
++		.num_adr = ARRAY_SIZE(_adr_arr),			\
++		.adr_d = _adr_arr,					\
++	},								\
++	{}								\
++}
++
++SN624X_MTL_SINGLE_ADR(sn6242_single_adr, 0x0000000496624201ull);
++SN624X_MTL_SINGLE_ADR(sn6244_single_adr, 0x0000000496624401ull);
++
++SN624X_MTL_LINK(mtl_link_sn6242, sn6242_single_adr);
++SN624X_MTL_LINK(mtl_link_sn6244, sn6244_single_adr);
++
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
+ 	/* mockup tests need to be first */
+ 	{
+@@ -1503,6 +1560,20 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
+ 		.sof_tplg_filename = "sof-mtl-sdw-cs42l42-l0-max98363-l2.tplg",
+ 		.get_function_tplg_files = sof_sdw_get_tplg_files,
+ 	},
++	{
++		.link_mask = BIT(0),
++		.links = mtl_link_sn6242,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-mtl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(0),
++		.links = mtl_link_sn6244,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-mtl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_mtl_sdw_machines);
+diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+index 756bbf82a326..dd84e97836c9 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
+@@ -438,6 +438,66 @@ static const struct snd_soc_acpi_link_adr ptl_sdw_rt712_vb_l3_rt1320_l3[] = {
+ };
+ 
+ /* this table is used when there is no I2S codec present */
++
++/*
++ * Senary SN624x on Panther Lake: one multi-function device on link 3.
++ * Separate mach entries per part ID (adr_d[] is AND, not OR). ADR version
++ * nibble 0x3 matches the silicon SoundWire version. Amp endpoint is
++ * aggregated like the generic SOC_SDW_DAI_TYPE_AMP shape from
++ * find_acpi_adr_device().
++ */
++static const struct snd_soc_acpi_endpoint sn624x_endpoints[] = {
++	/* Jack */
++	{
++		.num = 0,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++	/* Amp */
++	{
++		.num = 1,
++		.aggregated = 1,
++		.group_position = 1,
++		.group_id = 1,
++	},
++	/* DMIC */
++	{
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
++};
++
++#define SN624X_PTL_SINGLE_ADR(_sym, _adr)				\
++static const struct snd_soc_acpi_adr_device _sym[] = {			\
++	{								\
++		.adr = (_adr),						\
++		.num_endpoints = ARRAY_SIZE(sn624x_endpoints),		\
++		.endpoints = sn624x_endpoints,				\
++		.name_prefix = "sn624x",				\
++	},								\
++}
++
++#define SN624X_PTL_LINK(_sym, _adr_arr)					\
++static const struct snd_soc_acpi_link_adr _sym[] = {			\
++	{								\
++		.mask = BIT(3),						\
++		.num_adr = ARRAY_SIZE(_adr_arr),			\
++		.adr_d = _adr_arr,					\
++	},								\
++	{}								\
++}
++
++SN624X_PTL_SINGLE_ADR(sn6242_single_adr, 0x0003300496624201ull);
++SN624X_PTL_SINGLE_ADR(sn6244_single_adr, 0x0003300496624401ull);
++SN624X_PTL_SINGLE_ADR(sn6247_single_adr, 0x0003300496624701ull);
++
++SN624X_PTL_LINK(ptl_link_sn6242, sn6242_single_adr);
++SN624X_PTL_LINK(ptl_link_sn6244, sn6244_single_adr);
++SN624X_PTL_LINK(ptl_link_sn6247, sn6247_single_adr);
++
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ /* Order Priority: mockup > most links > most bit link-mask > alphabetical */
+ 	{
+@@ -531,6 +591,28 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
+ 		.machine_check = snd_soc_acpi_intel_rt712_vb_no_function_topology,
+ 		.sof_tplg_filename = "sof-ptl-rt712-l3-rt1320-l3.tplg",
+ 	},
++
++	{
++		.link_mask = BIT(3),
++		.links = ptl_link_sn6242,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(3),
++		.links = ptl_link_sn6244,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
++	{
++		.link_mask = BIT(3),
++		.links = ptl_link_sn6247,
++		.drv_name = "sof_sdw",
++		.sof_tplg_filename = "sof-ptl-sn624x.tplg",
++		.get_function_tplg_files = sof_sdw_get_tplg_files,
++	},
+ 	{},
+ };
+ EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_ptl_sdw_machines);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.53.0
 
