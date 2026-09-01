@@ -1,34 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7AE47B425
-	for <linux-sound@vger.kernel.org>; Tue,  1 Sep 2026 22:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB16472530;
+	Tue,  1 Sep 2026 22:56:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788302648; cv=none; b=JIRta/FegMhoH5qH+4sl1sI/Ao3gDURDJkZ2/HUXIIU+wl/XE1AW4M0gi5dRb4yiE2+fzBDNFJgA2EThVHqadDi0I+bUGnxnNIi7b6Ahn29FHXo8MA0nDZojoGp29vq71mf+4xEbKwT5fnj72erE9iGpQ7aZk5f2Dg2VXilrbV8=
+	t=1788303374; cv=none; b=c57wrocX+hCeZ/vE5ufJ7juR+Cku7a9DqVGOjjdspxSrvqJbD9T2n4wSjxKRKBreQEMilYsoeKOpvKM0nw7OU2TywWO74CIqdjQexbTTleEmseonYLZ1jGxUZBd1pH4RbHv5PVAwH+tWW0otNTKM6DGcGchU6LJzahlM3P1CDQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788302648; c=relaxed/simple;
-	bh=WNCQIF/qfGuYQxxxek4rxZvcnaSDqFhJJrZ9tJ+0tZs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sYHAaf/dK9hXC/lVc0lmvjSaQNAL94X8GXCKSbIw+5vXUxq6GEqPNzkDDiAgA3Ey5mAeESy+6lxjnYA9WRVww9FJT19m+DR8jR7hQrrsMq5Vz1RE9Nm2G2MCkQipSMOz7/d66CYMPUomDUNg7TFBG6vixpW/7ekJrrNvg1AoZ8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c5bUiAXY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788303374; c=relaxed/simple;
+	bh=/JNk43hFYwRm69rpqFNtmBtR8DBlxeRTVGoAduwwzWQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=j2j2gdndmSHiWuRCFY0cBJsKd8e9AEvDjxl0siJo92r5kRX1iDgg4JiPQ3z3NflR1vW/34CEUzDDWwbAy5WcxEQBCd2IEXbNQM5lsMR8sjko3xokCi62AcDJ+EUGdFyD9NQTy5Ezs0HLnGD1WfAPb4yCVcOym3BNWW7gOBUtEl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MNIroxzC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c5bUiAXY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A981F00A3A;
-	Tue,  1 Sep 2026 22:44:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MNIroxzC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99BD31F000E9;
+	Tue,  1 Sep 2026 22:56:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788302646;
-	bh=EX6l5BO43dR8usJpPnpzMA2x7LlhIVIP5ZH177WJF5k=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=c5bUiAXYZu58JSbnPzOQ90LQDL+c7U4H+tMlyAfAmtRm4c6bbD7z2SfbaNDUZ49kE
-	 cCPvWgmI1UYQ5IjHoUD5f+aGP4pkG3U0mIpChw3WcC6YQ4ME5P53boGEUH6cRUKkEw
-	 JufG8XKnwnYLJtyoJa+MoL7dCHF66QSYStKrKRQ3pf9c//I/UJp+BBHbfchXt4M7SE
-	 R0nVwg5xziulfuwE3zxU4Qvx6UHyDr9+kON5oCD0DP1C1M6LOhYY1k4C0Tkj/f/90i
-	 hTdzWlJ+mXZu9QZDclNFxq1a1QtDC0mAKO/SuPIBBfqRVTCK+FxrraQPIXnv/hW4c8
-	 HWhtlSw1yM4TQ==
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 02 Sep 2026 00:43:52 +0200
-Subject: [PATCH 9/9] ASoC: ux500: Program the MSP FIFO watermarks
+	s=k20260515; t=1788303372;
+	bh=6YSy7g9UPEW0W36+LpQt56tn+F9qr24OgapwNweNbRU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=MNIroxzC1VpNhvqq+/5AmC7ol1fNZ8rTBzacRxFahB3tn+UM0K8ywd3HPrZZKy9Va
+	 l/cj2a8Wt72wGonC8y/r2wuEwhAN4HHXsF6QpcfFfcninL73I9hp6JeoBxG1oyM9qC
+	 slMrekxNujSh9L6jt4aYSG8xzGUHkeRKegf/gZXEEz8rYfQyQX3sgqVuVQCe1FM3St
+	 Rn1bWQ8yKuN4OzKsoMArhKoScjt/YWZ39Kw4VAQY37wnZx5MX9ZManew2bTtG2z3ko
+	 QE1YzO/N3k4WxK6y0ZZZT7NcUmZGzt943Fy+WeecA5xm7LF1Ih66DEIG+3cWGaFa0E
+	 cl20FEmPVafEA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260901152838.795864-1-robh@kernel.org>
+References: <20260901152838.795864-1-robh@kernel.org>
+Subject: Re: [PATCH v2] ASoC: ak4642: Drop "clocks" property presence check
+Message-Id: <178828801360.33904.16073161302861474782.b4-ty@b4>
+Date: Tue, 01 Sep 2026 19:40:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,68 +43,47 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-ux500-msp-fixes-v1-9-da1447fd9f7b@kernel.org>
-References: <20260902-ux500-msp-fixes-v1-0-da1447fd9f7b@kernel.org>
-In-Reply-To: <20260902-ux500-msp-fixes-v1-0-da1447fd9f7b@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
-X-Mailer: b4 0.14.3
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1125; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=/JNk43hFYwRm69rpqFNtmBtR8DBlxeRTVGoAduwwzWQ=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBql1gJhpTQGTzKfzGxbAHeuV36iJFqQ8u6jE9Fi
+ BJb0CeK4rKJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapdYCQAKCRAk1otyXVSH
+ 0G3MCACFnVzNrKPabmSC5axH165YBa1o1GDkODxJo9xgzBgH7oDJ0xHKs4GD1/eq3sHbc5YO3mV
+ LYsnllYkBlwupJz+EiNQOkmJyoZQ7dPWVEVlmxnmO7iY2waKRgXD13WgRgPc4/UHoFU5tkjK/EV
+ oIxCdBsCkdvn/V35Ok1dHXgY6ae0XuFB/kj/30WkgtadybpzC9oUOXM2ujM+gKdJF48TlAziAa4
+ 5nNxkI/H5InlyWYcBOgJ/Cn10fjMl1QwM2ZMWsBxMogX6/GwKD5uFz3hdR9d7Gt4b8ipz07E2vX
+ WUGzBt7xCte0hLyi3rzbUmnuRmHEhX550kXzqqfgmvm5gdif
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The DMA engine is configured for four-element bursts, but the MSP
-driver never programs the FIFO watermark register and instead depends
-on its previous or reset value. The DB8500 DMA request protocol requires
-the peripheral watermark to match the DMA packet size.
+On Tue, 01 Sep 2026 10:28:38 -0500, Rob Herring (Arm) wrote:
+> ASoC: ak4642: Drop "clocks" property presence check
 
-Program four-element receive and transmit watermarks when configuring
-the first direction, before enabling MSP DMA requests.
+Applied to
 
-Fixes: 3592b7f69a54 ("ASoC: Ux500: Add MSP I2S-driver")
-Assisted-by: LLM
-Signed-off-by: Linus Walleij <linusw@kernel.org>
----
- sound/soc/ux500/ux500_msp_i2s.c | 2 ++
- sound/soc/ux500/ux500_msp_i2s.h | 5 +++++
- 2 files changed, 7 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-diff --git a/sound/soc/ux500/ux500_msp_i2s.c b/sound/soc/ux500/ux500_msp_i2s.c
-index 43dc9b3aa4ef..683b485fb570 100644
---- a/sound/soc/ux500/ux500_msp_i2s.c
-+++ b/sound/soc/ux500/ux500_msp_i2s.c
-@@ -507,6 +507,8 @@ int ux500_msp_i2s_open(struct ux500_msp *msp,
- 		old_reg &= ~mask;
- 		new_reg |= old_reg;
- 		writel(new_reg, msp->registers + MSP_GCR);
-+		writel(MSP_WMRK_TX_4_ELEMENTS | MSP_WMRK_RX_4_ELEMENTS,
-+		       msp->registers + MSP_WMRK);
- 	}
- 
- 	res = enable_msp(msp, config, first);
-diff --git a/sound/soc/ux500/ux500_msp_i2s.h b/sound/soc/ux500/ux500_msp_i2s.h
-index 17b5c37a7e5d..2bf2699bdc49 100644
---- a/sound/soc/ux500/ux500_msp_i2s.h
-+++ b/sound/soc/ux500/ux500_msp_i2s.h
-@@ -62,6 +62,7 @@ enum msp_direction {
- #define MSP_SRG		0x10
- #define MSP_FLR		0x14
- #define MSP_DMACR	0x18
-+#define MSP_WMRK	0x1c
- 
- #define MSP_IMSC	0x20
- #define MSP_RIS		0x24
-@@ -228,6 +229,10 @@ enum msp_direction {
- #define RDMAE_SHIFT		0
- #define TDMAE_SHIFT		1
- 
-+/* FIFO watermark register */
-+#define MSP_WMRK_RX_4_ELEMENTS	BIT(0)
-+#define MSP_WMRK_TX_4_ELEMENTS	BIT(3)
-+
- /* Interrupt Register */
- #define RX_SERVICE_INT		BIT(0)
- #define RX_OVERRUN_ERROR_INT	BIT(1)
+Thanks!
 
--- 
-2.55.0
+[1/1] ASoC: ak4642: Drop "clocks" property presence check
+      https://git.kernel.org/broonie/sound/c/15570f6b54b0
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
