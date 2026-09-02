@@ -1,44 +1,70 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DA238DC53;
-	Wed,  2 Sep 2026 07:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F6F38E13F
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788333660; cv=none; b=VSqujrGvTqk89n2XYx3lfC5AK+vrRJKf2fj+6stkYY0juJrIy7OWZzDXbCc/i99XYhusMHy28KQr5uQB+MgACdzutM+2mPYsdygBD3IhbAyDtmeFO7BYT4ScN6XQVffbVkMoiM7voieJUi8yFQhMa1LjXmR34YwGg5jhz0L2VJ0=
+	t=1788334826; cv=none; b=KXo/PIDAaStahP9203nvwpYyQbX/UZlGPOj6I2VHJ/nPkRaHEUMXRbsCHrbkrFFSghx7aKkh7PFHSJTFfRDQUx3FsiqK12ZNK+NifHzYbfqMSXUky3pARqKIJfKg9v4h8TZdYaZcKsyIfVG/rIYP6NSfc2jdjiWVWeYVKdu9Kck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788333660; c=relaxed/simple;
-	bh=R/4XowQmGvxTlj2rCZ1tdczvx2JUZWBc0dNrP/2sr0Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RsMXgq1SsijHHm2ER7wNJQKTvxjenu8o/tzYmdw7ktVGKKBVy33xNSOwVkb7iHCm5DYAZWJyPigUWk+NDxRnca8tpC8UhxXnsk7L0tseuknAgPJOGS8wNYvCvmoCcmrH5IZvXxoEFgqD+pQRXoeI5JQqFJkFEVwlR4U89s34sTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=YTWCjTpO; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1788334826; c=relaxed/simple;
+	bh=hEbiDWALcEk6t+gh196c648EmC91vs4qbEzAk60h8pw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GGFsxMp7b0TZXF4FM0R+YBjolAfE7QUCj9DbfK66B/LFUfeuK3f4LIFBOaLK0P937Kc04VndtoNN4sn87WE/sx4L0cObTumhPmhbhrSQeCzfzKIOSjGwbzSKUeDeo5ZTfeYnnrZ29KPWIooA/vwn7aKjD8xksjZsKvyLhj/jbwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TfjiNquN; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="YTWCjTpO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=vw
-	1Xvpggs2mVj8lsae6MPUwNod4aHqBhrGAI+BPAJEg=; b=YTWCjTpOPUqjx8dsOM
-	w42+CJhoFN3qpnUDHC+tpNNAiLxxYI6hyXWkT7XPHyNTBgA1Eo2LOqGf8lwrZoLo
-	kkZR+EoNT6+UL4ARtw+n263ZOjUHhzzNRJazCqrsdA/H0QZgG6jaos1AwkYiCTUj
-	5Uv7cF2mF3cYbDlkOUMkUvy94=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgBnP6UuzpdqMkg2NQ--.54267S5;
-	Wed, 02 Sep 2026 15:20:19 +0800 (CST)
-From: wangdich9700@163.com
-To: srini@kernel.org,
-	broonie@kernel.org,
-	tiwai@suse.com,
-	wangdich9700@163.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wangdicheng@kylinos.cn
-Subject: [PATCH 3/3] ASoC: qcom: fix VA CDC DMA DAI range handling
-Date: Wed,  2 Sep 2026 15:19:43 +0800
-Message-Id: <20260902071943.522194-4-wangdich9700@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260902071943.522194-1-wangdich9700@163.com>
-References: <20260902071943.522194-1-wangdich9700@163.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TfjiNquN"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cbedf433a99so812718a12.2
+        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 00:40:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788334824; x=1788939624; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MXcpK8x3d/kSx5MzpGpR7YXF+3TtZnzr1snN5gFSm2I=;
+        b=TfjiNquNVd8vlmz9Tssg+fLYvZ6osrkU53RWPYsEg7xSWmhsk3iwCf+TP+1RyLJGkn
+         MjSpfqQh1dCKDcgoLgcnxgy+EGMDyKqFMBx3wCwaSM36CcJ/JpKRs0/f5LTKFeXIN2Ad
+         qeoCCZCZ5hzGS+lD7FklDwh/CeVzvBqzwRdw2VyXs3XTYqZ9dFv7Z91ccmBIcNG21SRe
+         1jMUPQLoNBQnp0UqvPcrFty2oZLO64D+yXHrMgs8sgeIL2Xc6RtNRJ37D0WwO6rwB21+
+         08Q6UDFxyqVBO/NaAPpRN/dz1JEABxRTYdtGbO6JlkIFhm8qJWTaVquakp+Gx5SgQwN+
+         UlXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788334824; x=1788939624;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MXcpK8x3d/kSx5MzpGpR7YXF+3TtZnzr1snN5gFSm2I=;
+        b=ayir3w5WO4aOwglypATMJyiTvx1RpQgwrkpdOhHXG+L1djZkJzKG3guQoydaYZQ9HY
+         kNdRi4rf/gsr7ErSfMzB9J3OZqxjcPg8FWJXOVYLvh9zUBBAXthZgId7UhMmTGJ7mEn3
+         iqT8zuGhcj0JMpoiP30q1W3HSzEbIdBIJwBQbivuR50YEZfuGJ/TgePUx1tWXEWjMlaO
+         /4ElGuXY4vcFrji4Zo0HbdoDuJnlp4C3TPbCS7566Bg3ChID1YXET7Oq6sFUx+dJdGrd
+         p8avhLI7W54ltu8W1IypaDTRkf4nwlaPDb0K3ymBD3GZKdLBkVAFYE5jzPwyO4hnGh0R
+         1Wlw==
+X-Forwarded-Encrypted: i=1; AKwUvBxqQnvmUTXTr7z4V161a2bDNnPl28IGSsE3blBJqj9Ck5iYwfz6ltML6ZKvqOg+xw2i8e9X8zGiPDlFSg==@vger.kernel.org
+X-Gm-Message-State: AFuF++naRgz3AyMlkgfptba26cmjfd43XRtJCbv9w6rS9Zglrb11KkrD
+	t+QGKWOfb6xaLeK4/5ZMukUc46pSiV5HQQ7O3+lzUDYctnQRE3mFBw4o7i/lmJDK8hmgnFT1
+X-Gm-Gg: AYBFou2nINBtCSgHexQX9orXIVMcT4R0NsbjDh7nr3nHktF6GFtK41+8M18HkgOcTh5
+	jH+UZ6LfhM2uznV7x7G+Y+/AzQNsxFN+mz4YSDutDSh63DyoT0zI0UURDUbkuIZ4tEx6e8PeccG
+	f5/K/2wXnLHw0bwecbzjdVq5V4eG7tz7GC6us/9rmhDbDCaZPJ3mQvGEMknIb9SMcqNHZtz4pQ4
+	6I+0PTf4RYcI+fUmyaehC1NunHLsy0z7zj61zAYN/YLfvO2nnoSuM93/gqKhhM77mQpj+dSd7bY
+	uCADtsG5b3cLYPCQkx/S4SYwW3LS1Q2NJ0slbmZlCcHQ7GUHc+Rl2z2cYiHfAlidTS3g6kidW+8
+	8tiUBOKjqpagYLJwlLmMvzZxK5FI2RV2twBDuElTg3MvA1iSUyVDjG0pa8B7l7SxvaufAoqy2Xx
+	CyAr7IfaFMIKARwExZ8LYqilRDkUOQNTrbxc7aAStEE7kWKRdKp0qhrfXwB2mf
+X-Received: by 2002:a17:90b:3805:b0:398:d843:cad9 with SMTP id 98e67ed59e1d1-39aee1c74a6mr3430385a91.19.1788334823792;
+        Wed, 02 Sep 2026 00:40:23 -0700 (PDT)
+Received: from cqian-s2.. ([175.159.214.249])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39ae3c6e8d7sm4336775a91.15.2026.09.02.00.40.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 00:40:23 -0700 (PDT)
+From: Qingyu Zhang <usupergate@gmail.com>
+To: perex@perex.cz,
+	tiwai@suse.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: ump: do not touch legacy_rmidi before it exists
+Date: Wed,  2 Sep 2026 15:39:18 +0800
+Message-Id: <20260902073918.880245-1-usupergate@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,78 +72,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgBnP6UuzpdqMkg2NQ--.54267S5
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAF4kAFWkZrWUAF1UGFy3Arb_yoW5WFWrpF
-	43Wan8KrZ8Aa97Zw17Jr45Wr1UGr4xtFWxCay5J3Z7Jwn8ArnFqay3JF1IgFW2kryIqFn3
-	JrW7Z3s8uF4vgrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziAuc_UUUUU=
-X-CM-SenderInfo: pzdqwv5lfkmliqq6il2tof0z/xtbC5xNAj2qXzjOk+wAA3k
 
-From: wangdicheng <wangdicheng@kylinos.cn>
+snd_ump_parse_endpoint() sets ump->parsed on every exit, including
+error, before the caller attaches the legacy rawmidi device.
+ump_handle_ep_name_msg() then treats parsed as "legacy_rmidi is live"
+and calls ump_legacy_set_rawmidi_name(), which snprintf()s into
+ump->legacy_rmidi->name. If a UMP packet arrives in that window
+(IRQ path from snd_ump_receive), legacy_rmidi is still NULL
+(KASAN null-ptr-deref in snprintf).
 
-Several switch statements used "LPASS_CDC_DMA_VA_TX0 ...
-LPASS_CDC_DMA_VA_TX0" which only matches VA_TX0, leaving VA_TX1
-through VA_TX8 to hit the default case and print a spurious error.
-In lpass-cdc-dma.c this also meant the va_mem0 clock was not
-prepared for those DAIs. Use LPASS_CDC_DMA_VA_TX8 as the upper bound
-to match the rest of the driver.
+Guard the legacy helpers. parsed only means endpoint info was
+parsed, not that legacy_rmidi exists.
 
-Signed-off-by: wangdicheng <wangdicheng@kylinos.cn>
+Fixes: 37e0e14128e0 ("ALSA: ump: Support UMP Endpoint and Function Block parsing")
+Signed-off-by: Qingyu Zhang <usupergate@gmail.com>
 ---
- sound/soc/qcom/lpass-cdc-dma.c  | 8 ++++----
- sound/soc/qcom/lpass-platform.c | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/sound/soc/qcom/lpass-cdc-dma.c b/sound/soc/qcom/lpass-cdc-dma.c
-index 5be13dd59517..dc645fcfd33b 100644
---- a/sound/soc/qcom/lpass-cdc-dma.c
-+++ b/sound/soc/qcom/lpass-cdc-dma.c
-@@ -180,12 +180,12 @@ static int lpass_cdc_dma_daiops_startup(struct snd_pcm_substream *substream,
- 		clk_set_rate(drvdata->codec_mem0, CODEC_MEM_HZ_NORMAL);
- 		clk_prepare_enable(drvdata->codec_mem0);
- 		break;
--	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX0:
-+	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
- 		clk_set_rate(drvdata->va_mem0, CODEC_MEM_HZ_NORMAL);
- 		clk_prepare_enable(drvdata->va_mem0);
- 		break;
- 	default:
--		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, dai->id);
-+		dev_err(soc_runtime->dev, "%s: invalid interface: %d\n", __func__, dai->id);
- 		break;
- 	}
- 	return 0;
-@@ -202,11 +202,11 @@ static void lpass_cdc_dma_daiops_shutdown(struct snd_pcm_substream *substream,
- 	case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
- 		clk_disable_unprepare(drvdata->codec_mem0);
- 		break;
--	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX0:
-+	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
- 		clk_disable_unprepare(drvdata->va_mem0);
- 		break;
- 	default:
--		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, dai->id);
-+		dev_err(soc_runtime->dev, "%s: invalid interface: %d\n", __func__, dai->id);
- 		break;
- 	}
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index d183c8a000bd..3d1a2ed3b476 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1335,6 +1335,8 @@ static void update_legacy_names(struct snd_ump_endpoint *ump)
+ {
+ 	struct snd_rawmidi *rmidi = ump->legacy_rmidi;
+ 
++	if (!rmidi)
++		return;
+ 	update_legacy_substreams(ump, rmidi, SNDRV_RAWMIDI_STREAM_INPUT);
+ 	update_legacy_substreams(ump, rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT);
  }
-diff --git a/sound/soc/qcom/lpass-platform.c b/sound/soc/qcom/lpass-platform.c
-index b335b2c8bb16..2f65e6a589bc 100644
---- a/sound/soc/qcom/lpass-platform.c
-+++ b/sound/soc/qcom/lpass-platform.c
-@@ -490,10 +490,10 @@ static int lpass_platform_pcmops_hw_params(struct snd_soc_component *component,
- 		break;
- 	case LPASS_CDC_DMA_RX0 ... LPASS_CDC_DMA_RX9:
- 	case LPASS_CDC_DMA_TX0 ... LPASS_CDC_DMA_TX8:
--	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX0:
-+	case LPASS_CDC_DMA_VA_TX0 ... LPASS_CDC_DMA_VA_TX8:
- 		break;
- 	default:
--		dev_err(soc_runtime->dev, "%s: invalid  interface: %d\n", __func__, dai_id);
-+		dev_err(soc_runtime->dev, "%s: invalid interface: %d\n", __func__, dai_id);
- 		break;
- 	}
- 	switch (bitwidth) {
--- 
-2.25.1
-
+@@ -1343,6 +1345,8 @@ static void ump_legacy_set_rawmidi_name(struct snd_ump_endpoint *ump)
+ {
+ 	struct snd_rawmidi *rmidi = ump->legacy_rmidi;
+ 
++	if (!rmidi)
++		return;
+ 	snprintf(rmidi->name, sizeof(rmidi->name), "%.68s (MIDI 1.0)",
+ 		 ump->core.name);
+ }
