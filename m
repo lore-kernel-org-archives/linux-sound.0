@@ -1,86 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A4037881D;
-	Wed,  2 Sep 2026 06:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33476388E76
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 06:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788330573; cv=none; b=pzbYDwg8nDv9qJ6HxLOZhCXco/EYMHmiuanmp/dZfzLsLqH6S9zGtJpytFG1HkExFUWqfmMtwrQUy9c64Fx7ie/+H8D6SuabK3idv8c8zz2n60yF5jD7U+b3Bth+W65BYXOejjywwepfllHiW2rIzl+AV7+h5oicLIfoqF/ZHRQ=
+	t=1788331474; cv=none; b=Gj3/AuNC7GRSZZbTOtptzkJZopMkFXW7lj1Yq7I3VpqBnN0AW1BjrWvctD//XYgEaC9ZIhM86UQPyQG7yltwDjw6p9kyzpas+qKgcc0UkMDVo/JDoN9UTiauPIo4ehlqw0LzYBM24Uq/Pjx4c5HEpgZG/ms+VUfR2WaD7tX3N0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788330573; c=relaxed/simple;
-	bh=VwWzqhiRmZrXyuHn6PhlO+iIUE0taB3t8r+c9VsS4hE=;
+	s=arc-20240116; t=1788331474; c=relaxed/simple;
+	bh=GXHZpIeBe3j2/DE3vNWBoC8rRW53KjIG2dhtuoW9k0g=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LnMzZydmzaWVr9vZm9he2xwg1pZALe7SNjfl85nfmf8ccLlIXwvzvy1IHVgFFM2Gs/7K0Ix3py8l2d3qQc3z6Vp2lfRaMjqVvVLEvJIJkTFjABysPFooe9FhUnta4WQhzKSfIyfzGoWXSq6BVf9NnXEXZiSBKxCfULXrbhBOYNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XW4zSpDT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ij94hq4X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RS3PBK1m; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h6xh7sXS; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=gDbSN+/gDsRRWoaY2slpYqCf7wSe/WspKrTVhITpnmaxP7/A7QBrIAWLrXskM1vdnmCx5DjCEz7zhKWpbTGtwKtkUGrydbFq8lbnR9RGjA+LqvbvcX96lD8jQjXA3ch98F//I1qdJYfhriXsPxekNwkq6w0piQAPIQAmHV6t2TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OfRHVwt+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+ycOlvhG; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rDDKTCN3; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tjamup4D; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XW4zSpDT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ij94hq4X";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RS3PBK1m";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h6xh7sXS"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OfRHVwt+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+ycOlvhG";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rDDKTCN3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tjamup4D"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 50B3D1FABE;
-	Wed,  2 Sep 2026 06:29:21 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C294221F1B;
+	Wed,  2 Sep 2026 06:44:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788330565; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788331466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wtferj54A7M2Y4ZmBsSrcUZQ7O1zbnbWbMWYUG3YTlA=;
-	b=XW4zSpDTHLqiLhydVoAPcoQG2G9YVkvqpXhtGBEG3KXWMy2tZaFpLMdteWykg76WLGJ6rC
-	KN/brg7mJ31Ho9YM0ydl4wKji1E5wlE1SJqDCT1MQY2qbpuMTmy0Sh9EuxLomQlpKHRiFS
-	VLVOD3NKcL8qlsIVZBO2WozKt/dm/So=
+	bh=F1cOAs96rveVWIlHjWvhQ25ERcXFHWsJh8TxjoMTleA=;
+	b=OfRHVwt+1h30/s3D5z0wdyHIy3jAQJRRSOMAn+B2uUSrwEXHodaM909gh2NokA8XW48rPj
+	2ja0W1k43l59m7x7nFtexNfwh1I2mr1UGXtozfp5OgbNtDZtBz89q/OkaefjloH2t1OdhH
+	UPWtJ/XvyOWp51/g1XqXPBgJw7gWees=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788330565;
+	s=susede2_ed25519; t=1788331466;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wtferj54A7M2Y4ZmBsSrcUZQ7O1zbnbWbMWYUG3YTlA=;
-	b=ij94hq4XJkdiY0Z62bJd9pJulBrNYXgvUfIps0fljyzSlo9Od9n9RUGZ9gSTkSLAnRnOpa
-	BsLhI93YY9lH2mBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RS3PBK1m;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=h6xh7sXS
+	bh=F1cOAs96rveVWIlHjWvhQ25ERcXFHWsJh8TxjoMTleA=;
+	b=+ycOlvhGCe9DFYFcY1HvP246k6HY/V/8DrHp52AluOd7g3owM12496Bap/b4bQ0b/CBFo2
+	gfRfNc49j0DDpfCw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rDDKTCN3;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=tjamup4D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1788330561; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1788331462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wtferj54A7M2Y4ZmBsSrcUZQ7O1zbnbWbMWYUG3YTlA=;
-	b=RS3PBK1mXL2AhalIMzSIXBZKavNOBoV8KLJpASW8bIESz/tVN/YIqKOSGitHiQfIgHmpbg
-	X1M5dTDHhMlCaG4Xf4DGbWriydK2yZ2WJfnDKvabu5hSAdBcBs8s/p1imNaQqu+XiRULhV
-	ocmNLRUIO97gMwgzQCluHZ33j2jSShk=
+	bh=F1cOAs96rveVWIlHjWvhQ25ERcXFHWsJh8TxjoMTleA=;
+	b=rDDKTCN307o1ywuE1jQjTMxhblk6eDNr1yqCCRS72vO0SjleSn1HPJZyUp6/FX4f96sfQx
+	FV6Wk0T8Suicczz2tf8nd4Q4wTvu4rR/QEmpQWgyfnWIJUQqbvvvxPW4Ob7LUEzf+txyMt
+	o5BhkGTWvvgAGMyg+GC67/XynOamSz4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1788330561;
+	s=susede2_ed25519; t=1788331462;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wtferj54A7M2Y4ZmBsSrcUZQ7O1zbnbWbMWYUG3YTlA=;
-	b=h6xh7sXSIyK1fj9Sx3Kx9hk2pUewDQW4EpfwrN7elamDVtuw90xQ0TJjIhflYBpgqO1lzy
-	O/ys6x+bkQu3WwCg==
+	bh=F1cOAs96rveVWIlHjWvhQ25ERcXFHWsJh8TxjoMTleA=;
+	b=tjamup4DLeddQNlIK463kvin56k7DDs9jB/EnLFNpnzji9+xpKiO8O1OQkMgUJj3vKu9xB
+	9GQsm+Ea0Eff+8Bg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 071B6136E6;
-	Wed,  2 Sep 2026 06:29:20 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 858C0136E6;
+	Wed,  2 Sep 2026 06:44:22 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WwUBAEHCl2rFHQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 02 Sep 2026 06:29:20 +0000
-Date: Wed, 02 Sep 2026 08:29:20 +0200
-Message-ID: <87mru0b1z3.wl-tiwai@suse.de>
+	id wHVVH8bFl2q2PQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Sep 2026 06:44:22 +0000
+Date: Wed, 02 Sep 2026 08:44:22 +0200
+Message-ID: <87ik4ob1a1.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Qingyu Zhang <usupergate@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+To: Allen Abraham <allenabraham713@gmail.com>
+Cc: "tiwai@suse.com" <tiwai@suse.com>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] ALSA: ump: NULL deref of legacy_rmidi after parse sets parsed
-In-Reply-To: <CAPBHdanmknKKhhc+5r8jPsnyZW8LYVq0qpzfEVrvjL3i5sNuJQ@mail.gmail.com>
-References: <CAPBHdanmknKKhhc+5r8jPsnyZW8LYVq0qpzfEVrvjL3i5sNuJQ@mail.gmail.com>
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add mute LED quirk for HP Pavilion 14-dv0xxx
+In-Reply-To: <CACw2+N5x_DCXKj_k-iV8sQ=hcS7KxVyfRZsaR8PPx6qpRAFMug@mail.gmail.com>
+References: <CACw2+N5x_DCXKj_k-iV8sQ=hcS7KxVyfRZsaR8PPx6qpRAFMug@mail.gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -92,27 +91,28 @@ Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 50B3D1FABE
+X-Rspamd-Queue-Id: C294221F1B
 X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_THREE(0.00)[4];
 	RCVD_TLS_ALL(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
 	RCVD_COUNT_TWO(0.00)[2];
@@ -121,102 +121,22 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 X-Spam-Flag: NO
 X-Spam-Score: -3.51
 
-On Wed, 02 Sep 2026 04:07:30 +0200,
-Qingyu Zhang wrote:
+On Tue, 01 Sep 2026 14:26:44 +0200,
+Allen Abraham wrote:
 > 
-> Hello,
 > 
-> ump_legacy_set_rawmidi_name() snprintf()s into ump->legacy_rmidi->name
-> when ump->parsed is true, but parsed is set at the end of
-> snd_ump_parse_endpoint() *before* snd_ump_attach_legacy_rawmidi().
-> A UMP packet in that window NULL-derefs.
+> HP Pavilion 14-dv0054tu (PCI SSID 103c:87c9) with Realtek ALC287 codec
+> controls the mute LED on the F5 key via GPIO 4 (mask 0x10).
+> Add a quirk entry with ALC287_FIXUP_HP_GPIO_LED to enable the mute LED.
 > 
-> Type: null-pointer dereference
-> 
-> * Summary
-> 
-> snd_ump_parse_endpoint() always does:
-> 
->        error:
->                ump->parsed = true;
->                ...
-> 
-> ump_handle_ep_name_msg():
-> 
->        if (ret && ump->parsed) {
->                ump_set_rawmidi_name(ump);
->                ump_legacy_set_rawmidi_name(ump);  /* rmidi may be NULL */
->        }
-> 
-> ump_legacy_set_rawmidi_name():
-> 
->        rmidi = ump->legacy_rmidi;
->        snprintf(rmidi->name, ...);   /* no NULL check */
-> 
-> This runs from snd_ump_receive() on the USB input URB complete path
-> (in interrupt).
-> 
-> * Affected
-> 
-> 37e0e14128e0. Needs CONFIG_SND_UMP, CONFIG_SND_UMP_LEGACY_RAWMIDI,
-> CONFIG_SND_USB_AUDIO, a MIDI 2.0 gadget or device. KASAN.
-> 
-> The natural window is parse-done vs attach. The QEMU PoC widens it
-> with a kprobe on snd_ump_receive (poc/widen_ump.c) plus dummy_hcd
-> configfs midi2, because the un-widened window is short.
-> 
-> * Reproduction
-> 
->        # dummy_hcd + configfs usb_gadget midi2.usb0 (see poc/run.sh)
->        # with widen_ump.ko: force parsed=1, legacy_rmidi=NULL on receive
-> 
-> KASAN: null-ptr-deref in snprintf from ump_legacy_set_rawmidi_name
-> <- ump_handle_ep_name_msg <- snd_ump_receive <- input_urb_complete.
-> Then "Fatal exception in interrupt".
-> 
-> * Expected
-> 
-> legacy_rmidi helpers no-op until attach has stored the pointer.
-> 
-> * Actual
-> 
-> IRQ-context NULL deref.
-> 
-> Please consider the suggested patch
-> 
-> Thanks.
-> 
-> Suggested patch:
-> ```
-> diff --git a/sound/core/ump.c b/sound/core/ump.c
-> index d183c8a000bd..3d1a2ed3b476 100644
-> --- a/sound/core/ump.c
-> +++ b/sound/core/ump.c
-> @@ -1335,6 +1335,8 @@ static void update_legacy_names(struct
-> snd_ump_endpoint *ump)
-> {
->     struct snd_rawmidi *rmidi = ump->legacy_rmidi;
-> 
-> +    if (!rmidi)
-> +        return;
->     update_legacy_substreams(ump, rmidi, SNDRV_RAWMIDI_STREAM_INPUT);
->     update_legacy_substreams(ump, rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT);
-> }
-> @@ -1343,6 +1345,8 @@ static void ump_legacy_set_rawmidi_name(struct
-> snd_ump_endpoint *ump)
-> {
->     struct snd_rawmidi *rmidi = ump->legacy_rmidi;
-> 
-> +    if (!rmidi)
-> +        return;
->     snprintf(rmidi->name, sizeof(rmidi->name), "%.68s (MIDI 1.0)",
->          ump->core.name);
-> }
-> ```
+> Signed-off-by: Allen <allenabraham713@gmail.com>
 
-Thanks for the report.  The suggested code change looks good.
-Could you submit a patch in the proper format for upstreaming
-(especially with your Signed-off-by tag)?
+The patch isn't cleanly applicable, as your mailer likely broke the
+spaces and tabs.  And, your Signed-off-by tag is incomplete; it must
+be with a real name (or a known identity).
+
+Please fix your mailer setup and resubmit with a proper Signed-off-by
+tag.
 
 
 thanks,
