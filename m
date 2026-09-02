@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC258374A1A
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167AB377EC5
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788336859; cv=none; b=FOz3dfz0/205zeCX32meirlzCCyZ8XLCN0L2niEmMNL/UCS6DYlATVqI/rhdL5OoZImL7BeE1S7PacmgoldA5qIHZCCz489AOg13xwvTYtrrIOmq+lGm9lC0ksrwQow8VhFSQhVPXhe2bE3OmoocJfb/ihPPaGz6ICBnFEsEFD8=
+	t=1788336862; cv=none; b=EsaDeAcFT5m6ONeVGyWjwT3HQ0VkU0iGyKcNL63WHD1ZoLJ19O1/gp/QbZ4W17aFS/33CXGXrtJ3ADFX4+IGSAHH241ekJj0EaaO84eAzvr7SII2u993XU05Y5ojRWzBxoETdEn21rsHKSojdfwquWhH97HZN2BzUv9gxsyMzNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788336859; c=relaxed/simple;
-	bh=CtQ6kZqYHhdakZYFpjMm08BG7u1bEbRN5FWLjQ8NooQ=;
+	s=arc-20240116; t=1788336862; c=relaxed/simple;
+	bh=BAVdsAVQnJ5KdyOugV+Msv43Jgls7cyem4g7psGZQto=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oNGAghyenEZ5unlxuRULWPGG6ZfAWpq2fBci+ygCHhTgPr4AVbt8qm/ss/qMo1L1Ej8ANDe8NxBUuLxfssa64mxggBRQPIjG65SMwCmgk65jnh2mZ9QkfgQctBbxGcQyNh9d59OPPi4BPZwcL+WeiFq7RRBnWkBH+NzRV3rrEoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtYOaVa8; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=GzaTlfi2VLigx98IjPSnkM5/xI4nwZjgpfGbRfU7Xx/RGUNPYPbaQKcngraHR7QodQ77IBRTbDugG6gc2rh5XzHMKpBdC9IsI6XybY3xLs7A+qc1rkjz7K7DBNC05zvUUN35l0dUkIzMdYch/RRl+WbzP6UNVH+Bwi0+xAmaM+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lGIJC9Oz; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtYOaVa8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lGIJC9Oz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788336857; x=1819872857;
+  t=1788336860; x=1819872860;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CtQ6kZqYHhdakZYFpjMm08BG7u1bEbRN5FWLjQ8NooQ=;
-  b=OtYOaVa8waTjYcbIjv0caxMymHkZvNodNB+407CTA9Z50CYLT8zm4Ace
-   Rdz4b7pc9rjts0XK6HidMZjqDfwYD43B83RsvswTMFe+UQZI1sBmh2VUQ
-   qUl6/o7qN74LQUhgi+Vhpow4OiQCRul1lXp7aRdTcDUzLsKq94LfAHzkb
-   j8jUbX7QU45tUBi9psNIcdFYLjvhLaiu19F/M5w9RMcGtthI1pjAlrfxD
-   kD0h/pSRuFmL92a21mPkaqDvKijgByBuXQWoIXr6AusSQmQ/vh+B7kjXs
-   jyNh1qiza4QapgYsQ6f+OQJ8VLBoBZJqdUW33h6vMYwMShioeLu5JFbXk
+  bh=BAVdsAVQnJ5KdyOugV+Msv43Jgls7cyem4g7psGZQto=;
+  b=lGIJC9OzN5K8uW6DLNZM6D2wBwPQk7ge9w345N+IIK44bc9LFgRD1Oe3
+   1qUyE/580JHqy2bNwjVKIAwft6PUmU4JB59PssL0MmuyJchXt8q351TOh
+   hOchWmVLxzkjXqrsEnj+f1nWG4mQ8otziMinr5lAk7e8YVL5g2xYh2J/H
+   dw/qenb0btGzZxCAK4GrnYW/cyEfPYYSeD2SpD0qudKqKrLPntcF1pjyO
+   fwDTznCVJvoXmFp4N0VMk0PEDyEA3F6wJUOGypON8KeOPR/2QN2PPiMqy
+   QznBsmZBw3+Zers9DGdJTKb4UCdMFqQiEEvYmItPsM8gX/YcbvoSQxD7I
    A==;
-X-CSE-ConnectionGUID: AFngKcT6Ru2N4RPJ9WEX1Q==
-X-CSE-MsgGUID: zbY0E5f+TVOqmkzzkTuhRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="99120984"
+X-CSE-ConnectionGUID: +5x8Os8OTZaunz4dnxfi8g==
+X-CSE-MsgGUID: 36GRtJR6TImEINxwN34/HA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="99121009"
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="99120984"
+   d="scan'208";a="99121009"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 01:14:11 -0700
-X-CSE-ConnectionGUID: rkYYaBMwSc++ZbbZ7puzow==
-X-CSE-MsgGUID: 0ff/ghZESCS8vewDPFLK4A==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 01:14:17 -0700
+X-CSE-ConnectionGUID: uRQQytX2QViVGzpCT1QgHw==
+X-CSE-MsgGUID: NRmjFmODSpyNgOLF1CXgoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="266099066"
+   d="scan'208";a="266099087"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Sep 2026 01:14:09 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Sep 2026 01:14:16 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v4 04/10] ASoC: Intel: avs: Clean up the bus when fetching ML caps fails
-Date: Wed,  2 Sep 2026 10:18:08 +0200
-Message-Id: <20260902081814.1590883-5-cezary.rojewski@intel.com>
+Subject: [PATCH v4 08/10] ASoC: Intel: avs: Fix unbalanced module reference count
+Date: Wed,  2 Sep 2026 10:18:12 +0200
+Message-Id: <20260902081814.1590883-9-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260902081814.1590883-1-cezary.rojewski@intel.com>
 References: <20260902081814.1590883-1-cezary.rojewski@intel.com>
@@ -62,54 +62,54 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-snd_hdac_ext_bus_get_ml_capabilities() may fail and its return code
-shall be checked and accounted for. Address the issue by updating the
-error-path for avs_pci_probe().
+strace_open() invokes try_module_get() which on success takes
+the module reference.  If any follow up operation causes
+strace_open() to fail, the refcount shall be put down.
 
-At the same time, if the function in question succeeds but the next part
-of avs_pci_probe() fails, the hlink list shall be cleaned up before
-leaving the scope.
-
-Fixes: 1affc44ea5dd ("ASoC: Intel: avs: PCI driver implementation")
-Co-developed-by: Amadeusz Sławiński <amade@asmblr.net>
-Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
+Fixes: 0a5fb3cc28fd ("ASoC: Intel: avs: Keep module refcount up when gathering traces")
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/core.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ sound/soc/intel/avs/debugfs.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index f45256ff5bac..8f27a7d43718 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -475,8 +475,13 @@ static int avs_pci_probe(struct pci_dev *pci, const struct pci_device_id *id)
- 	}
+diff --git a/sound/soc/intel/avs/debugfs.c b/sound/soc/intel/avs/debugfs.c
+index 9ab503da3b75..bc02737720ab 100644
+--- a/sound/soc/intel/avs/debugfs.c
++++ b/sound/soc/intel/avs/debugfs.c
+@@ -9,6 +9,7 @@
+ #include <linux/cleanup.h>
+ #include <linux/debugfs.h>
+ #include <linux/kfifo.h>
++#include <linux/module.h>
+ #include <linux/wait.h>
+ #include <linux/sched/signal.h>
+ #include <linux/string_helpers.h>
+@@ -236,15 +237,20 @@ static int strace_open(struct inode *inode, struct file *file)
+ 	if (!try_module_get(adev->dev->driver->owner))
+ 		return -ENODEV;
  
- 	snd_hdac_bus_parse_capabilities(bus);
--	if (bus->mlcap)
--		snd_hdac_ext_bus_get_ml_capabilities(bus);
-+	if (bus->mlcap) {
-+		ret = snd_hdac_ext_bus_get_ml_capabilities(bus);
-+		if (ret < 0) {
-+			dev_err(dev, "failed to get ml capabilities: %d\n", ret);
-+			goto err_ml_cap;
-+		}
+-	if (kfifo_initialized(&adev->trace_fifo))
+-		return -EBUSY;
++	if (kfifo_initialized(&adev->trace_fifo)) {
++		ret = -EBUSY;
++		goto err;
 +	}
  
- 	if (dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)))
- 		dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
-@@ -518,6 +523,8 @@ static int avs_pci_probe(struct pci_dev *pci, const struct pci_device_id *id)
- 	snd_hdac_bus_free_stream_pages(bus);
- 	snd_hdac_ext_stream_free_all(bus);
- err_init_streams:
-+	snd_hdac_ext_link_free_all(bus);
-+err_ml_cap:
- 	iounmap(adev->dsp_ba);
- err_remap_bar4:
- 	iounmap(bus->remap_addr);
+ 	ret = kfifo_alloc(&adev->trace_fifo, PAGE_SIZE, GFP_KERNEL);
+ 	if (ret < 0)
+-		return ret;
++		goto err;
+ 
+ 	file->private_data = adev;
+ 	return 0;
++err:
++	module_put(adev->dev->driver->owner);
++	return ret;
+ }
+ 
+ static int strace_release(struct inode *inode, struct file *file)
 -- 
 2.34.1
 
