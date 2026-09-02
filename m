@@ -1,84 +1,195 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDED4A49B4;
-	Wed,  2 Sep 2026 17:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896EA33D4E2
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 17:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788369085; cv=none; b=E23dHRzEI+Ub118mZ18cAs2qeI6vinQ0OOU7QyBKtikNFnUrorCzIYhNcSk+r4Z7fUgmQhlYno4GuAnHRAod2a8Nw9DGvFr3HSQBAyX9xoFvSEF7wl1ykYRuWFRKZi/NakuFfymzPMMi6Kkck7WwqFj6DJrJyybmNE0aeq+1kyA=
+	t=1788369286; cv=none; b=IbIPY1qfzLuAkcEhUiwYMemAzhTVqYZQM5nfNdOs4hEBLCulSqB+efoX0Em6TxnWZ/Ql4nJkZodA9gtxSnxq6llnTfwiYivh0DZUIm1Ds1x2R6DCbTsuPNFy6MCq1WPHkFQyossvdDJ42E/qGVKGpB2oEMDRFFPGSFxfCbO83so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788369085; c=relaxed/simple;
-	bh=F7UkuTj97Fxyxet4QZZ0EU7w/z5NrYvRqhVG0eDqMvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ANAEQszaVgQbusT0hZuJ0X9ZaHha+5BAKo74eHLoY/XCWMc/ljQaL6tTFWXX3shP+2uqng5Pq7pi1+15ggRvvTTfAeIWF16f4OJ/4OAcocD1YsMaA4UEqSi1DiHxOBFbj0AwvN3t1oYuUIRmrWebooClloAobddN/8jl2cwrVkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Xhdoh3Pb; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788369286; c=relaxed/simple;
+	bh=qMZsljQDmb6N5lP7DSQvqvrfudliFDTL2G69BbIvksI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=l+Fcg46GlqRXKacD8j/WaVeBH0G5QKD0xsPrKwkDki4rh9Zmdzq+ZD5K2fPItdDzY3tuf2OOD7AFG/jFKIoMm8uZ1PwQiRnsFve5NlWT1nqP3WMqsuef33PMIgV9JUCqDQV/ZMzOJMBWt4tSNQiqgV62Rwb5xTUQU6F3imVu1vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=soKQ4Phy; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Xhdoh3Pb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=eTNn0d76R4O0+k9rVJ2pe3fnIv3evJ59yunTKX7NAy4=; b=Xhdoh3PbJ9lGU/0GowkVjXW2+Y
-	grODHnO8j9cYU1P6O9AOqoGXVDJ5gI0daOAM4dzZwicTj4N/nlD2EBtFQSShR6nKvyhmjvmFb99KG
-	ZN4cTiSqC8i3qT/6yqLqS4fUkLBh1PHEO46pa15X6Nh1rNENlUyRIHW2UgPvqftLGpQw8dYgzAJhL
-	6rMMFXsVBo4J547+9R3Xo7n1HDfhGF5DOiCH3LTxSq1CkF7VWSMDWbSDEyB7r3bj25iECVwqfK4IQ
-	IZZJPZPifq537A3lVvv7kl4QUA4+lbL75/7f8O8gsk/he6TTtkWPyTSGAb12t+RPkRUB7SFO+ovqd
-	G6GYXJNA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1oUc-0000000FPIr-1ft0;
-	Wed, 02 Sep 2026 17:11:22 +0000
-Message-ID: <9b69cbd5-afff-4278-a56a-2a17c11de7cf@infradead.org>
-Date: Wed, 2 Sep 2026 10:11:21 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="soKQ4Phy"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49a97714f5dso9799995e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 10:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788369283; x=1788974083; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DAfzOXevgdtu1x0JDE+nFJSd7ktVRul0G2NSyc8HyKw=;
+        b=soKQ4PhyzSAJO6sYchbDL/Ixjw9LQ9S/izg+1GF4Iak6wfTdD6NcBaT6oYIU1AAzpw
+         EYNDap34djsSIzfXQP0jP+ah1Y9q+UyEjh6K0ymz/TETsyimr+MXtB8oXK8RO3YL4FeZ
+         6Bm7gn70RPMhX4AHUQSkJjDpdW5HdSkl2GEfScBtlnUzuxo6THNoFWb1yO2LgfDOEXu9
+         su1gSvUHIsjSoKlKTsrBLIQRG9h2zU8k030DdpQhgt6+d6JaUWG0xvllYVZGi+UyZycf
+         w/I0DNqOswTUngy00PuPJ5SmSaa9e2AZ7EtqdZKM4U+wJBle5B/6vkLuMy7zaw+nVTpC
+         QP5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788369283; x=1788974083;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DAfzOXevgdtu1x0JDE+nFJSd7ktVRul0G2NSyc8HyKw=;
+        b=W88gzL0MNiKv/Jepz7q3ZF0A7D9vb42+U7kZmitlzKXdDEHX8zOzKf08nmoyBYbS6k
+         cusxQgCmVqpy32uX/i1tD4P/RUivpUrWL0lXI0DbhO7uTFNGxSvvHA+RTXiJQJbqvYxz
+         751Qk4s6fWKxl/mhrGXN8EzZ+F27EvV04W3mxUuQ+08xHFRlyIzeUsqgcsdWuwovS/jc
+         lbvlzJUGU+Sx5BovzUsJ5Gu141Vf5bSQEOeY8d7CWtR/vKSTtbODeFPTMBryBt3JMt3h
+         bZta9ZNgEkRF3qyh3/BrHOdzAxJMrDkfRni3y/iFwwop4TtXN6NGEoQmmocvEQy5+X8u
+         cOMQ==
+X-Gm-Message-State: AFuF++ms8EkPh9WhpoI3I652ylz7s5UM/D41GGOZNWLJFDjscUITozjB
+	6+2nIqB7RCHdVBxSMRRBNtm3s6m2Fj7K3bqCqcvW7KeIG47/MIJka4B8go0UiTxeXi8=
+X-Gm-Gg: AR+sD11AR/C8r/yri9KIsRXh971D5zovgRVlv2kQ3Tx8U6gYkVOAFgwp5YO1pR7X7jg
+	esEsyi1isClBtlo8w4PJvvARaR8V0I4nR4frs5lz6M72ugwPARTO5P2eq1h5mj5koSYUhxZZo+8
+	KR5GRbLb6RDMvqq24jdzAmnkOeoVkvYnM1rljsMcFpAQPJFJqwW6pp35VIe4gFIF4ulozRy9tnc
+	nQNuBgH3gmki3OjDK5AtxOd29rjKtJSfJY3t0TBS2jxjnWvu45Tr0WOLmzMeeVx2LQc0ORBZZ1e
+	iKhNf37tkN6x4p30KphBiS7grgmoO0vKgZmv45E3QuKloyhBPTmQipP1FYA5afO1GbP917t+z54
+	HqABRxix8QCg1XUNJt0k76wG4N8/w2qqfaNhsPFcHyOWIKdGrY6yOTcPYDU7MnBBXIpxkzEtF7g
+	u/OPKjaLVuoTCyr4iVb2f+CWi3UHMEaNlZAtCMWGE5vus7WgRQs4py423+rnkzoC8m4L1Vnw==
+X-Received: by 2002:a05:600c:474a:b0:493:aa0a:45ad with SMTP id 5b1f17b1804b1-49ce55ecebemr88727355e9.2.1788369282485;
+        Wed, 02 Sep 2026 10:14:42 -0700 (PDT)
+Received: from laptop ([109.95.34.179])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5d587csm6459115e9.4.2026.09.02.10.14.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 10:14:42 -0700 (PDT)
+From: Oleksandr Kovalov <oleksandr.kovalov.work@gmail.com>
+To: tiwai@suse.com,
+	perex@perex.cz
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Oleksandr Kovalov <oleksandr.kovalov.work@gmail.com>
+Subject: [PATCH v2] ALSA: hda/realtek: Fix cold-boot headset misdetection on Acer Aspire A515-57G
+Date: Wed,  2 Sep 2026 20:13:05 +0300
+Message-ID: <20260902171305.3955-1-oleksandr.kovalov.work@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260830211038.19528-1-oleksandr.kovalov.work@gmail.com>
+References: <20260830211038.19528-1-oleksandr.kovalov.work@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: doc: hdspm.txt: Remove bracket
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260902150324.705863-2-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260902150324.705863-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+On the Acer Aspire A515-57G (PCI SSID 1025:1616), if headphones are
+already inserted into the combo jack before the codec powers up (a cold
+boot with the plug already seated), the impedance-based headset-type
+sensing races and misclassifies the jack. This drives the wrong output
+configuration and is audible as missing center-panned content (e.g.
+vocals) while panned content plays normally.
 
+A genuine physical unplug/replug after boot reliably fixes this by
+forcing a fresh sense transient, which is a strong hint about the
+underlying cause: the sensing hardware appears to need a settled,
+freshly-triggered read rather than the one-shot classification done
+during the normal HDA_FIXUP_ACT_INIT pass.
 
-On 9/2/26 8:03 AM, Manuel Ebner wrote:
-> Remove needless ')'.
-> 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+Add a machine-specific fixup that, on cold boot only (not S3/S4 resume,
+which already gets its own re-check), waits briefly after the normal
+init-time decision and then forces a fresh headset-mode classification
+by resetting the cached mode and re-invoking the existing
+alc_fixup_headset_mode() path -- mirroring what a manual replug already
+does. The wait+recheck is skipped whenever the first pass already
+determined nothing is plugged in, to avoid adding boot latency on the
+common case.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+Chain into the existing ALC256_FIXUP_ACER_SFG16_MICMUTE_LED fixup so
+this quirk-table entry keeps providing mic-mute LED support alongside
+the cold-boot headset fix.
 
-> ---
->  Documentation/sound/cards/hdspm.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/sound/cards/hdspm.rst b/Documentation/sound/cards/hdspm.rst
-> index 5373e51ed..ee157f351 100644
-> --- a/Documentation/sound/cards/hdspm.rst
-> +++ b/Documentation/sound/cards/hdspm.rst
-> @@ -367,7 +367,7 @@ Calling Parameter
->  	  note: each playback channel is mixed to the same numbered output
->  	  channel (routed). This is against the ALSA-convention, where all
->  	  channels have to be muted on after loading the driver, but was
-> -	  used before on other cards, so i historically use it again)
-> +	  used before on other cards, so i historically use it again
->  
->  
->  
+Tested on kernel 7.1.9 by building the affected module standalone and
+confirming cold boot with headphones pre-inserted plays correctly from
+the very first sample, across multiple boots (including a full restart,
+and headphones inserted mid-POST rather than before power-on), with no
+crashes or warnings and no behavioral difference from a real
+post-replug recovery.
 
+Signed-off-by: Oleksandr Kovalov <oleksandr.kovalov.work@gmail.com>
+---
+v2: Rebase onto sound.git for-linus (2026-09-02, commit f4a23e17d).
+    Resolve a conflict with the newly-added
+    ALC256_FIXUP_ACER_SFG16_MICMUTE_LED quirk for the same SSID by
+    chaining into it instead of overwriting the quirk-table entry, so
+    both fixes apply to this laptop. No change to the fix logic itself,
+    which was re-tested and confirmed working after the rebase.
+
+ sound/hda/codecs/realtek/alc269.c | 36 ++++++++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/sound/hda/codecs/realtek/alc269.c b/sound/hda/codecs/realtek/alc269.c
+index ecc9c6e..95b40a1 100644
+--- a/sound/hda/codecs/realtek/alc269.c
++++ b/sound/hda/codecs/realtek/alc269.c
+@@ -2379,6 +2379,33 @@ static void alc_fixup_headset_mode_alc255_no_hp_mic(struct hda_codec *codec,
+ 	}
+ }
+ 
++/*
++ * On the Acer Aspire A515-57G (and possibly other models sharing this
++ * board), if headphones are already inserted into the combo jack before
++ * the codec powers up (cold boot), the impedance-based headset-type
++ * sensing races and misclassifies the jack, driving the wrong output
++ * configuration (audible as missing center-panned/vocal content). A
++ * genuine physical unplug/replug after boot fixes it by forcing a fresh
++ * sense transient. Mirror that here on cold boot only: give the sense
++ * hardware time to settle, then force a fresh classification.
++ */
++static void alc_fixup_headset_mode_acer_coldboot(struct hda_codec *codec,
++						 const struct hda_fixup *fix, int action)
++{
++	struct alc_spec *spec = codec->spec;
++
++	alc_fixup_headset_mode(codec, fix, action);
++
++	if (action == HDA_FIXUP_ACT_INIT &&
++	    !is_s3_resume(codec) && !is_s4_resume(codec) &&
++		spec->current_headset_mode != ALC_HEADSET_MODE_UNPLUGGED) {
++		msleep(500);
++		spec->current_headset_mode = ALC_HEADSET_MODE_UNKNOWN;
++		spec->current_headset_type = ALC_HEADSET_TYPE_UNKNOWN;
++		alc_fixup_headset_mode(codec, fix, action);
++	}
++}
++
+ static void alc288_update_headset_jack_cb(struct hda_codec *codec,
+ 				       struct hda_jack_callback *jack)
+ {
+@@ -4248,6 +4275,7 @@ enum {
+ 	ALC282_FIXUP_ACER_DISABLE_LINEOUT,
+ 	ALC255_FIXUP_ACER_LIMIT_INT_MIC_BOOST,
+ 	ALC256_FIXUP_ACER_HEADSET_MIC,
++	ALC256_FIXUP_ACER_COLDBOOT,
+ 	ALC285_FIXUP_IDEAPAD_S740_COEF,
+ 	ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST,
+ 	ALC295_FIXUP_ASUS_DACS,
+@@ -6311,6 +6339,12 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_HEADSET_MODE_NO_HP_MIC
+ 	},
++	[ALC256_FIXUP_ACER_COLDBOOT] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc_fixup_headset_mode_acer_coldboot,
++		.chained = true,
++		.chain_id = ALC256_FIXUP_ACER_SFG16_MICMUTE_LED,
++	},
+ 	[ALC285_FIXUP_IDEAPAD_S740_COEF] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc285_fixup_ideapad_s740_coef,
+@@ -7148,7 +7182,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x1597, "Acer Nitro 5 AN517-55", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x159e, "Acer Nitro 5 AN515-46", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x160e, "Acer PT316-51S", ALC2XX_FIXUP_HEADSET_MIC),
+-	SND_PCI_QUIRK(0x1025, 0x1616, "Acer Aspire A515-57", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
++	SND_PCI_QUIRK(0x1025, 0x1616, "Acer Aspire A515-57", ALC256_FIXUP_ACER_COLDBOOT),
+ 	SND_PCI_QUIRK(0x1025, 0x161f, "Acer S40-54", ALC256_FIXUP_ACER_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1025, 0x1640, "Acer Aspire A315-44P", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1025, 0x166c, "Acer Predator PH16-71", ALC2XX_FIXUP_HEADSET_MIC),
 -- 
-~Randy
+2.55.0
+
