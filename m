@@ -1,180 +1,124 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D234385D7C
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788337634; cv=none; b=feF/S7SN9f9mJspLRKtFP/LwcSFDFZTZdQB3Fl9q6NmOhxJSeN5xzQQliOKrvSLOMOrKHAuxqKl+z59GSoCcRl8rm+wKSy3NxdzY3yiywM53XlHDTJAKAH8kFFj4fmjdD4u6dARw0guVIcA8goUESFvqq7tpxugl+8GlFfxv+wQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788337634; c=relaxed/simple;
-	bh=jrjPUUA2r1ETwKPQ0mRIyB/3xQ1zZFrY1o9Q/YlRdDw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t7EcHT5A2Jy2fxTTw86n2klBaqGB7Qc8XEXZf+F19H5VCiMJWBFY4HviWQ1d4iDSnIELPKK3yC1d2+l1SbfhAU17U3fe8zPdTvzo9Hd3Bn8ULMN+oF/V0GGE0vIwSbPaL1LHX5/rhSYKzvPg2Ps8sx44WTco9iHHwo5uAcSnq1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUEuGWRc; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDE23F4DDA
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788338824; cv=pass; b=VW63fZApmMr2tSOPoeyd6rr9gjUebjzhPfNrVPw2LHOk+MwUmMy7xGm3Dduhmu6k7kpEh9CPU7YSYSFvfl60e85QbgD+ZeNZPvYcKiEXnL9NymHAVhlh6MIAi37Lj0UpYd9SElWugJSRT+/bSQbbEqLQvaAetwqJuuwEzmOhHSA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788338824; c=relaxed/simple;
+	bh=shO5HETr5DbfaWXJI1Q4VSUgAkN/OetfPGY1PI6GuMQ=;
+	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X5Eehwhm6TR4AojLlvaQ/k8d38Q+AsgE7kFB6ITZlbiMw2oKKYgIoBVUPzvflzn4EF0jY8xzX/AWFxQnBct5/T1jix6CfcAZU5C9xOPJgqpJSDZfB1T/oVnn7279Pjo8/zyXBaBJ4ozxNyvpFP57VeUE2LNYqyYnK2nv3BCSib0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ohKzGM/J; arc=pass smtp.client-ip=209.85.167.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUEuGWRc"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b457a0b4e5so682909e87.1
-        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 01:27:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ohKzGM/J"
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-4b396d2fb9bso420638b6e.0
+        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 01:47:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788338822; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rfuAHbql1csmI1GqPqT5Bd2VURqQMqvwGl1eZ7W/1irz1QTIycZgNVH+XKJcoAKFI6
+         9ONmtP6EC3oGj0PfuIkPCH0d9Hser6gsW6b08DdRserX02IMQGl+7heWj+hid4mLmJGZ
+         eY5dcF2kQftFMm1C2kmXNXfdO3O2ZIH2NNxpp2gdsXBTzEJ/iI5ET4+Zi7mJwq2JXkeA
+         MpO02mMdyUJIqQPGHCZRPTcRmxlKMB8UZ4BCLN+TiG7tX4z+TicpZAMEubAKek8za/Mj
+         QzNUAY04wVGWzxix5vT/USpmEE7KTiqv8+gwbkgKGQe6bWLWBVDWRF2chXugLVm5T6kv
+         P3Mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:references:in-reply-to
+         :mime-version:dkim-signature;
+        bh=cuO0Jr/gtOURsAL8f5kx9fAuPpQ07Nu44mKm8vGuGkQ=;
+        fh=PJJD9T64N6HFGZX3OOEU3YFtZiC/e87QiaVv4UF5cL0=;
+        b=kYqznNdHjo9y54CFBY4MywhZ4WXf3BgdPza8OyLVJtqrYsGmgeHuAYM6E3wKCeZ2ai
+         Af6UP9HKXuTiHJyuxz7RJ7H35X7Su54BKPHSVyH1Pb6J6jGTu/nnf66V1xDTWs+nE0fT
+         hm+JVxULL5j+OIMPdnPmXskaCd0IrGZWppoYtO2YPhJMjeoLvTUduUDCS/QJ81HnfL6v
+         EFIoiFnsmy5/LGWg34efdpVEm6Lw1+43KlQbUc6bxFDilB66pLWYBmjMwrdt/orq/vPy
+         wOACSFdgfDufDSkRygBN629eQJVFR19fMcB9nc9NFaSiNcBpQ9dYcQcO2qyvRiXgL1ys
+         qL+Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788337631; x=1788942431; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6o9j08pJkXvA1vQh7MYf49iV5TBAcZ9F0JBBeDBq+cM=;
-        b=fUEuGWRc+DPij52PZggjkvQscO2Swp38ao40sWAw0rK4tuxUpsm9ic6eWS9eGKw6b8
-         4JD2GOeDzpNrcSXClZoG78gQBjlkw0kzgYYlHPk+TqeKd1ZV8Cs53OGocxp0g9LhiArG
-         0ipy/3sUGNiFSy0h8+8kYMjABAq9Dkeq7/CA8ZGepAQnivs+6SImCphUbtLlChZYgJe0
-         FUH4B5fJ1kvsOmSZfH83SHyvuXAbdRp9/ByE45EQrF/qesUHjsFj5GoFIqcFd/GEo+F3
-         rILJff2YnMPZ9TuIJw+Q44IkIibgMPKtLyIQDXls+ezl0yBNEYKXvvhVeOPm8GHLQS9y
-         41JQ==
+        d=gmail.com; s=20251104; t=1788338822; x=1788943622; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:references
+         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=cuO0Jr/gtOURsAL8f5kx9fAuPpQ07Nu44mKm8vGuGkQ=;
+        b=ohKzGM/JNLc2nRmC4KJjEyPk0O4fyqSL9l7dUL0cn3Kv7xIidA06KC5irbrrW6m7JR
+         E08QXvkkX8QeOs6arIbCPkgASwrTn0dxErnwZ/Q3PffJbfkZjS4JGM3mGk/b20Lj9K8s
+         KDRTAxB+N1eVq2yR4qHQ6UNxv2VNujGfKcQhVChzUqe1zRBonx5zpzLS2OEj2J8DSXGv
+         plHgUujcl6OeHu6K0Dx4+VoXIxrKdX4wAcCmzHR98uJ3eTEWBfjeyC7EsHkNCBWNuCyo
+         X6qGf0JKSDk7EomgG1yJ5Gnj6q9NWWR46UIi/1vGA5sDE3khmrv/WY4VRDGHwRS+1WMT
+         9r8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788337631; x=1788942431;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6o9j08pJkXvA1vQh7MYf49iV5TBAcZ9F0JBBeDBq+cM=;
-        b=ZPMX9uKoUrVRuN7bXzYqFm7btd7ij/1SVMRTDBF9N9SbKQaiWQG0HbAl8ATtubp6Id
-         VdG4OdSNfDaTnWR863oIxleV+tZCuwT4IR0jA4XmnlOjf6lV3Bg2L3KfLt4N8DCJl2ht
-         KaiGJrrGnUrW/Y19bBD9d19I++21dF3GKBL8fxnLQCXKw+As1i9LRUhRvmU+HQRx4/Q+
-         MZgu7o9YyXAaLtyuc/Jc5nlMmKU3m4dFnkYm3RnbTOy82Dp0qXlQbw5eqlBujmr0Y2cT
-         ICj/98JYQDuelVFWaz9NTnmutgWOIDAFt6iOkJYHy3vakUBOIvw1ZFmCW83pMheEs9y7
-         l2vQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz8NZ01sqErsNs5EY0gWz4GZQqd7d2zuwfUJSw92/tPJm8EvQDCFx1B4055vk3CBek8A1l0WYchFdBj/g==@vger.kernel.org
-X-Gm-Message-State: AFuF++m1hoZt0WDY/ipVRpkIvgNWNNklTGS6xfCLEQNHxZ2OSMkcdjqW
-	RtWKTGMGPwlusiB7/OLiSPbDlc7WRjRQYkP5196K903wQTz5Ryaz3ZkF
-X-Gm-Gg: AYBFou1XPXmLW1arokXJoJZFdQF70uJAe022XrA3Lom+0bQdf5jH7y0ThuxF0ExxHFu
-	8k5rziCfS8h43tiAYIMKfxw6EDKTrN21mD9tTo3KHJJGPFkhaxseWtD+FZqYAods2sCOCYoywc8
-	eObAZaca5iJzKOCMJlszvbu2iuhuJ+iAb88iYAQwWyloot0uykwhLpwZRutNwiaU+5y/623AEB0
-	MMubUsx5XssQL7VY4Nz1RpFtmwNL3Aixk+1brILZe5XpKX2EpUUdXym8rQ6LGk/aRfJ4JjKW1qi
-	OoPjsuuAhWraTbWRbwpx09kr/fJhOLK/WKDXEix+2iRh94sb9Ds7Git0COfObbJCTQE6HTY9FX4
-	WkDiCt9QIsfycZBM4Bd9r2y3taQkUYTR6r+Rp4xGhpEPXV4Jk2KejLyjIH1SQn1fuz5G07bT68o
-	AULMt5iGFTw8W8jG18NxSSiWLq2HClnmq9JvF+o8NLwMSJMnRpxOCkHi9qLNsSO+/GRoaPtybhk
-	upOpRi+JSWeQ9jh2Wdydp8=
-X-Received: by 2002:a05:6512:1252:b0:5b2:958f:8cdc with SMTP id 2adb3069b0e04-5b608344615mr1161251e87.11.1788337630616;
-        Wed, 02 Sep 2026 01:27:10 -0700 (PDT)
-Received: from localhost (host-80-73-162-2.rev.as20985.net. [80.73.162.2])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a34ad015dcsm3732261fa.19.2026.09.02.01.27.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 01:27:10 -0700 (PDT)
-From: Andrey Golovko <andrey.golovko@gmail.com>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Sen Wang <sen@ti.com>,
- "Holalu Yogendra, Niranjan" <niranjan.hy@ti.com>,
- Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Antoine Monnet <antoine@montane.tech>,
- Robin Everaars <robineveraars@pm.me>, Pengpeng Hou <pengpeng.hou@ti.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: tas2783-sdw: drop stale regcache on uninitialized
- re-attach
-Date: Wed, 2 Sep 2026 11:30:00 +0300
-Message-ID: <20260902083000.9314-1-andrey.golovko@gmail.com>
-In-Reply-To: <f4586bf2c7114d35b3d28e49f05f2000@ti.com>
-References: <3e2751d1fb027bed0f09c88e5e56da8f@gmail.com>
- <bb5064629ada99fa5163621f72fbd27f@gmail.com>
- <f4586bf2c7114d35b3d28e49f05f2000@ti.com>
+        d=1e100.net; s=20251104; t=1788338822; x=1788943622;
+        h=content-type:cc:to:subject:message-id:date:from:references
+         :in-reply-to:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=cuO0Jr/gtOURsAL8f5kx9fAuPpQ07Nu44mKm8vGuGkQ=;
+        b=izmOOQNsP7LXhdC6Ttvb6wb/XDPGikFrnI6lHiUtZNQhnlTvA0+JjAluLqJ6z2JIoo
+         3NaMJE2IGqDqid8VoGHDvPC9cX0QKGbXS/R6JcJpQaq4tq8tDuL6UtCwLcrRF1C72ErL
+         zFhewdpEPSypeZoDO2wiszIJWSJ3PA4uOi7e3bHg5L2Uu7vzinVmqSR5rj1mEjowhPdj
+         WCOyUgAdgwoDFECsby8znv4ap1PHVOlmvNvpfVUm9M1FRX1FJ5Is8bQHrHIc1BIfJ8rf
+         PJ0iH4oWvRn38jABVDVBwsLnbnR77UHlR6gjwrwREXY9/Ed3S0HVEBC3VMe8mjYXiIYI
+         NdwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqkRp/FRWhc9c5VNGHpDm3ofbWaJBtRJue/LHEbHaYWhr3w6L5MfdF1Ae9amsVio5kpeksApLpwKYctsA==@vger.kernel.org
+X-Gm-Message-State: AFuF++lIRjNouWZmtv3I9dvjTDOE20Fd/e0jsCZwnJYjLCfUWuqZ6jIT
+	41pWR89vvdkyoNolyUMeuJ6/L1cHsz0gQ7CQmgcgpd6hOR42EBAR9GkvAZAdoOETiHWGkuOtnA8
+	o9+Tm7zCRTWm8bE7UVlU1Pikd60H/kKk=
+X-Gm-Gg: AR+sD11qqHLcQ8bsSPaIKne5dOIgQsuetERYxWZD/MWMLGYHnk4i+0mk9uSNaiWaUWs
+	l2Rdwwr2N6gs8NHI5JJxOYzZwFtUI7cfEutF7g5Z9yQTf0w5juKlEWOvWxxuOWBqw2p53dQ+Do+
+	tMkXOm9pMv5qa2VQv5Xdg6VxL0YBiKo0b3MMLtAuTRXWQm3BkZoqHmUYtZOdC1SPB3ZSzarVtvN
+	Px0POuIMnLRpJrCgb7sd5USIpaKM7qxGMGEo+YnwVRZaV6PBD3nhTqdAsGJ3UXOL5R+fFloFlov
+	a+oqcsQVoP0gKrCcKZufBStcNJSNdAbKbb2ZhFwjtdTDqR2Edx/oIRr5Rca5iXwlCvZUtg3NXCt
+	WzavhAkULKNWk24QTOcQXWb0=
+X-Received: by 2002:a05:6808:319b:b0:496:fd2:94e8 with SMTP id
+ 5614622812f47-4b6be3fff99mr2617954b6e.12.1788338821816; Wed, 02 Sep 2026
+ 01:47:01 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 2 Sep 2026 03:46:59 -0500
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Wed, 2 Sep 2026 03:46:59 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <83d7a9ee-e164-4f02-b83c-31be3fe43fdc@intel.com>
+References: <cover.1788286335.git.mauriziocasciano7@gmail.com> <83d7a9ee-e164-4f02-b83c-31be3fe43fdc@intel.com>
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Date: Wed, 2 Sep 2026 03:46:59 -0500
+X-Gm-Features: AcwNN1WJRSqNP6P32x2PdKxr7ToQynIucjZmCF2cFtsls0iFeuILKt6LVe8i0Fk
+Message-ID: <CAO7O_xi3Zrxc7exqP__Ua61dZUF=OpNvi6WLxc9A1sPG_z66kw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] ASoC: Intel: Add Yoga Book RT5677 support
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+Cc: liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com, 
+	yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
+	pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com, 
+	jekhor@gmail.com, linux-kernel@vger.kernel.org, broonie@kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Aug 24, 2026 at 11:55:35AM +0000, Xu, Baojun wrote:
+Hi Cezary,
 
-> Based on my test, this modification is also needed in
-> tas2783_sdca_dev_resume().
+You are right.  The statement in the cover letter is inaccurate: I
+conflated "not revalidated by me against this revision" with "not
+validated on this hardware", overlooking Yauhen's v2 report.
 
-(Restoring linux-sound and the rest of the Cc list, since the patch was
-posted there.)
+My testing covers the SOF path on a YB1-X91L, including PCM0
+playback/capture and PCM1 deep-buffer playback.  Yauhen reported testing
+the legacy SST path.  Those are separate test results, but together they
+provide a basis for advertising both mutually exclusive firmware paths.
 
-Thank you for looking at it.  I agree the same sync is a problem there,
-and the ordering makes that unambiguous: sdw_handle_slave_status() calls
-the driver's update_status() callback - where the cache is now dropped
-and tas_io_init() re-downloads the firmware - and only afterwards does
-complete_all(&slave->initialization_complete).  That completion is what
-sdw_slave_wait_for_init() at the top of tas2783_sdca_dev_resume() is
-waiting for, so by the time regcache_sync() runs the part has already
-been soft-reset and re-initialized.  Syncing there writes the cache back
-onto a device that has just been brought up from scratch.
+Narrowing v6 to SOF only was therefore an overcorrection, and the wording
+made it appear as though the support decision was based on guesswork.  I
+will restore the dual SST/SOF selection in the next revision and document
+the validation of each path separately.  Yauhen, please correct me if I
+have misstated the scope of the SST testing.
 
-What I would not do is drop unconditionally in dev_resume(), because
-that function is also the RUNTIME_PM_OPS resume callback.  On a resume
-where the peripheral kept its context, or came back through clock stop
-without losing state, regcache_sync() is the only thing that restores
-the user's settings, and dropping the cache there would silently reset
-volume and mute on every runtime resume.
+Sorry for the unnecessary churn.
 
-So the shape I have in mind is a flag rather than a second drop: set it
-in tas_update_status() on the uninitialized-attach path where the cache
-is dropped today, consume it in dev_resume(), and simply skip the sync
-when it is set - after tas_io_init() the cache already mirrors the
-hardware, so there is nothing worth syncing, only registers that can
-fail.  Something like:
-
-	if (test_and_clear_bit(TAS_REINIT, &tas_dev->flags))
-		return 0;	/* re-initialized from scratch, cache is fresh */
-
-	regcache_cache_only(tas_dev->regmap, false);
-	ret = regcache_sync(tas_dev->regmap);
-
-Would you prefer that, or do you have a different fix in progress on
-your side?  I am happy to write and test it either way - I just do not
-want us to post two versions of the same thing.
-
-Before I write the changelog, though, I need to describe a failure I can
-actually point at, and this is where I have to ask what you saw.  On the
-board I have here - ASUS ProArt PX13, AMD ACP7.0, two TAS2783 plus RT721
-on link 1 - I cannot reproduce a failure on that path:
-
-- the codec never reaches runtime suspend at all (runtime_status stays
-  active, the usage count never drops to zero), so the runtime resume
-  path is not exercised;
-
-- on the system resume path, across s2idle cycles where both amplifiers
-  genuinely lose power, re-attach and re-download the firmware, the
-  journal shows no resume error at all.  My reading is that
-  regcache_sync() returns early: regcache_cache_only(true) does not by
-  itself set cache_dirty, and if nothing writes through the cache while
-  the device is suspended, sync takes the "if (!map->cache_dirty) goto
-  out" exit and never touches the bus.  Which would mean the bug is
-  latent here and armed only when something does dirty the cache during
-  suspend.
-
-That it is armed at all is easy to show: when I force the sync on this
-part (through a small debug module, outside of any suspend), it aborts
-at 0x40400108, FU23 Mute ch0, with -ENODATA - reg_defaults claims 0x1
-while the init sequence writes 0x00, so sync tries to "restore" a value
-the device refuses.  A dev_resume() that reaches the sync on this
-hardware would therefore fail outright and return -ENODATA to the PM
-core, not merely leave the amplifier stale.  That is one more instance
-of the reg_defaults question in my other mail of 24 August [1].
-
-So could you tell me a bit more about your test:
-
-1. Which resume path - runtime resume, or system resume from s2idle/S3?
-2. Which tree, and does it already contain b627da430357 in
-   update_status()?
-3. What did you observe - a sync error code in the log, or silent
-   speakers with no error at all?
-4. Does your board's controller power-gate the link across suspend, so
-   the amplifiers re-attach uninitialized, or do they keep context?
-
-With that I can write the patch against a failure that is described
-rather than assumed, and test it here by forcing the cache dirty across
-suspend.
-
-[1] https://lore.kernel.org/linux-sound/20260824104500.7588-1-andrey.golovko@gmail.com/
-
-Thanks,
-Andrey
+With Best Regards,
+Maurizio Casciano
