@@ -1,104 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8500B3E6DC8
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2252DB791
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788335775; cv=none; b=Y6dbtX0+r53KpkQdM3d3E4VsLF8m2oNv7+3/RsYePeauOS0LGghpJKjp0O9A1ggyqkTuP2zHb6yj8T1l3rmde/Y1rs/h7y+fRHPmQtgrigmSrq57tLGqkmP0ea2CkU3SMNY7kj/Xqsy5pZiUSLRMDbepw9HfeM5H/zjaIL3jMi8=
+	t=1788336848; cv=none; b=te7vWtg3pmDmwUWA5y0+RQ1TiN69J5HikEViYGYbme9ollrd+GRqr19AopXSVvPexhpbQ5ds3QVWDioJ+tB6FaUxqjoLXA/MGZGECWyeMgHlbtiUQWOqZWm4QEaUqQ3X5/Bm7n6QHMB8hWGvmllvCBsZsJ7BlT6qXZ5k8okQIFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788335775; c=relaxed/simple;
-	bh=WNCQIF/qfGuYQxxxek4rxZvcnaSDqFhJJrZ9tJ+0tZs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ir6Y+yx2/QOjjEBss+874ErXP6pcqUD0chmhVFoL/P/Z3rKWXq0H/WMULdGFhyikAifgPsx+lm9SD51gy+8pSaBFRG89kZHmt/eo8/5AVzZ9hG9UN1hrwLLVuVopUBHyd6DcDx5If6lqfVPXuZSzKUnu5EJrxm3NI6raUPHhqFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7KLdhCI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788336848; c=relaxed/simple;
+	bh=xCk9rgioBfJIgvuVTGmPUBJmz8CchmarO9mw2Xx1K54=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=FaUCf2JZXaJXwzTyeCsnJ2YAv77eHZ2Y0LPHURUQe2AGWuvJhQR/2oqNN+AYvAXt5WAPVEgAX9lHftl2fzxDtReY1uOaQRQpiAbMjm3MfTnflSGfoKgaej7x8K0NEahQdUgaYr4xGnIaniKxEPFh+dMrNzWEXUKyCWZBfAFM+8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qr7SR3uU; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7KLdhCI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2FCB1F00A3A;
-	Wed,  2 Sep 2026 07:56:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788335774;
-	bh=EX6l5BO43dR8usJpPnpzMA2x7LlhIVIP5ZH177WJF5k=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=i7KLdhCIDvw8D6g6XwRuKSUozLqdvKVp2Sm0N60m0GTlvRc3OVNIGyyky8OJnUAeL
-	 ZLtjTsqEkUMUJp7jgNV7bxMny3OcRuKH7MwICoeb6XplzsnbdU+qdasvBUiwX8loH9
-	 eu0YpKAe6HTN78aGJBJqa4NeAgbce+VSdalSRr8YA0bBJPRI4zq99vMeYKxaRaQSVo
-	 iNWYsPKoVi/IDJ4lb6iiF1N8mqqwvxwZy8rjeiLIlGCGLpJs3Pumj3PhNcblfM+QjB
-	 BVrayDTK0SFmM0Wti8d2KKw/vONc2o9oIMb0gzwv0uHbTKpPZDVRiwljSvM7XSs37U
-	 Pg2OknHR14QwQ==
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 02 Sep 2026 09:55:59 +0200
-Subject: [PATCH v2 9/9] ASoC: ux500: Program the MSP FIFO watermarks
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qr7SR3uU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788336846; x=1819872846;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=xCk9rgioBfJIgvuVTGmPUBJmz8CchmarO9mw2Xx1K54=;
+  b=Qr7SR3uUZIN2exycG5v27oUTeMhrCHq7SlrAwv8xFLpjQ8c5bVEk0WCY
+   yDxd8ss+OJgSRY95Us0SJukBbiAYIhk0CMyXmtguOzPG1cJuW9PLbBwy6
+   eqsO56TYciR9Y4tCfQWGq3HkWfRw4J/0hirtP2NIhC0/XQsV65QlqdCv/
+   c51sibMPLKPQ1V0YcybnDauAP0+Yh0X0/IQTijqQrURzE7KgreRs2NZL2
+   z2JmhC5J7bRW/FtI7yoUvmpQz2gRihQnH3F+uHZcc+V2HfgCvcK7jBgwV
+   +ZrQLwz/g7z16VDq2R8X4dZr5xIUpZQFbOCrgsghjyRutOlDCJ5uc+WEk
+   w==;
+X-CSE-ConnectionGUID: g9Gs3h8qS4ap/GGl8uvGQw==
+X-CSE-MsgGUID: T3EvhW0bQ0mLlvhIFcKMMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="99120945"
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="99120945"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 01:14:05 -0700
+X-CSE-ConnectionGUID: /sUA5ORYTGCGFm9xJyk4WQ==
+X-CSE-MsgGUID: 6oCNSP8xRGenqx17yRUI3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="266099052"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
+  by fmviesa007.fm.intel.com with ESMTP; 02 Sep 2026 01:14:03 -0700
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: broonie@kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	amade@asmblr.net,
+	linux-sound@vger.kernel.org,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH v4 00/10] ALSA/ASoC: Intel: avs: HDAudio bus and general fixes
+Date: Wed,  2 Sep 2026 10:18:04 +0200
+Message-Id: <20260902081814.1590883-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-ux500-msp-fixes-v2-9-4b60b002d55a@kernel.org>
-References: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
-In-Reply-To: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The DMA engine is configured for four-element bursts, but the MSP
-driver never programs the FIFO watermark register and instead depends
-on its previous or reset value. The DB8500 DMA request protocol requires
-the peripheral watermark to match the DMA packet size.
+The first half of the patchset concentrates on the driver initialization
+procedure - a number of steps do not clean up after themselves when they
+fail.  This is for both, HDAudio bus (ext) and the DSP part (avs) and
+targets following procedures:
 
-Program four-element receive and transmit watermarks when configuring
-the first direction, before enabling MSP DMA requests.
+- stream initialization
+- link initialization
+- bus initialization
 
-Fixes: 3592b7f69a54 ("ASoC: Ux500: Add MSP I2S-driver")
-Assisted-by: LLM
-Signed-off-by: Linus Walleij <linusw@kernel.org>
----
- sound/soc/ux500/ux500_msp_i2s.c | 2 ++
- sound/soc/ux500/ux500_msp_i2s.h | 5 +++++
- 2 files changed, 7 insertions(+)
+The next five are loosely related fixes.  First, split topology-loading
+error handling from request-firmware one.  Currently -ENOENT coming from
+topology-loading, which is a real error, is ignored.
 
-diff --git a/sound/soc/ux500/ux500_msp_i2s.c b/sound/soc/ux500/ux500_msp_i2s.c
-index 43dc9b3aa4ef..683b485fb570 100644
---- a/sound/soc/ux500/ux500_msp_i2s.c
-+++ b/sound/soc/ux500/ux500_msp_i2s.c
-@@ -507,6 +507,8 @@ int ux500_msp_i2s_open(struct ux500_msp *msp,
- 		old_reg &= ~mask;
- 		new_reg |= old_reg;
- 		writel(new_reg, msp->registers + MSP_GCR);
-+		writel(MSP_WMRK_TX_4_ELEMENTS | MSP_WMRK_RX_4_ELEMENTS,
-+		       msp->registers + MSP_WMRK);
- 	}
- 
- 	res = enable_msp(msp, config, first);
-diff --git a/sound/soc/ux500/ux500_msp_i2s.h b/sound/soc/ux500/ux500_msp_i2s.h
-index 17b5c37a7e5d..2bf2699bdc49 100644
---- a/sound/soc/ux500/ux500_msp_i2s.h
-+++ b/sound/soc/ux500/ux500_msp_i2s.h
-@@ -62,6 +62,7 @@ enum msp_direction {
- #define MSP_SRG		0x10
- #define MSP_FLR		0x14
- #define MSP_DMACR	0x18
-+#define MSP_WMRK	0x1c
- 
- #define MSP_IMSC	0x20
- #define MSP_RIS		0x24
-@@ -228,6 +229,10 @@ enum msp_direction {
- #define RDMAE_SHIFT		0
- #define TDMAE_SHIFT		1
- 
-+/* FIFO watermark register */
-+#define MSP_WMRK_RX_4_ELEMENTS	BIT(0)
-+#define MSP_WMRK_TX_4_ELEMENTS	BIT(3)
-+
- /* Interrupt Register */
- #define RX_SERVICE_INT		BIT(0)
- #define RX_OVERRUN_ERROR_INT	BIT(1)
+Second, with deeper test coverage around corrupted firmware/DSP exception
+handling, new issues are unearthed.  Switch to async d0ix_work
+cancellation to avoid deadlock when D0IX has been scheduled just before
+the recovery work.
+
+The 09/10 patch, init_config change fixes possible out-of-bounds bug.
+The fix is larger than what one could expect as instead of patching with
+if-statements I've decided to refactor the parsing of init_configs.
+The scenario that causes the problem no longer exists.
+Note: the solution does not impose any changes on the existing topology
+files (userspace).
+
+The remaining two, IMHO are self-explanatory.
+
+
+Chamges in v4:
+- replaced error paths for patches 1/10 and 2/10 with
+  snd_hdac_ext_link_free_all() and snd_hdac_ext_stream_free_all()
+  respectively, as suggested by Takashi
+
+Changes in v3:
+- dropped the patch introduced in v2 as an equivalent change has just
+  been merged [1]
+
+Changes in v2:
+- added patch "ALSA: hda: Clean up pages when stream buffers allocation
+  fails" to address Mark's review for "ASoC: Intel: avs: Clean up the
+  bus when its initialization fails" and clean up pages before
+  collapsing the bus initialization
+- removed unused 'acomp' variable as pointed out by Mark
+
+[1]: https://lore.kernel.org/all/tencent_8E5BBBD19D53B1EFCDB6E89F3B6246A70B06@qq.com/
+
+
+Cezary Rojewski (10):
+  ALSA: hda: ext: Clean up links if their initialization fails
+  ALSA: hda: ext: Clean up streams if their initialization fails
+  ASoC: Intel: avs: Clean up the bus when its initialization fails
+  ASoC: Intel: avs: Clean up the bus when fetching ML caps fails
+  ASoC: Intel: avs: Clean up streams if their initialization fails
+  ASoC: Intel: avs: Do not ignore -ENOENT when loading a topology
+  ASoC: Intel: avs: Cancel d0ix_work asynchrounously during recovery
+  ASoC: Intel: avs: Fix unbalanced module reference count
+  ASoC: Intel: avs: Refactor and fix init_config access
+  ASoC: Intel: avs: hda: Constrain MSBs on startup
+
+ sound/hda/core/ext/controller.c      |  4 +-
+ sound/hda/core/ext/stream.c          |  5 ++-
+ sound/soc/intel/avs/boards/hdaudio.c | 17 ++++++++
+ sound/soc/intel/avs/core.c           | 59 +++++++++++++++++++---------
+ sound/soc/intel/avs/debugfs.c        | 12 ++++--
+ sound/soc/intel/avs/ipc.c            |  6 +--
+ sound/soc/intel/avs/path.c           | 11 ++----
+ sound/soc/intel/avs/pcm.c            | 34 +++++++++-------
+ sound/soc/intel/avs/topology.c       | 49 +++++++++++++----------
+ sound/soc/intel/avs/topology.h       |  5 ++-
+ 10 files changed, 130 insertions(+), 72 deletions(-)
 
 -- 
-2.55.0
+2.34.1
 
