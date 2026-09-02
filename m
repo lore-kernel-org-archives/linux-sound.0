@@ -1,124 +1,135 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDE23F4DDA
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788338824; cv=pass; b=VW63fZApmMr2tSOPoeyd6rr9gjUebjzhPfNrVPw2LHOk+MwUmMy7xGm3Dduhmu6k7kpEh9CPU7YSYSFvfl60e85QbgD+ZeNZPvYcKiEXnL9NymHAVhlh6MIAi37Lj0UpYd9SElWugJSRT+/bSQbbEqLQvaAetwqJuuwEzmOhHSA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788338824; c=relaxed/simple;
-	bh=shO5HETr5DbfaWXJI1Q4VSUgAkN/OetfPGY1PI6GuMQ=;
-	h=MIME-Version:In-Reply-To:References:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X5Eehwhm6TR4AojLlvaQ/k8d38Q+AsgE7kFB6ITZlbiMw2oKKYgIoBVUPzvflzn4EF0jY8xzX/AWFxQnBct5/T1jix6CfcAZU5C9xOPJgqpJSDZfB1T/oVnn7279Pjo8/zyXBaBJ4ozxNyvpFP57VeUE2LNYqyYnK2nv3BCSib0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ohKzGM/J; arc=pass smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A4031A07F;
+	Wed,  2 Sep 2026 09:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788340285; cv=none; b=NbpANBbrYSXiJjbFbRChBT97rRUtlty8t+gdkrAP/BYLol/t35tQY36orQInlui5yThchs7SGjKHCgjpS5EDyQB5u6sJ8NChOMkOJgN/Q4ZzEiiBKGFmckcKN9znxFA2pRXLO4vQFEwz+e9kpZjEVLjLnkApzinZfBIyYCmmCRw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788340285; c=relaxed/simple;
+	bh=qJWN6Wq5T8flaDmAqqHkcpPpWcVi39r5BgzeANhg6z0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sl2TZJT986dYeZx5NSqUKOqr0zbsdw8Abec/5q5xSVycNcHYXs8knZlma2hotBwJhcPBn3MtEpqVa4PYlokDZqQL6Zv/GurR7O4zXdTiJcFgezDu16JGqx8sZ/VxhWDugSacTruMOlu/L8USm5WOvUHiopXWQjZmIWbwjmeLvN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uf8JXPEe; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JaSZPZ3w; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FWb66rhL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qY03jlPC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ohKzGM/J"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-4b396d2fb9bso420638b6e.0
-        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 01:47:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788338822; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rfuAHbql1csmI1GqPqT5Bd2VURqQMqvwGl1eZ7W/1irz1QTIycZgNVH+XKJcoAKFI6
-         9ONmtP6EC3oGj0PfuIkPCH0d9Hser6gsW6b08DdRserX02IMQGl+7heWj+hid4mLmJGZ
-         eY5dcF2kQftFMm1C2kmXNXfdO3O2ZIH2NNxpp2gdsXBTzEJ/iI5ET4+Zi7mJwq2JXkeA
-         MpO02mMdyUJIqQPGHCZRPTcRmxlKMB8UZ4BCLN+TiG7tX4z+TicpZAMEubAKek8za/Mj
-         QzNUAY04wVGWzxix5vT/USpmEE7KTiqv8+gwbkgKGQe6bWLWBVDWRF2chXugLVm5T6kv
-         P3Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:references:in-reply-to
-         :mime-version:dkim-signature;
-        bh=cuO0Jr/gtOURsAL8f5kx9fAuPpQ07Nu44mKm8vGuGkQ=;
-        fh=PJJD9T64N6HFGZX3OOEU3YFtZiC/e87QiaVv4UF5cL0=;
-        b=kYqznNdHjo9y54CFBY4MywhZ4WXf3BgdPza8OyLVJtqrYsGmgeHuAYM6E3wKCeZ2ai
-         Af6UP9HKXuTiHJyuxz7RJ7H35X7Su54BKPHSVyH1Pb6J6jGTu/nnf66V1xDTWs+nE0fT
-         hm+JVxULL5j+OIMPdnPmXskaCd0IrGZWppoYtO2YPhJMjeoLvTUduUDCS/QJ81HnfL6v
-         EFIoiFnsmy5/LGWg34efdpVEm6Lw1+43KlQbUc6bxFDilB66pLWYBmjMwrdt/orq/vPy
-         wOACSFdgfDufDSkRygBN629eQJVFR19fMcB9nc9NFaSiNcBpQ9dYcQcO2qyvRiXgL1ys
-         qL+Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788338822; x=1788943622; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=cuO0Jr/gtOURsAL8f5kx9fAuPpQ07Nu44mKm8vGuGkQ=;
-        b=ohKzGM/JNLc2nRmC4KJjEyPk0O4fyqSL9l7dUL0cn3Kv7xIidA06KC5irbrrW6m7JR
-         E08QXvkkX8QeOs6arIbCPkgASwrTn0dxErnwZ/Q3PffJbfkZjS4JGM3mGk/b20Lj9K8s
-         KDRTAxB+N1eVq2yR4qHQ6UNxv2VNujGfKcQhVChzUqe1zRBonx5zpzLS2OEj2J8DSXGv
-         plHgUujcl6OeHu6K0Dx4+VoXIxrKdX4wAcCmzHR98uJ3eTEWBfjeyC7EsHkNCBWNuCyo
-         X6qGf0JKSDk7EomgG1yJ5Gnj6q9NWWR46UIi/1vGA5sDE3khmrv/WY4VRDGHwRS+1WMT
-         9r8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788338822; x=1788943622;
-        h=content-type:cc:to:subject:message-id:date:from:references
-         :in-reply-to:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=cuO0Jr/gtOURsAL8f5kx9fAuPpQ07Nu44mKm8vGuGkQ=;
-        b=izmOOQNsP7LXhdC6Ttvb6wb/XDPGikFrnI6lHiUtZNQhnlTvA0+JjAluLqJ6z2JIoo
-         3NaMJE2IGqDqid8VoGHDvPC9cX0QKGbXS/R6JcJpQaq4tq8tDuL6UtCwLcrRF1C72ErL
-         zFhewdpEPSypeZoDO2wiszIJWSJ3PA4uOi7e3bHg5L2Uu7vzinVmqSR5rj1mEjowhPdj
-         WCOyUgAdgwoDFECsby8znv4ap1PHVOlmvNvpfVUm9M1FRX1FJ5Is8bQHrHIc1BIfJ8rf
-         PJ0iH4oWvRn38jABVDVBwsLnbnR77UHlR6gjwrwREXY9/Ed3S0HVEBC3VMe8mjYXiIYI
-         NdwQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqkRp/FRWhc9c5VNGHpDm3ofbWaJBtRJue/LHEbHaYWhr3w6L5MfdF1Ae9amsVio5kpeksApLpwKYctsA==@vger.kernel.org
-X-Gm-Message-State: AFuF++lIRjNouWZmtv3I9dvjTDOE20Fd/e0jsCZwnJYjLCfUWuqZ6jIT
-	41pWR89vvdkyoNolyUMeuJ6/L1cHsz0gQ7CQmgcgpd6hOR42EBAR9GkvAZAdoOETiHWGkuOtnA8
-	o9+Tm7zCRTWm8bE7UVlU1Pikd60H/kKk=
-X-Gm-Gg: AR+sD11qqHLcQ8bsSPaIKne5dOIgQsuetERYxWZD/MWMLGYHnk4i+0mk9uSNaiWaUWs
-	l2Rdwwr2N6gs8NHI5JJxOYzZwFtUI7cfEutF7g5Z9yQTf0w5juKlEWOvWxxuOWBqw2p53dQ+Do+
-	tMkXOm9pMv5qa2VQv5Xdg6VxL0YBiKo0b3MMLtAuTRXWQm3BkZoqHmUYtZOdC1SPB3ZSzarVtvN
-	Px0POuIMnLRpJrCgb7sd5USIpaKM7qxGMGEo+YnwVRZaV6PBD3nhTqdAsGJ3UXOL5R+fFloFlov
-	a+oqcsQVoP0gKrCcKZufBStcNJSNdAbKbb2ZhFwjtdTDqR2Edx/oIRr5Rca5iXwlCvZUtg3NXCt
-	WzavhAkULKNWk24QTOcQXWb0=
-X-Received: by 2002:a05:6808:319b:b0:496:fd2:94e8 with SMTP id
- 5614622812f47-4b6be3fff99mr2617954b6e.12.1788338821816; Wed, 02 Sep 2026
- 01:47:01 -0700 (PDT)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Wed, 2 Sep 2026 03:46:59 -0500
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Wed, 2 Sep 2026 03:46:59 -0500
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uf8JXPEe";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JaSZPZ3w";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FWb66rhL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qY03jlPC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C0E471F7A9;
+	Wed,  2 Sep 2026 09:11:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788340277; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vjZy4uR2CGrgJVwM2V91ndQZRu4WgGPvBBnDUNOnw+M=;
+	b=uf8JXPEe7IwCsdADgaxMZ9izFae2tmhB8/+0/bTPNU0hMKgbqD1R73zqfTf373dsIDNala
+	Tn6qZPDZvFQ2vjUJ8n2t9QDmRLXZuBGjFljRcXkTYq5xVQg7fub36vHWputU+VPGT1Xj54
+	g7xe4n5D5/80p0Fk78tLos0cBJQUZj0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788340277;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vjZy4uR2CGrgJVwM2V91ndQZRu4WgGPvBBnDUNOnw+M=;
+	b=JaSZPZ3wRuEvSqVb5LQmdlG5B0WEn8rwl+StIxZC3PQyJi4QN+H+giDHnWDtN5YtzVBpVN
+	rcVmgM08JxzpbNCg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788340273; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vjZy4uR2CGrgJVwM2V91ndQZRu4WgGPvBBnDUNOnw+M=;
+	b=FWb66rhL3cv6S48p86pie4q6tPOkKI5TGRBOJkVkM4STV1Yp7oSGF9rFzGHzXr7nuk86S9
+	vio3XeX7xNmCpj9iE1/g/1kxCeZx4NVhVcKMv9McoyV040ktxjC7JEztRaaoWb1NDPdTm9
+	IpNXq+NN91HOH/axo0SfJVAORm+VlY8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788340273;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vjZy4uR2CGrgJVwM2V91ndQZRu4WgGPvBBnDUNOnw+M=;
+	b=qY03jlPCMjeK1M9qV84AfBWWdAUsCaSovxqquej9KR4un/He4n4HFuyQjSccNjQXVuragz
+	1uGpuCPutnPRfTAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8009D13515;
+	Wed,  2 Sep 2026 09:11:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gy31HTHol2rzUAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Sep 2026 09:11:13 +0000
+Date: Wed, 02 Sep 2026 11:11:13 +0200
+Message-ID: <877bl4auha.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Qingyu Zhang <usupergate@gmail.com>
+Cc: perex@perex.cz,
+	tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: ump: do not touch legacy_rmidi before it exists
+In-Reply-To: <20260902073918.880245-1-usupergate@gmail.com>
+References: <20260902073918.880245-1-usupergate@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <83d7a9ee-e164-4f02-b83c-31be3fe43fdc@intel.com>
-References: <cover.1788286335.git.mauriziocasciano7@gmail.com> <83d7a9ee-e164-4f02-b83c-31be3fe43fdc@intel.com>
-From: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Date: Wed, 2 Sep 2026 03:46:59 -0500
-X-Gm-Features: AcwNN1WJRSqNP6P32x2PdKxr7ToQynIucjZmCF2cFtsls0iFeuILKt6LVe8i0Fk
-Message-ID: <CAO7O_xi3Zrxc7exqP__Ua61dZUF=OpNvi6WLxc9A1sPG_z66kw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] ASoC: Intel: Add Yoga Book RT5677 support
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: liam.r.girdwood@linux.intel.com, peter.ujfalusi@linux.intel.com, 
-	yung-chuan.liao@linux.intel.com, kai.vehmanen@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com, 
-	jekhor@gmail.com, linux-kernel@vger.kernel.org, broonie@kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 
-Hi Cezary,
+On Wed, 02 Sep 2026 09:39:18 +0200,
+Qingyu Zhang wrote:
+> 
+> snd_ump_parse_endpoint() sets ump->parsed on every exit, including
+> error, before the caller attaches the legacy rawmidi device.
+> ump_handle_ep_name_msg() then treats parsed as "legacy_rmidi is live"
+> and calls ump_legacy_set_rawmidi_name(), which snprintf()s into
+> ump->legacy_rmidi->name. If a UMP packet arrives in that window
+> (IRQ path from snd_ump_receive), legacy_rmidi is still NULL
+> (KASAN null-ptr-deref in snprintf).
+> 
+> Guard the legacy helpers. parsed only means endpoint info was
+> parsed, not that legacy_rmidi exists.
+> 
+> Fixes: 37e0e14128e0 ("ALSA: ump: Support UMP Endpoint and Function Block parsing")
+> Signed-off-by: Qingyu Zhang <usupergate@gmail.com>
 
-You are right.  The statement in the cover letter is inaccurate: I
-conflated "not revalidated by me against this revision" with "not
-validated on this hardware", overlooking Yauhen's v2 report.
+Applied now.  Thanks.
 
-My testing covers the SOF path on a YB1-X91L, including PCM0
-playback/capture and PCM1 deep-buffer playback.  Yauhen reported testing
-the legacy SST path.  Those are separate test results, but together they
-provide a basis for advertising both mutually exclusive firmware paths.
 
-Narrowing v6 to SOF only was therefore an overcorrection, and the wording
-made it appear as though the support decision was based on guesswork.  I
-will restore the dual SST/SOF selection in the next revision and document
-the validation of each path separately.  Yauhen, please correct me if I
-have misstated the scope of the SST testing.
-
-Sorry for the unnecessary churn.
-
-With Best Regards,
-Maurizio Casciano
+Takashi
