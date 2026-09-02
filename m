@@ -1,1468 +1,228 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405DA430CF8
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 10:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9058F46D570
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 11:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788343903; cv=none; b=RvEJnlY+xLzEh4ryEzj49WF+3ep7bm2IBp9PXxY+ylHDoAsqOvvwqfjzTAS3JucyXerww/TToetSzoXNxqx7O+UESs7iPQaLV/P7eCbjV40GXviFrnVzmFQcME5TxYN/CjNEzRB0r9trvI+uiysopgrS65eygnVRvEhKFWfOOIk=
+	t=1788348533; cv=none; b=VDrDNFKMHS7Da6MS+uoL+ILh5tO0BvggWQEGuh8hP+Fw5+C6SwboRXnIWveZizLlH58M4a+dJ13gMG2/KpqFZcWaVKailbUfrgJeXX/GJYNeiLJ9N0xzaEKOubQ9N1w9xgT39V65nrDybZMosWcnGcGuYV9QyBOEi/a5K/d0ymE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788343903; c=relaxed/simple;
-	bh=/R6EqUqD5f/3lTrKgpD1cd6gUJJ3nIRJ3i8LjUo88e0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C2bBKyiuNGdPSS2jkaSboGAjiXGWvwwkbye95E32Oc2CwxaqZX+flrCKxhrjKUCiX2NOUE5Wo83Z00bQazcMyMg0w77rsWWacl0UX/62VqTl6Il1LUmvrOnlfWj/sU7VLi+DoXk+R/KaiRfd7+PWStK/yMftMpzP+Sn6dDIKLCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YfoWtRx/; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788348533; c=relaxed/simple;
+	bh=NoLdNt1/jh8WFIXhMuOvygWxJDAeLH0H+pkPVRDV3fU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l/WHEmJfeDdZL+nMEHnswuktg9F/7EmNzpRf8NgxD4U7i7m5JPxOkT7iR5aH6z7y+CQCZpuc3PusJdFnVbYzm9JgT0XUGhzwn/bLt7m9sRs74sazd40AuMTffx9f6tWdIbkk0cpyTYFnUfdQpXX4RIUDJ1e07wFw6M/PU5svwBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VnaTLsQo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DgzazCow; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfoWtRx/"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-495437bb891so6937795e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 03:11:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VnaTLsQo";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DgzazCow"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6829N7UK1080363
+	for <linux-sound@vger.kernel.org>; Wed, 2 Sep 2026 11:28:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=ZxyDCBARacFokeB1SwXXNrQKCO9dXz+vxea
+	N4piuWkA=; b=VnaTLsQoz3jwZtJTyidpMSXOUSAsIfbOgO9ufcq+K5ir5GrLuAY
+	5dpSkiQwWAnkQQRNWwcP7y2xBxVmG0YTFhA3Is/7PTrkO/uQWkceMUi05ZmUJvZX
+	AF3hJkSWEB80yKdTGHfWxpDyy0i1F1s+J1ZDLtLjB7XoxRAkr6CI+wm/5kfgdHn/
+	gTWftxiRtil08tMq47DmMr5/6F6HWX9FYIGqA0Oeg2D4eNQkUCyhyZuoYrRWWi/Y
+	kC82D7PMMiADvvvQZm3/8O2kTri6f/JJXD1NLpK0Gs005bW+5v+on4RriWnx2Oki
+	uLqExi1JPko6QQzcGj7dmaSnsCGp1rE05mA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4geb561wcs-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 11:28:49 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-92e820609d9so200338985a.2
+        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 04:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788343893; x=1788948693; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Xlk5HjgSlhRNe3S56qTNTA+jFTBrEv6KxGXOW5vBX3k=;
-        b=YfoWtRx/j+BI1DP5YCgOV2Ii4jF8PDp9zx5whO3mT78qI2Rmz5uWH1qWIoRKESiEly
-         m7WOr8DByf+xOfnKF+05q+LLzY/5jNjR5K7cn4HZYaiEnuyIpWrbDkXyhotMgpz2muT0
-         5+dpEgYhmsqHt+QhErq6Duq1Wr68J4nFs6hr4O4R5aE35K1WLc4cTd6eQpZqcuI6zPq7
-         7sJSHTMqKW5zdgCGwdT2VfaP/rkDVijvfqIxHslBnEtbjf6z/qLQwWxaYvRjuVdrXCzk
-         VhnivNratKQfHLZNRh3KfAD+Q+sbHvZWOGQqafnqa+5k9+XYtpxSdlPJIkLqA7SObdQE
-         5zIA==
+        d=oss.qualcomm.com; s=google; t=1788348529; x=1788953329; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZxyDCBARacFokeB1SwXXNrQKCO9dXz+vxeaN4piuWkA=;
+        b=DgzazCowTbp/bYaiyzHZKztiG3Pr4Fp4psTc3s+/GC/O/VsD0638R7MMZ1EV+7yjkm
+         nJIVMdzdAtXkwXIPq4hqORvStQLq9uRFRogEO8ORnJdNUy6seHGWUoc948x2Rt3wfcxi
+         nUAlg4JbJZwoF7vP9DwpfRQmzmmSIahEuFdf9dyMz1wNJVfLtJUNEcaUHv/2+zk/l3vo
+         QBvMvgVMP4EguMfavNezs1EJEdRETx+0gztQ2dYe3oud927TkgfBrQmwPHtyLurPvu//
+         AN8M+sbBFEyD6uquBRt3wsg81s/4AK5hyko3dvmRIOQXQ9Za17AHHKQRedMWxU77Yj4r
+         SkAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788343893; x=1788948693;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Xlk5HjgSlhRNe3S56qTNTA+jFTBrEv6KxGXOW5vBX3k=;
-        b=fah1gFSdCWDOsQZZmzbvwmV4G38+ULPCLJw8nUTdeGurRVAs+RLICSvsYmLUYhXO8d
-         BbpDzb0Fo7V1/uYWR5QCO9my4uqiNW5dOcZv3KpS6kXSKmGfTQxkLn5Vaf0nHiTbgrWe
-         cXii+FCs0IykZUBUtLM6ma1mDgc276iweY0J1cxuKVcYIJ0SE40CbangJOYdBLfNVhX3
-         Hzv+Ey7CjBl4n5N+BWO3+aLtzX+Q+LQNIUmsSDK7QjSHiBywbi86Vya6HbPGdnSmmMey
-         p16x55d3+MqJeJCGdSm/UH4oGA5bNqO7wPVg3wWMPfeVylGipi/JMWdndlfWXtUaiVbE
-         rU6g==
-X-Gm-Message-State: AFuF++lP9B0WjC0dNCd9xu63WfEPKneKC+onmPiyMeCTZvS0+l7VtNNo
-	mLYsIyHPAzmKRwUKD5enPjkXJ4Ue528eE9xlWRb2vz9ZJ+OqQYrXr7bJyy5rM5mS
-X-Gm-Gg: AR+sD12L3obuh01TqL54uR/D6roNY2YQHc5fCmD1nB9QlHEbMfLWwHM9xFlELvb6xE2
-	xTe0y1Fj40m6RtEjvyfhDX9qezMiLX5WABr5TWJbc0QOQ9AUS/UR6sKmKW9A3z6bGEq/JmL3Ef9
-	EF6KuayHTDpFVlO9w0KkdHaR0UUzJyzrxjTy8gA9+mmaQuiXvNwtfcoVff4pjKujxVoRmaQQ/dW
-	D8KzWq8LghgNdYd1Th7bnk9f9NY24iXlEn+gbwVTn34QXWMovoXpXLGfe75W7vtey/p/xgS1adn
-	GmOES3LnWYmKCiNIKsQuaT5AMaQnqgP4GawRfh4Ng3urB3wbhmy2CcOETG8yzCqKJKWpEg1fnRf
-	09yTbN7ez093rV1dPojmYSJpYL7wic3R/+bGp+w4b1hl5JuCQ2KCTSvp1QVnsOFu8CXGDgFUtMl
-	2pgnRdC0nVMPKotQBhKYyY3dCgYoUaCCVvuxNgFEK+DEJTuWvP86cjzBDGCHiAQyfqxQS894meU
-	y6tpnYbaoTYsgYb
-X-Received: by 2002:a05:600c:3e14:b0:49c:e37e:4389 with SMTP id 5b1f17b1804b1-49ce7c03f51mr33704995e9.4.1788343892314;
-        Wed, 02 Sep 2026 03:11:32 -0700 (PDT)
-Received: from cachyos ([196.77.120.180])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce47885b1sm57294265e9.14.2026.09.02.03.11.31
+        d=1e100.net; s=20251104; t=1788348529; x=1788953329;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZxyDCBARacFokeB1SwXXNrQKCO9dXz+vxeaN4piuWkA=;
+        b=jOvbAPEPLfQ5qKlNhpmZfpI5tPExqnSECkrhTm/DdyA7iTccBcL8r29ao0pmr5gExG
+         vSKrT9lEbRaM8nITospN835WSY5+OdhhBTz2wLHgDab9ts/Ly3EU9dAjMIGhJ5sYUi0d
+         720uhMGiBltl3mkJzZUSxXzn9TwK2xNjtTXGtZuyPCoqAtVGi82pLfRRAaRnfzlu8xZW
+         TdpQm7KyHbB+lND/xabBz0RgqZnLfbQtB9ON1dI0PzCKnCjOniMCdfIcOljgv6a8EChU
+         dFFAlyB8yoegj1HZ6dVEU0OFqXRqhaOUr6SE+m9M5XXtMv33Sliiu2g+1OZFkcsr1sKu
+         e5+g==
+X-Forwarded-Encrypted: i=1; AHgh+RqhFAnbHx6fBkhFeu75r5m0eAeWURtd4rRkvcrJZsmwESinSYTwWoLhaZffTdMEKxhEvOj5QZUIXNBcIA==@vger.kernel.org
+X-Gm-Message-State: AFuF++k9M0f5LhiEibcsKSn2m4IzJU7T5CKgFnR39yxrpAD5Pa7Mp0Ze
+	IVRqtCEQArsJbX7KDNqUwohg/ZslEJ1KPcu83gHbaRKF/ac2EB0NQLqdIiqaYlytSB7DaFjAQV6
+	ahxEknlwSVKgglmcBrMc0xmf9Lbnnl+aJ8D7Cn66miZAcSlzRe4LXHWcm5QiscZRFA/Md1hVpow
+	==
+X-Gm-Gg: AR+sD106OwBpS1cjCJFtKxfP2xgMFv3PA32WpAHkJmLLQyTwv+zugVLyPQ2Q2VWzEeJ
+	bPbOphMmZNFaeanrtVo1RsDwAyFXSVd4alEvZdbYWodAjuDkcXpdYynr4cA4RsywoF7N9NXQLGs
+	85gwVU6GYE3Zx/844eOm45mKz4vBsdEjs99idf26/Dw9qTen+zJwX1lfgpPb5Ve6hXIOqCSQbda
+	4fKS4HstsIDnVCQpLRUwMUDAP/XO2HpK55TEaGMF2OEJBUiH6yzULipU2/QSUAoovVPkAJA8wKl
+	6s335PD5MCNgc3JOYtKbYcWlmnymB7l/mAG7BDIdMnF+wcLkyeFPKP/VUBMYVUNjpF9T0zd7Sao
+	AgohHVbu/zpDb2g==
+X-Received: by 2002:a05:620a:28d1:b0:936:e08b:733d with SMTP id af79cd13be357-93960f67f2fmr461954285a.35.1788348528694;
+        Wed, 02 Sep 2026 04:28:48 -0700 (PDT)
+X-Received: by 2002:a05:620a:28d1:b0:936:e08b:733d with SMTP id af79cd13be357-93960f67f2fmr461950285a.35.1788348528070;
+        Wed, 02 Sep 2026 04:28:48 -0700 (PDT)
+Received: from debian ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce4a804sm165902455e9.15.2026.09.02.04.28.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 03:11:31 -0700 (PDT)
-From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: linux-usb@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-Subject: [RFC PATCH v3 2/4] ALSA: usb: babyface-pro: add the mixer control surface
-Date: Wed,  2 Sep 2026 11:11:15 +0100
-Message-ID: <20260902101117.11671-3-i.bahloul01@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260902101117.11671-1-i.bahloul01@gmail.com>
-References: <20260902101117.11671-1-i.bahloul01@gmail.com>
+        Wed, 02 Sep 2026 04:28:47 -0700 (PDT)
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+To: vkoul@kernel.org
+Cc: srini@kernel.org, yung-chuan.liao@linux.intel.com,
+        pierre-louis.bossart@linux.dev, linux-arm-msm@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Faiz Nabi Kuchay <fkuchay@oss.qualcomm.com>
+Subject: [PATCH] soundwire: qcom: cache SCP_ADDRPAGE1/2 to preserve MBQ atomicity
+Date: Wed,  2 Sep 2026 12:28:38 +0100
+Message-ID: <20260902112838.1369446-1-srinivas.kandagatla@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAyMDEwMSBTYWx0ZWRfX+d27TtsFU4/m
+ CHphOInf24XYlBR0n4CPPB/Ge+yPl1PMiGWsT6js88eQY0W23reS8UKosws00Uh4D2U+KnM+Q6e
+ BTJSnqaOtPOE5i4n2kJDZDwvb8wbfIBwy1sgOBMInH1ZZmPrci0nMNq/XJhoUT8E7EOzTmY0dBy
+ Wy24ytxRDpV7OE+gLTlljz868Jl4A9OY68bsBF9/rzda+86OIs8nkMJTlR06iBHaw+MpEWfWvR4
+ WqZ4GGHZYKqYFtN1CWsZljKub/0NExxcmWCOO6bJjz9X4g3Jtvx+8PJU995Vpj8ui5+MkYHnvgK
+ 8G3TFzRyhUjNU/Q88UJLjBDMlm+x8gR8yEQp8F61z7aIrvZLKp6UbHv3mIFNAMVGcmy6Az4EkQb
+ Dl9OcHrRpFS3t/dDYWtQADnNoDBi9C7k9emL4APB9U3BBQQWNbnmSg6jA7GK/vz7/4d6lAmNvhh
+ EVuezsCsEE5kKD+LHSQ==
+X-Proofpoint-GUID: NwbbkzvLvLZdW_I9otCzpB_jgqJw3sZ8
+X-Authority-Analysis: v=2.4 cv=D8N37PRj c=1 sm=1 tr=0 ts=6a980871 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=ZsC4DHZuhs/kKio7QBcDoQ==:17
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
+ a=ToP9Kl2iMMeu-1lUGmUA:9 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: NwbbkzvLvLZdW_I9otCzpB_jgqJw3sZ8
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAyMDEwMSBTYWx0ZWRfXzf+nQD5A3a38
+ IDUlM+/RmYHby+LQtqp193OAbLWuc5QhXM3/NsGNBCMPYhIDUILpGWKScpu++Smk3t/uLEf6uFB
+ sX5eJHZOU7J0xAxFbRONXymn3JD0Z/8=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-02_02,2026-09-01_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 adultscore=0
+ malwarescore=0 clxscore=1015 impostorscore=0 priorityscore=1501
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2609020101
 
-Implement the ALSA mixer: the six output masters + mutes, the 6x14
-crosspoint matrix, the four preamp gains (mic 3.25 dB/step, instrument
-0.5 dB/step), phantom power and PAD, pitch/varispeed, loopback, AN1>2,
-stereo link, MS processor, width, FX send and DIM.
+qcom_swrm_xfer_msg() reprograms SCP_ADDRPAGE1/2 before every paged
+transfer, even when the paging window hasn't changed. Besides the
+wasted bus transactions, this breaks the atomicity that SoundWire
+Classic Multi-Byte Quantity (MBQ) writes rely on: the kernel's MBQ
+regmap emits an MBQ pair as two sdw_write_no_pm() calls to bit-13
+aliases sharing the same page, and the intervening PAGE writes
+invalidate the MBQ high-byte staging on Peripherals that observe
+them.  On WCD9378 FU42 Q7.8 Channel Volume this drops the MSB byte
+silently.
 
-The front panel and DSP EQ remain stubbed here; they land in the next
-patches of the series.
+Per SDCA v1.1 sections 12.2.5 and 12.2.8.2.1, MBQ pairs are expected
+to be atomic on the wire.  Cache the last-programmed page values per
+Slave, skip the FIFO write when they match, and invalidate on
+re-attach since SCP_ADDRPAGE1/2 reset to defaults on re-enumeration.
 
-Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
-Assisted-by: DeepSeek V4 Flash
+
+Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Faiz Nabi Kuchay <fkuchay@oss.qualcomm.com>
 ---
- sound/usb/babyfacepro/babyfacepro-ctl.c | 1294 ++++++++++++++++++++++-
- 1 file changed, 1273 insertions(+), 21 deletions(-)
 
-diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyfacepro/babyfacepro-ctl.c
-index ec2640e0b..168bcb35b 100644
---- a/sound/usb/babyfacepro/babyfacepro-ctl.c
-+++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
-@@ -1,14 +1,14 @@
- // SPDX-License-Identifier: GPL-2.0-only
- /*
-- * RME Babyface Pro FS — proprietary-mode USB audio driver
-+ * RME Babyface Pro FS - proprietary-mode USB audio driver
-  *
-- * ALSA control surface (mixer, front panel, DSP EQ).  This is the
-- * initial slice of the series: the card's PCM stream + lifecycle come
-- * from babyfacepro.c, while the control surface is stubbed out here so
-- * the module links.  The real mixer, front-panel and DSP EQ land in the
-- * follow-up patches (mixer, panel, eq) — each replaces its stubs.
-+ * ALSA control surface: mixer (masters, preamp, crosspoints, flags,
-+ * gains), front-panel poll + controls, and the hardware DSP EQ
-+ * (3-band + low cut).
-  *
-- * See babyfacepro.h for the shared device state and register map.
-+ * See babyfacepro.h for the shared device state and register map,
-+ * and babyfacepro.c for the core driver (protocol, PCM streaming,
-+ * state persistence, card lifecycle).
-  */
- #include <linux/log2.h>
- #include <linux/math64.h>
-@@ -43,7 +43,7 @@ const struct bf_source bf_sources[14] = {
- 	{ "PB6",    22, 23 },
+Same pattern exists in intel/cadence and amd.
+It makes sense to move this cache into the SoundWire core at some point
+if everyone agrees with this approch. Buf for now the patch is focused
+on qcom controller.
+
+--srini
+
+ drivers/soundwire/qcom.c | 38 ++++++++++++++++++++++++++++----------
+ 1 file changed, 28 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index 55678a30cd4a..35ffffd541bd 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -221,6 +221,9 @@ struct qcom_swrm_ctrl {
+ 	u32 slave_status;
+ 	u32 wr_fifo_depth;
+ 	bool clock_stop_not_supported;
++	/* Per-Slave SCP_ADDRPAGE1/2 shadow; -1 = unknown. */
++	s16 page1_cache[SDW_MAX_DEVICES + 1];
++	s16 page2_cache[SDW_MAX_DEVICES + 1];
  };
  
--/* Crosspoint-map output order vs the master-map order — HARDWARE-
-+/* Crosspoint-map output order vs the master-map order - HARDWARE-
-  * VERIFIED 2026-08-24: the block that feeds the Phones is the FIRST
-  * crosspoint block (0x34), while the Phones master is the SECOND
-  * (0x03E2/0x0006).  The crosspoint map lists the Phones first (the
-@@ -53,54 +53,1302 @@ const struct bf_source bf_sources[14] = {
-  */
- const u8 bf_xpoint_block[6] = { 1, 0, 2, 3, 4, 5 };
+ struct qcom_swrm_data {
+@@ -630,6 +633,10 @@ static void qcom_swrm_set_slave_dev_num(struct sdw_bus *bus,
+ 		mutex_lock(&bus->bus_lock);
+ 		set_bit(devnum, bus->assigned);
+ 		mutex_unlock(&bus->bus_lock);
++
++		/* Re-attach resets SCP_ADDRPAGE1/2 to defaults; invalidate. */
++		ctrl->page1_cache[devnum] = -1;
++		ctrl->page2_cache[devnum] = -1;
+ 	}
+ }
  
--/* ── control-surface stubs ──────────────────────────────────────
-- * Filled in by the mixer / panel / eq patches.  The core driver
-- * (babyfacepro.c) calls these from probe() and the stream/state
-- * paths, so they must exist for the module to link.  Until then the
-- * card exposes the PCM stream only.
-+/* Master-register output order - the master map lists AN1/2 first
-+ * (0x03E0) and the Phones master SECOND (0x03E2, HARDWARE-VERIFIED
-+ * 2026-08-24); the crosspoint blocks are in the opposite order
-+ * (Phones = block 0x34 first, hence bf_xpoint_block above).  Control
-+ * index -> canonical output (AN1/2=0, PH3/4=1, ...) = the master
-+ * register position directly: the names 'AN1/2 Playback Volume' etc.
-+ * must match the register they write (corrected 2026-08-26 - the
-+ * previous {1,0,...} swap made 'AN1/2' drive the Phones and 'PH3/4'
-+ * drive the AN1/2 analog out).
-  */
-+static const u8 bf_master_out[6] = { 0, 1, 2, 3, 4, 5 };
+@@ -976,17 +983,25 @@ static enum sdw_command_response qcom_swrm_xfer_msg(struct sdw_bus *bus,
+ 	int ret, i, len;
  
-+/* The 16-bit master value -> the 8-bit companion code (0.5 dB/step).
-+ * Integer-only: half_db = 12*log2(v/0x2000) via ilog2 + an 8-bit
-+ * fractional-octave table (12*log2(1 + n/256), ~0.05 dB resolution -
-+ * fine enough for the +/-0.5 dB panel wheel to track the round-trip).
-+ */
-+static const u8 bf_lg2_frac[256] = {
-+	0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-+	1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,
-+	2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
-+	3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
-+	4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5,
-+	5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-+	6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-+	6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-+	7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8,
-+	8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
-+	8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9,
-+	9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10,
-+	10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
-+	10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
-+	11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
-+	11, 11, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
-+};
-+
-+/* 16-bit master -> dBx2 (12 half-dB per octave; 0x2000 = 0 dB).
-+ * Shared by the 8-bit companion and the front-panel OUT wheel.
-+ */
-+int bf_master_half_db(u16 vol16)
-+{
-+	unsigned int k, frac;
-+
-+	vol16 = clamp(vol16, 1, 0x4000);
-+	k = ilog2(vol16);
-+	frac = ((vol16 - (1u << k)) << 8) >> k;
-+	return 12 * (int)k - 156 + bf_lg2_frac[frac];
-+}
-+
-+/* dBx2 -> 16-bit master (0x2000*2^(half_db/12), rounded).  The
-+ * inverse of bf_master_half_db - the 12th-root table 2^(n/12).
-+ */
-+static const u16 bf_twelfth[12] = {
-+	0x1000, 0x10f4, 0x11f6, 0x1307, 0x1429, 0x155c,
-+	0x16a1, 0x17f9, 0x1966, 0x1ae9, 0x1c82, 0x1e34,
-+};
-+
-+int bf_master_16bit(int half_db)
-+{
-+	int k = half_db / 12;
-+	int n = half_db % 12;
-+	u32 v;
-+
-+	if (n < 0) {
-+		n += 12;
-+		k--;
-+	}
-+	v = (u32)bf_twelfth[n] << 1;	/* 0x2000*2^(n/12) */
-+	if (k >= 0) {
-+		v <<= k;
-+	} else {
-+		v += 1u << (-k - 1);	/* round-half-up */
-+		v >>= -k;
-+	}
-+	return (u16)clamp(v, 1, 0x4000);
-+}
-+
-+u8 bf_master_8bit(u16 vol16)
-+{
-+	if (vol16 == 0)
-+		return BF_MASTER_MUTE;
-+	return (u8)clamp(0xf3 + bf_master_half_db(vol16), BF_MASTER_8_MIN, 0xff);
-+}
-+
-+/* The cold-init register clear zeroes the mixer registers TotalMix
-+ * re-uploads afterwards.  The kernel driver has no saved scene (no
-+ * readback for faders), so it applies TotalMix's factory default:
-+ * every source routed to every output at unity, masters at 0 dB and
-+ * unmuted - the user/TuxMix can restore its own scene on top.
-+ */
- int babyface_write_default_mixer(struct snd_usb_babyface *chip)
- {
--	return 0;
-+	int out, src, ret;
-+	u16 flag;
-+
-+	/* Output masters: 0 dB (0x2000) + the unmute companion (0xf3). */
-+	for (out = 0; out < 6; out++) {
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, BF_MASTER_UNMUTE,
-+				      BF_REG_MASTER_8 + 2 * out);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, BF_MASTER_UNMUTE,
-+				      BF_REG_MASTER_8 + 2 * out + 1);
-+		if (ret < 0)
-+			return ret;
-+		flag = bf_flag_cycle[chip->flag_cnt];
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, BF_MASTER_0DB,
-+				      (BF_REG_MASTER_16 + 2 * out) | flag);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, BF_MASTER_0DB,
-+				      (BF_REG_MASTER_16 + 2 * out + 1) | flag);
-+		if (ret < 0)
-+			return ret;
-+		chip->master[out][0] = BF_MASTER_0DB;
-+		chip->master[out][1] = BF_MASTER_0DB;
-+		chip->muted[out] = false;
-+	}
-+
-+	/* Every source into every output pair, L and R, at 0 dB (the
-+	 * standard map; the low map is only a shadow).  The addresses use
-+	 * the source's idx_l/idx_r on the canonical block - writing the raw
-+	 * index on both bases would put PB1 R on the L side and PB1 L on
-+	 * the R side (L+R on both = mono).  The "cross" registers
-+	 * (L-reg idx_r / R-reg idx_l) are left at 0; the restore at stream
-+	 * start re-writes the same addresses from the cache.
-+	 */
-+	for (out = 0; out < 6; out++) {
-+		unsigned int blk = bf_xpoint_block[out];
-+
-+		for (src = 0; src < 14; src++) {
-+			flag = bf_flag_cycle[chip->flag_cnt];
-+			chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+			ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, BF_FADER_0DB,
-+					      (BF_REG_CROSS_BASE_L +
-+					       BF_REG_CROSS_STRIDE * blk +
-+					       bf_sources[src].idx_l) | flag);
-+			if (ret < 0)
+ 	if (msg->page) {
+-		ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page1,
+-						msg->dev_num,
+-						SDW_SCP_ADDRPAGE1);
+-		if (ret)
+-			return ret;
++		if (ctrl->page1_cache[msg->dev_num] != msg->addr_page1) {
++			ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page1,
++							msg->dev_num,
++							SDW_SCP_ADDRPAGE1);
++			if (ret)
 +				return ret;
-+			ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, BF_FADER_0DB,
-+					      (BF_REG_CROSS_BASE_R +
-+					       BF_REG_CROSS_STRIDE * blk +
-+					       bf_sources[src].idx_r) | flag);
-+			if (ret < 0)
+ 
+-		ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page2,
+-						msg->dev_num,
+-						SDW_SCP_ADDRPAGE2);
+-		if (ret)
+-			return ret;
++			ctrl->page1_cache[msg->dev_num] = msg->addr_page1;
++		}
++
++		if (ctrl->page2_cache[msg->dev_num] != msg->addr_page2) {
++			ret = qcom_swrm_cmd_fifo_wr_cmd(ctrl, msg->addr_page2,
++							msg->dev_num,
++							SDW_SCP_ADDRPAGE2);
++			if (ret)
 +				return ret;
++
++			ctrl->page2_cache[msg->dev_num] = msg->addr_page2;
 +		}
-+		ret = bf_crosspoint_clear_cross(chip, blk);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	/* Mirror the defaults into the control cache (14 controls/output). */
-+	for (out = 0; out < 6; out++)
-+		for (src = 0; src < 14; src++) {
-+			chip->xpoint[out][src][0] = BF_FADER_0DB;
-+			chip->xpoint[out][src][1] = BF_FADER_0DB;
-+		}
-+
-+	/* Host settings word: clock Internal (0x0001). */
-+	return bf_vendor_write(chip, BF_REQ_KEEPALIVE, 0x0001,
-+			       BF_REG_KEEPALIVE_SETTINGS);
- }
+ 	}
  
-+/* The device resets its output masters to mute when a stream session
-+ * starts (hardware-verified 2026-08-24: after a stream start the
-+ * output stays silent until a master write lands - only a write
-+ * un-mutes the 8-bit register).  Re-apply the six output masters +
-+ * mutes from the cache; also used by the PM restore path.
-+ */
- int bf_apply_masters(struct snd_usb_babyface *chip)
- {
-+	int out, ret;
-+	u16 flag;
-+
-+	for (out = 0; out < 6; out++) {
-+		u16 l = chip->muted[out] ? 0 : chip->master[out][0];
-+		u16 r = chip->muted[out] ? 0 : chip->master[out][1];
-+		u8 l8 = chip->muted[out] ? BF_MASTER_MUTE : bf_master_8bit(l);
-+		u8 r8 = chip->muted[out] ? BF_MASTER_MUTE : bf_master_8bit(r);
-+
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, l8,
-+				      BF_REG_MASTER_8 + 2 * out);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, r8,
-+				      BF_REG_MASTER_8 + 2 * out + 1);
-+		if (ret < 0)
-+			return ret;
-+		flag = bf_flag_cycle[chip->flag_cnt];
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l,
-+				      (BF_REG_MASTER_16 + 2 * out) | flag);
-+		if (ret < 0)
-+			return ret;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r,
-+				      (BF_REG_MASTER_16 + 2 * out + 1) | flag);
-+		if (ret < 0)
-+			return ret;
-+	}
-+	return 0;
-+}
-+
-+/* -- mixer controls ------------------------ */
-+
-+/* dB TLV for the output masters: 0x2000 = 0 dB, 0x4000 = +6 dB
-+ * (CALIBRATION.md) with the hardware 20*log10(v/0x2000) law - the raw
-+ * 16-bit value IS the linear amplitude.  WirePlumber needs this to map
-+ * the volume 1:1 to the hardware control instead of applying a software
-+ * volume on top (which left the output ~30 dB down).
-+ */
-+static const DECLARE_TLV_DB_RANGE(bf_master_tlv,
-+	0, 0x2000, TLV_DB_LINEAR_ITEM(-6500, 0),
-+	0x2000, 0x4000, TLV_DB_LINEAR_ITEM(0, 600)
-+);
-+
-+static int bf_master_info(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 0x4000;	/* +6 dB = 2 x 0dB(0x2000) */
-+	uinfo->value.integer.step = 1;
- 	return 0;
- }
+ 	if (msg->flags == SDW_MSG_FLAG_READ) {
+@@ -1561,6 +1576,9 @@ static int qcom_swrm_probe(struct platform_device *pdev)
+ 	if (!ctrl)
+ 		return -ENOMEM;
  
--int bf_loopback_write_map(struct snd_usb_babyface *chip, int out, bool on)
-+static int bf_master_get(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_value *ucontrol)
- {
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = bf_master_out[kctl->private_value];
-+
-+	ucontrol->value.integer.value[0] = chip->master[out][0];
-+	ucontrol->value.integer.value[1] = chip->master[out][1];
- 	return 0;
- }
- 
-+static int bf_master_put(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = bf_master_out[kctl->private_value];
-+	u16 l = ucontrol->value.integer.value[0];
-+	u16 r = ucontrol->value.integer.value[1];
-+	u16 flag;
-+	int ret = 0;
-+
-+	/* The control is declared 0..0x4000 (+6 dB); reject anything outside
-+	 * so the 16-bit companion register and the cache stay in spec (the
-+	 * ALSA core only enforces this with CONFIG_SND_CTL_INPUT_VALIDATION).
-+	 */
-+	if (l > 0x4000 || r > 0x4000)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (l == chip->master[out][0] && r == chip->master[out][1])
-+		goto out;
-+
-+	flag = bf_flag_cycle[chip->flag_cnt];
-+	chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+
-+	/* The 8-bit register is the real volume; the 16-bit is its
-+	 * companion (kept in sync like TotalMix).
-+	 */
-+	ret = bf_vendor_write(chip, BF_REQ_GAIN, bf_master_8bit(l),
-+			      BF_REG_MASTER_8 + 2 * out);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_GAIN, bf_master_8bit(r),
-+			      BF_REG_MASTER_8 + 2 * out + 1);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l,
-+			      (BF_REG_MASTER_16 + 2 * out) | flag);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r,
-+			      (BF_REG_MASTER_16 + 2 * out + 1) | flag);
-+	if (ret < 0)
-+		goto out;
-+
-+	chip->master[out][0] = l;
-+	chip->master[out][1] = r;
-+	chip->muted[out] = false;
-+	/* A Phones change while DIM is engaged re-bases the restore point. */
-+	if (chip->dim && out == 1) {
-+		chip->dim_saved[0] = l;
-+		chip->dim_saved[1] = r;
-+	}
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_mute_info(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 1;
-+	return 0;
-+}
-+
-+static int bf_mute_get(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = bf_master_out[kctl->private_value];
-+
-+	/* ALSA convention: 1 = enabled (sound on) = not muted. */
-+	ucontrol->value.integer.value[0] = !chip->muted[out];
-+	ucontrol->value.integer.value[1] = !chip->muted[out];
-+	return 0;
-+}
-+
-+static int bf_mute_put(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = bf_master_out[kctl->private_value];
-+	bool muted = !ucontrol->value.integer.value[0];
-+	u16 flag;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (muted == chip->muted[out])
-+		goto out;
-+
-+	flag = bf_flag_cycle[chip->flag_cnt];
-+	chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+
-+	if (muted) {
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, BF_MASTER_MUTE,
-+				      BF_REG_MASTER_8 + 2 * out);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, BF_MASTER_MUTE,
-+				      BF_REG_MASTER_8 + 2 * out + 1);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000,
-+				      (BF_REG_MASTER_16 + 2 * out) | flag);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000,
-+				      (BF_REG_MASTER_16 + 2 * out + 1) | flag);
-+		if (ret < 0)
-+			goto out;
-+	} else {
-+		/* Unmute restores the cached volume (TotalMix keeps the
-+		 * pre-mute fader value host-side), 8-bit + 16-bit.
-+		 */
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN,
-+				      bf_master_8bit(chip->master[out][0]),
-+				      BF_REG_MASTER_8 + 2 * out);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN,
-+				      bf_master_8bit(chip->master[out][1]),
-+				      BF_REG_MASTER_8 + 2 * out + 1);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->master[out][0],
-+				      (BF_REG_MASTER_16 + 2 * out) | flag);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->master[out][1],
-+				      (BF_REG_MASTER_16 + 2 * out + 1) | flag);
-+		if (ret < 0)
-+			goto out;
-+	}
-+	chip->muted[out] = muted;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
- int bf_preamp_state_write(struct snd_usb_babyface *chip)
- {
-+	int ret;
-+
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP, chip->preamp, BF_REG_PREAMP);
-+	if (ret < 0)
-+		return ret;
-+	return bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
-+}
-+
-+/* -- crosspoint matrix (6 outputs x 14 sources) -------------- */
-+
-+static int bf_xpoint_info(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 2;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = BF_FADER_TOP;	/* +6 dB fader top */
-+	uinfo->value.integer.step = 1;
- 	return 0;
- }
- 
--int babyface_create_controls(struct snd_usb_babyface *chip)
-+static int bf_xpoint_get(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_value *ucontrol)
- {
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = kctl->private_value >> 8;
-+	int src = kctl->private_value & 0xff;
-+
-+	ucontrol->value.integer.value[0] = chip->xpoint[out][src][0];
-+	ucontrol->value.integer.value[1] = chip->xpoint[out][src][1];
- 	return 0;
- }
- 
-+static int bf_xpoint_put(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = kctl->private_value >> 8;
-+	int src = kctl->private_value & 0xff;
-+	unsigned int blk = bf_xpoint_block[out];
-+	const struct bf_source *s = &bf_sources[src];
-+	u16 l = ucontrol->value.integer.value[0];
-+	u16 r = ucontrol->value.integer.value[1];
-+	u16 flag;
-+	int ret = 0;
-+
-+	if (l > BF_FADER_TOP || r > BF_FADER_TOP)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (l == chip->xpoint[out][src][0] && r == chip->xpoint[out][src][1])
-+		goto out;
-+
-+	flag = bf_flag_cycle[chip->flag_cnt];
-+	chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+
-+	/* L register = 0x0034 + 0x34*blk + idx, R = 0x004E + 0x34*blk + idx
-+	 * (mono sources use the same idx on both sides).
-+	 */
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l,
-+			      (BF_REG_CROSS_BASE_L + BF_REG_CROSS_STRIDE * blk +
-+			       s->idx_l) | flag);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r,
-+			      (BF_REG_CROSS_BASE_R + BF_REG_CROSS_STRIDE * blk +
-+			       s->idx_r) | flag);
-+	if (ret < 0)
-+		goto out;
-+
-+	chip->xpoint[out][src][0] = l;
-+	chip->xpoint[out][src][1] = r;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
- int babyface_create_xpoints(struct snd_usb_babyface *chip)
- {
-+	struct snd_kcontrol *kctl;
-+	int out, src, err;
-+
-+	for (out = 0; out < 6; out++) {
-+		for (src = 0; src < 14; src++) {
-+			kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+				.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+				.name = "Playback Volume",
-+				.index = out * 14 + src,
-+				.info = bf_xpoint_info,
-+				.get = bf_xpoint_get,
-+				.put = bf_xpoint_put,
-+				.private_value = (out << 8) | src,
-+			}, chip);
-+			/* Name the control by its source: "AN1 Playback Volume",
-+			 * "PB1 Playback Volume"... with a unique index.
-+			 */
-+			strscpy(kctl->id.name, bf_sources[src].name,
-+				sizeof(kctl->id.name));
-+			strlcat(kctl->id.name, " Playback Volume",
-+				sizeof(kctl->id.name));
-+			err = snd_ctl_add(chip->card, kctl);
-+			if (err < 0)
-+				return err;
-+		}
-+	}
-+	return 0;
-+}
-+
-+/* -- flags / special controls (pitch, loopback, link, width, FX) -- */
-+
-+static int bf_switch_info(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 1;
-+	return 0;
-+}
-+
-+static int bf_pitch_info(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = -50;		/* -5.0 % */
-+	uinfo->value.integer.max = 50;		/* +5.0 % */
-+	uinfo->value.integer.step = 1;		/* 0.1 % */
-+	return 0;
-+}
-+
-+static int bf_pitch_get(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->pitch;
-+	return 0;
-+}
-+
-+static int bf_pitch_put(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int p = ucontrol->value.integer.value[0];
-+	u32 dds24, dds16;
-+	u16 frac, b1, b2;
-+	int ret = 0;
-+
-+	if (p < -50 || p > 50)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (p == chip->pitch)
-+		goto out;
-+
-+	/* The 0x1B DDS quad (16.8 fixed point, banked).  p is 0.1 % steps:
-+	 * DDS_24 = round(50000*256/(1+p/1000)) = round(12800000000/(1000+p)).
-+	 */
-+	dds24 = div_u64(12800000000ULL + (u32)(1000 + p) / 2, 1000 + p);
-+	dds16 = dds24 >> 8;
-+	frac = dds24 & 0xff;
-+	b1 = (u16)div_u64(dds16 * 72562ull + 50000, 100000);
-+	b2 = (u16)((dds16 * 2 + 1) / 3);
-+
-+	ret = bf_vendor_write(chip, BF_REQ_DDS, (u16)dds16, (frac << 8) | 0);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_DDS, b1, 0x0001);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_DDS, b2, 0x0002);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_DDS, 0x7cff, 0x0003);
-+	if (ret < 0)
-+		goto out;
-+	/* Every quad must be followed by the clock keepalive. */
-+	ret = bf_vendor_write(chip, BF_REQ_KEEPALIVE, 0x0001,
-+			      BF_REG_KEEPALIVE_SETTINGS);
-+	if (ret < 0)
-+		goto out;
-+
-+	chip->pitch = p;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_loopback_get(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = kctl->private_value;
-+
-+	ucontrol->value.integer.value[0] = chip->loopback[out];
-+	ucontrol->value.integer.value[1] = chip->loopback[out];
-+	return 0;
-+}
-+
-+/* Write the full 30-channel loopback map: pair (2*out, 2*out+1) at
-+ * `on` (0x0001/0x0000), all other channels cleared - exactly what
-+ * TotalMix sends on every loopback toggle (cap_loopback2.pcap).  The
-+ * full-map write is also the reliable OFF (the old per-pair write
-+ * sometimes failed to disengage on the hardware).
-+ */
-+int bf_loopback_write_map(struct snd_usb_babyface *chip, int out,
-+			  bool on)
-+{
-+	int ch, ret;
-+
-+	for (ch = 0; ch < BF_LOOPBACK_CHANNELS; ch++) {
-+		u16 val = (on && (ch == out * 2 || ch == out * 2 + 1))
-+			  ? 0x0001 : 0x0000;
-+
-+		ret = bf_vendor_write(chip, BF_REQ_LOOPBACK, val, ch);
-+		if (ret < 0)
-+			return ret;
-+	}
-+	return 0;
-+}
-+
-+static int bf_loopback_put(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int out = kctl->private_value;
-+	bool on = ucontrol->value.integer.value[0];
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (on == chip->loopback[out])
-+		goto out;
-+	ret = bf_loopback_write_map(chip, out, on);
-+	if (ret < 0)
-+		goto out;
-+	/* Single-active model (TotalMix writes one pair at 0x0001, the
-+	 * rest 0x0000): toggling one output clears the others.
-+	 */
-+	memset(chip->loopback, 0, sizeof(chip->loopback));
-+	chip->loopback[out] = on;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_an12_get(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->an12;
-+	return 0;
-+}
-+
-+static int bf_an12_put(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool an12 = ucontrol->value.integer.value[0];
-+	u16 v;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (an12 == chip->an12)
-+		goto out;
-+	v = (chip->linked ? 0x0400 : 0x0000) | (an12 ? 0x1000 : 0x0000);
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP, v, 0x1000);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
-+	if (ret < 0)
-+		goto out;
-+	chip->an12 = an12;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_link_get(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->linked;
-+	return 0;
-+}
-+
-+static int bf_link_put(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool linked = ucontrol->value.integer.value[0];
-+	u16 v;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (linked == chip->linked)
-+		goto out;
-+	v = (linked ? 0x0400 : 0x0000) | (chip->an12 ? 0x1000 : 0x0000);
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP, v, 0x1000);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
-+	if (ret < 0)
-+		goto out;
-+	chip->linked = linked;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_ms_get(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->ms_proc;
-+	return 0;
-+}
-+
-+/* MS-proc: engage per the cap_ms2.pcap ON pattern - write 0x0000 to
-+ * ALL FOUR AN2 (side) crosspoints: standard map 0x0035/0x004F (L/R)
-+ * + low map 0x0001/0x001B (L/R) - the side path is muted (ear-
-+ * verified 2026-08-26 with the mic on AN2: MS ON = silence); release
-+ * restores the cached fader values (host-side, like TotalMix).
-+ * (The 0x1000/0x0004 writes are the DISENGAGE restore values seen in
-+ * cap_ms2 - the driver had them inverted on the engage path.)
-+ */
-+static int bf_ms_put(struct snd_kcontrol *kctl,
-+		     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool on = ucontrol->value.integer.value[0];
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (on == chip->ms_proc)
-+		goto out;
-+	if (on) {
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0035);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x004f);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x0001);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0000, 0x001b);
-+		if (ret < 0)
-+			goto out;
-+	} else {
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][0], 0x0001);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][0], 0x0035);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][1], 0x001b);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->xpoint[1][1][1], 0x004f);
-+		if (ret < 0)
-+			goto out;
-+	}
-+	chip->ms_proc = on;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+/* DIM - cap_dim2.pcap: an absolute -20 dB on the Phones master
-+ * (out 1: 8-bit 0xCB / 16-bit 0x0333) regardless of the current level,
-+ * plus the 0x17 wVal=0x2000 wIdx=0x2000 flag; release restores the
-+ * pre-DIM master host-side.  The master cache keeps the real volume.
-+ */
-+static int bf_dim_get(struct snd_kcontrol *kctl,
-+		      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->dim;
-+	return 0;
-+}
-+
-+static int bf_dim_put(struct snd_kcontrol *kctl,
-+		      struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	bool on = ucontrol->value.integer.value[0];
-+	u16 flag;
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (on == chip->dim)
-+		goto out;
-+	if (on) {
-+		chip->dim_saved[0] = chip->master[1][0];
-+		chip->dim_saved[1] = chip->master[1][1];
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
-+				      BF_REG_MASTER_8 + 2 * 1);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
-+				      BF_REG_MASTER_8 + 2 * 1 + 1);
-+		if (ret < 0)
-+			goto out;
-+		flag = bf_flag_cycle[chip->flag_cnt];
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
-+				      (BF_REG_MASTER_16 + 2 * 1) | flag);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
-+				      (BF_REG_MASTER_16 + 2 * 1 + 1) | flag);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_PREAMP, 0x2000, 0x2000);
-+		if (ret < 0)
-+			goto out;
-+	} else {
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN,
-+				      bf_master_8bit(chip->dim_saved[0]),
-+				      BF_REG_MASTER_8 + 2 * 1);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_GAIN,
-+				      bf_master_8bit(chip->dim_saved[1]),
-+				      BF_REG_MASTER_8 + 2 * 1 + 1);
-+		if (ret < 0)
-+			goto out;
-+		flag = bf_flag_cycle[chip->flag_cnt];
-+		chip->flag_cnt = (chip->flag_cnt + 1) & 3;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->dim_saved[0],
-+				      (BF_REG_MASTER_16 + 2 * 1) | flag);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT,
-+				      chip->dim_saved[1],
-+				      (BF_REG_MASTER_16 + 2 * 1 + 1) | flag);
-+		if (ret < 0)
-+			goto out;
-+		ret = bf_vendor_write(chip, BF_REQ_PREAMP, 0x0000, 0x2000);
-+		if (ret < 0)
-+			goto out;
-+	}
-+	chip->dim = on;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_width_info(struct snd_kcontrol *kctl,
-+			 struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = -100;
-+	uinfo->value.integer.max = 100;
-+	uinfo->value.integer.step = 1;
- 	return 0;
- }
- 
-+static int bf_width_get(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->width;
-+	return 0;
-+}
-+
-+static int bf_width_put(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int w = ucontrol->value.integer.value[0];
-+	u16 l, r;
-+	int ret = 0;
-+
-+	if (w < -100 || w > 100)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (w == chip->width)
-+		goto out;
-+	/* Width spread: L = 0x1000*(1+w), R = 0x1000*(1-w), L+R = 0x2000.
-+	 * TotalMix writes the strip's src pair on BOTH maps (cap_width3-7,
-+	 * PROTOCOL.md "Width strip mapping"): the low map (0x0000+src L /
-+	 * 0x001A+src R) and the std block-0 map (0x0034+src L /
-+	 * 0x004E+src R) - the stereo pair spreads L/R in opposition, the
-+	 * mirror src (AN2) gets the swapped values.
-+	 */
-+	l = (u16)(((0x2000 * (100 + w) / 2) + 50) / 100);
-+	r = 0x2000 - l;
-+	/* Low map: AN1 L=0x0000, R=0x001A; AN2 L=0x0001, R=0x001B. */
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0000);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x001a);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0001);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x001b);
-+	if (ret < 0)
-+		goto out;
-+	/* Std block-0 map (item 0b, the missing half): AN1 L=0x0034,
-+	 * R=0x004E; AN2 L=0x0035, R=0x004F.  (The playback strips PB2-6
-+	 * target block n-2 - 0x00AE family - reserved for the per-strip
-+	 * controls.)
-+	 */
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0034);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x004e);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0035);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x004f);
-+	if (ret < 0)
-+		goto out;
-+	chip->width = w;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+static int bf_fx_send_info(struct snd_kcontrol *kctl,
-+			   struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 0x1000;
-+	uinfo->value.integer.step = 1;
-+	return 0;
-+}
-+
-+static int bf_fx_send_get(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] = chip->fx_send;
-+	return 0;
-+}
-+
-+static int bf_fx_send_put(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	u16 v = ucontrol->value.integer.value[0];
-+	int ret = 0;
-+
-+	if (v > 0x1000)
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (v == chip->fx_send)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, v, 0x0138);
-+	if (ret < 0)
-+		goto out;
-+	ret = bf_vendor_write(chip, BF_REQ_CROSSPOINT, v, 0x0153);
-+	if (ret < 0)
-+		goto out;
-+	chip->fx_send = v;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
- int babyface_create_flags(struct snd_usb_babyface *chip)
- {
-+	struct snd_kcontrol *kctl;
-+	int i, err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Varispeed Pitch",
-+		.info = bf_pitch_info,
-+		.get = bf_pitch_get,
-+		.put = bf_pitch_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	for (i = 0; i < 6; i++) {
-+		kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+			.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+			.name = "Loopback Switch",
-+			.index = i,
-+			.info = bf_mute_info,
-+			.get = bf_loopback_get,
-+			.put = bf_loopback_put,
-+			.private_value = i,
-+		}, chip);
-+		err = snd_ctl_add(chip->card, kctl);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "AN 1>2 Switch",
-+		.info = bf_switch_info,
-+		.get = bf_an12_get,
-+		.put = bf_an12_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "AN1/2 Link Switch",
-+		.info = bf_switch_info,
-+		.get = bf_link_get,
-+		.put = bf_link_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "MS Processor Switch",
-+		.info = bf_switch_info,
-+		.get = bf_ms_get,
-+		.put = bf_ms_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Dim Switch",
-+		.info = bf_switch_info,
-+		.get = bf_dim_get,
-+		.put = bf_dim_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "Width",
-+		.info = bf_width_info,
-+		.get = bf_width_get,
-+		.put = bf_width_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+		.name = "FX Send Volume",
-+		.info = bf_fx_send_info,
-+		.get = bf_fx_send_get,
-+		.put = bf_fx_send_put,
-+	}, chip);
-+	err = snd_ctl_add(chip->card, kctl);
-+	if (err < 0)
-+		return err;
-+
-+	return 0;
-+}
-+
-+static int bf_bool_info(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = 1;
- 	return 0;
- }
- 
--int babyface_create_panel(struct snd_usb_babyface *chip)
-+static int bf_phantom_get(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
- {
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+
-+	ucontrol->value.integer.value[0] =
-+		!!(chip->preamp & kctl->private_value);
- 	return 0;
- }
- 
--int babyface_create_eq(struct snd_usb_babyface *chip)
-+static int bf_phantom_put(struct snd_kcontrol *kctl,
-+			  struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	u16 bit = kctl->private_value;
-+	bool on = ucontrol->value.integer.value[0];
-+	bool cur = !!(chip->preamp & bit);
-+	int ret = 0;
-+
-+	mutex_lock(&chip->mutex);
-+	if (on == cur)
-+		goto out;
-+	chip->preamp = on ? (chip->preamp | bit) : (chip->preamp & ~bit);
-+	ret = bf_preamp_state_write(chip);
-+	if (ret < 0)
-+		goto out;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+/* Gain scales: the mic preamps (AN1/2) span 0-65 dB over raw 0-20
-+ * (3.25 dB/step); the Hi-Z instrument inputs (AN3/4) are digitally
-+ * limited to 9 dB over raw 0-18 (0.5 dB/step) - manual sec. 10, raw
-+ * ranges verified from cap_gain12/cap_gain34.pcap.  Shared by the GUI
-+ * controls and the front-panel gain wheel.
-+ */
-+int bf_gain_max_db(int mic)
-+{
-+	return mic < 2 ? BF_GAIN_MAX_DB : 9;
-+}
-+
-+int bf_gain_db(int mic, u8 raw)
-+{
-+	return mic < 2 ? (raw * 13) / 4 : raw / 2;
-+}
-+
-+u8 bf_gain_raw(int mic, int db)
-+{
-+	return mic < 2 ? (db * 8 + 13) / 26 : db * 2;
-+}
-+
-+static int bf_gain_info(struct snd_kcontrol *kctl,
-+			struct snd_ctl_elem_info *uinfo)
-+{
-+	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = 1;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = bf_gain_max_db(kctl->private_value);
-+	uinfo->value.integer.step = 1;
-+	return 0;
-+}
-+
-+static int bf_gain_get(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int mic = kctl->private_value;
-+
-+	/* chip->gain[] tracks the dB (the raw is derived at write time -
-+	 * the 3.25 dB/step mic grid would otherwise make a +/-1 dB wheel
-+	 * stick on a raw boundary).
-+	 */
-+	ucontrol->value.integer.value[0] = chip->gain[mic];
-+	return 0;
-+}
-+
-+static int bf_gain_put(struct snd_kcontrol *kctl,
-+		       struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
-+	int mic = kctl->private_value;
-+	int db = ucontrol->value.integer.value[0];
-+	u8 raw, counter;
-+	int ret = 0;
-+
-+	if (db < 0 || db > bf_gain_max_db(mic))
-+		return -EINVAL;
-+
-+	mutex_lock(&chip->mutex);
-+	if (db == chip->gain[mic])
-+		goto out;
-+	raw = bf_gain_raw(mic, db);
-+	counter = (chip->gain_cycle % 3 == 0) ? 0x20 :
-+		  (chip->gain_cycle % 3 == 1) ? 0x00 : 0x40;
-+	chip->gain_cycle = (chip->gain_cycle + 1) % 3;
-+
-+	ret = bf_vendor_write(chip, BF_REQ_GAIN,
-+			      (u16)((raw & 0x1f) | counter),
-+			      BF_REG_GAIN + mic);
-+	if (ret < 0)
-+		goto out;
-+	chip->gain[mic] = db;
-+	ret = 1;
-+out:
-+	mutex_unlock(&chip->mutex);
-+	return ret;
-+}
-+
-+int babyface_create_controls(struct snd_usb_babyface *chip)
-+{
-+	static const char * const out_names[6] = {
-+		"AN1/2", "PH3/4", "AS1/2", "ADAT3/4", "ADAT5/6", "ADAT7/8"
-+	};
-+	struct snd_kcontrol *kctl;
-+	int i, err;
-+
-+	for (i = 0; i < 6; i++) {
-+		kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+			.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+			.name = out_names[i],
-+			.index = i,
-+			.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
-+				  SNDRV_CTL_ELEM_ACCESS_TLV_READ,
-+			.info = bf_master_info,
-+			.get = bf_master_get,
-+			.put = bf_master_put,
-+			.tlv.p = bf_master_tlv,
-+			.private_value = i,
-+		}, chip);
-+		strlcat(kctl->id.name, " Playback Volume", sizeof(kctl->id.name));
-+		err = snd_ctl_add(chip->card, kctl);
-+		if (err < 0)
-+			return err;
-+
-+		kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+			.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+			.name = out_names[i],
-+			.index = i,
-+			.info = bf_mute_info,
-+			.get = bf_mute_get,
-+			.put = bf_mute_put,
-+			.private_value = i,
-+		}, chip);
-+		strlcat(kctl->id.name, " Playback Switch", sizeof(kctl->id.name));
-+		err = snd_ctl_add(chip->card, kctl);
-+		if (err < 0)
-+			return err;
-+
-+		dev_dbg(&chip->dev->dev, "output %d = %s\n", i, out_names[i]);
-+	}
-+
-+	for (i = 0; i < 2; i++) {
-+		u16 bit = i == 0 ? BF_PREAMP_48V_MIC1 : BF_PREAMP_48V_MIC2;
-+
-+		kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+			.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+			.name = "Phantom Power Mic 1",
-+			.index = i,
-+			.info = bf_bool_info,
-+			.get = bf_phantom_get,
-+			.put = bf_phantom_put,
-+			.private_value = bit,
-+		}, chip);
-+		err = snd_ctl_add(chip->card, kctl);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	for (i = 0; i < 2; i++) {
-+		u16 bit = i == 0 ? BF_PREAMP_PAD_MIC1 : BF_PREAMP_PAD_MIC2;
-+
-+		kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+			.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+			.name = "Pad Mic 1",
-+			.index = i,
-+			.info = bf_bool_info,
-+			.get = bf_phantom_get,
-+			.put = bf_phantom_put,
-+			.private_value = bit,
-+		}, chip);
-+		err = snd_ctl_add(chip->card, kctl);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	for (i = 0; i < 4; i++) {
-+		kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
-+			.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
-+			.name = "Mic 1 Capture Volume",
-+			.index = i,
-+			.info = bf_gain_info,
-+			.get = bf_gain_get,
-+			.put = bf_gain_put,
-+			.private_value = i,
-+		}, chip);
-+		err = snd_ctl_add(chip->card, kctl);
-+		if (err < 0)
-+			return err;
-+	}
-+	return 0;
-+}
-+
-+
-+/* ── front-panel stubs ────────────────────────────────────────
-+ * Replaced by the panel patch.  The core driver calls these from
-+ * probe()/disconnect()/suspend()/resume() and the delayed-work init.
-+ */
-+int babyface_create_panel(struct snd_usb_babyface *chip)
- {
- 	return 0;
- }
-@@ -117,11 +1365,15 @@ void babyface_panel_work(struct work_struct *work)
- {
- }
- 
--void bf_eq_reupload(struct snd_usb_babyface *chip)
-+/* ── DSP-EQ stubs ─────────────────────────────────────────────
-+ * Replaced by the eq patch.  The core driver calls these from
-+ * probe() and hw_params() (fs-dependent re-upload).
-+ */
-+int babyface_create_eq(struct snd_usb_babyface *chip)
- {
-+	return 0;
- }
- 
--u8 bf_gain_raw(int mic, int db)
-+void bf_eq_reupload(struct snd_usb_babyface *chip)
- {
--	return 0;
- }
++	memset(ctrl->page1_cache, 0xff, sizeof(ctrl->page1_cache));
++	memset(ctrl->page2_cache, 0xff, sizeof(ctrl->page2_cache));
++
+ 	data = of_device_get_match_data(dev);
+ 	ctrl->max_reg = data->max_reg;
+ 	ctrl->reg_layout = data->reg_layout;
 -- 
-2.55.0
+2.53.0
 
