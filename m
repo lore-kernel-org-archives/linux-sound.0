@@ -1,129 +1,99 @@
-Received: from mail-m15572.qiye.163.com (mail-m15572.qiye.163.com [101.71.155.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B475B25F981
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 01:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AA63469FA;
+	Wed,  2 Sep 2026 01:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788311160; cv=none; b=lX9l3uzhho17Wfx8Q32K4pJej3uTNL02gqNB0kl8m1Bk3Gj+MwhUu2avfwYHv5euXpypdniqhWLWC/IXuYpUAyR9CdRi3p1OpRdVa+eOZc+cA6/uQAB/boXa6dQqvRvF09eG3JhnguXNu3ufcfV7lrgcoaaAosSwkBi0Gs4ItaA=
+	t=1788312792; cv=none; b=b5cu9fs7uXVd24SZM3sFHToChJQSBaDSFnhFli3fl0+P6JL1apjtEjngI6Vt7KCLDeloTqWDh31T/ChIp6PKXjKbFfejlUzHAmiGiZGYhox0U6Vumn4kJzhTOmZAfSoRthZvM1Ko2uTvul8iJLbiya38Dzry5zJV/cCsU2+XK4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788311160; c=relaxed/simple;
-	bh=2ffxTm5WCdWFlBfgXOxdvdwtU+uUF0o1jxbrVKtaI8k=;
-	h=From:To:Cc:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FFSbVsrNY07pX85UAy7bhObCzkzlE7lP/NEEjAM5ZmZ6632rUbn3mUxfXc6TtJurnPaB37+HDo5u/aIsc4jlr809g+Pdd/g+yprI/dL8qRSMTlzmowy+DlDb1uGYWwVh9kghk8XtgzFvOFAkgvL0rcgehTFMkm/5DvhEc4CAWuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b=HyLiV0r9; arc=none smtp.client-ip=101.71.155.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=senarytech.com header.i=@senarytech.com header.b="HyLiV0r9"
-Received: from Wangqianghua (unknown [112.193.82.77])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4c2c03e89;
-	Wed, 2 Sep 2026 09:00:37 +0800 (GMT+08:00)
-From: <qianghua.wang@senarytech.com>
-To: "'Mark Brown'" <broonie@kernel.org>,
-	<linux-sound@vger.kernel.org>
-Cc: "'Pierre-Louis Bossart'" <pierre-louis.bossart@linux.dev>,
-	"'Bard Liao'" <yung-chuan.liao@linux.intel.com>,
-	"'Liam Girdwood'" <liam.r.girdwood@linux.intel.com>,
-	"'Peter Ujfalusi'" <peter.ujfalusi@linux.intel.com>,
-	"'Kai Vehmanen'" <kai.vehmanen@linux.intel.com>,
-	"'Cezary Rojewski'" <cezary.rojewski@intel.com>,
-	"'Charles Keepax'" <ckeepax@opensource.cirrus.com>,
-	"'bo liu'" <bo.liu@senarytech.com>
-References: <cover.1788230065.git.qianghua.wang@senarytech.com> <178826652682.33904.8839852166083364252.b4-ty@b4>
-In-Reply-To: <178826652682.33904.8839852166083364252.b4-ty@b4>
-Subject: reply: [PATCH v5 0/3] ASoC: add Senary SN624x SoundWire SDCA support
-Date: Wed, 2 Sep 2026 09:00:37 +0800
-Message-ID: <003501dd3a76$7784d990$668e8cb0$@senarytech.com>
+	s=arc-20240116; t=1788312792; c=relaxed/simple;
+	bh=MgVUGumX39kvc1+ALm3Vk0Oj2HZD8nyMEE3zS1MKUsc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bjK12l+Ev/FkXXhXP78gr0+FhfIUZkJ9mkzlMJnGIcmqZ0fiFAdkK11PYnKL/koko4/gJgal8rYL1iwwq/0p/mUMK5beZqIE08D3Sv6/u4Q3kTE5QGlRoO2y2SrRQnO4v67bIftFevRX/G8Lz8qKYro+Mx6U/47+wsL59l1kJ9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.241.250])
+	by APP-01 (Coremail) with SMTP id qwCowADnvvLKfJdq8VoHBw--.39350S4;
+	Wed, 02 Sep 2026 09:33:01 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <morimoto.kuninori@renesas.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 02/14] ASoC: ak4642: return cache sync errors from resume
+Date: Wed,  2 Sep 2026 09:32:38 +0800
+Message-ID: <20260902013256.93072-3-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260902013256.93072-1-pengpeng@iscas.ac.cn>
+References: <20260902013256.93072-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Ad06dnPBcyFnxuYvRcmU6HtjMAcNWw==
-Content-Language: zh-cn
-X-HM-Tid: 0aa05fa1d7e709d8kunm5de066e4564045
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDThlPVksaTRkYHx5OGR0YSFYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlKSklVSkJIVUNJVUxMWVdZFhoPEhUdFFlBWU9LSFVKS0
-	lPT09LVUpLS1VLWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=HyLiV0r9SJhCzys4RZ01Hrb7pdU3m7OkgXCAUu+kYST4ZaQzGHMyvRNUAs3lA499cqHo27vbzhD3tpaabuuMGrg+JLOHjKr4r1OmG/gq28ylPM8zdPNb8o5Mb06IMuHleVaIolOihCgzNJAGSIR4zmgZJO/fDHSSqy3oaSW8beA=; c=relaxed/relaxed; s=default; d=senarytech.com; v=1;
-	bh=pavu/0fxZ4j76wKvFfLchHvHnZrElcs0erNNXQ0x4nE=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowADnvvLKfJdq8VoHBw--.39350S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFWUtF45GrWrAry3Ary7Wrg_yoW8GF17pF
+	s3KFZ5Kry2vw1UArZ0yr40q3Z5Cr93AFW3A34Yk34kuFn8Gry09r1FyFyYvF4DXFW8CFn3
+	ZF4Ut3yUAa1rCaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBK14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+	x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+	ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1U
+	M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
+	v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
+	F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r126r
+	1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_
+	Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x
+	0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8
+	JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIx
+	AIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbsNVDUUUUU=
+	=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-Thanks Mark!
+ak4642_resume() restores cached registers during component resume but
+discards the regcache_sync() result and returns success. A failed replay
+can therefore leave the hardware register state stale without reaching
+the component error reporting path.
 
-I'll keep an eye on the list for any test feedback and send
-follow-up patches if needed.
+Return the cache synchronization result. The ASoC component wrapper
+reports a negative callback result and retains the established
+best-effort resume state, so this adds observability without introducing
+rollback or retry semantics.
 
-Best regards,
-Qianghua
+The successful resume path is unchanged.
 
------ Original email -----
-From: Mark Brown broonie@kernel.org
-Sent: Monday, September 1, 2026 8:42 PM
-To: linux-sound@vger.kernel.org; Qianghua Wang =
-qianghua.wang@senarytech.com
-Cc: Pierre-Louis Bossart pierre-louis.bossart@linux.dev; Bard Liao =
-yung-chuan.liao@linux.intel.com; Liam Girdwood =
-liam.r.girdwood@linux.intel.com; Peter Ujfalusi =
-peter.ujfalusi@linux.intel.com; Kai Vehmanen =
-kai.vehmanen@linux.intel.com; Cezary Rojewski cezary.rojewski@intel.com; =
-Charles Keepax ckeepax@opensource.cirrus.com; bo liu =
-bo.liu@senarytech.com
-Subject: Re: [PATCH v5 0/3] ASoC: add Senary SN624x SoundWire SDCA =
-support
+The issue was found by a tool we developed.
 
-On Tue, 01 Sep 2026 11:00:46 +0800, Qianghua Wang wrote:
-> ASoC: add Senary SN624x SoundWire SDCA support
->=20
-> This series adds SoundWire SDCA support for Senary SN624x=20
-> multi-function codecs (jack, speaker amp, DMIC) on Intel ARL, LNL,=20
-> MTL, and PTL.
->=20
-> Based on current sound.git tip (249bfb5d8897 =E2=80=94 Merge branch =
-'for-next').
->=20
-> [...]
+Fixes: a3a83d9a7cb0 ("ASoC: Add ak4642/ak4643 codec support")
+Assisted-by: gpt 5
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ sound/soc/codecs/ak4642.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git =
-for-7.4
-
-Thanks!
-
-[1/3] ASoC: codecs: add SN624x SDCA SoundWire driver
-      https://git.kernel.org/broonie/sound/c/12d9c9f8679c
-[2/3] ASoC: sdw_utils: add Senary SN624x helpers and codec_info
-      https://git.kernel.org/broonie/sound/c/77272ecd96d7
-[3/3] ASoC: Intel: soc-acpi: add SN624x entries for ARL/LNL/MTL/PTL
-      https://git.kernel.org/broonie/sound/c/32f9c551a91a
-
-All being well this means that it will be integrated into the linux-next =
-tree (usually sometime in the next 24 hours) and sent to Linus during =
-the next merge window (or sooner if it is a bug fix), however if =
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing =
-and review of the tree, please engage with people reporting problems and =
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they =
-should be sent as incremental updates against current git, existing =
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying =
-to this mail.
-
-Thanks,
-Mark
-
+diff --git a/sound/soc/codecs/ak4642.c b/sound/soc/codecs/ak4642.c
+index 4f86728cbe0a..40f1b1f53e84 100644
+--- a/sound/soc/codecs/ak4642.c
++++ b/sound/soc/codecs/ak4642.c
+@@ -533,8 +533,7 @@ static int ak4642_resume(struct snd_soc_component *component)
+ 	struct regmap *regmap = dev_get_regmap(component->dev, NULL);
+ 
+ 	regcache_cache_only(regmap, false);
+-	regcache_sync(regmap);
+-	return 0;
++	return regcache_sync(regmap);
+ }
+ static int ak4642_probe(struct snd_soc_component *component)
+ {
+-- 
+2.50.1 (Apple Git-155)
 
