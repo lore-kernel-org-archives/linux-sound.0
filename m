@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1D437A839
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FCE374E40
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 08:14:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788336862; cv=none; b=UGqLkOVE1hqvjLvGqFYVBuBtSteeyEdCiInEqqsZwAlC0XdSRLS7BnM9LiaWWks0CvX8E5C9rX+jTMnGMcRqRbcWwgehtmkFIV5HDXz51lUHxF5iyhL2Cc6xd7u4roWKbH2pqJ3mPuqbiDG9WculHhya68l/XdFnEOhTbcRtqAQ=
+	t=1788336863; cv=none; b=a3tHpF0w2V+zi/SrH2C50ra+gOr3hp8dk1mlAaHZwNfBTLzoMzlHYdf19x55ocSC4+AnWeuIku6OIHsQ+Zfv3KuCq3FKX6yZftVa7l9+JNf+oxk8NxPa4Z0Hc+sLsyL0Br+wNn4dba2MxI1tLr4oTzQjYPIxz62O1fK2GZ24RcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788336862; c=relaxed/simple;
-	bh=Vj50uZqQXef+6M2IpMB37wL0UyfHzb9tzwWBKD/reXI=;
+	s=arc-20240116; t=1788336863; c=relaxed/simple;
+	bh=t03lNhPZLJrH8XvChLO3NRAc+e+xYhd1hjUzdhAKt3w=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RhWHj/xn2arm2N15gJm/0G4wdN0+cvmfKqTaA5CBAGzmR6bXHsJLK4Q3XUuopZ0s9VXgmE5XuJeImxTdB+2kSXg1Aw+nqxU/dS1nB2tV6GiJl4l4NiDFYZLd2Vb2gafWkGXzNXQA5IfdmENEPiGruUgEFDS6Xncn1Z8Y/ulnfQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WhkMoBS4; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=hu4O7SYuP4Lxyt24SOkQ/LYLDHNcATr+ySftmhXr69UMBD1UOVWrFnL3ft/0185yWZhZjHd9/ym7oPBVhl9l5jlsxwzoZCToFWQ6XA9c13+GAEjA81SqHwbjbnI3kd/qHN5uXG5a+Q7hUQ3juaBOi/sPJFq/vHY0uO6ydwpicyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/81Tc6y; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WhkMoBS4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/81Tc6y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788336859; x=1819872859;
+  t=1788336860; x=1819872860;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Vj50uZqQXef+6M2IpMB37wL0UyfHzb9tzwWBKD/reXI=;
-  b=WhkMoBS4dL3yE01w+CWjbmQaRUyJKkJVlbu480/05rYeDYhs/RYSQgjb
-   oBnbk5lN5bfwqR2MFe1GVNkk5hCUtGUWimtk+E2Ej57jAAr5coBDPAVjR
-   bto7z79jegfiXKQSR2H78XIEjDYO7XGfvy4bu/XahXf6iff3bTtHA/qaP
-   2J5iRwVMdOvsLnPjepQDjfyR25vj0GJM4PmjCmobumYtnn2Zxvz1PULR4
-   woedoH2Q6th5nNRKKMwLMu2Dytdy5uBcfunXuPJeAmFNwTYr5HEHt/b7N
-   2p3eFuXAzyt2orfX1LnLMNDnfVm+uj4vHPOxDFTCmy9AFGoVHqtbTegsc
-   w==;
-X-CSE-ConnectionGUID: JXz0O9IzTaSu6gnFsKe5Og==
-X-CSE-MsgGUID: wyz6Hp7cS7W3fEw9xxEHNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="99120999"
+  bh=t03lNhPZLJrH8XvChLO3NRAc+e+xYhd1hjUzdhAKt3w=;
+  b=h/81Tc6yW4DRjDceA1lCl7aiPDo9Li1ML9E20SsaOzRcyg0abyGxx/PA
+   sLah++8YiH+nGVe7HHje+SHTQpOWfh6deQazwIfrTQbayNNUGAjEyDhFd
+   D2AGZfte9EgmGodzDeLHmnV/rgB5/CUwcpQs+3u5FYbUYoPfCFTY13kIT
+   K9sc6GRf4jYc/yyLG+NDGzJYwIGc9xaTHVHKLjuNPiTNlxdd78PyMjTQ/
+   GZHSSH0A3z+pI2H9kmRuIMfKhJwZHFQF9qzso3KR3Gd5s7gL47rI6hA6M
+   +yv6E71C+4cFbq3aLMaTemQeKJRbW7JFS5YW0YxtH1j5Kb6B8x0km9ovn
+   g==;
+X-CSE-ConnectionGUID: +qLvYeCVSjyun4tqg+FCbg==
+X-CSE-MsgGUID: fTrZv9afTmCPgi/AxLXXeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="99121004"
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="99120999"
+   d="scan'208";a="99121004"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 01:14:14 -0700
-X-CSE-ConnectionGUID: pap5Q9WORvuy7FmHHeL08w==
-X-CSE-MsgGUID: fdAkU++hR92KgFVr8qNQHQ==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 01:14:15 -0700
+X-CSE-ConnectionGUID: UCNH23scRReN6kW8/vsxtw==
+X-CSE-MsgGUID: soQm68mWS2uWz305KUan7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
-   d="scan'208";a="266099079"
+   d="scan'208";a="266099084"
 Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.0])
-  by fmviesa007.fm.intel.com with ESMTP; 02 Sep 2026 01:14:12 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 02 Sep 2026 01:14:14 -0700
 From: Cezary Rojewski <cezary.rojewski@intel.com>
 To: broonie@kernel.org
 Cc: tiwai@suse.com,
@@ -50,9 +50,9 @@ Cc: tiwai@suse.com,
 	amade@asmblr.net,
 	linux-sound@vger.kernel.org,
 	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v4 06/10] ASoC: Intel: avs: Do not ignore -ENOENT when loading a topology
-Date: Wed,  2 Sep 2026 10:18:10 +0200
-Message-Id: <20260902081814.1590883-7-cezary.rojewski@intel.com>
+Subject: [PATCH v4 07/10] ASoC: Intel: avs: Cancel d0ix_work asynchrounously during recovery
+Date: Wed,  2 Sep 2026 10:18:11 +0200
+Message-Id: <20260902081814.1590883-8-cezary.rojewski@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260902081814.1590883-1-cezary.rojewski@intel.com>
 References: <20260902081814.1590883-1-cezary.rojewski@intel.com>
@@ -64,128 +64,47 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-avs_load_topology() combines request_firmware() and
-snd_soc_tplg_component_load().  The fallback mechanism introduced for
-the HDAudio based boards honors -ENOENT and checks for a generic
-topology if no specific is found before giving up and failing the
-component probing.
+Tests with corrupted firmware binaries prove that the recovery procedure
+can hit deadlock with d0ix_work if the work has been scheduled shortly
+before the event that triggered the recovery e.g.: timeouts on
+communication with a dead AudioDSP firmware.
 
-However, if -ENOENT is returned by the latter function -
-snd_soc_tplg_component_load() - is shall not be ignored.  That means
-there is an actual problem with the topology file and no fallback shall
-be attempted.
+At the same time, the ready-check shall be done after acquiring the
+msg_mutex as the flag might have been modified by the time the lock is
+granted. The recovery case is one of such examples.
 
-Fixes: 739c031110da ("ASoC: Intel: avs: Provide support for fallback topology")
 Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
 ---
- sound/soc/intel/avs/pcm.c      | 34 ++++++++++++++++++++--------------
- sound/soc/intel/avs/topology.c |  2 +-
- sound/soc/intel/avs/topology.h |  1 +
- 3 files changed, 22 insertions(+), 15 deletions(-)
+ sound/soc/intel/avs/ipc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 2b886fae8209..ad25bd355769 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -6,6 +6,7 @@
- //          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
- //
+diff --git a/sound/soc/intel/avs/ipc.c b/sound/soc/intel/avs/ipc.c
+index 39b0de9831da..5010b0f5be47 100644
+--- a/sound/soc/intel/avs/ipc.c
++++ b/sound/soc/intel/avs/ipc.c
+@@ -172,7 +172,7 @@ static void avs_dsp_exception_caught(struct avs_dev *adev, union avs_notify_msg
  
-+#include <linux/cleanup.h>
- #include <linux/debugfs.h>
- #include <linux/device.h>
- #include <sound/hda_register.h>
-@@ -987,13 +988,25 @@ static int avs_component_load_libraries(struct avs_soc_component *acomp)
- 	return ret;
- }
- 
-+static int avs_request_topology(struct snd_soc_component *component, const char *name,
-+				const struct firmware **fw)
-+{
-+	char *fullname __free(kfree) = NULL;
-+
-+	fullname = kasprintf(GFP_KERNEL, "%s/%s", component->driver->topology_name_prefix, name);
-+	if (!fullname)
-+		return -ENOMEM;
-+
-+	return request_firmware(fw, fullname, component->dev);
-+}
-+
- static int avs_component_probe(struct snd_soc_component *component)
- {
- 	struct snd_soc_card *card = component->card;
- 	struct snd_soc_acpi_mach *mach;
- 	struct avs_soc_component *acomp;
-+	const struct firmware *fw;
- 	struct avs_dev *adev;
--	char *filename;
+ 	/* Avoid deadlock as the exception may be the response to SET_D0IX. */
+ 	if (current_work() != &ipc->d0ix_work.work)
+-		cancel_delayed_work_sync(&ipc->d0ix_work);
++		cancel_delayed_work(&ipc->d0ix_work);
+ 	ipc->in_d0ix = false;
+ 	/* Re-enabled on recovery completion. */
+ 	pm_runtime_disable(adev->dev);
+@@ -395,11 +395,11 @@ static int avs_dsp_do_send_msg(struct avs_dev *adev, struct avs_ipc_msg *request
+ 	struct avs_ipc *ipc = adev->ipc;
  	int ret;
  
- 	dev_dbg(card->dev, "probing %s card %s\n", component->name, card->name);
-@@ -1009,13 +1022,7 @@ static int avs_component_probe(struct snd_soc_component *component)
- 		goto finalize;
- 
- 	/* Load specified topology and create debugfs for it. */
--	filename = kasprintf(GFP_KERNEL, "%s/%s", component->driver->topology_name_prefix,
--			     mach->tplg_filename);
--	if (!filename)
--		return -ENOMEM;
--
--	ret = avs_load_topology(component, filename);
--	kfree(filename);
-+	ret = avs_request_topology(component, mach->tplg_filename, &fw);
- 	if (ret == -ENOENT && !strncmp(mach->tplg_filename, "hda-", 4)) {
- 		unsigned int vendor_id;
- 
-@@ -1030,18 +1037,17 @@ static int avs_component_probe(struct snd_soc_component *component)
- 							     "hda-generic-tplg.bin");
- 		if (!mach->tplg_filename)
- 			return -ENOMEM;
--		filename = kasprintf(GFP_KERNEL, "%s/%s", component->driver->topology_name_prefix,
--				     mach->tplg_filename);
--		if (!filename)
--			return -ENOMEM;
- 
- 		dev_info(card->dev, "trying to load fallback topology %s\n", mach->tplg_filename);
--		ret = avs_load_topology(component, filename);
--		kfree(filename);
-+		ret = avs_request_topology(component, mach->tplg_filename, &fw);
- 	}
- 	if (ret < 0)
- 		return ret;
- 
-+	ret = snd_soc_tplg_component_load(component, &avs_tplg_ops, fw);
-+	if (ret)
-+		return ret;
++	guard(mutex)(&ipc->msg_mutex);
 +
- 	ret = avs_component_load_libraries(acomp);
- 	if (ret < 0) {
- 		dev_err(card->dev, "libraries loading failed: %d\n", ret);
-diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
-index 673ac31f2fea..d5e641c73faf 100644
---- a/sound/soc/intel/avs/topology.c
-+++ b/sound/soc/intel/avs/topology.c
-@@ -2194,7 +2194,7 @@ avs_control_load(struct snd_soc_component *comp, int index, struct snd_kcontrol_
- 	return 0;
- }
+ 	if (!ipc->ready)
+ 		return -EPERM;
  
--static const struct snd_soc_tplg_ops avs_tplg_ops = {
-+const struct snd_soc_tplg_ops avs_tplg_ops = {
- 	.io_ops			= avs_control_ops,
- 	.io_ops_count		= ARRAY_SIZE(avs_control_ops),
- 	.control_load		= avs_control_load,
-diff --git a/sound/soc/intel/avs/topology.h b/sound/soc/intel/avs/topology.h
-index 1cf7455b6c01..b5799c994b88 100644
---- a/sound/soc/intel/avs/topology.h
-+++ b/sound/soc/intel/avs/topology.h
-@@ -230,6 +230,7 @@ struct avs_tplg_module {
- 	struct list_head node;
- };
- 
-+extern const struct snd_soc_tplg_ops avs_tplg_ops;
- struct avs_tplg *avs_tplg_new(struct snd_soc_component *comp);
- 
- int avs_load_topology(struct snd_soc_component *comp, const char *filename);
+-	guard(mutex)(&ipc->msg_mutex);
+-
+ 	spin_lock(&ipc->rx_lock);
+ 	avs_ipc_msg_init(ipc, reply);
+ 	avs_dsp_send_tx(adev, request, true);
 -- 
 2.34.1
 
