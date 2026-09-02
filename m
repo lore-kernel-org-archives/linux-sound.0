@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741203EA957
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:56:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8500B3E6DC8
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788335773; cv=none; b=rvtUp757wq89RRe8YjCtIpcgsD1yQ9ueWcKZ/MWJwFDC4LJC19I1Dx3dj+hZVUJKsDzndFXlHpRI5nzCxXc/9Jv93HcdMwoYocpJ+m6oLVYVwFd6MwMgs5ERI4dkrluVMVqncei2yCxKZhZU5Jg7gD48wwxnFate3fM7pG/F/Og=
+	t=1788335775; cv=none; b=Y6dbtX0+r53KpkQdM3d3E4VsLF8m2oNv7+3/RsYePeauOS0LGghpJKjp0O9A1ggyqkTuP2zHb6yj8T1l3rmde/Y1rs/h7y+fRHPmQtgrigmSrq57tLGqkmP0ea2CkU3SMNY7kj/Xqsy5pZiUSLRMDbepw9HfeM5H/zjaIL3jMi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788335773; c=relaxed/simple;
-	bh=6kNlZeiKMitcdZ6EJ71gHkZclrj136AvcE7kpi7MZ/U=;
+	s=arc-20240116; t=1788335775; c=relaxed/simple;
+	bh=WNCQIF/qfGuYQxxxek4rxZvcnaSDqFhJJrZ9tJ+0tZs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HK2wFAiBDuwdtWAuIr4amZSvyaSTm6OxZQhPSXUGVo6zP6Dep4RDWVA810XU0Ll9ojvxnAh4p11XIb9XdbmuzLVIFvmZntjACPGC7XjP/JF+v9eT3gw17g4NYVgEBC9AJzez5J1j5ZINVxB0+vkJ4VfHZpRrBZyqRX92reGfhGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DgKbRnCs; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=Ir6Y+yx2/QOjjEBss+874ErXP6pcqUD0chmhVFoL/P/Z3rKWXq0H/WMULdGFhyikAifgPsx+lm9SD51gy+8pSaBFRG89kZHmt/eo8/5AVzZ9hG9UN1hrwLLVuVopUBHyd6DcDx5If6lqfVPXuZSzKUnu5EJrxm3NI6raUPHhqFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7KLdhCI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DgKbRnCs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75021F000E9;
-	Wed,  2 Sep 2026 07:56:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7KLdhCI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2FCB1F00A3A;
+	Wed,  2 Sep 2026 07:56:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788335772;
-	bh=zZFpOrK4hj+LaU59s3aofQ7+zK1uJdFw6ngql8FwZ2w=;
+	s=k20260515; t=1788335774;
+	bh=EX6l5BO43dR8usJpPnpzMA2x7LlhIVIP5ZH177WJF5k=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=DgKbRnCshZr4TTmxCd+xwJ15zWATwaxUWIw6jS6KBaV68/T4Oa5z9zF9ojvth2+Tb
-	 plPDhc9F2YkIHt/ET9phB70KyGfMc1bCaLU2ykyQVPa4IbmziNQycjHix+rk2TsAz7
-	 jdq2xribjCVWnSFiWoPDWBsiquYzugcfR3mSyZ42wU9fBVbyDr407EWCLZJT7Www+E
-	 oCp90PDqSLJ/V6bnpBy0lxpPwkOCEUkOMYuxnWo0AIgR3+vNnf0mYqts4eIduk5Leb
-	 a4IF05FqWySIIJDCkMV9OHee8KrAmyd+J532FwHZgGzzzzjsvZplibC0P46RAhTMWz
-	 o659ZoD9QvmCw==
+	b=i7KLdhCIDvw8D6g6XwRuKSUozLqdvKVp2Sm0N60m0GTlvRc3OVNIGyyky8OJnUAeL
+	 ZLtjTsqEkUMUJp7jgNV7bxMny3OcRuKH7MwICoeb6XplzsnbdU+qdasvBUiwX8loH9
+	 eu0YpKAe6HTN78aGJBJqa4NeAgbce+VSdalSRr8YA0bBJPRI4zq99vMeYKxaRaQSVo
+	 iNWYsPKoVi/IDJ4lb6iiF1N8mqqwvxwZy8rjeiLIlGCGLpJs3Pumj3PhNcblfM+QjB
+	 BVrayDTK0SFmM0Wti8d2KKw/vONc2o9oIMb0gzwv0uHbTKpPZDVRiwljSvM7XSs37U
+	 Pg2OknHR14QwQ==
 From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 02 Sep 2026 09:55:58 +0200
-Subject: [PATCH v2 8/9] ASoC: ux500: Allow repeated MSP prepare calls
+Date: Wed, 02 Sep 2026 09:55:59 +0200
+Subject: [PATCH v2 9/9] ASoC: ux500: Program the MSP FIFO watermarks
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-ux500-msp-fixes-v2-8-4b60b002d55a@kernel.org>
+Message-Id: <20260902-ux500-msp-fixes-v2-9-4b60b002d55a@kernel.org>
 References: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
 In-Reply-To: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -46,98 +46,58 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
-ALSA can call the DAI prepare callback again after an XRUN without
-first shutting down the stream. The MSP open helper rejects the second
-call with -EBUSY because the direction remains configured.
+The DMA engine is configured for four-element bursts, but the MSP
+driver never programs the FIFO watermark register and instead depends
+on its previous or reset value. The DB8500 DMA request protocol requires
+the peripheral watermark to match the DMA packet size.
 
-Track successful playback and capture configurations at the DAI layer.
-Make repeated prepare calls no-ops and only close directions which were
-successfully prepared.
+Program four-element receive and transmit watermarks when configuring
+the first direction, before enabling MSP DMA requests.
 
 Fixes: 3592b7f69a54 ("ASoC: Ux500: Add MSP I2S-driver")
 Assisted-by: LLM
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
- sound/soc/ux500/ux500_msp_dai.c | 28 +++++++++++++++++++++-------
- sound/soc/ux500/ux500_msp_dai.h |  1 +
- 2 files changed, 22 insertions(+), 7 deletions(-)
+ sound/soc/ux500/ux500_msp_i2s.c | 2 ++
+ sound/soc/ux500/ux500_msp_i2s.h | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/sound/soc/ux500/ux500_msp_dai.c b/sound/soc/ux500/ux500_msp_dai.c
-index 5b4b3126637e..37c48cc70394 100644
---- a/sound/soc/ux500/ux500_msp_dai.c
-+++ b/sound/soc/ux500/ux500_msp_dai.c
-@@ -388,15 +388,21 @@ static void ux500_msp_dai_shutdown(struct snd_pcm_substream *substream,
- 	int ret;
- 	struct ux500_msp_i2s_drvdata *drvdata = dev_get_drvdata(dai->dev);
- 	bool is_playback = (substream->stream == SNDRV_PCM_STREAM_PLAYBACK);
-+	unsigned int configured = is_playback ? PLAYBACK_CONFIGURED :
-+		CAPTURE_CONFIGURED;
-+	unsigned int dir = is_playback ? MSP_DIR_TX : MSP_DIR_RX;
- 
- 	dev_dbg(dai->dev, "%s: MSP %d (%s): Enter.\n", __func__, dai->id,
- 		snd_pcm_stream_str(substream));
- 
--	if (ux500_msp_i2s_close(drvdata->msp,
--				is_playback ? MSP_DIR_TX : MSP_DIR_RX)) {
--		dev_err(dai->dev,
--			"%s: Error: MSP %d (%s): Unable to close i2s.\n",
--			__func__, dai->id, snd_pcm_stream_str(substream));
-+	if (drvdata->configured & configured) {
-+		if (ux500_msp_i2s_close(drvdata->msp, dir)) {
-+			dev_err(dai->dev,
-+				"%s: Error: MSP %d (%s): Unable to close i2s.\n",
-+				__func__, dai->id,
-+				snd_pcm_stream_str(substream));
-+		}
-+		drvdata->configured &= ~configured;
+diff --git a/sound/soc/ux500/ux500_msp_i2s.c b/sound/soc/ux500/ux500_msp_i2s.c
+index 43dc9b3aa4ef..683b485fb570 100644
+--- a/sound/soc/ux500/ux500_msp_i2s.c
++++ b/sound/soc/ux500/ux500_msp_i2s.c
+@@ -507,6 +507,8 @@ int ux500_msp_i2s_open(struct ux500_msp *msp,
+ 		old_reg &= ~mask;
+ 		new_reg |= old_reg;
+ 		writel(new_reg, msp->registers + MSP_GCR);
++		writel(MSP_WMRK_TX_4_ELEMENTS | MSP_WMRK_RX_4_ELEMENTS,
++		       msp->registers + MSP_WMRK);
  	}
  
- 	/* Disable and unprepare clocks */
-@@ -414,14 +420,20 @@ static void ux500_msp_dai_shutdown(struct snd_pcm_substream *substream,
- static int ux500_msp_dai_prepare(struct snd_pcm_substream *substream,
- 				struct snd_soc_dai *dai)
- {
--	int ret = 0;
- 	struct ux500_msp_i2s_drvdata *drvdata = dev_get_drvdata(dai->dev);
- 	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct ux500_msp_config msp_config;
-+	bool is_playback = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
-+	unsigned int configured = is_playback ? PLAYBACK_CONFIGURED :
-+		CAPTURE_CONFIGURED;
-+	int ret;
+ 	res = enable_msp(msp, config, first);
+diff --git a/sound/soc/ux500/ux500_msp_i2s.h b/sound/soc/ux500/ux500_msp_i2s.h
+index 17b5c37a7e5d..2bf2699bdc49 100644
+--- a/sound/soc/ux500/ux500_msp_i2s.h
++++ b/sound/soc/ux500/ux500_msp_i2s.h
+@@ -62,6 +62,7 @@ enum msp_direction {
+ #define MSP_SRG		0x10
+ #define MSP_FLR		0x14
+ #define MSP_DMACR	0x18
++#define MSP_WMRK	0x1c
  
- 	dev_dbg(dai->dev, "%s: MSP %d (%s): Enter (rate = %d).\n", __func__,
- 		dai->id, snd_pcm_stream_str(substream), runtime->rate);
+ #define MSP_IMSC	0x20
+ #define MSP_RIS		0x24
+@@ -228,6 +229,10 @@ enum msp_direction {
+ #define RDMAE_SHIFT		0
+ #define TDMAE_SHIFT		1
  
-+	if (drvdata->configured & configured)
-+		return 0;
++/* FIFO watermark register */
++#define MSP_WMRK_RX_4_ELEMENTS	BIT(0)
++#define MSP_WMRK_TX_4_ELEMENTS	BIT(3)
 +
- 	ret = setup_msp_config(substream, dai, &msp_config);
- 	if (ret)
- 		return ret;
-@@ -433,7 +445,9 @@ static int ux500_msp_dai_prepare(struct snd_pcm_substream *substream,
- 		return ret;
- 	}
- 
--	return ret;
-+	drvdata->configured |= configured;
-+
-+	return 0;
- }
- 
- static int ux500_msp_dai_hw_params(struct snd_pcm_substream *substream,
-diff --git a/sound/soc/ux500/ux500_msp_dai.h b/sound/soc/ux500/ux500_msp_dai.h
-index ad4ce69bfbf5..aae582030d95 100644
---- a/sound/soc/ux500/ux500_msp_dai.h
-+++ b/sound/soc/ux500/ux500_msp_dai.h
-@@ -36,6 +36,7 @@ struct ux500_msp_i2s_drvdata {
- 	struct ux500_msp *msp;
- 	struct regulator *reg_vape;
- 	unsigned int fmt;
-+	unsigned int configured;
- 	unsigned int tx_mask;
- 	unsigned int rx_mask;
- 	int slots;
+ /* Interrupt Register */
+ #define RX_SERVICE_INT		BIT(0)
+ #define RX_OVERRUN_ERROR_INT	BIT(1)
 
 -- 
 2.55.0
