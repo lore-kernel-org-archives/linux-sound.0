@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603FE3E639D
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400E63E5EDC
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:56:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788335766; cv=none; b=pnJZ6yr8aLra7avqtTet5+o1NZm6aJ69ZUmLfKymETNXmXc30Zdx/UNNcWjTKOgYpfXb2ONlmsrvAWcFU2wlw2esPnoDhIXpG18zzcXQzTl3bFCoHtbLjqJ9w6N0iAL59yY9HCw3y4zY56Qmtr60QGTNO0eooSOZGzw1x4qa7Kg=
+	t=1788335768; cv=none; b=VQtpHOTCwT+NGKHHBtoNg2D0JnvhPjF6Tq6HGCR78hzi4RK+ed1uMTzda5wsecK7El4H9WzSJlhhSpIk9AdJhrl9r9tP5U668Wi3Hm8bJ1+rK+9Rt2pAM0Sv8ZCsX2yAeQr4wpIpy191h3JUxIkhj3y6XE62fGPz87umX4qdVZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788335766; c=relaxed/simple;
-	bh=kofAVvtUmT+3/FPE0gjQ4H5hJuEqNQTByPu+tRKDS5A=;
+	s=arc-20240116; t=1788335768; c=relaxed/simple;
+	bh=IzGzsBx8xc8j7/D5UAQgpJqIk8LCFuN4ehiaxKXjfkc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pN1eEVxkh3iCGKZMDApNotHdi9OUUZnUZlvVdYcgKgFkF6RRwWmGP9L/9B6DwswEhHRpNahkeMHv9NEfsswrfnLBnIpnL+URLPwn+0LHYK1Z1QmPujc8ca06H3uRjaoiQnqLBT1vgEQ1tCGfzEqqen2QWP+9qz1kNTyG8rOjvvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZYZA//y; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=t/oXO/jKd9bC5nPy5o1++/eKETsIJr694VGH2T4HkO8pefMZsMtybhmAm+Oar6iHrFmQOH+EcZc8tE/WjqclbJXA4A/PLfRpiSudi3IK22XD+c13Z5A0FWmIBi9zYhmDNci2shEHortFj1iYzX6EN+/Wes4U4GDRCBTbkUln1B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YHQt/X7A; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZYZA//y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85AAB1F000E9;
-	Wed,  2 Sep 2026 07:56:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YHQt/X7A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 611AF1F00A3D;
+	Wed,  2 Sep 2026 07:56:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788335764;
-	bh=zOx0tZkufen8/z+dchNZXC63ewZd8eHXxBzceOp9z2s=;
+	s=k20260515; t=1788335766;
+	bh=N6nhUUqtBnN3VrIthLjfAKFsIS4+bG7PQvpZsSzYgXw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=eZYZA//yrQ3A14vc5Vwbnsf5Iqqcf/O6BWnhZyY6Lf8HdnZpDeSysVzO1venaeGzx
-	 qIX5yBJPpVL0YCdhKqooW4wpvp8oqbYm5/ryICc/aRAcLTjmns5/hrNYUAP3mssa7O
-	 DviteRPCo4X+hD9F2K0A+DKLsSZAnA0YhkEcoS0qDQhU9iL/W+PHZbKBqrzfeowIER
-	 oVyxuCkqLXkd7zf47J9Ilkq9ZeXtT14i1GbViFKpe06nqhJHGH8ndbIhwdXkBg7YHS
-	 9pLHnt6s0iQTN2tGyJ6Q12BD5QvwJVKJoW6SLjh9/9VeKOmDgGf215EW1d0U+mpzty
-	 aCIW937iBtb8g==
+	b=YHQt/X7Au2aq7GYtWErRvPhHntMA2Z46zhI0uWkf/nIuvuroeOU45BsqVeRKSXVo5
+	 TPihG2+Spo/foHCFHu2L7dQFPG6LvN+/H438qUPKfjVaq+1ZUdXqBrtbDT5JZgADnh
+	 hvk35wB7ilzly51rjJoTdc8E0ZkB5THTcGKFxdv1/3nmN0397IpwTPWUEtqgGe6aPw
+	 zGVnPW9bOGf3MyNllodRt0fsjxl2jMfbd9lXdX0cpc2c8SUAA1IkeBWO1MLXkSiDm1
+	 0JP4T4KfmV/GGvKahAxLjLz3BxExJMTkuxC/b5xoKQ80xkgoBB00r+Lu5xNjs7kjrX
+	 mi6ndCtYC58bw==
 From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 02 Sep 2026 09:55:54 +0200
-Subject: [PATCH v2 4/9] ASoC: ux500: Validate MSP DAI configuration
+Date: Wed, 02 Sep 2026 09:55:55 +0200
+Subject: [PATCH v2 5/9] ASoC: ux500: Deassert the MSP reset during probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-ux500-msp-fixes-v2-4-4b60b002d55a@kernel.org>
+Message-Id: <20260902-ux500-msp-fixes-v2-5-4b60b002d55a@kernel.org>
 References: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
 In-Reply-To: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -46,171 +46,53 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
-Installing channel constraints from hw_params is too late to affect the
-parameters being committed. The driver consequently accepts channel
-counts which disagree with the I2S or TDM setup. It also silently
-truncates out-of-range slot masks and accepts inverted bit clock formats
-which prepare then rejects.
+The devicetree has described each MSP reset line since the PRCC reset
+controller was added, but the driver never acquires or deasserts it. The
+block can consequently remain inaccessible when firmware has left it in
+reset.
 
-Validate the selected channel count directly, reject invalid masks
-before changing cached TDM state, and implement all four standard clock
-and frame inversion combinations. Use the requested format in
-validation diagnostics.
+Acquire the reset exclusively and keep it deasserted for the lifetime of
+the bound device.
 
-Fixes: 3592b7f69a54 ("ASoC: Ux500: Add MSP I2S-driver")
+Fixes: 95f04048325c ("ARM: dts: ux500: Add reset lines to IP blocks")
 Assisted-by: LLM
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
- sound/soc/ux500/ux500_msp_dai.c | 41 +++++++++++++++++++++++++++--------------
- sound/soc/ux500/ux500_msp_i2s.c |  7 +++++--
- sound/soc/ux500/ux500_msp_i2s.h |  1 +
- 3 files changed, 33 insertions(+), 16 deletions(-)
+ sound/soc/ux500/ux500_msp_dai.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/sound/soc/ux500/ux500_msp_dai.c b/sound/soc/ux500/ux500_msp_dai.c
-index 56d5591e2269..78278927cc53 100644
+index 78278927cc53..b3de115d829a 100644
 --- a/sound/soc/ux500/ux500_msp_dai.c
 +++ b/sound/soc/ux500/ux500_msp_dai.c
-@@ -130,7 +130,16 @@ static int setup_clocking(struct snd_soc_dai *dai,
- 	case SND_SOC_DAIFMT_NB_IF:
- 		msp_config->tx_fsync_pol ^= 1 << TFSPOL_SHIFT;
- 		msp_config->rx_fsync_pol ^= 1 << RFSPOL_SHIFT;
-+		break;
-+
-+	case SND_SOC_DAIFMT_IB_NF:
-+		msp_config->bclk_inverted = true;
-+		break;
+@@ -14,6 +14,7 @@
+ #include <linux/clk.h>
+ #include <linux/of.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/reset.h>
+ #include <linux/mfd/db8500-prcmu.h>
  
-+	case SND_SOC_DAIFMT_IB_IF:
-+		msp_config->bclk_inverted = true;
-+		msp_config->tx_fsync_pol ^= 1 << TFSPOL_SHIFT;
-+		msp_config->rx_fsync_pol ^= 1 << RFSPOL_SHIFT;
- 		break;
- 
- 	default:
-@@ -453,7 +462,6 @@ static int ux500_msp_dai_hw_params(struct snd_pcm_substream *substream,
- 				struct snd_soc_dai *dai)
+ #include <sound/soc.h>
+@@ -686,6 +687,7 @@ static const struct snd_soc_component_driver ux500_msp_component = {
+ static int ux500_msp_drv_probe(struct platform_device *pdev)
  {
- 	unsigned int mask, slots_active;
--	struct snd_pcm_runtime *runtime = substream->runtime;
- 	struct ux500_msp_i2s_drvdata *drvdata = dev_get_drvdata(dai->dev);
+ 	struct ux500_msp_i2s_drvdata *drvdata;
++	struct reset_control *reset;
+ 	int ret = 0;
  
- 	dev_dbg(dai->dev, "%s: MSP %d (%s): Enter.\n",
-@@ -461,9 +469,8 @@ static int ux500_msp_dai_hw_params(struct snd_pcm_substream *substream,
- 
- 	switch (drvdata->fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
- 	case SND_SOC_DAIFMT_I2S:
--		snd_pcm_hw_constraint_minmax(runtime,
--				SNDRV_PCM_HW_PARAM_CHANNELS,
--				1, 2);
-+		if (params_channels(params) < 1 || params_channels(params) > 2)
-+			return -EINVAL;
- 		break;
- 
- 	case SND_SOC_DAIFMT_DSP_B:
-@@ -475,9 +482,8 @@ static int ux500_msp_dai_hw_params(struct snd_pcm_substream *substream,
- 		slots_active = hweight32(mask);
- 		dev_dbg(dai->dev, "TDM-slots active: %d", slots_active);
- 
--		snd_pcm_hw_constraint_single(runtime,
--				SNDRV_PCM_HW_PARAM_CHANNELS,
--				slots_active);
-+		if (!slots_active || params_channels(params) != slots_active)
-+			return -EINVAL;
- 		break;
- 
- 	default:
-@@ -510,20 +516,21 @@ static int ux500_msp_dai_set_dai_fmt(struct snd_soc_dai *dai,
- 	default:
- 		dev_err(dai->dev,
- 			"%s: Error: Unsupported protocol/master (fmt = 0x%x)!\n",
--			__func__, drvdata->fmt);
-+			__func__, fmt);
+ 	drvdata = devm_kzalloc(&pdev->dev,
+@@ -733,6 +735,11 @@ static int ux500_msp_drv_probe(struct platform_device *pdev)
  		return -EINVAL;
  	}
  
- 	switch (fmt & SND_SOC_DAIFMT_INV_MASK) {
- 	case SND_SOC_DAIFMT_NB_NF:
- 	case SND_SOC_DAIFMT_NB_IF:
-+	case SND_SOC_DAIFMT_IB_NF:
- 	case SND_SOC_DAIFMT_IB_IF:
- 		break;
- 
- 	default:
- 		dev_err(dai->dev,
- 			"%s: Error: Unsupported inversion (fmt = 0x%x)!\n",
--			__func__, drvdata->fmt);
-+			__func__, fmt);
- 		return -EINVAL;
- 	}
- 
-@@ -557,17 +564,23 @@ static int ux500_msp_dai_set_tdm_slot(struct snd_soc_dai *dai,
- 			__func__, slots);
- 		return -EINVAL;
- 	}
--	drvdata->slots = slots;
- 
--	if (!(slot_width == 16)) {
-+	if (slot_width != 16) {
- 		dev_err(dai->dev, "%s: Error: Unsupported slot-width (%d)!\n",
- 			__func__, slot_width);
- 		return -EINVAL;
- 	}
--	drvdata->slot_width = slot_width;
- 
--	drvdata->tx_mask = tx_mask & cap;
--	drvdata->rx_mask = rx_mask & cap;
-+	if ((tx_mask | rx_mask) & ~cap) {
-+		dev_err(dai->dev, "%s: Slot mask exceeds %d slots\n",
-+			__func__, slots);
-+		return -EINVAL;
-+	}
++	reset = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
++	if (IS_ERR(reset))
++		return dev_err_probe(&pdev->dev, PTR_ERR(reset),
++				     "Failed to deassert MSP reset\n");
 +
-+	drvdata->slots = slots;
-+	drvdata->slot_width = slot_width;
-+	drvdata->tx_mask = tx_mask;
-+	drvdata->rx_mask = rx_mask;
- 
- 	return 0;
- }
-diff --git a/sound/soc/ux500/ux500_msp_i2s.c b/sound/soc/ux500/ux500_msp_i2s.c
-index ef41de92d8e7..bc77174e0070 100644
---- a/sound/soc/ux500/ux500_msp_i2s.c
-+++ b/sound/soc/ux500/ux500_msp_i2s.c
-@@ -201,10 +201,12 @@ static int configure_protocol(struct ux500_msp *msp,
- 
- 	/* The code below should not be separated. */
- 	temp_reg = readl(msp->registers + MSP_GCR) & ~TX_CLK_POL_RISING;
--	temp_reg |= MSP_TX_CLKPOL_BIT(~protdesc->tx_clk_pol);
-+	temp_reg |= MSP_TX_CLKPOL_BIT(!protdesc->tx_clk_pol ^
-+					  config->bclk_inverted);
- 	writel(temp_reg, msp->registers + MSP_GCR);
- 	temp_reg = readl(msp->registers + MSP_GCR) & ~RX_CLK_POL_RISING;
--	temp_reg |= MSP_RX_CLKPOL_BIT(protdesc->rx_clk_pol);
-+	temp_reg |= MSP_RX_CLKPOL_BIT(protdesc->rx_clk_pol ^
-+					  config->bclk_inverted);
- 	writel(temp_reg, msp->registers + MSP_GCR);
- 
- 	return 0;
-@@ -441,6 +443,7 @@ static bool ux500_msp_config_compatible(struct ux500_msp *msp,
- 	       active->data_size == config->data_size &&
- 	       active->def_elem_len == config->def_elem_len &&
- 	       active->clock_provider == config->clock_provider &&
-+	       active->bclk_inverted == config->bclk_inverted &&
- 	       !memcmp(&active->protdesc, &config->protdesc,
- 		       sizeof(active->protdesc));
- }
-diff --git a/sound/soc/ux500/ux500_msp_i2s.h b/sound/soc/ux500/ux500_msp_i2s.h
-index 80085dde5079..17b5c37a7e5d 100644
---- a/sound/soc/ux500/ux500_msp_i2s.h
-+++ b/sound/soc/ux500/ux500_msp_i2s.h
-@@ -459,6 +459,7 @@ struct ux500_msp_config {
- 	unsigned int def_elem_len;
- 	unsigned int iodelay;
- 	bool clock_provider;
-+	bool bclk_inverted;
- };
- 
- struct ux500_msp {
+ 	ret = ux500_msp_i2s_init_msp(pdev, &drvdata->msp);
+ 	if (ret) {
+ 		dev_err(&pdev->dev,
 
 -- 
 2.55.0
