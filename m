@@ -1,101 +1,177 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8123D349CE7;
-	Wed,  2 Sep 2026 01:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788313198; cv=none; b=Z8wSDh8z+bqPASmBEXXCjSqOEj1KgyAcFxOCdYClUASpHTt0q6BYrYCi+G2qTiFWegWuGPD/+xnRy31DfED/mRsgd7xtcK2x617M9DR1Y+1phdhpivU0OOYqw/snnWPzEaaIdCzY+bo3sqUulAKQ32rXMq4cM8orw/u9JcxZ2XM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788313198; c=relaxed/simple;
-	bh=zFQQxPUXHO+PXBSQicr4xDXaJK7lvCvB71Ltdv0S95w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FCDaYrZ/hYYDotrgEGbAYz/iXFQy4wjFXkDeFMT35tSUNtJqp9a9GMdttelLlK9gPitm688yMoyDyoc+1/KYw4i6xo2UK/S6Mh+3fNOBMS0VFFebh9N7LvNNhFKLz1orZp0wIoU5/l22akNyglytZiA8Bi0+7XBYGvYuvGhsOjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.241.250])
-	by APP-01 (Coremail) with SMTP id qwCowADnvvLKfJdq8VoHBw--.39350S11;
-	Wed, 02 Sep 2026 09:33:02 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Oder Chiou <oder_chiou@realtek.com>,
-	Derek Fang <derek.fang@realtek.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 09/14] ASoC: rt1308: return cache sync errors from resume
-Date: Wed,  2 Sep 2026 09:32:45 +0800
-Message-ID: <20260902013256.93072-10-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260902013256.93072-1-pengpeng@iscas.ac.cn>
-References: <20260902013256.93072-1-pengpeng@iscas.ac.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A202349CE2
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 02:07:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788314868; cv=pass; b=I/XslK5cxf6QEXiflGlCgTf6SZNGj90UUH0QYepn0GLr1oINvY+kOY9g/ukL2MT5xpD1mX7pNUo1u9hHsJcVdWsC27UnurCIE5CPtsJms54ObBeaorD81cCoAAKIdlOcu5WMgytVpWrzkkLkVnwHbmfSc48XdHJKARY+kaQ1QTU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788314868; c=relaxed/simple;
+	bh=udwSYPTnDPH4KqIRvNntitw+jHLbGls4Gy7WpueHMVI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=HJ31yWFC4XLtT8ll31ThLztRAwlVxNVRT6WsN3nv8tNF18+GhPDBOvSMFVNC0oubYKS4nQIsMWUbRQfjLINRxQW1VU1W9DxYkJhT4lzJXp34/lTwDOHnKSU6n9jWrqZxJ5ji4E4BXomVlk4wRtz0MbmkmI+UwVk5znt1BAYQO1I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJZ36+mG; arc=pass smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJZ36+mG"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-482e067e908so465742f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 01 Sep 2026 19:07:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788314862; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aAN3JxDbEg27GsgLspOgaFyNV8B2sN+yGvlZWVoVMl3wdAUyAR0ZDfwxzMvnepos4m
+         JtbN8ymsaMjOWGYvHGLxlTnWmBBZCtwJtklVukdZnfUm7g7qcyOYzgzO6Oe/Kmbc9Dsr
+         9vKqGOZ6vkAUnGfFtlnajKExCw2Z9ANk+ROtKNb4lsRya8rXNqIj+uvlg03a1Qu9C52p
+         oIS6XncmTYRJWLcZNxu75z2sSMAs99p8n1cUWl8Rt073UV9LpTLxDgS9b97x/SWQEmTU
+         hltXHs9lOl6knVCCiy5CFElO1GPntrn6Gt3q9NwnoussVGIyiJ0x+TFoXMju8m6HYu7c
+         f4Jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=OkEvfszeR7XeofUG84L27vnMBsBKLUpywBPEEyg5KRI=;
+        fh=mDyV6qAHfGG4rG3NIPxHh9BaqEZxTDCgH6nS7uxdiJc=;
+        b=OHM5vRTtJhqMxrp0NneesvwiWz1fELfpGyv0JXyJMi9/g1BsJ35DwL72HGnJdKYpMG
+         B1gBjyQ9dLO35TvAz8Qcf5W00MH2m/dnoXipLUCKW1mTlNGga8t2aTsFL4HWgGErlsE7
+         gYLHLA9++V7AxpoYkyg+E0wr0KHqaJj4S+KZ+XO4l/+Nm/eIPvGaTwlr/tFz8HmakE/J
+         kksWL3ONKhmlYoxX56U+7334bgrWBs4xobqUt/olVyaOry6o2T7XtXDGJ9Rd9DVnlzEA
+         6Xt1zqeHplGyooBnXYyfD4/i0Q1fkGJ7nrSc/pI9JhvzTB+/pPlK4ywP2OmE50bpDLg2
+         DYGA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788314862; x=1788919662; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OkEvfszeR7XeofUG84L27vnMBsBKLUpywBPEEyg5KRI=;
+        b=QJZ36+mGZEo0L8U1mDOTBRSmszoBeYjntNvYUwwOPmeDs9y0T+QeKJqIo25XXTpr1x
+         IgTzZX5iQWIZiXh8l09NOfOJOzvY75MYBN8ywzmApSe4EoyxmTd4TzKMkB5/ofLw1ZMh
+         6k/s0OMaI6mPy8aU4qag9htu8QfROMj8BPX5scANGPOH78lvb+xl/BYrpUfcrp7oKrtV
+         A/pUwls/KRNh34EPRqK/Xvj+jwMYP6ZqyQ5zSceSClHT5pl2MbV3mcvGz4NZeXimkiLO
+         yoY4v+AVY5D7IGpYyYOnwBtUvYxebZuOUYv2dwJCD80H1JJ0zS7QvL3OvWMC4A7QTfkm
+         ORIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788314862; x=1788919662;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OkEvfszeR7XeofUG84L27vnMBsBKLUpywBPEEyg5KRI=;
+        b=kZVIMzKEGCL9XvwBJDq83SOdRufh6MNbqTPI6H4MjkTHHV5oI1LVuXpXQn5t2dFEQQ
+         R0yca9cAgUkHGdGPOMfffl3TmDQuaxceyn+fJY7Zp1mtuePZzqsb0ov3FbVlYPtBG6rS
+         ikLltRTbD2wNePjYZ3cryAwFYcdNKXsxIq0EgctMAu9zRZ4gJ4m/z4nn4Bm43uC/+Euf
+         er6YncdUSLPV6jP0DzyG8QYofNFHaBMwPI9EGWTRhWP6tLdIrbdJBONZL0qFNjcY9cvQ
+         hshaH2x6lj6iw+V1hBy8XOAMUrN4fJ79/m6N1/kRgXXxGCvyy0oE7W4TNKKg5Ja9Zf5d
+         1ZSw==
+X-Gm-Message-State: AFuF++kjQu9h4ZCR9X7ZdYJvE78XO1vgchTEUR09DhBpXS8fMSkmGfAZ
+	lELy50xPea1pTxSYo6ppyeIQ7sya1yDoKoE5dsultVfRGtnU9qQdkRnoBJimpIk30TO845yLajT
+	qshGQjBZPyyxcrKAF9vjMiBWw9+bh9mQ=
+X-Gm-Gg: AYBFou18hrvzqyd//1TEdcoHaoVaUYJXCy/oyC9hP6T4pGnNykGN0uLGMTmE2/HQ8kk
+	Wrwzy6ZW2W1dn2mlNqZF0hOwlADmdbu8Z0PubEQ3HV4CB8C+tx8shtg21miXWgYGMkmsYd2sUWE
+	60waUnyw6PG417y9fPrweQMUK6YeuMBJsSpHjasT5fS4GVNRsakpl1ZTIgdz08dBXS/TnWrBJU9
+	wayx70j7tvmKWiK57DwFCP9AcU/Lbgfk0sUd2rBfD5aiyJRU/pVs7fMJw5nwYwPQ6HFoPsXSJoM
+	CBbqkpkxnwyeaKgdDcO6Gk0QG7HImdbNLiw8P21pYiU=
+X-Received: by 2002:a05:6000:41cf:b0:484:41dd:ff3c with SMTP id
+ ffacd0b85a97d-48488f18e96mr2080023f8f.18.1788314862035; Tue, 01 Sep 2026
+ 19:07:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowADnvvLKfJdq8VoHBw--.39350S11
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy3tF4UCFyrtFWUGF1kGrg_yoW8GF43pr
-	sIk395Kr12q3yUAF4Fyr1fXa1SkrySya13A345K34kAr13Jr109r1jyF1jvF4kXr40kFnx
-	Zr4Ut3y8CF15ZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUP214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-	z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-	4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4U
-	JVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx
-	0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWU
-	JVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI
-	0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
-	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbPC
-	7UUUUUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+From: Qingyu Zhang <usupergate@gmail.com>
+Date: Wed, 2 Sep 2026 10:07:30 +0800
+X-Gm-Features: AcwNN1XD1WHiZ4r-gMwibt3Haq_JjvaYK15GwJKTwRLH0U8Obn8weilq_nSQM2k
+Message-ID: <CAPBHdanmknKKhhc+5r8jPsnyZW8LYVq0qpzfEVrvjL3i5sNuJQ@mail.gmail.com>
+Subject: [BUG] ALSA: ump: NULL deref of legacy_rmidi after parse sets parsed
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-rt1308_resume() restores cached registers during component resume but
-discards the regcache_sync() result and returns success. A failed replay
-can therefore leave the hardware register state stale without reaching
-the component error reporting path.
+Hello,
 
-Return the cache synchronization result. The ASoC component wrapper
-reports a negative callback result and retains the established
-best-effort resume state, so this adds observability without introducing
-rollback or retry semantics.
+ump_legacy_set_rawmidi_name() snprintf()s into ump->legacy_rmidi->name
+when ump->parsed is true, but parsed is set at the end of
+snd_ump_parse_endpoint() *before* snd_ump_attach_legacy_rawmidi().
+A UMP packet in that window NULL-derefs.
 
-The successful resume path is unchanged.
+Type: null-pointer dereference
 
-The issue was found by a tool we developed.
+* Summary
 
-Fixes: 2b9def8c0d92 ("ASoC: rt1308: Add RT1308 amplifier driver")
-Assisted-by: gpt 5
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- sound/soc/codecs/rt1308.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+snd_ump_parse_endpoint() always does:
 
-diff --git a/sound/soc/codecs/rt1308.c b/sound/soc/codecs/rt1308.c
-index 630946cd7cdf..df95cfbd76d6 100644
---- a/sound/soc/codecs/rt1308.c
-+++ b/sound/soc/codecs/rt1308.c
-@@ -715,9 +715,7 @@ static int rt1308_resume(struct snd_soc_component *component)
- 	struct rt1308_priv *rt1308 = snd_soc_component_get_drvdata(component);
- 
- 	regcache_cache_only(rt1308->regmap, false);
--	regcache_sync(rt1308->regmap);
--
--	return 0;
-+	return regcache_sync(rt1308->regmap);
- }
- #else
- #define rt1308_suspend NULL
--- 
-2.50.1 (Apple Git-155)
+       error:
+               ump->parsed = true;
+               ...
 
+ump_handle_ep_name_msg():
+
+       if (ret && ump->parsed) {
+               ump_set_rawmidi_name(ump);
+               ump_legacy_set_rawmidi_name(ump);  /* rmidi may be NULL */
+       }
+
+ump_legacy_set_rawmidi_name():
+
+       rmidi = ump->legacy_rmidi;
+       snprintf(rmidi->name, ...);   /* no NULL check */
+
+This runs from snd_ump_receive() on the USB input URB complete path
+(in interrupt).
+
+* Affected
+
+37e0e14128e0. Needs CONFIG_SND_UMP, CONFIG_SND_UMP_LEGACY_RAWMIDI,
+CONFIG_SND_USB_AUDIO, a MIDI 2.0 gadget or device. KASAN.
+
+The natural window is parse-done vs attach. The QEMU PoC widens it
+with a kprobe on snd_ump_receive (poc/widen_ump.c) plus dummy_hcd
+configfs midi2, because the un-widened window is short.
+
+* Reproduction
+
+       # dummy_hcd + configfs usb_gadget midi2.usb0 (see poc/run.sh)
+       # with widen_ump.ko: force parsed=1, legacy_rmidi=NULL on receive
+
+KASAN: null-ptr-deref in snprintf from ump_legacy_set_rawmidi_name
+<- ump_handle_ep_name_msg <- snd_ump_receive <- input_urb_complete.
+Then "Fatal exception in interrupt".
+
+* Expected
+
+legacy_rmidi helpers no-op until attach has stored the pointer.
+
+* Actual
+
+IRQ-context NULL deref.
+
+Please consider the suggested patch
+
+Thanks.
+
+Suggested patch:
+```
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index d183c8a000bd..3d1a2ed3b476 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1335,6 +1335,8 @@ static void update_legacy_names(struct
+snd_ump_endpoint *ump)
+{
+    struct snd_rawmidi *rmidi = ump->legacy_rmidi;
+
++    if (!rmidi)
++        return;
+    update_legacy_substreams(ump, rmidi, SNDRV_RAWMIDI_STREAM_INPUT);
+    update_legacy_substreams(ump, rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT);
+}
+@@ -1343,6 +1345,8 @@ static void ump_legacy_set_rawmidi_name(struct
+snd_ump_endpoint *ump)
+{
+    struct snd_rawmidi *rmidi = ump->legacy_rmidi;
+
++    if (!rmidi)
++        return;
+    snprintf(rmidi->name, sizeof(rmidi->name), "%.68s (MIDI 1.0)",
+         ump->core.name);
+}
+```
