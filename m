@@ -1,65 +1,65 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1941B377A94
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 17:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549CA37A825
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 17:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788371403; cv=none; b=eudKDvvqvqhVePIAAlsSCX592O6vB3EEBIqphz+2PndJ+90ny/2whumS+FSm4JOtMkhDknZlUmlk+7CBAmoKu1IBuT9UHSNlC2Y02aiI0IEx9p7s/gYYgMFAgZIRAe4r4hqQDjQvl2dGG47DyGzsKFuy8obyHbwqCopLn/fSGQ0=
+	t=1788371725; cv=none; b=VmFBMENCu/sALIfnNgKHsd9Dd4jPOXLsZVd4y2R5uifF+BdrYpjtB1lwAmRFuxQstci3oTFYZvZQGI7yLCD8xA3NvmvE/yfbll+758hmOrtEPlSib1Co/evf7J9JjWEa7KWmt3EU/ixwFij+2HbMW30iN6ZhBgKgRRlaNLteQZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788371403; c=relaxed/simple;
-	bh=1pAy6kKMkATvkj+AU3EcJaBus59hBYFwa7SSmE3+JAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y51DJdysx8sEFVJwO6Bt9WWtrs1BzrLtr+S22lYmawSxYvES0cJ+EDmXR1/ErSQA9Gs/6Dtd/rQMUOOW5cH/7KrX5CP10dvNWo7K1qvOSpqVbFpzoFIodC46mmYugXsw8XPtV/G7eCbzbI0LSODr/7JxIydxlqPlaeeXURQueHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HioRwMIO; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1788371725; c=relaxed/simple;
+	bh=lxYajqr4+u9bb/bxk5jn26nvm6QJFX3vsnrk3DRP0b8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ncc9OLVigfpikxZ25LzQdf1PnPcUVTvCwNRSbM3pU3fTjJozg384FlB6qzD5N6IrebeVcxArpD7wBiqpaWzwS5ehQMUdP9jwwQtyd2TbgvaBHZBEhMSbwbvrS0rWwnDkd9jGgQ2e3sFwyWK1RvVVoz5Tqg+DpbdLMcA6nSjbEAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rkETxNhX; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HioRwMIO"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49cdc81f40eso9800895e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 10:50:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rkETxNhX"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso14262615e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 10:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788371400; x=1788976200; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1788371721; x=1788976521; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JFmVCM/E9QWkXdxb1N7Xv4jQDK8JhocN0d9+kOjKq0g=;
-        b=HioRwMIOfxItzS2QqjfGWfqJAEwjqwyCuw/qTuiTA96re9vB8KynZwYq2kVlawWP5P
-         OZebXvvYzmzkQLqKWOVVKKBdD2zg4y6/Z+oGIjbZS7vC1OItZ8tR7TXCA7Q2y5MdRqSV
-         jBq7YEoRVwjRP14dylWMGz5XEz9k76XR5gKz9RHJxXJsXTNd9JW9aA1HhDmI1ipQRWbs
-         1qp7baaFdshs54QY3SeEdkNTYQ1Rfo3rcR7vjB6McqZen4MaX30XJ+YwqL5aUoW+dYU0
-         GptmjQWHHHuOZRCdgKVh3fiN8LbrOJAqMrhapA7iOWkqYlSsjLHFpsO4AVWdWquJkjMM
-         dM7g==
+        bh=MFRI8+rNhkKH03jGhsaVXbeguN5xAlvbHG9GZ36jhpg=;
+        b=rkETxNhXjVCI539Q9hSsjXfJGGMnG1HoAMijdlSt5nNSJfcz3S7kRnBvw4xnlH/lQ/
+         E2+q83AZLgkd+CVJxs3ePwp6vsItJMPKBw/KGTdlP/kYbbpezxG65V+A5Fe4AqmN9Lop
+         FWWBNSU6BdYdRYHoLrXlyiqsFtCGDQH8HsHp0TR1ziiKfux/piuMJR41NAHr9cespL2O
+         tyJxQcGyxQ1U2lfmEsh6gumk5xlecfPfX620PX6niKsAhMv5ZeS5/S8PWsh8SsZ2R5el
+         8UusA5Mp91mAk5TV2ZTpQNXy2p+dnJywtGHLGsL4i7A69zNkF2h+qioLyI5JwHUaClUd
+         RbFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788371400; x=1788976200;
+        d=1e100.net; s=20251104; t=1788371721; x=1788976521;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=JFmVCM/E9QWkXdxb1N7Xv4jQDK8JhocN0d9+kOjKq0g=;
-        b=KYKXIMpjsNgzvRv/6T+G0+oIkzxITseMR7Yp+bEq1g2JYEUtJL7tcOIiXzKERpSKHV
-         Jqbk+ppftPiJQjRoNwGGEVue+rvVKaM9nRJu53a2nj5OwuRoQPhIe3Mq4ReD8UE80e2k
-         ga56hJ61lECg37Fv/MaD7BrHwnvuoAo3cHu/vu6sFGBPyCG5ylcjDsjpyGCqA9LLMoHu
-         OHGV8EgCV3HCHGHzJy99gHDPWseyqGXIqWg7UxMkhrkabSyuqg9mvtc+99HBZYIdxg00
-         NAl+tpCGyWoEShcK4EERoAroMmUVrQJ3iH3EoWtq6IKOF5knSPp//G4S9dYUHMO/XEu1
-         zsVg==
-X-Forwarded-Encrypted: i=1; AHgh+RryEulgGeYVoG5u790hkFWIjwvsgWVvv492rtkM1KZmUgWYQC6bNW+EbxiKy2OQL2g2w5fsJXjNDQIi8Q==@vger.kernel.org
-X-Gm-Message-State: AFuF++m4nH2PHga7vkA0GabzkA4z1SToBwa3M1kvtv+fESqNiyRSNRUy
-	FDh312qlTTg8eiOtduQwCCyQUzwJB74rmaF+AcFzP7ed24UT7sra98oE
-X-Gm-Gg: AR+sD10J8/X/o6sdTA8g4Cu9GubH1cuekETAkV+t0oc5WZIW6m9G/If7JOi6jzAINIw
-	HttYBMorRMf+bLvpan/QI8zn/1hwFXStvmKPHj1maFh2eoyZD0IfhLdGGblbtpLUwOCG+sobHo0
-	gHFhDG7DEDH5SwKImgsfsvf8l432JzUSa87fHqwwqqGXvgYPpgtIJZlAUYStI33dcvtQZuqVw/I
-	3wBfvDXX0m0Jd7NhV+KU4p/UAEnpKXQjt7Jc3cUOQ78Z6v2ToArBRnluG/lHu2/SeERELdA3b1a
-	50sJ4z5xJ+lZAU6x/i0P9xc8r4MEll0NwOy1INuRsi8TgD5EyKxavu2Sual7GEZpiq65TRUxoJi
-	YlMD5+NA0KmxUuPDwb7zVFxDsexppwYMpzpCqVhyJalvSEiF/Ca9bNN/ZvCD8KnS6ahdVCwqzf9
-	2r1GYcFuMo9ILL2lFgJGMHyvnJZ1nTXavqRBs0IsceCywh15ofKoU4Fz3tb6kYNQmB/xOmQbb3B
-	nWwpKRF4VOYKE/ZCwCcYy111/t9UOWOTOsecK6WM6oK2WzTN/VrD7AXO4llwZT+PijznieSofZc
-	sAeIifqON2lJ4RYdnBHsNunlUmf3BQBPoJ1CUzljlW/0HCzgt9dicN87HbUpkoJketMSFRvvOct
-	2t/RCFQ==
-X-Received: by 2002:a05:600c:83c8:b0:49c:d52e:d0ea with SMTP id 5b1f17b1804b1-49ce581779dmr127859415e9.4.1788371399822;
-        Wed, 02 Sep 2026 10:49:59 -0700 (PDT)
+        bh=MFRI8+rNhkKH03jGhsaVXbeguN5xAlvbHG9GZ36jhpg=;
+        b=d+yVchoA5vRI4mFvHDRC/iYudoHdheQXXOsVlpzlOBuXbboGmhKWQlEE+Rrn4V+54u
+         QUFtXME1qfOhyAU5L7lmRDmrr+4lNWJQFtYQvdNBHTXDxyVSOXPDLwv5FRZ1k9NrPacg
+         7APZIyGUQKMI1oqdnwT+MYAWjeE21A6UNUTLpgnsxl47/3qytcfdQtU6TnRkBGTQLiRV
+         eTgO2AaSnvny9sPCiYdPUSn3/G0VwUs9trHeE1OmJpI9HgU4jFX2WLH66bL1dEa+UXb3
+         +I4JFbI7zNPPYoCbfD2GJpc9gRcQB0mMZw/Qd9mTdsTfu6c8x8vfJ30CpwEbNMeukesR
+         bkBg==
+X-Forwarded-Encrypted: i=1; AHgh+RpVAmyIyI19IqYNZTKkdTHNUgMRcwvmSIhl1ckQiGEhVpWL2pBLrF2r31h4TO5kksQzpffwKU1ah5ShXA==@vger.kernel.org
+X-Gm-Message-State: AFuF++lgtoNnJsZqKuYGhD4KIVciiH/KVKZHoCE1Ld4LkLKrL15UrZ5C
+	cvVlh2Bwk7IYZQ/Hfl3ixIR85cI2pyFkrYW7CoWagy3JoYYKKZgFGwma
+X-Gm-Gg: AR+sD13u9u6XvENKVyY4m6R7TnMgIfZ0wjszV6qea7FpXthV3haQ67FSXK3gFQS5pZh
+	f4yf48ao0aZn9HJhhXQu5sa+O1Il2Uc+i74AL7at4ZE1aWKz98wilDKP7STwgQA/eyNCd8jIcYS
+	ZccEJRWJiaBtl6Z8MauM/vuEfwM9IJIjfcFay+JjwfoFSfP12bdpSeMaJ1im9jiE7x7PYXJlKzh
+	jQBU/aZ9wUyrhYwtV2EB2cKRcMpiYu6hbm4l2qYFa9ioI4MUoieZn/gnsuYqSsol/bjwCs9R7rE
+	J9emFxYb7V0OtIsDC4GPrKunWUCZdD4INZConBBVFYlsrvhbRdDBE6M5Po716vDcMrOtXUy4LJN
+	vFvuhhnKBm7JllDTApONWK6DRib2y0sP4F/jfwdXsAksLE5+Yc+ylO/SBij+9Z0Ns6F086axotK
+	m0ZBiRFeoJTTnX2KXWqjIbRK7yUh0qigVsn6Wcbk/zg/izLcoLSZG2tHt7zCcv06w8gYJmAJKYD
+	U6L+eHy11chZQepJ8RIvxTkG3TAUG7iDSJLjyRlOjEUSZUkzAqFVZOpecRR2Dhkeao0z6ZUaqC2
+	DCNQUn33jxVllAVWwb3IhlXPyDO0lhZl6MD9H3A81OxeMU0EoHPOo12L0m9NGj4HO+isf0u9uLC
+	F/xYKUyYkFO+D1W8I
+X-Received: by 2002:a05:600c:530e:b0:49c:d618:e341 with SMTP id 5b1f17b1804b1-49ce584bb4amr137492565e9.14.1788371721009;
+        Wed, 02 Sep 2026 10:55:21 -0700 (PDT)
 Received: from workstation ([85.186.165.159])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce58da3acsm141698465e9.0.2026.09.02.10.49.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5d1fe2sm9693665e9.3.2026.09.02.10.55.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 10:49:59 -0700 (PDT)
+        Wed, 02 Sep 2026 10:55:20 -0700 (PDT)
 From: =?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
 To: lgirdwood@gmail.com,
 	peter.ujfalusi@linux.intel.com,
@@ -74,9 +74,9 @@ Cc: kai.vehmanen@linux.intel.com,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?=C8=98tefan=20Ghe=C8=9Bu?= <stefanghetu9@gmail.com>
-Subject: [PATCH] ASoC: SOF: imx8: remove unused regmap field from imx8m_chip_data
-Date: Wed,  2 Sep 2026 20:49:55 +0300
-Message-ID: <20260902174955.207878-1-stefanghetu9@gmail.com>
+Subject: [PATCH] ASoC: SOF: imx8: check imx_sc_pm_cpu_start() return value
+Date: Wed,  2 Sep 2026 20:55:17 +0300
+Message-ID: <20260902175517.209406-1-stefanghetu9@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,32 +87,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The regmap member of struct imx8m_chip_data became unused in
-commit a71b261c19a4 ("ASoC: SOF: imx8m: Use reset controller API to control the DSP"),
-which converted the runstall handling to the reset controller API and
-removed all accesses to it. The struct member was left behind.
+imx8_run(), imx8x_run() and imx8_shutdown() check the return value of
+every imx_sc_misc_set_control() call but ignore the one from
+imx_sc_pm_cpu_start(), which propagates errors from imx_scu_call_rpc()
+and can fail with -ETIMEDOUT, -EINVAL or -EPERM.
 
-imx8m_probe() only assigns dap and run_stall, and the imx8ulp path
-stores its regmap directly in common->chip_pdata rather than in this
-struct.
+Reporting success after a failed start leaves the caller loading
+firmware onto a core that is not running, and a failed shutdown is
+similarly hidden from imx_chip_core_shutdown() callers, which do act on
+the return value.
+
+Propagate the error, matching imx95_core_shutdown() in imx9.c.
 
 Signed-off-by: Ștefan Ghețu <stefanghetu9@gmail.com>
 ---
- sound/soc/sof/imx/imx8.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/sof/imx/imx8.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
 diff --git a/sound/soc/sof/imx/imx8.c b/sound/soc/sof/imx/imx8.c
-index 7e9eab2e30347..c2b4d379a3a3a 100644
+index c2b4d379a3a3a..0820724dbb349 100644
 --- a/sound/soc/sof/imx/imx8.c
 +++ b/sound/soc/sof/imx/imx8.c
-@@ -36,7 +36,6 @@
+@@ -41,13 +41,18 @@ struct imx8m_chip_data {
  
- struct imx8m_chip_data {
- 	void __iomem *dap;
--	struct regmap *regmap;
- 	struct reset_control *run_stall;
- };
+ static int imx8_shutdown(struct snd_sof_dev *sdev)
+ {
++	int ret;
+ 	/*
+ 	 * Force the DSP to stall. After the firmware image is loaded,
+ 	 * the stall will be removed during run() by a matching
+ 	 * imx_sc_pm_cpu_start() call.
+ 	 */
+-	imx_sc_pm_cpu_start(get_chip_pdata(sdev), IMX_SC_R_DSP, false,
+-			    RESET_VECTOR_VADDR);
++	ret = imx_sc_pm_cpu_start(get_chip_pdata(sdev), IMX_SC_R_DSP, false,
++				  RESET_VECTOR_VADDR);
++	if (ret < 0) {
++		dev_err(sdev->dev, "Error stalling DSP core %d\n", ret);
++		return ret;
++	}
  
+ 	return 0;
+ }
+@@ -88,8 +93,12 @@ static int imx8x_run(struct snd_sof_dev *sdev)
+ 		return ret;
+ 	}
+ 
+-	imx_sc_pm_cpu_start(get_chip_pdata(sdev), IMX_SC_R_DSP, true,
+-			    RESET_VECTOR_VADDR);
++	ret = imx_sc_pm_cpu_start(get_chip_pdata(sdev), IMX_SC_R_DSP, true,
++				  RESET_VECTOR_VADDR);
++	if (ret < 0) {
++		dev_err(sdev->dev, "Error starting DSP %d\n", ret);
++		return ret;
++	}
+ 
+ 	return 0;
+ }
+@@ -105,8 +114,12 @@ static int imx8_run(struct snd_sof_dev *sdev)
+ 		return ret;
+ 	}
+ 
+-	imx_sc_pm_cpu_start(get_chip_pdata(sdev), IMX_SC_R_DSP, true,
+-			    RESET_VECTOR_VADDR);
++	ret = imx_sc_pm_cpu_start(get_chip_pdata(sdev), IMX_SC_R_DSP, true,
++				  RESET_VECTOR_VADDR);
++	if (ret < 0) {
++		dev_err(sdev->dev, "Error starting DSP %d\n", ret);
++		return ret;
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.53.0
 
