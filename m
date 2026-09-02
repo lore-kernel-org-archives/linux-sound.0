@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B985175A9C
-	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB593515F8
+	for <linux-sound@vger.kernel.org>; Wed,  2 Sep 2026 07:55:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788335758; cv=none; b=qwg2A4L39IFKK/j8SM6TTSFRsdsViVal5Q3QiFh4xChMux+EVFxOVQJrSwPxySnytXl+gRTIo+tCg6lYVHKcBhui7qNnT/BRWnFBFnty/zAK7tLqgjDSSsBzHkoC/46MHWWC+eaRMDDFjg3jbVywcdM4S695yoo6Pq6OHwgXPJY=
+	t=1788335761; cv=none; b=i/t7bX4WhMsMJVLTBuyBRfyGGYkISzzEa0MV0bcakcdLsiP0sysHwj4flYukS/Hm3mKwNUgkoi5ImQiVfAhkD0DxxTUtB8VpjOH2Umh6X1BGc9LWvY/xKtDfvCEKvQ81HK1MfoR66Xue/z8koqxEWYO07LL8PRxzg6A9OhXk9XU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788335758; c=relaxed/simple;
-	bh=qb/sBb3TGFcj5tghkHn19gWaiOcGuMKIwXh2UNhmTe0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZH4RNe8IBMHkG6LDMkqnPjqXjqpjr6EOJwZuQ61x4v7xR2gSt5pGTJdbwxaGUa9ggAXzbl3YwFuoLytfCPzpvbnUxbf2xhlAf7dOPw1hBuXDZsMB/fYM5vmo5P0QJjtgJbhFTja8OorKt0sHWIN290jvTNXCJepujK1VXVggPHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVTBz1Qv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788335761; c=relaxed/simple;
+	bh=jeQFswN7s30a8n1GRpZufx/thAMy+pNTUyyN7Eo+C0U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=MAlwlCRu6WNqjhn81aWv8k2JS+ttoOGM+pY0NV5ZI96LLCrlM+MdPGUMgMyJjHlq4D+y+eAIVR8T8Sy/G7/q9/Q7Gu7v5pA8+s8+cDG533/UxkvLUUCKKe94uzsoIHT6lHbrw1T/v/cDuc1KCVAbGrM1lCTVUoiFuv2NS1tItYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oSRTJRIc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVTBz1Qv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B451F000E9;
-	Wed,  2 Sep 2026 07:55:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oSRTJRIc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA31C1F00A3A;
+	Wed,  2 Sep 2026 07:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788335757;
-	bh=gsjXAgn7PUpUOF0wMC+GyvU72fd1fz8F99t2f3n8XpY=;
-	h=From:Subject:Date:To:Cc;
-	b=DVTBz1QvFFozrSWvQ0BcRQPCGKY/oUBBkBkCnQ+e4oDD9JHLyM4B1XoNkfCkekE5n
-	 cV0KtsnsRDu10Bz85qMA6E4xJm4V+thEHf3pkYVKfhs+4bKJg8YrsDJTkl4wC7BkkN
-	 w1n26MNiwOvPagicYVbKYJAHdEr1MaEsFYdCtgOsHLCNT9wl8BUESvnlIRZdgylcP9
-	 YHks3siwjQVgarSTKQV6sKTeSkKMGc2iXh6LYgcMus+fEyUjDdTwJI9sC7VB7zQiJz
-	 L9ioRu5VW2edrc89f/8QLD7d6aQWAQH63Gn6Gc053eI7kGQQJdrzVnsXOgDJhGmohe
-	 2VbRJ4MJcLh/w==
+	s=k20260515; t=1788335759;
+	bh=z98MctbhYp5B6INDKYF5wvmz9Hw3cDlw+ojbBlO/bk0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=oSRTJRIc2fj/tHoYRh9k+iAcvR85PDthbl6CbUjTKjxAw1S5gVHcL0A4pYSvujhLZ
+	 YylAf692YbGZjqxQ5ii8PjBJcagExA2ucSSQFD9Es1abI1N1gLoMuLvqh3E4q3fGIV
+	 49BrQrG9cUXLd+gBBquwaEqspLnRKLK9UqhTfpvvJRbBjWoEcauW6JX9J2BzMIzSWc
+	 2FksUkbW+jBoZAFc6uPVjL7YnZ+2JgVqeMK7FQkG6HYTCWJJVAPVDVAp5GcSVTZ3Dh
+	 Jjvu0zFvPAbIBeBzjN4VPNjaG7ImLaAm/QdmPUUUx9mmc31TdKQIFeOa7rtTBY+bxO
+	 i+dqJgHakwsrg==
 From: Linus Walleij <linusw@kernel.org>
-Subject: [PATCH v2 0/9] ASoC: ux500: Fix MSP lifecycle, clocking and
- resources
-Date: Wed, 02 Sep 2026 09:55:50 +0200
-Message-Id: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
+Date: Wed, 02 Sep 2026 09:55:51 +0200
+Subject: [PATCH v2 1/9] ASoC: ux500: Fix MSP stream lifecycle handling
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,55 +37,393 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNwQ6CMBBEf4Xs2TVtaQU8+R+GQ6ELNColXSUYw
- r9b8ejxzeTNrMAUPTGcsxUizZ59GBOoQwbtYMee0LvEoIQ6iVIZfC1GCHzwhJ1fiNGUTufaVo1
- tc0jWFGkvknStEw+enyG+94NZftPfViXU39YsUaCzUuuic1VXNJcbxZHuxxB7qLdt+wApu8Sjr
- wAAAA==
-X-Change-ID: 20260825-ux500-msp-fixes-58d434a9bac3
+Message-Id: <20260902-ux500-msp-fixes-v2-1-4b60b002d55a@kernel.org>
+References: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
+In-Reply-To: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
  Philipp Zabel <p.zabel@pengutronix.de>
 Cc: linux-sound@vger.kernel.org, Linus Walleij <linusw@kernel.org>
 X-Mailer: b4 0.14.3
 
-Repair independent correctness problems in the DB8500 multichannel
-serial port driver. The series fixes duplex and repeated-prepare stream
-ownership, error propagation, frame and divider programming, FIFO
-watermarks, DAI validation, reset handling, and MMIO resource ownership.
-It also removes obsolete PRCMU QoS calls which are unconditional stubs.
+The trigger stop path drops the direction busy flag even though ALSA
+still owns the stream until shutdown. A later trigger cannot reliably
+restart it, shutdown may leave the block configured, and a second
+stream may overwrite shared duplex configuration.
 
-The register programming follows the DB8500 v2 reference manual. These
-changes are independent of the later sound-card devicetree conversion.
+Keep configured and running directions as separate state. Program
+shared settings only for the first direction, require a compatible
+configuration for the other half of a duplex stream, and enable the
+frame generator only while a provider stream is running. Also fix the
+RX-disable direction test and preserve the other direction multichannel
+setup.
 
+Fixes: 3592b7f69a54 ("ASoC: Ux500: Add MSP I2S-driver")
 Assisted-by: LLM
 Signed-off-by: Linus Walleij <linusw@kernel.org>
 ---
-Changes in v2:
-- Rebased on v7.3-rc1
-- Link to v1: https://lore.kernel.org/r/20260902-ux500-msp-fixes-v1-0-da1447fd9f7b@kernel.org
+ sound/soc/ux500/ux500_msp_dai.c |   8 +-
+ sound/soc/ux500/ux500_msp_i2s.c | 183 ++++++++++++++++++++++++++++++----------
+ sound/soc/ux500/ux500_msp_i2s.h |   4 +
+ 3 files changed, 149 insertions(+), 46 deletions(-)
 
----
-Linus Walleij (9):
-      ASoC: ux500: Fix MSP stream lifecycle handling
-      ASoC: ux500: Propagate MSP setup errors
-      ASoC: ux500: Correct MSP frame and bit clock setup
-      ASoC: ux500: Validate MSP DAI configuration
-      ASoC: ux500: Deassert the MSP reset during probe
-      ASoC: ux500: Request the MSP MMIO resource
-      ASoC: ux500: Remove obsolete PRCMU QoS calls
-      ASoC: ux500: Allow repeated MSP prepare calls
-      ASoC: ux500: Program the MSP FIFO watermarks
+diff --git a/sound/soc/ux500/ux500_msp_dai.c b/sound/soc/ux500/ux500_msp_dai.c
+index 499e826d7120..994422e72512 100644
+--- a/sound/soc/ux500/ux500_msp_dai.c
++++ b/sound/soc/ux500/ux500_msp_dai.c
+@@ -34,8 +34,10 @@ static int setup_pcm_multichan(struct snd_soc_dai *dai,
+ 	if (drvdata->slots > 1) {
+ 		msp_config->multichannel_configured = 1;
+ 
+-		multi->tx_multichannel_enable = true;
+-		multi->rx_multichannel_enable = true;
++		multi->tx_multichannel_enable =
++			msp_config->direction & MSP_DIR_TX;
++		multi->rx_multichannel_enable =
++			msp_config->direction & MSP_DIR_RX;
+ 		multi->rx_comparison_enable_mode = MSP_COMPARISON_DISABLED;
+ 
+ 		multi->tx_channel_0_enable = drvdata->tx_mask;
+@@ -192,6 +194,7 @@ static int setup_clocking(struct snd_soc_dai *dai,
+ 	case SND_SOC_DAIFMT_BC_FC:
+ 		dev_dbg(dai->dev, "%s: Codec is master.\n", __func__);
+ 
++		msp_config->clock_provider = false;
+ 		msp_config->iodelay = 0x20;
+ 		msp_config->rx_fsync_sel = 0;
+ 		msp_config->tx_fsync_sel = 1 << TFSSEL_SHIFT;
+@@ -204,6 +207,7 @@ static int setup_clocking(struct snd_soc_dai *dai,
+ 	case SND_SOC_DAIFMT_BP_FP:
+ 		dev_dbg(dai->dev, "%s: Codec is slave.\n", __func__);
+ 
++		msp_config->clock_provider = true;
+ 		msp_config->tx_clk_sel = TX_CLK_SEL_SRG;
+ 		msp_config->tx_fsync_sel = TX_SYNC_SRG_PROG;
+ 		msp_config->rx_clk_sel = RX_CLK_SEL_SRG;
+diff --git a/sound/soc/ux500/ux500_msp_i2s.c b/sound/soc/ux500/ux500_msp_i2s.c
+index fbfeefa418ca..ec6f0874294a 100644
+--- a/sound/soc/ux500/ux500_msp_i2s.c
++++ b/sound/soc/ux500/ux500_msp_i2s.c
+@@ -344,20 +344,27 @@ static int configure_multichannel(struct ux500_msp *msp,
+ 	return 0;
+ }
+ 
+-static int enable_msp(struct ux500_msp *msp, struct ux500_msp_config *config)
++static int enable_msp(struct ux500_msp *msp, struct ux500_msp_config *config,
++		      bool first)
+ {
+-	int status = 0;
+-	u32 reg_val_DMACR, reg_val_GCR;
++	int status;
++	u32 reg_val_DMACR;
+ 
+ 	/* Configure msp with protocol dependent settings */
+-	configure_protocol(msp, config);
+-	setup_bitclk(msp, config);
++	status = configure_protocol(msp, config);
++	if (status)
++		return status;
++
++	if (first && config->clock_provider) {
++		status = setup_bitclk(msp, config);
++		if (status)
++			return status;
++	}
++
+ 	if (config->multichannel_configured == 1) {
+ 		status = configure_multichannel(msp, config);
+ 		if (status)
+-			dev_warn(msp->dev,
+-				"%s: WARN: configure_multichannel failed (%d)!\n",
+-				__func__, status);
++			return status;
+ 	}
+ 
+ 	reg_val_DMACR = readl(msp->registers + MSP_DMACR);
+@@ -369,11 +376,7 @@ static int enable_msp(struct ux500_msp *msp, struct ux500_msp_config *config)
+ 
+ 	writel(config->iodelay, msp->registers + MSP_IODLY);
+ 
+-	/* Enable frame generation logic */
+-	reg_val_GCR = readl(msp->registers + MSP_GCR);
+-	writel(reg_val_GCR | FRAME_GEN_ENABLE, msp->registers + MSP_GCR);
+-
+-	return status;
++	return 0;
+ }
+ 
+ static void flush_fifo_rx(struct ux500_msp *msp)
+@@ -411,12 +414,36 @@ static void flush_fifo_tx(struct ux500_msp *msp)
+ 	writel(reg_val_GCR, msp->registers + MSP_GCR);
+ }
+ 
++static bool ux500_msp_config_compatible(struct ux500_msp *msp,
++					struct ux500_msp_config *config)
++{
++	struct ux500_msp_config *active = &msp->config;
++
++	return active->f_inputclk == config->f_inputclk &&
++	       active->tx_clk_sel == config->tx_clk_sel &&
++	       active->rx_clk_sel == config->rx_clk_sel &&
++	       active->srg_clk_sel == config->srg_clk_sel &&
++	       active->rx_fsync_pol == config->rx_fsync_pol &&
++	       active->tx_fsync_pol == config->tx_fsync_pol &&
++	       active->rx_fsync_sel == config->rx_fsync_sel &&
++	       active->tx_fsync_sel == config->tx_fsync_sel &&
++	       active->default_protdesc == config->default_protdesc &&
++	       active->protocol == config->protocol &&
++	       active->frame_freq == config->frame_freq &&
++	       active->data_size == config->data_size &&
++	       active->def_elem_len == config->def_elem_len &&
++	       active->clock_provider == config->clock_provider &&
++	       !memcmp(&active->protdesc, &config->protdesc,
++		       sizeof(active->protdesc));
++}
++
+ int ux500_msp_i2s_open(struct ux500_msp *msp,
+ 		struct ux500_msp_config *config)
+ {
+ 	u32 old_reg, new_reg, mask;
+ 	int res;
+ 	unsigned int tx_sel, rx_sel, tx_busy, rx_busy;
++	bool first;
+ 
+ 	if (in_interrupt()) {
+ 		dev_err(msp->dev,
+@@ -444,40 +471,66 @@ int ux500_msp_i2s_open(struct ux500_msp *msp,
+ 		return -EBUSY;
+ 	}
+ 
+-	msp->dir_busy |= (tx_sel ? MSP_DIR_TX : 0) | (rx_sel ? MSP_DIR_RX : 0);
+-
+-	/* First do the global config register */
+-	mask = RX_CLK_SEL_MASK | TX_CLK_SEL_MASK | RX_FSYNC_MASK |
+-	    TX_FSYNC_MASK | RX_SYNC_SEL_MASK | TX_SYNC_SEL_MASK |
+-	    RX_FIFO_ENABLE_MASK | TX_FIFO_ENABLE_MASK | SRG_CLK_SEL_MASK |
+-	    LOOPBACK_MASK | TX_EXTRA_DELAY_MASK;
+-
+-	new_reg = (config->tx_clk_sel | config->rx_clk_sel |
+-		config->rx_fsync_pol | config->tx_fsync_pol |
+-		config->rx_fsync_sel | config->tx_fsync_sel |
+-		config->rx_fifo_config | config->tx_fifo_config |
+-		config->srg_clk_sel | config->loopback_enable |
+-		config->tx_data_enable);
++	first = !msp->dir_busy;
++	if (!first && !ux500_msp_config_compatible(msp, config)) {
++		dev_err(msp->dev, "%s: Incompatible duplex configuration\n",
++			__func__);
++		return -EBUSY;
++	}
+ 
+-	old_reg = readl(msp->registers + MSP_GCR);
+-	old_reg &= ~mask;
+-	new_reg |= old_reg;
+-	writel(new_reg, msp->registers + MSP_GCR);
++	if (first) {
++		/* First do the global config register */
++		mask = RX_CLK_SEL_MASK | TX_CLK_SEL_MASK | RX_FSYNC_MASK |
++		       TX_FSYNC_MASK | RX_SYNC_SEL_MASK | TX_SYNC_SEL_MASK |
++		       RX_FIFO_ENABLE_MASK | TX_FIFO_ENABLE_MASK |
++		       SRG_CLK_SEL_MASK | LOOPBACK_MASK | TX_EXTRA_DELAY_MASK;
++
++		new_reg = config->tx_clk_sel | config->rx_clk_sel |
++			  config->rx_fsync_pol | config->tx_fsync_pol |
++			  config->rx_fsync_sel | config->tx_fsync_sel |
++			  config->rx_fifo_config | config->tx_fifo_config |
++			  config->srg_clk_sel | config->loopback_enable |
++			  config->tx_data_enable;
++
++		old_reg = readl(msp->registers + MSP_GCR);
++		old_reg &= ~mask;
++		new_reg |= old_reg;
++		writel(new_reg, msp->registers + MSP_GCR);
++	}
+ 
+-	res = enable_msp(msp, config);
++	res = enable_msp(msp, config, first);
+ 	if (res < 0) {
+ 		dev_err(msp->dev, "%s: ERROR: enable_msp failed (%d)!\n",
+ 			__func__, res);
+-		return -EBUSY;
++		if (tx_sel)
++			writel(0, msp->registers + MSP_TCF);
++		if (rx_sel)
++			writel(0, msp->registers + MSP_RCF);
++		if (first) {
++			writel(0, msp->registers + MSP_GCR);
++			writel(0, msp->registers + MSP_DMACR);
++			writel(0, msp->registers + MSP_SRG);
++			writel(0, msp->registers + MSP_MCR);
++		}
++		return res;
++	}
++
++	msp->dir_busy |= config->direction;
++	if (first) {
++		msp->config = *config;
++		msp->clock_provider = config->clock_provider;
+ 	}
+ 	if (config->loopback_enable & 0x80)
+ 		msp->loopback_enable = 1;
+ 
+ 	/* Flush FIFOs */
+-	flush_fifo_tx(msp);
+-	flush_fifo_rx(msp);
++	if (tx_sel)
++		flush_fifo_tx(msp);
++	if (rx_sel)
++		flush_fifo_rx(msp);
+ 
+-	msp->msp_state = MSP_STATE_CONFIGURED;
++	if (!msp->dir_running)
++		msp->msp_state = MSP_STATE_CONFIGURED;
+ 	return 0;
+ }
+ 
+@@ -494,7 +547,6 @@ static void disable_msp_rx(struct ux500_msp *msp)
+ 			~(RX_SERVICE_INT | RX_OVERRUN_ERROR_INT),
+ 			msp->registers + MSP_IMSC);
+ 
+-	msp->dir_busy &= ~MSP_DIR_RX;
+ }
+ 
+ static void disable_msp_tx(struct ux500_msp *msp)
+@@ -510,7 +562,6 @@ static void disable_msp_tx(struct ux500_msp *msp)
+ 			~(TX_SERVICE_INT | TX_UNDERRUN_ERR_INT),
+ 			msp->registers + MSP_IMSC);
+ 
+-	msp->dir_busy &= ~MSP_DIR_TX;
+ }
+ 
+ static int disable_msp(struct ux500_msp *msp, unsigned int dir)
+@@ -520,7 +571,7 @@ static int disable_msp(struct ux500_msp *msp, unsigned int dir)
+ 
+ 	reg_val_GCR = readl(msp->registers + MSP_GCR);
+ 	disable_tx = dir & MSP_DIR_TX;
+-	disable_rx = dir & MSP_DIR_TX;
++	disable_rx = dir & MSP_DIR_RX;
+ 	if (disable_tx && disable_rx) {
+ 		reg_val_GCR = readl(msp->registers + MSP_GCR);
+ 		writel(reg_val_GCR | LOOPBACK_MASK,
+@@ -553,7 +604,15 @@ static int disable_msp(struct ux500_msp *msp, unsigned int dir)
+ 
+ int ux500_msp_i2s_trigger(struct ux500_msp *msp, int cmd, int direction)
+ {
+-	u32 reg_val_GCR, enable_bit;
++	u32 reg_val_DMACR, reg_val_GCR, dma_enable_bit, enable_bit;
++	unsigned int dir;
++
++	if (direction == SNDRV_PCM_STREAM_PLAYBACK)
++		dir = MSP_DIR_TX;
++	else if (direction == SNDRV_PCM_STREAM_CAPTURE)
++		dir = MSP_DIR_RX;
++	else
++		return -EINVAL;
+ 
+ 	if (msp->msp_state == MSP_STATE_IDLE) {
+ 		dev_err(msp->dev, "%s: ERROR: MSP is not configured!\n",
+@@ -565,21 +624,44 @@ int ux500_msp_i2s_trigger(struct ux500_msp *msp, int cmd, int direction)
+ 	case SNDRV_PCM_TRIGGER_START:
+ 	case SNDRV_PCM_TRIGGER_RESUME:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+-		if (direction == SNDRV_PCM_STREAM_PLAYBACK)
++		if (direction == SNDRV_PCM_STREAM_PLAYBACK) {
+ 			enable_bit = TX_ENABLE;
+-		else
++			dma_enable_bit = TX_DMA_ENABLE;
++		} else {
+ 			enable_bit = RX_ENABLE;
++			dma_enable_bit = RX_DMA_ENABLE;
++		}
++		if (!(msp->dir_busy & dir))
++			return -EINVAL;
++		reg_val_DMACR = readl(msp->registers + MSP_DMACR);
++		writel(reg_val_DMACR | dma_enable_bit,
++		       msp->registers + MSP_DMACR);
+ 		reg_val_GCR = readl(msp->registers + MSP_GCR);
++		if (msp->clock_provider)
++			enable_bit |= FRAME_GEN_ENABLE;
+ 		writel(reg_val_GCR | enable_bit, msp->registers + MSP_GCR);
++		msp->dir_running |= dir;
++		msp->msp_state = MSP_STATE_RUNNING;
+ 		break;
+ 
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+-		if (direction == SNDRV_PCM_STREAM_PLAYBACK)
++		if (!(msp->dir_busy & dir))
++			return -EINVAL;
++		if (direction == SNDRV_PCM_STREAM_PLAYBACK) {
+ 			disable_msp_tx(msp);
+-		else
++			msp->dir_running &= ~MSP_DIR_TX;
++		} else {
+ 			disable_msp_rx(msp);
++			msp->dir_running &= ~MSP_DIR_RX;
++		}
++		if (!msp->dir_running) {
++			reg_val_GCR = readl(msp->registers + MSP_GCR);
++			writel(reg_val_GCR & ~FRAME_GEN_ENABLE,
++			       msp->registers + MSP_GCR);
++			msp->msp_state = MSP_STATE_CONFIGURED;
++		}
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -594,7 +676,18 @@ int ux500_msp_i2s_close(struct ux500_msp *msp, unsigned int dir)
+ 
+ 	dev_dbg(msp->dev, "%s: Enter (dir = 0x%01x).\n", __func__, dir);
+ 
++	if (!dir || dir & ~(MSP_DIR_TX | MSP_DIR_RX) ||
++	    (msp->dir_busy & dir) != dir)
++		return -EINVAL;
++
+ 	status = disable_msp(msp, dir);
++	msp->dir_busy &= ~dir;
++	msp->dir_running &= ~dir;
++	if (msp->dir_busy && !msp->dir_running) {
++		writel(readl(msp->registers + MSP_GCR) & ~FRAME_GEN_ENABLE,
++		       msp->registers + MSP_GCR);
++		msp->msp_state = MSP_STATE_CONFIGURED;
++	}
+ 	if (msp->dir_busy == 0) {
+ 		/* disable sample rate and frame generators */
+ 		msp->msp_state = MSP_STATE_IDLE;
+@@ -618,6 +711,8 @@ int ux500_msp_i2s_close(struct ux500_msp *msp, unsigned int dir)
+ 		writel(0, msp->registers + MSP_RCE1);
+ 		writel(0, msp->registers + MSP_RCE2);
+ 		writel(0, msp->registers + MSP_RCE3);
++		memset(&msp->config, 0, sizeof(msp->config));
++		msp->clock_provider = false;
+ 	}
+ 
+ 	return status;
+diff --git a/sound/soc/ux500/ux500_msp_i2s.h b/sound/soc/ux500/ux500_msp_i2s.h
+index 69d4ebc409fc..d75a0974369a 100644
+--- a/sound/soc/ux500/ux500_msp_i2s.h
++++ b/sound/soc/ux500/ux500_msp_i2s.h
+@@ -460,6 +460,7 @@ struct ux500_msp_config {
+ 	enum msp_data_size data_size;
+ 	unsigned int def_elem_len;
+ 	unsigned int iodelay;
++	bool clock_provider;
+ };
+ 
+ struct ux500_msp {
+@@ -470,8 +471,11 @@ struct ux500_msp {
+ 	enum msp_state msp_state;
+ 	int def_elem_len;
+ 	unsigned int dir_busy;
++	unsigned int dir_running;
+ 	int loopback_enable;
+ 	unsigned int f_bitclk;
++	bool clock_provider;
++	struct ux500_msp_config config;
+ };
+ 
+ int ux500_msp_i2s_init_msp(struct platform_device *pdev,
 
- sound/soc/ux500/ux500_msp_dai.c | 189 ++++++++++++----------------
- sound/soc/ux500/ux500_msp_dai.h |  14 +--
- sound/soc/ux500/ux500_msp_i2s.c | 264 +++++++++++++++++++++++++++-------------
- sound/soc/ux500/ux500_msp_i2s.h |  12 +-
- 4 files changed, 271 insertions(+), 208 deletions(-)
----
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-change-id: 20260825-ux500-msp-fixes-58d434a9bac3
-
-Best regards,
 -- 
-Linus Walleij <linusw@kernel.org>
+2.55.0
 
