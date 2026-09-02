@@ -1,51 +1,56 @@
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92F74A43E6;
-	Wed,  2 Sep 2026 15:04:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09CE13C09EC;
+	Wed,  2 Sep 2026 15:07:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788361468; cv=none; b=ClsE3tNl3rBRYPwgDeXkZtz3vZTlPHTvRwiHcnHX4DYfidxUZg4r1OPRdHwjFJUHc5L2NabURsvjCItAj7ufueZRWCtTkMqeQt7llzt6XgTJH7IY8GMBcihGNq/2LdnErUwb2iw13JfsOTD13hAI8tmpYi9RFTOqbMySmLgeXyc=
+	t=1788361633; cv=none; b=sl+gtd7ns6u4AQTozg9bQX0UCPquc2ekrENmWVkb4Ruv2xE1E2wylfUW6zQAoqRUX1OpncCaMeqgIlqIlZNMlAQ+iJLG8YQMjZg/FZFhJazQki4R9cdTEIVg6kRhh2Y3a8Br4llx+CQc14lEjGOOlhWjtj25g7X5j76e4D8DGqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788361468; c=relaxed/simple;
-	bh=im94DVWZ0Aif6PW6gjLHwppZIEGICQZ5GzmUEIfDZg0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=anEVQsKYUrZ54WuYhvuVC6t038zHieMS7AC5oR0qx79l6p42mzAKnLDv8IHP/Gi3K6dVuBR5WlkU73kIcT+Gsno3kCGBuA+aZx4rh4eFTLEFURh1TuNd3rgKKTNrtwVmHEcGaCFwE1KtyxZHVr9shaiy1tjOb0p4tcTSpnOz2zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=TOoKcc0m; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FSFPQj+w; arc=none smtp.client-ip=80.241.56.151
+	s=arc-20240116; t=1788361633; c=relaxed/simple;
+	bh=yCnnRcWapCdczB7keBL8DAHVXgAj6E2lTx3gTssvZwg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LfpT1RbuTVisGsQT0nMZROCJqV84SzD4WaqGdKKxRaLf/3rJ8LADtG5PLuKwmh9wNkveOr4hlcBoSd9JCtlw6Ft6IgL3+K8nY/UTLnr+lFEU19mp6zLkfr0njlslPDJ+lHMqlIumYVD0N4aw8WV9mdNapjNDo2u3hfNkMLiwYYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=QQOJaqUg; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=RoM+53kW; arc=none smtp.client-ip=80.241.56.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="TOoKcc0m";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FSFPQj+w"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="QQOJaqUg";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RoM+53kW"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hZmGb3tlsz8tCW;
-	Wed, 02 Sep 2026 17:04:23 +0200 (CEST)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4hZmKm5Js4z8v5k;
+	Wed, 02 Sep 2026 17:07:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788361463;
+	t=1788361628;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=UA1Cbp2Nct2X21vt+WfH57GW2d+OTNeGuA841+/ntHc=;
-	b=TOoKcc0mjIoUbmgYbMdoDpgX0E7PGnCAMjiVSdkALMzIw7wMb0lu/0x4mvxdtaR14Nh6Tv
-	MKgfoIxGL75ooxU4vlTf2PPY2cEciq4l/wV3Jyd3S9KcA6NROBh4O9acQV+wtUkTr8d2Ea
-	jY5Ht3WYubdAGp9qkLMkzws0D2eGgYPqENPJW2FR/6NMDASMHd20YWsvA9vqm7IOYxat6Z
-	A6TqDiFKH4yIRJw/pIUSIqZk8f2L0g2B1mdr7wLG59oiI6p/KxiSC94JPPtDgWr4a6rNk3
-	YvO9P+wVEmPU+wJiuIPgz7rnmGTPRGz65wRZ/Dvo6by7onXTNU/vTWuyIU2nzw==
+	bh=Hdf5EyBAZrRUJofDiVc1OMKsssxX7EJQUQgIzO7EwII=;
+	b=QQOJaqUgMM+65WTo8u7yZPtOQukF2Vr0DE2EI4mXADn4GhD6fVuDOao4uwhuqsF5UZBa8I
+	rgNiF2t+z45A94nNYci15gParqwCga5TXjKurW8G1pNvyjaGX8r9Vf7+8/Vx693wc+P49v
+	zm2I7bXUqk6j4n2yZ/RwPTFoaqziBMlm/F64nt6xc/j0PLJvNabThafu4zNIpKyG7Ulybp
+	3Ceyu11YKNn0e+jGvyUkAsUbYxRX6ou1SkGHjuyv112vKNN8oJjv+X6Rzy6qZybkf8FY8q
+	EVJJpU1cVkyJ4lNRZoCxyqF1U+U3ue8IjzjFAScXTJKakdz7VZRgKcrvIiZFYQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=RoM+53kW;
+	spf=pass (outgoing_mbo_mout: domain of manuelebnerli@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebnerli@mailbox.org
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1788361462;
+	t=1788361627;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=UA1Cbp2Nct2X21vt+WfH57GW2d+OTNeGuA841+/ntHc=;
-	b=FSFPQj+wwd0MPURnyqEfUzUDwEtxoiSHgzdOQ/fOHBZY68eUryMQmSDhx70pcDtqpC1i4S
-	1WkEVgvFO1x8cycv4/FYMAgKig0PRxVf3WMMT8cs8l4FVSEsdC22wD7Bq2ASNngCtvOQvO
-	ZsIWxtIye/9ylhv0HhELTDHzlj3ExxlbPt+fezMZgFotmh1OMHm1Ixf7HROBAJBFde1ktq
-	VLNW7+d79u7kRzeJogCO6Cnt4CcWkogszMfMzjrS2JeJW6qajFqGfCsE07yvYji+iodDep
-	AQ9NtR7fI0CDY1bmnUtbFdmIABsuDstoY8fYfKzs0sjFbsT94t8Zl0QwFtWjrg==
-To: Jaroslav Kysela <perex@perex.cz>,
+	bh=Hdf5EyBAZrRUJofDiVc1OMKsssxX7EJQUQgIzO7EwII=;
+	b=RoM+53kW9ZQtt+RlkuzsGneIZkPftWLFMFb1dqFUs1v611bTxCTZaXrmOdu4X993UNN0i1
+	HHCDUuLDRIzF4xsVZIs9jXoAjGGWbTcXUBCYhIYJ49R0F4gbnnJ/nTQM9bnizyPe9ALyDO
+	NdxZ0BNK3Y5VXs6bYO3qXhZ9DPhR6IrL8EkZt774dL450klg31wHxZwsOAoaDdgK8peIcx
+	3lv10P9F2d8bgRJVhaNySzmsmD6e2NTVV2mNgHo+l82mlY3bQcWWTr8MAgl+NTxGL3wxWK
+	G9aAEM9U7jnVVh5/gmD9fjss8HIJSVoV5rMkY53JI/R0FIAh7YeDrp77B0fBIg==
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>
@@ -53,9 +58,9 @@ Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
 	linux-sound@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: doc: hdspm.txt: Remove bracket
-Date: Wed,  2 Sep 2026 17:03:23 +0200
-Message-ID: <20260902150324.705863-2-manuelebnerli@mailbox.org>
+Subject: [PATCH] ASoC: doc: Fix bracket and move place holder
+Date: Wed,  2 Sep 2026 17:05:10 +0200
+Message-ID: <20260902150510.706055-2-manuelebnerli@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,29 +68,36 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 3qj86dayii6kg7zkafsjs6xyz6ikyrhe
-X-MBO-RS-ID: ef866ee09f7ea178e0a
+X-MBO-RS-META: rgdzf1xa75bgbz8auhuiaznegm3gwrk4
+X-MBO-RS-ID: baddc5f0cd909114df1
+X-Rspamd-Queue-Id: 4hZmKm5Js4z8v5k
 
-Remove needless ')'.
+Remove '{' and change place holder
+'< ... more DAI links above ... >' to
+'< ... more DAI links here ... >' and move a couple lines up.
 
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
- Documentation/sound/cards/hdspm.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm not sure if this fix is good, please review.
+---
+ Documentation/sound/soc/dpcm.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/sound/cards/hdspm.rst b/Documentation/sound/cards/hdspm.rst
-index 5373e51ed..ee157f351 100644
---- a/Documentation/sound/cards/hdspm.rst
-+++ b/Documentation/sound/cards/hdspm.rst
-@@ -367,7 +367,7 @@ Calling Parameter
- 	  note: each playback channel is mixed to the same numbered output
- 	  channel (routed). This is against the ALSA-convention, where all
- 	  channels have to be muted on after loading the driver, but was
--	  used before on other cards, so i historically use it again)
-+	  used before on other cards, so i historically use it again
+diff --git a/Documentation/sound/soc/dpcm.rst b/Documentation/sound/soc/dpcm.rst
+index 7b6aeab3c..91e0418e1 100644
+--- a/Documentation/sound/soc/dpcm.rst
++++ b/Documentation/sound/soc/dpcm.rst
+@@ -356,9 +356,8 @@ The machine driver sets some additional parameters to the DAI link i.e.
+ 	.channels_max = 2,
+   };
  
- 
- 
++        < ... more DAI links here ... >
+   static struct snd_soc_dai_link dais[] = {
+-	< ... more DAI links above ... >
+-	{
+ 		.name = "MODEM",
+ 		.stream_name = "MODEM",
+ 		.cpu_dai_name = "dai2",
 -- 
 2.54.0
 
