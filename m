@@ -1,133 +1,94 @@
-Received: from smtp153-168.sina.com.cn (smtp153-168.sina.com.cn [61.135.153.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4434829B766
-	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 09:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B45412BFA;
+	Thu,  3 Sep 2026 09:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788429351; cv=none; b=HJNKwKSPf49sx0jcm8FIqaN58p76ddKhBD2ZsX2bwlBcOhADQDZNoSneZablH/0nwABEFwbYjT7VtZI/dFl0Goj1BBEsNN3EAuNJFXbM2fuQHh9vS0XPXeKV3Fih3EmyKvaStPwdxjqux1q1/pzwCXQSY2a3+nwYKLnyqs3EbQM=
+	t=1788429444; cv=none; b=GeRsBusO4XsFguMFytHOyr9RWu/fPeEj1tnFUCq2J0z3+Cwm+yYjX3pp6XsKF/xWaokKZH66VTrvu8hdtSitM37fg0Y3ASF/BurpqyfMowRwEU7BAyPQ+tw2M+6sWpXnjptvRe4r0P2p4U00iaWZw0Ur9QtZXkVRHWMjeBslBXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788429351; c=relaxed/simple;
-	bh=QnnhI5Eo9glTNAqGmsmMrT6EvfWvtEwaG72G8WhNIEY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S1wWcZeN0nu9L3bquPKVtE6bON0WxIIcaNN33B3Rs6bRTHZWCuQZ64+oPGkFEv87pcKIdPZLQCYY4Cpywd1ZaLdWk/azIgHeJDIlAW+EJ8H3ZIKEFsAG4YkIoFOJyYYfe8mRZ8hVAcPw2jjta6GhI50dsuoZNF1kYebm/YTzdw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=M/pP3Fs6; arc=none smtp.client-ip=61.135.153.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1788429444; c=relaxed/simple;
+	bh=0zJB0oT4kt0u1wn9CpgMQ95Xoqj+X+RrL5SxUzT7/cY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dq/ZOJWSURfvRZfhU77NxMUbFvtK4v9CSN6NOufmCnah9v5lcWRDy3Yzzm8AQuXO2G66gi//ghbD4TjFGXjTZ2GurXJXDeiHEOC3hpRYCgCVsSdKKulWdemC51+D2GS6lBAiIKg7yGGXXaQzfC9Wsl7bXU/dJoe+5bcqHlNXbPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nDXQYljP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="M/pP3Fs6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1788429345;
-	bh=2JORN2nrJ441vcGPDBpQZri1+/lN2DT6GNbvVKEQ6Ko=;
-	h=From:Subject:Date:Message-ID;
-	b=M/pP3Fs6w5NxzfDL6jarNXnfYKgbHPqk1NohBC15bxx9uhwQRDMJ2n+RsDyYkAb/I
-	 dXlqjEg1zJBrTwIpl+YenkO9cFSOwA3TdiHMcU+c54iFgdiArXX6rnGV6+7CpqyALb
-	 VkGvPRVxVBlex5ONMWq7YB/8jV4D8mER5pEwMuHU=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.62.194])
-	by sina.com (10.54.253.33) with ESMTP
-	id 6A994419000064C9; Thu, 3 Sep 2026 17:55:40 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 8448236685242
-X-SMAIL-UIID: 8D7F7C77A2FA4BD4ACDB80B6024E9B0F-20260903-175540-1
-From: Hillf Danton <hdanton@sina.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: syzbot <syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com>,
-	linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Daniel Mack <zonque@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Write in usb_free_urb
-Date: Thu,  3 Sep 2026 17:55:25 +0800
-Message-ID: <20260903095527.2048-1-hdanton@sina.com>
-In-Reply-To: <20260903112417.21b76017.michal.pecio@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nDXQYljP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC401F000E9;
+	Thu,  3 Sep 2026 09:57:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788429443;
+	bh=bRNFYPRZsbDCetzN2gVQ/oeYpcjMrmA9gbbBr7n+CBA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nDXQYljP4r81aMX8xh/VF0cxK3WLx+c+7gtolXArRiMdngqFgMTqYvJoluYF/7489
+	 YD3hJ8r9CMfREGQZAz4zw3d8iq42hOBFREUFC+YhLiJ8uqihWylVYYZ5FBoav9O064
+	 S7OHr2DLwAUwvQM/tIuMWygEh8BULHeGDdq9wedpn6TeLnwlpw5jAfLTfQ4pKXpSz1
+	 EaikJV6Lw4NgVU22iChK/Qerc/AZyIs97hCNQVM8kNb6IBLXGFAlbhWDY79nwF0ZdL
+	 mQy58TEVKMPiXlj8J1Ys/jdxr9nFnuEqh/v7cVWqwGOMuPjJQmwvGUYAx76oPRR5iB
+	 OHpBcMaFp5Pig==
+Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
+	id D8092D89935; Thu, 03 Sep 2026 10:57:17 +0100 (BST)
+Date: Thu, 3 Sep 2026 10:57:17 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Diogo Ivo <diogo.ivo@bootlin.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Animesh Agarwal <animeshagarwal28@gmail.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5677: Add clock property
+Message-ID: <aplEfd33wSz59iLS@sirena.org.uk>
+References: <20260903-rt5677-mclk-v1-0-b71a5a3533f9@bootlin.com>
+ <20260903-rt5677-mclk-v1-1-b71a5a3533f9@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Lk5moJp7C7aAQOiL"
+Content-Disposition: inline
+In-Reply-To: <20260903-rt5677-mclk-v1-1-b71a5a3533f9@bootlin.com>
+X-Cookie: Orders subject to approval.
 
-On Thu, 3 Sep 2026 11:24:17 +0200 Michal Pecio wrote:
->On Tue, 01 Sep 2026 22:09:33 -0700, syzbot wrote:
->> syzbot has found a reproducer for the following issue on:
->> 
->> HEAD commit:    786262be6048 Merge tag 'edac_updates_for_v7.3_rc2' of git:..
->> git tree:       upstream
->> console+strace: https://syzkaller.appspot.com/x/log.txt?x=12a28125580000
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
->> dashboard link: https://syzkaller.appspot.com/bug?extid=832ce9fa3face1b7d44d
->> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
->> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1735af79580000
->> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=135b7f79580000
->> 
->> Downloadable assets:
->> disk image: https://storage.googleapis.com/syzbot-assets/c3e528ebf709/disk-786262be.raw.xz
->> vmlinux: https://storage.googleapis.com/syzbot-assets/46f3418d2828/vmlinux-786262be.xz
->> kernel image: https://storage.googleapis.com/syzbot-assets/60ab8a27c4f7/bzImage-786262be.xz
->> 
->> IMPORTANT: if you fix the issue, please add the following tag to the commit:
->> Reported-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
->> 
->> usb 1-1: received EP1 urb->status = -2
->> ==================================================================
->> BUG: KASAN: slab-use-after-free in instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
->> BUG: KASAN: slab-use-after-free in atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
->> BUG: KASAN: slab-use-after-free in __refcount_sub_and_test include/linux/refcount.h:389 [inline]
->> BUG: KASAN: slab-use-after-free in __refcount_dec_and_test include/linux/refcount.h:432 [inline]
->> BUG: KASAN: slab-use-after-free in refcount_dec_and_test include/linux/refcount.h:450 [inline]
->> BUG: KASAN: slab-use-after-free in kref_put include/linux/kref.h:64 [inline]
->> BUG: KASAN: slab-use-after-free in usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
->> Write of size 4 at addr ffff88803cee1050 by task ktimers/1/29
->> 
->> CPU: 1 UID: 0 PID: 29 Comm: ktimers/1 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
->> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
->> Call Trace:
->>  <TASK>
->>  dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
->>  print_address_description+0x55/0x1e0 mm/kasan/report.c:378
->>  print_report+0x58/0x70 mm/kasan/report.c:482
->>  kasan_report+0x117/0x150 mm/kasan/report.c:595
->>  check_region_inline mm/kasan/generic.c:-1 [inline]
->>  kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
->>  instrument_atomic_read_write include/linux/instrumented.h:112 [inline]
->>  atomic_fetch_sub_release include/linux/atomic/atomic-instrumented.h:400 [inline]
->>  __refcount_sub_and_test include/linux/refcount.h:389 [inline]
->>  __refcount_dec_and_test include/linux/refcount.h:432 [inline]
->>  refcount_dec_and_test include/linux/refcount.h:450 [inline]
->>  kref_put include/linux/kref.h:64 [inline]
->>  usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
->>  dummy_timer+0xaac/0x4d50 drivers/usb/gadget/udc/dummy_hcd.c:2019
->>  __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
->>  __hrtimer_run_queues+0x3eb/0xaf0 kernel/time/hrtimer.c:2124
->>  hrtimer_run_softirq+0x1e1/0x2e0 kernel/time/hrtimer.c:2141
->>  handle_softirqs+0x1da/0x6d0 kernel/softirq.c:645
->>  __do_softirq kernel/softirq.c:679 [inline]
->>  run_ktimerd+0x6a/0x100 kernel/softirq.c:1183
->>  smpboot_thread_fn+0x565/0xa70 kernel/smpboot.c:160
->>  kthread+0x38b/0x470 kernel/kthread.c:436
->>  ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
->>  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
->>  </TASK>
->
->[Adding sound people]
->
-> So what happens here is that USB core continues to use a URB after
-> completion to implement things like usb_kill_urb(), so URBs are
-> reference counted. Then core decrements the count - one more use.
-> 
-> If a driver waits for completion or even usb_kill_urb() to return
-> and then proceeds to free the URB's storage, this becomes a UAF.
-> This driver embeds 2 URBs in its priv and does just that.
->
-Given dummy_urb_dequeue(), the dequeued urb should be tagged not to
-be handled again in the dummy_timer callback instead, just my $0.02
+
+--Lk5moJp7C7aAQOiL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Sep 03, 2026 at 12:11:00AM +0200, Diogo Ivo wrote:
+> Add a clock property as the RT5677 codec can be fed an
+> external clock signal.
+
+> +  clocks:
+> +    items:
+> +      - description: phandle and clock specifier for codec MCLK.
+> +
+> +  clock-names:
+> +    items:
+> +      - const: mclk
+
+The driver code has a reference to MCLK1 which implies multiple MCLKs,
+unfortunately no pinout seems to be available and other references in
+the driver are just to MCLK so it could be cut'n'paste.
+
+--Lk5moJp7C7aAQOiL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqZRHkACgkQJNaLcl1U
+h9Acngf+Oxwzx8pflcjt6BCITldOMzGbYDTqvnQzzB5zpR7bp0RqxF+EtiOB9/DJ
+0ZMHWdSp097jtVU83mdD4b3H+7g+c4tm4e/NCtODFjNBkPBMk98rJm4FlMdGRWDE
+iiaaHWxusWm56M5XHS6KGhpxAx5GAXIxS9i95nfmztoO9hXNib+DNg88/mSRNfLl
+DNtrtfIatp+z1fDgxZ/xzg9YIMUy4udD7jPxWvmRTOGG6KlGUuRSofk34u4jyrHj
+wd9MrsD1XtWDORtidYcgcZ6cil+9LYlP/EjF2qZTa3iH9FKSdUOLF7tHSsG1U1sy
+yuCQOpf+tvEHTJqgr/WrLl6CBnN2pQ==
+=2vkM
+-----END PGP SIGNATURE-----
+
+--Lk5moJp7C7aAQOiL--
