@@ -1,115 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B32400E19
-	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 11:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883DC43E484
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 11:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788433669; cv=none; b=VdWFXcsLMQspNIQTKE2wmR59sAIG+k2doSFB1OQL5/ihn3P3b+8Duj/6xfmD+O7UcRH8BoDQDZz5v/uBvj/gceh703yvBm6J+ZfKFHG5AQxpS471kHs9ZmjdUfyb8B53LwmgvnzK2Z2w2ZPotCCVyu9LsWNgHL/VSSE2qmgA/5Y=
+	t=1788433686; cv=none; b=nGvCBdDguaARg3DT52NdSaGrE3ljlnMGlKZu7npwh5qk7qAmTcaoiQ0ipnhIKH+M5BONZM+GbiINs+Y2fcLssZgv1pH6ZTKjHO2EKngPiUIbUY0rcC+iGW0SX/7FYUulFrvD1h14GiyN4UlrQWmk6mFJiy39C7mx7yq3d6KMpfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788433669; c=relaxed/simple;
-	bh=c9/nLltMtqv6BL4+pntltBr542j4ifksHZuNTY8p9Q0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MQinuKIXin77UXzGlE6E3Vz689x7UDMt9/hpj9IXMrdMSnXGcOIjZApOLKxcL7n+I+OFUCwJ9U8wEFcYNqfEU428SIaP53OVPWLufrcK3ggHWtwuZUgA4URrBghIFnXB7pzjK+qKkMzvZjKkuwEE2z7tsY+UR07JeOZgK7lNYmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TTMt4GsY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788433686; c=relaxed/simple;
+	bh=rvqfTzgF9DKFA+Yqp28q1VjR4vNSXYyHAnl0lXZrYB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=s6Bwl2yBnhalY73t1d6yrqT4a1gcooSW+L2NqHtz2gnP3gAgMAq7cp20yNsJhzLVkXJG4u3dg9L2dBbFluZtESZVXnnhBYJqmFZHSK7niRCVdVgV5WHapHDz6YuI/obR+aSB9iZkPbSqghNCAZIrUeMeUiBnv9qyUIFWlEyVC40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fhg/cmb4; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TTMt4GsY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 659E11F000E9;
-	Thu,  3 Sep 2026 11:07:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788433667;
-	bh=opnJs1NGnlxunljz4jGYliV4+zj9bQ6PKOeSnGWMa1g=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=TTMt4GsY4R/igqim0LmX/0ZS92ml0w6C6kGadtnI1YKutZI1QaPcG8QQ3MpuAIVm2
-	 rU4o5fu36F9ugwwHKYxIYglKSZazBq3iX7OW01LY1X0DYpknOxUZaQwtDM8eQ7ihUQ
-	 O/fH1f7TE4xVKo3wDEXiBX4QW9PRAu97VUTfYClJGXYR/f41ViL6drevfekdWq/CF+
-	 vMglfeum+w94quXnkZn3ZidJHgsF6wIMRJlXEfmUs+ofm7qSkC32i9ZkkW22AzviDK
-	 B57J4CgWS1/Rox2DNOgzfbnTt8Wn/ET7l2ziAQtBxcRXVlFN8EuWEIcKa2O39G538/
-	 2Uha1BoJAiY+A==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Linus Walleij <linusw@kernel.org>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
-References: <20260902-ux500-msp-fixes-v2-0-4b60b002d55a@kernel.org>
-Subject: Re: [PATCH v2 0/9] ASoC: ux500: Fix MSP lifecycle, clocking and
- resources
-Message-Id: <178835028439.33904.16187219005738622445.b4-ty@b4>
-Date: Wed, 02 Sep 2026 12:58:04 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fhg/cmb4"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49ccfbe062eso17910205e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 04:08:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788433683; x=1789038483; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CaxK+DYJmfoOuwo2W3mmfOdgw6rS/SBlQdw3Z3QKNfo=;
+        b=fhg/cmb4CEhcMhNc1UVyMeqIZt2ScWuqrUtYFHJjRtzZxVHkVDnNFA6dib2vRuMns1
+         aXBCJM9cbZeVvQSJ5WamyPOAL2mlqJlElhULAPV3rM4AzBAZByiHh7lL9+J+mAjbdRPV
+         UcPTAvzEKclChA0lEv8klicIXdbeNq78YgKHFNngtAOdQqGZsL0XWn3SBF1bC8sMD0JB
+         VDXVYyY1cK/vM3wtxPepsEnuyHIYLHoFNHqbWFEU94NK9DIaSgCjso5JpDIZ1yq4b1Gn
+         DyWQ/1NUHIDEtaV3kt60mt2MCGB0Nr0ZJ57rUt9dpcyA67Q+K748wIJXPQ601BYYh7OS
+         BMiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788433683; x=1789038483;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CaxK+DYJmfoOuwo2W3mmfOdgw6rS/SBlQdw3Z3QKNfo=;
+        b=bJsIceh42fUEBerliUjYZIylnefDphqDQgnCShCtF356lujd2IXElwETTXA+cu0LCk
+         pH+eOZJwkks6uxAf6O/1iHichotagJTzO6MEjSaawz2jssJu3Ahy6YBRZQp9mIm/+9q5
+         vSB4+Qj8+hAOWbLC9qbmBv1u07CIS0dQkHRtxdLCxLu6vscM+JKwxGKPxG2aPrU4xp/W
+         Y1Iy1O4trZbybNO1tbbqve6TTHLApuEvBdE1Uc7qZAD57ihY0iqkcSY3qRPM+mH3E0uC
+         DB+eMiWaVIedJ8M2vqXBWFf3i61fyjvAKx1b/JAkwFmMCmpDo9dH2UHhx5cHSWAkUZ43
+         PXDw==
+X-Forwarded-Encrypted: i=1; AKwUvByAExMCBWoXXf+iIbjvCw53VWC3fzi/44yEWsyTUwqmcBCP8kvrSW6xH4kpP33qtMG5pgdHreYNi2aNkA==@vger.kernel.org
+X-Gm-Message-State: AFuF++kf05l1V2EYOBO/vZ/fvkVxE4f/CaOrTcn873GmBroSSgrgkXQ4
+	KTBJ7F1h7QtOyHXnyeWlj46jYXZKg/TGIY+Z3SjqCmCzSCD37njjsXbx
+X-Gm-Gg: AYBFou083PMzRBJ7jJFx/HNGA+VNN9oBsn+XdIzSMSm6Xz2XUP3vkUk9LT0Jpd7UD30
+	wpX5TOjR/PS2/66ou9+2EN1hhFQds+UqmAMxdE4uBZO9usId74EjFFRBB48RxIaljYjMtpyJEMI
+	J280s4epFhcWZ6Fjap1tBJHv8eKiLVHacQtzaCP6wnC2suNzu02g0kBKPVHqDy7uWEVA1/f52Yr
+	OMMLUK/YEtqMYUyxCbgwSDscsQAn1dVEdleIpxb0VETP02dSS1CA5lIbaj0ARcTiEtbiJ0M6rJT
+	LW1QLg8ZAoxmSa5hkCSA/TpKyS9ztXsRTdZ8fEqJZz8FVLk0dnl6/HC4HMmsNhEMnSm+37O/td/
+	raTlGdCLhxpMPoC25zjttGi8TFl/Oqrq1UaAwziOu5/9k8z2kixL/unpmf0MzJTRXawLfcpWGwT
+	+597ywGzBYTemN9Omt8bpE4b9F4xHgyls1J3bYF+b/NeZlOJ1/69vdgVSr5ZHxUu0w19pmvA==
+X-Received: by 2002:a05:600c:4ed1:b0:49c:cee2:a508 with SMTP id 5b1f17b1804b1-49ce582984dmr169781305e9.16.1788433682585;
+        Thu, 03 Sep 2026 04:08:02 -0700 (PDT)
+Received: from foxbook (bfg95.neoplus.adsl.tpnet.pl. [83.28.44.95])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448eea5b4sm13400768f8f.27.2026.09.03.04.08.01
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 03 Sep 2026 04:08:02 -0700 (PDT)
+Date: Thu, 3 Sep 2026 13:07:57 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: syzbot <syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com>,
+ bolewara@gmail.com, devnull@kernel.org, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-usb@vger.kernel.org, mchehab@kernel.org,
+ syzkaller-bugs@googlegroups.com, Daniel Mack <zonque@gmail.com>, Takashi
+ Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: DIY allocation or embedding of URBs in larger structures
+Message-ID: <20260903130757.0668310a.michal.pecio@gmail.com>
+In-Reply-To: <87o6ee8y9e.wl-tiwai@suse.de>
+References: <6a6e9502.f794c993.27aeb.0018.GAE@google.com>
+	<6a97af8d.27a413cd.1e878c.0004.GAE@google.com>
+	<20260903112417.21b76017.michal.pecio@gmail.com>
+	<87o6ee8y9e.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2392; i=broonie@kernel.org;
- h=from:subject:message-id; bh=c9/nLltMtqv6BL4+pntltBr542j4ifksHZuNTY8p9Q0=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqmVT/91q4Xf3R/Sy27ReG7UbDYxk8xSJKrdCNT
- RE49TqT3+eJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaplU/wAKCRAk1otyXVSH
- 0GahB/0exkRo7yHLAcVHM9D9tHlDTGxTtRjMFbUuneN1ASVzXDBsYpn3L5sKs21FcR9Ahl37GMO
- vlsS8lukMt8scO8nCg+mwd1ZX9qUboujOEQNKYO1K6uyRYaPztMmRHN/cus/8mE17mrwm0ua5k3
- ehNV2H42KhWnypY1poX9zNsAnkJEH9zxpd2NSVwveBfgs2GkMSFko9ziTCCViak07ADqzpFrIwb
- i3P89w6FaEj8a7x7ICjHjUhv4WQAnp4OS0tzKunj2ul3vcQm85AvN8zx+oxA+MrFnGwXOX3Dja+
- GMQgs6YjWtlN/L4vbf5s77Tm7gb7wwzlqYUExL0T+K95eafD
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Wed, 02 Sep 2026 09:55:50 +0200, Linus Walleij wrote:
-> ASoC: ux500: Fix MSP lifecycle, clocking and resources
-> 
-> Repair independent correctness problems in the DB8500 multichannel
-> serial port driver. The series fixes duplex and repeated-prepare stream
-> ownership, error propagation, frame and divider programming, FIFO
-> watermarks, DAI validation, reset handling, and MMIO resource ownership.
-> It also removes obsolete PRCMU QoS calls which are unconditional stubs.
-> 
-> [...]
+On Thu, 03 Sep 2026 11:44:45 +0200, Takashi Iwai wrote:
+> On Thu, 03 Sep 2026 11:24:17 +0200,
+> Michal Pecio wrote:
+> > So what happens here is that USB core continues to use a URB after
+> > completion to implement things like usb_kill_urb(), so URBs are
+> > reference counted. Then core decrements the count - one more use.
+> > 
+> > If a driver waits for completion or even usb_kill_urb() to return
+> > and then proceeds to free the URB's storage, this becomes a UAF.
+> > This driver embeds 2 URBs in its priv and does just that.
+> > 
+> > A URB can only exist as an independent allocation, core will free
+> > it if upon finding zero reference count in such case.
+>
+> So, IIUC, now the URB *must* be always allocated via usb_alloc_urb()
+> and an embedded URB isn't allowed?  If so, we'd need to address other
+> drivers, too.
 
-Applied to
+Yes, that's basically the case and actually has been for a long time.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.3
+The only thing that works is for both USB and the driver to call
+usb_free_urb() and whoever does last will actually free the storage.
+This means URB can't share storage with anything else.
 
-Thanks!
+Some drivers got away with making URB the first member of a struct
+which is freed together with it. AFAIK this pattern doesn't crash, but
+it's deprecated too because it puts a flexible member (in the URB) in
+the middle of (the outer) struct.
 
-[1/9] ASoC: ux500: Fix MSP stream lifecycle handling
-      https://git.kernel.org/broonie/sound/c/c37ba8fe00f2
-[2/9] ASoC: ux500: Propagate MSP setup errors
-      https://git.kernel.org/broonie/sound/c/3415421a2b0b
-[3/9] ASoC: ux500: Correct MSP frame and bit clock setup
-      https://git.kernel.org/broonie/sound/c/94c18cea657c
-[4/9] ASoC: ux500: Validate MSP DAI configuration
-      https://git.kernel.org/broonie/sound/c/9ccbacf5a012
-[5/9] ASoC: ux500: Deassert the MSP reset during probe
-      https://git.kernel.org/broonie/sound/c/66ec63e7a90b
-[6/9] ASoC: ux500: Request the MSP MMIO resource
-      https://git.kernel.org/broonie/sound/c/4fb67925f33a
-[7/9] ASoC: ux500: Remove obsolete PRCMU QoS calls
-      https://git.kernel.org/broonie/sound/c/7b819677b503
-[8/9] ASoC: ux500: Allow repeated MSP prepare calls
-      https://git.kernel.org/broonie/sound/c/dc1a1b1e2206
-[9/9] ASoC: ux500: Program the MSP FIFO watermarks
-      https://git.kernel.org/broonie/sound/c/2519439b4b5f
+This pattern here in caiaq has always been one race away from UAF.
+Maybe it wasn't very likely to happen, but stuff like PREEMPT_RT and
+hypervisors can insert unexpected delays anywhere these days.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Greg KH puts it thusly:
+https://lore.kernel.org/linux-usb/2025120716-sway-hypnotic-8cb6@gregkh/
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Reragds,
+Michal
