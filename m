@@ -1,94 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B45412BFA;
-	Thu,  3 Sep 2026 09:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDBF411A1A
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 10:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788429444; cv=none; b=GeRsBusO4XsFguMFytHOyr9RWu/fPeEj1tnFUCq2J0z3+Cwm+yYjX3pp6XsKF/xWaokKZH66VTrvu8hdtSitM37fg0Y3ASF/BurpqyfMowRwEU7BAyPQ+tw2M+6sWpXnjptvRe4r0P2p4U00iaWZw0Ur9QtZXkVRHWMjeBslBXc=
+	t=1788429666; cv=none; b=LFg2PlofAFi5pJngl8Dz9UZqNarDM8+3VyUA3zFIV1iXFx0rNYvJCmBhsd9ukJdEs1KqpV+tdYvztOtPEpf84Q36rRj9dKBT1p7aPdte8F5tblNrnNpErES5iysD8GQmhoLgCYlvu3rEcE+9WFZZzj+wGJDCXGWgMADXFYyOOTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788429444; c=relaxed/simple;
-	bh=0zJB0oT4kt0u1wn9CpgMQ95Xoqj+X+RrL5SxUzT7/cY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dq/ZOJWSURfvRZfhU77NxMUbFvtK4v9CSN6NOufmCnah9v5lcWRDy3Yzzm8AQuXO2G66gi//ghbD4TjFGXjTZ2GurXJXDeiHEOC3hpRYCgCVsSdKKulWdemC51+D2GS6lBAiIKg7yGGXXaQzfC9Wsl7bXU/dJoe+5bcqHlNXbPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nDXQYljP; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nDXQYljP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AC401F000E9;
-	Thu,  3 Sep 2026 09:57:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788429443;
-	bh=bRNFYPRZsbDCetzN2gVQ/oeYpcjMrmA9gbbBr7n+CBA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nDXQYljP4r81aMX8xh/VF0cxK3WLx+c+7gtolXArRiMdngqFgMTqYvJoluYF/7489
-	 YD3hJ8r9CMfREGQZAz4zw3d8iq42hOBFREUFC+YhLiJ8uqihWylVYYZ5FBoav9O064
-	 S7OHr2DLwAUwvQM/tIuMWygEh8BULHeGDdq9wedpn6TeLnwlpw5jAfLTfQ4pKXpSz1
-	 EaikJV6Lw4NgVU22iChK/Qerc/AZyIs97hCNQVM8kNb6IBLXGFAlbhWDY79nwF0ZdL
-	 mQy58TEVKMPiXlj8J1Ys/jdxr9nFnuEqh/v7cVWqwGOMuPjJQmwvGUYAx76oPRR5iB
-	 OHpBcMaFp5Pig==
-Received: by traversing.sirena.org.uk (Postfix, from userid 1000)
-	id D8092D89935; Thu, 03 Sep 2026 10:57:17 +0100 (BST)
-Date: Thu, 3 Sep 2026 10:57:17 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Diogo Ivo <diogo.ivo@bootlin.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5677: Add clock property
-Message-ID: <aplEfd33wSz59iLS@sirena.org.uk>
-References: <20260903-rt5677-mclk-v1-0-b71a5a3533f9@bootlin.com>
- <20260903-rt5677-mclk-v1-1-b71a5a3533f9@bootlin.com>
+	s=arc-20240116; t=1788429666; c=relaxed/simple;
+	bh=ryInLUjJI32PSk+T2NMhpSbpKFvxq0wpSaolLnU3XEs=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=EMd+sySf2vsk3eCreXI+0Bi1Qf+OnR8eA1QgXQixuihX4kCILaJ+TEIU1f9N4LgCo35fgGkFloIuay71awH5zmeBvetwOjPEtkkXNyvRbhfIaWbnDWWbRxtaLtsokke+1xzIZh+6hUiNBkYo9TiKsa6QiNeKOeJ8wSUnfQxpAMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7f66ceea676so2709967a34.2
+        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 03:01:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788429663; x=1789034463;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5+izbsP1CRuSYp7hZOU5ThuvWBJhaTYyEvZXcdhmlzg=;
+        b=SzQtpbY/QSye0/wSJCKVU4T5zDFvnf8KyGrrHIK9+olwXQhcQh383LFZnSqIzwqatk
+         aB0wlF3sntR1tGbXEcamr5hBk7FJrkeFB1Z2aXzlPYaK6xZayHEHYP02G6XS5/7M0j6Y
+         wB1PL9Tc9oSDHcTjEpoVl8hWYAvTL1B9TCycDjPpX3w5uSkA2t/wGJa2eNfc7rdtzrku
+         B17r623Y62Yy8xzQY+G1zSwyrOzkXpy9raqVrEwJ+9vk6xoMbyKCFqFtJvA7HGnM5JfH
+         t/A3NXcsr5ZQe9ENjQLoSVv6eGt36Bh4QSRLji6m6hwpeUIH3QwCfE/LAj5ULjLsssdb
+         joow==
+X-Forwarded-Encrypted: i=1; AKwUvBxKw9CmsbnRwY2VNidZ+jq92M5sPWQJZzpytnOvKPXTHRcLYhhObDCBG6/SxrBk4HyjJVpRTHyj21LwYQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++lhS8APhW5vUigIsYxbcmUtxDcy11etH6inIgoBIlixh8RK1jmX
+	07NIk8U4KAYxtrTN8w4nUVMHBnByOulEMvCPqzpo9FT9d8Q00fXkLPOIih/124zhGvKFLTF0wy1
+	OROvVBmHk2maNE10tDhGuCVCVAp/mV2ticuxxbErmftH6yQLBQPPLKzBtsQM=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Lk5moJp7C7aAQOiL"
-Content-Disposition: inline
-In-Reply-To: <20260903-rt5677-mclk-v1-1-b71a5a3533f9@bootlin.com>
-X-Cookie: Orders subject to approval.
+X-Received: by 2002:a05:6820:f004:b0:6a3:1dc5:3570 with SMTP id
+ 006d021491bc7-6b47eed58c0mr8176756eaf.31.1788429663005; Thu, 03 Sep 2026
+ 03:01:03 -0700 (PDT)
+Date: Thu, 03 Sep 2026 03:01:02 -0700
+In-Reply-To: <20260903112417.21b76017.michal.pecio@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a99455e.9266084e.bf0d7.01fa.GAE@google.com>
+Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Write in usb_free_urb
+From: syzbot <syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com>
+To: bolewara@gmail.com, devnull@kernel.org, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, mchehab@kernel.org, 
+	michal.pecio@gmail.com, syzkaller-bugs@googlegroups.com, tiwai@suse.com, 
+	zonque@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hello,
 
---Lk5moJp7C7aAQOiL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-On Thu, Sep 03, 2026 at 12:11:00AM +0200, Diogo Ivo wrote:
-> Add a clock property as the RT5677 codec can be fed an
-> external clock signal.
+Reported-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
+Tested-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
 
-> +  clocks:
-> +    items:
-> +      - description: phandle and clock specifier for codec MCLK.
-> +
-> +  clock-names:
-> +    items:
-> +      - const: mclk
+Tested on:
 
-The driver code has a reference to MCLK1 which implies multiple MCLKs,
-unfortunately no pinout seems to be available and other references in
-the driver are just to MCLK so it could be cut'n'paste.
+commit:         940de590 Merge tag 'hardening-v7.3-rc2' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13da7c15580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b454dc6b1b7acd30
+dashboard link: https://syzkaller.appspot.com/bug?extid=832ce9fa3face1b7d44d
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=15527c15580000
 
---Lk5moJp7C7aAQOiL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqZRHkACgkQJNaLcl1U
-h9Acngf+Oxwzx8pflcjt6BCITldOMzGbYDTqvnQzzB5zpR7bp0RqxF+EtiOB9/DJ
-0ZMHWdSp097jtVU83mdD4b3H+7g+c4tm4e/NCtODFjNBkPBMk98rJm4FlMdGRWDE
-iiaaHWxusWm56M5XHS6KGhpxAx5GAXIxS9i95nfmztoO9hXNib+DNg88/mSRNfLl
-DNtrtfIatp+z1fDgxZ/xzg9YIMUy4udD7jPxWvmRTOGG6KlGUuRSofk34u4jyrHj
-wd9MrsD1XtWDORtidYcgcZ6cil+9LYlP/EjF2qZTa3iH9FKSdUOLF7tHSsG1U1sy
-yuCQOpf+tvEHTJqgr/WrLl6CBnN2pQ==
-=2vkM
------END PGP SIGNATURE-----
-
---Lk5moJp7C7aAQOiL--
+Note: testing is done by a robot and is best-effort only.
