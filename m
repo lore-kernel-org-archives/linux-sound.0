@@ -1,36 +1,40 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E4439A4D6;
-	Thu,  3 Sep 2026 21:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBEE175A7B
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 21:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788470086; cv=none; b=pKXOKLVYMA76/IBuNF8aNQk7diWbWW0IZNhw+wR7IxVi4P5amHusnkbzBXf/m2hkvsjYGnxsAs+ErU2F1xFnjHaXqiIuPdoWgyXTSfTx7o/P1OT2/yKg+31k1XhXOJ7UPBIPYMJf+JBTVNrpAJq0T9d2R38KEiG+HUVbBWe1zBo=
+	t=1788471229; cv=none; b=eeB9KPyamj7xmtYiv7MrBHmyMzwFexpftTwJ564Kw6ocbsVIj3rjiRnsDx9xmMN2yBicTJwNCq6phzda7nAw1rj4p5ivzIT3GBwpKh56OMwfHKTGw208vhnnWqLUThrvEfjP3SfO7HqYnO/bcygl74LF/kPeUYmfiN94A2ldFgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788470086; c=relaxed/simple;
-	bh=yzce8FF3PyDdb5RQtEjJfbqeXqKMx5wRV8Hd5Zq8t08=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JfnNw3ovE5SZXHURoiN9QP6sj/wg17lJtf86hD1TdD9iPZCEfV86YQS/EoAPiHCMAGXKl7jtwHvE1CwW35VIL2yKDMlVdwxND64IsITsFRaUo2mtkVZlpOAXqlZ/3NL14g+zL3WlhEM0x82sIw00atgz64IVLNrzk8dqoB4Bf+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SyynRAsX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788471229; c=relaxed/simple;
+	bh=pxwQhb+YlcG9/36luVwwMgRpYsioxEYXyawj+ITjFH8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ppis8bRPySrJarCNh38cJQnK+rXbc0hldz24LYqlZ9PQwMMzaJERKohgGIVGiR+X9mqk4Qx/jROky78er7PhRotjnfO0F2B8fJ4ID7iYXBHqeOcRRECa+OC2HBQLVvEmhlNQwSkWls5wZvGl9cGGdq0FqhLgqNTuIRjWhR74kc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dm3rIcXL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SyynRAsX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E907FC2BCB8;
-	Thu,  3 Sep 2026 21:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788470085;
-	bh=yzce8FF3PyDdb5RQtEjJfbqeXqKMx5wRV8Hd5Zq8t08=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=SyynRAsXw8WE+yZUw7IOMPSnAtIqgNa2Hv+OTJcVf5/oya6WKp8sKrXnO+4lgJWeM
-	 NaWlvMwtpGpP9Fb77U1pSvLTy4pBW1SS1awTGNO7EamkN/EE70y3xarw3BZ7eFTXRS
-	 uRj3NOTU9iuENE9lLcFToET9Q2rJqOtPz+OEgFRR14nrtGtIfUEnrh12siDzlm0uRR
-	 RwZBUR5V1+w5jaPGxKPwfBna+kH6b+Dfw2O7IWAzab3CQ/ibUbcDd9vuaNlU1Aq8Fe
-	 O/Bg8yUI9uEJURQloEAn/HuQLCs22uKlIR4lXZYQ9aIf59qA5VKLVo22zY0TFqX+Qw
-	 HKIcIT2RHn7FA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6198C61DD3;
-	Thu,  3 Sep 2026 21:14:45 +0000 (UTC)
-From: Roman Prucha via B4 Relay <devnull+zorgan.roman.gmail.com@kernel.org>
-Date: Thu, 03 Sep 2026 23:14:44 +0200
-Subject: [PATCH] ALSA: ctxfi: Fix CA20K2 S/PDIF passthrough
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dm3rIcXL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAD3B1F000E9;
+	Thu,  3 Sep 2026 21:33:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788471228;
+	bh=opqiP5VtFjBm4ZZQYQOc/K4qOIdstY1ksgmtJewl6gs=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=dm3rIcXL0QDG5O3Si9bbkIhg8iL15PSa/s+/990JslUhGUgdfNWUDL0DnqdxDa2NO
+	 kMMpOwULFhKaD0kQYHIAJo/6z9hNp/AiDnvwYAfiIrffyJOPQrMedkHCftPKlgpuQ7
+	 g37+x+Qur0B2cTa/oP73M4ZeKS0Lmce+rKlog30xxfjpz93srhV+OVETN0YLfe8jUS
+	 dFTWOdG94uTHrkKPQvhEuKjFMPPoJZNXsIVrX2qTCdJCncJm8JlUcoT0k5zahMpLpR
+	 +YmKGMuqR9nwD89l32lQH0J/d97TW5whz+B1Yh1uC+MWXuKxIeGKflwreWDRhh9vQO
+	 YOo7xPiOkuxng==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <874ig7yvse.wl-kuninori.morimoto.gx@renesas.com>
+References: <874ig7yvse.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc-card: don't use card->dai_link[] in
+ for_each_card_prelinks()
+Message-Id: <178846745570.7659.5133371513007992854.b4-ty@b4>
+Date: Thu, 03 Sep 2026 21:30:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,82 +43,47 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260903-ctxfi-spdif-conf9-fix-v1-1-5e4e3e1f801c@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7bsESDPtKdCjdrb2YaIQg/T3pO
- AMzFTIloQxzVyHRI1mu0GDoO3DnFg5C8Y1hVKNRVml0d2HBHL0wuiuwRZaCu1WWJ9LGeAetjYm
- a/r/L+r4f6f2l2GcAAAA=
-X-Change-ID: 20260903-ctxfi-spdif-conf9-fix-b909f7e366dc
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Colin Ian King <colin.i.king@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Roman Prucha <zorgan.roman@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788470085; l=1760;
- i=zorgan.roman@gmail.com; s=20260903; h=from:subject:message-id;
- bh=jp1ueNFuA7dYZ45fIz/uA/BuyiO44DD0w6SFBbr7Fa0=;
- b=z3wyA/sdLPH8AAAP3N3Tqh9wZQJozr+KoUi594t9AJYiIajbW0/CJga6QNj9JUZYR/aLf3hMp
- LZ8Q2LFr1REC5GQA9FP6t1eVQsRP6woUy8JBsHMOVV3uUk7feiqmH0L
-X-Developer-Key: i=zorgan.roman@gmail.com; a=ed25519;
- pk=nrIfal6DL0s9II7312EtRS98gHuLh87xybqQk8LhJw4=
-X-Endpoint-Received: by B4 Relay for zorgan.roman@gmail.com/20260903 with
- auth_id=1001
-X-Original-From: Roman Prucha <zorgan.roman@gmail.com>
-Reply-To: zorgan.roman@gmail.com
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1163; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=pxwQhb+YlcG9/36luVwwMgRpYsioxEYXyawj+ITjFH8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqmee5diGWFgZu5+2n5GfNV3QozswP1UPGj2y1L
+ 4XMVZPYtkuJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCapnnuQAKCRAk1otyXVSH
+ 0DJhB/sGjHrqBAn4HJeSa2eo5BlJwLVjMQi14IXh1x5oPh9tY5uKnLS4RbufbnLBwhXtP+bxAHE
+ AWfwhBzb61r3xOZtCvdnU9v5J+Ed9Q3kUbNHdkDiuHwLeDb+t7rUcP7FBLG/BnQ8v1h/kK0926j
+ zN35W1zC+q3o1hNJYw+0c1aV+GUe0iTJdnHT5P4nv9dIHTQktOu2NvRkprGX+8mTm56cz3pns1R
+ /ih0zQz9Lhu652gP/ecciR7PBIgq+dkfhcE9wPo6rW6KZMGj8g97vxquuom5R6PxmG/WfznPHP8
+ ORldQaMwqZvzLAcgxlvJIxImu7xjAbwHwYskcqcuILhzW292
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Roman Prucha <zorgan.roman@gmail.com>
+On Thu, 03 Sep 2026 01:21:21 +0000, Kuninori Morimoto wrote:
+> ASoC: soc-card: don't use card->dai_link[] in for_each_card_prelinks()
 
-dao_rsc_init() encodes the DAIO configuration as
+Applied to
 
-    conf = (desc->msr & 0x7) | (desc->passthru << 3);
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-7.4
 
-S/PDIF passthrough uses msr=1 and passthru=1, resulting in
-conf=9.
+Thanks!
 
-daio_mgr_dao_init() masks conf with 0xf, but handles only values
-1, 2, 4 and 8 when programming ATXCTL_NUC. As a result, conf=9
-falls through to the default case and leaves NUC at its previous
-setting.
+[1/1] ASoC: soc-card: don't use card->dai_link[] in for_each_card_prelinks()
+      https://git.kernel.org/broonie/sound/c/ea495a3fb58f
 
-On a Creative X-Fi Titanium HD SB1270 (CA20K2), this breaks AC3
-IEC61937 passthrough when snd_ctxfi runs with
-reference_rate=48000,multiple=2. The receiver detects a non-audio
-stream but cannot decode the AC3 payload.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-With the unmodified driver, multiple=1 makes the same stream work.
-Handle conf=9 through the same NUC=0 path as conf=1.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-The change was runtime tested on the SB1270 with multiple=2 using
-IEC958 stereo PCM, pre-encoded AC3 IEC61937 passthrough and ALSA
-A52 live 5.1 encoding.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-Fixes: 26a9630c72eb ("ALSA: ctxfi: cthw20k2: fix mask on conf to allow 4 bits")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Roman Prucha <zorgan.roman@gmail.com>
----
- sound/pci/ctxfi/cthw20k2.c | 1 +
- 1 file changed, 1 insertion(+)
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-diff --git a/sound/pci/ctxfi/cthw20k2.c b/sound/pci/ctxfi/cthw20k2.c
-index 07e1490a6d17..36066ffe8784 100644
---- a/sound/pci/ctxfi/cthw20k2.c
-+++ b/sound/pci/ctxfi/cthw20k2.c
-@@ -994,6 +994,7 @@ static int daio_mgr_dao_init(struct hw *hw, void *blk, unsigned int idx, unsigne
- 		/* S/PDIF output */
- 		switch ((conf & 0xf)) {
- 		case 1:
-+		case 9:
- 			set_field(&ctl->txctl[idx], ATXCTL_NUC, 0);
- 			break;
- 		case 2:
-
----
-base-commit: 7f71fd44a1089b362eacf87e1f451ddd4fb7df62
-change-id: 20260903-ctxfi-spdif-conf9-fix-b909f7e366dc
-
-Best regards,
--- 
-Roman Prucha <zorgan.roman@gmail.com>
-
+Thanks,
+Mark
 
