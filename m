@@ -1,137 +1,134 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173AF4B66D2;
-	Thu,  3 Sep 2026 17:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67D9396588;
+	Thu,  3 Sep 2026 18:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788456249; cv=none; b=HRls6kE83LgPXxYUzQnsseyd39TpqykCApDpr+EvXYE4tUA61n8c6WvQ4/3JcUmuCn+4V9sVn+CMYKZyo/s5OIKiZHMWR47hZOzo2b2zu1bm0UiYk5uvjxW3g20b4fHeDJS0dLVIqomTzp3HGX1O0HarR7XEXZwsJSMbRG9CO08=
+	t=1788460003; cv=none; b=Mugiv5vfBGNFEb9R8SzUUTeceO0nh1IQEgRX0i1U6PrYkv1sQI0Zj/g9aOEGlFVXMkqoNxprV01ZCLCtLDw0tO1M1ZPNqUKFiFOTs57IHS2MMEBjZXnY9utoAPUaMbgbWG8ljnCJztEcyPY3170Wj1+YuYnFrQqt+tfPZwYj1mQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788456249; c=relaxed/simple;
-	bh=WZM66IndoDGw1AIvMt1UzAxbMH4mAm4nPrXkiYEywJk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kjBCoXrWQ+nY01hyImH/7/Gu3pS8DuUmp4B2JXCjBFIJ1bsQnDY+Vk2k1DzOOl4CY1GvQed/x/sgMi019b9062CupIDFo3YJPbLpzEUG79kPwjK5bn/TR6U+00zV0qdp+xizjayj4QkHpkYH60TW8T+Zb5A9Y5K48zOpOAa8L5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=eVcAGgRG; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1788460003; c=relaxed/simple;
+	bh=swhrbSD3HdK0AP2/e4RRVmalQc9TAXTMchmltY6AmDY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=B4o28eDSbtbcBlfq9P2wyO9kZBaW41LHxneEE0gLUSaItAgLQd3cOm5jI/9E+u2IvGCI2Cq7dd+E+icAfdT7hpn73jNcc+aT3fA4nm91VeKIjfANhcIO/DuFjuSDk4wSxXCqWCnKUUBpFjAWpQPovqTF4CfquRZpBvHBGATcLV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKXCoBHD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="eVcAGgRG"
-Received: from [10.0.0.152] (unknown [10.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 3264E53402CD;
-	Thu, 03 Sep 2026 19:24:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1788456245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=QxpQpdJ8wdz2zI4beWu74d/wDFWkTRTp7Wa4gd8OYQk=;
-	b=eVcAGgRGKxQK6XDAz4t5exlGGadcE+215tyxqw8ocWQFFcW3JRw8NMehjHnERwKicpnBvu
-	nurmfX7la0tp7S6+enTHO5uXqVivvgc7Uz/QDimp9xIsebeKjBoRWUiMATmbLhLuLCQ0+z
-	W07tWe7z7QrXSY1Qs6snYwoIanOYcjU=
-Message-ID: <c5773a71-e7f0-44ae-8418-1e00de16d08f@ixit.cz>
-Date: Thu, 3 Sep 2026 19:24:04 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKXCoBHD"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 34B9EC2BCB8;
+	Thu,  3 Sep 2026 18:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788460003;
+	bh=swhrbSD3HdK0AP2/e4RRVmalQc9TAXTMchmltY6AmDY=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=jKXCoBHDJSko6qcgcbrH8NtDrGN9EaH5vDA9cV9WmYECWTt9PdqDfz2lMImVNw0I8
+	 VLvjp5rQ5yxQNCMYcR32lX7McYLsKn79JmmHUslCBgKtW45JcjbtuteYIoggWIoPzW
+	 oUyvYhVbvIUrk+bmkkXpaEkgmtq3MdGJrbbcqY4FlnlSnd5gFkwLInjFKJmv1oDo7n
+	 a0h3c3yeswHckvmogD/OZ4IrOBRPTSJVREXYesLQkRk9a878L/tyBCP6o44//ng2XH
+	 yQGujoCn7sAgj6DVs/UsLAEMqEgoExSPbB6aaA2SWlut7rMVayu0KAnTWjr/Sw2FU9
+	 puHTioxaaiStQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07FD1C624D7;
+	Thu,  3 Sep 2026 18:26:43 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Subject: [PATCH RFC v2 0/6] Speakers for Pixel 3 / 3 XL
+Date: Thu, 03 Sep 2026 20:26:36 +0200
+Message-Id: <20260903-pixel3-audio-v2-0-7c22ed915291@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 6/6] arm64: dts: qcom: sdm845-google: Add basic audio
- support
-To: Srinivas Kandagatla <srini@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- David Rhodes <drhodes@opensource.cirrus.com>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
- devicetree@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20260705-pixel3-audio-v1-0-3b66f33859f1@ixit.cz>
- <20260705-pixel3-audio-v1-6-3b66f33859f1@ixit.cz>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260705-pixel3-audio-v1-6-3b66f33859f1@ixit.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/1WNSw6CMBCGr0JmbU1LpYArExMP4NawoDCVSQxgC
+ wQlvbsFVi7/57eAQ0vo4BwtYHEiR10bRHyIoGrK9omM6qAh5rHiSkjW04wvycqxpo7pWht9yjH
+ jMoUw6S2akK93D7jfrlDspsX3GK6HPVnNhtzQ2c/GncTW3xApT/4Rk2CcSa2UkTJLciMuNNNwr
+ L5QeO9/GIJ0KMAAAAA=
+X-Change-ID: 20260613-pixel3-audio-bdbfb49e8037
+To: Srinivas Kandagatla <srini@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ David Rhodes <drhodes@opensource.cirrus.com>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
+ devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
+ David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1964; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=swhrbSD3HdK0AP2/e4RRVmalQc9TAXTMchmltY6AmDY=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqmbvhftd5/BDYBefz6ncuVCrJMR4oiHkZymA2Y
+ rhYtGPVMhOJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCapm74QAKCRBgAj/E00kg
+ csJyD/9g2iBXVdmahUfPlV2YCq+X8+YMg4Kx9IpFkCAj5FPbRy+irB570MhZZ3CY7OZyYkp8KzZ
+ 9mnkOSzziuzrxGk1QQshe1sCxdnJ4SI+KUQkPaPmwUMIO9pLS1wdV/32+A9jSWmvQwVpiinN10R
+ 9suoCgEqM6b7VS9yFdPGHtYlfoxfO9YsbyGHgcyOCAPaVexup9C0m+mD9aZ0//PjzAn3qiL1q45
+ Uow9oxLCfmgy9NOYoC646l65WsS9uon1EU89FFNYhaDwpjYOxbfcNUoTP5gBjo6Bk7m04Ltbx24
+ +qSG4WJxwDGzK8lpvVzJENr87SYs1+vyuoy5a/eCR7U6iBFg5j4hwRxtn1AbhWHRHdevoUVRTu8
+ 9oCO9Gqvb5pS7SKVqTEzg2BHwEE2xeetR4qRmLLpEIvSqIUN2by+puo4Sd8yYCKQeixZvH3bozZ
+ agmvaYIZ7nyGdkbs/Xlo1Ued9ZIQUFK6Sb7EWkAdX8hCoj5hnm563sT62NuGJkVP0xxH45aDdP3
+ +kFV1S5kRtCepS0gDWgL/5hWKx1hynbTMxn1f/W81quT15eyKfHTWtl5CCLtMAF2vjC0zkT24Z5
+ SZkQv2Qv13i1StKvYCYLtDbH6ypuAXSxkRPGox1sQv6ktdpplQ/2U6dH3KhdqgcRy7wC6FOGhvp
+ mXaO/T/wg8x4bIQ==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-On 05/07/2026 22:06, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
-> 
-> Introduce support for sound card and wire two CS35L36 audio codecs for
-> top and bottom speakers.
-> 
-> Inspired by commit from Joel Selvaraj.
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+This series address:
 
-[...]
+0. demistify the hex to BIT() macro and add left/right rx spk
+1. most likely wrongly set DSP_B in sdm845.c
+   my guess this is because TDM was never used in the mainline with
+   sdm845
+2. applying correct mask to left/right speaker for the TDM in sdm845.c,
+   so both speakers can work simultaneusly
+3. setting sysclk at startups, which some codecs need (such as cs35l36)
+4. setting proper tdm slot in the cs35l36 driver
+5. device-tree wiring for Pixel 3 / 3 XL
 
-> +&sound {
-> +	compatible = "qcom,sdm845-sndcard";
-> +	model = "Google Pixel 3";
-I see some new nodes using such as
+Consider my knowledge here limited, thus sending RFC. Some parts we're
+heavily assisted by LLM.
 
-SC8280XP-MICROSOFT-SURFACE-PRO-9-5G
-sc7280-wcd938x-max98360a-1mic
-HUAWEI-PAK_AL09-M1040
-
-is there is a preferred syntax?
-
-I would go for blueline which translates into google-blueline profile.
-
-Thoughts?
-Thanks
 David
+
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+Changes in v2:
+- Device-tree name sorting, with exception keeping mm1-dai-link in it's
+  place. (Konrad)
+- Make set_tdm_slot cleaner and less leveled. (Konrad)
+- Added TDM MIC defines in sdm845.c.
+  Should we in capture use speaker mask?
+- Renamed model from 'Google Pixel 3' to 'blueline', I would love to
+  hear feedback on this one.
+- Link to v1: https://lore.kernel.org/r/20260705-pixel3-audio-v1-0-3b66f33859f1@ixit.cz
+
+---
+David Heidelberg (6):
+      ASoC: qcom: sdm845: Demystify TDM masks a bit
+      ASoC: qcom: sdm845: use DSP_A format for TDM codec DAIs
+      ASoC: qcom: sdm845: Use per-speaker RX masks for TDM slot assignment
+      ASoC: qcom: sdm845: Set codec dai and component sysclk during startup
+      ASoC: cs35l36: Implement set_tdm_slot to program RX and TX slots
+      arm64: dts: qcom: sdm845-google: Add basic audio support
+
+ arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi | 132 ++++++++++++++++++++-
+ sound/soc/codecs/cs35l36.c                         |  44 +++++++
+ sound/soc/qcom/sdm845.c                            |  49 ++++++--
+ 3 files changed, 213 insertions(+), 12 deletions(-)
+---
+base-commit: 7079a12d7506b07fb53b54a664bfad5fa9b16d70
+change-id: 20260613-pixel3-audio-bdbfb49e8037
+
+Best regards,
+--  
+David Heidelberg <david@ixit.cz>
+
+
