@@ -1,117 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313143515CF;
-	Thu,  3 Sep 2026 21:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E4439A4D6;
+	Thu,  3 Sep 2026 21:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788469278; cv=none; b=Zbfi7F4Pmh1zWJ4Ixogqz3EEqkPtklv2y/duGtYUTnb9D/b3zS3ougfDOpXx5qnYYFTiKkOkhXedVbSMQHzlNsMtkwn7ds1bVrHjfWvFeEQW1vgg0AJoF9/fjzkZBVhjOXfL24yg0hdfyluEdbaJ4FbubtGh/AWzy89PZc8xO/I=
+	t=1788470086; cv=none; b=pKXOKLVYMA76/IBuNF8aNQk7diWbWW0IZNhw+wR7IxVi4P5amHusnkbzBXf/m2hkvsjYGnxsAs+ErU2F1xFnjHaXqiIuPdoWgyXTSfTx7o/P1OT2/yKg+31k1XhXOJ7UPBIPYMJf+JBTVNrpAJq0T9d2R38KEiG+HUVbBWe1zBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788469278; c=relaxed/simple;
-	bh=YYxuBmZAH47wgXQP9XeaVmlhdYRTXofjQ1oQ/sIshac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fj+w54Szbv7PdVZQKp1gzO8o4Xg/ar1Jv4dnTI13axcjsetLf4qsBfVa5dtTkE5K2Y89datbVyXnCRsoU9haFksZdAFBu6TY1xd5z+fRBTADVauV0Cu5sSaz9DTJSXSzyomeIisWtYW1Xh/hgt7IJ3NmOfrlI00gIs+DUqg6NsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCl9wfTi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788470086; c=relaxed/simple;
+	bh=yzce8FF3PyDdb5RQtEjJfbqeXqKMx5wRV8Hd5Zq8t08=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JfnNw3ovE5SZXHURoiN9QP6sj/wg17lJtf86hD1TdD9iPZCEfV86YQS/EoAPiHCMAGXKl7jtwHvE1CwW35VIL2yKDMlVdwxND64IsITsFRaUo2mtkVZlpOAXqlZ/3NL14g+zL3WlhEM0x82sIw00atgz64IVLNrzk8dqoB4Bf+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SyynRAsX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCl9wfTi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CDC91F000E9;
-	Thu,  3 Sep 2026 21:01:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788469267;
-	bh=Uv8ZzIHycIvf6yeL4vgkmrAt3UAxDnPLrH4lIK6QkvE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FCl9wfTilfdE1Ux2g/CYVVtvAQ3OD4ice2Ynu8cIiKzAaO46I1GdKOWUtMA9WHzk1
-	 3U5iryqL/7rPwvCcsLyEXL99ciO4qIvdxQmXMbkEQFo66Kka1THf+DoeLoJFIDl8en
-	 EFqrLypie86VuvRlaLPHRs9QGjXbkPnhgyJKAkkahDeghSpRj/slTWZpTfcsoCHIf7
-	 QpliT+m3Q4lNwyWdExztwk0RZCToYH3m9gjxvGbAEYf4eaNcrBusw8zKH+q6YGMWuD
-	 RYajAmAo+CMG9aKyfbj6IiO/G8AW75/43++pPMcM2Sy51XKmWdo5l+8Lm09SJBvNii
-	 IgD/jUox910vA==
-Date: Thu, 3 Sep 2026 22:01:02 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Diogo Ivo <diogo.ivo@bootlin.com>, Oder Chiou <oder_chiou@realtek.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Animesh Agarwal <animeshagarwal28@gmail.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, Ben Zhang <benzh@chromium.org>
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5677: Add clock property
-Message-ID: <12b9d08f-e773-49a9-8b36-2088c8e13cf6@sirena.org.uk>
-References: <20260903-rt5677-mclk-v1-0-b71a5a3533f9@bootlin.com>
- <20260903-rt5677-mclk-v1-1-b71a5a3533f9@bootlin.com>
- <aplEfd33wSz59iLS@sirena.org.uk>
- <0746f828-a424-4001-8054-1e52ed07139b@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SyynRAsX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E907FC2BCB8;
+	Thu,  3 Sep 2026 21:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788470085;
+	bh=yzce8FF3PyDdb5RQtEjJfbqeXqKMx5wRV8Hd5Zq8t08=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=SyynRAsXw8WE+yZUw7IOMPSnAtIqgNa2Hv+OTJcVf5/oya6WKp8sKrXnO+4lgJWeM
+	 NaWlvMwtpGpP9Fb77U1pSvLTy4pBW1SS1awTGNO7EamkN/EE70y3xarw3BZ7eFTXRS
+	 uRj3NOTU9iuENE9lLcFToET9Q2rJqOtPz+OEgFRR14nrtGtIfUEnrh12siDzlm0uRR
+	 RwZBUR5V1+w5jaPGxKPwfBna+kH6b+Dfw2O7IWAzab3CQ/ibUbcDd9vuaNlU1Aq8Fe
+	 O/Bg8yUI9uEJURQloEAn/HuQLCs22uKlIR4lXZYQ9aIf59qA5VKLVo22zY0TFqX+Qw
+	 HKIcIT2RHn7FA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6198C61DD3;
+	Thu,  3 Sep 2026 21:14:45 +0000 (UTC)
+From: Roman Prucha via B4 Relay <devnull+zorgan.roman.gmail.com@kernel.org>
+Date: Thu, 03 Sep 2026 23:14:44 +0200
+Subject: [PATCH] ALSA: ctxfi: Fix CA20K2 S/PDIF passthrough
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="M0WeFJ5o30F4cSnU"
-Content-Disposition: inline
-In-Reply-To: <0746f828-a424-4001-8054-1e52ed07139b@bootlin.com>
-X-Cookie: One picture is worth 128K words.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260903-ctxfi-spdif-conf9-fix-v1-1-5e4e3e1f801c@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7bsESDPtKdCjdrb2YaIQg/T3pO
+ AMzFTIloQxzVyHRI1mu0GDoO3DnFg5C8Y1hVKNRVml0d2HBHL0wuiuwRZaCu1WWJ9LGeAetjYm
+ a/r/L+r4f6f2l2GcAAAA=
+X-Change-ID: 20260903-ctxfi-spdif-conf9-fix-b909f7e366dc
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Colin Ian King <colin.i.king@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Roman Prucha <zorgan.roman@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788470085; l=1760;
+ i=zorgan.roman@gmail.com; s=20260903; h=from:subject:message-id;
+ bh=jp1ueNFuA7dYZ45fIz/uA/BuyiO44DD0w6SFBbr7Fa0=;
+ b=z3wyA/sdLPH8AAAP3N3Tqh9wZQJozr+KoUi594t9AJYiIajbW0/CJga6QNj9JUZYR/aLf3hMp
+ LZ8Q2LFr1REC5GQA9FP6t1eVQsRP6woUy8JBsHMOVV3uUk7feiqmH0L
+X-Developer-Key: i=zorgan.roman@gmail.com; a=ed25519;
+ pk=nrIfal6DL0s9II7312EtRS98gHuLh87xybqQk8LhJw4=
+X-Endpoint-Received: by B4 Relay for zorgan.roman@gmail.com/20260903 with
+ auth_id=1001
+X-Original-From: Roman Prucha <zorgan.roman@gmail.com>
+Reply-To: zorgan.roman@gmail.com
+
+From: Roman Prucha <zorgan.roman@gmail.com>
+
+dao_rsc_init() encodes the DAIO configuration as
+
+    conf = (desc->msr & 0x7) | (desc->passthru << 3);
+
+S/PDIF passthrough uses msr=1 and passthru=1, resulting in
+conf=9.
+
+daio_mgr_dao_init() masks conf with 0xf, but handles only values
+1, 2, 4 and 8 when programming ATXCTL_NUC. As a result, conf=9
+falls through to the default case and leaves NUC at its previous
+setting.
+
+On a Creative X-Fi Titanium HD SB1270 (CA20K2), this breaks AC3
+IEC61937 passthrough when snd_ctxfi runs with
+reference_rate=48000,multiple=2. The receiver detects a non-audio
+stream but cannot decode the AC3 payload.
+
+With the unmodified driver, multiple=1 makes the same stream work.
+Handle conf=9 through the same NUC=0 path as conf=1.
+
+The change was runtime tested on the SB1270 with multiple=2 using
+IEC958 stereo PCM, pre-encoded AC3 IEC61937 passthrough and ALSA
+A52 live 5.1 encoding.
+
+Fixes: 26a9630c72eb ("ALSA: ctxfi: cthw20k2: fix mask on conf to allow 4 bits")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Roman Prucha <zorgan.roman@gmail.com>
+---
+ sound/pci/ctxfi/cthw20k2.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/pci/ctxfi/cthw20k2.c b/sound/pci/ctxfi/cthw20k2.c
+index 07e1490a6d17..36066ffe8784 100644
+--- a/sound/pci/ctxfi/cthw20k2.c
++++ b/sound/pci/ctxfi/cthw20k2.c
+@@ -994,6 +994,7 @@ static int daio_mgr_dao_init(struct hw *hw, void *blk, unsigned int idx, unsigne
+ 		/* S/PDIF output */
+ 		switch ((conf & 0xf)) {
+ 		case 1:
++		case 9:
+ 			set_field(&ctl->txctl[idx], ATXCTL_NUC, 0);
+ 			break;
+ 		case 2:
+
+---
+base-commit: 7f71fd44a1089b362eacf87e1f451ddd4fb7df62
+change-id: 20260903-ctxfi-spdif-conf9-fix-b909f7e366dc
+
+Best regards,
+-- 
+Roman Prucha <zorgan.roman@gmail.com>
 
 
---M0WeFJ5o30F4cSnU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Thu, Sep 03, 2026 at 03:26:46PM +0200, Diogo Ivo wrote:
-> On 9/3/26 11:57 AM, Mark Brown wrote:
-> > On Thu, Sep 03, 2026 at 12:11:00AM +0200, Diogo Ivo wrote:
-
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: mclk
-
-> > The driver code has a reference to MCLK1 which implies multiple MCLKs,
-> > unfortunately no pinout seems to be available and other references in
-> > the driver are just to MCLK so it could be cut'n'paste.
-
-> Thanks for raising this point, I had missed it completely. In fact,
-> looking at rt5677.h there are two places where MCLK2 is mentioned:
-
-> #define RT5677_MCLK_SRC_SFT                     10
-> #define RT5677_MCLK1_SRC                        (0x0 << 10)
-> #define RT5677_MCLK2_SRC                        (0x1 << 10)
-
-> and
-
-> #define RT5677_PLL2_PR_SRC_SFT                  15
-> #define RT5677_PLL2_PR_SRC_MCLK1                (0x0 << 15)
-> #define RT5677_PLL2_PR_SRC_MCLK2                (0x1 << 15)
-
-> so to me it _looks_ like there are indeed two MCLK inputs, both of which
-> can drive the MCLK clock and can also be the input of PLL2. However, as
-> you mentioned I also wasn't able to find the pinout/datasheet and I have
-> no way of testing this. I think the safest bet here is that I send a v2
-> where I rename "mclk" to "mclk1" that we know for a fact exists, and
-> then later on if someone with access to the actual datasheet comes along
-> and confirms the existence of "mclk2" we can add it to the binding.
-
-> Let me know what you think!
-
-That would be safe, but let's add the Realtek maintainer (who I'm
-surprised you didn't CC...).  I've also added Ben Zhang who did a bunch
-of work on the device for Chrome and might be able to check too.
-
---M0WeFJ5o30F4cSnU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqZ4A0ACgkQJNaLcl1U
-h9CCOQf9GzylS/V+CerOOxwbKCvbewffQbRcRgiXPgxRIhzHXEtGzmH4mOCrB5al
-lSBM3Sxkmg3FYsXOs6ZGjwYAj5gPuoruOu3ITBwTCieymS19GPfGNMLSzg+5FQL/
-nBb9V4nU5tnhbQP4Q4hHYXaVdqM/fAs7FdNCFBlMcMeUQIGfiZT3aJdqACkxh/DO
-oED1guanpd06xtdFrpN+S3UOv4+p76lB8MXlp/S0x6Lk9JAm0QRdVhCqngjP6Wuo
-BT5riCffnQdpLI2b3FMzqhZeik7YFAJfUYc8mmqbvWjzzdDqKUwgTNjcMu2sw2//
-OlBy7hSOXrqaocNlfaMyCsIIdNnMMA==
-=czcJ
------END PGP SIGNATURE-----
-
---M0WeFJ5o30F4cSnU--
