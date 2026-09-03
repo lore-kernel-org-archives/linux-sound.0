@@ -1,80 +1,82 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013042.outbound.protection.outlook.com [40.107.44.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A557331209;
-	Thu,  3 Sep 2026 03:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788406739; cv=fail; b=q/ZmV+di5TMTUrRw0I0+FvPo1hm7t3+pSH/CSPIRbVp0bkcAoPVaTPZ/tmwLGpU8Vo8UzL7pdVGpkJ9Eg1OgcbAXOvEahoXWk5LJctFLl6psROUc0t9KOAGZityH8LN0P96D6otv8VHwDZjdQkLYVQvud64I9J0sM3t3nWtqDDM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788406739; c=relaxed/simple;
-	bh=DziRhQJV4R4d79dR+FNMTeDbdNVfNlPxv6Vl1/YfwWQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J0+OH0p9zKdHhQvliZ5CddzSuhR2RtgTee0OoRkGJas2pKvpC10TZzZvKgfb30SX67Km/8Aart01D9//2Jh9jFvgy6hvU70X0MLSE2UFaDnjuCf45nAw4fk68u9CoOkcC3HDkTR3LUe3S2OhtshMgaJ011EjVnV5VPYvz882iX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com; spf=pass smtp.mailfrom=nuvoton.com; dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b=S33C4ZwS; arc=fail smtp.client-ip=40.107.44.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nuvoton.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nuvoton.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C771836B90E
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 04:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788411167; cv=none; b=NOo0oPaXx2O5GCSPZsB7UXGEISj6b+mErN5Rn58LvbQPbnnVKxEI9XWjXDa0G3qhlCT6+Q8IqPnvKYcJtzyZfiTso0fsmXoug151bpcU60GeDWCBwBygRZuGXHhkoJM1geSj0ZvRo/nCkSWKkcZdMFmC9Bt1RT71L7pjCdb6lEs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788411167; c=relaxed/simple;
+	bh=vhEaF87AcNPn5EcwQC99wiliM8yH41LnFNW22mPSM4U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ETcA78/HPFX3THUkVQSvYzvrDzuh8La6s0Q/2v70DTk6nMcCfBE5AkOS7sg0eo/xZwDAyfzrJxvvZT9TZ3mRopQ/GI5LoVZJFnoobOJzM87kwPwiLC9hxsuP0/mB5nn0lxylLp3Oo9RSqjmiYlV/Z/+zP9vFPvHljZBOS6Rt6bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S5ltLkVG; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nuvoton.com header.i=@nuvoton.com header.b="S33C4ZwS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wT4z72/oHpsDFrT7856stzMQfWI7gPMYpFEtNkTqjsWNLLgssk01YBKYHUhpoCS2liW2W3xljYqDBnU1UJ43pXG4axp+rBr3O12pjsYVjLm7vXz/a2fKW3DsIuIqBbwip1AWyebcAtH9b+vRaawmMIWuUBGYebZBTMzlkjZyW9mbC9dnF1WD4sMgNxAJtuMgTYt6R35Vrl5Q/PGw/AFiLJwRPh8HLgZaTTQbaJHznwyteYe+qBUeBqpyvnP4Uu4NOx+o028XMewnRoMBpWqjLO9jQmSmeVetEaqioCbVMzPch3bnzghAXp6xRaSaOojBQ68klRZ0QGfOskCXe28i8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kGwqWbUmqdL5t/OuYRWH/pbfxzlJpeAtdwpoMXRhuhY=;
- b=odVNc+E6cvPIy46JU1i7zeAwYgpykeYCkBtuSGTxwmhwcYaq5t25NHiornimUxJxTuVenQ909orSb+03RgZvBzBM97VxS9+MQ+ou5f6JqznCI2tqA1bb5f0oEblLwu0Y25rvE7wYKkw0QQK+nYxkae8mrHI2shLyiqLtlvz5R1Go1iahtGjD7lKm8PkaRUuPg75vk+GW2WGn1F56GooKp8SBT/sniBTqX/c3t1Bphs4qQszbscs4SF2I5mFUM2b15syqSfzoPh9Zx3x6A5o8rhwDRM05PCGhp+O7EykZpYvEbHHkUhe474YxeTXLH2Yt5yW94gTkLVkt3zHdD5dHJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 211.75.126.7) smtp.rcpttodomain=kernel.org smtp.mailfrom=nuvoton.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=nuvoton.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nuvoton.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kGwqWbUmqdL5t/OuYRWH/pbfxzlJpeAtdwpoMXRhuhY=;
- b=S33C4ZwSwOSTyY2Q3J4IUGPBrtulvZw/E29jstWFoHxiTWnK0Z1uNjTZWbGO3HOy0OdhlUdg7YhtpDP7bVtSJxFP3aU4FKPFTcyawAs+OrTf/WEXNNFHxC+KVqSOK43/nMiaf5pukU9qQX15NyvzgmEMDFhZDMwwugR0PRxvvIpHm7vdSdGEGXRxopFDjZGQFiBa3GWiuP+t2qxDCkfBHsMmK61IoUxVXEM7oQrBntq8FOB3dhwAQah3V0ntvEZRZuUsVd5Hr3b9up+DMJFwJjV7mLqyZK0fxLI0gYvs0faCn0PNryfGkbmsC8CFJXZVJOlf491beWAy/3Roasyacw==
-Received: from TY4P286CA0032.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:2b2::10)
- by OSQPR03MB8385.apcprd03.prod.outlook.com (2603:1096:604:283::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 03:38:51 +0000
-Received: from TY2PEPF0000AB85.apcprd03.prod.outlook.com
- (2603:1096:405:2b2:cafe::13) by TY4P286CA0032.outlook.office365.com
- (2603:1096:405:2b2::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Thu, 3
- Sep 2026 03:38:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 211.75.126.7)
- smtp.mailfrom=nuvoton.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nuvoton.com;
-Received-SPF: Pass (protection.outlook.com: domain of nuvoton.com designates
- 211.75.126.7 as permitted sender) receiver=protection.outlook.com;
- client-ip=211.75.126.7; helo=NTHCCAS01.nuvoton.com; pr=C
-Received: from NTHCCAS01.nuvoton.com (211.75.126.7) by
- TY2PEPF0000AB85.mail.protection.outlook.com (10.167.253.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Thu, 3 Sep 2026 03:38:51 +0000
-Received: from NTHCML01A.nuvoton.com (10.1.8.177) by NTHCCAS01.nuvoton.com
- (10.1.8.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Thu, 3 Sep
- 2026 11:38:49 +0800
-Received: from NTHCCAS01.nuvoton.com (10.1.8.28) by NTHCML01A.nuvoton.com
- (10.1.8.177) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.61; Thu, 3 Sep
- 2026 11:38:49 +0800
-Received: from localhost.localdomain (10.11.36.27) by NTHCCAS01.nuvoton.com
- (10.1.8.28) with Microsoft SMTP Server id 15.1.2507.61 via Frontend
- Transport; Thu, 3 Sep 2026 11:38:49 +0800
-From: Neo Chang <YLCHANG2@nuvoton.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>
-CC: <perex@perex.cz>, <krzysztof.kozlowski@oss.qualcomm.com>,
-	<linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-	<lkp@intel.com>, <neo.chang70@gmail.com>, <kchsu0@nuvoton.com>, Neo Chang
-	<YLCHANG2@nuvoton.com>
-Subject: [PATCH 2/2] ASoC: codecs: nau8360: Fix kernel-doc issues
-Date: Thu, 3 Sep 2026 11:38:45 +0800
-Message-ID: <20260903033845.76540-2-YLCHANG2@nuvoton.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260903033845.76540-1-YLCHANG2@nuvoton.com>
-References: <20260903033845.76540-1-YLCHANG2@nuvoton.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S5ltLkVG"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ceab75934dso24929675ad.2
+        for <linux-sound@vger.kernel.org>; Wed, 02 Sep 2026 21:52:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788411165; x=1789015965; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ESwlNjvZs7Wa/B2Z+WZbhnploP2cGr2N9OS4nSRjKU8=;
+        b=S5ltLkVGU2kf2W9O82BIAGg8u7beRvf29uMBdAtbL3s0ny7Lf8oSW0by/PDDQJe815
+         GLY4ax7C7HzDFmqzDCRb5Trt7JHmEayWb0P9Lh1nhbnQAU/rCdpZvIUuRzyP0XavT3Fj
+         CUbCbbbzNkuwXHDKxB1u6JEwdqYVRMhzezGHoup+V4HPSVPRytUYxd3UTunnyWYXvKaX
+         o/vNS3sajQq6wFaSyRaDNARbGfWAV+nInmstG1ETbroQ3qm8ajp0NVLTz9wofEnfejFY
+         meUAER4C/eraCKGhMUgvGedwMiFrfykmwAEgxdLvEQVobd2yJUXVe9ACR58l35tStdDf
+         xVKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788411165; x=1789015965;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ESwlNjvZs7Wa/B2Z+WZbhnploP2cGr2N9OS4nSRjKU8=;
+        b=s3XX74UGLoKpAcQgfuXmnRTgQLkCBoU866cnl/lNLNxfrC7L1Wfr4UA+7bcnAxzqgS
+         MtjWcWToBrJiWWUUsZBiWCNhGiMvineewyX08xlBk697otngTKkSvVIe/e7rz8hp6fbB
+         YLVIFHjjHGJLNIxZEMzwFxupTTNlZrnuWLLKFm6xk4CcDVighRPRuJO8JNcRVZffog0C
+         OOlyqBwO0HngZWSmqG6Fc513M844XpgrXwLM+VFZbpDJNzEpRF64ax41kcoo2WnSRo0n
+         uxHwxiOPsevPEFMBvyUdWIRL7wdye1+jhomUynzoLApNvkKyV3/grLYaMyOA+hd1PC23
+         LHog==
+X-Forwarded-Encrypted: i=1; AKwUvBwM4oQhknaCR+m9+YLGXNxQX3asZ9P8b+TdMbMhgiwap68gPYrT+/61aWINK6WMrnI19Z47yZlYgxIaXQ==@vger.kernel.org
+X-Gm-Message-State: AFuF++lbzMiVpNKf1wzVfIFOFTm+vLOSedcro7HG5/bTaAYlpKALCbyS
+	nlrGsEZnnCcUKP/9Ez1p7KqlkT8C/ClUpuDBV7BnWXiufQaImywjLbfK
+X-Gm-Gg: AYBFou0qD2uNAWV0BeB3/Ab8dp6OokY/aqmR4nodA4Ost/tSYgtOaBj+bVAcp2d0ziv
+	8fgfoPspSZSJCnvRrAgUMEkaH/kG7/V0Nagz49oGN7zltrGXTeWKcT1EF57j1z988IMhhK+fnnW
+	a25/BnqX9sBmEVaagkU2hNlv84RPZ++2Hx5nGJvyU41l41usAFHQLsWJU2lnUipImEUOptBh5I1
+	cxPkY/I4EIy54+SAfwJ4i8rLOm6UpI5xL2bSgqQWlRj3xHBto4UgdScmlNyBOnil6vkTnMCA8aN
+	iyv9Wro0bpeKBBrKW2r5a68M4suAZhxEytG+AsKyL23oefs8kxnAuxCBueZW72w923tJ0mvqyKU
+	9J8Q7guL4dZtHxJwnMnOrvoTnA4Tl4WgI4ePVG9qvEFIUCWY+A0K2wwNQAUt/bCL9ptwPLYj71T
+	CnDyPkQBP2e9P7WY7dmNWW+5joiyDRAROIma7hk2OwcUGDcQtVrqiGgTMva/uOuqev/sbFwmTJh
+	BSS0gET/GAVExSrRrCRmZaB/lXnm2/pMRfOKH913eNdoXaaHdBe/bzXP6ODsVLlQuxIRNvCUrmX
+	RGbm
+X-Received: by 2002:a17:90b:17cd:b0:38e:67e1:15b with SMTP id 98e67ed59e1d1-39aededf539mr13392201a91.6.1788411165011;
+        Wed, 02 Sep 2026 21:52:45 -0700 (PDT)
+Received: from phuc-desktop.. ([183.91.15.56])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b08d0d7e8sm2747538a91.16.2026.09.02.21.52.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 21:52:44 -0700 (PDT)
+From: phucduc.bui@gmail.com
+To: Mark Brown <broonie@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Shunli Wang <shunli.wang@mediatek.com>,
+	cassiogabrielcontato@gmail.com,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	bui duc phuc <phucduc.bui@gmail.com>
+Subject: [PATCH v4 0/5] ASoC: mediatek: mt8183: Fix clock error handling
+Date: Thu,  3 Sep 2026 11:51:58 +0700
+Message-ID: <20260903045203.175337-1-phucduc.bui@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,103 +84,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NotSetDelaration: True
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB85:EE_|OSQPR03MB8385:EE_
-X-MS-Office365-Filtering-Correlation-Id: d4033555-a811-462e-4fca-08df096cdef0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|23010399003|376014|10067099003|3023799007|22082099003|18002099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	LZe/+TuzVm7takwRS1AiBGOVsqvq6v8EhSutapKH590SD71NjwK3qpW99ThNPq4+RwkLpllGqsRspINIsJ5mwCc7y5owMd/L7f05RSmLp/P86qWofVDopz6Cl0+l8lgx9aUkvfLT9/n6g5AL8C/25G4AybF70RUERTU4xCXoPcw2arS7J6/cbqpQr5v9tzjAKJIaYVWZVSqV/gidsVpj8nOi4E0D9t8YRI4nf+KQl91tXHWV2mJhHkbQ+DZc2WD6ZHO4yVMuDqrBq65pJ8xFCQGTXBDFbXsIzq3uv1S0ji119qSyRmvbzmq0SUcUlofHWq69PpPmzUU0frxUrpWd29IWwE/dmMJ5rVXnELpneEA12c50LkEYyfKE/duaYqfuMzS7nJFzQmSreUhyqOWa1UKp66f8Dj2xJ4W/kVXBrbcA/tGZc+AnRhqNm73ODPup2REQq5nyuH1lxqu4XZFsWq/hoRtMooT6Gx1TEPWvDNP/pw62EsVmIHcu9Awk3tYeeDWjT73qR/n5M6SldTGsp78Y2q9npD6Rm5soFKEWo3G1cuYqhd10kVEAHo2LvQmQvkHz13vsMAqQXVrM8cC7I25xKeBljNs815VEYT1FHiAI9rX+MN5tfs0F3nfgIibLR4XR6B0uGbDyBJNdG0Z1Y9VaD3O8IQKMus2iJmiOMV5wyOhIm0rRqPc2h0WJXpCGI3DwOMkLd1i+QNRmWeGGMQ==
-X-Forefront-Antispam-Report:
-	CIP:211.75.126.7;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:NTHCCAS01.nuvoton.com;PTR:211-75-126-7.hinet-ip.hinet.net;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(23010399003)(376014)(10067099003)(3023799007)(22082099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	brP2Mj79qs8jIyKIbi9Gu1/EAyIFZORMbtBcud4kQBwl/B/Wwq9lqBaBnkCFGbUelNpcqhjxjwsvr7G7/QE1DI6NVdokBoq78Y28RmyshhZA+jyDlwPXZQFn8vzXgKg4u6QrUkWVygGUKkywqkuzZHegtwJch7RoHaSn/TJYcgWUmwj020AP0SxeYDb8wrcbAQ7OTLof+C7+iH8uN3AgsF0GC+2Gjzw2LLl0MckaNnG8D3paXSls4HsRPLvG9aF/zNmFy4skCnZ2O3FnJKM/LFgHdRske/EbQ9Z1AYl0kxf+pJKZuVpX11PDGP+6aoxYHwpHHtjF1lLu2SvzujUCtcdfBJkk2oH/n28gGbPp6q813c1cJ8ohn3vbRAnwrGGrJWX+bJb2PEIqJbfAbaAjLKhVL157Wo66dBgbaUmRueXQ3XzTKuZAbOBf2dnCx/Pr
-X-OriginatorOrg: nuvoton.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 03:38:51.0252
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d4033555-a811-462e-4fca-08df096cdef0
-X-MS-Exchange-CrossTenant-Id: a3f24931-d403-4b4a-94f1-7d83ac638e07
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a3f24931-d403-4b4a-94f1-7d83ac638e07;Ip=[211.75.126.7];Helo=[NTHCCAS01.nuvoton.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	TY2PEPF0000AB85.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR03MB8385
 
-Fix various warnings reported by the kernel test robot:
-Correct kernel-doc formatting and warnings.
+From: bui duc phuc <phucduc.bui@gmail.com>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202609021537.D6X4Dz93-lkp@intel.com/
-Signed-off-by: Neo Chang <YLCHANG2@nuvoton.com>
----
- sound/soc/codecs/nau8360-dsp.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Hi all,
 
-diff --git a/sound/soc/codecs/nau8360-dsp.c b/sound/soc/codecs/nau8360-dsp.c
-index 41afccbea2c0..2e5b61bfc303 100644
---- a/sound/soc/codecs/nau8360-dsp.c
-+++ b/sound/soc/codecs/nau8360-dsp.c
-@@ -39,7 +39,7 @@ static int nau8360_dsp_chan_kcs_setup(struct snd_soc_component *cp,
- 		.cmd_id = _id, \
- 	}
- 
--/**
-+/*
-  * Preamble Fragment Masks:
-  * FIELD           | BITS   | SHIFT | MASK | DETAILS
-  * ----------------|--------|-------|------|---------------------------------
-@@ -53,7 +53,7 @@ static int nau8360_dsp_chan_kcs_setup(struct snd_soc_component *cp,
- #define NAU8360_HOST_LEN_LOW_MASK	GENMASK(17, 16)
- #define NAU8360_HOST_PREAMBLE_MASK	GENMASK(15, 0)
- 
--/**
-+/*
-  * Payload Fragment Masks:
-  * FIELD           | BITS   | SHIFT | MASK | DETAILS
-  * ----------------|--------|-------|------|---------------------------------
-@@ -63,7 +63,7 @@ static int nau8360_dsp_chan_kcs_setup(struct snd_soc_component *cp,
- #define NAU8360_HOST_PARAM_SIZE_MASK	GENMASK(31, 16)
- #define NAU8360_HOST_PARAM_OFFSET_MASK	GENMASK(15, 0)
- 
--/**
-+/*
-  * Trailing Fragment Masks:
-  * FIELD           | BITS   | SHIFT | MASK | DETAILS
-  * ----------------|--------|-------|------|---------------------------------
-@@ -76,7 +76,7 @@ static int nau8360_dsp_chan_kcs_setup(struct snd_soc_component *cp,
- #define NAU8360_TRAIL_PAD_MASK		GENMASK(13, 12)
- #define NAU8360_TRAIL_LEN_HIGH_MASK	GENMASK(15, 14)
- 
--/**
-+/*
-  * Reply Preamble Masks:
-  * FIELD           | BITS   | SHIFT | MASK | DETAILS
-  * ----------------|--------|-------|------|---------------------------------
-@@ -364,7 +364,7 @@ static int nau8360_reply_from_dsp(struct snd_soc_component *cp,
- /**
-  * nau8360_send_dsp_command - Send command to DSP
-  *
-- * @component:  component to register
-+ * @cp:  component to register
-  * @cmd_id:  DSP supported command ID
-  * @kcs_setup: KCS setup structure
-  * @dsp_addr: DSP address
-@@ -454,7 +454,7 @@ static inline int nau8360_send_dsp_broadcast(struct snd_soc_component *cp, int c
- /**
-  * nau8360_dsp_kcs_setup - Send KCS setup command to DSP
-  *
-- * @component:  component to register
-+ * @cp:  component to register
-  * @offset: address offset relative to KCS start
-  * @size: size of data writen to KCS
-  * @data: data writen to KCS setup
+This series fixes and cleans up clock error handling in the MT8183 ASoC 
+driver.
+
+Compile tested only.
+
+Link v2:
+https://lore.kernel.org/all/20260821122928.41343-1-phucduc.bui@gmail.com/
+
+Link v3:
+https://lore.kernel.org/all/20260828050526.590761-1-phucduc.bui@gmail.com/
+
+Changes in v2:
+ - Remove the redundant error log for apll1_mux_setting error handling.
+ - Add Fixes tags.
+ - Add a cover letter.
+Changes in v3:
+ - Add a patch to fix clock handling in the mux disable path, 
+   as suggested by Cezary. 
+ - Return directly from apllx_mux_setting() instead of using a goto label, 
+   as suggested by Cezary.
+ - Add a Reviewed-by tag.
+Changes in v4:
+ - Add a Reviewed-by tag from Cezary.
+ - In the mux disable path, remove the goto labels so that all teardown 
+   steps are attempted and any errors are only reported.
+
+Best regards,
+Phuc
+
+bui duc phuc (5):
+  ASoC: mediatek: mt8183: Fix wrong clock cleanup on clk_set_parent()
+    failure
+  ASoC: mediatek: mt8183: Fix clock handling in mux disable path
+  ASoC: mediatek: mt8183: Fix APLL enable error handling
+  ASoC: mediatek: mt8183: Use dev_err_probe() for error handling
+  ASoC: mediatek: mt8183: Drop redundant probe error messages
+
+ sound/soc/mediatek/mt8183/mt8183-afe-clk.c | 31 +++++++++++-----------
+ sound/soc/mediatek/mt8183/mt8183-afe-pcm.c |  8 ++----
+ 2 files changed, 17 insertions(+), 22 deletions(-)
+
 -- 
-2.25.1
+2.43.0
 
