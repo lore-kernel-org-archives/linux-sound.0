@@ -1,58 +1,79 @@
-Received: from r3-22.sinamail.sina.com.cn (r3-22.sinamail.sina.com.cn [202.108.3.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2273B41D11A
-	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 10:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8120D3932E9
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 10:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788429868; cv=none; b=eivGD0L6hAlDFawpAeeLg6BY8Iecs3TICw1OBnAfq7WzlZiIDGPPyLDUO50cz4qQXPbCCtB6eM4sowyKtNhkDji1/I2MzhSXoYWe4OzChWXjgDmcaMWzZxUEfNv0ahf8rjWuWPIc05W3FeZdZAcoA8jCBLIfg64fIHGyN8X0PkQ=
+	t=1788430786; cv=none; b=LsfV1JA1i3cKU162beuyNZp9k+hFwIn75gd7vxHa2ykW8Uc/7WzY01MpzWRsBQDtK4CZ1s1SWv/qd6Krqq2vKlpJ6KtaU9DqYOCfxdH1LYyipnHOJADI3yuCX+wLiL/91LzkxZwfpU5xmXLyzzuNz1JRa9Ve4OirFw0Tg2K8kGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788429868; c=relaxed/simple;
-	bh=Tr3u27tRu929vPVlsFaCp4PnKUFlYc3kwAWh+JlyFok=;
+	s=arc-20240116; t=1788430786; c=relaxed/simple;
+	bh=GxTeiwZN7CTGejE/bsamQnbdRvyaVhuispEpqp11CKw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YCAjETZfKq3XuLWUplxeMiyBpSI02pIE0g7hl4HBdQ74JKBEIjyXkVOE1loe97VI79ag8mSOHomYN52JKPFAmB3c6NV+KxUvDTF7TddO7BJTE8oVKxMABFiIS8ucSWNzB9YfnuB5Di2RqUhtYQM1qd9J2bLdOlYztqZEXp1agT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=NPSyemV6; arc=none smtp.client-ip=202.108.3.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	 MIME-Version; b=kxI4AZYU86KT2p4BTmnh/UNfLrEwxPno4P07ZoQMbm4EAJNbpwFvd+APkiFAZly3AuOli7vo+42lC8oHqMyCOVCJWQ76RPOxx8sa1NxsWpQjUKbJXM42q34tcgiLASplhYKgHsMIqFa/dJ5Ul6dNQk9DkU9nlozE4aMWL0tHuxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UE/JOkRZ; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="NPSyemV6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1788429859;
-	bh=eOBrmplf7ieLbt9emKaqbOxudU8EYs65uNi1Dwe2LH0=;
-	h=From:Subject:Date:Message-ID;
-	b=NPSyemV6UQolaUJeCYQpJvdN1L5UhxQRDqRCnTIWgEJvqVNfHQoEWc4dtLR0p5Jew
-	 JaJTysLmzCW3UCM1wjxcceR5Y4ooiRdbt2LqnO7liyEnq487FTHdQjBEpRcpOSXmto
-	 psRh+9TSbusvN7GIBbdbRdhkYrEXJLXAcFxYtWak=
-X-SMAIL-HELO: lxu-ped-host..
-Received: from unknown (HELO lxu-ped-host..)([111.198.231.89])
-	by sina.com (10.54.253.33) with ESMTP
-	id 6A99461B000057E9; Thu, 3 Sep 2026 18:04:13 +0800 (CST)
-X-Sender: eadavis@sina.com
-X-Auth-ID: eadavis@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=eadavis@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=eadavis@sina.com
-X-SMAIL-MID: 1201356685530
-X-SMAIL-UIID: 0308675939574D3E8B603C44F63B8C3C-20260903-180413-1
-From: Edward Adam Davis <eadavis@sina.com>
-To: eadavis@sina.com
-Cc: daniel@caiaq.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	perex@perex.cz,
-	syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UE/JOkRZ"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c25344a8c6cso285346366b.0
+        for <linux-sound@vger.kernel.org>; Thu, 03 Sep 2026 03:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788430773; x=1789035573; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=W3+ctbJocyD7cPa19hLn883tfSf+5YYD4Wsi8oERH+o=;
+        b=UE/JOkRZI2w6ytWUVrlZm+g+t433+A0q9lAive0un5EeYQlWmtwQ2vcXwZz2xoCXJo
+         Dtz1uYrcqlaoF1LP5wrLb9aJHsSYi7GqQDc/VJy9Si0pVhhrsgnN58XWaJMEcyweV3jP
+         OZe9R37JzQ7678h70k+oP0I0A1NY+9IQ0eNWgkPCM4TP/IHn3a6HLyHs2FApWCT+/a4E
+         WvQVuFZxYazg/AhnOS/2PeXdWmJmFC+Upz9oPVpjcjtdKWhDDCBNd1nRrllpFuKqjY43
+         xlXl228jlRwXF6Yz8sSFNA8b4Tb3hjOZbUWdtxadLQ9qxTVKIn2iJDQ0fWqtLJKHd+HY
+         TFNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788430773; x=1789035573;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=W3+ctbJocyD7cPa19hLn883tfSf+5YYD4Wsi8oERH+o=;
+        b=ajSGnqHVeAZZemYvvynW+u3YcCuwr4IFjCbrERdYaNlp1iChxW1Of3zvNXvu57Zgu3
+         NZ+FQIpl8dnq9j/v8ZFVW1fvl1tv6/Q+skRdNEAtDa4n92GSL9ixld+XqQkhn8lZVtqD
+         szA564XUtCri7dDrB3h83syREWoAgH8NW3NHp8cxTvlIvBtsi16s0oO60OjsCQVyqPgP
+         KOh6On4r0J4orHHFf7orgWQsb3UZw/TENC/MYIMPjMBIDdOWa3PdTS4URyLh4i0LnP0Z
+         MJ5AEWtz2/OfiqinNIXitXxcxVBRMwo2m6n5QyWUn3+chHUd/GMSf3xgoagwBY8Z6Vi5
+         iTdw==
+X-Forwarded-Encrypted: i=1; AKwUvBy7grD9QlrfUuS/tS+ajlO5s1m/kMnAJHzvUo+05dBLYwxt/sJeIlYhlUSR+e5Fj2XRfYKRSery2E2Pbg==@vger.kernel.org
+X-Gm-Message-State: AFuF++mZVfysJOJHGRs5A9nVXekJXOQkd7WZCL0XLrHskaEI/sDquObU
+	6mRBefC3xnAwlSwc2fEBWppFQRkZ9ms5KzsiZ5SAUtGb/0cO2/mmAJVdj0FjqpXIKdDPK3tl
+X-Gm-Gg: AYBFou0zqXswBs8ej2lNKNJPf2FhEGJms7fsdQIfSD1m+uO1oKR2OQrbLE6rg/lYWkU
+	l2HC5BndHBjduTGdbWX1iMxxnxJOex0sXV877pe02BX/zF0yRaU1BLFeDsRVP5FcI+VMtpMGXFr
+	s+fien9bZD6RxdAmNKagG0ww4y/EPoUpgrfAY2+1N5MRrNAku3RndBOBb+mr8kz2gd8Quoh7bUu
+	DzEueRvPtDXgNeIs4Uu8sihffSLPTHKl56iYRbF3OtY4JmNGMhINF6SQxD8q3SxRL+107emOSJO
+	qRDE78wqNZWJ7IamUoEVfJRlNX0SJPZthgVrGBWx0wcC1LanTYGnupw1Tk+nEA/84FFk/3PXtPP
+	XUl2bJCImk06vPiPlPqxPaj5Ivl2A3V1riBa8+d45fn3LMzum5GfGXv/uVs80e74YYpP5OCIZpk
+	xKtv2aP1RuaGISbRHB+RPnPYdrwth6LMd8a7jrHMPh1sCGCRRmMHLkFWm4qHP5KE8zn7eT3KSvk
+	Q7UuuFWulH/lKLLKoJj5MoGdVh+zhiEzekpc1CBw6u1b+caHOzYFBCdRwKY
+X-Received: by 2002:a17:907:da16:b0:c1f:29ce:76a1 with SMTP id a640c23a62f3a-c25d550e29emr666393066b.19.1788430772687;
+        Thu, 03 Sep 2026 03:19:32 -0700 (PDT)
+Received: from localhost ([188.234.148.119])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25f41a6019sm78190366b.33.2026.09.03.03.19.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 03:19:32 -0700 (PDT)
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org
+Cc: tiwai@suse.de,
 	tiwai@suse.com,
-	tiwai@suse.de,
-	zonque@gmail.com
-Subject: [PATCH v2] ALSA: caiaq: Decoupling ep1_in_urb in caiaq dev
-Date: Thu,  3 Sep 2026 18:04:10 +0800
-Message-ID: <20260903100410.541828-1-eadavis@sina.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260903094105.539519-1-eadavis@sina.com>
-References: <20260903094105.539519-1-eadavis@sina.com>
+	perex@perex.cz,
+	linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] ALSA: usb-audio: the Topping M62's vendor controls
+Date: Thu,  3 Sep 2026 15:19:29 +0500
+Message-ID: <20260903101929.34492-1-mikhail.v.gavrilov@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <87mrty8xf2.wl-tiwai@suse.de>
+References: <87mrty8xf2.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,194 +82,86 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The epq_in_urb object belonging to the caiaq device is coupled within
-the struct snd_usb_caiaqdev. After usb_submit_urb(epq_in_urb, GFP_KERNEL)
-executes successfully, epq_in_urb is successfully added to the urbp_list
-queue of the dummy HCD driver (userspace specifies dummy_hcd as the HCD
-layer driver for the caiaq USB device).
+On Thu, 03 Sep 2026 12:02:57 +0200, Takashi Iwai wrote:
+>
+> > Would you rather see this as a driver-local clear, as
+> > HID_CONNECT_DRIVER plus the clear, or as something usbhid ought to
+> > offer to drivers that resynchronise on resume?
+>
+> I think it's rather a question to HID people...
 
-When init_card() calls snd_usb_caiaq_send_command() which subsequently
-fails due to a timeout, and proceeds to call snd_card_free() to release
-the card, the embedded ep1_in_urb object is also freed. When the dummy
-HCD driver detects that the URB has been unlinked, it returns the URB
-(by usb_hcd_giveback_urb()), which triggers [1].
+Jiri, Benjamin -- putting it to you then, with enough context to answer
+it without reading the rest of the thread.  The wider design question,
+whether this belongs in a HID driver at all, is settled with Takashi
+upstream in this thread; what follows is narrower than that.
 
-Decouple the ep1_in_urb object from the struct snd_usb_caiaqdev and switch
-to using a pointer instead. Separately allocate and manage the memory for
-ep1_in_urb to prevent the release of the snd_card memory object from
-interfering with it.
+The device is a Topping M62 USB audio interface, 152a:875c.  Its
+analogue gains, output volumes and source selectors are not described
+by the USB Audio Class; they are reached over a vendor protocol on a
+HID-class interface whose report descriptor is a fig leaf -- a Generic
+Desktop application collection, eight usages stretched over sixteen
+unnamed bytes in and out, no report ID -- so hid-generic can only make
+a nonexistent pointer of it.  The plan under discussion is a small HID
+driver that speaks that protocol and hands the values to snd-usb-audio
+as mixer controls.  It wants raw input reports and nothing else: no
+input device, no hiddev.
 
-midi_out_urb has the same issue as ep1_in_urb and is handled in the same
-way.
+The trouble is that asking usbhid for input reports arms the device for
+remote wakeup, and there is no way to ask for one without the other.
+usbhid_open() sets
 
-[1]
-BUG: KASAN: slab-use-after-free in usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
-Write of size 4 at addr ffff88803cee1050 by task ktimers/1/29
-Call Trace:
- usb_free_urb+0x24/0x120 drivers/usb/core/urb.c:96
- dummy_timer+0xaac/0x4d50 drivers/usb/gadget/udc/dummy_hcd.c:2019
- __run_hrtimer kernel/time/hrtimer.c:2067 [inline]
- __hrtimer_run_queues+0x3eb/0xaf0 kernel/time/hrtimer.c:2124
- hrtimer_run_softirq+0x1e1/0x2e0 kernel/time/hrtimer.c:2141
+	usbhid->intf->needs_remote_wakeup = 1;
 
-Allocated by task 36:
- snd_card_new+0x7b/0x110 sound/core/init.c:184
- create_card sound/usb/caiaq/device.c:429 [inline]
- snd_probe+0x236/0x1af0 sound/usb/caiaq/device.c:544
+and usbhid_start() sets the same on the HID_QUIRK_ALWAYS_POLL path, so
+both roads to hid_start_in() go through it.
 
-Freed by task 36:
- snd_card_free_when_closed sound/core/init.c:630 [inline]
- snd_card_free+0x138/0x1d0 sound/core/init.c:662
- snd_probe+0x162b/0x1af0 sound/usb/caiaq/device.c:553
- 
-Fixes: 523f1dce3743 ("[ALSA] Add Native Instrument usb audio device support")
-Reported-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=832ce9fa3face1b7d44d
-Tested-by: syzbot+832ce9fa3face1b7d44d@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@sina.com>
----
-v1 -> v2: same dealwith midi_out_urb and add missing check
+This card does not offer remote wakeup: bmAttributes is 0xc0, and
+there is no power/wakeup attribute under its sysfs node, so
+device_can_wakeup() is false.  usb_suspend_both() then refuses
+autosuspend, and not merely for that interface:
 
- sound/usb/caiaq/device.c | 39 +++++++++++++++++++++++++++------------
- sound/usb/caiaq/device.h |  4 ++--
- sound/usb/caiaq/midi.c   |  6 +++---
- 3 files changed, 32 insertions(+), 17 deletions(-)
+	if (w && !device_can_wakeup(&udev->dev)) {
+		dev_dbg(&udev->dev, "remote wakeup needed for autosuspend\n");
+		return -EOPNOTSUPP;
+	}
 
-diff --git a/sound/usb/caiaq/device.c b/sound/usb/caiaq/device.c
-index a16e59248480..d0fe954b8133 100644
---- a/sound/usb/caiaq/device.c
-+++ b/sound/usb/caiaq/device.c
-@@ -192,8 +192,8 @@ static void usb_ep1_command_reply_dispatch (struct urb* urb)
- 		break;
- 	}
- 
--	cdev->ep1_in_urb.actual_length = 0;
--	ret = usb_submit_urb(&cdev->ep1_in_urb, GFP_ATOMIC);
-+	cdev->ep1_in_urb->actual_length = 0;
-+	ret = usb_submit_urb(cdev->ep1_in_urb, GFP_ATOMIC);
- 	if (ret < 0)
- 		dev_err(dev, "unable to submit urb. OOM!?\n");
- }
-@@ -408,6 +408,10 @@ static void card_free(struct snd_card *card)
- #endif
- 	snd_usb_caiaq_audio_free(cdev);
- 	usb_put_dev(cdev->chip.dev);
-+	usb_free_urb(cdev->ep1_in_urb);
-+	cdev->ep1_in_urb = NULL;
-+	usb_free_urb(cdev->midi_out_urb);
-+	cdev->midi_out_urb = NULL;
- }
- 
- static int create_card(struct usb_device *usb_dev,
-@@ -457,22 +461,33 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
- 		return -EIO;
- 	}
- 
--	usb_init_urb(&cdev->ep1_in_urb);
--	usb_init_urb(&cdev->midi_out_urb);
-+	cdev->ep1_in_urb = usb_alloc_urb(0, GFP_KERNEL);
-+	if (!cdev->ep1_in_urb) {
-+		dev_err(dev, "alloc ep1_in_urb failed.\n");
-+		return -ENOMEM;
-+	}
-+	cdev->midi_out_urb = usb_alloc_urb(0, GFP_KERNEL);
-+	if (!cdev->midi_out_urb) {
-+		usb_free_urb(cdev->ep1_in_urb);
-+		dev_err(dev, "alloc midi_out_urb failed.\n");
-+		return -ENOMEM;
-+	}
-+	usb_init_urb(cdev->ep1_in_urb);
-+	usb_init_urb(cdev->midi_out_urb);
- 
--	usb_fill_bulk_urb(&cdev->ep1_in_urb, usb_dev,
-+	usb_fill_bulk_urb(cdev->ep1_in_urb, usb_dev,
- 			  usb_rcvbulkpipe(usb_dev, 0x1),
- 			  cdev->ep1_in_buf, EP1_BUFSIZE,
- 			  usb_ep1_command_reply_dispatch, cdev);
- 
--	usb_fill_bulk_urb(&cdev->midi_out_urb, usb_dev,
-+	usb_fill_bulk_urb(cdev->midi_out_urb, usb_dev,
- 			  usb_sndbulkpipe(usb_dev, 0x1),
- 			  cdev->midi_out_buf, EP1_BUFSIZE,
- 			  snd_usb_caiaq_midi_output_done, cdev);
- 
- 	/* sanity checks of EPs before actually submitting */
--	if (usb_urb_ep_type_check(&cdev->ep1_in_urb) ||
--	    usb_urb_ep_type_check(&cdev->midi_out_urb)) {
-+	if (usb_urb_ep_type_check(cdev->ep1_in_urb) ||
-+	    usb_urb_ep_type_check(cdev->midi_out_urb)) {
- 		dev_err(dev, "invalid EPs\n");
- 		return -EINVAL;
- 	}
-@@ -480,7 +495,7 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
- 	init_waitqueue_head(&cdev->ep1_wait_queue);
- 	init_waitqueue_head(&cdev->prepare_wait_queue);
- 
--	if (usb_submit_urb(&cdev->ep1_in_urb, GFP_KERNEL) != 0)
-+	if (usb_submit_urb(cdev->ep1_in_urb, GFP_KERNEL) != 0)
- 		return -EIO;
- 
- 	err = snd_usb_caiaq_send_command(cdev, EP1_CMD_GET_DEVICE_INFO, NULL, 0);
-@@ -530,7 +545,7 @@ static int init_card(struct snd_usb_caiaqdev *cdev)
- 	return 0;
- 
-  err_kill_urb:
--	usb_kill_urb(&cdev->ep1_in_urb);
-+	usb_kill_urb(cdev->ep1_in_urb);
- 	return err;
- }
- 
-@@ -576,8 +591,8 @@ static void snd_disconnect(struct usb_interface *intf)
- #endif
- 	snd_usb_caiaq_audio_disconnect(cdev);
- 
--	usb_kill_urb(&cdev->ep1_in_urb);
--	usb_kill_urb(&cdev->midi_out_urb);
-+	usb_kill_urb(cdev->ep1_in_urb);
-+	usb_kill_urb(cdev->midi_out_urb);
- 
- 	snd_card_free_when_closed(card);
- }
-diff --git a/sound/usb/caiaq/device.h b/sound/usb/caiaq/device.h
-index 743eb0387b5f..1c6f34693fa8 100644
---- a/sound/usb/caiaq/device.h
-+++ b/sound/usb/caiaq/device.h
-@@ -60,8 +60,8 @@ struct snd_usb_caiaq_cb_info;
- struct snd_usb_caiaqdev {
- 	struct snd_usb_audio chip;
- 
--	struct urb ep1_in_urb;
--	struct urb midi_out_urb;
-+	struct urb *ep1_in_urb;
-+	struct urb *midi_out_urb;
- 	struct urb **data_urbs_in;
- 	struct urb **data_urbs_out;
- 	struct snd_usb_caiaq_cb_info *data_cb_info;
-diff --git a/sound/usb/caiaq/midi.c b/sound/usb/caiaq/midi.c
-index c656d0162432..18529484c8dc 100644
---- a/sound/usb/caiaq/midi.c
-+++ b/sound/usb/caiaq/midi.c
-@@ -43,7 +43,7 @@ static int snd_usb_caiaq_midi_output_close(struct snd_rawmidi_substream *substre
- {
- 	struct snd_usb_caiaqdev *cdev = substream->rmidi->private_data;
- 	if (cdev->midi_out_active) {
--		usb_kill_urb(&cdev->midi_out_urb);
-+		usb_kill_urb(cdev->midi_out_urb);
- 		cdev->midi_out_active = 0;
- 	}
- 	return 0;
-@@ -64,9 +64,9 @@ static void snd_usb_caiaq_midi_send(struct snd_usb_caiaqdev *cdev,
- 		return;
- 
- 	cdev->midi_out_buf[2] = len;
--	cdev->midi_out_urb.transfer_buffer_length = len+3;
-+	cdev->midi_out_urb->transfer_buffer_length = len+3;
- 
--	ret = usb_submit_urb(&cdev->midi_out_urb, GFP_ATOMIC);
-+	ret = usb_submit_urb(cdev->midi_out_urb, GFP_ATOMIC);
- 	if (ret < 0)
- 		dev_err(dev,
- 			"snd_usb_caiaq_midi_send(%p): usb_submit_urb() failed,"
+So binding this driver would forbid runtime suspend to the whole
+device, including its audio interfaces.  An earlier revision of this
+series had to fix runtime suspend once already, and I would rather not
+hand it back.
+
+What makes this feel like the wrong flag rather than an unlucky device
+is that the driver does not depend on the device to wake anything.  The
+card stops reporting to a host it has not heard from, so the driver's
+resume path subscribes again and asks for the whole state; a knob
+turned on the front panel while the host slept is picked up on the way
+back, by asking, not by being told.  A device-initiated wakeup would be
+of no use to it.
+
+Three shapes, and I do not know which you would want:
+
+  (a) the driver clears intf->needs_remote_wakeup after hid_hw_open(),
+      with a comment saying why.  The field is not private -- cdc-acm
+      and usbnet both set it directly -- but clearing it from outside
+      usbhid is unusual enough that I did not want to just post it;
+
+  (b) the same, plus HID_CONNECT_DRIVER instead of HID_CONNECT_HIDRAW.
+      A hidraw open calls hid_hw_open() again and sets the flag back,
+      so (a) only holds if userspace cannot open the device.  That is a
+      real cost here: the hidraw node is how this protocol was read in
+      the first place, and how the parts the driver does not expose --
+      the mixer matrix, the mutes, the EQ -- stay reachable at all;
+
+  (c) something in usbhid, so that a driver which resynchronises on
+      resume can say so once and have both roads to hid_start_in()
+      honour it.  That would cover any driver in this position rather
+      than this one.
+
+Or a fourth I have not seen: is there an existing way to take raw input
+reports from usbhid without arming the device?
+
+I lean to (c) as the honest fix and (a) as what I can post today, but
+this is your subsystem and I would rather ask than guess.
+
 -- 
-2.43.0
-
+Mikhail
