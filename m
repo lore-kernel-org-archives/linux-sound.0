@@ -1,58 +1,58 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011016.outbound.protection.outlook.com [52.101.125.16])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010060.outbound.protection.outlook.com [52.101.228.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397022F8EB0;
-	Thu,  3 Sep 2026 01:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1052F8EB0
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 01:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.60
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788398054; cv=fail; b=IxIR8hvEcQ88OuYtdArqSqZqk6tI+Yy17J1PDGh6aG/qwc11BMg47EA5AF1nVVK1d3zg8U1hX91mm9fPgXdvibHWQEZBneQHP/u+7CIUi3G5QtT6YgaBnSKDMXz1SXsemt2rjaVUzbFVDMXFsUalcwCY/gofA2zjcXUsIRI9o2E=
+	t=1788398058; cv=fail; b=RhzKPi+FlrIO6qmo/TypYX4rigzcSH6QfpdWZmxRlXMnvVmGCgFz1uJPcKWZSYh5prZJ7iZ0ZK+nmu+I6IbcTW1909fhi7SMtVUr8KV4oS2ZgYoczPA39R32GCsx1asTakNMqEr3I9i3tRuKYHvOz5WdoAtMPIiqmYa7nppQAMA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788398054; c=relaxed/simple;
-	bh=sqRy3GT23rcIo5Mb7x+zFlmi37mO5E906CoJ0ItqsTo=;
+	s=arc-20240116; t=1788398058; c=relaxed/simple;
+	bh=WRCEV1Z6jm+3legw+D/leBKTu589tXD1ZhMHWK/FgIk=;
 	h=Message-ID:To:Cc:From:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=YAou1WtQ0i18YoM8wVqPxU2ddMnP59KWALYoNrgMH5wbuecpQ6LI9upEg1+p972PfRQNn/H/a7O0/HPB69SS8xk9ppeL2sDgwJP7atQhQABQe7Vwm1D9mJpvcOFRDUjJe4nLXammXCZ7PqmVWimBRiVVFRbfUAoM0xyoXACcZTA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=BgkCb2FQ; arc=fail smtp.client-ip=52.101.125.16
+	 Date:MIME-Version; b=TiwY4sVylxvTOtLUXcWPcLk+mtDY3qM1bVOX8uXqutzXUirgbb58vw0TeuHz60urDYbuZHw50NPhhFqlpROCjWo1CPhUQjmwfvSKnJeUM7y7K0fQsPRXrlAtnQvHt6GJ2fRFAFnMWgl+UdVP3WfxH4OWEz8AqYsE0EdEX7HYbgs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=c054xpSq; arc=fail smtp.client-ip=52.101.228.60
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="BgkCb2FQ"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="c054xpSq"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o0ApdXU/VJ8QbKufSMXCsi+Uz4PyAKBUzfJLCh7cwSRI5B0o/nNdE1PZjQ2ReGI/yBYWvy8fs6C8Ckh7Mdg2MSxk8jzTKfowJJR1uwKI9YGGJop3/8B4WLIOK0Y7UgLzzGOX46JA3uCeiK2hKw9RkzxYtoZeMRsLknQ5gVeLa9BuJj6UyN32XqNa2QP3o7seD1m3bi4f7PU50/zFIRIsoouQDfxc0tk+vT8pTin+choRR5Ukez2PWMdg+UaVsAfa8JXU+Tdd8mjQusCfHGAyV/EgtQwPZL1yXM274iUAMHZQacK2xgGrqhBQWCg315moM+ESHhYrYU5tqw/43xv9kA==
+ b=bWDDgrKxxTxbJgTs2FUAuJr5ARBoftJebm0BRQ+VmdAwqlGYOfPgDUm3cxDRtA2mEnj8HVmxhQefv/G2yZzj03wpl7AQ3CF0ZgFCO8u3jjTQrZJyS4SweWt2zhtF6snY9gH3SurBI8DnJozOREwsUui9+ZLInhnvah2poZ1XVqbdlpzz1n3jGJFthexlNrQRrB69rV+hHejNXx3sU37BxIRO2rL2zYckb3krQdlGJngQj8VK0fDV0tqpfcPzaI75wDScYPeE2f8j2B+40RPSrofekAw2NHRISmjR+mkzeMdxUGcsdA8njA3mrSyZ64J5jgk+Igguzek3r3d1H7DNVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ARl+LllUdu3I18NwhKCCACfCXLc5/26azuAK37bVLS8=;
- b=spU/hDS6w0k80N9k9DtkkH5COAAqSsjeMu9BJkk4ZI6PQrdgrgzzCAtrymoiIoX366nbDuuCzEZXC0BSOEsy8eYnhHJek6lBdorZUhts9abyXLmNVLjSgrrGOHBm0wLZS6pQW/A14azNzGI7J2WWo6ixFhGs7B/W3WgLvtfs3Hno7LOTlc2waXLWtfZEZ5m8DWaWMVJWrsC891GjoJlm/PrK3wNqtY6fubAhDN0I/NIXg3EGX9D5qDpoxzjJ2R27850BokrpA/wUCjwERkRwfrx1E5v/YS9YF1UmVdW3wbEVgcihdenUKmSZbIVXpXzJ+kpZkjNdbglWPZzEb+8Vgw==
+ bh=IHnX+1qIC9y1IMzW+fq8ftNz7QB9g2W0Hv+0rLYGjdM=;
+ b=xTkALZ/u7J7EL6ZREt5YnREr6MRlr8ZuaamRoN4XndofFQWgzWYqFNpS+l1pWl0RPD+yOswAhBbreExc8sLbsZ6gXaIwlOrEEgbzgyuFoTqmVLZkgBaWHpJByWEtflFhneUzhjttX6uf4EB9JzIX0smYf7fdtDHGSIof3QTw+7OYlcRFp/HQh+7p4BYEWiQTEW2ZNSquF9Umy5nceEQ7DB4uOIBjwwASi39+JfKvu8JJPN2C8jBT9V7PfDxVg4yT6SPSvcwZs4xmU8u6HZnULq8sior6NujkCXzAxiIplavR7kkNBR/Zaux5fc1ZBjHuYDRkDZ+vsz7bHbcEg0fWMg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ARl+LllUdu3I18NwhKCCACfCXLc5/26azuAK37bVLS8=;
- b=BgkCb2FQQK2icjJjpWFY1gAKKTY/NFdOcWsjuN8NjSy5Jl4lMdSjT99PKu+WmhlssdFvrufcCQtPi8JHh41LCrCi5DCspEViFAijiv21afs8I++oFSnB0oLds7ESNQDrSsrsP8x20K+m+f6kPm508nQAAZ8JE3SnBSpWVDf8n3A=
+ bh=IHnX+1qIC9y1IMzW+fq8ftNz7QB9g2W0Hv+0rLYGjdM=;
+ b=c054xpSqhN/bcF1lcwNT+s7/5l59cRBORsdE42rifir5vuM9AYPGIY03f2l3LkhuPgP5iEfXiC/SJzQKVsI8Ntm7VSH3hvDGu/sVUTCsq52IexXu5ngjFZ1w6rpuwuiPdbcGw9Z8ZPxGNg6v67VmqN5TuUmZQw26ppIKr7ep2G4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYRPR01MB16474.jpnprd01.prod.outlook.com
  (2603:1096:405:2ee::10) by TY4PR01MB17164.jpnprd01.prod.outlook.com
  (2603:1096:405:367::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Thu, 3 Sep
- 2026 01:14:10 +0000
+ 2026 01:14:14 +0000
 Received: from TYRPR01MB16474.jpnprd01.prod.outlook.com
  ([fe80::2a39:9988:dbe9:894b]) by TYRPR01MB16474.jpnprd01.prod.outlook.com
  ([fe80::2a39:9988:dbe9:894b%6]) with mapi id 15.21.0360.008; Thu, 3 Sep 2026
- 01:14:10 +0000
-Message-ID: <87jyp3yw4d.wl-kuninori.morimoto.gx@renesas.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Jaroslav Kysela <perex@perex.cz>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org
+ 01:14:14 +0000
+Message-ID: <87ik4nyw4a.wl-kuninori.morimoto.gx@renesas.com>
+To: Heiko Stuebner <heiko@sntech.de>, Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 11/21] ASoC: renesas: use .auto_selectable_formats
+Subject: [PATCH 12/21] ASoC: rockchip: use .auto_selectable_formats
 In-Reply-To: <87zexzyw5v.wl-kuninori.morimoto.gx@renesas.com>
 References: <87zexzyw5v.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 3 Sep 2026 01:14:10 +0000
-X-ClientProxiedBy: TYCP286CA0060.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b5::15) To TYRPR01MB16474.jpnprd01.prod.outlook.com
+Date: Thu, 3 Sep 2026 01:14:14 +0000
+X-ClientProxiedBy: TYCP286CA0047.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b5::18) To TYRPR01MB16474.jpnprd01.prod.outlook.com
  (2603:1096:405:2ee::10)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -62,149 +62,214 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYRPR01MB16474:EE_|TY4PR01MB17164:EE_
-X-MS-Office365-Filtering-Correlation-Id: cec84280-dad5-406d-9c23-08df0958a8e2
+X-MS-Office365-Filtering-Correlation-Id: a36623b6-7159-4a0b-f52a-08df0958ab0e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|52116014|376014|23010399003|366016|38350700014|6133799003|56012099006|10067099003|18002099003|22082099003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	yJ2yQpSO0jIRPC/Um53SNCs3kGQAAfsuZPACSq2hUaIoNhvgz+DKVnuhHQ/OQCZg4Cd+ulM72fh04fKGZi6Hcn7496hCFhPPvEbMbEOUNu3+4hII1D8L8u2sIilnIIVINTDWpQnBIHmYRS3AMB581Qrl4WJRSRu2YPO4dG8BNtIh6KawIFWsL9Io5dKHY4ePGJtG0nJV9oPwwR9v0I0+kMBlpU+Lis7HhaXj43x7NO4xO06KIeAEn3zgubLnXRqilK9Z0nMZ+Y1JBjU9FlroklLubqdJdbRTagtppmhH8AUoJ47Pf4lCLJeJnb+5+JQOJgNeh3DBpWsiEDVJIejB8z+vmo/OT8jf5CV7LcWas1qmTYNfh1Q5L9ocbI9i2Ci4qi5FRUmSkWo2mR7p/QznYEewjmoQO1bUWVjWs7DsG+FV7/9Kwfgr4y1OG+FR4MTyucRsv6TLKwoBO9Y69eVPujq1vztURMw/EPh4VxEbwWnUiOJIc4h+G/ZCydYVqgvu6NcZ7a8sXHhc5lKm2G4AkfaxRazwvhmj6pXk9VFALwH1jVRCMvSi0zVWALBKqIghuLMHEO1YIAc3KJA7e3hjc05j8ypuoecZGiX89aAwc9euyJ7J044AOTwxaEPr+IxhLviHL1mExozlXtMqZcFq9WBM5i+maP4+l35GogODo+5BQDma5W/WXhDpznKHzkr5PigThJD002xWlMysUX0T8MqyRD3iD53RTekr44v5DNE=
+	ZA4dCrfnuZxCKBlW0/4bbcIzk/Jqvq/cK5+0k1AqNHC9621jLcP5XxyVukEgLCtb0o0DUzGRWHiyE7o95OdVESdNz2Cd9AGLEbp1ljzKxA8qrl2RLIESq82nfV9kTTow4EM+1H6sZ6yor43tEgMkTnLI73iUqxPIPM869/uxi+aj2QL2BapkxqXVSwA6b4wnuRDX/yCd3ZM/n/0SwIQ9fU8cWgV5LYq1fkpiWk7gdfwZI1BuZ/KEsrek8dhkbnXnRg23/cIdiMivS32QYhxi0xRqYB94EHDr/HD9UGCdM1keDW3lX0HVNolsUxCnZHly1jEpTEM16x2Cs+izevLjjJo4XobTbrC0Vw+OrmEwbUGldjDSVT6uUXf2y+9YpMOxidkRShlr+nUxzbhrBSXs6s3qLIIc9aLDYlZppeFey6uuFaSrR9byo+fx9RODnS14axk44iRGSPs1pPKCmUp5IHw8O816PTJkASqIy6OaQFkedxme9IQ6q/OlhuNMSWdxI53I3rfr1lvA+Vew4AiJ1y1NVBAKowgsPzAEu4zgiBH2dh93h6wVkU7OD20uL+V3RyOCGA4UZaIDlLsBImDwUWdOUjQvOperXn9kKGDHlK2ZDp2Nfod4nt9JkkdGHc37WvkM7x744Zu/gH28cnfAZrhbcDptbQ8OSNjyGcRVRREUEUOwOsjXF2WQ7YcnWi+9wLySc2mpVMfdpgt4n1dI5rCg5n+keGcpRTAQYypVV8g=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYRPR01MB16474.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(23010399003)(366016)(38350700014)(6133799003)(56012099006)(10067099003)(18002099003)(22082099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xsDJl1ulDyKHeNBwBiCnpihtKKDvBAbMwZzjtlXjTjAopiJ1vj+L8cSTW4fU?=
- =?us-ascii?Q?jLmNlk/KR7w3d8lEBF/GyEBcn95VD6B64aTFYKYo4gj5vnHCaTCbws0XzA1U?=
- =?us-ascii?Q?TSxoYLJgOl8mTXQ8V4u/hHmbvwnMEkg469n1I7mb8kySmpmtSCn0JURTwIYi?=
- =?us-ascii?Q?+dWnlLwWYZfavVs1hoN5/Xg7dlIHvCPuzw1/fZvk4phu/LSSvwOTRHRjIv7y?=
- =?us-ascii?Q?7VcSY/2KgElIXlZpSXUB5dwJsOqkfRAC+VQ5u+VOiSzx3xQdPkINIcwSwtF7?=
- =?us-ascii?Q?us0/q7+QG/fXfDfUygl926InSmhX3qNxG7ZQWxRyglxtJo1Y0StlWmF8QQMC?=
- =?us-ascii?Q?2GX4YhKQrKJlYJh9q+LfY10IGOniR4jryEita5DiWauDzjpIAkqbyV/chPTk?=
- =?us-ascii?Q?R52jvOrENMu2Tj8x7Z8VJtMxeG996NaE3QSSJqelITGdFX8qsuGcIUXUx4rc?=
- =?us-ascii?Q?rJTobR2RBsKKzSj5jFxVZztCdaoFdX9pf2iwJT8FDc35PNHZFcg8k1/3L+jA?=
- =?us-ascii?Q?Ru8IRiqov4FdaNXhkAqf0Bfp2fxqIspByobWO+JbAacjuZ9mpkuqyi7SS1y0?=
- =?us-ascii?Q?dummxwL1U+h5uCEFrENV8iPYsRihzbUuAFSB17iK3IGLdcfdHio37HSnlGBr?=
- =?us-ascii?Q?cqoZk8nsaNFNsi5OD4FNLSWdq63gT7CVBmmi7fDjQO4l0JJnArKjn08WVMe9?=
- =?us-ascii?Q?haCXEgtFWbLMyO//lWO3cG5mkh2V8+B5qzT2NmdNxTjYSF7gyr6SqAYsthZ8?=
- =?us-ascii?Q?HNeT2/Mae7k55E5wIOlGBKIQC4RaHJztJOGpRefgUTZh5H+D0cU3nbWtpJ/c?=
- =?us-ascii?Q?hW5suRQLWhKFss6dOsKOQZDHwTBlDoeqwLWJvw7nF26OU0H1HS7RclV7Nkra?=
- =?us-ascii?Q?c20jLa4TciBCZBs+7B9V4mtrtXq2hpch9RFuAtFqygzrHuLH5IjOKMeKAtpt?=
- =?us-ascii?Q?IpIreomivJ6bO3k7KUUjs3GNkvOdHMc4IgJ61M3yf2NLfbhhZsDZBaqlJSi7?=
- =?us-ascii?Q?R2yWwCgXPhHHq91wV4CMPjWUoVNqCTiJflGfhqmNMeRYu2OCBlJUhiYhZj0O?=
- =?us-ascii?Q?4MU9HME4w11oLpKaLPQI/J3SOf3wJXQuGwFtMMWtCmwWqyD1QcPSC5i6dA0D?=
- =?us-ascii?Q?FBJ8lHZw4g8Xhg6OgtErrgkELBTrR/6bMiT6EhHQ/VvDV9Bn6h6X512yUbSZ?=
- =?us-ascii?Q?ypig5NJVQksW7duSeSWLgqRb7NzwEOzScfWatROjEyYYk9QGjXcg6PdhKSjh?=
- =?us-ascii?Q?Hsc55aV45GoKxxs8q7eYhycdBJhByb1kKQGsClNQ/2SoVVlubm6FSdm1M7QI?=
- =?us-ascii?Q?5lNoukARKg7Kn710BVSAPX+zpSZQbRrqL5A4zQiR7daNPOJ1h7Z7rQ5dK/oG?=
- =?us-ascii?Q?9cWruTDhB0JZ3FCeQuXfDx2WYtcmCACZ9p5VhHCt5SP/0UwaQEOJoLsH/dvP?=
- =?us-ascii?Q?t2Fjw1KKm3rpYHyg4RPZljrGYc0lz+cnrNQe+eorSpnRk2d4vwFWn3F+yz0V?=
- =?us-ascii?Q?Vrix7v524IzZ5/hurzuzZHamlbxlBNOjnbep84EjpOt6vJcKptwVaVJjW9sL?=
- =?us-ascii?Q?H4R6O6pXur/bLXKPvrKnQQuoaW2NQL4fCex5nf7Y5e7VjYaIvd86kZSovIV4?=
- =?us-ascii?Q?s5XcejjNmKsZvGj6PJX6hAxuBSHRHapvaOb0Iv6FerNotGj4BG01dgZeqxZF?=
- =?us-ascii?Q?hWm76rW9bBecUee5zgdoChUd936MbKnXNfF/1ZVO0o1QiLiYswY47oWUN0Xs?=
- =?us-ascii?Q?4y3VkKttX9CmdgqiIwYYEc/vPKM54c/KCSJdzJgntj7EP5at157O?=
+	=?us-ascii?Q?hcD5Kb/bZsfTzodBmfJL9r1xM3t5VUV0U5FvtvumShgw+3Ah/eX6AkRjHlyY?=
+ =?us-ascii?Q?w6EFkvpvVPGLYWVi5nXcFVfmLe9nDbjSlT3Z045EJbdZSRsRKKBLFlBSzHxY?=
+ =?us-ascii?Q?fjm4vlT1hi+K5KfsYfdvs7MLyPFQ9aQ6GiXGfUBaJElRnEAud2opZVVNGXzB?=
+ =?us-ascii?Q?+hBfJmcY3JUuJnzO+I/pV6n3AT6DUZCk3MSgbJ/40aztKaOdOw1eU6f1rZjx?=
+ =?us-ascii?Q?dHBnNYvJSXGGceCb2xF6ZFS7fwk9KYy2+vWxVLaXoNgsTRmT1fPBl1MKFTc3?=
+ =?us-ascii?Q?V214+CQKgbSmINCDUC1jZ9SHfkN7uDq24aOCk0V8aJiWSZz/MLiIbyGrVf0c?=
+ =?us-ascii?Q?KwQAJi4QmR/YAtg9oqa+nh9m6VnFT3v60ZXIf2rC4O73XPc0P+YtcuLx1tkW?=
+ =?us-ascii?Q?2M78Oiof0C9SQgGvmBj+A4VO6MQs/KYT/1POHscwJ9S0imla5PWWPnrJtah8?=
+ =?us-ascii?Q?wysSNzbUQuG66rJiukOos2ijLZSsgbMN7Q9H/JOuOf41G9Q2n/puglkCahM0?=
+ =?us-ascii?Q?bnAEUX0M2q+LTTzeiWiyGE+vERRfOeriWvtxeQKyKnxv1hHVYYLvNim0NvVJ?=
+ =?us-ascii?Q?r5YVmOGjU71Pz8QJqp1MecWdmRHhMMIJ4n2t59YIGKGHpEDE+aU33mjbnMRq?=
+ =?us-ascii?Q?ql0/9yBLGBUEfH9+OqEQtvi2bCBKFcA0iCZmGXX7RTcF7ecpiR3f860Ei3y5?=
+ =?us-ascii?Q?h0JJTvbKGbiZCAOHFs0swa2mLPK8aRrbmDWE1qbqlIm54uCJ0BYa0tf9vvKW?=
+ =?us-ascii?Q?IYluIcstc4Gh93nMT6MAhWBgQ/Bzi/DSzznguAUVH66aYXpNqBzcgtTj8hak?=
+ =?us-ascii?Q?mWN+M7KB4XUPBTkW9CsaIm7i4lbQ8IZzggOtc5I7uT3tw9n/7pBJ9l6jbTxi?=
+ =?us-ascii?Q?yUQFC6mCLZQLtOdEB4B6yaNo9rVOgtiIpJIEIAFzvBFoDtVeJwiFF62WS9wG?=
+ =?us-ascii?Q?IxvPTrTgkQDBfAUtFlcMzMuvsVgK8Mkv2mMq7c34cUCwzcA22+VylCgg7L/4?=
+ =?us-ascii?Q?Wq7RQ6R7qXTWWf3aELczwvBKg5z+z7q6PTpIBB631um2nX5d4354WI0ok6jA?=
+ =?us-ascii?Q?hlrpOcGlT4UTMD6v9e+XW5iGSKra/j+ryWRlGlcO6ArCW/edojkEwYoRJ7kY?=
+ =?us-ascii?Q?59Ix4zNnqysCjC7qk5IDkaXY/9JgOex90r8sfvw0zv3bX0bnukMHVkVAyo6s?=
+ =?us-ascii?Q?JSF1bPh4FzTfePUQ/06wpr16DfJyc/HaIYIlNJlXnluoG0lCzothDbSMaWLp?=
+ =?us-ascii?Q?N92qOrISN+qHNJ8xSJFGx+ON+jN/1J73iuvc58NeXMCcwDa2Ri+K/hYXQTPU?=
+ =?us-ascii?Q?A38XSwC4uzRECh9otNRzbGqYnaxJU1SjJ+qZl/FwecxZf5iKifknWNQyRVUC?=
+ =?us-ascii?Q?Ozn5S67HmKmxH5yqgChx4qt4riK3xTLykXH074VGoDEUAyB2ADYRe/JOqkw0?=
+ =?us-ascii?Q?R9STLraeVTMGQ5lwtkS2IMEwnpovSDt/SSUh69dm2VIrucrcrO8Rz2t1+ObU?=
+ =?us-ascii?Q?CqK30Ho0Xy4osahNMfz1u6FDMEXc78vWQkBX81SL24goE7+UIFIG+oLh6DIl?=
+ =?us-ascii?Q?frlCaaLWfJFk/cRoARZG2E64do2eC3IBVsRBUUoTLSTSShwKjHEKO7Woat3O?=
+ =?us-ascii?Q?j+KE5l4YQQ4yErW9Z/cjiyzMSOVRI30w1qKnJiDBbnqXdmDzmD4zHsDFNfWn?=
+ =?us-ascii?Q?MAgR8fLe+tXZ+lZeko2nAN1r6CuZb8zkMP3/hp/1gEcuhxzfTOAfjKFOu+z0?=
+ =?us-ascii?Q?gn7oRBX4uDYc7M7/GQdGlrq0lsUK120j6TNmKc00+YGFVyGct1Tr?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cec84280-dad5-406d-9c23-08df0958a8e2
+X-MS-Exchange-CrossTenant-Network-Message-Id: a36623b6-7159-4a0b-f52a-08df0958ab0e
 X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB16474.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 01:14:10.6406
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2026 01:14:14.2703
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8PEXAyQw93PjuHFE1VQ/UapZ8yztCOUxrLNTfmVbYlDz8tXxKBB28jZNTujtURSsg9nz3f0UQ+KCJXRHlAlE6rcZu2T3PYPXRDPh0J1FRIKkYSlfdvxjrBk90Jy6szOa
+X-MS-Exchange-CrossTenant-UserPrincipalName: pzI7Fx/WlTSYrT+A05hEGaCEID7YMan3jGIh8Hmrekfm8CYZt4oc6DiRo86QbQuyqVgd1JNLzCoIengjr6kONGedQcLoCtOV8CcQaSJmljLVPMda/NtLlZwu0Fyc/Uui
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB17164
 
 We can use .auto_selectable_formats. Let's adds it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/renesas/rz-ssi.c  |  9 +++++++++
- sound/soc/renesas/siu_dai.c |  6 ++++++
- sound/soc/renesas/ssi.c     | 13 +++++++++++++
- 3 files changed, 28 insertions(+)
+ sound/soc/rockchip/rockchip_i2s.c     | 25 +++++++++++++++------
+ sound/soc/rockchip/rockchip_i2s_tdm.c | 27 +++++++++++++++++------
+ sound/soc/rockchip/rockchip_pdm.c     | 14 ++++++++----
+ sound/soc/rockchip/rockchip_sai.c     | 31 +++++++++++++++++++--------
+ 4 files changed, 71 insertions(+), 26 deletions(-)
 
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 9fe8a639c47c1..b1587f499cb89 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -900,6 +900,13 @@ static int rz_ssi_dai_probe(struct snd_soc_dai *dai)
+diff --git a/sound/soc/rockchip/rockchip_i2s.c b/sound/soc/rockchip/rockchip_i2s.c
+index 261f36d4c2fd4..ef3f6586af772 100644
+--- a/sound/soc/rockchip/rockchip_i2s.c
++++ b/sound/soc/rockchip/rockchip_i2s.c
+@@ -537,13 +537,26 @@ static int rockchip_i2s_dai_probe(struct snd_soc_dai *dai)
  	return 0;
  }
  
-+static const u64 rz_ssi_dai_selectable_formats =
-+	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-+	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-+
- static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
- 	.probe		= rz_ssi_dai_probe,
- 	.startup	= rz_ssi_startup,
-@@ -907,6 +914,8 @@ static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
- 	.trigger	= rz_ssi_dai_trigger,
- 	.set_fmt	= rz_ssi_dai_set_fmt,
- 	.hw_params	= rz_ssi_dai_hw_params,
-+	.auto_selectable_formats	= &rz_ssi_dai_selectable_formats,
-+	.num_auto_selectable_formats	= 1,
- };
- 
- static const struct snd_pcm_hardware rz_ssi_pcm_hardware = {
-diff --git a/sound/soc/renesas/siu_dai.c b/sound/soc/renesas/siu_dai.c
-index 85dee90257105..fff6ef870f0db 100644
---- a/sound/soc/renesas/siu_dai.c
-+++ b/sound/soc/renesas/siu_dai.c
-@@ -688,12 +688,18 @@ static int siu_dai_set_sysclk(struct snd_soc_dai *dai, int clk_id,
- 	return ret;
- }
- 
-+static const u64 siu_dai_selectable_formats =
-+	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-+	SND_SOC_POSSIBLE_DAIFMT_LEFT_J;
-+
- static const struct snd_soc_dai_ops siu_dai_ops = {
- 	.startup	= siu_dai_startup,
- 	.shutdown	= siu_dai_shutdown,
- 	.prepare	= siu_dai_prepare,
- 	.set_sysclk	= siu_dai_set_sysclk,
- 	.set_fmt	= siu_dai_set_fmt,
-+	.auto_selectable_formats	= &siu_dai_selectable_formats,
-+	.num_auto_selectable_formats	= 1,
- };
- 
- static struct snd_soc_dai_driver siu_i2s_dai = {
-diff --git a/sound/soc/renesas/ssi.c b/sound/soc/renesas/ssi.c
-index 96cf523c22734..f00067bafe8d2 100644
---- a/sound/soc/renesas/ssi.c
-+++ b/sound/soc/renesas/ssi.c
-@@ -329,6 +329,17 @@ static int ssi_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	 SNDRV_PCM_FMTBIT_S24_3LE | SNDRV_PCM_FMTBIT_U24_3LE |	\
- 	 SNDRV_PCM_FMTBIT_S32_LE  | SNDRV_PCM_FMTBIT_U32_LE)
- 
-+static const u64 ssi_dai_selectable_formats =
++static const u64 rockchip_i2s_dai_selectable_formats =
 +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
 +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
 +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-+	SND_SOC_POSSIBLE_DAIFMT_GATED	|
-+	SND_SOC_POSSIBLE_DAIFMT_CONT	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
 +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
 +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
 +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
 +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
 +
- static const struct snd_soc_dai_ops ssi_dai_ops = {
- 	.startup	= ssi_startup,
- 	.shutdown	= ssi_shutdown,
-@@ -337,6 +348,8 @@ static const struct snd_soc_dai_ops ssi_dai_ops = {
- 	.set_sysclk	= ssi_set_sysclk,
- 	.set_clkdiv	= ssi_set_clkdiv,
- 	.set_fmt	= ssi_set_fmt,
-+	.auto_selectable_formats	= &ssi_dai_selectable_formats,
+ static const struct snd_soc_dai_ops rockchip_i2s_dai_ops = {
+-	.probe = rockchip_i2s_dai_probe,
+-	.hw_params = rockchip_i2s_hw_params,
+-	.set_bclk_ratio	= rockchip_i2s_set_bclk_ratio,
+-	.set_sysclk = rockchip_i2s_set_sysclk,
+-	.set_fmt = rockchip_i2s_set_fmt,
+-	.trigger = rockchip_i2s_trigger,
++	.probe				= rockchip_i2s_dai_probe,
++	.hw_params			= rockchip_i2s_hw_params,
++	.set_bclk_ratio			= rockchip_i2s_set_bclk_ratio,
++	.set_sysclk			= rockchip_i2s_set_sysclk,
++	.set_fmt			= rockchip_i2s_set_fmt,
++	.trigger			= rockchip_i2s_trigger,
++	.auto_selectable_formats	= &rockchip_i2s_dai_selectable_formats,
 +	.num_auto_selectable_formats	= 1,
  };
  
- static struct snd_soc_dai_driver sh4_ssi_dai[] = {
+ static struct snd_soc_dai_driver rockchip_i2s_dai = {
+diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
+index 5ef7f109706d2..983319a538b11 100644
+--- a/sound/soc/rockchip/rockchip_i2s_tdm.c
++++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
+@@ -826,14 +826,27 @@ static int rockchip_i2s_tdm_set_bclk_ratio(struct snd_soc_dai *dai,
+ 	return 0;
+ }
+ 
++static const u64 rockchip_dai_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
++
+ static const struct snd_soc_dai_ops rockchip_i2s_tdm_dai_ops = {
+-	.probe = rockchip_i2s_tdm_dai_probe,
+-	.hw_params = rockchip_i2s_tdm_hw_params,
+-	.set_bclk_ratio	= rockchip_i2s_tdm_set_bclk_ratio,
+-	.set_fmt = rockchip_i2s_tdm_set_fmt,
+-	.set_sysclk = rockchip_i2s_tdm_set_sysclk,
+-	.set_tdm_slot = rockchip_dai_tdm_slot,
+-	.trigger = rockchip_i2s_tdm_trigger,
++	.probe				= rockchip_i2s_tdm_dai_probe,
++	.hw_params			= rockchip_i2s_tdm_hw_params,
++	.set_bclk_ratio			= rockchip_i2s_tdm_set_bclk_ratio,
++	.set_fmt			= rockchip_i2s_tdm_set_fmt,
++	.set_sysclk			= rockchip_i2s_tdm_set_sysclk,
++	.set_tdm_slot			= rockchip_dai_tdm_slot,
++	.trigger			= rockchip_i2s_tdm_trigger,
++	.auto_selectable_formats	= &rockchip_dai_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ static const struct snd_soc_component_driver rockchip_i2s_tdm_component = {
+diff --git a/sound/soc/rockchip/rockchip_pdm.c b/sound/soc/rockchip/rockchip_pdm.c
+index 343fda478901d..0720748c7c8dd 100644
+--- a/sound/soc/rockchip/rockchip_pdm.c
++++ b/sound/soc/rockchip/rockchip_pdm.c
+@@ -381,11 +381,17 @@ static int rockchip_pdm_dai_probe(struct snd_soc_dai *dai)
+ 	return 0;
+ }
+ 
++static const u64 rockchip_pdm_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF;
++
+ static const struct snd_soc_dai_ops rockchip_pdm_dai_ops = {
+-	.probe = rockchip_pdm_dai_probe,
+-	.set_fmt = rockchip_pdm_set_fmt,
+-	.trigger = rockchip_pdm_trigger,
+-	.hw_params = rockchip_pdm_hw_params,
++	.probe				= rockchip_pdm_dai_probe,
++	.set_fmt			= rockchip_pdm_set_fmt,
++	.trigger			= rockchip_pdm_trigger,
++	.hw_params			= rockchip_pdm_hw_params,
++	.auto_selectable_formats	= &rockchip_pdm_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ #define ROCKCHIP_PDM_RATES SNDRV_PCM_RATE_8000_192000
+diff --git a/sound/soc/rockchip/rockchip_sai.c b/sound/soc/rockchip/rockchip_sai.c
+index 30b5e71d09375..9dfe46ffe0ff0 100644
+--- a/sound/soc/rockchip/rockchip_sai.c
++++ b/sound/soc/rockchip/rockchip_sai.c
+@@ -957,16 +957,29 @@ static int rockchip_sai_set_sysclk(struct snd_soc_dai *dai, int stream,
+ 	return 0;
+ }
+ 
++static const u64 rockchip_sai_selectable_formats =
++	SND_SOC_POSSIBLE_DAIFMT_I2S	|
++	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
++	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
++	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
++
+ static const struct snd_soc_dai_ops rockchip_sai_dai_ops = {
+-	.probe = rockchip_sai_dai_probe,
+-	.startup = rockchip_sai_startup,
+-	.shutdown = rockchip_sai_shutdown,
+-	.hw_params = rockchip_sai_hw_params,
+-	.set_fmt = rockchip_sai_set_fmt,
+-	.set_sysclk = rockchip_sai_set_sysclk,
+-	.prepare = rockchip_sai_prepare,
+-	.trigger = rockchip_sai_trigger,
+-	.set_tdm_slot = rockchip_sai_set_tdm_slot,
++	.probe				= rockchip_sai_dai_probe,
++	.startup			= rockchip_sai_startup,
++	.shutdown			= rockchip_sai_shutdown,
++	.hw_params			= rockchip_sai_hw_params,
++	.set_fmt			= rockchip_sai_set_fmt,
++	.set_sysclk			= rockchip_sai_set_sysclk,
++	.prepare			= rockchip_sai_prepare,
++	.trigger			= rockchip_sai_trigger,
++	.set_tdm_slot			= rockchip_sai_set_tdm_slot,
++	.auto_selectable_formats	= &rockchip_sai_selectable_formats,
++	.num_auto_selectable_formats	= 1,
+ };
+ 
+ static const struct snd_soc_dai_driver rockchip_sai_dai = {
 -- 
 2.53.0
 
