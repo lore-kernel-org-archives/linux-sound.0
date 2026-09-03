@@ -1,51 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231523CC324;
-	Thu,  3 Sep 2026 19:34:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313143515CF;
+	Thu,  3 Sep 2026 21:01:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788464082; cv=none; b=To5cpFA71ZUkJySifPxLxPUDTDNBy/Zvg6uETL6BQ5jmOpX69whp39ZJC+MSPNxQRvw9WEinM7bof/joyP6TKnTrchf9KLFMmCc5THeh+ztqIQETCuWRM8bIFnin4lgv69o8/6XpXZk63JaysC3RkWOEBXSG//m3KkGmg39gT1Y=
+	t=1788469278; cv=none; b=Zbfi7F4Pmh1zWJ4Ixogqz3EEqkPtklv2y/duGtYUTnb9D/b3zS3ougfDOpXx5qnYYFTiKkOkhXedVbSMQHzlNsMtkwn7ds1bVrHjfWvFeEQW1vgg0AJoF9/fjzkZBVhjOXfL24yg0hdfyluEdbaJ4FbubtGh/AWzy89PZc8xO/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788464082; c=relaxed/simple;
-	bh=u4s+iu1Yf/TCUJM4nazk6EEs7+nbgAwdFjRgT5lfTNw=;
+	s=arc-20240116; t=1788469278; c=relaxed/simple;
+	bh=YYxuBmZAH47wgXQP9XeaVmlhdYRTXofjQ1oQ/sIshac=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bu7oX1Pw4DKUILyOrdwh1TlTRlhOWp1n5uzdgsG6QYK9HaR2mViasWgw6B3lwzIUt2et+/mWwah1m9drm9ACqj9If2yrZ8Uy8uLjS5yGiISVSmXE0A4B+2f4wTEHlf4d02YOa2kbjISB1nA8x+ZhO/y221X6YmMNJwr0K76W4qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7Ka3A0t; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fj+w54Szbv7PdVZQKp1gzO8o4Xg/ar1Jv4dnTI13axcjsetLf4qsBfVa5dtTkE5K2Y89datbVyXnCRsoU9haFksZdAFBu6TY1xd5z+fRBTADVauV0Cu5sSaz9DTJSXSzyomeIisWtYW1Xh/hgt7IJ3NmOfrlI00gIs+DUqg6NsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FCl9wfTi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7Ka3A0t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBACB1F000E9;
-	Thu,  3 Sep 2026 19:34:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FCl9wfTi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CDC91F000E9;
+	Thu,  3 Sep 2026 21:01:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788464066;
-	bh=suZkwiMct3hheO+EMb3kqYfGhwlptuBzYRAK18xvSag=;
+	s=k20260515; t=1788469267;
+	bh=Uv8ZzIHycIvf6yeL4vgkmrAt3UAxDnPLrH4lIK6QkvE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C7Ka3A0tFrBP97oXyJYZ2oYHhKC0LGOMBHKxyQCcKqhtfRewxwpIQ0tILw06wJipl
-	 vckG9F+J+jv1UokOafhGPhXpUcpduJKIAKP5TNIHB/DKzNfI8tLtkDAAdZJCzptCjS
-	 672l9hHiHUmv3nGxo6adBI2dK5vAUyposED3BRFn6t65PbUvOXMUzFnie+JAx1kDpj
-	 ej0GfzwYgENJi3hzb5vDkyZ6jLt2qegHX4iODJsQnQyCkbYcg0pIdBRrR1lY4+ZZ4w
-	 38AJ7Jb0r7hOyGzidOO9780UelZ7mf2TAzpBlsyQdh2osnFvl+1DKVWcI8y2pmxToX
-	 T9zYnqJzG2siQ==
-Date: Thu, 3 Sep 2026 20:34:20 +0100
+	b=FCl9wfTilfdE1Ux2g/CYVVtvAQ3OD4ice2Ynu8cIiKzAaO46I1GdKOWUtMA9WHzk1
+	 3U5iryqL/7rPwvCcsLyEXL99ciO4qIvdxQmXMbkEQFo66Kka1THf+DoeLoJFIDl8en
+	 EFqrLypie86VuvRlaLPHRs9QGjXbkPnhgyJKAkkahDeghSpRj/slTWZpTfcsoCHIf7
+	 QpliT+m3Q4lNwyWdExztwk0RZCToYH3m9gjxvGbAEYf4eaNcrBusw8zKH+q6YGMWuD
+	 RYajAmAo+CMG9aKyfbj6IiO/G8AW75/43++pPMcM2Sy51XKmWdo5l+8Lm09SJBvNii
+	 IgD/jUox910vA==
+Date: Thu, 3 Sep 2026 22:01:02 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Harendra Gautam <harendra.gautam@oss.qualcomm.com>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+To: Diogo Ivo <diogo.ivo@bootlin.com>, Oder Chiou <oder_chiou@realtek.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Animesh Agarwal <animeshagarwal28@gmail.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Prasad Kumpatla <prasad.kumpatla@oss.qualcomm.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Sarath Ganapathiraju <sarath.ganapathiraju@oss.qualcomm.com>,
-	Kumar Anurag Singh <kumar.singh@oss.qualcomm.com>,
-	Mohammad Rafi Shaik <mohammad.rafi.shaik@oss.qualcomm.com>
-Subject: Re: [PATCH v4 07/10] ASoC: qcom: Add QAIF PCM operations
-Message-ID: <1bc82ff9-87a2-45b6-88cc-43acf92c84bd@sirena.org.uk>
-References: <20260903072902.3870009-1-harendra.gautam@oss.qualcomm.com>
- <20260903072902.3870009-8-harendra.gautam@oss.qualcomm.com>
+	linux-tegra@vger.kernel.org, Ben Zhang <benzh@chromium.org>
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: realtek,rt5677: Add clock property
+Message-ID: <12b9d08f-e773-49a9-8b36-2088c8e13cf6@sirena.org.uk>
+References: <20260903-rt5677-mclk-v1-0-b71a5a3533f9@bootlin.com>
+ <20260903-rt5677-mclk-v1-1-b71a5a3533f9@bootlin.com>
+ <aplEfd33wSz59iLS@sirena.org.uk>
+ <0746f828-a424-4001-8054-1e52ed07139b@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,58 +50,68 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MWtWDsgRn0acMxSD"
+	protocol="application/pgp-signature"; boundary="M0WeFJ5o30F4cSnU"
 Content-Disposition: inline
-In-Reply-To: <20260903072902.3870009-8-harendra.gautam@oss.qualcomm.com>
+In-Reply-To: <0746f828-a424-4001-8054-1e52ed07139b@bootlin.com>
 X-Cookie: One picture is worth 128K words.
 
 
---MWtWDsgRn0acMxSD
+--M0WeFJ5o30F4cSnU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Sep 03, 2026 at 12:58:58PM +0530, Harendra Gautam wrote:
+On Thu, Sep 03, 2026 at 03:26:46PM +0200, Diogo Ivo wrote:
+> On 9/3/26 11:57 AM, Mark Brown wrote:
+> > On Thu, Sep 03, 2026 at 12:11:00AM +0200, Diogo Ivo wrote:
 
-> Add the PCM platform callbacks needed to use QAIF DAIs for playback
-> and capture.
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: mclk
 
-> +static int qaif_platform_pcmops_open(struct snd_soc_component *component,
-> +				     struct snd_pcm_substream *substream)
-> +{
+> > The driver code has a reference to MCLK1 which implies multiple MCLKs,
+> > unfortunately no pinout seems to be available and other references in
+> > the driver are just to MCLK so it could be cut'n'paste.
 
-> +	dma_mem_info->alloc_size = qaif_platform_hardware.buffer_bytes_max;
-> +	dma_mem_info->vaddr = dma_alloc_coherent(component->dev,
-> +						 dma_mem_info->alloc_size,
-> +						 &dma_mem_info->dma_addr,
-> +						 GFP_KERNEL);
-> +	if (!dma_mem_info->vaddr) {
-> +		ret = -ENOMEM;
-> +		goto err_free_mem_info;
-> +	}
-> +
-> +	mutex_lock(&drvdata->stream_lock);
-> +	stream_dma_idx = v->alloc_stream_dma_idx(drvdata, dir, dai_id);
-> +	mutex_unlock(&drvdata->stream_lock);
-> +	if (stream_dma_idx < 0) {
-> +		ret = stream_dma_idx;
-> +		goto err_free_mem_info;
-> +	}
+> Thanks for raising this point, I had missed it completely. In fact,
+> looking at rt5677.h there are two places where MCLK2 is mentioned:
 
-Shouldn't this be err_free_dma from here on?
+> #define RT5677_MCLK_SRC_SFT                     10
+> #define RT5677_MCLK1_SRC                        (0x0 << 10)
+> #define RT5677_MCLK2_SRC                        (0x1 << 10)
 
---MWtWDsgRn0acMxSD
+> and
+
+> #define RT5677_PLL2_PR_SRC_SFT                  15
+> #define RT5677_PLL2_PR_SRC_MCLK1                (0x0 << 15)
+> #define RT5677_PLL2_PR_SRC_MCLK2                (0x1 << 15)
+
+> so to me it _looks_ like there are indeed two MCLK inputs, both of which
+> can drive the MCLK clock and can also be the input of PLL2. However, as
+> you mentioned I also wasn't able to find the pinout/datasheet and I have
+> no way of testing this. I think the safest bet here is that I send a v2
+> where I rename "mclk" to "mclk1" that we know for a fact exists, and
+> then later on if someone with access to the actual datasheet comes along
+> and confirms the existence of "mclk2" we can add it to the binding.
+
+> Let me know what you think!
+
+That would be safe, but let's add the Realtek maintainer (who I'm
+surprised you didn't CC...).  I've also added Ben Zhang who did a bunch
+of work on the device for Chrome and might be able to check too.
+
+--M0WeFJ5o30F4cSnU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqZy7sACgkQJNaLcl1U
-h9Aw8gf+MPFVo6tdM2uz9W0LOqpoahJ5Tvl0gxFLQ0o9dQdyf442MneOMMvTcKP9
-UhuFh6K0LgSNcy6usGkPJVzJeXLuvB2zEhpf9YMSXjE0MvuuNMoTXa86/AXLrq4s
-CSV8SF/G6H/eGfqRA0fw0tu5+qhQAvo6UJ4frejJ3DB/rIpo2y2NY8uh/wdmCMb5
-wTsEfCd6BtF5J8o1bmgj42L4GBVy+qMq4CPoaYAoYu0srtFhLQkhAf7khj1KGcMq
-SFldrV7d7XdP51Ygw+ztGGjK0cIuN3STH7NCXgHTlaXK5RM5W1JN/1+D84B07K4T
-9aJgrG6/adFeIRjLzjMEF7K8dId5mQ==
-=O6UG
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmqZ4A0ACgkQJNaLcl1U
+h9CCOQf9GzylS/V+CerOOxwbKCvbewffQbRcRgiXPgxRIhzHXEtGzmH4mOCrB5al
+lSBM3Sxkmg3FYsXOs6ZGjwYAj5gPuoruOu3ITBwTCieymS19GPfGNMLSzg+5FQL/
+nBb9V4nU5tnhbQP4Q4hHYXaVdqM/fAs7FdNCFBlMcMeUQIGfiZT3aJdqACkxh/DO
+oED1guanpd06xtdFrpN+S3UOv4+p76lB8MXlp/S0x6Lk9JAm0QRdVhCqngjP6Wuo
+BT5riCffnQdpLI2b3FMzqhZeik7YFAJfUYc8mmqbvWjzzdDqKUwgTNjcMu2sw2//
+OlBy7hSOXrqaocNlfaMyCsIIdNnMMA==
+=czcJ
 -----END PGP SIGNATURE-----
 
---MWtWDsgRn0acMxSD--
+--M0WeFJ5o30F4cSnU--
