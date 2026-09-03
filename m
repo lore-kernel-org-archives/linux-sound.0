@@ -1,288 +1,216 @@
-Received: from mail.mleia.com (mleia.com [178.79.152.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8E930D3EF
-	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 07:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FFC34BA5B
+	for <linux-sound@vger.kernel.org>; Thu,  3 Sep 2026 08:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788421944; cv=none; b=pw/7ef7uUiJvODCQfbqdwcTGHP2CWkpcNqA8dKGBpw/IecaAC9jM9EaXnyQDmn49vJKNz+LXxXGU38CJLdfBasFiymXwzDq38iz4tK6gysAM8bMzahGUCehq0pkx6sV+of7MxTrC7yNwKedv6CYg7S6HbfbxQqzqssJ2DQlD+1I=
+	t=1788424267; cv=none; b=R7WPPopIAzleMe64zp7GL8+ov3iwlQ2oPgshPP6RafNsnV8wFXvhc8RTAiXjk6zthpceSZIE2ak3j8OsfDg1dEEM2nizWsd8eeIdmQDZZ6YCLljHwxsSaPQlNacy3t5X2IR76QxJlKyD8s5ZGIhLC2z9vhgnC7UK+3D4SDvogzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788421944; c=relaxed/simple;
-	bh=nq4O++xaROnr1zsg44LzJxOz0a+KGcZ94nDgsDtUxWI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NpueBzmHFjMKJJUXt5inipBets5DIDZpEDU1Q9ILi7G6iP/v0Ncsy/Vl9C8rQyv2L0z5H+q+AyJ3YOP413oHL+MHENyDRd5eJdGIoCTZRybypAzrumEasMb3Ca5G5fkQWBZzqRkewmPHav9xD1lsypYkurTQXg73tIVn2frptnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=joLzwY2N; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=joLzwY2N; arc=none smtp.client-ip=178.79.152.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
+	s=arc-20240116; t=1788424267; c=relaxed/simple;
+	bh=SD6H4UI4s8l7VylxwyGvmcTnY4xkkjZVicQmCgmZY18=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Hh9bjP3dY7+Dq2OLudqekFkQmSiDGhJdfrIiaDJ7JDiRpmF5f0MvBiGtw8a6R6qST7huBIVcA87/tWKng2L38R13hJWdSWNlZlx+DZVcQqXldWyViMYoUy0V/CUrXvZ+RV+DiRzjynxIraqv2ZkLPmk4w9OTdPW6e2U8OVLhtW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=viruDGUn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SDVjss+F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hpHjSYPH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2OY0Ytew; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="joLzwY2N";
-	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="joLzwY2N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1788421386; bh=nq4O++xaROnr1zsg44LzJxOz0a+KGcZ94nDgsDtUxWI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=joLzwY2NBJxAB6E/zbcNiZNT5zZF0pAWp8A7qFlhxfaorMu/4M8UAVyr9Hhfk+TmE
-	 tP5nWMLJQekoeROi3s7eZurB8SkkzRm1VEJ78uIvFmBWYv49LxI7aBKcc572tgJyH/
-	 DcvRHo0RLBnQDRLRm93RnYglTwC8x+rH2prCSyjlWPO40QTaxhBvq3kH8rnbf5NRlg
-	 f5fjlLD0RB7TJvkJScDuTrdGko2+XtsXFj2fo9s+SpuP7bwkySsn0e35AHPqKo4Vpf
-	 RIi5p6/K6W3/EMLT1dOmeerdfrsq6Y1yd7Dn397ponFpBnYLk35cCf015MicpNO0HF
-	 qS3sADbKed3VA==
-Received: from mail.mleia.com (localhost [127.0.0.1])
-	by mail.mleia.com (Postfix) with ESMTP id 9790885352;
-	Thu,  3 Sep 2026 07:43:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
-	t=1788421386; bh=nq4O++xaROnr1zsg44LzJxOz0a+KGcZ94nDgsDtUxWI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=joLzwY2NBJxAB6E/zbcNiZNT5zZF0pAWp8A7qFlhxfaorMu/4M8UAVyr9Hhfk+TmE
-	 tP5nWMLJQekoeROi3s7eZurB8SkkzRm1VEJ78uIvFmBWYv49LxI7aBKcc572tgJyH/
-	 DcvRHo0RLBnQDRLRm93RnYglTwC8x+rH2prCSyjlWPO40QTaxhBvq3kH8rnbf5NRlg
-	 f5fjlLD0RB7TJvkJScDuTrdGko2+XtsXFj2fo9s+SpuP7bwkySsn0e35AHPqKo4Vpf
-	 RIi5p6/K6W3/EMLT1dOmeerdfrsq6Y1yd7Dn397ponFpBnYLk35cCf015MicpNO0HF
-	 qS3sADbKed3VA==
-Message-ID: <1ffd338b-2879-4314-b306-88f28a833784@mleia.com>
-Date: Thu, 3 Sep 2026 10:43:04 +0300
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="viruDGUn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SDVjss+F";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hpHjSYPH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2OY0Ytew"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BFE0321EAB;
+	Thu,  3 Sep 2026 08:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788424250; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OAMRRCSvOOBBy+6q1gPRhlz732YQJE2ZWCkdiF6I8nc=;
+	b=viruDGUnHrrBdG1tfMPk9Z8vXFtLfxxTdvknmAPZteCYC7M9oSPENLnbcLgB/dSeyMgPY4
+	yc6B4WW35fO70KYI3MP7DiL75p5OEfCI9XjU67x8BQPx3irrKIIZxVsiSqBsjwWj5fn1GV
+	fs1P1jq+pqMZFRLkafYdscnDhlAQYrE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788424250;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OAMRRCSvOOBBy+6q1gPRhlz732YQJE2ZWCkdiF6I8nc=;
+	b=SDVjss+F/JmNk6Ab03O6PCzEQfD4jTa723psJFIggvEZasiPr9Em2FwMO5XXl1Er8alTSm
+	uMqfwqHcd1OtCzDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=hpHjSYPH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2OY0Ytew
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1788424246; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OAMRRCSvOOBBy+6q1gPRhlz732YQJE2ZWCkdiF6I8nc=;
+	b=hpHjSYPH7fWO23bRblO+DDdOwvXFHQF0McuZ7oTHmlEOAGdyhCd2TB+0nfV/J+Jo9AK5UJ
+	KN3MU1psv4D/ziFAiPpiHSMbefxiIwm0T0pPCUrP8GiosaIYplQC2DUPOqsDMnBHVJ79fe
+	r25Ome8R2vKYjqCtW2o29pH8cDLwBKE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1788424246;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OAMRRCSvOOBBy+6q1gPRhlz732YQJE2ZWCkdiF6I8nc=;
+	b=2OY0YtewmdWoFm+xw4ryneZe1UkITn6LIy4nDflMHpRDSemqWogR20To4RZ+vL+P6PzIQL
+	/dTBDurR/kF/LTDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EA29136D9;
+	Thu,  3 Sep 2026 08:30:46 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8vz9DTYwmWqrKgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 03 Sep 2026 08:30:46 +0000
+Date: Thu, 03 Sep 2026 10:30:45 +0200
+Message-ID: <87se3q91oq.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	jikos@kernel.org,
+	bentiss@kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] ALSA: usb-audio: the Topping M62's vendor controls
+In-Reply-To: <20260826180607.324604-1-mikhail.v.gavrilov@gmail.com>
+References: <20260825111239.24834-1-mikhail.v.gavrilov@gmail.com>
+	<20260826180607.324604-1-mikhail.v.gavrilov@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/21] ASoC: fsl: use .auto_selectable_formats
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Fabio Estevam <festevam@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- "J.M.B. Downing" <jonathan.downing@nautel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Nicolin Chen <nicoleotsuka@gmail.com>,
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Takashi Iwai <tiwai@suse.com>,
- Xiubo Li <Xiubo.Lee@gmail.com>
-Cc: linux-sound@vger.kernel.org
-References: <87zexzyw5v.wl-kuninori.morimoto.gx@renesas.com>
- <87wlt3yw5b.wl-kuninori.morimoto.gx@renesas.com>
-From: Vladimir Zapolskiy <vz@mleia.com>
-In-Reply-To: <87wlt3yw5b.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
-X-CRM114-CacheID: sfid-20260903_074306_638897_4252843F 
-X-CRM114-Status: GOOD (  14.72  )
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: BFE0321EAB
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -2.01
 
-On 9/3/26 04:13, Kuninori Morimoto wrote:
-> We can use .auto_selectable_formats. Let's adds it.
+On Wed, 26 Aug 2026 20:06:07 +0200,
+Mikhail Gavrilov wrote:
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   sound/soc/fsl/fsl_audmix.c      |  7 +++++++
->   sound/soc/fsl/fsl_esai.c        | 13 +++++++++++++
->   sound/soc/fsl/fsl_mqs.c         |  6 ++++++
->   sound/soc/fsl/fsl_sai.c         | 17 +++++++++++++++++
->   sound/soc/fsl/fsl_ssi.c         | 13 +++++++++++++
->   sound/soc/fsl/lpc3xxx-i2s.c     |  4 ++++
-
-Acked-by: Vladimir Zapolskiy <vz@mleia.com> # LPC32xx I2S
-
->   sound/soc/fsl/mpc5200_psc_i2s.c |  4 ++++
->   7 files changed, 64 insertions(+)
+> Found on my own bench while chasing something else, and I would rather
+> bring it than have it found for me.
 > 
-> diff --git a/sound/soc/fsl/fsl_audmix.c b/sound/soc/fsl/fsl_audmix.c
-> index d4140e170edf8..b66a5669a3cbf 100644
-> --- a/sound/soc/fsl/fsl_audmix.c
-> +++ b/sound/soc/fsl/fsl_audmix.c
-> @@ -311,9 +311,16 @@ static int fsl_audmix_dai_trigger(struct snd_pcm_substream *substream, int cmd,
->   	return 0;
->   }
->   
-> +static const u64 fsl_audmix_selectable_formats =
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_NF;
-> +
->   static const struct snd_soc_dai_ops fsl_audmix_dai_ops = {
->   	.set_fmt  = fsl_audmix_dai_set_fmt,
->   	.trigger      = fsl_audmix_dai_trigger,
-> +	.auto_selectable_formats = &fsl_audmix_selectable_formats,
-> +	.num_auto_selectable_formats = 1,
->   };
->   
->   static struct snd_soc_dai_driver fsl_audmix_dai[] = {
-> diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
-> index 4a530a6c33f07..e49386f8d7d33 100644
-> --- a/sound/soc/fsl/fsl_esai.c
-> +++ b/sound/soc/fsl/fsl_esai.c
-> @@ -789,6 +789,17 @@ static int fsl_esai_dai_probe(struct snd_soc_dai *dai)
->   	return 0;
->   }
->   
-> +static const u64 fsl_esai_selectable_formats =
-> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-> +	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-> +
->   static const struct snd_soc_dai_ops fsl_esai_dai_ops = {
->   	.probe		= fsl_esai_dai_probe,
->   	.startup	= fsl_esai_startup,
-> @@ -797,6 +808,8 @@ static const struct snd_soc_dai_ops fsl_esai_dai_ops = {
->   	.set_sysclk	= fsl_esai_set_dai_sysclk,
->   	.set_fmt	= fsl_esai_set_dai_fmt,
->   	.set_tdm_slot	= fsl_esai_set_dai_tdm_slot,
-> +	.auto_selectable_formats	= &fsl_esai_selectable_formats,
-> +	.num_auto_selectable_formats	= 1,
->   };
->   
->   static struct snd_soc_dai_driver fsl_esai_dai = {
-> diff --git a/sound/soc/fsl/fsl_mqs.c b/sound/soc/fsl/fsl_mqs.c
-> index 901f840df9047..39129f970c3f5 100644
-> --- a/sound/soc/fsl/fsl_mqs.c
-> +++ b/sound/soc/fsl/fsl_mqs.c
-> @@ -187,11 +187,17 @@ static const struct snd_soc_component_driver soc_codec_fsl_mqs = {
->   	.idle_bias_on = 1,
->   };
->   
-> +static const u64 fsl_selectable_formats =
-> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF;
-> +
->   static const struct snd_soc_dai_ops fsl_mqs_dai_ops = {
->   	.startup = fsl_mqs_startup,
->   	.shutdown = fsl_mqs_shutdown,
->   	.hw_params = fsl_mqs_hw_params,
->   	.set_fmt = fsl_mqs_set_dai_fmt,
-> +	.auto_selectable_formats	= &fsl_selectable_formats,
-> +	.num_auto_selectable_formats	= 1,
->   };
->   
->   static struct snd_soc_dai_driver fsl_mqs_dai = {
-> diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-> index d232c8f530615..4dce1a43b2b43 100644
-> --- a/sound/soc/fsl/fsl_sai.c
-> +++ b/sound/soc/fsl/fsl_sai.c
-> @@ -1026,6 +1026,17 @@ static int fsl_sai_dai_probe(struct snd_soc_dai *cpu_dai)
->   	return 0;
->   }
->   
-> +static const u64 fsl_sai_selectable_formats =
-> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
-> +	SND_SOC_POSSIBLE_DAIFMT_PDM	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-> +
->   static const struct snd_soc_dai_ops fsl_sai_pcm_dai_ops = {
->   	.probe		= fsl_sai_dai_probe,
->   	.set_bclk_ratio	= fsl_sai_set_dai_bclk_ratio,
-> @@ -1036,6 +1047,8 @@ static const struct snd_soc_dai_ops fsl_sai_pcm_dai_ops = {
->   	.hw_free	= fsl_sai_hw_free,
->   	.trigger	= fsl_sai_trigger,
->   	.startup	= fsl_sai_startup,
-> +	.auto_selectable_formats	= &fsl_sai_selectable_formats,
-> +	.num_auto_selectable_formats	= 1,
->   };
->   
->   static const struct snd_soc_dai_ops fsl_sai_pcm_dai_tx_ops = {
-> @@ -1049,6 +1062,8 @@ static const struct snd_soc_dai_ops fsl_sai_pcm_dai_tx_ops = {
->   	.hw_free	= fsl_sai_hw_free,
->   	.trigger	= fsl_sai_trigger,
->   	.startup	= fsl_sai_startup,
-> +	.auto_selectable_formats	= &fsl_sai_selectable_formats,
-> +	.num_auto_selectable_formats	= 1,
->   };
->   
->   static const struct snd_soc_dai_ops fsl_sai_pcm_dai_rx_ops = {
-> @@ -1062,6 +1077,8 @@ static const struct snd_soc_dai_ops fsl_sai_pcm_dai_rx_ops = {
->   	.hw_free	= fsl_sai_hw_free,
->   	.trigger	= fsl_sai_trigger,
->   	.startup	= fsl_sai_startup,
-> +	.auto_selectable_formats	= &fsl_sai_selectable_formats,
-> +	.num_auto_selectable_formats	= 1,
->   };
->   
->   static int fsl_sai_dai_resume(struct snd_soc_component *component)
-> diff --git a/sound/soc/fsl/fsl_ssi.c b/sound/soc/fsl/fsl_ssi.c
-> index dc022976c9823..02ce112faf2db 100644
-> --- a/sound/soc/fsl/fsl_ssi.c
-> +++ b/sound/soc/fsl/fsl_ssi.c
-> @@ -1151,6 +1151,17 @@ static int fsl_ssi_dai_probe(struct snd_soc_dai *dai)
->   	return 0;
->   }
->   
-> +static const u64 fsl_ssi_selectable_formats =
-> +	SND_SOC_POSSIBLE_DAIFMT_I2S	|
-> +	SND_SOC_POSSIBLE_DAIFMT_LEFT_J	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_A	|
-> +	SND_SOC_POSSIBLE_DAIFMT_DSP_B	|
-> +	SND_SOC_POSSIBLE_DAIFMT_AC97	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_NB_IF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_NF	|
-> +	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
-> +
->   static const struct snd_soc_dai_ops fsl_ssi_dai_ops = {
->   	.probe = fsl_ssi_dai_probe,
->   	.startup = fsl_ssi_startup,
-> @@ -1160,6 +1171,8 @@ static const struct snd_soc_dai_ops fsl_ssi_dai_ops = {
->   	.set_fmt = fsl_ssi_set_dai_fmt,
->   	.set_tdm_slot = fsl_ssi_set_dai_tdm_slot,
->   	.trigger = fsl_ssi_trigger,
-> +	.auto_selectable_formats = &fsl_ssi_selectable_formats,
-> +	.num_auto_selectable_formats = 1,
->   };
->   
->   static struct snd_soc_dai_driver fsl_ssi_dai_template = {
-> diff --git a/sound/soc/fsl/lpc3xxx-i2s.c b/sound/soc/fsl/lpc3xxx-i2s.c
-> index c65c17dfa1747..ea521647129ba 100644
-> --- a/sound/soc/fsl/lpc3xxx-i2s.c
-> +++ b/sound/soc/fsl/lpc3xxx-i2s.c
-> @@ -257,6 +257,8 @@ static int lpc3xxx_i2s_dai_probe(struct snd_soc_dai *dai)
->   	return 0;
->   }
->   
-> +static const u64 lpc3xxx_i2s_selectable_formats = SND_SOC_POSSIBLE_DAIFMT_I2S;
-> +
->   static const struct snd_soc_dai_ops lpc3xxx_i2s_dai_ops = {
->   	.probe	= lpc3xxx_i2s_dai_probe,
->   	.startup = lpc3xxx_i2s_startup,
-> @@ -265,6 +267,8 @@ static const struct snd_soc_dai_ops lpc3xxx_i2s_dai_ops = {
->   	.hw_params = lpc3xxx_i2s_hw_params,
->   	.set_sysclk = lpc3xxx_i2s_set_dai_sysclk,
->   	.set_fmt = lpc3xxx_i2s_set_dai_fmt,
-> +	.auto_selectable_formats	= &lpc3xxx_i2s_selectable_formats,
-> +	.num_auto_selectable_formats	= 1,
->   };
->   
->   static struct snd_soc_dai_driver lpc3xxx_i2s_dai_driver = {
-> diff --git a/sound/soc/fsl/mpc5200_psc_i2s.c b/sound/soc/fsl/mpc5200_psc_i2s.c
-> index c024a38e3b9c7..72db83994e8e1 100644
-> --- a/sound/soc/fsl/mpc5200_psc_i2s.c
-> +++ b/sound/soc/fsl/mpc5200_psc_i2s.c
-> @@ -124,6 +124,8 @@ static int psc_i2s_set_fmt(struct snd_soc_dai *cpu_dai, unsigned int format)
->    * - create/destroy dai hooks
->    */
->   
-> +static const u64 psc_i2s_selectable_formats = SND_SOC_POSSIBLE_DAIFMT_I2S;
-> +
->   /**
->    * var psc_i2s_dai_ops - template CPU Digital Audio Interface
->    */
-> @@ -131,6 +133,8 @@ static const struct snd_soc_dai_ops psc_i2s_dai_ops = {
->   	.hw_params	= psc_i2s_hw_params,
->   	.set_sysclk	= psc_i2s_set_sysclk,
->   	.set_fmt	= psc_i2s_set_fmt,
-> +	.auto_selectable_formats	= &psc_i2s_selectable_formats,
-> +	.num_auto_selectable_formats	= 1,
->   };
->   
->   static struct snd_soc_dai_driver psc_i2s_dai[] = {{
+> The problem, as a user could see it: after unbinding the vendor
+> interface by hand, the driver keeps writing to the card. Reads stop --
+> the control freezes on its last announced value -- while writes go on
+> reaching the hardware, and the two-second keepalive presumably goes on
+> with them, into an interface the driver no longer owns.
+> 
+>   # echo 3-1.3:1.4 > /sys/bus/usb/drivers/snd-usb-audio/unbind
+>   # amixer -c M62 cget name='Mic-1 Analog Capture Volume'   # frozen
+>   # amixer -c M62 cset name='Mic-1 Analog Capture Volume' 50
+>   ... and the gain really moves on the card.
+> 
+> The sound card itself survives the unbind untouched, which is right and
+> is the good half of the result.
+> 
+> My reading of why, and I would be glad to be corrected on it. The quirk
+> claims that interface with usb_driver_claim_interface() and marks it
+> USB_AUDIO_IFACE_UNUSED, so usb_audio_disconnect() returns at its first
+> line and nothing ever tells the quirk to wind down. Meanwhile
+> usb_interrupt_msg() takes a struct usb_device and an endpoint address,
+> not an interface, so losing the claim costs the driver nothing on the
+> write path; the read path dies only because usbcore kills the URBs on
+> the interface being unbound.
+> 
+> So the claim is what keeps usbhid away, not what grants the right to
+> write, and the two are easy to conflate -- I had conflated them.
+> 
+> How reachable this is: only by hand from sysfs. A plain unplug takes
+> the whole device, and there disconnect runs on the audio interfaces and
+> the quirk is freed with the mixer. I have not found a path that reaches
+> it in ordinary use.
+> 
+> How I plan to solve it, and this is where I need your word, because the
+> change is in card.c rather than in my own file. An interface the quirk
+> claimed is marked exactly like one nobody wanted, and those two are
+> different things: the first has a driver behind it that should be told
+> when it goes away. The shapes I can see are
+> 
+>   (a) let the quirk register a small teardown callback at claim time
+>       and have usb_audio_disconnect() run it before the early return,
+> 
+>   (b) give the claimed-and-used case its own sentinel instead of
+>       USB_AUDIO_IFACE_UNUSED, so disconnect can tell them apart,
+> 
+>   (c) leave card.c alone and have the quirk take a usb_device
+>       reference plus its own notifier, which keeps the fix inside
+>       sound/usb/mixer_topping.c at the cost of a second path watching
+>       the same event.
+> 
+> I lean to (b) as the smallest honest change, but this is your file and
+> the sentinel is your convention.
+> 
+> Whichever you prefer, I would rather send it as a follow-up once the
+> current series lands than fold it into v9: it is a separate defect,
+> it touches a path shared by every quirk, and stirring it into a series
+> under review would make both harder to read.
 
--- 
-Best wishes,
-Vladimir
+Thinking more on this, I see another possibility.  Namely, create an
+individual HID driver like your previous plan 2, but instead of
+creating an own snd_card object, use the component framework
+(include/linux/component.h) for binding between the audio and the HID
+drivers.
+
+That is, in USB-audio side, you'll have a mixer quirk to add the
+component master.  In the HID driver, you'll register a component to
+be bound.  In the bind callback, the snd_card object is passed from
+the USB-audio component master, and you can instantiate the mixer
+kcontrols there.
+
+At disconnection of USB-audio, the mixer quirk calls the component
+unbind, and the HID component unbind callback frees the created
+kcontrols in turn.  If the HID is unbound first, it just unregister
+the component (and frees the kcontrols).  If the HID is re-bound, it
+just re-adds the kcontrols at its bind callback again.
+
+The component match might be a bit tricky, but it should be certainly
+feasible.
+
+
+thanks,
+
+Takashi
